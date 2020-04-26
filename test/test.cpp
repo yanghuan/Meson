@@ -1,12 +1,24 @@
-﻿#include <iostream>
-#include <atomic>
-#include "../rt/gc_object.hpp"
+﻿#include <atomic>
+#include <iostream>
+
+#include "../rt/GCObject.h"
 
 using namespace std;
+using namespace meson;
 
-int main()
-{ 
-  cout << sizeof(meson::GCObjectHead);
+class A {
+ public:
+  ~A() { cout << "AA" << endl; }
+  void f() { cout << "ff" << this << endl;
+  }
+ private:
+};
+
+void f() { A a[2] = {A(), A()}; }
+
+int main() { 
+  f();
+  meson::ref<A> i = nullptr;
+  i->f();
+  return 1;
 }
-
-
