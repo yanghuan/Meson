@@ -1,24 +1,51 @@
-﻿#include <atomic>
+﻿#include <Array>
+#include <atomic>
 #include <iostream>
+#include <type_traits>
 
 #include "../rt/GCObject.h"
 
-using namespace std;
-using namespace meson;
+namespace detail {
 
-class A {
- public:
-  ~A() { cout << "AA" << endl; }
-  void f() { cout << "ff" << this << endl;
+class String : public meson::String {};
+
+class A {};
+}  // namespace detail
+
+using String = meson::ref<detail::String>;
+using ARef = meson::ref<detail::A>;
+
+void f() {
+  String a = "ttt";
+  a = "cccc";
+  a = nullptr;
+  a = "ttt";
+  //ARef t = "dddd";
+  //t = t + t;
+
+  if (a == nullptr) {
+    std::cout << "is null";
   }
- private:
-};
 
-void f() { A a[2] = {A(), A()}; }
+  if (a != nullptr) {
+    std::cout << "not null";
+  }
 
-int main() { 
+  auto c = a + a;
+  c = c + "ddd";
+  //c += "dddd";
+  std::cout << a->c_str() << std::endl;
+}
+
+int main() {
   f();
-  meson::ref<A> i = nullptr;
-  i->f();
-  return 1;
+
+  //{
+
+  //}
+
+  std::cout << sizeof(intptr_t) << std::endl;
+  std::cout << sizeof(meson::GCObjectHead) << std::endl;
+  std::cout << sizeof(meson::GCObject<detail::String>) << std::endl;
+  std::cout << sizeof(meson::GCObject<detail::A>) << std::endl;
 }
