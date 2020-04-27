@@ -5,6 +5,7 @@
 #include <cstdio>
 #include <memory>
 #include <string>
+#include <tuple>
 #include <type_traits>
 
 namespace meson {
@@ -44,10 +45,11 @@ using is_string = std::is_base_of<String, T>;
 
 template <class T>
 class GCObject : public GCObjectHead {
- public:
+ private:
   static constexpr bool kIsString = is_string<T>::value;
 
  public:
+  const T& val() const noexcept { return v_; }
   T* get() noexcept { return &v_; }
 
   void release() noexcept {
@@ -72,6 +74,10 @@ class GCObject : public GCObjectHead {
 
 template <class _T>
 class ref {
+ public:
+  using ref_type = _T;
+  static constexpr bool kIsString = is_string<_T>::value;
+
  private:
   using T = GCObject<_T>;
 
@@ -80,10 +86,11 @@ class ref {
 
   constexpr ref(nullptr_t) noexcept {}
 
-  constexpr ref(const char* str) : ref(String::load(str)) {
-    static_assert(T::kIsString,
-                  "This constructor is only available for String");
-  }
+  template <std::enable_if_t<kIsString, int> = 0>
+  ref(const char* str) : ref(String::load(str)) {}
+
+  template <class... _Types, std::enable_if_t<kIsString, int> = 0>
+  ref(const std::tuple<_Types&...>& t) : ref(String::cat(t)) {}
 
   explicit ref(T* p) noexcept : p_(p) {}
 
@@ -113,16 +120,12 @@ class ref {
   bool operator==(nullptr_t) const noexcept { return p_ == nullptr; }
   bool operator!=(nullptr_t) const noexcept { return p_ != nullptr; }
 
-  template <std::enable_if_t<T::kIsString, int> = 0>
-  ref& operator+(const ref& right) {
-    return *this;
+  template <std::enable_if_t<kIsString, int> = 0>
+  constexpr auto operator+(const ref& right) noexcept {
+    return std::tie(val(), right.val());
   }
 
-  template <std::enable_if_t<T::kIsString, int> = 0>
-  ref& operator+(ref<String> right) {
-    return *this;
-  }
-
+  const _T& val() const noexcept { return p_->val(); }
   _T* operator->() const noexcept { return p_->get(); }
 
  private:
@@ -138,31 +141,66 @@ class ref {
   T* p_ = nullptr;
 };
 
-using object = ref<Object>;
-using string = ref<String>;
+template <class T>
+struct StringTrim {
+  using T1 = typename std::remove_reference<T>::type;
+  using type = typename std::remove_const<T1>::type;
+};
+
+template <class... _Types>
+constexpr auto operator+(
+    const std::tuple<_Types&...>& t,
+    const ref<typename StringTrim<decltype(std::get<0>(t))>::type>&
+        right) noexcept {
+  return std::tuple_cat(t, std::tie(right.val()));
+}
+
+// https://stackoverflow.com/questions/10604794/convert-stdtuple-to-stdarray-c11
+template <typename tuple_t>
+constexpr auto get_array_from_tuple(tuple_t&& tuple) noexcept {
+  constexpr auto get_array = [](auto&&... x) {
+    return std::array{std::forward<decltype(x)>(x)...};
+  };
+  return std::apply(get_array, std::forward<tuple_t>(tuple));
+}
 
 class Object {};
 
 class String {
  public:
-  static size_t GetAllocSize(size_t n) {
+  using string = ref<String>;
+
+ public:
+  static size_t GetAllocSize(size_t n) noexcept {
     return sizeof(GCObject<String>) - sizeof(intptr_t) + n + 1;
   }
 
-  size_t GetAllocSize() { return GetAllocSize(length); }
+  size_t GetAllocSize() noexcept { return GetAllocSize(length); }
 
   static string load(const char* str) {
     return load(str, std::char_traits<char>::length(str));
   }
 
-  char* c_str() { return reinterpret_cast<char*>(&firstChar); }
+  template <class... _Types>
+  static string cat(const std::tuple<_Types&...>& t) {
+    const auto& array = get_array_from_tuple(t);
+    const String& being = *array.begin();
+    return cat(&being, &being + array.size());
+  }
+
+  char* c_str() noexcept { return get(); }
+  const char* c_str() const noexcept {
+    return get();
+  }
 
  private:
+  char* get() const { return reinterpret_cast<char*>(&firstChar); }
   static string load(const char* str, size_t n);
+  static string cat(const String* being, const String* end);
 
  protected:
   int32_t length;
-  intptr_t firstChar;
+  mutable intptr_t firstChar;
 };
 
 }  // namespace meson

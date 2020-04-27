@@ -2,6 +2,8 @@
 #include <atomic>
 #include <iostream>
 #include <type_traits>
+#include <tuple>
+#include <initializer_list>
 
 #include "../rt/GCObject.h"
 
@@ -31,10 +33,17 @@ void f() {
     std::cout << "not null";
   }
 
-  auto c = a + a;
-  c = c + "ddd";
-  //c += "dddd";
-  std::cout << a->c_str() << std::endl;
+  const String& k = "ddd";
+
+  auto t = std::tie(k, k, k);
+  using TT = typename std::tuple_element<0, decltype(t)>::type;
+  using T = decltype(std::get<0>(t));
+  using T1 = typename std::remove_reference<T>::type;
+  using T2 = typename std::remove_const<T1>::type;
+  static_assert(T2::kIsString);
+
+  String c = a + a + a + "ddd" + a;
+  std::cout << c->c_str() << std::endl;
 }
 
 int main() {
@@ -48,4 +57,10 @@ int main() {
   std::cout << sizeof(meson::GCObjectHead) << std::endl;
   std::cout << sizeof(meson::GCObject<detail::String>) << std::endl;
   std::cout << sizeof(meson::GCObject<detail::A>) << std::endl;
+
+  auto a = std::make_tuple(10);
+  int tt = 10;
+  const int& ttt = tt;
+  auto aaaa = std::tie(tt);
+  auto e = std::tie(ttt);
 }
