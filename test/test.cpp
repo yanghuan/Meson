@@ -33,17 +33,24 @@ void f() {
     std::cout << "not null";
   }
 
-  const String& k = "ddd";
+  detail::String* x1 = a.get();
+  detail::String* x2 = a.get();
+  auto t = std::make_tuple(x1, x2);
+  const auto& t1 = t;
 
-  auto t = std::tie(k, k, k);
-  using TT = typename std::tuple_element<0, decltype(t)>::type;
-  using T = decltype(std::get<0>(t));
+  using T = decltype(std::get<0>(t1));
   using T1 = typename std::remove_reference<T>::type;
   using T2 = typename std::remove_const<T1>::type;
-  static_assert(T2::kIsString);
+  using T3 = typename std::remove_pointer<T2>::type;
 
-  String c = a + a + a + "ddd" + a;
-  std::cout << c->c_str() << std::endl;
+  const auto& ax1 = x1;
+  auto tt = std::tuple_cat(std::make_tuple(x1, x2), std::make_tuple(x1));
+  //using T4 = decltype(tt);
+
+  auto c = a + "ddd";
+  auto cc = a + a + "ddd";
+  String dd = String() + cc + a + a + "dddd";
+  std::cout << dd->c_str() << std::endl;
 }
 
 int main() {

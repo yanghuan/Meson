@@ -37,20 +37,26 @@ string String::load(const char* str, size_t n) {
   return temp;
 }
 
-string String::cat(const String* begin, const String* end) { 
-  size_t n = 0;
-  for (auto i = begin; i != end; ++i) {
-    n += i->length;
+string String::cat(String** begin, size_t n) {
+  size_t length = 0;
+  for (size_t i = 0; i < n; ++i) {
+    String* p = begin[i];
+    if (p) {
+      length += begin[i]->length;
+    }
   }
-  void* address = gcMalloc(String::GetAllocSize(n));
+  void* address = gcMalloc(String::GetAllocSize(length));
   auto gcObj = new (address) GCObject<String>(gMetadata);
   auto p = gcObj->get();
-  p->length = static_cast<int32_t>(n);
+  p->length = static_cast<int32_t>(length);
 
   char* src = p->c_str();
-  for (auto i = begin; i != end; ++i) {
-    strcpy_s(src, i->length + 1, i->c_str());
-    src += i->length;
+  for (size_t i = 0; i < n; ++i) {
+    String* p = begin[i];
+    if (p) {
+      strcpy_s(src, p->length + 1, p->c_str());
+      src += p->length;
+    }
   }
 
   return string(gcObj);

@@ -75,7 +75,6 @@ class GCObject : public GCObjectHead {
 template <class _T>
 class ref {
  public:
-  using ref_type = _T;
   static constexpr bool kIsString = is_string<_T>::value;
 
  private:
@@ -90,7 +89,7 @@ class ref {
   ref(const char* str) : ref(String::load(str)) {}
 
   template <class... _Types, std::enable_if_t<kIsString, int> = 0>
-  ref(const std::tuple<_Types&...>& t) : ref(String::cat(t)) {}
+  ref(const std::tuple<_Types...>& t) : ref(String::cat(t)) {}
 
   explicit ref(T* p) noexcept : p_(p) {}
 
@@ -122,11 +121,14 @@ class ref {
 
   template <std::enable_if_t<kIsString, int> = 0>
   constexpr auto operator+(const ref& right) noexcept {
-    return std::tie(val(), right.val());
+    _T* a = p_ ? get() : nullptr;
+    _T* b = right != nullptr ? right.get() : nullptr;
+    return std::make_tuple(a, b);
   }
 
-  const _T& val() const noexcept { return p_->val(); }
+  _T* get() const noexcept { return p_->get(); }
   _T* operator->() const noexcept { return p_->get(); }
+  const _T& val() const noexcept { return p_->val(); }
 
  private:
   void swap(ref& right) noexcept { std::swap(p_, right.p_); }
@@ -141,27 +143,17 @@ class ref {
   T* p_ = nullptr;
 };
 
-template <class T>
+template <class T, class... _Types>
 struct StringTrim {
-  using T1 = typename std::remove_reference<T>::type;
-  using type = typename std::remove_const<T1>::type;
+  using type = typename std::remove_pointer<T>::type;
 };
 
 template <class... _Types>
 constexpr auto operator+(
-    const std::tuple<_Types&...>& t,
-    const ref<typename StringTrim<decltype(std::get<0>(t))>::type>&
-        right) noexcept {
-  return std::tuple_cat(t, std::tie(right.val()));
-}
-
-// https://stackoverflow.com/questions/10604794/convert-stdtuple-to-stdarray-c11
-template <typename tuple_t>
-constexpr auto get_array_from_tuple(tuple_t&& tuple) noexcept {
-  constexpr auto get_array = [](auto&&... x) {
-    return std::array{std::forward<decltype(x)>(x)...};
-  };
-  return std::apply(get_array, std::forward<tuple_t>(tuple));
+    const std::tuple<_Types...>& t,
+    const ref<typename StringTrim<_Types...>::type>& right) noexcept {
+  String* a = right != nullptr ? right.get() : nullptr;
+  return std::tuple_cat(t, std::make_tuple(a));
 }
 
 class Object {};
@@ -182,21 +174,17 @@ class String {
   }
 
   template <class... _Types>
-  static string cat(const std::tuple<_Types&...>& t) {
-    const auto& array = get_array_from_tuple(t);
-    const String& being = *array.begin();
-    return cat(&being, &being + array.size());
+  static string cat(const std::tuple<_Types...>& t) {
+    return cat((String**)&t, sizeof(t) / sizeof(intptr_t));
   }
 
   char* c_str() noexcept { return get(); }
-  const char* c_str() const noexcept {
-    return get();
-  }
+  const char* c_str() const noexcept { return get(); }
 
  private:
   char* get() const { return reinterpret_cast<char*>(&firstChar); }
   static string load(const char* str, size_t n);
-  static string cat(const String* being, const String* end);
+  static string cat(String** being, size_t n);
 
  protected:
   int32_t length;
