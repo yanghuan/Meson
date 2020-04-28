@@ -4,6 +4,7 @@
 #include <type_traits>
 #include <tuple>
 #include <initializer_list>
+#include <memory>
 
 #include "../rt/GCObject.h"
 
@@ -26,11 +27,11 @@ void f() {
   //t = t + t;
 
   if (a == nullptr) {
-    std::cout << "is null";
+    std::cout << "is null\n";
   }
 
   if (a != nullptr) {
-    std::cout << "not null";
+    std::cout << "not null\n";
   }
 
   detail::String* x1 = a.get();
@@ -54,20 +55,22 @@ void f() {
 }
 
 int main() {
+  class A {};
+  class B : public A {};
+  class C {};
+  class D {
+   public:
+    operator C() { return c; }
+    C c;
+  };
+
   f();
-
-  //{
-
-  //}
 
   std::cout << sizeof(intptr_t) << std::endl;
   std::cout << sizeof(meson::GCObjectHead) << std::endl;
   std::cout << sizeof(meson::GCObject<detail::String>) << std::endl;
   std::cout << sizeof(meson::GCObject<detail::A>) << std::endl;
 
-  auto a = std::make_tuple(10);
-  int tt = 10;
-  const int& ttt = tt;
-  auto aaaa = std::tie(tt);
-  auto e = std::tie(ttt);
+  C c = D();
+
 }
