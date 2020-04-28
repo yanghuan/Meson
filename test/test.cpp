@@ -11,15 +11,33 @@
 namespace detail {
 
 class String : public meson::String {};
+class Object : public meson::Object {};
 
 class A {};
+
+class AA : public A {};
 }  // namespace detail
 
 using String = meson::ref<detail::String>;
-using ARef = meson::ref<detail::A>;
+using Object = meson::ref<detail::Object>;
+using A = meson::ref<detail::A>;
+using AA = meson::ref<detail::AA>;
 
 void f() {
   String a = "ttt";
+  Object i = a;
+  A a1;
+  AA a2;
+
+  Object c2 = a1;
+  A a3 = a2;
+  a3 = a2;
+
+  bool i1 = a3 == a2;
+  bool i4 = a2 == a3;
+  bool i5 = a == i;
+  //bool i6 = a == a3;
+
   a = "cccc";
   a = nullptr;
   a = "ttt";
