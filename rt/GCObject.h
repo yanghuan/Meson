@@ -53,7 +53,7 @@ namespace meson {
 
   public:
     T* get() noexcept {
-      return reinterpret_cast<T*>(memory_);
+      return reinterpret_cast<T*>(memory_.data());
     }
 
     void release() noexcept {
@@ -72,7 +72,7 @@ namespace meson {
       return sizeof(GCObject);
     }
   private:
-    int8_t memory_[sizeof(T)] = {};
+    std::array<int8_t, sizeof(T)> memory_ = {};
 
     friend class Object;
     friend class String;

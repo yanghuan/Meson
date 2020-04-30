@@ -18,6 +18,9 @@ namespace meson {
   }
 
   inline static void checkOutOfMemory(void* p) {
+    if (p == nullptr) {
+
+    }
   }
 
   static void* gcAlloc(void* ptr, size_t osize, size_t nsize) {
