@@ -12,7 +12,15 @@ namespace meson {
   static std::unordered_map<const char*, string> g_InternStringPool;
   const TypeMetadata gMetadata = {};
 
-  static void* gcAlloc(void* ptr, size_t osize, size_t nsize, bool memset = false) {
+  inline static void checkOutOfMemory(size_t n) {
+    if (n > static_cast<uint32_t>(std::numeric_limits<int32_t>::max())) {
+    }
+  }
+
+  inline static void checkOutOfMemory(void* p) {
+  }
+
+  static void* gcAlloc(void* ptr, size_t osize, size_t nsize) {
     if (nsize == 0) {
       free(ptr);
       printf("gcFree: %p %d\n", ptr, osize);
@@ -20,27 +28,16 @@ namespace meson {
     }
     else
     {
-      void* p;
-      if (ptr == nullptr && memset) {
-        p = calloc(1, nsize);
-      }
-      else
-      {
-        p = realloc(ptr, nsize);
-      }
+      void* p = realloc(ptr, nsize);
+      checkOutOfMemory(p);
       printf("gcMalloc: %p %d %d %p\n", ptr, osize, nsize, p);
       return p;
     }
   }
 
-  inline static void checkOutOfMemory(size_t n) {
-    if (n > static_cast<uint32_t>(std::numeric_limits<int32_t>::max())) {
-    }
-  }
-
   void* Object::alloc(size_t size) {
     checkOutOfMemory(size);
-    return gcAlloc(nullptr, 0, size, true);
+    return gcAlloc(nullptr, 0, size);
   }
 
   void Object::free(void* ptr, size_t size) {

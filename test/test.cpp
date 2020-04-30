@@ -16,8 +16,9 @@ namespace detail {
   class Object : public meson::Object {};
 
   class A {
-    INSERT_METADATA_OBJ(A)
+    INSERT_METADATA_OBJ
   public:
+    A() {};
     A(int a, int b) : a_(a + b) { };
 
   public:
@@ -91,6 +92,6 @@ int main() {
     std::cout << i << std::endl;
   }
 
-  A a = newobj<A>(1, 2);
+  A a = newobj<A>();
   std::cout << a->a_ << " " << a->b_ << std::endl;
 }

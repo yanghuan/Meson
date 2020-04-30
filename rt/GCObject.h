@@ -8,7 +8,7 @@
 #include <tuple>
 #include <type_traits>
 
-#define INSERT_METADATA_OBJ(T)   public: T() {};\
+#define INSERT_METADATA_OBJ     public:\
                                   static const meson::TypeMetadata& getTypeMetadata() {\
                                     return typeMetadata_;\
                                   };\
@@ -52,11 +52,8 @@ namespace meson {
     static constexpr bool IsSpeicalObject = IsString<T>::value;
 
   public:
-    const T& val() const noexcept {
-      return v_;
-    }
     T* get() noexcept {
-      return &v_;
+      return reinterpret_cast<T*>(memory_);
     }
 
     void release() noexcept {
@@ -70,12 +67,12 @@ namespace meson {
 
     size_t GetAllocSize() noexcept {
       if constexpr (IsSpeicalObject) {
-        return v_.GetAllocSize();
+        return get()->GetAllocSize();
       }
       return sizeof(GCObject);
     }
   private:
-    T v_{};
+    int8_t memory_[sizeof(T)] = {};
 
     friend class Object;
     friend class String;
@@ -258,11 +255,11 @@ namespace meson {
     using string = ref<String>;
 
   public:
-    static size_t GetAllocSize(size_t n) noexcept {
-      return sizeof(GCObject<String>) - sizeof(intptr_t) + n + 1;
+    static size_t GetAllocSize(size_t n) noexcept  {
+      return sizeof(GCObject<String>) - sizeof(firstChar) + n + 1;
     }
 
-    size_t GetAllocSize() noexcept {
+    size_t GetAllocSize() const noexcept {
       return GetAllocSize(length);
     }
 
@@ -276,23 +273,20 @@ namespace meson {
     }
 
     char* c_str() noexcept {
-      return get();
+      return firstChar;
     }
     const char* c_str() const noexcept {
-      return get();
+      return firstChar;
     }
 
   private:
-    char* get() const {
-      return reinterpret_cast<char*>(&firstChar);
-    }
     static string load(const char* str, size_t n);
     static string cat(String** being, size_t n);
     static GCObject<String>* alloc(size_t n);
 
   protected:
     int32_t length;
-    mutable intptr_t firstChar;
+    char firstChar[1];
   };
 
 }  // namespace meson
