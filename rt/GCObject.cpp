@@ -1,8 +1,10 @@
-#include "GCObject.h"
-
 #include <cstdio>
 #include <cstring>
+#include <cassert>
+#include <limits>
 #include <unordered_map>
+
+#include "GCObject.h"
 
 namespace meson {
   using string = String::string;
@@ -10,14 +12,47 @@ namespace meson {
   static std::unordered_map<const char*, string> g_InternStringPool;
   const TypeMetadata gMetadata = {};
 
-  void* gcMalloc(size_t n) {
-    printf("gcMalloc: %d\n", n);
-    return malloc(n);
+  static void* gcAlloc(void* ptr, size_t osize, size_t nsize, bool memset = false) {
+    if (nsize == 0) {
+      free(ptr);
+      printf("gcFree: %p %d\n", ptr, osize);
+      return nullptr;
+    }
+    else
+    {
+      void* p;
+      if (ptr == nullptr && memset) {
+        p = calloc(1, nsize);
+      }
+      else
+      {
+        p = realloc(ptr, nsize);
+      }
+      printf("gcMalloc: %p %d %d %p\n", ptr, osize, nsize, p);
+      return p;
+    }
   }
 
-  void gcFree(void* p, size_t n) {
-    printf("gcFree: %p %d\n", p, n);
-    free(p);
+  inline static void checkOutOfMemory(size_t n) {
+    if (n > static_cast<uint32_t>(std::numeric_limits<int32_t>::max())) {
+    }
+  }
+
+  void* Object::alloc(size_t size) {
+    checkOutOfMemory(size);
+    return gcAlloc(nullptr, 0, size, true);
+  }
+
+  void Object::free(void* ptr, size_t size) {
+    gcAlloc(ptr, size, 0);
+  }
+
+  GCObject<String>* String::alloc(size_t length) {
+    checkOutOfMemory(length);
+    void* address = gcAlloc(nullptr, 0, String::GetAllocSize(length));
+    auto gcObj = new (address) GCObject<String>(gMetadata);
+    gcObj->get()->length = static_cast<int32_t>(length);
+    return gcObj;
   }
 
   string String::load(const char* str, size_t n) {
@@ -26,11 +61,8 @@ namespace meson {
       return search->second;
     }
 
-    void* address = gcMalloc(String::GetAllocSize(n));
-    auto gcObj = new (address) GCObject<String>(gMetadata);
-    auto p = gcObj->get();
-    p->length = static_cast<int32_t>(n);
-    strcpy_s(p->c_str(), n + 1, str);
+    auto gcObj = alloc(n);
+    strcpy_s(gcObj->get()->c_str(), n + 1, str);
 
     string temp(gcObj);
     g_InternStringPool[str] = temp;
@@ -45,8 +77,8 @@ namespace meson {
         length += begin[i]->length;
       }
     }
-    void* address = gcMalloc(String::GetAllocSize(length));
-    auto gcObj = new (address) GCObject<String>(gMetadata);
+
+    auto gcObj = alloc(length);
     auto p = gcObj->get();
     p->length = static_cast<int32_t>(length);
 

@@ -5,17 +5,29 @@
 #include <tuple>
 #include <initializer_list>
 #include <memory>
+#include <cstdint>
+#include <cstdio>
 
 #include "../rt/GCObject.h"
 
 namespace detail {
 
-class String : public meson::String {};
-class Object : public meson::Object {};
+  class String : public meson::String {};
+  class Object : public meson::Object {};
 
-class A {};
+  class A {
+    INSERT_METADATA_OBJ(A)
+  public:
+    A(int a, int b) : a_(a + b) { };
 
-class AA : public A {};
+  public:
+    int a_;
+    int b_;
+  };
+
+  meson::TypeMetadata A::typeMetadata_{};
+
+  class AA : public A {};
 }  // namespace detail
 
 using String = meson::ref<detail::String>;
@@ -73,22 +85,12 @@ void f() {
 }
 
 int main() {
-  class A {};
-  class B : public A {};
-  class C {};
-  class D {
-   public:
-    operator C() { return c; }
-    C c;
-  };
-
   f();
+  std::array<int, 5> arr;
+  for (auto& i : arr) {
+    std::cout << i << std::endl;
+  }
 
-  std::cout << sizeof(intptr_t) << std::endl;
-  std::cout << sizeof(meson::GCObjectHead) << std::endl;
-  std::cout << sizeof(meson::GCObject<detail::String>) << std::endl;
-  std::cout << sizeof(meson::GCObject<detail::A>) << std::endl;
-
-  C c = D();
-
+  A a = newobj<A>(1, 2);
+  std::cout << a->a_ << " " << a->b_ << std::endl;
 }
