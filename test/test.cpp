@@ -112,5 +112,4 @@ int main() {
   a[2] = a[0] + a[1];
 
   std::cout << a[0]->c_str() << " " << a[1]->c_str() << " " << a[2]->c_str() << std::endl;
-
 }

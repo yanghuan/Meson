@@ -52,7 +52,6 @@ namespace meson {
   template <class T>
   class GCObject : public GCObjectHead {
     static constexpr bool IsSpeicalObject = IsString<T>::value;
-    using memory_type = int8_t[sizeof(T)];
 
   public:
     T* get() noexcept {
@@ -76,7 +75,7 @@ namespace meson {
       return sizeof(GCObject);
     }
 
-    memory_type v;
+    int8_t v[sizeof(T)];
 
     friend class Object;
     friend class String;
@@ -279,10 +278,11 @@ namespace meson {
     }
 
     char* c_str() noexcept {
-      return (char*)&firstChar;
+      return reinterpret_cast<char*>(&firstChar);
     }
+
     const char* c_str() const noexcept {
-      return (const char*)firstChar;
+      return reinterpret_cast<const char*>(&firstChar);
     }
 
   private:
@@ -302,11 +302,8 @@ namespace meson {
 
   public:
     ~Array() noexcept {
-      T* begin = get();
-      T* end = begin + length;
-      while (begin < end) {
-        begin->~T();
-        ++begin;
+      for (const T& i : *this) {
+        i.~T();
       }
     }
 
@@ -314,19 +311,31 @@ namespace meson {
       return GetAllocSize(length);
     }
 
-    T* get() const noexcept {
-      return (T*)&frist;
+    T* begin() noexcept {
+      return reinterpret_cast<T*>(&first);
+    }
+
+    T* begin() const noexcept {
+      return reinterpret_cast<const T*>(&first);
+    }
+
+    T* end() noexcept {
+      return begin() + length;
+    }
+
+    T* end() const noexcept {
+      return begin() + length;
     }
 
     constexpr T& operator [](int32_t index) {
-      return (get())[index];
+      return begin()[index];
     }
 
     static size_t GetAllocSize(size_t n) noexcept {
-      return sizeof(GCObject) - sizeof(frist) + n * sizeof(T);
+      return sizeof(GCObject) - sizeof(first) + n * sizeof(T);
     }
 
-   static array alloc(size_t n) {
+    static array alloc(size_t n) {
       void* p = Object::alloc(GetAllocSize(n));
       GCObject* temp = new (p) GCObject(T::element_type::getTypeMetadata());
       return array(temp);
@@ -334,7 +343,7 @@ namespace meson {
 
   protected:
     int32_t length;
-    intptr_t frist;
+    intptr_t first;
   };
 
 }  // namespace meson
