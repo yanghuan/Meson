@@ -31,7 +31,13 @@ namespace meson {
     }
     else
     {
-      void* p = realloc(ptr, nsize);
+      void* p;
+      if (osize == 1) {
+        p = calloc(1, nsize);
+      } 
+      else {
+        p = realloc(ptr, nsize);
+      }
       checkOutOfMemory(p);
       printf("gcMalloc: %p %d %d %p\n", ptr, osize, nsize, p);
       return p;
@@ -40,7 +46,7 @@ namespace meson {
 
   void* Object::alloc(size_t size) {
     checkOutOfMemory(size);
-    return gcAlloc(nullptr, 0, size);
+    return gcAlloc(nullptr, 1, size);
   }
 
   void Object::free(void* ptr, size_t size) {

@@ -12,8 +12,23 @@
 
 namespace detail {
 
-  class String : public meson::String {};
-  class Object : public meson::Object {};
+  class String : public meson::String {
+    INSERT_METADATA_OBJ
+  };
+
+  meson::TypeMetadata String::typeMetadata_{};
+
+  class Object : public meson::Object {
+    INSERT_METADATA_OBJ
+  };
+
+  meson::TypeMetadata Object::typeMetadata_{};
+
+  class ArrayOfBase {};
+
+  template <class T>
+  class Array : public meson::Array<T>, public ArrayOfBase {
+  };
 
   class A {
     INSERT_METADATA_OBJ
@@ -35,6 +50,9 @@ using String = meson::ref<detail::String>;
 using Object = meson::ref<detail::Object>;
 using A = meson::ref<detail::A>;
 using AA = meson::ref<detail::AA>;
+
+template <class T>
+using Array = meson::ref<meson::Array<T>>;
 
 void f() {
   String a = "ttt";
@@ -87,11 +105,12 @@ void f() {
 
 int main() {
   f();
-  std::array<int, 5> arr;
-  for (auto& i : arr) {
-    std::cout << i << std::endl;
-  }
 
-  A a = newobj<A>();
-  std::cout << a->a_ << " " << a->b_ << std::endl;
+  Array<String> a = New<String[]>(10);
+  a[0] = "dddd";
+  a[1] = "ccccc";
+  a[2] = a[0] + a[1];
+
+  std::cout << a[0]->c_str() << " " << a[1]->c_str() << " " << a[2]->c_str() << std::endl;
+
 }

@@ -26,15 +26,17 @@ namespace meson {
   class GCObjectHead {
   protected:
     GCObjectHead(const TypeMetadata& metadata) noexcept : metadata_(metadata) {}
+
     bool refDec() noexcept {
       return --refs_ == 0;
     }
+
   private:
     void refAdd() noexcept {
       printf("refAdd\n");
       ++refs_;
     }
-  private:
+
     std::atomic_uint32_t refs_ = 1;
     const TypeMetadata& metadata_;
 
@@ -50,14 +52,16 @@ namespace meson {
   template <class T>
   class GCObject : public GCObjectHead {
     static constexpr bool IsSpeicalObject = IsString<T>::value;
+    using memory_type = int8_t[sizeof(T)];
 
   public:
     T* get() noexcept {
-      return reinterpret_cast<T*>(memory_.data());
+      return reinterpret_cast<T*>(v);
     }
 
     void release() noexcept {
       if (refDec()) {
+        get()->~T();
         Object::free(this, GetAllocSize());
       }
     }
@@ -71,11 +75,14 @@ namespace meson {
       }
       return sizeof(GCObject);
     }
-  private:
-    std::array<int8_t, sizeof(T)> memory_ = {};
+
+    memory_type v;
 
     friend class Object;
     friend class String;
+
+    template <class T>
+    friend class Array;
   };
 
   template <class T, class T1>
@@ -108,21 +115,18 @@ namespace meson {
       copyOf(other);
     }
 
-    template <class T1,
-      typename std::enable_if_t<IsConvertible<T1>::value, int> = 0>
-      ref(const ref<T1>& other) noexcept {
+    template <class T1, typename std::enable_if_t<IsConvertible<T1>::value, int> = 0>
+    ref(const ref<T1>& other) noexcept {
       copyOf(other);
     }
 
-    template <class T1 = T,
-      typename std::enable_if_t<IsString<T1>::value, int> = 0>
-      ref(const char* str) {
+    template <class T1 = T, typename std::enable_if_t<IsString<T1>::value, int> = 0>
+    ref(const char* str) {
       moveOf(String::load(str));
     }
 
-    template <class... _Types, class T1 = T,
-      typename std::enable_if_t<IsString<T1>::value, int> = 0>
-      ref(const std::tuple<_Types...>& t) {
+    template <class... _Types, class T1 = T, typename std::enable_if_t<IsString<T1>::value, int> = 0>
+    ref(const std::tuple<_Types...>& t) {
       moveOf(String::cat(t));
     }
 
@@ -130,9 +134,8 @@ namespace meson {
       moveOf(std::move(other));
     }
 
-    template <class T1,
-      typename std::enable_if_t<IsConvertible<T1>::value, int> = 0>
-      ref(ref<T1>&& other) noexcept {
+    template <class T1, typename std::enable_if_t<IsConvertible<T1>::value, int> = 0>
+    ref(ref<T1>&& other) noexcept {
       moveOf(std::move(other));
     }
 
@@ -142,45 +145,46 @@ namespace meson {
       }
     }
 
-    ref& operator=(const ref& right) noexcept {
+    ref& operator =(const ref& right) noexcept {
       ref(right).swap(*this);
       return *this;
     }
 
-    template <class T1,
-      typename std::enable_if_t<IsConvertible<T1>::value, int> = 0>
-      ref& operator=(const ref<T1>& right) noexcept {
+    template <class T1, typename std::enable_if_t<IsConvertible<T1>::value, int> = 0>
+    ref& operator = (const ref<T1>& right) noexcept {
       ref(p_);
       copyOf(right);
       return *this;
     }
 
-    bool operator==(nullptr_t) const noexcept {
+    bool operator ==(nullptr_t) const noexcept {
       return p_ == nullptr;
     }
 
-    bool operator!=(nullptr_t) const noexcept {
+    bool operator !=(nullptr_t) const noexcept {
       return p_ != nullptr;
     }
 
-    template <class T1,
-      typename std::enable_if_t<IsEquatable<T, T1>::value, int> = 0>
-      bool operator==(const ref<T1>& right) const noexcept {
+    template <class T1, typename std::enable_if_t<IsEquatable<T, T1>::value, int> = 0>
+    bool operator ==(const ref<T1>& right) const noexcept {
       return p_ == reinterpret_cast<void*>(right.p_);
     }
 
-    template <class T1,
-      typename std::enable_if_t<IsEquatable<T, T1>::value, int> = 0>
-      bool operator!=(const ref<T1>& right) const noexcept {
+    template <class T1, typename std::enable_if_t<IsEquatable<T, T1>::value, int> = 0>
+    bool operator !=(const ref<T1>& right) const noexcept {
       return p_ != reinterpret_cast<void*>(right.p_);
     }
 
-    template <class T1 = T,
-      typename std::enable_if_t<IsString<T1>::value, int> = 0>
-      constexpr auto operator+(const ref& right) noexcept {
+    template <class T1 = T, typename std::enable_if_t<IsString<T1>::value, int> = 0>
+    constexpr auto operator +(const ref& right) noexcept {
       T* a = p_ ? get() : nullptr;
       T* b = right != nullptr ? right.get() : nullptr;
       return std::make_tuple(a, b);
+    }
+
+    template<class size_t>
+    constexpr auto& operator [](size_t index) {
+      return (*get())[index];
     }
 
     T* get() const noexcept {
@@ -188,7 +192,7 @@ namespace meson {
     }
 
     T* operator->() const noexcept {
-      return p_->get();
+      return get();
     }
 
     const T& val() const noexcept {
@@ -214,8 +218,9 @@ namespace meson {
       other.p_ = nullptr;
     }
 
-  public:
-    GCObject* p_ = nullptr;
+    GCObject* p_{ nullptr };
+
+    friend class ref;
   };
 
   template <class T, class... _Types>
@@ -224,9 +229,7 @@ namespace meson {
   };
 
   template <class... _Types>
-  constexpr auto operator+(
-    const std::tuple<_Types...>& t,
-    const ref<typename StringTrim<_Types...>::type>& right) noexcept {
+  constexpr auto operator +(const std::tuple<_Types...>& t, const ref<typename StringTrim<_Types...>::type>& right) noexcept {
     String* a = right != nullptr ? right.get() : nullptr;
     return std::tuple_cat(t, std::make_tuple(a));
   }
@@ -237,8 +240,8 @@ namespace meson {
     static T newobj(Args&&... args) {
       using GCObject = typename T::GCObject;
       using element_type = typename T::element_type;
-      void* address = alloc(sizeof(GCObject));
-      GCObject* temp = new (address) GCObject(element_type::getTypeMetadata());
+      void* p = alloc(sizeof(GCObject));
+      GCObject* temp = new (p) GCObject(element_type::getTypeMetadata());
       new (temp->get()) element_type(std::forward<Args>(args)...);
       return T(temp);
     }
@@ -248,6 +251,9 @@ namespace meson {
 
     template <class T>
     friend class GCObject;
+
+    template <class T>
+    friend class Array;
   };
 
   class String {
@@ -255,7 +261,7 @@ namespace meson {
     using string = ref<String>;
 
   public:
-    static size_t GetAllocSize(size_t n) noexcept  {
+    static size_t GetAllocSize(size_t n) noexcept {
       return sizeof(GCObject<String>) - sizeof(firstChar) + n + 1;
     }
 
@@ -273,10 +279,10 @@ namespace meson {
     }
 
     char* c_str() noexcept {
-      return firstChar;
+      return (char*)&firstChar;
     }
     const char* c_str() const noexcept {
-      return firstChar;
+      return (const char*)firstChar;
     }
 
   private:
@@ -286,7 +292,49 @@ namespace meson {
 
   protected:
     int32_t length;
-    char firstChar[1];
+    intptr_t firstChar;
+  };
+
+  template <class T>
+  class Array {
+    using GCObject = GCObject<Array>;
+    using array = ref<Array>;
+
+  public:
+    ~Array() noexcept {
+      T* begin = get();
+      T* end = begin + length;
+      while (begin < end) {
+        begin->~T();
+        ++begin;
+      }
+    }
+
+    size_t GetAllocSize() const noexcept {
+      return GetAllocSize(length);
+    }
+
+    T* get() const noexcept {
+      return (T*)&frist;
+    }
+
+    constexpr T& operator [](int32_t index) {
+      return (get())[index];
+    }
+
+    static size_t GetAllocSize(size_t n) noexcept {
+      return sizeof(GCObject) - sizeof(frist) + n * sizeof(T);
+    }
+
+   static array alloc(size_t n) {
+      void* p = Object::alloc(GetAllocSize(n));
+      GCObject* temp = new (p) GCObject(T::element_type::getTypeMetadata());
+      return array(temp);
+    }
+
+  protected:
+    int32_t length;
+    intptr_t frist;
   };
 
 }  // namespace meson
@@ -307,6 +355,12 @@ template <class Ex, class... Args>
 }
 
 template <class T, class... Args>
-inline T newobj(Args&&... args) {
+inline T New(Args&&... args) {
   return meson::Object::newobj<T>(std::forward<Args>(args)...);
+}
+
+template <class T, typename std::enable_if_t<std::is_array<T>::value, int> = 0>
+inline auto New(size_t n) {
+  using element_type = std::remove_extent_t<T>;
+  return meson::Array<element_type>::alloc(n);
 }
