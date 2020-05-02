@@ -106,7 +106,7 @@ void f() {
 int main() {
   f();
 
-  Array<String> a = New<String[]>(10);
+  Array<String> a = newarr<String>(10);
   a[0] = "dddd";
   a[1] = "ccccc";
   a[2] = a[0] + a[1];

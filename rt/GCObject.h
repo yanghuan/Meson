@@ -8,12 +8,13 @@
 #include <tuple>
 #include <type_traits>
 
-#define INSERT_METADATA_OBJ     public:\
-                                  static const meson::TypeMetadata& getTypeMetadata() {\
-                                    return typeMetadata_;\
-                                  };\
-                                private:\
-                                  static meson::TypeMetadata typeMetadata_;
+#define INSERT_METADATA_OBJ \
+    public:\
+      static const meson::TypeMetadata& getTypeMetadata() {\
+        return typeMetadata_;\
+      };\
+    private:\
+      static meson::TypeMetadata typeMetadata_;
 
 namespace meson {
   class Object;
@@ -22,6 +23,8 @@ namespace meson {
   class ref;
 
   class TypeMetadata {};
+
+  inline TypeMetadata gTypeMetadata;
 
   class GCObjectHead {
   protected:
@@ -335,9 +338,9 @@ namespace meson {
       return sizeof(GCObject) - sizeof(first) + n * sizeof(T);
     }
 
-    static array alloc(size_t n) {
+    static array newarr(size_t n) {
       void* p = Object::alloc(GetAllocSize(n));
-      GCObject* temp = new (p) GCObject(T::element_type::getTypeMetadata());
+      GCObject* temp = new (p) GCObject(gTypeMetadata);
       return array(temp);
     }
 
@@ -350,7 +353,7 @@ namespace meson {
 
 template <class Ex>
 [[noreturn]] void throw_exception(Ex&& ex) {
-#if MESON_HAS_EXCEPTIONS
+#if !MESON_NO_EXCEPTIONS
   throw ex;
 #else
   (void)ex;
@@ -364,12 +367,11 @@ template <class Ex, class... Args>
 }
 
 template <class T, class... Args>
-inline T New(Args&&... args) {
+inline T newobj(Args&&... args) {
   return meson::Object::newobj<T>(std::forward<Args>(args)...);
 }
 
-template <class T, typename std::enable_if_t<std::is_array<T>::value, int> = 0>
-inline auto New(size_t n) {
-  using element_type = std::remove_extent_t<T>;
-  return meson::Array<element_type>::alloc(n);
+template <class T>
+inline auto newarr(int32_t n) {
+  return meson::Array<T>::newarr(n);
 }
