@@ -6,7 +6,7 @@ using System.Text;
 using ICSharpCode.Decompiler;
 using ICSharpCode.Decompiler.CSharp;
 using ICSharpCode.Decompiler.TypeSystem;
-using Meson.Compiler.Ast;
+using Meson.Compiler.CppAst;
 
 namespace Meson.Compiler {
   class AssemblyTransform {
@@ -22,7 +22,7 @@ namespace Meson.Compiler {
     }
 
     public void Generate(string outDir) {
-      var typeDefinitionTransforms = decompiler_.TypeSystem.GetAllTypeDefinitions().Where(IsExport).Select(Create);
+      var typeDefinitionTransforms = decompiler_.TypeSystem.MainModule.TypeDefinitions.Where(IsExport).Select(Create);
       foreach (var typeDefinitionTransform in typeDefinitionTransforms) {
         typeDefinitionTransform.Write(outDir);
       }

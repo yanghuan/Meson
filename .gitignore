@@ -340,6 +340,7 @@ ASALocalRun/
 healthchecksdb
 
 
+out/
 outcpp/
 **/Properties/
 

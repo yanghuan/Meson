@@ -14,6 +14,7 @@ namespace Meson.Compiler {
 
     private static void Run(Options opts) {
       string path = typeof(String).Assembly.Location;
+      //string path = "D:\\Person\\Project\\code\\cstolua\\cstolua\\bin\\Debug\\netcoreapp3.1\\cstolua.dll";
       new AssemblyTransform(path).Generate(opts.OutCppDir);
     }
   }

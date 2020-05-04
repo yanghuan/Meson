@@ -2,10 +2,11 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Security.Principal;
 using System.Text;
 
 using ICSharpCode.Decompiler.TypeSystem;
-using Meson.Compiler.Ast;
+using Meson.Compiler.CppAst;
 
 namespace Meson.Compiler {
   internal class CppRenderer {
@@ -14,23 +15,24 @@ namespace Meson.Compiler {
 
     private TypeDefinitionTransform transform_;
     private string outDir_;
-    private ITypeDefinition typeDefinition_;
+    private ITypeDefinition rootType_;
     private StreamWriter writer_;
+
     private bool isNewLine_;
     private int indentLevel_;
     private int singleLineCounter_;
     private bool IsSingleLine => singleLineCounter_ > 0;
 
-    public CppRenderer(TypeDefinitionTransform transform, string outDir, ITypeDefinition typeDefinition) {
+    public CppRenderer(TypeDefinitionTransform transform, string outDir, ITypeDefinition rootType) {
       transform_ = transform;
       outDir_ = outDir;
-      typeDefinition_ = typeDefinition;
+      rootType_ = rootType;
     }
 
     private string FolderPath {
       get {
-        string[] ns = typeDefinition_.Namespace.Split('.');
-        string[] paths = new string[] { typeDefinition_.ParentModule.AssemblyName }.Concat(ns).ToArray();
+        string[] ns = rootType_.Namespace.Split('.');
+        string[] paths = new string[] { rootType_.ParentModule.AssemblyName }.Concat(ns).ToArray();
         return Path.Combine(paths);
       }
     }
@@ -43,13 +45,32 @@ namespace Meson.Compiler {
 
     private string HeadFileName {
       get {
-        return Path.Combine(OutDir, $"{typeDefinition_.Name}.h"); ;
+        return Path.Combine(OutDir, $"{rootType_.Name}.h"); ;
       }
     }
 
     private string SrcFileName {
       get {
-        return Path.Combine(OutDir, $"{typeDefinition_.Name}.cpp"); ;
+        return Path.Combine(OutDir, $"{rootType_.Name}.cpp"); ;
+      }
+    }
+
+    private void AddIndent() {
+      if (IsSingleLine) {
+        WriteSpace();
+      } else {
+        ++indentLevel_;
+      }
+    }
+
+    private void Outdent() {
+      if (IsSingleLine) {
+        WriteSpace();
+      } else {
+        if (indentLevel_ == 0) {
+          throw new InvalidOperationException();
+        }
+        --indentLevel_;
       }
     }
 
@@ -66,6 +87,14 @@ namespace Meson.Compiler {
       Write(" ");
     }
 
+    private void WriteComma() {
+      Write(",");
+    }
+
+    private void WriteSemicolon() {
+      Write(Tokens.Semicolon);
+    }
+
     private void Write(string value) {
       if (isNewLine_) {
         for (int i = 0; i < indentLevel_; i++) {
@@ -76,12 +105,25 @@ namespace Meson.Compiler {
       writer_.Write(value);
     }
 
-    internal void Render(CppCompilationUnitSyntax compilationUnit) {
+    private void WriteSeparatedSyntaxList(IEnumerable<SyntaxNode> list) {
+      bool isFirst = true;
+      foreach (var node in list) {
+        if (isFirst) {
+          isFirst = false;
+        } else {
+          WriteComma();
+        }
+        node.Render(this);
+      }
+    }
+
+
+    internal void Render(CompilationUnitSyntax compilationUnit) {
       WriteCompilationUnitStatements(compilationUnit.HeadStatements, HeadFileName);
       WriteCompilationUnitStatements(compilationUnit.SrcStatements, SrcFileName);
     }
 
-    private void WriteCompilationUnitStatements(List<CppStatementSyntax> statements, string file) {
+    private void WriteCompilationUnitStatements(List<StatementSyntax> statements, string file) {
       if (statements.Count > 0) {
         Directory.CreateDirectory(OutDir);
         using var writer = new StreamWriter(file, false, Encoding);
@@ -91,18 +133,129 @@ namespace Meson.Compiler {
       }
     }
 
-    private void WriteNodes(IEnumerable<CppSyntaxNode> nodes) {
+    private void WriteNodes(IEnumerable<SyntaxNode> nodes) {
       foreach (var node in nodes) {
         node.Render(this);
       }
     }
 
-    internal void Render(PragmaPretreatmentStatementSyntax statement) {
-      Write(statement.Prefix);
-      Write(statement.Pragma);
+    internal void Render(StatementListSyntax node) {
+      WriteNodes(node.Statements);
+    }
+
+    internal void Render(BlankLinesStatement node) {
+      for (int i = 0; i < node.Count; ++i) {
+        WriteNewLine();
+      }
+    }
+
+    internal void Render(PragmaPretreatmentStatementSyntax node) {
+      Write(node.Prefix);
+      Write(node.PragmaToken);
       WriteSpace();
-      Write(statement.Symbol);
+      Write(node.Symbol);
       WriteNewLine();
+    }
+
+    internal void Render(IncludePretreatmentStatementSyntax node) {
+      Write(node.Prefix);
+      Write(node.IncludeToken);
+      WriteSpace();
+      Write(node.IsSystemPath ? Tokens.Less : Tokens.Quote);
+      Write(node.Path);
+      Write(node.IsSystemPath ? Tokens.Greater : Tokens.Quote);
+      WriteNewLine();
+    }
+
+    internal void Render(BlockSyntax node) {
+      Write(node.OpenToken);
+      WriteNewLine();
+      if (!node.IsPreventIdnet) {
+        AddIndent();
+      }
+      WriteNodes(node.Statements);
+      if (!node.IsPreventIdnet) {
+        Outdent();
+      }
+      Write(node.CloseToken);
+    }
+
+    internal void Render(NamespaceSyntax node) {
+      if (!node.IsEmpty) {
+        Write(node.NamespaceToken);
+        WriteSpace();
+        Write(node.Name);
+        WriteSpace();
+        Render((BlockSyntax)node);
+        WriteSpace();
+        Write(node.CloseComment);
+        WriteNewLine();
+      }
+    }
+
+    internal void Render(EnumSyntax node) {
+      WriteNewLine();
+      Write(node.ClassToekn);
+      WriteSpace();
+      Write(node.EnumToekn);
+      WriteSpace();
+      Write(node.Name);
+      WriteSpace();
+      Render((BlockSyntax)node);
+      WriteSemicolon();
+      WriteNewLine();
+    }
+
+    internal void Render(EnumFieldSyntax node) {
+      Write(node.Name);
+      if (node.Value != null) {
+        WriteSpace();
+        Write(node.EqualsToken);
+        WriteSpace();
+        Write(node.Value);
+      }
+      WriteComma();
+      WriteNewLine();
+    }
+
+    internal void Render(ClassSyntax node) {
+      WriteNewLine();
+      Write(node.Struct);
+      WriteSpace();
+      Write(node.Name);
+      WriteSpace();
+      Render((BlockSyntax)node);
+      WriteSemicolon();
+      WriteNewLine();
+    }
+
+    internal void Render(FieldDefinitionSyntax node) {
+      if (node.IsStatic) {
+        Write(Tokens.Static);
+        WriteSpace();
+      }
+      node.Type.Render(this);
+      WriteSpace();
+      node.Nmae.Render(this);
+      WriteSemicolon();
+      WriteNewLine();
+    }
+
+    internal void Render(ValueTextIdentifierSyntax node) {
+      Write(node.ValueText);
+    }
+
+    internal void Render(GenericIdentifierSyntax node) {
+      node.Identifier.Render(this);
+      Write(node.OpenBrace);
+      WriteSeparatedSyntaxList(node.GenericArguments);
+      Write(node.CloseBrace);
+    }
+
+    internal void Render(MemberAccessExpressionSyntax node) {
+      node.Expression.Render(this);
+      Write(node.OperatorToken);
+      node.Name.Render(this);
     }
   }
 }

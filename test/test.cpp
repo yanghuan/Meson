@@ -10,6 +10,8 @@
 
 #include "../rt/GCObject.h"
 
+#define PUBLIC public:
+
 namespace detail {
 
   class String : public meson::String {
@@ -32,13 +34,12 @@ namespace detail {
 
   class A {
     INSERT_METADATA_OBJ
-  public:
-    A() {};
-    A(int a, int b) : a_(a + b) { };
 
-  public:
-    int a_;
-    int b_;
+  public:  A() {};
+  public:  A(int a, int b) : a_(a + b) { };
+
+  public:  int a_;
+  public:  int b_;
   };
 
   meson::TypeMetadata A::typeMetadata_{};
@@ -106,10 +107,6 @@ void f() {
 int main() {
   f();
 
-  Array<String> a = newarr<String>(10);
-  a[0] = "dddd";
-  a[1] = "ccccc";
-  a[2] = a[0] + a[1];
 
-  std::cout << a[0]->c_str() << " " << a[1]->c_str() << " " << a[2]->c_str() << std::endl;
+
 }
