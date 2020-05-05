@@ -22,6 +22,8 @@ namespace Meson.Compiler.CppAst {
     public const string Static = "static";
     public const string Using = "using";
     public const string Public = "public";
+    public const string Private = "private";
+    public const string Protected = "protected";
     public const string Semicolon = ";";
     public const string Colon = ":";
     public new const string Equals = "=";

@@ -95,6 +95,10 @@ namespace Meson.Compiler {
       Write(", ");
     }
 
+    private void WriteColon() {
+      Write(Tokens.Colon);
+    }
+
     private void WriteSemicolon() {
       Write(Tokens.Semicolon);
     }
@@ -141,6 +145,14 @@ namespace Meson.Compiler {
       foreach (var node in nodes) {
         node.Render(this);
       }
+    }
+
+    internal void Render(ExpressionStatementSyntax node) {
+      node.Expression.Render(this);
+      if (node.HasSemicolon) {
+        WriteSemicolon();
+      }
+      WriteNewLine();
     }
 
     internal void Render(StatementListSyntax node) {
@@ -199,11 +211,17 @@ namespace Meson.Compiler {
 
     internal void Render(EnumSyntax node) {
       WriteNewLine();
-      Write(node.ClassToekn);
-      WriteSpace();
       Write(node.EnumToekn);
       WriteSpace();
+      Write(node.ClassToekn);
+      WriteSpace();
       Write(node.Name);
+      if (node.UnderlyingType != null) {
+        WriteSpace();
+        WriteColon();
+        WriteSpace();
+        node.UnderlyingType.Render(this);
+      }
       WriteSpace();
       Render((BlockSyntax)node);
       WriteSemicolon();
@@ -246,12 +264,12 @@ namespace Meson.Compiler {
     internal void Render(ClassSyntax node) {
       WriteNewLine();
       node.Template?.Render(this);
-      Write(node.StructToken);
+      Write(node.ClassOrStructToken);
       WriteSpace();
       Write(node.Name);
       WriteSpace();
       if (node.Bases.Count > 0) {
-        Write(Tokens.Colon);
+        WriteColon();
         WriteSpace();
         WriteSeparatedSyntaxList(node.Bases);
         WriteSpace();
@@ -262,6 +280,9 @@ namespace Meson.Compiler {
     }
 
     internal void Render(FieldDefinitionSyntax node) {
+      Write(node.AccessibilityToken);
+      WriteColon();
+      WriteSpace();
       if (node.IsStatic) {
         Write(Tokens.Static);
         WriteSpace();
@@ -291,7 +312,7 @@ namespace Meson.Compiler {
     }
 
     internal void Render(ClassForwardDeclarationSyntax node) {
-      Write(node.ClassToken);
+      Write(node.ClassOrStructToken);
       WriteSpace();
       node.Name.Render(this);
       WriteSemicolon();
@@ -311,5 +332,14 @@ namespace Meson.Compiler {
       WriteNewLine();
     }
 
+    internal void Render(UsingNamespaceSyntax node) {
+      Write(node.UsingToken);
+      WriteSpace();
+      Write(node.NamespaceToken);
+      WriteSpace();
+      Write(node.Name);
+      WriteSemicolon();
+      WriteNewLine();
+    }
   }
 }

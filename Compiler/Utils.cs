@@ -1,8 +1,11 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 using ICSharpCode.Decompiler.TypeSystem;
+using ICSharpCode.Decompiler.TypeSystem.Implementation;
+using Meson.Compiler.CppAst;
 
 namespace Meson.Compiler {
   internal static class Utils {
@@ -83,8 +86,26 @@ namespace Meson.Compiler {
       return -1;
     }
 
+    public static IType GetReferenceType(this IType type) {
+      if (type is NullabilityAnnotatedType nullableType) {
+        return nullableType.TypeWithoutAnnotation;
+      } else if (type is ArrayType arrayType) {
+        return arrayType.DirectBaseTypes.First();
+      }
+      return type;
+    }
+
+    public static string GetIncludeString(this IEntity entity) {
+      string[] parts = new string[] { entity.ParentModule.Name }.Concat(entity.Namespace.Split('.')).ToArray();
+      return $"{string.Join('/', parts)}/{entity.Name}.h";
+    }
+
     public static bool IsValueType(this IType type) {
       return type.IsReferenceType == false;
+    }
+
+    public static bool IsIntType(this IType type) {
+      return type.FullName == "System.Int";
     }
 
     public static bool IsRefType(this ITypeDefinition type) {
@@ -97,6 +118,18 @@ namespace Meson.Compiler {
 
     public static bool IsArrayType(this ITypeDefinition type) {
       return type.KnownTypeCode == KnownTypeCode.Array;
+    }
+
+    public static string ToTokenString(this Accessibility a) {
+      switch (a) {
+        case Accessibility.Private:
+          return Tokens.Private;
+
+        case Accessibility.Protected:
+          return Tokens.Protected;
+      }
+
+      return Tokens.Public;
     }
   }
 }

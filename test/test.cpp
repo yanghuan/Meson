@@ -16,6 +16,7 @@ namespace detail {
 
   class String : public meson::String {
     INSERT_METADATA_OBJ
+
   };
 
   meson::TypeMetadata String::typeMetadata_{};

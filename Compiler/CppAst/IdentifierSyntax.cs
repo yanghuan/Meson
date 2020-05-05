@@ -13,6 +13,7 @@ namespace Meson.Compiler.CppAst {
     public static readonly IdentifierSyntax BaseString = "meson::String";
     public static readonly IdentifierSyntax BaseArray = "meson::Array";
     public static readonly IdentifierSyntax T = "T";
+    public static readonly IdentifierSyntax InsertMetadataObj = "INSERT_METADATA_OBJ";
   }
 
   internal class ValueTextIdentifierSyntax : IdentifierSyntax {

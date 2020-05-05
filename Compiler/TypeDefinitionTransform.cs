@@ -6,20 +6,28 @@ using System.Linq;
 
 using ICSharpCode.Decompiler.TypeSystem;
 using Meson.Compiler.CppAst;
+using ICSharpCode.Decompiler.TypeSystem.Implementation;
 
 namespace Meson.Compiler {
   internal class TypeDefinitionTransform {
     private static readonly Dictionary<string, string> innerValueTypeNames_ = new Dictionary<string, string>() {
+      ["System.Byte"] = "uint8_t",
+      ["System.SByte"] = "int8_t",
       ["System.Boolean"] = "bool",
       ["System.Char"] = "char",
+      ["System.Int16"] = "int16_t",
+      ["System.UInt16"] = "uint16_t",
       ["System.Int32"] = "int32_t",
+      ["System.UInt32"] = "uint32_t",
+      ["System.Int64"] = "int64_t",
+      ["System.UInt64"] = "uint64_t",
       ["System.Single"] = "float",
       ["System.Double"] = "double",
     };
 
     public AssemblyTransform AssemblyTransform { get; }
     private ITypeDefinition rootType_;
-    private CompilationUnitSyntax cppCompilationUnit_ = new CompilationUnitSyntax();
+    private CompilationUnitSyntax compilationUnit_;
 
     public TypeDefinitionTransform(AssemblyTransform assemblyTransform, ITypeDefinition rootType) {
       AssemblyTransform = assemblyTransform;
@@ -29,7 +37,7 @@ namespace Meson.Compiler {
 
     internal void Write(string outDir) {
       CppRenderer rener = new CppRenderer(this, outDir, rootType_);
-      cppCompilationUnit_.Render(rener);
+      compilationUnit_.Render(rener);
     }
 
     private static void RefTypeName(ref string s) {
@@ -41,27 +49,35 @@ namespace Meson.Compiler {
     }
 
     private void VisitRootType(ITypeDefinition type) {
-      var ns = cppCompilationUnit_.AddNamespace(type.Namespace);
+      compilationUnit_ = new CompilationUnitSyntax(type.Name);
+      var ns = compilationUnit_.AddNamespace(type.Namespace);
       if (type.Kind == TypeKind.Enum) {
         EnumSyntax enumNode = new EnumSyntax(type.Name);
+        if (!type.EnumUnderlyingType.IsIntType() ) {
+          enumNode.UnderlyingType = innerValueTypeNames_[type.EnumUnderlyingType.FullName];
+        }
+
         ns.Add(enumNode);
         VisitEnumFields(type, enumNode);
       } else {
         string name = type.Name;
-        if (type.IsRefType()) {
+        bool isRefType = type.IsRefType();
+        if (isRefType) {
           if (type.IsArrayType()) {
             name = "Abstract" + name;
           } else {
             RefTypeName(ref name);
-            ns.Add(new ClassForwardDeclarationSyntax(name));
+            ns.Add(new ClassForwardDeclarationSyntax(name, isRefType));
             ns.Add(new UsingDeclarationSyntax(type.Name, new GenericIdentifierSyntax(IdentifierSyntax.Ref, (IdentifierSyntax)name)));
           }
         }
-        ClassSyntax classNode = new ClassSyntax(name);
-        ns.Add(classNode);
-        VisitMembers(ns, rootType_, classNode);
 
-        if (type.IsRefType()) {
+        ClassSyntax classNode = new ClassSyntax(name, isRefType);
+        classNode.Statements.Add(new ExpressionStatementSyntax(IdentifierSyntax.InsertMetadataObj) { HasSemicolon = false });
+        VisitMembers(ns, rootType_, classNode);
+        ns.Add(classNode);
+
+        if (isRefType) {
           if (type.IsStringType()) {
             classNode.Bases.Add(new BaseSyntax(IdentifierSyntax.BaseString));
           } else if (type.IsArrayType()) {
@@ -90,22 +106,29 @@ namespace Meson.Compiler {
       }
     }
 
-    private ExpressionSyntax GetTypeName(IType type, HashSet<IType> references) {
-      references.Add(type);
+    private ExpressionSyntax GetTypeName(IType type, ITypeDefinition typeDefinition, HashSet<IType> references) {
+      if (type.DeclaringType == null) {
+        references.Add(type.GetReferenceType());
+      }
 
       switch (type.Kind) {
         case TypeKind.Array: {
           ArrayType arrayType = (ArrayType)type;
-          var elementType = GetTypeName(arrayType.ElementType, references);
+          var elementType = GetTypeName(arrayType.ElementType, typeDefinition, references);
           return new GenericIdentifierSyntax(ValueTextIdentifierSyntax.Array, elementType);
         }
       }
 
-      return new ValueTextIdentifierSyntax(type.Name);
+      var typeName = new ValueTextIdentifierSyntax(type.Name);
+      if (type.DeclaringType != null && type.DeclaringType != typeDefinition) {
+        var declaringType = GetTypeName(type.DeclaringType, typeDefinition, references);
+        return new MemberAccessExpressionSyntax(declaringType, typeName, MemberAccessOperator.TwoColon);
+      }
+
+      return typeName;
     }
 
-    private void VisitMembers(NamespaceSyntax ns, ITypeDefinition typeDefinition, ClassSyntax node) {
-      HashSet<IType> references = new HashSet<IType>();
+    private void VisitFields(ITypeDefinition typeDefinition, ClassSyntax node, HashSet<IType> references) {
       foreach (var field in typeDefinition.Fields) {
         if (!field.Name.StartsWith('<')) {
           ExpressionSyntax typeName = null;
@@ -116,26 +139,38 @@ namespace Meson.Compiler {
             }
           }
           if (typeName == null) {
-            typeName = GetTypeName(field.Type, references);
+            typeName = GetTypeName(field.Type, typeDefinition, references);
           }
-          node.Statements.Add(new FieldDefinitionSyntax(typeName, field.Name, field.IsStatic));
+          node.Statements.Add(new FieldDefinitionSyntax(typeName, field.Name, field.IsStatic, field.Accessibility.ToTokenString()));
         }
       }
-
-      FillIncludeFiels(ns, typeDefinition, node, references);
     }
 
-    private void FillIncludeFiels(NamespaceSyntax ns, ITypeDefinition typeDefinition, ClassSyntax node, HashSet<IType> references) {
+    private void VisitMembers(NamespaceSyntax ns, ITypeDefinition typeDefinition, ClassSyntax node) {
+      HashSet<IType> references = new HashSet<IType>();
+      VisitFields(typeDefinition, node, references);
+      FillIncludes(ns, typeDefinition, node, references);
+      compilationUnit_.AddTypeMetadataVar(node.Name);
+    }
+
+    private void FillIncludes(NamespaceSyntax ns, ITypeDefinition typeDefinition, ClassSyntax node, HashSet<IType> references) {
       List<string> includes = new List<string>();
+      List<string> usings = new List<string>();
       foreach (var reference in references) {
         if (typeDefinition != reference && reference is IEntity entity) {
-          string[] parts = new string[] { entity.ParentModule.Name }.Concat(reference.Namespace.Split('.')).ToArray();
-          string headFile = $"{string.Join('/', parts)}/{reference.Name}.h";
-          includes.Add(headFile);
+          includes.Add(entity.GetIncludeString());
+          if (entity.Namespace != typeDefinition.Namespace && !usings.Contains(entity.Namespace)) {
+            usings.Add(entity.Namespace);
+          }
         }
       }
       includes.Sort();
-      cppCompilationUnit_.AddIncludes(includes);
+      compilationUnit_.AddIncludes(includes);
+
+      usings.Sort();
+      foreach (string i in usings) {
+        ns.Add(new UsingNamespaceSyntax(i.Replace(Tokens.Dot, Tokens.TwoColon)));
+      }
     }
   }
 }

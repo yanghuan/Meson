@@ -4,6 +4,7 @@ using System.Text;
 
 namespace Meson.Compiler.CppAst {
   class CompilationUnitSyntax : SyntaxNode {
+    public string RootTypeName { get; }
     public readonly SyntaxList<StatementSyntax> HeadStatements = new SyntaxList<StatementSyntax>();
     public readonly SyntaxList<StatementSyntax> SrcStatements = new SyntaxList<StatementSyntax>();
 
@@ -11,10 +12,12 @@ namespace Meson.Compiler.CppAst {
     private NamespaceSyntax srcNamespaceSyntax_;
     private StatementListSyntax includes_ = new StatementListSyntax();
 
-    public CompilationUnitSyntax() {
+    public CompilationUnitSyntax(string name) {
+      RootTypeName = name;
       HeadStatements.Add(PragmaPretreatmentStatementSyntax.Once);
       HeadStatements.Add(BlankLinesStatement.One);
       HeadStatements.Add(includes_);
+      includes_.Statements.Add(new IncludePretreatmentStatementSyntax("rt/GCObject.h", true));
     }
 
     internal override void Render(CppRenderer renderer) {
@@ -23,6 +26,7 @@ namespace Meson.Compiler.CppAst {
       }
       HeadStatements.Add(headNamespaceSyntax_);
       if (!srcNamespaceSyntax_.IsEmpty) {
+        SrcStatements.Add(new IncludePretreatmentStatementSyntax($"{RootTypeName}.h"));
         SrcStatements.Add(srcNamespaceSyntax_);
       }
       renderer.Render(this);
@@ -35,10 +39,14 @@ namespace Meson.Compiler.CppAst {
     }
 
     public void AddIncludes(List<string> filePaths) {
-      includes_.Statements.Add(new IncludePretreatmentStatementSyntax("../rt/GCObject.h"));
       foreach (string path in filePaths) {
-        includes_.Statements.Add(new IncludePretreatmentStatementSyntax(path));
+        includes_.Statements.Add(new IncludePretreatmentStatementSyntax(path, true));
       }
+    }
+
+    public void AddTypeMetadataVar(string typeName) {
+      string code = $"meson::TypeMetadata {typeName}::typeMetadata_{{}}";
+      srcNamespaceSyntax_.Add((IdentifierSyntax)code);
     }
   }
 }

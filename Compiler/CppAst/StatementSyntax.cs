@@ -5,6 +5,26 @@ using System.Text;
 
 namespace Meson.Compiler.CppAst {
   internal abstract class StatementSyntax : SyntaxNode {
+    public static implicit operator StatementSyntax(ExpressionSyntax expression) {
+      return new ExpressionStatementSyntax(expression);
+    }
+  }
+
+  internal sealed class ExpressionStatementSyntax : StatementSyntax {
+    public ExpressionSyntax Expression { get; }
+    public bool HasSemicolon { get; set; } = true;
+
+    public ExpressionStatementSyntax(ExpressionSyntax expression) {
+      Expression = expression ?? throw new ArgumentNullException(nameof(expression));
+    }
+
+    public static implicit operator ExpressionStatementSyntax(ExpressionSyntax expression) {
+      return new ExpressionStatementSyntax(expression);
+    }
+
+    internal override void Render(CppRenderer renderer) {
+      renderer.Render(this);
+    }
   }
 
   internal sealed class StatementListSyntax : StatementSyntax {
@@ -110,8 +130,9 @@ namespace Meson.Compiler.CppAst {
   }
 
   internal sealed class EnumSyntax : BlockSyntax {
-    public string ClassToekn => Tokens.Class;
     public string EnumToekn => Tokens.Enum;
+    public string ClassToekn => Tokens.Class;
+    public IdentifierSyntax UnderlyingType { get; set; }
 
     public string Name { get; }
 
@@ -185,12 +206,14 @@ namespace Meson.Compiler.CppAst {
 
   internal sealed class ClassSyntax : BlockSyntax {
     public TemplateSyntax Template { get; set; }
-    public string StructToken => Tokens.Struct;
+    public string ClassOrStructToken => IsClassOrStruct ? Tokens.Class : Tokens.Struct;
     public string Name { get; }
     public readonly List<BaseSyntax> Bases = new List<BaseSyntax>();
+    public bool IsClassOrStruct { get; }
 
-    public ClassSyntax(string name) {
+    public ClassSyntax(string name, bool isClass = true) {
       Name = name;
+      IsClassOrStruct = isClass;
     }
 
     internal override void Render(CppRenderer renderer) {
@@ -199,14 +222,16 @@ namespace Meson.Compiler.CppAst {
   }
 
   internal sealed class FieldDefinitionSyntax : StatementSyntax {
+    public string AccessibilityToken { get; }
     public ExpressionSyntax Type { get; }
     public IdentifierSyntax Nmae { get; }
     public bool IsStatic { get; }
 
-    public FieldDefinitionSyntax(ExpressionSyntax type, IdentifierSyntax name, bool isStatic) {
+    public FieldDefinitionSyntax(ExpressionSyntax type, IdentifierSyntax name, bool isStatic, string accessibilityToken) {
       Type = type;
       Nmae = name;
       IsStatic = isStatic;
+      AccessibilityToken = accessibilityToken;
     }
 
     internal override void Render(CppRenderer renderer) {
@@ -215,11 +240,13 @@ namespace Meson.Compiler.CppAst {
   }
 
   internal sealed class ClassForwardDeclarationSyntax : StatementSyntax {
-    public string ClassToken => Tokens.Struct;
+    public string ClassOrStructToken => IsClassOrStruct ? Tokens.Class : Tokens.Struct;
     public IdentifierSyntax Name { get; }
+    public bool IsClassOrStruct { get; }
 
-    public ClassForwardDeclarationSyntax(IdentifierSyntax name) {
+    public ClassForwardDeclarationSyntax(IdentifierSyntax name, bool isClass = true) {
       Name = name;
+      IsClassOrStruct = isClass;
     }
 
     internal override void Render(CppRenderer renderer) {
@@ -242,5 +269,21 @@ namespace Meson.Compiler.CppAst {
     internal override void Render(CppRenderer renderer) {
       renderer.Render(this);
     }
+  }
+
+  internal sealed class UsingNamespaceSyntax : StatementSyntax {
+    public string UsingToken => Tokens.Using;
+    public string NamespaceToken => Tokens.Namespace;
+
+    public string Name { get; }
+
+    public UsingNamespaceSyntax(string name) {
+      Name = name;
+    }
+
+    internal override void Render(CppRenderer renderer) {
+      renderer.Render(this);
+    }
+
   }
 }
