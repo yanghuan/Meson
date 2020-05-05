@@ -20,7 +20,10 @@ namespace Meson.Compiler.CppAst {
     public const string Struct = "struct";
     public const string Enum = "enum";
     public const string Static = "static";
+    public const string Using = "using";
+    public const string Public = "public";
     public const string Semicolon = ";";
+    public const string Colon = ":";
     public new const string Equals = "=";
     public const string Dot = ".";
     public const string Quote = "\"";
@@ -28,6 +31,7 @@ namespace Meson.Compiler.CppAst {
     public const string TwoColon = "::";
     public const string Less = "<";
     public const string Greater = ">";
+    public const string Template = "template";
   }
 
   sealed class SyntaxList<T> : List<T> where T : SyntaxNode {

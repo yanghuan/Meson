@@ -13,12 +13,14 @@ namespace Meson.Compiler {
       ["System.Boolean"] = "bool",
       ["System.Char"] = "char",
       ["System.Int32"] = "int32_t",
+      ["System.Single"] = "float",
+      ["System.Double"] = "double",
     };
 
     public AssemblyTransform AssemblyTransform { get; }
     private ITypeDefinition rootType_;
     private CompilationUnitSyntax cppCompilationUnit_ = new CompilationUnitSyntax();
-  
+
     public TypeDefinitionTransform(AssemblyTransform assemblyTransform, ITypeDefinition rootType) {
       AssemblyTransform = assemblyTransform;
       rootType_ = rootType;
@@ -30,6 +32,14 @@ namespace Meson.Compiler {
       cppCompilationUnit_.Render(rener);
     }
 
+    private static void RefTypeName(ref string s) {
+      s = "__" + s + "__";
+    }
+
+    private static string RefTypeName(string s) {
+      return "__" + s + "__";
+    }
+
     private void VisitRootType(ITypeDefinition type) {
       var ns = cppCompilationUnit_.AddNamespace(type.Namespace);
       if (type.Kind == TypeKind.Enum) {
@@ -37,9 +47,37 @@ namespace Meson.Compiler {
         ns.Add(enumNode);
         VisitEnumFields(type, enumNode);
       } else {
-        ClassSyntax classNode = new ClassSyntax(type.Name);
+        string name = type.Name;
+        if (type.IsRefType()) {
+          if (type.IsArrayType()) {
+            name = "Abstract" + name;
+          } else {
+            RefTypeName(ref name);
+            ns.Add(new ClassForwardDeclarationSyntax(name));
+            ns.Add(new UsingDeclarationSyntax(type.Name, new GenericIdentifierSyntax(IdentifierSyntax.Ref, (IdentifierSyntax)name)));
+          }
+        }
+        ClassSyntax classNode = new ClassSyntax(name);
         ns.Add(classNode);
         VisitMembers(ns, rootType_, classNode);
+
+        if (type.IsRefType()) {
+          if (type.IsStringType()) {
+            classNode.Bases.Add(new BaseSyntax(IdentifierSyntax.BaseString));
+          } else if (type.IsArrayType()) {
+            string newName = RefTypeName(type.Name);
+            ClassSyntax newNode = new ClassSyntax(newName);
+            newNode.Template = new TemplateSyntax(new TemplateTypenameSyntax(IdentifierSyntax.T));
+            newNode.Bases.Add(new BaseSyntax(new GenericIdentifierSyntax(IdentifierSyntax.BaseArray, IdentifierSyntax.T)));
+            newNode.Bases.Add(new BaseSyntax(name));
+            ns.Add(newNode);
+
+            var genericIdentifier = new GenericIdentifierSyntax(IdentifierSyntax.Ref, new GenericIdentifierSyntax(newName, IdentifierSyntax.T));
+            var usingDeclaration = new UsingDeclarationSyntax(type.Name, genericIdentifier);
+            usingDeclaration.Template = new TemplateSyntax(new TemplateTypenameSyntax(IdentifierSyntax.T));
+            ns.Add(usingDeclaration);
+          }
+        }
       }
     }
 
@@ -71,7 +109,7 @@ namespace Meson.Compiler {
       foreach (var field in typeDefinition.Fields) {
         if (!field.Name.StartsWith('<')) {
           ExpressionSyntax typeName = null;
-          if (typeDefinition.IsReferenceType == false && !field.IsStatic && field.Type == typeDefinition) {
+          if (typeDefinition.IsValueType() && !field.IsStatic && field.Type == typeDefinition) {
             string name = innerValueTypeNames_.GetOrDefault(field.Type.FullName);
             if (name != null) {
               typeName = (IdentifierSyntax)name;

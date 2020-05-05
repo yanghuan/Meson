@@ -137,12 +137,57 @@ namespace Meson.Compiler.CppAst {
     internal override void Render(CppRenderer renderer) {
       renderer.Render(this);
     }
+  }
 
+  internal sealed class TemplateTypenameSyntax : SyntaxNode {
+    public string ClassToken => Tokens.Class;
+    public IdentifierSyntax Name { get; }
+
+    public TemplateTypenameSyntax(IdentifierSyntax name) {
+      Name = name;
+    }
+
+    internal override void Render(CppRenderer renderer) {
+      renderer.Render(this);
+    }
+  }
+
+  internal sealed class TemplateSyntax : SyntaxNode {
+    public string TemplateToken => Tokens.Template;
+    public string OpenBrace => Tokens.Less;
+    public readonly SyntaxList<SyntaxNode> Arguments = new SyntaxList<SyntaxNode>();
+    public string CloseBrace => Tokens.Greater;
+
+    public TemplateSyntax(TemplateTypenameSyntax argument) {
+      Arguments.Add(argument);
+    }
+
+    public TemplateSyntax(params TemplateTypenameSyntax[] args) {
+      Arguments.AddRange(args);
+    }
+
+    internal override void Render(CppRenderer renderer) {
+      renderer.Render(this);
+    }
+  }
+
+  internal sealed class BaseSyntax : SyntaxNode {
+    public IdentifierSyntax Type { get; }
+
+    public BaseSyntax(IdentifierSyntax type) {
+      Type = type;
+    }
+
+    internal override void Render(CppRenderer renderer) {
+      renderer.Render(this);
+    }
   }
 
   internal sealed class ClassSyntax : BlockSyntax {
-    public string Struct => Tokens.Struct;
+    public TemplateSyntax Template { get; set; }
+    public string StructToken => Tokens.Struct;
     public string Name { get; }
+    public readonly List<BaseSyntax> Bases = new List<BaseSyntax>();
 
     public ClassSyntax(string name) {
       Name = name;
@@ -162,6 +207,36 @@ namespace Meson.Compiler.CppAst {
       Type = type;
       Nmae = name;
       IsStatic = isStatic;
+    }
+
+    internal override void Render(CppRenderer renderer) {
+      renderer.Render(this);
+    }
+  }
+
+  internal sealed class ClassForwardDeclarationSyntax : StatementSyntax {
+    public string ClassToken => Tokens.Struct;
+    public IdentifierSyntax Name { get; }
+
+    public ClassForwardDeclarationSyntax(IdentifierSyntax name) {
+      Name = name;
+    }
+
+    internal override void Render(CppRenderer renderer) {
+      renderer.Render(this);
+    }
+  }
+
+  internal sealed class UsingDeclarationSyntax : StatementSyntax {
+    public TemplateSyntax Template { get; set; }
+    public string UsingToken => Tokens.Using;
+    public IdentifierSyntax Name { get; }
+    public string EqualsToken => Tokens.Equals;
+    public ExpressionSyntax Type { get; }
+
+    public UsingDeclarationSyntax(IdentifierSyntax name, ExpressionSyntax type) {
+      Name = name;
+      Type = type;
     }
 
     internal override void Render(CppRenderer renderer) {

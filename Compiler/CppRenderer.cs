@@ -91,6 +91,10 @@ namespace Meson.Compiler {
       Write(",");
     }
 
+    private void WriteCommaWithSpace() {
+      Write(", ");
+    }
+
     private void WriteSemicolon() {
       Write(Tokens.Semicolon);
     }
@@ -111,7 +115,7 @@ namespace Meson.Compiler {
         if (isFirst) {
           isFirst = false;
         } else {
-          WriteComma();
+          WriteCommaWithSpace();
         }
         node.Render(this);
       }
@@ -218,12 +222,40 @@ namespace Meson.Compiler {
       WriteNewLine();
     }
 
+    internal void Render(TemplateTypenameSyntax node) {
+      Write(node.ClassToken);
+      WriteSpace();
+      node.Name.Render(this);
+    }
+
+    internal void Render(TemplateSyntax node) {
+      Write(node.TemplateToken);
+      WriteSpace();
+      Write(node.OpenBrace);
+      WriteSeparatedSyntaxList(node.Arguments);
+      Write(node.CloseBrace);
+      WriteNewLine();
+    }
+
+    internal void Render(BaseSyntax node) {
+      Write(Tokens.Public);
+      WriteSpace();
+      node.Type.Render(this);
+    }
+
     internal void Render(ClassSyntax node) {
       WriteNewLine();
-      Write(node.Struct);
+      node.Template?.Render(this);
+      Write(node.StructToken);
       WriteSpace();
       Write(node.Name);
       WriteSpace();
+      if (node.Bases.Count > 0) {
+        Write(Tokens.Colon);
+        WriteSpace();
+        WriteSeparatedSyntaxList(node.Bases);
+        WriteSpace();
+      }
       Render((BlockSyntax)node);
       WriteSemicolon();
       WriteNewLine();
@@ -257,5 +289,27 @@ namespace Meson.Compiler {
       Write(node.OperatorToken);
       node.Name.Render(this);
     }
+
+    internal void Render(ClassForwardDeclarationSyntax node) {
+      Write(node.ClassToken);
+      WriteSpace();
+      node.Name.Render(this);
+      WriteSemicolon();
+      WriteNewLine();
+    }
+
+    internal void Render(UsingDeclarationSyntax node) {
+      node.Template?.Render(this);
+      Write(node.UsingToken);
+      WriteSpace();
+      node.Name.Render(this);
+      WriteSpace();
+      Write(node.EqualsToken);
+      WriteSpace();
+      node.Type.Render(this);
+      WriteSemicolon();
+      WriteNewLine();
+    }
+
   }
 }

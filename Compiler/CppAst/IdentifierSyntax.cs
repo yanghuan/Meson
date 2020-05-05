@@ -5,8 +5,14 @@ using System.Text;
 namespace Meson.Compiler.CppAst {
   internal abstract class IdentifierSyntax : ExpressionSyntax {
     public static implicit operator IdentifierSyntax(string valueText) {
-      return (ValueTextIdentifierSyntax)valueText;
+      return new ValueTextIdentifierSyntax(valueText);
     }
+
+    public static readonly IdentifierSyntax Array = "Array";
+    public static readonly IdentifierSyntax Ref = "meson::ref";
+    public static readonly IdentifierSyntax BaseString = "meson::String";
+    public static readonly IdentifierSyntax BaseArray = "meson::Array";
+    public static readonly IdentifierSyntax T = "T";
   }
 
   internal class ValueTextIdentifierSyntax : IdentifierSyntax {
@@ -16,17 +22,10 @@ namespace Meson.Compiler.CppAst {
       ValueText = valueText;
     }
 
-    public static implicit operator ValueTextIdentifierSyntax(string valueText) {
-      return new ValueTextIdentifierSyntax(valueText);
-    }
-
     internal override void Render(CppRenderer renderer) {
       renderer.Render(this);
     }
-
-    public static readonly ValueTextIdentifierSyntax Array = "Array";
   }
-
 
   internal class GenericIdentifierSyntax : IdentifierSyntax {
     public IdentifierSyntax Identifier { get; }

@@ -2,6 +2,8 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
+using ICSharpCode.Decompiler.TypeSystem;
+
 namespace Meson.Compiler {
   internal static class Utils {
     public static T First<T>(this IList<T> list) {
@@ -79,6 +81,22 @@ namespace Meson.Compiler {
         ++index;
       }
       return -1;
+    }
+
+    public static bool IsValueType(this IType type) {
+      return type.IsReferenceType == false;
+    }
+
+    public static bool IsRefType(this ITypeDefinition type) {
+      return type.IsReferenceType == true && !type.IsStatic;
+    }
+
+    public static bool IsStringType(this ITypeDefinition type) {
+      return type.KnownTypeCode == KnownTypeCode.String;
+    }
+
+    public static bool IsArrayType(this ITypeDefinition type) {
+      return type.KnownTypeCode == KnownTypeCode.Array;
     }
   }
 }

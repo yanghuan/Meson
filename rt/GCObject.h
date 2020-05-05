@@ -58,7 +58,7 @@ namespace meson {
 
   public:
     T* get() noexcept {
-      return reinterpret_cast<T*>(v);
+      return reinterpret_cast<T*>(v_);
     }
 
     void release() noexcept {
@@ -78,7 +78,7 @@ namespace meson {
       return sizeof(GCObject);
     }
 
-    int8_t v[sizeof(T)];
+    int8_t v_[sizeof(T)];
 
     friend class Object;
     friend class String;
@@ -259,16 +259,21 @@ namespace meson {
   };
 
   class String {
+    struct Pack {
+      int32_t length;
+      intptr_t firstChar;
+    };
+
   public:
     using string = ref<String>;
 
   public:
     static size_t GetAllocSize(size_t n) noexcept {
-      return sizeof(GCObject<String>) - sizeof(firstChar) + n + 1;
+      return sizeof(GCObject<Pack>) - sizeof(Pack::firstChar) + n + 1;
     }
 
     size_t GetAllocSize() const noexcept {
-      return GetAllocSize(length);
+      return GetAllocSize(length());
     }
 
     static string load(const char* str) {
@@ -281,21 +286,33 @@ namespace meson {
     }
 
     char* c_str() noexcept {
-      return reinterpret_cast<char*>(&firstChar);
+      return reinterpret_cast<char*>(&get()->firstChar);
     }
 
     const char* c_str() const noexcept {
-      return reinterpret_cast<const char*>(&firstChar);
+      return reinterpret_cast<const char*>(&get()->firstChar);
     }
 
   private:
+    Pack* get() noexcept {
+      return reinterpret_cast<Pack*>(this);
+    }
+
+    const Pack* get() const noexcept {
+      return reinterpret_cast<const Pack*>(this);
+    }
+
+    int& length() noexcept {
+      return get()->length;
+    }
+
+    int length() const noexcept {
+      return get()->length;
+    }
+
     static string load(const char* str, size_t n);
     static string cat(String** being, size_t n);
     static GCObject<String>* alloc(size_t n);
-
-  protected:
-    int32_t length;
-    intptr_t firstChar;
   };
 
   template <class T>
