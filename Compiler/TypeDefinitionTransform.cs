@@ -49,7 +49,7 @@ namespace Meson.Compiler {
     }
 
     private void VisitRootType(ITypeDefinition type) {
-      compilationUnit_ = new CompilationUnitSyntax(type.Name);
+      compilationUnit_ = new CompilationUnitSyntax();
       var ns = compilationUnit_.AddNamespace(type.Namespace);
       if (type.Kind == TypeKind.Enum) {
         EnumSyntax enumNode = new EnumSyntax(type.Name);
@@ -64,7 +64,7 @@ namespace Meson.Compiler {
         bool isRefType = type.IsRefType();
         if (isRefType) {
           if (type.IsArrayType()) {
-            name = "Abstract" + name;
+            name = name.ToLower();
           } else {
             RefTypeName(ref name);
             ns.Add(new ClassForwardDeclarationSyntax(name, isRefType));
@@ -74,6 +74,10 @@ namespace Meson.Compiler {
 
         ClassSyntax classNode = new ClassSyntax(name, isRefType);
         classNode.Statements.Add(new ExpressionStatementSyntax(IdentifierSyntax.InsertMetadataObj) { HasSemicolon = false });
+        if (type.TypeParameterCount > 0) {
+          var typeParameters = type.TypeParameters.Select(i => new TemplateTypenameSyntax(i.Name));
+          classNode.Template = new TemplateSyntax(typeParameters);
+        }
         VisitMembers(ns, rootType_, classNode);
         ns.Add(classNode);
 
@@ -106,6 +110,14 @@ namespace Meson.Compiler {
       }
     }
 
+    private List<ExpressionSyntax> GetTypeArguments(IType type, ITypeDefinition typeDefinition, HashSet<IType> references) {
+      List<ExpressionSyntax> typeArguments = new List<ExpressionSyntax>();
+      foreach (var typeArgument in type.TypeArguments) {
+
+      }
+      return typeArguments;
+    }
+
     private ExpressionSyntax GetTypeName(IType type, ITypeDefinition typeDefinition, HashSet<IType> references) {
       if (type.DeclaringType == null) {
         references.Add(type.GetReferenceType());
@@ -120,12 +132,31 @@ namespace Meson.Compiler {
       }
 
       var typeName = new ValueTextIdentifierSyntax(type.Name);
-      if (type.DeclaringType != null && type.DeclaringType != typeDefinition) {
-        var declaringType = GetTypeName(type.DeclaringType, typeDefinition, references);
-        return new MemberAccessExpressionSyntax(declaringType, typeName, MemberAccessOperator.TwoColon);
+      ExpressionSyntax result = typeName;
+      if (type.TypeArguments.Count > 0) {
+        List<ExpressionSyntax> typeArguments = new List<ExpressionSyntax>();
+        foreach (var typeArgument in type.TypeArguments) {
+          bool isSkip = false;
+          if (typeArgument is NullabilityAnnotatedTypeParameter parameter) {
+            if (typeDefinition == parameter.OriginalTypeParameter.Owner) {
+              isSkip = true;
+            }
+          }
+          if (!isSkip) {
+            typeArguments.Add(GetTypeName(typeArgument, typeDefinition, references));
+          }
+        }
+        if (typeArguments.Count > 0) {
+          result = new GenericIdentifierSyntax(typeName, typeArguments);
+        }
       }
 
-      return typeName;
+      if (type.DeclaringType != null && !typeDefinition.IsSame(type.DeclaringType)) {
+        var declaringType = GetTypeName(type.DeclaringType, typeDefinition, references);
+        return new MemberAccessExpressionSyntax(declaringType, result, MemberAccessOperator.TwoColon);
+      }
+
+      return result;
     }
 
     private void VisitFields(ITypeDefinition typeDefinition, ClassSyntax node, HashSet<IType> references) {
@@ -150,6 +181,7 @@ namespace Meson.Compiler {
       HashSet<IType> references = new HashSet<IType>();
       VisitFields(typeDefinition, node, references);
       FillIncludes(ns, typeDefinition, node, references);
+      compilationUnit_.AddSrcInclude(typeDefinition.GetIncludeString(), false);
       compilationUnit_.AddTypeMetadataVar(node.Name);
     }
 
@@ -165,7 +197,7 @@ namespace Meson.Compiler {
         }
       }
       includes.Sort();
-      compilationUnit_.AddIncludes(includes);
+      compilationUnit_.AddHeadIncludes(includes);
 
       usings.Sort();
       foreach (string i in usings) {

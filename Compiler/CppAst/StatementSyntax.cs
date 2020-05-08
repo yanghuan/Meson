@@ -29,6 +29,7 @@ namespace Meson.Compiler.CppAst {
 
   internal sealed class StatementListSyntax : StatementSyntax {
     public readonly SyntaxList<StatementSyntax> Statements = new SyntaxList<StatementSyntax>();
+    public bool IsEmpty => Statements.Count == 0;
 
     internal override void Render(CppRenderer renderer) {
       renderer.Render(this);
@@ -184,6 +185,10 @@ namespace Meson.Compiler.CppAst {
     }
 
     public TemplateSyntax(params TemplateTypenameSyntax[] args) {
+      Arguments.AddRange(args);
+    }
+
+    public TemplateSyntax(IEnumerable<TemplateTypenameSyntax> args) {
       Arguments.AddRange(args);
     }
 

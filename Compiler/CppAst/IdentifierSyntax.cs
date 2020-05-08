@@ -38,7 +38,13 @@ namespace Meson.Compiler.CppAst {
       Identifier = identifier;
     }
 
-    public GenericIdentifierSyntax(IdentifierSyntax identifier, params ExpressionSyntax[] args) : this(identifier) {
+    public GenericIdentifierSyntax(IdentifierSyntax identifier, IEnumerable<ExpressionSyntax> args) {
+      Identifier = identifier;
+      GenericArguments.AddRange(args);
+    }
+
+    public GenericIdentifierSyntax(IdentifierSyntax identifier, params ExpressionSyntax[] args) {
+      Identifier = identifier;
       GenericArguments.AddRange(args);
     }
 

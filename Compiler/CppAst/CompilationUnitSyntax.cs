@@ -4,29 +4,31 @@ using System.Text;
 
 namespace Meson.Compiler.CppAst {
   class CompilationUnitSyntax : SyntaxNode {
-    public string RootTypeName { get; }
     public readonly SyntaxList<StatementSyntax> HeadStatements = new SyntaxList<StatementSyntax>();
     public readonly SyntaxList<StatementSyntax> SrcStatements = new SyntaxList<StatementSyntax>();
 
     private NamespaceSyntax headNamespaceSyntax_;
     private NamespaceSyntax srcNamespaceSyntax_;
-    private StatementListSyntax includes_ = new StatementListSyntax();
+    private StatementListSyntax headIncludes_ = new StatementListSyntax();
+    private StatementListSyntax srcIncludes_ = new StatementListSyntax();
 
-    public CompilationUnitSyntax(string name) {
-      RootTypeName = name;
+    public CompilationUnitSyntax() {
       HeadStatements.Add(PragmaPretreatmentStatementSyntax.Once);
       HeadStatements.Add(BlankLinesStatement.One);
-      HeadStatements.Add(includes_);
-      includes_.Statements.Add(new IncludePretreatmentStatementSyntax("rt/GCObject.h", true));
+      HeadStatements.Add(headIncludes_);
+      headIncludes_.Statements.Add(new IncludePretreatmentStatementSyntax("rt/GCObject.h", true));
     }
 
     internal override void Render(CppRenderer renderer) {
-      if (includes_.Statements.Count > 0) {
+      if (!headIncludes_.IsEmpty) {
         HeadStatements.Add(BlankLinesStatement.One);
       }
       HeadStatements.Add(headNamespaceSyntax_);
       if (!srcNamespaceSyntax_.IsEmpty) {
-        SrcStatements.Add(new IncludePretreatmentStatementSyntax($"{RootTypeName}.h"));
+        if (!srcIncludes_.IsEmpty) {
+          SrcStatements.Add(srcIncludes_);
+          SrcStatements.Add(BlankLinesStatement.One);
+        }
         SrcStatements.Add(srcNamespaceSyntax_);
       }
       renderer.Render(this);
@@ -38,10 +40,18 @@ namespace Meson.Compiler.CppAst {
       return headNamespaceSyntax_;
     }
 
-    public void AddIncludes(List<string> filePaths) {
+    private static void AddIncludeTo(StatementListSyntax includes, string path, bool isSystem = true) {
+      includes.Statements.Add(new IncludePretreatmentStatementSyntax(path, isSystem));
+    }
+
+    public void AddHeadIncludes(List<string> filePaths) {
       foreach (string path in filePaths) {
-        includes_.Statements.Add(new IncludePretreatmentStatementSyntax(path, true));
+        AddIncludeTo(headIncludes_, path);
       }
+    }
+
+    public void AddSrcInclude(string path, bool isSystem = true) {
+      AddIncludeTo(srcIncludes_, path, isSystem);
     }
 
     public void AddTypeMetadataVar(string typeName) {

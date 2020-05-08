@@ -87,17 +87,36 @@ namespace Meson.Compiler {
     }
 
     public static IType GetReferenceType(this IType type) {
-      if (type is NullabilityAnnotatedType nullableType) {
-        return nullableType.TypeWithoutAnnotation;
-      } else if (type is ArrayType arrayType) {
-        return arrayType.DirectBaseTypes.First();
-      }
-      return type;
+      return type switch {
+        NullabilityAnnotatedType nullableType => nullableType.TypeWithoutAnnotation,
+        ArrayType arrayType => arrayType.DirectBaseTypes.First(),
+        PointerType pointerType => pointerType.ElementType,
+        ParameterizedType t => GetReferenceType(t.GenericType),
+        _ => type,
+      };
     }
 
     public static string GetIncludeString(this IEntity entity) {
       string[] parts = new string[] { entity.ParentModule.Name }.Concat(entity.Namespace.Split('.')).ToArray();
       return $"{string.Join('/', parts)}/{entity.Name}.h";
+    }
+
+    public static string GetIncludeString(this ITypeDefinition type) {
+      return $"{type.Name}.h";
+    }
+
+    public static bool IsSame(this ITypeDefinition definition, IType type) {
+      if (type != null) {
+        if (type is ITypeDefinition) {
+          return type == definition;
+        }
+
+        if (type is ParameterizedType parameterizedType) {
+          return definition.IsSame(parameterizedType.GenericType);
+        }
+      }
+
+      return false;
     }
 
     public static bool IsValueType(this IType type) {
