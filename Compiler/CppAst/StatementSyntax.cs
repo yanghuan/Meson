@@ -195,6 +195,8 @@ namespace Meson.Compiler.CppAst {
     internal override void Render(CppRenderer renderer) {
       renderer.Render(this);
     }
+
+    public static readonly TemplateSyntax T = new TemplateSyntax(new TemplateTypenameSyntax(IdentifierSyntax.T));
   }
 
   internal sealed class BaseSyntax : SyntaxNode {
@@ -244,7 +246,28 @@ namespace Meson.Compiler.CppAst {
     }
   }
 
+  internal sealed class ClassStaticFieldInitSyntax : StatementSyntax {
+    public TemplateSyntax Template { get; }
+    public ExpressionSyntax FieldType { get; }
+
+    public IdentifierSyntax ClassName { get; }
+    public string TwoColon => Tokens.TwoColon;
+    public IdentifierSyntax FieldName { get; }
+
+    public ClassStaticFieldInitSyntax(ExpressionSyntax fieldType, IdentifierSyntax fieldName, IdentifierSyntax className, TemplateSyntax template = null) {
+      FieldType = fieldType;
+      FieldName = fieldName;
+      ClassName = template != null ? className.WithGeneric(template) : className;
+      Template = template;
+    }
+
+    internal override void Render(CppRenderer renderer) {
+      renderer.Render(this);
+    }
+  }
+
   internal sealed class ClassForwardDeclarationSyntax : StatementSyntax {
+    public TemplateSyntax Template { get; set; }
     public string ClassOrStructToken => IsClassOrStruct ? Tokens.Class : Tokens.Struct;
     public IdentifierSyntax Name { get; }
     public bool IsClassOrStruct { get; }

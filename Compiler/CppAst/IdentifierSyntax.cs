@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace Meson.Compiler.CppAst {
@@ -8,12 +9,16 @@ namespace Meson.Compiler.CppAst {
       return new ValueTextIdentifierSyntax(valueText);
     }
 
-    public static readonly IdentifierSyntax Array = "Array";
+    public static readonly IdentifierSyntax array = "array";
     public static readonly IdentifierSyntax Ref = "meson::ref";
     public static readonly IdentifierSyntax BaseString = "meson::String";
     public static readonly IdentifierSyntax BaseArray = "meson::Array";
     public static readonly IdentifierSyntax T = "T";
     public static readonly IdentifierSyntax InsertMetadataObj = "INSERT_METADATA_OBJ";
+
+    public GenericIdentifierSyntax WithGeneric(TemplateSyntax template) {
+      return new GenericIdentifierSyntax(this, template.Arguments.OfType<TemplateTypenameSyntax>().Select(i => i.Name));
+    }
   }
 
   internal class ValueTextIdentifierSyntax : IdentifierSyntax {

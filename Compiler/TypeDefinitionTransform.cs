@@ -41,11 +41,11 @@ namespace Meson.Compiler {
     }
 
     private static void RefTypeName(ref string s) {
-      s = "__" + s + "__";
+      s = RefTypeName(s);
     }
 
     private static string RefTypeName(string s) {
-      return "__" + s + "__";
+      return $"__{s}__";
     }
 
     private void VisitRootType(ITypeDefinition type) {
@@ -60,19 +60,26 @@ namespace Meson.Compiler {
         ns.Add(enumNode);
         VisitEnumFields(type, enumNode);
       } else {
+        TemplateSyntax template = null;
+        if (type.TypeParameterCount > 0) {
+          var typeParameters = type.TypeParameters.Select(i => new TemplateTypenameSyntax(i.Name));
+          template = new TemplateSyntax(typeParameters);
+        }
+
         string name = type.Name;
         bool isRefType = type.IsRefType();
         if (isRefType) {
-          if (type.IsArrayType()) {
-            name = name.ToLower();
-          } else {
-            RefTypeName(ref name);
-            ns.Add(new ClassForwardDeclarationSyntax(name, isRefType));
-            ns.Add(new UsingDeclarationSyntax(type.Name, new GenericIdentifierSyntax(IdentifierSyntax.Ref, (IdentifierSyntax)name)));
+          RefTypeName(ref name);
+          ns.Add(new ClassForwardDeclarationSyntax(name, isRefType) { Template = template });
+          IdentifierSyntax identifierName = name;
+          if (template != null) {
+            identifierName = identifierName.WithGeneric(template);
+            ns.Add(BlankLinesStatement.One);          
           }
+          ns.Add(new UsingDeclarationSyntax(type.Name, new GenericIdentifierSyntax(IdentifierSyntax.Ref, identifierName)) { Template = template });
         }
 
-        ClassSyntax classNode = new ClassSyntax(name, isRefType);
+        ClassSyntax classNode = new ClassSyntax(name, isRefType) { Template = template };
         classNode.Statements.Add(new ExpressionStatementSyntax(IdentifierSyntax.InsertMetadataObj) { HasSemicolon = false });
         if (type.TypeParameterCount > 0) {
           var typeParameters = type.TypeParameters.Select(i => new TemplateTypenameSyntax(i.Name));
@@ -85,16 +92,17 @@ namespace Meson.Compiler {
           if (type.IsStringType()) {
             classNode.Bases.Add(new BaseSyntax(IdentifierSyntax.BaseString));
           } else if (type.IsArrayType()) {
-            string newName = RefTypeName(type.Name);
+            string genericName = type.Name.ToLower();
+            string newName = RefTypeName(genericName);
             ClassSyntax newNode = new ClassSyntax(newName);
-            newNode.Template = new TemplateSyntax(new TemplateTypenameSyntax(IdentifierSyntax.T));
+            newNode.Template = TemplateSyntax.T;
             newNode.Bases.Add(new BaseSyntax(new GenericIdentifierSyntax(IdentifierSyntax.BaseArray, IdentifierSyntax.T)));
             newNode.Bases.Add(new BaseSyntax(name));
             ns.Add(newNode);
 
             var genericIdentifier = new GenericIdentifierSyntax(IdentifierSyntax.Ref, new GenericIdentifierSyntax(newName, IdentifierSyntax.T));
-            var usingDeclaration = new UsingDeclarationSyntax(type.Name, genericIdentifier);
-            usingDeclaration.Template = new TemplateSyntax(new TemplateTypenameSyntax(IdentifierSyntax.T));
+            var usingDeclaration = new UsingDeclarationSyntax(genericName, genericIdentifier);
+            usingDeclaration.Template = TemplateSyntax.T;
             ns.Add(usingDeclaration);
           }
         }
@@ -119,7 +127,7 @@ namespace Meson.Compiler {
         case TypeKind.Array: {
           ArrayType arrayType = (ArrayType)type;
           var elementType = GetTypeName(arrayType.ElementType, typeDefinition, references);
-          return new GenericIdentifierSyntax(ValueTextIdentifierSyntax.Array, elementType);
+          return new GenericIdentifierSyntax(IdentifierSyntax.array, elementType);
         }
       }
 
@@ -172,9 +180,10 @@ namespace Meson.Compiler {
     private void VisitMembers(NamespaceSyntax ns, ITypeDefinition typeDefinition, ClassSyntax node) {
       HashSet<IType> references = new HashSet<IType>();
       VisitFields(typeDefinition, node, references);
+
       FillIncludes(ns, typeDefinition, node, references);
       compilationUnit_.AddSrcInclude(typeDefinition.GetIncludeString(), false);
-      compilationUnit_.AddTypeMetadataVar(node.Name);
+      compilationUnit_.AddTypeMetadataVar(node);
     }
 
     private void FillIncludes(NamespaceSyntax ns, ITypeDefinition typeDefinition, ClassSyntax node, HashSet<IType> references) {

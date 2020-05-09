@@ -127,6 +127,10 @@ namespace Meson.Compiler {
       return type.FullName == "System.Int";
     }
 
+    public static string GetArrayName(this IType type) {
+      return type.Name + "__";
+    }
+
     public static bool IsRefType(this ITypeDefinition type) {
       return type.IsReferenceType == true && !type.IsStatic;
     }

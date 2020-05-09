@@ -54,9 +54,12 @@ namespace Meson.Compiler.CppAst {
       AddIncludeTo(srcIncludes_, path, isSystem);
     }
 
-    public void AddTypeMetadataVar(string typeName) {
-      string code = $"meson::TypeMetadata {typeName}::typeMetadata_{{}}";
-      srcNamespaceSyntax_.Add((IdentifierSyntax)code);
+    public void AddTypeMetadataVar(ClassSyntax node) {
+      srcNamespaceSyntax_.Add(new ClassStaticFieldInitSyntax(
+        (IdentifierSyntax)"meson::TypeMetadata",
+        "typeMetadata_",
+        node.Name,
+        node.Template));
     }
   }
 }

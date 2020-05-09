@@ -105,6 +105,19 @@ void f() {
   std::cout << dd->c_str() << std::endl;
 }
 
+template <class T>
+struct BBB {
+
+  template <class TT>
+  struct BBBB {
+    static int a;
+  };
+
+};
+
+template <class T>
+template <class TT>
+int BBB<T>::BBBB<TT>::a = 10;
 
 
 int main() {

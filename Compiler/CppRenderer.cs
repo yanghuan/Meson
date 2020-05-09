@@ -294,6 +294,18 @@ namespace Meson.Compiler {
       WriteNewLine();
     }
 
+    internal void Render(ClassStaticFieldInitSyntax node) {
+      node.Template?.Render(this);
+      node.FieldType.Render(this);
+      WriteSpace();
+      node.ClassName.Render(this);
+      Write(node.TwoColon);
+      node.FieldName.Render(this);
+      Write("{}");
+      WriteSemicolon();
+      WriteNewLine();
+    }
+
     internal void Render(ValueTextIdentifierSyntax node) {
       Write(node.ValueText);
     }
@@ -312,6 +324,7 @@ namespace Meson.Compiler {
     }
 
     internal void Render(ClassForwardDeclarationSyntax node) {
+      node.Template?.Render(this);
       Write(node.ClassOrStructToken);
       WriteSpace();
       node.Name.Render(this);
