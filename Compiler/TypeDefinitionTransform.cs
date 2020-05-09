@@ -110,14 +110,6 @@ namespace Meson.Compiler {
       }
     }
 
-    private List<ExpressionSyntax> GetTypeArguments(IType type, ITypeDefinition typeDefinition, HashSet<IType> references) {
-      List<ExpressionSyntax> typeArguments = new List<ExpressionSyntax>();
-      foreach (var typeArgument in type.TypeArguments) {
-
-      }
-      return typeArguments;
-    }
-
     private ExpressionSyntax GetTypeName(IType type, ITypeDefinition typeDefinition, HashSet<IType> references) {
       if (type.DeclaringType == null) {
         references.Add(type.GetReferenceType());
