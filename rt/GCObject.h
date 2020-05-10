@@ -366,6 +366,10 @@ namespace meson {
     intptr_t first;
   };
 
+  template <class T, size_t N>
+  struct FixedBuffer {
+    T v[N];
+  };
 }  // namespace meson
 
 template <class Ex>

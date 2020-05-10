@@ -105,19 +105,24 @@ void f() {
   std::cout << dd->c_str() << std::endl;
 }
 
-template <class T>
-struct BBB {
+using namespace std;
 
-  template <class TT>
-  struct BBBB {
-    static int a;
-  };
+class __Array__;
+using Array2 = meson::ref<__Array__>;
 
+class __Array__ {
+
+
+  class __Array1__;
+  using Array3 = meson::ref<__Array1__>;
+
+  class __Array1__ {};
+
+
+    void f(Array2 a) {};
 };
 
-template <class T>
-template <class TT>
-int BBB<T>::BBBB<TT>::a = 10;
+
 
 
 int main() {

@@ -34,6 +34,10 @@ namespace Meson.Compiler.CppAst {
     internal override void Render(CppRenderer renderer) {
       renderer.Render(this);
     }
+
+    public void Add(StatementSyntax statement) {
+      Statements.Add(statement);
+    }
   }
 
   internal sealed class BlankLinesStatement : StatementSyntax {
@@ -95,6 +99,10 @@ namespace Meson.Compiler.CppAst {
     internal override void Render(CppRenderer renderer) {
       renderer.Render(this);
     }
+
+    public void Add(StatementSyntax statement) {
+      Statements.Add(statement);
+    }
   }
 
   internal sealed class NamespaceSyntax : BlockSyntax {
@@ -125,7 +133,7 @@ namespace Meson.Compiler.CppAst {
       renderer.Render(this);
     }
 
-    public void Add(StatementSyntax node) {
+    public new void Add(StatementSyntax node) {
       Current.Statements.Add(node);
     }
   }
@@ -200,9 +208,13 @@ namespace Meson.Compiler.CppAst {
   }
 
   internal sealed class BaseSyntax : SyntaxNode {
-    public IdentifierSyntax Type { get; }
+    public ExpressionSyntax Type { get; }
 
     public BaseSyntax(IdentifierSyntax type) {
+      Type = type;
+    }
+
+    public BaseSyntax(ExpressionSyntax type) {
       Type = type;
     }
 

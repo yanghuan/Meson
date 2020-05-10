@@ -131,12 +131,37 @@ namespace Meson.Compiler {
       return type.Name + "__";
     }
 
+    public static IEnumerable<IType> GetTypeArguments(this IType type) {
+      if (type.TypeArguments.Count > 0) {
+        ParameterizedType parameterizedType = (ParameterizedType)type;
+        foreach (var typeArgument in type.TypeArguments) {
+          bool isSkip = false;
+          if (typeArgument is NullabilityAnnotatedTypeParameter parameter) {
+            if (parameter.OriginalTypeParameter.Owner != parameterizedType.GenericType) {
+              isSkip = true;
+            }
+          }
+          if (!isSkip) {
+            yield return typeArgument;
+          }
+        }
+      }
+    }
+
+    public static IEnumerable<IType> GetTypeParameters(this ITypeDefinition type) {
+      return type.TypeParameters.Where(i => i.Owner == type);
+    }
+
     public static bool IsRefType(this ITypeDefinition type) {
       return type.IsReferenceType == true && !type.IsStatic;
     }
 
     public static bool IsStringType(this ITypeDefinition type) {
       return type.KnownTypeCode == KnownTypeCode.String;
+    }
+
+    public static bool IsObjectType(this ITypeDefinition type) {
+      return type.KnownTypeCode == KnownTypeCode.Object;
     }
 
     public static bool IsArrayType(this ITypeDefinition type) {

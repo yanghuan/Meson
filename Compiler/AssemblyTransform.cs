@@ -6,7 +6,6 @@ using System.Text;
 using ICSharpCode.Decompiler;
 using ICSharpCode.Decompiler.CSharp;
 using ICSharpCode.Decompiler.TypeSystem;
-using Meson.Compiler.CppAst;
 
 namespace Meson.Compiler {
   class AssemblyTransform {

@@ -2,7 +2,6 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Security.Principal;
 using System.Text;
 
 using ICSharpCode.Decompiler.TypeSystem;
@@ -210,7 +209,6 @@ namespace Meson.Compiler {
     }
 
     internal void Render(EnumSyntax node) {
-      WriteNewLine();
       Write(node.EnumToekn);
       WriteSpace();
       Write(node.ClassToekn);
@@ -262,7 +260,6 @@ namespace Meson.Compiler {
     }
 
     internal void Render(ClassSyntax node) {
-      WriteNewLine();
       node.Template?.Render(this);
       Write(node.ClassOrStructToken);
       WriteSpace();

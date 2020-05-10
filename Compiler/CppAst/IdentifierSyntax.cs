@@ -9,10 +9,12 @@ namespace Meson.Compiler.CppAst {
       return new ValueTextIdentifierSyntax(valueText);
     }
 
+    public static readonly IdentifierSyntax Meson = "meson";
     public static readonly IdentifierSyntax array = "array";
     public static readonly IdentifierSyntax Ref = "meson::ref";
     public static readonly IdentifierSyntax BaseString = "meson::String";
     public static readonly IdentifierSyntax BaseArray = "meson::Array";
+    public static readonly IdentifierSyntax FixedBuffer = "meson::FixedBuffer";
     public static readonly IdentifierSyntax T = "T";
     public static readonly IdentifierSyntax InsertMetadataObj = "INSERT_METADATA_OBJ";
 
