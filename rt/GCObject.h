@@ -16,6 +16,11 @@
     private:\
       static meson::TypeMetadata typeMetadata_;
 
+#define CLASS(name) \
+  class __##name##__;\
+  using name = meson::ref<__##name##__>;\
+  class __##name##__
+
 namespace meson {
   class Object;
   class String;
