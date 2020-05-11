@@ -124,7 +124,7 @@ namespace Meson.Compiler {
     }
 
     public static bool IsIntType(this IType type) {
-      return type.FullName == "System.Int";
+      return ((ITypeDefinition)type).KnownTypeCode == KnownTypeCode.Int32;
     }
 
     public static string GetArrayName(this IType type) {
