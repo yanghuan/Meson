@@ -15,7 +15,7 @@
     static meson::TypeMetadata typeMetadata_;
 
 
-#define NAME(s, c, l) BOOST_PP_CAT(BOOST_PP_CAT(BOOST_PP_CAT(s, l), _), _)
+#define NAME(s, c, l) BOOST_PP_CAT(BOOST_PP_CAT(BOOST_PP_CAT(s, _), _), _)
 
 #define CLASS_0_(n, name) \
   class name;\
