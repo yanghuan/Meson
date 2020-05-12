@@ -341,9 +341,9 @@ healthchecksdb
 
 
 **/Properties/
-out/
-outcpp/*/*.h
-outcpp/*/*.cpp
-outcpp/*/**/*.h
-outcpp/*/**/*.cpp
-
+runtime/out/
+runtime/outcpp/*/*.h
+runtime/outcpp/*/*.cpp
+runtime/outcpp/*/**/*.h
+runtime/outcpp/*/**/*.cpp
+runtime/test/out

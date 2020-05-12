@@ -3,7 +3,7 @@ using System;
 
 namespace Meson.Compiler {
   class Options {
-    [Option('o', "outcppdir", Required = true, HelpText = "The directory where generated C++ code is written.")]
+    [Option('d', "outcppdir", Required = true, HelpText = "The directory where generated C++ code is written.")]
     public string OutCppDir { get; set; }
   }
 
