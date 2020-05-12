@@ -4,6 +4,6 @@
 cmake_minimum_required (VERSION 3.8)
 
 # 将源代码添加到此项目的可执行文件。
-add_executable (test "runtime.cpp" "runtime.h")
+add_executable (test "runtime.cpp" "runtime.h" "../rt/GCobject.h" "../rt/GCobject.cpp")
 
 # TODO: 如有需要，请添加测试并安装目标。

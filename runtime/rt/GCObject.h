@@ -8,18 +8,7 @@
 #include <tuple>
 #include <type_traits>
 
-#define INSERT_METADATA_OBJ \
-    public:\
-      static const meson::TypeMetadata& getTypeMetadata() {\
-        return typeMetadata_;\
-      };\
-    private:\
-      static meson::TypeMetadata typeMetadata_;
-
-#define CLASS(name) \
-  class __##name##__;\
-  using name = meson::ref<__##name##__>;\
-  class __##name##__
+#include "Preprocessor.h"
 
 namespace meson {
   class Object;
