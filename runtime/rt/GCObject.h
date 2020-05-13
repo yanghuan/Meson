@@ -16,7 +16,18 @@ namespace meson {
   template <class T>
   class ref;
 
-  class TypeMetadata {};
+  struct TypeMetadata {
+  };
+
+  template <class T>
+  struct TypeMetadataHolder {
+    static TypeMetadata data;
+  };
+
+  template <class T>
+  inline static const TypeMetadata& getTypeMetadata() {
+    return TypeMetadataHolder<T>::data;
+  }
 
   inline TypeMetadata gTypeMetadata;
 
@@ -237,7 +248,7 @@ namespace meson {
       using GCObject = typename T::GCObject;
       using element_type = typename T::element_type;
       void* p = alloc(sizeof(GCObject));
-      GCObject* temp = new (p) GCObject(element_type::getTypeMetadata());
+      GCObject* temp = new (p) GCObject(getTypeMetadata<T>());
       new (temp->get()) element_type(std::forward<Args>(args)...);
       return T(temp);
     }

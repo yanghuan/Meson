@@ -74,6 +74,10 @@ namespace Meson.Compiler {
           VistEnum(parnet, type);
           break;
         }
+        case TypeKind.Struct: {
+          VisitStruct(parnet, type);
+          break;
+        }
         default: {
           VistClass(parnet, type);
           break;
@@ -97,6 +101,25 @@ namespace Meson.Compiler {
           enumNode.Add(new EnumFieldSyntax(field.Name, v.ToString()));
         }
       }
+    }
+
+    private TemplateSyntax BuildTemplateSyntax(ITypeDefinition type) {
+      TemplateSyntax template = null;
+      if (type.TypeParameterCount > 0) {
+        var typeParameters = type.GetTypeParameters().Select(i => new TemplateTypenameSyntax(i.Name));
+        if (typeParameters.Any()) {
+          template = new TemplateSyntax(typeParameters);
+        }
+      }
+      return template;
+    }
+
+    private void VisitStruct(BlockSyntax parnet, ITypeDefinition type) {
+      var template = BuildTemplateSyntax(type);
+      ClassSyntax node = new ClassSyntax(type.Name, false) { Template = template };
+      VisitMembers(parnet, type, node);
+      parnet.Add(node);
+      //compilationUnit_.AddTypeMetadataVar(node);
     }
 
     private void VistClass(BlockSyntax parnet, ITypeDefinition type) {
