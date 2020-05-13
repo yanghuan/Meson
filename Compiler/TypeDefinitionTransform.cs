@@ -119,7 +119,6 @@ namespace Meson.Compiler {
       ClassSyntax node = new ClassSyntax(type.Name, false) { Template = template };
       VisitMembers(parnet, type, node);
       parnet.Add(node);
-      //compilationUnit_.AddTypeMetadataVar(node);
     }
 
     private void VistClass(BlockSyntax parnet, ITypeDefinition type) {
@@ -151,7 +150,6 @@ namespace Meson.Compiler {
 
       VisitMembers(parnet, type, node);
       parnet.Add(node);
-      compilationUnit_.AddTypeMetadataVar(node);
       CheckArrayType(parnet, type, name);
     }
 
@@ -253,13 +251,12 @@ namespace Meson.Compiler {
 
     private void VisitMembers(BlockSyntax parnet, ITypeDefinition type, ClassSyntax node) {
       VisitTypes(type, node);
-      node.Statements.Add(new ExpressionStatementSyntax(IdentifierSyntax.InsertMetadataObj) { HasSemicolon = false });
       HashSet<IType> references = new HashSet<IType>();
       VisitFields(type, node, references);
-      AddReferences(parnet, type, references);
+      AddReferences(type, references);
     }
 
-    private void AddReferences(BlockSyntax parnet, ITypeDefinition type, HashSet<IType> references) {
+    private void AddReferences(ITypeDefinition type, HashSet<IType> references) {
       foreach (var reference in references) {
         if (type != reference && reference is IEntity entity) {
           includes_.Add(entity.GetIncludeString());

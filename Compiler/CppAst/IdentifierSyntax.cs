@@ -16,7 +16,6 @@ namespace Meson.Compiler.CppAst {
     public static readonly IdentifierSyntax BaseArray = "meson::Array";
     public static readonly IdentifierSyntax FixedBuffer = "meson::FixedBuffer";
     public static readonly IdentifierSyntax T = "T";
-    public static readonly IdentifierSyntax InsertMetadataObj = "INSERT_METADATA_OBJ";
 
     public GenericIdentifierSyntax WithGeneric(TemplateSyntax template) {
       return new GenericIdentifierSyntax(this, template.Arguments.OfType<TemplateTypenameSyntax>().Select(i => i.Name));
