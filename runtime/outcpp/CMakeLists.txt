@@ -10,4 +10,4 @@ file(GLOB_RECURSE all_files
 message("files = ${all_files}")
 
 # 将源代码添加到此项目
-add_executable (outcpp ${all_files})
+add_executable (outcpp ${all_files} "../rt/GCobject.cpp")
