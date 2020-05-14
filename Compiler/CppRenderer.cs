@@ -260,10 +260,40 @@ namespace Meson.Compiler {
     }
 
     internal void Render(ClassSyntax node) {
-      node.Template?.Render(this);
-      Write(node.ClassOrStructToken);
-      WriteSpace();
-      Write(node.Name);
+      switch (node.Kind) {
+        case ClassKind.None: {
+          node.Template?.Render(this);
+          Write(node.ClassOrStructToken);
+          WriteSpace();
+          Write(node.Name);
+          break;
+        }
+        case ClassKind.Ref: {
+          if (node.Template != null) {
+            Write("CLASS_");
+            Write(Tokens.OpenParentheses);
+            WriteSeparatedSyntaxList(new IdentifierSyntax[] { node.Name }.Concat(node.Template.Arguments.OfType<TemplateTypenameSyntax>().Select(i => i.Name)));
+            Write(Tokens.CloseParentheses);
+          } else {
+            Write("CLASS");
+            Write(Tokens.OpenParentheses);
+            Write(node.Name);
+            Write(Tokens.CloseParentheses);
+          }
+          break;
+        }
+        case ClassKind.Array: {
+          Write("CLASS_ARRAY");
+          Write(Tokens.OpenParentheses);
+          Write(Tokens.OpenParentheses);
+          Render((BlockSyntax)node);
+          Write(Tokens.CloseParentheses);
+          Write(Tokens.CloseParentheses);
+          WriteNewLine();
+          return;
+        }
+      }
+
       WriteSpace();
       if (node.Bases.Count > 0) {
         WriteColon();

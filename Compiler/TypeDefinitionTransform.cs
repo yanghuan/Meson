@@ -122,57 +122,16 @@ namespace Meson.Compiler {
     }
 
     private void VistClass(BlockSyntax parnet, ITypeDefinition type) {
-      TemplateSyntax template = null;
-      if (type.TypeParameterCount > 0) {
-        var typeParameters = type.GetTypeParameters().Select(i => new TemplateTypenameSyntax(i.Name));
-        if (typeParameters.Any()) {
-          template = new TemplateSyntax(typeParameters);
-        }
-      }
-
-      string name = type.Name;
-      bool isRefType = type.IsRefType();
-      if (isRefType) {
-        RefTypeName(ref name);
-        parnet.Add(new ClassForwardDeclarationSyntax(name, isRefType) { Template = template });
-        IdentifierSyntax identifierName = name;
-        if (template != null) {
-          identifierName = identifierName.WithGeneric(template);
-        }
-        parnet.Add(new UsingDeclarationSyntax(type.Name, new GenericIdentifierSyntax(IdentifierSyntax.Ref, identifierName)) { Template = template });
-        CheckArrayForwardDeclaration(parnet, type);
-      }
-
-      ClassSyntax node = new ClassSyntax(name, isRefType) { Template = template };
+      var template = BuildTemplateSyntax(type);
+      ClassSyntax node = new ClassSyntax(type.Name) {
+        Template = template,
+        Kind = type.IsArrayType() ? ClassKind.Array : ClassKind.Ref,
+      };
       if (type.IsStringType() || type.IsObjectType()) {
         node.Bases.Add(new BaseSyntax(new MemberAccessExpressionSyntax(IdentifierSyntax.Meson, (IdentifierSyntax)type.Name, MemberAccessOperator.TwoColon)));
       }
-
       VisitMembers(parnet, type, node);
       parnet.Add(node);
-      CheckArrayType(parnet, type, name);
-    }
-
-    private void CheckArrayForwardDeclaration(BlockSyntax parnet, ITypeDefinition type) {
-      if (type.IsArrayType()) {
-        string genericName = type.Name.ToLower();
-        string newName = RefTypeName(genericName);
-        parnet.Add(new ClassForwardDeclarationSyntax(newName) { Template = TemplateSyntax.T });
-        var genericIdentifier = new GenericIdentifierSyntax(IdentifierSyntax.Ref, new GenericIdentifierSyntax(newName, IdentifierSyntax.T));
-        var usingDeclaration = new UsingDeclarationSyntax(genericName, genericIdentifier) { Template = TemplateSyntax.T };
-        parnet.Add(usingDeclaration);
-      }
-    }
-
-    private void CheckArrayType(BlockSyntax parnet, ITypeDefinition type, string abstractArrayNme) {
-      if (type.IsArrayType()) {
-        string genericName = type.Name.ToLower();
-        string newName = RefTypeName(genericName);
-        ClassSyntax newNode = new ClassSyntax(newName) { Template = TemplateSyntax.T };
-        newNode.Bases.Add(new BaseSyntax(new GenericIdentifierSyntax(IdentifierSyntax.BaseArray, IdentifierSyntax.T)));
-        newNode.Bases.Add(new BaseSyntax(abstractArrayNme));
-        parnet.Add(newNode);
-      }
     }
 
     private void VisitFields(ITypeDefinition typeDefinition, ClassSyntax node, HashSet<IType> references) {

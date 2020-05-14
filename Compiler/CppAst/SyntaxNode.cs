@@ -13,8 +13,12 @@ namespace Meson.Compiler.CppAst {
     public const string PretreatmentPrefix = "#";
     public const string Pragma = "pragma";
     public const string Include = "include";
+    public const string OpenParentheses = "(";
+    public const string CloseParentheses = ")";
     public const string OpenBrace = "{";
     public const string CloseBrace = "}";
+    public const string OpenBracket = "[";
+    public const string CloseBracket = "]";
     public const string Namespace = "namespace";
     public const string Class = "class";
     public const string Struct = "struct";

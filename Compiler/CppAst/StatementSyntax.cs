@@ -223,12 +223,19 @@ namespace Meson.Compiler.CppAst {
     }
   }
 
+  internal enum ClassKind { 
+    None,
+    Ref,
+    Array,
+  }
+
   internal sealed class ClassSyntax : BlockSyntax {
     public TemplateSyntax Template { get; set; }
     public string ClassOrStructToken => IsClassOrStruct ? Tokens.Class : Tokens.Struct;
     public string Name { get; }
     public readonly List<BaseSyntax> Bases = new List<BaseSyntax>();
     public bool IsClassOrStruct { get; }
+    public ClassKind Kind { get; set; }
 
     public ClassSyntax(string name, bool isClass = true) {
       Name = name;
