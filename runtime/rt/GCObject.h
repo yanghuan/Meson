@@ -105,7 +105,7 @@ namespace meson {
   public:
     template <class T1>
     struct IsConvertible {
-      static constexpr bool value = std::is_base_of<Object, T>::value ||
+      static constexpr bool value = std::is_convertible<T*, Object*>::value ||
         std::is_convertible<T1*, T*>::value;
     };
 
@@ -326,6 +326,8 @@ namespace meson {
     using array = ref<Array>;
 
   public:
+    using element_type = T;
+
     ~Array() noexcept {
       for (const T& i : *this) {
         i.~T();
@@ -397,7 +399,8 @@ inline T newobj(Args&&... args) {
   return meson::Object::newobj<T>(std::forward<Args>(args)...);
 }
 
-template <class T>
+template <class A>
 inline auto newarr(int32_t n) {
-  return meson::Array<T>::newarr(n);
+  using T = A::element_type::element_type;
+  return *reinterpret_cast<A*>(&meson::Array<T>::newarr(n));
 }

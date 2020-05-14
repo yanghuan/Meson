@@ -41,14 +41,6 @@ namespace Meson.Compiler {
       compilationUnit_.Render(rener);
     }
 
-    private static void RefTypeName(ref string s) {
-      s = RefTypeName(s);
-    }
-
-    private static string RefTypeName(string s) {
-      return $"__{s}__";
-    }
-
     private void VisitCompilationUnit() {
       compilationUnit_ = new CompilationUnitSyntax();
       var ns = compilationUnit_.AddNamespace(root_.Namespace);
