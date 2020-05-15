@@ -48,15 +48,20 @@ namespace Meson.Compiler {
       ns.Add(usingsSyntax);
 
       VisitTypeDefinition(ns.Current, root_);
-      var includes = includes_.ToList();
-      includes.Sort();
-      compilationUnit_.AddHeadIncludes(includes);
-      compilationUnit_.AddSrcInclude(root_.GetIncludeString(), false);
+      if (root_.Kind != TypeKind.Enum) {
+        var includes = includes_.ToList();
+        includes.Sort();
+        compilationUnit_.AddHeadIncludes(includes);
+        var usings = usings_.ToList();
+        usings.Sort();
+        foreach (string i in usings) {
+          usingsSyntax.Add(new UsingNamespaceSyntax(i.Replace(Tokens.Dot, Tokens.TwoColon)));
+        }
 
-      var usings = usings_.ToList();
-      usings.Sort();
-      foreach (string i in usings) {
-        usingsSyntax.Add(new UsingNamespaceSyntax(i.Replace(Tokens.Dot, Tokens.TwoColon)));
+        if (root_.Kind != TypeKind.Interface) {
+          compilationUnit_.AddSrcInclude(root_.GetIncludeString(), false);
+          compilationUnit_.AddSrcStatement(BlankLinesStatement.One);
+        }
       }
     }
 

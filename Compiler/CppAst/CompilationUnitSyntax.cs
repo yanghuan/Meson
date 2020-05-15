@@ -53,5 +53,9 @@ namespace Meson.Compiler.CppAst {
     public void AddSrcInclude(string path, bool isSystem = true) {
       AddIncludeTo(srcIncludes_, path, isSystem);
     }
+
+    public void AddSrcStatement(StatementSyntax statement) {
+      srcNamespaceSyntax_.Add(statement);
+    }
   }
 }

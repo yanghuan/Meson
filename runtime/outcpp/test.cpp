@@ -6,7 +6,6 @@ CLASS(AAA) {
 
 };
 
-
 using namespace System;
 
 

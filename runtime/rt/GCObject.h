@@ -83,7 +83,7 @@ namespace meson {
       return sizeof(GCObject);
     }
 
-    int8_t v_[sizeof(T)];
+    int8_t v_[sizeof(T)] = default;
 
     friend class Object;
     friend class String;
