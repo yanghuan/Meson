@@ -25,30 +25,35 @@ namespace Meson.Compiler {
     };
 
     public AssemblyTransform AssemblyTransform { get; }
-    private ITypeDefinition root_;
+    private List<ITypeDefinition> roots_;
     private CompilationUnitSyntax compilationUnit_;
     private HashSet<string> includes_ = new HashSet<string>();
     private HashSet<string> usings_ = new HashSet<string>();
 
-    public TypeDefinitionTransform(AssemblyTransform assemblyTransform, ITypeDefinition rootType) {
+    public TypeDefinitionTransform(AssemblyTransform assemblyTransform, IEnumerable<ITypeDefinition> types) {
       AssemblyTransform = assemblyTransform;
-      root_ = rootType;
+      roots_ = types.ToList();
       VisitCompilationUnit();
     }
 
+    private ITypeDefinition Root => roots_.First();
+
     internal void Write(string outDir) {
-      CppRenderer rener = new CppRenderer(this, outDir, root_);
+      CppRenderer rener = new CppRenderer(this, outDir, Root);
       compilationUnit_.Render(rener);
     }
 
     private void VisitCompilationUnit() {
       compilationUnit_ = new CompilationUnitSyntax();
-      var ns = compilationUnit_.AddNamespace(root_.Namespace);
+      var ns = compilationUnit_.AddNamespace(Root.Namespace);
       var usingsSyntax = new StatementListSyntax();
       ns.Add(usingsSyntax);
 
-      VisitTypeDefinition(ns.Current, root_);
-      if (root_.Kind != TypeKind.Enum) {
+      foreach (var root in roots_) {
+        VisitTypeDefinition(ns.Current, root);
+      }
+
+      if (Root.Kind != TypeKind.Enum) {
         var includes = includes_.ToList();
         includes.Sort();
         compilationUnit_.AddHeadIncludes(includes);
@@ -58,8 +63,8 @@ namespace Meson.Compiler {
           usingsSyntax.Add(new UsingNamespaceSyntax(i.Replace(Tokens.Dot, Tokens.TwoColon)));
         }
 
-        if (root_.Kind != TypeKind.Interface) {
-          compilationUnit_.AddSrcInclude(root_.GetIncludeString(), false);
+        if (Root.Kind != TypeKind.Interface) {
+          compilationUnit_.AddSrcInclude(Root.GetIncludeString(), false);
           compilationUnit_.AddSrcStatement(BlankLinesStatement.One);
         }
       }

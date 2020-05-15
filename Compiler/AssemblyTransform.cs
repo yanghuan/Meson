@@ -21,7 +21,8 @@ namespace Meson.Compiler {
     }
 
     public void Generate(string outDir) {
-      var typeDefinitionTransforms = decompiler_.TypeSystem.MainModule.TypeDefinitions.Where(IsExport).Select(Create);
+      var exportTypes = decompiler_.TypeSystem.MainModule.TypeDefinitions.Where(IsExport);
+      var typeDefinitionTransforms = exportTypes.GroupBy(i => $"{i.Namespace}.{i.Name}").Select(Create);
       foreach (var typeDefinitionTransform in typeDefinitionTransforms) {
         typeDefinitionTransform.Write(outDir);
       }
@@ -43,8 +44,8 @@ namespace Meson.Compiler {
       return true;
     }
 
-    private TypeDefinitionTransform Create(ITypeDefinition typeDefinition) {
-      return new TypeDefinitionTransform(this, typeDefinition);
+    private TypeDefinitionTransform Create(IEnumerable<ITypeDefinition> types) {
+      return new TypeDefinitionTransform(this, types.OrderBy(i => i.TypeParameterCount));
     }
   }
 }

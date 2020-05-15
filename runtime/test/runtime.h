@@ -8,15 +8,8 @@
 // TODO: 在此处引用程序需要的其他标头。
 
 namespace test {
-struct A {
-  int a;
-  int b;
-};
 
-template <class T>
-struct C {
-  static A a;
-};
+
 
 }
 
