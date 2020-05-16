@@ -172,9 +172,16 @@ namespace Meson.Compiler.CppAst {
   internal sealed class TemplateTypenameSyntax : SyntaxNode {
     public string ClassToken => Tokens.Class;
     public IdentifierSyntax Name { get; }
+    public string EqualsToken => Tokens.Equals;
+    public IdentifierSyntax Value { get; set; }
 
     public TemplateTypenameSyntax(IdentifierSyntax name) {
       Name = name;
+    }
+
+    public TemplateTypenameSyntax(IdentifierSyntax name, IdentifierSyntax value) {
+      Name = name;
+      Value = value;
     }
 
     internal override void Render(CppRenderer renderer) {

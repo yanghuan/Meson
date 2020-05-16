@@ -11,5 +11,4 @@ namespace test {
 
 
 
-}
-
+}  // namespace test

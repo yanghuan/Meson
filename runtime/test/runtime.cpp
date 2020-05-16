@@ -2,10 +2,15 @@
 //
 
 #include "runtime.h"
-//#include <System.Private.CoreLib/System/ValueTuple.h>
+#include <System.Private.CoreLib/System/ValueTuple.h>
 
+using namespace System;
 
 int main()
 {
+  ValueTuple t;
+  ValueTuple<int, int> t1;
+
+
   return 0;
 }

@@ -152,10 +152,6 @@ namespace Meson.Compiler {
       return type.TypeParameters.Where(i => i.Owner == type);
     }
 
-    public static bool IsRefType(this ITypeDefinition type) {
-      return type.IsReferenceType == true && !type.IsStatic;
-    }
-
     public static bool IsStringType(this ITypeDefinition type) {
       return type.KnownTypeCode == KnownTypeCode.String;
     }

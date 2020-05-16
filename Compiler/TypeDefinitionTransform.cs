@@ -50,6 +50,13 @@ namespace Meson.Compiler {
       var usingsSyntax = new StatementListSyntax();
       ns.Add(usingsSyntax);
 
+      if (IsMulti) {
+        int typeParameterCount = roots_.Last().TypeParameterCount + 1;
+        var parameters = Enumerable.Range(0, typeParameterCount).Select((i, it) => new TemplateTypenameSyntax($"T{i}", IdentifierSyntax.Void));
+        ClassSyntax node = new ClassSyntax(Root.Name, Root.Kind == TypeKind.Class) { Template = new TemplateSyntax(parameters) };
+        ns.Add(node);
+      }
+
       foreach (var root in roots_) {
         VisitTypeDefinition(ns.Current, root);
       }
@@ -121,17 +128,33 @@ namespace Meson.Compiler {
       var template = BuildTemplateSyntax(type);
       ClassSyntax node = new ClassSyntax(type.Name, false) {
         Template = template,
-        Kind = IsMulti ? ClassKind.MultiStruct : ClassKind.None,
+        Kind = GetClassKind(type),
       };
       VisitMembers(parnet, type, node);
       parnet.Add(node);
+    }
+
+    private ClassKind GetClassKind(ITypeDefinition type) {
+      if (type.Kind == TypeKind.Struct) {
+        return IsMulti ? ClassKind.MultiStruct : ClassKind.None;
+      }
+
+      if (type.IsArrayType()) {
+        return ClassKind.Array;
+      }
+
+      if (IsMulti) {
+        return ClassKind.MultiClass;
+      }
+
+      return type.IsStatic ? ClassKind.None : ClassKind.Ref;
     }
 
     private void VistClass(BlockSyntax parnet, ITypeDefinition type) {
       var template = BuildTemplateSyntax(type);
       ClassSyntax node = new ClassSyntax(type.Name) {
         Template = template,
-        Kind = type.IsArrayType() ? ClassKind.Array : (IsMulti ? ClassKind.MultiClass : ClassKind.Ref),
+        Kind = GetClassKind(type),
       };
       if (type.IsStringType() || type.IsObjectType()) {
         node.Bases.Add(new BaseSyntax(new MemberAccessExpressionSyntax(IdentifierSyntax.Meson, (IdentifierSyntax)type.Name, MemberAccessOperator.TwoColon)));
