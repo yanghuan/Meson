@@ -29,6 +29,7 @@ namespace Meson.Compiler {
     private CompilationUnitSyntax compilationUnit_;
     private HashSet<string> includes_ = new HashSet<string>();
     private HashSet<string> usings_ = new HashSet<string>();
+    private bool IsMulti => roots_.Count > 1;
 
     public TypeDefinitionTransform(AssemblyTransform assemblyTransform, IEnumerable<ITypeDefinition> types) {
       AssemblyTransform = assemblyTransform;
@@ -118,7 +119,10 @@ namespace Meson.Compiler {
 
     private void VisitStruct(BlockSyntax parnet, ITypeDefinition type) {
       var template = BuildTemplateSyntax(type);
-      ClassSyntax node = new ClassSyntax(type.Name, false) { Template = template };
+      ClassSyntax node = new ClassSyntax(type.Name, false) {
+        Template = template,
+        Kind = IsMulti ? ClassKind.MultiStruct : ClassKind.None,
+      };
       VisitMembers(parnet, type, node);
       parnet.Add(node);
     }
@@ -127,7 +131,7 @@ namespace Meson.Compiler {
       var template = BuildTemplateSyntax(type);
       ClassSyntax node = new ClassSyntax(type.Name) {
         Template = template,
-        Kind = type.IsArrayType() ? ClassKind.Array : ClassKind.Ref,
+        Kind = type.IsArrayType() ? ClassKind.Array : (IsMulti ? ClassKind.MultiClass : ClassKind.Ref),
       };
       if (type.IsStringType() || type.IsObjectType()) {
         node.Bases.Add(new BaseSyntax(new MemberAccessExpressionSyntax(IdentifierSyntax.Meson, (IdentifierSyntax)type.Name, MemberAccessOperator.TwoColon)));

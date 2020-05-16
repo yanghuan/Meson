@@ -205,6 +205,7 @@ namespace Meson.Compiler.CppAst {
     }
 
     public static readonly TemplateSyntax T = new TemplateSyntax(new TemplateTypenameSyntax(IdentifierSyntax.T));
+    public static readonly TemplateSyntax Empty = new TemplateSyntax();
   }
 
   internal sealed class BaseSyntax : SyntaxNode {
@@ -227,17 +228,19 @@ namespace Meson.Compiler.CppAst {
     None,
     Ref,
     Array,
+    MultiStruct,
+    MultiClass,
   }
 
   internal sealed class ClassSyntax : BlockSyntax {
     public TemplateSyntax Template { get; set; }
     public string ClassOrStructToken => IsClassOrStruct ? Tokens.Class : Tokens.Struct;
-    public string Name { get; }
+    public IdentifierSyntax Name { set; get; }
     public readonly List<BaseSyntax> Bases = new List<BaseSyntax>();
     public bool IsClassOrStruct { get; }
     public ClassKind Kind { get; set; }
 
-    public ClassSyntax(string name, bool isClass = true) {
+    public ClassSyntax(IdentifierSyntax name, bool isClass = true) {
       Name = name;
       IsClassOrStruct = isClass;
     }

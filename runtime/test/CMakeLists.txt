@@ -3,6 +3,8 @@
 #
 cmake_minimum_required (VERSION 3.8)
 
+include_directories(../outcpp)
+
 # 将源代码添加到此项目的可执行文件。
 add_executable (test "runtime.cpp" "runtime.h" "../rt/GCobject.h" "../rt/GCobject.cpp" "test.cpp")
 

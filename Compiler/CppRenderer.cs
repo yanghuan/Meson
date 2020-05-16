@@ -265,7 +265,7 @@ namespace Meson.Compiler {
           node.Template?.Render(this);
           Write(node.ClassOrStructToken);
           WriteSpace();
-          Write(node.Name);
+          node.Name.Render(this);
           break;
         }
         case ClassKind.Ref: {
@@ -277,7 +277,7 @@ namespace Meson.Compiler {
           } else {
             Write("CLASS");
             Write(Tokens.OpenParentheses);
-            Write(node.Name);
+            node.Name.Render(this);
             Write(Tokens.CloseParentheses);
           }
           break;
@@ -291,6 +291,12 @@ namespace Meson.Compiler {
           Write(Tokens.CloseParentheses);
           WriteNewLine();
           return;
+        }
+        case ClassKind.MultiStruct:
+        case ClassKind.MultiClass: {
+          node.Template ??= new TemplateSyntax();
+          node.Name = new GenericIdentifierSyntax(node.Name, node.Template.Arguments.OfType<TemplateTypenameSyntax>().Select(i => i.Name));
+          goto case ClassKind.None;
         }
       }
 
