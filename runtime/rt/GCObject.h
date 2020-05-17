@@ -10,7 +10,7 @@
 
 #include "Preprocessor.h"
 
-namespace meson {
+namespace rt {
   class Object;
   class String;
   template <class T>

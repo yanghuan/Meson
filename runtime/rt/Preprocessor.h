@@ -13,7 +13,7 @@
 
 #define CLASS0_(n, name) \
   class name;\
-  using n = meson::ref<name>;\
+  using n = rt::ref<name>;\
   class name
 
 #define CLASS0(name) CLASS0_(name, NAME(name))
@@ -24,7 +24,7 @@
   BOOST_PP_TUPLE_ENUM(T)\
   class name;\
   BOOST_PP_TUPLE_ENUM(T)\
-  using n = meson::ref<name<BOOST_PP_SEQ_ENUM(seq)>>;\
+  using n = rt::ref<name<BOOST_PP_SEQ_ENUM(seq)>>;\
   BOOST_PP_TUPLE_ENUM(T)\
   class name
 
@@ -37,15 +37,15 @@
 
 #define CLASS_ARRAY_(n, name, n1, name1, code) \
   class name;\
-  using Array = meson::ref<name>;\
+  using Array = rt::ref<name>;\
   template <class T>\
   class name1;\
   template <class T>\
-  using array = meson::ref<name1<T>>;\
+  using array = rt::ref<name1<T>>;\
   class name \
   BOOST_PP_TUPLE_ENUM(code); \
   template <class T> \
-  class name1 : public meson::Array<T>, public name {};
+  class name1 : public rt::Array<T>, public name {};
   
 #define CLASS_ARRAY(code) CLASS_ARRAY_(Array, NAME(Array), array, NAME(array), code)
 
@@ -56,7 +56,7 @@
   BOOST_PP_TUPLE_ENUM(T)\
   class name {};\
   BOOST_PP_TUPLE_ENUM(T)\
-  using n = meson::ref<name<BOOST_PP_SEQ_ENUM(seq)>>;
+  using n = rt::ref<name<BOOST_PP_SEQ_ENUM(seq)>>;
 
 #define CLASS_MULTI_FORWARD_(n, name, seq) CLASS_MULTI_FORWARD__(n, name, TEMPLATE_VOID(seq), seq)
 #define CLASS_MULTI_FORWARD(name, ...) CLASS_MULTI_FORWARD_(name, NAME_(name, _, _), BOOST_PP_VARIADIC_TO_SEQ(__VA_ARGS__))

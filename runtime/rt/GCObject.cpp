@@ -6,7 +6,7 @@
 
 #include "GCObject.h"
 
-namespace meson {
+namespace rt {
   using string = String::string;
 
   static std::unordered_map<const char*, string> g_InternStringPool;
