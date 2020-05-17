@@ -274,7 +274,7 @@ namespace Meson.Compiler {
           node.Name.Render(this);
           break;
         }
-        case ClassKind.MultiClass:
+        case ClassKind.MultiRef:
         case ClassKind.Ref: {
           Write(node.Kind == ClassKind.Ref ? "CLASS" : "CLASS_MULTI");
           Write(Tokens.OpenParentheses);
@@ -296,12 +296,12 @@ namespace Meson.Compiler {
           WriteNewLine();
           return;
         }
-        case ClassKind.MultiStruct: {
+        case ClassKind.Multi: {
           node.Template ??= new TemplateSyntax();
           node.Name = new GenericIdentifierSyntax(node.Name, node.Template.Arguments.OfType<TemplateTypenameSyntax>().Select(i => i.Name));
           goto case ClassKind.None;
         }
-        case ClassKind.MultiClassForward: {
+        case ClassKind.MultiRefForward: {
           Write("CLASS_MULTI_FORWARD");
           Write(Tokens.OpenParentheses);
           WriteSeparatedSyntaxList(new IdentifierSyntax[] { node.Name }.Concat(node.Template.Arguments.OfType<TemplateTypenameSyntax>().Select(i => i.Name)));

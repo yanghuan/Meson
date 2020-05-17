@@ -2,6 +2,13 @@ using CommandLine;
 using System;
 
 namespace Meson.Compiler {
+  class A<T> { };
+
+  struct A<T, T1> {
+
+  }
+
+
   class Options {
     [Option('d', "outcppdir", Required = true, HelpText = "The directory where generated C++ code is written.")]
     public string OutCppDir { get; set; }

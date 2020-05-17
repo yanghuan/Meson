@@ -119,8 +119,8 @@ namespace Meson.Compiler {
       return false;
     }
 
-    public static bool IsValueType(this IType type) {
-      return type.IsReferenceType == false;
+    public static bool IsRefType(this ITypeDefinition type) {
+      return type.Kind != TypeKind.Struct && !type.IsStatic;
     }
 
     public static bool IsIntType(this IType type) {

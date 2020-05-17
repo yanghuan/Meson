@@ -235,9 +235,9 @@ namespace Meson.Compiler.CppAst {
     None,
     Ref,
     Array,
-    MultiStruct,
-    MultiClass,
-    MultiClassForward,
+    Multi,
+    MultiRef,
+    MultiRefForward,
   }
 
   internal sealed class ClassSyntax : BlockSyntax {

@@ -13,7 +13,7 @@ namespace Meson.Compiler {
       ["System.Byte"] = "uint8_t",
       ["System.SByte"] = "int8_t",
       ["System.Boolean"] = "bool",
-      ["System.Char"] = "char",
+      ["System.Char"] = "unsigned char",
       ["System.Int16"] = "int16_t",
       ["System.UInt16"] = "uint16_t",
       ["System.Int32"] = "int32_t",
@@ -55,7 +55,7 @@ namespace Meson.Compiler {
         var parameters = Enumerable.Range(0, typeParameterCount).Select((i, it) => new TemplateTypenameSyntax($"T{i}", IdentifierSyntax.Void));
         ClassSyntax node = new ClassSyntax(Root.Name, Root.Kind != TypeKind.Struct) { 
           Template = new TemplateSyntax(parameters),
-          Kind = Root.Kind == TypeKind.Struct ? ClassKind.None : ClassKind.MultiClassForward,
+          Kind = Root.IsRefType() ? ClassKind.MultiRefForward : ClassKind.None,
         };
         ns.Add(node);
       }
@@ -138,8 +138,8 @@ namespace Meson.Compiler {
     }
 
     private ClassKind GetClassKind(ITypeDefinition type) {
-      if (type.Kind == TypeKind.Struct) {
-        return IsMulti ? ClassKind.MultiStruct : ClassKind.None;
+      if (!type.IsRefType()) {
+        return IsMulti ? ClassKind.Multi : ClassKind.None;
       }
 
       if (type.IsArrayType()) {
@@ -147,10 +147,10 @@ namespace Meson.Compiler {
       }
 
       if (IsMulti) {
-        return ClassKind.MultiClass;
+        return ClassKind.MultiRef;
       }
 
-      return type.IsStatic ? ClassKind.None : ClassKind.Ref;
+      return ClassKind.Ref;
     }
 
     private void VistClass(BlockSyntax parnet, ITypeDefinition type) {
@@ -170,7 +170,7 @@ namespace Meson.Compiler {
       foreach (var field in typeDefinition.Fields) {
         if (!field.Name.StartsWith('<')) {
           ExpressionSyntax typeName = null;
-          if (typeDefinition.IsValueType() && !field.IsStatic && field.Type == typeDefinition) {
+          if (typeDefinition.Kind == TypeKind.Struct && !field.IsStatic && field.Type == typeDefinition) {
             string name = innerValueTypeNames_.GetOrDefault(field.Type.FullName);
             if (name != null) {
               typeName = (IdentifierSyntax)name;
