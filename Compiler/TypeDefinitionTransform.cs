@@ -53,7 +53,10 @@ namespace Meson.Compiler {
       if (IsMulti) {
         int typeParameterCount = roots_.Last().TypeParameterCount + 1;
         var parameters = Enumerable.Range(0, typeParameterCount).Select((i, it) => new TemplateTypenameSyntax($"T{i}", IdentifierSyntax.Void));
-        ClassSyntax node = new ClassSyntax(Root.Name, Root.Kind == TypeKind.Class) { Template = new TemplateSyntax(parameters) };
+        ClassSyntax node = new ClassSyntax(Root.Name, Root.Kind != TypeKind.Struct) { 
+          Template = new TemplateSyntax(parameters),
+          Kind = Root.Kind == TypeKind.Struct ? ClassKind.None : ClassKind.MultiClassForward,
+        };
         ns.Add(node);
       }
 
