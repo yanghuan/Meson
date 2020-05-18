@@ -6,6 +6,10 @@ CLASS(AAA) {
 
 };
 
+CLASS(AA, T1, T2) {
+
+};
+
 using namespace System;
 
 
