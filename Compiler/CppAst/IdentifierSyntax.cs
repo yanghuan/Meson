@@ -33,22 +33,22 @@ namespace Meson.Compiler.CppAst {
   }
 
   internal class GenericIdentifierSyntax : IdentifierSyntax {
-    public IdentifierSyntax Identifier { get; }
+    public ExpressionSyntax Name { get; }
     public string OpenBrace => Tokens.Less;
     public readonly SyntaxList<ExpressionSyntax> GenericArguments = new SyntaxList<ExpressionSyntax>();
     public string CloseBrace => Tokens.Greater;
 
-    public GenericIdentifierSyntax(IdentifierSyntax identifier) {
-      Identifier = identifier;
+    public GenericIdentifierSyntax(ExpressionSyntax name) {
+      Name = name;
     }
 
-    public GenericIdentifierSyntax(IdentifierSyntax identifier, IEnumerable<ExpressionSyntax> args) {
-      Identifier = identifier;
+    public GenericIdentifierSyntax(ExpressionSyntax name, IEnumerable<ExpressionSyntax> args) {
+      Name = name;
       GenericArguments.AddRange(args);
     }
 
-    public GenericIdentifierSyntax(IdentifierSyntax identifier, params ExpressionSyntax[] args) {
-      Identifier = identifier;
+    public GenericIdentifierSyntax(ExpressionSyntax name, params ExpressionSyntax[] args) {
+      Name = name;
       GenericArguments.AddRange(args);
     }
 

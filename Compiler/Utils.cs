@@ -131,6 +131,13 @@ namespace Meson.Compiler {
       return type.Name + "__";
     }
 
+    public static IType Original(this IType type) {
+      if (type is NullabilityAnnotatedType t) {
+        type = t.TypeWithoutAnnotation;
+      }
+      return type;
+    }
+
     public static IEnumerable<IType> GetTypeArguments(this IType type) {
       if (type.TypeArguments.Count > 0) {
         ParameterizedType parameterizedType = (ParameterizedType)type;

@@ -12,7 +12,6 @@ namespace Meson.Compiler {
     private static readonly Encoding Encoding = new UTF8Encoding(false);
     private const string IndentString = "  ";
 
-    private TypeDefinitionTransform transform_;
     private string outDir_;
     private ITypeDefinition rootType_;
     private StreamWriter writer_;
@@ -22,10 +21,9 @@ namespace Meson.Compiler {
     private int singleLineCounter_;
     private bool IsSingleLine => singleLineCounter_ > 0;
 
-    public CppRenderer(TypeDefinitionTransform transform, string outDir, ITypeDefinition rootType) {
-      transform_ = transform;
-      outDir_ = outDir;
+    public CppRenderer(ITypeDefinition rootType, string outDir) {
       rootType_ = rootType;
+      outDir_ = outDir;
     }
 
     private string FolderPath {
@@ -355,7 +353,7 @@ namespace Meson.Compiler {
     }
 
     internal void Render(GenericIdentifierSyntax node) {
-      node.Identifier.Render(this);
+      node.Name.Render(this);
       Write(node.OpenBrace);
       WriteSeparatedSyntaxList(node.GenericArguments);
       Write(node.CloseBrace);

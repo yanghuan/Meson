@@ -24,32 +24,19 @@ namespace Meson.Compiler {
       ["System.Double"] = "double",
     };
 
-    public AssemblyTransform AssemblyTransform { get; }
     private List<ITypeDefinition> roots_;
-    private CompilationUnitSyntax compilationUnit_;
-    private HashSet<string> includes_ = new HashSet<string>();
-    private HashSet<string> usings_ = new HashSet<string>();
+    private CompilationUnitTransform compilationUnit_;
+    public AssemblyTransform AssemblyTransform => compilationUnit_.AssemblyTransform;
     private bool IsMulti => roots_.Count > 1;
-
-    public TypeDefinitionTransform(AssemblyTransform assemblyTransform, IEnumerable<ITypeDefinition> types) {
-      AssemblyTransform = assemblyTransform;
-      roots_ = types.ToList();
-      VisitCompilationUnit();
-    }
-
     private ITypeDefinition Root => roots_.First();
 
-    internal void Write(string outDir) {
-      CppRenderer rener = new CppRenderer(this, outDir, Root);
-      compilationUnit_.Render(rener);
+    public TypeDefinitionTransform(CompilationUnitTransform compilationUnit, BlockSyntax parent, IEnumerable<ITypeDefinition> types) {
+      compilationUnit_ = compilationUnit;
+      roots_ = types.ToList();
+      Visit(parent);
     }
 
-    private void VisitCompilationUnit() {
-      compilationUnit_ = new CompilationUnitSyntax();
-      var ns = compilationUnit_.AddNamespace(Root.Namespace);
-      var usingsSyntax = new StatementListSyntax();
-      ns.Add(usingsSyntax);
-
+    private void Visit(BlockSyntax parent) {
       if (IsMulti) {
         int typeParameterCount = roots_.Last().TypeParameterCount + 1;
         var parameters = Enumerable.Range(0, typeParameterCount).Select((i, it) => new TemplateTypenameSyntax($"T{i + 1}", IdentifierSyntax.Void));
@@ -57,27 +44,11 @@ namespace Meson.Compiler {
           Template = new TemplateSyntax(parameters),
           Kind = Root.IsRefType() ? ClassKind.MultiRefForward : ClassKind.None,
         };
-        ns.Add(node);
+        parent.Add(node);
       }
 
       foreach (var root in roots_) {
-        VisitTypeDefinition(ns.Current, root);
-      }
-
-      if (Root.Kind != TypeKind.Enum) {
-        var includes = includes_.ToList();
-        includes.Sort();
-        compilationUnit_.AddHeadIncludes(includes);
-        var usings = usings_.ToList();
-        usings.Sort();
-        foreach (string i in usings) {
-          usingsSyntax.Add(new UsingNamespaceSyntax(i.Replace(Tokens.Dot, Tokens.TwoColon)));
-        }
-
-        if (Root.Kind != TypeKind.Interface) {
-          compilationUnit_.AddSrcInclude(Root.GetIncludeString(), false);
-          compilationUnit_.AddSrcStatement(BlankLinesStatement.One);
-        }
+        VisitTypeDefinition(parent, root);
       }
     }
 
@@ -177,7 +148,6 @@ namespace Meson.Compiler {
             }
           }
           if (typeName == null) {
-            field.GetAttributes();
             typeName = GetFieldTypeName(field, typeDefinition, references);
           }
           node.Statements.Add(new FieldDefinitionSyntax(typeName, field.Name, field.IsStatic, field.Accessibility.ToTokenString()));
@@ -191,10 +161,7 @@ namespace Meson.Compiler {
         if (attr != null) {
           var type = (IType)attr.FixedArguments[0].Value;
           int size = (int)attr.FixedArguments[1].Value;
-          return new GenericIdentifierSyntax(
-            IdentifierSyntax.FixedBuffer,
-            GetTypeName(type, typeDefinition, references),
-            (IdentifierSyntax)size.ToString());
+          return new GenericIdentifierSyntax(IdentifierSyntax.FixedBuffer, GetTypeName(type, typeDefinition, references), (IdentifierSyntax)size.ToString());
         }
       }
       return GetTypeName(field.Type, typeDefinition, references);
@@ -229,14 +196,17 @@ namespace Meson.Compiler {
         }
       }
 
+      if (type.Kind == TypeKind.Class && AssemblyTransform.IsVoidGenericType(type.Original())) {
+        result = new GenericIdentifierSyntax(result, IdentifierSyntax.Void);
+      }
+
       return result;
     }
 
     private void VisitTypes(ITypeDefinition type, ClassSyntax node) {
-      foreach (var nestedType in type.NestedTypes) {
-        if (!nestedType.Name.StartsWith('<')) {
-          VisitTypeDefinition(node, nestedType);
-        }
+      var group = type.NestedTypes.Where(i => !i.Name.StartsWith('<')).GroupBy(i => i.Name);
+      foreach (var types in group) {
+        new TypeDefinitionTransform(compilationUnit_, node, types);
       }
     }
 
@@ -250,9 +220,9 @@ namespace Meson.Compiler {
     private void AddReferences(ITypeDefinition type, HashSet<IType> references) {
       foreach (var reference in references) {
         if (type != reference && reference is IEntity entity) {
-          includes_.Add(entity.GetIncludeString());
+          compilationUnit_.AddInclude(entity.GetIncludeString());
           if (!string.IsNullOrEmpty(entity.Namespace) && entity.Namespace != type.Namespace) {
-            usings_.Add(entity.Namespace);
+            compilationUnit_.AddUsing(entity.Namespace);
           }
         }
       }
