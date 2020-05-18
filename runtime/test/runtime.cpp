@@ -2,71 +2,48 @@
 //
 
 #include "runtime.h"
-#include <rt/GCobject.h>
+#include <System.Private.CoreLib/System/ValueTuple.h>
 
-CLASS(String) : public meson::String{
+#include <iostream>
 
-};
-
-#if 1
-CLASS(A) {
-
-};
-
-CLASS_(AA, T0, T1) {
-
-};
-#endif
-
-template <class T0 = void, class T1 = void, class T3 = void, class T4 = void>
-struct C {
-  C() {
-    std::cout << "C" << std::endl;
+template <class T0 = void, class T1 = void, class T2 = void>
+struct Action {
+  Action() {
+    std::cout << "-1" << std::endl;
   }
 };
+
+template <class T0 = void, class T1 = void, class T2 = void>
+using Act = Action<T0, T1, T2>;
 
 template <>
-struct C<> {
-  C() {
-    std::cout << "C0" << std::endl;
+struct Action<> {
+  Action() {
+    std::cout << "0" << std::endl;
   }
 };
-
 template <class T>
-struct C<T> {
-  C() {
-    std::cout << "C1" << std::endl;
+struct Action<T> {
+  Action() {
+    std::cout << "1" << std::endl;
+  }
+};
+template <class T1, class T2>
+struct Action<T1, T2> {
+  Action() {
+    std::cout << "2" << std::endl;
   }
 };
 
-template <class T, class T1>
-struct C<T, T1> {
-  C() {
-    std::cout << "C2" << std::endl;
-  }
-};
+void f() {
+  Act<> a;
+  Act<int> aa;
+  Act<int, int> aaaa;
 
-template <class T, class T1, class T2>
-struct C<T, T1, T2> {
-  C() {
-    std::cout << "C3" << std::endl;
-  }
-};
-
-
-
-
+}
 
 int main()
 {
-  C c;
-  C<int> d;
-  C<int, int> e;
-  C<int, int, int> f;
-
-  String a = "Hello CMake.";
-  std::cout << a->c_str() << std::endl;
-
-
+  f();
   return 0;
 }

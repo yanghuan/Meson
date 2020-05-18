@@ -13,7 +13,7 @@ namespace Meson.Compiler {
       ["System.Byte"] = "uint8_t",
       ["System.SByte"] = "int8_t",
       ["System.Boolean"] = "bool",
-      ["System.Char"] = "char",
+      ["System.Char"] = "unsigned char",
       ["System.Int16"] = "int16_t",
       ["System.UInt16"] = "uint16_t",
       ["System.Int32"] = "int32_t",
@@ -29,6 +29,7 @@ namespace Meson.Compiler {
     private CompilationUnitSyntax compilationUnit_;
     private HashSet<string> includes_ = new HashSet<string>();
     private HashSet<string> usings_ = new HashSet<string>();
+    private bool IsMulti => roots_.Count > 1;
 
     public TypeDefinitionTransform(AssemblyTransform assemblyTransform, IEnumerable<ITypeDefinition> types) {
       AssemblyTransform = assemblyTransform;
@@ -48,6 +49,16 @@ namespace Meson.Compiler {
       var ns = compilationUnit_.AddNamespace(Root.Namespace);
       var usingsSyntax = new StatementListSyntax();
       ns.Add(usingsSyntax);
+
+      if (IsMulti) {
+        int typeParameterCount = roots_.Last().TypeParameterCount + 1;
+        var parameters = Enumerable.Range(0, typeParameterCount).Select((i, it) => new TemplateTypenameSyntax($"T{i + 1}", IdentifierSyntax.Void));
+        ClassSyntax node = new ClassSyntax(Root.Name, Root.Kind != TypeKind.Struct) { 
+          Template = new TemplateSyntax(parameters),
+          Kind = Root.IsRefType() ? ClassKind.MultiRefForward : ClassKind.None,
+        };
+        ns.Add(node);
+      }
 
       foreach (var root in roots_) {
         VisitTypeDefinition(ns.Current, root);
@@ -118,16 +129,35 @@ namespace Meson.Compiler {
 
     private void VisitStruct(BlockSyntax parnet, ITypeDefinition type) {
       var template = BuildTemplateSyntax(type);
-      ClassSyntax node = new ClassSyntax(type.Name, false) { Template = template };
+      ClassSyntax node = new ClassSyntax(type.Name, false) {
+        Template = template,
+        Kind = GetClassKind(type),
+      };
       VisitMembers(parnet, type, node);
       parnet.Add(node);
+    }
+
+    private ClassKind GetClassKind(ITypeDefinition type) {
+      if (!type.IsRefType()) {
+        return IsMulti ? ClassKind.Multi : ClassKind.None;
+      }
+
+      if (type.IsArrayType()) {
+        return ClassKind.Array;
+      }
+
+      if (IsMulti) {
+        return ClassKind.MultiRef;
+      }
+
+      return ClassKind.Ref;
     }
 
     private void VistClass(BlockSyntax parnet, ITypeDefinition type) {
       var template = BuildTemplateSyntax(type);
       ClassSyntax node = new ClassSyntax(type.Name) {
         Template = template,
-        Kind = type.IsArrayType() ? ClassKind.Array : ClassKind.Ref,
+        Kind = GetClassKind(type),
       };
       if (type.IsStringType() || type.IsObjectType()) {
         node.Bases.Add(new BaseSyntax(new MemberAccessExpressionSyntax(IdentifierSyntax.Meson, (IdentifierSyntax)type.Name, MemberAccessOperator.TwoColon)));
@@ -140,7 +170,7 @@ namespace Meson.Compiler {
       foreach (var field in typeDefinition.Fields) {
         if (!field.Name.StartsWith('<')) {
           ExpressionSyntax typeName = null;
-          if (typeDefinition.IsValueType() && !field.IsStatic && field.Type == typeDefinition) {
+          if (typeDefinition.Kind == TypeKind.Struct && !field.IsStatic && field.Type == typeDefinition) {
             string name = innerValueTypeNames_.GetOrDefault(field.Type.FullName);
             if (name != null) {
               typeName = (IdentifierSyntax)name;

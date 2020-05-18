@@ -242,6 +242,12 @@ namespace Meson.Compiler {
       Write(node.ClassToken);
       WriteSpace();
       node.Name.Render(this);
+      if (node.Value != null) {
+        WriteSpace();
+        Write(node.EqualsToken);
+        WriteSpace();
+        node.Value.Render(this);
+      }
     }
 
     internal void Render(TemplateSyntax node) {
@@ -265,21 +271,19 @@ namespace Meson.Compiler {
           node.Template?.Render(this);
           Write(node.ClassOrStructToken);
           WriteSpace();
-          Write(node.Name);
+          node.Name.Render(this);
           break;
         }
+        case ClassKind.MultiRef:
         case ClassKind.Ref: {
+          Write(node.Kind == ClassKind.Ref ? "CLASS" : "CLASS_MULTI");
+          Write(Tokens.OpenParentheses);
           if (node.Template != null) {
-            Write("CLASS_");
-            Write(Tokens.OpenParentheses);
             WriteSeparatedSyntaxList(new IdentifierSyntax[] { node.Name }.Concat(node.Template.Arguments.OfType<TemplateTypenameSyntax>().Select(i => i.Name)));
-            Write(Tokens.CloseParentheses);
           } else {
-            Write("CLASS");
-            Write(Tokens.OpenParentheses);
-            Write(node.Name);
-            Write(Tokens.CloseParentheses);
+            node.Name.Render(this);
           }
+          Write(Tokens.CloseParentheses);
           break;
         }
         case ClassKind.Array: {
@@ -288,6 +292,19 @@ namespace Meson.Compiler {
           Write(Tokens.OpenParentheses);
           Render((BlockSyntax)node);
           Write(Tokens.CloseParentheses);
+          Write(Tokens.CloseParentheses);
+          WriteNewLine();
+          return;
+        }
+        case ClassKind.Multi: {
+          node.Template ??= new TemplateSyntax();
+          node.Name = new GenericIdentifierSyntax(node.Name, node.Template.Arguments.OfType<TemplateTypenameSyntax>().Select(i => i.Name));
+          goto case ClassKind.None;
+        }
+        case ClassKind.MultiRefForward: {
+          Write("CLASS_MULTI_FORWARD");
+          Write(Tokens.OpenParentheses);
+          WriteSeparatedSyntaxList(new IdentifierSyntax[] { node.Name }.Concat(node.Template.Arguments.OfType<TemplateTypenameSyntax>().Select(i => i.Name)));
           Write(Tokens.CloseParentheses);
           WriteNewLine();
           return;
