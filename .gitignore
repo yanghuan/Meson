@@ -341,6 +341,7 @@ healthchecksdb
 
 
 **/Properties/
+build/
 runtime/out/
 runtime/outcpp/*/*.h
 runtime/outcpp/*/*.cpp
