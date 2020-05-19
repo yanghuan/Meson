@@ -70,7 +70,7 @@ namespace Meson.Compiler {
     }
 
     private void VistEnum(BlockSyntax parnet, ITypeDefinition type) {
-      EnumSyntax enumNode = new EnumSyntax(type.Name);
+      EnumSyntax enumNode = new EnumSyntax(type.Name) { AccessibilityToken = type.GetAccessibilityString() };
       if (!type.EnumUnderlyingType.IsIntType()) {
         enumNode.UnderlyingType = innerValueTypeNames_[type.EnumUnderlyingType.FullName];
       }
@@ -103,6 +103,7 @@ namespace Meson.Compiler {
       ClassSyntax node = new ClassSyntax(type.Name, false) {
         Template = template,
         Kind = GetClassKind(type),
+        AccessibilityToken = type.GetAccessibilityString(),
       };
       VisitMembers(parnet, type, node);
       parnet.Add(node);
@@ -129,6 +130,7 @@ namespace Meson.Compiler {
       ClassSyntax node = new ClassSyntax(type.Name) {
         Template = template,
         Kind = GetClassKind(type),
+        AccessibilityToken = type.GetAccessibilityString(),
       };
       if (type.IsStringType() || type.IsObjectType()) {
         node.Bases.Add(new BaseSyntax(new MemberAccessExpressionSyntax(IdentifierSyntax.Meson, (IdentifierSyntax)type.Name, MemberAccessOperator.TwoColon)));

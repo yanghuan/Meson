@@ -206,7 +206,16 @@ namespace Meson.Compiler {
       }
     }
 
+    private void WriteAccessibility(string token) {
+      if (!string.IsNullOrEmpty(token)) {
+        Write(token);
+        WriteColon();
+        WriteSpace();
+      }
+    }
+
     internal void Render(EnumSyntax node) {
+      WriteAccessibility(node.AccessibilityToken);
       Write(node.EnumToekn);
       WriteSpace();
       Write(node.ClassToekn);
@@ -264,6 +273,7 @@ namespace Meson.Compiler {
     }
 
     internal void Render(ClassSyntax node) {
+      WriteAccessibility(node.AccessibilityToken);
       switch (node.Kind) {
         case ClassKind.None: {
           node.Template?.Render(this);
@@ -322,9 +332,7 @@ namespace Meson.Compiler {
     }
 
     internal void Render(FieldDefinitionSyntax node) {
-      Write(node.AccessibilityToken);
-      WriteColon();
-      WriteSpace();
+      WriteAccessibility(node.AccessibilityToken);
       if (node.IsStatic) {
         Write(Tokens.Static);
         WriteSpace();

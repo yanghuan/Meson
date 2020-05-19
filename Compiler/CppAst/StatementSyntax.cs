@@ -139,6 +139,7 @@ namespace Meson.Compiler.CppAst {
   }
 
   internal sealed class EnumSyntax : BlockSyntax {
+    public string AccessibilityToken { get; set; }
     public string EnumToekn => Tokens.Enum;
     public string ClassToekn => Tokens.Class;
     public IdentifierSyntax UnderlyingType { get; set; }
@@ -241,6 +242,7 @@ namespace Meson.Compiler.CppAst {
   }
 
   internal sealed class ClassSyntax : BlockSyntax {
+    public string AccessibilityToken { get; set; }
     public TemplateSyntax Template { get; set; }
     public string ClassOrStructToken => IsClassOrStruct ? Tokens.Class : Tokens.Struct;
     public IdentifierSyntax Name { set; get; }

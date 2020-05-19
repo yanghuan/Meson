@@ -127,10 +127,6 @@ namespace Meson.Compiler {
       return ((ITypeDefinition)type).KnownTypeCode == KnownTypeCode.Int32;
     }
 
-    public static string GetArrayName(this IType type) {
-      return type.Name + "__";
-    }
-
     public static IType Original(this IType type) {
       if (type is NullabilityAnnotatedType t) {
         type = t.TypeWithoutAnnotation;
@@ -140,19 +136,12 @@ namespace Meson.Compiler {
 
     public static IEnumerable<IType> GetTypeArguments(this IType type) {
       if (type.TypeArguments.Count > 0) {
-        ParameterizedType parameterizedType = (ParameterizedType)type;
-        foreach (var typeArgument in type.TypeArguments) {
-          bool isSkip = false;
-          if (typeArgument is NullabilityAnnotatedTypeParameter parameter) {
-            if (parameter.OriginalTypeParameter.Owner != parameterizedType.GenericType) {
-              isSkip = true;
-            }
-          }
-          if (!isSkip) {
-            yield return typeArgument;
-          }
-        }
+        var parameterizedType = (ParameterizedType)type;
+        var genericType = parameterizedType.GenericType.Original();
+        int skipCount = genericType.TypeParameters.Count(i => i.Owner != genericType);
+        return type.TypeArguments.Skip(skipCount);
       }
+      return Array.Empty<IType>();
     }
 
     public static IEnumerable<IType> GetTypeParameters(this ITypeDefinition type) {
@@ -169,6 +158,10 @@ namespace Meson.Compiler {
 
     public static bool IsArrayType(this ITypeDefinition type) {
       return type.KnownTypeCode == KnownTypeCode.Array;
+    }
+
+    public static string GetAccessibilityString(this ITypeDefinition type) {
+      return type.DeclaringType != null ? type.Accessibility.ToTokenString() : null;
     }
 
     public static string ToTokenString(this Accessibility a) {
