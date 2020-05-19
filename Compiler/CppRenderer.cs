@@ -367,6 +367,11 @@ namespace Meson.Compiler {
       Write(node.CloseBrace);
     }
 
+    internal void Render(PointerIdentifierSyntax node) {
+      node.Name.Render(this);
+      Write(node.Asterisk);
+    }
+
     internal void Render(MemberAccessExpressionSyntax node) {
       node.Expression.Render(this);
       Write(node.OperatorToken);

@@ -170,15 +170,18 @@ namespace Meson.Compiler {
     }
 
     private ExpressionSyntax GetTypeName(IType type, ITypeDefinition typeDefinition, HashSet<IType> references) {
-      if (type.DeclaringType == null) {
-        references.Add(type.GetReferenceType());
-      }
+      references.Add(type.GetReferenceType());
 
       switch (type.Kind) {
         case TypeKind.Array: {
           ArrayType arrayType = (ArrayType)type;
           var elementType = GetTypeName(arrayType.ElementType, typeDefinition, references);
           return new GenericIdentifierSyntax(IdentifierSyntax.array, elementType);
+        }
+        case TypeKind.Pointer: {
+          PointerType pointerType = (PointerType)type;
+          var elementType = GetTypeName(pointerType.ElementType, typeDefinition, references);
+          return new PointerIdentifierSyntax(elementType);
         }
       }
 

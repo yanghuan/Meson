@@ -56,4 +56,17 @@ namespace Meson.Compiler.CppAst {
       renderer.Render(this);
     }
   }
+
+  internal sealed class PointerIdentifierSyntax : IdentifierSyntax {
+    public ExpressionSyntax Name { get; }
+    public string Asterisk => Tokens.Asterisk;
+
+    public PointerIdentifierSyntax(ExpressionSyntax name) {
+      Name = name;
+    }
+
+    internal override void Render(CppRenderer renderer) {
+      renderer.Render(this);
+    }
+  }
 }

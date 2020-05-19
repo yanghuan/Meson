@@ -87,11 +87,14 @@ namespace Meson.Compiler {
     }
 
     public static IType GetReferenceType(this IType type) {
+      if (type.DeclaringType != null) {
+        return type.DeclaringType.GetReferenceType();
+      }
       return type switch {
         NullabilityAnnotatedType nullableType => nullableType.TypeWithoutAnnotation,
         ArrayType arrayType => arrayType.DirectBaseTypes.First(),
-        PointerType pointerType => pointerType.ElementType,
-        ParameterizedType t => GetReferenceType(t.GenericType),
+        PointerType pointerType => pointerType.ElementType.GetReferenceType(),
+        ParameterizedType t => t.GenericType.GetReferenceType(),
         _ => type,
       };
     }
