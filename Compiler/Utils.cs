@@ -100,9 +100,9 @@ namespace Meson.Compiler {
       };
     }
 
-    public static string GetIncludeString(this IEntity entity) {
-      string[] parts = new string[] { entity.ParentModule.Name }.Concat(entity.Namespace.Split('.')).ToArray();
-      return $"{string.Join('/', parts)}/{entity.Name}.h";
+    public static string GetReferenceIncludeString(this ITypeDefinition reference) {
+      string[] parts = new string[] { reference.ParentModule.Name }.Concat(reference.Namespace.Split('.')).ToArray();
+      return $"{string.Join('/', parts)}/{reference.Name}.h";
     }
 
     public static string GetIncludeString(this ITypeDefinition type) {

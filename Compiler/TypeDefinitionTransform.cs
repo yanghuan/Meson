@@ -29,6 +29,7 @@ namespace Meson.Compiler {
     public AssemblyTransform AssemblyTransform => compilationUnit_.AssemblyTransform;
     private bool IsMulti => roots_.Count > 1;
     private ITypeDefinition Root => roots_.First();
+    private HashSet<ITypeDefinition> references_ = new HashSet<ITypeDefinition>();
 
     public TypeDefinitionTransform(CompilationUnitTransform compilationUnit, BlockSyntax parent, IEnumerable<ITypeDefinition> types) {
       compilationUnit_ = compilationUnit;
@@ -49,6 +50,17 @@ namespace Meson.Compiler {
 
       foreach (var root in roots_) {
         VisitTypeDefinition(parent, root);
+      }
+
+      AddReferences();
+    }
+
+    private void AddReferences() {
+      foreach (var reference in references_) {
+        compilationUnit_.AddInclude(reference.GetReferenceIncludeString());
+        if (!string.IsNullOrEmpty(reference.Namespace) && !Root.Namespace.StartsWith(reference.Namespace)) {
+          compilationUnit_.AddUsing(reference.Namespace);
+        }
       }
     }
 
@@ -139,7 +151,7 @@ namespace Meson.Compiler {
       parnet.Add(node);
     }
 
-    private void VisitFields(ITypeDefinition typeDefinition, ClassSyntax node, HashSet<IType> references) {
+    private void VisitFields(ITypeDefinition typeDefinition, ClassSyntax node) {
       foreach (var field in typeDefinition.Fields) {
         if (!field.Name.StartsWith('<')) {
           ExpressionSyntax typeName = null;
@@ -150,40 +162,48 @@ namespace Meson.Compiler {
             }
           }
           if (typeName == null) {
-            typeName = GetFieldTypeName(field, typeDefinition, references);
+            typeName = GetFieldTypeName(field, typeDefinition);
           }
           node.Statements.Add(new FieldDefinitionSyntax(typeName, field.Name, field.IsStatic, field.Accessibility.ToTokenString()));
         }
       }
     }
 
-    private ExpressionSyntax GetFieldTypeName(IField field, ITypeDefinition typeDefinition, HashSet<IType> references) {
+    private ExpressionSyntax GetFieldTypeName(IField field, ITypeDefinition typeDefinition) {
       if (field.Type.Name.StartsWith('<')) {
         var attr = field.GetAttribute(KnownAttribute.FixedBuffer);
         if (attr != null) {
           var type = (IType)attr.FixedArguments[0].Value;
           int size = (int)attr.FixedArguments[1].Value;
-          return new GenericIdentifierSyntax(IdentifierSyntax.FixedBuffer, GetTypeName(type, typeDefinition, references), (IdentifierSyntax)size.ToString());
+          return new GenericIdentifierSyntax(IdentifierSyntax.FixedBuffer, GetTypeName(type, typeDefinition), (IdentifierSyntax)size.ToString());
         }
       }
-      return GetTypeName(field.Type, typeDefinition, references);
+      return GetTypeName(field.Type, typeDefinition);
     }
 
-    private ExpressionSyntax GetTypeName(IType type, ITypeDefinition typeDefinition, HashSet<IType> references) {
+    private ExpressionSyntax GetTypeName(IType type, ITypeDefinition typeDefinition) {
       var referenceType = type.GetReferenceType();
-      if (!referenceType.Equals(typeDefinition)) {
-        references.Add(referenceType);
+      if (referenceType.Kind != TypeKind.TypeParameter) {
+        var rootType = typeDefinition.GetReferenceType();
+        if (!referenceType.Equals(rootType)) {
+          var referenceTypeDefinition = referenceType.ToTypeDefinition();
+          references_.Add(referenceTypeDefinition);
+          bool isExists = referenceTypeDefinition.IsMemberTypeExists(rootType.ToTypeDefinition());
+          if (isExists) {
+
+          }
+        }
       }
 
       switch (type.Kind) {
         case TypeKind.Array: {
           ArrayType arrayType = (ArrayType)type;
-          var elementType = GetTypeName(arrayType.ElementType, typeDefinition, references);
+          var elementType = GetTypeName(arrayType.ElementType, typeDefinition);
           return new GenericIdentifierSyntax(IdentifierSyntax.array, elementType);
         }
         case TypeKind.Pointer: {
           PointerType pointerType = (PointerType)type;
-          var elementType = GetTypeName(pointerType.ElementType, typeDefinition, references);
+          var elementType = GetTypeName(pointerType.ElementType, typeDefinition);
           return new PointerIdentifierSyntax(elementType);
         }
       }
@@ -191,7 +211,7 @@ namespace Meson.Compiler {
       var typeName = new ValueTextIdentifierSyntax(type.Name);
       ExpressionSyntax result = typeName;
       if (type.TypeArguments.Count > 0) {
-        var typeArguments = type.GetTypeArguments().Select(i => GetTypeName(i, typeDefinition, references)).ToList();
+        var typeArguments = type.GetTypeArguments().Select(i => GetTypeName(i, typeDefinition)).ToList();
         if (typeArguments.Count > 0) {
           result = new GenericIdentifierSyntax(typeName, typeArguments);
         }
@@ -199,7 +219,7 @@ namespace Meson.Compiler {
 
       if (type.DeclaringType != null && !typeDefinition.IsInternal(type)) {
         var declaringType = type.DeclaringType.ToTypeDefinition();
-        var outTypeName = GetTypeName(type.DeclaringType, typeDefinition, references);
+        var outTypeName = GetTypeName(type.DeclaringType, typeDefinition);
         if (declaringType.IsRefType()) {
           outTypeName = outTypeName.TwoColon(IdentifierSyntax.In);
         }
@@ -255,21 +275,7 @@ namespace Meson.Compiler {
 
     private void VisitMembers(BlockSyntax parnet, ITypeDefinition type, ClassSyntax node) {
       VisitTypes(type, node);
-      HashSet<IType> references = new HashSet<IType>();
-      VisitFields(type, node, references);
-      AddReferences(type, references);
+      VisitFields(type, node);
     }
-
-    private void AddReferences(ITypeDefinition type, HashSet<IType> references) {
-      foreach (var reference in references) {
-        if (reference is IEntity entity) {
-          compilationUnit_.AddInclude(entity.GetIncludeString());
-          if (!string.IsNullOrEmpty(entity.Namespace) && !type.Namespace.StartsWith(entity.Namespace)) {
-            compilationUnit_.AddUsing(entity.Namespace);
-          }
-        }
-      }
-    }
-
   }
 }
