@@ -170,7 +170,10 @@ namespace Meson.Compiler {
     }
 
     private ExpressionSyntax GetTypeName(IType type, ITypeDefinition typeDefinition, HashSet<IType> references) {
-      references.Add(type.GetReferenceType());
+      var referenceType = type.GetReferenceType();
+      if (!referenceType.Equals(typeDefinition)) {
+        references.Add(referenceType);
+      }
 
       switch (type.Kind) {
         case TypeKind.Array: {
@@ -259,7 +262,7 @@ namespace Meson.Compiler {
 
     private void AddReferences(ITypeDefinition type, HashSet<IType> references) {
       foreach (var reference in references) {
-        if (type != reference && reference is IEntity entity) {
+        if (reference is IEntity entity) {
           compilationUnit_.AddInclude(entity.GetIncludeString());
           if (!string.IsNullOrEmpty(entity.Namespace) && !type.Namespace.StartsWith(entity.Namespace)) {
             compilationUnit_.AddUsing(entity.Namespace);
