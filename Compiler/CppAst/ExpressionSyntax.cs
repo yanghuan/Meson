@@ -4,6 +4,9 @@ using System.Text;
 
 namespace Meson.Compiler.CppAst {
   internal abstract class ExpressionSyntax : SyntaxNode {
+    internal MemberAccessExpressionSyntax TwoColon(ExpressionSyntax expression) {
+      return new MemberAccessExpressionSyntax(this, expression, MemberAccessOperator.TwoColon);
+    }
   }
 
   internal enum MemberAccessOperator {

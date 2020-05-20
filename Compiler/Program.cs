@@ -1,6 +1,7 @@
 using CommandLine;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 
 namespace Meson.Compiler {
   class Options {
@@ -14,8 +15,14 @@ namespace Meson.Compiler {
     }
 
     private static void Run(Options opts) {
-      DoSelfDll(opts);
+      Stopwatch sw = new Stopwatch();
+      sw.Start();
+
+      //DoSelfDll(opts);
       DoSystemDll(opts);
+
+      double seconds = sw.Elapsed.TotalSeconds;
+      Console.WriteLine("successful, cast {0}s", seconds);
     }
 
     private static void DoSelfDll(Options opts) {

@@ -14,6 +14,7 @@ namespace Meson.Compiler.CppAst {
     public static readonly IdentifierSyntax FixedBuffer = "rt::FixedBuffer";
     public static readonly IdentifierSyntax Void = "void";
     public static readonly IdentifierSyntax T = "T";
+    public static readonly IdentifierSyntax In = "in";
 
     public GenericIdentifierSyntax WithGeneric(TemplateSyntax template) {
       return new GenericIdentifierSyntax(this, template.Arguments.OfType<TemplateTypenameSyntax>().Select(i => i.Name));

@@ -9,7 +9,7 @@
 #include <boost/preprocessor/variadic/to_seq.hpp>
 
 #define NAME_(s, c, l) BOOST_PP_CAT(BOOST_PP_CAT(BOOST_PP_CAT(s, c), _), l)
-#define NAME(s) NAME_(s, __COUNTER__, __LINE__)
+#define NAME(s) NAME_(s, _, _)
 
 #define CLASS0_(n, name) \
   class name;\

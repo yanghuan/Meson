@@ -90,7 +90,8 @@ namespace Meson.Compiler {
       if (type.DeclaringType != null) {
         return type.DeclaringType.GetReferenceType();
       }
-      return type switch {
+      return type switch
+      {
         NullabilityAnnotatedType nullableType => nullableType.TypeWithoutAnnotation,
         ArrayType arrayType => arrayType.DirectBaseTypes.First(),
         PointerType pointerType => pointerType.ElementType.GetReferenceType(),
@@ -108,14 +109,49 @@ namespace Meson.Compiler {
       return $"{type.Name}.h";
     }
 
-    public static bool IsSame(this ITypeDefinition definition, IType type) {
+    public static bool IsMemberTypeExists(this ITypeDefinition typeDefinition, ITypeDefinition memberType) {
+      foreach (var field in typeDefinition.Fields) {
+        if (memberType.Equals(field.Type)) {
+          return true;
+        }
+      }
+
+      foreach (var nestedType in typeDefinition.NestedTypes) {
+        if (nestedType.IsMemberTypeExists(memberType)) {
+          return true;
+        }
+      }
+      return false;
+    }
+
+    public static bool IsInternal(this ITypeDefinition typeDefinition, IType type) {
+      if (typeDefinition.IsSame(type)) {
+        return true;
+      }
+
+      if (typeDefinition.IsSame(type.DeclaringType)) {
+        return true;
+      }
+
+      IType declaringType = typeDefinition.DeclaringType;
+      while (declaringType != null) {
+        if (declaringType.Equals(type.DeclaringType)) {
+          return true;
+        }
+        declaringType = declaringType.DeclaringType;
+      }
+
+      return false;
+    }
+
+    private static bool IsSame(this ITypeDefinition typeDefinition, IType type) {
       if (type != null) {
         if (type is ITypeDefinition) {
-          return type == definition;
+          return type == typeDefinition;
         }
 
         if (type is ParameterizedType parameterizedType) {
-          return definition.IsSame(parameterizedType.GenericType);
+          return typeDefinition.IsSame(parameterizedType.GenericType);
         }
       }
 
@@ -124,6 +160,18 @@ namespace Meson.Compiler {
 
     public static bool IsRefType(this ITypeDefinition type) {
       return type.Kind != TypeKind.Struct && !type.IsStatic;
+    }
+
+    public static ITypeDefinition ToTypeDefinition(this IType type) {
+      if (type is ITypeDefinition typeDefinition) {
+        return typeDefinition;
+      }
+
+      if (type is ParameterizedType parameterizedType) {
+        return parameterizedType.GenericType.ToTypeDefinition();
+      }
+
+      throw new InvalidCastException();
     }
 
     public static bool IsIntType(this IType type) {

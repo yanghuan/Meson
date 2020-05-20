@@ -194,11 +194,13 @@ namespace Meson.Compiler {
         }
       }
 
-      if (type.DeclaringType != null) {
-        if (!typeDefinition.IsSame(type) && !typeDefinition.IsSame(type.DeclaringType)) {
-          var declaringType = GetTypeName(type.DeclaringType, typeDefinition, references);
-          return new MemberAccessExpressionSyntax(declaringType, result, MemberAccessOperator.TwoColon);
+      if (type.DeclaringType != null && !typeDefinition.IsInternal(type)) {
+        var declaringType = type.DeclaringType.ToTypeDefinition();
+        var outTypeName = GetTypeName(type.DeclaringType, typeDefinition, references);
+        if (declaringType.IsRefType()) {
+          outTypeName = outTypeName.TwoColon(IdentifierSyntax.In);
         }
+        return outTypeName.TwoColon(result);
       }
 
       if (type.Kind == TypeKind.Class && AssemblyTransform.IsVoidGenericType(type.Original())) {
@@ -208,8 +210,41 @@ namespace Meson.Compiler {
       return result;
     }
 
+    private static int CompareNestedType(ITypeDefinition type, ITypeDefinition x, ITypeDefinition y) {
+      if (x.IsMemberTypeExists(y)) {
+        return 1;
+      }
+
+      if (y.IsMemberTypeExists(x)) {
+        return -1;
+      }
+
+      int indexX = type.NestedTypes.IndexOf(x);
+      int indexY = type.NestedTypes.IndexOf(y);
+      return indexX.CompareTo(indexY);
+    }
+
+    private IEnumerable<ITypeDefinition> GetNestedTypes(ITypeDefinition type) {
+      if (type.NestedTypes.Count > 1) {
+        var nestedTypes = type.NestedTypes.ToList();
+        var enums = new List<ITypeDefinition>();
+        nestedTypes.RemoveAll(i => {
+          bool isEnum = i.Kind == TypeKind.Enum;
+          if (isEnum) {
+            enums.Add(i);
+          }
+          return isEnum;
+        });
+        nestedTypes.Sort((x, y) => CompareNestedType(type, x, y));
+        nestedTypes.InsertRange(0, enums);
+        return nestedTypes;
+      }
+      return type.NestedTypes;
+    }
+
     private void VisitTypes(ITypeDefinition type, ClassSyntax node) {
-      var group = type.NestedTypes.Where(i => !i.Name.StartsWith('<')).GroupBy(i => i.Name);
+      var nestedTypes = GetNestedTypes(type);
+      var group = nestedTypes.Where(i => !i.Name.StartsWith('<')).GroupBy(i => i.Name);
       foreach (var types in group) {
         new TypeDefinitionTransform(compilationUnit_, node, types);
       }
@@ -226,7 +261,7 @@ namespace Meson.Compiler {
       foreach (var reference in references) {
         if (type != reference && reference is IEntity entity) {
           compilationUnit_.AddInclude(entity.GetIncludeString());
-          if (!string.IsNullOrEmpty(entity.Namespace) && entity.Namespace != type.Namespace) {
+          if (!string.IsNullOrEmpty(entity.Namespace) && !type.Namespace.StartsWith(entity.Namespace)) {
             compilationUnit_.AddUsing(entity.Namespace);
           }
         }

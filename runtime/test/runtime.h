@@ -1,13 +1,15 @@
-﻿// runtime.h: 标准系统包含文件的包含文件
-// 或项目特定的包含文件。
+﻿#pragma once
 
-#pragma once
+#include <System.Private.CoreLib/System/Array.h>
+
+namespace System {
+  namespace Diagnostics {
+    namespace A {
+      namespace B {
+        class A {};
+      }
+    }
 
 
-// TODO: 在此处引用程序需要的其他标头。
-
-namespace test {
-
-
-
-}  // namespace test
+  }
+}

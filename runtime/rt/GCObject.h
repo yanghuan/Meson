@@ -110,7 +110,7 @@ namespace rt {
     };
 
     using GCObject = GCObject<T>;
-    using element_type = T;
+    using in = T;
 
     constexpr ref() noexcept {}
 
@@ -246,7 +246,7 @@ namespace rt {
     template <class T, class... Args>
     static T newobj(Args&&... args) {
       using GCObject = typename T::GCObject;
-      using element_type = typename T::element_type;
+      using element_type = typename T::in;
       void* p = alloc(sizeof(GCObject));
       GCObject* temp = new (p) GCObject(getTypeMetadata<T>());
       new (temp->get()) element_type(std::forward<Args>(args)...);
@@ -396,7 +396,7 @@ template <class Ex, class... Args>
 
 template <class T, class... Args>
 inline T newobj(Args&&... args) {
-  return meson::Object::newobj<T>(std::forward<Args>(args)...);
+  return rt::Object::newobj<T>(std::forward<Args>(args)...);
 }
 
 template <class A>

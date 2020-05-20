@@ -2,19 +2,19 @@
 //
 
 #include "runtime.h"
-#include <System.Private.CoreLib/System/ValueTuple.h>
-
 #include <iostream>
 
-CLASS(AAA) {
+namespace System {
+  namespace Diagnostics {
+    namespace Tracing {
+      class D {
+        A a;
+      };
 
 
-};
-
-CLASS(AA, T1, T2) {
-
-};
-
+    } // namespace Tracing
+  } // namespace Diagnostics
+} // namespace System
 
 void f() {
 }
