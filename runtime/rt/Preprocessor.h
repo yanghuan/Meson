@@ -75,3 +75,22 @@
 #define CLASS_MULTI_(...) BOOST_PP_IF(BOOST_PP_EQUAL(BOOST_PP_VARIADIC_SIZE(__VA_ARGS__), 1), CLASS_MULTI0_, CLASS_MULTI1_)
 #define CLASS_MULTI(...) CLASS_MULTI_(__VA_ARGS__)(BOOST_PP_VARIADIC_TO_SEQ(__VA_ARGS__))
 
+#define FORWARD0(n, name) \
+  class name;\
+  using n = rt::ref<name>;\
+
+#define FORWARD0_(name) FORWARD0(name, NAME(name))
+#define FORWARD00_(seq) FORWARD0_(BOOST_PP_SEQ_HEAD(seq))
+
+#define FORWARD1(n, name, T, seq) \
+  BOOST_PP_TUPLE_ENUM(T)\
+  class name;\
+  BOOST_PP_TUPLE_ENUM(T)\
+  using n = rt::ref<name<BOOST_PP_SEQ_ENUM(seq)>>;
+
+#define FORWARD1_(name, seq) FORWARD1(name, NAME(name), TEMPLATE(seq), seq)
+#define FORWARD11_(seq) FORWARD1_(BOOST_PP_SEQ_HEAD(seq), BOOST_PP_SEQ_TAIL(seq))
+
+#define FORWARD_(...) BOOST_PP_IF(BOOST_PP_EQUAL(BOOST_PP_VARIADIC_SIZE(__VA_ARGS__), 1), FORWARD00_, FORWARD11_)
+#define FORWARD(...) FORWARD_(__VA_ARGS__)(BOOST_PP_VARIADIC_TO_SEQ(__VA_ARGS__))
+

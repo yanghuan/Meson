@@ -31,4 +31,20 @@ namespace Meson.Compiler.CppAst {
     }
   }
 
+  internal sealed class InvationExpressionSyntax : ExpressionSyntax {
+    public ExpressionSyntax Expression { get; }
+    public string OpenParentheses => Tokens.OpenParentheses;
+    public List<ExpressionSyntax> Arguments = new List<ExpressionSyntax>();
+    public string CloseParentheses => Tokens.CloseParentheses;
+
+    public InvationExpressionSyntax(ExpressionSyntax expresison, IEnumerable<ExpressionSyntax> arguments) {
+      Expression = expresison;
+      Arguments.AddRange(arguments);
+    }
+
+    internal override void Render(CppRenderer renderer) {
+      renderer.Render(this);
+    }
+  }
+
 }

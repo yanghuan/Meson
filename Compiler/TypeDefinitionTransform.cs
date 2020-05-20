@@ -30,6 +30,7 @@ namespace Meson.Compiler {
     private bool IsMulti => roots_.Count > 1;
     private ITypeDefinition Root => roots_.First();
     private HashSet<ITypeDefinition> references_ = new HashSet<ITypeDefinition>();
+    private HashSet<ITypeDefinition> forwards_ = new HashSet<ITypeDefinition>();
 
     public TypeDefinitionTransform(CompilationUnitTransform compilationUnit, BlockSyntax parent, IEnumerable<ITypeDefinition> types) {
       compilationUnit_ = compilationUnit;
@@ -53,6 +54,7 @@ namespace Meson.Compiler {
       }
 
       AddReferences();
+      AddForwards();
     }
 
     private void AddReferences() {
@@ -61,6 +63,14 @@ namespace Meson.Compiler {
         if (!string.IsNullOrEmpty(reference.Namespace) && !Root.Namespace.StartsWith(reference.Namespace)) {
           compilationUnit_.AddUsing(reference.Namespace);
         }
+      }
+    }
+
+    private void AddForwards() {
+      foreach (var forward in forwards_) {
+        List<IdentifierSyntax> args = new List<IdentifierSyntax>() { forward.Name };
+        args.AddRange(forward.GetTypeParameters().Select(i => (IdentifierSyntax)i.Name));
+        compilationUnit_.AddForward(new InvationExpressionSyntax((IdentifierSyntax)"FORWARD", args));
       }
     }
 
@@ -188,9 +198,11 @@ namespace Meson.Compiler {
         if (!referenceType.Equals(rootType)) {
           var referenceTypeDefinition = referenceType.ToTypeDefinition();
           references_.Add(referenceTypeDefinition);
-          bool isExists = referenceTypeDefinition.IsMemberTypeExists(rootType.ToTypeDefinition());
-          if (isExists) {
-
+          if (referenceTypeDefinition.Kind != TypeKind.Enum) {
+            bool isExists = referenceTypeDefinition.IsMemberTypeExists(rootType.ToTypeDefinition());
+            if (isExists) {
+              forwards_.Add(referenceTypeDefinition);
+            }
           }
         }
       }

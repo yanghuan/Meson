@@ -409,5 +409,13 @@ namespace Meson.Compiler {
       WriteSemicolon();
       WriteNewLine();
     }
+
+    internal void Render(InvationExpressionSyntax node) {
+      node.Expression.Render(this);
+      Write(node.OpenParentheses);
+      WriteSeparatedSyntaxList(node.Arguments);
+      Write(node.CloseParentheses);
+    }
+
   }
 }

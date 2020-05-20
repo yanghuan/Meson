@@ -11,6 +11,7 @@ namespace Meson.Compiler {
     private CompilationUnitSyntax compilationUnit_ = new CompilationUnitSyntax();
     private HashSet<string> includes_ = new HashSet<string>();
     private HashSet<string> usings_ = new HashSet<string>();
+    private List<StatementSyntax> forwards_ = new List<StatementSyntax>();
     private ITypeDefinition root_;
 
     public CompilationUnitTransform(AssemblyTransform assemblyTransform, IEnumerable<ITypeDefinition> types) {
@@ -34,12 +35,17 @@ namespace Meson.Compiler {
         foreach (string i in usings) {
           usingsSyntax.Add(new UsingNamespaceSyntax(i.Replace(Tokens.Dot, Tokens.TwoColon)));
         }
-
+        usingsSyntax.Statements.AddRange(forwards_);
         if (root_.Kind != TypeKind.Interface) {
           compilationUnit_.AddSrcInclude(root_.GetIncludeString(), false);
           compilationUnit_.AddSrcStatement(BlankLinesStatement.One);
         }
       }
+    }
+
+    internal void Write(string outDir) {
+      CppRenderer rener = new CppRenderer(root_, outDir);
+      compilationUnit_.Render(rener);
     }
 
     internal void AddInclude(string includeString) {
@@ -50,9 +56,8 @@ namespace Meson.Compiler {
       usings_.Add(usingString);
     }
 
-    internal void Write(string outDir) {
-      CppRenderer rener = new CppRenderer(root_, outDir);
-      compilationUnit_.Render(rener);
+    internal void AddForward(InvationExpressionSyntax expression) {
+      forwards_.Add(new ExpressionStatementSyntax(expression) { HasSemicolon = false });
     }
   }
 }

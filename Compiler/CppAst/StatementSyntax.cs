@@ -18,10 +18,6 @@ namespace Meson.Compiler.CppAst {
       Expression = expression ?? throw new ArgumentNullException(nameof(expression));
     }
 
-    public static implicit operator ExpressionStatementSyntax(ExpressionSyntax expression) {
-      return new ExpressionStatementSyntax(expression);
-    }
-
     internal override void Render(CppRenderer renderer) {
       renderer.Render(this);
     }

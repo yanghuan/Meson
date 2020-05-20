@@ -109,9 +109,23 @@ namespace Meson.Compiler {
       return $"{type.Name}.h";
     }
 
+    private static bool HasType(this IType type, ITypeDefinition other) {
+      if (type.Original().Equals(other)) {
+        return true;
+      }
+
+      foreach (var argument in type.TypeArguments) {
+        if (argument.HasType(other)) {
+          return true;
+        }
+      }
+
+      return false;
+    }
+
     public static bool IsMemberTypeExists(this ITypeDefinition typeDefinition, ITypeDefinition memberType) {
       foreach (var field in typeDefinition.Fields) {
-        if (memberType.Equals(field.Type)) {
+        if (field.Type.HasType(memberType)) {
           return true;
         }
       }
