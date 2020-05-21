@@ -29,8 +29,6 @@ namespace Meson.Compiler {
     public AssemblyTransform AssemblyTransform => compilationUnit_.AssemblyTransform;
     private bool IsMulti => roots_.Count > 1;
     private ITypeDefinition Root => roots_.First();
-    private HashSet<ITypeDefinition> references_ = new HashSet<ITypeDefinition>();
-    private HashSet<ITypeDefinition> forwards_ = new HashSet<ITypeDefinition>();
 
     public TypeDefinitionTransform(CompilationUnitTransform compilationUnit, BlockSyntax parent, IEnumerable<ITypeDefinition> types) {
       compilationUnit_ = compilationUnit;
@@ -52,27 +50,8 @@ namespace Meson.Compiler {
       foreach (var root in roots_) {
         VisitTypeDefinition(parent, root);
       }
-
-      AddReferences();
-      AddForwards();
     }
 
-    private void AddReferences() {
-      foreach (var reference in references_) {
-        compilationUnit_.AddInclude(reference.GetReferenceIncludeString());
-        if (!string.IsNullOrEmpty(reference.Namespace) && !Root.Namespace.StartsWith(reference.Namespace)) {
-          compilationUnit_.AddUsing(reference.Namespace);
-        }
-      }
-    }
-
-    private void AddForwards() {
-      foreach (var forward in forwards_) {
-        List<IdentifierSyntax> args = new List<IdentifierSyntax>() { forward.Name };
-        args.AddRange(forward.GetTypeParameters().Select(i => (IdentifierSyntax)i.Name));
-        compilationUnit_.AddForward(new InvationExpressionSyntax((IdentifierSyntax)"FORWARD", args));
-      }
-    }
 
     private void VisitTypeDefinition(BlockSyntax parnet, ITypeDefinition type) {
       switch (type.Kind) {
@@ -197,11 +176,11 @@ namespace Meson.Compiler {
         var rootType = typeDefinition.GetReferenceType();
         if (!referenceType.Equals(rootType)) {
           var referenceTypeDefinition = referenceType.GetTypeDefinition();
-          references_.Add(referenceTypeDefinition);
+          compilationUnit_.References.Add(referenceTypeDefinition);
           if (referenceTypeDefinition.Kind != TypeKind.Enum) {
             bool isExists = referenceTypeDefinition.IsMemberTypeExists(rootType.GetTypeDefinition(), true);
             if (isExists) {
-              forwards_.Add(referenceTypeDefinition);
+              compilationUnit_.Forwards.Add(referenceTypeDefinition);
             }
           }
         }

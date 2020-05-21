@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-
+using System.Net.Http.Headers;
 using ICSharpCode.Decompiler.TypeSystem;
 using Meson.Compiler.CppAst;
 
@@ -9,9 +9,8 @@ namespace Meson.Compiler {
   internal sealed class CompilationUnitTransform {
     public AssemblyTransform AssemblyTransform { get; }
     private CompilationUnitSyntax compilationUnit_ = new CompilationUnitSyntax();
-    private HashSet<string> includes_ = new HashSet<string>();
-    private HashSet<string> usings_ = new HashSet<string>();
-    private List<StatementSyntax> forwards_ = new List<StatementSyntax>();
+    public readonly HashSet<ITypeDefinition> References = new HashSet<ITypeDefinition>();
+    public readonly HashSet<ITypeDefinition> Forwards = new HashSet<ITypeDefinition>();
     private ITypeDefinition root_;
 
     public CompilationUnitTransform(AssemblyTransform assemblyTransform, IEnumerable<ITypeDefinition> types) {
@@ -27,15 +26,17 @@ namespace Meson.Compiler {
 
       new TypeDefinitionTransform(this, ns.Current, types);
       if (root_.Kind != TypeKind.Enum) {
-        var includes = includes_.ToList();
-        includes.Sort();
-        compilationUnit_.AddHeadIncludes(includes);
-        var usings = usings_.ToList();
-        usings.Sort();
-        foreach (string i in usings) {
-          usingsSyntax.Add(new UsingNamespaceSyntax(i.Replace(Tokens.Dot, Tokens.TwoColon)));
+        HashSet<string> includes = new HashSet<string>();
+        HashSet<string> usings = new HashSet<string>();
+        foreach (var reference in References) {
+          includes.Add(reference.GetReferenceIncludeString());
+          if (!string.IsNullOrEmpty(reference.Namespace) && !root_.Namespace.StartsWith(reference.Namespace)) {
+            usings.Add(reference.Namespace);
+          }
         }
-        usingsSyntax.Statements.AddRange(forwards_);
+        compilationUnit_.AddHeadIncludes(includes.OrderBy(i => i));
+        usingsSyntax.Statements.AddRange(usings.OrderBy(i => i).Select(GetUsingNamespaceSyntax));
+        usingsSyntax.Statements.AddRange(Forwards.Where(i => i.Name != "Task").Select(GetExpressionForward));
         if (root_.Kind != TypeKind.Interface) {
           compilationUnit_.AddSrcInclude(root_.GetIncludeString(), false);
           compilationUnit_.AddSrcStatement(BlankLinesStatement.One);
@@ -48,16 +49,14 @@ namespace Meson.Compiler {
       compilationUnit_.Render(rener);
     }
 
-    internal void AddInclude(string includeString) {
-      includes_.Add(includeString);
+    private static ExpressionStatementSyntax GetExpressionForward(ITypeDefinition type) {
+      var args = new IdentifierSyntax[] { type.Name }.Concat(type.GetTypeParameters().Select(i => (IdentifierSyntax)i.Name));
+      var invation = new InvationExpressionSyntax((IdentifierSyntax)"FORWARD", args);
+      return new ExpressionStatementSyntax(invation) { HasSemicolon = true };
     }
 
-    internal void AddUsing(string usingString) {
-      usings_.Add(usingString);
-    }
-
-    internal void AddForward(InvationExpressionSyntax expression) {
-      forwards_.Add(new ExpressionStatementSyntax(expression) { HasSemicolon = false });
+    private static UsingNamespaceSyntax GetUsingNamespaceSyntax(string name) {
+      return new UsingNamespaceSyntax(name.Replace(Tokens.Dot, Tokens.TwoColon));
     }
   }
 }

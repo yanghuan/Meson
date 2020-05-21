@@ -44,8 +44,8 @@ namespace Meson.Compiler.CppAst {
       includes.Statements.Add(new IncludePretreatmentStatementSyntax(path, isSystem));
     }
 
-    public void AddHeadIncludes(List<string> filePaths) {
-      foreach (string path in filePaths) {
+    public void AddHeadIncludes(IEnumerable<string> files) {
+      foreach (string path in files) {
         AddIncludeTo(headIncludes_, path);
       }
     }

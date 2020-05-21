@@ -109,14 +109,24 @@ namespace Meson.Compiler {
       return $"{type.Name}.h";
     }
 
-    private static bool HasType(this IType type, ITypeDefinition other) {
+    private static bool HasType(this IType type, ITypeDefinition other, HashSet<ITypeDefinition> recursiveTypes) {
       if (type.Original().Equals(other)) {
         return true;
       }
 
       foreach (var argument in type.TypeArguments) {
-        if (argument.HasType(other)) {
+        if (argument.HasType(other, recursiveTypes)) {
           return true;
+        }
+
+        if (argument.Kind != TypeKind.TypeParameter && recursiveTypes != null) {
+          var argumentTypeDefinition = argument.GetTypeDefinition();
+          if (argumentTypeDefinition != null && !recursiveTypes.Contains(argumentTypeDefinition)) {
+            recursiveTypes.Add(argumentTypeDefinition);
+            if (argumentTypeDefinition.IsMemberTypeExists(other, recursiveTypes)) {
+              return true;
+            }
+          }
         }
       }
 
@@ -124,9 +134,10 @@ namespace Meson.Compiler {
     }
 
     private static bool IsMemberTypeExists(this ITypeDefinition typeDefinition, ITypeDefinition memberType, HashSet<ITypeDefinition> recursiveTypes) {
+      recursiveTypes?.Add(typeDefinition);
       foreach (var field in typeDefinition.Fields) {
         if (field.Type.Kind != TypeKind.TypeParameter) {
-          if (field.Type.HasType(memberType)) {
+          if (field.Type.HasType(memberType, recursiveTypes)) {
             return true;
           }
 
