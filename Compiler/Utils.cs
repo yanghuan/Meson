@@ -123,19 +123,35 @@ namespace Meson.Compiler {
       return false;
     }
 
-    public static bool IsMemberTypeExists(this ITypeDefinition typeDefinition, ITypeDefinition memberType) {
+    private static bool IsMemberTypeExists(this ITypeDefinition typeDefinition, ITypeDefinition memberType, HashSet<ITypeDefinition> recursiveTypes) {
       foreach (var field in typeDefinition.Fields) {
-        if (field.Type.HasType(memberType)) {
-          return true;
+        if (field.Type.Kind != TypeKind.TypeParameter) {
+          if (field.Type.HasType(memberType)) {
+            return true;
+          }
+
+          if (recursiveTypes != null) {
+            var fieldTypeDefinition = field.Type.GetTypeDefinition();
+            if (fieldTypeDefinition != null && !recursiveTypes.Contains(fieldTypeDefinition)) {
+              recursiveTypes.Add(fieldTypeDefinition);
+              if (fieldTypeDefinition.IsMemberTypeExists(memberType, recursiveTypes)) {
+                return true;
+              }
+            }
+          }
         }
       }
 
       foreach (var nestedType in typeDefinition.NestedTypes) {
-        if (nestedType.IsMemberTypeExists(memberType)) {
+        if (nestedType.IsMemberTypeExists(memberType, recursiveTypes)) {
           return true;
         }
       }
       return false;
+    }
+
+    public static bool IsMemberTypeExists(this ITypeDefinition typeDefinition, ITypeDefinition memberType, bool isRecursive = false) {
+      return typeDefinition.IsMemberTypeExists(memberType, isRecursive ? new HashSet<ITypeDefinition>() : null);
     }
 
     public static bool IsInternal(this ITypeDefinition typeDefinition, IType type) {
@@ -176,16 +192,24 @@ namespace Meson.Compiler {
       return type.Kind != TypeKind.Struct && !type.IsStatic;
     }
 
-    public static ITypeDefinition ToTypeDefinition(this IType type) {
+    public static ITypeDefinition GetTypeDefinition(this IType type) {
       if (type is ITypeDefinition typeDefinition) {
         return typeDefinition;
       }
 
       if (type is ParameterizedType parameterizedType) {
-        return parameterizedType.GenericType.ToTypeDefinition();
+        return parameterizedType.GenericType.GetTypeDefinition();
       }
 
-      throw new InvalidCastException();
+      if (type is NullabilityAnnotatedType nullabilityAnnotatedType) {
+        return nullabilityAnnotatedType.TypeWithoutAnnotation.GetTypeDefinition();
+      }
+
+      if (type is TypeWithElementType typeWithElementType) {
+        return typeWithElementType.ElementType.GetTypeDefinition();
+      }
+
+      return null;
     }
 
     public static bool IsIntType(this IType type) {

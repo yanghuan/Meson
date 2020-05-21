@@ -196,10 +196,10 @@ namespace Meson.Compiler {
       if (referenceType.Kind != TypeKind.TypeParameter) {
         var rootType = typeDefinition.GetReferenceType();
         if (!referenceType.Equals(rootType)) {
-          var referenceTypeDefinition = referenceType.ToTypeDefinition();
+          var referenceTypeDefinition = referenceType.GetTypeDefinition();
           references_.Add(referenceTypeDefinition);
           if (referenceTypeDefinition.Kind != TypeKind.Enum) {
-            bool isExists = referenceTypeDefinition.IsMemberTypeExists(rootType.ToTypeDefinition());
+            bool isExists = referenceTypeDefinition.IsMemberTypeExists(rootType.GetTypeDefinition(), true);
             if (isExists) {
               forwards_.Add(referenceTypeDefinition);
             }
@@ -230,7 +230,7 @@ namespace Meson.Compiler {
       }
 
       if (type.DeclaringType != null && !typeDefinition.IsInternal(type)) {
-        var declaringType = type.DeclaringType.ToTypeDefinition();
+        var declaringType = type.DeclaringType.GetTypeDefinition();
         var outTypeName = GetTypeName(type.DeclaringType, typeDefinition);
         if (declaringType.IsRefType()) {
           outTypeName = outTypeName.TwoColon(IdentifierSyntax.In);
