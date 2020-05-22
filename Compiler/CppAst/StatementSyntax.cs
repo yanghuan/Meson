@@ -240,15 +240,15 @@ namespace Meson.Compiler.CppAst {
   internal sealed class ClassSyntax : BlockSyntax {
     public string AccessibilityToken { get; set; }
     public TemplateSyntax Template { get; set; }
-    public string ClassOrStructToken => IsClassOrStruct ? Tokens.Class : Tokens.Struct;
+    public string ClassToken => IsStruct ? Tokens.Struct : Tokens.Class;
     public IdentifierSyntax Name { set; get; }
     public readonly List<BaseSyntax> Bases = new List<BaseSyntax>();
-    public bool IsClassOrStruct { get; }
+    public bool IsStruct { get; }
     public ClassKind Kind { get; set; }
 
-    public ClassSyntax(IdentifierSyntax name, bool isClass = true) {
+    public ClassSyntax(IdentifierSyntax name, bool isStruct = false) {
       Name = name;
-      IsClassOrStruct = isClass;
+      IsStruct = isStruct;
     }
 
     internal override void Render(CppRenderer renderer) {
@@ -274,35 +274,20 @@ namespace Meson.Compiler.CppAst {
     }
   }
 
-  internal sealed class ClassStaticFieldInitSyntax : StatementSyntax {
-    public TemplateSyntax Template { get; }
-    public ExpressionSyntax FieldType { get; }
-
-    public IdentifierSyntax ClassName { get; }
-    public string TwoColon => Tokens.TwoColon;
-    public IdentifierSyntax FieldName { get; }
-
-    public ClassStaticFieldInitSyntax(ExpressionSyntax fieldType, IdentifierSyntax fieldName, IdentifierSyntax className, TemplateSyntax template = null) {
-      FieldType = fieldType;
-      FieldName = fieldName;
-      ClassName = template != null ? className.WithGeneric(template) : className;
-      Template = template;
-    }
-
-    internal override void Render(CppRenderer renderer) {
-      renderer.Render(this);
-    }
-  }
-
-  internal sealed class ClassForwardDeclarationSyntax : StatementSyntax {
+  internal class ClassForwardDeclarationSyntax : StatementSyntax {
     public TemplateSyntax Template { get; set; }
-    public string ClassOrStructToken => IsClassOrStruct ? Tokens.Class : Tokens.Struct;
+    public string ClassToken => IsStruct ? Tokens.Struct : Tokens.Class;
     public IdentifierSyntax Name { get; }
-    public bool IsClassOrStruct { get; }
+    public bool IsStruct { get; }
+    public bool IsFriend { get; }
 
-    public ClassForwardDeclarationSyntax(IdentifierSyntax name, bool isClass = true) {
+    public ClassForwardDeclarationSyntax(IdentifierSyntax name, bool isStruct = false) {
       Name = name;
-      IsClassOrStruct = isClass;
+      IsStruct = isStruct;
+    }
+
+    protected ClassForwardDeclarationSyntax(IdentifierSyntax name, bool isStruct, int _) : this(name, isStruct) {
+      IsFriend = true;
     }
 
     internal override void Render(CppRenderer renderer) {
@@ -340,6 +325,10 @@ namespace Meson.Compiler.CppAst {
     internal override void Render(CppRenderer renderer) {
       renderer.Render(this);
     }
+  }
 
+  internal sealed class FriendClassDeclarationSyntax : ClassForwardDeclarationSyntax {
+    public FriendClassDeclarationSyntax(IdentifierSyntax name, bool isStruct = false) : base(name, isStruct, -1) {
+    }
   }
 }

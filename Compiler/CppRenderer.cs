@@ -277,7 +277,7 @@ namespace Meson.Compiler {
       switch (node.Kind) {
         case ClassKind.None: {
           node.Template?.Render(this);
-          Write(node.ClassOrStructToken);
+          Write(node.ClassToken);
           WriteSpace();
           node.Name.Render(this);
           break;
@@ -344,18 +344,6 @@ namespace Meson.Compiler {
       WriteNewLine();
     }
 
-    internal void Render(ClassStaticFieldInitSyntax node) {
-      node.Template?.Render(this);
-      node.FieldType.Render(this);
-      WriteSpace();
-      node.ClassName.Render(this);
-      Write(node.TwoColon);
-      node.FieldName.Render(this);
-      Write("{}");
-      WriteSemicolon();
-      WriteNewLine();
-    }
-
     internal void Render(ValueTextIdentifierSyntax node) {
       Write(node.ValueText);
     }
@@ -380,7 +368,11 @@ namespace Meson.Compiler {
 
     internal void Render(ClassForwardDeclarationSyntax node) {
       node.Template?.Render(this);
-      Write(node.ClassOrStructToken);
+      if (node.IsFriend) {
+        Write(Tokens.Friend);
+        WriteSpace();
+      }
+      Write(node.ClassToken);
       WriteSpace();
       node.Name.Render(this);
       WriteSemicolon();

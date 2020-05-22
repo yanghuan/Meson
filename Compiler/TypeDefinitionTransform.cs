@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.Contracts;
 using System.IO;
 using System.Text;
 using System.Linq;
@@ -24,59 +25,63 @@ namespace Meson.Compiler {
       ["System.Double"] = "double",
     };
 
-    private List<ITypeDefinition> roots_;
     private CompilationUnitTransform compilationUnit_;
-    public AssemblyTransform AssemblyTransform => compilationUnit_.AssemblyTransform;
-    private bool IsMulti => roots_.Count > 1;
-    private ITypeDefinition Root => roots_.First();
+    private BlockSyntax parent_;
+    private List<ITypeDefinition> types_;
+    private TypeDefinitionTransform parentTransform_;
 
-    public TypeDefinitionTransform(CompilationUnitTransform compilationUnit, BlockSyntax parent, IEnumerable<ITypeDefinition> types) {
+    public AssemblyTransform AssemblyTransform => compilationUnit_.AssemblyTransform;
+    private bool IsMulti => types_.Count > 1;
+    private ITypeDefinition Root => types_.First();
+
+    public TypeDefinitionTransform(CompilationUnitTransform compilationUnit, BlockSyntax parent, IEnumerable<ITypeDefinition> types, TypeDefinitionTransform parentTransform = null) {
       compilationUnit_ = compilationUnit;
-      roots_ = types.ToList();
-      Visit(parent);
+      types_ = types.ToList();
+      parent_ = parent;
+      parentTransform_ = parentTransform;
+      Visit();
     }
 
-    private void Visit(BlockSyntax parent) {
+    private void Visit() {
       if (IsMulti) {
-        int typeParameterCount = roots_.Last().TypeParameterCount + 1;
+        int typeParameterCount = types_.Last().TypeParameterCount + 1;
         var parameters = Enumerable.Range(0, typeParameterCount).Select((i, it) => new TemplateTypenameSyntax($"T{i + 1}", IdentifierSyntax.Void));
-        ClassSyntax node = new ClassSyntax(Root.Name, Root.Kind != TypeKind.Struct) { 
+        ClassSyntax node = new ClassSyntax(Root.Name, Root.Kind == TypeKind.Struct) { 
           Template = new TemplateSyntax(parameters),
           Kind = Root.IsRefType() ? ClassKind.MultiRefForward : ClassKind.None,
         };
-        parent.Add(node);
+        parent_.Add(node);
       }
 
-      foreach (var root in roots_) {
-        VisitTypeDefinition(parent, root);
+      foreach (var root in types_) {
+        VisitTypeDefinition(root);
       }
     }
 
-
-    private void VisitTypeDefinition(BlockSyntax parnet, ITypeDefinition type) {
+    private void VisitTypeDefinition(ITypeDefinition type) {
       switch (type.Kind) {
         case TypeKind.Enum: {
-          VistEnum(parnet, type);
+          VistEnum(type);
           break;
         }
         case TypeKind.Struct: {
-          VisitStruct(parnet, type);
+          VisitStruct(type);
           break;
         }
         default: {
-          VistClass(parnet, type);
+          VistClass(type);
           break;
         }
       }
     }
 
-    private void VistEnum(BlockSyntax parnet, ITypeDefinition type) {
-      EnumSyntax enumNode = new EnumSyntax(type.Name) { AccessibilityToken = type.GetAccessibilityString() };
+    private void VistEnum(ITypeDefinition type) {
+      EnumSyntax node = new EnumSyntax(type.Name) { AccessibilityToken = GetAccessibilityString(type) };
       if (!type.EnumUnderlyingType.IsIntType()) {
-        enumNode.UnderlyingType = innerValueTypeNames_[type.EnumUnderlyingType.FullName];
+        node.UnderlyingType = innerValueTypeNames_[type.EnumUnderlyingType.FullName];
       }
-      VisitEnumFields(type, enumNode);
-      parnet.Add(enumNode);
+      VisitEnumFields(type, node);
+      parent_.Add(node);
     }
 
     private void VisitEnumFields(ITypeDefinition typeDefinition, EnumSyntax enumNode) {
@@ -99,15 +104,15 @@ namespace Meson.Compiler {
       return template;
     }
 
-    private void VisitStruct(BlockSyntax parnet, ITypeDefinition type) {
+    private void VisitStruct(ITypeDefinition type) {
       var template = BuildTemplateSyntax(type);
-      ClassSyntax node = new ClassSyntax(type.Name, false) {
+      ClassSyntax node = new ClassSyntax(type.Name, true) {
         Template = template,
         Kind = GetClassKind(type),
-        AccessibilityToken = type.GetAccessibilityString(),
+        AccessibilityToken = GetAccessibilityString(type),
       };
-      VisitMembers(parnet, type, node);
-      parnet.Add(node);
+      parent_.Add(node);
+      VisitMembers(type, node);
     }
 
     private ClassKind GetClassKind(ITypeDefinition type) {
@@ -126,18 +131,18 @@ namespace Meson.Compiler {
       return ClassKind.Ref;
     }
 
-    private void VistClass(BlockSyntax parnet, ITypeDefinition type) {
+    private void VistClass(ITypeDefinition type) {
       var template = BuildTemplateSyntax(type);
       ClassSyntax node = new ClassSyntax(type.Name) {
         Template = template,
         Kind = GetClassKind(type),
-        AccessibilityToken = type.GetAccessibilityString(),
+        AccessibilityToken = GetAccessibilityString(type),
       };
       if (type.IsStringType() || type.IsObjectType()) {
         node.Bases.Add(new BaseSyntax(new MemberAccessExpressionSyntax(IdentifierSyntax.Meson, (IdentifierSyntax)type.Name, MemberAccessOperator.TwoColon)));
       }
-      VisitMembers(parnet, type, node);
-      parnet.Add(node);
+      VisitMembers(type, node);
+      parent_.Add(node);
     }
 
     private void VisitFields(ITypeDefinition typeDefinition, ClassSyntax node) {
@@ -175,10 +180,10 @@ namespace Meson.Compiler {
       if (referenceType.Kind != TypeKind.TypeParameter) {
         var rootType = typeDefinition.GetReferenceType();
         if (!referenceType.Equals(rootType)) {
-          var referenceTypeDefinition = referenceType.GetTypeDefinition();
+          var referenceTypeDefinition = referenceType.GetDefinition();
           compilationUnit_.References.Add(referenceTypeDefinition);
           if (referenceTypeDefinition.Kind != TypeKind.Enum) {
-            bool isExists = referenceTypeDefinition.IsMemberTypeExists(rootType.GetTypeDefinition(), true);
+            bool isExists = referenceTypeDefinition.IsMemberTypeExists(rootType.GetDefinition(), true);
             if (isExists) {
               compilationUnit_.Forwards.Add(referenceTypeDefinition);
             }
@@ -208,10 +213,9 @@ namespace Meson.Compiler {
         }
       }
 
-      if (type.DeclaringType != null && !typeDefinition.IsInternal(type)) {
-        var declaringType = type.DeclaringType.GetTypeDefinition();
+      if (type.DeclaringType != null && !AssemblyTransform.IsInternalMemberType(type, typeDefinition)) {
         var outTypeName = GetTypeName(type.DeclaringType, typeDefinition);
-        if (declaringType.IsRefType()) {
+        if (type.DeclaringType.GetDefinition().IsRefType()) {
           outTypeName = outTypeName.TwoColon(IdentifierSyntax.In);
         }
         return outTypeName.TwoColon(result);
@@ -258,15 +262,35 @@ namespace Meson.Compiler {
 
     private void VisitTypes(ITypeDefinition type, ClassSyntax node) {
       var nestedTypes = GetNestedTypes(type);
-      var group = nestedTypes.Where(i => !i.Name.StartsWith('<')).GroupBy(i => i.Name);
-      foreach (var types in group) {
-        new TypeDefinitionTransform(compilationUnit_, node, types);
+      var sameNameTypes = nestedTypes.Where(i => !i.Name.StartsWith('<')).GroupBy(i => i.Name);
+      foreach (var types in sameNameTypes) {
+        var brotherType = AssemblyTransform.GetNestedBrotherType(types);
+        if (brotherType != null) {
+          foreach (var nestedType in types) {
+            var friend = new FriendClassDeclarationSyntax(nestedType.Name, nestedType.Kind == TypeKind.Struct) { Template = BuildTemplateSyntax(nestedType) };
+            node.Add(friend);
+          }
+        }
+        var block = brotherType != null ? GetBrotherTypeParnetBlock(brotherType) : node;
+        new TypeDefinitionTransform(compilationUnit_, block, types, this);
       }
     }
 
-    private void VisitMembers(BlockSyntax parnet, ITypeDefinition type, ClassSyntax node) {
+    private void VisitMembers(ITypeDefinition type, ClassSyntax node) {
       VisitTypes(type, node);
       VisitFields(type, node);
+    }
+
+    private BlockSyntax GetBrotherTypeParnetBlock(ITypeDefinition brotherType) {
+      if (types_.Contains(brotherType)) {
+        return parent_;
+      }
+      Contract.Assert(parentTransform_ != null);
+      return parentTransform_.GetBrotherTypeParnetBlock(brotherType);
+    }
+
+    private string GetAccessibilityString(ITypeDefinition type) {
+      return AssemblyTransform.GetDeclaringType(type) != null ? type.Accessibility.ToTokenString() : null;
     }
   }
 }

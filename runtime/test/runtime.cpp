@@ -5,16 +5,21 @@
 #include <iostream>
 
 namespace System {
-  namespace Diagnostics {
-    namespace Tracing {
-      class D {
-        A a;
-      };
 
+  class A {
+    class B {
 
-    } // namespace Tracing
-  } // namespace Diagnostics
-} // namespace System
+    };
+
+    friend class C;
+  };
+
+  template <class T>
+  class C {
+    A::B b;
+  };
+
+} 
 
 void f() {
 }

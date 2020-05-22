@@ -13,7 +13,7 @@ namespace Meson.Compiler {
     public readonly HashSet<ITypeDefinition> Forwards = new HashSet<ITypeDefinition>();
     private ITypeDefinition root_;
 
-    public CompilationUnitTransform(AssemblyTransform assemblyTransform, IEnumerable<ITypeDefinition> types) {
+    public CompilationUnitTransform(AssemblyTransform assemblyTransform, List<ITypeDefinition> types) {
       AssemblyTransform = assemblyTransform;
       root_ = types.First();
       VisitCompilationUnit(types);
@@ -36,7 +36,7 @@ namespace Meson.Compiler {
         }
         compilationUnit_.AddHeadIncludes(includes.OrderBy(i => i));
         usingsSyntax.Statements.AddRange(usings.OrderBy(i => i).Select(GetUsingNamespaceSyntax));
-        usingsSyntax.Statements.AddRange(Forwards.Where(i => i.Name != "Task").Select(GetExpressionForward));
+        usingsSyntax.Statements.AddRange(Forwards.Where(i => i.Name != "Task").Select(GetForwardExpression));
         if (root_.Kind != TypeKind.Interface) {
           compilationUnit_.AddSrcInclude(root_.GetIncludeString(), false);
           compilationUnit_.AddSrcStatement(BlankLinesStatement.One);
@@ -49,7 +49,7 @@ namespace Meson.Compiler {
       compilationUnit_.Render(rener);
     }
 
-    private static ExpressionStatementSyntax GetExpressionForward(ITypeDefinition type) {
+    private static ExpressionStatementSyntax GetForwardExpression(ITypeDefinition type) {
       var args = new IdentifierSyntax[] { type.Name }.Concat(type.GetTypeParameters().Select(i => (IdentifierSyntax)i.Name));
       var invation = new InvationExpressionSyntax((IdentifierSyntax)"FORWARD", args);
       return new ExpressionStatementSyntax(invation) { HasSemicolon = true };

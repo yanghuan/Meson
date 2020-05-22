@@ -90,6 +90,7 @@ namespace Meson.Compiler {
       if (type.DeclaringType != null) {
         return type.DeclaringType.GetReferenceType();
       }
+
       return type switch
       {
         NullabilityAnnotatedType nullableType => nullableType.TypeWithoutAnnotation,
@@ -119,8 +120,8 @@ namespace Meson.Compiler {
           return true;
         }
 
-        if (argument.Kind != TypeKind.TypeParameter && recursiveTypes != null) {
-          var argumentTypeDefinition = argument.GetTypeDefinition();
+        if (recursiveTypes != null) {
+          var argumentTypeDefinition = argument.GetDefinition();
           if (argumentTypeDefinition != null && !recursiveTypes.Contains(argumentTypeDefinition)) {
             recursiveTypes.Add(argumentTypeDefinition);
             if (argumentTypeDefinition.IsMemberTypeExists(other, recursiveTypes)) {
@@ -132,20 +133,24 @@ namespace Meson.Compiler {
 
       return false;
     }
+    
+    private static IEnumerable<IType> GetMemberReferenceTypes(this ITypeDefinition type) {
+      return type.Fields.Select(i => i.Type);
+    }
 
-    private static bool IsMemberTypeExists(this ITypeDefinition typeDefinition, ITypeDefinition memberType, HashSet<ITypeDefinition> recursiveTypes) {
-      recursiveTypes?.Add(typeDefinition);
-      foreach (var field in typeDefinition.Fields) {
-        if (field.Type.Kind != TypeKind.TypeParameter) {
-          if (field.Type.HasType(memberType, recursiveTypes)) {
+    private static bool IsMemberTypeExists(this ITypeDefinition type, ITypeDefinition memberType, HashSet<ITypeDefinition> recursiveTypes) {
+      recursiveTypes?.Add(type);
+      foreach (var referenceType in type.GetMemberReferenceTypes()) {
+        if (referenceType.Kind != TypeKind.TypeParameter) {
+          if (referenceType.HasType(memberType, recursiveTypes)) {
             return true;
           }
 
           if (recursiveTypes != null) {
-            var fieldTypeDefinition = field.Type.GetTypeDefinition();
-            if (fieldTypeDefinition != null && !recursiveTypes.Contains(fieldTypeDefinition)) {
-              recursiveTypes.Add(fieldTypeDefinition);
-              if (fieldTypeDefinition.IsMemberTypeExists(memberType, recursiveTypes)) {
+            var typeDefinition = referenceType.GetReferenceTypeDefinition();
+            if (typeDefinition != null && !recursiveTypes.Contains(typeDefinition)) {
+              recursiveTypes.Add(typeDefinition);
+              if (typeDefinition.IsMemberTypeExists(memberType, recursiveTypes)) {
                 return true;
               }
             }
@@ -153,7 +158,7 @@ namespace Meson.Compiler {
         }
       }
 
-      foreach (var nestedType in typeDefinition.NestedTypes) {
+      foreach (var nestedType in type.NestedTypes) {
         if (nestedType.IsMemberTypeExists(memberType, recursiveTypes)) {
           return true;
         }
@@ -161,41 +166,20 @@ namespace Meson.Compiler {
       return false;
     }
 
-    public static bool IsMemberTypeExists(this ITypeDefinition typeDefinition, ITypeDefinition memberType, bool isRecursive = false) {
-      return typeDefinition.IsMemberTypeExists(memberType, isRecursive ? new HashSet<ITypeDefinition>() : null);
+    public static bool IsMemberTypeExists(this ITypeDefinition typeDefinition, ITypeDefinition memberType, bool isRecursiveTypeDefinition = false) {
+      return typeDefinition.IsMemberTypeExists(memberType, isRecursiveTypeDefinition ? new HashSet<ITypeDefinition>() : null);
     }
 
-    public static bool IsInternal(this ITypeDefinition typeDefinition, IType type) {
-      if (typeDefinition.IsSame(type)) {
-        return true;
-      }
-
-      if (typeDefinition.IsSame(type.DeclaringType)) {
-        return true;
-      }
-
-      IType declaringType = typeDefinition.DeclaringType;
-      while (declaringType != null) {
-        if (declaringType.Equals(type.DeclaringType)) {
-          return true;
-        }
-        declaringType = declaringType.DeclaringType;
-      }
-
-      return false;
-    }
-
-    private static bool IsSame(this ITypeDefinition typeDefinition, IType type) {
-      if (type != null) {
-        if (type is ITypeDefinition) {
-          return type == typeDefinition;
+    public static bool IsSame(this ITypeDefinition type, IType other) {
+      if (other != null) {
+        if (other is ITypeDefinition) {
+          return other == type;
         }
 
-        if (type is ParameterizedType parameterizedType) {
-          return typeDefinition.IsSame(parameterizedType.GenericType);
+        if (other is ParameterizedType parameterizedType) {
+          return type.IsSame(parameterizedType.GenericType);
         }
       }
-
       return false;
     }
 
@@ -203,24 +187,12 @@ namespace Meson.Compiler {
       return type.Kind != TypeKind.Struct && !type.IsStatic;
     }
 
-    public static ITypeDefinition GetTypeDefinition(this IType type) {
-      if (type is ITypeDefinition typeDefinition) {
-        return typeDefinition;
+    public static ITypeDefinition GetReferenceTypeDefinition(this IType type) {
+      var definition = type.GetDefinition();
+      if (definition == null && type is TypeWithElementType t) {
+        definition = t.ElementType.GetReferenceTypeDefinition();
       }
-
-      if (type is ParameterizedType parameterizedType) {
-        return parameterizedType.GenericType.GetTypeDefinition();
-      }
-
-      if (type is NullabilityAnnotatedType nullabilityAnnotatedType) {
-        return nullabilityAnnotatedType.TypeWithoutAnnotation.GetTypeDefinition();
-      }
-
-      if (type is TypeWithElementType typeWithElementType) {
-        return typeWithElementType.ElementType.GetTypeDefinition();
-      }
-
-      return null;
+      return definition;
     }
 
     public static bool IsIntType(this IType type) {
@@ -260,7 +232,7 @@ namespace Meson.Compiler {
       return type.KnownTypeCode == KnownTypeCode.Array;
     }
 
-    public static string GetAccessibilityString(this ITypeDefinition type) {
+    private static string GetAccessibilityString(this ITypeDefinition type) {
       return type.DeclaringType != null ? type.Accessibility.ToTokenString() : null;
     }
 
@@ -268,12 +240,44 @@ namespace Meson.Compiler {
       switch (a) {
         case Accessibility.Private:
           return Tokens.Private;
-
         case Accessibility.Protected:
           return Tokens.Protected;
       }
-
       return Tokens.Public;
+    }
+
+    private static List<ITypeDefinition> GetStructDeclaringTypes(this ITypeDefinition type) {
+      List<ITypeDefinition> declaringTypes = new List<ITypeDefinition>();
+      while (true) {
+        var declaringType = type.DeclaringType?.GetDefinition();
+        if (declaringType == null) {
+          break;
+        }
+        if (declaringType.Kind == TypeKind.Struct) {
+          declaringTypes.Add(declaringType);
+        }
+        type = declaringType;
+      }
+      return declaringTypes;
+    }
+
+    public static ITypeDefinition GetStructReferenceDeclaringType(this ITypeDefinition type) {
+      var declaringTypes = type.GetStructDeclaringTypes();
+      if (declaringTypes.Count > 0) {
+        int maxIndex = -1;
+        foreach (var referenceType in type.GetMemberReferenceTypes()) {
+          if (referenceType.Kind == TypeKind.Struct) {
+            int index = declaringTypes.FindIndex(i => i.Equals(referenceType));
+            if (index != -1 && index > maxIndex) {
+              maxIndex = index;
+            }
+          }
+        }
+        if (maxIndex != -1) {
+          return declaringTypes[maxIndex];
+        }
+      }
+      return null;
     }
   }
 }
