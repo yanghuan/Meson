@@ -232,10 +232,6 @@ namespace Meson.Compiler {
       return type.KnownTypeCode == KnownTypeCode.Array;
     }
 
-    private static string GetAccessibilityString(this ITypeDefinition type) {
-      return type.DeclaringType != null ? type.Accessibility.ToTokenString() : null;
-    }
-
     public static string ToTokenString(this Accessibility a) {
       switch (a) {
         case Accessibility.Private:

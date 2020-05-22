@@ -35,19 +35,18 @@
 #define CLASS_(...) BOOST_PP_IF(BOOST_PP_EQUAL(BOOST_PP_VARIADIC_SIZE(__VA_ARGS__), 1), CLASS00_ , CLASS11_)
 #define CLASS(...) CLASS_(__VA_ARGS__)(BOOST_PP_VARIADIC_TO_SEQ(__VA_ARGS__))
 
-#define CLASS_ARRAY_(n, name, n1, name1, code) \
-  class name;\
-  using Array = rt::ref<name>;\
+#define CLASS_ARRAY_(n, name, code) \
+  template <class T1 = void, class T2 = void>\
+  class name {};\
+  template <class T1 = void, class T2 = void>\
+  using n = rt::ref<name<T1, T2>>;\
+  template <>\
+  class name<>\
+  BOOST_PP_TUPLE_ENUM(code);\
   template <class T>\
-  class name1;\
-  template <class T>\
-  using array = rt::ref<name1<T>>;\
-  class name \
-  BOOST_PP_TUPLE_ENUM(code); \
-  template <class T> \
-  class name1 : public rt::Array<T>, public name {};
+  class name<T> : public rt::Array<T>, public name<> {};
   
-#define CLASS_ARRAY(code) CLASS_ARRAY_(Array, NAME(Array), array, NAME(array), code)
+#define CLASS_ARRAY(code) CLASS_ARRAY_(Array, NAME(Array), code)
 
 #define CLASS_VOID_OP(s, d, e) class e = void
 #define TEMPLATE_VOID(seq) (template<BOOST_PP_SEQ_ENUM(BOOST_PP_SEQ_TRANSFORM(CLASS_VOID_OP, _, seq))>)

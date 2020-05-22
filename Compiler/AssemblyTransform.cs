@@ -9,7 +9,7 @@ using ICSharpCode.Decompiler.TypeSystem;
 namespace Meson.Compiler {
   class AssemblyTransform {
     private CSharpDecompiler decompiler_;
-    private HashSet<IType> voidGenericTypes_ = new HashSet<IType>();
+    private HashSet<ITypeDefinition> voidGenericTypes_ = new HashSet<ITypeDefinition>();
     private Dictionary<ITypeDefinition, ITypeDefinition> nestedBrotherTypes_ = new Dictionary<ITypeDefinition, ITypeDefinition>();
 
     public AssemblyTransform(string path) {

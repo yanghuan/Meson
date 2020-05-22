@@ -195,7 +195,7 @@ namespace Meson.Compiler {
         case TypeKind.Array: {
           ArrayType arrayType = (ArrayType)type;
           var elementType = GetTypeName(arrayType.ElementType, typeDefinition);
-          return new GenericIdentifierSyntax(IdentifierSyntax.array, elementType);
+          return new GenericIdentifierSyntax((IdentifierSyntax)type.Kind.ToString(), elementType);
         }
         case TypeKind.Pointer: {
           PointerType pointerType = (PointerType)type;
@@ -221,8 +221,11 @@ namespace Meson.Compiler {
         return outTypeName.TwoColon(result);
       }
 
-      if (type.Kind == TypeKind.Class && AssemblyTransform.IsVoidGenericType(type.Original())) {
-        result = new GenericIdentifierSyntax(result, IdentifierSyntax.Void);
+      if (type.Kind == TypeKind.Class) {
+        var definition = type.GetDefinition();
+        if (definition.IsArrayType() || AssemblyTransform.IsVoidGenericType(definition)) {
+          result = new GenericIdentifierSyntax(result, IdentifierSyntax.Void);
+        }
       }
 
       return result;
