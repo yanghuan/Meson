@@ -76,7 +76,7 @@ namespace rt {
   private:
     GCObject(const TypeMetadata& klass) noexcept : GCObjectHead(klass) {}
 
-    size_t GetAllocSize() noexcept {
+    constexpr size_t GetAllocSize() noexcept {
       if constexpr (IsSpeicalObject) {
         return get()->GetAllocSize();
       }

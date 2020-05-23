@@ -32,10 +32,10 @@
 #define CLASS11_(seq) CLASS1(BOOST_PP_SEQ_HEAD(seq), BOOST_PP_SEQ_TAIL(seq)) 
 #define CLASS00_(seq) CLASS0(BOOST_PP_SEQ_HEAD(seq))
 
-#define CLASS_(...) BOOST_PP_IF(BOOST_PP_EQUAL(BOOST_PP_VARIADIC_SIZE(__VA_ARGS__), 1), CLASS00_ , CLASS11_)
-#define CLASS(...) CLASS_(__VA_ARGS__)(BOOST_PP_VARIADIC_TO_SEQ(__VA_ARGS__))
+#define CLASSX(...) BOOST_PP_IF(BOOST_PP_EQUAL(BOOST_PP_VARIADIC_SIZE(__VA_ARGS__), 1), CLASS00_ , CLASS11_)
+#define CLASS(...) CLASSX(__VA_ARGS__)(BOOST_PP_VARIADIC_TO_SEQ(__VA_ARGS__))
 
-#define CLASS_ARRAY_(n, name, code) \
+#define ARRAY_(n, name, code) \
   template <class T1 = void, class T2 = void>\
   class name {};\
   template <class T1 = void, class T2 = void>\
@@ -46,7 +46,7 @@
   template <class T>\
   class name<T> : public rt::Array<T>, public name<> {};
   
-#define CLASS_ARRAY(code) CLASS_ARRAY_(Array, NAME(Array), code)
+#define ARRAY(code) ARRAY_(Array, NAME(Array), code)
 
 #define CLASS_VOID_OP(s, d, e) class e = void
 #define TEMPLATE_VOID(seq) (template<BOOST_PP_SEQ_ENUM(BOOST_PP_SEQ_TRANSFORM(CLASS_VOID_OP, _, seq))>)
@@ -58,7 +58,7 @@
   using n = rt::ref<name<BOOST_PP_SEQ_ENUM(seq)>>;
 
 #define CLASS_MULTI_FORWARD_(n, name, seq) CLASS_MULTI_FORWARD__(n, name, TEMPLATE_VOID(seq), seq)
-#define CLASS_MULTI_FORWARD(name, ...) CLASS_MULTI_FORWARD_(name, NAME_(name, _, _), BOOST_PP_VARIADIC_TO_SEQ(__VA_ARGS__))
+#define CLASS_FORWARD(name, ...) CLASS_MULTI_FORWARD_(name, NAME_(name, _, _), BOOST_PP_VARIADIC_TO_SEQ(__VA_ARGS__))
 
 #define CLASS_MULTI0(name) \
   template <> \
@@ -72,7 +72,7 @@
 
 #define CLASS_MULTI1_(seq) CLASS_MULTI1(BOOST_PP_SEQ_HEAD(seq), BOOST_PP_SEQ_TAIL(seq)) 
 #define CLASS_MULTI_(...) BOOST_PP_IF(BOOST_PP_EQUAL(BOOST_PP_VARIADIC_SIZE(__VA_ARGS__), 1), CLASS_MULTI0_, CLASS_MULTI1_)
-#define CLASS_MULTI(...) CLASS_MULTI_(__VA_ARGS__)(BOOST_PP_VARIADIC_TO_SEQ(__VA_ARGS__))
+#define CLASS_(...) CLASS_MULTI_(__VA_ARGS__)(BOOST_PP_VARIADIC_TO_SEQ(__VA_ARGS__))
 
 #define FORWARD0(n, name) \
   class name;\

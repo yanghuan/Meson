@@ -36,7 +36,7 @@ namespace Meson.Compiler {
         }
         compilationUnit_.AddHeadIncludes(includes.OrderBy(i => i));
         usingsSyntax.Statements.AddRange(usings.OrderBy(i => i).Select(GetUsingNamespaceSyntax));
-        usingsSyntax.Statements.AddRange(Forwards.Where(i => i.Name != "Task").Select(GetForwardExpression));
+        usingsSyntax.Statements.AddRange(Forwards.Select(GetForwardExpression));
         if (root_.Kind != TypeKind.Interface) {
           compilationUnit_.AddSrcInclude(root_.GetIncludeString(), false);
           compilationUnit_.AddSrcStatement(BlankLinesStatement.One);

@@ -9,7 +9,7 @@ using namespace System;
 void f() {
 	Array<int> arr = newarr<Array<int>>(10);
 	arr[0] = 20;
-	arr[1] = 21;
+	arr[1] = 22;
 
 	String a = "dddd";
 	std::cout << a->c_str() << std::endl;

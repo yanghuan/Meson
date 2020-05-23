@@ -284,7 +284,7 @@ namespace Meson.Compiler {
         }
         case ClassKind.MultiRef:
         case ClassKind.Ref: {
-          Write(node.Kind == ClassKind.Ref ? "CLASS" : "CLASS_MULTI");
+          Write(node.Kind == ClassKind.Ref ? "CLASS" : "CLASS_");
           Write(Tokens.OpenParentheses);
           if (node.Template != null) {
             WriteSeparatedSyntaxList(new IdentifierSyntax[] { node.Name }.Concat(node.Template.Arguments.OfType<TemplateTypenameSyntax>().Select(i => i.Name)));
@@ -295,7 +295,7 @@ namespace Meson.Compiler {
           break;
         }
         case ClassKind.Array: {
-          Write("CLASS_ARRAY");
+          Write("ARRAY");
           Write(Tokens.OpenParentheses);
           Write(Tokens.OpenParentheses);
           Render((BlockSyntax)node);
@@ -310,7 +310,7 @@ namespace Meson.Compiler {
           goto case ClassKind.None;
         }
         case ClassKind.MultiRefForward: {
-          Write("CLASS_MULTI_FORWARD");
+          Write("CLASS_FORWARD");
           Write(Tokens.OpenParentheses);
           WriteSeparatedSyntaxList(new IdentifierSyntax[] { node.Name }.Concat(node.Template.Arguments.OfType<TemplateTypenameSyntax>().Select(i => i.Name)));
           Write(Tokens.CloseParentheses);
