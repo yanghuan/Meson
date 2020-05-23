@@ -8,8 +8,12 @@ using ICSharpCode.Decompiler.TypeSystem;
 
 namespace Meson.Compiler {
   class AssemblyTransform {
+    private sealed class RefMultiGenericTypeInfo {
+      public List<ITypeDefinition> Types;
+    }
+
     private CSharpDecompiler decompiler_;
-    private HashSet<ITypeDefinition> voidGenericTypes_ = new HashSet<ITypeDefinition>();
+    private Dictionary<ITypeDefinition, RefMultiGenericTypeInfo> refMultiGenericTypes_ = new Dictionary<ITypeDefinition, RefMultiGenericTypeInfo>();
     private Dictionary<ITypeDefinition, ITypeDefinition> nestedBrotherTypes_ = new Dictionary<ITypeDefinition, ITypeDefinition>();
 
     public AssemblyTransform(string path) {
@@ -40,9 +44,11 @@ namespace Meson.Compiler {
     private void CheckVoidGenericType(IEnumerable<List<ITypeDefinition>> sameNameTypes) {
       foreach (var types in sameNameTypes) {
         if (types.Count > 1) {
-          var type = types.First();
-          if (type.TypeParameterCount == 0 && type.IsRefType()) {
-            voidGenericTypes_.Add(type);
+          bool hasRef = types.Exists(i => i.IsRefType());
+          if (hasRef) {
+            foreach (var type in types) {
+              refMultiGenericTypes_.Add(type, new RefMultiGenericTypeInfo() { Types = types });
+            }
           }
         }
       }
@@ -61,8 +67,26 @@ namespace Meson.Compiler {
       return new CompilationUnitTransform(this, types);
     }
 
-    public bool IsVoidGenericType(IType type) {
-      return voidGenericTypes_.Contains(type);
+    public bool IsRefVoidGenericType(ITypeDefinition type) {
+      return refMultiGenericTypes_.ContainsKey(type);
+    }
+
+    public ITypeDefinition GetRefMultiGenericFirstType(ITypeDefinition type, out int genericCount) {
+      var info = refMultiGenericTypes_.GetOrDefault(type);
+      if (info != null) {
+        genericCount = info.Types.Last().TypeParameterCount + 1;
+        return info.Types.First();
+      }
+      genericCount = -1;
+      return null;
+    }
+
+    public bool IsCompilationUnitIn(ITypeDefinition root, ITypeDefinition type) {
+      if (root.Equals(type)) {
+        return true;
+      }
+      var info = refMultiGenericTypes_.GetOrDefault(root);
+      return info != null && info.Types.Contains(type);
     }
 
     internal IType GetDeclaringType(ITypeDefinition type) {
@@ -74,12 +98,15 @@ namespace Meson.Compiler {
       if (typeDefinition.IsSame(memberType)) {
         return true;
       }
-      if (typeDefinition.IsSame(memberType.DeclaringType)) {
+
+      var memberTypeDeclaringType = memberType.DeclaringType.GetDefinition();
+      if (typeDefinition.IsSame(memberTypeDeclaringType)) {
         return true;
       }
+
       IType declaringType = GetDeclaringType(typeDefinition);
       while (declaringType != null) {
-        if (declaringType.Equals(memberType.DeclaringType)) {
+        if (declaringType.Equals(memberTypeDeclaringType)) {
           return true;
         }
         declaringType = declaringType.DeclaringType;

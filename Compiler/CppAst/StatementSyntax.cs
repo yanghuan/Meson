@@ -331,4 +331,22 @@ namespace Meson.Compiler.CppAst {
     public FriendClassDeclarationSyntax(IdentifierSyntax name, bool isStruct = false) : base(name, isStruct, -1) {
     }
   }
+
+  internal sealed class ForwardMacroSyntax : StatementSyntax {
+    public bool IsMulti { get; }
+    public IdentifierSyntax Macro => !IsMulti ? "FORWARD" : "FORWARD_";
+    public string AccessibilityToken { get; set; }
+    public InvationExpressionSyntax Invation { get; }
+
+    public ForwardMacroSyntax(IdentifierSyntax name, IEnumerable<IdentifierSyntax> typeArguments, bool isMulti = false) {
+      IsMulti = isMulti;
+      Invation = new InvationExpressionSyntax(Macro);
+      Invation.Arguments.Add(name);
+      Invation.Arguments.AddRange(typeArguments);
+    }
+
+    internal override void Render(CppRenderer renderer) {
+      renderer.Render(this);
+    }
+  }
 }

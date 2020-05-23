@@ -409,5 +409,10 @@ namespace Meson.Compiler {
       Write(node.CloseParentheses);
     }
 
+    internal void Render(ForwardMacroSyntax node) {
+      WriteAccessibility(node.AccessibilityToken);
+      node.Invation.Render(this);
+      WriteNewLine();
+    }
   }
 }

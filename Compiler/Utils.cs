@@ -86,18 +86,16 @@ namespace Meson.Compiler {
       return -1;
     }
 
-    public static IType GetReferenceType(this IType type) {
+    public static ITypeDefinition GetReferenceType(this IType type) {
       if (type.DeclaringType != null) {
         return type.DeclaringType.GetReferenceType();
       }
-
       return type switch
       {
-        NullabilityAnnotatedType nullableType => nullableType.TypeWithoutAnnotation,
-        ArrayType arrayType => arrayType.DirectBaseTypes.First(),
+        ArrayType arrayType => arrayType.DirectBaseTypes.First().GetReferenceType(),
         PointerType pointerType => pointerType.ElementType.GetReferenceType(),
         ParameterizedType t => t.GenericType.GetReferenceType(),
-        _ => type,
+        _ => type.GetDefinition(),
       };
     }
 
@@ -187,7 +185,7 @@ namespace Meson.Compiler {
       return type.Kind != TypeKind.Struct && !type.IsStatic;
     }
 
-    public static ITypeDefinition GetReferenceTypeDefinition(this IType type) {
+    private static ITypeDefinition GetReferenceTypeDefinition(this IType type) {
       var definition = type.GetDefinition();
       if (definition == null && type is TypeWithElementType t) {
         definition = t.ElementType.GetReferenceTypeDefinition();
@@ -274,6 +272,13 @@ namespace Meson.Compiler {
         }
       }
       return null;
+    }
+
+    public static ForwardMacroSyntax GetForwardStatement(this ITypeDefinition type, int genericCount = -1) {
+      if (genericCount != -1) {
+        return new ForwardMacroSyntax(type.Name, Enumerable.Range(0, genericCount).Select(i => (IdentifierSyntax)$"T{i + 1}"), true);
+      }
+      return new ForwardMacroSyntax(type.Name, type.GetTypeParameters().Select(i => (IdentifierSyntax)i.Name));
     }
   }
 }

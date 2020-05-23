@@ -37,6 +37,10 @@ namespace Meson.Compiler.CppAst {
     public List<ExpressionSyntax> Arguments = new List<ExpressionSyntax>();
     public string CloseParentheses => Tokens.CloseParentheses;
 
+    public InvationExpressionSyntax(ExpressionSyntax expresison) {
+      Expression = expresison;
+    }
+
     public InvationExpressionSyntax(ExpressionSyntax expresison, IEnumerable<ExpressionSyntax> arguments) {
       Expression = expresison;
       Arguments.AddRange(arguments);

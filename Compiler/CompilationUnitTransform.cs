@@ -10,7 +10,7 @@ namespace Meson.Compiler {
     public AssemblyTransform AssemblyTransform { get; }
     private CompilationUnitSyntax compilationUnit_ = new CompilationUnitSyntax();
     public readonly HashSet<ITypeDefinition> References = new HashSet<ITypeDefinition>();
-    public readonly HashSet<ITypeDefinition> Forwards = new HashSet<ITypeDefinition>();
+    private readonly Dictionary<ITypeDefinition, ForwardMacroSyntax> forwards_ = new Dictionary<ITypeDefinition, ForwardMacroSyntax>();
     private ITypeDefinition root_;
 
     public CompilationUnitTransform(AssemblyTransform assemblyTransform, List<ITypeDefinition> types) {
@@ -36,7 +36,7 @@ namespace Meson.Compiler {
         }
         compilationUnit_.AddHeadIncludes(includes.OrderBy(i => i));
         usingsSyntax.Statements.AddRange(usings.OrderBy(i => i).Select(GetUsingNamespaceSyntax));
-        usingsSyntax.Statements.AddRange(Forwards.Select(GetForwardExpression));
+        usingsSyntax.Statements.AddRange(forwards_.Values);
         if (root_.Kind != TypeKind.Interface) {
           compilationUnit_.AddSrcInclude(root_.GetIncludeString(), false);
           compilationUnit_.AddSrcStatement(BlankLinesStatement.One);
@@ -49,14 +49,14 @@ namespace Meson.Compiler {
       compilationUnit_.Render(rener);
     }
 
-    private static ExpressionStatementSyntax GetForwardExpression(ITypeDefinition type) {
-      var args = new IdentifierSyntax[] { type.Name }.Concat(type.GetTypeParameters().Select(i => (IdentifierSyntax)i.Name));
-      var invation = new InvationExpressionSyntax((IdentifierSyntax)"FORWARD", args);
-      return new ExpressionStatementSyntax(invation) { HasSemicolon = true };
-    }
-
     private static UsingNamespaceSyntax GetUsingNamespaceSyntax(string name) {
       return new UsingNamespaceSyntax(name.Replace(Tokens.Dot, Tokens.TwoColon));
+    }
+
+    public void AddForward(ITypeDefinition type) {
+      var firstType = AssemblyTransform.GetRefMultiGenericFirstType(type, out int genericCount);
+      var value = firstType ?? type;
+      forwards_[value] = value.GetForwardStatement(genericCount);
     }
   }
 }

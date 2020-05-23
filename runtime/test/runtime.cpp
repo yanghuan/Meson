@@ -11,8 +11,10 @@ void f() {
 	arr[0] = 20;
 	arr[1] = 22;
 
-	String a = "dddd";
-	std::cout << a->c_str() << std::endl;
+
+	//String a = "dddd";
+	//String b = a + "cccc";
+	//std::cout << b->c_str() << std::endl;
 }
 
 int main()

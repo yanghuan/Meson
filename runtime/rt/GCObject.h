@@ -53,14 +53,19 @@ namespace rt {
     friend class ref;
   };
 
+  template <class Base, class Derived>
+  struct IsDerived {
+    static constexpr bool value = std::is_convertible<Derived*, Base*>::value;
+  };
+
   template <class T>
   struct IsString {
-    static constexpr bool value = std::is_base_of<String, T>::value;
+    static constexpr bool value = IsDerived<String, T>::value;
   };
 
   template <class T>
   class GCObject : public GCObjectHead {
-    static constexpr bool IsSpeicalObject = IsString<T>::value || std::is_convertible<T*, Array_*>::value;
+    static constexpr bool IsSpeicalObject = IsString<T>::value || IsDerived<Array_, T>::value;
   public:
     T* get() noexcept {
       return reinterpret_cast<T*>(v_);
@@ -94,10 +99,10 @@ namespace rt {
 
   template <class T, class T1>
   struct IsEquatable {
-    static constexpr bool value = std::is_base_of<Object, T>::value
-      || std::is_base_of<Object, T1>::value
-      || std::is_convertible<T*, T1*>::value
-      || std::is_convertible<T1*, T*>::value;
+    static constexpr bool value = IsDerived<Object, T>::value
+      || IsDerived<Object, T1>::value
+      || IsDerived<T, T1>::value
+      || IsDerived<T1, T>::value;
   };
 
   template <class T>
@@ -105,8 +110,7 @@ namespace rt {
   public:
     template <class T1>
     struct IsConvertible {
-      static constexpr bool value = std::is_convertible<T*, Object*>::value ||
-        std::is_convertible<T1*, T*>::value;
+      static constexpr bool value = IsDerived<Object, T>::value || IsDerived<T, T1>::value;
     };
 
     using GCObject = GCObject<T>;

@@ -29,6 +29,7 @@ namespace Meson.Compiler {
     private BlockSyntax parent_;
     private List<ITypeDefinition> types_;
     private TypeDefinitionTransform parentTransform_;
+    private Dictionary<ITypeDefinition, ITypeDefinition> nestedCycleTypes_ = new Dictionary<ITypeDefinition, ITypeDefinition>();
 
     public AssemblyTransform AssemblyTransform => compilationUnit_.AssemblyTransform;
     private bool IsMulti => types_.Count > 1;
@@ -44,17 +45,24 @@ namespace Meson.Compiler {
 
     private void Visit() {
       if (IsMulti) {
+        bool hasRef = types_.Exists(i => i.IsRefType());
         int typeParameterCount = types_.Last().TypeParameterCount + 1;
         var parameters = Enumerable.Range(0, typeParameterCount).Select((i, it) => new TemplateTypenameSyntax($"T{i + 1}", IdentifierSyntax.Void));
         ClassSyntax node = new ClassSyntax(Root.Name, Root.Kind == TypeKind.Struct) { 
           Template = new TemplateSyntax(parameters),
-          Kind = Root.IsRefType() ? ClassKind.MultiRefForward : ClassKind.None,
+          Kind = hasRef ? ClassKind.MultiRefForward : ClassKind.None,
         };
         parent_.Add(node);
       }
 
-      foreach (var root in types_) {
-        VisitTypeDefinition(root);
+      foreach (var type in types_) {
+        var referenceType = parentTransform_?.nestedCycleTypes_.GetOrDefault(type);
+        if (referenceType != null) {
+          var forward = referenceType.GetForwardStatement();
+          forward.AccessibilityToken = GetAccessibilityString(referenceType);
+          parent_.Add(forward);
+        }
+        VisitTypeDefinition(type);
       }
     }
 
@@ -116,19 +124,15 @@ namespace Meson.Compiler {
     }
 
     private ClassKind GetClassKind(ITypeDefinition type) {
-      if (!type.IsRefType()) {
-        return IsMulti ? ClassKind.Multi : ClassKind.None;
+      if (IsMulti) {
+        return types_.Exists(i => i.IsRefType()) ? ClassKind.MultiRef : ClassKind.Multi;
       }
 
       if (type.IsArrayType()) {
         return ClassKind.Array;
       }
 
-      if (IsMulti) {
-        return ClassKind.MultiRef;
-      }
-
-      return ClassKind.Ref;
+      return type.IsRefType() ? ClassKind.Ref : ClassKind.None;
     }
 
     private void VistClass(ITypeDefinition type) {
@@ -177,15 +181,15 @@ namespace Meson.Compiler {
 
     private ExpressionSyntax GetTypeName(IType type, ITypeDefinition typeDefinition) {
       var referenceType = type.GetReferenceType();
-      if (referenceType.Kind != TypeKind.TypeParameter) {
+      if (referenceType != null) {
         var rootType = typeDefinition.GetReferenceType();
-        if (!referenceType.Equals(rootType)) {
+        if (!AssemblyTransform.IsCompilationUnitIn(rootType, referenceType)) {
           var referenceTypeDefinition = referenceType.GetDefinition();
           compilationUnit_.References.Add(referenceTypeDefinition);
-          if (referenceTypeDefinition.Kind != TypeKind.Enum) {
+          if (referenceTypeDefinition.Kind != TypeKind.Enum && referenceTypeDefinition.Kind != TypeKind.Struct) {
             bool isExists = referenceTypeDefinition.IsMemberTypeExists(rootType.GetDefinition(), true);
             if (isExists) {
-              compilationUnit_.Forwards.Add(referenceTypeDefinition);
+              compilationUnit_.AddForward(referenceTypeDefinition);
             }
           }
         }
@@ -206,10 +210,12 @@ namespace Meson.Compiler {
 
       var typeName = new ValueTextIdentifierSyntax(type.Name);
       ExpressionSyntax result = typeName;
+      bool isGeneric = false;
       if (type.TypeArguments.Count > 0) {
         var typeArguments = type.GetTypeArguments().Select(i => GetTypeName(i, typeDefinition)).ToList();
         if (typeArguments.Count > 0) {
           result = new GenericIdentifierSyntax(typeName, typeArguments);
+          isGeneric = true;
         }
       }
 
@@ -221,22 +227,29 @@ namespace Meson.Compiler {
         return outTypeName.TwoColon(result);
       }
 
-      if (type.Kind == TypeKind.Class) {
+      if (type.Kind != TypeKind.Struct && !isGeneric) {
         var definition = type.GetDefinition();
-        if (definition.IsArrayType() || AssemblyTransform.IsVoidGenericType(definition)) {
-          result = new GenericIdentifierSyntax(result, IdentifierSyntax.Void);
+        if (definition != null) {
+          if (definition.IsArrayType() || AssemblyTransform.IsRefVoidGenericType(definition)) {
+            result = new GenericIdentifierSyntax(result, IdentifierSyntax.Void);
+          }
         }
       }
 
       return result;
     }
 
-    private static int CompareNestedType(ITypeDefinition type, ITypeDefinition x, ITypeDefinition y) {
-      if (x.IsMemberTypeExists(y)) {
+    private int CompareNestedType(ITypeDefinition type, ITypeDefinition x, ITypeDefinition y) {
+      bool yInX = x.IsMemberTypeExists(y);
+      bool xInY = y.IsMemberTypeExists(x);
+      if (yInX) {
+        if (xInY) {
+          nestedCycleTypes_[y] = x;
+        }
         return 1;
       }
 
-      if (y.IsMemberTypeExists(x)) {
+      if (xInY) {
         return -1;
       }
 
@@ -270,7 +283,9 @@ namespace Meson.Compiler {
         var brotherType = AssemblyTransform.GetNestedBrotherType(types);
         if (brotherType != null) {
           foreach (var nestedType in types) {
-            var friend = new FriendClassDeclarationSyntax(nestedType.Name, nestedType.Kind == TypeKind.Struct) { Template = BuildTemplateSyntax(nestedType) };
+            bool isRef = nestedType.IsRefType();
+            string name = isRef ? $"{nestedType.Name}___" : nestedType.Name;
+            var friend = new FriendClassDeclarationSyntax(name, !isRef) { Template = BuildTemplateSyntax(nestedType) };
             node.Add(friend);
           }
         }
