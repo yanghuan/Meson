@@ -13,6 +13,7 @@
 namespace rt {
   class Object;
   class String;
+  class Array_;
   template <class T>
   class ref;
 
@@ -59,8 +60,7 @@ namespace rt {
 
   template <class T>
   class GCObject : public GCObjectHead {
-    static constexpr bool IsSpeicalObject = IsString<T>::value;
-
+    static constexpr bool IsSpeicalObject = IsString<T>::value || std::is_convertible<T*, Array_*>::value;
   public:
     T* get() noexcept {
       return reinterpret_cast<T*>(v_);
@@ -264,21 +264,16 @@ namespace rt {
   };
 
   class String {
-    struct Pack {
-      int32_t length;
-      intptr_t firstChar;
-    };
-
   public:
     using string = ref<String>;
 
   public:
     static size_t GetAllocSize(size_t n) noexcept {
-      return sizeof(GCObject<Pack>) - sizeof(Pack::firstChar) + n + 1;
+      return sizeof(GCObject<String>) - sizeof(firstChar) + n + 1;
     }
 
     size_t GetAllocSize() const noexcept {
-      return GetAllocSize(length());
+      return GetAllocSize(length);
     }
 
     static string load(const char* str) {
@@ -291,37 +286,26 @@ namespace rt {
     }
 
     char* c_str() noexcept {
-      return reinterpret_cast<char*>(&get()->firstChar);
+      return reinterpret_cast<char*>(&firstChar);
     }
 
     const char* c_str() const noexcept {
-      return reinterpret_cast<const char*>(&get()->firstChar);
+      return reinterpret_cast<const char*>(&firstChar);
     }
 
   private:
-    Pack* get() noexcept {
-      return reinterpret_cast<Pack*>(this);
-    }
-
-    const Pack* get() const noexcept {
-      return reinterpret_cast<const Pack*>(this);
-    }
-
-    int& length() noexcept {
-      return get()->length;
-    }
-
-    int length() const noexcept {
-      return get()->length;
-    }
-
     static string load(const char* str, size_t n);
     static string cat(String** being, size_t n);
     static GCObject<String>* alloc(size_t n);
+
+  protected:
+    int32_t length;
+    intptr_t firstChar;
   };
 
+  class Array_ {};
   template <class T>
-  class Array {
+  class Array : public Array_ {
     using GCObject = GCObject<Array>;
     using array = ref<Array>;
 
@@ -365,6 +349,7 @@ namespace rt {
     static array newarr(size_t n) {
       void* p = Object::alloc(GetAllocSize(n));
       GCObject* temp = new (p) GCObject(gTypeMetadata);
+      temp->get()->length = static_cast<int32_t>(n);
       return array(temp);
     }
 
@@ -401,6 +386,6 @@ inline T newobj(Args&&... args) {
 
 template <class A>
 inline auto newarr(int32_t n) {
-  using T = A::element_type::element_type;
-  return *reinterpret_cast<A*>(&meson::Array<T>::newarr(n));
+  using T = A::in::element_type;
+  return *reinterpret_cast<A*>(&rt::Array<T>::newarr(n));
 }

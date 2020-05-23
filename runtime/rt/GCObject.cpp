@@ -26,7 +26,7 @@ namespace rt {
   static void* gcAlloc(void* ptr, size_t osize, size_t nsize) {
     if (nsize == 0) {
       free(ptr);
-      printf("gcFree: %p %d\n", ptr, osize);
+      printf("gcFree: %p %zd\n", ptr, osize);
       return nullptr;
     }
     else
@@ -39,7 +39,7 @@ namespace rt {
         p = realloc(ptr, nsize);
       }
       checkOutOfMemory(p);
-      printf("gcMalloc: %p %d %d %p\n", ptr, osize, nsize, p);
+      printf("gcMalloc: %p %zd %zd %p\n", ptr, osize, nsize, p);
       return p;
     }
   }
@@ -57,7 +57,7 @@ namespace rt {
     checkOutOfMemory(length);
     void* address = gcAlloc(nullptr, 0, String::GetAllocSize(length));
     auto gcObj = new (address) GCObject<String>(gMetadata);
-    gcObj->get()->length() = static_cast<int32_t>(length);
+    gcObj->get()->length = static_cast<int32_t>(length);
     return gcObj;
   }
 
@@ -80,20 +80,20 @@ namespace rt {
     for (size_t i = 0; i < n; ++i) {
       String* p = begin[i];
       if (p) {
-        length += begin[i]->length();
+        length += begin[i]->length;
       }
     }
 
     auto gcObj = alloc(length);
     auto p = gcObj->get();
-    p->length() = static_cast<int32_t>(length);
+    p->length = static_cast<int32_t>(length);
 
     char* src = p->c_str();
     for (size_t i = 0; i < n; ++i) {
       String* p = begin[i];
       if (p) {
-        strcpy_s(src, (size_t)p->length() + 1, p->c_str());
-        src += p->length();
+        strcpy_s(src, (size_t)p->length + 1, p->c_str());
+        src += p->length;
       }
     }
 
