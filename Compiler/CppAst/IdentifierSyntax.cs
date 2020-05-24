@@ -12,9 +12,10 @@ namespace Meson.Compiler.CppAst {
     public static readonly IdentifierSyntax Meson = "rt";
     public static readonly IdentifierSyntax FixedBuffer = "rt::FixedBuffer";
     public static readonly IdentifierSyntax Void = "void";
+    public static readonly IdentifierSyntax Object = "Object";
     public static readonly IdentifierSyntax T = "T";
     public static readonly IdentifierSyntax In = "in";
-
+  
     public GenericIdentifierSyntax WithGeneric(TemplateSyntax template) {
       return new GenericIdentifierSyntax(this, template.Arguments.OfType<TemplateTypenameSyntax>().Select(i => i.Name));
     }
@@ -63,6 +64,21 @@ namespace Meson.Compiler.CppAst {
 
     public PointerIdentifierSyntax(ExpressionSyntax name) {
       Name = name;
+    }
+
+    internal override void Render(CppRenderer renderer) {
+      renderer.Render(this);
+    }
+  }
+
+  internal sealed class NestedCycleRefTypeNameSyntax : IdentifierSyntax {
+    public IdentifierSyntax ObjectType => Object;
+    public string OpenComment => Tokens.OpneComment;
+    public string FullName { get; }
+    public string CloseComment => Tokens.CloseComment;
+
+    public NestedCycleRefTypeNameSyntax(string fullName) {
+      FullName = fullName;
     }
 
     internal override void Render(CppRenderer renderer) {

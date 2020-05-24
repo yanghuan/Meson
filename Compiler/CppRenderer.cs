@@ -414,5 +414,12 @@ namespace Meson.Compiler {
       node.Invation.Render(this);
       WriteNewLine();
     }
+
+    internal void Render(NestedCycleRefTypeNameSyntax node) {
+      node.ObjectType.Render(this);
+      Write(node.OpenComment);
+      Write(node.FullName);
+      Write(node.CloseComment);
+    }
   }
 }

@@ -280,5 +280,20 @@ namespace Meson.Compiler {
       }
       return new ForwardMacroSyntax(type.Name, type.GetTypeParameters().Select(i => (IdentifierSyntax)i.Name));
     }
+
+    public static StringBuilder GetShortName(this IType type, StringBuilder sb, bool isFirst) {
+      if (type.DeclaringType != null) {
+        type.DeclaringType.GetShortName(sb, false);
+      }
+      sb.Append(type.Name);
+      if (!isFirst) {
+        sb.Append('.');
+      }
+      return sb;
+    }
+
+    public static string GetShortName(this IType type) {
+      return type.GetShortName(new StringBuilder(), true).ToString();
+    }
   }
 }

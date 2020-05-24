@@ -40,6 +40,8 @@ namespace Meson.Compiler.CppAst {
     public const string Less = "<";
     public const string Greater = ">";
     public const string Template = "template";
+    public const string OpneComment = "/*";
+    public const string CloseComment = "*/";
   }
 
   sealed class SyntaxList<T> : List<T> where T : SyntaxNode {

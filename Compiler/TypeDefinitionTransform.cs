@@ -189,6 +189,9 @@ namespace Meson.Compiler {
           if (referenceTypeDefinition.Kind != TypeKind.Enum && referenceTypeDefinition.Kind != TypeKind.Struct) {
             bool isExists = referenceTypeDefinition.IsMemberTypeExists(rootType.GetDefinition(), true);
             if (isExists) {
+              if (type.DeclaringType != null && type.IsReferenceType == true) {
+                return new NestedCycleRefTypeNameSyntax(type.GetShortName());
+              }
               compilationUnit_.AddForward(referenceTypeDefinition);
             }
           }
