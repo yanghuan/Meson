@@ -85,4 +85,20 @@ namespace Meson.Compiler.CppAst {
       renderer.Render(this);
     }
   }
+
+  internal sealed class SymbolNameSyntax : IdentifierSyntax {
+    public IdentifierSyntax NameExpression { get; private set; }
+
+    public SymbolNameSyntax(IdentifierSyntax identifierName) {
+      NameExpression = identifierName;
+    }
+
+    public void Update(IdentifierSyntax newName) {
+      NameExpression = newName;
+    }
+
+    internal override void Render(CppRenderer renderer) {
+      NameExpression.Render(renderer);
+    }
+  }
 }

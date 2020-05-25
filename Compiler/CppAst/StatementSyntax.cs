@@ -75,7 +75,7 @@ namespace Meson.Compiler.CppAst {
     public string Path { get; }
     public bool IsSystemPath { get; }
 
-    public IncludePretreatmentStatementSyntax(string path, bool isSystem = false) {
+    public IncludePretreatmentStatementSyntax(string path, bool isSystem = true) {
       Path = path;
       IsSystemPath = isSystem;
     }
@@ -99,38 +99,25 @@ namespace Meson.Compiler.CppAst {
     public void Add(StatementSyntax statement) {
       Statements.Add(statement);
     }
+
+    public void AddRange(IEnumerable<StatementSyntax> nodes) {
+      Statements.AddRange(nodes);
+    }
   }
 
   internal sealed class NamespaceSyntax : BlockSyntax {
     public string NamespaceToken => Tokens.Namespace;
     public string CloseComment => $"// {NamespaceToken} {Name}";
     public string Name { get; }
-    public NamespaceSyntax Current { get; private set; }
-    public bool IsEmpty => Current.Statements.Count == 0;
+    public bool IsEmpty => Statements.Count == 0;
 
     public NamespaceSyntax(string name) {
-      if (name.Contains('.')) {
-        string[] names = name.Split('.');
-        Name = names.First();
-        Current = this;
-        for (int i = 1; i < names.Length; ++ i) {
-          var ns = new NamespaceSyntax(names[i]);
-          Current.Statements.Add(ns);
-          Current = ns;
-        }
-      } else {
-        Name = name;
-        Current = this;
-      }
+      Name = name.Replace(".", "::");
       IsPreventIdnet = true;
     }
 
     internal override void Render(CppRenderer renderer) {
       renderer.Render(this);
-    }
-
-    public new void Add(StatementSyntax node) {
-      Current.Statements.Add(node);
     }
   }
 
@@ -153,10 +140,10 @@ namespace Meson.Compiler.CppAst {
 
   internal sealed class EnumFieldSyntax : StatementSyntax {
     public string EqualsToken => Tokens.Equals;
-    public string Name { get; }
+    public IdentifierSyntax Name { get; }
     public string Value { get; }
 
-    public EnumFieldSyntax(string name, string value) {
+    public EnumFieldSyntax(IdentifierSyntax name, string value) {
       Name = name;
       Value = value;
     }

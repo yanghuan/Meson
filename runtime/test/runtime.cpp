@@ -1,20 +1,49 @@
 ﻿// runtime.cpp: 定义应用程序的入口点。
 //
 
-#include "runtime.h"
+//#include "runtime.h"
 #include <iostream>
 
-using namespace System;
+#if 0
+namespace System {
+	namespace Collections {
+		struct A {};
+	}
+}
+
+namespace System {
+	namespace {
+		using namespace System::Collections;
+	}
+
+}
+
+namespace System {
+	namespace Collections {
+		namespace Generic {
+			struct A {};
+		}
+	}
+}
+
+namespace System {
+	
+
+	namespace Other {
+		namespace {
+			using namespace System::Collections::Generic;
+		}
+		
+		
+
+		struct B {
+			A a;
+		};
+	}
+}
+#endif
 
 void f() {
-	Array<int> arr = newarr<Array<int>>(10);
-	arr[0] = 20;
-	arr[1] = 22;
-
-
-	//String a = "dddd";
-	//String b = a + "cccc";
-	//std::cout << b->c_str() << std::endl;
 }
 
 int main()
