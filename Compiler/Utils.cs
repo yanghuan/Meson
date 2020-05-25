@@ -289,6 +289,13 @@ namespace Meson.Compiler {
       return null;
     }
 
+    public static ITypeDefinition GetRootObjectDefinition(this ITypeDefinition type) {
+      if (!type.DirectBaseTypes.Any()) {
+        return type;
+      }
+      return type.DirectBaseTypes.First().GetDefinition().GetRootObjectDefinition();
+    }
+
     public static ForwardMacroSyntax GetForwardStatement(this ITypeDefinition type, int genericCount = -1) {
       if (genericCount != -1) {
         return new ForwardMacroSyntax(type.Name, Enumerable.Range(0, genericCount).Select(i => (IdentifierSyntax)$"T{i + 1}"), true);

@@ -107,13 +107,11 @@ namespace Meson.Compiler.CppAst {
 
   internal sealed class NamespaceSyntax : BlockSyntax {
     public string NamespaceToken => Tokens.Namespace;
-    public string CloseComment => $"// {NamespaceToken} {Name}";
     public string Name { get; }
     public bool IsEmpty => Statements.Count == 0;
 
     public NamespaceSyntax(string name) {
       Name = name.Replace(".", "::");
-      IsPreventIdnet = true;
     }
 
     internal override void Render(CppRenderer renderer) {

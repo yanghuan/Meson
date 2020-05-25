@@ -192,6 +192,8 @@ namespace Meson.Compiler {
             bool isExists = referenceTypeDefinition.IsMemberTypeExists(rootType.GetDefinition(), true);
             if (isExists) {
               if (type.DeclaringType != null && type.IsReferenceType == true) {
+                var rootObject = referenceTypeDefinition.GetRootObjectDefinition();
+                compilationUnit_.References.Add(rootObject);
                 return new NestedCycleRefTypeNameSyntax(type.GetShortName());
               }
               compilationUnit_.AddForward(referenceTypeDefinition);

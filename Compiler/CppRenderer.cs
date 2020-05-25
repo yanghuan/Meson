@@ -200,8 +200,6 @@ namespace Meson.Compiler {
         Write(node.Name);
         WriteSpace();
         Render((BlockSyntax)node);
-        WriteSpace();
-        Write(node.CloseComment);
         WriteNewLine();
       }
     }
