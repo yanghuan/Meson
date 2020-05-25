@@ -1,6 +1,5 @@
 target("outcpp")
     set_kind("binary")
-    set_languages("c++20")
-    add_includedirs("..")
+    add_includedirs("..", {public = true})
     add_includedirs(".")
     add_files("./*.h", "./*.cpp", "./*.mpp")
