@@ -17,22 +17,9 @@ namespace Meson.Compiler {
     private static void Run(Options opts) {
       Stopwatch sw = new Stopwatch();
       sw.Start();
-
-      //DoSelfDll(opts);
-      DoSystemDll(opts);
-
+      new SyntaxGenerator(opts);
       double seconds = sw.Elapsed.TotalSeconds;
-      Console.WriteLine("successful, cast {0}s", seconds);
-    }
-
-    private static void DoSelfDll(Options opts) {
-      string path = typeof(Program).Assembly.Location;
-      new AssemblyTransform(path).Generate(opts.OutCppDir);
-    }
-
-    private static void DoSystemDll(Options opts) {
-      string path = typeof(string).Assembly.Location;
-      new AssemblyTransform(path).Generate(opts.OutCppDir);
+      Console.WriteLine("successful, cost {0}s", seconds);
     }
   }
 }

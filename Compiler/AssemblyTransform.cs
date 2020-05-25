@@ -8,15 +8,12 @@ using ICSharpCode.Decompiler.TypeSystem;
 
 namespace Meson.Compiler {
   class AssemblyTransform {
-    private sealed class RefMultiGenericTypeInfo {
-      public List<ITypeDefinition> Types;
-    }
-
+    public SyntaxGenerator Generator { get; }
     private CSharpDecompiler decompiler_;
-    private Dictionary<ITypeDefinition, RefMultiGenericTypeInfo> refMultiGenericTypes_ = new Dictionary<ITypeDefinition, RefMultiGenericTypeInfo>();
     private Dictionary<ITypeDefinition, ITypeDefinition> nestedBrotherTypes_ = new Dictionary<ITypeDefinition, ITypeDefinition>();
 
-    public AssemblyTransform(string path) {
+    public AssemblyTransform(SyntaxGenerator generator, string path) {
+      Generator = generator;
       decompiler_ = new CSharpDecompiler(path, GetDecompilerSettings());
     }
 
@@ -29,16 +26,16 @@ namespace Meson.Compiler {
       return type.Name.Length > 0 && !type.Name.StartsWith("<");
     }
 
-    public void Generate(string outDir) {
+    public IEnumerable<CompilationUnitTransform> GetCompilationUnits() {
       var exportTypes = decompiler_.TypeSystem.MainModule.TypeDefinitions.Where(IsExportType);
       var nestedTypes = exportTypes.Where(i => i.DeclaringType != null);
       var rootTypes = exportTypes.Where(i => i.DeclaringType == null);
       var sameNameTypes = rootTypes.GroupBy(i => $"{i.Namespace}.{i.Name}").ToDictionary(i => i.Key, i => i.OrderBy(i => i.TypeParameterCount).ToList());
       CheckVoidGenericType(sameNameTypes.Values);
       CheckNestedType(nestedTypes);
-      foreach (var types in sameNameTypes.Values) {
-        Create(types).Write(outDir);
-      }
+      var compilationUnits = new List<CompilationUnitTransform>();
+      compilationUnits.AddRange(sameNameTypes.Values.Select(Create));
+      return compilationUnits;
     }
 
     private void CheckVoidGenericType(IEnumerable<List<ITypeDefinition>> sameNameTypes) {
@@ -47,7 +44,12 @@ namespace Meson.Compiler {
           bool hasRef = types.Exists(i => i.IsRefType());
           if (hasRef) {
             foreach (var type in types) {
-              refMultiGenericTypes_.Add(type, new RefMultiGenericTypeInfo() { Types = types });
+              Generator.AddMultiGenericType(type, types);
+            }
+          } else {
+            var type = types.Find(i => i.TypeParameterCount == 0);
+            if (type != null) {
+              Generator.AddMultiGenericType(type, types);
             }
           }
         }
@@ -65,28 +67,6 @@ namespace Meson.Compiler {
 
     private CompilationUnitTransform Create(List<ITypeDefinition> types) {
       return new CompilationUnitTransform(this, types);
-    }
-
-    public bool IsRefVoidGenericType(ITypeDefinition type) {
-      return refMultiGenericTypes_.ContainsKey(type);
-    }
-
-    public ITypeDefinition GetRefMultiGenericFirstType(ITypeDefinition type, out int genericCount) {
-      var info = refMultiGenericTypes_.GetOrDefault(type);
-      if (info != null) {
-        genericCount = info.Types.Last().TypeParameterCount + 1;
-        return info.Types.First();
-      }
-      genericCount = -1;
-      return null;
-    }
-
-    public bool IsCompilationUnitIn(ITypeDefinition root, ITypeDefinition type) {
-      if (root.Equals(type)) {
-        return true;
-      }
-      var info = refMultiGenericTypes_.GetOrDefault(root);
-      return info != null && info.Types.Contains(type);
     }
 
     internal IType GetDeclaringType(ITypeDefinition type) {

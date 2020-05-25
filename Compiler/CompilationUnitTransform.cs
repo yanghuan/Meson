@@ -8,6 +8,7 @@ using Meson.Compiler.CppAst;
 namespace Meson.Compiler {
   internal sealed class CompilationUnitTransform {
     public AssemblyTransform AssemblyTransform { get; }
+    public SyntaxGenerator Generator => AssemblyTransform.Generator;
     private CompilationUnitSyntax compilationUnit_ = new CompilationUnitSyntax();
     public readonly HashSet<ITypeDefinition> References = new HashSet<ITypeDefinition>();
     private readonly Dictionary<ITypeDefinition, ForwardMacroSyntax> forwards_ = new Dictionary<ITypeDefinition, ForwardMacroSyntax>();
@@ -24,7 +25,7 @@ namespace Meson.Compiler {
       var usingsSyntax = new StatementListSyntax();
       ns.Add(usingsSyntax);
 
-      new TypeDefinitionTransform(this, ns.Current, types);
+      new TypeDefinitionTransform(this, ns, types);
       if (root_.Kind != TypeKind.Enum) {
         HashSet<string> includes = new HashSet<string>();
         HashSet<string> usings = new HashSet<string>();
@@ -36,10 +37,29 @@ namespace Meson.Compiler {
         }
         compilationUnit_.AddHeadIncludes(includes.OrderBy(i => i));
         usingsSyntax.Statements.AddRange(usings.OrderBy(i => i).Select(GetUsingNamespaceSyntax));
-        usingsSyntax.Statements.AddRange(forwards_.Values);
+        AddForwards(usingsSyntax);
         if (root_.Kind != TypeKind.Interface) {
           compilationUnit_.AddSrcInclude(root_.GetIncludeString(), false);
           compilationUnit_.AddSrcStatement(BlankLinesStatement.One);
+        }
+      }
+    }
+
+    private void AddForwards(StatementListSyntax statements) {
+      var outs = new List<(ITypeDefinition Type, ForwardMacroSyntax Forward)>();
+      foreach (var (type, forward) in forwards_) {
+        if (root_.Namespace == type.Namespace) {
+          statements.Add(forward);
+        } else {
+          outs.Add((type, forward));
+        }
+      }
+      if (outs.Count > 0) {
+       var group = outs.GroupBy(i => i.Type.Namespace);
+        foreach (var g in group) {
+          var ns = new NamespaceSyntax(g.Key);
+          ns.AddRange(g.Select(i => i.Forward));
+          compilationUnit_.HeadStatements.Add(ns);
         }
       }
     }
@@ -54,7 +74,7 @@ namespace Meson.Compiler {
     }
 
     public void AddForward(ITypeDefinition type) {
-      var firstType = AssemblyTransform.GetRefMultiGenericFirstType(type, out int genericCount);
+      var firstType = Generator.GetRefMultiGenericFirstType(type, out int genericCount);
       var value = firstType ?? type;
       forwards_[value] = value.GetForwardStatement(genericCount);
     }

@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 
 using ICSharpCode.Decompiler.TypeSystem;
 using ICSharpCode.Decompiler.TypeSystem.Implementation;
@@ -108,23 +109,37 @@ namespace Meson.Compiler {
       return $"{type.Name}.h";
     }
 
-    private static bool HasType(this IType type, ITypeDefinition other, HashSet<ITypeDefinition> recursiveTypes) {
-      if (type.Original().Equals(other)) {
+    private static bool IsTypeArgumentHasType(this IType argument, ITypeDefinition other, HashSet<ITypeDefinition> recursiveTypes) {
+      if (argument.HasType(other, recursiveTypes)) {
         return true;
       }
 
-      foreach (var argument in type.TypeArguments) {
-        if (argument.HasType(other, recursiveTypes)) {
+      if (recursiveTypes != null) {
+        var argumentTypeDefinition = argument.GetDefinition();
+        if (argumentTypeDefinition != null && !recursiveTypes.Contains(argumentTypeDefinition)) {
+          recursiveTypes.Add(argumentTypeDefinition);
+          if (argumentTypeDefinition.IsMemberTypeExists(other, recursiveTypes)) {
+            return true;
+          }
+        }
+      }
+
+      return false;
+    }
+
+    private static bool HasType(this IType type, ITypeDefinition other, HashSet<ITypeDefinition> recursiveTypes) {
+      if (other.Equals(type.GetDefinition())) {
+        return true;
+      }
+
+      if (type is TypeWithElementType typeWithElementType) {
+        if (IsTypeArgumentHasType(typeWithElementType.ElementType, other, recursiveTypes)) {
           return true;
         }
-
-        if (recursiveTypes != null) {
-          var argumentTypeDefinition = argument.GetDefinition();
-          if (argumentTypeDefinition != null && !recursiveTypes.Contains(argumentTypeDefinition)) {
-            recursiveTypes.Add(argumentTypeDefinition);
-            if (argumentTypeDefinition.IsMemberTypeExists(other, recursiveTypes)) {
-              return true;
-            }
+      } else {
+        foreach (var argument in type.TypeArguments) {
+          if (IsTypeArgumentHasType(argument, other, recursiveTypes)) {
+            return true;
           }
         }
       }
@@ -294,6 +309,55 @@ namespace Meson.Compiler {
 
     public static string GetShortName(this IType type) {
       return type.GetShortName(new StringBuilder(), true).ToString();
+    }
+
+    private static readonly Regex identifierRegex_ = new Regex(@"^[a-zA-Z_][a-zA-Z0-9_]*$", RegexOptions.Compiled);
+
+    public static bool IsIdentifierIllegal(ref string identifierName) {
+      if (!identifierRegex_.IsMatch(identifierName)) {
+        identifierName = EncodeToIdentifier(identifierName);
+        return true;
+      }
+      return false;
+    }
+
+    private static string ToBase63(int number) {
+      const string kAlphabet = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ_";
+      int basis = kAlphabet.Length;
+      int n = number;
+      StringBuilder sb = new StringBuilder();
+      while (n > 0) {
+        char ch = kAlphabet[n % basis];
+        sb.Append(ch);
+        n /= basis;
+      }
+      return sb.ToString();
+    }
+
+    private static string EncodeToIdentifier(string name) {
+      StringBuilder sb = new StringBuilder();
+      foreach (char c in name) {
+        if (c < 127) {
+          sb.Append(c);
+        } else {
+          string base63 = ToBase63(c);
+          sb.Append(base63);
+        }
+      }
+      if (char.IsNumber(sb[0])) {
+        sb.Insert(0, '_');
+      }
+      return sb.ToString();
+    }
+
+    public static string GetNewName(string name, int index) {
+      return index switch
+      {
+        0 => name,
+        1 => name + "_",
+        2 => "_" + name,
+        _ => name + (index - 2),
+      };
     }
   }
 }

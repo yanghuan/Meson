@@ -234,7 +234,7 @@ namespace Meson.Compiler {
     }
 
     internal void Render(EnumFieldSyntax node) {
-      Write(node.Name);
+      node.Name.Render(this);
       if (node.Value != null) {
         WriteSpace();
         Write(node.EqualsToken);

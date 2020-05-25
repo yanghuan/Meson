@@ -26,12 +26,13 @@ namespace Meson.Compiler {
     };
 
     private CompilationUnitTransform compilationUnit_;
+    public AssemblyTransform AssemblyTransform => compilationUnit_.AssemblyTransform;
+    public SyntaxGenerator Generator => AssemblyTransform.Generator;
     private BlockSyntax parent_;
     private List<ITypeDefinition> types_;
     private TypeDefinitionTransform parentTransform_;
     private Dictionary<ITypeDefinition, ITypeDefinition> nestedCycleTypes_ = new Dictionary<ITypeDefinition, ITypeDefinition>();
 
-    public AssemblyTransform AssemblyTransform => compilationUnit_.AssemblyTransform;
     private bool IsMulti => types_.Count > 1;
     private ITypeDefinition Root => types_.First();
 
@@ -96,7 +97,8 @@ namespace Meson.Compiler {
       foreach (var field in typeDefinition.Fields) {
         if (field.Name != "value__") {
           object v = field.GetConstantValue();
-          enumNode.Add(new EnumFieldSyntax(field.Name, v.ToString()));
+          var fieldName = Generator.GetMemberName(field);
+          enumNode.Add(new EnumFieldSyntax(fieldName, v.ToString()));
         }
       }
     }
@@ -162,7 +164,8 @@ namespace Meson.Compiler {
           if (typeName == null) {
             typeName = GetFieldTypeName(field, typeDefinition);
           }
-          node.Statements.Add(new FieldDefinitionSyntax(typeName, field.Name, field.IsStatic, field.Accessibility.ToTokenString()));
+          var fieldName = Generator.GetMemberName(field);
+          node.Statements.Add(new FieldDefinitionSyntax(typeName, fieldName, field.IsStatic, field.Accessibility.ToTokenString()));
         }
       }
     }
@@ -183,9 +186,8 @@ namespace Meson.Compiler {
       var referenceType = type.GetReferenceType();
       if (referenceType != null) {
         var rootType = typeDefinition.GetReferenceType();
-        if (!AssemblyTransform.IsCompilationUnitIn(rootType, referenceType)) {
+        if (!Generator.IsCompilationUnitIn(rootType, referenceType)) {
           var referenceTypeDefinition = referenceType.GetDefinition();
-          compilationUnit_.References.Add(referenceTypeDefinition);
           if (referenceTypeDefinition.Kind != TypeKind.Enum && referenceTypeDefinition.Kind != TypeKind.Struct) {
             bool isExists = referenceTypeDefinition.IsMemberTypeExists(rootType.GetDefinition(), true);
             if (isExists) {
@@ -195,6 +197,7 @@ namespace Meson.Compiler {
               compilationUnit_.AddForward(referenceTypeDefinition);
             }
           }
+          compilationUnit_.References.Add(referenceTypeDefinition);
         }
       }
 
@@ -230,10 +233,10 @@ namespace Meson.Compiler {
         return outTypeName.TwoColon(result);
       }
 
-      if (type.Kind != TypeKind.Struct && !isGeneric) {
+      if (!isGeneric) {
         var definition = type.GetDefinition();
         if (definition != null) {
-          if (definition.IsArrayType() || AssemblyTransform.IsRefVoidGenericType(definition)) {
+          if (definition.IsArrayType() || Generator.IsVoidGenericType(definition)) {
             result = new GenericIdentifierSyntax(result, IdentifierSyntax.Void);
           }
         }
@@ -242,23 +245,32 @@ namespace Meson.Compiler {
       return result;
     }
 
-    private int CompareNestedType(ITypeDefinition type, ITypeDefinition x, ITypeDefinition y) {
-      bool yInX = x.IsMemberTypeExists(y);
-      bool xInY = y.IsMemberTypeExists(x);
-      if (yInX) {
-        if (xInY) {
-          nestedCycleTypes_[y] = x;
+    private List<ITypeDefinition> SortNestedTypes(List<ITypeDefinition> types) {
+      List<List<ITypeDefinition>> typesList = new List<List<ITypeDefinition>>() { types.ToList() };
+      while (true) {
+        var parentTypes = new HashSet<ITypeDefinition>();
+        var lastTypes = typesList.Last();
+        foreach (var x in lastTypes) {
+          foreach (var y in lastTypes) {
+            if (x != y && y != nestedCycleTypes_.GetOrDefault(x)) {
+              bool yInX = x.IsMemberTypeExists(y);
+              bool xInY = y.IsMemberTypeExists(x);
+              if (yInX) {
+                if (xInY) {
+                  nestedCycleTypes_[y] = x;
+                }
+                parentTypes.Add(y);
+              }
+            }
+          }
         }
-        return 1;
+        if (parentTypes.Count == 0) {
+          break;
+        }
+        typesList.Add(parentTypes.ToList());
       }
-
-      if (xInY) {
-        return -1;
-      }
-
-      int indexX = type.NestedTypes.IndexOf(x);
-      int indexY = type.NestedTypes.IndexOf(y);
-      return indexX.CompareTo(indexY);
+      typesList.Reverse();
+      return typesList.SelectMany(i => i).Distinct().ToList();
     }
 
     private IEnumerable<ITypeDefinition> GetNestedTypes(ITypeDefinition type) {
@@ -272,7 +284,7 @@ namespace Meson.Compiler {
           }
           return isEnum;
         });
-        nestedTypes.Sort((x, y) => CompareNestedType(type, x, y));
+        nestedTypes = SortNestedTypes(nestedTypes);
         nestedTypes.InsertRange(0, enums);
         return nestedTypes;
       }

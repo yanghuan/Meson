@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace Meson.Compiler.CppAst {
@@ -9,20 +10,14 @@ namespace Meson.Compiler.CppAst {
 
     private NamespaceSyntax headNamespaceSyntax_;
     private NamespaceSyntax srcNamespaceSyntax_;
-    private StatementListSyntax headIncludes_ = new StatementListSyntax();
     private StatementListSyntax srcIncludes_ = new StatementListSyntax();
 
     public CompilationUnitSyntax() {
       HeadStatements.Add(PragmaPretreatmentStatementSyntax.Once);
       HeadStatements.Add(BlankLinesStatement.One);
-      HeadStatements.Add(headIncludes_);
-      headIncludes_.Statements.Add(new IncludePretreatmentStatementSyntax("rt/GCObject.h", true));
     }
 
     internal override void Render(CppRenderer renderer) {
-      if (!headIncludes_.IsEmpty) {
-        HeadStatements.Add(BlankLinesStatement.One);
-      }
       HeadStatements.Add(headNamespaceSyntax_);
       if (!srcNamespaceSyntax_.IsEmpty) {
         if (!srcIncludes_.IsEmpty) {
@@ -45,9 +40,9 @@ namespace Meson.Compiler.CppAst {
     }
 
     public void AddHeadIncludes(IEnumerable<string> files) {
-      foreach (string path in files) {
-        AddIncludeTo(headIncludes_, path);
-      }
+      HeadStatements.Add(new IncludePretreatmentStatementSyntax("rt/GCObject.h"));
+      HeadStatements.AddRange(files.Select(i => new IncludePretreatmentStatementSyntax(i)));
+      HeadStatements.Add(BlankLinesStatement.One);
     }
 
     public void AddSrcInclude(string path, bool isSystem = true) {
