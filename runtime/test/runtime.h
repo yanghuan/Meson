@@ -1,5 +1,12 @@
 ﻿#pragma once
 
-#include <System.Private.CoreLib/System/Array.h>
-#include <System.Private.CoreLib/System/String.h>
+#if 0
+namespace System::Collections {
+  class IComparer {};
+}
+
+namespace System {
+  using namespace System::Collections;
+}
+#endif
 
