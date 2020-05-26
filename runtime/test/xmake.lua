@@ -1,0 +1,6 @@
+target("test")
+    set_kind("binary")
+    add_packages("boost")
+    add_includedirs("..", {public = true})
+    add_includedirs("../outcpp")
+    add_files("../rt/**.cpp", "**.cpp")
