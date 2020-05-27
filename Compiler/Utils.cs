@@ -296,11 +296,31 @@ namespace Meson.Compiler {
       return type.DirectBaseTypes.First().GetDefinition().GetRootObjectDefinition();
     }
 
-    public static ForwardMacroSyntax GetForwardStatement(this ITypeDefinition type, int genericCount = -1) {
-      if (genericCount != -1) {
-        return new ForwardMacroSyntax(type.Name, Enumerable.Range(0, genericCount).Select(i => (IdentifierSyntax)$"T{i + 1}"), true);
+    public static TemplateSyntax GetTemplateSyntax(this ITypeDefinition type) {
+      TemplateSyntax template = null;
+      if (type.TypeParameterCount > 0) {
+        var typeParameters = type.GetTypeParameters().Select(i => new TemplateTypenameSyntax(i.Name));
+        if (typeParameters.Any()) {
+          template = new TemplateSyntax(typeParameters);
+        }
       }
-      return new ForwardMacroSyntax(type.Name, type.GetTypeParameters().Select(i => (IdentifierSyntax)i.Name));
+      return template;
+    }
+
+    public static ForwardMacroSyntax GetForwardStatement(this ITypeDefinition type, int genericCount = -1, bool isNested = false) {
+      if (genericCount != -1) {
+        return new ForwardMacroSyntax(type.Name, genericCount.GetTypeNames(), true, isNested);
+      }
+      return new ForwardMacroSyntax(type.Name, type.GetTypeParameters().Select(i => (IdentifierSyntax)i.Name), false, isNested);
+    }
+
+    public static TemplateSyntax GetVoidTemplate(this int typeParameterCount) {
+      var args = Enumerable.Range(0, typeParameterCount).Select((i, it) => new TemplateTypenameSyntax($"T{i + 1}", IdentifierSyntax.Void));
+      return new TemplateSyntax(args);
+    }
+
+    public static IEnumerable<IdentifierSyntax> GetTypeNames(this int genericCount) {
+      return Enumerable.Range(0, genericCount).Select(i => (IdentifierSyntax)$"T{i + 1}");
     }
 
     public static bool IsNamespaceContain(this ITypeDefinition type, ITypeDefinition reference) {

@@ -127,6 +127,7 @@ namespace Meson.Compiler.CppAst {
     public const string TwoColon = "::";
     public const string Less = "<";
     public const string Greater = ">";
+    public const string LineComment = "//";
     public const string OpneComment = "/*";
     public const string CloseComment = "*/";
 

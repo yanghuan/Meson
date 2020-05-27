@@ -218,6 +218,12 @@ namespace Meson.Compiler {
         Write(node.Name);
         WriteSpace();
         Render((BlockSyntax)node);
+        WriteSpace();
+        Write(Tokens.LineComment);
+        WriteSpace();
+        Write(node.NamespaceToken);
+        WriteSpace();
+        Write(node.Name);
         WriteNewLine();
       }
     }
@@ -303,7 +309,7 @@ namespace Meson.Compiler {
           Write(node.Kind == ClassKind.Ref ? "CLASS" : "CLASS_");
           Write(Tokens.OpenParentheses);
           if (node.Template != null) {
-            WriteSeparatedSyntaxList(new IdentifierSyntax[] { node.Name }.Concat(node.Template.Arguments.OfType<TemplateTypenameSyntax>().Select(i => i.Name)));
+            WriteSeparatedSyntaxList(new IdentifierSyntax[] { node.Name }.Concat(node.Template.TypeNames));
           } else {
             node.Name.Render(this);
           }
@@ -322,13 +328,13 @@ namespace Meson.Compiler {
         }
         case ClassKind.Multi: {
           node.Template ??= new TemplateSyntax();
-          node.Name = new GenericIdentifierSyntax(node.Name, node.Template.Arguments.OfType<TemplateTypenameSyntax>().Select(i => i.Name));
+          node.Name = new GenericIdentifierSyntax(node.Name, node.Template.TypeNames);
           goto case ClassKind.None;
         }
         case ClassKind.MultiRefForward: {
           Write("CLASS_FORWARD");
           Write(Tokens.OpenParentheses);
-          WriteSeparatedSyntaxList(new IdentifierSyntax[] { node.Name }.Concat(node.Template.Arguments.OfType<TemplateTypenameSyntax>().Select(i => i.Name)));
+          WriteSeparatedSyntaxList(new IdentifierSyntax[] { node.Name }.Concat(node.Template.TypeNames));
           Write(Tokens.CloseParentheses);
           WriteNewLine();
           return;

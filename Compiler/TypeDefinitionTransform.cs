@@ -33,7 +33,8 @@ namespace Meson.Compiler {
     private TypeDefinitionTransform parentTransform_;
     private Dictionary<ITypeDefinition, ITypeDefinition> nestedCycleTypes_ = new Dictionary<ITypeDefinition, ITypeDefinition>();
 
-    private bool IsMulti => types_.Count > 1;
+    public bool IsMulti => types_.Count > 1;
+    public bool HasRef => types_.Exists(i => i.IsRefType());
     private ITypeDefinition Root => types_.First();
 
     public TypeDefinitionTransform(CompilationUnitTransform compilationUnit, BlockSyntax parent, IEnumerable<ITypeDefinition> types, TypeDefinitionTransform parentTransform = null) {
@@ -46,12 +47,10 @@ namespace Meson.Compiler {
 
     private void Visit() {
       if (IsMulti) {
-        bool hasRef = types_.Exists(i => i.IsRefType());
         int typeParameterCount = types_.Last().TypeParameterCount + 1;
-        var parameters = Enumerable.Range(0, typeParameterCount).Select((i, it) => new TemplateTypenameSyntax($"T{i + 1}", IdentifierSyntax.Void));
         ClassSyntax node = new ClassSyntax(Root.Name, Root.Kind == TypeKind.Struct) { 
-          Template = new TemplateSyntax(parameters),
-          Kind = hasRef ? ClassKind.MultiRefForward : ClassKind.None,
+          Template = typeParameterCount.GetVoidTemplate(),
+          Kind = HasRef ? ClassKind.MultiRefForward : ClassKind.None,
         };
         parent_.Add(node);
       }
@@ -59,7 +58,7 @@ namespace Meson.Compiler {
       foreach (var type in types_) {
         var referenceType = parentTransform_?.nestedCycleTypes_.GetOrDefault(type);
         if (referenceType != null) {
-          var forward = referenceType.GetForwardStatement();
+          var forward = referenceType.GetForwardStatement(isNested: true);
           forward.AccessibilityToken = GetAccessibilityString(referenceType);
           parent_.Add(forward);
         }
@@ -103,19 +102,8 @@ namespace Meson.Compiler {
       }
     }
 
-    private TemplateSyntax BuildTemplateSyntax(ITypeDefinition type) {
-      TemplateSyntax template = null;
-      if (type.TypeParameterCount > 0) {
-        var typeParameters = type.GetTypeParameters().Select(i => new TemplateTypenameSyntax(i.Name));
-        if (typeParameters.Any()) {
-          template = new TemplateSyntax(typeParameters);
-        }
-      }
-      return template;
-    }
-
     private void VisitStruct(ITypeDefinition type) {
-      var template = BuildTemplateSyntax(type);
+      var template = type.GetTemplateSyntax();
       ClassSyntax node = new ClassSyntax(type.Name, true) {
         Template = template,
         Kind = GetClassKind(type),
@@ -138,7 +126,7 @@ namespace Meson.Compiler {
     }
 
     private void VistClass(ITypeDefinition type) {
-      var template = BuildTemplateSyntax(type);
+      var template = type.GetTemplateSyntax();
       ClassSyntax node = new ClassSyntax(type.Name) {
         Template = template,
         Kind = GetClassKind(type),
@@ -302,7 +290,7 @@ namespace Meson.Compiler {
           foreach (var nestedType in types) {
             bool isRef = nestedType.IsRefType();
             string name = isRef ? $"{nestedType.Name}___" : nestedType.Name;
-            var friend = new FriendClassDeclarationSyntax(name, !isRef) { Template = BuildTemplateSyntax(nestedType) };
+            var friend = new FriendClassDeclarationSyntax(name, !isRef) { Template = nestedType.GetTemplateSyntax() };
             node.Add(friend);
           }
         }

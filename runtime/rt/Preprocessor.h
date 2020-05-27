@@ -74,29 +74,54 @@
 #define CLASS_MULTI_(...) BOOST_PP_IF(BOOST_PP_EQUAL(BOOST_PP_VARIADIC_SIZE(__VA_ARGS__), 1), CLASS_MULTI0_, CLASS_MULTI1_)
 #define CLASS_(...) CLASS_MULTI_(__VA_ARGS__)(BOOST_PP_VARIADIC_TO_SEQ(__VA_ARGS__))
 
-#define FORWARD0(n, name) \
-  class name;\
-  using n = rt::ref<name>;\
+#define FORWARD0(n, name, ns) \
+  namespace ns{class name;}\
+  using n = rt::ref<ns::name>;\
 
-#define FORWARD0_(name) FORWARD0(name, NAME(name))
+#define FORWARD0_(name) FORWARD0(name, NAME(name), BOOST_PP_CAT(name, Namespace))
 #define FORWARD00_(seq) FORWARD0_(BOOST_PP_SEQ_HEAD(seq))
 
-#define FORWARD1(n, name, T, seq) \
+#define FORWARD1(n, name, T, seq, ns) \
+  namespace ns{BOOST_PP_TUPLE_ENUM(T) class name;}\
   BOOST_PP_TUPLE_ENUM(T)\
-  class name;\
-  BOOST_PP_TUPLE_ENUM(T)\
-  using n = rt::ref<name<BOOST_PP_SEQ_ENUM(seq)>>;
+  using n = rt::ref<ns::name<BOOST_PP_SEQ_ENUM(seq)>>;
 
-#define FORWARD1_(name, seq) FORWARD1(name, NAME(name), TEMPLATE(seq), seq)
+#define FORWARD1_(name, seq) FORWARD1(name, NAME(name), TEMPLATE(seq), seq, BOOST_PP_CAT(name, Namespace))
 #define FORWARD11_(seq) FORWARD1_(BOOST_PP_SEQ_HEAD(seq), BOOST_PP_SEQ_TAIL(seq))
 
 #define FORWARDX(...) BOOST_PP_IF(BOOST_PP_EQUAL(BOOST_PP_VARIADIC_SIZE(__VA_ARGS__), 1), FORWARD00_, FORWARD11_)
 #define FORWARD(...) FORWARDX(__VA_ARGS__)(BOOST_PP_VARIADIC_TO_SEQ(__VA_ARGS__))
 
-#define FORWARD_MULTI(n, name, seq) \
+#define INTERNAL_FORWARD0(n, name) \
+  class name;\
+  using n = rt::ref<name>;\
+
+#define INTERNAL_FORWARD0_(name) INTERNAL_FORWARD0(name, NAME(name))
+#define INTERNAL_FORWARD00_(seq) INTERNAL_FORWARD0_(BOOST_PP_SEQ_HEAD(seq))
+
+#define INTERNAL_FORWARD1(n, name, T, seq) \
+  BOOST_PP_TUPLE_ENUM(T)\
+  class name;\
+  BOOST_PP_TUPLE_ENUM(T)\
+  using n = rt::ref<name<BOOST_PP_SEQ_ENUM(seq)>>;
+
+#define INTERNAL_FORWARD1_(name, seq) INTERNAL_FORWARD1(name, NAME(name), TEMPLATE(seq), seq)
+#define INTERNAL_FORWARD11_(seq) INTERNAL_FORWARD1_(BOOST_PP_SEQ_HEAD(seq), BOOST_PP_SEQ_TAIL(seq))
+
+#define INTERNAL_FORWARDX(...) BOOST_PP_IF(BOOST_PP_EQUAL(BOOST_PP_VARIADIC_SIZE(__VA_ARGS__), 1), INTERNAL_FORWARD00_, INTERNAL_FORWARD11_)
+#define INTERNAL_FORWARD(...) INTERNAL_FORWARDX(__VA_ARGS__)(BOOST_PP_VARIADIC_TO_SEQ(__VA_ARGS__))
+
+#define FORWARD_MULTI(n, name, seq, ns) \
+  namespace ns{BOOST_PP_TUPLE_ENUM(TEMPLATE(seq)) class name;}\
+  BOOST_PP_TUPLE_ENUM(TEMPLATE_VOID(seq))\
+  using n = rt::ref<ns::name<BOOST_PP_SEQ_ENUM(seq)>>;
+
+#define FORWARD_(name, ...) FORWARD_MULTI(name, NAME(name), BOOST_PP_VARIADIC_TO_SEQ(__VA_ARGS__), BOOST_PP_CAT(name, Namespace))
+
+#define INTERNAL_FORWARD_MULTI(n, name, seq) \
   BOOST_PP_TUPLE_ENUM(TEMPLATE(seq))\
   class name;\
   BOOST_PP_TUPLE_ENUM(TEMPLATE_VOID(seq))\
   using n = rt::ref<name<BOOST_PP_SEQ_ENUM(seq)>>;
 
-#define FORWARD_(name, ...) FORWARD_MULTI(name, NAME(name), BOOST_PP_VARIADIC_TO_SEQ(__VA_ARGS__))
+#define INTERNAL_FORWARD_(name, ...) INTERNAL_FORWARD_MULTI(name, NAME(name), BOOST_PP_VARIADIC_TO_SEQ(__VA_ARGS__))

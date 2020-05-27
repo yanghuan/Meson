@@ -141,6 +141,7 @@ namespace Meson.Compiler.CppAst {
     public bool IsEmpty => Statements.Count == 0;
 
     public NamespaceSyntax(string name) {
+      IsPreventIdnet = true;
       Name = name.Replace(".", "::");
     }
 
@@ -225,6 +226,7 @@ namespace Meson.Compiler.CppAst {
 
     public static readonly TemplateSyntax T = new TemplateSyntax(new TemplateTypenameSyntax(IdentifierSyntax.T));
     public static readonly TemplateSyntax Empty = new TemplateSyntax();
+    public IEnumerable<IdentifierSyntax> TypeNames => Arguments.OfType<TemplateTypenameSyntax>().Select(i => i.Name);
   }
 
   sealed class BaseSyntax : SyntaxNode {
@@ -349,12 +351,14 @@ namespace Meson.Compiler.CppAst {
 
   sealed class ForwardMacroSyntax : StatementSyntax {
     public bool IsMulti { get; }
-    public IdentifierSyntax Macro => !IsMulti ? "FORWARD" : "FORWARD_";
+    public bool IsNested { get; }
+    public IdentifierSyntax Macro => !IsMulti ? (!IsNested ? "FORWARD" : "INTERNAL_FORWARD") : (!IsNested ? "FORWARD_" : "INTERNAL_FORWARDI_");
     public string AccessibilityToken { get; set; }
     public InvationExpressionSyntax Invation { get; }
 
-    public ForwardMacroSyntax(IdentifierSyntax name, IEnumerable<IdentifierSyntax> typeArguments, bool isMulti = false) {
+    public ForwardMacroSyntax(IdentifierSyntax name, IEnumerable<IdentifierSyntax> typeArguments, bool isMulti = false, bool isNested = false) {
       IsMulti = isMulti;
+      IsNested = isNested;
       Invation = new InvationExpressionSyntax(Macro);
       Invation.Arguments.Add(name);
       Invation.Arguments.AddRange(typeArguments);
