@@ -21,17 +21,17 @@ namespace Meson.Compiler {
     }
 
     private void VisitCompilationUnit(IEnumerable<ITypeDefinition> types) {
-      var ns = compilationUnit_.AddNamespace(root_.Namespace);
+      var rootNamespace = compilationUnit_.AddNamespace(root_.Namespace);
       var usingsSyntax = new StatementListSyntax();
-      ns.Add(usingsSyntax);
+      rootNamespace.Add(usingsSyntax);
 
-      new TypeDefinitionTransform(this, ns, types);
+      new TypeDefinitionTransform(this, rootNamespace, types);
       if (root_.Kind != TypeKind.Enum) {
         HashSet<string> includes = new HashSet<string>();
         HashSet<string> usings = new HashSet<string>();
         foreach (var reference in References) {
           includes.Add(reference.GetReferenceIncludeString());
-          if (!string.IsNullOrEmpty(reference.Namespace) && !root_.Namespace.StartsWith(reference.Namespace)) {
+          if (!root_.IsNamespaceContain(reference)) {
             usings.Add(reference.Namespace);
           }
         }

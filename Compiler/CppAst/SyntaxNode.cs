@@ -109,6 +109,8 @@ namespace Meson.Compiler.CppAst {
     public const string PretreatmentPrefix = "#";
     public const string Pragma = "pragma";
     public const string Include = "include";
+    public const string Define = "define";
+    public const string Undef = "undef";
     public const string OpenParentheses = "(";
     public const string CloseParentheses = ")";
     public const string OpenBrace = "{";

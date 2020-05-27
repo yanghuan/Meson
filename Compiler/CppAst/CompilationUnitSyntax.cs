@@ -13,7 +13,7 @@ namespace Meson.Compiler.CppAst {
     private StatementListSyntax srcIncludes_ = new StatementListSyntax();
 
     public CompilationUnitSyntax() {
-      HeadStatements.Add(PragmaPretreatmentStatementSyntax.Once);
+      HeadStatements.Add(PragmaPretreatmentSyntax.Once);
       HeadStatements.Add(BlankLinesStatement.One);
     }
 
@@ -36,12 +36,12 @@ namespace Meson.Compiler.CppAst {
     }
 
     private static void AddIncludeTo(StatementListSyntax includes, string path, bool isSystem = true) {
-      includes.Statements.Add(new IncludePretreatmentStatementSyntax(path, isSystem));
+      includes.Statements.Add(new IncludePretreatmentSyntax(path, isSystem));
     }
 
     public void AddHeadIncludes(IEnumerable<string> files) {
-      HeadStatements.Add(new IncludePretreatmentStatementSyntax("rt/GCObject.h"));
-      HeadStatements.AddRange(files.Select(i => new IncludePretreatmentStatementSyntax(i)));
+      HeadStatements.Add(new IncludePretreatmentSyntax("rt/GCObject.h"));
+      HeadStatements.AddRange(files.Select(i => new IncludePretreatmentSyntax(i)));
       HeadStatements.Add(BlankLinesStatement.One);
     }
 

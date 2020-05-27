@@ -1,3 +1,4 @@
+using ICSharpCode.Decompiler.CSharp.Syntax;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,7 +11,7 @@ namespace Meson.Compiler.CppAst {
     }
   }
 
-  internal sealed class ExpressionStatementSyntax : StatementSyntax {
+  sealed class ExpressionStatementSyntax : StatementSyntax {
     public ExpressionSyntax Expression { get; }
     public bool HasSemicolon { get; set; } = true;
 
@@ -23,7 +24,7 @@ namespace Meson.Compiler.CppAst {
     }
   }
 
-  internal sealed class StatementListSyntax : StatementSyntax {
+  sealed class StatementListSyntax : StatementSyntax {
     public readonly SyntaxList<StatementSyntax> Statements = new SyntaxList<StatementSyntax>();
     public bool IsEmpty => Statements.Count == 0;
 
@@ -36,7 +37,7 @@ namespace Meson.Compiler.CppAst {
     }
   }
 
-  internal sealed class BlankLinesStatement : StatementSyntax {
+  sealed class BlankLinesStatement : StatementSyntax {
     public int Count { get; }
 
     public BlankLinesStatement(int count) {
@@ -50,15 +51,15 @@ namespace Meson.Compiler.CppAst {
     public static readonly BlankLinesStatement One = new BlankLinesStatement(1);
   }
 
-  internal abstract class PretreatmentStatementSyntax : StatementSyntax {
+  internal abstract class PretreatmentSyntax : StatementSyntax {
     public string Prefix => Tokens.PretreatmentPrefix;
   }
 
-  internal sealed class PragmaPretreatmentStatementSyntax : PretreatmentStatementSyntax {
+  sealed class PragmaPretreatmentSyntax : PretreatmentSyntax {
     public string PragmaToken => Tokens.Pragma;
     public string Symbol { get; }
 
-    public PragmaPretreatmentStatementSyntax(string symbol) {
+    public PragmaPretreatmentSyntax(string symbol) {
       Symbol = symbol;
     }
 
@@ -66,16 +67,17 @@ namespace Meson.Compiler.CppAst {
       renderer.Render(this);
     }
 
-    public static PragmaPretreatmentStatementSyntax Once = new PragmaPretreatmentStatementSyntax("once");
+    public static PragmaPretreatmentSyntax Once = new PragmaPretreatmentSyntax("once");
   }
 
-  internal sealed class IncludePretreatmentStatementSyntax : PretreatmentStatementSyntax {
+  sealed class IncludePretreatmentSyntax : PretreatmentSyntax {
     public string IncludeToken => Tokens.Include;
-
     public string Path { get; }
     public bool IsSystemPath { get; }
+    public string OpenToken => IsSystemPath ? Tokens.Less : Tokens.Quote;
+    public string CloseToken => IsSystemPath ? Tokens.Greater : Tokens.Quote;
 
-    public IncludePretreatmentStatementSyntax(string path, bool isSystem = true) {
+    public IncludePretreatmentSyntax(string path, bool isSystem = true) {
       Path = path;
       IsSystemPath = isSystem;
     }
@@ -85,7 +87,35 @@ namespace Meson.Compiler.CppAst {
     }
   }
 
-  internal class BlockSyntax : StatementSyntax {
+  sealed class DefinePretreatmentSyntax : PretreatmentSyntax {
+    public string DefineToken => Tokens.Define;
+    public IdentifierSyntax Name { get; }
+    public ExpressionSyntax Expression { get; }
+
+    public DefinePretreatmentSyntax(IdentifierSyntax name, ExpressionSyntax expression) {
+      Name = name;
+      Expression = expression;
+    }
+
+    internal override void Render(CppRenderer renderer) {
+      renderer.Render(this);
+    }
+  }
+
+  sealed class UndefPretreatmentSyntax : PretreatmentSyntax {
+    public string UnDefToken => Tokens.Undef;
+    public IdentifierSyntax Name { get; }
+
+    public UndefPretreatmentSyntax(IdentifierSyntax name) {
+      Name = name;
+    }
+
+    internal override void Render(CppRenderer renderer) {
+      renderer.Render(this);
+    }
+  }
+
+  class BlockSyntax : StatementSyntax {
     public string OpenToken => Tokens.OpenBrace;
     public string CloseToken => Tokens.CloseBrace;
     public bool IsPreventIdnet { get; set; } 
@@ -105,7 +135,7 @@ namespace Meson.Compiler.CppAst {
     }
   }
 
-  internal sealed class NamespaceSyntax : BlockSyntax {
+  sealed class NamespaceSyntax : BlockSyntax {
     public string NamespaceToken => Tokens.Namespace;
     public string Name { get; }
     public bool IsEmpty => Statements.Count == 0;
@@ -119,7 +149,7 @@ namespace Meson.Compiler.CppAst {
     }
   }
 
-  internal sealed class EnumSyntax : BlockSyntax {
+  sealed class EnumSyntax : BlockSyntax {
     public string AccessibilityToken { get; set; }
     public string EnumToekn => Tokens.Enum;
     public string ClassToekn => Tokens.Class;
@@ -136,7 +166,7 @@ namespace Meson.Compiler.CppAst {
     }
   }
 
-  internal sealed class EnumFieldSyntax : StatementSyntax {
+  sealed class EnumFieldSyntax : StatementSyntax {
     public string EqualsToken => Tokens.Equals;
     public IdentifierSyntax Name { get; }
     public string Value { get; }
@@ -151,7 +181,7 @@ namespace Meson.Compiler.CppAst {
     }
   }
 
-  internal sealed class TemplateTypenameSyntax : SyntaxNode {
+  sealed class TemplateTypenameSyntax : SyntaxNode {
     public string ClassToken => Tokens.Class;
     public IdentifierSyntax Name { get; }
     public string EqualsToken => Tokens.Equals;
@@ -171,7 +201,7 @@ namespace Meson.Compiler.CppAst {
     }
   }
 
-  internal sealed class TemplateSyntax : SyntaxNode {
+  sealed class TemplateSyntax : SyntaxNode {
     public string TemplateToken => Tokens.Template;
     public string OpenBrace => Tokens.Less;
     public readonly SyntaxList<SyntaxNode> Arguments = new SyntaxList<SyntaxNode>();
@@ -197,7 +227,7 @@ namespace Meson.Compiler.CppAst {
     public static readonly TemplateSyntax Empty = new TemplateSyntax();
   }
 
-  internal sealed class BaseSyntax : SyntaxNode {
+  sealed class BaseSyntax : SyntaxNode {
     public ExpressionSyntax Type { get; }
 
     public BaseSyntax(IdentifierSyntax type) {
@@ -222,7 +252,7 @@ namespace Meson.Compiler.CppAst {
     MultiRefForward,
   }
 
-  internal sealed class ClassSyntax : BlockSyntax {
+  sealed class ClassSyntax : BlockSyntax {
     public string AccessibilityToken { get; set; }
     public TemplateSyntax Template { get; set; }
     public string ClassToken => IsStruct ? Tokens.Struct : Tokens.Class;
@@ -241,7 +271,7 @@ namespace Meson.Compiler.CppAst {
     }
   }
 
-  internal sealed class FieldDefinitionSyntax : StatementSyntax {
+  sealed class FieldDefinitionSyntax : StatementSyntax {
     public string AccessibilityToken { get; }
     public ExpressionSyntax Type { get; }
     public IdentifierSyntax Nmae { get; }
@@ -259,7 +289,7 @@ namespace Meson.Compiler.CppAst {
     }
   }
 
-  internal class ClassForwardDeclarationSyntax : StatementSyntax {
+  class ClassForwardDeclarationSyntax : StatementSyntax {
     public TemplateSyntax Template { get; set; }
     public string ClassToken => IsStruct ? Tokens.Struct : Tokens.Class;
     public IdentifierSyntax Name { get; }
@@ -280,7 +310,7 @@ namespace Meson.Compiler.CppAst {
     }
   }
 
-  internal sealed class UsingDeclarationSyntax : StatementSyntax {
+  sealed class UsingDeclarationSyntax : StatementSyntax {
     public TemplateSyntax Template { get; set; }
     public string UsingToken => Tokens.Using;
     public IdentifierSyntax Name { get; }
@@ -297,7 +327,7 @@ namespace Meson.Compiler.CppAst {
     }
   }
 
-  internal sealed class UsingNamespaceSyntax : StatementSyntax {
+  sealed class UsingNamespaceSyntax : StatementSyntax {
     public string UsingToken => Tokens.Using;
     public string NamespaceToken => Tokens.Namespace;
 
@@ -312,12 +342,12 @@ namespace Meson.Compiler.CppAst {
     }
   }
 
-  internal sealed class FriendClassDeclarationSyntax : ClassForwardDeclarationSyntax {
+  sealed class FriendClassDeclarationSyntax : ClassForwardDeclarationSyntax {
     public FriendClassDeclarationSyntax(IdentifierSyntax name, bool isStruct = false) : base(name, isStruct, -1) {
     }
   }
 
-  internal sealed class ForwardMacroSyntax : StatementSyntax {
+  sealed class ForwardMacroSyntax : StatementSyntax {
     public bool IsMulti { get; }
     public IdentifierSyntax Macro => !IsMulti ? "FORWARD" : "FORWARD_";
     public string AccessibilityToken { get; set; }

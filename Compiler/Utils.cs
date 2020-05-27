@@ -303,6 +303,10 @@ namespace Meson.Compiler {
       return new ForwardMacroSyntax(type.Name, type.GetTypeParameters().Select(i => (IdentifierSyntax)i.Name));
     }
 
+    public static bool IsNamespaceContain(this ITypeDefinition type, ITypeDefinition reference) {
+      return string.IsNullOrEmpty(reference.Namespace) || type.Namespace.StartsWith(reference.Namespace);
+    }
+
     public static StringBuilder GetShortName(this IType type, StringBuilder sb, bool isFirst) {
       if (type.DeclaringType != null) {
         type.DeclaringType.GetShortName(sb, false);

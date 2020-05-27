@@ -15,7 +15,8 @@ namespace Meson.Compiler.CppAst {
     public static readonly IdentifierSyntax Object = "Object";
     public static readonly IdentifierSyntax T = "T";
     public static readonly IdentifierSyntax In = "in";
-  
+    public static readonly IdentifierSyntax Out = "out";
+
     public GenericIdentifierSyntax WithGeneric(TemplateSyntax template) {
       return new GenericIdentifierSyntax(this, template.Arguments.OfType<TemplateTypenameSyntax>().Select(i => i.Name));
     }

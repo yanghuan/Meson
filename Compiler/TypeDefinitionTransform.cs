@@ -216,13 +216,13 @@ namespace Meson.Compiler {
         }
       }
 
-      var typeName = new ValueTextIdentifierSyntax(type.Name);
+      IdentifierSyntax typeName = type.Name;
       ExpressionSyntax result = typeName;
       bool isGeneric = false;
       if (type.TypeArguments.Count > 0) {
         var typeArguments = type.GetTypeArguments().Select(i => GetTypeName(i, typeDefinition)).ToList();
         if (typeArguments.Count > 0) {
-          result = new GenericIdentifierSyntax(typeName, typeArguments);
+          result = new GenericIdentifierSyntax(result, typeArguments);
           isGeneric = true;
         }
       }

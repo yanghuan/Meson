@@ -162,7 +162,7 @@ namespace Meson.Compiler {
       }
     }
 
-    internal void Render(PragmaPretreatmentStatementSyntax node) {
+    internal void Render(PragmaPretreatmentSyntax node) {
       Write(node.Prefix);
       Write(node.PragmaToken);
       WriteSpace();
@@ -170,13 +170,31 @@ namespace Meson.Compiler {
       WriteNewLine();
     }
 
-    internal void Render(IncludePretreatmentStatementSyntax node) {
+    internal void Render(IncludePretreatmentSyntax node) {
       Write(node.Prefix);
       Write(node.IncludeToken);
       WriteSpace();
-      Write(node.IsSystemPath ? Tokens.Less : Tokens.Quote);
+      Write(node.OpenToken);
       Write(node.Path);
-      Write(node.IsSystemPath ? Tokens.Greater : Tokens.Quote);
+      Write(node.CloseToken);
+      WriteNewLine();
+    }
+
+    internal void Render(DefinePretreatmentSyntax node) {
+      Write(node.Prefix);
+      Write(node.DefineToken);
+      WriteSpace();
+      node.Name.Render(this);
+      WriteSpace();
+      node.Expression.Render(this);
+      WriteNewLine();
+    }
+
+    internal void Render(UndefPretreatmentSyntax node) {
+      Write(node.Prefix);
+      Write(node.UnDefToken);
+      WriteSpace();
+      node.Name.Render(this);
       WriteNewLine();
     }
 
