@@ -167,7 +167,19 @@ namespace Meson.Compiler {
           return new GenericIdentifierSyntax(IdentifierSyntax.FixedBuffer, GetTypeName(type, typeDefinition), (IdentifierSyntax)size.ToString());
         }
       }
-      return GetTypeName(field.Type, typeDefinition);
+      var typeName = GetTypeName(field.Type, typeDefinition);
+      if (field.Type.DeclaringType == null) {
+        foreach (var f in typeDefinition.Fields) {
+          if (f == field) {
+            break;
+          }
+          if (f.Name == field.Type.Name) {
+            typeName = ((IdentifierSyntax)field.Type.Namespace.ReplaceDot()).TwoColon(typeName);
+            break;
+          }
+        }
+      }
+      return typeName;
     }
 
     private ExpressionSyntax GetTypeName(IType type, ITypeDefinition typeDefinition) {
@@ -204,13 +216,12 @@ namespace Meson.Compiler {
         }
       }
 
-      IdentifierSyntax typeName = type.Name;
-      ExpressionSyntax result = typeName;
+      ExpressionSyntax typeName = (IdentifierSyntax)type.Name;
       bool isGeneric = false;
       if (type.TypeArguments.Count > 0) {
         var typeArguments = type.GetTypeArguments().Select(i => GetTypeName(i, typeDefinition)).ToList();
         if (typeArguments.Count > 0) {
-          result = new GenericIdentifierSyntax(result, typeArguments);
+          typeName = new GenericIdentifierSyntax(typeName, typeArguments);
           isGeneric = true;
         }
       }
@@ -220,19 +231,19 @@ namespace Meson.Compiler {
         if (type.DeclaringType.GetDefinition().IsRefType()) {
           outTypeName = outTypeName.TwoColon(IdentifierSyntax.In);
         }
-        return outTypeName.TwoColon(result);
+        return outTypeName.TwoColon(typeName);
       }
 
       if (!isGeneric) {
         var definition = type.GetDefinition();
         if (definition != null) {
           if (definition.IsArrayType() || Generator.IsVoidGenericType(definition)) {
-            result = new GenericIdentifierSyntax(result, IdentifierSyntax.Void);
+            typeName = new GenericIdentifierSyntax(typeName, IdentifierSyntax.Void);
           }
         }
       }
 
-      return result;
+      return typeName;
     }
 
     private List<ITypeDefinition> SortNestedTypes(List<ITypeDefinition> types) {

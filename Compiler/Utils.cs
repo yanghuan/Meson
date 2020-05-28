@@ -388,5 +388,9 @@ namespace Meson.Compiler {
         _ => name + (index - 2),
       };
     }
+
+    public static string ReplaceDot(this string name) {
+      return name.Replace(".", "::");
+    }
   }
 }

@@ -9,17 +9,12 @@ using ICSharpCode.Decompiler.TypeSystem;
 namespace Meson.Compiler {
   class AssemblyTransform {
     public SyntaxGenerator Generator { get; }
-    private readonly CSharpDecompiler decompiler_;
+    public IModule Module { get;}
     private readonly Dictionary<ITypeDefinition, ITypeDefinition> nestedBrotherTypes_ = new Dictionary<ITypeDefinition, ITypeDefinition>();
 
-    public AssemblyTransform(SyntaxGenerator generator, string path) {
+    public AssemblyTransform(SyntaxGenerator generator, IModule module) {
       Generator = generator;
-      decompiler_ = new CSharpDecompiler(path, GetDecompilerSettings());
-    }
-
-    private static DecompilerSettings GetDecompilerSettings() {
-      DecompilerSettings settings = new DecompilerSettings(LanguageVersion.Latest);
-      return settings;
+      Module = module;
     }
 
     private static bool IsExportType(ITypeDefinition type) {
@@ -27,7 +22,7 @@ namespace Meson.Compiler {
     }
 
     public IEnumerable<CompilationUnitTransform> GetCompilationUnits() {
-      var exportTypes = decompiler_.TypeSystem.MainModule.TypeDefinitions.Where(IsExportType);
+      var exportTypes = Module.TypeDefinitions.Where(IsExportType);
       var nestedTypes = exportTypes.Where(i => i.DeclaringType != null);
       var rootTypes = exportTypes.Where(i => i.DeclaringType == null);
       var sameNameTypes = rootTypes.GroupBy(i => $"{i.Namespace}.{i.Name}").ToDictionary(i => i.Key, i => i.OrderBy(i => i.TypeParameterCount).ToList());

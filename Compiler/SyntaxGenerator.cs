@@ -1,8 +1,11 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Linq;
 
 using Meson.Compiler.CppAst;
+using ICSharpCode.Decompiler;
+using ICSharpCode.Decompiler.CSharp;
 using ICSharpCode.Decompiler.TypeSystem;
 
 namespace Meson.Compiler {
@@ -14,6 +17,7 @@ namespace Meson.Compiler {
     public Options Options { get; }
     private readonly Dictionary<ITypeDefinition, RefMultiGenericTypeInfo> multiGenericTypes_ = new Dictionary<ITypeDefinition, RefMultiGenericTypeInfo>();
     private readonly Dictionary<ISymbol, SymbolNameSyntax> memberNames_ = new Dictionary<ISymbol, SymbolNameSyntax>();
+    private static readonly DecompilerSettings decompilerSettings_ = new DecompilerSettings(LanguageVersion.Latest); 
 
     public SyntaxGenerator(Options options) {
       Options = options;
@@ -22,22 +26,22 @@ namespace Meson.Compiler {
       }
     }
 
+    private static IEnumerable<IModule> GetModules(string path) {
+      var decompiler = new CSharpDecompiler(path, decompilerSettings_);
+      return decompiler.TypeSystem.Modules;
+    }
+
+     private IEnumerable<CompilationUnitTransform> GetCompilationUnits() {
+      var modules = Options.Assemnlys.SelectMany(GetModules).Distinct();
+      return modules.SelectMany(GetCompilationUnits);
+    }
+
+    private IEnumerable<CompilationUnitTransform> GetCompilationUnits(IModule module) {
+      return new AssemblyTransform(this, module).GetCompilationUnits();
+    }
+
     public void AddMultiGenericType(ITypeDefinition type, List<ITypeDefinition> types) {
       multiGenericTypes_.Add(type, new RefMultiGenericTypeInfo() { Types = types });
-    }
-
-    private IEnumerable<CompilationUnitTransform> GetCompilationUnits() {
-      var compilationUnits = GetSystemLibCompilationUnits();
-      return compilationUnits;
-    }
-
-    private IEnumerable<CompilationUnitTransform> GetCompilationUnits(string path) {
-      return new AssemblyTransform(this, path).GetCompilationUnits();
-    }
-
-    private IEnumerable<CompilationUnitTransform> GetSystemLibCompilationUnits() {
-      string path = typeof(string).Assembly.Location;
-      return GetCompilationUnits(path);
     }
 
     public bool IsVoidGenericType(ITypeDefinition type) {
