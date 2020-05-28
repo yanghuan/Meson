@@ -246,13 +246,11 @@ namespace Meson.Compiler {
     }
 
     public static string ToTokenString(this Accessibility a) {
-      switch (a) {
-        case Accessibility.Private:
-          return Tokens.Private;
-        case Accessibility.Protected:
-          return Tokens.Protected;
-      }
-      return Tokens.Public;
+      return a switch {
+        Accessibility.Private => Tokens.Private,
+        Accessibility.Protected => Tokens.Protected,
+        _ => Tokens.Public
+      };
     }
 
     private static List<ITypeDefinition> GetStructDeclaringTypes(this ITypeDefinition type) {

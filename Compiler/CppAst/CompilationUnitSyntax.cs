@@ -10,7 +10,7 @@ namespace Meson.Compiler.CppAst {
 
     private NamespaceSyntax headNamespaceSyntax_;
     private NamespaceSyntax srcNamespaceSyntax_;
-    private StatementListSyntax srcIncludes_ = new StatementListSyntax();
+    private readonly StatementListSyntax srcIncludes_ = new StatementListSyntax();
 
     public CompilationUnitSyntax() {
       HeadStatements.Add(PragmaPretreatmentSyntax.Once);

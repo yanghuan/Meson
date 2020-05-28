@@ -25,13 +25,13 @@ namespace Meson.Compiler {
       ["System.Double"] = "double",
     };
 
-    private CompilationUnitTransform compilationUnit_;
+    private readonly CompilationUnitTransform compilationUnit_;
     public AssemblyTransform AssemblyTransform => compilationUnit_.AssemblyTransform;
     public SyntaxGenerator Generator => AssemblyTransform.Generator;
-    private BlockSyntax parent_;
-    private List<ITypeDefinition> types_;
-    private TypeDefinitionTransform parentTransform_;
-    private Dictionary<ITypeDefinition, ITypeDefinition> nestedCycleTypes_ = new Dictionary<ITypeDefinition, ITypeDefinition>();
+    private readonly BlockSyntax parent_;
+    private readonly List<ITypeDefinition> types_;
+    private readonly TypeDefinitionTransform parentTransform_;
+    private readonly Dictionary<ITypeDefinition, ITypeDefinition> nestedCycleTypes_ = new Dictionary<ITypeDefinition, ITypeDefinition>();
 
     public bool IsMulti => types_.Count > 1;
     public bool HasRef => types_.Exists(i => i.IsRefType());

@@ -12,8 +12,8 @@ namespace Meson.Compiler {
     private static readonly Encoding Encoding = new UTF8Encoding(false);
     private const string IndentString = "  ";
 
-    private string outDir_;
-    private ITypeDefinition rootType_;
+    private readonly string outDir_;
+    private readonly ITypeDefinition rootType_;
     private StreamWriter writer_;
 
     private bool isNewLine_;

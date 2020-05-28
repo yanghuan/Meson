@@ -9,8 +9,8 @@ using ICSharpCode.Decompiler.TypeSystem;
 namespace Meson.Compiler {
   class AssemblyTransform {
     public SyntaxGenerator Generator { get; }
-    private CSharpDecompiler decompiler_;
-    private Dictionary<ITypeDefinition, ITypeDefinition> nestedBrotherTypes_ = new Dictionary<ITypeDefinition, ITypeDefinition>();
+    private readonly CSharpDecompiler decompiler_;
+    private readonly Dictionary<ITypeDefinition, ITypeDefinition> nestedBrotherTypes_ = new Dictionary<ITypeDefinition, ITypeDefinition>();
 
     public AssemblyTransform(SyntaxGenerator generator, string path) {
       Generator = generator;

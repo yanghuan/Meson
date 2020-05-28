@@ -9,10 +9,10 @@ namespace Meson.Compiler {
   internal sealed class CompilationUnitTransform {
     public AssemblyTransform AssemblyTransform { get; }
     public SyntaxGenerator Generator => AssemblyTransform.Generator;
-    private CompilationUnitSyntax compilationUnit_ = new CompilationUnitSyntax();
+    private readonly CompilationUnitSyntax compilationUnit_ = new CompilationUnitSyntax();
     public readonly HashSet<ITypeDefinition> References = new HashSet<ITypeDefinition>();
     private readonly Dictionary<ITypeDefinition, ForwardMacroSyntax> forwards_ = new Dictionary<ITypeDefinition, ForwardMacroSyntax>();
-    private ITypeDefinition root_;
+    private readonly ITypeDefinition root_;
 
     public CompilationUnitTransform(AssemblyTransform assemblyTransform, List<ITypeDefinition> types) {
       AssemblyTransform = assemblyTransform;
@@ -53,7 +53,7 @@ namespace Meson.Compiler {
     private void AddTypeUsingDeclaration(NamespaceSyntax rootNamespace, NamespaceSyntax classNamespace, TypeDefinitionTransform typeDefinition, IEnumerable<ITypeDefinition> types) {
       IdentifierSyntax name = root_.Name;
       ExpressionSyntax type = ((IdentifierSyntax)classNamespace.Name).TwoColon(name);
-      TemplateSyntax template = null;
+      TemplateSyntax template;
       if (root_.IsArrayType()) {
         const int kGenericCount = 2;
         type = new GenericIdentifierSyntax(type, kGenericCount.GetTypeNames());
