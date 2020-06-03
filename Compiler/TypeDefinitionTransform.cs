@@ -140,14 +140,32 @@ namespace Meson.Compiler {
     }
 
     private void VisitMethods(ITypeDefinition typeDefinition, ClassSyntax node) {
-      foreach (var method in typeDefinition.Methods.Where(i => i.AccessorKind == 0 && !i.IsConstructor)) {
+      foreach (var method in typeDefinition.Methods.Where(IsExportMethod)) {
         var parameters = method.Parameters.Select(i => GetParameterSyntax(typeDefinition, i));  
-        //var decompiler = Generator.GetDecompiler(typeDefinition.ParentModule);
-        //var methodSyntaxNode = decompiler.Decompile(method.MetadataToken);
         var methodName = Generator.GetMemberName(method);
         node.Statements.Add(new MethodDefinitionSyntax(IdentifierSyntax.Void,  methodName, parameters, method.IsStatic, method.Accessibility.ToTokenString()));
       }
     }
+
+    private bool IsExportMethod(IMethod method) {
+      if (method.IsConstructor || method.IsOperator) {
+        return false;
+      }
+
+      if (method.TypeParameters.Count > 0 || method.TypeArguments.Count > 0) {
+        return false;
+      }
+
+      if (method.Name.Contains('<')) {
+        return false;
+      }
+
+      if (method.Name.Contains('.')) {
+        return false;
+      }
+
+      return true;
+    } 
 
     private ParameterSyntax GetParameterSyntax(ITypeDefinition typeDefinition, IParameter parameter) {
       var type = GetTypeName(parameter.Type, typeDefinition);

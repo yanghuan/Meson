@@ -7,6 +7,7 @@ using Meson.Compiler.CppAst;
 using ICSharpCode.Decompiler;
 using ICSharpCode.Decompiler.CSharp;
 using ICSharpCode.Decompiler.TypeSystem;
+using ICSharpCode.Decompiler.CSharp.Syntax;
 
 namespace Meson.Compiler {
   sealed class SyntaxGenerator {
@@ -37,6 +38,12 @@ namespace Meson.Compiler {
 
     public CSharpDecompiler GetDecompiler(IModule module) {
       return decompilers_[module];
+    }
+
+    public MethodDeclaration GetMethodDeclaration(IMethod method) {
+      var decompiler = GetDecompiler(method.ParentModule);
+      var node = decompiler.Decompile(method.MetadataToken);
+      return node.Members.OfType<MethodDeclaration>().Single();
     }
 
      private IEnumerable<CompilationUnitTransform> GetCompilationUnits() {
