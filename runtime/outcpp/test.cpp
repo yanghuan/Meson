@@ -9,8 +9,9 @@ using namespace System;
 int main()
 {
   String a = String("ddddd");
-  ValueTuple<int, int> t;
+  ValueTuple<int, int, int> t;
   t.Item1 = 2;
   t.Item2 = 3;
+  t.Item3 = 3;
   return 0;
 }

@@ -366,6 +366,29 @@ namespace Meson.Compiler {
       WriteNewLine();
     }
 
+    internal void Render(ParameterSyntax node) {
+      node.Type.Render(this);
+      WriteSpace();
+      node.Name.Render(this);
+    }
+
+    internal void Render(MethodDefinitionSyntax node) {
+      WriteAccessibility(node.AccessibilityToken);
+      if (node.IsStatic) {
+        Write(Tokens.Static);
+        WriteSpace();
+      }
+      node.RetuenType.Render(this);
+      WriteSpace();
+      node.Nmae.Render(this);
+      Write(node.OpenParentheses);
+      WriteSeparatedSyntaxList(node.Parameters);
+      Write(node.CloseParentheses);
+      WriteSpace();
+      Render((BlockSyntax)node);
+      WriteNewLine();
+    }
+
     internal void Render(ValueTextIdentifierSyntax node) {
       Write(node.ValueText);
     }

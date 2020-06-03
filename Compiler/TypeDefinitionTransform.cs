@@ -139,6 +139,22 @@ namespace Meson.Compiler {
       parent_.Add(node);
     }
 
+    private void VisitMethods(ITypeDefinition typeDefinition, ClassSyntax node) {
+      foreach (var method in typeDefinition.Methods.Where(i => i.AccessorKind == 0 && !i.IsConstructor)) {
+        var parameters = method.Parameters.Select(i => GetParameterSyntax(typeDefinition, i));  
+        //var decompiler = Generator.GetDecompiler(typeDefinition.ParentModule);
+        //var methodSyntaxNode = decompiler.Decompile(method.MetadataToken);
+        var methodName = Generator.GetMemberName(method);
+        node.Statements.Add(new MethodDefinitionSyntax(IdentifierSyntax.Void,  methodName, parameters, method.IsStatic, method.Accessibility.ToTokenString()));
+      }
+    }
+
+    private ParameterSyntax GetParameterSyntax(ITypeDefinition typeDefinition, IParameter parameter) {
+      var type = GetTypeName(parameter.Type, typeDefinition);
+      var name = Generator.GetMemberName(parameter);
+      return new ParameterSyntax(type, name);
+    }
+
     private void VisitFields(ITypeDefinition typeDefinition, ClassSyntax node) {
       foreach (var field in typeDefinition.Fields) {
         if (!field.Name.StartsWith('<')) {
@@ -313,6 +329,7 @@ namespace Meson.Compiler {
     private void VisitMembers(ITypeDefinition type, ClassSyntax node) {
       VisitTypes(type, node);
       VisitFields(type, node);
+      VisitMethods(type, node);
     }
 
     private BlockSyntax GetBrotherTypeParnetBlock(ITypeDefinition brotherType) {

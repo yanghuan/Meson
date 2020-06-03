@@ -291,6 +291,42 @@ namespace Meson.Compiler.CppAst {
     }
   }
 
+  sealed class ParameterSyntax : SyntaxNode {
+    public ExpressionSyntax Type { get; }
+    public IdentifierSyntax Name { get; }
+
+    public ParameterSyntax(ExpressionSyntax type, IdentifierSyntax name) {
+      Type = type;
+      Name = name;
+    }
+
+    internal override void Render(CppRenderer renderer) {
+      renderer.Render(this);
+    }
+  }
+
+  sealed class MethodDefinitionSyntax : BlockSyntax {
+    public string AccessibilityToken { get; }
+    public ExpressionSyntax RetuenType { get; }
+    public IdentifierSyntax Nmae { get; }
+    public bool IsStatic { get; }
+    public string OpenParentheses => Tokens.OpenParentheses;
+    public readonly List<ParameterSyntax> Parameters = new List<ParameterSyntax>();
+    public string CloseParentheses => Tokens.CloseParentheses;
+
+    public MethodDefinitionSyntax(ExpressionSyntax retuenType, IdentifierSyntax name, IEnumerable<ParameterSyntax> parameters, bool isStatic, string accessibilityToken) {
+      RetuenType = retuenType;
+      Nmae = name;
+      Parameters.AddRange(parameters);
+      IsStatic = isStatic;
+      AccessibilityToken = accessibilityToken;
+    }
+
+    internal override void Render(CppRenderer renderer) {
+      renderer.Render(this);
+    }
+  }
+
   class ClassForwardDeclarationSyntax : StatementSyntax {
     public TemplateSyntax Template { get; set; }
     public string ClassToken => IsStruct ? Tokens.Struct : Tokens.Class;

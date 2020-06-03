@@ -13,12 +13,13 @@ namespace Meson.Compiler {
     private sealed class RefMultiGenericTypeInfo {
       public List<ITypeDefinition> Types;
     }
-
+    
     public Options Options { get; }
+    private readonly Dictionary<IModule, CSharpDecompiler> decompilers_ = new Dictionary<IModule, CSharpDecompiler>();
     private readonly Dictionary<ITypeDefinition, RefMultiGenericTypeInfo> multiGenericTypes_ = new Dictionary<ITypeDefinition, RefMultiGenericTypeInfo>();
     private readonly Dictionary<ISymbol, SymbolNameSyntax> memberNames_ = new Dictionary<ISymbol, SymbolNameSyntax>();
     private static readonly DecompilerSettings decompilerSettings_ = new DecompilerSettings(LanguageVersion.Latest); 
-
+    
     public SyntaxGenerator(Options options) {
       Options = options;
       foreach (var compilationUnit in GetCompilationUnits()) {
@@ -26,9 +27,16 @@ namespace Meson.Compiler {
       }
     }
 
-    private static IEnumerable<IModule> GetModules(string path) {
+    private IEnumerable<IModule> GetModules(string path) {
       var decompiler = new CSharpDecompiler(path, decompilerSettings_);
+      foreach (var module in decompiler.TypeSystem.Modules) {
+        decompilers_[module] = decompiler;
+      }
       return decompiler.TypeSystem.Modules;
+    }
+
+    public CSharpDecompiler GetDecompiler(IModule module) {
+      return decompilers_[module];
     }
 
      private IEnumerable<CompilationUnitTransform> GetCompilationUnits() {
