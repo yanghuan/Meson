@@ -148,13 +148,17 @@ namespace Meson.Compiler {
       return false;
     }
     
-    private static IEnumerable<IType> GetMemberReferenceTypes(this ITypeDefinition type) {
-      return type.Fields.Select(i => i.Type);
+    private static IEnumerable<IType> GetMemberReferenceTypes(this ITypeDefinition type, bool hasMethodParameters) {
+      var types = type.Fields.Select(i => i.Type);
+      if (hasMethodParameters) {
+        types = types.Concat(type.Methods.SelectMany(i => i.Parameters).Select(i => i.Type));
+      }
+      return types;
     }
 
     private static bool IsMemberTypeExists(this ITypeDefinition type, ITypeDefinition memberType, HashSet<ITypeDefinition> recursiveTypes) {
       recursiveTypes?.Add(type);
-      foreach (var referenceType in type.GetMemberReferenceTypes()) {
+      foreach (var referenceType in type.GetMemberReferenceTypes(recursiveTypes == null)) {
         if (referenceType.Kind != TypeKind.TypeParameter) {
           if (referenceType.HasType(memberType, recursiveTypes)) {
             return true;
@@ -163,7 +167,6 @@ namespace Meson.Compiler {
           if (recursiveTypes != null) {
             var typeDefinition = referenceType.GetReferenceTypeDefinition();
             if (typeDefinition != null && !recursiveTypes.Contains(typeDefinition)) {
-              recursiveTypes.Add(typeDefinition);
               if (typeDefinition.IsMemberTypeExists(memberType, recursiveTypes)) {
                 return true;
               }
@@ -277,7 +280,7 @@ namespace Meson.Compiler {
       var declaringTypes = type.GetStructDeclaringTypes();
       if (declaringTypes.Count > 0) {
         int maxIndex = -1;
-        foreach (var referenceType in type.GetMemberReferenceTypes()) {
+        foreach (var referenceType in type.GetMemberReferenceTypes(false)) {
           if (referenceType.Kind == TypeKind.Struct) {
             int index = declaringTypes.FindIndex(i => i.Equals(referenceType));
             if (index != -1 && index > maxIndex) {
@@ -314,9 +317,34 @@ namespace Meson.Compiler {
       return new ForwardMacroSyntax(type.Name, genericCount.GetTypeNames(), type.Kind == TypeKind.Struct ? ForwardMacroKind.MultiStruct : ForwardMacroKind.MultiClass);
     }
 
+    private static readonly Dictionary<string, string> innerValueTypeNames_ = new Dictionary<string, string>() {
+      ["System.Byte"] = "uint8_t",
+      ["System.SByte"] = "int8_t",
+      ["System.Boolean"] = "bool",
+      ["System.Char"] = "char8_t",
+      ["System.Int16"] = "int16_t",
+      ["System.UInt16"] = "uint16_t",
+      ["System.Int32"] = "int32_t",
+      ["System.UInt32"] = "uint32_t",
+      ["System.Int64"] = "int64_t",
+      ["System.UInt64"] = "uint64_t",
+      ["System.Single"] = "float",
+      ["System.Double"] = "double",
+    };
+
+    public static string GetInnerTypeName(string fullName) {
+      return innerValueTypeNames_.GetOrDefault(fullName);
+    }
+
+    public static IdentifierSyntax GetEnumUnderlyingTypeName(this ITypeDefinition type) {
+      if (!type.EnumUnderlyingType.IsIntType()) {
+        return innerValueTypeNames_[type.EnumUnderlyingType.FullName];
+      }
+      return null;
+    }
+
     private static EnumForwardSyntax GetEnumForwardSyntax(this ITypeDefinition type) {
-      var node = new EnumForwardSyntax(type.Name);
-      return node;
+      return new EnumForwardSyntax(type.Name) { UnderlyingType = type.GetEnumUnderlyingTypeName() };
     }
 
     public static StatementSyntax GetForwardStatement(this ITypeDefinition type, bool isNested = false) {
@@ -420,6 +448,10 @@ namespace Meson.Compiler {
 
     public static string ReplaceDot(this string name) {
       return name.Replace(".", "::");
+    }
+
+    public static ExpressionSyntax WithFullName(this ExpressionSyntax typeName, IType type) {
+      return ((IdentifierSyntax)type.Namespace.ReplaceDot()).TwoColon(typeName);
     }
   }
 }

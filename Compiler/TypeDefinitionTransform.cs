@@ -10,21 +10,6 @@ using Meson.Compiler.CppAst;
 
 namespace Meson.Compiler {
   internal class TypeDefinitionTransform {
-    private static readonly Dictionary<string, string> innerValueTypeNames_ = new Dictionary<string, string>() {
-      ["System.Byte"] = "uint8_t",
-      ["System.SByte"] = "int8_t",
-      ["System.Boolean"] = "bool",
-      ["System.Char"] = "char8_t",
-      ["System.Int16"] = "int16_t",
-      ["System.UInt16"] = "uint16_t",
-      ["System.Int32"] = "int32_t",
-      ["System.UInt32"] = "uint32_t",
-      ["System.Int64"] = "int64_t",
-      ["System.UInt64"] = "uint64_t",
-      ["System.Single"] = "float",
-      ["System.Double"] = "double",
-    };
-
     private readonly CompilationUnitTransform compilationUnit_;
     public AssemblyTransform AssemblyTransform => compilationUnit_.AssemblyTransform;
     public SyntaxGenerator Generator => AssemblyTransform.Generator;
@@ -84,10 +69,10 @@ namespace Meson.Compiler {
     }
 
     private void VistEnum(ITypeDefinition type) {
-      EnumSyntax node = new EnumSyntax(type.Name) { AccessibilityToken = GetAccessibilityString(type) };
-      if (!type.EnumUnderlyingType.IsIntType()) {
-        node.UnderlyingType = innerValueTypeNames_[type.EnumUnderlyingType.FullName];
-      }
+      EnumSyntax node = new EnumSyntax(type.Name) { 
+        AccessibilityToken = GetAccessibilityString(type),
+        UnderlyingType = type.GetEnumUnderlyingTypeName(),
+      };
       VisitEnumFields(type, node);
       parent_.Add(node);
     }
@@ -141,7 +126,7 @@ namespace Meson.Compiler {
 
     private void VisitMethods(ITypeDefinition typeDefinition, ClassSyntax node) {
       foreach (var method in typeDefinition.Methods.Where(IsExportMethod)) {
-        var parameters = method.Parameters.Select(i => GetParameterSyntax(typeDefinition, i));  
+        var parameters = method.Parameters.Select(i => GetParameterSyntax(i, method, typeDefinition));  
         var methodName = Generator.GetMemberName(method);
         node.Statements.Add(new MethodDefinitionSyntax(IdentifierSyntax.Void,  methodName, parameters, method.IsStatic, method.Accessibility.ToTokenString()));
       }
@@ -167,8 +152,17 @@ namespace Meson.Compiler {
       return true;
     } 
 
-    private ParameterSyntax GetParameterSyntax(ITypeDefinition typeDefinition, IParameter parameter) {
+    private ParameterSyntax GetParameterSyntax(IParameter parameter, IMethod method, ITypeDefinition typeDefinition) {
       var type = GetTypeName(parameter.Type, typeDefinition, true);
+      foreach (var m in typeDefinition.Methods) {
+        if (m == method) {
+          break;
+        }
+        if (m.Name == parameter.Type.Name) {
+          type = type.WithFullName(parameter.Type);
+          break;
+        }
+      }
       var name = Generator.GetMemberName(parameter);
       return new ParameterSyntax(type, name);
     }
@@ -178,7 +172,7 @@ namespace Meson.Compiler {
         if (!field.Name.StartsWith('<')) {
           ExpressionSyntax typeName = null;
           if (typeDefinition.Kind == TypeKind.Struct && !field.IsStatic && field.Type == typeDefinition) {
-            string name = innerValueTypeNames_.GetOrDefault(field.Type.FullName);
+            string name = Utils.GetInnerTypeName(field.Type.FullName);
             if (name != null) {
               typeName = (IdentifierSyntax)name;
             }
@@ -208,7 +202,7 @@ namespace Meson.Compiler {
             break;
           }
           if (f.Name == field.Type.Name) {
-            typeName = ((IdentifierSyntax)field.Type.Namespace.ReplaceDot()).TwoColon(typeName);
+            typeName = typeName.WithFullName(field.Type);
             break;
           }
         }
