@@ -1,4 +1,3 @@
-using ICSharpCode.Decompiler.CSharp.Syntax;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -305,7 +304,7 @@ namespace Meson.Compiler.CppAst {
     }
   }
 
-  sealed class MethodDefinitionSyntax : BlockSyntax {
+  sealed class MethodDefinitionSyntax : StatementSyntax {
     public string AccessibilityToken { get; }
     public ExpressionSyntax RetuenType { get; }
     public IdentifierSyntax Nmae { get; }
@@ -341,6 +340,22 @@ namespace Meson.Compiler.CppAst {
 
     protected ClassForwardDeclarationSyntax(IdentifierSyntax name, bool isStruct, int _) : this(name, isStruct) {
       IsFriend = true;
+    }
+
+    internal override void Render(CppRenderer renderer) {
+      renderer.Render(this);
+    }
+  }
+
+  sealed class EnumForwardSyntax : StatementSyntax {
+    public string EnumToekn => Tokens.Enum;
+    public string ClassToekn => Tokens.Class;
+    public IdentifierSyntax UnderlyingType { get; set; }
+
+    public string Name { get; }
+
+    public EnumForwardSyntax(string name) {
+      Name = name;
     }
 
     internal override void Render(CppRenderer renderer) {
@@ -385,16 +400,32 @@ namespace Meson.Compiler.CppAst {
     }
   }
 
+  enum ForwardMacroKind {
+    Class,
+    MultiClass,
+    NestedClass,
+    MultiNestedClass,
+    Struct,
+    MultiStruct,
+  }
+
   sealed class ForwardMacroSyntax : StatementSyntax {
-    public bool IsMulti { get; }
-    public bool IsNested { get; }
-    public IdentifierSyntax Macro => !IsMulti ? (!IsNested ? "FORWARD" : "INTERNAL_FORWARD") : (!IsNested ? "FORWARD_" : "INTERNAL_FORWARDI_");
+    private static readonly string[] macros_ = new string[] {
+      "FORWARD",
+      "FORWARD_",
+      "FORWARDN",
+      "FORWARDN_",
+      "FORWARDS",
+      "FORWARDS_"
+    };
+
+    public ForwardMacroKind Kind { get; }
+    public IdentifierSyntax Macro => macros_[(int)Kind];
     public string AccessibilityToken { get; set; }
     public InvationExpressionSyntax Invation { get; }
 
-    public ForwardMacroSyntax(IdentifierSyntax name, IEnumerable<IdentifierSyntax> typeArguments, bool isMulti = false, bool isNested = false) {
-      IsMulti = isMulti;
-      IsNested = isNested;
+    public ForwardMacroSyntax(IdentifierSyntax name, IEnumerable<IdentifierSyntax> typeArguments, ForwardMacroKind kind) {
+      Kind = kind;
       Invation = new InvationExpressionSyntax(Macro);
       Invation.Arguments.Add(name);
       Invation.Arguments.AddRange(typeArguments);

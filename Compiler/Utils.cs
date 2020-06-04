@@ -95,6 +95,7 @@ namespace Meson.Compiler {
       {
         ArrayType arrayType => arrayType.DirectBaseTypes.First().GetReferenceType(),
         PointerType pointerType => pointerType.ElementType.GetReferenceType(),
+        ByReferenceType byReferenceType => byReferenceType.ElementType.GetReferenceType(),
         ParameterizedType t => t.GenericType.GetReferenceType(),
         _ => type.GetDefinition(),
       };
@@ -198,6 +199,10 @@ namespace Meson.Compiler {
 
     public static bool IsRefType(this ITypeDefinition type) {
       return type.Kind != TypeKind.Struct && !type.IsStatic;
+    }
+
+    public static bool IsRefType(this IType type) {
+      return type.Kind != TypeKind.Struct && type.Kind != TypeKind.Enum;
     }
 
     private static ITypeDefinition GetReferenceTypeDefinition(this IType type) {
@@ -305,11 +310,31 @@ namespace Meson.Compiler {
       return template;
     }
 
-    public static ForwardMacroSyntax GetForwardStatement(this ITypeDefinition type, int genericCount = -1, bool isNested = false) {
-      if (genericCount != -1) {
-        return new ForwardMacroSyntax(type.Name, genericCount.GetTypeNames(), true, isNested);
+    public static ForwardMacroSyntax GetForwardStatement(this ITypeDefinition type, int genericCount) {
+      return new ForwardMacroSyntax(type.Name, genericCount.GetTypeNames(), type.Kind == TypeKind.Struct ? ForwardMacroKind.MultiStruct : ForwardMacroKind.MultiClass);
+    }
+
+    private static EnumForwardSyntax GetEnumForwardSyntax(this ITypeDefinition type) {
+      var node = new EnumForwardSyntax(type.Name);
+      return node;
+    }
+
+    public static StatementSyntax GetForwardStatement(this ITypeDefinition type, bool isNested = false) {
+      if (type.IsArrayType()) {
+        return type.GetForwardStatement(2);
       }
-      return new ForwardMacroSyntax(type.Name, type.GetTypeParameters().Select(i => (IdentifierSyntax)i.Name), false, isNested);
+
+      if (type.Kind == TypeKind.Enum) {
+        return type.GetEnumForwardSyntax();
+      }
+
+      ForwardMacroKind kind;
+      if (isNested) {
+        kind = ForwardMacroKind.NestedClass;
+      } else {
+        kind = type.Kind == TypeKind.Struct ? ForwardMacroKind.Struct : ForwardMacroKind.Class;
+      }
+      return new ForwardMacroSyntax(type.Name, type.GetTypeParameters().Select(i => (IdentifierSyntax)i.Name), kind);
     }
 
     public static TemplateSyntax GetVoidTemplate(this int typeParameterCount) {
@@ -338,6 +363,10 @@ namespace Meson.Compiler {
 
     public static string GetShortName(this IType type) {
       return type.GetShortName(new StringBuilder(), true).ToString();
+    }
+
+    public static bool IsCanForward(this ISymbol symbol) {
+      return !(symbol is IField field && field.IsStatic);
     }
 
     private static readonly Regex identifierRegex_ = new Regex(@"^[a-zA-Z_][a-zA-Z0-9_]*$", RegexOptions.Compiled);

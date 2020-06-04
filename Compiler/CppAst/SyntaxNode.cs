@@ -122,6 +122,7 @@ namespace Meson.Compiler.CppAst {
     public new const string Equals = "=";
     public const string Dot = ".";
     public const string Asterisk = "*";
+    public const string Ampersand = "&";
     public const string Quote = "\"";
     public const string Arrow = "->";
     public const string TwoColon = "::";

@@ -384,8 +384,7 @@ namespace Meson.Compiler {
       Write(node.OpenParentheses);
       WriteSeparatedSyntaxList(node.Parameters);
       Write(node.CloseParentheses);
-      WriteSpace();
-      Render((BlockSyntax)node);
+      WriteSemicolon();
       WriteNewLine();
     }
 
@@ -405,6 +404,11 @@ namespace Meson.Compiler {
       Write(node.Asterisk);
     }
 
+    internal void Render(RefIdentifierSyntax node) {
+      node.Name.Render(this);
+      Write(node.Ampersand);
+    }
+
     internal void Render(MemberAccessExpressionSyntax node) {
       node.Expression.Render(this);
       Write(node.OperatorToken);
@@ -420,6 +424,22 @@ namespace Meson.Compiler {
       Write(node.ClassToken);
       WriteSpace();
       node.Name.Render(this);
+      WriteSemicolon();
+      WriteNewLine();
+    }
+
+    internal void Render(EnumForwardSyntax node) {
+      Write(node.EnumToekn);
+      WriteSpace();
+      Write(node.ClassToekn);
+      WriteSpace();
+      Write(node.Name);
+      if (node.UnderlyingType != null) {
+        WriteSpace();
+        WriteColon();
+        WriteSpace();
+        node.UnderlyingType.Render(this);
+      }
       WriteSemicolon();
       WriteNewLine();
     }

@@ -10,8 +10,8 @@ namespace Meson.Compiler {
     public AssemblyTransform AssemblyTransform { get; }
     public SyntaxGenerator Generator => AssemblyTransform.Generator;
     private readonly CompilationUnitSyntax compilationUnit_ = new CompilationUnitSyntax();
-    public readonly HashSet<ITypeDefinition> References = new HashSet<ITypeDefinition>();
-    private readonly Dictionary<ITypeDefinition, ForwardMacroSyntax> forwards_ = new Dictionary<ITypeDefinition, ForwardMacroSyntax>();
+    private readonly Dictionary<ITypeDefinition, bool> references_ = new Dictionary<ITypeDefinition, bool>();
+    private readonly Dictionary<ITypeDefinition, StatementSyntax> forwards_ = new Dictionary<ITypeDefinition, StatementSyntax>();
     private readonly ITypeDefinition root_;
 
     public CompilationUnitTransform(AssemblyTransform assemblyTransform, List<ITypeDefinition> types) {
@@ -30,8 +30,12 @@ namespace Meson.Compiler {
       if (root_.Kind != TypeKind.Enum) {
         HashSet<string> includes = new HashSet<string>();
         HashSet<string> usings = new HashSet<string>();
-        foreach (var reference in References) {
-          includes.Add(reference.GetReferenceIncludeString());
+        foreach (var (reference, isForward) in references_) {
+          if (isForward) {
+            AddForward(reference);
+          } else {
+            includes.Add(reference.GetReferenceIncludeString());
+          }
           if (!root_.IsNamespaceContain(reference)) {
             usings.Add(reference.Namespace);
           }
@@ -73,7 +77,7 @@ namespace Meson.Compiler {
     }
 
     private void AddForwards(NamespaceSyntax rootNamespace) {
-      var outs = new List<(ITypeDefinition Type, ForwardMacroSyntax Forward)>();
+      var outs = new List<(ITypeDefinition Type, StatementSyntax Forward)>();
       foreach (var (type, forward) in forwards_) {
         if (root_.Namespace == type.Namespace) {
           rootNamespace.Add(forward);
@@ -100,10 +104,24 @@ namespace Meson.Compiler {
       return new UsingNamespaceSyntax(name.Replace(Tokens.Dot, Tokens.TwoColon));
     }
 
-    public void AddForward(ITypeDefinition type) {
-      var firstType = Generator.GetRefMultiGenericFirstType(type, out int genericCount);
-      var value = firstType ?? type;
-      forwards_[value] = value.GetForwardStatement(genericCount);
+    private void AddForward(ITypeDefinition type) {
+      var multiType = Generator.GetRefMultiGenericFirstType(type, out int genericCount);
+      if (multiType != null) {
+        forwards_[multiType] = multiType.GetForwardStatement(genericCount);
+      } else {
+        forwards_[type] = type.GetForwardStatement();
+      }
+    }
+
+    internal void AddReference(ITypeDefinition type, bool isForward) {
+      if (references_.ContainsKey(type)) {
+        var prevIsForward = references_[type];
+        if (prevIsForward && !isForward) {
+          references_[type] = false;
+        }
+      } else {
+        references_.Add(type, isForward);
+      }
     }
   }
 }
