@@ -16,6 +16,7 @@ namespace Meson.Compiler.CppAst {
     public static readonly IdentifierSyntax T = "T";
     public static readonly IdentifierSyntax In = "in";
     public static readonly IdentifierSyntax Out = "out";
+    public static readonly IdentifierSyntax NAME = "NAME";
   }
 
   internal class ValueTextIdentifierSyntax : IdentifierSyntax {
@@ -82,13 +83,17 @@ namespace Meson.Compiler.CppAst {
   }
 
   internal sealed class NestedCycleRefTypeNameSyntax : IdentifierSyntax {
-    public IdentifierSyntax ObjectType => Object;
+    public IdentifierSyntax Type { get; }
     public string OpenComment => Tokens.OpneComment;
     public string FullName { get; }
     public string CloseComment => Tokens.CloseComment;
 
-    public NestedCycleRefTypeNameSyntax(string fullName) {
+    public NestedCycleRefTypeNameSyntax(string fullName) : this(fullName, Object) {
+    }
+
+    public NestedCycleRefTypeNameSyntax(string fullName, IdentifierSyntax type) {
       FullName = fullName;
+      Type = type;
     }
 
     internal override void Render(CppRenderer renderer) {

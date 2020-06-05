@@ -41,6 +41,12 @@ namespace Meson.Compiler.CppAst {
       Expression = expresison;
     }
 
+    public InvationExpressionSyntax(ExpressionSyntax expresison, params ExpressionSyntax[] arguments) {
+      Expression = expresison;
+      Arguments.AddRange(arguments);
+    }
+
+
     public InvationExpressionSyntax(ExpressionSyntax expresison, IEnumerable<ExpressionSyntax> arguments) {
       Expression = expresison;
       Arguments.AddRange(arguments);

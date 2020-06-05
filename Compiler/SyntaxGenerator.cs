@@ -95,7 +95,8 @@ namespace Meson.Compiler {
       string originalString = symbol.Name;
       switch (symbol.SymbolKind) {
         case SymbolKind.Field:
-        case SymbolKind.Method: {
+        case SymbolKind.Method:
+        case SymbolKind.Parameter: {
           if (Tokens.IsReservedWord(originalString)) {
             RefactorMemberName(originalString, symbol, name);
             break;

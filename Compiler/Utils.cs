@@ -102,7 +102,10 @@ namespace Meson.Compiler {
     }
 
     public static string GetReferenceIncludeString(this ITypeDefinition reference) {
-      string[] parts = new string[] { reference.ParentModule.Name }.Concat(reference.Namespace.Split('.')).ToArray();
+      IEnumerable<string> parts = new string[] { reference.ParentModule.Name };
+      if (!string.IsNullOrEmpty(reference.Namespace)) {
+        parts = parts.Concat(reference.Namespace.Split('.'));
+      }
       return $"{string.Join('/', parts)}/{reference.Name}.h";
     }
 
@@ -118,7 +121,6 @@ namespace Meson.Compiler {
       if (recursiveTypes != null) {
         var argumentTypeDefinition = argument.GetDefinition();
         if (argumentTypeDefinition != null && !recursiveTypes.Contains(argumentTypeDefinition)) {
-          recursiveTypes.Add(argumentTypeDefinition);
           if (argumentTypeDefinition.IsMemberTypeExists(other, recursiveTypes)) {
             return true;
           }
@@ -147,18 +149,32 @@ namespace Meson.Compiler {
 
       return false;
     }
-    
-    private static IEnumerable<IType> GetMemberReferenceTypes(this ITypeDefinition type, bool hasMethodParameters) {
-      var types = type.Fields.Select(i => i.Type);
-      if (hasMethodParameters) {
-        types = types.Concat(type.Methods.SelectMany(i => i.Parameters).Select(i => i.Type));
+
+    private enum ReferenceTypeKind {
+      FieldStore,
+      NestedReference,
+      FieldReference,
+    }
+
+    private static IEnumerable<IType> GetMemberReferenceTypes(this ITypeDefinition type, ReferenceTypeKind kind) {
+      switch (kind) {
+        case ReferenceTypeKind.FieldStore: {
+          return type.Fields.Where(i => !i.IsStatic).Select(i => i.Type);
+        }
+        case ReferenceTypeKind.NestedReference: {
+          return type.Fields.Select(i => i.Type).Concat(type.Methods.SelectMany(i => i.Parameters).Select(i => i.Type));
+        }
+        case ReferenceTypeKind.FieldReference: {
+          return type.Fields.Where(i => !i.IsStatic).Select(i => i.Type.GetReferenceType() ?? i.Type);
+        }
       }
-      return types;
+      throw new InvalidProgramException();
     }
 
     private static bool IsMemberTypeExists(this ITypeDefinition type, ITypeDefinition memberType, HashSet<ITypeDefinition> recursiveTypes) {
       recursiveTypes?.Add(type);
-      foreach (var referenceType in type.GetMemberReferenceTypes(recursiveTypes == null)) {
+      ReferenceTypeKind kind = recursiveTypes == null ? ReferenceTypeKind.NestedReference : ReferenceTypeKind.FieldReference;
+      foreach (var referenceType in type.GetMemberReferenceTypes(kind)) {
         if (referenceType.Kind != TypeKind.TypeParameter) {
           if (referenceType.HasType(memberType, recursiveTypes)) {
             return true;
@@ -280,7 +296,7 @@ namespace Meson.Compiler {
       var declaringTypes = type.GetStructDeclaringTypes();
       if (declaringTypes.Count > 0) {
         int maxIndex = -1;
-        foreach (var referenceType in type.GetMemberReferenceTypes(false)) {
+        foreach (var referenceType in type.GetMemberReferenceTypes(ReferenceTypeKind.FieldStore)) {
           if (referenceType.Kind == TypeKind.Struct) {
             int index = declaringTypes.FindIndex(i => i.Equals(referenceType));
             if (index != -1 && index > maxIndex) {
@@ -332,8 +348,8 @@ namespace Meson.Compiler {
       ["System.Double"] = "double",
     };
 
-    public static string GetInnerTypeName(string fullName) {
-      return innerValueTypeNames_.GetOrDefault(fullName);
+    public static string GetInnerTypeName(this IType type) {
+      return innerValueTypeNames_.GetOrDefault(type.FullName);
     }
 
     public static IdentifierSyntax GetEnumUnderlyingTypeName(this ITypeDefinition type) {
@@ -347,7 +363,11 @@ namespace Meson.Compiler {
       return new EnumForwardSyntax(type.Name) { UnderlyingType = type.GetEnumUnderlyingTypeName() };
     }
 
-    public static StatementSyntax GetForwardStatement(this ITypeDefinition type, bool isNested = false) {
+    public static ForwardMacroSyntax GetNestedForwardStatement(this ITypeDefinition type) {
+      return new ForwardMacroSyntax(type.Name, type.GetTypeParameters().Select(i => (IdentifierSyntax)i.Name), ForwardMacroKind.NestedClass);
+    }
+
+    public static StatementSyntax GetForwardStatement(this ITypeDefinition type) {
       if (type.IsArrayType()) {
         return type.GetForwardStatement(2);
       }
@@ -356,12 +376,7 @@ namespace Meson.Compiler {
         return type.GetEnumForwardSyntax();
       }
 
-      ForwardMacroKind kind;
-      if (isNested) {
-        kind = ForwardMacroKind.NestedClass;
-      } else {
-        kind = type.Kind == TypeKind.Struct ? ForwardMacroKind.Struct : ForwardMacroKind.Class;
-      }
+      ForwardMacroKind kind = type.Kind == TypeKind.Struct ? ForwardMacroKind.Struct : ForwardMacroKind.Class;
       return new ForwardMacroSyntax(type.Name, type.GetTypeParameters().Select(i => (IdentifierSyntax)i.Name), kind);
     }
 

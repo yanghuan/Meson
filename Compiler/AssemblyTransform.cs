@@ -25,7 +25,7 @@ namespace Meson.Compiler {
       var exportTypes = Module.TypeDefinitions.Where(IsExportType);
       var nestedTypes = exportTypes.Where(i => i.DeclaringType != null);
       var rootTypes = exportTypes.Where(i => i.DeclaringType == null);
-      var sameNameTypes = rootTypes.GroupBy(i => $"{i.Namespace}.{i.Name}").ToDictionary(i => i.Key, i => i.OrderBy(i => i.TypeParameterCount).ToList());
+      var sameNameTypes = rootTypes.GroupBy(i => i.FullName).ToDictionary(i => i.Key, i => i.OrderBy(i => i.TypeParameterCount).ToList());
       CheckVoidGenericType(sameNameTypes.Values);
       CheckNestedType(nestedTypes);
       var compilationUnits = new List<CompilationUnitTransform>();
@@ -36,16 +36,8 @@ namespace Meson.Compiler {
     private void CheckVoidGenericType(IEnumerable<List<ITypeDefinition>> sameNameTypes) {
       foreach (var types in sameNameTypes) {
         if (types.Count > 1) {
-          bool hasRef = types.Exists(i => i.IsRefType());
-          if (hasRef) {
-            foreach (var type in types) {
-              Generator.AddMultiGenericType(type, types);
-            }
-          } else {
-            var type = types.Find(i => i.TypeParameterCount == 0);
-            if (type != null) {
-              Generator.AddMultiGenericType(type, types);
-            }
+          foreach (var type in types) {
+            Generator.AddMultiGenericType(type, types);
           }
         }
       }

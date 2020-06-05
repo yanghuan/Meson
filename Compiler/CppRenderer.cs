@@ -481,7 +481,7 @@ namespace Meson.Compiler {
     }
 
     internal void Render(NestedCycleRefTypeNameSyntax node) {
-      node.ObjectType.Render(this);
+      node.Type.Render(this);
       Write(node.OpenComment);
       Write(node.FullName);
       Write(node.CloseComment);

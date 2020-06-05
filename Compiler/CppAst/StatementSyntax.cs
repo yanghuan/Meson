@@ -329,16 +329,16 @@ namespace Meson.Compiler.CppAst {
   class ClassForwardDeclarationSyntax : StatementSyntax {
     public TemplateSyntax Template { get; set; }
     public string ClassToken => IsStruct ? Tokens.Struct : Tokens.Class;
-    public IdentifierSyntax Name { get; }
+    public ExpressionSyntax Name { get; }
     public bool IsStruct { get; }
     public bool IsFriend { get; }
 
-    public ClassForwardDeclarationSyntax(IdentifierSyntax name, bool isStruct = false) {
+    public ClassForwardDeclarationSyntax(ExpressionSyntax name, bool isStruct = false) {
       Name = name;
       IsStruct = isStruct;
     }
 
-    protected ClassForwardDeclarationSyntax(IdentifierSyntax name, bool isStruct, int _) : this(name, isStruct) {
+    protected ClassForwardDeclarationSyntax(ExpressionSyntax name, bool isStruct, int _) : this(name, isStruct) {
       IsFriend = true;
     }
 
@@ -396,7 +396,7 @@ namespace Meson.Compiler.CppAst {
   }
 
   sealed class FriendClassDeclarationSyntax : ClassForwardDeclarationSyntax {
-    public FriendClassDeclarationSyntax(IdentifierSyntax name, bool isStruct = false) : base(name, isStruct, -1) {
+    public FriendClassDeclarationSyntax(ExpressionSyntax name, bool isStruct = false) : base(name, isStruct, -1) {
     }
   }
 
