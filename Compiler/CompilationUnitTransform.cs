@@ -51,6 +51,9 @@ namespace Meson.Compiler {
         }
       } else {
         rootNamespace.AddRange(classNamespace.Statements);
+        if (!root_.EnumUnderlyingType.IsInt32()) {
+          compilationUnit_.AddCstdintHeadInclude();
+        }
       }
     }
 
@@ -105,7 +108,7 @@ namespace Meson.Compiler {
     }
 
     private void AddForward(ITypeDefinition type) {
-      var multiType = Generator.GetRefMultiGenericFirstType(type, out int genericCount);
+      var multiType = Generator.GetMultiGenericFirstType(type, out int genericCount);
       if (multiType != null) {
         forwards_[multiType] = multiType.GetForwardStatement(genericCount);
       } else {

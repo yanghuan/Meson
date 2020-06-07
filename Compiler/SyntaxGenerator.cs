@@ -63,7 +63,7 @@ namespace Meson.Compiler {
       return multiGenericTypes_.ContainsKey(type);
     }
 
-    public ITypeDefinition GetRefMultiGenericFirstType(ITypeDefinition type, out int genericCount) {
+    public ITypeDefinition GetMultiGenericFirstType(ITypeDefinition type, out int genericCount) {
       var info = multiGenericTypes_.GetOrDefault(type);
       if (info != null) {
         genericCount = info.Types.Last().TypeParameterCount + 1;

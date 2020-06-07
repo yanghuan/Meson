@@ -232,7 +232,7 @@ namespace Meson.Compiler {
       return definition;
     }
 
-    public static bool IsIntType(this IType type) {
+    public static bool IsInt32(this IType type) {
       return ((ITypeDefinition)type).KnownTypeCode == KnownTypeCode.Int32;
     }
 
@@ -353,7 +353,7 @@ namespace Meson.Compiler {
     }
 
     public static IdentifierSyntax GetEnumUnderlyingTypeName(this ITypeDefinition type) {
-      if (!type.EnumUnderlyingType.IsIntType()) {
+      if (!type.EnumUnderlyingType.IsInt32()) {
         return innerValueTypeNames_[type.EnumUnderlyingType.FullName];
       }
       return null;

@@ -45,6 +45,11 @@ namespace Meson.Compiler.CppAst {
       HeadStatements.Add(BlankLinesStatement.One);
     }
 
+    public void AddCstdintHeadInclude() {
+      HeadStatements.Add(new IncludePretreatmentSyntax("cstdint"));
+      HeadStatements.Add(BlankLinesStatement.One);
+    }
+
     public void AddSrcInclude(string path, bool isSystem = true) {
       AddIncludeTo(srcIncludes_, path, isSystem);
     }
