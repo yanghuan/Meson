@@ -33,7 +33,7 @@ namespace Meson.Compiler {
         foreach (var (reference, isForward) in references_) {
           if (isForward) {
             var forward = GetForwardMacroSyntax(reference, out var forwardType);
-            forwards[reference] = forward;
+            forwards[forwardType] = forward;
             srcIncludes.Add(reference.GetReferenceIncludeString());
           } else {
             headIncludes.Add(reference.GetReferenceIncludeString());
@@ -116,7 +116,7 @@ namespace Meson.Compiler {
       var multiType = Generator.GetMultiGenericFirstType(type, out int genericCount);
       if (multiType != null) {
         forwardType = multiType;
-        return multiType.GetForwardStatement(genericCount);
+        return type.GetForwardStatement(genericCount);
       }
       forwardType = type;
       return type.GetForwardStatement();

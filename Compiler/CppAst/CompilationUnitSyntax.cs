@@ -28,7 +28,7 @@ namespace Meson.Compiler.CppAst {
     internal (NamespaceSyntax, NamespaceSyntax) AddNamespace(string name, string typeName) {
       string classNamespaceName = typeName.WithNamespace();
       headNamespaceSyntax_ = new NamespaceSyntax(name);
-      srcNamespaceSyntax_ = new NamespaceSyntax($"{name}.{classNamespaceName}");
+      srcNamespaceSyntax_ = new NamespaceSyntax($"{(name.Length > 0 ? name + '.' + classNamespaceName : classNamespaceName)}");
       SrcStatements.Add(srcNamespaceSyntax_);
       return (headNamespaceSyntax_, new NamespaceSyntax(classNamespaceName));
     }
