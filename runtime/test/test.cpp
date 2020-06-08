@@ -1,12 +1,10 @@
+#include "test.h"
 #include "runtime.h"
 
-namespace A {
-  class A{
-    void f() {}
-    void f(int a) {}
-  };
-}
+
 
 int main() {
+  A::AP<int> a = nullptr;
+
   return 0;
 }

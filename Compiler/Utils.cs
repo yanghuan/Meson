@@ -465,8 +465,30 @@ namespace Meson.Compiler {
       return name.Replace(".", "::");
     }
 
+    public static string WithNamespace(this string name) {
+      return name + "Namespace";
+    }
+
     public static ExpressionSyntax WithFullName(this ExpressionSyntax typeName, IType type) {
-      return ((IdentifierSyntax)type.Namespace.ReplaceDot()).TwoColon(typeName);
+      IdentifierSyntax ns = type.Namespace.ReplaceDot();
+      return ns.TwoColon(typeName);
+
+      /*
+      switch (type.Kind) {
+        case TypeKind.Enum: {
+          IdentifierSyntax ns = type.Namespace.ReplaceDot();
+          return ns.TwoColon(typeName);
+        }
+        case TypeKind.Struct: {
+          IdentifierSyntax ns = type.Name.WithNamespace();
+          return ns.TwoColon(typeName);
+        }
+        default: {
+          IdentifierSyntax ns = type.Name.WithNamespace();
+          IdentifierSyntax name = $"{type.Name}___";
+          return new GenericIdentifierSyntax((IdentifierSyntax)"rt::ref", ns.TwoColon(name));
+        }
+      }*/
     }
   }
 }

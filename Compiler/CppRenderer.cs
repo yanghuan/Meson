@@ -125,7 +125,9 @@ namespace Meson.Compiler {
 
     internal void Render(CompilationUnitSyntax compilationUnit) {
       WriteCompilationUnitStatements(compilationUnit.HeadStatements, HeadFileName);
-      WriteCompilationUnitStatements(compilationUnit.SrcStatements, SrcFileName);
+      if (!compilationUnit.IsSrcEmpty) {
+        WriteCompilationUnitStatements(compilationUnit.SrcStatements, SrcFileName);
+      }
     }
 
     private void WriteCompilationUnitStatements(List<StatementSyntax> statements, string file) {

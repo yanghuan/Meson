@@ -11,7 +11,6 @@ namespace Meson.Compiler {
     public SyntaxGenerator Generator => AssemblyTransform.Generator;
     private readonly CompilationUnitSyntax compilationUnit_ = new CompilationUnitSyntax();
     private readonly Dictionary<ITypeDefinition, bool> references_ = new Dictionary<ITypeDefinition, bool>();
-    private readonly Dictionary<ITypeDefinition, StatementSyntax> forwards_ = new Dictionary<ITypeDefinition, StatementSyntax>();
     private readonly ITypeDefinition root_;
 
     public CompilationUnitTransform(AssemblyTransform assemblyTransform, List<ITypeDefinition> types) {
@@ -21,38 +20,40 @@ namespace Meson.Compiler {
     }
 
     private void VisitCompilationUnit(IEnumerable<ITypeDefinition> types) {
-      var rootNamespace = compilationUnit_.AddNamespace(root_.Namespace);
-      var classNamespace = new NamespaceSyntax($"{root_.Name}Namespace");
+      var (rootNamespace, classNamespace) = compilationUnit_.AddNamespace(root_.Namespace, root_.Name);
       var usingsSyntax = new StatementListSyntax();
       classNamespace.Add(usingsSyntax);
 
       var typeDefinition = new TypeDefinitionTransform(this, classNamespace, types);
       if (root_.Kind != TypeKind.Enum) {
-        HashSet<string> includes = new HashSet<string>();
-        HashSet<string> usings = new HashSet<string>();
+        var headIncludes = new HashSet<string>();
+        var usings = new HashSet<string>();
+        var srcIncludes = new HashSet<string>();
+        var forwards = new Dictionary<ITypeDefinition, StatementSyntax>();
         foreach (var (reference, isForward) in references_) {
           if (isForward) {
-            AddForward(reference);
+            var forward = GetForwardMacroSyntax(reference, out var forwardType);
+            forwards[reference] = forward;
+            srcIncludes.Add(reference.GetReferenceIncludeString());
           } else {
-            includes.Add(reference.GetReferenceIncludeString());
+            headIncludes.Add(reference.GetReferenceIncludeString());
           }
           if (!root_.IsNamespaceContain(reference)) {
             usings.Add(reference.Namespace);
           }
         }
-        compilationUnit_.AddHeadIncludes(includes.OrderBy(i => i));
+        compilationUnit_.AddHeadIncludes(headIncludes.OrderBy(i => i));
         usingsSyntax.Statements.AddRange(usings.OrderBy(i => i).Select(GetUsingNamespaceSyntax));
-        AddForwards(rootNamespace);
+        AddForwards(rootNamespace, forwards, usingsSyntax);
         rootNamespace.Add(classNamespace);
         AddTypeUsingDeclaration(rootNamespace, classNamespace, typeDefinition, types);
         if (root_.Kind != TypeKind.Interface) {
-          compilationUnit_.AddSrcInclude(root_.GetIncludeString(), false);
-          compilationUnit_.AddSrcStatement(BlankLinesStatement.One);
+          compilationUnit_.AddSrcIncludes(root_.GetIncludeString(), srcIncludes.OrderBy(i => i));
         }
       } else {
         rootNamespace.AddRange(classNamespace.Statements);
         if (!root_.EnumUnderlyingType.IsInt32()) {
-          compilationUnit_.AddCstdintHeadInclude();
+          compilationUnit_.AddEnumHeadInclude();
         }
       }
     }
@@ -79,14 +80,18 @@ namespace Meson.Compiler {
       rootNamespace.Add(usingDeclaration);
     }
 
-    private void AddForwards(NamespaceSyntax rootNamespace) {
+    private void AddForwards(NamespaceSyntax rootNamespace, Dictionary<ITypeDefinition, StatementSyntax> forwards, StatementListSyntax usingsSyntax) {
       var outs = new List<(ITypeDefinition Type, StatementSyntax Forward)>();
-      foreach (var (type, forward) in forwards_) {
+      foreach (var (type, forward) in forwards) {
         if (root_.Namespace == type.Namespace) {
           rootNamespace.Add(forward);
         } else {
           outs.Add((type, forward));
         }
+        /*
+        if (forward is ForwardMacroSyntax forwardMacro) {
+          usingsSyntax.Statements.Add(forwardMacro.ToUsingMacroSyntax(type.Namespace));
+        }*/
       }
       if (outs.Count > 0) {
        var group = outs.GroupBy(i => i.Type.Namespace);
@@ -107,13 +112,14 @@ namespace Meson.Compiler {
       return new UsingNamespaceSyntax(name.Replace(Tokens.Dot, Tokens.TwoColon));
     }
 
-    private void AddForward(ITypeDefinition type) {
+    private StatementSyntax GetForwardMacroSyntax(ITypeDefinition type, out ITypeDefinition forwardType) {
       var multiType = Generator.GetMultiGenericFirstType(type, out int genericCount);
       if (multiType != null) {
-        forwards_[multiType] = multiType.GetForwardStatement(genericCount);
-      } else {
-        forwards_[type] = type.GetForwardStatement();
+        forwardType = multiType;
+        return multiType.GetForwardStatement(genericCount);
       }
+      forwardType = type;
+      return type.GetForwardStatement();
     }
 
     internal void AddReference(ITypeDefinition type, bool isForward) {

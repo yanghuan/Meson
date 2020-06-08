@@ -431,6 +431,14 @@ namespace Meson.Compiler.CppAst {
       Invation.Arguments.AddRange(typeArguments);
     }
 
+    public ExpressionStatementSyntax ToUsingMacroSyntax(string ns) {
+      IdentifierSyntax name = macros_[(int)Kind].Replace(macros_.First(), "USING");
+      var invation = new InvationExpressionSyntax(name);
+      invation.Arguments.Add(ns.ReplaceDot());
+      invation.Arguments.AddRange(Invation.Arguments);
+      return new ExpressionStatementSyntax(invation) { HasSemicolon = false };
+    }
+
     internal override void Render(CppRenderer renderer) {
       renderer.Render(this);
     }

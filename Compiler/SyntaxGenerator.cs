@@ -98,20 +98,18 @@ namespace Meson.Compiler {
         case SymbolKind.Method:
         case SymbolKind.Parameter: {
           if (Tokens.IsReservedWord(originalString)) {
-            RefactorMemberName(originalString, symbol, name);
+            string newName = Utils.GetNewName(originalString, 1);
+            name.Update(newName);
             break;
           }
 
           if (Utils.IsIdentifierIllegal(ref originalString)) {
-            RefactorMemberName(originalString, symbol, name);
+            string newName = Utils.GetNewName(originalString, 0);
+            name.Update(newName);
           }
           break;
         }
       }
-    }
-
-    private void RefactorMemberName(string originalString, ISymbol symbol, SymbolNameSyntax name) {
-      name.Update(Utils.GetNewName(originalString, 1));
     }
   }
 }

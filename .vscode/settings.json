@@ -2,7 +2,11 @@
   "files.associations": {
     "memory": "cpp",
     "atomic": "cpp",
-    "*.ipp": "cpp"
+    "*.ipp": "cpp",
+    "future": "cpp",
+    "system_error": "cpp",
+    "typeindex": "cpp",
+    "xlocale": "cpp"
   },
   "python.pythonPath": "d:\\tools\\python36\\python.exe"
 }

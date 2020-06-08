@@ -150,6 +150,7 @@ namespace Meson.Compiler {
         var methodName = Generator.GetMemberName(method);
         var returnType = GetRetuenTypeSyntax(method, typeDefinition);
         node.Statements.Add(new MethodDefinitionSyntax(returnType, methodName, parameters, method.IsStatic, method.Accessibility.ToTokenString()));
+        //Generator.GetMethodDeclaration(method);
       }
     }
 
