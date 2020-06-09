@@ -11,10 +11,23 @@ namespace Meson.Compiler {
     public SyntaxGenerator Generator { get; }
     public IModule Module { get;}
     private readonly Dictionary<ITypeDefinition, ITypeDefinition> nestedBrotherTypes_ = new Dictionary<ITypeDefinition, ITypeDefinition>();
+    private IEnumerable<CompilationUnitTransform> compilationUnits_;
+
 
     public AssemblyTransform(SyntaxGenerator generator, IModule module) {
       Generator = generator;
       Module = module;
+      Init();
+    }
+
+    private void Init() {
+      var exportTypes = Module.TypeDefinitions.Where(IsExportType);
+      var nestedTypes = exportTypes.Where(i => i.DeclaringType != null);
+      var rootTypes = exportTypes.Where(i => i.DeclaringType == null);
+      var sameNameTypes = rootTypes.GroupBy(i => i.FullName).ToDictionary(i => i.Key, i => i.OrderBy(i => i.TypeParameterCount).ToList());
+      CheckVoidGenericType(sameNameTypes.Values);
+      CheckNestedType(nestedTypes);
+      compilationUnits_ = sameNameTypes.Values.Select(Create);
     }
 
     private static bool IsExportType(ITypeDefinition type) {
@@ -22,15 +35,7 @@ namespace Meson.Compiler {
     }
 
     public IEnumerable<CompilationUnitTransform> GetCompilationUnits() {
-      var exportTypes = Module.TypeDefinitions.Where(IsExportType);
-      var nestedTypes = exportTypes.Where(i => i.DeclaringType != null);
-      var rootTypes = exportTypes.Where(i => i.DeclaringType == null);
-      var sameNameTypes = rootTypes.GroupBy(i => i.FullName).ToDictionary(i => i.Key, i => i.OrderBy(i => i.TypeParameterCount).ToList());
-      CheckVoidGenericType(sameNameTypes.Values);
-      CheckNestedType(nestedTypes);
-      var compilationUnits = new List<CompilationUnitTransform>();
-      compilationUnits.AddRange(sameNameTypes.Values.Select(Create));
-      return compilationUnits;
+      return compilationUnits_;
     }
 
     private void CheckVoidGenericType(IEnumerable<List<ITypeDefinition>> sameNameTypes) {

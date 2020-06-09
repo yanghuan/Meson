@@ -236,6 +236,10 @@ namespace Meson.Compiler {
       return ((ITypeDefinition)type).KnownTypeCode == KnownTypeCode.Int32;
     }
 
+    public static bool IsIEnumeratorOfT(this ITypeDefinition type) {
+      return type.KnownTypeCode == KnownTypeCode.IEnumeratorOfT;
+    }
+
     public static IType Original(this IType type) {
       if (type is NullabilityAnnotatedType t) {
         type = t.TypeWithoutAnnotation;
@@ -462,7 +466,7 @@ namespace Meson.Compiler {
     }
 
     public static string ReplaceDot(this string name) {
-      return name.Replace(".", "::");
+      return name.Replace(Tokens.Dot, Tokens.TwoColon);
     }
 
     public static string WithNamespace(this string name) {

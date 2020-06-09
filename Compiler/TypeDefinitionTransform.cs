@@ -77,12 +77,16 @@ namespace Meson.Compiler {
       parent_.Add(node);
     }
 
-    private void VisitEnumFields(ITypeDefinition typeDefinition, EnumSyntax enumNode) {
+    private void VisitEnumFields(ITypeDefinition typeDefinition, EnumSyntax node) {
       foreach (var field in typeDefinition.Fields) {
         if (field.Name != "value__") {
           object v = field.GetConstantValue();
+          // https://stackoverflow.com/questions/14695118/2147483648-0-returns-true-in-c
+          if (v.Equals(int.MinValue)) {
+            v = $"{int.MinValue + 1} - 1";
+          }
           var fieldName = Generator.GetMemberName(field);
-          enumNode.Add(new EnumFieldSyntax(fieldName, v.ToString()));
+          node.Add(new EnumFieldSyntax(fieldName, v.ToString()));
         }
       }
     }

@@ -380,14 +380,14 @@ namespace Meson.Compiler.CppAst {
     }
   }
 
-  sealed class UsingNamespaceSyntax : StatementSyntax {
+  sealed class UsingNamespaceOrTypeSyntax : StatementSyntax {
     public string UsingToken => Tokens.Using;
-    public string NamespaceToken => Tokens.Namespace;
-
     public string Name { get; }
+    public bool IsNamespace { get; }
 
-    public UsingNamespaceSyntax(string name) {
+    public UsingNamespaceOrTypeSyntax(string name, bool isNamespace = true) {
       Name = name;
+      IsNamespace = isNamespace;
     }
 
     internal override void Render(CppRenderer renderer) {

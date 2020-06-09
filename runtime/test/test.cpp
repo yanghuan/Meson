@@ -1,10 +1,10 @@
 #include "test.h"
 #include "runtime.h"
 
+template <class T> struct A;   // forward declaration
 
+template <class T=int> struct A { };
 
 int main() {
-  A::AP<int> a = nullptr;
-
   return 0;
 }

@@ -6,7 +6,8 @@
     "future": "cpp",
     "system_error": "cpp",
     "typeindex": "cpp",
-    "xlocale": "cpp"
+    "xlocale": "cpp",
+    "variant": "cpp"
   },
   "python.pythonPath": "d:\\tools\\python36\\python.exe"
 }

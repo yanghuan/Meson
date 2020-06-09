@@ -112,7 +112,7 @@
 #define FORWARDN(...) FORWARDNX(__VA_ARGS__)(BOOST_PP_VARIADIC_TO_SEQ(__VA_ARGS__))
 
 #define FORWARD_MULTI(n, name, seq, ns) \
-  namespace ns{BOOST_PP_TUPLE_ENUM(TEMPLATE_VOID(seq)) class name;}\
+  namespace ns{BOOST_PP_TUPLE_ENUM(TEMPLATE(seq)) class name;}\
   BOOST_PP_TUPLE_ENUM(TEMPLATE_VOID(seq))\
   using n = rt::ref<ns::name<BOOST_PP_SEQ_ENUM(seq)>>;
 
@@ -145,7 +145,7 @@
 #define FORWARDS(...) FORWARDSX(__VA_ARGS__)(BOOST_PP_VARIADIC_TO_SEQ(__VA_ARGS__))
 
 #define FORWARDS_MULTI(n, name, seq, ns) \
-  namespace ns{BOOST_PP_TUPLE_ENUM(TEMPLATE_VOID(seq)) struct name;}\
+  namespace ns{BOOST_PP_TUPLE_ENUM(TEMPLATE(seq)) struct name;}\
   BOOST_PP_TUPLE_ENUM(TEMPLATE_VOID(seq))\
   using n = ns::name<BOOST_PP_SEQ_ENUM(seq)>;
 

@@ -43,7 +43,7 @@ namespace Meson.Compiler {
           }
         }
         compilationUnit_.AddHeadIncludes(headIncludes.OrderBy(i => i));
-        usingsSyntax.Statements.AddRange(usings.OrderBy(i => i).Select(GetUsingNamespaceSyntax));
+        usingsSyntax.Statements.AddRange(usings.OrderBy(i => i).Select(i => new UsingNamespaceOrTypeSyntax(i.ReplaceDot())));
         AddForwards(rootNamespace, forwards, usingsSyntax);
         rootNamespace.Add(classNamespace);
         AddTypeUsingDeclaration(rootNamespace, classNamespace, typeDefinition, types);
@@ -88,10 +88,9 @@ namespace Meson.Compiler {
         } else {
           outs.Add((type, forward));
         }
-        /*
-        if (forward is ForwardMacroSyntax forwardMacro) {
-          usingsSyntax.Statements.Add(forwardMacro.ToUsingMacroSyntax(type.Namespace));
-        }*/
+        if (type.IsIEnumeratorOfT()) {
+          usingsSyntax.Add(new UsingNamespaceOrTypeSyntax(type.FullName.ReplaceDot(), false));
+        }
       }
       if (outs.Count > 0) {
        var group = outs.GroupBy(i => i.Type.Namespace);
@@ -106,10 +105,6 @@ namespace Meson.Compiler {
     internal void Write(string outDir) {
       CppRenderer rener = new CppRenderer(root_, outDir);
       compilationUnit_.Render(rener);
-    }
-
-    private static UsingNamespaceSyntax GetUsingNamespaceSyntax(string name) {
-      return new UsingNamespaceSyntax(name.Replace(Tokens.Dot, Tokens.TwoColon));
     }
 
     private StatementSyntax GetForwardMacroSyntax(ITypeDefinition type, out ITypeDefinition forwardType) {

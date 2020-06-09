@@ -459,11 +459,13 @@ namespace Meson.Compiler {
       WriteNewLine();
     }
 
-    internal void Render(UsingNamespaceSyntax node) {
+    internal void Render(UsingNamespaceOrTypeSyntax node) {
       Write(node.UsingToken);
       WriteSpace();
-      Write(node.NamespaceToken);
-      WriteSpace();
+      if (node.IsNamespace) {
+        Write(Tokens.Namespace);
+        WriteSpace();
+      }
       Write(node.Name);
       WriteSemicolon();
       WriteNewLine();

@@ -48,11 +48,8 @@ namespace Meson.Compiler {
 
      private IEnumerable<CompilationUnitTransform> GetCompilationUnits() {
       var modules = Options.Assemnlys.SelectMany(GetModules).Distinct();
-      return modules.SelectMany(GetCompilationUnits);
-    }
-
-    private IEnumerable<CompilationUnitTransform> GetCompilationUnits(IModule module) {
-      return new AssemblyTransform(this, module).GetCompilationUnits();
+      var assemblyTransforms = modules.Select(i => new AssemblyTransform(this, i)).ToList();
+      return assemblyTransforms.SelectMany(i => i.GetCompilationUnits());
     }
 
     public void AddMultiGenericType(ITypeDefinition type, List<ITypeDefinition> types) {
