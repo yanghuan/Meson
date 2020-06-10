@@ -150,7 +150,7 @@ namespace Meson.Compiler {
 
     private void VisitMethods(ITypeDefinition typeDefinition, ClassSyntax node) {
       foreach (var method in typeDefinition.Methods.Where(IsExportMethod)) {
-        var parameters = method.Parameters.Select(i => GetParameterSyntax(i, method, typeDefinition));  
+        var parameters = method.Parameters.Select(i => GetParameterSyntax(i, method, typeDefinition)).ToList();  
         var methodName = Generator.GetMemberName(method);
         var returnType = GetRetuenTypeSyntax(method, typeDefinition);
         node.Statements.Add(new MethodDefinitionSyntax(returnType, methodName, parameters, method.IsStatic, method.Accessibility.ToTokenString()));

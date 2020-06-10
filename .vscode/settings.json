@@ -7,7 +7,9 @@
     "system_error": "cpp",
     "typeindex": "cpp",
     "xlocale": "cpp",
-    "variant": "cpp"
+    "variant": "cpp",
+    "mutex": "cpp",
+    "shared_mutex": "cpp"
   },
   "python.pythonPath": "d:\\tools\\python36\\python.exe"
 }
