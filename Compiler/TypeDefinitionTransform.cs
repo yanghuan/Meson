@@ -154,9 +154,16 @@ namespace Meson.Compiler {
         var methodName = Generator.GetMemberName(method);
         var returnType = GetRetuenTypeSyntax(method, typeDefinition);
         node.Statements.Add(new MethodDefinitionSyntax(returnType, methodName, parameters, method.IsStatic, method.Accessibility.ToTokenString()));
-        //Generator.GetMethodDeclaration(method);
+        if (method.HasBody) {
+          var m = Generator.GetMethodDeclaration(method);
+          if (m != null) {
+
+          }
+        }
       }
     }
+
+  
 
     private ExpressionSyntax GetRetuenTypeSyntax(IMethod method, ITypeDefinition typeDefinition) {
       var returnType = GetTypeName(method.ReturnType, typeDefinition, true, method.ReturnType);

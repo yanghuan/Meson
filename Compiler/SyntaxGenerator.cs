@@ -30,20 +30,23 @@ namespace Meson.Compiler {
 
     private IEnumerable<IModule> GetModules(string path) {
       var decompiler = new CSharpDecompiler(path, decompilerSettings_);
-      foreach (var module in decompiler.TypeSystem.Modules) {
-        decompilers_[module] = decompiler;
-      }
+      decompilers_.Add(decompiler.TypeSystem.MainModule, decompiler);
       return decompiler.TypeSystem.Modules;
     }
 
     public CSharpDecompiler GetDecompiler(IModule module) {
-      return decompilers_[module];
+      var decompiler = decompilers_.GetOrDefault(module);
+      if (decompiler == null) {
+        decompiler = new CSharpDecompiler(module.PEFile.FileName, decompilerSettings_);
+        decompilers_.Add(module, decompiler);
+      }
+      return decompiler;
     }
 
     public MethodDeclaration GetMethodDeclaration(IMethod method) {
       var decompiler = GetDecompiler(method.ParentModule);
       var node = decompiler.Decompile(method.MetadataToken);
-      return node.Members.OfType<MethodDeclaration>().Single();
+      return node.Members.OfType<MethodDeclaration>().FirstOrDefault();
     }
 
      private IEnumerable<CompilationUnitTransform> GetCompilationUnits() {
