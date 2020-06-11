@@ -7,6 +7,7 @@ namespace Meson.Compiler.CppAst {
     internal MemberAccessExpressionSyntax TwoColon(ExpressionSyntax expression) {
       return new MemberAccessExpressionSyntax(this, expression, MemberAccessOperator.TwoColon);
     }
+
     public static implicit operator ExpressionSyntax(string valueText) {
       return new ValueTextIdentifierSyntax(valueText);
     }

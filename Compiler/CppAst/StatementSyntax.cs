@@ -326,6 +326,26 @@ namespace Meson.Compiler.CppAst {
     }
   }
 
+  sealed class MethodImplementationSyntax : BlockSyntax {
+    public ExpressionSyntax DeclaringType { get; }
+    public ExpressionSyntax RetuenType { get; }
+    public IdentifierSyntax Name { get; }
+    public string OpenParentheses => Tokens.OpenParentheses;
+    public readonly List<ParameterSyntax> Parameters = new List<ParameterSyntax>();
+    public string CloseParentheses => Tokens.CloseParentheses;
+
+    public MethodImplementationSyntax(IdentifierSyntax name, ExpressionSyntax retuenType, IEnumerable<ParameterSyntax> parameters, ExpressionSyntax declaringType = null) {
+      Name = name;
+      RetuenType = retuenType;
+      DeclaringType = declaringType;
+      Parameters.AddRange(parameters);
+    }
+
+    internal override void Render(CppRenderer renderer) {
+      renderer.Render(this);
+    }
+  }
+
   class ClassForwardDeclarationSyntax : StatementSyntax {
     public TemplateSyntax Template { get; set; }
     public string ClassToken => IsStruct ? Tokens.Struct : Tokens.Class;
@@ -437,6 +457,23 @@ namespace Meson.Compiler.CppAst {
       invation.Arguments.Add(ns.ReplaceDot());
       invation.Arguments.AddRange(Invation.Arguments);
       return new ExpressionStatementSyntax(invation) { HasSemicolon = false };
+    }
+
+    internal override void Render(CppRenderer renderer) {
+      renderer.Render(this);
+    }
+  }
+
+  sealed class ReturnStatementSyntax : StatementSyntax {
+    public string ReturnKeyword => Tokens.Return;
+
+    public ExpressionSyntax Expression { get; }
+
+    public ReturnStatementSyntax() {
+    }
+
+    public ReturnStatementSyntax(ExpressionSyntax expression) {
+      Expression = expression;
     }
 
     internal override void Render(CppRenderer renderer) {

@@ -7,17 +7,17 @@ namespace Meson.Compiler.CppAst {
   class CompilationUnitSyntax : SyntaxNode {
     public readonly SyntaxList<StatementSyntax> HeadStatements = new SyntaxList<StatementSyntax>();
     public readonly SyntaxList<StatementSyntax> SrcStatements = new SyntaxList<StatementSyntax>();
-
+    public readonly SyntaxList<StatementSyntax> ReferencesIncludes = new SyntaxList<StatementSyntax>();
+    private StatementListSyntax srcIncludes_ = new StatementListSyntax();
     private NamespaceSyntax headNamespaceSyntax_;
     private NamespaceSyntax srcNamespaceSyntax_;
-    private readonly StatementListSyntax srcIncludes_ = new StatementListSyntax();
+
     public bool IsSrcEmpty => srcNamespaceSyntax_.IsEmpty;
 
     public CompilationUnitSyntax() {
       HeadStatements.Add(PragmaPretreatmentSyntax.Once);
       HeadStatements.Add(BlankLinesStatement.One);
       SrcStatements.Add(srcIncludes_);
-      SrcStatements.Add(BlankLinesStatement.One);
     }
 
     internal override void Render(CppRenderer renderer) {
@@ -44,13 +44,17 @@ namespace Meson.Compiler.CppAst {
       HeadStatements.Add(BlankLinesStatement.One);
     }
 
-    public void AddSrcIncludes(string head, IEnumerable<string> references) {
-      srcIncludes_.Statements.Add(new IncludePretreatmentSyntax(head, false));
+    public void AddReferencesIncludes(string typeName, IEnumerable<string> references) {
+      ReferencesIncludes.Add(PragmaPretreatmentSyntax.Once);
+      ReferencesIncludes.Add(BlankLinesStatement.One);
+      ReferencesIncludes.Add(new IncludePretreatmentSyntax($"{typeName}.h", false));
       if (references.Any()) {
-        srcIncludes_.Add(BlankLinesStatement.One);
-        srcIncludes_.Statements.AddRange(references.Select(i => new IncludePretreatmentSyntax(i)));
+        ReferencesIncludes.Add(BlankLinesStatement.One);
+        ReferencesIncludes.AddRange(references.Select(i => new IncludePretreatmentSyntax(i)));
       }
-      srcNamespaceSyntax_.Add(BlankLinesStatement.One);
+
+      srcIncludes_.Add(new IncludePretreatmentSyntax($"{typeName}.i", false));
+      srcIncludes_.Add(BlankLinesStatement.One);
     }
 
     public void AddSrcStatement(StatementSyntax statement) {

@@ -13,7 +13,6 @@ namespace Meson.Compiler {
     private readonly Dictionary<ITypeDefinition, ITypeDefinition> nestedBrotherTypes_ = new Dictionary<ITypeDefinition, ITypeDefinition>();
     private IEnumerable<CompilationUnitTransform> compilationUnits_;
 
-
     public AssemblyTransform(SyntaxGenerator generator, IModule module) {
       Generator = generator;
       Module = module;

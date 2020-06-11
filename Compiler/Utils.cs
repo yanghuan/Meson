@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
-
+using ICSharpCode.Decompiler.CSharp.Syntax;
 using ICSharpCode.Decompiler.TypeSystem;
 using ICSharpCode.Decompiler.TypeSystem.Implementation;
 using Meson.Compiler.CppAst;
@@ -101,16 +101,13 @@ namespace Meson.Compiler {
       };
     }
 
-    public static string GetReferenceIncludeString(this ITypeDefinition reference) {
+    public static string GetReferenceIncludeString(this ITypeDefinition reference, bool isReference = false) {
       IEnumerable<string> parts = new string[] { reference.ParentModule.Name };
       if (!string.IsNullOrEmpty(reference.Namespace)) {
         parts = parts.Concat(reference.Namespace.Split('.'));
       }
-      return $"{string.Join('/', parts)}/{reference.Name}.h";
-    }
-
-    public static string GetIncludeString(this ITypeDefinition type) {
-      return $"{type.Name}.h";
+      string suffix = isReference && (reference.Kind != TypeKind.Enum && reference.Kind != TypeKind.Interface) ? "i" : "h";
+      return $"{string.Join('/', parts)}/{reference.Name}.{suffix}";
     }
 
     private static bool IsTypeArgumentHasType(this IType argument, ITypeDefinition other, HashSet<ITypeDefinition> recursiveTypes) {
@@ -476,6 +473,10 @@ namespace Meson.Compiler {
     public static ExpressionSyntax WithFullName(this ExpressionSyntax typeName, IType type) {
       IdentifierSyntax ns = type.Namespace.ReplaceDot();
       return ns.TwoColon(typeName);
+    }
+
+    public static T Accept<T>(this AstNode node, MethodTransform transform) where T : SyntaxNode {
+      return (T)node.AcceptVisitor(transform);
     }
   }
 }

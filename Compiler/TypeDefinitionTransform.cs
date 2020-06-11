@@ -10,8 +10,8 @@ using Meson.Compiler.CppAst;
 
 namespace Meson.Compiler {
   internal class TypeDefinitionTransform {
-    private readonly CompilationUnitTransform compilationUnit_;
-    public AssemblyTransform AssemblyTransform => compilationUnit_.AssemblyTransform;
+    public CompilationUnitTransform CompilationUnit { get; }
+    public AssemblyTransform AssemblyTransform => CompilationUnit.AssemblyTransform;
     public SyntaxGenerator Generator => AssemblyTransform.Generator;
     private readonly BlockSyntax parent_;
     private readonly List<ITypeDefinition> types_;
@@ -23,7 +23,7 @@ namespace Meson.Compiler {
     private ITypeDefinition Root => types_.First();
 
     public TypeDefinitionTransform(CompilationUnitTransform compilationUnit, BlockSyntax parent, IEnumerable<ITypeDefinition> types, TypeDefinitionTransform parentTransform = null) {
-      compilationUnit_ = compilationUnit;
+      CompilationUnit = compilationUnit;
       types_ = types.ToList();
       parent_ = parent;
       parentTransform_ = parentTransform;
@@ -154,17 +154,13 @@ namespace Meson.Compiler {
         var methodName = Generator.GetMemberName(method);
         var returnType = GetRetuenTypeSyntax(method, typeDefinition);
         node.Statements.Add(new MethodDefinitionSyntax(returnType, methodName, parameters, method.IsStatic, method.Accessibility.ToTokenString()));
-        if (method.HasBody) {
-          var m = Generator.GetMethodDeclaration(method);
-          if (m != null) {
-
-          }
+        if (typeDefinition.TypeParameterCount == 0) {
+          new MethodTransform(this, method);
         }
       }
     }
 
-  
-
+ 
     private ExpressionSyntax GetRetuenTypeSyntax(IMethod method, ITypeDefinition typeDefinition) {
       var returnType = GetTypeName(method.ReturnType, typeDefinition, true, method.ReturnType);
       return returnType;
@@ -241,16 +237,23 @@ namespace Meson.Compiler {
       }
     }
 
+    public ExpressionSyntax GetTypeName(IType type, ITypeDefinition typeDefinition) {
+      return GetTypeName(type, typeDefinition, false, null);
+    }
+
     private ExpressionSyntax GetTypeName(IType type, ITypeDefinition typeDefinition, bool isForward, IType original) {
+      bool isInHead = original != null;
       switch (type.Kind) {
         case TypeKind.Void: {
           return IdentifierSyntax.Void;
         }
         case TypeKind.Array: {
           ArrayType arrayType = (ArrayType)type;
-          var arrayDefinition = arrayType.DirectBaseTypes.First().GetDefinition();
-          if (arrayDefinition != typeDefinition) {
-            compilationUnit_.AddReference(arrayDefinition, isForward);
+          if (isInHead) {
+            var arrayDefinition = arrayType.DirectBaseTypes.First().GetDefinition();
+            if (arrayDefinition != typeDefinition) {
+              CompilationUnit.AddReference(arrayDefinition, isForward);
+            }
           }
           var elementType = GetTypeName(arrayType.ElementType, typeDefinition, true, original);
           return new GenericIdentifierSyntax((IdentifierSyntax)type.Kind.ToString(), elementType);
@@ -267,31 +270,33 @@ namespace Meson.Compiler {
         }
       }
 
-      var referenceType = type.GetReferenceType();
-      if (referenceType != null) {
-        var rootType = typeDefinition.GetReferenceType();
-        if (!Generator.IsCompilationUnitIn(rootType, referenceType)) {
-          var referenceTypeDefinition = referenceType.GetDefinition();
-          if (referenceTypeDefinition.Kind == TypeKind.Enum) {
-            compilationUnit_.AddReference(referenceTypeDefinition, true);
-          } else {
-            if (type.DeclaringType != null) {
-              bool checkCycleReference = type.IsReferenceType == true || original.Kind == TypeKind.Pointer;
-              if (checkCycleReference) {
-                bool isExists = referenceTypeDefinition.IsMemberTypeExists(rootType.GetDefinition(), true);
-                if (isExists) {
-                  string shortName = type.GetShortName();
-                  if (original.Kind == TypeKind.Pointer) {
-                    return new NestedCycleRefTypeNameSyntax(shortName, IdentifierSyntax.Void);
-                  } else {
-                    var rootObject = referenceTypeDefinition.GetRootObjectDefinition();
-                    compilationUnit_.AddReference(rootObject, true);
-                    return new NestedCycleRefTypeNameSyntax(shortName);
+      if (isInHead) {
+        var referenceType = type.GetReferenceType();
+        if (referenceType != null) {
+          var rootType = typeDefinition.GetReferenceType();
+          if (!Generator.IsCompilationUnitIn(rootType, referenceType)) {
+            var referenceTypeDefinition = referenceType.GetDefinition();
+            if (referenceTypeDefinition.Kind == TypeKind.Enum) {
+              CompilationUnit.AddReference(referenceTypeDefinition, true);
+            } else {
+              if (type.DeclaringType != null) {
+                bool checkCycleReference = type.IsReferenceType == true || original.Kind == TypeKind.Pointer;
+                if (checkCycleReference) {
+                  bool isExists = referenceTypeDefinition.IsMemberTypeExists(rootType.GetDefinition(), true);
+                  if (isExists) {
+                    string shortName = type.GetShortName();
+                    if (original.Kind == TypeKind.Pointer) {
+                      return new NestedCycleRefTypeNameSyntax(shortName, IdentifierSyntax.Void);
+                    } else {
+                      var rootObject = referenceTypeDefinition.GetRootObjectDefinition();
+                      CompilationUnit.AddReference(rootObject, true);
+                      return new NestedCycleRefTypeNameSyntax(shortName);
+                    }
                   }
                 }
               }
+              CompilationUnit.AddReference(referenceTypeDefinition, isForward);
             }
-            compilationUnit_.AddReference(referenceTypeDefinition, isForward);
           }
         }
       }
@@ -392,7 +397,7 @@ namespace Meson.Compiler {
           }
         }
         var block = brotherType != null ? GetBrotherTypeParnetBlock(brotherType) : node;
-        new TypeDefinitionTransform(compilationUnit_, block, types, this);
+        new TypeDefinitionTransform(CompilationUnit, block, types, this);
       }
     }
 

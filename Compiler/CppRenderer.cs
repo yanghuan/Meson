@@ -40,17 +40,13 @@ namespace Meson.Compiler {
       }
     }
 
-    private string HeadFileName {
-      get {
-        return Path.Combine(OutDir, $"{rootType_.Name}.h"); ;
-      }
+    public string GetOutFile(string suffix) {
+      return Path.Combine(OutDir, $"{rootType_.Name}.{suffix}");
     }
 
-    private string SrcFileName {
-      get {
-        return Path.Combine(OutDir, $"{rootType_.Name}.cpp"); ;
-      }
-    }
+    private string HeadFileName => GetOutFile("h");
+    private string SrcFileName => GetOutFile("cpp");
+    private string RefFileName => GetOutFile("i");
 
     private void AddIndent() {
       if (IsSingleLine) {
@@ -126,6 +122,7 @@ namespace Meson.Compiler {
     internal void Render(CompilationUnitSyntax compilationUnit) {
       WriteCompilationUnitStatements(compilationUnit.HeadStatements, HeadFileName);
       if (!compilationUnit.IsSrcEmpty) {
+        WriteCompilationUnitStatements(compilationUnit.ReferencesIncludes, RefFileName);
         WriteCompilationUnitStatements(compilationUnit.SrcStatements, SrcFileName);
       }
     }
@@ -390,6 +387,23 @@ namespace Meson.Compiler {
       WriteNewLine();
     }
 
+    internal void Render(MethodImplementationSyntax node) {
+      node.RetuenType.Render(this);
+      WriteSpace();
+      if (node.DeclaringType != null) {
+        node.DeclaringType.Render(this);
+        Write(Tokens.TwoColon);
+      }
+      node.Name.Render(this);
+      Write(node.OpenParentheses);
+      WriteSeparatedSyntaxList(node.Parameters);
+      Write(node.CloseParentheses);
+      WriteSpace();
+      Render((BlockSyntax)node);
+      WriteSemicolon();
+      WriteNewLine();
+    }
+
     internal void Render(ValueTextIdentifierSyntax node) {
       Write(node.ValueText);
     }
@@ -489,6 +503,16 @@ namespace Meson.Compiler {
       Write(node.OpenComment);
       Write(node.FullName);
       Write(node.CloseComment);
+    }
+
+    internal void Render(ReturnStatementSyntax node) {
+      Write(node.ReturnKeyword);
+      if (node.Expression != null) {
+        WriteSpace();
+        node.Expression.Render(this);
+      }
+      WriteSemicolon();
+      WriteNewLine();
     }
   }
 }

@@ -9,7 +9,7 @@ namespace Meson.Compiler {
   internal sealed class CompilationUnitTransform {
     public AssemblyTransform AssemblyTransform { get; }
     public SyntaxGenerator Generator => AssemblyTransform.Generator;
-    private readonly CompilationUnitSyntax compilationUnit_ = new CompilationUnitSyntax();
+    public CompilationUnitSyntax CompilationUnit { get; } = new CompilationUnitSyntax();
     private readonly Dictionary<ITypeDefinition, bool> references_ = new Dictionary<ITypeDefinition, bool>();
     private readonly ITypeDefinition root_;
 
@@ -20,7 +20,7 @@ namespace Meson.Compiler {
     }
 
     private void VisitCompilationUnit(IEnumerable<ITypeDefinition> types) {
-      var (rootNamespace, classNamespace) = compilationUnit_.AddNamespace(root_.Namespace, root_.Name);
+      var (rootNamespace, classNamespace) = CompilationUnit.AddNamespace(root_.Namespace, root_.Name);
       var usingsSyntax = new StatementListSyntax();
       classNamespace.Add(usingsSyntax);
 
@@ -34,7 +34,7 @@ namespace Meson.Compiler {
           if (isForward) {
             var forward = GetForwardMacroSyntax(reference, out var forwardType);
             forwards[forwardType] = forward;
-            srcIncludes.Add(reference.GetReferenceIncludeString());
+            srcIncludes.Add(reference.GetReferenceIncludeString(true));
           } else {
             headIncludes.Add(reference.GetReferenceIncludeString());
           }
@@ -42,18 +42,19 @@ namespace Meson.Compiler {
             usings.Add(reference.Namespace);
           }
         }
-        compilationUnit_.AddHeadIncludes(headIncludes.OrderBy(i => i));
+        CompilationUnit.AddHeadIncludes(headIncludes.OrderBy(i => i));
         usingsSyntax.Statements.AddRange(usings.OrderBy(i => i).Select(i => new UsingNamespaceOrTypeSyntax(i.ReplaceDot())));
         AddForwards(rootNamespace, forwards, usingsSyntax);
         rootNamespace.Add(classNamespace);
         AddTypeUsingDeclaration(rootNamespace, classNamespace, typeDefinition, types);
         if (root_.Kind != TypeKind.Interface) {
-          compilationUnit_.AddSrcIncludes(root_.GetIncludeString(), srcIncludes.OrderBy(i => i));
+          CompilationUnit.AddReferencesIncludes(root_.Name, srcIncludes.OrderBy(i => i));
+          CompilationUnit.AddSrcStatement(BlankLinesStatement.One);
         }
       } else {
         rootNamespace.AddRange(classNamespace.Statements);
         if (!root_.EnumUnderlyingType.IsInt32()) {
-          compilationUnit_.AddEnumHeadInclude();
+          CompilationUnit.AddEnumHeadInclude();
         }
       }
     }
@@ -97,14 +98,14 @@ namespace Meson.Compiler {
         foreach (var g in group) {
           var ns = new NamespaceSyntax(g.Key);
           ns.AddRange(g.Select(i => i.Forward));
-          compilationUnit_.HeadStatements.Add(ns);
+          CompilationUnit.HeadStatements.Add(ns);
         }
       }
     }
 
     internal void Write(string outDir) {
       CppRenderer rener = new CppRenderer(root_, outDir);
-      compilationUnit_.Render(rener);
+      CompilationUnit.Render(rener);
     }
 
     private StatementSyntax GetForwardMacroSyntax(ITypeDefinition type, out ITypeDefinition forwardType) {
