@@ -40,13 +40,13 @@ namespace Meson.Compiler {
       }
     }
 
-    public string GetOutFile(string suffix) {
-      return Path.Combine(OutDir, $"{rootType_.Name}.{suffix}");
+    private string GetOutFile(string suffix, string extra = "") {
+      return Path.Combine(OutDir, $"{rootType_.Name}{extra}.{suffix}");
     }
 
     private string HeadFileName => GetOutFile("h");
     private string SrcFileName => GetOutFile("cpp");
-    private string RefFileName => GetOutFile("i");
+    private string DependFileName => GetOutFile("h", Utils.kDependExtra);
 
     private void AddIndent() {
       if (IsSingleLine) {
@@ -122,7 +122,7 @@ namespace Meson.Compiler {
     internal void Render(CompilationUnitSyntax compilationUnit) {
       WriteCompilationUnitStatements(compilationUnit.HeadStatements, HeadFileName);
       if (!compilationUnit.IsSrcEmpty) {
-        WriteCompilationUnitStatements(compilationUnit.ReferencesIncludes, RefFileName);
+        WriteCompilationUnitStatements(compilationUnit.ReferencesIncludes, DependFileName);
         WriteCompilationUnitStatements(compilationUnit.SrcStatements, SrcFileName);
       }
     }

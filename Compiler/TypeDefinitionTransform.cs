@@ -122,7 +122,7 @@ namespace Meson.Compiler {
         AccessibilityToken = GetAccessibilityString(type),
       };
       if (type.IsStringType() || type.IsObjectType()) {
-        node.Bases.Add(new BaseSyntax(new MemberAccessExpressionSyntax(IdentifierSyntax.Meson, (IdentifierSyntax)type.Name, MemberAccessOperator.TwoColon)));
+        node.Bases.Add(new BaseSyntax(new MemberAccessExpressionSyntax(IdentifierSyntax.Meson, (IdentifierSyntax)type.Name.ToLower(), MemberAccessOperator.TwoColon)));
       }
       VisitMembers(type, node);
       parent_.Add(node);
@@ -142,6 +142,10 @@ namespace Meson.Compiler {
       }
 
       if (method.Name.Contains('.')) {
+        return false;
+      }
+
+      if (method.ReturnType.Kind == TypeKind.ByReference) {
         return false;
       }
 
@@ -238,11 +242,10 @@ namespace Meson.Compiler {
     }
 
     public ExpressionSyntax GetTypeName(IType type, ITypeDefinition typeDefinition) {
-      return GetTypeName(type, typeDefinition, false, null);
+      return GetTypeName(type, typeDefinition, false, null, false);
     }
 
-    private ExpressionSyntax GetTypeName(IType type, ITypeDefinition typeDefinition, bool isForward, IType original) {
-      bool isInHead = original != null;
+    private ExpressionSyntax GetTypeName(IType type, ITypeDefinition typeDefinition, bool isForward, IType original, bool isInHead = true) {
       switch (type.Kind) {
         case TypeKind.Void: {
           return IdentifierSyntax.Void;
@@ -255,17 +258,17 @@ namespace Meson.Compiler {
               CompilationUnit.AddReference(arrayDefinition, isForward);
             }
           }
-          var elementType = GetTypeName(arrayType.ElementType, typeDefinition, true, original);
+          var elementType = GetTypeName(arrayType.ElementType, typeDefinition, true, original, isInHead);
           return new GenericIdentifierSyntax((IdentifierSyntax)type.Kind.ToString(), elementType);
         }
         case TypeKind.Pointer: {
           PointerType pointerType = (PointerType)type;
-          var elementType = GetTypeName(pointerType.ElementType, typeDefinition, true, original);
+          var elementType = GetTypeName(pointerType.ElementType, typeDefinition, true, original, isInHead);
           return new PointerIdentifierSyntax(elementType);
         }
         case TypeKind.ByReference: {
           ByReferenceType byReference = (ByReferenceType)type;
-          var elementType = GetTypeName(byReference.ElementType, typeDefinition, true, original);
+          var elementType = GetTypeName(byReference.ElementType, typeDefinition, true, original, isInHead);
           return new RefIdentifierSyntax(elementType);
         }
       }
@@ -304,15 +307,15 @@ namespace Meson.Compiler {
       ExpressionSyntax typeName = (IdentifierSyntax)type.Name;
       bool isGeneric = false;
       if (type.TypeArguments.Count > 0) {
-        var typeArguments = type.GetTypeArguments().Select(i => GetTypeName(i, typeDefinition, isForward || i.IsRefType(), i)).ToList();
+        var typeArguments = type.GetTypeArguments().Select(i => GetTypeName(i, typeDefinition, isForward || i.IsRefType(), i, isInHead)).ToList();
         if (typeArguments.Count > 0) {
           typeName = new GenericIdentifierSyntax(typeName, typeArguments);
           isGeneric = true;
         }
       }
 
-      if (type.DeclaringType != null && !AssemblyTransform.IsInternalMemberType(type, typeDefinition)) {
-        var outTypeName = GetTypeName(type.DeclaringType, typeDefinition, false, original);
+      if (type.DeclaringType != null && (typeDefinition == null || !AssemblyTransform.IsInternalMemberType(type, typeDefinition))) {
+        var outTypeName = GetTypeName(type.DeclaringType, typeDefinition, false, original, isInHead);
         if (type.DeclaringType.GetDefinition().IsRefType()) {
           outTypeName = outTypeName.TwoColon(IdentifierSyntax.In);
         }

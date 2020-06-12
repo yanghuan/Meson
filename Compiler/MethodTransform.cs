@@ -21,6 +21,7 @@ namespace Meson.Compiler {
 
     private SyntaxGenerator Generator => typeDefinition_.Generator;
     private CompilationUnitSyntax CompilationUnit => typeDefinition_.CompilationUnit.CompilationUnit;
+    private AssemblyTransform AssemblyTransform => typeDefinition_.AssemblyTransform;
     private IMethod MethodSymbol => methodSymbols_.Peek();
     private BlockSyntax Block => blocks_.Peek();
     private IdentifierSyntax GetMemberName(ISymbol symbol) => Generator.GetMemberName(symbol);
@@ -442,7 +443,7 @@ namespace Meson.Compiler {
       var parameters = method.Parameters.Select(i => GetParameterSyntax(i, method));
       var name = GetMemberName(MethodSymbol);
       var declaringType = GetDeclaringType(method.DeclaringTypeDefinition);
-      var returnType = GetTypeName(method.ReturnType, method.DeclaringTypeDefinition);
+      var returnType = GetTypeName(method.ReturnType, null);
       MethodImplementationSyntax node = new MethodImplementationSyntax(name, returnType, parameters, declaringType);
       node.Add(new ReturnStatementSyntax(new InvationExpressionSyntax(returnType)));
       return node;

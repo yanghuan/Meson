@@ -10,6 +10,8 @@ using Meson.Compiler.CppAst;
 
 namespace Meson.Compiler {
   internal static class Utils {
+    public const string kDependExtra = "-dep";
+
     public static T First<T>(this IList<T> list) {
       return list[0];
     }
@@ -106,8 +108,8 @@ namespace Meson.Compiler {
       if (!string.IsNullOrEmpty(reference.Namespace)) {
         parts = parts.Concat(reference.Namespace.Split('.'));
       }
-      string suffix = isReference && (reference.Kind != TypeKind.Enum && reference.Kind != TypeKind.Interface) ? "i" : "h";
-      return $"{string.Join('/', parts)}/{reference.Name}.{suffix}";
+      string extra = isReference && (reference.Kind != TypeKind.Enum && reference.Kind != TypeKind.Interface) ? kDependExtra : string.Empty;
+      return $"{string.Join('/', parts)}/{reference.Name}{extra}.h";
     }
 
     private static bool IsTypeArgumentHasType(this IType argument, ITypeDefinition other, HashSet<ITypeDefinition> recursiveTypes) {

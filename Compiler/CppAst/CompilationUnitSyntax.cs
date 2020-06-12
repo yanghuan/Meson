@@ -53,7 +53,7 @@ namespace Meson.Compiler.CppAst {
         ReferencesIncludes.AddRange(references.Select(i => new IncludePretreatmentSyntax(i)));
       }
 
-      srcIncludes_.Add(new IncludePretreatmentSyntax($"{typeName}.i", false));
+      srcIncludes_.Add(new IncludePretreatmentSyntax($"{typeName}{Utils.kDependExtra}.h", false));
       srcIncludes_.Add(BlankLinesStatement.One);
     }
 

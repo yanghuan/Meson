@@ -11,8 +11,8 @@
 #include "Preprocessor.h"
 
 namespace rt {
-  class Object;
-  class String;
+  class object;
+  class string;
   class Array_;
   template <class T>
   class ref;
@@ -60,7 +60,7 @@ namespace rt {
 
   template <class T>
   struct IsString {
-    static constexpr bool value = IsDerived<String, T>::value;
+    static constexpr bool value = IsDerived<string, T>::value;
   };
 
   template <class T>
@@ -74,7 +74,7 @@ namespace rt {
     void release() noexcept {
       if (refDec()) {
         get()->~T();
-        Object::free(this, GetAllocSize());
+        object::free(this, GetAllocSize());
       }
     }
 
@@ -90,8 +90,8 @@ namespace rt {
 
     int8_t v_[sizeof(T)];
 
-    friend class Object;
-    friend class String;
+    friend class object;
+    friend class string;
 
     template <class T>
     friend class Array;
@@ -99,8 +99,8 @@ namespace rt {
 
   template <class T, class T1>
   struct IsEquatable {
-    static constexpr bool value = IsDerived<Object, T>::value
-      || IsDerived<Object, T1>::value
+    static constexpr bool value = IsDerived<object, T>::value
+      || IsDerived<object, T1>::value
       || IsDerived<T, T1>::value
       || IsDerived<T1, T>::value;
   };
@@ -110,7 +110,7 @@ namespace rt {
   public:
     template <class T1>
     struct IsConvertible {
-      static constexpr bool value = IsDerived<Object, T>::value || IsDerived<T, T1>::value;
+      static constexpr bool value = IsDerived<object, T>::value || IsDerived<T, T1>::value;
     };
 
     using GCObject = GCObject<T>;
@@ -133,12 +133,12 @@ namespace rt {
 
     template <class T1 = T, typename std::enable_if_t<IsString<T1>::value, int> = 0>
     ref(const char* str) {
-      moveOf(String::load(str));
+      moveOf(string::load(str));
     }
 
     template <class... _Types, class T1 = T, typename std::enable_if_t<IsString<T1>::value, int> = 0>
     ref(const std::tuple<_Types...>& t) {
-      moveOf(String::cat(t));
+      moveOf(string::cat(t));
     }
 
     ref(ref&& other) noexcept {
@@ -241,11 +241,11 @@ namespace rt {
 
   template <class... _Types>
   constexpr auto operator +(const std::tuple<_Types...>& t, const ref<typename StringTrim<_Types...>::type>& right) noexcept {
-    String* a = right != nullptr ? right.get() : nullptr;
+    string* a = right != nullptr ? right.get() : nullptr;
     return std::tuple_cat(t, std::make_tuple(a));
   }
 
-  class Object {
+  class object {
   public:
     template <class T, class... Args>
     static T newobj(Args&&... args) {
@@ -267,26 +267,23 @@ namespace rt {
     friend class Array;
   };
 
-  class String {
-  public:
-    using string = ref<String>;
-
+  class string {
   public:
     static size_t GetAllocSize(size_t n) noexcept {
-      return sizeof(GCObject<String>) - sizeof(firstChar) + n + 1;
+      return sizeof(GCObject<string>) - sizeof(firstChar) + n + 1;
     }
 
     size_t GetAllocSize() const noexcept {
       return GetAllocSize(length);
     }
 
-    static string load(const char* str) {
+    static ref<string> load(const char* str) {
       return load(str, std::char_traits<char>::length(str));
     }
 
     template <class... _Types>
-    static string cat(const std::tuple<_Types...>& t) {
-      return cat((String**)(&t), sizeof(t) / sizeof(intptr_t));
+    static ref<string> cat(const std::tuple<_Types...>& t) {
+      return cat((string**)(&t), sizeof(t) / sizeof(intptr_t));
     }
 
     char* c_str() noexcept {
@@ -298,9 +295,9 @@ namespace rt {
     }
 
   private:
-    static string load(const char* str, size_t n);
-    static string cat(String** being, size_t n);
-    static GCObject<String>* alloc(size_t n);
+    static ref<string> load(const char* str, size_t n);
+    static ref<string> cat(string** being, size_t n);
+    static GCObject<string>* alloc(size_t n);
 
   protected:
     int32_t length;
@@ -351,7 +348,7 @@ namespace rt {
     }
 
     static array newarr(size_t n) {
-      void* p = Object::alloc(GetAllocSize(n));
+      void* p = object::alloc(GetAllocSize(n));
       GCObject* temp = new (p) GCObject(gTypeMetadata);
       temp->get()->length = static_cast<int32_t>(n);
       return array(temp);
@@ -385,7 +382,7 @@ template <class Ex, class... Args>
 
 template <class T, class... Args>
 inline T newobj(Args&&... args) {
-  return rt::Object::newobj<T>(std::forward<Args>(args)...);
+  return rt::object::newobj<T>(std::forward<Args>(args)...);
 }
 
 template <class A>

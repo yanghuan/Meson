@@ -7,9 +7,7 @@
 #include "GCObject.h"
 
 namespace rt {
-  using string = String::string;
-
-  static std::unordered_map<const char*, string> g_InternStringPool;
+  static std::unordered_map<const char*, ref<string>> g_InternStringPool;
   const TypeMetadata gMetadata = {};
 
   inline static void checkOutOfMemory(size_t n) {
@@ -44,24 +42,24 @@ namespace rt {
     }
   }
 
-  void* Object::alloc(size_t size) {
+  void* object::alloc(size_t size) {
     checkOutOfMemory(size);
     return gcAlloc(nullptr, 1, size);
   }
 
-  void Object::free(void* ptr, size_t size) {
+  void object::free(void* ptr, size_t size) {
     gcAlloc(ptr, size, 0);
   }
 
-  GCObject<String>* String::alloc(size_t length) {
+  GCObject<string>* string::alloc(size_t length) {
     checkOutOfMemory(length);
-    void* address = gcAlloc(nullptr, 0, String::GetAllocSize(length));
-    auto gcObj = new (address) GCObject<String>(gMetadata);
+    void* address = gcAlloc(nullptr, 0, string::GetAllocSize(length));
+    auto gcObj = new (address) GCObject<string>(gMetadata);
     gcObj->get()->length = static_cast<int32_t>(length);
     return gcObj;
   }
 
-  string String::load(const char* str, size_t n) {
+  ref<string> string::load(const char* str, size_t n) {
     auto search = g_InternStringPool.find(str);
     if (search != g_InternStringPool.end()) {
       return search->second;
@@ -70,15 +68,15 @@ namespace rt {
     auto gcObj = alloc(n);
     strcpy_s(gcObj->get()->c_str(), n + 1, str);
 
-    string temp(gcObj);
+    ref<string> temp(gcObj);
     g_InternStringPool[str] = temp;
     return temp;
   }
 
-  string String::cat(String** begin, size_t n) {
+  ref<string> string::cat(string** begin, size_t n) {
     size_t length = 0;
     for (size_t i = 0; i < n; ++i) {
-      String* p = begin[i];
+      string* p = begin[i];
       if (p) {
         length += begin[i]->length;
       }
@@ -90,14 +88,14 @@ namespace rt {
 
     char* src = p->c_str();
     for (size_t i = 0; i < n; ++i) {
-      String* p = begin[i];
+      string* p = begin[i];
       if (p) {
         strcpy_s(src, (size_t)p->length + 1, p->c_str());
         src += p->length;
       }
     }
 
-    return string(gcObj);
+    return ref<string>(gcObj);
   }
 
 }  // namespace meson
