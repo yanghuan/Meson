@@ -3,7 +3,7 @@
 #include <System.Private.CoreLib/System/Object.h>
 #include <System.Private.CoreLib/System/ValueTuple.h>
 
-using namespace System;
+using namespace System::Private::CoreLib::System;
 
 
 int main()

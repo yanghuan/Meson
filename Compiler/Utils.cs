@@ -112,6 +112,16 @@ namespace Meson.Compiler {
       return $"{string.Join('/', parts)}/{reference.Name}{extra}.h";
     }
 
+    public static string GetFullNamespace(this ITypeDefinition reference) {
+      string ns;
+      if (string.IsNullOrEmpty(reference.Namespace)) {
+        ns = reference.ParentModule.Name;
+      } else {
+        ns = $"{reference.ParentModule.Name}.{reference.Namespace}";
+      }
+      return ns.ReplaceDot(); 
+    }
+
     private static bool IsTypeArgumentHasType(this IType argument, ITypeDefinition other, HashSet<ITypeDefinition> recursiveTypes) {
       if (argument.HasType(other, recursiveTypes)) {
         return true;
@@ -393,7 +403,7 @@ namespace Meson.Compiler {
     }
 
     public static bool IsNamespaceContain(this ITypeDefinition type, ITypeDefinition reference) {
-      return string.IsNullOrEmpty(reference.Namespace) || type.Namespace.StartsWith(reference.Namespace);
+      return type.GetFullNamespace().StartsWith(reference.GetFullNamespace());
     }
 
     public static StringBuilder GetShortName(this IType type, StringBuilder sb, bool isFirst) {
@@ -473,7 +483,7 @@ namespace Meson.Compiler {
     }
 
     public static ExpressionSyntax WithFullName(this ExpressionSyntax typeName, IType type) {
-      IdentifierSyntax ns = type.Namespace.ReplaceDot();
+      IdentifierSyntax ns = Tokens.TwoColon + type.GetDefinition().GetFullNamespace();
       return ns.TwoColon(typeName);
     }
 

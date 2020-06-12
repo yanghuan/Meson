@@ -129,7 +129,7 @@ namespace Meson.Compiler {
     }
 
     private bool IsExportMethod(IMethod method) {
-      if (method.IsConstructor || method.IsOperator) {
+      if (IsMulti || method.IsConstructor || method.IsOperator) {
         return false;
       }
 

@@ -20,7 +20,7 @@ namespace Meson.Compiler {
     }
 
     private void VisitCompilationUnit(IEnumerable<ITypeDefinition> types) {
-      var (rootNamespace, classNamespace) = CompilationUnit.AddNamespace(root_.Namespace, root_.Name);
+      var (rootNamespace, classNamespace) = CompilationUnit.AddNamespace(root_.GetFullNamespace(), root_.Name);
       var usingsSyntax = new StatementListSyntax();
       classNamespace.Add(usingsSyntax);
 
@@ -39,11 +39,11 @@ namespace Meson.Compiler {
             headIncludes.Add(reference.GetReferenceIncludeString());
           }
           if (!root_.IsNamespaceContain(reference)) {
-            usings.Add(reference.Namespace);
+            usings.Add(Tokens.TwoColon + reference.GetFullNamespace());
           }
         }
         CompilationUnit.AddHeadIncludes(headIncludes.OrderBy(i => i));
-        usingsSyntax.Statements.AddRange(usings.OrderBy(i => i).Select(i => new UsingNamespaceOrTypeSyntax(i.ReplaceDot())));
+        usingsSyntax.Statements.AddRange(usings.OrderBy(i => i).Select(i => new UsingNamespaceOrTypeSyntax(i)));
         AddForwards(rootNamespace, forwards, usingsSyntax);
         rootNamespace.Add(classNamespace);
         AddTypeUsingDeclaration(rootNamespace, classNamespace, typeDefinition, types);
@@ -84,7 +84,7 @@ namespace Meson.Compiler {
     private void AddForwards(NamespaceSyntax rootNamespace, Dictionary<ITypeDefinition, StatementSyntax> forwards, StatementListSyntax usingsSyntax) {
       var outs = new List<(ITypeDefinition Type, StatementSyntax Forward)>();
       foreach (var (type, forward) in forwards) {
-        if (root_.Namespace == type.Namespace) {
+        if (root_.GetFullNamespace() == type.GetFullNamespace()) {
           rootNamespace.Add(forward);
         } else {
           outs.Add((type, forward));
@@ -94,7 +94,7 @@ namespace Meson.Compiler {
         }
       }
       if (outs.Count > 0) {
-       var group = outs.GroupBy(i => i.Type.Namespace);
+       var group = outs.GroupBy(i => i.Type.GetFullNamespace());
         foreach (var g in group) {
           var ns = new NamespaceSyntax(g.Key);
           ns.AddRange(g.Select(i => i.Forward));

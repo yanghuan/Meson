@@ -141,7 +141,7 @@ namespace Meson.Compiler.CppAst {
 
     public NamespaceSyntax(string name) {
       IsPreventIdnet = true;
-      Name = name.ReplaceDot();
+      Name = name;
     }
 
     internal override void Render(CppRenderer renderer) {
