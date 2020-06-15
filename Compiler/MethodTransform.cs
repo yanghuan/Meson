@@ -424,7 +424,9 @@ namespace Meson.Compiler {
     }
 
     private ParameterSyntax GetParameterSyntax(IParameter parameter, IMethod method) {
-      var type = GetTypeName(parameter.Type, method.DeclaringTypeDefinition);
+      var typeDefinition = method.DeclaringTypeDefinition;
+      var type = GetTypeName(parameter.Type, typeDefinition);
+      TypeDefinitionTransform.CheckParameterTypeConflict(ref type, parameter, method, typeDefinition);
       var name = GetMemberName(parameter);
       return new ParameterSyntax(type, name);
     }
@@ -445,7 +447,19 @@ namespace Meson.Compiler {
       var declaringType = GetDeclaringType(method.DeclaringTypeDefinition);
       var returnType = GetTypeName(method.ReturnType, null);
       MethodImplementationSyntax node = new MethodImplementationSyntax(name, returnType, parameters, declaringType);
-      node.Add(new ReturnStatementSyntax(new InvationExpressionSyntax(returnType)));
+      switch (method.ReturnType.Kind) {
+        case TypeKind.Pointer:
+        case TypeKind.Class:
+        case TypeKind.Interface:
+        case TypeKind.Delegate: {
+          node.Add(new ReturnStatementSyntax(IdentifierSyntax.Nullptr));
+          break;
+        }
+        default: {
+          node.Add(new ReturnStatementSyntax(new InvationExpressionSyntax(returnType)));
+          break;
+        }
+      }
       return node;
     }
 

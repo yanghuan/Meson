@@ -177,7 +177,7 @@ namespace Meson.Compiler {
       return new ParameterSyntax(type, name);
     }
 
-    private void CheckParameterTypeConflict(ref ExpressionSyntax type, IParameter parameter, IMethod method, ITypeDefinition typeDefinition) {
+    public static void CheckParameterTypeConflict(ref ExpressionSyntax type, IParameter parameter, IMethod method, ITypeDefinition typeDefinition) {
       foreach (var m in typeDefinition.Methods) {
         if (m == method) {
           break;
@@ -345,10 +345,15 @@ namespace Meson.Compiler {
               bool yInX = x.IsMemberTypeExists(y);
               bool xInY = y.IsMemberTypeExists(x);
               if (yInX) {
+                var y1 = y;
                 if (xInY) {
-                  nestedCycleTypes_[y] = x;
+                  var x1 = x;
+                  if (x1.Kind == TypeKind.Struct) {
+                    (y1, x1) = (x1, y1);
+                  }
+                  nestedCycleTypes_[y1] = x1;
                 }
-                parentTypes.Add(y);
+                parentTypes.Add(y1);
               }
             }
           }

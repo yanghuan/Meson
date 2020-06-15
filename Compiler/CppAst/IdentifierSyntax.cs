@@ -17,6 +17,7 @@ namespace Meson.Compiler.CppAst {
     public static readonly IdentifierSyntax In = "in";
     public static readonly IdentifierSyntax Out = "out";
     public static readonly IdentifierSyntax NAME = "NAME";
+    public static readonly IdentifierSyntax Nullptr = Tokens.Nullptr;
   }
 
   internal class ValueTextIdentifierSyntax : IdentifierSyntax {
