@@ -167,7 +167,18 @@ namespace Meson.Compiler {
  
     private ExpressionSyntax GetRetuenTypeSyntax(IMethod method, ITypeDefinition typeDefinition) {
       var returnType = GetTypeName(method.ReturnType, typeDefinition, true, method.ReturnType);
+      CheckReturnTypeConflict(ref returnType, method.ReturnType.GetDefinition(), typeDefinition);
       return returnType;
+    }
+
+    private static void CheckReturnTypeConflict(ref ExpressionSyntax type, ITypeDefinition returnType, ITypeDefinition typeDefinition) {
+      if (returnType != null) {
+        foreach (var nestedType in typeDefinition.NestedTypes) {
+          if (nestedType != returnType && nestedType.Name == returnType.Name) {
+            type = type.WithFullName(returnType);
+          }
+        }
+      }
     }
 
     private ParameterSyntax GetParameterSyntax(IParameter parameter, IMethod method, ITypeDefinition typeDefinition) {
