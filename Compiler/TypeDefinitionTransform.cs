@@ -17,6 +17,7 @@ namespace Meson.Compiler {
     private readonly List<ITypeDefinition> types_;
     private readonly TypeDefinitionTransform parentTransform_;
     private readonly Dictionary<ITypeDefinition, ITypeDefinition> nestedCycleTypes_ = new Dictionary<ITypeDefinition, ITypeDefinition>();
+    private readonly Dictionary<ISymbol, NestedCycleRefTypeNameSyntax> nestedCycleRefNames_ = new Dictionary<ISymbol, NestedCycleRefTypeNameSyntax>();
 
     public bool IsMulti => types_.Count > 1;
     public bool HasRef => types_.Exists(i => i.IsRefType());
@@ -164,9 +165,15 @@ namespace Meson.Compiler {
       }
     }
 
- 
     private ExpressionSyntax GetRetuenTypeSyntax(IMethod method, ITypeDefinition typeDefinition) {
-      var returnType = GetTypeName(method.ReturnType, typeDefinition, true, method.ReturnType);
+      var returnType = GetTypeName(new TypeNameArgs { 
+        Type = method.ReturnType,
+        Definition = typeDefinition,
+        IsForward = true,
+        IsInHead = true,
+        Original = method.ReturnType,
+        Symbol = method,
+      });
       CheckReturnTypeConflict(ref returnType, method.ReturnType.GetDefinition(), typeDefinition);
       return returnType;
     }
@@ -182,7 +189,14 @@ namespace Meson.Compiler {
     }
 
     private ParameterSyntax GetParameterSyntax(IParameter parameter, IMethod method, ITypeDefinition typeDefinition) {
-      var type = GetTypeName(parameter.Type, typeDefinition, true, parameter.Type);
+      var type = GetTypeName(new TypeNameArgs { 
+        Type = parameter.Type,
+        Definition = typeDefinition,
+        IsForward = true,
+        IsInHead = true,
+        Original = parameter.Type,
+        Symbol = parameter,
+      });
       CheckParameterTypeConflict(ref type, parameter, method, typeDefinition);
       var name = Generator.GetMemberName(parameter);
       return new ParameterSyntax(type, name);
@@ -225,10 +239,26 @@ namespace Meson.Compiler {
         if (attr != null) {
           var type = (IType)attr.FixedArguments[0].Value;
           int size = (int)attr.FixedArguments[1].Value;
-          return new GenericIdentifierSyntax(IdentifierSyntax.FixedBuffer, GetTypeName(type, typeDefinition, field.IsStatic, type), (IdentifierSyntax)size.ToString());
+          var name = GetTypeName(new TypeNameArgs { 
+            Type = type,
+            Definition = typeDefinition,
+            IsForward = field.IsStatic,
+            IsInHead = true,
+            Original = type,
+            Symbol = field,
+          });
+          return new GenericIdentifierSyntax(IdentifierSyntax.FixedBuffer, name, (IdentifierSyntax)size.ToString());
         }
       }
-      var typeName = GetTypeName(field.Type, typeDefinition, field.Type.IsRefType() || field.IsStatic, field.Type);
+
+      var typeName = GetTypeName(new TypeNameArgs { 
+        Type = field.Type,
+        Definition = typeDefinition,
+        IsForward = field.Type.IsRefType() || field.IsStatic,
+        IsInHead = true,
+        Original = field.Type,
+        Symbol = field,
+      });
       CheckFieldTypeConflict(ref typeName, field, typeDefinition);
       return typeName;
     }
@@ -252,91 +282,132 @@ namespace Meson.Compiler {
       }
     }
 
-    public ExpressionSyntax GetTypeName(IType type, ITypeDefinition typeDefinition) {
-      return GetTypeName(type, typeDefinition, false, null, false);
+    public ExpressionSyntax GetTypeName(IType type, ITypeDefinition typeDefinition, ISymbol symbol) {
+      return GetTypeName(new TypeNameArgs {
+        Type = type,
+        Definition = typeDefinition,
+        IsForward = false,
+        IsInHead = false,
+        Original = type,
+        Symbol = symbol,
+      });
     }
 
-    private ExpressionSyntax GetTypeName(IType type, ITypeDefinition typeDefinition, bool isForward, IType original, bool isInHead = true) {
-      switch (type.Kind) {
+    private struct TypeNameArgs {
+      public IType Type;
+      public ITypeDefinition Definition;
+      public bool IsForward;
+      public IType Original;
+      public bool IsInHead;
+      public ISymbol Symbol;
+
+      public TypeNameArgs With(IType type, bool isForward) {
+        return new TypeNameArgs() {
+          Type = type,
+          Definition = Definition,
+          IsForward = isForward,
+          Original = Original,
+          IsInHead = IsInHead,
+          Symbol = Symbol,
+        };
+      }
+
+      public TypeNameArgs With(IType type, bool isForward, IType original) {
+        return new TypeNameArgs() {
+          Type = type,
+          Definition = Definition,
+          IsForward = isForward,
+          Original = original,
+          IsInHead = IsInHead,
+          Symbol = Symbol,
+        };
+      }
+    }
+
+    private ExpressionSyntax GetTypeName(TypeNameArgs args) {
+      switch (args.Type.Kind) {
         case TypeKind.Void: {
           return IdentifierSyntax.Void;
         }
         case TypeKind.Array: {
-          ArrayType arrayType = (ArrayType)type;
-          if (isInHead) {
+          ArrayType arrayType = (ArrayType)args.Type;
+          if (args.IsInHead) {
             var arrayDefinition = arrayType.DirectBaseTypes.First().GetDefinition();
-            if (arrayDefinition != typeDefinition) {
-              CompilationUnit.AddReference(arrayDefinition, isForward);
+            if (arrayDefinition != args.Definition) {
+              CompilationUnit.AddReference(arrayDefinition, args.IsForward);
             }
           }
-          var elementType = GetTypeName(arrayType.ElementType, typeDefinition, true, original, isInHead);
-          return new GenericIdentifierSyntax((IdentifierSyntax)type.Kind.ToString(), elementType);
+          var elementType = GetTypeName(args.With(arrayType.ElementType, true));
+          return new GenericIdentifierSyntax((IdentifierSyntax)args.Type.Kind.ToString(), elementType);
         }
         case TypeKind.Pointer: {
-          PointerType pointerType = (PointerType)type;
-          var elementType = GetTypeName(pointerType.ElementType, typeDefinition, true, original, isInHead);
+          PointerType pointerType = (PointerType)args.Type;
+          var elementType = GetTypeName(args.With(pointerType.ElementType, true));
           return new PointerIdentifierSyntax(elementType);
         }
         case TypeKind.ByReference: {
-          ByReferenceType byReference = (ByReferenceType)type;
-          var elementType = GetTypeName(byReference.ElementType, typeDefinition, true, original, isInHead);
+          ByReferenceType byReference = (ByReferenceType)args.Type;
+          var elementType = GetTypeName(args.With(byReference.ElementType, true));
           return new RefIdentifierSyntax(elementType);
         }
       }
 
-      if (isInHead) {
-        var referenceType = type.GetReferenceType();
+      if (args.IsInHead) {
+        var referenceType = args.Type.GetReferenceType();
         if (referenceType != null) {
-          var rootType = typeDefinition.GetReferenceType();
+          var rootType = args.Definition.GetReferenceType();
           if (!Generator.IsCompilationUnitIn(rootType, referenceType)) {
             var referenceTypeDefinition = referenceType.GetDefinition();
             if (referenceTypeDefinition.Kind == TypeKind.Enum) {
               CompilationUnit.AddReference(referenceTypeDefinition, true);
             } else {
-              if (type.DeclaringType != null) {
-                bool checkCycleReference = type.IsReferenceType == true || original.Kind == TypeKind.Pointer;
+              if (args.Type.DeclaringType != null) {
+                bool checkCycleReference = args.Type.IsReferenceType == true || args.Original.Kind == TypeKind.Pointer;
                 if (checkCycleReference) {
                   bool isExists = referenceTypeDefinition.IsMemberTypeExists(rootType.GetDefinition(), true);
                   if (isExists) {
-                    string shortName = type.GetShortName();
-                    if (original.Kind == TypeKind.Pointer) {
-                      return new NestedCycleRefTypeNameSyntax(shortName, IdentifierSyntax.Void);
+                    string shortName = args.Type.GetShortName();
+                    NestedCycleRefTypeNameSyntax nestedCycleName;
+                    if (args.Original.Kind == TypeKind.Pointer) {
+                      nestedCycleName = new NestedCycleRefTypeNameSyntax(shortName, IdentifierSyntax.Void);
                     } else {
                       var rootObject = referenceTypeDefinition.GetRootObjectDefinition();
                       CompilationUnit.AddReference(rootObject, true);
-                      return new NestedCycleRefTypeNameSyntax(shortName);
+                      nestedCycleName = new NestedCycleRefTypeNameSyntax(shortName);
                     }
+                    nestedCycleRefNames_[args.Symbol] = nestedCycleName;
+                    return nestedCycleName;
                   }
                 }
               }
-              CompilationUnit.AddReference(referenceTypeDefinition, isForward);
+              CompilationUnit.AddReference(referenceTypeDefinition, args.IsForward);
             }
           }
         }
       }
 
-      ExpressionSyntax typeName = (IdentifierSyntax)type.Name;
+      ExpressionSyntax typeName = (IdentifierSyntax)args.Type.Name;
       bool isGeneric = false;
-      if (type.TypeArguments.Count > 0) {
-        var typeArguments = type.GetTypeArguments().Select(i => GetTypeName(i, typeDefinition, isForward || i.IsRefType(), i, isInHead)).ToList();
+      if (args.Type.TypeArguments.Count > 0) {
+        var typeArguments = args.Type.GetTypeArguments().Select(i => GetTypeName(args.With(i, args.IsForward || i.IsRefType(), i))).ToList();
         if (typeArguments.Count > 0) {
           typeName = new GenericIdentifierSyntax(typeName, typeArguments);
           isGeneric = true;
         }
       }
 
-      if (type.DeclaringType != null && (typeDefinition == null || !AssemblyTransform.IsInternalMemberType(type, typeDefinition))) {
-        var outTypeName = GetTypeName(type.DeclaringType, typeDefinition, false, original, isInHead);
-        if (type.DeclaringType.GetDefinition().IsRefType()) {
+      if (args.Type.DeclaringType != null && (args.Definition == null || !AssemblyTransform.IsInternalMemberType(args.Type, args.Definition))) {
+        var outTypeName = GetTypeName(args.With(args.Type.DeclaringType, false));
+        if (args.Type.DeclaringType.GetDefinition().IsRefType()) {
           outTypeName = outTypeName.TwoColon(IdentifierSyntax.In);
         }
         return outTypeName.TwoColon(typeName);
       }
 
       if (!isGeneric) {
-        var definition = type.GetDefinition();
+        var definition = args.Type.GetDefinition();
         if (definition != null) {
-          if (definition.IsArrayType() || Generator.IsVoidGenericType(definition)) {
+          if (Generator.IsVoidGenericType(definition)) {
             typeName = new GenericIdentifierSyntax(typeName, IdentifierSyntax.Void);
           }
         }
@@ -436,6 +507,10 @@ namespace Meson.Compiler {
 
     private string GetAccessibilityString(ITypeDefinition type) {
       return AssemblyTransform.GetDeclaringType(type) != null ? type.Accessibility.ToTokenString() : null;
+    }
+
+    internal NestedCycleRefTypeNameSyntax GetNestedCycleRefTypeName(ISymbol symbol) {
+      return nestedCycleRefNames_.GetOrDefault(symbol);
     }
   }
 }

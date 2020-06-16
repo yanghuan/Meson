@@ -249,6 +249,10 @@ namespace Meson.Compiler {
       return type.KnownTypeCode == KnownTypeCode.IEnumeratorOfT;
     }
 
+    public static bool IsIListOfT(this ITypeDefinition type) {
+      return type.KnownTypeCode == KnownTypeCode.IListOfT;
+    }
+
     public static IType Original(this IType type) {
       if (type is NullabilityAnnotatedType t) {
         type = t.TypeWithoutAnnotation;

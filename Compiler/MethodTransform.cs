@@ -25,7 +25,7 @@ namespace Meson.Compiler {
     private IMethod MethodSymbol => methodSymbols_.Peek();
     private BlockSyntax Block => blocks_.Peek();
     private IdentifierSyntax GetMemberName(ISymbol symbol) => Generator.GetMemberName(symbol);
-    private ExpressionSyntax GetTypeName(IType type, ITypeDefinition typeDefinition) => typeDefinition_.GetTypeName(type, typeDefinition);
+    private ExpressionSyntax GetTypeName(IType type, ITypeDefinition typeDefinition, ISymbol symbol) => typeDefinition_.GetTypeName(type, typeDefinition, symbol);
 
     private void Visit(IMethod methodSymbol) {
       if (methodSymbol.HasBody) {
@@ -425,16 +425,27 @@ namespace Meson.Compiler {
 
     private ParameterSyntax GetParameterSyntax(IParameter parameter, IMethod method) {
       var typeDefinition = method.DeclaringTypeDefinition;
-      var type = GetTypeName(parameter.Type, typeDefinition);
-      TypeDefinitionTransform.CheckParameterTypeConflict(ref type, parameter, method, typeDefinition);
+      ExpressionSyntax type = typeDefinition_.GetNestedCycleRefTypeName(parameter);
+      if (type != null) {
+        if (parameter.Type.Kind == TypeKind.Pointer) {
+          type = new PointerIdentifierSyntax(type);
+        }
+      } else {
+        type = GetTypeName(parameter.Type, typeDefinition, parameter);
+        TypeDefinitionTransform.CheckParameterTypeConflict(ref type, parameter, method, typeDefinition);
+      }
       var name = GetMemberName(parameter);
       return new ParameterSyntax(type, name);
     }
 
     private ExpressionSyntax GetDeclaringType(ITypeDefinition type) {
       ExpressionSyntax name = type.IsRefType() ? $"{type.Name}___" : type.Name;
-      if (type.DeclaringType != null) {
-        var outTypeName = GetDeclaringType(type.DeclaringType.GetDefinition());
+      if (Generator.IsVoidGenericType(type)) {
+        name = new GenericIdentifierSyntax(name, IdentifierSyntax.Void);
+      }
+      var declaringType = AssemblyTransform.GetDeclaringType(type);
+      if (declaringType != null) {
+        var outTypeName = GetDeclaringType(declaringType.GetDefinition());
         return outTypeName.TwoColon(name);
       }
       return name;
@@ -445,7 +456,7 @@ namespace Meson.Compiler {
       var parameters = method.Parameters.Select(i => GetParameterSyntax(i, method));
       var name = GetMemberName(MethodSymbol);
       var declaringType = GetDeclaringType(method.DeclaringTypeDefinition);
-      var returnType = GetTypeName(method.ReturnType, null);
+      var returnType = GetTypeName(method.ReturnType, null, method);
       MethodImplementationSyntax node = new MethodImplementationSyntax(name, returnType, parameters, declaringType);
       switch (method.ReturnType.Kind) {
         case TypeKind.Pointer:

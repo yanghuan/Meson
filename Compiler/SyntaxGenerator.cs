@@ -60,6 +60,9 @@ namespace Meson.Compiler {
     }
 
     public bool IsVoidGenericType(ITypeDefinition type) {
+      if (type.IsArrayType()) {
+        return true;
+      }
       return multiGenericTypes_.ContainsKey(type);
     }
 

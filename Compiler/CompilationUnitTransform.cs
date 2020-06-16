@@ -37,6 +37,7 @@ namespace Meson.Compiler {
             srcIncludes.Add(reference.GetReferenceIncludeString(true));
           } else {
             headIncludes.Add(reference.GetReferenceIncludeString());
+            srcIncludes.Add(reference.GetReferenceIncludeString(true));
           }
           if (!root_.IsNamespaceContain(reference)) {
             usings.Add(Tokens.TwoColon + reference.GetFullNamespace());
@@ -89,7 +90,7 @@ namespace Meson.Compiler {
         } else {
           outs.Add((type, forward));
         }
-        if (type.IsIEnumeratorOfT()) {
+        if (type.IsIEnumeratorOfT() || type.IsIListOfT()) {
           usingsSyntax.Add(new UsingNamespaceOrTypeSyntax(type.FullName.ReplaceDot(), false));
         }
       }
