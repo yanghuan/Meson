@@ -37,7 +37,7 @@
 
 #define ARRAY_(n, name, code) \
   template <class T1 = void, class T2 = void>\
-  class name {};\
+  class name : public rt::Array<T1> {};\
   template <class T1 = void, class T2 = void>\
   using n = rt::ref<name<T1, T2>>;\
   template <>\

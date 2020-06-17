@@ -133,13 +133,13 @@ namespace rt {
   class ref {
   public:
     template <class T1>
-    struct IsConvertible {
-      static constexpr bool value = rt::IsConvertible<T, T1>::value;
+    struct IsArrayConvertible {
+      static constexpr bool value = IsDerived<Array_, T>::value && IsDerived<Array_, T1>::value && rt::IsConvertible<ArrayElementType<T>::type, ArrayElementType<T1>::type>::value;
     };
 
     template <class T1>
-    struct IsArrayConvertible {
-      static constexpr bool value = IsDerived<Array_, T>::value; //&& IsDerived<Array_, T1>::value; //&& rt::IsConvertible<ArrayElementType<T>::type, ArrayElementType<T1>::type>::value;
+    struct IsConvertible {
+      static constexpr bool value = rt::IsConvertible<T, T1>::value || IsArrayConvertible<T1>::value;
     };
 
     using GCObject = GCObject<T>;
@@ -155,17 +155,10 @@ namespace rt {
       copyOf(other);
     }
 
-    template <class T1, typename std::enable_if_t<true, int> = 0>
-    ref(const ref<T1>& other) noexcept {
-      //static_assert(IsArrayConvertible<T1>::value);
-      copyOf(other);
-    }
-
-    /*
     template <class T1, typename std::enable_if_t<IsConvertible<T1>::value, int> = 0>
     ref(const ref<T1>& other) noexcept {
       copyOf(other);
-    }*/
+    }
 
     template <class T1 = T, typename std::enable_if_t<IsString<T1>::value, int> = 0>
     ref(const char* str) {
