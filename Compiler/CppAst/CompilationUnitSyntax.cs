@@ -57,6 +57,13 @@ namespace Meson.Compiler.CppAst {
       srcIncludes_.Add(BlankLinesStatement.One);
     }
 
+    public void AddSrcReferencesIncludes(IEnumerable<string> references) {
+      if (references.Any()) {
+        srcIncludes_.AddRange(references.Select(i => new IncludePretreatmentSyntax(i)));
+        srcIncludes_.Add(BlankLinesStatement.One);
+      }
+    }
+
     public void AddSrcStatement(StatementSyntax statement) {
       srcNamespaceSyntax_.Add(statement);
     }

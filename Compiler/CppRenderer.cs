@@ -514,5 +514,11 @@ namespace Meson.Compiler {
       WriteSemicolon();
       WriteNewLine();
     }
+
+    internal void Render(StringLiteralExpressionSyntax node) {
+      Write(node.OpenParenToken);
+      Write(node.Value);
+      Write(node.CloseParenToken);
+    }
   }
 }

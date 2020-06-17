@@ -23,7 +23,9 @@
     "xutility": "cpp",
     "random": "cpp",
     "filesystem": "cpp",
-    "xstring": "cpp"
+    "xstring": "cpp",
+    "span": "cpp",
+    "vector": "cpp"
   },
   "python.pythonPath": "d:\\tools\\python36\\python.exe"
 }

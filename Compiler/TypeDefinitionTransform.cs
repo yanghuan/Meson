@@ -324,6 +324,52 @@ namespace Meson.Compiler {
       }
     }
 
+    private ExpressionSyntax AddHeadReference(in TypeNameArgs args) {
+      var referenceType = args.Type.GetReferenceType();
+      if (referenceType != null) {
+        var rootType = args.Definition.GetReferenceType();
+        if (!Generator.IsCompilationUnitIn(rootType, referenceType)) {
+          var referenceTypeDefinition = referenceType.GetDefinition();
+          if (referenceTypeDefinition.Kind == TypeKind.Enum) {
+            CompilationUnit.AddHeadReference(referenceTypeDefinition, true);
+          } else {
+            if (args.Type.DeclaringType != null) {
+              bool checkCycleReference = args.Type.IsReferenceType == true || args.Original.Kind == TypeKind.Pointer;
+              if (checkCycleReference) {
+                bool isExists = referenceTypeDefinition.IsMemberTypeExists(rootType.GetDefinition(), true);
+                if (isExists) {
+                  string shortName = args.Type.GetShortName();
+                  NestedCycleRefTypeNameSyntax nestedCycleName;
+                  if (args.Original.Kind == TypeKind.Pointer) {
+                    nestedCycleName = new NestedCycleRefTypeNameSyntax(shortName, IdentifierSyntax.Void);
+                  } else {
+                    var rootObject = referenceTypeDefinition.GetRootObjectDefinition();
+                    CompilationUnit.AddHeadReference(rootObject, true);
+                    nestedCycleName = new NestedCycleRefTypeNameSyntax(shortName);
+                  }
+                  nestedCycleRefNames_[args.Symbol] = nestedCycleName;
+                  return nestedCycleName;
+                }
+              }
+            }
+            CompilationUnit.AddHeadReference(referenceTypeDefinition, args.IsForward);
+          }
+        }
+      }
+      return null;
+    }
+
+    private void AddSrcReference(in TypeNameArgs args) {
+      var referenceType = args.Type.GetReferenceType();
+      if (referenceType != null) {
+        var rootType = args.Definition?.GetReferenceType();
+        if (rootType == null || !Generator.IsCompilationUnitIn(rootType, referenceType)) {
+          var referenceTypeDefinition = referenceType.GetDefinition();
+          CompilationUnit.AddSrcReference(referenceTypeDefinition);
+        }
+      }
+    }
+
     private ExpressionSyntax GetTypeName(TypeNameArgs args) {
       switch (args.Type.Kind) {
         case TypeKind.Void: {
@@ -334,7 +380,7 @@ namespace Meson.Compiler {
           if (args.IsInHead) {
             var arrayDefinition = arrayType.DirectBaseTypes.First().GetDefinition();
             if (arrayDefinition != args.Definition) {
-              CompilationUnit.AddReference(arrayDefinition, args.IsForward);
+              CompilationUnit.AddHeadReference(arrayDefinition, args.IsForward);
             }
           }
           var elementType = GetTypeName(args.With(arrayType.ElementType, true));
@@ -353,37 +399,12 @@ namespace Meson.Compiler {
       }
 
       if (args.IsInHead) {
-        var referenceType = args.Type.GetReferenceType();
-        if (referenceType != null) {
-          var rootType = args.Definition.GetReferenceType();
-          if (!Generator.IsCompilationUnitIn(rootType, referenceType)) {
-            var referenceTypeDefinition = referenceType.GetDefinition();
-            if (referenceTypeDefinition.Kind == TypeKind.Enum) {
-              CompilationUnit.AddReference(referenceTypeDefinition, true);
-            } else {
-              if (args.Type.DeclaringType != null) {
-                bool checkCycleReference = args.Type.IsReferenceType == true || args.Original.Kind == TypeKind.Pointer;
-                if (checkCycleReference) {
-                  bool isExists = referenceTypeDefinition.IsMemberTypeExists(rootType.GetDefinition(), true);
-                  if (isExists) {
-                    string shortName = args.Type.GetShortName();
-                    NestedCycleRefTypeNameSyntax nestedCycleName;
-                    if (args.Original.Kind == TypeKind.Pointer) {
-                      nestedCycleName = new NestedCycleRefTypeNameSyntax(shortName, IdentifierSyntax.Void);
-                    } else {
-                      var rootObject = referenceTypeDefinition.GetRootObjectDefinition();
-                      CompilationUnit.AddReference(rootObject, true);
-                      nestedCycleName = new NestedCycleRefTypeNameSyntax(shortName);
-                    }
-                    nestedCycleRefNames_[args.Symbol] = nestedCycleName;
-                    return nestedCycleName;
-                  }
-                }
-              }
-              CompilationUnit.AddReference(referenceTypeDefinition, args.IsForward);
-            }
-          }
+        var result = AddHeadReference(args);
+        if (result != null) {
+          return result;
         }
+      } else {
+        AddSrcReference(args);
       }
 
       ExpressionSyntax typeName = (IdentifierSyntax)args.Type.Name;

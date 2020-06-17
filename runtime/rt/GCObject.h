@@ -105,12 +105,41 @@ namespace rt {
       || IsDerived<T1, T>::value;
   };
 
+  template <class T, class T1>
+  struct IsConvertible {
+    static constexpr bool value = IsDerived<object, T>::value || IsDerived<T, T1>::value;
+  };
+
+  template <class T>
+  struct RefElementType {
+    using type = T;
+  };
+
+  template <class T>
+  struct RefElementType<ref<T>> {
+    using type = T;
+  };
+
+  template <class T>
+  struct ArrayElementType {
+    struct __Type {
+      struct element_type;
+    };
+    using element_type = typename std::conditional_t<IsDerived<Array_, T>::value, T, __Type>::element_type;
+    using type = typename RefElementType<element_type>::type;
+  };
+
   template <class T>
   class ref {
   public:
     template <class T1>
     struct IsConvertible {
-      static constexpr bool value = IsDerived<object, T>::value || IsDerived<T, T1>::value;
+      static constexpr bool value = rt::IsConvertible<T, T1>::value;
+    };
+
+    template <class T1>
+    struct IsArrayConvertible {
+      static constexpr bool value = IsDerived<Array_, T>::value; //&& IsDerived<Array_, T1>::value; //&& rt::IsConvertible<ArrayElementType<T>::type, ArrayElementType<T1>::type>::value;
     };
 
     using GCObject = GCObject<T>;
@@ -126,10 +155,17 @@ namespace rt {
       copyOf(other);
     }
 
+    template <class T1, typename std::enable_if_t<true, int> = 0>
+    ref(const ref<T1>& other) noexcept {
+      //static_assert(IsArrayConvertible<T1>::value);
+      copyOf(other);
+    }
+
+    /*
     template <class T1, typename std::enable_if_t<IsConvertible<T1>::value, int> = 0>
     ref(const ref<T1>& other) noexcept {
       copyOf(other);
-    }
+    }*/
 
     template <class T1 = T, typename std::enable_if_t<IsString<T1>::value, int> = 0>
     ref(const char* str) {

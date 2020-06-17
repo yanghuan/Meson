@@ -112,14 +112,14 @@ namespace Meson.Compiler {
       return $"{string.Join('/', parts)}/{reference.Name}{extra}.h";
     }
 
-    public static string GetFullNamespace(this ITypeDefinition reference) {
+    public static string GetFullNamespace(this ITypeDefinition reference, bool hasGlobal = false) {
       string ns;
       if (string.IsNullOrEmpty(reference.Namespace)) {
         ns = reference.ParentModule.Name;
       } else {
         ns = $"{reference.ParentModule.Name}.{reference.Namespace}";
       }
-      return ns.ReplaceDot(); 
+      return !hasGlobal ? ns.ReplaceDot() : Tokens.TwoColon + ns.ReplaceDot(); 
     }
 
     private static bool IsTypeArgumentHasType(this IType argument, ITypeDefinition other, HashSet<ITypeDefinition> recursiveTypes) {
@@ -487,12 +487,16 @@ namespace Meson.Compiler {
     }
 
     public static ExpressionSyntax WithFullName(this ExpressionSyntax typeName, IType type) {
-      IdentifierSyntax ns = Tokens.TwoColon + type.GetDefinition().GetFullNamespace();
+      IdentifierSyntax ns = type.GetDefinition().GetFullNamespace(true);
       return ns.TwoColon(typeName);
     }
 
     public static T Accept<T>(this AstNode node, MethodTransform transform) where T : SyntaxNode {
       return (T)node.AcceptVisitor(transform);
+    }
+
+    public static ExpressionSyntax AcceptExpression(this AstNode node, MethodTransform transform) {
+      return node.Accept<ExpressionSyntax>(transform); ;
     }
   }
 }

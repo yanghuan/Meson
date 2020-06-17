@@ -4,6 +4,11 @@ using System.Text;
 
 namespace Meson.Compiler.CppAst {
   internal abstract class ExpressionSyntax : SyntaxNode {
+    private sealed class EmptyExpressionSyntax : ExpressionSyntax {
+      internal override void Render(CppRenderer renderer) {
+      }
+    }
+
     internal MemberAccessExpressionSyntax TwoColon(ExpressionSyntax expression) {
       return new MemberAccessExpressionSyntax(this, expression, MemberAccessOperator.TwoColon);
     }
@@ -11,6 +16,8 @@ namespace Meson.Compiler.CppAst {
     public static implicit operator ExpressionSyntax(string valueText) {
       return new ValueTextIdentifierSyntax(valueText);
     }
+
+    public static readonly ExpressionSyntax EmptyExpression = new EmptyExpressionSyntax();
   }
 
   internal enum MemberAccessOperator {
@@ -59,6 +66,25 @@ namespace Meson.Compiler.CppAst {
     internal override void Render(CppRenderer renderer) {
       renderer.Render(this);
     }
+  }
+
+  internal abstract class LiteralExpressionSyntax : ExpressionSyntax {
+  }
+
+  internal sealed class StringLiteralExpressionSyntax : LiteralExpressionSyntax {
+    public string OpenParenToken => Tokens.Quote;
+    public string Value { get; }
+    public string CloseParenToken => Tokens.Quote;
+
+    public StringLiteralExpressionSyntax(string value) {
+      Value = value;
+    }
+
+    internal override void Render(CppRenderer renderer) {
+      renderer.Render(this);
+    }
+
+    public static readonly StringLiteralExpressionSyntax Empty = new StringLiteralExpressionSyntax(string.Empty);
   }
 
 }

@@ -34,6 +34,10 @@ namespace Meson.Compiler.CppAst {
     public void Add(StatementSyntax statement) {
       Statements.Add(statement);
     }
+
+    public void AddRange(IEnumerable<StatementSyntax> statements) {
+      Statements.AddRange(statements);
+    }
   }
 
   sealed class BlankLinesStatement : StatementSyntax {

@@ -10,7 +10,8 @@ namespace Meson.Compiler {
     public AssemblyTransform AssemblyTransform { get; }
     public SyntaxGenerator Generator => AssemblyTransform.Generator;
     public CompilationUnitSyntax CompilationUnit { get; } = new CompilationUnitSyntax();
-    private readonly Dictionary<ITypeDefinition, bool> references_ = new Dictionary<ITypeDefinition, bool>();
+    private readonly Dictionary<ITypeDefinition, bool> headReferences_ = new Dictionary<ITypeDefinition, bool>();
+    private readonly HashSet<ITypeDefinition> srcReferences_ = new HashSet<ITypeDefinition>();
     private readonly ITypeDefinition root_;
 
     public CompilationUnitTransform(AssemblyTransform assemblyTransform, List<ITypeDefinition> types) {
@@ -21,16 +22,21 @@ namespace Meson.Compiler {
 
     private void VisitCompilationUnit(IEnumerable<ITypeDefinition> types) {
       var (rootNamespace, classNamespace) = CompilationUnit.AddNamespace(root_.GetFullNamespace(), root_.Name);
-      var usingsSyntax = new StatementListSyntax();
-      classNamespace.Add(usingsSyntax);
+      var headUsingsSyntax = new StatementListSyntax();
+      classNamespace.Add(headUsingsSyntax);
+
+      var srcUsingsSyntax = new StatementListSyntax();
+      if (root_.Kind != TypeKind.Enum && root_.Kind != TypeKind.Interface) {
+        CompilationUnit.AddSrcStatement(srcUsingsSyntax);
+      }
 
       var typeDefinition = new TypeDefinitionTransform(this, classNamespace, types);
       if (root_.Kind != TypeKind.Enum) {
         var headIncludes = new HashSet<string>();
-        var usings = new HashSet<string>();
-        var srcIncludes = new HashSet<string>();
+        var headUsings = new HashSet<string>();
         var forwards = new Dictionary<ITypeDefinition, StatementSyntax>();
-        foreach (var (reference, isForward) in references_) {
+        var srcIncludes = new HashSet<string>();
+        foreach (var (reference, isForward) in headReferences_) {
           if (isForward) {
             var forward = GetForwardMacroSyntax(reference, out var forwardType);
             forwards[forwardType] = forward;
@@ -40,17 +46,18 @@ namespace Meson.Compiler {
             srcIncludes.Add(reference.GetReferenceIncludeString(true));
           }
           if (!root_.IsNamespaceContain(reference)) {
-            usings.Add(Tokens.TwoColon + reference.GetFullNamespace());
+            headUsings.Add(reference.GetFullNamespace(true));
           }
         }
         CompilationUnit.AddHeadIncludes(headIncludes.OrderBy(i => i));
-        usingsSyntax.Statements.AddRange(usings.OrderBy(i => i).Select(i => new UsingNamespaceOrTypeSyntax(i)));
-        AddForwards(rootNamespace, forwards, usingsSyntax);
+        headUsingsSyntax.AddRange(headUsings.OrderBy(i => i).Select(i => new UsingNamespaceOrTypeSyntax(i)));
+        AddForwards(rootNamespace, forwards, headUsingsSyntax);
         rootNamespace.Add(classNamespace);
         AddTypeUsingDeclaration(rootNamespace, classNamespace, typeDefinition, types);
         if (root_.Kind != TypeKind.Interface) {
           CompilationUnit.AddReferencesIncludes(root_.Name, srcIncludes.OrderBy(i => i));
-          CompilationUnit.AddSrcStatement(BlankLinesStatement.One);
+          CompilationUnit.AddSrcReferencesIncludes(srcReferences_.Select(i => i.GetReferenceIncludeString(true)).OrderBy(i => i));
+          srcUsingsSyntax.AddRange(srcReferences_.Where(i => !root_.IsNamespaceContain(i)).Select(i => i.GetFullNamespace(true)).OrderBy(i => i).Select(i => new UsingNamespaceOrTypeSyntax(i)));
         }
       } else {
         rootNamespace.AddRange(classNamespace.Statements);
@@ -119,14 +126,20 @@ namespace Meson.Compiler {
       return type.GetForwardStatement();
     }
 
-    internal void AddReference(ITypeDefinition type, bool isForward) {
-      if (references_.ContainsKey(type)) {
-        var prevIsForward = references_[type];
+    internal void AddHeadReference(ITypeDefinition type, bool isForward) {
+      if (headReferences_.ContainsKey(type)) {
+        var prevIsForward = headReferences_[type];
         if (prevIsForward && !isForward) {
-          references_[type] = false;
+          headReferences_[type] = false;
         }
       } else {
-        references_.Add(type, isForward);
+        headReferences_.Add(type, isForward);
+      }
+    }
+
+    internal void AddSrcReference(ITypeDefinition type) {
+      if (!headReferences_.ContainsKey(type)) {
+        srcReferences_.Add(type);
       }
     }
   }
