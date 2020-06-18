@@ -106,18 +106,20 @@ namespace rt {
   };
 
   template <class T, class T1>
-  struct IsConvertible {
+  struct IsDerivedConvertible {
     static constexpr bool value = IsDerived<object, T>::value || IsDerived<T, T1>::value;
   };
 
   template <class T>
   struct RefElementType {
     using type = T;
+    static constexpr bool value = false;
   };
 
   template <class T>
   struct RefElementType<ref<T>> {
     using type = T;
+    static constexpr bool value = true;
   };
 
   template <class T>
@@ -127,21 +129,29 @@ namespace rt {
     };
     using element_type = typename std::conditional_t<IsDerived<Array_, T>::value, T, __Type>::element_type;
     using type = typename RefElementType<element_type>::type;
+    static constexpr bool value = RefElementType<element_type>::value;
+  };
+
+  template <class T, class T1>
+  struct IsArrayConvertible__ {
+    using ElementTypeT = ArrayElementType<T>;
+    using ElementTypeT1 = ArrayElementType<T1>;
+    static constexpr bool value = (IsDerived<object, ElementTypeT::type>::value && ElementTypeT1::value) || IsDerived<ElementTypeT::type, ElementTypeT1::type>::value;
+  };
+
+  template <class T, class T1>
+  struct IsArrayConvertible {
+    static constexpr bool value = IsDerived<Array_, T>::value && IsDerived<Array_, T1>::value && IsArrayConvertible__<T, T1>::value;
+  };
+
+  template <class T, class T1>
+  struct IsConvertible {
+    static constexpr bool value = IsDerivedConvertible<T, T1>::value || IsArrayConvertible<T, T1>::value;
   };
 
   template <class T>
   class ref {
   public:
-    template <class T1>
-    struct IsArrayConvertible {
-      static constexpr bool value = IsDerived<Array_, T>::value && IsDerived<Array_, T1>::value && rt::IsConvertible<ArrayElementType<T>::type, ArrayElementType<T1>::type>::value;
-    };
-
-    template <class T1>
-    struct IsConvertible {
-      static constexpr bool value = rt::IsConvertible<T, T1>::value || IsArrayConvertible<T1>::value;
-    };
-
     using GCObject = GCObject<T>;
     using in = T;
 
@@ -155,7 +165,7 @@ namespace rt {
       copyOf(other);
     }
 
-    template <class T1, typename std::enable_if_t<IsConvertible<T1>::value, int> = 0>
+    template <class T1, typename std::enable_if_t<IsConvertible<T, T1>::value, int> = 0>
     ref(const ref<T1>& other) noexcept {
       copyOf(other);
     }
@@ -174,7 +184,7 @@ namespace rt {
       moveOf(std::move(other));
     }
 
-    template <class T1, typename std::enable_if_t<IsConvertible<T1>::value, int> = 0>
+    template <class T1, typename std::enable_if_t<IsConvertible<T, T1>::value, int> = 0>
     ref(ref<T1>&& other) noexcept {
       moveOf(std::move(other));
     }
@@ -190,7 +200,7 @@ namespace rt {
       return *this;
     }
 
-    template <class T1, typename std::enable_if_t<IsConvertible<T1>::value, int> = 0>
+    template <class T1, typename std::enable_if_t<IsConvertible<T, T1>::value, int> = 0>
     ref& operator = (const ref<T1>& right) noexcept {
       ref(p_);
       copyOf(right);
