@@ -34,7 +34,7 @@ namespace Meson.Compiler {
     private void Visit() {
       if (IsMulti) {
         int typeParameterCount = types_.Last().TypeParameterCount + 1;
-        ClassSyntax node = new ClassSyntax(Root.Name, Root.Kind == TypeKind.Struct) { 
+        ClassSyntax node = new ClassSyntax(Root.Name, Root.Kind == TypeKind.Struct) {
           Template = typeParameterCount.GetVoidTemplate(),
           Kind = HasRef ? ClassKind.MultiRefForward : ClassKind.None,
         };
@@ -70,7 +70,7 @@ namespace Meson.Compiler {
     }
 
     private void VistEnum(ITypeDefinition type) {
-      EnumSyntax node = new EnumSyntax(type.Name) { 
+      EnumSyntax node = new EnumSyntax(type.Name) {
         AccessibilityToken = GetAccessibilityString(type),
         UnderlyingType = type.GetEnumUnderlyingTypeName(),
       };
@@ -155,7 +155,7 @@ namespace Meson.Compiler {
 
     private void VisitMethods(ITypeDefinition typeDefinition, ClassSyntax node) {
       foreach (var method in typeDefinition.Methods.Where(IsExportMethod)) {
-        var parameters = method.Parameters.Select(i => GetParameterSyntax(i, method, typeDefinition)).ToList();  
+        var parameters = method.Parameters.Select(i => GetParameterSyntax(i, method, typeDefinition)).ToList();
         var methodName = Generator.GetMemberName(method);
         var returnType = GetRetuenTypeSyntax(method, typeDefinition);
         node.Statements.Add(new MethodDefinitionSyntax(returnType, methodName, parameters, method.IsStatic, method.Accessibility.ToTokenString()));
@@ -166,7 +166,7 @@ namespace Meson.Compiler {
     }
 
     private ExpressionSyntax GetRetuenTypeSyntax(IMethod method, ITypeDefinition typeDefinition) {
-      var returnType = GetTypeName(new TypeNameArgs { 
+      var returnType = GetTypeName(new TypeNameArgs {
         Type = method.ReturnType,
         Definition = typeDefinition,
         IsForward = true,
@@ -189,7 +189,7 @@ namespace Meson.Compiler {
     }
 
     private ParameterSyntax GetParameterSyntax(IParameter parameter, IMethod method, ITypeDefinition typeDefinition) {
-      var type = GetTypeName(new TypeNameArgs { 
+      var type = GetTypeName(new TypeNameArgs {
         Type = parameter.Type,
         Definition = typeDefinition,
         IsForward = true,
@@ -214,19 +214,39 @@ namespace Meson.Compiler {
       }
     }
 
+    private static bool IsValueTypeInnerField(IField field, ITypeDefinition typeDefinition, out ExpressionSyntax typeName) {
+      if (typeDefinition.Kind == TypeKind.Struct && !field.IsStatic && field.Type == typeDefinition) {
+        string name = field.Type.GetValueTypeInnerName();
+        if (name != null) {
+          typeName = (IdentifierSyntax)name;
+          return true;
+        }
+      }
+      typeName = null;
+      return false;
+    }
+
+    private static bool IsArrayInnerSpecialField(IField field, ITypeDefinition typeDefinition, out ExpressionSyntax typeName) {
+      if (typeDefinition.DeclaringTypeDefinition?.IsArrayType() == true && !field.IsStatic && field.Type.Kind == TypeKind.Array) {
+        ArrayType arrayType = (ArrayType)field.Type;
+        Contract.Assert(arrayType.ElementType.GetDefinition().IsObjectType());
+        typeName = new GenericIdentifierSyntax(arrayType.DirectBaseTypes.First().Name);
+        return true;
+      }
+      typeName = null;
+      return false;
+    }
+
     private void VisitFields(ITypeDefinition typeDefinition, ClassSyntax node) {
       foreach (var field in typeDefinition.Fields) {
         if (!field.Name.StartsWith('<')) {
-          ExpressionSyntax typeName = null;
-          if (typeDefinition.Kind == TypeKind.Struct && !field.IsStatic && field.Type == typeDefinition) {
-            string name = field.Type.GetInnerTypeName();
-            if (name != null) {
-              typeName = (IdentifierSyntax)name;
-            }
-          }
-          if (typeName == null) {
+          ExpressionSyntax typeName;
+          if (IsValueTypeInnerField(field, typeDefinition, out typeName)) {
+          } else if (IsArrayInnerSpecialField(field, typeDefinition, out typeName)) {
+          } else {
             typeName = GetFieldTypeName(field, typeDefinition);
           }
+          Contract.Assert(typeName != null);
           var fieldName = Generator.GetMemberName(field);
           node.Statements.Add(new FieldDefinitionSyntax(typeName, fieldName, field.IsStatic, field.Accessibility.ToTokenString()));
         }
@@ -239,7 +259,7 @@ namespace Meson.Compiler {
         if (attr != null) {
           var type = (IType)attr.FixedArguments[0].Value;
           int size = (int)attr.FixedArguments[1].Value;
-          var name = GetTypeName(new TypeNameArgs { 
+          var name = GetTypeName(new TypeNameArgs {
             Type = type,
             Definition = typeDefinition,
             IsForward = field.IsStatic,
@@ -251,7 +271,7 @@ namespace Meson.Compiler {
         }
       }
 
-      var typeName = GetTypeName(new TypeNameArgs { 
+      var typeName = GetTypeName(new TypeNameArgs {
         Type = field.Type,
         Definition = typeDefinition,
         IsForward = field.Type.IsRefType() || field.IsStatic,
@@ -429,7 +449,7 @@ namespace Meson.Compiler {
         var definition = args.Type.GetDefinition();
         if (definition != null) {
           if (Generator.IsVoidGenericType(definition)) {
-            typeName = new GenericIdentifierSyntax(typeName, IdentifierSyntax.Void);
+            typeName = new GenericIdentifierSyntax(typeName);
           }
         }
       }

@@ -467,7 +467,7 @@ namespace Meson.Compiler {
     private ExpressionSyntax GetDeclaringType(ITypeDefinition type) {
       ExpressionSyntax name = type.IsRefType() ? $"{type.Name}___" : type.Name;
       if (Generator.IsVoidGenericType(type)) {
-        name = new GenericIdentifierSyntax(name, IdentifierSyntax.Void);
+        name = new GenericIdentifierSyntax(name);
       }
       var declaringType = AssemblyTransform.GetDeclaringType(type);
       if (declaringType != null) {

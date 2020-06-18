@@ -365,7 +365,7 @@ namespace Meson.Compiler {
       ["System.Double"] = "double",
     };
 
-    public static string GetInnerTypeName(this IType type) {
+    public static string GetValueTypeInnerName(this IType type) {
       return innerValueTypeNames_.GetOrDefault(type.FullName);
     }
 

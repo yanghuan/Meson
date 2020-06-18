@@ -25,7 +25,9 @@
     "filesystem": "cpp",
     "xstring": "cpp",
     "span": "cpp",
-    "vector": "cpp"
+    "vector": "cpp",
+    "optional": "cpp",
+    "xlocmon": "cpp"
   },
   "python.pythonPath": "d:\\tools\\python36\\python.exe"
 }
