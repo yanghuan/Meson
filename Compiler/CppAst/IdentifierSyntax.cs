@@ -83,6 +83,19 @@ namespace Meson.Compiler.CppAst {
     }
   }
 
+  internal sealed class AddressIdentifierSyntax : IdentifierSyntax {
+    public ExpressionSyntax Name { get; }
+    public string Ampersand => Tokens.Ampersand;
+
+    public AddressIdentifierSyntax(ExpressionSyntax name) {
+      Name = name;
+    }
+
+    internal override void Render(CppRenderer renderer) {
+      renderer.Render(this);
+    }
+  }
+
   internal sealed class NestedCycleRefTypeNameSyntax : IdentifierSyntax {
     public IdentifierSyntax Type { get; }
     public string OpenComment => Tokens.OpneComment;

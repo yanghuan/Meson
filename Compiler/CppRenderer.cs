@@ -118,7 +118,6 @@ namespace Meson.Compiler {
       }
     }
 
-
     internal void Render(CompilationUnitSyntax compilationUnit) {
       WriteCompilationUnitStatements(compilationUnit.HeadStatements, HeadFileName);
       if (!compilationUnit.IsSrcEmpty) {
@@ -141,6 +140,10 @@ namespace Meson.Compiler {
       foreach (var node in nodes) {
         node.Render(this);
       }
+    }
+
+    internal void Render(CodeTemplateExpressionSyntax node) {
+      WriteNodes(node.Expressions);
     }
 
     internal void Render(ExpressionStatementSyntax node) {
@@ -425,6 +428,11 @@ namespace Meson.Compiler {
       Write(node.Ampersand);
     }
 
+    internal void Render(AddressIdentifierSyntax node) {
+      Write(node.Ampersand);
+      node.Name.Render(this);
+    }
+
     internal void Render(MemberAccessExpressionSyntax node) {
       node.Expression.Render(this);
       Write(node.OperatorToken);
@@ -487,6 +495,11 @@ namespace Meson.Compiler {
 
     internal void Render(InvationExpressionSyntax node) {
       node.Expression.Render(this);
+      if (node.TypeArguments.Count > 0) {
+        Write(node.OpenBrace);
+        WriteSeparatedSyntaxList(node.TypeArguments);
+        Write(node.CloseBrace);
+      }
       Write(node.OpenParentheses);
       WriteSeparatedSyntaxList(node.Arguments);
       Write(node.CloseParentheses);

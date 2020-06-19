@@ -19,13 +19,21 @@ void f(Array<Object> arr) {
   Array<Object> c = b;
 }
 
+#if true
+void f(Array<> o) {
+}
+#endif
+
+#if false
 void f(Object o) {
 }
+#endif
 
 int main() {
   Array<String> arr = nullptr;
   Array<Object> tt = arr;
   f(arr);
+
   return 0;
 }
 

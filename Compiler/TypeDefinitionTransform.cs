@@ -123,7 +123,7 @@ namespace Meson.Compiler {
         AccessibilityToken = GetAccessibilityString(type),
       };
       if (type.IsStringType() || type.IsObjectType()) {
-        node.Bases.Add(new BaseSyntax(new MemberAccessExpressionSyntax(IdentifierSyntax.Meson, (IdentifierSyntax)type.Name.ToLower(), MemberAccessOperator.TwoColon)));
+        node.Bases.Add(new BaseSyntax(IdentifierSyntax.Meson.TwoColon(type.Name.ToLower())));
       }
       VisitMembers(type, node);
       parent_.Add(node);
@@ -158,9 +158,9 @@ namespace Meson.Compiler {
         var parameters = method.Parameters.Select(i => GetParameterSyntax(i, method, typeDefinition)).ToList();
         var methodName = Generator.GetMemberName(method);
         var returnType = GetRetuenTypeSyntax(method, typeDefinition);
-        node.Statements.Add(new MethodDefinitionSyntax(returnType, methodName, parameters, method.IsStatic, method.Accessibility.ToTokenString()));
+        node.Statements.Add(new MethodDefinitionSyntax(returnType, methodName, parameters, method.IsStatic, !method.IsMainEntryPoint() ? method.Accessibility.ToTokenString() : Tokens.Public));
         if (typeDefinition.TypeParameterCount == 0) {
-          new MethodTransform(this, method);
+          new MethodTransform(this, method, node);
         }
       }
     }
@@ -521,7 +521,7 @@ namespace Meson.Compiler {
             bool isRef = nestedType.IsRefType();
             ExpressionSyntax name = (IdentifierSyntax)nestedType.Name;
             if (isRef) {
-              name = new InvationExpressionSyntax(IdentifierSyntax.NAME, name);
+              name = IdentifierSyntax.NAME.Invation(name);
             }
             var friend = new FriendClassDeclarationSyntax(name, !isRef) { Template = nestedType.GetTemplateSyntax() };
             node.Add(friend);

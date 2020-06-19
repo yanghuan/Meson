@@ -12,11 +12,13 @@ using Meson.Compiler.CppAst;
 namespace Meson.Compiler {
   internal sealed class MethodTransform : IAstVisitor<SyntaxNode> {
     private TypeDefinitionTransform typeDefinition_;
+    private ClassSyntax classNode_;
     private Stack<IMethod> methodSymbols_ = new Stack<IMethod>();
     private readonly Stack<BlockSyntax> blocks_ = new Stack<BlockSyntax>();
 
-    public MethodTransform(TypeDefinitionTransform typeDefinition, IMethod methodSymbol) {
+    public MethodTransform(TypeDefinitionTransform typeDefinition, IMethod methodSymbol, ClassSyntax classNode) {
       typeDefinition_ = typeDefinition;
+      classNode_ = classNode;
       Visit(methodSymbol);
     }
 
@@ -37,8 +39,27 @@ namespace Meson.Compiler {
           var node = m.Accept<MethodImplementationSyntax>(this);
           methodSymbols_.Pop();
           CompilationUnit.AddSrcStatement(node);
+          if (methodSymbol.IsMainEntryPoint()) {
+            InsetMainFuntion(methodSymbol, node);
+          }
         }
       }
+    }
+
+    private void InsetMainFuntion(IMethod methodSymbol, MethodImplementationSyntax method) {
+      var typeDefinition = methodSymbol.DeclaringTypeDefinition;
+      IdentifierSyntax ns = typeDefinition.GetFullNamespace();
+      var typeName = GetTypeName(typeDefinition, null, typeDefinition);
+      if (typeDefinition.IsRefType()) {
+        typeName = typeName.TwoColon(IdentifierSyntax.In);
+      }
+      var node = new MethodImplementationSyntax("main", "int", new ParameterSyntax[] {
+        new ParameterSyntax("int", "argc"),
+        new ParameterSyntax("char*", "argv[]"),
+      });
+      var invation = new InvationExpressionSyntax("rt::init", "argc", "argv", ns.TwoColon(typeName).TwoColon(method.Name).Address());
+      node.Add(invation.Return());
+      CompilationUnit.SrcStatements.Add(node);
     }
 
     public SyntaxNode VisitAnonymousMethodExpression(AnonymousMethodExpression anonymousMethodExpression) {
@@ -111,7 +132,7 @@ namespace Meson.Compiler {
 
     public SyntaxNode VisitInvocationExpression(InvocationExpression invocationExpression) {
       var target = invocationExpression.Target.Accept<ExpressionSyntax>(this);
-      var invocation = new InvationExpressionSyntax(target);
+      var invocation = target.Invation();
       invocation.Arguments.AddRange(invocationExpression.Arguments.Select(i => i.AcceptExpression(this)));
       return invocation;
     }
@@ -130,7 +151,7 @@ namespace Meson.Compiler {
       if (symbol is IMethod method) {
         var name = GetMemberName(method);
         if (method.IsStatic) {
-          return new MemberAccessExpressionSyntax(target, name, MemberAccessOperator.TwoColon);
+          return target.TwoColon(name);
         }
       }
       throw new NotImplementedException();
@@ -483,15 +504,19 @@ namespace Meson.Compiler {
         case TypeKind.Class:
         case TypeKind.Interface:
         case TypeKind.Delegate: {
-          node.Add(new ReturnStatementSyntax(IdentifierSyntax.Nullptr));
+          node.Add(IdentifierSyntax.Nullptr.Return());
           break;
         }
         default: {
-          node.Add(new ReturnStatementSyntax(new InvationExpressionSyntax(returnType)));
+          node.Add(returnType.Invation().Return());
           break;
         }
       }
     }
+
+    private static readonly HashSet<string> _exportFunctions = new HashSet<string>() {
+      "Test.Program.Main",
+    };
 
     public SyntaxNode VisitMethodDeclaration(MethodDeclaration methodDeclaration) {
       var method = MethodSymbol;
@@ -500,7 +525,7 @@ namespace Meson.Compiler {
       var declaringType = GetDeclaringType(method.DeclaringTypeDefinition);
       var returnType = GetTypeName(method.ReturnType, null, method);
       MethodImplementationSyntax node = new MethodImplementationSyntax(name, returnType, parameters, declaringType);
-      if (MethodSymbol.FullName == "Test.Program.Main") {
+      if (_exportFunctions.Contains(MethodSymbol.FullName)) {
         var block = methodDeclaration.Body.Accept<BlockSyntax>(this);
         node.AddRange(block.Statements);
       }

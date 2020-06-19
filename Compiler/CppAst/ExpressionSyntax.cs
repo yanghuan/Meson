@@ -9,15 +9,35 @@ namespace Meson.Compiler.CppAst {
       }
     }
 
-    internal MemberAccessExpressionSyntax TwoColon(ExpressionSyntax expression) {
-      return new MemberAccessExpressionSyntax(this, expression, MemberAccessOperator.TwoColon);
-    }
-
     public static implicit operator ExpressionSyntax(string valueText) {
       return new ValueTextIdentifierSyntax(valueText);
     }
 
     public static readonly ExpressionSyntax EmptyExpression = new EmptyExpressionSyntax();
+
+    internal MemberAccessExpressionSyntax TwoColon(ExpressionSyntax expression) {
+      return new MemberAccessExpressionSyntax(this, expression, MemberAccessOperator.TwoColon);
+    }
+
+    internal AddressIdentifierSyntax Address() {
+      return new AddressIdentifierSyntax(this);
+    }
+
+    internal ReturnStatementSyntax Return() {
+      return new ReturnStatementSyntax(this);
+    }
+
+    internal InvationExpressionSyntax Invation() {
+      return new InvationExpressionSyntax(this);
+    }
+
+    internal InvationExpressionSyntax Invation(params ExpressionSyntax[] arguments) {
+      return new InvationExpressionSyntax(this, arguments);
+    }
+
+    internal InvationExpressionSyntax Invation(IEnumerable<ExpressionSyntax> arguments) {
+      return new InvationExpressionSyntax(this, arguments);
+    }
   }
 
   internal enum MemberAccessOperator {
@@ -44,6 +64,10 @@ namespace Meson.Compiler.CppAst {
 
   internal sealed class InvationExpressionSyntax : ExpressionSyntax {
     public ExpressionSyntax Expression { get; }
+    public string OpenBrace => Tokens.Less;
+    public readonly SyntaxList<ExpressionSyntax> TypeArguments = new SyntaxList<ExpressionSyntax>();
+    public string CloseBrace => Tokens.Greater;
+
     public string OpenParentheses => Tokens.OpenParentheses;
     public List<ExpressionSyntax> Arguments = new List<ExpressionSyntax>();
     public string CloseParentheses => Tokens.CloseParentheses;
@@ -56,7 +80,6 @@ namespace Meson.Compiler.CppAst {
       Expression = expresison;
       Arguments.AddRange(arguments);
     }
-
 
     public InvationExpressionSyntax(ExpressionSyntax expresison, IEnumerable<ExpressionSyntax> arguments) {
       Expression = expresison;
@@ -85,6 +108,20 @@ namespace Meson.Compiler.CppAst {
     }
 
     public static readonly StringLiteralExpressionSyntax Empty = new StringLiteralExpressionSyntax(string.Empty);
+  }
+
+  internal sealed class CodeTemplateExpressionSyntax : ExpressionSyntax {
+    public readonly List<ExpressionSyntax> Expressions = new List<ExpressionSyntax>();
+
+    public CodeTemplateExpressionSyntax() { }
+
+    public CodeTemplateExpressionSyntax(params ExpressionSyntax[] expressions) {
+      Expressions.AddRange(expressions);
+    }
+
+    internal override void Render(CppRenderer renderer) {
+      renderer.Render(this);
+    }
   }
 
 }

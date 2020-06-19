@@ -242,7 +242,19 @@ namespace Meson.Compiler {
     }
 
     public static bool IsInt32(this IType type) {
-      return ((ITypeDefinition)type).KnownTypeCode == KnownTypeCode.Int32;
+      return type.GetDefinition()?.IsInt32() ?? false;
+    }
+
+    public static bool IsInt32(this ITypeDefinition type) {
+      return type.KnownTypeCode == KnownTypeCode.Int32;
+    }
+
+    public static bool IsString(this IType type) {
+      return type.GetDefinition()?.IsString() ?? false;
+    }
+
+    public static bool IsString(this ITypeDefinition type) {
+      return type.KnownTypeCode == KnownTypeCode.String;
     }
 
     public static bool IsIEnumeratorOfT(this ITypeDefinition type) {
@@ -427,6 +439,25 @@ namespace Meson.Compiler {
 
     public static bool IsCanForward(this ISymbol symbol) {
       return !(symbol is IField field && field.IsStatic);
+    }
+
+    public static bool IsMainEntryPoint(this IMethod symbol) {
+      if (symbol.Name == "Main" && symbol.IsStatic && symbol.TypeArguments.Count == 0 && symbol.DeclaringType.TypeArguments.Count == 0) {
+        if (symbol.ReturnType.Kind == TypeKind.Void || symbol.ReturnType.IsInt32()) {
+          if (symbol.Parameters.Count == 0) {
+            return true;
+          } else if (symbol.Parameters.Count == 1) {
+            var parameterType = symbol.Parameters[0].Type;
+            if (parameterType.Kind == TypeKind.Array) {
+              var arrayType = (ArrayType)parameterType;
+              if (arrayType.ElementType.IsString()) {
+                return true;
+              }
+            }
+          }
+        }
+      }
+      return false;
     }
 
     private static readonly Regex identifierRegex_ = new Regex(@"^[a-zA-Z_][a-zA-Z0-9_]*$", RegexOptions.Compiled);

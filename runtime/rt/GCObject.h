@@ -402,7 +402,15 @@ namespace rt {
   struct FixedBuffer {
     T v[N];
   };
-}  // namespace meson
+
+  template <class R, class Arg>
+  int init(int argc, char* argv[], R (*f)(Arg)) {
+    auto args = Array<ref<string>>::newarr(argc - 1);
+    f(*reinterpret_cast<Arg*>(&args));
+    return 0;
+  }
+
+}  // namespace rt
 
 template <class Ex>
 [[noreturn]] void throw_exception(Ex&& ex) {

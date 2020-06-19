@@ -6,7 +6,7 @@
 using namespace System::Private::CoreLib::System;
 
 
-int main()
+int main__()
 {
   String a = String("ddddd");
   ValueTuple<int, int, int> t;

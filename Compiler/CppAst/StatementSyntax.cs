@@ -450,14 +450,14 @@ namespace Meson.Compiler.CppAst {
 
     public ForwardMacroSyntax(IdentifierSyntax name, IEnumerable<IdentifierSyntax> typeArguments, ForwardMacroKind kind) {
       Kind = kind;
-      Invation = new InvationExpressionSyntax(Macro);
+      Invation = Macro.Invation();
       Invation.Arguments.Add(name);
       Invation.Arguments.AddRange(typeArguments);
     }
 
     public ExpressionStatementSyntax ToUsingMacroSyntax(string ns) {
       IdentifierSyntax name = macros_[(int)Kind].Replace(macros_.First(), "USING");
-      var invation = new InvationExpressionSyntax(name);
+      var invation = name.Invation();
       invation.Arguments.Add(ns.ReplaceDot());
       invation.Arguments.AddRange(Invation.Arguments);
       return new ExpressionStatementSyntax(invation) { HasSemicolon = false };
