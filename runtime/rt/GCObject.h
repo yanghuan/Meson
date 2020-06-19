@@ -68,7 +68,7 @@ namespace rt {
     static constexpr bool IsSpeicalObject = IsString<T>::value || IsDerived<Array_, T>::value;
   public:
     T* get() noexcept {
-      return reinterpret_cast<T*>(v_);
+      return &v_;
     }
 
     void release() noexcept {
@@ -88,8 +88,7 @@ namespace rt {
       return sizeof(GCObject);
     }
 
-    int8_t v_[sizeof(T)];
-
+    T v_;
     friend class object;
     friend class string;
 
