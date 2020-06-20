@@ -49,5 +49,8 @@
     "xlocnum": "cpp",
     "xloctime": "cpp"
   },
-  "python.pythonPath": "d:\\tools\\python36\\python.exe"
+  "python.pythonPath": "d:\\tools\\python36\\python.exe",
+  "xmake.runningTargetsArguments": {
+    "outcpp": ["ddd", "ccc"]
+  }
 }

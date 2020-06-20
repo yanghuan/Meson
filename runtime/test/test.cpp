@@ -33,6 +33,7 @@ int main() {
   Array<String> arr = newarr<Array<String>>(10);
   arr[0] = "ddd";
   arr[1] = "dddd";
+  int a = int();
   //Array<Object> tt = arr;
   //f(arr);
 

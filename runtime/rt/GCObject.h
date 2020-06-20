@@ -154,9 +154,9 @@ namespace rt {
     using GCObject = GCObject<T>;
     using in = T;
 
-    constexpr ref() noexcept {}
+    constexpr ref() noexcept : p_(nullptr)  {}
 
-    constexpr ref(nullptr_t) noexcept {}
+    constexpr ref(nullptr_t) noexcept : p_(nullptr) {}
 
     explicit ref(GCObject* p) noexcept : p_(p) {}
 
@@ -266,9 +266,8 @@ namespace rt {
       p_ = reinterpret_cast<GCObject*>(other.p_);
       other.p_ = nullptr;
     }
-
-    GCObject* p_{ nullptr };
-
+    
+    GCObject* p_;
     friend class ref;
   };
 
