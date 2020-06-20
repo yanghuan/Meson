@@ -54,9 +54,9 @@ namespace rt {
   GCObject<string>* string::alloc(size_t length) {
     checkOutOfMemory(length);
     void* address = gcAlloc(nullptr, 0, string::GetAllocSize(length));
-    auto gcObj = new (address) GCObject<string>(gMetadata);
+    auto gcObj = new (address) GCObject<str>(gMetadata);
     gcObj->get()->length = static_cast<int32_t>(length);
-    return gcObj;
+    return reinterpret_cast<GCObject<string>*>(gcObj);
   }
 
   ref<string> string::load(const char* str, size_t n) {
@@ -74,24 +74,24 @@ namespace rt {
   }
 
   ref<string> string::cat(string** begin, size_t n) {
-    size_t length = 0;
+    int32_t length = 0;
     for (size_t i = 0; i < n; ++i) {
       string* p = begin[i];
       if (p) {
-        length += begin[i]->length;
+        length += begin[i]->length();
       }
     }
 
     auto gcObj = alloc(length);
     auto p = gcObj->get();
-    p->length = static_cast<int32_t>(length);
+    p->length() = length;
 
     char* src = p->c_str();
     for (size_t i = 0; i < n; ++i) {
       string* p = begin[i];
       if (p) {
-        strcpy_s(src, (size_t)p->length + 1, p->c_str());
-        src += p->length;
+        strcpy_s(src, p->length() + 1, p->c_str());
+        src += p->length();
       }
     }
 

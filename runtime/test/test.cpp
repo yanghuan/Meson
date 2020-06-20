@@ -30,9 +30,11 @@ void f(Object o) {
 #endif
 
 int main() {
-  Array<String> arr = nullptr;
-  Array<Object> tt = arr;
-  f(arr);
+  Array<String> arr = newarr<Array<String>>(10);
+  arr[0] = "ddd";
+  arr[1] = "dddd";
+  //Array<Object> tt = arr;
+  //f(arr);
 
   return 0;
 }

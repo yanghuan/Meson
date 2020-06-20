@@ -306,13 +306,17 @@ namespace rt {
   };
 
   class string {
+    struct str {
+      int32_t length;
+      char first[];
+    };
   public:
     static size_t GetAllocSize(size_t n) noexcept {
-      return sizeof(GCObject<string>) - sizeof(firstChar) + n + 1;
+      return sizeof(GCObject<str>) + n + 1;
     }
 
     size_t GetAllocSize() const noexcept {
-      return GetAllocSize(length);
+      return GetAllocSize(length());
     }
 
     static ref<string> load(const char* str) {
@@ -321,33 +325,40 @@ namespace rt {
 
     template <class... _Types>
     static ref<string> cat(const std::tuple<_Types...>& t) {
-      return cat((string**)(&t), sizeof(t) / sizeof(intptr_t));
+      return cat((string**)(&t), sizeof(t) / sizeof(string*));
     }
 
     char* c_str() noexcept {
-      return reinterpret_cast<char*>(&firstChar);
+      auto p = reinterpret_cast<str*>(this);
+      return p->first; 
     }
 
     const char* c_str() const noexcept {
-      return reinterpret_cast<const char*>(&firstChar);
+      auto p = reinterpret_cast<const str*>(this);
+      return p->first; 
     }
 
   private:
+    int32_t& length() {
+      auto p = reinterpret_cast<str*>(this);
+      return p->length;
+    }
+    int32_t length() const {
+      auto p = reinterpret_cast<const str*>(this);
+      return p->length;
+    }
     static ref<string> load(const char* str, size_t n);
     static ref<string> cat(string** being, size_t n);
     static GCObject<string>* alloc(size_t n);
-
-  protected:
-    int32_t length;
-    intptr_t firstChar;
   };
 
   class Array_ {};
   template <class T>
   class Array : public Array_ {
-    using GCObject = GCObject<Array>;
-    using array = ref<Array>;
-
+    struct array {
+      int32_t length;
+      T first[];
+    };
   public:
     using element_type = T;
 
@@ -362,11 +373,13 @@ namespace rt {
     }
 
     T* begin() noexcept {
-      return reinterpret_cast<T*>(&first);
+      auto p = reinterpret_cast<array*>(this);
+      return p->first;
     }
 
     T* begin() const noexcept {
-      return reinterpret_cast<const T*>(&first);
+      auto p = reinterpret_cast<const array*>(this);
+      return p->first;
     }
 
     T* end() noexcept {
@@ -382,19 +395,18 @@ namespace rt {
     }
 
     static size_t GetAllocSize(size_t n) noexcept {
-      return sizeof(GCObject) - sizeof(first) + n * sizeof(T);
+      return sizeof(GCObject<array>) + n * sizeof(T);
     }
 
-    static array newarr(size_t n) {
+    static ref<array> newarr(size_t n) {
       void* p = object::alloc(GetAllocSize(n));
-      GCObject* temp = new (p) GCObject(gTypeMetadata);
+      auto temp = new (p) GCObject<array>(gTypeMetadata);
       temp->get()->length = static_cast<int32_t>(n);
-      return array(temp);
+      return ref<array>(temp);
     }
 
   protected:
     int32_t length;
-    intptr_t first;
   };
 
   template <class T, size_t N>

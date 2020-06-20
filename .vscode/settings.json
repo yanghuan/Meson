@@ -27,7 +27,27 @@
     "span": "cpp",
     "vector": "cpp",
     "optional": "cpp",
-    "xlocmon": "cpp"
+    "xlocmon": "cpp",
+    "*.inc": "cpp",
+    "bitset": "cpp",
+    "exception": "cpp",
+    "fstream": "cpp",
+    "iomanip": "cpp",
+    "istream": "cpp",
+    "iterator": "cpp",
+    "locale": "cpp",
+    "regex": "cpp",
+    "sstream": "cpp",
+    "stdexcept": "cpp",
+    "string": "cpp",
+    "strstream": "cpp",
+    "typeinfo": "cpp",
+    "xiosbase": "cpp",
+    "xlocbuf": "cpp",
+    "xlocinfo": "cpp",
+    "xlocmes": "cpp",
+    "xlocnum": "cpp",
+    "xloctime": "cpp"
   },
   "python.pythonPath": "d:\\tools\\python36\\python.exe"
 }
