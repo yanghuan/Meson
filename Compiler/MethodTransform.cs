@@ -11,6 +11,11 @@ using Meson.Compiler.CppAst;
 
 namespace Meson.Compiler {
   internal sealed class MethodTransform : IAstVisitor<SyntaxNode> {
+    private static readonly HashSet<string> _exportFunctions = new HashSet<string>() {
+      "Test.Program.Main",
+      //"System.Console.WriteLine",
+    };
+
     private TypeDefinitionTransform typeDefinition_;
     private ClassSyntax classNode_;
     private Stack<IMethod> methodSymbols_ = new Stack<IMethod>();
@@ -30,14 +35,20 @@ namespace Meson.Compiler {
     private IdentifierSyntax GetMemberName(ISymbol symbol) => Generator.GetMemberName(symbol);
     private ExpressionSyntax GetTypeName(IType type, ITypeDefinition typeDefinition, ISymbol symbol) => typeDefinition_.GetTypeName(type, typeDefinition, symbol);
     private ExpressionSyntax GetTypeName(IType type, ISymbol symbol) => GetTypeName(type, MethodSymbol.DeclaringTypeDefinition, symbol);
+    private ExpressionSyntax GetTypeName(IType type) => GetTypeName(type, null);
 
     private void Visit(IMethod methodSymbol) {
       if (methodSymbol.HasBody) {
-        var m = Generator.GetMethodDeclaration(methodSymbol);
-        if (m != null) {
-          methodSymbols_.Push(methodSymbol);
-          var node = m.Accept<MethodImplementationSyntax>(this);
-          methodSymbols_.Pop();
+        methodSymbols_.Push(methodSymbol);
+        MethodImplementationSyntax node;
+        if (_exportFunctions.Contains(methodSymbol.FullName)) {
+          var methodDeclaration = Generator.GetMethodDeclaration(methodSymbol);
+          node = methodDeclaration?.Accept<MethodImplementationSyntax>(this);
+        } else {
+          node = (MethodImplementationSyntax)VisitMethodDeclaration(null);
+        }
+        methodSymbols_.Pop();
+        if (node != null) {
           CompilationUnit.AddSrcStatement(node);
           if (methodSymbol.IsMainEntryPoint()) {
             InsetMainFuntion(methodSymbol, node);
@@ -130,11 +141,39 @@ namespace Meson.Compiler {
       throw new NotImplementedException();
     }
 
+    private void CheckArrayConflict(IMethod symbol, IParameter parameter, int index, IType type, ref ExpressionSyntax expression) {
+      if (type.Kind == TypeKind.Array && parameter.Type.Kind == TypeKind.Array) {
+       bool exists = symbol.DeclaringTypeDefinition.Methods.Any(i => i != symbol
+        && i.Name == symbol.Name
+        && i.Parameters.Count == symbol.Parameters.Count
+        && type.Is(i.Parameters[index].Type));
+        if (exists) {
+          var targetType = GetTypeName(parameter.Type, parameter);
+          expression = expression.CastTo(targetType);
+        }
+      }
+    }
+
+    private List<ExpressionSyntax> BuildInvocationArguments(InvocationExpression invocationExpression) {
+      var symbol = (IMethod)invocationExpression.GetSymbol();
+      List<ExpressionSyntax> arguments = new List<ExpressionSyntax>();
+      int i = 0;
+      foreach (var argument in invocationExpression.Arguments) {
+        var parameter = symbol.Parameters[i];
+        var resolveResult = argument.GetResolveResult();
+        var expression = argument.AcceptExpression(this);
+        if (!parameter.Type.Equals(resolveResult.Type)) {
+          CheckArrayConflict(symbol, parameter, i, resolveResult.Type, ref expression);
+        }
+        arguments.Add(expression);
+        ++i;
+      }
+      return arguments;
+    }
+
     public SyntaxNode VisitInvocationExpression(InvocationExpression invocationExpression) {
-      var target = invocationExpression.Target.Accept<ExpressionSyntax>(this);
-      var invocation = target.Invation();
-      invocation.Arguments.AddRange(invocationExpression.Arguments.Select(i => i.AcceptExpression(this)));
-      return invocation;
+      var target = invocationExpression.Target.AcceptExpression(this);
+      return target.Invation(BuildInvocationArguments(invocationExpression));
     }
 
     public SyntaxNode VisitIsExpression(IsExpression isExpression) {
@@ -415,6 +454,7 @@ namespace Meson.Compiler {
     }
 
     public SyntaxNode VisitVariableDeclarationStatement(VariableDeclarationStatement variableDeclarationStatement) {
+      var type = variableDeclarationStatement.Type.AcceptExpression(this);
       throw new NotImplementedException();
     }
 
@@ -514,10 +554,6 @@ namespace Meson.Compiler {
       }
     }
 
-    private static readonly HashSet<string> _exportFunctions = new HashSet<string>() {
-      "Test.Program.Main",
-    };
-
     public SyntaxNode VisitMethodDeclaration(MethodDeclaration methodDeclaration) {
       var method = MethodSymbol;
       var parameters = method.Parameters.Select(i => GetParameterSyntax(i, method));
@@ -525,7 +561,7 @@ namespace Meson.Compiler {
       var declaringType = GetDeclaringType(method.DeclaringTypeDefinition);
       var returnType = GetTypeName(method.ReturnType, null, method);
       MethodImplementationSyntax node = new MethodImplementationSyntax(name, returnType, parameters, declaringType);
-      if (_exportFunctions.Contains(MethodSymbol.FullName)) {
+      if (methodDeclaration != null) {
         var block = methodDeclaration.Body.Accept<BlockSyntax>(this);
         node.AddRange(block.Statements);
       }
@@ -562,8 +598,8 @@ namespace Meson.Compiler {
     }
 
     public SyntaxNode VisitSimpleType(SimpleType simpleType) {
-      var symbol = (ITypeDefinition)simpleType.GetSymbol();
-      return GetTypeName(symbol, symbol);
+      var type = simpleType.GetResolveResult().Type;
+      return GetTypeName(type);
     }
 
     public SyntaxNode VisitMemberType(MemberType memberType) {

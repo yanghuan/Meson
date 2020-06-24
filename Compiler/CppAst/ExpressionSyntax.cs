@@ -19,6 +19,10 @@ namespace Meson.Compiler.CppAst {
       return new MemberAccessExpressionSyntax(this, expression, MemberAccessOperator.TwoColon);
     }
 
+    internal CastExpressionSyntax CastTo(ExpressionSyntax target) {
+      return new CastExpressionSyntax(this, target);
+    }
+
     internal AddressIdentifierSyntax Address() {
       return new AddressIdentifierSyntax(this);
     }
@@ -117,6 +121,20 @@ namespace Meson.Compiler.CppAst {
 
     public CodeTemplateExpressionSyntax(params ExpressionSyntax[] expressions) {
       Expressions.AddRange(expressions);
+    }
+
+    internal override void Render(CppRenderer renderer) {
+      renderer.Render(this);
+    }
+  }
+
+  internal sealed class CastExpressionSyntax : ExpressionSyntax {
+    public ExpressionSyntax Expression { get; }
+    public ExpressionSyntax Target { get; }
+
+    public CastExpressionSyntax(ExpressionSyntax expression, ExpressionSyntax target) {
+      Expression = expression;
+      Target = target;
     }
 
     internal override void Render(CppRenderer renderer) {

@@ -533,5 +533,12 @@ namespace Meson.Compiler {
       Write(node.Value);
       Write(node.CloseParenToken);
     }
+
+    internal void Render(CastExpressionSyntax node) {
+      Write(Tokens.OpenParentheses);
+      node.Target.Render(this);
+      Write(Tokens.CloseParentheses);
+      node.Expression.Render(this);
+    }
   }
 }

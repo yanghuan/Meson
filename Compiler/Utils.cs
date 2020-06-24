@@ -1,8 +1,10 @@
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.Contracts;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
+
 using ICSharpCode.Decompiler.CSharp.Syntax;
 using ICSharpCode.Decompiler.TypeSystem;
 using ICSharpCode.Decompiler.TypeSystem.Implementation;
@@ -255,6 +257,14 @@ namespace Meson.Compiler {
 
     public static bool IsString(this ITypeDefinition type) {
       return type.KnownTypeCode == KnownTypeCode.String;
+    }
+
+    public static bool IsObject(this IType type) {
+      return type.GetDefinition()?.IsObject() ?? false;
+    }
+
+    public static bool IsObject(this ITypeDefinition type) {
+      return type.KnownTypeCode == KnownTypeCode.Object;
     }
 
     public static bool IsIEnumeratorOfT(this ITypeDefinition type) {
@@ -529,5 +539,66 @@ namespace Meson.Compiler {
     public static ExpressionSyntax AcceptExpression(this AstNode node, MethodTransform transform) {
       return node.Accept<ExpressionSyntax>(transform); ;
     }
+
+    public static IType GetBaseType(this IType type) {
+      var first = type.DirectBaseTypes.First();
+      return first.Kind != TypeKind.Interface ? first : null;
+    }
+
+    public static IEnumerable<IType> GetInterfaceTypes(this IType type) {
+      return type.DirectBaseTypes.Where(i => i.Kind == TypeKind.Interface);
+    }
+
+    public static bool IsSubclassOf(this IType child, IType parent) {
+      if (parent.IsObject()) {
+        return true;
+      }
+
+      var p = child;
+      if (p.Equals(parent)) {
+        return false;
+      }
+
+      while (p != null) {
+        if (p.Equals(parent)) {
+          return true;
+        }
+        p = p.GetBaseType();
+      }
+      return false;
+    }
+
+    private static bool IsImplementInterface(this IType implementType, IType interfaceType) {
+      Contract.Assert(interfaceType.Kind == TypeKind.Interface);
+
+      var t = implementType;
+      while (t != null) {
+        var interfaces = implementType.GetInterfaceTypes();
+        foreach (var i in interfaces) {
+          if (i.Equals(interfaceType) || i.IsImplementInterface(interfaceType)) {
+            return true;
+          }
+        }
+        t = t.GetBaseType();
+      }
+      return false;
+    }
+
+    public static bool Is(this IType left, IType right) {
+      if (left.Equals(right)) {
+        return true;
+      }
+
+      if (left.IsSubclassOf(right)) {
+        return true;
+      }
+
+      if (right.Kind == TypeKind.Interface) {
+        return left.IsImplementInterface(right);
+      }
+
+      return false;
+    }
+
   }
 }
