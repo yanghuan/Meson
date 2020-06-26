@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.Contracts;
 using System.Text;
 using System.Linq;
 
@@ -87,7 +88,25 @@ namespace Meson.Compiler {
     public IdentifierSyntax GetMemberName(ISymbol symbol) {
       var name = memberNames_.GetOrDefault(symbol);
       if (name == null) {
-        name = new SymbolNameSyntax(symbol.Name);
+        string symbolName = symbol.Name;
+        switch (symbol.SymbolKind) {
+          case SymbolKind.Accessor: {
+              var method = (IMethod)symbol;
+              if (method.IsExplicitInterfaceImplementation) {
+                int pos = symbolName.LastIndexOf('.');
+                Contract.Assert(pos != -1);
+                string propertyName = symbolName.Substring(pos + 1);
+                if (method.DeclaringTypeDefinition.Properties.Any(i => i.Getter?.Name == propertyName || i.Setter?.Name == propertyName)) {
+                  string prefix = symbolName.Substring(0, pos).RemoveSpeacialChars();
+                  symbolName = prefix + '_' + propertyName;
+                } else {
+                  symbolName = propertyName;
+                }
+              }
+              break;
+            }
+        }
+        name = new SymbolNameSyntax(symbolName);
         memberNames_.Add(symbol, name);
         CheckMemberBadName(symbol, name);
       }

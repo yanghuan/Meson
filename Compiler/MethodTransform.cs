@@ -16,9 +16,9 @@ namespace Meson.Compiler {
       //"System.Console.WriteLine",
     };
 
-    private TypeDefinitionTransform typeDefinition_;
-    private ClassSyntax classNode_;
-    private Stack<IMethod> methodSymbols_ = new Stack<IMethod>();
+    private readonly TypeDefinitionTransform typeDefinition_;
+    private readonly ClassSyntax classNode_;
+    private readonly Stack<IMethod> methodSymbols_ = new Stack<IMethod>();
     private readonly Stack<BlockSyntax> blocks_ = new Stack<BlockSyntax>();
 
     public MethodTransform(TypeDefinitionTransform typeDefinition, IMethod methodSymbol, ClassSyntax classNode) {
@@ -33,9 +33,7 @@ namespace Meson.Compiler {
     private IMethod MethodSymbol => methodSymbols_.Peek();
     private BlockSyntax Block => blocks_.Peek();
     private IdentifierSyntax GetMemberName(ISymbol symbol) => Generator.GetMemberName(symbol);
-    private ExpressionSyntax GetTypeName(IType type, ITypeDefinition typeDefinition, ISymbol symbol) => typeDefinition_.GetTypeName(type, typeDefinition, symbol);
-    private ExpressionSyntax GetTypeName(IType type, ISymbol symbol) => GetTypeName(type, MethodSymbol.DeclaringTypeDefinition, symbol);
-    private ExpressionSyntax GetTypeName(IType type) => GetTypeName(type, null);
+    private ExpressionSyntax GetTypeName(IType type, ISymbol symbol = null, bool isInDelaring = true) => typeDefinition_.GetTypeName(type, isInDelaring ? MethodSymbol.DeclaringTypeDefinition : null, symbol);
 
     private void Visit(IMethod methodSymbol) {
       if (methodSymbol.HasBody) {
@@ -60,7 +58,7 @@ namespace Meson.Compiler {
     private void InsetMainFuntion(IMethod methodSymbol, MethodImplementationSyntax method) {
       var typeDefinition = methodSymbol.DeclaringTypeDefinition;
       IdentifierSyntax ns = typeDefinition.GetFullNamespace();
-      var typeName = GetTypeName(typeDefinition, null, typeDefinition);
+      var typeName = GetTypeName(typeDefinition, typeDefinition, false);
       if (typeDefinition.IsRefType()) {
         typeName = typeName.TwoColon(IdentifierSyntax.In);
       }
@@ -518,7 +516,7 @@ namespace Meson.Compiler {
           type = new PointerIdentifierSyntax(type);
         }
       } else {
-        type = GetTypeName(parameter.Type, typeDefinition, parameter);
+        type = GetTypeName(parameter.Type, parameter);
         TypeDefinitionTransform.CheckParameterTypeConflict(ref type, parameter, method, typeDefinition);
       }
       var name = GetMemberName(parameter);
@@ -559,7 +557,7 @@ namespace Meson.Compiler {
       var parameters = method.Parameters.Select(i => GetParameterSyntax(i, method));
       var name = GetMemberName(MethodSymbol);
       var declaringType = GetDeclaringType(method.DeclaringTypeDefinition);
-      var returnType = GetTypeName(method.ReturnType, null, method);
+      var returnType = GetTypeName(method.ReturnType, method, false);
       MethodImplementationSyntax node = new MethodImplementationSyntax(name, returnType, parameters, declaringType);
       if (methodDeclaration != null) {
         var block = methodDeclaration.Body.Accept<BlockSyntax>(this);

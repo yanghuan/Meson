@@ -600,5 +600,19 @@ namespace Meson.Compiler {
       return false;
     }
 
+    public static bool IsOverridable(this IProperty symbol) {
+      return !symbol.IsStatic && (symbol.IsAbstract || symbol.IsVirtual || symbol.IsOverride);
+    }
+
+    public static bool IsPropertyField(this IProperty property) {
+      if (property.IsOverridable()) {
+        return false;
+      }
+      return property.Getter?.GetAttribute(KnownAttribute.CompilerGenerated) != null;
+    }
+
+    public static string RemoveSpeacialChars(this string name) {
+      return name.Replace(".", "").Replace("<", "").Replace(">", "").Replace(",", "");
+    }
   }
 }

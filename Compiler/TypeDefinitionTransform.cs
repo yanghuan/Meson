@@ -153,15 +153,19 @@ namespace Meson.Compiler {
       return true;
     }
 
+    private void VisitMethod(IMethod method, ITypeDefinition typeDefinition, ClassSyntax node) {
+      var parameters = method.Parameters.Select(i => GetParameterSyntax(i, method, typeDefinition)).ToList();
+      var methodName = Generator.GetMemberName(method);
+      var returnType = GetRetuenTypeSyntax(method, typeDefinition);
+      node.Statements.Add(new MethodDefinitionSyntax(returnType, methodName, parameters, method.IsStatic, !method.IsMainEntryPoint() ? method.Accessibility.ToTokenString() : Tokens.Public));
+      if (typeDefinition.TypeParameterCount == 0) {
+        new MethodTransform(this, method, node);
+      }
+    }
+
     private void VisitMethods(ITypeDefinition typeDefinition, ClassSyntax node) {
       foreach (var method in typeDefinition.Methods.Where(IsExportMethod)) {
-        var parameters = method.Parameters.Select(i => GetParameterSyntax(i, method, typeDefinition)).ToList();
-        var methodName = Generator.GetMemberName(method);
-        var returnType = GetRetuenTypeSyntax(method, typeDefinition);
-        node.Statements.Add(new MethodDefinitionSyntax(returnType, methodName, parameters, method.IsStatic, !method.IsMainEntryPoint() ? method.Accessibility.ToTokenString() : Tokens.Public));
-        if (typeDefinition.TypeParameterCount == 0) {
-          new MethodTransform(this, method, node);
-        }
+        VisitMethod(method, typeDefinition, node);
       }
     }
 
@@ -532,8 +536,22 @@ namespace Meson.Compiler {
       }
     }
 
+    private void VisitPropertys(ITypeDefinition typeDefinition, ClassSyntax node) {
+      foreach (var property in typeDefinition.Properties) {
+        if (!property.IsPropertyField()) {
+          if (property.CanGet) {
+            VisitMethod(property.Getter, typeDefinition, node);
+          }
+          if (property.CanSet) {
+            VisitMethod(property.Setter, typeDefinition, node);
+          }
+        }
+      }
+    }
+
     private void VisitMembers(ITypeDefinition type, ClassSyntax node) {
       VisitTypes(type, node);
+      //VisitPropertys(type, node);
       VisitMethods(type, node);
       VisitFields(type, node);
     }
