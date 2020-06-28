@@ -93,15 +93,13 @@ namespace Meson.Compiler {
           case SymbolKind.Accessor: {
               var method = (IMethod)symbol;
               if (method.IsExplicitInterfaceImplementation) {
-                int pos = symbolName.LastIndexOf('.');
-                Contract.Assert(pos != -1);
-                string propertyName = symbolName.Substring(pos + 1);
-                if (method.DeclaringTypeDefinition.Properties.Any(i => i.Getter?.Name == propertyName || i.Setter?.Name == propertyName)) {
-                  string prefix = symbolName.Substring(0, pos).RemoveSpeacialChars();
-                  symbolName = prefix + '_' + propertyName;
-                } else {
-                  symbolName = propertyName;
-                }
+                int i = symbolName.LastIndexOf('.');
+                Contract.Assert(i != -1);
+                string propertyName = symbolName.Substring(i + 1);
+                int j = symbolName.LastIndexOf('.', i - 1);
+                Contract.Assert(j != -1);
+                string prefix = symbolName.Substring(j + 1, i - j - 1);
+                symbolName = $"{propertyName}Of{prefix.RemoveSpeacialChars()}";
               }
               break;
             }
