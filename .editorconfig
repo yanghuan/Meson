@@ -8,7 +8,7 @@ root = true
 indent_style = space
 
 # Code files
-[*.{cs,csx,vb,vbx,lua}]
+[*.{cs,csx,h,cpp,hpp,lua}]
 indent_size = 2
 insert_final_newline = true
 charset = utf-8
