@@ -17,8 +17,8 @@
 namespace System::Private::CoreLib::System {
 FORWARDS(Boolean)
 FORWARDS(DateTime)
-FORWARD(String)
 FORWARD(Object)
+FORWARD(String)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Runtime::InteropServices {
 enum class VarEnum;

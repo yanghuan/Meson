@@ -5,8 +5,8 @@
 #include <System.Private.CoreLib/System/Text/Rune.h>
 
 namespace System::Private::CoreLib::System {
-FORWARD(Object)
 FORWARDS(Boolean)
+FORWARD(Object)
 FORWARD(String)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Text {

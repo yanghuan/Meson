@@ -4,14 +4,14 @@
 #include <System.Private.CoreLib/System/Int32.h>
 
 namespace System::Private::CoreLib::System {
-FORWARD(String)
 FORWARD_(Array, T1, T2)
-FORWARDS(Char)
 FORWARDS(Byte)
+FORWARDS(Char)
+FORWARD(String)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Text {
-FORWARD(Encoder)
 FORWARD(Decoder)
+FORWARD(Encoder)
 } // namespace System::Private::CoreLib::System::Text
 namespace System::Console::System::Text {
 namespace OSEncodingNamespace {

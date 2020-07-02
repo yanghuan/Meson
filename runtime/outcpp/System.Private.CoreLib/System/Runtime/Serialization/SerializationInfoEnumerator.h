@@ -5,10 +5,10 @@
 #include <System.Private.CoreLib/System/Int32.h>
 
 namespace System::Private::CoreLib::System {
+FORWARD_(Array, T1, T2)
 FORWARD(Object)
 FORWARD(String)
 FORWARD(Type)
-FORWARD_(Array, T1, T2)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Runtime::Serialization {
 FORWARDS(SerializationEntry)

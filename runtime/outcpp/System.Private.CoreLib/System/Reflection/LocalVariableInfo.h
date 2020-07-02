@@ -3,10 +3,10 @@
 #include <rt/GCObject.h>
 
 namespace System::Private::CoreLib::System {
-FORWARD(Type)
-FORWARDS(Int32)
 FORWARDS(Boolean)
+FORWARDS(Int32)
 FORWARD(String)
+FORWARD(Type)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Reflection {
 namespace LocalVariableInfoNamespace {

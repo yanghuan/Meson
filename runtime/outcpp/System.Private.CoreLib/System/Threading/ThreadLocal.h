@@ -10,13 +10,13 @@ FORWARD_(Func, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10)
 FORWARD(String)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Collections::Generic {
-FORWARD(List, T)
 FORWARD(IList, T)
+FORWARD(List, T)
 } // namespace System::Private::CoreLib::System::Collections::Generic
 namespace System::Private::CoreLib::System::Threading {
 namespace ThreadLocalNamespace {
 using namespace ::System::Private::CoreLib::System::Collections::Generic;
-using System::Collections::Generic::IList;
+using ::System::Private::CoreLib::System::Collections::Generic::IList;
 CLASS(ThreadLocal, T) {
   private: FORWARDN(LinkedSlot)
   private: struct LinkedSlotVolatile {

@@ -6,23 +6,23 @@
 
 namespace System::Private::CoreLib::System {
 FORWARD_(Array, T1, T2)
-FORWARDS(Byte)
-FORWARD(Object)
 FORWARD(AsyncCallback)
-FORWARDS(Int64)
+FORWARDS(Byte)
 FORWARD(IAsyncResult)
-FORWARDS(Span, T)
+FORWARDS(Int64)
 FORWARDS(Memory, T)
-FORWARDS(ReadOnlySpan, T)
+FORWARD(Object)
 FORWARDS(ReadOnlyMemory, T)
+FORWARDS(ReadOnlySpan, T)
+FORWARDS(Span, T)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Threading {
-FORWARD(ExecutionContext)
-FORWARD_(ContextCallback, T1, T2)
 FORWARDS(CancellationToken)
-FORWARD(WaitHandle)
+FORWARD_(ContextCallback, T1, T2)
+FORWARD(ExecutionContext)
 FORWARD(ManualResetEvent)
 FORWARD(SemaphoreSlim)
+FORWARD(WaitHandle)
 } // namespace System::Private::CoreLib::System::Threading
 namespace System::Private::CoreLib::System::Threading::Tasks {
 FORWARD_(Task, T1, T2)

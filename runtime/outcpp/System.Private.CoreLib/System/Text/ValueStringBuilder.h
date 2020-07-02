@@ -6,10 +6,10 @@
 #include <System.Private.CoreLib/System/Span.h>
 
 namespace System::Private::CoreLib::System {
-FORWARD(String)
+FORWARD_(Array, T1, T2)
 FORWARDS(Boolean)
 FORWARDS(ReadOnlySpan, T)
-FORWARD_(Array, T1, T2)
+FORWARD(String)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Text {
 namespace ValueStringBuilderNamespace {

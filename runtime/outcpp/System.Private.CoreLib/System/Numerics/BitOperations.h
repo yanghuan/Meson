@@ -3,12 +3,12 @@
 #include <rt/GCObject.h>
 
 namespace System::Private::CoreLib::System {
-FORWARDS(ReadOnlySpan, T)
 FORWARDS(Byte)
-FORWARDS(UInt32)
 FORWARDS(Int32)
-FORWARDS(UInt64)
 FORWARDS(Int64)
+FORWARDS(ReadOnlySpan, T)
+FORWARDS(UInt32)
+FORWARDS(UInt64)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Numerics {
 namespace BitOperationsNamespace {

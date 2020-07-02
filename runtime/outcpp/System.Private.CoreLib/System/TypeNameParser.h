@@ -7,8 +7,8 @@ FORWARDS(ObjectHandleOnStack)
 FORWARDS(StringHandleOnStack)
 } // namespace System::Private::CoreLib::System::Runtime::CompilerServices
 namespace System::Private::CoreLib::System::Reflection {
-FORWARD(AssemblyName)
 FORWARD(Assembly)
+FORWARD(AssemblyName)
 } // namespace System::Private::CoreLib::System::Reflection
 namespace System::Private::CoreLib::System::Threading {
 enum class StackCrawlMark;

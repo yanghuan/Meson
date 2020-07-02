@@ -4,8 +4,8 @@
 
 namespace System::Private::CoreLib::System {
 FORWARDS(Byte)
-FORWARDS(UInt64)
 FORWARDS(IntPtr)
+FORWARDS(UInt64)
 FORWARDS(UIntPtr)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Runtime {

@@ -3,9 +3,9 @@
 #include <rt/GCObject.h>
 
 namespace System::Private::CoreLib::System {
-FORWARD(String)
 FORWARDS(Char)
 FORWARDS(Int32)
+FORWARD(String)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Runtime::Loader {
 FORWARD(AssemblyLoadContext)

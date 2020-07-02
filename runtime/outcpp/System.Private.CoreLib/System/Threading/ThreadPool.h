@@ -4,14 +4,14 @@
 #include <System.Private.CoreLib/Interop.h>
 
 namespace System::Private::CoreLib::System {
+FORWARD_(Array, T1, T2)
+FORWARDS(Boolean)
 FORWARDS(Int32)
 FORWARDS(Int64)
-FORWARDS(Boolean)
-FORWARD(Object)
-FORWARDS(UInt32)
 FORWARDS(IntPtr)
+FORWARD(Object)
 FORWARDS(TimeSpan)
-FORWARD_(Array, T1, T2)
+FORWARDS(UInt32)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Runtime::InteropServices {
 FORWARD(SafeHandle)

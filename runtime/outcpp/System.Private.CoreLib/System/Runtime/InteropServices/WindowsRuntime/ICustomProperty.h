@@ -3,10 +3,10 @@
 #include <rt/GCObject.h>
 
 namespace System::Private::CoreLib::System {
-FORWARD(Type)
-FORWARD(String)
 FORWARDS(Boolean)
 FORWARD(Object)
+FORWARD(String)
+FORWARD(Type)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Runtime::InteropServices::WindowsRuntime {
 namespace ICustomPropertyNamespace {

@@ -3,9 +3,9 @@
 #include <rt/GCObject.h>
 
 namespace System::Private::CoreLib::System {
-FORWARDS(Guid)
 FORWARD_(Array, T1, T2)
 FORWARDS(Byte)
+FORWARDS(Guid)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Diagnostics::SymbolStore {
 namespace ISymbolDocumentWriterNamespace {

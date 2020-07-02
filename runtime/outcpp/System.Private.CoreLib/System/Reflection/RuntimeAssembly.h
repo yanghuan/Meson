@@ -5,17 +5,17 @@
 #include <System.Private.CoreLib/System/IntPtr.h>
 
 namespace System::Private::CoreLib::System {
+FORWARD_(Array, T1, T2)
+FORWARDS(Boolean)
+FORWARDS(Byte)
+FORWARD(Exception)
+FORWARDS(Int32)
+FORWARDS(Int64)
 FORWARD(Object)
 FORWARD(String)
-FORWARDS(Boolean)
-FORWARDS(Int64)
 FORWARD(Type)
-FORWARD_(Array, T1, T2)
 FORWARDS(UInt32)
-FORWARDS(Byte)
-FORWARDS(Int32)
 FORWARD(Version)
-FORWARD(Exception)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Collections::Generic {
 FORWARD(IEnumerable, T)
@@ -23,13 +23,13 @@ FORWARD(IList, T)
 FORWARD(List, T)
 } // namespace System::Private::CoreLib::System::Collections::Generic
 namespace System::Private::CoreLib::System::Runtime::CompilerServices {
+FORWARDS(ObjectHandleOnStack)
 FORWARDS(QCallAssembly)
 FORWARDS(StringHandleOnStack)
-FORWARDS(ObjectHandleOnStack)
 } // namespace System::Private::CoreLib::System::Runtime::CompilerServices
 namespace System::Private::CoreLib::System::IO {
-FORWARD(Stream)
 FORWARD(FileStream)
+FORWARD(Stream)
 } // namespace System::Private::CoreLib::System::IO
 namespace System::Private::CoreLib::System::Runtime::Serialization {
 FORWARD(SerializationInfo)
@@ -68,7 +68,7 @@ using namespace ::System::Private::CoreLib::System::Runtime::CompilerServices;
 using namespace ::System::Private::CoreLib::System::Runtime::Loader;
 using namespace ::System::Private::CoreLib::System::Runtime::Serialization;
 using namespace ::System::Private::CoreLib::System::Threading;
-using System::Collections::Generic::IList;
+using ::System::Private::CoreLib::System::Collections::Generic::IList;
 CLASS(RuntimeAssembly) {
   private: CLASS(ManifestResourceStream) {
     private: RuntimeAssembly _manifestAssembly;

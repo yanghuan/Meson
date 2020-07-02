@@ -3,12 +3,12 @@
 #include <rt/GCObject.h>
 
 namespace System::Private::CoreLib::System {
-FORWARDS(Int64)
-FORWARD(Object)
-FORWARDS(UInt32)
 FORWARDS(Boolean)
 FORWARDS(Int32)
+FORWARDS(Int64)
+FORWARD(Object)
 FORWARDS(TimeSpan)
+FORWARDS(UInt32)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Threading::Tasks {
 FORWARDS_(ValueTask, T1, T2)

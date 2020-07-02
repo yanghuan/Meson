@@ -4,11 +4,11 @@
 #include <System.Private.CoreLib/System/Int32.h>
 
 namespace System::Private::CoreLib::System {
-FORWARDS(Int16)
-FORWARD(String)
-FORWARDS(Boolean)
-FORWARD(Object)
 FORWARD_(Array, T1, T2)
+FORWARDS(Boolean)
+FORWARDS(Int16)
+FORWARD(Object)
+FORWARD(String)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Reflection::Emit {
 enum class OperandType;

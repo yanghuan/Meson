@@ -11,17 +11,17 @@
 #include <System.Private.CoreLib/System/UInt64.h>
 
 namespace System::Private::CoreLib::System::Collections::Generic {
-FORWARD(List, T)
 FORWARD(IDictionary, TKey, TValue)
+FORWARD(List, T)
 } // namespace System::Private::CoreLib::System::Collections::Generic
 namespace System::Private::CoreLib::System {
-FORWARD(AsyncCallback)
-FORWARD(Object)
-FORWARD(IAsyncResult)
-FORWARD(String)
 FORWARD_(Array, T1, T2)
-FORWARD_(Tuple, T1, T2, T3, T4, T5, T6, T7, T8, T9)
+FORWARD(AsyncCallback)
+FORWARD(IAsyncResult)
 FORWARDS(IntPtr)
+FORWARD(Object)
+FORWARD(String)
+FORWARD_(Tuple, T1, T2, T3, T4, T5, T6, T7, T8, T9)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Diagnostics::Tracing {
 enum class EventLevel;

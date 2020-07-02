@@ -7,8 +7,8 @@ FORWARD(SerializationInfo)
 FORWARDS(StreamingContext)
 } // namespace System::Private::CoreLib::System::Runtime::Serialization
 namespace System::Private::CoreLib::System {
-FORWARD(Object)
 FORWARDS(Int32)
+FORWARD(Object)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Globalization {
 FORWARD(CompareInfo)

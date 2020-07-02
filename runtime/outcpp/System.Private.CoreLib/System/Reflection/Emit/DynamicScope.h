@@ -3,14 +3,14 @@
 #include <rt/GCObject.h>
 
 namespace System::Private::CoreLib::System {
-FORWARDS(Int32)
-FORWARD(Object)
-FORWARD(String)
 FORWARD_(Array, T1, T2)
 FORWARDS(Byte)
+FORWARDS(Int32)
+FORWARD(Object)
+FORWARDS(RuntimeFieldHandle)
 FORWARDS(RuntimeMethodHandle)
 FORWARDS(RuntimeTypeHandle)
-FORWARDS(RuntimeFieldHandle)
+FORWARD(String)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Collections::Generic {
 FORWARD(List, T)

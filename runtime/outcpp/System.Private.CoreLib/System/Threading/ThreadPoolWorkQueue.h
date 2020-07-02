@@ -7,9 +7,9 @@
 #include <System.Private.CoreLib/System/Threading/SpinLock.h>
 
 namespace System::Private::CoreLib::System {
-FORWARD(Object)
 FORWARD_(Array, T1, T2)
 FORWARDS(Int64)
+FORWARD(Object)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Collections::Concurrent {
 FORWARD(ConcurrentQueue, T)

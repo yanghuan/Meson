@@ -3,8 +3,8 @@
 #include <rt/GCObject.h>
 
 namespace System::Private::CoreLib::System::Reflection {
-enum class BindingFlags;
 FORWARD(Binder)
+enum class BindingFlags;
 } // namespace System::Private::CoreLib::System::Reflection
 namespace System::Private::CoreLib::System::Globalization {
 FORWARD(CultureInfo)

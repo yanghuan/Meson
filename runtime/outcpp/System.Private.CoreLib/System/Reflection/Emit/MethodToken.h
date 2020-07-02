@@ -3,9 +3,9 @@
 #include <rt/GCObject.h>
 
 namespace System::Private::CoreLib::System {
+FORWARDS(Boolean)
 FORWARDS(Int32)
 FORWARD(Object)
-FORWARDS(Boolean)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Reflection::Emit {
 namespace MethodTokenNamespace {

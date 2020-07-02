@@ -3,12 +3,12 @@
 #include <rt/GCObject.h>
 
 namespace System::Private::CoreLib::System {
-FORWARD(Object)
-FORWARDS(Int32)
-FORWARD(String)
-FORWARDS(Boolean)
 FORWARD_(Array, T1, T2)
+FORWARDS(Boolean)
 FORWARDS(Byte)
+FORWARDS(Int32)
+FORWARD(Object)
+FORWARD(String)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Resources {
 namespace FastResourceComparerNamespace {

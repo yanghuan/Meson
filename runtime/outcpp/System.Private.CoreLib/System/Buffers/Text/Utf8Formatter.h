@@ -6,22 +6,22 @@
 #include <System.Private.CoreLib/System/Number.h>
 
 namespace System::Private::CoreLib::System {
+FORWARD_(Array, T1, T2)
 FORWARDS(Boolean)
-FORWARDS(Span, T)
-FORWARDS(Int32)
-FORWARDS(DateTimeOffset)
 FORWARDS(DateTime)
-FORWARDS(TimeSpan)
+FORWARDS(DateTimeOffset)
 FORWARDS(Decimal)
 FORWARDS(Double)
-FORWARDS(Single)
-FORWARDS(SByte)
-FORWARDS(UInt16)
 FORWARDS(Int16)
+FORWARDS(Int32)
+FORWARDS(Int64)
+FORWARDS(SByte)
+FORWARDS(Single)
+FORWARDS(Span, T)
+FORWARDS(TimeSpan)
+FORWARDS(UInt16)
 FORWARDS(UInt32)
 FORWARDS(UInt64)
-FORWARDS(Int64)
-FORWARD_(Array, T1, T2)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Buffers {
 FORWARDS(StandardFormat)

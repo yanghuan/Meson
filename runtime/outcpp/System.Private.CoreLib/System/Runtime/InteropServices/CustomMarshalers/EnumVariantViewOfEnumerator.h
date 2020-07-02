@@ -6,10 +6,10 @@ namespace System::Private::CoreLib::System::Runtime::InteropServices::ComTypes {
 FORWARD(IEnumVARIANT)
 } // namespace System::Private::CoreLib::System::Runtime::InteropServices::ComTypes
 namespace System::Private::CoreLib::System {
-FORWARDS(Int32)
 FORWARD_(Array, T1, T2)
-FORWARD(Object)
+FORWARDS(Int32)
 FORWARDS(IntPtr)
+FORWARD(Object)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Runtime::InteropServices::CustomMarshalers {
 namespace EnumVariantViewOfEnumeratorNamespace {

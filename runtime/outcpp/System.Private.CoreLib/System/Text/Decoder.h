@@ -3,12 +3,12 @@
 #include <rt/GCObject.h>
 
 namespace System::Private::CoreLib::System {
-FORWARDS(Boolean)
 FORWARD_(Array, T1, T2)
+FORWARDS(Boolean)
 FORWARDS(Byte)
+FORWARDS(Char)
 FORWARDS(Int32)
 FORWARDS(ReadOnlySpan, T)
-FORWARDS(Char)
 FORWARDS(Span, T)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Text {

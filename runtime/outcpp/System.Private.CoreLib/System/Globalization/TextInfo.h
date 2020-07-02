@@ -5,12 +5,12 @@
 #include <System.Private.CoreLib/System/IntPtr.h>
 
 namespace System::Private::CoreLib::System {
-FORWARDS(Int32)
-FORWARD(String)
-FORWARD(Object)
 FORWARDS(Char)
+FORWARDS(Int32)
+FORWARD(Object)
 FORWARDS(ReadOnlySpan, T)
 FORWARDS(Span, T)
+FORWARD(String)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Text {
 FORWARD(StringBuilder)

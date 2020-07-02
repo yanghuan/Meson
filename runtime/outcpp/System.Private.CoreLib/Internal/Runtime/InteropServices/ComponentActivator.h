@@ -3,13 +3,13 @@
 #include <rt/GCObject.h>
 
 namespace System::Private::CoreLib::System {
-FORWARDS(IntPtr)
-FORWARDS(Int32)
 FORWARD(AsyncCallback)
-FORWARD(Object)
-FORWARD(IAsyncResult)
-FORWARD(String)
 FORWARD(Delegate)
+FORWARD(IAsyncResult)
+FORWARDS(Int32)
+FORWARDS(IntPtr)
+FORWARD(Object)
+FORWARD(String)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Collections::Generic {
 FORWARD(Dictionary, TKey, TValue)

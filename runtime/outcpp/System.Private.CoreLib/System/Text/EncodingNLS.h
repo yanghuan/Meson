@@ -4,10 +4,10 @@
 
 namespace System::Private::CoreLib::System {
 FORWARD_(Array, T1, T2)
+FORWARDS(Byte)
 FORWARDS(Char)
 FORWARDS(Int32)
 FORWARD(String)
-FORWARDS(Byte)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Text {
 FORWARD(Decoder)

@@ -6,24 +6,24 @@
 #include <System.Private.CoreLib/System/UInt32.h>
 
 namespace System::Private::CoreLib::System {
-FORWARDS(ReadOnlySpan, T)
+FORWARD_(Array, T1, T2)
 FORWARDS(Byte)
-FORWARDS(Int32)
 FORWARDS(Char)
 FORWARDS(DateTime)
-FORWARDS(DateTimeOffset)
 enum class DateTimeKind;
+FORWARDS(DateTimeOffset)
 FORWARDS(Decimal)
-FORWARDS(Single)
 FORWARDS(Double)
 FORWARDS(Guid)
-FORWARDS(SByte)
 FORWARDS(Int16)
+FORWARDS(Int32)
 FORWARDS(Int64)
+FORWARDS(ReadOnlySpan, T)
+FORWARDS(SByte)
+FORWARDS(Single)
+FORWARDS(TimeSpan)
 FORWARDS(UInt16)
 FORWARDS(UInt64)
-FORWARDS(TimeSpan)
-FORWARD_(Array, T1, T2)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Buffers::Text {
 namespace Utf8ParserNamespace {

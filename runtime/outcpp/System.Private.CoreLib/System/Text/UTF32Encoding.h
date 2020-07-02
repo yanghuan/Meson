@@ -5,13 +5,13 @@
 #include <System.Private.CoreLib/System/Int32.h>
 
 namespace System::Private::CoreLib::System {
-FORWARDS(ReadOnlySpan, T)
-FORWARDS(Byte)
 FORWARD_(Array, T1, T2)
+FORWARDS(Byte)
 FORWARDS(Char)
+FORWARD(Object)
+FORWARDS(ReadOnlySpan, T)
 FORWARD(String)
 FORWARDS(UInt32)
-FORWARD(Object)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Text {
 FORWARD(EncoderNLS)

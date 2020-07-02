@@ -3,11 +3,11 @@
 #include <rt/GCObject.h>
 
 namespace System::Private::CoreLib::System {
-FORWARDS(Boolean)
 FORWARD_(Array, T1, T2)
-FORWARD(Type)
+FORWARDS(Boolean)
 FORWARDS(Int32)
 FORWARD(String)
+FORWARD(Type)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Reflection {
 FORWARD(SignatureType)

@@ -3,8 +3,8 @@
 #include <rt/GCObject.h>
 
 namespace System::Private::CoreLib::System {
-FORWARD(String)
 FORWARDS(Int32)
+FORWARD(String)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Runtime::CompilerServices {
 FORWARDS(StringHandleOnStack)

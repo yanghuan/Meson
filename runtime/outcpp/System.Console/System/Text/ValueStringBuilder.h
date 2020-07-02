@@ -6,8 +6,8 @@
 #include <System.Private.CoreLib/System/Span.h>
 
 namespace System::Private::CoreLib::System {
-FORWARD(String)
 FORWARD_(Array, T1, T2)
+FORWARD(String)
 } // namespace System::Private::CoreLib::System
 namespace System::Console::System::Text {
 namespace ValueStringBuilderNamespace {

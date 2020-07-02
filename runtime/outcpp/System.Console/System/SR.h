@@ -6,9 +6,9 @@ namespace System::Private::CoreLib::System::Resources {
 FORWARD(ResourceManager)
 } // namespace System::Private::CoreLib::System::Resources
 namespace System::Private::CoreLib::System {
-FORWARD(String)
 FORWARDS(Boolean)
 FORWARD(Object)
+FORWARD(String)
 } // namespace System::Private::CoreLib::System
 namespace System::Console::System {
 namespace SRNamespace {

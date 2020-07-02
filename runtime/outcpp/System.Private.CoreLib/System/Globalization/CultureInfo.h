@@ -4,15 +4,15 @@
 #include <System.Private.CoreLib/System/Boolean.h>
 
 namespace System::Private::CoreLib::System {
-FORWARDS(Int32)
-FORWARD(String)
 FORWARD_(Array, T1, T2)
+FORWARDS(Int32)
 FORWARD(Object)
+FORWARD(String)
 FORWARD(Type)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Threading {
-FORWARDS(AsyncLocalValueChangedArgs, T)
 FORWARD(AsyncLocal, T)
+FORWARDS(AsyncLocalValueChangedArgs, T)
 } // namespace System::Private::CoreLib::System::Threading
 namespace System::Private::CoreLib::System::Collections::Generic {
 FORWARD(Dictionary, TKey, TValue)

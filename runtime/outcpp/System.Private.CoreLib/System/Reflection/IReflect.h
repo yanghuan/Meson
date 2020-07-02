@@ -3,10 +3,10 @@
 #include <rt/GCObject.h>
 
 namespace System::Private::CoreLib::System {
-FORWARD(Type)
-FORWARD(String)
 FORWARD_(Array, T1, T2)
 FORWARD(Object)
+FORWARD(String)
+FORWARD(Type)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Globalization {
 FORWARD(CultureInfo)

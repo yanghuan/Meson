@@ -3,10 +3,10 @@
 #include <rt/GCObject.h>
 
 namespace System::Private::CoreLib::System {
-FORWARDS(IntPtr)
-FORWARD(String)
 FORWARDS(Char)
 FORWARDS(Int32)
+FORWARDS(IntPtr)
+FORWARD(String)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::StubHelpers {
 namespace UriMarshalerNamespace {

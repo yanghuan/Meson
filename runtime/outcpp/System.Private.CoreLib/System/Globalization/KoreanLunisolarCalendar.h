@@ -3,9 +3,9 @@
 #include <rt/GCObject.h>
 
 namespace System::Private::CoreLib::System {
+FORWARD_(Array, T1, T2)
 FORWARDS(DateTime)
 FORWARDS(Int32)
-FORWARD_(Array, T1, T2)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Globalization {
 FORWARD(EraInfo)

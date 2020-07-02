@@ -3,8 +3,8 @@
 #include <rt/GCObject.h>
 
 namespace System::Private::CoreLib::System {
-FORWARDS(Boolean)
 FORWARD_(Array, T1, T2)
+FORWARDS(Boolean)
 FORWARDS(Int32)
 FORWARD(Object)
 } // namespace System::Private::CoreLib::System

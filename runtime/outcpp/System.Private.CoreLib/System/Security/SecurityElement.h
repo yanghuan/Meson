@@ -3,17 +3,17 @@
 #include <rt/GCObject.h>
 
 namespace System::Private::CoreLib::System {
-FORWARD(String)
+FORWARD_(Action, T1, T2, T3, T4, T5, T6, T7, T8, T9)
+FORWARD_(Array, T1, T2)
 FORWARDS(Boolean)
 FORWARDS(Char)
 FORWARDS(Int32)
 FORWARD(Object)
-FORWARD_(Action, T1, T2, T3, T4, T5, T6, T7, T8, T9)
-FORWARD_(Array, T1, T2)
+FORWARD(String)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Collections {
-FORWARD(Hashtable)
 FORWARD(ArrayList)
+FORWARD(Hashtable)
 } // namespace System::Private::CoreLib::System::Collections
 namespace System::Private::CoreLib::System::Security {
 namespace SecurityElementNamespace {

@@ -5,8 +5,8 @@
 #include <System.Private.CoreLib/System/Int16.h>
 
 namespace System::Private::CoreLib::System {
-FORWARD(Exception)
 FORWARD_(Action, T1, T2, T3, T4, T5, T6, T7, T8, T9)
+FORWARD(Exception)
 FORWARD(Object)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Threading {

@@ -3,14 +3,14 @@
 #include <rt/GCObject.h>
 
 namespace System::Private::CoreLib::System {
-FORWARDS(Boolean)
 FORWARD_(Array, T1, T2)
-FORWARD(Type)
-FORWARDS(Int32)
-FORWARD(String)
+FORWARDS(Boolean)
 FORWARDS(Guid)
-FORWARDS(RuntimeTypeHandle)
+FORWARDS(Int32)
 FORWARD(Object)
+FORWARDS(RuntimeTypeHandle)
+FORWARD(String)
+FORWARD(Type)
 enum class TypeCode;
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Collections::Generic {
@@ -48,7 +48,7 @@ namespace SignatureTypeNamespace {
 using namespace ::System::Private::CoreLib::System::Collections::Generic;
 using namespace ::System::Private::CoreLib::System::Globalization;
 using namespace ::System::Private::CoreLib::System::Runtime::InteropServices;
-using System::Collections::Generic::IList;
+using ::System::Private::CoreLib::System::Collections::Generic::IList;
 CLASS(SignatureType) {
   public: Boolean get_IsSignatureType();
   public: Boolean get_IsTypeDefinition();

@@ -6,28 +6,28 @@
 #include <System.Private.CoreLib/System/Threading/CancellationTokenRegistration.h>
 
 namespace System::Private::CoreLib::System::Threading {
+FORWARD_(ContextCallback, T1, T2)
 FORWARD(ExecutionContext)
 FORWARD(ManualResetEventSlim)
 FORWARD(TimerQueueTimer)
 FORWARD(WaitHandle)
-FORWARD_(ContextCallback, T1, T2)
 } // namespace System::Private::CoreLib::System::Threading
 namespace System::Private::CoreLib::System::Runtime::CompilerServices {
 FORWARD(StrongBox, T)
 } // namespace System::Private::CoreLib::System::Runtime::CompilerServices
 namespace System::Private::CoreLib::System::Collections::Generic {
-FORWARD(List, T)
 FORWARD(Dictionary, TKey, TValue)
+FORWARD(List, T)
 } // namespace System::Private::CoreLib::System::Collections::Generic
 namespace System::Private::CoreLib::System {
-FORWARDS(Boolean)
-FORWARD_(Array, T1, T2)
-FORWARD(String)
-FORWARDS_(Nullable, T1, T2)
 FORWARD(AggregateException)
-FORWARD(Object)
+FORWARD_(Array, T1, T2)
+FORWARDS(Boolean)
 FORWARD(Delegate)
 FORWARD_(Func, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10)
+FORWARDS_(Nullable, T1, T2)
+FORWARD(Object)
+FORWARD(String)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Threading::Tasks {
 FORWARD(TaskExceptionHolder)

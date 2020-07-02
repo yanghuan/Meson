@@ -4,11 +4,11 @@
 #include <System.Private.CoreLib/System/Int32.h>
 
 namespace System::Private::CoreLib::System {
-FORWARD(String)
-FORWARD(Type)
+FORWARD_(Array, T1, T2)
 FORWARDS(Boolean)
 FORWARD(Object)
-FORWARD_(Array, T1, T2)
+FORWARD(String)
+FORWARD(Type)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Collections::Generic {
 FORWARD(IEnumerable, T)
@@ -24,7 +24,7 @@ FORWARD(CustomAttributeData)
 namespace ParameterInfoNamespace {
 using namespace ::System::Private::CoreLib::System::Collections::Generic;
 using namespace ::System::Private::CoreLib::System::Runtime::Serialization;
-using System::Collections::Generic::IList;
+using ::System::Private::CoreLib::System::Collections::Generic::IList;
 CLASS(ParameterInfo) {
   public: ParameterAttributes get_Attributes();
   public: MemberInfo get_Member();

@@ -7,17 +7,17 @@
 
 namespace System::Private::CoreLib::System::Reflection {
 enum class CorElementType : uint8_t;
+FORWARDS(MetadataImport)
 FORWARD(RuntimeAssembly)
 FORWARD(RuntimeModule)
 enum class TypeAttributes;
-FORWARDS(MetadataImport)
 } // namespace System::Private::CoreLib::System::Reflection
 namespace System::Private::CoreLib::System::Runtime::CompilerServices {
-FORWARDS(QCallTypeHandle)
 FORWARDS(ObjectHandleOnStack)
-FORWARDS(StringHandleOnStack)
-FORWARDS(StackCrawlMarkHandle)
 FORWARDS(QCallModule)
+FORWARDS(QCallTypeHandle)
+FORWARDS(StackCrawlMarkHandle)
+FORWARDS(StringHandleOnStack)
 } // namespace System::Private::CoreLib::System::Runtime::CompilerServices
 namespace System::Private::CoreLib::System::Runtime::InteropServices {
 enum class GCHandleType;

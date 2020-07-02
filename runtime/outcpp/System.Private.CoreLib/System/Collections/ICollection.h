@@ -3,10 +3,10 @@
 #include <rt/GCObject.h>
 
 namespace System::Private::CoreLib::System {
+FORWARD_(Array, T1, T2)
+FORWARDS(Boolean)
 FORWARDS(Int32)
 FORWARD(Object)
-FORWARDS(Boolean)
-FORWARD_(Array, T1, T2)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Collections {
 namespace ICollectionNamespace {

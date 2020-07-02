@@ -3,12 +3,12 @@
 #include <rt/GCObject.h>
 
 namespace System::Private::CoreLib::System {
-FORWARDS(UInt32)
 FORWARDS(Boolean)
-FORWARDS(UInt64)
 FORWARDS(Char)
 FORWARDS(Int32)
 FORWARDS(Int64)
+FORWARDS(UInt32)
+FORWARDS(UInt64)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Text::Unicode {
 namespace Utf16UtilityNamespace {

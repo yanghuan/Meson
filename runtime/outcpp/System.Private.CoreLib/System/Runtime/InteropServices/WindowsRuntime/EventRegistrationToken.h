@@ -4,9 +4,9 @@
 #include <System.Private.CoreLib/System/UInt64.h>
 
 namespace System::Private::CoreLib::System {
-FORWARD(Object)
 FORWARDS(Boolean)
 FORWARDS(Int32)
+FORWARD(Object)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Runtime::InteropServices::WindowsRuntime {
 namespace EventRegistrationTokenNamespace {

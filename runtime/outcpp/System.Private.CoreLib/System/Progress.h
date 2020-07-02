@@ -3,8 +3,8 @@
 #include <rt/GCObject.h>
 
 namespace System::Private::CoreLib::System::Threading {
-FORWARD(SynchronizationContext)
 FORWARD(SendOrPostCallback)
+FORWARD(SynchronizationContext)
 } // namespace System::Private::CoreLib::System::Threading
 namespace System::Private::CoreLib::System {
 FORWARD(Object)

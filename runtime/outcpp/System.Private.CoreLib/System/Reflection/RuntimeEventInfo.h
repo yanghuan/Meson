@@ -5,11 +5,11 @@
 #include <System.Private.CoreLib/System/RuntimeType.h>
 
 namespace System::Private::CoreLib::System {
+FORWARD_(Array, T1, T2)
+FORWARDS(Boolean)
+FORWARD(Object)
 FORWARD(String)
 FORWARD(Type)
-FORWARD(Object)
-FORWARDS(Boolean)
-FORWARD_(Array, T1, T2)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Collections::Generic {
 FORWARD(IList, T)
@@ -26,7 +26,7 @@ FORWARD(MethodInfo)
 FORWARD(RuntimeMethodInfo)
 namespace RuntimeEventInfoNamespace {
 using namespace ::System::Private::CoreLib::System::Collections::Generic;
-using System::Collections::Generic::IList;
+using ::System::Private::CoreLib::System::Collections::Generic::IList;
 CLASS(RuntimeEventInfo) {
   public: BindingFlags get_BindingFlags();
   public: MemberTypes get_MemberType();

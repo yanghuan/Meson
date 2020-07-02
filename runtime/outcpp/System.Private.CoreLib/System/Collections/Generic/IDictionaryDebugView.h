@@ -2,10 +2,15 @@
 
 #include <rt/GCObject.h>
 
+namespace System::Private::CoreLib::System {
+FORWARD_(Array, T1, T2)
+} // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Collections::Generic {
+FORWARDS_(KeyValuePair, T1, T2, T3)
 FORWARD(IDictionary, TKey, TValue)
 namespace IDictionaryDebugViewNamespace {
 CLASS(IDictionaryDebugView, K, V) {
+  public: Array<KeyValuePair<K, V>> get_Items();
   private: IDictionary<K, V> _dict;
 };
 } // namespace IDictionaryDebugViewNamespace

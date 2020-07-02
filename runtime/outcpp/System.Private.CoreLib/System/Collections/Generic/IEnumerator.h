@@ -5,6 +5,7 @@
 namespace System::Private::CoreLib::System::Collections::Generic {
 namespace IEnumeratorNamespace {
 CLASS(IEnumerator, T) {
+  public: T get_Current();
 };
 } // namespace IEnumeratorNamespace
 template <class T>

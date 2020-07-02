@@ -5,10 +5,10 @@
 #include <System.Private.CoreLib/System/Int32.h>
 
 namespace System::Private::CoreLib::System {
-FORWARD(Object)
 FORWARD_(Array, T1, T2)
-FORWARDS(Byte)
 FORWARDS(Boolean)
+FORWARDS(Byte)
+FORWARD(Object)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Text {
 FORWARD(InternalDecoderBestFitFallback)

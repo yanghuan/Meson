@@ -4,12 +4,12 @@
 #include <System.Private.CoreLib/System/Boolean.h>
 
 namespace System::Private::CoreLib::System {
-FORWARDS(UInt32)
-FORWARD(String)
+FORWARD_(Array, T1, T2)
+FORWARDS(Char)
 FORWARDS(Int32)
 FORWARD(Object)
-FORWARDS(Char)
-FORWARD_(Array, T1, T2)
+FORWARD(String)
+FORWARDS(UInt32)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Globalization {
 namespace IdnMappingNamespace {

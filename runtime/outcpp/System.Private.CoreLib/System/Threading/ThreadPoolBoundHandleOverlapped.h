@@ -4,8 +4,8 @@
 #include <System.Private.CoreLib/System/Boolean.h>
 
 namespace System::Private::CoreLib::System {
-FORWARDS(UInt32)
 FORWARD(Object)
+FORWARDS(UInt32)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Threading {
 FORWARDS(NativeOverlapped)

@@ -5,11 +5,11 @@
 #include <System.Private.CoreLib/System/Threading/CancellationToken.h>
 
 namespace System::Private::CoreLib::System {
-FORWARDS(Boolean)
 FORWARD_(Array, T1, T2)
-FORWARD(IAsyncResult)
-FORWARD_(Func, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10)
 FORWARD(AsyncCallback)
+FORWARDS(Boolean)
+FORWARD_(Func, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10)
+FORWARD(IAsyncResult)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Collections::Generic {
 FORWARD(IList, T)
@@ -21,7 +21,7 @@ enum class TaskCreationOptions;
 enum class TaskContinuationOptions;
 namespace TaskFactoryNamespace {
 using namespace ::System::Private::CoreLib::System::Collections::Generic;
-using System::Collections::Generic::IList;
+using ::System::Private::CoreLib::System::Collections::Generic::IList;
 CLASS_FORWARD(TaskFactory, T1, T2)
 CLASS_(TaskFactory) {
   CLASS_FORWARD(CompleteOnCountdownPromise, T1, T2)

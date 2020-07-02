@@ -10,37 +10,37 @@
 #include <System.Private.CoreLib/System/UInt32.h>
 
 namespace System::Private::CoreLib::System::Reflection {
-FORWARD(MethodBase)
-FORWARD(FieldInfo)
-FORWARD(RuntimeMethodInfo)
-FORWARD(RuntimeConstructorInfo)
-FORWARD(RuntimeFieldInfo)
-FORWARD(RuntimeEventInfo)
-FORWARD(RuntimePropertyInfo)
-FORWARD(MethodInfo)
-enum class MethodAttributes;
-FORWARD(ConstructorInfo)
-enum class GenericParameterAttributes;
 FORWARD(Assembly)
-enum class MemberTypes;
-FORWARD(Module)
-FORWARD(RuntimeModule)
-FORWARD(PropertyInfo)
-FORWARD(MemberInfo)
+FORWARD(Binder)
 enum class BindingFlags;
 enum class CallingConventions;
-FORWARD(EventInfo)
-FORWARDS(InterfaceMapping)
-FORWARD(Binder)
-FORWARDS(ParameterModifier)
-enum class TypeAttributes;
+FORWARD(ConstructorInfo)
 FORWARD(CustomAttributeData)
+FORWARD(EventInfo)
+FORWARD(FieldInfo)
+enum class GenericParameterAttributes;
+FORWARDS(InterfaceMapping)
+FORWARD(MemberInfo)
+enum class MemberTypes;
+enum class MethodAttributes;
+FORWARD(MethodBase)
+FORWARD(MethodInfo)
+FORWARD(Module)
+FORWARDS(ParameterModifier)
+FORWARD(PropertyInfo)
+FORWARD(RuntimeConstructorInfo)
+FORWARD(RuntimeEventInfo)
+FORWARD(RuntimeFieldInfo)
+FORWARD(RuntimeMethodInfo)
+FORWARD(RuntimeModule)
+FORWARD(RuntimePropertyInfo)
+enum class TypeAttributes;
 FORWARD(TypeInfo)
 } // namespace System::Private::CoreLib::System::Reflection
 namespace System::Private::CoreLib::System::Collections::Generic {
 FORWARD(Dictionary, TKey, TValue)
-FORWARD(List, T)
 FORWARD(IList, T)
+FORWARD(List, T)
 } // namespace System::Private::CoreLib::System::Collections::Generic
 namespace System::Private::CoreLib::System::Runtime::InteropServices {
 FORWARD(StructLayoutAttribute)
@@ -76,7 +76,7 @@ using namespace ::System::Private::CoreLib::System::Globalization;
 using namespace ::System::Private::CoreLib::System::Reflection;
 using namespace ::System::Private::CoreLib::System::Runtime::InteropServices;
 using namespace ::System::Private::CoreLib::System::Threading;
-using System::Collections::Generic::IList;
+using ::System::Private::CoreLib::System::Collections::Generic::IList;
 CLASS(RuntimeType) {
   public: enum class MemberListType {
     All = 0,

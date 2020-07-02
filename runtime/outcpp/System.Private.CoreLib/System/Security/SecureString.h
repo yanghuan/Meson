@@ -7,8 +7,8 @@
 namespace System::Private::CoreLib::System {
 FORWARDS(Char)
 FORWARDS(IntPtr)
-FORWARDS(UInt32)
 FORWARD(Object)
+FORWARDS(UInt32)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Security {
 FORWARD(SafeBSTRHandle)

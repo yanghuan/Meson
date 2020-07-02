@@ -4,10 +4,10 @@
 #include <System.Private.CoreLib/System/Boolean.h>
 
 namespace System::Private::CoreLib::System {
-FORWARDS(Int64)
 FORWARD_(Array, T1, T2)
 FORWARDS(Byte)
 FORWARDS(Int32)
+FORWARDS(Int64)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::IO {
 enum class SeekOrigin;

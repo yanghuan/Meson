@@ -3,21 +3,21 @@
 #include <rt/GCObject.h>
 
 namespace System::Private::CoreLib::System::Reflection {
+FORWARD(Binder)
+enum class BindingFlags;
+enum class FieldAttributes;
 FORWARD(FieldInfo)
 enum class MemberTypes;
 FORWARD(Module)
-enum class FieldAttributes;
-enum class BindingFlags;
-FORWARD(Binder)
 } // namespace System::Private::CoreLib::System::Reflection
 namespace System::Private::CoreLib::System {
+FORWARD_(Array, T1, T2)
+FORWARDS(Boolean)
+FORWARDS(Int32)
+FORWARD(Object)
+FORWARDS(RuntimeFieldHandle)
 FORWARD(String)
 FORWARD(Type)
-FORWARDS(Int32)
-FORWARDS(RuntimeFieldHandle)
-FORWARDS(Boolean)
-FORWARD_(Array, T1, T2)
-FORWARD(Object)
 FORWARDS(TypedReference)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Globalization {

@@ -3,12 +3,12 @@
 #include <rt/GCObject.h>
 
 namespace System::Private::CoreLib::System {
-FORWARD(String)
-FORWARDS(Int32)
 FORWARD_(Array, T1, T2)
-FORWARD(Object)
-FORWARD(IFormatProvider)
 FORWARD(FormattableString)
+FORWARD(IFormatProvider)
+FORWARDS(Int32)
+FORWARD(Object)
+FORWARD(String)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Runtime::CompilerServices {
 namespace FormattableStringFactoryNamespace {

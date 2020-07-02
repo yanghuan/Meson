@@ -4,8 +4,8 @@
 
 namespace System::Private::CoreLib::System {
 FORWARDS(Int32)
-FORWARD(String)
 FORWARDS(IntPtr)
+FORWARD(String)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::StubHelpers {
 namespace UTF8MarshalerNamespace {

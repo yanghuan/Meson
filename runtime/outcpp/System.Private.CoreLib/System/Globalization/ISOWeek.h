@@ -4,8 +4,8 @@
 
 namespace System::Private::CoreLib::System {
 FORWARDS(DateTime)
-FORWARDS(Int32)
 enum class DayOfWeek;
+FORWARDS(Int32)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Globalization {
 namespace ISOWeekNamespace {

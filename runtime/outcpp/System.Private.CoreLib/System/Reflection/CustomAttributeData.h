@@ -4,13 +4,13 @@
 #include <System.Private.CoreLib/System/RuntimeType.h>
 
 namespace System::Private::CoreLib::System {
-FORWARD(Type)
-FORWARD(Attribute)
-FORWARDS(Int32)
 FORWARD_(Array, T1, T2)
+FORWARD(Attribute)
+FORWARDS(Boolean)
+FORWARDS(Int32)
 FORWARD(Object)
 FORWARD(String)
-FORWARDS(Boolean)
+FORWARD(Type)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Collections::Generic {
 FORWARD(IList, T)
@@ -48,7 +48,7 @@ namespace CustomAttributeDataNamespace {
 using namespace ::System::Private::CoreLib::System::Collections::Generic;
 using namespace ::System::Private::CoreLib::System::Runtime::CompilerServices;
 using namespace ::System::Private::CoreLib::System::Runtime::InteropServices;
-using System::Collections::Generic::IList;
+using ::System::Private::CoreLib::System::Collections::Generic::IList;
 CLASS(CustomAttributeData) {
   public: Type get_AttributeType();
   public: ConstructorInfo get_Constructor();

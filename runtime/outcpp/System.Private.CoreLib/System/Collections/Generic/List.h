@@ -4,12 +4,12 @@
 #include <System.Private.CoreLib/System/Int32.h>
 
 namespace System::Private::CoreLib::System {
-FORWARDS(Boolean)
-FORWARD(Object)
-FORWARD_(Array, T1, T2)
-FORWARD(Predicate, T)
 FORWARD_(Action, T1, T2, T3, T4, T5, T6, T7, T8, T9)
+FORWARD_(Array, T1, T2)
+FORWARDS(Boolean)
 FORWARD(Comparison, T)
+FORWARD(Object)
+FORWARD(Predicate, T)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Collections::ObjectModel {
 FORWARD(ReadOnlyCollection, T)
@@ -21,6 +21,8 @@ namespace ListNamespace {
 using namespace ::System::Private::CoreLib::System::Collections::ObjectModel;
 CLASS(List, T) {
   public: struct Enumerator {
+    public: T get_Current();
+    private: Object get_CurrentOfIEnumerator();
     public: void Dispose();
     public: Boolean MoveNext();
     private: Boolean MoveNextRare();
@@ -29,6 +31,18 @@ CLASS(List, T) {
     private: Int32 _version;
     private: T _current;
   };
+  public: Int32 get_Capacity();
+  public: void set_Capacity(Int32 value);
+  public: Int32 get_Count();
+  private: Boolean get_IsFixedSizeOfIList();
+  private: Boolean get_IsReadOnlyOfICollectionT();
+  private: Boolean get_IsReadOnlyOfIList();
+  private: Boolean get_IsSynchronizedOfICollection();
+  private: Object get_SyncRootOfICollection();
+  public: T get_Item(Int32 index);
+  public: void set_Item(Int32 index, T value);
+  private: Object get_ItemOfIList(Int32 index);
+  private: void set_ItemOfIList(Int32 index, Object value);
   private: static Boolean IsCompatibleObject(Object value);
   public: void Add(T item);
   private: void AddWithResize(T item);

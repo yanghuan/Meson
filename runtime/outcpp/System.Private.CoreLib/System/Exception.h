@@ -12,8 +12,8 @@ namespace System::Private::CoreLib::System::Collections {
 FORWARD(IDictionary)
 } // namespace System::Private::CoreLib::System::Collections
 namespace System::Private::CoreLib::System::Runtime::Serialization {
-FORWARDS(StreamingContext)
 FORWARD(SerializationInfo)
+FORWARDS(StreamingContext)
 } // namespace System::Private::CoreLib::System::Runtime::Serialization
 namespace System::Private::CoreLib::System::Runtime::CompilerServices {
 FORWARDS(StringHandleOnStack)

@@ -3,9 +3,9 @@
 #include <rt/GCObject.h>
 
 namespace System::Private::CoreLib::System {
-FORWARD(Type)
 FORWARDS(Boolean)
 FORWARD(String)
+FORWARD(Type)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::StubHelpers {
 namespace WinRTTypeNameConverterNamespace {

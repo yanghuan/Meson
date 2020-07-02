@@ -3,11 +3,11 @@
 #include <rt/GCObject.h>
 
 namespace System::Private::CoreLib::System {
-FORWARDS(Memory, T)
-FORWARDS(Span, T)
-FORWARDS(Int32)
 FORWARDS(ArraySegment, T)
 FORWARDS(Boolean)
+FORWARDS(Int32)
+FORWARDS(Memory, T)
+FORWARDS(Span, T)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Buffers {
 FORWARDS(MemoryHandle)

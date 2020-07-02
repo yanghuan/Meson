@@ -3,16 +3,16 @@
 #include <rt/GCObject.h>
 
 namespace System::Private::CoreLib::System {
+FORWARD_(Array, T1, T2)
+FORWARDS(ArraySegment, T)
 FORWARDS(Boolean)
+FORWARDS(Byte)
 FORWARDS(Int32)
 FORWARDS(Int64)
-FORWARD_(Array, T1, T2)
-FORWARDS(Byte)
-FORWARDS(ArraySegment, T)
-FORWARDS(Span, T)
-FORWARDS(ReadOnlySpan, T)
 FORWARDS(Memory, T)
 FORWARDS(ReadOnlyMemory, T)
+FORWARDS(ReadOnlySpan, T)
+FORWARDS(Span, T)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Threading {
 FORWARDS(CancellationToken)

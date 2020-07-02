@@ -7,13 +7,13 @@ FORWARD(IEnumerator, T)
 } // namespace System::Private::CoreLib::System::Collections::Generic
 namespace System::Private::CoreLib::System {
 FORWARD(AsyncCallback)
-FORWARD(Object)
 FORWARD(IAsyncResult)
+FORWARD(Object)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Runtime::InteropServices::WindowsRuntime {
 namespace GetEnumerator_DelegateNamespace {
 using namespace ::System::Private::CoreLib::System::Collections::Generic;
-using System::Collections::Generic::IEnumerator;
+using ::System::Private::CoreLib::System::Collections::Generic::IEnumerator;
 CLASS(GetEnumerator_Delegate, T) {
   public: IEnumerator<T> Invoke();
   public: IAsyncResult BeginInvoke(AsyncCallback callback, Object object);

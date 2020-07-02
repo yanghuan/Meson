@@ -4,15 +4,15 @@
 #include <System.Private.CoreLib/System/RuntimeType.h>
 
 namespace System::Private::CoreLib::System {
-FORWARDS(Boolean)
 FORWARD_(Array, T1, T2)
-FORWARD(Object)
-FORWARDS(Int32)
-FORWARD(IRuntimeMethodInfo)
-FORWARD(AttributeUsageAttribute)
-FORWARDS(IntPtr)
 enum class AttributeTargets;
+FORWARD(AttributeUsageAttribute)
+FORWARDS(Boolean)
 FORWARDS(Byte)
+FORWARDS(Int32)
+FORWARDS(IntPtr)
+FORWARD(IRuntimeMethodInfo)
+FORWARD(Object)
 FORWARD(String)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Reflection {

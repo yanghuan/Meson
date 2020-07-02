@@ -3,11 +3,11 @@
 #include <rt/GCObject.h>
 
 namespace System::Private::CoreLib::System {
-FORWARD(String)
-FORWARD(Version)
 FORWARD_(Array, T1, T2)
 FORWARDS(Byte)
 FORWARDS(Char)
+FORWARD(String)
+FORWARD(Version)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Text {
 FORWARD(StringBuilder)

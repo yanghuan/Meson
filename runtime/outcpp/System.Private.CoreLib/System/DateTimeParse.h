@@ -3,9 +3,9 @@
 #include <rt/GCObject.h>
 
 namespace System::Private::CoreLib::System::Globalization {
+FORWARD(Calendar)
 FORWARD(DateTimeFormatInfo)
 enum class DateTimeStyles;
-FORWARD(Calendar)
 } // namespace System::Private::CoreLib::System::Globalization
 namespace System::Private::CoreLib::System::Text {
 FORWARD(StringBuilder)

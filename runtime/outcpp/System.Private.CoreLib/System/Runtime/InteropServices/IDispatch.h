@@ -3,15 +3,15 @@
 #include <rt/GCObject.h>
 
 namespace System::Private::CoreLib::System {
-FORWARDS(Int32)
-FORWARDS(Guid)
 FORWARD_(Array, T1, T2)
-FORWARD(String)
+FORWARDS(Guid)
+FORWARDS(Int32)
 FORWARDS(IntPtr)
+FORWARD(String)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Runtime::InteropServices::ComTypes {
-FORWARD(ITypeInfo)
 FORWARDS(DISPPARAMS)
+FORWARD(ITypeInfo)
 } // namespace System::Private::CoreLib::System::Runtime::InteropServices::ComTypes
 namespace System::Private::CoreLib::System::Runtime::InteropServices {
 enum class InvokeFlags : int16_t;

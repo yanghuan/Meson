@@ -3,21 +3,21 @@
 #include <rt/GCObject.h>
 
 namespace System::Private::CoreLib::System {
-FORWARD(String)
-FORWARDS(Int32)
 FORWARD_(Array, T1, T2)
-FORWARDS(Byte)
 FORWARDS(Boolean)
-FORWARD(Type)
+FORWARDS(Byte)
+FORWARDS(Int32)
 FORWARD(Object)
+FORWARD(String)
+FORWARD(Type)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Collections::Generic {
 FORWARD(IEnumerable, T)
 FORWARD(List, T)
 } // namespace System::Private::CoreLib::System::Collections::Generic
 namespace System::Private::CoreLib::System::Reflection {
-FORWARD(PropertyInfo)
 FORWARD(MethodInfo)
+FORWARD(PropertyInfo)
 } // namespace System::Private::CoreLib::System::Reflection
 namespace System::Private::CoreLib::System::Diagnostics::Tracing {
 enum class TraceLoggingDataType;

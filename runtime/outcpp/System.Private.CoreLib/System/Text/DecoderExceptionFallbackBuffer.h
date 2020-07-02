@@ -3,11 +3,11 @@
 #include <rt/GCObject.h>
 
 namespace System::Private::CoreLib::System {
-FORWARDS(Int32)
 FORWARD_(Array, T1, T2)
-FORWARDS(Byte)
 FORWARDS(Boolean)
+FORWARDS(Byte)
 FORWARDS(Char)
+FORWARDS(Int32)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Text {
 namespace DecoderExceptionFallbackBufferNamespace {

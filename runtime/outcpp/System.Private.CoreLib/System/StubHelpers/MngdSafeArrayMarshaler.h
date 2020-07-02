@@ -3,8 +3,8 @@
 #include <rt/GCObject.h>
 
 namespace System::Private::CoreLib::System {
-FORWARDS(IntPtr)
 FORWARDS(Int32)
+FORWARDS(IntPtr)
 FORWARD(Object)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::StubHelpers {

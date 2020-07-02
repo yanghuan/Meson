@@ -3,11 +3,11 @@
 #include <rt/GCObject.h>
 
 namespace System::Private::CoreLib::System {
-FORWARD(String)
-FORWARDS(ReadOnlySpan, T)
-FORWARDS(Char)
 FORWARDS(Boolean)
+FORWARDS(Char)
 FORWARDS(Int32)
+FORWARDS(ReadOnlySpan, T)
+FORWARD(String)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Text {
 FORWARDS(ValueStringBuilder)

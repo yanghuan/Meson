@@ -3,8 +3,8 @@
 #include <rt/GCObject.h>
 
 namespace System::Private::CoreLib::System::Reflection {
-FORWARD(RtFieldInfo)
 enum class FieldAttributes;
+FORWARD(RtFieldInfo)
 } // namespace System::Private::CoreLib::System::Reflection
 namespace System::Private::CoreLib::System::Runtime::Serialization {
 FORWARD(SerializationInfo)

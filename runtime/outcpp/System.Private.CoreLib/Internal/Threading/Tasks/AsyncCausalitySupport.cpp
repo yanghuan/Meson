@@ -1,6 +1,9 @@
 #include "AsyncCausalitySupport-dep.h"
 
 namespace System::Private::CoreLib::Internal::Threading::Tasks::AsyncCausalitySupportNamespace {
+Boolean AsyncCausalitySupport::get_LoggingOn() {
+  return Boolean();
+};
 void AsyncCausalitySupport::AddToActiveTasks(Task<> task) {
   return void();
 };

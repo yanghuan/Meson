@@ -9,13 +9,13 @@ namespace System::Private::CoreLib::System::Runtime::Serialization {
 FORWARDS(StreamingContext)
 } // namespace System::Private::CoreLib::System::Runtime::Serialization
 namespace System::Private::CoreLib::System {
-FORWARD(Object)
 FORWARD_(Array, T1, T2)
-FORWARDS(Char)
 FORWARDS(Byte)
+FORWARDS(Char)
+FORWARD(Object)
 FORWARDS(ReadOnlySpan, T)
-FORWARD(String)
 FORWARDS(Span, T)
+FORWARD(String)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Buffers {
 enum class OperationStatus;

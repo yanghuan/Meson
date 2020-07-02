@@ -3,23 +3,23 @@
 #include <rt/GCObject.h>
 
 namespace System::Private::CoreLib::System::Collections::Generic {
+FORWARD(Dictionary, TKey, TValue)
 FORWARD(IEnumerable, T)
 FORWARD(IList, T)
-FORWARD(Dictionary, TKey, TValue)
 FORWARD(List, T)
 } // namespace System::Private::CoreLib::System::Collections::Generic
 namespace System::Private::CoreLib::System {
-FORWARD(Type)
-FORWARD(String)
-FORWARDS(Boolean)
-FORWARDS(Int64)
-FORWARDS(UInt32)
 FORWARD_(Array, T1, T2)
-FORWARD(Object)
-FORWARD(Version)
-FORWARDS(Int32)
+FORWARDS(Boolean)
 FORWARDS(Byte)
+FORWARDS(Int32)
+FORWARDS(Int64)
+FORWARD(Object)
 FORWARD(ResolveEventArgs)
+FORWARD(String)
+FORWARD(Type)
+FORWARDS(UInt32)
+FORWARD(Version)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Security {
 enum class SecurityRuleSet : uint8_t;
@@ -31,12 +31,12 @@ namespace System::Private::CoreLib::System::Runtime::Loader {
 FORWARD(AssemblyLoadContext)
 } // namespace System::Private::CoreLib::System::Runtime::Loader
 namespace System::Private::CoreLib::System::Runtime::CompilerServices {
-FORWARDS(StackCrawlMarkHandle)
 FORWARDS(ObjectHandleOnStack)
+FORWARDS(StackCrawlMarkHandle)
 } // namespace System::Private::CoreLib::System::Runtime::CompilerServices
 namespace System::Private::CoreLib::System::IO {
-FORWARD(Stream)
 FORWARD(FileStream)
+FORWARD(Stream)
 } // namespace System::Private::CoreLib::System::IO
 namespace System::Private::CoreLib::System::Globalization {
 FORWARD(CultureInfo)
@@ -68,7 +68,7 @@ using namespace ::System::Private::CoreLib::System::Runtime::Loader;
 using namespace ::System::Private::CoreLib::System::Runtime::Serialization;
 using namespace ::System::Private::CoreLib::System::Security;
 using namespace ::System::Private::CoreLib::System::Threading;
-using System::Collections::Generic::IList;
+using ::System::Private::CoreLib::System::Collections::Generic::IList;
 CLASS(Assembly) {
   public: IEnumerable<TypeInfo> get_DefinedTypes();
   public: IEnumerable<Type> get_ExportedTypes();

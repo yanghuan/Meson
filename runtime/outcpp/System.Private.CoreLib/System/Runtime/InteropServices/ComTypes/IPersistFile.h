@@ -3,10 +3,10 @@
 #include <rt/GCObject.h>
 
 namespace System::Private::CoreLib::System {
+FORWARDS(Boolean)
 FORWARDS(Guid)
 FORWARDS(Int32)
 FORWARD(String)
-FORWARDS(Boolean)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Runtime::InteropServices::ComTypes {
 namespace IPersistFileNamespace {

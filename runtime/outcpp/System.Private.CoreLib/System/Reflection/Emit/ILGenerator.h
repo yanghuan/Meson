@@ -5,22 +5,22 @@
 
 namespace System::Private::CoreLib::System {
 FORWARD_(Array, T1, T2)
-FORWARD(Type)
 FORWARDS(Boolean)
 FORWARDS(Byte)
-FORWARDS(SByte)
+FORWARDS(Double)
 FORWARDS(Int16)
 FORWARDS(Int64)
+FORWARDS(SByte)
 FORWARDS(Single)
-FORWARDS(Double)
 FORWARD(String)
+FORWARD(Type)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Reflection {
-FORWARD(MethodBase)
 enum class CallingConventions;
-FORWARD(MethodInfo)
 FORWARD(ConstructorInfo)
 FORWARD(FieldInfo)
+FORWARD(MethodBase)
+FORWARD(MethodInfo)
 } // namespace System::Private::CoreLib::System::Reflection
 namespace System::Private::CoreLib::System::Runtime::InteropServices {
 enum class CallingConvention;

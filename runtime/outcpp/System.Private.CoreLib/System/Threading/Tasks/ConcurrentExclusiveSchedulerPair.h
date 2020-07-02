@@ -5,13 +5,13 @@
 #include <System.Private.CoreLib/System/Int32.h>
 
 namespace System::Private::CoreLib::System::Collections::Generic {
-FORWARD(List, T)
 FORWARD(IEnumerable, T)
+FORWARD(List, T)
 } // namespace System::Private::CoreLib::System::Collections::Generic
 namespace System::Private::CoreLib::System {
 FORWARD(Exception)
-FORWARD(Object)
 FORWARD_(Func, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10)
+FORWARD(Object)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Threading {
 FORWARD(ThreadLocal, T)

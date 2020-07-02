@@ -4,13 +4,13 @@
 #include <System.Private.CoreLib/System/Int32.h>
 
 namespace System::Private::CoreLib::System {
-FORWARDS(DateTime)
 FORWARD_(Array, T1, T2)
-FORWARD(String)
-FORWARDS(Int64)
-enum class DayOfWeek;
 FORWARDS(Boolean)
 FORWARDS(Byte)
+FORWARDS(DateTime)
+enum class DayOfWeek;
+FORWARDS(Int64)
+FORWARD(String)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Globalization {
 enum class CalendarAlgorithmType;

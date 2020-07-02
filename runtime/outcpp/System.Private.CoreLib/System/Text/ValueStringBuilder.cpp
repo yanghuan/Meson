@@ -11,7 +11,7 @@ Int32 ValueStringBuilder::get_Capacity() {
   return Int32();
 };
 Char& ValueStringBuilder::get_Item(Int32 index) {
-  return Char&();
+  return Char();
 };
 Span<Char> ValueStringBuilder::get_RawChars() {
   return Span<Char>();

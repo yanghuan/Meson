@@ -4,24 +4,30 @@
 #include <System.Private.CoreLib/System/Int32.h>
 
 namespace System::Private::CoreLib::System {
-FORWARD(String)
 FORWARDS(Boolean)
+FORWARD(String)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Collections {
 FORWARD(Hashtable)
 } // namespace System::Private::CoreLib::System::Collections
 namespace System::Private::Uri::System {
+enum class UriSyntaxFlags;
 FORWARD(Uri)
 FORWARD(UriFormatException)
 enum class UriComponents;
 enum class UriFormat;
-enum class UriSyntaxFlags;
 namespace UriParserNamespace {
 using namespace ::System::Private::CoreLib::System;
 using namespace ::System::Private::CoreLib::System::Collections;
 CLASS(UriParser) {
   private: CLASS(BuiltInUriParser) {
   };
+  public: String get_SchemeName();
+  public: Int32 get_DefaultPort();
+  public: static Boolean get_DontEnableStrictRFC3986ReservedCharacterSets();
+  public: static Boolean get_DontKeepUnicodeBidiFormattingCharacters();
+  public: UriSyntaxFlags get_Flags();
+  public: Boolean get_IsSimple();
   protected: UriParser OnNewUri();
   protected: void OnRegister(String schemeName, Int32 defaultPort);
   protected: void InitializeAndValidate(Uri uri, UriFormatException& parsingError);

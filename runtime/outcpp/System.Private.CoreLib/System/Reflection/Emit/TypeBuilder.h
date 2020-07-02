@@ -6,45 +6,45 @@
 #include <System.Private.CoreLib/System/Reflection/Emit/TypeToken.h>
 
 namespace System::Private::CoreLib::System::Reflection {
-FORWARD(ConstructorInfo)
-FORWARD(Module)
 FORWARD(Assembly)
-enum class GenericParameterAttributes;
-FORWARD(MethodBase)
-FORWARD(TypeInfo)
-FORWARD(MethodInfo)
-FORWARD(FieldInfo)
-enum class MethodAttributes;
-enum class FieldAttributes;
-enum class PropertyAttributes;
-enum class EventAttributes;
-enum class MethodSemanticsAttributes;
-enum class MethodImplAttributes;
-enum class ParameterAttributes;
-enum class TypeAttributes;
-enum class BindingFlags;
 FORWARD(Binder)
-FORWARDS(ParameterModifier)
+enum class BindingFlags;
 enum class CallingConventions;
+FORWARD(ConstructorInfo)
+enum class EventAttributes;
 FORWARD(EventInfo)
-FORWARD(PropertyInfo)
-enum class MemberTypes;
-FORWARD(MemberInfo)
+enum class FieldAttributes;
+FORWARD(FieldInfo)
+enum class GenericParameterAttributes;
 FORWARDS(InterfaceMapping)
+FORWARD(MemberInfo)
+enum class MemberTypes;
+enum class MethodAttributes;
+FORWARD(MethodBase)
+enum class MethodImplAttributes;
+FORWARD(MethodInfo)
+enum class MethodSemanticsAttributes;
+FORWARD(Module)
+enum class ParameterAttributes;
+FORWARDS(ParameterModifier)
+enum class PropertyAttributes;
+FORWARD(PropertyInfo)
+enum class TypeAttributes;
+FORWARD(TypeInfo)
 } // namespace System::Private::CoreLib::System::Reflection
 namespace System::Private::CoreLib::System {
 FORWARD_(Array, T1, T2)
 FORWARDS(Byte)
+FORWARDS(Guid)
 FORWARD(Object)
 FORWARD(RuntimeType)
-FORWARD(Type)
-FORWARD(String)
-FORWARDS(Guid)
 FORWARDS(RuntimeTypeHandle)
+FORWARD(String)
+FORWARD(Type)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Runtime::CompilerServices {
-FORWARDS(QCallModule)
 FORWARDS(ObjectHandleOnStack)
+FORWARDS(QCallModule)
 } // namespace System::Private::CoreLib::System::Runtime::CompilerServices
 namespace System::Private::CoreLib::System::Globalization {
 FORWARD(CultureInfo)

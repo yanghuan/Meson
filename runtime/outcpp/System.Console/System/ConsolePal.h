@@ -8,17 +8,17 @@
 namespace System::Private::CoreLib::System {
 FORWARD_(Array, T1, T2)
 FORWARDS(Byte)
-FORWARDS(Int32)
-FORWARD(String)
 FORWARDS(Char)
+FORWARDS(Int32)
 FORWARD(Object)
+FORWARD(String)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Text {
 FORWARD(Encoding)
 } // namespace System::Private::CoreLib::System::Text
 namespace System::Private::CoreLib::System::IO {
-FORWARD(Stream)
 enum class FileAccess;
+FORWARD(Stream)
 FORWARD(TextReader)
 } // namespace System::Private::CoreLib::System::IO
 namespace System::Console::System {

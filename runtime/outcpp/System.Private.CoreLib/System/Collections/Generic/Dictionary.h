@@ -6,19 +6,28 @@
 #include <System.Private.CoreLib/System/UInt32.h>
 
 namespace System::Private::CoreLib::System {
-FORWARDS(Boolean)
 FORWARD_(Array, T1, T2)
+FORWARDS(Boolean)
 FORWARD(Object)
 } // namespace System::Private::CoreLib::System
+namespace System::Private::CoreLib::System::Collections {
+FORWARDS(DictionaryEntry)
+FORWARD(ICollection)
+} // namespace System::Private::CoreLib::System::Collections
 namespace System::Private::CoreLib::System::Runtime::Serialization {
 FORWARD(SerializationInfo)
 FORWARDS(StreamingContext)
 } // namespace System::Private::CoreLib::System::Runtime::Serialization
 namespace System::Private::CoreLib::System::Collections::Generic {
-enum class InsertionBehavior : uint8_t;
 FORWARD(IEqualityComparer, T)
+FORWARD(ICollection, T)
+FORWARD(IEnumerable, T)
+enum class InsertionBehavior : uint8_t;
 namespace DictionaryNamespace {
 using namespace ::System::Private::CoreLib::System::Runtime::Serialization;
+template <class T>
+using ICollection = ::System::Private::CoreLib::System::Collections::Generic::ICollection<T>;
+using ICollection1 = ::System::Private::CoreLib::System::Collections::ICollection;
 CLASS(Dictionary, TKey, TValue) {
   private: struct Entry {
     public: Int32 next;
@@ -27,6 +36,11 @@ CLASS(Dictionary, TKey, TValue) {
     public: TValue value;
   };
   public: struct Enumerator {
+    public: KeyValuePair<TKey, TValue> get_Current();
+    private: Object get_CurrentOfIEnumerator();
+    private: DictionaryEntry get_EntryOfIDictionaryEnumerator();
+    private: Object get_KeyOfIDictionaryEnumerator();
+    private: Object get_ValueOfIDictionaryEnumerator();
     public: Boolean MoveNext();
     public: void Dispose();
     private: Dictionary<TKey, TValue> _dictionary;
@@ -37,6 +51,8 @@ CLASS(Dictionary, TKey, TValue) {
   };
   public: CLASS(KeyCollection) {
     public: struct Enumerator {
+      public: TKey get_Current();
+      private: Object get_CurrentOfIEnumerator();
       public: void Dispose();
       public: Boolean MoveNext();
       private: Dictionary<TKey, TValue> _dictionary;
@@ -44,12 +60,18 @@ CLASS(Dictionary, TKey, TValue) {
       private: Int32 _version;
       private: TKey _currentKey;
     };
+    public: Int32 get_Count();
+    private: Boolean get_IsReadOnlyOfICollectionTKey();
+    private: Boolean get_IsSynchronizedOfICollection();
+    private: Object get_SyncRootOfICollection();
     public: Enumerator GetEnumerator();
     public: void CopyTo(Array<TKey> array, Int32 index);
     private: Dictionary<TKey, TValue> _dictionary;
   };
   public: CLASS(ValueCollection) {
     public: struct Enumerator {
+      public: TValue get_Current();
+      private: Object get_CurrentOfIEnumerator();
       public: void Dispose();
       public: Boolean MoveNext();
       private: Dictionary<TKey, TValue> _dictionary;
@@ -57,10 +79,33 @@ CLASS(Dictionary, TKey, TValue) {
       private: Int32 _version;
       private: TValue _currentValue;
     };
+    public: Int32 get_Count();
+    private: Boolean get_IsReadOnlyOfICollectionTValue();
+    private: Boolean get_IsSynchronizedOfICollection();
+    private: Object get_SyncRootOfICollection();
     public: Enumerator GetEnumerator();
     public: void CopyTo(Array<TValue> array, Int32 index);
     private: Dictionary<TKey, TValue> _dictionary;
   };
+  public: IEqualityComparer<TKey> get_Comparer();
+  public: Int32 get_Count();
+  public: KeyCollection get_Keys();
+  private: ICollection<TKey> get_KeysOfIDictionaryTKeyTValue();
+  private: IEnumerable<TKey> get_KeysOfIReadOnlyDictionaryTKeyTValue();
+  public: ValueCollection get_Values();
+  private: ICollection<TValue> get_ValuesOfIDictionaryTKeyTValue();
+  private: IEnumerable<TValue> get_ValuesOfIReadOnlyDictionaryTKeyTValue();
+  public: TValue get_Item(TKey key);
+  public: void set_Item(TKey key, TValue value);
+  private: Boolean get_IsReadOnlyOfKeyValuePairTKeyTValue();
+  private: Boolean get_IsSynchronizedOfICollection();
+  private: Object get_SyncRootOfICollection();
+  private: Boolean get_IsFixedSizeOfIDictionary();
+  private: Boolean get_IsReadOnlyOfIDictionary();
+  private: ICollection1 get_KeysOfIDictionary();
+  private: ICollection1 get_ValuesOfIDictionary();
+  private: Object get_ItemOfIDictionary(Object key);
+  private: void set_ItemOfIDictionary(Object key, Object value);
   public: void Add(TKey key, TValue value);
   public: void Clear();
   public: Boolean ContainsKey(TKey key);

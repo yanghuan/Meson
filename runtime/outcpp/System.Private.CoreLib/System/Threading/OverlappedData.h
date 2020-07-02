@@ -5,9 +5,9 @@
 #include <System.Private.CoreLib/System/IntPtr.h>
 
 namespace System::Private::CoreLib::System {
+FORWARD(IAsyncResult)
 FORWARD(Object)
 FORWARDS(UInt32)
-FORWARD(IAsyncResult)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Threading {
 FORWARD(IOCompletionCallback)

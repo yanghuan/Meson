@@ -4,9 +4,9 @@
 #include <System.Private.CoreLib/System/Boolean.h>
 
 namespace System::Private::CoreLib::System {
-FORWARD(Object)
 FORWARD_(Array, T1, T2)
 FORWARDS(Int32)
+FORWARD(Object)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Collections::Generic {
 FORWARD(IEnumerator, T)
@@ -14,7 +14,7 @@ FORWARD(IEnumerator, T)
 namespace System::Private::CoreLib::System::Runtime::InteropServices::WindowsRuntime {
 namespace EnumeratorToIteratorAdapterNamespace {
 using namespace ::System::Private::CoreLib::System::Collections::Generic;
-using System::Collections::Generic::IEnumerator;
+using ::System::Private::CoreLib::System::Collections::Generic::IEnumerator;
 CLASS(EnumeratorToIteratorAdapter, T) {
   public: T get_Current();
   private: Object get_CurrentOfIBindableIterator();

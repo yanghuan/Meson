@@ -3,18 +3,18 @@
 #include <rt/GCObject.h>
 
 namespace System::Private::CoreLib::System {
-FORWARDS(Int32)
-FORWARDS(Boolean)
 FORWARD_(Array, T1, T2)
+FORWARDS(Boolean)
+FORWARDS(Int32)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Collections::Generic {
-FORWARD(IEnumerator, T)
 FORWARD(IDictionary, TKey, TValue)
+FORWARD(IEnumerator, T)
 } // namespace System::Private::CoreLib::System::Collections::Generic
 namespace System::Private::CoreLib::System::Runtime::InteropServices::WindowsRuntime {
 namespace DictionaryValueCollectionNamespace {
 using namespace ::System::Private::CoreLib::System::Collections::Generic;
-using System::Collections::Generic::IEnumerator;
+using ::System::Private::CoreLib::System::Collections::Generic::IEnumerator;
 CLASS(DictionaryValueCollection, TKey, TValue) {
   public: Int32 get_Count();
   private: Boolean get_IsReadOnlyOfICollectionTValue();

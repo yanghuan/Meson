@@ -4,21 +4,21 @@
 
 namespace System::Private::CoreLib::System::Collections::Generic {
 FORWARD(ICollection, T)
-FORWARDS_(KeyValuePair, T1, T2, T3)
 FORWARD(IEnumerator, T)
+FORWARDS_(KeyValuePair, T1, T2, T3)
 FORWARD(List, T)
 } // namespace System::Private::CoreLib::System::Collections::Generic
 namespace System::Private::CoreLib::System {
-FORWARD(String)
-FORWARD(Object)
-FORWARDS(Int32)
-FORWARDS(Boolean)
 FORWARD_(Array, T1, T2)
+FORWARDS(Boolean)
+FORWARDS(Int32)
+FORWARD(Object)
+FORWARD(String)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Diagnostics::Tracing {
 namespace EventPayloadNamespace {
 using namespace ::System::Private::CoreLib::System::Collections::Generic;
-using System::Collections::Generic::IEnumerator;
+using ::System::Private::CoreLib::System::Collections::Generic::IEnumerator;
 CLASS(EventPayload) {
   public: ICollection<String> get_Keys();
   public: ICollection<Object> get_Values();

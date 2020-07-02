@@ -3,11 +3,11 @@
 #include <rt/GCObject.h>
 
 namespace System::Private::CoreLib::System {
+FORWARD_(Array, T1, T2)
+FORWARDS(Boolean)
+FORWARDS(Char)
 FORWARDS(Int32)
 FORWARD(Object)
-FORWARDS(Boolean)
-FORWARD_(Array, T1, T2)
-FORWARDS(Char)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Text {
 FORWARD(EncoderFallbackBuffer)

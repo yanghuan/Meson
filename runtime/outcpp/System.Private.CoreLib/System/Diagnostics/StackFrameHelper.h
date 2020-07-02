@@ -8,14 +8,14 @@ FORWARD(Assembly)
 FORWARD(MethodBase)
 } // namespace System::Private::CoreLib::System::Reflection
 namespace System::Private::CoreLib::System {
-FORWARD(String)
-FORWARDS(IntPtr)
+FORWARD_(Array, T1, T2)
 FORWARD(AsyncCallback)
-FORWARD(Object)
-FORWARD(IAsyncResult)
 FORWARDS(Boolean)
 FORWARD(Exception)
-FORWARD_(Array, T1, T2)
+FORWARD(IAsyncResult)
+FORWARDS(IntPtr)
+FORWARD(Object)
+FORWARD(String)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Threading {
 FORWARD(Thread)

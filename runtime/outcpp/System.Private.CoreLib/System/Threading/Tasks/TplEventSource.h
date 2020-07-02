@@ -4,16 +4,16 @@
 #include <System.Private.CoreLib/System/Boolean.h>
 
 namespace System::Private::CoreLib::System::Diagnostics::Tracing {
-enum class EventTask;
-enum class EventKeywords : int64_t;
 FORWARD(EventCommandEventArgs)
+enum class EventKeywords : int64_t;
+enum class EventTask;
 } // namespace System::Private::CoreLib::System::Diagnostics::Tracing
 namespace System::Private::CoreLib::System {
+FORWARDS(Guid)
 FORWARDS(Int32)
-FORWARD(String)
 FORWARDS(Int64)
 FORWARD(Object)
-FORWARDS(Guid)
+FORWARD(String)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Runtime::CompilerServices {
 FORWARD(IAsyncStateMachineBox)

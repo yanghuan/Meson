@@ -3,11 +3,11 @@
 #include <rt/GCObject.h>
 
 namespace System::Private::CoreLib::System {
+FORWARDS(Boolean)
 FORWARDS(Int32)
 FORWARDS(Int64)
-FORWARD(String)
-FORWARDS(Boolean)
 FORWARD(Object)
+FORWARD(String)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Diagnostics::Tracing {
 enum class EventKeywords : int64_t;

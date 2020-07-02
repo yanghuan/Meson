@@ -3,15 +3,15 @@
 #include <rt/GCObject.h>
 
 namespace System::Private::CoreLib::System {
-FORWARDS(Char)
-FORWARDS(UInt16)
-FORWARDS(Boolean)
-FORWARD(String)
-FORWARDS(Int32)
 FORWARD_(Array, T1, T2)
-FORWARDS(Int16)
-FORWARDS(Span, T)
+FORWARDS(Boolean)
 FORWARDS(Byte)
+FORWARDS(Char)
+FORWARDS(Int16)
+FORWARDS(Int32)
+FORWARDS(Span, T)
+FORWARD(String)
+FORWARDS(UInt16)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Text {
 FORWARD(Encoding)

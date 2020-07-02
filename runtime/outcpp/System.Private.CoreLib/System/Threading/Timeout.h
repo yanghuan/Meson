@@ -3,8 +3,8 @@
 #include <rt/GCObject.h>
 
 namespace System::Private::CoreLib::System {
-FORWARDS(TimeSpan)
 FORWARDS(Int32)
+FORWARDS(TimeSpan)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Threading {
 namespace TimeoutNamespace {

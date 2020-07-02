@@ -3,15 +3,15 @@
 #include <rt/GCObject.h>
 
 namespace System::Private::CoreLib::System {
-FORWARDS(IntPtr)
+FORWARD_(Array, T1, T2)
 FORWARDS(Boolean)
+FORWARDS(Byte)
 FORWARD(Delegate)
-FORWARDS(Int32)
 FORWARD(Exception)
+FORWARDS(Int32)
+FORWARDS(IntPtr)
 FORWARD(Object)
 FORWARDS(UInt32)
-FORWARDS(Byte)
-FORWARD_(Array, T1, T2)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Runtime::InteropServices {
 FORWARD(SafeHandle)

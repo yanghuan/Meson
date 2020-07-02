@@ -6,13 +6,13 @@ namespace System::Private::CoreLib::System::Collections::Generic {
 FORWARD(IList, T)
 } // namespace System::Private::CoreLib::System::Collections::Generic
 namespace System::Private::CoreLib::System {
-FORWARD(String)
 FORWARD_(Array, T1, T2)
+FORWARD(String)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Runtime::CompilerServices {
 namespace TupleElementNamesAttributeNamespace {
 using namespace ::System::Private::CoreLib::System::Collections::Generic;
-using System::Collections::Generic::IList;
+using ::System::Private::CoreLib::System::Collections::Generic::IList;
 CLASS(TupleElementNamesAttribute) {
   public: IList<String> get_TransformNames();
   private: Array<String> _transformNames;

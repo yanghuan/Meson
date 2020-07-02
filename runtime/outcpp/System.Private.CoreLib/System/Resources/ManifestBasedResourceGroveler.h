@@ -10,9 +10,9 @@ namespace System::Private::CoreLib::System::Globalization {
 FORWARD(CultureInfo)
 } // namespace System::Private::CoreLib::System::Globalization
 namespace System::Private::CoreLib::System {
-FORWARD(Version)
-FORWARD(String)
 FORWARDS(Boolean)
+FORWARD(String)
+FORWARD(Version)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Collections::Generic {
 FORWARD(Dictionary, TKey, TValue)

@@ -4,10 +4,10 @@
 #include <System.Private.CoreLib/System/Diagnostics/Tracing/EventSource.h>
 
 namespace System::Private::CoreLib::System {
-FORWARDS(ReadOnlySpan, T)
-FORWARDS(Byte)
 FORWARD_(Array, T1, T2)
+FORWARDS(Byte)
 FORWARD(Object)
+FORWARDS(ReadOnlySpan, T)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Diagnostics::Tracing {
 namespace EventPipePayloadDecoderNamespace {

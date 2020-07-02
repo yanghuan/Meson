@@ -6,10 +6,10 @@ namespace System::Private::CoreLib::System::Runtime::CompilerServices {
 FORWARD(ConditionalWeakTable, TKey, TValue)
 } // namespace System::Private::CoreLib::System::Runtime::CompilerServices
 namespace System::Private::CoreLib::System {
-FORWARD(Object)
-FORWARDS(Int32)
-FORWARDS(Boolean)
 FORWARD_(Array, T1, T2)
+FORWARDS(Boolean)
+FORWARDS(Int32)
+FORWARD(Object)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Runtime::Serialization {
 FORWARD(SerializationInfo)

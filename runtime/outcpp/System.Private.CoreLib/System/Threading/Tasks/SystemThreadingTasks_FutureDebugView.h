@@ -3,10 +3,10 @@
 #include <rt/GCObject.h>
 
 namespace System::Private::CoreLib::System {
-FORWARD(Object)
+FORWARDS(Boolean)
 FORWARD(Exception)
 FORWARDS(Int32)
-FORWARDS(Boolean)
+FORWARD(Object)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Threading::Tasks {
 enum class TaskCreationOptions;

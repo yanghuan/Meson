@@ -4,10 +4,10 @@
 
 namespace System::Private::CoreLib::System {
 FORWARD_(Array, T1, T2)
-FORWARDS(Int32)
-FORWARD(String)
-FORWARD(Object)
 FORWARDS(Boolean)
+FORWARDS(Int32)
+FORWARD(Object)
+FORWARD(String)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Globalization {
 enum class UnicodeCategory;

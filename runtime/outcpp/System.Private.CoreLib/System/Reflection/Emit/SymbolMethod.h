@@ -4,23 +4,23 @@
 #include <System.Private.CoreLib/System/Reflection/Emit/MethodToken.h>
 
 namespace System::Private::CoreLib::System::Reflection {
-FORWARD(Module)
-enum class MethodAttributes;
+FORWARD(Binder)
+enum class BindingFlags;
 enum class CallingConventions;
 FORWARD(ICustomAttributeProvider)
-FORWARD(ParameterInfo)
+enum class MethodAttributes;
 enum class MethodImplAttributes;
-enum class BindingFlags;
-FORWARD(Binder)
 FORWARD(MethodInfo)
+FORWARD(Module)
+FORWARD(ParameterInfo)
 } // namespace System::Private::CoreLib::System::Reflection
 namespace System::Private::CoreLib::System {
-FORWARD(Type)
-FORWARD(String)
-FORWARDS(RuntimeMethodHandle)
 FORWARD_(Array, T1, T2)
-FORWARD(Object)
 FORWARDS(Boolean)
+FORWARD(Object)
+FORWARDS(RuntimeMethodHandle)
+FORWARD(String)
+FORWARD(Type)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Globalization {
 FORWARD(CultureInfo)

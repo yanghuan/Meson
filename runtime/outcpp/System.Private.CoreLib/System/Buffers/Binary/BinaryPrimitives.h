@@ -3,17 +3,17 @@
 #include <rt/GCObject.h>
 
 namespace System::Private::CoreLib::System {
-FORWARDS(SByte)
+FORWARDS(Boolean)
+FORWARDS(Byte)
 FORWARDS(Int16)
 FORWARDS(Int32)
 FORWARDS(Int64)
-FORWARDS(Byte)
+FORWARDS(ReadOnlySpan, T)
+FORWARDS(SByte)
+FORWARDS(Span, T)
 FORWARDS(UInt16)
 FORWARDS(UInt32)
 FORWARDS(UInt64)
-FORWARDS(ReadOnlySpan, T)
-FORWARDS(Boolean)
-FORWARDS(Span, T)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Buffers::Binary {
 namespace BinaryPrimitivesNamespace {

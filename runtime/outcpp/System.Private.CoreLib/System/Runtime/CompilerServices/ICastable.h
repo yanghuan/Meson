@@ -3,9 +3,9 @@
 #include <rt/GCObject.h>
 
 namespace System::Private::CoreLib::System {
-FORWARDS(RuntimeTypeHandle)
-FORWARD(Exception)
 FORWARDS(Boolean)
+FORWARD(Exception)
+FORWARDS(RuntimeTypeHandle)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Runtime::CompilerServices {
 namespace ICastableNamespace {

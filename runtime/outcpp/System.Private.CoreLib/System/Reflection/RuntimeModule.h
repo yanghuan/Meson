@@ -4,21 +4,21 @@
 #include <System.Private.CoreLib/System/IntPtr.h>
 
 namespace System::Private::CoreLib::System {
-FORWARDS(Int32)
-FORWARD(RuntimeType)
-FORWARD(String)
-FORWARDS(Guid)
-FORWARDS(Boolean)
 FORWARD_(Array, T1, T2)
-FORWARD(Type)
-FORWARDS(RuntimeTypeHandle)
+FORWARDS(Boolean)
 FORWARDS(Byte)
-FORWARD(Object)
+FORWARDS(Guid)
+FORWARDS(Int32)
 FORWARDS(ModuleHandle)
+FORWARD(Object)
+FORWARD(RuntimeType)
+FORWARDS(RuntimeTypeHandle)
+FORWARD(String)
+FORWARD(Type)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Runtime::CompilerServices {
-FORWARDS(QCallModule)
 FORWARDS(ObjectHandleOnStack)
+FORWARDS(QCallModule)
 FORWARDS(StringHandleOnStack)
 } // namespace System::Private::CoreLib::System::Runtime::CompilerServices
 namespace System::Private::CoreLib::System::Collections::Generic {
@@ -47,7 +47,7 @@ namespace RuntimeModuleNamespace {
 using namespace ::System::Private::CoreLib::System::Collections::Generic;
 using namespace ::System::Private::CoreLib::System::Runtime::CompilerServices;
 using namespace ::System::Private::CoreLib::System::Runtime::Serialization;
-using System::Collections::Generic::IList;
+using ::System::Private::CoreLib::System::Collections::Generic::IList;
 CLASS(RuntimeModule) {
   public: Int32 get_MDStreamVersion();
   public: RuntimeType get_RuntimeType();

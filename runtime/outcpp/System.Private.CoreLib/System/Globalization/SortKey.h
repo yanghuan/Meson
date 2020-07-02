@@ -3,12 +3,12 @@
 #include <rt/GCObject.h>
 
 namespace System::Private::CoreLib::System {
-FORWARD(String)
 FORWARD_(Array, T1, T2)
+FORWARDS(Boolean)
 FORWARDS(Byte)
 FORWARDS(Int32)
 FORWARD(Object)
-FORWARDS(Boolean)
+FORWARD(String)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Globalization {
 enum class CompareOptions;

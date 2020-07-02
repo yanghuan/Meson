@@ -4,14 +4,14 @@
 #include <System.Private.CoreLib/System/Boolean.h>
 
 namespace System::Private::CoreLib::System {
-FORWARDS(ReadOnlySpan, T)
-FORWARDS(Byte)
 FORWARD_(Array, T1, T2)
+FORWARDS(Byte)
 FORWARDS(Char)
 FORWARDS(Int32)
-FORWARD(String)
-FORWARDS(Span, T)
 FORWARD(Object)
+FORWARDS(ReadOnlySpan, T)
+FORWARDS(Span, T)
+FORWARD(String)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Buffers {
 enum class OperationStatus;

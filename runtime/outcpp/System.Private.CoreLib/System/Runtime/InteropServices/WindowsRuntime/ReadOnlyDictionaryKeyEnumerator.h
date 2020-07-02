@@ -3,18 +3,18 @@
 #include <rt/GCObject.h>
 
 namespace System::Private::CoreLib::System {
-FORWARD(Object)
 FORWARDS(Boolean)
+FORWARD(Object)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Collections::Generic {
-FORWARD(IReadOnlyDictionary, TKey, TValue)
 FORWARD(IEnumerator, T)
+FORWARD(IReadOnlyDictionary, TKey, TValue)
 FORWARDS_(KeyValuePair, T1, T2, T3)
 } // namespace System::Private::CoreLib::System::Collections::Generic
 namespace System::Private::CoreLib::System::Runtime::InteropServices::WindowsRuntime {
 namespace ReadOnlyDictionaryKeyEnumeratorNamespace {
 using namespace ::System::Private::CoreLib::System::Collections::Generic;
-using System::Collections::Generic::IEnumerator;
+using ::System::Private::CoreLib::System::Collections::Generic::IEnumerator;
 CLASS(ReadOnlyDictionaryKeyEnumerator, TKey, TValue) {
   private: Object get_CurrentOfIEnumerator();
   public: TKey get_Current();

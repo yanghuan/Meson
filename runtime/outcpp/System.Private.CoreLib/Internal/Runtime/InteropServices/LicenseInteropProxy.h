@@ -3,12 +3,12 @@
 #include <rt/GCObject.h>
 
 namespace System::Private::CoreLib::System {
-FORWARD(Object)
-FORWARD(Type)
 FORWARDS(Boolean)
-FORWARD(String)
-FORWARDS(RuntimeTypeHandle)
 FORWARDS(IntPtr)
+FORWARD(Object)
+FORWARDS(RuntimeTypeHandle)
+FORWARD(String)
+FORWARD(Type)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Reflection {
 FORWARD(MethodInfo)

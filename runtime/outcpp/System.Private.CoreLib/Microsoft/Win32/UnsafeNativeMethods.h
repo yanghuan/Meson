@@ -3,10 +3,10 @@
 #include <rt/GCObject.h>
 
 namespace System::Private::CoreLib::System {
-FORWARD(String)
 FORWARDS(Guid)
-FORWARD(Object)
 FORWARDS(Int32)
+FORWARD(Object)
+FORWARD(String)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::Microsoft::Win32 {
 namespace UnsafeNativeMethodsNamespace {

@@ -9,8 +9,8 @@ namespace System::Private::CoreLib::System::Collections {
 FORWARD(IEnumerator)
 } // namespace System::Private::CoreLib::System::Collections
 namespace System::Private::CoreLib::System {
-FORWARD(Object)
 FORWARDS(Int32)
+FORWARD(Object)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Runtime::InteropServices::CustomMarshalers {
 namespace EnumerableViewOfDispatchNamespace {

@@ -3,11 +3,11 @@
 #include <rt/GCObject.h>
 
 namespace System::Private::CoreLib::System {
-FORWARDS(IntPtr)
 FORWARD(AsyncCallback)
-FORWARD(Object)
-FORWARD(IAsyncResult)
 FORWARDS(Boolean)
+FORWARD(IAsyncResult)
+FORWARDS(IntPtr)
+FORWARD(Object)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Reflection::Emit {
 namespace PunkSafeHandleNamespace {

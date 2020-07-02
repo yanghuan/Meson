@@ -3,13 +3,13 @@
 #include <rt/GCObject.h>
 
 namespace System::Private::CoreLib::System {
-FORWARDS(IntPtr)
-FORWARDS(Int32)
 FORWARD_(Array, T1, T2)
-FORWARD(String)
-FORWARD(Object)
-FORWARDS(Int16)
 FORWARDS(Guid)
+FORWARDS(Int16)
+FORWARDS(Int32)
+FORWARDS(IntPtr)
+FORWARD(Object)
+FORWARD(String)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Runtime::InteropServices::ComTypes {
 FORWARD(ITypeComp)

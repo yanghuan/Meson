@@ -4,9 +4,9 @@
 #include <System.Private.CoreLib/System/Reflection/Emit/EventToken.h>
 
 namespace System::Private::CoreLib::System::Reflection {
-enum class MethodSemanticsAttributes;
 FORWARD(ConstructorInfo)
 enum class EventAttributes;
+enum class MethodSemanticsAttributes;
 } // namespace System::Private::CoreLib::System::Reflection
 namespace System::Private::CoreLib::System {
 FORWARD_(Array, T1, T2)

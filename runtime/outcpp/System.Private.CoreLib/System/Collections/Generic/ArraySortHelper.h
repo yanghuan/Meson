@@ -7,9 +7,11 @@ FORWARD_(IArraySortHelper, T1, T2, T3)
 namespace ArraySortHelperNamespace {
 CLASS_FORWARD(ArraySortHelper, T1, T2, T3)
 CLASS_(ArraySortHelper, T) {
+  public: static IArraySortHelper<T> get_Default();
   private: static IArraySortHelper<T> s_defaultArraySortHelper;
 };
 CLASS_(ArraySortHelper, TKey, TValue) {
+  public: static IArraySortHelper<TKey, TValue> get_Default();
   private: static IArraySortHelper<TKey, TValue> s_defaultArraySortHelper;
 };
 } // namespace ArraySortHelperNamespace

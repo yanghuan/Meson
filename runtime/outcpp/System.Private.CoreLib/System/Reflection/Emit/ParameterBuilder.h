@@ -5,11 +5,11 @@
 #include <System.Private.CoreLib/System/Reflection/Emit/ParameterToken.h>
 
 namespace System::Private::CoreLib::System {
-FORWARD(String)
-FORWARDS(Boolean)
-FORWARD(Object)
 FORWARD_(Array, T1, T2)
+FORWARDS(Boolean)
 FORWARDS(Byte)
+FORWARD(Object)
+FORWARD(String)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Reflection {
 FORWARD(ConstructorInfo)

@@ -3,10 +3,10 @@
 #include <rt/GCObject.h>
 
 namespace System::Private::CoreLib::System {
-FORWARDS(ReadOnlySpan, T)
 FORWARD(AsyncCallback)
-FORWARD(Object)
 FORWARD(IAsyncResult)
+FORWARD(Object)
+FORWARDS(ReadOnlySpan, T)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Buffers {
 namespace ReadOnlySpanActionNamespace {

@@ -5,17 +5,17 @@
 #include <System.Private.CoreLib/System/Int32.h>
 
 namespace System::Private::CoreLib::System::Reflection {
-FORWARD(Module)
 enum class CallingConventions;
-enum class MdSigCallingConvention : uint8_t;
 enum class CorElementType : uint8_t;
+enum class MdSigCallingConvention : uint8_t;
+FORWARD(Module)
 } // namespace System::Private::CoreLib::System::Reflection
 namespace System::Private::CoreLib::System {
-FORWARD(Type)
 FORWARD_(Array, T1, T2)
 FORWARDS(Byte)
 FORWARD(Object)
 FORWARD(String)
+FORWARD(Type)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Runtime::InteropServices {
 enum class CallingConvention;

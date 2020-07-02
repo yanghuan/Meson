@@ -4,9 +4,9 @@
 
 namespace System::Private::CoreLib::System {
 FORWARD_(Array, T1, T2)
-FORWARDS_(Nullable, T1, T2)
-FORWARDS(Int32)
 FORWARDS(Boolean)
+FORWARDS(Int32)
+FORWARDS_(Nullable, T1, T2)
 FORWARD(Object)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Collections::Generic {

@@ -3,14 +3,14 @@
 #include <rt/GCObject.h>
 
 namespace System::Private::CoreLib::System {
+FORWARD_(Array, T1, T2)
+FORWARDS(Boolean)
 FORWARDS(Guid)
 FORWARDS(Int32)
+FORWARD(Object)
 FORWARDS(RuntimeTypeHandle)
 FORWARD(String)
 FORWARD(Type)
-FORWARDS(Boolean)
-FORWARD(Object)
-FORWARD_(Array, T1, T2)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Globalization {
 FORWARD(CultureInfo)

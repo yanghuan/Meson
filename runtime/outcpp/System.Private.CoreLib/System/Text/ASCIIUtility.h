@@ -3,11 +3,11 @@
 #include <rt/GCObject.h>
 
 namespace System::Private::CoreLib::System {
-FORWARDS(UInt64)
 FORWARDS(Boolean)
-FORWARDS(UInt32)
 FORWARDS(Byte)
 FORWARDS(Char)
+FORWARDS(UInt32)
+FORWARDS(UInt64)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Text {
 namespace ASCIIUtilityNamespace {

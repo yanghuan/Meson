@@ -6,26 +6,26 @@
 #include <System.Private.CoreLib/System/Reflection/Emit/MethodToken.h>
 
 namespace System::Private::CoreLib::System {
-FORWARD(String)
 FORWARD_(Array, T1, T2)
 FORWARDS(Byte)
-FORWARD(Type)
-FORWARDS(RuntimeMethodHandle)
 FORWARD(Object)
+FORWARDS(RuntimeMethodHandle)
+FORWARD(String)
+FORWARD(Type)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Reflection {
-FORWARD(Module)
+FORWARD(Binder)
+enum class BindingFlags;
+enum class CallingConventions;
+FORWARD(ConstructorInfo)
 FORWARD(ICustomAttributeProvider)
 enum class MethodAttributes;
-enum class CallingConventions;
-FORWARD(ParameterInfo)
 FORWARD(MethodBase)
-enum class BindingFlags;
-FORWARD(Binder)
 enum class MethodImplAttributes;
 FORWARD(MethodInfo)
+FORWARD(Module)
 enum class ParameterAttributes;
-FORWARD(ConstructorInfo)
+FORWARD(ParameterInfo)
 } // namespace System::Private::CoreLib::System::Reflection
 namespace System::Private::CoreLib::System::Globalization {
 FORWARD(CultureInfo)

@@ -3,13 +3,13 @@
 #include <rt/GCObject.h>
 
 namespace System::Private::CoreLib::System {
-FORWARD(String)
-FORWARD(AsyncCallback)
-FORWARD(Object)
-FORWARD(IAsyncResult)
 FORWARD_(Array, T1, T2)
+FORWARD(AsyncCallback)
+FORWARD(IAsyncResult)
 FORWARDS(Int32)
 FORWARDS(IntPtr)
+FORWARD(Object)
+FORWARD(String)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Reflection {
 FORWARD(AssemblyName)

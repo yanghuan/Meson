@@ -4,15 +4,15 @@
 
 namespace System::Private::CoreLib::System {
 FORWARDS(Byte)
-FORWARDS(SByte)
-FORWARDS(UInt16)
-FORWARDS(Int16)
-FORWARDS(UInt32)
-FORWARDS(Int32)
-FORWARDS(UInt64)
-FORWARDS(Int64)
-FORWARDS(Single)
 FORWARDS(Double)
+FORWARDS(Int16)
+FORWARDS(Int32)
+FORWARDS(Int64)
+FORWARDS(SByte)
+FORWARDS(Single)
+FORWARDS(UInt16)
+FORWARDS(UInt32)
+FORWARDS(UInt64)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Numerics {
 namespace ConstantHelperNamespace {

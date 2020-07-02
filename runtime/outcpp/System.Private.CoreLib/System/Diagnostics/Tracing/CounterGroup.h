@@ -5,17 +5,17 @@
 #include <System.Private.CoreLib/System/Int32.h>
 
 namespace System::Private::CoreLib::System {
+FORWARD_(Array, T1, T2)
 FORWARD(Object)
 FORWARDS(Single)
-FORWARD_(Array, T1, T2)
 FORWARD_(WeakReference, T1, T2)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Collections::Generic {
 FORWARD(List, T)
 } // namespace System::Private::CoreLib::System::Collections::Generic
 namespace System::Private::CoreLib::System::Threading {
-FORWARD(Thread)
 FORWARD(AutoResetEvent)
+FORWARD(Thread)
 } // namespace System::Private::CoreLib::System::Threading
 namespace System::Private::CoreLib::System::Diagnostics::Tracing {
 FORWARD(DiagnosticCounter)

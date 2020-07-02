@@ -3,13 +3,15 @@
 #include <rt/GCObject.h>
 
 namespace System::Private::CoreLib::System {
-FORWARDS(Boolean)
 FORWARD_(Array, T1, T2)
+FORWARDS(Boolean)
 FORWARDS(Int32)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Collections::Generic {
 namespace ICollectionNamespace {
 CLASS(ICollection, T) {
+  public: Int32 get_Count();
+  public: Boolean get_IsReadOnly();
   public: void Add(T item);
   public: void Clear();
   public: Boolean Contains(T item);

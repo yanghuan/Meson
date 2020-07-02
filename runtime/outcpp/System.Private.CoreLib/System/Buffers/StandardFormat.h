@@ -4,13 +4,13 @@
 #include <System.Private.CoreLib/System/Byte.h>
 
 namespace System::Private::CoreLib::System {
-FORWARDS(Char)
 FORWARDS(Boolean)
-FORWARDS(ReadOnlySpan, T)
-FORWARD(String)
-FORWARD(Object)
+FORWARDS(Char)
 FORWARDS(Int32)
+FORWARD(Object)
+FORWARDS(ReadOnlySpan, T)
 FORWARDS(Span, T)
+FORWARD(String)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Buffers {
 namespace StandardFormatNamespace {

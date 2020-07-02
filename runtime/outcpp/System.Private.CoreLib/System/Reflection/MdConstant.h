@@ -3,10 +3,10 @@
 #include <rt/GCObject.h>
 
 namespace System::Private::CoreLib::System {
-FORWARDS(Int32)
-FORWARDS(RuntimeTypeHandle)
 FORWARDS(Boolean)
+FORWARDS(Int32)
 FORWARD(Object)
+FORWARDS(RuntimeTypeHandle)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Reflection {
 FORWARDS(MetadataImport)

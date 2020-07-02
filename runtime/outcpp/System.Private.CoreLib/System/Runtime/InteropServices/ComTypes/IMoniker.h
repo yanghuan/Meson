@@ -3,9 +3,9 @@
 #include <rt/GCObject.h>
 
 namespace System::Private::CoreLib::System {
+FORWARDS(Boolean)
 FORWARDS(Guid)
 FORWARDS(Int32)
-FORWARDS(Boolean)
 FORWARDS(Int64)
 FORWARD(Object)
 FORWARD(String)

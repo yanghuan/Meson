@@ -3,11 +3,11 @@
 #include <rt/GCObject.h>
 
 namespace System::Private::CoreLib::System {
-FORWARDS(Boolean)
-FORWARD(Object)
-FORWARDS(Int32)
 FORWARD_(Array, T1, T2)
+FORWARDS(Boolean)
+FORWARDS(Int32)
 FORWARDS(Int64)
+FORWARD(Object)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Collections::Generic {
 FORWARD(IEnumerator, T)
@@ -16,7 +16,7 @@ namespace System::Private::CoreLib::System::Collections::Concurrent {
 FORWARD(ConcurrentQueueSegment, T)
 namespace ConcurrentQueueNamespace {
 using namespace ::System::Private::CoreLib::System::Collections::Generic;
-using System::Collections::Generic::IEnumerator;
+using ::System::Private::CoreLib::System::Collections::Generic::IEnumerator;
 CLASS(ConcurrentQueue, T) {
   private: Boolean get_IsSynchronizedOfICollection();
   private: Object get_SyncRootOfICollection();

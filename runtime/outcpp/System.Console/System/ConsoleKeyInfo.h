@@ -4,9 +4,9 @@
 #include <System.Private.CoreLib/System/Char.h>
 
 namespace System::Private::CoreLib::System {
-FORWARD(Object)
 FORWARDS(Boolean)
 FORWARDS(Int32)
+FORWARD(Object)
 } // namespace System::Private::CoreLib::System
 namespace System::Console::System {
 enum class ConsoleKey;

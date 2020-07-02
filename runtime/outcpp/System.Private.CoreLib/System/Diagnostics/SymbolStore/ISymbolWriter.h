@@ -3,11 +3,11 @@
 #include <rt/GCObject.h>
 
 namespace System::Private::CoreLib::System {
-FORWARD(String)
-FORWARDS(Guid)
 FORWARD_(Array, T1, T2)
-FORWARDS(Int32)
 FORWARDS(Byte)
+FORWARDS(Guid)
+FORWARDS(Int32)
+FORWARD(String)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Reflection {
 enum class FieldAttributes;

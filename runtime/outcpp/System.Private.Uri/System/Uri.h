@@ -6,12 +6,12 @@
 #include <System.Private.CoreLib/System/UInt16.h>
 
 namespace System::Private::CoreLib::System {
-FORWARD(String)
-FORWARDS(Char)
-FORWARD(Object)
-FORWARDS(Int64)
-FORWARDS(ReadOnlySpan, T)
 FORWARD_(Array, T1, T2)
+FORWARDS(Char)
+FORWARDS(Int64)
+FORWARD(Object)
+FORWARDS(ReadOnlySpan, T)
+FORWARD(String)
 enum class StringComparison;
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Runtime::Serialization {
@@ -20,9 +20,9 @@ FORWARDS(StreamingContext)
 } // namespace System::Private::CoreLib::System::Runtime::Serialization
 namespace System::Private::Uri::System {
 FORWARD(UriParser)
+enum class UriHostNameType;
 enum class ParsingError;
 FORWARD(UriFormatException)
-enum class UriHostNameType;
 enum class UriPartial;
 enum class UriComponents;
 enum class UriFormat;
@@ -126,6 +126,41 @@ CLASS(Uri) {
     public: ::System::Private::CoreLib::System::String DnsSafeHost;
     public: MoreInfo MoreInfo;
   };
+  private: Boolean get_IsImplicitFile();
+  private: Boolean get_IsUncOrDosPath();
+  private: Boolean get_IsDosPath();
+  private: Boolean get_IsUncPath();
+  private: Flags get_HostType();
+  private: UriParser get_Syntax();
+  private: Boolean get_IsNotAbsoluteUri();
+  private: Boolean get_AllowIdn();
+  public: Boolean get_UserDrivenParsing();
+  private: UInt16 get_SecuredPathIndex();
+  public: String get_AbsolutePath();
+  private: String get_PrivateAbsolutePath();
+  public: String get_AbsoluteUri();
+  public: String get_LocalPath();
+  public: String get_Authority();
+  public: UriHostNameType get_HostNameType();
+  public: Boolean get_IsDefaultPort();
+  public: Boolean get_IsFile();
+  public: Boolean get_IsLoopback();
+  public: String get_PathAndQuery();
+  public: Array<String> get_Segments();
+  public: Boolean get_IsUnc();
+  public: String get_Host();
+  public: Int32 get_Port();
+  public: String get_Query();
+  public: String get_Fragment();
+  public: String get_Scheme();
+  private: Boolean get_OriginalStringSwitched();
+  public: String get_OriginalString();
+  public: String get_DnsSafeHost();
+  public: String get_IdnHost();
+  public: Boolean get_IsAbsoluteUri();
+  public: Boolean get_UserEscaped();
+  public: String get_UserInfo();
+  public: Boolean get_HasAuthority();
   public: static Boolean IriParsingStatic(UriParser syntax);
   private: Boolean AllowIdnStatic(UriParser syntax, Flags flags);
   private: Boolean IsIntranet(String schemeHost);

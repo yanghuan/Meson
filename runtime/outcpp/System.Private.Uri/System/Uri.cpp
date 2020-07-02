@@ -3,6 +3,111 @@
 #include <System.Private.Uri/System/Uri-dep.h>
 
 namespace System::Private::Uri::System::UriNamespace {
+Boolean Uri___::get_IsImplicitFile() {
+  return Boolean();
+};
+Boolean Uri___::get_IsUncOrDosPath() {
+  return Boolean();
+};
+Boolean Uri___::get_IsDosPath() {
+  return Boolean();
+};
+Boolean Uri___::get_IsUncPath() {
+  return Boolean();
+};
+Uri::in::Flags Uri___::get_HostType() {
+  return Uri::in::Flags();
+};
+UriParser Uri___::get_Syntax() {
+  return nullptr;
+};
+Boolean Uri___::get_IsNotAbsoluteUri() {
+  return Boolean();
+};
+Boolean Uri___::get_AllowIdn() {
+  return Boolean();
+};
+Boolean Uri___::get_UserDrivenParsing() {
+  return Boolean();
+};
+UInt16 Uri___::get_SecuredPathIndex() {
+  return UInt16();
+};
+String Uri___::get_AbsolutePath() {
+  return nullptr;
+};
+String Uri___::get_PrivateAbsolutePath() {
+  return nullptr;
+};
+String Uri___::get_AbsoluteUri() {
+  return nullptr;
+};
+String Uri___::get_LocalPath() {
+  return nullptr;
+};
+String Uri___::get_Authority() {
+  return nullptr;
+};
+UriHostNameType Uri___::get_HostNameType() {
+  return UriHostNameType();
+};
+Boolean Uri___::get_IsDefaultPort() {
+  return Boolean();
+};
+Boolean Uri___::get_IsFile() {
+  return Boolean();
+};
+Boolean Uri___::get_IsLoopback() {
+  return Boolean();
+};
+String Uri___::get_PathAndQuery() {
+  return nullptr;
+};
+Array<String> Uri___::get_Segments() {
+  return Array<String>();
+};
+Boolean Uri___::get_IsUnc() {
+  return Boolean();
+};
+String Uri___::get_Host() {
+  return nullptr;
+};
+Int32 Uri___::get_Port() {
+  return Int32();
+};
+String Uri___::get_Query() {
+  return nullptr;
+};
+String Uri___::get_Fragment() {
+  return nullptr;
+};
+String Uri___::get_Scheme() {
+  return nullptr;
+};
+Boolean Uri___::get_OriginalStringSwitched() {
+  return Boolean();
+};
+String Uri___::get_OriginalString() {
+  return nullptr;
+};
+String Uri___::get_DnsSafeHost() {
+  return nullptr;
+};
+String Uri___::get_IdnHost() {
+  return nullptr;
+};
+Boolean Uri___::get_IsAbsoluteUri() {
+  return Boolean();
+};
+Boolean Uri___::get_UserEscaped() {
+  return Boolean();
+};
+String Uri___::get_UserInfo() {
+  return nullptr;
+};
+Boolean Uri___::get_HasAuthority() {
+  return Boolean();
+};
 Boolean Uri___::IriParsingStatic(UriParser syntax) {
   return Boolean();
 };

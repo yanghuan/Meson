@@ -4,11 +4,11 @@
 #include <System.Private.CoreLib/System/Boolean.h>
 
 namespace System::Private::CoreLib::System {
+FORWARDS(Int32)
+FORWARD(Object)
 FORWARD(String)
 FORWARD(Type)
 FORWARD(Version)
-FORWARD(Object)
-FORWARDS(Int32)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Globalization {
 FORWARD(CultureInfo)
@@ -23,8 +23,8 @@ namespace System::Private::CoreLib::System::IO {
 FORWARD(UnmanagedMemoryStream)
 } // namespace System::Private::CoreLib::System::IO
 namespace System::Private::CoreLib::Internal::Resources {
-FORWARD(WindowsRuntimeResourceManagerBase)
 FORWARD(PRIExceptionInfo)
+FORWARD(WindowsRuntimeResourceManagerBase)
 } // namespace System::Private::CoreLib::Internal::Resources
 namespace System::Private::CoreLib::System::Resources {
 FORWARD(ResourceSet)

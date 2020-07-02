@@ -6,11 +6,11 @@
 namespace System::Private::CoreLib::System {
 FORWARD_(Array, T1, T2)
 FORWARDS(Byte)
+FORWARDS(Char)
 FORWARDS(Int32)
+FORWARDS(Int64)
 FORWARD(String)
 FORWARDS(UInt32)
-FORWARDS(Int64)
-FORWARDS(Char)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Diagnostics::Tracing {
 enum class EventKeywords : int64_t;

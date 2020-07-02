@@ -7,8 +7,8 @@
 #include <System.Private.CoreLib/System/UInt32.h>
 
 namespace System::Private::CoreLib::System {
-FORWARDS(IntPtr)
 FORWARD_(Array, T1, T2)
+FORWARDS(IntPtr)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Threading {
 FORWARD(TimerQueueTimer)

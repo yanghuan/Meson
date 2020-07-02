@@ -6,11 +6,11 @@
 #include <System.Private.CoreLib/System/Int32.h>
 
 namespace System::Private::CoreLib::System {
-FORWARD(Object)
 FORWARD_(Array, T1, T2)
 FORWARDS(Byte)
-FORWARD(String)
+FORWARD(Object)
 FORWARDS(SByte)
+FORWARD(String)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Text {
 FORWARD(DecoderFallbackBuffer)

@@ -3,8 +3,8 @@
 #include <rt/GCObject.h>
 
 namespace System::Private::CoreLib::System::Globalization {
-FORWARD(CultureInfo)
 enum class CompareOptions;
+FORWARD(CultureInfo)
 } // namespace System::Private::CoreLib::System::Globalization
 namespace System::Private::CoreLib::System {
 enum class StringComparison;

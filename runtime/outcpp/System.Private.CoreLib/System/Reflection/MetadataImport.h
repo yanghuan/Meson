@@ -4,13 +4,13 @@
 #include <System.Private.CoreLib/System/IntPtr.h>
 
 namespace System::Private::CoreLib::System {
-FORWARDS(Int32)
-FORWARD(Object)
 FORWARDS(Boolean)
-FORWARD(String)
+FORWARDS(Guid)
+FORWARDS(Int32)
 FORWARDS(Int64)
 FORWARDS(MdUtf8String)
-FORWARDS(Guid)
+FORWARD(Object)
+FORWARD(String)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Runtime::InteropServices {
 enum class UnmanagedType;

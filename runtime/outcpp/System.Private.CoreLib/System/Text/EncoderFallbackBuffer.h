@@ -5,10 +5,10 @@
 #include <System.Private.CoreLib/System/Int32.h>
 
 namespace System::Private::CoreLib::System {
+FORWARDS(Byte)
 FORWARDS(Char)
 FORWARDS(ReadOnlySpan, T)
 FORWARDS(Span, T)
-FORWARDS(Byte)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Text {
 FORWARD(EncoderNLS)

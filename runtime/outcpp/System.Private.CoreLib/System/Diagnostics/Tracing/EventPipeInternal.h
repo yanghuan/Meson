@@ -5,15 +5,15 @@
 #include <System.Private.CoreLib/System/Diagnostics/Tracing/EventProvider.h>
 
 namespace System::Private::CoreLib::System {
-FORWARD(String)
-FORWARDS(UInt32)
 FORWARD_(Array, T1, T2)
-FORWARDS(UInt64)
-FORWARDS(IntPtr)
-FORWARDS(Int64)
+FORWARDS(Boolean)
 FORWARDS(Guid)
 FORWARDS(Int32)
-FORWARDS(Boolean)
+FORWARDS(Int64)
+FORWARDS(IntPtr)
+FORWARD(String)
+FORWARDS(UInt32)
+FORWARDS(UInt64)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Diagnostics::Tracing {
 enum class EventPipeSerializationFormat;

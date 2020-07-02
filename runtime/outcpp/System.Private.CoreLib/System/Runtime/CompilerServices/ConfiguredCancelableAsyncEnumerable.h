@@ -5,8 +5,8 @@
 #include <System.Private.CoreLib/System/Threading/CancellationToken.h>
 
 namespace System::Private::CoreLib::System::Collections::Generic {
-FORWARD(IAsyncEnumerator, T)
 FORWARD(IAsyncEnumerable, T)
+FORWARD(IAsyncEnumerator, T)
 } // namespace System::Private::CoreLib::System::Collections::Generic
 namespace System::Private::CoreLib::System::Runtime::CompilerServices {
 FORWARDS_(ConfiguredValueTaskAwaitable, T1, T2)

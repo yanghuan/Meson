@@ -33,7 +33,6 @@ namespace Meson.Compiler {
       }
 
       var typeDefinition = new TypeDefinitionTransform(this, classNamespace, types);
-      CheckRefactorNames();
       if (root_.Kind != TypeKind.Enum) {
         var headIncludes = new HashSet<string>();
         var headUsings = new HashSet<string>();
@@ -57,6 +56,7 @@ namespace Meson.Compiler {
         AddForwards(rootNamespace, forwards, headUsingsSyntax);
         rootNamespace.Add(classNamespace);
         AddTypeUsingDeclaration(rootNamespace, classNamespace, typeDefinition, types);
+        CheckRefactorNames(headUsingsSyntax);
         if (root_.Kind != TypeKind.Interface) {
           CompilationUnit.AddReferencesIncludes(root_.Name, srcIncludes.OrderBy(i => i));
           CompilationUnit.AddSrcReferencesIncludes(srcReferences_.Select(i => i.GetReferenceIncludeString(true)).OrderBy(i => i));
@@ -101,14 +101,14 @@ namespace Meson.Compiler {
           outs.Add((type, forward));
         }
         if (type.IsIEnumeratorOfT() || type.IsIListOfT()) {
-          usingsSyntax.Add(new UsingNamespaceOrTypeSyntax(type.FullName.ReplaceDot(), false));
+          usingsSyntax.Add(new UsingNamespaceOrTypeSyntax(type.GetFullName(), false));
         }
       }
       if (outs.Count > 0) {
         var group = outs.GroupBy(i => i.Type.GetFullNamespace());
         foreach (var g in group) {
           var ns = new NamespaceSyntax(g.Key);
-          ns.AddRange(g.Select(i => i.Forward));
+          ns.AddRange(g.OrderBy(i => i.Type.Name).Select(i => i.Forward));
           CompilationUnit.HeadStatements.Add(ns);
         }
       }
@@ -283,12 +283,39 @@ namespace Meson.Compiler {
       return nestedCycleRefNames_.GetOrDefault(symbol);
     }
 
-    private void CheckRefactorNames() {
+    private static UsingDeclarationSyntax GetUsingDeclarationSyntax(IdentifierSyntax name, ITypeDefinition type) {
+      var template = type.GetTemplateSyntax();
+      ExpressionSyntax typeFullName = type.GetFullName();
+      if (template != null) {
+        typeFullName = new GenericIdentifierSyntax(typeFullName, template.TypeNames);
+      }
+      return new UsingDeclarationSyntax(name, typeFullName) { Template = template };
+    }
+
+    private void CheckRefactorNames(StatementListSyntax headUsingsSyntax) {
       foreach (var set in sameBaseNames_.Values) {
         if (set.Count > 1) {
           set.RemoveWhere(Generator.IsVoidGenericType);
           if (set.Count > 0) {
-
+            var types = set.ToList();
+            types.Sort((x, y) => {
+              if (x.TypeParameterCount > 0 && y.TypeParameterCount == 0) {
+                return -1;
+              }
+              return x.FullName.CompareTo(y.FullName);
+            });
+            int index = 0;
+            foreach (var type in types) {
+              var name = typeBaseNames_[type];
+              if (index == 0) {
+                headUsingsSyntax.Add(GetUsingDeclarationSyntax(name.NameExpression, type));
+              } else {
+                IdentifierSyntax newName = type.Name + index;
+                headUsingsSyntax.Add(GetUsingDeclarationSyntax(newName, type));
+                name.Update(newName);
+              }
+              ++index;
+            }
           }
         }
       }

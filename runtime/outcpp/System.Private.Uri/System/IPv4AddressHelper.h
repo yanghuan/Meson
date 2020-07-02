@@ -3,13 +3,13 @@
 #include <rt/GCObject.h>
 
 namespace System::Private::CoreLib::System {
-FORWARD(String)
-FORWARDS(Int32)
 FORWARDS(Boolean)
 FORWARDS(Byte)
-FORWARDS(ReadOnlySpan, T)
 FORWARDS(Char)
+FORWARDS(Int32)
 FORWARDS(Int64)
+FORWARDS(ReadOnlySpan, T)
+FORWARD(String)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::Uri::System {
 namespace IPv4AddressHelperNamespace {

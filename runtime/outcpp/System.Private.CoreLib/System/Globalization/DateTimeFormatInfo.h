@@ -5,16 +5,16 @@
 #include <System.Private.CoreLib/System/Int32.h>
 
 namespace System::Private::CoreLib::System {
-FORWARD(String)
-enum class TokenType;
+FORWARDS(__DTString)
 FORWARD_(Array, T1, T2)
+FORWARDS(Char)
 enum class DayOfWeek;
 FORWARD(IFormatProvider)
-FORWARD(Type)
 FORWARD(Object)
-FORWARDS(Char)
 FORWARDS(ReadOnlySpan, T)
-FORWARDS(__DTString)
+FORWARD(String)
+enum class TokenType;
+FORWARD(Type)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Globalization {
 FORWARD(CultureInfo)

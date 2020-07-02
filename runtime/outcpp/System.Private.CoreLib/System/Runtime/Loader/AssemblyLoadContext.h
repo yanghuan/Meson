@@ -6,8 +6,8 @@
 #include <System.Private.CoreLib/System/IntPtr.h>
 
 namespace System::Private::CoreLib::System::Collections::Generic {
-FORWARD(IEnumerable, T)
 FORWARD(Dictionary, TKey, TValue)
+FORWARD(IEnumerable, T)
 } // namespace System::Private::CoreLib::System::Collections::Generic
 namespace System::Private::CoreLib::System::Reflection {
 FORWARD(Assembly)
@@ -15,18 +15,18 @@ FORWARD(AssemblyName)
 FORWARD(RuntimeAssembly)
 } // namespace System::Private::CoreLib::System::Reflection
 namespace System::Private::CoreLib::System {
-FORWARD(String)
-FORWARDS(Int32)
-FORWARD_(Array, T1, T2)
-FORWARDS(ReadOnlySpan, T)
-FORWARDS(Byte)
-FORWARD(Type)
-FORWARD(ResolveEventHandler)
-FORWARD_(WeakReference, T1, T2)
-FORWARD(Object)
-FORWARD_(Func, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10)
 FORWARD_(Action, T1, T2, T3, T4, T5, T6, T7, T8, T9)
+FORWARD_(Array, T1, T2)
 FORWARD(AssemblyLoadEventHandler)
+FORWARDS(Byte)
+FORWARD_(Func, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10)
+FORWARDS(Int32)
+FORWARD(Object)
+FORWARDS(ReadOnlySpan, T)
+FORWARD(ResolveEventHandler)
+FORWARD(String)
+FORWARD(Type)
+FORWARD_(WeakReference, T1, T2)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Runtime::CompilerServices {
 FORWARDS(ObjectHandleOnStack)

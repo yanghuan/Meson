@@ -3,13 +3,13 @@
 #include <rt/GCObject.h>
 
 namespace System::Private::CoreLib::System {
-FORWARD(String)
-FORWARDS(RuntimeTypeHandle)
 FORWARD(RuntimeType)
+FORWARDS(RuntimeTypeHandle)
+FORWARD(String)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Reflection {
-FORWARD(RuntimeModule)
 FORWARD(RuntimeAssembly)
+FORWARD(RuntimeModule)
 } // namespace System::Private::CoreLib::System::Reflection
 namespace System::Private::CoreLib::System::Reflection::Emit {
 FORWARD(ModuleBuilder)

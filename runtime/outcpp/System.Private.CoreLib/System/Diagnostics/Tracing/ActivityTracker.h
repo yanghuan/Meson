@@ -7,13 +7,13 @@
 #include <System.Private.CoreLib/System/Int64.h>
 
 namespace System::Private::CoreLib::System {
+FORWARDS(Byte)
 FORWARD(String)
 FORWARDS(UInt32)
-FORWARDS(Byte)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Threading {
-FORWARDS(AsyncLocalValueChangedArgs, T)
 FORWARD(AsyncLocal, T)
+FORWARDS(AsyncLocalValueChangedArgs, T)
 } // namespace System::Private::CoreLib::System::Threading
 namespace System::Private::CoreLib::System::Diagnostics::Tracing {
 enum class EventActivityOptions;

@@ -4,14 +4,14 @@
 #include <System.Private.CoreLib/System/Int32.h>
 
 namespace System::Private::CoreLib::System {
-FORWARD(String)
-FORWARDS(RuntimeFieldHandle)
-FORWARDS(Boolean)
-FORWARD(Type)
-FORWARD(Object)
-FORWARDS(TypedReference)
 FORWARD_(Array, T1, T2)
+FORWARDS(Boolean)
+FORWARD(Object)
+FORWARDS(RuntimeFieldHandle)
 FORWARD(RuntimeType)
+FORWARD(String)
+FORWARD(Type)
+FORWARDS(TypedReference)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Globalization {
 FORWARD(CultureInfo)

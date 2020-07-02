@@ -4,16 +4,16 @@
 #include <System.Private.CoreLib/System/IntPtr.h>
 
 namespace System::Private::CoreLib::System {
-FORWARDS(Guid)
-FORWARDS(UInt32)
 FORWARD_(Array, T1, T2)
-FORWARDS(Byte)
-FORWARDS(Int32)
 FORWARD(AsyncCallback)
-FORWARD(Object)
-FORWARD(IAsyncResult)
-FORWARD(String)
 FORWARDS(Boolean)
+FORWARDS(Byte)
+FORWARDS(Guid)
+FORWARD(IAsyncResult)
+FORWARDS(Int32)
+FORWARD(Object)
+FORWARD(String)
+FORWARDS(UInt32)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Diagnostics::SymbolStore {
 FORWARD(ISymbolWriter)

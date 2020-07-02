@@ -3,11 +3,11 @@
 #include <rt/GCObject.h>
 
 namespace System::Private::CoreLib::System {
-FORWARDS(DateTime)
 FORWARD_(Array, T1, T2)
-FORWARDS(Int32)
-enum class DayOfWeek;
 FORWARDS(Boolean)
+FORWARDS(DateTime)
+enum class DayOfWeek;
+FORWARDS(Int32)
 FORWARD(String)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Globalization {

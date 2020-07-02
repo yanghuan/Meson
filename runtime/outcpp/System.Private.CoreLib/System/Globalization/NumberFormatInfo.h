@@ -5,10 +5,10 @@
 #include <System.Private.CoreLib/System/Int32.h>
 
 namespace System::Private::CoreLib::System {
-FORWARD(String)
 FORWARD_(Array, T1, T2)
 FORWARD(IFormatProvider)
 FORWARD(Object)
+FORWARD(String)
 FORWARD(Type)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Globalization {

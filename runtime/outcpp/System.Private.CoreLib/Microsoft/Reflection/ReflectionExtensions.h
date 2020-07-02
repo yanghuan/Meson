@@ -3,8 +3,8 @@
 #include <rt/GCObject.h>
 
 namespace System::Private::CoreLib::System {
-FORWARD(Type)
 FORWARDS(Boolean)
+FORWARD(Type)
 enum class TypeCode;
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Reflection {

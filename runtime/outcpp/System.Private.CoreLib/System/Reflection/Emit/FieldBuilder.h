@@ -5,20 +5,20 @@
 #include <System.Private.CoreLib/System/Reflection/Emit/FieldToken.h>
 
 namespace System::Private::CoreLib::System::Reflection {
-FORWARD(Module)
-enum class FieldAttributes;
-enum class BindingFlags;
 FORWARD(Binder)
+enum class BindingFlags;
 FORWARD(ConstructorInfo)
+enum class FieldAttributes;
+FORWARD(Module)
 } // namespace System::Private::CoreLib::System::Reflection
 namespace System::Private::CoreLib::System {
-FORWARD(String)
-FORWARD(Type)
-FORWARDS(RuntimeFieldHandle)
 FORWARD_(Array, T1, T2)
+FORWARDS(Boolean)
 FORWARDS(Byte)
 FORWARD(Object)
-FORWARDS(Boolean)
+FORWARDS(RuntimeFieldHandle)
+FORWARD(String)
+FORWARD(Type)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Globalization {
 FORWARD(CultureInfo)

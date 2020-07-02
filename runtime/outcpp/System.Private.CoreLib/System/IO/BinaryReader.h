@@ -5,21 +5,21 @@
 #include <System.Private.CoreLib/System/Int32.h>
 
 namespace System::Private::CoreLib::System {
+FORWARD_(Array, T1, T2)
 FORWARDS(Byte)
-FORWARDS(SByte)
 FORWARDS(Char)
+FORWARDS(Decimal)
+FORWARDS(Double)
 FORWARDS(Int16)
+FORWARDS(Int64)
+FORWARDS(ReadOnlySpan, T)
+FORWARDS(SByte)
+FORWARDS(Single)
+FORWARDS(Span, T)
+FORWARD(String)
 FORWARDS(UInt16)
 FORWARDS(UInt32)
-FORWARDS(Int64)
 FORWARDS(UInt64)
-FORWARDS(Single)
-FORWARDS(Double)
-FORWARDS(Decimal)
-FORWARD(String)
-FORWARD_(Array, T1, T2)
-FORWARDS(Span, T)
-FORWARDS(ReadOnlySpan, T)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Text {
 FORWARD(Decoder)

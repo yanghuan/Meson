@@ -12,27 +12,27 @@
 
 namespace System::Private::CoreLib::System {
 FORWARD_(Array, T1, T2)
-FORWARDS(UInt32)
-FORWARD(String)
-FORWARD(Exception)
-FORWARD(Type)
-FORWARD(Object)
-FORWARDS(DateTime)
 FORWARD(Attribute)
 FORWARDS(Char)
+FORWARDS(DateTime)
 FORWARD_(EventHandler, T1, T2)
+FORWARD(Exception)
+FORWARD(Object)
+FORWARD(String)
+FORWARD(Type)
+FORWARDS(UInt32)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Collections::Generic {
+FORWARD(Dictionary, TKey, TValue)
 FORWARD(IDictionary, TKey, TValue)
 FORWARD(IEnumerable, T)
-FORWARD(Dictionary, TKey, TValue)
 FORWARD(List, T)
 } // namespace System::Private::CoreLib::System::Collections::Generic
 namespace System::Private::CoreLib::System::Reflection {
-FORWARD(ParameterInfo)
-FORWARD(MemberInfo)
 FORWARD(FieldInfo)
+FORWARD(MemberInfo)
 FORWARD(MethodInfo)
+FORWARD(ParameterInfo)
 } // namespace System::Private::CoreLib::System::Reflection
 namespace System::Private::CoreLib::System::Runtime::InteropServices {
 FORWARDS(GCHandle)

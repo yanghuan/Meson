@@ -4,14 +4,14 @@
 #include <System.Private.CoreLib/System/Int32.h>
 
 namespace System::Private::CoreLib::System {
-FORWARD(String)
-FORWARDS(Boolean)
-FORWARDS(ReadOnlySpan, T)
-FORWARDS(Char)
 FORWARD_(Array, T1, T2)
-FORWARDS(TimeSpan)
+FORWARDS(Boolean)
+FORWARDS(Char)
 FORWARD(IFormatProvider)
+FORWARDS(ReadOnlySpan, T)
 FORWARDS(Span, T)
+FORWARD(String)
+FORWARDS(TimeSpan)
 FORWARDS(UInt32)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Text {

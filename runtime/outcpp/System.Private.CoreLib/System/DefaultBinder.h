@@ -6,11 +6,11 @@
 
 namespace System::Private::CoreLib::System::Reflection {
 enum class BindingFlags;
-FORWARD(MethodBase)
-FORWARDS(ParameterModifier)
 FORWARD(FieldInfo)
-FORWARD(PropertyInfo)
+FORWARD(MethodBase)
 FORWARD(ParameterInfo)
+FORWARDS(ParameterModifier)
+FORWARD(PropertyInfo)
 } // namespace System::Private::CoreLib::System::Reflection
 namespace System::Private::CoreLib::System::Globalization {
 FORWARD(CultureInfo)

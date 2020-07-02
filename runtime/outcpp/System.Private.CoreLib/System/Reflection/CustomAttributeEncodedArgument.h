@@ -6,9 +6,9 @@
 
 namespace System::Private::CoreLib::System {
 FORWARD_(Array, T1, T2)
-FORWARD(String)
-FORWARDS(IntPtr)
 FORWARDS(Int32)
+FORWARDS(IntPtr)
+FORWARD(String)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Reflection {
 FORWARDS(CustomAttributeCtorParameter)

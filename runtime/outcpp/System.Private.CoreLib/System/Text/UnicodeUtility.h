@@ -3,10 +3,10 @@
 #include <rt/GCObject.h>
 
 namespace System::Private::CoreLib::System {
-FORWARDS(UInt32)
-FORWARDS(Int32)
-FORWARDS(Char)
 FORWARDS(Boolean)
+FORWARDS(Char)
+FORWARDS(Int32)
+FORWARDS(UInt32)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Text {
 namespace UnicodeUtilityNamespace {

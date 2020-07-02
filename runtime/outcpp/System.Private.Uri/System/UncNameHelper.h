@@ -3,10 +3,10 @@
 #include <rt/GCObject.h>
 
 namespace System::Private::CoreLib::System {
-FORWARD(String)
-FORWARDS(Int32)
 FORWARDS(Boolean)
 FORWARDS(Char)
+FORWARDS(Int32)
+FORWARD(String)
 FORWARDS(UInt16)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::Uri::System {

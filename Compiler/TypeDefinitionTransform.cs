@@ -404,7 +404,7 @@ namespace Meson.Compiler {
 
     private void VisitMembers(ITypeDefinition type, ClassSyntax node) {
       VisitTypes(type, node);
-      //VisitPropertys(type, node);
+      VisitPropertys(type, node);
       VisitMethods(type, node);
       VisitFields(type, node);
     }

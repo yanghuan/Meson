@@ -3,24 +3,24 @@
 #include <rt/GCObject.h>
 
 namespace System::Private::CoreLib::System::Reflection {
-enum class MemberTypes;
-FORWARD(Module)
-enum class MethodAttributes;
+FORWARD(Binder)
+enum class BindingFlags;
 enum class CallingConventions;
 FORWARD(ConstructorInfo)
-FORWARD(ParameterInfo)
+enum class MemberTypes;
+enum class MethodAttributes;
 enum class MethodImplAttributes;
-enum class BindingFlags;
-FORWARD(Binder)
+FORWARD(Module)
+FORWARD(ParameterInfo)
 } // namespace System::Private::CoreLib::System::Reflection
 namespace System::Private::CoreLib::System {
+FORWARD_(Array, T1, T2)
+FORWARDS(Boolean)
+FORWARDS(Int32)
+FORWARD(Object)
+FORWARDS(RuntimeMethodHandle)
 FORWARD(String)
 FORWARD(Type)
-FORWARDS(Int32)
-FORWARDS(RuntimeMethodHandle)
-FORWARDS(Boolean)
-FORWARD_(Array, T1, T2)
-FORWARD(Object)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Globalization {
 FORWARD(CultureInfo)

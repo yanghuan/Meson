@@ -3,13 +3,13 @@
 #include <rt/GCObject.h>
 
 namespace System::Private::CoreLib::System {
-FORWARDS(ReadOnlySpan, T)
-FORWARDS(Byte)
-FORWARD(String)
-FORWARDS(Int32)
-FORWARDS(Double)
-FORWARDS(Char)
 FORWARDS(Boolean)
+FORWARDS(Byte)
+FORWARDS(Char)
+FORWARDS(Double)
+FORWARDS(Int32)
+FORWARDS(ReadOnlySpan, T)
+FORWARD(String)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Text {
 FORWARD(StringBuilder)

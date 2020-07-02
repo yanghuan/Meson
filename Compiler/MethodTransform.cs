@@ -544,6 +544,11 @@ namespace Meson.Compiler {
           node.Add(IdentifierSyntax.Nullptr.Return());
           break;
         }
+        case TypeKind.ByReference:{
+          var refIdentifier = (RefIdentifierSyntax)returnType;
+          node.Add(refIdentifier.Name.Invation().Return());
+          break;
+        }
         default: {
           node.Add(returnType.Invation().Return());
           break;

@@ -3,11 +3,11 @@
 #include <rt/GCObject.h>
 
 namespace System::Private::CoreLib::System {
-FORWARDS(ReadOnlyMemory, T)
-FORWARDS(Char)
-FORWARD(String)
-FORWARDS(Int32)
 FORWARDS(Boolean)
+FORWARDS(Char)
+FORWARDS(Int32)
+FORWARDS(ReadOnlyMemory, T)
+FORWARD(String)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Runtime::InteropServices {
 namespace MemoryMarshalNamespace {

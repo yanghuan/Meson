@@ -4,10 +4,10 @@
 #include <System.Private.CoreLib/System/UIntPtr.h>
 
 namespace System::Private::CoreLib::System {
-FORWARDS(UInt64)
-FORWARDS(UInt32)
 FORWARDS(Byte)
 FORWARD(InvalidOperationException)
+FORWARDS(UInt32)
+FORWARDS(UInt64)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Runtime::InteropServices {
 namespace SafeBufferNamespace {

@@ -3,12 +3,12 @@
 #include <rt/GCObject.h>
 
 namespace System::Private::CoreLib::System {
-FORWARD(Type)
-FORWARDS(Int32)
 FORWARD_(Array, T1, T2)
-FORWARD(Delegate)
-FORWARD(Object)
 FORWARDS(Boolean)
+FORWARD(Delegate)
+FORWARDS(Int32)
+FORWARD(Object)
+FORWARD(Type)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Reflection {
 enum class MemberTypes;

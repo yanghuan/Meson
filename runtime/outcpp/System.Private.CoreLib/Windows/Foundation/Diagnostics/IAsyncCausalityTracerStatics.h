@@ -3,10 +3,10 @@
 #include <rt/GCObject.h>
 
 namespace System::Private::CoreLib::System {
-FORWARDS(Guid)
-FORWARDS(UInt64)
-FORWARD(String)
 FORWARD_(EventHandler, T1, T2)
+FORWARDS(Guid)
+FORWARD(String)
+FORWARDS(UInt64)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Runtime::InteropServices::WindowsRuntime {
 FORWARDS(EventRegistrationToken)

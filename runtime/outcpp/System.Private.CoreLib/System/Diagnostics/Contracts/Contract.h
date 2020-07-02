@@ -4,10 +4,10 @@
 
 namespace System::Private::CoreLib::System {
 FORWARDS(Boolean)
-FORWARD(String)
+FORWARD(Exception)
 FORWARDS(Int32)
 FORWARD(Predicate, T)
-FORWARD(Exception)
+FORWARD(String)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Diagnostics::Contracts {
 enum class ContractFailureKind;

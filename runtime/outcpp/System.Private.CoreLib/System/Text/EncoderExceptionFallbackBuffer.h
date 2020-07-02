@@ -3,9 +3,9 @@
 #include <rt/GCObject.h>
 
 namespace System::Private::CoreLib::System {
-FORWARDS(Int32)
-FORWARDS(Char)
 FORWARDS(Boolean)
+FORWARDS(Char)
+FORWARDS(Int32)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Text {
 namespace EncoderExceptionFallbackBufferNamespace {

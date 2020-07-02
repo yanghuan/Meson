@@ -5,13 +5,13 @@
 #include <System.Private.CoreLib/System/Int64.h>
 
 namespace System::Private::CoreLib::System {
-FORWARDS(Byte)
 FORWARD_(Array, T1, T2)
+FORWARDS(Byte)
 FORWARDS(Int32)
-FORWARDS(Span, T)
 FORWARDS(Memory, T)
-FORWARDS(ReadOnlySpan, T)
 FORWARDS(ReadOnlyMemory, T)
+FORWARDS(ReadOnlySpan, T)
+FORWARDS(Span, T)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Runtime::InteropServices {
 FORWARD(SafeBuffer)

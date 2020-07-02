@@ -3,13 +3,13 @@
 #include <rt/GCObject.h>
 
 namespace System::Private::CoreLib::System {
-FORWARDS(UInt64)
-FORWARDS(Int32)
-FORWARDS(UInt32)
-FORWARDS(Char)
-FORWARDS(Span, T)
-FORWARDS(Byte)
 FORWARDS(Boolean)
+FORWARDS(Byte)
+FORWARDS(Char)
+FORWARDS(Int32)
+FORWARDS(Span, T)
+FORWARDS(UInt32)
+FORWARDS(UInt64)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Buffers {
 FORWARDS(StandardFormat)

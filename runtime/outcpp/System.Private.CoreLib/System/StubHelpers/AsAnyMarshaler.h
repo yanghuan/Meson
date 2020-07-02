@@ -4,8 +4,8 @@
 #include <System.Private.CoreLib/System/IntPtr.h>
 
 namespace System::Private::CoreLib::System {
-FORWARDS(Int32)
 FORWARDS(Boolean)
+FORWARDS(Int32)
 FORWARD(Object)
 FORWARD(String)
 FORWARD(Type)

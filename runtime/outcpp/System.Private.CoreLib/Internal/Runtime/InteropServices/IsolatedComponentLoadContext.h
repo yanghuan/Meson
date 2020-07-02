@@ -3,12 +3,12 @@
 #include <rt/GCObject.h>
 
 namespace System::Private::CoreLib::System::Reflection {
-FORWARD(AssemblyName)
 FORWARD(Assembly)
+FORWARD(AssemblyName)
 } // namespace System::Private::CoreLib::System::Reflection
 namespace System::Private::CoreLib::System {
-FORWARD(String)
 FORWARDS(IntPtr)
+FORWARD(String)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Runtime::Loader {
 FORWARD(AssemblyDependencyResolver)

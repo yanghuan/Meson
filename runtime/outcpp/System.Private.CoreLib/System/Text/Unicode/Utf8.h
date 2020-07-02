@@ -3,12 +3,12 @@
 #include <rt/GCObject.h>
 
 namespace System::Private::CoreLib::System {
-FORWARDS(ReadOnlySpan, T)
-FORWARDS(Char)
-FORWARDS(Span, T)
-FORWARDS(Byte)
-FORWARDS(Int32)
 FORWARDS(Boolean)
+FORWARDS(Byte)
+FORWARDS(Char)
+FORWARDS(Int32)
+FORWARDS(ReadOnlySpan, T)
+FORWARDS(Span, T)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Buffers {
 enum class OperationStatus;

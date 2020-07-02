@@ -3,10 +3,10 @@
 #include <rt/GCObject.h>
 
 namespace System::Private::CoreLib::System {
-FORWARD(Object)
-FORWARD(ResolveEventArgs)
 FORWARD(AsyncCallback)
 FORWARD(IAsyncResult)
+FORWARD(Object)
+FORWARD(ResolveEventArgs)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Reflection {
 FORWARD(Module)

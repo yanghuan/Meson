@@ -4,8 +4,8 @@
 #include <System.Private.CoreLib/System/Int32.h>
 
 namespace System::Private::CoreLib::System {
-FORWARDS_(Nullable, T1, T2)
 FORWARDS(Boolean)
+FORWARDS_(Nullable, T1, T2)
 FORWARDS(TimeSpan)
 FORWARDS(UInt32)
 } // namespace System::Private::CoreLib::System

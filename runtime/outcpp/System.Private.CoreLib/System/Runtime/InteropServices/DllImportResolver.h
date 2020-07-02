@@ -3,12 +3,12 @@
 #include <rt/GCObject.h>
 
 namespace System::Private::CoreLib::System {
-FORWARD(String)
-FORWARDS_(Nullable, T1, T2)
-FORWARDS(IntPtr)
 FORWARD(AsyncCallback)
-FORWARD(Object)
 FORWARD(IAsyncResult)
+FORWARDS(IntPtr)
+FORWARDS_(Nullable, T1, T2)
+FORWARD(Object)
+FORWARD(String)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Reflection {
 FORWARD(Assembly)

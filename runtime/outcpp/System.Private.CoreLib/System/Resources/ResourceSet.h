@@ -4,13 +4,13 @@
 
 namespace System::Private::CoreLib::System {
 FORWARDS(Boolean)
-FORWARD(Type)
-FORWARD(String)
 FORWARD(Object)
+FORWARD(String)
+FORWARD(Type)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Collections {
-FORWARD(IDictionaryEnumerator)
 FORWARD(Hashtable)
+FORWARD(IDictionaryEnumerator)
 } // namespace System::Private::CoreLib::System::Collections
 namespace System::Private::CoreLib::System::Resources {
 FORWARD(IResourceReader)

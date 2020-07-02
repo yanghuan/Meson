@@ -4,20 +4,20 @@
 #include <System.Private.CoreLib/System/UInt32.h>
 
 namespace System::Private::CoreLib::System {
-FORWARDS(ReadOnlySpan, T)
-FORWARDS(Byte)
-FORWARD(String)
 FORWARDS(Boolean)
-FORWARDS(Int32)
+FORWARDS(Byte)
 FORWARDS(Char)
-FORWARDS(Span, T)
-FORWARD(Object)
 FORWARDS(Double)
+FORWARDS(Int32)
+FORWARD(Object)
+FORWARDS(ReadOnlySpan, T)
+FORWARDS(Span, T)
+FORWARD(String)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Globalization {
+FORWARD(CultureInfo)
 FORWARD(TextInfo)
 enum class UnicodeCategory;
-FORWARD(CultureInfo)
 } // namespace System::Private::CoreLib::System::Globalization
 namespace System::Private::CoreLib::System::Buffers {
 enum class OperationStatus;

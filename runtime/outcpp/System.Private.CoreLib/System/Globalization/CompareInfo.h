@@ -5,11 +5,11 @@
 #include <System.Private.CoreLib/System/IntPtr.h>
 
 namespace System::Private::CoreLib::System {
-FORWARD(String)
-FORWARDS(Char)
 FORWARDS(Boolean)
-FORWARDS(ReadOnlySpan, T)
+FORWARDS(Char)
 FORWARD(Object)
+FORWARDS(ReadOnlySpan, T)
+FORWARD(String)
 FORWARDS(UInt32)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Reflection {

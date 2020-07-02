@@ -13,7 +13,7 @@ namespace System::Private::CoreLib::System::Resources {
 namespace ResourceFallbackManagerNamespace {
 using namespace ::System::Private::CoreLib::System::Collections::Generic;
 using namespace ::System::Private::CoreLib::System::Globalization;
-using System::Collections::Generic::IEnumerator;
+using ::System::Private::CoreLib::System::Collections::Generic::IEnumerator;
 CLASS(ResourceFallbackManager) {
   public: IEnumerator<CultureInfo> GetEnumerator();
   private: CultureInfo m_startingCulture;

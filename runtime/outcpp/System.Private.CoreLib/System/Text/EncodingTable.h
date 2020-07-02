@@ -3,9 +3,9 @@
 #include <rt/GCObject.h>
 
 namespace System::Private::CoreLib::System {
-FORWARD(String)
-FORWARDS(Int32)
 FORWARD_(Array, T1, T2)
+FORWARDS(Int32)
+FORWARD(String)
 FORWARDS(UInt16)
 FORWARDS(UInt32)
 } // namespace System::Private::CoreLib::System

@@ -4,29 +4,29 @@
 #include <System.Private.CoreLib/System/Boolean.h>
 
 namespace System::Private::CoreLib::System {
-FORWARD(String)
-FORWARD(Type)
-FORWARDS(RuntimeMethodHandle)
 FORWARD_(Array, T1, T2)
-FORWARD(Object)
 FORWARD(Delegate)
 FORWARDS(Int32)
-FORWARD(RuntimeType)
 FORWARD(IRuntimeMethodInfo)
+FORWARD(Object)
+FORWARDS(RuntimeMethodHandle)
+FORWARD(RuntimeType)
+FORWARD(String)
+FORWARD(Type)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Reflection {
-FORWARD(Module)
-enum class MethodAttributes;
-enum class CallingConventions;
-FORWARD(ParameterInfo)
-FORWARD(ICustomAttributeProvider)
-FORWARD(MethodInfo)
-enum class MethodImplAttributes;
-enum class BindingFlags;
 FORWARD(Binder)
-FORWARD(RuntimeParameterInfo)
-FORWARD(RuntimeModule)
+enum class BindingFlags;
+enum class CallingConventions;
+FORWARD(ICustomAttributeProvider)
+enum class MethodAttributes;
+enum class MethodImplAttributes;
+FORWARD(MethodInfo)
+FORWARD(Module)
 enum class ParameterAttributes;
+FORWARD(ParameterInfo)
+FORWARD(RuntimeModule)
+FORWARD(RuntimeParameterInfo)
 } // namespace System::Private::CoreLib::System::Reflection
 namespace System::Private::CoreLib::System::Globalization {
 FORWARD(CultureInfo)

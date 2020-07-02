@@ -7,8 +7,8 @@ namespace System::Private::CoreLib::System::Threading::Tasks {
 FORWARD_(Task, T1, T2)
 } // namespace System::Private::CoreLib::System::Threading::Tasks
 namespace System::Private::CoreLib::System {
-FORWARD(Object)
 FORWARD(Exception)
+FORWARD(Object)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Threading {
 FORWARD(SynchronizationContext)

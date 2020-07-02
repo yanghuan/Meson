@@ -4,14 +4,14 @@
 #include <System.Private.CoreLib/System/Int32.h>
 
 namespace System::Private::CoreLib::System::Collections::Generic {
-FORWARDS_(KeyValuePair, T1, T2, T3)
 FORWARD(IComparer, T)
 FORWARD(IEnumerator, T)
+FORWARDS_(KeyValuePair, T1, T2, T3)
 } // namespace System::Private::CoreLib::System::Collections::Generic
 namespace System::Private::CoreLib::System {
-FORWARD(Object)
-FORWARDS(Boolean)
 FORWARD_(Array, T1, T2)
+FORWARDS(Boolean)
+FORWARD(Object)
 FORWARDS(UInt32)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Runtime::InteropServices::WindowsRuntime {
@@ -20,7 +20,7 @@ FORWARD(IIterator, T)
 FORWARD(IMapView, K, V)
 namespace ConstantSplittableMapNamespace {
 using namespace ::System::Private::CoreLib::System::Collections::Generic;
-using System::Collections::Generic::IEnumerator;
+using ::System::Private::CoreLib::System::Collections::Generic::IEnumerator;
 CLASS(ConstantSplittableMap, TKey, TValue) {
   private: CLASS(KeyValuePairComparator) {
     public: Int32 Compare(KeyValuePair<TKey, TValue> x, KeyValuePair<TKey, TValue> y);

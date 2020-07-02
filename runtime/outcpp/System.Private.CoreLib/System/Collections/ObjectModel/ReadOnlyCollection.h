@@ -3,8 +3,8 @@
 #include <rt/GCObject.h>
 
 namespace System::Private::CoreLib::System {
-FORWARDS(Boolean)
 FORWARD_(Array, T1, T2)
+FORWARDS(Boolean)
 FORWARDS(Int32)
 FORWARD(Object)
 } // namespace System::Private::CoreLib::System
@@ -15,9 +15,21 @@ FORWARD(IList, T)
 namespace System::Private::CoreLib::System::Collections::ObjectModel {
 namespace ReadOnlyCollectionNamespace {
 using namespace ::System::Private::CoreLib::System::Collections::Generic;
-using System::Collections::Generic::IEnumerator;
-using System::Collections::Generic::IList;
+using ::System::Private::CoreLib::System::Collections::Generic::IList;
+using ::System::Private::CoreLib::System::Collections::Generic::IEnumerator;
 CLASS(ReadOnlyCollection, T) {
+  public: Int32 get_Count();
+  public: T get_Item(Int32 index);
+  protected: IList<T> get_Items();
+  private: Boolean get_IsReadOnlyOfICollectionT();
+  private: T get_ItemOfIListT(Int32 index);
+  private: void set_ItemOfIListT(Int32 index, T value);
+  private: Boolean get_IsSynchronizedOfICollection();
+  private: Object get_SyncRootOfICollection();
+  private: Boolean get_IsFixedSizeOfIList();
+  private: Boolean get_IsReadOnlyOfIList();
+  private: Object get_ItemOfIList(Int32 index);
+  private: void set_ItemOfIList(Int32 index, Object value);
   public: Boolean Contains(T value);
   public: void CopyTo(Array<T> array, Int32 index);
   public: IEnumerator<T> GetEnumerator();

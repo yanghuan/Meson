@@ -3,9 +3,9 @@
 #include <rt/GCObject.h>
 
 namespace System::Private::CoreLib::System {
+FORWARDS(Int32)
 FORWARD(Object)
 FORWARD(String)
-FORWARDS(Int32)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Runtime::InteropServices::ComTypes {
 FORWARDS(BIND_OPTS)

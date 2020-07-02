@@ -3,9 +3,9 @@
 #include <rt/GCObject.h>
 
 namespace System::Private::CoreLib::System {
-FORWARD(Object)
-FORWARDS(Guid)
 FORWARDS(Boolean)
+FORWARDS(Guid)
+FORWARD(Object)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::Internal::Runtime::InteropServices {
 namespace IClassFactoryNamespace {

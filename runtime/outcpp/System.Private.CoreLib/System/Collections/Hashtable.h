@@ -6,8 +6,8 @@
 #include <System.Private.CoreLib/System/Single.h>
 
 namespace System::Private::CoreLib::System {
-FORWARD(Object)
 FORWARD_(Array, T1, T2)
+FORWARD(Object)
 FORWARDS(UInt32)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Runtime::Serialization {

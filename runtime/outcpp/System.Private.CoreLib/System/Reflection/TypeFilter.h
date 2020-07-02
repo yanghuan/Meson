@@ -3,11 +3,11 @@
 #include <rt/GCObject.h>
 
 namespace System::Private::CoreLib::System {
-FORWARD(Type)
-FORWARD(Object)
-FORWARDS(Boolean)
 FORWARD(AsyncCallback)
+FORWARDS(Boolean)
 FORWARD(IAsyncResult)
+FORWARD(Object)
+FORWARD(Type)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Reflection {
 namespace TypeFilterNamespace {

@@ -124,6 +124,10 @@ namespace Meson.Compiler {
       return !hasGlobal ? ns.ReplaceDot() : Tokens.TwoColon + ns.ReplaceDot(); 
     }
 
+    public static string GetFullName(this ITypeDefinition reference) {
+      return $"{Tokens.TwoColon}{reference.ParentModule.Name}.{reference.FullName}".ReplaceDot();
+    }
+
     private static bool IsTypeArgumentHasType(this IType argument, ITypeDefinition other, HashSet<ITypeDefinition> recursiveTypes) {
       if (argument.HasType(other, recursiveTypes)) {
         return true;

@@ -4,9 +4,9 @@
 #include <System.Private.CoreLib/Interop.h>
 
 namespace System::Private::CoreLib::System {
-FORWARD(String)
 FORWARDS(Boolean)
 FORWARDS(Int32)
+FORWARD(String)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::Internal::IO {
 namespace FileNamespace {

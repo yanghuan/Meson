@@ -6,9 +6,9 @@
 namespace System::Private::CoreLib::System {
 FORWARD_(Array, T1, T2)
 FORWARDS(Byte)
+FORWARDS(RuntimeFieldHandle)
 FORWARDS(RuntimeMethodHandle)
 FORWARDS(RuntimeTypeHandle)
-FORWARDS(RuntimeFieldHandle)
 FORWARD(String)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Reflection {

@@ -4,17 +4,17 @@
 #include <System.Private.CoreLib/Interop.h>
 
 namespace System::Private::CoreLib::System::Reflection {
-FORWARD(RuntimeModule)
-enum class PortableExecutableKinds;
 enum class ImageFileMachine;
 FORWARDS(MetadataImport)
+enum class PortableExecutableKinds;
+FORWARD(RuntimeModule)
 } // namespace System::Private::CoreLib::System::Reflection
 namespace System::Private::CoreLib::System::Reflection::Emit {
 FORWARD(DynamicMethod)
 } // namespace System::Private::CoreLib::System::Reflection::Emit
 namespace System::Private::CoreLib::System::Runtime::CompilerServices {
-FORWARDS(QCallModule)
 FORWARDS(ObjectHandleOnStack)
+FORWARDS(QCallModule)
 } // namespace System::Private::CoreLib::System::Runtime::CompilerServices
 namespace System::Private::CoreLib::System {
 FORWARDS(Int32)

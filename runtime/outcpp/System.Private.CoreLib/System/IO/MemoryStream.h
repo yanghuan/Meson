@@ -5,14 +5,14 @@
 #include <System.Private.CoreLib/System/Int32.h>
 
 namespace System::Private::CoreLib::System {
-FORWARDS(Int64)
 FORWARD_(Array, T1, T2)
-FORWARDS(Byte)
 FORWARDS(ArraySegment, T)
-FORWARDS(ReadOnlySpan, T)
-FORWARDS(Span, T)
+FORWARDS(Byte)
+FORWARDS(Int64)
 FORWARDS(Memory, T)
 FORWARDS(ReadOnlyMemory, T)
+FORWARDS(ReadOnlySpan, T)
+FORWARDS(Span, T)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Threading {
 FORWARDS(CancellationToken)

@@ -4,8 +4,8 @@
 
 namespace System::Private::CoreLib::System {
 FORWARDS(Guid)
-FORWARD(Object)
 FORWARDS(Int32)
+FORWARD(Object)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Runtime::InteropServices::ComTypes {
 FORWARD(IConnectionPointContainer)

@@ -6,8 +6,8 @@ namespace System::Private::CoreLib::System::Text {
 FORWARD(StringBuilder)
 } // namespace System::Private::CoreLib::System::Text
 namespace System::Private::CoreLib::System {
-FORWARDS(IntPtr)
 FORWARDS(Int32)
+FORWARDS(IntPtr)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::StubHelpers {
 namespace UTF8BufferMarshalerNamespace {

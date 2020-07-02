@@ -6,11 +6,11 @@
 #include <System.Private.CoreLib/System/Int32.h>
 
 namespace System::Private::CoreLib::System {
-FORWARDS(ReadOnlySpan, T)
-FORWARDS(Byte)
 FORWARD_(Array, T1, T2)
-FORWARD(String)
+FORWARDS(Byte)
 FORWARD(Object)
+FORWARDS(ReadOnlySpan, T)
+FORWARD(String)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Text {
 FORWARD(EncoderNLS)

@@ -5,15 +5,15 @@
 #include <System.Private.CoreLib/System/RuntimeType.h>
 
 namespace System::Private::CoreLib::System {
+FORWARD_(Array, T1, T2)
+FORWARDS(Boolean)
+FORWARDS(Int32)
+FORWARD(Object)
+FORWARDS(RuntimeMethodHandle)
 FORWARDS(RuntimeMethodHandleInternal)
 FORWARD(Signature)
 FORWARD(String)
 FORWARD(Type)
-FORWARDS(Int32)
-FORWARDS(RuntimeMethodHandle)
-FORWARDS(Boolean)
-FORWARD(Object)
-FORWARD_(Array, T1, T2)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Collections::Generic {
 FORWARD(IList, T)
@@ -38,7 +38,7 @@ FORWARD(MethodBody)
 namespace RuntimeConstructorInfoNamespace {
 using namespace ::System::Private::CoreLib::System::Collections::Generic;
 using namespace ::System::Private::CoreLib::System::Globalization;
-using System::Collections::Generic::IList;
+using ::System::Private::CoreLib::System::Collections::Generic::IList;
 CLASS(RuntimeConstructorInfo) {
   public: INVOCATION_FLAGS get_InvocationFlags();
   private: RuntimeMethodHandleInternal get_ValueOfIRuntimeMethodInfo();

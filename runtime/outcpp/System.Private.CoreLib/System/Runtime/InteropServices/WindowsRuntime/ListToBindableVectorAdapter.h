@@ -3,10 +3,10 @@
 #include <rt/GCObject.h>
 
 namespace System::Private::CoreLib::System {
-FORWARDS(UInt32)
-FORWARD(Object)
 FORWARDS(Boolean)
 FORWARDS(Int32)
+FORWARD(Object)
+FORWARDS(UInt32)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Runtime::InteropServices::WindowsRuntime {
 FORWARD(IBindableVectorView)

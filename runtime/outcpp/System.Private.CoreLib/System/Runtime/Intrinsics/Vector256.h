@@ -4,9 +4,9 @@
 #include <System.Private.CoreLib/System/UInt64.h>
 
 namespace System::Private::CoreLib::System {
+FORWARDS(Boolean)
 FORWARDS(Int32)
 FORWARD(String)
-FORWARDS(Boolean)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Runtime::Intrinsics {
 namespace Vector256Namespace {

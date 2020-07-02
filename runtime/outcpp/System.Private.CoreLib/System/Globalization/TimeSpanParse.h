@@ -9,11 +9,11 @@
 #include <System.Private.CoreLib/System/TimeSpan.h>
 
 namespace System::Private::CoreLib::System {
-FORWARD(String)
-FORWARDS_(Nullable, T1, T2)
-FORWARDS(Int64)
-FORWARD(IFormatProvider)
 FORWARD_(Array, T1, T2)
+FORWARD(IFormatProvider)
+FORWARDS(Int64)
+FORWARDS_(Nullable, T1, T2)
+FORWARD(String)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Text {
 FORWARD(StringBuilder)

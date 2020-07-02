@@ -4,12 +4,12 @@
 #include <System.Private.CoreLib/System/Guid.h>
 
 namespace System::Private::CoreLib::System {
-FORWARD(Type)
-FORWARD(Object)
+FORWARD_(Array, T1, T2)
 FORWARDS(Boolean)
 FORWARDS(Int32)
+FORWARD(Object)
 FORWARD(String)
-FORWARD_(Array, T1, T2)
+FORWARD(Type)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Runtime::Loader {
 FORWARD(AssemblyLoadContext)

@@ -5,13 +5,13 @@
 #include <System.Private.CoreLib/System/Diagnostics/Tracing/EventProvider.h>
 
 namespace System::Private::CoreLib::System {
-FORWARDS(Int64)
-FORWARDS(UInt32)
-FORWARDS(IntPtr)
+FORWARDS(Byte)
 FORWARDS(Guid)
 FORWARDS(Int32)
+FORWARDS(Int64)
+FORWARDS(IntPtr)
 FORWARD(String)
-FORWARDS(Byte)
+FORWARDS(UInt32)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Diagnostics::Tracing {
 FORWARD(EventSource)

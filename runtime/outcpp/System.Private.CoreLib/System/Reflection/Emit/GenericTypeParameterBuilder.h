@@ -3,35 +3,35 @@
 #include <rt/GCObject.h>
 
 namespace System::Private::CoreLib::System {
-FORWARD(Type)
-FORWARD(String)
-FORWARDS(Int32)
-FORWARDS(Guid)
-FORWARDS(RuntimeTypeHandle)
-FORWARDS(Boolean)
-FORWARD(Object)
 FORWARD_(Array, T1, T2)
+FORWARDS(Boolean)
 FORWARDS(Byte)
+FORWARDS(Guid)
+FORWARDS(Int32)
+FORWARD(Object)
+FORWARDS(RuntimeTypeHandle)
+FORWARD(String)
+FORWARD(Type)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Reflection {
-FORWARD(Module)
 FORWARD(Assembly)
-enum class GenericParameterAttributes;
-FORWARD(MethodBase)
-FORWARD(TypeInfo)
-enum class BindingFlags;
 FORWARD(Binder)
-FORWARDS(ParameterModifier)
+enum class BindingFlags;
 enum class CallingConventions;
 FORWARD(ConstructorInfo)
-FORWARD(MethodInfo)
-FORWARD(FieldInfo)
 FORWARD(EventInfo)
-FORWARD(PropertyInfo)
-enum class MemberTypes;
-FORWARD(MemberInfo)
+FORWARD(FieldInfo)
+enum class GenericParameterAttributes;
 FORWARDS(InterfaceMapping)
+FORWARD(MemberInfo)
+enum class MemberTypes;
+FORWARD(MethodBase)
+FORWARD(MethodInfo)
+FORWARD(Module)
+FORWARDS(ParameterModifier)
+FORWARD(PropertyInfo)
 enum class TypeAttributes;
+FORWARD(TypeInfo)
 } // namespace System::Private::CoreLib::System::Reflection
 namespace System::Private::CoreLib::System::Globalization {
 FORWARD(CultureInfo)

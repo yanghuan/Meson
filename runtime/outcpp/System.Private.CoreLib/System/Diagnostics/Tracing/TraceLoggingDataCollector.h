@@ -3,10 +3,10 @@
 #include <rt/GCObject.h>
 
 namespace System::Private::CoreLib::System {
+FORWARDS(Boolean)
+FORWARDS(Double)
 FORWARDS(Int32)
 FORWARDS(Int64)
-FORWARDS(Double)
-FORWARDS(Boolean)
 FORWARD(String)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Diagnostics::Tracing {

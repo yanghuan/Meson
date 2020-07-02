@@ -5,12 +5,12 @@
 #include <System.Private.CoreLib/System/RuntimeType.h>
 
 namespace System::Private::CoreLib::System {
+FORWARD_(Array, T1, T2)
+FORWARDS(Boolean)
+FORWARD(Object)
 FORWARD(Signature)
 FORWARD(String)
 FORWARD(Type)
-FORWARDS(Boolean)
-FORWARD(Object)
-FORWARD_(Array, T1, T2)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Collections::Generic {
 FORWARD(IList, T)
@@ -33,7 +33,7 @@ FORWARD(RuntimeMethodInfo)
 namespace RuntimePropertyInfoNamespace {
 using namespace ::System::Private::CoreLib::System::Collections::Generic;
 using namespace ::System::Private::CoreLib::System::Globalization;
-using System::Collections::Generic::IList;
+using ::System::Private::CoreLib::System::Collections::Generic::IList;
 CLASS(RuntimePropertyInfo) {
   public: Signature get_Signature();
   public: BindingFlags get_BindingFlags();

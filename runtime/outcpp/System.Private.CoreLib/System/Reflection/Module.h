@@ -3,16 +3,16 @@
 #include <rt/GCObject.h>
 
 namespace System::Private::CoreLib::System {
-FORWARD(String)
-FORWARDS(Int32)
-FORWARDS(Guid)
-FORWARDS(ModuleHandle)
-FORWARDS(Boolean)
-FORWARD(Type)
 FORWARD_(Array, T1, T2)
-FORWARD(Object)
+FORWARDS(Boolean)
 FORWARDS(Byte)
+FORWARDS(Guid)
+FORWARDS(Int32)
+FORWARDS(ModuleHandle)
+FORWARD(Object)
+FORWARD(String)
 enum class StringComparison;
+FORWARD(Type)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Collections::Generic {
 FORWARD(IEnumerable, T)
@@ -39,7 +39,7 @@ FORWARD(MethodBase)
 namespace ModuleNamespace {
 using namespace ::System::Private::CoreLib::System::Collections::Generic;
 using namespace ::System::Private::CoreLib::System::Runtime::Serialization;
-using System::Collections::Generic::IList;
+using ::System::Private::CoreLib::System::Collections::Generic::IList;
 CLASS(Module) {
   public: Assembly get_Assembly();
   public: String get_FullyQualifiedName();

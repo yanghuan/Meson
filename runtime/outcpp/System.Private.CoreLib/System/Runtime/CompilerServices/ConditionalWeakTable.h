@@ -7,10 +7,10 @@
 #include <System.Private.CoreLib/System/Runtime/CompilerServices/DependentHandle.h>
 
 namespace System::Private::CoreLib::System {
-FORWARD(AsyncCallback)
-FORWARD(Object)
-FORWARD(IAsyncResult)
 FORWARD_(Array, T1, T2)
+FORWARD(AsyncCallback)
+FORWARD(IAsyncResult)
+FORWARD(Object)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Runtime::CompilerServices {
 namespace ConditionalWeakTableNamespace {

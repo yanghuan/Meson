@@ -3,9 +3,9 @@
 #include <rt/GCObject.h>
 
 namespace System::Private::CoreLib::System {
-FORWARD(RuntimeType)
-FORWARD(Exception)
 FORWARDS(Boolean)
+FORWARD(Exception)
+FORWARD(RuntimeType)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Runtime::CompilerServices {
 FORWARD(ICastable)

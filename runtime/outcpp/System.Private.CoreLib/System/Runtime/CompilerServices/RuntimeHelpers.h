@@ -3,21 +3,21 @@
 #include <rt/GCObject.h>
 
 namespace System::Private::CoreLib::System {
-FORWARD(Object)
-FORWARD(AsyncCallback)
-FORWARD(IAsyncResult)
-FORWARDS(Boolean)
-FORWARDS(Int32)
 FORWARD_(Array, T1, T2)
+FORWARD(AsyncCallback)
+FORWARDS(Boolean)
+FORWARD(Delegate)
+FORWARD(IAsyncResult)
+FORWARDS(Int32)
+FORWARDS(IntPtr)
+FORWARD(IRuntimeMethodInfo)
+FORWARDS(ModuleHandle)
+FORWARD(Object)
 FORWARDS(RuntimeFieldHandle)
+FORWARDS(RuntimeMethodHandle)
+FORWARDS(RuntimeMethodHandleInternal)
 FORWARD(RuntimeType)
 FORWARDS(RuntimeTypeHandle)
-FORWARDS(ModuleHandle)
-FORWARDS(RuntimeMethodHandleInternal)
-FORWARD(IRuntimeMethodInfo)
-FORWARDS(IntPtr)
-FORWARDS(RuntimeMethodHandle)
-FORWARD(Delegate)
 FORWARD(Type)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Reflection {

@@ -4,23 +4,23 @@
 #include <System.Private.CoreLib/System/Int32.h>
 
 namespace System::Private::CoreLib::System::Reflection {
-FORWARD(RuntimeModule)
-FORWARD(MethodInfo)
+enum class CallingConventions;
 FORWARD(ConstructorInfo)
 FORWARD(FieldInfo)
-enum class CallingConventions;
 FORWARD(MethodBase)
-FORWARD(RuntimeFieldInfo)
+FORWARD(MethodInfo)
 FORWARD(RuntimeConstructorInfo)
+FORWARD(RuntimeFieldInfo)
 FORWARD(RuntimeMethodInfo)
+FORWARD(RuntimeModule)
 } // namespace System::Private::CoreLib::System::Reflection
 namespace System::Private::CoreLib::System {
-FORWARD(Type)
-FORWARDS(Boolean)
-FORWARD(String)
 FORWARD_(Array, T1, T2)
-FORWARD(RuntimeType)
+FORWARDS(Boolean)
 FORWARDS(Byte)
+FORWARD(RuntimeType)
+FORWARD(String)
+FORWARD(Type)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Runtime::InteropServices {
 enum class CallingConvention;

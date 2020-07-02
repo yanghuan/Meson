@@ -3,24 +3,24 @@
 #include <rt/GCObject.h>
 
 namespace System::Private::CoreLib::System {
+FORWARDS(Boolean)
+FORWARDS(Byte)
+FORWARDS(Char)
+FORWARDS(DateTime)
+FORWARDS(Decimal)
+FORWARDS(Double)
+FORWARDS(Int16)
+FORWARDS(Int32)
+FORWARDS(Int64)
 FORWARD(Object)
+FORWARDS(SByte)
+FORWARDS(Single)
+FORWARD(String)
 FORWARD(Type)
 enum class TypeCode;
-FORWARDS(Boolean)
-FORWARDS(Char)
-FORWARDS(SByte)
-FORWARDS(Byte)
-FORWARDS(Int16)
 FORWARDS(UInt16)
-FORWARDS(Int32)
 FORWARDS(UInt32)
-FORWARDS(Int64)
 FORWARDS(UInt64)
-FORWARDS(Single)
-FORWARDS(Double)
-FORWARDS(Decimal)
-FORWARDS(DateTime)
-FORWARD(String)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Runtime::Serialization {
 namespace IFormatterConverterNamespace {

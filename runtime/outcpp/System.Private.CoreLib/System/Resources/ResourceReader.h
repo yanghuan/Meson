@@ -6,12 +6,12 @@
 #include <System.Private.CoreLib/System/Int64.h>
 
 namespace System::Private::CoreLib::System {
-FORWARD(Object)
-FORWARD(String)
-FORWARD(Type)
 FORWARD_(Array, T1, T2)
 FORWARDS(Byte)
 FORWARD_(Func, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10)
+FORWARD(Object)
+FORWARD(String)
+FORWARD(Type)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Collections {
 FORWARDS(DictionaryEntry)
@@ -19,8 +19,8 @@ FORWARD(IDictionaryEnumerator)
 } // namespace System::Private::CoreLib::System::Collections
 namespace System::Private::CoreLib::System::IO {
 FORWARD(BinaryReader)
-FORWARD(UnmanagedMemoryStream)
 FORWARD(Stream)
+FORWARD(UnmanagedMemoryStream)
 } // namespace System::Private::CoreLib::System::IO
 namespace System::Private::CoreLib::System::Collections::Generic {
 FORWARD(Dictionary, TKey, TValue)

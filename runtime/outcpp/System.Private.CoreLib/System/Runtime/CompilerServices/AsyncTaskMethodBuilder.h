@@ -7,13 +7,13 @@ namespace System::Private::CoreLib::System::Threading::Tasks {
 FORWARD_(Task, T1, T2)
 } // namespace System::Private::CoreLib::System::Threading::Tasks
 namespace System::Private::CoreLib::System {
-FORWARD(Object)
 FORWARD_(Action, T1, T2, T3, T4, T5, T6, T7, T8, T9)
+FORWARD(Object)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Threading {
-FORWARD(Thread)
 FORWARD_(ContextCallback, T1, T2)
 FORWARD(ExecutionContext)
+FORWARD(Thread)
 } // namespace System::Private::CoreLib::System::Threading
 namespace System::Private::CoreLib::System::Runtime::CompilerServices {
 namespace AsyncTaskMethodBuilderNamespace {

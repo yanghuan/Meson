@@ -3,15 +3,15 @@
 #include <rt/GCObject.h>
 
 namespace System::Private::CoreLib::System {
-FORWARDS(ReadOnlySpan, T)
-FORWARDS(Byte)
-enum class StringComparison;
+FORWARD_(Array, T1, T2)
 FORWARDS(Boolean)
-FORWARD(String)
+FORWARDS(Byte)
 FORWARDS(Char)
 FORWARDS(Int32)
-FORWARD_(Array, T1, T2)
+FORWARDS(ReadOnlySpan, T)
 FORWARDS(Span, T)
+FORWARD(String)
+enum class StringComparison;
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Text {
 FORWARDS(ValueStringBuilder)

@@ -6,9 +6,9 @@
 
 namespace System::Private::CoreLib::System {
 FORWARD_(Array, T1, T2)
-FORWARDS(Int64)
-enum class DayOfWeek;
 FORWARDS(Boolean)
+enum class DayOfWeek;
+FORWARDS(Int64)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Globalization {
 enum class CalendarAlgorithmType;

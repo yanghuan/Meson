@@ -7,8 +7,8 @@
 #include <System.Private.CoreLib/System/UInt32.h>
 
 namespace System::Private::CoreLib::System {
-FORWARDS(UInt16)
 FORWARDS(TimeSpan)
+FORWARDS(UInt16)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Threading {
 enum class LockRecursionPolicy;

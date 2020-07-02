@@ -3,10 +3,10 @@
 #include <rt/GCObject.h>
 
 namespace System::Private::CoreLib::System {
-FORWARD(Object)
+FORWARD(Delegate)
 FORWARDS(Guid)
 FORWARDS(Int32)
-FORWARD(Delegate)
+FORWARD(Object)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Runtime::InteropServices {
 namespace ComEventsHelperNamespace {

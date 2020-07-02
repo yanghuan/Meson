@@ -3,10 +3,10 @@
 #include <rt/GCObject.h>
 
 namespace System::Private::CoreLib::System {
-FORWARD(Object)
-FORWARDS(Guid)
 FORWARDS(Boolean)
+FORWARDS(Guid)
 FORWARDS(Int32)
+FORWARD(Object)
 FORWARD(String)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::Internal::Runtime::InteropServices {

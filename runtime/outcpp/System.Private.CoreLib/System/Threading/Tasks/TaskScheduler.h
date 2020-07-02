@@ -7,10 +7,10 @@ namespace System::Private::CoreLib::System::Collections::Generic {
 FORWARD(IEnumerable, T)
 } // namespace System::Private::CoreLib::System::Collections::Generic
 namespace System::Private::CoreLib::System {
-FORWARDS(Boolean)
-FORWARD(Object)
 FORWARD_(Array, T1, T2)
+FORWARDS(Boolean)
 FORWARD_(EventHandler, T1, T2)
+FORWARD(Object)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Runtime::CompilerServices {
 FORWARD(ConditionalWeakTable, TKey, TValue)

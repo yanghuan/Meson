@@ -8,24 +8,24 @@ namespace System::Private::CoreLib::System::Threading::Tasks {
 FORWARDS_(ValueTask, T1, T2)
 } // namespace System::Private::CoreLib::System::Threading::Tasks
 namespace System::Private::CoreLib::System {
-FORWARDS(Int64)
-FORWARDS(Byte)
-FORWARDS(SByte)
 FORWARD_(Array, T1, T2)
+FORWARDS(Byte)
 FORWARDS(Char)
-FORWARDS(Double)
 FORWARDS(Decimal)
+FORWARDS(Double)
 FORWARDS(Int16)
+FORWARDS(Int64)
+FORWARDS(ReadOnlySpan, T)
+FORWARDS(SByte)
+FORWARDS(Single)
+FORWARD(String)
 FORWARDS(UInt16)
 FORWARDS(UInt32)
 FORWARDS(UInt64)
-FORWARDS(Single)
-FORWARD(String)
-FORWARDS(ReadOnlySpan, T)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Text {
-FORWARD(Encoding)
 FORWARD(Encoder)
+FORWARD(Encoding)
 } // namespace System::Private::CoreLib::System::Text
 namespace System::Private::CoreLib::System::IO {
 FORWARD(Stream)

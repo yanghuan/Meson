@@ -3,13 +3,13 @@
 #include <rt/GCObject.h>
 
 namespace System::Private::CoreLib::System {
+FORWARDS(Boolean)
+FORWARDS(Byte)
+FORWARDS(Int32)
 FORWARD(String)
 FORWARD(Type)
-FORWARDS(Byte)
-FORWARDS(UInt32)
-FORWARDS(Boolean)
-FORWARDS(Int32)
 enum class TypeCode;
+FORWARDS(UInt32)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Diagnostics::Tracing {
 FORWARD(TraceLoggingTypeInfo)

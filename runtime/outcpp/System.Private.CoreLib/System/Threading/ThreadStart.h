@@ -4,8 +4,8 @@
 
 namespace System::Private::CoreLib::System {
 FORWARD(AsyncCallback)
-FORWARD(Object)
 FORWARD(IAsyncResult)
+FORWARD(Object)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Threading {
 namespace ThreadStartNamespace {

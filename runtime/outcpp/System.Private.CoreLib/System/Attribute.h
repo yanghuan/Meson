@@ -3,16 +3,16 @@
 #include <rt/GCObject.h>
 
 namespace System::Private::CoreLib::System::Reflection {
-FORWARD(PropertyInfo)
+FORWARD(Assembly)
 FORWARD(EventInfo)
-FORWARD(ParameterInfo)
 FORWARD(MemberInfo)
 FORWARD(Module)
-FORWARD(Assembly)
+FORWARD(ParameterInfo)
+FORWARD(PropertyInfo)
 } // namespace System::Private::CoreLib::System::Reflection
 namespace System::Private::CoreLib::System::Collections::Generic {
-FORWARD(List, T)
 FORWARD(Dictionary, TKey, TValue)
+FORWARD(List, T)
 } // namespace System::Private::CoreLib::System::Collections::Generic
 namespace System::Private::CoreLib::System {
 FORWARD(Object)

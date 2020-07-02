@@ -5,22 +5,22 @@
 #include <System.Private.CoreLib/System/Int32.h>
 
 namespace System::Private::CoreLib::System::Text {
-FORWARD(Encoding)
 FORWARD(Encoder)
+FORWARD(Encoding)
 } // namespace System::Private::CoreLib::System::Text
 namespace System::Private::CoreLib::System {
-FORWARD(String)
-FORWARDS(Char)
 FORWARD_(Array, T1, T2)
-FORWARDS(ReadOnlySpan, T)
-FORWARDS(ParamsArray)
-FORWARD(Object)
-FORWARDS(ReadOnlyMemory, T)
 FORWARDS(Byte)
+FORWARDS(Char)
+FORWARD(Object)
+FORWARDS(ParamsArray)
+FORWARDS(ReadOnlyMemory, T)
+FORWARDS(ReadOnlySpan, T)
+FORWARD(String)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Threading::Tasks {
-FORWARDS_(ValueTask, T1, T2)
 FORWARD_(Task, T1, T2)
+FORWARDS_(ValueTask, T1, T2)
 } // namespace System::Private::CoreLib::System::Threading::Tasks
 namespace System::Private::CoreLib::System::Threading {
 FORWARDS(CancellationToken)

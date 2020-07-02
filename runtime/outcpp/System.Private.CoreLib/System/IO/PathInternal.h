@@ -3,11 +3,11 @@
 #include <rt/GCObject.h>
 
 namespace System::Private::CoreLib::System {
-FORWARDS(ReadOnlySpan, T)
-FORWARDS(Char)
 FORWARDS(Boolean)
-FORWARD(String)
+FORWARDS(Char)
 FORWARDS(Int32)
+FORWARDS(ReadOnlySpan, T)
+FORWARD(String)
 enum class StringComparison;
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Text {

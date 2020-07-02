@@ -6,12 +6,12 @@
 
 namespace System::Private::CoreLib::System::Text {
 FORWARD(Encoding)
-FORWARDS(StringRuneEnumerator)
 enum class NormalizationForm;
+FORWARDS(StringRuneEnumerator)
 } // namespace System::Private::CoreLib::System::Text
 namespace System::Private::CoreLib::System::Globalization {
-FORWARD(CultureInfo)
 enum class CompareOptions;
+FORWARD(CultureInfo)
 } // namespace System::Private::CoreLib::System::Globalization
 namespace System::Private::CoreLib::System::Collections::Generic {
 FORWARD(IEnumerable, T)

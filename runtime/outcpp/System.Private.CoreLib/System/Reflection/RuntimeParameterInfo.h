@@ -6,14 +6,14 @@
 #include <System.Private.CoreLib/System/Reflection/MetadataImport.h>
 
 namespace System::Private::CoreLib::System {
-FORWARD(Type)
-FORWARD(String)
-FORWARD(Object)
-FORWARD(IRuntimeMethodInfo)
-FORWARD(Signature)
 FORWARD_(Array, T1, T2)
-FORWARDS(Decimal)
 FORWARDS(DateTime)
+FORWARDS(Decimal)
+FORWARD(IRuntimeMethodInfo)
+FORWARD(Object)
+FORWARD(Signature)
+FORWARD(String)
+FORWARD(Type)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Collections::Generic {
 FORWARD(IList, T)
@@ -27,7 +27,7 @@ FORWARD(RuntimeModule)
 FORWARD(MethodBase)
 namespace RuntimeParameterInfoNamespace {
 using namespace ::System::Private::CoreLib::System::Collections::Generic;
-using System::Collections::Generic::IList;
+using ::System::Private::CoreLib::System::Collections::Generic::IList;
 CLASS(RuntimeParameterInfo) {
   public: Type get_ParameterType();
   public: String get_Name();

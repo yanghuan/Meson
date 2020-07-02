@@ -3,12 +3,12 @@
 #include <rt/GCObject.h>
 
 namespace System::Private::CoreLib::System {
-FORWARDS(UInt32)
 FORWARDS(Boolean)
-FORWARD(Object)
-FORWARD(String)
 FORWARDS(Guid)
 FORWARDS(IntPtr)
+FORWARD(Object)
+FORWARD(String)
+FORWARDS(UInt32)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Runtime::InteropServices {
 enum class CustomQueryInterfaceResult;

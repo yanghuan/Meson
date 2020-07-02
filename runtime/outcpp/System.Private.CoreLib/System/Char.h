@@ -3,8 +3,8 @@
 #include <rt/GCObject.h>
 
 namespace System::Private::CoreLib::System::Globalization {
-enum class UnicodeCategory;
 FORWARD(CultureInfo)
+enum class UnicodeCategory;
 } // namespace System::Private::CoreLib::System::Globalization
 namespace System::Private::CoreLib::System {
 FORWARDS(ReadOnlySpan, T)

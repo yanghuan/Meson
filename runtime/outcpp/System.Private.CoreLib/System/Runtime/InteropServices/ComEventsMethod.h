@@ -6,9 +6,9 @@
 
 namespace System::Private::CoreLib::System {
 FORWARD_(Array, T1, T2)
+FORWARD(Delegate)
 FORWARD(Object)
 FORWARD(Type)
-FORWARD(Delegate)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Collections::Generic {
 FORWARD(List, T)

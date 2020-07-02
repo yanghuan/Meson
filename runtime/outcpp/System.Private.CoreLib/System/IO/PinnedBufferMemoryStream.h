@@ -4,12 +4,12 @@
 #include <System.Private.CoreLib/System/Runtime/InteropServices/GCHandle.h>
 
 namespace System::Private::CoreLib::System {
-FORWARDS(Span, T)
+FORWARD_(Array, T1, T2)
+FORWARDS(Boolean)
 FORWARDS(Byte)
 FORWARDS(Int32)
 FORWARDS(ReadOnlySpan, T)
-FORWARDS(Boolean)
-FORWARD_(Array, T1, T2)
+FORWARDS(Span, T)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::IO {
 namespace PinnedBufferMemoryStreamNamespace {

@@ -3,18 +3,18 @@
 #include <rt/GCObject.h>
 
 namespace System::Private::CoreLib::System {
-FORWARD(String)
-FORWARDS_(Nullable, T1, T2)
 FORWARDS(Boolean)
 FORWARDS(IntPtr)
+FORWARDS_(Nullable, T1, T2)
+FORWARD(String)
 FORWARDS(UInt32)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Reflection {
 FORWARD(Assembly)
 } // namespace System::Private::CoreLib::System::Reflection
 namespace System::Private::CoreLib::System::Runtime::CompilerServices {
-FORWARDS(QCallAssembly)
 FORWARD(ConditionalWeakTable, TKey, TValue)
+FORWARDS(QCallAssembly)
 } // namespace System::Private::CoreLib::System::Runtime::CompilerServices
 namespace System::Private::CoreLib::System::Runtime::InteropServices {
 enum class DllImportSearchPath;

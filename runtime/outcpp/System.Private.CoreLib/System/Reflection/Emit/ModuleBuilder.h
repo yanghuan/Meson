@@ -3,54 +3,54 @@
 #include <rt/GCObject.h>
 
 namespace System::Private::CoreLib::System {
-FORWARD(Object)
-FORWARD(String)
-FORWARDS(Int32)
-FORWARDS(Guid)
-FORWARDS(IntPtr)
-FORWARD(Type)
 FORWARD_(Array, T1, T2)
+FORWARDS(Boolean)
 FORWARDS(Byte)
+FORWARDS(Guid)
+FORWARDS(Int32)
+FORWARDS(IntPtr)
+FORWARDS(ModuleHandle)
+FORWARD(Object)
 FORWARDS(RuntimeMethodHandleInternal)
 FORWARDS(RuntimeTypeHandle)
-FORWARDS(Boolean)
-FORWARDS(ModuleHandle)
+FORWARD(String)
+FORWARD(Type)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Reflection {
 FORWARD(Assembly)
+FORWARD(Binder)
+enum class BindingFlags;
+enum class CallingConventions;
+FORWARD(ConstructorInfo)
+FORWARD(CustomAttributeData)
+enum class FieldAttributes;
+FORWARD(FieldInfo)
+enum class ImageFileMachine;
+FORWARD(MemberInfo)
+enum class MethodAttributes;
+FORWARD(MethodBase)
+FORWARD(MethodInfo)
 FORWARD(Module)
-FORWARD(RuntimeMethodInfo)
+FORWARDS(ParameterModifier)
+enum class PortableExecutableKinds;
 FORWARD(RuntimeConstructorInfo)
 FORWARD(RuntimeFieldInfo)
-FORWARD(ConstructorInfo)
+FORWARD(RuntimeMethodInfo)
 FORWARD(RuntimeModule)
-FORWARD(MethodBase)
-enum class CallingConventions;
-FORWARD(CustomAttributeData)
-FORWARD(FieldInfo)
-FORWARD(MemberInfo)
-enum class PortableExecutableKinds;
-enum class ImageFileMachine;
-enum class BindingFlags;
-FORWARD(MethodInfo)
-FORWARD(Binder)
-FORWARDS(ParameterModifier)
 enum class TypeAttributes;
-enum class MethodAttributes;
-enum class FieldAttributes;
 } // namespace System::Private::CoreLib::System::Reflection
 namespace System::Private::CoreLib::System::Runtime::CompilerServices {
 FORWARDS(QCallModule)
 FORWARDS(QCallTypeHandle)
 } // namespace System::Private::CoreLib::System::Runtime::CompilerServices
 namespace System::Private::CoreLib::System::Diagnostics::SymbolStore {
-FORWARD(ISymbolWriter)
 FORWARD(ISymbolDocumentWriter)
+FORWARD(ISymbolWriter)
 } // namespace System::Private::CoreLib::System::Diagnostics::SymbolStore
 namespace System::Private::CoreLib::System::Collections::Generic {
+FORWARD(Dictionary, TKey, TValue)
 FORWARD(IEnumerable, T)
 FORWARD(IList, T)
-FORWARD(Dictionary, TKey, TValue)
 } // namespace System::Private::CoreLib::System::Collections::Generic
 namespace System::Private::CoreLib::System::Runtime::InteropServices {
 enum class CallingConvention;
@@ -77,7 +77,7 @@ using namespace ::System::Private::CoreLib::System::Collections::Generic;
 using namespace ::System::Private::CoreLib::System::Diagnostics::SymbolStore;
 using namespace ::System::Private::CoreLib::System::Runtime::CompilerServices;
 using namespace ::System::Private::CoreLib::System::Runtime::InteropServices;
-using System::Collections::Generic::IList;
+using ::System::Private::CoreLib::System::Collections::Generic::IList;
 CLASS(ModuleBuilder) {
   public: AssemblyBuilder get_ContainingAssemblyBuilder();
   public: Object get_SyncRoot();

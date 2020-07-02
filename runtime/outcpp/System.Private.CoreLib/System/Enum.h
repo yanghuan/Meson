@@ -5,8 +5,8 @@
 #include <System.Private.CoreLib/System/Boolean.h>
 
 namespace System::Private::CoreLib::System::Runtime::CompilerServices {
-FORWARDS(QCallTypeHandle)
 FORWARDS(ObjectHandleOnStack)
+FORWARDS(QCallTypeHandle)
 } // namespace System::Private::CoreLib::System::Runtime::CompilerServices
 namespace System::Private::CoreLib::System::Reflection {
 enum class CorElementType : uint8_t;

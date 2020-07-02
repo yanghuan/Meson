@@ -4,25 +4,25 @@
 #include <System.Console/System/ConsolePal.h>
 
 namespace System::Private::CoreLib::System::IO {
+FORWARD(Stream)
 FORWARD(TextReader)
 FORWARD(TextWriter)
-FORWARD(Stream)
 } // namespace System::Private::CoreLib::System::IO
 namespace System::Private::CoreLib::System::Text {
 FORWARD(Encoding)
 } // namespace System::Private::CoreLib::System::Text
 namespace System::Private::CoreLib::System {
-FORWARDS(Boolean)
-FORWARDS(Int32)
-FORWARD(String)
-FORWARDS(Char)
-FORWARD(Object)
 FORWARD_(Array, T1, T2)
+FORWARDS(Boolean)
+FORWARDS(Char)
 FORWARDS(Decimal)
 FORWARDS(Double)
-FORWARDS(Single)
-FORWARDS(UInt32)
+FORWARDS(Int32)
 FORWARDS(Int64)
+FORWARD(Object)
+FORWARDS(Single)
+FORWARD(String)
+FORWARDS(UInt32)
 FORWARDS(UInt64)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Runtime::CompilerServices {

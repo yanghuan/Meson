@@ -5,8 +5,8 @@
 #include <System.Private.CoreLib/System/Int32.h>
 
 namespace System::Private::CoreLib::System {
-FORWARD(Type)
 FORWARD(RuntimeType)
+FORWARD(Type)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Reflection {
 namespace RuntimeLocalVariableInfoNamespace {

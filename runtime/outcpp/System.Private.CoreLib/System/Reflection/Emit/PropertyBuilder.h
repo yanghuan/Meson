@@ -5,22 +5,22 @@
 #include <System.Private.CoreLib/System/Reflection/Emit/PropertyToken.h>
 
 namespace System::Private::CoreLib::System::Reflection {
-FORWARD(Module)
-enum class PropertyAttributes;
-enum class MethodSemanticsAttributes;
-FORWARD(ConstructorInfo)
-enum class BindingFlags;
 FORWARD(Binder)
+enum class BindingFlags;
+FORWARD(ConstructorInfo)
 FORWARD(MethodInfo)
+enum class MethodSemanticsAttributes;
+FORWARD(Module)
 FORWARD(ParameterInfo)
+enum class PropertyAttributes;
 } // namespace System::Private::CoreLib::System::Reflection
 namespace System::Private::CoreLib::System {
-FORWARD(Type)
-FORWARDS(Boolean)
-FORWARD(String)
-FORWARD(Object)
 FORWARD_(Array, T1, T2)
+FORWARDS(Boolean)
 FORWARDS(Byte)
+FORWARD(Object)
+FORWARD(String)
+FORWARD(Type)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Globalization {
 FORWARD(CultureInfo)

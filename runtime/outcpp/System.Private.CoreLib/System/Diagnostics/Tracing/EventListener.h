@@ -3,12 +3,12 @@
 #include <rt/GCObject.h>
 
 namespace System::Private::CoreLib::System {
+FORWARDS(Boolean)
+FORWARD(EventArgs)
+FORWARD_(EventHandler, T1, T2)
+FORWARDS(Int32)
 FORWARD(Object)
 FORWARD(String)
-FORWARDS(Int32)
-FORWARD(EventArgs)
-FORWARDS(Boolean)
-FORWARD_(EventHandler, T1, T2)
 FORWARD_(WeakReference, T1, T2)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Collections::Generic {

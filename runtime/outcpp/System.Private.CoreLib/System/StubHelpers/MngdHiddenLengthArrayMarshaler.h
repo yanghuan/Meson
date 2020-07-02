@@ -3,14 +3,14 @@
 #include <rt/GCObject.h>
 
 namespace System::Private::CoreLib::System {
-FORWARDS(IntPtr)
-FORWARDS(UInt16)
-FORWARD(Object)
 FORWARD_(Array, T1, T2)
 FORWARDS(DateTimeOffset)
-FORWARD(Type)
 FORWARD(Exception)
 FORWARDS(Int32)
+FORWARDS(IntPtr)
+FORWARD(Object)
+FORWARD(Type)
+FORWARDS(UInt16)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::StubHelpers {
 namespace MngdHiddenLengthArrayMarshalerNamespace {

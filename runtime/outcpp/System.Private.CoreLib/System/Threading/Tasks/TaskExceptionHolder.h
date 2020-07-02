@@ -4,9 +4,9 @@
 #include <System.Private.CoreLib/System/Boolean.h>
 
 namespace System::Private::CoreLib::System {
-FORWARD(Object)
-FORWARD(Exception)
 FORWARD(AggregateException)
+FORWARD(Exception)
+FORWARD(Object)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Collections::ObjectModel {
 FORWARD(ReadOnlyCollection, T)

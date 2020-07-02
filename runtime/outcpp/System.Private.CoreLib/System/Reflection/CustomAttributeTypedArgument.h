@@ -3,13 +3,13 @@
 #include <rt/GCObject.h>
 
 namespace System::Private::CoreLib::System {
-FORWARD(Type)
-FORWARD(Object)
-FORWARDS(Int64)
-FORWARD(String)
-FORWARD(RuntimeType)
 FORWARDS(Boolean)
 FORWARDS(Int32)
+FORWARDS(Int64)
+FORWARD(Object)
+FORWARD(RuntimeType)
+FORWARD(String)
+FORWARD(Type)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Reflection {
 enum class CustomAttributeEncoding;

@@ -3,15 +3,15 @@
 #include <rt/GCObject.h>
 
 namespace System::Private::CoreLib::System {
-FORWARD(Object)
-FORWARDS(Boolean)
 FORWARD_(Array, T1, T2)
+FORWARDS(Boolean)
+FORWARDS(Byte)
 FORWARDS(Char)
 FORWARDS(Int32)
-FORWARD(String)
+FORWARD(Object)
 FORWARDS(ReadOnlySpan, T)
-FORWARDS(Byte)
 FORWARDS(Span, T)
+FORWARD(String)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Buffers {
 enum class OperationStatus;

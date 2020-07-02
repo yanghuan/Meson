@@ -10,13 +10,13 @@
 #include <System.Private.CoreLib/System/UInt32.h>
 
 namespace System::Private::CoreLib::System {
-FORWARD(AsyncCallback)
-FORWARD(Object)
-FORWARD(IAsyncResult)
 FORWARD_(Array, T1, T2)
+FORWARD(AsyncCallback)
+FORWARD(IAsyncResult)
 FORWARDS(IntPtr)
-FORWARD(String)
+FORWARD(Object)
 FORWARDS(Span, T)
+FORWARD(String)
 } // namespace System::Private::CoreLib::System
 namespace System::Console {
 namespace InteropNamespace {

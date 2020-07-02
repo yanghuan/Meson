@@ -3,23 +3,23 @@
 #include <rt/GCObject.h>
 
 namespace System::Private::CoreLib::System {
+FORWARD_(Array, T1, T2)
 FORWARDS(Boolean)
 FORWARDS(Byte)
-FORWARDS(Int16)
-FORWARDS(UInt16)
-FORWARDS(Int32)
-FORWARDS(UInt32)
-FORWARDS(Int64)
-FORWARDS(UInt64)
-FORWARDS(Single)
-FORWARDS(Double)
 FORWARDS(Char)
-FORWARD(String)
-FORWARDS(Guid)
 FORWARDS(DateTimeOffset)
-FORWARDS(TimeSpan)
-FORWARD_(Array, T1, T2)
+FORWARDS(Double)
+FORWARDS(Guid)
+FORWARDS(Int16)
+FORWARDS(Int32)
+FORWARDS(Int64)
 FORWARD(Object)
+FORWARDS(Single)
+FORWARD(String)
+FORWARDS(TimeSpan)
+FORWARDS(UInt16)
+FORWARDS(UInt32)
+FORWARDS(UInt64)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Runtime::InteropServices::WindowsRuntime {
 enum class PropertyType;

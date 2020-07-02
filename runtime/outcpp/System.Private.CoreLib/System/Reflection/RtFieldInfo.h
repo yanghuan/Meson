@@ -4,16 +4,16 @@
 #include <System.Private.CoreLib/System/IntPtr.h>
 
 namespace System::Private::CoreLib::System {
-FORWARDS(RuntimeFieldHandleInternal)
-FORWARD(String)
-FORWARDS(Int32)
-FORWARDS(RuntimeFieldHandle)
-FORWARD(Type)
-FORWARD(Object)
-FORWARDS(Boolean)
-FORWARDS(TypedReference)
-FORWARD(RuntimeType)
 FORWARD_(Array, T1, T2)
+FORWARDS(Boolean)
+FORWARDS(Int32)
+FORWARD(Object)
+FORWARDS(RuntimeFieldHandle)
+FORWARDS(RuntimeFieldHandleInternal)
+FORWARD(RuntimeType)
+FORWARD(String)
+FORWARD(Type)
+FORWARDS(TypedReference)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Globalization {
 FORWARD(CultureInfo)

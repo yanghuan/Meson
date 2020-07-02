@@ -4,8 +4,8 @@
 #include <System.Private.CoreLib/System/Threading/Tasks/ValueTask.h>
 
 namespace System::Private::CoreLib::System {
-FORWARDS(Boolean)
 FORWARD_(Action, T1, T2, T3, T4, T5, T6, T7, T8, T9)
+FORWARDS(Boolean)
 FORWARD(Object)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Runtime::CompilerServices {

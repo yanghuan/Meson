@@ -3,10 +3,10 @@
 #include <rt/GCObject.h>
 
 namespace System::Private::CoreLib::System {
-FORWARD(String)
+FORWARD_(Array, T1, T2)
 FORWARDS(Int32)
 FORWARD(Object)
-FORWARD_(Array, T1, T2)
+FORWARD(String)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Text {
 FORWARD(Encoding)

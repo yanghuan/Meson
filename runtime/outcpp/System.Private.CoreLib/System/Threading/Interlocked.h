@@ -3,13 +3,13 @@
 #include <rt/GCObject.h>
 
 namespace System::Private::CoreLib::System {
+FORWARDS(Boolean)
+FORWARDS(Double)
 FORWARDS(Int32)
 FORWARDS(Int64)
-FORWARDS(Single)
-FORWARDS(Double)
-FORWARD(Object)
 FORWARDS(IntPtr)
-FORWARDS(Boolean)
+FORWARD(Object)
+FORWARDS(Single)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Threading {
 namespace InterlockedNamespace {

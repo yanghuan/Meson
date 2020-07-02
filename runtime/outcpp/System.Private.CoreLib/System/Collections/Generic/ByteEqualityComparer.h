@@ -3,8 +3,8 @@
 #include <rt/GCObject.h>
 
 namespace System::Private::CoreLib::System {
-FORWARDS(Byte)
 FORWARDS(Boolean)
+FORWARDS(Byte)
 FORWARDS(Int32)
 FORWARD(Object)
 } // namespace System::Private::CoreLib::System

@@ -17,7 +17,7 @@ FORWARD(ExceptionHandlingClause)
 FORWARD(MethodBase)
 namespace RuntimeMethodBodyNamespace {
 using namespace ::System::Private::CoreLib::System::Collections::Generic;
-using System::Collections::Generic::IList;
+using ::System::Private::CoreLib::System::Collections::Generic::IList;
 CLASS(RuntimeMethodBody) {
   public: Int32 get_LocalSignatureMetadataToken();
   public: IList<LocalVariableInfo> get_LocalVariables();

@@ -5,9 +5,9 @@
 #include <System.Private.CoreLib/System/Reflection/Emit/Label.h>
 
 namespace System::Private::CoreLib::System {
-FORWARD(Type)
 FORWARD_(Array, T1, T2)
 FORWARDS(Boolean)
+FORWARD(Type)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Reflection::Emit {
 namespace __ExceptionInfoNamespace {

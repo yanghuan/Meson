@@ -6,9 +6,9 @@ namespace System::Private::CoreLib::System::Runtime::CompilerServices {
 FORWARDS(QCallAssembly)
 } // namespace System::Private::CoreLib::System::Runtime::CompilerServices
 namespace System::Private::CoreLib::System {
+FORWARDS(Boolean)
 FORWARDS(Byte)
 FORWARDS(Int32)
-FORWARDS(Boolean)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Reflection {
 FORWARD(Assembly)

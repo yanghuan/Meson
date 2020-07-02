@@ -4,10 +4,10 @@
 
 namespace System::Private::CoreLib::System {
 FORWARD_(Array, T1, T2)
+FORWARDS(Char)
 FORWARDS(Int32)
 FORWARD(String)
 FORWARDS(UInt32)
-FORWARDS(Char)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Diagnostics::Tracing {
 FORWARDS(EventPipeProviderConfiguration)

@@ -4,9 +4,9 @@
 #include <System.Private.CoreLib/System/Double.h>
 
 namespace System::Private::CoreLib::System {
-FORWARD(String)
-FORWARDS(Single)
 FORWARDS(Int32)
+FORWARDS(Single)
+FORWARD(String)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Diagnostics::Tracing {
 namespace IncrementingEventCounterNamespace {

@@ -5,8 +5,8 @@
 
 namespace System::Private::CoreLib::System {
 FORWARD_(Array, T1, T2)
-FORWARDS(Byte)
 FORWARDS(Boolean)
+FORWARDS(Byte)
 FORWARDS(Char)
 FORWARDS(ReadOnlySpan, T)
 FORWARDS(Span, T)

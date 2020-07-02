@@ -7,10 +7,10 @@ namespace System::Private::CoreLib::System::Collections::Generic {
 FORWARDS_(KeyValuePair, T1, T2, T3)
 } // namespace System::Private::CoreLib::System::Collections::Generic
 namespace System::Private::CoreLib::System {
-FORWARD(String)
-FORWARDS(IntPtr)
 FORWARD_(Array, T1, T2)
 FORWARDS(Byte)
+FORWARDS(IntPtr)
+FORWARD(String)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Diagnostics::Tracing {
 enum class EventTags;

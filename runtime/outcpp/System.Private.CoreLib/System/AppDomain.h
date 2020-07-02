@@ -11,12 +11,12 @@ enum class AssemblyHashAlgorithm;
 namespace System::Private::CoreLib::System::Reflection {
 FORWARD(Assembly)
 FORWARD(AssemblyName)
-enum class BindingFlags;
 FORWARD(Binder)
+enum class BindingFlags;
 } // namespace System::Private::CoreLib::System::Reflection
 namespace System::Private::CoreLib::System::Security::Principal {
-enum class PrincipalPolicy;
 FORWARD(IPrincipal)
+enum class PrincipalPolicy;
 } // namespace System::Private::CoreLib::System::Security::Principal
 namespace System::Private::CoreLib::System::Runtime::Remoting {
 FORWARD(ObjectHandle)

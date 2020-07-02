@@ -13,9 +13,9 @@
 #include <System.Private.CoreLib/System/UIntPtr.h>
 
 namespace System::Private::CoreLib::System {
-FORWARD(Object)
 FORWARDS(Double)
 FORWARDS(Int64)
+FORWARD(Object)
 FORWARDS(UInt64)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Threading {

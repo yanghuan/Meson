@@ -3,15 +3,15 @@
 #include <rt/GCObject.h>
 
 namespace System::Private::CoreLib::System {
+FORWARD_(Array, T1, T2)
 FORWARDS(Boolean)
+FORWARDS(Int32)
+FORWARDS(IntPtr)
+FORWARD(Object)
 FORWARDS(RuntimeMethodHandle)
 FORWARDS(RuntimeTypeHandle)
-FORWARDS(IntPtr)
-FORWARD_(Array, T1, T2)
-FORWARD(Type)
-FORWARD(Object)
 FORWARD(Signature)
-FORWARDS(Int32)
+FORWARD(Type)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Text {
 FORWARDS(ValueStringBuilder)

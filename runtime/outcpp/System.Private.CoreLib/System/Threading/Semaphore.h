@@ -4,9 +4,9 @@
 #include <System.Private.CoreLib/System/Threading/WaitHandle.h>
 
 namespace System::Private::CoreLib::System {
-FORWARD(String)
 FORWARDS(Boolean)
 FORWARDS(Int32)
+FORWARD(String)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Threading {
 namespace SemaphoreNamespace {

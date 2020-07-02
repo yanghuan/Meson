@@ -6,8 +6,8 @@
 #include <System.Private.CoreLib/System/Nullable.h>
 
 namespace System::Private::CoreLib::System {
-FORWARD(String)
 FORWARDS(Byte)
+FORWARD(String)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Collections::ObjectModel {
 FORWARD(ReadOnlyCollection, T)

@@ -3,11 +3,11 @@
 #include <rt/GCObject.h>
 
 namespace System::Private::CoreLib::System {
-FORWARD(String)
-FORWARD(Object)
+FORWARD_(Array, T1, T2)
 FORWARDS(Boolean)
 FORWARDS(Int32)
-FORWARD_(Array, T1, T2)
+FORWARD(Object)
+FORWARD(String)
 FORWARD(Type)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::IO {

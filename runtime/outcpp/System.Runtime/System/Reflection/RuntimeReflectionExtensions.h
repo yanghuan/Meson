@@ -3,21 +3,21 @@
 #include <rt/GCObject.h>
 
 namespace System::Private::CoreLib::System {
-FORWARD(Type)
-FORWARD(String)
 FORWARD_(Array, T1, T2)
 FORWARD(Delegate)
+FORWARD(String)
+FORWARD(Type)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Collections::Generic {
 FORWARD(IEnumerable, T)
 } // namespace System::Private::CoreLib::System::Collections::Generic
 namespace System::Private::CoreLib::System::Reflection {
+FORWARD(EventInfo)
 FORWARD(FieldInfo)
+FORWARDS(InterfaceMapping)
 FORWARD(MethodInfo)
 FORWARD(PropertyInfo)
-FORWARD(EventInfo)
 FORWARD(TypeInfo)
-FORWARDS(InterfaceMapping)
 } // namespace System::Private::CoreLib::System::Reflection
 namespace System::Runtime::System::Reflection {
 namespace RuntimeReflectionExtensionsNamespace {

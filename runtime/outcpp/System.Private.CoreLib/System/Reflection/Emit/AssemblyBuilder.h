@@ -4,25 +4,25 @@
 #include <System.Private.CoreLib/System/Boolean.h>
 
 namespace System::Private::CoreLib::System {
+FORWARD_(Array, T1, T2)
+FORWARDS(Byte)
+FORWARDS(Int32)
+FORWARDS(Int64)
 FORWARD(Object)
 FORWARD(String)
-FORWARDS(Int64)
-FORWARD_(Array, T1, T2)
 FORWARD(Type)
-FORWARDS(Int32)
 FORWARD(Version)
-FORWARDS(Byte)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Reflection {
+FORWARD(Assembly)
+FORWARD(AssemblyName)
+FORWARD(ConstructorInfo)
+FORWARD(CustomAttributeData)
+FORWARD(ManifestResourceInfo)
 FORWARD(MethodInfo)
 FORWARD(Module)
 FORWARD(RuntimeAssembly)
 FORWARD(RuntimeModule)
-FORWARD(AssemblyName)
-FORWARD(Assembly)
-FORWARD(CustomAttributeData)
-FORWARD(ManifestResourceInfo)
-FORWARD(ConstructorInfo)
 } // namespace System::Private::CoreLib::System::Reflection
 namespace System::Private::CoreLib::System::Collections::Generic {
 FORWARD(IEnumerable, T)
@@ -50,7 +50,7 @@ using namespace ::System::Private::CoreLib::System::Collections::Generic;
 using namespace ::System::Private::CoreLib::System::Globalization;
 using namespace ::System::Private::CoreLib::System::IO;
 using namespace ::System::Private::CoreLib::System::Threading;
-using System::Collections::Generic::IList;
+using ::System::Private::CoreLib::System::Collections::Generic::IList;
 CLASS(AssemblyBuilder) {
   public: Object get_SyncRoot();
   public: InternalAssemblyBuilder get_InternalAssembly();

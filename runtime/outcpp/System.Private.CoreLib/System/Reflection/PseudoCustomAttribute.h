@@ -13,8 +13,8 @@ FORWARDS(Int32)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Runtime::InteropServices {
 FORWARD(DllImportAttribute)
-FORWARD(MarshalAsAttribute)
 FORWARD(FieldOffsetAttribute)
+FORWARD(MarshalAsAttribute)
 FORWARD(StructLayoutAttribute)
 } // namespace System::Private::CoreLib::System::Runtime::InteropServices
 namespace System::Private::CoreLib::System::Reflection {

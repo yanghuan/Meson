@@ -6,24 +6,24 @@
 #include <System.Private.CoreLib/System/IntPtr.h>
 
 namespace System::Private::CoreLib::System {
-FORWARD(LocalDataStoreSlot)
-FORWARD(String)
-FORWARD(Object)
-FORWARDS(Boolean)
-FORWARDS(UInt64)
-FORWARD(Delegate)
 FORWARD(AppDomain)
-FORWARDS(TimeSpan)
+FORWARDS(Boolean)
 FORWARDS(Byte)
+FORWARD(Delegate)
 FORWARDS(Double)
+FORWARD(Exception)
 FORWARDS(Int16)
 FORWARDS(Int64)
+FORWARD(LocalDataStoreSlot)
+FORWARD(Object)
 FORWARDS(SByte)
 FORWARDS(Single)
+FORWARD(String)
+FORWARDS(TimeSpan)
 FORWARDS(UInt16)
 FORWARDS(UInt32)
+FORWARDS(UInt64)
 FORWARDS(UIntPtr)
-FORWARD(Exception)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Collections::Generic {
 FORWARD(Dictionary, TKey, TValue)

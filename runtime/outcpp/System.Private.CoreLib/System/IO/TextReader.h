@@ -4,12 +4,12 @@
 
 namespace System::Private::CoreLib::System {
 FORWARD_(Array, T1, T2)
+FORWARDS(Boolean)
 FORWARDS(Char)
 FORWARDS(Int32)
-FORWARD(String)
-FORWARDS(Boolean)
-FORWARDS(Span, T)
 FORWARDS(Memory, T)
+FORWARDS(Span, T)
+FORWARD(String)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Threading::Tasks {
 FORWARD_(Task, T1, T2)

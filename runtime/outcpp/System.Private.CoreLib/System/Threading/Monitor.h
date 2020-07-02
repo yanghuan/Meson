@@ -3,10 +3,10 @@
 #include <rt/GCObject.h>
 
 namespace System::Private::CoreLib::System {
-FORWARDS(Int64)
-FORWARD(Object)
 FORWARDS(Boolean)
 FORWARDS(Int32)
+FORWARDS(Int64)
+FORWARD(Object)
 FORWARDS(TimeSpan)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Threading {

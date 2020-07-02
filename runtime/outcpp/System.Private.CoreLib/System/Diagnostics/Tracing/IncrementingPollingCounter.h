@@ -4,10 +4,10 @@
 #include <System.Private.CoreLib/System/Double.h>
 
 namespace System::Private::CoreLib::System {
-FORWARD(String)
-FORWARDS(Single)
-FORWARDS(Int32)
 FORWARD_(Func, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10)
+FORWARDS(Int32)
+FORWARDS(Single)
+FORWARD(String)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Diagnostics::Tracing {
 namespace IncrementingPollingCounterNamespace {

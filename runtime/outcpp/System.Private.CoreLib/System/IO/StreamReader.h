@@ -5,16 +5,16 @@
 #include <System.Private.CoreLib/System/Int32.h>
 
 namespace System::Private::CoreLib::System::Text {
-FORWARD(Encoding)
 FORWARD(Decoder)
+FORWARD(Encoding)
 } // namespace System::Private::CoreLib::System::Text
 namespace System::Private::CoreLib::System {
 FORWARD_(Array, T1, T2)
-FORWARDS(Char)
-FORWARD(String)
-FORWARDS(Span, T)
-FORWARDS(Memory, T)
 FORWARDS(Byte)
+FORWARDS(Char)
+FORWARDS(Memory, T)
+FORWARDS(Span, T)
+FORWARD(String)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Threading::Tasks {
 FORWARD_(Task, T1, T2)

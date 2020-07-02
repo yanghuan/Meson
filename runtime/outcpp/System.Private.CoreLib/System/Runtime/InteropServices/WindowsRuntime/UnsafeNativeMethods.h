@@ -3,11 +3,11 @@
 #include <rt/GCObject.h>
 
 namespace System::Private::CoreLib::System {
-FORWARDS(Int32)
-FORWARD(String)
-FORWARDS(IntPtr)
 FORWARDS(Boolean)
 FORWARDS(Char)
+FORWARDS(Int32)
+FORWARDS(IntPtr)
+FORWARD(String)
 FORWARDS(UInt32)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Runtime::InteropServices::WindowsRuntime {

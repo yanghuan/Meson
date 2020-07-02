@@ -6,10 +6,10 @@ namespace System::Private::CoreLib::System::IO {
 FORWARD(TextReader)
 } // namespace System::Private::CoreLib::System::IO
 namespace System::Private::CoreLib::System {
-FORWARDS(Boolean)
-FORWARDS(Int32)
 FORWARD_(Array, T1, T2)
+FORWARDS(Boolean)
 FORWARDS(Char)
+FORWARDS(Int32)
 FORWARD(String)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Threading::Tasks {

@@ -3,8 +3,8 @@
 #include <rt/GCObject.h>
 
 namespace System::Private::CoreLib::System::Globalization {
-enum class NumberStyles;
 FORWARD(NumberFormatInfo)
+enum class NumberStyles;
 } // namespace System::Private::CoreLib::System::Globalization
 namespace System::Private::CoreLib::System {
 FORWARDS(Boolean)

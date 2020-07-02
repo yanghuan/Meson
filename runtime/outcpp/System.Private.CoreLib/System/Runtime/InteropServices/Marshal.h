@@ -3,25 +3,25 @@
 #include <rt/GCObject.h>
 
 namespace System::Private::CoreLib::System {
-FORWARD(Type)
+FORWARD_(Array, T1, T2)
 FORWARDS(Boolean)
+FORWARDS(Byte)
+FORWARDS(Char)
+FORWARD(Delegate)
+FORWARDS(Double)
+FORWARD(Exception)
+FORWARDS(Guid)
+FORWARDS(Int16)
 FORWARDS(Int32)
-FORWARD(String)
+FORWARDS(Int64)
 FORWARDS(IntPtr)
 FORWARD(IRuntimeFieldInfo)
 FORWARD(Object)
-FORWARDS(Byte)
-FORWARDS(Int16)
-FORWARDS(Int64)
 FORWARDS(RuntimeMethodHandleInternal)
-FORWARD(Exception)
-FORWARDS(Guid)
-FORWARD_(Array, T1, T2)
-FORWARDS(UInt32)
-FORWARD(Delegate)
-FORWARDS(Char)
 FORWARDS(Single)
-FORWARDS(Double)
+FORWARD(String)
+FORWARD(Type)
+FORWARDS(UInt32)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Reflection {
 FORWARD(MethodInfo)
@@ -31,9 +31,9 @@ namespace System::Private::CoreLib::System::Runtime::CompilerServices {
 FORWARDS(QCallModule)
 } // namespace System::Private::CoreLib::System::Runtime::CompilerServices
 namespace System::Private::CoreLib::System::Runtime::InteropServices::ComTypes {
-FORWARD(ITypeInfo)
 FORWARD(IBindCtx)
 FORWARD(IMoniker)
+FORWARD(ITypeInfo)
 } // namespace System::Private::CoreLib::System::Runtime::InteropServices::ComTypes
 namespace System::Private::CoreLib::System::Security {
 FORWARD(SecureString)

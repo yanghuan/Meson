@@ -3,6 +3,24 @@
 #include <System.Private.Uri/System/UriParser-dep.h>
 
 namespace System::Private::Uri::System::UriParserNamespace {
+String UriParser___::get_SchemeName() {
+  return nullptr;
+};
+Int32 UriParser___::get_DefaultPort() {
+  return Int32();
+};
+Boolean UriParser___::get_DontEnableStrictRFC3986ReservedCharacterSets() {
+  return Boolean();
+};
+Boolean UriParser___::get_DontKeepUnicodeBidiFormattingCharacters() {
+  return Boolean();
+};
+UriSyntaxFlags UriParser___::get_Flags() {
+  return UriSyntaxFlags();
+};
+Boolean UriParser___::get_IsSimple() {
+  return Boolean();
+};
 UriParser UriParser___::OnNewUri() {
   return nullptr;
 };

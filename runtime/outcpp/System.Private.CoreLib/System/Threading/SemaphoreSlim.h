@@ -4,11 +4,11 @@
 #include <System.Private.CoreLib/System/Int32.h>
 
 namespace System::Private::CoreLib::System {
-FORWARDS(TimeSpan)
-FORWARDS(Boolean)
-FORWARDS(UInt32)
-FORWARD(Object)
 FORWARD_(Action, T1, T2, T3, T4, T5, T6, T7, T8, T9)
+FORWARDS(Boolean)
+FORWARD(Object)
+FORWARDS(TimeSpan)
+FORWARDS(UInt32)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Threading::Tasks {
 FORWARD_(Task, T1, T2)

@@ -5,30 +5,30 @@
 #include <System.Private.CoreLib/System/Int32.h>
 
 namespace System::Private::CoreLib::System {
+FORWARD_(Array, T1, T2)
 FORWARDS(Guid)
+FORWARD(Object)
 FORWARDS(RuntimeTypeHandle)
 FORWARD(String)
 FORWARD(Type)
-FORWARD(Object)
-FORWARD_(Array, T1, T2)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Reflection {
-FORWARD(Module)
 FORWARD(Assembly)
-FORWARD(TypeInfo)
-enum class BindingFlags;
 FORWARD(Binder)
-FORWARDS(ParameterModifier)
+enum class BindingFlags;
 enum class CallingConventions;
 FORWARD(ConstructorInfo)
-FORWARD(MethodInfo)
-FORWARD(FieldInfo)
 FORWARD(EventInfo)
-FORWARD(PropertyInfo)
-enum class MemberTypes;
-FORWARD(MemberInfo)
+FORWARD(FieldInfo)
 FORWARDS(InterfaceMapping)
+FORWARD(MemberInfo)
+enum class MemberTypes;
+FORWARD(MethodInfo)
+FORWARD(Module)
+FORWARDS(ParameterModifier)
+FORWARD(PropertyInfo)
 enum class TypeAttributes;
+FORWARD(TypeInfo)
 } // namespace System::Private::CoreLib::System::Reflection
 namespace System::Private::CoreLib::System::Globalization {
 FORWARD(CultureInfo)

@@ -3,13 +3,13 @@
 #include <rt/GCObject.h>
 
 namespace System::Private::CoreLib::System::Diagnostics::Contracts {
-enum class ContractFailureKind;
 FORWARD(ContractFailedEventArgs)
+enum class ContractFailureKind;
 } // namespace System::Private::CoreLib::System::Diagnostics::Contracts
 namespace System::Private::CoreLib::System {
-FORWARD(String)
-FORWARD(Exception)
 FORWARD_(EventHandler, T1, T2)
+FORWARD(Exception)
+FORWARD(String)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Runtime::CompilerServices {
 namespace ContractHelperNamespace {

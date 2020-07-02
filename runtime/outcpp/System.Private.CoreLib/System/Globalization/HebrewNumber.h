@@ -7,10 +7,10 @@ namespace System::Private::CoreLib::System::Text {
 FORWARD(StringBuilder)
 } // namespace System::Private::CoreLib::System::Text
 namespace System::Private::CoreLib::System {
-FORWARDS(Int32)
-FORWARDS(Char)
-FORWARDS(Boolean)
 FORWARD_(Array, T1, T2)
+FORWARDS(Boolean)
+FORWARDS(Char)
+FORWARDS(Int32)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Globalization {
 FORWARDS(HebrewNumberParsingContext)

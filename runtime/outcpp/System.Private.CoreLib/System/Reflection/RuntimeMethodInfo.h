@@ -5,17 +5,17 @@
 #include <System.Private.CoreLib/System/RuntimeType.h>
 
 namespace System::Private::CoreLib::System {
-FORWARDS(RuntimeMethodHandleInternal)
-FORWARD(Signature)
-FORWARDS(Int32)
-FORWARD(String)
-FORWARD(Type)
-FORWARDS(Boolean)
-FORWARDS(RuntimeMethodHandle)
 FORWARD_(Array, T1, T2)
-FORWARD(Object)
+FORWARDS(Boolean)
 FORWARD(Delegate)
 enum class DelegateBindingFlags;
+FORWARDS(Int32)
+FORWARD(Object)
+FORWARDS(RuntimeMethodHandle)
+FORWARDS(RuntimeMethodHandleInternal)
+FORWARD(Signature)
+FORWARD(String)
+FORWARD(Type)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Collections::Generic {
 FORWARD(IList, T)
@@ -47,7 +47,7 @@ namespace RuntimeMethodInfoNamespace {
 using namespace ::System::Private::CoreLib::System::Collections::Generic;
 using namespace ::System::Private::CoreLib::System::Globalization;
 using namespace ::System::Private::CoreLib::System::Threading;
-using System::Collections::Generic::IList;
+using ::System::Private::CoreLib::System::Collections::Generic::IList;
 CLASS(RuntimeMethodInfo) {
   public: INVOCATION_FLAGS get_InvocationFlags();
   private: RuntimeMethodHandleInternal get_ValueOfIRuntimeMethodInfo();

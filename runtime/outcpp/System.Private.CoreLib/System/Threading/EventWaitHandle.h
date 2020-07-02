@@ -4,8 +4,8 @@
 #include <System.Private.CoreLib/System/Threading/WaitHandle.h>
 
 namespace System::Private::CoreLib::System {
-FORWARD(String)
 FORWARDS(Boolean)
+FORWARD(String)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::Microsoft::Win32::SafeHandles {
 FORWARD(SafeWaitHandle)

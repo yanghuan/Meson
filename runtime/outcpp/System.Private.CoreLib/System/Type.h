@@ -3,26 +3,26 @@
 #include <rt/GCObject.h>
 
 namespace System::Private::CoreLib::System::Reflection {
-enum class MemberTypes;
 FORWARD(Assembly)
-FORWARD(Module)
-FORWARD(MethodBase)
-enum class GenericParameterAttributes;
-enum class TypeAttributes;
-FORWARD(ConstructorInfo)
-FORWARD(Binder)
 FORWARD(AssemblyName)
+FORWARD(Binder)
 enum class BindingFlags;
-FORWARDS(ParameterModifier)
 enum class CallingConventions;
+FORWARD(ConstructorInfo)
 FORWARD(EventInfo)
 FORWARD(FieldInfo)
-FORWARD(MemberInfo)
-FORWARD(MethodInfo)
-FORWARD(PropertyInfo)
+enum class GenericParameterAttributes;
 FORWARDS(InterfaceMapping)
-FORWARD(TypeFilter)
 FORWARD(MemberFilter)
+FORWARD(MemberInfo)
+enum class MemberTypes;
+FORWARD(MethodBase)
+FORWARD(MethodInfo)
+FORWARD(Module)
+FORWARDS(ParameterModifier)
+FORWARD(PropertyInfo)
+enum class TypeAttributes;
+FORWARD(TypeFilter)
 } // namespace System::Private::CoreLib::System::Reflection
 namespace System::Private::CoreLib::System::Runtime::InteropServices {
 FORWARD(StructLayoutAttribute)

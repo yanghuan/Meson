@@ -4,11 +4,11 @@
 #include <System.Private.CoreLib/System/RuntimeType.h>
 
 namespace System::Private::CoreLib::System {
-FORWARD(Type)
-FORWARDS(Boolean)
-FORWARD(String)
 FORWARD_(Array, T1, T2)
+FORWARDS(Boolean)
 FORWARD(Object)
+FORWARD(String)
+FORWARD(Type)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Collections::Generic {
 FORWARD(IList, T)
@@ -22,7 +22,7 @@ FORWARD(MemberInfo)
 FORWARD(CustomAttributeData)
 namespace RuntimeFieldInfoNamespace {
 using namespace ::System::Private::CoreLib::System::Collections::Generic;
-using System::Collections::Generic::IList;
+using ::System::Private::CoreLib::System::Collections::Generic::IList;
 CLASS(RuntimeFieldInfo) {
   public: BindingFlags get_BindingFlags();
   private: RuntimeType get_ReflectedTypeInternal();

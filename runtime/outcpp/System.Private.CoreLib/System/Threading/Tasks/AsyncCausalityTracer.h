@@ -4,16 +4,16 @@
 
 namespace System::Private::CoreLib::System {
 FORWARDS(Boolean)
+FORWARD(Exception)
+FORWARDS(Guid)
 FORWARD(Object)
 FORWARD(String)
-FORWARD(Exception)
 FORWARDS(UInt32)
 FORWARDS(UInt64)
-FORWARDS(Guid)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::Windows::Foundation::Diagnostics {
-FORWARD(TracingStatusChangedEventArgs)
 FORWARD(IAsyncCausalityTracerStatics)
+FORWARD(TracingStatusChangedEventArgs)
 } // namespace System::Private::CoreLib::Windows::Foundation::Diagnostics
 namespace System::Private::CoreLib::System::Threading::Tasks {
 FORWARD_(Task, T1, T2)

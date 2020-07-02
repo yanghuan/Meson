@@ -5,16 +5,16 @@
 #include <System.Private.CoreLib/System/UInt64.h>
 
 namespace System::Private::CoreLib::System {
-FORWARD(String)
 FORWARD_(Array, T1, T2)
-FORWARD(Type)
-FORWARDS(Byte)
 FORWARDS(Boolean)
+FORWARDS(Byte)
+FORWARD(String)
+FORWARD(Type)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Collections::Generic {
+FORWARD(Dictionary, TKey, TValue)
 FORWARD(IList, T)
 FORWARD(List, T)
-FORWARD(Dictionary, TKey, TValue)
 } // namespace System::Private::CoreLib::System::Collections::Generic
 namespace System::Private::CoreLib::System::Text {
 FORWARD(StringBuilder)
@@ -39,7 +39,7 @@ using namespace ::System::Private::CoreLib::System::Collections::Generic;
 using namespace ::System::Private::CoreLib::System::Globalization;
 using namespace ::System::Private::CoreLib::System::Resources;
 using namespace ::System::Private::CoreLib::System::Text;
-using System::Collections::Generic::IList;
+using ::System::Private::CoreLib::System::Collections::Generic::IList;
 CLASS(ManifestBuilder) {
   private: CLASS(ChannelInfo) {
     public: String Name;

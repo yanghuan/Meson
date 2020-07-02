@@ -3,18 +3,18 @@
 #include <rt/GCObject.h>
 
 namespace System::Private::CoreLib::System {
-FORWARDS(UInt32)
-FORWARDS(DateTime)
-FORWARDS(Guid)
-FORWARDS(ReadOnlySpan, T)
-FORWARDS(Byte)
-FORWARDS(UInt16)
-FORWARDS(UInt64)
-FORWARDS(IntPtr)
-FORWARD(String)
-FORWARDS(Double)
 FORWARDS(Boolean)
+FORWARDS(Byte)
+FORWARDS(DateTime)
+FORWARDS(Double)
+FORWARDS(Guid)
 FORWARDS(Int32)
+FORWARDS(IntPtr)
+FORWARDS(ReadOnlySpan, T)
+FORWARD(String)
+FORWARDS(UInt16)
+FORWARDS(UInt32)
+FORWARDS(UInt64)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Diagnostics::Tracing {
 enum class EventKeywords : int64_t;

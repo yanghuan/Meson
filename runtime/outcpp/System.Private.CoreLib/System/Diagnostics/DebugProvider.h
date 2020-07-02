@@ -4,10 +4,10 @@
 #include <System.Private.CoreLib/System/Boolean.h>
 
 namespace System::Private::CoreLib::System {
-FORWARD(String)
+FORWARD_(Action, T1, T2, T3, T4, T5, T6, T7, T8, T9)
 FORWARDS(Int32)
 FORWARD(Object)
-FORWARD_(Action, T1, T2, T3, T4, T5, T6, T7, T8, T9)
+FORWARD(String)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Diagnostics {
 namespace DebugProviderNamespace {

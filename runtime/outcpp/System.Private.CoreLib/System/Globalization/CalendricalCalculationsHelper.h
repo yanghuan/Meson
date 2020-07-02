@@ -4,11 +4,11 @@
 #include <System.Private.CoreLib/System/Int32.h>
 
 namespace System::Private::CoreLib::System {
-FORWARDS(Double)
-FORWARDS(DateTime)
-FORWARDS(Int64)
 FORWARD_(Array, T1, T2)
 FORWARDS(Boolean)
+FORWARDS(DateTime)
+FORWARDS(Double)
+FORWARDS(Int64)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Globalization {
 namespace CalendricalCalculationsHelperNamespace {

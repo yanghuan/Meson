@@ -8,19 +8,19 @@ FORWARD(SerializationInfo)
 FORWARDS(StreamingContext)
 } // namespace System::Private::CoreLib::System::Runtime::Serialization
 namespace System::Private::CoreLib::System::Runtime::CompilerServices {
-FORWARDS(QCallTypeHandle)
-FORWARDS(QCallModule)
-FORWARDS(StringHandleOnStack)
 FORWARDS(ObjectHandleOnStack)
+FORWARDS(QCallModule)
+FORWARDS(QCallTypeHandle)
+FORWARDS(StringHandleOnStack)
 } // namespace System::Private::CoreLib::System::Runtime::CompilerServices
 namespace System::Private::CoreLib::System::Threading {
 enum class StackCrawlMark;
 } // namespace System::Private::CoreLib::System::Threading
 namespace System::Private::CoreLib::System::Reflection {
+FORWARD(LoaderAllocator)
 enum class MethodAttributes;
 enum class MethodImplAttributes;
 FORWARD(RuntimeMethodBody)
-FORWARD(LoaderAllocator)
 } // namespace System::Private::CoreLib::System::Reflection
 namespace System::Private::CoreLib::System {
 FORWARDS(IntPtr)

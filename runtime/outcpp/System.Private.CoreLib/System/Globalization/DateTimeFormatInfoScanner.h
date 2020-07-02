@@ -7,11 +7,11 @@ FORWARD(Dictionary, TKey, TValue)
 FORWARD(List, T)
 } // namespace System::Private::CoreLib::System::Collections::Generic
 namespace System::Private::CoreLib::System {
-FORWARD(String)
-FORWARDS(Int32)
-FORWARDS(Char)
 FORWARD_(Array, T1, T2)
 FORWARDS(Boolean)
+FORWARDS(Char)
+FORWARDS(Int32)
+FORWARD(String)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Globalization {
 FORWARD(DateTimeFormatInfo)

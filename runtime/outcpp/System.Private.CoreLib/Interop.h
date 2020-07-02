@@ -15,12 +15,12 @@
 #include <System.Private.CoreLib/System/UIntPtr.h>
 
 namespace System::Private::CoreLib::System {
-FORWARD(String)
-FORWARD(AsyncCallback)
-FORWARD(Object)
-FORWARD(IAsyncResult)
-FORWARDS(Span, T)
 FORWARD_(Array, T1, T2)
+FORWARD(AsyncCallback)
+FORWARD(IAsyncResult)
+FORWARD(Object)
+FORWARDS(Span, T)
+FORWARD(String)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Runtime::InteropServices {
 FORWARD(SafeHandle)
@@ -29,14 +29,14 @@ namespace System::Private::CoreLib::System::Threading {
 FORWARDS(NativeOverlapped)
 } // namespace System::Private::CoreLib::System::Threading
 namespace System::Private::CoreLib::Microsoft::Win32::SafeHandles {
-FORWARD(SafeFindHandle)
 FORWARD(SafeFileHandle)
+FORWARD(SafeFindHandle)
 FORWARD(SafeLibraryHandle)
 FORWARD(SafeWaitHandle)
 } // namespace System::Private::CoreLib::Microsoft::Win32::SafeHandles
 namespace System::Private::CoreLib::System::IO {
-enum class FileShare;
 enum class FileMode;
+enum class FileShare;
 } // namespace System::Private::CoreLib::System::IO
 namespace System::Private::CoreLib::System::Security {
 FORWARD(SafeBSTRHandle)

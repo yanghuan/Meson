@@ -4,8 +4,8 @@
 
 namespace System::Private::CoreLib::System {
 FORWARD_(Array, T1, T2)
-FORWARDS(Int32)
 FORWARDS(Boolean)
+FORWARDS(Int32)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Collections::Concurrent {
 namespace IProducerConsumerCollectionNamespace {

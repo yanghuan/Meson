@@ -11,6 +11,7 @@ namespace ArrayBuilderNamespace {
 using namespace ::System::Private::CoreLib::System;
 template <class T>
 struct ArrayBuilder {
+  public: Int32 get_Capacity();
   public: void Add(T item);
   public: Array<T> ToArray();
   public: void UncheckedAdd(T item);

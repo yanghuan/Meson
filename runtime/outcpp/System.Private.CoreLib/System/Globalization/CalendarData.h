@@ -6,11 +6,11 @@
 #include <System.Private.CoreLib/System/Int32.h>
 
 namespace System::Private::CoreLib::System {
-FORWARD(String)
 FORWARD_(Array, T1, T2)
-FORWARDS(UInt32)
 FORWARDS(Char)
 FORWARDS(IntPtr)
+FORWARD(String)
+FORWARDS(UInt32)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Collections::Generic {
 FORWARD(List, T)

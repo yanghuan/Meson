@@ -12,6 +12,8 @@ class KeyValuePair<> {
 };
 template <class TKey, class TValue>
 struct KeyValuePair<TKey, TValue> {
+  public: TKey get_Key();
+  public: TValue get_Value();
   private: TKey key;
   private: TValue value;
 };

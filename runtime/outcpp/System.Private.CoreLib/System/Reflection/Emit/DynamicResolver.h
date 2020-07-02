@@ -5,11 +5,11 @@
 #include <System.Private.CoreLib/System/RuntimeMethodHandleInternal.h>
 
 namespace System::Private::CoreLib::System {
-FORWARD(RuntimeType)
 FORWARD_(Array, T1, T2)
 FORWARDS(Byte)
-FORWARD(String)
 FORWARDS(IntPtr)
+FORWARD(RuntimeType)
+FORWARD(String)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Reflection {
 FORWARD(MethodInfo)

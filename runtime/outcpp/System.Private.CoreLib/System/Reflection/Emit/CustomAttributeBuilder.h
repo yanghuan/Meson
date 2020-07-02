@@ -3,18 +3,18 @@
 #include <rt/GCObject.h>
 
 namespace System::Private::CoreLib::System {
-FORWARD(Type)
-FORWARDS(Boolean)
 FORWARD_(Array, T1, T2)
+FORWARDS(Boolean)
+FORWARDS(Byte)
+FORWARDS(Int32)
 FORWARD(Object)
 FORWARD(String)
-FORWARDS(Int32)
-FORWARDS(Byte)
+FORWARD(Type)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Reflection {
 FORWARD(ConstructorInfo)
-FORWARD(PropertyInfo)
 FORWARD(FieldInfo)
+FORWARD(PropertyInfo)
 } // namespace System::Private::CoreLib::System::Reflection
 namespace System::Private::CoreLib::System::IO {
 FORWARD(BinaryWriter)
