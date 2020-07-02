@@ -1,10 +1,10 @@
 #include "TaskFactory-dep.h"
 
 namespace System::Private::CoreLib::System::Threading::Tasks::TaskFactoryNamespace {
-Boolean TaskFactory___<>::CompleteOnCountdownPromise___::get_InvokeMayRunArbitraryCode() {
+Boolean TaskFactory___<>::CompleteOnCountdownPromise___<>::get_InvokeMayRunArbitraryCode() {
   return Boolean();
 };
-Boolean TaskFactory___<>::CompleteOnCountdownPromise___::get_ShouldNotifyDebuggerOfWaitCompletion() {
+Boolean TaskFactory___<>::CompleteOnCountdownPromise___<>::get_ShouldNotifyDebuggerOfWaitCompletion() {
   return Boolean();
 };
 Boolean TaskFactory___<>::CompleteOnInvokePromise___::get_InvokeMayRunArbitraryCode() {

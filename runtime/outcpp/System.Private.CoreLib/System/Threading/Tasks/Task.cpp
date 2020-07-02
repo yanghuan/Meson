@@ -33,10 +33,10 @@ void Task___<>::DelayPromiseWithCancellation___::CompleteCanceled() {
 void Task___<>::DelayPromiseWithCancellation___::Cleanup() {
   return void();
 };
-Boolean Task___<>::WhenAllPromise___::get_InvokeMayRunArbitraryCode() {
+Boolean Task___<>::WhenAllPromise___<>::get_InvokeMayRunArbitraryCode() {
   return Boolean();
 };
-Boolean Task___<>::WhenAllPromise___::get_ShouldNotifyDebuggerOfWaitCompletion() {
+Boolean Task___<>::WhenAllPromise___<>::get_ShouldNotifyDebuggerOfWaitCompletion() {
   return Boolean();
 };
 Task<> Task___<>::get_ParentForDebugger() {
