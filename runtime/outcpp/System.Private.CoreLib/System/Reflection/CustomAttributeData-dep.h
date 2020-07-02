@@ -1,0 +1,37 @@
+#pragma once
+
+#include "CustomAttributeData.h"
+
+#include <System.Private.CoreLib/System/Array-dep.h>
+#include <System.Private.CoreLib/System/Attribute-dep.h>
+#include <System.Private.CoreLib/System/Boolean-dep.h>
+#include <System.Private.CoreLib/System/Collections/Generic/IList.h>
+#include <System.Private.CoreLib/System/Int32-dep.h>
+#include <System.Private.CoreLib/System/Object-dep.h>
+#include <System.Private.CoreLib/System/Reflection/Assembly-dep.h>
+#include <System.Private.CoreLib/System/Reflection/ConstructorInfo-dep.h>
+#include <System.Private.CoreLib/System/Reflection/CustomAttributeCtorParameter-dep.h>
+#include <System.Private.CoreLib/System/Reflection/CustomAttributeEncoding.h>
+#include <System.Private.CoreLib/System/Reflection/CustomAttributeNamedArgument-dep.h>
+#include <System.Private.CoreLib/System/Reflection/CustomAttributeNamedParameter-dep.h>
+#include <System.Private.CoreLib/System/Reflection/CustomAttributeRecord-dep.h>
+#include <System.Private.CoreLib/System/Reflection/CustomAttributeTypedArgument-dep.h>
+#include <System.Private.CoreLib/System/Reflection/CustomAttributeType-dep.h>
+#include <System.Private.CoreLib/System/Reflection/MemberInfo-dep.h>
+#include <System.Private.CoreLib/System/Reflection/Module-dep.h>
+#include <System.Private.CoreLib/System/Reflection/ParameterInfo-dep.h>
+#include <System.Private.CoreLib/System/Reflection/RuntimeAssembly-dep.h>
+#include <System.Private.CoreLib/System/Reflection/RuntimeConstructorInfo-dep.h>
+#include <System.Private.CoreLib/System/Reflection/RuntimeEventInfo-dep.h>
+#include <System.Private.CoreLib/System/Reflection/RuntimeFieldInfo-dep.h>
+#include <System.Private.CoreLib/System/Reflection/RuntimeMethodInfo-dep.h>
+#include <System.Private.CoreLib/System/Reflection/RuntimeModule-dep.h>
+#include <System.Private.CoreLib/System/Reflection/RuntimeParameterInfo-dep.h>
+#include <System.Private.CoreLib/System/Reflection/RuntimePropertyInfo-dep.h>
+#include <System.Private.CoreLib/System/Runtime/CompilerServices/TypeForwardedToAttribute-dep.h>
+#include <System.Private.CoreLib/System/Runtime/InteropServices/DllImportAttribute-dep.h>
+#include <System.Private.CoreLib/System/Runtime/InteropServices/FieldOffsetAttribute-dep.h>
+#include <System.Private.CoreLib/System/Runtime/InteropServices/MarshalAsAttribute-dep.h>
+#include <System.Private.CoreLib/System/RuntimeType-dep.h>
+#include <System.Private.CoreLib/System/String-dep.h>
+#include <System.Private.CoreLib/System/Type-dep.h>

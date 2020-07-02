@@ -1,0 +1,33 @@
+#pragma once
+
+#include "RuntimeTypeHandle.h"
+
+#include <System.Private.CoreLib/Interop-dep.h>
+#include <System.Private.CoreLib/System/Array-dep.h>
+#include <System.Private.CoreLib/System/Boolean-dep.h>
+#include <System.Private.CoreLib/System/Int32-dep.h>
+#include <System.Private.CoreLib/System/IntPtr-dep.h>
+#include <System.Private.CoreLib/System/IRuntimeMethodInfo.h>
+#include <System.Private.CoreLib/System/MdUtf8String-dep.h>
+#include <System.Private.CoreLib/System/ModuleHandle-dep.h>
+#include <System.Private.CoreLib/System/Object-dep.h>
+#include <System.Private.CoreLib/System/Reflection/CorElementType.h>
+#include <System.Private.CoreLib/System/Reflection/MetadataImport-dep.h>
+#include <System.Private.CoreLib/System/Reflection/RuntimeAssembly-dep.h>
+#include <System.Private.CoreLib/System/Reflection/RuntimeModule-dep.h>
+#include <System.Private.CoreLib/System/Reflection/TypeAttributes.h>
+#include <System.Private.CoreLib/System/Runtime/CompilerServices/ObjectHandleOnStack-dep.h>
+#include <System.Private.CoreLib/System/Runtime/CompilerServices/QCallModule-dep.h>
+#include <System.Private.CoreLib/System/Runtime/CompilerServices/QCallTypeHandle-dep.h>
+#include <System.Private.CoreLib/System/Runtime/CompilerServices/StackCrawlMarkHandle-dep.h>
+#include <System.Private.CoreLib/System/Runtime/CompilerServices/StringHandleOnStack-dep.h>
+#include <System.Private.CoreLib/System/Runtime/InteropServices/GCHandleType.h>
+#include <System.Private.CoreLib/System/Runtime/Loader/AssemblyLoadContext-dep.h>
+#include <System.Private.CoreLib/System/Runtime/Serialization/SerializationInfo-dep.h>
+#include <System.Private.CoreLib/System/Runtime/Serialization/StreamingContext-dep.h>
+#include <System.Private.CoreLib/System/RuntimeMethodHandleInternal-dep.h>
+#include <System.Private.CoreLib/System/RuntimeType-dep.h>
+#include <System.Private.CoreLib/System/String-dep.h>
+#include <System.Private.CoreLib/System/Threading/StackCrawlMark.h>
+#include <System.Private.CoreLib/System/Type-dep.h>
+#include <System.Private.CoreLib/System/TypeNameFormatFlags.h>

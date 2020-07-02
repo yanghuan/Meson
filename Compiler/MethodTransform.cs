@@ -452,7 +452,6 @@ namespace Meson.Compiler {
     }
 
     public SyntaxNode VisitVariableDeclarationStatement(VariableDeclarationStatement variableDeclarationStatement) {
-      var type = variableDeclarationStatement.Type.AcceptExpression(this);
       throw new NotImplementedException();
     }
 

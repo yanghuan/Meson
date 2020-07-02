@@ -1,0 +1,33 @@
+#pragma once
+
+#include "DynamicMethod.h"
+
+#include <System.Private.CoreLib/System/Array-dep.h>
+#include <System.Private.CoreLib/System/Boolean-dep.h>
+#include <System.Private.CoreLib/System/Delegate-dep.h>
+#include <System.Private.CoreLib/System/Globalization/CultureInfo-dep.h>
+#include <System.Private.CoreLib/System/Int32-dep.h>
+#include <System.Private.CoreLib/System/IRuntimeMethodInfo.h>
+#include <System.Private.CoreLib/System/Object-dep.h>
+#include <System.Private.CoreLib/System/Reflection/Binder-dep.h>
+#include <System.Private.CoreLib/System/Reflection/BindingFlags.h>
+#include <System.Private.CoreLib/System/Reflection/CallingConventions.h>
+#include <System.Private.CoreLib/System/Reflection/Emit/DynamicILGenerator-dep.h>
+#include <System.Private.CoreLib/System/Reflection/Emit/DynamicILInfo-dep.h>
+#include <System.Private.CoreLib/System/Reflection/Emit/DynamicResolver-dep.h>
+#include <System.Private.CoreLib/System/Reflection/Emit/ILGenerator-dep.h>
+#include <System.Private.CoreLib/System/Reflection/Emit/InternalModuleBuilder-dep.h>
+#include <System.Private.CoreLib/System/Reflection/Emit/ParameterBuilder-dep.h>
+#include <System.Private.CoreLib/System/Reflection/ICustomAttributeProvider.h>
+#include <System.Private.CoreLib/System/Reflection/MethodAttributes.h>
+#include <System.Private.CoreLib/System/Reflection/MethodImplAttributes.h>
+#include <System.Private.CoreLib/System/Reflection/MethodInfo-dep.h>
+#include <System.Private.CoreLib/System/Reflection/Module-dep.h>
+#include <System.Private.CoreLib/System/Reflection/ParameterAttributes.h>
+#include <System.Private.CoreLib/System/Reflection/ParameterInfo-dep.h>
+#include <System.Private.CoreLib/System/Reflection/RuntimeModule-dep.h>
+#include <System.Private.CoreLib/System/Reflection/RuntimeParameterInfo-dep.h>
+#include <System.Private.CoreLib/System/RuntimeMethodHandle-dep.h>
+#include <System.Private.CoreLib/System/RuntimeType-dep.h>
+#include <System.Private.CoreLib/System/String-dep.h>
+#include <System.Private.CoreLib/System/Type-dep.h>

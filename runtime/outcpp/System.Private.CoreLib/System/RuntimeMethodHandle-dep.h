@@ -1,0 +1,31 @@
+#pragma once
+
+#include "RuntimeMethodHandle.h"
+
+#include <System.Private.CoreLib/Interop-dep.h>
+#include <System.Private.CoreLib/System/Array-dep.h>
+#include <System.Private.CoreLib/System/Boolean-dep.h>
+#include <System.Private.CoreLib/System/Int32-dep.h>
+#include <System.Private.CoreLib/System/IntPtr-dep.h>
+#include <System.Private.CoreLib/System/IRuntimeMethodInfo.h>
+#include <System.Private.CoreLib/System/MdUtf8String-dep.h>
+#include <System.Private.CoreLib/System/Object-dep.h>
+#include <System.Private.CoreLib/System/Reflection/LoaderAllocator-dep.h>
+#include <System.Private.CoreLib/System/Reflection/MethodAttributes.h>
+#include <System.Private.CoreLib/System/Reflection/MethodImplAttributes.h>
+#include <System.Private.CoreLib/System/Reflection/RuntimeMethodBody-dep.h>
+#include <System.Private.CoreLib/System/Resolver-dep.h>
+#include <System.Private.CoreLib/System/Runtime/CompilerServices/ObjectHandleOnStack-dep.h>
+#include <System.Private.CoreLib/System/Runtime/CompilerServices/QCallModule-dep.h>
+#include <System.Private.CoreLib/System/Runtime/CompilerServices/QCallTypeHandle-dep.h>
+#include <System.Private.CoreLib/System/Runtime/CompilerServices/StringHandleOnStack-dep.h>
+#include <System.Private.CoreLib/System/Runtime/Serialization/SerializationInfo-dep.h>
+#include <System.Private.CoreLib/System/Runtime/Serialization/StreamingContext-dep.h>
+#include <System.Private.CoreLib/System/RuntimeMethodHandleInternal-dep.h>
+#include <System.Private.CoreLib/System/RuntimeType-dep.h>
+#include <System.Private.CoreLib/System/Signature-dep.h>
+#include <System.Private.CoreLib/System/String-dep.h>
+#include <System.Private.CoreLib/System/Threading/StackCrawlMark.h>
+#include <System.Private.CoreLib/System/Type-dep.h>
+#include <System.Private.CoreLib/System/TypeNameFormatFlags.h>
+#include <System.Private.CoreLib/System/UInt32-dep.h>

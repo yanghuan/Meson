@@ -1,0 +1,50 @@
+#pragma once
+
+#include <rt/GCObject.h>
+
+namespace System::Private::CoreLib::System::Collections::Generic {
+FORWARD(Dictionary, TKey, TValue)
+FORWARD(List, T)
+} // namespace System::Private::CoreLib::System::Collections::Generic
+namespace System::Private::CoreLib::System {
+FORWARD(String)
+FORWARDS(Int32)
+FORWARDS(Char)
+FORWARD_(Array, T1, T2)
+FORWARDS(Boolean)
+} // namespace System::Private::CoreLib::System
+namespace System::Private::CoreLib::System::Globalization {
+FORWARD(DateTimeFormatInfo)
+enum class FORMATFLAGS;
+namespace DateTimeFormatInfoScannerNamespace {
+using namespace ::System::Private::CoreLib::System::Collections::Generic;
+CLASS(DateTimeFormatInfoScanner) {
+  private: enum class FoundDatePattern {
+    None = 0,
+    FoundYearPatternFlag = 1,
+    FoundMonthPatternFlag = 2,
+    FoundDayPatternFlag = 4,
+    FoundYMDPatternFlag = 7,
+  };
+  private: static Dictionary<String, String> get_KnownWords();
+  public: static Int32 SkipWhiteSpacesAndNonLetter(String pattern, Int32 currentIndex);
+  public: void AddDateWordOrPostfix(String formatPostfix, String str);
+  public: Int32 AddDateWords(String pattern, Int32 index, String formatPostfix);
+  public: static Int32 ScanRepeatChar(String pattern, Char ch, Int32 index, Int32& count);
+  public: void AddIgnorableSymbols(String text);
+  public: void ScanDateWord(String pattern);
+  public: Array<String> GetDateWordsOfDTFI(DateTimeFormatInfo dtfi);
+  public: static FORMATFLAGS GetFormatFlagGenitiveMonth(Array<String> monthNames, Array<String> genitveMonthNames, Array<String> abbrevMonthNames, Array<String> genetiveAbbrevMonthNames);
+  public: static FORMATFLAGS GetFormatFlagUseSpaceInMonthNames(Array<String> monthNames, Array<String> genitveMonthNames, Array<String> abbrevMonthNames, Array<String> genetiveAbbrevMonthNames);
+  public: static FORMATFLAGS GetFormatFlagUseSpaceInDayNames(Array<String> dayNames, Array<String> abbrevDayNames);
+  public: static FORMATFLAGS GetFormatFlagUseHebrewCalendar(Int32 calID);
+  private: static Boolean EqualStringArrays(Array<String> array1, Array<String> array2);
+  private: static Boolean ArrayElementsHaveSpace(Array<String> array);
+  private: static Boolean ArrayElementsBeginWithDigit(Array<String> array);
+  public: List<String> m_dateWords;
+  private: static Dictionary<String, String> s_knownWords;
+  private: FoundDatePattern _ymdFlags;
+};
+} // namespace DateTimeFormatInfoScannerNamespace
+using DateTimeFormatInfoScanner = DateTimeFormatInfoScannerNamespace::DateTimeFormatInfoScanner;
+} // namespace System::Private::CoreLib::System::Globalization

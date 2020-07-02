@@ -1,0 +1,73 @@
+#pragma once
+
+#include <rt/GCObject.h>
+#include <System.Private.CoreLib/System/Boolean.h>
+#include <System.Private.CoreLib/System/Int64.h>
+
+namespace System::Private::CoreLib::System::Runtime::InteropServices {
+FORWARD(SafeBuffer)
+} // namespace System::Private::CoreLib::System::Runtime::InteropServices
+namespace System::Private::CoreLib::System {
+FORWARDS(Byte)
+FORWARDS(Char)
+FORWARDS(Int16)
+FORWARDS(Int32)
+FORWARDS(Decimal)
+FORWARDS(Single)
+FORWARDS(Double)
+FORWARDS(SByte)
+FORWARDS(UInt16)
+FORWARDS(UInt32)
+FORWARDS(UInt64)
+} // namespace System::Private::CoreLib::System
+namespace System::Private::CoreLib::System::IO {
+enum class FileAccess;
+namespace UnmanagedMemoryAccessorNamespace {
+using namespace ::System::Private::CoreLib::System::Runtime::InteropServices;
+CLASS(UnmanagedMemoryAccessor) {
+  public: Int64 get_Capacity();
+  public: Boolean get_CanRead();
+  public: Boolean get_CanWrite();
+  protected: Boolean get_IsOpen();
+  protected: void Initialize(SafeBuffer buffer, Int64 offset, Int64 capacity, FileAccess access);
+  protected: void Dispose(Boolean disposing);
+  public: void Dispose();
+  public: Boolean ReadBoolean(Int64 position);
+  public: Byte ReadByte(Int64 position);
+  public: Char ReadChar(Int64 position);
+  public: Int16 ReadInt16(Int64 position);
+  public: Int32 ReadInt32(Int64 position);
+  public: Int64 ReadInt64(Int64 position);
+  public: Decimal ReadDecimal(Int64 position);
+  public: Single ReadSingle(Int64 position);
+  public: Double ReadDouble(Int64 position);
+  public: SByte ReadSByte(Int64 position);
+  public: UInt16 ReadUInt16(Int64 position);
+  public: UInt32 ReadUInt32(Int64 position);
+  public: UInt64 ReadUInt64(Int64 position);
+  public: void Write(Int64 position, Boolean value);
+  public: void Write(Int64 position, Byte value);
+  public: void Write(Int64 position, Char value);
+  public: void Write(Int64 position, Int16 value);
+  public: void Write(Int64 position, Int32 value);
+  public: void Write(Int64 position, Int64 value);
+  public: void Write(Int64 position, Decimal value);
+  public: void Write(Int64 position, Single value);
+  public: void Write(Int64 position, Double value);
+  public: void Write(Int64 position, SByte value);
+  public: void Write(Int64 position, UInt16 value);
+  public: void Write(Int64 position, UInt32 value);
+  public: void Write(Int64 position, UInt64 value);
+  private: void EnsureSafeToRead(Int64 position, Int32 sizeOfType);
+  private: void EnsureSafeToWrite(Int64 position, Int32 sizeOfType);
+  private: SafeBuffer _buffer;
+  private: Int64 _offset;
+  private: Int64 _capacity;
+  private: FileAccess _access;
+  private: Boolean _isOpen;
+  private: Boolean _canRead;
+  private: Boolean _canWrite;
+};
+} // namespace UnmanagedMemoryAccessorNamespace
+using UnmanagedMemoryAccessor = UnmanagedMemoryAccessorNamespace::UnmanagedMemoryAccessor;
+} // namespace System::Private::CoreLib::System::IO

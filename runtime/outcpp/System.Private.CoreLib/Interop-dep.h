@@ -1,0 +1,33 @@
+#pragma once
+
+#include "Interop.h"
+
+#include <System.Private.CoreLib/Internal/Win32/SafeHandles/SafeRegistryHandle-dep.h>
+#include <System.Private.CoreLib/Microsoft/Win32/SafeHandles/SafeFileHandle-dep.h>
+#include <System.Private.CoreLib/Microsoft/Win32/SafeHandles/SafeFindHandle-dep.h>
+#include <System.Private.CoreLib/Microsoft/Win32/SafeHandles/SafeLibraryHandle-dep.h>
+#include <System.Private.CoreLib/Microsoft/Win32/SafeHandles/SafeWaitHandle-dep.h>
+#include <System.Private.CoreLib/System/Array-dep.h>
+#include <System.Private.CoreLib/System/AsyncCallback-dep.h>
+#include <System.Private.CoreLib/System/Boolean-dep.h>
+#include <System.Private.CoreLib/System/Byte-dep.h>
+#include <System.Private.CoreLib/System/Char-dep.h>
+#include <System.Private.CoreLib/System/Diagnostics/Tracing/EventDescriptor-dep.h>
+#include <System.Private.CoreLib/System/Guid-dep.h>
+#include <System.Private.CoreLib/System/IAsyncResult.h>
+#include <System.Private.CoreLib/System/Int16-dep.h>
+#include <System.Private.CoreLib/System/Int32-dep.h>
+#include <System.Private.CoreLib/System/Int64-dep.h>
+#include <System.Private.CoreLib/System/IntPtr-dep.h>
+#include <System.Private.CoreLib/System/IO/FileMode.h>
+#include <System.Private.CoreLib/System/IO/FileShare.h>
+#include <System.Private.CoreLib/System/Object-dep.h>
+#include <System.Private.CoreLib/System/Runtime/InteropServices/SafeHandle-dep.h>
+#include <System.Private.CoreLib/System/Security/SafeBSTRHandle-dep.h>
+#include <System.Private.CoreLib/System/Span-dep.h>
+#include <System.Private.CoreLib/System/String-dep.h>
+#include <System.Private.CoreLib/System/Threading/NativeOverlapped-dep.h>
+#include <System.Private.CoreLib/System/UInt16-dep.h>
+#include <System.Private.CoreLib/System/UInt32-dep.h>
+#include <System.Private.CoreLib/System/UInt64-dep.h>
+#include <System.Private.CoreLib/System/UIntPtr-dep.h>

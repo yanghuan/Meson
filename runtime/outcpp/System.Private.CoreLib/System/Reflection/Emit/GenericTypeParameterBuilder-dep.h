@@ -1,0 +1,34 @@
+#pragma once
+
+#include "GenericTypeParameterBuilder.h"
+
+#include <System.Private.CoreLib/System/Array-dep.h>
+#include <System.Private.CoreLib/System/Boolean-dep.h>
+#include <System.Private.CoreLib/System/Byte-dep.h>
+#include <System.Private.CoreLib/System/Globalization/CultureInfo-dep.h>
+#include <System.Private.CoreLib/System/Guid-dep.h>
+#include <System.Private.CoreLib/System/Int32-dep.h>
+#include <System.Private.CoreLib/System/Object-dep.h>
+#include <System.Private.CoreLib/System/Reflection/Assembly-dep.h>
+#include <System.Private.CoreLib/System/Reflection/Binder-dep.h>
+#include <System.Private.CoreLib/System/Reflection/BindingFlags.h>
+#include <System.Private.CoreLib/System/Reflection/CallingConventions.h>
+#include <System.Private.CoreLib/System/Reflection/ConstructorInfo-dep.h>
+#include <System.Private.CoreLib/System/Reflection/Emit/CustomAttributeBuilder-dep.h>
+#include <System.Private.CoreLib/System/Reflection/Emit/TypeBuilder-dep.h>
+#include <System.Private.CoreLib/System/Reflection/EventInfo-dep.h>
+#include <System.Private.CoreLib/System/Reflection/FieldInfo-dep.h>
+#include <System.Private.CoreLib/System/Reflection/GenericParameterAttributes.h>
+#include <System.Private.CoreLib/System/Reflection/InterfaceMapping-dep.h>
+#include <System.Private.CoreLib/System/Reflection/MemberInfo-dep.h>
+#include <System.Private.CoreLib/System/Reflection/MemberTypes.h>
+#include <System.Private.CoreLib/System/Reflection/MethodBase-dep.h>
+#include <System.Private.CoreLib/System/Reflection/MethodInfo-dep.h>
+#include <System.Private.CoreLib/System/Reflection/Module-dep.h>
+#include <System.Private.CoreLib/System/Reflection/ParameterModifier-dep.h>
+#include <System.Private.CoreLib/System/Reflection/PropertyInfo-dep.h>
+#include <System.Private.CoreLib/System/Reflection/TypeAttributes.h>
+#include <System.Private.CoreLib/System/Reflection/TypeInfo-dep.h>
+#include <System.Private.CoreLib/System/RuntimeTypeHandle-dep.h>
+#include <System.Private.CoreLib/System/String-dep.h>
+#include <System.Private.CoreLib/System/Type-dep.h>

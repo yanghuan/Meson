@@ -1,0 +1,17 @@
+#pragma once
+
+#include "TplEventSource.h"
+
+#include <System.Private.CoreLib/System/Boolean-dep.h>
+#include <System.Private.CoreLib/System/Diagnostics/Tracing/EventCommandEventArgs-dep.h>
+#include <System.Private.CoreLib/System/Diagnostics/Tracing/EventKeywords.h>
+#include <System.Private.CoreLib/System/Diagnostics/Tracing/EventTask.h>
+#include <System.Private.CoreLib/System/Guid-dep.h>
+#include <System.Private.CoreLib/System/Int32-dep.h>
+#include <System.Private.CoreLib/System/Int64-dep.h>
+#include <System.Private.CoreLib/System/Object-dep.h>
+#include <System.Private.CoreLib/System/Runtime/CompilerServices/IAsyncStateMachineBox.h>
+#include <System.Private.CoreLib/System/String-dep.h>
+#include <System.Private.CoreLib/System/Threading/Tasks/AsyncCausalityStatus.h>
+#include <System.Private.CoreLib/System/Threading/Tasks/CausalityRelation.h>
+#include <System.Private.CoreLib/System/Threading/Tasks/CausalitySynchronousWork.h>

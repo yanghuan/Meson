@@ -1,0 +1,23 @@
+#pragma once
+
+#include <rt/GCObject.h>
+
+namespace System::Private::CoreLib::System {
+FORWARD_(Func, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10)
+FORWARD(Object)
+FORWARD_(Array, T1, T2)
+} // namespace System::Private::CoreLib::System
+namespace System::Private::CoreLib::System::Threading::Tasks {
+FORWARD_(Task, T1, T2)
+namespace GenericDelegateCacheNamespace {
+template <class TAntecedentResult, class TResult>
+class GenericDelegateCache {
+  public: static Func<Task<Task<>>, Object, TResult> CWAnyFuncDelegate;
+  public: static Func<Task<Task<>>, Object, TResult> CWAnyActionDelegate;
+  public: static Func<Task<Array<Task<TAntecedentResult>>>, Object, TResult> CWAllFuncDelegate;
+  public: static Func<Task<Array<Task<TAntecedentResult>>>, Object, TResult> CWAllActionDelegate;
+};
+} // namespace GenericDelegateCacheNamespace
+template <class TAntecedentResult, class TResult>
+using GenericDelegateCache = GenericDelegateCacheNamespace::GenericDelegateCache<TAntecedentResult, TResult>;
+} // namespace System::Private::CoreLib::System::Threading::Tasks

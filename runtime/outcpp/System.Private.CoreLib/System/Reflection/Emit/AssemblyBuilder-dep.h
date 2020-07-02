@@ -1,0 +1,34 @@
+#pragma once
+
+#include "AssemblyBuilder.h"
+
+#include <System.Private.CoreLib/System/Array-dep.h>
+#include <System.Private.CoreLib/System/Boolean-dep.h>
+#include <System.Private.CoreLib/System/Byte-dep.h>
+#include <System.Private.CoreLib/System/Collections/Generic/IEnumerable.h>
+#include <System.Private.CoreLib/System/Collections/Generic/IList.h>
+#include <System.Private.CoreLib/System/Globalization/CultureInfo-dep.h>
+#include <System.Private.CoreLib/System/Int32-dep.h>
+#include <System.Private.CoreLib/System/Int64-dep.h>
+#include <System.Private.CoreLib/System/IO/FileStream-dep.h>
+#include <System.Private.CoreLib/System/IO/Stream-dep.h>
+#include <System.Private.CoreLib/System/Object-dep.h>
+#include <System.Private.CoreLib/System/Reflection/Assembly-dep.h>
+#include <System.Private.CoreLib/System/Reflection/AssemblyName-dep.h>
+#include <System.Private.CoreLib/System/Reflection/ConstructorInfo-dep.h>
+#include <System.Private.CoreLib/System/Reflection/CustomAttributeData-dep.h>
+#include <System.Private.CoreLib/System/Reflection/Emit/AssemblyBuilderAccess.h>
+#include <System.Private.CoreLib/System/Reflection/Emit/AssemblyBuilderData-dep.h>
+#include <System.Private.CoreLib/System/Reflection/Emit/CustomAttributeBuilder-dep.h>
+#include <System.Private.CoreLib/System/Reflection/Emit/InternalAssemblyBuilder-dep.h>
+#include <System.Private.CoreLib/System/Reflection/Emit/InternalModuleBuilder-dep.h>
+#include <System.Private.CoreLib/System/Reflection/Emit/ModuleBuilder-dep.h>
+#include <System.Private.CoreLib/System/Reflection/ManifestResourceInfo-dep.h>
+#include <System.Private.CoreLib/System/Reflection/MethodInfo-dep.h>
+#include <System.Private.CoreLib/System/Reflection/Module-dep.h>
+#include <System.Private.CoreLib/System/Reflection/RuntimeAssembly-dep.h>
+#include <System.Private.CoreLib/System/Reflection/RuntimeModule-dep.h>
+#include <System.Private.CoreLib/System/String-dep.h>
+#include <System.Private.CoreLib/System/Threading/StackCrawlMark.h>
+#include <System.Private.CoreLib/System/Type-dep.h>
+#include <System.Private.CoreLib/System/Version-dep.h>

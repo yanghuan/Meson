@@ -1,0 +1,23 @@
+#pragma once
+
+#include <rt/GCObject.h>
+#include <System.Private.CoreLib/System/Int32.h>
+
+namespace System::Private::CoreLib::System {
+FORWARD(Object)
+FORWARDS(Boolean)
+} // namespace System::Private::CoreLib::System
+namespace System::Private::CoreLib::System::Resources {
+enum class ResourceTypeCode;
+namespace ResourceLocatorNamespace {
+struct ResourceLocator {
+  public: Int32 get_DataPosition();
+  public: Object get_Value();
+  public: void set_Value(Object value);
+  public: static Boolean CanCache(ResourceTypeCode value);
+  public: Object _value;
+  public: Int32 _dataPos;
+};
+} // namespace ResourceLocatorNamespace
+using ResourceLocator = ResourceLocatorNamespace::ResourceLocator;
+} // namespace System::Private::CoreLib::System::Resources

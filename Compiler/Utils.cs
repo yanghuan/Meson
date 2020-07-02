@@ -29,7 +29,7 @@ namespace Meson.Compiler {
     public static T GetOrDefault<T>(this IList<T> list, int index, T v = default) {
       return index >= 0 && index < list.Count ? list[index] : v;
     }
-
+  
     public static void RemoveRange<T>(this List<T> list, int index) {
       list.RemoveRange(index, list.Count - index);
     }
@@ -40,7 +40,7 @@ namespace Meson.Compiler {
       }
       return t;
     }
-
+    
     public static bool TryAdd<K, V>(this Dictionary<K, HashSet<V>> dict, K key, V value) {
       var set = dict.GetOrDefault(key);
       if (set == null) {

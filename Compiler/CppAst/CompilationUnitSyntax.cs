@@ -8,7 +8,7 @@ namespace Meson.Compiler.CppAst {
     public readonly SyntaxList<StatementSyntax> HeadStatements = new SyntaxList<StatementSyntax>();
     public readonly SyntaxList<StatementSyntax> SrcStatements = new SyntaxList<StatementSyntax>();
     public readonly SyntaxList<StatementSyntax> ReferencesIncludes = new SyntaxList<StatementSyntax>();
-    private StatementListSyntax srcIncludes_ = new StatementListSyntax();
+    private readonly StatementListSyntax srcIncludes_ = new StatementListSyntax();
     private NamespaceSyntax headNamespaceSyntax_;
     private NamespaceSyntax srcNamespaceSyntax_;
 

@@ -1,0 +1,22 @@
+#include "ExpandoToDispatchExMarshaler-dep.h"
+
+namespace System::Private::CoreLib::System::Runtime::InteropServices::CustomMarshalers::ExpandoToDispatchExMarshalerNamespace {
+ICustomMarshaler ExpandoToDispatchExMarshaler___::GetInstance(String cookie) {
+  return nullptr;
+};
+void ExpandoToDispatchExMarshaler___::CleanUpManagedData(Object ManagedObj) {
+  return void();
+};
+void ExpandoToDispatchExMarshaler___::CleanUpNativeData(IntPtr pNativeData) {
+  return void();
+};
+Int32 ExpandoToDispatchExMarshaler___::GetNativeDataSize() {
+  return Int32();
+};
+IntPtr ExpandoToDispatchExMarshaler___::MarshalManagedToNative(Object ManagedObj) {
+  return IntPtr();
+};
+Object ExpandoToDispatchExMarshaler___::MarshalNativeToManaged(IntPtr pNativeData) {
+  return nullptr;
+};
+} // namespace System::Private::CoreLib::System::Runtime::InteropServices::CustomMarshalers::ExpandoToDispatchExMarshalerNamespace

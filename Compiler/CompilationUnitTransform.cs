@@ -13,7 +13,9 @@ namespace Meson.Compiler {
     private readonly Dictionary<ITypeDefinition, bool> headReferences_ = new Dictionary<ITypeDefinition, bool>();
     private readonly HashSet<ITypeDefinition> srcReferences_ = new HashSet<ITypeDefinition>();
     private readonly ITypeDefinition root_;
-
+    private readonly Dictionary<ISymbol, NestedCycleRefTypeNameSyntax> nestedCycleRefNames_ = new Dictionary<ISymbol, NestedCycleRefTypeNameSyntax>();
+    private readonly Dictionary<ITypeDefinition, SymbolNameSyntax> typeBaseNames_ = new Dictionary<ITypeDefinition, SymbolNameSyntax>();
+    private readonly Dictionary<string, HashSet<ITypeDefinition>> sameBaseNames_ = new Dictionary<string, HashSet<ITypeDefinition>>();
     public CompilationUnitTransform(AssemblyTransform assemblyTransform, List<ITypeDefinition> types) {
       AssemblyTransform = assemblyTransform;
       root_ = types.First();
@@ -31,6 +33,7 @@ namespace Meson.Compiler {
       }
 
       var typeDefinition = new TypeDefinitionTransform(this, classNamespace, types);
+      CheckRefactorNames();
       if (root_.Kind != TypeKind.Enum) {
         var headIncludes = new HashSet<string>();
         var headUsings = new HashSet<string>();
@@ -102,7 +105,7 @@ namespace Meson.Compiler {
         }
       }
       if (outs.Count > 0) {
-       var group = outs.GroupBy(i => i.Type.GetFullNamespace());
+        var group = outs.GroupBy(i => i.Type.GetFullNamespace());
         foreach (var g in group) {
           var ns = new NamespaceSyntax(g.Key);
           ns.AddRange(g.Select(i => i.Forward));
@@ -126,7 +129,7 @@ namespace Meson.Compiler {
       return type.GetForwardStatement();
     }
 
-    internal void AddHeadReference(ITypeDefinition type, bool isForward) {
+    private void AddHeadReference(ITypeDefinition type, bool isForward) {
       if (headReferences_.ContainsKey(type)) {
         var prevIsForward = headReferences_[type];
         if (prevIsForward && !isForward) {
@@ -137,10 +140,189 @@ namespace Meson.Compiler {
       }
     }
 
-    internal void AddSrcReference(ITypeDefinition type) {
+    private void AddSrcReference(ITypeDefinition type) {
       if (!headReferences_.ContainsKey(type)) {
         srcReferences_.Add(type);
       }
+    }
+
+    private ExpressionSyntax AddHeadReference(in TypeNameArgs args) {
+      var referenceType = args.Type.GetReferenceType();
+      if (referenceType != null) {
+        var rootType = args.Definition.GetReferenceType();
+        if (!Generator.IsCompilationUnitIn(rootType, referenceType)) {
+          var referenceTypeDefinition = referenceType.GetDefinition();
+          if (referenceTypeDefinition.Kind == TypeKind.Enum) {
+            AddHeadReference(referenceTypeDefinition, true);
+          } else {
+            if (args.Type.DeclaringType != null) {
+              bool checkCycleReference = args.Type.IsReferenceType == true || args.Original.Kind == TypeKind.Pointer;
+              if (checkCycleReference) {
+                bool isExists = referenceTypeDefinition.IsMemberTypeExists(rootType.GetDefinition(), true);
+                if (isExists) {
+                  string shortName = args.Type.GetShortName();
+                  NestedCycleRefTypeNameSyntax nestedCycleName;
+                  if (args.Original.Kind == TypeKind.Pointer) {
+                    nestedCycleName = new NestedCycleRefTypeNameSyntax(shortName, IdentifierSyntax.Void);
+                  } else {
+                    var rootObject = referenceTypeDefinition.GetRootObjectDefinition();
+                    AddHeadReference(rootObject, true);
+                    nestedCycleName = new NestedCycleRefTypeNameSyntax(shortName);
+                  }
+                  nestedCycleRefNames_[args.Symbol] = nestedCycleName;
+                  return nestedCycleName;
+                }
+              }
+            }
+            AddHeadReference(referenceTypeDefinition, args.IsForward);
+          }
+        }
+      }
+      return null;
+    }
+
+    private void AddSrcReference(in TypeNameArgs args) {
+      var referenceType = args.Type.GetReferenceType();
+      if (referenceType != null) {
+        var rootType = args.Definition?.GetReferenceType();
+        if (rootType == null || !Generator.IsCompilationUnitIn(rootType, referenceType)) {
+          var referenceTypeDefinition = referenceType.GetDefinition();
+          AddSrcReference(referenceTypeDefinition);
+        }
+      }
+    }
+
+    private ExpressionSyntax GetTypeBaseName(IType type) {
+      if (type.DeclaringType != null) {
+        return type.Name;
+      }
+
+      var typeDefinition = type.GetDefinition();
+      if (typeDefinition == null) {
+        return type.Name;
+      }
+
+      var expression = typeBaseNames_.GetOrDefault(typeDefinition);
+      if (expression == null) {
+        string name = type.Name;
+        expression = new SymbolNameSyntax(name);
+        typeBaseNames_.Add(typeDefinition, expression);
+        sameBaseNames_.TryAdd(name, typeDefinition);
+      }
+      return expression;
+    }
+
+    internal ExpressionSyntax GetTypeName(TypeNameArgs args) {
+      switch (args.Type.Kind) {
+        case TypeKind.Void: {
+            return IdentifierSyntax.Void;
+          }
+        case TypeKind.Array: {
+            ArrayType arrayType = (ArrayType)args.Type;
+            if (args.IsInHead) {
+              var arrayDefinition = arrayType.DirectBaseTypes.First().GetDefinition();
+              if (arrayDefinition != args.Definition) {
+                AddHeadReference(arrayDefinition, args.IsForward);
+              }
+            }
+            var elementType = GetTypeName(args.With(arrayType.ElementType, true));
+            return new GenericIdentifierSyntax((IdentifierSyntax)args.Type.Kind.ToString(), elementType);
+          }
+        case TypeKind.Pointer: {
+            PointerType pointerType = (PointerType)args.Type;
+            var elementType = GetTypeName(args.With(pointerType.ElementType, true));
+            return new PointerIdentifierSyntax(elementType);
+          }
+        case TypeKind.ByReference: {
+            ByReferenceType byReference = (ByReferenceType)args.Type;
+            var elementType = GetTypeName(args.With(byReference.ElementType, true));
+            return new RefIdentifierSyntax(elementType);
+          }
+      }
+
+      if (args.IsInHead) {
+        var result = AddHeadReference(args);
+        if (result != null) {
+          return result;
+        }
+      } else {
+        AddSrcReference(args);
+      }
+
+      ExpressionSyntax typeName = GetTypeBaseName(args.Type);
+      bool isGeneric = false;
+      if (args.Type.TypeArguments.Count > 0) {
+        var typeArguments = args.Type.GetTypeArguments().Select(i => GetTypeName(args.With(i, args.IsForward || i.IsRefType(), i))).ToList();
+        if (typeArguments.Count > 0) {
+          typeName = new GenericIdentifierSyntax(typeName, typeArguments);
+          isGeneric = true;
+        }
+      }
+
+      if (args.Type.DeclaringType != null && (args.Definition == null || !AssemblyTransform.IsInternalMemberType(args.Type, args.Definition))) {
+        var outTypeName = GetTypeName(args.With(args.Type.DeclaringType, false));
+        if (args.Type.DeclaringType.GetDefinition().IsRefType()) {
+          outTypeName = outTypeName.TwoColon(IdentifierSyntax.In);
+        }
+        return outTypeName.TwoColon(typeName);
+      }
+
+      if (!isGeneric) {
+        var definition = args.Type.GetDefinition();
+        if (definition != null) {
+          if (Generator.IsVoidGenericType(definition)) {
+            typeName = new GenericIdentifierSyntax(typeName);
+          }
+        }
+      }
+
+      return typeName;
+    }
+
+    internal NestedCycleRefTypeNameSyntax GetNestedCycleRefTypeName(ISymbol symbol) {
+      return nestedCycleRefNames_.GetOrDefault(symbol);
+    }
+
+    private void CheckRefactorNames() {
+      foreach (var set in sameBaseNames_.Values) {
+        if (set.Count > 1) {
+          set.RemoveWhere(Generator.IsVoidGenericType);
+          if (set.Count > 0) {
+
+          }
+        }
+      }
+    }
+  }
+
+  internal struct TypeNameArgs {
+    public IType Type;
+    public ITypeDefinition Definition;
+    public bool IsForward;
+    public IType Original;
+    public bool IsInHead;
+    public ISymbol Symbol;
+
+    public TypeNameArgs With(IType type, bool isForward) {
+      return new TypeNameArgs() {
+        Type = type,
+        Definition = Definition,
+        IsForward = isForward,
+        Original = Original,
+        IsInHead = IsInHead,
+        Symbol = Symbol,
+      };
+    }
+
+    public TypeNameArgs With(IType type, bool isForward, IType original) {
+      return new TypeNameArgs() {
+        Type = type,
+        Definition = Definition,
+        IsForward = isForward,
+        Original = original,
+        IsInHead = IsInHead,
+        Symbol = Symbol,
+      };
     }
   }
 }
