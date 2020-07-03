@@ -205,12 +205,6 @@ namespace Meson.Compiler {
       var expression = typeBaseNames_.GetOrDefault(typeDefinition);
       if (expression == null) {
         string name = type.Name;
-        if (root_.Name == "Console" && name == "Object") {
-          var prev = typeBaseNames_.FirstOrDefault(i => i.Key.Name == "Object").Key;
-          if (prev != null && prev != typeDefinition) {
-
-          }
-        }
         expression = new SymbolNameSyntax(name);
         typeBaseNames_.Add(typeDefinition, expression);
         sameBaseNames_.TryAdd(name, typeDefinition);
