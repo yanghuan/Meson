@@ -28,7 +28,7 @@ class ASCIIUtility {
   private: static UInt64 NarrowUtf16ToAscii_Sse2(Char* pUtf16Buffer, Byte* pAsciiBuffer, UInt64 elementCount);
   public: static UInt64 WidenAsciiToUtf16(Byte* pAsciiBuffer, Char* pUtf16Buffer, UInt64 elementCount);
   private: static UInt64 WidenAsciiToUtf16_Sse2(Byte* pAsciiBuffer, Char* pUtf16Buffer, UInt64 elementCount);
-  private: static void WidenFourAsciiBytesToUtf16AndWriteToBuffer(Char& outputBuffer, UInt32 value);
+  public: static void WidenFourAsciiBytesToUtf16AndWriteToBuffer(Char& outputBuffer, UInt32 value);
   public: static Boolean AllBytesInUInt32AreAscii(UInt32 value);
   public: static UInt32 CountNumberOfLeadingAsciiBytesFromUInt32WithSomeNonAsciiData(UInt32 value);
 };
