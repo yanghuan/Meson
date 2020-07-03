@@ -5,10 +5,8 @@ ICustomMarshaler EnumerableToDispatchMarshaler___::GetInstance(String cookie) {
   return nullptr;
 };
 void EnumerableToDispatchMarshaler___::CleanUpManagedData(Object ManagedObj) {
-  return void();
 };
 void EnumerableToDispatchMarshaler___::CleanUpNativeData(IntPtr pNativeData) {
-  return void();
 };
 Int32 EnumerableToDispatchMarshaler___::GetNativeDataSize() {
   return Int32();

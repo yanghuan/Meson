@@ -2,7 +2,6 @@
 
 namespace System::Private::CoreLib::System::StubHelpers::SafeHandleCleanupWorkListElementNamespace {
 void SafeHandleCleanupWorkListElement___::DestroyCore() {
-  return void();
 };
 IntPtr SafeHandleCleanupWorkListElement___::AddRef() {
   return IntPtr();

@@ -2,7 +2,6 @@
 
 namespace System::Private::CoreLib::System::Diagnostics::Tracing::NameInfoNamespace {
 void NameInfo___::ReserveEventIDsBelow(Int32 eventId) {
-  return void();
 };
 Int32 NameInfo___::Compare(NameInfo other) {
   return Int32();

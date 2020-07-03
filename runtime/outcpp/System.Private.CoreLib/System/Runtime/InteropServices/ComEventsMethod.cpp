@@ -7,7 +7,6 @@ Object ComEventsMethod___::DelegateWrapper___::Invoke(Array<Object> args) {
   return nullptr;
 };
 void ComEventsMethod___::DelegateWrapper___::PreProcessSignature() {
-  return void();
 };
 Boolean ComEventsMethod___::get_Empty() {
   return Boolean();
@@ -22,10 +21,8 @@ ComEventsMethod ComEventsMethod___::Remove(ComEventsMethod methods, ComEventsMet
   return nullptr;
 };
 void ComEventsMethod___::AddDelegate(Delegate d) {
-  return void();
 };
 void ComEventsMethod___::RemoveDelegate(Delegate d) {
-  return void();
 };
 Object ComEventsMethod___::Invoke(Array<Object> args) {
   return nullptr;

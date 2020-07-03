@@ -19,10 +19,8 @@ Int32 ConcurrentExclusiveSchedulerPair___::ConcurrentExclusiveTaskScheduler___::
   return Int32();
 };
 void ConcurrentExclusiveSchedulerPair___::ConcurrentExclusiveTaskScheduler___::QueueTask(Task<> task) {
-  return void();
 };
 void ConcurrentExclusiveSchedulerPair___::ConcurrentExclusiveTaskScheduler___::ExecuteTask(Task<> task) {
-  return void();
 };
 Boolean ConcurrentExclusiveSchedulerPair___::ConcurrentExclusiveTaskScheduler___::TryExecuteTaskInline(Task<> task, Boolean taskWasPreviouslyQueued) {
   return Boolean();
@@ -82,34 +80,26 @@ ConcurrentExclusiveSchedulerPair::in::ProcessingMode ConcurrentExclusiveSchedule
   return ConcurrentExclusiveSchedulerPair::in::ProcessingMode();
 };
 void ConcurrentExclusiveSchedulerPair___::Complete() {
-  return void();
 };
 ConcurrentExclusiveSchedulerPair::in::CompletionState ConcurrentExclusiveSchedulerPair___::EnsureCompletionStateInitialized() {
   return nullptr;
 };
 void ConcurrentExclusiveSchedulerPair___::RequestCompletion() {
-  return void();
 };
 void ConcurrentExclusiveSchedulerPair___::CleanupStateIfCompletingAndQuiesced() {
-  return void();
 };
 void ConcurrentExclusiveSchedulerPair___::CompleteTaskAsync() {
-  return void();
 };
 void ConcurrentExclusiveSchedulerPair___::FaultWithTask(Task<> faultedTask) {
-  return void();
 };
 void ConcurrentExclusiveSchedulerPair___::ProcessAsyncIfNecessary(Boolean fairly) {
-  return void();
 };
 Boolean ConcurrentExclusiveSchedulerPair___::TryQueueThreadPoolWorkItem(Boolean fairly) {
   return Boolean();
 };
 void ConcurrentExclusiveSchedulerPair___::ProcessExclusiveTasks() {
-  return void();
 };
 void ConcurrentExclusiveSchedulerPair___::ProcessConcurrentTasks() {
-  return void();
 };
 TaskCreationOptions ConcurrentExclusiveSchedulerPair___::GetCreationOptionsForTask(Boolean isReplacementReplica) {
   return TaskCreationOptions();

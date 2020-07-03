@@ -94,11 +94,11 @@ Boolean Utf8Utility::UInt32SecondByteIsAscii(UInt32 value) {
 Boolean Utf8Utility::UInt32ThirdByteIsAscii(UInt32 value) {
   return Boolean();
 };
+void Utf8Utility::Widen4AsciiBytesToCharsAndWrite(Char& outputBuffer, UInt32 value) {
+};
 void Utf8Utility::WriteTwoUtf16CharsAsTwoUtf8ThreeByteSequences(Byte& outputBuffer, UInt32 value) {
-  return void();
 };
 void Utf8Utility::WriteFirstUtf16CharAsUtf8ThreeByteSequence(Byte& outputBuffer, UInt32 value) {
-  return void();
 };
 OperationStatus Utf8Utility::TranscodeToUtf16(Byte* pInputBuffer, Int32 inputLength, Char* pOutputBuffer, Int32 outputCharsRemaining, Byte*& pInputBufferRemaining, Char*& pOutputBufferRemaining) {
   return OperationStatus();

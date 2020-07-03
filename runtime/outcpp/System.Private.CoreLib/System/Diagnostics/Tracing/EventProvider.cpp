@@ -10,22 +10,16 @@ EventKeywords EventProvider___::get_MatchAnyKeyword() {
   return EventKeywords();
 };
 void EventProvider___::Register(EventSource eventSource) {
-  return void();
 };
 void EventProvider___::Dispose() {
-  return void();
 };
 void EventProvider___::Dispose(Boolean disposing) {
-  return void();
 };
 void EventProvider___::Finalize() {
-  return void();
 };
 void EventProvider___::EtwEnableCallBack(Guid& sourceId, Int32 controlCode, Byte setLevel, Int64 anyKeyword, Int64 allKeyword, Interop::Advapi32::in::EVENT_FILTER_DESCRIPTOR* filterData, void* callbackContext) {
-  return void();
 };
 void EventProvider___::OnControllerCommand(ControllerCommand command, IDictionary<String, String> arguments, Int32 sessionId, Int32 etwSessionId) {
-  return void();
 };
 Int32 EventProvider___::FindNull(Array<Byte> buffer, Int32 idx) {
   return Int32();
@@ -34,10 +28,8 @@ List<Tuple<EventProvider::in::SessionInfo, Boolean>> EventProvider___::GetSessio
   return nullptr;
 };
 void EventProvider___::GetSessionInfoCallback(Int32 etwSessionId, Int64 matchAllKeywords, List<SessionInfo>& sessionList) {
-  return void();
 };
 void EventProvider___::GetSessionInfo(SessionInfoCallback action, List<SessionInfo>& sessionList) {
-  return void();
 };
 Int32 EventProvider___::IndexOfSessionInList(List<SessionInfo> sessions, Int32 etwSessionId) {
   return Int32();
@@ -55,7 +47,6 @@ EventProvider::in::WriteEventErrorCode EventProvider___::GetLastWriteEventError(
   return EventProvider::in::WriteEventErrorCode();
 };
 void EventProvider___::SetLastError(WriteEventErrorCode error) {
-  return void();
 };
 Object EventProvider___::EncodeObject(Object& data, EventData*& dataDescriptor, Byte*& dataBuffer, UInt32& totalEventSize) {
   return nullptr;

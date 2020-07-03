@@ -14,6 +14,5 @@ String ContractException___::get_Condition() {
   return nullptr;
 };
 void ContractException___::GetObjectData(SerializationInfo info, StreamingContext context) {
-  return void();
 };
 } // namespace System::Private::CoreLib::System::Diagnostics::Contracts::ContractExceptionNamespace

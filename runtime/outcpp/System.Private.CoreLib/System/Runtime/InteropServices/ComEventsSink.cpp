@@ -25,9 +25,7 @@ ComEventsMethod ComEventsSink___::AddMethod(Int32 dispid) {
   return nullptr;
 };
 void ComEventsSink___::Advise(Object rcw) {
-  return void();
 };
 void ComEventsSink___::Unadvise() {
-  return void();
 };
 } // namespace System::Private::CoreLib::System::Runtime::InteropServices::ComEventsSinkNamespace

@@ -10,6 +10,5 @@ AsyncIteratorMethodBuilder AsyncIteratorMethodBuilder::Create() {
   return AsyncIteratorMethodBuilder();
 };
 void AsyncIteratorMethodBuilder::Complete() {
-  return void();
 };
 } // namespace System::Private::CoreLib::System::Runtime::CompilerServices::AsyncIteratorMethodBuilderNamespace

@@ -4,7 +4,6 @@
 
 namespace System::Private::CoreLib::System::GuidNamespace {
 void GuidResult::SetFailure(Boolean overflow, String failureMessageID) {
-  return void();
 };
 Guid Guid::Parse(String input) {
   return Guid();

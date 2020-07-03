@@ -7,7 +7,6 @@ Object GCHandle::get_Target() {
   return nullptr;
 };
 void GCHandle::set_Target(Object value) {
-  return void();
 };
 Boolean GCHandle::get_IsAllocated() {
   return Boolean();
@@ -22,7 +21,6 @@ GCHandle GCHandle::Alloc(Object value, GCHandleType type) {
   return GCHandle();
 };
 void GCHandle::Free() {
-  return void();
 };
 IntPtr GCHandle::AddrOfPinnedObject() {
   return IntPtr();
@@ -46,6 +44,5 @@ Boolean GCHandle::IsPinned(IntPtr handle) {
   return Boolean();
 };
 void GCHandle::ThrowIfInvalid(IntPtr handle) {
-  return void();
 };
 } // namespace System::Private::CoreLib::System::Runtime::InteropServices::GCHandleNamespace

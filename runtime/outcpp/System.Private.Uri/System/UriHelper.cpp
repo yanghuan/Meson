@@ -17,10 +17,8 @@ Array<Char> UriHelper::UnescapeString(Char* pStr, Int32 start, Int32 end, Array<
   return Array<Char>();
 };
 void UriHelper::MatchUTF8Sequence(Char* pDest, Array<Char> dest, Int32& destOffset, Span<Char> unescapedChars, Int32 charCount, Array<Byte> bytes, Int32 byteCount, Boolean isQuery, Boolean iriParsing) {
-  return void();
 };
 void UriHelper::EscapeAsciiChar(Char ch, Array<Char> to, Int32& pos) {
-  return void();
 };
 Char UriHelper::EscapedAscii(Char digit, Char next) {
   return Char();

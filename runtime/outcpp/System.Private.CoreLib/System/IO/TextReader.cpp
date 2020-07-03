@@ -10,10 +10,8 @@ String TextReader___::NullTextReader___::ReadLine() {
   return nullptr;
 };
 void TextReader___::SyncTextReader___::Close() {
-  return void();
 };
 void TextReader___::SyncTextReader___::Dispose(Boolean disposing) {
-  return void();
 };
 Int32 TextReader___::SyncTextReader___::Peek() {
   return Int32();
@@ -46,13 +44,10 @@ Task<Int32> TextReader___::SyncTextReader___::ReadAsync(Array<Char> buffer, Int3
   return nullptr;
 };
 void TextReader___::Close() {
-  return void();
 };
 void TextReader___::Dispose() {
-  return void();
 };
 void TextReader___::Dispose(Boolean disposing) {
-  return void();
 };
 Int32 TextReader___::Peek() {
   return Int32();

@@ -74,7 +74,6 @@ IntPtr Variant::get_AsByRefVariant() {
   return IntPtr();
 };
 void Variant::CopyFromIndirect(Object value) {
-  return void();
 };
 Object Variant::ToObject() {
   return nullptr;

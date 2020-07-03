@@ -103,7 +103,6 @@ Int64 TimeSpan::TimeToTicks(Int32 hour, Int32 minute, Int32 second) {
   return Int64();
 };
 void TimeSpan::ValidateStyles(TimeSpanStyles style, String parameterName) {
-  return void();
 };
 TimeSpan TimeSpan::Parse(String s) {
   return TimeSpan();

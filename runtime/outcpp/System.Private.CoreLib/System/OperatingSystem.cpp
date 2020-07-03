@@ -14,7 +14,6 @@ String OperatingSystem___::get_VersionString() {
   return nullptr;
 };
 void OperatingSystem___::GetObjectData(SerializationInfo info, StreamingContext context) {
-  return void();
 };
 Object OperatingSystem___::Clone() {
   return nullptr;

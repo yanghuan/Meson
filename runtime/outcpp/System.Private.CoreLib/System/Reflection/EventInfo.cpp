@@ -38,10 +38,8 @@ MethodInfo EventInfo___::GetRaiseMethod() {
   return nullptr;
 };
 void EventInfo___::AddEventHandler(Object target, Delegate handler) {
-  return void();
 };
 void EventInfo___::RemoveEventHandler(Object target, Delegate handler) {
-  return void();
 };
 Boolean EventInfo___::Equals(Object obj) {
   return Boolean();

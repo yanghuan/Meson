@@ -17,7 +17,6 @@ Object DefaultBinder___::ChangeType(Object value, Type type, CultureInfo culture
   return nullptr;
 };
 void DefaultBinder___::ReorderArgumentArray(Array<Object>& args, Object state) {
-  return void();
 };
 MethodBase DefaultBinder___::ExactBinding(Array<MethodBase> match, Array<Type> types, Array<ParameterModifier> modifiers) {
   return nullptr;
@@ -50,7 +49,6 @@ MethodBase DefaultBinder___::FindMostDerivedNewSlotMeth(Array<MethodBase> match,
   return nullptr;
 };
 void DefaultBinder___::ReorderParams(Array<Int32> paramOrder, Array<Object> vars) {
-  return void();
 };
 Boolean DefaultBinder___::CreateParamOrder(Array<Int32> paramOrder, Array<ParameterInfo> pars, Array<String> names) {
   return Boolean();

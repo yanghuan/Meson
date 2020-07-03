@@ -5,7 +5,6 @@ UInt32 ListToBindableVectorViewAdapter___::get_Size() {
   return UInt32();
 };
 void ListToBindableVectorViewAdapter___::EnsureIndexInt32(UInt32 index, Int32 listCapacity) {
-  return void();
 };
 IBindableIterator ListToBindableVectorViewAdapter___::First() {
   return nullptr;

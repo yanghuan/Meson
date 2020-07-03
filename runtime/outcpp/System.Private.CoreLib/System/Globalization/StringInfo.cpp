@@ -8,7 +8,6 @@ String StringInfo___::get_String() {
   return nullptr;
 };
 void StringInfo___::set_String(String value) {
-  return void();
 };
 Int32 StringInfo___::get_LengthInTextElements() {
   return Int32();

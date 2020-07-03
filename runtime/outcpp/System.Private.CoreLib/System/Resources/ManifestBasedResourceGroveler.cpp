@@ -29,12 +29,10 @@ Boolean ManifestBasedResourceGroveler___::CanUseDefaultResourceClasses(String re
   return Boolean();
 };
 void ManifestBasedResourceGroveler___::HandleSatelliteMissing() {
-  return void();
 };
 String ManifestBasedResourceGroveler___::GetManifestResourceNamesList(Assembly assembly) {
   return nullptr;
 };
 void ManifestBasedResourceGroveler___::HandleResourceStreamMissing(String fileName) {
-  return void();
 };
 } // namespace System::Private::CoreLib::System::Resources::ManifestBasedResourceGrovelerNamespace

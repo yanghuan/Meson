@@ -35,19 +35,15 @@ String ModuleBuilder___::UnmangleTypeName(String typeName) {
   return nullptr;
 };
 void ModuleBuilder___::AddType(String name, Type type) {
-  return void();
 };
 void ModuleBuilder___::CheckTypeNameConflict(String strTypeName, Type enclosingType) {
-  return void();
 };
 Type ModuleBuilder___::GetType(String strFormat, Type baseType) {
   return nullptr;
 };
 void ModuleBuilder___::CheckContext(Array<Array<Type>> typess) {
-  return void();
 };
 void ModuleBuilder___::CheckContext(Array<Type> types) {
-  return void();
 };
 Int32 ModuleBuilder___::GetMemberRef(Module refedModule, Int32 tr, Int32 defToken) {
   return Int32();
@@ -77,10 +73,8 @@ MethodToken ModuleBuilder___::InternalGetConstructorToken(ConstructorInfo con, B
   return MethodToken();
 };
 void ModuleBuilder___::Init(String strModuleName) {
-  return void();
 };
 void ModuleBuilder___::SetSymWriter(ISymbolWriter writer) {
-  return void();
 };
 ModuleHandle ModuleBuilder___::GetModuleHandleImpl() {
   return ModuleHandle();
@@ -152,7 +146,6 @@ String ModuleBuilder___::ResolveString(Int32 metadataToken) {
   return nullptr;
 };
 void ModuleBuilder___::GetPEKind(PortableExecutableKinds& peKind, ImageFileMachine& machine) {
-  return void();
 };
 Boolean ModuleBuilder___::IsResource() {
   return Boolean();
@@ -221,10 +214,8 @@ MethodBuilder ModuleBuilder___::DefineGlobalMethodNoLock(String name, MethodAttr
   return nullptr;
 };
 void ModuleBuilder___::CreateGlobalFunctions() {
-  return void();
 };
 void ModuleBuilder___::CreateGlobalFunctionsNoLock() {
-  return void();
 };
 FieldBuilder ModuleBuilder___::DefineInitializedData(String name, Array<Byte> data, FieldAttributes attributes) {
   return nullptr;
@@ -293,10 +284,8 @@ SignatureToken ModuleBuilder___::GetSignatureToken(Array<Byte> sigBytes, Int32 s
   return SignatureToken();
 };
 void ModuleBuilder___::SetCustomAttribute(ConstructorInfo con, Array<Byte> binaryAttribute) {
-  return void();
 };
 void ModuleBuilder___::SetCustomAttribute(CustomAttributeBuilder customBuilder) {
-  return void();
 };
 ISymbolWriter ModuleBuilder___::GetSymWriter() {
   return nullptr;

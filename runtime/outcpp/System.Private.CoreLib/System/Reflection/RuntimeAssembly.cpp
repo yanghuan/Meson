@@ -67,7 +67,6 @@ Stream RuntimeAssembly___::GetManifestResourceStream(String name) {
   return nullptr;
 };
 void RuntimeAssembly___::GetObjectData(SerializationInfo info, StreamingContext context) {
-  return void();
 };
 Array<Object> RuntimeAssembly___::GetCustomAttributes(Boolean inherit) {
   return Array<Object>();
@@ -151,6 +150,5 @@ Array<Type> RuntimeAssembly___::GetForwardedTypes() {
   return Array<Type>();
 };
 void RuntimeAssembly___::AddPublicNestedTypes(Type type, List<Type> types, List<Exception> exceptions) {
-  return void();
 };
 } // namespace System::Private::CoreLib::System::Reflection::RuntimeAssemblyNamespace

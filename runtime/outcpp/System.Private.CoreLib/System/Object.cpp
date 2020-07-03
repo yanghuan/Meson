@@ -2,7 +2,6 @@
 
 namespace System::Private::CoreLib::System::ObjectNamespace {
 void Object___::Finalize() {
-  return void();
 };
 String Object___::ToString() {
   return nullptr;

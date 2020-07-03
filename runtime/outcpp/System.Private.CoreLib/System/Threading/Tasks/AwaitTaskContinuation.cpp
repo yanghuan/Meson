@@ -8,22 +8,17 @@ Task<> AwaitTaskContinuation___::CreateTask(Action<Object> action, Object state,
   return nullptr;
 };
 void AwaitTaskContinuation___::Run(Task<> task, Boolean canInlineContinuationTask) {
-  return void();
 };
 ContextCallback<> AwaitTaskContinuation___::GetInvokeActionCallback() {
   return nullptr;
 };
 void AwaitTaskContinuation___::RunCallback(ContextCallback<> callback, Object state, Task<>& currentTask) {
-  return void();
 };
 void AwaitTaskContinuation___::RunOrScheduleAction(Action<> action, Boolean allowInlining) {
-  return void();
 };
 void AwaitTaskContinuation___::RunOrScheduleAction(IAsyncStateMachineBox box, Boolean allowInlining) {
-  return void();
 };
 void AwaitTaskContinuation___::UnsafeScheduleAction(Action<> action, Task<> task) {
-  return void();
 };
 Array<Delegate> AwaitTaskContinuation___::GetDelegateContinuationsForDebugger() {
   return Array<Delegate>();

@@ -110,16 +110,13 @@ Boolean DynamicMethod___::get_InitLocals() {
   return Boolean();
 };
 void DynamicMethod___::set_InitLocals(Boolean value) {
-  return void();
 };
 void DynamicMethod___::CheckConsistency(MethodAttributes attributes, CallingConventions callingConvention) {
-  return void();
 };
 RuntimeModule DynamicMethod___::GetDynamicMethodsModule() {
   return nullptr;
 };
 void DynamicMethod___::Init(String name, MethodAttributes attributes, CallingConventions callingConvention, Type returnType, Array<Type> signature, Type owner, Module m, Boolean skipVisibility, Boolean transparentMethod) {
-  return void();
 };
 Delegate DynamicMethod___::CreateDelegate(Type delegateType) {
   return nullptr;

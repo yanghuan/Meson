@@ -11,6 +11,5 @@ Object BindableVectorToCollectionAdapter___::SyncRoot() {
   return nullptr;
 };
 void BindableVectorToCollectionAdapter___::CopyTo(Array<> array, Int32 arrayIndex) {
-  return void();
 };
 } // namespace System::Private::CoreLib::System::Runtime::InteropServices::WindowsRuntime::BindableVectorToCollectionAdapterNamespace

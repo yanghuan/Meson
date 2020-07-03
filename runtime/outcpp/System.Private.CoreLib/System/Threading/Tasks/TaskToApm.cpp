@@ -17,9 +17,7 @@ IAsyncResult TaskToApm::Begin(Task<> task, AsyncCallback callback, Object state)
   return nullptr;
 };
 void TaskToApm::End(IAsyncResult asyncResult) {
-  return void();
 };
 void TaskToApm::InvokeCallbackWhenTaskCompletes(Task<> antecedent, AsyncCallback callback, IAsyncResult asyncResult) {
-  return void();
 };
 } // namespace System::Private::CoreLib::System::Threading::Tasks::TaskToApmNamespace

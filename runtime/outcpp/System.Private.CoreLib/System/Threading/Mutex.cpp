@@ -10,12 +10,10 @@ Boolean Mutex___::TryOpenExisting(String name, Mutex& result) {
   return Boolean();
 };
 void Mutex___::CreateMutexCore(Boolean initiallyOwned, String name, Boolean& createdNew) {
-  return void();
 };
 WaitHandle::in::OpenExistingResult Mutex___::OpenExistingWorker(String name, Mutex& result) {
   return WaitHandle::in::OpenExistingResult();
 };
 void Mutex___::ReleaseMutex() {
-  return void();
 };
 } // namespace System::Private::CoreLib::System::Threading::MutexNamespace

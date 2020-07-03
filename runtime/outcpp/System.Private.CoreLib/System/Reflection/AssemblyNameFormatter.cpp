@@ -5,7 +5,6 @@ String AssemblyNameFormatter::ComputeDisplayName(String name, Version version, S
   return nullptr;
 };
 void AssemblyNameFormatter::AppendQuoted(StringBuilder sb, String s) {
-  return void();
 };
 Version AssemblyNameFormatter::CanonicalizeVersion(Version version) {
   return nullptr;

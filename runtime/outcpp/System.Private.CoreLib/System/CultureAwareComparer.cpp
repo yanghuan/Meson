@@ -17,6 +17,5 @@ Int32 CultureAwareComparer___::GetHashCode() {
   return Int32();
 };
 void CultureAwareComparer___::GetObjectData(SerializationInfo info, StreamingContext context) {
-  return void();
 };
 } // namespace System::Private::CoreLib::System::CultureAwareComparerNamespace

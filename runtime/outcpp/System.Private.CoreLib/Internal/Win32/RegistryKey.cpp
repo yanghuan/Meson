@@ -4,7 +4,6 @@
 
 namespace System::Private::CoreLib::Internal::Win32::RegistryKeyNamespace {
 void RegistryKey___::DeleteValue(String name, Boolean throwOnMissingValue) {
-  return void();
 };
 RegistryKey RegistryKey___::OpenBaseKey(IntPtr hKey) {
   return nullptr;
@@ -28,9 +27,7 @@ Object RegistryKey___::GetValue(String name, Object defaultValue) {
   return nullptr;
 };
 void RegistryKey___::SetValue(String name, String value) {
-  return void();
 };
 void RegistryKey___::Win32Error(Int32 errorCode, String str) {
-  return void();
 };
 } // namespace System::Private::CoreLib::Internal::Win32::RegistryKeyNamespace

@@ -22,7 +22,6 @@ IPermission PermissionSet___::AddPermissionImpl(IPermission perm) {
   return nullptr;
 };
 void PermissionSet___::Assert() {
-  return void();
 };
 Boolean PermissionSet___::ContainsNonCodeAccessPermissions() {
   return Boolean();
@@ -34,19 +33,15 @@ PermissionSet PermissionSet___::Copy() {
   return nullptr;
 };
 void PermissionSet___::CopyTo(Array<> array, Int32 index) {
-  return void();
 };
 void PermissionSet___::Demand() {
-  return void();
 };
 void PermissionSet___::Deny() {
-  return void();
 };
 Boolean PermissionSet___::Equals(Object o) {
   return Boolean();
 };
 void PermissionSet___::FromXml(SecurityElement et) {
-  return void();
 };
 IEnumerator PermissionSet___::GetEnumerator() {
   return nullptr;
@@ -76,7 +71,6 @@ Boolean PermissionSet___::IsUnrestricted() {
   return Boolean();
 };
 void PermissionSet___::PermitOnly() {
-  return void();
 };
 IPermission PermissionSet___::RemovePermission(Type permClass) {
   return nullptr;
@@ -85,7 +79,6 @@ IPermission PermissionSet___::RemovePermissionImpl(Type permClass) {
   return nullptr;
 };
 void PermissionSet___::RevertAssert() {
-  return void();
 };
 IPermission PermissionSet___::SetPermission(IPermission perm) {
   return nullptr;

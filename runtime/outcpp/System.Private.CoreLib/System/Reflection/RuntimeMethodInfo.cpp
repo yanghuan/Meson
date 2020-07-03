@@ -139,10 +139,8 @@ MethodBody RuntimeMethodInfo___::GetMethodBody() {
   return nullptr;
 };
 void RuntimeMethodInfo___::CheckConsistency(Object target) {
-  return void();
 };
 void RuntimeMethodInfo___::ThrowNoInvokeException() {
-  return void();
 };
 Object RuntimeMethodInfo___::Invoke(Object obj, BindingFlags invokeAttr, Binder binder, Array<Object> parameters, CultureInfo culture) {
   return nullptr;

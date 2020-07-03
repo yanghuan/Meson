@@ -11,10 +11,8 @@ String BadImageFormatException___::get_FusionLog() {
   return nullptr;
 };
 void BadImageFormatException___::GetObjectData(SerializationInfo info, StreamingContext context) {
-  return void();
 };
 void BadImageFormatException___::SetMessageField() {
-  return void();
 };
 String BadImageFormatException___::ToString() {
   return nullptr;

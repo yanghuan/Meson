@@ -20,7 +20,6 @@ Boolean InternalEncoderBestFitFallbackBuffer___::MovePrevious() {
   return Boolean();
 };
 void InternalEncoderBestFitFallbackBuffer___::Reset() {
-  return void();
 };
 Char InternalEncoderBestFitFallbackBuffer___::TryBestFit(Char cUnknown) {
   return Char();

@@ -32,7 +32,6 @@ ModuleHandle Module___::GetModuleHandleImpl() {
   return ModuleHandle();
 };
 void Module___::GetPEKind(PortableExecutableKinds& peKind, ImageFileMachine& machine) {
-  return void();
 };
 Boolean Module___::IsResource() {
   return Boolean();
@@ -125,7 +124,6 @@ Type Module___::ResolveType(Int32 metadataToken, Array<Type> genericTypeArgument
   return nullptr;
 };
 void Module___::GetObjectData(SerializationInfo info, StreamingContext context) {
-  return void();
 };
 Boolean Module___::Equals(Object o) {
   return Boolean();

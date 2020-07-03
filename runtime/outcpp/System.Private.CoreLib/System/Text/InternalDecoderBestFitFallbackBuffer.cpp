@@ -17,7 +17,6 @@ Boolean InternalDecoderBestFitFallbackBuffer___::MovePrevious() {
   return Boolean();
 };
 void InternalDecoderBestFitFallbackBuffer___::Reset() {
-  return void();
 };
 Int32 InternalDecoderBestFitFallbackBuffer___::InternalFallback(Array<Byte> bytes, Byte* pBytes) {
   return Int32();

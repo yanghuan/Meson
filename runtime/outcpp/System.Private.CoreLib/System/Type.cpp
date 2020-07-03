@@ -460,7 +460,6 @@ Array<> Type___::GetEnumRawConstantValues() {
   return nullptr;
 };
 void Type___::GetEnumData(Array<String>& enumNames, Array<>& enumValues) {
-  return void();
 };
 Int32 Type___::BinarySearch(Array<> array, Object value) {
   return Int32();

@@ -17,25 +17,18 @@ Char FormattingHelpers::GetSymbolOrDefault(StandardFormat& format, Char defaultS
   return Char();
 };
 void FormattingHelpers::FillWithAsciiZeros(Span<Byte> buffer) {
-  return void();
 };
 void FormattingHelpers::WriteHexByte(Byte value, Span<Byte> buffer, Int32 startingIndex, HexCasing casing) {
-  return void();
 };
 void FormattingHelpers::WriteDigits(UInt64 value, Span<Byte> buffer) {
-  return void();
 };
 void FormattingHelpers::WriteDigitsWithGroupSeparator(UInt64 value, Span<Byte> buffer) {
-  return void();
 };
 void FormattingHelpers::WriteDigits(UInt32 value, Span<Byte> buffer) {
-  return void();
 };
 void FormattingHelpers::WriteFourDecimalDigits(UInt32 value, Span<Byte> buffer, Int32 startingIndex) {
-  return void();
 };
 void FormattingHelpers::WriteTwoDecimalDigits(UInt32 value, Span<Byte> buffer, Int32 startingIndex) {
-  return void();
 };
 UInt64 FormattingHelpers::DivMod(UInt64 numerator, UInt64 denominator, UInt64& modulo) {
   return UInt64();

@@ -80,7 +80,6 @@ Boolean DateTimeParse::SetDateYDM(DateTimeResult& result, Int32 year, Int32 day,
   return Boolean();
 };
 void DateTimeParse::GetDefaultYear(DateTimeResult& result, DateTimeStyles& styles) {
-  return void();
 };
 Boolean DateTimeParse::GetDayOfNN(DateTimeResult& result, DateTimeStyles& styles, DateTimeRawInfo& raw, DateTimeFormatInfo dtfi) {
   return Boolean();
@@ -116,7 +115,6 @@ Boolean DateTimeParse::GetDayOfYM(DateTimeResult& result, DateTimeRawInfo& raw) 
   return Boolean();
 };
 void DateTimeParse::AdjustTimeMark(DateTimeFormatInfo dtfi, DateTimeRawInfo& raw) {
-  return void();
 };
 Boolean DateTimeParse::AdjustHour(Int32& hour, TM timeMark) {
   return Boolean();
@@ -233,10 +231,8 @@ Boolean DateTimeParse::ParseJapaneseEraStart(__DTString& str, DateTimeFormatInfo
   return Boolean();
 };
 void DateTimeParse::ConfigureFormatR(DateTimeFormatInfo& dtfi, ParsingInfo& parseInfo, DateTimeResult& result) {
-  return void();
 };
 void DateTimeParse::ConfigureFormatOS(DateTimeFormatInfo& dtfi, ParsingInfo& parseInfo) {
-  return void();
 };
 Boolean DateTimeParse::ParseByFormat(__DTString& str, __DTString& format, ParsingInfo& parseInfo, DateTimeFormatInfo dtfi, DateTimeResult& result) {
   return Boolean();

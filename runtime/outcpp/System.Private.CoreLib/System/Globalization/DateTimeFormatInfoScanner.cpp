@@ -8,7 +8,6 @@ Int32 DateTimeFormatInfoScanner___::SkipWhiteSpacesAndNonLetter(String pattern, 
   return Int32();
 };
 void DateTimeFormatInfoScanner___::AddDateWordOrPostfix(String formatPostfix, String str) {
-  return void();
 };
 Int32 DateTimeFormatInfoScanner___::AddDateWords(String pattern, Int32 index, String formatPostfix) {
   return Int32();
@@ -17,10 +16,8 @@ Int32 DateTimeFormatInfoScanner___::ScanRepeatChar(String pattern, Char ch, Int3
   return Int32();
 };
 void DateTimeFormatInfoScanner___::AddIgnorableSymbols(String text) {
-  return void();
 };
 void DateTimeFormatInfoScanner___::ScanDateWord(String pattern) {
-  return void();
 };
 Array<String> DateTimeFormatInfoScanner___::GetDateWordsOfDTFI(DateTimeFormatInfo dtfi) {
   return Array<String>();

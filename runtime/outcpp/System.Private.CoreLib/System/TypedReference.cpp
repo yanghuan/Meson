@@ -25,6 +25,5 @@ RuntimeTypeHandle TypedReference::TargetTypeToken(TypedReference value) {
   return RuntimeTypeHandle();
 };
 void TypedReference::SetTypedReference(TypedReference target, Object value) {
-  return void();
 };
 } // namespace System::Private::CoreLib::System::TypedReferenceNamespace

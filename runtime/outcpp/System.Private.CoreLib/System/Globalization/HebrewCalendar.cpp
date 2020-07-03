@@ -20,22 +20,16 @@ Int32 HebrewCalendar___::get_TwoDigitYearMax() {
   return Int32();
 };
 void HebrewCalendar___::set_TwoDigitYearMax(Int32 value) {
-  return void();
 };
 void HebrewCalendar___::CheckHebrewYearValue(Int32 y, Int32 era, String varName) {
-  return void();
 };
 void HebrewCalendar___::CheckHebrewMonthValue(Int32 year, Int32 month, Int32 era) {
-  return void();
 };
 void HebrewCalendar___::CheckHebrewDayValue(Int32 year, Int32 month, Int32 day, Int32 era) {
-  return void();
 };
 void HebrewCalendar___::CheckEraRange(Int32 era) {
-  return void();
 };
 void HebrewCalendar___::CheckTicksRange(Int64 ticks) {
-  return void();
 };
 Int32 HebrewCalendar___::GetResult(DateBuffer result, Int32 part) {
   return Int32();

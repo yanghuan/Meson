@@ -203,18 +203,13 @@ Boolean GenericTypeParameterBuilder___::IsDefined(Type attributeType, Boolean in
   return Boolean();
 };
 void GenericTypeParameterBuilder___::SetCustomAttribute(ConstructorInfo con, Array<Byte> binaryAttribute) {
-  return void();
 };
 void GenericTypeParameterBuilder___::SetCustomAttribute(CustomAttributeBuilder customBuilder) {
-  return void();
 };
 void GenericTypeParameterBuilder___::SetBaseTypeConstraint(Type baseTypeConstraint) {
-  return void();
 };
 void GenericTypeParameterBuilder___::SetInterfaceConstraints(Array<Type> interfaceConstraints) {
-  return void();
 };
 void GenericTypeParameterBuilder___::SetGenericParameterAttributes(GenericParameterAttributes genericParameterAttributes) {
-  return void();
 };
 } // namespace System::Private::CoreLib::System::Reflection::Emit::GenericTypeParameterBuilderNamespace

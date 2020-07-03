@@ -5,13 +5,11 @@ IntPtr WaitHandle___::get_Handle() {
   return IntPtr();
 };
 void WaitHandle___::set_Handle(IntPtr value) {
-  return void();
 };
 SafeWaitHandle WaitHandle___::get_SafeWaitHandle() {
   return nullptr;
 };
 void WaitHandle___::set_SafeWaitHandle(SafeWaitHandle value) {
-  return void();
 };
 Int32 WaitHandle___::WaitMultipleIgnoringSyncContext(Span<IntPtr> waitHandles, Boolean waitAll, Int32 millisecondsTimeout) {
   return Int32();
@@ -23,13 +21,10 @@ Int32 WaitHandle___::ToTimeoutMilliseconds(TimeSpan timeout) {
   return Int32();
 };
 void WaitHandle___::Close() {
-  return void();
 };
 void WaitHandle___::Dispose(Boolean explicitDisposing) {
-  return void();
 };
 void WaitHandle___::Dispose() {
-  return void();
 };
 Boolean WaitHandle___::WaitOne(Int32 millisecondsTimeout) {
   return Boolean();
@@ -41,10 +36,8 @@ Array<SafeWaitHandle> WaitHandle___::RentSafeWaitHandleArray(Int32 capacity) {
   return Array<SafeWaitHandle>();
 };
 void WaitHandle___::ReturnSafeWaitHandleArray(Array<SafeWaitHandle> safeWaitHandles) {
-  return void();
 };
 void WaitHandle___::ObtainSafeWaitHandles(ReadOnlySpan<WaitHandle> waitHandles, Span<SafeWaitHandle> safeWaitHandles, Span<IntPtr> unsafeWaitHandles) {
-  return void();
 };
 Int32 WaitHandle___::WaitMultiple(Array<WaitHandle> waitHandles, Boolean waitAll, Int32 millisecondsTimeout) {
   return Int32();

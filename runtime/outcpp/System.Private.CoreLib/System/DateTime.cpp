@@ -148,7 +148,6 @@ Int32 DateTime::GetDatePart(Int32 part) {
   return Int32();
 };
 void DateTime::GetDatePart(Int32& year, Int32& month, Int32& day) {
-  return void();
 };
 Int32 DateTime::GetHashCode() {
   return Int32();

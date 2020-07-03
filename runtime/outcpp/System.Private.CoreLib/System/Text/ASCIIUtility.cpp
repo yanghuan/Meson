@@ -32,10 +32,8 @@ UInt64 ASCIIUtility::GetIndexOfFirstNonAsciiChar_Sse2(Char* pBuffer, UInt64 buff
   return UInt64();
 };
 void ASCIIUtility::NarrowFourUtf16CharsToAsciiAndWriteToBuffer(Byte& outputBuffer, UInt64 value) {
-  return void();
 };
 void ASCIIUtility::NarrowTwoUtf16CharsToAsciiAndWriteToBuffer(Byte& outputBuffer, UInt32 value) {
-  return void();
 };
 UInt64 ASCIIUtility::NarrowUtf16ToAscii(Char* pUtf16Buffer, Byte* pAsciiBuffer, UInt64 elementCount) {
   return UInt64();
@@ -50,7 +48,6 @@ UInt64 ASCIIUtility::WidenAsciiToUtf16_Sse2(Byte* pAsciiBuffer, Char* pUtf16Buff
   return UInt64();
 };
 void ASCIIUtility::WidenFourAsciiBytesToUtf16AndWriteToBuffer(Char& outputBuffer, UInt32 value) {
-  return void();
 };
 Boolean ASCIIUtility::AllBytesInUInt32AreAscii(UInt32 value) {
   return Boolean();

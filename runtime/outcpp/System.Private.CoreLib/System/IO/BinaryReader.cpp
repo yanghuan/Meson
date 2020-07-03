@@ -5,16 +5,12 @@ Stream BinaryReader___::get_BaseStream() {
   return nullptr;
 };
 void BinaryReader___::Dispose(Boolean disposing) {
-  return void();
 };
 void BinaryReader___::Dispose() {
-  return void();
 };
 void BinaryReader___::Close() {
-  return void();
 };
 void BinaryReader___::ThrowIfDisposed() {
-  return void();
 };
 Int32 BinaryReader___::PeekChar() {
   return Int32();
@@ -92,7 +88,6 @@ ReadOnlySpan<Byte> BinaryReader___::InternalRead(Int32 numBytes) {
   return ReadOnlySpan<Byte>();
 };
 void BinaryReader___::FillBuffer(Int32 numBytes) {
-  return void();
 };
 Int32 BinaryReader___::Read7BitEncodedInt() {
   return Int32();

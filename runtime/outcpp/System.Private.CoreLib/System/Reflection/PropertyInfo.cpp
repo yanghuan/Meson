@@ -41,10 +41,8 @@ Object PropertyInfo___::GetRawConstantValue() {
   return nullptr;
 };
 void PropertyInfo___::SetValue(Object obj, Object value) {
-  return void();
 };
 void PropertyInfo___::SetValue(Object obj, Object value, Array<Object> index) {
-  return void();
 };
 Boolean PropertyInfo___::Equals(Object obj) {
   return Boolean();

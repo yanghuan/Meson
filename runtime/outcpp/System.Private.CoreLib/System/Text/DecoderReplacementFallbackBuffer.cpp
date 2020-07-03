@@ -14,7 +14,6 @@ Boolean DecoderReplacementFallbackBuffer___::MovePrevious() {
   return Boolean();
 };
 void DecoderReplacementFallbackBuffer___::Reset() {
-  return void();
 };
 Int32 DecoderReplacementFallbackBuffer___::InternalFallback(Array<Byte> bytes, Byte* pBytes) {
   return Int32();

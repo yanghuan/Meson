@@ -17,7 +17,6 @@ Decimal Math::Abs(Decimal value) {
   return Decimal();
 };
 void Math::ThrowAbsOverflow() {
-  return void();
 };
 Int64 Math::BigMul(Int32 a, Int32 b) {
   return Int64();

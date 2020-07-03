@@ -5,7 +5,6 @@ Encoding StreamReader___::NullStreamReader___::get_CurrentEncoding() {
   return nullptr;
 };
 void StreamReader___::NullStreamReader___::Dispose(Boolean disposing) {
-  return void();
 };
 Int32 StreamReader___::NullStreamReader___::Peek() {
   return Int32();
@@ -35,22 +34,17 @@ Boolean StreamReader___::get_EndOfStream() {
   return Boolean();
 };
 void StreamReader___::CheckAsyncTaskInProgress() {
-  return void();
 };
 void StreamReader___::ThrowAsyncIOInProgress() {
-  return void();
 };
 Stream StreamReader___::ValidateArgsAndOpenPath(String path, Encoding encoding, Int32 bufferSize) {
   return nullptr;
 };
 void StreamReader___::Close() {
-  return void();
 };
 void StreamReader___::Dispose(Boolean disposing) {
-  return void();
 };
 void StreamReader___::DiscardBufferedData() {
-  return void();
 };
 Int32 StreamReader___::Peek() {
   return Int32();
@@ -77,10 +71,8 @@ Int32 StreamReader___::ReadBlock(Span<Char> buffer) {
   return Int32();
 };
 void StreamReader___::CompressBuffer(Int32 n) {
-  return void();
 };
 void StreamReader___::DetectEncoding() {
-  return void();
 };
 Boolean StreamReader___::IsPreamble() {
   return Boolean();
@@ -125,6 +117,5 @@ ValueTask<Int32> StreamReader___::ReadBufferAsync(CancellationToken cancellation
   return ValueTask<Int32>();
 };
 void StreamReader___::ThrowIfDisposed() {
-  return void();
 };
 } // namespace System::Private::CoreLib::System::IO::StreamReaderNamespace

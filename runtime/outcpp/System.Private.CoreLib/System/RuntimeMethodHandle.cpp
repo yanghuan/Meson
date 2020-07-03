@@ -14,7 +14,6 @@ IntPtr RuntimeMethodHandle::GetValueInternal(RuntimeMethodHandle rmh) {
   return IntPtr();
 };
 void RuntimeMethodHandle::GetObjectData(SerializationInfo info, StreamingContext context) {
-  return void();
 };
 Int32 RuntimeMethodHandle::GetHashCode() {
   return Int32();

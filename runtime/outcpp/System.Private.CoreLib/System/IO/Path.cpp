@@ -113,7 +113,6 @@ String Path::JoinInternal(ReadOnlySpan<Char> first, ReadOnlySpan<Char> second, R
   return nullptr;
 };
 void Path::Populate83FileNameFromRandomBytes(Byte* bytes, Int32 byteCount, Span<Char> chars) {
-  return void();
 };
 String Path::GetRelativePath(String relativeTo, String path) {
   return nullptr;
@@ -149,7 +148,6 @@ String Path::GetTempPath() {
   return nullptr;
 };
 void Path::GetTempPath(ValueStringBuilder& builder) {
-  return void();
 };
 String Path::GetTempFileName() {
   return nullptr;

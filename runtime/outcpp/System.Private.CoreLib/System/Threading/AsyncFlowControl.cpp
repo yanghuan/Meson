@@ -2,13 +2,10 @@
 
 namespace System::Private::CoreLib::System::Threading::AsyncFlowControlNamespace {
 void AsyncFlowControl::Initialize(Thread currentThread) {
-  return void();
 };
 void AsyncFlowControl::Undo() {
-  return void();
 };
 void AsyncFlowControl::Dispose() {
-  return void();
 };
 Boolean AsyncFlowControl::Equals(Object obj) {
   return Boolean();

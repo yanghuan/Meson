@@ -17,7 +17,6 @@ Boolean __DTString::Advance(Int32 count) {
   return Boolean();
 };
 void __DTString::GetRegularToken(TokenType& tokenType, Int32& tokenValue, DateTimeFormatInfo dtfi) {
-  return void();
 };
 TokenType __DTString::GetSeparatorToken(DateTimeFormatInfo dtfi, Int32& indexBeforeSeparator, Char& charBeforeSeparator) {
   return TokenType();
@@ -50,24 +49,19 @@ Int32 __DTString::GetDigit() {
   return Int32();
 };
 void __DTString::SkipWhiteSpaces() {
-  return void();
 };
 Boolean __DTString::SkipWhiteSpaceCurrent() {
   return Boolean();
 };
 void __DTString::TrimTail() {
-  return void();
 };
 void __DTString::RemoveTrailingInQuoteSpaces() {
-  return void();
 };
 void __DTString::RemoveLeadingInQuoteSpaces() {
-  return void();
 };
 DTSubString __DTString::GetSubString() {
   return DTSubString();
 };
 void __DTString::ConsumeSubString(DTSubString sub) {
-  return void();
 };
 } // namespace System::Private::CoreLib::System::__DTStringNamespace

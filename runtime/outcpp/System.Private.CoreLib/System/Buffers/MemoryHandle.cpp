@@ -5,6 +5,5 @@ void* MemoryHandle::get_Pointer() {
   return nullptr;
 };
 void MemoryHandle::Dispose() {
-  return void();
 };
 } // namespace System::Private::CoreLib::System::Buffers::MemoryHandleNamespace

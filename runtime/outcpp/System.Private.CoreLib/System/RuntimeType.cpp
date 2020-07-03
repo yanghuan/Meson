@@ -19,19 +19,16 @@ Object RuntimeType___::RuntimeTypeCache___::get_GenericCache() {
   return nullptr;
 };
 void RuntimeType___::RuntimeTypeCache___::set_GenericCache(Object value) {
-  return void();
 };
 Boolean RuntimeType___::RuntimeTypeCache___::get_DomainInitialized() {
   return Boolean();
 };
 void RuntimeType___::RuntimeTypeCache___::set_DomainInitialized(Boolean value) {
-  return void();
 };
 TypeCode RuntimeType___::RuntimeTypeCache___::get_TypeCode() {
   return TypeCode();
 };
 void RuntimeType___::RuntimeTypeCache___::set_TypeCode(TypeCode value) {
-  return void();
 };
 Boolean RuntimeType___::RuntimeTypeCache___::get_IsGlobal() {
   return Boolean();
@@ -52,7 +49,6 @@ RuntimeType RuntimeType___::RuntimeTypeCache___::GetRuntimeType() {
   return nullptr;
 };
 void RuntimeType___::RuntimeTypeCache___::InvalidateCachedNestedType() {
-  return void();
 };
 String RuntimeType___::RuntimeTypeCache___::GetDefaultMemberName() {
   return nullptr;
@@ -94,22 +90,18 @@ FieldInfo RuntimeType___::RuntimeTypeCache___::GetField(RuntimeFieldHandleIntern
   return nullptr;
 };
 void RuntimeType___::ActivatorCache___::Initialize() {
-  return void();
 };
 void RuntimeType___::ActivatorCache___::EnsureInitialized() {
-  return void();
 };
 Object RuntimeType___::get_GenericCache() {
   return nullptr;
 };
 void RuntimeType___::set_GenericCache(Object value) {
-  return void();
 };
 Boolean RuntimeType___::get_DomainInitialized() {
   return Boolean();
 };
 void RuntimeType___::set_DomainInitialized(Boolean value) {
-  return void();
 };
 RuntimeType::in::RuntimeTypeCache RuntimeType___::get_CacheIfExists() {
   return nullptr;
@@ -235,25 +227,19 @@ PropertyInfo RuntimeType___::GetPropertyInfo(RuntimeType reflectedType, Int32 tk
   return nullptr;
 };
 void RuntimeType___::ThrowIfTypeNeverValidGenericArgument(RuntimeType type) {
-  return void();
 };
 void RuntimeType___::SanityCheckGenericArguments(Array<RuntimeType> genericArguments, Array<RuntimeType> genericParamters) {
-  return void();
 };
 void RuntimeType___::ValidateGenericArguments(MemberInfo definition, Array<RuntimeType> genericArguments, Exception e) {
-  return void();
 };
 void RuntimeType___::SplitName(String fullname, String& name, String& ns) {
-  return void();
 };
 BindingFlags RuntimeType___::FilterPreCalculate(Boolean isPublic, Boolean isInherited, Boolean isStatic) {
   return BindingFlags();
 };
 void RuntimeType___::FilterHelper(BindingFlags bindingFlags, String& name, Boolean allowPrefixLookup, Boolean& prefixLookup, Boolean& ignoreCase, MemberListType& listType) {
-  return void();
 };
 void RuntimeType___::FilterHelper(BindingFlags bindingFlags, String& name, Boolean& ignoreCase, MemberListType& listType) {
-  return void();
 };
 Boolean RuntimeType___::FilterApplyPrefixLookup(MemberInfo memberInfo, String name, Boolean ignoreCase) {
   return Boolean();
@@ -421,7 +407,6 @@ String RuntimeType___::GetCachedName(TypeNameKind kind) {
   return nullptr;
 };
 void RuntimeType___::CreateInstanceCheckThis() {
-  return void();
 };
 Object RuntimeType___::CreateInstanceImpl(BindingFlags bindingAttr, Binder binder, Array<Object> args, CultureInfo culture) {
   return nullptr;
@@ -433,7 +418,6 @@ Object RuntimeType___::CreateInstanceDefaultCtor(Boolean publicOnly, Boolean ski
   return nullptr;
 };
 void RuntimeType___::InvalidateCachedNestedType() {
-  return void();
 };
 Boolean RuntimeType___::IsGenericCOMObjectImpl() {
   return Boolean();
@@ -445,7 +429,6 @@ Object RuntimeType___::ForwardCallToInvokeMember(String memberName, BindingFlags
   return nullptr;
 };
 void RuntimeType___::WrapArgsForInvokeCall(Array<Object> aArgs, Array<Int32> aArgsWrapperTypes) {
-  return void();
 };
 Object RuntimeType___::Clone() {
   return nullptr;

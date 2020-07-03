@@ -5,6 +5,5 @@ Task<> CommonlyUsedGenericInstantiations::AsyncHelper3() {
   return nullptr;
 };
 void CommonlyUsedGenericInstantiations::CommonlyUsedWinRTRedirectedInterfaceStubs() {
-  return void();
 };
 } // namespace System::Private::CoreLib::System::CommonlyUsedGenericInstantiationsNamespace

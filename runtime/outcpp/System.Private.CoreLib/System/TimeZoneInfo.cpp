@@ -37,7 +37,6 @@ TimeZoneInfo::in::TransitionTime TimeZoneInfo___::TransitionTime::CreateFloating
   return TimeZoneInfo::in::TransitionTime();
 };
 void TimeZoneInfo___::TransitionTime::ValidateTransitionTime(DateTime timeOfDay, Int32 month, Int32 week, Int32 day, DayOfWeek dayOfWeek) {
-  return void();
 };
 DateTime TimeZoneInfo___::AdjustmentRule___::get_DateStart() {
   return DateTime();
@@ -82,10 +81,8 @@ Boolean TimeZoneInfo___::AdjustmentRule___::IsEndDateMarkerForEndOfYear() {
   return Boolean();
 };
 void TimeZoneInfo___::AdjustmentRule___::ValidateAdjustmentRule(DateTime dateStart, DateTime dateEnd, TimeSpan daylightDelta, TransitionTime daylightTransitionStart, TransitionTime daylightTransitionEnd, Boolean noDaylightTransitions) {
-  return void();
 };
 void TimeZoneInfo___::AdjustmentRule___::AdjustDaylightDeltaToExpectedRange(TimeSpan& daylightDelta, TimeSpan& baseUtcOffsetDelta) {
-  return void();
 };
 TimeZoneInfo TimeZoneInfo___::CachedData___::get_Local() {
   return nullptr;
@@ -109,16 +106,12 @@ TimeZoneInfo TimeZoneInfo___::StringSerializer::GetDeserializedTimeZoneInfo(Stri
   return nullptr;
 };
 void TimeZoneInfo___::StringSerializer::SerializeSubstitute(String text, StringBuilder serializedText) {
-  return void();
 };
 void TimeZoneInfo___::StringSerializer::SerializeTransitionTime(TransitionTime time, StringBuilder serializedText) {
-  return void();
 };
 void TimeZoneInfo___::StringSerializer::VerifyIsEscapableCharacter(Char c) {
-  return void();
 };
 void TimeZoneInfo___::StringSerializer::SkipVersionNextDataFields(Int32 depth) {
-  return void();
 };
 String TimeZoneInfo___::StringSerializer::GetNextStringValue() {
   return nullptr;
@@ -217,7 +210,6 @@ Boolean TimeZoneInfo___::IsInvalidTime(DateTime dateTime) {
   return Boolean();
 };
 void TimeZoneInfo___::ClearCachedData() {
-  return void();
 };
 DateTimeOffset TimeZoneInfo___::ConvertTimeBySystemTimeZoneId(DateTimeOffset dateTimeOffset, String destinationTimeZoneId) {
   return DateTimeOffset();
@@ -355,7 +347,6 @@ TimeZoneInfo::in::TimeZoneInfoResult TimeZoneInfo___::TryGetTimeZoneFromLocalMac
   return TimeZoneInfo::in::TimeZoneInfoResult();
 };
 void TimeZoneInfo___::ValidateTimeZoneInfo(String id, TimeSpan baseUtcOffset, Array<AdjustmentRule> adjustmentRules, Boolean& adjustmentRulesSupportDst) {
-  return void();
 };
 Boolean TimeZoneInfo___::UtcOffsetOutOfRange(TimeSpan offset) {
   return Boolean();
@@ -370,7 +361,6 @@ Array<TimeZoneInfo::in::AdjustmentRule> TimeZoneInfo___::GetAdjustmentRules() {
   return Array<TimeZoneInfo::in::AdjustmentRule>();
 };
 void TimeZoneInfo___::PopulateAllSystemTimeZones(CachedData cachedData) {
-  return void();
 };
 Boolean TimeZoneInfo___::CheckDaylightSavingTimeNotSupported(Interop::Kernel32::TIME_ZONE_INFORMATION& timeZone) {
   return Boolean();
@@ -415,7 +405,6 @@ String TimeZoneInfo___::TryGetLocalizedNameByNativeResource(String filePath, Int
   return nullptr;
 };
 void TimeZoneInfo___::GetLocalizedNamesByRegistryKey(RegistryKey key, String& displayName, String& standardName, String& daylightName) {
-  return void();
 };
 TimeZoneInfo::in::TimeZoneInfoResult TimeZoneInfo___::TryGetTimeZoneFromLocalMachine(String id, TimeZoneInfo& value, Exception& e) {
   return TimeZoneInfo::in::TimeZoneInfoResult();

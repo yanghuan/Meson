@@ -49,7 +49,6 @@ RuntimeAssembly AssemblyBuilder___::GetNativeHandle() {
   return nullptr;
 };
 void AssemblyBuilder___::InitManifestModule() {
-  return void();
 };
 AssemblyBuilder AssemblyBuilder___::DefineDynamicAssembly(AssemblyName name, AssemblyBuilderAccess access) {
   return nullptr;
@@ -73,10 +72,8 @@ ModuleBuilder AssemblyBuilder___::DefineDynamicModuleInternalNoLock(String name,
   return nullptr;
 };
 void AssemblyBuilder___::CheckContext(Array<Array<Type>> typess) {
-  return void();
 };
 void AssemblyBuilder___::CheckContext(Array<Type> types) {
-  return void();
 };
 Boolean AssemblyBuilder___::Equals(Object obj) {
   return Boolean();
@@ -148,15 +145,11 @@ ModuleBuilder AssemblyBuilder___::GetDynamicModuleNoLock(String name) {
   return nullptr;
 };
 void AssemblyBuilder___::SetCustomAttribute(ConstructorInfo con, Array<Byte> binaryAttribute) {
-  return void();
 };
 void AssemblyBuilder___::SetCustomAttributeNoLock(ConstructorInfo con, Array<Byte> binaryAttribute) {
-  return void();
 };
 void AssemblyBuilder___::SetCustomAttribute(CustomAttributeBuilder customBuilder) {
-  return void();
 };
 void AssemblyBuilder___::SetCustomAttributeNoLock(CustomAttributeBuilder customBuilder) {
-  return void();
 };
 } // namespace System::Private::CoreLib::System::Reflection::Emit::AssemblyBuilderNamespace

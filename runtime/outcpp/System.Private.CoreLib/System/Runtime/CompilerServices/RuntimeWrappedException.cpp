@@ -5,6 +5,5 @@ Object RuntimeWrappedException___::get_WrappedException() {
   return nullptr;
 };
 void RuntimeWrappedException___::GetObjectData(SerializationInfo info, StreamingContext context) {
-  return void();
 };
 } // namespace System::Private::CoreLib::System::Runtime::CompilerServices::RuntimeWrappedExceptionNamespace

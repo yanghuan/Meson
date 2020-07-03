@@ -158,10 +158,8 @@ Array<Object> EnumBuilder___::GetCustomAttributes(Type attributeType, Boolean in
   return Array<Object>();
 };
 void EnumBuilder___::SetCustomAttribute(ConstructorInfo con, Array<Byte> binaryAttribute) {
-  return void();
 };
 void EnumBuilder___::SetCustomAttribute(CustomAttributeBuilder customBuilder) {
-  return void();
 };
 Boolean EnumBuilder___::IsDefined(Type attributeType, Boolean inherit) {
   return Boolean();

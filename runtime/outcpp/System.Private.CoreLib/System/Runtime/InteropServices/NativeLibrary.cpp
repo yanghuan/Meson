@@ -17,7 +17,6 @@ Boolean NativeLibrary::TryLoad(String libraryName, Assembly assembly, Nullable<D
   return Boolean();
 };
 void NativeLibrary::Free(IntPtr handle) {
-  return void();
 };
 IntPtr NativeLibrary::GetExport(IntPtr handle, String name) {
   return IntPtr();
@@ -26,7 +25,6 @@ Boolean NativeLibrary::TryGetExport(IntPtr handle, String name, IntPtr& address)
   return Boolean();
 };
 void NativeLibrary::SetDllImportResolver(Assembly assembly, DllImportResolver resolver) {
-  return void();
 };
 IntPtr NativeLibrary::LoadLibraryCallbackStub(String libraryName, Assembly assembly, Boolean hasDllImportSearchPathFlags, UInt32 dllImportSearchPathFlags) {
   return IntPtr();

@@ -32,7 +32,6 @@ Boolean ConstructorBuilder___::get_InitLocals() {
   return Boolean();
 };
 void ConstructorBuilder___::set_InitLocals(Boolean value) {
-  return void();
 };
 Array<Type> ConstructorBuilder___::GetParameterTypes() {
   return Array<Type>();
@@ -83,12 +82,9 @@ Type ConstructorBuilder___::GetReturnType() {
   return nullptr;
 };
 void ConstructorBuilder___::SetCustomAttribute(ConstructorInfo con, Array<Byte> binaryAttribute) {
-  return void();
 };
 void ConstructorBuilder___::SetCustomAttribute(CustomAttributeBuilder customBuilder) {
-  return void();
 };
 void ConstructorBuilder___::SetImplementationFlags(MethodImplAttributes attributes) {
-  return void();
 };
 } // namespace System::Private::CoreLib::System::Reflection::Emit::ConstructorBuilderNamespace

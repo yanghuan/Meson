@@ -7,6 +7,5 @@ DisableMediaInsertionPrompt DisableMediaInsertionPrompt::Create() {
   return DisableMediaInsertionPrompt();
 };
 void DisableMediaInsertionPrompt::Dispose() {
-  return void();
 };
 } // namespace System::Private::CoreLib::System::IO::DisableMediaInsertionPromptNamespace

@@ -13,7 +13,6 @@ Int32 Hashtable___::KeyCollection___::get_Count() {
   return Int32();
 };
 void Hashtable___::KeyCollection___::CopyTo(Array<> array, Int32 arrayIndex) {
-  return void();
 };
 IEnumerator Hashtable___::KeyCollection___::GetEnumerator() {
   return nullptr;
@@ -28,7 +27,6 @@ Int32 Hashtable___::ValueCollection___::get_Count() {
   return Int32();
 };
 void Hashtable___::ValueCollection___::CopyTo(Array<> array, Int32 arrayIndex) {
-  return void();
 };
 IEnumerator Hashtable___::ValueCollection___::GetEnumerator() {
   return nullptr;
@@ -49,7 +47,6 @@ Object Hashtable___::SyncHashtable___::get_Item(Object key) {
   return nullptr;
 };
 void Hashtable___::SyncHashtable___::set_Item(Object key, Object value) {
-  return void();
 };
 Object Hashtable___::SyncHashtable___::get_SyncRoot() {
   return nullptr;
@@ -61,13 +58,10 @@ ICollection Hashtable___::SyncHashtable___::get_Values() {
   return nullptr;
 };
 void Hashtable___::SyncHashtable___::GetObjectData(SerializationInfo info, StreamingContext context) {
-  return void();
 };
 void Hashtable___::SyncHashtable___::Add(Object key, Object value) {
-  return void();
 };
 void Hashtable___::SyncHashtable___::Clear() {
-  return void();
 };
 Boolean Hashtable___::SyncHashtable___::Contains(Object key) {
   return Boolean();
@@ -79,7 +73,6 @@ Boolean Hashtable___::SyncHashtable___::ContainsValue(Object key) {
   return Boolean();
 };
 void Hashtable___::SyncHashtable___::CopyTo(Array<> array, Int32 arrayIndex) {
-  return void();
 };
 Object Hashtable___::SyncHashtable___::Clone() {
   return nullptr;
@@ -88,10 +81,8 @@ IDictionaryEnumerator Hashtable___::SyncHashtable___::GetEnumerator() {
   return nullptr;
 };
 void Hashtable___::SyncHashtable___::Remove(Object key) {
-  return void();
 };
 void Hashtable___::SyncHashtable___::OnDeserialization(Object sender) {
-  return void();
 };
 Array<KeyValuePairs> Hashtable___::SyncHashtable___::ToKeyValuePairsArray() {
   return Array<KeyValuePairs>();
@@ -115,7 +106,6 @@ Boolean Hashtable___::HashtableEnumerator___::MoveNext() {
   return Boolean();
 };
 void Hashtable___::HashtableEnumerator___::Reset() {
-  return void();
 };
 Array<KeyValuePairs> Hashtable___::HashtableDebugView___::get_Items() {
   return Array<KeyValuePairs>();
@@ -124,13 +114,11 @@ IHashCodeProvider Hashtable___::get_hcp() {
   return nullptr;
 };
 void Hashtable___::set_hcp(IHashCodeProvider value) {
-  return void();
 };
 IComparer Hashtable___::get_comparer() {
   return nullptr;
 };
 void Hashtable___::set_comparer(IComparer value) {
-  return void();
 };
 IEqualityComparer Hashtable___::get_EqualityComparer() {
   return nullptr;
@@ -139,7 +127,6 @@ Object Hashtable___::get_Item(Object key) {
   return nullptr;
 };
 void Hashtable___::set_Item(Object key, Object value) {
-  return void();
 };
 Boolean Hashtable___::get_IsReadOnly() {
   return Boolean();
@@ -166,10 +153,8 @@ UInt32 Hashtable___::InitHash(Object key, Int32 hashsize, UInt32& seed, UInt32& 
   return UInt32();
 };
 void Hashtable___::Add(Object key, Object value) {
-  return void();
 };
 void Hashtable___::Clear() {
-  return void();
 };
 Object Hashtable___::Clone() {
   return nullptr;
@@ -184,31 +169,23 @@ Boolean Hashtable___::ContainsValue(Object value) {
   return Boolean();
 };
 void Hashtable___::CopyKeys(Array<> array, Int32 arrayIndex) {
-  return void();
 };
 void Hashtable___::CopyEntries(Array<> array, Int32 arrayIndex) {
-  return void();
 };
 void Hashtable___::CopyTo(Array<> array, Int32 arrayIndex) {
-  return void();
 };
 Array<KeyValuePairs> Hashtable___::ToKeyValuePairsArray() {
   return Array<KeyValuePairs>();
 };
 void Hashtable___::CopyValues(Array<> array, Int32 arrayIndex) {
-  return void();
 };
 void Hashtable___::expand() {
-  return void();
 };
 void Hashtable___::rehash() {
-  return void();
 };
 void Hashtable___::UpdateVersion() {
-  return void();
 };
 void Hashtable___::rehash(Int32 newsize) {
-  return void();
 };
 IDictionaryEnumerator Hashtable___::GetEnumerator() {
   return nullptr;
@@ -220,21 +197,16 @@ Boolean Hashtable___::KeyEquals(Object item, Object key) {
   return Boolean();
 };
 void Hashtable___::Insert(Object key, Object nvalue, Boolean add) {
-  return void();
 };
 void Hashtable___::putEntry(Array<bucket> newBuckets, Object key, Object nvalue, Int32 hashcode) {
-  return void();
 };
 void Hashtable___::Remove(Object key) {
-  return void();
 };
 Hashtable Hashtable___::Synchronized(Hashtable table) {
   return nullptr;
 };
 void Hashtable___::GetObjectData(SerializationInfo info, StreamingContext context) {
-  return void();
 };
 void Hashtable___::OnDeserialization(Object sender) {
-  return void();
 };
 } // namespace System::Private::CoreLib::System::Collections::HashtableNamespace

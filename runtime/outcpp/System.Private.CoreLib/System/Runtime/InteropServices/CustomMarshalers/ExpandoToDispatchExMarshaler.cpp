@@ -5,10 +5,8 @@ ICustomMarshaler ExpandoToDispatchExMarshaler___::GetInstance(String cookie) {
   return nullptr;
 };
 void ExpandoToDispatchExMarshaler___::CleanUpManagedData(Object ManagedObj) {
-  return void();
 };
 void ExpandoToDispatchExMarshaler___::CleanUpNativeData(IntPtr pNativeData) {
-  return void();
 };
 Int32 ExpandoToDispatchExMarshaler___::GetNativeDataSize() {
   return Int32();

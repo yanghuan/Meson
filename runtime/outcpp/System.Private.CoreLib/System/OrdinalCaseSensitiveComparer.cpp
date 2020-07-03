@@ -11,6 +11,5 @@ Int32 OrdinalCaseSensitiveComparer___::GetHashCode(String obj) {
   return Int32();
 };
 void OrdinalCaseSensitiveComparer___::GetObjectData(SerializationInfo info, StreamingContext context) {
-  return void();
 };
 } // namespace System::Private::CoreLib::System::OrdinalCaseSensitiveComparerNamespace

@@ -4,7 +4,6 @@
 
 namespace System::Private::CoreLib::System::Reflection::Emit::TypeBuilderNamespace {
 void TypeBuilder___::CustAttr___::Bake(ModuleBuilder module, Int32 token) {
-  return void();
 };
 Object TypeBuilder___::get_SyncRoot() {
   return nullptr;
@@ -109,43 +108,34 @@ FieldInfo TypeBuilder___::GetField(Type type, FieldInfo field) {
   return nullptr;
 };
 void TypeBuilder___::DefineCustomAttribute(ModuleBuilder module, Int32 tkAssociate, Int32 tkConstructor, Array<Byte> attr, Boolean toDisk, Boolean updateCompilerFlags) {
-  return void();
 };
 Boolean TypeBuilder___::IsTypeEqual(Type t1, Type t2) {
   return Boolean();
 };
 void TypeBuilder___::SetConstantValue(ModuleBuilder module, Int32 tk, Type destType, Object value) {
-  return void();
 };
 void TypeBuilder___::InitAsGenericParam(String szName, Int32 genParamPos) {
-  return void();
 };
 FieldBuilder TypeBuilder___::DefineDataHelper(String name, Array<Byte> data, Int32 size, FieldAttributes attributes) {
   return nullptr;
 };
 void TypeBuilder___::VerifyTypeAttributes(TypeAttributes attr) {
-  return void();
 };
 Boolean TypeBuilder___::IsCreated() {
   return Boolean();
 };
 void TypeBuilder___::ThrowIfCreated() {
-  return void();
 };
 ModuleBuilder TypeBuilder___::GetModuleBuilder() {
   return nullptr;
 };
 void TypeBuilder___::SetGenParamAttributes(GenericParameterAttributes genericParameterAttributes) {
-  return void();
 };
 void TypeBuilder___::SetGenParamCustomAttribute(ConstructorInfo con, Array<Byte> binaryAttribute) {
-  return void();
 };
 void TypeBuilder___::SetGenParamCustomAttribute(CustomAttributeBuilder customBuilder) {
-  return void();
 };
 void TypeBuilder___::SetGenParamCustomAttributeNoLock(CustAttr ca) {
-  return void();
 };
 String TypeBuilder___::ToString() {
   return nullptr;
@@ -259,7 +249,6 @@ Boolean TypeBuilder___::IsDefined(Type attributeType, Boolean inherit) {
   return Boolean();
 };
 void TypeBuilder___::SetInterfaces(Array<Type> interfaces) {
-  return void();
 };
 Array<GenericTypeParameterBuilder> TypeBuilder___::DefineGenericParameters(Array<String> names) {
   return Array<GenericTypeParameterBuilder>();
@@ -274,10 +263,8 @@ Type TypeBuilder___::GetGenericTypeDefinition() {
   return nullptr;
 };
 void TypeBuilder___::DefineMethodOverride(MethodInfo methodInfoBody, MethodInfo methodInfoDeclaration) {
-  return void();
 };
 void TypeBuilder___::DefineMethodOverrideNoLock(MethodInfo methodInfoBody, MethodInfo methodInfoDeclaration) {
-  return void();
 };
 MethodBuilder TypeBuilder___::DefineMethod(String name, MethodAttributes attributes, Type returnType, Array<Type> parameterTypes) {
   return nullptr;
@@ -403,24 +390,18 @@ Type TypeBuilder___::CreateType() {
   return nullptr;
 };
 void TypeBuilder___::CheckContext(Array<Array<Type>> typess) {
-  return void();
 };
 void TypeBuilder___::CheckContext(Array<Type> types) {
-  return void();
 };
 TypeInfo TypeBuilder___::CreateTypeNoLock() {
   return nullptr;
 };
 void TypeBuilder___::SetParent(Type parent) {
-  return void();
 };
 void TypeBuilder___::AddInterfaceImplementation(Type interfaceType) {
-  return void();
 };
 void TypeBuilder___::SetCustomAttribute(ConstructorInfo con, Array<Byte> binaryAttribute) {
-  return void();
 };
 void TypeBuilder___::SetCustomAttribute(CustomAttributeBuilder customBuilder) {
-  return void();
 };
 } // namespace System::Private::CoreLib::System::Reflection::Emit::TypeBuilderNamespace

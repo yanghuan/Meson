@@ -13,13 +13,11 @@ Int32 AggregateException___::get_InnerExceptionCount() {
   return Int32();
 };
 void AggregateException___::GetObjectData(SerializationInfo info, StreamingContext context) {
-  return void();
 };
 Exception AggregateException___::GetBaseException() {
   return nullptr;
 };
 void AggregateException___::Handle(Func<Exception, Boolean> predicate) {
-  return void();
 };
 AggregateException AggregateException___::Flatten() {
   return nullptr;

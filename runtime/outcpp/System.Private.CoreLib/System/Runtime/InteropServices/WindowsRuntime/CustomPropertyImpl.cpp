@@ -20,10 +20,8 @@ Object CustomPropertyImpl___::GetValue(Object target, Object indexValue) {
   return nullptr;
 };
 void CustomPropertyImpl___::SetValue(Object target, Object value) {
-  return void();
 };
 void CustomPropertyImpl___::SetValue(Object target, Object value, Object indexValue) {
-  return void();
 };
 Object CustomPropertyImpl___::InvokeInternal(Object target, Array<Object> args, Boolean getValue) {
   return nullptr;

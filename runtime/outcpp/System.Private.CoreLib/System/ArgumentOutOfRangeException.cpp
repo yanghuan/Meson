@@ -8,6 +8,5 @@ Object ArgumentOutOfRangeException___::get_ActualValue() {
   return nullptr;
 };
 void ArgumentOutOfRangeException___::GetObjectData(SerializationInfo info, StreamingContext context) {
-  return void();
 };
 } // namespace System::Private::CoreLib::System::ArgumentOutOfRangeExceptionNamespace

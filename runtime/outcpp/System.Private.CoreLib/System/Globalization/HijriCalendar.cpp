@@ -20,7 +20,6 @@ Int32 HijriCalendar___::get_HijriAdjustment() {
   return Int32();
 };
 void HijriCalendar___::set_HijriAdjustment(Int32 value) {
-  return void();
 };
 Array<Int32> HijriCalendar___::get_Eras() {
   return Array<Int32>();
@@ -29,7 +28,6 @@ Int32 HijriCalendar___::get_TwoDigitYearMax() {
   return Int32();
 };
 void HijriCalendar___::set_TwoDigitYearMax(Int32 value) {
-  return void();
 };
 Int64 HijriCalendar___::GetAbsoluteDateHijri(Int32 y, Int32 m, Int32 d) {
   return Int64();
@@ -38,16 +36,12 @@ Int64 HijriCalendar___::DaysUpToHijriYear(Int32 HijriYear) {
   return Int64();
 };
 void HijriCalendar___::CheckTicksRange(Int64 ticks) {
-  return void();
 };
 void HijriCalendar___::CheckEraRange(Int32 era) {
-  return void();
 };
 void HijriCalendar___::CheckYearRange(Int32 year, Int32 era) {
-  return void();
 };
 void HijriCalendar___::CheckYearMonthRange(Int32 year, Int32 month, Int32 era) {
-  return void();
 };
 Int32 HijriCalendar___::GetDatePart(Int64 ticks, Int32 part) {
   return Int32();

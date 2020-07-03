@@ -2,7 +2,6 @@
 
 namespace System::Private::CoreLib::System::DBNullNamespace {
 void DBNull___::GetObjectData(SerializationInfo info, StreamingContext context) {
-  return void();
 };
 String DBNull___::ToString() {
   return nullptr;

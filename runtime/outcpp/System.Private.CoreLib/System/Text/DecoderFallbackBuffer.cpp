@@ -4,13 +4,10 @@
 
 namespace System::Private::CoreLib::System::Text::DecoderFallbackBufferNamespace {
 void DecoderFallbackBuffer___::Reset() {
-  return void();
 };
 void DecoderFallbackBuffer___::InternalReset() {
-  return void();
 };
 void DecoderFallbackBuffer___::InternalInitialize(Byte* byteStart, Char* charEnd) {
-  return void();
 };
 DecoderFallbackBuffer DecoderFallbackBuffer___::CreateAndInitialize(Encoding encoding, DecoderNLS decoder, Int32 originalByteCount) {
   return nullptr;
@@ -37,6 +34,5 @@ Boolean DecoderFallbackBuffer___::TryDrainRemainingDataForGetChars(Span<Char> ch
   return Boolean();
 };
 void DecoderFallbackBuffer___::ThrowLastBytesRecursive(Array<Byte> bytesUnknown) {
-  return void();
 };
 } // namespace System::Private::CoreLib::System::Text::DecoderFallbackBufferNamespace

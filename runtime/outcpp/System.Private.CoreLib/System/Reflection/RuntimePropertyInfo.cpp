@@ -107,9 +107,7 @@ Object RuntimePropertyInfo___::GetValue(Object obj, BindingFlags invokeAttr, Bin
   return nullptr;
 };
 void RuntimePropertyInfo___::SetValue(Object obj, Object value, Array<Object> index) {
-  return void();
 };
 void RuntimePropertyInfo___::SetValue(Object obj, Object value, BindingFlags invokeAttr, Binder binder, Array<Object> index, CultureInfo culture) {
-  return void();
 };
 } // namespace System::Private::CoreLib::System::Reflection::RuntimePropertyInfoNamespace

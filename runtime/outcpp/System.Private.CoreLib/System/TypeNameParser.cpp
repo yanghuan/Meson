@@ -5,7 +5,6 @@ Type TypeNameParser___::GetType(String typeName, Func<AssemblyName, Assembly> as
   return nullptr;
 };
 void TypeNameParser___::Dispose() {
-  return void();
 };
 Type TypeNameParser___::ConstructType(Func<AssemblyName, Assembly> assemblyResolver, Func<Assembly, String, Boolean, Type> typeResolver, Boolean throwOnError, Boolean ignoreCase, StackCrawlMark& stackMark) {
   return nullptr;

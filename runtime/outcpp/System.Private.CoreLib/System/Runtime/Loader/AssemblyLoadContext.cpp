@@ -4,7 +4,6 @@
 
 namespace System::Private::CoreLib::System::Runtime::Loader::AssemblyLoadContextNamespace {
 void AssemblyLoadContext___::ContextualReflectionScope::Dispose() {
-  return void();
 };
 IEnumerable<Assembly> AssemblyLoadContext___::get_Assemblies() {
   return nullptr;
@@ -70,13 +69,10 @@ AssemblyLoadContext AssemblyLoadContext___::GetLoadContext(Assembly assembly) {
   return nullptr;
 };
 void AssemblyLoadContext___::SetProfileOptimizationRoot(String directoryPath) {
-  return void();
 };
 void AssemblyLoadContext___::StartProfileOptimization(String profile) {
-  return void();
 };
 void AssemblyLoadContext___::OnAssemblyLoad(RuntimeAssembly assembly) {
-  return void();
 };
 RuntimeAssembly AssemblyLoadContext___::OnResourceResolve(RuntimeAssembly assembly, String resourceName) {
   return nullptr;
@@ -94,13 +90,10 @@ RuntimeAssembly AssemblyLoadContext___::GetRuntimeAssembly(Assembly asm_) {
   return nullptr;
 };
 void AssemblyLoadContext___::Finalize() {
-  return void();
 };
 void AssemblyLoadContext___::RaiseUnloadEvent() {
-  return void();
 };
 void AssemblyLoadContext___::InitiateUnload() {
-  return void();
 };
 String AssemblyLoadContext___::ToString() {
   return nullptr;
@@ -133,16 +126,12 @@ IntPtr AssemblyLoadContext___::LoadUnmanagedDll(String unmanagedDllName) {
   return IntPtr();
 };
 void AssemblyLoadContext___::Unload() {
-  return void();
 };
 void AssemblyLoadContext___::OnProcessExit() {
-  return void();
 };
 void AssemblyLoadContext___::VerifyIsAlive() {
-  return void();
 };
 void AssemblyLoadContext___::SetCurrentContextualReflectionContext(AssemblyLoadContext value) {
-  return void();
 };
 AssemblyLoadContext::in::ContextualReflectionScope AssemblyLoadContext___::EnterContextualReflection() {
   return AssemblyLoadContext::in::ContextualReflectionScope();

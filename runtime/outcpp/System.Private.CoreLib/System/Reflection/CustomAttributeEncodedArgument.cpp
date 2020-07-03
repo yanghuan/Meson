@@ -16,6 +16,5 @@ String CustomAttributeEncodedArgument::get_StringValue() {
   return nullptr;
 };
 void CustomAttributeEncodedArgument::ParseAttributeArguments(ConstArray attributeBlob, Array<CustomAttributeCtorParameter>& customAttributeCtorParameters, Array<CustomAttributeNamedParameter>& customAttributeNamedParameters, RuntimeModule customAttributeModule) {
-  return void();
 };
 } // namespace System::Private::CoreLib::System::Reflection::CustomAttributeEncodedArgumentNamespace

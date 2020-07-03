@@ -10,7 +10,6 @@ Boolean EventWaitHandle___::TryOpenExisting(String name, EventWaitHandle& result
   return Boolean();
 };
 void EventWaitHandle___::CreateEventCore(Boolean initialState, EventResetMode mode, String name, Boolean& createdNew) {
-  return void();
 };
 WaitHandle::in::OpenExistingResult EventWaitHandle___::OpenExistingWorker(String name, EventWaitHandle& result) {
   return WaitHandle::in::OpenExistingResult();

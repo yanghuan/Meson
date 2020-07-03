@@ -59,7 +59,6 @@ Boolean RuntimeConstructorInfo___::CacheEquals(Object o) {
   return Boolean();
 };
 void RuntimeConstructorInfo___::CheckConsistency(Object target) {
-  return void();
 };
 String RuntimeConstructorInfo___::ToString() {
   return nullptr;
@@ -98,10 +97,8 @@ MethodImplAttributes RuntimeConstructorInfo___::GetMethodImplementationFlags() {
   return MethodImplAttributes();
 };
 void RuntimeConstructorInfo___::CheckCanCreateInstance(Type declaringType, Boolean isVarArg) {
-  return void();
 };
 void RuntimeConstructorInfo___::ThrowNoInvokeException() {
-  return void();
 };
 Object RuntimeConstructorInfo___::Invoke(Object obj, BindingFlags invokeAttr, Binder binder, Array<Object> parameters, CultureInfo culture) {
   return nullptr;

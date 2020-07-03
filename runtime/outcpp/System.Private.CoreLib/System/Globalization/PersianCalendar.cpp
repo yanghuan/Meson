@@ -23,22 +23,17 @@ Int32 PersianCalendar___::get_TwoDigitYearMax() {
   return Int32();
 };
 void PersianCalendar___::set_TwoDigitYearMax(Int32 value) {
-  return void();
 };
 Int64 PersianCalendar___::GetAbsoluteDatePersian(Int32 year, Int32 month, Int32 day) {
   return Int64();
 };
 void PersianCalendar___::CheckTicksRange(Int64 ticks) {
-  return void();
 };
 void PersianCalendar___::CheckEraRange(Int32 era) {
-  return void();
 };
 void PersianCalendar___::CheckYearRange(Int32 year, Int32 era) {
-  return void();
 };
 void PersianCalendar___::CheckYearMonthRange(Int32 year, Int32 month, Int32 era) {
-  return void();
 };
 Int32 PersianCalendar___::MonthFromOrdinalDay(Int32 ordinalDay) {
   return Int32();

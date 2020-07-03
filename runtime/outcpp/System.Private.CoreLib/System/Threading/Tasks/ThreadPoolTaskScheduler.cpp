@@ -5,7 +5,6 @@ Boolean ThreadPoolTaskScheduler___::get_RequiresAtomicStartTransition() {
   return Boolean();
 };
 void ThreadPoolTaskScheduler___::QueueTask(Task<> task) {
-  return void();
 };
 Boolean ThreadPoolTaskScheduler___::TryExecuteTaskInline(Task<> task, Boolean taskWasPreviouslyQueued) {
   return Boolean();
@@ -20,6 +19,5 @@ IEnumerable<Task<>> ThreadPoolTaskScheduler___::FilterTasksFromWorkItems(IEnumer
   return nullptr;
 };
 void ThreadPoolTaskScheduler___::NotifyWorkItemProgress() {
-  return void();
 };
 } // namespace System::Private::CoreLib::System::Threading::Tasks::ThreadPoolTaskSchedulerNamespace

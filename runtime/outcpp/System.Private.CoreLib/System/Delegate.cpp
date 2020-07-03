@@ -82,7 +82,6 @@ Object Delegate___::DynamicInvoke(Array<Object> args) {
   return nullptr;
 };
 void Delegate___::GetObjectData(SerializationInfo info, StreamingContext context) {
-  return void();
 };
 Delegate Delegate___::Remove(Delegate source, Delegate value) {
   return nullptr;

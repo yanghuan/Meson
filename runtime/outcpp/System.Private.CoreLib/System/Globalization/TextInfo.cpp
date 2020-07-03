@@ -31,7 +31,6 @@ String TextInfo___::get_ListSeparator() {
   return nullptr;
 };
 void TextInfo___::set_ListSeparator(String value) {
-  return void();
 };
 Boolean TextInfo___::get_IsAsciiCasingSameAsInvariant() {
   return Boolean();
@@ -46,10 +45,8 @@ TextInfo TextInfo___::ReadOnly(TextInfo textInfo) {
   return nullptr;
 };
 void TextInfo___::VerifyWritable() {
-  return void();
 };
 void TextInfo___::SetReadOnlyState(Boolean readOnly) {
-  return void();
 };
 Char TextInfo___::ToLower(Char c) {
   return Char();
@@ -61,22 +58,18 @@ Char TextInfo___::ChangeCase(Char c, Boolean toUpper) {
   return Char();
 };
 void TextInfo___::ChangeCaseToLower(ReadOnlySpan<Char> source, Span<Char> destination) {
-  return void();
 };
 void TextInfo___::ChangeCaseToUpper(ReadOnlySpan<Char> source, Span<Char> destination) {
-  return void();
 };
 String TextInfo___::ToLowerAsciiInvariant(String s) {
   return nullptr;
 };
 void TextInfo___::ToLowerAsciiInvariant(ReadOnlySpan<Char> source, Span<Char> destination) {
-  return void();
 };
 String TextInfo___::ToUpperAsciiInvariant(String s) {
   return nullptr;
 };
 void TextInfo___::ToUpperAsciiInvariant(ReadOnlySpan<Char> source, Span<Char> destination) {
-  return void();
 };
 Char TextInfo___::ToLowerAsciiInvariant(Char c) {
   return Char();
@@ -94,7 +87,6 @@ Boolean TextInfo___::IsAscii(Char c) {
   return Boolean();
 };
 void TextInfo___::PopulateIsAsciiCasingSameAsInvariant() {
-  return void();
 };
 Boolean TextInfo___::Equals(Object obj) {
   return Boolean();
@@ -121,10 +113,8 @@ Boolean TextInfo___::IsLetterCategory(UnicodeCategory uc) {
   return Boolean();
 };
 void TextInfo___::FinishInitialization() {
-  return void();
 };
 void TextInfo___::ChangeCase(Char* pSource, Int32 pSourceLen, Char* pResult, Int32 pResultLen, Boolean toUpper) {
-  return void();
 };
 Boolean TextInfo___::IsInvariantLocale(String localeName) {
   return Boolean();

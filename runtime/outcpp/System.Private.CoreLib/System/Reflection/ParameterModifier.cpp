@@ -5,7 +5,6 @@ Boolean ParameterModifier::get_Item(Int32 index) {
   return Boolean();
 };
 void ParameterModifier::set_Item(Int32 index, Boolean value) {
-  return void();
 };
 Array<Boolean> ParameterModifier::get_IsByRefArray() {
   return Array<Boolean>();

@@ -55,7 +55,6 @@ Boolean Encoding___::EncodingCharBuffer___::AddChar(Char ch) {
   return Boolean();
 };
 void Encoding___::EncodingCharBuffer___::AdjustBytes(Int32 count) {
-  return void();
 };
 Byte Encoding___::EncodingCharBuffer___::GetNextByte() {
   return Byte();
@@ -88,7 +87,6 @@ Boolean Encoding___::EncodingByteBuffer___::AddByte(Byte b1, Byte b2, Int32 more
   return Boolean();
 };
 void Encoding___::EncodingByteBuffer___::MovePrevious(Boolean bThrow) {
-  return void();
 };
 Char Encoding___::EncodingByteBuffer___::GetNextChar() {
   return Char();
@@ -133,19 +131,16 @@ EncoderFallback Encoding___::get_EncoderFallback() {
   return nullptr;
 };
 void Encoding___::set_EncoderFallback(EncoderFallback value) {
-  return void();
 };
 DecoderFallback Encoding___::get_DecoderFallback() {
   return nullptr;
 };
 void Encoding___::set_DecoderFallback(DecoderFallback value) {
-  return void();
 };
 Boolean Encoding___::get_IsReadOnly() {
   return Boolean();
 };
 void Encoding___::set_IsReadOnly(Boolean value) {
-  return void();
 };
 Encoding Encoding___::get_ASCII() {
   return nullptr;
@@ -175,7 +170,6 @@ Encoding Encoding___::get_BigEndianUTF32() {
   return nullptr;
 };
 void Encoding___::SetDefaultFallbacks() {
-  return void();
 };
 Array<Byte> Encoding___::Convert(Encoding srcEncoding, Encoding dstEncoding, Array<Byte> bytes) {
   return Array<Byte>();
@@ -184,7 +178,6 @@ Array<Byte> Encoding___::Convert(Encoding srcEncoding, Encoding dstEncoding, Arr
   return Array<Byte>();
 };
 void Encoding___::RegisterProvider(EncodingProvider provider) {
-  return void();
 };
 Encoding Encoding___::GetEncoding(Int32 codepage) {
   return nullptr;
@@ -205,7 +198,6 @@ Array<Byte> Encoding___::GetPreamble() {
   return Array<Byte>();
 };
 void Encoding___::GetDataItem() {
-  return void();
 };
 Object Encoding___::Clone() {
   return nullptr;
@@ -304,19 +296,14 @@ Array<Char> Encoding___::GetBestFitBytesToUnicodeData() {
   return Array<Char>();
 };
 void Encoding___::ThrowBytesOverflow() {
-  return void();
 };
 void Encoding___::ThrowBytesOverflow(EncoderNLS encoder, Boolean nothingEncoded) {
-  return void();
 };
 void Encoding___::ThrowConversionOverflow() {
-  return void();
 };
 void Encoding___::ThrowCharsOverflow() {
-  return void();
 };
 void Encoding___::ThrowCharsOverflow(DecoderNLS decoder, Boolean nothingDecoded) {
-  return void();
 };
 OperationStatus Encoding___::DecodeFirstRune(ReadOnlySpan<Byte> bytes, Rune& value, Int32& bytesConsumed) {
   return OperationStatus();

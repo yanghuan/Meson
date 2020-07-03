@@ -20,6 +20,5 @@ Boolean SerializationInfoEnumerator___::MoveNext() {
   return Boolean();
 };
 void SerializationInfoEnumerator___::Reset() {
-  return void();
 };
 } // namespace System::Private::CoreLib::System::Runtime::Serialization::SerializationInfoEnumeratorNamespace

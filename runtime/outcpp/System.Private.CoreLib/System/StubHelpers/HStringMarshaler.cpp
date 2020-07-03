@@ -11,6 +11,5 @@ String HStringMarshaler::ConvertToManaged(IntPtr hstring) {
   return nullptr;
 };
 void HStringMarshaler::ClearNative(IntPtr hstring) {
-  return void();
 };
 } // namespace System::Private::CoreLib::System::StubHelpers::HStringMarshalerNamespace

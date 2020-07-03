@@ -2,10 +2,8 @@
 
 namespace System::Private::CoreLib::System::Reflection::Emit::DynamicResolverNamespace {
 void DynamicResolver___::DestroyScout___::Finalize() {
-  return void();
 };
 void DynamicResolver___::Finalize() {
-  return void();
 };
 RuntimeType DynamicResolver___::GetJitContext(Int32& securityControlFlags) {
   return nullptr;
@@ -23,13 +21,11 @@ Array<Byte> DynamicResolver___::GetRawEHInfo() {
   return Array<Byte>();
 };
 void DynamicResolver___::GetEHInfo(Int32 excNumber, void* exc) {
-  return void();
 };
 String DynamicResolver___::GetStringLiteral(Int32 token) {
   return nullptr;
 };
 void DynamicResolver___::ResolveToken(Int32 token, IntPtr& typeHandle, IntPtr& methodHandle, IntPtr& fieldHandle) {
-  return void();
 };
 Array<Byte> DynamicResolver___::ResolveSignature(Int32 token, Int32 fromMethod) {
   return Array<Byte>();

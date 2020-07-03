@@ -5,16 +5,13 @@ Int64 Monitor::get_LockContentionCount() {
   return Int64();
 };
 void Monitor::Enter(Object obj, Boolean& lockTaken) {
-  return void();
 };
 void Monitor::ThrowLockTakenException() {
-  return void();
 };
 Boolean Monitor::TryEnter(Object obj) {
   return Boolean();
 };
 void Monitor::TryEnter(Object obj, Boolean& lockTaken) {
-  return void();
 };
 Boolean Monitor::TryEnter(Object obj, Int32 millisecondsTimeout) {
   return Boolean();
@@ -26,10 +23,8 @@ Boolean Monitor::TryEnter(Object obj, TimeSpan timeout) {
   return Boolean();
 };
 void Monitor::TryEnter(Object obj, Int32 millisecondsTimeout, Boolean& lockTaken) {
-  return void();
 };
 void Monitor::TryEnter(Object obj, TimeSpan timeout, Boolean& lockTaken) {
-  return void();
 };
 Boolean Monitor::IsEntered(Object obj) {
   return Boolean();
@@ -50,9 +45,7 @@ Boolean Monitor::Wait(Object obj) {
   return Boolean();
 };
 void Monitor::Pulse(Object obj) {
-  return void();
 };
 void Monitor::PulseAll(Object obj) {
-  return void();
 };
 } // namespace System::Private::CoreLib::System::Threading::MonitorNamespace

@@ -11,7 +11,6 @@ ReadOnlySpan<Byte> UTF8Encoding___::get_Preamble() {
   return ReadOnlySpan<Byte>();
 };
 void UTF8Encoding___::SetDefaultFallbacks() {
-  return void();
 };
 Int32 UTF8Encoding___::GetByteCount(Array<Char> chars, Int32 index, Int32 count) {
   return Int32();

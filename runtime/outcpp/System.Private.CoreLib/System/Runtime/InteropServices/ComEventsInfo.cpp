@@ -4,7 +4,6 @@
 
 namespace System::Private::CoreLib::System::Runtime::InteropServices::ComEventsInfoNamespace {
 void ComEventsInfo___::Finalize() {
-  return void();
 };
 ComEventsInfo ComEventsInfo___::Find(Object rcw) {
   return nullptr;

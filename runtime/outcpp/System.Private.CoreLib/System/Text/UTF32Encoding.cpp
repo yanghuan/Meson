@@ -5,13 +5,11 @@ Boolean UTF32Encoding___::UTF32Decoder___::get_HasState() {
   return Boolean();
 };
 void UTF32Encoding___::UTF32Decoder___::Reset() {
-  return void();
 };
 ReadOnlySpan<Byte> UTF32Encoding___::get_Preamble() {
   return ReadOnlySpan<Byte>();
 };
 void UTF32Encoding___::SetDefaultFallbacks() {
-  return void();
 };
 Int32 UTF32Encoding___::GetByteCount(Array<Char> chars, Int32 index, Int32 count) {
   return Int32();

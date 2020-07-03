@@ -13,7 +13,7 @@ namespace Meson.Compiler {
   internal sealed class MethodTransform : IAstVisitor<SyntaxNode> {
     private static readonly HashSet<string> _exportFunctions = new HashSet<string>() {
       "Test.Program.Main",
-      //"System.Console.WriteLine",
+      "System.Console.WriteLine",
     };
 
     private readonly TypeDefinitionTransform typeDefinition_;
@@ -100,7 +100,9 @@ namespace Meson.Compiler {
     }
 
     public SyntaxNode VisitBinaryOperatorExpression(BinaryOperatorExpression binaryOperatorExpression) {
-      throw new NotImplementedException();
+      var left = binaryOperatorExpression.Left.AcceptExpression(this);
+      var right = binaryOperatorExpression.Right.AcceptExpression(this);
+      return new BinaryExpressionSyntax(left, binaryOperatorExpression.Operator.ToOperatorToken(), right);
     }
 
     public SyntaxNode VisitCastExpression(CastExpression castExpression) {
@@ -124,6 +126,19 @@ namespace Meson.Compiler {
     }
 
     public SyntaxNode VisitIdentifierExpression(IdentifierExpression identifierExpression) {
+      var symbol = identifierExpression.GetSymbol();
+      if (symbol != null) {
+        switch (symbol.SymbolKind) {
+          case SymbolKind.Property: {
+              var property = (IProperty)symbol;
+              if (!property.IsPropertyField()) {
+                return GetMemberName(property.Getter).Invation();
+              }
+              break;
+            }
+        }
+      }
+
       var identifier = identifierExpression.IdentifierToken.AcceptExpression(this);
       if (identifierExpression.TypeArguments.Count > 0) {
         identifier = new GenericIdentifierSyntax(identifier, identifierExpression.TypeArguments.Select(i => i.AcceptExpression(this)));
@@ -140,11 +155,11 @@ namespace Meson.Compiler {
     }
 
     private void CheckArrayConflict(IMethod symbol, IParameter parameter, int index, IType type, ref ExpressionSyntax expression) {
-      if (type.Kind == TypeKind.Array && parameter.Type.Kind == TypeKind.Array) {
-       bool exists = symbol.DeclaringTypeDefinition.Methods.Any(i => i != symbol
-        && i.Name == symbol.Name
-        && i.Parameters.Count == symbol.Parameters.Count
-        && type.Is(i.Parameters[index].Type));
+      if (type.Kind == TypeKind.Array && parameter.Type.Kind == TypeKind.Array && parameter.Type.FullName != type.FullName) {
+        bool exists = symbol.DeclaringTypeDefinition.Methods.Any(i => i != symbol
+          && i.Name == symbol.Name
+          && i.Parameters.Count == symbol.Parameters.Count
+          && type.Is(i.Parameters[index].Type.Original()));
         if (exists) {
           var targetType = GetTypeName(parameter.Type, parameter);
           expression = expression.CastTo(targetType);
@@ -160,9 +175,7 @@ namespace Meson.Compiler {
         var parameter = symbol.Parameters[i];
         var resolveResult = argument.GetResolveResult();
         var expression = argument.AcceptExpression(this);
-        if (!parameter.Type.Equals(resolveResult.Type)) {
-          CheckArrayConflict(symbol, parameter, i, resolveResult.Type, ref expression);
-        }
+        CheckArrayConflict(symbol, parameter, i, resolveResult.Type, ref expression);
         arguments.Add(expression);
         ++i;
       }
@@ -185,11 +198,16 @@ namespace Meson.Compiler {
     public SyntaxNode VisitMemberReferenceExpression(MemberReferenceExpression memberReferenceExpression) {
       var target = memberReferenceExpression.Target.Accept<ExpressionSyntax>(this);
       var symbol = memberReferenceExpression.Parent.GetSymbol();
-      if (symbol is IMethod method) {
-        var name = GetMemberName(method);
-        if (method.IsStatic) {
-          return target.TwoColon(name);
-        }
+      switch (symbol.SymbolKind) {
+        case SymbolKind.Method: {
+            var method = (IMethod)symbol;
+            var name = GetMemberName(method);
+            if (method.IsStatic) {
+              return target.TwoColon(name);
+            } else {
+              return target.Arrow(name);
+            }
+          }
       }
       throw new NotImplementedException();
     }
@@ -203,7 +221,7 @@ namespace Meson.Compiler {
     }
 
     public SyntaxNode VisitNullReferenceExpression(NullReferenceExpression nullReferenceExpression) {
-      throw new NotImplementedException();
+      return IdentifierSyntax.Nullptr;
     }
 
     public SyntaxNode VisitObjectCreateExpression(ObjectCreateExpression objectCreateExpression) {
@@ -400,7 +418,11 @@ namespace Meson.Compiler {
     }
 
     public SyntaxNode VisitIfElseStatement(IfElseStatement ifElseStatement) {
-      throw new NotImplementedException();
+      var condition = ifElseStatement.Condition.AcceptExpression(this);
+      var trueStatement = ifElseStatement.TrueStatement.AcceptStatement(this);
+      return new IfElseStatementSyntax(condition, trueStatement) {
+        FalseStatement = ifElseStatement.FalseStatement?.AcceptStatement(this)
+      };
     }
 
     public SyntaxNode VisitLabelStatement(LabelStatement labelStatement) {
@@ -541,18 +563,21 @@ namespace Meson.Compiler {
         case TypeKind.Class:
         case TypeKind.Interface:
         case TypeKind.Delegate: {
-          node.Add(IdentifierSyntax.Nullptr.Return());
-          break;
-        }
-        case TypeKind.ByReference:{
-          var refIdentifier = (RefIdentifierSyntax)returnType;
-          node.Add(refIdentifier.Name.Invation().Return());
-          break;
-        }
+            node.Add(IdentifierSyntax.Nullptr.Return());
+            break;
+          }
+        case TypeKind.ByReference: {
+            var refIdentifier = (RefIdentifierSyntax)returnType;
+            node.Add(refIdentifier.Name.Invation().Return());
+            break;
+          }
+        case TypeKind.Void: {
+            break;
+          }
         default: {
-          node.Add(returnType.Invation().Return());
-          break;
-        }
+            node.Add(returnType.Invation().Return());
+            break;
+          }
       }
     }
 

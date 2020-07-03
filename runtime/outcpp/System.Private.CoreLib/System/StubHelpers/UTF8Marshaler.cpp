@@ -8,6 +8,5 @@ String UTF8Marshaler::ConvertToManaged(IntPtr cstr) {
   return nullptr;
 };
 void UTF8Marshaler::ClearNative(IntPtr pNative) {
-  return void();
 };
 } // namespace System::Private::CoreLib::System::StubHelpers::UTF8MarshalerNamespace

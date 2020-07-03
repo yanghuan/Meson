@@ -22,13 +22,11 @@ Boolean ResourceManager___::ResourceManagerMediator___::get_LookedForSatelliteCo
   return Boolean();
 };
 void ResourceManager___::ResourceManagerMediator___::set_LookedForSatelliteContractVersion(Boolean value) {
-  return void();
 };
 Version ResourceManager___::ResourceManagerMediator___::get_SatelliteContractVersion() {
   return nullptr;
 };
 void ResourceManager___::ResourceManagerMediator___::set_SatelliteContractVersion(Version value) {
-  return void();
 };
 UltimateResourceFallbackLocation ResourceManager___::ResourceManagerMediator___::get_FallbackLoc() {
   return UltimateResourceFallbackLocation();
@@ -52,7 +50,6 @@ Boolean ResourceManager___::get_IgnoreCase() {
   return Boolean();
 };
 void ResourceManager___::set_IgnoreCase(Boolean value) {
-  return void();
 };
 Type ResourceManager___::get_ResourceSetType() {
   return nullptr;
@@ -61,13 +58,10 @@ UltimateResourceFallbackLocation ResourceManager___::get_FallbackLocation() {
   return UltimateResourceFallbackLocation();
 };
 void ResourceManager___::set_FallbackLocation(UltimateResourceFallbackLocation value) {
-  return void();
 };
 void ResourceManager___::CommonAssemblyInit() {
-  return void();
 };
 void ResourceManager___::ReleaseAllResources() {
-  return void();
 };
 ResourceManager ResourceManager___::CreateFileBasedResourceManager(String baseName, String resourceDir, Type usingResourceSet) {
   return nullptr;
@@ -85,7 +79,6 @@ ResourceSet ResourceManager___::InternalGetResourceSet(CultureInfo culture, Bool
   return nullptr;
 };
 void ResourceManager___::AddResourceSet(Dictionary<String, ResourceSet> localResourceSets, String cultureName, ResourceSet& rs) {
-  return void();
 };
 Version ResourceManager___::GetSatelliteContractVersion(Assembly a) {
   return nullptr;
@@ -127,6 +120,5 @@ Boolean ResourceManager___::ShouldUseUapResourceManagement(Assembly resourcesAss
   return Boolean();
 };
 void ResourceManager___::SetUapConfiguration() {
-  return void();
 };
 } // namespace System::Private::CoreLib::System::Resources::ResourceManagerNamespace

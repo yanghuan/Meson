@@ -8,7 +8,6 @@ String PathHelper___::Normalize(ValueStringBuilder& path) {
   return nullptr;
 };
 void PathHelper___::GetFullPathName(ReadOnlySpan<Char> path, ValueStringBuilder& builder) {
-  return void();
 };
 Int32 PathHelper___::PrependDevicePathChars(ValueStringBuilder& content, Boolean isDosUnc, ValueStringBuilder& buffer) {
   return Int32();

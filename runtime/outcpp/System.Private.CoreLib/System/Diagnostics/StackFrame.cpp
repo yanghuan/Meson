@@ -5,13 +5,11 @@ Boolean StackFrame___::get_IsLastFrameFromForeignExceptionStackTrace() {
   return Boolean();
 };
 void StackFrame___::BuildStackFrame(Int32 skipFrames, Boolean needFileInfo) {
-  return void();
 };
 Boolean StackFrame___::AppendStackFrameWithoutMethodBase(StringBuilder sb) {
   return Boolean();
 };
 void StackFrame___::InitMembers() {
-  return void();
 };
 MethodBase StackFrame___::GetMethod() {
   return nullptr;

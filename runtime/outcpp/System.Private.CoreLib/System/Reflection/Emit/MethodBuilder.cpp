@@ -59,22 +59,17 @@ Boolean MethodBuilder___::get_InitLocals() {
   return Boolean();
 };
 void MethodBuilder___::set_InitLocals(Boolean value) {
-  return void();
 };
 String MethodBuilder___::get_Signature() {
   return nullptr;
 };
 void MethodBuilder___::CheckContext(Array<Array<Type>> typess) {
-  return void();
 };
 void MethodBuilder___::CheckContext(Array<Type> types) {
-  return void();
 };
 void MethodBuilder___::CreateMethodBodyHelper(ILGenerator il) {
-  return void();
 };
 void MethodBuilder___::ReleaseBakedStructures() {
-  return void();
 };
 Array<Type> MethodBuilder___::GetParameterTypes() {
   return Array<Type>();
@@ -83,7 +78,6 @@ Type MethodBuilder___::GetMethodBaseReturnType(MethodBase method) {
   return nullptr;
 };
 void MethodBuilder___::SetToken(MethodToken token) {
-  return void();
 };
 Array<Byte> MethodBuilder___::GetBody() {
   return Array<Byte>();
@@ -158,7 +152,6 @@ Array<GenericTypeParameterBuilder> MethodBuilder___::DefineGenericParameters(Arr
   return Array<GenericTypeParameterBuilder>();
 };
 void MethodBuilder___::ThrowIfGeneric() {
-  return void();
 };
 MethodToken MethodBuilder___::GetToken() {
   return MethodToken();
@@ -167,19 +160,15 @@ MethodToken MethodBuilder___::GetTokenNoLock() {
   return MethodToken();
 };
 void MethodBuilder___::SetParameters(Array<Type> parameterTypes) {
-  return void();
 };
 void MethodBuilder___::SetReturnType(Type returnType) {
-  return void();
 };
 void MethodBuilder___::SetSignature(Type returnType, Array<Type> returnTypeRequiredCustomModifiers, Array<Type> returnTypeOptionalCustomModifiers, Array<Type> parameterTypes, Array<Array<Type>> parameterTypeRequiredCustomModifiers, Array<Array<Type>> parameterTypeOptionalCustomModifiers) {
-  return void();
 };
 ParameterBuilder MethodBuilder___::DefineParameter(Int32 position, ParameterAttributes attributes, String strParamName) {
   return nullptr;
 };
 void MethodBuilder___::SetImplementationFlags(MethodImplAttributes attributes) {
-  return void();
 };
 ILGenerator MethodBuilder___::GetILGenerator() {
   return nullptr;
@@ -188,21 +177,17 @@ ILGenerator MethodBuilder___::GetILGenerator(Int32 size) {
   return nullptr;
 };
 void MethodBuilder___::ThrowIfShouldNotHaveBody() {
-  return void();
 };
 Module MethodBuilder___::GetModule() {
   return nullptr;
 };
 void MethodBuilder___::SetCustomAttribute(ConstructorInfo con, Array<Byte> binaryAttribute) {
-  return void();
 };
 void MethodBuilder___::SetCustomAttribute(CustomAttributeBuilder customBuilder) {
-  return void();
 };
 Boolean MethodBuilder___::IsKnownCA(ConstructorInfo con) {
   return Boolean();
 };
 void MethodBuilder___::ParseCA(ConstructorInfo con, Array<Byte> blob) {
-  return void();
 };
 } // namespace System::Private::CoreLib::System::Reflection::Emit::MethodBuilderNamespace

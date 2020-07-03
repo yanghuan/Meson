@@ -22,7 +22,6 @@ Boolean ModuleHandle::Equals(ModuleHandle handle) {
   return Boolean();
 };
 void ModuleHandle::ValidateModulePointer(RuntimeModule module) {
-  return void();
 };
 RuntimeTypeHandle ModuleHandle::GetRuntimeTypeHandleFromMetadataToken(Int32 typeToken) {
   return RuntimeTypeHandle();
@@ -73,7 +72,6 @@ RuntimeType ModuleHandle::GetModuleType(RuntimeModule module) {
   return nullptr;
 };
 void ModuleHandle::GetPEKind(RuntimeModule module, PortableExecutableKinds& peKind, ImageFileMachine& machine) {
-  return void();
 };
 MetadataImport ModuleHandle::GetMetadataImport(RuntimeModule module) {
   return MetadataImport();

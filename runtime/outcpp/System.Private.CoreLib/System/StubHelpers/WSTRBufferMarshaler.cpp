@@ -8,6 +8,5 @@ String WSTRBufferMarshaler::ConvertToManaged(IntPtr bstr) {
   return nullptr;
 };
 void WSTRBufferMarshaler::ClearNative(IntPtr pNative) {
-  return void();
 };
 } // namespace System::Private::CoreLib::System::StubHelpers::WSTRBufferMarshalerNamespace

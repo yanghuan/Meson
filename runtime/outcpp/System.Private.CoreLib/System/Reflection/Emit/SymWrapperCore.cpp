@@ -8,6 +8,5 @@ ISymbolWriter SymWrapperCore___::SymWriter___::CreateSymWriter() {
   return nullptr;
 };
 void SymWrapperCore___::SymWriter___::InternalSetUnderlyingWriter(IntPtr ppUnderlyingWriter) {
-  return void();
 };
 } // namespace System::Private::CoreLib::System::Reflection::Emit::SymWrapperCoreNamespace

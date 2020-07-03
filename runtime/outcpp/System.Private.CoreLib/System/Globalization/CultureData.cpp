@@ -199,7 +199,6 @@ CultureData CultureData___::GetCultureDataForRegion(String cultureName, Boolean 
   return nullptr;
 };
 void CultureData___::ClearCachedData() {
-  return void();
 };
 Array<CultureInfo> CultureData___::GetCultures(CultureTypes types) {
   return Array<CultureInfo>();
@@ -307,7 +306,6 @@ Boolean CultureData___::IsCustomCultureId(Int32 cultureId) {
   return Boolean();
 };
 void CultureData___::GetNFIValues(NumberFormatInfo nfi) {
-  return void();
 };
 String CultureData___::AnsiToLower(String testString) {
   return nullptr;

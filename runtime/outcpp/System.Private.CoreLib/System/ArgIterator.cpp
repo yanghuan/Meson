@@ -8,7 +8,6 @@ TypedReference ArgIterator::GetNextArg(RuntimeTypeHandle rth) {
   return TypedReference();
 };
 void ArgIterator::End() {
-  return void();
 };
 RuntimeTypeHandle ArgIterator::GetNextArgType() {
   return RuntimeTypeHandle();

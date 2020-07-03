@@ -11,7 +11,6 @@ Int32 UnicodeUtility::GetUtf16SequenceLength(UInt32 value) {
   return Int32();
 };
 void UnicodeUtility::GetUtf16SurrogatesFromSupplementaryPlaneScalar(UInt32 value, Char& highSurrogateCodePoint, Char& lowSurrogateCodePoint) {
-  return void();
 };
 Int32 UnicodeUtility::GetUtf8SequenceLength(UInt32 value) {
   return Int32();

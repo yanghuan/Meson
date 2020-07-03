@@ -26,7 +26,6 @@ INVOCATION_FLAGS RtFieldInfo___::InitializeInvocationFlags() {
   return INVOCATION_FLAGS();
 };
 void RtFieldInfo___::CheckConsistency(Object target) {
-  return void();
 };
 Boolean RtFieldInfo___::CacheEquals(Object o) {
   return Boolean();
@@ -44,10 +43,8 @@ Object RtFieldInfo___::GetValueDirect(TypedReference obj) {
   return nullptr;
 };
 void RtFieldInfo___::SetValue(Object obj, Object value, BindingFlags invokeAttr, Binder binder, CultureInfo culture) {
-  return void();
 };
 void RtFieldInfo___::SetValueDirect(TypedReference obj, Object value) {
-  return void();
 };
 IntPtr RtFieldInfo___::GetFieldHandle() {
   return IntPtr();

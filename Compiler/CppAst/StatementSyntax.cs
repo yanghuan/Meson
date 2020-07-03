@@ -484,4 +484,23 @@ namespace Meson.Compiler.CppAst {
       renderer.Render(this);
     }
   }
+
+  sealed class IfElseStatementSyntax : StatementSyntax {
+    public string IfToken => Tokens.If;
+    public string OpenParentheses => Tokens.OpenParentheses;
+    public ExpressionSyntax Condition { get; }
+    public string CloseParentheses => Tokens.CloseParentheses;
+    public StatementSyntax TrueStatement { get; }
+    public string ElseToken => Tokens.Else;
+    public StatementSyntax FalseStatement { get; set; }
+
+    public IfElseStatementSyntax(ExpressionSyntax condition, StatementSyntax trueStatement) {
+      Condition = condition;
+      TrueStatement = trueStatement;
+    }
+
+    internal override void Render(CppRenderer renderer) {
+      renderer.Render(this);
+    }
+  }
 }

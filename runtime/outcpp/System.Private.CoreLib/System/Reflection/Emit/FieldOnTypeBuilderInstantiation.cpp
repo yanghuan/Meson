@@ -50,7 +50,6 @@ Array<Type> FieldOnTypeBuilderInstantiation___::GetOptionalCustomModifiers() {
   return Array<Type>();
 };
 void FieldOnTypeBuilderInstantiation___::SetValueDirect(TypedReference obj, Object value) {
-  return void();
 };
 Object FieldOnTypeBuilderInstantiation___::GetValueDirect(TypedReference obj) {
   return nullptr;
@@ -59,6 +58,5 @@ Object FieldOnTypeBuilderInstantiation___::GetValue(Object obj) {
   return nullptr;
 };
 void FieldOnTypeBuilderInstantiation___::SetValue(Object obj, Object value, BindingFlags invokeAttr, Binder binder, CultureInfo culture) {
-  return void();
 };
 } // namespace System::Private::CoreLib::System::Reflection::Emit::FieldOnTypeBuilderInstantiationNamespace

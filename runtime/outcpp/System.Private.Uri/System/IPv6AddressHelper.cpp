@@ -20,6 +20,5 @@ Boolean IPv6AddressHelper::ShouldHaveIpv4Embedded(ReadOnlySpan<UInt16> numbers) 
   return Boolean();
 };
 void IPv6AddressHelper::Parse(ReadOnlySpan<Char> address, Span<UInt16> numbers, Int32 start, String& scopeId) {
-  return void();
 };
 } // namespace System::Private::Uri::System::IPv6AddressHelperNamespace

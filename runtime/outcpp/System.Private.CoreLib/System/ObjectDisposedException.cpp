@@ -8,6 +8,5 @@ String ObjectDisposedException___::get_ObjectName() {
   return nullptr;
 };
 void ObjectDisposedException___::GetObjectData(SerializationInfo info, StreamingContext context) {
-  return void();
 };
 } // namespace System::Private::CoreLib::System::ObjectDisposedExceptionNamespace

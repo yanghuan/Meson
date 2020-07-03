@@ -4,13 +4,10 @@
 
 namespace System::Private::CoreLib::System::Text::EncoderFallbackBufferNamespace {
 void EncoderFallbackBuffer___::Reset() {
-  return void();
 };
 void EncoderFallbackBuffer___::InternalReset() {
-  return void();
 };
 void EncoderFallbackBuffer___::InternalInitialize(Char* charStart, Char* charEnd, EncoderNLS encoder, Boolean setEncoder) {
-  return void();
 };
 EncoderFallbackBuffer EncoderFallbackBuffer___::CreateAndInitialize(Encoding encoding, EncoderNLS encoder, Int32 originalCharCount) {
   return nullptr;
@@ -40,6 +37,5 @@ Boolean EncoderFallbackBuffer___::InternalFallback(Char ch, Char*& chars) {
   return Boolean();
 };
 void EncoderFallbackBuffer___::ThrowLastCharRecursive(Int32 charRecursive) {
-  return void();
 };
 } // namespace System::Private::CoreLib::System::Text::EncoderFallbackBufferNamespace

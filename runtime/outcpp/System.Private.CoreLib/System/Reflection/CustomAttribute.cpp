@@ -65,7 +65,6 @@ Array<Object> CustomAttribute::GetCustomAttributes(RuntimeModule decoratedModule
   return Array<Object>();
 };
 void CustomAttribute::AddCustomAttributes(RuntimeType::in::ListBuilder<Object>& attributes, RuntimeModule decoratedModule, Int32 decoratedMetadataToken, RuntimeType attributeFilterType, Boolean mustBeInheritable, RuntimeType::in::ListBuilder<Object> derivedAttributes) {
-  return void();
 };
 Boolean CustomAttribute::FilterCustomAttributeRecord(MetadataToken caCtorToken, MetadataImport& scope, RuntimeModule decoratedModule, MetadataToken decoratedToken, RuntimeType attributeFilterType, Boolean mustBeInheritable, RuntimeType::in::ListBuilder<Object>& derivedAttributes, RuntimeType& attributeType, IRuntimeMethodInfo& ctor, Boolean& ctorHasParameters, Boolean& isVarArg) {
   return Boolean();
@@ -77,13 +76,11 @@ AttributeUsageAttribute CustomAttribute::GetAttributeUsage(RuntimeType decorated
   return nullptr;
 };
 void CustomAttribute::ParseAttributeUsageAttribute(ConstArray ca, AttributeTargets& targets, Boolean& inherited, Boolean& allowMultiple) {
-  return void();
 };
 Object CustomAttribute::CreateCaObject(RuntimeModule module, RuntimeType type, IRuntimeMethodInfo ctor, IntPtr& blob, IntPtr blobEnd, Int32& namedArgs) {
   return nullptr;
 };
 void CustomAttribute::GetPropertyOrFieldData(RuntimeModule module, IntPtr& blobStart, IntPtr blobEnd, String& name, Boolean& isProperty, RuntimeType& type, Object& value) {
-  return void();
 };
 Array<Object> CustomAttribute::CreateAttributeArrayHelper(RuntimeType elementType, Int32 elementCount) {
   return Array<Object>();

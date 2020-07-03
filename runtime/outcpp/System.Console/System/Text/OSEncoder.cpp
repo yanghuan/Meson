@@ -2,7 +2,6 @@
 
 namespace System::Console::System::Text::OSEncoderNamespace {
 void OSEncoder___::Reset() {
-  return void();
 };
 Int32 OSEncoder___::GetByteCount(Array<Char> chars, Int32 index, Int32 count, Boolean flush) {
   return Int32();
@@ -20,9 +19,7 @@ Int32 OSEncoder___::GetBytes(Char* chars, Int32 charCount, Byte* bytes, Int32 by
   return Int32();
 };
 void OSEncoder___::Convert(Array<Char> chars, Int32 charIndex, Int32 charCount, Array<Byte> bytes, Int32 byteIndex, Int32 byteCount, Boolean flush, Int32& charsUsed, Int32& bytesUsed, Boolean& completed) {
-  return void();
 };
 void OSEncoder___::Convert(Char* chars, Int32 charCount, Byte* bytes, Int32 byteCount, Boolean flush, Int32& charsUsed, Int32& bytesUsed, Boolean& completed) {
-  return void();
 };
 } // namespace System::Console::System::Text::OSEncoderNamespace

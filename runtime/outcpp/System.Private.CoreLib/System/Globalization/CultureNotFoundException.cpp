@@ -17,6 +17,5 @@ String CultureNotFoundException___::get_Message() {
   return nullptr;
 };
 void CultureNotFoundException___::GetObjectData(SerializationInfo info, StreamingContext context) {
-  return void();
 };
 } // namespace System::Private::CoreLib::System::Globalization::CultureNotFoundExceptionNamespace

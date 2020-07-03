@@ -73,19 +73,14 @@ CustomAttributeTypedArgument CustomAttributeData___::Filter(IList<CustomAttribut
   return CustomAttributeTypedArgument();
 };
 void CustomAttributeData___::Init(DllImportAttribute dllImport) {
-  return void();
 };
 void CustomAttributeData___::Init(FieldOffsetAttribute fieldOffset) {
-  return void();
 };
 void CustomAttributeData___::Init(MarshalAsAttribute marshalAs) {
-  return void();
 };
 void CustomAttributeData___::Init(TypeForwardedToAttribute forwardedTo) {
-  return void();
 };
 void CustomAttributeData___::Init(Object pca) {
-  return void();
 };
 String CustomAttributeData___::ToString() {
   return nullptr;

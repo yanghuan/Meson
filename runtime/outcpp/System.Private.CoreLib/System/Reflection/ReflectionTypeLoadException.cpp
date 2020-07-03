@@ -5,7 +5,6 @@ String ReflectionTypeLoadException___::get_Message() {
   return nullptr;
 };
 void ReflectionTypeLoadException___::GetObjectData(SerializationInfo info, StreamingContext context) {
-  return void();
 };
 String ReflectionTypeLoadException___::ToString() {
   return nullptr;

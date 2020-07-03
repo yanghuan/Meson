@@ -7,7 +7,6 @@ SyncTextReader SyncTextReader___::GetSynchronizedTextReader(TextReader reader) {
   return nullptr;
 };
 void SyncTextReader___::Dispose(Boolean disposing) {
-  return void();
 };
 Int32 SyncTextReader___::Peek() {
   return Int32();

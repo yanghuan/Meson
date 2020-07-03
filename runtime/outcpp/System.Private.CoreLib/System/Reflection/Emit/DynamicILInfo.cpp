@@ -20,25 +20,18 @@ DynamicScope DynamicILInfo___::get_DynamicScope() {
   return nullptr;
 };
 void DynamicILInfo___::GetCallableMethod(RuntimeModule module, DynamicMethod dm) {
-  return void();
 };
 void DynamicILInfo___::SetCode(Array<Byte> code, Int32 maxStackSize) {
-  return void();
 };
 void DynamicILInfo___::SetCode(Byte* code, Int32 codeSize, Int32 maxStackSize) {
-  return void();
 };
 void DynamicILInfo___::SetExceptions(Array<Byte> exceptions) {
-  return void();
 };
 void DynamicILInfo___::SetExceptions(Byte* exceptions, Int32 exceptionsSize) {
-  return void();
 };
 void DynamicILInfo___::SetLocalSignature(Array<Byte> localSignature) {
-  return void();
 };
 void DynamicILInfo___::SetLocalSignature(Byte* localSignature, Int32 signatureSize) {
-  return void();
 };
 Int32 DynamicILInfo___::GetTokenFor(RuntimeMethodHandle method) {
   return Int32();

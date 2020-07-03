@@ -2,7 +2,6 @@
 
 namespace System::Private::CoreLib::System::Diagnostics::StackFrameHelperNamespace {
 void StackFrameHelper___::InitializeSourceInfo(Int32 iSkip, Boolean fNeedFileInfo, Exception exception) {
-  return void();
 };
 MethodBase StackFrameHelper___::GetMethodBase(Int32 i) {
   return nullptr;

@@ -11,7 +11,6 @@ Boolean TaskFactory___<>::CompleteOnInvokePromise___::get_InvokeMayRunArbitraryC
   return Boolean();
 };
 void TaskFactory___<>::CompleteOnInvokePromise___::Invoke(Task<> completingTask) {
-  return void();
 };
 TaskScheduler TaskFactory___<>::get_DefaultScheduler() {
   return nullptr;

@@ -17,7 +17,6 @@ Boolean ListDictionaryInternal___::NodeEnumerator___::MoveNext() {
   return Boolean();
 };
 void ListDictionaryInternal___::NodeEnumerator___::Reset() {
-  return void();
 };
 Object ListDictionaryInternal___::NodeKeyValueCollection___::NodeKeyValueEnumerator___::get_Current() {
   return nullptr;
@@ -26,7 +25,6 @@ Boolean ListDictionaryInternal___::NodeKeyValueCollection___::NodeKeyValueEnumer
   return Boolean();
 };
 void ListDictionaryInternal___::NodeKeyValueCollection___::NodeKeyValueEnumerator___::Reset() {
-  return void();
 };
 Int32 ListDictionaryInternal___::NodeKeyValueCollection___::get_CountOfICollection() {
   return Int32();
@@ -41,7 +39,6 @@ Object ListDictionaryInternal___::get_Item(Object key) {
   return nullptr;
 };
 void ListDictionaryInternal___::set_Item(Object key, Object value) {
-  return void();
 };
 Int32 ListDictionaryInternal___::get_Count() {
   return Int32();
@@ -65,21 +62,17 @@ ICollection ListDictionaryInternal___::get_Values() {
   return nullptr;
 };
 void ListDictionaryInternal___::Add(Object key, Object value) {
-  return void();
 };
 void ListDictionaryInternal___::Clear() {
-  return void();
 };
 Boolean ListDictionaryInternal___::Contains(Object key) {
   return Boolean();
 };
 void ListDictionaryInternal___::CopyTo(Array<> array, Int32 index) {
-  return void();
 };
 IDictionaryEnumerator ListDictionaryInternal___::GetEnumerator() {
   return nullptr;
 };
 void ListDictionaryInternal___::Remove(Object key) {
-  return void();
 };
 } // namespace System::Private::CoreLib::System::Collections::ListDictionaryInternalNamespace

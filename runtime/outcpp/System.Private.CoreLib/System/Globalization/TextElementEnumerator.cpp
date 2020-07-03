@@ -14,6 +14,5 @@ String TextElementEnumerator___::GetTextElement() {
   return nullptr;
 };
 void TextElementEnumerator___::Reset() {
-  return void();
 };
 } // namespace System::Private::CoreLib::System::Globalization::TextElementEnumeratorNamespace

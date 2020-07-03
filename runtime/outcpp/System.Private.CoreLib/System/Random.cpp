@@ -29,9 +29,7 @@ Double Random___::NextDouble() {
   return Double();
 };
 void Random___::NextBytes(Array<Byte> buffer) {
-  return void();
 };
 void Random___::NextBytes(Span<Byte> buffer) {
-  return void();
 };
 } // namespace System::Private::CoreLib::System::RandomNamespace

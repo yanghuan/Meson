@@ -19,6 +19,10 @@ namespace Meson.Compiler.CppAst {
       return new MemberAccessExpressionSyntax(this, expression, MemberAccessOperator.TwoColon);
     }
 
+    internal MemberAccessExpressionSyntax Arrow(ExpressionSyntax expression) {
+      return new MemberAccessExpressionSyntax(this, expression, MemberAccessOperator.Arrow);
+    }
+
     internal CastExpressionSyntax CastTo(ExpressionSyntax target) {
       return new CastExpressionSyntax(this, target);
     }
@@ -135,6 +139,22 @@ namespace Meson.Compiler.CppAst {
     public CastExpressionSyntax(ExpressionSyntax expression, ExpressionSyntax target) {
       Expression = expression;
       Target = target;
+    }
+
+    internal override void Render(CppRenderer renderer) {
+      renderer.Render(this);
+    }
+  }
+
+  internal sealed class BinaryExpressionSyntax : ExpressionSyntax {
+    public ExpressionSyntax Left { get; }
+    public string OperatorToken { get; }
+    public ExpressionSyntax Right { get; }
+
+    public BinaryExpressionSyntax(ExpressionSyntax left, string operatorToken, ExpressionSyntax right) {
+      Left = left;
+      OperatorToken = operatorToken;
+      Right = right;
     }
 
     internal override void Render(CppRenderer renderer) {

@@ -17,13 +17,11 @@ Boolean UTF7Encoding___::Decoder___::get_HasState() {
   return Boolean();
 };
 void UTF7Encoding___::Decoder___::Reset() {
-  return void();
 };
 Boolean UTF7Encoding___::Encoder___::get_HasState() {
   return Boolean();
 };
 void UTF7Encoding___::Encoder___::Reset() {
-  return void();
 };
 Int32 UTF7Encoding___::DecoderUTF7FallbackBuffer___::get_Remaining() {
   return Int32();
@@ -38,16 +36,13 @@ Boolean UTF7Encoding___::DecoderUTF7FallbackBuffer___::MovePrevious() {
   return Boolean();
 };
 void UTF7Encoding___::DecoderUTF7FallbackBuffer___::Reset() {
-  return void();
 };
 Int32 UTF7Encoding___::DecoderUTF7FallbackBuffer___::InternalFallback(Array<Byte> bytes, Byte* pBytes) {
   return Int32();
 };
 void UTF7Encoding___::MakeTables() {
-  return void();
 };
 void UTF7Encoding___::SetDefaultFallbacks() {
-  return void();
 };
 Boolean UTF7Encoding___::Equals(Object value) {
   return Boolean();

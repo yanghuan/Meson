@@ -32,9 +32,7 @@ IntPtr AsAnyMarshaler::ConvertToNative(Object pManagedHome, Int32 dwFlags) {
   return IntPtr();
 };
 void AsAnyMarshaler::ConvertToManaged(Object pManagedHome, IntPtr pNativeHome) {
-  return void();
 };
 void AsAnyMarshaler::ClearNative(IntPtr pNativeHome) {
-  return void();
 };
 } // namespace System::Private::CoreLib::System::StubHelpers::AsAnyMarshalerNamespace

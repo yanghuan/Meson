@@ -2,10 +2,8 @@
 
 namespace System::Private::CoreLib::System::Diagnostics::Tracing::ScalarArrayTypeInfoNamespace {
 void ScalarArrayTypeInfo___::WriteMetadata(TraceLoggingMetadataCollector collector, String name, EventFieldFormat format) {
-  return void();
 };
 void ScalarArrayTypeInfo___::WriteData(TraceLoggingDataCollector collector, PropertyValue value) {
-  return void();
 };
 TraceLoggingTypeInfo ScalarArrayTypeInfo___::Boolean() {
   return nullptr;

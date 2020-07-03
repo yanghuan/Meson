@@ -10,7 +10,6 @@ Boolean MulticastDelegate___::InvocationListLogicallyNull() {
   return Boolean();
 };
 void MulticastDelegate___::GetObjectData(SerializationInfo info, StreamingContext context) {
-  return void();
 };
 Boolean MulticastDelegate___::Equals(Object obj) {
   return Boolean();
@@ -28,7 +27,6 @@ MulticastDelegate MulticastDelegate___::NewMulticastDelegate(Array<Object> invoc
   return nullptr;
 };
 void MulticastDelegate___::StoreDynamicMethod(MethodInfo dynamicMethod) {
-  return void();
 };
 Delegate MulticastDelegate___::CombineImpl(Delegate follow) {
   return nullptr;
@@ -55,30 +53,21 @@ MethodInfo MulticastDelegate___::GetMethodImpl() {
   return nullptr;
 };
 void MulticastDelegate___::ThrowNullThisInDelegateToInstance() {
-  return void();
 };
 void MulticastDelegate___::CtorClosed(Object target, IntPtr methodPtr) {
-  return void();
 };
 void MulticastDelegate___::CtorClosedStatic(Object target, IntPtr methodPtr) {
-  return void();
 };
 void MulticastDelegate___::CtorRTClosed(Object target, IntPtr methodPtr) {
-  return void();
 };
 void MulticastDelegate___::CtorOpened(Object target, IntPtr methodPtr, IntPtr shuffleThunk) {
-  return void();
 };
 void MulticastDelegate___::CtorVirtualDispatch(Object target, IntPtr methodPtr, IntPtr shuffleThunk) {
-  return void();
 };
 void MulticastDelegate___::CtorCollectibleClosedStatic(Object target, IntPtr methodPtr, IntPtr gchandle) {
-  return void();
 };
 void MulticastDelegate___::CtorCollectibleOpened(Object target, IntPtr methodPtr, IntPtr shuffleThunk, IntPtr gchandle) {
-  return void();
 };
 void MulticastDelegate___::CtorCollectibleVirtualDispatch(Object target, IntPtr methodPtr, IntPtr shuffleThunk, IntPtr gchandle) {
-  return void();
 };
 } // namespace System::Private::CoreLib::System::MulticastDelegateNamespace

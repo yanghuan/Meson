@@ -16,7 +16,6 @@ NativeOverlapped* ThreadPoolBoundHandle___::AllocateNativeOverlapped(PreAllocate
   return nullptr;
 };
 void ThreadPoolBoundHandle___::FreeNativeOverlapped(NativeOverlapped* overlapped) {
-  return void();
 };
 Object ThreadPoolBoundHandle___::GetNativeOverlappedState(NativeOverlapped* overlapped) {
   return nullptr;
@@ -25,10 +24,8 @@ ThreadPoolBoundHandleOverlapped ThreadPoolBoundHandle___::GetOverlappedWrapper(N
   return nullptr;
 };
 void ThreadPoolBoundHandle___::Dispose() {
-  return void();
 };
 void ThreadPoolBoundHandle___::EnsureNotDisposed() {
-  return void();
 };
 ThreadPoolBoundHandle ThreadPoolBoundHandle___::BindHandleCore(SafeHandle handle) {
   return nullptr;

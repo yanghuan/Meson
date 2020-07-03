@@ -10,7 +10,6 @@ String String___::IsInterned(String str) {
   return nullptr;
 };
 void String___::InternalCopy(String src, IntPtr dest, Int32 len) {
-  return void();
 };
 Int32 String___::GetBytesFromEncoding(Byte* pbNativeBuffer, Int32 cbNativeBuffer, Encoding encoding) {
   return Int32();
@@ -52,7 +51,6 @@ String String___::Copy(String str) {
   return nullptr;
 };
 void String___::CopyTo(Int32 sourceIndex, Array<Char> destination, Int32 destinationIndex, Int32 count) {
-  return void();
 };
 Array<Char> String___::ToCharArray() {
   return Array<Char>();
@@ -76,7 +74,6 @@ String String___::CreateFromChar(Char c1, Char c2) {
   return nullptr;
 };
 void String___::wstrcpy(Char* dmem, Char* smem, Int32 charCount) {
-  return void();
 };
 String String___::ToString() {
   return nullptr;
@@ -97,7 +94,6 @@ Int32 String___::strlen(Byte* ptr) {
   return Int32();
 };
 void String___::ThrowMustBeNullTerminatedString() {
-  return void();
 };
 TypeCode String___::GetTypeCode() {
   return TypeCode();
@@ -235,13 +231,11 @@ Boolean String___::StartsWith(Char value) {
   return Boolean();
 };
 void String___::CheckStringComparison(StringComparison comparisonType) {
-  return void();
 };
 CompareOptions String___::GetCaseCompareOfComparisonCulture(StringComparison comparisonType) {
   return CompareOptions();
 };
 void String___::FillStringChecked(String dest, Int32 destPos, String src) {
-  return void();
 };
 String String___::Concat(Object arg0) {
   return nullptr;
@@ -418,13 +412,10 @@ Array<String> String___::SplitOmitEmptyEntries(ReadOnlySpan<Int32> sepList, Read
   return Array<String>();
 };
 void String___::MakeSeparatorList(ReadOnlySpan<Char> separators, ValueListBuilder<Int32>& sepListBuilder) {
-  return void();
 };
 void String___::MakeSeparatorList(String separator, ValueListBuilder<Int32>& sepListBuilder) {
-  return void();
 };
 void String___::MakeSeparatorList(Array<String> separators, ValueListBuilder<Int32>& sepListBuilder, ValueListBuilder<Int32>& lengthListBuilder) {
-  return void();
 };
 String String___::Substring(Int32 startIndex) {
   return nullptr;
@@ -526,7 +517,6 @@ Int32 String___::IndexOfCharArray(Array<Char> anyOf, Int32 startIndex, Int32 cou
   return Int32();
 };
 void String___::InitializeProbabilisticMap(UInt32* charMap, ReadOnlySpan<Char> anyOf) {
-  return void();
 };
 Boolean String___::ArrayContains(Char searchChar, Array<Char> anyOf) {
   return Boolean();
@@ -535,7 +525,6 @@ Boolean String___::IsCharBitSet(UInt32* charMap, Byte value) {
   return Boolean();
 };
 void String___::SetCharBit(UInt32* charMap, Byte value) {
-  return void();
 };
 Int32 String___::IndexOf(String value) {
   return Int32();

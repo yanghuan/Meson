@@ -64,10 +64,8 @@ Int32 FieldInfo___::GetHashCode() {
   return Int32();
 };
 void FieldInfo___::SetValue(Object obj, Object value) {
-  return void();
 };
 void FieldInfo___::SetValueDirect(TypedReference obj, Object value) {
-  return void();
 };
 Object FieldInfo___::GetValueDirect(TypedReference obj) {
   return nullptr;

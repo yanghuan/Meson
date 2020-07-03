@@ -2,7 +2,6 @@
 
 namespace System::Private::CoreLib::System::Resources::RuntimeResourceSetNamespace {
 void RuntimeResourceSet___::Dispose(Boolean disposing) {
-  return void();
 };
 IDictionaryEnumerator RuntimeResourceSet___::GetEnumerator() {
   return nullptr;

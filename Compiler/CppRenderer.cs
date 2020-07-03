@@ -540,5 +540,28 @@ namespace Meson.Compiler {
       Write(Tokens.CloseParentheses);
       node.Expression.Render(this);
     }
+
+    internal void Render(IfElseStatementSyntax node) {
+      Write(node.IfToken);
+      WriteSpace();
+      Write(node.OpenParentheses);
+      node.Condition.Render(this);
+      Write(node.CloseParentheses);
+      WriteSpace();
+      node.TrueStatement.Render(this);
+      if (node.FalseStatement != null) {
+        WriteSpace();
+        node.FalseStatement.Render(this);
+      }
+      WriteNewLine();
+    }
+
+    internal void Render(BinaryExpressionSyntax node) {
+      node.Left.Render(this);
+      WriteSpace();
+      Write(node.OperatorToken);
+      WriteSpace();
+      node.Right.Render(this);
+    }
   }
 }

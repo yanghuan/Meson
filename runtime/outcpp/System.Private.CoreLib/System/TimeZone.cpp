@@ -10,7 +10,6 @@ TimeZone TimeZone___::get_CurrentTimeZone() {
   return nullptr;
 };
 void TimeZone___::ResetTimeZone() {
-  return void();
 };
 DateTime TimeZone___::ToUniversalTime(DateTime time) {
   return DateTime();

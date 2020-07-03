@@ -23,31 +23,22 @@ Object Convert::ChangeType(Object value, Type conversionType, IFormatProvider pr
   return nullptr;
 };
 void Convert::ThrowCharOverflowException() {
-  return void();
 };
 void Convert::ThrowByteOverflowException() {
-  return void();
 };
 void Convert::ThrowSByteOverflowException() {
-  return void();
 };
 void Convert::ThrowInt16OverflowException() {
-  return void();
 };
 void Convert::ThrowUInt16OverflowException() {
-  return void();
 };
 void Convert::ThrowInt32OverflowException() {
-  return void();
 };
 void Convert::ThrowUInt32OverflowException() {
-  return void();
 };
 void Convert::ThrowInt64OverflowException() {
-  return void();
 };
 void Convert::ThrowUInt64OverflowException() {
-  return void();
 };
 Boolean Convert::ToBoolean(Object value) {
   return Boolean();
@@ -977,7 +968,6 @@ Boolean Convert::TryFromBase64Chars(ReadOnlySpan<Char> chars, Span<Byte> bytes, 
   return Boolean();
 };
 void Convert::CopyToTempBufferWithoutWhiteSpace(ReadOnlySpan<Char> chars, Span<Char> tempBuffer, Int32& consumed, Int32& charsWritten) {
-  return void();
 };
 Boolean Convert::IsSpace(Char c) {
   return Boolean();
@@ -998,6 +988,5 @@ Int32 Convert::Decode(Char& encodedChars, SByte& decodingMap) {
   return Int32();
 };
 void Convert::WriteThreeLowOrderBytes(Byte& destination, Int32 value) {
-  return void();
 };
 } // namespace System::Private::CoreLib::System::ConvertNamespace

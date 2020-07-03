@@ -20,7 +20,6 @@ Int32 TaiwanCalendar___::get_TwoDigitYearMax() {
   return Int32();
 };
 void TaiwanCalendar___::set_TwoDigitYearMax(Int32 value) {
-  return void();
 };
 Calendar TaiwanCalendar___::GetDefaultInstance() {
   return nullptr;

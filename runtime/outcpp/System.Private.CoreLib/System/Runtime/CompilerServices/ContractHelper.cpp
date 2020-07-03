@@ -5,7 +5,6 @@ String ContractHelper::RaiseContractFailedEvent(ContractFailureKind failureKind,
   return nullptr;
 };
 void ContractHelper::TriggerFailure(ContractFailureKind kind, String displayMessage, String userMessage, String conditionText, Exception innerException) {
-  return void();
 };
 String ContractHelper::GetFailureMessage(ContractFailureKind failureKind, String conditionText) {
   return nullptr;

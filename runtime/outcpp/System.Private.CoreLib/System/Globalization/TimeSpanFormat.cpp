@@ -25,7 +25,6 @@ TimeSpanFormat::FormatLiterals TimeSpanFormat::FormatLiterals::InitInvariant(Boo
   return TimeSpanFormat::FormatLiterals();
 };
 void TimeSpanFormat::FormatLiterals::Init(ReadOnlySpan<Char> format, Boolean useInvariantFieldLengths) {
-  return void();
 };
 String TimeSpanFormat::Format(TimeSpan value, String format, IFormatProvider formatProvider) {
   return nullptr;
@@ -43,10 +42,8 @@ Boolean TimeSpanFormat::TryFormatStandard(TimeSpan value, StandardFormat format,
   return Boolean();
 };
 void TimeSpanFormat::WriteTwoDigits(UInt32 value, Span<Char> buffer) {
-  return void();
 };
 void TimeSpanFormat::WriteDigits(UInt32 value, Span<Char> buffer) {
-  return void();
 };
 StringBuilder TimeSpanFormat::FormatCustomized(TimeSpan value, ReadOnlySpan<Char> format, DateTimeFormatInfo dtfi, StringBuilder result) {
   return nullptr;

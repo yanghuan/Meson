@@ -8,7 +8,6 @@ Int32 EastAsianLunisolarCalendar___::get_TwoDigitYearMax() {
   return Int32();
 };
 void EastAsianLunisolarCalendar___::set_TwoDigitYearMax(Int32 value) {
-  return void();
 };
 Int32 EastAsianLunisolarCalendar___::GetSexagenaryYear(DateTime time) {
   return Int32();
@@ -26,10 +25,8 @@ Int32 EastAsianLunisolarCalendar___::MaxEraCalendarYear(Int32 era) {
   return Int32();
 };
 void EastAsianLunisolarCalendar___::CheckTicksRange(Int64 ticks) {
-  return void();
 };
 void EastAsianLunisolarCalendar___::CheckEraRange(Int32 era) {
-  return void();
 };
 Int32 EastAsianLunisolarCalendar___::CheckYearRange(Int32 year, Int32 era) {
   return Int32();
@@ -50,7 +47,6 @@ DateTime EastAsianLunisolarCalendar___::ToDateTime(Int32 year, Int32 month, Int3
   return DateTime();
 };
 void EastAsianLunisolarCalendar___::GregorianToLunar(Int32 solarYear, Int32 solarMonth, Int32 solarDate, Int32& lunarYear, Int32& lunarMonth, Int32& lunarDate) {
-  return void();
 };
 Boolean EastAsianLunisolarCalendar___::LunarToGregorian(Int32 lunarYear, Int32 lunarMonth, Int32 lunarDate, Int32& solarYear, Int32& solarMonth, Int32& solarDay) {
   return Boolean();
@@ -59,7 +55,6 @@ DateTime EastAsianLunisolarCalendar___::LunarToTime(DateTime time, Int32 year, I
   return DateTime();
 };
 void EastAsianLunisolarCalendar___::TimeToLunar(DateTime time, Int32& year, Int32& month, Int32& day) {
-  return void();
 };
 DateTime EastAsianLunisolarCalendar___::AddMonths(DateTime time, Int32 months) {
   return DateTime();

@@ -37,7 +37,6 @@ TimeSpanParse::TimeSpanToken TimeSpanParse::TimeSpanTokenizer::GetNextToken() {
   return TimeSpanParse::TimeSpanToken();
 };
 void TimeSpanParse::TimeSpanTokenizer::BackOne() {
-  return void();
 };
 TimeSpanFormat::FormatLiterals TimeSpanParse::TimeSpanRawInfo::get_PositiveInvariant() {
   return TimeSpanFormat::FormatLiterals();
@@ -79,7 +78,6 @@ Boolean TimeSpanParse::TimeSpanRawInfo::FullHMSFMatch(TimeSpanFormat::FormatLite
   return Boolean();
 };
 void TimeSpanParse::TimeSpanRawInfo::Init(DateTimeFormatInfo dtfi) {
-  return void();
 };
 Boolean TimeSpanParse::TimeSpanRawInfo::ProcessToken(TimeSpanToken& tok, TimeSpanResult& result) {
   return Boolean();
@@ -91,7 +89,6 @@ Boolean TimeSpanParse::TimeSpanRawInfo::AddNum(TimeSpanToken num, TimeSpanResult
   return Boolean();
 };
 void TimeSpanParse::StringParser::NextChar() {
-  return void();
 };
 Char TimeSpanParse::StringParser::NextNonDigit() {
   return Char();
@@ -106,7 +103,6 @@ Boolean TimeSpanParse::StringParser::ParseTime(Int64& time, TimeSpanResult& resu
   return Boolean();
 };
 void TimeSpanParse::StringParser::SkipBlanks() {
-  return void();
 };
 Int64 TimeSpanParse::Pow10(Int32 pow) {
   return Int64();

@@ -31,7 +31,6 @@ Int32 Calendar___::get_TwoDigitYearMax() {
   return Int32();
 };
 void Calendar___::set_TwoDigitYearMax(Int32 value) {
-  return void();
 };
 Object Calendar___::Clone() {
   return nullptr;
@@ -40,13 +39,10 @@ Calendar Calendar___::ReadOnly(Calendar calendar) {
   return nullptr;
 };
 void Calendar___::VerifyWritable() {
-  return void();
 };
 void Calendar___::SetReadOnlyState(Boolean readOnly) {
-  return void();
 };
 void Calendar___::CheckAddResult(Int64 ticks, DateTime minValue, DateTime maxValue) {
-  return void();
 };
 DateTime Calendar___::Add(DateTime time, Double value, Int32 scale) {
   return DateTime();

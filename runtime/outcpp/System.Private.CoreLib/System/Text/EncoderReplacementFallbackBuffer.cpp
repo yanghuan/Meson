@@ -17,6 +17,5 @@ Boolean EncoderReplacementFallbackBuffer___::MovePrevious() {
   return Boolean();
 };
 void EncoderReplacementFallbackBuffer___::Reset() {
-  return void();
 };
 } // namespace System::Private::CoreLib::System::Text::EncoderReplacementFallbackBufferNamespace

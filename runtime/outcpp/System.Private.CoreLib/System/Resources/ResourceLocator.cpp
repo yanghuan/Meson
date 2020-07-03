@@ -8,7 +8,6 @@ Object ResourceLocator::get_Value() {
   return nullptr;
 };
 void ResourceLocator::set_Value(Object value) {
-  return void();
 };
 Boolean ResourceLocator::CanCache(ResourceTypeCode value) {
   return Boolean();

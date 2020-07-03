@@ -55,40 +55,28 @@ SignatureHelper SignatureHelper___::GetTypeSigToken(Module module, Type type) {
   return nullptr;
 };
 void SignatureHelper___::Init(Module mod) {
-  return void();
 };
 void SignatureHelper___::Init(Module mod, MdSigCallingConvention callingConvention) {
-  return void();
 };
 void SignatureHelper___::Init(Module mod, MdSigCallingConvention callingConvention, Int32 cGenericParam) {
-  return void();
 };
 void SignatureHelper___::AddOneArgTypeHelper(Type argument, Boolean pinned) {
-  return void();
 };
 void SignatureHelper___::AddOneArgTypeHelper(Type clsArgument, Array<Type> requiredCustomModifiers, Array<Type> optionalCustomModifiers) {
-  return void();
 };
 void SignatureHelper___::AddOneArgTypeHelper(Type clsArgument) {
-  return void();
 };
 void SignatureHelper___::AddOneArgTypeHelperWorker(Type clsArgument, Boolean lastWasGenericInst) {
-  return void();
 };
 void SignatureHelper___::AddData(Int32 data) {
-  return void();
 };
 void SignatureHelper___::AddElementType(CorElementType cvt) {
-  return void();
 };
 void SignatureHelper___::AddToken(Int32 token) {
-  return void();
 };
 void SignatureHelper___::InternalAddTypeToken(TypeToken clsToken, CorElementType CorType) {
-  return void();
 };
 void SignatureHelper___::InternalAddRuntimeType(Type type) {
-  return void();
 };
 Array<Byte> SignatureHelper___::ExpandArray(Array<Byte> inArray) {
   return Array<Byte>();
@@ -97,10 +85,8 @@ Array<Byte> SignatureHelper___::ExpandArray(Array<Byte> inArray, Int32 requiredL
   return Array<Byte>();
 };
 void SignatureHelper___::IncrementArgCounts() {
-  return void();
 };
 void SignatureHelper___::SetNumberOfSignatureElements(Boolean forceCopy) {
-  return void();
 };
 Boolean SignatureHelper___::IsSimpleType(CorElementType type) {
   return Boolean();
@@ -112,19 +98,14 @@ Array<Byte> SignatureHelper___::InternalGetSignatureArray() {
   return Array<Byte>();
 };
 void SignatureHelper___::AddArgument(Type clsArgument) {
-  return void();
 };
 void SignatureHelper___::AddArgument(Type argument, Boolean pinned) {
-  return void();
 };
 void SignatureHelper___::AddArguments(Array<Type> arguments, Array<Array<Type>> requiredCustomModifiers, Array<Array<Type>> optionalCustomModifiers) {
-  return void();
 };
 void SignatureHelper___::AddArgument(Type argument, Array<Type> requiredCustomModifiers, Array<Type> optionalCustomModifiers) {
-  return void();
 };
 void SignatureHelper___::AddSentinel() {
-  return void();
 };
 Boolean SignatureHelper___::Equals(Object obj) {
   return Boolean();

@@ -20,19 +20,14 @@ Int32 JulianCalendar___::get_TwoDigitYearMax() {
   return Int32();
 };
 void JulianCalendar___::set_TwoDigitYearMax(Int32 value) {
-  return void();
 };
 void JulianCalendar___::CheckEraRange(Int32 era) {
-  return void();
 };
 void JulianCalendar___::CheckYearEraRange(Int32 year, Int32 era) {
-  return void();
 };
 void JulianCalendar___::CheckMonthRange(Int32 month) {
-  return void();
 };
 void JulianCalendar___::CheckDayRange(Int32 year, Int32 month, Int32 day) {
-  return void();
 };
 Int32 JulianCalendar___::GetDatePart(Int64 ticks, Int32 part) {
   return Int32();

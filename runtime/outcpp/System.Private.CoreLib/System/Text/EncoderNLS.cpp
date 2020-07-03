@@ -14,7 +14,6 @@ Boolean EncoderNLS___::get_HasState() {
   return Boolean();
 };
 void EncoderNLS___::Reset() {
-  return void();
 };
 Int32 EncoderNLS___::GetByteCount(Array<Char> chars, Int32 index, Int32 count, Boolean flush) {
   return Int32();
@@ -29,13 +28,10 @@ Int32 EncoderNLS___::GetBytes(Char* chars, Int32 charCount, Byte* bytes, Int32 b
   return Int32();
 };
 void EncoderNLS___::Convert(Array<Char> chars, Int32 charIndex, Int32 charCount, Array<Byte> bytes, Int32 byteIndex, Int32 byteCount, Boolean flush, Int32& charsUsed, Int32& bytesUsed, Boolean& completed) {
-  return void();
 };
 void EncoderNLS___::Convert(Char* chars, Int32 charCount, Byte* bytes, Int32 byteCount, Boolean flush, Int32& charsUsed, Int32& bytesUsed, Boolean& completed) {
-  return void();
 };
 void EncoderNLS___::ClearMustFlush() {
-  return void();
 };
 Int32 EncoderNLS___::DrainLeftoverDataForGetByteCount(ReadOnlySpan<Char> chars, Int32& charsConsumed) {
   return Int32();

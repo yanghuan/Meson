@@ -5,7 +5,6 @@ StringBuilder StringBuilderCache::Acquire(Int32 capacity) {
   return nullptr;
 };
 void StringBuilderCache::Release(StringBuilder sb) {
-  return void();
 };
 String StringBuilderCache::GetStringAndRelease(StringBuilder sb) {
   return nullptr;

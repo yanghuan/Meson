@@ -14,13 +14,10 @@ Boolean UnmanagedMemoryAccessor___::get_IsOpen() {
   return Boolean();
 };
 void UnmanagedMemoryAccessor___::Initialize(SafeBuffer buffer, Int64 offset, Int64 capacity, FileAccess access) {
-  return void();
 };
 void UnmanagedMemoryAccessor___::Dispose(Boolean disposing) {
-  return void();
 };
 void UnmanagedMemoryAccessor___::Dispose() {
-  return void();
 };
 Boolean UnmanagedMemoryAccessor___::ReadBoolean(Int64 position) {
   return Boolean();
@@ -62,48 +59,33 @@ UInt64 UnmanagedMemoryAccessor___::ReadUInt64(Int64 position) {
   return UInt64();
 };
 void UnmanagedMemoryAccessor___::Write(Int64 position, Boolean value) {
-  return void();
 };
 void UnmanagedMemoryAccessor___::Write(Int64 position, Byte value) {
-  return void();
 };
 void UnmanagedMemoryAccessor___::Write(Int64 position, Char value) {
-  return void();
 };
 void UnmanagedMemoryAccessor___::Write(Int64 position, Int16 value) {
-  return void();
 };
 void UnmanagedMemoryAccessor___::Write(Int64 position, Int32 value) {
-  return void();
 };
 void UnmanagedMemoryAccessor___::Write(Int64 position, Int64 value) {
-  return void();
 };
 void UnmanagedMemoryAccessor___::Write(Int64 position, Decimal value) {
-  return void();
 };
 void UnmanagedMemoryAccessor___::Write(Int64 position, Single value) {
-  return void();
 };
 void UnmanagedMemoryAccessor___::Write(Int64 position, Double value) {
-  return void();
 };
 void UnmanagedMemoryAccessor___::Write(Int64 position, SByte value) {
-  return void();
 };
 void UnmanagedMemoryAccessor___::Write(Int64 position, UInt16 value) {
-  return void();
 };
 void UnmanagedMemoryAccessor___::Write(Int64 position, UInt32 value) {
-  return void();
 };
 void UnmanagedMemoryAccessor___::Write(Int64 position, UInt64 value) {
-  return void();
 };
 void UnmanagedMemoryAccessor___::EnsureSafeToRead(Int64 position, Int32 sizeOfType) {
-  return void();
 };
 void UnmanagedMemoryAccessor___::EnsureSafeToWrite(Int64 position, Int32 sizeOfType) {
-  return void();
 };
 } // namespace System::Private::CoreLib::System::IO::UnmanagedMemoryAccessorNamespace

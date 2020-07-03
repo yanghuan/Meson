@@ -205,7 +205,6 @@ Int32 Char::ConvertToUtf32(Char highSurrogate, Char lowSurrogate) {
   return Int32();
 };
 void Char::ConvertToUtf32_ThrowInvalidArgs(UInt32 highSurrogateOffset) {
-  return void();
 };
 Int32 Char::ConvertToUtf32(String s, Int32 index) {
   return Int32();

@@ -47,13 +47,10 @@ Type SymbolType___::FormCompoundType(String format, Type baseType, Int32 curInde
   return nullptr;
 };
 void SymbolType___::SetElementType(Type baseType) {
-  return void();
 };
 void SymbolType___::SetBounds(Int32 lower, Int32 upper) {
-  return void();
 };
 void SymbolType___::SetFormat(String format, Int32 curIndex, Int32 length) {
-  return void();
 };
 Type SymbolType___::MakePointerType() {
   return nullptr;

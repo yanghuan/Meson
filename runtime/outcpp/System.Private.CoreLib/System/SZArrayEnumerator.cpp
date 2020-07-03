@@ -11,6 +11,5 @@ Boolean SZArrayEnumerator___::MoveNext() {
   return Boolean();
 };
 void SZArrayEnumerator___::Reset() {
-  return void();
 };
 } // namespace System::Private::CoreLib::System::SZArrayEnumeratorNamespace

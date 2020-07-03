@@ -35,7 +35,6 @@ Object MdFieldInfo___::GetValueDirect(TypedReference obj) {
   return nullptr;
 };
 void MdFieldInfo___::SetValueDirect(TypedReference obj, Object value) {
-  return void();
 };
 Object MdFieldInfo___::GetValue(Object obj) {
   return nullptr;
@@ -47,7 +46,6 @@ Object MdFieldInfo___::GetValue(Boolean raw) {
   return nullptr;
 };
 void MdFieldInfo___::SetValue(Object obj, Object value, BindingFlags invokeAttr, Binder binder, CultureInfo culture) {
-  return void();
 };
 Array<Type> MdFieldInfo___::GetRequiredCustomModifiers() {
   return Array<Type>();

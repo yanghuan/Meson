@@ -2,22 +2,16 @@
 
 namespace System::Private::CoreLib::System::Reflection::Emit::__ExceptionInfoNamespace {
 void __ExceptionInfo___::MarkHelper(Int32 catchorfilterAddr, Int32 catchEndAddr, Type catchClass, Int32 type) {
-  return void();
 };
 void __ExceptionInfo___::MarkFilterAddr(Int32 filterAddr) {
-  return void();
 };
 void __ExceptionInfo___::MarkFaultAddr(Int32 faultAddr) {
-  return void();
 };
 void __ExceptionInfo___::MarkCatchAddr(Int32 catchAddr, Type catchException) {
-  return void();
 };
 void __ExceptionInfo___::MarkFinallyAddr(Int32 finallyAddr, Int32 endCatchAddr) {
-  return void();
 };
 void __ExceptionInfo___::Done(Int32 endAddr) {
-  return void();
 };
 Int32 __ExceptionInfo___::GetStartAddress() {
   return Int32();
@@ -50,7 +44,6 @@ Array<Int32> __ExceptionInfo___::GetExceptionTypes() {
   return Array<Int32>();
 };
 void __ExceptionInfo___::SetFinallyEndLabel(Label lbl) {
-  return void();
 };
 Boolean __ExceptionInfo___::IsInner(__ExceptionInfo exc) {
   return Boolean();

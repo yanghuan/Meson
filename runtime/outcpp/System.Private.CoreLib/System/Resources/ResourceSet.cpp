@@ -2,13 +2,10 @@
 
 namespace System::Private::CoreLib::System::Resources::ResourceSetNamespace {
 void ResourceSet___::Close() {
-  return void();
 };
 void ResourceSet___::Dispose(Boolean disposing) {
-  return void();
 };
 void ResourceSet___::Dispose() {
-  return void();
 };
 Type ResourceSet___::GetDefaultReader() {
   return nullptr;
@@ -35,7 +32,6 @@ Object ResourceSet___::GetObject(String name, Boolean ignoreCase) {
   return nullptr;
 };
 void ResourceSet___::ReadResources() {
-  return void();
 };
 Object ResourceSet___::GetObjectInternal(String name) {
   return nullptr;

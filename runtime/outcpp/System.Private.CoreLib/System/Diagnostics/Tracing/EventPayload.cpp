@@ -11,7 +11,6 @@ Object EventPayload___::get_Item(String key) {
   return nullptr;
 };
 void EventPayload___::set_Item(String key, Object value) {
-  return void();
 };
 Int32 EventPayload___::get_Count() {
   return Int32();
@@ -20,13 +19,10 @@ Boolean EventPayload___::get_IsReadOnly() {
   return Boolean();
 };
 void EventPayload___::Add(String key, Object value) {
-  return void();
 };
 void EventPayload___::Add(KeyValuePair<String, Object> payloadEntry) {
-  return void();
 };
 void EventPayload___::Clear() {
-  return void();
 };
 Boolean EventPayload___::Contains(KeyValuePair<String, Object> entry) {
   return Boolean();
@@ -38,7 +34,6 @@ IEnumerator<KeyValuePair<String, Object>> EventPayload___::GetEnumerator() {
   return nullptr;
 };
 void EventPayload___::CopyTo(Array<KeyValuePair<String, Object>> payloadEntries, Int32 count) {
-  return void();
 };
 Boolean EventPayload___::Remove(String key) {
   return Boolean();

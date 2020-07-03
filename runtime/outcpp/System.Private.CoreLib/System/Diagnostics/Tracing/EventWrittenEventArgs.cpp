@@ -5,19 +5,16 @@ String EventWrittenEventArgs___::get_EventName() {
   return nullptr;
 };
 void EventWrittenEventArgs___::set_EventName(String value) {
-  return void();
 };
 Guid EventWrittenEventArgs___::get_ActivityId() {
   return Guid();
 };
 void EventWrittenEventArgs___::set_ActivityId(Guid value) {
-  return void();
 };
 ReadOnlyCollection<String> EventWrittenEventArgs___::get_PayloadNames() {
   return nullptr;
 };
 void EventWrittenEventArgs___::set_PayloadNames(ReadOnlyCollection<String> value) {
-  return void();
 };
 EventSource EventWrittenEventArgs___::get_EventSource() {
   return nullptr;
@@ -38,7 +35,6 @@ String EventWrittenEventArgs___::get_Message() {
   return nullptr;
 };
 void EventWrittenEventArgs___::set_Message(String value) {
-  return void();
 };
 EventChannel EventWrittenEventArgs___::get_Channel() {
   return EventChannel();
@@ -53,6 +49,5 @@ Int64 EventWrittenEventArgs___::get_OSThreadId() {
   return Int64();
 };
 void EventWrittenEventArgs___::set_OSThreadId(Int64 value) {
-  return void();
 };
 } // namespace System::Private::CoreLib::System::Diagnostics::Tracing::EventWrittenEventArgsNamespace

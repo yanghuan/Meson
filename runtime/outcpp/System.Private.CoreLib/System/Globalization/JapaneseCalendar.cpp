@@ -20,7 +20,6 @@ Int32 JapaneseCalendar___::get_TwoDigitYearMax() {
   return Int32();
 };
 void JapaneseCalendar___::set_TwoDigitYearMax(Int32 value) {
-  return void();
 };
 Array<EraInfo> JapaneseCalendar___::GetEraInfo() {
   return Array<EraInfo>();

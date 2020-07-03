@@ -2,13 +2,11 @@
 
 namespace System::Private::CoreLib::System::Runtime::CompilerServices::AsyncMethodBuilderCoreNamespace {
 void AsyncMethodBuilderCore::ContinuationWrapper___::Invoke() {
-  return void();
 };
 Boolean AsyncMethodBuilderCore::get_TrackAsyncMethodCompletion() {
   return Boolean();
 };
 void AsyncMethodBuilderCore::SetStateMachine(IAsyncStateMachine stateMachine, Task<> task) {
-  return void();
 };
 String AsyncMethodBuilderCore::GetAsyncStateMachineDescription(IAsyncStateMachine stateMachine) {
   return nullptr;

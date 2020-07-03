@@ -7,10 +7,8 @@ CalendarData CalendarData___::CreateInvariant() {
   return nullptr;
 };
 void CalendarData___::InitializeEraNames(String localeName, CalendarId calendarId) {
-  return void();
 };
 void CalendarData___::InitializeAbbreviatedEraNames(String localeName, CalendarId calendarId) {
-  return void();
 };
 CalendarData CalendarData___::GetCalendarData(CalendarId calendarId) {
   return nullptr;
@@ -31,7 +29,6 @@ Boolean CalendarData___::SystemSupportsTaiwaneseCalendar() {
   return Boolean();
 };
 void CalendarData___::CheckSpecialCalendar(CalendarId& calendar, String& localeName) {
-  return void();
 };
 Boolean CalendarData___::CallGetCalendarInfoEx(String localeName, CalendarId calendar, UInt32 calType, Int32& data) {
   return Boolean();

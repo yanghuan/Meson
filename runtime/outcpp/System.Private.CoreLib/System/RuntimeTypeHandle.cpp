@@ -76,7 +76,6 @@ IntPtr RuntimeTypeHandle::GetGCHandle(GCHandleType type) {
   return IntPtr();
 };
 void RuntimeTypeHandle::VerifyInterfaceIsImplemented(RuntimeTypeHandle interfaceHandle) {
-  return void();
 };
 RuntimeMethodHandleInternal RuntimeTypeHandle::GetInterfaceMethodImplementation(RuntimeTypeHandle interfaceHandle, RuntimeMethodHandleInternal interfaceMethodHandle) {
   return RuntimeMethodHandleInternal();
@@ -139,6 +138,5 @@ MetadataImport RuntimeTypeHandle::GetMetadataImport(RuntimeType type) {
   return MetadataImport();
 };
 void RuntimeTypeHandle::GetObjectData(SerializationInfo info, StreamingContext context) {
-  return void();
 };
 } // namespace System::Private::CoreLib::System::RuntimeTypeHandleNamespace

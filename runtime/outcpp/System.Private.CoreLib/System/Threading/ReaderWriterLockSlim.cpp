@@ -23,19 +23,15 @@ Boolean ReaderWriterLockSlim___::SpinLock::TryEnter() {
   return Boolean();
 };
 void ReaderWriterLockSlim___::SpinLock::Enter(EnterSpinLockReason reason) {
-  return void();
 };
 void ReaderWriterLockSlim___::SpinLock::EnterSpin(EnterSpinLockReason reason) {
-  return void();
 };
 void ReaderWriterLockSlim___::SpinLock::Exit() {
-  return void();
 };
 Boolean ReaderWriterLockSlim___::get_HasNoWaiters() {
   return Boolean();
 };
 void ReaderWriterLockSlim___::set_HasNoWaiters(Boolean value) {
-  return void();
 };
 Boolean ReaderWriterLockSlim___::get_IsReadLockHeld() {
   return Boolean();
@@ -71,7 +67,6 @@ Int32 ReaderWriterLockSlim___::get_WaitingWriteCount() {
   return Int32();
 };
 void ReaderWriterLockSlim___::InitializeThreadCounts() {
-  return void();
 };
 Boolean ReaderWriterLockSlim___::IsRWEntryEmpty(ReaderWriterCount rwc) {
   return Boolean();
@@ -83,7 +78,6 @@ ReaderWriterCount ReaderWriterLockSlim___::GetThreadRWCount(Boolean dontAllocate
   return nullptr;
 };
 void ReaderWriterLockSlim___::EnterReadLock() {
-  return void();
 };
 Boolean ReaderWriterLockSlim___::TryEnterReadLock(TimeSpan timeout) {
   return Boolean();
@@ -98,7 +92,6 @@ Boolean ReaderWriterLockSlim___::TryEnterReadLockCore(TimeoutTracker timeout) {
   return Boolean();
 };
 void ReaderWriterLockSlim___::EnterWriteLock() {
-  return void();
 };
 Boolean ReaderWriterLockSlim___::TryEnterWriteLock(TimeSpan timeout) {
   return Boolean();
@@ -113,7 +106,6 @@ Boolean ReaderWriterLockSlim___::TryEnterWriteLockCore(TimeoutTracker timeout) {
   return Boolean();
 };
 void ReaderWriterLockSlim___::EnterUpgradeableReadLock() {
-  return void();
 };
 Boolean ReaderWriterLockSlim___::TryEnterUpgradeableReadLock(TimeSpan timeout) {
   return Boolean();
@@ -128,49 +120,36 @@ Boolean ReaderWriterLockSlim___::TryEnterUpgradeableReadLockCore(TimeoutTracker 
   return Boolean();
 };
 void ReaderWriterLockSlim___::ExitReadLock() {
-  return void();
 };
 void ReaderWriterLockSlim___::ExitWriteLock() {
-  return void();
 };
 void ReaderWriterLockSlim___::ExitUpgradeableReadLock() {
-  return void();
 };
 void ReaderWriterLockSlim___::LazyCreateEvent(EventWaitHandle& waitEvent, EnterLockType enterLockType) {
-  return void();
 };
 Boolean ReaderWriterLockSlim___::WaitOnEvent(EventWaitHandle waitEvent, UInt32& numWaiters, TimeoutTracker timeout, EnterLockType enterLockType) {
   return Boolean();
 };
 void ReaderWriterLockSlim___::ExitAndWakeUpAppropriateWaiters() {
-  return void();
 };
 void ReaderWriterLockSlim___::ExitAndWakeUpAppropriateWaitersPreferringWriters() {
-  return void();
 };
 void ReaderWriterLockSlim___::ExitAndWakeUpAppropriateReadWaiters() {
-  return void();
 };
 Boolean ReaderWriterLockSlim___::IsWriterAcquired() {
   return Boolean();
 };
 void ReaderWriterLockSlim___::SetWriterAcquired() {
-  return void();
 };
 void ReaderWriterLockSlim___::ClearWriterAcquired() {
-  return void();
 };
 void ReaderWriterLockSlim___::SetWritersWaiting() {
-  return void();
 };
 void ReaderWriterLockSlim___::ClearWritersWaiting() {
-  return void();
 };
 void ReaderWriterLockSlim___::SetUpgraderWaiting() {
-  return void();
 };
 void ReaderWriterLockSlim___::ClearUpgraderWaiting() {
-  return void();
 };
 UInt32 ReaderWriterLockSlim___::GetNumReaders() {
   return UInt32();
@@ -182,12 +161,9 @@ Boolean ReaderWriterLockSlim___::ShouldSpinForEnterAnyWrite(Boolean isUpgradeToW
   return Boolean();
 };
 void ReaderWriterLockSlim___::SpinWait(Int32 spinCount) {
-  return void();
 };
 void ReaderWriterLockSlim___::Dispose() {
-  return void();
 };
 void ReaderWriterLockSlim___::Dispose(Boolean disposing) {
-  return void();
 };
 } // namespace System::Private::CoreLib::System::Threading::ReaderWriterLockSlimNamespace

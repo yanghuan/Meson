@@ -7,13 +7,11 @@ CultureInfo CultureInfo___::get_CurrentCulture() {
   return nullptr;
 };
 void CultureInfo___::set_CurrentCulture(CultureInfo value) {
-  return void();
 };
 CultureInfo CultureInfo___::get_CurrentUICulture() {
   return nullptr;
 };
 void CultureInfo___::set_CurrentUICulture(CultureInfo value) {
-  return void();
 };
 CultureInfo CultureInfo___::get_UserDefaultUICulture() {
   return nullptr;
@@ -25,13 +23,11 @@ CultureInfo CultureInfo___::get_DefaultThreadCurrentCulture() {
   return nullptr;
 };
 void CultureInfo___::set_DefaultThreadCurrentCulture(CultureInfo value) {
-  return void();
 };
 CultureInfo CultureInfo___::get_DefaultThreadCurrentUICulture() {
   return nullptr;
 };
 void CultureInfo___::set_DefaultThreadCurrentUICulture(CultureInfo value) {
-  return void();
 };
 CultureInfo CultureInfo___::get_InvariantCulture() {
   return nullptr;
@@ -88,13 +84,11 @@ NumberFormatInfo CultureInfo___::get_NumberFormat() {
   return nullptr;
 };
 void CultureInfo___::set_NumberFormat(NumberFormatInfo value) {
-  return void();
 };
 DateTimeFormatInfo CultureInfo___::get_DateTimeFormat() {
   return nullptr;
 };
 void CultureInfo___::set_DateTimeFormat(DateTimeFormatInfo value) {
-  return void();
 };
 Calendar CultureInfo___::get_Calendar() {
   return nullptr;
@@ -112,10 +106,8 @@ Boolean CultureInfo___::get_HasInvariantCultureName() {
   return Boolean();
 };
 void CultureInfo___::AsyncLocalSetCurrentCulture(AsyncLocalValueChangedArgs<CultureInfo> args) {
-  return void();
 };
 void CultureInfo___::AsyncLocalSetCurrentUICulture(AsyncLocalValueChangedArgs<CultureInfo> args) {
-  return void();
 };
 CultureInfo CultureInfo___::InitializeUserDefaultCulture() {
   return nullptr;
@@ -154,7 +146,6 @@ Object CultureInfo___::GetFormat(Type formatType) {
   return nullptr;
 };
 void CultureInfo___::ClearCachedData() {
-  return void();
 };
 Calendar CultureInfo___::GetCalendarInstance(CalendarId calType) {
   return nullptr;
@@ -172,7 +163,6 @@ CultureInfo CultureInfo___::ReadOnly(CultureInfo ci) {
   return nullptr;
 };
 void CultureInfo___::VerifyWritable() {
-  return void();
 };
 CultureInfo CultureInfo___::GetCultureInfoHelper(Int32 lcid, String name, String altName) {
   return nullptr;

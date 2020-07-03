@@ -5,7 +5,6 @@ Array<Byte> Statics::MetadataForString(String name, Int32 prefixSize, Int32 suff
   return Array<Byte>();
 };
 void Statics::EncodeTags(Int32 tags, Int32& pos, Array<Byte> metadata) {
-  return void();
 };
 Byte Statics::Combine(Int32 settingValue, Byte defaultValue) {
   return Byte();
@@ -14,7 +13,6 @@ Int32 Statics::Combine(Int32 settingValue1, Int32 settingValue2) {
   return Int32();
 };
 void Statics::CheckName(String name) {
-  return void();
 };
 Boolean Statics::ShouldOverrideFieldName(String fieldName) {
   return Boolean();

@@ -10,7 +10,6 @@ Int32 ThreadPoolWorkQueue___::WorkStealingQueue___::get_Count() {
   return Int32();
 };
 void ThreadPoolWorkQueue___::WorkStealingQueue___::LocalPush(Object obj) {
-  return void();
 };
 Boolean ThreadPoolWorkQueue___::WorkStealingQueue___::LocalFindAndPop(Object obj) {
   return Boolean();
@@ -28,10 +27,8 @@ Array<ThreadPoolWorkQueue::in::WorkStealingQueue> ThreadPoolWorkQueue___::WorkSt
   return Array<ThreadPoolWorkQueue::in::WorkStealingQueue>();
 };
 void ThreadPoolWorkQueue___::WorkStealingQueueList::Add(WorkStealingQueue queue) {
-  return void();
 };
 void ThreadPoolWorkQueue___::WorkStealingQueueList::Remove(WorkStealingQueue queue) {
-  return void();
 };
 Int64 ThreadPoolWorkQueue___::get_LocalCount() {
   return Int64();
@@ -46,13 +43,10 @@ ThreadPoolWorkQueueThreadLocals ThreadPoolWorkQueue___::CreateThreadLocals() {
   return nullptr;
 };
 void ThreadPoolWorkQueue___::EnsureThreadRequested() {
-  return void();
 };
 void ThreadPoolWorkQueue___::MarkThreadRequestSatisfied() {
-  return void();
 };
 void ThreadPoolWorkQueue___::Enqueue(Object callback, Boolean forceGlobal) {
-  return void();
 };
 Boolean ThreadPoolWorkQueue___::LocalFindAndPop(Object callback) {
   return Boolean();

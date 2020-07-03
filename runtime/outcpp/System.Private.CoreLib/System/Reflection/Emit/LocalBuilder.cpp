@@ -17,9 +17,7 @@ MethodInfo LocalBuilder___::GetMethodBuilder() {
   return nullptr;
 };
 void LocalBuilder___::SetLocalSymInfo(String name) {
-  return void();
 };
 void LocalBuilder___::SetLocalSymInfo(String name, Int32 startOffset, Int32 endOffset) {
-  return void();
 };
 } // namespace System::Private::CoreLib::System::Reflection::Emit::LocalBuilderNamespace

@@ -175,7 +175,6 @@ Array<FileStream> Assembly___::GetFiles(Boolean getResourceModules) {
   return Array<FileStream>();
 };
 void Assembly___::GetObjectData(SerializationInfo info, StreamingContext context) {
-  return void();
 };
 String Assembly___::ToString() {
   return nullptr;

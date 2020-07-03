@@ -2,10 +2,8 @@
 
 namespace System::Private::CoreLib::System::SpanHelpersNamespace {
 void SpanHelpers::ClearWithoutReferences(Byte& b, UInt64 byteLength) {
-  return void();
 };
 void SpanHelpers::ClearWithReferences(IntPtr& ip, UInt64 pointerSizeLength) {
-  return void();
 };
 Int32 SpanHelpers::IndexOf(Byte& searchSpace, Int32 searchSpaceLength, Byte& value, Int32 valueLength) {
   return Int32();

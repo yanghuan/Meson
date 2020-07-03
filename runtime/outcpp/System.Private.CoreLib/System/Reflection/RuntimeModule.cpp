@@ -58,7 +58,6 @@ String RuntimeModule___::ResolveString(Int32 metadataToken) {
   return nullptr;
 };
 void RuntimeModule___::GetPEKind(PortableExecutableKinds& peKind, ImageFileMachine& machine) {
-  return void();
 };
 MethodInfo RuntimeModule___::GetMethodImpl(String name, BindingFlags bindingAttr, Binder binder, CallingConventions callConvention, Array<Type> types, Array<ParameterModifier> modifiers) {
   return nullptr;
@@ -82,7 +81,6 @@ IList<CustomAttributeData> RuntimeModule___::GetCustomAttributesData() {
   return nullptr;
 };
 void RuntimeModule___::GetObjectData(SerializationInfo info, StreamingContext context) {
-  return void();
 };
 Type RuntimeModule___::GetType(String className, Boolean throwOnError, Boolean ignoreCase) {
   return nullptr;

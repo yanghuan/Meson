@@ -43,9 +43,7 @@ Int32 CancellationToken::GetHashCode() {
   return Int32();
 };
 void CancellationToken::ThrowIfCancellationRequested() {
-  return void();
 };
 void CancellationToken::ThrowOperationCanceledException() {
-  return void();
 };
 } // namespace System::Private::CoreLib::System::Threading::CancellationTokenNamespace

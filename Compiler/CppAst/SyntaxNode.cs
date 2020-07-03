@@ -120,6 +120,7 @@ namespace Meson.Compiler.CppAst {
     public const string Semicolon = ";";
     public const string Colon = ":";
     public new const string Equals = "=";
+    public const string EqualsEquals = "==";
     public const string Dot = ".";
     public const string Asterisk = "*";
     public const string Ampersand = "&";

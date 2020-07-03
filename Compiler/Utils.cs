@@ -544,9 +544,13 @@ namespace Meson.Compiler {
       return node.Accept<ExpressionSyntax>(transform); ;
     }
 
+    public static StatementSyntax AcceptStatement(this AstNode node, MethodTransform transform) {
+      return node.Accept<StatementSyntax>(transform); ;
+    }
+
     public static IType GetBaseType(this IType type) {
-      var first = type.DirectBaseTypes.First();
-      return first.Kind != TypeKind.Interface ? first : null;
+      var first = type.DirectBaseTypes.FirstOrDefault();
+      return first != null && first.Kind != TypeKind.Interface ? first : null;
     }
 
     public static IEnumerable<IType> GetInterfaceTypes(this IType type) {
@@ -604,6 +608,10 @@ namespace Meson.Compiler {
       return false;
     }
 
+    public static bool EqualsWithoutNullability(this IType type, IType other) {
+      return type.ChangeNullability(Nullability.Oblivious).Equals(other.ChangeNullability(Nullability.Oblivious));
+    }
+
     public static bool IsOverridable(this IProperty symbol) {
       return !symbol.IsStatic && (symbol.IsAbstract || symbol.IsVirtual || symbol.IsOverride);
     }
@@ -617,6 +625,13 @@ namespace Meson.Compiler {
 
     public static string RemoveSpeacialChars(this string name) {
       return name.Replace(".", "").Replace("<", "").Replace(">", "").Replace(",", "");
+    }
+
+    public static string ToOperatorToken(this BinaryOperatorType type) {
+      return type switch {
+        BinaryOperatorType.Equality => Tokens.EqualsEquals,
+        _ => throw new InvalidProgramException()
+      };
     }
   }
 }

@@ -5,7 +5,6 @@ Int32 ValueStringBuilder::get_Length() {
   return Int32();
 };
 void ValueStringBuilder::set_Length(Int32 value) {
-  return void();
 };
 Int32 ValueStringBuilder::get_Capacity() {
   return Int32();
@@ -17,7 +16,6 @@ Span<Char> ValueStringBuilder::get_RawChars() {
   return Span<Char>();
 };
 void ValueStringBuilder::EnsureCapacity(Int32 capacity) {
-  return void();
 };
 String ValueStringBuilder::ToString() {
   return nullptr;
@@ -38,36 +36,26 @@ Boolean ValueStringBuilder::TryCopyTo(Span<Char> destination, Int32& charsWritte
   return Boolean();
 };
 void ValueStringBuilder::Insert(Int32 index, String s) {
-  return void();
 };
 void ValueStringBuilder::Append(Char c) {
-  return void();
 };
 void ValueStringBuilder::Append(String s) {
-  return void();
 };
 void ValueStringBuilder::AppendSlow(String s) {
-  return void();
 };
 void ValueStringBuilder::Append(Char c, Int32 count) {
-  return void();
 };
 void ValueStringBuilder::Append(Char* value, Int32 length) {
-  return void();
 };
 void ValueStringBuilder::Append(ReadOnlySpan<Char> value) {
-  return void();
 };
 Span<Char> ValueStringBuilder::AppendSpan(Int32 length) {
   return Span<Char>();
 };
 void ValueStringBuilder::GrowAndAppend(Char c) {
-  return void();
 };
 void ValueStringBuilder::Grow(Int32 additionalCapacityBeyondPos) {
-  return void();
 };
 void ValueStringBuilder::Dispose() {
-  return void();
 };
 } // namespace System::Private::CoreLib::System::Text::ValueStringBuilderNamespace

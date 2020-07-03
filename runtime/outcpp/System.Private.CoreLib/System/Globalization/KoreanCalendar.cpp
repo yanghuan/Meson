@@ -20,7 +20,6 @@ Int32 KoreanCalendar___::get_TwoDigitYearMax() {
   return Int32();
 };
 void KoreanCalendar___::set_TwoDigitYearMax(Int32 value) {
-  return void();
 };
 DateTime KoreanCalendar___::AddMonths(DateTime time, Int32 months) {
   return DateTime();

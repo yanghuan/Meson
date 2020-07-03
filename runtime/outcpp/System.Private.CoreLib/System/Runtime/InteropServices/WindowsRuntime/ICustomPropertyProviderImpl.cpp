@@ -11,6 +11,5 @@ ICustomProperty ICustomPropertyProviderImpl::CreateIndexedProperty(Object target
   return nullptr;
 };
 void ICustomPropertyProviderImpl::GetType(Object target, TypeNameNative* pIndexedParamType) {
-  return void();
 };
 } // namespace System::Private::CoreLib::System::Runtime::InteropServices::WindowsRuntime::ICustomPropertyProviderImplNamespace

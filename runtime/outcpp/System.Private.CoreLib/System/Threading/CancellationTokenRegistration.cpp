@@ -5,7 +5,6 @@ CancellationToken CancellationTokenRegistration::get_Token() {
   return CancellationToken();
 };
 void CancellationTokenRegistration::Dispose() {
-  return void();
 };
 ValueTask<> CancellationTokenRegistration::DisposeAsync() {
   return ValueTask<>();
@@ -14,7 +13,6 @@ Boolean CancellationTokenRegistration::Unregister() {
   return Boolean();
 };
 void CancellationTokenRegistration::WaitForCallbackIfNecessary() {
-  return void();
 };
 ValueTask<> CancellationTokenRegistration::WaitForCallbackIfNecessaryAsync() {
   return ValueTask<>();

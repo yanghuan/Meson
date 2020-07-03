@@ -20,13 +20,10 @@ Boolean ParameterBuilder___::get_IsOptional() {
   return Boolean();
 };
 void ParameterBuilder___::SetConstant(Object defaultValue) {
-  return void();
 };
 void ParameterBuilder___::SetCustomAttribute(ConstructorInfo con, Array<Byte> binaryAttribute) {
-  return void();
 };
 void ParameterBuilder___::SetCustomAttribute(CustomAttributeBuilder customBuilder) {
-  return void();
 };
 ParameterToken ParameterBuilder___::GetToken() {
   return ParameterToken();

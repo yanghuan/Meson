@@ -2,7 +2,6 @@
 
 namespace System::Private::CoreLib::System::Runtime::InteropServices::ComEventsHelperNamespace {
 void ComEventsHelper::Combine(Object rcw, Guid iid, Int32 dispid, Delegate d) {
-  return void();
 };
 Delegate ComEventsHelper::Remove(Object rcw, Guid iid, Int32 dispid, Delegate d) {
   return nullptr;

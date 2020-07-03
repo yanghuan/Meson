@@ -20,7 +20,6 @@ String ParseNumbers::LongToString(Int64 n, Int32 radix, Int32 width, Char paddin
   return nullptr;
 };
 void ParseNumbers::EatWhiteSpace(ReadOnlySpan<Char> s, Int32& i) {
-  return void();
 };
 Int64 ParseNumbers::GrabLongs(Int32 radix, ReadOnlySpan<Char> s, Int32& i, Boolean isUnsigned) {
   return Int64();

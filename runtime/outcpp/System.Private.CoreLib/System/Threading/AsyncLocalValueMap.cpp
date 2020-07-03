@@ -26,7 +26,6 @@ Boolean AsyncLocalValueMap::ThreeElementAsyncLocalValueMap___::TryGetValue(IAsyn
   return Boolean();
 };
 void AsyncLocalValueMap::MultiElementAsyncLocalValueMap___::UnsafeStore(Int32 index, IAsyncLocal key, Object value) {
-  return void();
 };
 IAsyncLocalValueMap AsyncLocalValueMap::MultiElementAsyncLocalValueMap___::Set(IAsyncLocal key, Object value, Boolean treatNullValueAsNonexistent) {
   return nullptr;

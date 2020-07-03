@@ -20,7 +20,6 @@ String EventPipeController::get_Config_EventPipeOutputPath() {
   return nullptr;
 };
 void EventPipeController::Initialize() {
-  return void();
 };
 EventPipeConfiguration EventPipeController::BuildConfigFromEnvironment() {
   return nullptr;
@@ -32,6 +31,5 @@ String EventPipeController::GetAppName() {
   return nullptr;
 };
 void EventPipeController::SetProviderConfiguration(String strConfig, EventPipeConfiguration config) {
-  return void();
 };
 } // namespace System::Private::CoreLib::System::Diagnostics::Tracing::EventPipeControllerNamespace

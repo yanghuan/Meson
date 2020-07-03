@@ -29,10 +29,8 @@ Array<ParameterInfo> RuntimeParameterInfo___::GetParameters(IRuntimeMethodInfo m
   return Array<ParameterInfo>();
 };
 void RuntimeParameterInfo___::SetName(String name) {
-  return void();
 };
 void RuntimeParameterInfo___::SetAttributes(ParameterAttributes attributes) {
-  return void();
 };
 Object RuntimeParameterInfo___::GetDefaultValue(Boolean raw) {
   return nullptr;

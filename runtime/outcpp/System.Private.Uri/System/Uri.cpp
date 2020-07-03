@@ -118,7 +118,6 @@ Boolean Uri___::IsIntranet(String schemeHost) {
   return Boolean();
 };
 void Uri___::SetUserDrivenParsing() {
-  return void();
 };
 Boolean Uri___::NotAny(Flags flags) {
   return Boolean();
@@ -136,16 +135,12 @@ Uri::in::UriInfo Uri___::EnsureUriInfo() {
   return nullptr;
 };
 void Uri___::EnsureParseRemaining() {
-  return void();
 };
 void Uri___::EnsureHostString(Boolean allowDnsOptimization) {
-  return void();
 };
 void Uri___::GetObjectData(SerializationInfo serializationInfo, StreamingContext streamingContext) {
-  return void();
 };
 void Uri___::CreateUri(Uri baseUri, String relativeUri, Boolean dontEscape) {
-  return void();
 };
 ParsingError Uri___::GetCombinedString(Uri baseUri, String relativeStr, Boolean dontEscape, String& result) {
   return ParsingError();
@@ -211,19 +206,15 @@ ParsingError Uri___::PrivateParseMinimal() {
   return ParsingError();
 };
 void Uri___::PrivateParseMinimalIri(String newHost, UInt16 idx) {
-  return void();
 };
 void Uri___::CreateUriInfo(Flags cF) {
-  return void();
 };
 void Uri___::CreateHostString() {
-  return void();
 };
 String Uri___::CreateHostStringHelper(String str, UInt16 idx, UInt16 end, Flags& flags, String& scopeId) {
   return nullptr;
 };
 void Uri___::GetHostViaCustomSyntax() {
-  return void();
 };
 String Uri___::GetParts(UriComponents uriParts, UriFormat formatAs) {
   return nullptr;
@@ -241,10 +232,8 @@ String Uri___::GetUriPartsFromUserString(UriComponents uriParts) {
   return nullptr;
 };
 void Uri___::GetLengthWithoutTrailingSpaces(String str, UInt16& length, Int32 idx) {
-  return void();
 };
 void Uri___::ParseRemaining() {
-  return void();
 };
 UInt16 Uri___::ParseSchemeCheckImplicitFile(Char* uriString, UInt16 length, ParsingError& err, Flags& flags, UriParser& syntax) {
   return UInt16();
@@ -259,16 +248,12 @@ UInt16 Uri___::CheckAuthorityHelper(Char* pString, UInt16 idx, UInt16 length, Pa
   return UInt16();
 };
 void Uri___::CheckAuthorityHelperHandleDnsIri(Char* pString, UInt16 start, Int32 end, Int32 startInput, Boolean iriParsing, Boolean hasUnicode, UriParser syntax, String userInfoString, Flags& flags, Boolean& justNormalized, String& newHost, ParsingError& err) {
-  return void();
 };
 void Uri___::CheckAuthorityHelperHandleAnyHostIri(Char* pString, Int32 startInput, Int32 end, Boolean iriParsing, Boolean hasUnicode, UriParser syntax, Flags& flags, String& newHost, ParsingError& err) {
-  return void();
 };
 void Uri___::FindEndOfComponent(String input, UInt16& idx, UInt16 end, Char delim) {
-  return void();
 };
 void Uri___::FindEndOfComponent(Char* str, UInt16& idx, UInt16 end, Char delim) {
-  return void();
 };
 Uri::in::Check Uri___::CheckCanonical(Char* str, UInt16& idx, UInt16 end, Char delim) {
   return Uri::in::Check();
@@ -277,7 +262,6 @@ Array<Char> Uri___::GetCanonicalPath(Array<Char> dest, Int32& pos, UriFormat for
   return Array<Char>();
 };
 void Uri___::UnescapeOnly(Char* pch, Int32 start, Int32& end, Char ch1, Char ch2, Char ch3) {
-  return void();
 };
 Array<Char> Uri___::Compress(Array<Char> dest, UInt16 start, Int32& destLength, UriParser syntax) {
   return Array<Char>();
@@ -295,13 +279,10 @@ String Uri___::MakeRelative(Uri toUri) {
   return nullptr;
 };
 void Uri___::Canonicalize() {
-  return void();
 };
 void Uri___::Parse() {
-  return void();
 };
 void Uri___::Escape() {
-  return void();
 };
 String Uri___::Unescape(String path) {
   return nullptr;
@@ -310,7 +291,6 @@ String Uri___::EscapeString(String str) {
   return nullptr;
 };
 void Uri___::CheckSecurity() {
-  return void();
 };
 Boolean Uri___::IsReservedCharacter(Char character) {
   return Boolean();
@@ -322,10 +302,8 @@ Boolean Uri___::IsBadFileSystemCharacter(Char character) {
   return Boolean();
 };
 void Uri___::CreateThis(String uri, Boolean dontEscape, UriKind uriKind) {
-  return void();
 };
 void Uri___::InitializeUri(ParsingError err, UriKind uriKind, UriFormatException& e) {
-  return void();
 };
 Boolean Uri___::CheckForUnicode(String data) {
   return Boolean();
@@ -388,6 +366,5 @@ Boolean Uri___::IsBaseOfHelper(Uri uriLink) {
   return Boolean();
 };
 void Uri___::CreateThisFromUri(Uri otherUri) {
-  return void();
 };
 } // namespace System::Private::Uri::System::UriNamespace

@@ -13,15 +13,11 @@ AsyncVoidMethodBuilder AsyncVoidMethodBuilder::Create() {
   return AsyncVoidMethodBuilder();
 };
 void AsyncVoidMethodBuilder::SetStateMachine(IAsyncStateMachine stateMachine) {
-  return void();
 };
 void AsyncVoidMethodBuilder::SetResult() {
-  return void();
 };
 void AsyncVoidMethodBuilder::SetException(Exception exception) {
-  return void();
 };
 void AsyncVoidMethodBuilder::NotifySynchronizationContextOfCompletion() {
-  return void();
 };
 } // namespace System::Private::CoreLib::System::Runtime::CompilerServices::AsyncVoidMethodBuilderNamespace

@@ -20,34 +20,25 @@ Int64 UnmanagedMemoryStream___::get_Position() {
   return Int64();
 };
 void UnmanagedMemoryStream___::set_Position(Int64 value) {
-  return void();
 };
 Byte* UnmanagedMemoryStream___::get_PositionPointer() {
   return nullptr;
 };
 void UnmanagedMemoryStream___::set_PositionPointer(Byte* value) {
-  return void();
 };
 void UnmanagedMemoryStream___::Initialize(SafeBuffer buffer, Int64 offset, Int64 length, FileAccess access) {
-  return void();
 };
 void UnmanagedMemoryStream___::Initialize(Byte* pointer, Int64 length, Int64 capacity, FileAccess access) {
-  return void();
 };
 void UnmanagedMemoryStream___::Dispose(Boolean disposing) {
-  return void();
 };
 void UnmanagedMemoryStream___::EnsureNotClosed() {
-  return void();
 };
 void UnmanagedMemoryStream___::EnsureReadable() {
-  return void();
 };
 void UnmanagedMemoryStream___::EnsureWriteable() {
-  return void();
 };
 void UnmanagedMemoryStream___::Flush() {
-  return void();
 };
 Task<> UnmanagedMemoryStream___::FlushAsync(CancellationToken cancellationToken) {
   return nullptr;
@@ -74,16 +65,12 @@ Int64 UnmanagedMemoryStream___::Seek(Int64 offset, SeekOrigin loc) {
   return Int64();
 };
 void UnmanagedMemoryStream___::SetLength(Int64 value) {
-  return void();
 };
 void UnmanagedMemoryStream___::Write(Array<Byte> buffer, Int32 offset, Int32 count) {
-  return void();
 };
 void UnmanagedMemoryStream___::Write(ReadOnlySpan<Byte> buffer) {
-  return void();
 };
 void UnmanagedMemoryStream___::WriteCore(ReadOnlySpan<Byte> buffer) {
-  return void();
 };
 Task<> UnmanagedMemoryStream___::WriteAsync(Array<Byte> buffer, Int32 offset, Int32 count, CancellationToken cancellationToken) {
   return nullptr;
@@ -92,6 +79,5 @@ ValueTask<> UnmanagedMemoryStream___::WriteAsync(ReadOnlyMemory<Byte> buffer, Ca
   return ValueTask<>();
 };
 void UnmanagedMemoryStream___::WriteByte(Byte value) {
-  return void();
 };
 } // namespace System::Private::CoreLib::System::IO::UnmanagedMemoryStreamNamespace

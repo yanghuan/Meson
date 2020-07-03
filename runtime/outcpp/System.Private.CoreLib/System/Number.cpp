@@ -19,7 +19,6 @@ Number::DiyFp Number::DiyFp::Subtract(DiyFp& other) {
   return Number::DiyFp();
 };
 void Number::DiyFp::GetBoundaries(Int32 implicitBitIndex, DiyFp& mMinus, DiyFp& mPlus) {
-  return void();
 };
 Byte* Number::NumberBuffer::GetDigitsPointer() {
   return nullptr;
@@ -28,10 +27,8 @@ String Number::NumberBuffer::ToString() {
   return nullptr;
 };
 void Number::BigInteger::Add(BigInteger& lhs, UInt32 value, BigInteger& result) {
-  return void();
 };
 void Number::BigInteger::Add(BigInteger& lhs, BigInteger& rhs, BigInteger& result) {
-  return void();
 };
 Int32 Number::BigInteger::Compare(BigInteger& lhs, BigInteger& rhs) {
   return Int32();
@@ -46,25 +43,19 @@ UInt32 Number::BigInteger::CountSignificantBits(BigInteger& value) {
   return UInt32();
 };
 void Number::BigInteger::DivRem(BigInteger& lhs, BigInteger& rhs, BigInteger& quo, BigInteger& rem) {
-  return void();
 };
 UInt32 Number::BigInteger::HeuristicDivide(BigInteger& dividend, BigInteger& divisor) {
   return UInt32();
 };
 void Number::BigInteger::Multiply(BigInteger& lhs, UInt32 value, BigInteger& result) {
-  return void();
 };
 void Number::BigInteger::Multiply(BigInteger& lhs, BigInteger& rhs, BigInteger& result) {
-  return void();
 };
 void Number::BigInteger::Pow2(UInt32 exponent, BigInteger& result) {
-  return void();
 };
 void Number::BigInteger::Pow10(UInt32 exponent, BigInteger& result) {
-  return void();
 };
 void Number::BigInteger::ShiftLeft(UInt64 input, UInt32 shift, BigInteger& output) {
-  return void();
 };
 UInt32 Number::BigInteger::AddDivisor(BigInteger& lhs, Int32 lhsStartIndex, BigInteger& rhs) {
   return UInt32();
@@ -76,13 +67,10 @@ UInt32 Number::BigInteger::SubtractDivisor(BigInteger& lhs, Int32 lhsStartIndex,
   return UInt32();
 };
 void Number::BigInteger::Add(UInt32 value) {
-  return void();
 };
 void Number::BigInteger::ExtendBlock(UInt32 blockValue) {
-  return void();
 };
 void Number::BigInteger::ExtendBlocks(UInt32 blockValue, UInt32 blockCount) {
-  return void();
 };
 UInt32 Number::BigInteger::GetBlock(UInt32 index) {
   return UInt32();
@@ -97,28 +85,20 @@ Boolean Number::BigInteger::IsZero() {
   return Boolean();
 };
 void Number::BigInteger::Multiply(UInt32 value) {
-  return void();
 };
 void Number::BigInteger::Multiply(BigInteger& value) {
-  return void();
 };
 void Number::BigInteger::Multiply10() {
-  return void();
 };
 void Number::BigInteger::MultiplyPow10(UInt32 exponent) {
-  return void();
 };
 void Number::BigInteger::SetUInt32(UInt32 value) {
-  return void();
 };
 void Number::BigInteger::SetValue(BigInteger& rhs) {
-  return void();
 };
 void Number::BigInteger::SetZero() {
-  return void();
 };
 void Number::BigInteger::ShiftLeft(UInt32 shift) {
-  return void();
 };
 UInt64 Number::BigInteger::ToUInt64() {
   return UInt64();
@@ -160,10 +140,8 @@ ReadOnlySpan<Byte> Number::get_CharToHexLookup() {
   return ReadOnlySpan<Byte>();
 };
 void Number::Dragon4Double(Double value, Int32 cutoffNumber, Boolean isSignificantDigits, NumberBuffer& number) {
-  return void();
 };
 void Number::Dragon4Single(Single value, Int32 cutoffNumber, Boolean isSignificantDigits, NumberBuffer& number) {
-  return void();
 };
 UInt32 Number::Dragon4(UInt64 mantissa, Int32 exponent, UInt32 mantissaHighBitIdx, Boolean hasUnequalMargins, Int32 cutoffNumber, Boolean isSignificantDigits, Span<Byte> buffer, Int32& decimalExponent) {
   return UInt32();
@@ -175,7 +153,6 @@ Boolean Number::TryFormatDecimal(Decimal value, ReadOnlySpan<Char> format, Numbe
   return Boolean();
 };
 void Number::DecimalToNumber(Decimal& d, NumberBuffer& number) {
-  return void();
 };
 String Number::FormatDouble(Double value, String format, NumberFormatInfo info) {
   return nullptr;
@@ -226,7 +203,6 @@ Boolean Number::TryFormatUInt64(UInt64 value, ReadOnlySpan<Char> format, IFormat
   return Boolean();
 };
 void Number::Int32ToNumber(Int32 value, NumberBuffer& number) {
-  return void();
 };
 String Number::NegativeInt32ToDecStr(Int32 value, Int32 digits, String sNegative) {
   return nullptr;
@@ -244,7 +220,6 @@ Char* Number::Int32ToHexChars(Char* buffer, UInt32 value, Int32 hexBase, Int32 d
   return nullptr;
 };
 void Number::UInt32ToNumber(UInt32 value, NumberBuffer& number) {
-  return void();
 };
 Byte* Number::UInt32ToDecChars(Byte* bufferEnd, UInt32 value, Int32 digits) {
   return nullptr;
@@ -259,7 +234,6 @@ Boolean Number::TryUInt32ToDecStr(UInt32 value, Int32 digits, Span<Char> destina
   return Boolean();
 };
 void Number::Int64ToNumber(Int64 input, NumberBuffer& number) {
-  return void();
 };
 String Number::NegativeInt64ToDecStr(Int64 input, Int32 digits, String sNegative) {
   return nullptr;
@@ -274,7 +248,6 @@ Boolean Number::TryInt64ToHexStr(Int64 value, Char hexBase, Int32 digits, Span<C
   return Boolean();
 };
 void Number::UInt64ToNumber(UInt64 value, NumberBuffer& number) {
-  return void();
 };
 String Number::UInt64ToDecStr(UInt64 value, Int32 digits) {
   return nullptr;
@@ -286,34 +259,24 @@ Char Number::ParseFormatSpecifier(ReadOnlySpan<Char> format, Int32& digits) {
   return Char();
 };
 void Number::NumberToString(ValueStringBuilder& sb, NumberBuffer& number, Char format, Int32 nMaxDigits, NumberFormatInfo info) {
-  return void();
 };
 void Number::NumberToStringFormat(ValueStringBuilder& sb, NumberBuffer& number, ReadOnlySpan<Char> format, NumberFormatInfo info) {
-  return void();
 };
 void Number::FormatCurrency(ValueStringBuilder& sb, NumberBuffer& number, Int32 nMaxDigits, NumberFormatInfo info) {
-  return void();
 };
 void Number::FormatFixed(ValueStringBuilder& sb, NumberBuffer& number, Int32 nMaxDigits, NumberFormatInfo info, Array<Int32> groupDigits, String sDecimal, String sGroup) {
-  return void();
 };
 void Number::FormatNumber(ValueStringBuilder& sb, NumberBuffer& number, Int32 nMaxDigits, NumberFormatInfo info) {
-  return void();
 };
 void Number::FormatScientific(ValueStringBuilder& sb, NumberBuffer& number, Int32 nMaxDigits, NumberFormatInfo info, Char expChar) {
-  return void();
 };
 void Number::FormatExponent(ValueStringBuilder& sb, NumberFormatInfo info, Int32 value, Char expChar, Int32 minDigits, Boolean positiveSign) {
-  return void();
 };
 void Number::FormatGeneral(ValueStringBuilder& sb, NumberBuffer& number, Int32 nMaxDigits, NumberFormatInfo info, Char expChar, Boolean bSuppressScientific) {
-  return void();
 };
 void Number::FormatPercent(ValueStringBuilder& sb, NumberBuffer& number, Int32 nMaxDigits, NumberFormatInfo info) {
-  return void();
 };
 void Number::RoundNumber(NumberBuffer& number, Int32 pos, Boolean isCorrectlyRounded) {
-  return void();
 };
 Int32 Number::FindSection(ReadOnlySpan<Char> format, Int32 section) {
   return Int32();
@@ -334,7 +297,6 @@ UInt32 Number::ExtractFractionAndBiasedExponent(Single value, Int32& exponent) {
   return UInt32();
 };
 void Number::AccumulateDecimalDigitsIntoBigInteger(NumberBuffer& number, UInt32 firstIndex, UInt32 lastIndex, BigInteger& result) {
-  return void();
 };
 UInt64 Number::AssembleFloatingPointBits(FloatingPointInfo& info, UInt64 initialMantissa, Int32 initialExponent, Boolean hasZeroTail) {
   return UInt64();
@@ -469,10 +431,8 @@ Boolean Number::IsDigit(Int32 ch) {
   return Boolean();
 };
 void Number::ThrowOverflowOrFormatException(ParsingStatus status, TypeCode type) {
-  return void();
 };
 void Number::ThrowOverflowException(TypeCode type) {
-  return void();
 };
 Exception Number::GetException(ParsingStatus status, TypeCode type) {
   return nullptr;

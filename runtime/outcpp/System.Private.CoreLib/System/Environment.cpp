@@ -29,7 +29,6 @@ String Environment::get_CurrentDirectory() {
   return nullptr;
 };
 void Environment::set_CurrentDirectory(String value) {
-  return void();
 };
 Boolean Environment::get_Is64BitProcess() {
   return Boolean();
@@ -50,7 +49,6 @@ String Environment::get_CurrentDirectoryCore() {
   return nullptr;
 };
 void Environment::set_CurrentDirectoryCore(String value) {
-  return void();
 };
 String Environment::get_NewLine() {
   return nullptr;
@@ -80,7 +78,6 @@ String Environment::get_UserDomainName() {
   return nullptr;
 };
 void Environment::Exit(Int32 exitCode) {
-  return void();
 };
 Array<String> Environment::GetCommandLineArgs() {
   return Array<String>();
@@ -98,16 +95,13 @@ IDictionary Environment::GetEnvironmentVariables(EnvironmentVariableTarget targe
   return nullptr;
 };
 void Environment::SetEnvironmentVariable(String variable, String value) {
-  return void();
 };
 void Environment::SetEnvironmentVariable(String variable, String value, EnvironmentVariableTarget target) {
-  return void();
 };
 String Environment::ExpandEnvironmentVariables(String name) {
   return nullptr;
 };
 void Environment::SetCommandLineArgs(Array<String> cmdLineArgs) {
-  return void();
 };
 String Environment::GetFolderPath(SpecialFolder folder) {
   return nullptr;
@@ -119,7 +113,6 @@ Boolean Environment::ValidateAndConvertRegistryTarget(EnvironmentVariableTarget 
   return Boolean();
 };
 void Environment::ValidateVariableAndValue(String variable, String& value) {
-  return void();
 };
 Array<String> Environment::GetLogicalDrives() {
   return Array<String>();
@@ -134,7 +127,6 @@ String Environment::GetEnvironmentVariableFromRegistry(String variable, Boolean 
   return nullptr;
 };
 void Environment::SetEnvironmentVariableFromRegistry(String variable, String value, Boolean fromMachine) {
-  return void();
 };
 IDictionary Environment::GetEnvironmentVariablesFromRegistry(Boolean fromMachine) {
   return nullptr;
@@ -143,7 +135,6 @@ RegistryKey Environment::OpenEnvironmentKeyIfExists(Boolean fromMachine, Boolean
   return nullptr;
 };
 void Environment::GetUserName(ValueStringBuilder& builder) {
-  return void();
 };
 String Environment::GetFolderPathCore(SpecialFolder folder, SpecialFolderOption option) {
   return nullptr;
@@ -155,7 +146,6 @@ String Environment::GetEnvironmentVariableCore(String variable) {
   return nullptr;
 };
 void Environment::SetEnvironmentVariableCore(String variable, String value) {
-  return void();
 };
 IDictionary Environment::GetEnvironmentVariables() {
   return nullptr;

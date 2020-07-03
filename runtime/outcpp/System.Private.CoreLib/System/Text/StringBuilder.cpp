@@ -22,7 +22,6 @@ Int32 StringBuilder___::get_Capacity() {
   return Int32();
 };
 void StringBuilder___::set_Capacity(Int32 value) {
-  return void();
 };
 Int32 StringBuilder___::get_MaxCapacity() {
   return Int32();
@@ -31,13 +30,11 @@ Int32 StringBuilder___::get_Length() {
   return Int32();
 };
 void StringBuilder___::set_Length(Int32 value) {
-  return void();
 };
 Char StringBuilder___::get_Chars(Int32 index) {
   return Char();
 };
 void StringBuilder___::set_Chars(Int32 index, Char value) {
-  return void();
 };
 Span<Char> StringBuilder___::get_RemainingCurrentChunk() {
   return Span<Char>();
@@ -46,16 +43,12 @@ Int32 StringBuilder___::GetReplaceBufferCapacity(Int32 requiredCapacity) {
   return Int32();
 };
 void StringBuilder___::ReplaceBufferInternal(Char* newBuffer, Int32 newLength) {
-  return void();
 };
 void StringBuilder___::ReplaceBufferUtf8Internal(ReadOnlySpan<Byte> source) {
-  return void();
 };
 void StringBuilder___::ReplaceBufferAnsiInternal(SByte* newBuffer, Int32 newLength) {
-  return void();
 };
 void StringBuilder___::InternalCopy(IntPtr dest, Int32 len) {
-  return void();
 };
 Int32 StringBuilder___::EnsureCapacity(Int32 capacity) {
   return Int32();
@@ -82,7 +75,6 @@ StringBuilder StringBuilder___::Append(String value) {
   return nullptr;
 };
 void StringBuilder___::AppendHelper(String value) {
-  return void();
 };
 StringBuilder StringBuilder___::Append(String value, Int32 startIndex, Int32 count) {
   return nullptr;
@@ -103,10 +95,8 @@ StringBuilder StringBuilder___::AppendLine(String value) {
   return nullptr;
 };
 void StringBuilder___::CopyTo(Int32 sourceIndex, Array<Char> destination, Int32 destinationIndex, Int32 count) {
-  return void();
 };
 void StringBuilder___::CopyTo(Int32 sourceIndex, Span<Char> destination, Int32 count) {
-  return void();
 };
 StringBuilder StringBuilder___::Insert(Int32 index, String value, Int32 count) {
   return nullptr;
@@ -256,7 +246,6 @@ StringBuilder StringBuilder___::AppendFormat(IFormatProvider provider, String fo
   return nullptr;
 };
 void StringBuilder___::FormatError() {
-  return void();
 };
 StringBuilder StringBuilder___::AppendFormatHelper(IFormatProvider provider, String format, ParamsArray args) {
   return nullptr;
@@ -283,22 +272,17 @@ StringBuilder StringBuilder___::Append(Char* value, Int32 valueCount) {
   return nullptr;
 };
 void StringBuilder___::Insert(Int32 index, Char* value, Int32 valueCount) {
-  return void();
 };
 void StringBuilder___::ReplaceAllInChunk(Array<Int32> replacements, Int32 replacementsCount, StringBuilder sourceChunk, Int32 removeCount, String value) {
-  return void();
 };
 Boolean StringBuilder___::StartsWith(StringBuilder chunk, Int32 indexInChunk, Int32 count, String value) {
   return Boolean();
 };
 void StringBuilder___::ReplaceInPlaceAtChunk(StringBuilder& chunk, Int32& indexInChunk, Char* value, Int32 count) {
-  return void();
 };
 void StringBuilder___::ThreadSafeCopy(Char* sourcePtr, Array<Char> destination, Int32 destinationIndex, Int32 count) {
-  return void();
 };
 void StringBuilder___::ThreadSafeCopy(Array<Char> source, Int32 sourceIndex, Span<Char> destination, Int32 destinationIndex, Int32 count) {
-  return void();
 };
 StringBuilder StringBuilder___::FindChunkForIndex(Int32 index) {
   return nullptr;
@@ -310,12 +294,9 @@ StringBuilder StringBuilder___::Next(StringBuilder chunk) {
   return nullptr;
 };
 void StringBuilder___::ExpandByABlock(Int32 minBlockCharCount) {
-  return void();
 };
 void StringBuilder___::MakeRoom(Int32 index, Int32 count, StringBuilder& chunk, Int32& indexInChunk, Boolean doNotMoveFollowingChars) {
-  return void();
 };
 void StringBuilder___::Remove(Int32 startIndex, Int32 count, StringBuilder& chunk, Int32& indexInChunk) {
-  return void();
 };
 } // namespace System::Private::CoreLib::System::Text::StringBuilderNamespace

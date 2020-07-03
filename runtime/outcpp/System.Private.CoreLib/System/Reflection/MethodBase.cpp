@@ -85,7 +85,6 @@ Array<ParameterInfo> MethodBase___::GetParametersNoCopy() {
   return Array<ParameterInfo>();
 };
 void MethodBase___::AppendParameters(ValueStringBuilder& sbParamList, Array<Type> parameterTypes, CallingConventions callingConvention) {
-  return void();
 };
 Array<Type> MethodBase___::GetParameterTypes() {
   return Array<Type>();

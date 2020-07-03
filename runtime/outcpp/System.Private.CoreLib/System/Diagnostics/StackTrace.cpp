@@ -8,13 +8,10 @@ Int32 StackTrace___::CalculateFramesToSkip(StackFrameHelper StackF, Int32 iNumFr
   return Int32();
 };
 void StackTrace___::InitializeForException(Exception exception, Int32 skipFrames, Boolean fNeedFileInfo) {
-  return void();
 };
 void StackTrace___::InitializeForCurrentThread(Int32 skipFrames, Boolean fNeedFileInfo) {
-  return void();
 };
 void StackTrace___::CaptureStackTrace(Int32 skipFrames, Boolean fNeedFileInfo, Exception e) {
-  return void();
 };
 StackFrame StackTrace___::GetFrame(Int32 index) {
   return nullptr;

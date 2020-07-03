@@ -20,9 +20,7 @@ Boolean ContractFailedEventArgs___::get_Unwind() {
   return Boolean();
 };
 void ContractFailedEventArgs___::SetHandled() {
-  return void();
 };
 void ContractFailedEventArgs___::SetUnwind() {
-  return void();
 };
 } // namespace System::Private::CoreLib::System::Diagnostics::Contracts::ContractFailedEventArgsNamespace

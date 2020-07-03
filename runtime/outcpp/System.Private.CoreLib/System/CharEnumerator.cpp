@@ -14,9 +14,7 @@ Boolean CharEnumerator___::MoveNext() {
   return Boolean();
 };
 void CharEnumerator___::Dispose() {
-  return void();
 };
 void CharEnumerator___::Reset() {
-  return void();
 };
 } // namespace System::Private::CoreLib::System::CharEnumeratorNamespace

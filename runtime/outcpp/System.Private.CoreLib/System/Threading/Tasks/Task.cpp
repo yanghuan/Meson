@@ -4,34 +4,26 @@
 
 namespace System::Private::CoreLib::System::Threading::Tasks::TaskNamespace {
 void Task___<>::ContingentProperties___::SetCompleted() {
-  return void();
 };
 void Task___<>::ContingentProperties___::UnregisterCancellationCallback() {
-  return void();
 };
 Boolean Task___<>::SetOnInvokeMres___::get_InvokeMayRunArbitraryCode() {
   return Boolean();
 };
 void Task___<>::SetOnInvokeMres___::Invoke(Task<> completingTask) {
-  return void();
 };
 Boolean Task___<>::SetOnCountdownMres___::get_InvokeMayRunArbitraryCode() {
   return Boolean();
 };
 void Task___<>::SetOnCountdownMres___::Invoke(Task<> completingTask) {
-  return void();
 };
 void Task___<>::DelayPromise___::CompleteTimedOut() {
-  return void();
 };
 void Task___<>::DelayPromise___::Cleanup() {
-  return void();
 };
 void Task___<>::DelayPromiseWithCancellation___::CompleteCanceled() {
-  return void();
 };
 void Task___<>::DelayPromiseWithCancellation___::Cleanup() {
-  return void();
 };
 Boolean Task___<>::WhenAllPromise___<>::get_InvokeMayRunArbitraryCode() {
   return Boolean();
@@ -121,7 +113,6 @@ ExecutionContext Task___<>::get_CapturedContext() {
   return nullptr;
 };
 void Task___<>::set_CapturedContext(ExecutionContext value) {
-  return void();
 };
 Boolean Task___<>::get_IsExceptionObservedByParent() {
   return Boolean();

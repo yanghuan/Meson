@@ -23,6 +23,5 @@ Int64 Interlocked::Read(Int64& location) {
   return Int64();
 };
 void Interlocked::MemoryBarrierProcessWide() {
-  return void();
 };
 } // namespace System::Private::CoreLib::System::Threading::InterlockedNamespace

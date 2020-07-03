@@ -8,10 +8,8 @@ Boolean EnumerableToBindableIterableAdapter___::NonGenericToGenericEnumerator___
   return Boolean();
 };
 void EnumerableToBindableIterableAdapter___::NonGenericToGenericEnumerator___::Reset() {
-  return void();
 };
 void EnumerableToBindableIterableAdapter___::NonGenericToGenericEnumerator___::Dispose() {
-  return void();
 };
 IBindableIterator EnumerableToBindableIterableAdapter___::First_Stub() {
   return nullptr;

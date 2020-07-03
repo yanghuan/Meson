@@ -26,6 +26,5 @@ RuntimeType RuntimeFieldHandle::GetApproxDeclaringType(IRuntimeFieldInfo field) 
   return nullptr;
 };
 void RuntimeFieldHandle::GetObjectData(SerializationInfo info, StreamingContext context) {
-  return void();
 };
 } // namespace System::Private::CoreLib::System::RuntimeFieldHandleNamespace

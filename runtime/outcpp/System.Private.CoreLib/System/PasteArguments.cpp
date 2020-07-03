@@ -2,7 +2,6 @@
 
 namespace System::Private::CoreLib::System::PasteArgumentsNamespace {
 void PasteArguments::AppendArgument(StringBuilder stringBuilder, String argument) {
-  return void();
 };
 Boolean PasteArguments::ContainsNoWhitespaceOrQuotes(String s) {
   return Boolean();

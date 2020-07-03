@@ -14,7 +14,6 @@ String Interop::Kernel32::TIME_ZONE_INFORMATION::GetDaylightName() {
   return nullptr;
 };
 void Interop::Kernel32::WIN32_FILE_ATTRIBUTE_DATA::PopulateFrom(WIN32_FIND_DATA& findData) {
-  return void();
 };
 SafeFindHandle Interop::Kernel32::FindFirstFile(String fileName, WIN32_FIND_DATA& data) {
   return nullptr;
@@ -47,7 +46,6 @@ Int32 Interop::Advapi32___::EventWriteTransfer(Int64 registrationHandle, EventDe
   return Int32();
 };
 void Interop::GetRandomBytes(Byte* buffer, Int32 length) {
-  return void();
 };
 UInt32 Interop::GetCurrentProcessId() {
   return UInt32();

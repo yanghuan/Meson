@@ -8,9 +8,7 @@ String TypeLoadException___::get_TypeName() {
   return nullptr;
 };
 void TypeLoadException___::SetMessageField() {
-  return void();
 };
 void TypeLoadException___::GetObjectData(SerializationInfo info, StreamingContext context) {
-  return void();
 };
 } // namespace System::Private::CoreLib::System::TypeLoadExceptionNamespace

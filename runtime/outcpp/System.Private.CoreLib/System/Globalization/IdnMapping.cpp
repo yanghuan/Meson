@@ -5,13 +5,11 @@ Boolean IdnMapping___::get_AllowUnassigned() {
   return Boolean();
 };
 void IdnMapping___::set_AllowUnassigned(Boolean value) {
-  return void();
 };
 Boolean IdnMapping___::get_UseStd3AsciiRules() {
   return Boolean();
 };
 void IdnMapping___::set_UseStd3AsciiRules(Boolean value) {
-  return void();
 };
 UInt32 IdnMapping___::get_Flags() {
   return UInt32();
@@ -62,7 +60,6 @@ Boolean IdnMapping___::Basic(UInt32 cp) {
   return Boolean();
 };
 void IdnMapping___::ValidateStd3(Char c, Boolean bNextToDot) {
-  return void();
 };
 String IdnMapping___::GetUnicodeInvariant(String ascii, Int32 index, Int32 count) {
   return nullptr;
@@ -98,6 +95,5 @@ String IdnMapping___::GetUnicodeCore(String asciiString, Char* ascii, Int32 coun
   return nullptr;
 };
 void IdnMapping___::ThrowForZeroLength(Boolean unicode) {
-  return void();
 };
 } // namespace System::Private::CoreLib::System::Globalization::IdnMappingNamespace

@@ -7,55 +7,45 @@ UInt64 Decimal::DecCalc::Buf24::get_Low64() {
   return UInt64();
 };
 void Decimal::DecCalc::Buf24::set_Low64(UInt64 value) {
-  return void();
 };
 void Decimal::DecCalc::Buf24::set_Mid64(UInt64 value) {
-  return void();
 };
 void Decimal::DecCalc::Buf24::set_High64(UInt64 value) {
-  return void();
 };
 UInt64 Decimal::DecCalc::Buf12::get_Low64() {
   return UInt64();
 };
 void Decimal::DecCalc::Buf12::set_Low64(UInt64 value) {
-  return void();
 };
 UInt64 Decimal::DecCalc::Buf12::get_High64() {
   return UInt64();
 };
 void Decimal::DecCalc::Buf12::set_High64(UInt64 value) {
-  return void();
 };
 UInt64 Decimal::DecCalc::Buf16::get_Low64() {
   return UInt64();
 };
 void Decimal::DecCalc::Buf16::set_Low64(UInt64 value) {
-  return void();
 };
 UInt64 Decimal::DecCalc::Buf16::get_High64() {
   return UInt64();
 };
 void Decimal::DecCalc::Buf16::set_High64(UInt64 value) {
-  return void();
 };
 UInt32 Decimal::DecCalc::get_High() {
   return UInt32();
 };
 void Decimal::DecCalc::set_High(UInt32 value) {
-  return void();
 };
 UInt32 Decimal::DecCalc::get_Low() {
   return UInt32();
 };
 void Decimal::DecCalc::set_Low(UInt32 value) {
-  return void();
 };
 UInt32 Decimal::DecCalc::get_Mid() {
   return UInt32();
 };
 void Decimal::DecCalc::set_Mid(UInt32 value) {
-  return void();
 };
 Boolean Decimal::DecCalc::get_IsNegative() {
   return Boolean();
@@ -67,7 +57,6 @@ UInt64 Decimal::DecCalc::get_Low64() {
   return UInt64();
 };
 void Decimal::DecCalc::set_Low64(UInt64 value) {
-  return void();
 };
 UInt32 Decimal::DecCalc::GetExponent(Single f) {
   return UInt32();
@@ -79,7 +68,6 @@ UInt64 Decimal::DecCalc::UInt32x32To64(UInt32 a, UInt32 b) {
   return UInt64();
 };
 void Decimal::DecCalc::UInt64x64To128(UInt64 a, UInt64 b, DecCalc& result) {
-  return void();
 };
 UInt32 Decimal::DecCalc::Div96By32(Buf12& bufNum, UInt32 den) {
   return UInt32();
@@ -88,7 +76,6 @@ Boolean Decimal::DecCalc::Div96ByConst(UInt64& high64, UInt32& low, UInt32 pow) 
   return Boolean();
 };
 void Decimal::DecCalc::Unscale(UInt32& low, UInt64& high64, Int32& scale) {
-  return void();
 };
 UInt32 Decimal::DecCalc::Div96By64(Buf12& bufNum, UInt64 den) {
   return UInt32();
@@ -100,7 +87,6 @@ UInt32 Decimal::DecCalc::IncreaseScale(Buf12& bufNum, UInt32 power) {
   return UInt32();
 };
 void Decimal::DecCalc::IncreaseScale64(Buf12& bufNum, UInt32 power) {
-  return void();
 };
 Int32 Decimal::DecCalc::ScaleResult(Buf24* bufRes, UInt32 hiRes, Int32 scale) {
   return Int32();
@@ -118,7 +104,6 @@ Boolean Decimal::DecCalc::Add32To96(Buf12& bufNum, UInt32 value) {
   return Boolean();
 };
 void Decimal::DecCalc::DecAddSub(DecCalc& d1, DecCalc& d2, Boolean sign) {
-  return void();
 };
 Int64 Decimal::DecCalc::VarCyFromDec(DecCalc& pdecIn) {
   return Int64();
@@ -130,13 +115,10 @@ Int32 Decimal::DecCalc::VarDecCmpSub(Decimal& d1, Decimal& d2) {
   return Int32();
 };
 void Decimal::DecCalc::VarDecMul(DecCalc& d1, DecCalc& d2) {
-  return void();
 };
 void Decimal::DecCalc::VarDecFromR4(Single input, DecCalc& result) {
-  return void();
 };
 void Decimal::DecCalc::VarDecFromR8(Double input, DecCalc& result) {
-  return void();
 };
 Single Decimal::DecCalc::VarR4FromDec(Decimal& value) {
   return Single();
@@ -148,16 +130,12 @@ Int32 Decimal::DecCalc::GetHashCode(Decimal& d) {
   return Int32();
 };
 void Decimal::DecCalc::VarDecDiv(DecCalc& d1, DecCalc& d2) {
-  return void();
 };
 void Decimal::DecCalc::VarDecMod(DecCalc& d1, DecCalc& d2) {
-  return void();
 };
 void Decimal::DecCalc::VarDecModFull(DecCalc& d1, DecCalc& d2, Int32 scale) {
-  return void();
 };
 void Decimal::DecCalc::InternalRound(DecCalc& d, UInt32 scale, MidpointRounding mode) {
-  return void();
 };
 UInt32 Decimal::DecCalc::DecDivMod1E9(DecCalc& value) {
   return UInt32();
@@ -271,7 +249,6 @@ Array<Int32> Decimal::GetBits(Decimal d) {
   return Array<Int32>();
 };
 void Decimal::GetBytes(Decimal& d, Array<Byte> buffer) {
-  return void();
 };
 Decimal Decimal::ToDecimal(ReadOnlySpan<Byte> span) {
   return Decimal();
@@ -340,7 +317,6 @@ Decimal Decimal::Truncate(Decimal d) {
   return Decimal();
 };
 void Decimal::Truncate(Decimal& d) {
-  return void();
 };
 TypeCode Decimal::GetTypeCode() {
   return TypeCode();

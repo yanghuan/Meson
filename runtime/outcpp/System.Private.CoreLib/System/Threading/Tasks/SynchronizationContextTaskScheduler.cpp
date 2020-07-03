@@ -5,7 +5,6 @@ Int32 SynchronizationContextTaskScheduler___::get_MaximumConcurrencyLevel() {
   return Int32();
 };
 void SynchronizationContextTaskScheduler___::QueueTask(Task<> task) {
-  return void();
 };
 Boolean SynchronizationContextTaskScheduler___::TryExecuteTaskInline(Task<> task, Boolean taskWasPreviouslyQueued) {
   return Boolean();

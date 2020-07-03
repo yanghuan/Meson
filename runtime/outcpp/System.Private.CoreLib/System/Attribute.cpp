@@ -34,13 +34,11 @@ Boolean Attribute___::InternalParamIsDefined(ParameterInfo param, Type type, Boo
   return Boolean();
 };
 void Attribute___::CopyToArrayList(List<Attribute> attributeList, Array<Attribute> attributes, Dictionary<Type, AttributeUsageAttribute> types) {
-  return void();
 };
 Array<Type> Attribute___::GetIndexParameterTypes(PropertyInfo element) {
   return Array<Type>();
 };
 void Attribute___::AddAttributesToList(List<Attribute> attributeList, Array<Attribute> attributes, Dictionary<Type, AttributeUsageAttribute> types) {
-  return void();
 };
 AttributeUsageAttribute Attribute___::InternalGetAttributeUsage(Type type) {
   return nullptr;

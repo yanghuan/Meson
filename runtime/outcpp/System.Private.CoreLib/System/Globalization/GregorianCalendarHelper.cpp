@@ -29,7 +29,6 @@ Int64 GregorianCalendarHelper___::TimeToTicks(Int32 hour, Int32 minute, Int32 se
   return Int64();
 };
 void GregorianCalendarHelper___::CheckTicksRange(Int64 ticks) {
-  return void();
 };
 DateTime GregorianCalendarHelper___::AddMonths(DateTime time, Int32 months) {
   return DateTime();

@@ -5,10 +5,8 @@ ICustomMarshaler TypeToTypeInfoMarshaler___::GetInstance(String cookie) {
   return nullptr;
 };
 void TypeToTypeInfoMarshaler___::CleanUpManagedData(Object ManagedObj) {
-  return void();
 };
 void TypeToTypeInfoMarshaler___::CleanUpNativeData(IntPtr pNativeData) {
-  return void();
 };
 Int32 TypeToTypeInfoMarshaler___::GetNativeDataSize() {
   return Int32();

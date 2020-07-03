@@ -14,16 +14,13 @@ Boolean ThreadPool::SetMaxThreads(Int32 workerThreads, Int32 completionPortThrea
   return Boolean();
 };
 void ThreadPool::GetMaxThreads(Int32& workerThreads, Int32& completionPortThreads) {
-  return void();
 };
 Boolean ThreadPool::SetMinThreads(Int32 workerThreads, Int32 completionPortThreads) {
   return Boolean();
 };
 void ThreadPool::GetMinThreads(Int32& workerThreads, Int32& completionPortThreads) {
-  return void();
 };
 void ThreadPool::GetAvailableThreads(Int32& workerThreads, Int32& completionPortThreads) {
-  return void();
 };
 RegisteredWaitHandle ThreadPool::RegisterWaitForSingleObject(WaitHandle waitObject, WaitOrTimerCallback callBack, Object state, UInt32 millisecondsTimeOutInterval, Boolean executeOnlyOnce, Boolean compressStack) {
   return nullptr;
@@ -32,13 +29,10 @@ Boolean ThreadPool::UnsafeQueueNativeOverlapped(NativeOverlapped* overlapped) {
   return Boolean();
 };
 void ThreadPool::EnsureInitialized() {
-  return void();
 };
 void ThreadPool::EnsureVMInitializedCore() {
-  return void();
 };
 void ThreadPool::NotifyWorkItemProgress() {
-  return void();
 };
 Boolean ThreadPool::BindHandle(IntPtr osHandle) {
   return Boolean();
@@ -83,7 +77,6 @@ Boolean ThreadPool::UnsafeQueueUserWorkItem(IThreadPoolWorkItem callBack, Boolea
   return Boolean();
 };
 void ThreadPool::UnsafeQueueUserWorkItemInternal(Object callBack, Boolean preferLocal) {
-  return void();
 };
 Boolean ThreadPool::TryPopCustomWorkItem(Object workItem) {
   return Boolean();

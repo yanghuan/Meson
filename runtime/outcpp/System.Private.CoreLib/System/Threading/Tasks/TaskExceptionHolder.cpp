@@ -5,22 +5,16 @@ Boolean TaskExceptionHolder___::get_ContainsFaultList() {
   return Boolean();
 };
 void TaskExceptionHolder___::Finalize() {
-  return void();
 };
 void TaskExceptionHolder___::Add(Object exceptionObject, Boolean representsCancellation) {
-  return void();
 };
 void TaskExceptionHolder___::SetCancellationException(Object exceptionObject) {
-  return void();
 };
 void TaskExceptionHolder___::AddFaultException(Object exceptionObject) {
-  return void();
 };
 void TaskExceptionHolder___::MarkAsUnhandled() {
-  return void();
 };
 void TaskExceptionHolder___::MarkAsHandled(Boolean calledFromFinalizer) {
-  return void();
 };
 AggregateException TaskExceptionHolder___::CreateExceptionObject(Boolean calledFromFinalizer, Exception includeThisException) {
   return nullptr;

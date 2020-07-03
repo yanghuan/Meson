@@ -8,6 +8,5 @@ String AnsiBSTRMarshaler::ConvertToManaged(IntPtr bstr) {
   return nullptr;
 };
 void AnsiBSTRMarshaler::ClearNative(IntPtr pNative) {
-  return void();
 };
 } // namespace System::Private::CoreLib::System::StubHelpers::AnsiBSTRMarshalerNamespace

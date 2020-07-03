@@ -98,22 +98,16 @@ Boolean BinaryPrimitives::TryReadUInt64LittleEndian(ReadOnlySpan<Byte> source, U
   return Boolean();
 };
 void BinaryPrimitives::WriteInt16BigEndian(Span<Byte> destination, Int16 value) {
-  return void();
 };
 void BinaryPrimitives::WriteInt32BigEndian(Span<Byte> destination, Int32 value) {
-  return void();
 };
 void BinaryPrimitives::WriteInt64BigEndian(Span<Byte> destination, Int64 value) {
-  return void();
 };
 void BinaryPrimitives::WriteUInt16BigEndian(Span<Byte> destination, UInt16 value) {
-  return void();
 };
 void BinaryPrimitives::WriteUInt32BigEndian(Span<Byte> destination, UInt32 value) {
-  return void();
 };
 void BinaryPrimitives::WriteUInt64BigEndian(Span<Byte> destination, UInt64 value) {
-  return void();
 };
 Boolean BinaryPrimitives::TryWriteInt16BigEndian(Span<Byte> destination, Int16 value) {
   return Boolean();
@@ -134,22 +128,16 @@ Boolean BinaryPrimitives::TryWriteUInt64BigEndian(Span<Byte> destination, UInt64
   return Boolean();
 };
 void BinaryPrimitives::WriteInt16LittleEndian(Span<Byte> destination, Int16 value) {
-  return void();
 };
 void BinaryPrimitives::WriteInt32LittleEndian(Span<Byte> destination, Int32 value) {
-  return void();
 };
 void BinaryPrimitives::WriteInt64LittleEndian(Span<Byte> destination, Int64 value) {
-  return void();
 };
 void BinaryPrimitives::WriteUInt16LittleEndian(Span<Byte> destination, UInt16 value) {
-  return void();
 };
 void BinaryPrimitives::WriteUInt32LittleEndian(Span<Byte> destination, UInt32 value) {
-  return void();
 };
 void BinaryPrimitives::WriteUInt64LittleEndian(Span<Byte> destination, UInt64 value) {
-  return void();
 };
 Boolean BinaryPrimitives::TryWriteInt16LittleEndian(Span<Byte> destination, Int16 value) {
   return Boolean();

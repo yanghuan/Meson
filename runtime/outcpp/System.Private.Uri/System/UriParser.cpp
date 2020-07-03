@@ -25,10 +25,8 @@ UriParser UriParser___::OnNewUri() {
   return nullptr;
 };
 void UriParser___::OnRegister(String schemeName, Int32 defaultPort) {
-  return void();
 };
 void UriParser___::InitializeAndValidate(Uri uri, UriFormatException& parsingError) {
-  return void();
 };
 String UriParser___::Resolve(Uri baseUri, Uri relativeUri, UriFormatException& parsingError) {
   return nullptr;
@@ -43,7 +41,6 @@ Boolean UriParser___::IsWellFormedOriginalString(Uri uri) {
   return Boolean();
 };
 void UriParser___::Register(UriParser uriParser, String schemeName, Int32 defaultPort) {
-  return void();
 };
 Boolean UriParser___::IsKnownScheme(String schemeName) {
   return Boolean();
@@ -61,7 +58,6 @@ Boolean UriParser___::IsFullMatch(UriSyntaxFlags flags, UriSyntaxFlags expected)
   return Boolean();
 };
 void UriParser___::FetchSyntax(UriParser syntax, String lwrCaseSchemeName, Int32 defaultPort) {
-  return void();
 };
 UriParser UriParser___::FindOrFetchAsUnknownV1Syntax(String lwrCaseScheme) {
   return nullptr;
@@ -70,13 +66,11 @@ UriParser UriParser___::GetSyntax(String lwrCaseScheme) {
   return nullptr;
 };
 void UriParser___::CheckSetIsSimpleFlag() {
-  return void();
 };
 UriParser UriParser___::InternalOnNewUri() {
   return nullptr;
 };
 void UriParser___::InternalValidate(Uri thisUri, UriFormatException& parsingError) {
-  return void();
 };
 String UriParser___::InternalResolve(Uri thisBaseUri, Uri uriLink, UriFormatException& parsingError) {
   return nullptr;

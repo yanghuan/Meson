@@ -5,7 +5,6 @@ Boolean DecoderDBCS___::IsLeadByte(Byte b) {
   return Boolean();
 };
 void DecoderDBCS___::Reset() {
-  return void();
 };
 Int32 DecoderDBCS___::GetCharCount(Array<Byte> bytes, Int32 index, Int32 count) {
   return Int32();
@@ -29,10 +28,8 @@ Int32 DecoderDBCS___::GetChars(Byte* bytes, Int32 byteCount, Char* chars, Int32 
   return Int32();
 };
 void DecoderDBCS___::Convert(Array<Byte> bytes, Int32 byteIndex, Int32 byteCount, Array<Char> chars, Int32 charIndex, Int32 charCount, Boolean flush, Int32& bytesUsed, Int32& charsUsed, Boolean& completed) {
-  return void();
 };
 void DecoderDBCS___::Convert(Byte* bytes, Int32 byteCount, Char* chars, Int32 charCount, Boolean flush, Int32& bytesUsed, Int32& charsUsed, Boolean& completed) {
-  return void();
 };
 Boolean DecoderDBCS___::IsLastByteALeadByte(Byte* bytes, Int32 count) {
   return Boolean();

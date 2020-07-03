@@ -8,7 +8,6 @@ Boolean ASCIIEncoding___::get_IsSingleByte() {
   return Boolean();
 };
 void ASCIIEncoding___::SetDefaultFallbacks() {
-  return void();
 };
 Int32 ASCIIEncoding___::GetByteCount(Array<Char> chars, Int32 index, Int32 count) {
   return Int32();

@@ -20,7 +20,6 @@ Int32 ThaiBuddhistCalendar___::get_TwoDigitYearMax() {
   return Int32();
 };
 void ThaiBuddhistCalendar___::set_TwoDigitYearMax(Int32 value) {
-  return void();
 };
 DateTime ThaiBuddhistCalendar___::AddMonths(DateTime time, Int32 months) {
   return DateTime();

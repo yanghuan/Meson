@@ -5,6 +5,5 @@ IntPtr UTF8BufferMarshaler::ConvertToNative(StringBuilder sb, IntPtr pNativeBuff
   return IntPtr();
 };
 void UTF8BufferMarshaler::ConvertToManaged(StringBuilder sb, IntPtr pNative) {
-  return void();
 };
 } // namespace System::Private::CoreLib::System::StubHelpers::UTF8BufferMarshalerNamespace

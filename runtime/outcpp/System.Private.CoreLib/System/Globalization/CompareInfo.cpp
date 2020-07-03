@@ -31,16 +31,12 @@ Boolean CompareInfo___::IsSortable(String text) {
   return Boolean();
 };
 void CompareInfo___::OnDeserializing(StreamingContext ctx) {
-  return void();
 };
 void CompareInfo___::OnDeserialized(StreamingContext ctx) {
-  return void();
 };
 void CompareInfo___::OnDeserialized() {
-  return void();
 };
 void CompareInfo___::OnSerializing(StreamingContext ctx) {
-  return void();
 };
 Int32 CompareInfo___::Compare(String string1, String string2) {
   return Int32();
@@ -244,7 +240,6 @@ IntPtr CompareInfo___::GetSortHandle(String cultureName) {
   return IntPtr();
 };
 void CompareInfo___::InitSort(CultureInfo culture) {
-  return void();
 };
 Int32 CompareInfo___::FindStringOrdinal(UInt32 dwFindStringOrdinalFlags, String stringSource, Int32 offset, Int32 cchSource, String value, Int32 cchValue, Boolean bIgnoreCase) {
   return Int32();

@@ -14,7 +14,6 @@ GregorianCalendarTypes GregorianCalendar___::get_CalendarType() {
   return GregorianCalendarTypes();
 };
 void GregorianCalendar___::set_CalendarType(GregorianCalendarTypes value) {
-  return void();
 };
 CalendarId GregorianCalendar___::get_ID() {
   return CalendarId();
@@ -26,7 +25,6 @@ Int32 GregorianCalendar___::get_TwoDigitYearMax() {
   return Int32();
 };
 void GregorianCalendar___::set_TwoDigitYearMax(Int32 value) {
-  return void();
 };
 Calendar GregorianCalendar___::GetDefaultInstance() {
   return nullptr;

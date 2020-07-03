@@ -11,6 +11,5 @@ Int32 DefaultValueAttribute___::GetHashCode() {
   return Int32();
 };
 void DefaultValueAttribute___::SetValue(Object value) {
-  return void();
 };
 } // namespace System::Private::CoreLib::System::ComponentModel::DefaultValueAttributeNamespace

@@ -8,7 +8,6 @@ Boolean EnumeratorViewOfEnumVariant___::MoveNext() {
   return Boolean();
 };
 void EnumeratorViewOfEnumVariant___::Reset() {
-  return void();
 };
 Object EnumeratorViewOfEnumVariant___::GetUnderlyingObject() {
   return nullptr;

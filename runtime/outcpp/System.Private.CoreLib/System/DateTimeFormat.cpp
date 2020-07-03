@@ -2,13 +2,10 @@
 
 namespace System::Private::CoreLib::System::DateTimeFormatNamespace {
 void DateTimeFormat::FormatDigits(StringBuilder outputBuffer, Int32 value, Int32 len) {
-  return void();
 };
 void DateTimeFormat::FormatDigits(StringBuilder outputBuffer, Int32 value, Int32 len, Boolean overrideLengthLimit) {
-  return void();
 };
 void DateTimeFormat::HebrewFormatDigits(StringBuilder outputBuffer, Int32 digits) {
-  return void();
 };
 Int32 DateTimeFormat::ParseRepeatPattern(ReadOnlySpan<Char> format, Int32 pos, Char patternChar) {
   return Int32();
@@ -35,13 +32,10 @@ StringBuilder DateTimeFormat::FormatCustomized(DateTime dateTime, ReadOnlySpan<C
   return nullptr;
 };
 void DateTimeFormat::FormatCustomizedTimeZone(DateTime dateTime, TimeSpan offset, ReadOnlySpan<Char> format, Int32 tokenLen, Boolean timeOnly, StringBuilder result) {
-  return void();
 };
 void DateTimeFormat::FormatCustomizedRoundripTimeZone(DateTime dateTime, TimeSpan offset, StringBuilder result) {
-  return void();
 };
 void DateTimeFormat::Append2DigitNumber(StringBuilder result, Int32 val) {
-  return void();
 };
 String DateTimeFormat::GetRealFormat(ReadOnlySpan<Char> format, DateTimeFormatInfo dtfi) {
   return nullptr;
@@ -71,13 +65,10 @@ Boolean DateTimeFormat::TryFormatR(DateTime dateTime, TimeSpan offset, Span<Char
   return Boolean();
 };
 void DateTimeFormat::WriteTwoDecimalDigits(UInt32 value, Span<Char> destination, Int32 offset) {
-  return void();
 };
 void DateTimeFormat::WriteFourDecimalDigits(UInt32 value, Span<Char> buffer, Int32 startingIndex) {
-  return void();
 };
 void DateTimeFormat::WriteDigits(UInt64 value, Span<Char> buffer) {
-  return void();
 };
 Array<String> DateTimeFormat::GetAllDateTimes(DateTime dateTime, Char format, DateTimeFormatInfo dtfi) {
   return Array<String>();
@@ -86,6 +77,5 @@ Array<String> DateTimeFormat::GetAllDateTimes(DateTime dateTime, DateTimeFormatI
   return Array<String>();
 };
 void DateTimeFormat::InvalidFormatForLocal(ReadOnlySpan<Char> format, DateTime dateTime) {
-  return void();
 };
 } // namespace System::Private::CoreLib::System::DateTimeFormatNamespace

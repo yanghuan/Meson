@@ -5,16 +5,12 @@ IList<String> ManifestBuilder___::get_Errors() {
   return nullptr;
 };
 void ManifestBuilder___::AddOpcode(String name, Int32 value) {
-  return void();
 };
 void ManifestBuilder___::AddTask(String name, Int32 value) {
-  return void();
 };
 void ManifestBuilder___::AddKeyword(String name, UInt64 value) {
-  return void();
 };
 void ManifestBuilder___::AddChannel(String name, Int32 value, EventChannelAttribute channelAttribute) {
-  return void();
 };
 EventChannelType ManifestBuilder___::EventChannelToChannelType(EventChannel channel) {
   return EventChannelType();
@@ -26,13 +22,10 @@ Array<UInt64> ManifestBuilder___::GetChannelData() {
   return Array<UInt64>();
 };
 void ManifestBuilder___::StartEvent(String eventName, EventAttribute eventAttribute) {
-  return void();
 };
 void ManifestBuilder___::AddEventParameter(Type type, String name) {
-  return void();
 };
 void ManifestBuilder___::EndEvent() {
-  return void();
 };
 UInt64 ManifestBuilder___::GetChannelKeyword(EventChannel channel, UInt64 channelKeyword) {
   return UInt64();
@@ -41,16 +34,13 @@ Array<Byte> ManifestBuilder___::CreateManifest() {
   return Array<Byte>();
 };
 void ManifestBuilder___::ManifestError(String msg, Boolean runtimeCritical) {
-  return void();
 };
 String ManifestBuilder___::CreateManifestString() {
   return nullptr;
 };
 void ManifestBuilder___::WriteNameAndMessageAttribs(StringBuilder stringBuilder, String elementName, String name) {
-  return void();
 };
 void ManifestBuilder___::WriteMessageAttrib(StringBuilder stringBuilder, String elementName, String name, String value) {
-  return void();
 };
 String ManifestBuilder___::GetLocalizedMessage(String key, CultureInfo ci, Boolean etwFormat) {
   return nullptr;
@@ -77,7 +67,6 @@ String ManifestBuilder___::GetTypeName(Type type) {
   return nullptr;
 };
 void ManifestBuilder___::UpdateStringBuilder(StringBuilder& stringBuilder, String eventMessage, Int32 startIndex, Int32 count) {
-  return void();
 };
 String ManifestBuilder___::TranslateToManifestConvention(String eventMessage, String evtName) {
   return nullptr;

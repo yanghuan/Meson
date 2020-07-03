@@ -29,25 +29,18 @@ Type PropertyBuilder___::get_ReflectedType() {
   return nullptr;
 };
 void PropertyBuilder___::SetConstant(Object defaultValue) {
-  return void();
 };
 void PropertyBuilder___::SetMethodSemantics(MethodBuilder mdBuilder, MethodSemanticsAttributes semantics) {
-  return void();
 };
 void PropertyBuilder___::SetGetMethod(MethodBuilder mdBuilder) {
-  return void();
 };
 void PropertyBuilder___::SetSetMethod(MethodBuilder mdBuilder) {
-  return void();
 };
 void PropertyBuilder___::AddOtherMethod(MethodBuilder mdBuilder) {
-  return void();
 };
 void PropertyBuilder___::SetCustomAttribute(ConstructorInfo con, Array<Byte> binaryAttribute) {
-  return void();
 };
 void PropertyBuilder___::SetCustomAttribute(CustomAttributeBuilder customBuilder) {
-  return void();
 };
 Object PropertyBuilder___::GetValue(Object obj, Array<Object> index) {
   return nullptr;
@@ -56,10 +49,8 @@ Object PropertyBuilder___::GetValue(Object obj, BindingFlags invokeAttr, Binder 
   return nullptr;
 };
 void PropertyBuilder___::SetValue(Object obj, Object value, Array<Object> index) {
-  return void();
 };
 void PropertyBuilder___::SetValue(Object obj, Object value, BindingFlags invokeAttr, Binder binder, Array<Object> index, CultureInfo culture) {
-  return void();
 };
 Array<MethodInfo> PropertyBuilder___::GetAccessors(Boolean nonPublic) {
   return Array<MethodInfo>();

@@ -4,7 +4,6 @@
 
 namespace System::Private::CoreLib::System::LazyHelperNamespace {
 void LazyHelper___::ThrowException() {
-  return void();
 };
 LazyThreadSafetyMode LazyHelper___::GetMode() {
   return LazyThreadSafetyMode();

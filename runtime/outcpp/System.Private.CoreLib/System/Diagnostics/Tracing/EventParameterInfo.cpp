@@ -2,7 +2,6 @@
 
 namespace System::Private::CoreLib::System::Diagnostics::Tracing::EventParameterInfoNamespace {
 void EventParameterInfo::SetInfo(String name, Type type, TraceLoggingTypeInfo typeInfo) {
-  return void();
 };
 Boolean EventParameterInfo::GenerateMetadata(Byte* pMetadataBlob, UInt32& offset, UInt32 blobSize) {
   return Boolean();

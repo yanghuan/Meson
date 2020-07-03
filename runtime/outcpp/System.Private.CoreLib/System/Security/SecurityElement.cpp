@@ -7,37 +7,29 @@ String SecurityElement___::get_Tag() {
   return nullptr;
 };
 void SecurityElement___::set_Tag(String value) {
-  return void();
 };
 Hashtable SecurityElement___::get_Attributes() {
   return nullptr;
 };
 void SecurityElement___::set_Attributes(Hashtable value) {
-  return void();
 };
 String SecurityElement___::get_Text() {
   return nullptr;
 };
 void SecurityElement___::set_Text(String value) {
-  return void();
 };
 ArrayList SecurityElement___::get_Children() {
   return nullptr;
 };
 void SecurityElement___::set_Children(ArrayList value) {
-  return void();
 };
 void SecurityElement___::ConvertSecurityElementFactories() {
-  return void();
 };
 void SecurityElement___::AddAttributeSafe(String name, String value) {
-  return void();
 };
 void SecurityElement___::AddAttribute(String name, String value) {
-  return void();
 };
 void SecurityElement___::AddChild(SecurityElement child) {
-  return void();
 };
 Boolean SecurityElement___::Equal(SecurityElement other) {
   return Boolean();
@@ -73,7 +65,6 @@ String SecurityElement___::ToString() {
   return nullptr;
 };
 void SecurityElement___::ToString(String indent, Object obj, Action<Object, String> write) {
-  return void();
 };
 String SecurityElement___::Attribute(String name) {
   return nullptr;
