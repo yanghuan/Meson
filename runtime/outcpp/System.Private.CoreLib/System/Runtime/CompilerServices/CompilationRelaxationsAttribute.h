@@ -1,10 +1,12 @@
 #pragma once
 
 #include <rt/GCObject.h>
+#include <System.Private.CoreLib/System/Int32.h>
 
 namespace System::Private::CoreLib::System::Runtime::CompilerServices {
 namespace CompilationRelaxationsAttributeNamespace {
 CLASS(CompilationRelaxationsAttribute) {
+  private: Int32 CompilationRelaxations;
 };
 } // namespace CompilationRelaxationsAttributeNamespace
 using CompilationRelaxationsAttribute = CompilationRelaxationsAttributeNamespace::CompilationRelaxationsAttribute;

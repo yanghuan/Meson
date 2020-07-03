@@ -1,11 +1,11 @@
 #pragma once
 
 #include <rt/GCObject.h>
+#include <System.Private.CoreLib/System/Boolean.h>
 #include <System.Private.CoreLib/System/Int32.h>
 
 namespace System::Private::CoreLib::System {
 FORWARD_(Array, T1, T2)
-FORWARDS(Boolean)
 FORWARDS(Byte)
 FORWARDS(Char)
 FORWARDS(DateTime)
@@ -25,12 +25,16 @@ FORWARDS(UInt64)
 namespace System::Private::CoreLib::System::Collections::Generic {
 FORWARD(Dictionary, TKey, TValue)
 } // namespace System::Private::CoreLib::System::Collections::Generic
+namespace System::Private::CoreLib::System::Threading {
+FORWARD(AsyncLocal, T)
+} // namespace System::Private::CoreLib::System::Threading
 namespace System::Private::CoreLib::System::Runtime::Serialization {
 FORWARDS(DeserializationToken)
 FORWARD(SerializationInfoEnumerator)
 FORWARD(IFormatterConverter)
 namespace SerializationInfoNamespace {
 using namespace ::System::Private::CoreLib::System::Collections::Generic;
+using namespace ::System::Private::CoreLib::System::Threading;
 CLASS(SerializationInfo) {
   public: static Boolean get_DeserializationInProgress();
   public: String get_FullTypeName();
@@ -92,6 +96,9 @@ CLASS(SerializationInfo) {
   private: String _rootTypeName;
   private: String _rootTypeAssemblyName;
   private: Type _rootType;
+  private: static AsyncLocal<Boolean> AsyncDeserializationInProgress;
+  private: Boolean IsFullTypeNameSetExplicit;
+  private: Boolean IsAssemblyNameSetExplicit;
 };
 } // namespace SerializationInfoNamespace
 using SerializationInfo = SerializationInfoNamespace::SerializationInfo;

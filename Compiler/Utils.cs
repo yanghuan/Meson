@@ -623,6 +623,21 @@ namespace Meson.Compiler {
       return property.Getter?.GetAttribute(KnownAttribute.CompilerGenerated) != null;
     }
 
+    private const string kBackingFieldSuffix = ">k__BackingField";
+
+    public static bool IsBackingField(this IField field) {
+      return field.Name.StartsWith('<') && field.Name.EndsWith(kBackingFieldSuffix);
+    }
+
+    public static bool TryGetBackingFieldName(this IField field, out string name) {
+      if (field.IsBackingField()) {
+        name = field.Name[1 .. ^kBackingFieldSuffix.Length];
+        return true;
+      }
+      name = null;
+      return false;
+    }
+
     public static string RemoveSpeacialChars(this string name) {
       return name.Replace(".", "").Replace("<", "").Replace(">", "").Replace(",", "");
     }

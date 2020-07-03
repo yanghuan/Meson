@@ -11,6 +11,7 @@ enum class CharSet;
 enum class CallingConvention;
 namespace DllImportAttributeNamespace {
 CLASS(DllImportAttribute) {
+  private: String Value;
   public: String EntryPoint;
   public: CharSet CharSet;
   public: Boolean SetLastError;

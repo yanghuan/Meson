@@ -11,6 +11,7 @@ FORWARD(ExceptionDispatchInfo)
 namespace System::Private::CoreLib::System {
 FORWARDS_(Nullable, T1, T2)
 FORWARDS(Boolean)
+enum class LazyState;
 namespace LazyHelperNamespace {
 using namespace ::System::Private::CoreLib::System::Runtime::ExceptionServices;
 using namespace ::System::Private::CoreLib::System::Threading;
@@ -26,6 +27,7 @@ CLASS(LazyHelper) {
   public: static LazyHelper PublicationOnlyViaConstructor;
   public: static LazyHelper PublicationOnlyViaFactory;
   public: static LazyHelper PublicationOnlyWaitForOtherThreadToPublish;
+  private: LazyState State;
   private: ExceptionDispatchInfo _exceptionDispatch;
 };
 } // namespace LazyHelperNamespace

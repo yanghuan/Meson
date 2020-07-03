@@ -6,6 +6,7 @@
 namespace System::Private::CoreLib::System::Runtime::InteropServices {
 namespace BestFitMappingAttributeNamespace {
 CLASS(BestFitMappingAttribute) {
+  private: Boolean BestFitMapping;
   public: Boolean ThrowOnUnmappableChar;
 };
 } // namespace BestFitMappingAttributeNamespace

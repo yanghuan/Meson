@@ -11,6 +11,7 @@ namespace System::Private::CoreLib::System::Collections::Generic {
 FORWARD(Dictionary, TKey, TValue)
 } // namespace System::Private::CoreLib::System::Collections::Generic
 namespace System::Private::CoreLib::System::Diagnostics::Tracing {
+FORWARD(EventSource)
 FORWARD(CounterGroup)
 namespace DiagnosticCounterNamespace {
 using namespace ::System::Private::CoreLib::System::Collections::Generic;
@@ -26,6 +27,8 @@ CLASS(DiagnosticCounter) {
   public: String GetMetadataString();
   private: String _displayName;
   private: String _displayUnits;
+  private: String Name;
+  private: EventSource EventSource;
   private: CounterGroup _group;
   private: Dictionary<String, String> _metadata;
 };

@@ -2,9 +2,13 @@
 
 #include <rt/GCObject.h>
 
+namespace System::Private::CoreLib::System {
+FORWARD(String)
+} // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Diagnostics::CodeAnalysis {
 namespace NotNullIfNotNullAttributeNamespace {
 CLASS(NotNullIfNotNullAttribute) {
+  private: String ParameterName;
 };
 } // namespace NotNullIfNotNullAttributeNamespace
 using NotNullIfNotNullAttribute = NotNullIfNotNullAttributeNamespace::NotNullIfNotNullAttribute;

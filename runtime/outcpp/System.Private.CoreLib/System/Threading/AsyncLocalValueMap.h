@@ -56,6 +56,7 @@ class AsyncLocalValueMap {
   };
   public: static Boolean IsEmpty(IAsyncLocalValueMap asyncLocalValueMap);
   public: static IAsyncLocalValueMap Create(IAsyncLocal key, Object value, Boolean treatNullValueAsNonexistent);
+  private: static IAsyncLocalValueMap Empty;
 };
 } // namespace AsyncLocalValueMapNamespace
 using AsyncLocalValueMap = AsyncLocalValueMapNamespace::AsyncLocalValueMap;

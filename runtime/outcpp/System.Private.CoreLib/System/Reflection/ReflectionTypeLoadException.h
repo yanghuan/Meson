@@ -3,8 +3,11 @@
 #include <rt/GCObject.h>
 
 namespace System::Private::CoreLib::System {
+FORWARD_(Array, T1, T2)
 FORWARDS(Boolean)
+FORWARD(Exception)
 FORWARD(String)
+FORWARD(Type)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Runtime::Serialization {
 FORWARD(SerializationInfo)
@@ -18,6 +21,8 @@ CLASS(ReflectionTypeLoadException) {
   public: void GetObjectData(SerializationInfo info, StreamingContext context);
   public: String ToString();
   private: String CreateString(Boolean isMessage);
+  private: Array<Type> Types;
+  private: Array<Exception> LoaderExceptions;
 };
 } // namespace ReflectionTypeLoadExceptionNamespace
 using ReflectionTypeLoadException = ReflectionTypeLoadExceptionNamespace::ReflectionTypeLoadException;

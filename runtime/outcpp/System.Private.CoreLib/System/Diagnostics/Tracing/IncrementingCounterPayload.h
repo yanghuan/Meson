@@ -1,6 +1,8 @@
 #pragma once
 
 #include <rt/GCObject.h>
+#include <System.Private.CoreLib/System/Double.h>
+#include <System.Private.CoreLib/System/Single.h>
 
 namespace System::Private::CoreLib::System::Collections::Generic {
 FORWARD(IEnumerable, T)
@@ -18,6 +20,15 @@ using ::System::Private::CoreLib::System::Collections::Generic::IEnumerator;
 CLASS(IncrementingCounterPayload) {
   private: IEnumerable<KeyValuePair<String, Object>> get_ForEnumeration();
   public: IEnumerator<KeyValuePair<String, Object>> GetEnumerator();
+  private: String Name;
+  private: String DisplayName;
+  private: String DisplayRateTimeScale;
+  private: Double Increment;
+  private: Single IntervalSec;
+  private: String Metadata;
+  private: String Series;
+  private: String CounterType;
+  private: String DisplayUnits;
 };
 } // namespace IncrementingCounterPayloadNamespace
 using IncrementingCounterPayload = IncrementingCounterPayloadNamespace::IncrementingCounterPayload;

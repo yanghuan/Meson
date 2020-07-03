@@ -2,9 +2,13 @@
 
 #include <rt/GCObject.h>
 
+namespace System::Private::CoreLib::System {
+FORWARD(String)
+} // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Diagnostics {
 namespace ConditionalAttributeNamespace {
 CLASS(ConditionalAttribute) {
+  private: String ConditionString;
 };
 } // namespace ConditionalAttributeNamespace
 using ConditionalAttribute = ConditionalAttributeNamespace::ConditionalAttribute;

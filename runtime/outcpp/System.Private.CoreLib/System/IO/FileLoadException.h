@@ -24,6 +24,8 @@ CLASS(FileLoadException) {
   private: static void GetMessageForHR(Int32 hresult, StringHandleOnStack retString);
   public: String ToString();
   public: void GetObjectData(SerializationInfo info, StreamingContext context);
+  private: String FileName;
+  private: String FusionLog;
 };
 } // namespace FileLoadExceptionNamespace
 using FileLoadException = FileLoadExceptionNamespace::FileLoadException;

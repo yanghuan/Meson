@@ -40,6 +40,7 @@ struct ArraySegment {
   public: ArraySegment<T> Slice(Int32 index, Int32 count);
   public: Array<T> ToArray();
   private: void ThrowInvalidOperationIfDefault();
+  private: static ArraySegment<T> Empty;
   private: Array<T> _array;
   private: Int32 _offset;
   private: Int32 _count;

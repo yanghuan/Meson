@@ -103,16 +103,22 @@ namespace Meson.Compiler {
               }
               break;
             }
+          case SymbolKind.Field: {
+              var field = (IField)symbol;
+              if (field.TryGetBackingFieldName(out string backingFieldName)) {
+                symbolName = backingFieldName;
+              }
+              break;
+            }
         }
         name = new SymbolNameSyntax(symbolName);
         memberNames_.Add(symbol, name);
-        CheckMemberBadName(symbol, name);
+        CheckMemberBadName(symbol, symbolName, name);
       }
       return name;
     }
 
-    private void CheckMemberBadName(ISymbol symbol, SymbolNameSyntax name) {
-      string originalString = symbol.Name;
+    private void CheckMemberBadName(ISymbol symbol, string originalString, SymbolNameSyntax name) {
       switch (symbol.SymbolKind) {
         case SymbolKind.Field:
         case SymbolKind.Method:

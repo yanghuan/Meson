@@ -13,6 +13,9 @@ CLASS(ManifestResourceInfo) {
   public: Assembly get_ReferencedAssembly();
   public: String get_FileName();
   public: ResourceLocation get_ResourceLocation();
+  private: Assembly ReferencedAssembly;
+  private: String FileName;
+  private: ResourceLocation ResourceLocation;
 };
 } // namespace ManifestResourceInfoNamespace
 using ManifestResourceInfo = ManifestResourceInfoNamespace::ManifestResourceInfo;

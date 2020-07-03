@@ -33,6 +33,7 @@ CLASS(TimerQueue) {
   public: void DeleteTimer(TimerQueueTimer timer);
   private: Int32 _id;
   private: AppDomainTimerSafeHandle m_appDomainTimer;
+  private: static Array<TimerQueue> Instances;
   private: Boolean _isTimerScheduled;
   private: Int64 _currentTimerStartTicks;
   private: UInt32 _currentTimerDuration;
@@ -40,6 +41,7 @@ CLASS(TimerQueue) {
   private: TimerQueueTimer _longTimers;
   private: Int64 _currentAbsoluteThreshold;
   private: Int32 _pauseTicks;
+  private: Int64 ActiveCount;
 };
 } // namespace TimerQueueNamespace
 using TimerQueue = TimerQueueNamespace::TimerQueue;

@@ -4,7 +4,14 @@
 #include <System.Private.CoreLib/System/Boolean.h>
 #include <System.Private.CoreLib/System/Int32.h>
 
+namespace System::Private::CoreLib::System::Collections::Generic {
+FORWARD(IDictionary, TKey, TValue)
+} // namespace System::Private::CoreLib::System::Collections::Generic
+namespace System::Private::CoreLib::System {
+FORWARD(String)
+} // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Diagnostics::Tracing {
+enum class EventCommand;
 FORWARD(EventSource)
 FORWARD(EventDispatcher)
 enum class EventProviderType;
@@ -12,9 +19,12 @@ FORWARD(EventListener)
 enum class EventLevel;
 enum class EventKeywords : int64_t;
 namespace EventCommandEventArgsNamespace {
+using namespace ::System::Private::CoreLib::System::Collections::Generic;
 CLASS(EventCommandEventArgs) {
   public: Boolean EnableEvent(Int32 eventId);
   public: Boolean DisableEvent(Int32 eventId);
+  private: EventCommand Command;
+  private: IDictionary<String, String> Arguments;
   public: EventSource eventSource;
   public: EventDispatcher dispatcher;
   public: EventProviderType eventProviderType;

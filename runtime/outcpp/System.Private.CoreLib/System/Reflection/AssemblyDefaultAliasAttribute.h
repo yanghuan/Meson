@@ -2,9 +2,13 @@
 
 #include <rt/GCObject.h>
 
+namespace System::Private::CoreLib::System {
+FORWARD(String)
+} // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Reflection {
 namespace AssemblyDefaultAliasAttributeNamespace {
 CLASS(AssemblyDefaultAliasAttribute) {
+  private: String DefaultAlias;
 };
 } // namespace AssemblyDefaultAliasAttributeNamespace
 using AssemblyDefaultAliasAttribute = AssemblyDefaultAliasAttributeNamespace::AssemblyDefaultAliasAttribute;

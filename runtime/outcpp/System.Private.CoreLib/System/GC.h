@@ -1,11 +1,13 @@
 #pragma once
 
 #include <rt/GCObject.h>
+#include <System.Private.CoreLib/System/Single.h>
 
 namespace System::Private::CoreLib::System::Collections::Generic {
 FORWARD(List, T)
 } // namespace System::Private::CoreLib::System::Collections::Generic
 namespace System::Private::CoreLib::System {
+FORWARD_(Action, T1, T2, T3, T4, T5, T6, T7, T8, T9)
 FORWARDS(Int32)
 FORWARDS(UInt64)
 FORWARDS(UInt32)
@@ -19,7 +21,6 @@ FORWARD(Object)
 enum class GCCollectionMode;
 FORWARD_(WeakReference, T1, T2)
 enum class GCNotificationStatus;
-FORWARDS(Single)
 namespace GCNamespace {
 using namespace ::System::Private::CoreLib::System::Collections::Generic;
 class GC {
@@ -36,6 +37,9 @@ class GC {
     AllocationExceeded = 3,
   };
   private: struct MemoryLoadChangeNotification {
+    private: Single LowMemoryPercent;
+    private: Single HighMemoryPercent;
+    private: Action<> Notification;
   };
   public: static Int32 get_MaxGeneration();
   public: static void GetMemoryInfo(UInt64& highMemLoadThresholdBytes, UInt64& totalAvailableMemoryBytes, UInt64& lastRecordedMemLoadBytes, UInt32& lastRecordedMemLoadPct, UIntPtr& lastRecordedHeapSizeBytes, UIntPtr& lastRecordedFragmentationBytes);

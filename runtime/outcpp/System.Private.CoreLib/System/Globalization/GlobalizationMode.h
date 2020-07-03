@@ -10,6 +10,7 @@ namespace GlobalizationModeNamespace {
 CLASS(GlobalizationMode) {
   public: static Boolean GetInvariantSwitchValue();
   private: static Boolean GetGlobalizationInvariantMode();
+  private: static Boolean Invariant;
 };
 } // namespace GlobalizationModeNamespace
 using GlobalizationMode = GlobalizationModeNamespace::GlobalizationMode;

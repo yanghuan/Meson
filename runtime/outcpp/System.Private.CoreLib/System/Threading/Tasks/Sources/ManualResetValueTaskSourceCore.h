@@ -40,6 +40,7 @@ struct ManualResetValueTaskSourceCore {
   private: TResult _result;
   private: ExceptionDispatchInfo _error;
   private: Int16 _version;
+  private: Boolean RunContinuationsAsynchronously;
 };
 } // namespace ManualResetValueTaskSourceCoreNamespace
 template <class TResult>

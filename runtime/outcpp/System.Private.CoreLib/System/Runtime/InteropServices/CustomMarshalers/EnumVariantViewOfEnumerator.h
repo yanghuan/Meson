@@ -11,8 +11,12 @@ FORWARDS(Int32)
 FORWARDS(IntPtr)
 FORWARD(Object)
 } // namespace System::Private::CoreLib::System
+namespace System::Private::CoreLib::System::Collections {
+FORWARD(IEnumerator)
+} // namespace System::Private::CoreLib::System::Collections
 namespace System::Private::CoreLib::System::Runtime::InteropServices::CustomMarshalers {
 namespace EnumVariantViewOfEnumeratorNamespace {
+using namespace ::System::Private::CoreLib::System::Collections;
 using namespace ::System::Private::CoreLib::System::Runtime::InteropServices::ComTypes;
 CLASS(EnumVariantViewOfEnumerator) {
   public: IEnumVARIANT Clone();
@@ -20,6 +24,7 @@ CLASS(EnumVariantViewOfEnumerator) {
   public: Int32 Reset();
   public: Int32 Skip(Int32 celt);
   public: Object GetUnderlyingObject();
+  private: IEnumerator Enumerator;
 };
 } // namespace EnumVariantViewOfEnumeratorNamespace
 using EnumVariantViewOfEnumerator = EnumVariantViewOfEnumeratorNamespace::EnumVariantViewOfEnumerator;

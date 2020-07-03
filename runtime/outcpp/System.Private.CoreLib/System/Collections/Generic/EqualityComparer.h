@@ -14,6 +14,7 @@ CLASS(EqualityComparer, T) {
   public: Int32 LastIndexOf(Array<T> array, T value, Int32 startIndex, Int32 count);
   public: Boolean Equals(T x, T y);
   public: Int32 GetHashCode(T obj);
+  private: static EqualityComparer<T> Default;
 };
 } // namespace EqualityComparerNamespace
 template <class T>

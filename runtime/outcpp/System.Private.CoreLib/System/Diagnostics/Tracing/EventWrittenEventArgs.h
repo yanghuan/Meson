@@ -1,12 +1,15 @@
 #pragma once
 
 #include <rt/GCObject.h>
+#include <System.Private.CoreLib/System/DateTime.h>
 #include <System.Private.CoreLib/System/Guid.h>
+#include <System.Private.CoreLib/System/Int32.h>
 #include <System.Private.CoreLib/System/Int64.h>
 #include <System.Private.CoreLib/System/Nullable.h>
 
 namespace System::Private::CoreLib::System {
 FORWARDS(Byte)
+FORWARD(Object)
 FORWARD(String)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Collections::ObjectModel {
@@ -41,6 +44,10 @@ CLASS(EventWrittenEventArgs) {
   public: EventLevel get_Level();
   public: Int64 get_OSThreadId();
   public: void set_OSThreadId(Int64 value);
+  private: Int32 EventId;
+  private: Guid RelatedActivityId;
+  private: ReadOnlyCollection<Object> Payload;
+  private: DateTime TimeStamp;
   private: String m_message;
   private: String m_eventName;
   private: EventSource m_eventSource;

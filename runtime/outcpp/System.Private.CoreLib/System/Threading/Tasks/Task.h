@@ -128,6 +128,8 @@ CLASS_(Task) {
   public: static Boolean s_asyncDebuggingEnabled;
   private: static Dictionary<Int32, Task<>> s_currentActiveTasks;
   public: ContingentProperties m_contingentProperties;
+  private: static TaskFactory<> Factory;
+  private: static Task<> CompletedTask;
   private: static ContextCallback<> s_ecCallback;
 };
 CLASS_(Task, TResult) {

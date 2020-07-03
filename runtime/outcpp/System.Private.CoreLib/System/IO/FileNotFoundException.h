@@ -17,6 +17,8 @@ CLASS(FileNotFoundException) {
   private: void SetMessageField();
   public: String ToString();
   public: void GetObjectData(SerializationInfo info, StreamingContext context);
+  private: String FileName;
+  private: String FusionLog;
 };
 } // namespace FileNotFoundExceptionNamespace
 using FileNotFoundException = FileNotFoundExceptionNamespace::FileNotFoundException;

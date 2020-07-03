@@ -1,10 +1,10 @@
 #pragma once
 
 #include <rt/GCObject.h>
+#include <System.Private.CoreLib/System/Int32.h>
 
 namespace System::Private::CoreLib::System {
 FORWARDS(Boolean)
-FORWARDS(Int32)
 FORWARD(Object)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Reflection::Emit {
@@ -15,6 +15,7 @@ struct FieldToken {
   public: Boolean Equals(FieldToken obj);
   public: static FieldToken Empty;
   private: Object _class;
+  private: Int32 Token;
 };
 } // namespace FieldTokenNamespace
 using FieldToken = FieldTokenNamespace::FieldToken;

@@ -4,6 +4,7 @@
 
 namespace System::Private::CoreLib::System {
 FORWARD_(Array, T1, T2)
+FORWARDS(Boolean)
 FORWARDS(Char)
 FORWARDS(Int32)
 FORWARD(String)
@@ -31,6 +32,7 @@ class EventPipeController {
   private: static UInt32 DefaultCircularBufferMB;
   private: static Char ProviderConfigDelimiter;
   private: static Char ConfigComponentDelimiter;
+  private: static Boolean IsControllerInitialized;
 };
 } // namespace EventPipeControllerNamespace
 using EventPipeController = EventPipeControllerNamespace::EventPipeController;

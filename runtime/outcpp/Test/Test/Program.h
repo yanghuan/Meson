@@ -1,6 +1,7 @@
 #pragma once
 
 #include <rt/GCObject.h>
+#include <System.Private.CoreLib/System/Int32.h>
 
 namespace System::Private::CoreLib::System {
 FORWARD_(Array, T1, T2)
@@ -11,6 +12,7 @@ namespace ProgramNamespace {
 using namespace ::System::Private::CoreLib::System;
 CLASS(Program) {
   public: static void Main(Array<String> args);
+  private: Int32 A;
 };
 } // namespace ProgramNamespace
 using Program = ProgramNamespace::Program;

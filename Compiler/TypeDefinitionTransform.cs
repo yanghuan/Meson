@@ -241,7 +241,8 @@ namespace Meson.Compiler {
 
     private void VisitFields(ITypeDefinition typeDefinition, ClassSyntax node) {
       foreach (var field in typeDefinition.Fields) {
-        if (!field.Name.StartsWith('<')) {
+        //if (!field.Name.StartsWith('<')) 
+        {
           if (IsValueTypeInnerField(field, typeDefinition, out ExpressionSyntax typeName)) {
           } else if (IsArrayInnerSpecialField(field, typeDefinition, out typeName)) {
           } else {
@@ -254,7 +255,7 @@ namespace Meson.Compiler {
       }
     }
 
-    private ExpressionSyntax GetFieldTypeName(IField field, ITypeDefinition typeDefinition) {
+    private bool CheckFixedBufferField(IField field, ITypeDefinition typeDefinition, out ExpressionSyntax result) {
       if (field.Type.Name.StartsWith('<')) {
         var attr = field.GetAttribute(KnownAttribute.FixedBuffer);
         if (attr != null) {
@@ -268,8 +269,17 @@ namespace Meson.Compiler {
             Original = type,
             Symbol = field,
           });
-          return new GenericIdentifierSyntax(IdentifierSyntax.FixedBuffer, name, (IdentifierSyntax)size.ToString());
+          result = new GenericIdentifierSyntax(IdentifierSyntax.FixedBuffer, name, (IdentifierSyntax)size.ToString());
+          return true;
         }
+      }
+      result = null;
+      return false;
+    }
+
+    private ExpressionSyntax GetFieldTypeName(IField field, ITypeDefinition typeDefinition) {
+      if (CheckFixedBufferField(field, typeDefinition, out var buffField)) {
+        return buffField;
       }
 
       var typeName = CompilationUnit.GetTypeName(new TypeNameArgs {

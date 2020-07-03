@@ -9,10 +9,11 @@ FORWARD(String)
 FORWARD(Type)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Runtime::InteropServices {
-enum class VarEnum;
 enum class UnmanagedType;
+enum class VarEnum;
 namespace MarshalAsAttributeNamespace {
 CLASS(MarshalAsAttribute) {
+  private: UnmanagedType Value;
   public: VarEnum SafeArraySubType;
   public: Type SafeArrayUserDefinedSubType;
   public: Int32 IidParameterIndex;

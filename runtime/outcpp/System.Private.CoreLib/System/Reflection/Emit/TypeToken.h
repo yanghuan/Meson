@@ -1,10 +1,10 @@
 #pragma once
 
 #include <rt/GCObject.h>
+#include <System.Private.CoreLib/System/Int32.h>
 
 namespace System::Private::CoreLib::System {
 FORWARDS(Boolean)
-FORWARDS(Int32)
 FORWARD(Object)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Reflection::Emit {
@@ -14,6 +14,7 @@ struct TypeToken {
   public: Boolean Equals(Object obj);
   public: Boolean Equals(TypeToken obj);
   public: static TypeToken Empty;
+  private: Int32 Token;
 };
 } // namespace TypeTokenNamespace
 using TypeToken = TypeTokenNamespace::TypeToken;

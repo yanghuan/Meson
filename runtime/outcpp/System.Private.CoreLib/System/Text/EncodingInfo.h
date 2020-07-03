@@ -1,11 +1,12 @@
 #pragma once
 
 #include <rt/GCObject.h>
+#include <System.Private.CoreLib/System/Int32.h>
 
 namespace System::Private::CoreLib::System {
 FORWARDS(Boolean)
-FORWARDS(Int32)
 FORWARD(Object)
+FORWARD(String)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Text {
 FORWARD(Encoding)
@@ -14,6 +15,9 @@ CLASS(EncodingInfo) {
   public: Encoding GetEncoding();
   public: Boolean Equals(Object value);
   public: Int32 GetHashCode();
+  private: Int32 CodePage;
+  private: String Name;
+  private: String DisplayName;
 };
 } // namespace EncodingInfoNamespace
 using EncodingInfo = EncodingInfoNamespace::EncodingInfo;

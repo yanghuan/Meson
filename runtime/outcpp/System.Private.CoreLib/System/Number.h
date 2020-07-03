@@ -5,6 +5,7 @@
 #include <System.Private.CoreLib/System/Byte.h>
 #include <System.Private.CoreLib/System/Int32.h>
 #include <System.Private.CoreLib/System/Span.h>
+#include <System.Private.CoreLib/System/UInt16.h>
 #include <System.Private.CoreLib/System/UInt32.h>
 #include <System.Private.CoreLib/System/UInt64.h>
 
@@ -122,6 +123,17 @@ class Number {
   public: struct FloatingPointInfo {
     public: static FloatingPointInfo Double;
     public: static FloatingPointInfo Single;
+    private: UInt64 ZeroBits;
+    private: UInt64 InfinityBits;
+    private: UInt64 NormalMantissaMask;
+    private: UInt64 DenormalMantissaMask;
+    private: Int32 MinBinaryExponent;
+    private: Int32 MaxBinaryExponent;
+    private: Int32 ExponentBias;
+    private: Int32 OverflowDecimalExponent;
+    private: UInt16 NormalMantissaBits;
+    private: UInt16 DenormalMantissaBits;
+    private: UInt16 ExponentBits;
   };
   public: static ReadOnlySpan<Byte> get_CharToHexLookup();
   public: static void Dragon4Double(Double value, Int32 cutoffNumber, Boolean isSignificantDigits, NumberBuffer& number);

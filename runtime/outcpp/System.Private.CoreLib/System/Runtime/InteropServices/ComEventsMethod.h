@@ -23,6 +23,7 @@ CLASS(ComEventsMethod) {
     private: Boolean _once;
     private: Int32 _expectedParamsCount;
     private: Array<Type> _cachedTargetTypes;
+    private: Delegate Delegate;
   };
   public: Boolean get_Empty();
   public: static ComEventsMethod Find(ComEventsMethod methods, Int32 dispid);

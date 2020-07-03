@@ -2,9 +2,13 @@
 
 #include <rt/GCObject.h>
 
+namespace System::Private::CoreLib::System {
+FORWARD(Type)
+} // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Runtime::InteropServices {
 namespace CoClassAttributeNamespace {
 CLASS(CoClassAttribute) {
+  private: Type CoClass;
 };
 } // namespace CoClassAttributeNamespace
 using CoClassAttribute = CoClassAttributeNamespace::CoClassAttribute;
