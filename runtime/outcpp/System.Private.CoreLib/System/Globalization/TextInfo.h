@@ -82,10 +82,7 @@ CLASS(TextInfo) {
   private: String _textInfoName;
   private: Tristate _isAsciiCasingSameAsInvariant;
   public: static TextInfo Invariant;
-<<<<<<< HEAD
   private: Tristate _needsTurkishCasing;
-=======
->>>>>>> e88b64ad0991c22e19ac4336d4e46759d5631373
   private: IntPtr _sortHandle;
 };
 } // namespace TextInfoNamespace

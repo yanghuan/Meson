@@ -39,7 +39,12 @@ String Interop::Kernel32::GetMessage(Int32 errorCode, IntPtr moduleHandle) {
 String Interop::Kernel32::GetAndTrimString(Span<Char> buffer) {
   return nullptr;
 };
+void Interop::Globalization::InitICUFunctions(IntPtr icuuc, IntPtr icuin, ReadOnlySpan<Char> version, ReadOnlySpan<Char> suffix) {
+};
 Int32 Interop::Advapi32::EventWriteTransfer(Int64 registrationHandle, EventDescriptor& eventDescriptor, Guid* activityId, Guid* relatedActivityId, Int32 userDataCount, void/*EventProvider.EventData*/* userData) {
+  return Int32();
+};
+Int32 Interop::NtDll::RtlGetVersionEx(RTL_OSVERSIONINFOEX& osvi) {
   return Int32();
 };
 void Interop::GetRandomBytes(Byte* buffer, Int32 length) {

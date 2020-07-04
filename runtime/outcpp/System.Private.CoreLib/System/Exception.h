@@ -22,8 +22,6 @@ namespace System::Private::CoreLib::System {
 FORWARD_(Array, T1, T2)
 FORWARDS(Byte)
 FORWARD(Object)
-FORWARD_(Array, T1, T2)
-FORWARDS(Byte)
 FORWARD(String)
 FORWARDS(Boolean)
 FORWARD(IRuntimeMethodInfo)

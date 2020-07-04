@@ -53,10 +53,6 @@ class DateTimeFormat {
   private: static void WriteDigits(UInt64 value, Span<Char> buffer);
   public: static Array<String> GetAllDateTimes(DateTime dateTime, Char format, DateTimeFormatInfo dtfi);
   public: static Array<String> GetAllDateTimes(DateTime dateTime, DateTimeFormatInfo dtfi);
-<<<<<<< HEAD
-=======
-  public: static TimeSpan NullOffset;
->>>>>>> e88b64ad0991c22e19ac4336d4e46759d5631373
   public: static Array<Char> allStandardFormats;
   public: static DateTimeFormatInfo InvariantFormatInfo;
   public: static Array<String> InvariantAbbreviatedMonthNames;
