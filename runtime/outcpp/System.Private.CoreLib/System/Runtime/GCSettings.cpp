@@ -2,12 +2,12 @@
 
 namespace System::Private::CoreLib::System::Runtime::GCSettingsNamespace {
 GCLatencyMode GCSettings::get_LatencyMode() {
-  return GCLatencyMode();
+  return GCLatencyMode::NoGCRegion;
 };
 void GCSettings::set_LatencyMode(GCLatencyMode value) {
 };
 GCLargeObjectHeapCompactionMode GCSettings::get_LargeObjectHeapCompactionMode() {
-  return GCLargeObjectHeapCompactionMode();
+  return GCLargeObjectHeapCompactionMode::CompactOnce;
 };
 void GCSettings::set_LargeObjectHeapCompactionMode(GCLargeObjectHeapCompactionMode value) {
 };

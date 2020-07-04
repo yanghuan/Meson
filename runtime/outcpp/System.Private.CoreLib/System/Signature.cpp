@@ -2,7 +2,7 @@
 
 namespace System::Private::CoreLib::System::SignatureNamespace {
 CallingConventions Signature___::get_CallingConvention() {
-  return CallingConventions();
+  return CallingConventions::ExplicitThis;
 };
 Array<RuntimeType> Signature___::get_Arguments() {
   return Array<RuntimeType>();

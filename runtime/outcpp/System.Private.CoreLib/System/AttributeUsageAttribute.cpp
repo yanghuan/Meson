@@ -2,7 +2,7 @@
 
 namespace System::Private::CoreLib::System::AttributeUsageAttributeNamespace {
 AttributeTargets AttributeUsageAttribute___::get_ValidOn() {
-  return AttributeTargets();
+  return AttributeTargets::All;
 };
 Boolean AttributeUsageAttribute___::get_AllowMultiple() {
   return Boolean();

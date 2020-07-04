@@ -7,7 +7,7 @@ Boolean Utf8Parser::TimeSpanSplitter::TrySplitTimeSpan(ReadOnlySpan<Byte> source
   return Boolean();
 };
 Utf8Parser::ComponentParseResult Utf8Parser::TimeSpanSplitter::ParseComponent(ReadOnlySpan<Byte> source, Boolean neverParseAsFraction, Int32& srcIndex, UInt32& value) {
-  return Utf8Parser::ComponentParseResult();
+  return Utf8Parser::ComponentParseResult::ParseFailure;
 };
 Boolean Utf8Parser::TryParse(ReadOnlySpan<Byte> source, Boolean& value, Int32& bytesConsumed, Char standardFormat) {
   return Boolean();

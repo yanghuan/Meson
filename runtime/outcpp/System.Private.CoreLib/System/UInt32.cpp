@@ -61,6 +61,6 @@ Boolean UInt32::TryParse(ReadOnlySpan<Char> s, NumberStyles style, IFormatProvid
   return Boolean();
 };
 TypeCode UInt32::GetTypeCode() {
-  return TypeCode();
+  return TypeCode::String;
 };
 } // namespace System::Private::CoreLib::System::UInt32Namespace

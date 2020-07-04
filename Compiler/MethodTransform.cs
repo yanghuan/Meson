@@ -586,6 +586,12 @@ namespace Meson.Compiler {
             node.Add(refIdentifier.Name.Invation().Return());
             break;
           }
+        case TypeKind.Enum: {
+            var field = method.ReturnType.GetDefinition().Fields.Last();
+            var name = GetMemberName(field);
+            node.Add(returnType.TwoColon(name).Return());
+            break;
+          }
         case TypeKind.Void: {
             break;
           }

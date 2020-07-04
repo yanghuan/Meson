@@ -2,10 +2,10 @@
 
 namespace System::Private::CoreLib::System::Reflection::RuntimeEventInfoNamespace {
 BindingFlags RuntimeEventInfo___::get_BindingFlags() {
-  return BindingFlags();
+  return BindingFlags::DoNotWrapExceptions;
 };
 MemberTypes RuntimeEventInfo___::get_MemberType() {
-  return MemberTypes();
+  return MemberTypes::All;
 };
 String RuntimeEventInfo___::get_Name() {
   return nullptr;
@@ -26,7 +26,7 @@ Module RuntimeEventInfo___::get_Module() {
   return nullptr;
 };
 EventAttributes RuntimeEventInfo___::get_Attributes() {
-  return EventAttributes();
+  return EventAttributes::ReservedMask;
 };
 Boolean RuntimeEventInfo___::CacheEquals(Object o) {
   return Boolean();

@@ -26,10 +26,10 @@ Array<EraInfo> TaiwanLunisolarCalendar___::get_CalEraInfo() {
   return Array<EraInfo>();
 };
 CalendarId TaiwanLunisolarCalendar___::get_BaseCalendarID() {
-  return CalendarId();
+  return CalendarId::LAST_CALENDAR;
 };
 CalendarId TaiwanLunisolarCalendar___::get_ID() {
-  return CalendarId();
+  return CalendarId::LAST_CALENDAR;
 };
 Array<Int32> TaiwanLunisolarCalendar___::get_Eras() {
   return Array<Int32>();

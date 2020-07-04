@@ -2,7 +2,7 @@
 
 namespace System::Private::CoreLib::System::Reflection::PropertyInfoNamespace {
 MemberTypes PropertyInfo___::get_MemberType() {
-  return MemberTypes();
+  return MemberTypes::All;
 };
 Boolean PropertyInfo___::get_IsSpecialName() {
   return Boolean();

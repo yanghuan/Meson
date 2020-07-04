@@ -67,6 +67,6 @@ Boolean Int16::TryParse(ReadOnlySpan<Char> s, NumberStyles style, NumberFormatIn
   return Boolean();
 };
 TypeCode Int16::GetTypeCode() {
-  return TypeCode();
+  return TypeCode::String;
 };
 } // namespace System::Private::CoreLib::System::Int16Namespace

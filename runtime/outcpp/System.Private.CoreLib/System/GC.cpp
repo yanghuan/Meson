@@ -45,16 +45,16 @@ void GC::RegisterForFullGCNotification(Int32 maxGenerationThreshold, Int32 large
 void GC::CancelFullGCNotification() {
 };
 GCNotificationStatus GC::WaitForFullGCApproach() {
-  return GCNotificationStatus();
+  return GCNotificationStatus::NotApplicable;
 };
 GCNotificationStatus GC::WaitForFullGCApproach(Int32 millisecondsTimeout) {
-  return GCNotificationStatus();
+  return GCNotificationStatus::NotApplicable;
 };
 GCNotificationStatus GC::WaitForFullGCComplete() {
-  return GCNotificationStatus();
+  return GCNotificationStatus::NotApplicable;
 };
 GCNotificationStatus GC::WaitForFullGCComplete(Int32 millisecondsTimeout) {
-  return GCNotificationStatus();
+  return GCNotificationStatus::NotApplicable;
 };
 Boolean GC::StartNoGCRegionWorker(Int64 totalSize, Boolean hasLohSize, Int64 lohSize, Boolean disallowFullBlockingGC) {
   return Boolean();
@@ -72,7 +72,7 @@ Boolean GC::TryStartNoGCRegion(Int64 totalSize, Int64 lohSize, Boolean disallowF
   return Boolean();
 };
 GC::EndNoGCRegionStatus GC::EndNoGCRegionWorker() {
-  return GC::EndNoGCRegionStatus();
+  return GC::EndNoGCRegionStatus::AllocationExceeded;
 };
 void GC::EndNoGCRegion() {
 };

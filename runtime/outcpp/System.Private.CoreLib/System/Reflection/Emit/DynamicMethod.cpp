@@ -17,10 +17,10 @@ RuntimeMethodHandle DynamicMethod___::RTDynamicMethod___::get_MethodHandle() {
   return RuntimeMethodHandle();
 };
 MethodAttributes DynamicMethod___::RTDynamicMethod___::get_Attributes() {
-  return MethodAttributes();
+  return MethodAttributes::ReservedMask;
 };
 CallingConventions DynamicMethod___::RTDynamicMethod___::get_CallingConvention() {
-  return CallingConventions();
+  return CallingConventions::ExplicitThis;
 };
 Boolean DynamicMethod___::RTDynamicMethod___::get_IsSecurityCritical() {
   return Boolean();
@@ -50,7 +50,7 @@ Array<ParameterInfo> DynamicMethod___::RTDynamicMethod___::GetParameters() {
   return Array<ParameterInfo>();
 };
 MethodImplAttributes DynamicMethod___::RTDynamicMethod___::GetMethodImplementationFlags() {
-  return MethodImplAttributes();
+  return MethodImplAttributes::MaxMethodImplVal;
 };
 Object DynamicMethod___::RTDynamicMethod___::Invoke(Object obj, BindingFlags invokeAttr, Binder binder, Array<Object> parameters, CultureInfo culture) {
   return nullptr;
@@ -83,10 +83,10 @@ RuntimeMethodHandle DynamicMethod___::get_MethodHandle() {
   return RuntimeMethodHandle();
 };
 MethodAttributes DynamicMethod___::get_Attributes() {
-  return MethodAttributes();
+  return MethodAttributes::ReservedMask;
 };
 CallingConventions DynamicMethod___::get_CallingConvention() {
-  return CallingConventions();
+  return CallingConventions::ExplicitThis;
 };
 Boolean DynamicMethod___::get_IsSecurityCritical() {
   return Boolean();
@@ -137,7 +137,7 @@ Array<ParameterInfo> DynamicMethod___::GetParameters() {
   return Array<ParameterInfo>();
 };
 MethodImplAttributes DynamicMethod___::GetMethodImplementationFlags() {
-  return MethodImplAttributes();
+  return MethodImplAttributes::MaxMethodImplVal;
 };
 Object DynamicMethod___::Invoke(Object obj, BindingFlags invokeAttr, Binder binder, Array<Object> parameters, CultureInfo culture) {
   return nullptr;

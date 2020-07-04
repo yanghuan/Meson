@@ -146,7 +146,7 @@ Array<MemberInfo> TypeBuilderInstantiation___::GetMembers(BindingFlags bindingAt
   return Array<MemberInfo>();
 };
 TypeAttributes TypeBuilderInstantiation___::GetAttributeFlagsImpl() {
-  return TypeAttributes();
+  return TypeAttributes::ReservedMask;
 };
 Boolean TypeBuilderInstantiation___::IsArrayImpl() {
   return Boolean();

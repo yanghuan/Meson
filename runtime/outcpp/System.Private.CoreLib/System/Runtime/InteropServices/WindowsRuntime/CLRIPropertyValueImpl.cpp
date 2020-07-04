@@ -5,7 +5,7 @@ Array<Tuple<Type, PropertyType>> CLRIPropertyValueImpl___::get_NumericScalarType
   return Array<Tuple<Type, PropertyType>>();
 };
 PropertyType CLRIPropertyValueImpl___::get_Type() {
-  return PropertyType();
+  return PropertyType::OtherArray;
 };
 Boolean CLRIPropertyValueImpl___::get_IsNumericScalar() {
   return Boolean();

@@ -16,7 +16,7 @@ Int32 TimeZoneInfo___::TransitionTime::get_Day() {
   return Int32();
 };
 DayOfWeek TimeZoneInfo___::TransitionTime::get_DayOfWeek() {
-  return DayOfWeek();
+  return DayOfWeek::Saturday;
 };
 Boolean TimeZoneInfo___::TransitionTime::get_IsFixedDateRule() {
   return Boolean();
@@ -91,7 +91,7 @@ TimeZoneInfo TimeZoneInfo___::CachedData___::CreateLocal() {
   return nullptr;
 };
 DateTimeKind TimeZoneInfo___::CachedData___::GetCorrespondingKind(TimeZoneInfo timeZone) {
-  return DateTimeKind();
+  return DateTimeKind::Local;
 };
 TimeZoneInfo TimeZoneInfo___::CachedData___::GetCurrentOneYearLocal() {
   return nullptr;
@@ -341,10 +341,10 @@ DateTime TimeZoneInfo___::TransitionTimeToDateTime(Int32 year, TransitionTime tr
   return DateTime();
 };
 TimeZoneInfo::in::TimeZoneInfoResult TimeZoneInfo___::TryGetTimeZone(String id, Boolean dstDisabled, TimeZoneInfo& value, Exception& e, CachedData cachedData, Boolean alwaysFallbackToLocalMachine) {
-  return TimeZoneInfo::in::TimeZoneInfoResult();
+  return TimeZoneInfo::in::TimeZoneInfoResult::SecurityException;
 };
 TimeZoneInfo::in::TimeZoneInfoResult TimeZoneInfo___::TryGetTimeZoneFromLocalMachine(String id, Boolean dstDisabled, TimeZoneInfo& value, Exception& e, CachedData cachedData) {
-  return TimeZoneInfo::in::TimeZoneInfoResult();
+  return TimeZoneInfo::in::TimeZoneInfoResult::SecurityException;
 };
 void TimeZoneInfo___::ValidateTimeZoneInfo(String id, TimeSpan baseUtcOffset, Array<AdjustmentRule> adjustmentRules, Boolean& adjustmentRulesSupportDst) {
 };
@@ -407,6 +407,6 @@ String TimeZoneInfo___::TryGetLocalizedNameByNativeResource(String filePath, Int
 void TimeZoneInfo___::GetLocalizedNamesByRegistryKey(RegistryKey key, String& displayName, String& standardName, String& daylightName) {
 };
 TimeZoneInfo::in::TimeZoneInfoResult TimeZoneInfo___::TryGetTimeZoneFromLocalMachine(String id, TimeZoneInfo& value, Exception& e) {
-  return TimeZoneInfo::in::TimeZoneInfoResult();
+  return TimeZoneInfo::in::TimeZoneInfoResult::SecurityException;
 };
 } // namespace System::Private::CoreLib::System::TimeZoneInfoNamespace

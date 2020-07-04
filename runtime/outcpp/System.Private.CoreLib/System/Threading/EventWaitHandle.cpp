@@ -12,7 +12,7 @@ Boolean EventWaitHandle___::TryOpenExisting(String name, EventWaitHandle& result
 void EventWaitHandle___::CreateEventCore(Boolean initialState, EventResetMode mode, String name, Boolean& createdNew) {
 };
 WaitHandle::in::OpenExistingResult EventWaitHandle___::OpenExistingWorker(String name, EventWaitHandle& result) {
-  return WaitHandle::in::OpenExistingResult();
+  return WaitHandle::in::OpenExistingResult::NameInvalid;
 };
 Boolean EventWaitHandle___::Reset() {
   return Boolean();

@@ -22,9 +22,9 @@ TaskScheduler TaskFactory___<>::get_Scheduler() {
   return nullptr;
 };
 TaskCreationOptions TaskFactory___<>::get_CreationOptions() {
-  return TaskCreationOptions();
+  return TaskCreationOptions::RunContinuationsAsynchronously;
 };
 TaskContinuationOptions TaskFactory___<>::get_ContinuationOptions() {
-  return TaskContinuationOptions();
+  return TaskContinuationOptions::ExecuteSynchronously;
 };
 } // namespace System::Private::CoreLib::System::Threading::Tasks::TaskFactoryNamespace

@@ -8,10 +8,10 @@ DateTime KoreanCalendar___::get_MaxSupportedDateTime() {
   return DateTime();
 };
 CalendarAlgorithmType KoreanCalendar___::get_AlgorithmType() {
-  return CalendarAlgorithmType();
+  return CalendarAlgorithmType::LunisolarCalendar;
 };
 CalendarId KoreanCalendar___::get_ID() {
-  return CalendarId();
+  return CalendarId::LAST_CALENDAR;
 };
 Array<Int32> KoreanCalendar___::get_Eras() {
   return Array<Int32>();
@@ -37,7 +37,7 @@ Int32 KoreanCalendar___::GetDayOfMonth(DateTime time) {
   return Int32();
 };
 DayOfWeek KoreanCalendar___::GetDayOfWeek(DateTime time) {
-  return DayOfWeek();
+  return DayOfWeek::Saturday;
 };
 Int32 KoreanCalendar___::GetDayOfYear(DateTime time) {
   return Int32();

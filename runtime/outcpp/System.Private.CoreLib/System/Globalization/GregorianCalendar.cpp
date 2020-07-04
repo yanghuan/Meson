@@ -8,15 +8,15 @@ DateTime GregorianCalendar___::get_MaxSupportedDateTime() {
   return DateTime();
 };
 CalendarAlgorithmType GregorianCalendar___::get_AlgorithmType() {
-  return CalendarAlgorithmType();
+  return CalendarAlgorithmType::LunisolarCalendar;
 };
 GregorianCalendarTypes GregorianCalendar___::get_CalendarType() {
-  return GregorianCalendarTypes();
+  return GregorianCalendarTypes::TransliteratedFrench;
 };
 void GregorianCalendar___::set_CalendarType(GregorianCalendarTypes value) {
 };
 CalendarId GregorianCalendar___::get_ID() {
-  return CalendarId();
+  return CalendarId::LAST_CALENDAR;
 };
 Array<Int32> GregorianCalendar___::get_Eras() {
   return Array<Int32>();
@@ -45,7 +45,7 @@ Int32 GregorianCalendar___::GetDayOfMonth(DateTime time) {
   return Int32();
 };
 DayOfWeek GregorianCalendar___::GetDayOfWeek(DateTime time) {
-  return DayOfWeek();
+  return DayOfWeek::Saturday;
 };
 Int32 GregorianCalendar___::GetDayOfYear(DateTime time) {
   return Int32();

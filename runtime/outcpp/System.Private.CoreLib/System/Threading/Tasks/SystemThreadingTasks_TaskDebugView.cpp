@@ -5,7 +5,7 @@ Object SystemThreadingTasks_TaskDebugView___::get_AsyncState() {
   return nullptr;
 };
 TaskCreationOptions SystemThreadingTasks_TaskDebugView___::get_CreationOptions() {
-  return TaskCreationOptions();
+  return TaskCreationOptions::RunContinuationsAsynchronously;
 };
 Exception SystemThreadingTasks_TaskDebugView___::get_Exception() {
   return nullptr;
@@ -17,6 +17,6 @@ Boolean SystemThreadingTasks_TaskDebugView___::get_CancellationPending() {
   return Boolean();
 };
 TaskStatus SystemThreadingTasks_TaskDebugView___::get_Status() {
-  return TaskStatus();
+  return TaskStatus::Faulted;
 };
 } // namespace System::Private::CoreLib::System::Threading::Tasks::SystemThreadingTasks_TaskDebugViewNamespace

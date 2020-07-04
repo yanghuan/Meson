@@ -374,13 +374,13 @@ Int32 CultureData___::ConvertFirstDayOfWeekMonToSun(Int32 iTemp) {
   return Int32();
 };
 Interop::BOOL CultureData___::EnumSystemLocalesProc(Char* lpLocaleString, UInt32 flags, void* contextHandle) {
-  return Interop::BOOL();
+  return Interop::BOOL::TRUE;
 };
 Interop::BOOL CultureData___::EnumAllSystemLocalesProc(Char* lpLocaleString, UInt32 flags, void* contextHandle) {
-  return Interop::BOOL();
+  return Interop::BOOL::TRUE;
 };
 Interop::BOOL CultureData___::EnumTimeCallback(Char* lpTimeFormatString, void* lParam) {
-  return Interop::BOOL();
+  return Interop::BOOL::TRUE;
 };
 Array<String> CultureData___::nativeEnumTimeFormats(String localeName, UInt32 dwFlags, Boolean useUserOverride) {
   return Array<String>();

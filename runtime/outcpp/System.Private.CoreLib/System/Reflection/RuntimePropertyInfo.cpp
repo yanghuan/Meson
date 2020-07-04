@@ -5,10 +5,10 @@ Signature RuntimePropertyInfo___::get_Signature() {
   return nullptr;
 };
 BindingFlags RuntimePropertyInfo___::get_BindingFlags() {
-  return BindingFlags();
+  return BindingFlags::DoNotWrapExceptions;
 };
 MemberTypes RuntimePropertyInfo___::get_MemberType() {
-  return MemberTypes();
+  return MemberTypes::All;
 };
 String RuntimePropertyInfo___::get_Name() {
   return nullptr;
@@ -35,7 +35,7 @@ Type RuntimePropertyInfo___::get_PropertyType() {
   return nullptr;
 };
 PropertyAttributes RuntimePropertyInfo___::get_Attributes() {
-  return PropertyAttributes();
+  return PropertyAttributes::ReservedMask;
 };
 Boolean RuntimePropertyInfo___::get_CanRead() {
   return Boolean();

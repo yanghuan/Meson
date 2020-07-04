@@ -5,7 +5,7 @@ Boolean MetadataToken::get_IsGlobalTypeDefToken() {
   return Boolean();
 };
 MetadataTokenType MetadataToken::get_TokenType() {
-  return MetadataTokenType();
+  return MetadataTokenType::Invalid;
 };
 Boolean MetadataToken::get_IsTypeRef() {
   return Boolean();

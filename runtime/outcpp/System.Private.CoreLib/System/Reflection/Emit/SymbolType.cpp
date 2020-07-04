@@ -128,7 +128,7 @@ Array<EventInfo> SymbolType___::GetEvents(BindingFlags bindingAttr) {
   return Array<EventInfo>();
 };
 TypeAttributes SymbolType___::GetAttributeFlagsImpl() {
-  return TypeAttributes();
+  return TypeAttributes::ReservedMask;
 };
 Boolean SymbolType___::IsArrayImpl() {
   return Boolean();

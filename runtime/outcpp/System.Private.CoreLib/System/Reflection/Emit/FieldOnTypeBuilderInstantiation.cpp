@@ -5,7 +5,7 @@ FieldInfo FieldOnTypeBuilderInstantiation___::get_FieldInfo() {
   return nullptr;
 };
 MemberTypes FieldOnTypeBuilderInstantiation___::get_MemberType() {
-  return MemberTypes();
+  return MemberTypes::All;
 };
 String FieldOnTypeBuilderInstantiation___::get_Name() {
   return nullptr;
@@ -29,7 +29,7 @@ Type FieldOnTypeBuilderInstantiation___::get_FieldType() {
   return nullptr;
 };
 FieldAttributes FieldOnTypeBuilderInstantiation___::get_Attributes() {
-  return FieldAttributes();
+  return FieldAttributes::ReservedMask;
 };
 FieldInfo FieldOnTypeBuilderInstantiation___::GetField(FieldInfo Field, TypeBuilderInstantiation type) {
   return nullptr;

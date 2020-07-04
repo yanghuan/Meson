@@ -55,7 +55,7 @@ Int64 Assembly___::get_HostContext() {
   return Int64();
 };
 SecurityRuleSet Assembly___::get_SecurityRuleSet() {
-  return SecurityRuleSet();
+  return SecurityRuleSet::Level2;
 };
 Assembly Assembly___::Load(String assemblyString) {
   return nullptr;

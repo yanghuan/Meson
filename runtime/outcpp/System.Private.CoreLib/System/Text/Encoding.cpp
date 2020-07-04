@@ -306,10 +306,10 @@ void Encoding___::ThrowCharsOverflow() {
 void Encoding___::ThrowCharsOverflow(DecoderNLS decoder, Boolean nothingDecoded) {
 };
 OperationStatus Encoding___::DecodeFirstRune(ReadOnlySpan<Byte> bytes, Rune& value, Int32& bytesConsumed) {
-  return OperationStatus();
+  return OperationStatus::InvalidData;
 };
 OperationStatus Encoding___::EncodeRune(Rune value, Span<Byte> bytes, Int32& bytesWritten) {
-  return OperationStatus();
+  return OperationStatus::InvalidData;
 };
 Boolean Encoding___::TryGetByteCount(Rune value, Int32& byteCount) {
   return Boolean();

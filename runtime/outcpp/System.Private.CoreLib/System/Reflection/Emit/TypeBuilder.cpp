@@ -66,7 +66,7 @@ Type TypeBuilder___::get_UnderlyingSystemType() {
   return nullptr;
 };
 GenericParameterAttributes TypeBuilder___::get_GenericParameterAttributes() {
-  return GenericParameterAttributes();
+  return GenericParameterAttributes::DefaultConstructorConstraint;
 };
 Boolean TypeBuilder___::get_IsGenericTypeDefinition() {
   return Boolean();
@@ -90,7 +90,7 @@ Int32 TypeBuilder___::get_Size() {
   return Int32();
 };
 PackingSize TypeBuilder___::get_PackingSize() {
-  return PackingSize();
+  return PackingSize::Size128;
 };
 TypeToken TypeBuilder___::get_TypeToken() {
   return TypeToken();
@@ -201,7 +201,7 @@ Boolean TypeBuilder___::IsAssignableFrom(Type c) {
   return Boolean();
 };
 TypeAttributes TypeBuilder___::GetAttributeFlagsImpl() {
-  return TypeAttributes();
+  return TypeAttributes::ReservedMask;
 };
 Boolean TypeBuilder___::IsArrayImpl() {
   return Boolean();

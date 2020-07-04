@@ -37,16 +37,16 @@ Int32 Rune::CompareTo(Rune other) {
   return Int32();
 };
 OperationStatus Rune::DecodeFromUtf16(ReadOnlySpan<Char> source, Rune& result, Int32& charsConsumed) {
-  return OperationStatus();
+  return OperationStatus::InvalidData;
 };
 OperationStatus Rune::DecodeFromUtf8(ReadOnlySpan<Byte> source, Rune& result, Int32& bytesConsumed) {
-  return OperationStatus();
+  return OperationStatus::InvalidData;
 };
 OperationStatus Rune::DecodeLastFromUtf16(ReadOnlySpan<Char> source, Rune& result, Int32& charsConsumed) {
-  return OperationStatus();
+  return OperationStatus::InvalidData;
 };
 OperationStatus Rune::DecodeLastFromUtf8(ReadOnlySpan<Byte> source, Rune& value, Int32& bytesConsumed) {
-  return OperationStatus();
+  return OperationStatus::InvalidData;
 };
 Int32 Rune::EncodeToUtf16(Span<Char> destination) {
   return Int32();
@@ -109,10 +109,10 @@ Double Rune::GetNumericValue(Rune value) {
   return Double();
 };
 UnicodeCategory Rune::GetUnicodeCategory(Rune value) {
-  return UnicodeCategory();
+  return UnicodeCategory::OtherNotAssigned;
 };
 UnicodeCategory Rune::GetUnicodeCategoryNonAscii(Rune value) {
-  return UnicodeCategory();
+  return UnicodeCategory::OtherNotAssigned;
 };
 Boolean Rune::IsCategoryLetter(UnicodeCategory category) {
   return Boolean();

@@ -41,7 +41,7 @@ String Task___<>::get_DebuggerDisplayMethodDescription() {
   return nullptr;
 };
 TaskCreationOptions Task___<>::get_Options() {
-  return TaskCreationOptions();
+  return TaskCreationOptions::RunContinuationsAsynchronously;
 };
 Boolean Task___<>::get_IsWaitNotificationEnabledOrNotRanToCompletion() {
   return Boolean();
@@ -65,7 +65,7 @@ AggregateException Task___<>::get_Exception() {
   return nullptr;
 };
 TaskStatus Task___<>::get_Status() {
-  return TaskStatus();
+  return TaskStatus::Faulted;
 };
 Boolean Task___<>::get_IsCanceled() {
   return Boolean();
@@ -86,7 +86,7 @@ Boolean Task___<>::get_IsCompletedSuccessfully() {
   return Boolean();
 };
 TaskCreationOptions Task___<>::get_CreationOptions() {
-  return TaskCreationOptions();
+  return TaskCreationOptions::RunContinuationsAsynchronously;
 };
 WaitHandle Task___<>::get_AsyncWaitHandleOfIAsyncResult() {
   return nullptr;

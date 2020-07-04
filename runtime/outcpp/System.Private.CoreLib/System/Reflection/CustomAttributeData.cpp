@@ -58,7 +58,7 @@ IList<CustomAttributeData> CustomAttributeData___::GetCombinedList(IList<CustomA
   return nullptr;
 };
 CustomAttributeEncoding CustomAttributeData___::TypeToCustomAttributeEncoding(RuntimeType type) {
-  return CustomAttributeEncoding();
+  return CustomAttributeEncoding::Enum;
 };
 CustomAttributeType CustomAttributeData___::InitCustomAttributeType(RuntimeType parameterType) {
   return CustomAttributeType();

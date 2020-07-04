@@ -26,10 +26,10 @@ Array<EraInfo> JapaneseLunisolarCalendar___::get_CalEraInfo() {
   return Array<EraInfo>();
 };
 CalendarId JapaneseLunisolarCalendar___::get_BaseCalendarID() {
-  return CalendarId();
+  return CalendarId::LAST_CALENDAR;
 };
 CalendarId JapaneseLunisolarCalendar___::get_ID() {
-  return CalendarId();
+  return CalendarId::LAST_CALENDAR;
 };
 Array<Int32> JapaneseLunisolarCalendar___::get_Eras() {
   return Array<Int32>();

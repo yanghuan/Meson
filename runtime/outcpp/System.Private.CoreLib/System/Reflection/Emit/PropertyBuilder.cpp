@@ -11,7 +11,7 @@ Type PropertyBuilder___::get_PropertyType() {
   return nullptr;
 };
 PropertyAttributes PropertyBuilder___::get_Attributes() {
-  return PropertyAttributes();
+  return PropertyAttributes::ReservedMask;
 };
 Boolean PropertyBuilder___::get_CanRead() {
   return Boolean();

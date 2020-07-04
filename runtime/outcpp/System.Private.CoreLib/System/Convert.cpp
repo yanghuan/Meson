@@ -2,7 +2,7 @@
 
 namespace System::Private::CoreLib::System::ConvertNamespace {
 TypeCode Convert::GetTypeCode(Object value) {
-  return TypeCode();
+  return TypeCode::String;
 };
 Boolean Convert::IsDBNull(Object value) {
   return Boolean();

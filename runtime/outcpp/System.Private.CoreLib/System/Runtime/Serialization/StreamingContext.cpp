@@ -2,7 +2,7 @@
 
 namespace System::Private::CoreLib::System::Runtime::Serialization::StreamingContextNamespace {
 StreamingContextStates StreamingContext::get_State() {
-  return StreamingContextStates();
+  return StreamingContextStates::All;
 };
 Object StreamingContext::get_Context() {
   return nullptr;

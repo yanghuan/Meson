@@ -6,7 +6,7 @@ namespace System::Private::CoreLib::System::LazyHelperNamespace {
 void LazyHelper___::ThrowException() {
 };
 LazyThreadSafetyMode LazyHelper___::GetMode() {
-  return LazyThreadSafetyMode();
+  return LazyThreadSafetyMode::ExecutionAndPublication;
 };
 Nullable<LazyThreadSafetyMode> LazyHelper___::GetMode(LazyHelper state) {
   return Nullable<LazyThreadSafetyMode>();
@@ -18,6 +18,6 @@ LazyHelper LazyHelper___::Create(LazyThreadSafetyMode mode, Boolean useDefaultCo
   return nullptr;
 };
 LazyThreadSafetyMode LazyHelper___::GetModeFromIsThreadSafe(Boolean isThreadSafe) {
-  return LazyThreadSafetyMode();
+  return LazyThreadSafetyMode::ExecutionAndPublication;
 };
 } // namespace System::Private::CoreLib::System::LazyHelperNamespace

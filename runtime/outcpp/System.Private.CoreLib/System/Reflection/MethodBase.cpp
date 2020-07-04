@@ -4,10 +4,10 @@
 
 namespace System::Private::CoreLib::System::Reflection::MethodBaseNamespace {
 MethodImplAttributes MethodBase___::get_MethodImplementationFlags() {
-  return MethodImplAttributes();
+  return MethodImplAttributes::MaxMethodImplVal;
 };
 CallingConventions MethodBase___::get_CallingConvention() {
-  return CallingConventions();
+  return CallingConventions::ExplicitThis;
 };
 Boolean MethodBase___::get_IsAbstract() {
   return Boolean();

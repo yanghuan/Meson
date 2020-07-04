@@ -17,13 +17,13 @@ String ConstructorBuilder___::get_Name() {
   return nullptr;
 };
 MethodAttributes ConstructorBuilder___::get_Attributes() {
-  return MethodAttributes();
+  return MethodAttributes::ReservedMask;
 };
 RuntimeMethodHandle ConstructorBuilder___::get_MethodHandle() {
   return RuntimeMethodHandle();
 };
 CallingConventions ConstructorBuilder___::get_CallingConvention() {
-  return CallingConventions();
+  return CallingConventions::ExplicitThis;
 };
 String ConstructorBuilder___::get_Signature() {
   return nullptr;
@@ -49,7 +49,7 @@ Array<ParameterInfo> ConstructorBuilder___::GetParameters() {
   return Array<ParameterInfo>();
 };
 MethodImplAttributes ConstructorBuilder___::GetMethodImplementationFlags() {
-  return MethodImplAttributes();
+  return MethodImplAttributes::MaxMethodImplVal;
 };
 Object ConstructorBuilder___::Invoke(BindingFlags invokeAttr, Binder binder, Array<Object> parameters, CultureInfo culture) {
   return nullptr;

@@ -23,10 +23,10 @@ Type MethodBuilder___::get_ReflectedType() {
   return nullptr;
 };
 MethodAttributes MethodBuilder___::get_Attributes() {
-  return MethodAttributes();
+  return MethodAttributes::ReservedMask;
 };
 CallingConventions MethodBuilder___::get_CallingConvention() {
-  return CallingConventions();
+  return CallingConventions::ExplicitThis;
 };
 RuntimeMethodHandle MethodBuilder___::get_MethodHandle() {
   return RuntimeMethodHandle();
@@ -122,7 +122,7 @@ Object MethodBuilder___::Invoke(Object obj, BindingFlags invokeAttr, Binder bind
   return nullptr;
 };
 MethodImplAttributes MethodBuilder___::GetMethodImplementationFlags() {
-  return MethodImplAttributes();
+  return MethodImplAttributes::MaxMethodImplVal;
 };
 MethodInfo MethodBuilder___::GetBaseDefinition() {
   return nullptr;

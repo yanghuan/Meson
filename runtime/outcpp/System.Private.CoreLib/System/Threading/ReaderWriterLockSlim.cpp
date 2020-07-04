@@ -43,7 +43,7 @@ Boolean ReaderWriterLockSlim___::get_IsWriteLockHeld() {
   return Boolean();
 };
 LockRecursionPolicy ReaderWriterLockSlim___::get_RecursionPolicy() {
-  return LockRecursionPolicy();
+  return LockRecursionPolicy::SupportsRecursion;
 };
 Int32 ReaderWriterLockSlim___::get_CurrentReadCount() {
   return Int32();

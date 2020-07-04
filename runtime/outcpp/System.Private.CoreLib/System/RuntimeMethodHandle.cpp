@@ -34,7 +34,7 @@ IRuntimeMethodInfo RuntimeMethodHandle::GetCurrentMethod(StackCrawlMark& stackMa
   return nullptr;
 };
 MethodAttributes RuntimeMethodHandle::GetAttributes(IRuntimeMethodInfo method) {
-  return MethodAttributes();
+  return MethodAttributes::ReservedMask;
 };
 String RuntimeMethodHandle::ConstructInstantiation(IRuntimeMethodInfo method, TypeNameFormatFlags format) {
   return nullptr;

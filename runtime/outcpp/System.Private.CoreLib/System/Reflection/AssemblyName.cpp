@@ -32,27 +32,27 @@ String AssemblyName___::get_EscapedCodeBase() {
   return nullptr;
 };
 ProcessorArchitecture AssemblyName___::get_ProcessorArchitecture() {
-  return ProcessorArchitecture();
+  return ProcessorArchitecture::Arm;
 };
 void AssemblyName___::set_ProcessorArchitecture(ProcessorArchitecture value) {
 };
 AssemblyContentType AssemblyName___::get_ContentType() {
-  return AssemblyContentType();
+  return AssemblyContentType::WindowsRuntime;
 };
 void AssemblyName___::set_ContentType(AssemblyContentType value) {
 };
 AssemblyNameFlags AssemblyName___::get_Flags() {
-  return AssemblyNameFlags();
+  return AssemblyNameFlags::Retargetable;
 };
 void AssemblyName___::set_Flags(AssemblyNameFlags value) {
 };
 AssemblyHashAlgorithm AssemblyName___::get_HashAlgorithm() {
-  return AssemblyHashAlgorithm();
+  return AssemblyHashAlgorithm::SHA512;
 };
 void AssemblyName___::set_HashAlgorithm(AssemblyHashAlgorithm value) {
 };
 AssemblyVersionCompatibility AssemblyName___::get_VersionCompatibility() {
-  return AssemblyVersionCompatibility();
+  return AssemblyVersionCompatibility::SameDomain;
 };
 void AssemblyName___::set_VersionCompatibility(AssemblyVersionCompatibility value) {
 };
@@ -70,7 +70,7 @@ AssemblyName AssemblyName___::GetFileInformationCore(String assemblyFile) {
 void AssemblyName___::SetProcArchIndex(PortableExecutableKinds pek, ImageFileMachine ifm) {
 };
 ProcessorArchitecture AssemblyName___::CalculateProcArchIndex(PortableExecutableKinds pek, ImageFileMachine ifm, AssemblyNameFlags flags) {
-  return ProcessorArchitecture();
+  return ProcessorArchitecture::Arm;
 };
 Object AssemblyName___::Clone() {
   return nullptr;

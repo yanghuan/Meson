@@ -11,7 +11,7 @@ RuntimeFieldHandle MdFieldInfo___::get_FieldHandle() {
   return RuntimeFieldHandle();
 };
 FieldAttributes MdFieldInfo___::get_Attributes() {
-  return FieldAttributes();
+  return FieldAttributes::ReservedMask;
 };
 Boolean MdFieldInfo___::get_IsSecurityCritical() {
   return Boolean();

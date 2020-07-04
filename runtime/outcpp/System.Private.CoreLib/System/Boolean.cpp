@@ -49,6 +49,6 @@ ReadOnlySpan<Char> Boolean::TrimWhiteSpaceAndNull(ReadOnlySpan<Char> value) {
   return ReadOnlySpan<Char>();
 };
 TypeCode Boolean::GetTypeCode() {
-  return TypeCode();
+  return TypeCode::String;
 };
 } // namespace System::Private::CoreLib::System::BooleanNamespace

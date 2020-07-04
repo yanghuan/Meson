@@ -7,16 +7,16 @@ String TraceLoggingTypeInfo___::get_Name() {
   return nullptr;
 };
 EventLevel TraceLoggingTypeInfo___::get_Level() {
-  return EventLevel();
+  return EventLevel::Verbose;
 };
 EventOpcode TraceLoggingTypeInfo___::get_Opcode() {
-  return EventOpcode();
+  return EventOpcode::Receive;
 };
 EventKeywords TraceLoggingTypeInfo___::get_Keywords() {
-  return EventKeywords();
+  return EventKeywords::EventLogClassic;
 };
 EventTags TraceLoggingTypeInfo___::get_Tags() {
-  return EventTags();
+  return EventTags::None;
 };
 Type TraceLoggingTypeInfo___::get_DataType() {
   return nullptr;

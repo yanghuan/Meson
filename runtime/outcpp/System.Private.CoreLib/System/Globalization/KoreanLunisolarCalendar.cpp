@@ -26,10 +26,10 @@ Array<EraInfo> KoreanLunisolarCalendar___::get_CalEraInfo() {
   return Array<EraInfo>();
 };
 CalendarId KoreanLunisolarCalendar___::get_BaseCalendarID() {
-  return CalendarId();
+  return CalendarId::LAST_CALENDAR;
 };
 CalendarId KoreanLunisolarCalendar___::get_ID() {
-  return CalendarId();
+  return CalendarId::LAST_CALENDAR;
 };
 Array<Int32> KoreanLunisolarCalendar___::get_Eras() {
   return Array<Int32>();

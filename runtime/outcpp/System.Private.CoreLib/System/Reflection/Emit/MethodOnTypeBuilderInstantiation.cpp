@@ -2,7 +2,7 @@
 
 namespace System::Private::CoreLib::System::Reflection::Emit::MethodOnTypeBuilderInstantiationNamespace {
 MemberTypes MethodOnTypeBuilderInstantiation___::get_MemberType() {
-  return MemberTypes();
+  return MemberTypes::All;
 };
 String MethodOnTypeBuilderInstantiation___::get_Name() {
   return nullptr;
@@ -20,10 +20,10 @@ RuntimeMethodHandle MethodOnTypeBuilderInstantiation___::get_MethodHandle() {
   return RuntimeMethodHandle();
 };
 MethodAttributes MethodOnTypeBuilderInstantiation___::get_Attributes() {
-  return MethodAttributes();
+  return MethodAttributes::ReservedMask;
 };
 CallingConventions MethodOnTypeBuilderInstantiation___::get_CallingConvention() {
-  return CallingConventions();
+  return CallingConventions::ExplicitThis;
 };
 Boolean MethodOnTypeBuilderInstantiation___::get_IsGenericMethodDefinition() {
   return Boolean();
@@ -62,7 +62,7 @@ Array<ParameterInfo> MethodOnTypeBuilderInstantiation___::GetParameters() {
   return Array<ParameterInfo>();
 };
 MethodImplAttributes MethodOnTypeBuilderInstantiation___::GetMethodImplementationFlags() {
-  return MethodImplAttributes();
+  return MethodImplAttributes::MaxMethodImplVal;
 };
 Object MethodOnTypeBuilderInstantiation___::Invoke(Object obj, BindingFlags invokeAttr, Binder binder, Array<Object> parameters, CultureInfo culture) {
   return nullptr;

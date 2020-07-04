@@ -29,7 +29,7 @@ Version ResourceManager___::ResourceManagerMediator___::get_SatelliteContractVer
 void ResourceManager___::ResourceManagerMediator___::set_SatelliteContractVersion(Version value) {
 };
 UltimateResourceFallbackLocation ResourceManager___::ResourceManagerMediator___::get_FallbackLoc() {
-  return UltimateResourceFallbackLocation();
+  return UltimateResourceFallbackLocation::Satellite;
 };
 Assembly ResourceManager___::ResourceManagerMediator___::get_MainAssembly() {
   return nullptr;
@@ -55,7 +55,7 @@ Type ResourceManager___::get_ResourceSetType() {
   return nullptr;
 };
 UltimateResourceFallbackLocation ResourceManager___::get_FallbackLocation() {
-  return UltimateResourceFallbackLocation();
+  return UltimateResourceFallbackLocation::Satellite;
 };
 void ResourceManager___::set_FallbackLocation(UltimateResourceFallbackLocation value) {
 };

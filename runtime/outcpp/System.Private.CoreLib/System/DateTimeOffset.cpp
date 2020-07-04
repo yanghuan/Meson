@@ -28,7 +28,7 @@ Int32 DateTimeOffset::get_Day() {
   return Int32();
 };
 DayOfWeek DateTimeOffset::get_DayOfWeek() {
-  return DayOfWeek();
+  return DayOfWeek::Saturday;
 };
 Int32 DateTimeOffset::get_DayOfYear() {
   return Int32();
@@ -220,6 +220,6 @@ DateTime DateTimeOffset::ValidateDate(DateTime dateTime, TimeSpan offset) {
   return DateTime();
 };
 DateTimeStyles DateTimeOffset::ValidateStyles(DateTimeStyles style, String parameterName) {
-  return DateTimeStyles();
+  return DateTimeStyles::RoundtripKind;
 };
 } // namespace System::Private::CoreLib::System::DateTimeOffsetNamespace

@@ -2,19 +2,19 @@
 
 namespace System::Private::CoreLib::System::Reflection::Emit::OpCodeNamespace {
 OperandType OpCode::get_OperandType() {
-  return OperandType();
+  return OperandType::ShortInlineVar;
 };
 FlowControl OpCode::get_FlowControl() {
-  return FlowControl();
+  return FlowControl::Throw;
 };
 OpCodeType OpCode::get_OpCodeType() {
-  return OpCodeType();
+  return OpCodeType::Primitive;
 };
 StackBehaviour OpCode::get_StackBehaviourPop() {
-  return StackBehaviour();
+  return StackBehaviour::Popref_popi_pop1;
 };
 StackBehaviour OpCode::get_StackBehaviourPush() {
-  return StackBehaviour();
+  return StackBehaviour::Popref_popi_pop1;
 };
 Int32 OpCode::get_Size() {
   return Int32();

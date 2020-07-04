@@ -16,7 +16,7 @@ Boolean Uri___::get_IsUncPath() {
   return Boolean();
 };
 Uri::in::Flags Uri___::get_HostType() {
-  return Uri::in::Flags();
+  return Uri::in::Flags::UnixPath;
 };
 UriParser Uri___::get_Syntax() {
   return nullptr;
@@ -49,7 +49,7 @@ String Uri___::get_Authority() {
   return nullptr;
 };
 UriHostNameType Uri___::get_HostNameType() {
-  return UriHostNameType();
+  return UriHostNameType::IPv6;
 };
 Boolean Uri___::get_IsDefaultPort() {
   return Boolean();
@@ -143,7 +143,7 @@ void Uri___::GetObjectData(SerializationInfo serializationInfo, StreamingContext
 void Uri___::CreateUri(Uri baseUri, String relativeUri, Boolean dontEscape) {
 };
 ParsingError Uri___::GetCombinedString(Uri baseUri, String relativeStr, Boolean dontEscape, String& result) {
-  return ParsingError();
+  return ParsingError::CannotCreateRelative;
 };
 UriFormatException Uri___::GetException(ParsingError err) {
   return nullptr;
@@ -155,7 +155,7 @@ String Uri___::GetLocalPath() {
   return nullptr;
 };
 UriHostNameType Uri___::CheckHostName(String name) {
-  return UriHostNameType();
+  return UriHostNameType::IPv6;
 };
 String Uri___::GetLeftPart(UriPartial part) {
   return nullptr;
@@ -197,13 +197,13 @@ String Uri___::InternalEscapeString(String rawString) {
   return nullptr;
 };
 ParsingError Uri___::ParseScheme(String uriString, Flags& flags, UriParser& syntax) {
-  return ParsingError();
+  return ParsingError::CannotCreateRelative;
 };
 UriFormatException Uri___::ParseMinimal() {
   return nullptr;
 };
 ParsingError Uri___::PrivateParseMinimal() {
-  return ParsingError();
+  return ParsingError::CannotCreateRelative;
 };
 void Uri___::PrivateParseMinimalIri(String newHost, UInt16 idx) {
 };
@@ -242,7 +242,7 @@ Boolean Uri___::CheckKnownSchemes(Int64* lptr, UInt16 nChars, UriParser& syntax)
   return Boolean();
 };
 ParsingError Uri___::CheckSchemeSyntax(ReadOnlySpan<Char> span, UriParser& syntax) {
-  return ParsingError();
+  return ParsingError::CannotCreateRelative;
 };
 UInt16 Uri___::CheckAuthorityHelper(Char* pString, UInt16 idx, UInt16 length, ParsingError& err, Flags& flags, UriParser syntax, String& newHost) {
   return UInt16();
@@ -256,7 +256,7 @@ void Uri___::FindEndOfComponent(String input, UInt16& idx, UInt16 end, Char deli
 void Uri___::FindEndOfComponent(Char* str, UInt16& idx, UInt16 end, Char delim) {
 };
 Uri::in::Check Uri___::CheckCanonical(Char* str, UInt16& idx, UInt16 end, Char delim) {
-  return Uri::in::Check();
+  return Uri::in::Check::FoundNonAscii;
 };
 Array<Char> Uri___::GetCanonicalPath(Array<Char> dest, Int32& pos, UriFormat formatAs) {
   return Array<Char>();

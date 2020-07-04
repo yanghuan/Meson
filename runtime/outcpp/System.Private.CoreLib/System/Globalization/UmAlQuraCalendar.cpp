@@ -10,13 +10,13 @@ DateTime UmAlQuraCalendar___::get_MaxSupportedDateTime() {
   return DateTime();
 };
 CalendarAlgorithmType UmAlQuraCalendar___::get_AlgorithmType() {
-  return CalendarAlgorithmType();
+  return CalendarAlgorithmType::LunisolarCalendar;
 };
 CalendarId UmAlQuraCalendar___::get_BaseCalendarID() {
-  return CalendarId();
+  return CalendarId::LAST_CALENDAR;
 };
 CalendarId UmAlQuraCalendar___::get_ID() {
-  return CalendarId();
+  return CalendarId::LAST_CALENDAR;
 };
 Int32 UmAlQuraCalendar___::get_DaysInYearBeforeMinSupportedYear() {
   return Int32();
@@ -60,7 +60,7 @@ Int32 UmAlQuraCalendar___::GetDayOfMonth(DateTime time) {
   return Int32();
 };
 DayOfWeek UmAlQuraCalendar___::GetDayOfWeek(DateTime time) {
-  return DayOfWeek();
+  return DayOfWeek::Saturday;
 };
 Int32 UmAlQuraCalendar___::GetDayOfYear(DateTime time) {
   return Int32();

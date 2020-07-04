@@ -13,7 +13,7 @@ void ManifestBuilder___::AddKeyword(String name, UInt64 value) {
 void ManifestBuilder___::AddChannel(String name, Int32 value, EventChannelAttribute channelAttribute) {
 };
 EventChannelType ManifestBuilder___::EventChannelToChannelType(EventChannel channel) {
-  return EventChannelType();
+  return EventChannelType::Debug;
 };
 EventChannelAttribute ManifestBuilder___::GetDefaultChannelAttribute(EventChannel channel) {
   return nullptr;

@@ -16,7 +16,7 @@ Boolean UriParser___::get_DontKeepUnicodeBidiFormattingCharacters() {
   return Boolean();
 };
 UriSyntaxFlags UriParser___::get_Flags() {
-  return UriSyntaxFlags();
+  return UriSyntaxFlags::AllowIriParsing;
 };
 Boolean UriParser___::get_IsSimple() {
   return Boolean();

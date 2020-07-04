@@ -96,7 +96,7 @@ Int32 String___::strlen(Byte* ptr) {
 void String___::ThrowMustBeNullTerminatedString() {
 };
 TypeCode String___::GetTypeCode() {
-  return TypeCode();
+  return TypeCode::String;
 };
 Boolean String___::IsNormalized() {
   return Boolean();
@@ -233,7 +233,7 @@ Boolean String___::StartsWith(Char value) {
 void String___::CheckStringComparison(StringComparison comparisonType) {
 };
 CompareOptions String___::GetCaseCompareOfComparisonCulture(StringComparison comparisonType) {
-  return CompareOptions();
+  return CompareOptions::Ordinal;
 };
 void String___::FillStringChecked(String dest, Int32 destPos, String src) {
 };

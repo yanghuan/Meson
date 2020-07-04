@@ -8,7 +8,7 @@ Boolean SignatureType___::get_IsGenericType() {
   return Boolean();
 };
 MemberTypes SignatureType___::get_MemberType() {
-  return MemberTypes();
+  return MemberTypes::All;
 };
 Type SignatureType___::get_UnderlyingSystemType() {
   return nullptr;
@@ -41,7 +41,7 @@ MethodBase SignatureType___::get_DeclaringMethod() {
   return nullptr;
 };
 GenericParameterAttributes SignatureType___::get_GenericParameterAttributes() {
-  return GenericParameterAttributes();
+  return GenericParameterAttributes::DefaultConstructorConstraint;
 };
 Guid SignatureType___::get_GUID() {
   return Guid();
@@ -116,10 +116,10 @@ Array<> SignatureType___::GetEnumValues() {
   return nullptr;
 };
 TypeCode SignatureType___::GetTypeCodeImpl() {
-  return TypeCode();
+  return TypeCode::String;
 };
 TypeAttributes SignatureType___::GetAttributeFlagsImpl() {
-  return TypeAttributes();
+  return TypeAttributes::ReservedMask;
 };
 Array<ConstructorInfo> SignatureType___::GetConstructors(BindingFlags bindingAttr) {
   return Array<ConstructorInfo>();

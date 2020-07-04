@@ -10,13 +10,13 @@ DateTime Calendar___::get_MaxSupportedDateTime() {
   return DateTime();
 };
 CalendarAlgorithmType Calendar___::get_AlgorithmType() {
-  return CalendarAlgorithmType();
+  return CalendarAlgorithmType::LunisolarCalendar;
 };
 CalendarId Calendar___::get_ID() {
-  return CalendarId();
+  return CalendarId::LAST_CALENDAR;
 };
 CalendarId Calendar___::get_BaseCalendarID() {
-  return CalendarId();
+  return CalendarId::LAST_CALENDAR;
 };
 Boolean Calendar___::get_IsReadOnly() {
   return Boolean();

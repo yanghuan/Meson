@@ -13,7 +13,7 @@ Boolean Type___::get_IsExportedToWindowsRuntime() {
   return Boolean();
 };
 MemberTypes Type___::get_MemberType() {
-  return MemberTypes();
+  return MemberTypes::All;
 };
 Boolean Type___::get_IsNested() {
   return Boolean();
@@ -76,10 +76,10 @@ Int32 Type___::get_GenericParameterPosition() {
   return Int32();
 };
 GenericParameterAttributes Type___::get_GenericParameterAttributes() {
-  return GenericParameterAttributes();
+  return GenericParameterAttributes::DefaultConstructorConstraint;
 };
 TypeAttributes Type___::get_Attributes() {
-  return TypeAttributes();
+  return TypeAttributes::ReservedMask;
 };
 Boolean Type___::get_IsAbstract() {
   return Boolean();
@@ -364,10 +364,10 @@ Array<Type> Type___::GetTypeArray(Array<Object> args) {
   return Array<Type>();
 };
 TypeCode Type___::GetTypeCode(Type type) {
-  return TypeCode();
+  return TypeCode::String;
 };
 TypeCode Type___::GetTypeCodeImpl() {
-  return TypeCode();
+  return TypeCode::String;
 };
 Type Type___::GetTypeFromCLSID(Guid clsid) {
   return nullptr;

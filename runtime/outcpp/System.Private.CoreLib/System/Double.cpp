@@ -94,6 +94,6 @@ Boolean Double::TryParse(ReadOnlySpan<Char> s, NumberStyles style, NumberFormatI
   return Boolean();
 };
 TypeCode Double::GetTypeCode() {
-  return TypeCode();
+  return TypeCode::String;
 };
 } // namespace System::Private::CoreLib::System::DoubleNamespace

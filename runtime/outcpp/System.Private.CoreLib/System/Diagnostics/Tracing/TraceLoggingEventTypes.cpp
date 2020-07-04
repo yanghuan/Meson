@@ -5,7 +5,7 @@ String TraceLoggingEventTypes___::get_Name() {
   return nullptr;
 };
 EventTags TraceLoggingEventTypes___::get_Tags() {
-  return EventTags();
+  return EventTags::None;
 };
 NameInfo TraceLoggingEventTypes___::GetNameInfo(String name, EventTags tags) {
   return nullptr;

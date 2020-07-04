@@ -2,7 +2,7 @@
 
 namespace System::Private::CoreLib::System::Diagnostics::Tracing::EventAttributeNamespace {
 EventOpcode EventAttribute___::get_Opcode() {
-  return EventOpcode();
+  return EventOpcode::Receive;
 };
 void EventAttribute___::set_Opcode(EventOpcode value) {
 };

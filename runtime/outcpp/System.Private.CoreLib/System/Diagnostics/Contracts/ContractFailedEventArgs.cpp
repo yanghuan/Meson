@@ -8,7 +8,7 @@ String ContractFailedEventArgs___::get_Condition() {
   return nullptr;
 };
 ContractFailureKind ContractFailedEventArgs___::get_FailureKind() {
-  return ContractFailureKind();
+  return ContractFailureKind::Assume;
 };
 Exception ContractFailedEventArgs___::get_OriginalException() {
   return nullptr;

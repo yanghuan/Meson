@@ -44,12 +44,12 @@ Boolean Console::get_CapsLock() {
   return Boolean();
 };
 ConsoleColor Console::get_BackgroundColor() {
-  return ConsoleColor();
+  return ConsoleColor::White;
 };
 void Console::set_BackgroundColor(ConsoleColor value) {
 };
 ConsoleColor Console::get_ForegroundColor() {
-  return ConsoleColor();
+  return ConsoleColor::White;
 };
 void Console::set_ForegroundColor(ConsoleColor value) {
 };

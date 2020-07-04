@@ -117,10 +117,10 @@ String RuntimeAssembly___::GetSimpleName() {
   return nullptr;
 };
 AssemblyHashAlgorithm RuntimeAssembly___::GetHashAlgorithm() {
-  return AssemblyHashAlgorithm();
+  return AssemblyHashAlgorithm::SHA512;
 };
 AssemblyNameFlags RuntimeAssembly___::GetFlags() {
-  return AssemblyNameFlags();
+  return AssemblyNameFlags::Retargetable;
 };
 Array<Byte> RuntimeAssembly___::GetPublicKey() {
   return Array<Byte>();

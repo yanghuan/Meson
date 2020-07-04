@@ -35,7 +35,7 @@ IEnumerable<Task<>> ConcurrentExclusiveSchedulerPair___::ConcurrentExclusiveTask
   return nullptr;
 };
 ConcurrentExclusiveSchedulerPair::in::ProcessingMode ConcurrentExclusiveSchedulerPair___::DebugView___::get_Mode() {
-  return ConcurrentExclusiveSchedulerPair::in::ProcessingMode();
+  return ConcurrentExclusiveSchedulerPair::in::ProcessingMode::Completed;
 };
 IEnumerable<Task<>> ConcurrentExclusiveSchedulerPair___::DebugView___::get_ScheduledExclusive() {
   return nullptr;
@@ -77,7 +77,7 @@ Int32 ConcurrentExclusiveSchedulerPair___::get_ExclusiveTaskCountForDebugger() {
   return Int32();
 };
 ConcurrentExclusiveSchedulerPair::in::ProcessingMode ConcurrentExclusiveSchedulerPair___::get_ModeForDebugger() {
-  return ConcurrentExclusiveSchedulerPair::in::ProcessingMode();
+  return ConcurrentExclusiveSchedulerPair::in::ProcessingMode::Completed;
 };
 void ConcurrentExclusiveSchedulerPair___::Complete() {
 };
@@ -102,6 +102,6 @@ void ConcurrentExclusiveSchedulerPair___::ProcessExclusiveTasks() {
 void ConcurrentExclusiveSchedulerPair___::ProcessConcurrentTasks() {
 };
 TaskCreationOptions ConcurrentExclusiveSchedulerPair___::GetCreationOptionsForTask(Boolean isReplacementReplica) {
-  return TaskCreationOptions();
+  return TaskCreationOptions::RunContinuationsAsynchronously;
 };
 } // namespace System::Private::CoreLib::System::Threading::Tasks::ConcurrentExclusiveSchedulerPairNamespace

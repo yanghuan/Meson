@@ -12,7 +12,7 @@ Boolean Mutex___::TryOpenExisting(String name, Mutex& result) {
 void Mutex___::CreateMutexCore(Boolean initiallyOwned, String name, Boolean& createdNew) {
 };
 WaitHandle::in::OpenExistingResult Mutex___::OpenExistingWorker(String name, Mutex& result) {
-  return WaitHandle::in::OpenExistingResult();
+  return WaitHandle::in::OpenExistingResult::NameInvalid;
 };
 void Mutex___::ReleaseMutex() {
 };

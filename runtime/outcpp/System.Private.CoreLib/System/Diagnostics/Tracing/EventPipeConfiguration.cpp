@@ -5,7 +5,7 @@ String EventPipeConfiguration___::get_OutputFile() {
   return nullptr;
 };
 EventPipeSerializationFormat EventPipeConfiguration___::get_Format() {
-  return EventPipeSerializationFormat();
+  return EventPipeSerializationFormat::NetTrace;
 };
 UInt32 EventPipeConfiguration___::get_CircularBufferSizeInMB() {
   return UInt32();

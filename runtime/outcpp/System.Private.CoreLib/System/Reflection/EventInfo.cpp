@@ -2,7 +2,7 @@
 
 namespace System::Private::CoreLib::System::Reflection::EventInfoNamespace {
 MemberTypes EventInfo___::get_MemberType() {
-  return MemberTypes();
+  return MemberTypes::All;
 };
 Boolean EventInfo___::get_IsSpecialName() {
   return Boolean();

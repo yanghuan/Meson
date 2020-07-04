@@ -23,7 +23,7 @@ RuntimeFieldHandle FieldBuilder___::get_FieldHandle() {
   return RuntimeFieldHandle();
 };
 FieldAttributes FieldBuilder___::get_Attributes() {
-  return FieldAttributes();
+  return FieldAttributes::ReservedMask;
 };
 void FieldBuilder___::SetData(Array<Byte> data, Int32 size) {
 };

@@ -8,10 +8,10 @@ DateTime ThaiBuddhistCalendar___::get_MaxSupportedDateTime() {
   return DateTime();
 };
 CalendarAlgorithmType ThaiBuddhistCalendar___::get_AlgorithmType() {
-  return CalendarAlgorithmType();
+  return CalendarAlgorithmType::LunisolarCalendar;
 };
 CalendarId ThaiBuddhistCalendar___::get_ID() {
-  return CalendarId();
+  return CalendarId::LAST_CALENDAR;
 };
 Array<Int32> ThaiBuddhistCalendar___::get_Eras() {
   return Array<Int32>();
@@ -37,7 +37,7 @@ Int32 ThaiBuddhistCalendar___::GetDayOfMonth(DateTime time) {
   return Int32();
 };
 DayOfWeek ThaiBuddhistCalendar___::GetDayOfWeek(DateTime time) {
-  return DayOfWeek();
+  return DayOfWeek::Saturday;
 };
 Int32 ThaiBuddhistCalendar___::GetDayOfYear(DateTime time) {
   return Int32();

@@ -2,7 +2,7 @@
 
 namespace System::Private::CoreLib::System::Reflection::ConstructorInfoNamespace {
 MemberTypes ConstructorInfo___::get_MemberType() {
-  return MemberTypes();
+  return MemberTypes::All;
 };
 Type ConstructorInfo___::GetReturnType() {
   return nullptr;

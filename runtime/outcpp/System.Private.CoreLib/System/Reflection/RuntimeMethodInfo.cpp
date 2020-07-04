@@ -4,7 +4,7 @@
 
 namespace System::Private::CoreLib::System::Reflection::RuntimeMethodInfoNamespace {
 INVOCATION_FLAGS RuntimeMethodInfo___::get_InvocationFlags() {
-  return INVOCATION_FLAGS();
+  return INVOCATION_FLAGS::INVOCATION_FLAGS_CONSTRUCTOR_INVOKE;
 };
 RuntimeMethodHandleInternal RuntimeMethodInfo___::get_ValueOfIRuntimeMethodInfo() {
   return RuntimeMethodHandleInternal();
@@ -16,7 +16,7 @@ Signature RuntimeMethodInfo___::get_Signature() {
   return nullptr;
 };
 BindingFlags RuntimeMethodInfo___::get_BindingFlags() {
-  return BindingFlags();
+  return BindingFlags::DoNotWrapExceptions;
 };
 Int32 RuntimeMethodInfo___::get_GenericParameterCount() {
   return Int32();
@@ -31,7 +31,7 @@ Type RuntimeMethodInfo___::get_ReflectedType() {
   return nullptr;
 };
 MemberTypes RuntimeMethodInfo___::get_MemberType() {
-  return MemberTypes();
+  return MemberTypes::All;
 };
 Int32 RuntimeMethodInfo___::get_MetadataToken() {
   return Int32();
@@ -52,10 +52,10 @@ RuntimeMethodHandle RuntimeMethodInfo___::get_MethodHandle() {
   return RuntimeMethodHandle();
 };
 MethodAttributes RuntimeMethodInfo___::get_Attributes() {
-  return MethodAttributes();
+  return MethodAttributes::ReservedMask;
 };
 CallingConventions RuntimeMethodInfo___::get_CallingConvention() {
-  return CallingConventions();
+  return CallingConventions::ExplicitThis;
 };
 Type RuntimeMethodInfo___::get_ReturnType() {
   return nullptr;
@@ -133,7 +133,7 @@ Array<ParameterInfo> RuntimeMethodInfo___::GetParameters() {
   return Array<ParameterInfo>();
 };
 MethodImplAttributes RuntimeMethodInfo___::GetMethodImplementationFlags() {
-  return MethodImplAttributes();
+  return MethodImplAttributes::MaxMethodImplVal;
 };
 MethodBody RuntimeMethodInfo___::GetMethodBody() {
   return nullptr;

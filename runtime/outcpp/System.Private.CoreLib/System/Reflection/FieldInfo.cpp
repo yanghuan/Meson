@@ -4,7 +4,7 @@
 
 namespace System::Private::CoreLib::System::Reflection::FieldInfoNamespace {
 MemberTypes FieldInfo___::get_MemberType() {
-  return MemberTypes();
+  return MemberTypes::All;
 };
 Boolean FieldInfo___::get_IsInitOnly() {
   return Boolean();

@@ -116,7 +116,7 @@ Array<MemberInfo> TypeDelegator___::GetMembers(BindingFlags bindingAttr) {
   return Array<MemberInfo>();
 };
 TypeAttributes TypeDelegator___::GetAttributeFlagsImpl() {
-  return TypeAttributes();
+  return TypeAttributes::ReservedMask;
 };
 Boolean TypeDelegator___::IsArrayImpl() {
   return Boolean();

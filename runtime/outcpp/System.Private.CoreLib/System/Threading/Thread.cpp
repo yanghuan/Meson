@@ -31,7 +31,7 @@ Boolean Thread___::get_IsBackground() {
 void Thread___::set_IsBackground(Boolean value) {
 };
 ThreadPriority Thread___::get_Priority() {
-  return ThreadPriority();
+  return ThreadPriority::Highest;
 };
 void Thread___::set_Priority(ThreadPriority value) {
 };
@@ -39,7 +39,7 @@ UInt64 Thread___::get_CurrentOSThreadId() {
   return UInt64();
 };
 ThreadState Thread___::get_ThreadState() {
-  return ThreadState();
+  return ThreadState::Aborted;
 };
 Int32 Thread___::get_OptimalMaxSpinWaitsPerSpinIteration() {
   return Int32();
@@ -71,7 +71,7 @@ String Thread___::get_Name() {
 void Thread___::set_Name(String value) {
 };
 ApartmentState Thread___::get_ApartmentState() {
-  return ApartmentState();
+  return ApartmentState::Unknown;
 };
 void Thread___::set_ApartmentState(ApartmentState value) {
 };
@@ -107,7 +107,7 @@ void Thread___::SetStartHelper(Delegate start, Int32 maxStackSize) {
 void Thread___::Finalize() {
 };
 ApartmentState Thread___::GetApartmentState() {
-  return ApartmentState();
+  return ApartmentState::Unknown;
 };
 Boolean Thread___::TrySetApartmentStateUnchecked(ApartmentState state) {
   return Boolean();

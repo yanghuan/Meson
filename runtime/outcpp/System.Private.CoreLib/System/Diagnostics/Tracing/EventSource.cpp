@@ -36,7 +36,7 @@ Guid EventSource___::get_Guid() {
   return Guid();
 };
 EventSourceSettings EventSource___::get_Settings() {
-  return EventSourceSettings();
+  return EventSourceSettings::EtwSelfDescribingEventFormat;
 };
 Exception EventSource___::get_ConstructionException() {
   return nullptr;
@@ -187,7 +187,7 @@ void EventSource___::ThrowEventSourceException(String eventName, Exception inner
 void EventSource___::ValidateEventOpcodeForTransfer(EventMetadata& eventData, String eventName) {
 };
 EventOpcode EventSource___::GetOpcodeWithDefault(EventOpcode opcode, String eventName) {
-  return EventOpcode();
+  return EventOpcode::Receive;
 };
 Int32 EventSource___::GetParameterCount(EventMetadata eventData) {
   return Int32();
@@ -241,7 +241,7 @@ Int32 EventSource___::GetHelperCallFirstArg(MethodInfo method) {
 void EventSource___::ReportOutOfBandMessage(String msg, Boolean flush) {
 };
 EventSourceSettings EventSource___::ValidateSettings(EventSourceSettings settings) {
-  return EventSourceSettings();
+  return EventSourceSettings::EtwSelfDescribingEventFormat;
 };
 void EventSource___::Write(String eventName) {
 };

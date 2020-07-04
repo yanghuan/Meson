@@ -2,7 +2,7 @@
 
 namespace System::Private::CoreLib::System::Reflection::ExceptionHandlingClauseNamespace {
 ExceptionHandlingClauseOptions ExceptionHandlingClause___::get_Flags() {
-  return ExceptionHandlingClauseOptions();
+  return ExceptionHandlingClauseOptions::Fault;
 };
 Int32 ExceptionHandlingClause___::get_TryOffset() {
   return Int32();

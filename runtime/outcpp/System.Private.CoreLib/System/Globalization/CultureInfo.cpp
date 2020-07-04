@@ -78,7 +78,7 @@ Boolean CultureInfo___::get_IsNeutralCulture() {
   return Boolean();
 };
 CultureTypes CultureInfo___::get_CultureTypes() {
-  return CultureTypes();
+  return CultureTypes::FrameworkCultures;
 };
 NumberFormatInfo CultureInfo___::get_NumberFormat() {
   return nullptr;

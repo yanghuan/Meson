@@ -2,7 +2,7 @@
 
 namespace System::Private::CoreLib::System::Diagnostics::Contracts::ContractExceptionNamespace {
 ContractFailureKind ContractException___::get_Kind() {
-  return ContractFailureKind();
+  return ContractFailureKind::Assume;
 };
 String ContractException___::get_Failure() {
   return nullptr;

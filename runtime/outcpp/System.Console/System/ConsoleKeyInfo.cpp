@@ -5,10 +5,10 @@ Char ConsoleKeyInfo::get_KeyChar() {
   return Char();
 };
 ConsoleKey ConsoleKeyInfo::get_Key() {
-  return ConsoleKey();
+  return ConsoleKey::OemClear;
 };
 ConsoleModifiers ConsoleKeyInfo::get_Modifiers() {
-  return ConsoleModifiers();
+  return ConsoleModifiers::Control;
 };
 Boolean ConsoleKeyInfo::Equals(Object value) {
   return Boolean();

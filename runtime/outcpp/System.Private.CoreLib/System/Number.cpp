@@ -350,46 +350,46 @@ Boolean Number::TryParseNumber(Char*& str, Char* strEnd, NumberStyles styles, Nu
   return Boolean();
 };
 Number::ParsingStatus Number::TryParseInt32(ReadOnlySpan<Char> value, NumberStyles styles, NumberFormatInfo info, Int32& result) {
-  return Number::ParsingStatus();
+  return Number::ParsingStatus::Overflow;
 };
 Number::ParsingStatus Number::TryParseInt32Number(ReadOnlySpan<Char> value, NumberStyles styles, NumberFormatInfo info, Int32& result) {
-  return Number::ParsingStatus();
+  return Number::ParsingStatus::Overflow;
 };
 Number::ParsingStatus Number::TryParseInt32IntegerStyle(ReadOnlySpan<Char> value, NumberStyles styles, NumberFormatInfo info, Int32& result) {
-  return Number::ParsingStatus();
+  return Number::ParsingStatus::Overflow;
 };
 Number::ParsingStatus Number::TryParseInt64IntegerStyle(ReadOnlySpan<Char> value, NumberStyles styles, NumberFormatInfo info, Int64& result) {
-  return Number::ParsingStatus();
+  return Number::ParsingStatus::Overflow;
 };
 Number::ParsingStatus Number::TryParseInt64(ReadOnlySpan<Char> value, NumberStyles styles, NumberFormatInfo info, Int64& result) {
-  return Number::ParsingStatus();
+  return Number::ParsingStatus::Overflow;
 };
 Number::ParsingStatus Number::TryParseInt64Number(ReadOnlySpan<Char> value, NumberStyles styles, NumberFormatInfo info, Int64& result) {
-  return Number::ParsingStatus();
+  return Number::ParsingStatus::Overflow;
 };
 Number::ParsingStatus Number::TryParseUInt32(ReadOnlySpan<Char> value, NumberStyles styles, NumberFormatInfo info, UInt32& result) {
-  return Number::ParsingStatus();
+  return Number::ParsingStatus::Overflow;
 };
 Number::ParsingStatus Number::TryParseUInt32Number(ReadOnlySpan<Char> value, NumberStyles styles, NumberFormatInfo info, UInt32& result) {
-  return Number::ParsingStatus();
+  return Number::ParsingStatus::Overflow;
 };
 Number::ParsingStatus Number::TryParseUInt32IntegerStyle(ReadOnlySpan<Char> value, NumberStyles styles, NumberFormatInfo info, UInt32& result) {
-  return Number::ParsingStatus();
+  return Number::ParsingStatus::Overflow;
 };
 Number::ParsingStatus Number::TryParseUInt32HexNumberStyle(ReadOnlySpan<Char> value, NumberStyles styles, UInt32& result) {
-  return Number::ParsingStatus();
+  return Number::ParsingStatus::Overflow;
 };
 Number::ParsingStatus Number::TryParseUInt64(ReadOnlySpan<Char> value, NumberStyles styles, NumberFormatInfo info, UInt64& result) {
-  return Number::ParsingStatus();
+  return Number::ParsingStatus::Overflow;
 };
 Number::ParsingStatus Number::TryParseUInt64Number(ReadOnlySpan<Char> value, NumberStyles styles, NumberFormatInfo info, UInt64& result) {
-  return Number::ParsingStatus();
+  return Number::ParsingStatus::Overflow;
 };
 Number::ParsingStatus Number::TryParseUInt64IntegerStyle(ReadOnlySpan<Char> value, NumberStyles styles, NumberFormatInfo info, UInt64& result) {
-  return Number::ParsingStatus();
+  return Number::ParsingStatus::Overflow;
 };
 Number::ParsingStatus Number::TryParseUInt64HexNumberStyle(ReadOnlySpan<Char> value, NumberStyles styles, UInt64& result) {
-  return Number::ParsingStatus();
+  return Number::ParsingStatus::Overflow;
 };
 Decimal Number::ParseDecimal(ReadOnlySpan<Char> value, NumberStyles styles, NumberFormatInfo info) {
   return Decimal();
@@ -404,7 +404,7 @@ Single Number::ParseSingle(ReadOnlySpan<Char> value, NumberStyles styles, Number
   return Single();
 };
 Number::ParsingStatus Number::TryParseDecimal(ReadOnlySpan<Char> value, NumberStyles styles, NumberFormatInfo info, Decimal& result) {
-  return Number::ParsingStatus();
+  return Number::ParsingStatus::Overflow;
 };
 Boolean Number::TryParseDouble(ReadOnlySpan<Char> value, NumberStyles styles, NumberFormatInfo info, Double& result) {
   return Boolean();

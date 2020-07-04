@@ -88,10 +88,10 @@ Boolean ASCIIEncoding___::TryGetByteCount(Rune value, Int32& byteCount) {
   return Boolean();
 };
 OperationStatus ASCIIEncoding___::EncodeRune(Rune value, Span<Byte> bytes, Int32& bytesWritten) {
-  return OperationStatus();
+  return OperationStatus::InvalidData;
 };
 OperationStatus ASCIIEncoding___::DecodeFirstRune(ReadOnlySpan<Byte> bytes, Rune& value, Int32& bytesConsumed) {
-  return OperationStatus();
+  return OperationStatus::InvalidData;
 };
 Int32 ASCIIEncoding___::GetMaxByteCount(Int32 charCount) {
   return Int32();

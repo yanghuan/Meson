@@ -19,7 +19,7 @@ Boolean __DTString::Advance(Int32 count) {
 void __DTString::GetRegularToken(TokenType& tokenType, Int32& tokenValue, DateTimeFormatInfo dtfi) {
 };
 TokenType __DTString::GetSeparatorToken(DateTimeFormatInfo dtfi, Int32& indexBeforeSeparator, Char& charBeforeSeparator) {
-  return TokenType();
+  return TokenType::SeparatorTokenMask;
 };
 Boolean __DTString::MatchSpecifiedWord(String target) {
   return Boolean();

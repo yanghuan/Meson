@@ -56,12 +56,12 @@ Boolean ConsolePal::get_TreatControlCAsInput() {
 void ConsolePal::set_TreatControlCAsInput(Boolean value) {
 };
 ConsoleColor ConsolePal::get_BackgroundColor() {
-  return ConsoleColor();
+  return ConsoleColor::White;
 };
 void ConsolePal::set_BackgroundColor(ConsoleColor value) {
 };
 ConsoleColor ConsolePal::get_ForegroundColor() {
-  return ConsoleColor();
+  return ConsoleColor::White;
 };
 void ConsolePal::set_ForegroundColor(ConsoleColor value) {
 };
@@ -193,10 +193,10 @@ void ConsolePal::SetWindowPosition(Int32 left, Int32 top) {
 void ConsolePal::SetWindowSize(Int32 width, Int32 height) {
 };
 Interop::Kernel32::in::Color ConsolePal::ConsoleColorToColorAttribute(ConsoleColor color, Boolean isBackground) {
-  return Interop::Kernel32::in::Color();
+  return Interop::Kernel32::in::Color::ColorMask;
 };
 ConsoleColor ConsolePal::ColorAttributeToConsoleColor(Interop::Kernel32::in::Color c) {
-  return ConsoleColor();
+  return ConsoleColor::White;
 };
 Interop::Kernel32::in::CONSOLE_SCREEN_BUFFER_INFO ConsolePal::GetBufferInfo() {
   return Interop::Kernel32::in::CONSOLE_SCREEN_BUFFER_INFO();

@@ -122,7 +122,7 @@ Array<EventInfo> EnumBuilder___::GetEvents(BindingFlags bindingAttr) {
   return Array<EventInfo>();
 };
 TypeAttributes EnumBuilder___::GetAttributeFlagsImpl() {
-  return TypeAttributes();
+  return TypeAttributes::ReservedMask;
 };
 Boolean EnumBuilder___::IsArrayImpl() {
   return Boolean();

@@ -4,10 +4,10 @@
 
 namespace System::Private::CoreLib::System::Diagnostics::Tracing::EventProviderNamespace {
 EventLevel EventProvider___::get_Level() {
-  return EventLevel();
+  return EventLevel::Verbose;
 };
 EventKeywords EventProvider___::get_MatchAnyKeyword() {
-  return EventKeywords();
+  return EventKeywords::EventLogClassic;
 };
 void EventProvider___::Register(EventSource eventSource) {
 };
@@ -44,7 +44,7 @@ Boolean EventProvider___::IsEnabled(Byte level, Int64 keywords) {
   return Boolean();
 };
 EventProvider::in::WriteEventErrorCode EventProvider___::GetLastWriteEventError() {
-  return EventProvider::in::WriteEventErrorCode();
+  return EventProvider::in::WriteEventErrorCode::Other;
 };
 void EventProvider___::SetLastError(WriteEventErrorCode error) {
 };

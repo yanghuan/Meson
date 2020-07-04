@@ -26,7 +26,7 @@ Boolean RuntimeType___::RuntimeTypeCache___::get_DomainInitialized() {
 void RuntimeType___::RuntimeTypeCache___::set_DomainInitialized(Boolean value) {
 };
 TypeCode RuntimeType___::RuntimeTypeCache___::get_TypeCode() {
-  return TypeCode();
+  return TypeCode::String;
 };
 void RuntimeType___::RuntimeTypeCache___::set_TypeCode(TypeCode value) {
 };
@@ -128,7 +128,7 @@ Guid RuntimeType___::get_GUID() {
   return Guid();
 };
 GenericParameterAttributes RuntimeType___::get_GenericParameterAttributes() {
-  return GenericParameterAttributes();
+  return GenericParameterAttributes::DefaultConstructorConstraint;
 };
 Boolean RuntimeType___::get_IsSZArray() {
   return Boolean();
@@ -185,7 +185,7 @@ Boolean RuntimeType___::get_IsSecurityTransparent() {
   return Boolean();
 };
 MemberTypes RuntimeType___::get_MemberType() {
-  return MemberTypes();
+  return MemberTypes::All;
 };
 Int32 RuntimeType___::get_MetadataToken() {
   return Int32();
@@ -235,7 +235,7 @@ void RuntimeType___::ValidateGenericArguments(MemberInfo definition, Array<Runti
 void RuntimeType___::SplitName(String fullname, String& name, String& ns) {
 };
 BindingFlags RuntimeType___::FilterPreCalculate(Boolean isPublic, Boolean isInherited, Boolean isStatic) {
-  return BindingFlags();
+  return BindingFlags::DoNotWrapExceptions;
 };
 void RuntimeType___::FilterHelper(BindingFlags bindingFlags, String& name, Boolean allowPrefixLookup, Boolean& prefixLookup, Boolean& ignoreCase, MemberListType& listType) {
 };
@@ -440,7 +440,7 @@ Int32 RuntimeType___::GetArrayRank() {
   return Int32();
 };
 TypeAttributes RuntimeType___::GetAttributeFlagsImpl() {
-  return TypeAttributes();
+  return TypeAttributes::ReservedMask;
 };
 Array<Object> RuntimeType___::GetCustomAttributes(Boolean inherit) {
   return Array<Object>();
@@ -479,7 +479,7 @@ RuntimeModule RuntimeType___::GetRuntimeModule() {
   return nullptr;
 };
 TypeCode RuntimeType___::GetTypeCodeImpl() {
-  return TypeCode();
+  return TypeCode::String;
 };
 Boolean RuntimeType___::HasElementTypeImpl() {
   return Boolean();

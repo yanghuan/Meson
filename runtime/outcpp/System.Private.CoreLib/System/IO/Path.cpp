@@ -5,7 +5,7 @@ ReadOnlySpan<Byte> Path::get_Base32Char() {
   return ReadOnlySpan<Byte>();
 };
 StringComparison Path::get_StringComparison() {
-  return StringComparison();
+  return StringComparison::OrdinalIgnoreCase;
 };
 Boolean Path::get_IsCaseSensitive() {
   return Boolean();

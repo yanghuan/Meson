@@ -8,10 +8,10 @@ DateTime HijriCalendar___::get_MaxSupportedDateTime() {
   return DateTime();
 };
 CalendarAlgorithmType HijriCalendar___::get_AlgorithmType() {
-  return CalendarAlgorithmType();
+  return CalendarAlgorithmType::LunisolarCalendar;
 };
 CalendarId HijriCalendar___::get_ID() {
-  return CalendarId();
+  return CalendarId::LAST_CALENDAR;
 };
 Int32 HijriCalendar___::get_DaysInYearBeforeMinSupportedYear() {
   return Int32();
@@ -56,7 +56,7 @@ Int32 HijriCalendar___::GetDayOfMonth(DateTime time) {
   return Int32();
 };
 DayOfWeek HijriCalendar___::GetDayOfWeek(DateTime time) {
-  return DayOfWeek();
+  return DayOfWeek::Saturday;
 };
 Int32 HijriCalendar___::GetDayOfYear(DateTime time) {
   return Int32();

@@ -37,7 +37,7 @@ Boolean CalendarData___::CallGetCalendarInfoEx(String localeName, CalendarId cal
   return Boolean();
 };
 Interop::BOOL CalendarData___::EnumCalendarInfoCallback(Char* lpCalendarInfoString, UInt32 calendar, IntPtr pReserved, void* lParam) {
-  return Interop::BOOL();
+  return Interop::BOOL::TRUE;
 };
 Boolean CalendarData___::CallEnumCalendarInfo(String localeName, CalendarId calendar, UInt32 calType, UInt32 lcType, Array<String>& data) {
   return Boolean();
@@ -49,7 +49,7 @@ Boolean CalendarData___::GetCalendarMonthInfo(String localeName, CalendarId cale
   return Boolean();
 };
 Interop::BOOL CalendarData___::EnumCalendarsCallback(Char* lpCalendarInfoString, UInt32 calendar, IntPtr reserved, void* lParam) {
-  return Interop::BOOL();
+  return Interop::BOOL::TRUE;
 };
 String CalendarData___::GetUserDefaultLocaleName() {
   return nullptr;

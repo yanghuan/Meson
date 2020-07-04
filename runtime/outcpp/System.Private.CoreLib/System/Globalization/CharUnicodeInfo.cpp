@@ -62,28 +62,28 @@ Int32 CharUnicodeInfo::GetDigitValue(String s, Int32 index) {
   return Int32();
 };
 UnicodeCategory CharUnicodeInfo::GetUnicodeCategory(Char ch) {
-  return UnicodeCategory();
+  return UnicodeCategory::OtherNotAssigned;
 };
 UnicodeCategory CharUnicodeInfo::GetUnicodeCategory(String s, Int32 index) {
-  return UnicodeCategory();
+  return UnicodeCategory::OtherNotAssigned;
 };
 UnicodeCategory CharUnicodeInfo::GetUnicodeCategory(Int32 codePoint) {
-  return UnicodeCategory();
+  return UnicodeCategory::OtherNotAssigned;
 };
 Byte CharUnicodeInfo::InternalGetCategoryValue(Int32 ch, Int32 offset) {
   return Byte();
 };
 UnicodeCategory CharUnicodeInfo::InternalGetUnicodeCategory(String value, Int32 index) {
-  return UnicodeCategory();
+  return UnicodeCategory::OtherNotAssigned;
 };
 BidiCategory CharUnicodeInfo::GetBidiCategory(String s, Int32 index) {
-  return BidiCategory();
+  return BidiCategory::PopDirectionIsolate;
 };
 BidiCategory CharUnicodeInfo::GetBidiCategory(StringBuilder s, Int32 index) {
-  return BidiCategory();
+  return BidiCategory::PopDirectionIsolate;
 };
 UnicodeCategory CharUnicodeInfo::InternalGetUnicodeCategory(String str, Int32 index, Int32& charLength) {
-  return UnicodeCategory();
+  return UnicodeCategory::OtherNotAssigned;
 };
 Boolean CharUnicodeInfo::IsCombiningCategory(UnicodeCategory uc) {
   return Boolean();

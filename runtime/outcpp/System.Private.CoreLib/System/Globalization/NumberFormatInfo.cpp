@@ -146,7 +146,7 @@ Array<String> NumberFormatInfo___::get_NativeDigits() {
 void NumberFormatInfo___::set_NativeDigits(Array<String> value) {
 };
 DigitShapes NumberFormatInfo___::get_DigitSubstitution() {
-  return DigitShapes();
+  return DigitShapes::NativeNational;
 };
 void NumberFormatInfo___::set_DigitSubstitution(DigitShapes value) {
 };

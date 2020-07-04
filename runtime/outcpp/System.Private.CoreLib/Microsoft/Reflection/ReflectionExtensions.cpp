@@ -23,7 +23,7 @@ Assembly ReflectionExtensions::Assembly(Type type) {
   return nullptr;
 };
 TypeCode ReflectionExtensions::GetTypeCode(Type type) {
-  return TypeCode();
+  return TypeCode::String;
 };
 Boolean ReflectionExtensions::ReflectionOnly(::System::Private::CoreLib::System::Reflection::Assembly assm) {
   return Boolean();

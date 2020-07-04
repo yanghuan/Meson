@@ -20,16 +20,16 @@ EventSource EventWrittenEventArgs___::get_EventSource() {
   return nullptr;
 };
 EventKeywords EventWrittenEventArgs___::get_Keywords() {
-  return EventKeywords();
+  return EventKeywords::EventLogClassic;
 };
 EventOpcode EventWrittenEventArgs___::get_Opcode() {
-  return EventOpcode();
+  return EventOpcode::Receive;
 };
 EventTask EventWrittenEventArgs___::get_Task() {
-  return EventTask();
+  return EventTask::None;
 };
 EventTags EventWrittenEventArgs___::get_Tags() {
-  return EventTags();
+  return EventTags::None;
 };
 String EventWrittenEventArgs___::get_Message() {
   return nullptr;
@@ -37,13 +37,13 @@ String EventWrittenEventArgs___::get_Message() {
 void EventWrittenEventArgs___::set_Message(String value) {
 };
 EventChannel EventWrittenEventArgs___::get_Channel() {
-  return EventChannel();
+  return EventChannel::Debug;
 };
 Byte EventWrittenEventArgs___::get_Version() {
   return Byte();
 };
 EventLevel EventWrittenEventArgs___::get_Level() {
-  return EventLevel();
+  return EventLevel::Verbose;
 };
 Int64 EventWrittenEventArgs___::get_OSThreadId() {
   return Int64();

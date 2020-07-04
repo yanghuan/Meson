@@ -13,7 +13,7 @@ Boolean Char::IsAscii(Char ch) {
   return Boolean();
 };
 UnicodeCategory Char::GetLatin1UnicodeCategory(Char ch) {
-  return UnicodeCategory();
+  return UnicodeCategory::OtherNotAssigned;
 };
 Int32 Char::GetHashCode() {
   return Int32();
@@ -103,7 +103,7 @@ Char Char::ToLowerInvariant(Char c) {
   return Char();
 };
 TypeCode Char::GetTypeCode() {
-  return TypeCode();
+  return TypeCode::String;
 };
 Boolean Char::IsControl(Char c) {
   return Boolean();
@@ -169,10 +169,10 @@ Boolean Char::IsWhiteSpace(String s, Int32 index) {
   return Boolean();
 };
 UnicodeCategory Char::GetUnicodeCategory(Char c) {
-  return UnicodeCategory();
+  return UnicodeCategory::OtherNotAssigned;
 };
 UnicodeCategory Char::GetUnicodeCategory(String s, Int32 index) {
-  return UnicodeCategory();
+  return UnicodeCategory::OtherNotAssigned;
 };
 Double Char::GetNumericValue(Char c) {
   return Double();

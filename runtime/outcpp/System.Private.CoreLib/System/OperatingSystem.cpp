@@ -2,7 +2,7 @@
 
 namespace System::Private::CoreLib::System::OperatingSystemNamespace {
 PlatformID OperatingSystem___::get_Platform() {
-  return PlatformID();
+  return PlatformID::MacOSX;
 };
 String OperatingSystem___::get_ServicePack() {
   return nullptr;

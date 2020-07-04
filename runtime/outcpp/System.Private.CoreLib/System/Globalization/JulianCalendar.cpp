@@ -8,10 +8,10 @@ DateTime JulianCalendar___::get_MaxSupportedDateTime() {
   return DateTime();
 };
 CalendarAlgorithmType JulianCalendar___::get_AlgorithmType() {
-  return CalendarAlgorithmType();
+  return CalendarAlgorithmType::LunisolarCalendar;
 };
 CalendarId JulianCalendar___::get_ID() {
-  return CalendarId();
+  return CalendarId::LAST_CALENDAR;
 };
 Array<Int32> JulianCalendar___::get_Eras() {
   return Array<Int32>();
@@ -45,7 +45,7 @@ Int32 JulianCalendar___::GetDayOfMonth(DateTime time) {
   return Int32();
 };
 DayOfWeek JulianCalendar___::GetDayOfWeek(DateTime time) {
-  return DayOfWeek();
+  return DayOfWeek::Saturday;
 };
 Int32 JulianCalendar___::GetDayOfYear(DateTime time) {
   return Int32();

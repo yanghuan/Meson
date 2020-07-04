@@ -2,7 +2,7 @@
 
 namespace System::Private::CoreLib::System::Reflection::ParameterInfoNamespace {
 ParameterAttributes ParameterInfo___::get_Attributes() {
-  return ParameterAttributes();
+  return ParameterAttributes::ReservedMask;
 };
 MemberInfo ParameterInfo___::get_Member() {
   return nullptr;

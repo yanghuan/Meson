@@ -2,7 +2,7 @@
 
 namespace System::Private::CoreLib::System::Reflection::RuntimeConstructorInfoNamespace {
 INVOCATION_FLAGS RuntimeConstructorInfo___::get_InvocationFlags() {
-  return INVOCATION_FLAGS();
+  return INVOCATION_FLAGS::INVOCATION_FLAGS_CONSTRUCTOR_INVOKE;
 };
 RuntimeMethodHandleInternal RuntimeConstructorInfo___::get_ValueOfIRuntimeMethodInfo() {
   return RuntimeMethodHandleInternal();
@@ -14,13 +14,13 @@ RuntimeType RuntimeConstructorInfo___::get_ReflectedTypeInternal() {
   return nullptr;
 };
 BindingFlags RuntimeConstructorInfo___::get_BindingFlags() {
-  return BindingFlags();
+  return BindingFlags::DoNotWrapExceptions;
 };
 String RuntimeConstructorInfo___::get_Name() {
   return nullptr;
 };
 MemberTypes RuntimeConstructorInfo___::get_MemberType() {
-  return MemberTypes();
+  return MemberTypes::All;
 };
 Type RuntimeConstructorInfo___::get_DeclaringType() {
   return nullptr;
@@ -38,10 +38,10 @@ RuntimeMethodHandle RuntimeConstructorInfo___::get_MethodHandle() {
   return RuntimeMethodHandle();
 };
 MethodAttributes RuntimeConstructorInfo___::get_Attributes() {
-  return MethodAttributes();
+  return MethodAttributes::ReservedMask;
 };
 CallingConventions RuntimeConstructorInfo___::get_CallingConvention() {
-  return CallingConventions();
+  return CallingConventions::ExplicitThis;
 };
 Boolean RuntimeConstructorInfo___::get_IsSecurityCritical() {
   return Boolean();
@@ -94,7 +94,7 @@ Array<ParameterInfo> RuntimeConstructorInfo___::GetParameters() {
   return Array<ParameterInfo>();
 };
 MethodImplAttributes RuntimeConstructorInfo___::GetMethodImplementationFlags() {
-  return MethodImplAttributes();
+  return MethodImplAttributes::MaxMethodImplVal;
 };
 void RuntimeConstructorInfo___::CheckCanCreateInstance(Type declaringType, Boolean isVarArg) {
 };

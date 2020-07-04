@@ -2,7 +2,7 @@
 
 namespace System::Private::CoreLib::System::Runtime::InteropServices::VariantNamespace {
 VarEnum Variant::get_VariantType() {
-  return VarEnum();
+  return VarEnum::VT_BYREF;
 };
 Boolean Variant::get_IsEmpty() {
   return Boolean();

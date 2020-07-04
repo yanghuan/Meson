@@ -14,10 +14,10 @@ Type SymbolMethod___::get_DeclaringType() {
   return nullptr;
 };
 MethodAttributes SymbolMethod___::get_Attributes() {
-  return MethodAttributes();
+  return MethodAttributes::ReservedMask;
 };
 CallingConventions SymbolMethod___::get_CallingConvention() {
-  return CallingConventions();
+  return CallingConventions::ExplicitThis;
 };
 RuntimeMethodHandle SymbolMethod___::get_MethodHandle() {
   return RuntimeMethodHandle();
@@ -38,7 +38,7 @@ Array<ParameterInfo> SymbolMethod___::GetParameters() {
   return Array<ParameterInfo>();
 };
 MethodImplAttributes SymbolMethod___::GetMethodImplementationFlags() {
-  return MethodImplAttributes();
+  return MethodImplAttributes::MaxMethodImplVal;
 };
 Object SymbolMethod___::Invoke(Object obj, BindingFlags invokeAttr, Binder binder, Array<Object> parameters, CultureInfo culture) {
   return nullptr;

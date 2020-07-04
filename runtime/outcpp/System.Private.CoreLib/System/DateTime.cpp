@@ -16,7 +16,7 @@ Int32 DateTime::get_Day() {
   return Int32();
 };
 DayOfWeek DateTime::get_DayOfWeek() {
-  return DayOfWeek();
+  return DayOfWeek::Saturday;
 };
 Int32 DateTime::get_DayOfYear() {
   return Int32();
@@ -25,7 +25,7 @@ Int32 DateTime::get_Hour() {
   return Int32();
 };
 DateTimeKind DateTime::get_Kind() {
-  return DateTimeKind();
+  return DateTimeKind::Local;
 };
 Int32 DateTime::get_Millisecond() {
   return Int32();
@@ -276,7 +276,7 @@ Array<String> DateTime::GetDateTimeFormats(Char format, IFormatProvider provider
   return Array<String>();
 };
 TypeCode DateTime::GetTypeCode() {
-  return TypeCode();
+  return TypeCode::String;
 };
 Boolean DateTime::TryCreate(Int32 year, Int32 month, Int32 day, Int32 hour, Int32 minute, Int32 second, Int32 millisecond, DateTime& result) {
   return Boolean();

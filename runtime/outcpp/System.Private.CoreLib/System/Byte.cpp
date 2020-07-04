@@ -67,6 +67,6 @@ Boolean Byte::TryFormat(Span<Char> destination, Int32& charsWritten, ReadOnlySpa
   return Boolean();
 };
 TypeCode Byte::GetTypeCode() {
-  return TypeCode();
+  return TypeCode::String;
 };
 } // namespace System::Private::CoreLib::System::ByteNamespace

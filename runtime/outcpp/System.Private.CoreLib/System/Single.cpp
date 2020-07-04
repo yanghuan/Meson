@@ -94,6 +94,6 @@ Boolean Single::TryParse(ReadOnlySpan<Char> s, NumberStyles style, NumberFormatI
   return Boolean();
 };
 TypeCode Single::GetTypeCode() {
-  return TypeCode();
+  return TypeCode::String;
 };
 } // namespace System::Private::CoreLib::System::SingleNamespace

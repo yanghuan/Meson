@@ -127,7 +127,7 @@ String Enum___::ToString(IFormatProvider provider) {
   return nullptr;
 };
 TypeCode Enum___::GetTypeCode() {
-  return TypeCode();
+  return TypeCode::String;
 };
 Object Enum___::ToObject(Type enumType, SByte value) {
   return nullptr;

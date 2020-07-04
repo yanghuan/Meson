@@ -46,12 +46,12 @@ String DateTimeFormatInfo___::get_DateSeparator() {
 void DateTimeFormatInfo___::set_DateSeparator(String value) {
 };
 DayOfWeek DateTimeFormatInfo___::get_FirstDayOfWeek() {
-  return DayOfWeek();
+  return DayOfWeek::Saturday;
 };
 void DateTimeFormatInfo___::set_FirstDayOfWeek(DayOfWeek value) {
 };
 CalendarWeekRule DateTimeFormatInfo___::get_CalendarWeekRule() {
-  return CalendarWeekRule();
+  return CalendarWeekRule::FirstFourDayWeek;
 };
 void DateTimeFormatInfo___::set_CalendarWeekRule(CalendarWeekRule value) {
 };
@@ -208,7 +208,7 @@ CompareInfo DateTimeFormatInfo___::get_CompareInfo() {
   return nullptr;
 };
 DateTimeFormatFlags DateTimeFormatInfo___::get_FormatFlags() {
-  return DateTimeFormatFlags();
+  return DateTimeFormatFlags::NotInitialized;
 };
 Boolean DateTimeFormatInfo___::get_HasForceTwoDigitYears() {
   return Boolean();
@@ -312,7 +312,7 @@ void DateTimeFormatInfo___::SetAllDateTimePatterns(Array<String> patterns, Char 
 void DateTimeFormatInfo___::ValidateStyles(DateTimeStyles style, String parameterName) {
 };
 DateTimeFormatFlags DateTimeFormatInfo___::InitializeFormatFlags() {
-  return DateTimeFormatFlags();
+  return DateTimeFormatFlags::NotInitialized;
 };
 Boolean DateTimeFormatInfo___::YearMonthAdjustment(Int32& year, Int32& month, Boolean parsedMonthName) {
   return Boolean();

@@ -18,7 +18,7 @@ Int32 Semaphore___::Release(Int32 releaseCount) {
 void Semaphore___::CreateSemaphoreCore(Int32 initialCount, Int32 maximumCount, String name, Boolean& createdNew) {
 };
 WaitHandle::in::OpenExistingResult Semaphore___::OpenExistingWorker(String name, Semaphore& result) {
-  return WaitHandle::in::OpenExistingResult();
+  return WaitHandle::in::OpenExistingResult::NameInvalid;
 };
 Int32 Semaphore___::ReleaseCore(Int32 releaseCount) {
   return Int32();

@@ -67,6 +67,6 @@ Boolean SByte::TryParse(ReadOnlySpan<Char> s, NumberStyles style, NumberFormatIn
   return Boolean();
 };
 TypeCode SByte::GetTypeCode() {
-  return TypeCode();
+  return TypeCode::String;
 };
 } // namespace System::Private::CoreLib::System::SByteNamespace

@@ -18,22 +18,22 @@ Boolean Statics::ShouldOverrideFieldName(String fieldName) {
   return Boolean();
 };
 TraceLoggingDataType Statics::MakeDataType(TraceLoggingDataType baseType, EventFieldFormat format) {
-  return TraceLoggingDataType();
+  return TraceLoggingDataType::HResult;
 };
 TraceLoggingDataType Statics::Format8(EventFieldFormat format, TraceLoggingDataType native) {
-  return TraceLoggingDataType();
+  return TraceLoggingDataType::HResult;
 };
 TraceLoggingDataType Statics::Format16(EventFieldFormat format, TraceLoggingDataType native) {
-  return TraceLoggingDataType();
+  return TraceLoggingDataType::HResult;
 };
 TraceLoggingDataType Statics::Format32(EventFieldFormat format, TraceLoggingDataType native) {
-  return TraceLoggingDataType();
+  return TraceLoggingDataType::HResult;
 };
 TraceLoggingDataType Statics::Format64(EventFieldFormat format, TraceLoggingDataType native) {
-  return TraceLoggingDataType();
+  return TraceLoggingDataType::HResult;
 };
 TraceLoggingDataType Statics::FormatPtr(EventFieldFormat format, TraceLoggingDataType native) {
-  return TraceLoggingDataType();
+  return TraceLoggingDataType::HResult;
 };
 Boolean Statics::IsValueType(Type type) {
   return Boolean();

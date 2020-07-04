@@ -2,13 +2,13 @@
 
 namespace System::Private::CoreLib::System::Reflection::RuntimeFieldInfoNamespace {
 BindingFlags RuntimeFieldInfo___::get_BindingFlags() {
-  return BindingFlags();
+  return BindingFlags::DoNotWrapExceptions;
 };
 RuntimeType RuntimeFieldInfo___::get_ReflectedTypeInternal() {
   return nullptr;
 };
 MemberTypes RuntimeFieldInfo___::get_MemberType() {
-  return MemberTypes();
+  return MemberTypes::All;
 };
 Type RuntimeFieldInfo___::get_ReflectedType() {
   return nullptr;

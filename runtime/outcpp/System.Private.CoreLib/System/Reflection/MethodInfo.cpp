@@ -4,7 +4,7 @@
 
 namespace System::Private::CoreLib::System::Reflection::MethodInfoNamespace {
 MemberTypes MethodInfo___::get_MemberType() {
-  return MemberTypes();
+  return MemberTypes::All;
 };
 ParameterInfo MethodInfo___::get_ReturnParameter() {
   return nullptr;

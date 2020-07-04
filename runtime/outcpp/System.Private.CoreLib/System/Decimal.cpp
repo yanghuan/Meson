@@ -319,7 +319,7 @@ Decimal Decimal::Truncate(Decimal d) {
 void Decimal::Truncate(Decimal& d) {
 };
 TypeCode Decimal::GetTypeCode() {
-  return TypeCode();
+  return TypeCode::String;
 };
 UInt32 Decimal::DecDivMod1E9(Decimal& value) {
   return UInt32();

@@ -16,6 +16,6 @@ UInt32 EventParameterInfo::GetMetadataLengthForProperty(PropertyAnalysis propert
   return UInt32();
 };
 TypeCode EventParameterInfo::GetTypeCodeExtended(Type parameterType) {
-  return TypeCode();
+  return TypeCode::String;
 };
 } // namespace System::Private::CoreLib::System::Diagnostics::Tracing::EventParameterInfoNamespace

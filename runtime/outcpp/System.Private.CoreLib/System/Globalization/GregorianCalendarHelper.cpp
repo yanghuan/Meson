@@ -40,7 +40,7 @@ Int32 GregorianCalendarHelper___::GetDayOfMonth(DateTime time) {
   return Int32();
 };
 DayOfWeek GregorianCalendarHelper___::GetDayOfWeek(DateTime time) {
-  return DayOfWeek();
+  return DayOfWeek::Saturday;
 };
 Int32 GregorianCalendarHelper___::GetDayOfYear(DateTime time) {
   return Int32();

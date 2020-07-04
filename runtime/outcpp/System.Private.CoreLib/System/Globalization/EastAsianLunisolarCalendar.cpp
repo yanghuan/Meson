@@ -2,7 +2,7 @@
 
 namespace System::Private::CoreLib::System::Globalization::EastAsianLunisolarCalendarNamespace {
 CalendarAlgorithmType EastAsianLunisolarCalendar___::get_AlgorithmType() {
-  return CalendarAlgorithmType();
+  return CalendarAlgorithmType::LunisolarCalendar;
 };
 Int32 EastAsianLunisolarCalendar___::get_TwoDigitYearMax() {
   return Int32();
@@ -78,7 +78,7 @@ Int32 EastAsianLunisolarCalendar___::GetYear(DateTime time) {
   return Int32();
 };
 DayOfWeek EastAsianLunisolarCalendar___::GetDayOfWeek(DateTime time) {
-  return DayOfWeek();
+  return DayOfWeek::Saturday;
 };
 Int32 EastAsianLunisolarCalendar___::GetMonthsInYear(Int32 year, Int32 era) {
   return Int32();

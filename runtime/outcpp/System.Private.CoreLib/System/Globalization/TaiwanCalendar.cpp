@@ -8,10 +8,10 @@ DateTime TaiwanCalendar___::get_MaxSupportedDateTime() {
   return DateTime();
 };
 CalendarAlgorithmType TaiwanCalendar___::get_AlgorithmType() {
-  return CalendarAlgorithmType();
+  return CalendarAlgorithmType::LunisolarCalendar;
 };
 CalendarId TaiwanCalendar___::get_ID() {
-  return CalendarId();
+  return CalendarId::LAST_CALENDAR;
 };
 Array<Int32> TaiwanCalendar___::get_Eras() {
   return Array<Int32>();
@@ -40,7 +40,7 @@ Int32 TaiwanCalendar___::GetDayOfMonth(DateTime time) {
   return Int32();
 };
 DayOfWeek TaiwanCalendar___::GetDayOfWeek(DateTime time) {
-  return DayOfWeek();
+  return DayOfWeek::Saturday;
 };
 Int32 TaiwanCalendar___::GetDayOfYear(DateTime time) {
   return Int32();

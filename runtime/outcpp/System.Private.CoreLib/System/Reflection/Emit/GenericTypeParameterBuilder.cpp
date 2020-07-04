@@ -65,7 +65,7 @@ Boolean GenericTypeParameterBuilder___::get_ContainsGenericParameters() {
   return Boolean();
 };
 GenericParameterAttributes GenericTypeParameterBuilder___::get_GenericParameterAttributes() {
-  return GenericParameterAttributes();
+  return GenericParameterAttributes::DefaultConstructorConstraint;
 };
 MethodBase GenericTypeParameterBuilder___::get_DeclaringMethod() {
   return nullptr;
@@ -152,7 +152,7 @@ Array<MemberInfo> GenericTypeParameterBuilder___::GetMembers(BindingFlags bindin
   return Array<MemberInfo>();
 };
 TypeAttributes GenericTypeParameterBuilder___::GetAttributeFlagsImpl() {
-  return TypeAttributes();
+  return TypeAttributes::ReservedMask;
 };
 Boolean GenericTypeParameterBuilder___::IsArrayImpl() {
   return Boolean();
