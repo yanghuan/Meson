@@ -1399,6 +1399,9 @@ String SR::get_ArgumentOutOfRange_AddValue() {
 String SR::get_ArgumentOutOfRange_ArrayLB() {
   return nullptr;
 };
+String SR::get_ArgumentOutOfRange_ArrayLB() {
+  return nullptr;
+};
 String SR::get_ArgumentOutOfRange_BadHourMinuteSecond() {
   return nullptr;
 };

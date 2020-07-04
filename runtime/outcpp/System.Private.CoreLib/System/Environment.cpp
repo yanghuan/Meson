@@ -19,6 +19,12 @@ Boolean Environment::get_IsSingleProcessor() {
 Boolean Environment::get_HasShutdownStarted() {
   return Boolean();
 };
+Boolean Environment::get_IsSingleProcessor() {
+  return Boolean();
+};
+Boolean Environment::get_HasShutdownStarted() {
+  return Boolean();
+};
 String Environment::get_CommandLine() {
   return nullptr;
 };

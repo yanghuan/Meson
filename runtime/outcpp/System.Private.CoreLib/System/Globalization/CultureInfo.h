@@ -97,6 +97,7 @@ CLASS(CultureInfo) {
   private: static CultureInfo IcuGetPredefinedCultureInfo(String name);
   private: static CultureInfo NlsGetPredefinedCultureInfo(String name);
   public: static CultureInfo GetUserDefaultCulture();
+  private: static CultureInfo GetPredefinedCultureInfo(String name);
   private: static CultureInfo GetUserDefaultUICulture();
   private: Boolean _isReadOnly;
   private: CompareInfo _compareInfo;

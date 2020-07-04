@@ -15,7 +15,7 @@ FORWARDS(UInt16)
 namespace System::Private::CoreLib::System::StubHelpers {
 namespace MngdHiddenLengthArrayMarshalerNamespace {
 class MngdHiddenLengthArrayMarshaler {
-  public: static void CreateMarshaler(IntPtr pMarshalState, IntPtr pMT, IntPtr cbElementSize, UInt16 vt);
+  public: static void CreateMarshaler(IntPtr pMarshalState, IntPtr pMT, IntPtr cbElementSize, UInt16 vt, IntPtr pManagedMarshaler);
   public: static void ConvertSpaceToNative(IntPtr pMarshalState, Object& pManagedHome, IntPtr pNativeHome);
   public: static void ConvertContentsToNative(IntPtr pMarshalState, Object& pManagedHome, IntPtr pNativeHome);
   public: static void ConvertContentsToNative_DateTime(Array<DateTimeOffset>& managedArray, IntPtr pNativeHome);

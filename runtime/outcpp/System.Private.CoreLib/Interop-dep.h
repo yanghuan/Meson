@@ -24,7 +24,6 @@
 #include <System.Private.CoreLib/System/IO/FileMode.h>
 #include <System.Private.CoreLib/System/IO/FileShare.h>
 #include <System.Private.CoreLib/System/Object-dep.h>
-#include <System.Private.CoreLib/System/ReadOnlySpan-dep.h>
 #include <System.Private.CoreLib/System/Runtime/InteropServices/SafeBuffer-dep.h>
 #include <System.Private.CoreLib/System/Runtime/InteropServices/SafeHandle-dep.h>
 #include <System.Private.CoreLib/System/Span-dep.h>

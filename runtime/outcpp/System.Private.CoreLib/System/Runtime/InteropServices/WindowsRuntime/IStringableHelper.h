@@ -8,7 +8,7 @@ FORWARD(String)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Runtime::InteropServices::WindowsRuntime {
 namespace IStringableHelperNamespace {
-CLASS(IStringableHelper) {
+class IStringableHelper {
   public: static String ToString(Object obj);
 };
 } // namespace IStringableHelperNamespace

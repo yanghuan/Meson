@@ -7,7 +7,10 @@ FORWARDS(Boolean)
 FORWARDS(Byte)
 FORWARDS(Char)
 FORWARDS(Int32)
+FORWARDS(ReadOnlySpan, T)
 FORWARDS(UInt32)
+FORWARDS(UInt64)
+FORWARD(Utf8String)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Buffers {
 enum class OperationStatus;
@@ -16,6 +19,10 @@ namespace System::Private::CoreLib::System::Text::Unicode {
 namespace Utf8UtilityNamespace {
 using namespace ::System::Private::CoreLib::System::Buffers;
 class Utf8Utility {
+  private: static ReadOnlySpan<Byte> get_ReplacementCharSequence();
+  public: static Int32 GetIndexOfFirstInvalidUtf8Sequence(ReadOnlySpan<Byte> utf8Data, Boolean& isAscii);
+  public: static Boolean IsWellFormedUtf8(ReadOnlySpan<Byte> utf8Data);
+  public: static Utf8String ValidateAndFixupUtf8String(Utf8String value);
   private: static UInt32 ExtractCharFromFirstThreeByteSequence(UInt32 value);
   private: static UInt32 ExtractCharFromFirstTwoByteSequence(UInt32 value);
   private: static UInt32 ExtractCharsFromFourByteSequence(UInt32 value);
@@ -52,6 +59,10 @@ class Utf8Utility {
   public: static OperationStatus TranscodeToUtf16(Byte* pInputBuffer, Int32 inputLength, Char* pOutputBuffer, Int32 outputCharsRemaining, Byte*& pInputBufferRemaining, Char*& pOutputBufferRemaining);
   public: static OperationStatus TranscodeToUtf8(Char* pInputBuffer, Int32 inputLength, Byte* pOutputBuffer, Int32 outputBytesRemaining, Char*& pInputBufferRemaining, Byte*& pOutputBufferRemaining);
   public: static Byte* GetPointerToFirstInvalidByte(Byte* pInputBuffer, Int32 inputLength, Int32& utf16CodeUnitCountAdjustment, Int32& scalarCountAdjustment);
+  public: static Int32 GetIndexOfFirstNonWhiteSpaceChar(ReadOnlySpan<Byte> utf8Data);
+  private: static UInt64 GetIndexOfFirstNonWhiteSpaceChar(Byte& utf8Data, UInt64 length);
+  public: static Int32 GetIndexOfTrailingWhiteSpaceSequence(ReadOnlySpan<Byte> utf8Data);
+  private: static UInt64 GetIndexOfTrailingWhiteSpaceSequence(Byte& utf8Data, UInt64 length);
 };
 } // namespace Utf8UtilityNamespace
 using Utf8Utility = Utf8UtilityNamespace::Utf8Utility;

@@ -161,4 +161,8 @@ void SpanHelpers::ClearWithoutReferences(Byte& b, UIntPtr byteLength) {
 };
 void SpanHelpers::ClearWithReferences(IntPtr& ip, UIntPtr pointerSizeLength) {
 };
+void SpanHelpers::ClearWithoutReferences(Byte& b, UInt64 byteLength) {
+};
+void SpanHelpers::ClearWithReferences(IntPtr& ip, UInt64 pointerSizeLength) {
+};
 } // namespace System::Private::CoreLib::System::SpanHelpersNamespace
