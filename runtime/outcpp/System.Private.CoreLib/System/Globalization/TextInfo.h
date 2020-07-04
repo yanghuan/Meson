@@ -30,7 +30,6 @@ CLASS(TextInfo) {
   };
   private: struct ToLowerConversion {
   };
-  public: static TextInfo get_Invariant();
   public: Int32 get_ANSICodePage();
   public: Int32 get_OEMCodePage();
   public: Int32 get_MacCodePage();
@@ -78,7 +77,7 @@ CLASS(TextInfo) {
   private: CultureData _cultureData;
   private: String _textInfoName;
   private: Tristate _isAsciiCasingSameAsInvariant;
-  private: static TextInfo s_invariant;
+  public: static TextInfo Invariant;
   private: IntPtr _sortHandle;
 };
 } // namespace TextInfoNamespace

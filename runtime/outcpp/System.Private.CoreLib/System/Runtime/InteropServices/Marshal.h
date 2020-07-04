@@ -17,8 +17,10 @@ FORWARDS(Int64)
 FORWARDS(IntPtr)
 FORWARD(IRuntimeFieldInfo)
 FORWARD(Object)
+FORWARDS(ReadOnlySpan, T)
 FORWARDS(RuntimeMethodHandleInternal)
 FORWARDS(Single)
+FORWARDS(Span, T)
 FORWARD(String)
 FORWARD(Type)
 FORWARDS(UInt32)
@@ -208,8 +210,10 @@ class Marshal {
   public: static IntPtr StringToHGlobalAuto(String s);
   public: static IntPtr StringToCoTaskMemAuto(String s);
   private: static Int32 GetSystemMaxDBCSCharSize();
-  private: static Boolean IsWin32Atom(IntPtr ptr);
+  private: static Boolean IsNullOrWin32Atom(IntPtr ptr);
   public: static Int32 StringToAnsiString(String s, Byte* buffer, Int32 bufferLength, Boolean bestFit, Boolean throwOnUnmappableChar);
+  public: static Int32 GetAnsiStringByteCount(ReadOnlySpan<Char> chars);
+  public: static void GetAnsiStringBytes(ReadOnlySpan<Char> chars, Span<Byte> bytes);
   public: static Guid IID_IUnknown;
   public: static Int32 SystemDefaultCharSize;
   public: static Int32 SystemMaxDBCSCharSize;

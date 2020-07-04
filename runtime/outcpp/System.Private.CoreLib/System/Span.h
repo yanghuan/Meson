@@ -18,10 +18,10 @@ struct Span {
     private: Span<T> _span;
     private: Int32 _index;
   };
+  public: T& get_Item(Int32 index);
   public: Int32 get_Length();
   public: Boolean get_IsEmpty();
   public: static Span<T> get_Empty();
-  public: T& get_Item(Int32 index);
   public: Boolean Equals(Object obj);
   public: Int32 GetHashCode();
   public: Enumerator GetEnumerator();

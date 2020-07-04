@@ -171,6 +171,9 @@ DateTimeOffset DateTimeOffset::ToLocalTime() {
 DateTimeOffset DateTimeOffset::ToLocalTime(Boolean throwOnOverflow) {
   return DateTimeOffset();
 };
+DateTimeOffset DateTimeOffset::ToLocalTime(DateTime utcDateTime, Boolean throwOnOverflow) {
+  return DateTimeOffset();
+};
 String DateTimeOffset::ToString() {
   return nullptr;
 };

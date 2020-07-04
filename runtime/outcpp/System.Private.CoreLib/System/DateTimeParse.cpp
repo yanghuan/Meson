@@ -55,13 +55,13 @@ Boolean DateTimeParse::Lex(DS dps, __DTString& str, DateTimeToken& dtok, DateTim
 Boolean DateTimeParse::VerifyValidPunctuation(__DTString& str) {
   return Boolean();
 };
-Boolean DateTimeParse::GetYearMonthDayOrder(String datePattern, DateTimeFormatInfo dtfi, Int32& order) {
+Boolean DateTimeParse::GetYearMonthDayOrder(String datePattern, Int32& order) {
   return Boolean();
 };
-Boolean DateTimeParse::GetYearMonthOrder(String pattern, DateTimeFormatInfo dtfi, Int32& order) {
+Boolean DateTimeParse::GetYearMonthOrder(String pattern, Int32& order) {
   return Boolean();
 };
-Boolean DateTimeParse::GetMonthDayOrder(String pattern, DateTimeFormatInfo dtfi, Int32& order) {
+Boolean DateTimeParse::GetMonthDayOrder(String pattern, Int32& order) {
   return Boolean();
 };
 Boolean DateTimeParse::TryAdjustYear(DateTimeResult& result, Int32 year, Int32& adjustedYear) {
@@ -140,10 +140,10 @@ Boolean DateTimeParse::GetDateOfNNDS(DateTimeResult& result, DateTimeRawInfo& ra
 Boolean DateTimeParse::ProcessDateTimeSuffix(DateTimeResult& result, DateTimeRawInfo& raw, DateTimeToken& dtok) {
   return Boolean();
 };
-Boolean DateTimeParse::ProcessHebrewTerminalState(DS dps, __DTString& str, DateTimeResult& result, DateTimeStyles& styles, DateTimeRawInfo& raw, DateTimeFormatInfo dtfi) {
+Boolean DateTimeParse::ProcessHebrewTerminalState(DS dps, DateTimeResult& result, DateTimeStyles& styles, DateTimeRawInfo& raw, DateTimeFormatInfo dtfi) {
   return Boolean();
 };
-Boolean DateTimeParse::ProcessTerminalState(DS dps, __DTString& str, DateTimeResult& result, DateTimeStyles& styles, DateTimeRawInfo& raw, DateTimeFormatInfo dtfi) {
+Boolean DateTimeParse::ProcessTerminalState(DS dps, DateTimeResult& result, DateTimeStyles& styles, DateTimeRawInfo& raw, DateTimeFormatInfo dtfi) {
   return Boolean();
 };
 DateTime DateTimeParse::Parse(ReadOnlySpan<Char> s, DateTimeFormatInfo dtfi, DateTimeStyles styles) {
@@ -246,7 +246,7 @@ Boolean DateTimeParse::DoStrictParse(ReadOnlySpan<Char> s, ReadOnlySpan<Char> fo
 Boolean DateTimeParse::ParseFormatR(ReadOnlySpan<Char> source, ParsingInfo& parseInfo, DateTimeResult& result) {
   return Boolean();
 };
-Boolean DateTimeParse::ParseFormatO(ReadOnlySpan<Char> source, ParsingInfo& parseInfo, DateTimeResult& result) {
+Boolean DateTimeParse::ParseFormatO(ReadOnlySpan<Char> source, DateTimeResult& result) {
   return Boolean();
 };
 Exception DateTimeParse::GetDateTimeParseException(DateTimeResult& result) {

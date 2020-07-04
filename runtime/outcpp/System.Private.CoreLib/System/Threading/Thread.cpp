@@ -118,9 +118,6 @@ Boolean Thread___::SetApartmentStateHelper(ApartmentState state, Boolean fireMDA
 Int32 Thread___::CalculateOptimalMaxSpinWaitsPerSpinIteration() {
   return Int32();
 };
-Int32 Thread___::RefreshCurrentProcessorId() {
-  return Int32();
-};
 Int32 Thread___::GetCurrentProcessorId() {
   return Int32();
 };

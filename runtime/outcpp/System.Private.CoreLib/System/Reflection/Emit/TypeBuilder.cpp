@@ -114,8 +114,6 @@ Boolean TypeBuilder___::IsTypeEqual(Type t1, Type t2) {
 };
 void TypeBuilder___::SetConstantValue(ModuleBuilder module, Int32 tk, Type destType, Object value) {
 };
-void TypeBuilder___::InitAsGenericParam(String szName, Int32 genParamPos) {
-};
 FieldBuilder TypeBuilder___::DefineDataHelper(String name, Array<Byte> data, Int32 size, FieldAttributes attributes) {
   return nullptr;
 };

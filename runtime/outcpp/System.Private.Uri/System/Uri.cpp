@@ -24,9 +24,6 @@ UriParser Uri___::get_Syntax() {
 Boolean Uri___::get_IsNotAbsoluteUri() {
   return Boolean();
 };
-Boolean Uri___::get_AllowIdn() {
-  return Boolean();
-};
 Boolean Uri___::get_UserDrivenParsing() {
   return Boolean();
 };
@@ -109,12 +106,6 @@ Boolean Uri___::get_HasAuthority() {
   return Boolean();
 };
 Boolean Uri___::IriParsingStatic(UriParser syntax) {
-  return Boolean();
-};
-Boolean Uri___::AllowIdnStatic(UriParser syntax, Flags flags) {
-  return Boolean();
-};
-Boolean Uri___::IsIntranet(String schemeHost) {
   return Boolean();
 };
 void Uri___::SetUserDrivenParsing() {
@@ -247,9 +238,9 @@ ParsingError Uri___::CheckSchemeSyntax(ReadOnlySpan<Char> span, UriParser& synta
 UInt16 Uri___::CheckAuthorityHelper(Char* pString, UInt16 idx, UInt16 length, ParsingError& err, Flags& flags, UriParser syntax, String& newHost) {
   return UInt16();
 };
-void Uri___::CheckAuthorityHelperHandleDnsIri(Char* pString, UInt16 start, Int32 end, Int32 startInput, Boolean iriParsing, Boolean hasUnicode, UriParser syntax, String userInfoString, Flags& flags, Boolean& justNormalized, String& newHost, ParsingError& err) {
+void Uri___::CheckAuthorityHelperHandleDnsIri(Char* pString, UInt16 start, Int32 end, Boolean hasUnicode, Flags& flags, Boolean& justNormalized, String& newHost, ParsingError& err) {
 };
-void Uri___::CheckAuthorityHelperHandleAnyHostIri(Char* pString, Int32 startInput, Int32 end, Boolean iriParsing, Boolean hasUnicode, UriParser syntax, Flags& flags, String& newHost, ParsingError& err) {
+void Uri___::CheckAuthorityHelperHandleAnyHostIri(Char* pString, Int32 startInput, Int32 end, Boolean iriParsing, Boolean hasUnicode, Flags& flags, String& newHost, ParsingError& err) {
 };
 void Uri___::FindEndOfComponent(String input, UInt16& idx, UInt16 end, Char delim) {
 };

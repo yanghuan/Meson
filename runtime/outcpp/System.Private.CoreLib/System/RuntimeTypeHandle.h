@@ -39,11 +39,11 @@ FORWARD(Object)
 FORWARD(Type)
 FORWARD_(Array, T1, T2)
 FORWARDS(Int32)
-FORWARD(IRuntimeMethodInfo)
 FORWARDS(ModuleHandle)
 enum class TypeNameFormatFlags;
 FORWARD(String)
 FORWARDS(MdUtf8String)
+FORWARD(IRuntimeMethodInfo)
 namespace RuntimeTypeHandleNamespace {
 using namespace ::System::Private::CoreLib::System::Reflection;
 using namespace ::System::Private::CoreLib::System::Runtime::CompilerServices;
@@ -78,7 +78,6 @@ struct RuntimeTypeHandle {
   public: static Array<IntPtr> CopyRuntimeTypeHandles(Array<RuntimeTypeHandle> inHandles, Int32& length);
   public: static Array<IntPtr> CopyRuntimeTypeHandles(Array<Type> inHandles, Int32& length);
   public: static Object CreateInstance(RuntimeType type, Boolean publicOnly, Boolean wrapExceptions, Boolean& canBeCached, RuntimeMethodHandleInternal& ctor, Boolean& hasNoDefaultCtor);
-  public: static Object CreateCaInstance(RuntimeType type, IRuntimeMethodInfo ctor);
   public: static Object Allocate(RuntimeType type);
   public: static Object CreateInstanceForAnotherGenericParameter(RuntimeType type, RuntimeType genericParameter);
   public: RuntimeType GetRuntimeType();
@@ -120,8 +119,6 @@ struct RuntimeTypeHandle {
   public: static Boolean CanCastTo(RuntimeType type, RuntimeType target);
   public: static RuntimeType GetDeclaringType(RuntimeType type);
   public: static IRuntimeMethodInfo GetDeclaringMethod(RuntimeType type);
-  private: static void GetDefaultConstructor(QCallTypeHandle handle, ObjectHandleOnStack method);
-  public: IRuntimeMethodInfo GetDefaultConstructor();
   private: static void GetTypeByName(String name, Boolean throwOnError, Boolean ignoreCase, StackCrawlMarkHandle stackMark, ObjectHandleOnStack assemblyLoadContext, Boolean loadTypeFromPartialName, ObjectHandleOnStack type, ObjectHandleOnStack keepalive);
   public: static RuntimeType GetTypeByName(String name, Boolean throwOnError, Boolean ignoreCase, StackCrawlMark& stackMark, Boolean loadTypeFromPartialName);
   public: static RuntimeType GetTypeByName(String name, Boolean throwOnError, Boolean ignoreCase, StackCrawlMark& stackMark, AssemblyLoadContext assemblyLoadContext, Boolean loadTypeFromPartialName);

@@ -10,6 +10,7 @@ CLASS(ExceptionDispatchInfo) {
   public: static ExceptionDispatchInfo Capture(Exception source);
   public: void Throw();
   public: static void Throw(Exception source);
+  public: static Exception SetCurrentStackTrace(Exception source);
   private: Exception _exception;
   private: Exception::in::DispatchState _dispatchState;
 };

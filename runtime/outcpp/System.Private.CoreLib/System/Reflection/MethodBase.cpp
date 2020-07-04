@@ -84,8 +84,6 @@ IntPtr MethodBase___::GetMethodDesc() {
 Array<ParameterInfo> MethodBase___::GetParametersNoCopy() {
   return Array<ParameterInfo>();
 };
-void MethodBase___::AppendParameters(ValueStringBuilder& sbParamList, Array<Type> parameterTypes, CallingConventions callingConvention) {
-};
 Array<Type> MethodBase___::GetParameterTypes() {
   return Array<Type>();
 };
@@ -106,5 +104,7 @@ Boolean MethodBase___::Equals(Object obj) {
 };
 Int32 MethodBase___::GetHashCode() {
   return Int32();
+};
+void MethodBase___::AppendParameters(ValueStringBuilder& sbParamList, Array<Type> parameterTypes, CallingConventions callingConvention) {
 };
 } // namespace System::Private::CoreLib::System::Reflection::MethodBaseNamespace

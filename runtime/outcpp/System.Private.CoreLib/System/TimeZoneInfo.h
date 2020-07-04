@@ -15,7 +15,7 @@ namespace System::Private::CoreLib::System::Collections::ObjectModel {
 FORWARD(ReadOnlyCollection, T)
 } // namespace System::Private::CoreLib::System::Collections::ObjectModel
 namespace System::Private::CoreLib::System::Text {
-FORWARD(StringBuilder)
+FORWARDS(ValueStringBuilder)
 } // namespace System::Private::CoreLib::System::Text
 namespace System::Private::CoreLib::System::Globalization {
 FORWARDS(DaylightTimeStruct)
@@ -121,8 +121,8 @@ CLASS(TimeZoneInfo) {
     };
     public: static String GetSerializedString(TimeZoneInfo zone);
     public: static TimeZoneInfo GetDeserializedTimeZoneInfo(String source);
-    private: static void SerializeSubstitute(String text, StringBuilder serializedText);
-    private: static void SerializeTransitionTime(TransitionTime time, StringBuilder serializedText);
+    private: static void SerializeSubstitute(String text, ValueStringBuilder& serializedText);
+    private: static void SerializeTransitionTime(TransitionTime time, ValueStringBuilder& serializedText);
     private: static void VerifyIsEscapableCharacter(Char c);
     private: void SkipVersionNextDataFields(Int32 depth);
     private: String GetNextStringValue();
@@ -193,14 +193,14 @@ CLASS(TimeZoneInfo) {
   private: DateTime ConvertToFromUtc(DateTime dateTime, TimeSpan daylightDelta, TimeSpan baseUtcOffsetDelta, Boolean convertToUtc);
   private: static DateTime ConvertUtcToTimeZone(Int64 ticks, TimeZoneInfo destinationTimeZone, Boolean& isAmbiguousLocalDst);
   private: DaylightTimeStruct GetDaylightTime(Int32 year, AdjustmentRule rule, Nullable<Int32> ruleIndex);
-  private: static Boolean GetIsDaylightSavings(DateTime time, AdjustmentRule rule, DaylightTimeStruct daylightTime, TimeZoneInfoOptions flags);
+  private: static Boolean GetIsDaylightSavings(DateTime time, AdjustmentRule rule, DaylightTimeStruct daylightTime);
   private: TimeSpan GetDaylightSavingsStartOffsetFromUtc(TimeSpan baseUtcOffset, AdjustmentRule rule, Nullable<Int32> ruleIndex);
   private: TimeSpan GetDaylightSavingsEndOffsetFromUtc(TimeSpan baseUtcOffset, AdjustmentRule rule);
   private: static Boolean GetIsDaylightSavingsFromUtc(DateTime time, Int32 year, TimeSpan utc, AdjustmentRule rule, Nullable<Int32> ruleIndex, Boolean& isAmbiguousLocalDst, TimeZoneInfo zone);
   private: static Boolean CheckIsDst(DateTime startTime, DateTime time, DateTime endTime, Boolean ignoreYearAdjustment, AdjustmentRule rule);
   private: static Boolean GetIsAmbiguousTime(DateTime time, AdjustmentRule rule, DaylightTimeStruct daylightTime);
   private: static Boolean GetIsInvalidTime(DateTime time, AdjustmentRule rule, DaylightTimeStruct daylightTime);
-  private: static TimeSpan GetUtcOffset(DateTime time, TimeZoneInfo zone, TimeZoneInfoOptions flags);
+  private: static TimeSpan GetUtcOffset(DateTime time, TimeZoneInfo zone);
   private: static TimeSpan GetUtcOffsetFromUtc(DateTime time, TimeZoneInfo zone);
   private: static TimeSpan GetUtcOffsetFromUtc(DateTime time, TimeZoneInfo zone, Boolean& isDaylightSavings);
   public: static TimeSpan GetUtcOffsetFromUtc(DateTime time, TimeZoneInfo zone, Boolean& isDaylightSavings, Boolean& isAmbiguousLocalDst);

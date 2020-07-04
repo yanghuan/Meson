@@ -8,13 +8,26 @@ namespace System::Private::CoreLib::System {
 FORWARDS(Char)
 FORWARDS(IntPtr)
 FORWARD(Object)
-FORWARDS(UInt32)
+FORWARDS(ReadOnlySpan, T)
+FORWARDS(Span, T)
+FORWARDS(UInt64)
 } // namespace System::Private::CoreLib::System
+namespace System::Private::CoreLib::System::Runtime::InteropServices {
+FORWARD(SafeBuffer)
+} // namespace System::Private::CoreLib::System::Runtime::InteropServices
 namespace System::Private::CoreLib::System::Security {
-FORWARD(SafeBSTRHandle)
 namespace SecureStringNamespace {
+using namespace ::System::Private::CoreLib::System::Runtime::InteropServices;
 CLASS(SecureString) {
+  private: CLASS(UnmanagedBuffer) {
+    public: static UnmanagedBuffer Allocate(Int32 byteLength);
+    public: static void Copy(UnmanagedBuffer source, UnmanagedBuffer destination, UInt64 bytesLength);
+    protected: Boolean ReleaseHandle();
+    private: Int32 _byteLength;
+  };
   public: Int32 get_Length();
+  private: void Initialize(ReadOnlySpan<Char> value);
+  private: void EnsureCapacity(Int32 capacity);
   public: void AppendChar(Char c);
   public: void Clear();
   public: SecureString Copy();
@@ -24,30 +37,19 @@ CLASS(SecureString) {
   public: void MakeReadOnly();
   public: void RemoveAt(Int32 index);
   public: void SetAt(Int32 index, Char c);
+  private: Span<Char> AcquireSpan(SafeBuffer& bufferToRelease);
   private: void EnsureNotReadOnly();
   private: void EnsureNotDisposed();
   public: IntPtr MarshalToBSTR();
   public: IntPtr MarshalToString(Boolean globalAlloc, Boolean unicode);
-  private: static void MarshalFree(IntPtr ptr, Boolean globalAlloc);
-  private: void InitializeSecureString(Char* value, Int32 length);
-  private: void AppendCharCore(Char c);
-  private: void ClearCore();
-  private: void DisposeCore();
-  private: void InsertAtCore(Int32 index, Char c);
-  private: void RemoveAtCore(Int32 index);
-  private: void SetAtCore(Int32 index, Char c);
-  public: IntPtr MarshalToBSTRCore();
-  public: IntPtr MarshalToStringCore(Boolean globalAlloc, Boolean unicode);
-  private: void AllocateBuffer(UInt32 size);
-  private: static UInt32 GetAlignedSize(UInt32 size);
-  private: void EnsureCapacity(Int32 capacity);
+  private: static Int32 GetAlignedByteSize(Int32 length);
   private: void ProtectMemory();
   private: void UnprotectMemory();
   private: Object _methodLock;
-  private: Boolean _readOnly;
+  private: UnmanagedBuffer _buffer;
   private: Int32 _decryptedLength;
-  private: SafeBSTRHandle _buffer;
   private: Boolean _encrypted;
+  private: Boolean _readOnly;
 };
 } // namespace SecureStringNamespace
 using SecureString = SecureStringNamespace::SecureString;

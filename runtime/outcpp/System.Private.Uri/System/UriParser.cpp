@@ -9,12 +9,6 @@ String UriParser___::get_SchemeName() {
 Int32 UriParser___::get_DefaultPort() {
   return Int32();
 };
-Boolean UriParser___::get_DontEnableStrictRFC3986ReservedCharacterSets() {
-  return Boolean();
-};
-Boolean UriParser___::get_DontKeepUnicodeBidiFormattingCharacters() {
-  return Boolean();
-};
 UriSyntaxFlags UriParser___::get_Flags() {
   return UriSyntaxFlags::AllowIriParsing;
 };

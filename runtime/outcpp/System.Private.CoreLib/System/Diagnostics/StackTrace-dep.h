@@ -10,4 +10,5 @@
 #include <System.Private.CoreLib/System/Int32-dep.h>
 #include <System.Private.CoreLib/System/Reflection/MethodBase-dep.h>
 #include <System.Private.CoreLib/System/String-dep.h>
+#include <System.Private.CoreLib/System/Text/StringBuilder-dep.h>
 #include <System.Private.CoreLib/System/Type-dep.h>

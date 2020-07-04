@@ -10,7 +10,7 @@ FORWARD(RuntimeType)
 namespace System::Private::CoreLib::System::Runtime::CompilerServices {
 FORWARD(ICastable)
 namespace ICastableHelpersNamespace {
-CLASS(ICastableHelpers) {
+class ICastableHelpers {
   public: static Boolean IsInstanceOfInterface(ICastable castable, RuntimeType type, Exception& castError);
   public: static RuntimeType GetImplType(ICastable castable, RuntimeType interfaceType);
 };

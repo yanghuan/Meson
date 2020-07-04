@@ -19,7 +19,6 @@
 #include <System.Private.Uri/System/UriFormat.h>
 #include <System.Private.Uri/System/UriFormatException-dep.h>
 #include <System.Private.Uri/System/UriHostNameType.h>
-#include <System.Private.Uri/System/UriIdnScope.h>
 #include <System.Private.Uri/System/UriKind.h>
 #include <System.Private.Uri/System/UriParser-dep.h>
 #include <System.Private.Uri/System/UriPartial.h>

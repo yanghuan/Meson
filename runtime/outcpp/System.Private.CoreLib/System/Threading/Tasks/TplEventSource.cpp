@@ -17,7 +17,7 @@ void TplEventSource___::TaskWaitContinuationComplete(Int32 TaskID) {
 };
 void TplEventSource___::TaskWaitContinuationStarted(Int32 TaskID) {
 };
-void TplEventSource___::AwaitTaskContinuationScheduled(Int32 OriginatingTaskSchedulerID, Int32 OriginatingTaskID, Int32 ContinuwWithTaskId) {
+void TplEventSource___::AwaitTaskContinuationScheduled(Int32 OriginatingTaskSchedulerID, Int32 OriginatingTaskID, Int32 ContinueWithTaskId) {
 };
 void TplEventSource___::TraceOperationBegin(Int32 TaskID, String OperationName, Int64 RelatedContext) {
 };

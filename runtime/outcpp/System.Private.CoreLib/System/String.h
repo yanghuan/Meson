@@ -8,6 +8,7 @@ namespace System::Private::CoreLib::System::Text {
 FORWARD(Encoding)
 enum class NormalizationForm;
 FORWARDS(StringRuneEnumerator)
+enum class TrimType;
 } // namespace System::Private::CoreLib::System::Text
 namespace System::Private::CoreLib::System::Globalization {
 enum class CompareOptions;
@@ -21,14 +22,14 @@ namespace System::Private::CoreLib::System {
 FORWARDS(Byte)
 FORWARDS(Boolean)
 FORWARDS(IntPtr)
-FORWARD_(Array, T1, T2)
-FORWARDS(SByte)
+enum class StringComparison;
 FORWARDS(ReadOnlySpan, T)
 FORWARD(Object)
+FORWARD_(Array, T1, T2)
+FORWARDS(SByte)
 FORWARD(IFormatProvider)
 FORWARD(CharEnumerator)
 enum class TypeCode;
-enum class StringComparison;
 FORWARDS(ParamsArray)
 enum class StringSplitOptions;
 FORWARDS(UInt32)
@@ -37,11 +38,6 @@ using namespace ::System::Private::CoreLib::System::Collections::Generic;
 using namespace ::System::Private::CoreLib::System::Globalization;
 using namespace ::System::Private::CoreLib::System::Text;
 CLASS(String) : public rt::string {
-  private: enum class TrimType {
-    Head = 0,
-    Tail = 1,
-    Both = 2,
-  };
   private: struct ProbabilisticMap {
   };
   public: Char get_Chars(Int32 index);
@@ -55,40 +51,6 @@ CLASS(String) : public rt::string {
   public: static String IsInterned(String str);
   public: static void InternalCopy(String src, IntPtr dest, Int32 len);
   public: Int32 GetBytesFromEncoding(Byte* pbNativeBuffer, Int32 cbNativeBuffer, Encoding encoding);
-  private: String Ctor(Array<Char> value);
-  private: String Ctor(Array<Char> value, Int32 startIndex, Int32 length);
-  private: String Ctor(Char* ptr);
-  private: String Ctor(Char* ptr, Int32 startIndex, Int32 length);
-  private: String Ctor(SByte* value);
-  private: String Ctor(SByte* value, Int32 startIndex, Int32 length);
-  private: static String CreateStringForSByteConstructor(Byte* pb, Int32 numBytes);
-  private: String Ctor(SByte* value, Int32 startIndex, Int32 length, Encoding enc);
-  private: String Ctor(Char c, Int32 count);
-  private: String Ctor(ReadOnlySpan<Char> value);
-  public: Object Clone();
-  public: static String Copy(String str);
-  public: void CopyTo(Int32 sourceIndex, Array<Char> destination, Int32 destinationIndex, Int32 count);
-  public: Array<Char> ToCharArray();
-  public: Array<Char> ToCharArray(Int32 startIndex, Int32 length);
-  public: static Boolean IsNullOrEmpty(String value);
-  public: static Boolean IsNullOrWhiteSpace(String value);
-  public: static String CreateStringFromEncoding(Byte* bytes, Int32 byteLength, Encoding encoding);
-  public: static String CreateFromChar(Char c);
-  public: static String CreateFromChar(Char c1, Char c2);
-  public: static void wstrcpy(Char* dmem, Char* smem, Int32 charCount);
-  public: String ToString();
-  public: String ToString(IFormatProvider provider);
-  public: CharEnumerator GetEnumerator();
-  public: StringRuneEnumerator EnumerateRunes();
-  public: static Int32 wcslen(Char* ptr);
-  public: static Int32 strlen(Byte* ptr);
-  private: static void ThrowMustBeNullTerminatedString();
-  public: TypeCode GetTypeCode();
-  public: Boolean IsNormalized();
-  public: Boolean IsNormalized(NormalizationForm normalizationForm);
-  public: String Normalize();
-  public: String Normalize(NormalizationForm normalizationForm);
-  private: Boolean IsAscii();
   private: static Boolean EqualsHelper(String strA, String strB);
   private: static Int32 CompareOrdinalHelper(String strA, Int32 indexA, Int32 countA, String strB, Int32 indexB, Int32 countB);
   private: static Boolean EqualsOrdinalIgnoreCase(String strA, String strB);
@@ -130,6 +92,40 @@ CLASS(String) : public rt::string {
   public: Boolean StartsWith(Char value);
   public: static void CheckStringComparison(StringComparison comparisonType);
   public: static CompareOptions GetCaseCompareOfComparisonCulture(StringComparison comparisonType);
+  private: String Ctor(Array<Char> value);
+  private: String Ctor(Array<Char> value, Int32 startIndex, Int32 length);
+  private: String Ctor(Char* ptr);
+  private: String Ctor(Char* ptr, Int32 startIndex, Int32 length);
+  private: String Ctor(SByte* value);
+  private: String Ctor(SByte* value, Int32 startIndex, Int32 length);
+  private: static String CreateStringForSByteConstructor(Byte* pb, Int32 numBytes);
+  private: String Ctor(SByte* value, Int32 startIndex, Int32 length, Encoding enc);
+  private: String Ctor(Char c, Int32 count);
+  private: String Ctor(ReadOnlySpan<Char> value);
+  public: Object Clone();
+  public: static String Copy(String str);
+  public: void CopyTo(Int32 sourceIndex, Array<Char> destination, Int32 destinationIndex, Int32 count);
+  public: Array<Char> ToCharArray();
+  public: Array<Char> ToCharArray(Int32 startIndex, Int32 length);
+  public: static Boolean IsNullOrEmpty(String value);
+  public: static Boolean IsNullOrWhiteSpace(String value);
+  public: static String CreateStringFromEncoding(Byte* bytes, Int32 byteLength, Encoding encoding);
+  public: static String CreateFromChar(Char c);
+  public: static String CreateFromChar(Char c1, Char c2);
+  public: static void wstrcpy(Char* dmem, Char* smem, Int32 charCount);
+  public: String ToString();
+  public: String ToString(IFormatProvider provider);
+  public: CharEnumerator GetEnumerator();
+  public: StringRuneEnumerator EnumerateRunes();
+  public: static Int32 wcslen(Char* ptr);
+  public: static Int32 strlen(Byte* ptr);
+  private: static void ThrowMustBeNullTerminatedString();
+  public: TypeCode GetTypeCode();
+  public: Boolean IsNormalized();
+  public: Boolean IsNormalized(NormalizationForm normalizationForm);
+  public: String Normalize();
+  public: String Normalize(NormalizationForm normalizationForm);
+  private: Boolean IsAscii();
   private: static void FillStringChecked(String dest, Int32 destPos, String src);
   public: static String Concat(Object arg0);
   public: static String Concat(Object arg0, Object arg1);
@@ -248,9 +244,9 @@ CLASS(String) : public rt::string {
   public: Int32 LastIndexOf(String value, StringComparison comparisonType);
   public: Int32 LastIndexOf(String value, Int32 startIndex, StringComparison comparisonType);
   public: Int32 LastIndexOf(String value, Int32 startIndex, Int32 count, StringComparison comparisonType);
+  public: static String Empty;
   private: Int32 _stringLength;
   private: Char _firstChar;
-  public: static String Empty;
 };
 } // namespace StringNamespace
 using String = StringNamespace::String;

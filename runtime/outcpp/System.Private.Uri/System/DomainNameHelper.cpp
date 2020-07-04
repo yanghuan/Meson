@@ -13,20 +13,8 @@ Boolean DomainNameHelper::IsValidByIri(Char* name, UInt16 pos, Int32& returnedEn
 String DomainNameHelper::IdnEquivalent(String hostname) {
   return nullptr;
 };
-String DomainNameHelper::IdnEquivalent(Char* hostname, Int32 start, Int32 end, Boolean& allAscii, Boolean& atLeastOneValidIdn) {
-  return nullptr;
-};
-String DomainNameHelper::IdnEquivalent(Char* hostname, Int32 start, Int32 end, Boolean& allAscii, String& bidiStrippedHost) {
-  return nullptr;
-};
 Boolean DomainNameHelper::IsIdnAce(String input, Int32 index) {
   return Boolean();
-};
-Boolean DomainNameHelper::IsIdnAce(Char* input, Int32 index) {
-  return Boolean();
-};
-String DomainNameHelper::UnicodeEquivalent(String idnHost, Char* hostname, Int32 start, Int32 end) {
-  return nullptr;
 };
 String DomainNameHelper::UnicodeEquivalent(Char* hostname, Int32 start, Int32 end, Boolean& allAscii, Boolean& atLeastOneValidIdn) {
   return nullptr;

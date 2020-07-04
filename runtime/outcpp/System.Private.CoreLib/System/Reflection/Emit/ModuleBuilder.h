@@ -93,7 +93,7 @@ CLASS(ModuleBuilder) {
   public: static String UnmangleTypeName(String typeName);
   public: void AddType(String name, Type type);
   public: void CheckTypeNameConflict(String strTypeName, Type enclosingType);
-  private: Type GetType(String strFormat, Type baseType);
+  private: static Type GetType(String strFormat, Type baseType);
   public: void CheckContext(Array<Array<Type>> typess);
   public: void CheckContext(Array<Type> types);
   private: static Int32 GetTypeRef(QCallModule module, String strFullName, QCallModule refedModule, String strRefedModuleFileName, Int32 tkResolution);

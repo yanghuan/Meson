@@ -6,6 +6,9 @@ namespace System::Private::CoreLib::System::Collections {
 FORWARD(IComparer)
 FORWARD(IEnumerator)
 } // namespace System::Private::CoreLib::System::Collections
+namespace System::Private::CoreLib::System::Reflection {
+enum class CorElementType : uint8_t;
+} // namespace System::Private::CoreLib::System::Reflection
 namespace System::Private::CoreLib::System {
 FORWARD_(Array, T1, T2)
 FORWARDS(Int32)
@@ -15,13 +18,14 @@ FORWARDS(Boolean)
 FORWARD(Type)
 namespace ArrayNamespace {
 using namespace ::System::Private::CoreLib::System::Collections;
+using namespace ::System::Private::CoreLib::System::Reflection;
 ARRAY(({
   private: template <class T>
   class EmptyArray {
     public: static Array<T> Value;
   };
   private: struct SorterObjectArray {
-    public: void SwapIfGreaterWithItems(Int32 a, Int32 b);
+    public: void SwapIfGreater(Int32 a, Int32 b);
     private: void Swap(Int32 i, Int32 j);
     public: void Sort(Int32 left, Int32 length);
     private: void IntrospectiveSort(Int32 left, Int32 length);
@@ -35,7 +39,7 @@ ARRAY(({
     private: IComparer comparer;
   };
   private: struct SorterGenericArray {
-    public: void SwapIfGreaterWithItems(Int32 a, Int32 b);
+    public: void SwapIfGreater(Int32 a, Int32 b);
     private: void Swap(Int32 i, Int32 j);
     public: void Sort(Int32 left, Int32 length);
     private: void IntrospectiveSort(Int32 left, Int32 length);
@@ -66,7 +70,9 @@ ARRAY(({
   private: static Array<> InternalCreate(void* elementType, Int32 rank, Int32* pLengths, Int32* pLowerBounds);
   public: static void Copy(Array<> sourceArray, Array<> destinationArray, Int32 length);
   public: static void Copy(Array<> sourceArray, Int32 sourceIndex, Array<> destinationArray, Int32 destinationIndex, Int32 length);
-  public: static void Copy(Array<> sourceArray, Int32 sourceIndex, Array<> destinationArray, Int32 destinationIndex, Int32 length, Boolean reliable);
+  private: static void Copy(Array<> sourceArray, Int32 sourceIndex, Array<> destinationArray, Int32 destinationIndex, Int32 length, Boolean reliable);
+  private: static Boolean IsSimpleCopy(Array<> sourceArray, Array<> destinationArray);
+  private: static void CopySlow(Array<> sourceArray, Int32 sourceIndex, Array<> destinationArray, Int32 destinationIndex, Int32 length);
   public: static void ConstrainedCopy(Array<> sourceArray, Int32 sourceIndex, Array<> destinationArray, Int32 destinationIndex, Int32 length);
   public: static void Clear(Array<> array, Int32 index, Int32 length);
   public: Object GetValue(Array<Int32> indices);
@@ -77,18 +83,13 @@ ARRAY(({
   public: void SetValue(Object value, Int32 index1, Int32 index2);
   public: void SetValue(Object value, Int32 index1, Int32 index2, Int32 index3);
   public: void SetValue(Object value, Array<Int32> indices);
-  private: static void SortImpl(Array<> keys, Array<> items, Int32 index, Int32 length, IComparer comparer);
   private: void InternalGetReference(void* elemRef, Int32 rank, Int32* pIndices);
   private: static void InternalSetValue(void* target, Object value);
   public: Int32 GetLength(Int32 dimension);
   public: Int32 GetUpperBound(Int32 dimension);
   public: Int32 GetLowerBound(Int32 dimension);
-  public: Int32 GetElementSize();
-  private: static Boolean TrySZBinarySearch(Array<> sourceArray, Int32 sourceIndex, Int32 count, Object value, Int32& retVal);
-  private: static Boolean TrySZIndexOf(Array<> sourceArray, Int32 sourceIndex, Int32 count, Object value, Int32& retVal);
-  private: static Boolean TrySZLastIndexOf(Array<> sourceArray, Int32 sourceIndex, Int32 count, Object value, Int32& retVal);
-  private: static Boolean TrySZReverse(Array<> array, Int32 index, Int32 count);
-  private: static Boolean TrySZSort(Array<> keys, Array<> items, Int32 left, Int32 right);
+  public: CorElementType GetCorElementTypeOfElementType();
+  private: Boolean IsValueOfElementType(Object value);
   public: void Initialize();
   public: static Array<> CreateInstance(Type elementType, Array<Int64> lengths);
   public: static void Copy(Array<> sourceArray, Array<> destinationArray, Int64 length);
@@ -104,7 +105,6 @@ ARRAY(({
   private: static Int32 GetMedian(Int32 low, Int32 hi);
   public: Int64 GetLongLength(Int32 dimension);
   public: Object Clone();
-  private: static Int32 CombineHashCodes(Int32 h1, Int32 h2);
   public: static Int32 BinarySearch(Array<> array, Object value);
   public: static Int32 BinarySearch(Array<> array, Int32 index, Int32 length, Object value);
   public: static Int32 BinarySearch(Array<> array, Object value, IComparer comparer);

@@ -147,7 +147,13 @@ Int64 DateTime::ToBinary() {
 Int32 DateTime::GetDatePart(Int32 part) {
   return Int32();
 };
-void DateTime::GetDatePart(Int32& year, Int32& month, Int32& day) {
+void DateTime::GetDate(Int32& year, Int32& month, Int32& day) {
+};
+void DateTime::GetTime(Int32& hour, Int32& minute, Int32& second) {
+};
+void DateTime::GetTime(Int32& hour, Int32& minute, Int32& second, Int32& millisecond) {
+};
+void DateTime::GetTimePrecise(Int32& hour, Int32& minute, Int32& second, Int32& tick) {
 };
 Int32 DateTime::GetHashCode() {
   return Int32();
@@ -281,6 +287,9 @@ TypeCode DateTime::GetTypeCode() {
 Boolean DateTime::TryCreate(Int32 year, Int32 month, Int32 day, Int32 hour, Int32 minute, Int32 second, Int32 millisecond, DateTime& result) {
   return Boolean();
 };
+Boolean DateTime::SystemSupportsLeapSeconds() {
+  return Boolean();
+};
 Boolean DateTime::IsValidTimeWithLeapSeconds(Int32 year, Int32 month, Int32 day, Int32 hour, Int32 minute, Int32 second, DateTimeKind kind) {
   return Boolean();
 };
@@ -292,8 +301,5 @@ Int64 DateTime::ToFileTimeLeapSecondsAware(Int64 ticks) {
 };
 DateTime DateTime::CreateDateTimeFromSystemTime(FullSystemTime& time) {
   return DateTime();
-};
-Boolean DateTime::SystemSupportsLeapSeconds() {
-  return Boolean();
 };
 } // namespace System::Private::CoreLib::System::DateTimeNamespace

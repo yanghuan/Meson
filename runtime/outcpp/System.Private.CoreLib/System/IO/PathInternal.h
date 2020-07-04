@@ -24,6 +24,10 @@ class PathInternal {
   public: static Boolean AreRootsEqual(String first, String second, StringComparison comparisonType);
   public: static String RemoveRelativeSegments(String path, Int32 rootLength);
   public: static Boolean RemoveRelativeSegments(ReadOnlySpan<Char> path, Int32 rootLength, ValueStringBuilder& sb);
+  public: static String TrimEndingDirectorySeparator(String path);
+  public: static Boolean EndsInDirectorySeparator(String path);
+  public: static ReadOnlySpan<Char> TrimEndingDirectorySeparator(ReadOnlySpan<Char> path);
+  public: static Boolean EndsInDirectorySeparator(ReadOnlySpan<Char> path);
   public: static Boolean IsValidDriveChar(Char value);
   public: static Boolean EndsWithPeriodOrSpace(String path);
   public: static String EnsureExtendedPrefixIfNeeded(String path);

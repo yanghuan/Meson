@@ -43,6 +43,7 @@
 #include <System.Private.CoreLib/System/Int64-dep.h>
 #include <System.Private.CoreLib/System/IntPtr-dep.h>
 #include <System.Private.CoreLib/System/Object-dep.h>
+#include <System.Private.CoreLib/System/ReadOnlySpan-dep.h>
 #include <System.Private.CoreLib/System/Reflection/FieldInfo-dep.h>
 #include <System.Private.CoreLib/System/Reflection/MemberInfo-dep.h>
 #include <System.Private.CoreLib/System/Reflection/MethodInfo-dep.h>

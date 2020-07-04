@@ -8,12 +8,12 @@ FORWARDS(Int64)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Diagnostics::Tracing {
 namespace RuntimeEventSourceHelperNamespace {
-CLASS(RuntimeEventSourceHelper) {
+class RuntimeEventSourceHelper {
   public: static Int32 GetCpuUsage();
-  private: static Int64 prevProcUserTime;
-  private: static Int64 prevProcKernelTime;
-  private: static Int64 prevSystemUserTime;
-  private: static Int64 prevSystemKernelTime;
+  private: static Int64 s_prevProcUserTime;
+  private: static Int64 s_prevProcKernelTime;
+  private: static Int64 s_prevSystemUserTime;
+  private: static Int64 s_prevSystemKernelTime;
 };
 } // namespace RuntimeEventSourceHelperNamespace
 using RuntimeEventSourceHelper = RuntimeEventSourceHelperNamespace::RuntimeEventSourceHelper;

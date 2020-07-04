@@ -23,6 +23,16 @@ Boolean ResourceReader___::ResourceEnumerator___::MoveNext() {
 };
 void ResourceReader___::ResourceEnumerator___::Reset() {
 };
+Object ResourceReader___::DeserializeObject(Int32 typeIndex) {
+  return nullptr;
+};
+void ResourceReader___::InitializeBinaryFormatter() {
+};
+Boolean ResourceReader___::ValidateReaderType(String readerType) {
+  return Boolean();
+};
+void ResourceReader___::GetResourceData(String resourceName, String& resourceType, Array<Byte>& resourceData) {
+};
 void ResourceReader___::Close() {
 };
 void ResourceReader___::Dispose() {
@@ -88,15 +98,5 @@ Type ResourceReader___::FindType(Int32 typeIndex) {
 };
 String ResourceReader___::TypeNameFromTypeCode(ResourceTypeCode typeCode) {
   return nullptr;
-};
-Object ResourceReader___::DeserializeObject(Int32 typeIndex) {
-  return nullptr;
-};
-void ResourceReader___::InitializeBinaryFormatter() {
-};
-Boolean ResourceReader___::ValidateReaderType(String readerType) {
-  return Boolean();
-};
-void ResourceReader___::GetResourceData(String resourceName, String& resourceType, Array<Byte>& resourceData) {
 };
 } // namespace System::Private::CoreLib::System::Resources::ResourceReaderNamespace

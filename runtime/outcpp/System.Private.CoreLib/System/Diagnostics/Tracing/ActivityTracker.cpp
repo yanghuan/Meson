@@ -30,9 +30,9 @@ void ActivityTracker___::ActivityInfo___::WriteNibble(Byte*& ptr, Byte* endPtr, 
 ActivityTracker ActivityTracker___::get_Instance() {
   return nullptr;
 };
-void ActivityTracker___::OnStart(String providerName, String activityName, Int32 task, Guid& activityId, Guid& relatedActivityId, EventActivityOptions options) {
+void ActivityTracker___::OnStart(String providerName, String activityName, Int32 task, Guid& activityId, Guid& relatedActivityId, EventActivityOptions options, Boolean useTplSource) {
 };
-void ActivityTracker___::OnStop(String providerName, String activityName, Int32 task, Guid& activityId) {
+void ActivityTracker___::OnStop(String providerName, String activityName, Int32 task, Guid& activityId, Boolean useTplSource) {
 };
 void ActivityTracker___::Enable() {
 };

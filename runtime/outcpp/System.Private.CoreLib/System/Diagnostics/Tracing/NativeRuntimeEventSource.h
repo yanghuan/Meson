@@ -23,7 +23,7 @@ CLASS(NativeRuntimeEventSource) {
   public: CLASS(Keywords) {
     public: static EventKeywords GCKeyword;
     public: static EventKeywords GCHandleKeyword;
-    public: static EventKeywords FusionKeyword;
+    public: static EventKeywords AssemblyLoaderKeyword;
     public: static EventKeywords LoaderKeyword;
     public: static EventKeywords JitKeyword;
     public: static EventKeywords NGenKeyword;
@@ -54,6 +54,7 @@ CLASS(NativeRuntimeEventSource) {
     public: static EventKeywords EventSourceKeyword;
     public: static EventKeywords CompilationKeyword;
     public: static EventKeywords CompilationDiagnosticKeyword;
+    public: static EventKeywords MethodDiagnosticKeyword;
   };
   public: void ProcessEvent(UInt32 eventID, UInt32 osThreadID, DateTime timeStamp, Guid activityId, Guid childActivityId, ReadOnlySpan<Byte> payload);
   private: void GCStart_V2(UInt32 Count, UInt32 Depth, UInt32 Reason, UInt32 Type, UInt16 ClrInstanceID, UInt64 ClientSequenceNumber);
@@ -119,6 +120,7 @@ CLASS(NativeRuntimeEventSource) {
   private: void ThreadPoolIOPack(IntPtr NativeOverlapped, IntPtr Overlapped, UInt16 ClrInstanceID);
   private: void ThreadCreating(IntPtr ID, UInt16 ClrInstanceID);
   private: void ThreadRunning(IntPtr ID, UInt16 ClrInstanceID);
+  private: void MethodDetails(UInt64 MethodID, UInt64 TypeID, UInt32 MethodToken, UInt32 TypeParameterCount, UInt64 LoaderModuleID);
   private: void ExceptionThrown_V1(String ExceptionType, String ExceptionMessage, IntPtr ExceptionEIP, UInt32 ExceptionHRESULT, UInt16 ExceptionFlags, UInt16 ClrInstanceID);
   private: void ExceptionCatchStart(UInt64 EntryEIP, UInt64 MethodID, String MethodName, UInt16 ClrInstanceID);
   private: void ExceptionCatchStop();
@@ -176,7 +178,7 @@ CLASS(NativeRuntimeEventSource) {
   private: void GCMarkWithType(UInt32 HeapNum, UInt16 ClrInstanceID, UInt32 Type, UInt64 Bytes);
   private: void GCJoin_V2(UInt32 Heap, UInt32 JoinTime, UInt32 JoinType, UInt16 ClrInstanceID, UInt32 JoinID);
   private: void GCPerHeapHistory_V3(UInt16 ClrInstanceID, IntPtr FreeListAllocated, IntPtr FreeListRejected, IntPtr EndOfSegAllocated, IntPtr CondemnedAllocated, IntPtr PinnedAllocated, IntPtr PinnedAllocatedAdvance, UInt32 RunningFreeListEfficiency, UInt32 CondemnReasons0, UInt32 CondemnReasons1, UInt32 CompactMechanisms, UInt32 ExpandMechanisms, UInt32 HeapIndex, IntPtr ExtraGen0Commit, UInt32 Count);
-  private: void GCGlobalHeapHistory_V2(UInt64 FinalYoungestDesired, Int32 NumHeaps, UInt32 CondemnedGeneration, UInt32 Gen0ReductionCount, UInt32 Reason, UInt32 GlobalMechanisms, UInt16 ClrInstanceID, UInt32 PauseMode, UInt32 MemoryPressure);
+  private: void GCGlobalHeapHistory_V3(UInt64 FinalYoungestDesired, Int32 NumHeaps, UInt32 CondemnedGeneration, UInt32 Gen0ReductionCount, UInt32 Reason, UInt32 GlobalMechanisms, UInt16 ClrInstanceID, UInt32 PauseMode, UInt32 MemoryPressure, UInt32 CondemnReasons0, UInt32 CondemnReasons1);
   private: void DebugIPCEventStart();
   private: void DebugIPCEventEnd();
   private: void DebugExceptionProcessingStart();
@@ -188,6 +190,13 @@ CLASS(NativeRuntimeEventSource) {
   private: void TieredCompilationResume(UInt16 ClrInstanceID, UInt32 NewMethodCount);
   private: void TieredCompilationBackgroundJitStart(UInt16 ClrInstanceID, UInt32 PendingMethodCount);
   private: void TieredCompilationBackgroundJitStop(UInt16 ClrInstanceID, UInt32 PendingMethodCount, UInt32 JittedMethodCount);
+  private: void AssemblyLoadStart(UInt16 ClrInstanceID, String AssemblyName, String AssemblyPath, String RequestingAssembly, String AssemblyLoadContext, String RequestingAssemblyLoadContext);
+  private: void AssemblyLoadStop(UInt16 ClrInstanceID, String AssemblyName, String AssemblyPath, String RequestingAssembly, String AssemblyLoadContext, String RequestingAssemblyLoadContext, Boolean Success, String ResultAssemblyName, String ResultAssemblyPath, Boolean Cached);
+  private: void ResolutionAttempted(UInt16 ClrInstanceID, String AssemblyName, UInt16 Stage, String AssemblyLoadContext, UInt16 Result, String ResultAssemblyName, String ResultAssemblyPath, String ErrorMessage);
+  private: void AssemblyLoadContextResolvingHandlerInvoked(UInt16 ClrInstanceID, String AssemblyName, String HandlerName, String AssemblyLoadContext, String ResultAssemblyName, String ResultAssemblyPath);
+  private: void AppDomainAssemblyResolveHandlerInvoked(UInt16 ClrInstanceID, String AssemblyName, String HandlerName, String ResultAssemblyName, String ResultAssemblyPath);
+  private: void AssemblyLoadFromResolveHandlerInvoked(UInt16 ClrInstanceID, String AssemblyName, Boolean IsTrackedLoad, String RequestingAssemblyPath, String ComputedRequestedAssemblyPath);
+  private: void KnownPathProbed(UInt16 ClrInstanceID, String FilePath, UInt16 Source, Int32 Result);
   public: static String EventSourceName;
   public: static NativeRuntimeEventSource Log;
 };

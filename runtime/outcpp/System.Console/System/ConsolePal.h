@@ -56,7 +56,7 @@ class ConsolePal {
     public: void Unregister();
     private: static Boolean BreakEvent(Int32 controlType);
     private: Boolean _handlerRegistered;
-    private: Interop::Kernel32::in::ConsoleCtrlHandlerRoutine _handler;
+    private: Interop::Kernel32::ConsoleCtrlHandlerRoutine _handler;
   };
   private: static IntPtr get_InvalidHandleValue();
   private: static IntPtr get_InputHandle();
@@ -99,11 +99,10 @@ class ConsolePal {
   public: static Stream OpenStandardInput();
   public: static Stream OpenStandardOutput();
   public: static Stream OpenStandardError();
-  private: static Stream GetStandardFile(Int32 handleType, FileAccess access);
+  private: static Stream GetStandardFile(Int32 handleType, FileAccess access, Boolean useFileAPIs);
   private: static Boolean ConsoleHandleIsWritable(IntPtr outErrHandle);
   public: static void SetConsoleInputEncoding(Encoding enc);
   public: static void SetConsoleOutputEncoding(Encoding enc);
-  private: static Boolean GetUseFileAPIs(Int32 handleType);
   public: static Boolean IsInputRedirectedCore();
   public: static Boolean IsOutputRedirectedCore();
   public: static Boolean IsErrorRedirectedCore();
@@ -122,10 +121,10 @@ class ConsolePal {
   public: static void SetBufferSize(Int32 width, Int32 height);
   public: static void SetWindowPosition(Int32 left, Int32 top);
   public: static void SetWindowSize(Int32 width, Int32 height);
-  private: static Interop::Kernel32::in::Color ConsoleColorToColorAttribute(ConsoleColor color, Boolean isBackground);
-  private: static ConsoleColor ColorAttributeToConsoleColor(Interop::Kernel32::in::Color c);
-  private: static Interop::Kernel32::in::CONSOLE_SCREEN_BUFFER_INFO GetBufferInfo();
-  private: static Interop::Kernel32::in::CONSOLE_SCREEN_BUFFER_INFO GetBufferInfo(Boolean throwOnNoConsole, Boolean& succeeded);
+  private: static Interop::Kernel32::Color ConsoleColorToColorAttribute(ConsoleColor color, Boolean isBackground);
+  private: static ConsoleColor ColorAttributeToConsoleColor(Interop::Kernel32::Color c);
+  private: static Interop::Kernel32::CONSOLE_SCREEN_BUFFER_INFO GetBufferInfo();
+  private: static Interop::Kernel32::CONSOLE_SCREEN_BUFFER_INFO GetBufferInfo(Boolean throwOnNoConsole, Boolean& succeeded);
   private: static Object s_readKeySyncObject;
   private: static Interop::InputRecord _cachedInputRecord;
   private: static Boolean _haveReadDefaultColors;

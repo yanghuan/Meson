@@ -3,6 +3,46 @@
 #include <System.Private.CoreLib/System/IO/Stream-dep.h>
 
 namespace System::Private::CoreLib::System::IO::StreamNamespace {
+Boolean Stream___::WriteCallbackStream___::get_CanRead() {
+  return Boolean();
+};
+Boolean Stream___::WriteCallbackStream___::get_CanSeek() {
+  return Boolean();
+};
+Boolean Stream___::WriteCallbackStream___::get_CanWrite() {
+  return Boolean();
+};
+Int64 Stream___::WriteCallbackStream___::get_Length() {
+  return Int64();
+};
+Int64 Stream___::WriteCallbackStream___::get_Position() {
+  return Int64();
+};
+void Stream___::WriteCallbackStream___::set_Position(Int64 value) {
+};
+void Stream___::WriteCallbackStream___::Write(Array<Byte> buffer, Int32 offset, Int32 count) {
+};
+void Stream___::WriteCallbackStream___::Write(ReadOnlySpan<Byte> span) {
+};
+Task<> Stream___::WriteCallbackStream___::WriteAsync(Array<Byte> buffer, Int32 offset, Int32 length, CancellationToken cancellationToken) {
+  return nullptr;
+};
+ValueTask<> Stream___::WriteCallbackStream___::WriteAsync(ReadOnlyMemory<Byte> buffer, CancellationToken cancellationToken) {
+  return ValueTask<>();
+};
+void Stream___::WriteCallbackStream___::Flush() {
+};
+Task<> Stream___::WriteCallbackStream___::FlushAsync(CancellationToken token) {
+  return nullptr;
+};
+Int32 Stream___::WriteCallbackStream___::Read(Array<Byte> buffer, Int32 offset, Int32 count) {
+  return Int32();
+};
+Int64 Stream___::WriteCallbackStream___::Seek(Int64 offset, SeekOrigin origin) {
+  return Int64();
+};
+void Stream___::WriteCallbackStream___::SetLength(Int64 value) {
+};
 Boolean Stream___::ReadWriteTask___::get_InvokeMayRunArbitraryCodeOfITaskCompletionAction() {
   return Boolean();
 };
@@ -30,6 +70,11 @@ void Stream___::NullStream___::set_Position(Int64 value) {
 void Stream___::NullStream___::CopyTo(Stream destination, Int32 bufferSize) {
 };
 Task<> Stream___::NullStream___::CopyToAsync(Stream destination, Int32 bufferSize, CancellationToken cancellationToken) {
+  return nullptr;
+};
+void Stream___::NullStream___::CopyTo(ReadOnlySpanAction<Byte, Object> callback, Object state, Int32 bufferSize) {
+};
+Task<> Stream___::NullStream___::CopyToAsync(Func<ReadOnlyMemory<Byte>, Object, CancellationToken, ValueTask<>> callback, Object state, Int32 bufferSize, CancellationToken cancellationToken) {
   return nullptr;
 };
 void Stream___::NullStream___::Dispose(Boolean disposing) {
@@ -208,6 +253,11 @@ void Stream___::CopyTo(Stream destination, Int32 bufferSize) {
 };
 Int32 Stream___::GetCopyBufferSize() {
   return Int32();
+};
+void Stream___::CopyTo(ReadOnlySpanAction<Byte, Object> callback, Object state, Int32 bufferSize) {
+};
+Task<> Stream___::CopyToAsync(Func<ReadOnlyMemory<Byte>, Object, CancellationToken, ValueTask<>> callback, Object state, Int32 bufferSize, CancellationToken cancellationToken) {
+  return nullptr;
 };
 void Stream___::Close() {
 };

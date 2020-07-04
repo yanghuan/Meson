@@ -12,9 +12,10 @@ FORWARDS_(Vector256, T1, T2)
 namespace System::Private::CoreLib::System {
 FORWARDS(Int32)
 FORWARDS(Byte)
+FORWARDS(Boolean)
 FORWARDS(UInt64)
 FORWARDS(IntPtr)
-FORWARDS(Boolean)
+FORWARDS(Int16)
 FORWARDS(UIntPtr)
 FORWARDS(Char)
 FORWARDS(UInt16)
@@ -29,8 +30,6 @@ class SpanHelpers {
     private: T _value;
     private: TComparer _comparer;
   };
-  public: static void ClearWithoutReferences(Byte& b, UInt64 byteLength);
-  public: static void ClearWithReferences(IntPtr& ip, UInt64 pointerSizeLength);
   public: static Int32 IndexOf(Byte& searchSpace, Int32 searchSpaceLength, Byte& value, Int32 valueLength);
   public: static Int32 IndexOfAny(Byte& searchSpace, Int32 searchSpaceLength, Byte& value, Int32 valueLength);
   public: static Int32 LastIndexOfAny(Byte& searchSpace, Int32 searchSpaceLength, Byte& value, Int32 valueLength);
@@ -48,6 +47,8 @@ class SpanHelpers {
   private: static Int32 LocateLastFoundByte(Vector<Byte> match);
   private: static Int32 LocateFirstFoundByte(UInt64 match);
   private: static Int32 LocateLastFoundByte(UInt64 match);
+  private: static Int16 LoadShort(Byte& start, IntPtr offset);
+  private: static Int32 LoadInt(Byte& start, IntPtr offset);
   private: static UIntPtr LoadUIntPtr(Byte& start, IntPtr offset);
   private: static Vector<Byte> LoadVector(Byte& start, IntPtr offset);
   private: static Vector128<Byte> LoadVector128(Byte& start, IntPtr offset);
@@ -79,6 +80,8 @@ class SpanHelpers {
   private: static Int64 GetCharVector256SpanLength(Int64 offset, Int64 length);
   private: static Int64 UnalignedCountVector(Char& searchSpace);
   private: static Int64 UnalignedCountVector128(Char& searchSpace);
+  public: static void ClearWithoutReferences(Byte& b, UInt64 byteLength);
+  public: static void ClearWithReferences(IntPtr& ip, UInt64 pointerSizeLength);
 };
 } // namespace SpanHelpersNamespace
 using SpanHelpers = SpanHelpersNamespace::SpanHelpers;

@@ -100,6 +100,9 @@ Boolean Task___<>::get_CompletedSynchronouslyOfIAsyncResult() {
 TaskScheduler Task___<>::get_ExecutingTaskScheduler() {
   return nullptr;
 };
+Task<> Task___<>::get_CompletedTask() {
+  return nullptr;
+};
 ManualResetEventSlim Task___<>::get_CompletedEvent() {
   return nullptr;
 };

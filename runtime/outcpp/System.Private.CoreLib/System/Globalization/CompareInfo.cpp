@@ -149,7 +149,7 @@ Int32 CompareInfo___::IndexOf(ReadOnlySpan<Char> source, ReadOnlySpan<Char> valu
 Int32 CompareInfo___::LastIndexOf(ReadOnlySpan<Char> source, ReadOnlySpan<Char> value, CompareOptions options) {
   return Int32();
 };
-Int32 CompareInfo___::IndexOf(String source, String value, Int32 startIndex, Int32 count, CompareOptions options, Int32* matchLengthPtr) {
+Int32 CompareInfo___::IndexOf(String source, String value, Int32 startIndex, Int32 count, CompareOptions options, Int32* matchLengthPtr, Boolean fromBeginning) {
   return Int32();
 };
 Int32 CompareInfo___::IndexOfOrdinal(String source, String value, Int32 startIndex, Int32 count, Boolean ignoreCase) {
@@ -206,9 +206,6 @@ Boolean CompareInfo___::Equals(Object value) {
 Int32 CompareInfo___::GetHashCode() {
   return Int32();
 };
-Int32 CompareInfo___::GetHashCodeOfString(String source, CompareOptions options) {
-  return Int32();
-};
 Int32 CompareInfo___::GetHashCode(String source, CompareOptions options) {
   return Int32();
 };
@@ -230,11 +227,15 @@ Int32 CompareInfo___::InvariantLastIndexOf(String source, String value, Int32 st
 Int32 CompareInfo___::InvariantFindString(Char* source, Int32 sourceCount, Char* value, Int32 valueCount, Boolean ignoreCase, Boolean fromBeginning) {
   return Int32();
 };
-Char CompareInfo___::InvariantToUpper(Char c) {
+Char CompareInfo___::InvariantCaseFold(Char c) {
   return Char();
 };
 SortKey CompareInfo___::InvariantCreateSortKey(String source, CompareOptions options) {
   return nullptr;
+};
+void CompareInfo___::InvariantCreateSortKeyOrdinal(ReadOnlySpan<Char> source, Span<Byte> sortKey) {
+};
+void CompareInfo___::InvariantCreateSortKeyOrdinalIgnoreCase(ReadOnlySpan<Char> source, Span<Byte> sortKey) {
 };
 IntPtr CompareInfo___::GetSortHandle(String cultureName) {
   return IntPtr();

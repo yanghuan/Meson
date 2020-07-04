@@ -41,7 +41,7 @@ CLASS(EventListener) {
   private: EventHandler<EventWrittenEventArgs> EventWritten;
   public: EventListener m_Next;
   public: static EventListener s_Listeners;
-  public: static List<WeakReference<>> s_EventSources;
+  public: static List<WeakReference<EventSource>> s_EventSources;
   private: static Boolean s_CreatingListener;
   private: static Boolean s_EventSourceShutdownRegistered;
 };

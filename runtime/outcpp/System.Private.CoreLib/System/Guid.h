@@ -52,7 +52,6 @@ struct Guid {
   public: Int32 CompareTo(Object value);
   public: Int32 CompareTo(Guid value);
   public: String ToString(String format);
-  private: static Char HexToChar(Int32 a);
   private: static Int32 HexsToChars(Char* guidChars, Int32 a, Int32 b);
   private: static Int32 HexsToCharsHexOutput(Char* guidChars, Int32 a, Int32 b);
   public: String ToString(String format, IFormatProvider provider);

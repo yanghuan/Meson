@@ -49,7 +49,7 @@ CLASS(IdnMapping) {
   private: static void ThrowForZeroLength(Boolean unicode);
   private: Boolean _allowUnassigned;
   private: Boolean _useStd3AsciiRules;
-  private: static Array<Char> c_Dots;
+  private: static Array<Char> s_dotSeparators;
 };
 } // namespace IdnMappingNamespace
 using IdnMapping = IdnMappingNamespace::IdnMapping;

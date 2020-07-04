@@ -6,8 +6,8 @@
 namespace System::Private::CoreLib::System::Runtime::CompilerServices {
 namespace QCallTypeHandleNamespace {
 struct QCallTypeHandle {
-  private: IntPtr m_ptr;
-  private: IntPtr m_handle;
+  private: void* _ptr;
+  private: IntPtr _handle;
 };
 } // namespace QCallTypeHandleNamespace
 using QCallTypeHandle = QCallTypeHandleNamespace::QCallTypeHandle;

@@ -5,7 +5,7 @@
 
 namespace System::Private::CoreLib::System::Globalization {
 namespace GlobalizationModeNamespace {
-CLASS(GlobalizationMode) {
+class GlobalizationMode {
   public: static Boolean get_Invariant() { return Invariant; }
   public: static Boolean GetInvariantSwitchValue();
   private: static Boolean GetGlobalizationInvariantMode();

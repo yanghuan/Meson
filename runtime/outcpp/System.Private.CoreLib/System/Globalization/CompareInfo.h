@@ -6,9 +6,11 @@
 
 namespace System::Private::CoreLib::System {
 FORWARDS(Boolean)
+FORWARDS(Byte)
 FORWARDS(Char)
 FORWARD(Object)
 FORWARDS(ReadOnlySpan, T)
+FORWARDS(Span, T)
 FORWARD(String)
 FORWARDS(UInt32)
 } // namespace System::Private::CoreLib::System
@@ -77,8 +79,8 @@ CLASS(CompareInfo) {
   public: Int32 LastIndexOfOrdinal(ReadOnlySpan<Char> source, ReadOnlySpan<Char> value, Boolean ignoreCase);
   public: Int32 IndexOf(ReadOnlySpan<Char> source, ReadOnlySpan<Char> value, CompareOptions options);
   public: Int32 LastIndexOf(ReadOnlySpan<Char> source, ReadOnlySpan<Char> value, CompareOptions options);
-  public: Int32 IndexOf(String source, String value, Int32 startIndex, Int32 count, CompareOptions options, Int32* matchLengthPtr);
-  public: Int32 IndexOfOrdinal(String source, String value, Int32 startIndex, Int32 count, Boolean ignoreCase);
+  public: Int32 IndexOf(String source, String value, Int32 startIndex, Int32 count, CompareOptions options, Int32* matchLengthPtr, Boolean fromBeginning);
+  public: static Int32 IndexOfOrdinal(String source, String value, Int32 startIndex, Int32 count, Boolean ignoreCase);
   public: Int32 LastIndexOf(String source, Char value);
   public: Int32 LastIndexOf(String source, String value);
   public: Int32 LastIndexOf(String source, Char value, CompareOptions options);
@@ -91,12 +93,11 @@ CLASS(CompareInfo) {
   public: Int32 LastIndexOf(String source, String value, Int32 startIndex, Int32 count);
   public: Int32 LastIndexOf(String source, Char value, Int32 startIndex, Int32 count, CompareOptions options);
   public: Int32 LastIndexOf(String source, String value, Int32 startIndex, Int32 count, CompareOptions options);
-  public: Int32 LastIndexOfOrdinal(String source, String value, Int32 startIndex, Int32 count, Boolean ignoreCase);
+  public: static Int32 LastIndexOfOrdinal(String source, String value, Int32 startIndex, Int32 count, Boolean ignoreCase);
   public: SortKey GetSortKey(String source, CompareOptions options);
   public: SortKey GetSortKey(String source);
   public: Boolean Equals(Object value);
   public: Int32 GetHashCode();
-  public: Int32 GetHashCodeOfString(String source, CompareOptions options);
   public: Int32 GetHashCode(String source, CompareOptions options);
   public: Int32 GetHashCode(ReadOnlySpan<Char> source, CompareOptions options);
   public: String ToString();
@@ -104,8 +105,10 @@ CLASS(CompareInfo) {
   public: static Int32 InvariantIndexOf(ReadOnlySpan<Char> source, ReadOnlySpan<Char> value, Boolean ignoreCase, Boolean fromBeginning);
   public: static Int32 InvariantLastIndexOf(String source, String value, Int32 startIndex, Int32 count, Boolean ignoreCase);
   private: static Int32 InvariantFindString(Char* source, Int32 sourceCount, Char* value, Int32 valueCount, Boolean ignoreCase, Boolean fromBeginning);
-  private: static Char InvariantToUpper(Char c);
+  private: static Char InvariantCaseFold(Char c);
   private: SortKey InvariantCreateSortKey(String source, CompareOptions options);
+  private: static void InvariantCreateSortKeyOrdinal(ReadOnlySpan<Char> source, Span<Byte> sortKey);
+  private: static void InvariantCreateSortKeyOrdinalIgnoreCase(ReadOnlySpan<Char> source, Span<Byte> sortKey);
   public: static IntPtr GetSortHandle(String cultureName);
   private: void InitSort(CultureInfo culture);
   private: static Int32 FindStringOrdinal(UInt32 dwFindStringOrdinalFlags, String stringSource, Int32 offset, Int32 cchSource, String value, Int32 cchValue, Boolean bIgnoreCase);

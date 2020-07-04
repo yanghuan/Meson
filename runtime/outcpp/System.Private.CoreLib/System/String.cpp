@@ -14,105 +14,6 @@ void String___::InternalCopy(String src, IntPtr dest, Int32 len) {
 Int32 String___::GetBytesFromEncoding(Byte* pbNativeBuffer, Int32 cbNativeBuffer, Encoding encoding) {
   return Int32();
 };
-String String___::Ctor(Array<Char> value) {
-  return nullptr;
-};
-String String___::Ctor(Array<Char> value, Int32 startIndex, Int32 length) {
-  return nullptr;
-};
-String String___::Ctor(Char* ptr) {
-  return nullptr;
-};
-String String___::Ctor(Char* ptr, Int32 startIndex, Int32 length) {
-  return nullptr;
-};
-String String___::Ctor(SByte* value) {
-  return nullptr;
-};
-String String___::Ctor(SByte* value, Int32 startIndex, Int32 length) {
-  return nullptr;
-};
-String String___::CreateStringForSByteConstructor(Byte* pb, Int32 numBytes) {
-  return nullptr;
-};
-String String___::Ctor(SByte* value, Int32 startIndex, Int32 length, Encoding enc) {
-  return nullptr;
-};
-String String___::Ctor(Char c, Int32 count) {
-  return nullptr;
-};
-String String___::Ctor(ReadOnlySpan<Char> value) {
-  return nullptr;
-};
-Object String___::Clone() {
-  return nullptr;
-};
-String String___::Copy(String str) {
-  return nullptr;
-};
-void String___::CopyTo(Int32 sourceIndex, Array<Char> destination, Int32 destinationIndex, Int32 count) {
-};
-Array<Char> String___::ToCharArray() {
-  return Array<Char>();
-};
-Array<Char> String___::ToCharArray(Int32 startIndex, Int32 length) {
-  return Array<Char>();
-};
-Boolean String___::IsNullOrEmpty(String value) {
-  return Boolean();
-};
-Boolean String___::IsNullOrWhiteSpace(String value) {
-  return Boolean();
-};
-String String___::CreateStringFromEncoding(Byte* bytes, Int32 byteLength, Encoding encoding) {
-  return nullptr;
-};
-String String___::CreateFromChar(Char c) {
-  return nullptr;
-};
-String String___::CreateFromChar(Char c1, Char c2) {
-  return nullptr;
-};
-void String___::wstrcpy(Char* dmem, Char* smem, Int32 charCount) {
-};
-String String___::ToString() {
-  return nullptr;
-};
-String String___::ToString(IFormatProvider provider) {
-  return nullptr;
-};
-CharEnumerator String___::GetEnumerator() {
-  return nullptr;
-};
-StringRuneEnumerator String___::EnumerateRunes() {
-  return StringRuneEnumerator();
-};
-Int32 String___::wcslen(Char* ptr) {
-  return Int32();
-};
-Int32 String___::strlen(Byte* ptr) {
-  return Int32();
-};
-void String___::ThrowMustBeNullTerminatedString() {
-};
-TypeCode String___::GetTypeCode() {
-  return TypeCode::String;
-};
-Boolean String___::IsNormalized() {
-  return Boolean();
-};
-Boolean String___::IsNormalized(NormalizationForm normalizationForm) {
-  return Boolean();
-};
-String String___::Normalize() {
-  return nullptr;
-};
-String String___::Normalize(NormalizationForm normalizationForm) {
-  return nullptr;
-};
-Boolean String___::IsAscii() {
-  return Boolean();
-};
 Boolean String___::EqualsHelper(String strA, String strB) {
   return Boolean();
 };
@@ -234,6 +135,105 @@ void String___::CheckStringComparison(StringComparison comparisonType) {
 };
 CompareOptions String___::GetCaseCompareOfComparisonCulture(StringComparison comparisonType) {
   return CompareOptions::Ordinal;
+};
+String String___::Ctor(Array<Char> value) {
+  return nullptr;
+};
+String String___::Ctor(Array<Char> value, Int32 startIndex, Int32 length) {
+  return nullptr;
+};
+String String___::Ctor(Char* ptr) {
+  return nullptr;
+};
+String String___::Ctor(Char* ptr, Int32 startIndex, Int32 length) {
+  return nullptr;
+};
+String String___::Ctor(SByte* value) {
+  return nullptr;
+};
+String String___::Ctor(SByte* value, Int32 startIndex, Int32 length) {
+  return nullptr;
+};
+String String___::CreateStringForSByteConstructor(Byte* pb, Int32 numBytes) {
+  return nullptr;
+};
+String String___::Ctor(SByte* value, Int32 startIndex, Int32 length, Encoding enc) {
+  return nullptr;
+};
+String String___::Ctor(Char c, Int32 count) {
+  return nullptr;
+};
+String String___::Ctor(ReadOnlySpan<Char> value) {
+  return nullptr;
+};
+Object String___::Clone() {
+  return nullptr;
+};
+String String___::Copy(String str) {
+  return nullptr;
+};
+void String___::CopyTo(Int32 sourceIndex, Array<Char> destination, Int32 destinationIndex, Int32 count) {
+};
+Array<Char> String___::ToCharArray() {
+  return Array<Char>();
+};
+Array<Char> String___::ToCharArray(Int32 startIndex, Int32 length) {
+  return Array<Char>();
+};
+Boolean String___::IsNullOrEmpty(String value) {
+  return Boolean();
+};
+Boolean String___::IsNullOrWhiteSpace(String value) {
+  return Boolean();
+};
+String String___::CreateStringFromEncoding(Byte* bytes, Int32 byteLength, Encoding encoding) {
+  return nullptr;
+};
+String String___::CreateFromChar(Char c) {
+  return nullptr;
+};
+String String___::CreateFromChar(Char c1, Char c2) {
+  return nullptr;
+};
+void String___::wstrcpy(Char* dmem, Char* smem, Int32 charCount) {
+};
+String String___::ToString() {
+  return nullptr;
+};
+String String___::ToString(IFormatProvider provider) {
+  return nullptr;
+};
+CharEnumerator String___::GetEnumerator() {
+  return nullptr;
+};
+StringRuneEnumerator String___::EnumerateRunes() {
+  return StringRuneEnumerator();
+};
+Int32 String___::wcslen(Char* ptr) {
+  return Int32();
+};
+Int32 String___::strlen(Byte* ptr) {
+  return Int32();
+};
+void String___::ThrowMustBeNullTerminatedString() {
+};
+TypeCode String___::GetTypeCode() {
+  return TypeCode::String;
+};
+Boolean String___::IsNormalized() {
+  return Boolean();
+};
+Boolean String___::IsNormalized(NormalizationForm normalizationForm) {
+  return Boolean();
+};
+String String___::Normalize() {
+  return nullptr;
+};
+String String___::Normalize(NormalizationForm normalizationForm) {
+  return nullptr;
+};
+Boolean String___::IsAscii() {
+  return Boolean();
 };
 void String___::FillStringChecked(String dest, Int32 destPos, String src) {
 };

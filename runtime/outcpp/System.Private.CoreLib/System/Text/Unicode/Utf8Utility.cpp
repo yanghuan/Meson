@@ -1,6 +1,18 @@
 #include "Utf8Utility-dep.h"
 
 namespace System::Private::CoreLib::System::Text::Unicode::Utf8UtilityNamespace {
+ReadOnlySpan<Byte> Utf8Utility::get_ReplacementCharSequence() {
+  return ReadOnlySpan<Byte>();
+};
+Int32 Utf8Utility::GetIndexOfFirstInvalidUtf8Sequence(ReadOnlySpan<Byte> utf8Data, Boolean& isAscii) {
+  return Int32();
+};
+Boolean Utf8Utility::IsWellFormedUtf8(ReadOnlySpan<Byte> utf8Data) {
+  return Boolean();
+};
+Utf8String Utf8Utility::ValidateAndFixupUtf8String(Utf8String value) {
+  return nullptr;
+};
 UInt32 Utf8Utility::ExtractCharFromFirstThreeByteSequence(UInt32 value) {
   return UInt32();
 };
@@ -94,8 +106,6 @@ Boolean Utf8Utility::UInt32SecondByteIsAscii(UInt32 value) {
 Boolean Utf8Utility::UInt32ThirdByteIsAscii(UInt32 value) {
   return Boolean();
 };
-void Utf8Utility::Widen4AsciiBytesToCharsAndWrite(Char& outputBuffer, UInt32 value) {
-};
 void Utf8Utility::WriteTwoUtf16CharsAsTwoUtf8ThreeByteSequences(Byte& outputBuffer, UInt32 value) {
 };
 void Utf8Utility::WriteFirstUtf16CharAsUtf8ThreeByteSequence(Byte& outputBuffer, UInt32 value) {
@@ -108,5 +118,17 @@ OperationStatus Utf8Utility::TranscodeToUtf8(Char* pInputBuffer, Int32 inputLeng
 };
 Byte* Utf8Utility::GetPointerToFirstInvalidByte(Byte* pInputBuffer, Int32 inputLength, Int32& utf16CodeUnitCountAdjustment, Int32& scalarCountAdjustment) {
   return nullptr;
+};
+Int32 Utf8Utility::GetIndexOfFirstNonWhiteSpaceChar(ReadOnlySpan<Byte> utf8Data) {
+  return Int32();
+};
+UInt64 Utf8Utility::GetIndexOfFirstNonWhiteSpaceChar(Byte& utf8Data, UInt64 length) {
+  return UInt64();
+};
+Int32 Utf8Utility::GetIndexOfTrailingWhiteSpaceSequence(ReadOnlySpan<Byte> utf8Data) {
+  return Int32();
+};
+UInt64 Utf8Utility::GetIndexOfTrailingWhiteSpaceSequence(Byte& utf8Data, UInt64 length) {
+  return UInt64();
 };
 } // namespace System::Private::CoreLib::System::Text::Unicode::Utf8UtilityNamespace

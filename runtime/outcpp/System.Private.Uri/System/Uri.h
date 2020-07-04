@@ -27,7 +27,6 @@ enum class UriPartial;
 enum class UriComponents;
 enum class UriFormat;
 enum class UriKind;
-enum class UriIdnScope;
 namespace UriNamespace {
 using namespace ::System::Private::CoreLib::System;
 using namespace ::System::Private::CoreLib::System::Runtime::Serialization;
@@ -133,7 +132,6 @@ CLASS(Uri) {
   private: Flags get_HostType();
   private: UriParser get_Syntax();
   private: Boolean get_IsNotAbsoluteUri();
-  private: Boolean get_AllowIdn();
   public: Boolean get_UserDrivenParsing();
   private: UInt16 get_SecuredPathIndex();
   public: String get_AbsolutePath();
@@ -162,8 +160,6 @@ CLASS(Uri) {
   public: String get_UserInfo();
   public: Boolean get_HasAuthority();
   public: static Boolean IriParsingStatic(UriParser syntax);
-  private: Boolean AllowIdnStatic(UriParser syntax, Flags flags);
-  private: Boolean IsIntranet(String schemeHost);
   private: void SetUserDrivenParsing();
   private: Boolean NotAny(Flags flags);
   private: Boolean InFact(Flags flags);
@@ -211,8 +207,8 @@ CLASS(Uri) {
   private: static Boolean CheckKnownSchemes(Int64* lptr, UInt16 nChars, UriParser& syntax);
   private: static ParsingError CheckSchemeSyntax(ReadOnlySpan<Char> span, UriParser& syntax);
   private: UInt16 CheckAuthorityHelper(Char* pString, UInt16 idx, UInt16 length, ParsingError& err, Flags& flags, UriParser syntax, String& newHost);
-  private: void CheckAuthorityHelperHandleDnsIri(Char* pString, UInt16 start, Int32 end, Int32 startInput, Boolean iriParsing, Boolean hasUnicode, UriParser syntax, String userInfoString, Flags& flags, Boolean& justNormalized, String& newHost, ParsingError& err);
-  private: void CheckAuthorityHelperHandleAnyHostIri(Char* pString, Int32 startInput, Int32 end, Boolean iriParsing, Boolean hasUnicode, UriParser syntax, Flags& flags, String& newHost, ParsingError& err);
+  private: void CheckAuthorityHelperHandleDnsIri(Char* pString, UInt16 start, Int32 end, Boolean hasUnicode, Flags& flags, Boolean& justNormalized, String& newHost, ParsingError& err);
+  private: void CheckAuthorityHelperHandleAnyHostIri(Char* pString, Int32 startInput, Int32 end, Boolean iriParsing, Boolean hasUnicode, Flags& flags, String& newHost, ParsingError& err);
   private: void FindEndOfComponent(String input, UInt16& idx, UInt16 end, Char delim);
   private: void FindEndOfComponent(Char* str, UInt16& idx, UInt16 end, Char delim);
   private: Check CheckCanonical(Char* str, UInt16& idx, UInt16 end, Char delim);
@@ -275,8 +271,6 @@ CLASS(Uri) {
   private: Flags _flags;
   private: UriInfo _info;
   private: Boolean _iriParsing;
-  private: static UriIdnScope s_IdnScope;
-  private: static Boolean s_IriParsing;
   private: static Array<Char> s_pathDelims;
 };
 } // namespace UriNamespace

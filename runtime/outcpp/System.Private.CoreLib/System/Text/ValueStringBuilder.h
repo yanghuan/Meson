@@ -8,6 +8,8 @@
 namespace System::Private::CoreLib::System {
 FORWARD_(Array, T1, T2)
 FORWARDS(Boolean)
+FORWARD(IFormatProvider)
+FORWARDS(ParamsArray)
 FORWARDS(ReadOnlySpan, T)
 FORWARD(String)
 } // namespace System::Private::CoreLib::System
@@ -19,6 +21,8 @@ struct ValueStringBuilder {
   public: Int32 get_Capacity();
   public: Char& get_Item(Int32 index);
   public: Span<Char> get_RawChars();
+  public: void AppendFormatHelper(IFormatProvider provider, String format, ParamsArray args);
+  private: static void ThrowFormatError();
   public: void EnsureCapacity(Int32 capacity);
   public: String ToString();
   public: ReadOnlySpan<Char> AsSpan(Boolean terminate);

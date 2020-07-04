@@ -15,6 +15,10 @@ Char& ValueStringBuilder::get_Item(Int32 index) {
 Span<Char> ValueStringBuilder::get_RawChars() {
   return Span<Char>();
 };
+void ValueStringBuilder::AppendFormatHelper(IFormatProvider provider, String format, ParamsArray args) {
+};
+void ValueStringBuilder::ThrowFormatError() {
+};
 void ValueStringBuilder::EnsureCapacity(Int32 capacity) {
 };
 String ValueStringBuilder::ToString() {

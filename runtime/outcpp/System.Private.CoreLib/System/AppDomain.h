@@ -35,7 +35,7 @@ FORWARD_(Array, T1, T2)
 FORWARDS(Byte)
 FORWARD(Object)
 FORWARDS_(Nullable, T1, T2)
-FORWARD_(Func, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10)
+FORWARD_(Func, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18)
 FORWARD_(EventHandler, T1, T2)
 FORWARD(ResolveEventHandler)
 namespace AppDomainNamespace {
@@ -69,7 +69,7 @@ CLASS(AppDomain) {
   public: Int32 ExecuteAssembly(String assemblyFile);
   public: Int32 ExecuteAssembly(String assemblyFile, Array<String> args);
   public: Int32 ExecuteAssembly(String assemblyFile, Array<String> args, Array<Byte> hashValue, AssemblyHashAlgorithm hashAlgorithm);
-  private: Int32 ExecuteAssembly(Assembly assembly, Array<String> args);
+  private: static Int32 ExecuteAssembly(Assembly assembly, Array<String> args);
   public: Int32 ExecuteAssemblyByName(AssemblyName assemblyName, Array<String> args);
   public: Int32 ExecuteAssemblyByName(String assemblyName);
   public: Int32 ExecuteAssemblyByName(String assemblyName, Array<String> args);

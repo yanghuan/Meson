@@ -222,9 +222,6 @@ Boolean Type___::IsWindowsRuntimeObjectImpl() {
 Boolean Type___::IsExportedToWindowsRuntimeImpl() {
   return Boolean();
 };
-String Type___::FormatTypeName() {
-  return nullptr;
-};
 Boolean Type___::IsRuntimeImplemented() {
   return Boolean();
 };
@@ -430,6 +427,9 @@ Type Type___::MakeGenericSignatureType(Type genericTypeDefinition, Array<Type> t
   return nullptr;
 };
 Type Type___::MakeGenericMethodParameter(Int32 position) {
+  return nullptr;
+};
+String Type___::FormatTypeName() {
   return nullptr;
 };
 String Type___::ToString() {

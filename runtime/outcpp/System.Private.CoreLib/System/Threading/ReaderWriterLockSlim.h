@@ -109,7 +109,6 @@ CLASS(ReaderWriterLockSlim) {
   private: static void SpinWait(Int32 spinCount);
   public: void Dispose();
   private: void Dispose(Boolean disposing);
-  private: static Int32 ProcessorCount;
   private: Boolean _fIsReentrant;
   private: SpinLock _spinLock;
   private: UInt32 _numWriteWaiters;

@@ -1,7 +1,7 @@
 #include "Array-dep.h"
 
 namespace System::Private::CoreLib::System::ArrayNamespace {
-void Array___<>::SorterObjectArray::SwapIfGreaterWithItems(Int32 a, Int32 b) {
+void Array___<>::SorterObjectArray::SwapIfGreater(Int32 a, Int32 b) {
 };
 void Array___<>::SorterObjectArray::Swap(Int32 i, Int32 j) {
 };
@@ -20,7 +20,7 @@ void Array___<>::SorterObjectArray::DownHeap(Int32 i, Int32 n, Int32 lo) {
 };
 void Array___<>::SorterObjectArray::InsertionSort(Int32 lo, Int32 hi) {
 };
-void Array___<>::SorterGenericArray::SwapIfGreaterWithItems(Int32 a, Int32 b) {
+void Array___<>::SorterGenericArray::SwapIfGreater(Int32 a, Int32 b) {
 };
 void Array___<>::SorterGenericArray::Swap(Int32 i, Int32 j) {
 };
@@ -38,6 +38,15 @@ void Array___<>::SorterGenericArray::Heapsort(Int32 lo, Int32 hi) {
 void Array___<>::SorterGenericArray::DownHeap(Int32 i, Int32 n, Int32 lo) {
 };
 void Array___<>::SorterGenericArray::InsertionSort(Int32 lo, Int32 hi) {
+};
+Int32 Array___<>::get_Length() {
+  return Int32();
+};
+Int64 Array___<>::get_LongLength() {
+  return Int64();
+};
+Int32 Array___<>::get_Rank() {
+  return Int32();
 };
 Int32 Array___<>::get_CountOfICollection() {
   return Int32();
@@ -78,6 +87,8 @@ void Array___<>::Copy(Array<> sourceArray, Array<> destinationArray, Int32 lengt
 };
 void Array___<>::Copy(Array<> sourceArray, Int32 sourceIndex, Array<> destinationArray, Int32 destinationIndex, Int32 length) {
 };
+void Array___<>::Copy(Array<> sourceArray, Int32 sourceIndex, Array<> destinationArray, Int32 destinationIndex, Int32 length, Boolean reliable) {
+};
 void Array___<>::ConstrainedCopy(Array<> sourceArray, Int32 sourceIndex, Array<> destinationArray, Int32 destinationIndex, Int32 length) {
 };
 void Array___<>::Clear(Array<> array, Int32 index, Int32 length) {
@@ -102,7 +113,14 @@ void Array___<>::SetValue(Object value, Int32 index1, Int32 index2, Int32 index3
 };
 void Array___<>::SetValue(Object value, Array<Int32> indices) {
 };
-void Array___<>::SortImpl(Array<> keys, Array<> items, Int32 index, Int32 length, IComparer comparer) {
+Int32 Array___<>::GetLength(Int32 dimension) {
+  return Int32();
+};
+Int32 Array___<>::GetUpperBound(Int32 dimension) {
+  return Int32();
+};
+Int32 Array___<>::GetLowerBound(Int32 dimension) {
+  return Int32();
 };
 Array<> Array___<>::CreateInstance(Type elementType, Array<Int64> lengths) {
   return nullptr;
@@ -139,9 +157,6 @@ Int64 Array___<>::GetLongLength(Int32 dimension) {
 };
 Object Array___<>::Clone() {
   return nullptr;
-};
-Int32 Array___<>::CombineHashCodes(Int32 h1, Int32 h2) {
-  return Int32();
 };
 Int32 Array___<>::BinarySearch(Array<> array, Object value) {
   return Int32();

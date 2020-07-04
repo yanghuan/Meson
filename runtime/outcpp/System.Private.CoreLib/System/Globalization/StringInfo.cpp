@@ -27,9 +27,6 @@ String StringInfo___::SubstringByTextElements(Int32 startingTextElement, Int32 l
 String StringInfo___::GetNextTextElement(String str) {
   return nullptr;
 };
-Int32 StringInfo___::GetCurrentTextElementLen(String str, Int32 index, Int32 len, UnicodeCategory& ucCurrent, Int32& currentCharCount) {
-  return Int32();
-};
 String StringInfo___::GetNextTextElement(String str, Int32 index) {
   return nullptr;
 };
@@ -40,6 +37,9 @@ TextElementEnumerator StringInfo___::GetTextElementEnumerator(String str, Int32 
   return nullptr;
 };
 Array<Int32> StringInfo___::ParseCombiningCharacters(String str) {
+  return Array<Int32>();
+};
+Array<Int32> StringInfo___::ParseCombiningCharactersForLargeString(String str) {
   return Array<Int32>();
 };
 } // namespace System::Private::CoreLib::System::Globalization::StringInfoNamespace

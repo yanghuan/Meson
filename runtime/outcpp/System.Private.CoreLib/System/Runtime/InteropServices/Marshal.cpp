@@ -312,10 +312,15 @@ IntPtr Marshal::StringToCoTaskMemAuto(String s) {
 Int32 Marshal::GetSystemMaxDBCSCharSize() {
   return Int32();
 };
-Boolean Marshal::IsWin32Atom(IntPtr ptr) {
+Boolean Marshal::IsNullOrWin32Atom(IntPtr ptr) {
   return Boolean();
 };
 Int32 Marshal::StringToAnsiString(String s, Byte* buffer, Int32 bufferLength, Boolean bestFit, Boolean throwOnUnmappableChar) {
   return Int32();
+};
+Int32 Marshal::GetAnsiStringByteCount(ReadOnlySpan<Char> chars) {
+  return Int32();
+};
+void Marshal::GetAnsiStringBytes(ReadOnlySpan<Char> chars, Span<Byte> bytes) {
 };
 } // namespace System::Private::CoreLib::System::Runtime::InteropServices::MarshalNamespace

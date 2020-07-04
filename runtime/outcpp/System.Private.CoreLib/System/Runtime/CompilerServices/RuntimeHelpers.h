@@ -19,11 +19,15 @@ FORWARDS(RuntimeMethodHandleInternal)
 FORWARD(RuntimeType)
 FORWARDS(RuntimeTypeHandle)
 FORWARD(Type)
+FORWARDS(UInt16)
+FORWARDS(UInt64)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Reflection {
+enum class CorElementType : uint8_t;
 FORWARD(RuntimeModule)
 } // namespace System::Private::CoreLib::System::Reflection
 namespace System::Private::CoreLib::System::Runtime::CompilerServices {
+FORWARDS(MethodTable)
 namespace RuntimeHelpersNamespace {
 using namespace ::System::Private::CoreLib::System::Reflection;
 class RuntimeHelpers {
@@ -53,16 +57,20 @@ class RuntimeHelpers {
   public: static Boolean Equals(Object o1, Object o2);
   public: static void EnsureSufficientExecutionStack();
   public: static Boolean TryEnsureSufficientExecutionStack();
-  public: static void ExecuteCodeWithGuaranteedCleanup(TryCode code, CleanupCode backoutCode, Object userData);
-  public: static void ExecuteBackoutCodeHelper(Object backoutCode, Object userData, Boolean exceptionThrown);
-  public: static Boolean ObjectHasComponentSize(Object obj);
-  private: static IntPtr GetObjectMethodTablePointer(Object obj);
   private: static Object GetUninitializedObjectInternal(Type type);
+  public: static Object AllocateUninitializedClone(Object obj);
+  public: static UInt64 GetRawObjectDataSize(Object obj);
+  public: static UInt16 GetElementSize(Array<> array);
+  public: static Int32 GetMultiDimensionalArrayRank(Array<> array);
+  public: static Boolean ObjectHasComponentSize(Object obj);
+  public: static MethodTable* GetMethodTable(Object obj);
   public: static Object GetUninitializedObject(Type type);
+  public: static void ExecuteCodeWithGuaranteedCleanup(TryCode code, CleanupCode backoutCode, Object userData);
   public: static void PrepareContractedDelegate(Delegate d);
   public: static void ProbeForSufficientStack();
   public: static void PrepareConstrainedRegions();
   public: static void PrepareConstrainedRegionsNoOP();
+  public: static Boolean IsPrimitiveType(CorElementType et);
 };
 } // namespace RuntimeHelpersNamespace
 using RuntimeHelpers = RuntimeHelpersNamespace::RuntimeHelpers;

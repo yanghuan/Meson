@@ -29,7 +29,7 @@ class StubHelpers {
   public: static void SetLastError();
   public: static void ThrowInteropParamException(Int32 resID, Int32 paramIdx);
   public: static IntPtr AddToCleanupList(CleanupWorkListElement& pCleanupWorkList, SafeHandle handle);
-  public: static void AddToCleanupList(CleanupWorkListElement& pCleanupWorkList, Delegate del);
+  public: static void KeepAliveViaCleanupList(CleanupWorkListElement& pCleanupWorkList, Object obj);
   public: static void DestroyCleanupList(CleanupWorkListElement& pCleanupWorkList);
   public: static Exception GetHRExceptionObject(Int32 hr);
   public: static Exception InternalGetHRExceptionObject(Int32 hr);
@@ -55,7 +55,7 @@ class StubHelpers {
   public: static void CheckStringLength(UInt32 length);
   public: static void FmtClassUpdateNativeInternal(Object obj, Byte* pNative, CleanupWorkListElement& pCleanupWorkList);
   public: static void FmtClassUpdateCLRInternal(Object obj, Byte* pNative);
-  public: static void LayoutDestroyNativeInternal(Byte* pNative, IntPtr pMT);
+  public: static void LayoutDestroyNativeInternal(Object obj, Byte* pNative);
   public: static Object AllocateInternal(IntPtr typeHandle);
   public: static void MarshalToUnmanagedVaListInternal(IntPtr va_list, UInt32 vaListSize, IntPtr pArgIterator);
   public: static void MarshalToManagedVaListInternal(IntPtr va_list, IntPtr pArgIterator);

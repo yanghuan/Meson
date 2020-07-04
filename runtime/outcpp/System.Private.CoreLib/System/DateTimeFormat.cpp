@@ -31,7 +31,7 @@ Boolean DateTimeFormat::IsUseGenitiveForm(ReadOnlySpan<Char> format, Int32 index
 StringBuilder DateTimeFormat::FormatCustomized(DateTime dateTime, ReadOnlySpan<Char> format, DateTimeFormatInfo dtfi, TimeSpan offset, StringBuilder result) {
   return nullptr;
 };
-void DateTimeFormat::FormatCustomizedTimeZone(DateTime dateTime, TimeSpan offset, ReadOnlySpan<Char> format, Int32 tokenLen, Boolean timeOnly, StringBuilder result) {
+void DateTimeFormat::FormatCustomizedTimeZone(DateTime dateTime, TimeSpan offset, Int32 tokenLen, Boolean timeOnly, StringBuilder result) {
 };
 void DateTimeFormat::FormatCustomizedRoundripTimeZone(DateTime dateTime, TimeSpan offset, StringBuilder result) {
 };
@@ -75,7 +75,5 @@ Array<String> DateTimeFormat::GetAllDateTimes(DateTime dateTime, Char format, Da
 };
 Array<String> DateTimeFormat::GetAllDateTimes(DateTime dateTime, DateTimeFormatInfo dtfi) {
   return Array<String>();
-};
-void DateTimeFormat::InvalidFormatForLocal(ReadOnlySpan<Char> format, DateTime dateTime) {
 };
 } // namespace System::Private::CoreLib::System::DateTimeFormatNamespace

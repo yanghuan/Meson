@@ -9,7 +9,6 @@ namespace CriticalHandleNamespace {
 CLASS(CriticalHandle) {
   public: Boolean get_IsClosed();
   public: Boolean get_IsInvalid();
-  private: void ReleaseHandleFailed();
   protected: void Finalize();
   private: void Cleanup();
   protected: void SetHandle(IntPtr handle);

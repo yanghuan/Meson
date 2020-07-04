@@ -37,7 +37,7 @@ CLASS(MulticastDelegate) {
   public: Int32 GetHashCode();
   public: Object GetTarget();
   protected: MethodInfo GetMethodImpl();
-  private: void ThrowNullThisInDelegateToInstance();
+  private: static void ThrowNullThisInDelegateToInstance();
   private: void CtorClosed(Object target, IntPtr methodPtr);
   private: void CtorClosedStatic(Object target, IntPtr methodPtr);
   private: void CtorRTClosed(Object target, IntPtr methodPtr);

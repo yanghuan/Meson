@@ -6,7 +6,7 @@
 
 namespace System::Private::CoreLib::System {
 FORWARD_(Array, T1, T2)
-FORWARD_(Func, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10)
+FORWARD_(Func, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18)
 FORWARD(String)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Collections::Generic {
@@ -55,7 +55,7 @@ CLASS(ThreadLocal, T) {
   private: void SetValueSlow(T value, Array<LinkedSlotVolatile> slotArray);
   private: void CreateLinkedSlot(Array<LinkedSlotVolatile> slotArray, Int32 id, T value);
   private: List<T> GetValuesAsList();
-  private: void GrowTable(Array<LinkedSlotVolatile>& table, Int32 minLength);
+  private: static void GrowTable(Array<LinkedSlotVolatile>& table, Int32 minLength);
   private: static Int32 GetNewTableSize(Int32 minSize);
   private: Func<T> _valueFactory;
   private: static Array<LinkedSlotVolatile> ts_slotArray;

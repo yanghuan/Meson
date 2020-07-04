@@ -1,10 +1,10 @@
 #include "GlobalizationMode-dep.h"
 
 namespace System::Private::CoreLib::System::Globalization::GlobalizationModeNamespace {
-Boolean GlobalizationMode___::GetInvariantSwitchValue() {
+Boolean GlobalizationMode::GetInvariantSwitchValue() {
   return Boolean();
 };
-Boolean GlobalizationMode___::GetGlobalizationInvariantMode() {
+Boolean GlobalizationMode::GetGlobalizationInvariantMode() {
   return Boolean();
 };
 } // namespace System::Private::CoreLib::System::Globalization::GlobalizationModeNamespace

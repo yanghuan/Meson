@@ -163,6 +163,8 @@ struct Decimal {
   public: static Boolean TryParse(String s, NumberStyles style, IFormatProvider provider, Decimal& result);
   public: static Boolean TryParse(ReadOnlySpan<Char> s, NumberStyles style, IFormatProvider provider, Decimal& result);
   public: static Array<Int32> GetBits(Decimal d);
+  public: static Int32 GetBits(Decimal d, Span<Int32> destination);
+  public: static Boolean TryGetBits(Decimal d, Span<Int32> destination, Int32& valuesWritten);
   public: static void GetBytes(Decimal& d, Array<Byte> buffer);
   public: static Decimal ToDecimal(ReadOnlySpan<Byte> span);
   public: static Decimal Remainder(Decimal d1, Decimal d2);

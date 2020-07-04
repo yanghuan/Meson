@@ -23,8 +23,7 @@ void ManualResetEventSlim___::Initialize(Boolean initialState, Int32 spinCount) 
 };
 void ManualResetEventSlim___::EnsureLockObjectCreated() {
 };
-Boolean ManualResetEventSlim___::LazyInitializeEvent() {
-  return Boolean();
+void ManualResetEventSlim___::LazyInitializeEvent() {
 };
 void ManualResetEventSlim___::Set() {
 };

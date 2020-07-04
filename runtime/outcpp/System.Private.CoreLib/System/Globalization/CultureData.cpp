@@ -186,9 +186,6 @@ Calendar CultureData___::get_DefaultCalendar() {
 String CultureData___::get_TimeSeparator() {
   return nullptr;
 };
-Boolean CultureData___::get_IsFramework() {
-  return Boolean();
-};
 Boolean CultureData___::get_IsWin32Installed() {
   return Boolean();
 };
@@ -220,9 +217,6 @@ Boolean CultureData___::InitCompatibilityCultureData() {
 };
 CultureData CultureData___::GetCultureData(Int32 culture, Boolean bUseUserOverride) {
   return nullptr;
-};
-Array<String> CultureData___::AdjustShortTimesForMac(Array<String> shortTimes) {
-  return Array<String>();
 };
 Array<String> CultureData___::DeriveShortTimesFromLong() {
   return Array<String>();
@@ -352,10 +346,7 @@ CultureData CultureData___::GetCultureDataFromRegionName(String regionName) {
 String CultureData___::GetLanguageDisplayName(String cultureName) {
   return nullptr;
 };
-String CultureData___::GetRegionDisplayName(String isoCountryCode) {
-  return nullptr;
-};
-CultureInfo CultureData___::GetUserDefaultCulture() {
+String CultureData___::GetRegionDisplayName() {
   return nullptr;
 };
 String CultureData___::GetLocaleInfoFromLCType(String localeName, UInt32 lctype, Boolean useUserOveride) {

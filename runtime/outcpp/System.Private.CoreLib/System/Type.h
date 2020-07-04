@@ -37,7 +37,7 @@ FORWARD_(Array, T1, T2)
 FORWARDS(Int32)
 FORWARDS(RuntimeTypeHandle)
 FORWARDS(Guid)
-FORWARD_(Func, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10)
+FORWARD_(Func, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18)
 FORWARDS(IntPtr)
 FORWARD(RuntimeType)
 FORWARD(Object)
@@ -132,7 +132,6 @@ CLASS(Type) {
   public: static Type GetTypeFromHandle(RuntimeTypeHandle handle);
   public: Boolean IsWindowsRuntimeObjectImpl();
   public: Boolean IsExportedToWindowsRuntimeImpl();
-  public: String FormatTypeName();
   public: Boolean IsRuntimeImplemented();
   public: Type GetType();
   protected: Boolean IsArrayImpl();
@@ -226,6 +225,7 @@ CLASS(Type) {
   public: Type MakePointerType();
   public: static Type MakeGenericSignatureType(Type genericTypeDefinition, Array<Type> typeArguments);
   public: static Type MakeGenericMethodParameter(Int32 position);
+  public: String FormatTypeName();
   public: String ToString();
   public: Boolean Equals(Object o);
   public: Int32 GetHashCode();

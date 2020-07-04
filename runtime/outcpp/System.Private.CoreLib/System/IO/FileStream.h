@@ -10,7 +10,7 @@
 #include <System.Private.CoreLib/System/UInt32.h>
 
 namespace System::Private::CoreLib::System {
-FORWARD_(Action, T1, T2, T3, T4, T5, T6, T7, T8, T9)
+FORWARD_(Action, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17)
 FORWARD_(Array, T1, T2)
 FORWARD(AsyncCallback)
 FORWARDS(Byte)
@@ -137,7 +137,7 @@ CLASS(FileStream) {
   public: void EndWrite(IAsyncResult asyncResult);
   private: void Init(FileMode mode, FileShare share, String originalPath);
   private: void InitFromHandle(SafeFileHandle handle, FileAccess access, Boolean useAsyncIO);
-  private: void InitFromHandleImpl(SafeFileHandle handle, FileAccess access, Boolean useAsyncIO);
+  private: void InitFromHandleImpl(SafeFileHandle handle, Boolean useAsyncIO);
   private: static Interop::Kernel32::SECURITY_ATTRIBUTES GetSecAttrs(FileShare share);
   private: Int64 GetLengthInternal();
   protected: void Dispose(Boolean disposing);
@@ -174,7 +174,7 @@ CLASS(FileStream) {
   private: SafeFileHandle CreateFileOpenHandle(FileMode mode, FileShare share, FileOptions options);
   private: static Boolean GetDefaultIsAsync(SafeFileHandle handle);
   private: static Nullable<Boolean> IsHandleSynchronous(SafeFileHandle fileHandle, Boolean ignoreInvalid);
-  private: static void VerifyHandleIsSync(SafeFileHandle handle, Int32 fileType, FileAccess access);
+  private: static void VerifyHandleIsSync(SafeFileHandle handle);
   private: Array<Byte> _buffer;
   private: Int32 _bufferLength;
   private: SafeFileHandle _fileHandle;

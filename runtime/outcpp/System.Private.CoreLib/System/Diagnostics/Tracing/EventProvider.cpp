@@ -17,7 +17,7 @@ void EventProvider___::Dispose(Boolean disposing) {
 };
 void EventProvider___::Finalize() {
 };
-void EventProvider___::EtwEnableCallBack(Guid& sourceId, Int32 controlCode, Byte setLevel, Int64 anyKeyword, Int64 allKeyword, Interop::Advapi32::in::EVENT_FILTER_DESCRIPTOR* filterData, void* callbackContext) {
+void EventProvider___::EtwEnableCallBack(Guid& sourceId, Int32 controlCode, Byte setLevel, Int64 anyKeyword, Int64 allKeyword, Interop::Advapi32::EVENT_FILTER_DESCRIPTOR* filterData, void* callbackContext) {
 };
 void EventProvider___::OnControllerCommand(ControllerCommand command, IDictionary<String, String> arguments, Int32 sessionId, Int32 etwSessionId) {
 };
@@ -34,7 +34,7 @@ void EventProvider___::GetSessionInfo(SessionInfoCallback action, List<SessionIn
 Int32 EventProvider___::IndexOfSessionInList(List<SessionInfo> sessions, Int32 etwSessionId) {
   return Int32();
 };
-Boolean EventProvider___::GetDataFromController(Int32 etwSessionId, Interop::Advapi32::in::EVENT_FILTER_DESCRIPTOR* filterData, ControllerCommand& command, Array<Byte>& data, Int32& dataStart) {
+Boolean EventProvider___::GetDataFromController(Int32 etwSessionId, Interop::Advapi32::EVENT_FILTER_DESCRIPTOR* filterData, ControllerCommand& command, Array<Byte>& data, Int32& dataStart) {
   return Boolean();
 };
 Boolean EventProvider___::IsEnabled() {
@@ -60,13 +60,12 @@ Boolean EventProvider___::WriteEvent(EventDescriptor& eventDescriptor, IntPtr ev
 Boolean EventProvider___::WriteEventRaw(EventDescriptor& eventDescriptor, IntPtr eventHandle, Guid* activityID, Guid* relatedActivityID, Int32 dataCount, IntPtr data) {
   return Boolean();
 };
-UInt32 EventProvider___::EventRegister(EventSource eventSource, Interop::Advapi32::in::EtwEnableCallback enableCallback) {
+UInt32 EventProvider___::EventRegister(EventSource eventSource, Interop::Advapi32::EtwEnableCallback enableCallback) {
   return UInt32();
 };
-UInt32 EventProvider___::EventUnregister(Int64 registrationHandle) {
-  return UInt32();
+void EventProvider___::EventUnregister(Int64 registrationHandle) {
 };
-Int32 EventProvider___::SetInformation(Interop::Advapi32::in::EVENT_INFO_CLASS eventInfoClass, IntPtr data, UInt32 dataSize) {
+Int32 EventProvider___::SetInformation(Interop::Advapi32::EVENT_INFO_CLASS eventInfoClass, IntPtr data, UInt32 dataSize) {
   return Int32();
 };
 } // namespace System::Private::CoreLib::System::Diagnostics::Tracing::EventProviderNamespace

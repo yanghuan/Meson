@@ -105,9 +105,9 @@ String TimeZoneInfo___::StringSerializer::GetSerializedString(TimeZoneInfo zone)
 TimeZoneInfo TimeZoneInfo___::StringSerializer::GetDeserializedTimeZoneInfo(String source) {
   return nullptr;
 };
-void TimeZoneInfo___::StringSerializer::SerializeSubstitute(String text, StringBuilder serializedText) {
+void TimeZoneInfo___::StringSerializer::SerializeSubstitute(String text, ValueStringBuilder& serializedText) {
 };
-void TimeZoneInfo___::StringSerializer::SerializeTransitionTime(TransitionTime time, StringBuilder serializedText) {
+void TimeZoneInfo___::StringSerializer::SerializeTransitionTime(TransitionTime time, ValueStringBuilder& serializedText) {
 };
 void TimeZoneInfo___::StringSerializer::VerifyIsEscapableCharacter(Char c) {
 };
@@ -304,7 +304,7 @@ DateTime TimeZoneInfo___::ConvertUtcToTimeZone(Int64 ticks, TimeZoneInfo destina
 DaylightTimeStruct TimeZoneInfo___::GetDaylightTime(Int32 year, AdjustmentRule rule, Nullable<Int32> ruleIndex) {
   return DaylightTimeStruct();
 };
-Boolean TimeZoneInfo___::GetIsDaylightSavings(DateTime time, AdjustmentRule rule, DaylightTimeStruct daylightTime, TimeZoneInfoOptions flags) {
+Boolean TimeZoneInfo___::GetIsDaylightSavings(DateTime time, AdjustmentRule rule, DaylightTimeStruct daylightTime) {
   return Boolean();
 };
 TimeSpan TimeZoneInfo___::GetDaylightSavingsStartOffsetFromUtc(TimeSpan baseUtcOffset, AdjustmentRule rule, Nullable<Int32> ruleIndex) {
@@ -325,7 +325,7 @@ Boolean TimeZoneInfo___::GetIsAmbiguousTime(DateTime time, AdjustmentRule rule, 
 Boolean TimeZoneInfo___::GetIsInvalidTime(DateTime time, AdjustmentRule rule, DaylightTimeStruct daylightTime) {
   return Boolean();
 };
-TimeSpan TimeZoneInfo___::GetUtcOffset(DateTime time, TimeZoneInfo zone, TimeZoneInfoOptions flags) {
+TimeSpan TimeZoneInfo___::GetUtcOffset(DateTime time, TimeZoneInfo zone) {
   return TimeSpan();
 };
 TimeSpan TimeZoneInfo___::GetUtcOffsetFromUtc(DateTime time, TimeZoneInfo zone) {

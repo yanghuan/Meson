@@ -6,8 +6,8 @@
 namespace System::Private::CoreLib::System::Runtime::CompilerServices {
 namespace QCallAssemblyNamespace {
 struct QCallAssembly {
-  private: IntPtr m_ptr;
-  private: IntPtr m_assembly;
+  private: void* _ptr;
+  private: IntPtr _assembly;
 };
 } // namespace QCallAssemblyNamespace
 using QCallAssembly = QCallAssemblyNamespace::QCallAssembly;

@@ -161,7 +161,7 @@ void FileStream___::Init(FileMode mode, FileShare share, String originalPath) {
 };
 void FileStream___::InitFromHandle(SafeFileHandle handle, FileAccess access, Boolean useAsyncIO) {
 };
-void FileStream___::InitFromHandleImpl(SafeFileHandle handle, FileAccess access, Boolean useAsyncIO) {
+void FileStream___::InitFromHandleImpl(SafeFileHandle handle, Boolean useAsyncIO) {
 };
 Interop::Kernel32::SECURITY_ATTRIBUTES FileStream___::GetSecAttrs(FileShare share) {
   return Interop::Kernel32::SECURITY_ATTRIBUTES();
@@ -261,6 +261,6 @@ Boolean FileStream___::GetDefaultIsAsync(SafeFileHandle handle) {
 Nullable<Boolean> FileStream___::IsHandleSynchronous(SafeFileHandle fileHandle, Boolean ignoreInvalid) {
   return Nullable<Boolean>();
 };
-void FileStream___::VerifyHandleIsSync(SafeFileHandle handle, Int32 fileType, FileAccess access) {
+void FileStream___::VerifyHandleIsSync(SafeFileHandle handle) {
 };
 } // namespace System::Private::CoreLib::System::IO::FileStreamNamespace

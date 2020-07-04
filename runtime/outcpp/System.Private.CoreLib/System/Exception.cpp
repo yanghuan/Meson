@@ -66,12 +66,6 @@ void Exception___::OnDeserialized(StreamingContext context) {
 };
 void Exception___::InternalPreserveStackTrace() {
 };
-Object Exception___::DeepCopyStackTrace(Object currentStackTrace) {
-  return nullptr;
-};
-Object Exception___::DeepCopyDynamicMethods(Object currentDynamicMethods) {
-  return nullptr;
-};
 void Exception___::RestoreDispatchState(DispatchState& dispatchState) {
 };
 String Exception___::GetMessageFromNativeResources(ExceptionMessageKind kind) {
@@ -79,6 +73,8 @@ String Exception___::GetMessageFromNativeResources(ExceptionMessageKind kind) {
 };
 Exception::in::DispatchState Exception___::CaptureDispatchState() {
   return Exception::in::DispatchState();
+};
+void Exception___::SetCurrentStackTrace() {
 };
 String Exception___::GetClassName() {
   return nullptr;

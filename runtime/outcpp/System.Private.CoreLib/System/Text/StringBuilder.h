@@ -56,6 +56,7 @@ CLASS(StringBuilder) {
   public: void ReplaceBufferUtf8Internal(ReadOnlySpan<Byte> source);
   public: void ReplaceBufferAnsiInternal(SByte* newBuffer, Int32 newLength);
   public: void InternalCopy(IntPtr dest, Int32 len);
+  private: StringBuilder FindChunkForByte(Int32 byteIndex);
   public: Int32 EnsureCapacity(Int32 capacity);
   public: String ToString();
   public: String ToString(Int32 startIndex, Int32 length);
@@ -138,7 +139,6 @@ CLASS(StringBuilder) {
   private: static void ThreadSafeCopy(Char* sourcePtr, Array<Char> destination, Int32 destinationIndex, Int32 count);
   private: static void ThreadSafeCopy(Array<Char> source, Int32 sourceIndex, Span<Char> destination, Int32 destinationIndex, Int32 count);
   private: StringBuilder FindChunkForIndex(Int32 index);
-  private: StringBuilder FindChunkForByte(Int32 byteIndex);
   private: StringBuilder Next(StringBuilder chunk);
   private: void ExpandByABlock(Int32 minBlockCharCount);
   private: void MakeRoom(Int32 index, Int32 count, StringBuilder& chunk, Int32& indexInChunk, Boolean doNotMoveFollowingChars);

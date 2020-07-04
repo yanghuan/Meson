@@ -80,6 +80,7 @@ struct DateTimeOffset {
   public: Int64 ToUnixTimeMilliseconds();
   public: DateTimeOffset ToLocalTime();
   public: DateTimeOffset ToLocalTime(Boolean throwOnOverflow);
+  private: static DateTimeOffset ToLocalTime(DateTime utcDateTime, Boolean throwOnOverflow);
   public: String ToString();
   public: String ToString(String format);
   public: String ToString(IFormatProvider formatProvider);

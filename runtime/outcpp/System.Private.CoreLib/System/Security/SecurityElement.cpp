@@ -23,8 +23,6 @@ ArrayList SecurityElement___::get_Children() {
 };
 void SecurityElement___::set_Children(ArrayList value) {
 };
-void SecurityElement___::ConvertSecurityElementFactories() {
-};
 void SecurityElement___::AddAttributeSafe(String name, String value) {
 };
 void SecurityElement___::AddAttribute(String name, String value) {
@@ -64,7 +62,7 @@ String SecurityElement___::Unescape(String str) {
 String SecurityElement___::ToString() {
   return nullptr;
 };
-void SecurityElement___::ToString(String indent, Object obj, Action<Object, String> write) {
+void SecurityElement___::ToString(Object obj, Action<Object, String> write) {
 };
 String SecurityElement___::Attribute(String name) {
   return nullptr;

@@ -3,7 +3,7 @@
 #include <System.Private.CoreLib/System/Char-dep.h>
 
 namespace System::Private::CoreLib::System::CharNamespace {
-ReadOnlySpan<Byte> Char::get_CategoryForLatin1() {
+ReadOnlySpan<Byte> Char::get_Latin1CharInfo() {
   return ReadOnlySpan<Byte>();
 };
 Boolean Char::IsLatin1(Char ch) {

@@ -1,34 +1,34 @@
 #include "ConstantHelper-dep.h"
 
 namespace System::Private::CoreLib::System::Numerics::ConstantHelperNamespace {
-Byte ConstantHelper___::GetByteWithAllBitsSet() {
+Byte ConstantHelper::GetByteWithAllBitsSet() {
   return Byte();
 };
-SByte ConstantHelper___::GetSByteWithAllBitsSet() {
+SByte ConstantHelper::GetSByteWithAllBitsSet() {
   return SByte();
 };
-UInt16 ConstantHelper___::GetUInt16WithAllBitsSet() {
+UInt16 ConstantHelper::GetUInt16WithAllBitsSet() {
   return UInt16();
 };
-Int16 ConstantHelper___::GetInt16WithAllBitsSet() {
+Int16 ConstantHelper::GetInt16WithAllBitsSet() {
   return Int16();
 };
-UInt32 ConstantHelper___::GetUInt32WithAllBitsSet() {
+UInt32 ConstantHelper::GetUInt32WithAllBitsSet() {
   return UInt32();
 };
-Int32 ConstantHelper___::GetInt32WithAllBitsSet() {
+Int32 ConstantHelper::GetInt32WithAllBitsSet() {
   return Int32();
 };
-UInt64 ConstantHelper___::GetUInt64WithAllBitsSet() {
+UInt64 ConstantHelper::GetUInt64WithAllBitsSet() {
   return UInt64();
 };
-Int64 ConstantHelper___::GetInt64WithAllBitsSet() {
+Int64 ConstantHelper::GetInt64WithAllBitsSet() {
   return Int64();
 };
-Single ConstantHelper___::GetSingleWithAllBitsSet() {
+Single ConstantHelper::GetSingleWithAllBitsSet() {
   return Single();
 };
-Double ConstantHelper___::GetDoubleWithAllBitsSet() {
+Double ConstantHelper::GetDoubleWithAllBitsSet() {
   return Double();
 };
 } // namespace System::Private::CoreLib::System::Numerics::ConstantHelperNamespace

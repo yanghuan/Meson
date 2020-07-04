@@ -16,14 +16,14 @@ CLASS(MemoryFailPoint) {
   private: static Int64 get_LastTimeCheckingAddressSpace();
   private: static void set_LastTimeCheckingAddressSpace(Int64 value);
   public: static UInt64 get_MemoryFailPointReservedMemory();
-  private: static Int64 AddToLastKnownFreeAddressSpace(Int64 addend);
+  private: static void AddToLastKnownFreeAddressSpace(Int64 addend);
   protected: void Finalize();
   public: void Dispose();
   private: void Dispose(Boolean disposing);
   public: static Int64 AddMemoryFailPointReservation(Int64 size);
   private: static UInt64 GetTopOfMemory();
   private: static Boolean CheckForAvailableMemory(UInt64& availPageFile, UInt64& totalAddressSpaceFree);
-  private: static Boolean CheckForFreeAddressSpace(UInt64 size, Boolean shouldThrow);
+  private: static void CheckForFreeAddressSpace(UInt64 size, Boolean shouldThrow);
   private: static UInt64 MemFreeAfterAddress(void* address, UInt64 size);
   private: static void GrowPageFileIfNecessaryAndPossible(UIntPtr numBytes);
   private: static UInt64 s_topOfMemory;

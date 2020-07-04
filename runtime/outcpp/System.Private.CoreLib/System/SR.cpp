@@ -313,6 +313,12 @@ String SR::get_Arg_KeyNotFound() {
 String SR::get_Arg_KeyNotFoundWithKey() {
   return nullptr;
 };
+String SR::get_Arg_LongerThanDestArray() {
+  return nullptr;
+};
+String SR::get_Arg_LongerThanSrcArray() {
+  return nullptr;
+};
 String SR::get_Arg_LongerThanSrcString() {
   return nullptr;
 };
@@ -940,6 +946,9 @@ String SR::get_Argument_InvalidConstructorInfo() {
 String SR::get_Argument_InvalidCultureName() {
   return nullptr;
 };
+String SR::get_Argument_InvalidPredefinedCultureName() {
+  return nullptr;
+};
 String SR::get_Argument_InvalidDateTimeKind() {
   return nullptr;
 };
@@ -1411,6 +1420,9 @@ String SR::get_ArgumentOutOfRange_AddressSpace() {
 String SR::get_ArgumentOutOfRange_AddValue() {
   return nullptr;
 };
+String SR::get_ArgumentOutOfRange_ArrayLB() {
+  return nullptr;
+};
 String SR::get_ArgumentOutOfRange_BadHourMinuteSecond() {
   return nullptr;
 };
@@ -1643,6 +1655,9 @@ String SR::get_ArgumentOutOfRange_Year() {
   return nullptr;
 };
 String SR::get_Arithmetic_NaN() {
+  return nullptr;
+};
+String SR::get_ArrayTypeMismatch_ConstrainedCopy() {
   return nullptr;
 };
 String SR::get_AssemblyLoadContext_Unload_CannotUnloadIfNotCollectible() {
@@ -1972,6 +1987,9 @@ String SR::get_Format_NoParsibleDigits() {
 String SR::get_Format_StringZeroLength() {
   return nullptr;
 };
+String SR::get_IndexOutOfRange_ArrayRankIndex() {
+  return nullptr;
+};
 String SR::get_IndexOutOfRange_UMSPosition() {
   return nullptr;
 };
@@ -1988,6 +2006,15 @@ String SR::get_Interop_COM_TypeMismatch() {
   return nullptr;
 };
 String SR::get_Interop_Marshal_Unmappable_Char() {
+  return nullptr;
+};
+String SR::get_Interop_Marshal_SafeHandle_InvalidOperation() {
+  return nullptr;
+};
+String SR::get_Interop_Marshal_CannotCreateSafeHandleField() {
+  return nullptr;
+};
+String SR::get_Interop_Marshal_CannotCreateCriticalHandleField() {
   return nullptr;
 };
 String SR::get_InvalidCast_CannotCastNullToValueType() {
@@ -2422,9 +2449,6 @@ String SR::get_NotSupported_AbstractNonCLS() {
 String SR::get_NotSupported_ActivAttr() {
   return nullptr;
 };
-String SR::get_NotSupported_AppX() {
-  return nullptr;
-};
 String SR::get_NotSupported_AssemblyLoadFromHash() {
   return nullptr;
 };
@@ -2693,6 +2717,9 @@ String SR::get_PreconditionFailed_Cnd() {
   return nullptr;
 };
 String SR::get_Rank_MultiDimNotSupported() {
+  return nullptr;
+};
+String SR::get_Rank_MustMatch() {
   return nullptr;
 };
 String SR::get_ResourceReaderIsClosed() {
@@ -3149,6 +3176,81 @@ String SR::get_InvalidOperation_MultipleComRegFunctions() {
   return nullptr;
 };
 String SR::get_InvalidOperation_MultipleComUnRegFunctions() {
+  return nullptr;
+};
+String SR::get_Utf8String_CallbackProvidedMalformedData() {
+  return nullptr;
+};
+String SR::get_Utf8String_InputContainedMalformedUtf16() {
+  return nullptr;
+};
+String SR::get_Utf8String_InputContainedMalformedUtf8() {
+  return nullptr;
+};
+String SR::get_Utf8String_CannotSplitMultibyteSubsequence() {
+  return nullptr;
+};
+String SR::get_Utf8Span_CannotCallEqualsObject() {
+  return nullptr;
+};
+String SR::get_ArgumentOutOfRange_Utf16SurrogatesDisallowed() {
+  return nullptr;
+};
+String SR::get_Argument_CannotBeEmptySpan() {
+  return nullptr;
+};
+String SR::get_Argument_CannotBeNullOrEmpty() {
+  return nullptr;
+};
+String SR::get_Argument_SpansMustHaveSameLength() {
+  return nullptr;
+};
+String SR::get_NotSupported_CannotWriteToBufferedStreamIfReadBufferCannotBeFlushed() {
+  return nullptr;
+};
+String SR::get_GenericInvalidData() {
+  return nullptr;
+};
+String SR::get_Argument_ResourceScopeWrongDirection() {
+  return nullptr;
+};
+String SR::get_ArgumentNull_TypeRequiredByResourceScope() {
+  return nullptr;
+};
+String SR::get_Argument_BadResourceScopeTypeBits() {
+  return nullptr;
+};
+String SR::get_Argument_BadResourceScopeVisibilityBits() {
+  return nullptr;
+};
+String SR::get_net_emptystringcall() {
+  return nullptr;
+};
+String SR::get_Argument_EmptyApplicationName() {
+  return nullptr;
+};
+String SR::get_Argument_FrameworkNameInvalid() {
+  return nullptr;
+};
+String SR::get_Argument_FrameworkNameInvalidVersion() {
+  return nullptr;
+};
+String SR::get_Argument_FrameworkNameMissingVersion() {
+  return nullptr;
+};
+String SR::get_Argument_FrameworkNameTooShort() {
+  return nullptr;
+};
+String SR::get_Arg_SwitchExpressionException() {
+  return nullptr;
+};
+String SR::get_Arg_ContextMarshalException() {
+  return nullptr;
+};
+String SR::get_Arg_AppDomainUnloadedException() {
+  return nullptr;
+};
+String SR::get_SwitchExpressionException_UnmatchedValue() {
   return nullptr;
 };
 Boolean SR::UsingResourceKeys() {

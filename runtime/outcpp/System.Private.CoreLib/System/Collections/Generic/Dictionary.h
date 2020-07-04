@@ -4,6 +4,7 @@
 #include <System.Private.CoreLib/System/Collections/Generic/KeyValuePair.h>
 #include <System.Private.CoreLib/System/Int32.h>
 #include <System.Private.CoreLib/System/UInt32.h>
+#include <System.Private.CoreLib/System/UInt64.h>
 
 namespace System::Private::CoreLib::System {
 FORWARD_(Array, T1, T2)
@@ -30,8 +31,8 @@ using ICollection = ::System::Private::CoreLib::System::Collections::Generic::IC
 using ICollection1 = ::System::Private::CoreLib::System::Collections::ICollection;
 CLASS(Dictionary, TKey, TValue) {
   private: struct Entry {
-    public: Int32 next;
     public: UInt32 hashCode;
+    public: Int32 next;
     public: TKey key;
     public: TValue value;
   };
@@ -113,7 +114,6 @@ CLASS(Dictionary, TKey, TValue) {
   private: void CopyTo(Array<KeyValuePair<TKey, TValue>> array, Int32 index);
   public: Enumerator GetEnumerator();
   public: void GetObjectData(SerializationInfo info, StreamingContext context);
-  private: Int32 FindEntry(TKey key);
   private: Int32 Initialize(Int32 capacity);
   private: Boolean TryInsert(TKey key, TValue value, InsertionBehavior behavior);
   public: void OnDeserialization(Object sender);
@@ -129,6 +129,7 @@ CLASS(Dictionary, TKey, TValue) {
   private: static Boolean IsCompatibleKey(Object key);
   private: Array<Int32> _buckets;
   private: Array<Entry> _entries;
+  private: UInt64 _fastModMultiplier;
   private: Int32 _count;
   private: Int32 _freeList;
   private: Int32 _freeCount;

@@ -24,8 +24,6 @@ CLASS(UriParser) {
   };
   public: String get_SchemeName();
   public: Int32 get_DefaultPort();
-  public: static Boolean get_DontEnableStrictRFC3986ReservedCharacterSets();
-  public: static Boolean get_DontKeepUnicodeBidiFormattingCharacters();
   public: UriSyntaxFlags get_Flags();
   public: Boolean get_IsSimple();
   protected: UriParser OnNewUri();

@@ -1,14 +1,22 @@
 #include "UriHelper-dep.h"
 
 namespace System::Private::Uri::System::UriHelperNamespace {
+ReadOnlySpan<Boolean> UriHelper::get_UnreservedReservedTable() {
+  return ReadOnlySpan<Boolean>();
+};
+ReadOnlySpan<Boolean> UriHelper::get_UnreservedTable() {
+  return ReadOnlySpan<Boolean>();
+};
 Boolean UriHelper::TestForSubPath(Char* selfPtr, UInt16 selfLength, Char* otherPtr, UInt16 otherLength, Boolean ignoreCase) {
   return Boolean();
 };
-Array<Char> UriHelper::EscapeString(String input, Int32 start, Int32 end, Array<Char> dest, Int32& destPos, Boolean isUriString, Char force1, Char force2, Char rsvd) {
+String UriHelper::EscapeString(String stringToEscape, Boolean checkExistingEscaped, ReadOnlySpan<Boolean> unreserved, Char forceEscape1, Char forceEscape2) {
+  return nullptr;
+};
+Array<Char> UriHelper::EscapeString(ReadOnlySpan<Char> stringToEscape, Array<Char> dest, Int32& destPos, Boolean checkExistingEscaped, Char forceEscape1, Char forceEscape2) {
   return Array<Char>();
 };
-Array<Char> UriHelper::EnsureDestinationSize(Char* pStr, Array<Char> dest, Int32 currentInputPos, Int16 charsToAdd, Int16 minReallocateChars, Int32& destPos, Int32 prevInputPos) {
-  return Array<Char>();
+void UriHelper::EscapeStringToBuilder(ReadOnlySpan<Char> stringToEscape, ValueStringBuilder& vsb, ReadOnlySpan<Boolean> noEscape, Boolean checkExistingEscaped) {
 };
 Array<Char> UriHelper::UnescapeString(String input, Int32 start, Int32 end, Array<Char> dest, Int32& destPosition, Char rsvd1, Char rsvd2, Char rsvd3, UnescapeMode unescapeMode, UriParser syntax, Boolean isQuery) {
   return Array<Char>();
@@ -16,9 +24,13 @@ Array<Char> UriHelper::UnescapeString(String input, Int32 start, Int32 end, Arra
 Array<Char> UriHelper::UnescapeString(Char* pStr, Int32 start, Int32 end, Array<Char> dest, Int32& destPosition, Char rsvd1, Char rsvd2, Char rsvd3, UnescapeMode unescapeMode, UriParser syntax, Boolean isQuery) {
   return Array<Char>();
 };
-void UriHelper::MatchUTF8Sequence(Char* pDest, Array<Char> dest, Int32& destOffset, Span<Char> unescapedChars, Int32 charCount, Array<Byte> bytes, Int32 byteCount, Boolean isQuery, Boolean iriParsing) {
+void UriHelper::UnescapeString(String input, Int32 start, Int32 end, ValueStringBuilder& dest, Char rsvd1, Char rsvd2, Char rsvd3, UnescapeMode unescapeMode, UriParser syntax, Boolean isQuery) {
 };
-void UriHelper::EscapeAsciiChar(Char ch, Array<Char> to, Int32& pos) {
+void UriHelper::UnescapeString(Char* pStr, Int32 start, Int32 end, ValueStringBuilder& dest, Char rsvd1, Char rsvd2, Char rsvd3, UnescapeMode unescapeMode, UriParser syntax, Boolean isQuery) {
+};
+void UriHelper::MatchUTF8Sequence(ValueStringBuilder& dest, Span<Char> unescapedChars, Int32 charCount, Array<Byte> bytes, Int32 byteCount, Boolean isQuery, Boolean iriParsing) {
+};
+void UriHelper::EscapeAsciiChar(Byte b, ValueStringBuilder& to) {
 };
 Char UriHelper::EscapedAscii(Char digit, Char next) {
   return Char();
@@ -26,13 +38,7 @@ Char UriHelper::EscapedAscii(Char digit, Char next) {
 Boolean UriHelper::IsNotSafeForUnescape(Char ch) {
   return Boolean();
 };
-Boolean UriHelper::IsReservedUnreservedOrHash(Char c) {
-  return Boolean();
-};
-Boolean UriHelper::IsUnreserved(Char c) {
-  return Boolean();
-};
-Boolean UriHelper::Is3986Unreserved(Char c) {
+Boolean UriHelper::IsUnreserved(Int32 c) {
   return Boolean();
 };
 Boolean UriHelper::IsGenDelim(Char ch) {
@@ -45,6 +51,9 @@ Boolean UriHelper::IsAsciiLetter(Char character) {
   return Boolean();
 };
 Boolean UriHelper::IsAsciiLetterOrDigit(Char character) {
+  return Boolean();
+};
+Boolean UriHelper::IsHexDigit(Char character) {
   return Boolean();
 };
 Boolean UriHelper::IsBidiControlCharacter(Char ch) {

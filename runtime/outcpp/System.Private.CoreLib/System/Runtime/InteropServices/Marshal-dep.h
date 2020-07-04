@@ -16,6 +16,7 @@
 #include <System.Private.CoreLib/System/IntPtr-dep.h>
 #include <System.Private.CoreLib/System/IRuntimeFieldInfo.h>
 #include <System.Private.CoreLib/System/Object-dep.h>
+#include <System.Private.CoreLib/System/ReadOnlySpan-dep.h>
 #include <System.Private.CoreLib/System/Reflection/MethodInfo-dep.h>
 #include <System.Private.CoreLib/System/Reflection/Module-dep.h>
 #include <System.Private.CoreLib/System/Runtime/CompilerServices/QCallModule-dep.h>
@@ -26,6 +27,7 @@
 #include <System.Private.CoreLib/System/RuntimeMethodHandleInternal-dep.h>
 #include <System.Private.CoreLib/System/Security/SecureString-dep.h>
 #include <System.Private.CoreLib/System/Single-dep.h>
+#include <System.Private.CoreLib/System/Span-dep.h>
 #include <System.Private.CoreLib/System/String-dep.h>
 #include <System.Private.CoreLib/System/Type-dep.h>
 #include <System.Private.CoreLib/System/UInt32-dep.h>

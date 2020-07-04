@@ -32,34 +32,10 @@ Assembly AssemblyLoadContext___::InternalLoad(ReadOnlySpan<Byte> arrAssembly, Re
 Assembly AssemblyLoadContext___::LoadFromInMemoryModule(IntPtr moduleHandle) {
   return nullptr;
 };
-Assembly AssemblyLoadContext___::Resolve(IntPtr gchManagedAssemblyLoadContext, AssemblyName assemblyName) {
-  return nullptr;
-};
-Assembly AssemblyLoadContext___::ResolveUsingResolvingEvent(IntPtr gchManagedAssemblyLoadContext, AssemblyName assemblyName) {
-  return nullptr;
-};
-Assembly AssemblyLoadContext___::ResolveSatelliteAssembly(IntPtr gchManagedAssemblyLoadContext, AssemblyName assemblyName) {
-  return nullptr;
-};
-Assembly AssemblyLoadContext___::GetFirstResolvedAssembly(AssemblyName assemblyName) {
-  return nullptr;
-};
-Assembly AssemblyLoadContext___::ValidateAssemblyNameWithSimpleName(Assembly assembly, String requestedSimpleName) {
-  return nullptr;
-};
-Assembly AssemblyLoadContext___::ResolveUsingLoad(AssemblyName assemblyName) {
-  return nullptr;
-};
-Assembly AssemblyLoadContext___::ResolveUsingEvent(AssemblyName assemblyName) {
-  return nullptr;
-};
 IntPtr AssemblyLoadContext___::ResolveUnmanagedDll(String unmanagedDllName, IntPtr gchManagedAssemblyLoadContext) {
   return IntPtr();
 };
 IntPtr AssemblyLoadContext___::ResolveUnmanagedDllUsingEvent(String unmanagedDllName, Assembly assembly, IntPtr gchManagedAssemblyLoadContext) {
-  return IntPtr();
-};
-IntPtr AssemblyLoadContext___::GetResolvedUnmanagedDll(Assembly assembly, String unmanagedDllName) {
   return IntPtr();
 };
 Type AssemblyLoadContext___::LoadTypeForWinRTTypeNameInContext(String typeName) {
@@ -72,22 +48,14 @@ void AssemblyLoadContext___::SetProfileOptimizationRoot(String directoryPath) {
 };
 void AssemblyLoadContext___::StartProfileOptimization(String profile) {
 };
-void AssemblyLoadContext___::OnAssemblyLoad(RuntimeAssembly assembly) {
-};
-RuntimeAssembly AssemblyLoadContext___::OnResourceResolve(RuntimeAssembly assembly, String resourceName) {
-  return nullptr;
-};
-RuntimeAssembly AssemblyLoadContext___::OnTypeResolve(RuntimeAssembly assembly, String typeName) {
-  return nullptr;
-};
-RuntimeAssembly AssemblyLoadContext___::OnAssemblyResolve(RuntimeAssembly assembly, String assemblyFullName) {
-  return nullptr;
-};
-RuntimeAssembly AssemblyLoadContext___::InvokeResolveEvent(ResolveEventHandler eventHandler, RuntimeAssembly assembly, String name) {
-  return nullptr;
-};
 RuntimeAssembly AssemblyLoadContext___::GetRuntimeAssembly(Assembly asm_) {
   return nullptr;
+};
+void AssemblyLoadContext___::StartAssemblyLoad(Guid& activityId, Guid& relatedActivityId) {
+};
+void AssemblyLoadContext___::StopAssemblyLoad(Guid& activityId) {
+};
+void AssemblyLoadContext___::InitializeDefaultContext() {
 };
 void AssemblyLoadContext___::Finalize() {
 };
@@ -139,7 +107,45 @@ AssemblyLoadContext::in::ContextualReflectionScope AssemblyLoadContext___::Enter
 AssemblyLoadContext::in::ContextualReflectionScope AssemblyLoadContext___::EnterContextualReflection(Assembly activating) {
   return AssemblyLoadContext::in::ContextualReflectionScope();
 };
+Assembly AssemblyLoadContext___::Resolve(IntPtr gchManagedAssemblyLoadContext, AssemblyName assemblyName) {
+  return nullptr;
+};
+Assembly AssemblyLoadContext___::ResolveUsingResolvingEvent(IntPtr gchManagedAssemblyLoadContext, AssemblyName assemblyName) {
+  return nullptr;
+};
+Assembly AssemblyLoadContext___::ResolveSatelliteAssembly(IntPtr gchManagedAssemblyLoadContext, AssemblyName assemblyName) {
+  return nullptr;
+};
+Assembly AssemblyLoadContext___::GetFirstResolvedAssemblyFromResolvingEvent(AssemblyName assemblyName) {
+  return nullptr;
+};
+Assembly AssemblyLoadContext___::ValidateAssemblyNameWithSimpleName(Assembly assembly, String requestedSimpleName) {
+  return nullptr;
+};
+Assembly AssemblyLoadContext___::ResolveUsingLoad(AssemblyName assemblyName) {
+  return nullptr;
+};
+Assembly AssemblyLoadContext___::ResolveUsingEvent(AssemblyName assemblyName) {
+  return nullptr;
+};
+void AssemblyLoadContext___::OnAssemblyLoad(RuntimeAssembly assembly) {
+};
+RuntimeAssembly AssemblyLoadContext___::OnResourceResolve(RuntimeAssembly assembly, String resourceName) {
+  return nullptr;
+};
+RuntimeAssembly AssemblyLoadContext___::OnTypeResolve(RuntimeAssembly assembly, String typeName) {
+  return nullptr;
+};
+RuntimeAssembly AssemblyLoadContext___::OnAssemblyResolve(RuntimeAssembly assembly, String assemblyFullName) {
+  return nullptr;
+};
+RuntimeAssembly AssemblyLoadContext___::InvokeResolveEvent(ResolveEventHandler eventHandler, RuntimeAssembly assembly, String name) {
+  return nullptr;
+};
 Assembly AssemblyLoadContext___::ResolveSatelliteAssembly(AssemblyName assemblyName) {
   return nullptr;
+};
+IntPtr AssemblyLoadContext___::GetResolvedUnmanagedDll(Assembly assembly, String unmanagedDllName) {
+  return IntPtr();
 };
 } // namespace System::Private::CoreLib::System::Runtime::Loader::AssemblyLoadContextNamespace

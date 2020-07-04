@@ -51,8 +51,8 @@ CLASS(ManifestBuilder) {
   public: void AddTask(String name, Int32 value);
   public: void AddKeyword(String name, UInt64 value);
   public: void AddChannel(String name, Int32 value, EventChannelAttribute channelAttribute);
-  private: EventChannelType EventChannelToChannelType(EventChannel channel);
-  private: EventChannelAttribute GetDefaultChannelAttribute(EventChannel channel);
+  private: static EventChannelType EventChannelToChannelType(EventChannel channel);
+  private: static EventChannelAttribute GetDefaultChannelAttribute(EventChannel channel);
   public: Array<UInt64> GetChannelData();
   public: void StartEvent(String eventName, EventAttribute eventAttribute);
   public: void AddEventParameter(Type type, String name);
@@ -64,7 +64,7 @@ CLASS(ManifestBuilder) {
   private: void WriteNameAndMessageAttribs(StringBuilder stringBuilder, String elementName, String name);
   private: void WriteMessageAttrib(StringBuilder stringBuilder, String elementName, String name, String value);
   public: String GetLocalizedMessage(String key, CultureInfo ci, Boolean etwFormat);
-  private: static List<CultureInfo> GetSupportedCultures(ResourceManager resources);
+  private: static List<CultureInfo> GetSupportedCultures();
   private: static String GetLevelName(EventLevel level);
   private: String GetChannelName(EventChannel channel, String eventName, String eventMessage);
   private: String GetTaskName(EventTask task, String eventName);

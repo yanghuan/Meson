@@ -1,7 +1,5 @@
 #include "GC-dep.h"
 
-#include <System.Private.CoreLib/System/GC-dep.h>
-
 namespace System::Private::CoreLib::System::GCNamespace {
 Int32 GC::get_MaxGeneration() {
   return Int32();
@@ -70,9 +68,6 @@ Boolean GC::TryStartNoGCRegion(Int64 totalSize, Boolean disallowFullBlockingGC) 
 };
 Boolean GC::TryStartNoGCRegion(Int64 totalSize, Int64 lohSize, Boolean disallowFullBlockingGC) {
   return Boolean();
-};
-GC::EndNoGCRegionStatus GC::EndNoGCRegionWorker() {
-  return GC::EndNoGCRegionStatus::AllocationExceeded;
 };
 void GC::EndNoGCRegion() {
 };

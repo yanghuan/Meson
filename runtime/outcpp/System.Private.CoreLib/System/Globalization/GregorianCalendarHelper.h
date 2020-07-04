@@ -39,6 +39,7 @@ CLASS(GregorianCalendarHelper) {
   public: Int32 GetYear(DateTime time);
   public: Int32 GetYear(Int32 year, DateTime time);
   public: Boolean IsLeapDay(Int32 year, Int32 month, Int32 day, Int32 era);
+  public: void ValidateYearInEra(Int32 year, Int32 era);
   public: Int32 GetLeapMonth(Int32 year, Int32 era);
   public: Boolean IsLeapMonth(Int32 year, Int32 month, Int32 era);
   public: Boolean IsLeapYear(Int32 year, Int32 era);

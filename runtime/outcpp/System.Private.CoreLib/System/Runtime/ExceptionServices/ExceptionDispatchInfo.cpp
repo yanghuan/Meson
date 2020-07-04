@@ -13,4 +13,7 @@ void ExceptionDispatchInfo___::Throw() {
 };
 void ExceptionDispatchInfo___::Throw(Exception source) {
 };
+Exception ExceptionDispatchInfo___::SetCurrentStackTrace(Exception source) {
+  return nullptr;
+};
 } // namespace System::Private::CoreLib::System::Runtime::ExceptionServices::ExceptionDispatchInfoNamespace

@@ -200,7 +200,6 @@ CLASS(DateTimeFormatInfo) {
   private: Array<CalendarId> optionalCalendars;
   public: Boolean _isReadOnly;
   private: DateTimeFormatFlags formatFlags;
-  private: static Array<Char> s_monthSpaces;
   private: String _decimalSeparator;
   private: String _fullTimeSpanPositivePattern;
   private: String _fullTimeSpanNegativePattern;

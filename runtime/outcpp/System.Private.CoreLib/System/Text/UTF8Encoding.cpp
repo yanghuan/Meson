@@ -4,6 +4,21 @@ namespace System::Private::CoreLib::System::Text::UTF8EncodingNamespace {
 ReadOnlySpan<Byte> UTF8Encoding___::UTF8EncodingSealed___::get_Preamble() {
   return ReadOnlySpan<Byte>();
 };
+Object UTF8Encoding___::UTF8EncodingSealed___::Clone() {
+  return nullptr;
+};
+Array<Byte> UTF8Encoding___::UTF8EncodingSealed___::GetBytes(String s) {
+  return Array<Byte>();
+};
+Array<Byte> UTF8Encoding___::UTF8EncodingSealed___::GetBytesForSmallInput(String s) {
+  return Array<Byte>();
+};
+String UTF8Encoding___::UTF8EncodingSealed___::GetString(Array<Byte> bytes) {
+  return nullptr;
+};
+String UTF8Encoding___::UTF8EncodingSealed___::GetStringForSmallInput(Array<Byte> bytes) {
+  return nullptr;
+};
 ReadOnlySpan<Byte> UTF8Encoding___::get_PreambleSpan() {
   return ReadOnlySpan<Byte>();
 };

@@ -12,7 +12,7 @@ FORWARDS(Int64)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Globalization {
 namespace CalendricalCalculationsHelperNamespace {
-CLASS(CalendricalCalculationsHelper) {
+class CalendricalCalculationsHelper {
   private: enum class CorrectionAlgorithm {
     Default = 0,
     Year1988to2019 = 1,

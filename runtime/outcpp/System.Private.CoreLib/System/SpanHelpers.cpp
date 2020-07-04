@@ -1,10 +1,6 @@
 #include "SpanHelpers-dep.h"
 
 namespace System::Private::CoreLib::System::SpanHelpersNamespace {
-void SpanHelpers::ClearWithoutReferences(Byte& b, UInt64 byteLength) {
-};
-void SpanHelpers::ClearWithReferences(IntPtr& ip, UInt64 pointerSizeLength) {
-};
 Int32 SpanHelpers::IndexOf(Byte& searchSpace, Int32 searchSpaceLength, Byte& value, Int32 valueLength) {
   return Int32();
 };
@@ -54,6 +50,12 @@ Int32 SpanHelpers::LocateFirstFoundByte(UInt64 match) {
   return Int32();
 };
 Int32 SpanHelpers::LocateLastFoundByte(UInt64 match) {
+  return Int32();
+};
+Int16 SpanHelpers::LoadShort(Byte& start, IntPtr offset) {
+  return Int16();
+};
+Int32 SpanHelpers::LoadInt(Byte& start, IntPtr offset) {
   return Int32();
 };
 UIntPtr SpanHelpers::LoadUIntPtr(Byte& start, IntPtr offset) {
@@ -148,5 +150,9 @@ Int64 SpanHelpers::UnalignedCountVector(Char& searchSpace) {
 };
 Int64 SpanHelpers::UnalignedCountVector128(Char& searchSpace) {
   return Int64();
+};
+void SpanHelpers::ClearWithoutReferences(Byte& b, UInt64 byteLength) {
+};
+void SpanHelpers::ClearWithReferences(IntPtr& ip, UInt64 pointerSizeLength) {
 };
 } // namespace System::Private::CoreLib::System::SpanHelpersNamespace

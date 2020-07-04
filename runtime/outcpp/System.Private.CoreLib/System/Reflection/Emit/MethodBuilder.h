@@ -2,12 +2,12 @@
 
 #include <rt/GCObject.h>
 #include <System.Private.CoreLib/System/Boolean.h>
-#include <System.Private.CoreLib/System/Int32.h>
 #include <System.Private.CoreLib/System/Reflection/Emit/MethodToken.h>
 
 namespace System::Private::CoreLib::System {
 FORWARD_(Array, T1, T2)
 FORWARDS(Byte)
+FORWARDS(Int32)
 FORWARD(Object)
 FORWARDS(RuntimeMethodHandle)
 FORWARD(String)
@@ -30,9 +30,6 @@ FORWARD(ParameterInfo)
 namespace System::Private::CoreLib::System::Globalization {
 FORWARD(CultureInfo)
 } // namespace System::Private::CoreLib::System::Globalization
-namespace System::Private::CoreLib::System::Collections::Generic {
-FORWARD(List, T)
-} // namespace System::Private::CoreLib::System::Collections::Generic
 namespace System::Private::CoreLib::System::Reflection::Emit {
 FORWARD(ILGenerator)
 FORWARD(SignatureHelper)
@@ -45,13 +42,8 @@ FORWARD(ParameterBuilder)
 FORWARD(CustomAttributeBuilder)
 FORWARD(LocalSymInfo)
 namespace MethodBuilderNamespace {
-using namespace ::System::Private::CoreLib::System::Collections::Generic;
 using namespace ::System::Private::CoreLib::System::Globalization;
 CLASS(MethodBuilder) {
-  private: struct SymCustomAttr {
-    public: String m_name;
-    public: Array<Byte> m_data;
-  };
   public: Int32 get_ExceptionHandlerCount();
   public: String get_Name();
   public: Int32 get_MetadataTokenInternal();
@@ -86,7 +78,7 @@ CLASS(MethodBuilder) {
   public: Array<Byte> GetLocalSignature(Int32& signatureLength);
   public: Int32 GetMaxStack();
   public: Array<ExceptionHandler> GetExceptionHandlers();
-  public: Int32 CalculateNumberOfExceptions(Array<__ExceptionInfo> excp);
+  public: static Int32 CalculateNumberOfExceptions(Array<__ExceptionInfo> excp);
   public: Boolean IsTypeCreated();
   public: TypeBuilder GetTypeBuilder();
   public: ModuleBuilder GetModuleBuilder();
@@ -118,8 +110,8 @@ CLASS(MethodBuilder) {
   public: Module GetModule();
   public: void SetCustomAttribute(ConstructorInfo con, Array<Byte> binaryAttribute);
   public: void SetCustomAttribute(CustomAttributeBuilder customBuilder);
-  private: Boolean IsKnownCA(ConstructorInfo con);
-  private: void ParseCA(ConstructorInfo con, Array<Byte> blob);
+  private: static Boolean IsKnownCA(ConstructorInfo con);
+  private: void ParseCA(ConstructorInfo con);
   public: String m_strName;
   private: MethodToken m_tkMethod;
   private: ModuleBuilder m_module;
@@ -130,9 +122,7 @@ CLASS(MethodBuilder) {
   public: ILGenerator m_ilGenerator;
   private: Array<Byte> m_ubBody;
   private: Array<ExceptionHandler> m_exceptions;
-  private: Int32 m_maxStack;
   public: Boolean m_bIsBaked;
-  private: Boolean m_bIsGlobalMethod;
   private: Boolean m_fInitLocals;
   private: MethodAttributes m_iAttributes;
   private: CallingConventions m_callingConvention;
@@ -146,7 +136,6 @@ CLASS(MethodBuilder) {
   private: Array<Array<Type>> m_parameterTypeOptionalCustomModifiers;
   private: Array<GenericTypeParameterBuilder> m_inst;
   private: Boolean m_bIsGenMethDef;
-  private: List<SymCustomAttr> m_symCustomAttrs;
   public: Boolean m_canBeRuntimeImpl;
   public: Boolean m_isDllImport;
 };

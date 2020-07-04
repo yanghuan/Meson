@@ -15,11 +15,12 @@ FORWARD(AssemblyName)
 FORWARD(RuntimeAssembly)
 } // namespace System::Private::CoreLib::System::Reflection
 namespace System::Private::CoreLib::System {
-FORWARD_(Action, T1, T2, T3, T4, T5, T6, T7, T8, T9)
+FORWARD_(Action, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17)
 FORWARD_(Array, T1, T2)
 FORWARD(AssemblyLoadEventHandler)
 FORWARDS(Byte)
-FORWARD_(Func, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10)
+FORWARD_(Func, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18)
+FORWARDS(Guid)
 FORWARDS(Int32)
 FORWARD(Object)
 FORWARDS(ReadOnlySpan, T)
@@ -69,33 +70,27 @@ CLASS(AssemblyLoadContext) {
   public: static void InternalStartProfile(String profile, IntPtr ptrNativeAssemblyLoadContext);
   private: static void LoadFromPath(IntPtr ptrNativeAssemblyLoadContext, String ilPath, String niPath, ObjectHandleOnStack retAssembly);
   public: static Array<Assembly> GetLoadedAssemblies();
+  public: static Boolean IsTracingEnabled();
+  public: static Boolean TraceResolvingHandlerInvoked(String assemblyName, String handlerName, String alcName, String resultAssemblyName, String resultAssemblyPath);
+  public: static Boolean TraceAssemblyResolveHandlerInvoked(String assemblyName, String handlerName, String resultAssemblyName, String resultAssemblyPath);
+  public: static Boolean TraceAssemblyLoadFromResolveHandlerInvoked(String assemblyName, Boolean isTrackedAssembly, String requestingAssemblyPath, String requestedAssemblyPath);
+  public: static Boolean TraceSatelliteSubdirectoryPathProbed(String filePath, Int32 hResult);
   private: Assembly InternalLoadFromPath(String assemblyPath, String nativeImagePath);
   public: Assembly InternalLoad(ReadOnlySpan<Byte> arrAssembly, ReadOnlySpan<Byte> arrSymbols);
   private: static IntPtr LoadFromInMemoryModuleInternal(IntPtr ptrNativeAssemblyLoadContext, IntPtr hModule, ObjectHandleOnStack retAssembly);
   public: Assembly LoadFromInMemoryModule(IntPtr moduleHandle);
-  private: static Assembly Resolve(IntPtr gchManagedAssemblyLoadContext, AssemblyName assemblyName);
-  private: static Assembly ResolveUsingResolvingEvent(IntPtr gchManagedAssemblyLoadContext, AssemblyName assemblyName);
-  private: static Assembly ResolveSatelliteAssembly(IntPtr gchManagedAssemblyLoadContext, AssemblyName assemblyName);
-  private: Assembly GetFirstResolvedAssembly(AssemblyName assemblyName);
-  private: Assembly ValidateAssemblyNameWithSimpleName(Assembly assembly, String requestedSimpleName);
-  private: Assembly ResolveUsingLoad(AssemblyName assemblyName);
-  private: Assembly ResolveUsingEvent(AssemblyName assemblyName);
-  private: static IntPtr InternalLoadUnmanagedDllFromPath(String unmanagedDllPath);
   private: static IntPtr ResolveUnmanagedDll(String unmanagedDllName, IntPtr gchManagedAssemblyLoadContext);
   private: static IntPtr ResolveUnmanagedDllUsingEvent(String unmanagedDllName, Assembly assembly, IntPtr gchManagedAssemblyLoadContext);
-  private: IntPtr GetResolvedUnmanagedDll(Assembly assembly, String unmanagedDllName);
   private: static void LoadTypeForWinRTTypeNameInContextInternal(IntPtr ptrNativeAssemblyLoadContext, String typeName, ObjectHandleOnStack loadedType);
   public: Type LoadTypeForWinRTTypeNameInContext(String typeName);
   private: static IntPtr GetLoadContextForAssembly(QCallAssembly assembly);
   public: static AssemblyLoadContext GetLoadContext(Assembly assembly);
   public: void SetProfileOptimizationRoot(String directoryPath);
   public: void StartProfileOptimization(String profile);
-  private: static void OnAssemblyLoad(RuntimeAssembly assembly);
-  private: static RuntimeAssembly OnResourceResolve(RuntimeAssembly assembly, String resourceName);
-  private: static RuntimeAssembly OnTypeResolve(RuntimeAssembly assembly, String typeName);
-  private: static RuntimeAssembly OnAssemblyResolve(RuntimeAssembly assembly, String assemblyFullName);
-  private: static RuntimeAssembly InvokeResolveEvent(ResolveEventHandler eventHandler, RuntimeAssembly assembly, String name);
   private: static RuntimeAssembly GetRuntimeAssembly(Assembly asm_);
+  private: static void StartAssemblyLoad(Guid& activityId, Guid& relatedActivityId);
+  private: static void StopAssemblyLoad(Guid& activityId);
+  private: static void InitializeDefaultContext();
   protected: void Finalize();
   private: void RaiseUnloadEvent();
   private: void InitiateUnload();
@@ -115,7 +110,21 @@ CLASS(AssemblyLoadContext) {
   private: static void SetCurrentContextualReflectionContext(AssemblyLoadContext value);
   public: ContextualReflectionScope EnterContextualReflection();
   public: static ContextualReflectionScope EnterContextualReflection(Assembly activating);
+  private: static Assembly Resolve(IntPtr gchManagedAssemblyLoadContext, AssemblyName assemblyName);
+  private: static Assembly ResolveUsingResolvingEvent(IntPtr gchManagedAssemblyLoadContext, AssemblyName assemblyName);
+  private: static Assembly ResolveSatelliteAssembly(IntPtr gchManagedAssemblyLoadContext, AssemblyName assemblyName);
+  private: Assembly GetFirstResolvedAssemblyFromResolvingEvent(AssemblyName assemblyName);
+  private: static Assembly ValidateAssemblyNameWithSimpleName(Assembly assembly, String requestedSimpleName);
+  private: Assembly ResolveUsingLoad(AssemblyName assemblyName);
+  private: Assembly ResolveUsingEvent(AssemblyName assemblyName);
+  private: static void OnAssemblyLoad(RuntimeAssembly assembly);
+  private: static RuntimeAssembly OnResourceResolve(RuntimeAssembly assembly, String resourceName);
+  private: static RuntimeAssembly OnTypeResolve(RuntimeAssembly assembly, String typeName);
+  private: static RuntimeAssembly OnAssemblyResolve(RuntimeAssembly assembly, String assemblyFullName);
+  private: static RuntimeAssembly InvokeResolveEvent(ResolveEventHandler eventHandler, RuntimeAssembly assembly, String name);
   private: Assembly ResolveSatelliteAssembly(AssemblyName assemblyName);
+  public: IntPtr GetResolvedUnmanagedDll(Assembly assembly, String unmanagedDllName);
+  private: static String AssemblyLoadName;
   private: static Dictionary<Int64, WeakReference<AssemblyLoadContext>> s_allContexts;
   private: static Int64 s_nextId;
   private: Object _unloadLock;

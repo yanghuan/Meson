@@ -26,7 +26,6 @@ CLASS(ISymbolWriter) {
   public: Int32 OpenScope(Int32 startOffset);
   public: void CloseScope(Int32 endOffset);
   public: void DefineLocalVariable(String name, FieldAttributes attributes, Array<Byte> signature, SymAddressKind addrKind, Int32 addr1, Int32 addr2, Int32 addr3, Int32 startOffset, Int32 endOffset);
-  public: void SetSymAttribute(SymbolToken parent, String name, Array<Byte> data);
   public: void UsingNamespace(String fullName);
 };
 } // namespace ISymbolWriterNamespace

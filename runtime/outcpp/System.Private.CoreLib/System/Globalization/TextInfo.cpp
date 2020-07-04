@@ -3,9 +3,6 @@
 #include <System.Private.CoreLib/System/Globalization/TextInfo-dep.h>
 
 namespace System::Private::CoreLib::System::Globalization::TextInfoNamespace {
-TextInfo TextInfo___::get_Invariant() {
-  return nullptr;
-};
 Int32 TextInfo___::get_ANSICodePage() {
   return Int32();
 };

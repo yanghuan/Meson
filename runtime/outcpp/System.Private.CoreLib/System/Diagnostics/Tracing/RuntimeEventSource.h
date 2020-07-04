@@ -2,9 +2,6 @@
 
 #include <rt/GCObject.h>
 
-namespace System::Private::CoreLib::System {
-FORWARDS(Int32)
-} // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Diagnostics::Tracing {
 FORWARD(EventCommandEventArgs)
 FORWARD(PollingCounter)
@@ -33,7 +30,6 @@ CLASS(RuntimeEventSource) {
   private: IncrementingPollingCounter _allocRateCounter;
   private: PollingCounter _assemblyCounter;
   private: PollingCounter _timerCounter;
-  private: static Int32 EnabledPollingIntervalMilliseconds;
 };
 } // namespace RuntimeEventSourceNamespace
 using RuntimeEventSource = RuntimeEventSourceNamespace::RuntimeEventSource;

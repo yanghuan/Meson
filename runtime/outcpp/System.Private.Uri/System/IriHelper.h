@@ -14,7 +14,7 @@ namespace IriHelperNamespace {
 using namespace ::System::Private::CoreLib::System;
 class IriHelper {
   public: static Boolean CheckIriUnicodeRange(Char unicode, Boolean isQuery);
-  public: static Boolean CheckIriUnicodeRange(Char highSurr, Char lowSurr, Boolean& surrogatePair, Boolean isQuery);
+  public: static Boolean CheckIriUnicodeRange(Char highSurr, Char lowSurr, Boolean& isSurrogatePair, Boolean isQuery);
   public: static Boolean CheckIsReserved(Char ch, UriComponents component);
   public: static String EscapeUnescapeIri(Char* pInput, Int32 start, Int32 end, UriComponents component);
 };

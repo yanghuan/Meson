@@ -3,28 +3,38 @@
 #include <rt/GCObject.h>
 #include <System.Private.CoreLib/Interop.h>
 #include <System.Private.CoreLib/System/Diagnostics/Tracing/EventProvider.h>
+#include <System.Private.CoreLib/System/UInt32.h>
+#include <System.Private.CoreLib/System/UInt64.h>
 
 namespace System::Private::CoreLib::System {
 FORWARD_(Array, T1, T2)
 FORWARDS(Boolean)
+FORWARDS(Char)
 FORWARDS(Guid)
 FORWARDS(Int32)
 FORWARDS(Int64)
 FORWARDS(IntPtr)
 FORWARD(String)
-FORWARDS(UInt32)
-FORWARDS(UInt64)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Diagnostics::Tracing {
-enum class EventPipeSerializationFormat;
 FORWARDS(EventPipeProviderConfiguration)
+enum class EventPipeSerializationFormat;
 FORWARDS(EventPipeSessionInfo)
 FORWARDS(EventPipeEventInstanceData)
 namespace EventPipeInternalNamespace {
 class EventPipeInternal {
-  public: static UInt64 Enable(String outputFile, EventPipeSerializationFormat format, UInt32 circularBufferSizeInMB, Array<EventPipeProviderConfiguration> providers, UInt32 numProviders);
+  private: struct EventPipeProviderConfigurationNative {
+    public: static void MarshalToNative(EventPipeProviderConfiguration managed, EventPipeProviderConfigurationNative& native);
+    public: void Release();
+    private: Char* m_pProviderName;
+    private: UInt64 m_keywords;
+    private: UInt32 m_loggingLevel;
+    private: Char* m_pFilterData;
+  };
+  private: static UInt64 Enable(Char* outputFile, EventPipeSerializationFormat format, UInt32 circularBufferSizeInMB, EventPipeProviderConfigurationNative* providers, UInt32 numProviders);
+  public: static UInt64 Enable(String outputFile, EventPipeSerializationFormat format, UInt32 circularBufferSizeInMB, Array<EventPipeProviderConfiguration> providers);
   public: static void Disable(UInt64 sessionID);
-  public: static IntPtr CreateProvider(String providerName, Interop::Advapi32::in::EtwEnableCallback callbackFunc);
+  public: static IntPtr CreateProvider(String providerName, Interop::Advapi32::EtwEnableCallback callbackFunc);
   public: static IntPtr DefineEvent(IntPtr provHandle, UInt32 eventID, Int64 keywords, UInt32 eventVersion, UInt32 level, void* pMetadata, UInt32 metadataLength);
   public: static IntPtr GetProvider(String providerName);
   public: static void DeleteProvider(IntPtr provHandle);

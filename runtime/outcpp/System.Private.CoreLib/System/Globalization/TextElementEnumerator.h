@@ -9,7 +9,6 @@ FORWARD(Object)
 FORWARD(String)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Globalization {
-enum class UnicodeCategory;
 namespace TextElementEnumeratorNamespace {
 CLASS(TextElementEnumerator) {
   public: Object get_Current();
@@ -18,12 +17,10 @@ CLASS(TextElementEnumerator) {
   public: String GetTextElement();
   public: void Reset();
   private: String _str;
-  private: Int32 _index;
-  private: Int32 _startIndex;
-  private: Int32 _strLen;
-  private: Int32 _currTextElementLen;
-  private: UnicodeCategory _uc;
-  private: Int32 _charLen;
+  private: Int32 _strStartIndex;
+  private: Int32 _currentTextElementOffset;
+  private: Int32 _currentTextElementLength;
+  private: String _currentTextElementSubstr;
 };
 } // namespace TextElementEnumeratorNamespace
 using TextElementEnumerator = TextElementEnumeratorNamespace::TextElementEnumerator;

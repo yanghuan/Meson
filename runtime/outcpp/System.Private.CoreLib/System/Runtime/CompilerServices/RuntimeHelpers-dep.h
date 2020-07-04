@@ -12,10 +12,14 @@
 #include <System.Private.CoreLib/System/IRuntimeMethodInfo.h>
 #include <System.Private.CoreLib/System/ModuleHandle-dep.h>
 #include <System.Private.CoreLib/System/Object-dep.h>
+#include <System.Private.CoreLib/System/Reflection/CorElementType.h>
 #include <System.Private.CoreLib/System/Reflection/RuntimeModule-dep.h>
+#include <System.Private.CoreLib/System/Runtime/CompilerServices/MethodTable-dep.h>
 #include <System.Private.CoreLib/System/RuntimeFieldHandle-dep.h>
 #include <System.Private.CoreLib/System/RuntimeMethodHandle-dep.h>
 #include <System.Private.CoreLib/System/RuntimeMethodHandleInternal-dep.h>
 #include <System.Private.CoreLib/System/RuntimeType-dep.h>
 #include <System.Private.CoreLib/System/RuntimeTypeHandle-dep.h>
 #include <System.Private.CoreLib/System/Type-dep.h>
+#include <System.Private.CoreLib/System/UInt16-dep.h>
+#include <System.Private.CoreLib/System/UInt64-dep.h>

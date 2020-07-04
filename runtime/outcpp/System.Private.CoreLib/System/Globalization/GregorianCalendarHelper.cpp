@@ -69,6 +69,8 @@ Int32 GregorianCalendarHelper___::GetYear(Int32 year, DateTime time) {
 Boolean GregorianCalendarHelper___::IsLeapDay(Int32 year, Int32 month, Int32 day, Int32 era) {
   return Boolean();
 };
+void GregorianCalendarHelper___::ValidateYearInEra(Int32 year, Int32 era) {
+};
 Int32 GregorianCalendarHelper___::GetLeapMonth(Int32 year, Int32 era) {
   return Int32();
 };

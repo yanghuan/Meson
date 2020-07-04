@@ -89,9 +89,6 @@ String RuntimeTypeHandle::ConstructName(TypeNameFormatFlags formatFlags) {
 MdUtf8String RuntimeTypeHandle::GetUtf8Name(RuntimeType type) {
   return MdUtf8String();
 };
-IRuntimeMethodInfo RuntimeTypeHandle::GetDefaultConstructor() {
-  return nullptr;
-};
 RuntimeType RuntimeTypeHandle::GetTypeByName(String name, Boolean throwOnError, Boolean ignoreCase, StackCrawlMark& stackMark, Boolean loadTypeFromPartialName) {
   return nullptr;
 };

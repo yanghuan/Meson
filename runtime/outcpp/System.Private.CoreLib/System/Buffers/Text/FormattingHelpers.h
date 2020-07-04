@@ -17,17 +17,12 @@ FORWARDS(StandardFormat)
 namespace System::Private::CoreLib::System::Buffers::Text {
 namespace FormattingHelpersNamespace {
 class FormattingHelpers {
-  public: enum class HexCasing : uint32_t {
-    Uppercase = 0,
-    Lowercase = 8224,
-  };
   public: static Int32 CountDigits(UInt64 value);
   public: static Int32 CountDigits(UInt32 value);
   public: static Int32 CountHexDigits(UInt64 value);
   public: static Int32 CountDecimalTrailingZeros(UInt32 value, UInt32& valueWithoutTrailingZeros);
   public: static Char GetSymbolOrDefault(StandardFormat& format, Char defaultSymbol);
   public: static void FillWithAsciiZeros(Span<Byte> buffer);
-  public: static void WriteHexByte(Byte value, Span<Byte> buffer, Int32 startingIndex, HexCasing casing);
   public: static void WriteDigits(UInt64 value, Span<Byte> buffer);
   public: static void WriteDigitsWithGroupSeparator(UInt64 value, Span<Byte> buffer);
   public: static void WriteDigits(UInt32 value, Span<Byte> buffer);

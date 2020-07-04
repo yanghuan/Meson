@@ -4,7 +4,7 @@ namespace System::Private::CoreLib::System::StubHelpers::StubHelpersNamespace {
 IntPtr StubHelpers::AddToCleanupList(CleanupWorkListElement& pCleanupWorkList, SafeHandle handle) {
   return IntPtr();
 };
-void StubHelpers::AddToCleanupList(CleanupWorkListElement& pCleanupWorkList, Delegate del) {
+void StubHelpers::KeepAliveViaCleanupList(CleanupWorkListElement& pCleanupWorkList, Object obj) {
 };
 void StubHelpers::DestroyCleanupList(CleanupWorkListElement& pCleanupWorkList) {
 };

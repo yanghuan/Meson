@@ -2,6 +2,7 @@
 
 #include <rt/GCObject.h>
 #include <System.Private.CoreLib/Interop.h>
+#include <System.Private.CoreLib/System/Int32.h>
 
 namespace System::Private::CoreLib::System::Collections {
 FORWARD(IDictionary)
@@ -15,8 +16,7 @@ FORWARDS(ValueStringBuilder)
 namespace System::Private::CoreLib::System {
 FORWARDS(Boolean)
 FORWARD(String)
-FORWARD_(Func, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10)
-FORWARDS(Int32)
+FORWARD_(Func, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18)
 FORWARDS(Int64)
 FORWARD(OperatingSystem)
 FORWARD(Version)
@@ -96,31 +96,32 @@ class Environment {
   public: static Int32 get_CurrentManagedThreadId();
   public: static Int32 get_ExitCode();
   public: static void set_ExitCode(Int32 value);
-  public: static Boolean get_HasShutdownStarted();
-  public: static Int32 get_ProcessorCount();
   public: static String get_StackTrace();
   public: static Int32 get_TickCount();
   public: static Int64 get_TickCount64();
   public: static Boolean get_IsWinRTSupported();
+  public: static Int32 get_ProcessorCount() { return ProcessorCount; }
+  public: static Boolean get_IsSingleProcessor();
+  public: static Boolean get_HasShutdownStarted();
   public: static String get_CommandLine();
   public: static String get_CurrentDirectory();
   public: static void set_CurrentDirectory(String value);
   public: static Boolean get_Is64BitProcess();
   public: static Boolean get_Is64BitOperatingSystem();
+  public: static String get_NewLine();
   public: static OperatingSystem get_OSVersion();
-  public: static Boolean get_UserInteractive();
   public: static Version get_Version();
+  public: static Boolean get_IsWindows8OrAbove();
+  public: static String get_UserName();
+  public: static String get_UserDomainName();
   private: static String get_CurrentDirectoryCore();
   private: static void set_CurrentDirectoryCore(String value);
-  public: static String get_NewLine();
   public: static Int32 get_SystemPageSize();
   private: static Boolean get_Is64BitOperatingSystemWhen32BitProcess();
   public: static String get_MachineName();
   public: static String get_SystemDirectory();
+  public: static Boolean get_UserInteractive();
   public: static Int64 get_WorkingSet();
-  public: static Boolean get_IsWindows8OrAbove();
-  public: static String get_UserName();
-  public: static String get_UserDomainName();
   private: static void _Exit(Int32 exitCode);
   public: static void Exit(Int32 exitCode);
   public: static void FailFast(String message);
@@ -142,9 +143,6 @@ class Environment {
   public: static String GetFolderPath(SpecialFolder folder, SpecialFolderOption option);
   private: static Boolean ValidateAndConvertRegistryTarget(EnvironmentVariableTarget target);
   private: static void ValidateVariableAndValue(String variable, String& value);
-  public: static Array<String> GetLogicalDrives();
-  private: static String ExpandEnvironmentVariablesCore(String name);
-  private: static OperatingSystem GetOSVersion();
   private: static String GetEnvironmentVariableFromRegistry(String variable, Boolean fromMachine);
   private: static void SetEnvironmentVariableFromRegistry(String variable, String value, Boolean fromMachine);
   private: static IDictionary GetEnvironmentVariablesFromRegistry(Boolean fromMachine);
@@ -152,9 +150,13 @@ class Environment {
   private: static void GetUserName(ValueStringBuilder& builder);
   private: static String GetFolderPathCore(SpecialFolder folder, SpecialFolderOption option);
   private: static String GetKnownFolderPath(String folderGuid, SpecialFolderOption option);
+  public: static Array<String> GetLogicalDrives();
+  private: static String ExpandEnvironmentVariablesCore(String name);
+  private: static OperatingSystem GetOSVersion();
   private: static String GetEnvironmentVariableCore(String variable);
   private: static void SetEnvironmentVariableCore(String variable, String value);
   public: static IDictionary GetEnvironmentVariables();
+  private: static Int32 ProcessorCount;
   private: static Array<String> s_commandLineArgs;
   private: static OperatingSystem s_osVersion;
 };

@@ -1,7 +1,6 @@
 #pragma once
 
 #include <rt/GCObject.h>
-#include <System.Private.CoreLib/System/Boolean.h>
 #include <System.Private.CoreLib/System/Byte.h>
 #include <System.Private.CoreLib/System/Char.h>
 #include <System.Private.CoreLib/System/Guid.h>
@@ -17,30 +16,28 @@
 namespace System::Private::CoreLib::System {
 FORWARD_(Array, T1, T2)
 FORWARD(AsyncCallback)
+FORWARDS(Boolean)
 FORWARD(IAsyncResult)
 FORWARD(Object)
 FORWARDS(Span, T)
 FORWARD(String)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Runtime::InteropServices {
+FORWARD(SafeBuffer)
 FORWARD(SafeHandle)
 } // namespace System::Private::CoreLib::System::Runtime::InteropServices
 namespace System::Private::CoreLib::System::Threading {
 FORWARDS(NativeOverlapped)
 } // namespace System::Private::CoreLib::System::Threading
-namespace System::Private::CoreLib::Microsoft::Win32::SafeHandles {
-FORWARD(SafeFileHandle)
-FORWARD(SafeFindHandle)
-FORWARD(SafeLibraryHandle)
-FORWARD(SafeWaitHandle)
-} // namespace System::Private::CoreLib::Microsoft::Win32::SafeHandles
 namespace System::Private::CoreLib::System::IO {
 enum class FileMode;
 enum class FileShare;
 } // namespace System::Private::CoreLib::System::IO
-namespace System::Private::CoreLib::System::Security {
-FORWARD(SafeBSTRHandle)
-} // namespace System::Private::CoreLib::System::Security
+namespace System::Private::CoreLib::Microsoft::Win32::SafeHandles {
+FORWARD(SafeFileHandle)
+FORWARD(SafeFindHandle)
+FORWARD(SafeWaitHandle)
+} // namespace System::Private::CoreLib::Microsoft::Win32::SafeHandles
 namespace System::Private::CoreLib::System::Diagnostics::Tracing {
 FORWARDS(EventDescriptor)
 } // namespace System::Private::CoreLib::System::Diagnostics::Tracing
@@ -55,7 +52,6 @@ using namespace ::System::Private::CoreLib::System;
 using namespace ::System::Private::CoreLib::System::Diagnostics::Tracing;
 using namespace ::System::Private::CoreLib::System::IO;
 using namespace ::System::Private::CoreLib::System::Runtime::InteropServices;
-using namespace ::System::Private::CoreLib::System::Security;
 using namespace ::System::Private::CoreLib::System::Threading;
 class Interop {
   public: enum class BOOL {
@@ -67,30 +63,6 @@ class Interop {
     TRUE = 1,
   };
   public: class Kernel32 {
-    public: enum class FILE_INFO_BY_HANDLE_CLASS : uint32_t {
-      FileBasicInfo = 0,
-      FileStandardInfo = 1,
-      FileNameInfo = 2,
-      FileRenameInfo = 3,
-      FileDispositionInfo = 4,
-      FileAllocationInfo = 5,
-      FileEndOfFileInfo = 6,
-      FileStreamInfo = 7,
-      FileCompressionInfo = 8,
-      FileAttributeTagInfo = 9,
-      FileIdBothDirectoryInfo = 10,
-      FileIdBothDirectoryRestartInfo = 11,
-      FileIoPriorityHintInfo = 12,
-      FileRemoteProtocolInfo = 13,
-      FileFullDirectoryInfo = 14,
-      FileFullDirectoryRestartInfo = 15,
-      FileStorageInfo = 16,
-      FileAlignmentInfo = 17,
-      FileIdInfo = 18,
-      FileIdExtdDirectoryInfo = 19,
-      FileIdExtdDirectoryRestartInfo = 20,
-      MaximumFileInfoByHandleClass = 21,
-    };
     public: enum class FINDEX_INFO_LEVELS : uint32_t {
       FindExInfoStandard = 0,
       FindExInfoBasic = 1,
@@ -117,10 +89,6 @@ class Interop {
       public: UInt16 Second;
       public: UInt16 Milliseconds;
     };
-    public: struct FILE_TIME {
-      public: UInt32 dwLowDateTime;
-      public: UInt32 dwHighDateTime;
-    };
     public: struct TIME_DYNAMIC_ZONE_INFORMATION {
       public: String GetTimeZoneKeyName();
       public: Int32 Bias;
@@ -132,6 +100,21 @@ class Interop {
       public: Int32 DaylightBias;
       public: rt::FixedBuffer<Char, 128> TimeZoneKeyName;
       public: Byte DynamicDaylightTimeDisabled;
+    };
+    public: struct FILE_TIME {
+      public: UInt32 dwLowDateTime;
+      public: UInt32 dwHighDateTime;
+    };
+    public: struct TIME_ZONE_INFORMATION {
+      public: String GetStandardName();
+      public: String GetDaylightName();
+      public: Int32 Bias;
+      public: rt::FixedBuffer<Char, 32> StandardName;
+      public: SYSTEMTIME StandardDate;
+      public: Int32 StandardBias;
+      public: rt::FixedBuffer<Char, 32> DaylightName;
+      public: SYSTEMTIME DaylightDate;
+      public: Int32 DaylightBias;
     };
     public: struct WIN32_FIND_DATA {
       public: UInt32 dwFileAttributes;
@@ -145,28 +128,17 @@ class Interop {
       private: rt::FixedBuffer<Char, 260> _cFileName;
       private: rt::FixedBuffer<Char, 14> _cAlternateFileName;
     };
-    public: struct TIME_ZONE_INFORMATION {
-      public: String GetStandardName();
-      public: String GetDaylightName();
-      public: Int32 Bias;
-      public: rt::FixedBuffer<Char, 32> StandardName;
-      public: SYSTEMTIME StandardDate;
-      public: Int32 StandardBias;
-      public: rt::FixedBuffer<Char, 32> DaylightName;
-      public: SYSTEMTIME DaylightDate;
-      public: Int32 DaylightBias;
-    };
-    public: struct CPINFO {
-      public: Int32 MaxCharSize;
-      public: rt::FixedBuffer<Byte, 2> DefaultChar;
-      public: rt::FixedBuffer<Byte, 12> LeadByte;
-    };
     public: struct FILE_STANDARD_INFO {
       public: Int64 AllocationSize;
       public: Int64 EndOfFile;
       public: UInt32 NumberOfLinks;
       public: BOOL DeletePending;
       public: BOOL Directory;
+    };
+    public: struct CPINFO {
+      public: Int32 MaxCharSize;
+      public: rt::FixedBuffer<Byte, 2> DefaultChar;
+      public: rt::FixedBuffer<Byte, 12> LeadByte;
     };
     public: struct PROCESS_MEMORY_COUNTERS {
       public: UInt32 cb;
@@ -212,15 +184,15 @@ class Interop {
       public: UInt32 Type;
     };
     public: struct MEMORYSTATUSEX {
-      public: Int32 length;
-      public: Int32 memoryLoad;
-      public: UInt64 totalPhys;
-      public: UInt64 availPhys;
-      public: UInt64 totalPageFile;
-      public: UInt64 availPageFile;
-      public: UInt64 totalVirtual;
-      public: UInt64 availVirtual;
-      public: UInt64 availExtendedVirtual;
+      public: UInt32 dwLength;
+      public: UInt32 dwMemoryLoad;
+      public: UInt64 ullTotalPhys;
+      public: UInt64 ullAvailPhys;
+      public: UInt64 ullTotalPageFile;
+      public: UInt64 ullAvailPageFile;
+      public: UInt64 ullTotalVirtual;
+      public: UInt64 ullAvailVirtual;
+      public: UInt64 ullAvailExtendedVirtual;
     };
     public: struct SECURITY_ATTRIBUTES {
       public: UInt32 nLength;
@@ -240,6 +212,13 @@ class Interop {
       public: Int16 wProcessorLevel;
       public: Int16 wProcessorRevision;
     };
+    public: struct REG_TZI_FORMAT {
+      public: Int32 Bias;
+      public: Int32 StandardBias;
+      public: Int32 DaylightBias;
+      public: SYSTEMTIME StandardDate;
+      public: SYSTEMTIME DaylightDate;
+    };
     public: struct WIN32_FILE_ATTRIBUTE_DATA {
       public: void PopulateFrom(WIN32_FIND_DATA& findData);
       public: Int32 dwFileAttributes;
@@ -248,13 +227,6 @@ class Interop {
       public: FILE_TIME ftLastWriteTime;
       public: UInt32 nFileSizeHigh;
       public: UInt32 nFileSizeLow;
-    };
-    public: struct REG_TZI_FORMAT {
-      public: Int32 Bias;
-      public: Int32 StandardBias;
-      public: Int32 DaylightBias;
-      public: SYSTEMTIME StandardDate;
-      public: SYSTEMTIME DaylightDate;
     };
     public: struct OSVERSIONINFOEX {
       public: Int32 dwOSVersionInfoSize;
@@ -274,24 +246,27 @@ class Interop {
     public: static IntPtr LocalReAlloc(IntPtr hMem, IntPtr uBytes, UInt32 uFlags);
     public: static IntPtr LocalFree(IntPtr hMem);
     public: static Boolean CancelIoEx(SafeHandle handle, NativeOverlapped* lpOverlapped);
+    private: static SafeFileHandle CreateFilePrivate(String lpFileName, Int32 dwDesiredAccess, FileShare dwShareMode, SECURITY_ATTRIBUTES* lpSecurityAttributes, FileMode dwCreationDisposition, Int32 dwFlagsAndAttributes, IntPtr hTemplateFile);
+    public: static SafeFileHandle CreateFile(String lpFileName, Int32 dwDesiredAccess, FileShare dwShareMode, SECURITY_ATTRIBUTES* lpSecurityAttributes, FileMode dwCreationDisposition, Int32 dwFlagsAndAttributes, IntPtr hTemplateFile);
     public: static UInt32 ExpandEnvironmentStrings(String lpSrc, Char& lpDst, UInt32 nSize);
     public: static Boolean FindClose(IntPtr hFindFile);
     private: static SafeFindHandle FindFirstFileExPrivate(String lpFileName, FINDEX_INFO_LEVELS fInfoLevelId, WIN32_FIND_DATA& lpFindFileData, FINDEX_SEARCH_OPS fSearchOp, IntPtr lpSearchFilter, Int32 dwAdditionalFlags);
     public: static SafeFindHandle FindFirstFile(String fileName, WIN32_FIND_DATA& data);
     public: static Boolean FlushFileBuffers(SafeHandle hHandle);
+    public: static Boolean FreeLibrary(IntPtr hModule);
     private: static Int32 GetComputerName(Char& lpBuffer, UInt32& nSize);
     public: static String GetComputerName();
     public: static BOOL GetCPInfo(UInt32 codePage, CPINFO* lpCpInfo);
-    public: static UInt32 GetCurrentProcessId();
-    public: static IntPtr GetCurrentProcess();
     public: static UInt32 GetCurrentDirectory(UInt32 nBufferLength, Char& lpBuffer);
+    public: static IntPtr GetCurrentProcess();
+    public: static UInt32 GetCurrentProcessId();
     private: static Boolean GetFileAttributesExPrivate(String name, GET_FILEEX_INFO_LEVELS fileInfoLevel, WIN32_FILE_ATTRIBUTE_DATA& lpFileInformation);
     public: static Boolean GetFileAttributesEx(String name, GET_FILEEX_INFO_LEVELS fileInfoLevel, WIN32_FILE_ATTRIBUTE_DATA& lpFileInformation);
-    public: static Boolean GetFileInformationByHandleEx(SafeFileHandle hFile, FILE_INFO_BY_HANDLE_CLASS FileInformationClass, FILE_STANDARD_INFO& lpFileInformation, UInt32 dwBufferSize);
+    public: static Boolean GetFileInformationByHandleEx(SafeFileHandle hFile, Int32 FileInformationClass, void* lpFileInformation, UInt32 dwBufferSize);
     public: static Int32 GetFileType(SafeHandle hFile);
     public: static UInt32 GetFullPathNameW(Char& lpFileName, UInt32 nBufferLength, Char& lpBuffer, IntPtr lpFilePart);
-    public: static UInt32 GetLongPathNameW(Char& lpszShortPath, Char& lpszLongPath, UInt32 cchBuffer);
     public: static Int32 GetLogicalDrives();
+    public: static UInt32 GetLongPathNameW(Char& lpszShortPath, Char& lpszLongPath, UInt32 cchBuffer);
     public: static Boolean GetProcessMemoryInfo(IntPtr Process, PROCESS_MEMORY_COUNTERS& ppsmemCounters, UInt32 cb);
     public: static Boolean GetProcessTimes(IntPtr handleProcess, Int64& creation, Int64& exit, Int64& kernel, Int64& user);
     public: static UInt32 GetSystemDirectoryW(Char& lpBuffer, UInt32 uSize);
@@ -316,35 +291,33 @@ class Interop {
     public: static Int32 GetCalendarInfoEx(String lpLocaleName, UInt32 Calendar, IntPtr lpReserved, UInt32 CalType, IntPtr lpCalData, Int32 cchData, IntPtr lpValue);
     public: static Boolean EnumCalendarInfoExEx(EnumCalendarInfoProcExEx pCalInfoEnumProcExEx, String lpLocaleName, UInt32 Calendar, String lpReserved, UInt32 CalType, void* lParam);
     public: static Boolean GetNLSVersionEx(Int32 function, String localeName, NlsVersionInfoEx* lpVersionInformation);
-    public: static Boolean GlobalMemoryStatusEx(MEMORYSTATUSEX& buffer);
-    private: static Boolean GlobalMemoryStatusExNative(MEMORYSTATUSEX& lpBuffer);
+    public: static Boolean GlobalMemoryStatusEx(MEMORYSTATUSEX& lpBuffer);
     public: static Boolean IsWow64Process(IntPtr hProcess, Boolean& Wow64Process);
+    public: static IntPtr LoadLibraryEx(String libFilename, IntPtr reserved, Int32 flags);
     public: static Boolean LockFile(SafeFileHandle handle, Int32 offsetLow, Int32 offsetHigh, Int32 countLow, Int32 countHigh);
     public: static Boolean UnlockFile(SafeFileHandle handle, Int32 offsetLow, Int32 offsetHigh, Int32 countLow, Int32 countHigh);
+    public: static Boolean GetFileMUIPath(UInt32 dwFlags, String pcwszFilePath, Char* pwszLanguage, Int32& pcchLanguage, Char* pwszFileMUIPath, Int32& pcchFileMUIPath, Int64& pululEnumerator);
     public: static Int32 MultiByteToWideChar(UInt32 CodePage, UInt32 dwFlags, Byte* lpMultiByteStr, Int32 cbMultiByte, Char* lpWideCharStr, Int32 cchWideChar);
     public: static void OutputDebugString(String message);
+    public: static BOOL QueryPerformanceCounter(Int64* lpPerformanceCount);
+    public: static BOOL QueryPerformanceFrequency(Int64* lpFrequency);
     public: static Boolean QueryUnbiasedInterruptTime(UInt64& UnbiasedTime);
     public: static Int32 ReadFile(SafeHandle handle, Byte* bytes, Int32 numBytesToRead, Int32& numBytesRead, IntPtr mustBeZero);
     public: static Int32 ReadFile(SafeHandle handle, Byte* bytes, Int32 numBytesToRead, IntPtr numBytesRead_mustBeZero, NativeOverlapped* overlapped);
     public: static Int32 ResolveLocaleName(String lpNameToResolve, Char* lpLocaleName, Int32 cchLocaleName);
     public: static Boolean SetCurrentDirectory(String path);
     public: static Boolean SetEndOfFile(SafeFileHandle hFile);
-    public: static Boolean SetThreadErrorMode(UInt32 dwNewMode, UInt32& lpOldMode);
     public: static Boolean SetFilePointerEx(SafeFileHandle hFile, Int64 liDistanceToMove, Int64& lpNewFilePointer, UInt32 dwMoveMethod);
+    public: static Boolean SetThreadErrorMode(UInt32 dwNewMode, UInt32& lpOldMode);
     public: static UInt32 GetDynamicTimeZoneInformation(TIME_DYNAMIC_ZONE_INFORMATION& pTimeZoneInformation);
     public: static UInt32 GetTimeZoneInformation(TIME_ZONE_INFORMATION& lpTimeZoneInformation);
+    public: static Boolean VerifyVersionInfoW(OSVERSIONINFOEX& lpVersionInfo, UInt32 dwTypeMask, UInt64 dwlConditionMask);
+    public: static UInt64 VerSetConditionMask(UInt64 ConditionMask, UInt32 TypeMask, Byte Condition);
     public: static void* VirtualAlloc(void* lpAddress, UIntPtr dwSize, Int32 flAllocationType, Int32 flProtect);
     public: static Boolean VirtualFree(void* lpAddress, UIntPtr dwSize, Int32 dwFreeType);
     public: static UIntPtr VirtualQuery(void* lpAddress, MEMORY_BASIC_INFORMATION& lpBuffer, UIntPtr dwLength);
     public: static Int32 WideCharToMultiByte(UInt32 CodePage, UInt32 dwFlags, Char* lpWideCharStr, Int32 cchWideChar, Byte* lpMultiByteStr, Int32 cbMultiByte, IntPtr lpDefaultChar, IntPtr lpUsedDefaultChar);
     public: static Int32 WriteFile(SafeHandle handle, Byte* bytes, Int32 numBytesToWrite, IntPtr numBytesWritten_mustBeZero, NativeOverlapped* lpOverlapped);
-    private: static SafeFileHandle CreateFilePrivate(String lpFileName, Int32 dwDesiredAccess, FileShare dwShareMode, SECURITY_ATTRIBUTES& securityAttrs, FileMode dwCreationDisposition, Int32 dwFlagsAndAttributes, IntPtr hTemplateFile);
-    public: static SafeFileHandle CreateFile(String lpFileName, Int32 dwDesiredAccess, FileShare dwShareMode, SECURITY_ATTRIBUTES& securityAttrs, FileMode dwCreationDisposition, Int32 dwFlagsAndAttributes, IntPtr hTemplateFile);
-    public: static Boolean FreeLibrary(IntPtr hModule);
-    public: static SafeLibraryHandle LoadLibraryEx(String libFilename, IntPtr reserved, Int32 flags);
-    public: static Boolean GetFileMUIPath(UInt32 dwFlags, String pcwszFilePath, Char* pwszLanguage, Int32& pcchLanguage, Char* pwszFileMUIPath, Int32& pcchFileMUIPath, Int64& pululEnumerator);
-    public: static Boolean VerifyVersionInfoW(OSVERSIONINFOEX& lpVersionInfo, UInt32 dwTypeMask, UInt64 dwlConditionMask);
-    public: static UInt64 VerSetConditionMask(UInt64 ConditionMask, UInt32 TypeMask, Byte Condition);
     public: static Boolean CloseHandle(IntPtr handle);
     public: static Boolean SetEvent(SafeWaitHandle handle);
     public: static Boolean ResetEvent(SafeWaitHandle handle);
@@ -373,15 +346,12 @@ class Interop {
     public: static void CoTaskMemFree(IntPtr ptr);
     public: static Int32 CoCreateGuid(Guid& guid);
   };
-  public: CLASS(OleAut32) {
+  public: class OleAut32 {
     public: static IntPtr SysAllocStringByteLen(Array<Byte> str, UInt32 len);
-    public: static SafeBSTRHandle SysAllocStringLen(IntPtr src, UInt32 len);
     public: static IntPtr SysAllocStringLen(String src, Int32 len);
     public: static void SysFreeString(IntPtr bstr);
-    public: static UInt32 SysStringLen(SafeBSTRHandle bstr);
-    public: static UInt32 SysStringLen(IntPtr bstr);
   };
-  public: CLASS(Advapi32) {
+  public: class Advapi32 {
     public: enum class ActivityControl : uint32_t {
       EVENT_ACTIVITY_CTRL_GET_ID = 1,
       EVENT_ACTIVITY_CTRL_SET_ID = 2,
@@ -450,7 +420,7 @@ class Interop {
     public: static Int32 RegQueryValueEx(SafeRegistryHandle hKey, String lpValueName, Array<Int32> lpReserved, Int32& lpType, Array<Char> lpData, Int32& lpcbData);
     public: static Int32 RegSetValueEx(SafeRegistryHandle hKey, String lpValueName, Int32 Reserved, Int32 dwType, String lpData, Int32 cbData);
   };
-  public: CLASS(BCrypt) {
+  public: class BCrypt {
     public: enum class NTSTATUS : uint32_t {
       STATUS_SUCCESS = 0,
       STATUS_NOT_FOUND = 3221226021,
@@ -460,41 +430,44 @@ class Interop {
     };
     public: static NTSTATUS BCryptGenRandom(IntPtr hAlgorithm, Byte* pbBuffer, Int32 cbBuffer, Int32 dwFlags);
   };
-  public: CLASS(Crypt32) {
-    public: static Boolean CryptProtectMemory(SafeBSTRHandle pData, UInt32 cbData, UInt32 dwFlags);
-    public: static Boolean CryptUnprotectMemory(SafeBSTRHandle pData, UInt32 cbData, UInt32 dwFlags);
+  public: class Crypt32 {
+    public: static Boolean CryptProtectMemory(SafeBuffer pData, UInt32 cbData, UInt32 dwFlags);
+    public: static Boolean CryptUnprotectMemory(SafeBuffer pData, UInt32 cbData, UInt32 dwFlags);
   };
-  public: CLASS(Normaliz) {
+  public: class Normaliz {
     public: static Int32 IdnToAscii(UInt32 dwFlags, Char* lpUnicodeCharStr, Int32 cchUnicodeChar, Char* lpASCIICharStr, Int32 cchASCIIChar);
     public: static Int32 IdnToUnicode(UInt32 dwFlags, Char* lpASCIICharStr, Int32 cchASCIIChar, Char* lpUnicodeCharStr, Int32 cchUnicodeChar);
     public: static Boolean IsNormalizedString(Int32 normForm, String source, Int32 length);
     public: static Int32 NormalizeString(Int32 normForm, String source, Int32 sourceLength, Array<Char> destination, Int32 destinationLength);
   };
-  public: CLASS(Secur32) {
-    public: static BOOLEAN GetUserNameExW(Int32 NameFormat, Char& lpNameBuffer, UInt32& lpnSize);
-  };
-  public: CLASS(Shell32) {
-    public: static Int32 SHGetKnownFolderPath(Guid rfid, UInt32 dwFlags, IntPtr hToken, String& ppszPath);
-  };
-  public: CLASS(NtDll) {
-    public: struct IO_STATUS {
-      private: Int32 Status;
-      private: IntPtr Pointer;
-    };
-    public: struct SYSTEM_LEAP_SECOND_INFORMATION {
-      public: Boolean Enabled;
-      public: UInt32 Flags;
-    };
+  public: class NtDll {
     public: struct IO_STATUS_BLOCK {
-      private: IO_STATUS Status;
+      private: UInt32 Status;
       private: IntPtr Information;
     };
-    public: static Int32 NtQuerySystemInformation(Int32 SystemInformationClass, void* SystemInformation, Int32 SystemInformationLength, UInt32* ReturnLength);
+    public: struct SYSTEM_LEAP_SECOND_INFORMATION {
+      public: BOOLEAN Enabled;
+      public: UInt32 Flags;
+    };
     public: static Int32 NtQueryInformationFile(SafeFileHandle FileHandle, IO_STATUS_BLOCK& IoStatusBlock, void* FileInformation, UInt32 Length, UInt32 FileInformationClass);
+    public: static UInt32 NtQuerySystemInformation(Int32 SystemInformationClass, void* SystemInformation, UInt32 SystemInformationLength, UInt32* ReturnLength);
   };
-  public: CLASS(User32) {
-    public: static Int32 LoadString(SafeLibraryHandle hInstance, UInt32 uID, Char* lpBuffer, Int32 cchBufferMax);
-    public: static IntPtr SendMessageTimeout(IntPtr hWnd, Int32 msg, IntPtr wParam, String lParam, Int32 flags, Int32 timeout, IntPtr pdwResult);
+  public: class Secur32 {
+    public: static BOOLEAN GetUserNameExW(Int32 NameFormat, Char& lpNameBuffer, UInt32& lpnSize);
+  };
+  public: class Shell32 {
+    public: static Int32 SHGetKnownFolderPath(Guid rfid, UInt32 dwFlags, IntPtr hToken, String& ppszPath);
+  };
+  public: class User32 {
+    public: struct USEROBJECTFLAGS {
+      public: Int32 fInherit;
+      public: Int32 fReserved;
+      public: Int32 dwFlags;
+    };
+    public: static Int32 LoadString(IntPtr hInstance, UInt32 uID, Char* lpBuffer, Int32 cchBufferMax);
+    public: static IntPtr SendMessageTimeout(IntPtr hWnd, Int32 msg, IntPtr wParam, IntPtr lParam, Int32 flags, Int32 timeout, IntPtr& pdwResult);
+    public: static IntPtr GetProcessWindowStation();
+    public: static Boolean GetUserObjectInformationW(IntPtr hObj, Int32 nIndex, void* pvBuffer, UInt32 nLength, UInt32& lpnLengthNeeded);
   };
   public: static void GetRandomBytes(Byte* buffer, Int32 length);
   public: static UInt32 GetCurrentProcessId();

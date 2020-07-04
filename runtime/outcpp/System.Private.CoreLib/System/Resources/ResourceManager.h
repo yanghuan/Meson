@@ -55,7 +55,7 @@ CLASS(ResourceManager) {
     public: Assembly get_MainAssembly();
     public: String get_BaseName();
     public: String GetResourceFileName(CultureInfo culture);
-    public: Version ObtainSatelliteContractVersion(Assembly a);
+    public: static Version ObtainSatelliteContractVersion(Assembly a);
     private: ResourceManager _rm;
   };
   public: String get_BaseName();

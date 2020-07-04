@@ -14,8 +14,7 @@ void MemoryFailPoint___::set_LastTimeCheckingAddressSpace(Int64 value) {
 UInt64 MemoryFailPoint___::get_MemoryFailPointReservedMemory() {
   return UInt64();
 };
-Int64 MemoryFailPoint___::AddToLastKnownFreeAddressSpace(Int64 addend) {
-  return Int64();
+void MemoryFailPoint___::AddToLastKnownFreeAddressSpace(Int64 addend) {
 };
 void MemoryFailPoint___::Finalize() {
 };
@@ -32,8 +31,7 @@ UInt64 MemoryFailPoint___::GetTopOfMemory() {
 Boolean MemoryFailPoint___::CheckForAvailableMemory(UInt64& availPageFile, UInt64& totalAddressSpaceFree) {
   return Boolean();
 };
-Boolean MemoryFailPoint___::CheckForFreeAddressSpace(UInt64 size, Boolean shouldThrow) {
-  return Boolean();
+void MemoryFailPoint___::CheckForFreeAddressSpace(UInt64 size, Boolean shouldThrow) {
 };
 UInt64 MemoryFailPoint___::MemFreeAfterAddress(void* address, UInt64 size) {
   return UInt64();

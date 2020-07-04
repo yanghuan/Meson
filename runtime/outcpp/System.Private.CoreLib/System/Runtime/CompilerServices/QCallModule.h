@@ -6,8 +6,8 @@
 namespace System::Private::CoreLib::System::Runtime::CompilerServices {
 namespace QCallModuleNamespace {
 struct QCallModule {
-  private: IntPtr m_ptr;
-  private: IntPtr m_module;
+  private: void* _ptr;
+  private: IntPtr _module;
 };
 } // namespace QCallModuleNamespace
 using QCallModule = QCallModuleNamespace::QCallModule;

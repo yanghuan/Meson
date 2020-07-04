@@ -35,6 +35,10 @@ class ThrowHelper {
   public: static void ThrowLengthArgumentOutOfRange_ArgumentOutOfRange_NeedNonNegNum();
   public: static void ThrowStartIndexArgumentOutOfRange_ArgumentOutOfRange_Index();
   public: static void ThrowCountArgumentOutOfRange_ArgumentOutOfRange_Count();
+  public: static void ThrowArgumentOutOfRange_Year();
+  public: static void ThrowArgumentOutOfRange_BadYearMonthDay();
+  public: static void ThrowArgumentOutOfRange_BadHourMinuteSecond();
+  public: static void ThrowArgumentOutOfRange_TimeSpanTooLong();
   private: static ArgumentException GetAddingDuplicateWithKeyArgumentException(Object key);
   public: static void ThrowArgumentException(ExceptionResource resource);
   public: static void ThrowArgumentException(ExceptionResource resource, ExceptionArgument argument);

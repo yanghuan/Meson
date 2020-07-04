@@ -12,16 +12,25 @@ void RuntimeHelpers::PrepareMethod(RuntimeMethodHandle method) {
 };
 void RuntimeHelpers::PrepareMethod(RuntimeMethodHandle method, Array<RuntimeTypeHandle> instantiation) {
 };
-void RuntimeHelpers::ExecuteBackoutCodeHelper(Object backoutCode, Object userData, Boolean exceptionThrown) {
+UInt64 RuntimeHelpers::GetRawObjectDataSize(Object obj) {
+  return UInt64();
+};
+UInt16 RuntimeHelpers::GetElementSize(Array<> array) {
+  return UInt16();
+};
+Int32 RuntimeHelpers::GetMultiDimensionalArrayRank(Array<> array) {
+  return Int32();
 };
 Boolean RuntimeHelpers::ObjectHasComponentSize(Object obj) {
   return Boolean();
 };
-IntPtr RuntimeHelpers::GetObjectMethodTablePointer(Object obj) {
-  return IntPtr();
+MethodTable* RuntimeHelpers::GetMethodTable(Object obj) {
+  return nullptr;
 };
 Object RuntimeHelpers::GetUninitializedObject(Type type) {
   return nullptr;
+};
+void RuntimeHelpers::ExecuteCodeWithGuaranteedCleanup(TryCode code, CleanupCode backoutCode, Object userData) {
 };
 void RuntimeHelpers::PrepareContractedDelegate(Delegate d) {
 };
@@ -30,5 +39,8 @@ void RuntimeHelpers::ProbeForSufficientStack() {
 void RuntimeHelpers::PrepareConstrainedRegions() {
 };
 void RuntimeHelpers::PrepareConstrainedRegionsNoOP() {
+};
+Boolean RuntimeHelpers::IsPrimitiveType(CorElementType et) {
+  return Boolean();
 };
 } // namespace System::Private::CoreLib::System::Runtime::CompilerServices::RuntimeHelpersNamespace

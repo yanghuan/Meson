@@ -33,6 +33,9 @@ Boolean UnicodeUtility::IsLowSurrogateCodePoint(UInt32 value) {
 Boolean UnicodeUtility::IsSurrogateCodePoint(UInt32 value) {
   return Boolean();
 };
+Boolean UnicodeUtility::IsValidCodePoint(UInt32 codePoint) {
+  return Boolean();
+};
 Boolean UnicodeUtility::IsValidUnicodeScalar(UInt32 value) {
   return Boolean();
 };

@@ -8,7 +8,7 @@
 namespace System::Private::CoreLib::System {
 FORWARD_(Array, T1, T2)
 FORWARDS(Byte)
-FORWARD_(Func, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10)
+FORWARD_(Func, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18)
 FORWARD(Object)
 FORWARD(String)
 FORWARD(Type)
@@ -46,6 +46,10 @@ CLASS(ResourceReader) {
     private: Int32 _currentName;
     private: Int32 _dataPosition;
   };
+  private: Object DeserializeObject(Int32 typeIndex);
+  private: void InitializeBinaryFormatter();
+  private: static Boolean ValidateReaderType(String readerType);
+  public: void GetResourceData(String resourceName, String& resourceType, Array<Byte>& resourceData);
   public: void Close();
   public: void Dispose();
   private: void Dispose(Boolean disposing);
@@ -70,10 +74,10 @@ CLASS(ResourceReader) {
   private: void _ReadResources();
   private: Type FindType(Int32 typeIndex);
   private: String TypeNameFromTypeCode(ResourceTypeCode typeCode);
-  private: Object DeserializeObject(Int32 typeIndex);
-  private: void InitializeBinaryFormatter();
-  private: Boolean ValidateReaderType(String readerType);
-  public: void GetResourceData(String resourceName, String& resourceType, Array<Byte>& resourceData);
+  private: Boolean _permitDeserialization;
+  private: Object _binaryFormatter;
+  private: static Type s_binaryFormatterType;
+  private: static Func<Object, Stream, Object> s_deserializeMethod;
   private: BinaryReader _store;
   public: Dictionary<String, ResourceLocator> _resCache;
   private: Int64 _nameSectionOffset;
@@ -87,10 +91,6 @@ CLASS(ResourceReader) {
   private: Int32 _numResources;
   private: UnmanagedMemoryStream _ums;
   private: Int32 _version;
-  private: Boolean _permitDeserialization;
-  private: Object _binaryFormatter;
-  private: static Type s_binaryFormatterType;
-  private: static Func<Object, Stream, Object> s_deserializeMethod;
 };
 } // namespace ResourceReaderNamespace
 using ResourceReader = ResourceReaderNamespace::ResourceReader;

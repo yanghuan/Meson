@@ -75,6 +75,11 @@ void MemoryStream___::CopyTo(Stream destination, Int32 bufferSize) {
 Task<> MemoryStream___::CopyToAsync(Stream destination, Int32 bufferSize, CancellationToken cancellationToken) {
   return nullptr;
 };
+void MemoryStream___::CopyTo(ReadOnlySpanAction<Byte, Object> callback, Object state, Int32 bufferSize) {
+};
+Task<> MemoryStream___::CopyToAsync(Func<ReadOnlyMemory<Byte>, Object, CancellationToken, ValueTask<>> callback, Object state, Int32 bufferSize, CancellationToken cancellationToken) {
+  return nullptr;
+};
 Int64 MemoryStream___::Seek(Int64 offset, SeekOrigin loc) {
   return Int64();
 };

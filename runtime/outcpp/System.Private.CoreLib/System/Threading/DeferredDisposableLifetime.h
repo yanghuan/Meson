@@ -10,7 +10,7 @@ namespace System::Private::CoreLib::System::Threading {
 namespace DeferredDisposableLifetimeNamespace {
 template <class T>
 struct DeferredDisposableLifetime {
-  public: Boolean AddRef(T obj);
+  public: Boolean AddRef();
   public: void Release(T obj);
   public: void Dispose(T obj);
   private: Int32 _count;

@@ -80,10 +80,13 @@ Boolean RuntimeAssembly___::IsDefined(Type attributeType, Boolean inherit) {
 IList<CustomAttributeData> RuntimeAssembly___::GetCustomAttributesData() {
   return nullptr;
 };
-RuntimeAssembly RuntimeAssembly___::InternalLoad(String assemblyString, StackCrawlMark& stackMark, AssemblyLoadContext assemblyLoadContext) {
+RuntimeAssembly RuntimeAssembly___::InternalLoad(String assemblyName, StackCrawlMark& stackMark, AssemblyLoadContext assemblyLoadContext) {
   return nullptr;
 };
-RuntimeAssembly RuntimeAssembly___::InternalLoadAssemblyName(AssemblyName assemblyRef, StackCrawlMark& stackMark, AssemblyLoadContext assemblyLoadContext) {
+RuntimeAssembly RuntimeAssembly___::InternalLoad(AssemblyName assemblyName, StackCrawlMark& stackMark, AssemblyLoadContext assemblyLoadContext) {
+  return nullptr;
+};
+RuntimeAssembly RuntimeAssembly___::InternalLoad(AssemblyName assemblyName, RuntimeAssembly requestingAssembly, StackCrawlMark& stackMark, Boolean throwOnFileNotFound, AssemblyLoadContext assemblyLoadContext) {
   return nullptr;
 };
 Module RuntimeAssembly___::GetModule(String name) {
@@ -104,9 +107,6 @@ Array<AssemblyName> RuntimeAssembly___::GetReferencedAssemblies() {
 ManifestResourceInfo RuntimeAssembly___::GetManifestResourceInfo(String resourceName) {
   return nullptr;
 };
-String RuntimeAssembly___::VerifyCodeBase(String codebase) {
-  return nullptr;
-};
 Version RuntimeAssembly___::GetVersion() {
   return nullptr;
 };
@@ -124,9 +124,6 @@ AssemblyNameFlags RuntimeAssembly___::GetFlags() {
 };
 Array<Byte> RuntimeAssembly___::GetPublicKey() {
   return Array<Byte>();
-};
-RuntimeModule RuntimeAssembly___::OnModuleResolveEvent(String moduleName) {
-  return nullptr;
 };
 Assembly RuntimeAssembly___::GetSatelliteAssembly(CultureInfo culture) {
   return nullptr;

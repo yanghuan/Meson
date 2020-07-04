@@ -157,7 +157,6 @@ CLASS(CultureData) {
   public: Boolean get_IsInvariantCulture();
   public: Calendar get_DefaultCalendar();
   public: String get_TimeSeparator();
-  public: Boolean get_IsFramework();
   public: Boolean get_IsWin32Installed();
   public: Boolean get_IsReplacementCulture();
   public: static CultureData GetCultureDataForRegion(String cultureName, Boolean useUserOverride);
@@ -169,7 +168,6 @@ CLASS(CultureData) {
   private: static CultureData CreateCultureData(String cultureName, Boolean useUserOverride);
   private: Boolean InitCompatibilityCultureData();
   public: static CultureData GetCultureData(Int32 culture, Boolean bUseUserOverride);
-  private: Array<String> AdjustShortTimesForMac(Array<String> shortTimes);
   private: Array<String> DeriveShortTimesFromLong();
   private: static String StripSecondsFromPattern(String time);
   private: static Int32 GetIndexOfNextTokenAfterSeconds(String time, Int32 index, Boolean& containsSpace);
@@ -213,8 +211,7 @@ CLASS(CultureData) {
   private: Array<String> GetShortTimeFormats();
   private: static CultureData GetCultureDataFromRegionName(String regionName);
   private: String GetLanguageDisplayName(String cultureName);
-  private: String GetRegionDisplayName(String isoCountryCode);
-  private: static CultureInfo GetUserDefaultCulture();
+  private: String GetRegionDisplayName();
   private: static String GetLocaleInfoFromLCType(String localeName, UInt32 lctype, Boolean useUserOveride);
   public: static String ReescapeWin32String(String str);
   public: static Array<String> ReescapeWin32Strings(Array<String> array);

@@ -20,7 +20,7 @@ FORWARDS(UInt32)
 namespace CharNamespace {
 using namespace ::System::Private::CoreLib::System::Globalization;
 struct Char {
-  private: static ReadOnlySpan<Byte> get_CategoryForLatin1();
+  private: static ReadOnlySpan<Byte> get_Latin1CharInfo();
   private: static Boolean IsLatin1(Char ch);
   private: static Boolean IsAscii(Char ch);
   private: static UnicodeCategory GetLatin1UnicodeCategory(Char ch);

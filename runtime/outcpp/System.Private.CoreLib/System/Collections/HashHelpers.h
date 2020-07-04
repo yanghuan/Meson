@@ -10,6 +10,8 @@ FORWARD_(Array, T1, T2)
 FORWARDS(Boolean)
 FORWARDS(Int32)
 FORWARD(Object)
+FORWARDS(UInt32)
+FORWARDS(UInt64)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Runtime::Serialization {
 FORWARD(SerializationInfo)
@@ -23,7 +25,9 @@ class HashHelpers {
   public: static Boolean IsPrime(Int32 candidate);
   public: static Int32 GetPrime(Int32 min);
   public: static Int32 ExpandPrime(Int32 oldSize);
-  public: static Array<Int32> primes;
+  public: static UInt64 GetFastModMultiplier(UInt32 divisor);
+  public: static UInt32 FastMod(UInt32 value, UInt32 divisor, UInt64 multiplier);
+  private: static Array<Int32> s_primes;
   private: static ConditionalWeakTable<Object, SerializationInfo> s_serializationInfoTable;
 };
 } // namespace HashHelpersNamespace

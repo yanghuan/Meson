@@ -27,6 +27,14 @@ void ThrowHelper::ThrowStartIndexArgumentOutOfRange_ArgumentOutOfRange_Index() {
 };
 void ThrowHelper::ThrowCountArgumentOutOfRange_ArgumentOutOfRange_Count() {
 };
+void ThrowHelper::ThrowArgumentOutOfRange_Year() {
+};
+void ThrowHelper::ThrowArgumentOutOfRange_BadYearMonthDay() {
+};
+void ThrowHelper::ThrowArgumentOutOfRange_BadHourMinuteSecond() {
+};
+void ThrowHelper::ThrowArgumentOutOfRange_TimeSpanTooLong() {
+};
 ArgumentException ThrowHelper::GetAddingDuplicateWithKeyArgumentException(Object key) {
   return nullptr;
 };

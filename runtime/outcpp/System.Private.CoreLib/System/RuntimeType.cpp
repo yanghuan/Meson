@@ -400,9 +400,6 @@ Object RuntimeType___::InvokeMember(String name, BindingFlags bindingFlags, Bind
 String RuntimeType___::ToString() {
   return nullptr;
 };
-String RuntimeType___::FormatTypeName() {
-  return nullptr;
-};
 String RuntimeType___::GetCachedName(TypeNameKind kind) {
   return nullptr;
 };
