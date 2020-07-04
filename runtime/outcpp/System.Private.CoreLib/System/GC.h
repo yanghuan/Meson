@@ -1,13 +1,8 @@
 #pragma once
 
 #include <rt/GCObject.h>
-#include <System.Private.CoreLib/System/Single.h>
 
-namespace System::Private::CoreLib::System::Collections::Generic {
-FORWARD(List, T)
-} // namespace System::Private::CoreLib::System::Collections::Generic
 namespace System::Private::CoreLib::System {
-FORWARD_(Action, T1, T2, T3, T4, T5, T6, T7, T8, T9)
 FORWARDS(Int32)
 FORWARDS(UInt64)
 FORWARDS(UInt32)
@@ -22,8 +17,12 @@ enum class GCCollectionMode;
 FORWARD_(WeakReference, T1, T2)
 enum class GCNotificationStatus;
 namespace GCNamespace {
-using namespace ::System::Private::CoreLib::System::Collections::Generic;
 class GC {
+  public: enum class GC_ALLOC_FLAGS {
+    GC_ALLOC_NO_FLAGS = 0,
+    GC_ALLOC_ZEROING_OPTIONAL = 16,
+    GC_ALLOC_PINNED_OBJECT_HEAP = 64,
+  };
   private: enum class StartNoGCRegionStatus {
     Succeeded = 0,
     NotEnoughMemory = 1,
@@ -36,17 +35,12 @@ class GC {
     GCInduced = 2,
     AllocationExceeded = 3,
   };
-  private: struct MemoryLoadChangeNotification {
-    private: Single LowMemoryPercent;
-    private: Single HighMemoryPercent;
-    private: Action<> Notification;
-  };
   public: static Int32 get_MaxGeneration();
   public: static void GetMemoryInfo(UInt64& highMemLoadThresholdBytes, UInt64& totalAvailableMemoryBytes, UInt64& lastRecordedMemLoadBytes, UInt32& lastRecordedMemLoadPct, UIntPtr& lastRecordedHeapSizeBytes, UIntPtr& lastRecordedFragmentationBytes);
   public: static GCMemoryInfo GetGCMemoryInfo();
   public: static Int32 _StartNoGCRegion(Int64 totalSize, Boolean lohSizeKnown, Int64 lohSize, Boolean disallowFullBlockingGC);
   public: static Int32 _EndNoGCRegion();
-  public: static Array<> AllocateNewArray(IntPtr typeHandle, Int32 length, Boolean zeroingOptional);
+  public: static Array<> AllocateNewArray(IntPtr typeHandle, Int32 length, GC_ALLOC_FLAGS flags);
   private: static Int32 GetGenerationWR(IntPtr handle);
   private: static Int64 GetTotalMemory();
   private: static void _Collect(Int32 generation, Int32 mode);
@@ -94,10 +88,7 @@ class GC {
   public: static Boolean TryStartNoGCRegion(Int64 totalSize, Int64 lohSize);
   public: static Boolean TryStartNoGCRegion(Int64 totalSize, Boolean disallowFullBlockingGC);
   public: static Boolean TryStartNoGCRegion(Int64 totalSize, Int64 lohSize, Boolean disallowFullBlockingGC);
-  private: static EndNoGCRegionStatus EndNoGCRegionWorker();
   public: static void EndNoGCRegion();
-  private: static List<MemoryLoadChangeNotification> s_notifications;
-  private: static Single s_previousMemoryLoad;
 };
 } // namespace GCNamespace
 using GC = GCNamespace::GC;

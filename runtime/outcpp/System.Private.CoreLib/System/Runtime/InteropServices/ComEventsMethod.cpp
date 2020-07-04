@@ -20,9 +20,9 @@ ComEventsMethod ComEventsMethod___::Add(ComEventsMethod methods, ComEventsMethod
 ComEventsMethod ComEventsMethod___::Remove(ComEventsMethod methods, ComEventsMethod method) {
   return nullptr;
 };
-void ComEventsMethod___::AddDelegate(Delegate d) {
+void ComEventsMethod___::AddDelegate(Delegate d, Boolean wrapArgs) {
 };
-void ComEventsMethod___::RemoveDelegate(Delegate d) {
+void ComEventsMethod___::RemoveDelegate(Delegate d, Boolean wrapArgs) {
 };
 Object ComEventsMethod___::Invoke(Array<Object> args) {
   return nullptr;

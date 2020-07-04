@@ -30,6 +30,8 @@ void UnmanagedMemoryStream___::Initialize(SafeBuffer buffer, Int64 offset, Int64
 };
 void UnmanagedMemoryStream___::Initialize(Byte* pointer, Int64 length, Int64 capacity, FileAccess access) {
 };
+void UnmanagedMemoryStream___::CopyTo(ReadOnlySpanAction<Byte, Object> callback, Object state, Int32 bufferSize) {
+};
 void UnmanagedMemoryStream___::Dispose(Boolean disposing) {
 };
 void UnmanagedMemoryStream___::EnsureNotClosed() {

@@ -86,5 +86,11 @@ enum class ExceptionArgument {
   endIndex = 81,
   elementType = 82,
   arrayIndex = 83,
+  year = 84,
+  codePoint = 85,
+  str = 86,
+  options = 87,
+  prefix = 88,
+  suffix = 89,
 };
 } // namespace System::Private::CoreLib::System

@@ -28,7 +28,6 @@ CLASS(TaskScheduler) {
     private: TaskScheduler m_taskScheduler;
   };
   public: Int32 get_MaximumConcurrencyLevel();
-  public: Boolean get_RequiresAtomicStartTransition();
   public: static TaskScheduler get_Default();
   public: static TaskScheduler get_Current();
   public: static TaskScheduler get_InternalCurrent();

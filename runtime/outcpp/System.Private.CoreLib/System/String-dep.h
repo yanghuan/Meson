@@ -9,6 +9,7 @@
 #include <System.Private.CoreLib/System/CharEnumerator-dep.h>
 #include <System.Private.CoreLib/System/Collections/Generic/IEnumerable.h>
 #include <System.Private.CoreLib/System/Collections/Generic/ValueListBuilder-dep.h>
+#include <System.Private.CoreLib/System/Globalization/CompareInfo-dep.h>
 #include <System.Private.CoreLib/System/Globalization/CompareOptions.h>
 #include <System.Private.CoreLib/System/Globalization/CultureInfo-dep.h>
 #include <System.Private.CoreLib/System/IFormatProvider.h>
@@ -23,5 +24,6 @@
 #include <System.Private.CoreLib/System/Text/Encoding-dep.h>
 #include <System.Private.CoreLib/System/Text/NormalizationForm.h>
 #include <System.Private.CoreLib/System/Text/StringRuneEnumerator-dep.h>
+#include <System.Private.CoreLib/System/Text/TrimType.h>
 #include <System.Private.CoreLib/System/TypeCode.h>
 #include <System.Private.CoreLib/System/UInt32-dep.h>

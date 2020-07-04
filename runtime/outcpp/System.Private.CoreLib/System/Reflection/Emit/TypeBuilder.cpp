@@ -23,6 +23,9 @@ String TypeBuilder___::get_Name() {
 Module TypeBuilder___::get_Module() {
   return nullptr;
 };
+Boolean TypeBuilder___::get_IsByRefLike() {
+  return Boolean();
+};
 Int32 TypeBuilder___::get_MetadataTokenInternal() {
   return Int32();
 };
@@ -113,8 +116,6 @@ Boolean TypeBuilder___::IsTypeEqual(Type t1, Type t2) {
   return Boolean();
 };
 void TypeBuilder___::SetConstantValue(ModuleBuilder module, Int32 tk, Type destType, Object value) {
-};
-void TypeBuilder___::InitAsGenericParam(String szName, Int32 genParamPos) {
 };
 FieldBuilder TypeBuilder___::DefineDataHelper(String name, Array<Byte> data, Int32 size, FieldAttributes attributes) {
   return nullptr;

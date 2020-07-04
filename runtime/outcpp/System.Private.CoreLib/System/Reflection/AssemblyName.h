@@ -95,7 +95,6 @@ CLASS(AssemblyName) {
   private: AssemblyHashAlgorithm _hashAlgorithm;
   private: AssemblyVersionCompatibility _versionCompatibility;
   private: AssemblyNameFlags _flags;
-  private: static Array<Char> s_hexUpperChars;
   public: static Char c_DummyChar;
   private: static Int16 c_MaxAsciiCharsReallocate;
   private: static Int16 c_MaxUnicodeCharsReallocate;

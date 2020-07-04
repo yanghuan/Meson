@@ -20,12 +20,6 @@ FORWARD(Decoder)
 FORWARD(Encoder)
 namespace UTF7EncodingNamespace {
 CLASS(UTF7Encoding) {
-  private: CLASS(DecoderUTF7Fallback) {
-    public: Int32 get_MaxCharCount();
-    public: DecoderFallbackBuffer CreateFallbackBuffer();
-    public: Boolean Equals(Object value);
-    public: Int32 GetHashCode();
-  };
   private: CLASS(Decoder) {
     public: Boolean get_HasState();
     public: void Reset();
@@ -38,6 +32,12 @@ CLASS(UTF7Encoding) {
     public: void Reset();
     public: Int32 bits;
     public: Int32 bitCount;
+  };
+  private: CLASS(DecoderUTF7Fallback) {
+    public: Int32 get_MaxCharCount();
+    public: DecoderFallbackBuffer CreateFallbackBuffer();
+    public: Boolean Equals(Object value);
+    public: Int32 GetHashCode();
   };
   private: CLASS(DecoderUTF7FallbackBuffer) {
     public: Int32 get_Remaining();

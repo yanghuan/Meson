@@ -18,7 +18,8 @@ CLASS(IdnMapping) {
   public: void set_AllowUnassigned(Boolean value);
   public: Boolean get_UseStd3AsciiRules();
   public: void set_UseStd3AsciiRules(Boolean value);
-  private: UInt32 get_Flags();
+  private: UInt32 get_IcuFlags();
+  private: UInt32 get_NlsFlags();
   public: String GetAscii(String unicode);
   public: String GetAscii(String unicode, Int32 index);
   public: String GetAscii(String unicode, Int32 index, Int32 count);
@@ -42,14 +43,18 @@ CLASS(IdnMapping) {
   private: static Char EncodeBasic(Char bcp);
   private: static Boolean HasUpperCaseFlag(Char punychar);
   private: static Char EncodeDigit(Int32 d);
-  private: String GetAsciiCore(String unicodeString, Char* unicode, Int32 count);
-  private: String GetAsciiCore(String unicodeString, Char* unicode, Int32 count, UInt32 flags, Char* output, Int32 outputLength);
-  private: String GetUnicodeCore(String asciiString, Char* ascii, Int32 count);
-  private: String GetUnicodeCore(String asciiString, Char* ascii, Int32 count, UInt32 flags, Char* output, Int32 outputLength);
+  private: String IcuGetAsciiCore(String unicodeString, Char* unicode, Int32 count);
+  private: String IcuGetUnicodeCore(String asciiString, Char* ascii, Int32 count);
+  private: String IcuGetUnicodeCore(String asciiString, Char* ascii, Int32 count, UInt32 flags, Char* output, Int32 outputLength, Boolean reattempt);
+  private: static void CheckInvalidIdnCharacters(Char* s, Int32 count, UInt32 flags, String paramName);
+  private: String NlsGetAsciiCore(String unicodeString, Char* unicode, Int32 count);
+  private: String NlsGetAsciiCore(String unicodeString, Char* unicode, Int32 count, UInt32 flags, Char* output, Int32 outputLength);
+  private: String NlsGetUnicodeCore(String asciiString, Char* ascii, Int32 count);
+  private: String NlsGetUnicodeCore(String asciiString, Char* ascii, Int32 count, UInt32 flags, Char* output, Int32 outputLength);
   private: static void ThrowForZeroLength(Boolean unicode);
   private: Boolean _allowUnassigned;
   private: Boolean _useStd3AsciiRules;
-  private: static Array<Char> c_Dots;
+  private: static Array<Char> s_dotSeparators;
 };
 } // namespace IdnMappingNamespace
 using IdnMapping = IdnMappingNamespace::IdnMapping;

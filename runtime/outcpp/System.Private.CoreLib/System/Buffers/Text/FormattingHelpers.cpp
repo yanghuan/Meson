@@ -18,8 +18,6 @@ Char FormattingHelpers::GetSymbolOrDefault(StandardFormat& format, Char defaultS
 };
 void FormattingHelpers::FillWithAsciiZeros(Span<Byte> buffer) {
 };
-void FormattingHelpers::WriteHexByte(Byte value, Span<Byte> buffer, Int32 startingIndex, HexCasing casing) {
-};
 void FormattingHelpers::WriteDigits(UInt64 value, Span<Byte> buffer) {
 };
 void FormattingHelpers::WriteDigitsWithGroupSeparator(UInt64 value, Span<Byte> buffer) {

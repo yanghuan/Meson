@@ -19,9 +19,6 @@ namespace System::Private::CoreLib::System::Runtime::CompilerServices {
 FORWARD(IAsyncStateMachineBox)
 } // namespace System::Private::CoreLib::System::Runtime::CompilerServices
 namespace System::Private::CoreLib::System::Threading::Tasks {
-enum class CausalityRelation;
-enum class AsyncCausalityStatus;
-enum class CausalitySynchronousWork;
 namespace TplEventSourceNamespace {
 using namespace ::System::Private::CoreLib::System::Diagnostics::Tracing;
 using namespace ::System::Private::CoreLib::System::Runtime::CompilerServices;
@@ -30,7 +27,7 @@ CLASS(TplEventSource) {
     Synchronous = 1,
     Asynchronous = 2,
   };
-  public: CLASS(Tasks) {
+  public: class Tasks {
     public: static EventTask Loop;
     public: static EventTask Invoke;
     public: static EventTask TaskExecute;
@@ -41,7 +38,7 @@ CLASS(TplEventSource) {
     public: static EventTask TraceOperation;
     public: static EventTask TraceSynchronousWork;
   };
-  public: CLASS(Keywords) {
+  public: class Keywords {
     public: static EventKeywords TaskTransfer;
     public: static EventKeywords Tasks;
     public: static EventKeywords Parallel;
@@ -63,12 +60,7 @@ CLASS(TplEventSource) {
   public: void TaskWaitEnd(Int32 OriginatingTaskSchedulerID, Int32 OriginatingTaskID, Int32 TaskID);
   public: void TaskWaitContinuationComplete(Int32 TaskID);
   public: void TaskWaitContinuationStarted(Int32 TaskID);
-  public: void AwaitTaskContinuationScheduled(Int32 OriginatingTaskSchedulerID, Int32 OriginatingTaskID, Int32 ContinuwWithTaskId);
-  public: void TraceOperationBegin(Int32 TaskID, String OperationName, Int64 RelatedContext);
-  public: void TraceOperationRelation(Int32 TaskID, CausalityRelation Relation);
-  public: void TraceOperationEnd(Int32 TaskID, AsyncCausalityStatus Status);
-  public: void TraceSynchronousWorkBegin(Int32 TaskID, CausalitySynchronousWork Work);
-  public: void TraceSynchronousWorkEnd(CausalitySynchronousWork Work);
+  public: void AwaitTaskContinuationScheduled(Int32 OriginatingTaskSchedulerID, Int32 OriginatingTaskID, Int32 ContinueWithTaskId);
   public: void RunningContinuationList(Int32 TaskID, Int32 Index, Object Object);
   public: void RunningContinuationList(Int32 TaskID, Int32 Index, Int64 Object);
   public: void DebugFacilityMessage(String Facility, String Message);

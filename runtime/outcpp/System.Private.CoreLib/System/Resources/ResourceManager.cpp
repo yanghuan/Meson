@@ -110,15 +110,4 @@ UnmanagedMemoryStream ResourceManager___::GetStream(String name) {
 UnmanagedMemoryStream ResourceManager___::GetStream(String name, CultureInfo culture) {
   return nullptr;
 };
-String ResourceManager___::GetStringFromPRI(String stringName, CultureInfo culture, String neutralResourcesCulture) {
-  return nullptr;
-};
-WindowsRuntimeResourceManagerBase ResourceManager___::GetWinRTResourceManager() {
-  return nullptr;
-};
-Boolean ResourceManager___::ShouldUseUapResourceManagement(Assembly resourcesAssembly) {
-  return Boolean();
-};
-void ResourceManager___::SetUapConfiguration() {
-};
 } // namespace System::Private::CoreLib::System::Resources::ResourceManagerNamespace

@@ -1,6 +1,17 @@
 #include "Convert-dep.h"
 
 namespace System::Private::CoreLib::System::ConvertNamespace {
+ReadOnlySpan<SByte> Convert::get_DecodingMap() {
+  return ReadOnlySpan<SByte>();
+};
+Boolean Convert::TryDecodeFromUtf16(ReadOnlySpan<Char> utf16, Span<Byte> bytes, Int32& consumed, Int32& written) {
+  return Boolean();
+};
+Int32 Convert::Decode(Char& encodedChars, SByte& decodingMap) {
+  return Int32();
+};
+void Convert::WriteThreeLowOrderBytes(Byte& destination, Int32 value) {
+};
 TypeCode Convert::GetTypeCode(Object value) {
   return TypeCode::String;
 };
@@ -980,13 +991,5 @@ Array<Byte> Convert::FromBase64CharPtr(Char* inputPtr, Int32 inputLength) {
 };
 Int32 Convert::FromBase64_ComputeResultLength(Char* inputPtr, Int32 inputLength) {
   return Int32();
-};
-Boolean Convert::TryDecodeFromUtf16(ReadOnlySpan<Char> utf16, Span<Byte> bytes, Int32& consumed, Int32& written) {
-  return Boolean();
-};
-Int32 Convert::Decode(Char& encodedChars, SByte& decodingMap) {
-  return Int32();
-};
-void Convert::WriteThreeLowOrderBytes(Byte& destination, Int32 value) {
 };
 } // namespace System::Private::CoreLib::System::ConvertNamespace

@@ -39,11 +39,11 @@ FORWARD(Object)
 FORWARD(Type)
 FORWARD_(Array, T1, T2)
 FORWARDS(Int32)
-FORWARD(IRuntimeMethodInfo)
 FORWARDS(ModuleHandle)
 enum class TypeNameFormatFlags;
 FORWARD(String)
 FORWARDS(MdUtf8String)
+FORWARD(IRuntimeMethodInfo)
 namespace RuntimeTypeHandleNamespace {
 using namespace ::System::Private::CoreLib::System::Reflection;
 using namespace ::System::Private::CoreLib::System::Runtime::CompilerServices;
@@ -78,7 +78,6 @@ struct RuntimeTypeHandle {
   public: static Array<IntPtr> CopyRuntimeTypeHandles(Array<RuntimeTypeHandle> inHandles, Int32& length);
   public: static Array<IntPtr> CopyRuntimeTypeHandles(Array<Type> inHandles, Int32& length);
   public: static Object CreateInstance(RuntimeType type, Boolean publicOnly, Boolean wrapExceptions, Boolean& canBeCached, RuntimeMethodHandleInternal& ctor, Boolean& hasNoDefaultCtor);
-  public: static Object CreateCaInstance(RuntimeType type, IRuntimeMethodInfo ctor);
   public: static Object Allocate(RuntimeType type);
   public: static Object CreateInstanceForAnotherGenericParameter(RuntimeType type, RuntimeType genericParameter);
   public: RuntimeType GetRuntimeType();
@@ -102,6 +101,8 @@ struct RuntimeTypeHandle {
   public: Array<Type> GetConstraints();
   private: static IntPtr GetGCHandle(QCallTypeHandle handle, GCHandleType type);
   public: IntPtr GetGCHandle(GCHandleType type);
+  private: static IntPtr FreeGCHandle(QCallTypeHandle typeHandle, IntPtr objHandle);
+  public: IntPtr FreeGCHandle(IntPtr objHandle);
   public: static Int32 GetNumVirtuals(RuntimeType type);
   private: static void VerifyInterfaceIsImplemented(QCallTypeHandle handle, QCallTypeHandle interfaceHandle);
   public: void VerifyInterfaceIsImplemented(RuntimeTypeHandle interfaceHandle);
@@ -120,11 +121,9 @@ struct RuntimeTypeHandle {
   public: static Boolean CanCastTo(RuntimeType type, RuntimeType target);
   public: static RuntimeType GetDeclaringType(RuntimeType type);
   public: static IRuntimeMethodInfo GetDeclaringMethod(RuntimeType type);
-  private: static void GetDefaultConstructor(QCallTypeHandle handle, ObjectHandleOnStack method);
-  public: IRuntimeMethodInfo GetDefaultConstructor();
-  private: static void GetTypeByName(String name, Boolean throwOnError, Boolean ignoreCase, StackCrawlMarkHandle stackMark, ObjectHandleOnStack assemblyLoadContext, Boolean loadTypeFromPartialName, ObjectHandleOnStack type, ObjectHandleOnStack keepalive);
-  public: static RuntimeType GetTypeByName(String name, Boolean throwOnError, Boolean ignoreCase, StackCrawlMark& stackMark, Boolean loadTypeFromPartialName);
-  public: static RuntimeType GetTypeByName(String name, Boolean throwOnError, Boolean ignoreCase, StackCrawlMark& stackMark, AssemblyLoadContext assemblyLoadContext, Boolean loadTypeFromPartialName);
+  private: static void GetTypeByName(String name, Boolean throwOnError, Boolean ignoreCase, StackCrawlMarkHandle stackMark, ObjectHandleOnStack assemblyLoadContext, ObjectHandleOnStack type, ObjectHandleOnStack keepalive);
+  public: static RuntimeType GetTypeByName(String name, Boolean throwOnError, Boolean ignoreCase, StackCrawlMark& stackMark);
+  public: static RuntimeType GetTypeByName(String name, Boolean throwOnError, Boolean ignoreCase, StackCrawlMark& stackMark, AssemblyLoadContext assemblyLoadContext);
   private: static void GetTypeByNameUsingCARules(String name, QCallModule scope, ObjectHandleOnStack type);
   public: static RuntimeType GetTypeByNameUsingCARules(String name, RuntimeModule scope);
   public: static void GetInstantiation(QCallTypeHandle type, ObjectHandleOnStack types, Interop::BOOL fAsRuntimeTypeArray);

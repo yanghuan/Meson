@@ -60,6 +60,7 @@ struct Variant {
     public: UnionTypes _unionTypes;
   };
   public: VarEnum get_VariantType();
+  public: void set_VariantType(VarEnum value);
   public: Boolean get_IsEmpty();
   public: Boolean get_IsByRef();
   public: SByte get_AsI1();
@@ -85,6 +86,7 @@ struct Variant {
   public: IntPtr get_AsByRefVariant();
   public: void CopyFromIndirect(Object value);
   public: Object ToObject();
+  public: void Clear();
   private: TypeUnion _typeUnion;
   private: Decimal _decimal;
 };

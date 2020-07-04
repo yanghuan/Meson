@@ -12,9 +12,6 @@ IEnumerable<Task<>> TaskScheduler___::SystemThreadingTasks_TaskSchedulerDebugVie
 Int32 TaskScheduler___::get_MaximumConcurrencyLevel() {
   return Int32();
 };
-Boolean TaskScheduler___::get_RequiresAtomicStartTransition() {
-  return Boolean();
-};
 TaskScheduler TaskScheduler___::get_Default() {
   return nullptr;
 };

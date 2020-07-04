@@ -36,11 +36,11 @@ class DateTimeFormat {
   public: static Int32 ParseNextChar(ReadOnlySpan<Char> format, Int32 pos);
   private: static Boolean IsUseGenitiveForm(ReadOnlySpan<Char> format, Int32 index, Int32 tokenLen, Char patternToMatch);
   private: static StringBuilder FormatCustomized(DateTime dateTime, ReadOnlySpan<Char> format, DateTimeFormatInfo dtfi, TimeSpan offset, StringBuilder result);
-  private: static void FormatCustomizedTimeZone(DateTime dateTime, TimeSpan offset, ReadOnlySpan<Char> format, Int32 tokenLen, Boolean timeOnly, StringBuilder result);
+  private: static void FormatCustomizedTimeZone(DateTime dateTime, TimeSpan offset, Int32 tokenLen, Boolean timeOnly, StringBuilder result);
   private: static void FormatCustomizedRoundripTimeZone(DateTime dateTime, TimeSpan offset, StringBuilder result);
   private: static void Append2DigitNumber(StringBuilder result, Int32 val);
   public: static String GetRealFormat(ReadOnlySpan<Char> format, DateTimeFormatInfo dtfi);
-  private: static String ExpandPredefinedFormat(ReadOnlySpan<Char> format, DateTime& dateTime, DateTimeFormatInfo& dtfi, TimeSpan& offset);
+  private: static String ExpandPredefinedFormat(ReadOnlySpan<Char> format, DateTime& dateTime, DateTimeFormatInfo& dtfi, TimeSpan offset);
   public: static String Format(DateTime dateTime, String format, IFormatProvider provider);
   public: static String Format(DateTime dateTime, String format, IFormatProvider provider, TimeSpan offset);
   public: static Boolean TryFormat(DateTime dateTime, Span<Char> destination, Int32& charsWritten, ReadOnlySpan<Char> format, IFormatProvider provider);
@@ -53,8 +53,6 @@ class DateTimeFormat {
   private: static void WriteDigits(UInt64 value, Span<Char> buffer);
   public: static Array<String> GetAllDateTimes(DateTime dateTime, Char format, DateTimeFormatInfo dtfi);
   public: static Array<String> GetAllDateTimes(DateTime dateTime, DateTimeFormatInfo dtfi);
-  public: static void InvalidFormatForLocal(ReadOnlySpan<Char> format, DateTime dateTime);
-  public: static TimeSpan NullOffset;
   public: static Array<Char> allStandardFormats;
   public: static DateTimeFormatInfo InvariantFormatInfo;
   public: static Array<String> InvariantAbbreviatedMonthNames;

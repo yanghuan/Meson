@@ -50,7 +50,10 @@ CLASS(JapaneseCalendar) {
   public: static Array<String> AbbrevEraNames();
   public: static Array<String> EnglishEraNames();
   public: Boolean IsValidYear(Int32 year, Int32 era);
-  private: static Array<EraInfo> GetJapaneseEras();
+  private: static Array<EraInfo> IcuGetJapaneseEras();
+  private: static String GetAbbreviatedEraName(Array<String> eraNames, Int32 eraIndex);
+  private: static Boolean GetJapaneseEraStartDate(Int32 era, DateTime& dateTime);
+  private: static Array<EraInfo> NlsGetJapaneseEras();
   private: static Int32 CompareEraRanges(EraInfo a, EraInfo b);
   private: static EraInfo GetEraFromValue(String value, String data);
   private: static DateTime s_calendarMinValue;

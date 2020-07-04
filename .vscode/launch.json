@@ -10,8 +10,8 @@
             "request": "launch",
             "preLaunchTask": "build",
             // If you have changed target frameworks, make sure to update the program path.
-            "program": "${workspaceFolder}/Compiler/bin/Debug/netcoreapp3.1/Compiler.dll",
-            "args": ["-d", "${workspaceFolder}/runtime/outcpp", "-a", "${workspaceFolder}/Test/bin/Debug/netcoreapp3.1/Test.dll"],
+            "program": "${workspaceFolder}/Compiler/bin/Debug/netcoreapp5.0/Compiler.dll",
+            "args": ["-d", "${workspaceFolder}/runtime/outcpp", "-a", "${workspaceFolder}/Test/bin/Debug/netcoreapp5.0/Test.dll"],
             "cwd": "${workspaceFolder}/Compiler",
             // For more information about the 'console' field, see https://aka.ms/VSCode-CS-LaunchJson-Console
             "console": "internalConsole",
@@ -29,7 +29,7 @@
             "request": "launch",
             "preLaunchTask": "build",
             // If you have changed target frameworks, make sure to update the program path.
-            "program": "${workspaceFolder}/Test/bin/Debug/netcoreapp3.1/Test.dll",
+            "program": "${workspaceFolder}/Test/bin/Debug/netcoreapp5.0/Test.dll",
             "args": [],
             "cwd": "${workspaceFolder}/Test",
             // For more information about the 'console' field, see https://aka.ms/VSCode-CS-LaunchJson-Console

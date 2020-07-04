@@ -54,8 +54,8 @@
 #include <System.Private.CoreLib/System/RuntimeTypeHandle-dep.h>
 #include <System.Private.CoreLib/System/String-dep.h>
 #include <System.Private.CoreLib/System/Threading/StackCrawlMark.h>
-#include <System.Private.CoreLib/System/TypeCode.h>
 #include <System.Private.CoreLib/System/Type-dep.h>
+#include <System.Private.CoreLib/System/TypeCode.h>
 #include <System.Private.CoreLib/System/TypeNameFormatFlags.h>
 #include <System.Private.CoreLib/System/TypeNameKind.h>
 #include <System.Private.CoreLib/System/UInt32-dep.h>

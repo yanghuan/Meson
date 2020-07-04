@@ -30,7 +30,6 @@ CLASS(TextInfo) {
   };
   private: struct ToLowerConversion {
   };
-  public: static TextInfo get_Invariant();
   public: Int32 get_ANSICodePage();
   public: Int32 get_OEMCodePage();
   public: Int32 get_MacCodePage();
@@ -42,11 +41,13 @@ CLASS(TextInfo) {
   public: void set_ListSeparator(String value);
   private: Boolean get_IsAsciiCasingSameAsInvariant();
   public: Boolean get_IsRightToLeft();
+  private: Boolean get_IsInvariant();
   public: Object Clone();
   public: static TextInfo ReadOnly(TextInfo textInfo);
   private: void VerifyWritable();
   public: void SetReadOnlyState(Boolean readOnly);
   public: Char ToLower(Char c);
+  public: static Char ToLowerInvariant(Char c);
   public: String ToLower(String str);
   private: Char ChangeCase(Char c, Boolean toUpper);
   public: void ChangeCaseToLower(ReadOnlySpan<Char> source, Span<Char> destination);
@@ -57,9 +58,9 @@ CLASS(TextInfo) {
   public: static void ToUpperAsciiInvariant(ReadOnlySpan<Char> source, Span<Char> destination);
   private: static Char ToLowerAsciiInvariant(Char c);
   public: Char ToUpper(Char c);
+  public: static Char ToUpperInvariant(Char c);
   public: String ToUpper(String str);
-  public: static Char ToUpperAsciiInvariant(Char c);
-  private: static Boolean IsAscii(Char c);
+  private: static Char ToUpperAsciiInvariant(Char c);
   private: void PopulateIsAsciiCasingSameAsInvariant();
   public: Boolean Equals(Object obj);
   public: Int32 GetHashCode();
@@ -67,10 +68,12 @@ CLASS(TextInfo) {
   public: String ToTitleCase(String str);
   private: static Int32 AddNonLetter(StringBuilder& result, String& input, Int32 inputIndex, Int32 charLen);
   private: Int32 AddTitlecaseLetter(StringBuilder& result, String& input, Int32 inputIndex, Int32 charLen);
+  private: void ChangeCaseCore(Char* src, Int32 srcLen, Char* dstBuffer, Int32 dstBufferCapacity, Boolean bToUpper);
   private: static Boolean IsWordSeparator(UnicodeCategory category);
   private: static Boolean IsLetterCategory(UnicodeCategory uc);
-  private: void FinishInitialization();
-  private: void ChangeCase(Char* pSource, Int32 pSourceLen, Char* pResult, Int32 pResultLen, Boolean toUpper);
+  private: static Boolean NeedsTurkishCasing(String localeName);
+  public: void IcuChangeCase(Char* src, Int32 srcLen, Char* dstBuffer, Int32 dstBufferCapacity, Boolean bToUpper);
+  private: void NlsChangeCase(Char* pSource, Int32 pSourceLen, Char* pResult, Int32 pResultLen, Boolean toUpper);
   private: static Boolean IsInvariantLocale(String localeName);
   private: String _listSeparator;
   private: Boolean _isReadOnly;
@@ -78,7 +81,8 @@ CLASS(TextInfo) {
   private: CultureData _cultureData;
   private: String _textInfoName;
   private: Tristate _isAsciiCasingSameAsInvariant;
-  private: static TextInfo s_invariant;
+  public: static TextInfo Invariant;
+  private: Tristate _needsTurkishCasing;
   private: IntPtr _sortHandle;
 };
 } // namespace TextInfoNamespace

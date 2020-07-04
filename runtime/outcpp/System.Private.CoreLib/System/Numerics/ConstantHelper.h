@@ -16,7 +16,7 @@ FORWARDS(UInt64)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Numerics {
 namespace ConstantHelperNamespace {
-CLASS(ConstantHelper) {
+class ConstantHelper {
   public: static Byte GetByteWithAllBitsSet();
   public: static SByte GetSByteWithAllBitsSet();
   public: static UInt16 GetUInt16WithAllBitsSet();

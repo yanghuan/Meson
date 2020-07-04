@@ -4,6 +4,7 @@
 #include <System.Private.CoreLib/Interop.h>
 
 namespace System::Private::CoreLib::System {
+FORWARD_(Action, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17)
 FORWARD_(Array, T1, T2)
 FORWARDS(Boolean)
 FORWARDS(Int32)
@@ -26,6 +27,7 @@ FORWARD(RegisteredWaitHandle)
 FORWARDS(NativeOverlapped)
 FORWARD(WaitCallback)
 FORWARD(IThreadPoolWorkItem)
+FORWARD(ThreadPoolWorkQueue)
 namespace ThreadPoolNamespace {
 using namespace ::System::Private::CoreLib::System::Collections::Generic;
 using namespace ::System::Private::CoreLib::System::Runtime::InteropServices;
@@ -45,8 +47,6 @@ class ThreadPool {
   public: static Interop::BOOL RequestWorkerThread();
   private: static Boolean PostQueuedCompletionStatus(NativeOverlapped* overlapped);
   public: static Boolean UnsafeQueueNativeOverlapped(NativeOverlapped* overlapped);
-  private: static void EnsureInitialized();
-  private: static void EnsureVMInitializedCore();
   private: static Boolean SetMinThreadsNative(Int32 workerThreads, Int32 completionPortThreads);
   private: static Boolean SetMaxThreadsNative(Int32 workerThreads, Int32 completionPortThreads);
   private: static void GetMinThreadsNative(Int32& workerThreads, Int32& completionPortThreads);
@@ -56,7 +56,7 @@ class ThreadPool {
   public: static void ReportThreadStatus(Boolean isWorking);
   public: static void NotifyWorkItemProgress();
   public: static void NotifyWorkItemProgressNative();
-  private: static void InitializeVMTp(Boolean& enableWorkerTracking);
+  private: static Boolean GetEnableWorkerTracking();
   private: static IntPtr RegisterWaitForSingleObjectNative(WaitHandle waitHandle, Object state, UInt32 timeOutInterval, Boolean executeOnlyOnce, RegisteredWaitHandle registeredWaitHandle);
   public: static Boolean BindHandle(IntPtr osHandle);
   public: static Boolean BindHandle(SafeHandle osHandle);
@@ -82,6 +82,9 @@ class ThreadPool {
   public: static Array<Object> GetQueuedWorkItemsForDebugger();
   public: static Array<Object> GetGloballyQueuedWorkItemsForDebugger();
   public: static Array<Object> GetLocallyQueuedWorkItemsForDebugger();
+  public: static Boolean EnableWorkerTracking;
+  public: static ThreadPoolWorkQueue s_workQueue;
+  public: static Action<Object> s_invokeAsyncStateMachineBox;
 };
 } // namespace ThreadPoolNamespace
 using ThreadPool = ThreadPoolNamespace::ThreadPool;

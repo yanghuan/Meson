@@ -33,9 +33,6 @@ Boolean Enum___::IsDefined(Type enumType, Object value) {
 RuntimeType Enum___::ValidateRuntimeType(Type enumType) {
   return nullptr;
 };
-Int32 Enum___::CompareTo(Object target) {
-  return Int32();
-};
 String Enum___::ValueToString() {
   return nullptr;
 };
@@ -116,6 +113,9 @@ Int32 Enum___::GetHashCode() {
 };
 String Enum___::ToString() {
   return nullptr;
+};
+Int32 Enum___::CompareTo(Object target) {
+  return Int32();
 };
 String Enum___::ToString(String format, IFormatProvider provider) {
   return nullptr;

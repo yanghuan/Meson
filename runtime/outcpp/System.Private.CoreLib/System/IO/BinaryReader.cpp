@@ -92,4 +92,7 @@ void BinaryReader___::FillBuffer(Int32 numBytes) {
 Int32 BinaryReader___::Read7BitEncodedInt() {
   return Int32();
 };
+Int64 BinaryReader___::Read7BitEncodedInt64() {
+  return Int64();
+};
 } // namespace System::Private::CoreLib::System::IO::BinaryReaderNamespace

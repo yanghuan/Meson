@@ -46,6 +46,7 @@ CLASS(GenericTypeParameterBuilder) {
   public: Type get_ReflectedType();
   public: String get_Name();
   public: Module get_Module();
+  public: Boolean get_IsByRefLike();
   public: Int32 get_MetadataTokenInternal();
   public: Guid get_GUID();
   public: Assembly get_Assembly();

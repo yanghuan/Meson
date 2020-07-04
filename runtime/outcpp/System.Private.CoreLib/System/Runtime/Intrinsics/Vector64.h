@@ -20,6 +20,7 @@ template <class T>
 struct Vector64<T> {
   public: static Int32 get_Count();
   public: static Vector64<T> get_Zero();
+  public: static Vector64<T> get_AllBitsSet();
   public: String get_DisplayString();
   public: static Boolean get_IsSupported();
   private: UInt64 _00;

@@ -10,6 +10,7 @@ FORWARDS(Byte)
 FORWARDS(DateTime)
 enum class DayOfWeek;
 FORWARDS(Int64)
+FORWARDS(ReadOnlySpan, T)
 FORWARD(String)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Globalization {
@@ -22,6 +23,8 @@ CLASS(HebrewCalendar) {
     public: Int32 month;
     public: Int32 day;
   };
+  private: static ReadOnlySpan<Byte> get_HebrewTable();
+  private: static ReadOnlySpan<Byte> get_LunarMonthLen();
   public: DateTime get_MinSupportedDateTime();
   public: DateTime get_MaxSupportedDateTime();
   public: CalendarAlgorithmType get_AlgorithmType();
@@ -58,8 +61,6 @@ CLASS(HebrewCalendar) {
   public: DateTime ToDateTime(Int32 year, Int32 month, Int32 day, Int32 hour, Int32 minute, Int32 second, Int32 millisecond, Int32 era);
   public: Int32 ToFourDigitYear(Int32 year);
   public: static Int32 HebrewEra;
-  private: static Array<Byte> s_hebrewTable;
-  private: static Array<Byte> s_lunarMonthLen;
   private: static DateTime s_calendarMinValue;
   private: static DateTime s_calendarMaxValue;
 };

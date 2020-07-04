@@ -143,7 +143,7 @@ class Console {
   public: static void Write(Object value);
   public: static void Write(String value);
   public: static Boolean HandleBreakEvent(ConsoleSpecialKey controlKey);
-  private: static Object InternalSyncObject;
+  private: static Object s_syncObject;
   private: static TextReader s_in;
   private: static TextWriter s_out;
   private: static TextWriter s_error;

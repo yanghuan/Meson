@@ -21,10 +21,10 @@ Int32 SByte::GetHashCode() {
 String SByte::ToString() {
   return nullptr;
 };
-String SByte::ToString(IFormatProvider provider) {
+String SByte::ToString(String format) {
   return nullptr;
 };
-String SByte::ToString(String format) {
+String SByte::ToString(IFormatProvider provider) {
   return nullptr;
 };
 String SByte::ToString(String format, IFormatProvider provider) {

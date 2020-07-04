@@ -27,7 +27,7 @@ CLASS(RegistryKey) {
   public: Object GetValue(String name);
   public: Object GetValue(String name, Object defaultValue);
   public: void SetValue(String name, String value);
-  public: void Win32Error(Int32 errorCode, String str);
+  public: static void Win32Error(Int32 errorCode, String str);
   private: SafeRegistryHandle _hkey;
 };
 } // namespace RegistryKeyNamespace

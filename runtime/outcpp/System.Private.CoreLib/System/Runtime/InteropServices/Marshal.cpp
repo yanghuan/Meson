@@ -49,11 +49,20 @@ Type Marshal::GetTypeFromCLSID(Guid clsid) {
 IntPtr Marshal::GetIUnknownForObject(Object o) {
   return IntPtr();
 };
+IntPtr Marshal::GetIDispatchForObject(Object o) {
+  return IntPtr();
+};
 IntPtr Marshal::GetComInterfaceForObject(Object o, Type T) {
   return IntPtr();
 };
 IntPtr Marshal::GetComInterfaceForObject(Object o, Type T, CustomQueryInterfaceMode mode) {
   return IntPtr();
+};
+Object Marshal::GetObjectForIUnknown(IntPtr pUnk) {
+  return nullptr;
+};
+Object Marshal::GetUniqueObjectForIUnknown(IntPtr unknown) {
+  return nullptr;
 };
 IntPtr Marshal::AllocCoTaskMem(Int32 cb) {
   return IntPtr();
@@ -279,9 +288,6 @@ IntPtr Marshal::GetFunctionPointerForDelegate(Delegate d) {
 Int32 Marshal::GetHRForLastWin32Error() {
   return Int32();
 };
-IntPtr Marshal::GetIDispatchForObject(Object o) {
-  return IntPtr();
-};
 void Marshal::ZeroFreeBSTR(IntPtr s) {
 };
 void Marshal::ZeroFreeCoTaskMemAnsi(IntPtr s) {
@@ -312,10 +318,15 @@ IntPtr Marshal::StringToCoTaskMemAuto(String s) {
 Int32 Marshal::GetSystemMaxDBCSCharSize() {
   return Int32();
 };
-Boolean Marshal::IsWin32Atom(IntPtr ptr) {
+Boolean Marshal::IsNullOrWin32Atom(IntPtr ptr) {
   return Boolean();
 };
 Int32 Marshal::StringToAnsiString(String s, Byte* buffer, Int32 bufferLength, Boolean bestFit, Boolean throwOnUnmappableChar) {
   return Int32();
+};
+Int32 Marshal::GetAnsiStringByteCount(ReadOnlySpan<Char> chars) {
+  return Int32();
+};
+void Marshal::GetAnsiStringBytes(ReadOnlySpan<Char> chars, Span<Byte> bytes) {
 };
 } // namespace System::Private::CoreLib::System::Runtime::InteropServices::MarshalNamespace

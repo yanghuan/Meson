@@ -93,7 +93,16 @@ Array<String> JapaneseCalendar___::EnglishEraNames() {
 Boolean JapaneseCalendar___::IsValidYear(Int32 year, Int32 era) {
   return Boolean();
 };
-Array<EraInfo> JapaneseCalendar___::GetJapaneseEras() {
+Array<EraInfo> JapaneseCalendar___::IcuGetJapaneseEras() {
+  return Array<EraInfo>();
+};
+String JapaneseCalendar___::GetAbbreviatedEraName(Array<String> eraNames, Int32 eraIndex) {
+  return nullptr;
+};
+Boolean JapaneseCalendar___::GetJapaneseEraStartDate(Int32 era, DateTime& dateTime) {
+  return Boolean();
+};
+Array<EraInfo> JapaneseCalendar___::NlsGetJapaneseEras() {
   return Array<EraInfo>();
 };
 Int32 JapaneseCalendar___::CompareEraRanges(EraInfo a, EraInfo b) {

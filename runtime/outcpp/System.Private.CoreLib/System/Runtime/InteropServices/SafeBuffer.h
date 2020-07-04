@@ -12,15 +12,15 @@ FORWARDS(UInt64)
 namespace System::Private::CoreLib::System::Runtime::InteropServices {
 namespace SafeBufferNamespace {
 CLASS(SafeBuffer) {
+  private: static UIntPtr get_Uninitialized();
   public: UInt64 get_ByteLength();
   public: void Initialize(UInt64 numBytes);
   public: void Initialize(UInt32 numElements, UInt32 sizeOfEachElement);
   public: void AcquirePointer(Byte*& pointer);
   public: void ReleasePointer();
-  private: void SpaceCheck(Byte* ptr, UInt64 sizeInBytes);
+  private: void SpaceCheck(Byte* ptr, UIntPtr sizeInBytes);
   private: static void NotEnoughRoom();
   private: static InvalidOperationException NotInitialized();
-  private: static UIntPtr Uninitialized;
   private: UIntPtr _numBytes;
 };
 } // namespace SafeBufferNamespace

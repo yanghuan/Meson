@@ -21,6 +21,12 @@ void Math::ThrowAbsOverflow() {
 Int64 Math::BigMul(Int32 a, Int32 b) {
   return Int64();
 };
+UInt64 Math::BigMul(UInt64 a, UInt64 b, UInt64& low) {
+  return UInt64();
+};
+Int64 Math::BigMul(Int64 a, Int64 b, Int64& low) {
+  return Int64();
+};
 Double Math::BitDecrement(Double x) {
   return Double();
 };

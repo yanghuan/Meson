@@ -39,6 +39,8 @@ class SR {
   public: static String get_net_uri_BadUnicodeHostForIdn();
   public: static String get_Argument_ExtraNotValid();
   public: static String get_Argument_InvalidUriSubcomponent();
+  public: static String get_InvalidNullArgument();
+  public: static String get_net_uri_InitializeCalledAlreadyOrTooLate();
   private: static Boolean UsingResourceKeys();
   public: static String GetResourceString(String resourceKey, String defaultString);
   public: static String Format(String resourceFormat, Object p1);

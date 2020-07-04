@@ -130,8 +130,7 @@ CLASS(Thread) {
   public: Boolean Join(Int32 millisecondsTimeout);
   private: static Int32 GetOptimalMaxSpinWaitsPerSpinIterationInternal();
   private: static Int32 CalculateOptimalMaxSpinWaitsPerSpinIteration();
-  private: static Int32 GetCurrentProcessorNumber();
-  private: static Int32 RefreshCurrentProcessorId();
+  public: static Int32 GetCurrentProcessorNumber();
   public: static Int32 GetCurrentProcessorId();
   public: void ResetThreadPoolThread();
   private: void RequireCurrentThread();
@@ -199,10 +198,7 @@ CLASS(Thread) {
   private: Int32 _priority;
   private: Int32 _managedThreadId;
   private: static Int32 s_optimalMaxSpinWaitsPerSpinIteration;
-  private: static Int32 t_currentProcessorIdCache;
-  private: static Int32 ProcessorIdCacheShift;
-  private: static Int32 ProcessorIdCacheCountDownMask;
-  private: static Int32 ProcessorIdRefreshRate;
+  private: static Boolean s_isProcessorNumberReallyFast;
   private: static AsyncLocal<IPrincipal> s_asyncLocalPrincipal;
   private: static Thread t_currentThread;
 };

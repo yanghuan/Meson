@@ -10,16 +10,13 @@ Boolean Environment::WindowsVersion::GetIsWindows8OrAbove() {
 Int32 Environment::get_CurrentManagedThreadId() {
   return Int32();
 };
-Boolean Environment::get_HasShutdownStarted() {
-  return Boolean();
-};
-Int32 Environment::get_ProcessorCount() {
-  return Int32();
-};
 String Environment::get_StackTrace() {
   return nullptr;
 };
-Boolean Environment::get_IsWinRTSupported() {
+Boolean Environment::get_IsSingleProcessor() {
+  return Boolean();
+};
+Boolean Environment::get_HasShutdownStarted() {
   return Boolean();
 };
 String Environment::get_CommandLine() {
@@ -36,22 +33,28 @@ Boolean Environment::get_Is64BitProcess() {
 Boolean Environment::get_Is64BitOperatingSystem() {
   return Boolean();
 };
+String Environment::get_NewLine() {
+  return nullptr;
+};
 OperatingSystem Environment::get_OSVersion() {
   return nullptr;
 };
-Boolean Environment::get_UserInteractive() {
+Version Environment::get_Version() {
+  return nullptr;
+};
+Boolean Environment::get_IsWindows8OrAbove() {
   return Boolean();
 };
-Version Environment::get_Version() {
+String Environment::get_UserName() {
+  return nullptr;
+};
+String Environment::get_UserDomainName() {
   return nullptr;
 };
 String Environment::get_CurrentDirectoryCore() {
   return nullptr;
 };
 void Environment::set_CurrentDirectoryCore(String value) {
-};
-String Environment::get_NewLine() {
-  return nullptr;
 };
 Int32 Environment::get_SystemPageSize() {
   return Int32();
@@ -65,17 +68,11 @@ String Environment::get_MachineName() {
 String Environment::get_SystemDirectory() {
   return nullptr;
 };
-Int64 Environment::get_WorkingSet() {
-  return Int64();
-};
-Boolean Environment::get_IsWindows8OrAbove() {
+Boolean Environment::get_UserInteractive() {
   return Boolean();
 };
-String Environment::get_UserName() {
-  return nullptr;
-};
-String Environment::get_UserDomainName() {
-  return nullptr;
+Int64 Environment::get_WorkingSet() {
+  return Int64();
 };
 void Environment::Exit(Int32 exitCode) {
 };
@@ -114,15 +111,6 @@ Boolean Environment::ValidateAndConvertRegistryTarget(EnvironmentVariableTarget 
 };
 void Environment::ValidateVariableAndValue(String variable, String& value) {
 };
-Array<String> Environment::GetLogicalDrives() {
-  return Array<String>();
-};
-String Environment::ExpandEnvironmentVariablesCore(String name) {
-  return nullptr;
-};
-OperatingSystem Environment::GetOSVersion() {
-  return nullptr;
-};
 String Environment::GetEnvironmentVariableFromRegistry(String variable, Boolean fromMachine) {
   return nullptr;
 };
@@ -140,6 +128,15 @@ String Environment::GetFolderPathCore(SpecialFolder folder, SpecialFolderOption 
   return nullptr;
 };
 String Environment::GetKnownFolderPath(String folderGuid, SpecialFolderOption option) {
+  return nullptr;
+};
+Array<String> Environment::GetLogicalDrives() {
+  return Array<String>();
+};
+String Environment::ExpandEnvironmentVariablesCore(String name) {
+  return nullptr;
+};
+OperatingSystem Environment::GetOSVersion() {
   return nullptr;
 };
 String Environment::GetEnvironmentVariableCore(String variable) {

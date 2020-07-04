@@ -30,11 +30,16 @@ class ThrowHelper {
   public: static void ThrowArgumentException_OverlapAlignmentMismatch();
   public: static void ThrowArgumentException_CannotExtractScalar(ExceptionArgument argument);
   public: static void ThrowArgumentOutOfRange_IndexException();
+  public: static void ThrowArgumentException_BadComparer(Object comparer);
   public: static void ThrowIndexArgumentOutOfRange_NeedNonNegNumException();
   public: static void ThrowValueArgumentOutOfRange_NeedNonNegNumException();
   public: static void ThrowLengthArgumentOutOfRange_ArgumentOutOfRange_NeedNonNegNum();
   public: static void ThrowStartIndexArgumentOutOfRange_ArgumentOutOfRange_Index();
   public: static void ThrowCountArgumentOutOfRange_ArgumentOutOfRange_Count();
+  public: static void ThrowArgumentOutOfRange_Year();
+  public: static void ThrowArgumentOutOfRange_BadYearMonthDay();
+  public: static void ThrowArgumentOutOfRange_BadHourMinuteSecond();
+  public: static void ThrowArgumentOutOfRange_TimeSpanTooLong();
   private: static ArgumentException GetAddingDuplicateWithKeyArgumentException(Object key);
   public: static void ThrowArgumentException(ExceptionResource resource);
   public: static void ThrowArgumentException(ExceptionResource resource, ExceptionArgument argument);

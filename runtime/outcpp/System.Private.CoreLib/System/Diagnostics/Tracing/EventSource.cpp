@@ -21,7 +21,7 @@ void EventSource___::Sha1ForNonSecretPurposes::Start() {
 };
 void EventSource___::Sha1ForNonSecretPurposes::Append(Byte input) {
 };
-void EventSource___::Sha1ForNonSecretPurposes::Append(Array<Byte> input) {
+void EventSource___::Sha1ForNonSecretPurposes::Append(ReadOnlySpan<Byte> input) {
 };
 void EventSource___::Sha1ForNonSecretPurposes::Finish(Array<Byte> output) {
 };
@@ -164,15 +164,15 @@ void EventSource___::WriteEventVarargs(Int32 eventId, Guid* childActivityID, Arr
 Array<Object> EventSource___::SerializeEventArgs(Int32 eventId, Array<Object> args) {
   return Array<Object>();
 };
-void EventSource___::LogEventArgsMismatches(Array<ParameterInfo> infos, Array<Object> args) {
+void EventSource___::LogEventArgsMismatches(Int32 eventId, Array<Object> args) {
 };
 void EventSource___::WriteToAllListeners(Int32 eventId, Guid* activityID, Guid* childActivityID, Int32 eventDataCount, EventData* data) {
 };
 void EventSource___::WriteToAllListeners(Int32 eventId, UInt32* osThreadId, DateTime* timeStamp, Guid* activityID, Guid* childActivityID, Array<Object> args) {
 };
-void EventSource___::DispatchToAllListeners(Int32 eventId, Guid* childActivityID, EventWrittenEventArgs eventCallbackArgs) {
+void EventSource___::DispatchToAllListeners(Int32 eventId, EventWrittenEventArgs eventCallbackArgs) {
 };
-void EventSource___::WriteEventString(EventLevel level, Int64 keywords, String msgString) {
+void EventSource___::WriteEventString(String msgString) {
 };
 void EventSource___::WriteStringToAllListeners(String eventName, String msg) {
 };
@@ -207,8 +207,7 @@ Boolean EventSource___::AnyEventEnabled() {
 };
 void EventSource___::EnsureDescriptorsInitialized() {
 };
-Boolean EventSource___::SendManifest(Array<Byte> rawManifest) {
-  return Boolean();
+void EventSource___::SendManifest(Array<Byte> rawManifest) {
 };
 Attribute EventSource___::GetCustomAttributeHelper(MemberInfo member, Type attributeType, EventManifestOptions flags) {
   return nullptr;
@@ -238,7 +237,7 @@ void EventSource___::DebugCheckEvent(Dictionary<String, String>& eventsByName, A
 Int32 EventSource___::GetHelperCallFirstArg(MethodInfo method) {
   return Int32();
 };
-void EventSource___::ReportOutOfBandMessage(String msg, Boolean flush) {
+void EventSource___::ReportOutOfBandMessage(String msg) {
 };
 EventSourceSettings EventSource___::ValidateSettings(EventSourceSettings settings) {
   return EventSourceSettings::EtwSelfDescribingEventFormat;

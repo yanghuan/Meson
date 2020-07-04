@@ -22,6 +22,7 @@ class UnicodeUtility {
   public: static Boolean IsInRangeInclusive(UInt32 value, UInt32 lowerBound, UInt32 upperBound);
   public: static Boolean IsLowSurrogateCodePoint(UInt32 value);
   public: static Boolean IsSurrogateCodePoint(UInt32 value);
+  public: static Boolean IsValidCodePoint(UInt32 codePoint);
   public: static Boolean IsValidUnicodeScalar(UInt32 value);
 };
 } // namespace UnicodeUtilityNamespace

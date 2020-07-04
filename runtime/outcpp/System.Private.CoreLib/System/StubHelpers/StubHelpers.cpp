@@ -4,7 +4,7 @@ namespace System::Private::CoreLib::System::StubHelpers::StubHelpersNamespace {
 IntPtr StubHelpers::AddToCleanupList(CleanupWorkListElement& pCleanupWorkList, SafeHandle handle) {
   return IntPtr();
 };
-void StubHelpers::AddToCleanupList(CleanupWorkListElement& pCleanupWorkList, Delegate del) {
+void StubHelpers::KeepAliveViaCleanupList(CleanupWorkListElement& pCleanupWorkList, Object obj) {
 };
 void StubHelpers::DestroyCleanupList(CleanupWorkListElement& pCleanupWorkList) {
 };
@@ -12,9 +12,6 @@ Exception StubHelpers::GetHRExceptionObject(Int32 hr) {
   return nullptr;
 };
 Exception StubHelpers::GetCOMHRExceptionObject(Int32 hr, IntPtr pCPCMD, Object pThis) {
-  return nullptr;
-};
-Exception StubHelpers::GetCOMHRExceptionObject_WinRT(Int32 hr, IntPtr pCPCMD, Object pThis) {
   return nullptr;
 };
 IntPtr StubHelpers::SafeHandleAddRef(SafeHandle pHandle, Boolean& success) {

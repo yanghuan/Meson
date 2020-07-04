@@ -66,9 +66,6 @@ Assembly Assembly___::LoadWithPartialName(String partialName) {
 Assembly Assembly___::Load(AssemblyName assemblyRef) {
   return nullptr;
 };
-Assembly Assembly___::Load(AssemblyName assemblyRef, StackCrawlMark& stackMark, AssemblyLoadContext assemblyLoadContext) {
-  return nullptr;
-};
 RuntimeAssembly Assembly___::GetExecutingAssembly(StackCrawlMark& stackMark) {
   return nullptr;
 };
@@ -78,7 +75,7 @@ Assembly Assembly___::GetExecutingAssembly() {
 Assembly Assembly___::GetCallingAssembly() {
   return nullptr;
 };
-Assembly Assembly___::GetEntryAssembly() {
+Assembly Assembly___::GetEntryAssemblyInternal() {
   return nullptr;
 };
 Boolean Assembly___::IsRuntimeImplemented() {
@@ -189,6 +186,9 @@ String Assembly___::CreateQualifiedName(String assemblyName, String typeName) {
   return nullptr;
 };
 Assembly Assembly___::GetAssembly(Type type) {
+  return nullptr;
+};
+Assembly Assembly___::GetEntryAssembly() {
   return nullptr;
 };
 Assembly Assembly___::Load(Array<Byte> rawAssembly) {

@@ -10,6 +10,7 @@
 #include <System.Private.CoreLib/System/Collections/Generic/Dictionary-dep.h>
 #include <System.Private.CoreLib/System/Collections/Generic/IEnumerable.h>
 #include <System.Private.CoreLib/System/Func-dep.h>
+#include <System.Private.CoreLib/System/Guid-dep.h>
 #include <System.Private.CoreLib/System/Int32-dep.h>
 #include <System.Private.CoreLib/System/Int64-dep.h>
 #include <System.Private.CoreLib/System/IntPtr-dep.h>
@@ -24,5 +25,4 @@
 #include <System.Private.CoreLib/System/Runtime/CompilerServices/QCallAssembly-dep.h>
 #include <System.Private.CoreLib/System/String-dep.h>
 #include <System.Private.CoreLib/System/Threading/AsyncLocal-dep.h>
-#include <System.Private.CoreLib/System/Type-dep.h>
 #include <System.Private.CoreLib/System/WeakReference-dep.h>

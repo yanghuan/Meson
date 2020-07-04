@@ -9,12 +9,6 @@ SynchronizationContext SynchronizationContext___::get_Current() {
 Int32 SynchronizationContext___::InvokeWaitMethodHelper(SynchronizationContext syncContext, Array<IntPtr> waitHandles, Boolean waitAll, Int32 millisecondsTimeout) {
   return Int32();
 };
-SynchronizationContext SynchronizationContext___::GetWinRTContext() {
-  return nullptr;
-};
-SynchronizationContext SynchronizationContext___::GetWinRTSynchronizationContext(Object dispatcher) {
-  return nullptr;
-};
 void SynchronizationContext___::SetWaitNotificationRequired() {
 };
 Boolean SynchronizationContext___::IsWaitNotificationRequired() {

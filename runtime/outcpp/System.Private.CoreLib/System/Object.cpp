@@ -1,6 +1,11 @@
 #include "Object-dep.h"
 
+#include <System.Private.CoreLib/System/Object-dep.h>
+
 namespace System::Private::CoreLib::System::ObjectNamespace {
+Object Object___::MemberwiseClone() {
+  return nullptr;
+};
 void Object___::Finalize() {
 };
 String Object___::ToString() {

@@ -25,6 +25,7 @@ FORWARD(List, T)
 namespace System::Private::CoreLib::System::Runtime::CompilerServices {
 FORWARDS(ObjectHandleOnStack)
 FORWARDS(QCallAssembly)
+FORWARDS(StackCrawlMarkHandle)
 FORWARDS(StringHandleOnStack)
 } // namespace System::Private::CoreLib::System::Runtime::CompilerServices
 namespace System::Private::CoreLib::System::IO {
@@ -55,8 +56,8 @@ FORWARD(AssemblyName)
 FORWARD(CustomAttributeData)
 FORWARD(ManifestResourceInfo)
 enum class AssemblyNameFlags;
-FORWARD(RuntimeModule)
 FORWARD(Assembly)
+FORWARD(RuntimeModule)
 FORWARDS(MetadataToken)
 FORWARD(ModuleResolveEventHandler)
 namespace RuntimeAssemblyNamespace {
@@ -106,9 +107,10 @@ CLASS(RuntimeAssembly) {
   public: Array<Object> GetCustomAttributes(Type attributeType, Boolean inherit);
   public: Boolean IsDefined(Type attributeType, Boolean inherit);
   public: IList<CustomAttributeData> GetCustomAttributesData();
-  public: static RuntimeAssembly InternalLoad(String assemblyString, StackCrawlMark& stackMark, AssemblyLoadContext assemblyLoadContext);
-  public: static RuntimeAssembly InternalLoadAssemblyName(AssemblyName assemblyRef, StackCrawlMark& stackMark, AssemblyLoadContext assemblyLoadContext);
-  private: static RuntimeAssembly nLoad(AssemblyName fileName, String codeBase, RuntimeAssembly assemblyContext, StackCrawlMark& stackMark, Boolean throwOnFileNotFound, AssemblyLoadContext assemblyLoadContext);
+  public: static RuntimeAssembly InternalLoad(String assemblyName, StackCrawlMark& stackMark, AssemblyLoadContext assemblyLoadContext);
+  public: static RuntimeAssembly InternalLoad(AssemblyName assemblyName, StackCrawlMark& stackMark, AssemblyLoadContext assemblyLoadContext);
+  public: static RuntimeAssembly InternalLoad(AssemblyName assemblyName, RuntimeAssembly requestingAssembly, StackCrawlMark& stackMark, Boolean throwOnFileNotFound, AssemblyLoadContext assemblyLoadContext);
+  private: static void InternalLoad(ObjectHandleOnStack assemblyName, ObjectHandleOnStack requestingAssembly, StackCrawlMarkHandle stackMark, Boolean throwOnFileNotFound, ObjectHandleOnStack assemblyLoadContext, ObjectHandleOnStack retAssembly);
   private: static void GetModule(QCallAssembly assembly, String name, ObjectHandleOnStack retModule);
   public: Module GetModule(String name);
   public: FileStream GetFile(String name);
@@ -121,7 +123,6 @@ CLASS(RuntimeAssembly) {
   public: ManifestResourceInfo GetManifestResourceInfo(String resourceName);
   private: static void GetLocation(QCallAssembly assembly, StringHandleOnStack retString);
   private: static void GetImageRuntimeVersion(QCallAssembly assembly, StringHandleOnStack retString);
-  private: static String VerifyCodeBase(String codebase);
   private: static void GetVersion(QCallAssembly assembly, Int32& majVer, Int32& minVer, Int32& buildNum, Int32& revNum);
   public: Version GetVersion();
   private: static void GetLocale(QCallAssembly assembly, StringHandleOnStack retString);
@@ -135,7 +136,6 @@ CLASS(RuntimeAssembly) {
   private: AssemblyNameFlags GetFlags();
   private: static void GetPublicKey(QCallAssembly assembly, ObjectHandleOnStack retPublicKey);
   public: Array<Byte> GetPublicKey();
-  private: RuntimeModule OnModuleResolveEvent(String moduleName);
   public: Assembly GetSatelliteAssembly(CultureInfo culture);
   public: Assembly GetSatelliteAssembly(CultureInfo culture, Version version);
   public: Assembly InternalGetSatelliteAssembly(CultureInfo culture, Version version, Boolean throwOnFileNotFound);
@@ -152,7 +152,6 @@ CLASS(RuntimeAssembly) {
   private: String m_fullname;
   private: Object m_syncRoot;
   private: IntPtr m_assembly;
-  private: static String s_localFilePrefix;
 };
 } // namespace RuntimeAssemblyNamespace
 using RuntimeAssembly = RuntimeAssemblyNamespace::RuntimeAssembly;

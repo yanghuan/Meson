@@ -4,7 +4,6 @@
 #include <System.Private.CoreLib/System/Guid.h>
 
 namespace System::Private::CoreLib::System {
-FORWARD_(Array, T1, T2)
 FORWARDS(Boolean)
 FORWARDS(Int32)
 FORWARD(Object)
@@ -49,11 +48,10 @@ class ComActivator {
   };
   public: static Object GetClassFactoryForType(ComActivationContext cxt);
   public: static void ClassRegistrationScenarioForType(ComActivationContext cxt, Boolean register_);
-  public: static Int32 GetClassFactoryForTypeInternal(ComActivationContextInternal& cxtInt);
-  public: static Int32 RegisterClassForTypeInternal(ComActivationContextInternal& cxtInt);
-  public: static Int32 UnregisterClassForTypeInternal(ComActivationContextInternal& cxtInt);
+  public: static Int32 GetClassFactoryForTypeInternal(ComActivationContextInternal* pCxtInt);
+  public: static Int32 RegisterClassForTypeInternal(ComActivationContextInternal* pCxtInt);
+  public: static Int32 UnregisterClassForTypeInternal(ComActivationContextInternal* pCxtInt);
   private: static Boolean IsLoggingEnabled();
-  private: static void Log(String fmt, Array<Object> args);
   private: static Type FindClassType(Guid clsid, String assemblyPath, String assemblyName, String typeName);
   private: static AssemblyLoadContext GetALC(String assemblyPath);
   private: static Dictionary<String, AssemblyLoadContext> s_assemblyLoadContexts;

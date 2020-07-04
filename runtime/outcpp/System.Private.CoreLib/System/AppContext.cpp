@@ -7,11 +7,6 @@ String AppContext::get_BaseDirectory() {
 String AppContext::get_TargetFrameworkName() {
   return nullptr;
 };
-void AppContext::Setup(Char** pNames, Char** pValues, Int32 count) {
-};
-String AppContext::GetBaseDirectoryCore() {
-  return nullptr;
-};
 Object AppContext::GetData(String name) {
   return nullptr;
 };
@@ -23,5 +18,10 @@ Boolean AppContext::TryGetSwitch(String switchName, Boolean& isEnabled) {
   return Boolean();
 };
 void AppContext::SetSwitch(String switchName, Boolean isEnabled) {
+};
+void AppContext::Setup(Char** pNames, Char** pValues, Int32 count) {
+};
+String AppContext::GetBaseDirectoryCore() {
+  return nullptr;
 };
 } // namespace System::Private::CoreLib::System::AppContextNamespace

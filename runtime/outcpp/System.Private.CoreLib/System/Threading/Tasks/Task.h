@@ -25,7 +25,7 @@ FORWARD(AggregateException)
 FORWARD_(Array, T1, T2)
 FORWARDS(Boolean)
 FORWARD(Delegate)
-FORWARD_(Func, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10)
+FORWARD_(Func, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18)
 FORWARDS_(Nullable, T1, T2)
 FORWARD(Object)
 FORWARD(String)
@@ -35,6 +35,7 @@ FORWARD(TaskExceptionHolder)
 enum class TaskCreationOptions;
 enum class TaskStatus;
 FORWARD(TaskScheduler)
+FORWARDS(VoidTaskResult)
 FORWARD_(TaskFactory, T1, T2)
 namespace TaskNamespace {
 using namespace ::System::Private::CoreLib::System::Collections::Generic;
@@ -87,6 +88,12 @@ CLASS_(Task) {
     private: Array<Task<T>> m_tasks;
     private: Int32 m_count;
   };
+  private: CLASS(TwoTaskWhenAnyPromise, TTask) {
+    public: Boolean get_InvokeMayRunArbitraryCode();
+    public: void Invoke(Task<> completingTask);
+    private: TTask _task1;
+    private: TTask _task2;
+  };
   private: Task<> get_ParentForDebugger();
   private: Int32 get_StateFlagsForDebugger();
   private: String get_DebuggerDisplayMethodDescription();
@@ -111,7 +118,7 @@ CLASS_(Task) {
   private: Boolean get_CompletedSynchronouslyOfIAsyncResult();
   public: TaskScheduler get_ExecutingTaskScheduler();
   public: static TaskFactory<> get_Factory() { return Factory; }
-  public: static Task<> get_CompletedTask() { return CompletedTask; }
+  public: static Task<> get_CompletedTask();
   public: ManualResetEventSlim get_CompletedEvent();
   public: Boolean get_ExceptionRecorded();
   public: Boolean get_IsFaulted();
@@ -132,7 +139,7 @@ CLASS_(Task) {
   private: static Dictionary<Int32, Task<>> s_currentActiveTasks;
   public: ContingentProperties m_contingentProperties;
   private: static TaskFactory<> Factory;
-  private: static Task<> CompletedTask;
+  public: static Task<VoidTaskResult> s_cachedCompleted;
   private: static ContextCallback<> s_ecCallback;
 };
 CLASS_(Task, TResult) {

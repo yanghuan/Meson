@@ -349,12 +349,6 @@ Boolean RuntimeType___::IsSubclassOf(Type type) {
 Boolean RuntimeType___::IsEquivalentTo(Type other) {
   return Boolean();
 };
-Boolean RuntimeType___::IsWindowsRuntimeObjectImpl() {
-  return Boolean();
-};
-Boolean RuntimeType___::IsExportedToWindowsRuntimeImpl() {
-  return Boolean();
-};
 Boolean RuntimeType___::IsDelegate() {
   return Boolean();
 };
@@ -398,9 +392,6 @@ Object RuntimeType___::InvokeMember(String name, BindingFlags bindingFlags, Bind
   return nullptr;
 };
 String RuntimeType___::ToString() {
-  return nullptr;
-};
-String RuntimeType___::FormatTypeName() {
   return nullptr;
 };
 String RuntimeType___::GetCachedName(TypeNameKind kind) {

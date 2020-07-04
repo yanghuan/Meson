@@ -248,6 +248,12 @@ Boolean Decimal::TryParse(ReadOnlySpan<Char> s, NumberStyles style, IFormatProvi
 Array<Int32> Decimal::GetBits(Decimal d) {
   return Array<Int32>();
 };
+Int32 Decimal::GetBits(Decimal d, Span<Int32> destination) {
+  return Int32();
+};
+Boolean Decimal::TryGetBits(Decimal d, Span<Int32> destination, Int32& valuesWritten) {
+  return Boolean();
+};
 void Decimal::GetBytes(Decimal& d, Array<Byte> buffer) {
 };
 Decimal Decimal::ToDecimal(ReadOnlySpan<Byte> span) {

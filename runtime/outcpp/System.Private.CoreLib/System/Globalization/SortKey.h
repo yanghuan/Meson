@@ -11,6 +11,7 @@ FORWARD(Object)
 FORWARD(String)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Globalization {
+FORWARD(CompareInfo)
 enum class CompareOptions;
 namespace SortKeyNamespace {
 CLASS(SortKey) {
@@ -20,7 +21,7 @@ CLASS(SortKey) {
   public: Boolean Equals(Object value);
   public: Int32 GetHashCode();
   public: String ToString();
-  private: String _localeName;
+  private: CompareInfo _compareInfo;
   private: CompareOptions _options;
   private: String _string;
   private: Array<Byte> _keyData;

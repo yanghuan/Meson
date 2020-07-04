@@ -10,5 +10,5 @@
 #include <System.Private.CoreLib/System/Object-dep.h>
 #include <System.Private.CoreLib/System/OrdinalCaseSensitiveComparer-dep.h>
 #include <System.Private.CoreLib/System/OrdinalIgnoreCaseComparer-dep.h>
-#include <System.Private.CoreLib/System/StringComparison.h>
 #include <System.Private.CoreLib/System/String-dep.h>
+#include <System.Private.CoreLib/System/StringComparison.h>

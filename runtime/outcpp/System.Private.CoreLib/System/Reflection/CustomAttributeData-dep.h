@@ -15,8 +15,8 @@
 #include <System.Private.CoreLib/System/Reflection/CustomAttributeNamedArgument-dep.h>
 #include <System.Private.CoreLib/System/Reflection/CustomAttributeNamedParameter-dep.h>
 #include <System.Private.CoreLib/System/Reflection/CustomAttributeRecord-dep.h>
-#include <System.Private.CoreLib/System/Reflection/CustomAttributeTypedArgument-dep.h>
 #include <System.Private.CoreLib/System/Reflection/CustomAttributeType-dep.h>
+#include <System.Private.CoreLib/System/Reflection/CustomAttributeTypedArgument-dep.h>
 #include <System.Private.CoreLib/System/Reflection/MemberInfo-dep.h>
 #include <System.Private.CoreLib/System/Reflection/Module-dep.h>
 #include <System.Private.CoreLib/System/Reflection/ParameterInfo-dep.h>

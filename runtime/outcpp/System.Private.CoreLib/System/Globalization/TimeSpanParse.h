@@ -66,8 +66,6 @@ class TimeSpanParse {
     private: Int32 _pos;
   };
   private: struct TimeSpanRawInfo {
-    public: TimeSpanFormat::FormatLiterals get_PositiveInvariant();
-    public: TimeSpanFormat::FormatLiterals get_NegativeInvariant();
     public: TimeSpanFormat::FormatLiterals get_PositiveLocalized();
     public: TimeSpanFormat::FormatLiterals get_NegativeLocalized();
     public: Boolean FullAppCompatMatch(TimeSpanFormat::FormatLiterals pattern);

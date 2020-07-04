@@ -3,9 +3,6 @@
 #include <System.Private.CoreLib/System/Exception-dep.h>
 
 namespace System::Private::CoreLib::System::ExceptionNamespace {
-Object Exception___::__RestrictedErrorObject___::get_RealErrorObject() {
-  return nullptr;
-};
 MethodBase Exception___::get_TargetSite() {
   return nullptr;
 };
@@ -48,11 +45,6 @@ void Exception___::set_HResult(Int32 value) {
 IDictionary Exception___::CreateDataContainer() {
   return nullptr;
 };
-void Exception___::AddExceptionDataForRestrictedErrorInfo(String restrictedError, String restrictedErrorReference, String restrictedCapabilitySid, Object restrictedErrorObject, Boolean hasrestrictedLanguageErrorObject) {
-};
-Boolean Exception___::TryGetRestrictedLanguageErrorObject(Object& restrictedErrorObject) {
-  return Boolean();
-};
 MethodBase Exception___::GetExceptionMethodFromStackTrace() {
   return nullptr;
 };
@@ -66,12 +58,6 @@ void Exception___::OnDeserialized(StreamingContext context) {
 };
 void Exception___::InternalPreserveStackTrace() {
 };
-Object Exception___::DeepCopyStackTrace(Object currentStackTrace) {
-  return nullptr;
-};
-Object Exception___::DeepCopyDynamicMethods(Object currentDynamicMethods) {
-  return nullptr;
-};
 void Exception___::RestoreDispatchState(DispatchState& dispatchState) {
 };
 String Exception___::GetMessageFromNativeResources(ExceptionMessageKind kind) {
@@ -79,6 +65,8 @@ String Exception___::GetMessageFromNativeResources(ExceptionMessageKind kind) {
 };
 Exception::in::DispatchState Exception___::CaptureDispatchState() {
   return Exception::in::DispatchState();
+};
+void Exception___::SetCurrentStackTrace() {
 };
 String Exception___::GetClassName() {
   return nullptr;

@@ -128,6 +128,11 @@ CLASS(DateTimeFormatInfo) {
   public: Int32 GetEra(String eraName);
   public: String GetEraName(Int32 era);
   public: String GetAbbreviatedEraName(Int32 era);
+  private: void OnLongDatePatternChanged();
+  private: void OnLongTimePatternChanged();
+  private: void OnShortDatePatternChanged();
+  private: void OnShortTimePatternChanged();
+  private: void OnYearMonthPatternChanged();
   private: static void CheckNullValue(Array<String> values, Int32 length);
   public: String InternalGetMonthName(Int32 month, MonthNameStyles style, Boolean abbreviated);
   private: Array<String> InternalGetGenitiveMonthNames(Boolean abbreviated);
@@ -200,7 +205,6 @@ CLASS(DateTimeFormatInfo) {
   private: Array<CalendarId> optionalCalendars;
   public: Boolean _isReadOnly;
   private: DateTimeFormatFlags formatFlags;
-  private: static Array<Char> s_monthSpaces;
   private: String _decimalSeparator;
   private: String _fullTimeSpanPositivePattern;
   private: String _fullTimeSpanNegativePattern;

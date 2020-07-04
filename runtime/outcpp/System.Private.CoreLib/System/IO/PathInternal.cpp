@@ -22,6 +22,18 @@ String PathInternal::RemoveRelativeSegments(String path, Int32 rootLength) {
 Boolean PathInternal::RemoveRelativeSegments(ReadOnlySpan<Char> path, Int32 rootLength, ValueStringBuilder& sb) {
   return Boolean();
 };
+String PathInternal::TrimEndingDirectorySeparator(String path) {
+  return nullptr;
+};
+Boolean PathInternal::EndsInDirectorySeparator(String path) {
+  return Boolean();
+};
+ReadOnlySpan<Char> PathInternal::TrimEndingDirectorySeparator(ReadOnlySpan<Char> path) {
+  return ReadOnlySpan<Char>();
+};
+Boolean PathInternal::EndsInDirectorySeparator(ReadOnlySpan<Char> path) {
+  return Boolean();
+};
 Boolean PathInternal::IsValidDriveChar(Char value) {
   return Boolean();
 };

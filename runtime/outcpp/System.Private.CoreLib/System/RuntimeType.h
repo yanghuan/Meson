@@ -227,7 +227,7 @@ CLASS(RuntimeType) {
   public: StructLayoutAttribute get_StructLayoutAttribute();
   public: String get_Name();
   public: Type get_DeclaringType();
-  private: OleAutBinder get_ForwardCallBinder();
+  private: static OleAutBinder get_ForwardCallBinder();
   public: Assembly get_Assembly();
   public: Type get_BaseType();
   public: Boolean get_IsByRefLike();
@@ -297,10 +297,6 @@ CLASS(RuntimeType) {
   public: Boolean IsSubclassOf(Type type);
   public: Boolean IsEquivalentTo(Type other);
   private: void GetGUID(Guid& result);
-  public: Boolean IsWindowsRuntimeObjectImpl();
-  private: static Boolean IsWindowsRuntimeObjectType(RuntimeType type);
-  public: Boolean IsExportedToWindowsRuntimeImpl();
-  private: static Boolean IsTypeExportedToWindowsRuntime(RuntimeType type);
   public: Boolean IsDelegate();
   public: Array<Object> GetEmptyArray();
   public: Array<RuntimeType> GetGenericArgumentsInternal();
@@ -318,7 +314,6 @@ CLASS(RuntimeType) {
   private: Object TryChangeType(Object value, Binder binder, CultureInfo culture, Boolean needsSpecialCast);
   public: Object InvokeMember(String name, BindingFlags bindingFlags, Binder binder, Object target, Array<Object> providedArgs, Array<ParameterModifier> modifiers, CultureInfo culture, Array<String> namedParams);
   public: String ToString();
-  public: String FormatTypeName();
   private: String GetCachedName(TypeNameKind kind);
   private: void CreateInstanceCheckThis();
   public: Object CreateInstanceImpl(BindingFlags bindingAttr, Binder binder, Array<Object> args, CultureInfo culture);
@@ -332,7 +327,7 @@ CLASS(RuntimeType) {
   public: static Type GetTypeFromProgIDImpl(String progID, String server, Boolean throwOnError);
   public: static Type GetTypeFromCLSIDImpl(Guid clsid, String server, Boolean throwOnError);
   private: Object ForwardCallToInvokeMember(String memberName, BindingFlags flags, Object target, Array<Object> aArgs, Array<Boolean> aArgsIsByRef, Array<Int32> aArgsWrapperTypes, Array<Type> aArgsTypes, Type retType);
-  private: void WrapArgsForInvokeCall(Array<Object> aArgs, Array<Int32> aArgsWrapperTypes);
+  private: static void WrapArgsForInvokeCall(Array<Object> aArgs, Array<Int32> aArgsWrapperTypes);
   public: Object Clone();
   public: Boolean Equals(Object obj);
   public: Int32 GetArrayRank();
@@ -377,7 +372,6 @@ CLASS(RuntimeType) {
   private: static BindingFlags BinderGetSetProperty;
   private: static BindingFlags BinderGetSetField;
   private: static BindingFlags BinderNonFieldGetSet;
-  private: static BindingFlags ClassicBindingMask;
   private: static RuntimeType s_typedRef;
   private: static OleAutBinder s_ForwardCallBinder;
 };

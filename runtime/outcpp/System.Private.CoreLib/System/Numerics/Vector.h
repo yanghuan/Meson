@@ -21,12 +21,12 @@ struct Vector<T> {
   public: static Int32 get_Count();
   public: static Vector<T> get_Zero();
   public: static Vector<T> get_One();
-  public: static Vector<T> get_AllOnes();
+  public: static Vector<T> get_AllBitsSet();
   public: T get_Item(Int32 index);
   private: Register register_;
   private: static Vector<T> s_zero;
   private: static Vector<T> s_one;
-  private: static Vector<T> s_allOnes;
+  private: static Vector<T> s_allBitsSet;
 };
 } // namespace VectorNamespace
 template <class T1 = void, class T2 = void>

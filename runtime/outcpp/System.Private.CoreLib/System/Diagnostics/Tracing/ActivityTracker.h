@@ -42,11 +42,11 @@ CLASS(ActivityTracker) {
     public: Guid m_activityIdToRestore;
   };
   public: static ActivityTracker get_Instance();
-  public: void OnStart(String providerName, String activityName, Int32 task, Guid& activityId, Guid& relatedActivityId, EventActivityOptions options);
-  public: void OnStop(String providerName, String activityName, Int32 task, Guid& activityId);
+  public: void OnStart(String providerName, String activityName, Int32 task, Guid& activityId, Guid& relatedActivityId, EventActivityOptions options, Boolean useTplSource);
+  public: void OnStop(String providerName, String activityName, Int32 task, Guid& activityId, Boolean useTplSource);
   public: void Enable();
-  private: ActivityInfo FindActiveActivity(String name, ActivityInfo startLocation);
-  private: String NormalizeActivityName(String providerName, String activityName, Int32 task);
+  private: static ActivityInfo FindActiveActivity(String name, ActivityInfo startLocation);
+  private: static String NormalizeActivityName(String providerName, String activityName, Int32 task);
   private: void ActivityChanging(AsyncLocalValueChangedArgs<ActivityInfo> args);
   private: AsyncLocal<ActivityInfo> m_current;
   private: Boolean m_checkedForEnable;

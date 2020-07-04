@@ -4,6 +4,8 @@ namespace System::Private::CoreLib::System::Runtime::InteropServices::VariantNam
 VarEnum Variant::get_VariantType() {
   return VarEnum::VT_BYREF;
 };
+void Variant::set_VariantType(VarEnum value) {
+};
 Boolean Variant::get_IsEmpty() {
   return Boolean();
 };
@@ -77,5 +79,7 @@ void Variant::CopyFromIndirect(Object value) {
 };
 Object Variant::ToObject() {
   return nullptr;
+};
+void Variant::Clear() {
 };
 } // namespace System::Private::CoreLib::System::Runtime::InteropServices::VariantNamespace

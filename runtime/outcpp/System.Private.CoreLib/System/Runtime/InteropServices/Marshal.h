@@ -17,8 +17,10 @@ FORWARDS(Int64)
 FORWARDS(IntPtr)
 FORWARD(IRuntimeFieldInfo)
 FORWARD(Object)
+FORWARDS(ReadOnlySpan, T)
 FORWARDS(RuntimeMethodHandleInternal)
 FORWARDS(Single)
+FORWARDS(Span, T)
 FORWARD(String)
 FORWARD(Type)
 FORWARDS(UInt32)
@@ -79,12 +81,15 @@ class Marshal {
   public: static Type GetTypeFromCLSID(Guid clsid);
   public: static IntPtr GetIUnknownForObject(Object o);
   private: static IntPtr GetIUnknownForObjectNative(Object o, Boolean onlyInContext);
-  public: static IntPtr GetRawIUnknownForComObjectNoAddRef(Object o);
+  public: static IntPtr GetIDispatchForObject(Object o);
+  private: static IntPtr GetIDispatchForObjectNative(Object o, Boolean onlyInContext);
   public: static IntPtr GetComInterfaceForObject(Object o, Type T);
   public: static IntPtr GetComInterfaceForObject(Object o, Type T, CustomQueryInterfaceMode mode);
-  private: static IntPtr GetComInterfaceForObjectNative(Object o, Type t, Boolean onlyInContext, Boolean fEnalbeCustomizedQueryInterface);
+  private: static IntPtr GetComInterfaceForObjectNative(Object o, Type t, Boolean onlyInContext, Boolean fEnableCustomizedQueryInterface);
   public: static Object GetObjectForIUnknown(IntPtr pUnk);
+  private: static Object GetObjectForIUnknownNative(IntPtr pUnk);
   public: static Object GetUniqueObjectForIUnknown(IntPtr unknown);
+  private: static Object GetUniqueObjectForIUnknownNative(IntPtr unknown);
   public: static Object GetTypedObjectForIUnknown(IntPtr pUnk, Type t);
   public: static IntPtr CreateAggregatedObject(IntPtr pOuter, Object o);
   public: static void CleanupUnusedObjectsInCurrentContext();
@@ -195,7 +200,6 @@ class Marshal {
   public: static Delegate GetDelegateForFunctionPointer(IntPtr ptr, Type t);
   public: static IntPtr GetFunctionPointerForDelegate(Delegate d);
   public: static Int32 GetHRForLastWin32Error();
-  public: static IntPtr GetIDispatchForObject(Object o);
   public: static void ZeroFreeBSTR(IntPtr s);
   public: static void ZeroFreeCoTaskMemAnsi(IntPtr s);
   public: static void ZeroFreeCoTaskMemUnicode(IntPtr s);
@@ -208,8 +212,10 @@ class Marshal {
   public: static IntPtr StringToHGlobalAuto(String s);
   public: static IntPtr StringToCoTaskMemAuto(String s);
   private: static Int32 GetSystemMaxDBCSCharSize();
-  private: static Boolean IsWin32Atom(IntPtr ptr);
+  private: static Boolean IsNullOrWin32Atom(IntPtr ptr);
   public: static Int32 StringToAnsiString(String s, Byte* buffer, Int32 bufferLength, Boolean bestFit, Boolean throwOnUnmappableChar);
+  public: static Int32 GetAnsiStringByteCount(ReadOnlySpan<Char> chars);
+  public: static void GetAnsiStringBytes(ReadOnlySpan<Char> chars, Span<Byte> bytes);
   public: static Guid IID_IUnknown;
   public: static Int32 SystemDefaultCharSize;
   public: static Int32 SystemMaxDBCSCharSize;

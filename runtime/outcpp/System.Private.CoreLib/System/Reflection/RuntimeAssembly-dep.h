@@ -31,6 +31,7 @@
 #include <System.Private.CoreLib/System/Reflection/TypeInfo-dep.h>
 #include <System.Private.CoreLib/System/Runtime/CompilerServices/ObjectHandleOnStack-dep.h>
 #include <System.Private.CoreLib/System/Runtime/CompilerServices/QCallAssembly-dep.h>
+#include <System.Private.CoreLib/System/Runtime/CompilerServices/StackCrawlMarkHandle-dep.h>
 #include <System.Private.CoreLib/System/Runtime/CompilerServices/StringHandleOnStack-dep.h>
 #include <System.Private.CoreLib/System/Runtime/Loader/AssemblyLoadContext-dep.h>
 #include <System.Private.CoreLib/System/Runtime/Serialization/SerializationInfo-dep.h>

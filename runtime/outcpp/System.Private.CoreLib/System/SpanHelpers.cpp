@@ -1,10 +1,6 @@
 #include "SpanHelpers-dep.h"
 
 namespace System::Private::CoreLib::System::SpanHelpersNamespace {
-void SpanHelpers::ClearWithoutReferences(Byte& b, UInt64 byteLength) {
-};
-void SpanHelpers::ClearWithReferences(IntPtr& ip, UInt64 pointerSizeLength) {
-};
 Int32 SpanHelpers::IndexOf(Byte& searchSpace, Int32 searchSpaceLength, Byte& value, Int32 valueLength) {
   return Int32();
 };
@@ -38,7 +34,7 @@ Int32 SpanHelpers::LastIndexOfAny(Byte& searchSpace, Byte value0, Byte value1, I
 Int32 SpanHelpers::LastIndexOfAny(Byte& searchSpace, Byte value0, Byte value1, Byte value2, Int32 length) {
   return Int32();
 };
-Boolean SpanHelpers::SequenceEqual(Byte& first, Byte& second, UInt64 length) {
+Boolean SpanHelpers::SequenceEqual(Byte& first, Byte& second, UIntPtr length) {
   return Boolean();
 };
 Int32 SpanHelpers::LocateFirstFoundByte(Vector<Byte> match) {
@@ -56,35 +52,47 @@ Int32 SpanHelpers::LocateFirstFoundByte(UInt64 match) {
 Int32 SpanHelpers::LocateLastFoundByte(UInt64 match) {
   return Int32();
 };
-UIntPtr SpanHelpers::LoadUIntPtr(Byte& start, IntPtr offset) {
+UInt16 SpanHelpers::LoadUShort(Byte& start) {
+  return UInt16();
+};
+UInt32 SpanHelpers::LoadUInt(Byte& start) {
+  return UInt32();
+};
+UInt32 SpanHelpers::LoadUInt(Byte& start, UIntPtr offset) {
+  return UInt32();
+};
+UIntPtr SpanHelpers::LoadNUInt(Byte& start) {
   return UIntPtr();
 };
-Vector<Byte> SpanHelpers::LoadVector(Byte& start, IntPtr offset) {
+UIntPtr SpanHelpers::LoadNUInt(Byte& start, UIntPtr offset) {
+  return UIntPtr();
+};
+Vector<Byte> SpanHelpers::LoadVector(Byte& start, UIntPtr offset) {
   return Vector<Byte>();
 };
-Vector128<Byte> SpanHelpers::LoadVector128(Byte& start, IntPtr offset) {
+Vector128<Byte> SpanHelpers::LoadVector128(Byte& start, UIntPtr offset) {
   return Vector128<Byte>();
 };
-Vector256<Byte> SpanHelpers::LoadVector256(Byte& start, IntPtr offset) {
+Vector256<Byte> SpanHelpers::LoadVector256(Byte& start, UIntPtr offset) {
   return Vector256<Byte>();
 };
-IntPtr SpanHelpers::GetByteVectorSpanLength(IntPtr offset, Int32 length) {
-  return IntPtr();
+UIntPtr SpanHelpers::GetByteVectorSpanLength(UIntPtr offset, Int32 length) {
+  return UIntPtr();
 };
-IntPtr SpanHelpers::GetByteVector128SpanLength(IntPtr offset, Int32 length) {
-  return IntPtr();
+UIntPtr SpanHelpers::GetByteVector128SpanLength(UIntPtr offset, Int32 length) {
+  return UIntPtr();
 };
-IntPtr SpanHelpers::GetByteVector256SpanLength(IntPtr offset, Int32 length) {
-  return IntPtr();
+UIntPtr SpanHelpers::GetByteVector256SpanLength(UIntPtr offset, Int32 length) {
+  return UIntPtr();
 };
-IntPtr SpanHelpers::UnalignedCountVector(Byte& searchSpace) {
-  return IntPtr();
+UIntPtr SpanHelpers::UnalignedCountVector(Byte& searchSpace) {
+  return UIntPtr();
 };
-IntPtr SpanHelpers::UnalignedCountVector128(Byte& searchSpace) {
-  return IntPtr();
+UIntPtr SpanHelpers::UnalignedCountVector128(Byte& searchSpace) {
+  return UIntPtr();
 };
-IntPtr SpanHelpers::UnalignedCountVectorFromEnd(Byte& searchSpace, Int32 length) {
-  return IntPtr();
+UIntPtr SpanHelpers::UnalignedCountVectorFromEnd(Byte& searchSpace, Int32 length) {
+  return UIntPtr();
 };
 Int32 SpanHelpers::IndexOf(Char& searchSpace, Int32 searchSpaceLength, Char& value, Int32 valueLength) {
   return Int32();
@@ -125,28 +133,32 @@ Int32 SpanHelpers::LocateLastFoundChar(Vector<UInt16> match) {
 Int32 SpanHelpers::LocateLastFoundChar(UInt64 match) {
   return Int32();
 };
-Vector<UInt16> SpanHelpers::LoadVector(Char& start, Int64 offset) {
+Vector<UInt16> SpanHelpers::LoadVector(Char& start, IntPtr offset) {
   return Vector<UInt16>();
 };
-Vector128<UInt16> SpanHelpers::LoadVector128(Char& start, Int64 offset) {
+Vector128<UInt16> SpanHelpers::LoadVector128(Char& start, IntPtr offset) {
   return Vector128<UInt16>();
 };
-Vector256<UInt16> SpanHelpers::LoadVector256(Char& start, Int64 offset) {
+Vector256<UInt16> SpanHelpers::LoadVector256(Char& start, IntPtr offset) {
   return Vector256<UInt16>();
 };
-Int64 SpanHelpers::GetCharVectorSpanLength(Int64 offset, Int64 length) {
-  return Int64();
+IntPtr SpanHelpers::GetCharVectorSpanLength(IntPtr offset, IntPtr length) {
+  return IntPtr();
 };
-Int64 SpanHelpers::GetCharVector128SpanLength(Int64 offset, Int64 length) {
-  return Int64();
+IntPtr SpanHelpers::GetCharVector128SpanLength(IntPtr offset, IntPtr length) {
+  return IntPtr();
 };
-Int64 SpanHelpers::GetCharVector256SpanLength(Int64 offset, Int64 length) {
-  return Int64();
+IntPtr SpanHelpers::GetCharVector256SpanLength(IntPtr offset, IntPtr length) {
+  return IntPtr();
 };
-Int64 SpanHelpers::UnalignedCountVector(Char& searchSpace) {
-  return Int64();
+IntPtr SpanHelpers::UnalignedCountVector(Char& searchSpace) {
+  return IntPtr();
 };
-Int64 SpanHelpers::UnalignedCountVector128(Char& searchSpace) {
-  return Int64();
+IntPtr SpanHelpers::UnalignedCountVector128(Char& searchSpace) {
+  return IntPtr();
+};
+void SpanHelpers::ClearWithoutReferences(Byte& b, UIntPtr byteLength) {
+};
+void SpanHelpers::ClearWithReferences(IntPtr& ip, UIntPtr pointerSizeLength) {
 };
 } // namespace System::Private::CoreLib::System::SpanHelpersNamespace

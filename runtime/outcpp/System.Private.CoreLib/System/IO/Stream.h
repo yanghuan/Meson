@@ -8,6 +8,7 @@ namespace System::Private::CoreLib::System {
 FORWARD_(Array, T1, T2)
 FORWARD(AsyncCallback)
 FORWARDS(Byte)
+FORWARD_(Func, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18)
 FORWARD(IAsyncResult)
 FORWARDS(Int64)
 FORWARDS(Memory, T)
@@ -28,12 +29,16 @@ namespace System::Private::CoreLib::System::Threading::Tasks {
 FORWARD_(Task, T1, T2)
 FORWARDS_(ValueTask, T1, T2)
 } // namespace System::Private::CoreLib::System::Threading::Tasks
+namespace System::Private::CoreLib::System::Buffers {
+FORWARD(ReadOnlySpanAction, T, TArg)
+} // namespace System::Private::CoreLib::System::Buffers
 namespace System::Private::CoreLib::System::Runtime::ExceptionServices {
 FORWARD(ExceptionDispatchInfo)
 } // namespace System::Private::CoreLib::System::Runtime::ExceptionServices
 namespace System::Private::CoreLib::System::IO {
 enum class SeekOrigin;
 namespace StreamNamespace {
+using namespace ::System::Private::CoreLib::System::Buffers;
 using namespace ::System::Private::CoreLib::System::Runtime::ExceptionServices;
 using namespace ::System::Private::CoreLib::System::Threading;
 using namespace ::System::Private::CoreLib::System::Threading::Tasks;
@@ -43,12 +48,33 @@ CLASS(Stream) {
     public: Int32 Offset;
     public: Int32 Count;
   };
+  private: CLASS(WriteCallbackStream) {
+    public: Boolean get_CanRead();
+    public: Boolean get_CanSeek();
+    public: Boolean get_CanWrite();
+    public: Int64 get_Length();
+    public: Int64 get_Position();
+    public: void set_Position(Int64 value);
+    public: void Write(Array<Byte> buffer, Int32 offset, Int32 count);
+    public: void Write(ReadOnlySpan<Byte> span);
+    public: Task<> WriteAsync(Array<Byte> buffer, Int32 offset, Int32 length, CancellationToken cancellationToken);
+    public: ValueTask<> WriteAsync(ReadOnlyMemory<Byte> buffer, CancellationToken cancellationToken);
+    public: void Flush();
+    public: Task<> FlushAsync(CancellationToken token);
+    public: Int32 Read(Array<Byte> buffer, Int32 offset, Int32 count);
+    public: Int64 Seek(Int64 offset, SeekOrigin origin);
+    public: void SetLength(Int64 value);
+    private: ReadOnlySpanAction<Byte, Object> _action;
+    private: Func<ReadOnlyMemory<Byte>, Object, CancellationToken, ValueTask<>> _func;
+    private: Object _state;
+  };
   private: CLASS(ReadWriteTask) {
     private: Boolean get_InvokeMayRunArbitraryCodeOfITaskCompletionAction();
     public: void ClearBeginState();
     private: static void InvokeAsyncCallback(Object completedTask);
     public: Boolean _isRead;
     public: Boolean _apm;
+    public: Boolean _endCalled;
     public: Stream _stream;
     public: Array<Byte> _buffer;
     public: Int32 _offset;
@@ -66,6 +92,8 @@ CLASS(Stream) {
     public: void set_Position(Int64 value);
     public: void CopyTo(Stream destination, Int32 bufferSize);
     public: Task<> CopyToAsync(Stream destination, Int32 bufferSize, CancellationToken cancellationToken);
+    public: void CopyTo(ReadOnlySpanAction<Byte, Object> callback, Object state, Int32 bufferSize);
+    public: Task<> CopyToAsync(Func<ReadOnlyMemory<Byte>, Object, CancellationToken, ValueTask<>> callback, Object state, Int32 bufferSize, CancellationToken cancellationToken);
     protected: void Dispose(Boolean disposing);
     public: void Flush();
     public: Task<> FlushAsync(CancellationToken cancellationToken);
@@ -154,6 +182,8 @@ CLASS(Stream) {
   public: void CopyTo(Stream destination);
   public: void CopyTo(Stream destination, Int32 bufferSize);
   private: Int32 GetCopyBufferSize();
+  public: void CopyTo(ReadOnlySpanAction<Byte, Object> callback, Object state, Int32 bufferSize);
+  public: Task<> CopyToAsync(Func<ReadOnlyMemory<Byte>, Object, CancellationToken, ValueTask<>> callback, Object state, Int32 bufferSize, CancellationToken cancellationToken);
   public: void Close();
   public: void Dispose();
   protected: void Dispose(Boolean disposing);
@@ -173,7 +203,7 @@ CLASS(Stream) {
   public: IAsyncResult BeginWriteInternal(Array<Byte> buffer, Int32 offset, Int32 count, AsyncCallback callback, Object state, Boolean serializeAsynchronously, Boolean apm);
   private: void RunReadWriteTaskWhenReady(Task<> asyncWaiter, ReadWriteTask readWriteTask);
   private: void RunReadWriteTask(ReadWriteTask readWriteTask);
-  private: void FinishTrackingAsyncOperation();
+  private: void FinishTrackingAsyncOperation(ReadWriteTask task);
   public: void EndWrite(IAsyncResult asyncResult);
   public: Task<> WriteAsync(Array<Byte> buffer, Int32 offset, Int32 count);
   public: Task<> WriteAsync(Array<Byte> buffer, Int32 offset, Int32 count, CancellationToken cancellationToken);
@@ -195,7 +225,6 @@ CLASS(Stream) {
   public: IAsyncResult BlockingBeginWrite(Array<Byte> buffer, Int32 offset, Int32 count, AsyncCallback callback, Object state);
   public: static void BlockingEndWrite(IAsyncResult asyncResult);
   public: static Stream Null;
-  private: ReadWriteTask _activeReadWriteTask;
   private: SemaphoreSlim _asyncActiveSemaphore;
 };
 } // namespace StreamNamespace

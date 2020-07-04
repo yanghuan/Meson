@@ -85,6 +85,7 @@ CLASS(TypeBuilder) {
   public: Type get_ReflectedType();
   public: String get_Name();
   public: Module get_Module();
+  public: Boolean get_IsByRefLike();
   public: Int32 get_MetadataTokenInternal();
   public: Guid get_GUID();
   public: Assembly get_Assembly();
@@ -134,7 +135,6 @@ CLASS(TypeBuilder) {
   private: static void SetPInvokeData(QCallModule module, String DllName, String name, Int32 token, Int32 linkFlags);
   public: static Boolean IsTypeEqual(Type t1, Type t2);
   public: static void SetConstantValue(ModuleBuilder module, Int32 tk, Type destType, Object value);
-  private: void InitAsGenericParam(String szName, Int32 genParamPos);
   private: FieldBuilder DefineDataHelper(String name, Array<Byte> data, Int32 size, FieldAttributes attributes);
   private: void VerifyTypeAttributes(TypeAttributes attr);
   public: Boolean IsCreated();

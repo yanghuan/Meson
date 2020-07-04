@@ -9,7 +9,7 @@ void NativeRuntimeEventSource___::GCEnd_V1(UInt32 Count, UInt32 Depth, UInt16 Cl
 };
 void NativeRuntimeEventSource___::GCRestartEEEnd_V1(UInt16 ClrInstanceID) {
 };
-void NativeRuntimeEventSource___::GCHeapStats_V1(UInt64 GenerationSize0, UInt64 TotalPromotedSize0, UInt64 GenerationSize1, UInt64 TotalPromotedSize1, UInt64 GenerationSize2, UInt64 TotalPromotedSize2, UInt64 GenerationSize3, UInt64 TotalPromotedSize3, UInt64 FinalizationPromotedSize, UInt64 FinalizationPromotedCount, UInt32 PinnedObjectCount, UInt32 SinkBlockCount, UInt32 GCHandleCount, UInt16 ClrInstanceID) {
+void NativeRuntimeEventSource___::GCHeapStats_V2(UInt64 GenerationSize0, UInt64 TotalPromotedSize0, UInt64 GenerationSize1, UInt64 TotalPromotedSize1, UInt64 GenerationSize2, UInt64 TotalPromotedSize2, UInt64 GenerationSize3, UInt64 TotalPromotedSize3, UInt64 FinalizationPromotedSize, UInt64 FinalizationPromotedCount, UInt32 PinnedObjectCount, UInt32 SinkBlockCount, UInt32 GCHandleCount, UInt16 ClrInstanceID, UInt64 GenerationSize4, UInt64 TotalPromotedSize4) {
 };
 void NativeRuntimeEventSource___::GCCreateSegment_V1(UInt64 Address, UInt64 Size, UInt32 Type, UInt16 ClrInstanceID) {
 };
@@ -129,6 +129,8 @@ void NativeRuntimeEventSource___::ThreadCreating(IntPtr ID, UInt16 ClrInstanceID
 };
 void NativeRuntimeEventSource___::ThreadRunning(IntPtr ID, UInt16 ClrInstanceID) {
 };
+void NativeRuntimeEventSource___::MethodDetails(UInt64 MethodID, UInt64 TypeID, UInt32 MethodToken, UInt32 TypeParameterCount, UInt64 LoaderModuleID) {
+};
 void NativeRuntimeEventSource___::ExceptionThrown_V1(String ExceptionType, String ExceptionMessage, IntPtr ExceptionEIP, UInt32 ExceptionHRESULT, UInt16 ExceptionFlags, UInt16 ClrInstanceID) {
 };
 void NativeRuntimeEventSource___::ExceptionCatchStart(UInt64 EntryEIP, UInt64 MethodID, String MethodName, UInt16 ClrInstanceID) {
@@ -243,7 +245,7 @@ void NativeRuntimeEventSource___::GCJoin_V2(UInt32 Heap, UInt32 JoinTime, UInt32
 };
 void NativeRuntimeEventSource___::GCPerHeapHistory_V3(UInt16 ClrInstanceID, IntPtr FreeListAllocated, IntPtr FreeListRejected, IntPtr EndOfSegAllocated, IntPtr CondemnedAllocated, IntPtr PinnedAllocated, IntPtr PinnedAllocatedAdvance, UInt32 RunningFreeListEfficiency, UInt32 CondemnReasons0, UInt32 CondemnReasons1, UInt32 CompactMechanisms, UInt32 ExpandMechanisms, UInt32 HeapIndex, IntPtr ExtraGen0Commit, UInt32 Count) {
 };
-void NativeRuntimeEventSource___::GCGlobalHeapHistory_V2(UInt64 FinalYoungestDesired, Int32 NumHeaps, UInt32 CondemnedGeneration, UInt32 Gen0ReductionCount, UInt32 Reason, UInt32 GlobalMechanisms, UInt16 ClrInstanceID, UInt32 PauseMode, UInt32 MemoryPressure) {
+void NativeRuntimeEventSource___::GCGlobalHeapHistory_V3(UInt64 FinalYoungestDesired, Int32 NumHeaps, UInt32 CondemnedGeneration, UInt32 Gen0ReductionCount, UInt32 Reason, UInt32 GlobalMechanisms, UInt16 ClrInstanceID, UInt32 PauseMode, UInt32 MemoryPressure, UInt32 CondemnReasons0, UInt32 CondemnReasons1) {
 };
 void NativeRuntimeEventSource___::DebugIPCEventStart() {
 };
@@ -266,5 +268,19 @@ void NativeRuntimeEventSource___::TieredCompilationResume(UInt16 ClrInstanceID, 
 void NativeRuntimeEventSource___::TieredCompilationBackgroundJitStart(UInt16 ClrInstanceID, UInt32 PendingMethodCount) {
 };
 void NativeRuntimeEventSource___::TieredCompilationBackgroundJitStop(UInt16 ClrInstanceID, UInt32 PendingMethodCount, UInt32 JittedMethodCount) {
+};
+void NativeRuntimeEventSource___::AssemblyLoadStart(UInt16 ClrInstanceID, String AssemblyName, String AssemblyPath, String RequestingAssembly, String AssemblyLoadContext, String RequestingAssemblyLoadContext) {
+};
+void NativeRuntimeEventSource___::AssemblyLoadStop(UInt16 ClrInstanceID, String AssemblyName, String AssemblyPath, String RequestingAssembly, String AssemblyLoadContext, String RequestingAssemblyLoadContext, Boolean Success, String ResultAssemblyName, String ResultAssemblyPath, Boolean Cached) {
+};
+void NativeRuntimeEventSource___::ResolutionAttempted(UInt16 ClrInstanceID, String AssemblyName, UInt16 Stage, String AssemblyLoadContext, UInt16 Result, String ResultAssemblyName, String ResultAssemblyPath, String ErrorMessage) {
+};
+void NativeRuntimeEventSource___::AssemblyLoadContextResolvingHandlerInvoked(UInt16 ClrInstanceID, String AssemblyName, String HandlerName, String AssemblyLoadContext, String ResultAssemblyName, String ResultAssemblyPath) {
+};
+void NativeRuntimeEventSource___::AppDomainAssemblyResolveHandlerInvoked(UInt16 ClrInstanceID, String AssemblyName, String HandlerName, String ResultAssemblyName, String ResultAssemblyPath) {
+};
+void NativeRuntimeEventSource___::AssemblyLoadFromResolveHandlerInvoked(UInt16 ClrInstanceID, String AssemblyName, Boolean IsTrackedLoad, String RequestingAssemblyPath, String ComputedRequestedAssemblyPath) {
+};
+void NativeRuntimeEventSource___::KnownPathProbed(UInt16 ClrInstanceID, String FilePath, UInt16 Source, Int32 Result) {
 };
 } // namespace System::Private::CoreLib::System::Diagnostics::Tracing::NativeRuntimeEventSourceNamespace

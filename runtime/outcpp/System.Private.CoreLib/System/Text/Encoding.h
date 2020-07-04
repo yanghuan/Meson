@@ -17,6 +17,9 @@ FORWARDS(ReadOnlySpan, T)
 FORWARDS(Span, T)
 FORWARD(String)
 } // namespace System::Private::CoreLib::System
+namespace System::Private::CoreLib::System::IO {
+FORWARD(Stream)
+} // namespace System::Private::CoreLib::System::IO
 namespace System::Private::CoreLib::System::Buffers {
 enum class OperationStatus;
 } // namespace System::Private::CoreLib::System::Buffers
@@ -36,6 +39,7 @@ FORWARDS(Rune)
 FORWARD(CodePageDataItem)
 namespace EncodingNamespace {
 using namespace ::System::Private::CoreLib::System::Buffers;
+using namespace ::System::Private::CoreLib::System::IO;
 using namespace ::System::Private::CoreLib::System::Runtime::Serialization;
 CLASS(Encoding) {
   public: CLASS(DefaultEncoder) {
@@ -172,6 +176,7 @@ CLASS(Encoding) {
   public: String GetString(Array<Byte> bytes, Int32 index, Int32 count);
   public: Boolean Equals(Object value);
   public: Int32 GetHashCode();
+  public: static Stream CreateTranscodingStream(Stream innerStream, Encoding innerStreamEncoding, Encoding outerStreamEncoding, Boolean leaveOpen);
   public: Array<Char> GetBestFitUnicodeToBytesData();
   public: Array<Char> GetBestFitBytesToUnicodeData();
   public: void ThrowBytesOverflow();

@@ -6,7 +6,6 @@
 namespace System::Private::CoreLib::System {
 FORWARD_(Array, T1, T2)
 FORWARDS(Byte)
-FORWARDS(Char)
 FORWARDS(Int32)
 FORWARDS(Int64)
 FORWARD(String)
@@ -15,17 +14,19 @@ FORWARDS(UInt32)
 namespace System::Private::CoreLib::System::Diagnostics::Tracing {
 enum class EventKeywords : int64_t;
 enum class EventLevel;
+enum class EventOpcode;
 FORWARD(TraceLoggingEventTypes)
 FORWARDS(EventParameterInfo)
 namespace EventPipeMetadataGeneratorNamespace {
 CLASS(EventPipeMetadataGenerator) {
+  private: enum class MetadataTag {
+    Opcode = 1,
+    ParameterPayload = 2,
+  };
   public: Array<Byte> GenerateEventMetadata(EventSource::in::EventMetadata eventMetadata);
-  public: Array<Byte> GenerateEventMetadata(Int32 eventId, String eventName, EventKeywords keywords, EventLevel level, UInt32 version, TraceLoggingEventTypes eventTypes);
-  private: Array<Byte> GenerateMetadata(Int32 eventId, String eventName, Int64 keywords, UInt32 level, UInt32 version, Array<EventParameterInfo> parameters);
+  public: Array<Byte> GenerateEventMetadata(Int32 eventId, String eventName, EventKeywords keywords, EventLevel level, UInt32 version, EventOpcode opcode, TraceLoggingEventTypes eventTypes);
+  public: Array<Byte> GenerateMetadata(Int32 eventId, String eventName, Int64 keywords, UInt32 level, UInt32 version, EventOpcode opcode, Array<EventParameterInfo> parameters);
   public: static void WriteToBuffer(Byte* buffer, UInt32 bufferLength, UInt32& offset, Byte* src, UInt32 srcLength);
-  public: static void WriteToBuffer(Byte* buffer, UInt32 bufferLength, UInt32& offset, UInt32 value);
-  public: static void WriteToBuffer(Byte* buffer, UInt32 bufferLength, UInt32& offset, Int64 value);
-  public: static void WriteToBuffer(Byte* buffer, UInt32 bufferLength, UInt32& offset, Char value);
   public: static EventPipeMetadataGenerator Instance;
 };
 } // namespace EventPipeMetadataGeneratorNamespace

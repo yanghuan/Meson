@@ -28,10 +28,6 @@ RegisteredWaitHandle ThreadPool::RegisterWaitForSingleObject(WaitHandle waitObje
 Boolean ThreadPool::UnsafeQueueNativeOverlapped(NativeOverlapped* overlapped) {
   return Boolean();
 };
-void ThreadPool::EnsureInitialized() {
-};
-void ThreadPool::EnsureVMInitializedCore() {
-};
 void ThreadPool::NotifyWorkItemProgress() {
 };
 Boolean ThreadPool::BindHandle(IntPtr osHandle) {

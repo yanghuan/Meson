@@ -28,7 +28,6 @@
 #include <System.Private.CoreLib/System/ResolveEventArgs-dep.h>
 #include <System.Private.CoreLib/System/Runtime/CompilerServices/ObjectHandleOnStack-dep.h>
 #include <System.Private.CoreLib/System/Runtime/CompilerServices/StackCrawlMarkHandle-dep.h>
-#include <System.Private.CoreLib/System/Runtime/Loader/AssemblyLoadContext-dep.h>
 #include <System.Private.CoreLib/System/Runtime/Serialization/SerializationInfo-dep.h>
 #include <System.Private.CoreLib/System/Runtime/Serialization/StreamingContext-dep.h>
 #include <System.Private.CoreLib/System/Security/SecurityRuleSet.h>

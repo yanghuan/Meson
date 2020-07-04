@@ -38,12 +38,6 @@ TimeSpanParse::TimeSpanToken TimeSpanParse::TimeSpanTokenizer::GetNextToken() {
 };
 void TimeSpanParse::TimeSpanTokenizer::BackOne() {
 };
-TimeSpanFormat::FormatLiterals TimeSpanParse::TimeSpanRawInfo::get_PositiveInvariant() {
-  return TimeSpanFormat::FormatLiterals();
-};
-TimeSpanFormat::FormatLiterals TimeSpanParse::TimeSpanRawInfo::get_NegativeInvariant() {
-  return TimeSpanFormat::FormatLiterals();
-};
 TimeSpanFormat::FormatLiterals TimeSpanParse::TimeSpanRawInfo::get_PositiveLocalized() {
   return TimeSpanFormat::FormatLiterals();
 };

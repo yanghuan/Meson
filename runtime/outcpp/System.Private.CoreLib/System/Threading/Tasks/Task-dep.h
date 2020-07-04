@@ -24,5 +24,6 @@
 #include <System.Private.CoreLib/System/Threading/Tasks/TaskFactory-dep.h>
 #include <System.Private.CoreLib/System/Threading/Tasks/TaskScheduler-dep.h>
 #include <System.Private.CoreLib/System/Threading/Tasks/TaskStatus.h>
+#include <System.Private.CoreLib/System/Threading/Tasks/VoidTaskResult-dep.h>
 #include <System.Private.CoreLib/System/Threading/TimerQueueTimer-dep.h>
 #include <System.Private.CoreLib/System/Threading/WaitHandle-dep.h>

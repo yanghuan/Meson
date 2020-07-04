@@ -28,6 +28,8 @@
 #include <System.Private.CoreLib/System/Reflection/Module-dep.h>
 #include <System.Private.CoreLib/System/Reflection/RuntimeAssembly-dep.h>
 #include <System.Private.CoreLib/System/Reflection/RuntimeModule-dep.h>
+#include <System.Private.CoreLib/System/Runtime/CompilerServices/ObjectHandleOnStack-dep.h>
+#include <System.Private.CoreLib/System/Runtime/CompilerServices/StackCrawlMarkHandle-dep.h>
 #include <System.Private.CoreLib/System/String-dep.h>
 #include <System.Private.CoreLib/System/Threading/StackCrawlMark.h>
 #include <System.Private.CoreLib/System/Type-dep.h>

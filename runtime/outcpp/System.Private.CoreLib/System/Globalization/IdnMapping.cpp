@@ -11,7 +11,10 @@ Boolean IdnMapping___::get_UseStd3AsciiRules() {
 };
 void IdnMapping___::set_UseStd3AsciiRules(Boolean value) {
 };
-UInt32 IdnMapping___::get_Flags() {
+UInt32 IdnMapping___::get_IcuFlags() {
+  return UInt32();
+};
+UInt32 IdnMapping___::get_NlsFlags() {
   return UInt32();
 };
 String IdnMapping___::GetAscii(String unicode) {
@@ -82,16 +85,27 @@ Boolean IdnMapping___::HasUpperCaseFlag(Char punychar) {
 Char IdnMapping___::EncodeDigit(Int32 d) {
   return Char();
 };
-String IdnMapping___::GetAsciiCore(String unicodeString, Char* unicode, Int32 count) {
+String IdnMapping___::IcuGetAsciiCore(String unicodeString, Char* unicode, Int32 count) {
   return nullptr;
 };
-String IdnMapping___::GetAsciiCore(String unicodeString, Char* unicode, Int32 count, UInt32 flags, Char* output, Int32 outputLength) {
+String IdnMapping___::IcuGetUnicodeCore(String asciiString, Char* ascii, Int32 count) {
   return nullptr;
 };
-String IdnMapping___::GetUnicodeCore(String asciiString, Char* ascii, Int32 count) {
+String IdnMapping___::IcuGetUnicodeCore(String asciiString, Char* ascii, Int32 count, UInt32 flags, Char* output, Int32 outputLength, Boolean reattempt) {
   return nullptr;
 };
-String IdnMapping___::GetUnicodeCore(String asciiString, Char* ascii, Int32 count, UInt32 flags, Char* output, Int32 outputLength) {
+void IdnMapping___::CheckInvalidIdnCharacters(Char* s, Int32 count, UInt32 flags, String paramName) {
+};
+String IdnMapping___::NlsGetAsciiCore(String unicodeString, Char* unicode, Int32 count) {
+  return nullptr;
+};
+String IdnMapping___::NlsGetAsciiCore(String unicodeString, Char* unicode, Int32 count, UInt32 flags, Char* output, Int32 outputLength) {
+  return nullptr;
+};
+String IdnMapping___::NlsGetUnicodeCore(String asciiString, Char* ascii, Int32 count) {
+  return nullptr;
+};
+String IdnMapping___::NlsGetUnicodeCore(String asciiString, Char* ascii, Int32 count, UInt32 flags, Char* output, Int32 outputLength) {
   return nullptr;
 };
 void IdnMapping___::ThrowForZeroLength(Boolean unicode) {

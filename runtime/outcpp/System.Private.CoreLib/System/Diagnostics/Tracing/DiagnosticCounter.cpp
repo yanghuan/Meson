@@ -11,6 +11,8 @@ String DiagnosticCounter___::get_DisplayUnits() {
 };
 void DiagnosticCounter___::set_DisplayUnits(String value) {
 };
+void DiagnosticCounter___::Publish() {
+};
 void DiagnosticCounter___::Dispose() {
 };
 void DiagnosticCounter___::AddMetadata(String key, String value) {

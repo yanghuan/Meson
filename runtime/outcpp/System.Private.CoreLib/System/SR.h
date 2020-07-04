@@ -11,9 +11,9 @@ FORWARD(List, T)
 namespace System::Private::CoreLib::System {
 FORWARD(String)
 FORWARDS(Boolean)
-FORWARD(IFormatProvider)
-FORWARD_(Array, T1, T2)
 FORWARD(Object)
+FORWARD_(Array, T1, T2)
+FORWARD(IFormatProvider)
 FORWARDS(Int32)
 namespace SRNamespace {
 using namespace ::System::Private::CoreLib::System::Collections::Generic;
@@ -76,7 +76,6 @@ class SR {
   public: static String get_Arg_EHClauseNotClause();
   public: static String get_Arg_EHClauseNotFilter();
   public: static String get_Arg_EmptyArray();
-  public: static String get_Arg_EmptyOrNullString();
   public: static String get_Arg_EndOfStreamException();
   public: static String get_Arg_EntryPointNotFoundException();
   public: static String get_Arg_EnumAndObjectMustBeSameType();
@@ -123,12 +122,13 @@ class SR {
   public: static String get_Arg_IOException();
   public: static String get_Arg_KeyNotFound();
   public: static String get_Arg_KeyNotFoundWithKey();
+  public: static String get_Arg_LongerThanDestArray();
+  public: static String get_Arg_LongerThanSrcArray();
   public: static String get_Arg_LongerThanSrcString();
   public: static String get_Arg_LowerBoundsMustMatch();
   public: static String get_Arg_MarshalAsAnyRestriction();
   public: static String get_Arg_MarshalDirectiveException();
   public: static String get_Arg_MethodAccessException();
-  public: static String get_Arg_MethodAccessException_WithMethodName();
   public: static String get_Arg_MissingFieldException();
   public: static String get_Arg_MissingManifestResourceException();
   public: static String get_Arg_MissingMemberException();
@@ -148,6 +148,7 @@ class SR {
   public: static String get_Arg_MustBeInt16();
   public: static String get_Arg_MustBeInt32();
   public: static String get_Arg_MustBeInt64();
+  public: static String get_Arg_MustBeIntPtr();
   public: static String get_Arg_MustBePointer();
   public: static String get_Arg_MustBePrimArray();
   public: static String get_Arg_MustBeRuntimeAssembly();
@@ -160,6 +161,7 @@ class SR {
   public: static String get_Arg_MustBeUInt16();
   public: static String get_Arg_MustBeUInt32();
   public: static String get_Arg_MustBeUInt64();
+  public: static String get_Arg_MustBeUIntPtr();
   public: static String get_Arg_MustBeVersion();
   public: static String get_Arg_MustContainEnumInfo();
   public: static String get_Arg_NamedParamNull();
@@ -318,8 +320,6 @@ class SR {
   public: static String get_Argument_IllegalEnvVarName();
   public: static String get_Argument_IllegalName();
   public: static String get_Argument_ImplementIComparable();
-  public: static String get_Argument_IndexOutOfArrayBounds();
-  public: static String get_Argument_InsufficientSpaceToCopyCollection();
   public: static String get_Argument_InvalidAppendMode();
   public: static String get_Argument_InvalidArgumentForComparison();
   public: static String get_Argument_InvalidArrayLength();
@@ -332,6 +332,7 @@ class SR {
   public: static String get_Argument_InvalidConstructorDeclaringType();
   public: static String get_Argument_InvalidConstructorInfo();
   public: static String get_Argument_InvalidCultureName();
+  public: static String get_Argument_InvalidPredefinedCultureName();
   public: static String get_Argument_InvalidDateTimeKind();
   public: static String get_Argument_InvalidDateTimeStyles();
   public: static String get_Argument_InvalidDigitSubstitution();
@@ -409,7 +410,6 @@ class SR {
   public: static String get_Argument_NotInExceptionBlock();
   public: static String get_Argument_NotMethodCallOpcode();
   public: static String get_Argument_NotSerializable();
-  public: static String get_Argument_ObjIsWinRTObject();
   public: static String get_Argument_ObjNotComObject();
   public: static String get_Argument_OffsetAndCapacityOutOfBounds();
   public: static String get_Argument_OffsetLocalMismatch();
@@ -447,20 +447,16 @@ class SR {
   public: static String get_Argument_TooManyFinallyClause();
   public: static String get_Argument_TransitionTimesAreIdentical();
   public: static String get_Argument_TypedReferenceInvalidField();
-  public: static String get_Argument_TypeIsWinRTType();
   public: static String get_Argument_TypeMustNotBeComImport();
   public: static String get_Argument_TypeNameTooLong();
-  public: static String get_Argument_TypeNotActivatableViaWindowsRuntime();
   public: static String get_Argument_TypeNotComObject();
   public: static String get_Argument_TypeNotValid();
   public: static String get_Argument_UnclosedExceptionBlock();
-  public: static String get_Argument_Unexpected_TypeSource();
   public: static String get_Argument_UnknownUnmanagedCallConv();
   public: static String get_Argument_UnmanagedMemAccessorWrapAround();
   public: static String get_Argument_UnmatchedMethodForLocal();
   public: static String get_Argument_UnmatchingSymScope();
   public: static String get_Argument_UTCOutOfRange();
-  public: static String get_Argument_WinRTSystemRuntimeType();
   public: static String get_ArgumentException_BadMethodImplBody();
   public: static String get_ArgumentException_BufferNotFromPool();
   public: static String get_ArgumentException_OtherNotArrayOfCorrectLength();
@@ -487,8 +483,8 @@ class SR {
   public: static String get_ArgumentNull_Type();
   public: static String get_ArgumentNull_Waithandles();
   public: static String get_ArgumentOutOfRange_ActualValue();
-  public: static String get_ArgumentOutOfRange_AddressSpace();
   public: static String get_ArgumentOutOfRange_AddValue();
+  public: static String get_ArgumentOutOfRange_ArrayLB();
   public: static String get_ArgumentOutOfRange_BadHourMinuteSecond();
   public: static String get_ArgumentOutOfRange_BadYearMonthDay();
   public: static String get_ArgumentOutOfRange_BiggerThanCollection();
@@ -519,7 +515,6 @@ class SR {
   public: static String get_ArgumentOutOfRange_Index();
   public: static String get_ArgumentOutOfRange_IndexCount();
   public: static String get_ArgumentOutOfRange_IndexCountBuffer();
-  public: static String get_ArgumentOutOfRange_IndexLargerThanMaxValue();
   public: static String get_ArgumentOutOfRange_IndexLength();
   public: static String get_ArgumentOutOfRange_IndexString();
   public: static String get_ArgumentOutOfRange_InvalidEraValue();
@@ -567,6 +562,7 @@ class SR {
   public: static String get_ArgumentOutOfRange_Week();
   public: static String get_ArgumentOutOfRange_Year();
   public: static String get_Arithmetic_NaN();
+  public: static String get_ArrayTypeMismatch_ConstrainedCopy();
   public: static String get_AssemblyLoadContext_Unload_CannotUnloadIfNotCollectible();
   public: static String get_AssemblyLoadContext_Verify_NotUnloading();
   public: static String get_AssertionFailed();
@@ -659,7 +655,7 @@ class SR {
   public: static String get_ExecutionContext_ExceptionInAsyncLocalNotification();
   public: static String get_FileNotFound_ResolveAssembly();
   public: static String get_Format_AttributeUsage();
-  public: static String get_Format_Bad7BitInt32();
+  public: static String get_Format_Bad7BitInt();
   public: static String get_Format_BadBase64Char();
   public: static String get_Format_BadBoolean();
   public: static String get_Format_BadFormatSpecifier();
@@ -676,12 +672,16 @@ class SR {
   public: static String get_Format_NeedSingleChar();
   public: static String get_Format_NoParsibleDigits();
   public: static String get_Format_StringZeroLength();
+  public: static String get_IndexOutOfRange_ArrayRankIndex();
   public: static String get_IndexOutOfRange_UMSPosition();
   public: static String get_InsufficientMemory_MemFailPoint();
   public: static String get_InsufficientMemory_MemFailPoint_TooBig();
   public: static String get_InsufficientMemory_MemFailPoint_VAFrag();
   public: static String get_Interop_COM_TypeMismatch();
   public: static String get_Interop_Marshal_Unmappable_Char();
+  public: static String get_Interop_Marshal_SafeHandle_InvalidOperation();
+  public: static String get_Interop_Marshal_CannotCreateSafeHandleField();
+  public: static String get_Interop_Marshal_CannotCreateCriticalHandleField();
   public: static String get_InvalidCast_CannotCastNullToValueType();
   public: static String get_InvalidCast_CannotCoerceByRefVariant();
   public: static String get_InvalidCast_DBNull();
@@ -689,9 +689,6 @@ class SR {
   public: static String get_InvalidCast_FromDBNull();
   public: static String get_InvalidCast_FromTo();
   public: static String get_InvalidCast_IConvertible();
-  public: static String get_InvalidCast_WinRTIPropertyValueArrayCoersion();
-  public: static String get_InvalidCast_WinRTIPropertyValueCoersion();
-  public: static String get_InvalidCast_WinRTIPropertyValueElement();
   public: static String get_InvalidOperation_AsyncFlowCtrlCtxMismatch();
   public: static String get_InvalidOperation_AsyncIOInProgress();
   public: static String get_InvalidOperation_BadEmptyMethodBody();
@@ -703,13 +700,10 @@ class SR {
   public: static String get_InvalidOperation_CalledTwice();
   public: static String get_InvalidOperation_CannotImportGlobalFromDifferentModule();
   public: static String get_InvalidOperation_CannotRegisterSecondResolver();
-  public: static String get_InvalidOperation_CannotRemoveLastFromEmptyCollection();
   public: static String get_InvalidOperation_CannotRestoreUnsupressedFlow();
   public: static String get_InvalidOperation_CannotSupressFlowMultipleTimes();
   public: static String get_InvalidOperation_CannotUseAFCMultiple();
   public: static String get_InvalidOperation_CannotUseAFCOtherThread();
-  public: static String get_InvalidOperation_CollectionBackingDictionaryTooLarge();
-  public: static String get_InvalidOperation_CollectionBackingListTooLarge();
   public: static String get_InvalidOperation_CollectionCorrupted();
   public: static String get_InvalidOperation_ComputerName();
   public: static String get_InvalidOperation_ConcurrentOperationsNotSupported();
@@ -723,7 +717,6 @@ class SR {
   public: static String get_InvalidOperation_EnumNotStarted();
   public: static String get_InvalidOperation_EnumOpCantHappen();
   public: static String get_InvalidOperation_EventInfoNotAvailable();
-  public: static String get_InvalidOperation_EventTokenTableRequiresDelegate();
   public: static String get_InvalidOperation_GenericParametersAlreadySet();
   public: static String get_InvalidOperation_GetVersion();
   public: static String get_InvalidOperation_GlobalsHaveBeenCreated();
@@ -743,7 +736,6 @@ class SR {
   public: static String get_InvalidOperation_NotAllowedInDynamicMethod();
   public: static String get_InvalidOperation_NotAVarArgCallingConvention();
   public: static String get_InvalidOperation_NotGenericType();
-  public: static String get_InvalidOperation_NotSupportedOnWinRTEvent();
   public: static String get_InvalidOperation_NotWithConcurrentGC();
   public: static String get_InvalidOperation_NoUnderlyingTypeOnEnum();
   public: static String get_InvalidOperation_NoValue();
@@ -813,8 +805,6 @@ class SR {
   public: static String get_MissingManifestResource_MultipleBlobs();
   public: static String get_MissingManifestResource_NoNeutralAsm();
   public: static String get_MissingManifestResource_NoNeutralDisk();
-  public: static String get_MissingManifestResource_NoPRIresources();
-  public: static String get_MissingManifestResource_ResWFileNotLoaded();
   public: static String get_MissingMember();
   public: static String get_MissingMember_Name();
   public: static String get_MissingMemberNestErr();
@@ -826,7 +816,6 @@ class SR {
   public: static String get_MustUseCCRewrite();
   public: static String get_NotSupported_AbstractNonCLS();
   public: static String get_NotSupported_ActivAttr();
-  public: static String get_NotSupported_AppX();
   public: static String get_NotSupported_AssemblyLoadFromHash();
   public: static String get_NotSupported_ByRefToByRefLikeReturn();
   public: static String get_NotSupported_ByRefToVoidReturn();
@@ -848,6 +837,7 @@ class SR {
   public: static String get_NotSupported_MemStreamNotExpandable();
   public: static String get_NotSupported_MustBeModuleBuilder();
   public: static String get_NotSupported_NoCodepageData();
+  public: static String get_InvalidOperation_FunctionMissingUnmanagedCallersOnly();
   public: static String get_NotSupported_NonReflectedType();
   public: static String get_NotSupported_NoParentDefaultConstructor();
   public: static String get_NotSupported_NoTypeInfo();
@@ -902,7 +892,6 @@ class SR {
   public: static String get_PlatformNotSupported_Remoting();
   public: static String get_PlatformNotSupported_SecureBinarySerialization();
   public: static String get_PlatformNotSupported_StrongNameSigning();
-  public: static String get_PlatformNotSupported_WinRT();
   public: static String get_PlatformNotSupported_ITypeInfo();
   public: static String get_PlatformNotSupported_IExpando();
   public: static String get_PlatformNotSupported_AppDomains();
@@ -917,6 +906,7 @@ class SR {
   public: static String get_PreconditionFailed();
   public: static String get_PreconditionFailed_Cnd();
   public: static String get_Rank_MultiDimNotSupported();
+  public: static String get_Rank_MustMatch();
   public: static String get_ResourceReaderIsClosed();
   public: static String get_Resources_StreamNotValid();
   public: static String get_RFLCT_AmbigCust();
@@ -944,7 +934,6 @@ class SR {
   public: static String get_Serialization_InvalidData();
   public: static String get_Serialization_InvalidEscapeSequence();
   public: static String get_Serialization_InvalidOnDeser();
-  public: static String get_Serialization_InvalidPtrValue();
   public: static String get_Serialization_InvalidType();
   public: static String get_Serialization_KeyValueDifferentSizes();
   public: static String get_Serialization_MissingDateTimeData();
@@ -1069,15 +1058,34 @@ class SR {
   public: static String get_InvalidOperation_InvalidComUnRegFunctionSig();
   public: static String get_InvalidOperation_MultipleComRegFunctions();
   public: static String get_InvalidOperation_MultipleComUnRegFunctions();
-  private: static Boolean UsingResourceKeys();
+  public: static String get_InvalidOperation_ResetGlobalComWrappersInstance();
+  public: static String get_Argument_SpansMustHaveSameLength();
+  public: static String get_NotSupported_CannotWriteToBufferedStreamIfReadBufferCannotBeFlushed();
+  public: static String get_GenericInvalidData();
+  public: static String get_Argument_ResourceScopeWrongDirection();
+  public: static String get_ArgumentNull_TypeRequiredByResourceScope();
+  public: static String get_Argument_BadResourceScopeTypeBits();
+  public: static String get_Argument_BadResourceScopeVisibilityBits();
+  public: static String get_net_emptystringcall();
+  public: static String get_Argument_EmptyApplicationName();
+  public: static String get_Argument_FrameworkNameInvalid();
+  public: static String get_Argument_FrameworkNameInvalidVersion();
+  public: static String get_Argument_FrameworkNameMissingVersion();
+  public: static String get_Argument_FrameworkNameTooShort();
+  public: static String get_Arg_SwitchExpressionException();
+  public: static String get_Arg_ContextMarshalException();
+  public: static String get_Arg_AppDomainUnloadedException();
+  public: static String get_SwitchExpressionException_UnmatchedValue();
   public: static String GetResourceString(String resourceKey);
-  public: static String GetResourceString(String resourceKey, String defaultString);
   private: static String InternalGetResourceString(String key);
-  public: static String Format(IFormatProvider provider, String resourceFormat, Array<Object> args);
-  public: static String Format(String resourceFormat, Array<Object> args);
+  private: static Boolean UsingResourceKeys();
+  public: static String GetResourceString(String resourceKey, String defaultString);
   public: static String Format(String resourceFormat, Object p1);
   public: static String Format(String resourceFormat, Object p1, Object p2);
   public: static String Format(String resourceFormat, Object p1, Object p2, Object p3);
+  public: static String Format(String resourceFormat, Array<Object> args);
+  public: static String Format(IFormatProvider provider, String resourceFormat, Object p1);
+  public: static String Format(IFormatProvider provider, String resourceFormat, Object p1, Object p2);
   private: static Object _lock;
   private: static List<String> _currentlyLoading;
   private: static Int32 _infinitelyRecursingCount;

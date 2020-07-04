@@ -13,6 +13,9 @@ String GenericTypeParameterBuilder___::get_Name() {
 Module GenericTypeParameterBuilder___::get_Module() {
   return nullptr;
 };
+Boolean GenericTypeParameterBuilder___::get_IsByRefLike() {
+  return Boolean();
+};
 Int32 GenericTypeParameterBuilder___::get_MetadataTokenInternal() {
   return Int32();
 };

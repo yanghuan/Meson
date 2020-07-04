@@ -2,10 +2,6 @@
 
 #include <rt/GCObject.h>
 
-namespace System::Private::CoreLib::System::Collections::Generic {
-FORWARD(Dictionary, TKey, TValue)
-FORWARD(List, T)
-} // namespace System::Private::CoreLib::System::Collections::Generic
 namespace System::Private::CoreLib::System {
 FORWARD_(Array, T1, T2)
 FORWARDS(Boolean)
@@ -13,6 +9,9 @@ FORWARDS(Char)
 FORWARDS(Int32)
 FORWARD(String)
 } // namespace System::Private::CoreLib::System
+namespace System::Private::CoreLib::System::Collections::Generic {
+FORWARD(List, T)
+} // namespace System::Private::CoreLib::System::Collections::Generic
 namespace System::Private::CoreLib::System::Globalization {
 FORWARD(DateTimeFormatInfo)
 enum class FORMATFLAGS;
@@ -26,7 +25,6 @@ CLASS(DateTimeFormatInfoScanner) {
     FoundDayPatternFlag = 4,
     FoundYMDPatternFlag = 7,
   };
-  private: static Dictionary<String, String> get_KnownWords();
   public: static Int32 SkipWhiteSpacesAndNonLetter(String pattern, Int32 currentIndex);
   public: void AddDateWordOrPostfix(String formatPostfix, String str);
   public: Int32 AddDateWords(String pattern, Int32 index, String formatPostfix);
@@ -42,7 +40,6 @@ CLASS(DateTimeFormatInfoScanner) {
   private: static Boolean ArrayElementsHaveSpace(Array<String> array);
   private: static Boolean ArrayElementsBeginWithDigit(Array<String> array);
   public: List<String> m_dateWords;
-  private: static Dictionary<String, String> s_knownWords;
   private: FoundDatePattern _ymdFlags;
 };
 } // namespace DateTimeFormatInfoScannerNamespace

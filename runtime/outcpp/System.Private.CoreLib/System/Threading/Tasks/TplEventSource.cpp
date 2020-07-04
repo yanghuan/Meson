@@ -17,17 +17,7 @@ void TplEventSource___::TaskWaitContinuationComplete(Int32 TaskID) {
 };
 void TplEventSource___::TaskWaitContinuationStarted(Int32 TaskID) {
 };
-void TplEventSource___::AwaitTaskContinuationScheduled(Int32 OriginatingTaskSchedulerID, Int32 OriginatingTaskID, Int32 ContinuwWithTaskId) {
-};
-void TplEventSource___::TraceOperationBegin(Int32 TaskID, String OperationName, Int64 RelatedContext) {
-};
-void TplEventSource___::TraceOperationRelation(Int32 TaskID, CausalityRelation Relation) {
-};
-void TplEventSource___::TraceOperationEnd(Int32 TaskID, AsyncCausalityStatus Status) {
-};
-void TplEventSource___::TraceSynchronousWorkBegin(Int32 TaskID, CausalitySynchronousWork Work) {
-};
-void TplEventSource___::TraceSynchronousWorkEnd(CausalitySynchronousWork Work) {
+void TplEventSource___::AwaitTaskContinuationScheduled(Int32 OriginatingTaskSchedulerID, Int32 OriginatingTaskID, Int32 ContinueWithTaskId) {
 };
 void TplEventSource___::RunningContinuationList(Int32 TaskID, Int32 Index, Object Object) {
 };

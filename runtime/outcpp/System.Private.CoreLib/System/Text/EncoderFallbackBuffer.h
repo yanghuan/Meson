@@ -33,7 +33,7 @@ CLASS(EncoderFallbackBuffer) {
   public: Int32 DrainRemainingDataForGetByteCount();
   private: Rune GetNextRune();
   public: Boolean InternalFallback(Char ch, Char*& chars);
-  public: void ThrowLastCharRecursive(Int32 charRecursive);
+  public: static void ThrowLastCharRecursive(Int32 charRecursive);
   public: Char* charStart;
   public: Char* charEnd;
   public: EncoderNLS encoder;

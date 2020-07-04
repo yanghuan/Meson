@@ -1,56 +1,58 @@
 #pragma once
 
 #include <rt/GCObject.h>
-#include <System.Private.CoreLib/System/IntPtr.h>
+#include <System.Private.CoreLib/System/Boolean.h>
+#include <System.Private.CoreLib/System/Int32.h>
 
 namespace System::Private::CoreLib::System {
-FORWARDS(Int32)
+FORWARDS(Char)
 FORWARD(String)
 FORWARD(Type)
 } // namespace System::Private::CoreLib::System
-namespace System::Private::CoreLib::System::Runtime::CompilerServices {
-FORWARDS(StringHandleOnStack)
-} // namespace System::Private::CoreLib::System::Runtime::CompilerServices
+namespace System::Private::CoreLib::System::Text {
+FORWARD(StringBuilder)
+} // namespace System::Private::CoreLib::System::Text
+namespace System::Private::CoreLib::System::Collections::Generic {
+FORWARD(List, T)
+} // namespace System::Private::CoreLib::System::Collections::Generic
 namespace System::Private::CoreLib::System::Reflection::Emit {
 namespace TypeNameBuilderNamespace {
-using namespace ::System::Private::CoreLib::System::Runtime::CompilerServices;
+using namespace ::System::Private::CoreLib::System::Collections::Generic;
+using namespace ::System::Private::CoreLib::System::Text;
 CLASS(TypeNameBuilder) {
   public: enum class Format {
     ToString = 0,
     FullName = 1,
     AssemblyQualifiedName = 2,
   };
-  private: static IntPtr CreateTypeNameBuilder();
-  private: static void ReleaseTypeNameBuilder(IntPtr pAQN);
-  private: static void OpenGenericArguments(IntPtr tnb);
-  private: static void CloseGenericArguments(IntPtr tnb);
-  private: static void OpenGenericArgument(IntPtr tnb);
-  private: static void CloseGenericArgument(IntPtr tnb);
-  private: static void AddName(IntPtr tnb, String name);
-  private: static void AddPointer(IntPtr tnb);
-  private: static void AddByRef(IntPtr tnb);
-  private: static void AddSzArray(IntPtr tnb);
-  private: static void AddArray(IntPtr tnb, Int32 rank);
-  private: static void AddAssemblySpec(IntPtr tnb, String assemblySpec);
-  private: static void ToString(IntPtr tnb, StringHandleOnStack retString);
-  private: static void Clear(IntPtr tnb);
-  public: static String ToString(Type type, Format format);
-  public: void Dispose();
-  private: void AddElementType(Type elementType);
-  private: void ConstructAssemblyQualifiedNameWorker(Type type, Format format);
   private: void OpenGenericArguments();
   private: void CloseGenericArguments();
   private: void OpenGenericArgument();
   private: void CloseGenericArgument();
   private: void AddName(String name);
-  private: void AddPointer();
-  private: void AddByRef();
-  private: void AddSzArray();
   private: void AddArray(Int32 rank);
   private: void AddAssemblySpec(String assemblySpec);
   public: String ToString();
-  private: void Clear();
-  private: IntPtr m_typeNameBuilder;
+  private: static Boolean ContainsReservedChar(String name);
+  private: static Boolean IsTypeNameReservedChar(Char ch);
+  private: void EscapeName(String name);
+  private: void EscapeAssemblyName(String name);
+  private: void EscapeEmbeddedAssemblyName(String name);
+  private: void PushOpenGenericArgument();
+  private: void PopOpenGenericArgument();
+  private: void Append(String pStr);
+  private: void Append(Char c);
+  public: static String ToString(Type type, Format format);
+  private: void AddElementType(Type type);
+  private: void AddAssemblyQualifiedName(Type type, Format format);
+  private: StringBuilder _str;
+  private: Int32 _instNesting;
+  private: Boolean _firstInstArg;
+  private: Boolean _nestedName;
+  private: Boolean _hasAssemblySpec;
+  private: Boolean _useAngleBracketsForGenerics;
+  private: List<Int32> _stack;
+  private: Int32 _stackIdx;
 };
 } // namespace TypeNameBuilderNamespace
 using TypeNameBuilder = TypeNameBuilderNamespace::TypeNameBuilder;

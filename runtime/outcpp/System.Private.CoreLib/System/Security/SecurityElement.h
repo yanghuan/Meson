@@ -3,7 +3,7 @@
 #include <rt/GCObject.h>
 
 namespace System::Private::CoreLib::System {
-FORWARD_(Action, T1, T2, T3, T4, T5, T6, T7, T8, T9)
+FORWARD_(Action, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17)
 FORWARD_(Array, T1, T2)
 FORWARDS(Boolean)
 FORWARDS(Char)
@@ -27,7 +27,6 @@ CLASS(SecurityElement) {
   public: void set_Text(String value);
   public: ArrayList get_Children();
   public: void set_Children(ArrayList value);
-  public: void ConvertSecurityElementFactories();
   public: void AddAttributeSafe(String name, String value);
   public: void AddAttribute(String name, String value);
   public: void AddChild(SecurityElement child);
@@ -42,7 +41,7 @@ CLASS(SecurityElement) {
   private: static String GetUnescapeSequence(String str, Int32 index, Int32& newIndex);
   private: static String Unescape(String str);
   public: String ToString();
-  private: void ToString(String indent, Object obj, Action<Object, String> write);
+  private: void ToString(Object obj, Action<Object, String> write);
   public: String Attribute(String name);
   public: SecurityElement SearchForChildByTag(String tag);
   public: String SearchForTextOfTag(String tag);

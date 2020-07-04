@@ -1,9 +1,6 @@
 #include "ThreadPoolTaskScheduler-dep.h"
 
 namespace System::Private::CoreLib::System::Threading::Tasks::ThreadPoolTaskSchedulerNamespace {
-Boolean ThreadPoolTaskScheduler___::get_RequiresAtomicStartTransition() {
-  return Boolean();
-};
 void ThreadPoolTaskScheduler___::QueueTask(Task<> task) {
 };
 Boolean ThreadPoolTaskScheduler___::TryExecuteTaskInline(Task<> task, Boolean taskWasPreviouslyQueued) {

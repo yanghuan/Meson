@@ -15,18 +15,20 @@ namespace System::Private::CoreLib::System::Threading::Tasks {
 FORWARD_(Task, T1, T2)
 namespace TaskToApmNamespace {
 class TaskToApm {
-  private: CLASS(TaskWrapperAsyncResult) {
-    private: Object get_AsyncStateOfIAsyncResult();
-    private: Boolean get_CompletedSynchronouslyOfIAsyncResult();
-    private: Boolean get_IsCompletedOfIAsyncResult();
-    private: WaitHandle get_AsyncWaitHandleOfIAsyncResult();
-    public: Task<> Task;
-    private: Object _state;
-    private: Boolean _completedSynchronously;
+  public: CLASS(TaskAsyncResult) {
+    public: Object get_AsyncState() { return AsyncState; }
+    public: Boolean get_CompletedSynchronously() { return CompletedSynchronously; }
+    public: Boolean get_IsCompleted();
+    public: WaitHandle get_AsyncWaitHandle();
+    private: void InvokeCallback();
+    public: Task<> _task;
+    private: AsyncCallback _callback;
+    private: Object AsyncState;
+    private: Boolean CompletedSynchronously;
   };
   public: static IAsyncResult Begin(Task<> task, AsyncCallback callback, Object state);
   public: static void End(IAsyncResult asyncResult);
-  private: static void InvokeCallbackWhenTaskCompletes(Task<> antecedent, AsyncCallback callback, IAsyncResult asyncResult);
+  private: static void ThrowArgumentException(IAsyncResult asyncResult);
 };
 } // namespace TaskToApmNamespace
 using TaskToApm = TaskToApmNamespace::TaskToApm;

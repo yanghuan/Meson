@@ -60,4 +60,6 @@ void BinaryWriter___::Write(ReadOnlySpan<Char> chars) {
 };
 void BinaryWriter___::Write7BitEncodedInt(Int32 value) {
 };
+void BinaryWriter___::Write7BitEncodedInt64(Int64 value) {
+};
 } // namespace System::Private::CoreLib::System::IO::BinaryWriterNamespace

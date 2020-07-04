@@ -28,6 +28,10 @@ namespace System::Private::CoreLib::System::Collections::Generic {
 FORWARD(IEnumerable, T)
 FORWARD(IList, T)
 } // namespace System::Private::CoreLib::System::Collections::Generic
+namespace System::Private::CoreLib::System::Runtime::CompilerServices {
+FORWARDS(ObjectHandleOnStack)
+FORWARDS(StackCrawlMarkHandle)
+} // namespace System::Private::CoreLib::System::Runtime::CompilerServices
 namespace System::Private::CoreLib::System::Threading {
 enum class StackCrawlMark;
 } // namespace System::Private::CoreLib::System::Threading
@@ -49,6 +53,7 @@ namespace AssemblyBuilderNamespace {
 using namespace ::System::Private::CoreLib::System::Collections::Generic;
 using namespace ::System::Private::CoreLib::System::Globalization;
 using namespace ::System::Private::CoreLib::System::IO;
+using namespace ::System::Private::CoreLib::System::Runtime::CompilerServices;
 using namespace ::System::Private::CoreLib::System::Threading;
 using ::System::Private::CoreLib::System::Collections::Generic::IList;
 CLASS(AssemblyBuilder) {
@@ -71,14 +76,14 @@ CLASS(AssemblyBuilder) {
   private: void InitManifestModule();
   public: static AssemblyBuilder DefineDynamicAssembly(AssemblyName name, AssemblyBuilderAccess access);
   public: static AssemblyBuilder DefineDynamicAssembly(AssemblyName name, AssemblyBuilderAccess access, IEnumerable<CustomAttributeBuilder> assemblyAttributes);
-  private: static Assembly nCreateDynamicAssembly(AssemblyName name, StackCrawlMark& stackMark, AssemblyBuilderAccess access);
+  private: static void CreateDynamicAssembly(ObjectHandleOnStack name, StackCrawlMarkHandle stackMark, Int32 access, ObjectHandleOnStack retAssembly);
   public: static AssemblyBuilder InternalDefineDynamicAssembly(AssemblyName name, AssemblyBuilderAccess access, StackCrawlMark& stackMark, IEnumerable<CustomAttributeBuilder> unsafeAssemblyAttributes);
   public: ModuleBuilder DefineDynamicModule(String name);
   public: ModuleBuilder DefineDynamicModule(String name, Boolean emitSymbolInfo);
-  private: ModuleBuilder DefineDynamicModuleInternal(String name, Boolean emitSymbolInfo, StackCrawlMark& stackMark);
-  private: ModuleBuilder DefineDynamicModuleInternalNoLock(String name, Boolean emitSymbolInfo, StackCrawlMark& stackMark);
-  public: void CheckContext(Array<Array<Type>> typess);
-  public: void CheckContext(Array<Type> types);
+  private: ModuleBuilder DefineDynamicModuleInternal(String name, Boolean emitSymbolInfo);
+  private: ModuleBuilder DefineDynamicModuleInternalNoLock(String name, Boolean emitSymbolInfo);
+  public: static void CheckContext(Array<Array<Type>> typess);
+  public: static void CheckContext(Array<Type> types);
   public: Boolean Equals(Object obj);
   public: Int32 GetHashCode();
   public: Array<Object> GetCustomAttributes(Boolean inherit);

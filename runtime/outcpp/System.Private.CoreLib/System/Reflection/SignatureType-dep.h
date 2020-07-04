@@ -33,5 +33,5 @@
 #include <System.Private.CoreLib/System/Runtime/InteropServices/StructLayoutAttribute-dep.h>
 #include <System.Private.CoreLib/System/RuntimeTypeHandle-dep.h>
 #include <System.Private.CoreLib/System/String-dep.h>
-#include <System.Private.CoreLib/System/TypeCode.h>
 #include <System.Private.CoreLib/System/Type-dep.h>
+#include <System.Private.CoreLib/System/TypeCode.h>

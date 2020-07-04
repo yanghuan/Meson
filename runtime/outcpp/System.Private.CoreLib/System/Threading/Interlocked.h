@@ -3,13 +3,14 @@
 #include <rt/GCObject.h>
 
 namespace System::Private::CoreLib::System {
-FORWARDS(Boolean)
 FORWARDS(Double)
 FORWARDS(Int32)
 FORWARDS(Int64)
 FORWARDS(IntPtr)
 FORWARD(Object)
 FORWARDS(Single)
+FORWARDS(UInt32)
+FORWARDS(UInt64)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Threading {
 namespace InterlockedNamespace {
@@ -30,15 +31,34 @@ class Interlocked {
   public: static Double CompareExchange(Double& location1, Double value, Double comparand);
   public: static Object CompareExchange(Object& location1, Object value, Object comparand);
   public: static IntPtr CompareExchange(IntPtr& location1, IntPtr value, IntPtr comparand);
-  public: static Int32 CompareExchange(Int32& location1, Int32 value, Int32 comparand, Boolean& succeeded);
-  public: static Int32 ExchangeAdd(Int32& location1, Int32 value);
-  public: static Int64 ExchangeAdd(Int64& location1, Int64 value);
   public: static Int32 Add(Int32& location1, Int32 value);
   public: static Int64 Add(Int64& location1, Int64 value);
+  private: static Int32 ExchangeAdd(Int32& location1, Int32 value);
+  private: static Int64 ExchangeAdd(Int64& location1, Int64 value);
   public: static Int64 Read(Int64& location);
   public: static void MemoryBarrier();
+  public: static void ReadMemoryBarrier();
   private: static void _MemoryBarrierProcessWide();
   public: static void MemoryBarrierProcessWide();
+  public: static UInt32 Increment(UInt32& location);
+  public: static UInt64 Increment(UInt64& location);
+  public: static UInt32 Decrement(UInt32& location);
+  public: static UInt64 Decrement(UInt64& location);
+  public: static UInt32 Exchange(UInt32& location1, UInt32 value);
+  public: static UInt64 Exchange(UInt64& location1, UInt64 value);
+  public: static UInt32 CompareExchange(UInt32& location1, UInt32 value, UInt32 comparand);
+  public: static UInt64 CompareExchange(UInt64& location1, UInt64 value, UInt64 comparand);
+  public: static UInt32 Add(UInt32& location1, UInt32 value);
+  public: static UInt64 Add(UInt64& location1, UInt64 value);
+  public: static UInt64 Read(UInt64& location);
+  public: static Int32 And(Int32& location1, Int32 value);
+  public: static UInt32 And(UInt32& location1, UInt32 value);
+  public: static Int64 And(Int64& location1, Int64 value);
+  public: static UInt64 And(UInt64& location1, UInt64 value);
+  public: static Int32 Or(Int32& location1, Int32 value);
+  public: static UInt32 Or(UInt32& location1, UInt32 value);
+  public: static Int64 Or(Int64& location1, Int64 value);
+  public: static UInt64 Or(UInt64& location1, UInt64 value);
 };
 } // namespace InterlockedNamespace
 using Interlocked = InterlockedNamespace::Interlocked;

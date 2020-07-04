@@ -28,6 +28,7 @@ CLASS(TaskCompletionSource, TResult) {
   public: Boolean TrySetCanceled();
   public: Boolean TrySetCanceled(CancellationToken cancellationToken);
   public: void SetCanceled();
+  public: void SetCanceled(CancellationToken cancellationToken);
   private: Task<TResult> _task;
 };
 } // namespace TaskCompletionSourceNamespace

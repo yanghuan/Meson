@@ -180,19 +180,19 @@ Boolean CultureData___::get_IsNeutralCulture() {
 Boolean CultureData___::get_IsInvariantCulture() {
   return Boolean();
 };
+Boolean CultureData___::get_IsReplacementCulture() {
+  return Boolean();
+};
 Calendar CultureData___::get_DefaultCalendar() {
   return nullptr;
 };
 String CultureData___::get_TimeSeparator() {
   return nullptr;
 };
-Boolean CultureData___::get_IsFramework() {
+Boolean CultureData___::get_NlsIsReplacementCulture() {
   return Boolean();
 };
 Boolean CultureData___::get_IsWin32Installed() {
-  return Boolean();
-};
-Boolean CultureData___::get_IsReplacementCulture() {
   return Boolean();
 };
 CultureData CultureData___::GetCultureDataForRegion(String cultureName, Boolean useUserOverride) {
@@ -221,8 +221,8 @@ Boolean CultureData___::InitCompatibilityCultureData() {
 CultureData CultureData___::GetCultureData(Int32 culture, Boolean bUseUserOverride) {
   return nullptr;
 };
-Array<String> CultureData___::AdjustShortTimesForMac(Array<String> shortTimes) {
-  return Array<String>();
+String CultureData___::GetLanguageDisplayNameCore(String cultureName) {
+  return nullptr;
 };
 Array<String> CultureData___::DeriveShortTimesFromLong() {
   return Array<String>();
@@ -310,8 +310,89 @@ void CultureData___::GetNFIValues(NumberFormatInfo nfi) {
 String CultureData___::AnsiToLower(String testString) {
   return nullptr;
 };
-Boolean CultureData___::InitCultureData() {
-  return Boolean();
+Int32 CultureData___::GetLocaleInfoCore(LocaleNumberData type) {
+  return Int32();
+};
+String CultureData___::GetLocaleInfoCore(LocaleStringData type) {
+  return nullptr;
+};
+String CultureData___::GetLocaleInfoCore(String localeName, LocaleStringData type) {
+  return nullptr;
+};
+Array<Int32> CultureData___::GetLocaleInfoCore(LocaleGroupingData type) {
+  return Array<Int32>();
+};
+String CultureData___::IcuGetLocaleInfo(LocaleStringData type) {
+  return nullptr;
+};
+String CultureData___::IcuGetLocaleInfo(String localeName, LocaleStringData type) {
+  return nullptr;
+};
+Int32 CultureData___::IcuGetLocaleInfo(LocaleNumberData type) {
+  return Int32();
+};
+Array<Int32> CultureData___::IcuGetLocaleInfo(LocaleGroupingData type) {
+  return Array<Int32>();
+};
+String CultureData___::IcuGetTimeFormatString() {
+  return nullptr;
+};
+String CultureData___::IcuGetTimeFormatString(Boolean shortFormat) {
+  return nullptr;
+};
+Int32 CultureData___::IcuGetFirstDayOfWeek() {
+  return Int32();
+};
+Array<String> CultureData___::IcuGetTimeFormats() {
+  return Array<String>();
+};
+Array<String> CultureData___::IcuGetShortTimeFormats() {
+  return Array<String>();
+};
+CultureData CultureData___::IcuGetCultureDataFromRegionName(String regionName) {
+  return nullptr;
+};
+String CultureData___::IcuGetLanguageDisplayName(String cultureName) {
+  return nullptr;
+};
+String CultureData___::IcuGetRegionDisplayName() {
+  return nullptr;
+};
+String CultureData___::ConvertIcuTimeFormatString(ReadOnlySpan<Char> icuFormatString) {
+  return nullptr;
+};
+String CultureData___::IcuLCIDToLocaleName(Int32 culture) {
+  return nullptr;
+};
+Int32 CultureData___::IcuLocaleNameToLCID(String cultureName) {
+  return Int32();
+};
+Int32 CultureData___::IcuGetAnsiCodePage(String cultureName) {
+  return Int32();
+};
+Int32 CultureData___::IcuGetOemCodePage(String cultureName) {
+  return Int32();
+};
+Int32 CultureData___::IcuGetMacCodePage(String cultureName) {
+  return Int32();
+};
+Int32 CultureData___::IcuGetEbcdicCodePage(String cultureName) {
+  return Int32();
+};
+Int32 CultureData___::IcuGetGeoId(String cultureName) {
+  return Int32();
+};
+Int32 CultureData___::IcuGetDigitSubstitution(String cultureName) {
+  return Int32();
+};
+String CultureData___::IcuGetThreeLetterWindowsLanguageName(String cultureName) {
+  return nullptr;
+};
+Array<CultureInfo> CultureData___::IcuEnumCultures(CultureTypes types) {
+  return Array<CultureInfo>();
+};
+String CultureData___::IcuGetConsoleFallbackName(String cultureName) {
+  return nullptr;
 };
 String CultureData___::GetLocaleInfoEx(String localeName, UInt32 field) {
   return nullptr;
@@ -322,40 +403,37 @@ Int32 CultureData___::GetLocaleInfoExInt(String localeName, UInt32 field) {
 Int32 CultureData___::GetLocaleInfoEx(String lpLocaleName, UInt32 lcType, Char* lpLCData, Int32 cchData) {
   return Int32();
 };
-String CultureData___::GetLocaleInfo(LocaleStringData type) {
+String CultureData___::NlsGetLocaleInfo(LocaleStringData type) {
   return nullptr;
 };
-String CultureData___::GetLocaleInfo(String localeName, LocaleStringData type) {
+String CultureData___::NlsGetLocaleInfo(String localeName, LocaleStringData type) {
   return nullptr;
 };
-Int32 CultureData___::GetLocaleInfo(LocaleNumberData type) {
+Int32 CultureData___::NlsGetLocaleInfo(LocaleNumberData type) {
   return Int32();
 };
-Array<Int32> CultureData___::GetLocaleInfo(LocaleGroupingData type) {
+Array<Int32> CultureData___::NlsGetLocaleInfo(LocaleGroupingData type) {
   return Array<Int32>();
 };
-String CultureData___::GetTimeFormatString() {
+String CultureData___::NlsGetTimeFormatString() {
   return nullptr;
 };
-Int32 CultureData___::GetFirstDayOfWeek() {
+Int32 CultureData___::NlsGetFirstDayOfWeek() {
   return Int32();
 };
-Array<String> CultureData___::GetTimeFormats() {
+Array<String> CultureData___::NlsGetTimeFormats() {
   return Array<String>();
 };
-Array<String> CultureData___::GetShortTimeFormats() {
+Array<String> CultureData___::NlsGetShortTimeFormats() {
   return Array<String>();
 };
-CultureData CultureData___::GetCultureDataFromRegionName(String regionName) {
+CultureData CultureData___::NlsGetCultureDataFromRegionName(String regionName) {
   return nullptr;
 };
-String CultureData___::GetLanguageDisplayName(String cultureName) {
+String CultureData___::NlsGetLanguageDisplayName(String cultureName) {
   return nullptr;
 };
-String CultureData___::GetRegionDisplayName(String isoCountryCode) {
-  return nullptr;
-};
-CultureInfo CultureData___::GetUserDefaultCulture() {
+String CultureData___::NlsGetRegionDisplayName() {
   return nullptr;
 };
 String CultureData___::GetLocaleInfoFromLCType(String localeName, UInt32 lctype, Boolean useUserOveride) {
@@ -385,37 +463,43 @@ Interop::BOOL CultureData___::EnumTimeCallback(Char* lpTimeFormatString, void* l
 Array<String> CultureData___::nativeEnumTimeFormats(String localeName, UInt32 dwFlags, Boolean useUserOverride) {
   return Array<String>();
 };
-Int32 CultureData___::LocaleNameToLCID(String cultureName) {
+Int32 CultureData___::NlsLocaleNameToLCID(String cultureName) {
   return Int32();
 };
-String CultureData___::LCIDToLocaleName(Int32 culture) {
+String CultureData___::NlsLCIDToLocaleName(Int32 culture) {
   return nullptr;
 };
-Int32 CultureData___::GetAnsiCodePage(String cultureName) {
+Int32 CultureData___::NlsGetAnsiCodePage(String cultureName) {
   return Int32();
 };
-Int32 CultureData___::GetOemCodePage(String cultureName) {
+Int32 CultureData___::NlsGetOemCodePage(String cultureName) {
   return Int32();
 };
-Int32 CultureData___::GetMacCodePage(String cultureName) {
+Int32 CultureData___::NlsGetMacCodePage(String cultureName) {
   return Int32();
 };
-Int32 CultureData___::GetEbcdicCodePage(String cultureName) {
+Int32 CultureData___::NlsGetEbcdicCodePage(String cultureName) {
   return Int32();
 };
-Int32 CultureData___::GetGeoId(String cultureName) {
+Int32 CultureData___::NlsGetGeoId(String cultureName) {
   return Int32();
 };
-Int32 CultureData___::GetDigitSubstitution(String cultureName) {
+Int32 CultureData___::NlsGetDigitSubstitution(String cultureName) {
   return Int32();
 };
-String CultureData___::GetThreeLetterWindowsLanguageName(String cultureName) {
+String CultureData___::NlsGetThreeLetterWindowsLanguageName(String cultureName) {
   return nullptr;
 };
-Array<CultureInfo> CultureData___::EnumCultures(CultureTypes types) {
+Array<CultureInfo> CultureData___::NlsEnumCultures(CultureTypes types) {
   return Array<CultureInfo>();
 };
-String CultureData___::GetConsoleFallbackName(String cultureName) {
+String CultureData___::NlsGetConsoleFallbackName(String cultureName) {
+  return nullptr;
+};
+Boolean CultureData___::InitCultureDataCore() {
+  return Boolean();
+};
+CultureData CultureData___::GetCurrentRegionData() {
   return nullptr;
 };
 } // namespace System::Private::CoreLib::System::Globalization::CultureDataNamespace

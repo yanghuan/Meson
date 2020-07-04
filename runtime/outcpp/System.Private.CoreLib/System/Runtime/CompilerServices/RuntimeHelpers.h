@@ -9,6 +9,7 @@ FORWARDS(Boolean)
 FORWARD(Delegate)
 FORWARD(IAsyncResult)
 FORWARDS(Int32)
+FORWARDS(Int64)
 FORWARDS(IntPtr)
 FORWARD(IRuntimeMethodInfo)
 FORWARDS(ModuleHandle)
@@ -19,11 +20,18 @@ FORWARDS(RuntimeMethodHandleInternal)
 FORWARD(RuntimeType)
 FORWARDS(RuntimeTypeHandle)
 FORWARD(Type)
+FORWARDS(UInt16)
+FORWARDS(UInt32)
+FORWARDS(UIntPtr)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Reflection {
+enum class CorElementType : uint8_t;
 FORWARD(RuntimeModule)
 } // namespace System::Private::CoreLib::System::Reflection
 namespace System::Private::CoreLib::System::Runtime::CompilerServices {
+FORWARDS(MethodTable)
+FORWARDS(QCallTypeHandle)
+FORWARDS(TailCallTls)
 namespace RuntimeHelpersNamespace {
 using namespace ::System::Private::CoreLib::System::Reflection;
 class RuntimeHelpers {
@@ -53,16 +61,27 @@ class RuntimeHelpers {
   public: static Boolean Equals(Object o1, Object o2);
   public: static void EnsureSufficientExecutionStack();
   public: static Boolean TryEnsureSufficientExecutionStack();
-  public: static void ExecuteCodeWithGuaranteedCleanup(TryCode code, CleanupCode backoutCode, Object userData);
-  public: static void ExecuteBackoutCodeHelper(Object backoutCode, Object userData, Boolean exceptionThrown);
-  public: static Boolean ObjectHasComponentSize(Object obj);
-  private: static IntPtr GetObjectMethodTablePointer(Object obj);
   private: static Object GetUninitializedObjectInternal(Type type);
+  public: static Object AllocateUninitializedClone(Object obj);
+  public: static UIntPtr GetRawObjectDataSize(Object obj);
+  public: static UInt16 GetElementSize(Array<> array);
+  public: static Int32 GetMultiDimensionalArrayRank(Array<> array);
+  public: static Boolean ObjectHasComponentSize(Object obj);
+  public: static MethodTable* GetMethodTable(Object obj);
+  public: static IntPtr AllocateTypeAssociatedMemory(Type type, Int32 size);
+  private: static IntPtr AllocateTypeAssociatedMemoryInternal(QCallTypeHandle type, UInt32 size);
+  private: static IntPtr AllocTailCallArgBuffer(Int32 size, IntPtr gcDesc);
+  private: static void FreeTailCallArgBuffer();
+  private: static TailCallTls* GetTailCallInfo(IntPtr retAddrSlot, IntPtr* retAddr);
+  public: static Int64 GetILBytesJitted();
+  public: static Int32 GetMethodsJittedCount();
   public: static Object GetUninitializedObject(Type type);
+  public: static void ExecuteCodeWithGuaranteedCleanup(TryCode code, CleanupCode backoutCode, Object userData);
   public: static void PrepareContractedDelegate(Delegate d);
   public: static void ProbeForSufficientStack();
   public: static void PrepareConstrainedRegions();
   public: static void PrepareConstrainedRegionsNoOP();
+  public: static Boolean IsPrimitiveType(CorElementType et);
 };
 } // namespace RuntimeHelpersNamespace
 using RuntimeHelpers = RuntimeHelpersNamespace::RuntimeHelpers;

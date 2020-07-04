@@ -73,6 +73,12 @@ String SR::get_Argument_ExtraNotValid() {
 String SR::get_Argument_InvalidUriSubcomponent() {
   return nullptr;
 };
+String SR::get_InvalidNullArgument() {
+  return nullptr;
+};
+String SR::get_net_uri_InitializeCalledAlreadyOrTooLate() {
+  return nullptr;
+};
 Boolean SR::UsingResourceKeys() {
   return Boolean();
 };

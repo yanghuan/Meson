@@ -76,16 +76,7 @@ Boolean Utf8Formatter::TryFormatInt64D(Int64 value, Byte precision, Span<Byte> d
 Boolean Utf8Formatter::TryFormatInt64Default(Int64 value, Span<Byte> destination, Int32& bytesWritten) {
   return Boolean();
 };
-Boolean Utf8Formatter::TryFormatInt32MultipleDigits(Int32 value, Span<Byte> destination, Int32& bytesWritten) {
-  return Boolean();
-};
 Boolean Utf8Formatter::TryFormatInt64MultipleDigits(Int64 value, Span<Byte> destination, Int32& bytesWritten) {
-  return Boolean();
-};
-Boolean Utf8Formatter::TryFormatInt64MoreThanNegativeBillionMaxUInt(Int64 value, Span<Byte> destination, Int32& bytesWritten) {
-  return Boolean();
-};
-Boolean Utf8Formatter::TryFormatInt64LessThanNegativeBillionMaxUInt(Int64 value, Span<Byte> destination, Int32& bytesWritten) {
   return Boolean();
 };
 Boolean Utf8Formatter::TryFormatInt64N(Int64 value, Byte precision, Span<Byte> destination, Int32& bytesWritten) {
@@ -103,16 +94,7 @@ Boolean Utf8Formatter::TryFormatUInt64Default(UInt64 value, Span<Byte> destinati
 Boolean Utf8Formatter::TryFormatUInt32SingleDigit(UInt32 value, Span<Byte> destination, Int32& bytesWritten) {
   return Boolean();
 };
-Boolean Utf8Formatter::TryFormatUInt32MultipleDigits(UInt32 value, Span<Byte> destination, Int32& bytesWritten) {
-  return Boolean();
-};
 Boolean Utf8Formatter::TryFormatUInt64MultipleDigits(UInt64 value, Span<Byte> destination, Int32& bytesWritten) {
-  return Boolean();
-};
-Boolean Utf8Formatter::TryFormatUInt64LessThanBillionMaxUInt(UInt64 value, Span<Byte> destination, Int32& bytesWritten) {
-  return Boolean();
-};
-Boolean Utf8Formatter::TryFormatUInt64MoreThanBillionMaxUInt(UInt64 value, Span<Byte> destination, Int32& bytesWritten) {
   return Boolean();
 };
 Boolean Utf8Formatter::TryFormatUInt64N(UInt64 value, Byte precision, Span<Byte> destination, Boolean insertNegationSign, Int32& bytesWritten) {

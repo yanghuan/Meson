@@ -3,18 +3,20 @@
 #include <rt/GCObject.h>
 
 namespace System::Private::CoreLib::System {
+FORWARDS(ReadOnlySpan, T)
+FORWARDS(SByte)
+FORWARDS(Char)
+FORWARDS(Span, T)
+FORWARDS(Byte)
+FORWARDS(Int32)
+FORWARDS(Boolean)
 FORWARD(Object)
 enum class TypeCode;
-FORWARDS(Boolean)
 FORWARD(IFormatProvider)
 FORWARD(IConvertible)
 FORWARD(Type)
-FORWARDS(SByte)
-FORWARDS(Char)
-FORWARDS(Byte)
 FORWARDS(Int16)
 FORWARDS(UInt16)
-FORWARDS(Int32)
 FORWARDS(UInt32)
 FORWARDS(Int64)
 FORWARDS(UInt64)
@@ -25,10 +27,12 @@ FORWARDS(Decimal)
 FORWARDS(DateTime)
 FORWARD_(Array, T1, T2)
 enum class Base64FormattingOptions;
-FORWARDS(ReadOnlySpan, T)
-FORWARDS(Span, T)
 namespace ConvertNamespace {
 class Convert {
+  private: static ReadOnlySpan<SByte> get_DecodingMap();
+  private: static Boolean TryDecodeFromUtf16(ReadOnlySpan<Char> utf16, Span<Byte> bytes, Int32& consumed, Int32& written);
+  private: static Int32 Decode(Char& encodedChars, SByte& decodingMap);
+  private: static void WriteThreeLowOrderBytes(Byte& destination, Int32 value);
   public: static TypeCode GetTypeCode(Object value);
   public: static Boolean IsDBNull(Object value);
   public: static Object ChangeType(Object value, TypeCode typeCode);
@@ -359,14 +363,10 @@ class Convert {
   public: static Array<Byte> FromBase64CharArray(Array<Char> inArray, Int32 offset, Int32 length);
   private: static Array<Byte> FromBase64CharPtr(Char* inputPtr, Int32 inputLength);
   private: static Int32 FromBase64_ComputeResultLength(Char* inputPtr, Int32 inputLength);
-  private: static Boolean TryDecodeFromUtf16(ReadOnlySpan<Char> utf16, Span<Byte> bytes, Int32& consumed, Int32& written);
-  private: static Int32 Decode(Char& encodedChars, SByte& decodingMap);
-  private: static void WriteThreeLowOrderBytes(Byte& destination, Int32 value);
   public: static Array<Type> ConvertTypes;
   private: static Type EnumType;
   public: static Array<Char> base64Table;
   public: static Object DBNull;
-  private: static Array<SByte> s_decodingMap;
 };
 } // namespace ConvertNamespace
 using Convert = ConvertNamespace::Convert;

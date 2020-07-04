@@ -13,12 +13,12 @@ FORWARDS(RuntimeTypeHandle)
 FORWARD(Signature)
 FORWARD(Type)
 } // namespace System::Private::CoreLib::System
-namespace System::Private::CoreLib::System::Text {
-FORWARDS(ValueStringBuilder)
-} // namespace System::Private::CoreLib::System::Text
 namespace System::Private::CoreLib::System::Globalization {
 FORWARD(CultureInfo)
 } // namespace System::Private::CoreLib::System::Globalization
+namespace System::Private::CoreLib::System::Text {
+FORWARDS(ValueStringBuilder)
+} // namespace System::Private::CoreLib::System::Text
 namespace System::Private::CoreLib::System::Reflection {
 enum class MethodAttributes;
 enum class MethodImplAttributes;
@@ -60,7 +60,6 @@ CLASS(MethodBase) {
   public: static MethodBase GetCurrentMethod();
   private: IntPtr GetMethodDesc();
   public: Array<ParameterInfo> GetParametersNoCopy();
-  public: static void AppendParameters(ValueStringBuilder& sbParamList, Array<Type> parameterTypes, CallingConventions callingConvention);
   public: Array<Type> GetParameterTypes();
   public: Array<Object> CheckArguments(Array<Object> parameters, Binder binder, BindingFlags invokeAttr, CultureInfo culture, Signature sig);
   public: Array<ParameterInfo> GetParameters();
@@ -71,6 +70,7 @@ CLASS(MethodBase) {
   public: Object Invoke(Object obj, BindingFlags invokeAttr, Binder binder, Array<Object> parameters, CultureInfo culture);
   public: Boolean Equals(Object obj);
   public: Int32 GetHashCode();
+  public: static void AppendParameters(ValueStringBuilder& sbParamList, Array<Type> parameterTypes, CallingConventions callingConvention);
 };
 } // namespace MethodBaseNamespace
 using MethodBase = MethodBaseNamespace::MethodBase;

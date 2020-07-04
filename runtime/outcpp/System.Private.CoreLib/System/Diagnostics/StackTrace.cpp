@@ -25,6 +25,8 @@ String StackTrace___::ToString() {
 String StackTrace___::ToString(TraceFormat traceFormat) {
   return nullptr;
 };
+void StackTrace___::ToString(TraceFormat traceFormat, StringBuilder sb) {
+};
 Boolean StackTrace___::ShowInStackTrace(MethodBase mb) {
   return Boolean();
 };

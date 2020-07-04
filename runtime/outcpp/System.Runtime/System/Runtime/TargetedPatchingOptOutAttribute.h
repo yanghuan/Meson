@@ -9,7 +9,6 @@ namespace System::Runtime::System::Runtime {
 namespace TargetedPatchingOptOutAttributeNamespace {
 using namespace ::System::Private::CoreLib::System;
 CLASS(TargetedPatchingOptOutAttribute) {
-  public: String get_Reason() { return Reason; }
   private: String Reason;
 };
 } // namespace TargetedPatchingOptOutAttributeNamespace

@@ -38,7 +38,7 @@ class Interop {
     public: Int16 eventType;
     public: KeyEventRecord keyEvent;
   };
-  public: CLASS(Kernel32) {
+  public: class Kernel32 {
     public: enum class Color : int16_t {
       Black = 0,
       ForegroundBlue = 1,

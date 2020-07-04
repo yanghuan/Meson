@@ -32,7 +32,7 @@ class Utf8Utility {
   private: static Boolean IsSecondCharAtLeastThreeUtf8Bytes(UInt32 value);
   private: static Boolean IsSecondCharSurrogate(UInt32 value);
   private: static Boolean IsSecondCharTwoUtf8Bytes(UInt32 value);
-  private: static Boolean IsUtf8ContinuationByte(Byte& value);
+  public: static Boolean IsUtf8ContinuationByte(Byte& value);
   private: static Boolean IsWellFormedUtf16SurrogatePair(UInt32 value);
   private: static UInt32 ToLittleEndian(UInt32 value);
   private: static Boolean UInt32BeginsWithOverlongUtf8TwoByteSequence(UInt32 value);
@@ -47,7 +47,6 @@ class Utf8Utility {
   private: static Boolean UInt32FourthByteIsAscii(UInt32 value);
   private: static Boolean UInt32SecondByteIsAscii(UInt32 value);
   private: static Boolean UInt32ThirdByteIsAscii(UInt32 value);
-  private: static void Widen4AsciiBytesToCharsAndWrite(Char& outputBuffer, UInt32 value);
   private: static void WriteTwoUtf16CharsAsTwoUtf8ThreeByteSequences(Byte& outputBuffer, UInt32 value);
   private: static void WriteFirstUtf16CharAsUtf8ThreeByteSequence(Byte& outputBuffer, UInt32 value);
   public: static OperationStatus TranscodeToUtf16(Byte* pInputBuffer, Int32 inputLength, Char* pOutputBuffer, Int32 outputCharsRemaining, Byte*& pInputBufferRemaining, Char*& pOutputBufferRemaining);

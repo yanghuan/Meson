@@ -45,7 +45,7 @@ void ManifestBuilder___::WriteMessageAttrib(StringBuilder stringBuilder, String 
 String ManifestBuilder___::GetLocalizedMessage(String key, CultureInfo ci, Boolean etwFormat) {
   return nullptr;
 };
-List<CultureInfo> ManifestBuilder___::GetSupportedCultures(ResourceManager resources) {
+List<CultureInfo> ManifestBuilder___::GetSupportedCultures() {
   return nullptr;
 };
 String ManifestBuilder___::GetLevelName(EventLevel level) {

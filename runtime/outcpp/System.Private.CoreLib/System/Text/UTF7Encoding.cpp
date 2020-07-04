@@ -1,6 +1,16 @@
 #include "UTF7Encoding-dep.h"
 
 namespace System::Private::CoreLib::System::Text::UTF7EncodingNamespace {
+Boolean UTF7Encoding___::Decoder___::get_HasState() {
+  return Boolean();
+};
+void UTF7Encoding___::Decoder___::Reset() {
+};
+Boolean UTF7Encoding___::Encoder___::get_HasState() {
+  return Boolean();
+};
+void UTF7Encoding___::Encoder___::Reset() {
+};
 Int32 UTF7Encoding___::DecoderUTF7Fallback___::get_MaxCharCount() {
   return Int32();
 };
@@ -12,16 +22,6 @@ Boolean UTF7Encoding___::DecoderUTF7Fallback___::Equals(Object value) {
 };
 Int32 UTF7Encoding___::DecoderUTF7Fallback___::GetHashCode() {
   return Int32();
-};
-Boolean UTF7Encoding___::Decoder___::get_HasState() {
-  return Boolean();
-};
-void UTF7Encoding___::Decoder___::Reset() {
-};
-Boolean UTF7Encoding___::Encoder___::get_HasState() {
-  return Boolean();
-};
-void UTF7Encoding___::Encoder___::Reset() {
 };
 Int32 UTF7Encoding___::DecoderUTF7FallbackBuffer___::get_Remaining() {
   return Int32();

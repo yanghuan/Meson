@@ -26,8 +26,6 @@ Byte* Number::NumberBuffer::GetDigitsPointer() {
 String Number::NumberBuffer::ToString() {
   return nullptr;
 };
-void Number::BigInteger::Add(BigInteger& lhs, UInt32 value, BigInteger& result) {
-};
 void Number::BigInteger::Add(BigInteger& lhs, BigInteger& rhs, BigInteger& result) {
 };
 Int32 Number::BigInteger::Compare(BigInteger& lhs, BigInteger& rhs) {
@@ -55,8 +53,6 @@ void Number::BigInteger::Pow2(UInt32 exponent, BigInteger& result) {
 };
 void Number::BigInteger::Pow10(UInt32 exponent, BigInteger& result) {
 };
-void Number::BigInteger::ShiftLeft(UInt64 input, UInt32 shift, BigInteger& output) {
-};
 UInt32 Number::BigInteger::AddDivisor(BigInteger& lhs, Int32 lhsStartIndex, BigInteger& rhs) {
   return UInt32();
 };
@@ -67,10 +63,6 @@ UInt32 Number::BigInteger::SubtractDivisor(BigInteger& lhs, Int32 lhsStartIndex,
   return UInt32();
 };
 void Number::BigInteger::Add(UInt32 value) {
-};
-void Number::BigInteger::ExtendBlock(UInt32 blockValue) {
-};
-void Number::BigInteger::ExtendBlocks(UInt32 blockValue, UInt32 blockCount) {
 };
 UInt32 Number::BigInteger::GetBlock(UInt32 index) {
   return UInt32();
@@ -92,11 +84,13 @@ void Number::BigInteger::Multiply10() {
 };
 void Number::BigInteger::MultiplyPow10(UInt32 exponent) {
 };
-void Number::BigInteger::SetUInt32(UInt32 value) {
+void Number::BigInteger::SetUInt32(BigInteger& result, UInt32 value) {
 };
-void Number::BigInteger::SetValue(BigInteger& rhs) {
+void Number::BigInteger::SetUInt64(BigInteger& result, UInt64 value) {
 };
-void Number::BigInteger::SetZero() {
+void Number::BigInteger::SetValue(BigInteger& result, BigInteger& value) {
+};
+void Number::BigInteger::SetZero(BigInteger& result) {
 };
 void Number::BigInteger::ShiftLeft(UInt32 shift) {
 };
@@ -105,6 +99,9 @@ UInt64 Number::BigInteger::ToUInt64() {
 };
 UInt32* Number::BigInteger::GetBlocksPointer() {
   return nullptr;
+};
+UInt32 Number::BigInteger::DivRem32(UInt32 value, UInt32& remainder) {
+  return UInt32();
 };
 Boolean Number::Grisu3::TryRunDouble(Double value, Int32 requestedDigits, NumberBuffer& number) {
   return Boolean();
@@ -178,31 +175,37 @@ String Number::FormatSingle(ValueStringBuilder& sb, Single value, ReadOnlySpan<C
 Boolean Number::TryCopyTo(String source, Span<Char> destination, Int32& charsWritten) {
   return Boolean();
 };
-String Number::FormatInt32(Int32 value, ReadOnlySpan<Char> format, IFormatProvider provider) {
+Char Number::GetHexBase(Char fmt) {
+  return Char();
+};
+String Number::FormatInt32(Int32 value, Int32 hexMask, String format, IFormatProvider provider) {
   return nullptr;
 };
-Boolean Number::TryFormatInt32(Int32 value, ReadOnlySpan<Char> format, IFormatProvider provider, Span<Char> destination, Int32& charsWritten) {
+Boolean Number::TryFormatInt32(Int32 value, Int32 hexMask, ReadOnlySpan<Char> format, IFormatProvider provider, Span<Char> destination, Int32& charsWritten) {
   return Boolean();
 };
-String Number::FormatUInt32(UInt32 value, ReadOnlySpan<Char> format, IFormatProvider provider) {
+String Number::FormatUInt32(UInt32 value, String format, IFormatProvider provider) {
   return nullptr;
 };
 Boolean Number::TryFormatUInt32(UInt32 value, ReadOnlySpan<Char> format, IFormatProvider provider, Span<Char> destination, Int32& charsWritten) {
   return Boolean();
 };
-String Number::FormatInt64(Int64 value, ReadOnlySpan<Char> format, IFormatProvider provider) {
+String Number::FormatInt64(Int64 value, String format, IFormatProvider provider) {
   return nullptr;
 };
 Boolean Number::TryFormatInt64(Int64 value, ReadOnlySpan<Char> format, IFormatProvider provider, Span<Char> destination, Int32& charsWritten) {
   return Boolean();
 };
-String Number::FormatUInt64(UInt64 value, ReadOnlySpan<Char> format, IFormatProvider provider) {
+String Number::FormatUInt64(UInt64 value, String format, IFormatProvider provider) {
   return nullptr;
 };
 Boolean Number::TryFormatUInt64(UInt64 value, ReadOnlySpan<Char> format, IFormatProvider provider, Span<Char> destination, Int32& charsWritten) {
   return Boolean();
 };
 void Number::Int32ToNumber(Int32 value, NumberBuffer& number) {
+};
+String Number::Int32ToDecStr(Int32 value) {
+  return nullptr;
 };
 String Number::NegativeInt32ToDecStr(Int32 value, Int32 digits, String sNegative) {
   return nullptr;
@@ -227,6 +230,9 @@ Byte* Number::UInt32ToDecChars(Byte* bufferEnd, UInt32 value, Int32 digits) {
 Char* Number::UInt32ToDecChars(Char* bufferEnd, UInt32 value, Int32 digits) {
   return nullptr;
 };
+String Number::UInt32ToDecStr(UInt32 value) {
+  return nullptr;
+};
 String Number::UInt32ToDecStr(UInt32 value, Int32 digits) {
   return nullptr;
 };
@@ -234,6 +240,9 @@ Boolean Number::TryUInt32ToDecStr(UInt32 value, Int32 digits, Span<Char> destina
   return Boolean();
 };
 void Number::Int64ToNumber(Int64 input, NumberBuffer& number) {
+};
+String Number::Int64ToDecStr(Int64 value) {
+  return nullptr;
 };
 String Number::NegativeInt64ToDecStr(Int64 input, Int32 digits, String sNegative) {
   return nullptr;
@@ -264,7 +273,7 @@ void Number::NumberToStringFormat(ValueStringBuilder& sb, NumberBuffer& number, 
 };
 void Number::FormatCurrency(ValueStringBuilder& sb, NumberBuffer& number, Int32 nMaxDigits, NumberFormatInfo info) {
 };
-void Number::FormatFixed(ValueStringBuilder& sb, NumberBuffer& number, Int32 nMaxDigits, NumberFormatInfo info, Array<Int32> groupDigits, String sDecimal, String sGroup) {
+void Number::FormatFixed(ValueStringBuilder& sb, NumberBuffer& number, Int32 nMaxDigits, Array<Int32> groupDigits, String sDecimal, String sGroup) {
 };
 void Number::FormatNumber(ValueStringBuilder& sb, NumberBuffer& number, Int32 nMaxDigits, NumberFormatInfo info) {
 };

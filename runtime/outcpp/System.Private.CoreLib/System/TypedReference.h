@@ -1,6 +1,8 @@
 #pragma once
 
 #include <rt/GCObject.h>
+#include <System.Private.CoreLib/System/ByReference.h>
+#include <System.Private.CoreLib/System/Byte.h>
 #include <System.Private.CoreLib/System/IntPtr.h>
 
 namespace System::Private::CoreLib::System::Reflection {
@@ -27,9 +29,8 @@ struct TypedReference {
   public: static Type GetTargetType(TypedReference value);
   public: static RuntimeTypeHandle TargetTypeToken(TypedReference value);
   public: static void SetTypedReference(TypedReference target, Object value);
-  public: static void InternalSetTypedReference(void* target, Object value);
-  private: IntPtr Value;
-  private: IntPtr Type;
+  private: ByReference<Byte> _value;
+  private: IntPtr _type;
 };
 } // namespace TypedReferenceNamespace
 using TypedReference = TypedReferenceNamespace::TypedReference;

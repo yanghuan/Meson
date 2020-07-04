@@ -65,10 +65,10 @@ ModuleBuilder AssemblyBuilder___::DefineDynamicModule(String name) {
 ModuleBuilder AssemblyBuilder___::DefineDynamicModule(String name, Boolean emitSymbolInfo) {
   return nullptr;
 };
-ModuleBuilder AssemblyBuilder___::DefineDynamicModuleInternal(String name, Boolean emitSymbolInfo, StackCrawlMark& stackMark) {
+ModuleBuilder AssemblyBuilder___::DefineDynamicModuleInternal(String name, Boolean emitSymbolInfo) {
   return nullptr;
 };
-ModuleBuilder AssemblyBuilder___::DefineDynamicModuleInternalNoLock(String name, Boolean emitSymbolInfo, StackCrawlMark& stackMark) {
+ModuleBuilder AssemblyBuilder___::DefineDynamicModuleInternalNoLock(String name, Boolean emitSymbolInfo) {
   return nullptr;
 };
 void AssemblyBuilder___::CheckContext(Array<Array<Type>> typess) {

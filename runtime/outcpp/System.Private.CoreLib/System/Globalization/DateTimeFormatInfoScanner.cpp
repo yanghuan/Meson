@@ -1,9 +1,6 @@
 #include "DateTimeFormatInfoScanner-dep.h"
 
 namespace System::Private::CoreLib::System::Globalization::DateTimeFormatInfoScannerNamespace {
-Dictionary<String, String> DateTimeFormatInfoScanner___::get_KnownWords() {
-  return nullptr;
-};
 Int32 DateTimeFormatInfoScanner___::SkipWhiteSpacesAndNonLetter(String pattern, Int32 currentIndex) {
   return Int32();
 };

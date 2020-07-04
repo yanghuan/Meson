@@ -43,6 +43,7 @@ struct TimeSpan {
   public: Int32 GetHashCode();
   public: static TimeSpan FromHours(Double value);
   private: static TimeSpan Interval(Double value, Double scale);
+  private: static TimeSpan IntervalFromDoubleTicks(Double ticks);
   public: static TimeSpan FromMilliseconds(Double value);
   public: static TimeSpan FromMinutes(Double value);
   public: TimeSpan Negate();

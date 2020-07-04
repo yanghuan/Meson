@@ -6,12 +6,6 @@ namespace System::Private::CoreLib::System::TypeNamespace {
 Boolean Type___::get_IsInterface() {
   return Boolean();
 };
-Boolean Type___::get_IsWindowsRuntimeObject() {
-  return Boolean();
-};
-Boolean Type___::get_IsExportedToWindowsRuntime() {
-  return Boolean();
-};
 MemberTypes Type___::get_MemberType() {
   return MemberTypes::All;
 };
@@ -215,15 +209,6 @@ Type Type___::GetTypeFromCLSID(Guid clsid, String server, Boolean throwOnError) 
 };
 RuntimeTypeHandle Type___::GetTypeHandleInternal() {
   return RuntimeTypeHandle();
-};
-Boolean Type___::IsWindowsRuntimeObjectImpl() {
-  return Boolean();
-};
-Boolean Type___::IsExportedToWindowsRuntimeImpl() {
-  return Boolean();
-};
-String Type___::FormatTypeName() {
-  return nullptr;
 };
 Boolean Type___::IsRuntimeImplemented() {
   return Boolean();
@@ -430,6 +415,9 @@ Type Type___::MakeGenericSignatureType(Type genericTypeDefinition, Array<Type> t
   return nullptr;
 };
 Type Type___::MakeGenericMethodParameter(Int32 position) {
+  return nullptr;
+};
+String Type___::FormatTypeName() {
   return nullptr;
 };
 String Type___::ToString() {

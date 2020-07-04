@@ -61,7 +61,8 @@ CLASS(BinaryWriter) {
   public: void Write(String value);
   public: void Write(ReadOnlySpan<Byte> buffer);
   public: void Write(ReadOnlySpan<Char> chars);
-  protected: void Write7BitEncodedInt(Int32 value);
+  public: void Write7BitEncodedInt(Int32 value);
+  public: void Write7BitEncodedInt64(Int64 value);
   public: static BinaryWriter Null;
   protected: Stream OutStream;
   private: Array<Byte> _buffer;

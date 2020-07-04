@@ -3,6 +3,9 @@
 #include <System.Private.Uri/System/Uri-dep.h>
 
 namespace System::Private::Uri::System::UriNamespace {
+Uri::in::MoreInfo Uri___::UriInfo___::get_MoreInfo() {
+  return nullptr;
+};
 Boolean Uri___::get_IsImplicitFile() {
   return Boolean();
 };
@@ -16,7 +19,7 @@ Boolean Uri___::get_IsUncPath() {
   return Boolean();
 };
 Uri::in::Flags Uri___::get_HostType() {
-  return Uri::in::Flags::UnixPath;
+  return Uri::in::Flags::Debug_LeftConstructor;
 };
 UriParser Uri___::get_Syntax() {
   return nullptr;
@@ -24,14 +27,14 @@ UriParser Uri___::get_Syntax() {
 Boolean Uri___::get_IsNotAbsoluteUri() {
   return Boolean();
 };
-Boolean Uri___::get_AllowIdn() {
+Boolean Uri___::get_IriParsing() {
   return Boolean();
 };
 Boolean Uri___::get_UserDrivenParsing() {
   return Boolean();
 };
-UInt16 Uri___::get_SecuredPathIndex() {
-  return UInt16();
+Int32 Uri___::get_SecuredPathIndex() {
+  return Int32();
 };
 String Uri___::get_AbsolutePath() {
   return nullptr;
@@ -84,9 +87,6 @@ String Uri___::get_Fragment() {
 String Uri___::get_Scheme() {
   return nullptr;
 };
-Boolean Uri___::get_OriginalStringSwitched() {
-  return Boolean();
-};
 String Uri___::get_OriginalString() {
   return nullptr;
 };
@@ -108,16 +108,10 @@ String Uri___::get_UserInfo() {
 Boolean Uri___::get_HasAuthority() {
   return Boolean();
 };
+void Uri___::InterlockedSetFlags(Flags flags) {
+};
 Boolean Uri___::IriParsingStatic(UriParser syntax) {
   return Boolean();
-};
-Boolean Uri___::AllowIdnStatic(UriParser syntax, Flags flags) {
-  return Boolean();
-};
-Boolean Uri___::IsIntranet(String schemeHost) {
-  return Boolean();
-};
-void Uri___::SetUserDrivenParsing() {
 };
 Boolean Uri___::NotAny(Flags flags) {
   return Boolean();
@@ -142,8 +136,7 @@ void Uri___::GetObjectData(SerializationInfo serializationInfo, StreamingContext
 };
 void Uri___::CreateUri(Uri baseUri, String relativeUri, Boolean dontEscape) {
 };
-ParsingError Uri___::GetCombinedString(Uri baseUri, String relativeStr, Boolean dontEscape, String& result) {
-  return ParsingError::CannotCreateRelative;
+void Uri___::GetCombinedString(Uri baseUri, String relativeStr, Boolean dontEscape, String& result) {
 };
 UriFormatException Uri___::GetException(ParsingError err) {
   return nullptr;
@@ -205,13 +198,11 @@ UriFormatException Uri___::ParseMinimal() {
 ParsingError Uri___::PrivateParseMinimal() {
   return ParsingError::CannotCreateRelative;
 };
-void Uri___::PrivateParseMinimalIri(String newHost, UInt16 idx) {
-};
 void Uri___::CreateUriInfo(Flags cF) {
 };
 void Uri___::CreateHostString() {
 };
-String Uri___::CreateHostStringHelper(String str, UInt16 idx, UInt16 end, Flags& flags, String& scopeId) {
+String Uri___::CreateHostStringHelper(String str, Int32 idx, Int32 end, Flags& flags, String& scopeId) {
   return nullptr;
 };
 void Uri___::GetHostViaCustomSyntax() {
@@ -231,31 +222,22 @@ String Uri___::ReCreateParts(UriComponents parts, UInt16 nonCanonical, UriFormat
 String Uri___::GetUriPartsFromUserString(UriComponents uriParts) {
   return nullptr;
 };
-void Uri___::GetLengthWithoutTrailingSpaces(String str, UInt16& length, Int32 idx) {
+void Uri___::GetLengthWithoutTrailingSpaces(String str, Int32& length, Int32 idx) {
 };
 void Uri___::ParseRemaining() {
 };
-UInt16 Uri___::ParseSchemeCheckImplicitFile(Char* uriString, UInt16 length, ParsingError& err, Flags& flags, UriParser& syntax) {
-  return UInt16();
-};
-Boolean Uri___::CheckKnownSchemes(Int64* lptr, UInt16 nChars, UriParser& syntax) {
-  return Boolean();
+Int32 Uri___::ParseSchemeCheckImplicitFile(Char* uriString, Int32 length, ParsingError& err, Flags& flags, UriParser& syntax) {
+  return Int32();
 };
 ParsingError Uri___::CheckSchemeSyntax(ReadOnlySpan<Char> span, UriParser& syntax) {
   return ParsingError::CannotCreateRelative;
 };
-UInt16 Uri___::CheckAuthorityHelper(Char* pString, UInt16 idx, UInt16 length, ParsingError& err, Flags& flags, UriParser syntax, String& newHost) {
-  return UInt16();
+Int32 Uri___::CheckAuthorityHelper(Char* pString, Int32 idx, Int32 length, ParsingError& err, Flags& flags, UriParser syntax, String& newHost) {
+  return Int32();
 };
-void Uri___::CheckAuthorityHelperHandleDnsIri(Char* pString, UInt16 start, Int32 end, Int32 startInput, Boolean iriParsing, Boolean hasUnicode, UriParser syntax, String userInfoString, Flags& flags, Boolean& justNormalized, String& newHost, ParsingError& err) {
+void Uri___::CheckAuthorityHelperHandleDnsIri(Char* pString, Int32 start, Int32 end, Boolean hasUnicode, Flags& flags, Boolean& justNormalized, String& newHost, ParsingError& err) {
 };
-void Uri___::CheckAuthorityHelperHandleAnyHostIri(Char* pString, Int32 startInput, Int32 end, Boolean iriParsing, Boolean hasUnicode, UriParser syntax, Flags& flags, String& newHost, ParsingError& err) {
-};
-void Uri___::FindEndOfComponent(String input, UInt16& idx, UInt16 end, Char delim) {
-};
-void Uri___::FindEndOfComponent(Char* str, UInt16& idx, UInt16 end, Char delim) {
-};
-Uri::in::Check Uri___::CheckCanonical(Char* str, UInt16& idx, UInt16 end, Char delim) {
+Uri::in::Check Uri___::CheckCanonical(Char* str, Int32& idx, Int32 end, Char delim) {
   return Uri::in::Check::FoundNonAscii;
 };
 Array<Char> Uri___::GetCanonicalPath(Array<Char> dest, Int32& pos, UriFormat formatAs) {
@@ -263,11 +245,8 @@ Array<Char> Uri___::GetCanonicalPath(Array<Char> dest, Int32& pos, UriFormat for
 };
 void Uri___::UnescapeOnly(Char* pch, Int32 start, Int32& end, Char ch1, Char ch2, Char ch3) {
 };
-Array<Char> Uri___::Compress(Array<Char> dest, UInt16 start, Int32& destLength, UriParser syntax) {
+Array<Char> Uri___::Compress(Array<Char> dest, Int32 start, Int32& destLength, UriParser syntax) {
   return Array<Char>();
-};
-Int32 Uri___::CalculateCaseInsensitiveHashCode(String text) {
-  return Int32();
 };
 String Uri___::CombineUri(Uri basePart, String relativePart, UriFormat uriFormat) {
   return nullptr;
@@ -305,10 +284,7 @@ void Uri___::CreateThis(String uri, Boolean dontEscape, UriKind uriKind) {
 };
 void Uri___::InitializeUri(ParsingError err, UriKind uriKind, UriFormatException& e) {
 };
-Boolean Uri___::CheckForUnicode(String data) {
-  return Boolean();
-};
-Boolean Uri___::CheckForEscapedUnreserved(String data) {
+Boolean Uri___::CheckForUnicodeOrEscapedUnreserved(String data) {
   return Boolean();
 };
 Boolean Uri___::TryCreate(String uriString, UriKind uriKind, Uri& result) {
@@ -350,7 +326,7 @@ String Uri___::EscapeUnescapeIri(String input, Int32 start, Int32 end, UriCompon
 Uri Uri___::CreateHelper(String uriString, Boolean dontEscape, UriKind uriKind, UriFormatException& e) {
   return nullptr;
 };
-Uri Uri___::ResolveHelper(Uri baseUri, Uri relativeUri, String& newUriString, Boolean& userEscaped, UriFormatException& e) {
+Uri Uri___::ResolveHelper(Uri baseUri, Uri relativeUri, String& newUriString, Boolean& userEscaped) {
   return nullptr;
 };
 String Uri___::GetRelativeSerializationString(UriFormat format) {

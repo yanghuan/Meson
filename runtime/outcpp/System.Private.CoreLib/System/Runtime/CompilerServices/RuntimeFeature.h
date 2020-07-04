@@ -14,6 +14,7 @@ class RuntimeFeature {
   public: static Boolean IsSupported(String feature);
   public: static String PortablePdb;
   public: static String DefaultImplementationsOfInterfaces;
+  public: static String CovariantReturnsOfClasses;
 };
 } // namespace RuntimeFeatureNamespace
 using RuntimeFeature = RuntimeFeatureNamespace::RuntimeFeature;

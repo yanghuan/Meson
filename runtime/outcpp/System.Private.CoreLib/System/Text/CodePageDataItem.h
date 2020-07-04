@@ -16,7 +16,6 @@ CLASS(CodePageDataItem) {
   public: String get_BodyName() { return BodyName; }
   public: String get_DisplayName() { return DisplayName; }
   public: UInt32 get_Flags() { return Flags; }
-  private: Int32 CodePage;
   private: Int32 UIFamilyCodePage;
   private: String WebName;
   private: String HeaderName;

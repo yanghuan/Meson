@@ -18,6 +18,7 @@ FORWARDS(DateTime)
 FORWARD_(EventHandler, T1, T2)
 FORWARD(Exception)
 FORWARD(Object)
+FORWARDS(ReadOnlySpan, T)
 FORWARD(String)
 FORWARD(Type)
 FORWARDS(UInt32)
@@ -80,7 +81,7 @@ CLASS(EventSource) {
   private: struct Sha1ForNonSecretPurposes {
     public: void Start();
     public: void Append(Byte input);
-    public: void Append(Array<Byte> input);
+    public: void Append(ReadOnlySpan<Byte> input);
     public: void Finish(Array<Byte> output);
     private: void Drain();
     private: Int64 length;
@@ -163,25 +164,25 @@ CLASS(EventSource) {
   private: EventDispatcher GetDispatcher(EventListener listener);
   private: void WriteEventVarargs(Int32 eventId, Guid* childActivityID, Array<Object> args);
   private: Array<Object> SerializeEventArgs(Int32 eventId, Array<Object> args);
-  private: void LogEventArgsMismatches(Array<ParameterInfo> infos, Array<Object> args);
+  private: void LogEventArgsMismatches(Int32 eventId, Array<Object> args);
   private: void WriteToAllListeners(Int32 eventId, Guid* activityID, Guid* childActivityID, Int32 eventDataCount, EventData* data);
   public: void WriteToAllListeners(Int32 eventId, UInt32* osThreadId, DateTime* timeStamp, Guid* activityID, Guid* childActivityID, Array<Object> args);
-  private: void DispatchToAllListeners(Int32 eventId, Guid* childActivityID, EventWrittenEventArgs eventCallbackArgs);
-  private: void WriteEventString(EventLevel level, Int64 keywords, String msgString);
+  private: void DispatchToAllListeners(Int32 eventId, EventWrittenEventArgs eventCallbackArgs);
+  private: void WriteEventString(String msgString);
   private: void WriteStringToAllListeners(String eventName, String msg);
   private: Boolean IsEnabledByDefault(Int32 eventNum, Boolean enable, EventLevel currentLevel, EventKeywords currentMatchAnyKeyword);
   private: Boolean IsEnabledCommon(Boolean enabled, EventLevel currentLevel, EventKeywords currentMatchAnyKeyword, EventLevel eventLevel, EventKeywords eventKeywords, EventChannel eventChannel);
   private: void ThrowEventSourceException(String eventName, Exception innerEx);
   private: void ValidateEventOpcodeForTransfer(EventMetadata& eventData, String eventName);
   public: static EventOpcode GetOpcodeWithDefault(EventOpcode opcode, String eventName);
-  private: Int32 GetParameterCount(EventMetadata eventData);
-  private: Type GetDataType(EventMetadata eventData, Int32 parameterId);
+  private: static Int32 GetParameterCount(EventMetadata eventData);
+  private: static Type GetDataType(EventMetadata eventData, Int32 parameterId);
   public: void SendCommand(EventListener listener, EventProviderType eventProviderType, Int32 perEventSourceSessionId, Int32 etwSessionId, EventCommand command, Boolean enable, EventLevel level, EventKeywords matchAnyKeyword, IDictionary<String, String> commandArguments);
   public: void DoCommand(EventCommandEventArgs commandArgs);
   public: Boolean EnableEventForDispatcher(EventDispatcher dispatcher, EventProviderType eventProviderType, Int32 eventId, Boolean value);
   private: Boolean AnyEventEnabled();
   private: void EnsureDescriptorsInitialized();
-  private: Boolean SendManifest(Array<Byte> rawManifest);
+  private: void SendManifest(Array<Byte> rawManifest);
   public: static Attribute GetCustomAttributeHelper(MemberInfo member, Type attributeType, EventManifestOptions flags);
   private: static Boolean AttributeTypeNamesMatch(Type attributeType, Type reflectedAttributeType);
   private: static Type GetEventSourceBaseType(Type eventSourceType, Boolean allowEventSourceOverride, Boolean reflectionOnly);
@@ -193,7 +194,7 @@ CLASS(EventSource) {
   public: void AddListener(EventListener listener);
   private: static void DebugCheckEvent(Dictionary<String, String>& eventsByName, Array<EventMetadata> eventData, MethodInfo method, EventAttribute eventAttribute, ManifestBuilder manifest, EventManifestOptions options);
   private: static Int32 GetHelperCallFirstArg(MethodInfo method);
-  public: void ReportOutOfBandMessage(String msg, Boolean flush);
+  public: void ReportOutOfBandMessage(String msg);
   private: EventSourceSettings ValidateSettings(EventSourceSettings settings);
   public: void Write(String eventName);
   public: void Write(String eventName, EventSourceOptions options);
@@ -202,12 +203,11 @@ CLASS(EventSource) {
   public: void WriteMultiMerge(String eventName, EventSourceOptions& options, TraceLoggingEventTypes eventTypes, Guid* activityID, Guid* childActivityID, EventData* data);
   private: void WriteImpl(String eventName, EventSourceOptions& options, Object data, Guid* pActivityId, Guid* pRelatedActivityId, TraceLoggingEventTypes eventTypes);
   private: void WriteToAllListeners(String eventName, EventDescriptor& eventDescriptor, EventTags tags, Guid* pActivityId, Guid* pChildActivityId, EventPayload payload);
-  private: void WriteCleanup(GCHandle* pPins, Int32 cPins);
+  private: static void WriteCleanup(GCHandle* pPins, Int32 cPins);
   private: void InitializeProviderMetadata();
   private: static Int32 AddValueToMetaData(List<Byte> metaData, String value);
   private: static Int32 HexDigit(Char c);
   private: NameInfo UpdateDescriptor(String name, TraceLoggingEventTypes eventInfo, EventSourceOptions& options, EventDescriptor& descriptor);
-  private: static Boolean m_EventSourcePreventRecursion;
   private: String m_name;
   public: Int32 m_id;
   private: Guid m_guid;
@@ -221,6 +221,8 @@ CLASS(EventSource) {
   public: EventKeywords m_matchAnyKeyword;
   public: EventDispatcher m_Dispatchers;
   private: OverideEventProvider m_etwProvider;
+  private: Object m_createEventLock;
+  private: IntPtr m_writeEventStringEventHandle;
   private: OverideEventProvider m_eventPipeProvider;
   private: Boolean m_completelyInited;
   private: Exception m_constructionException;
@@ -232,7 +234,6 @@ CLASS(EventSource) {
   private: static Boolean m_EventSourceInDecodeObject;
   public: Array<UInt64> m_channelData;
   private: ActivityTracker m_activityTracker;
-  private: static Array<Byte> namespaceBytes;
   private: Array<Byte> providerMetadata;
   private: TraceLoggingEventHandleTable m_eventHandleTable;
 };

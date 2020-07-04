@@ -289,6 +289,9 @@ Boolean Encoding___::Equals(Object value) {
 Int32 Encoding___::GetHashCode() {
   return Int32();
 };
+Stream Encoding___::CreateTranscodingStream(Stream innerStream, Encoding innerStreamEncoding, Encoding outerStreamEncoding, Boolean leaveOpen) {
+  return nullptr;
+};
 Array<Char> Encoding___::GetBestFitUnicodeToBytesData() {
   return Array<Char>();
 };

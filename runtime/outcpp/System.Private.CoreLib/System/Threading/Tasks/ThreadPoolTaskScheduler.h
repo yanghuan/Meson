@@ -17,7 +17,6 @@ FORWARD_(Task, T1, T2)
 namespace ThreadPoolTaskSchedulerNamespace {
 using namespace ::System::Private::CoreLib::System::Collections::Generic;
 CLASS(ThreadPoolTaskScheduler) {
-  public: Boolean get_RequiresAtomicStartTransition();
   public: void QueueTask(Task<> task);
   protected: Boolean TryExecuteTaskInline(Task<> task, Boolean taskWasPreviouslyQueued);
   public: Boolean TryDequeue(Task<> task);

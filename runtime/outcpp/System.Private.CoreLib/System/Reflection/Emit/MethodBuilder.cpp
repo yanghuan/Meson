@@ -188,6 +188,6 @@ void MethodBuilder___::SetCustomAttribute(CustomAttributeBuilder customBuilder) 
 Boolean MethodBuilder___::IsKnownCA(ConstructorInfo con) {
   return Boolean();
 };
-void MethodBuilder___::ParseCA(ConstructorInfo con, Array<Byte> blob) {
+void MethodBuilder___::ParseCA(ConstructorInfo con) {
 };
 } // namespace System::Private::CoreLib::System::Reflection::Emit::MethodBuilderNamespace

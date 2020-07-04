@@ -1,6 +1,12 @@
 #include "HebrewCalendar-dep.h"
 
 namespace System::Private::CoreLib::System::Globalization::HebrewCalendarNamespace {
+ReadOnlySpan<Byte> HebrewCalendar___::get_HebrewTable() {
+  return ReadOnlySpan<Byte>();
+};
+ReadOnlySpan<Byte> HebrewCalendar___::get_LunarMonthLen() {
+  return ReadOnlySpan<Byte>();
+};
 DateTime HebrewCalendar___::get_MinSupportedDateTime() {
   return DateTime();
 };

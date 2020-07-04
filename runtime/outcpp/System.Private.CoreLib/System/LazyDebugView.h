@@ -8,7 +8,7 @@ enum class LazyThreadSafetyMode;
 namespace System::Private::CoreLib::System {
 FORWARDS(Boolean)
 FORWARDS_(Nullable, T1, T2)
-FORWARD(Lazy, T)
+FORWARD_(Lazy, T1, T2, T3)
 namespace LazyDebugViewNamespace {
 using namespace ::System::Private::CoreLib::System::Threading;
 CLASS(LazyDebugView, T) {

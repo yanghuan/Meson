@@ -92,9 +92,6 @@ Int32 Guid::CompareTo(Guid value) {
 String Guid::ToString(String format) {
   return nullptr;
 };
-Char Guid::HexToChar(Int32 a) {
-  return Char();
-};
 Int32 Guid::HexsToChars(Char* guidChars, Int32 a, Int32 b) {
   return Int32();
 };

@@ -4,8 +4,6 @@ namespace System::Private::CoreLib::System::Reflection::Emit::CustomAttributeBui
 Boolean CustomAttributeBuilder___::ValidateType(Type t) {
   return Boolean();
 };
-void CustomAttributeBuilder___::InitCustomAttributeBuilder(ConstructorInfo con, Array<Object> constructorArgs, Array<PropertyInfo> namedProperties, Array<Object> propertyValues, Array<FieldInfo> namedFields, Array<Object> fieldValues) {
-};
 void CustomAttributeBuilder___::VerifyTypeAndPassedObjectType(Type type, Type passedType, String paramName) {
 };
 void CustomAttributeBuilder___::EmitType(BinaryWriter writer, Type type) {

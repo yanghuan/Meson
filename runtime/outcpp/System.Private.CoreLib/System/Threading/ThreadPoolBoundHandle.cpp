@@ -20,7 +20,7 @@ void ThreadPoolBoundHandle___::FreeNativeOverlapped(NativeOverlapped* overlapped
 Object ThreadPoolBoundHandle___::GetNativeOverlappedState(NativeOverlapped* overlapped) {
   return nullptr;
 };
-ThreadPoolBoundHandleOverlapped ThreadPoolBoundHandle___::GetOverlappedWrapper(NativeOverlapped* overlapped, ThreadPoolBoundHandle expectedBoundHandle) {
+ThreadPoolBoundHandleOverlapped ThreadPoolBoundHandle___::GetOverlappedWrapper(NativeOverlapped* overlapped) {
   return nullptr;
 };
 void ThreadPoolBoundHandle___::Dispose() {

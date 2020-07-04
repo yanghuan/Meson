@@ -3,9 +3,6 @@
 #include <System.Private.CoreLib/System/Runtime/CompilerServices/AsyncVoidMethodBuilder-dep.h>
 
 namespace System::Private::CoreLib::System::Runtime::CompilerServices::AsyncVoidMethodBuilderNamespace {
-Task<> AsyncVoidMethodBuilder::get_Task() {
-  return nullptr;
-};
 Object AsyncVoidMethodBuilder::get_ObjectIdForDebugger() {
   return nullptr;
 };

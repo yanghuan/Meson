@@ -105,6 +105,12 @@ Boolean CultureInfo___::get_IsReadOnly() {
 Boolean CultureInfo___::get_HasInvariantCultureName() {
   return Boolean();
 };
+Dictionary<String, CultureInfo> CultureInfo___::get_CachedCulturesByName() {
+  return nullptr;
+};
+Dictionary<Int32, CultureInfo> CultureInfo___::get_CachedCulturesByLcid() {
+  return nullptr;
+};
 void CultureInfo___::AsyncLocalSetCurrentCulture(AsyncLocalValueChangedArgs<CultureInfo> args) {
 };
 void CultureInfo___::AsyncLocalSetCurrentUICulture(AsyncLocalValueChangedArgs<CultureInfo> args) {
@@ -164,9 +170,6 @@ CultureInfo CultureInfo___::ReadOnly(CultureInfo ci) {
 };
 void CultureInfo___::VerifyWritable() {
 };
-CultureInfo CultureInfo___::GetCultureInfoHelper(Int32 lcid, String name, String altName) {
-  return nullptr;
-};
 CultureInfo CultureInfo___::GetCultureInfo(Int32 culture) {
   return nullptr;
 };
@@ -176,7 +179,16 @@ CultureInfo CultureInfo___::GetCultureInfo(String name) {
 CultureInfo CultureInfo___::GetCultureInfo(String name, String altName) {
   return nullptr;
 };
+CultureInfo CultureInfo___::GetCultureInfo(String name, Boolean predefinedOnly) {
+  return nullptr;
+};
 CultureInfo CultureInfo___::GetCultureInfoByIetfLanguageTag(String name) {
+  return nullptr;
+};
+CultureInfo CultureInfo___::IcuGetPredefinedCultureInfo(String name) {
+  return nullptr;
+};
+CultureInfo CultureInfo___::NlsGetPredefinedCultureInfo(String name) {
   return nullptr;
 };
 CultureInfo CultureInfo___::GetUserDefaultCulture() {
@@ -184,11 +196,5 @@ CultureInfo CultureInfo___::GetUserDefaultCulture() {
 };
 CultureInfo CultureInfo___::GetUserDefaultUICulture() {
   return nullptr;
-};
-CultureInfo CultureInfo___::GetCultureInfoForUserPreferredLanguageInAppX() {
-  return nullptr;
-};
-Boolean CultureInfo___::SetCultureInfoForUserPreferredLanguageInAppX(CultureInfo ci) {
-  return Boolean();
 };
 } // namespace System::Private::CoreLib::System::Globalization::CultureInfoNamespace

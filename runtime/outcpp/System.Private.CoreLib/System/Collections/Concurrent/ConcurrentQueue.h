@@ -28,7 +28,7 @@ CLASS(ConcurrentQueue, T) {
   public: void CopyTo(Array<T> array, Int32 index);
   public: IEnumerator<T> GetEnumerator();
   private: void SnapForObservation(ConcurrentQueueSegment<T>& head, Int32& headHead, ConcurrentQueueSegment<T>& tail, Int32& tailTail);
-  private: T GetItemWhenAvailable(ConcurrentQueueSegment<T> segment, Int32 i);
+  private: static T GetItemWhenAvailable(ConcurrentQueueSegment<T> segment, Int32 i);
   private: IEnumerator<T> Enumerate(ConcurrentQueueSegment<T> head, Int32 headHead, ConcurrentQueueSegment<T> tail, Int32 tailTail);
   public: void Enqueue(T item);
   private: void EnqueueSlow(T item);

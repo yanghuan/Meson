@@ -19,6 +19,8 @@ namespace System::Private::CoreLib::System::Runtime::CompilerServices {
 FORWARDS(StringHandleOnStack)
 } // namespace System::Private::CoreLib::System::Runtime::CompilerServices
 namespace System::Private::CoreLib::System {
+FORWARD_(Array, T1, T2)
+FORWARDS(Byte)
 FORWARD(Object)
 FORWARD(String)
 FORWARDS(Boolean)
@@ -36,16 +38,12 @@ CLASS(Exception) {
     ThreadInterrupted = 2,
     OutOfMemory = 3,
   };
-  public: CLASS(__RestrictedErrorObject) {
-    public: Object get_RealErrorObject();
-    private: Object _realErrorObject;
-  };
   public: struct DispatchState {
-    public: Object StackTrace;
-    public: Object DynamicMethods;
+    public: Array<Byte> StackTrace;
+    public: Array<Object> DynamicMethods;
     public: String RemoteStackTrace;
     public: UIntPtr IpForWatsonBuckets;
-    public: Object WatsonBuckets;
+    public: Array<Byte> WatsonBuckets;
   };
   public: MethodBase get_TargetSite();
   public: String get_StackTrace();
@@ -63,8 +61,6 @@ CLASS(Exception) {
   public: void set_HResult(Int32 value);
   private: IDictionary CreateDataContainer();
   private: static Boolean IsImmutableAgileException(Exception e);
-  public: void AddExceptionDataForRestrictedErrorInfo(String restrictedError, String restrictedErrorReference, String restrictedCapabilitySid, Object restrictedErrorObject, Boolean hasrestrictedLanguageErrorObject);
-  public: Boolean TryGetRestrictedLanguageErrorObject(Object& restrictedErrorObject);
   private: static IRuntimeMethodInfo GetMethodFromStackTrace(Object stackTrace);
   private: MethodBase GetExceptionMethodFromStackTrace();
   private: static String GetStackTrace(Exception e);
@@ -72,34 +68,30 @@ CLASS(Exception) {
   private: void OnDeserialized(StreamingContext context);
   public: void InternalPreserveStackTrace();
   private: static void PrepareForForeignExceptionRaise();
-  private: static void GetStackTracesDeepCopy(Exception exception, Object& currentStackTrace, Object& dynamicMethodArray);
-  public: static void SaveStackTracesFromDeepCopy(Exception exception, Object currentStackTrace, Object dynamicMethodArray);
-  private: static Object CopyStackTrace(Object currentStackTrace);
-  private: static Object CopyDynamicMethods(Object currentDynamicMethods);
+  private: static void GetStackTracesDeepCopy(Exception exception, Array<Byte>& currentStackTrace, Array<Object>& dynamicMethodArray);
+  public: static void SaveStackTracesFromDeepCopy(Exception exception, Array<Byte> currentStackTrace, Array<Object> dynamicMethodArray);
   public: static UInt32 GetExceptionCount();
-  public: Object DeepCopyStackTrace(Object currentStackTrace);
-  public: Object DeepCopyDynamicMethods(Object currentDynamicMethods);
   public: void RestoreDispatchState(DispatchState& dispatchState);
   public: static String GetMessageFromNativeResources(ExceptionMessageKind kind);
   private: static void GetMessageFromNativeResources(ExceptionMessageKind kind, StringHandleOnStack retMesg);
   public: DispatchState CaptureDispatchState();
+  public: void SetCurrentStackTrace();
   private: String GetClassName();
   public: Exception GetBaseException();
   public: void GetObjectData(SerializationInfo info, StreamingContext context);
   public: String ToString();
   public: Type GetType();
   private: void RestoreRemoteStackTrace(SerializationInfo info, StreamingContext context);
-  private: static Object s_DispatchStateLock;
   private: MethodBase _exceptionMethod;
   public: String _message;
   private: IDictionary _data;
   private: Exception _innerException;
   private: String _helpURL;
-  private: Object _stackTrace;
-  private: Object _watsonBuckets;
+  private: Array<Byte> _stackTrace;
+  private: Array<Byte> _watsonBuckets;
   private: String _stackTraceString;
   private: String _remoteStackTraceString;
-  private: Object _dynamicMethods;
+  private: Array<Object> _dynamicMethods;
   private: String _source;
   private: UIntPtr _ipForWatsonBuckets;
   private: IntPtr _xptrs;

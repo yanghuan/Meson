@@ -8,6 +8,7 @@ FORWARDS(Byte)
 FORWARDS(Char)
 FORWARDS(UInt32)
 FORWARDS(UInt64)
+FORWARDS(UIntPtr)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Text {
 namespace ASCIIUtilityNamespace {
@@ -16,19 +17,19 @@ class ASCIIUtility {
   private: static Boolean AllCharsInUInt32AreAscii(UInt32 value);
   private: static Boolean AllCharsInUInt64AreAscii(UInt64 value);
   private: static Boolean FirstCharInUInt32IsAscii(UInt32 value);
-  public: static UInt64 GetIndexOfFirstNonAsciiByte(Byte* pBuffer, UInt64 bufferLength);
-  private: static UInt64 GetIndexOfFirstNonAsciiByte_Default(Byte* pBuffer, UInt64 bufferLength);
-  private: static UInt64 GetIndexOfFirstNonAsciiByte_Sse2(Byte* pBuffer, UInt64 bufferLength);
-  public: static UInt64 GetIndexOfFirstNonAsciiChar(Char* pBuffer, UInt64 bufferLength);
-  private: static UInt64 GetIndexOfFirstNonAsciiChar_Default(Char* pBuffer, UInt64 bufferLength);
-  private: static UInt64 GetIndexOfFirstNonAsciiChar_Sse2(Char* pBuffer, UInt64 bufferLength);
+  public: static UIntPtr GetIndexOfFirstNonAsciiByte(Byte* pBuffer, UIntPtr bufferLength);
+  private: static UIntPtr GetIndexOfFirstNonAsciiByte_Default(Byte* pBuffer, UIntPtr bufferLength);
+  private: static UIntPtr GetIndexOfFirstNonAsciiByte_Sse2(Byte* pBuffer, UIntPtr bufferLength);
+  public: static UIntPtr GetIndexOfFirstNonAsciiChar(Char* pBuffer, UIntPtr bufferLength);
+  private: static UIntPtr GetIndexOfFirstNonAsciiChar_Default(Char* pBuffer, UIntPtr bufferLength);
+  private: static UIntPtr GetIndexOfFirstNonAsciiChar_Sse2(Char* pBuffer, UIntPtr bufferLength);
   private: static void NarrowFourUtf16CharsToAsciiAndWriteToBuffer(Byte& outputBuffer, UInt64 value);
   private: static void NarrowTwoUtf16CharsToAsciiAndWriteToBuffer(Byte& outputBuffer, UInt32 value);
-  public: static UInt64 NarrowUtf16ToAscii(Char* pUtf16Buffer, Byte* pAsciiBuffer, UInt64 elementCount);
-  private: static UInt64 NarrowUtf16ToAscii_Sse2(Char* pUtf16Buffer, Byte* pAsciiBuffer, UInt64 elementCount);
-  public: static UInt64 WidenAsciiToUtf16(Byte* pAsciiBuffer, Char* pUtf16Buffer, UInt64 elementCount);
-  private: static UInt64 WidenAsciiToUtf16_Sse2(Byte* pAsciiBuffer, Char* pUtf16Buffer, UInt64 elementCount);
-  private: static void WidenFourAsciiBytesToUtf16AndWriteToBuffer(Char& outputBuffer, UInt32 value);
+  public: static UIntPtr NarrowUtf16ToAscii(Char* pUtf16Buffer, Byte* pAsciiBuffer, UIntPtr elementCount);
+  private: static UIntPtr NarrowUtf16ToAscii_Sse2(Char* pUtf16Buffer, Byte* pAsciiBuffer, UIntPtr elementCount);
+  public: static UIntPtr WidenAsciiToUtf16(Byte* pAsciiBuffer, Char* pUtf16Buffer, UIntPtr elementCount);
+  private: static UIntPtr WidenAsciiToUtf16_Sse2(Byte* pAsciiBuffer, Char* pUtf16Buffer, UIntPtr elementCount);
+  public: static void WidenFourAsciiBytesToUtf16AndWriteToBuffer(Char& outputBuffer, UInt32 value);
   public: static Boolean AllBytesInUInt32AreAscii(UInt32 value);
   public: static UInt32 CountNumberOfLeadingAsciiBytesFromUInt32WithSomeNonAsciiData(UInt32 value);
 };

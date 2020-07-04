@@ -21,6 +21,6 @@
 #include <System.Private.CoreLib/System/Nullable-dep.h>
 #include <System.Private.CoreLib/System/Object-dep.h>
 #include <System.Private.CoreLib/System/String-dep.h>
-#include <System.Private.CoreLib/System/Text/StringBuilder-dep.h>
+#include <System.Private.CoreLib/System/Text/ValueStringBuilder-dep.h>
 #include <System.Private.CoreLib/System/TimeSpan-dep.h>
 #include <System.Private.CoreLib/System/TimeZoneInfoOptions.h>

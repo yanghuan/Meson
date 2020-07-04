@@ -10,16 +10,13 @@ FORWARD(Object)
 FORWARD(String)
 FORWARD(Type)
 } // namespace System::Private::CoreLib::System
+namespace System::Private::CoreLib::System::Collections::Generic {
+FORWARD(Dictionary, TKey, TValue)
+} // namespace System::Private::CoreLib::System::Collections::Generic
 namespace System::Private::CoreLib::System::Threading {
 FORWARD(AsyncLocal, T)
 FORWARDS(AsyncLocalValueChangedArgs, T)
 } // namespace System::Private::CoreLib::System::Threading
-namespace System::Private::CoreLib::System::Collections::Generic {
-FORWARD(Dictionary, TKey, TValue)
-} // namespace System::Private::CoreLib::System::Collections::Generic
-namespace System::Private::CoreLib::Internal::Resources {
-FORWARD(WindowsRuntimeResourceManagerBase)
-} // namespace System::Private::CoreLib::Internal::Resources
 namespace System::Private::CoreLib::System::Globalization {
 FORWARD(CompareInfo)
 FORWARD(TextInfo)
@@ -30,7 +27,6 @@ FORWARD(Calendar)
 enum class CalendarId : uint16_t;
 FORWARD(CultureData)
 namespace CultureInfoNamespace {
-using namespace ::System::Private::CoreLib::Internal::Resources;
 using namespace ::System::Private::CoreLib::System::Collections::Generic;
 using namespace ::System::Private::CoreLib::System::Threading;
 CLASS(CultureInfo) {
@@ -70,6 +66,8 @@ CLASS(CultureInfo) {
   public: Boolean get_UseUserOverride();
   public: Boolean get_IsReadOnly();
   public: Boolean get_HasInvariantCultureName();
+  private: static Dictionary<String, CultureInfo> get_CachedCulturesByName();
+  private: static Dictionary<Int32, CultureInfo> get_CachedCulturesByLcid();
   private: static void AsyncLocalSetCurrentCulture(AsyncLocalValueChangedArgs<CultureInfo> args);
   private: static void AsyncLocalSetCurrentUICulture(AsyncLocalValueChangedArgs<CultureInfo> args);
   private: static CultureInfo InitializeUserDefaultCulture();
@@ -91,15 +89,15 @@ CLASS(CultureInfo) {
   public: Object Clone();
   public: static CultureInfo ReadOnly(CultureInfo ci);
   private: void VerifyWritable();
-  public: static CultureInfo GetCultureInfoHelper(Int32 lcid, String name, String altName);
   public: static CultureInfo GetCultureInfo(Int32 culture);
   public: static CultureInfo GetCultureInfo(String name);
   public: static CultureInfo GetCultureInfo(String name, String altName);
+  public: static CultureInfo GetCultureInfo(String name, Boolean predefinedOnly);
   public: static CultureInfo GetCultureInfoByIetfLanguageTag(String name);
+  private: static CultureInfo IcuGetPredefinedCultureInfo(String name);
+  private: static CultureInfo NlsGetPredefinedCultureInfo(String name);
   public: static CultureInfo GetUserDefaultCulture();
   private: static CultureInfo GetUserDefaultUICulture();
-  public: static CultureInfo GetCultureInfoForUserPreferredLanguageInAppX();
-  public: static Boolean SetCultureInfoForUserPreferredLanguageInAppX(CultureInfo ci);
   private: Boolean _isReadOnly;
   private: CompareInfo _compareInfo;
   private: TextInfo _textInfo;
@@ -121,9 +119,8 @@ CLASS(CultureInfo) {
   private: static CultureInfo s_currentThreadUICulture;
   private: static AsyncLocal<CultureInfo> s_asyncLocalCurrentCulture;
   private: static AsyncLocal<CultureInfo> s_asyncLocalCurrentUICulture;
-  private: static Object _lock;
-  private: static Dictionary<String, CultureInfo> s_NameCachedCultures;
-  private: static Dictionary<Int32, CultureInfo> s_LcidCachedCultures;
+  private: static Dictionary<String, CultureInfo> s_cachedCulturesByName;
+  private: static Dictionary<Int32, CultureInfo> s_cachedCulturesByLcid;
   private: CultureInfo _parent;
   public: static Int32 LOCALE_NEUTRAL;
   private: static Int32 LOCALE_USER_DEFAULT;
@@ -131,8 +128,6 @@ CLASS(CultureInfo) {
   public: static Int32 LOCALE_CUSTOM_UNSPECIFIED;
   public: static Int32 LOCALE_CUSTOM_DEFAULT;
   public: static Int32 LOCALE_INVARIANT;
-  private: static WindowsRuntimeResourceManagerBase s_WindowsRuntimeResourceManager;
-  private: static Boolean ts_IsDoingAppXCultureInfoLookup;
 };
 } // namespace CultureInfoNamespace
 using CultureInfo = CultureInfoNamespace::CultureInfo;

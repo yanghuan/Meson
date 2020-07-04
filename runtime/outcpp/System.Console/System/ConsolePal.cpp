@@ -122,6 +122,8 @@ Int32 ConsolePal::get_WindowHeight() {
 };
 void ConsolePal::set_WindowHeight(Int32 value) {
 };
+void ConsolePal::EnsureConsoleInitialized() {
+};
 Boolean ConsolePal::IsWindows7() {
   return Boolean();
 };
@@ -134,7 +136,7 @@ Stream ConsolePal::OpenStandardOutput() {
 Stream ConsolePal::OpenStandardError() {
   return nullptr;
 };
-Stream ConsolePal::GetStandardFile(Int32 handleType, FileAccess access) {
+Stream ConsolePal::GetStandardFile(Int32 handleType, FileAccess access, Boolean useFileAPIs) {
   return nullptr;
 };
 Boolean ConsolePal::ConsoleHandleIsWritable(IntPtr outErrHandle) {
@@ -143,9 +145,6 @@ Boolean ConsolePal::ConsoleHandleIsWritable(IntPtr outErrHandle) {
 void ConsolePal::SetConsoleInputEncoding(Encoding enc) {
 };
 void ConsolePal::SetConsoleOutputEncoding(Encoding enc) {
-};
-Boolean ConsolePal::GetUseFileAPIs(Int32 handleType) {
-  return Boolean();
 };
 Boolean ConsolePal::IsInputRedirectedCore() {
   return Boolean();
@@ -192,16 +191,16 @@ void ConsolePal::SetWindowPosition(Int32 left, Int32 top) {
 };
 void ConsolePal::SetWindowSize(Int32 width, Int32 height) {
 };
-Interop::Kernel32::in::Color ConsolePal::ConsoleColorToColorAttribute(ConsoleColor color, Boolean isBackground) {
-  return Interop::Kernel32::in::Color::ColorMask;
+Interop::Kernel32::Color ConsolePal::ConsoleColorToColorAttribute(ConsoleColor color, Boolean isBackground) {
+  return Interop::Kernel32::Color::ColorMask;
 };
-ConsoleColor ConsolePal::ColorAttributeToConsoleColor(Interop::Kernel32::in::Color c) {
+ConsoleColor ConsolePal::ColorAttributeToConsoleColor(Interop::Kernel32::Color c) {
   return ConsoleColor::White;
 };
-Interop::Kernel32::in::CONSOLE_SCREEN_BUFFER_INFO ConsolePal::GetBufferInfo() {
-  return Interop::Kernel32::in::CONSOLE_SCREEN_BUFFER_INFO();
+Interop::Kernel32::CONSOLE_SCREEN_BUFFER_INFO ConsolePal::GetBufferInfo() {
+  return Interop::Kernel32::CONSOLE_SCREEN_BUFFER_INFO();
 };
-Interop::Kernel32::in::CONSOLE_SCREEN_BUFFER_INFO ConsolePal::GetBufferInfo(Boolean throwOnNoConsole, Boolean& succeeded) {
-  return Interop::Kernel32::in::CONSOLE_SCREEN_BUFFER_INFO();
+Interop::Kernel32::CONSOLE_SCREEN_BUFFER_INFO ConsolePal::GetBufferInfo(Boolean throwOnNoConsole, Boolean& succeeded) {
+  return Interop::Kernel32::CONSOLE_SCREEN_BUFFER_INFO();
 };
 } // namespace System::Console::System::ConsolePalNamespace

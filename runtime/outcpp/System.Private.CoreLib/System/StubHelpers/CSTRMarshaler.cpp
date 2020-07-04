@@ -9,4 +9,9 @@ String CSTRMarshaler::ConvertToManaged(IntPtr cstr) {
 };
 void CSTRMarshaler::ClearNative(IntPtr pNative) {
 };
+void CSTRMarshaler::ConvertFixedToNative(Int32 flags, String strManaged, IntPtr pNativeBuffer, Int32 length) {
+};
+String CSTRMarshaler::ConvertFixedToManaged(IntPtr cstr, Int32 length) {
+  return nullptr;
+};
 } // namespace System::Private::CoreLib::System::StubHelpers::CSTRMarshalerNamespace

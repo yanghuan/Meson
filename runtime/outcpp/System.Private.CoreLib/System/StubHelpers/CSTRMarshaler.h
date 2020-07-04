@@ -13,6 +13,8 @@ class CSTRMarshaler {
   public: static IntPtr ConvertToNative(Int32 flags, String strManaged, IntPtr pNativeBuffer);
   public: static String ConvertToManaged(IntPtr cstr);
   public: static void ClearNative(IntPtr pNative);
+  public: static void ConvertFixedToNative(Int32 flags, String strManaged, IntPtr pNativeBuffer, Int32 length);
+  public: static String ConvertFixedToManaged(IntPtr cstr, Int32 length);
 };
 } // namespace CSTRMarshalerNamespace
 using CSTRMarshaler = CSTRMarshalerNamespace::CSTRMarshaler;

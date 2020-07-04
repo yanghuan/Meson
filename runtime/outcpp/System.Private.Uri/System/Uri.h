@@ -1,14 +1,13 @@
 #pragma once
 
 #include <rt/GCObject.h>
-#include <System.Private.CoreLib/System/Boolean.h>
-#include <System.Private.CoreLib/System/Int32.h>
 #include <System.Private.CoreLib/System/UInt16.h>
 
 namespace System::Private::CoreLib::System {
 FORWARD_(Array, T1, T2)
+FORWARDS(Boolean)
 FORWARDS(Char)
-FORWARDS(Int64)
+FORWARDS(Int32)
 FORWARD(Object)
 FORWARDS(ReadOnlySpan, T)
 FORWARD(String)
@@ -27,12 +26,11 @@ enum class UriPartial;
 enum class UriComponents;
 enum class UriFormat;
 enum class UriKind;
-enum class UriIdnScope;
 namespace UriNamespace {
 using namespace ::System::Private::CoreLib::System;
 using namespace ::System::Private::CoreLib::System::Runtime::Serialization;
 CLASS(Uri) {
-  private: enum class Flags : uint64_t {
+  public: enum class Flags : uint64_t {
     Zero = 0,
     SchemeNotCanonical = 1,
     UserNotCanonical = 2,
@@ -81,13 +79,14 @@ CLASS(Uri) {
     RestUnicodeNormalized = 34359738368,
     UnicodeHost = 68719476736,
     IntranetUri = 137438953472,
-    UseOrigUncdStrOffset = 274877906944,
     UserIriCanonical = 549755813888,
     PathIriCanonical = 1099511627776,
     QueryIriCanonical = 2199023255552,
     FragmentIriCanonical = 4398046511104,
     IriCanonical = 8246337208320,
     UnixPath = 17592186044416,
+    CustomParser_ParseMinimalAlreadyCalled = 4611686018427387904,
+    Debug_LeftConstructor = 9223372036854775808,
   };
   private: enum class Check {
     None = 0,
@@ -115,16 +114,17 @@ CLASS(Uri) {
     public: String Query;
     public: String Fragment;
     public: String AbsoluteUri;
-    public: Int32 Hash;
     public: String RemoteUrl;
   };
   private: CLASS(UriInfo) {
-    public: String Host;
-    public: String ScopeId;
-    public: String String;
+    public: MoreInfo get_MoreInfo();
     public: Offset Offset;
-    public: ::System::Private::CoreLib::System::String DnsSafeHost;
-    public: MoreInfo MoreInfo;
+    public: String String;
+    public: ::System::Private::CoreLib::System::String Host;
+    public: ::System::Private::CoreLib::System::String IdnHost;
+    public: ::System::Private::CoreLib::System::String PathAndQuery;
+    public: ::System::Private::CoreLib::System::String ScopeId;
+    private: MoreInfo _moreInfo;
   };
   private: Boolean get_IsImplicitFile();
   private: Boolean get_IsUncOrDosPath();
@@ -133,9 +133,9 @@ CLASS(Uri) {
   private: Flags get_HostType();
   private: UriParser get_Syntax();
   private: Boolean get_IsNotAbsoluteUri();
-  private: Boolean get_AllowIdn();
+  private: Boolean get_IriParsing();
   public: Boolean get_UserDrivenParsing();
-  private: UInt16 get_SecuredPathIndex();
+  private: Int32 get_SecuredPathIndex();
   public: String get_AbsolutePath();
   private: String get_PrivateAbsolutePath();
   public: String get_AbsoluteUri();
@@ -153,7 +153,6 @@ CLASS(Uri) {
   public: String get_Query();
   public: String get_Fragment();
   public: String get_Scheme();
-  private: Boolean get_OriginalStringSwitched();
   public: String get_OriginalString();
   public: String get_DnsSafeHost();
   public: String get_IdnHost();
@@ -161,10 +160,8 @@ CLASS(Uri) {
   public: Boolean get_UserEscaped();
   public: String get_UserInfo();
   public: Boolean get_HasAuthority();
+  private: void InterlockedSetFlags(Flags flags);
   public: static Boolean IriParsingStatic(UriParser syntax);
-  private: Boolean AllowIdnStatic(UriParser syntax, Flags flags);
-  private: Boolean IsIntranet(String schemeHost);
-  private: void SetUserDrivenParsing();
   private: Boolean NotAny(Flags flags);
   private: Boolean InFact(Flags flags);
   private: static Boolean StaticNotAny(Flags allFlags, Flags checkFlags);
@@ -174,7 +171,7 @@ CLASS(Uri) {
   private: void EnsureHostString(Boolean allowDnsOptimization);
   protected: void GetObjectData(SerializationInfo serializationInfo, StreamingContext streamingContext);
   private: void CreateUri(Uri baseUri, String relativeUri, Boolean dontEscape);
-  private: static ParsingError GetCombinedString(Uri baseUri, String relativeStr, Boolean dontEscape, String& result);
+  private: static void GetCombinedString(Uri baseUri, String relativeStr, Boolean dontEscape, String& result);
   private: static UriFormatException GetException(ParsingError err);
   private: static Boolean StaticIsFile(UriParser syntax);
   private: String GetLocalPath();
@@ -195,31 +192,25 @@ CLASS(Uri) {
   private: static ParsingError ParseScheme(String uriString, Flags& flags, UriParser& syntax);
   public: UriFormatException ParseMinimal();
   private: ParsingError PrivateParseMinimal();
-  private: void PrivateParseMinimalIri(String newHost, UInt16 idx);
   private: void CreateUriInfo(Flags cF);
   private: void CreateHostString();
-  private: static String CreateHostStringHelper(String str, UInt16 idx, UInt16 end, Flags& flags, String& scopeId);
+  private: static String CreateHostStringHelper(String str, Int32 idx, Int32 end, Flags& flags, String& scopeId);
   private: void GetHostViaCustomSyntax();
   public: String GetParts(UriComponents uriParts, UriFormat formatAs);
   private: String GetEscapedParts(UriComponents uriParts);
   private: String GetUnescapedParts(UriComponents uriParts, UriFormat formatAs);
   private: String ReCreateParts(UriComponents parts, UInt16 nonCanonical, UriFormat formatAs);
   private: String GetUriPartsFromUserString(UriComponents uriParts);
-  private: void GetLengthWithoutTrailingSpaces(String str, UInt16& length, Int32 idx);
+  private: void GetLengthWithoutTrailingSpaces(String str, Int32& length, Int32 idx);
   private: void ParseRemaining();
-  private: static UInt16 ParseSchemeCheckImplicitFile(Char* uriString, UInt16 length, ParsingError& err, Flags& flags, UriParser& syntax);
-  private: static Boolean CheckKnownSchemes(Int64* lptr, UInt16 nChars, UriParser& syntax);
+  private: static Int32 ParseSchemeCheckImplicitFile(Char* uriString, Int32 length, ParsingError& err, Flags& flags, UriParser& syntax);
   private: static ParsingError CheckSchemeSyntax(ReadOnlySpan<Char> span, UriParser& syntax);
-  private: UInt16 CheckAuthorityHelper(Char* pString, UInt16 idx, UInt16 length, ParsingError& err, Flags& flags, UriParser syntax, String& newHost);
-  private: void CheckAuthorityHelperHandleDnsIri(Char* pString, UInt16 start, Int32 end, Int32 startInput, Boolean iriParsing, Boolean hasUnicode, UriParser syntax, String userInfoString, Flags& flags, Boolean& justNormalized, String& newHost, ParsingError& err);
-  private: void CheckAuthorityHelperHandleAnyHostIri(Char* pString, Int32 startInput, Int32 end, Boolean iriParsing, Boolean hasUnicode, UriParser syntax, Flags& flags, String& newHost, ParsingError& err);
-  private: void FindEndOfComponent(String input, UInt16& idx, UInt16 end, Char delim);
-  private: void FindEndOfComponent(Char* str, UInt16& idx, UInt16 end, Char delim);
-  private: Check CheckCanonical(Char* str, UInt16& idx, UInt16 end, Char delim);
+  private: Int32 CheckAuthorityHelper(Char* pString, Int32 idx, Int32 length, ParsingError& err, Flags& flags, UriParser syntax, String& newHost);
+  private: void CheckAuthorityHelperHandleDnsIri(Char* pString, Int32 start, Int32 end, Boolean hasUnicode, Flags& flags, Boolean& justNormalized, String& newHost, ParsingError& err);
+  private: Check CheckCanonical(Char* str, Int32& idx, Int32 end, Char delim);
   private: Array<Char> GetCanonicalPath(Array<Char> dest, Int32& pos, UriFormat formatAs);
   private: static void UnescapeOnly(Char* pch, Int32 start, Int32& end, Char ch1, Char ch2, Char ch3);
-  private: static Array<Char> Compress(Array<Char> dest, UInt16 start, Int32& destLength, UriParser syntax);
-  public: static Int32 CalculateCaseInsensitiveHashCode(String text);
+  private: static Array<Char> Compress(Array<Char> dest, Int32 start, Int32& destLength, UriParser syntax);
   private: static String CombineUri(Uri basePart, String relativePart, UriFormat uriFormat);
   private: static String PathDifference(String path1, String path2, Boolean compareCase);
   public: String MakeRelative(Uri toUri);
@@ -234,8 +225,7 @@ CLASS(Uri) {
   protected: Boolean IsBadFileSystemCharacter(Char character);
   private: void CreateThis(String uri, Boolean dontEscape, UriKind uriKind);
   private: void InitializeUri(ParsingError err, UriKind uriKind, UriFormatException& e);
-  private: Boolean CheckForUnicode(String data);
-  private: Boolean CheckForEscapedUnreserved(String data);
+  private: static Boolean CheckForUnicodeOrEscapedUnreserved(String data);
   public: static Boolean TryCreate(String uriString, UriKind uriKind, Uri& result);
   public: static Boolean TryCreate(Uri baseUri, String relativeUri, Uri& result);
   public: static Boolean TryCreate(Uri baseUri, Uri relativeUri, Uri& result);
@@ -249,7 +239,7 @@ CLASS(Uri) {
   public: static String EscapeDataString(String stringToEscape);
   public: String EscapeUnescapeIri(String input, Int32 start, Int32 end, UriComponents component);
   public: static Uri CreateHelper(String uriString, Boolean dontEscape, UriKind uriKind, UriFormatException& e);
-  public: static Uri ResolveHelper(Uri baseUri, Uri relativeUri, String& newUriString, Boolean& userEscaped, UriFormatException& e);
+  public: static Uri ResolveHelper(Uri baseUri, Uri relativeUri, String& newUriString, Boolean& userEscaped);
   private: String GetRelativeSerializationString(UriFormat format);
   public: String GetComponentsHelper(UriComponents uriComponents, UriFormat uriFormat);
   public: Boolean IsBaseOf(Uri uri);
@@ -270,13 +260,9 @@ CLASS(Uri) {
   public: static String SchemeDelimiter;
   private: String _string;
   private: String _originalUnicodeString;
-  private: UriParser _syntax;
-  private: String _dnsSafeHost;
-  private: Flags _flags;
+  public: UriParser _syntax;
+  public: Flags _flags;
   private: UriInfo _info;
-  private: Boolean _iriParsing;
-  private: static UriIdnScope s_IdnScope;
-  private: static Boolean s_IriParsing;
   private: static Array<Char> s_pathDelims;
 };
 } // namespace UriNamespace

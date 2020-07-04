@@ -72,6 +72,9 @@ TimeSpan TimeSpan::FromHours(Double value) {
 TimeSpan TimeSpan::Interval(Double value, Double scale) {
   return TimeSpan();
 };
+TimeSpan TimeSpan::IntervalFromDoubleTicks(Double ticks) {
+  return TimeSpan();
+};
 TimeSpan TimeSpan::FromMilliseconds(Double value) {
   return TimeSpan();
 };

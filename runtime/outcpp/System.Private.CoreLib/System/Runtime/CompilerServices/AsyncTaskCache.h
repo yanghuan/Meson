@@ -14,10 +14,14 @@ namespace System::Private::CoreLib::System::Runtime::CompilerServices {
 namespace AsyncTaskCacheNamespace {
 using namespace ::System::Private::CoreLib::System::Threading::Tasks;
 class AsyncTaskCache {
+  private: static Boolean GetPoolAsyncValueTasksSwitch();
+  private: static Int32 GetPoolAsyncValueTasksLimitValue();
   private: static Array<Task<Int32>> CreateInt32Tasks();
-  public: static Task<Boolean> TrueTask;
-  public: static Task<Boolean> FalseTask;
-  public: static Array<Task<Int32>> Int32Tasks;
+  public: static Task<Boolean> s_trueTask;
+  public: static Task<Boolean> s_falseTask;
+  public: static Array<Task<Int32>> s_int32Tasks;
+  public: static Boolean s_valueTaskPoolingEnabled;
+  public: static Int32 s_valueTaskPoolingCacheSize;
 };
 } // namespace AsyncTaskCacheNamespace
 using AsyncTaskCache = AsyncTaskCacheNamespace::AsyncTaskCache;

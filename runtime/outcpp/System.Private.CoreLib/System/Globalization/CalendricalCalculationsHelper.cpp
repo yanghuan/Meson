@@ -1,112 +1,112 @@
 #include "CalendricalCalculationsHelper-dep.h"
 
 namespace System::Private::CoreLib::System::Globalization::CalendricalCalculationsHelperNamespace {
-Double CalendricalCalculationsHelper___::RadiansFromDegrees(Double degree) {
+Double CalendricalCalculationsHelper::RadiansFromDegrees(Double degree) {
   return Double();
 };
-Double CalendricalCalculationsHelper___::SinOfDegree(Double degree) {
+Double CalendricalCalculationsHelper::SinOfDegree(Double degree) {
   return Double();
 };
-Double CalendricalCalculationsHelper___::CosOfDegree(Double degree) {
+Double CalendricalCalculationsHelper::CosOfDegree(Double degree) {
   return Double();
 };
-Double CalendricalCalculationsHelper___::TanOfDegree(Double degree) {
+Double CalendricalCalculationsHelper::TanOfDegree(Double degree) {
   return Double();
 };
-Double CalendricalCalculationsHelper___::Angle(Int32 degrees, Int32 minutes, Double seconds) {
+Double CalendricalCalculationsHelper::Angle(Int32 degrees, Int32 minutes, Double seconds) {
   return Double();
 };
-Double CalendricalCalculationsHelper___::Obliquity(Double julianCenturies) {
+Double CalendricalCalculationsHelper::Obliquity(Double julianCenturies) {
   return Double();
 };
-Int64 CalendricalCalculationsHelper___::GetNumberOfDays(DateTime date) {
+Int64 CalendricalCalculationsHelper::GetNumberOfDays(DateTime date) {
   return Int64();
 };
-Int32 CalendricalCalculationsHelper___::GetGregorianYear(Double numberOfDays) {
+Int32 CalendricalCalculationsHelper::GetGregorianYear(Double numberOfDays) {
   return Int32();
 };
-Double CalendricalCalculationsHelper___::Reminder(Double divisor, Double dividend) {
+Double CalendricalCalculationsHelper::Reminder(Double divisor, Double dividend) {
   return Double();
 };
-Double CalendricalCalculationsHelper___::NormalizeLongitude(Double longitude) {
+Double CalendricalCalculationsHelper::NormalizeLongitude(Double longitude) {
   return Double();
 };
-Double CalendricalCalculationsHelper___::AsDayFraction(Double longitude) {
+Double CalendricalCalculationsHelper::AsDayFraction(Double longitude) {
   return Double();
 };
-Double CalendricalCalculationsHelper___::PolynomialSum(Array<Double> coefficients, Double indeterminate) {
+Double CalendricalCalculationsHelper::PolynomialSum(Array<Double> coefficients, Double indeterminate) {
   return Double();
 };
-Double CalendricalCalculationsHelper___::CenturiesFrom1900(Int32 gregorianYear) {
+Double CalendricalCalculationsHelper::CenturiesFrom1900(Int32 gregorianYear) {
   return Double();
 };
-Double CalendricalCalculationsHelper___::DefaultEphemerisCorrection(Int32 gregorianYear) {
+Double CalendricalCalculationsHelper::DefaultEphemerisCorrection(Int32 gregorianYear) {
   return Double();
 };
-Double CalendricalCalculationsHelper___::EphemerisCorrection1988to2019(Int32 gregorianYear) {
+Double CalendricalCalculationsHelper::EphemerisCorrection1988to2019(Int32 gregorianYear) {
   return Double();
 };
-Double CalendricalCalculationsHelper___::EphemerisCorrection1900to1987(Int32 gregorianYear) {
+Double CalendricalCalculationsHelper::EphemerisCorrection1900to1987(Int32 gregorianYear) {
   return Double();
 };
-Double CalendricalCalculationsHelper___::EphemerisCorrection1800to1899(Int32 gregorianYear) {
+Double CalendricalCalculationsHelper::EphemerisCorrection1800to1899(Int32 gregorianYear) {
   return Double();
 };
-Double CalendricalCalculationsHelper___::EphemerisCorrection1700to1799(Int32 gregorianYear) {
+Double CalendricalCalculationsHelper::EphemerisCorrection1700to1799(Int32 gregorianYear) {
   return Double();
 };
-Double CalendricalCalculationsHelper___::EphemerisCorrection1620to1699(Int32 gregorianYear) {
+Double CalendricalCalculationsHelper::EphemerisCorrection1620to1699(Int32 gregorianYear) {
   return Double();
 };
-Double CalendricalCalculationsHelper___::EphemerisCorrection(Double time) {
+Double CalendricalCalculationsHelper::EphemerisCorrection(Double time) {
   return Double();
 };
-Double CalendricalCalculationsHelper___::JulianCenturies(Double moment) {
+Double CalendricalCalculationsHelper::JulianCenturies(Double moment) {
   return Double();
 };
-Boolean CalendricalCalculationsHelper___::IsNegative(Double value) {
+Boolean CalendricalCalculationsHelper::IsNegative(Double value) {
   return Boolean();
 };
-Double CalendricalCalculationsHelper___::CopySign(Double value, Double sign) {
+Double CalendricalCalculationsHelper::CopySign(Double value, Double sign) {
   return Double();
 };
-Double CalendricalCalculationsHelper___::EquationOfTime(Double time) {
+Double CalendricalCalculationsHelper::EquationOfTime(Double time) {
   return Double();
 };
-Double CalendricalCalculationsHelper___::AsLocalTime(Double apparentMidday, Double longitude) {
+Double CalendricalCalculationsHelper::AsLocalTime(Double apparentMidday, Double longitude) {
   return Double();
 };
-Double CalendricalCalculationsHelper___::Midday(Double date, Double longitude) {
+Double CalendricalCalculationsHelper::Midday(Double date, Double longitude) {
   return Double();
 };
-Double CalendricalCalculationsHelper___::InitLongitude(Double longitude) {
+Double CalendricalCalculationsHelper::InitLongitude(Double longitude) {
   return Double();
 };
-Double CalendricalCalculationsHelper___::MiddayAtPersianObservationSite(Double date) {
+Double CalendricalCalculationsHelper::MiddayAtPersianObservationSite(Double date) {
   return Double();
 };
-Double CalendricalCalculationsHelper___::PeriodicTerm(Double julianCenturies, Int32 x, Double y, Double z) {
+Double CalendricalCalculationsHelper::PeriodicTerm(Double julianCenturies, Int32 x, Double y, Double z) {
   return Double();
 };
-Double CalendricalCalculationsHelper___::SumLongSequenceOfPeriodicTerms(Double julianCenturies) {
+Double CalendricalCalculationsHelper::SumLongSequenceOfPeriodicTerms(Double julianCenturies) {
   return Double();
 };
-Double CalendricalCalculationsHelper___::Aberration(Double julianCenturies) {
+Double CalendricalCalculationsHelper::Aberration(Double julianCenturies) {
   return Double();
 };
-Double CalendricalCalculationsHelper___::Nutation(Double julianCenturies) {
+Double CalendricalCalculationsHelper::Nutation(Double julianCenturies) {
   return Double();
 };
-Double CalendricalCalculationsHelper___::Compute(Double time) {
+Double CalendricalCalculationsHelper::Compute(Double time) {
   return Double();
 };
-Double CalendricalCalculationsHelper___::AsSeason(Double longitude) {
+Double CalendricalCalculationsHelper::AsSeason(Double longitude) {
   return Double();
 };
-Double CalendricalCalculationsHelper___::EstimatePrior(Double longitude, Double time) {
+Double CalendricalCalculationsHelper::EstimatePrior(Double longitude, Double time) {
   return Double();
 };
-Int64 CalendricalCalculationsHelper___::PersianNewYearOnOrBefore(Int64 numberOfDays) {
+Int64 CalendricalCalculationsHelper::PersianNewYearOnOrBefore(Int64 numberOfDays) {
   return Int64();
 };
 } // namespace System::Private::CoreLib::System::Globalization::CalendricalCalculationsHelperNamespace

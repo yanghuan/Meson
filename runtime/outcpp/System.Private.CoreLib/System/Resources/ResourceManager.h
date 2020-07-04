@@ -22,16 +22,11 @@ FORWARD(Dictionary, TKey, TValue)
 namespace System::Private::CoreLib::System::IO {
 FORWARD(UnmanagedMemoryStream)
 } // namespace System::Private::CoreLib::System::IO
-namespace System::Private::CoreLib::Internal::Resources {
-FORWARD(PRIExceptionInfo)
-FORWARD(WindowsRuntimeResourceManagerBase)
-} // namespace System::Private::CoreLib::Internal::Resources
 namespace System::Private::CoreLib::System::Resources {
 FORWARD(ResourceSet)
 enum class UltimateResourceFallbackLocation;
 FORWARD(IResourceGroveler)
 namespace ResourceManagerNamespace {
-using namespace ::System::Private::CoreLib::Internal::Resources;
 using namespace ::System::Private::CoreLib::System::Collections::Generic;
 using namespace ::System::Private::CoreLib::System::Globalization;
 using namespace ::System::Private::CoreLib::System::IO;
@@ -55,7 +50,7 @@ CLASS(ResourceManager) {
     public: Assembly get_MainAssembly();
     public: String get_BaseName();
     public: String GetResourceFileName(CultureInfo culture);
-    public: Version ObtainSatelliteContractVersion(Assembly a);
+    public: static Version ObtainSatelliteContractVersion(Assembly a);
     private: ResourceManager _rm;
   };
   public: String get_BaseName();
@@ -82,10 +77,6 @@ CLASS(ResourceManager) {
   private: Object GetObject(String name, CultureInfo culture, Boolean wrapUnmanagedMemStream);
   public: UnmanagedMemoryStream GetStream(String name);
   public: UnmanagedMemoryStream GetStream(String name, CultureInfo culture);
-  private: String GetStringFromPRI(String stringName, CultureInfo culture, String neutralResourcesCulture);
-  public: static WindowsRuntimeResourceManagerBase GetWinRTResourceManager();
-  private: static Boolean ShouldUseUapResourceManagement(Assembly resourcesAssembly);
-  private: void SetUapConfiguration();
   protected: String BaseNameField;
   protected: Assembly MainAssembly;
   private: Dictionary<String, ResourceSet> _resourceSets;
@@ -103,10 +94,6 @@ CLASS(ResourceManager) {
   public: static Int32 MagicNumber;
   public: static Int32 HeaderVersionNumber;
   private: static Type s_minResourceSet;
-  private: WindowsRuntimeResourceManagerBase _WinRTResourceManager;
-  private: PRIExceptionInfo _PRIExceptionInfo;
-  private: Boolean _PRIInitialized;
-  private: Boolean _useUapResourceManagement;
 };
 } // namespace ResourceManagerNamespace
 using ResourceManager = ResourceManagerNamespace::ResourceManager;

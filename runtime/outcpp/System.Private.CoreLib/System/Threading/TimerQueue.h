@@ -43,7 +43,6 @@ CLASS(TimerQueue) {
   private: TimerQueueTimer _shortTimers;
   private: TimerQueueTimer _longTimers;
   private: Int64 _currentAbsoluteThreshold;
-  private: Int32 _pauseTicks;
   private: Int64 ActiveCount;
 };
 } // namespace TimerQueueNamespace

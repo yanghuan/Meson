@@ -17,6 +17,8 @@ void ThrowHelper::ThrowArgumentException_CannotExtractScalar(ExceptionArgument a
 };
 void ThrowHelper::ThrowArgumentOutOfRange_IndexException() {
 };
+void ThrowHelper::ThrowArgumentException_BadComparer(Object comparer) {
+};
 void ThrowHelper::ThrowIndexArgumentOutOfRange_NeedNonNegNumException() {
 };
 void ThrowHelper::ThrowValueArgumentOutOfRange_NeedNonNegNumException() {
@@ -26,6 +28,14 @@ void ThrowHelper::ThrowLengthArgumentOutOfRange_ArgumentOutOfRange_NeedNonNegNum
 void ThrowHelper::ThrowStartIndexArgumentOutOfRange_ArgumentOutOfRange_Index() {
 };
 void ThrowHelper::ThrowCountArgumentOutOfRange_ArgumentOutOfRange_Count() {
+};
+void ThrowHelper::ThrowArgumentOutOfRange_Year() {
+};
+void ThrowHelper::ThrowArgumentOutOfRange_BadYearMonthDay() {
+};
+void ThrowHelper::ThrowArgumentOutOfRange_BadHourMinuteSecond() {
+};
+void ThrowHelper::ThrowArgumentOutOfRange_TimeSpanTooLong() {
 };
 ArgumentException ThrowHelper::GetAddingDuplicateWithKeyArgumentException(Object key) {
   return nullptr;

@@ -28,6 +28,11 @@ using namespace ::System::Private::CoreLib::System::Buffers;
 CLASS(UTF8Encoding) {
   public: CLASS(UTF8EncodingSealed) {
     public: ReadOnlySpan<Byte> get_Preamble();
+    public: Object Clone();
+    public: Array<Byte> GetBytes(String s);
+    private: Array<Byte> GetBytesForSmallInput(String s);
+    public: String GetString(Array<Byte> bytes);
+    private: String GetStringForSmallInput(Array<Byte> bytes);
   };
   public: static ReadOnlySpan<Byte> get_PreambleSpan();
   public: ReadOnlySpan<Byte> get_Preamble();
@@ -67,7 +72,7 @@ CLASS(UTF8Encoding) {
   public: Boolean Equals(Object value);
   public: Int32 GetHashCode();
   public: static UTF8EncodingSealed s_default;
-  public: Boolean _emitUTF8Identifier;
+  private: Boolean _emitUTF8Identifier;
   private: Boolean _isThrowException;
 };
 } // namespace UTF8EncodingNamespace

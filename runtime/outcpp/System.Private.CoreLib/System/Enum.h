@@ -18,10 +18,10 @@ FORWARD(String)
 FORWARD(Object)
 FORWARD(RuntimeType)
 FORWARDS(Int64)
-FORWARDS(Int32)
 FORWARD(Type)
 FORWARDS(ReadOnlySpan, T)
 FORWARDS(Char)
+FORWARDS(Int32)
 enum class TypeCode;
 FORWARDS(UInt32)
 FORWARD(IFormatProvider)
@@ -41,7 +41,6 @@ CLASS(Enum) {
   private: static void GetEnumValuesAndNames(QCallTypeHandle enumType, ObjectHandleOnStack values, ObjectHandleOnStack names, Interop::BOOL getNames);
   public: Boolean Equals(Object obj);
   private: static Object InternalBoxEnum(RuntimeType enumType, Int64 value);
-  private: static Int32 InternalCompareTo(Object thisRef, Object target);
   private: CorElementType InternalGetCorElementType();
   public: static RuntimeType InternalGetUnderlyingType(RuntimeType enumType);
   private: Boolean InternalHasFlag(Enum flags);
@@ -55,7 +54,6 @@ CLASS(Enum) {
   public: static Array<> GetValues(Type enumType);
   public: static Boolean IsDefined(Type enumType, Object value);
   private: static RuntimeType ValidateRuntimeType(Type enumType);
-  public: Int32 CompareTo(Object target);
   private: String ValueToString();
   private: String ValueToHexString();
   private: static String ValueToHexString(Object value);
@@ -83,6 +81,7 @@ CLASS(Enum) {
   private: UInt64 ToUInt64();
   public: Int32 GetHashCode();
   public: String ToString();
+  public: Int32 CompareTo(Object target);
   public: String ToString(String format, IFormatProvider provider);
   public: String ToString(String format);
   public: String ToString(IFormatProvider provider);

@@ -50,6 +50,9 @@ void StringBuilder___::ReplaceBufferAnsiInternal(SByte* newBuffer, Int32 newLeng
 };
 void StringBuilder___::InternalCopy(IntPtr dest, Int32 len) {
 };
+StringBuilder StringBuilder___::FindChunkForByte(Int32 byteIndex) {
+  return nullptr;
+};
 Int32 StringBuilder___::EnsureCapacity(Int32 capacity) {
   return Int32();
 };
@@ -285,9 +288,6 @@ void StringBuilder___::ThreadSafeCopy(Char* sourcePtr, Array<Char> destination, 
 void StringBuilder___::ThreadSafeCopy(Array<Char> source, Int32 sourceIndex, Span<Char> destination, Int32 destinationIndex, Int32 count) {
 };
 StringBuilder StringBuilder___::FindChunkForIndex(Int32 index) {
-  return nullptr;
-};
-StringBuilder StringBuilder___::FindChunkForByte(Int32 byteIndex) {
   return nullptr;
 };
 StringBuilder StringBuilder___::Next(StringBuilder chunk) {

@@ -19,8 +19,8 @@
 #include <System.Private.CoreLib/System/RuntimeType-dep.h>
 #include <System.Private.CoreLib/System/SByte-dep.h>
 #include <System.Private.CoreLib/System/String-dep.h>
-#include <System.Private.CoreLib/System/TypeCode.h>
 #include <System.Private.CoreLib/System/Type-dep.h>
+#include <System.Private.CoreLib/System/TypeCode.h>
 #include <System.Private.CoreLib/System/UInt16-dep.h>
 #include <System.Private.CoreLib/System/UInt32-dep.h>
 #include <System.Private.CoreLib/System/UInt64-dep.h>

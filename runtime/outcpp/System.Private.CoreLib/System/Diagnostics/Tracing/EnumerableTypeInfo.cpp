@@ -1,6 +1,9 @@
 #include "EnumerableTypeInfo-dep.h"
 
 namespace System::Private::CoreLib::System::Diagnostics::Tracing::EnumerableTypeInfoNamespace {
+TraceLoggingTypeInfo EnumerableTypeInfo___::get_ElementInfo() {
+  return nullptr;
+};
 void EnumerableTypeInfo___::WriteMetadata(TraceLoggingMetadataCollector collector, String name, EventFieldFormat format) {
 };
 void EnumerableTypeInfo___::WriteData(TraceLoggingDataCollector collector, PropertyValue value) {

@@ -75,6 +75,9 @@ Array<Type> RuntimeTypeHandle::GetConstraints() {
 IntPtr RuntimeTypeHandle::GetGCHandle(GCHandleType type) {
   return IntPtr();
 };
+IntPtr RuntimeTypeHandle::FreeGCHandle(IntPtr objHandle) {
+  return IntPtr();
+};
 void RuntimeTypeHandle::VerifyInterfaceIsImplemented(RuntimeTypeHandle interfaceHandle) {
 };
 RuntimeMethodHandleInternal RuntimeTypeHandle::GetInterfaceMethodImplementation(RuntimeTypeHandle interfaceHandle, RuntimeMethodHandleInternal interfaceMethodHandle) {
@@ -89,13 +92,10 @@ String RuntimeTypeHandle::ConstructName(TypeNameFormatFlags formatFlags) {
 MdUtf8String RuntimeTypeHandle::GetUtf8Name(RuntimeType type) {
   return MdUtf8String();
 };
-IRuntimeMethodInfo RuntimeTypeHandle::GetDefaultConstructor() {
+RuntimeType RuntimeTypeHandle::GetTypeByName(String name, Boolean throwOnError, Boolean ignoreCase, StackCrawlMark& stackMark) {
   return nullptr;
 };
-RuntimeType RuntimeTypeHandle::GetTypeByName(String name, Boolean throwOnError, Boolean ignoreCase, StackCrawlMark& stackMark, Boolean loadTypeFromPartialName) {
-  return nullptr;
-};
-RuntimeType RuntimeTypeHandle::GetTypeByName(String name, Boolean throwOnError, Boolean ignoreCase, StackCrawlMark& stackMark, AssemblyLoadContext assemblyLoadContext, Boolean loadTypeFromPartialName) {
+RuntimeType RuntimeTypeHandle::GetTypeByName(String name, Boolean throwOnError, Boolean ignoreCase, StackCrawlMark& stackMark, AssemblyLoadContext assemblyLoadContext) {
   return nullptr;
 };
 RuntimeType RuntimeTypeHandle::GetTypeByNameUsingCARules(String name, RuntimeModule scope) {

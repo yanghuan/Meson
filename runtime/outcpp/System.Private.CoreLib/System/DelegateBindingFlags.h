@@ -8,7 +8,6 @@ enum class DelegateBindingFlags {
   ClosedDelegateOnly = 8,
   NeverCloseOverNull = 16,
   CaselessMatching = 32,
-  SkipSecurityChecks = 64,
-  RelaxedSignature = 128,
+  RelaxedSignature = 64,
 };
 } // namespace System::Private::CoreLib::System

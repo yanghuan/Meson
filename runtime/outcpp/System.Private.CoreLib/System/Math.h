@@ -10,8 +10,8 @@ FORWARDS(Int16)
 FORWARDS(Int64)
 FORWARDS(SByte)
 FORWARDS(Decimal)
-FORWARDS(UInt32)
 FORWARDS(UInt64)
+FORWARDS(UInt32)
 FORWARDS(Byte)
 FORWARDS(UInt16)
 enum class MidpointRounding;
@@ -53,6 +53,8 @@ class Math {
   public: static Decimal Abs(Decimal value);
   private: static void ThrowAbsOverflow();
   public: static Int64 BigMul(Int32 a, Int32 b);
+  public: static UInt64 BigMul(UInt64 a, UInt64 b, UInt64& low);
+  public: static Int64 BigMul(Int64 a, Int64 b, Int64& low);
   public: static Double BitDecrement(Double x);
   public: static Double BitIncrement(Double x);
   public: static Double CopySign(Double x, Double y);

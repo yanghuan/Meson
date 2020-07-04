@@ -23,7 +23,7 @@ CLASS(ThreadPoolBoundHandle) {
   public: NativeOverlapped* AllocateNativeOverlapped(PreAllocatedOverlapped preAllocated);
   public: void FreeNativeOverlapped(NativeOverlapped* overlapped);
   public: static Object GetNativeOverlappedState(NativeOverlapped* overlapped);
-  private: static ThreadPoolBoundHandleOverlapped GetOverlappedWrapper(NativeOverlapped* overlapped, ThreadPoolBoundHandle expectedBoundHandle);
+  private: static ThreadPoolBoundHandleOverlapped GetOverlappedWrapper(NativeOverlapped* overlapped);
   public: void Dispose();
   private: void EnsureNotDisposed();
   private: static ThreadPoolBoundHandle BindHandleCore(SafeHandle handle);

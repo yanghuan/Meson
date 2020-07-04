@@ -30,19 +30,17 @@ Object ComActivator::GetClassFactoryForType(ComActivationContext cxt) {
 };
 void ComActivator::ClassRegistrationScenarioForType(ComActivationContext cxt, Boolean register_) {
 };
-Int32 ComActivator::GetClassFactoryForTypeInternal(ComActivationContextInternal& cxtInt) {
+Int32 ComActivator::GetClassFactoryForTypeInternal(ComActivationContextInternal* pCxtInt) {
   return Int32();
 };
-Int32 ComActivator::RegisterClassForTypeInternal(ComActivationContextInternal& cxtInt) {
+Int32 ComActivator::RegisterClassForTypeInternal(ComActivationContextInternal* pCxtInt) {
   return Int32();
 };
-Int32 ComActivator::UnregisterClassForTypeInternal(ComActivationContextInternal& cxtInt) {
+Int32 ComActivator::UnregisterClassForTypeInternal(ComActivationContextInternal* pCxtInt) {
   return Int32();
 };
 Boolean ComActivator::IsLoggingEnabled() {
   return Boolean();
-};
-void ComActivator::Log(String fmt, Array<Object> args) {
 };
 Type ComActivator::FindClassType(Guid clsid, String assemblyPath, String assemblyName, String typeName) {
   return nullptr;

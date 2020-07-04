@@ -9,6 +9,7 @@ namespace System::Private::CoreLib::System {
 FORWARD_(Array, T1, T2)
 FORWARDS(Char)
 FORWARD(Object)
+FORWARDS(ReadOnlySpan, T)
 FORWARD(String)
 FORWARDS(UInt32)
 } // namespace System::Private::CoreLib::System
@@ -155,11 +156,11 @@ CLASS(CultureData) {
   public: Int32 get_LCID();
   public: Boolean get_IsNeutralCulture();
   public: Boolean get_IsInvariantCulture();
+  public: Boolean get_IsReplacementCulture();
   public: Calendar get_DefaultCalendar();
   public: String get_TimeSeparator();
-  public: Boolean get_IsFramework();
+  public: Boolean get_NlsIsReplacementCulture();
   public: Boolean get_IsWin32Installed();
-  public: Boolean get_IsReplacementCulture();
   public: static CultureData GetCultureDataForRegion(String cultureName, Boolean useUserOverride);
   public: static void ClearCachedData();
   public: static Array<CultureInfo> GetCultures(CultureTypes types);
@@ -169,7 +170,7 @@ CLASS(CultureData) {
   private: static CultureData CreateCultureData(String cultureName, Boolean useUserOverride);
   private: Boolean InitCompatibilityCultureData();
   public: static CultureData GetCultureData(Int32 culture, Boolean bUseUserOverride);
-  private: Array<String> AdjustShortTimesForMac(Array<String> shortTimes);
+  private: String GetLanguageDisplayNameCore(String cultureName);
   private: Array<String> DeriveShortTimesFromLong();
   private: static String StripSecondsFromPattern(String time);
   private: static Int32 GetIndexOfNextTokenAfterSeconds(String time, Int32 index, Boolean& containsSpace);
@@ -199,22 +200,48 @@ CLASS(CultureData) {
   public: static Boolean IsCustomCultureId(Int32 cultureId);
   public: void GetNFIValues(NumberFormatInfo nfi);
   public: static String AnsiToLower(String testString);
-  private: Boolean InitCultureData();
+  private: Int32 GetLocaleInfoCore(LocaleNumberData type);
+  private: String GetLocaleInfoCore(LocaleStringData type);
+  private: String GetLocaleInfoCore(String localeName, LocaleStringData type);
+  private: Array<Int32> GetLocaleInfoCore(LocaleGroupingData type);
+  private: String IcuGetLocaleInfo(LocaleStringData type);
+  private: String IcuGetLocaleInfo(String localeName, LocaleStringData type);
+  private: Int32 IcuGetLocaleInfo(LocaleNumberData type);
+  private: Array<Int32> IcuGetLocaleInfo(LocaleGroupingData type);
+  private: String IcuGetTimeFormatString();
+  private: String IcuGetTimeFormatString(Boolean shortFormat);
+  private: Int32 IcuGetFirstDayOfWeek();
+  private: Array<String> IcuGetTimeFormats();
+  private: Array<String> IcuGetShortTimeFormats();
+  private: static CultureData IcuGetCultureDataFromRegionName(String regionName);
+  private: static String IcuGetLanguageDisplayName(String cultureName);
+  private: static String IcuGetRegionDisplayName();
+  private: static String ConvertIcuTimeFormatString(ReadOnlySpan<Char> icuFormatString);
+  private: static String IcuLCIDToLocaleName(Int32 culture);
+  private: static Int32 IcuLocaleNameToLCID(String cultureName);
+  private: static Int32 IcuGetAnsiCodePage(String cultureName);
+  private: static Int32 IcuGetOemCodePage(String cultureName);
+  private: static Int32 IcuGetMacCodePage(String cultureName);
+  private: static Int32 IcuGetEbcdicCodePage(String cultureName);
+  private: static Int32 IcuGetGeoId(String cultureName);
+  private: static Int32 IcuGetDigitSubstitution(String cultureName);
+  private: static String IcuGetThreeLetterWindowsLanguageName(String cultureName);
+  private: static Array<CultureInfo> IcuEnumCultures(CultureTypes types);
+  private: static String IcuGetConsoleFallbackName(String cultureName);
   public: static String GetLocaleInfoEx(String localeName, UInt32 field);
   public: static Int32 GetLocaleInfoExInt(String localeName, UInt32 field);
   public: static Int32 GetLocaleInfoEx(String lpLocaleName, UInt32 lcType, Char* lpLCData, Int32 cchData);
-  private: String GetLocaleInfo(LocaleStringData type);
-  private: String GetLocaleInfo(String localeName, LocaleStringData type);
-  private: Int32 GetLocaleInfo(LocaleNumberData type);
-  private: Array<Int32> GetLocaleInfo(LocaleGroupingData type);
-  private: String GetTimeFormatString();
-  private: Int32 GetFirstDayOfWeek();
-  private: Array<String> GetTimeFormats();
-  private: Array<String> GetShortTimeFormats();
-  private: static CultureData GetCultureDataFromRegionName(String regionName);
-  private: String GetLanguageDisplayName(String cultureName);
-  private: String GetRegionDisplayName(String isoCountryCode);
-  private: static CultureInfo GetUserDefaultCulture();
+  private: String NlsGetLocaleInfo(LocaleStringData type);
+  private: String NlsGetLocaleInfo(String localeName, LocaleStringData type);
+  private: Int32 NlsGetLocaleInfo(LocaleNumberData type);
+  private: Array<Int32> NlsGetLocaleInfo(LocaleGroupingData type);
+  private: String NlsGetTimeFormatString();
+  private: Int32 NlsGetFirstDayOfWeek();
+  private: Array<String> NlsGetTimeFormats();
+  private: Array<String> NlsGetShortTimeFormats();
+  private: static CultureData NlsGetCultureDataFromRegionName(String regionName);
+  private: String NlsGetLanguageDisplayName(String cultureName);
+  private: String NlsGetRegionDisplayName();
   private: static String GetLocaleInfoFromLCType(String localeName, UInt32 lctype, Boolean useUserOveride);
   public: static String ReescapeWin32String(String str);
   public: static Array<String> ReescapeWin32Strings(Array<String> array);
@@ -224,17 +251,19 @@ CLASS(CultureData) {
   private: static Interop::BOOL EnumAllSystemLocalesProc(Char* lpLocaleString, UInt32 flags, void* contextHandle);
   private: static Interop::BOOL EnumTimeCallback(Char* lpTimeFormatString, void* lParam);
   private: static Array<String> nativeEnumTimeFormats(String localeName, UInt32 dwFlags, Boolean useUserOverride);
-  private: static Int32 LocaleNameToLCID(String cultureName);
-  private: static String LCIDToLocaleName(Int32 culture);
-  private: Int32 GetAnsiCodePage(String cultureName);
-  private: Int32 GetOemCodePage(String cultureName);
-  private: Int32 GetMacCodePage(String cultureName);
-  private: Int32 GetEbcdicCodePage(String cultureName);
-  private: Int32 GetGeoId(String cultureName);
-  private: Int32 GetDigitSubstitution(String cultureName);
-  private: String GetThreeLetterWindowsLanguageName(String cultureName);
-  private: static Array<CultureInfo> EnumCultures(CultureTypes types);
-  private: String GetConsoleFallbackName(String cultureName);
+  private: static Int32 NlsLocaleNameToLCID(String cultureName);
+  private: static String NlsLCIDToLocaleName(Int32 culture);
+  private: Int32 NlsGetAnsiCodePage(String cultureName);
+  private: Int32 NlsGetOemCodePage(String cultureName);
+  private: Int32 NlsGetMacCodePage(String cultureName);
+  private: Int32 NlsGetEbcdicCodePage(String cultureName);
+  private: Int32 NlsGetGeoId(String cultureName);
+  private: Int32 NlsGetDigitSubstitution(String cultureName);
+  private: String NlsGetThreeLetterWindowsLanguageName(String cultureName);
+  private: static Array<CultureInfo> NlsEnumCultures(CultureTypes types);
+  private: String NlsGetConsoleFallbackName(String cultureName);
+  private: Boolean InitCultureDataCore();
+  public: static CultureData GetCurrentRegionData();
   private: String _sRealName;
   private: String _sWindowsName;
   private: String _sName;

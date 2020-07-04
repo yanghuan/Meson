@@ -125,9 +125,9 @@ class DateTimeParse {
   private: static Boolean HandleTimeZone(__DTString& str, DateTimeResult& result);
   private: static Boolean Lex(DS dps, __DTString& str, DateTimeToken& dtok, DateTimeRawInfo& raw, DateTimeResult& result, DateTimeFormatInfo& dtfi, DateTimeStyles styles);
   private: static Boolean VerifyValidPunctuation(__DTString& str);
-  private: static Boolean GetYearMonthDayOrder(String datePattern, DateTimeFormatInfo dtfi, Int32& order);
-  private: static Boolean GetYearMonthOrder(String pattern, DateTimeFormatInfo dtfi, Int32& order);
-  private: static Boolean GetMonthDayOrder(String pattern, DateTimeFormatInfo dtfi, Int32& order);
+  private: static Boolean GetYearMonthDayOrder(String datePattern, Int32& order);
+  private: static Boolean GetYearMonthOrder(String pattern, Int32& order);
+  private: static Boolean GetMonthDayOrder(String pattern, Int32& order);
   private: static Boolean TryAdjustYear(DateTimeResult& result, Int32 year, Int32& adjustedYear);
   private: static Boolean SetDateYMD(DateTimeResult& result, Int32 year, Int32 month, Int32 day);
   private: static Boolean SetDateMDY(DateTimeResult& result, Int32 month, Int32 day, Int32 year);
@@ -154,8 +154,8 @@ class DateTimeParse {
   private: static Boolean GetDateOfNDS(DateTimeResult& result, DateTimeRawInfo& raw);
   private: static Boolean GetDateOfNNDS(DateTimeResult& result, DateTimeRawInfo& raw, DateTimeFormatInfo dtfi);
   private: static Boolean ProcessDateTimeSuffix(DateTimeResult& result, DateTimeRawInfo& raw, DateTimeToken& dtok);
-  public: static Boolean ProcessHebrewTerminalState(DS dps, __DTString& str, DateTimeResult& result, DateTimeStyles& styles, DateTimeRawInfo& raw, DateTimeFormatInfo dtfi);
-  public: static Boolean ProcessTerminalState(DS dps, __DTString& str, DateTimeResult& result, DateTimeStyles& styles, DateTimeRawInfo& raw, DateTimeFormatInfo dtfi);
+  public: static Boolean ProcessHebrewTerminalState(DS dps, DateTimeResult& result, DateTimeStyles& styles, DateTimeRawInfo& raw, DateTimeFormatInfo dtfi);
+  public: static Boolean ProcessTerminalState(DS dps, DateTimeResult& result, DateTimeStyles& styles, DateTimeRawInfo& raw, DateTimeFormatInfo dtfi);
   public: static DateTime Parse(ReadOnlySpan<Char> s, DateTimeFormatInfo dtfi, DateTimeStyles styles);
   public: static DateTime Parse(ReadOnlySpan<Char> s, DateTimeFormatInfo dtfi, DateTimeStyles styles, TimeSpan& offset);
   public: static Boolean TryParse(ReadOnlySpan<Char> s, DateTimeFormatInfo dtfi, DateTimeStyles styles, DateTime& result);
@@ -190,10 +190,10 @@ class DateTimeParse {
   public: static Boolean TryParseQuoteString(ReadOnlySpan<Char> format, Int32 pos, StringBuilder result, Int32& returnValue);
   private: static Boolean DoStrictParse(ReadOnlySpan<Char> s, ReadOnlySpan<Char> formatParam, DateTimeStyles styles, DateTimeFormatInfo dtfi, DateTimeResult& result);
   private: static Boolean ParseFormatR(ReadOnlySpan<Char> source, ParsingInfo& parseInfo, DateTimeResult& result);
-  private: static Boolean ParseFormatO(ReadOnlySpan<Char> source, ParsingInfo& parseInfo, DateTimeResult& result);
+  private: static Boolean ParseFormatO(ReadOnlySpan<Char> source, DateTimeResult& result);
   private: static Exception GetDateTimeParseException(DateTimeResult& result);
-  public: static MatchNumberDelegate m_hebrewNumberParser;
-  private: static Array<Array<DS>> dateParsingStates;
+  private: static MatchNumberDelegate s_hebrewNumberParser;
+  private: static Array<Array<DS>> s_dateParsingStates;
 };
 } // namespace DateTimeParseNamespace
 using DateTimeParse = DateTimeParseNamespace::DateTimeParse;

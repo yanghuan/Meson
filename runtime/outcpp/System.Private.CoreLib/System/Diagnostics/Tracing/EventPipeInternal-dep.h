@@ -5,6 +5,7 @@
 #include <System.Private.CoreLib/Interop-dep.h>
 #include <System.Private.CoreLib/System/Array-dep.h>
 #include <System.Private.CoreLib/System/Boolean-dep.h>
+#include <System.Private.CoreLib/System/Char-dep.h>
 #include <System.Private.CoreLib/System/Diagnostics/Tracing/EventPipeEventInstanceData-dep.h>
 #include <System.Private.CoreLib/System/Diagnostics/Tracing/EventPipeProviderConfiguration-dep.h>
 #include <System.Private.CoreLib/System/Diagnostics/Tracing/EventPipeSerializationFormat.h>

@@ -10,7 +10,7 @@
 #include <System.Private.CoreLib/System/IAsyncResult.h>
 #include <System.Private.CoreLib/System/Int32-dep.h>
 #include <System.Private.CoreLib/System/Threading/CancellationToken-dep.h>
+#include <System.Private.CoreLib/System/Threading/Tasks/Task-dep.h>
 #include <System.Private.CoreLib/System/Threading/Tasks/TaskContinuationOptions.h>
 #include <System.Private.CoreLib/System/Threading/Tasks/TaskCreationOptions.h>
-#include <System.Private.CoreLib/System/Threading/Tasks/Task-dep.h>
 #include <System.Private.CoreLib/System/Threading/Tasks/TaskScheduler-dep.h>

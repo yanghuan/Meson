@@ -5,6 +5,9 @@
 #include <System.Private.CoreLib/System/Boolean.h>
 #include <System.Private.CoreLib/System/Int32.h>
 
+namespace System::Private::CoreLib::System::Collections::Generic {
+FORWARD(List, T)
+} // namespace System::Private::CoreLib::System::Collections::Generic
 namespace System::Private::CoreLib::System {
 FORWARD_(Array, T1, T2)
 FORWARDS(Char)
@@ -12,19 +15,25 @@ FORWARDS(IntPtr)
 FORWARD(String)
 FORWARDS(UInt32)
 } // namespace System::Private::CoreLib::System
-namespace System::Private::CoreLib::System::Collections::Generic {
-FORWARD(List, T)
-} // namespace System::Private::CoreLib::System::Collections::Generic
+namespace System::Private::CoreLib::System::Text {
+FORWARD(StringBuilder)
+} // namespace System::Private::CoreLib::System::Text
 namespace System::Private::CoreLib::System::Globalization {
 enum class CalendarId : uint16_t;
+enum class CalendarDataType;
 namespace CalendarDataNamespace {
 using namespace ::System::Private::CoreLib::System::Collections::Generic;
+using namespace ::System::Private::CoreLib::System::Text;
 CLASS(CalendarData) {
+  private: struct IcuEnumCalendarsData {
+    public: List<String> Results;
+    public: Boolean DisallowDuplicates;
+  };
   private: struct EnumData {
     public: String userOverride;
     public: List<String> strings;
   };
-  private: struct EnumCalendarsData {
+  public: struct NlsEnumCalendarsData {
     public: Int32 userOverride;
     public: List<Int32> calendars;
   };
@@ -33,10 +42,26 @@ CLASS(CalendarData) {
   private: void InitializeAbbreviatedEraNames(String localeName, CalendarId calendarId);
   public: static CalendarData GetCalendarData(CalendarId calendarId);
   private: static String CalendarIdToCultureName(CalendarId calendarId);
-  private: Boolean LoadCalendarDataFromSystem(String localeName, CalendarId calendarId);
-  public: static Int32 GetTwoDigitYearMax(CalendarId calendarId);
-  public: static Int32 GetCalendars(String localeName, Boolean useUserOverride, Array<CalendarId> calendars);
-  private: static Boolean SystemSupportsTaiwaneseCalendar();
+  private: Boolean SystemSupportsTaiwaneseCalendar();
+  private: Boolean IcuLoadCalendarDataFromSystem(String localeName, CalendarId calendarId);
+  public: static Int32 IcuGetTwoDigitYearMax(CalendarId calendarId);
+  public: static Int32 IcuGetCalendars(String localeName, Boolean useUserOverride, Array<CalendarId> calendars);
+  private: static Boolean IcuSystemSupportsTaiwaneseCalendar();
+  private: static Boolean GetCalendarInfo(String localeName, CalendarId calendarId, CalendarDataType dataType, String& calendarString);
+  private: static Boolean EnumDatePatterns(String localeName, CalendarId calendarId, CalendarDataType dataType, Array<String>& datePatterns);
+  private: static void FixDefaultShortDatePattern(List<String> shortDatePatterns);
+  private: static String NormalizeDatePattern(String input);
+  private: static void NormalizeDayOfWeek(String input, StringBuilder destination, Int32& index);
+  private: static Int32 CountOccurrences(String input, Char value, Int32& index);
+  private: static Boolean EnumMonthNames(String localeName, CalendarId calendarId, CalendarDataType dataType, Array<String>& monthNames, String& leapHebrewMonthName);
+  private: static Boolean EnumEraNames(String localeName, CalendarId calendarId, CalendarDataType dataType, Array<String>& eraNames);
+  public: static Boolean EnumCalendarInfo(String localeName, CalendarId calendarId, CalendarDataType dataType, Array<String>& calendarData);
+  private: static Boolean EnumCalendarInfo(String localeName, CalendarId calendarId, CalendarDataType dataType, IcuEnumCalendarsData& callbackContext);
+  private: static void EnumCalendarInfoCallback(String calendarString, IntPtr context);
+  private: Boolean NlsLoadCalendarDataFromSystem(String localeName, CalendarId calendarId);
+  public: static Int32 NlsGetTwoDigitYearMax(CalendarId calendarId);
+  public: static Int32 NlsGetCalendars(String localeName, Boolean useUserOverride, Array<CalendarId> calendars);
+  private: static Boolean NlsSystemSupportsTaiwaneseCalendar();
   private: static void CheckSpecialCalendar(CalendarId& calendar, String& localeName);
   private: static Boolean CallGetCalendarInfoEx(String localeName, CalendarId calendar, UInt32 calType, Int32& data);
   private: static Boolean CallGetCalendarInfoEx(String localeName, CalendarId calendar, UInt32 calType, String& data);

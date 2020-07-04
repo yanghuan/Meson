@@ -10,6 +10,9 @@ FORWARD(Exception)
 FORWARD(String)
 FORWARD(Type)
 } // namespace System::Private::CoreLib::System
+namespace System::Private::CoreLib::System::Text {
+FORWARD(StringBuilder)
+} // namespace System::Private::CoreLib::System::Text
 namespace System::Private::CoreLib::System::Reflection {
 FORWARD(MethodBase)
 } // namespace System::Private::CoreLib::System::Reflection
@@ -18,6 +21,7 @@ FORWARD(StackFrameHelper)
 FORWARD(StackFrame)
 namespace StackTraceNamespace {
 using namespace ::System::Private::CoreLib::System::Reflection;
+using namespace ::System::Private::CoreLib::System::Text;
 CLASS(StackTrace) {
   public: enum class TraceFormat {
     Normal = 0,
@@ -33,6 +37,7 @@ CLASS(StackTrace) {
   public: Array<StackFrame> GetFrames();
   public: String ToString();
   public: String ToString(TraceFormat traceFormat);
+  public: void ToString(TraceFormat traceFormat, StringBuilder sb);
   private: static Boolean ShowInStackTrace(MethodBase mb);
   private: static Boolean TryResolveStateMachineMethod(MethodBase& method, Type& declaringType);
   public: static Int32 METHODS_TO_SKIP;

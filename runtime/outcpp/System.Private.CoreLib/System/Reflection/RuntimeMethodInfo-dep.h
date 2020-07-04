@@ -5,8 +5,8 @@
 #include <System.Private.CoreLib/System/Array-dep.h>
 #include <System.Private.CoreLib/System/Boolean-dep.h>
 #include <System.Private.CoreLib/System/Collections/Generic/IList.h>
-#include <System.Private.CoreLib/System/DelegateBindingFlags.h>
 #include <System.Private.CoreLib/System/Delegate-dep.h>
+#include <System.Private.CoreLib/System/DelegateBindingFlags.h>
 #include <System.Private.CoreLib/System/Globalization/CultureInfo-dep.h>
 #include <System.Private.CoreLib/System/Int32-dep.h>
 #include <System.Private.CoreLib/System/IntPtr-dep.h>

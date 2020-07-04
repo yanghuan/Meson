@@ -1,10 +1,10 @@
 #include "BitOperations-dep.h"
 
 namespace System::Private::CoreLib::System::Numerics::BitOperationsNamespace {
-ReadOnlySpan<Byte> BitOperations::get_s_TrailingZeroCountDeBruijn() {
+ReadOnlySpan<Byte> BitOperations::get_TrailingZeroCountDeBruijn() {
   return ReadOnlySpan<Byte>();
 };
-ReadOnlySpan<Byte> BitOperations::get_s_Log2DeBruijn() {
+ReadOnlySpan<Byte> BitOperations::get_Log2DeBruijn() {
   return ReadOnlySpan<Byte>();
 };
 Int32 BitOperations::LeadingZeroCount(UInt32 value) {

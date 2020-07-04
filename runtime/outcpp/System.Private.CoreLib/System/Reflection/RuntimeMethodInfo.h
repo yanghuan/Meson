@@ -74,7 +74,7 @@ CLASS(RuntimeMethodInfo) {
   public: Boolean get_IsGenericMethod();
   public: Boolean get_IsGenericMethodDefinition();
   public: Boolean get_ContainsGenericParameters();
-  private: Boolean IsDisallowedByRefType(Type type);
+  private: static Boolean IsDisallowedByRefType(Type type);
   private: Array<ParameterInfo> FetchNonReturnParameters();
   private: ParameterInfo FetchReturnParameter();
   public: Boolean CacheEquals(Object o);

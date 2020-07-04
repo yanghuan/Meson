@@ -55,8 +55,8 @@ CLASS(SignatureHelper) {
   private: void AddToken(Int32 token);
   private: void InternalAddTypeToken(TypeToken clsToken, CorElementType CorType);
   private: void InternalAddRuntimeType(Type type);
-  private: Array<Byte> ExpandArray(Array<Byte> inArray);
-  private: Array<Byte> ExpandArray(Array<Byte> inArray, Int32 requiredLength);
+  private: static Array<Byte> ExpandArray(Array<Byte> inArray);
+  private: static Array<Byte> ExpandArray(Array<Byte> inArray, Int32 requiredLength);
   private: void IncrementArgCounts();
   private: void SetNumberOfSignatureElements(Boolean forceCopy);
   public: static Boolean IsSimpleType(CorElementType type);

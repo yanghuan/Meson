@@ -3,9 +3,6 @@
 #include <System.Private.CoreLib/System/Globalization/TextInfo-dep.h>
 
 namespace System::Private::CoreLib::System::Globalization::TextInfoNamespace {
-TextInfo TextInfo___::get_Invariant() {
-  return nullptr;
-};
 Int32 TextInfo___::get_ANSICodePage() {
   return Int32();
 };
@@ -38,6 +35,9 @@ Boolean TextInfo___::get_IsAsciiCasingSameAsInvariant() {
 Boolean TextInfo___::get_IsRightToLeft() {
   return Boolean();
 };
+Boolean TextInfo___::get_IsInvariant() {
+  return Boolean();
+};
 Object TextInfo___::Clone() {
   return nullptr;
 };
@@ -49,6 +49,9 @@ void TextInfo___::VerifyWritable() {
 void TextInfo___::SetReadOnlyState(Boolean readOnly) {
 };
 Char TextInfo___::ToLower(Char c) {
+  return Char();
+};
+Char TextInfo___::ToLowerInvariant(Char c) {
   return Char();
 };
 String TextInfo___::ToLower(String str) {
@@ -77,14 +80,14 @@ Char TextInfo___::ToLowerAsciiInvariant(Char c) {
 Char TextInfo___::ToUpper(Char c) {
   return Char();
 };
+Char TextInfo___::ToUpperInvariant(Char c) {
+  return Char();
+};
 String TextInfo___::ToUpper(String str) {
   return nullptr;
 };
 Char TextInfo___::ToUpperAsciiInvariant(Char c) {
   return Char();
-};
-Boolean TextInfo___::IsAscii(Char c) {
-  return Boolean();
 };
 void TextInfo___::PopulateIsAsciiCasingSameAsInvariant() {
 };
@@ -106,15 +109,20 @@ Int32 TextInfo___::AddNonLetter(StringBuilder& result, String& input, Int32 inpu
 Int32 TextInfo___::AddTitlecaseLetter(StringBuilder& result, String& input, Int32 inputIndex, Int32 charLen) {
   return Int32();
 };
+void TextInfo___::ChangeCaseCore(Char* src, Int32 srcLen, Char* dstBuffer, Int32 dstBufferCapacity, Boolean bToUpper) {
+};
 Boolean TextInfo___::IsWordSeparator(UnicodeCategory category) {
   return Boolean();
 };
 Boolean TextInfo___::IsLetterCategory(UnicodeCategory uc) {
   return Boolean();
 };
-void TextInfo___::FinishInitialization() {
+Boolean TextInfo___::NeedsTurkishCasing(String localeName) {
+  return Boolean();
 };
-void TextInfo___::ChangeCase(Char* pSource, Int32 pSourceLen, Char* pResult, Int32 pResultLen, Boolean toUpper) {
+void TextInfo___::IcuChangeCase(Char* src, Int32 srcLen, Char* dstBuffer, Int32 dstBufferCapacity, Boolean bToUpper) {
+};
+void TextInfo___::NlsChangeCase(Char* pSource, Int32 pSourceLen, Char* pResult, Int32 pResultLen, Boolean toUpper) {
 };
 Boolean TextInfo___::IsInvariantLocale(String localeName) {
   return Boolean();

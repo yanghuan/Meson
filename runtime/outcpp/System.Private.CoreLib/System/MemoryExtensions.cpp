@@ -1,14 +1,32 @@
 #include "MemoryExtensions-dep.h"
 
 namespace System::Private::CoreLib::System::MemoryExtensionsNamespace {
+ReadOnlySpan<Char> MemoryExtensions::AsSpan(String text) {
+  return ReadOnlySpan<Char>();
+};
+ReadOnlySpan<Char> MemoryExtensions::AsSpan(String text, Int32 start) {
+  return ReadOnlySpan<Char>();
+};
+ReadOnlySpan<Char> MemoryExtensions::AsSpan(String text, Int32 start, Int32 length) {
+  return ReadOnlySpan<Char>();
+};
+ReadOnlyMemory<Char> MemoryExtensions::AsMemory(String text) {
+  return ReadOnlyMemory<Char>();
+};
+ReadOnlyMemory<Char> MemoryExtensions::AsMemory(String text, Int32 start) {
+  return ReadOnlyMemory<Char>();
+};
+ReadOnlyMemory<Char> MemoryExtensions::AsMemory(String text, Index startIndex) {
+  return ReadOnlyMemory<Char>();
+};
+ReadOnlyMemory<Char> MemoryExtensions::AsMemory(String text, Int32 start, Int32 length) {
+  return ReadOnlyMemory<Char>();
+};
+ReadOnlyMemory<Char> MemoryExtensions::AsMemory(String text, Range range) {
+  return ReadOnlyMemory<Char>();
+};
 Boolean MemoryExtensions::IsWhiteSpace(ReadOnlySpan<Char> span) {
   return Boolean();
-};
-SpanRuneEnumerator MemoryExtensions::EnumerateRunes(ReadOnlySpan<Char> span) {
-  return SpanRuneEnumerator();
-};
-SpanRuneEnumerator MemoryExtensions::EnumerateRunes(Span<Char> span) {
-  return SpanRuneEnumerator();
 };
 Boolean MemoryExtensions::Contains(ReadOnlySpan<Char> span, ReadOnlySpan<Char> value, StringComparison comparisonType) {
   return Boolean();
@@ -46,32 +64,20 @@ Int32 MemoryExtensions::ToUpperInvariant(ReadOnlySpan<Char> source, Span<Char> d
 Boolean MemoryExtensions::EndsWith(ReadOnlySpan<Char> span, ReadOnlySpan<Char> value, StringComparison comparisonType) {
   return Boolean();
 };
+Boolean MemoryExtensions::EndsWithOrdinalIgnoreCase(ReadOnlySpan<Char> span, ReadOnlySpan<Char> value) {
+  return Boolean();
+};
 Boolean MemoryExtensions::StartsWith(ReadOnlySpan<Char> span, ReadOnlySpan<Char> value, StringComparison comparisonType) {
   return Boolean();
 };
-ReadOnlySpan<Char> MemoryExtensions::AsSpan(String text) {
-  return ReadOnlySpan<Char>();
+Boolean MemoryExtensions::StartsWithOrdinalIgnoreCase(ReadOnlySpan<Char> span, ReadOnlySpan<Char> value) {
+  return Boolean();
 };
-ReadOnlySpan<Char> MemoryExtensions::AsSpan(String text, Int32 start) {
-  return ReadOnlySpan<Char>();
+SpanRuneEnumerator MemoryExtensions::EnumerateRunes(ReadOnlySpan<Char> span) {
+  return SpanRuneEnumerator();
 };
-ReadOnlySpan<Char> MemoryExtensions::AsSpan(String text, Int32 start, Int32 length) {
-  return ReadOnlySpan<Char>();
-};
-ReadOnlyMemory<Char> MemoryExtensions::AsMemory(String text) {
-  return ReadOnlyMemory<Char>();
-};
-ReadOnlyMemory<Char> MemoryExtensions::AsMemory(String text, Int32 start) {
-  return ReadOnlyMemory<Char>();
-};
-ReadOnlyMemory<Char> MemoryExtensions::AsMemory(String text, Index startIndex) {
-  return ReadOnlyMemory<Char>();
-};
-ReadOnlyMemory<Char> MemoryExtensions::AsMemory(String text, Int32 start, Int32 length) {
-  return ReadOnlyMemory<Char>();
-};
-ReadOnlyMemory<Char> MemoryExtensions::AsMemory(String text, Range range) {
-  return ReadOnlyMemory<Char>();
+SpanRuneEnumerator MemoryExtensions::EnumerateRunes(Span<Char> span) {
+  return SpanRuneEnumerator();
 };
 Memory<Char> MemoryExtensions::Trim(Memory<Char> memory) {
   return Memory<Char>();

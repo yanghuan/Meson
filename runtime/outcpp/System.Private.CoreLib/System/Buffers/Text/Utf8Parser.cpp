@@ -60,7 +60,7 @@ Boolean Utf8Parser::TryParse(ReadOnlySpan<Byte> source, Guid& value, Int32& byte
 Boolean Utf8Parser::TryParseGuidN(ReadOnlySpan<Byte> text, Guid& value, Int32& bytesConsumed) {
   return Boolean();
 };
-Boolean Utf8Parser::TryParseGuidCore(ReadOnlySpan<Byte> source, Boolean ends, Char begin, Char end, Guid& value, Int32& bytesConsumed) {
+Boolean Utf8Parser::TryParseGuidCore(ReadOnlySpan<Byte> source, Guid& value, Int32& bytesConsumed, Int32 ends) {
   return Boolean();
 };
 Boolean Utf8Parser::TryParse(ReadOnlySpan<Byte> source, SByte& value, Int32& bytesConsumed, Char standardFormat) {

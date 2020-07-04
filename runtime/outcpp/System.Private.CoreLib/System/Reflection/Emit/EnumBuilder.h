@@ -53,6 +53,7 @@ CLASS(EnumBuilder) {
   public: String get_AssemblyQualifiedName();
   public: String get_Namespace();
   public: Type get_BaseType();
+  public: Boolean get_IsByRefLike();
   public: Boolean get_IsTypeDefinition();
   public: Boolean get_IsSZArray();
   public: Boolean get_IsConstructedGenericType();

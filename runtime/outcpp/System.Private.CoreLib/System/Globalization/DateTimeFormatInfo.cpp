@@ -266,6 +266,16 @@ String DateTimeFormatInfo___::GetEraName(Int32 era) {
 String DateTimeFormatInfo___::GetAbbreviatedEraName(Int32 era) {
   return nullptr;
 };
+void DateTimeFormatInfo___::OnLongDatePatternChanged() {
+};
+void DateTimeFormatInfo___::OnLongTimePatternChanged() {
+};
+void DateTimeFormatInfo___::OnShortDatePatternChanged() {
+};
+void DateTimeFormatInfo___::OnShortTimePatternChanged() {
+};
+void DateTimeFormatInfo___::OnYearMonthPatternChanged() {
+};
 void DateTimeFormatInfo___::CheckNullValue(Array<String> values, Int32 length) {
 };
 String DateTimeFormatInfo___::InternalGetMonthName(Int32 month, MonthNameStyles style, Boolean abbreviated) {

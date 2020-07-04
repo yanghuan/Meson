@@ -24,16 +24,13 @@ FORWARD(Version)
 namespace System::Private::CoreLib::System::Security {
 enum class SecurityRuleSet : uint8_t;
 } // namespace System::Private::CoreLib::System::Security
-namespace System::Private::CoreLib::System::Threading {
-enum class StackCrawlMark;
-} // namespace System::Private::CoreLib::System::Threading
-namespace System::Private::CoreLib::System::Runtime::Loader {
-FORWARD(AssemblyLoadContext)
-} // namespace System::Private::CoreLib::System::Runtime::Loader
 namespace System::Private::CoreLib::System::Runtime::CompilerServices {
 FORWARDS(ObjectHandleOnStack)
 FORWARDS(StackCrawlMarkHandle)
 } // namespace System::Private::CoreLib::System::Runtime::CompilerServices
+namespace System::Private::CoreLib::System::Threading {
+enum class StackCrawlMark;
+} // namespace System::Private::CoreLib::System::Threading
 namespace System::Private::CoreLib::System::IO {
 FORWARD(FileStream)
 FORWARD(Stream)
@@ -64,7 +61,6 @@ using namespace ::System::Private::CoreLib::System::Configuration::Assemblies;
 using namespace ::System::Private::CoreLib::System::Globalization;
 using namespace ::System::Private::CoreLib::System::IO;
 using namespace ::System::Private::CoreLib::System::Runtime::CompilerServices;
-using namespace ::System::Private::CoreLib::System::Runtime::Loader;
 using namespace ::System::Private::CoreLib::System::Runtime::Serialization;
 using namespace ::System::Private::CoreLib::System::Security;
 using namespace ::System::Private::CoreLib::System::Threading;
@@ -91,13 +87,12 @@ CLASS(Assembly) {
   public: static Assembly Load(String assemblyString);
   public: static Assembly LoadWithPartialName(String partialName);
   public: static Assembly Load(AssemblyName assemblyRef);
-  public: static Assembly Load(AssemblyName assemblyRef, StackCrawlMark& stackMark, AssemblyLoadContext assemblyLoadContext);
   private: static void GetExecutingAssemblyNative(StackCrawlMarkHandle stackMark, ObjectHandleOnStack retAssembly);
   public: static RuntimeAssembly GetExecutingAssembly(StackCrawlMark& stackMark);
   public: static Assembly GetExecutingAssembly();
   public: static Assembly GetCallingAssembly();
   private: static void GetEntryAssemblyNative(ObjectHandleOnStack retAssembly);
-  public: static Assembly GetEntryAssembly();
+  private: static Assembly GetEntryAssemblyInternal();
   public: Boolean IsRuntimeImplemented();
   public: static UInt32 GetAssemblyCount();
   public: Array<Type> GetTypes();
@@ -136,6 +131,7 @@ CLASS(Assembly) {
   public: Int32 GetHashCode();
   public: static String CreateQualifiedName(String assemblyName, String typeName);
   public: static Assembly GetAssembly(Type type);
+  public: static Assembly GetEntryAssembly();
   public: static Assembly Load(Array<Byte> rawAssembly);
   public: static Assembly Load(Array<Byte> rawAssembly, Array<Byte> rawSymbolStore);
   public: static Assembly LoadFile(String path);
@@ -148,11 +144,11 @@ CLASS(Assembly) {
   public: static Assembly ReflectionOnlyLoad(Array<Byte> rawAssembly);
   public: static Assembly ReflectionOnlyLoad(String assemblyString);
   public: static Assembly ReflectionOnlyLoadFrom(String assemblyFile);
-  private: static Boolean s_forceNullEntryPoint;
   private: static Dictionary<String, Assembly> s_loadfile;
   private: static List<String> s_loadFromAssemblyList;
   private: static Boolean s_loadFromHandlerSet;
   private: static Int32 s_cachedSerializationSwitch;
+  private: static Boolean s_forceNullEntryPoint;
 };
 } // namespace AssemblyNamespace
 using Assembly = AssemblyNamespace::Assembly;

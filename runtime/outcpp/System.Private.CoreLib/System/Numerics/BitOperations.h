@@ -13,8 +13,8 @@ FORWARDS(UInt64)
 namespace System::Private::CoreLib::System::Numerics {
 namespace BitOperationsNamespace {
 class BitOperations {
-  private: static ReadOnlySpan<Byte> get_s_TrailingZeroCountDeBruijn();
-  private: static ReadOnlySpan<Byte> get_s_Log2DeBruijn();
+  private: static ReadOnlySpan<Byte> get_TrailingZeroCountDeBruijn();
+  private: static ReadOnlySpan<Byte> get_Log2DeBruijn();
   public: static Int32 LeadingZeroCount(UInt32 value);
   public: static Int32 LeadingZeroCount(UInt64 value);
   public: static Int32 Log2(UInt32 value);

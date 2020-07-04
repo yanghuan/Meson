@@ -3,6 +3,7 @@
 #include "ThreadPool.h"
 
 #include <System.Private.CoreLib/Interop-dep.h>
+#include <System.Private.CoreLib/System/Action-dep.h>
 #include <System.Private.CoreLib/System/Array-dep.h>
 #include <System.Private.CoreLib/System/Boolean-dep.h>
 #include <System.Private.CoreLib/System/Collections/Generic/IEnumerable.h>
@@ -14,6 +15,7 @@
 #include <System.Private.CoreLib/System/Threading/IThreadPoolWorkItem.h>
 #include <System.Private.CoreLib/System/Threading/NativeOverlapped-dep.h>
 #include <System.Private.CoreLib/System/Threading/RegisteredWaitHandle-dep.h>
+#include <System.Private.CoreLib/System/Threading/ThreadPoolWorkQueue-dep.h>
 #include <System.Private.CoreLib/System/Threading/WaitCallback-dep.h>
 #include <System.Private.CoreLib/System/Threading/WaitHandle-dep.h>
 #include <System.Private.CoreLib/System/Threading/WaitOrTimerCallback-dep.h>

@@ -27,7 +27,6 @@ class ComponentActivator {
   };
   private: static String MarshalToString(IntPtr arg, String argName);
   public: static Int32 LoadAssemblyAndGetFunctionPointer(IntPtr assemblyPathNative, IntPtr typeNameNative, IntPtr methodNameNative, IntPtr delegateTypeNative, IntPtr reserved, IntPtr functionHandle);
-  private: static Delegate CreateDelegate(String assemblyPath, String typeName, String methodName, String delegateTypeName);
   private: static IsolatedComponentLoadContext GetIsolatedComponentLoadContext(String assemblyPath);
   private: static Dictionary<String, IsolatedComponentLoadContext> s_assemblyLoadContexts;
   private: static Dictionary<IntPtr, Delegate> s_delegates;

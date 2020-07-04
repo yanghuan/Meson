@@ -83,7 +83,10 @@ struct DateTime {
   public: static DateTime SpecifyKind(DateTime value, DateTimeKind kind);
   public: Int64 ToBinary();
   private: Int32 GetDatePart(Int32 part);
-  public: void GetDatePart(Int32& year, Int32& month, Int32& day);
+  public: void GetDate(Int32& year, Int32& month, Int32& day);
+  public: void GetTime(Int32& hour, Int32& minute, Int32& second);
+  public: void GetTime(Int32& hour, Int32& minute, Int32& second, Int32& millisecond);
+  public: void GetTimePrecise(Int32& hour, Int32& minute, Int32& second, Int32& tick);
   public: Int32 GetHashCode();
   public: Boolean IsAmbiguousDaylightSavingTime();
   public: static Boolean IsLeapYear(Int32 year);
@@ -128,11 +131,11 @@ struct DateTime {
   public: Array<String> GetDateTimeFormats(Char format, IFormatProvider provider);
   public: TypeCode GetTypeCode();
   public: static Boolean TryCreate(Int32 year, Int32 month, Int32 day, Int32 hour, Int32 minute, Int32 second, Int32 millisecond, DateTime& result);
+  private: static Boolean SystemSupportsLeapSeconds();
   public: static Boolean IsValidTimeWithLeapSeconds(Int32 year, Int32 month, Int32 day, Int32 hour, Int32 minute, Int32 second, DateTimeKind kind);
   private: static DateTime FromFileTimeLeapSecondsAware(Int64 fileTime);
   private: static Int64 ToFileTimeLeapSecondsAware(Int64 ticks);
   private: static DateTime CreateDateTimeFromSystemTime(FullSystemTime& time);
-  private: static Boolean SystemSupportsLeapSeconds();
   private: static Array<Int32> s_daysToMonth365;
   private: static Array<Int32> s_daysToMonth366;
   public: static DateTime MinValue;

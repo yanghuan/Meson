@@ -61,6 +61,7 @@ CLASS(BinaryReader) {
   private: ReadOnlySpan<Byte> InternalRead(Int32 numBytes);
   protected: void FillBuffer(Int32 numBytes);
   public: Int32 Read7BitEncodedInt();
+  public: Int64 Read7BitEncodedInt64();
   private: Stream _stream;
   private: Array<Byte> _buffer;
   private: Decoder _decoder;

@@ -34,6 +34,9 @@ String EnumBuilder___::get_Namespace() {
 Type EnumBuilder___::get_BaseType() {
   return nullptr;
 };
+Boolean EnumBuilder___::get_IsByRefLike() {
+  return Boolean();
+};
 Boolean EnumBuilder___::get_IsTypeDefinition() {
   return Boolean();
 };
