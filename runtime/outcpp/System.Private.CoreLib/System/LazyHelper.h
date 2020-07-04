@@ -9,13 +9,14 @@ namespace System::Private::CoreLib::System::Runtime::ExceptionServices {
 FORWARD(ExceptionDispatchInfo)
 } // namespace System::Private::CoreLib::System::Runtime::ExceptionServices
 namespace System::Private::CoreLib::System {
+enum class LazyState;
 FORWARDS_(Nullable, T1, T2)
 FORWARDS(Boolean)
-enum class LazyState;
 namespace LazyHelperNamespace {
 using namespace ::System::Private::CoreLib::System::Runtime::ExceptionServices;
 using namespace ::System::Private::CoreLib::System::Threading;
 CLASS(LazyHelper) {
+  public: LazyState get_State() { return State; }
   public: void ThrowException();
   private: LazyThreadSafetyMode GetMode();
   public: static Nullable<LazyThreadSafetyMode> GetMode(LazyHelper state);

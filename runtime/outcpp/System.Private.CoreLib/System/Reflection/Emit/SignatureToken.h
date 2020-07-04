@@ -10,6 +10,7 @@ FORWARD(Object)
 namespace System::Private::CoreLib::System::Reflection::Emit {
 namespace SignatureTokenNamespace {
 struct SignatureToken {
+  public: Int32 get_Token() { return Token; }
   public: Int32 GetHashCode();
   public: Boolean Equals(Object obj);
   public: Boolean Equals(SignatureToken obj);

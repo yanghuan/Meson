@@ -20,6 +20,8 @@ CLASS(DiagnosticCounter) {
   public: void set_DisplayName(String value);
   public: String get_DisplayUnits();
   public: void set_DisplayUnits(String value);
+  public: String get_Name() { return Name; }
+  public: EventSource get_EventSource() { return EventSource; }
   public: void Dispose();
   public: void AddMetadata(String key, String value);
   public: void WritePayload(Single intervalSec, Int32 pollingIntervalMillisec);

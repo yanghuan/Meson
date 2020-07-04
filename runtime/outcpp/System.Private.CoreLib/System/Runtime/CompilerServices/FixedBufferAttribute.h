@@ -9,6 +9,8 @@ FORWARD(Type)
 namespace System::Private::CoreLib::System::Runtime::CompilerServices {
 namespace FixedBufferAttributeNamespace {
 CLASS(FixedBufferAttribute) {
+  public: Type get_ElementType() { return ElementType; }
+  public: Int32 get_Length() { return Length; }
   private: Type ElementType;
   private: Int32 Length;
 };

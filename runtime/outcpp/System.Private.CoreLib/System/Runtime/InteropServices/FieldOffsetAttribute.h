@@ -6,6 +6,7 @@
 namespace System::Private::CoreLib::System::Runtime::InteropServices {
 namespace FieldOffsetAttributeNamespace {
 CLASS(FieldOffsetAttribute) {
+  public: Int32 get_Value() { return Value; }
   private: Int32 Value;
 };
 } // namespace FieldOffsetAttributeNamespace

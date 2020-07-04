@@ -21,6 +21,10 @@ enum class EventKeywords : int64_t;
 namespace EventCommandEventArgsNamespace {
 using namespace ::System::Private::CoreLib::System::Collections::Generic;
 CLASS(EventCommandEventArgs) {
+  public: EventCommand get_Command() { return Command; }
+  public: void set_Command(EventCommand value) { Command = value; }
+  public: IDictionary<String, String> get_Arguments() { return Arguments; }
+  public: void set_Arguments(IDictionary<String, String> value) { Arguments = value; }
   public: Boolean EnableEvent(Int32 eventId);
   public: Boolean DisableEvent(Int32 eventId);
   private: EventCommand Command;

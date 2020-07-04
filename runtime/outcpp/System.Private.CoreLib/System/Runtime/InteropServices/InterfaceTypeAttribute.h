@@ -6,6 +6,7 @@ namespace System::Private::CoreLib::System::Runtime::InteropServices {
 enum class ComInterfaceType;
 namespace InterfaceTypeAttributeNamespace {
 CLASS(InterfaceTypeAttribute) {
+  public: ComInterfaceType get_Value() { return Value; }
   private: ComInterfaceType Value;
 };
 } // namespace InterfaceTypeAttributeNamespace

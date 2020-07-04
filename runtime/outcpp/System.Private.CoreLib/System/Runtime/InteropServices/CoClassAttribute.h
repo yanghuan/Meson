@@ -8,6 +8,7 @@ FORWARD(Type)
 namespace System::Private::CoreLib::System::Runtime::InteropServices {
 namespace CoClassAttributeNamespace {
 CLASS(CoClassAttribute) {
+  public: Type get_CoClass() { return CoClass; }
   private: Type CoClass;
 };
 } // namespace CoClassAttributeNamespace

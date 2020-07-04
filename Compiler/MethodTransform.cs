@@ -529,6 +529,21 @@ namespace Meson.Compiler {
       throw new NotImplementedException();
     }
 
+    public static void CheckParameterTypeConflict(ref ExpressionSyntax type, IParameter parameter, ITypeDefinition typeDefinition) {
+      foreach (var m in typeDefinition.Methods) {
+        if (m.Name == parameter.Type.Name) {
+          type = type.WithFullName(parameter.Type);
+          break;
+        }
+      }
+      foreach (var f in typeDefinition.Fields) {
+        if (f.GetFieldName() == parameter.Type.Name) {
+          type = type.WithFullName(parameter.Type);
+          break;
+        }
+      }
+    }
+
     private ParameterSyntax GetParameterSyntax(IParameter parameter, IMethod method) {
       var typeDefinition = method.DeclaringTypeDefinition;
       ExpressionSyntax type = typeDefinition_.GetNestedCycleRefTypeName(parameter);
@@ -538,7 +553,7 @@ namespace Meson.Compiler {
         }
       } else {
         type = GetTypeName(parameter.Type, parameter);
-        TypeDefinitionTransform.CheckParameterTypeConflict(ref type, parameter, method, typeDefinition);
+        CheckParameterTypeConflict(ref type, parameter, typeDefinition);
       }
       var name = GetMemberName(parameter);
       return new ParameterSyntax(type, name);

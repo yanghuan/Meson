@@ -8,6 +8,7 @@ FORWARD(String)
 namespace System::Private::CoreLib::System::Reflection {
 namespace AssemblyCopyrightAttributeNamespace {
 CLASS(AssemblyCopyrightAttribute) {
+  public: String get_Copyright() { return Copyright; }
   private: String Copyright;
 };
 } // namespace AssemblyCopyrightAttributeNamespace

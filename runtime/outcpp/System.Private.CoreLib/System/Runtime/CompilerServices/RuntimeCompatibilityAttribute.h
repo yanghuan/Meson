@@ -6,6 +6,8 @@
 namespace System::Private::CoreLib::System::Runtime::CompilerServices {
 namespace RuntimeCompatibilityAttributeNamespace {
 CLASS(RuntimeCompatibilityAttribute) {
+  public: Boolean get_WrapNonExceptionThrows() { return WrapNonExceptionThrows; }
+  public: void set_WrapNonExceptionThrows(Boolean value) { WrapNonExceptionThrows = value; }
   private: Boolean WrapNonExceptionThrows;
 };
 } // namespace RuntimeCompatibilityAttributeNamespace

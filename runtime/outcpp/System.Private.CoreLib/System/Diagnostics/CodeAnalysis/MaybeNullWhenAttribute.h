@@ -6,6 +6,7 @@
 namespace System::Private::CoreLib::System::Diagnostics::CodeAnalysis {
 namespace MaybeNullWhenAttributeNamespace {
 CLASS(MaybeNullWhenAttribute) {
+  public: Boolean get_ReturnValue() { return ReturnValue; }
   private: Boolean ReturnValue;
 };
 } // namespace MaybeNullWhenAttributeNamespace

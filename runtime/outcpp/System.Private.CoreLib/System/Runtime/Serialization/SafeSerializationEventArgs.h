@@ -7,6 +7,7 @@ namespace System::Private::CoreLib::System::Runtime::Serialization {
 FORWARD(ISafeSerializationData)
 namespace SafeSerializationEventArgsNamespace {
 CLASS(SafeSerializationEventArgs) {
+  public: StreamingContext get_StreamingContext() { return StreamingContext; }
   public: void AddSerializedState(ISafeSerializationData serializedState);
   private: StreamingContext StreamingContext;
 };

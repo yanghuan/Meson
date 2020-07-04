@@ -12,8 +12,12 @@ enum class EventKeywords : int64_t;
 enum class EventTags;
 namespace EventDataAttributeNamespace {
 CLASS(EventDataAttribute) {
+  public: String get_Name() { return Name; }
+  public: void set_Name(String value) { Name = value; }
   public: EventLevel get_Level();
   public: EventOpcode get_Opcode();
+  public: EventKeywords get_Keywords() { return Keywords; }
+  public: EventTags get_Tags() { return Tags; }
   private: EventLevel level;
   private: EventOpcode opcode;
   private: String Name;

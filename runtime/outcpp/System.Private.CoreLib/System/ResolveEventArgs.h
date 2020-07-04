@@ -10,6 +10,8 @@ FORWARD(String)
 namespace ResolveEventArgsNamespace {
 using namespace ::System::Private::CoreLib::System::Reflection;
 CLASS(ResolveEventArgs) {
+  public: String get_Name() { return Name; }
+  public: Assembly get_RequestingAssembly() { return RequestingAssembly; }
   private: String Name;
   private: Assembly RequestingAssembly;
 };

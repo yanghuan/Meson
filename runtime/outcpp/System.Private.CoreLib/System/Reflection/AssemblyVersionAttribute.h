@@ -8,6 +8,7 @@ FORWARD(String)
 namespace System::Private::CoreLib::System::Reflection {
 namespace AssemblyVersionAttributeNamespace {
 CLASS(AssemblyVersionAttribute) {
+  public: String get_Version() { return Version; }
   private: String Version;
 };
 } // namespace AssemblyVersionAttributeNamespace

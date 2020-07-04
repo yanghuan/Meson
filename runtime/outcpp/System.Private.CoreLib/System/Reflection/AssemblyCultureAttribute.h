@@ -8,6 +8,7 @@ FORWARD(String)
 namespace System::Private::CoreLib::System::Reflection {
 namespace AssemblyCultureAttributeNamespace {
 CLASS(AssemblyCultureAttribute) {
+  public: String get_Culture() { return Culture; }
   private: String Culture;
 };
 } // namespace AssemblyCultureAttributeNamespace

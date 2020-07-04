@@ -6,6 +6,7 @@
 namespace System::Private::CoreLib::System::Diagnostics::CodeAnalysis {
 namespace DoesNotReturnIfAttributeNamespace {
 CLASS(DoesNotReturnIfAttribute) {
+  public: Boolean get_ParameterValue() { return ParameterValue; }
   private: Boolean ParameterValue;
 };
 } // namespace DoesNotReturnIfAttributeNamespace

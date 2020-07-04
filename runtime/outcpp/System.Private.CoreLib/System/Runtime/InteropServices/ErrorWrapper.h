@@ -6,6 +6,7 @@
 namespace System::Private::CoreLib::System::Runtime::InteropServices {
 namespace ErrorWrapperNamespace {
 CLASS(ErrorWrapper) {
+  public: Int32 get_ErrorCode() { return ErrorCode; }
   private: Int32 ErrorCode;
 };
 } // namespace ErrorWrapperNamespace

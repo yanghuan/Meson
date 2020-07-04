@@ -17,6 +17,8 @@ namespace System::Private::CoreLib::System::Reflection {
 namespace ReflectionTypeLoadExceptionNamespace {
 using namespace ::System::Private::CoreLib::System::Runtime::Serialization;
 CLASS(ReflectionTypeLoadException) {
+  public: Array<Type> get_Types() { return Types; }
+  public: Array<Exception> get_LoaderExceptions() { return LoaderExceptions; }
   public: String get_Message();
   public: void GetObjectData(SerializationInfo info, StreamingContext context);
   public: String ToString();

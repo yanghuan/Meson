@@ -6,6 +6,11 @@
 namespace System::Private::CoreLib::System {
 namespace GCMemoryInfoNamespace {
 struct GCMemoryInfo {
+  public: Int64 get_HighMemoryLoadThresholdBytes() { return HighMemoryLoadThresholdBytes; }
+  public: Int64 get_MemoryLoadBytes() { return MemoryLoadBytes; }
+  public: Int64 get_TotalAvailableMemoryBytes() { return TotalAvailableMemoryBytes; }
+  public: Int64 get_HeapSizeBytes() { return HeapSizeBytes; }
+  public: Int64 get_FragmentedBytes() { return FragmentedBytes; }
   private: Int64 HighMemoryLoadThresholdBytes;
   private: Int64 MemoryLoadBytes;
   private: Int64 TotalAvailableMemoryBytes;

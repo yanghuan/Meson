@@ -1,9 +1,8 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics.Contracts;
-using System.IO;
-using System.Text;
 using System.Linq;
+using System.Reflection;
 
 using ICSharpCode.Decompiler.TypeSystem;
 using Meson.Compiler.CppAst;
@@ -20,6 +19,7 @@ namespace Meson.Compiler {
     public bool IsMulti => types_.Count > 1;
     public bool HasRef => types_.Exists(i => i.IsRefType());
     private ITypeDefinition Root => types_.First();
+    public IdentifierSyntax GetMemberName(ISymbol symbol) => Generator.GetMemberName(symbol);
 
     public TypeDefinitionTransform(CompilationUnitTransform compilationUnit, BlockSyntax parent, IEnumerable<ITypeDefinition> types, TypeDefinitionTransform parentTransform = null) {
       CompilationUnit = compilationUnit;
@@ -53,17 +53,17 @@ namespace Meson.Compiler {
     private void VisitTypeDefinition(ITypeDefinition type) {
       switch (type.Kind) {
         case TypeKind.Enum: {
-          VistEnum(type);
-          break;
-        }
+            VistEnum(type);
+            break;
+          }
         case TypeKind.Struct: {
-          VisitStruct(type);
-          break;
-        }
+            VisitStruct(type);
+            break;
+          }
         default: {
-          VistClass(type);
-          break;
-        }
+            VistClass(type);
+            break;
+          }
       }
     }
 
@@ -84,7 +84,7 @@ namespace Meson.Compiler {
           if (v.Equals(int.MinValue)) {
             v = $"{int.MinValue + 1} - 1";
           }
-          var fieldName = Generator.GetMemberName(field);
+          var fieldName = GetMemberName(field);
           node.Add(new EnumFieldSyntax(fieldName, v.ToString()));
         }
       }
@@ -151,13 +151,35 @@ namespace Meson.Compiler {
       return true;
     }
 
+    private IdentifierSyntax GetPropertyFieldName(ITypeDefinition typeDefinition, IProperty property) {
+      string fieldName = property.GetBackingFieldName();
+      var field = typeDefinition.Fields.First(i => i.Name == fieldName);
+      Contract.Assert(field != null);
+      return Generator.GetMemberName(field);
+    }
+
     private void VisitMethod(IMethod method, ITypeDefinition typeDefinition, ClassSyntax node) {
       var parameters = method.Parameters.Select(i => GetParameterSyntax(i, method, typeDefinition)).ToList();
-      var methodName = Generator.GetMemberName(method);
+      var methodName = GetMemberName(method);
       var returnType = GetRetuenTypeSyntax(method, typeDefinition);
-      node.Statements.Add(new MethodDefinitionSyntax(returnType, methodName, parameters, method.IsStatic, !method.IsMainEntryPoint() ? method.Accessibility.ToTokenString() : Tokens.Public));
-      if (typeDefinition.TypeParameterCount == 0) {
-        new MethodTransform(this, method, node);
+      var methodDefinition = new MethodDefinitionSyntax(returnType, methodName, parameters, method.IsStatic, !method.IsMainEntryPoint() ? method.Accessibility.ToTokenString() : Tokens.Public);
+      node.Statements.Add(methodDefinition);
+      if (method.HasBody) {
+        if (method.AccessorOwner is IProperty property && property.IsPropertyField()) {
+          var fieldName = GetPropertyFieldName(typeDefinition, property);
+          if (method.AccessorKind == MethodSemanticsAttributes.Getter) {
+            methodDefinition.Body = new BlockSyntax(new ReturnStatementSyntax(fieldName)) { IsSingleLine = true };
+          } else {
+            methodDefinition.Body = new BlockSyntax(new BinaryExpressionSyntax(fieldName, Tokens.Equals, IdentifierSyntax.Value)) { IsSingleLine = true };
+          }
+          if (property.IsStatic) {
+            CompilationUnit.AddPropertyFieldTypeReference(property);
+          }
+        } else {
+          if (typeDefinition.TypeParameterCount == 0) {
+            new MethodTransform(this, method, node);
+          }
+        }
       }
     }
 
@@ -200,7 +222,7 @@ namespace Meson.Compiler {
         Symbol = parameter,
       });
       CheckParameterTypeConflict(ref type, parameter, method, typeDefinition);
-      var name = Generator.GetMemberName(parameter);
+      var name = GetMemberName(parameter);
       return new ParameterSyntax(type, name);
     }
 
@@ -241,17 +263,14 @@ namespace Meson.Compiler {
 
     private void VisitFields(ITypeDefinition typeDefinition, ClassSyntax node) {
       foreach (var field in typeDefinition.Fields) {
-        //if (!field.Name.StartsWith('<')) 
-        {
-          if (IsValueTypeInnerField(field, typeDefinition, out ExpressionSyntax typeName)) {
-          } else if (IsArrayInnerSpecialField(field, typeDefinition, out typeName)) {
-          } else {
-            typeName = GetFieldTypeName(field, typeDefinition);
-          }
-          Contract.Assert(typeName != null);
-          var fieldName = Generator.GetMemberName(field);
-          node.Statements.Add(new FieldDefinitionSyntax(typeName, fieldName, field.IsStatic, field.Accessibility.ToTokenString()));
+        if (IsValueTypeInnerField(field, typeDefinition, out ExpressionSyntax typeName)) {
+        } else if (IsArrayInnerSpecialField(field, typeDefinition, out typeName)) {
+        } else {
+          typeName = GetFieldTypeName(field, typeDefinition);
         }
+        Contract.Assert(typeName != null);
+        var fieldName = GetMemberName(field);
+        node.Statements.Add(new FieldDefinitionSyntax(typeName, fieldName, field.IsStatic, field.Accessibility.ToTokenString()));
       }
     }
 
@@ -401,13 +420,11 @@ namespace Meson.Compiler {
 
     private void VisitPropertys(ITypeDefinition typeDefinition, ClassSyntax node) {
       foreach (var property in typeDefinition.Properties) {
-        if (!property.IsPropertyField()) {
-          if (property.CanGet) {
-            VisitMethod(property.Getter, typeDefinition, node);
-          }
-          if (property.CanSet) {
-            VisitMethod(property.Setter, typeDefinition, node);
-          }
+        if (property.CanGet) {
+          VisitMethod(property.Getter, typeDefinition, node);
+        }
+        if (property.CanSet) {
+          VisitMethod(property.Setter, typeDefinition, node);
         }
       }
     }

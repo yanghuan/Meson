@@ -8,6 +8,7 @@ FORWARD(String)
 namespace System::Private::CoreLib::System::Diagnostics::CodeAnalysis {
 namespace NotNullIfNotNullAttributeNamespace {
 CLASS(NotNullIfNotNullAttribute) {
+  public: String get_ParameterName() { return ParameterName; }
   private: String ParameterName;
 };
 } // namespace NotNullIfNotNullAttributeNamespace

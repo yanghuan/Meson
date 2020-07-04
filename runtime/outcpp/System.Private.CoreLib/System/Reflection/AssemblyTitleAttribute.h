@@ -8,6 +8,7 @@ FORWARD(String)
 namespace System::Private::CoreLib::System::Reflection {
 namespace AssemblyTitleAttributeNamespace {
 CLASS(AssemblyTitleAttribute) {
+  public: String get_Title() { return Title; }
   private: String Title;
 };
 } // namespace AssemblyTitleAttributeNamespace

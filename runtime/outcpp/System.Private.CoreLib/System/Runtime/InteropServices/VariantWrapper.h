@@ -8,6 +8,7 @@ FORWARD(Object)
 namespace System::Private::CoreLib::System::Runtime::InteropServices {
 namespace VariantWrapperNamespace {
 CLASS(VariantWrapper) {
+  public: Object get_WrappedObject() { return WrappedObject; }
   private: Object WrappedObject;
 };
 } // namespace VariantWrapperNamespace

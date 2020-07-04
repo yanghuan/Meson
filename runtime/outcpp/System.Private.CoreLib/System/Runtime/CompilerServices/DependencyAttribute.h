@@ -9,6 +9,8 @@ namespace System::Private::CoreLib::System::Runtime::CompilerServices {
 enum class LoadHint;
 namespace DependencyAttributeNamespace {
 CLASS(DependencyAttribute) {
+  public: String get_DependentAssembly() { return DependentAssembly; }
+  public: LoadHint get_LoadHint() { return LoadHint; }
   private: String DependentAssembly;
   private: LoadHint LoadHint;
 };

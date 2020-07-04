@@ -8,6 +8,7 @@ FORWARD(Type)
 namespace System::Private::CoreLib::System::Runtime::InteropServices {
 namespace ComDefaultInterfaceAttributeNamespace {
 CLASS(ComDefaultInterfaceAttribute) {
+  public: Type get_Value() { return Value; }
   private: Type Value;
 };
 } // namespace ComDefaultInterfaceAttributeNamespace

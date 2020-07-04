@@ -8,6 +8,7 @@ FORWARD(String)
 namespace System::Private::CoreLib::System::Runtime::CompilerServices {
 namespace CallerArgumentExpressionAttributeNamespace {
 CLASS(CallerArgumentExpressionAttribute) {
+  public: String get_ParameterName() { return ParameterName; }
   private: String ParameterName;
 };
 } // namespace CallerArgumentExpressionAttributeNamespace

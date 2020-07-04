@@ -6,6 +6,7 @@
 namespace System::Private::CoreLib::System::Reflection {
 namespace AssemblyDelaySignAttributeNamespace {
 CLASS(AssemblyDelaySignAttribute) {
+  public: Boolean get_DelaySign() { return DelaySign; }
   private: Boolean DelaySign;
 };
 } // namespace AssemblyDelaySignAttributeNamespace

@@ -14,6 +14,8 @@ using namespace ::System::Private::CoreLib::System::Threading;
 CLASS(SafeFileHandle) {
   public: Nullable<Boolean> get_IsAsync();
   public: void set_IsAsync(Nullable<Boolean> value);
+  public: ThreadPoolBoundHandle get_ThreadPoolBinding() { return ThreadPoolBinding; }
+  public: void set_ThreadPoolBinding(ThreadPoolBoundHandle value) { ThreadPoolBinding = value; }
   protected: Boolean ReleaseHandle();
   private: Nullable<Boolean> _isAsync;
   private: ThreadPoolBoundHandle ThreadPoolBinding;

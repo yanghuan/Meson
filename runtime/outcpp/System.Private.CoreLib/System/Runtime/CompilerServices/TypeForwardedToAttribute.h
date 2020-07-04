@@ -8,6 +8,7 @@ FORWARD(Type)
 namespace System::Private::CoreLib::System::Runtime::CompilerServices {
 namespace TypeForwardedToAttributeNamespace {
 CLASS(TypeForwardedToAttribute) {
+  public: Type get_Destination() { return Destination; }
   private: Type Destination;
 };
 } // namespace TypeForwardedToAttributeNamespace

@@ -17,6 +17,7 @@ CLASS(DebuggableAttribute) {
   };
   public: Boolean get_IsJITTrackingEnabled();
   public: Boolean get_IsJITOptimizerDisabled();
+  public: DebuggingModes get_DebuggingFlags() { return DebuggingFlags; }
   private: DebuggingModes DebuggingFlags;
 };
 } // namespace DebuggableAttributeNamespace

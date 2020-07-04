@@ -11,6 +11,8 @@ namespace Test::Test {
 namespace ProgramNamespace {
 using namespace ::System::Private::CoreLib::System;
 CLASS(Program) {
+  public: Int32 get_A() { return A; }
+  public: void set_A(Int32 value) { A = value; }
   public: static void Main(Array<String> args);
   private: Int32 A;
 };

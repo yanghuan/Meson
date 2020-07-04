@@ -8,6 +8,7 @@ FORWARD(Object)
 namespace System::Private::CoreLib::System::Runtime::InteropServices {
 namespace DispatchWrapperNamespace {
 CLASS(DispatchWrapper) {
+  public: Object get_WrappedObject() { return WrappedObject; }
   private: Object WrappedObject;
 };
 } // namespace DispatchWrapperNamespace

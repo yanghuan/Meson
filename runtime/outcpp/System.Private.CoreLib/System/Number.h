@@ -121,6 +121,16 @@ class Number {
     private: static Array<UInt32> s_SmallPowersOfTen;
   };
   public: struct FloatingPointInfo {
+    public: UInt64 get_ZeroBits() { return ZeroBits; }
+    public: UInt64 get_InfinityBits() { return InfinityBits; }
+    public: UInt64 get_NormalMantissaMask() { return NormalMantissaMask; }
+    public: UInt64 get_DenormalMantissaMask() { return DenormalMantissaMask; }
+    public: Int32 get_MinBinaryExponent() { return MinBinaryExponent; }
+    public: Int32 get_MaxBinaryExponent() { return MaxBinaryExponent; }
+    public: Int32 get_ExponentBias() { return ExponentBias; }
+    public: Int32 get_OverflowDecimalExponent() { return OverflowDecimalExponent; }
+    public: UInt16 get_NormalMantissaBits() { return NormalMantissaBits; }
+    public: UInt16 get_DenormalMantissaBits() { return DenormalMantissaBits; }
     public: static FloatingPointInfo Double;
     public: static FloatingPointInfo Single;
     private: UInt64 ZeroBits;

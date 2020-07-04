@@ -8,6 +8,7 @@ FORWARD(String)
 namespace System::Private::CoreLib::System::Reflection {
 namespace AssemblyProductAttributeNamespace {
 CLASS(AssemblyProductAttribute) {
+  public: String get_Product() { return Product; }
   private: String Product;
 };
 } // namespace AssemblyProductAttributeNamespace

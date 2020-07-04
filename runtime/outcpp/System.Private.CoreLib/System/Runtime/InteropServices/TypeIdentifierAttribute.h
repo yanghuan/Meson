@@ -8,6 +8,8 @@ FORWARD(String)
 namespace System::Private::CoreLib::System::Runtime::InteropServices {
 namespace TypeIdentifierAttributeNamespace {
 CLASS(TypeIdentifierAttribute) {
+  public: String get_Scope() { return Scope; }
+  public: String get_Identifier() { return Identifier; }
   private: String Scope;
   private: String Identifier;
 };

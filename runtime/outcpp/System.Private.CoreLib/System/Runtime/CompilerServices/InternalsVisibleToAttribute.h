@@ -9,6 +9,9 @@ FORWARD(String)
 namespace System::Private::CoreLib::System::Runtime::CompilerServices {
 namespace InternalsVisibleToAttributeNamespace {
 CLASS(InternalsVisibleToAttribute) {
+  public: String get_AssemblyName() { return AssemblyName; }
+  public: Boolean get_AllInternalsVisible() { return AllInternalsVisible; }
+  public: void set_AllInternalsVisible(Boolean value) { AllInternalsVisible = value; }
   private: String AssemblyName;
   private: Boolean AllInternalsVisible;
 };

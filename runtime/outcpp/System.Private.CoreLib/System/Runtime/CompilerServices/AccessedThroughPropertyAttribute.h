@@ -8,6 +8,7 @@ FORWARD(String)
 namespace System::Private::CoreLib::System::Runtime::CompilerServices {
 namespace AccessedThroughPropertyAttributeNamespace {
 CLASS(AccessedThroughPropertyAttribute) {
+  public: String get_PropertyName() { return PropertyName; }
   private: String PropertyName;
 };
 } // namespace AccessedThroughPropertyAttributeNamespace

@@ -14,6 +14,8 @@ namespace FileNotFoundExceptionNamespace {
 using namespace ::System::Private::CoreLib::System::Runtime::Serialization;
 CLASS(FileNotFoundException) {
   public: String get_Message();
+  public: String get_FileName() { return FileName; }
+  public: String get_FusionLog() { return FusionLog; }
   private: void SetMessageField();
   public: String ToString();
   public: void GetObjectData(SerializationInfo info, StreamingContext context);

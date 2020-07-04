@@ -8,6 +8,7 @@ FORWARD(Type)
 namespace System::Private::CoreLib::System::Runtime::CompilerServices {
 namespace StateMachineAttributeNamespace {
 CLASS(StateMachineAttribute) {
+  public: Type get_StateMachineType() { return StateMachineType; }
   private: Type StateMachineType;
 };
 } // namespace StateMachineAttributeNamespace

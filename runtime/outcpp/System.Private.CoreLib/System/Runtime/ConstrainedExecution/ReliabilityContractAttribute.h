@@ -7,6 +7,8 @@ enum class Consistency;
 enum class Cer;
 namespace ReliabilityContractAttributeNamespace {
 CLASS(ReliabilityContractAttribute) {
+  public: Consistency get_ConsistencyGuarantee() { return ConsistencyGuarantee; }
+  public: Cer get_Cer() { return Cer; }
   private: Consistency ConsistencyGuarantee;
   private: Cer Cer;
 };

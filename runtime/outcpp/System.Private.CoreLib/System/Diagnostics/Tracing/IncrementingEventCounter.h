@@ -12,6 +12,8 @@ FORWARD(String)
 namespace System::Private::CoreLib::System::Diagnostics::Tracing {
 namespace IncrementingEventCounterNamespace {
 CLASS(IncrementingEventCounter) {
+  public: TimeSpan get_DisplayRateTimeScale() { return DisplayRateTimeScale; }
+  public: void set_DisplayRateTimeScale(TimeSpan value) { DisplayRateTimeScale = value; }
   public: void Increment(Double increment);
   public: String ToString();
   public: void WritePayload(Single intervalSec, Int32 pollingIntervalMillisec);

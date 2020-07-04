@@ -1,13 +1,12 @@
 #pragma once
 
 #include <rt/GCObject.h>
+#include <System.Private.CoreLib/System/Boolean.h>
 
-namespace System::Private::CoreLib::System {
-FORWARDS(Boolean)
-} // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Globalization {
 namespace GlobalizationModeNamespace {
 CLASS(GlobalizationMode) {
+  public: static Boolean get_Invariant() { return Invariant; }
   public: static Boolean GetInvariantSwitchValue();
   private: static Boolean GetGlobalizationInvariantMode();
   private: static Boolean Invariant;

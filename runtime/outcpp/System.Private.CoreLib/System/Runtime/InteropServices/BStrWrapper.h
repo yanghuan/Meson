@@ -8,6 +8,7 @@ FORWARD(String)
 namespace System::Private::CoreLib::System::Runtime::InteropServices {
 namespace BStrWrapperNamespace {
 CLASS(BStrWrapper) {
+  public: String get_WrappedObject() { return WrappedObject; }
   private: String WrappedObject;
 };
 } // namespace BStrWrapperNamespace

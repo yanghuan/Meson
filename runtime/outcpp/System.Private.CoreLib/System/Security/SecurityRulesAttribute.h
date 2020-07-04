@@ -7,6 +7,9 @@ namespace System::Private::CoreLib::System::Security {
 enum class SecurityRuleSet : uint8_t;
 namespace SecurityRulesAttributeNamespace {
 CLASS(SecurityRulesAttribute) {
+  public: Boolean get_SkipVerificationInFullTrust() { return SkipVerificationInFullTrust; }
+  public: void set_SkipVerificationInFullTrust(Boolean value) { SkipVerificationInFullTrust = value; }
+  public: SecurityRuleSet get_RuleSet() { return RuleSet; }
   private: Boolean SkipVerificationInFullTrust;
   private: SecurityRuleSet RuleSet;
 };

@@ -8,6 +8,7 @@ enum class LayoutKind;
 enum class CharSet;
 namespace StructLayoutAttributeNamespace {
 CLASS(StructLayoutAttribute) {
+  public: LayoutKind get_Value() { return Value; }
   private: LayoutKind Value;
   public: Int32 Pack;
   public: Int32 Size;

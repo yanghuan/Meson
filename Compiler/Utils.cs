@@ -13,6 +13,7 @@ using Meson.Compiler.CppAst;
 namespace Meson.Compiler {
   internal static class Utils {
     public const string kDependExtra = "-dep";
+    private const string kBackingFieldSuffix = ">k__BackingField";
 
     public static T First<T>(this IList<T> list) {
       return list[0];
@@ -623,8 +624,6 @@ namespace Meson.Compiler {
       return property.Getter?.GetAttribute(KnownAttribute.CompilerGenerated) != null;
     }
 
-    private const string kBackingFieldSuffix = ">k__BackingField";
-
     public static bool IsBackingField(this IField field) {
       return field.Name.StartsWith('<') && field.Name.EndsWith(kBackingFieldSuffix);
     }
@@ -636,6 +635,17 @@ namespace Meson.Compiler {
       }
       name = null;
       return false;
+    }
+
+    public static string GetBackingFieldName(this IProperty property) {
+      return $"<{property.Name}{kBackingFieldSuffix}";
+    }
+
+    public static string GetFieldName(this IField field) {
+      if (field.TryGetBackingFieldName(out string name)) {
+        return name;
+      }
+      return field.Name;
     }
 
     public static string RemoveSpeacialChars(this string name) {

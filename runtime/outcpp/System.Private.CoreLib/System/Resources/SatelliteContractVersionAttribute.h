@@ -8,6 +8,7 @@ FORWARD(String)
 namespace System::Private::CoreLib::System::Resources {
 namespace SatelliteContractVersionAttributeNamespace {
 CLASS(SatelliteContractVersionAttribute) {
+  public: String get_Version() { return Version; }
   private: String Version;
 };
 } // namespace SatelliteContractVersionAttributeNamespace

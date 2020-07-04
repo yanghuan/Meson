@@ -13,6 +13,7 @@ enum class UnmanagedType;
 enum class VarEnum;
 namespace MarshalAsAttributeNamespace {
 CLASS(MarshalAsAttribute) {
+  public: UnmanagedType get_Value() { return Value; }
   private: UnmanagedType Value;
   public: VarEnum SafeArraySubType;
   public: Type SafeArrayUserDefinedSubType;

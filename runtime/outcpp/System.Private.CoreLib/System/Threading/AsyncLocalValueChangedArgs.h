@@ -7,6 +7,9 @@ namespace System::Private::CoreLib::System::Threading {
 namespace AsyncLocalValueChangedArgsNamespace {
 template <class T>
 struct AsyncLocalValueChangedArgs {
+  public: T get_PreviousValue() { return PreviousValue; }
+  public: T get_CurrentValue() { return CurrentValue; }
+  public: Boolean get_ThreadContextChanged() { return ThreadContextChanged; }
   private: T PreviousValue;
   private: T CurrentValue;
   private: Boolean ThreadContextChanged;

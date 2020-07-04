@@ -19,6 +19,8 @@ using namespace ::System::Private::CoreLib::System::Runtime::CompilerServices;
 using namespace ::System::Private::CoreLib::System::Runtime::Serialization;
 CLASS(FileLoadException) {
   public: String get_Message();
+  public: String get_FileName() { return FileName; }
+  public: String get_FusionLog() { return FusionLog; }
   public: static String FormatFileLoadExceptionMessage(String fileName, Int32 hResult);
   private: static void GetFileLoadExceptionMessage(Int32 hResult, StringHandleOnStack retString);
   private: static void GetMessageForHR(Int32 hresult, StringHandleOnStack retString);

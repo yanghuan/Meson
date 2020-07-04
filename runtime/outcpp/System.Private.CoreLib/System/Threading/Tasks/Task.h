@@ -4,6 +4,7 @@
 #include <System.Private.CoreLib/System/Int32.h>
 #include <System.Private.CoreLib/System/Threading/CancellationToken.h>
 #include <System.Private.CoreLib/System/Threading/CancellationTokenRegistration.h>
+#include <System.Private.CoreLib/System/Threading/Tasks/TaskFactory.h>
 
 namespace System::Private::CoreLib::System::Threading {
 FORWARD_(ContextCallback, T1, T2)
@@ -109,6 +110,8 @@ CLASS_(Task) {
   public: Object get_AsyncState();
   private: Boolean get_CompletedSynchronouslyOfIAsyncResult();
   public: TaskScheduler get_ExecutingTaskScheduler();
+  public: static TaskFactory<> get_Factory() { return Factory; }
+  public: static Task<> get_CompletedTask() { return CompletedTask; }
   public: ManualResetEventSlim get_CompletedEvent();
   public: Boolean get_ExceptionRecorded();
   public: Boolean get_IsFaulted();

@@ -6,6 +6,7 @@ namespace System::Private::CoreLib::System::Diagnostics {
 enum class DebuggerBrowsableState;
 namespace DebuggerBrowsableAttributeNamespace {
 CLASS(DebuggerBrowsableAttribute) {
+  public: DebuggerBrowsableState get_State() { return State; }
   private: DebuggerBrowsableState State;
 };
 } // namespace DebuggerBrowsableAttributeNamespace

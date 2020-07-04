@@ -9,6 +9,8 @@ namespace System::Private::CoreLib::System::Resources {
 enum class UltimateResourceFallbackLocation;
 namespace NeutralResourcesLanguageAttributeNamespace {
 CLASS(NeutralResourcesLanguageAttribute) {
+  public: String get_CultureName() { return CultureName; }
+  public: UltimateResourceFallbackLocation get_Location() { return Location; }
   private: String CultureName;
   private: UltimateResourceFallbackLocation Location;
 };

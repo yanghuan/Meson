@@ -8,6 +8,7 @@ FORWARD(String)
 namespace System::Private::CoreLib::System::Reflection {
 namespace AssemblyKeyFileAttributeNamespace {
 CLASS(AssemblyKeyFileAttribute) {
+  public: String get_KeyFile() { return KeyFile; }
   private: String KeyFile;
 };
 } // namespace AssemblyKeyFileAttributeNamespace

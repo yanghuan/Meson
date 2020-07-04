@@ -1,6 +1,7 @@
 #pragma once
 
 #include <rt/GCObject.h>
+#include <System.Private.CoreLib/System/Collections/Generic/IEqualityComparer.h>
 
 namespace System::Private::CoreLib::System {
 FORWARDS(Boolean)
@@ -12,10 +13,10 @@ FORWARD(SerializationInfo)
 FORWARDS(StreamingContext)
 } // namespace System::Private::CoreLib::System::Runtime::Serialization
 namespace System::Private::CoreLib::System::Collections::Generic {
-FORWARD(IEqualityComparer, T)
 namespace NonRandomizedStringEqualityComparerNamespace {
 using namespace ::System::Private::CoreLib::System::Runtime::Serialization;
 CLASS(NonRandomizedStringEqualityComparer) {
+  public: static IEqualityComparer<String> get_Default() { return Default; }
   public: Boolean Equals(String x, String y);
   public: Int32 GetHashCode(String obj);
   public: void GetObjectData(SerializationInfo info, StreamingContext context);

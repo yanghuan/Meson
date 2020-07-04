@@ -201,6 +201,10 @@ namespace Meson.Compiler {
     }
 
     internal void Render(BlockSyntax node) {
+      if (node.IsSingleLine) {
+        ++singleLineCounter_;
+      }
+
       Write(node.OpenToken);
       WriteNewLine();
       if (!node.IsPreventIdnet) {
@@ -211,6 +215,10 @@ namespace Meson.Compiler {
         Outdent();
       }
       Write(node.CloseToken);
+
+      if (node.IsSingleLine) {
+        --singleLineCounter_;
+      }
     }
 
     internal void Render(NamespaceSyntax node) {
@@ -386,7 +394,12 @@ namespace Meson.Compiler {
       Write(node.OpenParentheses);
       WriteSeparatedSyntaxList(node.Parameters);
       Write(node.CloseParentheses);
-      WriteSemicolon();
+      if (node.Body != null) {
+        WriteSpace();
+        node.Body.Render(this);
+      } else {
+        WriteSemicolon();
+      }
       WriteNewLine();
     }
 

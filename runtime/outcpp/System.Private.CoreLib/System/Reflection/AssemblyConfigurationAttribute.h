@@ -8,6 +8,7 @@ FORWARD(String)
 namespace System::Private::CoreLib::System::Reflection {
 namespace AssemblyConfigurationAttributeNamespace {
 CLASS(AssemblyConfigurationAttribute) {
+  public: String get_Configuration() { return Configuration; }
   private: String Configuration;
 };
 } // namespace AssemblyConfigurationAttributeNamespace

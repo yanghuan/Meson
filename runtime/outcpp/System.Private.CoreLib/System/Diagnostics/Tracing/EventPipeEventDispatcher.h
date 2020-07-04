@@ -28,6 +28,10 @@ using namespace ::System::Private::CoreLib::System::Collections::Generic;
 using namespace ::System::Private::CoreLib::System::Threading::Tasks;
 CLASS(EventPipeEventDispatcher) {
   public: CLASS(EventListenerSubscription) {
+    public: EventKeywords get_MatchAnyKeywords() { return MatchAnyKeywords; }
+    private: void set_MatchAnyKeywords(EventKeywords value) { MatchAnyKeywords = value; }
+    public: EventLevel get_Level() { return Level; }
+    private: void set_Level(EventLevel value) { Level = value; }
     private: EventKeywords MatchAnyKeywords;
     private: EventLevel Level;
   };

@@ -8,6 +8,7 @@ FORWARD(Type)
 namespace System::Private::CoreLib::System::Runtime::CompilerServices {
 namespace AsyncMethodBuilderAttributeNamespace {
 CLASS(AsyncMethodBuilderAttribute) {
+  public: Type get_BuilderType() { return BuilderType; }
   private: Type BuilderType;
 };
 } // namespace AsyncMethodBuilderAttributeNamespace

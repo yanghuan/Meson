@@ -121,9 +121,17 @@ namespace Meson.Compiler.CppAst {
   class BlockSyntax : StatementSyntax {
     public string OpenToken => Tokens.OpenBrace;
     public string CloseToken => Tokens.CloseBrace;
-    public bool IsPreventIdnet { get; set; } 
+    public bool IsPreventIdnet { get; set; }
+    public bool IsSingleLine { get; set; }
 
     public readonly SyntaxList<StatementSyntax> Statements = new SyntaxList<StatementSyntax>();
+
+    public BlockSyntax() { 
+    }
+
+    public BlockSyntax(StatementSyntax statement) {
+      Statements.Add(statement);
+    }
 
     internal override void Render(CppRenderer renderer) {
       renderer.Render(this);
@@ -316,6 +324,8 @@ namespace Meson.Compiler.CppAst {
     public string OpenParentheses => Tokens.OpenParentheses;
     public readonly List<ParameterSyntax> Parameters = new List<ParameterSyntax>();
     public string CloseParentheses => Tokens.CloseParentheses;
+
+    public BlockSyntax Body { get; set; }
 
     public MethodDefinitionSyntax(ExpressionSyntax retuenType, IdentifierSyntax name, IEnumerable<ParameterSyntax> parameters, bool isStatic, string accessibilityToken) {
       RetuenType = retuenType;

@@ -6,6 +6,7 @@ namespace System::Private::CoreLib::System::Runtime::InteropServices {
 enum class CharSet;
 namespace DefaultCharSetAttributeNamespace {
 CLASS(DefaultCharSetAttribute) {
+  public: CharSet get_CharSet() { return CharSet; }
   private: CharSet CharSet;
 };
 } // namespace DefaultCharSetAttributeNamespace

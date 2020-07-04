@@ -8,6 +8,7 @@ FORWARD(String)
 namespace System::Private::CoreLib::System::Runtime::InteropServices {
 namespace GuidAttributeNamespace {
 CLASS(GuidAttribute) {
+  public: String get_Value() { return Value; }
   private: String Value;
 };
 } // namespace GuidAttributeNamespace

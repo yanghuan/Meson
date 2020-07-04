@@ -22,6 +22,8 @@ namespace ManualResetValueTaskSourceCoreNamespace {
 using namespace ::System::Private::CoreLib::System::Runtime::ExceptionServices;
 template <class TResult>
 struct ManualResetValueTaskSourceCore {
+  public: Boolean get_RunContinuationsAsynchronously() { return RunContinuationsAsynchronously; }
+  public: void set_RunContinuationsAsynchronously(Boolean value) { RunContinuationsAsynchronously = value; }
   public: Int16 get_Version();
   public: void Reset();
   public: void SetResult(TResult result);

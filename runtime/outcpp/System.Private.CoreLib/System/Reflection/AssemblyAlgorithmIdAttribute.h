@@ -6,6 +6,7 @@
 namespace System::Private::CoreLib::System::Reflection {
 namespace AssemblyAlgorithmIdAttributeNamespace {
 CLASS(AssemblyAlgorithmIdAttribute) {
+  public: UInt32 get_AlgorithmId() { return AlgorithmId; }
   private: UInt32 AlgorithmId;
 };
 } // namespace AssemblyAlgorithmIdAttributeNamespace

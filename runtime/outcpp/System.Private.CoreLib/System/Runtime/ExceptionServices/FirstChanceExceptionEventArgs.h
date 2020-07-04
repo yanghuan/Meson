@@ -8,6 +8,7 @@ FORWARD(Exception)
 namespace System::Private::CoreLib::System::Runtime::ExceptionServices {
 namespace FirstChanceExceptionEventArgsNamespace {
 CLASS(FirstChanceExceptionEventArgs) {
+  public: Exception get_Exception() { return Exception; }
   private: Exception Exception;
 };
 } // namespace FirstChanceExceptionEventArgsNamespace

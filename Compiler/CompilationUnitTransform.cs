@@ -140,6 +140,19 @@ namespace Meson.Compiler {
       }
     }
 
+    public void AddPropertyFieldTypeReference(IProperty property) {
+      var referenceType = property.ReturnType.GetReferenceType();
+      if (referenceType != null) {
+        var rootType = property.DeclaringTypeDefinition.GetReferenceType();
+        if (!Generator.IsCompilationUnitIn(rootType, referenceType)) {
+          var referenceTypeDefinition = referenceType.GetDefinition();
+          if (referenceTypeDefinition.Kind != TypeKind.Enum) {
+            AddHeadReference(referenceTypeDefinition, false);
+          }
+        }
+      }
+    }
+
     private void AddSrcReference(ITypeDefinition type) {
       if (!headReferences_.ContainsKey(type)) {
         srcReferences_.Add(type);
@@ -181,10 +194,10 @@ namespace Meson.Compiler {
       return null;
     }
 
-    private void AddSrcReference(in TypeNameArgs args) {
-      var referenceType = args.Type.GetReferenceType();
+    private void AddSrcReference(IType type, ITypeDefinition definition) {
+      var referenceType = type.GetReferenceType();
       if (referenceType != null) {
-        var rootType = args.Definition?.GetReferenceType();
+        var rootType = definition?.GetReferenceType();
         if (rootType == null || !Generator.IsCompilationUnitIn(rootType, referenceType)) {
           var referenceTypeDefinition = referenceType.GetDefinition();
           AddSrcReference(referenceTypeDefinition);
@@ -246,7 +259,7 @@ namespace Meson.Compiler {
           return result;
         }
       } else {
-        AddSrcReference(args);
+        AddSrcReference(args.Type, args.Definition);
       }
 
       ExpressionSyntax typeName = GetTypeBaseName(args.Type);

@@ -6,6 +6,7 @@
 namespace System::Private::CoreLib::System::Runtime::InteropServices {
 namespace CurrencyWrapperNamespace {
 CLASS(CurrencyWrapper) {
+  public: Decimal get_WrappedObject() { return WrappedObject; }
   private: Decimal WrappedObject;
 };
 } // namespace CurrencyWrapperNamespace

@@ -6,6 +6,7 @@
 namespace System::Private::CoreLib::System::Runtime::InteropServices {
 namespace ComVisibleAttributeNamespace {
 CLASS(ComVisibleAttribute) {
+  public: Boolean get_Value() { return Value; }
   private: Boolean Value;
 };
 } // namespace ComVisibleAttributeNamespace

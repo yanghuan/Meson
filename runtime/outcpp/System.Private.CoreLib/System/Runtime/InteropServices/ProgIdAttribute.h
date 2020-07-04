@@ -8,6 +8,7 @@ FORWARD(String)
 namespace System::Private::CoreLib::System::Runtime::InteropServices {
 namespace ProgIdAttributeNamespace {
 CLASS(ProgIdAttribute) {
+  public: String get_Value() { return Value; }
   private: String Value;
 };
 } // namespace ProgIdAttributeNamespace

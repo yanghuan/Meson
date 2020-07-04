@@ -8,6 +8,8 @@ FORWARD(String)
 namespace System::Private::CoreLib::System::Reflection {
 namespace AssemblyMetadataAttributeNamespace {
 CLASS(AssemblyMetadataAttribute) {
+  public: String get_Key() { return Key; }
+  public: String get_Value() { return Value; }
   private: String Key;
   private: String Value;
 };

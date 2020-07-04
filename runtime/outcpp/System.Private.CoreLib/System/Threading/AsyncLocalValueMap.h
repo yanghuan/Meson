@@ -1,6 +1,7 @@
 #pragma once
 
 #include <rt/GCObject.h>
+#include <System.Private.CoreLib/System/Threading/IAsyncLocalValueMap.h>
 
 namespace System::Private::CoreLib::System {
 FORWARD_(Array, T1, T2)
@@ -13,7 +14,6 @@ FORWARDS_(KeyValuePair, T1, T2, T3)
 } // namespace System::Private::CoreLib::System::Collections::Generic
 namespace System::Private::CoreLib::System::Threading {
 FORWARD(IAsyncLocal)
-FORWARD(IAsyncLocalValueMap)
 namespace AsyncLocalValueMapNamespace {
 using namespace ::System::Private::CoreLib::System::Collections::Generic;
 class AsyncLocalValueMap {
@@ -54,6 +54,7 @@ class AsyncLocalValueMap {
   private: CLASS(ManyElementAsyncLocalValueMap) {
     public: IAsyncLocalValueMap Set(IAsyncLocal key, Object value, Boolean treatNullValueAsNonexistent);
   };
+  public: static IAsyncLocalValueMap get_Empty() { return Empty; }
   public: static Boolean IsEmpty(IAsyncLocalValueMap asyncLocalValueMap);
   public: static IAsyncLocalValueMap Create(IAsyncLocal key, Object value, Boolean treatNullValueAsNonexistent);
   private: static IAsyncLocalValueMap Empty;

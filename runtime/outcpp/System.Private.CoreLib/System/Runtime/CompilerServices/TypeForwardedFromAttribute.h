@@ -8,6 +8,7 @@ FORWARD(String)
 namespace System::Private::CoreLib::System::Runtime::CompilerServices {
 namespace TypeForwardedFromAttributeNamespace {
 CLASS(TypeForwardedFromAttribute) {
+  public: String get_AssemblyFullName() { return AssemblyFullName; }
   private: String AssemblyFullName;
 };
 } // namespace TypeForwardedFromAttributeNamespace

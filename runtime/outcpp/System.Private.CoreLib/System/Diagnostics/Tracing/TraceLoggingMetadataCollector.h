@@ -16,8 +16,8 @@ FORWARD(List, T)
 } // namespace System::Private::CoreLib::System::Collections::Generic
 namespace System::Private::CoreLib::System::Diagnostics::Tracing {
 FORWARD(FieldMetadata)
-enum class TraceLoggingDataType;
 enum class EventFieldTags;
+enum class TraceLoggingDataType;
 namespace TraceLoggingMetadataCollectorNamespace {
 using namespace ::System::Private::CoreLib::System::Collections::Generic;
 CLASS(TraceLoggingMetadataCollector) {
@@ -34,6 +34,8 @@ CLASS(TraceLoggingMetadataCollector) {
     private: Int32 bufferNesting;
     private: Boolean scalar;
   };
+  public: EventFieldTags get_Tags() { return Tags; }
+  public: void set_Tags(EventFieldTags value) { Tags = value; }
   public: Int32 get_ScratchSize();
   public: Int32 get_DataCount();
   public: Int32 get_PinCount();

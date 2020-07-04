@@ -1,10 +1,10 @@
 #pragma once
 
 #include <rt/GCObject.h>
+#include <System.Private.CoreLib/System/Boolean.h>
 
 namespace System::Private::CoreLib::System {
 FORWARD_(Array, T1, T2)
-FORWARDS(Boolean)
 FORWARDS(Char)
 FORWARDS(Int32)
 FORWARD(String)
@@ -16,6 +16,8 @@ FORWARD(EventPipeConfiguration)
 namespace EventPipeControllerNamespace {
 class EventPipeController {
   private: static Array<EventPipeProviderConfiguration> get_DefaultProviderConfiguration();
+  private: static Boolean get_IsControllerInitialized() { return IsControllerInitialized; }
+  private: static void set_IsControllerInitialized(Boolean value) { IsControllerInitialized = value; }
   private: static Int32 get_Config_EnableEventPipe();
   private: static Int32 get_Config_NetTraceFormat();
   private: static String get_Config_EventPipeConfig();

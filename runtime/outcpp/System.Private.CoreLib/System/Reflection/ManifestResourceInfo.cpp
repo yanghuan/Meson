@@ -8,6 +8,6 @@ String ManifestResourceInfo___::get_FileName() {
   return nullptr;
 };
 ResourceLocation ManifestResourceInfo___::get_ResourceLocation() {
-  return ResourceLocation();
+  return ResourceLocation::Embedded;
 };
 } // namespace System::Private::CoreLib::System::Reflection::ManifestResourceInfoNamespace

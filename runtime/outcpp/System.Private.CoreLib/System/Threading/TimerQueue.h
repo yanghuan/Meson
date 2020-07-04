@@ -1,13 +1,13 @@
 #pragma once
 
 #include <rt/GCObject.h>
+#include <System.Private.CoreLib/System/Array.h>
 #include <System.Private.CoreLib/System/Boolean.h>
 #include <System.Private.CoreLib/System/Int32.h>
 #include <System.Private.CoreLib/System/Int64.h>
 #include <System.Private.CoreLib/System/UInt32.h>
 
 namespace System::Private::CoreLib::System {
-FORWARD_(Array, T1, T2)
 FORWARDS(IntPtr)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Threading {
@@ -17,6 +17,9 @@ CLASS(TimerQueue) {
   private: CLASS(AppDomainTimerSafeHandle) {
     protected: Boolean ReleaseHandle();
   };
+  public: static Array<TimerQueue> get_Instances() { return Instances; }
+  public: Int64 get_ActiveCount() { return ActiveCount; }
+  private: void set_ActiveCount(Int64 value) { ActiveCount = value; }
   private: static Int64 get_TickCount64();
   private: Boolean SetTimer(UInt32 actualDuration);
   public: static void AppDomainTimerCallback(Int32 id);

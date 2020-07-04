@@ -18,6 +18,8 @@ namespace ComEventsMethodNamespace {
 using namespace ::System::Private::CoreLib::System::Collections::Generic;
 CLASS(ComEventsMethod) {
   public: CLASS(DelegateWrapper) {
+    public: Delegate get_Delegate() { return Delegate; }
+    public: void set_Delegate(Delegate value) { Delegate = value; }
     public: Object Invoke(Array<Object> args);
     private: void PreProcessSignature();
     private: Boolean _once;

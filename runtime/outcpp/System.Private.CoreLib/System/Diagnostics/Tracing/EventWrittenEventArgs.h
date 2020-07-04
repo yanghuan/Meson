@@ -28,8 +28,14 @@ using namespace ::System::Private::CoreLib::System::Collections::ObjectModel;
 CLASS(EventWrittenEventArgs) {
   public: String get_EventName();
   public: void set_EventName(String value);
+  public: Int32 get_EventId() { return EventId; }
+  public: void set_EventId(Int32 value) { EventId = value; }
   public: Guid get_ActivityId();
   public: void set_ActivityId(Guid value);
+  public: Guid get_RelatedActivityId() { return RelatedActivityId; }
+  public: void set_RelatedActivityId(Guid value) { RelatedActivityId = value; }
+  public: ReadOnlyCollection<Object> get_Payload() { return Payload; }
+  public: void set_Payload(ReadOnlyCollection<Object> value) { Payload = value; }
   public: ReadOnlyCollection<String> get_PayloadNames();
   public: void set_PayloadNames(ReadOnlyCollection<String> value);
   public: EventSource get_EventSource();
@@ -44,6 +50,8 @@ CLASS(EventWrittenEventArgs) {
   public: EventLevel get_Level();
   public: Int64 get_OSThreadId();
   public: void set_OSThreadId(Int64 value);
+  public: DateTime get_TimeStamp() { return TimeStamp; }
+  public: void set_TimeStamp(DateTime value) { TimeStamp = value; }
   private: Int32 EventId;
   private: Guid RelatedActivityId;
   private: ReadOnlyCollection<Object> Payload;

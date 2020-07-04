@@ -8,6 +8,7 @@ FORWARD(String)
 namespace System::Private::CoreLib::System::Runtime::CompilerServices {
 namespace ReferenceAssemblyAttributeNamespace {
 CLASS(ReferenceAssemblyAttribute) {
+  public: String get_Description() { return Description; }
   private: String Description;
 };
 } // namespace ReferenceAssemblyAttributeNamespace

@@ -12,6 +12,9 @@ namespace System::Private::CoreLib::System::Text {
 FORWARD(Encoding)
 namespace EncodingInfoNamespace {
 CLASS(EncodingInfo) {
+  public: Int32 get_CodePage() { return CodePage; }
+  public: String get_Name() { return Name; }
+  public: String get_DisplayName() { return DisplayName; }
   public: Encoding GetEncoding();
   public: Boolean Equals(Object value);
   public: Int32 GetHashCode();

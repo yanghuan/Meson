@@ -8,6 +8,7 @@ FORWARD(String)
 namespace System::Private::CoreLib::System::Reflection {
 namespace AssemblyDefaultAliasAttributeNamespace {
 CLASS(AssemblyDefaultAliasAttribute) {
+  public: String get_DefaultAlias() { return DefaultAlias; }
   private: String DefaultAlias;
 };
 } // namespace AssemblyDefaultAliasAttributeNamespace

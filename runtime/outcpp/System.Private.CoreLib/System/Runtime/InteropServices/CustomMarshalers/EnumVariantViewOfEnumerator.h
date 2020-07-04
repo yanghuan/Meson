@@ -2,6 +2,9 @@
 
 #include <rt/GCObject.h>
 
+namespace System::Private::CoreLib::System::Collections {
+FORWARD(IEnumerator)
+} // namespace System::Private::CoreLib::System::Collections
 namespace System::Private::CoreLib::System::Runtime::InteropServices::ComTypes {
 FORWARD(IEnumVARIANT)
 } // namespace System::Private::CoreLib::System::Runtime::InteropServices::ComTypes
@@ -11,14 +14,12 @@ FORWARDS(Int32)
 FORWARDS(IntPtr)
 FORWARD(Object)
 } // namespace System::Private::CoreLib::System
-namespace System::Private::CoreLib::System::Collections {
-FORWARD(IEnumerator)
-} // namespace System::Private::CoreLib::System::Collections
 namespace System::Private::CoreLib::System::Runtime::InteropServices::CustomMarshalers {
 namespace EnumVariantViewOfEnumeratorNamespace {
 using namespace ::System::Private::CoreLib::System::Collections;
 using namespace ::System::Private::CoreLib::System::Runtime::InteropServices::ComTypes;
 CLASS(EnumVariantViewOfEnumerator) {
+  public: IEnumerator get_Enumerator() { return Enumerator; }
   public: IEnumVARIANT Clone();
   public: Int32 Next(Int32 celt, Array<Object> rgVar, IntPtr pceltFetched);
   public: Int32 Reset();

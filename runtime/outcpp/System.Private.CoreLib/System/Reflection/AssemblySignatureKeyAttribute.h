@@ -8,6 +8,8 @@ FORWARD(String)
 namespace System::Private::CoreLib::System::Reflection {
 namespace AssemblySignatureKeyAttributeNamespace {
 CLASS(AssemblySignatureKeyAttribute) {
+  public: String get_PublicKey() { return PublicKey; }
+  public: String get_Countersignature() { return Countersignature; }
   private: String PublicKey;
   private: String Countersignature;
 };
