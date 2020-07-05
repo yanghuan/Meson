@@ -69,8 +69,8 @@ CLASS(UTF7Encoding) {
   public: Int32 GetBytes(Char* chars, Int32 charCount, Byte* bytes, Int32 byteCount, EncoderNLS baseEncoder);
   public: Int32 GetCharCount(Byte* bytes, Int32 count, DecoderNLS baseDecoder);
   public: Int32 GetChars(Byte* bytes, Int32 byteCount, Char* chars, Int32 charCount, DecoderNLS baseDecoder);
-  public: ::System::Private::CoreLib::System::Text::Decoder GetDecoder();
-  public: ::System::Private::CoreLib::System::Text::Encoder GetEncoder();
+  public: Text::Decoder GetDecoder();
+  public: Text::Encoder GetEncoder();
   public: Int32 GetMaxByteCount(Int32 charCount);
   public: Int32 GetMaxCharCount(Int32 byteCount);
   public: static UTF7Encoding s_default;

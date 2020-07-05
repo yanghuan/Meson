@@ -135,6 +135,9 @@ namespace Meson.Compiler {
       if (definition != null && definition.ParentModule == reference.ParentModule) {
         foreach (string i in definition.GetAllNamespaces()) {
           if (reference.Namespace.StartsWith(i)) {
+            if (reference.Namespace == i) {
+              return string.Empty;
+            }
             return reference.Namespace.Substring(i.Length + 1).ReplaceDot();
           }
         }
@@ -561,9 +564,14 @@ namespace Meson.Compiler {
       return name + "Namespace";
     }
 
-    public static ExpressionSyntax WithFullName(this ExpressionSyntax typeName, IType type) {
-      IdentifierSyntax ns = type.GetDefinition().GetFullNamespace(true);
-      return ns.TwoColon(typeName);
+    public static ExpressionSyntax WithFullName(this ExpressionSyntax typeName, IType type, ITypeDefinition definition = null) {
+      var typeDefinition = type.GetDefinition();
+      string ns = typeDefinition.GetFullNamespace(true, definition);
+      if (ns.Length == 0) {
+       int pos = typeDefinition.Namespace.LastIndexOf('.');
+       ns = pos != -1 ? typeDefinition.Namespace.Substring(pos + 1).ReplaceDot() : typeDefinition.Namespace.ReplaceDot();
+      }
+      return ((IdentifierSyntax)ns).TwoColon(typeName);
     }
 
     public static T Accept<T>(this AstNode node, MethodTransform transform) where T : SyntaxNode {

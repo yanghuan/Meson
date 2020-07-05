@@ -35,7 +35,7 @@ CLASS(ScalarArrayTypeInfo) {
   public: static TraceLoggingTypeInfo Guid();
   private: Func<EventFieldFormat, TraceLoggingDataType, TraceLoggingDataType> formatFunc;
   private: TraceLoggingDataType nativeFormat;
-  private: ::System::Private::CoreLib::System::Int32 elementSize;
+  private: System::Int32 elementSize;
 };
 } // namespace ScalarArrayTypeInfoNamespace
 using ScalarArrayTypeInfo = ScalarArrayTypeInfoNamespace::ScalarArrayTypeInfo;

@@ -532,13 +532,13 @@ namespace Meson.Compiler {
     public static void CheckParameterTypeConflict(ref ExpressionSyntax type, IParameter parameter, ITypeDefinition typeDefinition) {
       foreach (var m in typeDefinition.Methods) {
         if (m.Name == parameter.Type.Name) {
-          type = type.WithFullName(parameter.Type);
+          type = type.WithFullName(parameter.Type, typeDefinition);
           break;
         }
       }
       foreach (var f in typeDefinition.Fields) {
         if (f.GetFieldName() == parameter.Type.Name) {
-          type = type.WithFullName(parameter.Type);
+          type = type.WithFullName(parameter.Type, typeDefinition);
           break;
         }
       }

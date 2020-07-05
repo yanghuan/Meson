@@ -206,7 +206,7 @@ namespace Meson.Compiler {
       if (returnType != null) {
         foreach (var nestedType in typeDefinition.NestedTypes) {
           if (nestedType != returnType && nestedType.Name == returnType.Name) {
-            type = type.WithFullName(returnType);
+            type = type.WithFullName(returnType, typeDefinition);
           }
         }
       }
@@ -232,7 +232,7 @@ namespace Meson.Compiler {
           break;
         }
         if (m.Name == parameter.Type.Name) {
-          type = type.WithFullName(parameter.Type);
+          type = type.WithFullName(parameter.Type, typeDefinition);
           break;
         }
       }
@@ -316,7 +316,7 @@ namespace Meson.Compiler {
     private void CheckFieldTypeConflict(ref ExpressionSyntax type, IField field, ITypeDefinition typeDefinition) {
       foreach (var m in typeDefinition.Methods) {
         if (m.Name == field.Type.Name) {
-          type = type.WithFullName(field.Type);
+          type = type.WithFullName(field.Type, typeDefinition);
           return;
         }
       }
@@ -326,7 +326,7 @@ namespace Meson.Compiler {
           break;
         }
         if (f.GetFieldName() == field.Type.Name) {
-          type = type.WithFullName(field.Type);
+          type = type.WithFullName(field.Type, typeDefinition);
           break;
         }
       }

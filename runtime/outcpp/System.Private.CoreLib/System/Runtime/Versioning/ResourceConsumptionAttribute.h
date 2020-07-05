@@ -9,7 +9,7 @@ CLASS(ResourceConsumptionAttribute) {
   public: ResourceScope get_ResourceScope() { return ResourceScope; }
   public: ResourceScope get_ConsumptionScope() { return ConsumptionScope; }
   private: ResourceScope ResourceScope;
-  private: ::System::Private::CoreLib::System::Runtime::Versioning::ResourceScope ConsumptionScope;
+  private: Versioning::ResourceScope ConsumptionScope;
 };
 } // namespace ResourceConsumptionAttributeNamespace
 using ResourceConsumptionAttribute = ResourceConsumptionAttributeNamespace::ResourceConsumptionAttribute;

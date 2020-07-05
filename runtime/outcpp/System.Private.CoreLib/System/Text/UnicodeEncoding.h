@@ -43,7 +43,7 @@ CLASS(UnicodeEncoding) {
   public: Int32 GetCharCount(Byte* bytes, Int32 count, DecoderNLS baseDecoder);
   public: Int32 GetChars(Byte* bytes, Int32 byteCount, Char* chars, Int32 charCount, DecoderNLS baseDecoder);
   public: Encoder GetEncoder();
-  public: ::System::Private::CoreLib::System::Text::Decoder GetDecoder();
+  public: Text::Decoder GetDecoder();
   public: Array<Byte> GetPreamble();
   public: Int32 GetMaxByteCount(Int32 charCount);
   public: Int32 GetMaxCharCount(Int32 byteCount);
