@@ -325,7 +325,7 @@ namespace Meson.Compiler {
         if (f == field) {
           break;
         }
-        if (f.Name == field.Type.Name) {
+        if (f.GetFieldName() == field.Type.Name) {
           type = type.WithFullName(field.Type);
           break;
         }

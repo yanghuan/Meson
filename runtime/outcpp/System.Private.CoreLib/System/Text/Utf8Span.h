@@ -27,23 +27,10 @@ enum class NormalizationForm;
 enum class TrimType;
 namespace Utf8SpanNamespace {
 using namespace ::System::Private::CoreLib::System::Globalization;
+struct SplitResult;
 struct Utf8Span {
   friend struct CharEnumerable;
   friend struct RuneEnumerable;
-  public: struct SplitResult {
-    friend struct State;
-    friend struct Enumerator;
-    public: void Deconstruct(Utf8Span& item1, Utf8Span& item2);
-    public: void Deconstruct(Utf8Span& item1, Utf8Span& item2, Utf8Span& item3);
-    public: void Deconstruct(Utf8Span& item1, Utf8Span& item2, Utf8Span& item3, Utf8Span& item4);
-    public: void Deconstruct(Utf8Span& item1, Utf8Span& item2, Utf8Span& item3, Utf8Span& item4, Utf8Span& item5);
-    public: void Deconstruct(Utf8Span& item1, Utf8Span& item2, Utf8Span& item3, Utf8Span& item4, Utf8Span& item5, Utf8Span& item6);
-    public: void Deconstruct(Utf8Span& item1, Utf8Span& item2, Utf8Span& item3, Utf8Span& item4, Utf8Span& item5, Utf8Span& item6, Utf8Span& item7);
-    public: void Deconstruct(Utf8Span& item1, Utf8Span& item2, Utf8Span& item3, Utf8Span& item4, Utf8Span& item5, Utf8Span& item6, Utf8Span& item7, Utf8Span& item8);
-    public: Enumerator GetEnumerator();
-    private: void TrimIfNeeded(Utf8Span& span);
-    private: State _state;
-  };
   friend struct SplitOnResult;
   public: ReadOnlySpan<Byte> get_Bytes() { return Bytes; }
   public: static Utf8Span get_Empty();
@@ -160,11 +147,25 @@ struct State {
   public: Utf8Span SearchTerm;
   public: Utf8StringSplitOptions SplitOptions;
 };
+struct SplitResult {
+  friend struct State;
+  friend struct Enumerator;
+  public: void Deconstruct(Utf8Span& item1, Utf8Span& item2);
+  public: void Deconstruct(Utf8Span& item1, Utf8Span& item2, Utf8Span& item3);
+  public: void Deconstruct(Utf8Span& item1, Utf8Span& item2, Utf8Span& item3, Utf8Span& item4);
+  public: void Deconstruct(Utf8Span& item1, Utf8Span& item2, Utf8Span& item3, Utf8Span& item4, Utf8Span& item5);
+  public: void Deconstruct(Utf8Span& item1, Utf8Span& item2, Utf8Span& item3, Utf8Span& item4, Utf8Span& item5, Utf8Span& item6);
+  public: void Deconstruct(Utf8Span& item1, Utf8Span& item2, Utf8Span& item3, Utf8Span& item4, Utf8Span& item5, Utf8Span& item6, Utf8Span& item7);
+  public: void Deconstruct(Utf8Span& item1, Utf8Span& item2, Utf8Span& item3, Utf8Span& item4, Utf8Span& item5, Utf8Span& item6, Utf8Span& item7, Utf8Span& item8);
+  public: Enumerator GetEnumerator();
+  private: void TrimIfNeeded(Utf8Span& span);
+  private: State _state;
+};
 struct Enumerator {
   public: Utf8Span get_Current();
   public: Boolean MoveNext();
   private: Utf8Span _current;
-  private: Utf8Span::SplitResult::State _state;
+  private: State _state;
 };
 struct SplitOnResult {
   public: Utf8Span get_After() { return After; }
