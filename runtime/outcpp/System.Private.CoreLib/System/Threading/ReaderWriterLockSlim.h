@@ -12,8 +12,8 @@ FORWARDS(UInt16)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Threading {
 enum class LockRecursionPolicy;
-FORWARD(ReaderWriterCount)
 FORWARD(EventWaitHandle)
+FORWARD(ReaderWriterCount)
 namespace ReaderWriterLockSlimNamespace {
 CLASS(ReaderWriterLockSlim) {
   private: enum class WaiterStates : uint8_t {

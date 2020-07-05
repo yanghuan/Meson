@@ -27,12 +27,12 @@ namespace System::Private::CoreLib::System::Buffers {
 FORWARD(ReadOnlySpanAction, T, TArg)
 } // namespace System::Private::CoreLib::System::Buffers
 namespace System::Private::CoreLib::System::IO {
-FORWARD(Stream)
 enum class SeekOrigin;
+FORWARD(Stream)
 namespace MemoryStreamNamespace {
-using namespace ::System::Private::CoreLib::System::Buffers;
-using namespace ::System::Private::CoreLib::System::Threading;
-using namespace ::System::Private::CoreLib::System::Threading::Tasks;
+using namespace Buffers;
+using namespace Threading;
+using namespace Threading::Tasks;
 CLASS(MemoryStream) {
   public: Boolean get_CanRead();
   public: Boolean get_CanSeek();

@@ -7,15 +7,15 @@ namespace System::Private::CoreLib::System::Text {
 FORWARD(StringBuilder)
 } // namespace System::Private::CoreLib::System::Text
 namespace System::Private::CoreLib::System {
+FORWARDS(Boolean)
+FORWARDS(Char)
 FORWARDS(Int16)
 FORWARD(Object)
-FORWARDS(Boolean)
-FORWARD(String)
-FORWARDS(Span, T)
-FORWARDS(Char)
 FORWARDS(ReadOnlySpan, T)
+FORWARDS(Span, T)
+FORWARD(String)
 namespace VersionNamespace {
-using namespace ::System::Private::CoreLib::System::Text;
+using namespace Text;
 CLASS(Version) {
   public: Int32 get_Major();
   public: Int32 get_Minor();

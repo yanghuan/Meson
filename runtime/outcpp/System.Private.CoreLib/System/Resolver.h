@@ -7,13 +7,13 @@ namespace System::Private::CoreLib::System::Reflection {
 FORWARD(MethodInfo)
 } // namespace System::Private::CoreLib::System::Reflection
 namespace System::Private::CoreLib::System {
-FORWARD(RuntimeType)
 FORWARD_(Array, T1, T2)
 FORWARDS(Byte)
-FORWARD(String)
 FORWARDS(IntPtr)
+FORWARD(RuntimeType)
+FORWARD(String)
 namespace ResolverNamespace {
-using namespace ::System::Private::CoreLib::System::Reflection;
+using namespace Reflection;
 CLASS(Resolver) {
   public: struct CORINFO_EH_CLAUSE {
     public: Int32 Flags;

@@ -15,10 +15,10 @@ namespace System::Private::CoreLib::System::Runtime::Intrinsics {
 FORWARDS_(Vector128, T1, T2)
 } // namespace System::Private::CoreLib::System::Runtime::Intrinsics
 namespace System::Private::CoreLib::System::Numerics {
-FORWARDS(Quaternion)
 FORWARDS(Plane)
+FORWARDS(Quaternion)
 namespace Matrix4x4Namespace {
-using namespace ::System::Private::CoreLib::System::Runtime::Intrinsics;
+using namespace Runtime::Intrinsics;
 struct Matrix4x4 {
   private: struct CanonicalBasis {
     public: Vector3 Row0;

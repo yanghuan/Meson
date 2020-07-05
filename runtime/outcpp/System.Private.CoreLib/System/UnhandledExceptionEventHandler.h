@@ -3,10 +3,10 @@
 #include <rt/GCObject.h>
 
 namespace System::Private::CoreLib::System {
-FORWARD(Object)
-FORWARD(UnhandledExceptionEventArgs)
 FORWARD(AsyncCallback)
 FORWARD(IAsyncResult)
+FORWARD(Object)
+FORWARD(UnhandledExceptionEventArgs)
 namespace UnhandledExceptionEventHandlerNamespace {
 CLASS(UnhandledExceptionEventHandler) {
   public: void Invoke(Object sender, UnhandledExceptionEventArgs e);

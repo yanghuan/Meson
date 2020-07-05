@@ -3,9 +3,9 @@
 #include <rt/GCObject.h>
 
 namespace System::Private::CoreLib::System {
-FORWARD(Object)
 FORWARD(AsyncCallback)
 FORWARD(IAsyncResult)
+FORWARD(Object)
 namespace CtorDelegateNamespace {
 CLASS(CtorDelegate) {
   public: void Invoke(Object instance);

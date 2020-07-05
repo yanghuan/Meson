@@ -8,8 +8,8 @@ FORWARD(Object)
 FORWARDS(UInt32)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Threading {
-FORWARDS(NativeOverlapped)
 FORWARD(IOCompletionCallback)
+FORWARDS(NativeOverlapped)
 FORWARD(PreAllocatedOverlapped)
 FORWARD(ThreadPoolBoundHandle)
 namespace ThreadPoolBoundHandleOverlappedNamespace {

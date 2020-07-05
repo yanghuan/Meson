@@ -6,8 +6,8 @@ namespace System::Private::CoreLib::System {
 FORWARDS(Guid)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Runtime::InteropServices::ComTypes {
-FORWARD(IEnumConnectionPoints)
 FORWARD(IConnectionPoint)
+FORWARD(IEnumConnectionPoints)
 namespace IConnectionPointContainerNamespace {
 CLASS(IConnectionPointContainer) {
   public: void EnumConnectionPoints(IEnumConnectionPoints& ppEnum);

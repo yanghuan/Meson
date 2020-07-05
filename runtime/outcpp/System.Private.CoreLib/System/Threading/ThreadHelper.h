@@ -10,10 +10,10 @@ namespace System::Private::CoreLib::System::Globalization {
 FORWARD(CultureInfo)
 } // namespace System::Private::CoreLib::System::Globalization
 namespace System::Private::CoreLib::System::Threading {
-FORWARD(ExecutionContext)
 FORWARD_(ContextCallback, T1, T2)
+FORWARD(ExecutionContext)
 namespace ThreadHelperNamespace {
-using namespace ::System::Private::CoreLib::System::Globalization;
+using namespace Globalization;
 CLASS(ThreadHelper) {
   public: void SetExecutionContextHelper(ExecutionContext ec);
   private: static void ThreadStart_Context(Object state);

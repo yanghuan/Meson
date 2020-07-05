@@ -8,21 +8,21 @@ namespace System::Private::CoreLib::System::Globalization {
 enum class DateTimeStyles;
 } // namespace System::Private::CoreLib::System::Globalization
 namespace System::Private::CoreLib::System {
-FORWARDS(Int32)
 enum class DayOfWeek;
-FORWARDS(TimeSpan)
-FORWARDS(Int64)
-FORWARDS(Double)
-FORWARD(Object)
-FORWARDS(Boolean)
-FORWARD(String)
-FORWARD(IFormatProvider)
-FORWARDS(ReadOnlySpan, T)
-FORWARDS(Char)
 FORWARD_(Array, T1, T2)
+FORWARDS(Boolean)
+FORWARDS(Char)
+FORWARDS(Double)
+FORWARD(IFormatProvider)
+FORWARDS(Int32)
+FORWARDS(Int64)
+FORWARD(Object)
+FORWARDS(ReadOnlySpan, T)
 FORWARDS(Span, T)
+FORWARD(String)
+FORWARDS(TimeSpan)
 namespace DateTimeOffsetNamespace {
-using namespace ::System::Private::CoreLib::System::Globalization;
+using namespace Globalization;
 struct DateTimeOffset {
   public: static DateTimeOffset get_Now();
   public: static DateTimeOffset get_UtcNow();

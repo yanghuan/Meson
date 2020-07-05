@@ -9,7 +9,7 @@ FORWARDS(StreamingContext)
 namespace System::Private::CoreLib::System {
 FORWARD(String)
 namespace TypeInitializationExceptionNamespace {
-using namespace ::System::Private::CoreLib::System::Runtime::Serialization;
+using namespace Runtime::Serialization;
 CLASS(TypeInitializationException) {
   public: String get_TypeName();
   public: void GetObjectData(SerializationInfo info, StreamingContext context);

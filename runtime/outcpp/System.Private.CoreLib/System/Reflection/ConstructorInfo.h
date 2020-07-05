@@ -14,11 +14,11 @@ namespace System::Private::CoreLib::System::Globalization {
 FORWARD(CultureInfo)
 } // namespace System::Private::CoreLib::System::Globalization
 namespace System::Private::CoreLib::System::Reflection {
-enum class MemberTypes;
 enum class BindingFlags;
+enum class MemberTypes;
 FORWARD(Binder)
 namespace ConstructorInfoNamespace {
-using namespace ::System::Private::CoreLib::System::Globalization;
+using namespace Globalization;
 CLASS(ConstructorInfo) {
   public: MemberTypes get_MemberType();
   public: Type GetReturnType();

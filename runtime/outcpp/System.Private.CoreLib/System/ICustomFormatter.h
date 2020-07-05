@@ -3,9 +3,9 @@
 #include <rt/GCObject.h>
 
 namespace System::Private::CoreLib::System {
-FORWARD(String)
-FORWARD(Object)
 FORWARD(IFormatProvider)
+FORWARD(Object)
+FORWARD(String)
 namespace ICustomFormatterNamespace {
 CLASS(ICustomFormatter) {
   public: String Format(String format, Object arg, IFormatProvider formatProvider);

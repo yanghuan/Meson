@@ -15,8 +15,8 @@ FORWARD(String)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Diagnostics {
 namespace StackFrameNamespace {
-using namespace ::System::Private::CoreLib::System::Reflection;
-using namespace ::System::Private::CoreLib::System::Text;
+using namespace Reflection;
+using namespace Text;
 CLASS(StackFrame) {
   public: Boolean get_IsLastFrameFromForeignExceptionStackTrace();
   private: void BuildStackFrame(Int32 skipFrames, Boolean needFileInfo);

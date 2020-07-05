@@ -17,10 +17,10 @@ namespace System::Private::CoreLib::System::Collections::Generic {
 FORWARD(Dictionary, TKey, TValue)
 } // namespace System::Private::CoreLib::System::Collections::Generic
 namespace System::Private::CoreLib::Internal::Runtime::InteropServices {
-FORWARDS(LICINFO)
-FORWARD(LicenseInteropProxy)
 FORWARDS(ComActivationContext)
 FORWARDS(ComActivationContextInternal)
+FORWARD(LicenseInteropProxy)
+FORWARDS(LICINFO)
 namespace ComActivatorNamespace {
 using namespace ::System::Private::CoreLib::System;
 using namespace ::System::Private::CoreLib::System::Collections::Generic;

@@ -16,7 +16,7 @@ FORWARD(Assembly)
 namespace System::Private::CoreLib::System::Runtime::InteropServices {
 enum class DllImportSearchPath;
 namespace DllImportResolverNamespace {
-using namespace ::System::Private::CoreLib::System::Reflection;
+using namespace Reflection;
 CLASS(DllImportResolver) {
   public: IntPtr Invoke(String libraryName, Assembly assembly, Nullable<DllImportSearchPath> searchPath);
   public: IAsyncResult BeginInvoke(String libraryName, Assembly assembly, Nullable<DllImportSearchPath> searchPath, AsyncCallback callback, Object object);

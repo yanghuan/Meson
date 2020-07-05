@@ -17,12 +17,12 @@ namespace System::Private::CoreLib::System::Globalization {
 FORWARD(CultureInfo)
 } // namespace System::Private::CoreLib::System::Globalization
 namespace System::Private::CoreLib::System::Reflection {
-enum class FieldAttributes;
-FORWARD(RuntimeModule)
 enum class BindingFlags;
+enum class FieldAttributes;
 FORWARD(Binder)
+FORWARD(RuntimeModule)
 namespace MdFieldInfoNamespace {
-using namespace ::System::Private::CoreLib::System::Globalization;
+using namespace Globalization;
 CLASS(MdFieldInfo) {
   public: String get_Name();
   public: Int32 get_MetadataToken();

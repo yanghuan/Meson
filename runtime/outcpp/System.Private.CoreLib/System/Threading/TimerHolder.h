@@ -9,10 +9,10 @@ namespace System::Private::CoreLib::System::Threading::Tasks {
 FORWARDS_(ValueTask, T1, T2)
 } // namespace System::Private::CoreLib::System::Threading::Tasks
 namespace System::Private::CoreLib::System::Threading {
-FORWARD(WaitHandle)
 FORWARD(TimerQueueTimer)
+FORWARD(WaitHandle)
 namespace TimerHolderNamespace {
-using namespace ::System::Private::CoreLib::System::Threading::Tasks;
+using namespace Tasks;
 CLASS(TimerHolder) {
   protected: void Finalize();
   public: void Close();

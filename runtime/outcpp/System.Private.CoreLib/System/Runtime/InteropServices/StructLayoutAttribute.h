@@ -4,8 +4,8 @@
 #include <System.Private.CoreLib/System/Int32.h>
 
 namespace System::Private::CoreLib::System::Runtime::InteropServices {
-enum class LayoutKind;
 enum class CharSet;
+enum class LayoutKind;
 namespace StructLayoutAttributeNamespace {
 CLASS(StructLayoutAttribute) {
   public: LayoutKind get_Value() { return Value; }

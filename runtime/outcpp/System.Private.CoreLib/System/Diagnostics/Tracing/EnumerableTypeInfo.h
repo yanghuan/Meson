@@ -7,11 +7,11 @@ FORWARD(Object)
 FORWARD(String)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Diagnostics::Tracing {
-FORWARD(TraceLoggingTypeInfo)
-FORWARD(TraceLoggingMetadataCollector)
 enum class EventFieldFormat;
-FORWARD(TraceLoggingDataCollector)
 FORWARDS(PropertyValue)
+FORWARD(TraceLoggingDataCollector)
+FORWARD(TraceLoggingMetadataCollector)
+FORWARD(TraceLoggingTypeInfo)
 namespace EnumerableTypeInfoNamespace {
 CLASS(EnumerableTypeInfo) {
   public: TraceLoggingTypeInfo get_ElementInfo();

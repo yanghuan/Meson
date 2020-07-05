@@ -9,9 +9,9 @@ FORWARD(Object)
 FORWARD(String)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Text {
-FORWARD(Encoding)
-FORWARD(EncoderFallback)
 FORWARD(DecoderFallback)
+FORWARD(EncoderFallback)
+FORWARD(Encoding)
 namespace EncodingProviderNamespace {
 CLASS(EncodingProvider) {
   public: Encoding GetEncoding(String name);

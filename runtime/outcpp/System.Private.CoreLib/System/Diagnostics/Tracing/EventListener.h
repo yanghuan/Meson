@@ -16,13 +16,13 @@ FORWARD(IDictionary, TKey, TValue)
 FORWARD(List, T)
 } // namespace System::Private::CoreLib::System::Collections::Generic
 namespace System::Private::CoreLib::System::Diagnostics::Tracing {
-FORWARD(EventSource)
-enum class EventLevel;
 enum class EventKeywords : int64_t;
-FORWARD(EventWrittenEventArgs)
+enum class EventLevel;
+FORWARD(EventSource)
 FORWARD(EventSourceCreatedEventArgs)
+FORWARD(EventWrittenEventArgs)
 namespace EventListenerNamespace {
-using namespace ::System::Private::CoreLib::System::Collections::Generic;
+using namespace Collections::Generic;
 CLASS(EventListener) {
   public: static Object get_EventListenersLock();
   public: void Dispose();

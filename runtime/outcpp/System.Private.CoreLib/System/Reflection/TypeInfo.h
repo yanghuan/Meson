@@ -20,7 +20,7 @@ FORWARD(MemberInfo)
 FORWARD(MethodInfo)
 FORWARD(PropertyInfo)
 namespace TypeInfoNamespace {
-using namespace ::System::Private::CoreLib::System::Collections::Generic;
+using namespace Collections::Generic;
 CLASS(TypeInfo) {
   public: Array<Type> get_GenericTypeParameters();
   public: IEnumerable<ConstructorInfo> get_DeclaredConstructors();

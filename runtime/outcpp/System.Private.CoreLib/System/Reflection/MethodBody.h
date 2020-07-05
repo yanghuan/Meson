@@ -12,10 +12,10 @@ namespace System::Private::CoreLib::System::Collections::Generic {
 FORWARD(IList, T)
 } // namespace System::Private::CoreLib::System::Collections::Generic
 namespace System::Private::CoreLib::System::Reflection {
-FORWARD(LocalVariableInfo)
 FORWARD(ExceptionHandlingClause)
+FORWARD(LocalVariableInfo)
 namespace MethodBodyNamespace {
-using namespace ::System::Private::CoreLib::System::Collections::Generic;
+using namespace Collections::Generic;
 using ::System::Private::CoreLib::System::Collections::Generic::IList;
 CLASS(MethodBody) {
   public: Int32 get_LocalSignatureMetadataToken();

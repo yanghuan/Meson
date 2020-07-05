@@ -11,14 +11,14 @@ namespace System::Private::CoreLib::System::Reflection {
 FORWARD(MethodInfo)
 } // namespace System::Private::CoreLib::System::Reflection
 namespace System::Private::CoreLib::System {
-FORWARDS(Boolean)
-FORWARD(Object)
 FORWARD_(Array, T1, T2)
-FORWARDS(Int32)
+FORWARDS(Boolean)
 FORWARD(Delegate)
+FORWARDS(Int32)
+FORWARD(Object)
 namespace MulticastDelegateNamespace {
-using namespace ::System::Private::CoreLib::System::Reflection;
-using namespace ::System::Private::CoreLib::System::Runtime::Serialization;
+using namespace Reflection;
+using namespace Runtime::Serialization;
 CLASS(MulticastDelegate) {
   public: Boolean IsUnmanagedFunctionPtr();
   public: Boolean InvocationListLogicallyNull();

@@ -3,6 +3,7 @@
 #include <rt/GCObject.h>
 
 namespace System::Private::CoreLib::System {
+enum class StringComparison;
 FORWARD_(Array, T1, T2)
 FORWARDS(Boolean)
 FORWARDS(Byte)
@@ -11,7 +12,6 @@ FORWARDS(Int32)
 FORWARDS(ModuleHandle)
 FORWARD(Object)
 FORWARD(String)
-enum class StringComparison;
 FORWARD(Type)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Collections::Generic {
@@ -23,22 +23,22 @@ FORWARD(SerializationInfo)
 FORWARDS(StreamingContext)
 } // namespace System::Private::CoreLib::System::Runtime::Serialization
 namespace System::Private::CoreLib::System::Reflection {
-FORWARD(Assembly)
-FORWARD(CustomAttributeData)
-enum class PortableExecutableKinds;
-enum class ImageFileMachine;
-FORWARD(MethodInfo)
 enum class BindingFlags;
-FORWARD(Binder)
 enum class CallingConventions;
-FORWARDS(ParameterModifier)
+enum class ImageFileMachine;
+enum class PortableExecutableKinds;
+FORWARD(Assembly)
+FORWARD(Binder)
+FORWARD(CustomAttributeData)
 FORWARD(FieldInfo)
-FORWARD(TypeFilter)
 FORWARD(MemberInfo)
 FORWARD(MethodBase)
+FORWARD(MethodInfo)
+FORWARDS(ParameterModifier)
+FORWARD(TypeFilter)
 namespace ModuleNamespace {
-using namespace ::System::Private::CoreLib::System::Collections::Generic;
-using namespace ::System::Private::CoreLib::System::Runtime::Serialization;
+using namespace Collections::Generic;
+using namespace Runtime::Serialization;
 using ::System::Private::CoreLib::System::Collections::Generic::IList;
 CLASS(Module) {
   public: Assembly get_Assembly();

@@ -24,30 +24,30 @@ namespace System::Private::CoreLib::System::Runtime::CompilerServices {
 FORWARD(TypeForwardedToAttribute)
 } // namespace System::Private::CoreLib::System::Runtime::CompilerServices
 namespace System::Private::CoreLib::System::Reflection {
+enum class CustomAttributeEncoding;
+FORWARD(Assembly)
 FORWARD(ConstructorInfo)
-FORWARDS(CustomAttributeTypedArgument)
+FORWARDS(CustomAttributeCtorParameter)
 FORWARDS(CustomAttributeNamedArgument)
+FORWARDS(CustomAttributeNamedParameter)
+FORWARDS(CustomAttributeRecord)
+FORWARDS(CustomAttributeType)
+FORWARDS(CustomAttributeTypedArgument)
 FORWARD(MemberInfo)
 FORWARD(Module)
-FORWARD(Assembly)
 FORWARD(ParameterInfo)
-FORWARD(RuntimeFieldInfo)
-FORWARD(RuntimeMethodInfo)
+FORWARD(RuntimeAssembly)
 FORWARD(RuntimeConstructorInfo)
 FORWARD(RuntimeEventInfo)
-FORWARD(RuntimePropertyInfo)
+FORWARD(RuntimeFieldInfo)
+FORWARD(RuntimeMethodInfo)
 FORWARD(RuntimeModule)
-FORWARD(RuntimeAssembly)
 FORWARD(RuntimeParameterInfo)
-enum class CustomAttributeEncoding;
-FORWARDS(CustomAttributeType)
-FORWARDS(CustomAttributeRecord)
-FORWARDS(CustomAttributeCtorParameter)
-FORWARDS(CustomAttributeNamedParameter)
+FORWARD(RuntimePropertyInfo)
 namespace CustomAttributeDataNamespace {
-using namespace ::System::Private::CoreLib::System::Collections::Generic;
-using namespace ::System::Private::CoreLib::System::Runtime::CompilerServices;
-using namespace ::System::Private::CoreLib::System::Runtime::InteropServices;
+using namespace Collections::Generic;
+using namespace Runtime::CompilerServices;
+using namespace Runtime::InteropServices;
 using ::System::Private::CoreLib::System::Collections::Generic::IList;
 CLASS(CustomAttributeData) {
   public: Type get_AttributeType();

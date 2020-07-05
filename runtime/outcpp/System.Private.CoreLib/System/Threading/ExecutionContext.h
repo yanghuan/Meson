@@ -14,11 +14,11 @@ FORWARD(Object)
 namespace System::Private::CoreLib::System::Threading {
 FORWARDS(AsyncFlowControl)
 FORWARD_(ContextCallback, T1, T2)
-FORWARD(Thread)
 FORWARD(IAsyncLocal)
 FORWARD(IAsyncLocalValueMap)
+FORWARD(Thread)
 namespace ExecutionContextNamespace {
-using namespace ::System::Private::CoreLib::System::Runtime::Serialization;
+using namespace Runtime::Serialization;
 CLASS(ExecutionContext) {
   public: Boolean get_HasChangeNotifications();
   public: Boolean get_IsDefault();

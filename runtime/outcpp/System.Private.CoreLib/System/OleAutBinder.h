@@ -9,7 +9,7 @@ namespace System::Private::CoreLib::System {
 FORWARD(Object)
 FORWARD(Type)
 namespace OleAutBinderNamespace {
-using namespace ::System::Private::CoreLib::System::Globalization;
+using namespace Globalization;
 CLASS(OleAutBinder) {
   public: Object ChangeType(Object value, Type type, CultureInfo cultureInfo);
 };

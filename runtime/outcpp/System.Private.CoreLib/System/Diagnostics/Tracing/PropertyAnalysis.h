@@ -10,11 +10,11 @@ namespace System::Private::CoreLib::System::Reflection {
 FORWARD(PropertyInfo)
 } // namespace System::Private::CoreLib::System::Reflection
 namespace System::Private::CoreLib::System::Diagnostics::Tracing {
+FORWARD(EventFieldAttribute)
 FORWARDS(PropertyValue)
 FORWARD(TraceLoggingTypeInfo)
-FORWARD(EventFieldAttribute)
 namespace PropertyAnalysisNamespace {
-using namespace ::System::Private::CoreLib::System::Reflection;
+using namespace Reflection;
 CLASS(PropertyAnalysis) {
   public: String name;
   public: PropertyInfo propertyInfo;

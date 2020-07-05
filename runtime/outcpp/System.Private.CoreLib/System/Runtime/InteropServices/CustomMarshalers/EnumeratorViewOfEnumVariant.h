@@ -12,7 +12,7 @@ FORWARD(IEnumVARIANT)
 } // namespace System::Private::CoreLib::System::Runtime::InteropServices::ComTypes
 namespace System::Private::CoreLib::System::Runtime::InteropServices::CustomMarshalers {
 namespace EnumeratorViewOfEnumVariantNamespace {
-using namespace ::System::Private::CoreLib::System::Runtime::InteropServices::ComTypes;
+using namespace ComTypes;
 CLASS(EnumeratorViewOfEnumVariant) {
   public: Object get_Current();
   public: Boolean MoveNext();

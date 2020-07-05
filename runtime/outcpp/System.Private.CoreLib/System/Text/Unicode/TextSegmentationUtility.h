@@ -19,7 +19,7 @@ FORWARD(Object)
 namespace System::Private::CoreLib::System::Text::Unicode {
 enum class GraphemeClusterBreakType;
 namespace TextSegmentationUtilityNamespace {
-using namespace ::System::Private::CoreLib::System::Buffers;
+using namespace Buffers;
 class TextSegmentationUtility {
   private: CLASS(DecodeFirstRune, T) {
     public: OperationStatus Invoke(ReadOnlySpan<T> input, Rune& rune, Int32& elementsConsumed);

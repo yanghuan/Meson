@@ -11,7 +11,7 @@ FORWARD(List, T)
 namespace System::Private::CoreLib::System::Threading {
 FORWARD(ThreadLocal, T)
 namespace SystemThreading_ThreadLocalDebugViewNamespace {
-using namespace ::System::Private::CoreLib::System::Collections::Generic;
+using namespace Collections::Generic;
 CLASS(SystemThreading_ThreadLocalDebugView, T) {
   public: Boolean get_IsValueCreated();
   public: T get_Value();

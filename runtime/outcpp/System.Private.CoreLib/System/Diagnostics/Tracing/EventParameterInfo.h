@@ -3,16 +3,16 @@
 #include <rt/GCObject.h>
 
 namespace System::Private::CoreLib::System {
+enum class TypeCode;
 FORWARDS(Boolean)
 FORWARDS(Byte)
 FORWARD(String)
 FORWARD(Type)
-enum class TypeCode;
 FORWARDS(UInt32)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Diagnostics::Tracing {
-FORWARD(TraceLoggingTypeInfo)
 FORWARD(PropertyAnalysis)
+FORWARD(TraceLoggingTypeInfo)
 namespace EventParameterInfoNamespace {
 struct EventParameterInfo {
   public: void SetInfo(String name, Type type, TraceLoggingTypeInfo typeInfo);

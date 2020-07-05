@@ -6,8 +6,8 @@ namespace System::Private::CoreLib::System {
 FORWARDS(Boolean)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Runtime {
-enum class GCLatencyMode;
 enum class GCLargeObjectHeapCompactionMode;
+enum class GCLatencyMode;
 namespace GCSettingsNamespace {
 class GCSettings {
   private: enum class SetLatencyModeStatus {

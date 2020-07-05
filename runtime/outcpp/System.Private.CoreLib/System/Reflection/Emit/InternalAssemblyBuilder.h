@@ -19,7 +19,7 @@ FORWARD(ManifestResourceInfo)
 } // namespace System::Private::CoreLib::System::Reflection
 namespace System::Private::CoreLib::System::Reflection::Emit {
 namespace InternalAssemblyBuilderNamespace {
-using namespace ::System::Private::CoreLib::System::IO;
+using namespace IO;
 CLASS(InternalAssemblyBuilder) {
   public: String get_Location();
   public: String get_CodeBase();

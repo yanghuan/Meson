@@ -9,7 +9,7 @@ FORWARDS(Boolean)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Runtime::CompilerServices {
 namespace ConfiguredValueTaskAwaitableNamespace {
-using namespace ::System::Private::CoreLib::System::Threading::Tasks;
+using namespace Threading::Tasks;
 template <class T1 = void, class T2 = void>
 struct ConfiguredValueTaskAwaitable {
 };

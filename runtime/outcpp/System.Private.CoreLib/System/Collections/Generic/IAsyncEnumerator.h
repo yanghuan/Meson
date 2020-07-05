@@ -10,7 +10,7 @@ FORWARDS(Boolean)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Collections::Generic {
 namespace IAsyncEnumeratorNamespace {
-using namespace ::System::Private::CoreLib::System::Threading::Tasks;
+using namespace Threading::Tasks;
 CLASS(IAsyncEnumerator, T) {
   public: T get_Current();
   public: ValueTask<Boolean> MoveNextAsync();

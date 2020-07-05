@@ -7,11 +7,11 @@ FORWARD(SendOrPostCallback)
 FORWARD(SynchronizationContext)
 } // namespace System::Private::CoreLib::System::Threading
 namespace System::Private::CoreLib::System {
-FORWARD(Object)
 FORWARD_(Action, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17)
 FORWARD_(EventHandler, T1, T2)
+FORWARD(Object)
 namespace ProgressNamespace {
-using namespace ::System::Private::CoreLib::System::Threading;
+using namespace Threading;
 CLASS(Progress, T) {
   protected: void OnReport(T value);
   private: void InvokeHandlers(Object state);

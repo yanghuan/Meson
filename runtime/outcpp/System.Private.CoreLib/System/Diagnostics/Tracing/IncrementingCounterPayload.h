@@ -15,7 +15,7 @@ FORWARDS_(KeyValuePair, T1, T2, T3)
 } // namespace System::Private::CoreLib::System::Collections::Generic
 namespace System::Private::CoreLib::System::Diagnostics::Tracing {
 namespace IncrementingCounterPayloadNamespace {
-using namespace ::System::Private::CoreLib::System::Collections::Generic;
+using namespace Collections::Generic;
 using ::System::Private::CoreLib::System::Collections::Generic::IEnumerator;
 CLASS(IncrementingCounterPayload) {
   public: String get_Name() { return Name; }

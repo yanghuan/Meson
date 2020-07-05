@@ -5,9 +5,9 @@
 
 namespace System::Private::CoreLib::System {
 FORWARDS(Boolean)
-FORWARDS(UInt32)
-FORWARD(String)
 FORWARDS(Byte)
+FORWARD(String)
+FORWARDS(UInt32)
 namespace MdUtf8StringNamespace {
 struct MdUtf8String {
   private: static Boolean EqualsCaseInsensitive(void* szLhs, void* szRhs, Int32 cSz);

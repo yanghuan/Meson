@@ -9,9 +9,9 @@ FORWARDS(Int32)
 FORWARD(Type)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Reflection {
+FORWARD(MethodInfo)
 FORWARD(ParameterInfo)
 FORWARD(SignatureType)
-FORWARD(MethodInfo)
 namespace SignatureTypeExtensionsNamespace {
 class SignatureTypeExtensions {
   public: static Boolean MatchesParameterTypeExactly(Type pattern, ParameterInfo parameter);

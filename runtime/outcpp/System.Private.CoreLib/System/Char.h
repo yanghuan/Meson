@@ -3,22 +3,22 @@
 #include <rt/GCObject.h>
 
 namespace System::Private::CoreLib::System::Globalization {
-FORWARD(CultureInfo)
 enum class UnicodeCategory;
+FORWARD(CultureInfo)
 } // namespace System::Private::CoreLib::System::Globalization
 namespace System::Private::CoreLib::System {
-FORWARDS(ReadOnlySpan, T)
-FORWARDS(Byte)
+enum class TypeCode;
 FORWARDS(Boolean)
+FORWARDS(Byte)
+FORWARDS(Double)
+FORWARD(IFormatProvider)
 FORWARDS(Int32)
 FORWARD(Object)
+FORWARDS(ReadOnlySpan, T)
 FORWARD(String)
-FORWARD(IFormatProvider)
-enum class TypeCode;
-FORWARDS(Double)
 FORWARDS(UInt32)
 namespace CharNamespace {
-using namespace ::System::Private::CoreLib::System::Globalization;
+using namespace Globalization;
 struct Char {
   private: static ReadOnlySpan<Byte> get_Latin1CharInfo();
   private: static Boolean IsLatin1(Char ch);

@@ -10,14 +10,14 @@ FORWARD(SerializationInfo)
 FORWARDS(StreamingContext)
 } // namespace System::Private::CoreLib::System::Runtime::Serialization
 namespace System::Private::CoreLib::System {
-FORWARD(Exception)
-FORWARD(String)
-FORWARDS(Int32)
-FORWARD_(Func, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18)
 FORWARDS(Boolean)
+FORWARD(Exception)
+FORWARD_(Func, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18)
+FORWARDS(Int32)
+FORWARD(String)
 namespace AggregateExceptionNamespace {
-using namespace ::System::Private::CoreLib::System::Collections::ObjectModel;
-using namespace ::System::Private::CoreLib::System::Runtime::Serialization;
+using namespace Collections::ObjectModel;
+using namespace Runtime::Serialization;
 CLASS(AggregateException) {
   public: ReadOnlyCollection<Exception> get_InnerExceptions();
   public: String get_Message();

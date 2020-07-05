@@ -6,8 +6,8 @@
 #include <System.Private.CoreLib/System/Int32.h>
 
 namespace System::Private::CoreLib::System::Runtime::InteropServices::ComTypes {
-enum class SYSKIND;
 enum class LIBFLAGS : int16_t;
+enum class SYSKIND;
 namespace TYPELIBATTRNamespace {
 struct TYPELIBATTR {
   public: Guid guid;

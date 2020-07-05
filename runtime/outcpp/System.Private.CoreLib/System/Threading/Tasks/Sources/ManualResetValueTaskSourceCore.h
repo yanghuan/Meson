@@ -16,10 +16,10 @@ namespace System::Private::CoreLib::System::Runtime::ExceptionServices {
 FORWARD(ExceptionDispatchInfo)
 } // namespace System::Private::CoreLib::System::Runtime::ExceptionServices
 namespace System::Private::CoreLib::System::Threading::Tasks::Sources {
-enum class ValueTaskSourceStatus;
 enum class ValueTaskSourceOnCompletedFlags;
+enum class ValueTaskSourceStatus;
 namespace ManualResetValueTaskSourceCoreNamespace {
-using namespace ::System::Private::CoreLib::System::Runtime::ExceptionServices;
+using namespace Runtime::ExceptionServices;
 template <class TResult>
 struct ManualResetValueTaskSourceCore {
   public: Boolean get_RunContinuationsAsynchronously() { return RunContinuationsAsynchronously; }

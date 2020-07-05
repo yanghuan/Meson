@@ -22,8 +22,8 @@ FORWARD(Thread)
 } // namespace System::Private::CoreLib::System::Threading
 namespace System::Private::CoreLib::System::Diagnostics {
 namespace StackFrameHelperNamespace {
-using namespace ::System::Private::CoreLib::System::Reflection;
-using namespace ::System::Private::CoreLib::System::Threading;
+using namespace Reflection;
+using namespace Threading;
 CLASS(StackFrameHelper) {
   private: CLASS(GetSourceLineInfoDelegate) {
     public: void Invoke(Assembly assembly, String assemblyPath, IntPtr loadedPeAddress, Int32 loadedPeSize, IntPtr inMemoryPdbAddress, Int32 inMemoryPdbSize, Int32 methodToken, Int32 ilOffset, String& sourceFile, Int32& sourceLine, Int32& sourceColumn);

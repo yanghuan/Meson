@@ -15,8 +15,8 @@ namespace System::Private::CoreLib::System::Diagnostics::Tracing {
 enum class EventKeywords : int64_t;
 enum class EventLevel;
 enum class EventOpcode;
-FORWARD(TraceLoggingEventTypes)
 FORWARDS(EventParameterInfo)
+FORWARD(TraceLoggingEventTypes)
 namespace EventPipeMetadataGeneratorNamespace {
 CLASS(EventPipeMetadataGenerator) {
   private: enum class MetadataTag {

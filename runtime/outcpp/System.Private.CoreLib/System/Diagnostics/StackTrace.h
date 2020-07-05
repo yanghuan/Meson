@@ -17,11 +17,11 @@ namespace System::Private::CoreLib::System::Reflection {
 FORWARD(MethodBase)
 } // namespace System::Private::CoreLib::System::Reflection
 namespace System::Private::CoreLib::System::Diagnostics {
-FORWARD(StackFrameHelper)
 FORWARD(StackFrame)
+FORWARD(StackFrameHelper)
 namespace StackTraceNamespace {
-using namespace ::System::Private::CoreLib::System::Reflection;
-using namespace ::System::Private::CoreLib::System::Text;
+using namespace Reflection;
+using namespace Text;
 CLASS(StackTrace) {
   public: enum class TraceFormat {
     Normal = 0,

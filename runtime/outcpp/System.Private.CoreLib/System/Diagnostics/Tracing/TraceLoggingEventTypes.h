@@ -15,13 +15,13 @@ namespace System::Private::CoreLib::System::Reflection {
 FORWARD(ParameterInfo)
 } // namespace System::Private::CoreLib::System::Reflection
 namespace System::Private::CoreLib::System::Diagnostics::Tracing {
+enum class EventKeywords : int64_t;
 enum class EventTags;
 FORWARD(NameInfo)
 FORWARD(TraceLoggingTypeInfo)
-enum class EventKeywords : int64_t;
 namespace TraceLoggingEventTypesNamespace {
-using namespace ::System::Private::CoreLib::System::Collections::Generic;
-using namespace ::System::Private::CoreLib::System::Reflection;
+using namespace Collections::Generic;
+using namespace Reflection;
 CLASS(TraceLoggingEventTypes) {
   public: String get_Name();
   public: EventTags get_Tags();

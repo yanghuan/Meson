@@ -13,7 +13,7 @@ FORWARD(IConnectionPoint)
 namespace System::Private::CoreLib::System::Runtime::InteropServices {
 FORWARD(ComEventsMethod)
 namespace ComEventsSinkNamespace {
-using namespace ::System::Private::CoreLib::System::Runtime::InteropServices::ComTypes;
+using namespace ComTypes;
 CLASS(ComEventsSink) {
   public: static ComEventsSink Find(ComEventsSink sinks, Guid& iid);
   public: static ComEventsSink Add(ComEventsSink sinks, ComEventsSink sink);

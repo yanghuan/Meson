@@ -3,30 +3,30 @@
 #include <rt/GCObject.h>
 
 namespace System::Private::CoreLib::System {
+enum class Base64FormattingOptions;
+enum class TypeCode;
+FORWARD_(Array, T1, T2)
+FORWARDS(Boolean)
+FORWARDS(Byte)
+FORWARDS(Char)
+FORWARDS(DateTime)
+FORWARDS(Decimal)
+FORWARDS(Double)
+FORWARD(IConvertible)
+FORWARD(IFormatProvider)
+FORWARDS(Int16)
+FORWARDS(Int32)
+FORWARDS(Int64)
+FORWARD(Object)
 FORWARDS(ReadOnlySpan, T)
 FORWARDS(SByte)
-FORWARDS(Char)
+FORWARDS(Single)
 FORWARDS(Span, T)
-FORWARDS(Byte)
-FORWARDS(Int32)
-FORWARDS(Boolean)
-FORWARD(Object)
-enum class TypeCode;
-FORWARD(IFormatProvider)
-FORWARD(IConvertible)
+FORWARD(String)
 FORWARD(Type)
-FORWARDS(Int16)
 FORWARDS(UInt16)
 FORWARDS(UInt32)
-FORWARDS(Int64)
 FORWARDS(UInt64)
-FORWARD(String)
-FORWARDS(Single)
-FORWARDS(Double)
-FORWARDS(Decimal)
-FORWARDS(DateTime)
-FORWARD_(Array, T1, T2)
-enum class Base64FormattingOptions;
 namespace ConvertNamespace {
 class Convert {
   private: static ReadOnlySpan<SByte> get_DecodingMap();

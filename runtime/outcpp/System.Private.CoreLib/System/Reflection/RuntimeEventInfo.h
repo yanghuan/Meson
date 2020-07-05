@@ -16,16 +16,16 @@ FORWARD(IList, T)
 } // namespace System::Private::CoreLib::System::Collections::Generic
 namespace System::Private::CoreLib::System::Reflection {
 enum class BindingFlags;
-enum class MemberTypes;
-FORWARD(Module)
 enum class EventAttributes;
+enum class MemberTypes;
 FORWARD(CustomAttributeData)
 FORWARD(MemberInfo)
-FORWARD(RuntimeModule)
 FORWARD(MethodInfo)
+FORWARD(Module)
 FORWARD(RuntimeMethodInfo)
+FORWARD(RuntimeModule)
 namespace RuntimeEventInfoNamespace {
-using namespace ::System::Private::CoreLib::System::Collections::Generic;
+using namespace Collections::Generic;
 using ::System::Private::CoreLib::System::Collections::Generic::IList;
 CLASS(RuntimeEventInfo) {
   public: BindingFlags get_BindingFlags();

@@ -7,7 +7,7 @@ FORWARD(Encoding)
 } // namespace System::Private::CoreLib::System::Text
 namespace System::Private::CoreLib::System::IO {
 namespace EncodingCacheNamespace {
-using namespace ::System::Private::CoreLib::System::Text;
+using namespace Text;
 class EncodingCache {
   public: static Encoding UTF8NoBOM;
 };

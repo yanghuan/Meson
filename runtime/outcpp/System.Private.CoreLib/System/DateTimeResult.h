@@ -13,11 +13,11 @@ FORWARD(Calendar)
 } // namespace System::Private::CoreLib::System::Globalization
 namespace System::Private::CoreLib::System {
 enum class ParseFailureKind;
-FORWARD(String)
-FORWARD(Object)
 enum class ParseFlags;
+FORWARD(Object)
+FORWARD(String)
 namespace DateTimeResultNamespace {
-using namespace ::System::Private::CoreLib::System::Globalization;
+using namespace Globalization;
 struct DateTimeResult {
   public: void Init(ReadOnlySpan<Char> originalDateTimeString);
   public: void SetDate(Int32 year, Int32 month, Int32 day);

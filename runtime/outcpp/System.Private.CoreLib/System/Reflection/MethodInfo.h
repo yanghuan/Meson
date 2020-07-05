@@ -12,8 +12,8 @@ FORWARD(Type)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Reflection {
 enum class MemberTypes;
-FORWARD(ParameterInfo)
 FORWARD(ICustomAttributeProvider)
+FORWARD(ParameterInfo)
 namespace MethodInfoNamespace {
 CLASS(MethodInfo) {
   public: MemberTypes get_MemberType();

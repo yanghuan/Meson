@@ -30,7 +30,7 @@ namespace Meson.Compiler {
     public static T GetOrDefault<T>(this IList<T> list, int index, T v = default) {
       return index >= 0 && index < list.Count ? list[index] : v;
     }
-  
+
     public static void RemoveRange<T>(this List<T> list, int index) {
       list.RemoveRange(index, list.Count - index);
     }
@@ -41,7 +41,7 @@ namespace Meson.Compiler {
       }
       return t;
     }
-    
+
     public static bool TryAdd<K, V>(this Dictionary<K, HashSet<V>> dict, K key, V value) {
       var set = dict.GetOrDefault(key);
       if (set == null) {
@@ -115,14 +115,38 @@ namespace Meson.Compiler {
       return $"{string.Join('/', parts)}/{reference.Name}{extra}.h";
     }
 
-    public static string GetFullNamespace(this ITypeDefinition reference, bool hasGlobal = false) {
+    private static IEnumerable<string> GetAllNamespaces(this ITypeDefinition type) {
+      string ns = type.Namespace;
+      if (ns.Length > 0) {
+        yield return ns;
+        int index = ns.Length - 1;
+        while (true) {
+          int pos = ns.LastIndexOf('.', index);
+          if (pos == -1) {
+            break;
+          }
+          yield return ns.Substring(0, pos);
+          index = pos - 1;
+        }
+      }
+    }
+
+    public static string GetFullNamespace(this ITypeDefinition reference, bool hasGlobal = false, ITypeDefinition definition = null) {
+      if (definition != null && definition.ParentModule == reference.ParentModule) {
+        foreach (string i in definition.GetAllNamespaces()) {
+          if (reference.Namespace.StartsWith(i)) {
+            return reference.Namespace.Substring(i.Length + 1).ReplaceDot();
+          }
+        }
+      }
+
       string ns;
       if (string.IsNullOrEmpty(reference.Namespace)) {
         ns = reference.ParentModule.Name;
       } else {
         ns = $"{reference.ParentModule.Name}.{reference.Namespace}";
       }
-      return !hasGlobal ? ns.ReplaceDot() : Tokens.TwoColon + ns.ReplaceDot(); 
+      return !hasGlobal ? ns.ReplaceDot() : Tokens.TwoColon + ns.ReplaceDot();
     }
 
     public static string GetFullName(this ITypeDefinition reference) {
@@ -175,14 +199,14 @@ namespace Meson.Compiler {
     private static IEnumerable<IType> GetMemberReferenceTypes(this ITypeDefinition type, ReferenceTypeKind kind) {
       switch (kind) {
         case ReferenceTypeKind.FieldStore: {
-          return type.Fields.Where(i => !i.IsStatic).Select(i => i.Type);
-        }
+            return type.Fields.Where(i => !i.IsStatic).Select(i => i.Type);
+          }
         case ReferenceTypeKind.NestedReference: {
-          return type.Fields.Select(i => i.Type).Concat(type.Methods.SelectMany(i => i.Parameters).Select(i => i.Type));
-        }
+            return type.Fields.Select(i => i.Type).Concat(type.Methods.SelectMany(i => i.Parameters).Select(i => i.Type));
+          }
         case ReferenceTypeKind.FieldReference: {
-          return type.Fields.Where(i => !i.IsStatic).Select(i => i.Type.GetReferenceType() ?? i.Type);
-        }
+            return type.Fields.Where(i => !i.IsStatic).Select(i => i.Type.GetReferenceType() ?? i.Type);
+          }
       }
       throw new InvalidProgramException();
     }
@@ -314,7 +338,8 @@ namespace Meson.Compiler {
     }
 
     public static string ToTokenString(this Accessibility a) {
-      return a switch {
+      return a switch
+      {
         Accessibility.Private => Tokens.Private,
         Accessibility.Protected => Tokens.Protected,
         _ => Tokens.Public
@@ -434,7 +459,11 @@ namespace Meson.Compiler {
     }
 
     public static bool IsNamespaceContain(this ITypeDefinition type, ITypeDefinition reference) {
-      return type.GetFullNamespace().StartsWith(reference.GetFullNamespace());
+      return type.ParentModule == reference.ParentModule && type.Namespace.StartsWith(reference.Namespace);
+    }
+
+    public static bool IsSameNamespace(this ITypeDefinition type, ITypeDefinition other) {
+      return type.ParentModule == other.ParentModule && type.Namespace == other.Namespace;
     }
 
     public static StringBuilder GetShortName(this IType type, StringBuilder sb, bool isFirst) {
@@ -630,7 +659,7 @@ namespace Meson.Compiler {
 
     public static bool TryGetBackingFieldName(this IField field, out string name) {
       if (field.IsBackingField()) {
-        name = field.Name[1 .. ^kBackingFieldSuffix.Length];
+        name = field.Name[1..^kBackingFieldSuffix.Length];
         return true;
       }
       name = null;
@@ -653,7 +682,8 @@ namespace Meson.Compiler {
     }
 
     public static string ToOperatorToken(this BinaryOperatorType type) {
-      return type switch {
+      return type switch
+      {
         BinaryOperatorType.Equality => Tokens.EqualsEquals,
         _ => throw new InvalidProgramException()
       };

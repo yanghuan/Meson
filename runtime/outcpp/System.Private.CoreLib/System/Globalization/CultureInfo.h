@@ -18,17 +18,17 @@ FORWARD(AsyncLocal, T)
 FORWARDS(AsyncLocalValueChangedArgs, T)
 } // namespace System::Private::CoreLib::System::Threading
 namespace System::Private::CoreLib::System::Globalization {
-FORWARD(CompareInfo)
-FORWARD(TextInfo)
-enum class CultureTypes;
-FORWARD(NumberFormatInfo)
-FORWARD(DateTimeFormatInfo)
-FORWARD(Calendar)
 enum class CalendarId : uint16_t;
+enum class CultureTypes;
+FORWARD(Calendar)
+FORWARD(CompareInfo)
 FORWARD(CultureData)
+FORWARD(DateTimeFormatInfo)
+FORWARD(NumberFormatInfo)
+FORWARD(TextInfo)
 namespace CultureInfoNamespace {
-using namespace ::System::Private::CoreLib::System::Collections::Generic;
-using namespace ::System::Private::CoreLib::System::Threading;
+using namespace Collections::Generic;
+using namespace Threading;
 CLASS(CultureInfo) {
   public: static CultureInfo get_CurrentCulture();
   public: static void set_CurrentCulture(CultureInfo value);

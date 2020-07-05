@@ -15,8 +15,8 @@ FORWARD(String)
 namespace System::Private::CoreLib::System::Resources {
 FORWARD(ResourceSet)
 namespace IResourceGrovelerNamespace {
-using namespace ::System::Private::CoreLib::System::Collections::Generic;
-using namespace ::System::Private::CoreLib::System::Globalization;
+using namespace Collections::Generic;
+using namespace Globalization;
 CLASS(IResourceGroveler) {
   public: ResourceSet GrovelForResourceSet(CultureInfo culture, Dictionary<String, ResourceSet> localResourceSets, Boolean tryParents, Boolean createIfNotExists);
 };

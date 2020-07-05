@@ -3,22 +3,22 @@
 #include <rt/GCObject.h>
 
 namespace System::Private::CoreLib::System::Globalization {
-FORWARD(NumberFormatInfo)
 enum class NumberStyles;
+FORWARD(NumberFormatInfo)
 } // namespace System::Private::CoreLib::System::Globalization
 namespace System::Private::CoreLib::System {
+enum class TypeCode;
 FORWARDS(Boolean)
-FORWARDS(UInt32)
+FORWARDS(Char)
+FORWARD(IFormatProvider)
 FORWARDS(Int32)
 FORWARD(Object)
-FORWARD(String)
-FORWARD(IFormatProvider)
-FORWARDS(Span, T)
-FORWARDS(Char)
 FORWARDS(ReadOnlySpan, T)
-enum class TypeCode;
+FORWARDS(Span, T)
+FORWARD(String)
+FORWARDS(UInt32)
 namespace SingleNamespace {
-using namespace ::System::Private::CoreLib::System::Globalization;
+using namespace Globalization;
 struct Single {
   public: static Boolean IsFinite(Single f);
   public: static Boolean IsInfinity(Single f);

@@ -12,11 +12,11 @@ FORWARD(IEnumerable, T)
 } // namespace System::Private::CoreLib::System::Collections::Generic
 namespace System::Private::CoreLib::System::Reflection {
 FORWARD(Assembly)
-FORWARD(Module)
 FORWARD(MemberInfo)
+FORWARD(Module)
 FORWARD(ParameterInfo)
 namespace CustomAttributeExtensionsNamespace {
-using namespace ::System::Private::CoreLib::System::Collections::Generic;
+using namespace Collections::Generic;
 class CustomAttributeExtensions {
   public: static Attribute GetCustomAttribute(Assembly element, Type attributeType);
   public: static Attribute GetCustomAttribute(Module element, Type attributeType);

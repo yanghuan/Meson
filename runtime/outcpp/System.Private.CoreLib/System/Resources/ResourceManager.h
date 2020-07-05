@@ -23,14 +23,14 @@ namespace System::Private::CoreLib::System::IO {
 FORWARD(UnmanagedMemoryStream)
 } // namespace System::Private::CoreLib::System::IO
 namespace System::Private::CoreLib::System::Resources {
-FORWARD(ResourceSet)
 enum class UltimateResourceFallbackLocation;
 FORWARD(IResourceGroveler)
+FORWARD(ResourceSet)
 namespace ResourceManagerNamespace {
-using namespace ::System::Private::CoreLib::System::Collections::Generic;
-using namespace ::System::Private::CoreLib::System::Globalization;
-using namespace ::System::Private::CoreLib::System::IO;
-using namespace ::System::Private::CoreLib::System::Reflection;
+using namespace Collections::Generic;
+using namespace Globalization;
+using namespace IO;
+using namespace Reflection;
 CLASS(ResourceManager) {
   public: CLASS(CultureNameResourceSetPair) {
     public: String lastCultureName;

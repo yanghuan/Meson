@@ -21,13 +21,13 @@ namespace System::Private::CoreLib::System::IO {
 FORWARD(Stream)
 } // namespace System::Private::CoreLib::System::IO
 namespace System::Private::CoreLib::System::Resources {
-FORWARD(ResourceSet)
 enum class UltimateResourceFallbackLocation;
+FORWARD(ResourceSet)
 namespace ManifestBasedResourceGrovelerNamespace {
-using namespace ::System::Private::CoreLib::System::Collections::Generic;
-using namespace ::System::Private::CoreLib::System::Globalization;
-using namespace ::System::Private::CoreLib::System::IO;
-using namespace ::System::Private::CoreLib::System::Reflection;
+using namespace Collections::Generic;
+using namespace Globalization;
+using namespace IO;
+using namespace Reflection;
 CLASS(ManifestBasedResourceGroveler) {
   private: static Assembly InternalGetSatelliteAssembly(Assembly mainAssembly, CultureInfo culture, Version version);
   public: ResourceSet GrovelForResourceSet(CultureInfo culture, Dictionary<String, ResourceSet> localResourceSets, Boolean tryParents, Boolean createIfNotExists);

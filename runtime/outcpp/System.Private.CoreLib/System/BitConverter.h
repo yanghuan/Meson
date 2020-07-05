@@ -3,21 +3,21 @@
 #include <rt/GCObject.h>
 
 namespace System::Private::CoreLib::System {
-FORWARDS(Boolean)
 FORWARD_(Array, T1, T2)
+FORWARDS(Boolean)
 FORWARDS(Byte)
-FORWARDS(Span, T)
 FORWARDS(Char)
+FORWARDS(Double)
 FORWARDS(Int16)
 FORWARDS(Int32)
 FORWARDS(Int64)
+FORWARDS(ReadOnlySpan, T)
+FORWARDS(Single)
+FORWARDS(Span, T)
+FORWARD(String)
 FORWARDS(UInt16)
 FORWARDS(UInt32)
 FORWARDS(UInt64)
-FORWARDS(Single)
-FORWARDS(Double)
-FORWARDS(ReadOnlySpan, T)
-FORWARD(String)
 namespace BitConverterNamespace {
 class BitConverter {
   public: static Array<Byte> GetBytes(Boolean value);

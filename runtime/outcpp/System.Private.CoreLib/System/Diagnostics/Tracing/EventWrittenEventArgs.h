@@ -16,15 +16,15 @@ namespace System::Private::CoreLib::System::Collections::ObjectModel {
 FORWARD(ReadOnlyCollection, T)
 } // namespace System::Private::CoreLib::System::Collections::ObjectModel
 namespace System::Private::CoreLib::System::Diagnostics::Tracing {
-FORWARD(EventSource)
-enum class EventKeywords : int64_t;
-enum class EventOpcode;
-enum class EventTask;
-enum class EventTags;
 enum class EventChannel : uint8_t;
+enum class EventKeywords : int64_t;
 enum class EventLevel;
+enum class EventOpcode;
+enum class EventTags;
+enum class EventTask;
+FORWARD(EventSource)
 namespace EventWrittenEventArgsNamespace {
-using namespace ::System::Private::CoreLib::System::Collections::ObjectModel;
+using namespace Collections::ObjectModel;
 CLASS(EventWrittenEventArgs) {
   public: String get_EventName();
   public: void set_EventName(String value);

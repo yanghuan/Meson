@@ -6,8 +6,8 @@ namespace System::Private::CoreLib::System {
 FORWARD(StringComparer)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Globalization {
-FORWARD(CompareInfo)
 enum class CompareOptions;
+FORWARD(CompareInfo)
 namespace GlobalizationExtensionsNamespace {
 class GlobalizationExtensions {
   public: static StringComparer GetStringComparer(CompareInfo compareInfo, CompareOptions options);

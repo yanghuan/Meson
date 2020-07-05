@@ -3,13 +3,13 @@
 #include <rt/GCObject.h>
 
 namespace System::Private::CoreLib::System::Reflection {
-FORWARD(Binder)
 enum class BindingFlags;
 enum class CallingConventions;
-FORWARD(ConstructorInfo)
 enum class MemberTypes;
 enum class MethodAttributes;
 enum class MethodImplAttributes;
+FORWARD(Binder)
+FORWARD(ConstructorInfo)
 FORWARD(Module)
 FORWARD(ParameterInfo)
 } // namespace System::Private::CoreLib::System::Reflection
@@ -28,7 +28,7 @@ FORWARD(CultureInfo)
 namespace System::Private::CoreLib::System::Reflection::Emit {
 FORWARD(TypeBuilderInstantiation)
 namespace ConstructorOnTypeBuilderInstantiationNamespace {
-using namespace ::System::Private::CoreLib::System::Globalization;
+using namespace Globalization;
 CLASS(ConstructorOnTypeBuilderInstantiation) {
   public: MemberTypes get_MemberType();
   public: String get_Name();

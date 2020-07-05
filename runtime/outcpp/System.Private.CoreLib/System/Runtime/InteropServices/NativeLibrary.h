@@ -20,8 +20,8 @@ namespace System::Private::CoreLib::System::Runtime::InteropServices {
 enum class DllImportSearchPath;
 FORWARD(DllImportResolver)
 namespace NativeLibraryNamespace {
-using namespace ::System::Private::CoreLib::System::Reflection;
-using namespace ::System::Private::CoreLib::System::Runtime::CompilerServices;
+using namespace CompilerServices;
+using namespace Reflection;
 class NativeLibrary {
   public: static IntPtr LoadLibraryByName(String libraryName, Assembly assembly, Nullable<DllImportSearchPath> searchPath, Boolean throwOnError);
   public: static IntPtr LoadFromPath(String libraryName, Boolean throwOnError);

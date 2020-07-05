@@ -15,15 +15,15 @@ FORWARD(Dictionary, TKey, TValue)
 FORWARD(List, T)
 } // namespace System::Private::CoreLib::System::Collections::Generic
 namespace System::Private::CoreLib::System {
-FORWARD(Object)
-FORWARD(Type)
-FORWARDS(Boolean)
 FORWARD_(Array, T1, T2)
 FORWARD(AttributeUsageAttribute)
+FORWARDS(Boolean)
 FORWARDS(Int32)
+FORWARD(Object)
+FORWARD(Type)
 namespace AttributeNamespace {
-using namespace ::System::Private::CoreLib::System::Collections::Generic;
-using namespace ::System::Private::CoreLib::System::Reflection;
+using namespace Collections::Generic;
+using namespace Reflection;
 CLASS(Attribute) {
   public: Object get_TypeId();
   private: static Array<Attribute> InternalGetCustomAttributes(PropertyInfo element, Type type, Boolean inherit);

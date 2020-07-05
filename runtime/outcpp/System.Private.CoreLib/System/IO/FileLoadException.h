@@ -15,8 +15,8 @@ FORWARDS(StreamingContext)
 } // namespace System::Private::CoreLib::System::Runtime::Serialization
 namespace System::Private::CoreLib::System::IO {
 namespace FileLoadExceptionNamespace {
-using namespace ::System::Private::CoreLib::System::Runtime::CompilerServices;
-using namespace ::System::Private::CoreLib::System::Runtime::Serialization;
+using namespace Runtime::CompilerServices;
+using namespace Runtime::Serialization;
 CLASS(FileLoadException) {
   public: String get_Message();
   public: String get_FileName() { return FileName; }

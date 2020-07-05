@@ -6,7 +6,7 @@
 namespace System::Private::CoreLib::System::Buffers {
 FORWARD(IPinnable)
 namespace MemoryHandleNamespace {
-using namespace ::System::Private::CoreLib::System::Runtime::InteropServices;
+using namespace Runtime::InteropServices;
 struct MemoryHandle {
   public: void* get_Pointer();
   public: void Dispose();

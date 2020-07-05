@@ -11,7 +11,7 @@ FORWARD(MemberInfo)
 } // namespace System::Private::CoreLib::System::Reflection
 namespace System::Private::CoreLib::System::Runtime::InteropServices::Expando {
 namespace IExpandoNamespace {
-using namespace ::System::Private::CoreLib::System::Reflection;
+using namespace Reflection;
 CLASS(IExpando) {
   public: FieldInfo AddField(String name);
   public: void RemoveMember(MemberInfo m);

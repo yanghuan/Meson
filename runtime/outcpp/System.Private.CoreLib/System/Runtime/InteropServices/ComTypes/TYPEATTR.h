@@ -9,8 +9,8 @@
 #include <System.Private.CoreLib/System/Runtime/InteropServices/ComTypes/TYPEDESC.h>
 
 namespace System::Private::CoreLib::System::Runtime::InteropServices::ComTypes {
-enum class TYPEKIND;
 enum class TYPEFLAGS : int16_t;
+enum class TYPEKIND;
 namespace TYPEATTRNamespace {
 struct TYPEATTR {
   public: static Int32 MEMBER_ID_NIL;

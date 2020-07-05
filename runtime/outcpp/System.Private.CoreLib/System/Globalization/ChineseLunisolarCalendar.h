@@ -8,8 +8,8 @@ FORWARDS(DateTime)
 FORWARDS(Int32)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Globalization {
-FORWARD(EraInfo)
 enum class CalendarId : uint16_t;
+FORWARD(EraInfo)
 namespace ChineseLunisolarCalendarNamespace {
 CLASS(ChineseLunisolarCalendar) {
   public: DateTime get_MinSupportedDateTime();

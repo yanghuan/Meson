@@ -29,13 +29,13 @@ enum class SeekOrigin;
 FORWARD(Stream)
 } // namespace System::Private::CoreLib::System::IO
 namespace System::Private::CoreLib::System::Text {
-FORWARD(Encoding)
-FORWARD(Encoder)
 FORWARD(Decoder)
+FORWARD(Encoder)
+FORWARD(Encoding)
 namespace TranscodingStreamNamespace {
-using namespace ::System::Private::CoreLib::System::IO;
-using namespace ::System::Private::CoreLib::System::Threading;
-using namespace ::System::Private::CoreLib::System::Threading::Tasks;
+using namespace IO;
+using namespace Threading;
+using namespace Threading::Tasks;
 CLASS(TranscodingStream) {
   public: Boolean get_CanRead();
   public: Boolean get_CanSeek();

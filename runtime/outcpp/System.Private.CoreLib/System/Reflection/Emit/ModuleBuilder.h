@@ -17,27 +17,27 @@ FORWARD(String)
 FORWARD(Type)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Reflection {
-FORWARD(Assembly)
-FORWARD(Binder)
 enum class BindingFlags;
 enum class CallingConventions;
+enum class FieldAttributes;
+enum class ImageFileMachine;
+enum class MethodAttributes;
+enum class PortableExecutableKinds;
+enum class TypeAttributes;
+FORWARD(Assembly)
+FORWARD(Binder)
 FORWARD(ConstructorInfo)
 FORWARD(CustomAttributeData)
-enum class FieldAttributes;
 FORWARD(FieldInfo)
-enum class ImageFileMachine;
 FORWARD(MemberInfo)
-enum class MethodAttributes;
 FORWARD(MethodBase)
 FORWARD(MethodInfo)
 FORWARD(Module)
 FORWARDS(ParameterModifier)
-enum class PortableExecutableKinds;
 FORWARD(RuntimeConstructorInfo)
 FORWARD(RuntimeFieldInfo)
 FORWARD(RuntimeMethodInfo)
 FORWARD(RuntimeModule)
-enum class TypeAttributes;
 } // namespace System::Private::CoreLib::System::Reflection
 namespace System::Private::CoreLib::System::Runtime::CompilerServices {
 FORWARDS(QCallModule)
@@ -57,26 +57,26 @@ enum class CallingConvention;
 enum class CharSet;
 } // namespace System::Private::CoreLib::System::Runtime::InteropServices
 namespace System::Private::CoreLib::System::Reflection::Emit {
-FORWARD(AssemblyBuilder)
-FORWARD(InternalModuleBuilder)
-FORWARDS(MethodToken)
-FORWARD(SignatureHelper)
-FORWARD(TypeBuilder)
 enum class PackingSize;
-FORWARD(EnumBuilder)
-FORWARD(MethodBuilder)
-FORWARD(FieldBuilder)
-FORWARDS(TypeToken)
-FORWARDS(FieldToken)
-FORWARDS(StringToken)
-FORWARDS(SignatureToken)
+FORWARD(AssemblyBuilder)
 FORWARD(CustomAttributeBuilder)
+FORWARD(EnumBuilder)
+FORWARD(FieldBuilder)
+FORWARDS(FieldToken)
+FORWARD(InternalModuleBuilder)
+FORWARD(MethodBuilder)
+FORWARDS(MethodToken)
 FORWARD(ModuleBuilderData)
+FORWARD(SignatureHelper)
+FORWARDS(SignatureToken)
+FORWARDS(StringToken)
+FORWARD(TypeBuilder)
+FORWARDS(TypeToken)
 namespace ModuleBuilderNamespace {
-using namespace ::System::Private::CoreLib::System::Collections::Generic;
-using namespace ::System::Private::CoreLib::System::Diagnostics::SymbolStore;
-using namespace ::System::Private::CoreLib::System::Runtime::CompilerServices;
-using namespace ::System::Private::CoreLib::System::Runtime::InteropServices;
+using namespace Collections::Generic;
+using namespace Diagnostics::SymbolStore;
+using namespace Runtime::CompilerServices;
+using namespace Runtime::InteropServices;
 using ::System::Private::CoreLib::System::Collections::Generic::IList;
 CLASS(ModuleBuilder) {
   public: AssemblyBuilder get_ContainingAssemblyBuilder();

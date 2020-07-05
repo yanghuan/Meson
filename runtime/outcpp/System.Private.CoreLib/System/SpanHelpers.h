@@ -10,18 +10,18 @@ FORWARDS_(Vector128, T1, T2)
 FORWARDS_(Vector256, T1, T2)
 } // namespace System::Private::CoreLib::System::Runtime::Intrinsics
 namespace System::Private::CoreLib::System {
-FORWARDS(Int32)
-FORWARDS(Byte)
 FORWARDS(Boolean)
-FORWARDS(UIntPtr)
-FORWARDS(UInt64)
+FORWARDS(Byte)
+FORWARDS(Char)
+FORWARDS(Int32)
+FORWARDS(IntPtr)
 FORWARDS(UInt16)
 FORWARDS(UInt32)
-FORWARDS(Char)
-FORWARDS(IntPtr)
+FORWARDS(UInt64)
+FORWARDS(UIntPtr)
 namespace SpanHelpersNamespace {
-using namespace ::System::Private::CoreLib::System::Numerics;
-using namespace ::System::Private::CoreLib::System::Runtime::Intrinsics;
+using namespace Numerics;
+using namespace Runtime::Intrinsics;
 class SpanHelpers {
   public: template <class T, class TComparer>
   struct ComparerComparable {

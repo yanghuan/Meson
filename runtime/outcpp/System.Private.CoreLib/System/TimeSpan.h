@@ -7,18 +7,18 @@ namespace System::Private::CoreLib::System::Globalization {
 enum class TimeSpanStyles;
 } // namespace System::Private::CoreLib::System::Globalization
 namespace System::Private::CoreLib::System {
-FORWARDS(Int32)
-FORWARDS(Double)
-FORWARD(Object)
-FORWARDS(Boolean)
-FORWARD(String)
-FORWARD(IFormatProvider)
-FORWARDS(ReadOnlySpan, T)
-FORWARDS(Char)
 FORWARD_(Array, T1, T2)
+FORWARDS(Boolean)
+FORWARDS(Char)
+FORWARDS(Double)
+FORWARD(IFormatProvider)
+FORWARDS(Int32)
+FORWARD(Object)
+FORWARDS(ReadOnlySpan, T)
 FORWARDS(Span, T)
+FORWARD(String)
 namespace TimeSpanNamespace {
-using namespace ::System::Private::CoreLib::System::Globalization;
+using namespace Globalization;
 struct TimeSpan {
   public: Int64 get_Ticks();
   public: Int32 get_Days();

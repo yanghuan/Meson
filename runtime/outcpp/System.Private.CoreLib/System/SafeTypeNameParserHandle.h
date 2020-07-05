@@ -3,8 +3,8 @@
 #include <rt/GCObject.h>
 
 namespace System::Private::CoreLib::System {
-FORWARDS(IntPtr)
 FORWARDS(Boolean)
+FORWARDS(IntPtr)
 namespace SafeTypeNameParserHandleNamespace {
 CLASS(SafeTypeNameParserHandle) {
   private: static void _ReleaseTypeNameParser(IntPtr pTypeNameParser);

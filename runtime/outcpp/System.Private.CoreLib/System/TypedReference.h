@@ -9,15 +9,15 @@ namespace System::Private::CoreLib::System::Reflection {
 FORWARD(FieldInfo)
 } // namespace System::Private::CoreLib::System::Reflection
 namespace System::Private::CoreLib::System {
-FORWARDS(Boolean)
-FORWARD(Object)
 FORWARD_(Array, T1, T2)
-FORWARD(RuntimeType)
+FORWARDS(Boolean)
 FORWARDS(Int32)
-FORWARD(Type)
+FORWARD(Object)
+FORWARD(RuntimeType)
 FORWARDS(RuntimeTypeHandle)
+FORWARD(Type)
 namespace TypedReferenceNamespace {
-using namespace ::System::Private::CoreLib::System::Reflection;
+using namespace Reflection;
 struct TypedReference {
   public: Boolean get_IsNull();
   public: static TypedReference MakeTypedReference(Object target, Array<FieldInfo> flds);

@@ -12,7 +12,7 @@ FORWARD(Object)
 namespace System::Private::CoreLib::System::Threading {
 FORWARD_(ContextCallback, T1, T2)
 namespace CompressedStackNamespace {
-using namespace ::System::Private::CoreLib::System::Runtime::Serialization;
+using namespace Runtime::Serialization;
 CLASS(CompressedStack) {
   public: void GetObjectData(SerializationInfo info, StreamingContext context);
   public: static CompressedStack Capture();

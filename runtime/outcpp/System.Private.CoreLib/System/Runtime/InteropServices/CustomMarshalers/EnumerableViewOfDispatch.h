@@ -14,7 +14,7 @@ FORWARD(Object)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Runtime::InteropServices::CustomMarshalers {
 namespace EnumerableViewOfDispatchNamespace {
-using namespace ::System::Private::CoreLib::System::Collections;
+using namespace Collections;
 CLASS(EnumerableViewOfDispatch) {
   private: IDispatch get_Dispatch();
   public: IEnumerator GetEnumerator();

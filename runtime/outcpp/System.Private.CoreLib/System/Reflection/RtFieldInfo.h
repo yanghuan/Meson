@@ -19,13 +19,13 @@ namespace System::Private::CoreLib::System::Globalization {
 FORWARD(CultureInfo)
 } // namespace System::Private::CoreLib::System::Globalization
 namespace System::Private::CoreLib::System::Reflection {
-enum class INVOCATION_FLAGS : uint32_t;
-enum class FieldAttributes;
-FORWARD(RuntimeModule)
 enum class BindingFlags;
+enum class FieldAttributes;
+enum class INVOCATION_FLAGS : uint32_t;
 FORWARD(Binder)
+FORWARD(RuntimeModule)
 namespace RtFieldInfoNamespace {
-using namespace ::System::Private::CoreLib::System::Globalization;
+using namespace Globalization;
 CLASS(RtFieldInfo) {
   public: INVOCATION_FLAGS get_InvocationFlags();
   private: RuntimeFieldHandleInternal get_ValueOfIRuntimeFieldInfo();

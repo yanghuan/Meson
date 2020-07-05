@@ -9,8 +9,8 @@ FORWARD(String)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Runtime::InteropServices::ComTypes {
 FORWARDS(BIND_OPTS)
-FORWARD(IRunningObjectTable)
 FORWARD(IEnumString)
+FORWARD(IRunningObjectTable)
 namespace IBindCtxNamespace {
 CLASS(IBindCtx) {
   public: void RegisterObjectBound(Object punk);

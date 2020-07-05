@@ -12,10 +12,10 @@ FORWARD(Object)
 FORWARD(String)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Numerics {
-FORWARDS(Vector2)
 FORWARDS(Matrix4x4)
-FORWARDS(Vector3)
 FORWARDS(Quaternion)
+FORWARDS(Vector2)
+FORWARDS(Vector3)
 namespace Vector4Namespace {
 struct Vector4 {
   public: static Vector4 get_Zero();

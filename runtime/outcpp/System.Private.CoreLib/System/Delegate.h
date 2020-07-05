@@ -12,20 +12,20 @@ FORWARD(SerializationInfo)
 FORWARDS(StreamingContext)
 } // namespace System::Private::CoreLib::System::Runtime::Serialization
 namespace System::Private::CoreLib::System {
-FORWARD(Object)
+enum class DelegateBindingFlags;
 FORWARD_(Array, T1, T2)
 FORWARDS(Boolean)
 FORWARDS(Int32)
-FORWARD(Type)
-FORWARD(String)
-FORWARDS(RuntimeMethodHandle)
-FORWARD(RuntimeType)
-enum class DelegateBindingFlags;
 FORWARD(IRuntimeMethodInfo)
 FORWARD(MulticastDelegate)
+FORWARD(Object)
+FORWARDS(RuntimeMethodHandle)
+FORWARD(RuntimeType)
+FORWARD(String)
+FORWARD(Type)
 namespace DelegateNamespace {
-using namespace ::System::Private::CoreLib::System::Reflection;
-using namespace ::System::Private::CoreLib::System::Runtime::Serialization;
+using namespace Reflection;
+using namespace Runtime::Serialization;
 CLASS(Delegate) {
   public: Object get_Target();
   public: MethodInfo get_Method();

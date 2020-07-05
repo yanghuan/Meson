@@ -7,7 +7,7 @@ FORWARD(Assembly)
 } // namespace System::Private::CoreLib::System::Reflection
 namespace System::Private::CoreLib::System {
 namespace AssemblyLoadEventArgsNamespace {
-using namespace ::System::Private::CoreLib::System::Reflection;
+using namespace Reflection;
 CLASS(AssemblyLoadEventArgs) {
   public: Assembly get_LoadedAssembly() { return LoadedAssembly; }
   private: Assembly LoadedAssembly;

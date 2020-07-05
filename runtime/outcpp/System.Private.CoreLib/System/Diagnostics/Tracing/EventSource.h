@@ -40,32 +40,32 @@ FORWARDS(GCHandle)
 } // namespace System::Private::CoreLib::System::Runtime::InteropServices
 namespace System::Private::CoreLib::System::Diagnostics::Tracing {
 enum class ControllerCommand;
-enum class EventProviderType;
-enum class EventTags;
-FORWARD(TraceLoggingEventTypes)
 enum class EventActivityOptions;
-enum class EventSourceSettings;
-enum class EventLevel;
-enum class EventKeywords : int64_t;
 enum class EventChannel : uint8_t;
-enum class EventManifestOptions;
 enum class EventCommand;
-FORWARD(EventCommandEventArgs)
-FORWARD(EventListener)
-FORWARD(EventDispatcher)
-FORWARD(EventWrittenEventArgs)
+enum class EventKeywords : int64_t;
+enum class EventLevel;
+enum class EventManifestOptions;
 enum class EventOpcode;
-FORWARD(ManifestBuilder)
-FORWARD(EventAttribute)
-FORWARDS(EventSourceOptions)
-FORWARD(EventPayload)
-FORWARD(NameInfo)
+enum class EventProviderType;
+enum class EventSourceSettings;
+enum class EventTags;
 FORWARD(ActivityTracker)
+FORWARD(EventAttribute)
+FORWARD(EventCommandEventArgs)
+FORWARD(EventDispatcher)
+FORWARD(EventListener)
+FORWARD(EventPayload)
+FORWARDS(EventSourceOptions)
+FORWARD(EventWrittenEventArgs)
+FORWARD(ManifestBuilder)
+FORWARD(NameInfo)
 FORWARD(TraceLoggingEventHandleTable)
+FORWARD(TraceLoggingEventTypes)
 namespace EventSourceNamespace {
-using namespace ::System::Private::CoreLib::System::Collections::Generic;
-using namespace ::System::Private::CoreLib::System::Reflection;
-using namespace ::System::Private::CoreLib::System::Runtime::InteropServices;
+using namespace Collections::Generic;
+using namespace Reflection;
+using namespace Runtime::InteropServices;
 CLASS(EventSource) {
   public: struct EventData {
     public: IntPtr get_DataPointer();

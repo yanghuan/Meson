@@ -10,14 +10,14 @@ namespace System::Private::CoreLib::System::Collections {
 FORWARD(Hashtable)
 } // namespace System::Private::CoreLib::System::Collections
 namespace System::Private::CoreLib::System {
-FORWARD(String)
-FORWARDS(DateTime)
 FORWARDS(Boolean)
+FORWARDS(DateTime)
 FORWARDS(Int32)
+FORWARD(String)
 FORWARDS(TimeSpan)
 namespace CurrentSystemTimeZoneNamespace {
-using namespace ::System::Private::CoreLib::System::Collections;
-using namespace ::System::Private::CoreLib::System::Globalization;
+using namespace Collections;
+using namespace Globalization;
 CLASS(CurrentSystemTimeZone) {
   public: String get_StandardName();
   public: String get_DaylightName();

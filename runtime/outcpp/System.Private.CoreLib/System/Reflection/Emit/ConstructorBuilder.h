@@ -13,28 +13,28 @@ FORWARD(String)
 FORWARD(Type)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Reflection {
-FORWARD(Binder)
 enum class BindingFlags;
 enum class CallingConventions;
-FORWARD(ConstructorInfo)
 enum class MethodAttributes;
 enum class MethodImplAttributes;
-FORWARD(Module)
 enum class ParameterAttributes;
+FORWARD(Binder)
+FORWARD(ConstructorInfo)
+FORWARD(Module)
 FORWARD(ParameterInfo)
 } // namespace System::Private::CoreLib::System::Reflection
 namespace System::Private::CoreLib::System::Globalization {
 FORWARD(CultureInfo)
 } // namespace System::Private::CoreLib::System::Globalization
 namespace System::Private::CoreLib::System::Reflection::Emit {
-FORWARD(TypeBuilder)
+FORWARD(CustomAttributeBuilder)
+FORWARD(ILGenerator)
+FORWARD(MethodBuilder)
 FORWARDS(MethodToken)
 FORWARD(ParameterBuilder)
-FORWARD(ILGenerator)
-FORWARD(CustomAttributeBuilder)
-FORWARD(MethodBuilder)
+FORWARD(TypeBuilder)
 namespace ConstructorBuilderNamespace {
-using namespace ::System::Private::CoreLib::System::Globalization;
+using namespace Globalization;
 CLASS(ConstructorBuilder) {
   public: Int32 get_MetadataTokenInternal();
   public: Module get_Module();

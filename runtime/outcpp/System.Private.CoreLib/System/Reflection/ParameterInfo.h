@@ -19,11 +19,11 @@ FORWARDS(StreamingContext)
 } // namespace System::Private::CoreLib::System::Runtime::Serialization
 namespace System::Private::CoreLib::System::Reflection {
 enum class ParameterAttributes;
-FORWARD(MemberInfo)
 FORWARD(CustomAttributeData)
+FORWARD(MemberInfo)
 namespace ParameterInfoNamespace {
-using namespace ::System::Private::CoreLib::System::Collections::Generic;
-using namespace ::System::Private::CoreLib::System::Runtime::Serialization;
+using namespace Collections::Generic;
+using namespace Runtime::Serialization;
 using ::System::Private::CoreLib::System::Collections::Generic::IList;
 CLASS(ParameterInfo) {
   public: ParameterAttributes get_Attributes();

@@ -8,8 +8,8 @@ FORWARDS(Int32)
 FORWARD(Object)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Collections {
-FORWARD(IHashCodeProvider)
 FORWARD(IComparer)
+FORWARD(IHashCodeProvider)
 namespace CompatibleComparerNamespace {
 CLASS(CompatibleComparer) {
   public: IHashCodeProvider get_HashCodeProvider();

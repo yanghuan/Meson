@@ -25,7 +25,7 @@ FORWARD(UriParser)
 namespace UriHelperNamespace {
 using namespace ::System::Private::CoreLib::System;
 using namespace ::System::Private::CoreLib::System::Text;
-using namespace ::System::Private::Uri::System::Text;
+using namespace Text;
 class UriHelper {
   public: static ReadOnlySpan<Boolean> get_UnreservedReservedTable();
   public: static ReadOnlySpan<Boolean> get_UnreservedTable();

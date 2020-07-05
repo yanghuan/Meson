@@ -19,14 +19,14 @@ namespace System::Private::CoreLib::System::Collections::Generic {
 FORWARD(IList, T)
 } // namespace System::Private::CoreLib::System::Collections::Generic
 namespace System::Private::CoreLib::System::Reflection {
-FORWARD(MemberInfo)
-FORWARD(ParameterInfo)
 enum class ParameterAttributes;
 FORWARD(CustomAttributeData)
-FORWARD(RuntimeModule)
+FORWARD(MemberInfo)
 FORWARD(MethodBase)
+FORWARD(ParameterInfo)
+FORWARD(RuntimeModule)
 namespace RuntimeParameterInfoNamespace {
-using namespace ::System::Private::CoreLib::System::Collections::Generic;
+using namespace Collections::Generic;
 using ::System::Private::CoreLib::System::Collections::Generic::IList;
 CLASS(RuntimeParameterInfo) {
   public: Type get_ParameterType();

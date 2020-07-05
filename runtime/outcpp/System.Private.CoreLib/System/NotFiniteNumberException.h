@@ -9,7 +9,7 @@ FORWARDS(StreamingContext)
 } // namespace System::Private::CoreLib::System::Runtime::Serialization
 namespace System::Private::CoreLib::System {
 namespace NotFiniteNumberExceptionNamespace {
-using namespace ::System::Private::CoreLib::System::Runtime::Serialization;
+using namespace Runtime::Serialization;
 CLASS(NotFiniteNumberException) {
   public: Double get_OffendingNumber();
   public: void GetObjectData(SerializationInfo info, StreamingContext context);

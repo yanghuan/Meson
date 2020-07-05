@@ -11,14 +11,14 @@ enum class CorElementType : uint8_t;
 } // namespace System::Private::CoreLib::System::Reflection
 namespace System::Private::CoreLib::System {
 FORWARD_(Array, T1, T2)
+FORWARDS(Boolean)
 FORWARDS(Int32)
 FORWARDS(Int64)
 FORWARD(Object)
-FORWARDS(Boolean)
 FORWARD(Type)
 namespace ArrayNamespace {
-using namespace ::System::Private::CoreLib::System::Collections;
-using namespace ::System::Private::CoreLib::System::Reflection;
+using namespace Collections;
+using namespace Reflection;
 ARRAY(({
   private: template <class T>
   class EmptyArray {

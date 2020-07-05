@@ -10,7 +10,7 @@ FORWARD(Calendar)
 } // namespace System::Private::CoreLib::System::Globalization
 namespace System::Private::CoreLib::System {
 namespace ParsingInfoNamespace {
-using namespace ::System::Private::CoreLib::System::Globalization;
+using namespace Globalization;
 struct ParsingInfo {
   public: void Init();
   public: Calendar calendar;

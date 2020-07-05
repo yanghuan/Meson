@@ -14,7 +14,7 @@ FORWARDS(StreamingContext)
 } // namespace System::Private::CoreLib::System::Runtime::Serialization
 namespace System::Private::CoreLib::System::Collections::Generic {
 namespace EnumEqualityComparerNamespace {
-using namespace ::System::Private::CoreLib::System::Runtime::Serialization;
+using namespace Runtime::Serialization;
 CLASS(EnumEqualityComparer, T) {
   public: Boolean Equals(T x, T y);
   public: Int32 IndexOf(Array<T> array, T value, Int32 startIndex, Int32 count);

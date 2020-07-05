@@ -12,11 +12,11 @@ FORWARD_(Array, T1, T2)
 FORWARDS(Byte)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Reflection {
-FORWARD(LocalVariableInfo)
 FORWARD(ExceptionHandlingClause)
+FORWARD(LocalVariableInfo)
 FORWARD(MethodBase)
 namespace RuntimeMethodBodyNamespace {
-using namespace ::System::Private::CoreLib::System::Collections::Generic;
+using namespace Collections::Generic;
 using ::System::Private::CoreLib::System::Collections::Generic::IList;
 CLASS(RuntimeMethodBody) {
   public: Int32 get_LocalSignatureMetadataToken();

@@ -8,7 +8,7 @@ FORWARDS(CancellationToken)
 namespace System::Private::CoreLib::System::Collections::Generic {
 FORWARD(IAsyncEnumerator, T)
 namespace IAsyncEnumerableNamespace {
-using namespace ::System::Private::CoreLib::System::Threading;
+using namespace Threading;
 CLASS(IAsyncEnumerable, T) {
   public: IAsyncEnumerator<T> GetAsyncEnumerator(CancellationToken cancellationToken);
 };

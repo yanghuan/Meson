@@ -17,12 +17,12 @@ namespace System::Private::CoreLib::System::Runtime::CompilerServices {
 FORWARD(StrongBox, T)
 } // namespace System::Private::CoreLib::System::Runtime::CompilerServices
 namespace System::Private::CoreLib::System::Threading {
-FORWARD(WaitHandle)
 FORWARDS(CancellationToken)
 FORWARD(ManualResetEvent)
+FORWARD(WaitHandle)
 namespace SemaphoreSlimNamespace {
-using namespace ::System::Private::CoreLib::System::Runtime::CompilerServices;
-using namespace ::System::Private::CoreLib::System::Threading::Tasks;
+using namespace Runtime::CompilerServices;
+using namespace Tasks;
 CLASS(SemaphoreSlim) {
   private: CLASS(TaskNode) {
     public: TaskNode Prev;

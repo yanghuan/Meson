@@ -15,10 +15,10 @@ namespace System::Private::CoreLib::System::Collections::ObjectModel {
 FORWARD(ReadOnlyCollection, T)
 } // namespace System::Private::CoreLib::System::Collections::ObjectModel
 namespace System::Private::CoreLib::System::Collections::Generic {
-FORWARD(IEnumerable, T)
 FORWARD(IComparer, T)
+FORWARD(IEnumerable, T)
 namespace ListNamespace {
-using namespace ::System::Private::CoreLib::System::Collections::ObjectModel;
+using namespace ObjectModel;
 CLASS(List, T) {
   public: struct Enumerator {
     public: T get_Current();

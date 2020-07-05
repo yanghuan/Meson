@@ -17,10 +17,10 @@ FORWARDS(IntPtr)
 FORWARD(String)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Diagnostics::Tracing {
-FORWARDS(EventPipeProviderConfiguration)
 enum class EventPipeSerializationFormat;
-FORWARDS(EventPipeSessionInfo)
 FORWARDS(EventPipeEventInstanceData)
+FORWARDS(EventPipeProviderConfiguration)
+FORWARDS(EventPipeSessionInfo)
 namespace EventPipeInternalNamespace {
 class EventPipeInternal {
   private: struct EventPipeProviderConfigurationNative {

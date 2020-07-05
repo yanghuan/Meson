@@ -32,7 +32,7 @@ FORWARD(Type)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Diagnostics::Tracing {
 namespace PropertyValueNamespace {
-using namespace ::System::Private::CoreLib::System::Reflection;
+using namespace Reflection;
 struct PropertyValue {
   public: struct Scalar {
     public: Boolean AsBoolean;

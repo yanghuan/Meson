@@ -5,27 +5,27 @@
 #include <System.Private.CoreLib/System/Int32.h>
 
 namespace System::Private::CoreLib::System {
+enum class DayOfWeek;
+enum class TokenType;
 FORWARDS(__DTString)
 FORWARD_(Array, T1, T2)
 FORWARDS(Char)
-enum class DayOfWeek;
 FORWARD(IFormatProvider)
 FORWARD(Object)
 FORWARDS(ReadOnlySpan, T)
 FORWARD(String)
-enum class TokenType;
 FORWARD(Type)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Globalization {
-FORWARD(CultureInfo)
-FORWARD(Calendar)
 enum class CalendarId : uint16_t;
 enum class CalendarWeekRule;
-FORWARD(CompareInfo)
 enum class DateTimeFormatFlags;
-FORWARD(CultureData)
-enum class MonthNameStyles;
 enum class DateTimeStyles;
+enum class MonthNameStyles;
+FORWARD(Calendar)
+FORWARD(CompareInfo)
+FORWARD(CultureData)
+FORWARD(CultureInfo)
 namespace DateTimeFormatInfoNamespace {
 CLASS(DateTimeFormatInfo) {
   public: CLASS(TokenHashValue) {

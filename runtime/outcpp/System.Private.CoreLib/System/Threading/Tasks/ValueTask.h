@@ -14,7 +14,7 @@ FORWARD_(IValueTaskSource, T1, T2)
 namespace System::Private::CoreLib::System::Threading::Tasks {
 FORWARD_(Task, T1, T2)
 namespace ValueTaskNamespace {
-using namespace ::System::Private::CoreLib::System::Threading::Tasks::Sources;
+using namespace Sources;
 template <class T1 = void, class T2 = void>
 struct ValueTask {
 };

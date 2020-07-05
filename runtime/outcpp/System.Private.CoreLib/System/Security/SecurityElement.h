@@ -17,7 +17,7 @@ FORWARD(Hashtable)
 } // namespace System::Private::CoreLib::System::Collections
 namespace System::Private::CoreLib::System::Security {
 namespace SecurityElementNamespace {
-using namespace ::System::Private::CoreLib::System::Collections;
+using namespace Collections;
 CLASS(SecurityElement) {
   public: String get_Tag();
   public: void set_Tag(String value);

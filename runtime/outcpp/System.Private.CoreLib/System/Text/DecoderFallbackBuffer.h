@@ -12,8 +12,8 @@ FORWARDS(ReadOnlySpan, T)
 FORWARDS(Span, T)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Text {
-FORWARD(Encoding)
 FORWARD(DecoderNLS)
+FORWARD(Encoding)
 FORWARDS(Rune)
 namespace DecoderFallbackBufferNamespace {
 CLASS(DecoderFallbackBuffer) {

@@ -3,8 +3,8 @@
 #include <rt/GCObject.h>
 
 namespace System::Private::CoreLib::System::Runtime::ConstrainedExecution {
-enum class Consistency;
 enum class Cer;
+enum class Consistency;
 namespace ReliabilityContractAttributeNamespace {
 CLASS(ReliabilityContractAttribute) {
   public: Consistency get_ConsistencyGuarantee() { return ConsistencyGuarantee; }

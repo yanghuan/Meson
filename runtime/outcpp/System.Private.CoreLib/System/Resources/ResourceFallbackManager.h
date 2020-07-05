@@ -11,8 +11,8 @@ FORWARD(CultureInfo)
 } // namespace System::Private::CoreLib::System::Globalization
 namespace System::Private::CoreLib::System::Resources {
 namespace ResourceFallbackManagerNamespace {
-using namespace ::System::Private::CoreLib::System::Collections::Generic;
-using namespace ::System::Private::CoreLib::System::Globalization;
+using namespace Collections::Generic;
+using namespace Globalization;
 using ::System::Private::CoreLib::System::Collections::Generic::IEnumerator;
 CLASS(ResourceFallbackManager) {
   public: IEnumerator<CultureInfo> GetEnumerator();

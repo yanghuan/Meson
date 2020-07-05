@@ -12,12 +12,12 @@ namespace System::Private::CoreLib::System::Reflection {
 FORWARD(MethodInfo)
 } // namespace System::Private::CoreLib::System::Reflection
 namespace System::Private::CoreLib::System::Reflection::Emit {
-FORWARD(TypeBuilder)
-FORWARD(ModuleBuilder)
 enum class AssemblyBuilderAccess;
 FORWARD(InternalAssemblyBuilder)
+FORWARD(ModuleBuilder)
+FORWARD(TypeBuilder)
 namespace AssemblyBuilderDataNamespace {
-using namespace ::System::Private::CoreLib::System::Collections::Generic;
+using namespace Collections::Generic;
 CLASS(AssemblyBuilderData) {
   public: void CheckTypeNameConflict(String strTypeName, TypeBuilder enclosingType);
   public: List<ModuleBuilder> _moduleBuilderList;

@@ -19,7 +19,7 @@ namespace System::Private::CoreLib::System::Globalization {
 enum class UnicodeCategory;
 FORWARD(CultureData)
 namespace TextInfoNamespace {
-using namespace ::System::Private::CoreLib::System::Text;
+using namespace Text;
 CLASS(TextInfo) {
   private: enum class Tristate : uint8_t {
     NotInitialized = 0,

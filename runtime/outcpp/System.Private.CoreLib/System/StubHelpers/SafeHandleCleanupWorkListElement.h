@@ -11,7 +11,7 @@ FORWARD(SafeHandle)
 } // namespace System::Private::CoreLib::System::Runtime::InteropServices
 namespace System::Private::CoreLib::System::StubHelpers {
 namespace SafeHandleCleanupWorkListElementNamespace {
-using namespace ::System::Private::CoreLib::System::Runtime::InteropServices;
+using namespace Runtime::InteropServices;
 CLASS(SafeHandleCleanupWorkListElement) {
   protected: void DestroyCore();
   public: IntPtr AddRef();

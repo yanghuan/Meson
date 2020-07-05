@@ -13,7 +13,7 @@ FORWARD_(Task, T1, T2)
 namespace System::Private::CoreLib::System::Runtime::CompilerServices {
 FORWARD(IAsyncStateMachine)
 namespace AsyncMethodBuilderCoreNamespace {
-using namespace ::System::Private::CoreLib::System::Threading::Tasks;
+using namespace Threading::Tasks;
 class AsyncMethodBuilderCore {
   private: CLASS(ContinuationWrapper) {
     public: void Invoke();

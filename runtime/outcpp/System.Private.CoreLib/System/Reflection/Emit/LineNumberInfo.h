@@ -13,7 +13,7 @@ FORWARD_(Array, T1, T2)
 namespace System::Private::CoreLib::System::Reflection::Emit {
 FORWARD(REDocument)
 namespace LineNumberInfoNamespace {
-using namespace ::System::Private::CoreLib::System::Diagnostics::SymbolStore;
+using namespace Diagnostics::SymbolStore;
 CLASS(LineNumberInfo) {
   public: void AddLineNumberInfo(ISymbolDocumentWriter document, Int32 iOffset, Int32 iStartLine, Int32 iStartColumn, Int32 iEndLine, Int32 iEndColumn);
   private: Int32 FindDocument(ISymbolDocumentWriter document);

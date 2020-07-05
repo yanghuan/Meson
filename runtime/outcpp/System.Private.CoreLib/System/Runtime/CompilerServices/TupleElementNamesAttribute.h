@@ -11,7 +11,7 @@ FORWARD(String)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Runtime::CompilerServices {
 namespace TupleElementNamesAttributeNamespace {
-using namespace ::System::Private::CoreLib::System::Collections::Generic;
+using namespace Collections::Generic;
 using ::System::Private::CoreLib::System::Collections::Generic::IList;
 CLASS(TupleElementNamesAttribute) {
   public: IList<String> get_TransformNames();

@@ -27,15 +27,15 @@ namespace System::Private::CoreLib::System::Runtime::Serialization {
 FORWARDS(StreamingContext)
 } // namespace System::Private::CoreLib::System::Runtime::Serialization
 namespace System::Private::CoreLib::System::Globalization {
-FORWARD(SortVersion)
-FORWARD(CultureInfo)
 enum class CompareOptions;
+FORWARD(CultureInfo)
 FORWARD(SortKey)
+FORWARD(SortVersion)
 namespace CompareInfoNamespace {
-using namespace ::System::Private::CoreLib::System::Collections::Generic;
-using namespace ::System::Private::CoreLib::System::Reflection;
-using namespace ::System::Private::CoreLib::System::Runtime::Serialization;
-using namespace ::System::Private::CoreLib::System::Text;
+using namespace Collections::Generic;
+using namespace Reflection;
+using namespace Runtime::Serialization;
+using namespace Text;
 CLASS(CompareInfo) {
   private: class SortHandleCache {
     public: static IntPtr GetCachedSortHandle(String sortName);

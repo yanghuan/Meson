@@ -3,12 +3,12 @@
 #include <rt/GCObject.h>
 
 namespace System::Private::CoreLib::System {
-FORWARDS(Byte)
-FORWARDS(UIntPtr)
-FORWARDS(Int32)
 FORWARD_(Array, T1, T2)
+FORWARDS(Byte)
+FORWARDS(Int32)
 FORWARDS(Int64)
 FORWARDS(UInt64)
+FORWARDS(UIntPtr)
 namespace BufferNamespace {
 class Buffer {
   private: struct Block16 {

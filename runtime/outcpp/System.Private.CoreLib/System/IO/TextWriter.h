@@ -32,9 +32,9 @@ FORWARDS(CancellationToken)
 } // namespace System::Private::CoreLib::System::Threading
 namespace System::Private::CoreLib::System::IO {
 namespace TextWriterNamespace {
-using namespace ::System::Private::CoreLib::System::Text;
-using namespace ::System::Private::CoreLib::System::Threading;
-using namespace ::System::Private::CoreLib::System::Threading::Tasks;
+using namespace Text;
+using namespace Threading;
+using namespace Threading::Tasks;
 CLASS(TextWriter) {
   private: CLASS(NullTextWriter) {
     public: Encoding get_Encoding();

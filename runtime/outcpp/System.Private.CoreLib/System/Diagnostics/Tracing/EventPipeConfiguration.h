@@ -16,7 +16,7 @@ namespace System::Private::CoreLib::System::Diagnostics::Tracing {
 enum class EventPipeSerializationFormat;
 FORWARDS(EventPipeProviderConfiguration)
 namespace EventPipeConfigurationNamespace {
-using namespace ::System::Private::CoreLib::System::Collections::Generic;
+using namespace Collections::Generic;
 CLASS(EventPipeConfiguration) {
   public: String get_OutputFile();
   public: EventPipeSerializationFormat get_Format();

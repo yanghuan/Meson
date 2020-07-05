@@ -6,12 +6,12 @@ namespace System::Private::CoreLib::System::Threading {
 enum class LazyThreadSafetyMode;
 } // namespace System::Private::CoreLib::System::Threading
 namespace System::Private::CoreLib::System {
-FORWARDS_(Nullable, T1, T2)
 FORWARDS(Boolean)
-FORWARD(LazyHelper)
 FORWARD_(Func, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18)
+FORWARD(LazyHelper)
+FORWARDS_(Nullable, T1, T2)
 namespace LazyNamespace {
-using namespace ::System::Private::CoreLib::System::Threading;
+using namespace Threading;
 CLASS_FORWARD(Lazy, T1, T2, T3)
 CLASS_(Lazy, T) {
   public: T get_ValueForDebugDisplay();

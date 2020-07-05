@@ -30,16 +30,16 @@ FORWARD(ISymbolDocumentWriter)
 } // namespace System::Private::CoreLib::System::Diagnostics::SymbolStore
 namespace System::Private::CoreLib::System::Reflection::Emit {
 FORWARD(__ExceptionInfo)
-FORWARDS(OpCode)
-FORWARD(SignatureHelper)
-FORWARDS(Label)
-FORWARD(LocalBuilder)
 FORWARDS(__FixupData)
-FORWARD(ScopeTree)
+FORWARDS(Label)
 FORWARD(LineNumberInfo)
+FORWARD(LocalBuilder)
+FORWARDS(OpCode)
+FORWARD(ScopeTree)
+FORWARD(SignatureHelper)
 namespace ILGeneratorNamespace {
-using namespace ::System::Private::CoreLib::System::Diagnostics::SymbolStore;
-using namespace ::System::Private::CoreLib::System::Runtime::InteropServices;
+using namespace Diagnostics::SymbolStore;
+using namespace Runtime::InteropServices;
 CLASS(ILGenerator) {
   public: Int32 get_CurrExcStackCount();
   public: Array<__ExceptionInfo> get_CurrExcStack();

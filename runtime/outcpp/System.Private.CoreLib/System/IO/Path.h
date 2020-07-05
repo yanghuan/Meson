@@ -3,6 +3,7 @@
 #include <rt/GCObject.h>
 
 namespace System::Private::CoreLib::System {
+enum class StringComparison;
 FORWARD_(Array, T1, T2)
 FORWARDS(Boolean)
 FORWARDS(Byte)
@@ -11,14 +12,13 @@ FORWARDS(Int32)
 FORWARDS(ReadOnlySpan, T)
 FORWARDS(Span, T)
 FORWARD(String)
-enum class StringComparison;
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Text {
 FORWARDS(ValueStringBuilder)
 } // namespace System::Private::CoreLib::System::Text
 namespace System::Private::CoreLib::System::IO {
 namespace PathNamespace {
-using namespace ::System::Private::CoreLib::System::Text;
+using namespace Text;
 class Path {
   private: static ReadOnlySpan<Byte> get_Base32Char();
   public: static StringComparison get_StringComparison();

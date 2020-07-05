@@ -26,11 +26,11 @@ FORWARD_(Task, T1, T2)
 FORWARDS_(ValueTask, T1, T2)
 } // namespace System::Private::CoreLib::System::Threading::Tasks
 namespace System::Private::CoreLib::System::IO {
-FORWARD(Stream)
 enum class SeekOrigin;
+FORWARD(Stream)
 namespace BufferedStreamNamespace {
-using namespace ::System::Private::CoreLib::System::Threading;
-using namespace ::System::Private::CoreLib::System::Threading::Tasks;
+using namespace Threading;
+using namespace Threading::Tasks;
 CLASS(BufferedStream) {
   public: Stream get_UnderlyingStream();
   public: Int32 get_BufferSize();

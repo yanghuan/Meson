@@ -6,11 +6,11 @@
 #include <System.Private.CoreLib/System/UInt32.h>
 
 namespace System::Private::CoreLib::System {
+enum class DateTimeKind;
 FORWARD_(Array, T1, T2)
 FORWARDS(Byte)
 FORWARDS(Char)
 FORWARDS(DateTime)
-enum class DateTimeKind;
 FORWARDS(DateTimeOffset)
 FORWARDS(Decimal)
 FORWARDS(Double)

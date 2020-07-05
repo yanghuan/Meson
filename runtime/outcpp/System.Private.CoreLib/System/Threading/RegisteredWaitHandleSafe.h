@@ -11,7 +11,7 @@ FORWARD(SafeHandle)
 namespace System::Private::CoreLib::System::Threading {
 FORWARD(WaitHandle)
 namespace RegisteredWaitHandleSafeNamespace {
-using namespace ::System::Private::CoreLib::System::Runtime::InteropServices;
+using namespace Runtime::InteropServices;
 CLASS(RegisteredWaitHandleSafe) {
   private: static IntPtr get_InvalidHandle();
   public: IntPtr GetHandle();

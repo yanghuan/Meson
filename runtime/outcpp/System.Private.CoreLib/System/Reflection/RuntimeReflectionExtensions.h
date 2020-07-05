@@ -12,14 +12,14 @@ namespace System::Private::CoreLib::System::Collections::Generic {
 FORWARD(IEnumerable, T)
 } // namespace System::Private::CoreLib::System::Collections::Generic
 namespace System::Private::CoreLib::System::Reflection {
+FORWARD(EventInfo)
 FORWARD(FieldInfo)
+FORWARDS(InterfaceMapping)
 FORWARD(MethodInfo)
 FORWARD(PropertyInfo)
-FORWARD(EventInfo)
 FORWARD(TypeInfo)
-FORWARDS(InterfaceMapping)
 namespace RuntimeReflectionExtensionsNamespace {
-using namespace ::System::Private::CoreLib::System::Collections::Generic;
+using namespace Collections::Generic;
 class RuntimeReflectionExtensions {
   public: static IEnumerable<FieldInfo> GetRuntimeFields(Type type);
   public: static IEnumerable<MethodInfo> GetRuntimeMethods(Type type);

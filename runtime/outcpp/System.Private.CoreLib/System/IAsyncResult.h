@@ -9,7 +9,7 @@ namespace System::Private::CoreLib::System {
 FORWARDS(Boolean)
 FORWARD(Object)
 namespace IAsyncResultNamespace {
-using namespace ::System::Private::CoreLib::System::Threading;
+using namespace Threading;
 CLASS(IAsyncResult) {
   public: Boolean get_IsCompleted();
   public: WaitHandle get_AsyncWaitHandle();

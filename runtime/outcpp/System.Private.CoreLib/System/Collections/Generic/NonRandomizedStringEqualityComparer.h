@@ -14,7 +14,7 @@ FORWARDS(StreamingContext)
 } // namespace System::Private::CoreLib::System::Runtime::Serialization
 namespace System::Private::CoreLib::System::Collections::Generic {
 namespace NonRandomizedStringEqualityComparerNamespace {
-using namespace ::System::Private::CoreLib::System::Runtime::Serialization;
+using namespace Runtime::Serialization;
 CLASS(NonRandomizedStringEqualityComparer) {
   public: static IEqualityComparer<String> get_Default() { return Default; }
   public: Boolean Equals(String x, String y);

@@ -17,8 +17,8 @@ FORWARD(Thread)
 } // namespace System::Private::CoreLib::System::Threading
 namespace System::Private::CoreLib::System::Runtime::CompilerServices {
 namespace AsyncTaskMethodBuilderNamespace {
-using namespace ::System::Private::CoreLib::System::Threading;
-using namespace ::System::Private::CoreLib::System::Threading::Tasks;
+using namespace Threading;
+using namespace Threading::Tasks;
 template <class T1 = void, class T2 = void>
 struct AsyncTaskMethodBuilder {
 };

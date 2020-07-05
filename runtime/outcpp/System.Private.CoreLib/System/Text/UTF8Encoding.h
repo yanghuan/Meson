@@ -17,14 +17,14 @@ namespace System::Private::CoreLib::System::Buffers {
 enum class OperationStatus;
 } // namespace System::Private::CoreLib::System::Buffers
 namespace System::Private::CoreLib::System::Text {
-FORWARD(EncoderFallback)
-FORWARD(DecoderNLS)
-FORWARD(DecoderFallback)
 FORWARD(Decoder)
+FORWARD(DecoderFallback)
+FORWARD(DecoderNLS)
 FORWARD(Encoder)
+FORWARD(EncoderFallback)
 FORWARDS(Rune)
 namespace UTF8EncodingNamespace {
-using namespace ::System::Private::CoreLib::System::Buffers;
+using namespace Buffers;
 CLASS(UTF8Encoding) {
   public: CLASS(UTF8EncodingSealed) {
     public: ReadOnlySpan<Byte> get_Preamble();

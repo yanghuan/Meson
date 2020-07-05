@@ -13,10 +13,10 @@ FORWARDS(ReadOnlySpan, T)
 FORWARD(String)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Text {
-FORWARD(EncoderNLS)
+FORWARD(Decoder)
 FORWARD(DecoderNLS)
 FORWARD(Encoder)
-FORWARD(Decoder)
+FORWARD(EncoderNLS)
 namespace UnicodeEncodingNamespace {
 CLASS(UnicodeEncoding) {
   private: CLASS(Decoder) {

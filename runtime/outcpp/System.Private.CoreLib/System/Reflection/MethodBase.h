@@ -20,16 +20,16 @@ namespace System::Private::CoreLib::System::Text {
 FORWARDS(ValueStringBuilder)
 } // namespace System::Private::CoreLib::System::Text
 namespace System::Private::CoreLib::System::Reflection {
+enum class BindingFlags;
+enum class CallingConventions;
 enum class MethodAttributes;
 enum class MethodImplAttributes;
-enum class CallingConventions;
-FORWARD(ParameterInfo)
 FORWARD(Binder)
-enum class BindingFlags;
 FORWARD(MethodBody)
+FORWARD(ParameterInfo)
 namespace MethodBaseNamespace {
-using namespace ::System::Private::CoreLib::System::Globalization;
-using namespace ::System::Private::CoreLib::System::Text;
+using namespace Globalization;
+using namespace Text;
 CLASS(MethodBase) {
   public: MethodAttributes get_Attributes();
   public: MethodImplAttributes get_MethodImplementationFlags();

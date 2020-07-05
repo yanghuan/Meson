@@ -33,7 +33,7 @@ FORWARDS(MethodTable)
 FORWARDS(QCallTypeHandle)
 FORWARDS(TailCallTls)
 namespace RuntimeHelpersNamespace {
-using namespace ::System::Private::CoreLib::System::Reflection;
+using namespace Reflection;
 class RuntimeHelpers {
   public: CLASS(TryCode) {
     public: void Invoke(Object userData);

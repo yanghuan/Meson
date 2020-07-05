@@ -30,13 +30,13 @@ FORWARD(ISymbolDocumentWriter)
 } // namespace System::Private::CoreLib::System::Diagnostics::SymbolStore
 namespace System::Private::CoreLib::System::Reflection::Emit {
 FORWARD(DynamicMethod)
+FORWARD(DynamicScope)
 FORWARD(LocalBuilder)
 FORWARDS(OpCode)
 FORWARD(SignatureHelper)
-FORWARD(DynamicScope)
 namespace DynamicILGeneratorNamespace {
-using namespace ::System::Private::CoreLib::System::Diagnostics::SymbolStore;
-using namespace ::System::Private::CoreLib::System::Runtime::InteropServices;
+using namespace Diagnostics::SymbolStore;
+using namespace Runtime::InteropServices;
 CLASS(DynamicILGenerator) {
   public: void GetCallableMethod(RuntimeModule module, DynamicMethod dm);
   public: LocalBuilder DeclareLocal(Type localType, Boolean pinned);

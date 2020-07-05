@@ -3,12 +3,12 @@
 #include <rt/GCObject.h>
 
 namespace System::Private::CoreLib::System {
-FORWARDS(Span, T)
+FORWARDS(Boolean)
 FORWARDS(Char)
+FORWARD(IFormatProvider)
 FORWARDS(Int32)
 FORWARDS(ReadOnlySpan, T)
-FORWARD(IFormatProvider)
-FORWARDS(Boolean)
+FORWARDS(Span, T)
 namespace ISpanFormattableNamespace {
 CLASS(ISpanFormattable) {
   public: Boolean TryFormat(Span<Char> destination, Int32& charsWritten, ReadOnlySpan<Char> format, IFormatProvider provider);

@@ -3,10 +3,10 @@
 #include <rt/GCObject.h>
 
 namespace System::Private::CoreLib::System {
-FORWARD(Object)
 FORWARD(AssemblyLoadEventArgs)
 FORWARD(AsyncCallback)
 FORWARD(IAsyncResult)
+FORWARD(Object)
 namespace AssemblyLoadEventHandlerNamespace {
 CLASS(AssemblyLoadEventHandler) {
   public: void Invoke(Object sender, AssemblyLoadEventArgs args);

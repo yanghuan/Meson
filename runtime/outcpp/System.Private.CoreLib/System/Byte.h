@@ -3,21 +3,21 @@
 #include <rt/GCObject.h>
 
 namespace System::Private::CoreLib::System::Globalization {
-FORWARD(NumberFormatInfo)
 enum class NumberStyles;
+FORWARD(NumberFormatInfo)
 } // namespace System::Private::CoreLib::System::Globalization
 namespace System::Private::CoreLib::System {
-FORWARD(Object)
-FORWARDS(Int32)
-FORWARDS(Boolean)
-FORWARD(String)
-FORWARD(IFormatProvider)
-FORWARDS(ReadOnlySpan, T)
-FORWARDS(Char)
-FORWARDS(Span, T)
 enum class TypeCode;
+FORWARDS(Boolean)
+FORWARDS(Char)
+FORWARD(IFormatProvider)
+FORWARDS(Int32)
+FORWARD(Object)
+FORWARDS(ReadOnlySpan, T)
+FORWARDS(Span, T)
+FORWARD(String)
 namespace ByteNamespace {
-using namespace ::System::Private::CoreLib::System::Globalization;
+using namespace Globalization;
 struct Byte {
   public: Int32 CompareTo(Object value);
   public: Int32 CompareTo(Byte value);

@@ -12,11 +12,11 @@ FORWARD(DateTimeFormatInfo)
 } // namespace System::Private::CoreLib::System::Globalization
 namespace System::Private::CoreLib::System {
 enum class TokenType;
-FORWARD(String)
 FORWARD_(Array, T1, T2)
 FORWARDS(DTSubString)
+FORWARD(String)
 namespace __DTStringNamespace {
-using namespace ::System::Private::CoreLib::System::Globalization;
+using namespace Globalization;
 struct __DTString {
   public: Int32 get_Length();
   public: CompareInfo get_CompareInfo();

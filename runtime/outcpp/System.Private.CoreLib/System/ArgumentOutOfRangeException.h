@@ -7,10 +7,10 @@ FORWARD(SerializationInfo)
 FORWARDS(StreamingContext)
 } // namespace System::Private::CoreLib::System::Runtime::Serialization
 namespace System::Private::CoreLib::System {
-FORWARD(String)
 FORWARD(Object)
+FORWARD(String)
 namespace ArgumentOutOfRangeExceptionNamespace {
-using namespace ::System::Private::CoreLib::System::Runtime::Serialization;
+using namespace Runtime::Serialization;
 CLASS(ArgumentOutOfRangeException) {
   public: String get_Message();
   public: Object get_ActualValue();

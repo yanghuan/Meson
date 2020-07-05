@@ -9,16 +9,16 @@ namespace System::Private::CoreLib::System::Runtime::ExceptionServices {
 FORWARD(FirstChanceExceptionEventArgs)
 } // namespace System::Private::CoreLib::System::Runtime::ExceptionServices
 namespace System::Private::CoreLib::System {
-FORWARD(String)
-FORWARD(Object)
 FORWARDS(Boolean)
 FORWARDS(Char)
-FORWARDS(Int32)
-FORWARD(UnhandledExceptionEventHandler)
 FORWARD_(EventHandler, T1, T2)
+FORWARDS(Int32)
+FORWARD(Object)
+FORWARD(String)
+FORWARD(UnhandledExceptionEventHandler)
 namespace AppContextNamespace {
-using namespace ::System::Private::CoreLib::System::Collections::Generic;
-using namespace ::System::Private::CoreLib::System::Runtime::ExceptionServices;
+using namespace Collections::Generic;
+using namespace Runtime::ExceptionServices;
 class AppContext {
   public: static String get_BaseDirectory();
   public: static String get_TargetFrameworkName();

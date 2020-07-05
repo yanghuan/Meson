@@ -16,8 +16,8 @@ FORWARD(Object)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Runtime::InteropServices::CustomMarshalers {
 namespace EnumVariantViewOfEnumeratorNamespace {
-using namespace ::System::Private::CoreLib::System::Collections;
-using namespace ::System::Private::CoreLib::System::Runtime::InteropServices::ComTypes;
+using namespace Collections;
+using namespace ComTypes;
 CLASS(EnumVariantViewOfEnumerator) {
   public: IEnumerator get_Enumerator() { return Enumerator; }
   public: IEnumVARIANT Clone();

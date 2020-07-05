@@ -16,7 +16,7 @@ FORWARDS(GCHandle)
 } // namespace System::Private::CoreLib::System::Runtime::InteropServices
 namespace System::Private::CoreLib::System::Diagnostics::Tracing {
 namespace DataCollectorNamespace {
-using namespace ::System::Private::CoreLib::System::Runtime::InteropServices;
+using namespace Runtime::InteropServices;
 struct DataCollector {
   public: void Enable(Byte* scratch, Int32 scratchSize, EventSource::in::EventData* datas, Int32 dataCount, GCHandle* pins, Int32 pinCount);
   public: void Disable();

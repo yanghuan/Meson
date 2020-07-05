@@ -20,9 +20,9 @@ FORWARD(List, T)
 namespace System::Private::CoreLib::System::Threading::Tasks {
 FORWARD_(Task, T1, T2)
 namespace TaskExceptionHolderNamespace {
-using namespace ::System::Private::CoreLib::System::Collections::Generic;
-using namespace ::System::Private::CoreLib::System::Collections::ObjectModel;
-using namespace ::System::Private::CoreLib::System::Runtime::ExceptionServices;
+using namespace Collections::Generic;
+using namespace Collections::ObjectModel;
+using namespace Runtime::ExceptionServices;
 CLASS(TaskExceptionHolder) {
   public: Boolean get_ContainsFaultList();
   protected: void Finalize();

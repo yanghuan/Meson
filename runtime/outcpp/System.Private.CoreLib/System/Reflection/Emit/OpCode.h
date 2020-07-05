@@ -11,11 +11,11 @@ FORWARD(Object)
 FORWARD(String)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Reflection::Emit {
-enum class OperandType;
 enum class FlowControl;
 enum class OpCodeType;
-enum class StackBehaviour;
 enum class OpCodeValues;
+enum class OperandType;
+enum class StackBehaviour;
 namespace OpCodeNamespace {
 struct OpCode {
   public: OperandType get_OperandType();

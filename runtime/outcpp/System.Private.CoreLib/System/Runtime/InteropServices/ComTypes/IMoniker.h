@@ -11,10 +11,10 @@ FORWARD(Object)
 FORWARD(String)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Runtime::InteropServices::ComTypes {
-FORWARD(IStream)
+FORWARDS(FILETIME)
 FORWARD(IBindCtx)
 FORWARD(IEnumMoniker)
-FORWARDS(FILETIME)
+FORWARD(IStream)
 namespace IMonikerNamespace {
 CLASS(IMoniker) {
   public: void GetClassID(Guid& pClassID);

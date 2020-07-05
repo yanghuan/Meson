@@ -3,35 +3,35 @@
 #include <rt/GCObject.h>
 
 namespace System::Private::CoreLib::System::Globalization {
+enum class DateTimeStyles;
 FORWARD(Calendar)
 FORWARD(DateTimeFormatInfo)
-enum class DateTimeStyles;
 } // namespace System::Private::CoreLib::System::Globalization
 namespace System::Private::CoreLib::System::Text {
 FORWARD(StringBuilder)
 } // namespace System::Private::CoreLib::System::Text
 namespace System::Private::CoreLib::System {
 FORWARDS(__DTString)
-FORWARDS(Int32)
-FORWARDS(Boolean)
+FORWARD_(Array, T1, T2)
 FORWARD(AsyncCallback)
-FORWARD(Object)
-FORWARD(IAsyncResult)
-FORWARDS(ReadOnlySpan, T)
+FORWARDS(Boolean)
 FORWARDS(Char)
 FORWARDS(DateTime)
-FORWARDS(TimeSpan)
-FORWARDS(DateTimeResult)
-FORWARD_(Array, T1, T2)
-FORWARD(String)
-FORWARDS(Double)
-FORWARDS(DateTimeToken)
 FORWARDS(DateTimeRawInfo)
-FORWARDS(ParsingInfo)
+FORWARDS(DateTimeResult)
+FORWARDS(DateTimeToken)
+FORWARDS(Double)
 FORWARD(Exception)
+FORWARD(IAsyncResult)
+FORWARDS(Int32)
+FORWARD(Object)
+FORWARDS(ParsingInfo)
+FORWARDS(ReadOnlySpan, T)
+FORWARD(String)
+FORWARDS(TimeSpan)
 namespace DateTimeParseNamespace {
-using namespace ::System::Private::CoreLib::System::Globalization;
-using namespace ::System::Private::CoreLib::System::Text;
+using namespace Globalization;
+using namespace Text;
 class DateTimeParse {
   public: enum class DTT {
     End = 0,

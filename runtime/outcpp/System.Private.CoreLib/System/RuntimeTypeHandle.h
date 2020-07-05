@@ -7,10 +7,10 @@
 
 namespace System::Private::CoreLib::System::Reflection {
 enum class CorElementType : uint8_t;
+enum class TypeAttributes;
 FORWARDS(MetadataImport)
 FORWARD(RuntimeAssembly)
 FORWARD(RuntimeModule)
-enum class TypeAttributes;
 } // namespace System::Private::CoreLib::System::Reflection
 namespace System::Private::CoreLib::System::Runtime::CompilerServices {
 FORWARDS(ObjectHandleOnStack)
@@ -33,24 +33,24 @@ FORWARD(SerializationInfo)
 FORWARDS(StreamingContext)
 } // namespace System::Private::CoreLib::System::Runtime::Serialization
 namespace System::Private::CoreLib::System {
-FORWARDS(IntPtr)
-FORWARD(RuntimeType)
-FORWARD(Object)
-FORWARD(Type)
+enum class TypeNameFormatFlags;
 FORWARD_(Array, T1, T2)
 FORWARDS(Int32)
-FORWARDS(ModuleHandle)
-enum class TypeNameFormatFlags;
-FORWARD(String)
-FORWARDS(MdUtf8String)
+FORWARDS(IntPtr)
 FORWARD(IRuntimeMethodInfo)
+FORWARDS(MdUtf8String)
+FORWARDS(ModuleHandle)
+FORWARD(Object)
+FORWARD(RuntimeType)
+FORWARD(String)
+FORWARD(Type)
 namespace RuntimeTypeHandleNamespace {
-using namespace ::System::Private::CoreLib::System::Reflection;
-using namespace ::System::Private::CoreLib::System::Runtime::CompilerServices;
-using namespace ::System::Private::CoreLib::System::Runtime::InteropServices;
-using namespace ::System::Private::CoreLib::System::Runtime::Loader;
-using namespace ::System::Private::CoreLib::System::Runtime::Serialization;
-using namespace ::System::Private::CoreLib::System::Threading;
+using namespace Reflection;
+using namespace Runtime::CompilerServices;
+using namespace Runtime::InteropServices;
+using namespace Runtime::Loader;
+using namespace Runtime::Serialization;
+using namespace Threading;
 struct RuntimeTypeHandle {
   public: struct IntroducedMethodEnumerator {
     public: RuntimeMethodHandleInternal get_Current();

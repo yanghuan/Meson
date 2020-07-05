@@ -19,10 +19,10 @@ namespace System::Private::CoreLib::System::Text {
 FORWARD(StringBuilder)
 } // namespace System::Private::CoreLib::System::Text
 namespace System::Private::CoreLib::System::Globalization {
-FORWARD(DateTimeFormatInfo)
 enum class TimeSpanStyles;
+FORWARD(DateTimeFormatInfo)
 namespace TimeSpanParseNamespace {
-using namespace ::System::Private::CoreLib::System::Text;
+using namespace Text;
 class TimeSpanParse {
   private: enum class TimeSpanStandardStyles : uint8_t {
     None = 0,

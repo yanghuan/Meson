@@ -15,7 +15,7 @@ FORWARDS(CancellationToken)
 namespace System::Private::CoreLib::System::Threading::Tasks {
 FORWARD_(Task, T1, T2)
 namespace TaskCompletionSourceNamespace {
-using namespace ::System::Private::CoreLib::System::Collections::Generic;
+using namespace Collections::Generic;
 CLASS(TaskCompletionSource, TResult) {
   public: Task<TResult> get_Task();
   private: void SpinUntilCompleted();

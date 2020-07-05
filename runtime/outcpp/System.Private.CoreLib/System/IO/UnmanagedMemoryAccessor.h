@@ -23,7 +23,7 @@ FORWARDS(UInt64)
 namespace System::Private::CoreLib::System::IO {
 enum class FileAccess;
 namespace UnmanagedMemoryAccessorNamespace {
-using namespace ::System::Private::CoreLib::System::Runtime::InteropServices;
+using namespace Runtime::InteropServices;
 CLASS(UnmanagedMemoryAccessor) {
   public: Int64 get_Capacity();
   public: Boolean get_CanRead();

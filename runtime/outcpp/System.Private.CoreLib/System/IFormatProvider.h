@@ -3,8 +3,8 @@
 #include <rt/GCObject.h>
 
 namespace System::Private::CoreLib::System {
-FORWARD(Type)
 FORWARD(Object)
+FORWARD(Type)
 namespace IFormatProviderNamespace {
 CLASS(IFormatProvider) {
   public: Object GetFormat(Type formatType);

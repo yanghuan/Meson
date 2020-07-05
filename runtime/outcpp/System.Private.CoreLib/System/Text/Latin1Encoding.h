@@ -10,9 +10,9 @@ FORWARDS(Char)
 FORWARDS(Int32)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Text {
-FORWARD(EncoderNLS)
-FORWARD(DecoderNLS)
 enum class NormalizationForm;
+FORWARD(DecoderNLS)
+FORWARD(EncoderNLS)
 namespace Latin1EncodingNamespace {
 CLASS(Latin1Encoding) {
   public: Boolean get_IsSingleByte();

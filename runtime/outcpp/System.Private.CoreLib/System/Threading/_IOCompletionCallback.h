@@ -7,10 +7,10 @@ namespace System::Private::CoreLib::System {
 FORWARD(Object)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Threading {
-FORWARDS(NativeOverlapped)
-FORWARD(IOCompletionCallback)
-FORWARD(ExecutionContext)
 FORWARD_(ContextCallback, T1, T2)
+FORWARD(ExecutionContext)
+FORWARD(IOCompletionCallback)
+FORWARDS(NativeOverlapped)
 namespace _IOCompletionCallbackNamespace {
 CLASS(_IOCompletionCallback) {
   public: static void IOCompletionCallback_Context(Object state);

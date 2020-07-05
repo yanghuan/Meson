@@ -13,11 +13,11 @@ FORWARDS(SByte)
 FORWARD(String)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Text {
-FORWARD(DecoderFallbackBuffer)
-FORWARD(EncoderNLS)
-FORWARD(DecoderNLS)
 FORWARD(Decoder)
+FORWARD(DecoderFallbackBuffer)
+FORWARD(DecoderNLS)
 FORWARD(Encoder)
+FORWARD(EncoderNLS)
 namespace UTF7EncodingNamespace {
 CLASS(UTF7Encoding) {
   private: CLASS(Decoder) {

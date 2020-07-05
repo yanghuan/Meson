@@ -13,10 +13,10 @@ FORWARDS(Char)
 FORWARDS(Int32)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Globalization {
-FORWARDS(HebrewNumberParsingContext)
 enum class HebrewNumberParsingState;
+FORWARDS(HebrewNumberParsingContext)
 namespace HebrewNumberNamespace {
-using namespace ::System::Private::CoreLib::System::Text;
+using namespace Text;
 class HebrewNumber {
   private: enum class HebrewToken : int16_t {
     Invalid = -1,

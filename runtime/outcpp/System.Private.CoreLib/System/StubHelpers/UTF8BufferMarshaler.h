@@ -11,7 +11,7 @@ FORWARDS(IntPtr)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::StubHelpers {
 namespace UTF8BufferMarshalerNamespace {
-using namespace ::System::Private::CoreLib::System::Text;
+using namespace Text;
 class UTF8BufferMarshaler {
   public: static IntPtr ConvertToNative(StringBuilder sb, IntPtr pNativeBuffer, Int32 flags);
   public: static void ConvertToManaged(StringBuilder sb, IntPtr pNative);

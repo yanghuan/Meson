@@ -26,19 +26,19 @@ namespace System::Private::CoreLib::System::Resources {
 FORWARD(ResourceManager)
 } // namespace System::Private::CoreLib::System::Resources
 namespace System::Private::CoreLib::System::Diagnostics::Tracing {
-FORWARD(EventChannelAttribute)
 enum class EventChannel : uint8_t;
 enum class EventChannelType;
-FORWARD(EventAttribute)
 enum class EventLevel;
-enum class EventTask;
-enum class EventOpcode;
 enum class EventManifestOptions;
+enum class EventOpcode;
+enum class EventTask;
+FORWARD(EventAttribute)
+FORWARD(EventChannelAttribute)
 namespace ManifestBuilderNamespace {
-using namespace ::System::Private::CoreLib::System::Collections::Generic;
-using namespace ::System::Private::CoreLib::System::Globalization;
-using namespace ::System::Private::CoreLib::System::Resources;
-using namespace ::System::Private::CoreLib::System::Text;
+using namespace Collections::Generic;
+using namespace Globalization;
+using namespace Resources;
+using namespace Text;
 using ::System::Private::CoreLib::System::Collections::Generic::IList;
 CLASS(ManifestBuilder) {
   private: CLASS(ChannelInfo) {

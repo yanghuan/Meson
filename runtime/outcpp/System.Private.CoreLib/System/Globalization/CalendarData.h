@@ -19,11 +19,11 @@ namespace System::Private::CoreLib::System::Text {
 FORWARD(StringBuilder)
 } // namespace System::Private::CoreLib::System::Text
 namespace System::Private::CoreLib::System::Globalization {
-enum class CalendarId : uint16_t;
 enum class CalendarDataType;
+enum class CalendarId : uint16_t;
 namespace CalendarDataNamespace {
-using namespace ::System::Private::CoreLib::System::Collections::Generic;
-using namespace ::System::Private::CoreLib::System::Text;
+using namespace Collections::Generic;
+using namespace Text;
 CLASS(CalendarData) {
   private: struct IcuEnumCalendarsData {
     public: List<String> Results;

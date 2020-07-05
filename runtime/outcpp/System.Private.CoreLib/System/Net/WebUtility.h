@@ -25,9 +25,9 @@ FORWARD(TextWriter)
 } // namespace System::Private::CoreLib::System::IO
 namespace System::Private::CoreLib::System::Net {
 namespace WebUtilityNamespace {
-using namespace ::System::Private::CoreLib::System::Collections::Generic;
-using namespace ::System::Private::CoreLib::System::IO;
-using namespace ::System::Private::CoreLib::System::Text;
+using namespace Collections::Generic;
+using namespace IO;
+using namespace Text;
 class WebUtility {
   private: struct UrlDecoder {
     private: void FlushBytes();

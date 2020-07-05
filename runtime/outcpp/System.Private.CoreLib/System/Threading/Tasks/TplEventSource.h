@@ -4,9 +4,9 @@
 #include <System.Private.CoreLib/System/Boolean.h>
 
 namespace System::Private::CoreLib::System::Diagnostics::Tracing {
-FORWARD(EventCommandEventArgs)
 enum class EventKeywords : int64_t;
 enum class EventTask;
+FORWARD(EventCommandEventArgs)
 } // namespace System::Private::CoreLib::System::Diagnostics::Tracing
 namespace System::Private::CoreLib::System {
 FORWARDS(Guid)
@@ -20,8 +20,8 @@ FORWARD(IAsyncStateMachineBox)
 } // namespace System::Private::CoreLib::System::Runtime::CompilerServices
 namespace System::Private::CoreLib::System::Threading::Tasks {
 namespace TplEventSourceNamespace {
-using namespace ::System::Private::CoreLib::System::Diagnostics::Tracing;
-using namespace ::System::Private::CoreLib::System::Runtime::CompilerServices;
+using namespace Diagnostics::Tracing;
+using namespace Runtime::CompilerServices;
 CLASS(TplEventSource) {
   public: enum class TaskWaitBehavior {
     Synchronous = 1,

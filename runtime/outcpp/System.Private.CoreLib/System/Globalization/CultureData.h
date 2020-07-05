@@ -19,13 +19,13 @@ FORWARD(List, T)
 } // namespace System::Private::CoreLib::System::Collections::Generic
 namespace System::Private::CoreLib::System::Globalization {
 enum class CalendarId : uint16_t;
-FORWARD(Calendar)
 enum class CultureTypes;
-FORWARD(CultureInfo)
+FORWARD(Calendar)
 FORWARD(CalendarData)
+FORWARD(CultureInfo)
 FORWARD(NumberFormatInfo)
 namespace CultureDataNamespace {
-using namespace ::System::Private::CoreLib::System::Collections::Generic;
+using namespace Collections::Generic;
 CLASS(CultureData) {
   private: enum class LocaleStringData : uint32_t {
     LocalizedDisplayName = 2,

@@ -17,32 +17,32 @@ namespace System::Private::CoreLib::System::Threading {
 enum class StackCrawlMark;
 } // namespace System::Private::CoreLib::System::Threading
 namespace System::Private::CoreLib::System::Reflection {
-FORWARD(LoaderAllocator)
 enum class MethodAttributes;
 enum class MethodImplAttributes;
+FORWARD(LoaderAllocator)
 FORWARD(RuntimeMethodBody)
 } // namespace System::Private::CoreLib::System::Reflection
 namespace System::Private::CoreLib::System {
+enum class TypeNameFormatFlags;
+FORWARD_(Array, T1, T2)
+FORWARDS(Boolean)
+FORWARDS(Int32)
 FORWARDS(IntPtr)
 FORWARD(IRuntimeMethodInfo)
-FORWARDS(Int32)
-FORWARD(Object)
-FORWARDS(Boolean)
-FORWARDS(RuntimeMethodHandleInternal)
-enum class TypeNameFormatFlags;
-FORWARD(String)
-FORWARD(RuntimeType)
 FORWARDS(MdUtf8String)
-FORWARDS(UInt32)
-FORWARD_(Array, T1, T2)
-FORWARD(Signature)
-FORWARD(Type)
+FORWARD(Object)
 FORWARD(Resolver)
+FORWARDS(RuntimeMethodHandleInternal)
+FORWARD(RuntimeType)
+FORWARD(Signature)
+FORWARD(String)
+FORWARD(Type)
+FORWARDS(UInt32)
 namespace RuntimeMethodHandleNamespace {
-using namespace ::System::Private::CoreLib::System::Reflection;
-using namespace ::System::Private::CoreLib::System::Runtime::CompilerServices;
-using namespace ::System::Private::CoreLib::System::Runtime::Serialization;
-using namespace ::System::Private::CoreLib::System::Threading;
+using namespace Reflection;
+using namespace Runtime::CompilerServices;
+using namespace Runtime::Serialization;
+using namespace Threading;
 struct RuntimeMethodHandle {
   public: IntPtr get_Value();
   public: static IRuntimeMethodInfo EnsureNonNullMethodInfo(IRuntimeMethodInfo method);

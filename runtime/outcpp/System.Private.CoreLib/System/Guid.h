@@ -6,15 +6,15 @@
 #include <System.Private.CoreLib/System/Int32.h>
 
 namespace System::Private::CoreLib::System {
-FORWARDS(Boolean)
-FORWARD(String)
-FORWARDS(ReadOnlySpan, T)
-FORWARDS(Char)
-FORWARDS(UInt32)
 FORWARD_(Array, T1, T2)
-FORWARDS(Span, T)
-FORWARD(Object)
+FORWARDS(Boolean)
+FORWARDS(Char)
 FORWARD(IFormatProvider)
+FORWARD(Object)
+FORWARDS(ReadOnlySpan, T)
+FORWARDS(Span, T)
+FORWARD(String)
+FORWARDS(UInt32)
 namespace GuidNamespace {
 struct Guid {
   private: enum class GuidParseThrowStyle : uint8_t {

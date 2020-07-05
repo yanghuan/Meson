@@ -11,19 +11,19 @@ FORWARD(SerializationInfo)
 FORWARDS(StreamingContext)
 } // namespace System::Private::CoreLib::System::Runtime::Serialization
 namespace System::Private::CoreLib::System {
-FORWARDS(IntPtr)
-FORWARD(IRuntimeFieldInfo)
 FORWARDS(Boolean)
 FORWARDS(Int32)
-FORWARD(Object)
-FORWARD(String)
-FORWARDS(RuntimeFieldHandleInternal)
+FORWARDS(IntPtr)
+FORWARD(IRuntimeFieldInfo)
 FORWARDS(MdUtf8String)
-FORWARDS(UInt32)
+FORWARD(Object)
+FORWARDS(RuntimeFieldHandleInternal)
 FORWARD(RuntimeType)
+FORWARD(String)
+FORWARDS(UInt32)
 namespace RuntimeFieldHandleNamespace {
-using namespace ::System::Private::CoreLib::System::Reflection;
-using namespace ::System::Private::CoreLib::System::Runtime::Serialization;
+using namespace Reflection;
+using namespace Runtime::Serialization;
 struct RuntimeFieldHandle {
   public: IntPtr get_Value();
   public: IRuntimeFieldInfo GetRuntimeFieldInfo();

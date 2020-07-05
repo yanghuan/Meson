@@ -28,11 +28,11 @@ FORWARD(Encoder)
 FORWARD(Encoding)
 } // namespace System::Private::CoreLib::System::Text
 namespace System::Private::CoreLib::System::IO {
-FORWARD(Stream)
 enum class SeekOrigin;
+FORWARD(Stream)
 namespace BinaryWriterNamespace {
-using namespace ::System::Private::CoreLib::System::Text;
-using namespace ::System::Private::CoreLib::System::Threading::Tasks;
+using namespace Text;
+using namespace Threading::Tasks;
 CLASS(BinaryWriter) {
   public: Stream get_BaseStream();
   public: void Close();

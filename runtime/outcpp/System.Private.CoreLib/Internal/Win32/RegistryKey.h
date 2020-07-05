@@ -15,8 +15,8 @@ FORWARD(SafeRegistryHandle)
 } // namespace System::Private::CoreLib::Internal::Win32::SafeHandles
 namespace System::Private::CoreLib::Internal::Win32 {
 namespace RegistryKeyNamespace {
-using namespace ::System::Private::CoreLib::Internal::Win32::SafeHandles;
 using namespace ::System::Private::CoreLib::System;
+using namespace SafeHandles;
 CLASS(RegistryKey) {
   public: void DeleteValue(String name, Boolean throwOnMissingValue);
   public: static RegistryKey OpenBaseKey(IntPtr hKey);

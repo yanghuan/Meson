@@ -16,12 +16,12 @@ namespace System::Private::CoreLib::System::Globalization {
 FORWARD(CultureInfo)
 } // namespace System::Private::CoreLib::System::Globalization
 namespace System::Private::CoreLib::System::Reflection {
-enum class MemberTypes;
-enum class FieldAttributes;
 enum class BindingFlags;
+enum class FieldAttributes;
+enum class MemberTypes;
 FORWARD(Binder)
 namespace FieldInfoNamespace {
-using namespace ::System::Private::CoreLib::System::Globalization;
+using namespace Globalization;
 CLASS(FieldInfo) {
   public: MemberTypes get_MemberType();
   public: FieldAttributes get_Attributes();

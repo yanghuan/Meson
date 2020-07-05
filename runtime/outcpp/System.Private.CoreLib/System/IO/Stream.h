@@ -38,10 +38,10 @@ FORWARD(ExceptionDispatchInfo)
 namespace System::Private::CoreLib::System::IO {
 enum class SeekOrigin;
 namespace StreamNamespace {
-using namespace ::System::Private::CoreLib::System::Buffers;
-using namespace ::System::Private::CoreLib::System::Runtime::ExceptionServices;
-using namespace ::System::Private::CoreLib::System::Threading;
-using namespace ::System::Private::CoreLib::System::Threading::Tasks;
+using namespace Buffers;
+using namespace Runtime::ExceptionServices;
+using namespace Threading;
+using namespace Threading::Tasks;
 CLASS(Stream) {
   private: struct ReadWriteParameters {
     public: Array<Byte> Buffer;

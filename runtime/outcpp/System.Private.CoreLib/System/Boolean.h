@@ -3,14 +3,14 @@
 #include <rt/GCObject.h>
 
 namespace System::Private::CoreLib::System {
-FORWARDS(Int32)
-FORWARD(String)
-FORWARD(IFormatProvider)
-FORWARDS(Span, T)
+enum class TypeCode;
 FORWARDS(Char)
+FORWARD(IFormatProvider)
+FORWARDS(Int32)
 FORWARD(Object)
 FORWARDS(ReadOnlySpan, T)
-enum class TypeCode;
+FORWARDS(Span, T)
+FORWARD(String)
 namespace BooleanNamespace {
 struct Boolean {
   public: Int32 GetHashCode();

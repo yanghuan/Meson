@@ -18,14 +18,14 @@ namespace System::Private::CoreLib::System::Collections::Generic {
 FORWARD(Dictionary, TKey, TValue)
 } // namespace System::Private::CoreLib::System::Collections::Generic
 namespace System::Private::CoreLib::System::Diagnostics::Tracing {
+enum class EventCommand;
 enum class EventKeywords : int64_t;
 enum class EventLevel;
 FORWARD(EventListener)
-enum class EventCommand;
 FORWARD(EventPipeWaitHandle)
 namespace EventPipeEventDispatcherNamespace {
-using namespace ::System::Private::CoreLib::System::Collections::Generic;
-using namespace ::System::Private::CoreLib::System::Threading::Tasks;
+using namespace Collections::Generic;
+using namespace Threading::Tasks;
 CLASS(EventPipeEventDispatcher) {
   public: CLASS(EventListenerSubscription) {
     public: EventKeywords get_MatchAnyKeywords() { return MatchAnyKeywords; }

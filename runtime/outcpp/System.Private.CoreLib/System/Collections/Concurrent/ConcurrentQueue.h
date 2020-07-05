@@ -15,7 +15,7 @@ FORWARD(IEnumerator, T)
 namespace System::Private::CoreLib::System::Collections::Concurrent {
 FORWARD(ConcurrentQueueSegment, T)
 namespace ConcurrentQueueNamespace {
-using namespace ::System::Private::CoreLib::System::Collections::Generic;
+using namespace Generic;
 using ::System::Private::CoreLib::System::Collections::Generic::IEnumerator;
 CLASS(ConcurrentQueue, T) {
   private: Boolean get_IsSynchronizedOfICollection();

@@ -13,7 +13,7 @@ FORWARD(SynchronizationContext)
 namespace System::Private::CoreLib::System::Runtime::CompilerServices {
 FORWARD(IAsyncStateMachine)
 namespace AsyncVoidMethodBuilderNamespace {
-using namespace ::System::Private::CoreLib::System::Threading;
+using namespace Threading;
 struct AsyncVoidMethodBuilder {
   public: Object get_ObjectIdForDebugger();
   public: static AsyncVoidMethodBuilder Create();

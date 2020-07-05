@@ -3,8 +3,8 @@
 #include <rt/GCObject.h>
 
 namespace System::Private::CoreLib::System {
-FORWARD(Object)
 FORWARDS(Boolean)
+FORWARD(Object)
 namespace MarshalByRefObjectNamespace {
 CLASS(MarshalByRefObject) {
   public: Object GetLifetimeService();

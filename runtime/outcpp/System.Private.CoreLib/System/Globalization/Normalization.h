@@ -11,7 +11,7 @@ enum class NormalizationForm;
 } // namespace System::Private::CoreLib::System::Text
 namespace System::Private::CoreLib::System::Globalization {
 namespace NormalizationNamespace {
-using namespace ::System::Private::CoreLib::System::Text;
+using namespace Text;
 class Normalization {
   public: static Boolean IsNormalized(String strInput, NormalizationForm normalizationForm);
   public: static String Normalize(String strInput, NormalizationForm normalizationForm);

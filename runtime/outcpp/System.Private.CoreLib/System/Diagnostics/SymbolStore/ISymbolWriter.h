@@ -13,11 +13,11 @@ namespace System::Private::CoreLib::System::Reflection {
 enum class FieldAttributes;
 } // namespace System::Private::CoreLib::System::Reflection
 namespace System::Private::CoreLib::System::Diagnostics::SymbolStore {
+enum class SymAddressKind;
 FORWARD(ISymbolDocumentWriter)
 FORWARDS(SymbolToken)
-enum class SymAddressKind;
 namespace ISymbolWriterNamespace {
-using namespace ::System::Private::CoreLib::System::Reflection;
+using namespace Reflection;
 CLASS(ISymbolWriter) {
   public: ISymbolDocumentWriter DefineDocument(String url, Guid language, Guid languageVendor, Guid documentType);
   public: void OpenMethod(SymbolToken method);

@@ -4,12 +4,12 @@
 #include <System.Private.CoreLib/System/Reflection/Emit/MethodToken.h>
 
 namespace System::Private::CoreLib::System::Reflection {
-FORWARD(Binder)
 enum class BindingFlags;
 enum class CallingConventions;
-FORWARD(ICustomAttributeProvider)
 enum class MethodAttributes;
 enum class MethodImplAttributes;
+FORWARD(Binder)
+FORWARD(ICustomAttributeProvider)
 FORWARD(MethodInfo)
 FORWARD(Module)
 FORWARD(ParameterInfo)
@@ -29,7 +29,7 @@ namespace System::Private::CoreLib::System::Reflection::Emit {
 FORWARD(ModuleBuilder)
 FORWARD(SignatureHelper)
 namespace SymbolMethodNamespace {
-using namespace ::System::Private::CoreLib::System::Globalization;
+using namespace Globalization;
 CLASS(SymbolMethod) {
   public: Module get_Module();
   public: Type get_ReflectedType();

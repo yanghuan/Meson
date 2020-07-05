@@ -20,12 +20,12 @@ FORWARD(MethodInfo)
 FORWARD(PropertyInfo)
 } // namespace System::Private::CoreLib::System::Reflection
 namespace System::Private::CoreLib::System::Diagnostics::Tracing {
-enum class TraceLoggingDataType;
 enum class EventFieldFormat;
+enum class TraceLoggingDataType;
 FORWARD(TraceLoggingTypeInfo)
 namespace StaticsNamespace {
-using namespace ::System::Private::CoreLib::System::Collections::Generic;
-using namespace ::System::Private::CoreLib::System::Reflection;
+using namespace Collections::Generic;
+using namespace Reflection;
 class Statics {
   public: static Array<Byte> MetadataForString(String name, Int32 prefixSize, Int32 suffixSize, Int32 additionalSize);
   public: static void EncodeTags(Int32 tags, Int32& pos, Array<Byte> metadata);

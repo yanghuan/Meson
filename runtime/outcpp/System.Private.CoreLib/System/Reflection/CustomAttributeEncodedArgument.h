@@ -11,10 +11,10 @@ FORWARDS(IntPtr)
 FORWARD(String)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Reflection {
+FORWARDS(ConstArray)
 FORWARDS(CustomAttributeCtorParameter)
 FORWARDS(CustomAttributeNamedParameter)
 FORWARD(RuntimeAssembly)
-FORWARDS(ConstArray)
 FORWARD(RuntimeModule)
 namespace CustomAttributeEncodedArgumentNamespace {
 struct CustomAttributeEncodedArgument {

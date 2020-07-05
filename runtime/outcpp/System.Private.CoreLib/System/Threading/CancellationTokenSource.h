@@ -17,15 +17,15 @@ namespace System::Private::CoreLib::System::Threading::Tasks {
 FORWARDS_(ValueTask, T1, T2)
 } // namespace System::Private::CoreLib::System::Threading::Tasks
 namespace System::Private::CoreLib::System::Threading {
-FORWARD(ExecutionContext)
-FORWARD(SynchronizationContext)
 FORWARDS(CancellationToken)
-FORWARD(WaitHandle)
+FORWARD(ExecutionContext)
+FORWARD(ManualResetEvent)
+FORWARD(SynchronizationContext)
 FORWARD(TimerCallback)
 FORWARD(TimerQueueTimer)
-FORWARD(ManualResetEvent)
+FORWARD(WaitHandle)
 namespace CancellationTokenSourceNamespace {
-using namespace ::System::Private::CoreLib::System::Threading::Tasks;
+using namespace Tasks;
 CLASS(CancellationTokenSource) {
   public: FORWARDN(CallbackPartition)
   public: CLASS(CallbackNode) {

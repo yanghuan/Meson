@@ -5,14 +5,14 @@
 #include <System.Private.CoreLib/System/Reflection/Emit/PropertyToken.h>
 
 namespace System::Private::CoreLib::System::Reflection {
-FORWARD(Binder)
 enum class BindingFlags;
+enum class MethodSemanticsAttributes;
+enum class PropertyAttributes;
+FORWARD(Binder)
 FORWARD(ConstructorInfo)
 FORWARD(MethodInfo)
-enum class MethodSemanticsAttributes;
 FORWARD(Module)
 FORWARD(ParameterInfo)
-enum class PropertyAttributes;
 } // namespace System::Private::CoreLib::System::Reflection
 namespace System::Private::CoreLib::System {
 FORWARD_(Array, T1, T2)
@@ -26,13 +26,13 @@ namespace System::Private::CoreLib::System::Globalization {
 FORWARD(CultureInfo)
 } // namespace System::Private::CoreLib::System::Globalization
 namespace System::Private::CoreLib::System::Reflection::Emit {
-FORWARD(MethodBuilder)
 FORWARD(CustomAttributeBuilder)
+FORWARD(MethodBuilder)
 FORWARD(ModuleBuilder)
 FORWARD(SignatureHelper)
 FORWARD(TypeBuilder)
 namespace PropertyBuilderNamespace {
-using namespace ::System::Private::CoreLib::System::Globalization;
+using namespace Globalization;
 CLASS(PropertyBuilder) {
   public: PropertyToken get_PropertyToken();
   public: Module get_Module();

@@ -40,11 +40,11 @@ FORWARD(AsyncLocal, T)
 } // namespace System::Private::CoreLib::System::Threading
 namespace System::Private::CoreLib::System::Runtime::Loader {
 namespace AssemblyLoadContextNamespace {
-using namespace ::System::Private::CoreLib::System::Collections::Generic;
-using namespace ::System::Private::CoreLib::System::IO;
-using namespace ::System::Private::CoreLib::System::Reflection;
-using namespace ::System::Private::CoreLib::System::Runtime::CompilerServices;
-using namespace ::System::Private::CoreLib::System::Threading;
+using namespace Collections::Generic;
+using namespace CompilerServices;
+using namespace IO;
+using namespace Reflection;
+using namespace Threading;
 CLASS(AssemblyLoadContext) {
   private: enum class InternalState {
     Alive = 0,

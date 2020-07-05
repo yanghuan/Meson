@@ -11,7 +11,7 @@ FORWARDS(ConfiguredAsyncDisposable)
 } // namespace System::Private::CoreLib::System::Runtime::CompilerServices
 namespace System::Private::CoreLib::System::Threading::Tasks {
 namespace TaskAsyncEnumerableExtensionsNamespace {
-using namespace ::System::Private::CoreLib::System::Runtime::CompilerServices;
+using namespace Runtime::CompilerServices;
 class TaskAsyncEnumerableExtensions {
   public: static ConfiguredAsyncDisposable ConfigureAwait(IAsyncDisposable source, Boolean continueOnCapturedContext);
 };

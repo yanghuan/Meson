@@ -9,14 +9,14 @@ FORWARD(CultureInfo)
 namespace System::Private::CoreLib::System {
 enum class StringComparison;
 FORWARDS(Boolean)
-FORWARD(Object)
-FORWARDS(Int32)
-FORWARD(String)
 FORWARD(CultureAwareComparer)
+FORWARDS(Int32)
+FORWARD(Object)
 FORWARD(OrdinalCaseSensitiveComparer)
 FORWARD(OrdinalIgnoreCaseComparer)
+FORWARD(String)
 namespace StringComparerNamespace {
-using namespace ::System::Private::CoreLib::System::Globalization;
+using namespace Globalization;
 CLASS(StringComparer) {
   public: static StringComparer get_InvariantCulture();
   public: static StringComparer get_InvariantCultureIgnoreCase();

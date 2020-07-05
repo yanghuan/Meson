@@ -14,7 +14,7 @@ FORWARD(Object)
 namespace System::Private::CoreLib::System::Threading {
 FORWARDS(CancellationToken)
 namespace CancellationTokenRegistrationNamespace {
-using namespace ::System::Private::CoreLib::System::Threading::Tasks;
+using namespace Tasks;
 struct CancellationTokenRegistration {
   public: CancellationToken get_Token();
   public: void Dispose();

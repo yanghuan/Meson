@@ -22,22 +22,22 @@ namespace System::Private::CoreLib::System::Globalization {
 FORWARD(CultureInfo)
 } // namespace System::Private::CoreLib::System::Globalization
 namespace System::Private::CoreLib::System::Reflection {
-enum class INVOCATION_FLAGS : uint32_t;
 enum class BindingFlags;
-enum class MemberTypes;
-FORWARD(Module)
-enum class MethodAttributes;
 enum class CallingConventions;
-FORWARD(CustomAttributeData)
-FORWARD(MemberInfo)
-FORWARD(RuntimeModule)
-FORWARD(ParameterInfo)
+enum class INVOCATION_FLAGS : uint32_t;
+enum class MemberTypes;
+enum class MethodAttributes;
 enum class MethodImplAttributes;
 FORWARD(Binder)
+FORWARD(CustomAttributeData)
+FORWARD(MemberInfo)
 FORWARD(MethodBody)
+FORWARD(Module)
+FORWARD(ParameterInfo)
+FORWARD(RuntimeModule)
 namespace RuntimeConstructorInfoNamespace {
-using namespace ::System::Private::CoreLib::System::Collections::Generic;
-using namespace ::System::Private::CoreLib::System::Globalization;
+using namespace Collections::Generic;
+using namespace Globalization;
 using ::System::Private::CoreLib::System::Collections::Generic::IList;
 CLASS(RuntimeConstructorInfo) {
   public: INVOCATION_FLAGS get_InvocationFlags();

@@ -14,12 +14,12 @@ FORWARD(String)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Diagnostics::Tracing {
 enum class EventTags;
+FORWARDS(EventDescriptor)
 FORWARD(EventProvider)
 FORWARD(TraceLoggingEventHandleTable)
-FORWARDS(EventDescriptor)
 FORWARD(TraceLoggingEventTypes)
 namespace NameInfoNamespace {
-using namespace ::System::Private::CoreLib::System::Collections::Generic;
+using namespace Collections::Generic;
 CLASS(NameInfo) {
   public: static void ReserveEventIDsBelow(Int32 eventId);
   public: Int32 Compare(NameInfo other);

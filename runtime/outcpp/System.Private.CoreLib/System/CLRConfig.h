@@ -3,8 +3,8 @@
 #include <rt/GCObject.h>
 
 namespace System::Private::CoreLib::System {
-FORWARD(String)
 FORWARDS(Boolean)
+FORWARD(String)
 namespace CLRConfigNamespace {
 class CLRConfig {
   public: static Boolean GetBoolValue(String switchName, Boolean& exist);

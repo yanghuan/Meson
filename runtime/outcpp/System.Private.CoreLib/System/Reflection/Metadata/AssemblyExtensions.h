@@ -15,7 +15,7 @@ FORWARD(Assembly)
 } // namespace System::Private::CoreLib::System::Reflection
 namespace System::Private::CoreLib::System::Reflection::Metadata {
 namespace AssemblyExtensionsNamespace {
-using namespace ::System::Private::CoreLib::System::Runtime::CompilerServices;
+using namespace Runtime::CompilerServices;
 class AssemblyExtensions {
   private: static Boolean InternalTryGetRawMetadata(QCallAssembly assembly, Byte*& blob, Int32& length);
   public: static Boolean TryGetRawMetadata(Assembly assembly, Byte*& blob, Int32& length);

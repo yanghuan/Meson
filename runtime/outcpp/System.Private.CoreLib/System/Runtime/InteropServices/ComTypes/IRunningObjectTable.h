@@ -7,9 +7,9 @@ FORWARDS(Int32)
 FORWARD(Object)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Runtime::InteropServices::ComTypes {
-FORWARD(IMoniker)
 FORWARDS(FILETIME)
 FORWARD(IEnumMoniker)
+FORWARD(IMoniker)
 namespace IRunningObjectTableNamespace {
 CLASS(IRunningObjectTable) {
   public: Int32 Register(Int32 grfFlags, Object punkObject, IMoniker pmkObjectName);

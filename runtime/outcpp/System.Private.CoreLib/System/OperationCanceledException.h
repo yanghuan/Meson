@@ -5,7 +5,7 @@
 
 namespace System::Private::CoreLib::System {
 namespace OperationCanceledExceptionNamespace {
-using namespace ::System::Private::CoreLib::System::Threading;
+using namespace Threading;
 CLASS(OperationCanceledException) {
   public: CancellationToken get_CancellationToken();
   private: void set_CancellationToken(CancellationToken value);

@@ -13,7 +13,7 @@ FORWARDS(StreamingContext)
 } // namespace System::Private::CoreLib::System::Runtime::Serialization
 namespace System::Private::CoreLib::System::Globalization {
 namespace CultureNotFoundExceptionNamespace {
-using namespace ::System::Private::CoreLib::System::Runtime::Serialization;
+using namespace Runtime::Serialization;
 CLASS(CultureNotFoundException) {
   public: Nullable<Int32> get_InvalidCultureId();
   public: String get_InvalidCultureName();

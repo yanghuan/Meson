@@ -4,8 +4,8 @@
 
 namespace System::Private::CoreLib::System {
 FORWARDS(Boolean)
-FORWARD(String)
 FORWARDS(Int32)
+FORWARD(String)
 namespace LocalAppContextSwitchesNamespace {
 class LocalAppContextSwitches {
   public: static Boolean get_EnforceJapaneseEraYearRanges();

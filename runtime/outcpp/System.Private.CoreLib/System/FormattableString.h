@@ -3,11 +3,11 @@
 #include <rt/GCObject.h>
 
 namespace System::Private::CoreLib::System {
-FORWARD(String)
-FORWARDS(Int32)
 FORWARD_(Array, T1, T2)
-FORWARD(Object)
 FORWARD(IFormatProvider)
+FORWARDS(Int32)
+FORWARD(Object)
+FORWARD(String)
 namespace FormattableStringNamespace {
 CLASS(FormattableString) {
   public: String get_Format();

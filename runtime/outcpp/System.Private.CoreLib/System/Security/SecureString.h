@@ -17,7 +17,7 @@ FORWARD(SafeBuffer)
 } // namespace System::Private::CoreLib::System::Runtime::InteropServices
 namespace System::Private::CoreLib::System::Security {
 namespace SecureStringNamespace {
-using namespace ::System::Private::CoreLib::System::Runtime::InteropServices;
+using namespace Runtime::InteropServices;
 CLASS(SecureString) {
   private: CLASS(UnmanagedBuffer) {
     public: static UnmanagedBuffer Allocate(Int32 byteLength);

@@ -21,18 +21,18 @@ FORWARD(CultureInfo)
 namespace System::Private::CoreLib::System::Reflection {
 enum class BindingFlags;
 enum class MemberTypes;
-FORWARD(Module)
 enum class PropertyAttributes;
+FORWARD(Binder)
 FORWARD(CustomAttributeData)
 FORWARD(MemberInfo)
-FORWARD(RuntimeModule)
 FORWARD(MethodInfo)
+FORWARD(Module)
 FORWARD(ParameterInfo)
-FORWARD(Binder)
 FORWARD(RuntimeMethodInfo)
+FORWARD(RuntimeModule)
 namespace RuntimePropertyInfoNamespace {
-using namespace ::System::Private::CoreLib::System::Collections::Generic;
-using namespace ::System::Private::CoreLib::System::Globalization;
+using namespace Collections::Generic;
+using namespace Globalization;
 using ::System::Private::CoreLib::System::Collections::Generic::IList;
 CLASS(RuntimePropertyInfo) {
   public: Signature get_Signature();

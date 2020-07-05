@@ -9,11 +9,11 @@ namespace System::Private::CoreLib::System::Collections::Generic {
 FORWARD(IEnumerable, T)
 } // namespace System::Private::CoreLib::System::Collections::Generic
 namespace System::Private::CoreLib::System {
-FORWARD(String)
 FORWARDS(Boolean)
+FORWARD(String)
 namespace PasteArgumentsNamespace {
-using namespace ::System::Private::CoreLib::System::Collections::Generic;
-using namespace ::System::Private::CoreLib::System::Text;
+using namespace Collections::Generic;
+using namespace Text;
 class PasteArguments {
   public: static void AppendArgument(StringBuilder stringBuilder, String argument);
   private: static Boolean ContainsNoWhitespaceOrQuotes(String s);

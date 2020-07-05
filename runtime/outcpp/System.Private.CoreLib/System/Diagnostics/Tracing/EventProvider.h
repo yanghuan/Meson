@@ -24,14 +24,14 @@ FORWARD(String)
 FORWARD_(Tuple, T1, T2, T3, T4, T5, T6, T7, T8, T9)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Diagnostics::Tracing {
-enum class EventLevel;
-enum class EventKeywords : int64_t;
-FORWARD(EventSource)
 enum class ControllerCommand;
+enum class EventKeywords : int64_t;
+enum class EventLevel;
 FORWARDS(EventDescriptor)
+FORWARD(EventSource)
 FORWARD(IEventProvider)
 namespace EventProviderNamespace {
-using namespace ::System::Private::CoreLib::System::Collections::Generic;
+using namespace Collections::Generic;
 CLASS(EventProvider) {
   public: enum class WriteEventErrorCode {
     NoError = 0,

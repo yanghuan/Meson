@@ -8,11 +8,11 @@ FORWARD(Object)
 FORWARD(String)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Diagnostics::Tracing {
-FORWARD(TraceLoggingMetadataCollector)
 enum class EventFieldFormat;
-FORWARD(TraceLoggingDataCollector)
-FORWARDS(PropertyValue)
 FORWARD(PropertyAnalysis)
+FORWARDS(PropertyValue)
+FORWARD(TraceLoggingDataCollector)
+FORWARD(TraceLoggingMetadataCollector)
 namespace InvokeTypeInfoNamespace {
 CLASS(InvokeTypeInfo) {
   public: void WriteMetadata(TraceLoggingMetadataCollector collector, String name, EventFieldFormat format);

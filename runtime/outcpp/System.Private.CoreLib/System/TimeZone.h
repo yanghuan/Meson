@@ -6,14 +6,14 @@ namespace System::Private::CoreLib::System::Globalization {
 FORWARD(DaylightTime)
 } // namespace System::Private::CoreLib::System::Globalization
 namespace System::Private::CoreLib::System {
+FORWARDS(Boolean)
+FORWARDS(DateTime)
+FORWARDS(Int32)
 FORWARD(Object)
 FORWARD(String)
-FORWARDS(DateTime)
 FORWARDS(TimeSpan)
-FORWARDS(Int32)
-FORWARDS(Boolean)
 namespace TimeZoneNamespace {
-using namespace ::System::Private::CoreLib::System::Globalization;
+using namespace Globalization;
 CLASS(TimeZone) {
   private: static Object get_InternalSyncObject();
   public: static TimeZone get_CurrentTimeZone();

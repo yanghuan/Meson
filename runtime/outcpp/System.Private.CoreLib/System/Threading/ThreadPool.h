@@ -21,16 +21,16 @@ namespace System::Private::CoreLib::System::Collections::Generic {
 FORWARD(IEnumerable, T)
 } // namespace System::Private::CoreLib::System::Collections::Generic
 namespace System::Private::CoreLib::System::Threading {
+FORWARD(IThreadPoolWorkItem)
+FORWARDS(NativeOverlapped)
+FORWARD(RegisteredWaitHandle)
+FORWARD(ThreadPoolWorkQueue)
+FORWARD(WaitCallback)
 FORWARD(WaitHandle)
 FORWARD(WaitOrTimerCallback)
-FORWARD(RegisteredWaitHandle)
-FORWARDS(NativeOverlapped)
-FORWARD(WaitCallback)
-FORWARD(IThreadPoolWorkItem)
-FORWARD(ThreadPoolWorkQueue)
 namespace ThreadPoolNamespace {
-using namespace ::System::Private::CoreLib::System::Collections::Generic;
-using namespace ::System::Private::CoreLib::System::Runtime::InteropServices;
+using namespace Collections::Generic;
+using namespace Runtime::InteropServices;
 class ThreadPool {
   public: static Int32 get_ThreadCount();
   public: static Int64 get_CompletedWorkItemCount();

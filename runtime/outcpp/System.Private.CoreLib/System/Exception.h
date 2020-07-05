@@ -20,18 +20,18 @@ FORWARDS(StringHandleOnStack)
 } // namespace System::Private::CoreLib::System::Runtime::CompilerServices
 namespace System::Private::CoreLib::System {
 FORWARD_(Array, T1, T2)
+FORWARDS(Boolean)
 FORWARDS(Byte)
+FORWARD(IRuntimeMethodInfo)
 FORWARD(Object)
 FORWARD(String)
-FORWARDS(Boolean)
-FORWARD(IRuntimeMethodInfo)
-FORWARDS(UInt32)
 FORWARD(Type)
+FORWARDS(UInt32)
 namespace ExceptionNamespace {
-using namespace ::System::Private::CoreLib::System::Collections;
-using namespace ::System::Private::CoreLib::System::Reflection;
-using namespace ::System::Private::CoreLib::System::Runtime::CompilerServices;
-using namespace ::System::Private::CoreLib::System::Runtime::Serialization;
+using namespace Collections;
+using namespace Reflection;
+using namespace Runtime::CompilerServices;
+using namespace Runtime::Serialization;
 CLASS(Exception) {
   public: enum class ExceptionMessageKind {
     ThreadAbort = 1,

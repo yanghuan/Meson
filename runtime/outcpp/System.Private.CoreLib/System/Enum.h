@@ -12,26 +12,26 @@ namespace System::Private::CoreLib::System::Reflection {
 enum class CorElementType : uint8_t;
 } // namespace System::Private::CoreLib::System::Reflection
 namespace System::Private::CoreLib::System {
-FORWARD_(Array, T1, T2)
-FORWARDS(UInt64)
-FORWARD(String)
-FORWARD(Object)
-FORWARD(RuntimeType)
-FORWARDS(Int64)
-FORWARD(Type)
-FORWARDS(ReadOnlySpan, T)
-FORWARDS(Char)
-FORWARDS(Int32)
 enum class TypeCode;
-FORWARDS(UInt32)
-FORWARD(IFormatProvider)
-FORWARDS(SByte)
-FORWARDS(Int16)
+FORWARD_(Array, T1, T2)
 FORWARDS(Byte)
+FORWARDS(Char)
+FORWARD(IFormatProvider)
+FORWARDS(Int16)
+FORWARDS(Int32)
+FORWARDS(Int64)
+FORWARD(Object)
+FORWARDS(ReadOnlySpan, T)
+FORWARD(RuntimeType)
+FORWARDS(SByte)
+FORWARD(String)
+FORWARD(Type)
 FORWARDS(UInt16)
+FORWARDS(UInt32)
+FORWARDS(UInt64)
 namespace EnumNamespace {
-using namespace ::System::Private::CoreLib::System::Reflection;
-using namespace ::System::Private::CoreLib::System::Runtime::CompilerServices;
+using namespace Reflection;
+using namespace Runtime::CompilerServices;
 CLASS(Enum) {
   private: CLASS(EnumInfo) {
     public: Boolean HasFlagsAttribute;

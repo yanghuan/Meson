@@ -18,7 +18,7 @@ namespace System::Private::CoreLib::System::Threading {
 FORWARD(ThreadPoolWorkQueueThreadLocals)
 namespace ThreadPoolWorkQueueNamespace {
 using namespace ::System::Private::CoreLib::Internal;
-using namespace ::System::Private::CoreLib::System::Collections::Concurrent;
+using namespace Collections::Concurrent;
 CLASS(ThreadPoolWorkQueue) {
   public: CLASS(WorkStealingQueue) {
     public: Boolean get_CanSteal();

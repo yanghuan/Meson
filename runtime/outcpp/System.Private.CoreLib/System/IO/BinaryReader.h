@@ -27,7 +27,7 @@ FORWARD(Decoder)
 namespace System::Private::CoreLib::System::IO {
 FORWARD(Stream)
 namespace BinaryReaderNamespace {
-using namespace ::System::Private::CoreLib::System::Text;
+using namespace Text;
 CLASS(BinaryReader) {
   public: Stream get_BaseStream();
   protected: void Dispose(Boolean disposing);

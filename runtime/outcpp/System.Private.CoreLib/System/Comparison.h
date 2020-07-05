@@ -3,10 +3,10 @@
 #include <rt/GCObject.h>
 
 namespace System::Private::CoreLib::System {
-FORWARDS(Int32)
 FORWARD(AsyncCallback)
-FORWARD(Object)
 FORWARD(IAsyncResult)
+FORWARDS(Int32)
+FORWARD(Object)
 namespace ComparisonNamespace {
 CLASS(Comparison, T) {
   public: Int32 Invoke(T x, T y);

@@ -10,28 +10,28 @@
 #include <System.Private.CoreLib/System/UInt64.h>
 
 namespace System::Private::CoreLib::System::Globalization {
-FORWARD(NumberFormatInfo)
 enum class NumberStyles;
+FORWARD(NumberFormatInfo)
 } // namespace System::Private::CoreLib::System::Globalization
 namespace System::Private::CoreLib::System::Text {
 FORWARDS(ValueStringBuilder)
 } // namespace System::Private::CoreLib::System::Text
 namespace System::Private::CoreLib::System {
+enum class TypeCode;
+FORWARD_(Array, T1, T2)
+FORWARDS(Char)
+FORWARDS(Decimal)
 FORWARDS(Double)
+FORWARD(Exception)
+FORWARD(IFormatProvider)
+FORWARDS(Int16)
+FORWARDS(Int64)
+FORWARDS(ReadOnlySpan, T)
 FORWARDS(Single)
 FORWARD(String)
-FORWARD_(Array, T1, T2)
-FORWARDS(Int16)
-FORWARDS(ReadOnlySpan, T)
-FORWARDS(Decimal)
-FORWARDS(Char)
-FORWARD(IFormatProvider)
-FORWARDS(Int64)
-enum class TypeCode;
-FORWARD(Exception)
 namespace NumberNamespace {
-using namespace ::System::Private::CoreLib::System::Globalization;
-using namespace ::System::Private::CoreLib::System::Text;
+using namespace Globalization;
+using namespace Text;
 class Number {
   public: enum class NumberBufferKind : uint8_t {
     Unknown = 0,

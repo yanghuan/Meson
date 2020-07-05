@@ -15,16 +15,16 @@ FORWARD(SerializationInfo)
 FORWARDS(StreamingContext)
 } // namespace System::Private::CoreLib::System::Runtime::Serialization
 namespace System::Private::CoreLib::System::Collections {
-FORWARD(IEnumerator)
-FORWARD(ICollection)
-FORWARD(IDictionaryEnumerator)
-FORWARD(KeyValuePairs)
 FORWARDS(DictionaryEntry)
-FORWARD(IHashCodeProvider)
+FORWARD(ICollection)
 FORWARD(IComparer)
+FORWARD(IDictionaryEnumerator)
+FORWARD(IEnumerator)
 FORWARD(IEqualityComparer)
+FORWARD(IHashCodeProvider)
+FORWARD(KeyValuePairs)
 namespace HashtableNamespace {
-using namespace ::System::Private::CoreLib::System::Runtime::Serialization;
+using namespace Runtime::Serialization;
 CLASS(Hashtable) {
   private: struct bucket {
     public: Object key;

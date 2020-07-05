@@ -15,12 +15,12 @@ namespace System::Private::CoreLib::System::Collections::Generic {
 FORWARD(IList, T)
 } // namespace System::Private::CoreLib::System::Collections::Generic
 namespace System::Private::CoreLib::System::Threading::Tasks {
+enum class TaskContinuationOptions;
+enum class TaskCreationOptions;
 FORWARD_(Task, T1, T2)
 FORWARD(TaskScheduler)
-enum class TaskCreationOptions;
-enum class TaskContinuationOptions;
 namespace TaskFactoryNamespace {
-using namespace ::System::Private::CoreLib::System::Collections::Generic;
+using namespace Collections::Generic;
 using ::System::Private::CoreLib::System::Collections::Generic::IList;
 CLASS_FORWARD(TaskFactory, T1, T2)
 CLASS_(TaskFactory) {

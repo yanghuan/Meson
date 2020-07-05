@@ -6,30 +6,30 @@
 #include <System.Private.CoreLib/System/Reflection/Emit/TypeToken.h>
 
 namespace System::Private::CoreLib::System::Reflection {
-FORWARD(Assembly)
-FORWARD(Binder)
 enum class BindingFlags;
 enum class CallingConventions;
-FORWARD(ConstructorInfo)
 enum class EventAttributes;
-FORWARD(EventInfo)
 enum class FieldAttributes;
-FORWARD(FieldInfo)
 enum class GenericParameterAttributes;
-FORWARDS(InterfaceMapping)
-FORWARD(MemberInfo)
 enum class MemberTypes;
 enum class MethodAttributes;
-FORWARD(MethodBase)
 enum class MethodImplAttributes;
-FORWARD(MethodInfo)
 enum class MethodSemanticsAttributes;
-FORWARD(Module)
 enum class ParameterAttributes;
-FORWARDS(ParameterModifier)
 enum class PropertyAttributes;
-FORWARD(PropertyInfo)
 enum class TypeAttributes;
+FORWARD(Assembly)
+FORWARD(Binder)
+FORWARD(ConstructorInfo)
+FORWARD(EventInfo)
+FORWARD(FieldInfo)
+FORWARDS(InterfaceMapping)
+FORWARD(MemberInfo)
+FORWARD(MethodBase)
+FORWARD(MethodInfo)
+FORWARD(Module)
+FORWARDS(ParameterModifier)
+FORWARD(PropertyInfo)
 FORWARD(TypeInfo)
 } // namespace System::Private::CoreLib::System::Reflection
 namespace System::Private::CoreLib::System {
@@ -57,21 +57,21 @@ namespace System::Private::CoreLib::System::Collections::Generic {
 FORWARD(List, T)
 } // namespace System::Private::CoreLib::System::Collections::Generic
 namespace System::Private::CoreLib::System::Reflection::Emit {
-FORWARD(ModuleBuilder)
-FORWARD(CustomAttributeBuilder)
 enum class PackingSize;
+FORWARD(ConstructorBuilder)
+FORWARD(CustomAttributeBuilder)
+FORWARD(EventBuilder)
 FORWARDS(ExceptionHandler)
 FORWARD(FieldBuilder)
 FORWARD(GenericTypeParameterBuilder)
 FORWARD(MethodBuilder)
-FORWARD(ConstructorBuilder)
+FORWARD(ModuleBuilder)
 FORWARD(PropertyBuilder)
-FORWARD(EventBuilder)
 namespace TypeBuilderNamespace {
-using namespace ::System::Private::CoreLib::System::Collections::Generic;
-using namespace ::System::Private::CoreLib::System::Globalization;
-using namespace ::System::Private::CoreLib::System::Runtime::CompilerServices;
-using namespace ::System::Private::CoreLib::System::Runtime::InteropServices;
+using namespace Collections::Generic;
+using namespace Globalization;
+using namespace Runtime::CompilerServices;
+using namespace Runtime::InteropServices;
 CLASS(TypeBuilder) {
   private: CLASS(CustAttr) {
     public: void Bake(ModuleBuilder module, Int32 token);

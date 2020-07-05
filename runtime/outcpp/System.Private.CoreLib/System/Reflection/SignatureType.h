@@ -3,6 +3,7 @@
 #include <rt/GCObject.h>
 
 namespace System::Private::CoreLib::System {
+enum class TypeCode;
 FORWARD_(Array, T1, T2)
 FORWARDS(Boolean)
 FORWARDS(Guid)
@@ -11,7 +12,6 @@ FORWARD(Object)
 FORWARDS(RuntimeTypeHandle)
 FORWARD(String)
 FORWARD(Type)
-enum class TypeCode;
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Collections::Generic {
 FORWARD(IEnumerable, T)
@@ -24,30 +24,30 @@ namespace System::Private::CoreLib::System::Globalization {
 FORWARD(CultureInfo)
 } // namespace System::Private::CoreLib::System::Globalization
 namespace System::Private::CoreLib::System::Reflection {
-enum class MemberTypes;
-FORWARD(Assembly)
-FORWARD(Module)
-FORWARD(MethodBase)
-enum class GenericParameterAttributes;
-FORWARD(CustomAttributeData)
-FORWARD(MemberInfo)
-enum class TypeAttributes;
 enum class BindingFlags;
+enum class CallingConventions;
+enum class GenericParameterAttributes;
+enum class MemberTypes;
+enum class TypeAttributes;
+FORWARD(Assembly)
+FORWARD(Binder)
 FORWARD(ConstructorInfo)
+FORWARD(CustomAttributeData)
 FORWARD(EventInfo)
 FORWARD(FieldInfo)
-FORWARD(MethodInfo)
-FORWARD(PropertyInfo)
-FORWARD(Binder)
-FORWARDS(ParameterModifier)
-enum class CallingConventions;
-FORWARD(MemberFilter)
-FORWARD(TypeFilter)
 FORWARDS(InterfaceMapping)
+FORWARD(MemberFilter)
+FORWARD(MemberInfo)
+FORWARD(MethodBase)
+FORWARD(MethodInfo)
+FORWARD(Module)
+FORWARDS(ParameterModifier)
+FORWARD(PropertyInfo)
+FORWARD(TypeFilter)
 namespace SignatureTypeNamespace {
-using namespace ::System::Private::CoreLib::System::Collections::Generic;
-using namespace ::System::Private::CoreLib::System::Globalization;
-using namespace ::System::Private::CoreLib::System::Runtime::InteropServices;
+using namespace Collections::Generic;
+using namespace Globalization;
+using namespace Runtime::InteropServices;
 using ::System::Private::CoreLib::System::Collections::Generic::IList;
 CLASS(SignatureType) {
   public: Boolean get_IsSignatureType();

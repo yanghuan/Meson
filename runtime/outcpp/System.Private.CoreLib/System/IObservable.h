@@ -3,8 +3,8 @@
 #include <rt/GCObject.h>
 
 namespace System::Private::CoreLib::System {
-FORWARD(IObserver, T)
 FORWARD(IDisposable)
+FORWARD(IObserver, T)
 namespace IObservableNamespace {
 CLASS(IObservable, T) {
   public: IDisposable Subscribe(IObserver<T> observer);

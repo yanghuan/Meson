@@ -29,9 +29,9 @@ namespace System::Private::CoreLib::System::Resources {
 enum class ResourceTypeCode;
 FORWARDS(ResourceLocator)
 namespace ResourceReaderNamespace {
-using namespace ::System::Private::CoreLib::System::Collections;
-using namespace ::System::Private::CoreLib::System::Collections::Generic;
-using namespace ::System::Private::CoreLib::System::IO;
+using namespace Collections;
+using namespace Collections::Generic;
+using namespace IO;
 CLASS(ResourceReader) {
   public: CLASS(ResourceEnumerator) {
     public: Object get_Key();

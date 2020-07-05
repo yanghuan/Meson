@@ -6,15 +6,15 @@ namespace System::Private::CoreLib::System::Text {
 FORWARDS(ValueStringBuilder)
 } // namespace System::Private::CoreLib::System::Text
 namespace System::Private::CoreLib::System {
+FORWARD_(Array, T1, T2)
+FORWARDS(Boolean)
+FORWARDS(Byte)
+FORWARDS(Int32)
+FORWARD(Object)
 FORWARD(String)
 FORWARD(Version)
-FORWARD_(Array, T1, T2)
-FORWARDS(Byte)
-FORWARD(Object)
-FORWARDS(Boolean)
-FORWARDS(Int32)
 namespace ApplicationIdNamespace {
-using namespace ::System::Private::CoreLib::System::Text;
+using namespace Text;
 CLASS(ApplicationId) {
   public: String get_Culture() { return Culture; }
   public: String get_Name() { return Name; }

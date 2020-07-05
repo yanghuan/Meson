@@ -14,7 +14,7 @@ FORWARD(IList, T)
 } // namespace System::Private::CoreLib::System::Collections::Generic
 namespace System::Private::CoreLib::System::Collections::ObjectModel {
 namespace CollectionNamespace {
-using namespace ::System::Private::CoreLib::System::Collections::Generic;
+using namespace Generic;
 using ::System::Private::CoreLib::System::Collections::Generic::IList;
 using ::System::Private::CoreLib::System::Collections::Generic::IEnumerator;
 CLASS(Collection, T) {

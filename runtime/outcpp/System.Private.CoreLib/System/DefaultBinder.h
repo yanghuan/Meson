@@ -21,8 +21,8 @@ FORWARD(Object)
 FORWARD(String)
 FORWARD(Type)
 namespace DefaultBinderNamespace {
-using namespace ::System::Private::CoreLib::System::Globalization;
-using namespace ::System::Private::CoreLib::System::Reflection;
+using namespace Globalization;
+using namespace Reflection;
 CLASS(DefaultBinder) {
   private: enum class Primitives {
     Boolean = 8,

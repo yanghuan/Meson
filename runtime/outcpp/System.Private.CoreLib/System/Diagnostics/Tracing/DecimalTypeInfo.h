@@ -6,10 +6,10 @@ namespace System::Private::CoreLib::System {
 FORWARD(String)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Diagnostics::Tracing {
-FORWARD(TraceLoggingMetadataCollector)
 enum class EventFieldFormat;
-FORWARD(TraceLoggingDataCollector)
 FORWARDS(PropertyValue)
+FORWARD(TraceLoggingDataCollector)
+FORWARD(TraceLoggingMetadataCollector)
 namespace DecimalTypeInfoNamespace {
 CLASS(DecimalTypeInfo) {
   public: void WriteMetadata(TraceLoggingMetadataCollector collector, String name, EventFieldFormat format);

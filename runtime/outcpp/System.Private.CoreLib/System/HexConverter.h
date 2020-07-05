@@ -4,9 +4,9 @@
 
 namespace System::Private::CoreLib::System {
 FORWARDS(Byte)
-FORWARDS(Span, T)
-FORWARDS(Int32)
 FORWARDS(Char)
+FORWARDS(Int32)
+FORWARDS(Span, T)
 namespace HexConverterNamespace {
 class HexConverter {
   public: enum class Casing : uint32_t {

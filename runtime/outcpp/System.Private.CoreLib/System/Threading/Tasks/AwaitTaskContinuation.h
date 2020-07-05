@@ -18,10 +18,10 @@ namespace System::Private::CoreLib::System::Runtime::CompilerServices {
 FORWARD(IAsyncStateMachineBox)
 } // namespace System::Private::CoreLib::System::Runtime::CompilerServices
 namespace System::Private::CoreLib::System::Threading::Tasks {
-FORWARD(TaskScheduler)
 FORWARD_(Task, T1, T2)
+FORWARD(TaskScheduler)
 namespace AwaitTaskContinuationNamespace {
-using namespace ::System::Private::CoreLib::System::Runtime::CompilerServices;
+using namespace Runtime::CompilerServices;
 CLASS(AwaitTaskContinuation) {
   public: static Boolean get_IsValidLocationForInlining();
   protected: Task<> CreateTask(Action<Object> action, Object state, TaskScheduler scheduler);

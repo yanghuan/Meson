@@ -30,9 +30,9 @@ FORWARD(StrongBox, T)
 } // namespace System::Private::CoreLib::System::Runtime::CompilerServices
 namespace System::Console::System {
 enum class ConsoleColor;
-FORWARDS(ConsoleKeyInfo)
 enum class ConsoleSpecialKey;
 FORWARD(ConsoleCancelEventHandler)
+FORWARDS(ConsoleKeyInfo)
 namespace ConsoleNamespace {
 using namespace ::System::Private::CoreLib::System;
 using namespace ::System::Private::CoreLib::System::IO;

@@ -48,7 +48,7 @@ namespace Meson.Compiler {
             srcIncludes.Add(reference.GetReferenceIncludeString(true));
           }
           if (!root_.IsNamespaceContain(reference)) {
-            headUsings.Add(reference.GetFullNamespace(true));
+            headUsings.Add(reference.GetFullNamespace(true, root_));
           }
         }
         CompilationUnit.AddHeadIncludes(headIncludes.OrderBy(i => i));
@@ -92,11 +92,30 @@ namespace Meson.Compiler {
       rootNamespace.Add(usingDeclaration);
     }
 
+    private static void SortForwards(List<(ITypeDefinition Type, StatementSyntax Forward)> list) {
+      list.Sort((x, y) => {
+        bool isEnumOfX = x.Type.Kind == TypeKind.Enum;
+        bool isEnumOfY = y.Type.Kind == TypeKind.Enum;
+        if (isEnumOfX) {
+          if (!isEnumOfY) {
+            return - 1;
+          } else {
+            goto Out;
+          }
+        } else if (isEnumOfY) {
+          return 1;
+        }
+      Out:  
+        return x.Type.Name.CompareTo(y.Type.Name);
+      });
+    }
+
     private void AddForwards(NamespaceSyntax rootNamespace, Dictionary<ITypeDefinition, StatementSyntax> forwards, StatementListSyntax usingsSyntax) {
+      var curs =  new List<(ITypeDefinition Type, StatementSyntax Forward)>();
       var outs = new List<(ITypeDefinition Type, StatementSyntax Forward)>();
       foreach (var (type, forward) in forwards) {
-        if (root_.GetFullNamespace() == type.GetFullNamespace()) {
-          rootNamespace.Add(forward);
+        if (root_.IsSameNamespace(type)) {
+          curs.Add((type, forward));
         } else {
           outs.Add((type, forward));
         }
@@ -104,11 +123,17 @@ namespace Meson.Compiler {
           usingsSyntax.Add(new UsingNamespaceOrTypeSyntax(type.GetFullName(), false));
         }
       }
+      if (curs.Count > 0) {
+        SortForwards(curs);
+        rootNamespace.AddRange(curs.Select(i => i.Forward));
+      }
       if (outs.Count > 0) {
         var group = outs.GroupBy(i => i.Type.GetFullNamespace());
         foreach (var g in group) {
+          var list = g.ToList();
+          SortForwards(list);
           var ns = new NamespaceSyntax(g.Key);
-          ns.AddRange(g.OrderBy(i => i.Type.Name).Select(i => i.Forward));
+          ns.AddRange(list.Select(i => i.Forward));
           CompilationUnit.HeadStatements.Add(ns);
         }
       }

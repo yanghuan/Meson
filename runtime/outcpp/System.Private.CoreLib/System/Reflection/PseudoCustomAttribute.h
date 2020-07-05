@@ -18,13 +18,13 @@ FORWARD(MarshalAsAttribute)
 FORWARD(StructLayoutAttribute)
 } // namespace System::Private::CoreLib::System::Runtime::InteropServices
 namespace System::Private::CoreLib::System::Reflection {
-FORWARD(RuntimeMethodInfo)
-FORWARD(RuntimeParameterInfo)
 FORWARD(RuntimeFieldInfo)
+FORWARD(RuntimeMethodInfo)
 FORWARD(RuntimeModule)
+FORWARD(RuntimeParameterInfo)
 namespace PseudoCustomAttributeNamespace {
-using namespace ::System::Private::CoreLib::System::Collections::Generic;
-using namespace ::System::Private::CoreLib::System::Runtime::InteropServices;
+using namespace Collections::Generic;
+using namespace Runtime::InteropServices;
 class PseudoCustomAttribute {
   private: static Dictionary<RuntimeType, RuntimeType> CreatePseudoCustomAttributeDictionary();
   public: static void GetCustomAttributes(RuntimeType type, RuntimeType caType, RuntimeType::in::ListBuilder<Attribute>& pcas);

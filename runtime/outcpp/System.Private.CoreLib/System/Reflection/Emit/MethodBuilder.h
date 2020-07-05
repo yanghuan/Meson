@@ -14,35 +14,35 @@ FORWARD(String)
 FORWARD(Type)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Reflection {
-FORWARD(Binder)
 enum class BindingFlags;
 enum class CallingConventions;
+enum class MethodAttributes;
+enum class MethodImplAttributes;
+enum class ParameterAttributes;
+FORWARD(Binder)
 FORWARD(ConstructorInfo)
 FORWARD(ICustomAttributeProvider)
-enum class MethodAttributes;
 FORWARD(MethodBase)
-enum class MethodImplAttributes;
 FORWARD(MethodInfo)
 FORWARD(Module)
-enum class ParameterAttributes;
 FORWARD(ParameterInfo)
 } // namespace System::Private::CoreLib::System::Reflection
 namespace System::Private::CoreLib::System::Globalization {
 FORWARD(CultureInfo)
 } // namespace System::Private::CoreLib::System::Globalization
 namespace System::Private::CoreLib::System::Reflection::Emit {
-FORWARD(ILGenerator)
-FORWARD(SignatureHelper)
-FORWARDS(ExceptionHandler)
 FORWARD(__ExceptionInfo)
-FORWARD(TypeBuilder)
-FORWARD(ModuleBuilder)
-FORWARD(GenericTypeParameterBuilder)
-FORWARD(ParameterBuilder)
 FORWARD(CustomAttributeBuilder)
+FORWARDS(ExceptionHandler)
+FORWARD(GenericTypeParameterBuilder)
+FORWARD(ILGenerator)
 FORWARD(LocalSymInfo)
+FORWARD(ModuleBuilder)
+FORWARD(ParameterBuilder)
+FORWARD(SignatureHelper)
+FORWARD(TypeBuilder)
 namespace MethodBuilderNamespace {
-using namespace ::System::Private::CoreLib::System::Globalization;
+using namespace Globalization;
 CLASS(MethodBuilder) {
   public: Int32 get_ExceptionHandlerCount();
   public: String get_Name();

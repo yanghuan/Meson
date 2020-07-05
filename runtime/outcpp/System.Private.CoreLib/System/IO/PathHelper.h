@@ -14,7 +14,7 @@ FORWARDS(ValueStringBuilder)
 } // namespace System::Private::CoreLib::System::Text
 namespace System::Private::CoreLib::System::IO {
 namespace PathHelperNamespace {
-using namespace ::System::Private::CoreLib::System::Text;
+using namespace Text;
 class PathHelper {
   public: static String Normalize(String path);
   public: static String Normalize(ValueStringBuilder& path);

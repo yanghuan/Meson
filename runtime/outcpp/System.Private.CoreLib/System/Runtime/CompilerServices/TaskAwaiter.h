@@ -10,7 +10,7 @@ FORWARD_(Task, T1, T2)
 } // namespace System::Private::CoreLib::System::Threading::Tasks
 namespace System::Private::CoreLib::System::Runtime::CompilerServices {
 namespace TaskAwaiterNamespace {
-using namespace ::System::Private::CoreLib::System::Threading::Tasks;
+using namespace Threading::Tasks;
 template <class T1 = void, class T2 = void>
 struct TaskAwaiter {
 };

@@ -8,7 +8,7 @@ FORWARD(AssemblyName)
 namespace System::Private::CoreLib::System {
 FORWARD(String)
 namespace StartupHookProviderNamespace {
-using namespace ::System::Private::CoreLib::System::Reflection;
+using namespace Reflection;
 class StartupHookProvider {
   private: struct StartupHookNameOrPath {
     public: AssemblyName AssemblyName;

@@ -12,7 +12,7 @@ FORWARDS(StreamingContext)
 namespace System::Private::CoreLib::System::Diagnostics::Contracts {
 enum class ContractFailureKind;
 namespace ContractExceptionNamespace {
-using namespace ::System::Private::CoreLib::System::Runtime::Serialization;
+using namespace Runtime::Serialization;
 CLASS(ContractException) {
   public: ContractFailureKind get_Kind();
   public: String get_Failure();

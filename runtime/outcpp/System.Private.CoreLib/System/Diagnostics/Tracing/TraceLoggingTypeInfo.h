@@ -13,16 +13,16 @@ FORWARD(Dictionary, TKey, TValue)
 FORWARD(List, T)
 } // namespace System::Private::CoreLib::System::Collections::Generic
 namespace System::Private::CoreLib::System::Diagnostics::Tracing {
+enum class EventFieldFormat;
+enum class EventKeywords : int64_t;
 enum class EventLevel;
 enum class EventOpcode;
-enum class EventKeywords : int64_t;
 enum class EventTags;
 FORWARDS(PropertyValue)
-FORWARD(TraceLoggingMetadataCollector)
-enum class EventFieldFormat;
 FORWARD(TraceLoggingDataCollector)
+FORWARD(TraceLoggingMetadataCollector)
 namespace TraceLoggingTypeInfoNamespace {
-using namespace ::System::Private::CoreLib::System::Collections::Generic;
+using namespace Collections::Generic;
 CLASS(TraceLoggingTypeInfo) {
   public: String get_Name();
   public: EventLevel get_Level();

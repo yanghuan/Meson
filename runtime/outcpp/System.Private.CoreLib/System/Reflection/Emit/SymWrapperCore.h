@@ -21,7 +21,7 @@ FORWARD(ISymbolWriter)
 namespace System::Private::CoreLib::System::Reflection::Emit {
 FORWARD(PunkSafeHandle)
 namespace SymWrapperCoreNamespace {
-using namespace ::System::Private::CoreLib::System::Diagnostics::SymbolStore;
+using namespace Diagnostics::SymbolStore;
 CLASS(SymWrapperCore) {
   private: CLASS(SymDocumentWriter) {
     private: struct ISymUnmanagedDocumentWriter {

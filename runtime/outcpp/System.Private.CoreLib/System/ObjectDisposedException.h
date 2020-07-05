@@ -9,7 +9,7 @@ FORWARDS(StreamingContext)
 namespace System::Private::CoreLib::System {
 FORWARD(String)
 namespace ObjectDisposedExceptionNamespace {
-using namespace ::System::Private::CoreLib::System::Runtime::Serialization;
+using namespace Runtime::Serialization;
 CLASS(ObjectDisposedException) {
   public: String get_Message();
   public: String get_ObjectName();

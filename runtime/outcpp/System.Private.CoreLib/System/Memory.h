@@ -7,13 +7,13 @@ namespace System::Private::CoreLib::System::Buffers {
 FORWARDS(MemoryHandle)
 } // namespace System::Private::CoreLib::System::Buffers
 namespace System::Private::CoreLib::System {
+FORWARD_(Array, T1, T2)
 FORWARDS(Boolean)
+FORWARD(Object)
 FORWARDS(Span, T)
 FORWARD(String)
-FORWARD_(Array, T1, T2)
-FORWARD(Object)
 namespace MemoryNamespace {
-using namespace ::System::Private::CoreLib::System::Buffers;
+using namespace Buffers;
 template <class T>
 struct Memory {
   public: static Memory<T> get_Empty();

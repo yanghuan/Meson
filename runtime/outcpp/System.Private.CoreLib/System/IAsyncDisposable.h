@@ -7,7 +7,7 @@ FORWARDS_(ValueTask, T1, T2)
 } // namespace System::Private::CoreLib::System::Threading::Tasks
 namespace System::Private::CoreLib::System {
 namespace IAsyncDisposableNamespace {
-using namespace ::System::Private::CoreLib::System::Threading::Tasks;
+using namespace Threading::Tasks;
 CLASS(IAsyncDisposable) {
   public: ValueTask<> DisposeAsync();
 };

@@ -14,23 +14,23 @@ FORWARD(String)
 FORWARD(Type)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Reflection {
-FORWARD(Assembly)
-FORWARD(Binder)
 enum class BindingFlags;
 enum class CallingConventions;
+enum class GenericParameterAttributes;
+enum class MemberTypes;
+enum class TypeAttributes;
+FORWARD(Assembly)
+FORWARD(Binder)
 FORWARD(ConstructorInfo)
 FORWARD(EventInfo)
 FORWARD(FieldInfo)
-enum class GenericParameterAttributes;
 FORWARDS(InterfaceMapping)
 FORWARD(MemberInfo)
-enum class MemberTypes;
 FORWARD(MethodBase)
 FORWARD(MethodInfo)
 FORWARD(Module)
 FORWARDS(ParameterModifier)
 FORWARD(PropertyInfo)
-enum class TypeAttributes;
 FORWARD(TypeInfo)
 } // namespace System::Private::CoreLib::System::Reflection
 namespace System::Private::CoreLib::System::Globalization {
@@ -40,7 +40,7 @@ namespace System::Private::CoreLib::System::Reflection::Emit {
 FORWARD(CustomAttributeBuilder)
 FORWARD(TypeBuilder)
 namespace GenericTypeParameterBuilderNamespace {
-using namespace ::System::Private::CoreLib::System::Globalization;
+using namespace Globalization;
 CLASS(GenericTypeParameterBuilder) {
   public: Type get_DeclaringType();
   public: Type get_ReflectedType();

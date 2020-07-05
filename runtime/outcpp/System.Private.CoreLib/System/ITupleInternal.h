@@ -9,11 +9,11 @@ namespace System::Private::CoreLib::System::Collections {
 FORWARD(IEqualityComparer)
 } // namespace System::Private::CoreLib::System::Collections
 namespace System::Private::CoreLib::System {
-FORWARD(String)
 FORWARDS(Int32)
+FORWARD(String)
 namespace ITupleInternalNamespace {
-using namespace ::System::Private::CoreLib::System::Collections;
-using namespace ::System::Private::CoreLib::System::Text;
+using namespace Collections;
+using namespace Text;
 CLASS(ITupleInternal) {
   public: String ToString(StringBuilder sb);
   public: Int32 GetHashCode(IEqualityComparer comparer);

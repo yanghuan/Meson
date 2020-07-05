@@ -4,9 +4,9 @@
 #include <System.Private.CoreLib/System/Int32.h>
 
 namespace System::Private::CoreLib::System {
-FORWARD(Object)
-FORWARDS(Boolean)
 FORWARD_(Array, T1, T2)
+FORWARDS(Boolean)
+FORWARD(Object)
 namespace SZArrayEnumeratorNamespace {
 CLASS(SZArrayEnumerator) {
   public: Object get_Current();

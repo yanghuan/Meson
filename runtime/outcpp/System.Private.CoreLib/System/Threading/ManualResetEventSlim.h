@@ -10,9 +10,9 @@ FORWARD(Object)
 FORWARDS(TimeSpan)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Threading {
-FORWARD(WaitHandle)
 FORWARDS(CancellationToken)
 FORWARD(ManualResetEvent)
+FORWARD(WaitHandle)
 namespace ManualResetEventSlimNamespace {
 CLASS(ManualResetEventSlim) {
   public: WaitHandle get_WaitHandle();

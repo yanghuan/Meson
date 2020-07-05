@@ -38,23 +38,23 @@ namespace System::Private::CoreLib::System::Runtime::Serialization {
 FORWARD(DeserializationTracker)
 } // namespace System::Private::CoreLib::System::Runtime::Serialization
 namespace System::Private::CoreLib::System::Threading {
-FORWARD(ThreadLocal, T)
+enum class ApartmentState;
+enum class StackCrawlMark;
 enum class ThreadPriority;
 enum class ThreadState;
-FORWARD(ExecutionContext)
-enum class ApartmentState;
-FORWARD(ThreadStart)
-FORWARD(ParameterizedThreadStart)
-FORWARDS(ThreadHandle)
-enum class StackCrawlMark;
-FORWARD(CompressedStack)
-FORWARD(SynchronizationContext)
 FORWARD(AsyncLocal, T)
+FORWARD(CompressedStack)
+FORWARD(ExecutionContext)
+FORWARD(ParameterizedThreadStart)
+FORWARD(SynchronizationContext)
+FORWARDS(ThreadHandle)
+FORWARD(ThreadLocal, T)
+FORWARD(ThreadStart)
 namespace ThreadNamespace {
-using namespace ::System::Private::CoreLib::System::Collections::Generic;
-using namespace ::System::Private::CoreLib::System::Globalization;
-using namespace ::System::Private::CoreLib::System::Runtime::Serialization;
-using namespace ::System::Private::CoreLib::System::Security::Principal;
+using namespace Collections::Generic;
+using namespace Globalization;
+using namespace Runtime::Serialization;
+using namespace Security::Principal;
 CLASS(Thread) {
   private: class LocalDataStore {
     public: static LocalDataStoreSlot AllocateSlot();

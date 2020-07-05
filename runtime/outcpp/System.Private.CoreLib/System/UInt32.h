@@ -6,17 +6,17 @@ namespace System::Private::CoreLib::System::Globalization {
 enum class NumberStyles;
 } // namespace System::Private::CoreLib::System::Globalization
 namespace System::Private::CoreLib::System {
-FORWARD(Object)
-FORWARDS(Int32)
-FORWARDS(Boolean)
-FORWARD(String)
-FORWARD(IFormatProvider)
-FORWARDS(Span, T)
-FORWARDS(Char)
-FORWARDS(ReadOnlySpan, T)
 enum class TypeCode;
+FORWARDS(Boolean)
+FORWARDS(Char)
+FORWARD(IFormatProvider)
+FORWARDS(Int32)
+FORWARD(Object)
+FORWARDS(ReadOnlySpan, T)
+FORWARDS(Span, T)
+FORWARD(String)
 namespace UInt32Namespace {
-using namespace ::System::Private::CoreLib::System::Globalization;
+using namespace Globalization;
 struct UInt32 {
   public: Int32 CompareTo(Object value);
   public: Int32 CompareTo(UInt32 value);

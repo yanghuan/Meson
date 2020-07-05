@@ -7,11 +7,11 @@ FORWARD_(Array, T1, T2)
 FORWARD(String)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Diagnostics::Tracing {
-FORWARD(PropertyAnalysis)
 enum class EventKeywords : int64_t;
 enum class EventLevel;
 enum class EventOpcode;
 enum class EventTags;
+FORWARD(PropertyAnalysis)
 namespace TypeAnalysisNamespace {
 CLASS(TypeAnalysis) {
   public: Array<PropertyAnalysis> properties;

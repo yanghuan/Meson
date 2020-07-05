@@ -16,11 +16,11 @@ namespace System::Private::CoreLib::System::Collections::Generic {
 FORWARDS_(KeyValuePair, T1, T2, T3)
 } // namespace System::Private::CoreLib::System::Collections::Generic
 namespace System::Private::CoreLib::System::Reflection {
-enum class AssemblyNameFlags;
 enum class AssemblyContentType;
+enum class AssemblyNameFlags;
 namespace AssemblyNameFormatterNamespace {
-using namespace ::System::Private::CoreLib::System::Collections::Generic;
-using namespace ::System::Private::CoreLib::System::Text;
+using namespace Collections::Generic;
+using namespace Text;
 class AssemblyNameFormatter {
   public: static String ComputeDisplayName(String name, Version version, String cultureName, Array<Byte> pkt, AssemblyNameFlags flags, AssemblyContentType contentType);
   private: static void AppendQuoted(StringBuilder sb, String s);

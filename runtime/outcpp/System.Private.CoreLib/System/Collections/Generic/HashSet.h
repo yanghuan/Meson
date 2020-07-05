@@ -16,10 +16,10 @@ FORWARD(SerializationInfo)
 FORWARDS(StreamingContext)
 } // namespace System::Private::CoreLib::System::Runtime::Serialization
 namespace System::Private::CoreLib::System::Collections::Generic {
-FORWARD(IEqualityComparer, T)
 FORWARD(IEnumerable, T)
+FORWARD(IEqualityComparer, T)
 namespace HashSetNamespace {
-using namespace ::System::Private::CoreLib::System::Runtime::Serialization;
+using namespace Runtime::Serialization;
 CLASS(HashSet, T) {
   private: struct Entry {
     public: Int32 HashCode;

@@ -17,8 +17,8 @@ namespace System::Private::CoreLib::System::Resources {
 FORWARDS(ResourceLocator)
 FORWARD(ResourceReader)
 namespace RuntimeResourceSetNamespace {
-using namespace ::System::Private::CoreLib::System::Collections;
-using namespace ::System::Private::CoreLib::System::Collections::Generic;
+using namespace Collections;
+using namespace Collections::Generic;
 CLASS(RuntimeResourceSet) {
   protected: void Dispose(Boolean disposing);
   public: IDictionaryEnumerator GetEnumerator();

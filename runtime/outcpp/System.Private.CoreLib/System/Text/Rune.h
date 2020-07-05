@@ -15,17 +15,17 @@ FORWARDS(Span, T)
 FORWARD(String)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Globalization {
+enum class UnicodeCategory;
 FORWARD(CultureInfo)
 FORWARD(TextInfo)
-enum class UnicodeCategory;
 } // namespace System::Private::CoreLib::System::Globalization
 namespace System::Private::CoreLib::System::Buffers {
 enum class OperationStatus;
 } // namespace System::Private::CoreLib::System::Buffers
 namespace System::Private::CoreLib::System::Text {
 namespace RuneNamespace {
-using namespace ::System::Private::CoreLib::System::Buffers;
-using namespace ::System::Private::CoreLib::System::Globalization;
+using namespace Buffers;
+using namespace Globalization;
 struct Rune {
   private: static ReadOnlySpan<Byte> get_AsciiCharInfo();
   private: String get_DebuggerDisplay();

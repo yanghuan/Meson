@@ -4,9 +4,9 @@
 #include <System.Private.CoreLib/System/UInt32.h>
 
 namespace System::Private::CoreLib::System {
+FORWARDS(Boolean)
 FORWARDS(Int32)
 FORWARD(Object)
-FORWARDS(Boolean)
 namespace HashCodeNamespace {
 struct HashCode {
   private: static UInt32 GenerateGlobalSeed();

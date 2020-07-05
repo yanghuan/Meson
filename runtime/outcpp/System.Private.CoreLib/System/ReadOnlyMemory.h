@@ -7,14 +7,14 @@ namespace System::Private::CoreLib::System::Buffers {
 FORWARDS(MemoryHandle)
 } // namespace System::Private::CoreLib::System::Buffers
 namespace System::Private::CoreLib::System {
+FORWARD_(Array, T1, T2)
 FORWARDS(Boolean)
+FORWARDS(Memory, T)
+FORWARD(Object)
 FORWARDS(ReadOnlySpan, T)
 FORWARD(String)
-FORWARDS(Memory, T)
-FORWARD_(Array, T1, T2)
-FORWARD(Object)
 namespace ReadOnlyMemoryNamespace {
-using namespace ::System::Private::CoreLib::System::Buffers;
+using namespace Buffers;
 template <class T>
 struct ReadOnlyMemory {
   public: static ReadOnlyMemory<T> get_Empty();

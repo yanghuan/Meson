@@ -20,8 +20,8 @@ FORWARDS(CancellationToken)
 } // namespace System::Private::CoreLib::System::Threading
 namespace System::Private::CoreLib::System::IO {
 namespace StringReaderNamespace {
-using namespace ::System::Private::CoreLib::System::Threading;
-using namespace ::System::Private::CoreLib::System::Threading::Tasks;
+using namespace Threading;
+using namespace Threading::Tasks;
 CLASS(StringReader) {
   public: void Close();
   protected: void Dispose(Boolean disposing);

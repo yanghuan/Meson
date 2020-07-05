@@ -19,7 +19,7 @@ FORWARD(SafeHandle)
 namespace System::Private::CoreLib::System::StubHelpers {
 FORWARD(CleanupWorkListElement)
 namespace StubHelpersNamespace {
-using namespace ::System::Private::CoreLib::System::Runtime::InteropServices;
+using namespace Runtime::InteropServices;
 class StubHelpers {
   public: static Boolean IsQCall(IntPtr pMD);
   public: static void InitDeclaringType(IntPtr pMD);

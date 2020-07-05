@@ -6,14 +6,14 @@ namespace System::Private::CoreLib::System::Globalization {
 enum class NumberStyles;
 } // namespace System::Private::CoreLib::System::Globalization
 namespace System::Private::CoreLib::System {
-FORWARDS(Int32)
-FORWARD(Object)
 FORWARDS(Boolean)
-FORWARDS(Int64)
-FORWARD(String)
 FORWARD(IFormatProvider)
+FORWARDS(Int32)
+FORWARDS(Int64)
+FORWARD(Object)
+FORWARD(String)
 namespace IntPtrNamespace {
-using namespace ::System::Private::CoreLib::System::Globalization;
+using namespace Globalization;
 struct IntPtr {
   public: static Int32 get_Size();
   public: static IntPtr get_MaxValue();

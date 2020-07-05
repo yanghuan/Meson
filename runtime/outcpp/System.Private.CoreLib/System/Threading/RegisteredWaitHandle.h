@@ -7,8 +7,8 @@ FORWARDS(Boolean)
 FORWARDS(IntPtr)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Threading {
-FORWARD(WaitHandle)
 FORWARD(RegisteredWaitHandleSafe)
+FORWARD(WaitHandle)
 namespace RegisteredWaitHandleNamespace {
 CLASS(RegisteredWaitHandle) {
   public: void SetHandle(IntPtr handle);

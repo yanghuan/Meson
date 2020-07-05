@@ -7,7 +7,7 @@ FORWARD(IDictionaryEnumerator)
 } // namespace System::Private::CoreLib::System::Collections
 namespace System::Private::CoreLib::System::Resources {
 namespace IResourceReaderNamespace {
-using namespace ::System::Private::CoreLib::System::Collections;
+using namespace Collections;
 CLASS(IResourceReader) {
   public: void Close();
   public: IDictionaryEnumerator GetEnumerator();

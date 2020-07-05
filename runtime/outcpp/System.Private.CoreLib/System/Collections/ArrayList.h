@@ -10,9 +10,9 @@ FORWARD(Object)
 FORWARD(Type)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Collections {
-FORWARD(IEnumerator)
 FORWARD(ICollection)
 FORWARD(IComparer)
+FORWARD(IEnumerator)
 FORWARD(IList)
 namespace ArrayListNamespace {
 CLASS(ArrayList) {

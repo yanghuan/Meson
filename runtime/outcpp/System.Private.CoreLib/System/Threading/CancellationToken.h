@@ -9,9 +9,9 @@ FORWARDS(Int32)
 FORWARD(Object)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Threading {
-FORWARD(WaitHandle)
 FORWARDS(CancellationTokenRegistration)
 FORWARD(CancellationTokenSource)
+FORWARD(WaitHandle)
 namespace CancellationTokenNamespace {
 struct CancellationToken {
   public: static CancellationToken get_None();

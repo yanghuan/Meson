@@ -25,16 +25,16 @@ FORWARD(SerializationInfo)
 FORWARDS(StreamingContext)
 } // namespace System::Private::CoreLib::System::Runtime::Serialization
 namespace System::Private::CoreLib::System::Reflection {
-enum class ProcessorArchitecture;
 enum class AssemblyContentType;
 enum class AssemblyNameFlags;
-FORWARD(StrongNameKeyPair)
-enum class PortableExecutableKinds;
 enum class ImageFileMachine;
+enum class PortableExecutableKinds;
+enum class ProcessorArchitecture;
+FORWARD(StrongNameKeyPair)
 namespace AssemblyNameNamespace {
-using namespace ::System::Private::CoreLib::System::Configuration::Assemblies;
-using namespace ::System::Private::CoreLib::System::Globalization;
-using namespace ::System::Private::CoreLib::System::Runtime::Serialization;
+using namespace Configuration::Assemblies;
+using namespace Globalization;
+using namespace Runtime::Serialization;
 CLASS(AssemblyName) {
   public: String get_Name();
   public: void set_Name(String value);

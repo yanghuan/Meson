@@ -12,13 +12,13 @@ FORWARD(Object)
 FORWARD(String)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Runtime::InteropServices::ComTypes {
-FORWARD(ITypeComp)
 enum class IMPLTYPEFLAGS;
-FORWARDS(DISPPARAMS)
 enum class INVOKEKIND;
+enum class TYPEKIND;
+FORWARDS(DISPPARAMS)
+FORWARD(ITypeComp)
 FORWARD(ITypeInfo)
 FORWARD(ITypeLib)
-enum class TYPEKIND;
 namespace ITypeInfo2Namespace {
 CLASS(ITypeInfo2) {
   public: void GetTypeAttr(IntPtr& ppTypeAttr);

@@ -4,11 +4,11 @@
 #include <System.Private.CoreLib/System/Int32.h>
 
 namespace System::Private::CoreLib::System {
+enum class DayOfWeek;
 FORWARD_(Array, T1, T2)
 FORWARDS(Boolean)
 FORWARDS(Byte)
 FORWARDS(DateTime)
-enum class DayOfWeek;
 FORWARDS(Int64)
 FORWARDS(ReadOnlySpan, T)
 FORWARD(String)

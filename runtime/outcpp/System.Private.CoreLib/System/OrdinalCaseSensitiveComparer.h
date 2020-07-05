@@ -7,11 +7,11 @@ FORWARD(SerializationInfo)
 FORWARDS(StreamingContext)
 } // namespace System::Private::CoreLib::System::Runtime::Serialization
 namespace System::Private::CoreLib::System {
-FORWARD(String)
-FORWARDS(Int32)
 FORWARDS(Boolean)
+FORWARDS(Int32)
+FORWARD(String)
 namespace OrdinalCaseSensitiveComparerNamespace {
-using namespace ::System::Private::CoreLib::System::Runtime::Serialization;
+using namespace Runtime::Serialization;
 CLASS(OrdinalCaseSensitiveComparer) {
   public: Int32 Compare(String x, String y);
   public: Boolean Equals(String x, String y);

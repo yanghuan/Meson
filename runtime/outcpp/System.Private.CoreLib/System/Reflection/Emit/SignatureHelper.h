@@ -21,10 +21,10 @@ namespace System::Private::CoreLib::System::Runtime::InteropServices {
 enum class CallingConvention;
 } // namespace System::Private::CoreLib::System::Runtime::InteropServices
 namespace System::Private::CoreLib::System::Reflection::Emit {
-FORWARDS(TypeToken)
 FORWARD(ModuleBuilder)
+FORWARDS(TypeToken)
 namespace SignatureHelperNamespace {
-using namespace ::System::Private::CoreLib::System::Runtime::InteropServices;
+using namespace Runtime::InteropServices;
 CLASS(SignatureHelper) {
   public: Int32 get_ArgumentCount();
   public: static SignatureHelper GetMethodSigHelper(Module mod, Type returnType, Array<Type> parameterTypes);

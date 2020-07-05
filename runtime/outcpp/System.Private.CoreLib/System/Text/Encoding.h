@@ -24,23 +24,23 @@ namespace System::Private::CoreLib::System::Buffers {
 enum class OperationStatus;
 } // namespace System::Private::CoreLib::System::Buffers
 namespace System::Private::CoreLib::System::Text {
-FORWARD(DecoderNLS)
-FORWARD(DecoderFallbackBuffer)
-FORWARD(EncoderNLS)
-FORWARD(EncoderFallbackBuffer)
-FORWARD(EncoderFallback)
-FORWARD(DecoderFallback)
-FORWARD(EncodingProvider)
-FORWARD(EncodingInfo)
 enum class NormalizationForm;
-FORWARD(Decoder)
-FORWARD(Encoder)
-FORWARDS(Rune)
 FORWARD(CodePageDataItem)
+FORWARD(Decoder)
+FORWARD(DecoderFallback)
+FORWARD(DecoderFallbackBuffer)
+FORWARD(DecoderNLS)
+FORWARD(Encoder)
+FORWARD(EncoderFallback)
+FORWARD(EncoderFallbackBuffer)
+FORWARD(EncoderNLS)
+FORWARD(EncodingInfo)
+FORWARD(EncodingProvider)
+FORWARDS(Rune)
 namespace EncodingNamespace {
-using namespace ::System::Private::CoreLib::System::Buffers;
-using namespace ::System::Private::CoreLib::System::IO;
-using namespace ::System::Private::CoreLib::System::Runtime::Serialization;
+using namespace Buffers;
+using namespace IO;
+using namespace Runtime::Serialization;
 CLASS(Encoding) {
   public: CLASS(DefaultEncoder) {
     public: Object GetRealObject(StreamingContext context);

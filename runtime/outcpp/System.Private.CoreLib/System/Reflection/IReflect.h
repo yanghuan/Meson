@@ -14,13 +14,13 @@ FORWARD(CultureInfo)
 namespace System::Private::CoreLib::System::Reflection {
 enum class BindingFlags;
 FORWARD(Binder)
-FORWARDS(ParameterModifier)
-FORWARD(MethodInfo)
 FORWARD(FieldInfo)
-FORWARD(PropertyInfo)
 FORWARD(MemberInfo)
+FORWARD(MethodInfo)
+FORWARDS(ParameterModifier)
+FORWARD(PropertyInfo)
 namespace IReflectNamespace {
-using namespace ::System::Private::CoreLib::System::Globalization;
+using namespace Globalization;
 CLASS(IReflect) {
   public: Type get_UnderlyingSystemType();
   public: MethodInfo GetMethod(String name, BindingFlags bindingAttr, Binder binder, Array<Type> types, Array<ParameterModifier> modifiers);

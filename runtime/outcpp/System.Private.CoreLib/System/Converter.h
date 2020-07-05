@@ -4,8 +4,8 @@
 
 namespace System::Private::CoreLib::System {
 FORWARD(AsyncCallback)
-FORWARD(Object)
 FORWARD(IAsyncResult)
+FORWARD(Object)
 namespace ConverterNamespace {
 CLASS(Converter, TInput, TOutput) {
   public: TOutput Invoke(TInput input);

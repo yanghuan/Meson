@@ -7,8 +7,8 @@ FORWARD(String)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Diagnostics::Tracing {
 FORWARD(EventCommandEventArgs)
-FORWARD(PollingCounter)
 FORWARD(IncrementingPollingCounter)
+FORWARD(PollingCounter)
 namespace RuntimeEventSourceNamespace {
 CLASS(RuntimeEventSource) {
   public: static void Initialize();

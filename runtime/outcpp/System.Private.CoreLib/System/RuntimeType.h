@@ -10,19 +10,20 @@
 #include <System.Private.CoreLib/System/UInt32.h>
 
 namespace System::Private::CoreLib::System::Reflection {
-FORWARD(Assembly)
-FORWARD(Binder)
 enum class BindingFlags;
 enum class CallingConventions;
+enum class GenericParameterAttributes;
+enum class MemberTypes;
+enum class MethodAttributes;
+enum class TypeAttributes;
+FORWARD(Assembly)
+FORWARD(Binder)
 FORWARD(ConstructorInfo)
 FORWARD(CustomAttributeData)
 FORWARD(EventInfo)
 FORWARD(FieldInfo)
-enum class GenericParameterAttributes;
 FORWARDS(InterfaceMapping)
 FORWARD(MemberInfo)
-enum class MemberTypes;
-enum class MethodAttributes;
 FORWARD(MethodBase)
 FORWARD(MethodInfo)
 FORWARD(Module)
@@ -34,7 +35,6 @@ FORWARD(RuntimeFieldInfo)
 FORWARD(RuntimeMethodInfo)
 FORWARD(RuntimeModule)
 FORWARD(RuntimePropertyInfo)
-enum class TypeAttributes;
 FORWARD(TypeInfo)
 } // namespace System::Private::CoreLib::System::Reflection
 namespace System::Private::CoreLib::System::Collections::Generic {
@@ -52,30 +52,30 @@ namespace System::Private::CoreLib::System::Globalization {
 FORWARD(CultureInfo)
 } // namespace System::Private::CoreLib::System::Globalization
 namespace System::Private::CoreLib::System {
-FORWARD_(Array, T1, T2)
-FORWARD(Object)
-FORWARDS(RuntimeFieldHandleInternal)
-FORWARD(String)
-FORWARDS(Char)
-FORWARDS(Byte)
 enum class TypeCode;
 enum class TypeNameFormatFlags;
 enum class TypeNameKind;
+FORWARD_(Array, T1, T2)
+FORWARDS(Byte)
+FORWARDS(Char)
 FORWARD(CtorDelegate)
-FORWARDS(Guid)
-FORWARD(Type)
-FORWARD(OleAutBinder)
-FORWARDS(RuntimeTypeHandle)
-FORWARD(IRuntimeMethodInfo)
-FORWARD(IRuntimeFieldInfo)
 FORWARD(Exception)
+FORWARDS(Guid)
 FORWARDS(Int64)
+FORWARD(IRuntimeFieldInfo)
+FORWARD(IRuntimeMethodInfo)
+FORWARD(Object)
+FORWARD(OleAutBinder)
+FORWARDS(RuntimeFieldHandleInternal)
+FORWARDS(RuntimeTypeHandle)
+FORWARD(String)
+FORWARD(Type)
 namespace RuntimeTypeNamespace {
-using namespace ::System::Private::CoreLib::System::Collections::Generic;
-using namespace ::System::Private::CoreLib::System::Globalization;
-using namespace ::System::Private::CoreLib::System::Reflection;
-using namespace ::System::Private::CoreLib::System::Runtime::InteropServices;
-using namespace ::System::Private::CoreLib::System::Threading;
+using namespace Collections::Generic;
+using namespace Globalization;
+using namespace Reflection;
+using namespace Runtime::InteropServices;
+using namespace Threading;
 using ::System::Private::CoreLib::System::Collections::Generic::IList;
 CLASS(RuntimeType) {
   public: enum class MemberListType {

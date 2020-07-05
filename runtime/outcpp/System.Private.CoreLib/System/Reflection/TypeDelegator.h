@@ -16,24 +16,24 @@ namespace System::Private::CoreLib::System::Globalization {
 FORWARD(CultureInfo)
 } // namespace System::Private::CoreLib::System::Globalization
 namespace System::Private::CoreLib::System::Reflection {
-FORWARD(Module)
-FORWARD(Assembly)
-FORWARD(TypeInfo)
 enum class BindingFlags;
-FORWARD(Binder)
-FORWARDS(ParameterModifier)
 enum class CallingConventions;
-FORWARD(ConstructorInfo)
-FORWARD(MethodInfo)
-FORWARD(FieldInfo)
-FORWARD(EventInfo)
-FORWARD(PropertyInfo)
 enum class MemberTypes;
-FORWARD(MemberInfo)
 enum class TypeAttributes;
+FORWARD(Assembly)
+FORWARD(Binder)
+FORWARD(ConstructorInfo)
+FORWARD(EventInfo)
+FORWARD(FieldInfo)
 FORWARDS(InterfaceMapping)
+FORWARD(MemberInfo)
+FORWARD(MethodInfo)
+FORWARD(Module)
+FORWARDS(ParameterModifier)
+FORWARD(PropertyInfo)
+FORWARD(TypeInfo)
 namespace TypeDelegatorNamespace {
-using namespace ::System::Private::CoreLib::System::Globalization;
+using namespace Globalization;
 CLASS(TypeDelegator) {
   public: Guid get_GUID();
   public: Int32 get_MetadataToken();

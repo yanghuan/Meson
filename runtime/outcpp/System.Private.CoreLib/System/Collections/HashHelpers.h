@@ -18,8 +18,8 @@ FORWARD(SerializationInfo)
 } // namespace System::Private::CoreLib::System::Runtime::Serialization
 namespace System::Private::CoreLib::System::Collections {
 namespace HashHelpersNamespace {
-using namespace ::System::Private::CoreLib::System::Runtime::CompilerServices;
-using namespace ::System::Private::CoreLib::System::Runtime::Serialization;
+using namespace Runtime::CompilerServices;
+using namespace Runtime::Serialization;
 class HashHelpers {
   public: static ConditionalWeakTable<Object, SerializationInfo> get_SerializationInfoTable();
   public: static Boolean IsPrime(Int32 candidate);

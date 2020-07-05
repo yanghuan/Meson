@@ -20,7 +20,7 @@ FORWARD(ConstructorInfo)
 namespace System::Private::CoreLib::System::Reflection::Emit {
 FORWARD(ModuleBuilder)
 namespace CustomAttributeBuilderNamespace {
-using namespace ::System::Private::CoreLib::System::IO;
+using namespace IO;
 CLASS(CustomAttributeBuilder) {
   private: Boolean ValidateType(Type t);
   private: static void VerifyTypeAndPassedObjectType(Type type, Type passedType, String paramName);

@@ -12,9 +12,9 @@ FORWARDS(IntPtr)
 FORWARD(String)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Runtime::InteropServices::ComTypes {
-FORWARD(ITypeInfo)
 enum class TYPEKIND;
 FORWARD(ITypeComp)
+FORWARD(ITypeInfo)
 namespace ITypeLibNamespace {
 CLASS(ITypeLib) {
   public: Int32 GetTypeInfoCount();

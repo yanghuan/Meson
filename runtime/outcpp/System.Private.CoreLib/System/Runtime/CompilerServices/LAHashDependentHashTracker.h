@@ -6,7 +6,7 @@
 
 namespace System::Private::CoreLib::System::Runtime::CompilerServices {
 namespace LAHashDependentHashTrackerNamespace {
-using namespace ::System::Private::CoreLib::System::Runtime::InteropServices;
+using namespace InteropServices;
 CLASS(LAHashDependentHashTracker) {
   protected: void Finalize();
   private: GCHandle _dependentHandle;

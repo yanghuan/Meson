@@ -3,6 +3,7 @@
 #include <rt/GCObject.h>
 
 namespace System::Private::CoreLib::System {
+enum class TypeCode;
 FORWARDS(Boolean)
 FORWARDS(Byte)
 FORWARDS(Char)
@@ -17,7 +18,6 @@ FORWARDS(SByte)
 FORWARDS(Single)
 FORWARD(String)
 FORWARD(Type)
-enum class TypeCode;
 FORWARDS(UInt16)
 FORWARDS(UInt32)
 FORWARDS(UInt64)

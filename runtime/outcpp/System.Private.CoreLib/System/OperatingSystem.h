@@ -8,11 +8,11 @@ FORWARDS(StreamingContext)
 } // namespace System::Private::CoreLib::System::Runtime::Serialization
 namespace System::Private::CoreLib::System {
 enum class PlatformID;
+FORWARD(Object)
 FORWARD(String)
 FORWARD(Version)
-FORWARD(Object)
 namespace OperatingSystemNamespace {
-using namespace ::System::Private::CoreLib::System::Runtime::Serialization;
+using namespace Runtime::Serialization;
 CLASS(OperatingSystem) {
   public: PlatformID get_Platform();
   public: String get_ServicePack();

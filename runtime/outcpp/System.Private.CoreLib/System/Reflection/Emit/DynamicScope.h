@@ -16,10 +16,10 @@ namespace System::Private::CoreLib::System::Collections::Generic {
 FORWARD(List, T)
 } // namespace System::Private::CoreLib::System::Collections::Generic
 namespace System::Private::CoreLib::System::Reflection::Emit {
-FORWARD(VarArgMethod)
 FORWARD(DynamicMethod)
+FORWARD(VarArgMethod)
 namespace DynamicScopeNamespace {
-using namespace ::System::Private::CoreLib::System::Collections::Generic;
+using namespace Collections::Generic;
 CLASS(DynamicScope) {
   public: Object get_Item(Int32 token);
   public: Int32 GetTokenFor(VarArgMethod varArgMethod);

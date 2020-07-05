@@ -4,9 +4,9 @@
 #include <System.Private.CoreLib/System/Boolean.h>
 
 namespace System::Private::CoreLib::System {
-FORWARD(String)
 FORWARDS(Int32)
 FORWARD(Object)
+FORWARD(String)
 namespace OrdinalComparerNamespace {
 CLASS(OrdinalComparer) {
   public: Int32 Compare(String x, String y);

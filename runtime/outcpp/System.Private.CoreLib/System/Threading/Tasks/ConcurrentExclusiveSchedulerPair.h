@@ -17,12 +17,12 @@ namespace System::Private::CoreLib::System::Threading {
 FORWARD(ThreadLocal, T)
 } // namespace System::Private::CoreLib::System::Threading
 namespace System::Private::CoreLib::System::Threading::Tasks {
-FORWARD_(Task, T1, T2)
-FORWARD(IProducerConsumerQueue, T)
-FORWARD(TaskScheduler)
 enum class TaskCreationOptions;
+FORWARD(IProducerConsumerQueue, T)
+FORWARD_(Task, T1, T2)
+FORWARD(TaskScheduler)
 namespace ConcurrentExclusiveSchedulerPairNamespace {
-using namespace ::System::Private::CoreLib::System::Collections::Generic;
+using namespace Collections::Generic;
 CLASS(ConcurrentExclusiveSchedulerPair) {
   private: enum class ProcessingMode : uint8_t {
     NotCurrentlyProcessing = 0,

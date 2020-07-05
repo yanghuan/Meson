@@ -13,7 +13,7 @@ FORWARD(WaitCallback)
 } // namespace System::Private::CoreLib::System::Threading
 namespace System::Private::CoreLib::System::Runtime::CompilerServices {
 namespace YieldAwaitableNamespace {
-using namespace ::System::Private::CoreLib::System::Threading;
+using namespace Threading;
 struct YieldAwaitable {
   public: struct YieldAwaiter {
     public: Boolean get_IsCompleted();

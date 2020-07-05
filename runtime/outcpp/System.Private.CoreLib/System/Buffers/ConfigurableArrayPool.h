@@ -10,7 +10,7 @@ FORWARDS(Boolean)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Buffers {
 namespace ConfigurableArrayPoolNamespace {
-using namespace ::System::Private::CoreLib::System::Threading;
+using namespace Threading;
 CLASS(ConfigurableArrayPool, T) {
   private: CLASS(Bucket) {
     public: Int32 get_Id();

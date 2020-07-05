@@ -42,15 +42,15 @@ FORWARDS_(ValueTask, T1, T2)
 namespace System::Private::CoreLib::System::IO {
 enum class FileAccess;
 enum class FileMode;
+enum class FileOptions;
 enum class FileShare;
 enum class SeekOrigin;
 FORWARD(Stream)
-enum class FileOptions;
 namespace FileStreamNamespace {
 using namespace ::System::Private::CoreLib::Microsoft::Win32::SafeHandles;
-using namespace ::System::Private::CoreLib::System::Buffers;
-using namespace ::System::Private::CoreLib::System::Threading;
-using namespace ::System::Private::CoreLib::System::Threading::Tasks;
+using namespace Buffers;
+using namespace Threading;
+using namespace Threading::Tasks;
 CLASS(FileStream) {
   private: CLASS(AsyncCopyToAwaitable) {
     public: Object get_CancellationLock();

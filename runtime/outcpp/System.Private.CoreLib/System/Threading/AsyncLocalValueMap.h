@@ -15,7 +15,7 @@ FORWARDS_(KeyValuePair, T1, T2, T3)
 namespace System::Private::CoreLib::System::Threading {
 FORWARD(IAsyncLocal)
 namespace AsyncLocalValueMapNamespace {
-using namespace ::System::Private::CoreLib::System::Collections::Generic;
+using namespace Collections::Generic;
 class AsyncLocalValueMap {
   private: CLASS(EmptyAsyncLocalValueMap) {
     public: IAsyncLocalValueMap Set(IAsyncLocal key, Object value, Boolean treatNullValueAsNonexistent);

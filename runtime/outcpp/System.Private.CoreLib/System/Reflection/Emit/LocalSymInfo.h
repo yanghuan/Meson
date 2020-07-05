@@ -13,7 +13,7 @@ FORWARD(ISymbolWriter)
 } // namespace System::Private::CoreLib::System::Diagnostics::SymbolStore
 namespace System::Private::CoreLib::System::Reflection::Emit {
 namespace LocalSymInfoNamespace {
-using namespace ::System::Private::CoreLib::System::Diagnostics::SymbolStore;
+using namespace Diagnostics::SymbolStore;
 CLASS(LocalSymInfo) {
   private: void EnsureCapacityNamespace();
   private: void EnsureCapacity();

@@ -5,8 +5,8 @@
 #include <System.Private.CoreLib/System/Int32.h>
 
 namespace System::Private::CoreLib::System {
-FORWARD(Object)
 FORWARD_(Array, T1, T2)
+FORWARD(Object)
 namespace ArrayEnumeratorNamespace {
 CLASS(ArrayEnumerator) {
   public: Object get_Current();

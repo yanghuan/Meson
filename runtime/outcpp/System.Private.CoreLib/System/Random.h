@@ -4,9 +4,9 @@
 #include <System.Private.CoreLib/System/Int32.h>
 
 namespace System::Private::CoreLib::System {
-FORWARDS(Double)
 FORWARD_(Array, T1, T2)
 FORWARDS(Byte)
+FORWARDS(Double)
 FORWARDS(Span, T)
 namespace RandomNamespace {
 CLASS(Random) {

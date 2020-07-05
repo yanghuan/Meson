@@ -6,8 +6,8 @@ namespace System::Private::CoreLib::System {
 FORWARD(String)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Reflection {
-FORWARD(Assembly)
 enum class ResourceLocation;
+FORWARD(Assembly)
 namespace ManifestResourceInfoNamespace {
 CLASS(ManifestResourceInfo) {
   public: Assembly get_ReferencedAssembly();

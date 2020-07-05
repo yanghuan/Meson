@@ -4,8 +4,8 @@
 #include <System.Private.CoreLib/System/RuntimeType.h>
 
 namespace System::Private::CoreLib::System {
-FORWARD_(Array, T1, T2)
 enum class AttributeTargets;
+FORWARD_(Array, T1, T2)
 FORWARD(AttributeUsageAttribute)
 FORWARDS(Boolean)
 FORWARDS(Byte)
@@ -16,17 +16,17 @@ FORWARD(Object)
 FORWARD(String)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Reflection {
-FORWARD(RuntimeMethodInfo)
+FORWARDS(ConstArray)
+FORWARDS(MetadataImport)
+FORWARDS(MetadataToken)
+FORWARD(RuntimeAssembly)
 FORWARD(RuntimeConstructorInfo)
-FORWARD(RuntimePropertyInfo)
 FORWARD(RuntimeEventInfo)
 FORWARD(RuntimeFieldInfo)
-FORWARD(RuntimeParameterInfo)
-FORWARD(RuntimeAssembly)
+FORWARD(RuntimeMethodInfo)
 FORWARD(RuntimeModule)
-FORWARDS(MetadataToken)
-FORWARDS(MetadataImport)
-FORWARDS(ConstArray)
+FORWARD(RuntimeParameterInfo)
+FORWARD(RuntimePropertyInfo)
 namespace CustomAttributeNamespace {
 class CustomAttribute {
   public: static Boolean IsDefined(RuntimeType type, RuntimeType caType, Boolean inherit);

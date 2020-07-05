@@ -7,10 +7,10 @@ enum class LazyThreadSafetyMode;
 } // namespace System::Private::CoreLib::System::Threading
 namespace System::Private::CoreLib::System {
 FORWARDS(Boolean)
-FORWARDS_(Nullable, T1, T2)
 FORWARD_(Lazy, T1, T2, T3)
+FORWARDS_(Nullable, T1, T2)
 namespace LazyDebugViewNamespace {
-using namespace ::System::Private::CoreLib::System::Threading;
+using namespace Threading;
 CLASS(LazyDebugView, T) {
   public: Boolean get_IsValueCreated();
   public: T get_Value();

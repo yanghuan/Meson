@@ -15,7 +15,7 @@ namespace System::Private::CoreLib::System::Reflection::Emit {
 enum class ScopeAction : int8_t;
 FORWARD(LocalSymInfo)
 namespace ScopeTreeNamespace {
-using namespace ::System::Private::CoreLib::System::Diagnostics::SymbolStore;
+using namespace Diagnostics::SymbolStore;
 CLASS(ScopeTree) {
   public: Int32 GetCurrentActiveScopeIndex();
   public: void AddLocalSymInfoToCurrentScope(String strName, Array<Byte> signature, Int32 slot, Int32 startOffset, Int32 endOffset);

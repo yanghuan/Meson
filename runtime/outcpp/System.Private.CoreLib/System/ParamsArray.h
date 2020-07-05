@@ -3,9 +3,9 @@
 #include <rt/GCObject.h>
 
 namespace System::Private::CoreLib::System {
+FORWARD_(Array, T1, T2)
 FORWARDS(Int32)
 FORWARD(Object)
-FORWARD_(Array, T1, T2)
 namespace ParamsArrayNamespace {
 struct ParamsArray {
   public: Int32 get_Length();

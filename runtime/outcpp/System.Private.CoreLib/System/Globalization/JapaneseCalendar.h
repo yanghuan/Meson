@@ -3,19 +3,19 @@
 #include <rt/GCObject.h>
 
 namespace System::Private::CoreLib::System {
+enum class DayOfWeek;
 FORWARD_(Array, T1, T2)
 FORWARDS(Boolean)
 FORWARDS(DateTime)
-enum class DayOfWeek;
 FORWARDS(Int32)
 FORWARD(String)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Globalization {
 enum class CalendarAlgorithmType;
 enum class CalendarId : uint16_t;
-FORWARD(EraInfo)
-FORWARD(Calendar)
 enum class CalendarWeekRule;
+FORWARD(Calendar)
+FORWARD(EraInfo)
 FORWARD(GregorianCalendarHelper)
 namespace JapaneseCalendarNamespace {
 CLASS(JapaneseCalendar) {

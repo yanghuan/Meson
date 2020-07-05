@@ -8,9 +8,9 @@ FORWARDS(Int32)
 FORWARD(String)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Runtime::InteropServices::ComTypes {
-FORWARD(ITypeInfo)
 enum class DESCKIND;
 FORWARDS(BINDPTR)
+FORWARD(ITypeInfo)
 namespace ITypeCompNamespace {
 CLASS(ITypeComp) {
   public: void Bind(String szName, Int32 lHashVal, Int16 wFlags, ITypeInfo& ppTInfo, DESCKIND& pDescKind, BINDPTR& pBindPtr);

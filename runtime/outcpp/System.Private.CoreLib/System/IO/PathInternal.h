@@ -3,19 +3,19 @@
 #include <rt/GCObject.h>
 
 namespace System::Private::CoreLib::System {
+enum class StringComparison;
 FORWARDS(Boolean)
 FORWARDS(Char)
 FORWARDS(Int32)
 FORWARDS(ReadOnlySpan, T)
 FORWARD(String)
-enum class StringComparison;
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Text {
 FORWARDS(ValueStringBuilder)
 } // namespace System::Private::CoreLib::System::Text
 namespace System::Private::CoreLib::System::IO {
 namespace PathInternalNamespace {
-using namespace ::System::Private::CoreLib::System::Text;
+using namespace Text;
 class PathInternal {
   public: static Boolean StartsWithDirectorySeparator(ReadOnlySpan<Char> path);
   public: static Boolean IsRoot(ReadOnlySpan<Char> path);

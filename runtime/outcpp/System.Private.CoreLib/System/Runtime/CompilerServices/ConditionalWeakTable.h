@@ -14,7 +14,7 @@ FORWARD(Object)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Runtime::CompilerServices {
 namespace ConditionalWeakTableNamespace {
-using namespace ::System::Private::CoreLib::System::Collections::Generic;
+using namespace Collections::Generic;
 CLASS(ConditionalWeakTable, TKey, TValue) {
   private: struct Entry {
     public: DependentHandle depHnd;

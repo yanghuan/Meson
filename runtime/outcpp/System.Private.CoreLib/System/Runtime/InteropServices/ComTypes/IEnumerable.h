@@ -7,7 +7,7 @@ FORWARD(IEnumerator)
 } // namespace System::Private::CoreLib::System::Collections
 namespace System::Private::CoreLib::System::Runtime::InteropServices::ComTypes {
 namespace IEnumerableNamespace {
-using namespace ::System::Private::CoreLib::System::Collections;
+using namespace Collections;
 CLASS(IEnumerable) {
   public: IEnumerator GetEnumerator();
 };

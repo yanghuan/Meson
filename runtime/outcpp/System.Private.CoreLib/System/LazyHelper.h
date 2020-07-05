@@ -10,11 +10,11 @@ FORWARD(ExceptionDispatchInfo)
 } // namespace System::Private::CoreLib::System::Runtime::ExceptionServices
 namespace System::Private::CoreLib::System {
 enum class LazyState;
-FORWARDS_(Nullable, T1, T2)
 FORWARDS(Boolean)
+FORWARDS_(Nullable, T1, T2)
 namespace LazyHelperNamespace {
-using namespace ::System::Private::CoreLib::System::Runtime::ExceptionServices;
-using namespace ::System::Private::CoreLib::System::Threading;
+using namespace Runtime::ExceptionServices;
+using namespace Threading;
 CLASS(LazyHelper) {
   public: LazyState get_State() { return State; }
   public: void ThrowException();

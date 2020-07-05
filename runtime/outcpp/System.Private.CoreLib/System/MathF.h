@@ -3,10 +3,10 @@
 #include <rt/GCObject.h>
 
 namespace System::Private::CoreLib::System {
-FORWARDS(Single)
-FORWARDS(Int32)
 enum class MidpointRounding;
 FORWARD_(Array, T1, T2)
+FORWARDS(Int32)
+FORWARDS(Single)
 namespace MathFNamespace {
 class MathF {
   public: static Single Acos(Single x);

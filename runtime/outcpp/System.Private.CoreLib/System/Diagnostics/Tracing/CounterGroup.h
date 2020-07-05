@@ -22,8 +22,8 @@ FORWARD(DiagnosticCounter)
 FORWARD(EventCommandEventArgs)
 FORWARD(EventSource)
 namespace CounterGroupNamespace {
-using namespace ::System::Private::CoreLib::System::Collections::Generic;
-using namespace ::System::Private::CoreLib::System::Threading;
+using namespace Collections::Generic;
+using namespace Threading;
 CLASS(CounterGroup) {
   public: void Add(DiagnosticCounter eventCounter);
   public: void Remove(DiagnosticCounter eventCounter);

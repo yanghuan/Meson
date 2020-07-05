@@ -14,8 +14,8 @@ FORWARD(Dictionary, TKey, TValue)
 } // namespace System::Private::CoreLib::System::Collections::Generic
 namespace System::Private::CoreLib::System::Runtime::Loader {
 namespace AssemblyDependencyResolverNamespace {
-using namespace ::System::Private::CoreLib::System::Collections::Generic;
-using namespace ::System::Private::CoreLib::System::Reflection;
+using namespace Collections::Generic;
+using namespace Reflection;
 CLASS(AssemblyDependencyResolver) {
   public: String ResolveAssemblyToPath(AssemblyName assemblyName);
   public: String ResolveUnmanagedDllToPath(String unmanagedDllName);

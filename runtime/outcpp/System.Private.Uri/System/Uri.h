@@ -4,6 +4,7 @@
 #include <System.Private.CoreLib/System/UInt16.h>
 
 namespace System::Private::CoreLib::System {
+enum class StringComparison;
 FORWARD_(Array, T1, T2)
 FORWARDS(Boolean)
 FORWARDS(Char)
@@ -11,21 +12,20 @@ FORWARDS(Int32)
 FORWARD(Object)
 FORWARDS(ReadOnlySpan, T)
 FORWARD(String)
-enum class StringComparison;
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Runtime::Serialization {
 FORWARD(SerializationInfo)
 FORWARDS(StreamingContext)
 } // namespace System::Private::CoreLib::System::Runtime::Serialization
 namespace System::Private::Uri::System {
-FORWARD(UriParser)
-enum class UriHostNameType;
 enum class ParsingError;
-FORWARD(UriFormatException)
-enum class UriPartial;
 enum class UriComponents;
 enum class UriFormat;
+enum class UriHostNameType;
 enum class UriKind;
+enum class UriPartial;
+FORWARD(UriFormatException)
+FORWARD(UriParser)
 namespace UriNamespace {
 using namespace ::System::Private::CoreLib::System;
 using namespace ::System::Private::CoreLib::System::Runtime::Serialization;

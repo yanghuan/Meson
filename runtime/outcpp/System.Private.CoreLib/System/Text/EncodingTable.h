@@ -13,10 +13,10 @@ namespace System::Private::CoreLib::System::Collections {
 FORWARD(Hashtable)
 } // namespace System::Private::CoreLib::System::Collections
 namespace System::Private::CoreLib::System::Text {
-FORWARD(EncodingInfo)
 FORWARD(CodePageDataItem)
+FORWARD(EncodingInfo)
 namespace EncodingTableNamespace {
-using namespace ::System::Private::CoreLib::System::Collections;
+using namespace Collections;
 class EncodingTable {
   public: static Int32 GetCodePageFromName(String name);
   private: static Int32 InternalGetCodePageFromName(String name);

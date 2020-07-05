@@ -43,18 +43,18 @@ namespace System::Private::CoreLib::System::Globalization {
 FORWARD(CultureInfo)
 } // namespace System::Private::CoreLib::System::Globalization
 namespace System::Private::CoreLib::System::Reflection::Emit {
+enum class AssemblyBuilderAccess;
+FORWARD(AssemblyBuilderData)
+FORWARD(CustomAttributeBuilder)
 FORWARD(InternalAssemblyBuilder)
 FORWARD(InternalModuleBuilder)
 FORWARD(ModuleBuilder)
-enum class AssemblyBuilderAccess;
-FORWARD(CustomAttributeBuilder)
-FORWARD(AssemblyBuilderData)
 namespace AssemblyBuilderNamespace {
-using namespace ::System::Private::CoreLib::System::Collections::Generic;
-using namespace ::System::Private::CoreLib::System::Globalization;
-using namespace ::System::Private::CoreLib::System::IO;
-using namespace ::System::Private::CoreLib::System::Runtime::CompilerServices;
-using namespace ::System::Private::CoreLib::System::Threading;
+using namespace Collections::Generic;
+using namespace Globalization;
+using namespace IO;
+using namespace Runtime::CompilerServices;
+using namespace Threading;
 using ::System::Private::CoreLib::System::Collections::Generic::IList;
 CLASS(AssemblyBuilder) {
   public: Object get_SyncRoot();

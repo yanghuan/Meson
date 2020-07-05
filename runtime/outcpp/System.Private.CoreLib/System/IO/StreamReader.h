@@ -26,9 +26,9 @@ FORWARDS(CancellationToken)
 namespace System::Private::CoreLib::System::IO {
 FORWARD(Stream)
 namespace StreamReaderNamespace {
-using namespace ::System::Private::CoreLib::System::Text;
-using namespace ::System::Private::CoreLib::System::Threading;
-using namespace ::System::Private::CoreLib::System::Threading::Tasks;
+using namespace Text;
+using namespace Threading;
+using namespace Threading::Tasks;
 CLASS(StreamReader) {
   private: CLASS(NullStreamReader) {
     public: Encoding get_CurrentEncoding();

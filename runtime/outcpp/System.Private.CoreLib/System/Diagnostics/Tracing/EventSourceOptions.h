@@ -7,11 +7,11 @@ namespace System::Private::CoreLib::System {
 FORWARDS(Boolean)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Diagnostics::Tracing {
+enum class EventActivityOptions;
+enum class EventKeywords : int64_t;
 enum class EventLevel;
 enum class EventOpcode;
-enum class EventKeywords : int64_t;
 enum class EventTags;
-enum class EventActivityOptions;
 namespace EventSourceOptionsNamespace {
 struct EventSourceOptions {
   public: EventLevel get_Level();

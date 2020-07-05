@@ -7,9 +7,9 @@ FORWARDS(Boolean)
 FORWARD(Object)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Threading {
-FORWARD(WaitOrTimerCallback)
-FORWARD(ExecutionContext)
 FORWARD_(ContextCallback, T1, T2)
+FORWARD(ExecutionContext)
+FORWARD(WaitOrTimerCallback)
 namespace _ThreadPoolWaitOrTimerCallbackNamespace {
 CLASS(_ThreadPoolWaitOrTimerCallback) {
   private: static void WaitOrTimerCallback_Context_t(Object state);

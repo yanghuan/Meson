@@ -15,7 +15,7 @@ FORWARD(IDictionaryEnumerator)
 namespace System::Private::CoreLib::System::Resources {
 FORWARD(IResourceReader)
 namespace ResourceSetNamespace {
-using namespace ::System::Private::CoreLib::System::Collections;
+using namespace Collections;
 CLASS(ResourceSet) {
   public: void Close();
   protected: void Dispose(Boolean disposing);

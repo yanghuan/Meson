@@ -18,7 +18,7 @@ FORWARD(MethodBase)
 FORWARDS(ParameterModifier)
 FORWARD(PropertyInfo)
 namespace BinderNamespace {
-using namespace ::System::Private::CoreLib::System::Globalization;
+using namespace Globalization;
 CLASS(Binder) {
   public: FieldInfo BindToField(BindingFlags bindingAttr, Array<FieldInfo> match, Object value, CultureInfo culture);
   public: MethodBase BindToMethod(BindingFlags bindingAttr, Array<MethodBase> match, Array<Object>& args, Array<ParameterModifier> modifiers, CultureInfo culture, Array<String> names, Object& state);

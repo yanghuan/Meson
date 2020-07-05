@@ -12,7 +12,7 @@ FORWARD_(Task, T1, T2)
 } // namespace System::Private::CoreLib::System::Threading::Tasks
 namespace System::Private::CoreLib::System::Runtime::CompilerServices {
 namespace AsyncTaskCacheNamespace {
-using namespace ::System::Private::CoreLib::System::Threading::Tasks;
+using namespace Threading::Tasks;
 class AsyncTaskCache {
   private: static Boolean GetPoolAsyncValueTasksSwitch();
   private: static Int32 GetPoolAsyncValueTasksLimitValue();

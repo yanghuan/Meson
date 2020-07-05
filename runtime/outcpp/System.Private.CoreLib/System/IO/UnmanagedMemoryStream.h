@@ -31,10 +31,10 @@ namespace System::Private::CoreLib::System::IO {
 enum class FileAccess;
 enum class SeekOrigin;
 namespace UnmanagedMemoryStreamNamespace {
-using namespace ::System::Private::CoreLib::System::Buffers;
-using namespace ::System::Private::CoreLib::System::Runtime::InteropServices;
-using namespace ::System::Private::CoreLib::System::Threading;
-using namespace ::System::Private::CoreLib::System::Threading::Tasks;
+using namespace Buffers;
+using namespace Runtime::InteropServices;
+using namespace Threading;
+using namespace Threading::Tasks;
 CLASS(UnmanagedMemoryStream) {
   public: Boolean get_CanRead();
   public: Boolean get_CanSeek();

@@ -7,20 +7,20 @@ FORWARD(KeyNotFoundException)
 FORWARD(List, T)
 } // namespace System::Private::CoreLib::System::Collections::Generic
 namespace System::Private::CoreLib::System {
-FORWARD(Type)
 enum class ExceptionArgument;
-FORWARD(Object)
-FORWARD(ArgumentException)
 enum class ExceptionResource;
+FORWARD(ArgumentException)
 FORWARD(ArgumentNullException)
-FORWARDS(Int32)
-FORWARD(Exception)
-FORWARD_(Array, T1, T2)
-FORWARD(InvalidOperationException)
 FORWARD(ArgumentOutOfRangeException)
+FORWARD_(Array, T1, T2)
+FORWARD(Exception)
+FORWARDS(Int32)
+FORWARD(InvalidOperationException)
+FORWARD(Object)
 FORWARD(String)
+FORWARD(Type)
 namespace ThrowHelperNamespace {
-using namespace ::System::Private::CoreLib::System::Collections::Generic;
+using namespace Collections::Generic;
 class ThrowHelper {
   public: static void ThrowArrayTypeMismatchException();
   public: static void ThrowInvalidTypeWithPointersNotSupported(Type targetType);

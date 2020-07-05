@@ -15,15 +15,15 @@ FORWARD(String)
 FORWARD(Type)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Reflection {
-FORWARD(Binder)
 enum class BindingFlags;
 enum class CallingConventions;
-FORWARD(ICustomAttributeProvider)
 enum class MethodAttributes;
 enum class MethodImplAttributes;
+enum class ParameterAttributes;
+FORWARD(Binder)
+FORWARD(ICustomAttributeProvider)
 FORWARD(MethodInfo)
 FORWARD(Module)
-enum class ParameterAttributes;
 FORWARD(ParameterInfo)
 FORWARD(RuntimeModule)
 FORWARD(RuntimeParameterInfo)
@@ -32,14 +32,14 @@ namespace System::Private::CoreLib::System::Globalization {
 FORWARD(CultureInfo)
 } // namespace System::Private::CoreLib::System::Globalization
 namespace System::Private::CoreLib::System::Reflection::Emit {
-FORWARD(ParameterBuilder)
-FORWARD(DynamicILInfo)
-FORWARD(ILGenerator)
 FORWARD(DynamicILGenerator)
+FORWARD(DynamicILInfo)
 FORWARD(DynamicResolver)
+FORWARD(ILGenerator)
 FORWARD(InternalModuleBuilder)
+FORWARD(ParameterBuilder)
 namespace DynamicMethodNamespace {
-using namespace ::System::Private::CoreLib::System::Globalization;
+using namespace Globalization;
 CLASS(DynamicMethod) {
   public: CLASS(RTDynamicMethod) {
     public: String get_Name();

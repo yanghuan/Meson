@@ -3,11 +3,11 @@
 #include <rt/GCObject.h>
 
 namespace System::Private::CoreLib::System::Reflection {
-FORWARD(Binder)
 enum class BindingFlags;
 enum class FieldAttributes;
-FORWARD(FieldInfo)
 enum class MemberTypes;
+FORWARD(Binder)
+FORWARD(FieldInfo)
 FORWARD(Module)
 } // namespace System::Private::CoreLib::System::Reflection
 namespace System::Private::CoreLib::System {
@@ -26,7 +26,7 @@ FORWARD(CultureInfo)
 namespace System::Private::CoreLib::System::Reflection::Emit {
 FORWARD(TypeBuilderInstantiation)
 namespace FieldOnTypeBuilderInstantiationNamespace {
-using namespace ::System::Private::CoreLib::System::Globalization;
+using namespace Globalization;
 CLASS(FieldOnTypeBuilderInstantiation) {
   public: FieldInfo get_FieldInfo();
   public: MemberTypes get_MemberType();

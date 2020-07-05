@@ -9,21 +9,21 @@ namespace System::Private::CoreLib::System::Globalization {
 FORWARD(DateTimeFormatInfo)
 } // namespace System::Private::CoreLib::System::Globalization
 namespace System::Private::CoreLib::System {
-FORWARDS(Int32)
+FORWARD_(Array, T1, T2)
 FORWARDS(Boolean)
-FORWARDS(ReadOnlySpan, T)
 FORWARDS(Char)
-FORWARD(String)
 FORWARDS(DateTime)
-FORWARDS(TimeSpan)
 FORWARD(IFormatProvider)
+FORWARDS(Int32)
+FORWARDS(ReadOnlySpan, T)
 FORWARDS(Span, T)
+FORWARD(String)
+FORWARDS(TimeSpan)
 FORWARDS(UInt32)
 FORWARDS(UInt64)
-FORWARD_(Array, T1, T2)
 namespace DateTimeFormatNamespace {
-using namespace ::System::Private::CoreLib::System::Globalization;
-using namespace ::System::Private::CoreLib::System::Text;
+using namespace Globalization;
+using namespace Text;
 class DateTimeFormat {
   public: static void FormatDigits(StringBuilder outputBuffer, Int32 value, Int32 len);
   public: static void FormatDigits(StringBuilder outputBuffer, Int32 value, Int32 len, Boolean overrideLengthLimit);

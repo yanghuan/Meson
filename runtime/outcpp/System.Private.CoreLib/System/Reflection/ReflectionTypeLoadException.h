@@ -15,7 +15,7 @@ FORWARDS(StreamingContext)
 } // namespace System::Private::CoreLib::System::Runtime::Serialization
 namespace System::Private::CoreLib::System::Reflection {
 namespace ReflectionTypeLoadExceptionNamespace {
-using namespace ::System::Private::CoreLib::System::Runtime::Serialization;
+using namespace Runtime::Serialization;
 CLASS(ReflectionTypeLoadException) {
   public: Array<Type> get_Types() { return Types; }
   public: Array<Exception> get_LoaderExceptions() { return LoaderExceptions; }

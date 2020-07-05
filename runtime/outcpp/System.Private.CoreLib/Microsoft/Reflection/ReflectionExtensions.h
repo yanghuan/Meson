@@ -3,9 +3,9 @@
 #include <rt/GCObject.h>
 
 namespace System::Private::CoreLib::System {
+enum class TypeCode;
 FORWARDS(Boolean)
 FORWARD(Type)
-enum class TypeCode;
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Reflection {
 FORWARD(Assembly)

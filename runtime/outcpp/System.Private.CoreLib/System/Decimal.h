@@ -9,25 +9,25 @@ namespace System::Private::CoreLib::System::Globalization {
 enum class NumberStyles;
 } // namespace System::Private::CoreLib::System::Globalization
 namespace System::Private::CoreLib::System {
-FORWARDS(Boolean)
-FORWARDS(Single)
-FORWARDS(Double)
-FORWARDS(Int64)
 enum class MidpointRounding;
-FORWARD_(Array, T1, T2)
-FORWARD(Object)
-FORWARD(String)
-FORWARD(IFormatProvider)
-FORWARDS(Span, T)
-FORWARDS(Char)
-FORWARDS(ReadOnlySpan, T)
-FORWARDS(Byte)
-FORWARDS(SByte)
-FORWARDS(Int16)
-FORWARDS(UInt16)
 enum class TypeCode;
+FORWARD_(Array, T1, T2)
+FORWARDS(Boolean)
+FORWARDS(Byte)
+FORWARDS(Char)
+FORWARDS(Double)
+FORWARD(IFormatProvider)
+FORWARDS(Int16)
+FORWARDS(Int64)
+FORWARD(Object)
+FORWARDS(ReadOnlySpan, T)
+FORWARDS(SByte)
+FORWARDS(Single)
+FORWARDS(Span, T)
+FORWARD(String)
+FORWARDS(UInt16)
 namespace DecimalNamespace {
-using namespace ::System::Private::CoreLib::System::Globalization;
+using namespace Globalization;
 struct Decimal {
   private: struct DecCalc {
     private: struct Buf24 {

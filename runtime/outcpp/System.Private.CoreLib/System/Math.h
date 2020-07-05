@@ -3,19 +3,19 @@
 #include <rt/GCObject.h>
 
 namespace System::Private::CoreLib::System {
-FORWARDS(Double)
-FORWARDS(Single)
-FORWARDS(Int32)
-FORWARDS(Int16)
-FORWARDS(Int64)
-FORWARDS(SByte)
-FORWARDS(Decimal)
-FORWARDS(UInt64)
-FORWARDS(UInt32)
-FORWARDS(Byte)
-FORWARDS(UInt16)
 enum class MidpointRounding;
 FORWARD_(Array, T1, T2)
+FORWARDS(Byte)
+FORWARDS(Decimal)
+FORWARDS(Double)
+FORWARDS(Int16)
+FORWARDS(Int32)
+FORWARDS(Int64)
+FORWARDS(SByte)
+FORWARDS(Single)
+FORWARDS(UInt16)
+FORWARDS(UInt32)
+FORWARDS(UInt64)
 namespace MathNamespace {
 class Math {
   public: static Double Abs(Double value);

@@ -6,9 +6,9 @@ namespace System::Private::CoreLib::System {
 FORWARD(String)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Diagnostics::Tracing {
+enum class EventKeywords : int64_t;
 enum class EventLevel;
 enum class EventOpcode;
-enum class EventKeywords : int64_t;
 enum class EventTags;
 namespace EventDataAttributeNamespace {
 CLASS(EventDataAttribute) {

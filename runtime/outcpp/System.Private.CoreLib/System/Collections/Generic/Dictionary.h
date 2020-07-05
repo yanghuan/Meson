@@ -20,12 +20,12 @@ FORWARD(SerializationInfo)
 FORWARDS(StreamingContext)
 } // namespace System::Private::CoreLib::System::Runtime::Serialization
 namespace System::Private::CoreLib::System::Collections::Generic {
-FORWARD(IEqualityComparer, T)
+enum class InsertionBehavior : uint8_t;
 FORWARD(ICollection, T)
 FORWARD(IEnumerable, T)
-enum class InsertionBehavior : uint8_t;
+FORWARD(IEqualityComparer, T)
 namespace DictionaryNamespace {
-using namespace ::System::Private::CoreLib::System::Runtime::Serialization;
+using namespace Runtime::Serialization;
 template <class T>
 using ICollection = ::System::Private::CoreLib::System::Collections::Generic::ICollection<T>;
 using ICollection1 = ::System::Private::CoreLib::System::Collections::ICollection;

@@ -49,26 +49,26 @@ namespace System::Private::CoreLib::System::Configuration::Assemblies {
 enum class AssemblyHashAlgorithm;
 } // namespace System::Private::CoreLib::System::Configuration::Assemblies
 namespace System::Private::CoreLib::System::Reflection {
-FORWARD(MethodInfo)
-FORWARD(TypeInfo)
-FORWARD(Module)
+enum class AssemblyNameFlags;
+FORWARD(Assembly)
 FORWARD(AssemblyName)
 FORWARD(CustomAttributeData)
 FORWARD(ManifestResourceInfo)
-enum class AssemblyNameFlags;
-FORWARD(Assembly)
-FORWARD(RuntimeModule)
 FORWARDS(MetadataToken)
+FORWARD(MethodInfo)
+FORWARD(Module)
 FORWARD(ModuleResolveEventHandler)
+FORWARD(RuntimeModule)
+FORWARD(TypeInfo)
 namespace RuntimeAssemblyNamespace {
-using namespace ::System::Private::CoreLib::System::Collections::Generic;
-using namespace ::System::Private::CoreLib::System::Configuration::Assemblies;
-using namespace ::System::Private::CoreLib::System::Globalization;
-using namespace ::System::Private::CoreLib::System::IO;
-using namespace ::System::Private::CoreLib::System::Runtime::CompilerServices;
-using namespace ::System::Private::CoreLib::System::Runtime::Loader;
-using namespace ::System::Private::CoreLib::System::Runtime::Serialization;
-using namespace ::System::Private::CoreLib::System::Threading;
+using namespace Collections::Generic;
+using namespace Configuration::Assemblies;
+using namespace Globalization;
+using namespace IO;
+using namespace Runtime::CompilerServices;
+using namespace Runtime::Loader;
+using namespace Runtime::Serialization;
+using namespace Threading;
 using ::System::Private::CoreLib::System::Collections::Generic::IList;
 CLASS(RuntimeAssembly) {
   private: CLASS(ManifestResourceStream) {

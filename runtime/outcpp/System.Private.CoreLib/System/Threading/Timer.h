@@ -15,10 +15,10 @@ FORWARDS_(ValueTask, T1, T2)
 } // namespace System::Private::CoreLib::System::Threading::Tasks
 namespace System::Private::CoreLib::System::Threading {
 FORWARD(TimerCallback)
-FORWARD(WaitHandle)
 FORWARD(TimerHolder)
+FORWARD(WaitHandle)
 namespace TimerNamespace {
-using namespace ::System::Private::CoreLib::System::Threading::Tasks;
+using namespace Tasks;
 CLASS(Timer) {
   public: static Int64 get_ActiveCount();
   private: void TimerSetup(TimerCallback callback, Object state, UInt32 dueTime, UInt32 period, Boolean flowExecutionContext);

@@ -5,8 +5,8 @@
 
 namespace System::Private::CoreLib::System::Reflection {
 enum class ImageFileMachine;
-FORWARDS(MetadataImport)
 enum class PortableExecutableKinds;
+FORWARDS(MetadataImport)
 FORWARD(RuntimeModule)
 } // namespace System::Private::CoreLib::System::Reflection
 namespace System::Private::CoreLib::System::Reflection::Emit {
@@ -17,26 +17,26 @@ FORWARDS(ObjectHandleOnStack)
 FORWARDS(QCallModule)
 } // namespace System::Private::CoreLib::System::Runtime::CompilerServices
 namespace System::Private::CoreLib::System {
-FORWARDS(Int32)
-FORWARD(Object)
-FORWARDS(Boolean)
-FORWARD(String)
 FORWARD_(Array, T1, T2)
+FORWARDS(Boolean)
 FORWARDS(Byte)
-FORWARD(Resolver)
-FORWARD(IRuntimeMethodInfo)
-FORWARDS(RuntimeTypeHandle)
-FORWARD(RuntimeType)
+FORWARDS(Int32)
 FORWARDS(IntPtr)
+FORWARD(IRuntimeFieldInfo)
+FORWARD(IRuntimeMethodInfo)
+FORWARD(Object)
+FORWARD(Resolver)
+FORWARDS(RuntimeFieldHandle)
 FORWARDS(RuntimeMethodHandle)
 FORWARDS(RuntimeMethodHandleInternal)
-FORWARDS(RuntimeFieldHandle)
-FORWARD(IRuntimeFieldInfo)
+FORWARD(RuntimeType)
+FORWARDS(RuntimeTypeHandle)
+FORWARD(String)
 FORWARDS(UInt32)
 namespace ModuleHandleNamespace {
-using namespace ::System::Private::CoreLib::System::Reflection;
-using namespace ::System::Private::CoreLib::System::Reflection::Emit;
-using namespace ::System::Private::CoreLib::System::Runtime::CompilerServices;
+using namespace Reflection;
+using namespace Reflection::Emit;
+using namespace Runtime::CompilerServices;
 struct ModuleHandle {
   public: Int32 get_MDStreamVersion();
   private: static ModuleHandle GetEmptyMH();

@@ -18,7 +18,7 @@ namespace System::Private::CoreLib::System::Security {
 FORWARD(IPermission)
 FORWARD(SecurityElement)
 namespace PermissionSetNamespace {
-using namespace ::System::Private::CoreLib::System::Collections;
+using namespace Collections;
 CLASS(PermissionSet) {
   public: Int32 get_Count();
   public: Boolean get_IsReadOnly();

@@ -5,14 +5,14 @@
 #include <System.Private.CoreLib/System/Int32.h>
 
 namespace System::Private::CoreLib::System::Text {
-FORWARD(Encoding)
 enum class NormalizationForm;
-FORWARDS(StringRuneEnumerator)
 enum class TrimType;
+FORWARD(Encoding)
+FORWARDS(StringRuneEnumerator)
 } // namespace System::Private::CoreLib::System::Text
 namespace System::Private::CoreLib::System::Globalization {
-FORWARD(CompareInfo)
 enum class CompareOptions;
+FORWARD(CompareInfo)
 FORWARD(CultureInfo)
 } // namespace System::Private::CoreLib::System::Globalization
 namespace System::Private::CoreLib::System::Collections::Generic {
@@ -20,24 +20,24 @@ FORWARD(IEnumerable, T)
 FORWARDS(ValueListBuilder, T)
 } // namespace System::Private::CoreLib::System::Collections::Generic
 namespace System::Private::CoreLib::System {
-FORWARDS(Byte)
-FORWARDS(Boolean)
-FORWARDS(IntPtr)
 enum class StringComparison;
-FORWARDS(ReadOnlySpan, T)
-FORWARD(Object)
-FORWARD_(Array, T1, T2)
-FORWARDS(SByte)
-FORWARD(IFormatProvider)
-FORWARD(CharEnumerator)
-enum class TypeCode;
-FORWARDS(ParamsArray)
 enum class StringSplitOptions;
+enum class TypeCode;
+FORWARD_(Array, T1, T2)
+FORWARDS(Boolean)
+FORWARDS(Byte)
+FORWARD(CharEnumerator)
+FORWARD(IFormatProvider)
+FORWARDS(IntPtr)
+FORWARD(Object)
+FORWARDS(ParamsArray)
+FORWARDS(ReadOnlySpan, T)
+FORWARDS(SByte)
 FORWARDS(UInt32)
 namespace StringNamespace {
-using namespace ::System::Private::CoreLib::System::Collections::Generic;
-using namespace ::System::Private::CoreLib::System::Globalization;
-using namespace ::System::Private::CoreLib::System::Text;
+using namespace Collections::Generic;
+using namespace Globalization;
+using namespace Text;
 CLASS(String) : public rt::string {
   private: struct ProbabilisticMap {
   };

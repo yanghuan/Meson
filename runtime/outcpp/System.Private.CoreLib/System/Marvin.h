@@ -4,11 +4,11 @@
 #include <System.Private.CoreLib/System/UInt64.h>
 
 namespace System::Private::CoreLib::System {
-FORWARDS(ReadOnlySpan, T)
 FORWARDS(Byte)
-FORWARDS(Int32)
-FORWARDS(UInt32)
 FORWARDS(Char)
+FORWARDS(Int32)
+FORWARDS(ReadOnlySpan, T)
+FORWARDS(UInt32)
 namespace MarvinNamespace {
 class Marvin {
   public: static UInt64 get_DefaultSeed() { return DefaultSeed; }

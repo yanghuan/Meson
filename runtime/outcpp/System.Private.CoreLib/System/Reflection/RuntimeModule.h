@@ -29,24 +29,24 @@ FORWARD(SerializationInfo)
 FORWARDS(StreamingContext)
 } // namespace System::Private::CoreLib::System::Runtime::Serialization
 namespace System::Private::CoreLib::System::Reflection {
-FORWARDS(MetadataImport)
+enum class BindingFlags;
+enum class CallingConventions;
+enum class ImageFileMachine;
+enum class PortableExecutableKinds;
 FORWARD(Assembly)
-FORWARD(MethodBase)
+FORWARD(Binder)
+FORWARD(CustomAttributeData)
 FORWARD(FieldInfo)
 FORWARD(MemberInfo)
-enum class PortableExecutableKinds;
-enum class ImageFileMachine;
-enum class BindingFlags;
-FORWARD(Binder)
-enum class CallingConventions;
-FORWARDS(ParameterModifier)
+FORWARDS(MetadataImport)
+FORWARD(MethodBase)
 FORWARD(MethodInfo)
-FORWARD(CustomAttributeData)
+FORWARDS(ParameterModifier)
 FORWARD(RuntimeAssembly)
 namespace RuntimeModuleNamespace {
-using namespace ::System::Private::CoreLib::System::Collections::Generic;
-using namespace ::System::Private::CoreLib::System::Runtime::CompilerServices;
-using namespace ::System::Private::CoreLib::System::Runtime::Serialization;
+using namespace Collections::Generic;
+using namespace Runtime::CompilerServices;
+using namespace Runtime::Serialization;
 using ::System::Private::CoreLib::System::Collections::Generic::IList;
 CLASS(RuntimeModule) {
   public: Int32 get_MDStreamVersion();

@@ -31,15 +31,15 @@ FORWARD(Object)
 FORWARD(String)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Threading::Tasks {
-FORWARD(TaskExceptionHolder)
 enum class TaskCreationOptions;
 enum class TaskStatus;
+FORWARD(TaskExceptionHolder)
+FORWARD_(TaskFactory, T1, T2)
 FORWARD(TaskScheduler)
 FORWARDS(VoidTaskResult)
-FORWARD_(TaskFactory, T1, T2)
 namespace TaskNamespace {
-using namespace ::System::Private::CoreLib::System::Collections::Generic;
-using namespace ::System::Private::CoreLib::System::Runtime::CompilerServices;
+using namespace Collections::Generic;
+using namespace Runtime::CompilerServices;
 CLASS_FORWARD(Task, T1, T2)
 CLASS_(Task) {
   public: CLASS(ContingentProperties) {

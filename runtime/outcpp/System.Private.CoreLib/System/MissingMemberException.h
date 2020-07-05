@@ -7,11 +7,11 @@ FORWARD(SerializationInfo)
 FORWARDS(StreamingContext)
 } // namespace System::Private::CoreLib::System::Runtime::Serialization
 namespace System::Private::CoreLib::System {
-FORWARD(String)
 FORWARD_(Array, T1, T2)
 FORWARDS(Byte)
+FORWARD(String)
 namespace MissingMemberExceptionNamespace {
-using namespace ::System::Private::CoreLib::System::Runtime::Serialization;
+using namespace Runtime::Serialization;
 CLASS(MissingMemberException) {
   public: String get_Message();
   public: static String FormatSignature(Array<Byte> signature);

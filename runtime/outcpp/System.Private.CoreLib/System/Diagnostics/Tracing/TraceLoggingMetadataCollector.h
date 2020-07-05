@@ -15,11 +15,11 @@ namespace System::Private::CoreLib::System::Collections::Generic {
 FORWARD(List, T)
 } // namespace System::Private::CoreLib::System::Collections::Generic
 namespace System::Private::CoreLib::System::Diagnostics::Tracing {
-FORWARD(FieldMetadata)
 enum class EventFieldTags;
 enum class TraceLoggingDataType;
+FORWARD(FieldMetadata)
 namespace TraceLoggingMetadataCollectorNamespace {
-using namespace ::System::Private::CoreLib::System::Collections::Generic;
+using namespace Collections::Generic;
 CLASS(TraceLoggingMetadataCollector) {
   private: CLASS(Impl) {
     public: void AddScalar(Int32 size);

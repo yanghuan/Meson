@@ -14,7 +14,7 @@ FORWARD(ConditionalWeakTable, TKey, TValue)
 } // namespace System::Private::CoreLib::System::Runtime::CompilerServices
 namespace System::Private::CoreLib::System::Buffers {
 namespace TlsOverPerCoreLockedStacksArrayPoolNamespace {
-using namespace ::System::Private::CoreLib::System::Runtime::CompilerServices;
+using namespace Runtime::CompilerServices;
 CLASS(TlsOverPerCoreLockedStacksArrayPool, T) {
   private: enum class MemoryPressure {
     Low = 0,

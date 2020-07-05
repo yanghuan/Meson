@@ -20,8 +20,8 @@ FORWARDS(CancellationToken)
 } // namespace System::Private::CoreLib::System::Threading
 namespace System::Private::CoreLib::System::IO {
 namespace TextReaderNamespace {
-using namespace ::System::Private::CoreLib::System::Threading;
-using namespace ::System::Private::CoreLib::System::Threading::Tasks;
+using namespace Threading;
+using namespace Threading::Tasks;
 CLASS(TextReader) {
   private: CLASS(NullTextReader) {
     public: Int32 Read(Array<Char> buffer, Int32 index, Int32 count);

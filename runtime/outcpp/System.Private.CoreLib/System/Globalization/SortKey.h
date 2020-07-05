@@ -11,8 +11,8 @@ FORWARD(Object)
 FORWARD(String)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Globalization {
-FORWARD(CompareInfo)
 enum class CompareOptions;
+FORWARD(CompareInfo)
 namespace SortKeyNamespace {
 CLASS(SortKey) {
   public: String get_OriginalString();

@@ -9,15 +9,15 @@ namespace System::Private::CoreLib::System::Collections::Generic {
 FORWARD(List, T)
 } // namespace System::Private::CoreLib::System::Collections::Generic
 namespace System::Private::CoreLib::System {
-FORWARD(String)
-FORWARDS(Boolean)
-FORWARD(Object)
 FORWARD_(Array, T1, T2)
+FORWARDS(Boolean)
 FORWARD(IFormatProvider)
 FORWARDS(Int32)
+FORWARD(Object)
+FORWARD(String)
 namespace SRNamespace {
-using namespace ::System::Private::CoreLib::System::Collections::Generic;
-using namespace ::System::Private::CoreLib::System::Resources;
+using namespace Collections::Generic;
+using namespace Resources;
 class SR {
   public: static ResourceManager get_ResourceManager();
   public: static String get_Acc_CreateAbstEx();

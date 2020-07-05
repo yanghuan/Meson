@@ -8,8 +8,8 @@ FORWARDS(Boolean)
 FORWARD(Delegate)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Threading::Tasks {
-FORWARD_(Task, T1, T2)
 enum class TaskContinuationOptions;
+FORWARD_(Task, T1, T2)
 FORWARD(TaskScheduler)
 namespace ContinueWithTaskContinuationNamespace {
 CLASS(ContinueWithTaskContinuation) {

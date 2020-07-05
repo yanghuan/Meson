@@ -14,18 +14,18 @@ namespace System::Private::CoreLib::System::Threading {
 enum class StackCrawlMark;
 } // namespace System::Private::CoreLib::System::Threading
 namespace System::Private::CoreLib::System {
-FORWARD(String)
-FORWARDS(Boolean)
-FORWARD(SafeTypeNameParserHandle)
-FORWARD_(Func, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18)
-FORWARD(Type)
 FORWARD_(Array, T1, T2)
-FORWARDS(Int32)
+FORWARDS(Boolean)
 FORWARDS(Char)
+FORWARD_(Func, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18)
+FORWARDS(Int32)
+FORWARD(SafeTypeNameParserHandle)
+FORWARD(String)
+FORWARD(Type)
 namespace TypeNameParserNamespace {
-using namespace ::System::Private::CoreLib::System::Reflection;
-using namespace ::System::Private::CoreLib::System::Runtime::CompilerServices;
-using namespace ::System::Private::CoreLib::System::Threading;
+using namespace Reflection;
+using namespace Runtime::CompilerServices;
+using namespace Threading;
 CLASS(TypeNameParser) {
   private: static void _CreateTypeNameParser(String typeName, ObjectHandleOnStack retHandle, Boolean throwOnError);
   private: static void _GetNames(SafeTypeNameParserHandle pTypeNameParser, ObjectHandleOnStack retArray);

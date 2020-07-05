@@ -14,10 +14,10 @@ FORWARD(String)
 FORWARDS(UInt32)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Text {
-FORWARD(EncoderNLS)
-FORWARD(DecoderNLS)
 FORWARD(Decoder)
+FORWARD(DecoderNLS)
 FORWARD(Encoder)
+FORWARD(EncoderNLS)
 namespace UTF32EncodingNamespace {
 CLASS(UTF32Encoding) {
   private: CLASS(UTF32Decoder) {

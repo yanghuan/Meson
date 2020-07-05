@@ -14,8 +14,8 @@ FORWARD(String)
 FORWARDS(UInt32)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Diagnostics::Tracing {
-FORWARD(EventSource)
 FORWARDS(EventDescriptor)
+FORWARD(EventSource)
 namespace IEventProviderNamespace {
 CLASS(IEventProvider) {
   public: UInt32 EventRegister(EventSource eventSource, Interop::Advapi32::EtwEnableCallback enableCallback, void* callbackContext, Int64& registrationHandle);

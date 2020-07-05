@@ -11,7 +11,7 @@ namespace System::Private::CoreLib::System {
 FORWARD(Object)
 FORWARD(String)
 namespace UnitySerializationHolderNamespace {
-using namespace ::System::Private::CoreLib::System::Runtime::Serialization;
+using namespace Runtime::Serialization;
 CLASS(UnitySerializationHolder) {
   public: static void GetUnitySerializationInfo(SerializationInfo info, Int32 unityType);
   public: void GetObjectData(SerializationInfo info, StreamingContext context);

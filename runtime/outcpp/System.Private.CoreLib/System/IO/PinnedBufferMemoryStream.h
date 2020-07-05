@@ -13,7 +13,7 @@ FORWARDS(Span, T)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::IO {
 namespace PinnedBufferMemoryStreamNamespace {
-using namespace ::System::Private::CoreLib::System::Runtime::InteropServices;
+using namespace Runtime::InteropServices;
 CLASS(PinnedBufferMemoryStream) {
   public: Int32 Read(Span<Byte> buffer);
   public: void Write(ReadOnlySpan<Byte> buffer);

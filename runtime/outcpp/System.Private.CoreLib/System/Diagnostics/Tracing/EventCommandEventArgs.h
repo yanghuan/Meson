@@ -12,14 +12,14 @@ FORWARD(String)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Diagnostics::Tracing {
 enum class EventCommand;
-FORWARD(EventSource)
-FORWARD(EventDispatcher)
-enum class EventProviderType;
-FORWARD(EventListener)
-enum class EventLevel;
 enum class EventKeywords : int64_t;
+enum class EventLevel;
+enum class EventProviderType;
+FORWARD(EventDispatcher)
+FORWARD(EventListener)
+FORWARD(EventSource)
 namespace EventCommandEventArgsNamespace {
-using namespace ::System::Private::CoreLib::System::Collections::Generic;
+using namespace Collections::Generic;
 CLASS(EventCommandEventArgs) {
   public: EventCommand get_Command() { return Command; }
   public: void set_Command(EventCommand value) { Command = value; }

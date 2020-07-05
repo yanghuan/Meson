@@ -3,12 +3,12 @@
 #include <rt/GCObject.h>
 
 namespace System::Private::CoreLib::System {
-FORWARDS(ReadOnlySpan, T)
+FORWARDS(Boolean)
 FORWARDS(Char)
 FORWARDS(Int32)
 FORWARDS(Int64)
+FORWARDS(ReadOnlySpan, T)
 FORWARD(String)
-FORWARDS(Boolean)
 namespace ParseNumbersNamespace {
 class ParseNumbers {
   public: static Int64 StringToLong(ReadOnlySpan<Char> s, Int32 radix, Int32 flags);

@@ -28,11 +28,11 @@ FORWARD(Dictionary, TKey, TValue)
 } // namespace System::Private::CoreLib::System::Collections::Generic
 namespace System::Private::CoreLib::System::Runtime::Serialization {
 FORWARDS(DeserializationToken)
-FORWARD(SerializationInfoEnumerator)
 FORWARD(IFormatterConverter)
+FORWARD(SerializationInfoEnumerator)
 namespace SerializationInfoNamespace {
-using namespace ::System::Private::CoreLib::System::Collections::Generic;
-using namespace ::System::Private::CoreLib::System::Threading;
+using namespace Collections::Generic;
+using namespace Threading;
 CLASS(SerializationInfo) {
   public: static AsyncLocal<Boolean> get_AsyncDeserializationInProgress() { return AsyncDeserializationInProgress; }
   public: static Boolean get_DeserializationInProgress();

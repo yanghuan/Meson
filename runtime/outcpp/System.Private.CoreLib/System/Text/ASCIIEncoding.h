@@ -17,15 +17,15 @@ namespace System::Private::CoreLib::System::Buffers {
 enum class OperationStatus;
 } // namespace System::Private::CoreLib::System::Buffers
 namespace System::Private::CoreLib::System::Text {
-FORWARD(EncoderFallback)
-FORWARD(EncoderNLS)
+FORWARD(Decoder)
 FORWARD(DecoderFallback)
 FORWARD(DecoderNLS)
-FORWARDS(Rune)
-FORWARD(Decoder)
 FORWARD(Encoder)
+FORWARD(EncoderFallback)
+FORWARD(EncoderNLS)
+FORWARDS(Rune)
 namespace ASCIIEncodingNamespace {
-using namespace ::System::Private::CoreLib::System::Buffers;
+using namespace Buffers;
 CLASS(ASCIIEncoding) {
   public: CLASS(ASCIIEncodingSealed) {
     public: Object Clone();

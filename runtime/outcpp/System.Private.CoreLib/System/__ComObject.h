@@ -6,12 +6,12 @@ namespace System::Private::CoreLib::System::Collections {
 FORWARD(Hashtable)
 } // namespace System::Private::CoreLib::System::Collections
 namespace System::Private::CoreLib::System {
-FORWARD(Object)
 FORWARDS(Boolean)
-FORWARD(RuntimeType)
 FORWARDS(Int32)
+FORWARD(Object)
+FORWARD(RuntimeType)
 namespace __ComObjectNamespace {
-using namespace ::System::Private::CoreLib::System::Collections;
+using namespace Collections;
 CLASS(__ComObject) {
   public: Object GetData(Object key);
   public: Boolean SetData(Object key, Object data);

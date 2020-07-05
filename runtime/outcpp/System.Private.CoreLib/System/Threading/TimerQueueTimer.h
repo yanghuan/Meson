@@ -13,13 +13,13 @@ namespace System::Private::CoreLib::System {
 FORWARD(Object)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Threading {
-FORWARD(WaitHandle)
-FORWARD(TimerQueue)
-FORWARD(TimerCallback)
-FORWARD(ExecutionContext)
 FORWARD_(ContextCallback, T1, T2)
+FORWARD(ExecutionContext)
+FORWARD(TimerCallback)
+FORWARD(TimerQueue)
+FORWARD(WaitHandle)
 namespace TimerQueueTimerNamespace {
-using namespace ::System::Private::CoreLib::System::Threading::Tasks;
+using namespace Tasks;
 CLASS(TimerQueueTimer) {
   public: Boolean Change(UInt32 dueTime, UInt32 period);
   public: void Close();

@@ -11,10 +11,10 @@ namespace System::Private::CoreLib::System::Collections::Generic {
 FORWARD(Dictionary, TKey, TValue)
 } // namespace System::Private::CoreLib::System::Collections::Generic
 namespace System::Private::CoreLib::System::Diagnostics::Tracing {
-FORWARD(EventSource)
 FORWARD(CounterGroup)
+FORWARD(EventSource)
 namespace DiagnosticCounterNamespace {
-using namespace ::System::Private::CoreLib::System::Collections::Generic;
+using namespace Collections::Generic;
 CLASS(DiagnosticCounter) {
   public: String get_DisplayName();
   public: void set_DisplayName(String value);

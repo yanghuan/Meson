@@ -16,12 +16,12 @@ namespace System::Private::CoreLib::System::Collections {
 FORWARD(IEnumerable)
 } // namespace System::Private::CoreLib::System::Collections
 namespace System::Private::CoreLib::System::Runtime::InteropServices {
-enum class CreateComInterfaceFlags;
 enum class ComWrappersScenario;
+enum class CreateComInterfaceFlags;
 enum class CreateObjectFlags;
 namespace ComWrappersNamespace {
-using namespace ::System::Private::CoreLib::System::Collections;
-using namespace ::System::Private::CoreLib::System::Runtime::CompilerServices;
+using namespace Collections;
+using namespace CompilerServices;
 CLASS(ComWrappers) {
   public: struct ComInterfaceEntry {
     public: Guid IID;

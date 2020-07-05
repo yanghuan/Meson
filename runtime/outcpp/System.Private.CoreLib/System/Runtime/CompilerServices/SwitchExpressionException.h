@@ -12,7 +12,7 @@ FORWARDS(StreamingContext)
 } // namespace System::Private::CoreLib::System::Runtime::Serialization
 namespace System::Private::CoreLib::System::Runtime::CompilerServices {
 namespace SwitchExpressionExceptionNamespace {
-using namespace ::System::Private::CoreLib::System::Runtime::Serialization;
+using namespace Serialization;
 CLASS(SwitchExpressionException) {
   public: Object get_UnmatchedValue() { return UnmatchedValue; }
   public: String get_Message();

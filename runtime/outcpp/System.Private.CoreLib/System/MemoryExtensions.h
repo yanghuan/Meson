@@ -9,20 +9,20 @@ namespace System::Private::CoreLib::System::Text {
 FORWARDS(SpanRuneEnumerator)
 } // namespace System::Private::CoreLib::System::Text
 namespace System::Private::CoreLib::System {
-FORWARD(String)
-FORWARDS(ReadOnlySpan, T)
-FORWARDS(Char)
-FORWARDS(Int32)
-FORWARDS(ReadOnlyMemory, T)
-FORWARDS(Index)
-FORWARDS(Range)
-FORWARDS(Boolean)
 enum class StringComparison;
-FORWARDS(Span, T)
+FORWARDS(Boolean)
+FORWARDS(Char)
+FORWARDS(Index)
+FORWARDS(Int32)
 FORWARDS(Memory, T)
+FORWARDS(Range)
+FORWARDS(ReadOnlyMemory, T)
+FORWARDS(ReadOnlySpan, T)
+FORWARDS(Span, T)
+FORWARD(String)
 namespace MemoryExtensionsNamespace {
-using namespace ::System::Private::CoreLib::System::Globalization;
-using namespace ::System::Private::CoreLib::System::Text;
+using namespace Globalization;
+using namespace Text;
 class MemoryExtensions {
   public: static ReadOnlySpan<Char> AsSpan(String text);
   public: static ReadOnlySpan<Char> AsSpan(String text, Int32 start);

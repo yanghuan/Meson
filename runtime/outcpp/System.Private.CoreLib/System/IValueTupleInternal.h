@@ -9,7 +9,7 @@ namespace System::Private::CoreLib::System {
 FORWARDS(Int32)
 FORWARD(String)
 namespace IValueTupleInternalNamespace {
-using namespace ::System::Private::CoreLib::System::Collections;
+using namespace Collections;
 CLASS(IValueTupleInternal) {
   public: Int32 GetHashCode(IEqualityComparer comparer);
   public: String ToStringEnd();

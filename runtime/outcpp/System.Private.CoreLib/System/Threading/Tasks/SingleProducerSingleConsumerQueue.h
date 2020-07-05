@@ -14,7 +14,7 @@ FORWARD(IEnumerator, T)
 namespace System::Private::CoreLib::System::Threading::Tasks {
 namespace SingleProducerSingleConsumerQueueNamespace {
 using namespace ::System::Private::CoreLib::Internal;
-using namespace ::System::Private::CoreLib::System::Collections::Generic;
+using namespace Collections::Generic;
 using ::System::Private::CoreLib::System::Collections::Generic::IEnumerator;
 CLASS(SingleProducerSingleConsumerQueue, T) {
   private: struct SegmentState {

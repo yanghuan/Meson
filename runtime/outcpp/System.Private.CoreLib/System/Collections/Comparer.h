@@ -15,8 +15,8 @@ FORWARD(CompareInfo)
 } // namespace System::Private::CoreLib::System::Globalization
 namespace System::Private::CoreLib::System::Collections {
 namespace ComparerNamespace {
-using namespace ::System::Private::CoreLib::System::Globalization;
-using namespace ::System::Private::CoreLib::System::Runtime::Serialization;
+using namespace Globalization;
+using namespace Runtime::Serialization;
 CLASS(Comparer) {
   public: void GetObjectData(SerializationInfo info, StreamingContext context);
   public: Int32 Compare(Object a, Object b);

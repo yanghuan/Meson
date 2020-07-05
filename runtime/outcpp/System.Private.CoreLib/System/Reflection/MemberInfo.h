@@ -16,10 +16,10 @@ FORWARD(IList, T)
 } // namespace System::Private::CoreLib::System::Collections::Generic
 namespace System::Private::CoreLib::System::Reflection {
 enum class MemberTypes;
-FORWARD(Module)
 FORWARD(CustomAttributeData)
+FORWARD(Module)
 namespace MemberInfoNamespace {
-using namespace ::System::Private::CoreLib::System::Collections::Generic;
+using namespace Collections::Generic;
 using ::System::Private::CoreLib::System::Collections::Generic::IList;
 CLASS(MemberInfo) {
   public: MemberTypes get_MemberType();

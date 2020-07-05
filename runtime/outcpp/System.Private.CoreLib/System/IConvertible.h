@@ -4,24 +4,24 @@
 
 namespace System::Private::CoreLib::System {
 enum class TypeCode;
-FORWARD(IFormatProvider)
 FORWARDS(Boolean)
-FORWARDS(Char)
-FORWARDS(SByte)
 FORWARDS(Byte)
-FORWARDS(Int16)
-FORWARDS(UInt16)
-FORWARDS(Int32)
-FORWARDS(UInt32)
-FORWARDS(Int64)
-FORWARDS(UInt64)
-FORWARDS(Single)
-FORWARDS(Double)
-FORWARDS(Decimal)
+FORWARDS(Char)
 FORWARDS(DateTime)
+FORWARDS(Decimal)
+FORWARDS(Double)
+FORWARD(IFormatProvider)
+FORWARDS(Int16)
+FORWARDS(Int32)
+FORWARDS(Int64)
+FORWARD(Object)
+FORWARDS(SByte)
+FORWARDS(Single)
 FORWARD(String)
 FORWARD(Type)
-FORWARD(Object)
+FORWARDS(UInt16)
+FORWARDS(UInt32)
+FORWARDS(UInt64)
 namespace IConvertibleNamespace {
 CLASS(IConvertible) {
   public: TypeCode GetTypeCode();

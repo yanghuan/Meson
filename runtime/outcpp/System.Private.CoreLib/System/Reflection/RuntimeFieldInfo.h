@@ -16,12 +16,12 @@ FORWARD(IList, T)
 namespace System::Private::CoreLib::System::Reflection {
 enum class BindingFlags;
 enum class MemberTypes;
+FORWARD(CustomAttributeData)
+FORWARD(MemberInfo)
 FORWARD(Module)
 FORWARD(RuntimeModule)
-FORWARD(MemberInfo)
-FORWARD(CustomAttributeData)
 namespace RuntimeFieldInfoNamespace {
-using namespace ::System::Private::CoreLib::System::Collections::Generic;
+using namespace Collections::Generic;
 using ::System::Private::CoreLib::System::Collections::Generic::IList;
 CLASS(RuntimeFieldInfo) {
   public: BindingFlags get_BindingFlags();

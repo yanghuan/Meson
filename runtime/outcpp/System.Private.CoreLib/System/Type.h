@@ -3,25 +3,25 @@
 #include <rt/GCObject.h>
 
 namespace System::Private::CoreLib::System::Reflection {
+enum class BindingFlags;
+enum class CallingConventions;
+enum class GenericParameterAttributes;
+enum class MemberTypes;
+enum class TypeAttributes;
 FORWARD(Assembly)
 FORWARD(AssemblyName)
 FORWARD(Binder)
-enum class BindingFlags;
-enum class CallingConventions;
 FORWARD(ConstructorInfo)
 FORWARD(EventInfo)
 FORWARD(FieldInfo)
-enum class GenericParameterAttributes;
 FORWARDS(InterfaceMapping)
 FORWARD(MemberFilter)
 FORWARD(MemberInfo)
-enum class MemberTypes;
 FORWARD(MethodBase)
 FORWARD(MethodInfo)
 FORWARD(Module)
 FORWARDS(ParameterModifier)
 FORWARD(PropertyInfo)
-enum class TypeAttributes;
 FORWARD(TypeFilter)
 } // namespace System::Private::CoreLib::System::Reflection
 namespace System::Private::CoreLib::System::Runtime::InteropServices {
@@ -31,23 +31,23 @@ namespace System::Private::CoreLib::System::Globalization {
 FORWARD(CultureInfo)
 } // namespace System::Private::CoreLib::System::Globalization
 namespace System::Private::CoreLib::System {
-FORWARDS(Boolean)
-FORWARD(String)
-FORWARD_(Array, T1, T2)
-FORWARDS(Int32)
-FORWARDS(RuntimeTypeHandle)
-FORWARDS(Guid)
-FORWARD_(Func, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18)
-FORWARDS(IntPtr)
-FORWARD(RuntimeType)
-FORWARD(Object)
-enum class TypeCode;
 enum class StringComparison;
+enum class TypeCode;
+FORWARD_(Array, T1, T2)
+FORWARDS(Boolean)
 FORWARDS(Char)
+FORWARD_(Func, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18)
+FORWARDS(Guid)
+FORWARDS(Int32)
+FORWARDS(IntPtr)
+FORWARD(Object)
+FORWARD(RuntimeType)
+FORWARDS(RuntimeTypeHandle)
+FORWARD(String)
 namespace TypeNamespace {
-using namespace ::System::Private::CoreLib::System::Globalization;
-using namespace ::System::Private::CoreLib::System::Reflection;
-using namespace ::System::Private::CoreLib::System::Runtime::InteropServices;
+using namespace Globalization;
+using namespace Reflection;
+using namespace Runtime::InteropServices;
 CLASS(Type) {
   public: Boolean get_IsInterface();
   public: MemberTypes get_MemberType();

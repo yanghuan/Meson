@@ -5,11 +5,11 @@
 #include <System.Private.CoreLib/System/IntPtr.h>
 
 namespace System::Private::CoreLib::System {
-FORWARDS(TypedReference)
-FORWARDS(RuntimeTypeHandle)
-FORWARD(RuntimeType)
-FORWARD(Object)
 FORWARDS(Boolean)
+FORWARD(Object)
+FORWARD(RuntimeType)
+FORWARDS(RuntimeTypeHandle)
+FORWARDS(TypedReference)
 namespace ArgIteratorNamespace {
 struct ArgIterator {
   public: TypedReference GetNextArg();

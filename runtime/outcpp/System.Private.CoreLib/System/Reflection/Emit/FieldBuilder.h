@@ -5,10 +5,10 @@
 #include <System.Private.CoreLib/System/Reflection/Emit/FieldToken.h>
 
 namespace System::Private::CoreLib::System::Reflection {
-FORWARD(Binder)
 enum class BindingFlags;
-FORWARD(ConstructorInfo)
 enum class FieldAttributes;
+FORWARD(Binder)
+FORWARD(ConstructorInfo)
 FORWARD(Module)
 } // namespace System::Private::CoreLib::System::Reflection
 namespace System::Private::CoreLib::System {
@@ -27,7 +27,7 @@ namespace System::Private::CoreLib::System::Reflection::Emit {
 FORWARD(CustomAttributeBuilder)
 FORWARD(TypeBuilder)
 namespace FieldBuilderNamespace {
-using namespace ::System::Private::CoreLib::System::Globalization;
+using namespace Globalization;
 CLASS(FieldBuilder) {
   public: Int32 get_MetadataTokenInternal();
   public: Module get_Module();

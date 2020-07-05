@@ -9,14 +9,14 @@ enum class CallingConventions;
 } // namespace System::Private::CoreLib::System::Reflection
 namespace System::Private::CoreLib::System {
 FORWARD_(Array, T1, T2)
-FORWARD(RuntimeType)
-FORWARDS(RuntimeFieldHandleInternal)
-FORWARD(IRuntimeMethodInfo)
 FORWARDS(Boolean)
-FORWARD(Type)
+FORWARD(IRuntimeMethodInfo)
 FORWARD(Object)
+FORWARDS(RuntimeFieldHandleInternal)
+FORWARD(RuntimeType)
+FORWARD(Type)
 namespace SignatureNamespace {
-using namespace ::System::Private::CoreLib::System::Reflection;
+using namespace Reflection;
 CLASS(Signature) {
   public: CallingConventions get_CallingConvention();
   public: Array<RuntimeType> get_Arguments();

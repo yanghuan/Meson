@@ -9,14 +9,14 @@ namespace System::Private::CoreLib::System::Configuration::Assemblies {
 enum class AssemblyHashAlgorithm;
 } // namespace System::Private::CoreLib::System::Configuration::Assemblies
 namespace System::Private::CoreLib::System::Reflection {
+enum class BindingFlags;
 FORWARD(Assembly)
 FORWARD(AssemblyName)
 FORWARD(Binder)
-enum class BindingFlags;
 } // namespace System::Private::CoreLib::System::Reflection
 namespace System::Private::CoreLib::System::Security::Principal {
-FORWARD(IPrincipal)
 enum class PrincipalPolicy;
+FORWARD(IPrincipal)
 } // namespace System::Private::CoreLib::System::Security::Principal
 namespace System::Private::CoreLib::System::Runtime::Remoting {
 FORWARD(ObjectHandle)
@@ -25,26 +25,26 @@ namespace System::Private::CoreLib::System::Globalization {
 FORWARD(CultureInfo)
 } // namespace System::Private::CoreLib::System::Globalization
 namespace System::Private::CoreLib::System {
-FORWARD(String)
 FORWARD(AppDomainSetup)
-FORWARDS(Int32)
-FORWARDS(Boolean)
-FORWARDS(Int64)
-FORWARDS(TimeSpan)
 FORWARD_(Array, T1, T2)
+FORWARDS(Boolean)
 FORWARDS(Byte)
-FORWARD(Object)
-FORWARDS_(Nullable, T1, T2)
-FORWARD_(Func, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18)
 FORWARD_(EventHandler, T1, T2)
+FORWARD_(Func, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18)
+FORWARDS(Int32)
+FORWARDS(Int64)
+FORWARDS_(Nullable, T1, T2)
+FORWARD(Object)
 FORWARD(ResolveEventHandler)
+FORWARD(String)
+FORWARDS(TimeSpan)
 namespace AppDomainNamespace {
-using namespace ::System::Private::CoreLib::System::Configuration::Assemblies;
-using namespace ::System::Private::CoreLib::System::Globalization;
-using namespace ::System::Private::CoreLib::System::Reflection;
-using namespace ::System::Private::CoreLib::System::Runtime::Remoting;
-using namespace ::System::Private::CoreLib::System::Security;
-using namespace ::System::Private::CoreLib::System::Security::Principal;
+using namespace Configuration::Assemblies;
+using namespace Globalization;
+using namespace Reflection;
+using namespace Runtime::Remoting;
+using namespace Security;
+using namespace Security::Principal;
 CLASS(AppDomain) {
   public: static AppDomain get_CurrentDomain();
   public: String get_BaseDirectory();

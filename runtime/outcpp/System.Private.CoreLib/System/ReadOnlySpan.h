@@ -5,11 +5,11 @@
 #include <System.Private.CoreLib/System/Int32.h>
 
 namespace System::Private::CoreLib::System {
+FORWARD_(Array, T1, T2)
 FORWARDS(Boolean)
 FORWARD(Object)
 FORWARDS(Span, T)
 FORWARD(String)
-FORWARD_(Array, T1, T2)
 namespace ReadOnlySpanNamespace {
 template <class T>
 struct ReadOnlySpan {

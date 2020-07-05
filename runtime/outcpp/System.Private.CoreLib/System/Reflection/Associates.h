@@ -9,10 +9,10 @@ FORWARDS(Int32)
 FORWARD(RuntimeType)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Reflection {
+enum class BindingFlags;
+FORWARDS(MetadataImport)
 FORWARD(MethodInfo)
 FORWARD(RuntimeMethodInfo)
-FORWARDS(MetadataImport)
-enum class BindingFlags;
 namespace AssociatesNamespace {
 class Associates {
   public: enum class Attributes {

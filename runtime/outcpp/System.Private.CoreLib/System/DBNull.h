@@ -7,11 +7,11 @@ FORWARD(SerializationInfo)
 FORWARDS(StreamingContext)
 } // namespace System::Private::CoreLib::System::Runtime::Serialization
 namespace System::Private::CoreLib::System {
-FORWARD(String)
-FORWARD(IFormatProvider)
 enum class TypeCode;
+FORWARD(IFormatProvider)
+FORWARD(String)
 namespace DBNullNamespace {
-using namespace ::System::Private::CoreLib::System::Runtime::Serialization;
+using namespace Runtime::Serialization;
 CLASS(DBNull) {
   public: void GetObjectData(SerializationInfo info, StreamingContext context);
   public: String ToString();

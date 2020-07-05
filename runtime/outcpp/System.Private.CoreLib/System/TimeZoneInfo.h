@@ -24,23 +24,23 @@ namespace System::Private::CoreLib::Internal::Win32 {
 FORWARD(RegistryKey)
 } // namespace System::Private::CoreLib::Internal::Win32
 namespace System::Private::CoreLib::System {
-enum class DayOfWeek;
-FORWARD(Object)
 enum class DateTimeKind;
-FORWARD(String)
-FORWARDS(Char)
-FORWARD_(Array, T1, T2)
-FORWARDS(DateTimeOffset)
-FORWARDS_(Nullable, T1, T2)
+enum class DayOfWeek;
 enum class TimeZoneInfoOptions;
-FORWARDS(Int64)
+FORWARD_(Array, T1, T2)
+FORWARDS(Char)
+FORWARDS(DateTimeOffset)
 FORWARD(Exception)
+FORWARDS(Int64)
+FORWARDS_(Nullable, T1, T2)
+FORWARD(Object)
+FORWARD(String)
 namespace TimeZoneInfoNamespace {
 using namespace ::System::Private::CoreLib::Internal::Win32;
-using namespace ::System::Private::CoreLib::System::Collections::Generic;
-using namespace ::System::Private::CoreLib::System::Collections::ObjectModel;
-using namespace ::System::Private::CoreLib::System::Globalization;
-using namespace ::System::Private::CoreLib::System::Text;
+using namespace Collections::Generic;
+using namespace Collections::ObjectModel;
+using namespace Globalization;
+using namespace Text;
 CLASS(TimeZoneInfo) {
   private: enum class TimeZoneInfoResult {
     Success = 0,

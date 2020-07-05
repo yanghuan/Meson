@@ -17,19 +17,19 @@ enum class UnmanagedType;
 enum class VarEnum;
 } // namespace System::Private::CoreLib::System::Runtime::InteropServices
 namespace System::Private::CoreLib::System::Reflection {
-FORWARDS(ConstArray)
-FORWARDS(MetadataEnumResult)
-enum class MetadataTokenType;
 enum class CorElementType : uint8_t;
 enum class EventAttributes;
 enum class FieldAttributes;
-enum class PropertyAttributes;
-enum class ParameterAttributes;
 enum class GenericParameterAttributes;
-FORWARDS(MetadataToken)
+enum class MetadataTokenType;
+enum class ParameterAttributes;
 enum class PInvokeAttributes;
+enum class PropertyAttributes;
+FORWARDS(ConstArray)
+FORWARDS(MetadataEnumResult)
+FORWARDS(MetadataToken)
 namespace MetadataImportNamespace {
-using namespace ::System::Private::CoreLib::System::Runtime::InteropServices;
+using namespace Runtime::InteropServices;
 struct MetadataImport {
   public: Int32 GetHashCode();
   public: Boolean Equals(Object obj);

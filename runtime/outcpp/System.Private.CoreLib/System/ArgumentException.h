@@ -9,7 +9,7 @@ FORWARDS(StreamingContext)
 namespace System::Private::CoreLib::System {
 FORWARD(String)
 namespace ArgumentExceptionNamespace {
-using namespace ::System::Private::CoreLib::System::Runtime::Serialization;
+using namespace Runtime::Serialization;
 CLASS(ArgumentException) {
   public: String get_Message();
   public: String get_ParamName();

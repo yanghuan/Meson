@@ -5,8 +5,8 @@
 #include <System.Private.CoreLib/System/Int64.h>
 
 namespace System::Private::CoreLib::System {
-FORWARD(Object)
 FORWARD_(Array, T1, T2)
+FORWARD(Object)
 FORWARD(Type)
 namespace VariantNamespace {
 struct Variant {

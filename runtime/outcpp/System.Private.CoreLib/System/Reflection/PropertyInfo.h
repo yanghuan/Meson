@@ -13,14 +13,14 @@ namespace System::Private::CoreLib::System::Globalization {
 FORWARD(CultureInfo)
 } // namespace System::Private::CoreLib::System::Globalization
 namespace System::Private::CoreLib::System::Reflection {
+enum class BindingFlags;
 enum class MemberTypes;
 enum class PropertyAttributes;
+FORWARD(Binder)
 FORWARD(MethodInfo)
 FORWARD(ParameterInfo)
-enum class BindingFlags;
-FORWARD(Binder)
 namespace PropertyInfoNamespace {
-using namespace ::System::Private::CoreLib::System::Globalization;
+using namespace Globalization;
 CLASS(PropertyInfo) {
   public: MemberTypes get_MemberType();
   public: Type get_PropertyType();
