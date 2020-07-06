@@ -76,7 +76,7 @@ using namespace Globalization;
 using namespace Reflection;
 using namespace Runtime::InteropServices;
 using namespace Threading;
-using ::System::Private::CoreLib::System::Collections::Generic::IList;
+using Collections::Generic::IList;
 CLASS(RuntimeType) {
   public: enum class MemberListType {
     All = 0,

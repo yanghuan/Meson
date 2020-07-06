@@ -77,7 +77,7 @@ using namespace Collections::Generic;
 using namespace Diagnostics::SymbolStore;
 using namespace Runtime::CompilerServices;
 using namespace Runtime::InteropServices;
-using ::System::Private::CoreLib::System::Collections::Generic::IList;
+using Collections::Generic::IList;
 CLASS(ModuleBuilder) {
   public: AssemblyBuilder get_ContainingAssemblyBuilder();
   public: Object get_SyncRoot();

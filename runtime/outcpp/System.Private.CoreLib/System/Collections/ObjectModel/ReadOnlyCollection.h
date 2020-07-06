@@ -15,8 +15,8 @@ FORWARD(IList, T)
 namespace System::Private::CoreLib::System::Collections::ObjectModel {
 namespace ReadOnlyCollectionNamespace {
 using namespace Generic;
-using ::System::Private::CoreLib::System::Collections::Generic::IList;
-using ::System::Private::CoreLib::System::Collections::Generic::IEnumerator;
+using Generic::IList;
+using Generic::IEnumerator;
 CLASS(ReadOnlyCollection, T) {
   public: Int32 get_Count();
   public: T get_Item(Int32 index);

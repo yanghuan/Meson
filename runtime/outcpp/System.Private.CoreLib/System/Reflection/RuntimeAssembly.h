@@ -69,7 +69,7 @@ using namespace Runtime::CompilerServices;
 using namespace Runtime::Loader;
 using namespace Runtime::Serialization;
 using namespace Threading;
-using ::System::Private::CoreLib::System::Collections::Generic::IList;
+using Collections::Generic::IList;
 CLASS(RuntimeAssembly) {
   private: CLASS(ManifestResourceStream) {
     private: RuntimeAssembly _manifestAssembly;

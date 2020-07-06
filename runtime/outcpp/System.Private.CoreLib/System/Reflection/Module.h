@@ -39,7 +39,7 @@ FORWARD(TypeFilter)
 namespace ModuleNamespace {
 using namespace Collections::Generic;
 using namespace Runtime::Serialization;
-using ::System::Private::CoreLib::System::Collections::Generic::IList;
+using Collections::Generic::IList;
 CLASS(Module) {
   public: Assembly get_Assembly();
   public: String get_FullyQualifiedName();

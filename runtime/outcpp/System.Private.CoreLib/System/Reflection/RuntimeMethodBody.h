@@ -17,7 +17,7 @@ FORWARD(LocalVariableInfo)
 FORWARD(MethodBase)
 namespace RuntimeMethodBodyNamespace {
 using namespace Collections::Generic;
-using ::System::Private::CoreLib::System::Collections::Generic::IList;
+using Collections::Generic::IList;
 CLASS(RuntimeMethodBody) {
   public: Int32 get_LocalSignatureMetadataToken();
   public: IList<LocalVariableInfo> get_LocalVariables();

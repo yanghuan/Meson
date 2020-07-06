@@ -5,7 +5,7 @@
 namespace System::Private::CoreLib::System::Collections::Generic {
 FORWARD(IEnumerator, T)
 namespace IEnumerableNamespace {
-using ::System::Private::CoreLib::System::Collections::Generic::IEnumerator;
+using Generic::IEnumerator;
 CLASS(IEnumerable, T) {
   public: IEnumerator<T> GetEnumerator();
 };

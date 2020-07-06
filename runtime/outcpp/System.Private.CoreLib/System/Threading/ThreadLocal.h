@@ -16,7 +16,7 @@ FORWARD(List, T)
 namespace System::Private::CoreLib::System::Threading {
 namespace ThreadLocalNamespace {
 using namespace Collections::Generic;
-using ::System::Private::CoreLib::System::Collections::Generic::IList;
+using Collections::Generic::IList;
 CLASS(ThreadLocal, T) {
   private: FORWARDN(LinkedSlot)
   private: struct LinkedSlotVolatile {

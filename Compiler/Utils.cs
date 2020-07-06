@@ -136,7 +136,8 @@ namespace Meson.Compiler {
         foreach (string i in definition.GetAllNamespaces()) {
           if (reference.Namespace.StartsWith(i)) {
             if (reference.Namespace == i) {
-              return string.Empty;
+              int pos = reference.Namespace.LastIndexOf('.');
+              return pos != -1 ? reference.Namespace.Substring(pos + 1).ReplaceDot() : reference.Namespace.ReplaceDot();
             }
             return reference.Namespace.Substring(i.Length + 1).ReplaceDot();
           }
@@ -152,8 +153,9 @@ namespace Meson.Compiler {
       return !hasGlobal ? ns.ReplaceDot() : Tokens.TwoColon + ns.ReplaceDot();
     }
 
-    public static string GetFullName(this ITypeDefinition reference) {
-      return $"{Tokens.TwoColon}{reference.ParentModule.Name}.{reference.FullName}".ReplaceDot();
+    public static string GetFullName(this ITypeDefinition reference, ITypeDefinition definition) {
+      string ns = reference.GetFullNamespace(true, definition);
+      return $"{ns}{Tokens.TwoColon}{reference.Name}";
     }
 
     private static bool IsTypeArgumentHasType(this IType argument, ITypeDefinition other, HashSet<ITypeDefinition> recursiveTypes) {
@@ -567,10 +569,6 @@ namespace Meson.Compiler {
     public static ExpressionSyntax WithFullName(this ExpressionSyntax typeName, IType type, ITypeDefinition definition = null) {
       var typeDefinition = type.GetDefinition();
       string ns = typeDefinition.GetFullNamespace(true, definition);
-      if (ns.Length == 0) {
-       int pos = typeDefinition.Namespace.LastIndexOf('.');
-       ns = pos != -1 ? typeDefinition.Namespace.Substring(pos + 1).ReplaceDot() : typeDefinition.Namespace.ReplaceDot();
-      }
       return ((IdentifierSyntax)ns).TwoColon(typeName);
     }
 

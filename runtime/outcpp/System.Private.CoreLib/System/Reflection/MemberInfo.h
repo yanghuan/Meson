@@ -20,7 +20,7 @@ FORWARD(CustomAttributeData)
 FORWARD(Module)
 namespace MemberInfoNamespace {
 using namespace Collections::Generic;
-using ::System::Private::CoreLib::System::Collections::Generic::IList;
+using Collections::Generic::IList;
 CLASS(MemberInfo) {
   public: MemberTypes get_MemberType();
   public: String get_Name();

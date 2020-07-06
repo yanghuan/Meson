@@ -48,7 +48,7 @@ namespace CustomAttributeDataNamespace {
 using namespace Collections::Generic;
 using namespace Runtime::CompilerServices;
 using namespace Runtime::InteropServices;
-using ::System::Private::CoreLib::System::Collections::Generic::IList;
+using Collections::Generic::IList;
 CLASS(CustomAttributeData) {
   public: Type get_AttributeType();
   public: ConstructorInfo get_Constructor();

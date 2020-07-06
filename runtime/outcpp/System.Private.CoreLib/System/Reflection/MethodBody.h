@@ -16,7 +16,7 @@ FORWARD(ExceptionHandlingClause)
 FORWARD(LocalVariableInfo)
 namespace MethodBodyNamespace {
 using namespace Collections::Generic;
-using ::System::Private::CoreLib::System::Collections::Generic::IList;
+using Collections::Generic::IList;
 CLASS(MethodBody) {
   public: Int32 get_LocalSignatureMetadataToken();
   public: IList<LocalVariableInfo> get_LocalVariables();

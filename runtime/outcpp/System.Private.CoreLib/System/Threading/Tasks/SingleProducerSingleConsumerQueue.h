@@ -15,7 +15,7 @@ namespace System::Private::CoreLib::System::Threading::Tasks {
 namespace SingleProducerSingleConsumerQueueNamespace {
 using namespace ::System::Private::CoreLib::Internal;
 using namespace Collections::Generic;
-using ::System::Private::CoreLib::System::Collections::Generic::IEnumerator;
+using Collections::Generic::IEnumerator;
 CLASS(SingleProducerSingleConsumerQueue, T) {
   private: struct SegmentState {
     public: PaddingFor32 m_pad0;

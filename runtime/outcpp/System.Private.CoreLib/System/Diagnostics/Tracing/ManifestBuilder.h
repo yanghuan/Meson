@@ -39,7 +39,7 @@ using namespace Collections::Generic;
 using namespace Globalization;
 using namespace Resources;
 using namespace Text;
-using ::System::Private::CoreLib::System::Collections::Generic::IList;
+using Collections::Generic::IList;
 CLASS(ManifestBuilder) {
   private: CLASS(ChannelInfo) {
     public: String Name;

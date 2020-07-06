@@ -27,8 +27,8 @@ FORWARD(IEqualityComparer, T)
 namespace DictionaryNamespace {
 using namespace Runtime::Serialization;
 template <class T>
-using ICollection = ::System::Private::CoreLib::System::Collections::Generic::ICollection<T>;
-using ICollection1 = ::System::Private::CoreLib::System::Collections::ICollection;
+using ICollection = Generic::ICollection<T>;
+using ICollection1 = Collections::ICollection;
 CLASS(Dictionary, TKey, TValue) {
   private: struct Entry {
     public: UInt32 hashCode;

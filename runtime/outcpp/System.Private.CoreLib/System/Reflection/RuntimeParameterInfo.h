@@ -27,7 +27,7 @@ FORWARD(ParameterInfo)
 FORWARD(RuntimeModule)
 namespace RuntimeParameterInfoNamespace {
 using namespace Collections::Generic;
-using ::System::Private::CoreLib::System::Collections::Generic::IList;
+using Collections::Generic::IList;
 CLASS(RuntimeParameterInfo) {
   public: Type get_ParameterType();
   public: String get_Name();

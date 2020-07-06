@@ -24,7 +24,7 @@ FORWARD(MemberInfo)
 namespace ParameterInfoNamespace {
 using namespace Collections::Generic;
 using namespace Runtime::Serialization;
-using ::System::Private::CoreLib::System::Collections::Generic::IList;
+using Collections::Generic::IList;
 CLASS(ParameterInfo) {
   public: ParameterAttributes get_Attributes();
   public: MemberInfo get_Member();

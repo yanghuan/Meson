@@ -64,7 +64,7 @@ using namespace Runtime::CompilerServices;
 using namespace Runtime::Serialization;
 using namespace Security;
 using namespace Threading;
-using ::System::Private::CoreLib::System::Collections::Generic::IList;
+using Collections::Generic::IList;
 CLASS(Assembly) {
   public: IEnumerable<TypeInfo> get_DefinedTypes();
   public: IEnumerable<Type> get_ExportedTypes();

@@ -18,7 +18,7 @@ FORWARD(String)
 namespace System::Private::CoreLib::System::Diagnostics::Tracing {
 namespace EventPayloadNamespace {
 using namespace Collections::Generic;
-using ::System::Private::CoreLib::System::Collections::Generic::IEnumerator;
+using Collections::Generic::IEnumerator;
 CLASS(EventPayload) {
   public: ICollection<String> get_Keys();
   public: ICollection<Object> get_Values();

@@ -21,7 +21,7 @@ FORWARD_(Task, T1, T2)
 FORWARD(TaskScheduler)
 namespace TaskFactoryNamespace {
 using namespace Collections::Generic;
-using ::System::Private::CoreLib::System::Collections::Generic::IList;
+using Collections::Generic::IList;
 CLASS_FORWARD(TaskFactory, T1, T2)
 CLASS_(TaskFactory) {
   CLASS_FORWARD(CompleteOnCountdownPromise, T1, T2)

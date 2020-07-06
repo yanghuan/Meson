@@ -38,7 +38,7 @@ FORWARD(RuntimeModule)
 namespace RuntimeConstructorInfoNamespace {
 using namespace Collections::Generic;
 using namespace Globalization;
-using ::System::Private::CoreLib::System::Collections::Generic::IList;
+using Collections::Generic::IList;
 CLASS(RuntimeConstructorInfo) {
   public: INVOCATION_FLAGS get_InvocationFlags();
   private: RuntimeMethodHandleInternal get_ValueOfIRuntimeMethodInfo();

@@ -17,7 +17,7 @@ FORWARDS_(KeyValuePair, T1, T2, T3)
 namespace System::Private::CoreLib::System::Diagnostics::Tracing {
 namespace CounterPayloadNamespace {
 using namespace Collections::Generic;
-using ::System::Private::CoreLib::System::Collections::Generic::IEnumerator;
+using Collections::Generic::IEnumerator;
 CLASS(CounterPayload) {
   public: String get_Name() { return Name; }
   public: void set_Name(String value) { Name = value; }

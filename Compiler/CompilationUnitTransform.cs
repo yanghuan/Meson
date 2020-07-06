@@ -120,7 +120,7 @@ namespace Meson.Compiler {
           outs.Add((type, forward));
         }
         if (type.IsIEnumeratorOfT() || type.IsIListOfT()) {
-          usingsSyntax.Add(new UsingNamespaceOrTypeSyntax(type.GetFullName(), false));
+          usingsSyntax.Add(new UsingNamespaceOrTypeSyntax(type.GetFullName(root_), false));
         }
       }
       if (curs.Count > 0) {
@@ -321,9 +321,9 @@ namespace Meson.Compiler {
       return nestedCycleRefNames_.GetOrDefault(symbol);
     }
 
-    private static UsingDeclarationSyntax GetUsingDeclarationSyntax(IdentifierSyntax name, ITypeDefinition type) {
+    private static UsingDeclarationSyntax GetUsingDeclarationSyntax(IdentifierSyntax name, ITypeDefinition type, ITypeDefinition definition) {
       var template = type.GetTemplateSyntax();
-      ExpressionSyntax typeFullName = type.GetFullName();
+      ExpressionSyntax typeFullName = type.GetFullName(definition);
       if (template != null) {
         typeFullName = new GenericIdentifierSyntax(typeFullName, template.TypeNames);
       }
@@ -346,10 +346,10 @@ namespace Meson.Compiler {
             foreach (var type in types) {
               var name = typeBaseNames_[type];
               if (index == 0) {
-                headUsingsSyntax.Add(GetUsingDeclarationSyntax(name.NameExpression, type));
+                headUsingsSyntax.Add(GetUsingDeclarationSyntax(name.NameExpression, type, root_));
               } else {
                 IdentifierSyntax newName = type.Name + index;
-                headUsingsSyntax.Add(GetUsingDeclarationSyntax(newName, type));
+                headUsingsSyntax.Add(GetUsingDeclarationSyntax(newName, type, root_));
                 name.Update(newName);
               }
               ++index;
