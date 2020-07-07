@@ -37,12 +37,10 @@ rule("cxxfilehash")
         local data = hashs[file] or {}
         local size = getfilesize(file)
         if data[1] ~= size then
-          print(file, data[1], size)
           return true
         end
         local hashcode = getfilehash(file)
         if hashcode and data[2] ~= hashcode then
-          print(file, data[2], hashcode)
           return true
         end
       end
