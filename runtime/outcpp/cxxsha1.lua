@@ -319,10 +319,12 @@ function is_hash_changed(dependinfo, files_hash)
     local data = hashs[file] or {}
     local size = get_file_size(file, files_hash)
     if data[1] ~= size then
+      print(file, data[1], size)
       return true
     end
     local sha1 = get_file_sha1(file, files_hash)
     if sha1 and data[2] ~= sha1 then
+      print(file, data[2], sha1)
       return true
     end
   end
