@@ -31,25 +31,40 @@ rule("cxxfilehash")
       return hashcode
     end
 
-    local function ishashchanged(dependinfo)
+    local function isfilechanged(file, hashs)
+      local data = hashs[file] or {}
+      local size = getfilesize(file)
+      if data[1] ~= size then
+        return true
+      end
+      local hashcode = getfilehash(file)
+      if hashcode and data[2] ~= hashcode then
+        return true
+      end
+    end
+
+    local function ishashchanged(sourcefile, dependinfo)
       local hashs = dependinfo.hashs or {}
+      if isfilechanged(sourcefile, hashs) then
+        return true
+      end
       for _, file in ipairs(dependinfo.files) do
-        local data = hashs[file] or {}
-        local size = getfilesize(file)
-        if data[1] ~= size then
-          return true
-        end
-        local hashcode = getfilehash(file)
-        if hashcode and data[2] ~= hashcode then
-          return true
+        if isfilechanged(file, hashs) then
+          return true 
         end
       end
       return false
     end
 
-    local function updatehash(dependinfo)
+    local function updatehash(sourcefile, dependinfo)
       local hashs = {}
       dependinfo.hashs = hashs
+
+      hashs[sourcefile] = {
+        getfilesize(sourcefile),
+        getfilehash(sourcefile)
+      }
+
       for _, file in ipairs(dependinfo.files) do
         hashs[file] = {
           getfilesize(file),
@@ -80,8 +95,9 @@ rule("cxxfilehash")
     local dependfile = target:dependfile(objectfile)
     local dependinfo = option.get("rebuild") and {} or (depend.load(dependfile) or {})
     local depvalues = {compinst:program(), compflags}
+
     if depend.is_changed(dependinfo, {lastmtime = 9223372036854775807, values = depvalues}) then
-    elseif filehash.ishashchanged(dependinfo) then
+    elseif filehash.ishashchanged(sourcefile, dependinfo) then
     else
       return
     end
@@ -89,7 +105,7 @@ rule("cxxfilehash")
     progress.show(opt.progress, "compiling.%s %s", config.get("mode"), sourcefile)
     assert(compinst:compile(sourcefile, objectfile, {dependinfo = dependinfo, compflags = compflags}))
     dependinfo.values = depvalues
-    filehash.updatehash(dependinfo)
+    filehash.updatehash(sourcefile, dependinfo)
     depend.save(dependinfo, dependfile)
   end)
   

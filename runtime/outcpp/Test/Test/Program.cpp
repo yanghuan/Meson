@@ -9,7 +9,7 @@ using namespace ::System::Console::System;
 using namespace ::System::Private::CoreLib::System;
 void Program___::Main(Array<String> args) {
   Console::WriteLine("Hello World!", (Array<Object>)args);
-  int a = 20;
+  int a = 25;
 };
 } // namespace Test::Test::ProgramNamespace
 int main(int argc, char* argv[]) {
