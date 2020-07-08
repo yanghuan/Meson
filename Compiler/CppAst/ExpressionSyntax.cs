@@ -73,7 +73,7 @@ namespace Meson.Compiler.CppAst {
   internal sealed class InvationExpressionSyntax : ExpressionSyntax {
     public ExpressionSyntax Expression { get; }
     public string OpenBrace => Tokens.Less;
-    public readonly SyntaxList<ExpressionSyntax> TypeArguments = new SyntaxList<ExpressionSyntax>();
+    public readonly List<ExpressionSyntax> TypeArguments = new List<ExpressionSyntax>();
     public string CloseBrace => Tokens.Greater;
 
     public string OpenParentheses => Tokens.OpenParentheses;
@@ -116,6 +116,18 @@ namespace Meson.Compiler.CppAst {
     }
 
     public static readonly StringLiteralExpressionSyntax Empty = new StringLiteralExpressionSyntax(string.Empty);
+  }
+
+  internal sealed class NumberLiteralExpressionSyntax : LiteralExpressionSyntax {
+    public string Value { get; }
+
+    public NumberLiteralExpressionSyntax(string value) {
+      Value = value;
+    }
+
+    internal override void Render(CppRenderer renderer) {
+      renderer.Render(this);
+    }
   }
 
   internal sealed class CodeTemplateExpressionSyntax : ExpressionSyntax {

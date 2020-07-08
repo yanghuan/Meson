@@ -5,9 +5,9 @@ using System.Text;
 
 namespace Meson.Compiler.CppAst {
   class CompilationUnitSyntax : SyntaxNode {
-    public readonly SyntaxList<StatementSyntax> HeadStatements = new SyntaxList<StatementSyntax>();
-    public readonly SyntaxList<StatementSyntax> SrcStatements = new SyntaxList<StatementSyntax>();
-    public readonly SyntaxList<StatementSyntax> ReferencesIncludes = new SyntaxList<StatementSyntax>();
+    public readonly List<StatementSyntax> HeadStatements = new List<StatementSyntax>();
+    public readonly List<StatementSyntax> SrcStatements = new List<StatementSyntax>();
+    public readonly List<StatementSyntax> ReferencesIncludes = new List<StatementSyntax>();
     private readonly StatementListSyntax srcIncludes_ = new StatementListSyntax();
     private NamespaceSyntax headNamespaceSyntax_;
     private NamespaceSyntax srcNamespaceSyntax_;

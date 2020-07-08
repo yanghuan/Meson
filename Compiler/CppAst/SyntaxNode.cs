@@ -121,6 +121,7 @@ namespace Meson.Compiler.CppAst {
     public const string Colon = ":";
     public new const string Equals = "=";
     public const string EqualsEquals = "==";
+    public const string NotEquals = "!=";
     public const string Dot = ".";
     public const string Asterisk = "*";
     public const string Ampersand = "&";
@@ -147,25 +148,6 @@ namespace Meson.Compiler.CppAst {
 
     public static bool IsReservedWord(string identifier) {
       return ReservedWords.Contains(identifier);
-    }
-  }
-
-
-  sealed class SyntaxList<T> : List<T> where T : SyntaxNode {
-    public new void Add(T node) {
-      if (node == null) {
-        throw new ArgumentNullException(nameof(node));
-      }
-      base.Add(node);
-    }
-
-    public new void AddRange(IEnumerable<T> collection) {
-      foreach (var item in collection) {
-        if (item == null) {
-          throw new ArgumentNullException(nameof(item));
-        }
-        base.Add(item);
-      }
     }
   }
 }

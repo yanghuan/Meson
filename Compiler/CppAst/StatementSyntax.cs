@@ -24,7 +24,7 @@ namespace Meson.Compiler.CppAst {
   }
 
   sealed class StatementListSyntax : StatementSyntax {
-    public readonly SyntaxList<StatementSyntax> Statements = new SyntaxList<StatementSyntax>();
+    public readonly List<StatementSyntax> Statements = new List<StatementSyntax>();
     public bool IsEmpty => Statements.Count == 0;
 
     internal override void Render(CppRenderer renderer) {
@@ -124,7 +124,7 @@ namespace Meson.Compiler.CppAst {
     public bool IsPreventIdnet { get; set; }
     public bool IsSingleLine { get; set; }
 
-    public readonly SyntaxList<StatementSyntax> Statements = new SyntaxList<StatementSyntax>();
+    public readonly List<StatementSyntax> Statements = new List<StatementSyntax>();
 
     public BlockSyntax() { 
     }
@@ -216,7 +216,7 @@ namespace Meson.Compiler.CppAst {
   sealed class TemplateSyntax : SyntaxNode {
     public string TemplateToken => Tokens.Template;
     public string OpenBrace => Tokens.Less;
-    public readonly SyntaxList<SyntaxNode> Arguments = new SyntaxList<SyntaxNode>();
+    public readonly List<SyntaxNode> Arguments = new List<SyntaxNode>();
     public string CloseBrace => Tokens.Greater;
 
     public TemplateSyntax(TemplateTypenameSyntax argument) {
@@ -507,6 +507,34 @@ namespace Meson.Compiler.CppAst {
     public IfElseStatementSyntax(ExpressionSyntax condition, StatementSyntax trueStatement) {
       Condition = condition;
       TrueStatement = trueStatement;
+    }
+
+    internal override void Render(CppRenderer renderer) {
+      renderer.Render(this);
+    }
+  }
+
+  sealed class VariableInitializerSyntax : SyntaxNode {
+    public IdentifierSyntax Name { get; }
+    public ExpressionSyntax Initializer { get; }
+
+    public VariableInitializerSyntax(IdentifierSyntax name, ExpressionSyntax initializer = null) {
+      Name = name;
+      Initializer = initializer;
+    }
+
+    internal override void Render(CppRenderer renderer) {
+      renderer.Render(this);
+    }
+  }
+
+  sealed class VariableDeclarationStatementSyntax : StatementSyntax {
+    public ExpressionSyntax Type { get; }
+    public List<VariableInitializerSyntax> Variables { get; } = new List<VariableInitializerSyntax>();
+
+    public VariableDeclarationStatementSyntax(ExpressionSyntax type, IEnumerable<VariableInitializerSyntax> variables) {
+      Type = type;
+      Variables.AddRange(variables);
     }
 
     internal override void Render(CppRenderer renderer) {

@@ -106,18 +106,6 @@ namespace Meson.Compiler {
       writer_.Write(value);
     }
 
-    private void WriteSeparatedSyntaxList(IEnumerable<SyntaxNode> list) {
-      bool isFirst = true;
-      foreach (var node in list) {
-        if (isFirst) {
-          isFirst = false;
-        } else {
-          WriteCommaWithSpace();
-        }
-        node.Render(this);
-      }
-    }
-
     internal void Render(CompilationUnitSyntax compilationUnit) {
       WriteCompilationUnitStatements(compilationUnit.HeadStatements, HeadFileName);
       if (!compilationUnit.IsSrcEmpty) {
@@ -133,6 +121,18 @@ namespace Meson.Compiler {
         writer_ = writer;
         WriteNodes(statements);
         writer_ = null;
+      }
+    }
+
+    private void WriteNodesWithSeparated(IEnumerable<SyntaxNode> nodes) {
+      bool isFirst = true;
+      foreach (var node in nodes) {
+        if (isFirst) {
+          isFirst = false;
+        } else {
+          WriteCommaWithSpace();
+        }
+        node.Render(this);
       }
     }
 
@@ -293,7 +293,7 @@ namespace Meson.Compiler {
       Write(node.TemplateToken);
       WriteSpace();
       Write(node.OpenBrace);
-      WriteSeparatedSyntaxList(node.Arguments);
+      WriteNodesWithSeparated(node.Arguments);
       Write(node.CloseBrace);
       WriteNewLine();
     }
@@ -319,7 +319,7 @@ namespace Meson.Compiler {
           Write(node.Kind == ClassKind.Ref ? "CLASS" : "CLASS_");
           Write(Tokens.OpenParentheses);
           if (node.Template != null) {
-            WriteSeparatedSyntaxList(new IdentifierSyntax[] { node.Name }.Concat(node.Template.TypeNames));
+            WriteNodesWithSeparated(new IdentifierSyntax[] { node.Name }.Concat(node.Template.TypeNames));
           } else {
             node.Name.Render(this);
           }
@@ -344,7 +344,7 @@ namespace Meson.Compiler {
         case ClassKind.MultiRefForward: {
           Write("CLASS_FORWARD");
           Write(Tokens.OpenParentheses);
-          WriteSeparatedSyntaxList(new IdentifierSyntax[] { node.Name }.Concat(node.Template.TypeNames));
+          WriteNodesWithSeparated(new IdentifierSyntax[] { node.Name }.Concat(node.Template.TypeNames));
           Write(Tokens.CloseParentheses);
           WriteNewLine();
           return;
@@ -355,7 +355,7 @@ namespace Meson.Compiler {
       if (node.Bases.Count > 0) {
         WriteColon();
         WriteSpace();
-        WriteSeparatedSyntaxList(node.Bases);
+        WriteNodesWithSeparated(node.Bases);
         WriteSpace();
       }
       Render((BlockSyntax)node);
@@ -392,7 +392,7 @@ namespace Meson.Compiler {
       WriteSpace();
       node.Nmae.Render(this);
       Write(node.OpenParentheses);
-      WriteSeparatedSyntaxList(node.Parameters);
+      WriteNodesWithSeparated(node.Parameters);
       Write(node.CloseParentheses);
       if (node.Body != null) {
         WriteSpace();
@@ -412,7 +412,7 @@ namespace Meson.Compiler {
       }
       node.Name.Render(this);
       Write(node.OpenParentheses);
-      WriteSeparatedSyntaxList(node.Parameters);
+      WriteNodesWithSeparated(node.Parameters);
       Write(node.CloseParentheses);
       WriteSpace();
       Render((BlockSyntax)node);
@@ -427,7 +427,7 @@ namespace Meson.Compiler {
     internal void Render(GenericIdentifierSyntax node) {
       node.Name.Render(this);
       Write(node.OpenBrace);
-      WriteSeparatedSyntaxList(node.GenericArguments);
+      WriteNodesWithSeparated(node.GenericArguments);
       Write(node.CloseBrace);
     }
 
@@ -510,11 +510,11 @@ namespace Meson.Compiler {
       node.Expression.Render(this);
       if (node.TypeArguments.Count > 0) {
         Write(node.OpenBrace);
-        WriteSeparatedSyntaxList(node.TypeArguments);
+        WriteNodesWithSeparated(node.TypeArguments);
         Write(node.CloseBrace);
       }
       Write(node.OpenParentheses);
-      WriteSeparatedSyntaxList(node.Arguments);
+      WriteNodesWithSeparated(node.Arguments);
       Write(node.CloseParentheses);
     }
 
@@ -547,6 +547,10 @@ namespace Meson.Compiler {
       Write(node.CloseParenToken);
     }
 
+    internal void Render(NumberLiteralExpressionSyntax node) {
+      Write(node.Value);
+    }
+
     internal void Render(CastExpressionSyntax node) {
       Write(Tokens.OpenParentheses);
       node.Target.Render(this);
@@ -575,6 +579,24 @@ namespace Meson.Compiler {
       Write(node.OperatorToken);
       WriteSpace();
       node.Right.Render(this);
+    }
+
+    internal void Render(VariableInitializerSyntax node) {
+      node.Name.Render(this);
+      if (node.Initializer != null) {
+        WriteSpace();
+        Write(Tokens.EqualsEquals);
+        WriteSpace();
+        node.Initializer.Render(this);
+      }
+    }
+
+    internal void Render(VariableDeclarationStatementSyntax node) {
+      node.Type.Render(this);
+      WriteSpace();
+      WriteNodesWithSeparated(node.Variables);
+      WriteSemicolon();
+      WriteNewLine();
     }
   }
 }

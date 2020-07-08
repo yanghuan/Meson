@@ -36,7 +36,7 @@ namespace Meson.Compiler.CppAst {
   internal class GenericIdentifierSyntax : IdentifierSyntax {
     public ExpressionSyntax Name { get; }
     public string OpenBrace => Tokens.Less;
-    public readonly SyntaxList<ExpressionSyntax> GenericArguments = new SyntaxList<ExpressionSyntax>();
+    public readonly List<ExpressionSyntax> GenericArguments = new List<ExpressionSyntax>();
     public string CloseBrace => Tokens.Greater;
 
     public GenericIdentifierSyntax(ExpressionSyntax name) {

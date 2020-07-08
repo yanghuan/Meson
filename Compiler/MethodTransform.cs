@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.NetworkInformation;
 using System.Text;
 
 using ICSharpCode.Decompiler.CSharp;
@@ -11,9 +12,14 @@ using Meson.Compiler.CppAst;
 
 namespace Meson.Compiler {
   internal sealed class MethodTransform : IAstVisitor<SyntaxNode> {
-    private static readonly HashSet<string> _exportFunctions = new HashSet<string>() {
+    private static readonly HashSet<string> exportFunctions_ = new HashSet<string>() {
       "Test.Program.Main",
       "System.Console.WriteLine",
+    };
+
+    private static readonly HashSet<string> exportTypes_ = new HashSet<string>() {
+      "System.Int32",
+      "System.Array"
     };
 
     private readonly TypeDefinitionTransform typeDefinition_;
@@ -39,7 +45,7 @@ namespace Meson.Compiler {
       if (methodSymbol.HasBody) {
         methodSymbols_.Push(methodSymbol);
         MethodImplementationSyntax node;
-        if (_exportFunctions.Contains(methodSymbol.FullName)) {
+        if (IsMethodExport(methodSymbol)) {
           var methodDeclaration = Generator.GetMethodDeclaration(methodSymbol);
           node = methodDeclaration?.Accept<MethodImplementationSyntax>(this);
         } else {
@@ -53,6 +59,16 @@ namespace Meson.Compiler {
           }
         }
       }
+    }
+
+    private bool IsMethodExport(IMethod method) {
+      if (exportFunctions_.Contains(method.FullName)) {
+        return true;
+      }
+      if (exportTypes_.Contains(method.DeclaringType.FullName)) {
+        return true;
+      }
+      return false;
     }
 
     private void InsetMainFuntion(IMethod methodSymbol, MethodImplementationSyntax method) {
@@ -106,7 +122,9 @@ namespace Meson.Compiler {
     }
 
     public SyntaxNode VisitCastExpression(CastExpression castExpression) {
-      throw new NotImplementedException();
+      var targetType = castExpression.Type.AcceptExpression(this);
+      var expression = castExpression.Expression.AcceptExpression(this);
+      return new CastExpressionSyntax(targetType, expression);
     }
 
     public SyntaxNode VisitCheckedExpression(CheckedExpression checkedExpression) {
@@ -197,8 +215,24 @@ namespace Meson.Compiler {
 
     public SyntaxNode VisitMemberReferenceExpression(MemberReferenceExpression memberReferenceExpression) {
       var target = memberReferenceExpression.Target.Accept<ExpressionSyntax>(this);
-      var symbol = memberReferenceExpression.Parent.GetSymbol();
+      var symbol = memberReferenceExpression.GetSymbol() ?? memberReferenceExpression.Parent.GetSymbol();
+      if (symbol == null) {
+        if (memberReferenceExpression.Target is TypeReferenceExpression typeReferenceExpression) {
+          var typeSymbol = (ITypeDefinition)typeReferenceExpression.Type.GetSymbol();
+          symbol = typeSymbol.Members.First(i => i.Name == memberReferenceExpression.MemberName);
+        }
+      }
+
       switch (symbol.SymbolKind) {
+        case SymbolKind.Field: {
+            var field = (IField)symbol;
+            var name = GetMemberName(field);
+            if (field.IsStatic) {
+              return target.TwoColon(name);
+            } else {
+              return target.Arrow(name);
+            }
+          }
         case SymbolKind.Method: {
             var method = (IMethod)symbol;
             var name = GetMemberName(method);
@@ -240,12 +274,26 @@ namespace Meson.Compiler {
       throw new NotImplementedException();
     }
 
+    internal static LiteralExpressionSyntax GetPrimitiveExpression(object value) {
+      var code = Type.GetTypeCode(value.GetType());
+      switch (code) {
+        case TypeCode.String: {
+            return new StringLiteralExpressionSyntax((string)value);
+          }
+        case TypeCode.Int32: {
+            return new NumberLiteralExpressionSyntax(value.ToString());
+          }
+        case TypeCode.UInt32: {
+            return new NumberLiteralExpressionSyntax($"{value}u");
+          }
+        default: {
+            throw new NotImplementedException();
+          }
+      }
+    }
+
     public SyntaxNode VisitPrimitiveExpression(PrimitiveExpression primitiveExpression) {
-      return primitiveExpression.Value switch
-      {
-        string s => new StringLiteralExpressionSyntax(s),
-        _ => throw new NotImplementedException(),
-      };
+      return GetPrimitiveExpression(primitiveExpression.Value);
     }
 
     public SyntaxNode VisitSizeOfExpression(SizeOfExpression sizeOfExpression) {
@@ -277,6 +325,11 @@ namespace Meson.Compiler {
     }
 
     public SyntaxNode VisitUnaryOperatorExpression(UnaryOperatorExpression unaryOperatorExpression) {
+      switch (unaryOperatorExpression.Operator) {
+        case UnaryOperatorType.AddressOf: {
+            return new AddressIdentifierSyntax(unaryOperatorExpression.Expression.AcceptExpression(this));
+          }
+      }
       throw new NotImplementedException();
     }
 
@@ -363,7 +416,14 @@ namespace Meson.Compiler {
     public SyntaxNode VisitBlockStatement(BlockStatement blockStatement) {
       BlockSyntax node = new BlockSyntax();
       blocks_.Push(node);
-      node.Statements.AddRange(blockStatement.Statements.Select(i => i.Accept<StatementSyntax>(this)));
+      foreach (var statement in blockStatement.Statements) {
+        try {
+          var s = statement.AcceptStatement(this);
+          node.Statements.Add(s);
+        } catch (NotImplementedException) {
+          break;
+        }
+      }
       blocks_.Pop();
       return node;
     }
@@ -474,7 +534,9 @@ namespace Meson.Compiler {
     }
 
     public SyntaxNode VisitVariableDeclarationStatement(VariableDeclarationStatement variableDeclarationStatement) {
-      throw new NotImplementedException();
+      var type = variableDeclarationStatement.Type.AcceptExpression(this);
+      var variables = variableDeclarationStatement.Variables.Select(i => i.Accept<VariableInitializerSyntax>(this));
+      return new VariableDeclarationStatementSyntax(type, variables);
     }
 
     public SyntaxNode VisitLocalFunctionDeclarationStatement(LocalFunctionDeclarationStatement localFunctionDeclarationStatement) {
@@ -630,7 +692,9 @@ namespace Meson.Compiler {
     }
 
     public SyntaxNode VisitVariableInitializer(VariableInitializer variableInitializer) {
-      throw new NotImplementedException();
+      var name = variableInitializer.NameToken.Accept<IdentifierSyntax>(this);
+      var initializer = variableInitializer.Initializer.AcceptExpression(this);
+      return new VariableInitializerSyntax(name, initializer);
     }
 
     public SyntaxNode VisitFixedFieldDeclaration(FixedFieldDeclaration fixedFieldDeclaration) {
@@ -671,7 +735,8 @@ namespace Meson.Compiler {
     }
 
     public SyntaxNode VisitPrimitiveType(PrimitiveType primitiveType) {
-      throw new NotImplementedException();
+      var type = (ITypeDefinition)primitiveType.GetSymbol();
+      return GetTypeName(type);
     }
 
     public SyntaxNode VisitComment(Comment comment) {
@@ -723,7 +788,7 @@ namespace Meson.Compiler {
     }
 
     public SyntaxNode VisitNullNode(AstNode nullNode) {
-      throw new NotImplementedException();
+      return null;
     }
 
     public SyntaxNode VisitErrorNode(AstNode errorNode) {

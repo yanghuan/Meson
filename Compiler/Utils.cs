@@ -688,11 +688,16 @@ namespace Meson.Compiler {
     }
 
     public static string ToOperatorToken(this BinaryOperatorType type) {
-      return type switch
-      {
-        BinaryOperatorType.Equality => Tokens.EqualsEquals,
-        _ => throw new InvalidProgramException()
-      };
+      switch (type) {
+        case BinaryOperatorType.Equality:
+          return Tokens.EqualsEquals;
+
+        case BinaryOperatorType.InEquality:
+          return Tokens.NotEquals;
+
+        default:
+          throw new NotImplementedException();
+      }
     }
   }
 }
