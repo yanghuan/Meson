@@ -585,7 +585,7 @@ namespace Meson.Compiler {
       node.Name.Render(this);
       if (node.Initializer != null) {
         WriteSpace();
-        Write(Tokens.EqualsEquals);
+        Write(Tokens.Equals);
         WriteSpace();
         node.Initializer.Render(this);
       }

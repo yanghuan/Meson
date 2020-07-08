@@ -19,10 +19,6 @@ FORWARD(Type)
 namespace ArrayNamespace {
 using namespace Collections;
 using namespace Reflection;
-using Int32 = System::Int32;
-using Int321 = ::System::Private::CoreLib::System::Int32;
-using Object = System::Object;
-using Object1 = ::System::Private::CoreLib::System::Object;
 ARRAY(({
   private: template <class T>
   class EmptyArray {
