@@ -11,6 +11,11 @@ using ICSharpCode.Decompiler.TypeSystem.Implementation;
 using Meson.Compiler.CppAst;
 
 namespace Meson.Compiler {
+  internal sealed class NotImplementedException : Exception {
+    public NotImplementedException() {
+    }
+  }
+
   internal static class Utils {
     public const string kDependExtra = "-dep";
     private const string kBackingFieldSuffix = ">k__BackingField";
@@ -92,6 +97,29 @@ namespace Meson.Compiler {
       return -1;
     }
 
+    public static T[] ArrayOf<T>(this T t) {
+      return new T[] { t };
+    }
+
+    public static T[] ArrayOf<T>(this T t, T a) {
+      return new T[] { t, a };
+    }
+
+    public static T[] ArrayOf<T>(this T t, T a, T b) {
+      return new T[] { t, a, b };
+    }
+
+    public static T[] ArrayOf<T>(this T t, T a, T b, T c) {
+      return new T[] { t, a, b, c };
+    }
+
+    public static T[] ArrayOf<T>(this T t, params T[] args) {
+      T[] array = new T[args.Length + 1];
+      array[0] = t;
+      Array.Copy(args, 0, array, 1, args.Length);
+      return array;
+    }
+
     public static ITypeDefinition GetReferenceType(this IType type) {
       if (type.DeclaringType != null) {
         return type.DeclaringType.GetReferenceType();
@@ -132,7 +160,7 @@ namespace Meson.Compiler {
     }
 
     public static string GetFullNamespace(this ITypeDefinition reference, bool hasGlobal = false, ITypeDefinition definition = null) {
-      if (definition != null && definition.ParentModule == reference.ParentModule) {
+      if (definition != null && definition.ParentModule.AssemblyName == reference.ParentModule.AssemblyName) {
         foreach (string i in definition.GetAllNamespaces()) {
           if (reference.Namespace.StartsWith(i)) {
             if (reference.Namespace == i) {
@@ -153,7 +181,7 @@ namespace Meson.Compiler {
       return !hasGlobal ? ns.ReplaceDot() : Tokens.TwoColon + ns.ReplaceDot();
     }
 
-    public static string GetFullName(this ITypeDefinition reference, ITypeDefinition definition) {
+    public static string GetFullName(this ITypeDefinition reference, ITypeDefinition definition = null) {
       string ns = reference.GetFullNamespace(true, definition);
       return $"{ns}{Tokens.TwoColon}{reference.Name}";
     }
@@ -262,7 +290,7 @@ namespace Meson.Compiler {
     }
 
     public static bool IsRefType(this ITypeDefinition type) {
-      return type.Kind != TypeKind.Struct && !type.IsStatic;
+      return (type.Kind != TypeKind.Struct && type.Kind != TypeKind.Enum) && !type.IsStatic;
     }
 
     public static bool IsRefType(this IType type) {
@@ -426,6 +454,15 @@ namespace Meson.Compiler {
       return innerValueTypeNames_.GetOrDefault(type.FullName);
     }
 
+    public static LiteralExpressionSyntax GetPrimitiveTypeDefaultValue(this ITypeDefinition type) {
+      switch (type.KnownTypeCode) {
+        case KnownTypeCode.Boolean: 
+          return BooleanLiteralExpressionSyntax.False;
+        default:
+          return NumberLiteralExpressionSyntax.Zero;
+      }
+    }
+
     public static IdentifierSyntax GetEnumUnderlyingTypeName(this ITypeDefinition type) {
       if (!type.EnumUnderlyingType.IsInt32()) {
         return innerValueTypeNames_[type.EnumUnderlyingType.FullName];
@@ -464,7 +501,7 @@ namespace Meson.Compiler {
     }
 
     public static bool IsNamespaceContain(this ITypeDefinition type, ITypeDefinition reference) {
-      return type.ParentModule == reference.ParentModule && type.Namespace.StartsWith(reference.Namespace);
+      return type.ParentModule.AssemblyName == reference.ParentModule.AssemblyName && type.Namespace.StartsWith(reference.Namespace);
     }
 
     public static bool IsSameNamespace(this ITypeDefinition type, ITypeDefinition other) {
@@ -698,6 +735,10 @@ namespace Meson.Compiler {
         default:
           throw new NotImplementedException();
       }
+    }
+
+    public static bool IsNull(this Expression expression) {
+      return expression == null || expression == Expression.Null;
     }
   }
 }

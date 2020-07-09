@@ -5,6 +5,7 @@ using System.Linq;
 using System.Reflection;
 
 using ICSharpCode.Decompiler.TypeSystem;
+using ICSharpCode.Decompiler.Util;
 using Meson.Compiler.CppAst;
 
 namespace Meson.Compiler {
@@ -263,13 +264,21 @@ namespace Meson.Compiler {
 
     private void VisitFields(ITypeDefinition typeDefinition, ClassSyntax node) {
       foreach (var field in typeDefinition.Fields) {
+        var fieldName = GetMemberName(field);
         if (IsValueTypeInnerField(field, typeDefinition, out ExpressionSyntax typeName)) {
+          string accessibilityToken = Accessibility.Public.ToTokenString();
+          var defaultConstructor = new ConstructorDefinitionSyntax(node.Name, Array.Empty<ParameterSyntax>(), accessibilityToken) { Body = BlockSyntax.EmptyBlock };
+          defaultConstructor.AddInitializationList(fieldName, field.Type.GetDefinition().GetPrimitiveTypeDefaultValue());
+          node.Statements.Insert(0, defaultConstructor);
+
+          var underlyingTypeConstructor = new ConstructorDefinitionSyntax(node.Name, new ParameterSyntax(typeName, IdentifierSyntax.Value).ArrayOf(), accessibilityToken) { Body = BlockSyntax.EmptyBlock };
+          underlyingTypeConstructor.AddInitializationList(fieldName, IdentifierSyntax.Value);
+          node.Statements.Insert(1, underlyingTypeConstructor);
         } else if (IsArrayInnerSpecialField(field, typeDefinition, out typeName)) {
         } else {
           typeName = GetFieldTypeName(field, typeDefinition);
         }
         Contract.Assert(typeName != null);
-        var fieldName = GetMemberName(field);
         node.Statements.Add(new FieldDefinitionSyntax(typeName, fieldName, field.IsStatic, field.Accessibility.ToTokenString()));
       }
     }

@@ -144,6 +144,8 @@ namespace Meson.Compiler.CppAst {
     public void AddRange(IEnumerable<StatementSyntax> nodes) {
       Statements.AddRange(nodes);
     }
+
+    public static readonly BlockSyntax EmptyBlock = new BlockSyntax() { IsSingleLine = true };
   }
 
   sealed class NamespaceSyntax : BlockSyntax {
@@ -316,20 +318,43 @@ namespace Meson.Compiler.CppAst {
     }
   }
 
+  sealed class ConstructorDefinitionSyntax : StatementSyntax {
+    public string AccessibilityToken { get; }
+    public IdentifierSyntax Name { get; }
+    public string OpenParentheses => Tokens.OpenParentheses;
+    public readonly List<ParameterSyntax> Parameters = new List<ParameterSyntax>();
+    public string CloseParentheses => Tokens.CloseParentheses;
+    public List<InvationExpressionSyntax> InitializationList = new List<InvationExpressionSyntax>();
+    public BlockSyntax Body { get; set; }
+
+    public ConstructorDefinitionSyntax(IdentifierSyntax name, IEnumerable<ParameterSyntax> parameters, string accessibilityToken) {
+      Name = name;
+      Parameters.AddRange(parameters);
+      AccessibilityToken = accessibilityToken;
+    }
+
+    public void AddInitializationList(IdentifierSyntax name, ExpressionSyntax value) {
+      InitializationList.Add(name.Invation(value));
+    }
+
+    internal override void Render(CppRenderer renderer) {
+      renderer.Render(this);
+    }
+  }
+
   sealed class MethodDefinitionSyntax : StatementSyntax {
     public string AccessibilityToken { get; }
     public ExpressionSyntax RetuenType { get; }
-    public IdentifierSyntax Nmae { get; }
+    public IdentifierSyntax Name { get; }
     public bool IsStatic { get; }
     public string OpenParentheses => Tokens.OpenParentheses;
     public readonly List<ParameterSyntax> Parameters = new List<ParameterSyntax>();
     public string CloseParentheses => Tokens.CloseParentheses;
-
     public BlockSyntax Body { get; set; }
 
     public MethodDefinitionSyntax(ExpressionSyntax retuenType, IdentifierSyntax name, IEnumerable<ParameterSyntax> parameters, bool isStatic, string accessibilityToken) {
       RetuenType = retuenType;
-      Nmae = name;
+      Name = name;
       Parameters.AddRange(parameters);
       IsStatic = isStatic;
       AccessibilityToken = accessibilityToken;

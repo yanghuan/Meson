@@ -413,6 +413,16 @@ namespace rt {
     T v[N];
   };
 
+  template <class T, class V>
+  bool is(const V& v) {
+    return false;
+  }
+
+  template <class T, class V>
+  T cast(const V& v) {
+    return T();
+  }
+
   template <class R, class Arg>
   int init(int argc, char* argv[], R (*f)(Arg)) {
     auto args = Array<ref<string>>::newarr(argc - 1);

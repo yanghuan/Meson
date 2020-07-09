@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Security.Cryptography;
 using System.Text;
 
 using ICSharpCode.Decompiler.TypeSystem;
@@ -114,13 +115,50 @@ namespace Meson.Compiler {
       }
     }
 
+    private void WriteCompilationUnit(string file, List<StatementSyntax> statements) {
+      Directory.CreateDirectory(OutDir);
+      using var writer = new StreamWriter(file, false, Encoding);
+      writer_ = writer;
+      WriteNodes(statements);
+      writer_ = null;
+    }
+
+    private static string GetFileHash(FileInfo file) {
+      using (SHA256 sha = SHA256.Create()) {
+        using (var s = file.OpenRead()) {
+          byte[] hash = sha.ComputeHash(s);
+          return Convert.ToBase64String(hash);
+        }
+      }
+    }
+
+    private static bool IsFileChanged(FileInfo a, FileInfo b) {
+      if (a.Length != b.Length) {
+        return true;
+      }
+
+      if (GetFileHash(a) != GetFileHash(b)) {
+        return true;
+      }
+
+      return false;
+    }
+
     private void WriteCompilationUnitStatements(List<StatementSyntax> statements, string file) {
       if (statements.Count > 0) {
-        Directory.CreateDirectory(OutDir);
-        using var writer = new StreamWriter(file, false, Encoding);
-        writer_ = writer;
-        WriteNodes(statements);
-        writer_ = null;
+        if (File.Exists(file)) {
+          string tmp = file + ".tmp";
+          WriteCompilationUnit(tmp, statements);
+          var tmpInfo = new FileInfo(tmp);
+          var fileInfo = new FileInfo(file);
+          if (IsFileChanged(tmpInfo, fileInfo)) {
+            tmpInfo.MoveTo(file, true);
+          } else {
+            tmpInfo.Delete();
+          }
+        } else {
+          WriteCompilationUnit(file, statements);
+        }
       }
     }
 
@@ -202,6 +240,12 @@ namespace Meson.Compiler {
 
     internal void Render(BlockSyntax node) {
       if (node.IsSingleLine) {
+        if (node.Statements.Count == 0) {
+          Write(node.OpenToken);
+          Write(node.CloseToken);
+          return;
+        }
+
         ++singleLineCounter_;
       }
 
@@ -308,47 +352,47 @@ namespace Meson.Compiler {
       WriteAccessibility(node.AccessibilityToken);
       switch (node.Kind) {
         case ClassKind.None: {
-          node.Template?.Render(this);
-          Write(node.ClassToken);
-          WriteSpace();
-          node.Name.Render(this);
-          break;
-        }
+            node.Template?.Render(this);
+            Write(node.ClassToken);
+            WriteSpace();
+            node.Name.Render(this);
+            break;
+          }
         case ClassKind.MultiRef:
         case ClassKind.Ref: {
-          Write(node.Kind == ClassKind.Ref ? "CLASS" : "CLASS_");
-          Write(Tokens.OpenParentheses);
-          if (node.Template != null) {
-            WriteNodesWithSeparated(new IdentifierSyntax[] { node.Name }.Concat(node.Template.TypeNames));
-          } else {
-            node.Name.Render(this);
+            Write(node.Kind == ClassKind.Ref ? "CLASS" : "CLASS_");
+            Write(Tokens.OpenParentheses);
+            if (node.Template != null) {
+              WriteNodesWithSeparated(new IdentifierSyntax[] { node.Name }.Concat(node.Template.TypeNames));
+            } else {
+              node.Name.Render(this);
+            }
+            Write(Tokens.CloseParentheses);
+            break;
           }
-          Write(Tokens.CloseParentheses);
-          break;
-        }
         case ClassKind.Array: {
-          Write("ARRAY");
-          Write(Tokens.OpenParentheses);
-          Write(Tokens.OpenParentheses);
-          Render((BlockSyntax)node);
-          Write(Tokens.CloseParentheses);
-          Write(Tokens.CloseParentheses);
-          WriteNewLine();
-          return;
-        }
+            Write("ARRAY");
+            Write(Tokens.OpenParentheses);
+            Write(Tokens.OpenParentheses);
+            Render((BlockSyntax)node);
+            Write(Tokens.CloseParentheses);
+            Write(Tokens.CloseParentheses);
+            WriteNewLine();
+            return;
+          }
         case ClassKind.Multi: {
-          node.Template ??= new TemplateSyntax();
-          node.Name = new GenericIdentifierSyntax(node.Name, node.Template.TypeNames);
-          goto case ClassKind.None;
-        }
+            node.Template ??= new TemplateSyntax();
+            node.Name = new GenericIdentifierSyntax(node.Name, node.Template.TypeNames);
+            goto case ClassKind.None;
+          }
         case ClassKind.MultiRefForward: {
-          Write("CLASS_FORWARD");
-          Write(Tokens.OpenParentheses);
-          WriteNodesWithSeparated(new IdentifierSyntax[] { node.Name }.Concat(node.Template.TypeNames));
-          Write(Tokens.CloseParentheses);
-          WriteNewLine();
-          return;
-        }
+            Write("CLASS_FORWARD");
+            Write(Tokens.OpenParentheses);
+            WriteNodesWithSeparated(new IdentifierSyntax[] { node.Name }.Concat(node.Template.TypeNames));
+            Write(Tokens.CloseParentheses);
+            WriteNewLine();
+            return;
+          }
       }
 
       WriteSpace();
@@ -382,6 +426,26 @@ namespace Meson.Compiler {
       node.Name.Render(this);
     }
 
+    internal void Render(ConstructorDefinitionSyntax node) {
+      WriteAccessibility(node.AccessibilityToken);
+      node.Name.Render(this);
+      Write(node.OpenParentheses);
+      WriteNodesWithSeparated(node.Parameters);
+      Write(node.CloseParentheses);
+      if (node.InitializationList.Count > 0) {
+        WriteColon();
+        WriteSpace();
+        WriteNodesWithSeparated(node.InitializationList);
+      }
+      if (node.Body != null) {
+        WriteSpace();
+        node.Body.Render(this);
+      } else {
+        WriteSemicolon();
+      }
+      WriteNewLine();
+    }
+
     internal void Render(MethodDefinitionSyntax node) {
       WriteAccessibility(node.AccessibilityToken);
       if (node.IsStatic) {
@@ -390,7 +454,7 @@ namespace Meson.Compiler {
       }
       node.RetuenType.Render(this);
       WriteSpace();
-      node.Nmae.Render(this);
+      node.Name.Render(this);
       Write(node.OpenParentheses);
       WriteNodesWithSeparated(node.Parameters);
       Write(node.CloseParentheses);
@@ -547,15 +611,23 @@ namespace Meson.Compiler {
       Write(node.CloseParenToken);
     }
 
+    internal void Render(BooleanLiteralExpressionSyntax node) {
+      Write(node.Value ? "true" : "false");
+    }
+
     internal void Render(NumberLiteralExpressionSyntax node) {
       Write(node.Value);
     }
 
     internal void Render(CastExpressionSyntax node) {
-      Write(Tokens.OpenParentheses);
-      node.Target.Render(this);
-      Write(Tokens.CloseParentheses);
-      node.Expression.Render(this);
+      if (node.IsParenthesesCast) {
+        Write(Tokens.OpenParentheses);
+        node.Target.Render(this);
+        Write(Tokens.CloseParentheses);
+        node.Expression.Render(this);
+      } else {
+        IdentifierSyntax.Cast.Generic(node.Target).Invation(node.Expression).Render(this);
+      }
     }
 
     internal void Render(IfElseStatementSyntax node) {
@@ -585,7 +657,7 @@ namespace Meson.Compiler {
       node.Name.Render(this);
       if (node.Initializer != null) {
         WriteSpace();
-        Write(Tokens.EqualsEquals);
+        Write(Tokens.Equals);
         WriteSpace();
         node.Initializer.Render(this);
       }

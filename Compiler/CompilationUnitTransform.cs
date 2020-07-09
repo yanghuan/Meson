@@ -14,7 +14,7 @@ namespace Meson.Compiler {
     private readonly HashSet<ITypeDefinition> srcReferences_ = new HashSet<ITypeDefinition>();
     private readonly ITypeDefinition root_;
     private readonly Dictionary<ISymbol, NestedCycleRefTypeNameSyntax> nestedCycleRefNames_ = new Dictionary<ISymbol, NestedCycleRefTypeNameSyntax>();
-    private readonly Dictionary<ITypeDefinition, SymbolNameSyntax> typeBaseNames_ = new Dictionary<ITypeDefinition, SymbolNameSyntax>();
+    private readonly Dictionary<string, SymbolNameSyntax> typeBaseNames_ = new Dictionary<string, SymbolNameSyntax>();
     private readonly Dictionary<string, HashSet<ITypeDefinition>> sameBaseNames_ = new Dictionary<string, HashSet<ITypeDefinition>>();
     public CompilationUnitTransform(AssemblyTransform assemblyTransform, List<ITypeDefinition> types) {
       AssemblyTransform = assemblyTransform;
@@ -60,7 +60,7 @@ namespace Meson.Compiler {
         if (root_.Kind != TypeKind.Interface) {
           CompilationUnit.AddReferencesIncludes(root_.Name, srcIncludes.OrderBy(i => i));
           CompilationUnit.AddSrcReferencesIncludes(srcReferences_.Select(i => i.GetReferenceIncludeString(true)).OrderBy(i => i));
-          srcUsingsSyntax.AddRange(srcReferences_.Where(i => !root_.IsNamespaceContain(i)).Select(i => i.GetFullNamespace(true)).OrderBy(i => i).Select(i => new UsingNamespaceOrTypeSyntax(i)));
+          srcUsingsSyntax.AddRange(srcReferences_.Where(i => !root_.IsNamespaceContain(i)).Select(i => i.GetFullNamespace(true, root_)).Distinct().OrderBy(i => i).Select(i => new UsingNamespaceOrTypeSyntax(i)));
         }
       } else {
         rootNamespace.AddRange(classNamespace.Statements);
@@ -240,11 +240,12 @@ namespace Meson.Compiler {
         return type.Name;
       }
 
-      var expression = typeBaseNames_.GetOrDefault(typeDefinition);
+      string fullName = typeDefinition.GetFullName();
+      var expression = typeBaseNames_.GetOrDefault(fullName);
       if (expression == null) {
         string name = type.Name;
         expression = new SymbolNameSyntax(name);
-        typeBaseNames_.Add(typeDefinition, expression);
+        typeBaseNames_.Add(fullName, expression);
         sameBaseNames_.TryAdd(name, typeDefinition);
       }
       return expression;
@@ -344,7 +345,7 @@ namespace Meson.Compiler {
             });
             int index = 0;
             foreach (var type in types) {
-              var name = typeBaseNames_[type];
+              var name = typeBaseNames_[type.GetFullName()];
               if (index == 0) {
                 headUsingsSyntax.Add(GetUsingDeclarationSyntax(name.NameExpression, type, root_));
               } else {
@@ -361,12 +362,21 @@ namespace Meson.Compiler {
   }
 
   internal struct TypeNameArgs {
-    public IType Type;
+    private IType type_;
     public ITypeDefinition Definition;
     public bool IsForward;
     public IType Original;
     public bool IsInHead;
     public ISymbol Symbol;
+
+    public IType Type {
+      get {
+        return type_;
+      }
+      set {
+        type_ = value.Original();
+      }
+    }
 
     public TypeNameArgs With(IType type, bool isForward) {
       return new TypeNameArgs() {

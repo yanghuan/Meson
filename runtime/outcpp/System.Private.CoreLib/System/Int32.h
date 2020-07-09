@@ -17,6 +17,8 @@ FORWARD(String)
 namespace Int32Namespace {
 using namespace Globalization;
 struct Int32 {
+  public: Int32(): m_value(0) {}
+  public: Int32(int32_t value): m_value(value) {}
   public: Int32 CompareTo(Object value);
   public: Int32 CompareTo(Int32 value);
   public: Boolean Equals(Object obj);

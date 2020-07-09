@@ -13,6 +13,8 @@ FORWARDS(Span, T)
 FORWARD(String)
 namespace BooleanNamespace {
 struct Boolean {
+  public: Boolean(): m_value(false) {}
+  public: Boolean(bool value): m_value(value) {}
   public: Int32 GetHashCode();
   public: String ToString();
   public: String ToString(IFormatProvider provider);

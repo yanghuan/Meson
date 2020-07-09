@@ -111,9 +111,9 @@ rule("cxxfilehash")
   
 target("outcpp")
   set_kind("binary")
-  add_rules("cxxfilehash")
+  --add_rules("cxxfilehash")
   add_packages("boost")
   add_includedirs("..", {public = true})
   add_includedirs(".")
-  add_files("../rt/**.cpp", "**.cpp", { rules = { "cxxfilehash", override = true }})
+  add_files("../rt/**.cpp", "**.cpp"--[[, { rules = { "cxxfilehash", override = true }}--]])
 

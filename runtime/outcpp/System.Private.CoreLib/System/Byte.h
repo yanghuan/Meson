@@ -19,6 +19,8 @@ FORWARD(String)
 namespace ByteNamespace {
 using namespace Globalization;
 struct Byte {
+  public: Byte(): m_value(0) {}
+  public: Byte(uint8_t value): m_value(value) {}
   public: Int32 CompareTo(Object value);
   public: Int32 CompareTo(Byte value);
   public: Boolean Equals(Object obj);

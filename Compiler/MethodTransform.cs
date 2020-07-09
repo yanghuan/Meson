@@ -19,7 +19,7 @@ namespace Meson.Compiler {
 
     private static readonly HashSet<string> exportTypes_ = new HashSet<string>() {
       "System.Int32",
-      "System.Array"
+      //"System.Array"
     };
 
     private readonly TypeDefinitionTransform typeDefinition_;
@@ -124,7 +124,7 @@ namespace Meson.Compiler {
     public SyntaxNode VisitCastExpression(CastExpression castExpression) {
       var targetType = castExpression.Type.AcceptExpression(this);
       var expression = castExpression.Expression.AcceptExpression(this);
-      return new CastExpressionSyntax(targetType, expression);
+      return expression.CastTo(targetType);
     }
 
     public SyntaxNode VisitCheckedExpression(CheckedExpression checkedExpression) {
@@ -180,7 +180,7 @@ namespace Meson.Compiler {
           && type.Is(i.Parameters[index].Type.Original()));
         if (exists) {
           var targetType = GetTypeName(parameter.Type, parameter);
-          expression = expression.CastTo(targetType);
+          expression = expression.CastTo(targetType, true);
         }
       }
     }
@@ -206,7 +206,9 @@ namespace Meson.Compiler {
     }
 
     public SyntaxNode VisitIsExpression(IsExpression isExpression) {
-      throw new NotImplementedException();
+      var type = isExpression.Type.AcceptExpression(this);
+      var expression = isExpression.Expression.AcceptExpression(this);
+      return IdentifierSyntax.Is.Generic(type).Invation(expression);
     }
 
     public SyntaxNode VisitLambdaExpression(LambdaExpression lambdaExpression) {
@@ -228,6 +230,9 @@ namespace Meson.Compiler {
             var field = (IField)symbol;
             var name = GetMemberName(field);
             if (field.IsStatic) {
+              if (field.DeclaringTypeDefinition.IsRefType()) {
+                target = target.TwoColon(IdentifierSyntax.In);
+              }
               return target.TwoColon(name);
             } else {
               return target.Arrow(name);
@@ -237,6 +242,9 @@ namespace Meson.Compiler {
             var method = (IMethod)symbol;
             var name = GetMemberName(method);
             if (method.IsStatic) {
+              if (method.DeclaringTypeDefinition.IsRefType()) {
+                target = target.TwoColon(IdentifierSyntax.In);
+              }
               return target.TwoColon(name);
             } else {
               return target.Arrow(name);
@@ -494,7 +502,10 @@ namespace Meson.Compiler {
     }
 
     public SyntaxNode VisitReturnStatement(ReturnStatement returnStatement) {
-      throw new NotImplementedException();
+      if (returnStatement.Expression.IsNull()) {
+        return new ReturnStatementSyntax();
+      }
+      return returnStatement.Expression.AcceptExpression(this).Return();
     }
 
     public SyntaxNode VisitSwitchStatement(SwitchStatement switchStatement) {
@@ -675,7 +686,9 @@ namespace Meson.Compiler {
         var block = methodDeclaration.Body.Accept<BlockSyntax>(this);
         node.AddRange(block.Statements);
       }
-      InsertDefaultReturnValue(node, method, returnType);
+      if (!IsMethodExport(method)) {
+        InsertDefaultReturnValue(node, method, returnType);
+      }
       return node;
     }
 

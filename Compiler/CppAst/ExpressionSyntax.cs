@@ -23,8 +23,8 @@ namespace Meson.Compiler.CppAst {
       return new MemberAccessExpressionSyntax(this, expression, MemberAccessOperator.Arrow);
     }
 
-    internal CastExpressionSyntax CastTo(ExpressionSyntax target) {
-      return new CastExpressionSyntax(this, target);
+    internal CastExpressionSyntax CastTo(ExpressionSyntax target, bool isParenthesesCast = false) {
+      return new CastExpressionSyntax(this, target, isParenthesesCast);
     }
 
     internal AddressIdentifierSyntax Address() {
@@ -45,6 +45,10 @@ namespace Meson.Compiler.CppAst {
 
     internal InvationExpressionSyntax Invation(IEnumerable<ExpressionSyntax> arguments) {
       return new InvationExpressionSyntax(this, arguments);
+    }
+
+    internal GenericIdentifierSyntax Generic(params ExpressionSyntax[] args) {
+      return new GenericIdentifierSyntax(this, args);
     }
   }
 
@@ -118,6 +122,21 @@ namespace Meson.Compiler.CppAst {
     public static readonly StringLiteralExpressionSyntax Empty = new StringLiteralExpressionSyntax(string.Empty);
   }
 
+  internal sealed class BooleanLiteralExpressionSyntax : LiteralExpressionSyntax {
+    public bool Value { get; }
+
+    private BooleanLiteralExpressionSyntax(bool value) {
+      Value = value;
+    }
+
+    internal override void Render(CppRenderer renderer) {
+      renderer.Render(this);
+    }
+
+    public static readonly BooleanLiteralExpressionSyntax False = new BooleanLiteralExpressionSyntax(false);
+    public static readonly BooleanLiteralExpressionSyntax True = new BooleanLiteralExpressionSyntax(true);
+  }
+
   internal sealed class NumberLiteralExpressionSyntax : LiteralExpressionSyntax {
     public string Value { get; }
 
@@ -128,6 +147,8 @@ namespace Meson.Compiler.CppAst {
     internal override void Render(CppRenderer renderer) {
       renderer.Render(this);
     }
+
+    public static readonly NumberLiteralExpressionSyntax Zero = new NumberLiteralExpressionSyntax("0");
   }
 
   internal sealed class CodeTemplateExpressionSyntax : ExpressionSyntax {
@@ -147,10 +168,12 @@ namespace Meson.Compiler.CppAst {
   internal sealed class CastExpressionSyntax : ExpressionSyntax {
     public ExpressionSyntax Expression { get; }
     public ExpressionSyntax Target { get; }
+    public bool IsParenthesesCast { get; }
 
-    public CastExpressionSyntax(ExpressionSyntax expression, ExpressionSyntax target) {
+    public CastExpressionSyntax(ExpressionSyntax expression, ExpressionSyntax target, bool isParenthesesCast = false) {
       Expression = expression;
       Target = target;
+      IsParenthesesCast = isParenthesesCast;
     }
 
     internal override void Render(CppRenderer renderer) {

@@ -20,6 +20,8 @@ FORWARDS(UInt32)
 namespace CharNamespace {
 using namespace Globalization;
 struct Char {
+  public: Char(): m_value(0) {}
+  public: Char(char8_t value): m_value(value) {}
   private: static ReadOnlySpan<Byte> get_Latin1CharInfo();
   private: static Boolean IsLatin1(Char ch);
   private: static Boolean IsAscii(Char ch);
