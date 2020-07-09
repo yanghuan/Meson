@@ -65,9 +65,10 @@ namespace Meson.Compiler {
       if (exportFunctions_.Contains(method.FullName)) {
         return true;
       }
+      /*
       if (exportTypes_.Contains(method.DeclaringType.FullName)) {
         return true;
-      }
+      }*/
       return false;
     }
 
@@ -124,7 +125,7 @@ namespace Meson.Compiler {
     public SyntaxNode VisitCastExpression(CastExpression castExpression) {
       var targetType = castExpression.Type.AcceptExpression(this);
       var expression = castExpression.Expression.AcceptExpression(this);
-      return expression.CastTo(targetType);
+      return new CastExpressionSyntax(expression, targetType);
     }
 
     public SyntaxNode VisitCheckedExpression(CheckedExpression checkedExpression) {
