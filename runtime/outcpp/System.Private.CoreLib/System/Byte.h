@@ -18,7 +18,7 @@ FORWARDS(Span, T)
 FORWARD(String)
 namespace ByteNamespace {
 using namespace Globalization;
-struct Byte {
+struct Byte : public rt::PrimitiveType<Byte> {
   public: Byte(): m_value(0) {}
   public: Byte(uint8_t value): m_value(value) {}
   public: Int32 CompareTo(Object value);

@@ -19,7 +19,7 @@ FORWARD(String)
 FORWARDS(UInt32)
 namespace SingleNamespace {
 using namespace Globalization;
-struct Single {
+struct Single : public rt::PrimitiveType<Single> {
   public: Single(): m_value(0) {}
   public: Single(float value): m_value(value) {}
   public: static Boolean IsFinite(Single f);

@@ -11,6 +11,7 @@ namespace Meson.Compiler.CppAst {
 
     public static readonly IdentifierSyntax Meson = "rt";
     public static readonly IdentifierSyntax FixedBuffer = "rt::FixedBuffer";
+    public static readonly IdentifierSyntax PrimitiveType = "rt::PrimitiveType";
     public static readonly IdentifierSyntax Void = "void";
     public static readonly IdentifierSyntax Object = "Object";
     public static readonly IdentifierSyntax T = "T";
@@ -19,6 +20,7 @@ namespace Meson.Compiler.CppAst {
     public static readonly IdentifierSyntax Cast = "rt::cast";
     public static readonly IdentifierSyntax Out = "out";
     public static readonly IdentifierSyntax Value = "value";
+    public static readonly IdentifierSyntax This = "this";
     public static readonly IdentifierSyntax NAME = "NAME";
     public static readonly IdentifierSyntax Nullptr = Tokens.Nullptr;
   }
@@ -91,6 +93,19 @@ namespace Meson.Compiler.CppAst {
     public string Ampersand => Tokens.Ampersand;
 
     public AddressIdentifierSyntax(ExpressionSyntax name) {
+      Name = name;
+    }
+
+    internal override void Render(CppRenderer renderer) {
+      renderer.Render(this);
+    }
+  }
+
+  internal sealed class IndirectionIdentifierSyntax : IdentifierSyntax {
+    public string Asterisk => Tokens.Asterisk;
+    public ExpressionSyntax Name { get; }
+
+    public IndirectionIdentifierSyntax(ExpressionSyntax name) {
       Name = name;
     }
 

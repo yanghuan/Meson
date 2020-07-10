@@ -19,7 +19,7 @@ FORWARD(String)
 FORWARDS(UInt32)
 namespace CharNamespace {
 using namespace Globalization;
-struct Char {
+struct Char : public rt::PrimitiveType<Char> {
   public: Char(): m_value(0) {}
   public: Char(char8_t value): m_value(value) {}
   private: static ReadOnlySpan<Byte> get_Latin1CharInfo();

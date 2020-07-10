@@ -510,6 +510,11 @@ namespace Meson.Compiler {
       node.Name.Render(this);
     }
 
+    internal void Render(IndirectionIdentifierSyntax node) {
+      Write(node.Asterisk);
+      node.Name.Render(this);
+    }
+
     internal void Render(MemberAccessExpressionSyntax node) {
       node.Expression.Render(this);
       Write(node.OperatorToken);

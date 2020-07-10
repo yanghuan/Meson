@@ -18,7 +18,7 @@ FORWARDS(Span, T)
 FORWARD(String)
 namespace UInt16Namespace {
 using namespace Globalization;
-struct UInt16 {
+struct UInt16 : public rt::PrimitiveType<UInt16> {
   public: UInt16(): m_value(0) {}
   public: UInt16(uint16_t value): m_value(value) {}
   public: Int32 CompareTo(Object value);

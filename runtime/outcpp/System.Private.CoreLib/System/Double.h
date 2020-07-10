@@ -19,7 +19,7 @@ FORWARD(String)
 FORWARDS(UInt64)
 namespace DoubleNamespace {
 using namespace Globalization;
-struct Double {
+struct Double : public rt::PrimitiveType<Double> {
   public: Double(): m_value(0) {}
   public: Double(double value): m_value(value) {}
   public: static Boolean IsFinite(Double d);

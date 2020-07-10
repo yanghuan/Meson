@@ -18,7 +18,7 @@ FORWARDS(Span, T)
 FORWARD(String)
 namespace SByteNamespace {
 using namespace Globalization;
-struct SByte {
+struct SByte : public rt::PrimitiveType<SByte> {
   public: SByte(): m_value(0) {}
   public: SByte(int8_t value): m_value(value) {}
   public: Int32 CompareTo(Object obj);

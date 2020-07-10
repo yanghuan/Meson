@@ -16,7 +16,7 @@ FORWARDS(Span, T)
 FORWARD(String)
 namespace Int32Namespace {
 using namespace Globalization;
-struct Int32 {
+struct Int32 : public rt::PrimitiveType<Int32> {
   public: Int32(): m_value(0) {}
   public: Int32(int32_t value): m_value(value) {}
   public: Int32 CompareTo(Object value);

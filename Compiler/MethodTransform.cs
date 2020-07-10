@@ -313,7 +313,12 @@ namespace Meson.Compiler {
     }
 
     public SyntaxNode VisitThisReferenceExpression(ThisReferenceExpression thisReferenceExpression) {
-      throw new NotImplementedException();
+      var type = thisReferenceExpression.GetResolveResult().Type;
+      if (type.IsRefType()) {
+        var typeName = GetTypeName(type);
+        return IdentifierSyntax.This.CastTo(typeName);
+      }
+      return new IndirectionIdentifierSyntax(IdentifierSyntax.This);
     }
 
     public SyntaxNode VisitThrowExpression(ThrowExpression throwExpression) {

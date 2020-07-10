@@ -423,6 +423,15 @@ namespace rt {
     int32_t length;
   };
 
+  template <class T>
+  struct PrimitiveType {
+    friend struct PrimitiveType;
+    
+    bool operator==(const T& other) {
+      return static_cast<T*>(this)->m_value == other.m_value;
+    }
+  };
+
   template <class T, size_t N>
   struct FixedBuffer {
     T v[N];

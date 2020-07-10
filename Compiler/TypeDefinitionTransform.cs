@@ -265,6 +265,8 @@ namespace Meson.Compiler {
       foreach (var field in typeDefinition.Fields) {
         var fieldName = GetMemberName(field);
         if (IsValueTypeInnerField(field, typeDefinition, out ExpressionSyntax typeName)) {
+          node.Bases.Add(new BaseSyntax(IdentifierSyntax.PrimitiveType.Generic(node.Name)));
+
           string accessibilityToken = Accessibility.Public.ToTokenString();
           var defaultConstructor = new ConstructorDefinitionSyntax(node.Name, Array.Empty<ParameterSyntax>(), accessibilityToken) { Body = BlockSyntax.EmptyBlock };
           defaultConstructor.AddInitializationList(fieldName, field.Type.GetDefinition().GetPrimitiveTypeDefaultValue());

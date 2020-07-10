@@ -17,7 +17,7 @@ FORWARDS(Span, T)
 FORWARD(String)
 namespace UInt64Namespace {
 using namespace Globalization;
-struct UInt64 {
+struct UInt64 : public rt::PrimitiveType<UInt64> {
   public: UInt64(): m_value(0) {}
   public: UInt64(uint64_t value): m_value(value) {}
   public: Int32 CompareTo(Object value);

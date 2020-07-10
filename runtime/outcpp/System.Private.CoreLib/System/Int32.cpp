@@ -24,17 +24,22 @@ Int32 Int32::CompareTo(Int32 value) {
 Boolean Int32::Equals(Object obj) {
 };
 Boolean Int32::Equals(Int32 obj) {
+  return *this == obj;
 };
 Int32 Int32::GetHashCode() {
+  return *this;
 };
 String Int32::ToString() {
+  return Number::Int32ToDecStr(*this);
 };
 String Int32::ToString(String format) {
   return ToString(format, nullptr);
 };
 String Int32::ToString(IFormatProvider provider) {
+  return Number::FormatInt32(*this, 0, nullptr, provider);
 };
 String Int32::ToString(String format, IFormatProvider provider) {
+  return Number::FormatInt32(*this, -1, format, provider);
 };
 Boolean Int32::TryFormat(Span<Char> destination, Int32& charsWritten, ReadOnlySpan<Char> format, IFormatProvider provider) {
 };
