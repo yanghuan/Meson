@@ -16,7 +16,7 @@ Int32 Int32::CompareTo(Object value) {
     return 1;
   }
   if (rt::is<Int32>(value)) {
-    Int32 num = rt::cast<Int32>(value);
+    Int32 num = (Int32)value;
   }
 };
 Int32 Int32::CompareTo(Int32 value) {

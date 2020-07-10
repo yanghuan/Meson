@@ -23,6 +23,8 @@ struct Plane {
   public: static Single Dot(Plane plane, Vector4 value);
   public: static Single DotCoordinate(Plane plane, Vector3 value);
   public: static Single DotNormal(Plane plane, Vector3 value);
+  public: static Boolean op_Equality(Plane value1, Plane value2);
+  public: static Boolean op_Inequality(Plane value1, Plane value2);
   public: Boolean Equals(Plane other);
   public: Boolean Equals(Object obj);
   public: String ToString();

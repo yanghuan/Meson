@@ -98,6 +98,12 @@ Boolean String___::Equals(String a, String b) {
 Boolean String___::Equals(String a, String b, StringComparison comparisonType) {
   return Boolean();
 };
+Boolean String___::op_Equality(String a, String b) {
+  return Boolean();
+};
+Boolean String___::op_Inequality(String a, String b) {
+  return Boolean();
+};
 Int32 String___::GetHashCode() {
   return Int32();
 };
@@ -168,6 +174,9 @@ String String___::Ctor(Char c, Int32 count) {
 };
 String String___::Ctor(ReadOnlySpan<Char> value) {
   return nullptr;
+};
+ReadOnlySpan<Char> String___::op_Implicit(String value) {
+  return ReadOnlySpan<Char>();
 };
 Boolean String___::TryGetSpan(Int32 startIndex, Int32 count, ReadOnlySpan<Char>& slice) {
   return Boolean();

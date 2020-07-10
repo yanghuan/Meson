@@ -30,6 +30,8 @@ struct OpCode {
   public: Int32 StackChange();
   public: Boolean Equals(Object obj);
   public: Boolean Equals(OpCode obj);
+  public: static Boolean op_Equality(OpCode a, OpCode b);
+  public: static Boolean op_Inequality(OpCode a, OpCode b);
   public: Int32 GetHashCode();
   public: String ToString();
   private: OpCodeValues m_value;

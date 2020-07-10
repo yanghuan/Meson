@@ -24,6 +24,12 @@ Boolean TimeZoneInfo___::TransitionTime::get_IsFixedDateRule() {
 Boolean TimeZoneInfo___::TransitionTime::Equals(Object obj) {
   return Boolean();
 };
+Boolean TimeZoneInfo___::TransitionTime::op_Equality(TransitionTime t1, TransitionTime t2) {
+  return Boolean();
+};
+Boolean TimeZoneInfo___::TransitionTime::op_Inequality(TransitionTime t1, TransitionTime t2) {
+  return Boolean();
+};
 Boolean TimeZoneInfo___::TransitionTime::Equals(TransitionTime other) {
   return Boolean();
 };

@@ -182,4 +182,46 @@ String TimeSpan::ToString(String format, IFormatProvider formatProvider) {
 Boolean TimeSpan::TryFormat(Span<Char> destination, Int32& charsWritten, ReadOnlySpan<Char> format, IFormatProvider formatProvider) {
   return Boolean();
 };
+TimeSpan TimeSpan::op_UnaryNegation(TimeSpan t) {
+  return TimeSpan();
+};
+TimeSpan TimeSpan::op_Subtraction(TimeSpan t1, TimeSpan t2) {
+  return TimeSpan();
+};
+TimeSpan TimeSpan::op_UnaryPlus(TimeSpan t) {
+  return TimeSpan();
+};
+TimeSpan TimeSpan::op_Addition(TimeSpan t1, TimeSpan t2) {
+  return TimeSpan();
+};
+TimeSpan TimeSpan::op_Multiply(TimeSpan timeSpan, Double factor) {
+  return TimeSpan();
+};
+TimeSpan TimeSpan::op_Multiply(Double factor, TimeSpan timeSpan) {
+  return TimeSpan();
+};
+TimeSpan TimeSpan::op_Division(TimeSpan timeSpan, Double divisor) {
+  return TimeSpan();
+};
+Double TimeSpan::op_Division(TimeSpan t1, TimeSpan t2) {
+  return Double();
+};
+Boolean TimeSpan::op_Equality(TimeSpan t1, TimeSpan t2) {
+  return Boolean();
+};
+Boolean TimeSpan::op_Inequality(TimeSpan t1, TimeSpan t2) {
+  return Boolean();
+};
+Boolean TimeSpan::op_LessThan(TimeSpan t1, TimeSpan t2) {
+  return Boolean();
+};
+Boolean TimeSpan::op_LessThanOrEqual(TimeSpan t1, TimeSpan t2) {
+  return Boolean();
+};
+Boolean TimeSpan::op_GreaterThan(TimeSpan t1, TimeSpan t2) {
+  return Boolean();
+};
+Boolean TimeSpan::op_GreaterThanOrEqual(TimeSpan t1, TimeSpan t2) {
+  return Boolean();
+};
 } // namespace System::Private::CoreLib::System::TimeSpanNamespace

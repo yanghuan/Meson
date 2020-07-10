@@ -14,6 +14,8 @@ struct ParameterToken {
   public: Int32 GetHashCode();
   public: Boolean Equals(Object obj);
   public: Boolean Equals(ParameterToken obj);
+  public: static Boolean op_Equality(ParameterToken a, ParameterToken b);
+  public: static Boolean op_Inequality(ParameterToken a, ParameterToken b);
   public: static ParameterToken Empty;
   private: Int32 Token;
 };

@@ -14,6 +14,8 @@ struct PropertyToken {
   public: Int32 GetHashCode();
   public: Boolean Equals(Object obj);
   public: Boolean Equals(PropertyToken obj);
+  public: static Boolean op_Equality(PropertyToken a, PropertyToken b);
+  public: static Boolean op_Inequality(PropertyToken a, PropertyToken b);
   public: static PropertyToken Empty;
   private: Int32 Token;
 };

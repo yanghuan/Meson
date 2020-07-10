@@ -47,4 +47,10 @@ Boolean EventInfo___::Equals(Object obj) {
 Int32 EventInfo___::GetHashCode() {
   return Int32();
 };
+Boolean EventInfo___::op_Equality(EventInfo left, EventInfo right) {
+  return Boolean();
+};
+Boolean EventInfo___::op_Inequality(EventInfo left, EventInfo right) {
+  return Boolean();
+};
 } // namespace System::Private::CoreLib::System::Reflection::EventInfoNamespace

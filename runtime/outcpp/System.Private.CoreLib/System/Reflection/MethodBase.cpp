@@ -105,6 +105,12 @@ Boolean MethodBase___::Equals(Object obj) {
 Int32 MethodBase___::GetHashCode() {
   return Int32();
 };
+Boolean MethodBase___::op_Equality(MethodBase left, MethodBase right) {
+  return Boolean();
+};
+Boolean MethodBase___::op_Inequality(MethodBase left, MethodBase right) {
+  return Boolean();
+};
 void MethodBase___::AppendParameters(ValueStringBuilder& sbParamList, Array<Type> parameterTypes, CallingConventions callingConvention) {
 };
 } // namespace System::Private::CoreLib::System::Reflection::MethodBaseNamespace

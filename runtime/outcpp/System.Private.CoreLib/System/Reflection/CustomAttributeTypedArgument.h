@@ -22,6 +22,8 @@ struct CustomAttributeTypedArgument {
   private: static Object EncodedValueToRawValue(Int64 val, CustomAttributeEncoding encodedType);
   private: static RuntimeType ResolveType(RuntimeModule scope, String typeName);
   private: static Object CanonicalizeValue(Object value);
+  public: static Boolean op_Equality(CustomAttributeTypedArgument left, CustomAttributeTypedArgument right);
+  public: static Boolean op_Inequality(CustomAttributeTypedArgument left, CustomAttributeTypedArgument right);
   public: String ToString();
   public: String ToString(Boolean typed);
   public: Int32 GetHashCode();

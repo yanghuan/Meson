@@ -31,6 +31,8 @@ struct RuntimeFieldHandle {
   public: Int32 GetHashCode();
   public: Boolean Equals(Object obj);
   public: Boolean Equals(RuntimeFieldHandle handle);
+  public: static Boolean op_Equality(RuntimeFieldHandle left, RuntimeFieldHandle right);
+  public: static Boolean op_Inequality(RuntimeFieldHandle left, RuntimeFieldHandle right);
   public: static String GetName(RtFieldInfo field);
   private: static void* _GetUtf8Name(RuntimeFieldHandleInternal field);
   public: static MdUtf8String GetUtf8Name(RuntimeFieldHandleInternal field);

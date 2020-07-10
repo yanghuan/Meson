@@ -10,4 +10,10 @@ Boolean ParameterToken::Equals(Object obj) {
 Boolean ParameterToken::Equals(ParameterToken obj) {
   return Boolean();
 };
+Boolean ParameterToken::op_Equality(ParameterToken a, ParameterToken b) {
+  return Boolean();
+};
+Boolean ParameterToken::op_Inequality(ParameterToken a, ParameterToken b) {
+  return Boolean();
+};
 } // namespace System::Private::CoreLib::System::Reflection::Emit::ParameterTokenNamespace

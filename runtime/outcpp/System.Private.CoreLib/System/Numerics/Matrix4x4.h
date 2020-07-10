@@ -74,6 +74,13 @@ struct Matrix4x4 {
   public: static Matrix4x4 Subtract(Matrix4x4 value1, Matrix4x4 value2);
   public: static Matrix4x4 Multiply(Matrix4x4 value1, Matrix4x4 value2);
   public: static Matrix4x4 Multiply(Matrix4x4 value1, Single value2);
+  public: static Matrix4x4 op_UnaryNegation(Matrix4x4 value);
+  public: static Matrix4x4 op_Addition(Matrix4x4 value1, Matrix4x4 value2);
+  public: static Matrix4x4 op_Subtraction(Matrix4x4 value1, Matrix4x4 value2);
+  public: static Matrix4x4 op_Multiply(Matrix4x4 value1, Matrix4x4 value2);
+  public: static Matrix4x4 op_Multiply(Matrix4x4 value1, Single value2);
+  public: static Boolean op_Equality(Matrix4x4 value1, Matrix4x4 value2);
+  public: static Boolean op_Inequality(Matrix4x4 value1, Matrix4x4 value2);
   public: Boolean Equals(Matrix4x4 other);
   public: Boolean Equals(Object obj);
   public: String ToString();

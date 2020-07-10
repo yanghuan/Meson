@@ -23,8 +23,18 @@ struct UIntPtr {
   public: Int32 GetHashCode();
   public: UInt32 ToUInt32();
   public: UInt64 ToUInt64();
+  public: static UIntPtr op_Explicit(UInt32 value);
+  public: static UIntPtr op_Explicit(UInt64 value);
+  public: static UIntPtr op_Explicit(void* value);
+  public: static void* op_Explicit(UIntPtr value);
+  public: static UInt32 op_Explicit(UIntPtr value);
+  public: static UInt64 op_Explicit(UIntPtr value);
+  public: static Boolean op_Equality(UIntPtr value1, UIntPtr value2);
+  public: static Boolean op_Inequality(UIntPtr value1, UIntPtr value2);
   public: static UIntPtr Add(UIntPtr pointer, Int32 offset);
+  public: static UIntPtr op_Addition(UIntPtr pointer, Int32 offset);
   public: static UIntPtr Subtract(UIntPtr pointer, Int32 offset);
+  public: static UIntPtr op_Subtraction(UIntPtr pointer, Int32 offset);
   public: void* ToPointer();
   public: Int32 CompareTo(Object value);
   public: Int32 CompareTo(UIntPtr value);

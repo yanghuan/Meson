@@ -10,4 +10,10 @@ Boolean MethodToken::Equals(Object obj) {
 Boolean MethodToken::Equals(MethodToken obj) {
   return Boolean();
 };
+Boolean MethodToken::op_Equality(MethodToken a, MethodToken b) {
+  return Boolean();
+};
+Boolean MethodToken::op_Inequality(MethodToken a, MethodToken b) {
+  return Boolean();
+};
 } // namespace System::Private::CoreLib::System::Reflection::Emit::MethodTokenNamespace

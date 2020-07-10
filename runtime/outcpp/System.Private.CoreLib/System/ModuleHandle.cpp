@@ -21,6 +21,12 @@ Boolean ModuleHandle::Equals(Object obj) {
 Boolean ModuleHandle::Equals(ModuleHandle handle) {
   return Boolean();
 };
+Boolean ModuleHandle::op_Equality(ModuleHandle left, ModuleHandle right) {
+  return Boolean();
+};
+Boolean ModuleHandle::op_Inequality(ModuleHandle left, ModuleHandle right) {
+  return Boolean();
+};
 void ModuleHandle::ValidateModulePointer(RuntimeModule module) {
 };
 RuntimeTypeHandle ModuleHandle::GetRuntimeTypeHandleFromMetadataToken(Int32 typeToken) {

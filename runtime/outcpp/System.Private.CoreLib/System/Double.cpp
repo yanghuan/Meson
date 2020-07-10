@@ -42,6 +42,24 @@ Int32 Double::CompareTo(Double value) {
 Boolean Double::Equals(Object obj) {
   return Boolean();
 };
+Boolean Double::op_Equality(Double left, Double right) {
+  return Boolean();
+};
+Boolean Double::op_Inequality(Double left, Double right) {
+  return Boolean();
+};
+Boolean Double::op_LessThan(Double left, Double right) {
+  return Boolean();
+};
+Boolean Double::op_GreaterThan(Double left, Double right) {
+  return Boolean();
+};
+Boolean Double::op_LessThanOrEqual(Double left, Double right) {
+  return Boolean();
+};
+Boolean Double::op_GreaterThanOrEqual(Double left, Double right) {
+  return Boolean();
+};
 Boolean Double::Equals(Double obj) {
   return Boolean();
 };

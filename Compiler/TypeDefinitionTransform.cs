@@ -5,7 +5,6 @@ using System.Linq;
 using System.Reflection;
 
 using ICSharpCode.Decompiler.TypeSystem;
-using ICSharpCode.Decompiler.Util;
 using Meson.Compiler.CppAst;
 
 namespace Meson.Compiler {
@@ -129,7 +128,7 @@ namespace Meson.Compiler {
     }
 
     private bool IsExportMethod(IMethod method) {
-      if (IsMulti || method.IsConstructor || method.IsOperator) {
+      if (IsMulti || method.IsConstructor) {
         return false;
       }
 

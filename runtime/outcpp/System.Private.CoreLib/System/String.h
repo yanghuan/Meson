@@ -80,6 +80,8 @@ CLASS(String) : public rt::string {
   public: Boolean Equals(String value, StringComparison comparisonType);
   public: static Boolean Equals(String a, String b);
   public: static Boolean Equals(String a, String b, StringComparison comparisonType);
+  public: static Boolean op_Equality(String a, String b);
+  public: static Boolean op_Inequality(String a, String b);
   public: Int32 GetHashCode();
   public: Int32 GetHashCode(StringComparison comparisonType);
   public: Int32 GetHashCodeOrdinalIgnoreCase();
@@ -104,6 +106,7 @@ CLASS(String) : public rt::string {
   private: String Ctor(SByte* value, Int32 startIndex, Int32 length, Encoding enc);
   private: String Ctor(Char c, Int32 count);
   private: String Ctor(ReadOnlySpan<Char> value);
+  public: static ReadOnlySpan<Char> op_Implicit(String value);
   public: Boolean TryGetSpan(Int32 startIndex, Int32 count, ReadOnlySpan<Char>& slice);
   public: Object Clone();
   public: static String Copy(String str);

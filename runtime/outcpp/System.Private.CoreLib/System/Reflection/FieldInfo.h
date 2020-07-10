@@ -46,6 +46,8 @@ CLASS(FieldInfo) {
   public: static FieldInfo GetFieldFromHandle(RuntimeFieldHandle handle, RuntimeTypeHandle declaringType);
   public: Boolean Equals(Object obj);
   public: Int32 GetHashCode();
+  public: static Boolean op_Equality(FieldInfo left, FieldInfo right);
+  public: static Boolean op_Inequality(FieldInfo left, FieldInfo right);
   public: Object GetValue(Object obj);
   public: void SetValue(Object obj, Object value);
   public: void SetValue(Object obj, Object value, BindingFlags invokeAttr, Binder binder, CultureInfo culture);

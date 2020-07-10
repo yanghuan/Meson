@@ -269,6 +269,33 @@ Boolean DateTime::TryParseExact(String s, Array<String> formats, IFormatProvider
 Boolean DateTime::TryParseExact(ReadOnlySpan<Char> s, Array<String> formats, IFormatProvider provider, DateTimeStyles style, DateTime& result) {
   return Boolean();
 };
+DateTime DateTime::op_Addition(DateTime d, TimeSpan t) {
+  return DateTime();
+};
+DateTime DateTime::op_Subtraction(DateTime d, TimeSpan t) {
+  return DateTime();
+};
+TimeSpan DateTime::op_Subtraction(DateTime d1, DateTime d2) {
+  return TimeSpan();
+};
+Boolean DateTime::op_Equality(DateTime d1, DateTime d2) {
+  return Boolean();
+};
+Boolean DateTime::op_Inequality(DateTime d1, DateTime d2) {
+  return Boolean();
+};
+Boolean DateTime::op_LessThan(DateTime t1, DateTime t2) {
+  return Boolean();
+};
+Boolean DateTime::op_LessThanOrEqual(DateTime t1, DateTime t2) {
+  return Boolean();
+};
+Boolean DateTime::op_GreaterThan(DateTime t1, DateTime t2) {
+  return Boolean();
+};
+Boolean DateTime::op_GreaterThanOrEqual(DateTime t1, DateTime t2) {
+  return Boolean();
+};
 Array<String> DateTime::GetDateTimeFormats() {
   return Array<String>();
 };

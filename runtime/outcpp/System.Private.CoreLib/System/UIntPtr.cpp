@@ -24,10 +24,40 @@ UInt32 UIntPtr::ToUInt32() {
 UInt64 UIntPtr::ToUInt64() {
   return UInt64();
 };
+UIntPtr UIntPtr::op_Explicit(UInt32 value) {
+  return UIntPtr();
+};
+UIntPtr UIntPtr::op_Explicit(UInt64 value) {
+  return UIntPtr();
+};
+UIntPtr UIntPtr::op_Explicit(void* value) {
+  return UIntPtr();
+};
+void* UIntPtr::op_Explicit(UIntPtr value) {
+  return nullptr;
+};
+UInt32 UIntPtr::op_Explicit(UIntPtr value) {
+  return UInt32();
+};
+UInt64 UIntPtr::op_Explicit(UIntPtr value) {
+  return UInt64();
+};
+Boolean UIntPtr::op_Equality(UIntPtr value1, UIntPtr value2) {
+  return Boolean();
+};
+Boolean UIntPtr::op_Inequality(UIntPtr value1, UIntPtr value2) {
+  return Boolean();
+};
 UIntPtr UIntPtr::Add(UIntPtr pointer, Int32 offset) {
   return UIntPtr();
 };
+UIntPtr UIntPtr::op_Addition(UIntPtr pointer, Int32 offset) {
+  return UIntPtr();
+};
 UIntPtr UIntPtr::Subtract(UIntPtr pointer, Int32 offset) {
+  return UIntPtr();
+};
+UIntPtr UIntPtr::op_Subtraction(UIntPtr pointer, Int32 offset) {
   return UIntPtr();
 };
 void* UIntPtr::ToPointer() {

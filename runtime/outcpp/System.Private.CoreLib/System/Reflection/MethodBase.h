@@ -70,6 +70,8 @@ CLASS(MethodBase) {
   public: Object Invoke(Object obj, BindingFlags invokeAttr, Binder binder, Array<Object> parameters, CultureInfo culture);
   public: Boolean Equals(Object obj);
   public: Int32 GetHashCode();
+  public: static Boolean op_Equality(MethodBase left, MethodBase right);
+  public: static Boolean op_Inequality(MethodBase left, MethodBase right);
   public: static void AppendParameters(ValueStringBuilder& sbParamList, Array<Type> parameterTypes, CallingConventions callingConvention);
 };
 } // namespace MethodBaseNamespace

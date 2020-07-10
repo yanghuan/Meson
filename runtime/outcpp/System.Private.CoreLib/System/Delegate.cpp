@@ -89,4 +89,10 @@ Delegate Delegate___::Remove(Delegate source, Delegate value) {
 Delegate Delegate___::RemoveAll(Delegate source, Delegate value) {
   return nullptr;
 };
+Boolean Delegate___::op_Equality(Delegate d1, Delegate d2) {
+  return Boolean();
+};
+Boolean Delegate___::op_Inequality(Delegate d1, Delegate d2) {
+  return Boolean();
+};
 } // namespace System::Private::CoreLib::System::DelegateNamespace

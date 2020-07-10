@@ -11,6 +11,7 @@ namespace HandleRefNamespace {
 struct HandleRef {
   public: Object get_Wrapper();
   public: IntPtr get_Handle();
+  public: static IntPtr op_Explicit(HandleRef value);
   public: static IntPtr ToIntPtr(HandleRef value);
   private: Object _wrapper;
   private: IntPtr _handle;

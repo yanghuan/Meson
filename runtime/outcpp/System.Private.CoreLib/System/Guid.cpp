@@ -89,6 +89,12 @@ Int32 Guid::CompareTo(Object value) {
 Int32 Guid::CompareTo(Guid value) {
   return Int32();
 };
+Boolean Guid::op_Equality(Guid a, Guid b) {
+  return Boolean();
+};
+Boolean Guid::op_Inequality(Guid a, Guid b) {
+  return Boolean();
+};
 String Guid::ToString(String format) {
   return nullptr;
 };

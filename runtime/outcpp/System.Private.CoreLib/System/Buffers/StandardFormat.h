@@ -19,6 +19,7 @@ struct StandardFormat {
   public: Byte get_Precision();
   public: Boolean get_HasPrecision();
   public: Boolean get_IsDefault();
+  public: static StandardFormat op_Implicit(Char symbol);
   public: static StandardFormat Parse(ReadOnlySpan<Char> format);
   public: static StandardFormat Parse(String format);
   public: static Boolean TryParse(ReadOnlySpan<Char> format, StandardFormat& result);
@@ -28,6 +29,8 @@ struct StandardFormat {
   public: Boolean Equals(StandardFormat other);
   public: String ToString();
   public: Int32 Format(Span<Char> destination);
+  public: static Boolean op_Equality(StandardFormat left, StandardFormat right);
+  public: static Boolean op_Inequality(StandardFormat left, StandardFormat right);
   public: static Byte NoPrecision;
   public: static Byte MaxPrecision;
   private: Byte _format;

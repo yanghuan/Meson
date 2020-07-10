@@ -24,10 +24,40 @@ Int32 IntPtr::ToInt32() {
 Int64 IntPtr::ToInt64() {
   return Int64();
 };
+IntPtr IntPtr::op_Explicit(Int32 value) {
+  return IntPtr();
+};
+IntPtr IntPtr::op_Explicit(Int64 value) {
+  return IntPtr();
+};
+IntPtr IntPtr::op_Explicit(void* value) {
+  return IntPtr();
+};
+void* IntPtr::op_Explicit(IntPtr value) {
+  return nullptr;
+};
+Int32 IntPtr::op_Explicit(IntPtr value) {
+  return Int32();
+};
+Int64 IntPtr::op_Explicit(IntPtr value) {
+  return Int64();
+};
+Boolean IntPtr::op_Equality(IntPtr value1, IntPtr value2) {
+  return Boolean();
+};
+Boolean IntPtr::op_Inequality(IntPtr value1, IntPtr value2) {
+  return Boolean();
+};
 IntPtr IntPtr::Add(IntPtr pointer, Int32 offset) {
   return IntPtr();
 };
+IntPtr IntPtr::op_Addition(IntPtr pointer, Int32 offset) {
+  return IntPtr();
+};
 IntPtr IntPtr::Subtract(IntPtr pointer, Int32 offset) {
+  return IntPtr();
+};
+IntPtr IntPtr::op_Subtraction(IntPtr pointer, Int32 offset) {
   return IntPtr();
 };
 void* IntPtr::ToPointer() {

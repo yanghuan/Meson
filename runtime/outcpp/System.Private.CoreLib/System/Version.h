@@ -41,6 +41,12 @@ CLASS(Version) {
   public: static Boolean TryParse(ReadOnlySpan<Char> input, Version& result);
   private: static Version ParseVersion(ReadOnlySpan<Char> input, Boolean throwOnFailure);
   private: static Boolean TryParseComponent(ReadOnlySpan<Char> component, String componentName, Boolean throwOnFailure, Int32& parsedComponent);
+  public: static Boolean op_Equality(Version v1, Version v2);
+  public: static Boolean op_Inequality(Version v1, Version v2);
+  public: static Boolean op_LessThan(Version v1, Version v2);
+  public: static Boolean op_LessThanOrEqual(Version v1, Version v2);
+  public: static Boolean op_GreaterThan(Version v1, Version v2);
+  public: static Boolean op_GreaterThanOrEqual(Version v1, Version v2);
   private: Int32 _Major;
   private: Int32 _Minor;
   private: Int32 _Build;

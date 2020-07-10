@@ -64,6 +64,10 @@ struct RuntimeTypeHandle {
   public: RuntimeType GetTypeChecked();
   public: static Boolean IsInstanceOfType(RuntimeType type, Object o);
   public: static Type GetTypeHelper(Type typeStart, Array<Type> genericArgs, IntPtr pModifiers, Int32 cModifiers);
+  public: static Boolean op_Equality(RuntimeTypeHandle left, Object right);
+  public: static Boolean op_Equality(Object left, RuntimeTypeHandle right);
+  public: static Boolean op_Inequality(RuntimeTypeHandle left, Object right);
+  public: static Boolean op_Inequality(Object left, RuntimeTypeHandle right);
   public: Int32 GetHashCode();
   public: Boolean Equals(Object obj);
   public: Boolean Equals(RuntimeTypeHandle handle);

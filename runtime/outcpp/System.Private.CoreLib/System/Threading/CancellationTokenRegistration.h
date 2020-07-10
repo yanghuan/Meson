@@ -22,6 +22,8 @@ struct CancellationTokenRegistration {
   public: Boolean Unregister();
   private: void WaitForCallbackIfNecessary();
   private: ValueTask<> WaitForCallbackIfNecessaryAsync();
+  public: static Boolean op_Equality(CancellationTokenRegistration left, CancellationTokenRegistration right);
+  public: static Boolean op_Inequality(CancellationTokenRegistration left, CancellationTokenRegistration right);
   public: Boolean Equals(Object obj);
   public: Boolean Equals(CancellationTokenRegistration other);
   public: Int32 GetHashCode();

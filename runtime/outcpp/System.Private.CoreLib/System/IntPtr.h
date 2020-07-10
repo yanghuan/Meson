@@ -22,8 +22,18 @@ struct IntPtr {
   public: Int32 GetHashCode();
   public: Int32 ToInt32();
   public: Int64 ToInt64();
+  public: static IntPtr op_Explicit(Int32 value);
+  public: static IntPtr op_Explicit(Int64 value);
+  public: static IntPtr op_Explicit(void* value);
+  public: static void* op_Explicit(IntPtr value);
+  public: static Int32 op_Explicit(IntPtr value);
+  public: static Int64 op_Explicit(IntPtr value);
+  public: static Boolean op_Equality(IntPtr value1, IntPtr value2);
+  public: static Boolean op_Inequality(IntPtr value1, IntPtr value2);
   public: static IntPtr Add(IntPtr pointer, Int32 offset);
+  public: static IntPtr op_Addition(IntPtr pointer, Int32 offset);
   public: static IntPtr Subtract(IntPtr pointer, Int32 offset);
+  public: static IntPtr op_Subtraction(IntPtr pointer, Int32 offset);
   public: void* ToPointer();
   public: Int32 CompareTo(Object value);
   public: Int32 CompareTo(IntPtr value);

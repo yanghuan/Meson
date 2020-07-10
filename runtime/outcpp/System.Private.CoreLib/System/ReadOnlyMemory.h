@@ -8,6 +8,7 @@ FORWARDS(MemoryHandle)
 } // namespace System::Private::CoreLib::System::Buffers
 namespace System::Private::CoreLib::System {
 FORWARD_(Array, T1, T2)
+FORWARDS(ArraySegment, T)
 FORWARDS(Boolean)
 FORWARDS(Memory, T)
 FORWARD(Object)
@@ -21,6 +22,8 @@ struct ReadOnlyMemory {
   public: Int32 get_Length();
   public: Boolean get_IsEmpty();
   public: ReadOnlySpan<T> get_Span();
+  public: static ReadOnlyMemory<T> op_Implicit(Array<T> array);
+  public: static ReadOnlyMemory<T> op_Implicit(ArraySegment<T> segment);
   public: String ToString();
   public: ReadOnlyMemory<T> Slice(Int32 start);
   public: ReadOnlyMemory<T> Slice(Int32 start, Int32 length);

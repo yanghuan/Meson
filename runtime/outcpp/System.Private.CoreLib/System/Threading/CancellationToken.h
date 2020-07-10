@@ -27,6 +27,8 @@ struct CancellationToken {
   public: Boolean Equals(CancellationToken other);
   public: Boolean Equals(Object other);
   public: Int32 GetHashCode();
+  public: static Boolean op_Equality(CancellationToken left, CancellationToken right);
+  public: static Boolean op_Inequality(CancellationToken left, CancellationToken right);
   public: void ThrowIfCancellationRequested();
   private: void ThrowOperationCanceledException();
   private: CancellationTokenSource _source;

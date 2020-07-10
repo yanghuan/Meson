@@ -24,10 +24,14 @@ struct GCHandle {
   public: static GCHandle Alloc(Object value, GCHandleType type);
   public: void Free();
   public: IntPtr AddrOfPinnedObject();
+  public: static GCHandle op_Explicit(IntPtr value);
   public: static GCHandle FromIntPtr(IntPtr value);
+  public: static IntPtr op_Explicit(GCHandle value);
   public: static IntPtr ToIntPtr(GCHandle value);
   public: Int32 GetHashCode();
   public: Boolean Equals(Object o);
+  public: static Boolean op_Equality(GCHandle a, GCHandle b);
+  public: static Boolean op_Inequality(GCHandle a, GCHandle b);
   private: static IntPtr GetHandleValue(IntPtr handle);
   private: static Boolean IsPinned(IntPtr handle);
   private: static void ThrowIfInvalid(IntPtr handle);

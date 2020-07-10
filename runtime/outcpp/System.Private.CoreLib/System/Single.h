@@ -34,6 +34,12 @@ struct Single {
   public: static UInt32 ExtractSignificandFromBits(UInt32 bits);
   public: Int32 CompareTo(Object value);
   public: Int32 CompareTo(Single value);
+  public: static Boolean op_Equality(Single left, Single right);
+  public: static Boolean op_Inequality(Single left, Single right);
+  public: static Boolean op_LessThan(Single left, Single right);
+  public: static Boolean op_GreaterThan(Single left, Single right);
+  public: static Boolean op_LessThanOrEqual(Single left, Single right);
+  public: static Boolean op_GreaterThanOrEqual(Single left, Single right);
   public: Boolean Equals(Object obj);
   public: Boolean Equals(Single obj);
   public: Int32 GetHashCode();

@@ -29,6 +29,8 @@ CLASS(MethodInfo) {
   public: Delegate CreateDelegate(Type delegateType, Object target);
   public: Boolean Equals(Object obj);
   public: Int32 GetHashCode();
+  public: static Boolean op_Equality(MethodInfo left, MethodInfo right);
+  public: static Boolean op_Inequality(MethodInfo left, MethodInfo right);
 };
 } // namespace MethodInfoNamespace
 using MethodInfo = MethodInfoNamespace::MethodInfo;

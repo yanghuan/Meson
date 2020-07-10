@@ -14,6 +14,8 @@ struct MethodToken {
   public: Int32 GetHashCode();
   public: Boolean Equals(Object obj);
   public: Boolean Equals(MethodToken obj);
+  public: static Boolean op_Equality(MethodToken a, MethodToken b);
+  public: static Boolean op_Inequality(MethodToken a, MethodToken b);
   public: static MethodToken Empty;
   private: Int32 Token;
 };

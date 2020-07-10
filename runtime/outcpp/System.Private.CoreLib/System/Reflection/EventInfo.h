@@ -36,6 +36,8 @@ CLASS(EventInfo) {
   public: void RemoveEventHandler(Object target, Delegate handler);
   public: Boolean Equals(Object obj);
   public: Int32 GetHashCode();
+  public: static Boolean op_Equality(EventInfo left, EventInfo right);
+  public: static Boolean op_Inequality(EventInfo left, EventInfo right);
 };
 } // namespace EventInfoNamespace
 using EventInfo = EventInfoNamespace::EventInfo;

@@ -69,6 +69,8 @@ CLASS(Delegate) {
   public: void GetObjectData(SerializationInfo info, StreamingContext context);
   public: static Delegate Remove(Delegate source, Delegate value);
   public: static Delegate RemoveAll(Delegate source, Delegate value);
+  public: static Boolean op_Equality(Delegate d1, Delegate d2);
+  public: static Boolean op_Inequality(Delegate d1, Delegate d2);
   public: Object _target;
   public: Object _methodBase;
   public: IntPtr _methodPtr;

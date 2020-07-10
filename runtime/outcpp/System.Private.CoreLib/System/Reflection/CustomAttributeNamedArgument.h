@@ -19,6 +19,8 @@ struct CustomAttributeNamedArgument {
   public: CustomAttributeTypedArgument get_TypedValue();
   public: String get_MemberName();
   public: Boolean get_IsField();
+  public: static Boolean op_Equality(CustomAttributeNamedArgument left, CustomAttributeNamedArgument right);
+  public: static Boolean op_Inequality(CustomAttributeNamedArgument left, CustomAttributeNamedArgument right);
   public: String ToString();
   public: Int32 GetHashCode();
   public: Boolean Equals(Object obj);

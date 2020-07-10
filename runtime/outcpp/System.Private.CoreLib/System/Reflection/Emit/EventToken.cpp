@@ -10,4 +10,10 @@ Boolean EventToken::Equals(Object obj) {
 Boolean EventToken::Equals(EventToken obj) {
   return Boolean();
 };
+Boolean EventToken::op_Equality(EventToken a, EventToken b) {
+  return Boolean();
+};
+Boolean EventToken::op_Inequality(EventToken a, EventToken b) {
+  return Boolean();
+};
 } // namespace System::Private::CoreLib::System::Reflection::Emit::EventTokenNamespace

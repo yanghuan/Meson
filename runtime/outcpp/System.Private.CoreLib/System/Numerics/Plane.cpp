@@ -24,6 +24,12 @@ Single Plane::DotCoordinate(Plane plane, Vector3 value) {
 Single Plane::DotNormal(Plane plane, Vector3 value) {
   return Single();
 };
+Boolean Plane::op_Equality(Plane value1, Plane value2) {
+  return Boolean();
+};
+Boolean Plane::op_Inequality(Plane value1, Plane value2) {
+  return Boolean();
+};
 Boolean Plane::Equals(Plane other) {
   return Boolean();
 };

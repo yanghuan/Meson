@@ -26,6 +26,8 @@ CLASS(ConstructorInfo) {
   public: Object Invoke(BindingFlags invokeAttr, Binder binder, Array<Object> parameters, CultureInfo culture);
   public: Boolean Equals(Object obj);
   public: Int32 GetHashCode();
+  public: static Boolean op_Equality(ConstructorInfo left, ConstructorInfo right);
+  public: static Boolean op_Inequality(ConstructorInfo left, ConstructorInfo right);
   public: static String ConstructorName;
   public: static String TypeConstructorName;
 };

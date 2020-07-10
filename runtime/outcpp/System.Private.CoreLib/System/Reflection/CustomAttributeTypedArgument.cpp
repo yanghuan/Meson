@@ -19,6 +19,12 @@ RuntimeType CustomAttributeTypedArgument::ResolveType(RuntimeModule scope, Strin
 Object CustomAttributeTypedArgument::CanonicalizeValue(Object value) {
   return nullptr;
 };
+Boolean CustomAttributeTypedArgument::op_Equality(CustomAttributeTypedArgument left, CustomAttributeTypedArgument right) {
+  return Boolean();
+};
+Boolean CustomAttributeTypedArgument::op_Inequality(CustomAttributeTypedArgument left, CustomAttributeTypedArgument right) {
+  return Boolean();
+};
 String CustomAttributeTypedArgument::ToString() {
   return nullptr;
 };

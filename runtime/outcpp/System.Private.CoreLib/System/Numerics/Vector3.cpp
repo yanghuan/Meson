@@ -115,4 +115,34 @@ Vector3 Vector3::Abs(Vector3 value) {
 Vector3 Vector3::SquareRoot(Vector3 value) {
   return Vector3();
 };
+Vector3 Vector3::op_Addition(Vector3 left, Vector3 right) {
+  return Vector3();
+};
+Vector3 Vector3::op_Subtraction(Vector3 left, Vector3 right) {
+  return Vector3();
+};
+Vector3 Vector3::op_Multiply(Vector3 left, Vector3 right) {
+  return Vector3();
+};
+Vector3 Vector3::op_Multiply(Vector3 left, Single right) {
+  return Vector3();
+};
+Vector3 Vector3::op_Multiply(Single left, Vector3 right) {
+  return Vector3();
+};
+Vector3 Vector3::op_Division(Vector3 left, Vector3 right) {
+  return Vector3();
+};
+Vector3 Vector3::op_Division(Vector3 value1, Single value2) {
+  return Vector3();
+};
+Vector3 Vector3::op_UnaryNegation(Vector3 value) {
+  return Vector3();
+};
+Boolean Vector3::op_Equality(Vector3 left, Vector3 right) {
+  return Boolean();
+};
+Boolean Vector3::op_Inequality(Vector3 left, Vector3 right) {
+  return Boolean();
+};
 } // namespace System::Private::CoreLib::System::Numerics::Vector3Namespace

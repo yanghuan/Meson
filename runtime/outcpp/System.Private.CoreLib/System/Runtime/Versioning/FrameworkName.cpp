@@ -25,4 +25,10 @@ Int32 FrameworkName___::GetHashCode() {
 String FrameworkName___::ToString() {
   return nullptr;
 };
+Boolean FrameworkName___::op_Equality(FrameworkName left, FrameworkName right) {
+  return Boolean();
+};
+Boolean FrameworkName___::op_Inequality(FrameworkName left, FrameworkName right) {
+  return Boolean();
+};
 } // namespace System::Private::CoreLib::System::Runtime::Versioning::FrameworkNameNamespace

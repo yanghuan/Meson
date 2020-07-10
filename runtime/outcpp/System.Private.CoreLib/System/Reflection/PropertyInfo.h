@@ -49,6 +49,8 @@ CLASS(PropertyInfo) {
   public: void SetValue(Object obj, Object value, BindingFlags invokeAttr, Binder binder, Array<Object> index, CultureInfo culture);
   public: Boolean Equals(Object obj);
   public: Int32 GetHashCode();
+  public: static Boolean op_Equality(PropertyInfo left, PropertyInfo right);
+  public: static Boolean op_Inequality(PropertyInfo left, PropertyInfo right);
 };
 } // namespace PropertyInfoNamespace
 using PropertyInfo = PropertyInfoNamespace::PropertyInfo;

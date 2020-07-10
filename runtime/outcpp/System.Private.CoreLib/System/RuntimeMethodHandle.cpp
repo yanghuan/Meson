@@ -21,6 +21,12 @@ Int32 RuntimeMethodHandle::GetHashCode() {
 Boolean RuntimeMethodHandle::Equals(Object obj) {
   return Boolean();
 };
+Boolean RuntimeMethodHandle::op_Equality(RuntimeMethodHandle left, RuntimeMethodHandle right) {
+  return Boolean();
+};
+Boolean RuntimeMethodHandle::op_Inequality(RuntimeMethodHandle left, RuntimeMethodHandle right) {
+  return Boolean();
+};
 Boolean RuntimeMethodHandle::Equals(RuntimeMethodHandle handle) {
   return Boolean();
 };

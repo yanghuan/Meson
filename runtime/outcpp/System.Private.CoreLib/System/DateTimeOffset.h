@@ -98,6 +98,16 @@ struct DateTimeOffset {
   private: static Int16 ValidateOffset(TimeSpan offset);
   private: static DateTime ValidateDate(DateTime dateTime, TimeSpan offset);
   private: static DateTimeStyles ValidateStyles(DateTimeStyles style, String parameterName);
+  public: static DateTimeOffset op_Implicit(DateTime dateTime);
+  public: static DateTimeOffset op_Addition(DateTimeOffset dateTimeOffset, TimeSpan timeSpan);
+  public: static DateTimeOffset op_Subtraction(DateTimeOffset dateTimeOffset, TimeSpan timeSpan);
+  public: static TimeSpan op_Subtraction(DateTimeOffset left, DateTimeOffset right);
+  public: static Boolean op_Equality(DateTimeOffset left, DateTimeOffset right);
+  public: static Boolean op_Inequality(DateTimeOffset left, DateTimeOffset right);
+  public: static Boolean op_LessThan(DateTimeOffset left, DateTimeOffset right);
+  public: static Boolean op_LessThanOrEqual(DateTimeOffset left, DateTimeOffset right);
+  public: static Boolean op_GreaterThan(DateTimeOffset left, DateTimeOffset right);
+  public: static Boolean op_GreaterThanOrEqual(DateTimeOffset left, DateTimeOffset right);
   public: static DateTimeOffset MinValue;
   public: static DateTimeOffset MaxValue;
   public: static DateTimeOffset UnixEpoch;

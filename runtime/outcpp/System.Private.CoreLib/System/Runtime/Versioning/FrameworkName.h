@@ -20,6 +20,8 @@ CLASS(FrameworkName) {
   public: Boolean Equals(FrameworkName other);
   public: Int32 GetHashCode();
   public: String ToString();
+  public: static Boolean op_Equality(FrameworkName left, FrameworkName right);
+  public: static Boolean op_Inequality(FrameworkName left, FrameworkName right);
   private: String _identifier;
   private: Version _version;
   private: String _profile;

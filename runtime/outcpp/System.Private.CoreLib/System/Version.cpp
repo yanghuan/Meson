@@ -75,4 +75,22 @@ Version Version___::ParseVersion(ReadOnlySpan<Char> input, Boolean throwOnFailur
 Boolean Version___::TryParseComponent(ReadOnlySpan<Char> component, String componentName, Boolean throwOnFailure, Int32& parsedComponent) {
   return Boolean();
 };
+Boolean Version___::op_Equality(Version v1, Version v2) {
+  return Boolean();
+};
+Boolean Version___::op_Inequality(Version v1, Version v2) {
+  return Boolean();
+};
+Boolean Version___::op_LessThan(Version v1, Version v2) {
+  return Boolean();
+};
+Boolean Version___::op_LessThanOrEqual(Version v1, Version v2) {
+  return Boolean();
+};
+Boolean Version___::op_GreaterThan(Version v1, Version v2) {
+  return Boolean();
+};
+Boolean Version___::op_GreaterThanOrEqual(Version v1, Version v2) {
+  return Boolean();
+};
 } // namespace System::Private::CoreLib::System::VersionNamespace

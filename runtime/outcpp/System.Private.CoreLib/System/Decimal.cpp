@@ -324,6 +324,117 @@ Decimal Decimal::Truncate(Decimal d) {
 };
 void Decimal::Truncate(Decimal& d) {
 };
+Decimal Decimal::op_Implicit(Byte value) {
+  return Decimal();
+};
+Decimal Decimal::op_Implicit(SByte value) {
+  return Decimal();
+};
+Decimal Decimal::op_Implicit(Int16 value) {
+  return Decimal();
+};
+Decimal Decimal::op_Implicit(UInt16 value) {
+  return Decimal();
+};
+Decimal Decimal::op_Implicit(Char value) {
+  return Decimal();
+};
+Decimal Decimal::op_Implicit(Int32 value) {
+  return Decimal();
+};
+Decimal Decimal::op_Implicit(UInt32 value) {
+  return Decimal();
+};
+Decimal Decimal::op_Implicit(Int64 value) {
+  return Decimal();
+};
+Decimal Decimal::op_Implicit(UInt64 value) {
+  return Decimal();
+};
+Decimal Decimal::op_Explicit(Single value) {
+  return Decimal();
+};
+Decimal Decimal::op_Explicit(Double value) {
+  return Decimal();
+};
+Byte Decimal::op_Explicit(Decimal value) {
+  return Byte();
+};
+SByte Decimal::op_Explicit(Decimal value) {
+  return SByte();
+};
+Char Decimal::op_Explicit(Decimal value) {
+  return Char();
+};
+Int16 Decimal::op_Explicit(Decimal value) {
+  return Int16();
+};
+UInt16 Decimal::op_Explicit(Decimal value) {
+  return UInt16();
+};
+Int32 Decimal::op_Explicit(Decimal value) {
+  return Int32();
+};
+UInt32 Decimal::op_Explicit(Decimal value) {
+  return UInt32();
+};
+Int64 Decimal::op_Explicit(Decimal value) {
+  return Int64();
+};
+UInt64 Decimal::op_Explicit(Decimal value) {
+  return UInt64();
+};
+Single Decimal::op_Explicit(Decimal value) {
+  return Single();
+};
+Double Decimal::op_Explicit(Decimal value) {
+  return Double();
+};
+Decimal Decimal::op_UnaryPlus(Decimal d) {
+  return Decimal();
+};
+Decimal Decimal::op_UnaryNegation(Decimal d) {
+  return Decimal();
+};
+Decimal Decimal::op_Increment(Decimal d) {
+  return Decimal();
+};
+Decimal Decimal::op_Decrement(Decimal d) {
+  return Decimal();
+};
+Decimal Decimal::op_Addition(Decimal d1, Decimal d2) {
+  return Decimal();
+};
+Decimal Decimal::op_Subtraction(Decimal d1, Decimal d2) {
+  return Decimal();
+};
+Decimal Decimal::op_Multiply(Decimal d1, Decimal d2) {
+  return Decimal();
+};
+Decimal Decimal::op_Division(Decimal d1, Decimal d2) {
+  return Decimal();
+};
+Decimal Decimal::op_Modulus(Decimal d1, Decimal d2) {
+  return Decimal();
+};
+Boolean Decimal::op_Equality(Decimal d1, Decimal d2) {
+  return Boolean();
+};
+Boolean Decimal::op_Inequality(Decimal d1, Decimal d2) {
+  return Boolean();
+};
+Boolean Decimal::op_LessThan(Decimal d1, Decimal d2) {
+  return Boolean();
+};
+Boolean Decimal::op_LessThanOrEqual(Decimal d1, Decimal d2) {
+  return Boolean();
+};
+Boolean Decimal::op_GreaterThan(Decimal d1, Decimal d2) {
+  return Boolean();
+};
+Boolean Decimal::op_GreaterThanOrEqual(Decimal d1, Decimal d2) {
+  return Boolean();
+};
 TypeCode Decimal::GetTypeCode() {
   return TypeCode::String;
 };

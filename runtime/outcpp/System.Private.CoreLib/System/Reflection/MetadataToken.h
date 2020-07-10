@@ -26,6 +26,8 @@ struct MetadataToken {
   public: Boolean get_IsString();
   public: Boolean get_IsSignature();
   public: Boolean get_IsGenericPar();
+  public: static Int32 op_Implicit(MetadataToken token);
+  public: static MetadataToken op_Implicit(Int32 token);
   public: static Boolean IsNullToken(Int32 token);
   public: String ToString();
   public: Int32 Value;

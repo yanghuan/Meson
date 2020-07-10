@@ -129,6 +129,8 @@ CLASS(Assembly) {
   public: String ToString();
   public: Boolean Equals(Object o);
   public: Int32 GetHashCode();
+  public: static Boolean op_Equality(Assembly left, Assembly right);
+  public: static Boolean op_Inequality(Assembly left, Assembly right);
   public: static String CreateQualifiedName(String assemblyName, String typeName);
   public: static Assembly GetAssembly(Type type);
   public: static Assembly GetEntryAssembly();

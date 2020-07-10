@@ -65,10 +65,9 @@ namespace Meson.Compiler {
       if (exportFunctions_.Contains(method.FullName)) {
         return true;
       }
-      /*
       if (exportTypes_.Contains(method.DeclaringType.FullName)) {
         return true;
-      }*/
+      }
       return false;
     }
 
@@ -181,7 +180,7 @@ namespace Meson.Compiler {
           && type.Is(i.Parameters[index].Type.Original()));
         if (exists) {
           var targetType = GetTypeName(parameter.Type, parameter);
-          expression = expression.CastTo(targetType, true);
+          expression = expression.CastTo(targetType);
         }
       }
     }

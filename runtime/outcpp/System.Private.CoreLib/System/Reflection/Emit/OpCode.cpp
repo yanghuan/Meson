@@ -37,6 +37,12 @@ Boolean OpCode::Equals(Object obj) {
 Boolean OpCode::Equals(OpCode obj) {
   return Boolean();
 };
+Boolean OpCode::op_Equality(OpCode a, OpCode b) {
+  return Boolean();
+};
+Boolean OpCode::op_Inequality(OpCode a, OpCode b) {
+  return Boolean();
+};
 Int32 OpCode::GetHashCode() {
   return Int32();
 };

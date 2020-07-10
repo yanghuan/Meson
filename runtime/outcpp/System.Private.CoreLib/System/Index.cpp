@@ -33,6 +33,9 @@ Boolean Index::Equals(Index other) {
 Int32 Index::GetHashCode() {
   return Int32();
 };
+Index Index::op_Implicit(Int32 value) {
+  return Index();
+};
 String Index::ToString() {
   return nullptr;
 };

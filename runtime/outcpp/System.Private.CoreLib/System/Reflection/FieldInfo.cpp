@@ -63,6 +63,12 @@ Boolean FieldInfo___::Equals(Object obj) {
 Int32 FieldInfo___::GetHashCode() {
   return Int32();
 };
+Boolean FieldInfo___::op_Equality(FieldInfo left, FieldInfo right) {
+  return Boolean();
+};
+Boolean FieldInfo___::op_Inequality(FieldInfo left, FieldInfo right) {
+  return Boolean();
+};
 void FieldInfo___::SetValue(Object obj, Object value) {
 };
 void FieldInfo___::SetValueDirect(TypedReference obj, Object value) {

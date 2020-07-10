@@ -34,6 +34,14 @@ struct Quaternion {
   public: static Quaternion Multiply(Quaternion value1, Quaternion value2);
   public: static Quaternion Multiply(Quaternion value1, Single value2);
   public: static Quaternion Divide(Quaternion value1, Quaternion value2);
+  public: static Quaternion op_UnaryNegation(Quaternion value);
+  public: static Quaternion op_Addition(Quaternion value1, Quaternion value2);
+  public: static Quaternion op_Subtraction(Quaternion value1, Quaternion value2);
+  public: static Quaternion op_Multiply(Quaternion value1, Quaternion value2);
+  public: static Quaternion op_Multiply(Quaternion value1, Single value2);
+  public: static Quaternion op_Division(Quaternion value1, Quaternion value2);
+  public: static Boolean op_Equality(Quaternion value1, Quaternion value2);
+  public: static Boolean op_Inequality(Quaternion value1, Quaternion value2);
   public: Boolean Equals(Quaternion other);
   public: Boolean Equals(Object obj);
   public: String ToString();

@@ -38,6 +38,8 @@ CLASS(MemberInfo) {
   public: IList<CustomAttributeData> GetCustomAttributesData();
   public: Boolean Equals(Object obj);
   public: Int32 GetHashCode();
+  public: static Boolean op_Equality(MemberInfo left, MemberInfo right);
+  public: static Boolean op_Inequality(MemberInfo left, MemberInfo right);
 };
 } // namespace MemberInfoNamespace
 using MemberInfo = MemberInfoNamespace::MemberInfo;

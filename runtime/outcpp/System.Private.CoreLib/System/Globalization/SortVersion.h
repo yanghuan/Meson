@@ -16,6 +16,8 @@ CLASS(SortVersion) {
   public: Boolean Equals(Object obj);
   public: Boolean Equals(SortVersion other);
   public: Int32 GetHashCode();
+  public: static Boolean op_Equality(SortVersion left, SortVersion right);
+  public: static Boolean op_Inequality(SortVersion left, SortVersion right);
   private: Int32 m_NlsVersion;
   private: Guid m_SortId;
 };

@@ -51,6 +51,8 @@ struct Guid {
   private: Int32 GetResult(UInt32 me, UInt32 them);
   public: Int32 CompareTo(Object value);
   public: Int32 CompareTo(Guid value);
+  public: static Boolean op_Equality(Guid a, Guid b);
+  public: static Boolean op_Inequality(Guid a, Guid b);
   public: String ToString(String format);
   private: static Int32 HexsToChars(Char* guidChars, Int32 a, Int32 b);
   private: static Int32 HexsToCharsHexOutput(Char* guidChars, Int32 a, Int32 b);

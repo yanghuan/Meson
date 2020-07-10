@@ -19,6 +19,12 @@ Boolean RuntimeFieldHandle::Equals(Object obj) {
 Boolean RuntimeFieldHandle::Equals(RuntimeFieldHandle handle) {
   return Boolean();
 };
+Boolean RuntimeFieldHandle::op_Equality(RuntimeFieldHandle left, RuntimeFieldHandle right) {
+  return Boolean();
+};
+Boolean RuntimeFieldHandle::op_Inequality(RuntimeFieldHandle left, RuntimeFieldHandle right) {
+  return Boolean();
+};
 MdUtf8String RuntimeFieldHandle::GetUtf8Name(RuntimeFieldHandleInternal field) {
   return MdUtf8String();
 };

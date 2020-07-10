@@ -125,6 +125,15 @@ struct DateTime {
   public: static Boolean TryParseExact(ReadOnlySpan<Char> s, ReadOnlySpan<Char> format, IFormatProvider provider, DateTimeStyles style, DateTime& result);
   public: static Boolean TryParseExact(String s, Array<String> formats, IFormatProvider provider, DateTimeStyles style, DateTime& result);
   public: static Boolean TryParseExact(ReadOnlySpan<Char> s, Array<String> formats, IFormatProvider provider, DateTimeStyles style, DateTime& result);
+  public: static DateTime op_Addition(DateTime d, TimeSpan t);
+  public: static DateTime op_Subtraction(DateTime d, TimeSpan t);
+  public: static TimeSpan op_Subtraction(DateTime d1, DateTime d2);
+  public: static Boolean op_Equality(DateTime d1, DateTime d2);
+  public: static Boolean op_Inequality(DateTime d1, DateTime d2);
+  public: static Boolean op_LessThan(DateTime t1, DateTime t2);
+  public: static Boolean op_LessThanOrEqual(DateTime t1, DateTime t2);
+  public: static Boolean op_GreaterThan(DateTime t1, DateTime t2);
+  public: static Boolean op_GreaterThanOrEqual(DateTime t1, DateTime t2);
   public: Array<String> GetDateTimeFormats();
   public: Array<String> GetDateTimeFormats(IFormatProvider provider);
   public: Array<String> GetDateTimeFormats(Char format);

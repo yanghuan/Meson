@@ -14,6 +14,8 @@ struct StringToken {
   public: Int32 GetHashCode();
   public: Boolean Equals(Object obj);
   public: Boolean Equals(StringToken obj);
+  public: static Boolean op_Equality(StringToken a, StringToken b);
+  public: static Boolean op_Inequality(StringToken a, StringToken b);
   private: Int32 Token;
 };
 } // namespace StringTokenNamespace

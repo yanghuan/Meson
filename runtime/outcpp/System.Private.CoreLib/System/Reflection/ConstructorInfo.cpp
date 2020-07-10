@@ -16,4 +16,10 @@ Boolean ConstructorInfo___::Equals(Object obj) {
 Int32 ConstructorInfo___::GetHashCode() {
   return Int32();
 };
+Boolean ConstructorInfo___::op_Equality(ConstructorInfo left, ConstructorInfo right) {
+  return Boolean();
+};
+Boolean ConstructorInfo___::op_Inequality(ConstructorInfo left, ConstructorInfo right) {
+  return Boolean();
+};
 } // namespace System::Private::CoreLib::System::Reflection::ConstructorInfoNamespace

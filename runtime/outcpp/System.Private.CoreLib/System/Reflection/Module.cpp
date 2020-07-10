@@ -131,6 +131,12 @@ Boolean Module___::Equals(Object o) {
 Int32 Module___::GetHashCode() {
   return Int32();
 };
+Boolean Module___::op_Equality(Module left, Module right) {
+  return Boolean();
+};
+Boolean Module___::op_Inequality(Module left, Module right) {
+  return Boolean();
+};
 String Module___::ToString() {
   return nullptr;
 };

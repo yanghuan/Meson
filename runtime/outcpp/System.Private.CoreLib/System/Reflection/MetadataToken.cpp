@@ -1,5 +1,7 @@
 #include "MetadataToken-dep.h"
 
+#include <System.Private.CoreLib/System/Reflection/MetadataToken-dep.h>
+
 namespace System::Private::CoreLib::System::Reflection::MetadataTokenNamespace {
 Boolean MetadataToken::get_IsGlobalTypeDefToken() {
   return Boolean();
@@ -45,6 +47,12 @@ Boolean MetadataToken::get_IsSignature() {
 };
 Boolean MetadataToken::get_IsGenericPar() {
   return Boolean();
+};
+Int32 MetadataToken::op_Implicit(MetadataToken token) {
+  return Int32();
+};
+MetadataToken MetadataToken::op_Implicit(Int32 token) {
+  return MetadataToken();
 };
 Boolean MetadataToken::IsNullToken(Int32 token) {
   return Boolean();

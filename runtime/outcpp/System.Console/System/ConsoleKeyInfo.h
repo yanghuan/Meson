@@ -19,6 +19,8 @@ struct ConsoleKeyInfo {
   public: ConsoleModifiers get_Modifiers();
   public: Boolean Equals(Object value);
   public: Boolean Equals(ConsoleKeyInfo obj);
+  public: static Boolean op_Equality(ConsoleKeyInfo a, ConsoleKeyInfo b);
+  public: static Boolean op_Inequality(ConsoleKeyInfo a, ConsoleKeyInfo b);
   public: Int32 GetHashCode();
   private: Char _keyChar;
   private: ConsoleKey _key;

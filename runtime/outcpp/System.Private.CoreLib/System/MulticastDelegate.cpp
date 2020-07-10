@@ -43,6 +43,12 @@ Delegate MulticastDelegate___::RemoveImpl(Delegate value) {
 Array<Delegate> MulticastDelegate___::GetInvocationList() {
   return Array<Delegate>();
 };
+Boolean MulticastDelegate___::op_Equality(MulticastDelegate d1, MulticastDelegate d2) {
+  return Boolean();
+};
+Boolean MulticastDelegate___::op_Inequality(MulticastDelegate d1, MulticastDelegate d2) {
+  return Boolean();
+};
 Int32 MulticastDelegate___::GetHashCode() {
   return Int32();
 };

@@ -13,4 +13,10 @@ Boolean Label::Equals(Object obj) {
 Boolean Label::Equals(Label obj) {
   return Boolean();
 };
+Boolean Label::op_Equality(Label a, Label b) {
+  return Boolean();
+};
+Boolean Label::op_Inequality(Label a, Label b) {
+  return Boolean();
+};
 } // namespace System::Private::CoreLib::System::Reflection::Emit::LabelNamespace

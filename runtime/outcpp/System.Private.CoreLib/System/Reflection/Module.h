@@ -85,6 +85,8 @@ CLASS(Module) {
   public: void GetObjectData(SerializationInfo info, StreamingContext context);
   public: Boolean Equals(Object o);
   public: Int32 GetHashCode();
+  public: static Boolean op_Equality(Module left, Module right);
+  public: static Boolean op_Inequality(Module left, Module right);
   public: String ToString();
   private: static Boolean FilterTypeNameImpl(Type cls, Object filterCriteria, StringComparison comparison);
   public: static TypeFilter FilterTypeName;

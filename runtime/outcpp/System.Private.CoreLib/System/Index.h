@@ -19,6 +19,7 @@ struct Index {
   public: Boolean Equals(Object value);
   public: Boolean Equals(Index other);
   public: Int32 GetHashCode();
+  public: static Index op_Implicit(Int32 value);
   public: String ToString();
   private: String ToStringFromEnd();
   private: Int32 _value;

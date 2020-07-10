@@ -74,6 +74,27 @@ Matrix3x2 Matrix3x2::Multiply(Matrix3x2 value1, Matrix3x2 value2) {
 Matrix3x2 Matrix3x2::Multiply(Matrix3x2 value1, Single value2) {
   return Matrix3x2();
 };
+Matrix3x2 Matrix3x2::op_UnaryNegation(Matrix3x2 value) {
+  return Matrix3x2();
+};
+Matrix3x2 Matrix3x2::op_Addition(Matrix3x2 value1, Matrix3x2 value2) {
+  return Matrix3x2();
+};
+Matrix3x2 Matrix3x2::op_Subtraction(Matrix3x2 value1, Matrix3x2 value2) {
+  return Matrix3x2();
+};
+Matrix3x2 Matrix3x2::op_Multiply(Matrix3x2 value1, Matrix3x2 value2) {
+  return Matrix3x2();
+};
+Matrix3x2 Matrix3x2::op_Multiply(Matrix3x2 value1, Single value2) {
+  return Matrix3x2();
+};
+Boolean Matrix3x2::op_Equality(Matrix3x2 value1, Matrix3x2 value2) {
+  return Boolean();
+};
+Boolean Matrix3x2::op_Inequality(Matrix3x2 value1, Matrix3x2 value2) {
+  return Boolean();
+};
 Boolean Matrix3x2::Equals(Matrix3x2 other) {
   return Boolean();
 };

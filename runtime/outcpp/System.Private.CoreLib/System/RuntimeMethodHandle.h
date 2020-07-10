@@ -51,6 +51,8 @@ struct RuntimeMethodHandle {
   public: void GetObjectData(SerializationInfo info, StreamingContext context);
   public: Int32 GetHashCode();
   public: Boolean Equals(Object obj);
+  public: static Boolean op_Equality(RuntimeMethodHandle left, RuntimeMethodHandle right);
+  public: static Boolean op_Inequality(RuntimeMethodHandle left, RuntimeMethodHandle right);
   public: Boolean Equals(RuntimeMethodHandle handle);
   public: Boolean IsNullHandle();
   public: static IntPtr GetFunctionPointer(RuntimeMethodHandleInternal handle);

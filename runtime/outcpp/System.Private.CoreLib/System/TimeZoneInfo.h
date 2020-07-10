@@ -56,6 +56,8 @@ CLASS(TimeZoneInfo) {
     public: DayOfWeek get_DayOfWeek();
     public: Boolean get_IsFixedDateRule();
     public: Boolean Equals(Object obj);
+    public: static Boolean op_Equality(TransitionTime t1, TransitionTime t2);
+    public: static Boolean op_Inequality(TransitionTime t1, TransitionTime t2);
     public: Boolean Equals(TransitionTime other);
     public: Int32 GetHashCode();
     public: static TransitionTime CreateFixedDateRule(DateTime timeOfDay, Int32 month, Int32 day);

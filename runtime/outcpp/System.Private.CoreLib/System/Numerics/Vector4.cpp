@@ -121,4 +121,34 @@ Vector4 Vector4::Abs(Vector4 value) {
 Vector4 Vector4::SquareRoot(Vector4 value) {
   return Vector4();
 };
+Vector4 Vector4::op_Addition(Vector4 left, Vector4 right) {
+  return Vector4();
+};
+Vector4 Vector4::op_Subtraction(Vector4 left, Vector4 right) {
+  return Vector4();
+};
+Vector4 Vector4::op_Multiply(Vector4 left, Vector4 right) {
+  return Vector4();
+};
+Vector4 Vector4::op_Multiply(Vector4 left, Single right) {
+  return Vector4();
+};
+Vector4 Vector4::op_Multiply(Single left, Vector4 right) {
+  return Vector4();
+};
+Vector4 Vector4::op_Division(Vector4 left, Vector4 right) {
+  return Vector4();
+};
+Vector4 Vector4::op_Division(Vector4 value1, Single value2) {
+  return Vector4();
+};
+Vector4 Vector4::op_UnaryNegation(Vector4 value) {
+  return Vector4();
+};
+Boolean Vector4::op_Equality(Vector4 left, Vector4 right) {
+  return Boolean();
+};
+Boolean Vector4::op_Inequality(Vector4 left, Vector4 right) {
+  return Boolean();
+};
 } // namespace System::Private::CoreLib::System::Numerics::Vector4Namespace

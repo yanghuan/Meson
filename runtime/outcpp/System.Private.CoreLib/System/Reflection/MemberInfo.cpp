@@ -28,4 +28,10 @@ Boolean MemberInfo___::Equals(Object obj) {
 Int32 MemberInfo___::GetHashCode() {
   return Int32();
 };
+Boolean MemberInfo___::op_Equality(MemberInfo left, MemberInfo right) {
+  return Boolean();
+};
+Boolean MemberInfo___::op_Inequality(MemberInfo left, MemberInfo right) {
+  return Boolean();
+};
 } // namespace System::Private::CoreLib::System::Reflection::MemberInfoNamespace

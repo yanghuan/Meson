@@ -17,6 +17,12 @@ void CancellationTokenRegistration::WaitForCallbackIfNecessary() {
 ValueTask<> CancellationTokenRegistration::WaitForCallbackIfNecessaryAsync() {
   return ValueTask<>();
 };
+Boolean CancellationTokenRegistration::op_Equality(CancellationTokenRegistration left, CancellationTokenRegistration right) {
+  return Boolean();
+};
+Boolean CancellationTokenRegistration::op_Inequality(CancellationTokenRegistration left, CancellationTokenRegistration right) {
+  return Boolean();
+};
 Boolean CancellationTokenRegistration::Equals(Object obj) {
   return Boolean();
 };

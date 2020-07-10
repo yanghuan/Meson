@@ -177,6 +177,12 @@ Int32 Uri___::GetHashCode() {
 String Uri___::ToString() {
   return nullptr;
 };
+Boolean Uri___::op_Equality(Uri uri1, Uri uri2) {
+  return Boolean();
+};
+Boolean Uri___::op_Inequality(Uri uri1, Uri uri2) {
+  return Boolean();
+};
 Boolean Uri___::Equals(Object comparand) {
   return Boolean();
 };

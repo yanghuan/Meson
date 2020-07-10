@@ -185,6 +185,8 @@ CLASS(Uri) {
   public: static Int32 FromHex(Char digit);
   public: Int32 GetHashCode();
   public: String ToString();
+  public: static Boolean op_Equality(Uri uri1, Uri uri2);
+  public: static Boolean op_Inequality(Uri uri1, Uri uri2);
   public: Boolean Equals(Object comparand);
   public: Uri MakeRelativeUri(Uri uri);
   private: static Boolean CheckForColonInFirstPathSegment(String uriString);

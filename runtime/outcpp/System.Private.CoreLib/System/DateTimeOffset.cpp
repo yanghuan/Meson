@@ -225,4 +225,34 @@ DateTime DateTimeOffset::ValidateDate(DateTime dateTime, TimeSpan offset) {
 DateTimeStyles DateTimeOffset::ValidateStyles(DateTimeStyles style, String parameterName) {
   return DateTimeStyles::RoundtripKind;
 };
+DateTimeOffset DateTimeOffset::op_Implicit(DateTime dateTime) {
+  return DateTimeOffset();
+};
+DateTimeOffset DateTimeOffset::op_Addition(DateTimeOffset dateTimeOffset, TimeSpan timeSpan) {
+  return DateTimeOffset();
+};
+DateTimeOffset DateTimeOffset::op_Subtraction(DateTimeOffset dateTimeOffset, TimeSpan timeSpan) {
+  return DateTimeOffset();
+};
+TimeSpan DateTimeOffset::op_Subtraction(DateTimeOffset left, DateTimeOffset right) {
+  return TimeSpan();
+};
+Boolean DateTimeOffset::op_Equality(DateTimeOffset left, DateTimeOffset right) {
+  return Boolean();
+};
+Boolean DateTimeOffset::op_Inequality(DateTimeOffset left, DateTimeOffset right) {
+  return Boolean();
+};
+Boolean DateTimeOffset::op_LessThan(DateTimeOffset left, DateTimeOffset right) {
+  return Boolean();
+};
+Boolean DateTimeOffset::op_LessThanOrEqual(DateTimeOffset left, DateTimeOffset right) {
+  return Boolean();
+};
+Boolean DateTimeOffset::op_GreaterThan(DateTimeOffset left, DateTimeOffset right) {
+  return Boolean();
+};
+Boolean DateTimeOffset::op_GreaterThanOrEqual(DateTimeOffset left, DateTimeOffset right) {
+  return Boolean();
+};
 } // namespace System::Private::CoreLib::System::DateTimeOffsetNamespace

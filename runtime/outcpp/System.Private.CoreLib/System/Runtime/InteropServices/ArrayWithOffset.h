@@ -15,6 +15,8 @@ struct ArrayWithOffset {
   public: Int32 GetHashCode();
   public: Boolean Equals(Object obj);
   public: Boolean Equals(ArrayWithOffset obj);
+  public: static Boolean op_Equality(ArrayWithOffset a, ArrayWithOffset b);
+  public: static Boolean op_Inequality(ArrayWithOffset a, ArrayWithOffset b);
   private: Object m_array;
   private: Int32 m_offset;
   private: Int32 m_count;

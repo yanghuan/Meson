@@ -134,6 +134,27 @@ Matrix4x4 Matrix4x4::Multiply(Matrix4x4 value1, Matrix4x4 value2) {
 Matrix4x4 Matrix4x4::Multiply(Matrix4x4 value1, Single value2) {
   return Matrix4x4();
 };
+Matrix4x4 Matrix4x4::op_UnaryNegation(Matrix4x4 value) {
+  return Matrix4x4();
+};
+Matrix4x4 Matrix4x4::op_Addition(Matrix4x4 value1, Matrix4x4 value2) {
+  return Matrix4x4();
+};
+Matrix4x4 Matrix4x4::op_Subtraction(Matrix4x4 value1, Matrix4x4 value2) {
+  return Matrix4x4();
+};
+Matrix4x4 Matrix4x4::op_Multiply(Matrix4x4 value1, Matrix4x4 value2) {
+  return Matrix4x4();
+};
+Matrix4x4 Matrix4x4::op_Multiply(Matrix4x4 value1, Single value2) {
+  return Matrix4x4();
+};
+Boolean Matrix4x4::op_Equality(Matrix4x4 value1, Matrix4x4 value2) {
+  return Boolean();
+};
+Boolean Matrix4x4::op_Inequality(Matrix4x4 value1, Matrix4x4 value2) {
+  return Boolean();
+};
 Boolean Matrix4x4::Equals(Matrix4x4 other) {
   return Boolean();
 };

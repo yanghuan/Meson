@@ -42,6 +42,12 @@ Boolean CancellationToken::Equals(Object other) {
 Int32 CancellationToken::GetHashCode() {
   return Int32();
 };
+Boolean CancellationToken::op_Equality(CancellationToken left, CancellationToken right) {
+  return Boolean();
+};
+Boolean CancellationToken::op_Inequality(CancellationToken left, CancellationToken right) {
+  return Boolean();
+};
 void CancellationToken::ThrowIfCancellationRequested() {
 };
 void CancellationToken::ThrowOperationCanceledException() {

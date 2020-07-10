@@ -63,6 +63,30 @@ Quaternion Quaternion::Multiply(Quaternion value1, Single value2) {
 Quaternion Quaternion::Divide(Quaternion value1, Quaternion value2) {
   return Quaternion();
 };
+Quaternion Quaternion::op_UnaryNegation(Quaternion value) {
+  return Quaternion();
+};
+Quaternion Quaternion::op_Addition(Quaternion value1, Quaternion value2) {
+  return Quaternion();
+};
+Quaternion Quaternion::op_Subtraction(Quaternion value1, Quaternion value2) {
+  return Quaternion();
+};
+Quaternion Quaternion::op_Multiply(Quaternion value1, Quaternion value2) {
+  return Quaternion();
+};
+Quaternion Quaternion::op_Multiply(Quaternion value1, Single value2) {
+  return Quaternion();
+};
+Quaternion Quaternion::op_Division(Quaternion value1, Quaternion value2) {
+  return Quaternion();
+};
+Boolean Quaternion::op_Equality(Quaternion value1, Quaternion value2) {
+  return Boolean();
+};
+Boolean Quaternion::op_Inequality(Quaternion value1, Quaternion value2) {
+  return Boolean();
+};
 Boolean Quaternion::Equals(Quaternion other) {
   return Boolean();
 };

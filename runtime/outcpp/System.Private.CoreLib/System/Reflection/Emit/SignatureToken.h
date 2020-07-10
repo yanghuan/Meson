@@ -14,6 +14,8 @@ struct SignatureToken {
   public: Int32 GetHashCode();
   public: Boolean Equals(Object obj);
   public: Boolean Equals(SignatureToken obj);
+  public: static Boolean op_Equality(SignatureToken a, SignatureToken b);
+  public: static Boolean op_Inequality(SignatureToken a, SignatureToken b);
   public: static SignatureToken Empty;
   private: Int32 Token;
 };

@@ -15,6 +15,9 @@ Boolean StandardFormat::get_HasPrecision() {
 Boolean StandardFormat::get_IsDefault() {
   return Boolean();
 };
+StandardFormat StandardFormat::op_Implicit(Char symbol) {
+  return StandardFormat();
+};
 StandardFormat StandardFormat::Parse(ReadOnlySpan<Char> format) {
   return StandardFormat();
 };
@@ -41,5 +44,11 @@ String StandardFormat::ToString() {
 };
 Int32 StandardFormat::Format(Span<Char> destination) {
   return Int32();
+};
+Boolean StandardFormat::op_Equality(StandardFormat left, StandardFormat right) {
+  return Boolean();
+};
+Boolean StandardFormat::op_Inequality(StandardFormat left, StandardFormat right) {
+  return Boolean();
 };
 } // namespace System::Private::CoreLib::System::Buffers::StandardFormatNamespace

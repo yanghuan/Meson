@@ -54,6 +54,16 @@ struct Vector3 {
   public: static Vector3 Max(Vector3 value1, Vector3 value2);
   public: static Vector3 Abs(Vector3 value);
   public: static Vector3 SquareRoot(Vector3 value);
+  public: static Vector3 op_Addition(Vector3 left, Vector3 right);
+  public: static Vector3 op_Subtraction(Vector3 left, Vector3 right);
+  public: static Vector3 op_Multiply(Vector3 left, Vector3 right);
+  public: static Vector3 op_Multiply(Vector3 left, Single right);
+  public: static Vector3 op_Multiply(Single left, Vector3 right);
+  public: static Vector3 op_Division(Vector3 left, Vector3 right);
+  public: static Vector3 op_Division(Vector3 value1, Single value2);
+  public: static Vector3 op_UnaryNegation(Vector3 value);
+  public: static Boolean op_Equality(Vector3 left, Vector3 right);
+  public: static Boolean op_Inequality(Vector3 left, Vector3 right);
   public: Single X;
   public: Single Y;
   public: Single Z;

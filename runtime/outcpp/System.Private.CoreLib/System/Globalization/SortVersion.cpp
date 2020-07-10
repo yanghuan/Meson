@@ -16,4 +16,10 @@ Boolean SortVersion___::Equals(SortVersion other) {
 Int32 SortVersion___::GetHashCode() {
   return Int32();
 };
+Boolean SortVersion___::op_Equality(SortVersion left, SortVersion right) {
+  return Boolean();
+};
+Boolean SortVersion___::op_Inequality(SortVersion left, SortVersion right) {
+  return Boolean();
+};
 } // namespace System::Private::CoreLib::System::Globalization::SortVersionNamespace

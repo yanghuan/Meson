@@ -58,6 +58,16 @@ struct Vector4 {
   public: static Vector4 Max(Vector4 value1, Vector4 value2);
   public: static Vector4 Abs(Vector4 value);
   public: static Vector4 SquareRoot(Vector4 value);
+  public: static Vector4 op_Addition(Vector4 left, Vector4 right);
+  public: static Vector4 op_Subtraction(Vector4 left, Vector4 right);
+  public: static Vector4 op_Multiply(Vector4 left, Vector4 right);
+  public: static Vector4 op_Multiply(Vector4 left, Single right);
+  public: static Vector4 op_Multiply(Single left, Vector4 right);
+  public: static Vector4 op_Division(Vector4 left, Vector4 right);
+  public: static Vector4 op_Division(Vector4 value1, Single value2);
+  public: static Vector4 op_UnaryNegation(Vector4 value);
+  public: static Boolean op_Equality(Vector4 left, Vector4 right);
+  public: static Boolean op_Inequality(Vector4 left, Vector4 right);
   public: Single X;
   public: Single Y;
   public: Single Z;

@@ -182,6 +182,12 @@ Boolean Assembly___::Equals(Object o) {
 Int32 Assembly___::GetHashCode() {
   return Int32();
 };
+Boolean Assembly___::op_Equality(Assembly left, Assembly right) {
+  return Boolean();
+};
+Boolean Assembly___::op_Inequality(Assembly left, Assembly right) {
+  return Boolean();
+};
 String Assembly___::CreateQualifiedName(String assemblyName, String typeName) {
   return nullptr;
 };

@@ -14,6 +14,8 @@ struct Label {
   public: Int32 GetHashCode();
   public: Boolean Equals(Object obj);
   public: Boolean Equals(Label obj);
+  public: static Boolean op_Equality(Label a, Label b);
+  public: static Boolean op_Inequality(Label a, Label b);
   public: Int32 m_label;
 };
 } // namespace LabelNamespace

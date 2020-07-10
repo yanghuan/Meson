@@ -55,6 +55,16 @@ struct Vector2 {
   public: static Vector2 Max(Vector2 value1, Vector2 value2);
   public: static Vector2 Abs(Vector2 value);
   public: static Vector2 SquareRoot(Vector2 value);
+  public: static Vector2 op_Addition(Vector2 left, Vector2 right);
+  public: static Vector2 op_Subtraction(Vector2 left, Vector2 right);
+  public: static Vector2 op_Multiply(Vector2 left, Vector2 right);
+  public: static Vector2 op_Multiply(Single left, Vector2 right);
+  public: static Vector2 op_Multiply(Vector2 left, Single right);
+  public: static Vector2 op_Division(Vector2 left, Vector2 right);
+  public: static Vector2 op_Division(Vector2 value1, Single value2);
+  public: static Vector2 op_UnaryNegation(Vector2 value);
+  public: static Boolean op_Equality(Vector2 left, Vector2 right);
+  public: static Boolean op_Inequality(Vector2 left, Vector2 right);
   public: Single X;
   public: Single Y;
 };

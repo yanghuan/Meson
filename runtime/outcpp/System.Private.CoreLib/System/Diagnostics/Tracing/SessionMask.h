@@ -12,6 +12,7 @@ struct SessionMask {
   public: static SessionMask get_All();
   public: UInt64 ToEventKeywords();
   public: static SessionMask FromEventKeywords(UInt64 m);
+  public: static UInt32 op_Explicit(SessionMask m);
   private: UInt32 m_mask;
 };
 } // namespace SessionMaskNamespace

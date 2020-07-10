@@ -128,6 +128,8 @@ CLASS(Type) {
   public: RuntimeTypeHandle GetTypeHandleInternal();
   public: static RuntimeType GetTypeFromHandleUnsafe(IntPtr handle);
   public: static Type GetTypeFromHandle(RuntimeTypeHandle handle);
+  public: static Boolean op_Equality(Type left, Type right);
+  public: static Boolean op_Inequality(Type left, Type right);
   public: Boolean IsRuntimeImplemented();
   public: Type GetType();
   protected: Boolean IsArrayImpl();

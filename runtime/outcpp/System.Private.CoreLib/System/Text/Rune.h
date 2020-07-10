@@ -36,6 +36,15 @@ struct Rune {
   public: Int32 get_Utf16SequenceLength();
   public: Int32 get_Utf8SequenceLength();
   public: Int32 get_Value();
+  public: static Boolean op_Equality(Rune left, Rune right);
+  public: static Boolean op_Inequality(Rune left, Rune right);
+  public: static Boolean op_LessThan(Rune left, Rune right);
+  public: static Boolean op_LessThanOrEqual(Rune left, Rune right);
+  public: static Boolean op_GreaterThan(Rune left, Rune right);
+  public: static Boolean op_GreaterThanOrEqual(Rune left, Rune right);
+  public: static Rune op_Explicit(Char ch);
+  public: static Rune op_Explicit(UInt32 value);
+  public: static Rune op_Explicit(Int32 value);
   private: static Rune ChangeCaseCultureAware(Rune rune, TextInfo textInfo, Boolean toUpper);
   public: Int32 CompareTo(Rune other);
   public: static OperationStatus DecodeFromUtf16(ReadOnlySpan<Char> source, Rune& result, Int32& charsConsumed);

@@ -37,6 +37,13 @@ struct Matrix3x2 {
   public: static Matrix3x2 Subtract(Matrix3x2 value1, Matrix3x2 value2);
   public: static Matrix3x2 Multiply(Matrix3x2 value1, Matrix3x2 value2);
   public: static Matrix3x2 Multiply(Matrix3x2 value1, Single value2);
+  public: static Matrix3x2 op_UnaryNegation(Matrix3x2 value);
+  public: static Matrix3x2 op_Addition(Matrix3x2 value1, Matrix3x2 value2);
+  public: static Matrix3x2 op_Subtraction(Matrix3x2 value1, Matrix3x2 value2);
+  public: static Matrix3x2 op_Multiply(Matrix3x2 value1, Matrix3x2 value2);
+  public: static Matrix3x2 op_Multiply(Matrix3x2 value1, Single value2);
+  public: static Boolean op_Equality(Matrix3x2 value1, Matrix3x2 value2);
+  public: static Boolean op_Inequality(Matrix3x2 value1, Matrix3x2 value2);
   public: Boolean Equals(Matrix3x2 other);
   public: Boolean Equals(Object obj);
   public: String ToString();

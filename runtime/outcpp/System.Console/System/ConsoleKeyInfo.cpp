@@ -16,6 +16,12 @@ Boolean ConsoleKeyInfo::Equals(Object value) {
 Boolean ConsoleKeyInfo::Equals(ConsoleKeyInfo obj) {
   return Boolean();
 };
+Boolean ConsoleKeyInfo::op_Equality(ConsoleKeyInfo a, ConsoleKeyInfo b) {
+  return Boolean();
+};
+Boolean ConsoleKeyInfo::op_Inequality(ConsoleKeyInfo a, ConsoleKeyInfo b) {
+  return Boolean();
+};
 Int32 ConsoleKeyInfo::GetHashCode() {
   return Int32();
 };

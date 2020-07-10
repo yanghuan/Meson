@@ -17,6 +17,8 @@ struct AsyncFlowControl {
   public: Boolean Equals(Object obj);
   public: Boolean Equals(AsyncFlowControl obj);
   public: Int32 GetHashCode();
+  public: static Boolean op_Equality(AsyncFlowControl a, AsyncFlowControl b);
+  public: static Boolean op_Inequality(AsyncFlowControl a, AsyncFlowControl b);
   private: Thread _thread;
 };
 } // namespace AsyncFlowControlNamespace

@@ -36,4 +36,10 @@ Boolean MethodInfo___::Equals(Object obj) {
 Int32 MethodInfo___::GetHashCode() {
   return Int32();
 };
+Boolean MethodInfo___::op_Equality(MethodInfo left, MethodInfo right) {
+  return Boolean();
+};
+Boolean MethodInfo___::op_Inequality(MethodInfo left, MethodInfo right) {
+  return Boolean();
+};
 } // namespace System::Private::CoreLib::System::Reflection::MethodInfoNamespace

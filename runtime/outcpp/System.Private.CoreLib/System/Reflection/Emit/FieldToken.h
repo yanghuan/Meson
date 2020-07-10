@@ -14,6 +14,8 @@ struct FieldToken {
   public: Int32 GetHashCode();
   public: Boolean Equals(Object obj);
   public: Boolean Equals(FieldToken obj);
+  public: static Boolean op_Equality(FieldToken a, FieldToken b);
+  public: static Boolean op_Inequality(FieldToken a, FieldToken b);
   public: static FieldToken Empty;
   private: Object _class;
   private: Int32 Token;

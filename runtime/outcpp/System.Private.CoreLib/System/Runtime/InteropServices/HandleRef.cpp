@@ -7,6 +7,9 @@ Object HandleRef::get_Wrapper() {
 IntPtr HandleRef::get_Handle() {
   return IntPtr();
 };
+IntPtr HandleRef::op_Explicit(HandleRef value) {
+  return IntPtr();
+};
 IntPtr HandleRef::ToIntPtr(HandleRef value) {
   return IntPtr();
 };

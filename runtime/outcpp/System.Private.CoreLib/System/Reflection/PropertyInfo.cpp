@@ -50,4 +50,10 @@ Boolean PropertyInfo___::Equals(Object obj) {
 Int32 PropertyInfo___::GetHashCode() {
   return Int32();
 };
+Boolean PropertyInfo___::op_Equality(PropertyInfo left, PropertyInfo right) {
+  return Boolean();
+};
+Boolean PropertyInfo___::op_Inequality(PropertyInfo left, PropertyInfo right) {
+  return Boolean();
+};
 } // namespace System::Private::CoreLib::System::Reflection::PropertyInfoNamespace

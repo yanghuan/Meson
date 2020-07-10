@@ -16,4 +16,10 @@ Boolean ArrayWithOffset::Equals(Object obj) {
 Boolean ArrayWithOffset::Equals(ArrayWithOffset obj) {
   return Boolean();
 };
+Boolean ArrayWithOffset::op_Equality(ArrayWithOffset a, ArrayWithOffset b) {
+  return Boolean();
+};
+Boolean ArrayWithOffset::op_Inequality(ArrayWithOffset a, ArrayWithOffset b) {
+  return Boolean();
+};
 } // namespace System::Private::CoreLib::System::Runtime::InteropServices::ArrayWithOffsetNamespace

@@ -14,6 +14,8 @@ struct EventToken {
   public: Int32 GetHashCode();
   public: Boolean Equals(Object obj);
   public: Boolean Equals(EventToken obj);
+  public: static Boolean op_Equality(EventToken a, EventToken b);
+  public: static Boolean op_Inequality(EventToken a, EventToken b);
   public: static EventToken Empty;
   private: Int32 Token;
 };

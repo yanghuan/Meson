@@ -30,6 +30,33 @@ Int32 Rune::get_Utf8SequenceLength() {
 Int32 Rune::get_Value() {
   return Int32();
 };
+Boolean Rune::op_Equality(Rune left, Rune right) {
+  return Boolean();
+};
+Boolean Rune::op_Inequality(Rune left, Rune right) {
+  return Boolean();
+};
+Boolean Rune::op_LessThan(Rune left, Rune right) {
+  return Boolean();
+};
+Boolean Rune::op_LessThanOrEqual(Rune left, Rune right) {
+  return Boolean();
+};
+Boolean Rune::op_GreaterThan(Rune left, Rune right) {
+  return Boolean();
+};
+Boolean Rune::op_GreaterThanOrEqual(Rune left, Rune right) {
+  return Boolean();
+};
+Rune Rune::op_Explicit(Char ch) {
+  return Rune();
+};
+Rune Rune::op_Explicit(UInt32 value) {
+  return Rune();
+};
+Rune Rune::op_Explicit(Int32 value) {
+  return Rune();
+};
 Rune Rune::ChangeCaseCultureAware(Rune rune, TextInfo textInfo, Boolean toUpper) {
   return Rune();
 };

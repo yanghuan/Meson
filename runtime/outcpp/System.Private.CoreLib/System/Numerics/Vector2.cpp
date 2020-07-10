@@ -115,4 +115,34 @@ Vector2 Vector2::Abs(Vector2 value) {
 Vector2 Vector2::SquareRoot(Vector2 value) {
   return Vector2();
 };
+Vector2 Vector2::op_Addition(Vector2 left, Vector2 right) {
+  return Vector2();
+};
+Vector2 Vector2::op_Subtraction(Vector2 left, Vector2 right) {
+  return Vector2();
+};
+Vector2 Vector2::op_Multiply(Vector2 left, Vector2 right) {
+  return Vector2();
+};
+Vector2 Vector2::op_Multiply(Single left, Vector2 right) {
+  return Vector2();
+};
+Vector2 Vector2::op_Multiply(Vector2 left, Single right) {
+  return Vector2();
+};
+Vector2 Vector2::op_Division(Vector2 left, Vector2 right) {
+  return Vector2();
+};
+Vector2 Vector2::op_Division(Vector2 value1, Single value2) {
+  return Vector2();
+};
+Vector2 Vector2::op_UnaryNegation(Vector2 value) {
+  return Vector2();
+};
+Boolean Vector2::op_Equality(Vector2 left, Vector2 right) {
+  return Boolean();
+};
+Boolean Vector2::op_Inequality(Vector2 left, Vector2 right) {
+  return Boolean();
+};
 } // namespace System::Private::CoreLib::System::Numerics::Vector2Namespace

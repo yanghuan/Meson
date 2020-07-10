@@ -23,8 +23,8 @@ namespace Meson.Compiler.CppAst {
       return new MemberAccessExpressionSyntax(this, expression, MemberAccessOperator.Arrow);
     }
 
-    internal CastExpressionSyntax CastTo(ExpressionSyntax target, bool isParenthesesCast = false) {
-      return new CastExpressionSyntax(this, target, isParenthesesCast);
+    internal CastExpressionSyntax CastTo(ExpressionSyntax target) {
+      return new CastExpressionSyntax(this, target);
     }
 
     internal AddressIdentifierSyntax Address() {
@@ -170,10 +170,10 @@ namespace Meson.Compiler.CppAst {
     public ExpressionSyntax Target { get; }
     public bool IsParenthesesCast { get; }
 
-    public CastExpressionSyntax(ExpressionSyntax expression, ExpressionSyntax target, bool isParenthesesCast = false) {
+    public CastExpressionSyntax(ExpressionSyntax expression, ExpressionSyntax target) {
       Expression = expression;
       Target = target;
-      IsParenthesesCast = isParenthesesCast;
+      IsParenthesesCast = true;
     }
 
     internal override void Render(CppRenderer renderer) {

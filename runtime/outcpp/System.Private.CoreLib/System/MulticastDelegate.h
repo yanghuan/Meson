@@ -34,6 +34,8 @@ CLASS(MulticastDelegate) {
   private: Boolean EqualInvocationLists(Array<Object> a, Array<Object> b, Int32 start, Int32 count);
   protected: Delegate RemoveImpl(Delegate value);
   public: Array<Delegate> GetInvocationList();
+  public: static Boolean op_Equality(MulticastDelegate d1, MulticastDelegate d2);
+  public: static Boolean op_Inequality(MulticastDelegate d1, MulticastDelegate d2);
   public: Int32 GetHashCode();
   public: Object GetTarget();
   protected: MethodInfo GetMethodImpl();

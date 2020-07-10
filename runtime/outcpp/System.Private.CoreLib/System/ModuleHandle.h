@@ -44,6 +44,8 @@ struct ModuleHandle {
   public: Int32 GetHashCode();
   public: Boolean Equals(Object obj);
   public: Boolean Equals(ModuleHandle handle);
+  public: static Boolean op_Equality(ModuleHandle left, ModuleHandle right);
+  public: static Boolean op_Inequality(ModuleHandle left, ModuleHandle right);
   public: static IRuntimeMethodInfo GetDynamicMethod(DynamicMethod method, RuntimeModule module, String name, Array<Byte> sig, Resolver resolver);
   public: static Int32 GetToken(RuntimeModule module);
   private: static void ValidateModulePointer(RuntimeModule module);

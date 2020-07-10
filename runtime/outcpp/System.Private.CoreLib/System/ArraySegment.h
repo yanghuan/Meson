@@ -40,6 +40,9 @@ struct ArraySegment {
   public: ArraySegment<T> Slice(Int32 index);
   public: ArraySegment<T> Slice(Int32 index, Int32 count);
   public: Array<T> ToArray();
+  public: static Boolean op_Equality(ArraySegment<T> a, ArraySegment<T> b);
+  public: static Boolean op_Inequality(ArraySegment<T> a, ArraySegment<T> b);
+  public: static ArraySegment<T> op_Implicit(Array<T> array);
   private: void ThrowInvalidOperationIfDefault();
   private: static ArraySegment<T> Empty;
   private: Array<T> _array;

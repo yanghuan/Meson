@@ -39,6 +39,24 @@ Int32 Single::CompareTo(Object value) {
 Int32 Single::CompareTo(Single value) {
   return Int32();
 };
+Boolean Single::op_Equality(Single left, Single right) {
+  return Boolean();
+};
+Boolean Single::op_Inequality(Single left, Single right) {
+  return Boolean();
+};
+Boolean Single::op_LessThan(Single left, Single right) {
+  return Boolean();
+};
+Boolean Single::op_GreaterThan(Single left, Single right) {
+  return Boolean();
+};
+Boolean Single::op_LessThanOrEqual(Single left, Single right) {
+  return Boolean();
+};
+Boolean Single::op_GreaterThanOrEqual(Single left, Single right) {
+  return Boolean();
+};
 Boolean Single::Equals(Object obj) {
   return Boolean();
 };

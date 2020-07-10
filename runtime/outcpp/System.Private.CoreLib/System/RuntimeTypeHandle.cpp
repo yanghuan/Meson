@@ -24,6 +24,18 @@ RuntimeType RuntimeTypeHandle::GetTypeChecked() {
 Type RuntimeTypeHandle::GetTypeHelper(Type typeStart, Array<Type> genericArgs, IntPtr pModifiers, Int32 cModifiers) {
   return nullptr;
 };
+Boolean RuntimeTypeHandle::op_Equality(RuntimeTypeHandle left, Object right) {
+  return Boolean();
+};
+Boolean RuntimeTypeHandle::op_Equality(Object left, RuntimeTypeHandle right) {
+  return Boolean();
+};
+Boolean RuntimeTypeHandle::op_Inequality(RuntimeTypeHandle left, Object right) {
+  return Boolean();
+};
+Boolean RuntimeTypeHandle::op_Inequality(Object left, RuntimeTypeHandle right) {
+  return Boolean();
+};
 Int32 RuntimeTypeHandle::GetHashCode() {
   return Int32();
 };

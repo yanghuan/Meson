@@ -64,6 +64,11 @@ namespace rt {
   };
 
   template <class T>
+  struct IsObject {
+    static constexpr bool value = IsDerived<object, T>::value;
+  };
+
+  template <class T>
   class GCObject : public GCObjectHead {
     static constexpr bool IsSpeicalObject = IsString<T>::value || IsDerived<Array_, T>::value;
   public:
@@ -98,15 +103,15 @@ namespace rt {
 
   template <class T, class T1>
   struct IsEquatable {
-    static constexpr bool value = IsDerived<object, T>::value
-      || IsDerived<object, T1>::value
+    static constexpr bool value = IsObject<T>::value
+      || IsObject<T1>::value
       || IsDerived<T, T1>::value
       || IsDerived<T1, T>::value;
   };
 
   template <class T, class T1>
   struct IsDerivedConvertible {
-    static constexpr bool value = IsDerived<object, T>::value || IsDerived<T, T1>::value;
+    static constexpr bool value = IsObject<T>::value || IsDerived<T, T1>::value;
   };
 
   template <class T>
@@ -135,7 +140,7 @@ namespace rt {
   struct IsArrayConvertible__ {
     using ElementTypeT = ArrayElementType<T>;
     using ElementTypeT1 = ArrayElementType<T1>;
-    static constexpr bool value = (IsDerived<object, ElementTypeT::type>::value && ElementTypeT1::value) || IsDerived<ElementTypeT::type, ElementTypeT1::type>::value;
+    static constexpr bool value = (IsObject<ElementTypeT::type>::value && ElementTypeT1::value) || IsDerived<ElementTypeT::type, ElementTypeT1::type>::value;
   };
 
   template <class T, class T1>
@@ -229,6 +234,16 @@ namespace rt {
       T* a = p_ ? get() : nullptr;
       T* b = right != nullptr ? right.get() : nullptr;
       return std::make_tuple(a, b);
+    }
+
+    template <class R, class T1 = T, typename std::enable_if_t<IsObject<T1>::value, int> = 0>
+    explicit operator R() {
+      return R();
+    }
+
+    template <class R, class T1 = T, typename std::enable_if_t<std::is_same<R, decltype(T1::op_Implicit(ref<T1>()))>::value, int> = 0>
+    operator R() {
+      return T1::op_Implicit(*this);
     }
 
     template<class size_t>

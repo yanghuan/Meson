@@ -35,6 +35,12 @@ struct Double {
   public: Int32 CompareTo(Object value);
   public: Int32 CompareTo(Double value);
   public: Boolean Equals(Object obj);
+  public: static Boolean op_Equality(Double left, Double right);
+  public: static Boolean op_Inequality(Double left, Double right);
+  public: static Boolean op_LessThan(Double left, Double right);
+  public: static Boolean op_GreaterThan(Double left, Double right);
+  public: static Boolean op_LessThanOrEqual(Double left, Double right);
+  public: static Boolean op_GreaterThanOrEqual(Double left, Double right);
   public: Boolean Equals(Double obj);
   public: Int32 GetHashCode();
   public: String ToString();

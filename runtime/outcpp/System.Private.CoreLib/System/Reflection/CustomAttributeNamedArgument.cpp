@@ -16,6 +16,12 @@ String CustomAttributeNamedArgument::get_MemberName() {
 Boolean CustomAttributeNamedArgument::get_IsField() {
   return Boolean();
 };
+Boolean CustomAttributeNamedArgument::op_Equality(CustomAttributeNamedArgument left, CustomAttributeNamedArgument right) {
+  return Boolean();
+};
+Boolean CustomAttributeNamedArgument::op_Inequality(CustomAttributeNamedArgument left, CustomAttributeNamedArgument right) {
+  return Boolean();
+};
 String CustomAttributeNamedArgument::ToString() {
   return nullptr;
 };
