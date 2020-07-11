@@ -424,11 +424,13 @@ namespace rt {
   };
 
   template <class T>
-  struct PrimitiveType {
-    friend struct PrimitiveType;
-    
-    bool operator==(const T& other) {
+  struct PrimitiveType {  
+    bool operator ==(const T& other) {
       return static_cast<T*>(this)->m_value == other.m_value;
+    }
+
+    bool operator !=(const T& other) {
+      return static_cast<T*>(this)->m_value != other.m_value;
     }
   };
 
@@ -442,11 +444,6 @@ namespace rt {
     return false;
   }
 
-  template <class T, class V>
-  T cast(const V& v) {
-    return T();
-  }
-
   template <class R, class Arg>
   int init(int argc, char* argv[], R (*f)(Arg)) {
     auto args = Array<ref<string>>::newarr(argc - 1);
@@ -454,30 +451,30 @@ namespace rt {
     return 0;
   }
 
+  template <class Ex>
+  [[noreturn]] void throw_exception(Ex&& ex) {
+  #if !MESON_NO_EXCEPTIONS
+    throw ex;
+  #else
+    (void)ex;
+    std::terminate();
+  #endif
+  }
+
+  template <class Ex, class... Args>
+  [[noreturn]] void throw_exception(Args&&... args) {
+    throw_exception<Ex>(Ex(std::forward<Args>(args)...));
+  }
+
+  template <class T, class... Args>
+  inline T newobj(Args&&... args) {
+    return rt::object::newobj<T>(std::forward<Args>(args)...);
+  }
+
+  template <class A>
+  inline auto newarr(int32_t n) {
+    using T = A::in::element_type;
+    return *reinterpret_cast<A*>(&rt::Array<T>::newarr(n));
+  }
 }  // namespace rt
 
-template <class Ex>
-[[noreturn]] void throw_exception(Ex&& ex) {
-#if !MESON_NO_EXCEPTIONS
-  throw ex;
-#else
-  (void)ex;
-  std::terminate();
-#endif
-}
-
-template <class Ex, class... Args>
-[[noreturn]] void throw_exception(Args&&... args) {
-  throw_exception<Ex>(Ex(std::forward<Args>(args)...));
-}
-
-template <class T, class... Args>
-inline T newobj(Args&&... args) {
-  return rt::object::newobj<T>(std::forward<Args>(args)...);
-}
-
-template <class A>
-inline auto newarr(int32_t n) {
-  using T = A::in::element_type;
-  return *reinterpret_cast<A*>(&rt::Array<T>::newarr(n));
-}

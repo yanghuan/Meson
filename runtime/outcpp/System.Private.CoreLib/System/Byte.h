@@ -19,8 +19,10 @@ FORWARD(String)
 namespace ByteNamespace {
 using namespace Globalization;
 struct Byte : public rt::PrimitiveType<Byte> {
-  public: Byte(): m_value(0) {}
-  public: Byte(uint8_t value): m_value(value) {}
+  template <class T>
+  friend struct rt::PrimitiveType;
+  public: constexpr Byte() noexcept : m_value(0) {}
+  public: constexpr Byte(uint8_t value) noexcept : m_value(value) {}
   public: Int32 CompareTo(Object value);
   public: Int32 CompareTo(Byte value);
   public: Boolean Equals(Object obj);

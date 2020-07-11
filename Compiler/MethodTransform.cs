@@ -107,18 +107,55 @@ namespace Meson.Compiler {
       throw new NotImplementedException();
     }
 
-    public SyntaxNode VisitAssignmentExpression(AssignmentExpression assignmentExpression) {
+    private static string GetAssignmentOperator(AssignmentOperatorType operatorToken) {
+      switch (operatorToken) {
+        case AssignmentOperatorType.Assign:
+          return Tokens.Equals;
+      }
       throw new NotImplementedException();
+    }
+
+    public SyntaxNode VisitAssignmentExpression(AssignmentExpression assignmentExpression) {
+      var left = assignmentExpression.Left.AcceptExpression(this);
+      var operatorToken = GetAssignmentOperator(assignmentExpression.Operator);
+      var right = assignmentExpression.Right.AcceptExpression(this);
+      return left.Binary(operatorToken, right);
     }
 
     public SyntaxNode VisitBaseReferenceExpression(BaseReferenceExpression baseReferenceExpression) {
       throw new NotImplementedException();
     }
 
+    public static string GetBinaryOperatorToken(BinaryOperatorType type) {
+      switch (type) {
+        case BinaryOperatorType.Equality:
+          return Tokens.EqualsEquals;
+
+        case BinaryOperatorType.InEquality:
+          return Tokens.NotEquals;
+
+        case BinaryOperatorType.LessThan:
+          return Tokens.Less; 
+
+        case BinaryOperatorType.LessThanOrEqual:
+          return Tokens.LessEquals;
+
+        case BinaryOperatorType.GreaterThan:
+          return Tokens.Greater;
+
+        case BinaryOperatorType.GreaterThanOrEqual:
+          return Tokens.GreaterEquals;
+
+        default:
+          throw new NotImplementedException();
+      }
+    }
+
     public SyntaxNode VisitBinaryOperatorExpression(BinaryOperatorExpression binaryOperatorExpression) {
       var left = binaryOperatorExpression.Left.AcceptExpression(this);
+      string operatorToken = GetBinaryOperatorToken(binaryOperatorExpression.Operator);
       var right = binaryOperatorExpression.Right.AcceptExpression(this);
-      return new BinaryExpressionSyntax(left, binaryOperatorExpression.Operator.ToOperatorToken(), right);
+      return left.Binary(operatorToken, right);
     }
 
     public SyntaxNode VisitCastExpression(CastExpression castExpression) {
@@ -140,7 +177,7 @@ namespace Meson.Compiler {
     }
 
     public SyntaxNode VisitDirectionExpression(DirectionExpression directionExpression) {
-      throw new NotImplementedException();
+      return directionExpression.Expression.AcceptExpression(this);
     }
 
     public SyntaxNode VisitIdentifierExpression(IdentifierExpression identifierExpression) {
@@ -185,11 +222,10 @@ namespace Meson.Compiler {
       }
     }
 
-    private List<ExpressionSyntax> BuildInvocationArguments(InvocationExpression invocationExpression) {
-      var symbol = (IMethod)invocationExpression.GetSymbol();
+    private List<ExpressionSyntax> BuildArguments(IMethod symbol, ICollection<Expression> argumentExpressions) {
       List<ExpressionSyntax> arguments = new List<ExpressionSyntax>();
       int i = 0;
-      foreach (var argument in invocationExpression.Arguments) {
+      foreach (var argument in argumentExpressions) {
         var parameter = symbol.Parameters[i];
         var resolveResult = argument.GetResolveResult();
         var expression = argument.AcceptExpression(this);
@@ -198,6 +234,11 @@ namespace Meson.Compiler {
         ++i;
       }
       return arguments;
+    }
+
+    private List<ExpressionSyntax> BuildInvocationArguments(InvocationExpression invocationExpression) {
+      var symbol = (IMethod)invocationExpression.GetSymbol();
+      return BuildArguments(symbol, invocationExpression.Arguments);
     }
 
     public SyntaxNode VisitInvocationExpression(InvocationExpression invocationExpression) {
@@ -224,32 +265,22 @@ namespace Meson.Compiler {
           symbol = typeSymbol.Members.First(i => i.Name == memberReferenceExpression.MemberName);
         }
       }
-
+      
       switch (symbol.SymbolKind) {
-        case SymbolKind.Field: {
-            var field = (IField)symbol;
-            var name = GetMemberName(field);
-            if (field.IsStatic) {
-              if (field.DeclaringTypeDefinition.IsRefType()) {
-                target = target.TwoColon(IdentifierSyntax.In);
-              }
-              return target.TwoColon(name);
-            } else {
-              return target.Arrow(name);
-            }
-          }
+        case SymbolKind.Field: 
+        case SymbolKind.Property:
         case SymbolKind.Method: {
-            var method = (IMethod)symbol;
-            var name = GetMemberName(method);
-            if (method.IsStatic) {
-              if (method.DeclaringTypeDefinition.IsRefType()) {
-                target = target.TwoColon(IdentifierSyntax.In);
-              }
-              return target.TwoColon(name);
-            } else {
-              return target.Arrow(name);
+          var member = (IEntity)symbol;
+          var name = GetMemberName(member);
+          if (member.IsStatic) {
+            if (member.DeclaringTypeDefinition.IsRefType()) {
+              target = target.TwoColon(IdentifierSyntax.In);
             }
+            return target.TwoColon(name);
+          } else {
+            return target.Arrow(name);
           }
+        }
       }
       throw new NotImplementedException();
     }
@@ -267,7 +298,10 @@ namespace Meson.Compiler {
     }
 
     public SyntaxNode VisitObjectCreateExpression(ObjectCreateExpression objectCreateExpression) {
-      throw new NotImplementedException();
+      var method = (IMethod)objectCreateExpression.GetSymbol();
+      var typeName = objectCreateExpression.Type.AcceptExpression(this);
+      var arguments = BuildArguments(method, objectCreateExpression.Arguments);
+      return IdentifierSyntax.NewObj.Generic(typeName).Invation(arguments);
     }
 
     public SyntaxNode VisitOutVarDeclarationExpression(OutVarDeclarationExpression outVarDeclarationExpression) {
@@ -275,7 +309,11 @@ namespace Meson.Compiler {
     }
 
     public SyntaxNode VisitParenthesizedExpression(ParenthesizedExpression parenthesizedExpression) {
-      throw new NotImplementedException();
+      var expression = parenthesizedExpression.Expression.AcceptExpression(this);
+      if (parenthesizedExpression.Expression is IsExpression) {
+        return expression;
+      }
+      return expression.Parenthesized();
     }
 
     public SyntaxNode VisitPointerReferenceExpression(PointerReferenceExpression pointerReferenceExpression) {
@@ -286,14 +324,17 @@ namespace Meson.Compiler {
       var code = Type.GetTypeCode(value.GetType());
       switch (code) {
         case TypeCode.String: {
-            return new StringLiteralExpressionSyntax((string)value);
-          }
+          return new StringLiteralExpressionSyntax((string)value);
+        }
         case TypeCode.Int32: {
-            return new NumberLiteralExpressionSyntax(value.ToString());
-          }
+          return new NumberLiteralExpressionSyntax(value.ToString());
+        }
         case TypeCode.UInt32: {
-            return new NumberLiteralExpressionSyntax($"{value}u");
-          }
+          return new NumberLiteralExpressionSyntax($"{value}u");
+        }
+        case TypeCode.Boolean:{
+          return value is false ? BooleanLiteralExpressionSyntax.False : BooleanLiteralExpressionSyntax.True;
+        }  
         default: {
             throw new NotImplementedException();
           }
@@ -318,11 +359,12 @@ namespace Meson.Compiler {
         var typeName = GetTypeName(type);
         return IdentifierSyntax.This.CastTo(typeName);
       }
-      return new IndirectionIdentifierSyntax(IdentifierSyntax.This);
+      return new IndirectionExpressionSyntax(IdentifierSyntax.This);
     }
 
     public SyntaxNode VisitThrowExpression(ThrowExpression throwExpression) {
-      throw new NotImplementedException();
+      var expression = throwExpression.Expression.AcceptExpression(this);
+      return IdentifierSyntax.Throw.Invation(expression);
     }
 
     public SyntaxNode VisitTupleExpression(TupleExpression tupleExpression) {
@@ -337,13 +379,22 @@ namespace Meson.Compiler {
       return typeReferenceExpression.Type.AcceptVisitor(this);
     }
 
-    public SyntaxNode VisitUnaryOperatorExpression(UnaryOperatorExpression unaryOperatorExpression) {
-      switch (unaryOperatorExpression.Operator) {
-        case UnaryOperatorType.AddressOf: {
-            return new AddressIdentifierSyntax(unaryOperatorExpression.Expression.AcceptExpression(this));
-          }
+    private static string GetUnaryOperator(UnaryOperatorType type) {
+      switch (type) {
+        case UnaryOperatorType.AddressOf:
+          return Tokens.Ampersand;
+
+        case UnaryOperatorType.Not:
+          return Tokens.Exclamation;
       }
+
       throw new NotImplementedException();
+    }
+
+    public SyntaxNode VisitUnaryOperatorExpression(UnaryOperatorExpression unaryOperatorExpression) {
+      string operatorToken = GetUnaryOperator(unaryOperatorExpression.Operator);
+      var expression = unaryOperatorExpression.Expression.AcceptExpression(this);
+      return new UnaryOperatorExpressionSyntax(operatorToken, expression);
     }
 
     public SyntaxNode VisitUncheckedExpression(UncheckedExpression uncheckedExpression) {
@@ -526,7 +577,8 @@ namespace Meson.Compiler {
     }
 
     public SyntaxNode VisitThrowStatement(ThrowStatement throwStatement) {
-      throw new NotImplementedException();
+      var expression = throwStatement.Expression.AcceptExpression(this);
+      return (StatementSyntax)IdentifierSyntax.Throw.Invation(expression);
     }
 
     public SyntaxNode VisitTryCatchStatement(TryCatchStatement tryCatchStatement) {
@@ -660,7 +712,7 @@ namespace Meson.Compiler {
             break;
           }
         case TypeKind.ByReference: {
-            var refIdentifier = (RefIdentifierSyntax)returnType;
+            var refIdentifier = (RefExpressionSyntax)returnType;
             node.Add(refIdentifier.Name.Invation().Return());
             break;
           }
@@ -733,7 +785,8 @@ namespace Meson.Compiler {
     }
 
     public SyntaxNode VisitMemberType(MemberType memberType) {
-      throw new NotImplementedException();
+      var type = (IType)memberType.GetSymbol();
+      return GetTypeName(type);
     }
 
     public SyntaxNode VisitTupleType(TupleAstType tupleType) {

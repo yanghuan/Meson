@@ -18,8 +18,10 @@ FORWARD(String)
 namespace UInt64Namespace {
 using namespace Globalization;
 struct UInt64 : public rt::PrimitiveType<UInt64> {
-  public: UInt64(): m_value(0) {}
-  public: UInt64(uint64_t value): m_value(value) {}
+  template <class T>
+  friend struct rt::PrimitiveType;
+  public: constexpr UInt64() noexcept : m_value(0) {}
+  public: constexpr UInt64(uint64_t value) noexcept : m_value(value) {}
   public: Int32 CompareTo(Object value);
   public: Int32 CompareTo(UInt64 value);
   public: Boolean Equals(Object obj);

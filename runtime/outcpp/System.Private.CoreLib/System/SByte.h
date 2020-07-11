@@ -19,8 +19,10 @@ FORWARD(String)
 namespace SByteNamespace {
 using namespace Globalization;
 struct SByte : public rt::PrimitiveType<SByte> {
-  public: SByte(): m_value(0) {}
-  public: SByte(int8_t value): m_value(value) {}
+  template <class T>
+  friend struct rt::PrimitiveType;
+  public: constexpr SByte() noexcept : m_value(0) {}
+  public: constexpr SByte(int8_t value) noexcept : m_value(value) {}
   public: Int32 CompareTo(Object obj);
   public: Int32 CompareTo(SByte value);
   public: Boolean Equals(Object obj);

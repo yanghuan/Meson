@@ -125,11 +125,14 @@ namespace Meson.Compiler.CppAst {
     public const string Dot = ".";
     public const string Asterisk = "*";
     public const string Ampersand = "&";
+    public const string Exclamation = "!";
     public const string Quote = "\"";
     public const string Arrow = "->";
     public const string TwoColon = "::";
     public const string Less = "<";
+    public const string LessEquals = "<=";
     public const string Greater = ">";
+    public const string GreaterEquals = ">=";
     public const string LineComment = "//";
     public const string OpneComment = "/*";
     public const string CloseComment = "*/";

@@ -428,10 +428,19 @@ namespace Meson.Compiler {
 
     internal void Render(ConstructorDefinitionSyntax node) {
       WriteAccessibility(node.AccessibilityToken);
+      if (node.IsConstexpr) {
+        Write(Tokens.Constexpr);
+        WriteSpace();
+      }
       node.Name.Render(this);
       Write(node.OpenParentheses);
       WriteNodesWithSeparated(node.Parameters);
       Write(node.CloseParentheses);
+      if (node.IsNoexcept) {
+        WriteSpace();
+        Write(Tokens.Noexcept);
+        WriteSpace();
+      }
       if (node.InitializationList.Count > 0) {
         WriteColon();
         WriteSpace();
@@ -500,19 +509,14 @@ namespace Meson.Compiler {
       Write(node.Asterisk);
     }
 
-    internal void Render(RefIdentifierSyntax node) {
+    internal void Render(RefExpressionSyntax node) {
       node.Name.Render(this);
       Write(node.Ampersand);
     }
 
-    internal void Render(AddressIdentifierSyntax node) {
-      Write(node.Ampersand);
-      node.Name.Render(this);
-    }
-
-    internal void Render(IndirectionIdentifierSyntax node) {
-      Write(node.Asterisk);
-      node.Name.Render(this);
+    internal void Render(UnaryOperatorExpressionSyntax node) {
+      Write(node.OperatorToken);
+      node.Expression.Render(this);
     }
 
     internal void Render(MemberAccessExpressionSyntax node) {
@@ -656,6 +660,12 @@ namespace Meson.Compiler {
       Write(node.OperatorToken);
       WriteSpace();
       node.Right.Render(this);
+    }
+
+    internal void Render(ParenthesizedExpressionSyntax node) {
+      Write(Tokens.OpenParentheses);
+      node.Expression.Render(this);
+      Write(Tokens.CloseParentheses);
     }
 
     internal void Render(VariableInitializerSyntax node) {

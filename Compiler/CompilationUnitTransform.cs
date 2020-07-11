@@ -275,7 +275,7 @@ namespace Meson.Compiler {
         case TypeKind.ByReference: {
             ByReferenceType byReference = (ByReferenceType)args.Type;
             var elementType = GetTypeName(args.With(byReference.ElementType, true));
-            return new RefIdentifierSyntax(elementType);
+            return new RefExpressionSyntax(elementType);
           }
       }
 

@@ -614,11 +614,11 @@ namespace Meson.Compiler {
     }
 
     public static ExpressionSyntax AcceptExpression(this AstNode node, MethodTransform transform) {
-      return node.Accept<ExpressionSyntax>(transform); ;
+      return (ExpressionSyntax)node.AcceptVisitor(transform);
     }
 
     public static StatementSyntax AcceptStatement(this AstNode node, MethodTransform transform) {
-      return node.Accept<StatementSyntax>(transform); ;
+      return (StatementSyntax)node.AcceptVisitor(transform);
     }
 
     public static IType GetBaseType(this IType type) {
@@ -723,20 +723,7 @@ namespace Meson.Compiler {
     public static string RemoveSpeacialChars(this string name) {
       return name.Replace(".", "").Replace("<", "").Replace(">", "").Replace(",", "");
     }
-
-    public static string ToOperatorToken(this BinaryOperatorType type) {
-      switch (type) {
-        case BinaryOperatorType.Equality:
-          return Tokens.EqualsEquals;
-
-        case BinaryOperatorType.InEquality:
-          return Tokens.NotEquals;
-
-        default:
-          throw new NotImplementedException();
-      }
-    }
-
+    
     public static bool IsNull(this Expression expression) {
       return expression == null || expression == Expression.Null;
     }

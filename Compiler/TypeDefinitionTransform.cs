@@ -267,14 +267,27 @@ namespace Meson.Compiler {
         if (IsValueTypeInnerField(field, typeDefinition, out ExpressionSyntax typeName)) {
           node.Bases.Add(new BaseSyntax(IdentifierSyntax.PrimitiveType.Generic(node.Name)));
 
-          string accessibilityToken = Accessibility.Public.ToTokenString();
-          var defaultConstructor = new ConstructorDefinitionSyntax(node.Name, Array.Empty<ParameterSyntax>(), accessibilityToken) { Body = BlockSyntax.EmptyBlock };
-          defaultConstructor.AddInitializationList(fieldName, field.Type.GetDefinition().GetPrimitiveTypeDefaultValue());
-          node.Statements.Insert(0, defaultConstructor);
+          var statements = new StatementListSyntax(); 
+          statements.Add(new FriendClassDeclarationSyntax(IdentifierSyntax.PrimitiveType, true) { Template = TemplateSyntax.T  });
 
-          var underlyingTypeConstructor = new ConstructorDefinitionSyntax(node.Name, new ParameterSyntax(typeName, IdentifierSyntax.Value).ArrayOf(), accessibilityToken) { Body = BlockSyntax.EmptyBlock };
+          string accessibilityToken = Accessibility.Public.ToTokenString();
+          var defaultConstructor = new ConstructorDefinitionSyntax(node.Name, Array.Empty<ParameterSyntax>(), accessibilityToken) { 
+            Body = BlockSyntax.EmptyBlock,
+            IsConstexpr = true,
+            IsNoexcept = true,
+          };
+          defaultConstructor.AddInitializationList(fieldName, field.Type.GetDefinition().GetPrimitiveTypeDefaultValue());
+          statements.Add(defaultConstructor);
+
+          var underlyingTypeConstructor = new ConstructorDefinitionSyntax(node.Name, new ParameterSyntax(typeName, IdentifierSyntax.Value).ArrayOf(), accessibilityToken) { 
+            Body = BlockSyntax.EmptyBlock,
+            IsConstexpr = true,
+            IsNoexcept = true,
+          };
           underlyingTypeConstructor.AddInitializationList(fieldName, IdentifierSyntax.Value);
-          node.Statements.Insert(1, underlyingTypeConstructor);
+          statements.Add(underlyingTypeConstructor);
+
+          node.Statements.Insert(0, statements);
         } else if (IsArrayInnerSpecialField(field, typeDefinition, out typeName)) {
         } else {
           typeName = GetFieldTypeName(field, typeDefinition);

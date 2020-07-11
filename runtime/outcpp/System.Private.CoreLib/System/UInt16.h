@@ -19,8 +19,10 @@ FORWARD(String)
 namespace UInt16Namespace {
 using namespace Globalization;
 struct UInt16 : public rt::PrimitiveType<UInt16> {
-  public: UInt16(): m_value(0) {}
-  public: UInt16(uint16_t value): m_value(value) {}
+  template <class T>
+  friend struct rt::PrimitiveType;
+  public: constexpr UInt16() noexcept : m_value(0) {}
+  public: constexpr UInt16(uint16_t value) noexcept : m_value(value) {}
   public: Int32 CompareTo(Object value);
   public: Int32 CompareTo(UInt16 value);
   public: Boolean Equals(Object obj);

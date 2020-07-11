@@ -319,6 +319,8 @@ namespace Meson.Compiler.CppAst {
   }
 
   sealed class ConstructorDefinitionSyntax : StatementSyntax {
+    public bool IsConstexpr { get; set; }
+    public bool IsNoexcept { get; set; }
     public string AccessibilityToken { get; }
     public IdentifierSyntax Name { get; }
     public string OpenParentheses => Tokens.OpenParentheses;

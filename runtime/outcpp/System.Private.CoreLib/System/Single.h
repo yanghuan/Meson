@@ -20,8 +20,10 @@ FORWARDS(UInt32)
 namespace SingleNamespace {
 using namespace Globalization;
 struct Single : public rt::PrimitiveType<Single> {
-  public: Single(): m_value(0) {}
-  public: Single(float value): m_value(value) {}
+  template <class T>
+  friend struct rt::PrimitiveType;
+  public: constexpr Single() noexcept : m_value(0) {}
+  public: constexpr Single(float value) noexcept : m_value(value) {}
   public: static Boolean IsFinite(Single f);
   public: static Boolean IsInfinity(Single f);
   public: static Boolean IsNaN(Single f);

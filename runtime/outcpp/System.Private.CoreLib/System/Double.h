@@ -20,8 +20,10 @@ FORWARDS(UInt64)
 namespace DoubleNamespace {
 using namespace Globalization;
 struct Double : public rt::PrimitiveType<Double> {
-  public: Double(): m_value(0) {}
-  public: Double(double value): m_value(value) {}
+  template <class T>
+  friend struct rt::PrimitiveType;
+  public: constexpr Double() noexcept : m_value(0) {}
+  public: constexpr Double(double value) noexcept : m_value(value) {}
   public: static Boolean IsFinite(Double d);
   public: static Boolean IsInfinity(Double d);
   public: static Boolean IsNaN(Double d);

@@ -27,8 +27,8 @@ namespace Meson.Compiler.CppAst {
       return new CastExpressionSyntax(this, target);
     }
 
-    internal AddressIdentifierSyntax Address() {
-      return new AddressIdentifierSyntax(this);
+    internal AddressExpressionSyntax Address() {
+      return new AddressExpressionSyntax(this);
     }
 
     internal ReturnStatementSyntax Return() {
@@ -49,6 +49,14 @@ namespace Meson.Compiler.CppAst {
 
     internal GenericIdentifierSyntax Generic(params ExpressionSyntax[] args) {
       return new GenericIdentifierSyntax(this, args);
+    }
+
+    internal ParenthesizedExpressionSyntax Parenthesized() {
+      return new ParenthesizedExpressionSyntax(this);
+    }
+
+    internal BinaryExpressionSyntax Binary(string operatorToken, ExpressionSyntax right) {
+      return new BinaryExpressionSyntax(this, operatorToken, right);
     }
   }
 
@@ -197,4 +205,14 @@ namespace Meson.Compiler.CppAst {
     }
   }
 
+  internal sealed class ParenthesizedExpressionSyntax : ExpressionSyntax {
+    public ExpressionSyntax Expression { get; }
+    public ParenthesizedExpressionSyntax(ExpressionSyntax expression) {
+      Expression = expression;
+    }
+
+    internal override void Render(CppRenderer renderer) {
+      renderer.Render(this);
+    }
+  }
 }
