@@ -432,6 +432,22 @@ namespace rt {
     bool operator !=(const T& other) {
       return static_cast<T*>(this)->m_value != other.m_value;
     }
+
+    bool operator <(const T& other) {
+      return static_cast<T*>(this)->m_value < other.m_value;
+    }
+
+    bool operator <=(const T& other) {
+      return static_cast<T*>(this)->m_value <= other.m_value;
+    }
+
+    bool operator >(const T& other) {
+      return static_cast<T*>(this)->m_value > other.m_value;
+    }
+
+    bool operator >=(const T& other) {
+      return static_cast<T*>(this)->m_value >= other.m_value;
+    }
   };
 
   template <class T, size_t N>

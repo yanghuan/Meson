@@ -27,7 +27,7 @@ Int32 Int32::CompareTo(Object value) {
     }
     return 0;
   }
-  rt::throw_exception(rt::newobj<ArgumentException>(SR::Arg_MustBeInt32));
+  //rt::throw_exception(rt::newobj<ArgumentException>(SR::get_Arg_MustBeInt32()));
 };
 Int32 Int32::CompareTo(Int32 value) {
   if (*this < value) {
@@ -69,14 +69,14 @@ Int32 Int32::Parse(String s) {
   if (s == nullptr) {
     ThrowHelper::ThrowArgumentNullException(ExceptionArgument::s);
   }
-  return Number::ParseInt32(s, NumberStyles::Integer, NumberFormatInfo::in::CurrentInfo);
+  return Number::ParseInt32(s, NumberStyles::Integer, NumberFormatInfo::in::get_CurrentInfo());
 };
 Int32 Int32::Parse(String s, NumberStyles style) {
   NumberFormatInfo::in::ValidateParseStyleInteger(style);
   if (s == nullptr) {
     ThrowHelper::ThrowArgumentNullException(ExceptionArgument::s);
   }
-  return Number::ParseInt32(s, style, NumberFormatInfo::in::CurrentInfo);
+  return Number::ParseInt32(s, style, NumberFormatInfo::in::get_CurrentInfo());
 };
 Int32 Int32::Parse(String s, IFormatProvider provider) {
   if (s == nullptr) {
@@ -100,10 +100,10 @@ Boolean Int32::TryParse(String s, Int32& result) {
     result = 0;
     return false;
   }
-  return Number::TryParseInt32IntegerStyle(s, NumberStyles::Integer, NumberFormatInfo::in::CurrentInfo, result) == Number::ParsingStatus::OK;
+  return Number::TryParseInt32IntegerStyle(s, NumberStyles::Integer, NumberFormatInfo::in::get_CurrentInfo(), result) == Number::ParsingStatus::OK;
 };
 Boolean Int32::TryParse(ReadOnlySpan<Char> s, Int32& result) {
-  return Number::TryParseInt32IntegerStyle(s, NumberStyles::Integer, NumberFormatInfo::in::CurrentInfo, result) == Number::ParsingStatus::OK;
+  return Number::TryParseInt32IntegerStyle(s, NumberStyles::Integer, NumberFormatInfo::in::get_CurrentInfo(), result) == Number::ParsingStatus::OK;
 };
 Boolean Int32::TryParse(String s, NumberStyles style, IFormatProvider provider, Int32& result) {
   NumberFormatInfo::in::ValidateParseStyleInteger(style);

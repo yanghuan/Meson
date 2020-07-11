@@ -271,7 +271,16 @@ namespace Meson.Compiler {
         case SymbolKind.Property:
         case SymbolKind.Method: {
           var member = (IEntity)symbol;
-          var name = GetMemberName(member);
+          bool isGetter = false;
+          if (symbol.SymbolKind == SymbolKind.Property) {
+            var property = (IProperty)symbol;
+            isGetter = !(memberReferenceExpression.Parent is AssignmentExpression);
+            member = isGetter ? property.Getter : property.Setter;
+          }
+          ExpressionSyntax name = GetMemberName(member);
+          if (isGetter) {
+            name = name.Invation();
+          }
           if (member.IsStatic) {
             if (member.DeclaringTypeDefinition.IsRefType()) {
               target = target.TwoColon(IdentifierSyntax.In);
