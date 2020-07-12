@@ -4,19 +4,25 @@ namespace System::Private::CoreLib::System::Runtime::CompilerServices::Formattab
 String FormattableStringFactory::ConcreteFormattableString___::get_Format() {
   return nullptr;
 };
+
 Int32 FormattableStringFactory::ConcreteFormattableString___::get_ArgumentCount() {
   return Int32();
 };
+
 Array<Object> FormattableStringFactory::ConcreteFormattableString___::GetArguments() {
   return Array<Object>();
 };
+
 Object FormattableStringFactory::ConcreteFormattableString___::GetArgument(Int32 index) {
   return nullptr;
 };
+
 String FormattableStringFactory::ConcreteFormattableString___::ToString(IFormatProvider formatProvider) {
   return nullptr;
 };
+
 FormattableString FormattableStringFactory::Create(String format, Array<Object> arguments) {
   return nullptr;
 };
+
 } // namespace System::Private::CoreLib::System::Runtime::CompilerServices::FormattableStringFactoryNamespace

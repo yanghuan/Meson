@@ -4,4 +4,5 @@ namespace System::Private::CoreLib::System::Threading::ThreadAbortExceptionNames
 Object ThreadAbortException___::get_ExceptionState() {
   return nullptr;
 };
+
 } // namespace System::Private::CoreLib::System::Threading::ThreadAbortExceptionNamespace

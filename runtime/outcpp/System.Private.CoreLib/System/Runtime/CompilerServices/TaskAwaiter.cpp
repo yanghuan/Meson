@@ -4,4 +4,5 @@ namespace System::Private::CoreLib::System::Runtime::CompilerServices::TaskAwait
 Boolean TaskAwaiter<>::get_IsCompleted() {
   return Boolean();
 };
+
 } // namespace System::Private::CoreLib::System::Runtime::CompilerServices::TaskAwaiterNamespace

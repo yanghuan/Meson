@@ -4,6 +4,8 @@ namespace System::Private::CoreLib::System::Runtime::Serialization::OptionalFiel
 Int32 OptionalFieldAttribute___::get_VersionAdded() {
   return Int32();
 };
+
 void OptionalFieldAttribute___::set_VersionAdded(Int32 value) {
 };
+
 } // namespace System::Private::CoreLib::System::Runtime::Serialization::OptionalFieldAttributeNamespace

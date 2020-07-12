@@ -10,6 +10,7 @@ using namespace ::System::Private::CoreLib::System;
 void Program___::Main(Array<String> args) {
   Console::WriteLine("Hello World!", (Array<Object>)args);
 };
+
 } // namespace Test::Test::ProgramNamespace
 int main(int argc, char* argv[]) {
   return rt::init(argc, argv, &Test::Test::Program::in::Main);

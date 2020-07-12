@@ -4,4 +4,5 @@ namespace System::Private::CoreLib::System::Security::Permissions::SecurityPermi
 IPermission SecurityPermissionAttribute___::CreatePermission() {
   return nullptr;
 };
+
 } // namespace System::Private::CoreLib::System::Security::Permissions::SecurityPermissionAttributeNamespace

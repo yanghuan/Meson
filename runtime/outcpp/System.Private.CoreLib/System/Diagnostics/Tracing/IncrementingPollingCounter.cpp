@@ -4,8 +4,11 @@ namespace System::Private::CoreLib::System::Diagnostics::Tracing::IncrementingPo
 String IncrementingPollingCounter___::ToString() {
   return nullptr;
 };
+
 void IncrementingPollingCounter___::UpdateMetric() {
 };
+
 void IncrementingPollingCounter___::WritePayload(Single intervalSec, Int32 pollingIntervalMillisec) {
 };
+
 } // namespace System::Private::CoreLib::System::Diagnostics::Tracing::IncrementingPollingCounterNamespace

@@ -4,4 +4,5 @@ namespace System::Private::CoreLib::System::Runtime::CompilerServices::Configure
 ConfiguredValueTaskAwaitable<> ConfiguredAsyncDisposable::DisposeAsync() {
   return ConfiguredValueTaskAwaitable<>();
 };
+
 } // namespace System::Private::CoreLib::System::Runtime::CompilerServices::ConfiguredAsyncDisposableNamespace

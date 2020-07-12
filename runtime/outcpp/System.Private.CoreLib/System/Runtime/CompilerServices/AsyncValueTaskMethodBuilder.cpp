@@ -4,4 +4,5 @@ namespace System::Private::CoreLib::System::Runtime::CompilerServices::AsyncValu
 ValueTask<> AsyncValueTaskMethodBuilder<>::get_Task() {
   return ValueTask<>();
 };
+
 } // namespace System::Private::CoreLib::System::Runtime::CompilerServices::AsyncValueTaskMethodBuilderNamespace

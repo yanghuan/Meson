@@ -4,4 +4,5 @@ namespace System::Private::CoreLib::Microsoft::Win32::SafeHandles::SafeFindHandl
 Boolean SafeFindHandle___::ReleaseHandle() {
   return Boolean();
 };
+
 } // namespace System::Private::CoreLib::Microsoft::Win32::SafeHandles::SafeFindHandleNamespace

@@ -4,6 +4,8 @@ namespace System::Private::CoreLib::System::Diagnostics::DebuggerDisplayAttribut
 Type DebuggerDisplayAttribute___::get_Target() {
   return nullptr;
 };
+
 void DebuggerDisplayAttribute___::set_Target(System::Type value) {
 };
+
 } // namespace System::Private::CoreLib::System::Diagnostics::DebuggerDisplayAttributeNamespace

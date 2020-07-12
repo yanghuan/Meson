@@ -4,4 +4,5 @@ namespace System::Private::CoreLib::System::Runtime::CompilerServices::DecimalCo
 Decimal DecimalConstantAttribute___::get_Value() {
   return Decimal();
 };
+
 } // namespace System::Private::CoreLib::System::Runtime::CompilerServices::DecimalConstantAttributeNamespace

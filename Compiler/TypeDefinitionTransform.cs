@@ -16,10 +16,7 @@ namespace Meson.Compiler {
     private readonly List<ITypeDefinition> types_;
     private readonly TypeDefinitionTransform parentTransform_;
     private readonly Dictionary<ITypeDefinition, ITypeDefinition> nestedCycleTypes_ = new Dictionary<ITypeDefinition, ITypeDefinition>();
-    public bool IsMulti => types_.Count > 1;
-    public bool HasRef => types_.Exists(i => i.IsRefType());
-    private ITypeDefinition Root => types_.First();
-    public IdentifierSyntax GetMemberName(ISymbol symbol) => Generator.GetMemberName(symbol);
+    private bool isPrimitiveType_;
 
     public TypeDefinitionTransform(CompilationUnitTransform compilationUnit, BlockSyntax parent, IEnumerable<ITypeDefinition> types, TypeDefinitionTransform parentTransform = null) {
       CompilationUnit = compilationUnit;
@@ -28,6 +25,11 @@ namespace Meson.Compiler {
       parentTransform_ = parentTransform;
       Visit();
     }
+
+    public bool IsMulti => types_.Count > 1;
+    public bool HasRef => types_.Exists(i => i.IsRefType());
+    private ITypeDefinition Root => types_.First();
+    public IdentifierSyntax GetMemberName(ISymbol symbol) => Generator.GetMemberName(symbol);
 
     private void Visit() {
       if (IsMulti) {
@@ -268,8 +270,6 @@ namespace Meson.Compiler {
           node.Bases.Add(new BaseSyntax(IdentifierSyntax.PrimitiveType.Generic(node.Name)));
 
           var statements = new StatementListSyntax(); 
-          statements.Add(new FriendClassDeclarationSyntax(IdentifierSyntax.PrimitiveType, true) { Template = TemplateSyntax.T  });
-
           string accessibilityToken = Accessibility.Public.ToTokenString();
           var defaultConstructor = new ConstructorDefinitionSyntax(node.Name, Array.Empty<ParameterSyntax>(), accessibilityToken) { 
             Body = BlockSyntax.EmptyBlock,
@@ -288,6 +288,7 @@ namespace Meson.Compiler {
           statements.Add(underlyingTypeConstructor);
 
           node.Statements.Insert(0, statements);
+          isPrimitiveType_ = true;
         } else if (IsArrayInnerSpecialField(field, typeDefinition, out typeName)) {
         } else {
           typeName = GetFieldTypeName(field, typeDefinition);
@@ -457,6 +458,9 @@ namespace Meson.Compiler {
       VisitPropertys(type, node);
       VisitMethods(type, node);
       VisitFields(type, node);
+      if (isPrimitiveType_) {
+        node.Add(new FriendClassDeclarationSyntax(IdentifierSyntax.PrimitiveType, true) { Template = TemplateSyntax.T  });
+      }
     }
 
     private BlockSyntax GetBrotherTypeParnetBlock(ITypeDefinition brotherType) {

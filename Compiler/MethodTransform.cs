@@ -54,6 +54,7 @@ namespace Meson.Compiler {
         methodSymbols_.Pop();
         if (node != null) {
           CompilationUnit.AddSrcStatement(node);
+          CompilationUnit.AddSrcStatement(BlankLinesStatement.One);
           if (methodSymbol.IsMainEntryPoint()) {
             InsetMainFuntion(methodSymbol, node);
           }
@@ -306,10 +307,15 @@ namespace Meson.Compiler {
       return IdentifierSyntax.Nullptr;
     }
 
-    public SyntaxNode VisitObjectCreateExpression(ObjectCreateExpression objectCreateExpression) {
+    private ExpressionSyntax BuildObjectCreateExpression(ObjectCreateExpression objectCreateExpression, out List<ExpressionSyntax> arguments) {
       var method = (IMethod)objectCreateExpression.GetSymbol();
       var typeName = objectCreateExpression.Type.AcceptExpression(this);
-      var arguments = BuildArguments(method, objectCreateExpression.Arguments);
+      arguments = BuildArguments(method, objectCreateExpression.Arguments);
+      return typeName;
+    }
+
+    public SyntaxNode VisitObjectCreateExpression(ObjectCreateExpression objectCreateExpression) {
+      var typeName = BuildObjectCreateExpression(objectCreateExpression, out var arguments);
       return IdentifierSyntax.NewObj.Generic(typeName).Invation(arguments);
     }
 
@@ -586,6 +592,11 @@ namespace Meson.Compiler {
     }
 
     public SyntaxNode VisitThrowStatement(ThrowStatement throwStatement) {
+      if (throwStatement.Expression is ObjectCreateExpression objectCreateExpression) {
+        var typeName = BuildObjectCreateExpression(objectCreateExpression, out var arguments);
+        return (StatementSyntax)IdentifierSyntax.Throw.Generic(typeName).Invation(arguments);
+      }
+
       var expression = throwStatement.Expression.AcceptExpression(this);
       return (StatementSyntax)IdentifierSyntax.Throw.Invation(expression);
     }

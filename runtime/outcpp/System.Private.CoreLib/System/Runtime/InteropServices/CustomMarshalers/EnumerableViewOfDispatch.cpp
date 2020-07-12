@@ -4,10 +4,13 @@ namespace System::Private::CoreLib::System::Runtime::InteropServices::CustomMars
 IDispatch EnumerableViewOfDispatch___::get_Dispatch() {
   return nullptr;
 };
+
 IEnumerator EnumerableViewOfDispatch___::GetEnumerator() {
   return nullptr;
 };
+
 Object EnumerableViewOfDispatch___::GetUnderlyingObject() {
   return nullptr;
 };
+
 } // namespace System::Private::CoreLib::System::Runtime::InteropServices::CustomMarshalers::EnumerableViewOfDispatchNamespace

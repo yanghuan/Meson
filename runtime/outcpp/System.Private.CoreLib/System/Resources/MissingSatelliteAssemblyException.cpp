@@ -4,4 +4,5 @@ namespace System::Private::CoreLib::System::Resources::MissingSatelliteAssemblyE
 String MissingSatelliteAssemblyException___::get_CultureName() {
   return nullptr;
 };
+
 } // namespace System::Private::CoreLib::System::Resources::MissingSatelliteAssemblyExceptionNamespace

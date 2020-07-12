@@ -6,26 +6,35 @@ namespace System::Private::CoreLib::System::Runtime::InteropServices::ComEventsS
 ComEventsSink ComEventsSink___::Find(ComEventsSink sinks, Guid& iid) {
   return nullptr;
 };
+
 ComEventsSink ComEventsSink___::Add(ComEventsSink sinks, ComEventsSink sink) {
   return nullptr;
 };
+
 ComEventsSink ComEventsSink___::RemoveAll(ComEventsSink sinks) {
   return nullptr;
 };
+
 ComEventsSink ComEventsSink___::Remove(ComEventsSink sinks, ComEventsSink sink) {
   return nullptr;
 };
+
 ComEventsMethod ComEventsSink___::RemoveMethod(ComEventsMethod method) {
   return nullptr;
 };
+
 ComEventsMethod ComEventsSink___::FindMethod(Int32 dispid) {
   return nullptr;
 };
+
 ComEventsMethod ComEventsSink___::AddMethod(Int32 dispid) {
   return nullptr;
 };
+
 void ComEventsSink___::Advise(Object rcw) {
 };
+
 void ComEventsSink___::Unadvise() {
 };
+
 } // namespace System::Private::CoreLib::System::Runtime::InteropServices::ComEventsSinkNamespace

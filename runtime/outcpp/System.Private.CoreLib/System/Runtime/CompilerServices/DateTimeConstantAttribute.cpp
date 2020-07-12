@@ -4,4 +4,5 @@ namespace System::Private::CoreLib::System::Runtime::CompilerServices::DateTimeC
 Object DateTimeConstantAttribute___::get_Value() {
   return nullptr;
 };
+
 } // namespace System::Private::CoreLib::System::Runtime::CompilerServices::DateTimeConstantAttributeNamespace

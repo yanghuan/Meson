@@ -4,7 +4,9 @@ namespace System::Private::CoreLib::System::Diagnostics::Tracing::CounterPayload
 IEnumerable<KeyValuePair<String, Object>> CounterPayload___::get_ForEnumeration() {
   return nullptr;
 };
+
 IEnumerator<KeyValuePair<String, Object>> CounterPayload___::GetEnumerator() {
   return nullptr;
 };
+
 } // namespace System::Private::CoreLib::System::Diagnostics::Tracing::CounterPayloadNamespace

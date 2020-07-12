@@ -6,9 +6,12 @@ namespace System::Private::CoreLib::System::Runtime::CompilerServices::AsyncIter
 Object AsyncIteratorMethodBuilder::get_ObjectIdForDebugger() {
   return nullptr;
 };
+
 AsyncIteratorMethodBuilder AsyncIteratorMethodBuilder::Create() {
   return AsyncIteratorMethodBuilder();
 };
+
 void AsyncIteratorMethodBuilder::Complete() {
 };
+
 } // namespace System::Private::CoreLib::System::Runtime::CompilerServices::AsyncIteratorMethodBuilderNamespace

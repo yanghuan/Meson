@@ -4,4 +4,5 @@ namespace System::Private::CoreLib::System::Runtime::InteropServices::COMExcepti
 String COMException___::ToString() {
   return nullptr;
 };
+
 } // namespace System::Private::CoreLib::System::Runtime::InteropServices::COMExceptionNamespace

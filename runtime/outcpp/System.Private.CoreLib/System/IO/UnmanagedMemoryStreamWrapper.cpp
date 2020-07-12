@@ -4,76 +4,104 @@ namespace System::Private::CoreLib::System::IO::UnmanagedMemoryStreamWrapperName
 Boolean UnmanagedMemoryStreamWrapper___::get_CanRead() {
   return Boolean();
 };
+
 Boolean UnmanagedMemoryStreamWrapper___::get_CanSeek() {
   return Boolean();
 };
+
 Boolean UnmanagedMemoryStreamWrapper___::get_CanWrite() {
   return Boolean();
 };
+
 Int32 UnmanagedMemoryStreamWrapper___::get_Capacity() {
   return Int32();
 };
+
 void UnmanagedMemoryStreamWrapper___::set_Capacity(Int32 value) {
 };
+
 Int64 UnmanagedMemoryStreamWrapper___::get_Length() {
   return Int64();
 };
+
 Int64 UnmanagedMemoryStreamWrapper___::get_Position() {
   return Int64();
 };
+
 void UnmanagedMemoryStreamWrapper___::set_Position(Int64 value) {
 };
+
 void UnmanagedMemoryStreamWrapper___::Dispose(Boolean disposing) {
 };
+
 void UnmanagedMemoryStreamWrapper___::Flush() {
 };
+
 Array<Byte> UnmanagedMemoryStreamWrapper___::GetBuffer() {
   return Array<Byte>();
 };
+
 Boolean UnmanagedMemoryStreamWrapper___::TryGetBuffer(ArraySegment<Byte>& buffer) {
   return Boolean();
 };
+
 Int32 UnmanagedMemoryStreamWrapper___::Read(Array<Byte> buffer, Int32 offset, Int32 count) {
   return Int32();
 };
+
 Int32 UnmanagedMemoryStreamWrapper___::Read(Span<Byte> buffer) {
   return Int32();
 };
+
 Int32 UnmanagedMemoryStreamWrapper___::ReadByte() {
   return Int32();
 };
+
 Int64 UnmanagedMemoryStreamWrapper___::Seek(Int64 offset, SeekOrigin loc) {
   return Int64();
 };
+
 Array<Byte> UnmanagedMemoryStreamWrapper___::ToArray() {
   return Array<Byte>();
 };
+
 void UnmanagedMemoryStreamWrapper___::Write(Array<Byte> buffer, Int32 offset, Int32 count) {
 };
+
 void UnmanagedMemoryStreamWrapper___::Write(ReadOnlySpan<Byte> buffer) {
 };
+
 void UnmanagedMemoryStreamWrapper___::WriteByte(Byte value) {
 };
+
 void UnmanagedMemoryStreamWrapper___::WriteTo(Stream stream) {
 };
+
 void UnmanagedMemoryStreamWrapper___::SetLength(Int64 value) {
 };
+
 Task<> UnmanagedMemoryStreamWrapper___::CopyToAsync(Stream destination, Int32 bufferSize, CancellationToken cancellationToken) {
   return nullptr;
 };
+
 Task<> UnmanagedMemoryStreamWrapper___::FlushAsync(CancellationToken cancellationToken) {
   return nullptr;
 };
+
 Task<Int32> UnmanagedMemoryStreamWrapper___::ReadAsync(Array<Byte> buffer, Int32 offset, Int32 count, CancellationToken cancellationToken) {
   return nullptr;
 };
+
 ValueTask<Int32> UnmanagedMemoryStreamWrapper___::ReadAsync(Memory<Byte> buffer, CancellationToken cancellationToken) {
   return ValueTask<Int32>();
 };
+
 Task<> UnmanagedMemoryStreamWrapper___::WriteAsync(Array<Byte> buffer, Int32 offset, Int32 count, CancellationToken cancellationToken) {
   return nullptr;
 };
+
 ValueTask<> UnmanagedMemoryStreamWrapper___::WriteAsync(ReadOnlyMemory<Byte> buffer, CancellationToken cancellationToken) {
   return ValueTask<>();
 };
+
 } // namespace System::Private::CoreLib::System::IO::UnmanagedMemoryStreamWrapperNamespace

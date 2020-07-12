@@ -477,14 +477,14 @@ namespace rt {
   #endif
   }
 
-  template <class Ex, class... Args>
-  [[noreturn]] void throw_exception(Args&&... args) {
-    throw_exception<Ex>(Ex(std::forward<Args>(args)...));
-  }
-
   template <class T, class... Args>
   inline T newobj(Args&&... args) {
     return rt::object::newobj<T>(std::forward<Args>(args)...);
+  }
+
+  template <class Ex, class... Args>
+  [[noreturn]] void throw_exception(Args&&... args) {
+    //throw_exception(newobj<Ex>(std::forward<Args>(args)...));
   }
 
   template <class A>

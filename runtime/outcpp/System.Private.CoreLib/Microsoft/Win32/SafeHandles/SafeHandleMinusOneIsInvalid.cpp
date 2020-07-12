@@ -4,4 +4,5 @@ namespace System::Private::CoreLib::Microsoft::Win32::SafeHandles::SafeHandleMin
 Boolean SafeHandleMinusOneIsInvalid___::get_IsInvalid() {
   return Boolean();
 };
+
 } // namespace System::Private::CoreLib::Microsoft::Win32::SafeHandles::SafeHandleMinusOneIsInvalidNamespace

@@ -4,4 +4,5 @@ namespace System::Private::CoreLib::System::Reflection::MetadataExceptionNamespa
 String MetadataException___::ToString() {
   return nullptr;
 };
+
 } // namespace System::Private::CoreLib::System::Reflection::MetadataExceptionNamespace

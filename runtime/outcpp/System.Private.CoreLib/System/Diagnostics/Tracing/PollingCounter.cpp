@@ -4,6 +4,8 @@ namespace System::Private::CoreLib::System::Diagnostics::Tracing::PollingCounter
 String PollingCounter___::ToString() {
   return nullptr;
 };
+
 void PollingCounter___::WritePayload(Single intervalSec, Int32 pollingIntervalMillisec) {
 };
+
 } // namespace System::Private::CoreLib::System::Diagnostics::Tracing::PollingCounterNamespace

@@ -4,6 +4,8 @@ namespace System::Private::CoreLib::System::Threading::WaitHandleExtensionsNames
 SafeWaitHandle WaitHandleExtensions::GetSafeWaitHandle(WaitHandle waitHandle) {
   return nullptr;
 };
+
 void WaitHandleExtensions::SetSafeWaitHandle(WaitHandle waitHandle, SafeWaitHandle value) {
 };
+
 } // namespace System::Private::CoreLib::System::Threading::WaitHandleExtensionsNamespace

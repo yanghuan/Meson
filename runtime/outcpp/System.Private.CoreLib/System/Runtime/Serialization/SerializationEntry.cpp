@@ -4,10 +4,13 @@ namespace System::Private::CoreLib::System::Runtime::Serialization::Serializatio
 Object SerializationEntry::get_Value() {
   return nullptr;
 };
+
 String SerializationEntry::get_Name() {
   return nullptr;
 };
+
 Type SerializationEntry::get_ObjectType() {
   return nullptr;
 };
+
 } // namespace System::Private::CoreLib::System::Runtime::Serialization::SerializationEntryNamespace

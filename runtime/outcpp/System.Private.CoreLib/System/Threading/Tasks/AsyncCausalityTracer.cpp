@@ -4,4 +4,5 @@ namespace System::Private::CoreLib::System::Threading::Tasks::AsyncCausalityTrac
 Boolean AsyncCausalityTracer::get_LoggingOn() {
   return Boolean();
 };
+
 } // namespace System::Private::CoreLib::System::Threading::Tasks::AsyncCausalityTracerNamespace

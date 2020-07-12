@@ -4,4 +4,5 @@ namespace System::Private::CoreLib::System::Reflection::ReflectionContextNamespa
 TypeInfo ReflectionContext___::GetTypeForObject(Object value) {
   return nullptr;
 };
+
 } // namespace System::Private::CoreLib::System::Reflection::ReflectionContextNamespace

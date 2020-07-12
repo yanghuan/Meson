@@ -4,4 +4,5 @@ namespace System::Private::CoreLib::System::Resources::ResourceFallbackManagerNa
 IEnumerator<CultureInfo> ResourceFallbackManager___::GetEnumerator() {
   return nullptr;
 };
+
 } // namespace System::Private::CoreLib::System::Resources::ResourceFallbackManagerNamespace

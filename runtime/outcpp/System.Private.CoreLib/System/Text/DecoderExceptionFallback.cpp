@@ -4,13 +4,17 @@ namespace System::Private::CoreLib::System::Text::DecoderExceptionFallbackNamesp
 Int32 DecoderExceptionFallback___::get_MaxCharCount() {
   return Int32();
 };
+
 DecoderFallbackBuffer DecoderExceptionFallback___::CreateFallbackBuffer() {
   return nullptr;
 };
+
 Boolean DecoderExceptionFallback___::Equals(Object value) {
   return Boolean();
 };
+
 Int32 DecoderExceptionFallback___::GetHashCode() {
   return Int32();
 };
+
 } // namespace System::Private::CoreLib::System::Text::DecoderExceptionFallbackNamespace

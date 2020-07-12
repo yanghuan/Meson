@@ -6,4 +6,5 @@ namespace System::Private::CoreLib::Internal::Runtime::InteropServices::ComActiv
 ComActivationContext ComActivationContext::Create(ComActivationContextInternal& cxtInt) {
   return ComActivationContext();
 };
+
 } // namespace System::Private::CoreLib::Internal::Runtime::InteropServices::ComActivationContextNamespace

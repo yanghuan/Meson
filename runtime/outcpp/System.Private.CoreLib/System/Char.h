@@ -20,8 +20,6 @@ FORWARDS(UInt32)
 namespace CharNamespace {
 using namespace Globalization;
 struct Char : public rt::PrimitiveType<Char> {
-  template <class T>
-  friend struct rt::PrimitiveType;
   public: constexpr Char() noexcept : m_value(0) {}
   public: constexpr Char(char8_t value) noexcept : m_value(value) {}
   private: static ReadOnlySpan<Byte> get_Latin1CharInfo();
@@ -96,6 +94,8 @@ struct Char : public rt::PrimitiveType<Char> {
   private: char8_t m_value;
   public: static Char MaxValue;
   public: static Char MinValue;
+  template <class T>
+  friend struct rt::PrimitiveType;
 };
 } // namespace CharNamespace
 using Char = CharNamespace::Char;

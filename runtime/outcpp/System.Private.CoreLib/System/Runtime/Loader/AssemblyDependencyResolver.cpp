@@ -4,10 +4,13 @@ namespace System::Private::CoreLib::System::Runtime::Loader::AssemblyDependencyR
 String AssemblyDependencyResolver___::ResolveAssemblyToPath(AssemblyName assemblyName) {
   return nullptr;
 };
+
 String AssemblyDependencyResolver___::ResolveUnmanagedDllToPath(String unmanagedDllName) {
   return nullptr;
 };
+
 Array<String> AssemblyDependencyResolver___::SplitPathsList(String pathsList) {
   return Array<String>();
 };
+
 } // namespace System::Private::CoreLib::System::Runtime::Loader::AssemblyDependencyResolverNamespace

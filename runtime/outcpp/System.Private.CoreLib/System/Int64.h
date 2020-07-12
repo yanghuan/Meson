@@ -18,8 +18,6 @@ FORWARD(String)
 namespace Int64Namespace {
 using namespace Globalization;
 struct Int64 : public rt::PrimitiveType<Int64> {
-  template <class T>
-  friend struct rt::PrimitiveType;
   public: constexpr Int64() noexcept : m_value(0) {}
   public: constexpr Int64(int64_t value) noexcept : m_value(value) {}
   public: Int32 CompareTo(Object value);
@@ -45,6 +43,8 @@ struct Int64 : public rt::PrimitiveType<Int64> {
   private: int64_t m_value;
   public: static Int64 MaxValue;
   public: static Int64 MinValue;
+  template <class T>
+  friend struct rt::PrimitiveType;
 };
 } // namespace Int64Namespace
 using Int64 = Int64Namespace::Int64;

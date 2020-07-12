@@ -4,4 +4,5 @@ namespace System::Private::CoreLib::System::Reflection::AssemblyNameProxyNamespa
 AssemblyName AssemblyNameProxy___::GetAssemblyName(String assemblyFile) {
   return nullptr;
 };
+
 } // namespace System::Private::CoreLib::System::Reflection::AssemblyNameProxyNamespace

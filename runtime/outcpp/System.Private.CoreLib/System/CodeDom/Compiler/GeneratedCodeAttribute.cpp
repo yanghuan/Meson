@@ -4,7 +4,9 @@ namespace System::Private::CoreLib::System::CodeDom::Compiler::GeneratedCodeAttr
 String GeneratedCodeAttribute___::get_Tool() {
   return nullptr;
 };
+
 String GeneratedCodeAttribute___::get_Version() {
   return nullptr;
 };
+
 } // namespace System::Private::CoreLib::System::CodeDom::Compiler::GeneratedCodeAttributeNamespace

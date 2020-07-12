@@ -4,4 +4,5 @@ namespace System::Private::CoreLib::Microsoft::Win32::SafeHandles::CriticalHandl
 Boolean CriticalHandleZeroOrMinusOneIsInvalid___::get_IsInvalid() {
   return Boolean();
 };
+
 } // namespace System::Private::CoreLib::Microsoft::Win32::SafeHandles::CriticalHandleZeroOrMinusOneIsInvalidNamespace

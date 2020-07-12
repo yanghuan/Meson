@@ -17,8 +17,6 @@ FORWARD(String)
 namespace Int32Namespace {
 using namespace Globalization;
 struct Int32 : public rt::PrimitiveType<Int32> {
-  template <class T>
-  friend struct rt::PrimitiveType;
   public: constexpr Int32() noexcept : m_value(0) {}
   public: constexpr Int32(int32_t value) noexcept : m_value(value) {}
   public: Int32 CompareTo(Object value);
@@ -44,6 +42,8 @@ struct Int32 : public rt::PrimitiveType<Int32> {
   private: int32_t m_value;
   public: static Int32 MaxValue;
   public: static Int32 MinValue;
+  template <class T>
+  friend struct rt::PrimitiveType;
 };
 } // namespace Int32Namespace
 using Int32 = Int32Namespace::Int32;

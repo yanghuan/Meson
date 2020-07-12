@@ -4,4 +4,5 @@ namespace System::Private::CoreLib::System::Runtime::CompilerServices::ValueTask
 Boolean ValueTaskAwaiter<>::get_IsCompleted() {
   return Boolean();
 };
+
 } // namespace System::Private::CoreLib::System::Runtime::CompilerServices::ValueTaskAwaiterNamespace

@@ -19,8 +19,6 @@ FORWARD(String)
 namespace ByteNamespace {
 using namespace Globalization;
 struct Byte : public rt::PrimitiveType<Byte> {
-  template <class T>
-  friend struct rt::PrimitiveType;
   public: constexpr Byte() noexcept : m_value(0) {}
   public: constexpr Byte(uint8_t value) noexcept : m_value(value) {}
   public: Int32 CompareTo(Object value);
@@ -48,6 +46,8 @@ struct Byte : public rt::PrimitiveType<Byte> {
   private: uint8_t m_value;
   public: static Byte MaxValue;
   public: static Byte MinValue;
+  template <class T>
+  friend struct rt::PrimitiveType;
 };
 } // namespace ByteNamespace
 using Byte = ByteNamespace::Byte;

@@ -19,8 +19,6 @@ FORWARD(String)
 namespace SByteNamespace {
 using namespace Globalization;
 struct SByte : public rt::PrimitiveType<SByte> {
-  template <class T>
-  friend struct rt::PrimitiveType;
   public: constexpr SByte() noexcept : m_value(0) {}
   public: constexpr SByte(int8_t value) noexcept : m_value(value) {}
   public: Int32 CompareTo(Object obj);
@@ -48,6 +46,8 @@ struct SByte : public rt::PrimitiveType<SByte> {
   private: int8_t m_value;
   public: static SByte MaxValue;
   public: static SByte MinValue;
+  template <class T>
+  friend struct rt::PrimitiveType;
 };
 } // namespace SByteNamespace
 using SByte = SByteNamespace::SByte;

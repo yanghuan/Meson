@@ -4,4 +4,5 @@ namespace System::Private::CoreLib::System::Reflection::CustomAttributeNamedPara
 CustomAttributeEncodedArgument CustomAttributeNamedParameter::get_EncodedArgument() {
   return CustomAttributeEncodedArgument();
 };
+
 } // namespace System::Private::CoreLib::System::Reflection::CustomAttributeNamedParameterNamespace

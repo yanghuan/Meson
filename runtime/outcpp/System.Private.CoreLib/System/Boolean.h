@@ -13,8 +13,6 @@ FORWARDS(Span, T)
 FORWARD(String)
 namespace BooleanNamespace {
 struct Boolean : public rt::PrimitiveType<Boolean> {
-  template <class T>
-  friend struct rt::PrimitiveType;
   public: constexpr Boolean() noexcept : m_value(false) {}
   public: constexpr Boolean(bool value) noexcept : m_value(value) {}
   public: Int32 GetHashCode();
@@ -36,6 +34,8 @@ struct Boolean : public rt::PrimitiveType<Boolean> {
   private: bool m_value;
   public: static String TrueString;
   public: static String FalseString;
+  template <class T>
+  friend struct rt::PrimitiveType;
 };
 } // namespace BooleanNamespace
 using Boolean = BooleanNamespace::Boolean;

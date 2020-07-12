@@ -4,4 +4,5 @@ namespace System::Private::CoreLib::System::Reflection::Metadata::AssemblyExtens
 Boolean AssemblyExtensions::TryGetRawMetadata(Assembly assembly, Byte*& blob, Int32& length) {
   return Boolean();
 };
+
 } // namespace System::Private::CoreLib::System::Reflection::Metadata::AssemblyExtensionsNamespace

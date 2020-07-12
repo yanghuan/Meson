@@ -4,4 +4,5 @@ namespace System::Private::CoreLib::System::Diagnostics::Contracts::ContractPubl
 String ContractPublicPropertyNameAttribute___::get_Name() {
   return nullptr;
 };
+
 } // namespace System::Private::CoreLib::System::Diagnostics::Contracts::ContractPublicPropertyNameAttributeNamespace

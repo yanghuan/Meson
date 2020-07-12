@@ -18,8 +18,6 @@ FORWARD(String)
 namespace UInt32Namespace {
 using namespace Globalization;
 struct UInt32 : public rt::PrimitiveType<UInt32> {
-  template <class T>
-  friend struct rt::PrimitiveType;
   public: constexpr UInt32() noexcept : m_value(0) {}
   public: constexpr UInt32(uint32_t value) noexcept : m_value(value) {}
   public: Int32 CompareTo(Object value);
@@ -45,6 +43,8 @@ struct UInt32 : public rt::PrimitiveType<UInt32> {
   private: uint32_t m_value;
   public: static UInt32 MaxValue;
   public: static UInt32 MinValue;
+  template <class T>
+  friend struct rt::PrimitiveType;
 };
 } // namespace UInt32Namespace
 using UInt32 = UInt32Namespace::UInt32;

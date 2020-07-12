@@ -4,4 +4,5 @@ namespace System::Private::CoreLib::System::Runtime::Remoting::ObjectHandleNames
 Object ObjectHandle___::Unwrap() {
   return nullptr;
 };
+
 } // namespace System::Private::CoreLib::System::Runtime::Remoting::ObjectHandleNamespace

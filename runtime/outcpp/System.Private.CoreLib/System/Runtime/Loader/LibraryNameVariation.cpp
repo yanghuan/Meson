@@ -6,4 +6,5 @@ namespace System::Private::CoreLib::System::Runtime::Loader::LibraryNameVariatio
 IEnumerable<LibraryNameVariation> LibraryNameVariation::DetermineLibraryNameVariations(String libName, Boolean isRelativePath, Boolean forOSLoader) {
   return nullptr;
 };
+
 } // namespace System::Private::CoreLib::System::Runtime::Loader::LibraryNameVariationNamespace

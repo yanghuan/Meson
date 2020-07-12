@@ -6,13 +6,17 @@ namespace System::Private::CoreLib::System::Text::StringRuneEnumeratorNamespace 
 Rune StringRuneEnumerator::get_Current() {
   return Rune();
 };
+
 Object StringRuneEnumerator::get_CurrentOfIEnumerator() {
   return nullptr;
 };
+
 StringRuneEnumerator StringRuneEnumerator::GetEnumerator() {
   return StringRuneEnumerator();
 };
+
 Boolean StringRuneEnumerator::MoveNext() {
   return Boolean();
 };
+
 } // namespace System::Private::CoreLib::System::Text::StringRuneEnumeratorNamespace

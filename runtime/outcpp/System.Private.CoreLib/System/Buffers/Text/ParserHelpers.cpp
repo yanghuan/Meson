@@ -4,10 +4,13 @@ namespace System::Private::CoreLib::System::Buffers::Text::ParserHelpersNamespac
 ReadOnlySpan<Byte> ParserHelpers::get_HexLookup() {
   return ReadOnlySpan<Byte>();
 };
+
 Boolean ParserHelpers::IsDigit(Int32 i) {
   return Boolean();
 };
+
 Boolean ParserHelpers::TryParseThrowFormatException(Int32& bytesConsumed) {
   return Boolean();
 };
+
 } // namespace System::Private::CoreLib::System::Buffers::Text::ParserHelpersNamespace

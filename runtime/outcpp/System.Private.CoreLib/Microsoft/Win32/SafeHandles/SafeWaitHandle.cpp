@@ -4,4 +4,5 @@ namespace System::Private::CoreLib::Microsoft::Win32::SafeHandles::SafeWaitHandl
 Boolean SafeWaitHandle___::ReleaseHandle() {
   return Boolean();
 };
+
 } // namespace System::Private::CoreLib::Microsoft::Win32::SafeHandles::SafeWaitHandleNamespace

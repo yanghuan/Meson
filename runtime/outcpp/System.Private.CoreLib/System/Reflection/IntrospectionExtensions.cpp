@@ -4,4 +4,5 @@ namespace System::Private::CoreLib::System::Reflection::IntrospectionExtensionsN
 TypeInfo IntrospectionExtensions::GetTypeInfo(Type type) {
   return nullptr;
 };
+
 } // namespace System::Private::CoreLib::System::Reflection::IntrospectionExtensionsNamespace

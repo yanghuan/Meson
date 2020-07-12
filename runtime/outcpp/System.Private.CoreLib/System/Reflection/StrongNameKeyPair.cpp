@@ -4,4 +4,5 @@ namespace System::Private::CoreLib::System::Reflection::StrongNameKeyPairNamespa
 Array<Byte> StrongNameKeyPair___::get_PublicKey() {
   return Array<Byte>();
 };
+
 } // namespace System::Private::CoreLib::System::Reflection::StrongNameKeyPairNamespace

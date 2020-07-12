@@ -4,12 +4,16 @@ namespace System::Private::CoreLib::System::Reflection::ReflectionTypeLoadExcept
 String ReflectionTypeLoadException___::get_Message() {
   return nullptr;
 };
+
 void ReflectionTypeLoadException___::GetObjectData(SerializationInfo info, StreamingContext context) {
 };
+
 String ReflectionTypeLoadException___::ToString() {
   return nullptr;
 };
+
 String ReflectionTypeLoadException___::CreateString(Boolean isMessage) {
   return nullptr;
 };
+
 } // namespace System::Private::CoreLib::System::Reflection::ReflectionTypeLoadExceptionNamespace

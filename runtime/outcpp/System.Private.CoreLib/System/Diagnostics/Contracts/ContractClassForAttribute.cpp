@@ -4,4 +4,5 @@ namespace System::Private::CoreLib::System::Diagnostics::Contracts::ContractClas
 Type ContractClassForAttribute___::get_TypeContractsAreFor() {
   return nullptr;
 };
+
 } // namespace System::Private::CoreLib::System::Diagnostics::Contracts::ContractClassForAttributeNamespace

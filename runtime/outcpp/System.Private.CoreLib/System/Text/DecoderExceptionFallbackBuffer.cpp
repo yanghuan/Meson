@@ -4,15 +4,20 @@ namespace System::Private::CoreLib::System::Text::DecoderExceptionFallbackBuffer
 Int32 DecoderExceptionFallbackBuffer___::get_Remaining() {
   return Int32();
 };
+
 Boolean DecoderExceptionFallbackBuffer___::Fallback(Array<Byte> bytesUnknown, Int32 index) {
   return Boolean();
 };
+
 Char DecoderExceptionFallbackBuffer___::GetNextChar() {
   return Char();
 };
+
 Boolean DecoderExceptionFallbackBuffer___::MovePrevious() {
   return Boolean();
 };
+
 void DecoderExceptionFallbackBuffer___::Throw(Array<Byte> bytesUnknown, Int32 index) {
 };
+
 } // namespace System::Private::CoreLib::System::Text::DecoderExceptionFallbackBufferNamespace

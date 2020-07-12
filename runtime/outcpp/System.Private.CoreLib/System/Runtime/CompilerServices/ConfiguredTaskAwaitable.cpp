@@ -4,10 +4,14 @@ namespace System::Private::CoreLib::System::Runtime::CompilerServices::Configure
 Boolean ConfiguredTaskAwaitable<>::ConfiguredTaskAwaiter::get_IsCompleted() {
   return Boolean();
 };
+
 void ConfiguredTaskAwaitable<>::ConfiguredTaskAwaiter::OnCompleted(Action<> continuation) {
 };
+
 void ConfiguredTaskAwaitable<>::ConfiguredTaskAwaiter::UnsafeOnCompleted(Action<> continuation) {
 };
+
 void ConfiguredTaskAwaitable<>::ConfiguredTaskAwaiter::GetResult() {
 };
+
 } // namespace System::Private::CoreLib::System::Runtime::CompilerServices::ConfiguredTaskAwaitableNamespace

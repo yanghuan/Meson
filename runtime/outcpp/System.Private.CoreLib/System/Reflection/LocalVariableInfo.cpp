@@ -4,13 +4,17 @@ namespace System::Private::CoreLib::System::Reflection::LocalVariableInfoNamespa
 Type LocalVariableInfo___::get_LocalType() {
   return nullptr;
 };
+
 Int32 LocalVariableInfo___::get_LocalIndex() {
   return Int32();
 };
+
 Boolean LocalVariableInfo___::get_IsPinned() {
   return Boolean();
 };
+
 String LocalVariableInfo___::ToString() {
   return nullptr;
 };
+
 } // namespace System::Private::CoreLib::System::Reflection::LocalVariableInfoNamespace

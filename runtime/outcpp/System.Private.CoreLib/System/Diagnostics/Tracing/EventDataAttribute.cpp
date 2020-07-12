@@ -4,7 +4,9 @@ namespace System::Private::CoreLib::System::Diagnostics::Tracing::EventDataAttri
 EventLevel EventDataAttribute___::get_Level() {
   return EventLevel::Verbose;
 };
+
 EventOpcode EventDataAttribute___::get_Opcode() {
   return EventOpcode::Receive;
 };
+
 } // namespace System::Private::CoreLib::System::Diagnostics::Tracing::EventDataAttributeNamespace

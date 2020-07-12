@@ -4,4 +4,5 @@ namespace System::Private::CoreLib::Internal::Win32::SafeHandles::SafeRegistryHa
 Boolean SafeRegistryHandle___::ReleaseHandle() {
   return Boolean();
 };
+
 } // namespace System::Private::CoreLib::Internal::Win32::SafeHandles::SafeRegistryHandleNamespace

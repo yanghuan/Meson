@@ -4,6 +4,8 @@ namespace System::Private::CoreLib::System::Diagnostics::Tracing::TraceLoggingEv
 IntPtr TraceLoggingEventHandleTable___::get_Item(Int32 eventID) {
   return IntPtr();
 };
+
 void TraceLoggingEventHandleTable___::SetEventHandle(Int32 eventID, IntPtr eventHandle) {
 };
+
 } // namespace System::Private::CoreLib::System::Diagnostics::Tracing::TraceLoggingEventHandleTableNamespace
