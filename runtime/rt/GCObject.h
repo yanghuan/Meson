@@ -54,23 +54,17 @@ namespace rt {
   };
 
   template <class Base, class Derived>
-  struct IsDerived {
-    static constexpr bool value = std::is_convertible<Derived*, Base*>::value;
-  };
+  static constexpr bool IsDerived = std::is_convertible<Derived*, Base*>::value;
 
   template <class T>
-  struct IsString {
-    static constexpr bool value = IsDerived<string, T>::value;
-  };
-
+  static constexpr bool IsString = IsDerived<string, T>;
+  
   template <class T>
-  struct IsObject {
-    static constexpr bool value = IsDerived<object, T>::value;
-  };
+  static constexpr bool IsObject = IsDerived<object, T>;
 
   template <class T>
   class GCObject : public GCObjectHead {
-    static constexpr bool IsSpeicalObject = IsString<T>::value || IsDerived<Array_, T>::value;
+    static constexpr bool IsSpeicalObject = IsString<T> || IsDerived<Array_, T>;
   public:
     T* get() noexcept {
       return &v_;
@@ -102,17 +96,10 @@ namespace rt {
   };
 
   template <class T, class T1>
-  struct IsEquatable {
-    static constexpr bool value = IsObject<T>::value
-      || IsObject<T1>::value
-      || IsDerived<T, T1>::value
-      || IsDerived<T1, T>::value;
-  };
+  static constexpr bool IsEquatable = IsObject<T> || IsObject<T1> || IsDerived<T, T1> || IsDerived<T1, T>;
 
   template <class T, class T1>
-  struct IsDerivedConvertible {
-    static constexpr bool value = IsObject<T>::value || IsDerived<T, T1>::value;
-  };
+  static constexpr bool IsDerivedConvertible = IsObject<T> || IsDerived<T, T1>;
 
   template <class T>
   struct RefElementType {
@@ -131,7 +118,7 @@ namespace rt {
     struct __Type {
       struct element_type;
     };
-    using element_type = typename std::conditional_t<IsDerived<Array_, T>::value, T, __Type>::element_type;
+    using element_type = typename std::conditional_t<IsDerived<Array_, T>, T, __Type>::element_type;
     using type = typename RefElementType<element_type>::type;
     static constexpr bool value = RefElementType<element_type>::value;
   };
@@ -140,18 +127,14 @@ namespace rt {
   struct IsArrayConvertible__ {
     using ElementTypeT = ArrayElementType<T>;
     using ElementTypeT1 = ArrayElementType<T1>;
-    static constexpr bool value = (IsObject<ElementTypeT::type>::value && ElementTypeT1::value) || IsDerived<ElementTypeT::type, ElementTypeT1::type>::value;
+    static constexpr bool value = (IsObject<ElementTypeT::type> && ElementTypeT1::value) || IsDerived<ElementTypeT::type, ElementTypeT1::type>;
   };
 
   template <class T, class T1>
-  struct IsArrayConvertible {
-    static constexpr bool value = IsDerived<Array_, T>::value && IsDerived<Array_, T1>::value && IsArrayConvertible__<T, T1>::value;
-  };
+  static constexpr bool IsArrayConvertible = IsDerived<Array_, T> && IsDerived<Array_, T1> && IsArrayConvertible__<T, T1>::value;
 
   template <class T, class T1>
-  struct IsConvertible {
-    static constexpr bool value = IsDerivedConvertible<T, T1>::value || IsArrayConvertible<T, T1>::value;
-  };
+  static constexpr bool IsConvertible = IsDerivedConvertible<T, T1> || IsArrayConvertible<T, T1>;
 
   template <class T>
   class ref {
@@ -169,17 +152,17 @@ namespace rt {
       copyOf(other);
     }
 
-    template <class T1, typename std::enable_if_t<IsConvertible<T, T1>::value, int> = 0>
+    template <class T1> requires(IsConvertible<T, T1>)
     ref(const ref<T1>& other) noexcept {
       copyOf(other);
     }
 
-    template <class T1 = T, typename std::enable_if_t<IsString<T1>::value, int> = 0>
+    template <class T1 = T> requires(IsString<T1>)
     ref(const char* str) {
       moveOf(string::load(str));
     }
 
-    template <class... _Types, class T1 = T, typename std::enable_if_t<IsString<T1>::value, int> = 0>
+    template <class... _Types, class T1 = T> requires(IsString<T1>)
     ref(const std::tuple<_Types...>& t) {
       moveOf(string::cat(t));
     }
@@ -188,7 +171,7 @@ namespace rt {
       moveOf(std::move(other));
     }
 
-    template <class T1, typename std::enable_if_t<IsConvertible<T, T1>::value, int> = 0>
+    template <class T1> requires(IsConvertible<T, T1>)
     ref(ref<T1>&& other) noexcept {
       moveOf(std::move(other));
     }
@@ -204,7 +187,7 @@ namespace rt {
       return *this;
     }
 
-    template <class T1, typename std::enable_if_t<IsConvertible<T, T1>::value, int> = 0>
+    template <class T1> requires(IsConvertible<T, T1>)
     ref& operator = (const ref<T1>& right) noexcept {
       ref(p_);
       copyOf(right);
@@ -219,29 +202,29 @@ namespace rt {
       return p_ != nullptr;
     }
 
-    template <class T1, typename std::enable_if_t<IsEquatable<T, T1>::value, int> = 0>
+    template <class T1> requires(IsEquatable<T, T1>)
     bool operator ==(const ref<T1>& right) const noexcept {
       return p_ == reinterpret_cast<void*>(right.p_);
     }
 
-    template <class T1, typename std::enable_if_t<IsEquatable<T, T1>::value, int> = 0>
+    template <class T1> requires(IsEquatable<T, T1>)
     bool operator !=(const ref<T1>& right) const noexcept {
       return p_ != reinterpret_cast<void*>(right.p_);
     }
 
-    template <class T1 = T, typename std::enable_if_t<IsString<T1>::value, int> = 0>
+    template <class T1 = T> requires(IsString<T1>)
     constexpr auto operator +(const ref& right) noexcept {
       T* a = p_ ? get() : nullptr;
       T* b = right != nullptr ? right.get() : nullptr;
       return std::make_tuple(a, b);
     }
 
-    template <class R, class T1 = T, typename std::enable_if_t<IsObject<T1>::value, int> = 0>
+    template <class R, class T1 = T> requires(IsObject<T1>)
     explicit operator R() {
       return R();
     }
 
-    template <class R, class T1 = T, typename std::enable_if_t<std::is_same<R, decltype(T1::op_Implicit(ref<T1>()))>::value, int> = 0>
+    template <class R, class T1 = T> requires(std::is_same<R, decltype(T1::op_Implicit(ref<T1>()))>::value)
     operator R() {
       return T1::op_Implicit(*this);
     }
@@ -479,6 +462,9 @@ namespace rt {
 
   template <class T, class... Args>
   inline T newobj(Args&&... args) {
+    if constexpr (IsString<T>) { 
+      return T::in::Ctor(std::forward<Args>(args)...); 
+    }
     return rt::object::newobj<T>(std::forward<Args>(args)...);
   }
 
