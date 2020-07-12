@@ -124,12 +124,10 @@ namespace Meson.Compiler {
     }
 
     private static string GetFileHash(FileInfo file) {
-      using (SHA256 sha = SHA256.Create()) {
-        using (var s = file.OpenRead()) {
-          byte[] hash = sha.ComputeHash(s);
-          return Convert.ToBase64String(hash);
-        }
-      }
+      using SHA256 sha = SHA256.Create();
+      using var s = file.OpenRead();
+      byte[] hash = sha.ComputeHash(s);
+      return Convert.ToBase64String(hash);
     }
 
     private static bool IsFileChanged(FileInfo a, FileInfo b) {

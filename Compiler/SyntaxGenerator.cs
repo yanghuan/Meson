@@ -15,12 +15,7 @@ namespace Meson.Compiler {
     private sealed class RefMultiGenericTypeInfo {
       public List<ITypeDefinition> Types;
     }
-
-    private static readonly Dictionary<string, string> operators_ = new Dictionary<string, string>() {
-      { "op_Equality", "operator ==" },
-      { "op_Inequality", "operator !=" }
-    };
-
+    
     public Options Options { get; }
     private readonly Dictionary<IModule, CSharpDecompiler> decompilers_ = new Dictionary<IModule, CSharpDecompiler>();
     private readonly Dictionary<ITypeDefinition, RefMultiGenericTypeInfo> multiGenericTypes_ = new Dictionary<ITypeDefinition, RefMultiGenericTypeInfo>();
