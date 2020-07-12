@@ -411,9 +411,17 @@ namespace Meson.Compiler {
         Write(Tokens.Static);
         WriteSpace();
       }
+      if (node.IsConstexpr) {
+        Write(Tokens.Constexpr);
+        WriteSpace();
+      }
       node.Type.Render(this);
       WriteSpace();
       node.Nmae.Render(this);
+      if (node.ConstantValue != null) {
+         WriteSpace();
+         node.ConstantValue.Render(this);
+      }
       WriteSemicolon();
       WriteNewLine();
     }

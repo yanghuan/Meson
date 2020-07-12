@@ -294,7 +294,11 @@ namespace Meson.Compiler {
           typeName = GetFieldTypeName(field, typeDefinition);
         }
         Contract.Assert(typeName != null);
-        node.Statements.Add(new FieldDefinitionSyntax(typeName, fieldName, field.IsStatic, field.Accessibility.ToTokenString()));
+        var constantValue = field.GetConstantValue();
+        node.Statements.Add(new FieldDefinitionSyntax(typeName, fieldName, field.IsStatic, field.Accessibility.ToTokenString()) {
+          IsConstexpr = field.IsConst,
+          ConstantValue = field.IsConst ? Utils.GetPrimitiveExpression(constantValue) : null,
+        });
       }
     }
 

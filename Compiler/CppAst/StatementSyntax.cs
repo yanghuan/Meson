@@ -291,7 +291,9 @@ namespace Meson.Compiler.CppAst {
     public ExpressionSyntax Type { get; }
     public IdentifierSyntax Nmae { get; }
     public bool IsStatic { get; }
-
+    public bool IsConstexpr { get; set; }
+    public ExpressionSyntax ConstantValue { get; set; }
+    
     public FieldDefinitionSyntax(ExpressionSyntax type, IdentifierSyntax name, bool isStatic, string accessibilityToken) {
       Type = type;
       Nmae = name;

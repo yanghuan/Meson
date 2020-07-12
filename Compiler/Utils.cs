@@ -463,6 +463,27 @@ namespace Meson.Compiler {
       }
     }
 
+    internal static LiteralExpressionSyntax GetPrimitiveExpression(object value) {
+      var code = Type.GetTypeCode(value.GetType());
+      switch (code) {
+        case TypeCode.String: {
+          return new StringLiteralExpressionSyntax((string)value);
+        }
+        case TypeCode.Int32: {
+          return new NumberLiteralExpressionSyntax(value.ToString());
+        }
+        case TypeCode.UInt32: {
+          return new NumberLiteralExpressionSyntax($"{value}u");
+        }
+        case TypeCode.Boolean:{
+          return value is false ? BooleanLiteralExpressionSyntax.False : BooleanLiteralExpressionSyntax.True;
+        }  
+        default: {
+          throw new NotImplementedException();
+        }
+      }
+    }
+
     public static IdentifierSyntax GetEnumUnderlyingTypeName(this ITypeDefinition type) {
       if (!type.EnumUnderlyingType.IsInt32()) {
         return innerValueTypeNames_[type.EnumUnderlyingType.FullName];
