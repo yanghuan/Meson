@@ -94,11 +94,11 @@ struct TimeSpan {
   public: static Boolean op_LessThanOrEqual(TimeSpan t1, TimeSpan t2);
   public: static Boolean op_GreaterThan(TimeSpan t1, TimeSpan t2);
   public: static Boolean op_GreaterThanOrEqual(TimeSpan t1, TimeSpan t2);
-  public: static Int64 TicksPerMillisecond;
-  public: static Int64 TicksPerSecond;
-  public: static Int64 TicksPerMinute;
-  public: static Int64 TicksPerHour;
-  public: static Int64 TicksPerDay;
+  public: static constexpr Int64 TicksPerMillisecond = 10000;
+  public: static constexpr Int64 TicksPerSecond = 10000000;
+  public: static constexpr Int64 TicksPerMinute = 600000000;
+  public: static constexpr Int64 TicksPerHour = 36000000000;
+  public: static constexpr Int64 TicksPerDay = 864000000000;
   public: static TimeSpan Zero;
   public: static TimeSpan MaxValue;
   public: static TimeSpan MinValue;

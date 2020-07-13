@@ -97,8 +97,8 @@ CLASS(Exception) {
   private: IntPtr _xptrs;
   private: Int32 _xcode;
   private: Int32 _HResult;
-  private: static Int32 _COMPlusExceptionCode;
-  public: static String InnerExceptionPrefix;
+  private: static constexpr Int32 _COMPlusExceptionCode = -532462766;
+  public: static constexpr String InnerExceptionPrefix = " ---> ";
 };
 } // namespace ExceptionNamespace
 using Exception = ExceptionNamespace::Exception;

@@ -29,7 +29,7 @@ CLASS(JapaneseLunisolarCalendar) {
   public: Int32 GetGregorianYear(Int32 year, Int32 era);
   private: static Array<EraInfo> TrimEras(Array<EraInfo> baseEras);
   public: Int32 GetEra(DateTime time);
-  public: static Int32 JapaneseEra;
+  public: static constexpr Int32 JapaneseEra = 1;
   private: GregorianCalendarHelper _helper;
   private: static DateTime s_minDate;
   private: static DateTime s_maxDate;

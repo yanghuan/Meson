@@ -82,7 +82,7 @@ CLASS(Calendar) {
   public: static Int32 GetSystemTwoDigitYearSetting(CalendarId CalID, Int32 defaultYearValue);
   private: Int32 _currentEraValue;
   private: Boolean _isReadOnly;
-  public: static Int32 CurrentEra;
+  public: static constexpr Int32 CurrentEra = 0;
   public: Int32 _twoDigitYearMax;
 };
 } // namespace CalendarNamespace

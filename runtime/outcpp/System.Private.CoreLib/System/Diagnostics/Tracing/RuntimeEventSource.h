@@ -13,7 +13,7 @@ namespace RuntimeEventSourceNamespace {
 CLASS(RuntimeEventSource) {
   public: static void Initialize();
   protected: void OnEventCommand(EventCommandEventArgs command);
-  public: static String EventSourceName;
+  public: static constexpr String EventSourceName = "System.Runtime";
   private: static RuntimeEventSource s_RuntimeEventSource;
   private: PollingCounter _gcHeapSizeCounter;
   private: IncrementingPollingCounter _gen0GCCounter;

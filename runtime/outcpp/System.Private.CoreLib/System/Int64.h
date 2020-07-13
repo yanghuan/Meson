@@ -41,8 +41,8 @@ struct Int64 : public rt::PrimitiveType<Int64> {
   public: static Boolean TryParse(ReadOnlySpan<Char> s, NumberStyles style, IFormatProvider provider, Int64& result);
   public: TypeCode GetTypeCode();
   private: int64_t m_value;
-  public: static Int64 MaxValue;
-  public: static Int64 MinValue;
+  public: static constexpr int64_t MaxValue = 9223372036854775807;
+  public: static constexpr int64_t MinValue = -9223372036854775808;
   template <class T>
   friend struct rt::PrimitiveType;
 };

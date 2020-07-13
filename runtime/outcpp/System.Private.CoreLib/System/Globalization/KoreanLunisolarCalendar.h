@@ -27,7 +27,7 @@ CLASS(KoreanLunisolarCalendar) {
   public: Int32 GetYear(Int32 year, DateTime time);
   public: Int32 GetGregorianYear(Int32 year, Int32 era);
   public: Int32 GetEra(DateTime time);
-  public: static Int32 GregorianEra;
+  public: static constexpr Int32 GregorianEra = 1;
   private: static DateTime s_minDate;
   private: static DateTime s_maxDate;
   private: static Array<Int32> s_yinfo;

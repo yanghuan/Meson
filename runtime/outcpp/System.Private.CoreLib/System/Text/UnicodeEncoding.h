@@ -54,7 +54,7 @@ CLASS(UnicodeEncoding) {
   private: Boolean isThrowException;
   private: Boolean bigEndian;
   private: Boolean byteOrderMark;
-  public: static Int32 CharSize;
+  public: static constexpr Int32 CharSize = 2;
 };
 } // namespace UnicodeEncodingNamespace
 using UnicodeEncoding = UnicodeEncodingNamespace::UnicodeEncoding;

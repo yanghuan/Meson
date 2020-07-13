@@ -53,7 +53,7 @@ CLASS(EventPipeEventDispatcher) {
   private: Task<> m_dispatchTask;
   private: Object m_dispatchControlLock;
   private: Dictionary<EventListener, EventListenerSubscription> m_subscriptions;
-  private: static UInt32 DefaultEventListenerCircularMBSize;
+  private: static constexpr UInt32 DefaultEventListenerCircularMBSize = 10u;
 };
 } // namespace EventPipeEventDispatcherNamespace
 using EventPipeEventDispatcher = EventPipeEventDispatcherNamespace::EventPipeEventDispatcher;

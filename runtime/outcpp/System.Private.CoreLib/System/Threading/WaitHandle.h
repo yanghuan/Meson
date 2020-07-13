@@ -62,13 +62,13 @@ CLASS(WaitHandle) {
   public: static Boolean SignalAndWait(WaitHandle toSignal, WaitHandle toWaitOn);
   public: static Boolean SignalAndWait(WaitHandle toSignal, WaitHandle toWaitOn, TimeSpan timeout, Boolean exitContext);
   public: static Boolean SignalAndWait(WaitHandle toSignal, WaitHandle toWaitOn, Int32 millisecondsTimeout, Boolean exitContext);
-  public: static Int32 MaxWaitHandles;
+  public: static constexpr Int32 MaxWaitHandles = 64;
   protected: static IntPtr InvalidHandle;
   private: SafeWaitHandle _waitHandle;
   private: static Array<SafeWaitHandle> t_safeWaitHandlesForRent;
-  public: static Int32 WaitSuccess;
-  public: static Int32 WaitAbandoned;
-  public: static Int32 WaitTimeout;
+  public: static constexpr Int32 WaitSuccess = 0;
+  public: static constexpr Int32 WaitAbandoned = 128;
+  public: static constexpr Int32 WaitTimeout = 258;
 };
 } // namespace WaitHandleNamespace
 using WaitHandle = WaitHandleNamespace::WaitHandle;

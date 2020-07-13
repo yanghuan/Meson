@@ -44,8 +44,8 @@ struct SByte : public rt::PrimitiveType<SByte> {
   private: static Boolean TryParse(ReadOnlySpan<Char> s, NumberStyles style, NumberFormatInfo info, SByte& result);
   public: TypeCode GetTypeCode();
   private: int8_t m_value;
-  public: static SByte MaxValue;
-  public: static SByte MinValue;
+  public: static constexpr int8_t MaxValue = 127;
+  public: static constexpr int8_t MinValue = -128;
   template <class T>
   friend struct rt::PrimitiveType;
 };

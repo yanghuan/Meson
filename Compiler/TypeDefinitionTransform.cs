@@ -241,7 +241,7 @@ namespace Meson.Compiler {
     }
 
     private static bool IsValueTypeInnerField(IField field, ITypeDefinition typeDefinition, out ExpressionSyntax typeName) {
-      if (typeDefinition.Kind == TypeKind.Struct && !field.IsStatic && field.Type == typeDefinition) {
+      if (typeDefinition.Kind == TypeKind.Struct && (!field.IsStatic || field.IsConst) && field.Type == typeDefinition) {
         string name = field.Type.GetValueTypeInnerName();
         if (name != null) {
           typeName = (IdentifierSyntax)name;
@@ -267,28 +267,30 @@ namespace Meson.Compiler {
       foreach (var field in typeDefinition.Fields) {
         var fieldName = GetMemberName(field);
         if (IsValueTypeInnerField(field, typeDefinition, out ExpressionSyntax typeName)) {
-          node.Bases.Add(new BaseSyntax(IdentifierSyntax.PrimitiveType.Generic(node.Name)));
+          if (!field.IsStatic) {
+            node.Bases.Add(new BaseSyntax(IdentifierSyntax.PrimitiveType.Generic(node.Name)));
 
-          var statements = new StatementListSyntax(); 
-          string accessibilityToken = Accessibility.Public.ToTokenString();
-          var defaultConstructor = new ConstructorDefinitionSyntax(node.Name, Array.Empty<ParameterSyntax>(), accessibilityToken) { 
-            Body = BlockSyntax.EmptyBlock,
-            IsConstexpr = true,
-            IsNoexcept = true,
-          };
-          defaultConstructor.AddInitializationList(fieldName, field.Type.GetDefinition().GetPrimitiveTypeDefaultValue());
-          statements.Add(defaultConstructor);
+            var statements = new StatementListSyntax(); 
+            string accessibilityToken = Accessibility.Public.ToTokenString();
+            var defaultConstructor = new ConstructorDefinitionSyntax(node.Name, Array.Empty<ParameterSyntax>(), accessibilityToken) { 
+              Body = BlockSyntax.EmptyBlock,
+              IsConstexpr = true,
+              IsNoexcept = true,
+            };
+            defaultConstructor.AddInitializationList(fieldName, field.Type.GetDefinition().GetPrimitiveTypeDefaultValue());
+            statements.Add(defaultConstructor);
 
-          var underlyingTypeConstructor = new ConstructorDefinitionSyntax(node.Name, new ParameterSyntax(typeName, IdentifierSyntax.Value).ArrayOf(), accessibilityToken) { 
-            Body = BlockSyntax.EmptyBlock,
-            IsConstexpr = true,
-            IsNoexcept = true,
-          };
-          underlyingTypeConstructor.AddInitializationList(fieldName, IdentifierSyntax.Value);
-          statements.Add(underlyingTypeConstructor);
+            var underlyingTypeConstructor = new ConstructorDefinitionSyntax(node.Name, new ParameterSyntax(typeName, IdentifierSyntax.Value).ArrayOf(), accessibilityToken) { 
+              Body = BlockSyntax.EmptyBlock,
+              IsConstexpr = true,
+              IsNoexcept = true,
+            };
+            underlyingTypeConstructor.AddInitializationList(fieldName, IdentifierSyntax.Value);
+            statements.Add(underlyingTypeConstructor);
 
-          node.Statements.Insert(0, statements);
-          isPrimitiveType_ = true;
+            node.Statements.Insert(0, statements);
+            isPrimitiveType_ = true;
+          }
         } else if (IsArrayInnerSpecialField(field, typeDefinition, out typeName)) {
         } else {
           typeName = GetFieldTypeName(field, typeDefinition);

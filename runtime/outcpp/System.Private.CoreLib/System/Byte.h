@@ -44,8 +44,8 @@ struct Byte : public rt::PrimitiveType<Byte> {
   public: Boolean TryFormat(Span<Char> destination, Int32& charsWritten, ReadOnlySpan<Char> format, IFormatProvider provider);
   public: TypeCode GetTypeCode();
   private: uint8_t m_value;
-  public: static Byte MaxValue;
-  public: static Byte MinValue;
+  public: static constexpr uint8_t MaxValue = 255;
+  public: static constexpr uint8_t MinValue = 0;
   template <class T>
   friend struct rt::PrimitiveType;
 };

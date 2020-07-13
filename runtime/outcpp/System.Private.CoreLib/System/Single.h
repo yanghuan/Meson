@@ -60,12 +60,12 @@ struct Single : public rt::PrimitiveType<Single> {
   private: static Boolean TryParse(ReadOnlySpan<Char> s, NumberStyles style, NumberFormatInfo info, Single& result);
   public: TypeCode GetTypeCode();
   private: float m_value;
-  public: static Single MinValue;
-  public: static Single Epsilon;
-  public: static Single MaxValue;
-  public: static Single PositiveInfinity;
-  public: static Single NegativeInfinity;
-  public: static Single NaN;
+  public: static constexpr float MinValue = -3.4028235E+38;
+  public: static constexpr float Epsilon = 1E-45;
+  public: static constexpr float MaxValue = 3.4028235E+38;
+  public: static constexpr float PositiveInfinity = ∞;
+  public: static constexpr float NegativeInfinity = -∞;
+  public: static constexpr float NaN = NaN;
   template <class T>
   friend struct rt::PrimitiveType;
 };

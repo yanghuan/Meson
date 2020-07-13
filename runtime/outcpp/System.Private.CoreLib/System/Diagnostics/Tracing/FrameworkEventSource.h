@@ -15,11 +15,11 @@ enum class EventTask;
 namespace FrameworkEventSourceNamespace {
 CLASS(FrameworkEventSource) {
   public: class Keywords {
-    public: static EventKeywords ThreadPool;
-    public: static EventKeywords ThreadTransfer;
+    public: static constexpr EventKeywords ThreadPool = 2;
+    public: static constexpr EventKeywords ThreadTransfer = 16;
   };
   public: class Tasks {
-    public: static EventTask ThreadTransfer;
+    public: static constexpr EventTask ThreadTransfer = 3;
   };
   private: void WriteEvent(Int32 eventId, Int64 arg1, Int32 arg2, String arg3, Boolean arg4, Int32 arg5, Int32 arg6);
   private: void WriteEvent(Int32 eventId, Int64 arg1, Int32 arg2, String arg3);

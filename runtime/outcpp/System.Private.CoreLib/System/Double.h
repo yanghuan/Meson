@@ -60,12 +60,12 @@ struct Double : public rt::PrimitiveType<Double> {
   private: static Boolean TryParse(ReadOnlySpan<Char> s, NumberStyles style, NumberFormatInfo info, Double& result);
   public: TypeCode GetTypeCode();
   private: double m_value;
-  public: static Double MinValue;
-  public: static Double MaxValue;
-  public: static Double Epsilon;
-  public: static Double NegativeInfinity;
-  public: static Double PositiveInfinity;
-  public: static Double NaN;
+  public: static constexpr double MinValue = -1.7976931348623157E+308;
+  public: static constexpr double MaxValue = 1.7976931348623157E+308;
+  public: static constexpr double Epsilon = 5E-324;
+  public: static constexpr double NegativeInfinity = (-1.0 / 0.0);
+  public: static constexpr double PositiveInfinity = (1.0 / 0.0);
+  public: static constexpr double NaN = (0.0 / 0.0);
   template <class T>
   friend struct rt::PrimitiveType;
 };

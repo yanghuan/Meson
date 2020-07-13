@@ -31,8 +31,8 @@ struct StandardFormat {
   public: Int32 Format(Span<Char> destination);
   public: static Boolean op_Equality(StandardFormat left, StandardFormat right);
   public: static Boolean op_Inequality(StandardFormat left, StandardFormat right);
-  public: static Byte NoPrecision;
-  public: static Byte MaxPrecision;
+  public: static constexpr Byte NoPrecision = 255;
+  public: static constexpr Byte MaxPrecision = 99;
   private: Byte _format;
   private: Byte _precision;
 };

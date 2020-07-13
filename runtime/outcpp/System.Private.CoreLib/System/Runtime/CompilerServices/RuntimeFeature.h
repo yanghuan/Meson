@@ -12,9 +12,9 @@ class RuntimeFeature {
   public: static Boolean get_IsDynamicCodeSupported();
   public: static Boolean get_IsDynamicCodeCompiled();
   public: static Boolean IsSupported(String feature);
-  public: static String PortablePdb;
-  public: static String DefaultImplementationsOfInterfaces;
-  public: static String CovariantReturnsOfClasses;
+  public: static constexpr String PortablePdb = "PortablePdb";
+  public: static constexpr String DefaultImplementationsOfInterfaces = "DefaultImplementationsOfInterfaces";
+  public: static constexpr String CovariantReturnsOfClasses = "CovariantReturnsOfClasses";
 };
 } // namespace RuntimeFeatureNamespace
 using RuntimeFeature = RuntimeFeatureNamespace::RuntimeFeature;

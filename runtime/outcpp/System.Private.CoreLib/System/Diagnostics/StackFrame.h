@@ -36,7 +36,7 @@ CLASS(StackFrame) {
   private: Int32 _lineNumber;
   private: Int32 _columnNumber;
   private: Boolean _isLastFrameFromForeignExceptionStackTrace;
-  public: static Int32 OFFSET_UNKNOWN;
+  public: static constexpr Int32 OFFSET_UNKNOWN = -1;
 };
 } // namespace StackFrameNamespace
 using StackFrame = StackFrameNamespace::StackFrame;

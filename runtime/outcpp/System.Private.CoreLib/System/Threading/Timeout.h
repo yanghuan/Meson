@@ -10,7 +10,7 @@ namespace System::Private::CoreLib::System::Threading {
 namespace TimeoutNamespace {
 class Timeout {
   public: static TimeSpan InfiniteTimeSpan;
-  public: static Int32 Infinite;
+  public: static constexpr Int32 Infinite = -1;
 };
 } // namespace TimeoutNamespace
 using Timeout = TimeoutNamespace::Timeout;

@@ -40,7 +40,7 @@ CLASS(StackTrace) {
   public: void ToString(TraceFormat traceFormat, StringBuilder sb);
   private: static Boolean ShowInStackTrace(MethodBase mb);
   private: static Boolean TryResolveStateMachineMethod(MethodBase& method, Type& declaringType);
-  public: static Int32 METHODS_TO_SKIP;
+  public: static constexpr Int32 METHODS_TO_SKIP = 0;
   private: Int32 _numOfFrames;
   private: Int32 _methodsToSkip;
   private: Array<StackFrame> _stackFrames;

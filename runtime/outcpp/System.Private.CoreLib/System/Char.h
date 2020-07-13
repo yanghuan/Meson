@@ -92,8 +92,8 @@ struct Char : public rt::PrimitiveType<Char> {
   private: static void ConvertToUtf32_ThrowInvalidArgs(UInt32 highSurrogateOffset);
   public: static Int32 ConvertToUtf32(String s, Int32 index);
   private: char8_t m_value;
-  public: static Char MaxValue;
-  public: static Char MinValue;
+  public: static constexpr char8_t MaxValue = 65535;
+  public: static constexpr char8_t MinValue = 0;
   template <class T>
   friend struct rt::PrimitiveType;
 };

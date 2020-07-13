@@ -239,7 +239,7 @@ CLASS(TypeBuilder) {
   public: void AddInterfaceImplementation(Type interfaceType);
   public: void SetCustomAttribute(ConstructorInfo con, Array<Byte> binaryAttribute);
   public: void SetCustomAttribute(CustomAttributeBuilder customBuilder);
-  public: static Int32 UnspecifiedTypeSize;
+  public: static constexpr Int32 UnspecifiedTypeSize = 0;
   private: List<CustAttr> m_ca;
   private: TypeToken m_tdType;
   private: ModuleBuilder m_module;

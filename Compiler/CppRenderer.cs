@@ -419,8 +419,10 @@ namespace Meson.Compiler {
       WriteSpace();
       node.Nmae.Render(this);
       if (node.ConstantValue != null) {
-         WriteSpace();
-         node.ConstantValue.Render(this);
+        WriteSpace();
+        Write(Tokens.Equals);
+        WriteSpace();
+        node.ConstantValue.Render(this);
       }
       WriteSemicolon();
       WriteNewLine();

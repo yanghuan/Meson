@@ -228,11 +228,11 @@ struct Decimal {
   public: static Boolean op_GreaterThanOrEqual(Decimal d1, Decimal d2);
   public: TypeCode GetTypeCode();
   public: static UInt32 DecDivMod1E9(Decimal& value);
-  public: static Decimal Zero;
-  public: static Decimal One;
-  public: static Decimal MinusOne;
-  public: static Decimal MaxValue;
-  public: static Decimal MinValue;
+  public: static constexpr Decimal Zero = 0;
+  public: static constexpr Decimal One = 1;
+  public: static constexpr Decimal MinusOne = -1;
+  public: static constexpr Decimal MaxValue = 79228162514264337593543950335;
+  public: static constexpr Decimal MinValue = -79228162514264337593543950335;
   private: Int32 flags;
   private: Int32 hi;
   private: Int32 lo;

@@ -56,7 +56,7 @@ CLASS(UmAlQuraCalendar) {
   public: DateTime ToDateTime(Int32 year, Int32 month, Int32 day, Int32 hour, Int32 minute, Int32 second, Int32 millisecond, Int32 era);
   public: Int32 ToFourDigitYear(Int32 year);
   private: static Array<DateMapping> s_hijriYearInfo;
-  public: static Int32 UmAlQuraEra;
+  public: static constexpr Int32 UmAlQuraEra = 1;
   private: static DateTime s_minDate;
   private: static DateTime s_maxDate;
 };

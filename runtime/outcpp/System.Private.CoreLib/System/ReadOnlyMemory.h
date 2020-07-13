@@ -38,7 +38,7 @@ struct ReadOnlyMemory {
   private: Object _object;
   private: Int32 _index;
   private: Int32 _length;
-  public: static Int32 RemoveFlagsBitMask;
+  public: static constexpr Int32 RemoveFlagsBitMask = 2147483647;
 };
 } // namespace ReadOnlyMemoryNamespace
 template <class T>

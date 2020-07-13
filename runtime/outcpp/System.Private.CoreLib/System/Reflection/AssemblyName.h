@@ -95,13 +95,13 @@ CLASS(AssemblyName) {
   private: AssemblyHashAlgorithm _hashAlgorithm;
   private: AssemblyVersionCompatibility _versionCompatibility;
   private: AssemblyNameFlags _flags;
-  public: static Char c_DummyChar;
-  private: static Int16 c_MaxAsciiCharsReallocate;
-  private: static Int16 c_MaxUnicodeCharsReallocate;
-  private: static Int16 c_MaxUTF_8BytesPerUnicodeChar;
-  private: static Int16 c_EncodedCharsPerByte;
-  private: static String RFC3986ReservedMarks;
-  private: static String RFC3986UnreservedMarks;
+  public: static constexpr Char c_DummyChar = 65535;
+  private: static constexpr Int16 c_MaxAsciiCharsReallocate = 40;
+  private: static constexpr Int16 c_MaxUnicodeCharsReallocate = 40;
+  private: static constexpr Int16 c_MaxUTF_8BytesPerUnicodeChar = 4;
+  private: static constexpr Int16 c_EncodedCharsPerByte = 3;
+  private: static constexpr String RFC3986ReservedMarks = ":/?#[]@!$&'()*+,;=";
+  private: static constexpr String RFC3986UnreservedMarks = "-._~";
 };
 } // namespace AssemblyNameNamespace
 using AssemblyName = AssemblyNameNamespace::AssemblyName;

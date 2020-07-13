@@ -122,12 +122,12 @@ CLASS(CultureInfo) {
   private: static Dictionary<String, CultureInfo> s_cachedCulturesByName;
   private: static Dictionary<Int32, CultureInfo> s_cachedCulturesByLcid;
   private: CultureInfo _parent;
-  public: static Int32 LOCALE_NEUTRAL;
-  private: static Int32 LOCALE_USER_DEFAULT;
-  private: static Int32 LOCALE_SYSTEM_DEFAULT;
-  public: static Int32 LOCALE_CUSTOM_UNSPECIFIED;
-  public: static Int32 LOCALE_CUSTOM_DEFAULT;
-  public: static Int32 LOCALE_INVARIANT;
+  public: static constexpr Int32 LOCALE_NEUTRAL = 0;
+  private: static constexpr Int32 LOCALE_USER_DEFAULT = 1024;
+  private: static constexpr Int32 LOCALE_SYSTEM_DEFAULT = 2048;
+  public: static constexpr Int32 LOCALE_CUSTOM_UNSPECIFIED = 4096;
+  public: static constexpr Int32 LOCALE_CUSTOM_DEFAULT = 3072;
+  public: static constexpr Int32 LOCALE_INVARIANT = 127;
 };
 } // namespace CultureInfoNamespace
 using CultureInfo = CultureInfoNamespace::CultureInfo;

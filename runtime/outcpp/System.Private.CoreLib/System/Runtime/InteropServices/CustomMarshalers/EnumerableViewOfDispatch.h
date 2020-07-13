@@ -19,8 +19,8 @@ CLASS(EnumerableViewOfDispatch) {
   private: IDispatch get_Dispatch();
   public: IEnumerator GetEnumerator();
   public: Object GetUnderlyingObject();
-  private: static Int32 DISPID_NEWENUM;
-  private: static Int32 LCID_DEFAULT;
+  private: static constexpr Int32 DISPID_NEWENUM = -4;
+  private: static constexpr Int32 LCID_DEFAULT = 1;
   private: Object _dispatch;
 };
 } // namespace EnumerableViewOfDispatchNamespace

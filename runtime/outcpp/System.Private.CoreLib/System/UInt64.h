@@ -41,8 +41,8 @@ struct UInt64 : public rt::PrimitiveType<UInt64> {
   public: static Boolean TryParse(ReadOnlySpan<Char> s, NumberStyles style, IFormatProvider provider, UInt64& result);
   public: TypeCode GetTypeCode();
   private: uint64_t m_value;
-  public: static UInt64 MaxValue;
-  public: static UInt64 MinValue;
+  public: static constexpr uint64_t MaxValue = 18446744073709551615;
+  public: static constexpr uint64_t MinValue = 0;
   template <class T>
   friend struct rt::PrimitiveType;
 };

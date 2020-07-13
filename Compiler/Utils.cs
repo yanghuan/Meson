@@ -466,6 +466,10 @@ namespace Meson.Compiler {
     internal static LiteralExpressionSyntax GetPrimitiveExpression(object value) {
       var code = Type.GetTypeCode(value.GetType());
       switch (code) {
+        case TypeCode.Char:{
+          char v = (char)value;
+          return new NumberLiteralExpressionSyntax(((int)v).ToString());
+        }
         case TypeCode.String: {
           return new StringLiteralExpressionSyntax((string)value);
         }
@@ -477,9 +481,38 @@ namespace Meson.Compiler {
         }
         case TypeCode.Boolean:{
           return value is false ? BooleanLiteralExpressionSyntax.False : BooleanLiteralExpressionSyntax.True;
-        }  
+        }
+        case TypeCode.Single:{
+          string s;
+          if (value is double.NaN) {
+            s = "(0.0f / 0.0f)";
+          } else if (value is double.NegativeInfinity) {
+            s = "(-1.0f / 0.0f)";
+          } else if (value is double.PositiveInfinity) {
+            s = "(1.0f / 0.0f)";
+          } else {
+            s = value.ToString();
+          }
+          return new NumberLiteralExpressionSyntax(s);
+        }
+        case TypeCode.Double:{
+          string s;
+          if (value is double.NaN) {
+            s = "(0.0 / 0.0)";
+          } else if (value is double.NegativeInfinity) {
+            s = "(-1.0 / 0.0)";
+          } else if (value is double.PositiveInfinity) {
+            s = "(1.0 / 0.0)";
+          } else {
+            s = value.ToString();
+          }
+          return new NumberLiteralExpressionSyntax(s);
+        }
+        case TypeCode.Decimal:{
+          return new NumberLiteralExpressionSyntax(value.ToString());
+        }
         default: {
-          throw new NotImplementedException();
+          return new NumberLiteralExpressionSyntax(value.ToString());
         }
       }
     }
