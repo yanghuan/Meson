@@ -1,13 +1,13 @@
 #pragma once
 
 #include <rt/GCObject.h>
+#include <System.Private.CoreLib/System/Int32.h>
 
 namespace System::Private::CoreLib::System {
 enum class DayOfWeek;
 FORWARD_(Array, T1, T2)
 FORWARDS(Boolean)
 FORWARDS(DateTime)
-FORWARDS(Int32)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Globalization {
 enum class CalendarAlgorithmType;

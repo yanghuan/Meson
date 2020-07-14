@@ -1,13 +1,13 @@
 #pragma once
 
 #include <rt/GCObject.h>
+#include <System.Private.CoreLib/System/Char.h>
+#include <System.Private.CoreLib/System/Int16.h>
 
 namespace System::Private::CoreLib::System {
 FORWARD_(Array, T1, T2)
 FORWARDS(Boolean)
 FORWARDS(Byte)
-FORWARDS(Char)
-FORWARDS(Int16)
 FORWARDS(Int32)
 FORWARD(Object)
 FORWARD(String)
@@ -100,8 +100,6 @@ CLASS(AssemblyName) {
   private: static constexpr Int16 c_MaxUnicodeCharsReallocate = 40;
   private: static constexpr Int16 c_MaxUTF_8BytesPerUnicodeChar = 4;
   private: static constexpr Int16 c_EncodedCharsPerByte = 3;
-  private: static constexpr String RFC3986ReservedMarks = ":/?#[]@!$&'()*+,;=";
-  private: static constexpr String RFC3986UnreservedMarks = "-._~";
 };
 } // namespace AssemblyNameNamespace
 using AssemblyName = AssemblyNameNamespace::AssemblyName;

@@ -317,8 +317,16 @@ namespace Meson.Compiler {
       return type.GetDefinition()?.IsString() ?? false;
     }
 
+    public static bool IsDecimal(this IType type) {
+      return type.GetDefinition()?.IsDecimal() ?? false;
+    }
+
     public static bool IsString(this ITypeDefinition type) {
       return type.KnownTypeCode == KnownTypeCode.String;
+    }
+
+    public static bool IsDecimal(this ITypeDefinition type) {
+      return type.KnownTypeCode == KnownTypeCode.Decimal;
     }
 
     public static bool IsObject(this IType type) {
@@ -463,7 +471,7 @@ namespace Meson.Compiler {
       }
     }
 
-    internal static LiteralExpressionSyntax GetPrimitiveExpression(object value) {
+    internal static LiteralExpressionSyntax GetPrimitiveExpression(object value, bool isInPrimitiveType = false) {
       var code = Type.GetTypeCode(value.GetType());
       switch (code) {
         case TypeCode.Char:{
@@ -484,12 +492,12 @@ namespace Meson.Compiler {
         }
         case TypeCode.Single:{
           string s;
-          if (value is double.NaN) {
-            s = "(0.0f / 0.0f)";
-          } else if (value is double.NegativeInfinity) {
-            s = "(-1.0f / 0.0f)";
-          } else if (value is double.PositiveInfinity) {
-            s = "(1.0f / 0.0f)";
+          if (value is float.NaN) {
+            s = isInPrimitiveType ? "rt::NaN<float>" : "Single::NaN";
+          } else if (value is float.NegativeInfinity) {
+            s = isInPrimitiveType ? "rt::NegativeInfinity<float>" : "Single::NegativeInfinity";
+          } else if (value is float.PositiveInfinity) {
+            s = isInPrimitiveType ? "rt::PositiveInfinity<float>" : "Single::PositiveInfinity";
           } else {
             s = value.ToString();
           }
@@ -498,11 +506,11 @@ namespace Meson.Compiler {
         case TypeCode.Double:{
           string s;
           if (value is double.NaN) {
-            s = "(0.0 / 0.0)";
+            s = isInPrimitiveType ? "rt::NaN<double>" : "Double::NaN";
           } else if (value is double.NegativeInfinity) {
-            s = "(-1.0 / 0.0)";
+            s = isInPrimitiveType ? "rt::NegativeInfinity<double>" : "Double::NegativeInfinity";
           } else if (value is double.PositiveInfinity) {
-            s = "(1.0 / 0.0)";
+            s = isInPrimitiveType ? "rt::PositiveInfinity<double>" : "Double::PositiveInfinity";
           } else {
             s = value.ToString();
           }

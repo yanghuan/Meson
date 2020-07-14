@@ -5,6 +5,7 @@
 #include <System.Private.CoreLib/System/DateTime.h>
 #include <System.Private.CoreLib/System/Int64.h>
 #include <System.Private.CoreLib/System/IntPtr.h>
+#include <System.Private.CoreLib/System/UInt32.h>
 #include <System.Private.CoreLib/System/UInt64.h>
 
 namespace System::Private::CoreLib::System::Threading::Tasks {
@@ -12,7 +13,6 @@ FORWARD_(Task, T1, T2)
 } // namespace System::Private::CoreLib::System::Threading::Tasks
 namespace System::Private::CoreLib::System {
 FORWARD(Object)
-FORWARDS(UInt32)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Collections::Generic {
 FORWARD(Dictionary, TKey, TValue)

@@ -63,9 +63,9 @@ struct Single : public rt::PrimitiveType<Single> {
   public: static constexpr float MinValue = -3.4028235E+38;
   public: static constexpr float Epsilon = 1E-45;
   public: static constexpr float MaxValue = 3.4028235E+38;
-  public: static constexpr float PositiveInfinity = ∞;
-  public: static constexpr float NegativeInfinity = -∞;
-  public: static constexpr float NaN = NaN;
+  public: static constexpr float PositiveInfinity = rt::PositiveInfinity<float>;
+  public: static constexpr float NegativeInfinity = rt::NegativeInfinity<float>;
+  public: static constexpr float NaN = rt::NaN<float>;
   template <class T>
   friend struct rt::PrimitiveType;
 };

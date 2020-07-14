@@ -366,12 +366,6 @@ CLASS(RuntimeType) {
   private: static RuntimeType ObjectType;
   private: static RuntimeType StringType;
   private: static constexpr Int32 GenericParameterCountAny = -1;
-  private: static constexpr BindingFlags MemberBindingMask = 255;
-  private: static constexpr BindingFlags InvocationMask = 65280;
-  private: static constexpr BindingFlags BinderNonCreateInstance = 15616;
-  private: static constexpr BindingFlags BinderGetSetProperty = 12288;
-  private: static constexpr BindingFlags BinderGetSetField = 3072;
-  private: static constexpr BindingFlags BinderNonFieldGetSet = 16773888;
   private: static RuntimeType s_typedRef;
   private: static OleAutBinder s_ForwardCallBinder;
 };

@@ -63,9 +63,9 @@ struct Double : public rt::PrimitiveType<Double> {
   public: static constexpr double MinValue = -1.7976931348623157E+308;
   public: static constexpr double MaxValue = 1.7976931348623157E+308;
   public: static constexpr double Epsilon = 5E-324;
-  public: static constexpr double NegativeInfinity = (-1.0 / 0.0);
-  public: static constexpr double PositiveInfinity = (1.0 / 0.0);
-  public: static constexpr double NaN = (0.0 / 0.0);
+  public: static constexpr double NegativeInfinity = rt::NegativeInfinity<double>;
+  public: static constexpr double PositiveInfinity = rt::PositiveInfinity<double>;
+  public: static constexpr double NaN = rt::NaN<double>;
   template <class T>
   friend struct rt::PrimitiveType;
 };

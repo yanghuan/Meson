@@ -1,13 +1,13 @@
 #pragma once
 
 #include <rt/GCObject.h>
+#include <System.Private.CoreLib/System/Double.h>
 
 namespace System::Private::CoreLib::System {
 enum class MidpointRounding;
 FORWARD_(Array, T1, T2)
 FORWARDS(Byte)
 FORWARDS(Decimal)
-FORWARDS(Double)
 FORWARDS(Int16)
 FORWARDS(Int32)
 FORWARDS(Int64)

@@ -4,8 +4,6 @@
 #include <System.Private.CoreLib/System/Boolean.h>
 
 namespace System::Private::CoreLib::System::Diagnostics::Tracing {
-enum class EventKeywords : int64_t;
-enum class EventTask;
 FORWARD(EventCommandEventArgs)
 } // namespace System::Private::CoreLib::System::Diagnostics::Tracing
 namespace System::Private::CoreLib::System {
@@ -28,29 +26,8 @@ CLASS(TplEventSource) {
     Asynchronous = 2,
   };
   public: class Tasks {
-    public: static constexpr EventTask Loop = 1;
-    public: static constexpr EventTask Invoke = 2;
-    public: static constexpr EventTask TaskExecute = 3;
-    public: static constexpr EventTask TaskWait = 4;
-    public: static constexpr EventTask ForkJoin = 5;
-    public: static constexpr EventTask TaskScheduled = 6;
-    public: static constexpr EventTask AwaitTaskContinuationScheduled = 7;
-    public: static constexpr EventTask TraceOperation = 8;
-    public: static constexpr EventTask TraceSynchronousWork = 9;
   };
   public: class Keywords {
-    public: static constexpr EventKeywords TaskTransfer = 1;
-    public: static constexpr EventKeywords Tasks = 2;
-    public: static constexpr EventKeywords Parallel = 4;
-    public: static constexpr EventKeywords AsyncCausalityOperation = 8;
-    public: static constexpr EventKeywords AsyncCausalityRelation = 16;
-    public: static constexpr EventKeywords AsyncCausalitySynchronousWork = 32;
-    public: static constexpr EventKeywords TaskStops = 64;
-    public: static constexpr EventKeywords TasksFlowActivityIds = 128;
-    public: static constexpr EventKeywords AsyncMethod = 256;
-    public: static constexpr EventKeywords TasksSetActivityIds = 65536;
-    public: static constexpr EventKeywords Debug = 131072;
-    public: static constexpr EventKeywords DebugActivityId = 262144;
   };
   protected: void OnEventCommand(EventCommandEventArgs command);
   public: void TaskScheduled(Int32 OriginatingTaskSchedulerID, Int32 OriginatingTaskID, Int32 TaskID, Int32 CreatingTaskID, Int32 TaskCreationOptions, Int32 appDomain);

@@ -1,6 +1,7 @@
 #pragma once
 
 #include <rt/GCObject.h>
+#include <System.Private.CoreLib/System/Int32.h>
 
 namespace System::Private::CoreLib::System::Runtime::InteropServices {
 FORWARD(IDispatch)
@@ -9,7 +10,6 @@ namespace System::Private::CoreLib::System::Collections {
 FORWARD(IEnumerator)
 } // namespace System::Private::CoreLib::System::Collections
 namespace System::Private::CoreLib::System {
-FORWARDS(Int32)
 FORWARD(Object)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Runtime::InteropServices::CustomMarshalers {

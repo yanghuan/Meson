@@ -10,16 +10,11 @@ FORWARD(Object)
 FORWARD(String)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Diagnostics::Tracing {
-enum class EventKeywords : int64_t;
-enum class EventTask;
 namespace FrameworkEventSourceNamespace {
 CLASS(FrameworkEventSource) {
   public: class Keywords {
-    public: static constexpr EventKeywords ThreadPool = 2;
-    public: static constexpr EventKeywords ThreadTransfer = 16;
   };
   public: class Tasks {
-    public: static constexpr EventTask ThreadTransfer = 3;
   };
   private: void WriteEvent(Int32 eventId, Int64 arg1, Int32 arg2, String arg3, Boolean arg4, Int32 arg5, Int32 arg6);
   private: void WriteEvent(Int32 eventId, Int64 arg1, Int32 arg2, String arg3);

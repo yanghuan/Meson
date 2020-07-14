@@ -263,8 +263,23 @@ namespace Meson.Compiler {
       return false;
     }
 
+    private static bool IsFieldExport(IField field) {
+      if (field.IsConst) {
+        if (field.Type.IsString()) {
+          return false;
+        }
+        if (field.Type.IsDecimal()) {
+          return false;
+        }
+        if (field.Type.Kind == TypeKind.Enum) {
+          return false;
+        }
+      }
+      return true;
+    }
+
     private void VisitFields(ITypeDefinition typeDefinition, ClassSyntax node) {
-      foreach (var field in typeDefinition.Fields) {
+      foreach (var field in typeDefinition.Fields.Where(IsFieldExport)) {
         var fieldName = GetMemberName(field);
         if (IsValueTypeInnerField(field, typeDefinition, out ExpressionSyntax typeName)) {
           if (!field.IsStatic) {
@@ -299,7 +314,7 @@ namespace Meson.Compiler {
         var constantValue = field.GetConstantValue();
         node.Statements.Add(new FieldDefinitionSyntax(typeName, fieldName, field.IsStatic, field.Accessibility.ToTokenString()) {
           IsConstexpr = field.IsConst,
-          ConstantValue = field.IsConst ? Utils.GetPrimitiveExpression(constantValue) : null,
+          ConstantValue = field.IsConst ? Utils.GetPrimitiveExpression(constantValue, isPrimitiveType_) : null,
         });
       }
     }
@@ -334,7 +349,7 @@ namespace Meson.Compiler {
       var typeName = CompilationUnit.GetTypeName(new TypeNameArgs {
         Type = field.Type,
         Definition = typeDefinition,
-        IsForward = field.Type.IsRefType() || field.IsStatic,
+        IsForward = field.Type.IsRefType() || (field.IsStatic && !field.IsConst),
         IsInHead = true,
         Original = field.Type,
         Symbol = field,

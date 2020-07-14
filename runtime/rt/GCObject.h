@@ -407,6 +407,13 @@ namespace rt {
   };
 
   template <class T>
+  static constexpr float NaN = 0b11111111110000000000000000000000;
+  template <class T>
+  static constexpr float PositiveInfinity = 0b1111111100000000000000000000000;
+  template <class T>
+  static constexpr float NegativeInfinity = 0b11111111100000000000000000000000;
+
+  template <class T>
   struct PrimitiveType {  
     bool operator ==(const T& other) {
       return static_cast<T*>(this)->m_value == other.m_value;

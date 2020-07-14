@@ -67,7 +67,6 @@ CLASS(IndentedTextWriter) {
   private: String _tabString;
   private: Int32 _indentLevel;
   private: Boolean _tabsPending;
-  public: static constexpr String DefaultTabString = "    ";
 };
 } // namespace IndentedTextWriterNamespace
 using IndentedTextWriter = IndentedTextWriterNamespace::IndentedTextWriter;

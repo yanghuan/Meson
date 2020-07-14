@@ -1,12 +1,12 @@
 #pragma once
 
 #include <rt/GCObject.h>
+#include <System.Private.CoreLib/System/Single.h>
 
 namespace System::Private::CoreLib::System {
 enum class MidpointRounding;
 FORWARD_(Array, T1, T2)
 FORWARDS(Int32)
-FORWARDS(Single)
 namespace MathFNamespace {
 class MathF {
   public: static Single Acos(Single x);
