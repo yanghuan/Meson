@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.Contracts;
 using System.Linq;
 using System.Net.NetworkInformation;
 using System.Text;
@@ -19,12 +20,13 @@ namespace Meson.Compiler {
 
     private static readonly HashSet<string> exportTypes_ = new HashSet<string>() {
       "System.Int32",
-      //"System.Array"
+      "System.Array"
     };
 
     private readonly TypeDefinitionTransform typeDefinition_;
     private readonly ClassSyntax classNode_;
     private readonly Stack<IMethod> methodSymbols_ = new Stack<IMethod>();
+    private readonly Stack<MethodImplementationSyntax> functions_ = new Stack<MethodImplementationSyntax>();
     private readonly Stack<BlockSyntax> blocks_ = new Stack<BlockSyntax>();
 
     public MethodTransform(TypeDefinitionTransform typeDefinition, IMethod methodSymbol, ClassSyntax classNode) {
@@ -38,8 +40,40 @@ namespace Meson.Compiler {
     private AssemblyTransform AssemblyTransform => typeDefinition_.AssemblyTransform;
     private IMethod MethodSymbol => methodSymbols_.Peek();
     private BlockSyntax Block => blocks_.Peek();
+    private MethodImplementationSyntax Function => functions_.Peek();
     private IdentifierSyntax GetMemberName(ISymbol symbol) => Generator.GetMemberName(symbol);
     private ExpressionSyntax GetTypeName(IType type, ISymbol symbol = null, bool isInDelaring = true) => typeDefinition_.GetTypeName(type, isInDelaring ? MethodSymbol.DeclaringTypeDefinition : null, symbol);
+
+    private IdentifierSyntax GetTempIdentifier() {
+      int index = Function.TotalTempCount++;
+      string name = SyntaxNode.TempIdentifiers.GetOrDefault(index);
+      if (name == null) {
+        throw new CompilationErrorException($"Your code is startling,{SyntaxNode.TempIdentifiers.Length} temporary variables is not enough");
+      }
+      ++Block.TempCount;
+      return name;
+    }
+
+    private void PushFunction(MethodImplementationSyntax function) {
+      functions_.Push(function);
+    }
+
+    private void PopFunction() {
+      var fucntion = functions_.Pop();
+      Contract.Assert(fucntion.TotalTempCount == 0);
+    }
+
+    public void PushBlock(BlockSyntax block) {
+      blocks_.Push(block);
+    }
+
+    public void PopBlock() {
+      var block = blocks_.Pop();
+      if (block.TempCount > 0) {
+        Contract.Assert(Function.TotalTempCount >= block.TempCount);
+        Function.TotalTempCount -= block.TempCount;
+      }
+    }
 
     private void Visit(IMethod methodSymbol) {
       if (methodSymbol.HasBody) {
@@ -105,7 +139,9 @@ namespace Meson.Compiler {
     }
 
     public SyntaxNode VisitAsExpression(AsExpression asExpression) {
-      throw new NotImplementedException();
+      var type = asExpression.Type.AcceptExpression(this);
+      var expression = asExpression.Expression.AcceptExpression(this);
+      return IdentifierSyntax.As.Generic(type).Invation(expression);
     }
 
     private static string GetAssignmentOperator(AssignmentOperatorType operatorToken) {
@@ -146,6 +182,27 @@ namespace Meson.Compiler {
 
         case BinaryOperatorType.GreaterThanOrEqual:
           return Tokens.GreaterEquals;
+
+        case BinaryOperatorType.ConditionalAnd:
+          return Tokens.LogicAnd;
+
+        case BinaryOperatorType.ConditionalOr:
+          return Tokens.LogicOr;
+
+        case BinaryOperatorType.Add:
+          return Tokens.Plus;
+
+        case BinaryOperatorType.Subtract:
+          return Tokens.Sub;
+
+        case BinaryOperatorType.Multiply:
+          return Tokens.Asterisk;
+
+        case BinaryOperatorType.Divide:
+          return Tokens.Div;
+
+        case BinaryOperatorType.Modulus:
+          return Tokens.Mod;
 
         default:
           throw new NotImplementedException();
@@ -203,7 +260,9 @@ namespace Meson.Compiler {
     }
 
     public SyntaxNode VisitIndexerExpression(IndexerExpression indexerExpression) {
-      throw new NotImplementedException();
+      var target = indexerExpression.Target.AcceptExpression(this);
+      var arguments = indexerExpression.Arguments.Select(i => i.AcceptExpression(this));
+      return new IndexerExpressionSyntax(target, arguments);
     }
 
     public SyntaxNode VisitInterpolatedStringExpression(InterpolatedStringExpression interpolatedStringExpression) {
@@ -231,10 +290,40 @@ namespace Meson.Compiler {
         var resolveResult = argument.GetResolveResult();
         var expression = argument.AcceptExpression(this);
         CheckArrayConflict(symbol, parameter, i, resolveResult.Type, ref expression);
-        arguments.Add(expression);
+        if (argument is NamedArgumentExpression namedArgument) {
+          string name = namedArgument.Name;
+          int index = symbol.Parameters.IndexOf(i => i.Name == name);
+          if (index == -1) {
+            throw new InvalidOperationException();
+          }
+          arguments.AddAt(index, expression);
+        } else {
+          arguments.Add(expression);
+        }
+        ++i;
+      }
+
+      i = 0;
+      foreach (var argument in arguments) {
+        if (argument == null) {
+          var defaultValue = GetDefaultParameterValue(symbol.Parameters[i]);
+          arguments[i] = defaultValue;
+        }
         ++i;
       }
       return arguments;
+    }
+
+    private ExpressionSyntax GetDefaultParameterValue(IParameter parameter) {
+      Contract.Assert(parameter.HasConstantValueInSignature);
+      var constValue = parameter.GetConstantValue();
+      ExpressionSyntax defaultValue;
+      if (constValue == null) {
+        defaultValue = IdentifierSyntax.Nullptr;
+      } else {
+        defaultValue = Utils.GetPrimitiveExpression(constValue);
+      }
+      return defaultValue;
     }
 
     private List<ExpressionSyntax> BuildInvocationArguments(InvocationExpression invocationExpression) {
@@ -296,7 +385,7 @@ namespace Meson.Compiler {
     }
 
     public SyntaxNode VisitNamedArgumentExpression(NamedArgumentExpression namedArgumentExpression) {
-      throw new NotImplementedException();
+      return namedArgumentExpression.Expression.AcceptExpression(this);
     }
 
     public SyntaxNode VisitNamedExpression(NamedExpression namedExpression) {
@@ -332,7 +421,10 @@ namespace Meson.Compiler {
     }
 
     public SyntaxNode VisitPointerReferenceExpression(PointerReferenceExpression pointerReferenceExpression) {
-      throw new NotImplementedException();
+      var target = pointerReferenceExpression.Target.AcceptExpression(this);
+      var symbol = pointerReferenceExpression.GetSymbol();
+      var name = GetMemberName(symbol);
+      return target.Arrow(name);
     }
 
     public SyntaxNode VisitPrimitiveExpression(PrimitiveExpression primitiveExpression) {
@@ -344,7 +436,13 @@ namespace Meson.Compiler {
     }
 
     public SyntaxNode VisitStackAllocExpression(StackAllocExpression stackAllocExpression) {
-      throw new NotImplementedException();
+      var type = stackAllocExpression.Type.AcceptExpression(this);
+      var count = stackAllocExpression.CountExpression.AcceptExpression(this);
+      var temp = GetTempIdentifier();
+      var newName = new ExpressionIdentifierSyntax(new CodeTemplateExpressionSyntax(temp, "[", count, "]"));
+      var variableDeclaration = new VariableDeclarationStatementSyntax(type, newName, "{}");
+      Block.Add(variableDeclaration);
+      return temp;
     }
 
     public SyntaxNode VisitThisReferenceExpression(ThisReferenceExpression thisReferenceExpression) {
@@ -380,6 +478,12 @@ namespace Meson.Compiler {
 
         case UnaryOperatorType.Not:
           return Tokens.Exclamation;
+
+        case UnaryOperatorType.Dereference:
+          return Tokens.Asterisk;
+
+        case UnaryOperatorType.PostIncrement:
+          return Tokens.PlusPlus;
       }
 
       throw new NotImplementedException();
@@ -388,7 +492,7 @@ namespace Meson.Compiler {
     public SyntaxNode VisitUnaryOperatorExpression(UnaryOperatorExpression unaryOperatorExpression) {
       string operatorToken = GetUnaryOperator(unaryOperatorExpression.Operator);
       var expression = unaryOperatorExpression.Expression.AcceptExpression(this);
-      return new UnaryOperatorExpressionSyntax(operatorToken, expression);
+      return new PrefixUnaryExpressionSyntax(operatorToken, expression);
     }
 
     public SyntaxNode VisitUncheckedExpression(UncheckedExpression uncheckedExpression) {
@@ -473,7 +577,7 @@ namespace Meson.Compiler {
 
     public SyntaxNode VisitBlockStatement(BlockStatement blockStatement) {
       BlockSyntax node = new BlockSyntax();
-      blocks_.Push(node);
+      PushBlock(node);
       foreach (var statement in blockStatement.Statements) {
         try {
           var s = statement.AcceptStatement(this);
@@ -482,7 +586,7 @@ namespace Meson.Compiler {
           break;
         }
       }
-      blocks_.Pop();
+      PopBlock();
       return node;
     }
 
@@ -512,7 +616,8 @@ namespace Meson.Compiler {
     }
 
     public SyntaxNode VisitFixedStatement(FixedStatement fixedStatement) {
-      throw new NotImplementedException();
+      var block = new BlockSyntax();
+      return block;
     }
 
     public SyntaxNode VisitForeachStatement(ForeachStatement foreachStatement) {
@@ -520,7 +625,11 @@ namespace Meson.Compiler {
     }
 
     public SyntaxNode VisitForStatement(ForStatement forStatement) {
-      throw new NotImplementedException();
+      var initializers = forStatement.Initializers.Select(i => i.AcceptStatement(this));
+      var condition = forStatement.Condition.AcceptExpression(this);
+      var iterators = forStatement.Iterators.Select(i => i.AcceptStatement(this));
+      var embeddedStatement = forStatement.EmbeddedStatement.AcceptStatement(this);
+      return new ForStatementSyntax(initializers, condition, iterators, embeddedStatement);
     }
 
     public SyntaxNode VisitGotoCaseStatement(GotoCaseStatement gotoCaseStatement) {
@@ -712,7 +821,7 @@ namespace Meson.Compiler {
           }
         case TypeKind.ByReference: {
             var refIdentifier = (RefExpressionSyntax)returnType;
-            node.Add(refIdentifier.Name.Invation().Return());
+            node.Add(refIdentifier.Expression.Invation().Return());
             break;
           }
         case TypeKind.Enum: {
@@ -738,6 +847,7 @@ namespace Meson.Compiler {
       var declaringType = GetDeclaringType(method.DeclaringTypeDefinition);
       var returnType = GetTypeName(method.ReturnType, method, false);
       MethodImplementationSyntax node = new MethodImplementationSyntax(name, returnType, parameters, declaringType);
+      PushFunction(node);
       if (methodDeclaration != null) {
         var block = methodDeclaration.Body.Accept<BlockSyntax>(this);
         node.AddRange(block.Statements);
@@ -745,6 +855,7 @@ namespace Meson.Compiler {
       if (!IsMethodExport(method)) {
         InsertDefaultReturnValue(node, method, returnType);
       }
+      PopFunction();
       return node;
     }
 
@@ -797,7 +908,8 @@ namespace Meson.Compiler {
     }
 
     public SyntaxNode VisitComposedType(ComposedType composedType) {
-      throw new NotImplementedException();
+      var expression = composedType.BaseType.AcceptExpression(this);
+      return new PostfixUnaryExpression(expression, new string(Tokens.Asterisk[0], composedType.PointerRank));
     }
 
     public SyntaxNode VisitArraySpecifier(ArraySpecifier arraySpecifier) {

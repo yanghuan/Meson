@@ -84,13 +84,8 @@ namespace Meson.Compiler.CppAst {
 
   internal sealed class InvationExpressionSyntax : ExpressionSyntax {
     public ExpressionSyntax Expression { get; }
-    public string OpenBrace => Tokens.Less;
     public readonly List<ExpressionSyntax> TypeArguments = new List<ExpressionSyntax>();
-    public string CloseBrace => Tokens.Greater;
-
-    public string OpenParentheses => Tokens.OpenParentheses;
-    public List<ExpressionSyntax> Arguments = new List<ExpressionSyntax>();
-    public string CloseParentheses => Tokens.CloseParentheses;
+    public readonly List<ExpressionSyntax> Arguments = new List<ExpressionSyntax>();
 
     public InvationExpressionSyntax(ExpressionSyntax expresison) {
       Expression = expresison;
@@ -102,6 +97,20 @@ namespace Meson.Compiler.CppAst {
     }
 
     public InvationExpressionSyntax(ExpressionSyntax expresison, IEnumerable<ExpressionSyntax> arguments) {
+      Expression = expresison;
+      Arguments.AddRange(arguments);
+    }
+
+    internal override void Render(CppRenderer renderer) {
+      renderer.Render(this);
+    }
+  }
+
+  internal sealed class IndexerExpressionSyntax : ExpressionSyntax {
+    public ExpressionSyntax Expression { get; }
+    public List<ExpressionSyntax> Arguments = new List<ExpressionSyntax>();
+    
+    public IndexerExpressionSyntax(ExpressionSyntax expresison, IEnumerable<ExpressionSyntax> arguments) {
       Expression = expresison;
       Arguments.AddRange(arguments);
     }

@@ -17,6 +17,7 @@ namespace Meson.Compiler.CppAst {
     public static readonly IdentifierSyntax T = "T";
     public static readonly IdentifierSyntax In = "in";
     public static readonly IdentifierSyntax Is = "rt::is";
+    public static readonly IdentifierSyntax As = "rt::as";
     public static readonly IdentifierSyntax Cast = "rt::cast";
     public static readonly IdentifierSyntax Throw = "rt::throw_exception";
     public static readonly IdentifierSyntax NewObj = "rt::newobj";
@@ -64,12 +65,13 @@ namespace Meson.Compiler.CppAst {
     }
   }
 
-  internal sealed class PointerIdentifierSyntax : IdentifierSyntax {
-    public ExpressionSyntax Name { get; }
-    public string Asterisk => Tokens.Asterisk;
+  internal class PostfixUnaryExpression : ExpressionSyntax {
+    public ExpressionSyntax Expression { get; }
+    public string OperatorToken { get; }
 
-    public PointerIdentifierSyntax(ExpressionSyntax name) {
-      Name = name;
+    public PostfixUnaryExpression(ExpressionSyntax expression, string operatorToken) {
+      Expression = expression;
+      OperatorToken = operatorToken;
     }
 
     internal override void Render(CppRenderer renderer) {
@@ -77,24 +79,21 @@ namespace Meson.Compiler.CppAst {
     }
   }
 
-  internal sealed class RefExpressionSyntax : ExpressionSyntax {
-    public ExpressionSyntax Name { get; }
-    public string Ampersand => Tokens.Ampersand;
-
-    public RefExpressionSyntax(ExpressionSyntax name) {
-      Name = name;
-    }
-
-    internal override void Render(CppRenderer renderer) {
-      renderer.Render(this);
+  internal sealed class PointerIdentifierSyntax : PostfixUnaryExpression {
+    public PointerIdentifierSyntax(ExpressionSyntax name) : base(name, Tokens.Asterisk) {
     }
   }
 
-  internal class UnaryOperatorExpressionSyntax : ExpressionSyntax {
+  internal sealed class RefExpressionSyntax : PostfixUnaryExpression {
+    public RefExpressionSyntax(ExpressionSyntax name) : base(name, Tokens.Ampersand) {
+    }
+  }
+
+  internal class PrefixUnaryExpressionSyntax : ExpressionSyntax {
     public string OperatorToken { get; }
     public ExpressionSyntax Expression { get; }
 
-    public UnaryOperatorExpressionSyntax(string operatorToken, ExpressionSyntax expression) {
+    public PrefixUnaryExpressionSyntax(string operatorToken, ExpressionSyntax expression) {
       OperatorToken = operatorToken;
       Expression = expression;
     }
@@ -104,12 +103,12 @@ namespace Meson.Compiler.CppAst {
     }
   }
  
-  internal sealed class AddressExpressionSyntax : UnaryOperatorExpressionSyntax {
+  internal sealed class AddressExpressionSyntax : PrefixUnaryExpressionSyntax {
     public AddressExpressionSyntax(ExpressionSyntax expression) : base(Tokens.Ampersand, expression) {
     }
   }
 
-  internal sealed class IndirectionExpressionSyntax : UnaryOperatorExpressionSyntax {
+  internal sealed class IndirectionExpressionSyntax : PrefixUnaryExpressionSyntax {
     public IndirectionExpressionSyntax(ExpressionSyntax expression) : base(Tokens.Asterisk, expression) {
     }
   }
@@ -130,6 +129,18 @@ namespace Meson.Compiler.CppAst {
 
     internal override void Render(CppRenderer renderer) {
       renderer.Render(this);
+    }
+  }
+
+  internal sealed class ExpressionIdentifierSyntax : IdentifierSyntax {
+    public ExpressionSyntax Expression { get; private set; }
+
+    public ExpressionIdentifierSyntax(ExpressionSyntax expression) {
+      Expression = expression;
+    }
+
+    internal override void Render(CppRenderer renderer) {
+      Expression.Render(renderer);
     }
   }
 

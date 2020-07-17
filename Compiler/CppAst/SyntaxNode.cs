@@ -7,6 +7,10 @@ namespace Meson.Compiler.CppAst {
     internal virtual void Render(CppRenderer renderer) {
       throw new NotSupportedException($"{this.GetType().Name} is not override");
     }
+
+    public static readonly string[] TempIdentifiers = {
+      "default", "extern", "ref", "out", "byte", "uint", "lock", "fixed",  "internal",
+    };
   }
 
   class Keyword {
@@ -122,9 +126,17 @@ namespace Meson.Compiler.CppAst {
     public new const string Equals = "=";
     public const string EqualsEquals = "==";
     public const string NotEquals = "!=";
+    public const string Plus = "+";
+    public const string PlusPlus = "++";
+    public const string Sub = "-";
+    public const string Multiply = "*";
+    public const string Div = "/";
+    public const string Mod = "%";
     public const string Dot = ".";
     public const string Asterisk = "*";
     public const string Ampersand = "&";
+    public const string LogicAnd = "&&";
+    public const string LogicOr = "||";
     public const string Exclamation = "!";
     public const string Quote = "\"";
     public const string Arrow = "->";

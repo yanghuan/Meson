@@ -119,12 +119,11 @@ namespace Meson.Compiler.CppAst {
   }
 
   class BlockSyntax : StatementSyntax {
-    public string OpenToken => Tokens.OpenBrace;
-    public string CloseToken => Tokens.CloseBrace;
     public bool IsPreventIdnet { get; set; }
     public bool IsSingleLine { get; set; }
 
     public readonly List<StatementSyntax> Statements = new List<StatementSyntax>();
+    internal int TempCount;
 
     public BlockSyntax() { 
     }
@@ -373,9 +372,8 @@ namespace Meson.Compiler.CppAst {
     public ExpressionSyntax DeclaringType { get; }
     public ExpressionSyntax RetuenType { get; }
     public IdentifierSyntax Name { get; }
-    public string OpenParentheses => Tokens.OpenParentheses;
     public readonly List<ParameterSyntax> Parameters = new List<ParameterSyntax>();
-    public string CloseParentheses => Tokens.CloseParentheses;
+    internal int TotalTempCount;
 
     public MethodImplementationSyntax(IdentifierSyntax name, ExpressionSyntax retuenType, IEnumerable<ParameterSyntax> parameters, ExpressionSyntax declaringType = null) {
       Name = name;
@@ -525,17 +523,35 @@ namespace Meson.Compiler.CppAst {
   }
 
   sealed class IfElseStatementSyntax : StatementSyntax {
-    public string IfToken => Tokens.If;
-    public string OpenParentheses => Tokens.OpenParentheses;
     public ExpressionSyntax Condition { get; }
-    public string CloseParentheses => Tokens.CloseParentheses;
     public StatementSyntax TrueStatement { get; }
-    public string ElseToken => Tokens.Else;
     public StatementSyntax FalseStatement { get; set; }
 
     public IfElseStatementSyntax(ExpressionSyntax condition, StatementSyntax trueStatement) {
       Condition = condition;
       TrueStatement = trueStatement;
+    }
+
+    internal override void Render(CppRenderer renderer) {
+      renderer.Render(this);
+    }
+  }
+
+  sealed class ForStatementSyntax : StatementSyntax {
+    public List<StatementSyntax> Initializers { get; } = new List<StatementSyntax>();
+    public ExpressionSyntax Condition { get; }
+    public List<StatementSyntax> Iterators { get; } = new List<StatementSyntax>();
+    public StatementSyntax EmbeddedStatement { get; }
+
+    public ForStatementSyntax(IEnumerable<StatementSyntax> initializers, ExpressionSyntax condition, IEnumerable<StatementSyntax> iterators, StatementSyntax embeddedStatement) {
+      if (initializers != null) {
+        Initializers.AddRange(initializers);
+      }
+      Condition = condition;
+      if (Iterators != null) {
+        Iterators.AddRange(iterators);
+      }
+      EmbeddedStatement = embeddedStatement;
     }
 
     internal override void Render(CppRenderer renderer) {
@@ -564,6 +580,11 @@ namespace Meson.Compiler.CppAst {
     public VariableDeclarationStatementSyntax(ExpressionSyntax type, IEnumerable<VariableInitializerSyntax> variables) {
       Type = type;
       Variables.AddRange(variables);
+    }
+
+    public VariableDeclarationStatementSyntax(ExpressionSyntax type, IdentifierSyntax name, ExpressionSyntax value) {
+      Type = type;
+      Variables.Add(new VariableInitializerSyntax(name, value));
     }
 
     internal override void Render(CppRenderer renderer) {

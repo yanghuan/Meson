@@ -15,6 +15,12 @@ void Program___::Main(Array<String> args) {
   Single num = Single::NaN;
   Single num2 = Single::PositiveInfinity;
   Single num3 = Single::NegativeInfinity;
+  Int32 a = *(Int32*)(&num);
+  Int32 a2 = *(Int32*)(&num2);
+  Int32 a3 = *(Int32*)(&num3);
+  Print(a);
+  Print(a2);
+  Print(a3);
 };
 
 void Program___::Print(Int32 a) {

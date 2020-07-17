@@ -450,6 +450,11 @@ namespace rt {
     return false;
   }
 
+  template <class T, class V>
+  bool as(const V& v) {
+    return nullptr;
+  }
+
   template <class R, class Arg>
   int init(int argc, char* argv[], R (*f)(Arg)) {
     auto args = Array<ref<string>>::newarr(argc - 1);

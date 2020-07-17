@@ -16,6 +16,11 @@ namespace Meson.Compiler {
     }
   }
 
+  public sealed class CompilationErrorException : Exception {
+    public CompilationErrorException(string message) : base(message) {
+    }
+  }
+
   internal static class Utils {
     public const string kDependExtra = "-dep";
     private const string kBackingFieldSuffix = ">k__BackingField";

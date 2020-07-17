@@ -239,15 +239,15 @@ namespace Meson.Compiler {
     internal void Render(BlockSyntax node) {
       if (node.IsSingleLine) {
         if (node.Statements.Count == 0) {
-          Write(node.OpenToken);
-          Write(node.CloseToken);
+          Write(Tokens.OpenBrace);
+          Write(Tokens.CloseBrace);
           return;
         }
 
         ++singleLineCounter_;
       }
 
-      Write(node.OpenToken);
+      Write(Tokens.OpenBrace);
       WriteNewLine();
       if (!node.IsPreventIdnet) {
         AddIndent();
@@ -256,7 +256,7 @@ namespace Meson.Compiler {
       if (!node.IsPreventIdnet) {
         Outdent();
       }
-      Write(node.CloseToken);
+      Write(Tokens.CloseBrace);
 
       if (node.IsSingleLine) {
         --singleLineCounter_;
@@ -492,9 +492,9 @@ namespace Meson.Compiler {
         Write(Tokens.TwoColon);
       }
       node.Name.Render(this);
-      Write(node.OpenParentheses);
+      Write(Tokens.OpenParentheses);
       WriteNodesWithSeparated(node.Parameters);
-      Write(node.CloseParentheses);
+      Write(Tokens.CloseParentheses);
       WriteSpace();
       Render((BlockSyntax)node);
       WriteSemicolon();
@@ -512,17 +512,12 @@ namespace Meson.Compiler {
       Write(node.CloseBrace);
     }
 
-    internal void Render(PointerIdentifierSyntax node) {
-      node.Name.Render(this);
-      Write(node.Asterisk);
+    internal void Render(PostfixUnaryExpression node) {
+      node.Expression.Render(this);
+      Write(node.OperatorToken);
     }
 
-    internal void Render(RefExpressionSyntax node) {
-      node.Name.Render(this);
-      Write(node.Ampersand);
-    }
-
-    internal void Render(UnaryOperatorExpressionSyntax node) {
+    internal void Render(PrefixUnaryExpressionSyntax node) {
       Write(node.OperatorToken);
       node.Expression.Render(this);
     }
@@ -590,13 +585,20 @@ namespace Meson.Compiler {
     internal void Render(InvationExpressionSyntax node) {
       node.Expression.Render(this);
       if (node.TypeArguments.Count > 0) {
-        Write(node.OpenBrace);
+        Write(Tokens.Less);
         WriteNodesWithSeparated(node.TypeArguments);
-        Write(node.CloseBrace);
+        Write(Tokens.Greater);
       }
-      Write(node.OpenParentheses);
+      Write(Tokens.OpenParentheses);
       WriteNodesWithSeparated(node.Arguments);
-      Write(node.CloseParentheses);
+      Write(Tokens.CloseParentheses);
+    }
+
+    internal void Render(IndexerExpressionSyntax node) {
+      node.Expression.Render(this);
+      Write(Tokens.OpenBracket);
+      WriteNodesWithSeparated(node.Arguments);
+      Write(Tokens.CloseBracket);
     }
 
     internal void Render(ForwardMacroSyntax node) {
@@ -648,17 +650,44 @@ namespace Meson.Compiler {
     }
 
     internal void Render(IfElseStatementSyntax node) {
-      Write(node.IfToken);
+      Write(Tokens.If);
       WriteSpace();
-      Write(node.OpenParentheses);
+      Write(Tokens.OpenParentheses);
       node.Condition.Render(this);
-      Write(node.CloseParentheses);
+      Write(Tokens.CloseParentheses);
       WriteSpace();
       node.TrueStatement.Render(this);
       if (node.FalseStatement != null) {
         WriteSpace();
+        Write(Tokens.Else);
+        WriteSpace();
         node.FalseStatement.Render(this);
       }
+      WriteNewLine();
+    }
+
+    internal void Render(ForStatementSyntax node) {
+      Write(Tokens.For);
+      WriteSpace();
+      Write(Tokens.OpenParentheses);
+      if (node.Initializers != null) {
+        ++singleLineCounter_;
+        WriteNodesWithSeparated(node.Initializers);
+        --singleLineCounter_;
+      }
+      WriteSemicolon();
+      if (node.Condition != null) {
+        node.Condition.Render(this);
+      }
+      WriteSemicolon();
+      if (node.Iterators != null) {
+        ++singleLineCounter_;
+        WriteNodesWithSeparated(node.Iterators);
+        --singleLineCounter_;
+      }
+      Write(Tokens.CloseParentheses);
+      WriteSpace();
+      node.EmbeddedStatement.Render(this);
       WriteNewLine();
     }
 

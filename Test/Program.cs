@@ -4,11 +4,9 @@ using System.Runtime.InteropServices;
 namespace Test {
   class Program {
     public Program() {
-
     }
 
     public Program(int a) {
-
     }
 
     private unsafe static void Main(string[] args) {

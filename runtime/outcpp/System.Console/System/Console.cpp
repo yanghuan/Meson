@@ -314,7 +314,7 @@ void Console::WriteLine(String format, Object arg0, Object arg1, Object arg2) {
 void Console::WriteLine(String format, Array<Object> arg) {
   if (arg == nullptr) {
     get_Out()->WriteLine(format, nullptr, nullptr);
-  } {
+  } else {
     get_Out()->WriteLine(format, arg);
   }
 };
