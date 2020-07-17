@@ -116,4 +116,7 @@ void Debug::WriteLineIf(Boolean condition, String message) {
 void Debug::WriteLineIf(Boolean condition, String message, String category) {
 };
 
+void Debug::SCtor() {
+};
+
 } // namespace System::Private::CoreLib::System::Diagnostics::DebugNamespace

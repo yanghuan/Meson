@@ -16,6 +16,7 @@ FORWARD(EncoderNLS)
 namespace Latin1EncodingNamespace {
 CLASS(Latin1Encoding) {
   public: Boolean get_IsSingleByte();
+  public: void Ctor();
   public: Int32 GetByteCount(Char* chars, Int32 charCount, EncoderNLS encoder);
   public: Int32 GetBytes(Char* chars, Int32 charCount, Byte* bytes, Int32 byteCount, EncoderNLS encoder);
   public: Int32 GetCharCount(Byte* bytes, Int32 count, DecoderNLS decoder);
@@ -24,6 +25,7 @@ CLASS(Latin1Encoding) {
   public: Int32 GetMaxCharCount(Int32 byteCount);
   public: Boolean IsAlwaysNormalized(NormalizationForm form);
   public: Array<Char> GetBestFitUnicodeToBytesData();
+  private: static void SCtor();
   public: static Latin1Encoding s_default;
   private: static Array<Char> arrayCharBestFit;
 };

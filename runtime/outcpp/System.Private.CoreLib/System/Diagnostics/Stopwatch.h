@@ -15,6 +15,7 @@ CLASS(Stopwatch) {
   public: TimeSpan get_Elapsed();
   public: Int64 get_ElapsedMilliseconds();
   public: Int64 get_ElapsedTicks();
+  public: void Ctor();
   public: void Start();
   public: static Stopwatch StartNew();
   public: void Stop();
@@ -25,6 +26,7 @@ CLASS(Stopwatch) {
   private: Int64 GetElapsedDateTimeTicks();
   private: static Int64 QueryPerformanceFrequency();
   private: static Int64 QueryPerformanceCounter();
+  private: static void SCtor();
   private: Int64 _elapsed;
   private: Int64 _startTimeStamp;
   private: Boolean _isRunning;

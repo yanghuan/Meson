@@ -18,6 +18,8 @@ CLASS(OperatingSystem) {
   public: String get_ServicePack();
   public: Version get_Version();
   public: String get_VersionString();
+  public: void Ctor(PlatformID platform, Version version);
+  public: void Ctor(PlatformID platform, Version version, String servicePack);
   public: void GetObjectData(SerializationInfo info, StreamingContext context);
   public: Object Clone();
   public: String ToString();

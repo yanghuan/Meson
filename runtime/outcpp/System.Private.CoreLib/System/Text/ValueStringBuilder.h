@@ -23,6 +23,8 @@ struct ValueStringBuilder {
   public: Span<Char> get_RawChars();
   public: void AppendFormatHelper(IFormatProvider provider, String format, ParamsArray args);
   private: static void ThrowFormatError();
+  public: void Ctor(Span<Char> initialBuffer);
+  public: void Ctor(Int32 initialCapacity);
   public: void EnsureCapacity(Int32 capacity);
   public: String ToString();
   public: ReadOnlySpan<Char> AsSpan(Boolean terminate);
@@ -41,6 +43,7 @@ struct ValueStringBuilder {
   private: void GrowAndAppend(Char c);
   private: void Grow(Int32 additionalCapacityBeyondPos);
   public: void Dispose();
+  public: void Ctor();
   private: Array<Char> _arrayToReturnToPool;
   private: Span<Char> _chars;
   private: Int32 _pos;

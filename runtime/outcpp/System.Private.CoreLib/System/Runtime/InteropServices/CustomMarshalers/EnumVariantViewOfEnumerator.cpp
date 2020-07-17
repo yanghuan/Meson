@@ -1,6 +1,9 @@
 #include "EnumVariantViewOfEnumerator-dep.h"
 
 namespace System::Private::CoreLib::System::Runtime::InteropServices::CustomMarshalers::EnumVariantViewOfEnumeratorNamespace {
+void EnumVariantViewOfEnumerator___::Ctor(IEnumerator enumerator) {
+};
+
 IEnumVARIANT EnumVariantViewOfEnumerator___::Clone() {
   return nullptr;
 };

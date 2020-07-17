@@ -14,6 +14,7 @@ namespace CompatibleComparerNamespace {
 CLASS(CompatibleComparer) {
   public: IHashCodeProvider get_HashCodeProvider();
   public: IComparer get_Comparer();
+  public: void Ctor(IHashCodeProvider hashCodeProvider, IComparer comparer);
   public: Boolean Equals(Object a, Object b);
   public: Int32 Compare(Object a, Object b);
   public: Int32 GetHashCode(Object obj);

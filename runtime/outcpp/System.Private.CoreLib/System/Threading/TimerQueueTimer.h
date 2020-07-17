@@ -6,12 +6,12 @@
 #include <System.Private.CoreLib/System/Int64.h>
 #include <System.Private.CoreLib/System/UInt32.h>
 
-namespace System::Private::CoreLib::System::Threading::Tasks {
-FORWARDS_(ValueTask, T1, T2)
-} // namespace System::Private::CoreLib::System::Threading::Tasks
 namespace System::Private::CoreLib::System {
 FORWARD(Object)
 } // namespace System::Private::CoreLib::System
+namespace System::Private::CoreLib::System::Threading::Tasks {
+FORWARDS_(ValueTask, T1, T2)
+} // namespace System::Private::CoreLib::System::Threading::Tasks
 namespace System::Private::CoreLib::System::Threading {
 FORWARD_(ContextCallback, T1, T2)
 FORWARD(ExecutionContext)
@@ -21,6 +21,7 @@ FORWARD(WaitHandle)
 namespace TimerQueueTimerNamespace {
 using namespace Tasks;
 CLASS(TimerQueueTimer) {
+  public: void Ctor(TimerCallback timerCallback, Object state, UInt32 dueTime, UInt32 period, Boolean flowExecutionContext);
   public: Boolean Change(UInt32 dueTime, UInt32 period);
   public: void Close();
   public: Boolean Close(WaitHandle toSignal);
@@ -28,6 +29,7 @@ CLASS(TimerQueueTimer) {
   public: void Fire(Boolean isThreadPool);
   public: void SignalNoCallbacksRunning();
   public: void CallCallback(Boolean isThreadPool);
+  private: static void SCtor();
   private: TimerQueue _associatedTimerQueue;
   public: TimerQueueTimer _next;
   public: TimerQueueTimer _prev;

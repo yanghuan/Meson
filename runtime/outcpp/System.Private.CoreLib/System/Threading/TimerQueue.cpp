@@ -3,12 +3,18 @@
 #include <System.Private.CoreLib/System/Threading/TimerQueue-dep.h>
 
 namespace System::Private::CoreLib::System::Threading::TimerQueueNamespace {
+void TimerQueue___::AppDomainTimerSafeHandle___::Ctor() {
+};
+
 Boolean TimerQueue___::AppDomainTimerSafeHandle___::ReleaseHandle() {
   return Boolean();
 };
 
 Int64 TimerQueue___::get_TickCount64() {
   return Int64();
+};
+
+void TimerQueue___::Ctor(Int32 id) {
 };
 
 Boolean TimerQueue___::SetTimer(UInt32 actualDuration) {
@@ -43,6 +49,9 @@ void TimerQueue___::UnlinkTimer(TimerQueueTimer timer) {
 };
 
 void TimerQueue___::DeleteTimer(TimerQueueTimer timer) {
+};
+
+void TimerQueue___::SCtor() {
 };
 
 } // namespace System::Private::CoreLib::System::Threading::TimerQueueNamespace

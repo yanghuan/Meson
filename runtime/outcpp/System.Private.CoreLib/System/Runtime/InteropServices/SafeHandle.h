@@ -10,6 +10,7 @@ namespace SafeHandleNamespace {
 CLASS(SafeHandle) {
   public: Boolean get_IsClosed();
   public: Boolean get_IsInvalid();
+  protected: void Ctor(IntPtr invalidHandleValue, Boolean ownsHandle);
   protected: void Finalize();
   protected: void SetHandle(IntPtr handle);
   public: IntPtr DangerousGetHandle();

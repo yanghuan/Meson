@@ -10,6 +10,7 @@ FORWARDS(Int64)
 FORWARD(Object)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Collections::Generic {
+FORWARD(IEnumerable, T)
 FORWARD(IEnumerator, T)
 } // namespace System::Private::CoreLib::System::Collections::Generic
 namespace System::Private::CoreLib::System::Collections::Concurrent {
@@ -22,6 +23,8 @@ CLASS(ConcurrentQueue, T) {
   private: Object get_SyncRootOfICollection();
   public: Boolean get_IsEmpty();
   public: Int32 get_Count();
+  public: void Ctor();
+  public: void Ctor(IEnumerable<T> collection);
   public: Array<T> ToArray();
   private: static Int32 GetCount(ConcurrentQueueSegment<T> s, Int32 head, Int32 tail);
   private: static Int64 GetCount(ConcurrentQueueSegment<T> head, Int32 headHead, ConcurrentQueueSegment<T> tail, Int32 tailTail);

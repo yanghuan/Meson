@@ -1,6 +1,9 @@
 #include "HebrewCalendar-dep.h"
 
 namespace System::Private::CoreLib::System::Globalization::HebrewCalendarNamespace {
+void HebrewCalendar___::DateBuffer___::Ctor() {
+};
+
 ReadOnlySpan<Byte> HebrewCalendar___::get_HebrewTable() {
   return ReadOnlySpan<Byte>();
 };
@@ -34,6 +37,9 @@ Int32 HebrewCalendar___::get_TwoDigitYearMax() {
 };
 
 void HebrewCalendar___::set_TwoDigitYearMax(Int32 value) {
+};
+
+void HebrewCalendar___::Ctor() {
 };
 
 void HebrewCalendar___::CheckHebrewYearValue(Int32 y, Int32 era, String varName) {
@@ -141,6 +147,9 @@ DateTime HebrewCalendar___::ToDateTime(Int32 year, Int32 month, Int32 day, Int32
 
 Int32 HebrewCalendar___::ToFourDigitYear(Int32 year) {
   return Int32();
+};
+
+void HebrewCalendar___::SCtor() {
 };
 
 } // namespace System::Private::CoreLib::System::Globalization::HebrewCalendarNamespace

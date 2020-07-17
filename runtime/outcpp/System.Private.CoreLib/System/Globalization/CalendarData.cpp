@@ -3,8 +3,14 @@
 #include <System.Private.CoreLib/System/Globalization/CalendarData-dep.h>
 
 namespace System::Private::CoreLib::System::Globalization::CalendarDataNamespace {
+void CalendarData___::Ctor() {
+};
+
 CalendarData CalendarData___::CreateInvariant() {
   return nullptr;
+};
+
+void CalendarData___::Ctor(String localeName, CalendarId calendarId, Boolean bUseUserOverrides) {
 };
 
 void CalendarData___::InitializeEraNames(String localeName, CalendarId calendarId) {
@@ -131,6 +137,9 @@ Interop::BOOL CalendarData___::EnumCalendarsCallback(Char* lpCalendarInfoString,
 
 String CalendarData___::GetUserDefaultLocaleName() {
   return nullptr;
+};
+
+void CalendarData___::SCtor() {
 };
 
 } // namespace System::Private::CoreLib::System::Globalization::CalendarDataNamespace

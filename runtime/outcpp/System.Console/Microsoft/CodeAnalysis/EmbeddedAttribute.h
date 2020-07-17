@@ -5,6 +5,7 @@
 namespace System::Console::Microsoft::CodeAnalysis {
 namespace EmbeddedAttributeNamespace {
 CLASS(EmbeddedAttribute) {
+  public: void Ctor();
 };
 } // namespace EmbeddedAttributeNamespace
 using EmbeddedAttribute = EmbeddedAttributeNamespace::EmbeddedAttribute;

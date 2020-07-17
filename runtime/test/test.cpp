@@ -21,6 +21,10 @@ int main() {
     int ddd = std::isnan(a);
     printf("\n%d %d", ccc, ddd);   
     std::cout << c << std::endl;
+
+    int $aaa = 10;
+    std::cout << $aaa;
+
     return 0;
 }
 

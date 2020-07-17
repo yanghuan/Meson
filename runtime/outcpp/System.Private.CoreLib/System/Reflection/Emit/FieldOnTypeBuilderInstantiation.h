@@ -39,6 +39,7 @@ CLASS(FieldOnTypeBuilderInstantiation) {
   public: Type get_FieldType();
   public: FieldAttributes get_Attributes();
   public: static FieldInfo GetField(FieldInfo Field, TypeBuilderInstantiation type);
+  public: void Ctor(FieldInfo field, TypeBuilderInstantiation type);
   public: Array<Object> GetCustomAttributes(Boolean inherit);
   public: Array<Object> GetCustomAttributes(Type attributeType, Boolean inherit);
   public: Boolean IsDefined(Type attributeType, Boolean inherit);

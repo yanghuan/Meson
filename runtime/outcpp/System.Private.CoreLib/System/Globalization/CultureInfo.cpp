@@ -163,8 +163,26 @@ CultureInfo CultureInfo___::InitializeUserDefaultUICulture() {
   return nullptr;
 };
 
+void CultureInfo___::Ctor(String name) {
+};
+
+void CultureInfo___::Ctor(String name, Boolean useUserOverride) {
+};
+
+void CultureInfo___::Ctor(CultureData cultureData, Boolean isReadOnly) {
+};
+
 CultureInfo CultureInfo___::CreateCultureInfoNoThrow(String name, Boolean useUserOverride) {
   return nullptr;
+};
+
+void CultureInfo___::Ctor(Int32 culture) {
+};
+
+void CultureInfo___::Ctor(Int32 culture, Boolean useUserOverride) {
+};
+
+void CultureInfo___::Ctor(String cultureName, String textAndCompareCultureName) {
 };
 
 CultureInfo CultureInfo___::GetCultureByName(String name) {
@@ -263,6 +281,9 @@ CultureInfo CultureInfo___::GetUserDefaultCulture() {
 
 CultureInfo CultureInfo___::GetUserDefaultUICulture() {
   return nullptr;
+};
+
+void CultureInfo___::SCtor() {
 };
 
 } // namespace System::Private::CoreLib::System::Globalization::CultureInfoNamespace

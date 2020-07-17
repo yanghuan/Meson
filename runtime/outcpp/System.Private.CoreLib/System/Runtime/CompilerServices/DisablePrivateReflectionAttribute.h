@@ -5,6 +5,7 @@
 namespace System::Private::CoreLib::System::Runtime::CompilerServices {
 namespace DisablePrivateReflectionAttributeNamespace {
 CLASS(DisablePrivateReflectionAttribute) {
+  public: void Ctor();
 };
 } // namespace DisablePrivateReflectionAttributeNamespace
 using DisablePrivateReflectionAttribute = DisablePrivateReflectionAttributeNamespace::DisablePrivateReflectionAttribute;

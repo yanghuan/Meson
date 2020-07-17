@@ -11,6 +11,9 @@ IEnumerable<Task<>> TaskScheduler___::SystemThreadingTasks_TaskSchedulerDebugVie
   return nullptr;
 };
 
+void TaskScheduler___::SystemThreadingTasks_TaskSchedulerDebugView___::Ctor(TaskScheduler scheduler) {
+};
+
 Int32 TaskScheduler___::get_MaximumConcurrencyLevel() {
   return Int32();
 };
@@ -45,6 +48,9 @@ void TaskScheduler___::NotifyWorkItemProgress() {
 void TaskScheduler___::InternalQueueTask(Task<> task) {
 };
 
+void TaskScheduler___::Ctor() {
+};
+
 void TaskScheduler___::AddToActiveTaskSchedulers() {
 };
 
@@ -65,6 +71,9 @@ Array<Task<>> TaskScheduler___::GetScheduledTasksForDebugger() {
 
 Array<TaskScheduler> TaskScheduler___::GetTaskSchedulersForDebugger() {
   return Array<TaskScheduler>();
+};
+
+void TaskScheduler___::SCtor() {
 };
 
 } // namespace System::Private::CoreLib::System::Threading::Tasks::TaskSchedulerNamespace

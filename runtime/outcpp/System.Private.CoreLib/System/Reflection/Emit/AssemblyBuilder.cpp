@@ -63,6 +63,9 @@ RuntimeAssembly AssemblyBuilder___::GetNativeHandle() {
   return nullptr;
 };
 
+void AssemblyBuilder___::Ctor(AssemblyName name, AssemblyBuilderAccess access, StackCrawlMark& stackMark, IEnumerable<CustomAttributeBuilder> unsafeAssemblyAttributes) {
+};
+
 void AssemblyBuilder___::InitManifestModule() {
 };
 
@@ -202,6 +205,9 @@ void AssemblyBuilder___::SetCustomAttribute(CustomAttributeBuilder customBuilder
 };
 
 void AssemblyBuilder___::SetCustomAttributeNoLock(CustomAttributeBuilder customBuilder) {
+};
+
+void AssemblyBuilder___::SCtor() {
 };
 
 } // namespace System::Private::CoreLib::System::Reflection::Emit::AssemblyBuilderNamespace

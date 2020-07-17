@@ -74,6 +74,8 @@ using namespace Runtime::CompilerServices;
 using namespace Runtime::InteropServices;
 CLASS(TypeBuilder) {
   private: CLASS(CustAttr) {
+    public: void Ctor(ConstructorInfo con, Array<Byte> binaryAttribute);
+    public: void Ctor(CustomAttributeBuilder customBuilder);
     public: void Bake(ModuleBuilder module, Int32 token);
     private: ConstructorInfo m_con;
     private: Array<Byte> m_binaryAttribute;
@@ -135,6 +137,10 @@ CLASS(TypeBuilder) {
   private: static void SetPInvokeData(QCallModule module, String DllName, String name, Int32 token, Int32 linkFlags);
   public: static Boolean IsTypeEqual(Type t1, Type t2);
   public: static void SetConstantValue(ModuleBuilder module, Int32 tk, Type destType, Object value);
+  public: void Ctor(ModuleBuilder module);
+  public: void Ctor(String szName, Int32 genParamPos, MethodBuilder declMeth);
+  private: void Ctor(String szName, Int32 genParamPos, TypeBuilder declType);
+  public: void Ctor(String fullname, TypeAttributes attr, Type parent, Array<Type> interfaces, ModuleBuilder module, PackingSize iPackingSize, Int32 iTypeSize, TypeBuilder enclosingType);
   private: FieldBuilder DefineDataHelper(String name, Array<Byte> data, Int32 size, FieldAttributes attributes);
   private: void VerifyTypeAttributes(TypeAttributes attr);
   public: Boolean IsCreated();

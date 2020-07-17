@@ -5,6 +5,7 @@
 namespace System::Private::CoreLib::System::Diagnostics::Contracts {
 namespace ContractRuntimeIgnoredAttributeNamespace {
 CLASS(ContractRuntimeIgnoredAttribute) {
+  public: void Ctor();
 };
 } // namespace ContractRuntimeIgnoredAttributeNamespace
 using ContractRuntimeIgnoredAttribute = ContractRuntimeIgnoredAttributeNamespace::ContractRuntimeIgnoredAttribute;

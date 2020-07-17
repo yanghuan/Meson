@@ -36,6 +36,9 @@ Calendar JapaneseCalendar___::GetDefaultInstance() {
   return nullptr;
 };
 
+void JapaneseCalendar___::Ctor() {
+};
+
 DateTime JapaneseCalendar___::AddMonths(DateTime time, Int32 months) {
   return DateTime();
 };
@@ -146,6 +149,9 @@ Int32 JapaneseCalendar___::CompareEraRanges(EraInfo a, EraInfo b) {
 
 EraInfo JapaneseCalendar___::GetEraFromValue(String value, String data) {
   return nullptr;
+};
+
+void JapaneseCalendar___::SCtor() {
 };
 
 } // namespace System::Private::CoreLib::System::Globalization::JapaneseCalendarNamespace

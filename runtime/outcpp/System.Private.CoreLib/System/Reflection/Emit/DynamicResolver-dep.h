@@ -7,6 +7,8 @@
 #include <System.Private.CoreLib/System/Int32-dep.h>
 #include <System.Private.CoreLib/System/IntPtr-dep.h>
 #include <System.Private.CoreLib/System/Reflection/Emit/__ExceptionInfo-dep.h>
+#include <System.Private.CoreLib/System/Reflection/Emit/DynamicILGenerator-dep.h>
+#include <System.Private.CoreLib/System/Reflection/Emit/DynamicILInfo-dep.h>
 #include <System.Private.CoreLib/System/Reflection/Emit/DynamicMethod-dep.h>
 #include <System.Private.CoreLib/System/Reflection/Emit/DynamicScope-dep.h>
 #include <System.Private.CoreLib/System/Reflection/MethodInfo-dep.h>

@@ -26,4 +26,7 @@ Boolean RegisteredWaitHandleSafe___::ValidHandle() {
 void RegisteredWaitHandleSafe___::Finalize() {
 };
 
+void RegisteredWaitHandleSafe___::Ctor() {
+};
+
 } // namespace System::Private::CoreLib::System::Threading::RegisteredWaitHandleSafeNamespace

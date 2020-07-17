@@ -4,4 +4,7 @@ namespace System::Private::CoreLib::System::Threading::QueueUserWorkItemCallback
 void QueueUserWorkItemCallbackBase___::Execute() {
 };
 
+void QueueUserWorkItemCallbackBase___::Ctor() {
+};
+
 } // namespace System::Private::CoreLib::System::Threading::QueueUserWorkItemCallbackBaseNamespace

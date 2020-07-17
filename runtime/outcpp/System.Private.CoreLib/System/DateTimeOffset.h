@@ -6,7 +6,12 @@
 
 namespace System::Private::CoreLib::System::Globalization {
 enum class DateTimeStyles;
+FORWARD(Calendar)
 } // namespace System::Private::CoreLib::System::Globalization
+namespace System::Private::CoreLib::System::Runtime::Serialization {
+FORWARD(SerializationInfo)
+FORWARDS(StreamingContext)
+} // namespace System::Private::CoreLib::System::Runtime::Serialization
 namespace System::Private::CoreLib::System {
 enum class DayOfWeek;
 FORWARD_(Array, T1, T2)
@@ -23,6 +28,7 @@ FORWARD(String)
 FORWARDS(TimeSpan)
 namespace DateTimeOffsetNamespace {
 using namespace Globalization;
+using namespace Runtime::Serialization;
 struct DateTimeOffset {
   public: static DateTimeOffset get_Now();
   public: static DateTimeOffset get_UtcNow();
@@ -44,6 +50,12 @@ struct DateTimeOffset {
   public: Int64 get_UtcTicks();
   public: TimeSpan get_TimeOfDay();
   public: Int32 get_Year();
+  public: void Ctor(Int64 ticks, TimeSpan offset);
+  public: void Ctor(DateTime dateTime);
+  public: void Ctor(DateTime dateTime, TimeSpan offset);
+  public: void Ctor(Int32 year, Int32 month, Int32 day, Int32 hour, Int32 minute, Int32 second, TimeSpan offset);
+  public: void Ctor(Int32 year, Int32 month, Int32 day, Int32 hour, Int32 minute, Int32 second, Int32 millisecond, TimeSpan offset);
+  public: void Ctor(Int32 year, Int32 month, Int32 day, Int32 hour, Int32 minute, Int32 second, Int32 millisecond, Calendar calendar, TimeSpan offset);
   public: DateTimeOffset ToOffset(TimeSpan offset);
   public: DateTimeOffset Add(TimeSpan timeSpan);
   public: DateTimeOffset AddDays(Double days);
@@ -63,6 +75,7 @@ struct DateTimeOffset {
   public: static DateTimeOffset FromFileTime(Int64 fileTime);
   public: static DateTimeOffset FromUnixTimeSeconds(Int64 seconds);
   public: static DateTimeOffset FromUnixTimeMilliseconds(Int64 milliseconds);
+  private: void Ctor(SerializationInfo info, StreamingContext context);
   public: Int32 GetHashCode();
   public: static DateTimeOffset Parse(String input);
   public: static DateTimeOffset Parse(String input, IFormatProvider formatProvider);
@@ -108,6 +121,8 @@ struct DateTimeOffset {
   public: static Boolean op_LessThanOrEqual(DateTimeOffset left, DateTimeOffset right);
   public: static Boolean op_GreaterThan(DateTimeOffset left, DateTimeOffset right);
   public: static Boolean op_GreaterThanOrEqual(DateTimeOffset left, DateTimeOffset right);
+  private: static void SCtor();
+  public: void Ctor();
   public: static DateTimeOffset MinValue;
   public: static DateTimeOffset MaxValue;
   public: static DateTimeOffset UnixEpoch;

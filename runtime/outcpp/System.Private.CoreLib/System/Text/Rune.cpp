@@ -39,6 +39,21 @@ Int32 Rune::get_Value() {
   return Int32();
 };
 
+void Rune::Ctor(Char ch) {
+};
+
+void Rune::Ctor(Char highSurrogate, Char lowSurrogate) {
+};
+
+void Rune::Ctor(Int32 value) {
+};
+
+void Rune::Ctor(UInt32 value) {
+};
+
+void Rune::Ctor(UInt32 scalarValue, Boolean unused) {
+};
+
 Boolean Rune::op_Equality(Rune left, Rune right) {
   return Boolean();
 };

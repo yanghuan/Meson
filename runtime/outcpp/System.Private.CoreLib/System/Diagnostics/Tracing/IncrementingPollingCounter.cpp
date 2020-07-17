@@ -1,6 +1,9 @@
 #include "IncrementingPollingCounter-dep.h"
 
 namespace System::Private::CoreLib::System::Diagnostics::Tracing::IncrementingPollingCounterNamespace {
+void IncrementingPollingCounter___::Ctor(String name, EventSource eventSource, Func<Double> totalValueProvider) {
+};
+
 String IncrementingPollingCounter___::ToString() {
   return nullptr;
 };

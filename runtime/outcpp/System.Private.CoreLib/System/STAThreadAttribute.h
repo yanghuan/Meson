@@ -5,6 +5,7 @@
 namespace System::Private::CoreLib::System {
 namespace STAThreadAttributeNamespace {
 CLASS(STAThreadAttribute) {
+  public: void Ctor();
 };
 } // namespace STAThreadAttributeNamespace
 using STAThreadAttribute = STAThreadAttributeNamespace::STAThreadAttribute;

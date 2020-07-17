@@ -24,6 +24,7 @@ CLASS(InternalAssemblyBuilder) {
   public: String get_Location();
   public: String get_CodeBase();
   public: String get_ImageRuntimeVersion();
+  private: void Ctor();
   public: Boolean Equals(Object obj);
   public: Int32 GetHashCode();
   public: Array<String> GetManifestResourceNames();

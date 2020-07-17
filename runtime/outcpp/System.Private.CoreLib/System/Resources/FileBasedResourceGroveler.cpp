@@ -1,6 +1,9 @@
 #include "FileBasedResourceGroveler-dep.h"
 
 namespace System::Private::CoreLib::System::Resources::FileBasedResourceGrovelerNamespace {
+void FileBasedResourceGroveler___::Ctor(ResourceManager::in::ResourceManagerMediator mediator) {
+};
+
 ResourceSet FileBasedResourceGroveler___::GrovelForResourceSet(CultureInfo culture, Dictionary<String, ResourceSet> localResourceSets, Boolean tryParents, Boolean createIfNotExists) {
   return nullptr;
 };

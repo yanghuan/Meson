@@ -9,6 +9,7 @@ FORWARD(Object)
 FORWARD(String)
 namespace OrdinalComparerNamespace {
 CLASS(OrdinalComparer) {
+  public: void Ctor(Boolean ignoreCase);
   public: Int32 Compare(String x, String y);
   public: Boolean Equals(String x, String y);
   public: Int32 GetHashCode(String obj);

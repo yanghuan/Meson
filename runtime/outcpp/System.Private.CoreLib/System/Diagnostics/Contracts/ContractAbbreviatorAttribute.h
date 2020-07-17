@@ -5,6 +5,7 @@
 namespace System::Private::CoreLib::System::Diagnostics::Contracts {
 namespace ContractAbbreviatorAttributeNamespace {
 CLASS(ContractAbbreviatorAttribute) {
+  public: void Ctor();
 };
 } // namespace ContractAbbreviatorAttributeNamespace
 using ContractAbbreviatorAttribute = ContractAbbreviatorAttributeNamespace::ContractAbbreviatorAttribute;

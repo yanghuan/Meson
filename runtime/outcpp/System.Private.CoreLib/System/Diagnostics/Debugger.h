@@ -12,6 +12,7 @@ FORWARD(ICustomDebuggerNotification)
 namespace DebuggerNamespace {
 class Debugger {
   private: CLASS(CrossThreadDependencyNotification) {
+    public: void Ctor();
   };
   public: static Boolean get_IsAttached();
   public: static void Break();

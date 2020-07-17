@@ -20,13 +20,17 @@ namespace SecureStringNamespace {
 using namespace Runtime::InteropServices;
 CLASS(SecureString) {
   private: CLASS(UnmanagedBuffer) {
+    private: void Ctor();
     public: static UnmanagedBuffer Allocate(Int32 byteLength);
     public: static void Copy(UnmanagedBuffer source, UnmanagedBuffer destination, UInt64 bytesLength);
     protected: Boolean ReleaseHandle();
     private: Int32 _byteLength;
   };
   public: Int32 get_Length();
+  public: void Ctor();
+  public: void Ctor(Char* value, Int32 length);
   private: void Initialize(ReadOnlySpan<Char> value);
+  private: void Ctor(SecureString str);
   private: void EnsureCapacity(Int32 capacity);
   public: void AppendChar(Char c);
   public: void Clear();

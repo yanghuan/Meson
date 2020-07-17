@@ -57,8 +57,14 @@ Int32 TaiwanLunisolarCalendar___::GetGregorianYear(Int32 year, Int32 era) {
   return Int32();
 };
 
+void TaiwanLunisolarCalendar___::Ctor() {
+};
+
 Int32 TaiwanLunisolarCalendar___::GetEra(DateTime time) {
   return Int32();
+};
+
+void TaiwanLunisolarCalendar___::SCtor() {
 };
 
 } // namespace System::Private::CoreLib::System::Globalization::TaiwanLunisolarCalendarNamespace

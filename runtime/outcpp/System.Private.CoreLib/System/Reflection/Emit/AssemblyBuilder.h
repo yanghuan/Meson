@@ -24,6 +24,9 @@ FORWARD(Module)
 FORWARD(RuntimeAssembly)
 FORWARD(RuntimeModule)
 } // namespace System::Private::CoreLib::System::Reflection
+namespace System::Private::CoreLib::System::Threading {
+enum class StackCrawlMark;
+} // namespace System::Private::CoreLib::System::Threading
 namespace System::Private::CoreLib::System::Collections::Generic {
 FORWARD(IEnumerable, T)
 FORWARD(IList, T)
@@ -32,9 +35,6 @@ namespace System::Private::CoreLib::System::Runtime::CompilerServices {
 FORWARDS(ObjectHandleOnStack)
 FORWARDS(StackCrawlMarkHandle)
 } // namespace System::Private::CoreLib::System::Runtime::CompilerServices
-namespace System::Private::CoreLib::System::Threading {
-enum class StackCrawlMark;
-} // namespace System::Private::CoreLib::System::Threading
 namespace System::Private::CoreLib::System::IO {
 FORWARD(FileStream)
 FORWARD(Stream)
@@ -73,6 +73,7 @@ CLASS(AssemblyBuilder) {
   private: static RuntimeModule GetInMemoryAssemblyModule(RuntimeAssembly assembly);
   public: ModuleBuilder GetModuleBuilder(InternalModuleBuilder module);
   public: RuntimeAssembly GetNativeHandle();
+  public: void Ctor(AssemblyName name, AssemblyBuilderAccess access, StackCrawlMark& stackMark, IEnumerable<CustomAttributeBuilder> unsafeAssemblyAttributes);
   private: void InitManifestModule();
   public: static AssemblyBuilder DefineDynamicAssembly(AssemblyName name, AssemblyBuilderAccess access);
   public: static AssemblyBuilder DefineDynamicAssembly(AssemblyName name, AssemblyBuilderAccess access, IEnumerable<CustomAttributeBuilder> assemblyAttributes);
@@ -111,6 +112,7 @@ CLASS(AssemblyBuilder) {
   private: void SetCustomAttributeNoLock(ConstructorInfo con, Array<Byte> binaryAttribute);
   public: void SetCustomAttribute(CustomAttributeBuilder customBuilder);
   private: void SetCustomAttributeNoLock(CustomAttributeBuilder customBuilder);
+  private: static void SCtor();
   public: AssemblyBuilderData _assemblyData;
   private: InternalAssemblyBuilder _internalAssemblyBuilder;
   private: ModuleBuilder _manifestModuleBuilder;

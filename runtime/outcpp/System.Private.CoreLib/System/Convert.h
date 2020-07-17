@@ -363,6 +363,7 @@ class Convert {
   public: static Array<Byte> FromBase64CharArray(Array<Char> inArray, Int32 offset, Int32 length);
   private: static Array<Byte> FromBase64CharPtr(Char* inputPtr, Int32 inputLength);
   private: static Int32 FromBase64_ComputeResultLength(Char* inputPtr, Int32 inputLength);
+  private: static void SCtor();
   public: static Array<Type> ConvertTypes;
   private: static Type EnumType;
   public: static Array<Char> base64Table;

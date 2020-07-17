@@ -11,6 +11,12 @@ Boolean Quaternion::get_IsIdentity() {
   return Boolean();
 };
 
+void Quaternion::Ctor(Single x, Single y, Single z, Single w) {
+};
+
+void Quaternion::Ctor(Vector3 vectorPart, Single scalarPart) {
+};
+
 Single Quaternion::Length() {
   return Single();
 };

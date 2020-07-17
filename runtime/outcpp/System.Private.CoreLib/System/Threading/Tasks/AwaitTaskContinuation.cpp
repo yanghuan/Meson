@@ -5,6 +5,9 @@ Boolean AwaitTaskContinuation___::get_IsValidLocationForInlining() {
   return Boolean();
 };
 
+void AwaitTaskContinuation___::Ctor(Action<> action, Boolean flowExecutionContext) {
+};
+
 Task<> AwaitTaskContinuation___::CreateTask(Action<Object> action, Object state, TaskScheduler scheduler) {
   return nullptr;
 };
@@ -30,6 +33,9 @@ void AwaitTaskContinuation___::UnsafeScheduleAction(Action<> action, Task<> task
 
 Array<Delegate> AwaitTaskContinuation___::GetDelegateContinuationsForDebugger() {
   return Array<Delegate>();
+};
+
+void AwaitTaskContinuation___::SCtor() {
 };
 
 } // namespace System::Private::CoreLib::System::Threading::Tasks::AwaitTaskContinuationNamespace

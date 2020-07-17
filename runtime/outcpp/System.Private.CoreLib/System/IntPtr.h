@@ -2,6 +2,10 @@
 
 #include <rt/GCObject.h>
 
+namespace System::Private::CoreLib::System::Runtime::Serialization {
+FORWARD(SerializationInfo)
+FORWARDS(StreamingContext)
+} // namespace System::Private::CoreLib::System::Runtime::Serialization
 namespace System::Private::CoreLib::System::Globalization {
 enum class NumberStyles;
 } // namespace System::Private::CoreLib::System::Globalization
@@ -14,10 +18,15 @@ FORWARD(Object)
 FORWARD(String)
 namespace IntPtrNamespace {
 using namespace Globalization;
+using namespace Runtime::Serialization;
 struct IntPtr {
   public: static Int32 get_Size();
   public: static IntPtr get_MaxValue();
   public: static IntPtr get_MinValue();
+  public: void Ctor(Int32 value);
+  public: void Ctor(Int64 value);
+  public: void Ctor(void* value);
+  private: void Ctor(SerializationInfo info, StreamingContext context);
   public: Boolean Equals(Object obj);
   public: Int32 GetHashCode();
   public: Int32 ToInt32();
@@ -48,6 +57,7 @@ struct IntPtr {
   public: static IntPtr Parse(String s, NumberStyles style, IFormatProvider provider);
   public: static Boolean TryParse(String s, IntPtr& result);
   public: static Boolean TryParse(String s, NumberStyles style, IFormatProvider provider, IntPtr& result);
+  public: void Ctor();
   private: void* _value;
   public: static IntPtr Zero;
 };

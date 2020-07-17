@@ -20,4 +20,7 @@ Boolean DecoderExceptionFallbackBuffer___::MovePrevious() {
 void DecoderExceptionFallbackBuffer___::Throw(Array<Byte> bytesUnknown, Int32 index) {
 };
 
+void DecoderExceptionFallbackBuffer___::Ctor() {
+};
+
 } // namespace System::Private::CoreLib::System::Text::DecoderExceptionFallbackBufferNamespace

@@ -8,6 +8,8 @@ enum class LoaderOptimization;
 namespace LoaderOptimizationAttributeNamespace {
 CLASS(LoaderOptimizationAttribute) {
   public: LoaderOptimization get_Value();
+  public: void Ctor(Byte value);
+  public: void Ctor(LoaderOptimization value);
   private: Byte _val;
 };
 } // namespace LoaderOptimizationAttributeNamespace

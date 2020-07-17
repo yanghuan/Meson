@@ -9,6 +9,9 @@ Array<Int32> GregorianCalendarHelper___::get_Eras() {
   return Array<Int32>();
 };
 
+void GregorianCalendarHelper___::Ctor(Calendar cal, Array<EraInfo> eraInfo) {
+};
+
 Int32 GregorianCalendarHelper___::GetYearOffset(Int32 year, Int32 era, Boolean throwOnError) {
   return Int32();
 };
@@ -117,6 +120,9 @@ Int32 GregorianCalendarHelper___::GetWeekOfYear(DateTime time, CalendarWeekRule 
 
 Int32 GregorianCalendarHelper___::ToFourDigitYear(Int32 year, Int32 twoDigitYearMax) {
   return Int32();
+};
+
+void GregorianCalendarHelper___::SCtor() {
 };
 
 } // namespace System::Private::CoreLib::System::Globalization::GregorianCalendarHelperNamespace

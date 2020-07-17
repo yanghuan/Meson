@@ -4,11 +4,14 @@
 
 namespace System::Private::CoreLib::System {
 FORWARDS(Boolean)
+FORWARDS(IntPtr)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::Internal::Win32::SafeHandles {
 namespace SafeRegistryHandleNamespace {
 using namespace ::System::Private::CoreLib::System;
 CLASS(SafeRegistryHandle) {
+  public: void Ctor();
+  public: void Ctor(IntPtr preexistingHandle, Boolean ownsHandle);
   protected: Boolean ReleaseHandle();
 };
 } // namespace SafeRegistryHandleNamespace

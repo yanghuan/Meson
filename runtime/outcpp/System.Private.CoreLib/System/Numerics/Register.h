@@ -15,6 +15,7 @@
 namespace System::Private::CoreLib::System::Numerics {
 namespace RegisterNamespace {
 struct Register {
+  public: void Ctor();
   public: Byte byte_0;
   public: Byte byte_1;
   public: Byte byte_2;

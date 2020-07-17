@@ -33,6 +33,7 @@ CLASS(DecoderFallbackBuffer) {
   public: Int32 DrainRemainingDataForGetCharCount();
   public: Boolean TryDrainRemainingDataForGetChars(Span<Char> chars, Int32& charsWritten);
   public: void ThrowLastBytesRecursive(Array<Byte> bytesUnknown);
+  protected: void Ctor();
   public: Byte* byteStart;
   public: Char* charEnd;
   public: Encoding _encoding;

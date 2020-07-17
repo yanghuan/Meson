@@ -7,6 +7,9 @@ Exception ExceptionDispatchInfo___::get_SourceException() {
   return nullptr;
 };
 
+void ExceptionDispatchInfo___::Ctor(Exception exception) {
+};
+
 ExceptionDispatchInfo ExceptionDispatchInfo___::Capture(Exception source) {
   return nullptr;
 };

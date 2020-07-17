@@ -130,7 +130,7 @@ namespace Meson.Compiler {
     }
 
     private bool IsExportMethod(IMethod method) {
-      if (IsMulti || method.IsConstructor) {
+      if (IsMulti) {
         return false;
       }
 
@@ -142,7 +142,11 @@ namespace Meson.Compiler {
         return false;
       }
 
-      if (method.Name.Contains('.')) {
+      if (method.IsConstructor) {
+        if (method.DeclaringTypeDefinition.IsStringType()) {
+          return false;
+        }
+      } else if (method.Name.Contains('.')) {
         return false;
       }
 

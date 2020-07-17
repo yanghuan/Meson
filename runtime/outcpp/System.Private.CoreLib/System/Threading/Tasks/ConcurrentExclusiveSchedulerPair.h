@@ -32,11 +32,13 @@ CLASS(ConcurrentExclusiveSchedulerPair) {
     Completed = 8,
   };
   private: CLASS(CompletionState) {
+    public: void Ctor();
     public: Boolean m_completionRequested;
     public: Boolean m_completionQueued;
     public: List<Exception> m_exceptions;
   };
   private: CLASS(SchedulerWorkItem) {
+    public: void Ctor(ConcurrentExclusiveSchedulerPair pair);
     private: ConcurrentExclusiveSchedulerPair _pair;
   };
   private: CLASS(ConcurrentExclusiveTaskScheduler) {
@@ -44,16 +46,19 @@ CLASS(ConcurrentExclusiveSchedulerPair) {
       public: Int32 get_MaximumConcurrencyLevel();
       public: IEnumerable<Task<>> get_ScheduledTasks();
       public: ConcurrentExclusiveSchedulerPair get_SchedulerPair();
+      public: void Ctor(ConcurrentExclusiveTaskScheduler scheduler);
       private: ConcurrentExclusiveTaskScheduler m_taskScheduler;
     };
     public: Int32 get_MaximumConcurrencyLevel();
     private: Int32 get_CountForDebugger();
+    public: void Ctor(ConcurrentExclusiveSchedulerPair pair, Int32 maxConcurrencyLevel, ProcessingMode processingMode);
     public: void QueueTask(Task<> task);
     public: void ExecuteTask(Task<> task);
     protected: Boolean TryExecuteTaskInline(Task<> task, Boolean taskWasPreviouslyQueued);
     private: Boolean TryExecuteTaskInlineOnTargetScheduler(Task<> task);
     private: static Boolean TryExecuteTaskShim(Object state);
     protected: IEnumerable<Task<>> GetScheduledTasks();
+    private: static void SCtor();
     private: static Func<Object, Boolean> s_tryExecuteTaskShim;
     private: ConcurrentExclusiveSchedulerPair m_pair;
     private: Int32 m_maxConcurrencyLevel;
@@ -66,6 +71,7 @@ CLASS(ConcurrentExclusiveSchedulerPair) {
     public: IEnumerable<Task<>> get_ScheduledConcurrent();
     public: Int32 get_CurrentlyExecutingTaskCount();
     public: TaskScheduler get_TargetScheduler();
+    public: void Ctor(ConcurrentExclusiveSchedulerPair pair);
     private: ConcurrentExclusiveSchedulerPair m_pair;
   };
   private: static Int32 get_DefaultMaxConcurrencyLevel();
@@ -78,6 +84,10 @@ CLASS(ConcurrentExclusiveSchedulerPair) {
   private: Int32 get_ConcurrentTaskCountForDebugger();
   private: Int32 get_ExclusiveTaskCountForDebugger();
   private: ProcessingMode get_ModeForDebugger();
+  public: void Ctor();
+  public: void Ctor(TaskScheduler taskScheduler);
+  public: void Ctor(TaskScheduler taskScheduler, Int32 maxConcurrencyLevel);
+  public: void Ctor(TaskScheduler taskScheduler, Int32 maxConcurrencyLevel, Int32 maxItemsPerTask);
   public: void Complete();
   private: CompletionState EnsureCompletionStateInitialized();
   private: void RequestCompletion();

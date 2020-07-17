@@ -24,13 +24,16 @@ using namespace Collections;
 using namespace CompilerServices;
 CLASS(ComWrappers) {
   public: struct ComInterfaceEntry {
+    public: void Ctor();
     public: Guid IID;
     public: IntPtr Vtable;
   };
   public: struct ComInterfaceDispatch {
     private: struct ComInterfaceInstance {
+      public: void Ctor();
       public: IntPtr GcHandle;
     };
+    public: void Ctor();
     public: IntPtr Vtable;
   };
   public: IntPtr GetOrCreateComInterfaceForObject(Object instance, CreateComInterfaceFlags flags);
@@ -53,6 +56,7 @@ CLASS(ComWrappers) {
   protected: static void GetIUnknownImpl(IntPtr& fpQueryInterface, IntPtr& fpAddRef, IntPtr& fpRelease);
   private: static void GetIUnknownImplInternal(IntPtr& fpQueryInterface, IntPtr& fpAddRef, IntPtr& fpRelease);
   public: static Int32 CallICustomQueryInterface(Object customQueryInterfaceMaybe, Guid& iid, IntPtr& ppObject);
+  protected: void Ctor();
   private: static ComWrappers s_globalInstanceForTrackerSupport;
   private: static ComWrappers s_globalInstanceForMarshalling;
 };

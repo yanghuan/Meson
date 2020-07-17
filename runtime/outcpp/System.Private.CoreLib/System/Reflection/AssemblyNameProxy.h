@@ -10,6 +10,7 @@ FORWARD(AssemblyName)
 namespace AssemblyNameProxyNamespace {
 CLASS(AssemblyNameProxy) {
   public: AssemblyName GetAssemblyName(String assemblyFile);
+  public: void Ctor();
 };
 } // namespace AssemblyNameProxyNamespace
 using AssemblyNameProxy = AssemblyNameProxyNamespace::AssemblyNameProxy;

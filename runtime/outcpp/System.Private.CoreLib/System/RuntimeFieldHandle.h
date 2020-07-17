@@ -26,6 +26,7 @@ using namespace Reflection;
 using namespace Runtime::Serialization;
 struct RuntimeFieldHandle {
   public: IntPtr get_Value();
+  public: void Ctor(IRuntimeFieldInfo fieldInfo);
   public: IRuntimeFieldInfo GetRuntimeFieldInfo();
   public: Boolean IsNullHandle();
   public: Int32 GetHashCode();
@@ -48,6 +49,7 @@ struct RuntimeFieldHandle {
   public: static RuntimeFieldHandleInternal GetStaticFieldForGenericType(RuntimeFieldHandleInternal field, RuntimeType declaringType);
   public: static Boolean AcquiresContextFromThis(RuntimeFieldHandleInternal field);
   public: void GetObjectData(SerializationInfo info, StreamingContext context);
+  public: void Ctor();
   private: IRuntimeFieldInfo m_ptr;
 };
 } // namespace RuntimeFieldHandleNamespace

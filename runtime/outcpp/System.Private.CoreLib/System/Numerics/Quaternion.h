@@ -16,6 +16,8 @@ namespace QuaternionNamespace {
 struct Quaternion {
   public: static Quaternion get_Identity();
   public: Boolean get_IsIdentity();
+  public: void Ctor(Single x, Single y, Single z, Single w);
+  public: void Ctor(Vector3 vectorPart, Single scalarPart);
   public: Single Length();
   public: Single LengthSquared();
   public: static Quaternion Normalize(Quaternion value);
@@ -46,6 +48,7 @@ struct Quaternion {
   public: Boolean Equals(Object obj);
   public: String ToString();
   public: Int32 GetHashCode();
+  public: void Ctor();
   public: Single X;
   public: Single Y;
   public: Single Z;

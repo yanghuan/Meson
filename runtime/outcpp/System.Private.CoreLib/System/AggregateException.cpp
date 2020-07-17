@@ -15,6 +15,42 @@ Int32 AggregateException___::get_InnerExceptionCount() {
   return Int32();
 };
 
+void AggregateException___::Ctor() {
+};
+
+void AggregateException___::Ctor(String message) {
+};
+
+void AggregateException___::Ctor(String message, Exception innerException) {
+};
+
+void AggregateException___::Ctor(IEnumerable<Exception> innerExceptions) {
+};
+
+void AggregateException___::Ctor(Array<Exception> innerExceptions) {
+};
+
+void AggregateException___::Ctor(String message, IEnumerable<Exception> innerExceptions) {
+};
+
+void AggregateException___::Ctor(String message, Array<Exception> innerExceptions) {
+};
+
+void AggregateException___::Ctor(String message, IList<Exception> innerExceptions) {
+};
+
+void AggregateException___::Ctor(IEnumerable<ExceptionDispatchInfo> innerExceptionInfos) {
+};
+
+void AggregateException___::Ctor(String message, IEnumerable<ExceptionDispatchInfo> innerExceptionInfos) {
+};
+
+void AggregateException___::Ctor(String message, IList<ExceptionDispatchInfo> innerExceptionInfos) {
+};
+
+void AggregateException___::Ctor(SerializationInfo info, StreamingContext context) {
+};
+
 void AggregateException___::GetObjectData(SerializationInfo info, StreamingContext context) {
 };
 

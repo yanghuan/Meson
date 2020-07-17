@@ -24,6 +24,7 @@ struct CustomAttributeEncodedArgument {
   public: String get_StringValue();
   private: static void ParseAttributeArguments(IntPtr pCa, Int32 cCa, Array<CustomAttributeCtorParameter>& CustomAttributeCtorParameters, Array<CustomAttributeNamedParameter>& CustomAttributeTypedArgument, RuntimeAssembly assembly);
   public: static void ParseAttributeArguments(ConstArray attributeBlob, Array<CustomAttributeCtorParameter>& customAttributeCtorParameters, Array<CustomAttributeNamedParameter>& customAttributeNamedParameters, RuntimeModule customAttributeModule);
+  public: void Ctor();
   private: Int64 m_primitiveValue;
   private: Array<CustomAttributeEncodedArgument> m_arrayValue;
   private: String m_stringValue;

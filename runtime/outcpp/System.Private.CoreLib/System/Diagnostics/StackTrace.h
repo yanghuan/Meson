@@ -33,6 +33,15 @@ CLASS(StackTrace) {
   private: void InitializeForException(Exception exception, Int32 skipFrames, Boolean fNeedFileInfo);
   private: void InitializeForCurrentThread(Int32 skipFrames, Boolean fNeedFileInfo);
   private: void CaptureStackTrace(Int32 skipFrames, Boolean fNeedFileInfo, Exception e);
+  public: void Ctor();
+  public: void Ctor(Boolean fNeedFileInfo);
+  public: void Ctor(Int32 skipFrames);
+  public: void Ctor(Int32 skipFrames, Boolean fNeedFileInfo);
+  public: void Ctor(Exception e);
+  public: void Ctor(Exception e, Boolean fNeedFileInfo);
+  public: void Ctor(Exception e, Int32 skipFrames);
+  public: void Ctor(Exception e, Int32 skipFrames, Boolean fNeedFileInfo);
+  public: void Ctor(StackFrame frame);
   public: StackFrame GetFrame(Int32 index);
   public: Array<StackFrame> GetFrames();
   public: String ToString();

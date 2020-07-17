@@ -9,6 +9,7 @@ namespace System::Private::CoreLib::System::Reflection {
 namespace AssemblyTitleAttributeNamespace {
 CLASS(AssemblyTitleAttribute) {
   public: String get_Title() { return Title; }
+  public: void Ctor(String title);
   private: String Title;
 };
 } // namespace AssemblyTitleAttributeNamespace

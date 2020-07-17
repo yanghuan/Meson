@@ -16,6 +16,7 @@ CLASS(LazyDebugView, T) {
   public: T get_Value();
   public: Nullable<LazyThreadSafetyMode> get_Mode();
   public: Boolean get_IsValueFaulted();
+  public: void Ctor(Lazy<T> lazy);
   private: Lazy<T> _lazy;
 };
 } // namespace LazyDebugViewNamespace

@@ -12,6 +12,8 @@ CLASS(Comparer, T) {
   public: static Comparer<T> get_Default() { return Default; }
   public: static Comparer<T> Create(Comparison<T> comparison);
   public: Int32 Compare(T x, T y);
+  protected: void Ctor();
+  private: static void SCtor();
   private: static Comparer<T> Default;
 };
 } // namespace ComparerNamespace

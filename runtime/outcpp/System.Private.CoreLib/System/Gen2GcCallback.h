@@ -10,6 +10,7 @@ FORWARD(Object)
 namespace Gen2GcCallbackNamespace {
 using namespace Runtime::InteropServices;
 CLASS(Gen2GcCallback) {
+  private: void Ctor(Func<Object, Boolean> callback, Object targetObj);
   public: static void Register(Func<Object, Boolean> callback, Object targetObj);
   protected: void Finalize();
   private: Func<Boolean> _callback0;

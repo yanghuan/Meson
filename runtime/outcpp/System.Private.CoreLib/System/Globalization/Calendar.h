@@ -29,6 +29,7 @@ CLASS(Calendar) {
   protected: Int32 get_DaysInYearBeforeMinSupportedYear();
   public: Int32 get_TwoDigitYearMax();
   public: void set_TwoDigitYearMax(Int32 value);
+  protected: void Ctor();
   public: Object Clone();
   public: static Calendar ReadOnly(Calendar calendar);
   public: void VerifyWritable();

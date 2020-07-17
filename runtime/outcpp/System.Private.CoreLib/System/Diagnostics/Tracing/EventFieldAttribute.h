@@ -15,6 +15,7 @@ CLASS(EventFieldAttribute) {
   public: String get_Name() { return Name; }
   public: EventFieldFormat get_Format() { return Format; }
   public: void set_Format(EventFieldFormat value) { Format = value; }
+  public: void Ctor();
   private: EventFieldTags Tags;
   private: String Name;
   private: EventFieldFormat Format;

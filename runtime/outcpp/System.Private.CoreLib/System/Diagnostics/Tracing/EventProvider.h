@@ -10,10 +10,6 @@
 #include <System.Private.CoreLib/System/UInt32.h>
 #include <System.Private.CoreLib/System/UInt64.h>
 
-namespace System::Private::CoreLib::System::Collections::Generic {
-FORWARD(IDictionary, TKey, TValue)
-FORWARD(List, T)
-} // namespace System::Private::CoreLib::System::Collections::Generic
 namespace System::Private::CoreLib::System {
 FORWARD_(Array, T1, T2)
 FORWARD(AsyncCallback)
@@ -23,10 +19,15 @@ FORWARD(Object)
 FORWARD(String)
 FORWARD_(Tuple, T1, T2, T3, T4, T5, T6, T7, T8, T9)
 } // namespace System::Private::CoreLib::System
+namespace System::Private::CoreLib::System::Collections::Generic {
+FORWARD(IDictionary, TKey, TValue)
+FORWARD(List, T)
+} // namespace System::Private::CoreLib::System::Collections::Generic
 namespace System::Private::CoreLib::System::Diagnostics::Tracing {
 enum class ControllerCommand;
 enum class EventKeywords : int64_t;
 enum class EventLevel;
+enum class EventProviderType;
 FORWARDS(EventDescriptor)
 FORWARD(EventSource)
 FORWARD(IEventProvider)
@@ -42,21 +43,26 @@ CLASS(EventProvider) {
     Other = 5,
   };
   public: struct SessionInfo {
+    public: void Ctor(Int32 sessionIdBit_, Int32 etwSessionId_);
+    public: void Ctor();
     public: Int32 sessionIdBit;
     public: Int32 etwSessionId;
   };
   private: CLASS(SessionInfoCallback) {
+    public: void Ctor(Object object, IntPtr method);
     public: void Invoke(Int32 etwSessionId, Int64 matchAllKeywords, List<SessionInfo>& sessionList);
     public: IAsyncResult BeginInvoke(Int32 etwSessionId, Int64 matchAllKeywords, List<SessionInfo>& sessionList, AsyncCallback callback, Object object);
     public: void EndInvoke(List<SessionInfo>& sessionList, IAsyncResult result);
   };
   public: struct EventData {
+    public: void Ctor();
     public: UInt64 Ptr;
     public: UInt32 Size;
     public: UInt32 Reserved;
   };
   protected: EventLevel get_Level();
   protected: EventKeywords get_MatchAnyKeyword();
+  public: void Ctor(EventProviderType providerType);
   public: void Register(EventSource eventSource);
   public: void Dispose();
   protected: void Dispose(Boolean disposing);

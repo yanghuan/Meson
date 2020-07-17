@@ -6,6 +6,7 @@
 namespace System::Private::CoreLib::System::Runtime::CompilerServices {
 namespace PortableTailCallFrameNamespace {
 struct PortableTailCallFrame {
+  public: void Ctor();
   public: PortableTailCallFrame* Prev;
   public: IntPtr TailCallAwareReturnAddress;
   public: IntPtr NextCall;

@@ -2,6 +2,7 @@
 
 #include "CultureNotFoundException.h"
 
+#include <System.Private.CoreLib/System/Exception-dep.h>
 #include <System.Private.CoreLib/System/Int32-dep.h>
 #include <System.Private.CoreLib/System/Nullable-dep.h>
 #include <System.Private.CoreLib/System/Runtime/Serialization/SerializationInfo-dep.h>

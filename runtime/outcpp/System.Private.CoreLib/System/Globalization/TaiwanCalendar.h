@@ -26,6 +26,7 @@ CLASS(TaiwanCalendar) {
   public: Int32 get_TwoDigitYearMax();
   public: void set_TwoDigitYearMax(Int32 value);
   public: static Calendar GetDefaultInstance();
+  public: void Ctor();
   public: DateTime AddMonths(DateTime time, Int32 months);
   public: DateTime AddYears(DateTime time, Int32 years);
   public: Int32 GetDaysInMonth(Int32 year, Int32 month, Int32 era);
@@ -44,6 +45,7 @@ CLASS(TaiwanCalendar) {
   public: Boolean IsLeapMonth(Int32 year, Int32 month, Int32 era);
   public: DateTime ToDateTime(Int32 year, Int32 month, Int32 day, Int32 hour, Int32 minute, Int32 second, Int32 millisecond, Int32 era);
   public: Int32 ToFourDigitYear(Int32 year);
+  private: static void SCtor();
   private: static Array<EraInfo> s_taiwanEraInfo;
   private: static Calendar s_defaultInstance;
   private: GregorianCalendarHelper _helper;

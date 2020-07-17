@@ -17,9 +17,11 @@ template <>
 struct ConfiguredValueTaskAwaitable<> {
   public: struct ConfiguredValueTaskAwaiter {
     public: Boolean get_IsCompleted();
+    public: void Ctor(ValueTask<>& value);
     public: void GetResult();
     public: void OnCompleted(Action<> continuation);
     public: void UnsafeOnCompleted(Action<> continuation);
+    public: void Ctor();
     private: ValueTask<> _value;
   };
   private: ValueTask<> _value;
@@ -28,9 +30,11 @@ template <class TResult>
 struct ConfiguredValueTaskAwaitable<TResult> {
   public: struct ConfiguredValueTaskAwaiter {
     public: Boolean get_IsCompleted();
+    public: void Ctor(ValueTask<TResult>& value);
     public: TResult GetResult();
     public: void OnCompleted(Action<> continuation);
     public: void UnsafeOnCompleted(Action<> continuation);
+    public: void Ctor();
     private: ValueTask<TResult> _value;
   };
   private: ValueTask<TResult> _value;

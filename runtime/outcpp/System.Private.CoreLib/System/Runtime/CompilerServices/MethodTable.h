@@ -17,6 +17,7 @@ struct MethodTable {
   public: Boolean get_HasTypeEquivalence();
   public: Boolean get_IsMultiDimensionalArray();
   public: Int32 get_MultiDimensionalArrayRank();
+  public: void Ctor();
   public: UInt16 ComponentSize;
   private: UInt32 Flags;
   public: UInt32 BaseSize;

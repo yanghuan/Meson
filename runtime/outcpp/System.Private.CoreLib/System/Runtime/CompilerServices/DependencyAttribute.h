@@ -11,6 +11,7 @@ namespace DependencyAttributeNamespace {
 CLASS(DependencyAttribute) {
   public: String get_DependentAssembly() { return DependentAssembly; }
   public: LoadHint get_LoadHint() { return LoadHint; }
+  public: void Ctor(String dependentAssemblyArgument, LoadHint loadHintArgument);
   private: String DependentAssembly;
   private: LoadHint LoadHint;
 };

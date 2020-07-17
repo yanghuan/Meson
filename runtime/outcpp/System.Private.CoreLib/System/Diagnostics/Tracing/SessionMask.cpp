@@ -7,6 +7,9 @@ SessionMask SessionMask::get_All() {
   return SessionMask();
 };
 
+void SessionMask::Ctor(UInt32 mask) {
+};
+
 UInt64 SessionMask::ToEventKeywords() {
   return UInt64();
 };

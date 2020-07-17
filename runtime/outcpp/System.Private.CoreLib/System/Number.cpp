@@ -11,6 +11,15 @@ Number::DiyFp Number::DiyFp::CreateAndGetBoundaries(Single value, DiyFp& mMinus,
   return Number::DiyFp();
 };
 
+void Number::DiyFp::Ctor(Double value) {
+};
+
+void Number::DiyFp::Ctor(Single value) {
+};
+
+void Number::DiyFp::Ctor(UInt64 f, Int32 e) {
+};
+
 Number::DiyFp Number::DiyFp::Multiply(DiyFp& other) {
   return Number::DiyFp();
 };
@@ -24,6 +33,9 @@ Number::DiyFp Number::DiyFp::Subtract(DiyFp& other) {
 };
 
 void Number::DiyFp::GetBoundaries(Int32 implicitBitIndex, DiyFp& mMinus, DiyFp& mPlus) {
+};
+
+void Number::NumberBuffer::Ctor(NumberBufferKind kind, Byte* digits, Int32 digitsLength) {
 };
 
 Byte* Number::NumberBuffer::GetDigitsPointer() {
@@ -142,6 +154,9 @@ UInt32 Number::BigInteger::DivRem32(UInt32 value, UInt32& remainder) {
   return UInt32();
 };
 
+void Number::BigInteger::SCtor() {
+};
+
 Boolean Number::Grisu3::TryRunDouble(Double value, Int32 requestedDigits, NumberBuffer& number) {
   return Boolean();
 };
@@ -180,6 +195,15 @@ Boolean Number::Grisu3::TryRoundWeedCounted(Span<Byte> buffer, Int32 length, UIn
 
 Boolean Number::Grisu3::TryRoundWeedShortest(Span<Byte> buffer, Int32 length, UInt64 distanceTooHighW, UInt64 unsafeInterval, UInt64 rest, UInt64 tenKappa, UInt64 unit) {
   return Boolean();
+};
+
+void Number::Grisu3::SCtor() {
+};
+
+void Number::FloatingPointInfo::Ctor(UInt16 denormalMantissaBits, UInt16 exponentBits, Int32 maxBinaryExponent, Int32 exponentBias, UInt64 infinityBits) {
+};
+
+void Number::FloatingPointInfo::SCtor() {
 };
 
 ReadOnlySpan<Byte> Number::get_CharToHexLookup() {
@@ -612,6 +636,9 @@ Double Number::NumberToDouble(NumberBuffer& number) {
 
 Single Number::NumberToSingle(NumberBuffer& number) {
   return Single();
+};
+
+void Number::SCtor() {
 };
 
 } // namespace System::Private::CoreLib::System::NumberNamespace

@@ -70,6 +70,9 @@ TimeSpan AppDomain___::get_MonitoringTotalProcessorTime() {
   return TimeSpan();
 };
 
+void AppDomain___::Ctor() {
+};
+
 void AppDomain___::SetDynamicBase(String path) {
 };
 
@@ -237,6 +240,9 @@ Object AppDomain___::CreateInstanceFromAndUnwrap(String assemblyFile, String typ
 
 IPrincipal AppDomain___::GetThreadPrincipal() {
   return nullptr;
+};
+
+void AppDomain___::SCtor() {
 };
 
 } // namespace System::Private::CoreLib::System::AppDomainNamespace

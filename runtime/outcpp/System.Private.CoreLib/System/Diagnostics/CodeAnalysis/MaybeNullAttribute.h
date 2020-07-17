@@ -5,6 +5,7 @@
 namespace System::Private::CoreLib::System::Diagnostics::CodeAnalysis {
 namespace MaybeNullAttributeNamespace {
 CLASS(MaybeNullAttribute) {
+  public: void Ctor();
 };
 } // namespace MaybeNullAttributeNamespace
 using MaybeNullAttribute = MaybeNullAttributeNamespace::MaybeNullAttribute;

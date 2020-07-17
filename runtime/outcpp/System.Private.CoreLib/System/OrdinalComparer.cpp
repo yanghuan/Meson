@@ -1,6 +1,9 @@
 #include "OrdinalComparer-dep.h"
 
 namespace System::Private::CoreLib::System::OrdinalComparerNamespace {
+void OrdinalComparer___::Ctor(Boolean ignoreCase) {
+};
+
 Int32 OrdinalComparer___::Compare(String x, String y) {
   return Int32();
 };

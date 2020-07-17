@@ -2,13 +2,14 @@
 
 #include <rt/GCObject.h>
 #include <System.Private.CoreLib/System/Int32.h>
+#include <System.Private.CoreLib/System/RuntimeType.h>
 
 namespace System::Private::CoreLib::System {
 FORWARD_(Array, T1, T2)
 FORWARDS(Boolean)
 FORWARD(Object)
 FORWARDS(RuntimeFieldHandle)
-FORWARD(RuntimeType)
+FORWARDS(RuntimeTypeHandle)
 FORWARD(String)
 FORWARD(Type)
 FORWARDS(TypedReference)
@@ -32,6 +33,7 @@ CLASS(MdFieldInfo) {
   public: Boolean get_IsSecuritySafeCritical();
   public: Boolean get_IsSecurityTransparent();
   public: Type get_FieldType();
+  public: void Ctor(Int32 tkField, FieldAttributes fieldAttributes, RuntimeTypeHandle declaringTypeHandle, RuntimeType::in::RuntimeTypeCache reflectedTypeCache, BindingFlags bindingFlags);
   public: Boolean CacheEquals(Object o);
   public: RuntimeModule GetRuntimeModule();
   public: Object GetValueDirect(TypedReference obj);

@@ -82,6 +82,7 @@ class ThreadPool {
   public: static Array<Object> GetQueuedWorkItemsForDebugger();
   public: static Array<Object> GetGloballyQueuedWorkItemsForDebugger();
   public: static Array<Object> GetLocallyQueuedWorkItemsForDebugger();
+  private: static void SCtor();
   public: static Boolean EnableWorkerTracking;
   public: static ThreadPoolWorkQueue s_workQueue;
   public: static Action<Object> s_invokeAsyncStateMachineBox;

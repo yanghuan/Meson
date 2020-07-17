@@ -14,9 +14,11 @@
 #include <System.Private.CoreLib/System/Reflection/MemberInfo-dep.h>
 #include <System.Private.CoreLib/System/Reflection/MetadataImport-dep.h>
 #include <System.Private.CoreLib/System/Reflection/MethodBase-dep.h>
+#include <System.Private.CoreLib/System/Reflection/MethodInfo-dep.h>
 #include <System.Private.CoreLib/System/Reflection/ParameterAttributes.h>
 #include <System.Private.CoreLib/System/Reflection/ParameterInfo-dep.h>
 #include <System.Private.CoreLib/System/Reflection/RuntimeModule-dep.h>
+#include <System.Private.CoreLib/System/Reflection/RuntimePropertyInfo-dep.h>
 #include <System.Private.CoreLib/System/Signature-dep.h>
 #include <System.Private.CoreLib/System/String-dep.h>
 #include <System.Private.CoreLib/System/Type-dep.h>

@@ -11,6 +11,8 @@ struct GCMemoryInfo {
   public: Int64 get_TotalAvailableMemoryBytes() { return TotalAvailableMemoryBytes; }
   public: Int64 get_HeapSizeBytes() { return HeapSizeBytes; }
   public: Int64 get_FragmentedBytes() { return FragmentedBytes; }
+  public: void Ctor(Int64 highMemoryLoadThresholdBytes, Int64 memoryLoadBytes, Int64 totalAvailableMemoryBytes, Int64 heapSizeBytes, Int64 fragmentedBytes);
+  public: void Ctor();
   private: Int64 HighMemoryLoadThresholdBytes;
   private: Int64 MemoryLoadBytes;
   private: Int64 TotalAvailableMemoryBytes;

@@ -9,6 +9,9 @@ String CurrentSystemTimeZone___::get_DaylightName() {
   return nullptr;
 };
 
+void CurrentSystemTimeZone___::Ctor() {
+};
+
 Int64 CurrentSystemTimeZone___::GetUtcOffsetFromUniversalTime(DateTime time, Boolean& isAmbiguousLocalDst) {
   return Int64();
 };

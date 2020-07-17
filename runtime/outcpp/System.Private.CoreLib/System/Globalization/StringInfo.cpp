@@ -16,6 +16,12 @@ Int32 StringInfo___::get_LengthInTextElements() {
   return Int32();
 };
 
+void StringInfo___::Ctor() {
+};
+
+void StringInfo___::Ctor(String value) {
+};
+
 Boolean StringInfo___::Equals(Object value) {
   return Boolean();
 };

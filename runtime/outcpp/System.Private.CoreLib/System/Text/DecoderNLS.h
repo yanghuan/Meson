@@ -18,6 +18,7 @@ CLASS(DecoderNLS) {
   public: Boolean get_MustFlush();
   public: Boolean get_HasState();
   public: Boolean get_HasLeftoverData();
+  public: void Ctor(Encoding encoding);
   public: void Reset();
   public: Int32 GetCharCount(Array<Byte> bytes, Int32 index, Int32 count);
   public: Int32 GetCharCount(Array<Byte> bytes, Int32 index, Int32 count, Boolean flush);

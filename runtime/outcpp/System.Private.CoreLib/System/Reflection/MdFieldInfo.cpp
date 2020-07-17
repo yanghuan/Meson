@@ -33,6 +33,9 @@ Type MdFieldInfo___::get_FieldType() {
   return nullptr;
 };
 
+void MdFieldInfo___::Ctor(Int32 tkField, FieldAttributes fieldAttributes, RuntimeTypeHandle declaringTypeHandle, RuntimeType::in::RuntimeTypeCache reflectedTypeCache, BindingFlags bindingFlags) {
+};
+
 Boolean MdFieldInfo___::CacheEquals(Object o) {
   return Boolean();
 };

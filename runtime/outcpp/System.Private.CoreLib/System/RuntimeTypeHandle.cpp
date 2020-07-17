@@ -7,6 +7,9 @@ RuntimeMethodHandleInternal RuntimeTypeHandle::IntroducedMethodEnumerator::get_C
   return RuntimeMethodHandleInternal();
 };
 
+void RuntimeTypeHandle::IntroducedMethodEnumerator::Ctor(RuntimeType type) {
+};
+
 Boolean RuntimeTypeHandle::IntroducedMethodEnumerator::MoveNext() {
   return Boolean();
 };
@@ -57,6 +60,9 @@ Boolean RuntimeTypeHandle::Equals(Object obj) {
 
 Boolean RuntimeTypeHandle::Equals(RuntimeTypeHandle handle) {
   return Boolean();
+};
+
+void RuntimeTypeHandle::Ctor(RuntimeType type) {
 };
 
 Boolean RuntimeTypeHandle::IsTypeDefinition(RuntimeType type) {

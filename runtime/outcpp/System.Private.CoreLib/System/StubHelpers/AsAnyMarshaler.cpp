@@ -21,6 +21,9 @@ Boolean AsAnyMarshaler::IsBestFit(Int32 dwFlags) {
   return Boolean();
 };
 
+void AsAnyMarshaler::Ctor(IntPtr pvArrayMarshaler) {
+};
+
 IntPtr AsAnyMarshaler::ConvertArrayToNative(Object pManagedHome, Int32 dwFlags) {
   return IntPtr();
 };

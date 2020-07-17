@@ -7,6 +7,7 @@ enum class LoadHint;
 namespace DefaultDependencyAttributeNamespace {
 CLASS(DefaultDependencyAttribute) {
   public: LoadHint get_LoadHint() { return LoadHint; }
+  public: void Ctor(LoadHint loadHintArgument);
   private: LoadHint LoadHint;
 };
 } // namespace DefaultDependencyAttributeNamespace

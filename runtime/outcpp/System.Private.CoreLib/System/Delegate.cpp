@@ -11,6 +11,12 @@ MethodInfo Delegate___::get_Method() {
   return nullptr;
 };
 
+void Delegate___::Ctor(Object target, String method) {
+};
+
+void Delegate___::Ctor(Type target, String method) {
+};
+
 Object Delegate___::DynamicInvokeImpl(Array<Object> args) {
   return nullptr;
 };

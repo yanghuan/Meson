@@ -26,6 +26,30 @@ void StreamWriter___::CheckAsyncTaskInProgress() {
 void StreamWriter___::ThrowAsyncIOInProgress() {
 };
 
+void StreamWriter___::Ctor(Stream stream) {
+};
+
+void StreamWriter___::Ctor(Stream stream, Encoding encoding) {
+};
+
+void StreamWriter___::Ctor(Stream stream, Encoding encoding, Int32 bufferSize) {
+};
+
+void StreamWriter___::Ctor(Stream stream, Encoding encoding, Int32 bufferSize, Boolean leaveOpen) {
+};
+
+void StreamWriter___::Ctor(String path) {
+};
+
+void StreamWriter___::Ctor(String path, Boolean append) {
+};
+
+void StreamWriter___::Ctor(String path, Boolean append, Encoding encoding) {
+};
+
+void StreamWriter___::Ctor(String path, Boolean append, Encoding encoding, Int32 bufferSize) {
+};
+
 Stream StreamWriter___::ValidateArgsAndOpenPath(String path, Boolean append, Encoding encoding, Int32 bufferSize) {
   return nullptr;
 };
@@ -165,6 +189,9 @@ Task<> StreamWriter___::FlushAsyncInternal(StreamWriter _this, Boolean flushStre
 };
 
 void StreamWriter___::ThrowIfDisposed() {
+};
+
+void StreamWriter___::SCtor() {
 };
 
 } // namespace System::Private::CoreLib::System::IO::StreamWriterNamespace

@@ -7,6 +7,7 @@
 namespace System::Private::CoreLib::System::StubHelpers {
 namespace NativeVariantNamespace {
 struct NativeVariant {
+  public: void Ctor();
   private: UInt16 vt;
   private: UInt16 wReserved1;
   private: UInt16 wReserved2;

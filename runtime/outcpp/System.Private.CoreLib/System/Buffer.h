@@ -12,8 +12,10 @@ FORWARDS(UIntPtr)
 namespace BufferNamespace {
 class Buffer {
   private: struct Block16 {
+    public: void Ctor();
   };
   private: struct Block64 {
+    public: void Ctor();
   };
   public: static void _ZeroMemory(Byte& b, UIntPtr byteLength);
   private: static void __ZeroMemory(void* b, UIntPtr byteLength);

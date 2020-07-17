@@ -4,6 +4,7 @@
 
 #include <System.Private.CoreLib/System/Array-dep.h>
 #include <System.Private.CoreLib/System/Boolean-dep.h>
+#include <System.Private.CoreLib/System/Globalization/CultureData-dep.h>
 #include <System.Private.CoreLib/System/Globalization/DigitShapes.h>
 #include <System.Private.CoreLib/System/Globalization/NumberStyles.h>
 #include <System.Private.CoreLib/System/IFormatProvider.h>

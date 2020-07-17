@@ -3,6 +3,9 @@
 #include <System.Private.CoreLib/System/Globalization/UmAlQuraCalendar-dep.h>
 
 namespace System::Private::CoreLib::System::Globalization::UmAlQuraCalendarNamespace {
+void UmAlQuraCalendar___::DateMapping::Ctor(Int32 MonthsLengthFlags, Int32 GYear, Int32 GMonth, Int32 GDay) {
+};
+
 DateTime UmAlQuraCalendar___::get_MinSupportedDateTime() {
   return DateTime();
 };
@@ -40,6 +43,9 @@ void UmAlQuraCalendar___::set_TwoDigitYearMax(Int32 value) {
 
 Array<UmAlQuraCalendar::in::DateMapping> UmAlQuraCalendar___::InitDateMapping() {
   return Array<UmAlQuraCalendar::in::DateMapping>();
+};
+
+void UmAlQuraCalendar___::Ctor() {
 };
 
 void UmAlQuraCalendar___::ConvertHijriToGregorian(Int32 HijriYear, Int32 HijriMonth, Int32 HijriDay, Int32& yg, Int32& mg, Int32& dg) {
@@ -138,6 +144,9 @@ DateTime UmAlQuraCalendar___::ToDateTime(Int32 year, Int32 month, Int32 day, Int
 
 Int32 UmAlQuraCalendar___::ToFourDigitYear(Int32 year) {
   return Int32();
+};
+
+void UmAlQuraCalendar___::SCtor() {
 };
 
 } // namespace System::Private::CoreLib::System::Globalization::UmAlQuraCalendarNamespace

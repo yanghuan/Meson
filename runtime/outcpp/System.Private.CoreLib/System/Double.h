@@ -59,6 +59,7 @@ struct Double : public rt::PrimitiveType<Double> {
   public: static Boolean TryParse(ReadOnlySpan<Char> s, NumberStyles style, IFormatProvider provider, Double& result);
   private: static Boolean TryParse(ReadOnlySpan<Char> s, NumberStyles style, NumberFormatInfo info, Double& result);
   public: TypeCode GetTypeCode();
+  public: void Ctor();
   private: double m_value;
   public: static constexpr double MinValue = -1.7976931348623157E+308;
   public: static constexpr double MaxValue = 1.7976931348623157E+308;

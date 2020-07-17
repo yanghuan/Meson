@@ -10,6 +10,7 @@ enum class CallingConventions;
 namespace System::Private::CoreLib::System {
 FORWARD_(Array, T1, T2)
 FORWARDS(Boolean)
+FORWARD(IRuntimeFieldInfo)
 FORWARD(IRuntimeMethodInfo)
 FORWARD(Object)
 FORWARDS(RuntimeFieldHandleInternal)
@@ -23,6 +24,10 @@ CLASS(Signature) {
   public: RuntimeType get_ReturnType();
   public: RuntimeType get_FieldType();
   private: void GetSignature(void* pCorSig, Int32 cCorSig, RuntimeFieldHandleInternal fieldHandle, IRuntimeMethodInfo methodHandle, RuntimeType declaringType);
+  public: void Ctor(IRuntimeMethodInfo method, Array<RuntimeType> arguments, RuntimeType returnType, CallingConventions callingConvention);
+  public: void Ctor(IRuntimeMethodInfo methodHandle, RuntimeType declaringType);
+  public: void Ctor(IRuntimeFieldInfo fieldHandle, RuntimeType declaringType);
+  public: void Ctor(void* pCorSig, Int32 cCorSig, RuntimeType declaringType);
   public: static Boolean CompareSig(Signature sig1, Signature sig2);
   public: Array<Type> GetCustomModifiers(Int32 position, Boolean required);
   public: Array<RuntimeType> m_arguments;

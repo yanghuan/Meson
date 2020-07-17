@@ -75,6 +75,9 @@ Boolean MetadataToken::IsNullToken(Int32 token) {
   return Boolean();
 };
 
+void MetadataToken::Ctor(Int32 token) {
+};
+
 String MetadataToken::ToString() {
   return nullptr;
 };

@@ -7,6 +7,7 @@ enum class DynamicallyAccessedMemberTypes;
 namespace DynamicallyAccessedMembersAttributeNamespace {
 CLASS(DynamicallyAccessedMembersAttribute) {
   public: DynamicallyAccessedMemberTypes get_MemberTypes() { return MemberTypes; }
+  public: void Ctor(DynamicallyAccessedMemberTypes memberTypes);
   private: DynamicallyAccessedMemberTypes MemberTypes;
 };
 } // namespace DynamicallyAccessedMembersAttributeNamespace

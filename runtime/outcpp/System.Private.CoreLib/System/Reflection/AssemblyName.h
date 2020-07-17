@@ -60,12 +60,15 @@ CLASS(AssemblyName) {
   public: StrongNameKeyPair get_KeyPair();
   public: void set_KeyPair(StrongNameKeyPair value);
   public: String get_FullName();
+  public: void Ctor(String assemblyName);
+  public: void Ctor(String name, Array<Byte> publicKey, Array<Byte> publicKeyToken, Version version, CultureInfo cultureInfo, AssemblyHashAlgorithm hashAlgorithm, AssemblyVersionCompatibility versionCompatibility, String codeBase, AssemblyNameFlags flags, StrongNameKeyPair keyPair);
   public: void nInit();
   public: static AssemblyName nGetFileInformation(String s);
   public: static AssemblyName GetFileInformationCore(String assemblyFile);
   private: Array<Byte> ComputePublicKeyToken();
   public: void SetProcArchIndex(PortableExecutableKinds pek, ImageFileMachine ifm);
   public: static ProcessorArchitecture CalculateProcArchIndex(PortableExecutableKinds pek, ImageFileMachine ifm, AssemblyNameFlags flags);
+  public: void Ctor();
   public: Object Clone();
   public: static AssemblyName GetAssemblyName(String assemblyFile);
   public: Array<Byte> GetPublicKey();

@@ -13,6 +13,7 @@ FORWARD(String)
 namespace OrdinalCaseSensitiveComparerNamespace {
 using namespace Runtime::Serialization;
 CLASS(OrdinalCaseSensitiveComparer) {
+  public: void Ctor();
   public: Int32 Compare(String x, String y);
   public: Boolean Equals(String x, String y);
   public: Int32 GetHashCode(String obj);

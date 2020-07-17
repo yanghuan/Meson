@@ -1,6 +1,9 @@
 #include "ParameterToken-dep.h"
 
 namespace System::Private::CoreLib::System::Reflection::Emit::ParameterTokenNamespace {
+void ParameterToken::Ctor(Int32 parameterToken) {
+};
+
 Int32 ParameterToken::GetHashCode() {
   return Int32();
 };

@@ -9,9 +9,11 @@ namespace System::Private::CoreLib::System::Runtime::InteropServices::ComTypes {
 namespace ELEMDESCNamespace {
 struct ELEMDESC {
   public: struct DESCUNION {
+    public: void Ctor();
     public: IDLDESC idldesc;
     public: PARAMDESC paramdesc;
   };
+  public: void Ctor();
   public: TYPEDESC tdesc;
   public: DESCUNION desc;
 };

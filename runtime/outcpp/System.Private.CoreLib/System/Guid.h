@@ -14,6 +14,7 @@ FORWARD(Object)
 FORWARDS(ReadOnlySpan, T)
 FORWARDS(Span, T)
 FORWARD(String)
+FORWARDS(UInt16)
 FORWARDS(UInt32)
 namespace GuidNamespace {
 struct Guid {
@@ -23,6 +24,12 @@ struct Guid {
     AllButOverflow = 2,
   };
   friend struct GuidResult;
+  public: void Ctor(Array<Byte> b);
+  public: void Ctor(ReadOnlySpan<Byte> b);
+  public: void Ctor(UInt32 a, UInt16 b, UInt16 c, Byte d, Byte e, Byte f, Byte g, Byte h, Byte i, Byte j, Byte k);
+  public: void Ctor(Int32 a, Int16 b, Int16 c, Array<Byte> d);
+  public: void Ctor(Int32 a, Int16 b, Int16 c, Byte d, Byte e, Byte f, Byte g, Byte h, Byte i, Byte j, Byte k);
+  public: void Ctor(String g);
   public: static Guid Parse(String input);
   public: static Guid Parse(ReadOnlySpan<Char> input);
   public: static Boolean TryParse(String input, Guid& result);
@@ -59,6 +66,7 @@ struct Guid {
   public: String ToString(String format, IFormatProvider provider);
   public: Boolean TryFormat(Span<Char> destination, Int32& charsWritten, ReadOnlySpan<Char> format);
   public: static Guid NewGuid();
+  public: void Ctor();
   public: static Guid Empty;
   private: Int32 _a;
   private: Int16 _b;
@@ -73,7 +81,9 @@ struct Guid {
   private: Byte _k;
 };
 struct GuidResult {
+  public: void Ctor(Guid::GuidParseThrowStyle canThrow);
   public: void SetFailure(Boolean overflow, String failureMessageID);
+  public: void Ctor();
   private: Guid::GuidParseThrowStyle _throwStyle;
   public: Guid _parsedGuid;
 };

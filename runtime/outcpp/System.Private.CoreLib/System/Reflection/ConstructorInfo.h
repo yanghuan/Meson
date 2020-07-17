@@ -22,12 +22,14 @@ using namespace Globalization;
 CLASS(ConstructorInfo) {
   public: MemberTypes get_MemberType();
   public: Type GetReturnType();
+  protected: void Ctor();
   public: Object Invoke(Array<Object> parameters);
   public: Object Invoke(BindingFlags invokeAttr, Binder binder, Array<Object> parameters, CultureInfo culture);
   public: Boolean Equals(Object obj);
   public: Int32 GetHashCode();
   public: static Boolean op_Equality(ConstructorInfo left, ConstructorInfo right);
   public: static Boolean op_Inequality(ConstructorInfo left, ConstructorInfo right);
+  private: static void SCtor();
   public: static String ConstructorName;
   public: static String TypeConstructorName;
 };

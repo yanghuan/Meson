@@ -28,6 +28,9 @@ Int32 KoreanCalendar___::get_TwoDigitYearMax() {
 void KoreanCalendar___::set_TwoDigitYearMax(Int32 value) {
 };
 
+void KoreanCalendar___::Ctor() {
+};
+
 DateTime KoreanCalendar___::AddMonths(DateTime time, Int32 months) {
   return DateTime();
 };
@@ -98,6 +101,9 @@ DateTime KoreanCalendar___::ToDateTime(Int32 year, Int32 month, Int32 day, Int32
 
 Int32 KoreanCalendar___::ToFourDigitYear(Int32 year) {
   return Int32();
+};
+
+void KoreanCalendar___::SCtor() {
 };
 
 } // namespace System::Private::CoreLib::System::Globalization::KoreanCalendarNamespace

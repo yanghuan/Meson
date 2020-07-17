@@ -19,6 +19,7 @@ CLASS(EncoderNLS) {
   public: Boolean get_MustFlush();
   public: Boolean get_HasLeftoverData();
   public: Boolean get_HasState();
+  public: void Ctor(Encoding encoding);
   public: void Reset();
   public: Int32 GetByteCount(Array<Char> chars, Int32 index, Int32 count, Boolean flush);
   public: Int32 GetByteCount(Char* chars, Int32 count, Boolean flush);

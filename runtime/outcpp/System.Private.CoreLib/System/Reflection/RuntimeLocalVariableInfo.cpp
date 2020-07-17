@@ -13,4 +13,7 @@ Boolean RuntimeLocalVariableInfo___::get_IsPinned() {
   return Boolean();
 };
 
+void RuntimeLocalVariableInfo___::Ctor() {
+};
+
 } // namespace System::Private::CoreLib::System::Reflection::RuntimeLocalVariableInfoNamespace

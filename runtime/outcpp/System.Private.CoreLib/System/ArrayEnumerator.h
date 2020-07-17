@@ -10,6 +10,7 @@ FORWARD(Object)
 namespace ArrayEnumeratorNamespace {
 CLASS(ArrayEnumerator) {
   public: Object get_Current();
+  public: void Ctor(Array<> array, Int32 index, Int32 count);
   private: void IncArray();
   public: Object Clone();
   public: Boolean MoveNext();

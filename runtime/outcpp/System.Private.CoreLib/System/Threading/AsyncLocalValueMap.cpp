@@ -9,12 +9,21 @@ Boolean AsyncLocalValueMap::EmptyAsyncLocalValueMap___::TryGetValue(IAsyncLocal 
   return Boolean();
 };
 
+void AsyncLocalValueMap::EmptyAsyncLocalValueMap___::Ctor() {
+};
+
+void AsyncLocalValueMap::OneElementAsyncLocalValueMap___::Ctor(IAsyncLocal key, Object value) {
+};
+
 IAsyncLocalValueMap AsyncLocalValueMap::OneElementAsyncLocalValueMap___::Set(IAsyncLocal key, Object value, Boolean treatNullValueAsNonexistent) {
   return nullptr;
 };
 
 Boolean AsyncLocalValueMap::OneElementAsyncLocalValueMap___::TryGetValue(IAsyncLocal key, Object& value) {
   return Boolean();
+};
+
+void AsyncLocalValueMap::TwoElementAsyncLocalValueMap___::Ctor(IAsyncLocal key1, Object value1, IAsyncLocal key2, Object value2) {
 };
 
 IAsyncLocalValueMap AsyncLocalValueMap::TwoElementAsyncLocalValueMap___::Set(IAsyncLocal key, Object value, Boolean treatNullValueAsNonexistent) {
@@ -25,12 +34,18 @@ Boolean AsyncLocalValueMap::TwoElementAsyncLocalValueMap___::TryGetValue(IAsyncL
   return Boolean();
 };
 
+void AsyncLocalValueMap::ThreeElementAsyncLocalValueMap___::Ctor(IAsyncLocal key1, Object value1, IAsyncLocal key2, Object value2, IAsyncLocal key3, Object value3) {
+};
+
 IAsyncLocalValueMap AsyncLocalValueMap::ThreeElementAsyncLocalValueMap___::Set(IAsyncLocal key, Object value, Boolean treatNullValueAsNonexistent) {
   return nullptr;
 };
 
 Boolean AsyncLocalValueMap::ThreeElementAsyncLocalValueMap___::TryGetValue(IAsyncLocal key, Object& value) {
   return Boolean();
+};
+
+void AsyncLocalValueMap::MultiElementAsyncLocalValueMap___::Ctor(Int32 count) {
 };
 
 void AsyncLocalValueMap::MultiElementAsyncLocalValueMap___::UnsafeStore(Int32 index, IAsyncLocal key, Object value) {
@@ -44,6 +59,9 @@ Boolean AsyncLocalValueMap::MultiElementAsyncLocalValueMap___::TryGetValue(IAsyn
   return Boolean();
 };
 
+void AsyncLocalValueMap::ManyElementAsyncLocalValueMap___::Ctor(Int32 capacity) {
+};
+
 IAsyncLocalValueMap AsyncLocalValueMap::ManyElementAsyncLocalValueMap___::Set(IAsyncLocal key, Object value, Boolean treatNullValueAsNonexistent) {
   return nullptr;
 };
@@ -54,6 +72,9 @@ Boolean AsyncLocalValueMap::IsEmpty(IAsyncLocalValueMap asyncLocalValueMap) {
 
 IAsyncLocalValueMap AsyncLocalValueMap::Create(IAsyncLocal key, Object value, Boolean treatNullValueAsNonexistent) {
   return nullptr;
+};
+
+void AsyncLocalValueMap::SCtor() {
 };
 
 } // namespace System::Private::CoreLib::System::Threading::AsyncLocalValueMapNamespace

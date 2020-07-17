@@ -25,4 +25,7 @@ String EncodingTable::GetDisplayName(Int32 codePage, Int32 englishNameIndex) {
   return nullptr;
 };
 
+void EncodingTable::SCtor() {
+};
+
 } // namespace System::Private::CoreLib::System::Text::EncodingTableNamespace

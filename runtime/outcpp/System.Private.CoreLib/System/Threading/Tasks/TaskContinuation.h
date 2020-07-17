@@ -14,6 +14,7 @@ CLASS(TaskContinuation) {
   public: void Run(Task<> completedTask, Boolean canInlineContinuationTask);
   protected: static void InlineIfPossibleOrElseQueue(Task<> task, Boolean needsProtection);
   public: Array<Delegate> GetDelegateContinuationsForDebugger();
+  protected: void Ctor();
 };
 } // namespace TaskContinuationNamespace
 using TaskContinuation = TaskContinuationNamespace::TaskContinuation;

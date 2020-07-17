@@ -18,6 +18,7 @@ CLASS(EventDataAttribute) {
   public: EventOpcode get_Opcode();
   public: EventKeywords get_Keywords() { return Keywords; }
   public: EventTags get_Tags() { return Tags; }
+  public: void Ctor();
   private: EventLevel level;
   private: EventOpcode opcode;
   private: String Name;

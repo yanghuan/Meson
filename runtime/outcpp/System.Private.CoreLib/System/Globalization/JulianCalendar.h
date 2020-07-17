@@ -22,6 +22,7 @@ CLASS(JulianCalendar) {
   public: Array<Int32> get_Eras();
   public: Int32 get_TwoDigitYearMax();
   public: void set_TwoDigitYearMax(Int32 value);
+  public: void Ctor();
   public: static void CheckEraRange(Int32 era);
   public: void CheckYearEraRange(Int32 year, Int32 era);
   public: static void CheckMonthRange(Int32 month);
@@ -45,6 +46,7 @@ CLASS(JulianCalendar) {
   public: Boolean IsLeapYear(Int32 year, Int32 era);
   public: DateTime ToDateTime(Int32 year, Int32 month, Int32 day, Int32 hour, Int32 minute, Int32 second, Int32 millisecond, Int32 era);
   public: Int32 ToFourDigitYear(Int32 year);
+  private: static void SCtor();
   public: static Int32 JulianEra;
   private: static Array<Int32> s_daysToMonth365;
   private: static Array<Int32> s_daysToMonth366;

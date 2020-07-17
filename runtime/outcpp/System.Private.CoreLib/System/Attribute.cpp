@@ -189,6 +189,9 @@ Attribute Attribute___::GetCustomAttribute(Assembly element, Type attributeType,
   return nullptr;
 };
 
+void Attribute___::Ctor() {
+};
+
 Boolean Attribute___::Equals(Object obj) {
   return Boolean();
 };

@@ -13,6 +13,12 @@ Int32 LocalBuilder___::get_LocalIndex() {
   return Int32();
 };
 
+void LocalBuilder___::Ctor(Int32 localIndex, Type localType, MethodInfo methodBuilder) {
+};
+
+void LocalBuilder___::Ctor(Int32 localIndex, Type localType, MethodInfo methodBuilder, Boolean isPinned) {
+};
+
 Int32 LocalBuilder___::GetLocalIndex() {
   return Int32();
 };

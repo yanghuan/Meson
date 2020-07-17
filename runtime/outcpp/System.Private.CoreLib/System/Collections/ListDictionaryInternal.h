@@ -15,6 +15,7 @@ FORWARD(IDictionaryEnumerator)
 namespace ListDictionaryInternalNamespace {
 CLASS(ListDictionaryInternal) {
   private: CLASS(DictionaryNode) {
+    public: void Ctor();
     public: Object key;
     public: Object value;
     public: DictionaryNode next;
@@ -24,6 +25,7 @@ CLASS(ListDictionaryInternal) {
     public: DictionaryEntry get_Entry();
     public: Object get_Key();
     public: Object get_Value();
+    public: void Ctor(ListDictionaryInternal list);
     public: Boolean MoveNext();
     public: void Reset();
     private: ListDictionaryInternal list;
@@ -34,6 +36,7 @@ CLASS(ListDictionaryInternal) {
   private: CLASS(NodeKeyValueCollection) {
     private: CLASS(NodeKeyValueEnumerator) {
       public: Object get_Current();
+      public: void Ctor(ListDictionaryInternal list, Boolean isKeys);
       public: Boolean MoveNext();
       public: void Reset();
       private: ListDictionaryInternal list;
@@ -45,6 +48,7 @@ CLASS(ListDictionaryInternal) {
     private: Int32 get_CountOfICollection();
     private: Boolean get_IsSynchronizedOfICollection();
     private: Object get_SyncRootOfICollection();
+    public: void Ctor(ListDictionaryInternal list, Boolean isKeys);
     private: ListDictionaryInternal list;
     private: Boolean isKeys;
   };
@@ -57,6 +61,7 @@ CLASS(ListDictionaryInternal) {
   public: Boolean get_IsSynchronized();
   public: Object get_SyncRoot();
   public: ICollection get_Values();
+  public: void Ctor();
   public: void Add(Object key, Object value);
   public: void Clear();
   public: Boolean Contains(Object key);

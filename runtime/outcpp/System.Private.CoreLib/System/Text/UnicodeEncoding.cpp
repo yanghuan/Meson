@@ -5,11 +5,23 @@ Boolean UnicodeEncoding___::Decoder___::get_HasState() {
   return Boolean();
 };
 
+void UnicodeEncoding___::Decoder___::Ctor(UnicodeEncoding encoding) {
+};
+
 void UnicodeEncoding___::Decoder___::Reset() {
 };
 
 ReadOnlySpan<Byte> UnicodeEncoding___::get_Preamble() {
   return ReadOnlySpan<Byte>();
+};
+
+void UnicodeEncoding___::Ctor() {
+};
+
+void UnicodeEncoding___::Ctor(Boolean bigEndian, Boolean byteOrderMark) {
+};
+
+void UnicodeEncoding___::Ctor(Boolean bigEndian, Boolean byteOrderMark, Boolean throwOnInvalidBytes) {
 };
 
 void UnicodeEncoding___::SetDefaultFallbacks() {
@@ -101,6 +113,9 @@ Boolean UnicodeEncoding___::Equals(Object value) {
 
 Int32 UnicodeEncoding___::GetHashCode() {
   return Int32();
+};
+
+void UnicodeEncoding___::SCtor() {
 };
 
 } // namespace System::Private::CoreLib::System::Text::UnicodeEncodingNamespace

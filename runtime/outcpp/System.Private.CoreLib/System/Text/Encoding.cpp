@@ -3,6 +3,9 @@
 #include <System.Private.CoreLib/System/Text/Encoding-dep.h>
 
 namespace System::Private::CoreLib::System::Text::EncodingNamespace {
+void Encoding___::DefaultEncoder___::Ctor(Encoding encoding) {
+};
+
 Object Encoding___::DefaultEncoder___::GetRealObject(StreamingContext context) {
   return nullptr;
 };
@@ -21,6 +24,9 @@ Int32 Encoding___::DefaultEncoder___::GetBytes(Array<Char> chars, Int32 charInde
 
 Int32 Encoding___::DefaultEncoder___::GetBytes(Char* chars, Int32 charCount, Byte* bytes, Int32 byteCount, Boolean flush) {
   return Int32();
+};
+
+void Encoding___::DefaultDecoder___::Ctor(Encoding encoding) {
 };
 
 Object Encoding___::DefaultDecoder___::GetRealObject(StreamingContext context) {
@@ -63,6 +69,9 @@ Int32 Encoding___::EncodingCharBuffer___::get_Count() {
   return Int32();
 };
 
+void Encoding___::EncodingCharBuffer___::Ctor(Encoding enc, DecoderNLS decoder, Char* charStart, Int32 charCount, Byte* byteStart, Int32 byteCount) {
+};
+
 Boolean Encoding___::EncodingCharBuffer___::AddChar(Char ch, Int32 numBytes) {
   return Boolean();
 };
@@ -96,6 +105,9 @@ Int32 Encoding___::EncodingByteBuffer___::get_CharsUsed() {
 
 Int32 Encoding___::EncodingByteBuffer___::get_Count() {
   return Int32();
+};
+
+void Encoding___::EncodingByteBuffer___::Ctor(Encoding inEncoding, EncoderNLS inEncoder, Byte* inByteStart, Int32 inByteCount, Char* inCharStart, Int32 inCharCount) {
 };
 
 Boolean Encoding___::EncodingByteBuffer___::AddByte(Byte b, Int32 moreBytesExpected) {
@@ -224,6 +236,15 @@ Encoding Encoding___::get_UTF32() {
 
 Encoding Encoding___::get_BigEndianUTF32() {
   return nullptr;
+};
+
+void Encoding___::Ctor() {
+};
+
+void Encoding___::Ctor(Int32 codePage) {
+};
+
+void Encoding___::Ctor(Int32 codePage, EncoderFallback encoderFallback, DecoderFallback decoderFallback) {
 };
 
 void Encoding___::SetDefaultFallbacks() {
@@ -504,6 +525,9 @@ Int32 Encoding___::GetCharsWithFallback(Byte* pOriginalBytes, Int32 originalByte
 
 Int32 Encoding___::GetCharsWithFallback(ReadOnlySpan<Byte> bytes, Int32 originalBytesLength, Span<Char> chars, Int32 originalCharsLength, DecoderNLS decoder) {
   return Int32();
+};
+
+void Encoding___::SCtor() {
 };
 
 } // namespace System::Private::CoreLib::System::Text::EncodingNamespace

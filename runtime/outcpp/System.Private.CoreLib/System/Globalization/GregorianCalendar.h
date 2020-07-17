@@ -27,6 +27,8 @@ CLASS(GregorianCalendar) {
   public: Int32 get_TwoDigitYearMax();
   public: void set_TwoDigitYearMax(Int32 value);
   public: static Calendar GetDefaultInstance();
+  public: void Ctor();
+  public: void Ctor(GregorianCalendarTypes type);
   public: static Int64 GetAbsoluteDate(Int32 year, Int32 month, Int32 day);
   public: Int64 DateToTicks(Int32 year, Int32 month, Int32 day);
   public: DateTime AddMonths(DateTime time, Int32 months);
@@ -49,6 +51,7 @@ CLASS(GregorianCalendar) {
   public: DateTime ToDateTime(Int32 year, Int32 month, Int32 day, Int32 hour, Int32 minute, Int32 second, Int32 millisecond, Int32 era);
   public: Boolean TryToDateTime(Int32 year, Int32 month, Int32 day, Int32 hour, Int32 minute, Int32 second, Int32 millisecond, Int32 era, DateTime& result);
   public: Int32 ToFourDigitYear(Int32 year);
+  private: static void SCtor();
   public: static constexpr Int32 ADEra = 1;
   private: GregorianCalendarTypes _type;
   private: static Array<Int32> DaysToMonth365;

@@ -16,10 +16,14 @@ FORWARDS(Boolean)
 FORWARD(Delegate)
 FORWARDS(Int32)
 FORWARD(Object)
+FORWARD(String)
+FORWARD(Type)
 namespace MulticastDelegateNamespace {
 using namespace Reflection;
 using namespace Runtime::Serialization;
 CLASS(MulticastDelegate) {
+  protected: void Ctor(Object target, String method);
+  protected: void Ctor(Type target, String method);
   public: Boolean IsUnmanagedFunctionPtr();
   public: Boolean InvocationListLogicallyNull();
   public: void GetObjectData(SerializationInfo info, StreamingContext context);

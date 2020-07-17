@@ -28,6 +28,7 @@ CLASS(SignatureConstructedGenericType) {
   public: Int32 get_GenericParameterPosition();
   public: String get_Name();
   public: String get_Namespace();
+  public: void Ctor(Type genericTypeDefinition, Array<Type> typeArguments);
   protected: Boolean HasElementTypeImpl();
   protected: Boolean IsArrayImpl();
   protected: Boolean IsByRefImpl();

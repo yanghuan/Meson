@@ -11,6 +11,7 @@ CLASS(RequiresUnreferencedCodeAttribute) {
   public: String get_Message() { return Message; }
   public: String get_Url() { return Url; }
   public: void set_Url(String value) { Url = value; }
+  public: void Ctor(String message);
   private: String Message;
   private: String Url;
 };

@@ -7,6 +7,7 @@ FORWARDS(Boolean)
 FORWARD(Object)
 namespace MarshalByRefObjectNamespace {
 CLASS(MarshalByRefObject) {
+  protected: void Ctor();
   public: Object GetLifetimeService();
   public: Object InitializeLifetimeService();
   protected: MarshalByRefObject MemberwiseClone(Boolean cloneIdentity);

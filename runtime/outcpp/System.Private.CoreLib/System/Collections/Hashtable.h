@@ -18,6 +18,7 @@ namespace System::Private::CoreLib::System::Collections {
 FORWARDS(DictionaryEntry)
 FORWARD(ICollection)
 FORWARD(IComparer)
+FORWARD(IDictionary)
 FORWARD(IDictionaryEnumerator)
 FORWARD(IEnumerator)
 FORWARD(IEqualityComparer)
@@ -27,6 +28,7 @@ namespace HashtableNamespace {
 using namespace Runtime::Serialization;
 CLASS(Hashtable) {
   private: struct bucket {
+    public: void Ctor();
     public: Object key;
     public: Object val;
     public: Int32 hash_coll;
@@ -35,6 +37,7 @@ CLASS(Hashtable) {
     public: Boolean get_IsSynchronized();
     public: Object get_SyncRoot();
     public: Int32 get_Count();
+    public: void Ctor(Hashtable hashtable);
     public: void CopyTo(Array<> array, Int32 arrayIndex);
     public: IEnumerator GetEnumerator();
     private: Hashtable _hashtable;
@@ -43,6 +46,7 @@ CLASS(Hashtable) {
     public: Boolean get_IsSynchronized();
     public: Object get_SyncRoot();
     public: Int32 get_Count();
+    public: void Ctor(Hashtable hashtable);
     public: void CopyTo(Array<> array, Int32 arrayIndex);
     public: IEnumerator GetEnumerator();
     private: Hashtable _hashtable;
@@ -57,6 +61,7 @@ CLASS(Hashtable) {
     public: Object get_SyncRoot();
     public: ICollection get_Keys();
     public: ICollection get_Values();
+    public: void Ctor(Hashtable table);
     public: void GetObjectData(SerializationInfo info, StreamingContext context);
     public: void Add(Object key, Object value);
     public: void Clear();
@@ -76,6 +81,7 @@ CLASS(Hashtable) {
     public: DictionaryEntry get_Entry();
     public: Object get_Current();
     public: Object get_Value();
+    public: void Ctor(Hashtable hashtable, Int32 getObjRetType);
     public: Object Clone();
     public: Boolean MoveNext();
     public: void Reset();
@@ -89,6 +95,7 @@ CLASS(Hashtable) {
   };
   public: CLASS(HashtableDebugView) {
     public: Array<KeyValuePairs> get_Items();
+    public: void Ctor(Hashtable hashtable);
     private: Hashtable _hashtable;
   };
   protected: IHashCodeProvider get_hcp();
@@ -105,6 +112,23 @@ CLASS(Hashtable) {
   public: ICollection get_Values();
   public: Object get_SyncRoot();
   public: Int32 get_Count();
+  public: void Ctor(Boolean trash);
+  public: void Ctor();
+  public: void Ctor(Int32 capacity);
+  public: void Ctor(Int32 capacity, Single loadFactor);
+  public: void Ctor(Int32 capacity, Single loadFactor, IEqualityComparer equalityComparer);
+  public: void Ctor(IHashCodeProvider hcp, IComparer comparer);
+  public: void Ctor(IEqualityComparer equalityComparer);
+  public: void Ctor(Int32 capacity, IHashCodeProvider hcp, IComparer comparer);
+  public: void Ctor(Int32 capacity, IEqualityComparer equalityComparer);
+  public: void Ctor(IDictionary d);
+  public: void Ctor(IDictionary d, Single loadFactor);
+  public: void Ctor(IDictionary d, IHashCodeProvider hcp, IComparer comparer);
+  public: void Ctor(IDictionary d, IEqualityComparer equalityComparer);
+  public: void Ctor(Int32 capacity, Single loadFactor, IHashCodeProvider hcp, IComparer comparer);
+  public: void Ctor(IDictionary d, Single loadFactor, IHashCodeProvider hcp, IComparer comparer);
+  public: void Ctor(IDictionary d, Single loadFactor, IEqualityComparer equalityComparer);
+  protected: void Ctor(SerializationInfo info, StreamingContext context);
   private: UInt32 InitHash(Object key, Int32 hashsize, UInt32& seed, UInt32& incr);
   public: void Add(Object key, Object value);
   public: void Clear();

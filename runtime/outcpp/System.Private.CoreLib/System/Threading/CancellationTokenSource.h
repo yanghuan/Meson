@@ -29,6 +29,7 @@ using namespace Tasks;
 CLASS(CancellationTokenSource) {
   public: FORWARDN(CallbackPartition)
   public: CLASS(CallbackNode) {
+    public: void Ctor(CallbackPartition partition);
     public: void ExecuteCallback();
     public: CallbackPartition Partition;
     public: CallbackNode Prev;
@@ -40,20 +41,25 @@ CLASS(CancellationTokenSource) {
     public: SynchronizationContext SynchronizationContext;
   };
   private: CLASS(Linked1CancellationTokenSource) {
+    public: void Ctor(CancellationToken token1);
     protected: void Dispose(Boolean disposing);
     private: CancellationTokenRegistration _reg1;
   };
   private: CLASS(Linked2CancellationTokenSource) {
+    public: void Ctor(CancellationToken token1, CancellationToken token2);
     protected: void Dispose(Boolean disposing);
     private: CancellationTokenRegistration _reg1;
     private: CancellationTokenRegistration _reg2;
   };
   private: CLASS(LinkedNCancellationTokenSource) {
+    public: void Ctor(Array<CancellationToken> tokens);
     protected: void Dispose(Boolean disposing);
+    private: static void SCtor();
     public: static Action<Object> s_linkedTokenCancelDelegate;
     private: Array<CancellationTokenRegistration> _linkingRegistrations;
   };
   public: CLASS(CallbackPartition) {
+    public: void Ctor(CancellationTokenSource source);
     public: Boolean Unregister(Int64 id, CallbackNode node);
     public: CancellationTokenSource Source;
     public: SpinLock Lock;
@@ -68,6 +74,9 @@ CLASS(CancellationTokenSource) {
   public: CancellationToken get_Token();
   public: WaitHandle get_WaitHandle();
   public: Int64 get_ExecutingCallback();
+  public: void Ctor();
+  public: void Ctor(TimeSpan delay);
+  public: void Ctor(Int32 millisecondsDelay);
   private: void InitializeWithTimer(Int32 millisecondsDelay);
   public: void Cancel();
   public: void Cancel(Boolean throwOnFirstException);
@@ -86,6 +95,7 @@ CLASS(CancellationTokenSource) {
   public: static CancellationTokenSource CreateLinkedTokenSource(Array<CancellationToken> tokens);
   public: void WaitForCallbackToComplete(Int64 id);
   public: ValueTask<> WaitForCallbackToCompleteAsync(Int64 id);
+  private: static void SCtor();
   public: static CancellationTokenSource s_canceledSource;
   public: static CancellationTokenSource s_neverCanceledSource;
   private: static TimerCallback s_timerCallback;

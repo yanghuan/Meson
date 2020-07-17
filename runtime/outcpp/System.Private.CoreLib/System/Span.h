@@ -16,7 +16,9 @@ template <class T>
 struct Span {
   public: struct Enumerator {
     public: T& get_Current();
+    public: void Ctor(Span<T> span);
     public: Boolean MoveNext();
+    public: void Ctor();
     private: Span<T> _span;
     private: Int32 _index;
   };
@@ -24,6 +26,10 @@ struct Span {
   public: Int32 get_Length();
   public: Boolean get_IsEmpty();
   public: static Span<T> get_Empty();
+  public: void Ctor(Array<T> array);
+  public: void Ctor(Array<T> array, Int32 start, Int32 length);
+  public: void Ctor(void* pointer, Int32 length);
+  public: void Ctor(T& ptr, Int32 length);
   public: static Boolean op_Inequality(Span<T> left, Span<T> right);
   public: Boolean Equals(Object obj);
   public: Int32 GetHashCode();
@@ -40,6 +46,7 @@ struct Span {
   public: Span<T> Slice(Int32 start);
   public: Span<T> Slice(Int32 start, Int32 length);
   public: Array<T> ToArray();
+  public: void Ctor();
   public: ByReference<T> _pointer;
   private: Int32 _length;
 };

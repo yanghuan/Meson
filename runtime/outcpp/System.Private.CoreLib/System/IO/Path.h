@@ -77,6 +77,7 @@ class Path {
   public: static ReadOnlySpan<Char> GetPathRoot(ReadOnlySpan<Char> path);
   public: static ReadOnlySpan<Char> GetVolumeName(ReadOnlySpan<Char> path);
   public: static Int32 GetUncRootLength(ReadOnlySpan<Char> path);
+  private: static void SCtor();
   public: static Char DirectorySeparatorChar;
   public: static Char AltDirectorySeparatorChar;
   public: static Char VolumeSeparatorChar;

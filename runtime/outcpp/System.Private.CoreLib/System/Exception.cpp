@@ -3,6 +3,9 @@
 #include <System.Private.CoreLib/System/Exception-dep.h>
 
 namespace System::Private::CoreLib::System::ExceptionNamespace {
+void Exception___::DispatchState::Ctor(Array<Byte> stackTrace, Array<Object> dynamicMethods, String remoteStackTrace, UIntPtr ipForWatsonBuckets, Array<Byte> watsonBuckets) {
+};
+
 MethodBase Exception___::get_TargetSite() {
   return nullptr;
 };
@@ -90,6 +93,18 @@ Exception::in::DispatchState Exception___::CaptureDispatchState() {
 };
 
 void Exception___::SetCurrentStackTrace() {
+};
+
+void Exception___::Ctor() {
+};
+
+void Exception___::Ctor(String message) {
+};
+
+void Exception___::Ctor(String message, Exception innerException) {
+};
+
+void Exception___::Ctor(SerializationInfo info, StreamingContext context) {
 };
 
 String Exception___::GetClassName() {

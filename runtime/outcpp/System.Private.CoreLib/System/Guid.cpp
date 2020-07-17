@@ -3,7 +3,28 @@
 #include <System.Private.CoreLib/System/Guid-dep.h>
 
 namespace System::Private::CoreLib::System::GuidNamespace {
+void GuidResult::Ctor(Guid::GuidParseThrowStyle canThrow) {
+};
+
 void GuidResult::SetFailure(Boolean overflow, String failureMessageID) {
+};
+
+void Guid::Ctor(Array<Byte> b) {
+};
+
+void Guid::Ctor(ReadOnlySpan<Byte> b) {
+};
+
+void Guid::Ctor(UInt32 a, UInt16 b, UInt16 c, Byte d, Byte e, Byte f, Byte g, Byte h, Byte i, Byte j, Byte k) {
+};
+
+void Guid::Ctor(Int32 a, Int16 b, Int16 c, Array<Byte> d) {
+};
+
+void Guid::Ctor(Int32 a, Int16 b, Int16 c, Byte d, Byte e, Byte f, Byte g, Byte h, Byte i, Byte j, Byte k) {
+};
+
+void Guid::Ctor(String g) {
 };
 
 Guid Guid::Parse(String input) {

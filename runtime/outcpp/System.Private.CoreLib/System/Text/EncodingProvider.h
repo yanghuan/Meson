@@ -14,6 +14,7 @@ FORWARD(EncoderFallback)
 FORWARD(Encoding)
 namespace EncodingProviderNamespace {
 CLASS(EncodingProvider) {
+  public: void Ctor();
   public: Encoding GetEncoding(String name);
   public: Encoding GetEncoding(Int32 codepage);
   public: Encoding GetEncoding(String name, EncoderFallback encoderFallback, DecoderFallback decoderFallback);
@@ -23,6 +24,7 @@ CLASS(EncodingProvider) {
   public: static Encoding GetEncodingFromProvider(String encodingName);
   public: static Encoding GetEncodingFromProvider(Int32 codepage, EncoderFallback enc, DecoderFallback dec);
   public: static Encoding GetEncodingFromProvider(String encodingName, EncoderFallback enc, DecoderFallback dec);
+  private: static void SCtor();
   private: static Object s_InternalSyncObject;
   private: static Array<EncodingProvider> s_providers;
 };

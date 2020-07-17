@@ -7,6 +7,7 @@ namespace System::Console::System::Runtime::CompilerServices {
 namespace NullableContextAttributeNamespace {
 using namespace ::System::Private::CoreLib::System;
 CLASS(NullableContextAttribute) {
+  public: void Ctor(Byte _);
   public: Byte Flag;
 };
 } // namespace NullableContextAttributeNamespace

@@ -22,6 +22,8 @@ class CalendricalCalculationsHelper {
     Year1620to1699 = 5,
   };
   private: struct EphemerisCorrectionAlgorithmMap {
+    public: void Ctor(Int32 year, CorrectionAlgorithm algorithm);
+    public: void Ctor();
     public: Int32 _lowestYear;
     public: CorrectionAlgorithm _algorithm;
   };
@@ -61,6 +63,7 @@ class CalendricalCalculationsHelper {
   public: static Double AsSeason(Double longitude);
   private: static Double EstimatePrior(Double longitude, Double time);
   public: static Int64 PersianNewYearOnOrBefore(Int64 numberOfDays);
+  private: static void SCtor();
   private: static Int64 s_startOf1810;
   private: static Int64 s_startOf1900Century;
   private: static Array<Double> s_coefficients1900to1987;

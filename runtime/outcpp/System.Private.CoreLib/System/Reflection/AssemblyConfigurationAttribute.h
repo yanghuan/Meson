@@ -9,6 +9,7 @@ namespace System::Private::CoreLib::System::Reflection {
 namespace AssemblyConfigurationAttributeNamespace {
 CLASS(AssemblyConfigurationAttribute) {
   public: String get_Configuration() { return Configuration; }
+  public: void Ctor(String configuration);
   private: String Configuration;
 };
 } // namespace AssemblyConfigurationAttributeNamespace

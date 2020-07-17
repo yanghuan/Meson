@@ -10,6 +10,7 @@ FORWARD(Assembly)
 FORWARD(TypeInfo)
 namespace ReflectionContextNamespace {
 CLASS(ReflectionContext) {
+  protected: void Ctor();
   public: Assembly MapAssembly(Assembly assembly);
   public: TypeInfo MapType(TypeInfo type);
   public: TypeInfo GetTypeForObject(Object value);

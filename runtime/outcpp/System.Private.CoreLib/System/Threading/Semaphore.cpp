@@ -3,6 +3,15 @@
 #include <System.Private.CoreLib/System/Threading/Semaphore-dep.h>
 
 namespace System::Private::CoreLib::System::Threading::SemaphoreNamespace {
+void Semaphore___::Ctor(Int32 initialCount, Int32 maximumCount) {
+};
+
+void Semaphore___::Ctor(Int32 initialCount, Int32 maximumCount, String name) {
+};
+
+void Semaphore___::Ctor(Int32 initialCount, Int32 maximumCount, String name, Boolean& createdNew) {
+};
+
 Semaphore Semaphore___::OpenExisting(String name) {
   return nullptr;
 };
@@ -17,6 +26,9 @@ Int32 Semaphore___::Release() {
 
 Int32 Semaphore___::Release(Int32 releaseCount) {
   return Int32();
+};
+
+void Semaphore___::Ctor(SafeWaitHandle handle) {
 };
 
 void Semaphore___::CreateSemaphoreCore(Int32 initialCount, Int32 maximumCount, String name, Boolean& createdNew) {

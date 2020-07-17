@@ -55,6 +55,7 @@ CLASS(FileStream) {
   private: CLASS(AsyncCopyToAwaitable) {
     public: Object get_CancellationLock();
     public: Boolean get_IsCompleted();
+    public: void Ctor(FileStream fileStream);
     public: void ResetForNextOperation();
     public: static void IOCallback(UInt32 errorCode, UInt32 numBytes, NativeOverlapped* pOVERLAP);
     public: void MarkCompleted();
@@ -62,6 +63,7 @@ CLASS(FileStream) {
     public: void GetResult();
     public: void OnCompleted(Action<> continuation);
     public: void UnsafeOnCompleted(Action<> continuation);
+    private: static void SCtor();
     private: static Action<> s_sentinel;
     public: static IOCompletionCallback s_callback;
     public: FileStream _fileStream;
@@ -73,6 +75,7 @@ CLASS(FileStream) {
   };
   private: CLASS(FileStreamCompletionSource) {
     public: NativeOverlapped* get_Overlapped();
+    protected: void Ctor(FileStream stream, Int32 numBufferedBytes, Array<Byte> bytes);
     public: void SetCompletedSynchronously(Int32 numBytes);
     public: void RegisterForCancellation(CancellationToken cancellationToken);
     public: void ReleaseNativeResource();
@@ -88,6 +91,7 @@ CLASS(FileStream) {
     private: Int64 _result;
   };
   private: CLASS(MemoryFileStreamCompletionSource) {
+    public: void Ctor(FileStream stream, Int32 numBufferedBytes, ReadOnlyMemory<Byte> memory);
     public: void ReleaseNativeResource();
     private: MemoryHandle _handle;
   };
@@ -103,7 +107,20 @@ CLASS(FileStream) {
   public: Boolean get_IsClosed();
   private: Boolean get_HasActiveBufferOperation();
   public: Boolean get_CanSeek();
+  public: void Ctor(IntPtr handle, FileAccess access);
+  public: void Ctor(IntPtr handle, FileAccess access, Boolean ownsHandle);
+  public: void Ctor(IntPtr handle, FileAccess access, Boolean ownsHandle, Int32 bufferSize);
+  public: void Ctor(IntPtr handle, FileAccess access, Boolean ownsHandle, Int32 bufferSize, Boolean isAsync);
+  public: void Ctor(SafeFileHandle handle, FileAccess access);
+  public: void Ctor(SafeFileHandle handle, FileAccess access, Int32 bufferSize);
   private: void ValidateAndInitFromHandle(SafeFileHandle handle, FileAccess access, Int32 bufferSize, Boolean isAsync);
+  public: void Ctor(SafeFileHandle handle, FileAccess access, Int32 bufferSize, Boolean isAsync);
+  public: void Ctor(String path, FileMode mode);
+  public: void Ctor(String path, FileMode mode, FileAccess access);
+  public: void Ctor(String path, FileMode mode, FileAccess access, FileShare share);
+  public: void Ctor(String path, FileMode mode, FileAccess access, FileShare share, Int32 bufferSize);
+  public: void Ctor(String path, FileMode mode, FileAccess access, FileShare share, Int32 bufferSize, Boolean useAsync);
+  public: void Ctor(String path, FileMode mode, FileAccess access, FileShare share, Int32 bufferSize, FileOptions options);
   public: void Lock(Int64 position, Int64 length);
   public: void Unlock(Int64 position, Int64 length);
   public: Task<> FlushAsync(CancellationToken cancellationToken);
@@ -175,6 +192,7 @@ CLASS(FileStream) {
   private: static Boolean GetDefaultIsAsync(SafeFileHandle handle);
   private: static Nullable<Boolean> IsHandleSynchronous(SafeFileHandle fileHandle, Boolean ignoreInvalid);
   private: static void VerifyHandleIsSync(SafeFileHandle handle);
+  private: static void SCtor();
   private: Array<Byte> _buffer;
   private: Int32 _bufferLength;
   private: SafeFileHandle _fileHandle;

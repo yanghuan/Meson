@@ -11,6 +11,9 @@ Boolean FileStream___::AsyncCopyToAwaitable___::get_IsCompleted() {
   return Boolean();
 };
 
+void FileStream___::AsyncCopyToAwaitable___::Ctor(FileStream fileStream) {
+};
+
 void FileStream___::AsyncCopyToAwaitable___::ResetForNextOperation() {
 };
 
@@ -33,8 +36,14 @@ void FileStream___::AsyncCopyToAwaitable___::OnCompleted(Action<> continuation) 
 void FileStream___::AsyncCopyToAwaitable___::UnsafeOnCompleted(Action<> continuation) {
 };
 
+void FileStream___::AsyncCopyToAwaitable___::SCtor() {
+};
+
 NativeOverlapped* FileStream___::FileStreamCompletionSource___::get_Overlapped() {
   return nullptr;
+};
+
+void FileStream___::FileStreamCompletionSource___::Ctor(FileStream stream, Int32 numBufferedBytes, Array<Byte> bytes) {
 };
 
 void FileStream___::FileStreamCompletionSource___::SetCompletedSynchronously(Int32 numBytes) {
@@ -57,6 +66,9 @@ void FileStream___::FileStreamCompletionSource___::Cancel(Object state) {
 
 FileStream::in::FileStreamCompletionSource FileStream___::FileStreamCompletionSource___::Create(FileStream stream, Int32 numBufferedBytesRead, ReadOnlyMemory<Byte> memory) {
   return nullptr;
+};
+
+void FileStream___::MemoryFileStreamCompletionSource___::Ctor(FileStream stream, Int32 numBufferedBytes, ReadOnlyMemory<Byte> memory) {
 };
 
 void FileStream___::MemoryFileStreamCompletionSource___::ReleaseNativeResource() {
@@ -109,7 +121,46 @@ Boolean FileStream___::get_CanSeek() {
   return Boolean();
 };
 
+void FileStream___::Ctor(IntPtr handle, FileAccess access) {
+};
+
+void FileStream___::Ctor(IntPtr handle, FileAccess access, Boolean ownsHandle) {
+};
+
+void FileStream___::Ctor(IntPtr handle, FileAccess access, Boolean ownsHandle, Int32 bufferSize) {
+};
+
+void FileStream___::Ctor(IntPtr handle, FileAccess access, Boolean ownsHandle, Int32 bufferSize, Boolean isAsync) {
+};
+
+void FileStream___::Ctor(SafeFileHandle handle, FileAccess access) {
+};
+
+void FileStream___::Ctor(SafeFileHandle handle, FileAccess access, Int32 bufferSize) {
+};
+
 void FileStream___::ValidateAndInitFromHandle(SafeFileHandle handle, FileAccess access, Int32 bufferSize, Boolean isAsync) {
+};
+
+void FileStream___::Ctor(SafeFileHandle handle, FileAccess access, Int32 bufferSize, Boolean isAsync) {
+};
+
+void FileStream___::Ctor(String path, FileMode mode) {
+};
+
+void FileStream___::Ctor(String path, FileMode mode, FileAccess access) {
+};
+
+void FileStream___::Ctor(String path, FileMode mode, FileAccess access, FileShare share) {
+};
+
+void FileStream___::Ctor(String path, FileMode mode, FileAccess access, FileShare share, Int32 bufferSize) {
+};
+
+void FileStream___::Ctor(String path, FileMode mode, FileAccess access, FileShare share, Int32 bufferSize, Boolean useAsync) {
+};
+
+void FileStream___::Ctor(String path, FileMode mode, FileAccess access, FileShare share, Int32 bufferSize, FileOptions options) {
 };
 
 void FileStream___::Lock(Int64 position, Int64 length) {
@@ -363,6 +414,9 @@ Nullable<Boolean> FileStream___::IsHandleSynchronous(SafeFileHandle fileHandle, 
 };
 
 void FileStream___::VerifyHandleIsSync(SafeFileHandle handle) {
+};
+
+void FileStream___::SCtor() {
 };
 
 } // namespace System::Private::CoreLib::System::IO::FileStreamNamespace

@@ -9,6 +9,7 @@ namespace System::Private::CoreLib::System::Runtime::CompilerServices {
 namespace StateMachineAttributeNamespace {
 CLASS(StateMachineAttribute) {
   public: Type get_StateMachineType() { return StateMachineType; }
+  public: void Ctor(Type stateMachineType);
   private: Type StateMachineType;
 };
 } // namespace StateMachineAttributeNamespace

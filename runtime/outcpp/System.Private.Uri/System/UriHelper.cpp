@@ -80,4 +80,7 @@ String UriHelper::StripBidiControlCharacters(ReadOnlySpan<Char> strToClean, Stri
   return nullptr;
 };
 
+void UriHelper::SCtor() {
+};
+
 } // namespace System::Private::Uri::System::UriHelperNamespace

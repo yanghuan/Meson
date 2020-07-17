@@ -10,6 +10,7 @@ namespace CriticalHandleMinusOneIsInvalidNamespace {
 using namespace ::System::Private::CoreLib::System;
 CLASS(CriticalHandleMinusOneIsInvalid) {
   public: Boolean get_IsInvalid();
+  protected: void Ctor();
 };
 } // namespace CriticalHandleMinusOneIsInvalidNamespace
 using CriticalHandleMinusOneIsInvalid = CriticalHandleMinusOneIsInvalidNamespace::CriticalHandleMinusOneIsInvalid;

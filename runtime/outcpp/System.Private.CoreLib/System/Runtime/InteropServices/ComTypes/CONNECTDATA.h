@@ -9,6 +9,7 @@ FORWARD(Object)
 namespace System::Private::CoreLib::System::Runtime::InteropServices::ComTypes {
 namespace CONNECTDATANamespace {
 struct CONNECTDATA {
+  public: void Ctor();
   public: Object pUnk;
   public: Int32 dwCookie;
 };

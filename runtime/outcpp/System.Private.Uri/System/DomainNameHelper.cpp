@@ -37,4 +37,7 @@ Boolean DomainNameHelper::ContainsCharactersUnsafeForNormalizedHost(String host)
   return Boolean();
 };
 
+void DomainNameHelper::SCtor() {
+};
+
 } // namespace System::Private::Uri::System::DomainNameHelperNamespace

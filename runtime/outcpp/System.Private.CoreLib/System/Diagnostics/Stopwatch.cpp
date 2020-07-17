@@ -19,6 +19,9 @@ Int64 Stopwatch___::get_ElapsedTicks() {
   return Int64();
 };
 
+void Stopwatch___::Ctor() {
+};
+
 void Stopwatch___::Start() {
 };
 
@@ -53,6 +56,9 @@ Int64 Stopwatch___::QueryPerformanceFrequency() {
 
 Int64 Stopwatch___::QueryPerformanceCounter() {
   return Int64();
+};
+
+void Stopwatch___::SCtor() {
 };
 
 } // namespace System::Private::CoreLib::System::Diagnostics::StopwatchNamespace

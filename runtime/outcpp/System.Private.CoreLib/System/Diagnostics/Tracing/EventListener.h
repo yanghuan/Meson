@@ -25,6 +25,8 @@ namespace EventListenerNamespace {
 using namespace Collections::Generic;
 CLASS(EventListener) {
   public: static Object get_EventListenersLock();
+  private: static void SCtor();
+  public: void Ctor();
   public: void Dispose();
   public: void EnableEvents(EventSource eventSource, EventLevel level);
   public: void EnableEvents(EventSource eventSource, EventLevel level, EventKeywords matchAnyKeyword);

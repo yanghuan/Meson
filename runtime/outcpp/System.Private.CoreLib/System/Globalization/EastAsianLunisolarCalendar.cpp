@@ -32,6 +32,9 @@ Int32 EastAsianLunisolarCalendar___::MaxEraCalendarYear(Int32 era) {
   return Int32();
 };
 
+void EastAsianLunisolarCalendar___::Ctor() {
+};
+
 void EastAsianLunisolarCalendar___::CheckTicksRange(Int64 ticks) {
 };
 
@@ -134,6 +137,9 @@ Boolean EastAsianLunisolarCalendar___::IsLeapYear(Int32 year, Int32 era) {
 
 Int32 EastAsianLunisolarCalendar___::ToFourDigitYear(Int32 year) {
   return Int32();
+};
+
+void EastAsianLunisolarCalendar___::SCtor() {
 };
 
 } // namespace System::Private::CoreLib::System::Globalization::EastAsianLunisolarCalendarNamespace

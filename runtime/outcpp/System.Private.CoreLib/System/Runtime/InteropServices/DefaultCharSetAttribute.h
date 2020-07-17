@@ -7,6 +7,7 @@ enum class CharSet;
 namespace DefaultCharSetAttributeNamespace {
 CLASS(DefaultCharSetAttribute) {
   public: CharSet get_CharSet() { return CharSet; }
+  public: void Ctor(CharSet charSet);
   private: CharSet CharSet;
 };
 } // namespace DefaultCharSetAttributeNamespace

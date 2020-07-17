@@ -3,13 +3,16 @@
 #include <rt/GCObject.h>
 #include <System.Private.CoreLib/System/Boolean.h>
 
-namespace System::Private::CoreLib::System::Collections {
-FORWARD(IDictionaryEnumerator)
-} // namespace System::Private::CoreLib::System::Collections
 namespace System::Private::CoreLib::System {
 FORWARD(Object)
 FORWARD(String)
 } // namespace System::Private::CoreLib::System
+namespace System::Private::CoreLib::System::IO {
+FORWARD(Stream)
+} // namespace System::Private::CoreLib::System::IO
+namespace System::Private::CoreLib::System::Collections {
+FORWARD(IDictionaryEnumerator)
+} // namespace System::Private::CoreLib::System::Collections
 namespace System::Private::CoreLib::System::Collections::Generic {
 FORWARD(Dictionary, TKey, TValue)
 } // namespace System::Private::CoreLib::System::Collections::Generic
@@ -19,7 +22,10 @@ FORWARD(ResourceReader)
 namespace RuntimeResourceSetNamespace {
 using namespace Collections;
 using namespace Collections::Generic;
+using namespace IO;
 CLASS(RuntimeResourceSet) {
+  public: void Ctor(String fileName);
+  public: void Ctor(Stream stream, Boolean permitDeserialization);
   protected: void Dispose(Boolean disposing);
   public: IDictionaryEnumerator GetEnumerator();
   private: IDictionaryEnumerator GetEnumeratorHelper();

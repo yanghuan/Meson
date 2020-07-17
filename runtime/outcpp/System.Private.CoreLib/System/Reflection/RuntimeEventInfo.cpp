@@ -37,6 +37,9 @@ EventAttributes RuntimeEventInfo___::get_Attributes() {
   return EventAttributes::ReservedMask;
 };
 
+void RuntimeEventInfo___::Ctor(Int32 tkEvent, RuntimeType declaredType, RuntimeType::in::RuntimeTypeCache reflectedTypeCache, Boolean& isPrivate) {
+};
+
 Boolean RuntimeEventInfo___::CacheEquals(Object o) {
   return Boolean();
 };

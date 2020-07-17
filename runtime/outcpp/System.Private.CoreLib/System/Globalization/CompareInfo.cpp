@@ -7,6 +7,9 @@ IntPtr CompareInfo___::SortHandleCache::GetCachedSortHandle(String sortName) {
   return IntPtr();
 };
 
+void CompareInfo___::SortHandleCache::SCtor() {
+};
+
 String CompareInfo___::get_Name() {
   return nullptr;
 };
@@ -21,6 +24,9 @@ Int32 CompareInfo___::get_LCID() {
 
 ReadOnlySpan<Boolean> CompareInfo___::get_HighCharTable() {
   return ReadOnlySpan<Boolean>();
+};
+
+void CompareInfo___::Ctor(CultureInfo culture) {
 };
 
 CompareInfo CompareInfo___::GetCompareInfo(Int32 culture, Assembly assembly) {
@@ -526,6 +532,9 @@ Int32 CompareInfo___::GetNativeCompareFlags(CompareOptions options) {
 
 SortVersion CompareInfo___::NlsGetSortVersion() {
   return nullptr;
+};
+
+void CompareInfo___::SCtor() {
 };
 
 } // namespace System::Private::CoreLib::System::Globalization::CompareInfoNamespace

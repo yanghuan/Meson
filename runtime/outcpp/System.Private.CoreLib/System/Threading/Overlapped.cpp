@@ -38,6 +38,15 @@ IntPtr Overlapped___::get_EventHandleIntPtr() {
 void Overlapped___::set_EventHandleIntPtr(IntPtr value) {
 };
 
+void Overlapped___::Ctor() {
+};
+
+void Overlapped___::Ctor(Int32 offsetLo, Int32 offsetHi, IntPtr hEvent, IAsyncResult ar) {
+};
+
+void Overlapped___::Ctor(Int32 offsetLo, Int32 offsetHi, Int32 hEvent, IAsyncResult ar) {
+};
+
 NativeOverlapped* Overlapped___::Pack(IOCompletionCallback iocb) {
   return nullptr;
 };

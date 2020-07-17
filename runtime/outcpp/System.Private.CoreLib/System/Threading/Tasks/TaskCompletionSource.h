@@ -5,6 +5,7 @@
 namespace System::Private::CoreLib::System {
 FORWARDS(Boolean)
 FORWARD(Exception)
+FORWARD(Object)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Collections::Generic {
 FORWARD(IEnumerable, T)
@@ -13,11 +14,16 @@ namespace System::Private::CoreLib::System::Threading {
 FORWARDS(CancellationToken)
 } // namespace System::Private::CoreLib::System::Threading
 namespace System::Private::CoreLib::System::Threading::Tasks {
+enum class TaskCreationOptions;
 FORWARD_(Task, T1, T2)
 namespace TaskCompletionSourceNamespace {
 using namespace Collections::Generic;
 CLASS(TaskCompletionSource, TResult) {
   public: Task<TResult> get_Task();
+  public: void Ctor();
+  public: void Ctor(TaskCreationOptions creationOptions);
+  public: void Ctor(Object state);
+  public: void Ctor(Object state, TaskCreationOptions creationOptions);
   private: void SpinUntilCompleted();
   public: Boolean TrySetException(Exception exception);
   public: Boolean TrySetException(IEnumerable<Exception> exceptions);

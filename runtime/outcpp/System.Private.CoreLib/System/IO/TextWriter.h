@@ -38,6 +38,7 @@ using namespace Threading::Tasks;
 CLASS(TextWriter) {
   private: CLASS(NullTextWriter) {
     public: Encoding get_Encoding();
+    public: void Ctor();
     public: void Write(Array<Char> buffer, Int32 index, Int32 count);
     public: void Write(String value);
     public: void WriteLine();
@@ -50,6 +51,7 @@ CLASS(TextWriter) {
     public: IFormatProvider get_FormatProvider();
     public: String get_NewLine();
     public: void set_NewLine(String value);
+    public: void Ctor(TextWriter t);
     public: void Close();
     protected: void Dispose(Boolean disposing);
     public: void Flush();
@@ -111,6 +113,8 @@ CLASS(TextWriter) {
   public: Encoding get_Encoding();
   public: String get_NewLine();
   public: void set_NewLine(String value);
+  protected: void Ctor();
+  protected: void Ctor(IFormatProvider formatProvider);
   public: void Close();
   protected: void Dispose(Boolean disposing);
   public: void Dispose();
@@ -170,6 +174,7 @@ CLASS(TextWriter) {
   public: Task<> WriteLineAsync();
   public: Task<> FlushAsync();
   public: static TextWriter Synchronized(TextWriter writer);
+  private: static void SCtor();
   public: static TextWriter Null;
   private: static Array<Char> s_coreNewLine;
   protected: Array<Char> CoreNewLine;

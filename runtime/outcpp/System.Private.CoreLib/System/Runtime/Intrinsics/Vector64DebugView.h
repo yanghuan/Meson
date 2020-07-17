@@ -30,6 +30,8 @@ struct Vector64DebugView {
   public: Array<UInt16> get_UInt16View();
   public: Array<UInt32> get_UInt32View();
   public: Array<UInt64> get_UInt64View();
+  public: void Ctor(Vector64<T> value);
+  public: void Ctor();
   private: Vector64<T> _value;
 };
 } // namespace Vector64DebugViewNamespace

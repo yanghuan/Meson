@@ -8,6 +8,8 @@ namespace ByReferenceNamespace {
 template <class T>
 struct ByReference {
   public: T& get_Value();
+  public: void Ctor(T& value);
+  public: void Ctor();
   private: IntPtr _value;
 };
 } // namespace ByReferenceNamespace

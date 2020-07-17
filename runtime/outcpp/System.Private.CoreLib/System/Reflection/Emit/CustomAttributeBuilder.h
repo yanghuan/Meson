@@ -2,6 +2,11 @@
 
 #include <rt/GCObject.h>
 
+namespace System::Private::CoreLib::System::Reflection {
+FORWARD(ConstructorInfo)
+FORWARD(FieldInfo)
+FORWARD(PropertyInfo)
+} // namespace System::Private::CoreLib::System::Reflection
 namespace System::Private::CoreLib::System {
 FORWARD_(Array, T1, T2)
 FORWARDS(Boolean)
@@ -14,14 +19,15 @@ FORWARD(Type)
 namespace System::Private::CoreLib::System::IO {
 FORWARD(BinaryWriter)
 } // namespace System::Private::CoreLib::System::IO
-namespace System::Private::CoreLib::System::Reflection {
-FORWARD(ConstructorInfo)
-} // namespace System::Private::CoreLib::System::Reflection
 namespace System::Private::CoreLib::System::Reflection::Emit {
 FORWARD(ModuleBuilder)
 namespace CustomAttributeBuilderNamespace {
 using namespace IO;
 CLASS(CustomAttributeBuilder) {
+  public: void Ctor(ConstructorInfo con, Array<Object> constructorArgs);
+  public: void Ctor(ConstructorInfo con, Array<Object> constructorArgs, Array<PropertyInfo> namedProperties, Array<Object> propertyValues);
+  public: void Ctor(ConstructorInfo con, Array<Object> constructorArgs, Array<FieldInfo> namedFields, Array<Object> fieldValues);
+  public: void Ctor(ConstructorInfo con, Array<Object> constructorArgs, Array<PropertyInfo> namedProperties, Array<Object> propertyValues, Array<FieldInfo> namedFields, Array<Object> fieldValues);
   private: Boolean ValidateType(Type t);
   private: static void VerifyTypeAndPassedObjectType(Type type, Type passedType, String paramName);
   private: static void EmitType(BinaryWriter writer, Type type);

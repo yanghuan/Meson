@@ -5,6 +5,7 @@
 namespace System::Private::CoreLib::System::Diagnostics::Tracing {
 namespace EtwEventProviderNamespace {
 CLASS(EtwEventProvider) {
+  public: void Ctor();
 };
 } // namespace EtwEventProviderNamespace
 using EtwEventProvider = EtwEventProviderNamespace::EtwEventProvider;

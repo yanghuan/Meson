@@ -7,6 +7,9 @@ Array<Byte> ApplicationId___::get_PublicKeyToken() {
   return Array<Byte>();
 };
 
+void ApplicationId___::Ctor(Array<Byte> publicKeyToken, String name, System::Version version, String processorArchitecture, String culture) {
+};
+
 ApplicationId ApplicationId___::Copy() {
   return nullptr;
 };

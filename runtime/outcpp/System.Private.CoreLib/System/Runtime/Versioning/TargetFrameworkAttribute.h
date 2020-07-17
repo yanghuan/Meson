@@ -11,6 +11,7 @@ CLASS(TargetFrameworkAttribute) {
   public: String get_FrameworkName();
   public: String get_FrameworkDisplayName();
   public: void set_FrameworkDisplayName(String value);
+  public: void Ctor(String frameworkName);
   private: String _frameworkName;
   private: String _frameworkDisplayName;
 };

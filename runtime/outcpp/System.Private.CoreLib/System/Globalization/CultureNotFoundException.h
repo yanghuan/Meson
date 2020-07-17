@@ -5,6 +5,7 @@
 #include <System.Private.CoreLib/System/Nullable.h>
 
 namespace System::Private::CoreLib::System {
+FORWARD(Exception)
 FORWARD(String)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Runtime::Serialization {
@@ -20,6 +21,15 @@ CLASS(CultureNotFoundException) {
   private: static String get_DefaultMessage();
   private: String get_FormattedInvalidCultureId();
   public: String get_Message();
+  public: void Ctor();
+  public: void Ctor(String message);
+  public: void Ctor(String paramName, String message);
+  public: void Ctor(String message, Exception innerException);
+  public: void Ctor(String paramName, String invalidCultureName, String message);
+  public: void Ctor(String message, String invalidCultureName, Exception innerException);
+  public: void Ctor(String message, Int32 invalidCultureId, Exception innerException);
+  public: void Ctor(String paramName, Int32 invalidCultureId, String message);
+  protected: void Ctor(SerializationInfo info, StreamingContext context);
   public: void GetObjectData(SerializationInfo info, StreamingContext context);
   private: String _invalidCultureName;
   private: Nullable<Int32> _invalidCultureId;

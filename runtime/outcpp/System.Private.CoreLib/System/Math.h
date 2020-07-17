@@ -118,6 +118,7 @@ class Math {
   public: static Int32 Sign(Single value);
   public: static Decimal Truncate(Decimal d);
   public: static Double Truncate(Double d);
+  private: static void SCtor();
   public: static constexpr Double E = 2.718281828459045;
   public: static constexpr Double PI = 3.141592653589793;
   private: static Array<Double> roundPower10Double;

@@ -10,6 +10,7 @@ CLASS(SecurityRulesAttribute) {
   public: Boolean get_SkipVerificationInFullTrust() { return SkipVerificationInFullTrust; }
   public: void set_SkipVerificationInFullTrust(Boolean value) { SkipVerificationInFullTrust = value; }
   public: SecurityRuleSet get_RuleSet() { return RuleSet; }
+  public: void Ctor(SecurityRuleSet ruleSet);
   private: Boolean SkipVerificationInFullTrust;
   private: SecurityRuleSet RuleSet;
 };

@@ -13,6 +13,7 @@ CLASS(ObjectComparer, T) {
   public: Int32 Compare(T x, T y);
   public: Boolean Equals(Object obj);
   public: Int32 GetHashCode();
+  public: void Ctor();
 };
 } // namespace ObjectComparerNamespace
 template <class T>

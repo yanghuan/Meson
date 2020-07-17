@@ -31,6 +31,8 @@ CLASS(TraceLoggingTypeInfo) {
   public: EventTags get_Tags();
   public: Type get_DataType();
   public: Func<Object, PropertyValue> get_PropertyValueFactory();
+  public: void Ctor(Type dataType);
+  public: void Ctor(Type dataType, String name, EventLevel level, EventOpcode opcode, EventKeywords keywords, EventTags tags);
   public: void WriteMetadata(TraceLoggingMetadataCollector collector, String name, EventFieldFormat format);
   public: void WriteData(TraceLoggingDataCollector collector, PropertyValue value);
   public: Object GetData(Object value);

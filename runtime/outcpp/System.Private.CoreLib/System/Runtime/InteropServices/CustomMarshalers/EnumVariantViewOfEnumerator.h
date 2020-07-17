@@ -20,6 +20,7 @@ using namespace Collections;
 using namespace ComTypes;
 CLASS(EnumVariantViewOfEnumerator) {
   public: IEnumerator get_Enumerator() { return Enumerator; }
+  public: void Ctor(IEnumerator enumerator);
   public: IEnumVARIANT Clone();
   public: Int32 Next(Int32 celt, Array<Object> rgVar, IntPtr pceltFetched);
   public: Int32 Reset();

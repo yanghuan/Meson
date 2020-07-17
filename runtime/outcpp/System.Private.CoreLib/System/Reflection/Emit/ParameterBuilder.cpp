@@ -34,6 +34,9 @@ void ParameterBuilder___::SetCustomAttribute(ConstructorInfo con, Array<Byte> bi
 void ParameterBuilder___::SetCustomAttribute(CustomAttributeBuilder customBuilder) {
 };
 
+void ParameterBuilder___::Ctor(MethodBuilder methodBuilder, Int32 sequence, ParameterAttributes attributes, String paramName) {
+};
+
 ParameterToken ParameterBuilder___::GetToken() {
   return ParameterToken();
 };

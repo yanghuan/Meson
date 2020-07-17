@@ -3,6 +3,21 @@
 #include <System.Private.CoreLib/System/Threading/Mutex-dep.h>
 
 namespace System::Private::CoreLib::System::Threading::MutexNamespace {
+void Mutex___::Ctor(Boolean initiallyOwned, String name, Boolean& createdNew) {
+};
+
+void Mutex___::Ctor(Boolean initiallyOwned, String name) {
+};
+
+void Mutex___::Ctor(Boolean initiallyOwned) {
+};
+
+void Mutex___::Ctor() {
+};
+
+void Mutex___::Ctor(SafeWaitHandle handle) {
+};
+
 Mutex Mutex___::OpenExisting(String name) {
   return nullptr;
 };

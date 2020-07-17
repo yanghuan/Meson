@@ -288,4 +288,7 @@ Double Math::Truncate(Double d) {
   return Double();
 };
 
+void Math::SCtor() {
+};
+
 } // namespace System::Private::CoreLib::System::MathNamespace

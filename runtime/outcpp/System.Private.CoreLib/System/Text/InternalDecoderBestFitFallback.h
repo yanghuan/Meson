@@ -15,6 +15,7 @@ FORWARD(Encoding)
 namespace InternalDecoderBestFitFallbackNamespace {
 CLASS(InternalDecoderBestFitFallback) {
   public: Int32 get_MaxCharCount();
+  public: void Ctor(Encoding encoding);
   public: DecoderFallbackBuffer CreateFallbackBuffer();
   public: Boolean Equals(Object value);
   public: Int32 GetHashCode();

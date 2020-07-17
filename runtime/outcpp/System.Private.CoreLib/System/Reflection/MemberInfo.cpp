@@ -21,6 +21,9 @@ Boolean MemberInfo___::CacheEquals(Object o) {
   return Boolean();
 };
 
+void MemberInfo___::Ctor() {
+};
+
 Boolean MemberInfo___::HasSameMetadataDefinitionAs(MemberInfo other) {
   return Boolean();
 };

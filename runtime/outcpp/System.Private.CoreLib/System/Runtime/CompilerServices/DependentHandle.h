@@ -11,6 +11,7 @@ namespace System::Private::CoreLib::System::Runtime::CompilerServices {
 namespace DependentHandleNamespace {
 struct DependentHandle {
   public: Boolean get_IsAllocated();
+  public: void Ctor(Object primary, Object secondary);
   public: Object GetPrimary();
   public: Object GetPrimaryAndSecondary(Object& secondary);
   public: void SetPrimary(Object primary);
@@ -22,6 +23,7 @@ struct DependentHandle {
   private: static void nSetPrimary(IntPtr dependentHandle, Object primary);
   private: static void nSetSecondary(IntPtr dependentHandle, Object secondary);
   private: static void nFree(IntPtr dependentHandle);
+  public: void Ctor();
   private: IntPtr _handle;
 };
 } // namespace DependentHandleNamespace

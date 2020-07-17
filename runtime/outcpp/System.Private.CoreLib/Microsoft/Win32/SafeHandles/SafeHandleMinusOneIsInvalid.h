@@ -10,6 +10,7 @@ namespace SafeHandleMinusOneIsInvalidNamespace {
 using namespace ::System::Private::CoreLib::System;
 CLASS(SafeHandleMinusOneIsInvalid) {
   public: Boolean get_IsInvalid();
+  protected: void Ctor(Boolean ownsHandle);
 };
 } // namespace SafeHandleMinusOneIsInvalidNamespace
 using SafeHandleMinusOneIsInvalid = SafeHandleMinusOneIsInvalidNamespace::SafeHandleMinusOneIsInvalid;

@@ -11,6 +11,7 @@ FORWARD(RegisteredWaitHandleSafe)
 FORWARD(WaitHandle)
 namespace RegisteredWaitHandleNamespace {
 CLASS(RegisteredWaitHandle) {
+  public: void Ctor();
   public: void SetHandle(IntPtr handle);
   public: void SetWaitObject(WaitHandle waitObject);
   public: Boolean Unregister(WaitHandle waitObject);

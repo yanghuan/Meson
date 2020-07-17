@@ -15,4 +15,7 @@ Boolean RuntimeMethodHandleInternal::IsNullHandle() {
   return Boolean();
 };
 
+void RuntimeMethodHandleInternal::Ctor(IntPtr value) {
+};
+
 } // namespace System::Private::CoreLib::System::RuntimeMethodHandleInternalNamespace

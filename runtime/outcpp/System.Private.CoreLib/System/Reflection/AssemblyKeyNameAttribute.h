@@ -9,6 +9,7 @@ namespace System::Private::CoreLib::System::Reflection {
 namespace AssemblyKeyNameAttributeNamespace {
 CLASS(AssemblyKeyNameAttribute) {
   public: String get_KeyName() { return KeyName; }
+  public: void Ctor(String keyName);
   private: String KeyName;
 };
 } // namespace AssemblyKeyNameAttributeNamespace

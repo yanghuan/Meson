@@ -9,6 +9,7 @@ namespace System::Private::CoreLib::System::Reflection {
 namespace AssemblyDefaultAliasAttributeNamespace {
 CLASS(AssemblyDefaultAliasAttribute) {
   public: String get_DefaultAlias() { return DefaultAlias; }
+  public: void Ctor(String defaultAlias);
   private: String DefaultAlias;
 };
 } // namespace AssemblyDefaultAliasAttributeNamespace

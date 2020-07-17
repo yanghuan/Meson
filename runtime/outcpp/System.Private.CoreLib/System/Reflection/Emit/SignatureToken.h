@@ -11,11 +11,13 @@ namespace System::Private::CoreLib::System::Reflection::Emit {
 namespace SignatureTokenNamespace {
 struct SignatureToken {
   public: Int32 get_Token() { return Token; }
+  public: void Ctor(Int32 signatureToken);
   public: Int32 GetHashCode();
   public: Boolean Equals(Object obj);
   public: Boolean Equals(SignatureToken obj);
   public: static Boolean op_Equality(SignatureToken a, SignatureToken b);
   public: static Boolean op_Inequality(SignatureToken a, SignatureToken b);
+  public: void Ctor();
   public: static SignatureToken Empty;
   private: Int32 Token;
 };

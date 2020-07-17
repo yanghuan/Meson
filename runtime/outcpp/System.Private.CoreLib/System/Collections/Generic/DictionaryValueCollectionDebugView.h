@@ -10,6 +10,7 @@ FORWARD(ICollection, T)
 namespace DictionaryValueCollectionDebugViewNamespace {
 CLASS(DictionaryValueCollectionDebugView, TKey, TValue) {
   public: Array<TValue> get_Items();
+  public: void Ctor(ICollection<TValue> collection);
   private: ICollection<TValue> _collection;
 };
 } // namespace DictionaryValueCollectionDebugViewNamespace

@@ -4,6 +4,10 @@
 #include <System.Private.CoreLib/System/Boolean.h>
 #include <System.Private.CoreLib/System/Int32.h>
 
+namespace System::Private::CoreLib::System::Text {
+FORWARD(Encoder)
+FORWARD(Encoding)
+} // namespace System::Private::CoreLib::System::Text
 namespace System::Private::CoreLib::System::Threading::Tasks {
 FORWARDS_(ValueTask, T1, T2)
 } // namespace System::Private::CoreLib::System::Threading::Tasks
@@ -23,10 +27,6 @@ FORWARDS(UInt16)
 FORWARDS(UInt32)
 FORWARDS(UInt64)
 } // namespace System::Private::CoreLib::System
-namespace System::Private::CoreLib::System::Text {
-FORWARD(Encoder)
-FORWARD(Encoding)
-} // namespace System::Private::CoreLib::System::Text
 namespace System::Private::CoreLib::System::IO {
 enum class SeekOrigin;
 FORWARD(Stream)
@@ -35,6 +35,10 @@ using namespace Text;
 using namespace Threading::Tasks;
 CLASS(BinaryWriter) {
   public: Stream get_BaseStream();
+  protected: void Ctor();
+  public: void Ctor(Stream output);
+  public: void Ctor(Stream output, Encoding encoding);
+  public: void Ctor(Stream output, Encoding encoding, Boolean leaveOpen);
   public: void Close();
   protected: void Dispose(Boolean disposing);
   public: void Dispose();
@@ -63,6 +67,7 @@ CLASS(BinaryWriter) {
   public: void Write(ReadOnlySpan<Char> chars);
   public: void Write7BitEncodedInt(Int32 value);
   public: void Write7BitEncodedInt64(Int64 value);
+  private: static void SCtor();
   public: static BinaryWriter Null;
   protected: Stream OutStream;
   private: Array<Byte> _buffer;

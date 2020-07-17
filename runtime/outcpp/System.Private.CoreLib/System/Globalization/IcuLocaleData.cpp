@@ -29,4 +29,7 @@ Int32 IcuLocaleData::CompareOrdinal(String s1, String s2, Int32 index, Int32 len
   return Int32();
 };
 
+void IcuLocaleData::SCtor() {
+};
+
 } // namespace System::Private::CoreLib::System::Globalization::IcuLocaleDataNamespace

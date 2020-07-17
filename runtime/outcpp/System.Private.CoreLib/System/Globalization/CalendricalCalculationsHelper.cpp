@@ -1,6 +1,9 @@
 #include "CalendricalCalculationsHelper-dep.h"
 
 namespace System::Private::CoreLib::System::Globalization::CalendricalCalculationsHelperNamespace {
+void CalendricalCalculationsHelper::EphemerisCorrectionAlgorithmMap::Ctor(Int32 year, CorrectionAlgorithm algorithm) {
+};
+
 Double CalendricalCalculationsHelper::RadiansFromDegrees(Double degree) {
   return Double();
 };
@@ -143,6 +146,9 @@ Double CalendricalCalculationsHelper::EstimatePrior(Double longitude, Double tim
 
 Int64 CalendricalCalculationsHelper::PersianNewYearOnOrBefore(Int64 numberOfDays) {
   return Int64();
+};
+
+void CalendricalCalculationsHelper::SCtor() {
 };
 
 } // namespace System::Private::CoreLib::System::Globalization::CalendricalCalculationsHelperNamespace

@@ -9,7 +9,9 @@ namespace MemoryHandleNamespace {
 using namespace Runtime::InteropServices;
 struct MemoryHandle {
   public: void* get_Pointer();
+  public: void Ctor(void* pointer, GCHandle handle, IPinnable pinnable);
   public: void Dispose();
+  public: void Ctor();
   private: void* _pointer;
   private: GCHandle _handle;
   private: IPinnable _pinnable;

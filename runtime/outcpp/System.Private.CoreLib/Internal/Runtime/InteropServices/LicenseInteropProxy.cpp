@@ -1,6 +1,9 @@
 #include "LicenseInteropProxy-dep.h"
 
 namespace System::Private::CoreLib::Internal::Runtime::InteropServices::LicenseInteropProxyNamespace {
+void LicenseInteropProxy___::Ctor() {
+};
+
 Object LicenseInteropProxy___::Create() {
   return nullptr;
 };
@@ -24,6 +27,9 @@ void LicenseInteropProxy___::GetCurrentContextInfo(RuntimeTypeHandle rth, Boolea
 };
 
 void LicenseInteropProxy___::SaveKeyInCurrentContext(IntPtr bstrKey) {
+};
+
+void LicenseInteropProxy___::SCtor() {
 };
 
 } // namespace System::Private::CoreLib::Internal::Runtime::InteropServices::LicenseInteropProxyNamespace

@@ -26,6 +26,12 @@ Int64 Stream___::WriteCallbackStream___::get_Position() {
 void Stream___::WriteCallbackStream___::set_Position(Int64 value) {
 };
 
+void Stream___::WriteCallbackStream___::Ctor(ReadOnlySpanAction<Byte, Object> action, Object state) {
+};
+
+void Stream___::WriteCallbackStream___::Ctor(Func<ReadOnlyMemory<Byte>, Object, CancellationToken, ValueTask<>> func, Object state) {
+};
+
 void Stream___::WriteCallbackStream___::Write(Array<Byte> buffer, Int32 offset, Int32 count) {
 };
 
@@ -65,6 +71,9 @@ Boolean Stream___::ReadWriteTask___::get_InvokeMayRunArbitraryCodeOfITaskComplet
 void Stream___::ReadWriteTask___::ClearBeginState() {
 };
 
+void Stream___::ReadWriteTask___::Ctor(Boolean isRead, Boolean apm, Func<Object, Int32> function, Object state, Stream stream, Array<Byte> buffer, Int32 offset, Int32 count, AsyncCallback callback) {
+};
+
 void Stream___::ReadWriteTask___::InvokeAsyncCallback(Object completedTask) {
 };
 
@@ -89,6 +98,9 @@ Int64 Stream___::NullStream___::get_Position() {
 };
 
 void Stream___::NullStream___::set_Position(Int64 value) {
+};
+
+void Stream___::NullStream___::Ctor() {
 };
 
 void Stream___::NullStream___::CopyTo(Stream destination, Int32 bufferSize) {
@@ -174,6 +186,9 @@ Int64 Stream___::NullStream___::Seek(Int64 offset, SeekOrigin origin) {
 void Stream___::NullStream___::SetLength(Int64 length) {
 };
 
+void Stream___::NullStream___::SCtor() {
+};
+
 Boolean Stream___::SynchronousAsyncResult___::get_IsCompleted() {
   return Boolean();
 };
@@ -188,6 +203,15 @@ Object Stream___::SynchronousAsyncResult___::get_AsyncState() {
 
 Boolean Stream___::SynchronousAsyncResult___::get_CompletedSynchronously() {
   return Boolean();
+};
+
+void Stream___::SynchronousAsyncResult___::Ctor(Int32 bytesRead, Object asyncStateObject) {
+};
+
+void Stream___::SynchronousAsyncResult___::Ctor(Object asyncStateObject) {
+};
+
+void Stream___::SynchronousAsyncResult___::Ctor(Exception ex, Object asyncStateObject, Boolean isWrite) {
 };
 
 void Stream___::SynchronousAsyncResult___::ThrowIfError() {
@@ -239,6 +263,9 @@ Int32 Stream___::SyncStream___::get_WriteTimeout() {
 };
 
 void Stream___::SyncStream___::set_WriteTimeout(Int32 value) {
+};
+
+void Stream___::SyncStream___::Ctor(Stream stream) {
 };
 
 void Stream___::SyncStream___::Close() {
@@ -483,6 +510,12 @@ IAsyncResult Stream___::BlockingBeginWrite(Array<Byte> buffer, Int32 offset, Int
 };
 
 void Stream___::BlockingEndWrite(IAsyncResult asyncResult) {
+};
+
+void Stream___::Ctor() {
+};
+
+void Stream___::SCtor() {
 };
 
 } // namespace System::Private::CoreLib::System::IO::StreamNamespace

@@ -3,6 +3,9 @@
 #include <System.Private.CoreLib/Internal/Win32/RegistryKey-dep.h>
 
 namespace System::Private::CoreLib::Internal::Win32::RegistryKeyNamespace {
+void RegistryKey___::Ctor(SafeRegistryHandle hkey) {
+};
+
 void RegistryKey___::DeleteValue(String name, Boolean throwOnMissingValue) {
 };
 

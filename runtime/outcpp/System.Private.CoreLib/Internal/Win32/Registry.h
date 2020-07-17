@@ -6,6 +6,7 @@ namespace System::Private::CoreLib::Internal::Win32 {
 FORWARD(RegistryKey)
 namespace RegistryNamespace {
 class Registry {
+  private: static void SCtor();
   public: static RegistryKey CurrentUser;
   public: static RegistryKey LocalMachine;
 };

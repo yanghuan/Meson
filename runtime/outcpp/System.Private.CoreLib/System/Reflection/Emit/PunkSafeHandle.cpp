@@ -9,4 +9,7 @@ Boolean PunkSafeHandle___::ReleaseHandle() {
   return Boolean();
 };
 
+void PunkSafeHandle___::SCtor() {
+};
+
 } // namespace System::Private::CoreLib::System::Reflection::Emit::PunkSafeHandleNamespace

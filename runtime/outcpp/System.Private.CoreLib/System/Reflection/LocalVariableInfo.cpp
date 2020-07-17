@@ -13,6 +13,9 @@ Boolean LocalVariableInfo___::get_IsPinned() {
   return Boolean();
 };
 
+void LocalVariableInfo___::Ctor() {
+};
+
 String LocalVariableInfo___::ToString() {
   return nullptr;
 };

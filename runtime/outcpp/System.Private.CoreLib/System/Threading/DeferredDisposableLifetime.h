@@ -13,6 +13,7 @@ struct DeferredDisposableLifetime {
   public: Boolean AddRef();
   public: void Release(T obj);
   public: void Dispose(T obj);
+  public: void Ctor();
   private: Int32 _count;
 };
 } // namespace DeferredDisposableLifetimeNamespace

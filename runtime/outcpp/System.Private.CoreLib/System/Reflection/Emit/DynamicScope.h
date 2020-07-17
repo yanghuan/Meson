@@ -33,6 +33,7 @@ CLASS(DynamicScope) {
   public: Int32 GetTokenFor(RuntimeTypeHandle type);
   public: Int32 GetTokenFor(String literal);
   public: Int32 GetTokenFor(Array<Byte> signature);
+  public: void Ctor();
   public: List<Object> m_tokens;
 };
 } // namespace DynamicScopeNamespace

@@ -11,8 +11,10 @@ namespace SZGenericArrayEnumeratorNamespace {
 CLASS(SZGenericArrayEnumerator, T) {
   public: T get_Current();
   private: Object get_CurrentOfIEnumerator();
+  public: void Ctor(Array<T> array);
   public: Boolean MoveNext();
   public: void Dispose();
+  private: static void SCtor();
   private: Array<T> _array;
   private: Int32 _index;
   public: static SZGenericArrayEnumerator<T> Empty;

@@ -22,9 +22,11 @@ using namespace Reflection;
 ARRAY(({
   private: template <class T>
   class EmptyArray {
+    private: static void SCtor();
     public: static Array<T> Value;
   };
   private: struct SorterObjectArray {
+    public: void Ctor(Array<Object> keys, Array<Object> items, IComparer comparer);
     public: void SwapIfGreater(Int32 a, Int32 b);
     private: void Swap(Int32 i, Int32 j);
     public: void Sort(Int32 left, Int32 length);
@@ -34,11 +36,13 @@ ARRAY(({
     private: void Heapsort(Int32 lo, Int32 hi);
     private: void DownHeap(Int32 i, Int32 n, Int32 lo);
     private: void InsertionSort(Int32 lo, Int32 hi);
+    public: void Ctor();
     private: Array<> keys;
     private: Array<> items;
     private: IComparer comparer;
   };
   private: struct SorterGenericArray {
+    public: void Ctor(Array<> keys, Array<> items, IComparer comparer);
     public: void SwapIfGreater(Int32 a, Int32 b);
     private: void Swap(Int32 i, Int32 j);
     public: void Sort(Int32 left, Int32 length);
@@ -48,6 +52,7 @@ ARRAY(({
     private: void Heapsort(Int32 lo, Int32 hi);
     private: void DownHeap(Int32 i, Int32 n, Int32 lo);
     private: void InsertionSort(Int32 lo, Int32 hi);
+    public: void Ctor();
     private: Array<> keys;
     private: Array<> items;
     private: IComparer comparer;
@@ -91,6 +96,7 @@ ARRAY(({
   public: CorElementType GetCorElementTypeOfElementType();
   private: Boolean IsValueOfElementType(Object value);
   public: void Initialize();
+  public: void Ctor();
   public: static Array<> CreateInstance(Type elementType, Array<Int64> lengths);
   public: static void Copy(Array<> sourceArray, Array<> destinationArray, Int64 length);
   public: static void Copy(Array<> sourceArray, Int64 sourceIndex, Array<> destinationArray, Int64 destinationIndex, Int64 length);

@@ -9,6 +9,9 @@ Boolean Environment::WindowsVersion::GetIsWindows8OrAbove() {
   return Boolean();
 };
 
+void Environment::WindowsVersion::SCtor() {
+};
+
 Int32 Environment::get_CurrentManagedThreadId() {
   return Int32();
 };
@@ -197,6 +200,9 @@ void Environment::SetEnvironmentVariableCore(String variable, String value) {
 
 IDictionary Environment::GetEnvironmentVariables() {
   return nullptr;
+};
+
+void Environment::SCtor() {
 };
 
 } // namespace System::Private::CoreLib::System::EnvironmentNamespace

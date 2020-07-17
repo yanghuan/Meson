@@ -9,6 +9,12 @@ CompareInfo __DTString::get_CompareInfo() {
   return nullptr;
 };
 
+void __DTString::Ctor(ReadOnlySpan<Char> str, DateTimeFormatInfo dtfi, Boolean checkDigitToken) {
+};
+
+void __DTString::Ctor(ReadOnlySpan<Char> str, DateTimeFormatInfo dtfi) {
+};
+
 Boolean __DTString::GetNext() {
   return Boolean();
 };
@@ -85,6 +91,9 @@ DTSubString __DTString::GetSubString() {
 };
 
 void __DTString::ConsumeSubString(DTSubString sub) {
+};
+
+void __DTString::SCtor() {
 };
 
 } // namespace System::Private::CoreLib::System::__DTStringNamespace

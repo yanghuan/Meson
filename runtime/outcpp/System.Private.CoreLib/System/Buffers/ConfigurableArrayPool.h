@@ -14,6 +14,7 @@ using namespace Threading;
 CLASS(ConfigurableArrayPool, T) {
   private: CLASS(Bucket) {
     public: Int32 get_Id();
+    public: void Ctor(Int32 bufferLength, Int32 numberOfBuffers, Int32 poolId);
     public: Array<T> Rent();
     public: void Return(Array<T> array);
     public: Int32 _bufferLength;
@@ -23,6 +24,8 @@ CLASS(ConfigurableArrayPool, T) {
     private: Int32 _index;
   };
   private: Int32 get_Id();
+  public: void Ctor();
+  public: void Ctor(Int32 maxArrayLength, Int32 maxArraysPerBucket);
   public: Array<T> Rent(Int32 minimumLength);
   public: void Return(Array<T> array, Boolean clearArray);
   private: Array<Bucket> _buckets;

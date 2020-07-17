@@ -1,6 +1,9 @@
 #include "ConsolePal-dep.h"
 
 namespace System::Console::System::ConsolePalNamespace {
+void ConsolePal::WindowsConsoleStream___::Ctor(IntPtr handle, FileAccess access, Boolean useFileAPIs) {
+};
+
 void ConsolePal::WindowsConsoleStream___::Dispose(Boolean disposing) {
 };
 
@@ -20,6 +23,9 @@ Int32 ConsolePal::WindowsConsoleStream___::ReadFileNative(IntPtr hFile, Array<By
 
 Int32 ConsolePal::WindowsConsoleStream___::WriteFileNative(IntPtr hFile, Array<Byte> bytes, Int32 offset, Int32 count, Boolean useFileAPIs) {
   return Int32();
+};
+
+void ConsolePal::ControlCHandlerRegistrar___::Ctor() {
 };
 
 void ConsolePal::ControlCHandlerRegistrar___::Register() {
@@ -278,6 +284,9 @@ Interop::Kernel32::CONSOLE_SCREEN_BUFFER_INFO ConsolePal::GetBufferInfo() {
 
 Interop::Kernel32::CONSOLE_SCREEN_BUFFER_INFO ConsolePal::GetBufferInfo(Boolean throwOnNoConsole, Boolean& succeeded) {
   return Interop::Kernel32::CONSOLE_SCREEN_BUFFER_INFO();
+};
+
+void ConsolePal::SCtor() {
 };
 
 } // namespace System::Console::System::ConsolePalNamespace

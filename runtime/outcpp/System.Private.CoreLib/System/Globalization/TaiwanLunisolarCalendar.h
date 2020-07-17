@@ -27,7 +27,9 @@ CLASS(TaiwanLunisolarCalendar) {
   public: Int32 GetYearInfo(Int32 lunarYear, Int32 index);
   public: Int32 GetYear(Int32 year, DateTime time);
   public: Int32 GetGregorianYear(Int32 year, Int32 era);
+  public: void Ctor();
   public: Int32 GetEra(DateTime time);
+  private: static void SCtor();
   private: static Array<EraInfo> s_taiwanLunisolarEraInfo;
   private: GregorianCalendarHelper _helper;
   private: static DateTime s_minDate;

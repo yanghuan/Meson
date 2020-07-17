@@ -15,6 +15,7 @@ namespace SynchronizationContextNamespace {
 CLASS(SynchronizationContext) {
   public: static SynchronizationContext get_Current();
   private: static Int32 InvokeWaitMethodHelper(SynchronizationContext syncContext, Array<IntPtr> waitHandles, Boolean waitAll, Int32 millisecondsTimeout);
+  public: void Ctor();
   protected: void SetWaitNotificationRequired();
   public: Boolean IsWaitNotificationRequired();
   public: void Send(SendOrPostCallback d, Object state);

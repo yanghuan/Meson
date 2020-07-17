@@ -5,6 +5,9 @@ Int32 DecoderReplacementFallbackBuffer___::get_Remaining() {
   return Int32();
 };
 
+void DecoderReplacementFallbackBuffer___::Ctor(DecoderReplacementFallback fallback) {
+};
+
 Boolean DecoderReplacementFallbackBuffer___::Fallback(Array<Byte> bytesUnknown, Int32 index) {
   return Boolean();
 };

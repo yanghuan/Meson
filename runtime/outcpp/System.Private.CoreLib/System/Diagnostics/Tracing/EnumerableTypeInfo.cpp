@@ -5,6 +5,9 @@ TraceLoggingTypeInfo EnumerableTypeInfo___::get_ElementInfo() {
   return nullptr;
 };
 
+void EnumerableTypeInfo___::Ctor(Type type, TraceLoggingTypeInfo elementInfo) {
+};
+
 void EnumerableTypeInfo___::WriteMetadata(TraceLoggingMetadataCollector collector, String name, EventFieldFormat format) {
 };
 

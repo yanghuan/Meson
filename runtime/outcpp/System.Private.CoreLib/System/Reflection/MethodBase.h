@@ -62,6 +62,7 @@ CLASS(MethodBase) {
   public: Array<ParameterInfo> GetParametersNoCopy();
   public: Array<Type> GetParameterTypes();
   public: Array<Object> CheckArguments(Array<Object> parameters, Binder binder, BindingFlags invokeAttr, CultureInfo culture, Signature sig);
+  protected: void Ctor();
   public: Array<ParameterInfo> GetParameters();
   public: MethodImplAttributes GetMethodImplementationFlags();
   public: MethodBody GetMethodBody();

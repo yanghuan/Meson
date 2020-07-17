@@ -6,6 +6,7 @@
 namespace System::Private::CoreLib::System::Runtime::InteropServices::ComTypes {
 namespace FILETIMENamespace {
 struct FILETIME {
+  public: void Ctor();
   public: Int32 dwLowDateTime;
   public: Int32 dwHighDateTime;
 };

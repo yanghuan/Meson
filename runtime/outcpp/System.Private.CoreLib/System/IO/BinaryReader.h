@@ -4,6 +4,10 @@
 #include <System.Private.CoreLib/System/Boolean.h>
 #include <System.Private.CoreLib/System/Int32.h>
 
+namespace System::Private::CoreLib::System::Text {
+FORWARD(Decoder)
+FORWARD(Encoding)
+} // namespace System::Private::CoreLib::System::Text
 namespace System::Private::CoreLib::System {
 FORWARD_(Array, T1, T2)
 FORWARDS(Byte)
@@ -21,15 +25,15 @@ FORWARDS(UInt16)
 FORWARDS(UInt32)
 FORWARDS(UInt64)
 } // namespace System::Private::CoreLib::System
-namespace System::Private::CoreLib::System::Text {
-FORWARD(Decoder)
-} // namespace System::Private::CoreLib::System::Text
 namespace System::Private::CoreLib::System::IO {
 FORWARD(Stream)
 namespace BinaryReaderNamespace {
 using namespace Text;
 CLASS(BinaryReader) {
   public: Stream get_BaseStream();
+  public: void Ctor(Stream input);
+  public: void Ctor(Stream input, Encoding encoding);
+  public: void Ctor(Stream input, Encoding encoding, Boolean leaveOpen);
   protected: void Dispose(Boolean disposing);
   public: void Dispose();
   public: void Close();

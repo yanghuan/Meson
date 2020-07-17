@@ -23,6 +23,7 @@ namespace StringReaderNamespace {
 using namespace Threading;
 using namespace Threading::Tasks;
 CLASS(StringReader) {
+  public: void Ctor(String s);
   public: void Close();
   protected: void Dispose(Boolean disposing);
   public: Int32 Peek();

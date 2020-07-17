@@ -4,6 +4,7 @@
 #include <System.Private.CoreLib/System/UIntPtr.h>
 
 namespace System::Private::CoreLib::System {
+FORWARDS(Boolean)
 FORWARDS(Byte)
 FORWARD(InvalidOperationException)
 FORWARDS(UInt32)
@@ -14,6 +15,7 @@ namespace SafeBufferNamespace {
 CLASS(SafeBuffer) {
   private: static UIntPtr get_Uninitialized();
   public: UInt64 get_ByteLength();
+  protected: void Ctor(Boolean ownsHandle);
   public: void Initialize(UInt64 numBytes);
   public: void Initialize(UInt32 numElements, UInt32 sizeOfEachElement);
   public: void AcquirePointer(Byte*& pointer);

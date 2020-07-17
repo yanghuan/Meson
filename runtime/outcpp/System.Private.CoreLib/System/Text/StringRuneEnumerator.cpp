@@ -11,6 +11,9 @@ Object StringRuneEnumerator::get_CurrentOfIEnumerator() {
   return nullptr;
 };
 
+void StringRuneEnumerator::Ctor(String value) {
+};
+
 StringRuneEnumerator StringRuneEnumerator::GetEnumerator() {
   return StringRuneEnumerator();
 };

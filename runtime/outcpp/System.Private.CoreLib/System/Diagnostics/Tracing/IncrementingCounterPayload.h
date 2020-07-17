@@ -38,6 +38,7 @@ CLASS(IncrementingCounterPayload) {
   public: void set_DisplayUnits(String value) { DisplayUnits = value; }
   private: IEnumerable<KeyValuePair<String, Object>> get_ForEnumeration();
   public: IEnumerator<KeyValuePair<String, Object>> GetEnumerator();
+  public: void Ctor();
   private: String Name;
   private: String DisplayName;
   private: String DisplayRateTimeScale;

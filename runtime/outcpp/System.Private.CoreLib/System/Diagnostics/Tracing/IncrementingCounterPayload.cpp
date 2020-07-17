@@ -9,4 +9,7 @@ IEnumerator<KeyValuePair<String, Object>> IncrementingCounterPayload___::GetEnum
   return nullptr;
 };
 
+void IncrementingCounterPayload___::Ctor() {
+};
+
 } // namespace System::Private::CoreLib::System::Diagnostics::Tracing::IncrementingCounterPayloadNamespace

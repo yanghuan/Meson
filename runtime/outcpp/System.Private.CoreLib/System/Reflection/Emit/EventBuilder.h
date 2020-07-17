@@ -3,16 +3,16 @@
 #include <rt/GCObject.h>
 #include <System.Private.CoreLib/System/Reflection/Emit/EventToken.h>
 
-namespace System::Private::CoreLib::System::Reflection {
-enum class EventAttributes;
-enum class MethodSemanticsAttributes;
-FORWARD(ConstructorInfo)
-} // namespace System::Private::CoreLib::System::Reflection
 namespace System::Private::CoreLib::System {
 FORWARD_(Array, T1, T2)
 FORWARDS(Byte)
 FORWARD(String)
 } // namespace System::Private::CoreLib::System
+namespace System::Private::CoreLib::System::Reflection {
+enum class EventAttributes;
+enum class MethodSemanticsAttributes;
+FORWARD(ConstructorInfo)
+} // namespace System::Private::CoreLib::System::Reflection
 namespace System::Private::CoreLib::System::Reflection::Emit {
 FORWARD(CustomAttributeBuilder)
 FORWARD(MethodBuilder)
@@ -20,6 +20,7 @@ FORWARD(ModuleBuilder)
 FORWARD(TypeBuilder)
 namespace EventBuilderNamespace {
 CLASS(EventBuilder) {
+  public: void Ctor(ModuleBuilder mod, String name, EventAttributes attr, TypeBuilder type, EventToken evToken);
   public: EventToken GetEventToken();
   private: void SetMethodSemantics(MethodBuilder mdBuilder, MethodSemanticsAttributes semantics);
   public: void SetAddOnMethod(MethodBuilder mdBuilder);

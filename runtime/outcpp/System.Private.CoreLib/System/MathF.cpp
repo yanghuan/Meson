@@ -65,4 +65,7 @@ Single MathF::Truncate(Single x) {
   return Single();
 };
 
+void MathF::SCtor() {
+};
+
 } // namespace System::Private::CoreLib::System::MathFNamespace

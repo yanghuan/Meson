@@ -1,6 +1,9 @@
 #include "EventBuilder-dep.h"
 
 namespace System::Private::CoreLib::System::Reflection::Emit::EventBuilderNamespace {
+void EventBuilder___::Ctor(ModuleBuilder mod, String name, EventAttributes attr, TypeBuilder type, EventToken evToken) {
+};
+
 EventToken EventBuilder___::GetEventToken() {
   return EventToken();
 };

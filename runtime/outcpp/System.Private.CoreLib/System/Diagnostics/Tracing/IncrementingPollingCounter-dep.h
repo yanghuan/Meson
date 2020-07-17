@@ -2,6 +2,7 @@
 
 #include "IncrementingPollingCounter.h"
 
+#include <System.Private.CoreLib/System/Diagnostics/Tracing/EventSource-dep.h>
 #include <System.Private.CoreLib/System/Double-dep.h>
 #include <System.Private.CoreLib/System/Func-dep.h>
 #include <System.Private.CoreLib/System/Int32-dep.h>

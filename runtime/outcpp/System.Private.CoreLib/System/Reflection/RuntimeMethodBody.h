@@ -24,6 +24,7 @@ CLASS(RuntimeMethodBody) {
   public: Int32 get_MaxStackSize();
   public: Boolean get_InitLocals();
   public: IList<ExceptionHandlingClause> get_ExceptionHandlingClauses();
+  private: void Ctor();
   public: Array<Byte> GetILAsByteArray();
   private: Array<Byte> _IL;
   private: Array<ExceptionHandlingClause> _exceptionHandlingClauses;

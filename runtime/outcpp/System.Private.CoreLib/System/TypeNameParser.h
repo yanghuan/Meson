@@ -33,6 +33,7 @@ CLASS(TypeNameParser) {
   private: static void _GetModifiers(SafeTypeNameParserHandle pTypeNameParser, ObjectHandleOnStack retArray);
   private: static void _GetAssemblyName(SafeTypeNameParserHandle pTypeNameParser, StringHandleOnStack retString);
   public: static Type GetType(String typeName, Func<AssemblyName, Assembly> assemblyResolver, Func<Assembly, String, Boolean, Type> typeResolver, Boolean throwOnError, Boolean ignoreCase, StackCrawlMark& stackMark);
+  private: void Ctor(SafeTypeNameParserHandle handle);
   public: void Dispose();
   private: Type ConstructType(Func<AssemblyName, Assembly> assemblyResolver, Func<Assembly, String, Boolean, Type> typeResolver, Boolean throwOnError, Boolean ignoreCase, StackCrawlMark& stackMark);
   private: static Assembly ResolveAssembly(String asmName, Func<AssemblyName, Assembly> assemblyResolver, Boolean throwOnError, StackCrawlMark& stackMark);
@@ -43,6 +44,7 @@ CLASS(TypeNameParser) {
   private: Array<SafeTypeNameParserHandle> GetTypeArguments();
   private: Array<Int32> GetModifiers();
   private: String GetAssemblyName();
+  private: static void SCtor();
   private: SafeTypeNameParserHandle m_NativeParser;
   private: static Array<Char> SPECIAL_CHARS;
 };

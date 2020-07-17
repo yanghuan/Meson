@@ -9,6 +9,9 @@ Int32 InternalDecoderBestFitFallbackBuffer___::get_Remaining() {
   return Int32();
 };
 
+void InternalDecoderBestFitFallbackBuffer___::Ctor(InternalDecoderBestFitFallback fallback) {
+};
+
 Boolean InternalDecoderBestFitFallbackBuffer___::Fallback(Array<Byte> bytesUnknown, Int32 index) {
   return Boolean();
 };

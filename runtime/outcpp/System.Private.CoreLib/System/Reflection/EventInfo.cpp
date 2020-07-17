@@ -29,6 +29,9 @@ Type EventInfo___::get_EventHandlerType() {
   return nullptr;
 };
 
+void EventInfo___::Ctor() {
+};
+
 Array<MethodInfo> EventInfo___::GetOtherMethods() {
   return Array<MethodInfo>();
 };

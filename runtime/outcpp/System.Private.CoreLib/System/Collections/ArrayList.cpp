@@ -7,6 +7,12 @@ Object ArrayList___::IListWrapper___::IListWrapperEnumWrapper___::get_Current() 
   return nullptr;
 };
 
+void ArrayList___::IListWrapper___::IListWrapperEnumWrapper___::Ctor(IListWrapper listWrapper, Int32 startIndex, Int32 count) {
+};
+
+void ArrayList___::IListWrapper___::IListWrapperEnumWrapper___::Ctor() {
+};
+
 Object ArrayList___::IListWrapper___::IListWrapperEnumWrapper___::Clone() {
   return nullptr;
 };
@@ -50,6 +56,9 @@ void ArrayList___::IListWrapper___::set_Item(Int32 index, Object value) {
 
 Object ArrayList___::IListWrapper___::get_SyncRoot() {
   return nullptr;
+};
+
+void ArrayList___::IListWrapper___::Ctor(IList list) {
 };
 
 Int32 ArrayList___::IListWrapper___::Add(Object obj) {
@@ -183,6 +192,9 @@ void ArrayList___::SyncArrayList___::set_Item(Int32 index, Object value) {
 
 Object ArrayList___::SyncArrayList___::get_SyncRoot() {
   return nullptr;
+};
+
+void ArrayList___::SyncArrayList___::Ctor(ArrayList list) {
 };
 
 Int32 ArrayList___::SyncArrayList___::Add(Object value) {
@@ -328,6 +340,9 @@ Object ArrayList___::SyncIList___::get_SyncRoot() {
   return nullptr;
 };
 
+void ArrayList___::SyncIList___::Ctor(IList list) {
+};
+
 Int32 ArrayList___::SyncIList___::Add(Object value) {
   return Int32();
 };
@@ -384,6 +399,9 @@ void ArrayList___::FixedSizeList___::set_Item(Int32 index, Object value) {
 
 Object ArrayList___::FixedSizeList___::get_SyncRoot() {
   return nullptr;
+};
+
+void ArrayList___::FixedSizeList___::Ctor(IList l) {
 };
 
 Int32 ArrayList___::FixedSizeList___::Add(Object obj) {
@@ -449,6 +467,9 @@ Int32 ArrayList___::FixedSizeArrayList___::get_Capacity() {
 };
 
 void ArrayList___::FixedSizeArrayList___::set_Capacity(Int32 value) {
+};
+
+void ArrayList___::FixedSizeArrayList___::Ctor(ArrayList l) {
 };
 
 Int32 ArrayList___::FixedSizeArrayList___::Add(Object obj) {
@@ -577,6 +598,9 @@ Object ArrayList___::ReadOnlyList___::get_SyncRoot() {
   return nullptr;
 };
 
+void ArrayList___::ReadOnlyList___::Ctor(IList l) {
+};
+
 Int32 ArrayList___::ReadOnlyList___::Add(Object obj) {
   return Int32();
 };
@@ -640,6 +664,9 @@ Int32 ArrayList___::ReadOnlyArrayList___::get_Capacity() {
 };
 
 void ArrayList___::ReadOnlyArrayList___::set_Capacity(Int32 value) {
+};
+
+void ArrayList___::ReadOnlyArrayList___::Ctor(ArrayList l) {
 };
 
 Int32 ArrayList___::ReadOnlyArrayList___::Add(Object obj) {
@@ -745,6 +772,9 @@ Object ArrayList___::ArrayListEnumerator___::get_Current() {
   return nullptr;
 };
 
+void ArrayList___::ArrayListEnumerator___::Ctor(ArrayList list, Int32 index, Int32 count) {
+};
+
 Object ArrayList___::ArrayListEnumerator___::Clone() {
   return nullptr;
 };
@@ -788,6 +818,9 @@ Object ArrayList___::Range___::get_Item(Int32 index) {
 };
 
 void ArrayList___::Range___::set_Item(Int32 index, Object value) {
+};
+
+void ArrayList___::Range___::Ctor(ArrayList list, Int32 index, Int32 count) {
 };
 
 void ArrayList___::Range___::InternalUpdateRange() {
@@ -896,6 +929,9 @@ Object ArrayList___::ArrayListEnumeratorSimple___::get_Current() {
   return nullptr;
 };
 
+void ArrayList___::ArrayListEnumeratorSimple___::Ctor(ArrayList list) {
+};
+
 Object ArrayList___::ArrayListEnumeratorSimple___::Clone() {
   return nullptr;
 };
@@ -907,8 +943,14 @@ Boolean ArrayList___::ArrayListEnumeratorSimple___::MoveNext() {
 void ArrayList___::ArrayListEnumeratorSimple___::Reset() {
 };
 
+void ArrayList___::ArrayListEnumeratorSimple___::SCtor() {
+};
+
 Array<Object> ArrayList___::ArrayListDebugView___::get_Items() {
   return Array<Object>();
+};
+
+void ArrayList___::ArrayListDebugView___::Ctor(ArrayList arrayList) {
 };
 
 Int32 ArrayList___::get_Capacity() {
@@ -943,6 +985,15 @@ Object ArrayList___::get_Item(Int32 index) {
 };
 
 void ArrayList___::set_Item(Int32 index, Object value) {
+};
+
+void ArrayList___::Ctor() {
+};
+
+void ArrayList___::Ctor(Int32 capacity) {
+};
+
+void ArrayList___::Ctor(ICollection c) {
 };
 
 ArrayList ArrayList___::Adapter(IList list) {

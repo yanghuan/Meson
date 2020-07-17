@@ -16,6 +16,7 @@ CLASS(CodePageDataItem) {
   public: String get_BodyName() { return BodyName; }
   public: String get_DisplayName() { return DisplayName; }
   public: UInt32 get_Flags() { return Flags; }
+  public: void Ctor(Int32 uiFamilyCodePage, String webName, String headerName, String bodyName, String displayName, UInt32 flags);
   private: Int32 UIFamilyCodePage;
   private: String WebName;
   private: String HeaderName;

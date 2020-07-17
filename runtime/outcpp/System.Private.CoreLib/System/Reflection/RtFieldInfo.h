@@ -2,6 +2,7 @@
 
 #include <rt/GCObject.h>
 #include <System.Private.CoreLib/System/IntPtr.h>
+#include <System.Private.CoreLib/System/RuntimeType.h>
 
 namespace System::Private::CoreLib::System {
 FORWARD_(Array, T1, T2)
@@ -10,7 +11,6 @@ FORWARDS(Int32)
 FORWARD(Object)
 FORWARDS(RuntimeFieldHandle)
 FORWARDS(RuntimeFieldHandleInternal)
-FORWARD(RuntimeType)
 FORWARD(String)
 FORWARD(Type)
 FORWARDS(TypedReference)
@@ -35,6 +35,7 @@ CLASS(RtFieldInfo) {
   public: FieldAttributes get_Attributes();
   public: Type get_FieldType();
   private: INVOCATION_FLAGS InitializeInvocationFlags();
+  public: void Ctor(RuntimeFieldHandleInternal handle, RuntimeType declaringType, RuntimeType::in::RuntimeTypeCache reflectedTypeCache, BindingFlags bindingFlags);
   public: void CheckConsistency(Object target);
   public: Boolean CacheEquals(Object o);
   public: RuntimeModule GetRuntimeModule();

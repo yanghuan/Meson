@@ -43,4 +43,7 @@ Boolean HashCode::Equals(Object obj) {
   return Boolean();
 };
 
+void HashCode::SCtor() {
+};
+
 } // namespace System::Private::CoreLib::System::HashCodeNamespace

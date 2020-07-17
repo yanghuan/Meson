@@ -11,6 +11,7 @@ namespace ObjectNamespace {
 CLASS(Object) : public rt::object {
   public: Type GetType();
   protected: Object MemberwiseClone();
+  public: void Ctor();
   protected: void Finalize();
   public: String ToString();
   public: Boolean Equals(Object obj);

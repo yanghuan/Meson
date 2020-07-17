@@ -19,6 +19,12 @@ WaitHandle CancellationToken::get_WaitHandle() {
   return nullptr;
 };
 
+void CancellationToken::Ctor(CancellationTokenSource source) {
+};
+
+void CancellationToken::Ctor(Boolean canceled) {
+};
+
 CancellationTokenRegistration CancellationToken::Register(Action<> callback) {
   return CancellationTokenRegistration();
 };
@@ -67,6 +73,9 @@ void CancellationToken::ThrowIfCancellationRequested() {
 };
 
 void CancellationToken::ThrowOperationCanceledException() {
+};
+
+void CancellationToken::SCtor() {
 };
 
 } // namespace System::Private::CoreLib::System::Threading::CancellationTokenNamespace

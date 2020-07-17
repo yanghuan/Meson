@@ -18,6 +18,7 @@ CLASS(NullableEqualityComparer, T) {
   public: Int32 GetHashCode(Nullable<T> obj);
   public: Boolean Equals(Object obj);
   public: Int32 GetHashCode();
+  public: void Ctor();
 };
 } // namespace NullableEqualityComparerNamespace
 template <class T>

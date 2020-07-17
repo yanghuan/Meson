@@ -93,6 +93,9 @@ Type TypeBuilderInstantiation___::MakeGenericType(Type type, Array<Type> typeArg
   return nullptr;
 };
 
+void TypeBuilderInstantiation___::Ctor(Type type, Array<Type> inst) {
+};
+
 String TypeBuilderInstantiation___::ToString() {
   return nullptr;
 };

@@ -19,6 +19,8 @@ CLASS(ArrayList) {
   private: CLASS(IListWrapper) {
     private: CLASS(IListWrapperEnumWrapper) {
       public: Object get_Current();
+      public: void Ctor(IListWrapper listWrapper, Int32 startIndex, Int32 count);
+      private: void Ctor();
       public: Object Clone();
       public: Boolean MoveNext();
       public: void Reset();
@@ -37,6 +39,7 @@ CLASS(ArrayList) {
     public: Object get_Item(Int32 index);
     public: void set_Item(Int32 index, Object value);
     public: Object get_SyncRoot();
+    public: void Ctor(IList list);
     public: Int32 Add(Object obj);
     public: void AddRange(ICollection c);
     public: Int32 BinarySearch(Int32 index, Int32 count, Object value, IComparer comparer);
@@ -77,6 +80,7 @@ CLASS(ArrayList) {
     public: Object get_Item(Int32 index);
     public: void set_Item(Int32 index, Object value);
     public: Object get_SyncRoot();
+    public: void Ctor(ArrayList list);
     public: Int32 Add(Object value);
     public: void AddRange(ICollection c);
     public: Int32 BinarySearch(Object value);
@@ -121,6 +125,7 @@ CLASS(ArrayList) {
     public: Object get_Item(Int32 index);
     public: void set_Item(Int32 index, Object value);
     public: Object get_SyncRoot();
+    public: void Ctor(IList list);
     public: Int32 Add(Object value);
     public: void Clear();
     public: Boolean Contains(Object item);
@@ -141,6 +146,7 @@ CLASS(ArrayList) {
     public: Object get_Item(Int32 index);
     public: void set_Item(Int32 index, Object value);
     public: Object get_SyncRoot();
+    public: void Ctor(IList l);
     public: Int32 Add(Object obj);
     public: void Clear();
     public: Boolean Contains(Object obj);
@@ -162,6 +168,7 @@ CLASS(ArrayList) {
     public: Object get_SyncRoot();
     public: Int32 get_Capacity();
     public: void set_Capacity(Int32 value);
+    public: void Ctor(ArrayList l);
     public: Int32 Add(Object obj);
     public: void AddRange(ICollection c);
     public: Int32 BinarySearch(Int32 index, Int32 count, Object value, IComparer comparer);
@@ -200,6 +207,7 @@ CLASS(ArrayList) {
     public: Object get_Item(Int32 index);
     public: void set_Item(Int32 index, Object value);
     public: Object get_SyncRoot();
+    public: void Ctor(IList l);
     public: Int32 Add(Object obj);
     public: void Clear();
     public: Boolean Contains(Object obj);
@@ -221,6 +229,7 @@ CLASS(ArrayList) {
     public: Object get_SyncRoot();
     public: Int32 get_Capacity();
     public: void set_Capacity(Int32 value);
+    public: void Ctor(ArrayList l);
     public: Int32 Add(Object obj);
     public: void AddRange(ICollection c);
     public: Int32 BinarySearch(Int32 index, Int32 count, Object value, IComparer comparer);
@@ -253,6 +262,7 @@ CLASS(ArrayList) {
   };
   private: CLASS(ArrayListEnumerator) {
     public: Object get_Current();
+    public: void Ctor(ArrayList list, Int32 index, Int32 count);
     public: Object Clone();
     public: Boolean MoveNext();
     public: void Reset();
@@ -273,6 +283,7 @@ CLASS(ArrayList) {
     public: Object get_SyncRoot();
     public: Object get_Item(Int32 index);
     public: void set_Item(Int32 index, Object value);
+    public: void Ctor(ArrayList list, Int32 index, Int32 count);
     private: void InternalUpdateRange();
     private: void InternalUpdateVersion();
     public: Int32 Add(Object value);
@@ -309,9 +320,11 @@ CLASS(ArrayList) {
   };
   private: CLASS(ArrayListEnumeratorSimple) {
     public: Object get_Current();
+    public: void Ctor(ArrayList list);
     public: Object Clone();
     public: Boolean MoveNext();
     public: void Reset();
+    private: static void SCtor();
     private: ArrayList _list;
     private: Int32 _index;
     private: Int32 _version;
@@ -321,6 +334,7 @@ CLASS(ArrayList) {
   };
   public: CLASS(ArrayListDebugView) {
     public: Array<Object> get_Items();
+    public: void Ctor(ArrayList arrayList);
     private: ArrayList _arrayList;
   };
   public: Int32 get_Capacity();
@@ -332,6 +346,9 @@ CLASS(ArrayList) {
   public: Object get_SyncRoot();
   public: Object get_Item(Int32 index);
   public: void set_Item(Int32 index, Object value);
+  public: void Ctor();
+  public: void Ctor(Int32 capacity);
+  public: void Ctor(ICollection c);
   public: static ArrayList Adapter(IList list);
   public: Int32 Add(Object value);
   public: void AddRange(ICollection c);

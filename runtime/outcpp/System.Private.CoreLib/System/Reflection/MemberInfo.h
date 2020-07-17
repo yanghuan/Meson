@@ -31,6 +31,7 @@ CLASS(MemberInfo) {
   public: Boolean get_IsCollectible();
   public: Int32 get_MetadataToken();
   public: Boolean CacheEquals(Object o);
+  protected: void Ctor();
   public: Boolean HasSameMetadataDefinitionAs(MemberInfo other);
   public: Boolean IsDefined(Type attributeType, Boolean inherit);
   public: Array<Object> GetCustomAttributes(Boolean inherit);

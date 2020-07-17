@@ -23,9 +23,11 @@ CLASS(List, T) {
   public: struct Enumerator {
     public: T get_Current();
     private: Object get_CurrentOfIEnumerator();
+    public: void Ctor(List<T> list);
     public: void Dispose();
     public: Boolean MoveNext();
     private: Boolean MoveNextRare();
+    public: void Ctor();
     private: List<T> _list;
     private: Int32 _index;
     private: Int32 _version;
@@ -43,6 +45,9 @@ CLASS(List, T) {
   public: void set_Item(Int32 index, T value);
   private: Object get_ItemOfIList(Int32 index);
   private: void set_ItemOfIList(Int32 index, Object value);
+  public: void Ctor();
+  public: void Ctor(Int32 capacity);
+  public: void Ctor(IEnumerable<T> collection);
   private: static Boolean IsCompatibleObject(Object value);
   public: void Add(T item);
   private: void AddWithResize(T item);
@@ -91,6 +96,7 @@ CLASS(List, T) {
   public: Array<T> ToArray();
   public: void TrimExcess();
   public: Boolean TrueForAll(Predicate<T> match);
+  private: static void SCtor();
   public: Array<T> _items;
   public: Int32 _size;
   private: Int32 _version;

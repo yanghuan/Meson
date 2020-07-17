@@ -17,6 +17,9 @@ MethodInfo PropertyInfo___::get_SetMethod() {
   return nullptr;
 };
 
+void PropertyInfo___::Ctor() {
+};
+
 Array<MethodInfo> PropertyInfo___::GetAccessors() {
   return Array<MethodInfo>();
 };

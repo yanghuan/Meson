@@ -5,6 +5,9 @@ IntPtr RuntimeFieldHandle::get_Value() {
   return IntPtr();
 };
 
+void RuntimeFieldHandle::Ctor(IRuntimeFieldInfo fieldInfo) {
+};
+
 IRuntimeFieldInfo RuntimeFieldHandle::GetRuntimeFieldInfo() {
   return nullptr;
 };

@@ -12,6 +12,7 @@ FORWARD(TraceLoggingDataCollector)
 FORWARD(TraceLoggingMetadataCollector)
 namespace DateTimeOffsetTypeInfoNamespace {
 CLASS(DateTimeOffsetTypeInfo) {
+  public: void Ctor();
   public: void WriteMetadata(TraceLoggingMetadataCollector collector, String name, EventFieldFormat format);
   public: void WriteData(TraceLoggingDataCollector collector, PropertyValue value);
 };

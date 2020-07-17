@@ -19,6 +19,12 @@ Boolean Index::get_IsFromEnd() {
   return Boolean();
 };
 
+void Index::Ctor(Int32 value, Boolean fromEnd) {
+};
+
+void Index::Ctor(Int32 value) {
+};
+
 Index Index::FromStart(Int32 value) {
   return Index();
 };

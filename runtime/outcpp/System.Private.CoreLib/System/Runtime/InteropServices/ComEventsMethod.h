@@ -22,6 +22,7 @@ CLASS(ComEventsMethod) {
     public: void set_Delegate(Delegate value) { Delegate = value; }
     public: Boolean get_WrapArgs() { return WrapArgs; }
     private: void set_WrapArgs(Boolean value) { WrapArgs = value; }
+    public: void Ctor(Delegate d, Boolean wrapArgs);
     public: Object Invoke(Array<Object> args);
     private: void PreProcessSignature();
     private: Boolean _once;
@@ -31,6 +32,7 @@ CLASS(ComEventsMethod) {
     private: Boolean WrapArgs;
   };
   public: Boolean get_Empty();
+  public: void Ctor(Int32 dispid);
   public: static ComEventsMethod Find(ComEventsMethod methods, Int32 dispid);
   public: static ComEventsMethod Add(ComEventsMethod methods, ComEventsMethod method);
   public: static ComEventsMethod Remove(ComEventsMethod methods, ComEventsMethod method);

@@ -22,6 +22,7 @@ CLASS(EventPipeConfiguration) {
   public: EventPipeSerializationFormat get_Format();
   public: UInt32 get_CircularBufferSizeInMB();
   public: Array<EventPipeProviderConfiguration> get_Providers();
+  public: void Ctor(String outputFile, EventPipeSerializationFormat format, UInt32 circularBufferSizeInMB);
   public: void EnableProvider(String providerName, UInt64 keywords, UInt32 loggingLevel);
   public: void EnableProviderWithFilter(String providerName, UInt64 keywords, UInt32 loggingLevel, String filterData);
   private: void EnableProviderConfiguration(EventPipeProviderConfiguration providerConfig);

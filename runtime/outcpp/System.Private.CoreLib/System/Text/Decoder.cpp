@@ -16,6 +16,9 @@ Boolean Decoder___::get_InternalHasFallbackBuffer() {
   return Boolean();
 };
 
+void Decoder___::Ctor() {
+};
+
 void Decoder___::Reset() {
 };
 

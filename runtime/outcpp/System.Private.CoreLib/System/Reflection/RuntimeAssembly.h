@@ -17,6 +17,11 @@ FORWARD(Type)
 FORWARDS(UInt32)
 FORWARD(Version)
 } // namespace System::Private::CoreLib::System
+namespace System::Private::CoreLib::System::IO {
+enum class FileAccess;
+FORWARD(FileStream)
+FORWARD(Stream)
+} // namespace System::Private::CoreLib::System::IO
 namespace System::Private::CoreLib::System::Collections::Generic {
 FORWARD(IEnumerable, T)
 FORWARD(IList, T)
@@ -28,10 +33,6 @@ FORWARDS(QCallAssembly)
 FORWARDS(StackCrawlMarkHandle)
 FORWARDS(StringHandleOnStack)
 } // namespace System::Private::CoreLib::System::Runtime::CompilerServices
-namespace System::Private::CoreLib::System::IO {
-FORWARD(FileStream)
-FORWARD(Stream)
-} // namespace System::Private::CoreLib::System::IO
 namespace System::Private::CoreLib::System::Runtime::Serialization {
 FORWARD(SerializationInfo)
 FORWARDS(StreamingContext)
@@ -72,6 +73,7 @@ using namespace Threading;
 using Collections::Generic::IList;
 CLASS(RuntimeAssembly) {
   private: CLASS(ManifestResourceStream) {
+    public: void Ctor(RuntimeAssembly manifestAssembly, Byte* pointer, Int64 length, Int64 capacity, FileAccess access);
     private: RuntimeAssembly _manifestAssembly;
   };
   public: Object get_SyncRoot();
@@ -87,6 +89,7 @@ CLASS(RuntimeAssembly) {
   public: Boolean get_GlobalAssemblyCache();
   public: Int64 get_HostContext();
   public: Boolean get_IsDynamic();
+  public: void Ctor();
   public: IntPtr GetUnderlyingNativeHandle();
   private: static void GetCodeBase(QCallAssembly assembly, Boolean copiedName, StringHandleOnStack retString);
   public: String GetCodeBase(Boolean copiedName);

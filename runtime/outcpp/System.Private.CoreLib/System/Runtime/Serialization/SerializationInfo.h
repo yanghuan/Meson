@@ -49,6 +49,8 @@ CLASS(SerializationInfo) {
   public: static void ThrowIfDeserializationInProgress();
   public: static void ThrowIfDeserializationInProgress(String switchSuffix, Int32& cachedValue);
   public: static DeserializationToken StartDeserialization();
+  public: void Ctor(Type type, IFormatterConverter converter);
+  public: void Ctor(Type type, IFormatterConverter converter, Boolean requireSameTokenInPartialTrust);
   public: void SetType(Type type);
   public: SerializationInfoEnumerator GetEnumerator();
   private: void ExpandArrays();
@@ -90,6 +92,7 @@ CLASS(SerializationInfo) {
   public: Decimal GetDecimal(String name);
   public: DateTime GetDateTime(String name);
   public: String GetString(String name);
+  private: static void SCtor();
   private: Array<String> _names;
   private: Array<Object> _values;
   private: Array<Type> _types;

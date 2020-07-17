@@ -15,6 +15,7 @@ namespace EnumeratorViewOfEnumVariantNamespace {
 using namespace ComTypes;
 CLASS(EnumeratorViewOfEnumVariant) {
   public: Object get_Current();
+  public: void Ctor(IEnumVARIANT enumVariantObject);
   public: Boolean MoveNext();
   public: void Reset();
   public: Object GetUnderlyingObject();

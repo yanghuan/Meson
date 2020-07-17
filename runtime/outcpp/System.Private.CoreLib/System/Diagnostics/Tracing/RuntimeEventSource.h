@@ -9,6 +9,7 @@ FORWARD(PollingCounter)
 namespace RuntimeEventSourceNamespace {
 CLASS(RuntimeEventSource) {
   public: static void Initialize();
+  private: void Ctor();
   protected: void OnEventCommand(EventCommandEventArgs command);
   private: static RuntimeEventSource s_RuntimeEventSource;
   private: PollingCounter _gcHeapSizeCounter;

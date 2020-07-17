@@ -11,6 +11,7 @@ CLASS(EventChannelAttribute) {
   public: void set_Enabled(Boolean value) { Enabled = value; }
   public: EventChannelType get_EventChannelType() { return EventChannelType; }
   public: void set_EventChannelType(EventChannelType value) { EventChannelType = value; }
+  public: void Ctor();
   private: Boolean Enabled;
   private: EventChannelType EventChannelType;
 };

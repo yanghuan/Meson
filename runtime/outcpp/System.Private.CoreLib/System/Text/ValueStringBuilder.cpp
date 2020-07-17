@@ -26,6 +26,12 @@ void ValueStringBuilder::AppendFormatHelper(IFormatProvider provider, String for
 void ValueStringBuilder::ThrowFormatError() {
 };
 
+void ValueStringBuilder::Ctor(Span<Char> initialBuffer) {
+};
+
+void ValueStringBuilder::Ctor(Int32 initialCapacity) {
+};
+
 void ValueStringBuilder::EnsureCapacity(Int32 capacity) {
 };
 

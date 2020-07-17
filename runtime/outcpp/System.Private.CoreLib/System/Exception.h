@@ -39,6 +39,8 @@ CLASS(Exception) {
     OutOfMemory = 3,
   };
   public: struct DispatchState {
+    public: void Ctor(Array<Byte> stackTrace, Array<Object> dynamicMethods, String remoteStackTrace, UIntPtr ipForWatsonBuckets, Array<Byte> watsonBuckets);
+    public: void Ctor();
     public: Array<Byte> StackTrace;
     public: Array<Object> DynamicMethods;
     public: String RemoteStackTrace;
@@ -76,6 +78,10 @@ CLASS(Exception) {
   private: static void GetMessageFromNativeResources(ExceptionMessageKind kind, StringHandleOnStack retMesg);
   public: DispatchState CaptureDispatchState();
   public: void SetCurrentStackTrace();
+  public: void Ctor();
+  public: void Ctor(String message);
+  public: void Ctor(String message, Exception innerException);
+  protected: void Ctor(SerializationInfo info, StreamingContext context);
   private: String GetClassName();
   public: Exception GetBaseException();
   public: void GetObjectData(SerializationInfo info, StreamingContext context);

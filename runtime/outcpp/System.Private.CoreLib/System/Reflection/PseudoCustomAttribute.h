@@ -41,6 +41,7 @@ class PseudoCustomAttribute {
   private: static MarshalAsAttribute GetMarshalAsCustomAttribute(Int32 token, RuntimeModule scope);
   private: static FieldOffsetAttribute GetFieldOffsetCustomAttribute(RuntimeFieldInfo field);
   public: static StructLayoutAttribute GetStructLayoutCustomAttribute(RuntimeType type);
+  private: static void SCtor();
   private: static Dictionary<RuntimeType, RuntimeType> s_pca;
 };
 } // namespace PseudoCustomAttributeNamespace

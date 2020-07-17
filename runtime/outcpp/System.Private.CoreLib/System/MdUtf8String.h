@@ -12,10 +12,13 @@ namespace MdUtf8StringNamespace {
 struct MdUtf8String {
   private: static Boolean EqualsCaseInsensitive(void* szLhs, void* szRhs, Int32 cSz);
   private: static UInt32 HashCaseInsensitive(void* sz, Int32 cSz);
+  public: void Ctor(void* pStringHeap);
+  public: void Ctor(Byte* pUtf8String, Int32 cUtf8String);
   public: Boolean Equals(MdUtf8String s);
   public: Boolean EqualsCaseInsensitive(MdUtf8String s);
   public: UInt32 HashCaseInsensitive();
   public: String ToString();
+  public: void Ctor();
   private: Byte* m_pStringHeap;
   private: Int32 m_StringHeapByteLength;
 };

@@ -9,6 +9,9 @@ Char CharEnumerator___::get_Current() {
   return Char();
 };
 
+void CharEnumerator___::Ctor(String str) {
+};
+
 Object CharEnumerator___::Clone() {
   return nullptr;
 };

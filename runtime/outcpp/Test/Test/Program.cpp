@@ -1,11 +1,16 @@
 #include "Program-dep.h"
 
-#include <System.Private.CoreLib/System/Int32-dep.h>
 #include <System.Private.CoreLib/System/Single-dep.h>
 #include <Test/Test/Program-dep.h>
 
 namespace Test::Test::ProgramNamespace {
 using namespace ::System::Private::CoreLib::System;
+void Program___::Ctor() {
+};
+
+void Program___::Ctor(Int32 a) {
+};
+
 void Program___::Main(Array<String> args) {
   Single num = Single::NaN;
   Single num2 = Single::PositiveInfinity;

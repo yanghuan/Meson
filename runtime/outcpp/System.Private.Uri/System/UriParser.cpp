@@ -3,6 +3,9 @@
 #include <System.Private.Uri/System/UriParser-dep.h>
 
 namespace System::Private::Uri::System::UriParserNamespace {
+void UriParser___::BuiltInUriParser___::Ctor(String lwrCaseScheme, Int32 defaultPort, UriSyntaxFlags syntaxFlags) {
+};
+
 String UriParser___::get_SchemeName() {
   return nullptr;
 };
@@ -17,6 +20,9 @@ UriSyntaxFlags UriParser___::get_Flags() {
 
 Boolean UriParser___::get_IsSimple() {
   return Boolean();
+};
+
+void UriParser___::Ctor() {
 };
 
 UriParser UriParser___::OnNewUri() {
@@ -68,6 +74,9 @@ Boolean UriParser___::IsFullMatch(UriSyntaxFlags flags, UriSyntaxFlags expected)
   return Boolean();
 };
 
+void UriParser___::Ctor(UriSyntaxFlags flags) {
+};
+
 void UriParser___::FetchSyntax(UriParser syntax, String lwrCaseSchemeName, Int32 defaultPort) {
 };
 
@@ -103,6 +112,9 @@ String UriParser___::InternalGetComponents(Uri thisUri, UriComponents uriCompone
 
 Boolean UriParser___::InternalIsWellFormedOriginalString(Uri thisUri) {
   return Boolean();
+};
+
+void UriParser___::SCtor() {
 };
 
 } // namespace System::Private::Uri::System::UriParserNamespace

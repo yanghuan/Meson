@@ -5,6 +5,7 @@
 namespace System::Private::CoreLib::System {
 FORWARD(Object)
 FORWARD(String)
+FORWARD(Type)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Diagnostics::Tracing {
 enum class EventFieldFormat;
@@ -14,6 +15,7 @@ FORWARD(TraceLoggingMetadataCollector)
 FORWARD(TraceLoggingTypeInfo)
 namespace ArrayTypeInfoNamespace {
 CLASS(ArrayTypeInfo) {
+  public: void Ctor(Type type, TraceLoggingTypeInfo elementInfo);
   public: void WriteMetadata(TraceLoggingMetadataCollector collector, String name, EventFieldFormat format);
   public: void WriteData(TraceLoggingDataCollector collector, PropertyValue value);
   public: Object GetData(Object value);

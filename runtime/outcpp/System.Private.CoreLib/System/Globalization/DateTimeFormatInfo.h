@@ -29,6 +29,7 @@ FORWARD(CultureInfo)
 namespace DateTimeFormatInfoNamespace {
 CLASS(DateTimeFormatInfo) {
   public: CLASS(TokenHashValue) {
+    public: void Ctor(String tokenString, TokenType tokenType, Int32 tokenValue);
     public: String tokenString;
     public: TokenType tokenType;
     public: Int32 tokenValue;
@@ -121,6 +122,8 @@ CLASS(DateTimeFormatInfo) {
   private: Array<String> InternalGetAbbreviatedMonthNamesCore();
   private: Array<String> InternalGetMonthNames();
   private: Array<String> internalGetMonthNamesCore();
+  public: void Ctor();
+  public: void Ctor(CultureData cultureData, Calendar cal);
   private: void InitializeOverridableProperties(CultureData cultureData, CalendarId calendarId);
   public: static DateTimeFormatInfo GetInstance(IFormatProvider provider);
   public: Object GetFormat(Type formatType);

@@ -12,6 +12,7 @@ FORWARD(Type)
 namespace System::Private::CoreLib::System::Reflection::Emit {
 namespace __ExceptionInfoNamespace {
 CLASS(__ExceptionInfo) {
+  public: void Ctor(Int32 startAddr, Label endLabel);
   private: void MarkHelper(Int32 catchorfilterAddr, Int32 catchEndAddr, Type catchClass, Int32 type);
   public: void MarkFilterAddr(Int32 filterAddr);
   public: void MarkFaultAddr(Int32 faultAddr);

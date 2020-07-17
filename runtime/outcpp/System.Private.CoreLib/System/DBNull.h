@@ -13,10 +13,13 @@ FORWARD(String)
 namespace DBNullNamespace {
 using namespace Runtime::Serialization;
 CLASS(DBNull) {
+  private: void Ctor();
+  private: void Ctor(SerializationInfo info, StreamingContext context);
   public: void GetObjectData(SerializationInfo info, StreamingContext context);
   public: String ToString();
   public: String ToString(IFormatProvider provider);
   public: TypeCode GetTypeCode();
+  private: static void SCtor();
   public: static DBNull Value;
 };
 } // namespace DBNullNamespace

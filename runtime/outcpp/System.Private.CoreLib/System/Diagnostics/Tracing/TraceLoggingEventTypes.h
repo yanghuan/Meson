@@ -25,6 +25,10 @@ using namespace Reflection;
 CLASS(TraceLoggingEventTypes) {
   public: String get_Name();
   public: EventTags get_Tags();
+  public: void Ctor(String name, EventTags tags, Array<Type> types);
+  public: void Ctor(String name, EventTags tags, Array<TraceLoggingTypeInfo> typeInfos);
+  public: void Ctor(String name, EventTags tags, Array<ParameterInfo> paramInfos);
+  private: void Ctor(EventTags tags, String defaultName, Array<TraceLoggingTypeInfo> typeInfos);
   public: NameInfo GetNameInfo(String name, EventTags tags);
   private: Array<TraceLoggingTypeInfo> MakeArray(Array<ParameterInfo> paramInfos);
   private: static Array<TraceLoggingTypeInfo> MakeArray(Array<Type> types);

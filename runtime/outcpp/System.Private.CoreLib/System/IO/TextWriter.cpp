@@ -7,6 +7,9 @@ Encoding TextWriter___::NullTextWriter___::get_Encoding() {
   return nullptr;
 };
 
+void TextWriter___::NullTextWriter___::Ctor() {
+};
+
 void TextWriter___::NullTextWriter___::Write(Array<Char> buffer, Int32 index, Int32 count) {
 };
 
@@ -38,6 +41,9 @@ String TextWriter___::SyncTextWriter___::get_NewLine() {
 };
 
 void TextWriter___::SyncTextWriter___::set_NewLine(String value) {
+};
+
+void TextWriter___::SyncTextWriter___::Ctor(TextWriter t) {
 };
 
 void TextWriter___::SyncTextWriter___::Close() {
@@ -227,6 +233,12 @@ String TextWriter___::get_NewLine() {
 };
 
 void TextWriter___::set_NewLine(String value) {
+};
+
+void TextWriter___::Ctor() {
+};
+
+void TextWriter___::Ctor(IFormatProvider formatProvider) {
 };
 
 void TextWriter___::Close() {
@@ -420,6 +432,9 @@ Task<> TextWriter___::FlushAsync() {
 
 TextWriter TextWriter___::Synchronized(TextWriter writer) {
   return nullptr;
+};
+
+void TextWriter___::SCtor() {
 };
 
 } // namespace System::Private::CoreLib::System::IO::TextWriterNamespace

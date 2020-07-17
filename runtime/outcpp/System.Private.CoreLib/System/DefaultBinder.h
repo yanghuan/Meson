@@ -42,6 +42,7 @@ CLASS(DefaultBinder) {
     String = 262144,
   };
   public: CLASS(BinderState) {
+    public: void Ctor(Array<Int32> argsMap, Int32 originalSize, Boolean isParamArray);
     public: Array<Int32> _argsMap;
     public: Int32 _originalSize;
     public: Boolean _isParamArray;
@@ -65,6 +66,8 @@ CLASS(DefaultBinder) {
   private: static void ReorderParams(Array<Int32> paramOrder, Array<Object> vars);
   private: static Boolean CreateParamOrder(Array<Int32> paramOrder, Array<ParameterInfo> pars, Array<String> names);
   public: static Boolean CanChangePrimitive(Type source, Type target);
+  public: void Ctor();
+  private: static void SCtor();
   private: static Array<Primitives> s_primitiveConversions;
 };
 } // namespace DefaultBinderNamespace

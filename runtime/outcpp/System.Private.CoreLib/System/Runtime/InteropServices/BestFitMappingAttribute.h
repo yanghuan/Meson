@@ -7,6 +7,7 @@ namespace System::Private::CoreLib::System::Runtime::InteropServices {
 namespace BestFitMappingAttributeNamespace {
 CLASS(BestFitMappingAttribute) {
   public: Boolean get_BestFitMapping() { return BestFitMapping; }
+  public: void Ctor(Boolean BestFitMapping);
   private: Boolean BestFitMapping;
   public: Boolean ThrowOnUnmappableChar;
 };

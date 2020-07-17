@@ -1,6 +1,9 @@
 #include "EventPipeMetadataGenerator-dep.h"
 
 namespace System::Private::CoreLib::System::Diagnostics::Tracing::EventPipeMetadataGeneratorNamespace {
+void EventPipeMetadataGenerator___::Ctor() {
+};
+
 Array<Byte> EventPipeMetadataGenerator___::GenerateEventMetadata(EventSource::in::EventMetadata eventMetadata) {
   return Array<Byte>();
 };
@@ -14,6 +17,9 @@ Array<Byte> EventPipeMetadataGenerator___::GenerateMetadata(Int32 eventId, Strin
 };
 
 void EventPipeMetadataGenerator___::WriteToBuffer(Byte* buffer, UInt32 bufferLength, UInt32& offset, Byte* src, UInt32 srcLength) {
+};
+
+void EventPipeMetadataGenerator___::SCtor() {
 };
 
 } // namespace System::Private::CoreLib::System::Diagnostics::Tracing::EventPipeMetadataGeneratorNamespace

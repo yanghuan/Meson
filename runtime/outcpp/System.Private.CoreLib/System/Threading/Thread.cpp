@@ -102,6 +102,9 @@ ApartmentState Thread___::get_ApartmentState() {
 void Thread___::set_ApartmentState(ApartmentState value) {
 };
 
+void Thread___::Ctor() {
+};
+
 void Thread___::Create(ThreadStart start) {
 };
 
@@ -168,6 +171,18 @@ Int32 Thread___::GetCurrentProcessorId() {
 };
 
 void Thread___::ResetThreadPoolThread() {
+};
+
+void Thread___::Ctor(ThreadStart start) {
+};
+
+void Thread___::Ctor(ThreadStart start, Int32 maxStackSize) {
+};
+
+void Thread___::Ctor(ParameterizedThreadStart start) {
+};
+
+void Thread___::Ctor(ParameterizedThreadStart start, Int32 maxStackSize) {
 };
 
 void Thread___::RequireCurrentThread() {
@@ -360,6 +375,9 @@ void Thread___::VolatileWrite(UIntPtr& address, UIntPtr value) {
 
 Exception Thread___::GetApartmentStateChangeFailedException() {
   return nullptr;
+};
+
+void Thread___::SCtor() {
 };
 
 } // namespace System::Private::CoreLib::System::Threading::ThreadNamespace

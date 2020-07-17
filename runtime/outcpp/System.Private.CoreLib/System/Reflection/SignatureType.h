@@ -148,6 +148,7 @@ CLASS(SignatureType) {
   protected: Boolean IsMarshalByRefImpl();
   public: Boolean IsSubclassOf(Type c);
   protected: Boolean IsValueTypeImpl();
+  protected: void Ctor();
 };
 } // namespace SignatureTypeNamespace
 using SignatureType = SignatureTypeNamespace::SignatureType;

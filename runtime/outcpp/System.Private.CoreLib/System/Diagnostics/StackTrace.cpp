@@ -18,6 +18,33 @@ void StackTrace___::InitializeForCurrentThread(Int32 skipFrames, Boolean fNeedFi
 void StackTrace___::CaptureStackTrace(Int32 skipFrames, Boolean fNeedFileInfo, Exception e) {
 };
 
+void StackTrace___::Ctor() {
+};
+
+void StackTrace___::Ctor(Boolean fNeedFileInfo) {
+};
+
+void StackTrace___::Ctor(Int32 skipFrames) {
+};
+
+void StackTrace___::Ctor(Int32 skipFrames, Boolean fNeedFileInfo) {
+};
+
+void StackTrace___::Ctor(Exception e) {
+};
+
+void StackTrace___::Ctor(Exception e, Boolean fNeedFileInfo) {
+};
+
+void StackTrace___::Ctor(Exception e, Int32 skipFrames) {
+};
+
+void StackTrace___::Ctor(Exception e, Int32 skipFrames, Boolean fNeedFileInfo) {
+};
+
+void StackTrace___::Ctor(StackFrame frame) {
+};
+
 StackFrame StackTrace___::GetFrame(Int32 index) {
   return nullptr;
 };

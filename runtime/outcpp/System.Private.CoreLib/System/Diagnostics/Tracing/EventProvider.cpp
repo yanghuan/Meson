@@ -3,12 +3,18 @@
 #include <System.Private.CoreLib/System/Diagnostics/Tracing/EventProvider-dep.h>
 
 namespace System::Private::CoreLib::System::Diagnostics::Tracing::EventProviderNamespace {
+void EventProvider___::SessionInfo::Ctor(Int32 sessionIdBit_, Int32 etwSessionId_) {
+};
+
 EventLevel EventProvider___::get_Level() {
   return EventLevel::Verbose;
 };
 
 EventKeywords EventProvider___::get_MatchAnyKeyword() {
   return EventKeywords::EventLogClassic;
+};
+
+void EventProvider___::Ctor(EventProviderType providerType) {
 };
 
 void EventProvider___::Register(EventSource eventSource) {

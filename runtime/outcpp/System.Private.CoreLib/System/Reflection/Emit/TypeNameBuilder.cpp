@@ -1,6 +1,9 @@
 #include "TypeNameBuilder-dep.h"
 
 namespace System::Private::CoreLib::System::Reflection::Emit::TypeNameBuilderNamespace {
+void TypeNameBuilder___::Ctor() {
+};
+
 void TypeNameBuilder___::OpenGenericArguments() {
 };
 

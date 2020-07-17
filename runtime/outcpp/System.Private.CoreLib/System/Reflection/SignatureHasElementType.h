@@ -29,6 +29,7 @@ CLASS(SignatureHasElementType) {
   public: String get_Name();
   public: String get_Namespace();
   protected: String get_Suffix();
+  protected: void Ctor(SignatureType elementType);
   protected: Boolean HasElementTypeImpl();
   protected: Boolean IsArrayImpl();
   protected: Boolean IsByRefImpl();

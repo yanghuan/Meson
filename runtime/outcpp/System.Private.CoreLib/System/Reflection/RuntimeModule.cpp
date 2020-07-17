@@ -39,6 +39,9 @@ Assembly RuntimeModule___::get_Assembly() {
   return nullptr;
 };
 
+void RuntimeModule___::Ctor() {
+};
+
 Array<RuntimeType> RuntimeModule___::GetDefinedTypes() {
   return Array<RuntimeType>();
 };

@@ -44,6 +44,8 @@ CLASS(ILGenerator) {
   public: Int32 get_CurrExcStackCount();
   public: Array<__ExceptionInfo> get_CurrExcStack();
   public: Int32 get_ILOffset();
+  public: void Ctor(MethodInfo methodBuilder);
+  public: void Ctor(MethodInfo methodBuilder, Int32 size);
   public: void RecordTokenFixup();
   public: void InternalEmit(OpCode opcode);
   public: void UpdateStackSize(OpCode opcode, Int32 stackchange);

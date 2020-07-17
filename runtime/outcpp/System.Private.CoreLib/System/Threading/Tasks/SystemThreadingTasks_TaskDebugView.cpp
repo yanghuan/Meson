@@ -25,4 +25,7 @@ TaskStatus SystemThreadingTasks_TaskDebugView___::get_Status() {
   return TaskStatus::Faulted;
 };
 
+void SystemThreadingTasks_TaskDebugView___::Ctor(Task<> task) {
+};
+
 } // namespace System::Private::CoreLib::System::Threading::Tasks::SystemThreadingTasks_TaskDebugViewNamespace

@@ -107,6 +107,9 @@ Boolean Assembly___::IsRuntimeImplemented() {
   return Boolean();
 };
 
+void Assembly___::Ctor() {
+};
+
 Array<Type> Assembly___::GetTypes() {
   return Array<Type>();
 };
@@ -308,6 +311,9 @@ Assembly Assembly___::ReflectionOnlyLoad(String assemblyString) {
 
 Assembly Assembly___::ReflectionOnlyLoadFrom(String assemblyFile) {
   return nullptr;
+};
+
+void Assembly___::SCtor() {
 };
 
 } // namespace System::Private::CoreLib::System::Reflection::AssemblyNamespace

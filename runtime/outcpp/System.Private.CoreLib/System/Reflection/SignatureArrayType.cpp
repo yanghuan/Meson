@@ -13,6 +13,9 @@ String SignatureArrayType___::get_Suffix() {
   return nullptr;
 };
 
+void SignatureArrayType___::Ctor(SignatureType elementType, Int32 rank, Boolean isMultiDim) {
+};
+
 Boolean SignatureArrayType___::IsArrayImpl() {
   return Boolean();
 };

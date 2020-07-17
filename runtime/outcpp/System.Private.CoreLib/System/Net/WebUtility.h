@@ -3,6 +3,10 @@
 #include <rt/GCObject.h>
 #include <System.Private.CoreLib/System/Int32.h>
 
+namespace System::Private::CoreLib::System::Text {
+FORWARD(Encoding)
+FORWARDS(ValueStringBuilder)
+} // namespace System::Private::CoreLib::System::Text
 namespace System::Private::CoreLib::System {
 FORWARD_(Array, T1, T2)
 FORWARDS(Boolean)
@@ -13,10 +17,6 @@ FORWARD(String)
 FORWARDS(UInt32)
 FORWARDS(UInt64)
 } // namespace System::Private::CoreLib::System
-namespace System::Private::CoreLib::System::Text {
-FORWARD(Encoding)
-FORWARDS(ValueStringBuilder)
-} // namespace System::Private::CoreLib::System::Text
 namespace System::Private::CoreLib::System::Collections::Generic {
 FORWARD(Dictionary, TKey, TValue)
 } // namespace System::Private::CoreLib::System::Collections::Generic
@@ -31,9 +31,11 @@ using namespace Text;
 class WebUtility {
   private: struct UrlDecoder {
     private: void FlushBytes();
+    public: void Ctor(Int32 bufferSize, Encoding encoding);
     public: void AddChar(Char ch);
     public: void AddByte(Byte b);
     public: String GetString();
+    public: void Ctor();
     private: Int32 _bufferSize;
     private: Int32 _numChars;
     private: Array<Char> _charBuffer;
@@ -44,6 +46,7 @@ class WebUtility {
   private: class HtmlEntities {
     public: static Char Lookup(ReadOnlySpan<Char> entity);
     private: static UInt64 ToUInt64Key(ReadOnlySpan<Char> entity);
+    private: static void SCtor();
     private: static Dictionary<UInt64, Char> s_lookupTable;
   };
   public: static String HtmlEncode(String value);

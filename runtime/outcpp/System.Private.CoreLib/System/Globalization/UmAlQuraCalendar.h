@@ -16,6 +16,8 @@ enum class CalendarId : uint16_t;
 namespace UmAlQuraCalendarNamespace {
 CLASS(UmAlQuraCalendar) {
   private: struct DateMapping {
+    public: void Ctor(Int32 MonthsLengthFlags, Int32 GYear, Int32 GMonth, Int32 GDay);
+    public: void Ctor();
     public: Int32 HijriMonthsLengthFlags;
     public: DateTime GregorianDate;
   };
@@ -29,6 +31,7 @@ CLASS(UmAlQuraCalendar) {
   public: Int32 get_TwoDigitYearMax();
   public: void set_TwoDigitYearMax(Int32 value);
   private: static Array<DateMapping> InitDateMapping();
+  public: void Ctor();
   private: static void ConvertHijriToGregorian(Int32 HijriYear, Int32 HijriMonth, Int32 HijriDay, Int32& yg, Int32& mg, Int32& dg);
   private: static Int64 GetAbsoluteDateUmAlQura(Int32 year, Int32 month, Int32 day);
   public: static void CheckTicksRange(Int64 ticks);
@@ -55,6 +58,7 @@ CLASS(UmAlQuraCalendar) {
   public: Boolean IsLeapYear(Int32 year, Int32 era);
   public: DateTime ToDateTime(Int32 year, Int32 month, Int32 day, Int32 hour, Int32 minute, Int32 second, Int32 millisecond, Int32 era);
   public: Int32 ToFourDigitYear(Int32 year);
+  private: static void SCtor();
   private: static Array<DateMapping> s_hijriYearInfo;
   public: static constexpr Int32 UmAlQuraEra = 1;
   private: static DateTime s_minDate;

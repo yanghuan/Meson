@@ -2,6 +2,10 @@
 
 #include <rt/GCObject.h>
 
+namespace System::Private::CoreLib::System::Globalization {
+FORWARD(CompareInfo)
+FORWARD(CultureInfo)
+} // namespace System::Private::CoreLib::System::Globalization
 namespace System::Private::CoreLib::System::Runtime::Serialization {
 FORWARD(SerializationInfo)
 FORWARDS(StreamingContext)
@@ -10,16 +14,16 @@ namespace System::Private::CoreLib::System {
 FORWARDS(Int32)
 FORWARD(Object)
 } // namespace System::Private::CoreLib::System
-namespace System::Private::CoreLib::System::Globalization {
-FORWARD(CompareInfo)
-} // namespace System::Private::CoreLib::System::Globalization
 namespace System::Private::CoreLib::System::Collections {
 namespace ComparerNamespace {
 using namespace Globalization;
 using namespace Runtime::Serialization;
 CLASS(Comparer) {
+  public: void Ctor(CultureInfo culture);
+  private: void Ctor(SerializationInfo info, StreamingContext context);
   public: void GetObjectData(SerializationInfo info, StreamingContext context);
   public: Int32 Compare(Object a, Object b);
+  private: static void SCtor();
   private: CompareInfo _compareInfo;
   public: static Comparer Default;
   public: static Comparer DefaultInvariant;

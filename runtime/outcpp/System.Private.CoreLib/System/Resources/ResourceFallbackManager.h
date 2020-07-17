@@ -3,18 +3,19 @@
 #include <rt/GCObject.h>
 #include <System.Private.CoreLib/System/Boolean.h>
 
-namespace System::Private::CoreLib::System::Collections::Generic {
-FORWARD(IEnumerator, T)
-} // namespace System::Private::CoreLib::System::Collections::Generic
 namespace System::Private::CoreLib::System::Globalization {
 FORWARD(CultureInfo)
 } // namespace System::Private::CoreLib::System::Globalization
+namespace System::Private::CoreLib::System::Collections::Generic {
+FORWARD(IEnumerator, T)
+} // namespace System::Private::CoreLib::System::Collections::Generic
 namespace System::Private::CoreLib::System::Resources {
 namespace ResourceFallbackManagerNamespace {
 using namespace Collections::Generic;
 using namespace Globalization;
 using Collections::Generic::IEnumerator;
 CLASS(ResourceFallbackManager) {
+  public: void Ctor(CultureInfo startingCulture, CultureInfo neutralResourcesCulture, Boolean useParents);
   public: IEnumerator<CultureInfo> GetEnumerator();
   private: CultureInfo m_startingCulture;
   private: CultureInfo m_neutralResourcesCulture;

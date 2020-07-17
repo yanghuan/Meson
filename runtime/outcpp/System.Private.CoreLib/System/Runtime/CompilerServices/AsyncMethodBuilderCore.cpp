@@ -1,6 +1,9 @@
 #include "AsyncMethodBuilderCore-dep.h"
 
 namespace System::Private::CoreLib::System::Runtime::CompilerServices::AsyncMethodBuilderCoreNamespace {
+void AsyncMethodBuilderCore::ContinuationWrapper___::Ctor(Action<> continuation, Action<Action<>, Task<>> invokeAction, Task<> innerTask) {
+};
+
 void AsyncMethodBuilderCore::ContinuationWrapper___::Invoke() {
 };
 

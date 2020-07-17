@@ -11,6 +11,8 @@ namespace Test::Test {
 namespace ProgramNamespace {
 using namespace ::System::Private::CoreLib::System;
 CLASS(Program) {
+  public: void Ctor();
+  public: void Ctor(Int32 a);
   public: static void Main(Array<String> args);
   private: static void Print(Int32 a);
 };

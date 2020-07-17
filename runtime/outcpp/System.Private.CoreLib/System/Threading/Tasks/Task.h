@@ -45,6 +45,7 @@ CLASS_(Task) {
   public: CLASS(ContingentProperties) {
     public: void SetCompleted();
     public: void UnregisterCancellationCallback();
+    public: void Ctor();
     public: ExecutionContext m_capturedContext;
     public: ManualResetEventSlim m_completionEvent;
     public: TaskExceptionHolder m_exceptionsHolder;
@@ -57,19 +58,23 @@ CLASS_(Task) {
   };
   private: CLASS(SetOnInvokeMres) {
     public: Boolean get_InvokeMayRunArbitraryCode();
+    public: void Ctor();
     public: void Invoke(Task<> completingTask);
   };
   private: CLASS(SetOnCountdownMres) {
     public: Boolean get_InvokeMayRunArbitraryCode();
+    public: void Ctor(Int32 count);
     public: void Invoke(Task<> completingTask);
     private: Int32 _count;
   };
   private: CLASS(DelayPromise) {
+    public: void Ctor(Int32 millisecondsDelay);
     private: void CompleteTimedOut();
     protected: void Cleanup();
     private: TimerQueueTimer _timer;
   };
   private: CLASS(DelayPromiseWithCancellation) {
+    public: void Ctor(Int32 millisecondsDelay, CancellationToken token);
     private: void CompleteCanceled();
     protected: void Cleanup();
     private: CancellationToken _token;
@@ -90,6 +95,7 @@ CLASS_(Task) {
   };
   private: CLASS(TwoTaskWhenAnyPromise, TTask) {
     public: Boolean get_InvokeMayRunArbitraryCode();
+    public: void Ctor(TTask task1, TTask task2);
     public: void Invoke(Task<> completingTask);
     private: TTask _task1;
     private: TTask _task2;
@@ -144,6 +150,7 @@ CLASS_(Task) {
 };
 CLASS_(Task, TResult) {
   public: class TaskWhenAnyCast {
+    private: static void SCtor();
     public: static Func<Task<Task<>>, Task<TResult>> Value;
   };
   private: String get_DebuggerDisplayResultDescription();

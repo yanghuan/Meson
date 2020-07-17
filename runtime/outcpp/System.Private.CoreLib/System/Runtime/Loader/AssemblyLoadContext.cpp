@@ -3,6 +3,9 @@
 #include <System.Private.CoreLib/System/Runtime/Loader/AssemblyLoadContext-dep.h>
 
 namespace System::Private::CoreLib::System::Runtime::Loader::AssemblyLoadContextNamespace {
+void AssemblyLoadContext___::ContextualReflectionScope::Ctor(AssemblyLoadContext activating) {
+};
+
 void AssemblyLoadContext___::ContextualReflectionScope::Dispose() {
 };
 
@@ -79,6 +82,18 @@ void AssemblyLoadContext___::StopAssemblyLoad(Guid& activityId) {
 };
 
 void AssemblyLoadContext___::InitializeDefaultContext() {
+};
+
+void AssemblyLoadContext___::Ctor() {
+};
+
+void AssemblyLoadContext___::Ctor(Boolean isCollectible) {
+};
+
+void AssemblyLoadContext___::Ctor(String name, Boolean isCollectible) {
+};
+
+void AssemblyLoadContext___::Ctor(Boolean representsTPALoadContext, Boolean isCollectible, String name) {
 };
 
 void AssemblyLoadContext___::Finalize() {
@@ -195,6 +210,9 @@ Assembly AssemblyLoadContext___::ResolveSatelliteAssembly(AssemblyName assemblyN
 
 IntPtr AssemblyLoadContext___::GetResolvedUnmanagedDll(Assembly assembly, String unmanagedDllName) {
   return IntPtr();
+};
+
+void AssemblyLoadContext___::SCtor() {
 };
 
 } // namespace System::Private::CoreLib::System::Runtime::Loader::AssemblyLoadContextNamespace

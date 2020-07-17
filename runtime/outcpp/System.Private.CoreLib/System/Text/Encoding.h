@@ -43,6 +43,7 @@ using namespace IO;
 using namespace Runtime::Serialization;
 CLASS(Encoding) {
   public: CLASS(DefaultEncoder) {
+    public: void Ctor(Encoding encoding);
     public: Object GetRealObject(StreamingContext context);
     public: Int32 GetByteCount(Array<Char> chars, Int32 index, Int32 count, Boolean flush);
     public: Int32 GetByteCount(Char* chars, Int32 count, Boolean flush);
@@ -51,6 +52,7 @@ CLASS(Encoding) {
     private: Encoding _encoding;
   };
   public: CLASS(DefaultDecoder) {
+    public: void Ctor(Encoding encoding);
     public: Object GetRealObject(StreamingContext context);
     public: Int32 GetCharCount(Array<Byte> bytes, Int32 index, Int32 count);
     public: Int32 GetCharCount(Array<Byte> bytes, Int32 index, Int32 count, Boolean flush);
@@ -64,6 +66,7 @@ CLASS(Encoding) {
     public: Boolean get_MoreData();
     public: Int32 get_BytesUsed();
     public: Int32 get_Count();
+    public: void Ctor(Encoding enc, DecoderNLS decoder, Char* charStart, Int32 charCount, Byte* byteStart, Int32 byteCount);
     public: Boolean AddChar(Char ch, Int32 numBytes);
     public: Boolean AddChar(Char ch);
     public: void AdjustBytes(Int32 count);
@@ -85,6 +88,7 @@ CLASS(Encoding) {
     public: Boolean get_MoreData();
     public: Int32 get_CharsUsed();
     public: Int32 get_Count();
+    public: void Ctor(Encoding inEncoding, EncoderNLS inEncoder, Byte* inByteStart, Int32 inByteCount, Char* inCharStart, Int32 inCharCount);
     public: Boolean AddByte(Byte b, Int32 moreBytesExpected);
     public: Boolean AddByte(Byte b1);
     public: Boolean AddByte(Byte b1, Byte b2);
@@ -129,6 +133,9 @@ CLASS(Encoding) {
   public: static Encoding get_UTF8();
   public: static Encoding get_UTF32();
   private: static Encoding get_BigEndianUTF32();
+  protected: void Ctor();
+  protected: void Ctor(Int32 codePage);
+  protected: void Ctor(Int32 codePage, EncoderFallback encoderFallback, DecoderFallback decoderFallback);
   public: void SetDefaultFallbacks();
   public: static Array<Byte> Convert(Encoding srcEncoding, Encoding dstEncoding, Array<Byte> bytes);
   public: static Array<Byte> Convert(Encoding srcEncoding, Encoding dstEncoding, Array<Byte> bytes, Int32 index, Int32 count);
@@ -207,6 +214,7 @@ CLASS(Encoding) {
   public: Int32 GetCharsWithFallback(Byte* pOriginalBytes, Int32 originalByteCount, Char* pOriginalChars, Int32 originalCharCount, Int32 bytesConsumedSoFar, Int32 charsWrittenSoFar);
   public: Int32 GetCharsWithFallback(Byte* pOriginalBytes, Int32 originalByteCount, Char* pOriginalChars, Int32 originalCharCount, Int32 bytesConsumedSoFar, Int32 charsWrittenSoFar, DecoderNLS decoder);
   public: Int32 GetCharsWithFallback(ReadOnlySpan<Byte> bytes, Int32 originalBytesLength, Span<Char> chars, Int32 originalCharsLength, DecoderNLS decoder);
+  private: static void SCtor();
   private: static UTF8Encoding::in::UTF8EncodingSealed s_defaultEncoding;
   public: Int32 _codePage;
   public: CodePageDataItem _dataItem;

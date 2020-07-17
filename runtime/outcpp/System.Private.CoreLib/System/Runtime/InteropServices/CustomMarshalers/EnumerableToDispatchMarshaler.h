@@ -15,11 +15,13 @@ namespace System::Private::CoreLib::System::Runtime::InteropServices::CustomMars
 namespace EnumerableToDispatchMarshalerNamespace {
 CLASS(EnumerableToDispatchMarshaler) {
   public: static ICustomMarshaler GetInstance(String cookie);
+  private: void Ctor();
   public: void CleanUpManagedData(Object ManagedObj);
   public: void CleanUpNativeData(IntPtr pNativeData);
   public: Int32 GetNativeDataSize();
   public: IntPtr MarshalManagedToNative(Object ManagedObj);
   public: Object MarshalNativeToManaged(IntPtr pNativeData);
+  private: static void SCtor();
   private: static EnumerableToDispatchMarshaler s_enumerableToDispatchMarshaler;
 };
 } // namespace EnumerableToDispatchMarshalerNamespace

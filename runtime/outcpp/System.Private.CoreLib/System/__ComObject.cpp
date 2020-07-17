@@ -1,6 +1,9 @@
 #include "__ComObject-dep.h"
 
 namespace System::Private::CoreLib::System::__ComObjectNamespace {
+void __ComObject___::Ctor() {
+};
+
 Object __ComObject___::GetData(Object key) {
   return nullptr;
 };

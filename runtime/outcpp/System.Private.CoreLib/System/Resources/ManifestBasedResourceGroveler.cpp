@@ -5,6 +5,9 @@ Assembly ManifestBasedResourceGroveler___::InternalGetSatelliteAssembly(Assembly
   return nullptr;
 };
 
+void ManifestBasedResourceGroveler___::Ctor(ResourceManager::in::ResourceManagerMediator mediator) {
+};
+
 ResourceSet ManifestBasedResourceGroveler___::GrovelForResourceSet(CultureInfo culture, Dictionary<String, ResourceSet> localResourceSets, Boolean tryParents, Boolean createIfNotExists) {
   return nullptr;
 };

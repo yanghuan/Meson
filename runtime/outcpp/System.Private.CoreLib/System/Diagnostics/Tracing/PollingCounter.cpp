@@ -1,6 +1,9 @@
 #include "PollingCounter-dep.h"
 
 namespace System::Private::CoreLib::System::Diagnostics::Tracing::PollingCounterNamespace {
+void PollingCounter___::Ctor(String name, EventSource eventSource, Func<Double> metricProvider) {
+};
+
 String PollingCounter___::ToString() {
   return nullptr;
 };

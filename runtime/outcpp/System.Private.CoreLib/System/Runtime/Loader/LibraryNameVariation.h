@@ -13,7 +13,9 @@ namespace System::Private::CoreLib::System::Runtime::Loader {
 namespace LibraryNameVariationNamespace {
 using namespace Collections::Generic;
 struct LibraryNameVariation {
+  public: void Ctor(String prefix, String suffix);
   public: static IEnumerable<LibraryNameVariation> DetermineLibraryNameVariations(String libName, Boolean isRelativePath, Boolean forOSLoader);
+  public: void Ctor();
   public: String Prefix;
   public: String Suffix;
 };

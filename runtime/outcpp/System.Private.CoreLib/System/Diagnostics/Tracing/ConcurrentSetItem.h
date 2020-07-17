@@ -10,6 +10,7 @@ namespace ConcurrentSetItemNamespace {
 CLASS(ConcurrentSetItem, KeyType, ItemType) {
   public: Int32 Compare(ItemType other);
   public: Int32 Compare(KeyType key);
+  protected: void Ctor();
 };
 } // namespace ConcurrentSetItemNamespace
 template <class KeyType, class ItemType>

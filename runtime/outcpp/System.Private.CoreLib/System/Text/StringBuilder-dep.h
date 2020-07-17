@@ -17,6 +17,8 @@
 #include <System.Private.CoreLib/System/ParamsArray-dep.h>
 #include <System.Private.CoreLib/System/ReadOnlyMemory-dep.h>
 #include <System.Private.CoreLib/System/ReadOnlySpan-dep.h>
+#include <System.Private.CoreLib/System/Runtime/Serialization/SerializationInfo-dep.h>
+#include <System.Private.CoreLib/System/Runtime/Serialization/StreamingContext-dep.h>
 #include <System.Private.CoreLib/System/SByte-dep.h>
 #include <System.Private.CoreLib/System/Single-dep.h>
 #include <System.Private.CoreLib/System/Span-dep.h>

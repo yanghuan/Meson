@@ -13,6 +13,7 @@
 #include <System.Private.CoreLib/System/Diagnostics/Tracing/EventDescriptor-dep.h>
 #include <System.Private.CoreLib/System/Diagnostics/Tracing/EventKeywords.h>
 #include <System.Private.CoreLib/System/Diagnostics/Tracing/EventLevel.h>
+#include <System.Private.CoreLib/System/Diagnostics/Tracing/EventProviderType.h>
 #include <System.Private.CoreLib/System/Diagnostics/Tracing/EventSource-dep.h>
 #include <System.Private.CoreLib/System/Diagnostics/Tracing/IEventProvider.h>
 #include <System.Private.CoreLib/System/Guid-dep.h>

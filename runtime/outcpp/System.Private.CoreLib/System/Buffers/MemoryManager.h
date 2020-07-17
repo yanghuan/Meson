@@ -21,6 +21,7 @@ CLASS(MemoryManager, T) {
   protected: Memory<T> CreateMemory(Int32 start, Int32 length);
   public: Boolean TryGetArray(ArraySegment<T>& segment);
   protected: void Dispose(Boolean disposing);
+  protected: void Ctor();
 };
 } // namespace MemoryManagerNamespace
 template <class T>

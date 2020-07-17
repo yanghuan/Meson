@@ -37,6 +37,7 @@ FORWARD(CultureInfo)
 namespace System::Private::CoreLib::System::Reflection::Emit {
 FORWARD(CustomAttributeBuilder)
 FORWARD(FieldBuilder)
+FORWARD(ModuleBuilder)
 FORWARD(TypeBuilder)
 FORWARDS(TypeToken)
 namespace EnumBuilderNamespace {
@@ -102,6 +103,7 @@ CLASS(EnumBuilder) {
   public: Type MakeByRefType();
   public: Type MakeArrayType();
   public: Type MakeArrayType(Int32 rank);
+  public: void Ctor(String name, Type underlyingType, TypeAttributes visibility, ModuleBuilder module);
   public: TypeBuilder m_typeBuilder;
   private: FieldBuilder m_underlyingField;
 };

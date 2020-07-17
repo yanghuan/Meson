@@ -7,6 +7,7 @@ FORWARD(ITaskCompletionAction)
 FORWARD_(Task, T1, T2)
 namespace CompletionActionInvokerNamespace {
 CLASS(CompletionActionInvoker) {
+  public: void Ctor(ITaskCompletionAction action, Task<> completingTask);
   private: ITaskCompletionAction m_action;
   private: Task<> m_completingTask;
 };

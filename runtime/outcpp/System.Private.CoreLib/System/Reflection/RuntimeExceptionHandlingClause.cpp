@@ -29,6 +29,9 @@ Type RuntimeExceptionHandlingClause___::get_CatchType() {
   return nullptr;
 };
 
+void RuntimeExceptionHandlingClause___::Ctor() {
+};
+
 String RuntimeExceptionHandlingClause___::ToString() {
   return nullptr;
 };

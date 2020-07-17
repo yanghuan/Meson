@@ -55,6 +55,7 @@ CLASS(DynamicMethod) {
     public: Type get_ReturnType();
     public: ParameterInfo get_ReturnParameter();
     public: ICustomAttributeProvider get_ReturnTypeCustomAttributes();
+    public: void Ctor(DynamicMethod owner, String name, MethodAttributes attributes, CallingConventions callingConvention);
     public: String ToString();
     public: MethodInfo GetBaseDefinition();
     public: Array<ParameterInfo> GetParameters();
@@ -85,6 +86,14 @@ CLASS(DynamicMethod) {
   public: ICustomAttributeProvider get_ReturnTypeCustomAttributes();
   public: Boolean get_InitLocals();
   public: void set_InitLocals(Boolean value);
+  public: void Ctor(String name, Type returnType, Array<Type> parameterTypes);
+  public: void Ctor(String name, Type returnType, Array<Type> parameterTypes, Boolean restrictedSkipVisibility);
+  public: void Ctor(String name, Type returnType, Array<Type> parameterTypes, Module m);
+  public: void Ctor(String name, Type returnType, Array<Type> parameterTypes, Module m, Boolean skipVisibility);
+  public: void Ctor(String name, MethodAttributes attributes, CallingConventions callingConvention, Type returnType, Array<Type> parameterTypes, Module m, Boolean skipVisibility);
+  public: void Ctor(String name, Type returnType, Array<Type> parameterTypes, Type owner);
+  public: void Ctor(String name, Type returnType, Array<Type> parameterTypes, Type owner, Boolean skipVisibility);
+  public: void Ctor(String name, MethodAttributes attributes, CallingConventions callingConvention, Type returnType, Array<Type> parameterTypes, Type owner, Boolean skipVisibility);
   private: static void CheckConsistency(MethodAttributes attributes, CallingConventions callingConvention);
   private: static RuntimeModule GetDynamicMethodsModule();
   private: void Init(String name, MethodAttributes attributes, CallingConventions callingConvention, Type returnType, Array<Type> signature, Type owner, Module m, Boolean skipVisibility, Boolean transparentMethod);
@@ -104,6 +113,7 @@ CLASS(DynamicMethod) {
   public: ILGenerator GetILGenerator();
   public: ILGenerator GetILGenerator(Int32 streamSize);
   public: MethodInfo GetMethodInfo();
+  private: static void SCtor();
   private: Array<RuntimeType> m_parameterTypes;
   public: IRuntimeMethodInfo m_methodHandle;
   private: RuntimeType m_returnType;

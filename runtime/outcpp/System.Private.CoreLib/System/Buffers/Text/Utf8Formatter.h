@@ -30,6 +30,7 @@ namespace System::Private::CoreLib::System::Buffers::Text {
 namespace Utf8FormatterNamespace {
 class Utf8Formatter {
   private: struct DecomposedGuid {
+    public: void Ctor();
     public: Guid Guid;
     public: Byte Byte00;
     public: Byte Byte01;
@@ -83,6 +84,7 @@ class Utf8Formatter {
   private: static Boolean TryFormatUInt64N(UInt64 value, Byte precision, Span<Byte> destination, Boolean insertNegationSign, Int32& bytesWritten);
   private: static Boolean TryFormatUInt64X(UInt64 value, Byte precision, Boolean useLower, Span<Byte> destination, Int32& bytesWritten);
   public: static Boolean TryFormat(TimeSpan value, Span<Byte> destination, Int32& bytesWritten, StandardFormat format);
+  private: static void SCtor();
   private: static Array<UInt32> s_dayAbbreviations;
   private: static Array<UInt32> s_dayAbbreviationsLowercase;
   private: static Array<UInt32> s_monthAbbreviations;

@@ -21,6 +21,7 @@ CLASS(SystemThreadingTasks_FutureDebugView, TResult) {
   public: Int32 get_Id();
   public: Boolean get_CancellationPending();
   public: TaskStatus get_Status();
+  public: void Ctor(Task<TResult> task);
   private: Task<TResult> m_task;
 };
 } // namespace SystemThreadingTasks_FutureDebugViewNamespace

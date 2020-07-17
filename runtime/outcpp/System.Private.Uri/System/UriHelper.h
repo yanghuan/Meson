@@ -48,6 +48,7 @@ class UriHelper {
   public: static Boolean IsHexDigit(Char character);
   public: static Boolean IsBidiControlCharacter(Char ch);
   public: static String StripBidiControlCharacters(ReadOnlySpan<Char> strToClean, String backingString);
+  private: static void SCtor();
   public: static Encoding s_noFallbackCharUTF8;
   public: static Array<Char> s_WSchars;
 };

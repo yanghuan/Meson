@@ -8,6 +8,7 @@ FORWARD(Object)
 namespace System::Private::CoreLib::System::StubHelpers {
 namespace KeepAliveCleanupWorkListElementNamespace {
 CLASS(KeepAliveCleanupWorkListElement) {
+  public: void Ctor(Object obj);
   protected: void DestroyCore();
   private: Object m_obj;
 };

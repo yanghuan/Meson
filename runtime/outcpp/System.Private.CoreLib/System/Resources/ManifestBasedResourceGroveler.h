@@ -30,6 +30,7 @@ using namespace IO;
 using namespace Reflection;
 CLASS(ManifestBasedResourceGroveler) {
   private: static Assembly InternalGetSatelliteAssembly(Assembly mainAssembly, CultureInfo culture, Version version);
+  public: void Ctor(ResourceManager::in::ResourceManagerMediator mediator);
   public: ResourceSet GrovelForResourceSet(CultureInfo culture, Dictionary<String, ResourceSet> localResourceSets, Boolean tryParents, Boolean createIfNotExists);
   private: CultureInfo UltimateFallbackFixup(CultureInfo lookForCulture);
   public: static CultureInfo GetNeutralResourcesLanguage(Assembly a, UltimateResourceFallbackLocation& fallbackLocation);

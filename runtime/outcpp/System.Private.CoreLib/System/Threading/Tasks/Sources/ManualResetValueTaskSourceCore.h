@@ -34,6 +34,7 @@ struct ManualResetValueTaskSourceCore {
   private: void ValidateToken(Int16 token);
   private: void SignalCompletion();
   private: void InvokeContinuation();
+  public: void Ctor();
   private: Action<Object> _continuation;
   private: Object _continuationState;
   private: ExecutionContext _executionContext;

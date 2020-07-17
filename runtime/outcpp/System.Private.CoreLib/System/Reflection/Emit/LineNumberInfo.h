@@ -15,6 +15,7 @@ FORWARD(REDocument)
 namespace LineNumberInfoNamespace {
 using namespace Diagnostics::SymbolStore;
 CLASS(LineNumberInfo) {
+  public: void Ctor();
   public: void AddLineNumberInfo(ISymbolDocumentWriter document, Int32 iOffset, Int32 iStartLine, Int32 iStartColumn, Int32 iEndLine, Int32 iEndColumn);
   private: Int32 FindDocument(ISymbolDocumentWriter document);
   private: void EnsureCapacity();

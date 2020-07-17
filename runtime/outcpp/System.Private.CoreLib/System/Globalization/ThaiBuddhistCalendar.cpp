@@ -28,6 +28,9 @@ Int32 ThaiBuddhistCalendar___::get_TwoDigitYearMax() {
 void ThaiBuddhistCalendar___::set_TwoDigitYearMax(Int32 value) {
 };
 
+void ThaiBuddhistCalendar___::Ctor() {
+};
+
 DateTime ThaiBuddhistCalendar___::AddMonths(DateTime time, Int32 months) {
   return DateTime();
 };
@@ -98,6 +101,9 @@ DateTime ThaiBuddhistCalendar___::ToDateTime(Int32 year, Int32 month, Int32 day,
 
 Int32 ThaiBuddhistCalendar___::ToFourDigitYear(Int32 year) {
   return Int32();
+};
+
+void ThaiBuddhistCalendar___::SCtor() {
 };
 
 } // namespace System::Private::CoreLib::System::Globalization::ThaiBuddhistCalendarNamespace

@@ -36,11 +36,13 @@ namespace RuntimeHelpersNamespace {
 using namespace Reflection;
 class RuntimeHelpers {
   public: CLASS(TryCode) {
+    public: void Ctor(Object object, IntPtr method);
     public: void Invoke(Object userData);
     public: IAsyncResult BeginInvoke(Object userData, AsyncCallback callback, Object object);
     public: void EndInvoke(IAsyncResult result);
   };
   public: CLASS(CleanupCode) {
+    public: void Ctor(Object object, IntPtr method);
     public: void Invoke(Object userData, Boolean exceptionThrown);
     public: IAsyncResult BeginInvoke(Object userData, Boolean exceptionThrown, AsyncCallback callback, Object object);
     public: void EndInvoke(IAsyncResult result);

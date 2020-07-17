@@ -10,6 +10,7 @@ namespace AssemblyMetadataAttributeNamespace {
 CLASS(AssemblyMetadataAttribute) {
   public: String get_Key() { return Key; }
   public: String get_Value() { return Value; }
+  public: void Ctor(String key, String value);
   private: String Key;
   private: String Value;
 };

@@ -35,6 +35,7 @@ namespace PropertyValueNamespace {
 using namespace Reflection;
 struct PropertyValue {
   public: struct Scalar {
+    public: void Ctor();
     public: Boolean AsBoolean;
     public: Byte AsByte;
     public: SByte AsSByte;
@@ -58,17 +59,41 @@ struct PropertyValue {
   private: CLASS(TypeHelper) {
     public: Func<PropertyValue, PropertyValue> GetPropertyGetter(PropertyInfo property);
     protected: Delegate GetGetMethod(PropertyInfo property, Type propertyType);
+    protected: void Ctor();
   };
   private: CLASS(ReferenceTypeHelper, TContainer) {
     public: Func<PropertyValue, PropertyValue> GetPropertyGetter(PropertyInfo property);
+    public: void Ctor();
   };
   public: Object get_ReferenceValue();
   public: Scalar get_ScalarValue();
   public: Int32 get_ScalarLength();
+  private: void Ctor(Object value);
+  private: void Ctor(Scalar scalar, Int32 scalarLength);
+  private: void Ctor(Boolean value);
+  private: void Ctor(Byte value);
+  private: void Ctor(SByte value);
+  private: void Ctor(Char value);
+  private: void Ctor(Int16 value);
+  private: void Ctor(UInt16 value);
+  private: void Ctor(Int32 value);
+  private: void Ctor(UInt32 value);
+  private: void Ctor(Int64 value);
+  private: void Ctor(UInt64 value);
+  private: void Ctor(IntPtr value);
+  private: void Ctor(UIntPtr value);
+  private: void Ctor(Single value);
+  private: void Ctor(Double value);
+  private: void Ctor(Guid value);
+  private: void Ctor(DateTime value);
+  private: void Ctor(DateTimeOffset value);
+  private: void Ctor(TimeSpan value);
+  private: void Ctor(Decimal value);
   public: static Func<Object, PropertyValue> GetFactory(Type type);
   public: static Func<PropertyValue, PropertyValue> GetPropertyGetter(PropertyInfo property);
   private: static Func<PropertyValue, PropertyValue> GetBoxedValueTypePropertyGetter(PropertyInfo property);
   private: static Func<PropertyValue, PropertyValue> GetReferenceTypePropertyGetter(PropertyInfo property);
+  public: void Ctor();
   private: Object _reference;
   private: Scalar _scalar;
   private: Int32 _scalarLength;

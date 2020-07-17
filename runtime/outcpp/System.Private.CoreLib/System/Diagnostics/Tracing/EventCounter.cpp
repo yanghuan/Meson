@@ -1,6 +1,9 @@
 #include "EventCounter-dep.h"
 
 namespace System::Private::CoreLib::System::Diagnostics::Tracing::EventCounterNamespace {
+void EventCounter___::Ctor(String name, EventSource eventSource) {
+};
+
 void EventCounter___::WriteMetric(Single value) {
 };
 

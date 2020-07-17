@@ -39,12 +39,14 @@ using namespace Text;
 CLASS(CompareInfo) {
   private: class SortHandleCache {
     public: static IntPtr GetCachedSortHandle(String sortName);
+    private: static void SCtor();
     private: static Dictionary<String, IntPtr> s_sortNameToSortHandleCache;
   };
   public: String get_Name();
   public: SortVersion get_Version();
   public: Int32 get_LCID();
   private: static ReadOnlySpan<Boolean> get_HighCharTable();
+  public: void Ctor(CultureInfo culture);
   public: static CompareInfo GetCompareInfo(Int32 culture, Assembly assembly);
   public: static CompareInfo GetCompareInfo(String name, Assembly assembly);
   public: static CompareInfo GetCompareInfo(Int32 culture);
@@ -174,6 +176,7 @@ CLASS(CompareInfo) {
   private: static Boolean NlsIsSortable(ReadOnlySpan<Char> text);
   private: static Int32 GetNativeCompareFlags(CompareOptions options);
   private: SortVersion NlsGetSortVersion();
+  private: static void SCtor();
   public: static CompareInfo Invariant;
   private: String m_name;
   private: IntPtr _sortHandle;

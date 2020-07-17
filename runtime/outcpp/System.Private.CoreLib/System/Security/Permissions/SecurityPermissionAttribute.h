@@ -7,6 +7,7 @@ namespace System::Private::CoreLib::System::Security {
 FORWARD(IPermission)
 } // namespace System::Private::CoreLib::System::Security
 namespace System::Private::CoreLib::System::Security::Permissions {
+enum class SecurityAction;
 enum class SecurityPermissionFlag;
 namespace SecurityPermissionAttributeNamespace {
 CLASS(SecurityPermissionAttribute) {
@@ -40,6 +41,7 @@ CLASS(SecurityPermissionAttribute) {
   public: void set_SkipVerification(Boolean value) { SkipVerification = value; }
   public: Boolean get_UnmanagedCode() { return UnmanagedCode; }
   public: void set_UnmanagedCode(Boolean value) { UnmanagedCode = value; }
+  public: void Ctor(SecurityAction action);
   public: IPermission CreatePermission();
   private: Boolean Assertion;
   private: Boolean BindingRedirects;

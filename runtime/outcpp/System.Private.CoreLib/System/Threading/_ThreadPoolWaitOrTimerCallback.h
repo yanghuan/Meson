@@ -12,10 +12,12 @@ FORWARD(ExecutionContext)
 FORWARD(WaitOrTimerCallback)
 namespace _ThreadPoolWaitOrTimerCallbackNamespace {
 CLASS(_ThreadPoolWaitOrTimerCallback) {
+  public: void Ctor(WaitOrTimerCallback waitOrTimerCallback, Object state, Boolean flowExecutionContext);
   private: static void WaitOrTimerCallback_Context_t(Object state);
   private: static void WaitOrTimerCallback_Context_f(Object state);
   private: static void WaitOrTimerCallback_Context(Object state, Boolean timedOut);
   public: static void PerformWaitOrTimerCallback(_ThreadPoolWaitOrTimerCallback helper, Boolean timedOut);
+  private: static void SCtor();
   private: WaitOrTimerCallback _waitOrTimerCallback;
   private: ExecutionContext _executionContext;
   private: Object _state;

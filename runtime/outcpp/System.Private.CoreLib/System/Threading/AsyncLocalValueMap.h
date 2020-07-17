@@ -20,14 +20,17 @@ class AsyncLocalValueMap {
   private: CLASS(EmptyAsyncLocalValueMap) {
     public: IAsyncLocalValueMap Set(IAsyncLocal key, Object value, Boolean treatNullValueAsNonexistent);
     public: Boolean TryGetValue(IAsyncLocal key, Object& value);
+    public: void Ctor();
   };
   private: CLASS(OneElementAsyncLocalValueMap) {
+    public: void Ctor(IAsyncLocal key, Object value);
     public: IAsyncLocalValueMap Set(IAsyncLocal key, Object value, Boolean treatNullValueAsNonexistent);
     public: Boolean TryGetValue(IAsyncLocal key, Object& value);
     private: IAsyncLocal _key1;
     private: Object _value1;
   };
   private: CLASS(TwoElementAsyncLocalValueMap) {
+    public: void Ctor(IAsyncLocal key1, Object value1, IAsyncLocal key2, Object value2);
     public: IAsyncLocalValueMap Set(IAsyncLocal key, Object value, Boolean treatNullValueAsNonexistent);
     public: Boolean TryGetValue(IAsyncLocal key, Object& value);
     private: IAsyncLocal _key1;
@@ -36,6 +39,7 @@ class AsyncLocalValueMap {
     private: Object _value2;
   };
   private: CLASS(ThreeElementAsyncLocalValueMap) {
+    public: void Ctor(IAsyncLocal key1, Object value1, IAsyncLocal key2, Object value2, IAsyncLocal key3, Object value3);
     public: IAsyncLocalValueMap Set(IAsyncLocal key, Object value, Boolean treatNullValueAsNonexistent);
     public: Boolean TryGetValue(IAsyncLocal key, Object& value);
     private: IAsyncLocal _key1;
@@ -46,17 +50,20 @@ class AsyncLocalValueMap {
     private: Object _value3;
   };
   private: CLASS(MultiElementAsyncLocalValueMap) {
+    public: void Ctor(Int32 count);
     public: void UnsafeStore(Int32 index, IAsyncLocal key, Object value);
     public: IAsyncLocalValueMap Set(IAsyncLocal key, Object value, Boolean treatNullValueAsNonexistent);
     public: Boolean TryGetValue(IAsyncLocal key, Object& value);
     private: Array<KeyValuePair<IAsyncLocal, Object>> _keyValues;
   };
   private: CLASS(ManyElementAsyncLocalValueMap) {
+    public: void Ctor(Int32 capacity);
     public: IAsyncLocalValueMap Set(IAsyncLocal key, Object value, Boolean treatNullValueAsNonexistent);
   };
   public: static IAsyncLocalValueMap get_Empty() { return Empty; }
   public: static Boolean IsEmpty(IAsyncLocalValueMap asyncLocalValueMap);
   public: static IAsyncLocalValueMap Create(IAsyncLocal key, Object value, Boolean treatNullValueAsNonexistent);
+  private: static void SCtor();
   private: static IAsyncLocalValueMap Empty;
 };
 } // namespace AsyncLocalValueMapNamespace

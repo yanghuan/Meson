@@ -22,11 +22,15 @@ namespace UTF32EncodingNamespace {
 CLASS(UTF32Encoding) {
   private: CLASS(UTF32Decoder) {
     public: Boolean get_HasState();
+    public: void Ctor(UTF32Encoding encoding);
     public: void Reset();
     public: Int32 iChar;
     public: Int32 readByteCount;
   };
   public: ReadOnlySpan<Byte> get_Preamble();
+  public: void Ctor();
+  public: void Ctor(Boolean bigEndian, Boolean byteOrderMark);
+  public: void Ctor(Boolean bigEndian, Boolean byteOrderMark, Boolean throwOnInvalidCharacters);
   public: void SetDefaultFallbacks();
   public: Int32 GetByteCount(Array<Char> chars, Int32 index, Int32 count);
   public: Int32 GetByteCount(String s);
@@ -53,6 +57,7 @@ CLASS(UTF32Encoding) {
   public: Array<Byte> GetPreamble();
   public: Boolean Equals(Object value);
   public: Int32 GetHashCode();
+  private: static void SCtor();
   public: static UTF32Encoding s_default;
   public: static UTF32Encoding s_bigEndianDefault;
   private: Boolean _emitUTF32ByteOrderMark;

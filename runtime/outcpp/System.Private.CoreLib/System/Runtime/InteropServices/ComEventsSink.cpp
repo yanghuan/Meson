@@ -3,6 +3,9 @@
 #include <System.Private.CoreLib/System/Runtime/InteropServices/ComEventsSink-dep.h>
 
 namespace System::Private::CoreLib::System::Runtime::InteropServices::ComEventsSinkNamespace {
+void ComEventsSink___::Ctor(Object rcw, Guid iid) {
+};
+
 ComEventsSink ComEventsSink___::Find(ComEventsSink sinks, Guid& iid) {
   return nullptr;
 };

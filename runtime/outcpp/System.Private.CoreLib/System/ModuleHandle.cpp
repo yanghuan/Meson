@@ -11,6 +11,9 @@ ModuleHandle ModuleHandle::GetEmptyMH() {
   return ModuleHandle();
 };
 
+void ModuleHandle::Ctor(RuntimeModule module) {
+};
+
 RuntimeModule ModuleHandle::GetRuntimeModule() {
   return nullptr;
 };
@@ -107,6 +110,9 @@ void ModuleHandle::GetPEKind(RuntimeModule module, PortableExecutableKinds& peKi
 
 MetadataImport ModuleHandle::GetMetadataImport(RuntimeModule module) {
   return MetadataImport();
+};
+
+void ModuleHandle::SCtor() {
 };
 
 } // namespace System::Private::CoreLib::System::ModuleHandleNamespace

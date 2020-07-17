@@ -19,6 +19,8 @@ CLASS(EnumEqualityComparer, T) {
   public: Boolean Equals(T x, T y);
   public: Int32 IndexOf(Array<T> array, T value, Int32 startIndex, Int32 count);
   public: Int32 LastIndexOf(Array<T> array, T value, Int32 startIndex, Int32 count);
+  public: void Ctor();
+  private: void Ctor(SerializationInfo information, StreamingContext context);
   public: void GetObjectData(SerializationInfo info, StreamingContext context);
   public: Int32 GetHashCode(T obj);
   public: Boolean Equals(Object obj);

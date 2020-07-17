@@ -58,6 +58,7 @@ CLASS(RuntimeModule) {
   public: String get_ScopeName();
   public: String get_Name();
   public: Assembly get_Assembly();
+  public: void Ctor();
   private: static void GetType(QCallModule module, String className, Boolean throwOnError, Boolean ignoreCase, ObjectHandleOnStack type, ObjectHandleOnStack keepAlive);
   private: static Boolean nIsTransientInternal(QCallModule module);
   private: static void GetScopeName(QCallModule module, StringHandleOnStack retString);

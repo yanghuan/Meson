@@ -26,6 +26,7 @@ struct OpCode {
   public: Int32 get_Size();
   public: Int16 get_Value();
   public: String get_Name();
+  public: void Ctor(OpCodeValues value, Int32 flags);
   public: Boolean EndsUncondJmpBlk();
   public: Int32 StackChange();
   public: Boolean Equals(Object obj);
@@ -34,6 +35,7 @@ struct OpCode {
   public: static Boolean op_Inequality(OpCode a, OpCode b);
   public: Int32 GetHashCode();
   public: String ToString();
+  public: void Ctor();
   private: OpCodeValues m_value;
   private: Int32 m_flags;
   private: static Array<String> g_nameCache;

@@ -1,6 +1,9 @@
 #include "NullTypeInfo-dep.h"
 
 namespace System::Private::CoreLib::System::Diagnostics::Tracing::NullTypeInfoNamespace {
+void NullTypeInfo___::Ctor() {
+};
+
 void NullTypeInfo___::WriteMetadata(TraceLoggingMetadataCollector collector, String name, EventFieldFormat format) {
 };
 

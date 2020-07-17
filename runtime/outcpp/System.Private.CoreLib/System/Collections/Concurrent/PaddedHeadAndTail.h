@@ -6,6 +6,7 @@
 namespace System::Private::CoreLib::System::Collections::Concurrent {
 namespace PaddedHeadAndTailNamespace {
 struct PaddedHeadAndTail {
+  public: void Ctor();
   public: Int32 Head;
   public: Int32 Tail;
 };

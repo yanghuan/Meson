@@ -16,6 +16,8 @@ FORWARD(MethodInfo)
 } // namespace System::Private::CoreLib::System::Reflection
 namespace System::Private::CoreLib::System::Reflection::Emit {
 FORWARD(__ExceptionInfo)
+FORWARD(DynamicILGenerator)
+FORWARD(DynamicILInfo)
 FORWARD(DynamicMethod)
 FORWARD(DynamicScope)
 namespace DynamicResolverNamespace {
@@ -29,8 +31,11 @@ CLASS(DynamicResolver) {
   };
   private: CLASS(DestroyScout) {
     protected: void Finalize();
+    public: void Ctor();
     public: RuntimeMethodHandleInternal m_methodHandle;
   };
+  public: void Ctor(DynamicILGenerator ilGenerator);
+  public: void Ctor(DynamicILInfo dynamicILInfo);
   protected: void Finalize();
   public: RuntimeType GetJitContext(Int32& securityControlFlags);
   private: static Int32 CalculateNumberOfExceptions(Array<__ExceptionInfo> excp);

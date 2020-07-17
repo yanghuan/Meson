@@ -39,6 +39,9 @@ IEnumerable<Type> TypeInfo___::get_ImplementedInterfaces() {
   return nullptr;
 };
 
+void TypeInfo___::Ctor() {
+};
+
 Type TypeInfo___::AsType() {
   return nullptr;
 };

@@ -26,19 +26,27 @@ FORWARDS(UInt16)
 FORWARDS(UInt32)
 FORWARDS(UInt64)
 } // namespace System::Private::CoreLib::System
+namespace System::Private::CoreLib::System::Runtime::Serialization {
+FORWARD(SerializationInfo)
+FORWARDS(StreamingContext)
+} // namespace System::Private::CoreLib::System::Runtime::Serialization
 namespace System::Private::CoreLib::System::Text {
 namespace StringBuilderNamespace {
+using namespace Runtime::Serialization;
 CLASS(StringBuilder) {
   public: struct ChunkEnumerator {
     private: CLASS(ManyChunkInfo) {
       public: Boolean MoveNext(StringBuilder& current);
+      public: void Ctor(StringBuilder stringBuilder, Int32 chunkCount);
       private: Array<StringBuilder> _chunks;
       private: Int32 _chunkPos;
     };
     public: ReadOnlyMemory<Char> get_Current();
     public: ChunkEnumerator GetEnumerator();
     public: Boolean MoveNext();
+    public: void Ctor(StringBuilder stringBuilder);
     private: static Int32 ChunkCount(StringBuilder stringBuilder);
+    public: void Ctor();
     private: StringBuilder _firstChunk;
     private: StringBuilder _currentChunk;
     private: ManyChunkInfo _manyChunks;
@@ -57,6 +65,13 @@ CLASS(StringBuilder) {
   public: void ReplaceBufferAnsiInternal(SByte* newBuffer, Int32 newLength);
   public: void InternalCopy(IntPtr dest, Int32 len);
   private: StringBuilder FindChunkForByte(Int32 byteIndex);
+  public: void Ctor();
+  public: void Ctor(Int32 capacity);
+  public: void Ctor(String value);
+  public: void Ctor(String value, Int32 capacity);
+  public: void Ctor(String value, Int32 startIndex, Int32 length, Int32 capacity);
+  public: void Ctor(Int32 capacity, Int32 maxCapacity);
+  private: void Ctor(SerializationInfo info, StreamingContext context);
   public: Int32 EnsureCapacity(Int32 capacity);
   public: String ToString();
   public: String ToString(Int32 startIndex, Int32 length);
@@ -141,7 +156,9 @@ CLASS(StringBuilder) {
   private: StringBuilder FindChunkForIndex(Int32 index);
   private: StringBuilder Next(StringBuilder chunk);
   private: void ExpandByABlock(Int32 minBlockCharCount);
+  private: void Ctor(StringBuilder from);
   private: void MakeRoom(Int32 index, Int32 count, StringBuilder& chunk, Int32& indexInChunk, Boolean doNotMoveFollowingChars);
+  private: void Ctor(Int32 size, Int32 maxCapacity, StringBuilder previousBlock);
   private: void Remove(Int32 startIndex, Int32 count, StringBuilder& chunk, Int32& indexInChunk);
   public: Array<Char> m_ChunkChars;
   public: StringBuilder m_ChunkPrevious;

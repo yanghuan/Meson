@@ -29,6 +29,9 @@ Boolean RuntimeFieldInfo___::get_IsCollectible() {
   return Boolean();
 };
 
+void RuntimeFieldInfo___::Ctor(RuntimeType::in::RuntimeTypeCache reflectedTypeCache, RuntimeType declaringType, BindingFlags bindingFlags) {
+};
+
 RuntimeType RuntimeFieldInfo___::GetDeclaringTypeInternal() {
   return nullptr;
 };

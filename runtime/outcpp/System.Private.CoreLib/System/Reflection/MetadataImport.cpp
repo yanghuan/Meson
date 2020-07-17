@@ -19,6 +19,9 @@ void MetadataImport::GetMarshalAs(ConstArray nativeType, UnmanagedType& unmanage
 void MetadataImport::ThrowError(Int32 hResult) {
 };
 
+void MetadataImport::Ctor(IntPtr metadataImport2, Object keepalive) {
+};
+
 void MetadataImport::Enum(MetadataTokenType type, Int32 parent, MetadataEnumResult& result) {
 };
 
@@ -117,6 +120,9 @@ void MetadataImport::GetPInvokeMap(Int32 token, PInvokeAttributes& attributes, S
 
 Boolean MetadataImport::IsValidToken(Int32 token) {
   return Boolean();
+};
+
+void MetadataImport::SCtor() {
 };
 
 } // namespace System::Private::CoreLib::System::Reflection::MetadataImportNamespace

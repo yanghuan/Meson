@@ -5,6 +5,7 @@
 namespace System::Private::CoreLib::System {
 namespace FlagsAttributeNamespace {
 CLASS(FlagsAttribute) {
+  public: void Ctor();
 };
 } // namespace FlagsAttributeNamespace
 using FlagsAttribute = FlagsAttributeNamespace::FlagsAttribute;

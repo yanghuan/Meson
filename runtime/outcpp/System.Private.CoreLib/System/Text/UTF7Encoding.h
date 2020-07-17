@@ -22,6 +22,7 @@ namespace UTF7EncodingNamespace {
 CLASS(UTF7Encoding) {
   private: CLASS(Decoder) {
     public: Boolean get_HasState();
+    public: void Ctor(UTF7Encoding encoding);
     public: void Reset();
     public: Int32 bits;
     public: Int32 bitCount;
@@ -29,6 +30,7 @@ CLASS(UTF7Encoding) {
   };
   private: CLASS(Encoder) {
     public: Boolean get_HasState();
+    public: void Ctor(UTF7Encoding encoding);
     public: void Reset();
     public: Int32 bits;
     public: Int32 bitCount;
@@ -38,6 +40,7 @@ CLASS(UTF7Encoding) {
     public: DecoderFallbackBuffer CreateFallbackBuffer();
     public: Boolean Equals(Object value);
     public: Int32 GetHashCode();
+    public: void Ctor();
   };
   private: CLASS(DecoderUTF7FallbackBuffer) {
     public: Int32 get_Remaining();
@@ -46,10 +49,13 @@ CLASS(UTF7Encoding) {
     public: Boolean MovePrevious();
     public: void Reset();
     public: Int32 InternalFallback(Array<Byte> bytes, Byte* pBytes);
+    public: void Ctor();
     private: Char cFallback;
     private: Int32 iCount;
     private: Int32 iSize;
   };
+  public: void Ctor();
+  public: void Ctor(Boolean allowOptionals);
   private: void MakeTables();
   public: void SetDefaultFallbacks();
   public: Boolean Equals(Object value);
@@ -73,6 +79,7 @@ CLASS(UTF7Encoding) {
   public: Text::Encoder GetEncoder();
   public: Int32 GetMaxByteCount(Int32 charCount);
   public: Int32 GetMaxCharCount(Int32 byteCount);
+  private: static void SCtor();
   public: static UTF7Encoding s_default;
   private: Array<Byte> _base64Bytes;
   private: Array<SByte> _base64Values;

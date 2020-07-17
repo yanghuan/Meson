@@ -9,6 +9,12 @@ Int32 DecoderReplacementFallback___::get_MaxCharCount() {
   return Int32();
 };
 
+void DecoderReplacementFallback___::Ctor() {
+};
+
+void DecoderReplacementFallback___::Ctor(String replacement) {
+};
+
 DecoderFallbackBuffer DecoderReplacementFallback___::CreateFallbackBuffer() {
   return nullptr;
 };

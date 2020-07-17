@@ -5,8 +5,14 @@ Object ASCIIEncoding___::ASCIIEncodingSealed___::Clone() {
   return nullptr;
 };
 
+void ASCIIEncoding___::ASCIIEncodingSealed___::Ctor() {
+};
+
 Boolean ASCIIEncoding___::get_IsSingleByte() {
   return Boolean();
+};
+
+void ASCIIEncoding___::Ctor() {
 };
 
 void ASCIIEncoding___::SetDefaultFallbacks() {
@@ -138,6 +144,9 @@ Decoder ASCIIEncoding___::GetDecoder() {
 
 Encoder ASCIIEncoding___::GetEncoder() {
   return nullptr;
+};
+
+void ASCIIEncoding___::SCtor() {
 };
 
 } // namespace System::Private::CoreLib::System::Text::ASCIIEncodingNamespace

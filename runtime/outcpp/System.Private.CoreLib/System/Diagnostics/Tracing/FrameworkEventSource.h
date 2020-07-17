@@ -16,6 +16,7 @@ CLASS(FrameworkEventSource) {
   };
   public: class Tasks {
   };
+  private: void Ctor();
   private: void WriteEvent(Int32 eventId, Int64 arg1, Int32 arg2, String arg3, Boolean arg4, Int32 arg5, Int32 arg6);
   private: void WriteEvent(Int32 eventId, Int64 arg1, Int32 arg2, String arg3);
   public: void ThreadPoolEnqueueWork(Int64 workID);
@@ -26,6 +27,7 @@ CLASS(FrameworkEventSource) {
   public: void ThreadTransferSendObj(Object id, Int32 kind, String info, Boolean multiDequeues, Int32 intInfo1, Int32 intInfo2);
   public: void ThreadTransferReceive(Int64 id, Int32 kind, String info);
   public: void ThreadTransferReceiveObj(Object id, Int32 kind, String info);
+  private: static void SCtor();
   public: static FrameworkEventSource Log;
 };
 } // namespace FrameworkEventSourceNamespace

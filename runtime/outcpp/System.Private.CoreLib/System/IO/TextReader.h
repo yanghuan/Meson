@@ -24,10 +24,12 @@ using namespace Threading;
 using namespace Threading::Tasks;
 CLASS(TextReader) {
   private: CLASS(NullTextReader) {
+    public: void Ctor();
     public: Int32 Read(Array<Char> buffer, Int32 index, Int32 count);
     public: String ReadLine();
   };
   public: CLASS(SyncTextReader) {
+    public: void Ctor(TextReader t);
     public: void Close();
     protected: void Dispose(Boolean disposing);
     public: Int32 Peek();
@@ -42,6 +44,7 @@ CLASS(TextReader) {
     public: Task<Int32> ReadAsync(Array<Char> buffer, Int32 index, Int32 count);
     public: TextReader _in;
   };
+  protected: void Ctor();
   public: void Close();
   public: void Dispose();
   protected: void Dispose(Boolean disposing);
@@ -62,6 +65,7 @@ CLASS(TextReader) {
   public: ValueTask<Int32> ReadBlockAsync(Memory<Char> buffer, CancellationToken cancellationToken);
   public: ValueTask<Int32> ReadBlockAsyncInternal(Memory<Char> buffer, CancellationToken cancellationToken);
   public: static TextReader Synchronized(TextReader reader);
+  private: static void SCtor();
   public: static TextReader Null;
 };
 } // namespace TextReaderNamespace

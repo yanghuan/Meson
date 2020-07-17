@@ -3,6 +3,9 @@
 #include <System.Private.CoreLib/System/RuntimeType-dep.h>
 
 namespace System::Private::CoreLib::System::RuntimeTypeNamespace {
+void RuntimeType___::RuntimeTypeCache___::Filter::Ctor(Byte* pUtf8Name, Int32 cUtf8Name, MemberListType listType) {
+};
+
 Boolean RuntimeType___::RuntimeTypeCache___::Filter::Match(MdUtf8String name) {
   return Boolean();
 };
@@ -42,6 +45,9 @@ void RuntimeType___::RuntimeTypeCache___::set_TypeCode(TypeCode value) {
 
 Boolean RuntimeType___::RuntimeTypeCache___::get_IsGlobal() {
   return Boolean();
+};
+
+void RuntimeType___::RuntimeTypeCache___::Ctor(RuntimeType runtimeType) {
 };
 
 String RuntimeType___::RuntimeTypeCache___::ConstructName(String& name, TypeNameFormatFlags formatFlags) {
@@ -117,6 +123,9 @@ MethodBase RuntimeType___::RuntimeTypeCache___::GetConstructor(RuntimeType decla
 
 FieldInfo RuntimeType___::RuntimeTypeCache___::GetField(RuntimeFieldHandleInternal field) {
   return nullptr;
+};
+
+void RuntimeType___::ActivatorCache___::Ctor(RuntimeMethodHandleInternal rmh) {
 };
 
 void RuntimeType___::ActivatorCache___::Initialize() {
@@ -347,6 +356,9 @@ Boolean RuntimeType___::FilterApplyConstructorInfo(RuntimeConstructorInfo constr
 
 Boolean RuntimeType___::FilterApplyMethodBase(MethodBase methodBase, BindingFlags methodFlags, BindingFlags bindingFlags, CallingConventions callConv, Array<Type> argumentTypes) {
   return Boolean();
+};
+
+void RuntimeType___::Ctor() {
 };
 
 Boolean RuntimeType___::CacheEquals(Object o) {
@@ -688,6 +700,9 @@ Boolean RuntimeType___::IsAssignableFrom(Type c) {
 
 RuntimeType RuntimeType___::GetBaseType() {
   return nullptr;
+};
+
+void RuntimeType___::SCtor() {
 };
 
 } // namespace System::Private::CoreLib::System::RuntimeTypeNamespace

@@ -7,6 +7,9 @@ SafeHandle ThreadPoolBoundHandle___::get_Handle() {
   return nullptr;
 };
 
+void ThreadPoolBoundHandle___::Ctor(SafeHandle handle) {
+};
+
 ThreadPoolBoundHandle ThreadPoolBoundHandle___::BindHandle(SafeHandle handle) {
   return nullptr;
 };

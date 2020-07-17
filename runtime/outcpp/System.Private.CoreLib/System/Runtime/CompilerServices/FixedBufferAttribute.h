@@ -11,6 +11,7 @@ namespace FixedBufferAttributeNamespace {
 CLASS(FixedBufferAttribute) {
   public: Type get_ElementType() { return ElementType; }
   public: Int32 get_Length() { return Length; }
+  public: void Ctor(Type elementType, Int32 length);
   private: Type ElementType;
   private: Int32 Length;
 };

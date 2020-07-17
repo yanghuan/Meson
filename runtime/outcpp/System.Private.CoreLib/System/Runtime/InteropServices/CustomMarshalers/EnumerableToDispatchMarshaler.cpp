@@ -5,6 +5,9 @@ ICustomMarshaler EnumerableToDispatchMarshaler___::GetInstance(String cookie) {
   return nullptr;
 };
 
+void EnumerableToDispatchMarshaler___::Ctor() {
+};
+
 void EnumerableToDispatchMarshaler___::CleanUpManagedData(Object ManagedObj) {
 };
 
@@ -21,6 +24,9 @@ IntPtr EnumerableToDispatchMarshaler___::MarshalManagedToNative(Object ManagedOb
 
 Object EnumerableToDispatchMarshaler___::MarshalNativeToManaged(IntPtr pNativeData) {
   return nullptr;
+};
+
+void EnumerableToDispatchMarshaler___::SCtor() {
 };
 
 } // namespace System::Private::CoreLib::System::Runtime::InteropServices::CustomMarshalers::EnumerableToDispatchMarshalerNamespace

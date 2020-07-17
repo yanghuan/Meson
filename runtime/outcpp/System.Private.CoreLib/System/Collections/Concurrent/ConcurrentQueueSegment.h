@@ -12,11 +12,13 @@ namespace System::Private::CoreLib::System::Collections::Concurrent {
 namespace ConcurrentQueueSegmentNamespace {
 CLASS(ConcurrentQueueSegment, T) {
   public: struct Slot {
+    public: void Ctor();
     public: T Item;
     public: Int32 SequenceNumber;
   };
   public: Int32 get_Capacity();
   public: Int32 get_FreezeOffset();
+  public: void Ctor(Int32 boundedLength);
   public: static Int32 RoundUpToPowerOf2(Int32 i);
   public: void EnsureFrozenForEnqueues();
   public: Boolean TryDequeue(T& item);

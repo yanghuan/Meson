@@ -13,6 +13,7 @@ CLASS(DecoderFallback) {
   public: static DecoderFallback get_ExceptionFallback();
   public: Int32 get_MaxCharCount();
   public: DecoderFallbackBuffer CreateFallbackBuffer();
+  protected: void Ctor();
   private: static DecoderFallback s_replacementFallback;
   private: static DecoderFallback s_exceptionFallback;
 };

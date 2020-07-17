@@ -8,6 +8,7 @@ namespace AllowPartiallyTrustedCallersAttributeNamespace {
 CLASS(AllowPartiallyTrustedCallersAttribute) {
   public: PartialTrustVisibilityLevel get_PartialTrustVisibilityLevel() { return PartialTrustVisibilityLevel; }
   public: void set_PartialTrustVisibilityLevel(PartialTrustVisibilityLevel value) { PartialTrustVisibilityLevel = value; }
+  public: void Ctor();
   private: PartialTrustVisibilityLevel PartialTrustVisibilityLevel;
 };
 } // namespace AllowPartiallyTrustedCallersAttributeNamespace

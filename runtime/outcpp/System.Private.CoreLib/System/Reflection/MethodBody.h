@@ -23,6 +23,7 @@ CLASS(MethodBody) {
   public: Int32 get_MaxStackSize();
   public: Boolean get_InitLocals();
   public: IList<ExceptionHandlingClause> get_ExceptionHandlingClauses();
+  protected: void Ctor();
   public: Array<Byte> GetILAsByteArray();
 };
 } // namespace MethodBodyNamespace

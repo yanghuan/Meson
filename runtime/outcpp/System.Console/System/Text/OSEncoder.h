@@ -3,20 +3,21 @@
 #include <rt/GCObject.h>
 #include <System.Private.CoreLib/System/Char.h>
 
+namespace System::Private::CoreLib::System::Text {
+FORWARD(Encoding)
+} // namespace System::Private::CoreLib::System::Text
 namespace System::Private::CoreLib::System {
 FORWARD_(Array, T1, T2)
 FORWARDS(Boolean)
 FORWARDS(Byte)
 FORWARDS(Int32)
 } // namespace System::Private::CoreLib::System
-namespace System::Private::CoreLib::System::Text {
-FORWARD(Encoding)
-} // namespace System::Private::CoreLib::System::Text
 namespace System::Console::System::Text {
 namespace OSEncoderNamespace {
 using namespace ::System::Private::CoreLib::System;
 using namespace ::System::Private::CoreLib::System::Text;
 CLASS(OSEncoder) {
+  public: void Ctor(Encoding encoding);
   public: void Reset();
   public: Int32 GetByteCount(Array<Char> chars, Int32 index, Int32 count, Boolean flush);
   private: Int32 ConvertWithLeftOverChar(Char* chars, Int32 count, Byte* bytes, Int32 byteCount);

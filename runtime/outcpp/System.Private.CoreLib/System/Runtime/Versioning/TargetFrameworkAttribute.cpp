@@ -12,4 +12,7 @@ String TargetFrameworkAttribute___::get_FrameworkDisplayName() {
 void TargetFrameworkAttribute___::set_FrameworkDisplayName(String value) {
 };
 
+void TargetFrameworkAttribute___::Ctor(String frameworkName) {
+};
+
 } // namespace System::Private::CoreLib::System::Runtime::Versioning::TargetFrameworkAttributeNamespace

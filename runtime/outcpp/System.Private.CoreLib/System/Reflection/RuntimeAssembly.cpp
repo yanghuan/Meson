@@ -3,6 +3,9 @@
 #include <System.Private.CoreLib/System/Reflection/RuntimeAssembly-dep.h>
 
 namespace System::Private::CoreLib::System::Reflection::RuntimeAssemblyNamespace {
+void RuntimeAssembly___::ManifestResourceStream___::Ctor(RuntimeAssembly manifestAssembly, Byte* pointer, Int64 length, Int64 capacity, FileAccess access) {
+};
+
 Object RuntimeAssembly___::get_SyncRoot() {
   return nullptr;
 };
@@ -53,6 +56,9 @@ Int64 RuntimeAssembly___::get_HostContext() {
 
 Boolean RuntimeAssembly___::get_IsDynamic() {
   return Boolean();
+};
+
+void RuntimeAssembly___::Ctor() {
 };
 
 IntPtr RuntimeAssembly___::GetUnderlyingNativeHandle() {

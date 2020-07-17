@@ -36,6 +36,7 @@ class TimeSpanFormat {
     public: String get_End();
     public: static FormatLiterals InitInvariant(Boolean isNegative);
     public: void Init(ReadOnlySpan<Char> format, Boolean useInvariantFieldLengths);
+    public: void Ctor();
     public: String AppCompatLiteral;
     public: Int32 dd;
     public: Int32 hh;
@@ -52,6 +53,7 @@ class TimeSpanFormat {
   private: static void WriteTwoDigits(UInt32 value, Span<Char> buffer);
   private: static void WriteDigits(UInt32 value, Span<Char> buffer);
   private: static StringBuilder FormatCustomized(TimeSpan value, ReadOnlySpan<Char> format, DateTimeFormatInfo dtfi, StringBuilder result);
+  private: static void SCtor();
   public: static FormatLiterals PositiveInvariantFormatLiterals;
   public: static FormatLiterals NegativeInvariantFormatLiterals;
 };

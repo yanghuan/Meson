@@ -5,6 +5,7 @@
 #include <System.Private.CoreLib/System/UInt64.h>
 
 namespace System::Private::CoreLib::System {
+FORWARDS(Int32)
 FORWARDS(Int64)
 FORWARDS(UIntPtr)
 } // namespace System::Private::CoreLib::System
@@ -17,6 +18,7 @@ CLASS(MemoryFailPoint) {
   private: static void set_LastTimeCheckingAddressSpace(Int64 value);
   public: static UInt64 get_MemoryFailPointReservedMemory();
   private: static void AddToLastKnownFreeAddressSpace(Int64 addend);
+  public: void Ctor(Int32 sizeInMegabytes);
   protected: void Finalize();
   public: void Dispose();
   private: void Dispose(Boolean disposing);
@@ -26,6 +28,7 @@ CLASS(MemoryFailPoint) {
   private: static void CheckForFreeAddressSpace(UInt64 size, Boolean shouldThrow);
   private: static UInt64 MemFreeAfterAddress(void* address, UInt64 size);
   private: static void GrowPageFileIfNecessaryAndPossible(UIntPtr numBytes);
+  private: static void SCtor();
   private: static UInt64 s_topOfMemory;
   private: static Int64 s_hiddenLastKnownFreeAddressSpace;
   private: static Int64 s_hiddenLastTimeCheckingAddressSpace;

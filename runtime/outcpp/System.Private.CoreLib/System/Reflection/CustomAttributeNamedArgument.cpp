@@ -29,6 +29,12 @@ Boolean CustomAttributeNamedArgument::op_Inequality(CustomAttributeNamedArgument
   return Boolean();
 };
 
+void CustomAttributeNamedArgument::Ctor(MemberInfo memberInfo, Object value) {
+};
+
+void CustomAttributeNamedArgument::Ctor(MemberInfo memberInfo, CustomAttributeTypedArgument typedArgument) {
+};
+
 String CustomAttributeNamedArgument::ToString() {
   return nullptr;
 };

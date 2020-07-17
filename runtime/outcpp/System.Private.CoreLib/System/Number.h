@@ -47,16 +47,22 @@ class Number {
   public: struct DiyFp {
     public: static DiyFp CreateAndGetBoundaries(Double value, DiyFp& mMinus, DiyFp& mPlus);
     public: static DiyFp CreateAndGetBoundaries(Single value, DiyFp& mMinus, DiyFp& mPlus);
+    public: void Ctor(Double value);
+    public: void Ctor(Single value);
+    public: void Ctor(UInt64 f, Int32 e);
     public: DiyFp Multiply(DiyFp& other);
     public: DiyFp Normalize();
     public: DiyFp Subtract(DiyFp& other);
     private: void GetBoundaries(Int32 implicitBitIndex, DiyFp& mMinus, DiyFp& mPlus);
+    public: void Ctor();
     public: UInt64 f;
     public: Int32 e;
   };
   public: struct NumberBuffer {
+    public: void Ctor(NumberBufferKind kind, Byte* digits, Int32 digitsLength);
     public: Byte* GetDigitsPointer();
     public: String ToString();
+    public: void Ctor();
     public: Int32 DigitsCount;
     public: Int32 Scale;
     public: Boolean IsNegative;
@@ -96,6 +102,8 @@ class Number {
     public: UInt64 ToUInt64();
     private: UInt32* GetBlocksPointer();
     private: static UInt32 DivRem32(UInt32 value, UInt32& remainder);
+    private: static void SCtor();
+    public: void Ctor();
     private: static Array<UInt32> s_Pow10UInt32Table;
     private: static Array<Int32> s_Pow10BigNumTableIndices;
     private: static Array<UInt32> s_Pow10BigNumTable;
@@ -113,6 +121,7 @@ class Number {
     private: static DiyFp GetCachedPowerForBinaryExponentRange(Int32 minExponent, Int32 maxExponent, Int32& decimalExponent);
     private: static Boolean TryRoundWeedCounted(Span<Byte> buffer, Int32 length, UInt64 rest, UInt64 tenKappa, UInt64 unit, Int32& kappa);
     private: static Boolean TryRoundWeedShortest(Span<Byte> buffer, Int32 length, UInt64 distanceTooHighW, UInt64 unsafeInterval, UInt64 rest, UInt64 tenKappa, UInt64 unit);
+    private: static void SCtor();
     private: static Array<Int16> s_CachedPowersBinaryExponent;
     private: static Array<Int16> s_CachedPowersDecimalExponent;
     private: static Array<UInt64> s_CachedPowersSignificand;
@@ -129,6 +138,9 @@ class Number {
     public: Int32 get_OverflowDecimalExponent() { return OverflowDecimalExponent; }
     public: UInt16 get_NormalMantissaBits() { return NormalMantissaBits; }
     public: UInt16 get_DenormalMantissaBits() { return DenormalMantissaBits; }
+    public: void Ctor(UInt16 denormalMantissaBits, UInt16 exponentBits, Int32 maxBinaryExponent, Int32 exponentBias, UInt64 infinityBits);
+    private: static void SCtor();
+    public: void Ctor();
     public: static FloatingPointInfo Double;
     public: static FloatingPointInfo Single;
     private: UInt64 ZeroBits;
@@ -256,6 +268,7 @@ class Number {
   private: static Exception GetException(ParsingStatus status, TypeCode type);
   public: static Double NumberToDouble(NumberBuffer& number);
   public: static Single NumberToSingle(NumberBuffer& number);
+  private: static void SCtor();
   private: static Array<String> s_singleDigitStringCache;
   private: static Array<String> s_posCurrencyFormats;
   private: static Array<String> s_negCurrencyFormats;

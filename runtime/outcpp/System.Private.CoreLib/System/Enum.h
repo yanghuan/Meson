@@ -34,6 +34,7 @@ using namespace Reflection;
 using namespace Runtime::CompilerServices;
 CLASS(Enum) {
   private: CLASS(EnumInfo) {
+    public: void Ctor(Boolean hasFlagsAttribute, Array<UInt64> values, Array<String> names);
     public: Boolean HasFlagsAttribute;
     public: Array<UInt64> Values;
     public: Array<String> Names;
@@ -96,6 +97,7 @@ CLASS(Enum) {
   public: static Object ToObject(Type enumType, UInt64 value);
   private: static Object ToObject(Type enumType, Char value);
   private: static Object ToObject(Type enumType, Boolean value);
+  protected: void Ctor();
 };
 } // namespace EnumNamespace
 using Enum = EnumNamespace::Enum;

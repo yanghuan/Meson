@@ -11,6 +11,7 @@ namespace MultiProducerMultiConsumerQueueNamespace {
 CLASS(MultiProducerMultiConsumerQueue, T) {
   private: Boolean get_IsEmptyOfIProducerConsumerQueueT();
   private: Int32 get_CountOfIProducerConsumerQueueT();
+  public: void Ctor();
 };
 } // namespace MultiProducerMultiConsumerQueueNamespace
 template <class T>

@@ -12,6 +12,7 @@ using namespace Threading;
 CLASS(LocalDataStoreSlot) {
   public: ThreadLocal<Object> get_Data() { return Data; }
   private: void set_Data(ThreadLocal<Object> value) { Data = value; }
+  public: void Ctor(ThreadLocal<Object> data);
   protected: void Finalize();
   private: ThreadLocal<Object> Data;
 };

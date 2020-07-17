@@ -9,6 +9,7 @@
 #include <System.Private.CoreLib/System/Int32-dep.h>
 #include <System.Private.CoreLib/System/Object-dep.h>
 #include <System.Private.CoreLib/System/Reflection/Assembly-dep.h>
+#include <System.Private.CoreLib/System/Reflection/ConstArray-dep.h>
 #include <System.Private.CoreLib/System/Reflection/ConstructorInfo-dep.h>
 #include <System.Private.CoreLib/System/Reflection/CustomAttributeCtorParameter-dep.h>
 #include <System.Private.CoreLib/System/Reflection/CustomAttributeEncoding.h>
@@ -18,6 +19,7 @@
 #include <System.Private.CoreLib/System/Reflection/CustomAttributeType-dep.h>
 #include <System.Private.CoreLib/System/Reflection/CustomAttributeTypedArgument-dep.h>
 #include <System.Private.CoreLib/System/Reflection/MemberInfo-dep.h>
+#include <System.Private.CoreLib/System/Reflection/MetadataToken-dep.h>
 #include <System.Private.CoreLib/System/Reflection/Module-dep.h>
 #include <System.Private.CoreLib/System/Reflection/ParameterInfo-dep.h>
 #include <System.Private.CoreLib/System/Reflection/RuntimeAssembly-dep.h>

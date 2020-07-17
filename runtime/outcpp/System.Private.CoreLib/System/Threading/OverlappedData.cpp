@@ -13,6 +13,9 @@ IntPtr& OverlappedData___::get_EventHandle() {
   return IntPtr();
 };
 
+void OverlappedData___::Ctor(Overlapped overlapped) {
+};
+
 NativeOverlapped* OverlappedData___::Pack(IOCompletionCallback iocb, Object userData) {
   return nullptr;
 };

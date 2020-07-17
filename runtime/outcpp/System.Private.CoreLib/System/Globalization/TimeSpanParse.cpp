@@ -3,8 +3,23 @@
 #include <System.Private.CoreLib/System/Globalization/TimeSpanParse-dep.h>
 
 namespace System::Private::CoreLib::System::Globalization::TimeSpanParseNamespace {
+void TimeSpanParse::TimeSpanToken::Ctor(TTT type) {
+};
+
+void TimeSpanParse::TimeSpanToken::Ctor(Int32 number) {
+};
+
+void TimeSpanParse::TimeSpanToken::Ctor(Int32 number, Int32 leadingZeroes) {
+};
+
+void TimeSpanParse::TimeSpanToken::Ctor(TTT type, Int32 number, Int32 leadingZeroes, ReadOnlySpan<Char> separator) {
+};
+
 Boolean TimeSpanParse::TimeSpanToken::NormalizeAndValidateFraction() {
   return Boolean();
+};
+
+void TimeSpanParse::TimeSpanResult::Ctor(Boolean throwOnFailure, ReadOnlySpan<Char> originalTimeSpanString) {
 };
 
 Boolean TimeSpanParse::TimeSpanResult::SetNoFormatSpecifierFailure() {
@@ -41,6 +56,12 @@ Boolean TimeSpanParse::TimeSpanTokenizer::get_EOL() {
 
 Char TimeSpanParse::TimeSpanTokenizer::get_NextChar() {
   return Char();
+};
+
+void TimeSpanParse::TimeSpanTokenizer::Ctor(ReadOnlySpan<Char> input) {
+};
+
+void TimeSpanParse::TimeSpanTokenizer::Ctor(ReadOnlySpan<Char> input, Int32 startPosition) {
 };
 
 TimeSpanParse::TimeSpanToken TimeSpanParse::TimeSpanTokenizer::GetNextToken() {

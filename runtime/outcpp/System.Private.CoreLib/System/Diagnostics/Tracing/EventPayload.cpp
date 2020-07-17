@@ -24,6 +24,9 @@ Boolean EventPayload___::get_IsReadOnly() {
   return Boolean();
 };
 
+void EventPayload___::Ctor(List<String> payloadNames, List<Object> payloadValues) {
+};
+
 void EventPayload___::Add(String key, Object value) {
 };
 

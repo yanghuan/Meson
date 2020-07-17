@@ -8,6 +8,9 @@ FORWARD(Object)
 FORWARD(String)
 FORWARD(Type)
 } // namespace System::Private::CoreLib::System
+namespace System::Private::CoreLib::System::IO {
+FORWARD(Stream)
+} // namespace System::Private::CoreLib::System::IO
 namespace System::Private::CoreLib::System::Collections {
 FORWARD(Hashtable)
 FORWARD(IDictionaryEnumerator)
@@ -16,7 +19,13 @@ namespace System::Private::CoreLib::System::Resources {
 FORWARD(IResourceReader)
 namespace ResourceSetNamespace {
 using namespace Collections;
+using namespace IO;
 CLASS(ResourceSet) {
+  protected: void Ctor();
+  public: void Ctor(Boolean junk);
+  public: void Ctor(String fileName);
+  public: void Ctor(Stream stream);
+  public: void Ctor(IResourceReader reader);
   public: void Close();
   protected: void Dispose(Boolean disposing);
   public: void Dispose();

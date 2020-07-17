@@ -6,6 +6,7 @@ namespace System::Private::CoreLib::System::Threading {
 namespace QueueUserWorkItemCallbackBaseNamespace {
 CLASS(QueueUserWorkItemCallbackBase) {
   public: void Execute();
+  protected: void Ctor();
 };
 } // namespace QueueUserWorkItemCallbackBaseNamespace
 using QueueUserWorkItemCallbackBase = QueueUserWorkItemCallbackBaseNamespace::QueueUserWorkItemCallbackBase;

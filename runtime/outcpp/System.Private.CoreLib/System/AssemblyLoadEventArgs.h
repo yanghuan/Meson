@@ -10,6 +10,7 @@ namespace AssemblyLoadEventArgsNamespace {
 using namespace Reflection;
 CLASS(AssemblyLoadEventArgs) {
   public: Assembly get_LoadedAssembly() { return LoadedAssembly; }
+  public: void Ctor(Assembly loadedAssembly);
   private: Assembly LoadedAssembly;
 };
 } // namespace AssemblyLoadEventArgsNamespace

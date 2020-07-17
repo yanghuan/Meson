@@ -39,6 +39,7 @@ CLASS_(TaskFactory) {
   };
   public: CLASS(CompleteOnInvokePromise) {
     public: Boolean get_InvokeMayRunArbitraryCode();
+    public: void Ctor(IList<Task<>> tasks, Boolean isSyncBlocking);
     public: void Invoke(Task<> completingTask);
     private: IList<Task<>> _tasks;
     private: Int32 _stateFlags;
@@ -55,8 +56,10 @@ CLASS_(TaskFactory) {
 };
 CLASS_(TaskFactory, TResult) {
   private: CLASS(FromAsyncTrimPromise, TInstance) {
+    public: void Ctor(TInstance thisRef, Func<TInstance, IAsyncResult, TResult> endMethod);
     public: static void CompleteFromAsyncResult(IAsyncResult asyncResult);
     public: void Complete(TInstance thisRef, Func<TInstance, IAsyncResult, TResult> endMethod, IAsyncResult asyncResult, Boolean requiresSynchronization);
+    private: static void SCtor();
     public: static AsyncCallback s_completeFromAsyncResult;
     private: TInstance m_thisRef;
     private: Func<TInstance, IAsyncResult, TResult> m_endMethod;

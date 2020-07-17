@@ -1,6 +1,9 @@
 #include "DebugProvider-dep.h"
 
 namespace System::Private::CoreLib::System::Diagnostics::DebugProviderNamespace {
+void DebugProvider___::DebugAssertException___::Ctor(String message, String detailMessage, String stackTrace) {
+};
+
 String DebugProvider___::DebugAssertException___::Terminate(String s) {
   return nullptr;
 };
@@ -34,6 +37,12 @@ void DebugProvider___::WriteCore(String message) {
 };
 
 void DebugProvider___::WriteToDebugger(String message) {
+};
+
+void DebugProvider___::Ctor() {
+};
+
+void DebugProvider___::SCtor() {
 };
 
 } // namespace System::Private::CoreLib::System::Diagnostics::DebugProviderNamespace

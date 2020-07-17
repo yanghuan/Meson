@@ -374,4 +374,7 @@ Boolean Console::HandleBreakEvent(ConsoleSpecialKey controlKey) {
   return Boolean();
 };
 
+void Console::SCtor() {
+};
+
 } // namespace System::Console::System::ConsoleNamespace

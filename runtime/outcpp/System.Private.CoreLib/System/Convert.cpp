@@ -1326,4 +1326,7 @@ Int32 Convert::FromBase64_ComputeResultLength(Char* inputPtr, Int32 inputLength)
   return Int32();
 };
 
+void Convert::SCtor() {
+};
+
 } // namespace System::Private::CoreLib::System::ConvertNamespace

@@ -12,6 +12,7 @@ namespace System::Private::CoreLib::System::StubHelpers {
 namespace MngdNativeArrayMarshalerNamespace {
 class MngdNativeArrayMarshaler {
   public: struct MarshalerState {
+    public: void Ctor();
     private: IntPtr m_pElementMT;
     private: IntPtr m_Array;
     private: IntPtr m_pManagedNativeArrayMarshaler;

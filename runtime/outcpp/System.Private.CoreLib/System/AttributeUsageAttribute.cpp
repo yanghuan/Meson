@@ -19,4 +19,13 @@ Boolean AttributeUsageAttribute___::get_Inherited() {
 void AttributeUsageAttribute___::set_Inherited(Boolean value) {
 };
 
+void AttributeUsageAttribute___::Ctor(AttributeTargets validOn) {
+};
+
+void AttributeUsageAttribute___::Ctor(AttributeTargets validOn, Boolean allowMultiple, Boolean inherited) {
+};
+
+void AttributeUsageAttribute___::SCtor() {
+};
+
 } // namespace System::Private::CoreLib::System::AttributeUsageAttributeNamespace

@@ -19,6 +19,9 @@ Int32 TraceLoggingMetadataCollector___::Impl___::Encode(Array<Byte> metadata) {
   return Int32();
 };
 
+void TraceLoggingMetadataCollector___::Impl___::Ctor() {
+};
+
 Int32 TraceLoggingMetadataCollector___::get_ScratchSize() {
   return Int32();
 };
@@ -33,6 +36,12 @@ Int32 TraceLoggingMetadataCollector___::get_PinCount() {
 
 Boolean TraceLoggingMetadataCollector___::get_BeginningBufferedArray() {
   return Boolean();
+};
+
+void TraceLoggingMetadataCollector___::Ctor() {
+};
+
+void TraceLoggingMetadataCollector___::Ctor(TraceLoggingMetadataCollector other, FieldMetadata group) {
 };
 
 TraceLoggingMetadataCollector TraceLoggingMetadataCollector___::AddGroup(String name) {

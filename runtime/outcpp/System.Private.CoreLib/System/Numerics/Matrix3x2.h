@@ -17,6 +17,7 @@ struct Matrix3x2 {
   public: Boolean get_IsIdentity();
   public: Vector2 get_Translation();
   public: void set_Translation(Vector2 value);
+  public: void Ctor(Single m11, Single m12, Single m21, Single m22, Single m31, Single m32);
   public: static Matrix3x2 CreateTranslation(Vector2 position);
   public: static Matrix3x2 CreateTranslation(Single xPosition, Single yPosition);
   public: static Matrix3x2 CreateScale(Single xScale, Single yScale);
@@ -48,6 +49,8 @@ struct Matrix3x2 {
   public: Boolean Equals(Object obj);
   public: String ToString();
   public: Int32 GetHashCode();
+  private: static void SCtor();
+  public: void Ctor();
   public: Single M11;
   public: Single M12;
   public: Single M21;

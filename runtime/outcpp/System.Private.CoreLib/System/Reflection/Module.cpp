@@ -37,6 +37,9 @@ Int32 Module___::get_MetadataToken() {
   return Int32();
 };
 
+void Module___::Ctor() {
+};
+
 ModuleHandle Module___::GetModuleHandleImpl() {
   return ModuleHandle();
 };
@@ -189,6 +192,9 @@ String Module___::ToString() {
 
 Boolean Module___::FilterTypeNameImpl(Type cls, Object filterCriteria, StringComparison comparison) {
   return Boolean();
+};
+
+void Module___::SCtor() {
 };
 
 } // namespace System::Private::CoreLib::System::Reflection::ModuleNamespace

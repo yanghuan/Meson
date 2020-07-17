@@ -5,11 +5,17 @@ Boolean UTF7Encoding___::Decoder___::get_HasState() {
   return Boolean();
 };
 
+void UTF7Encoding___::Decoder___::Ctor(UTF7Encoding encoding) {
+};
+
 void UTF7Encoding___::Decoder___::Reset() {
 };
 
 Boolean UTF7Encoding___::Encoder___::get_HasState() {
   return Boolean();
+};
+
+void UTF7Encoding___::Encoder___::Ctor(UTF7Encoding encoding) {
 };
 
 void UTF7Encoding___::Encoder___::Reset() {
@@ -29,6 +35,9 @@ Boolean UTF7Encoding___::DecoderUTF7Fallback___::Equals(Object value) {
 
 Int32 UTF7Encoding___::DecoderUTF7Fallback___::GetHashCode() {
   return Int32();
+};
+
+void UTF7Encoding___::DecoderUTF7Fallback___::Ctor() {
 };
 
 Int32 UTF7Encoding___::DecoderUTF7FallbackBuffer___::get_Remaining() {
@@ -52,6 +61,15 @@ void UTF7Encoding___::DecoderUTF7FallbackBuffer___::Reset() {
 
 Int32 UTF7Encoding___::DecoderUTF7FallbackBuffer___::InternalFallback(Array<Byte> bytes, Byte* pBytes) {
   return Int32();
+};
+
+void UTF7Encoding___::DecoderUTF7FallbackBuffer___::Ctor() {
+};
+
+void UTF7Encoding___::Ctor() {
+};
+
+void UTF7Encoding___::Ctor(Boolean allowOptionals) {
 };
 
 void UTF7Encoding___::MakeTables() {
@@ -142,6 +160,9 @@ Int32 UTF7Encoding___::GetMaxByteCount(Int32 charCount) {
 
 Int32 UTF7Encoding___::GetMaxCharCount(Int32 byteCount) {
   return Int32();
+};
+
+void UTF7Encoding___::SCtor() {
 };
 
 } // namespace System::Private::CoreLib::System::Text::UTF7EncodingNamespace

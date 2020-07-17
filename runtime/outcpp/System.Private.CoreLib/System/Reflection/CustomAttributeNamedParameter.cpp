@@ -5,4 +5,7 @@ CustomAttributeEncodedArgument CustomAttributeNamedParameter::get_EncodedArgumen
   return CustomAttributeEncodedArgument();
 };
 
+void CustomAttributeNamedParameter::Ctor(String argumentName, CustomAttributeEncoding fieldOrProperty, CustomAttributeType type) {
+};
+
 } // namespace System::Private::CoreLib::System::Reflection::CustomAttributeNamedParameterNamespace

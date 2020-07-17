@@ -6,6 +6,8 @@
 namespace System::Private::CoreLib::System::Threading {
 namespace ThreadHandleNamespace {
 struct ThreadHandle {
+  public: void Ctor(IntPtr pThread);
+  public: void Ctor();
   private: IntPtr _ptr;
 };
 } // namespace ThreadHandleNamespace

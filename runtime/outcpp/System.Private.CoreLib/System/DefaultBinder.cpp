@@ -1,6 +1,9 @@
 #include "DefaultBinder-dep.h"
 
 namespace System::Private::CoreLib::System::DefaultBinderNamespace {
+void DefaultBinder___::BinderState___::Ctor(Array<Int32> argsMap, Int32 originalSize, Boolean isParamArray) {
+};
+
 MethodBase DefaultBinder___::BindToMethod(BindingFlags bindingAttr, Array<MethodBase> match, Array<Object>& args, Array<ParameterModifier> modifiers, CultureInfo cultureInfo, Array<String> names, Object& state) {
   return nullptr;
 };
@@ -73,6 +76,12 @@ Boolean DefaultBinder___::CreateParamOrder(Array<Int32> paramOrder, Array<Parame
 
 Boolean DefaultBinder___::CanChangePrimitive(Type source, Type target) {
   return Boolean();
+};
+
+void DefaultBinder___::Ctor() {
+};
+
+void DefaultBinder___::SCtor() {
 };
 
 } // namespace System::Private::CoreLib::System::DefaultBinderNamespace

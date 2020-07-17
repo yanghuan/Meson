@@ -16,6 +16,8 @@ namespace ValueStringBuilderNamespace {
 using namespace ::System::Private::CoreLib::System;
 struct ValueStringBuilder {
   public: Int32 get_Length();
+  public: void Ctor(Span<Char> initialBuffer);
+  public: void Ctor(Int32 initialCapacity);
   public: void EnsureCapacity(Int32 capacity);
   public: String ToString();
   public: ReadOnlySpan<Char> AsSpan();
@@ -27,6 +29,7 @@ struct ValueStringBuilder {
   private: void GrowAndAppend(Char c);
   private: void Grow(Int32 additionalCapacityBeyondPos);
   public: void Dispose();
+  public: void Ctor();
   private: Array<Char> _arrayToReturnToPool;
   private: Span<Char> _chars;
   private: Int32 _pos;

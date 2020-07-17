@@ -39,6 +39,9 @@ Int32 HijriCalendar___::get_TwoDigitYearMax() {
 void HijriCalendar___::set_TwoDigitYearMax(Int32 value) {
 };
 
+void HijriCalendar___::Ctor() {
+};
+
 Int64 HijriCalendar___::GetAbsoluteDateHijri(Int32 y, Int32 m, Int32 d) {
   return Int64();
 };
@@ -137,6 +140,9 @@ Int32 HijriCalendar___::GetHijriDateAdjustment() {
 
 Int32 HijriCalendar___::GetAdvanceHijriDate() {
   return Int32();
+};
+
+void HijriCalendar___::SCtor() {
 };
 
 } // namespace System::Private::CoreLib::System::Globalization::HijriCalendarNamespace

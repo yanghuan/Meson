@@ -9,6 +9,12 @@ Guid SortVersion___::get_SortId() {
   return Guid();
 };
 
+void SortVersion___::Ctor(Int32 fullVersion, Guid sortId) {
+};
+
+void SortVersion___::Ctor(Int32 nlsVersion, Int32 effectiveId, Guid customVersion) {
+};
+
 Boolean SortVersion___::Equals(Object obj) {
   return Boolean();
 };

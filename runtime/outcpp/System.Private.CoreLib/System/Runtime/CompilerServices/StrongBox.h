@@ -10,6 +10,8 @@ namespace StrongBoxNamespace {
 CLASS(StrongBox, T) {
   private: Object get_ValueOfIStrongBox();
   private: void set_ValueOfIStrongBox(Object value);
+  public: void Ctor();
+  public: void Ctor(T value);
   public: T Value;
 };
 } // namespace StrongBoxNamespace

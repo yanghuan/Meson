@@ -5,6 +5,9 @@ Boolean StackFrame___::get_IsLastFrameFromForeignExceptionStackTrace() {
   return Boolean();
 };
 
+void StackFrame___::Ctor(StackFrameHelper stackFrameHelper, Int32 skipFrames, Boolean needFileInfo) {
+};
+
 void StackFrame___::BuildStackFrame(Int32 skipFrames, Boolean needFileInfo) {
 };
 
@@ -13,6 +16,24 @@ Boolean StackFrame___::AppendStackFrameWithoutMethodBase(StringBuilder sb) {
 };
 
 void StackFrame___::InitMembers() {
+};
+
+void StackFrame___::Ctor() {
+};
+
+void StackFrame___::Ctor(Boolean needFileInfo) {
+};
+
+void StackFrame___::Ctor(Int32 skipFrames) {
+};
+
+void StackFrame___::Ctor(Int32 skipFrames, Boolean needFileInfo) {
+};
+
+void StackFrame___::Ctor(String fileName, Int32 lineNumber) {
+};
+
+void StackFrame___::Ctor(String fileName, Int32 lineNumber, Int32 colNumber) {
 };
 
 MethodBase StackFrame___::GetMethod() {

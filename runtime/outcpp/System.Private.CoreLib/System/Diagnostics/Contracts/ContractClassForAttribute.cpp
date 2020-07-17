@@ -5,4 +5,7 @@ Type ContractClassForAttribute___::get_TypeContractsAreFor() {
   return nullptr;
 };
 
+void ContractClassForAttribute___::Ctor(Type typeContractsAreFor) {
+};
+
 } // namespace System::Private::CoreLib::System::Diagnostics::Contracts::ContractClassForAttributeNamespace

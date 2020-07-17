@@ -13,6 +13,8 @@ namespace SortVersionNamespace {
 CLASS(SortVersion) {
   public: Int32 get_FullVersion();
   public: Guid get_SortId();
+  public: void Ctor(Int32 fullVersion, Guid sortId);
+  public: void Ctor(Int32 nlsVersion, Int32 effectiveId, Guid customVersion);
   public: Boolean Equals(Object obj);
   public: Boolean Equals(SortVersion other);
   public: Int32 GetHashCode();

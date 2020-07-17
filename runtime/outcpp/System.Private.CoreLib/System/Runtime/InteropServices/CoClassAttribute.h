@@ -9,6 +9,7 @@ namespace System::Private::CoreLib::System::Runtime::InteropServices {
 namespace CoClassAttributeNamespace {
 CLASS(CoClassAttribute) {
   public: Type get_CoClass() { return CoClass; }
+  public: void Ctor(Type coClass);
   private: Type CoClass;
 };
 } // namespace CoClassAttributeNamespace

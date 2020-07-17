@@ -16,6 +16,9 @@ void Decimal::DecCalc::Buf24::set_Mid64(UInt64 value) {
 void Decimal::DecCalc::Buf24::set_High64(UInt64 value) {
 };
 
+void Decimal::DecCalc::PowerOvfl::Ctor(UInt32 hi, UInt32 mid, UInt32 lo) {
+};
+
 UInt64 Decimal::DecCalc::Buf12::get_Low64() {
   return UInt64();
 };
@@ -193,6 +196,9 @@ UInt32 Decimal::DecCalc::DecDivMod1E9(DecCalc& value) {
   return UInt32();
 };
 
+void Decimal::DecCalc::SCtor() {
+};
+
 UInt32 Decimal::get_High() {
   return UInt32();
 };
@@ -217,6 +223,27 @@ UInt64 Decimal::get_Low64() {
   return UInt64();
 };
 
+void Decimal::Ctor(Currency value) {
+};
+
+void Decimal::Ctor(Int32 value) {
+};
+
+void Decimal::Ctor(UInt32 value) {
+};
+
+void Decimal::Ctor(Int64 value) {
+};
+
+void Decimal::Ctor(UInt64 value) {
+};
+
+void Decimal::Ctor(Single value) {
+};
+
+void Decimal::Ctor(Double value) {
+};
+
 Decimal Decimal::FromOACurrency(Int64 cy) {
   return Decimal();
 };
@@ -227,6 +254,21 @@ Int64 Decimal::ToOACurrency(Decimal value) {
 
 Boolean Decimal::IsValid(Int32 flags) {
   return Boolean();
+};
+
+void Decimal::Ctor(Array<Int32> bits) {
+};
+
+void Decimal::Ctor(ReadOnlySpan<Int32> bits) {
+};
+
+void Decimal::Ctor(Int32 lo, Int32 mid, Int32 hi, Boolean isNegative, Byte scale) {
+};
+
+void Decimal::Ctor(Int32 lo, Int32 mid, Int32 hi, Int32 flags) {
+};
+
+void Decimal::Ctor(Decimal& d, Int32 flags) {
 };
 
 Decimal Decimal::Abs(Decimal& d) {
@@ -593,6 +635,9 @@ TypeCode Decimal::GetTypeCode() {
 
 UInt32 Decimal::DecDivMod1E9(Decimal& value) {
   return UInt32();
+};
+
+void Decimal::SCtor() {
 };
 
 } // namespace System::Private::CoreLib::System::DecimalNamespace

@@ -47,6 +47,18 @@ Double TimeSpan::get_TotalSeconds() {
   return Double();
 };
 
+void TimeSpan::Ctor(Int64 ticks) {
+};
+
+void TimeSpan::Ctor(Int32 hours, Int32 minutes, Int32 seconds) {
+};
+
+void TimeSpan::Ctor(Int32 days, Int32 hours, Int32 minutes, Int32 seconds) {
+};
+
+void TimeSpan::Ctor(Int32 days, Int32 hours, Int32 minutes, Int32 seconds, Int32 milliseconds) {
+};
+
 TimeSpan TimeSpan::Add(TimeSpan ts) {
   return TimeSpan();
 };
@@ -296,6 +308,9 @@ Boolean TimeSpan::op_GreaterThan(TimeSpan t1, TimeSpan t2) {
 
 Boolean TimeSpan::op_GreaterThanOrEqual(TimeSpan t1, TimeSpan t2) {
   return Boolean();
+};
+
+void TimeSpan::SCtor() {
 };
 
 } // namespace System::Private::CoreLib::System::TimeSpanNamespace

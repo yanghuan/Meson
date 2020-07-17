@@ -59,6 +59,15 @@ String RegionInfo___::get_ISOCurrencySymbol() {
   return nullptr;
 };
 
+void RegionInfo___::Ctor(String name) {
+};
+
+void RegionInfo___::Ctor(Int32 culture) {
+};
+
+void RegionInfo___::Ctor(CultureData cultureData) {
+};
+
 Boolean RegionInfo___::Equals(Object value) {
   return Boolean();
 };

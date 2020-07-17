@@ -31,6 +31,10 @@ struct TimeSpan {
   public: Double get_TotalMilliseconds();
   public: Double get_TotalMinutes();
   public: Double get_TotalSeconds();
+  public: void Ctor(Int64 ticks);
+  public: void Ctor(Int32 hours, Int32 minutes, Int32 seconds);
+  public: void Ctor(Int32 days, Int32 hours, Int32 minutes, Int32 seconds);
+  public: void Ctor(Int32 days, Int32 hours, Int32 minutes, Int32 seconds, Int32 milliseconds);
   public: TimeSpan Add(TimeSpan ts);
   public: static Int32 Compare(TimeSpan t1, TimeSpan t2);
   public: Int32 CompareTo(Object value);
@@ -94,6 +98,8 @@ struct TimeSpan {
   public: static Boolean op_LessThanOrEqual(TimeSpan t1, TimeSpan t2);
   public: static Boolean op_GreaterThan(TimeSpan t1, TimeSpan t2);
   public: static Boolean op_GreaterThanOrEqual(TimeSpan t1, TimeSpan t2);
+  private: static void SCtor();
+  public: void Ctor();
   public: static constexpr Int64 TicksPerMillisecond = 10000;
   public: static constexpr Int64 TicksPerSecond = 10000000;
   public: static constexpr Int64 TicksPerMinute = 600000000;

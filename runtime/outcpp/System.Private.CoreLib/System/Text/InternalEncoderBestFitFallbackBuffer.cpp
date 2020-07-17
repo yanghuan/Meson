@@ -9,6 +9,9 @@ Int32 InternalEncoderBestFitFallbackBuffer___::get_Remaining() {
   return Int32();
 };
 
+void InternalEncoderBestFitFallbackBuffer___::Ctor(InternalEncoderBestFitFallback fallback) {
+};
+
 Boolean InternalEncoderBestFitFallbackBuffer___::Fallback(Char charUnknown, Int32 index) {
   return Boolean();
 };

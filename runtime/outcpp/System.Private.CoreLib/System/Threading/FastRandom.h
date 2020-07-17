@@ -9,7 +9,9 @@ FORWARDS(Int32)
 namespace System::Private::CoreLib::System::Threading {
 namespace FastRandomNamespace {
 struct FastRandom {
+  public: void Ctor(Int32 seed);
   public: Int32 Next(Int32 maxValue);
+  public: void Ctor();
   private: UInt32 _w;
   private: UInt32 _x;
   private: UInt32 _y;

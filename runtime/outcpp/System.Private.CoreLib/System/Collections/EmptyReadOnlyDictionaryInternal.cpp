@@ -17,6 +17,9 @@ DictionaryEntry EmptyReadOnlyDictionaryInternal___::NodeEnumerator___::get_Entry
   return DictionaryEntry();
 };
 
+void EmptyReadOnlyDictionaryInternal___::NodeEnumerator___::Ctor() {
+};
+
 Boolean EmptyReadOnlyDictionaryInternal___::NodeEnumerator___::MoveNext() {
   return Boolean();
 };
@@ -57,6 +60,9 @@ Boolean EmptyReadOnlyDictionaryInternal___::get_IsReadOnly() {
 
 Boolean EmptyReadOnlyDictionaryInternal___::get_IsFixedSize() {
   return Boolean();
+};
+
+void EmptyReadOnlyDictionaryInternal___::Ctor() {
 };
 
 void EmptyReadOnlyDictionaryInternal___::CopyTo(Array<> array, Int32 index) {

@@ -53,12 +53,15 @@ class HebrewNumber {
     END = 100,
   };
   private: struct HebrewValue {
+    public: void Ctor(HebrewToken token, Int16 value);
+    public: void Ctor();
     public: HebrewToken token;
     public: Int16 value;
   };
   public: static void Append(StringBuilder outputBuffer, Int32 Number);
   public: static HebrewNumberParsingState ParseByChar(Char ch, HebrewNumberParsingContext& context);
   public: static Boolean IsDigit(Char ch);
+  private: static void SCtor();
   private: static Array<HebrewValue> s_hebrewValues;
   private: static Char s_maxHebrewNumberCh;
   private: static Array<HS> s_numberPasingState;

@@ -19,6 +19,9 @@ Boolean StandardFormat::get_IsDefault() {
   return Boolean();
 };
 
+void StandardFormat::Ctor(Char symbol, Byte precision) {
+};
+
 StandardFormat StandardFormat::op_Implicit(Char symbol) {
   return StandardFormat();
 };

@@ -15,13 +15,13 @@ namespace Meson.Compiler {
     private sealed class RefMultiGenericTypeInfo {
       public List<ITypeDefinition> Types;
     }
-    
+
     public Options Options { get; }
     private readonly Dictionary<IModule, CSharpDecompiler> decompilers_ = new Dictionary<IModule, CSharpDecompiler>();
     private readonly Dictionary<ITypeDefinition, RefMultiGenericTypeInfo> multiGenericTypes_ = new Dictionary<ITypeDefinition, RefMultiGenericTypeInfo>();
     private readonly Dictionary<ISymbol, SymbolNameSyntax> memberNames_ = new Dictionary<ISymbol, SymbolNameSyntax>();
-    private static readonly DecompilerSettings decompilerSettings_ = new DecompilerSettings(LanguageVersion.Latest); 
-    
+    private static readonly DecompilerSettings decompilerSettings_ = new DecompilerSettings(LanguageVersion.Latest);
+
     public SyntaxGenerator(Options options) {
       Options = options;
       foreach (var compilationUnit in GetCompilationUnits()) {
@@ -50,7 +50,7 @@ namespace Meson.Compiler {
       return node.Members.OfType<MethodDeclaration>().FirstOrDefault();
     }
 
-     private IEnumerable<CompilationUnitTransform> GetCompilationUnits() {
+    private IEnumerable<CompilationUnitTransform> GetCompilationUnits() {
       var modules = Options.Assemnlys.SelectMany(GetModules).Distinct();
       var assemblyTransforms = modules.Select(i => new AssemblyTransform(this, i)).ToList();
       return assemblyTransforms.SelectMany(i => i.GetCompilationUnits());
@@ -110,15 +110,20 @@ namespace Meson.Compiler {
               }
               break;
             }
-          /*  
+          case SymbolKind.Constructor: {
+              var ctor = (IMethod)symbol;
+              symbolName = ctor.IsStatic ? "SCtor" : "Ctor";
+              break;
+            }
           case SymbolKind.Operator: {
-              symbolName = operators_.GetOrDefault(symbolName);
-              if (symbolName == null) {
-                symbolName = symbol.Name;
+              break;
+            }
+          case SymbolKind.Parameter: {
+              if (string.IsNullOrEmpty(symbolName)) {
+                symbolName = "_";
               }
               break;
             }
-          */  
         }
         name = new SymbolNameSyntax(symbolName);
         memberNames_.Add(symbol, name);
@@ -132,18 +137,18 @@ namespace Meson.Compiler {
         case SymbolKind.Field:
         case SymbolKind.Method:
         case SymbolKind.Parameter: {
-          if (Tokens.IsReservedWord(originalString)) {
-            string newName = Utils.GetNewName(originalString, 1);
-            name.Update(newName);
+            if (Tokens.IsReservedWord(originalString)) {
+              string newName = Utils.GetNewName(originalString, 1);
+              name.Update(newName);
+              break;
+            }
+
+            if (Utils.IsIdentifierIllegal(ref originalString)) {
+              string newName = Utils.GetNewName(originalString, 0);
+              name.Update(newName);
+            }
             break;
           }
-
-          if (Utils.IsIdentifierIllegal(ref originalString)) {
-            string newName = Utils.GetNewName(originalString, 0);
-            name.Update(newName);
-          }
-          break;
-        }
       }
     }
   }

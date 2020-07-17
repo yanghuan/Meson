@@ -12,6 +12,9 @@ CLASS(AttributeUsageAttribute) {
   public: void set_AllowMultiple(Boolean value);
   public: Boolean get_Inherited();
   public: void set_Inherited(Boolean value);
+  public: void Ctor(AttributeTargets validOn);
+  public: void Ctor(AttributeTargets validOn, Boolean allowMultiple, Boolean inherited);
+  private: static void SCtor();
   private: AttributeTargets _attributeTarget;
   private: Boolean _allowMultiple;
   private: Boolean _inherited;

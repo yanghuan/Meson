@@ -11,6 +11,7 @@ namespace System::Private::CoreLib::System::Diagnostics::Tracing {
 namespace TraceLoggingEventHandleTableNamespace {
 CLASS(TraceLoggingEventHandleTable) {
   public: IntPtr get_Item(Int32 eventID);
+  public: void Ctor();
   public: void SetEventHandle(Int32 eventID, IntPtr eventHandle);
   private: Array<IntPtr> m_innerTable;
 };

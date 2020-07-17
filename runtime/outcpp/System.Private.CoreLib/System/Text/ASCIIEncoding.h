@@ -29,8 +29,10 @@ using namespace Buffers;
 CLASS(ASCIIEncoding) {
   public: CLASS(ASCIIEncodingSealed) {
     public: Object Clone();
+    public: void Ctor();
   };
   public: Boolean get_IsSingleByte();
+  public: void Ctor();
   public: void SetDefaultFallbacks();
   public: Int32 GetByteCount(Array<Char> chars, Int32 index, Int32 count);
   public: Int32 GetByteCount(String chars);
@@ -64,6 +66,7 @@ CLASS(ASCIIEncoding) {
   public: Int32 GetMaxCharCount(Int32 byteCount);
   public: Decoder GetDecoder();
   public: Encoder GetEncoder();
+  private: static void SCtor();
   public: static ASCIIEncodingSealed s_default;
 };
 } // namespace ASCIIEncodingNamespace

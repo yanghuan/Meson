@@ -9,6 +9,8 @@ enum class CharSet;
 namespace UnmanagedFunctionPointerAttributeNamespace {
 CLASS(UnmanagedFunctionPointerAttribute) {
   public: CallingConvention get_CallingConvention() { return CallingConvention; }
+  public: void Ctor();
+  public: void Ctor(CallingConvention callingConvention);
   private: CallingConvention CallingConvention;
   public: Boolean BestFitMapping;
   public: Boolean SetLastError;

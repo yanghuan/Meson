@@ -23,6 +23,12 @@ TextWriter IndentedTextWriter___::get_InnerWriter() {
   return nullptr;
 };
 
+void IndentedTextWriter___::Ctor(TextWriter writer) {
+};
+
+void IndentedTextWriter___::Ctor(TextWriter writer, String tabString) {
+};
+
 void IndentedTextWriter___::Close() {
 };
 

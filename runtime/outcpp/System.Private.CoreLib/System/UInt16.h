@@ -43,6 +43,7 @@ struct UInt16 : public rt::PrimitiveType<UInt16> {
   public: static Boolean TryParse(ReadOnlySpan<Char> s, NumberStyles style, IFormatProvider provider, UInt16& result);
   private: static Boolean TryParse(ReadOnlySpan<Char> s, NumberStyles style, NumberFormatInfo info, UInt16& result);
   public: TypeCode GetTypeCode();
+  public: void Ctor();
   private: uint16_t m_value;
   public: static constexpr uint16_t MaxValue = 65535;
   public: static constexpr uint16_t MinValue = 0;

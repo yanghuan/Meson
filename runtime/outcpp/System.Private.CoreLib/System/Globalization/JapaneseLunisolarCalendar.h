@@ -28,7 +28,9 @@ CLASS(JapaneseLunisolarCalendar) {
   public: Int32 GetYear(Int32 year, DateTime time);
   public: Int32 GetGregorianYear(Int32 year, Int32 era);
   private: static Array<EraInfo> TrimEras(Array<EraInfo> baseEras);
+  public: void Ctor();
   public: Int32 GetEra(DateTime time);
+  private: static void SCtor();
   public: static constexpr Int32 JapaneseEra = 1;
   private: GregorianCalendarHelper _helper;
   private: static DateTime s_minDate;

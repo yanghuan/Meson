@@ -5,4 +5,7 @@ Object OleAutBinder___::ChangeType(Object value, Type type, CultureInfo cultureI
   return nullptr;
 };
 
+void OleAutBinder___::Ctor() {
+};
+
 } // namespace System::Private::CoreLib::System::OleAutBinderNamespace

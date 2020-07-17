@@ -13,6 +13,7 @@ namespace System::Private::CoreLib::System::Reflection::Emit {
 namespace PunkSafeHandleNamespace {
 CLASS(PunkSafeHandle) {
   private: CLASS(DRelease) {
+    public: void Ctor(Object object, IntPtr method);
     public: void Invoke(IntPtr punk);
     public: IAsyncResult BeginInvoke(IntPtr punk, AsyncCallback callback, Object object);
     public: void EndInvoke(IAsyncResult result);
@@ -20,6 +21,7 @@ CLASS(PunkSafeHandle) {
   public: Boolean get_IsInvalid();
   protected: Boolean ReleaseHandle();
   private: static IntPtr nGetDReleaseTarget();
+  private: static void SCtor();
   private: static DRelease m_Release;
 };
 } // namespace PunkSafeHandleNamespace

@@ -1,6 +1,9 @@
 #include "Debugger-dep.h"
 
 namespace System::Private::CoreLib::System::Diagnostics::DebuggerNamespace {
+void Debugger::CrossThreadDependencyNotification___::Ctor() {
+};
+
 void Debugger::Break() {
 };
 

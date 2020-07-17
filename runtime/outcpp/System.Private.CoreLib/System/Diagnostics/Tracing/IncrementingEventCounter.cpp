@@ -1,6 +1,9 @@
 #include "IncrementingEventCounter-dep.h"
 
 namespace System::Private::CoreLib::System::Diagnostics::Tracing::IncrementingEventCounterNamespace {
+void IncrementingEventCounter___::Ctor(String name, EventSource eventSource) {
+};
+
 void IncrementingEventCounter___::Increment(Double increment) {
 };
 

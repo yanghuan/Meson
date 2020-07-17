@@ -1,6 +1,9 @@
 #include "AssemblyDependencyResolver-dep.h"
 
 namespace System::Private::CoreLib::System::Runtime::Loader::AssemblyDependencyResolverNamespace {
+void AssemblyDependencyResolver___::Ctor(String componentAssemblyPath) {
+};
+
 String AssemblyDependencyResolver___::ResolveAssemblyToPath(AssemblyName assemblyName) {
   return nullptr;
 };

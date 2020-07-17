@@ -91,6 +91,7 @@ class Interop {
     };
     public: struct SYSTEMTIME {
       public: Boolean Equals(SYSTEMTIME& other);
+      public: void Ctor();
       public: UInt16 Year;
       public: UInt16 Month;
       public: UInt16 DayOfWeek;
@@ -102,6 +103,7 @@ class Interop {
     };
     public: struct TIME_DYNAMIC_ZONE_INFORMATION {
       public: String GetTimeZoneKeyName();
+      public: void Ctor();
       public: Int32 Bias;
       public: rt::FixedBuffer<Char, 32> StandardName;
       public: SYSTEMTIME StandardDate;
@@ -113,12 +115,15 @@ class Interop {
       public: Byte DynamicDaylightTimeDisabled;
     };
     public: struct FILE_TIME {
+      public: void Ctor();
       public: UInt32 dwLowDateTime;
       public: UInt32 dwHighDateTime;
     };
     public: struct TIME_ZONE_INFORMATION {
+      public: void Ctor(TIME_DYNAMIC_ZONE_INFORMATION& dtzi);
       public: String GetStandardName();
       public: String GetDaylightName();
+      public: void Ctor();
       public: Int32 Bias;
       public: rt::FixedBuffer<Char, 32> StandardName;
       public: SYSTEMTIME StandardDate;
@@ -128,6 +133,7 @@ class Interop {
       public: Int32 DaylightBias;
     };
     public: struct WIN32_FIND_DATA {
+      public: void Ctor();
       public: UInt32 dwFileAttributes;
       public: FILE_TIME ftCreationTime;
       public: FILE_TIME ftLastAccessTime;
@@ -140,21 +146,25 @@ class Interop {
       private: rt::FixedBuffer<Char, 14> _cAlternateFileName;
     };
     public: CLASS(EnumLocalesProcEx) {
+      public: void Ctor(Object object, IntPtr method);
       public: BOOL Invoke(Char* lpLocaleString, UInt32 dwFlags, void* lParam);
       public: IAsyncResult BeginInvoke(Char* lpLocaleString, UInt32 dwFlags, void* lParam, AsyncCallback callback, Object object);
       public: BOOL EndInvoke(IAsyncResult result);
     };
     public: CLASS(EnumTimeFormatsProcEx) {
+      public: void Ctor(Object object, IntPtr method);
       public: BOOL Invoke(Char* lpTimeFormatString, void* lParam);
       public: IAsyncResult BeginInvoke(Char* lpTimeFormatString, void* lParam, AsyncCallback callback, Object object);
       public: BOOL EndInvoke(IAsyncResult result);
     };
     public: CLASS(EnumCalendarInfoProcExEx) {
+      public: void Ctor(Object object, IntPtr method);
       public: BOOL Invoke(Char* lpCalendarInfoString, UInt32 Calendar, IntPtr lpReserved, void* lParam);
       public: IAsyncResult BeginInvoke(Char* lpCalendarInfoString, UInt32 Calendar, IntPtr lpReserved, void* lParam, AsyncCallback callback, Object object);
       public: BOOL EndInvoke(IAsyncResult result);
     };
     public: struct NlsVersionInfoEx {
+      public: void Ctor();
       public: Int32 dwNLSVersionInfoSize;
       public: Int32 dwNLSVersion;
       public: Int32 dwDefinedVersion;
@@ -162,6 +172,7 @@ class Interop {
       public: Guid guidCustomVersion;
     };
     public: struct FILE_STANDARD_INFO {
+      public: void Ctor();
       public: Int64 AllocationSize;
       public: Int64 EndOfFile;
       public: UInt32 NumberOfLinks;
@@ -169,11 +180,13 @@ class Interop {
       public: BOOL Directory;
     };
     public: struct CPINFO {
+      public: void Ctor();
       public: Int32 MaxCharSize;
       public: rt::FixedBuffer<Byte, 2> DefaultChar;
       public: rt::FixedBuffer<Byte, 12> LeadByte;
     };
     public: struct PROCESS_MEMORY_COUNTERS {
+      public: void Ctor();
       public: UInt32 cb;
       public: UInt32 PageFaultCount;
       public: UIntPtr PeakWorkingSetSize;
@@ -186,6 +199,7 @@ class Interop {
       public: UIntPtr PeakPagefileUsage;
     };
     public: struct MEMORY_BASIC_INFORMATION {
+      public: void Ctor();
       public: void* BaseAddress;
       public: void* AllocationBase;
       public: UInt32 AllocationProtect;
@@ -195,6 +209,7 @@ class Interop {
       public: UInt32 Type;
     };
     public: struct MEMORYSTATUSEX {
+      public: void Ctor();
       public: UInt32 dwLength;
       public: UInt32 dwMemoryLoad;
       public: UInt64 ullTotalPhys;
@@ -206,11 +221,13 @@ class Interop {
       public: UInt64 ullAvailExtendedVirtual;
     };
     public: struct SECURITY_ATTRIBUTES {
+      public: void Ctor();
       public: UInt32 nLength;
       public: IntPtr lpSecurityDescriptor;
       public: BOOL bInheritHandle;
     };
     public: struct SYSTEM_INFO {
+      public: void Ctor();
       public: UInt16 wProcessorArchitecture;
       public: UInt16 wReserved;
       public: Int32 dwPageSize;
@@ -224,6 +241,8 @@ class Interop {
       public: Int16 wProcessorRevision;
     };
     public: struct REG_TZI_FORMAT {
+      public: void Ctor(TIME_ZONE_INFORMATION& tzi);
+      public: void Ctor();
       public: Int32 Bias;
       public: Int32 StandardBias;
       public: Int32 DaylightBias;
@@ -232,6 +251,7 @@ class Interop {
     };
     public: struct WIN32_FILE_ATTRIBUTE_DATA {
       public: void PopulateFrom(WIN32_FIND_DATA& findData);
+      public: void Ctor();
       public: Int32 dwFileAttributes;
       public: FILE_TIME ftCreationTime;
       public: FILE_TIME ftLastAccessTime;
@@ -240,6 +260,7 @@ class Interop {
       public: UInt32 nFileSizeLow;
     };
     public: struct OSVERSIONINFOEX {
+      public: void Ctor();
       public: Int32 dwOSVersionInfoSize;
       public: Int32 dwMajorVersion;
       public: Int32 dwMinorVersion;
@@ -372,6 +393,7 @@ class Interop {
       OutOfMemory = 3,
     };
     public: CLASS(EnumCalendarInfoCallback) {
+      public: void Ctor(Object object, IntPtr method);
       public: void Invoke(String calendarString, IntPtr context);
       public: IAsyncResult BeginInvoke(String calendarString, IntPtr context, AsyncCallback callback, Object object);
       public: void EndInvoke(IAsyncResult result);
@@ -437,26 +459,31 @@ class Interop {
       MaxTraceSetInfoClass = 4,
     };
     public: struct EVENT_FILTER_DESCRIPTOR {
+      public: void Ctor();
       public: Int64 Ptr;
       public: Int32 Size;
       public: Int32 Type;
     };
     public: CLASS(EtwEnableCallback) {
+      public: void Ctor(Object object, IntPtr method);
       public: void Invoke(Guid& sourceId, Int32 isEnabled, Byte level, Int64 matchAnyKeywords, Int64 matchAllKeywords, EVENT_FILTER_DESCRIPTOR* filterData, void* callbackContext);
       public: IAsyncResult BeginInvoke(Guid& sourceId, Int32 isEnabled, Byte level, Int64 matchAnyKeywords, Int64 matchAllKeywords, EVENT_FILTER_DESCRIPTOR* filterData, void* callbackContext, AsyncCallback callback, Object object);
       public: void EndInvoke(Guid& sourceId, IAsyncResult result);
     };
     public: struct TRACE_GUID_INFO {
+      public: void Ctor();
       public: Int32 InstanceCount;
       public: Int32 Reserved;
     };
     public: struct TRACE_PROVIDER_INSTANCE_INFO {
+      public: void Ctor();
       public: Int32 NextOffset;
       public: Int32 EnableCount;
       public: Int32 Pid;
       public: Int32 Flags;
     };
     public: struct TRACE_ENABLE_INFO {
+      public: void Ctor();
       public: Int32 IsEnabled;
       public: Byte Level;
       public: Byte Reserved1;
@@ -487,11 +514,13 @@ class Interop {
   };
   public: class HostPolicy {
     public: CLASS(corehost_resolve_component_dependencies_result_fn) {
+      public: void Ctor(Object object, IntPtr method);
       public: void Invoke(String assemblyPaths, String nativeSearchPaths, String resourceSearchPaths);
       public: IAsyncResult BeginInvoke(String assemblyPaths, String nativeSearchPaths, String resourceSearchPaths, AsyncCallback callback, Object object);
       public: void EndInvoke(IAsyncResult result);
     };
     public: CLASS(corehost_error_writer_fn) {
+      public: void Ctor(Object object, IntPtr method);
       public: void Invoke(String message);
       public: IAsyncResult BeginInvoke(String message, AsyncCallback callback, Object object);
       public: void EndInvoke(IAsyncResult result);
@@ -515,10 +544,12 @@ class Interop {
   };
   public: class NtDll {
     public: struct IO_STATUS_BLOCK {
+      public: void Ctor();
       private: UInt32 Status;
       private: IntPtr Information;
     };
     public: struct RTL_OSVERSIONINFOEX {
+      public: void Ctor();
       public: UInt32 dwOSVersionInfoSize;
       public: UInt32 dwMajorVersion;
       public: UInt32 dwMinorVersion;
@@ -527,6 +558,7 @@ class Interop {
       public: rt::FixedBuffer<Char, 128> szCSDVersion;
     };
     public: struct SYSTEM_LEAP_SECOND_INFORMATION {
+      public: void Ctor();
       public: BOOLEAN Enabled;
       public: UInt32 Flags;
     };
@@ -543,6 +575,7 @@ class Interop {
   };
   public: class User32 {
     public: struct USEROBJECTFLAGS {
+      public: void Ctor();
       public: Int32 fInherit;
       public: Int32 fReserved;
       public: Int32 dwFlags;

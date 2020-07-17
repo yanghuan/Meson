@@ -4,4 +4,7 @@ namespace System::Private::CoreLib::System::Reflection::LoaderAllocatorScoutName
 void LoaderAllocatorScout___::Finalize() {
 };
 
+void LoaderAllocatorScout___::Ctor() {
+};
+
 } // namespace System::Private::CoreLib::System::Reflection::LoaderAllocatorScoutNamespace

@@ -7,21 +7,29 @@
 namespace System::Private::CoreLib::System::Text {
 FORWARD(StringBuilder)
 } // namespace System::Private::CoreLib::System::Text
-namespace System::Private::CoreLib::System::Reflection {
-FORWARD(MethodBase)
-} // namespace System::Private::CoreLib::System::Reflection
 namespace System::Private::CoreLib::System {
 FORWARD(String)
 } // namespace System::Private::CoreLib::System
+namespace System::Private::CoreLib::System::Reflection {
+FORWARD(MethodBase)
+} // namespace System::Private::CoreLib::System::Reflection
 namespace System::Private::CoreLib::System::Diagnostics {
+FORWARD(StackFrameHelper)
 namespace StackFrameNamespace {
 using namespace Reflection;
 using namespace Text;
 CLASS(StackFrame) {
   public: Boolean get_IsLastFrameFromForeignExceptionStackTrace();
+  public: void Ctor(StackFrameHelper stackFrameHelper, Int32 skipFrames, Boolean needFileInfo);
   private: void BuildStackFrame(Int32 skipFrames, Boolean needFileInfo);
   private: Boolean AppendStackFrameWithoutMethodBase(StringBuilder sb);
   private: void InitMembers();
+  public: void Ctor();
+  public: void Ctor(Boolean needFileInfo);
+  public: void Ctor(Int32 skipFrames);
+  public: void Ctor(Int32 skipFrames, Boolean needFileInfo);
+  public: void Ctor(String fileName, Int32 lineNumber);
+  public: void Ctor(String fileName, Int32 lineNumber, Int32 colNumber);
   public: MethodBase GetMethod();
   public: Int32 GetNativeOffset();
   public: Int32 GetILOffset();

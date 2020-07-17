@@ -1,6 +1,9 @@
 #include "IsolatedComponentLoadContext-dep.h"
 
 namespace System::Private::CoreLib::Internal::Runtime::InteropServices::IsolatedComponentLoadContextNamespace {
+void IsolatedComponentLoadContext___::Ctor(String componentAssemblyPath) {
+};
+
 Assembly IsolatedComponentLoadContext___::Load(AssemblyName assemblyName) {
   return nullptr;
 };

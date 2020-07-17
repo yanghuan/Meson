@@ -9,6 +9,7 @@ namespace System::Private::CoreLib::System::Diagnostics {
 namespace ConditionalAttributeNamespace {
 CLASS(ConditionalAttribute) {
   public: String get_ConditionString() { return ConditionString; }
+  public: void Ctor(String conditionString);
   private: String ConditionString;
 };
 } // namespace ConditionalAttributeNamespace

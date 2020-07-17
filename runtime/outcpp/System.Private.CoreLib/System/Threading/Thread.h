@@ -89,6 +89,7 @@ CLASS(Thread) {
   public: void set_Name(String value);
   public: ApartmentState get_ApartmentState();
   public: void set_ApartmentState(ApartmentState value);
+  private: void Ctor();
   private: void Create(ThreadStart start);
   private: void Create(ThreadStart start, Int32 maxStackSize);
   private: void Create(ParameterizedThreadStart start);
@@ -133,6 +134,10 @@ CLASS(Thread) {
   public: static Int32 GetCurrentProcessorNumber();
   public: static Int32 GetCurrentProcessorId();
   public: void ResetThreadPoolThread();
+  public: void Ctor(ThreadStart start);
+  public: void Ctor(ThreadStart start, Int32 maxStackSize);
+  public: void Ctor(ParameterizedThreadStart start);
+  public: void Ctor(ParameterizedThreadStart start, Int32 maxStackSize);
   private: void RequireCurrentThread();
   private: void SetCultureOnUnstartedThread(CultureInfo value, Boolean uiCulture);
   private: void ThreadNameChanged(String value);
@@ -189,6 +194,7 @@ CLASS(Thread) {
   public: static void VolatileWrite(UInt64& address, UInt64 value);
   public: static void VolatileWrite(UIntPtr& address, UIntPtr value);
   private: static Exception GetApartmentStateChangeFailedException();
+  private: static void SCtor();
   public: ExecutionContext _executionContext;
   public: SynchronizationContext _synchronizationContext;
   private: String _name;

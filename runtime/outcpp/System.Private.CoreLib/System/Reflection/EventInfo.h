@@ -24,6 +24,7 @@ CLASS(EventInfo) {
   public: MethodInfo get_RaiseMethod();
   public: Boolean get_IsMulticast();
   public: Type get_EventHandlerType();
+  protected: void Ctor();
   public: Array<MethodInfo> GetOtherMethods();
   public: Array<MethodInfo> GetOtherMethods(Boolean nonPublic);
   public: MethodInfo GetAddMethod();

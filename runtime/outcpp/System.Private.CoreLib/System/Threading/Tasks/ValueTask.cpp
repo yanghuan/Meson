@@ -1,6 +1,12 @@
 #include "ValueTask-dep.h"
 
 namespace System::Private::CoreLib::System::Threading::Tasks::ValueTaskNamespace {
+void ValueTask<>::ValueTaskSourceAsTask___::Ctor(IValueTaskSource<> source, Int16 token) {
+};
+
+void ValueTask<>::ValueTaskSourceAsTask___::SCtor() {
+};
+
 Task<> ValueTask<>::get_CompletedTask() {
   return nullptr;
 };

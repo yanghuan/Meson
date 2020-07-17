@@ -25,17 +25,20 @@ CLASS(TlsOverPerCoreLockedStacksArrayPool, T) {
     public: Boolean TryPush(Array<T> array);
     public: Array<T> TryPop();
     public: void Trim(UInt32 tickCount, Int32 id, MemoryPressure pressure, Int32 bucketSize);
+    public: void Ctor();
     private: Array<Array<T>> _arrays;
     private: Int32 _count;
     private: UInt32 _firstStackItemMS;
   };
   private: CLASS(PerCoreLockedStacks) {
+    public: void Ctor();
     public: void TryPush(Array<T> array);
     public: Array<T> TryPop();
     public: void Trim(UInt32 tickCount, Int32 id, MemoryPressure pressure, Int32 bucketSize);
     private: Array<LockedStack> _perCoreStacks;
   };
   private: Int32 get_Id();
+  public: void Ctor();
   private: PerCoreLockedStacks CreatePerCoreLockedStacks(Int32 bucketIndex);
   public: Array<T> Rent(Int32 minimumLength);
   public: void Return(Array<T> array, Boolean clearArray);
@@ -43,6 +46,7 @@ CLASS(TlsOverPerCoreLockedStacksArrayPool, T) {
   private: static Boolean Gen2GcCallbackFunc(Object target);
   private: static MemoryPressure GetMemoryPressure();
   private: static Boolean GetTrimBuffers();
+  private: static void SCtor();
   private: Array<Int32> _bucketArraySizes;
   private: Array<PerCoreLockedStacks> _buckets;
   private: static Array<Array<T>> t_tlsBuckets;

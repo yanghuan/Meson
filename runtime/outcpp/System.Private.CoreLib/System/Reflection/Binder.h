@@ -20,6 +20,7 @@ FORWARD(PropertyInfo)
 namespace BinderNamespace {
 using namespace Globalization;
 CLASS(Binder) {
+  protected: void Ctor();
   public: FieldInfo BindToField(BindingFlags bindingAttr, Array<FieldInfo> match, Object value, CultureInfo culture);
   public: MethodBase BindToMethod(BindingFlags bindingAttr, Array<MethodBase> match, Array<Object>& args, Array<ParameterModifier> modifiers, CultureInfo culture, Array<String> names, Object& state);
   public: Object ChangeType(Object value, Type type, CultureInfo culture);

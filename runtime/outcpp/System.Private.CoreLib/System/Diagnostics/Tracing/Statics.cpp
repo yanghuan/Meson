@@ -83,4 +83,7 @@ TraceLoggingTypeInfo Statics::CreateDefaultTypeInfo(Type dataType, List<Type> re
   return nullptr;
 };
 
+void Statics::SCtor() {
+};
+
 } // namespace System::Private::CoreLib::System::Diagnostics::Tracing::StaticsNamespace

@@ -227,4 +227,7 @@ Int32 Path::GetUncRootLength(ReadOnlySpan<Char> path) {
   return Int32();
 };
 
+void Path::SCtor() {
+};
+
 } // namespace System::Private::CoreLib::System::IO::PathNamespace

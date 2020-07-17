@@ -17,12 +17,14 @@ FORWARD_(Task, T1, T2)
 namespace ThreadPoolTaskSchedulerNamespace {
 using namespace Collections::Generic;
 CLASS(ThreadPoolTaskScheduler) {
+  public: void Ctor();
   public: void QueueTask(Task<> task);
   protected: Boolean TryExecuteTaskInline(Task<> task, Boolean taskWasPreviouslyQueued);
   public: Boolean TryDequeue(Task<> task);
   protected: IEnumerable<Task<>> GetScheduledTasks();
   private: IEnumerable<Task<>> FilterTasksFromWorkItems(IEnumerable<Object> tpwItems);
   public: void NotifyWorkItemProgress();
+  private: static void SCtor();
   private: static ParameterizedThreadStart s_longRunningThreadWork;
 };
 } // namespace ThreadPoolTaskSchedulerNamespace

@@ -35,4 +35,7 @@ Boolean GlobalizationMode::LoadIcu() {
 void GlobalizationMode::LoadAppLocalIcuCore(ReadOnlySpan<Char> version, ReadOnlySpan<Char> suffix) {
 };
 
+void GlobalizationMode::SCtor() {
+};
+
 } // namespace System::Private::CoreLib::System::Globalization::GlobalizationModeNamespace

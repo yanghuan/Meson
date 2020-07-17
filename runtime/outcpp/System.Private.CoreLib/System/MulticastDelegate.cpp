@@ -3,6 +3,12 @@
 #include <System.Private.CoreLib/System/MulticastDelegate-dep.h>
 
 namespace System::Private::CoreLib::System::MulticastDelegateNamespace {
+void MulticastDelegate___::Ctor(Object target, String method) {
+};
+
+void MulticastDelegate___::Ctor(Type target, String method) {
+};
+
 Boolean MulticastDelegate___::IsUnmanagedFunctionPtr() {
   return Boolean();
 };

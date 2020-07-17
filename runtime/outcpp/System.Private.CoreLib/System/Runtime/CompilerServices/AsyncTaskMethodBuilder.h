@@ -32,6 +32,7 @@ template <class TResult>
 struct AsyncTaskMethodBuilder<TResult> {
   private: CLASS(DebugFinalizableAsyncStateMachineBox, TStateMachine) {
     protected: void Finalize();
+    public: void Ctor();
   };
   private: CLASS(AsyncStateMachineBox, TStateMachine) {
     public: Action<> get_MoveNextAction();
@@ -39,6 +40,8 @@ struct AsyncTaskMethodBuilder<TResult> {
     public: void ExecuteFromThreadPool(Thread threadPoolThread);
     public: void MoveNext();
     private: void MoveNext(Thread threadPoolThread);
+    public: void Ctor();
+    private: static void SCtor();
     private: static ContextCallback<> s_callback;
     private: Action<> _moveNextAction;
     public: TStateMachine StateMachine;

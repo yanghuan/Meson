@@ -27,8 +27,10 @@ CLASS(TextInfo) {
     True = 2,
   };
   private: struct ToUpperConversion {
+    public: void Ctor();
   };
   private: struct ToLowerConversion {
+    public: void Ctor();
   };
   public: Int32 get_ANSICodePage();
   public: Int32 get_OEMCodePage();
@@ -42,6 +44,8 @@ CLASS(TextInfo) {
   private: Boolean get_IsAsciiCasingSameAsInvariant();
   public: Boolean get_IsRightToLeft();
   private: Boolean get_IsInvariant();
+  public: void Ctor(CultureData cultureData);
+  private: void Ctor(CultureData cultureData, Boolean readOnly);
   public: Object Clone();
   public: static TextInfo ReadOnly(TextInfo textInfo);
   private: void VerifyWritable();
@@ -75,6 +79,7 @@ CLASS(TextInfo) {
   public: void IcuChangeCase(Char* src, Int32 srcLen, Char* dstBuffer, Int32 dstBufferCapacity, Boolean bToUpper);
   private: void NlsChangeCase(Char* pSource, Int32 pSourceLen, Char* pResult, Int32 pResultLen, Boolean toUpper);
   private: static Boolean IsInvariantLocale(String localeName);
+  private: static void SCtor();
   private: String _listSeparator;
   private: Boolean _isReadOnly;
   private: String _cultureName;

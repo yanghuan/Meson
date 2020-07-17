@@ -16,6 +16,7 @@ namespace AsyncMethodBuilderCoreNamespace {
 using namespace Threading::Tasks;
 class AsyncMethodBuilderCore {
   private: CLASS(ContinuationWrapper) {
+    public: void Ctor(Action<> continuation, Action<Action<>, Task<>> invokeAction, Task<> innerTask);
     public: void Invoke();
     private: Action<Action<>, Task<>> _invokeAction;
     public: Action<> _continuation;

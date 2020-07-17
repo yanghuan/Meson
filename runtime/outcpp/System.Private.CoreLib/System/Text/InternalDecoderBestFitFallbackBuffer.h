@@ -16,6 +16,7 @@ namespace InternalDecoderBestFitFallbackBufferNamespace {
 CLASS(InternalDecoderBestFitFallbackBuffer) {
   private: static Object get_InternalSyncObject();
   public: Int32 get_Remaining();
+  public: void Ctor(InternalDecoderBestFitFallback fallback);
   public: Boolean Fallback(Array<Byte> bytesUnknown, Int32 index);
   public: Char GetNextChar();
   public: Boolean MovePrevious();

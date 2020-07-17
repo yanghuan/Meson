@@ -71,6 +71,18 @@ SignatureHelper SignatureHelper___::GetTypeSigToken(Module module, Type type) {
   return nullptr;
 };
 
+void SignatureHelper___::Ctor(Module mod, MdSigCallingConvention callingConvention) {
+};
+
+void SignatureHelper___::Ctor(Module mod, MdSigCallingConvention callingConvention, Int32 cGenericParameters, Type returnType, Array<Type> requiredCustomModifiers, Array<Type> optionalCustomModifiers) {
+};
+
+void SignatureHelper___::Ctor(Module mod, MdSigCallingConvention callingConvention, Type returnType, Array<Type> requiredCustomModifiers, Array<Type> optionalCustomModifiers) {
+};
+
+void SignatureHelper___::Ctor(Module mod, Type type) {
+};
+
 void SignatureHelper___::Init(Module mod) {
 };
 

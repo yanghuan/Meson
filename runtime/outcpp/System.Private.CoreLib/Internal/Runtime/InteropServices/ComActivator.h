@@ -27,6 +27,7 @@ using namespace ::System::Private::CoreLib::System::Collections::Generic;
 using namespace ::System::Private::CoreLib::System::Runtime::Loader;
 class ComActivator {
   private: CLASS(BasicClassFactory) {
+    public: void Ctor(Guid clsid, Type classType);
     public: static Type GetValidatedInterfaceType(Type classType, Guid& riid, Object outer);
     public: static void ValidateObjectIsMarshallableAsInterface(Object obj, Type interfaceType);
     public: static Object CreateAggregatedObject(Object pUnkOuter, Object comObject);
@@ -36,6 +37,7 @@ class ComActivator {
     private: Type _classType;
   };
   private: CLASS(LicenseClassFactory) {
+    public: void Ctor(Guid clsid, Type classType);
     public: void CreateInstance(Object pUnkOuter, Guid& riid, Object& ppvObject);
     public: void LockServer(Boolean fLock);
     public: void GetLicInfo(LICINFO& licInfo);
@@ -54,6 +56,7 @@ class ComActivator {
   private: static Boolean IsLoggingEnabled();
   private: static Type FindClassType(Guid clsid, String assemblyPath, String assemblyName, String typeName);
   private: static AssemblyLoadContext GetALC(String assemblyPath);
+  private: static void SCtor();
   private: static Dictionary<String, AssemblyLoadContext> s_assemblyLoadContexts;
 };
 } // namespace ComActivatorNamespace

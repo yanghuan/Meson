@@ -8,11 +8,13 @@ FORWARDS(Int32)
 FORWARD(String)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Reflection {
+FORWARD(SignatureType)
 namespace SignatureByRefTypeNamespace {
 CLASS(SignatureByRefType) {
   public: Boolean get_IsSZArray();
   public: Boolean get_IsVariableBoundArray();
   protected: String get_Suffix();
+  public: void Ctor(SignatureType elementType);
   protected: Boolean IsArrayImpl();
   protected: Boolean IsByRefImpl();
   protected: Boolean IsPointerImpl();

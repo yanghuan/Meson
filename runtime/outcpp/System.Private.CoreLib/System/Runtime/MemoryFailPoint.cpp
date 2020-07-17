@@ -22,6 +22,9 @@ UInt64 MemoryFailPoint___::get_MemoryFailPointReservedMemory() {
 void MemoryFailPoint___::AddToLastKnownFreeAddressSpace(Int64 addend) {
 };
 
+void MemoryFailPoint___::Ctor(Int32 sizeInMegabytes) {
+};
+
 void MemoryFailPoint___::Finalize() {
 };
 
@@ -51,6 +54,9 @@ UInt64 MemoryFailPoint___::MemFreeAfterAddress(void* address, UInt64 size) {
 };
 
 void MemoryFailPoint___::GrowPageFileIfNecessaryAndPossible(UIntPtr numBytes) {
+};
+
+void MemoryFailPoint___::SCtor() {
 };
 
 } // namespace System::Private::CoreLib::System::Runtime::MemoryFailPointNamespace

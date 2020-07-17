@@ -15,6 +15,7 @@ CLASS(ByteEqualityComparer) {
   public: Int32 GetHashCode(Byte b);
   public: Boolean Equals(Object obj);
   public: Int32 GetHashCode();
+  public: void Ctor();
 };
 } // namespace ByteEqualityComparerNamespace
 using ByteEqualityComparer = ByteEqualityComparerNamespace::ByteEqualityComparer;

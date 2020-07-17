@@ -11,4 +11,7 @@ DecoderFallback DecoderFallback___::get_ExceptionFallback() {
   return nullptr;
 };
 
+void DecoderFallback___::Ctor() {
+};
+
 } // namespace System::Private::CoreLib::System::Text::DecoderFallbackNamespace

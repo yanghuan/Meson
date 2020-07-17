@@ -14,6 +14,7 @@ FORWARD(Type)
 namespace System::Private::CoreLib::System::Globalization {
 enum class DigitShapes;
 enum class NumberStyles;
+FORWARD(CultureData)
 namespace NumberFormatInfoNamespace {
 CLASS(NumberFormatInfo) {
   public: Boolean get_HasInvariantNumberSigns();
@@ -74,11 +75,13 @@ CLASS(NumberFormatInfo) {
   public: void set_NativeDigits(Array<String> value);
   public: DigitShapes get_DigitSubstitution();
   public: void set_DigitSubstitution(DigitShapes value);
+  public: void Ctor();
   private: static void VerifyDecimalSeparator(String decSep, String propertyName);
   private: static void VerifyGroupSeparator(String groupSep, String propertyName);
   private: static void VerifyNativeDigits(Array<String> nativeDig, String propertyName);
   private: static void VerifyDigitSubstitution(DigitShapes digitSub, String propertyName);
   private: void UpdateHasInvariantNumberSigns();
+  public: void Ctor(CultureData cultureData);
   private: void VerifyWritable();
   public: static NumberFormatInfo GetInstance(IFormatProvider formatProvider);
   public: Object Clone();

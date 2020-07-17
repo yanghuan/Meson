@@ -53,6 +53,9 @@ String SignatureHasElementType___::get_Namespace() {
   return nullptr;
 };
 
+void SignatureHasElementType___::Ctor(SignatureType elementType) {
+};
+
 Boolean SignatureHasElementType___::HasElementTypeImpl() {
   return Boolean();
 };

@@ -11,6 +11,7 @@ FORWARD(String)
 namespace System::Private::CoreLib::System::Runtime::InteropServices::ComTypes {
 namespace EXCEPINFONamespace {
 struct EXCEPINFO {
+  public: void Ctor();
   public: Int16 wCode;
   public: Int16 wReserved;
   public: String bstrSource;

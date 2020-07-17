@@ -25,6 +25,7 @@ using namespace Collections::ObjectModel;
 using namespace Runtime::ExceptionServices;
 CLASS(TaskExceptionHolder) {
   public: Boolean get_ContainsFaultList();
+  public: void Ctor(Task<> task);
   protected: void Finalize();
   public: void Add(Object exceptionObject, Boolean representsCancellation);
   private: void SetCancellationException(Object exceptionObject);

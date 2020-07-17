@@ -11,6 +11,7 @@ FORWARDS_(KeyValuePair, T1, T2, T3)
 namespace IDictionaryDebugViewNamespace {
 CLASS(IDictionaryDebugView, K, V) {
   public: Array<KeyValuePair<K, V>> get_Items();
+  public: void Ctor(IDictionary<K, V> dictionary);
   private: IDictionary<K, V> _dict;
 };
 } // namespace IDictionaryDebugViewNamespace

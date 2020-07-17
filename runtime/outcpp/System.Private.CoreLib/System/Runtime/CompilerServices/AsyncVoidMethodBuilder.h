@@ -21,6 +21,7 @@ struct AsyncVoidMethodBuilder {
   public: void SetResult();
   public: void SetException(Exception exception);
   private: void NotifySynchronizationContextOfCompletion();
+  public: void Ctor();
   private: SynchronizationContext _synchronizationContext;
   private: AsyncTaskMethodBuilder<> _builder;
 };

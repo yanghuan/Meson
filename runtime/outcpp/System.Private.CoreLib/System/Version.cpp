@@ -31,6 +31,24 @@ Int32 Version___::get_DefaultFormatFieldCount() {
   return Int32();
 };
 
+void Version___::Ctor(Int32 major, Int32 minor, Int32 build, Int32 revision) {
+};
+
+void Version___::Ctor(Int32 major, Int32 minor, Int32 build) {
+};
+
+void Version___::Ctor(Int32 major, Int32 minor) {
+};
+
+void Version___::Ctor(String version) {
+};
+
+void Version___::Ctor() {
+};
+
+void Version___::Ctor(Version version) {
+};
+
 Object Version___::Clone() {
   return nullptr;
 };

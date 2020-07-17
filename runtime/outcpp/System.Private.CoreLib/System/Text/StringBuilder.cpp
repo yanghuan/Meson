@@ -7,6 +7,9 @@ Boolean StringBuilder___::ChunkEnumerator::ManyChunkInfo___::MoveNext(StringBuil
   return Boolean();
 };
 
+void StringBuilder___::ChunkEnumerator::ManyChunkInfo___::Ctor(StringBuilder stringBuilder, Int32 chunkCount) {
+};
+
 ReadOnlyMemory<Char> StringBuilder___::ChunkEnumerator::get_Current() {
   return ReadOnlyMemory<Char>();
 };
@@ -17,6 +20,9 @@ StringBuilder::in::ChunkEnumerator StringBuilder___::ChunkEnumerator::GetEnumera
 
 Boolean StringBuilder___::ChunkEnumerator::MoveNext() {
   return Boolean();
+};
+
+void StringBuilder___::ChunkEnumerator::Ctor(StringBuilder stringBuilder) {
 };
 
 Int32 StringBuilder___::ChunkEnumerator::ChunkCount(StringBuilder stringBuilder) {
@@ -70,6 +76,27 @@ void StringBuilder___::InternalCopy(IntPtr dest, Int32 len) {
 
 StringBuilder StringBuilder___::FindChunkForByte(Int32 byteIndex) {
   return nullptr;
+};
+
+void StringBuilder___::Ctor() {
+};
+
+void StringBuilder___::Ctor(Int32 capacity) {
+};
+
+void StringBuilder___::Ctor(String value) {
+};
+
+void StringBuilder___::Ctor(String value, Int32 capacity) {
+};
+
+void StringBuilder___::Ctor(String value, Int32 startIndex, Int32 length, Int32 capacity) {
+};
+
+void StringBuilder___::Ctor(Int32 capacity, Int32 maxCapacity) {
+};
+
+void StringBuilder___::Ctor(SerializationInfo info, StreamingContext context) {
 };
 
 Int32 StringBuilder___::EnsureCapacity(Int32 capacity) {
@@ -398,7 +425,13 @@ StringBuilder StringBuilder___::Next(StringBuilder chunk) {
 void StringBuilder___::ExpandByABlock(Int32 minBlockCharCount) {
 };
 
+void StringBuilder___::Ctor(StringBuilder from) {
+};
+
 void StringBuilder___::MakeRoom(Int32 index, Int32 count, StringBuilder& chunk, Int32& indexInChunk, Boolean doNotMoveFollowingChars) {
+};
+
+void StringBuilder___::Ctor(Int32 size, Int32 maxCapacity, StringBuilder previousBlock) {
 };
 
 void StringBuilder___::Remove(Int32 startIndex, Int32 count, StringBuilder& chunk, Int32& indexInChunk) {

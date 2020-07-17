@@ -9,12 +9,18 @@ String Interop::Kernel32::TIME_DYNAMIC_ZONE_INFORMATION::GetTimeZoneKeyName() {
   return nullptr;
 };
 
+void Interop::Kernel32::TIME_ZONE_INFORMATION::Ctor(TIME_DYNAMIC_ZONE_INFORMATION& dtzi) {
+};
+
 String Interop::Kernel32::TIME_ZONE_INFORMATION::GetStandardName() {
   return nullptr;
 };
 
 String Interop::Kernel32::TIME_ZONE_INFORMATION::GetDaylightName() {
   return nullptr;
+};
+
+void Interop::Kernel32::REG_TZI_FORMAT::Ctor(TIME_ZONE_INFORMATION& tzi) {
 };
 
 void Interop::Kernel32::WIN32_FILE_ATTRIBUTE_DATA::PopulateFrom(WIN32_FIND_DATA& findData) {

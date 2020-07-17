@@ -45,6 +45,9 @@ String ModuleBuilder___::UnmangleTypeName(String typeName) {
   return nullptr;
 };
 
+void ModuleBuilder___::Ctor(AssemblyBuilder assemblyBuilder, InternalModuleBuilder internalModuleBuilder) {
+};
+
 void ModuleBuilder___::AddType(String name, Type type) {
 };
 

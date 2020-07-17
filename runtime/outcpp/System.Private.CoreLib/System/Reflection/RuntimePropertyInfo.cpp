@@ -57,6 +57,9 @@ Boolean RuntimePropertyInfo___::get_CanWrite() {
   return Boolean();
 };
 
+void RuntimePropertyInfo___::Ctor(Int32 tkProperty, RuntimeType declaredType, RuntimeType::in::RuntimeTypeCache reflectedTypeCache, Boolean& isPrivate) {
+};
+
 Boolean RuntimePropertyInfo___::CacheEquals(Object o) {
   return Boolean();
 };

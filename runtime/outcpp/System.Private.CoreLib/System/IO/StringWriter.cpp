@@ -5,6 +5,18 @@ Encoding StringWriter___::get_Encoding() {
   return nullptr;
 };
 
+void StringWriter___::Ctor() {
+};
+
+void StringWriter___::Ctor(IFormatProvider formatProvider) {
+};
+
+void StringWriter___::Ctor(StringBuilder sb) {
+};
+
+void StringWriter___::Ctor(StringBuilder sb, IFormatProvider formatProvider) {
+};
+
 void StringWriter___::Close() {
 };
 

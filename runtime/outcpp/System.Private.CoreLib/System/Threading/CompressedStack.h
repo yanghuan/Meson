@@ -14,6 +14,7 @@ FORWARD_(ContextCallback, T1, T2)
 namespace CompressedStackNamespace {
 using namespace Runtime::Serialization;
 CLASS(CompressedStack) {
+  private: void Ctor();
   public: void GetObjectData(SerializationInfo info, StreamingContext context);
   public: static CompressedStack Capture();
   public: CompressedStack CreateCopy();

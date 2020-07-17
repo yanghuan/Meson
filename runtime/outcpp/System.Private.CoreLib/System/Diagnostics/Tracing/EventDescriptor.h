@@ -20,9 +20,12 @@ struct EventDescriptor {
   public: Byte get_Opcode();
   public: Int32 get_Task();
   public: Int64 get_Keywords();
+  public: void Ctor(Int32 traceloggingId, Byte level, Byte opcode, Int64 keywords);
+  public: void Ctor(Int32 id, Byte version, Byte channel, Byte level, Byte opcode, Int32 task, Int64 keywords);
   public: Boolean Equals(Object obj);
   public: Int32 GetHashCode();
   public: Boolean Equals(EventDescriptor other);
+  public: void Ctor();
   private: Int32 m_traceloggingId;
   private: UInt16 m_id;
   private: Byte m_version;

@@ -10,6 +10,8 @@ FORWARD(String)
 namespace System::Private::CoreLib::System::Globalization {
 namespace EraInfoNamespace {
 CLASS(EraInfo) {
+  public: void Ctor(Int32 era, Int32 startYear, Int32 startMonth, Int32 startDay, Int32 yearOffset, Int32 minEraYear, Int32 maxEraYear);
+  public: void Ctor(Int32 era, Int32 startYear, Int32 startMonth, Int32 startDay, Int32 yearOffset, Int32 minEraYear, Int32 maxEraYear, String eraName, String abbrevEraName, String englishEraName);
   public: Int32 era;
   public: Int64 ticks;
   public: Int32 yearOffset;

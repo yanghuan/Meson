@@ -37,6 +37,7 @@ struct MetadataImport {
   private: static void _GetMarshalAs(IntPtr pNativeType, Int32 cNativeType, Int32& unmanagedType, Int32& safeArraySubType, String& safeArrayUserDefinedSubType, Int32& arraySubType, Int32& sizeParamIndex, Int32& sizeConst, String& marshalType, String& marshalCookie, Int32& iidParamIndex);
   public: static void GetMarshalAs(ConstArray nativeType, UnmanagedType& unmanagedType, VarEnum& safeArraySubType, String& safeArrayUserDefinedSubType, UnmanagedType& arraySubType, Int32& sizeParamIndex, Int32& sizeConst, String& marshalType, String& marshalCookie, Int32& iidParamIndex);
   public: static void ThrowError(Int32 hResult);
+  public: void Ctor(IntPtr metadataImport2, Object keepalive);
   private: static void _Enum(IntPtr scope, Int32 type, Int32 parent, MetadataEnumResult& result);
   public: void Enum(MetadataTokenType type, Int32 parent, MetadataEnumResult& result);
   public: void EnumNestedTypes(Int32 mdTypeDef, MetadataEnumResult& result);
@@ -88,6 +89,8 @@ struct MetadataImport {
   public: void GetPInvokeMap(Int32 token, PInvokeAttributes& attributes, String& importName, String& importDll);
   private: static Boolean _IsValidToken(IntPtr scope, Int32 token);
   public: Boolean IsValidToken(Int32 token);
+  private: static void SCtor();
+  public: void Ctor();
   private: IntPtr m_metadataImport2;
   private: Object m_keepalive;
   public: static MetadataImport EmptyImport;

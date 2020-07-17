@@ -95,6 +95,15 @@ CustomAttributeTypedArgument CustomAttributeData___::Filter(IList<CustomAttribut
   return CustomAttributeTypedArgument();
 };
 
+void CustomAttributeData___::Ctor() {
+};
+
+void CustomAttributeData___::Ctor(RuntimeModule scope, MetadataToken caCtorToken, ConstArray& blob) {
+};
+
+void CustomAttributeData___::Ctor(Attribute attribute) {
+};
+
 void CustomAttributeData___::Init(DllImportAttribute dllImport) {
 };
 

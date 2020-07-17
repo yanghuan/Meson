@@ -27,6 +27,7 @@ CLASS(SignatureGenericParameterType) {
   public: Int32 get_GenericParameterPosition();
   public: String get_Name();
   public: String get_Namespace();
+  protected: void Ctor(Int32 position);
   protected: Boolean HasElementTypeImpl();
   protected: Boolean IsArrayImpl();
   protected: Boolean IsByRefImpl();

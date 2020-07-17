@@ -7,12 +7,16 @@
 
 namespace System::Private::CoreLib::System {
 FORWARD_(Array, T1, T2)
+FORWARDS(Boolean)
 FORWARD(String)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Diagnostics::Tracing {
 enum class EventFieldTags;
+enum class TraceLoggingDataType;
 namespace FieldMetadataNamespace {
 CLASS(FieldMetadata) {
+  public: void Ctor(String name, TraceLoggingDataType type, EventFieldTags tags, Boolean variableCount);
+  private: void Ctor(String name, TraceLoggingDataType dataType, EventFieldTags tags, Byte countFlags, UInt16 fixedCount, Array<Byte> custom);
   public: void IncrementStructFieldCount();
   public: void Encode(Int32& pos, Array<Byte> metadata);
   private: String name;

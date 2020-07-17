@@ -25,12 +25,21 @@ Object CustomAttributeTypedArgument::CanonicalizeValue(Object value) {
   return nullptr;
 };
 
+void CustomAttributeTypedArgument::Ctor(RuntimeModule scope, CustomAttributeEncodedArgument encodedArg) {
+};
+
 Boolean CustomAttributeTypedArgument::op_Equality(CustomAttributeTypedArgument left, CustomAttributeTypedArgument right) {
   return Boolean();
 };
 
 Boolean CustomAttributeTypedArgument::op_Inequality(CustomAttributeTypedArgument left, CustomAttributeTypedArgument right) {
   return Boolean();
+};
+
+void CustomAttributeTypedArgument::Ctor(Type argumentType, Object value) {
+};
+
+void CustomAttributeTypedArgument::Ctor(Object value) {
 };
 
 String CustomAttributeTypedArgument::ToString() {

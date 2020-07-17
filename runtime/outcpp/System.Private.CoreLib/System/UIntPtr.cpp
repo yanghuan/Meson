@@ -15,6 +15,18 @@ UIntPtr UIntPtr::get_MinValue() {
   return UIntPtr();
 };
 
+void UIntPtr::Ctor(UInt32 value) {
+};
+
+void UIntPtr::Ctor(UInt64 value) {
+};
+
+void UIntPtr::Ctor(void* value) {
+};
+
+void UIntPtr::Ctor(SerializationInfo info, StreamingContext context) {
+};
+
 Boolean UIntPtr::Equals(Object obj) {
   return Boolean();
 };

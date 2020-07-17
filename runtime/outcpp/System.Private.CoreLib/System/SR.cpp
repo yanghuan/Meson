@@ -4269,4 +4269,7 @@ String SR::Format(IFormatProvider provider, String resourceFormat, Object p1, Ob
   return nullptr;
 };
 
+void SR::SCtor() {
+};
+
 } // namespace System::Private::CoreLib::System::SRNamespace

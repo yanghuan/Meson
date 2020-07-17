@@ -10,6 +10,7 @@ FORWARD(Type)
 namespace System::Private::CoreLib::System::Reflection {
 namespace PointerNamespace {
 CLASS(Pointer) {
+  private: void Ctor(void* ptr, Type ptrType);
   public: static Object Box(void* ptr, Type type);
   public: static void* Unbox(Object ptr);
   public: Type GetPointerType();

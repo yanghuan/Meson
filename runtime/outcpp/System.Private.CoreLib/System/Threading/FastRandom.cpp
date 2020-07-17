@@ -1,6 +1,9 @@
 #include "FastRandom-dep.h"
 
 namespace System::Private::CoreLib::System::Threading::FastRandomNamespace {
+void FastRandom::Ctor(Int32 seed) {
+};
+
 Int32 FastRandom::Next(Int32 maxValue) {
   return Int32();
 };

@@ -10,6 +10,7 @@ FORWARD(ICollection, T)
 namespace ICollectionDebugViewNamespace {
 CLASS(ICollectionDebugView, T) {
   public: Array<T> get_Items();
+  public: void Ctor(ICollection<T> collection);
   private: ICollection<T> _collection;
 };
 } // namespace ICollectionDebugViewNamespace

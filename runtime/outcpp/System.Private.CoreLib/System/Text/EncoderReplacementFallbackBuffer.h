@@ -9,9 +9,11 @@ FORWARDS(Char)
 FORWARD(String)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Text {
+FORWARD(EncoderReplacementFallback)
 namespace EncoderReplacementFallbackBufferNamespace {
 CLASS(EncoderReplacementFallbackBuffer) {
   public: Int32 get_Remaining();
+  public: void Ctor(EncoderReplacementFallback fallback);
   public: Boolean Fallback(Char charUnknown, Int32 index);
   public: Boolean Fallback(Char charUnknownHigh, Char charUnknownLow, Int32 index);
   public: Char GetNextChar();

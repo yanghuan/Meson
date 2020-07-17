@@ -5,6 +5,9 @@ Boolean ConfiguredValueTaskAwaitable<>::ConfiguredValueTaskAwaiter::get_IsComple
   return Boolean();
 };
 
+void ConfiguredValueTaskAwaitable<>::ConfiguredValueTaskAwaiter::Ctor(ValueTask<>& value) {
+};
+
 void ConfiguredValueTaskAwaitable<>::ConfiguredValueTaskAwaiter::GetResult() {
 };
 

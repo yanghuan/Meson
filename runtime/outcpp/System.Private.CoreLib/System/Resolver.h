@@ -16,6 +16,7 @@ namespace ResolverNamespace {
 using namespace Reflection;
 CLASS(Resolver) {
   public: struct CORINFO_EH_CLAUSE {
+    public: void Ctor();
     public: Int32 Flags;
     public: Int32 TryOffset;
     public: Int32 TryLength;
@@ -32,6 +33,7 @@ CLASS(Resolver) {
   public: void ResolveToken(Int32 token, IntPtr& typeHandle, IntPtr& methodHandle, IntPtr& fieldHandle);
   public: Array<Byte> ResolveSignature(Int32 token, Int32 fromMethod);
   public: MethodInfo GetDynamicMethod();
+  protected: void Ctor();
 };
 } // namespace ResolverNamespace
 using Resolver = ResolverNamespace::Resolver;

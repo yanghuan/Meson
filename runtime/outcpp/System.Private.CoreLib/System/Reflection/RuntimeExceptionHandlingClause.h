@@ -19,6 +19,7 @@ CLASS(RuntimeExceptionHandlingClause) {
   public: Int32 get_HandlerLength();
   public: Int32 get_FilterOffset();
   public: Type get_CatchType();
+  private: void Ctor();
   public: String ToString();
   private: RuntimeMethodBody _methodBody;
   private: ExceptionHandlingClauseOptions _flags;

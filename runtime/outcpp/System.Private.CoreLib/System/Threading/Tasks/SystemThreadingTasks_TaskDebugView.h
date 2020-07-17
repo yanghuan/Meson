@@ -20,6 +20,7 @@ CLASS(SystemThreadingTasks_TaskDebugView) {
   public: Int32 get_Id();
   public: Boolean get_CancellationPending();
   public: TaskStatus get_Status();
+  public: void Ctor(Task<> task);
   private: Task<> m_task;
 };
 } // namespace SystemThreadingTasks_TaskDebugViewNamespace

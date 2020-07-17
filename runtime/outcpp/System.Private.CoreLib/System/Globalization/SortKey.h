@@ -17,6 +17,7 @@ namespace SortKeyNamespace {
 CLASS(SortKey) {
   public: String get_OriginalString();
   public: Array<Byte> get_KeyData();
+  public: void Ctor(CompareInfo compareInfo, String str, CompareOptions options, Array<Byte> keyData);
   public: static Int32 Compare(SortKey sortkey1, SortKey sortkey2);
   public: Boolean Equals(Object value);
   public: Int32 GetHashCode();

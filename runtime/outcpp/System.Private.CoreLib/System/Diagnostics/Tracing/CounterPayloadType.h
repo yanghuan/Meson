@@ -8,6 +8,7 @@ namespace CounterPayloadTypeNamespace {
 CLASS(CounterPayloadType) {
   public: CounterPayload get_Payload() { return Payload; }
   public: void set_Payload(CounterPayload value) { Payload = value; }
+  public: void Ctor(CounterPayload payload);
   private: CounterPayload Payload;
 };
 } // namespace CounterPayloadTypeNamespace

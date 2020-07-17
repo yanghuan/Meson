@@ -25,6 +25,9 @@ DynamicScope DynamicILInfo___::get_DynamicScope() {
   return nullptr;
 };
 
+void DynamicILInfo___::Ctor(DynamicMethod method, Array<Byte> methodSignature) {
+};
+
 void DynamicILInfo___::GetCallableMethod(RuntimeModule module, DynamicMethod dm) {
 };
 

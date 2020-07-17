@@ -1,6 +1,21 @@
 #include "ResourceSet-dep.h"
 
 namespace System::Private::CoreLib::System::Resources::ResourceSetNamespace {
+void ResourceSet___::Ctor() {
+};
+
+void ResourceSet___::Ctor(Boolean junk) {
+};
+
+void ResourceSet___::Ctor(String fileName) {
+};
+
+void ResourceSet___::Ctor(Stream stream) {
+};
+
+void ResourceSet___::Ctor(IResourceReader reader) {
+};
+
 void ResourceSet___::Close() {
 };
 

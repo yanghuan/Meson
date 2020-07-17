@@ -1,6 +1,9 @@
 #include "FrameworkEventSource-dep.h"
 
 namespace System::Private::CoreLib::System::Diagnostics::Tracing::FrameworkEventSourceNamespace {
+void FrameworkEventSource___::Ctor() {
+};
+
 void FrameworkEventSource___::WriteEvent(Int32 eventId, Int64 arg1, Int32 arg2, String arg3, Boolean arg4, Int32 arg5, Int32 arg6) {
 };
 
@@ -29,6 +32,9 @@ void FrameworkEventSource___::ThreadTransferReceive(Int64 id, Int32 kind, String
 };
 
 void FrameworkEventSource___::ThreadTransferReceiveObj(Object id, Int32 kind, String info) {
+};
+
+void FrameworkEventSource___::SCtor() {
 };
 
 } // namespace System::Private::CoreLib::System::Diagnostics::Tracing::FrameworkEventSourceNamespace

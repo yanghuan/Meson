@@ -8,6 +8,7 @@ namespace System::Private::CoreLib::System {
 FORWARD_(Array, T1, T2)
 FORWARDS(Boolean)
 FORWARDS(Byte)
+FORWARDS(Guid)
 FORWARD(String)
 FORWARD(Type)
 } // namespace System::Private::CoreLib::System
@@ -16,15 +17,15 @@ FORWARD(Dictionary, TKey, TValue)
 FORWARD(IList, T)
 FORWARD(List, T)
 } // namespace System::Private::CoreLib::System::Collections::Generic
+namespace System::Private::CoreLib::System::Resources {
+FORWARD(ResourceManager)
+} // namespace System::Private::CoreLib::System::Resources
 namespace System::Private::CoreLib::System::Text {
 FORWARD(StringBuilder)
 } // namespace System::Private::CoreLib::System::Text
 namespace System::Private::CoreLib::System::Globalization {
 FORWARD(CultureInfo)
 } // namespace System::Private::CoreLib::System::Globalization
-namespace System::Private::CoreLib::System::Resources {
-FORWARD(ResourceManager)
-} // namespace System::Private::CoreLib::System::Resources
 namespace System::Private::CoreLib::System::Diagnostics::Tracing {
 enum class EventChannel : uint8_t;
 enum class EventChannelType;
@@ -42,11 +43,13 @@ using namespace Text;
 using Collections::Generic::IList;
 CLASS(ManifestBuilder) {
   private: CLASS(ChannelInfo) {
+    public: void Ctor();
     public: String Name;
     public: UInt64 Keywords;
     public: EventChannelAttribute Attribs;
   };
   public: IList<String> get_Errors();
+  public: void Ctor(String providerName, Guid providerGuid, String dllName, ResourceManager resources, EventManifestOptions flags);
   public: void AddOpcode(String name, Int32 value);
   public: void AddTask(String name, Int32 value);
   public: void AddKeyword(String name, UInt64 value);
@@ -74,6 +77,7 @@ CLASS(ManifestBuilder) {
   private: static void UpdateStringBuilder(StringBuilder& stringBuilder, String eventMessage, Int32 startIndex, Int32 count);
   private: String TranslateToManifestConvention(String eventMessage, String evtName);
   private: Int32 TranslateIndexToManifestConvention(Int32 idx, String evtName);
+  private: static void SCtor();
   private: static Array<String> s_escapes;
   private: Dictionary<Int32, String> opcodeTab;
   private: Dictionary<Int32, String> taskTab;

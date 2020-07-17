@@ -13,6 +13,7 @@ FORWARD_(Task, T1, T2)
 FORWARD(TaskScheduler)
 namespace ContinueWithTaskContinuationNamespace {
 CLASS(ContinueWithTaskContinuation) {
+  public: void Ctor(Task<> task, TaskContinuationOptions options, TaskScheduler scheduler);
   public: void Run(Task<> completedTask, Boolean canInlineContinuationTask);
   public: Array<Delegate> GetDelegateContinuationsForDebugger();
   public: Task<> m_task;

@@ -189,4 +189,7 @@ Single BitConverter::Int32BitsToSingle(Int32 value) {
   return Single();
 };
 
+void BitConverter::SCtor() {
+};
+
 } // namespace System::Private::CoreLib::System::BitConverterNamespace

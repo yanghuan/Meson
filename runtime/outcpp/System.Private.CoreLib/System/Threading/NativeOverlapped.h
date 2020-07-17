@@ -7,6 +7,7 @@
 namespace System::Private::CoreLib::System::Threading {
 namespace NativeOverlappedNamespace {
 struct NativeOverlapped {
+  public: void Ctor();
   public: IntPtr InternalLow;
   public: IntPtr InternalHigh;
   public: Int32 OffsetLow;

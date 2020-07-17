@@ -12,6 +12,7 @@ struct DateTimeRawInfo {
   public: void Init(Int32* numberBuffer);
   public: void AddNumber(Int32 value);
   public: Int32 GetNumber(Int32 index);
+  public: void Ctor();
   private: Int32* num;
   public: Int32 numCount;
   public: Int32 month;

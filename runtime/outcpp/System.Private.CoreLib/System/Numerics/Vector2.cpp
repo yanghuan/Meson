@@ -123,6 +123,12 @@ Vector2 Vector2::Negate(Vector2 value) {
   return Vector2();
 };
 
+void Vector2::Ctor(Single value) {
+};
+
+void Vector2::Ctor(Single x, Single y) {
+};
+
 void Vector2::CopyTo(Array<Single> array) {
 };
 

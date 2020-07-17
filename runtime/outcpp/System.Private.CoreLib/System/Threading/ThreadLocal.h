@@ -20,9 +20,11 @@ using Collections::Generic::IList;
 CLASS(ThreadLocal, T) {
   private: FORWARDN(LinkedSlot)
   private: struct LinkedSlotVolatile {
+    public: void Ctor();
     public: LinkedSlot Value;
   };
   private: CLASS(LinkedSlot) {
+    public: void Ctor(Array<LinkedSlotVolatile> slotArray);
     public: LinkedSlot _next;
     public: LinkedSlot _previous;
     public: Array<LinkedSlotVolatile> _slotArray;
@@ -31,10 +33,12 @@ CLASS(ThreadLocal, T) {
   private: CLASS(IdManager) {
     public: Int32 GetId();
     public: void ReturnId(Int32 id);
+    public: void Ctor();
     private: Int32 _nextIdToTry;
     private: List<Boolean> _freeIds;
   };
   private: CLASS(FinalizationHelper) {
+    public: void Ctor(Array<LinkedSlotVolatile> slotArray, Boolean trackAllValues);
     protected: void Finalize();
     public: Array<LinkedSlotVolatile> SlotArray;
     private: Boolean _trackAllValues;
@@ -46,6 +50,10 @@ CLASS(ThreadLocal, T) {
   public: Boolean get_IsValueCreated();
   public: T get_ValueForDebugDisplay();
   public: List<T> get_ValuesForDebugDisplay();
+  public: void Ctor();
+  public: void Ctor(Boolean trackAllValues);
+  public: void Ctor(Func<T> valueFactory);
+  public: void Ctor(Func<T> valueFactory, Boolean trackAllValues);
   private: void Initialize(Func<T> valueFactory, Boolean trackAllValues);
   protected: void Finalize();
   public: void Dispose();
@@ -57,6 +65,7 @@ CLASS(ThreadLocal, T) {
   private: List<T> GetValuesAsList();
   private: static void GrowTable(Array<LinkedSlotVolatile>& table, Int32 minLength);
   private: static Int32 GetNewTableSize(Int32 minSize);
+  private: static void SCtor();
   private: Func<T> _valueFactory;
   private: static Array<LinkedSlotVolatile> ts_slotArray;
   private: static FinalizationHelper ts_finalizationHelper;

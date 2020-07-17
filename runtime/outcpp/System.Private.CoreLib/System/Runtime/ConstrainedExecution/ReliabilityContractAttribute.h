@@ -9,6 +9,7 @@ namespace ReliabilityContractAttributeNamespace {
 CLASS(ReliabilityContractAttribute) {
   public: Consistency get_ConsistencyGuarantee() { return ConsistencyGuarantee; }
   public: Cer get_Cer() { return Cer; }
+  public: void Ctor(Consistency consistencyGuarantee, Cer cer);
   private: Consistency ConsistencyGuarantee;
   private: Cer Cer;
 };

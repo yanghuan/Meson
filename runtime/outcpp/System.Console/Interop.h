@@ -27,6 +27,7 @@ class Interop {
     TRUE = 1,
   };
   public: struct KeyEventRecord {
+    public: void Ctor();
     public: BOOL keyDown;
     public: Int16 repeatCount;
     public: Int16 virtualKeyCode;
@@ -35,6 +36,7 @@ class Interop {
     public: Int32 controlKeyState;
   };
   public: struct InputRecord {
+    public: void Ctor();
     public: Int16 eventType;
     public: KeyEventRecord keyEvent;
   };
@@ -56,16 +58,19 @@ class Interop {
       ColorMask = 255,
     };
     public: struct COORD {
+      public: void Ctor();
       public: Int16 X;
       public: Int16 Y;
     };
     public: struct SMALL_RECT {
+      public: void Ctor();
       public: Int16 Left;
       public: Int16 Top;
       public: Int16 Right;
       public: Int16 Bottom;
     };
     private: struct CPINFOEXW {
+      public: void Ctor();
       public: UInt32 MaxCharSize;
       public: rt::FixedBuffer<Byte, 2> DefaultChar;
       public: rt::FixedBuffer<Byte, 12> LeadByte;
@@ -74,10 +79,12 @@ class Interop {
       public: rt::FixedBuffer<Char, 260> CodePageName;
     };
     public: struct CONSOLE_CURSOR_INFO {
+      public: void Ctor();
       public: Int32 dwSize;
       public: Boolean bVisible;
     };
     public: struct CONSOLE_SCREEN_BUFFER_INFO {
+      public: void Ctor();
       public: COORD dwSize;
       public: COORD dwCursorPosition;
       public: Int16 wAttributes;
@@ -85,10 +92,12 @@ class Interop {
       public: COORD dwMaximumWindowSize;
     };
     public: struct CHAR_INFO {
+      public: void Ctor();
       private: UInt16 charData;
       private: Int16 attributes;
     };
     public: CLASS(ConsoleCtrlHandlerRoutine) {
+      public: void Ctor(Object object, IntPtr method);
       public: Boolean Invoke(Int32 controlType);
       public: IAsyncResult BeginInvoke(Int32 controlType, AsyncCallback callback, Object object);
       public: Boolean EndInvoke(IAsyncResult result);

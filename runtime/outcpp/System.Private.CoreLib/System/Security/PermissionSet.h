@@ -11,6 +11,9 @@ FORWARD(Object)
 FORWARD(String)
 FORWARD(Type)
 } // namespace System::Private::CoreLib::System
+namespace System::Private::CoreLib::System::Security::Permissions {
+enum class PermissionState;
+} // namespace System::Private::CoreLib::System::Security::Permissions
 namespace System::Private::CoreLib::System::Collections {
 FORWARD(IEnumerator)
 } // namespace System::Private::CoreLib::System::Collections
@@ -19,11 +22,14 @@ FORWARD(IPermission)
 FORWARD(SecurityElement)
 namespace PermissionSetNamespace {
 using namespace Collections;
+using namespace Permissions;
 CLASS(PermissionSet) {
   public: Int32 get_Count();
   public: Boolean get_IsReadOnly();
   public: Boolean get_IsSynchronized();
   public: Object get_SyncRoot();
+  public: void Ctor(PermissionState state);
+  public: void Ctor(PermissionSet permSet);
   public: IPermission AddPermission(IPermission perm);
   protected: IPermission AddPermissionImpl(IPermission perm);
   public: void Assert();

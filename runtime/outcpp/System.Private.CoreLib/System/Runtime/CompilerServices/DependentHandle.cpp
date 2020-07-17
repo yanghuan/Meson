@@ -5,6 +5,9 @@ Boolean DependentHandle::get_IsAllocated() {
   return Boolean();
 };
 
+void DependentHandle::Ctor(Object primary, Object secondary) {
+};
+
 Object DependentHandle::GetPrimary() {
   return nullptr;
 };

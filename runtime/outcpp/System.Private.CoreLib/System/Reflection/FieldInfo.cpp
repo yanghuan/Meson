@@ -75,6 +75,9 @@ FieldInfo FieldInfo___::GetFieldFromHandle(RuntimeFieldHandle handle, RuntimeTyp
   return nullptr;
 };
 
+void FieldInfo___::Ctor() {
+};
+
 Boolean FieldInfo___::Equals(Object obj) {
   return Boolean();
 };

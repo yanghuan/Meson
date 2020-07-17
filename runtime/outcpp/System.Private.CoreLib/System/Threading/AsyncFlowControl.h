@@ -19,6 +19,7 @@ struct AsyncFlowControl {
   public: Int32 GetHashCode();
   public: static Boolean op_Equality(AsyncFlowControl a, AsyncFlowControl b);
   public: static Boolean op_Inequality(AsyncFlowControl a, AsyncFlowControl b);
+  public: void Ctor();
   private: Thread _thread;
 };
 } // namespace AsyncFlowControlNamespace

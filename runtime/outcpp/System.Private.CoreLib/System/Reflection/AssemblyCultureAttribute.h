@@ -9,6 +9,7 @@ namespace System::Private::CoreLib::System::Reflection {
 namespace AssemblyCultureAttributeNamespace {
 CLASS(AssemblyCultureAttribute) {
   public: String get_Culture() { return Culture; }
+  public: void Ctor(String culture);
   private: String Culture;
 };
 } // namespace AssemblyCultureAttributeNamespace

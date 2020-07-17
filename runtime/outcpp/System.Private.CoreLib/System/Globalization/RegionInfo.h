@@ -26,6 +26,9 @@ CLASS(RegionInfo) {
   public: String get_CurrencyNativeName();
   public: String get_CurrencySymbol();
   public: String get_ISOCurrencySymbol();
+  public: void Ctor(String name);
+  public: void Ctor(Int32 culture);
+  public: void Ctor(CultureData cultureData);
   public: Boolean Equals(Object value);
   public: Int32 GetHashCode();
   public: String ToString();

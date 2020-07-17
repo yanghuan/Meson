@@ -21,6 +21,7 @@ CLASS(MethodInfo) {
   public: Type get_ReturnType();
   public: ICustomAttributeProvider get_ReturnTypeCustomAttributes();
   public: Int32 get_GenericParameterCount();
+  protected: void Ctor();
   public: Array<Type> GetGenericArguments();
   public: MethodInfo GetGenericMethodDefinition();
   public: MethodInfo MakeGenericMethod(Array<Type> typeArguments);

@@ -455,4 +455,7 @@ Int32 Marshal::GetAnsiStringByteCount(ReadOnlySpan<Char> chars) {
 void Marshal::GetAnsiStringBytes(ReadOnlySpan<Char> chars, Span<Byte> bytes) {
 };
 
+void Marshal::SCtor() {
+};
+
 } // namespace System::Private::CoreLib::System::Runtime::InteropServices::MarshalNamespace

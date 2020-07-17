@@ -30,6 +30,7 @@ CLASS(PropertyInfo) {
   public: Boolean get_CanWrite();
   public: MethodInfo get_GetMethod();
   public: MethodInfo get_SetMethod();
+  protected: void Ctor();
   public: Array<ParameterInfo> GetIndexParameters();
   public: Array<MethodInfo> GetAccessors();
   public: Array<MethodInfo> GetAccessors(Boolean nonPublic);

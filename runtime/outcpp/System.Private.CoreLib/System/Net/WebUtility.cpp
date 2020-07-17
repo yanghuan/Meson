@@ -4,6 +4,9 @@ namespace System::Private::CoreLib::System::Net::WebUtilityNamespace {
 void WebUtility::UrlDecoder::FlushBytes() {
 };
 
+void WebUtility::UrlDecoder::Ctor(Int32 bufferSize, Encoding encoding) {
+};
+
 void WebUtility::UrlDecoder::AddChar(Char ch) {
 };
 
@@ -20,6 +23,9 @@ Char WebUtility::HtmlEntities::Lookup(ReadOnlySpan<Char> entity) {
 
 UInt64 WebUtility::HtmlEntities::ToUInt64Key(ReadOnlySpan<Char> entity) {
   return UInt64();
+};
+
+void WebUtility::HtmlEntities::SCtor() {
 };
 
 String WebUtility::HtmlEncode(String value) {

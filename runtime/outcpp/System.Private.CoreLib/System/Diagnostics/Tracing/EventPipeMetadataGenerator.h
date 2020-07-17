@@ -23,10 +23,12 @@ CLASS(EventPipeMetadataGenerator) {
     Opcode = 1,
     ParameterPayload = 2,
   };
+  private: void Ctor();
   public: Array<Byte> GenerateEventMetadata(EventSource::in::EventMetadata eventMetadata);
   public: Array<Byte> GenerateEventMetadata(Int32 eventId, String eventName, EventKeywords keywords, EventLevel level, UInt32 version, EventOpcode opcode, TraceLoggingEventTypes eventTypes);
   public: Array<Byte> GenerateMetadata(Int32 eventId, String eventName, Int64 keywords, UInt32 level, UInt32 version, EventOpcode opcode, Array<EventParameterInfo> parameters);
   public: static void WriteToBuffer(Byte* buffer, UInt32 bufferLength, UInt32& offset, Byte* src, UInt32 srcLength);
+  private: static void SCtor();
   public: static EventPipeMetadataGenerator Instance;
 };
 } // namespace EventPipeMetadataGeneratorNamespace

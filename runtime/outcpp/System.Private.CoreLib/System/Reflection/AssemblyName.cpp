@@ -88,6 +88,12 @@ String AssemblyName___::get_FullName() {
   return nullptr;
 };
 
+void AssemblyName___::Ctor(String assemblyName) {
+};
+
+void AssemblyName___::Ctor(String name, Array<Byte> publicKey, Array<Byte> publicKeyToken, Version version, CultureInfo cultureInfo, AssemblyHashAlgorithm hashAlgorithm, AssemblyVersionCompatibility versionCompatibility, String codeBase, AssemblyNameFlags flags, StrongNameKeyPair keyPair) {
+};
+
 AssemblyName AssemblyName___::GetFileInformationCore(String assemblyFile) {
   return nullptr;
 };
@@ -97,6 +103,9 @@ void AssemblyName___::SetProcArchIndex(PortableExecutableKinds pek, ImageFileMac
 
 ProcessorArchitecture AssemblyName___::CalculateProcArchIndex(PortableExecutableKinds pek, ImageFileMachine ifm, AssemblyNameFlags flags) {
   return ProcessorArchitecture::Arm;
+};
+
+void AssemblyName___::Ctor() {
 };
 
 Object AssemblyName___::Clone() {

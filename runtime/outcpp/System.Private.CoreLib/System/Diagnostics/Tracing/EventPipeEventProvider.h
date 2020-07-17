@@ -6,6 +6,7 @@
 namespace System::Private::CoreLib::System::Diagnostics::Tracing {
 namespace EventPipeEventProviderNamespace {
 CLASS(EventPipeEventProvider) {
+  public: void Ctor();
   private: IntPtr m_provHandle;
 };
 } // namespace EventPipeEventProviderNamespace

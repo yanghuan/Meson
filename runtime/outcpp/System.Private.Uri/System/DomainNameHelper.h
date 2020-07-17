@@ -26,6 +26,7 @@ class DomainNameHelper {
   private: static Boolean IsASCIILetterOrDigit(Char character, Boolean& notCanonical);
   private: static Boolean IsValidDomainLabelCharacter(Char character, Boolean& notCanonical);
   public: static Boolean ContainsCharactersUnsafeForNormalizedHost(String host);
+  private: static void SCtor();
   private: static IdnMapping s_idnMapping;
   private: static Array<Char> s_UnsafeForNormalizedHost;
 };

@@ -17,4 +17,7 @@ Int32 DecoderExceptionFallback___::GetHashCode() {
   return Int32();
 };
 
+void DecoderExceptionFallback___::Ctor() {
+};
+
 } // namespace System::Private::CoreLib::System::Text::DecoderExceptionFallbackNamespace

@@ -9,6 +9,7 @@ FORWARDS(TimeSpan)
 namespace System::Private::CoreLib::System::Threading {
 namespace TimeoutNamespace {
 class Timeout {
+  private: static void SCtor();
   public: static TimeSpan InfiniteTimeSpan;
   public: static constexpr Int32 Infinite = -1;
 };

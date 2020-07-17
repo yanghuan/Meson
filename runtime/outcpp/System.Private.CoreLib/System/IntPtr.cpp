@@ -15,6 +15,18 @@ IntPtr IntPtr::get_MinValue() {
   return IntPtr();
 };
 
+void IntPtr::Ctor(Int32 value) {
+};
+
+void IntPtr::Ctor(Int64 value) {
+};
+
+void IntPtr::Ctor(void* value) {
+};
+
+void IntPtr::Ctor(SerializationInfo info, StreamingContext context) {
+};
+
 Boolean IntPtr::Equals(Object obj) {
   return Boolean();
 };

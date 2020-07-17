@@ -33,6 +33,7 @@ using namespace IO;
 using namespace Reflection;
 CLASS(ResourceManager) {
   public: CLASS(CultureNameResourceSetPair) {
+    public: void Ctor();
     public: String lastCultureName;
     public: ResourceSet lastResourceSet;
   };
@@ -49,6 +50,7 @@ CLASS(ResourceManager) {
     public: UltimateResourceFallbackLocation get_FallbackLoc();
     public: Assembly get_MainAssembly();
     public: String get_BaseName();
+    public: void Ctor(ResourceManager rm);
     public: String GetResourceFileName(CultureInfo culture);
     public: static Version ObtainSatelliteContractVersion(Assembly a);
     private: ResourceManager _rm;
@@ -59,6 +61,11 @@ CLASS(ResourceManager) {
   public: Type get_ResourceSetType();
   protected: UltimateResourceFallbackLocation get_FallbackLocation();
   protected: void set_FallbackLocation(UltimateResourceFallbackLocation value);
+  protected: void Ctor();
+  private: void Ctor(String baseName, String resourceDir, Type userResourceSet);
+  public: void Ctor(String baseName, Assembly assembly);
+  public: void Ctor(String baseName, Assembly assembly, Type usingResourceSet);
+  public: void Ctor(Type resourceSource);
   private: void CommonAssemblyInit();
   public: void ReleaseAllResources();
   public: static ResourceManager CreateFileBasedResourceManager(String baseName, String resourceDir, Type usingResourceSet);
@@ -77,6 +84,7 @@ CLASS(ResourceManager) {
   private: Object GetObject(String name, CultureInfo culture, Boolean wrapUnmanagedMemStream);
   public: UnmanagedMemoryStream GetStream(String name);
   public: UnmanagedMemoryStream GetStream(String name, CultureInfo culture);
+  private: static void SCtor();
   protected: String BaseNameField;
   protected: Assembly MainAssembly;
   private: Dictionary<String, ResourceSet> _resourceSets;

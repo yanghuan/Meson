@@ -13,6 +13,9 @@ String SignatureByRefType___::get_Suffix() {
   return nullptr;
 };
 
+void SignatureByRefType___::Ctor(SignatureType elementType) {
+};
+
 Boolean SignatureByRefType___::IsArrayImpl() {
   return Boolean();
 };

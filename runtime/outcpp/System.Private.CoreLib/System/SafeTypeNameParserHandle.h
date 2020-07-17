@@ -8,6 +8,7 @@ FORWARDS(IntPtr)
 namespace SafeTypeNameParserHandleNamespace {
 CLASS(SafeTypeNameParserHandle) {
   private: static void _ReleaseTypeNameParser(IntPtr pTypeNameParser);
+  public: void Ctor();
   protected: Boolean ReleaseHandle();
 };
 } // namespace SafeTypeNameParserHandleNamespace

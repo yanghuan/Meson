@@ -1,6 +1,9 @@
 #include "StringReader-dep.h"
 
 namespace System::Private::CoreLib::System::IO::StringReaderNamespace {
+void StringReader___::Ctor(String s) {
+};
+
 void StringReader___::Close() {
 };
 

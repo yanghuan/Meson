@@ -13,6 +13,9 @@ Boolean DecoderNLS___::get_HasLeftoverData() {
   return Boolean();
 };
 
+void DecoderNLS___::Ctor(Encoding encoding) {
+};
+
 void DecoderNLS___::Reset() {
 };
 

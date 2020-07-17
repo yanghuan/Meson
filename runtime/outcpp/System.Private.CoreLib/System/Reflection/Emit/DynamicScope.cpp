@@ -49,4 +49,7 @@ Int32 DynamicScope___::GetTokenFor(Array<Byte> signature) {
   return Int32();
 };
 
+void DynamicScope___::Ctor() {
+};
+
 } // namespace System::Private::CoreLib::System::Reflection::Emit::DynamicScopeNamespace

@@ -1,6 +1,9 @@
 #include "DecoderDBCS-dep.h"
 
 namespace System::Console::System::Text::DecoderDBCSNamespace {
+void DecoderDBCS___::Ctor(Encoding encoding) {
+};
+
 Boolean DecoderDBCS___::IsLeadByte(Byte b) {
   return Boolean();
 };

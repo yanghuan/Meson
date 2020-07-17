@@ -29,6 +29,7 @@ struct TypedReference {
   public: static Type GetTargetType(TypedReference value);
   public: static RuntimeTypeHandle TargetTypeToken(TypedReference value);
   public: static void SetTypedReference(TypedReference target, Object value);
+  public: void Ctor();
   private: ByReference<Byte> _value;
   private: IntPtr _type;
 };

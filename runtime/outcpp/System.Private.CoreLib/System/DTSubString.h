@@ -10,6 +10,7 @@ enum class DTSubStringType;
 namespace DTSubStringNamespace {
 struct DTSubString {
   public: Char get_Item(Int32 relativeIndex);
+  public: void Ctor();
   public: ReadOnlySpan<Char> s;
   public: Int32 index;
   public: Int32 length;

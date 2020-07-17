@@ -65,6 +65,7 @@ CLASS(TypeBuilderInstantiation) {
   public: MethodBase get_DeclaringMethod();
   public: Boolean IsAssignableFrom(TypeInfo typeInfo);
   public: static Type MakeGenericType(Type type, Array<Type> typeArguments);
+  private: void Ctor(Type type, Array<Type> inst);
   public: String ToString();
   public: Type MakePointerType();
   public: Type MakeByRefType();

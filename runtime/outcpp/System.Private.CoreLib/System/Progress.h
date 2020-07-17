@@ -13,6 +13,8 @@ FORWARD(Object)
 namespace ProgressNamespace {
 using namespace Threading;
 CLASS(Progress, T) {
+  public: void Ctor();
+  public: void Ctor(Action<T> handler);
   protected: void OnReport(T value);
   private: void InvokeHandlers(Object state);
   private: SynchronizationContext _synchronizationContext;

@@ -23,6 +23,7 @@ CLASS(PersianCalendar) {
   public: Array<Int32> get_Eras();
   public: Int32 get_TwoDigitYearMax();
   public: void set_TwoDigitYearMax(Int32 value);
+  public: void Ctor();
   private: Int64 GetAbsoluteDatePersian(Int32 year, Int32 month, Int32 day);
   public: static void CheckTicksRange(Int64 ticks);
   public: static void CheckEraRange(Int32 era);
@@ -48,6 +49,7 @@ CLASS(PersianCalendar) {
   public: Boolean IsLeapYear(Int32 year, Int32 era);
   public: DateTime ToDateTime(Int32 year, Int32 month, Int32 day, Int32 hour, Int32 minute, Int32 second, Int32 millisecond, Int32 era);
   public: Int32 ToFourDigitYear(Int32 year);
+  private: static void SCtor();
   public: static Int32 PersianEra;
   private: static Int64 s_persianEpoch;
   private: static Array<Int32> s_daysToMonth;

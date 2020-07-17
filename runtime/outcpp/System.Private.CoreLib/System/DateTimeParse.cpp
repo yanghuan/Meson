@@ -337,4 +337,7 @@ Exception DateTimeParse::GetDateTimeParseException(DateTimeResult& result) {
   return nullptr;
 };
 
+void DateTimeParse::SCtor() {
+};
+
 } // namespace System::Private::CoreLib::System::DateTimeParseNamespace

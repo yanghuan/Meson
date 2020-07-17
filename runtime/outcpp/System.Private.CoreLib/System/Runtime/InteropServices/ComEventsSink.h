@@ -15,6 +15,7 @@ FORWARD(ComEventsMethod)
 namespace ComEventsSinkNamespace {
 using namespace ComTypes;
 CLASS(ComEventsSink) {
+  public: void Ctor(Object rcw, Guid iid);
   public: static ComEventsSink Find(ComEventsSink sinks, Guid& iid);
   public: static ComEventsSink Add(ComEventsSink sinks, ComEventsSink sink);
   public: static ComEventsSink RemoveAll(ComEventsSink sinks);

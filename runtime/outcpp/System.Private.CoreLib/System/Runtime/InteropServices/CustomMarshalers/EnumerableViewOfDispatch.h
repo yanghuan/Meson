@@ -6,17 +6,18 @@
 namespace System::Private::CoreLib::System::Runtime::InteropServices {
 FORWARD(IDispatch)
 } // namespace System::Private::CoreLib::System::Runtime::InteropServices
-namespace System::Private::CoreLib::System::Collections {
-FORWARD(IEnumerator)
-} // namespace System::Private::CoreLib::System::Collections
 namespace System::Private::CoreLib::System {
 FORWARD(Object)
 } // namespace System::Private::CoreLib::System
+namespace System::Private::CoreLib::System::Collections {
+FORWARD(IEnumerator)
+} // namespace System::Private::CoreLib::System::Collections
 namespace System::Private::CoreLib::System::Runtime::InteropServices::CustomMarshalers {
 namespace EnumerableViewOfDispatchNamespace {
 using namespace Collections;
 CLASS(EnumerableViewOfDispatch) {
   private: IDispatch get_Dispatch();
+  public: void Ctor(Object dispatch);
   public: IEnumerator GetEnumerator();
   public: Object GetUnderlyingObject();
   private: static constexpr Int32 DISPID_NEWENUM = -4;

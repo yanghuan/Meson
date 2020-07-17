@@ -13,4 +13,7 @@ IsolatedComponentLoadContext ComponentActivator::GetIsolatedComponentLoadContext
   return nullptr;
 };
 
+void ComponentActivator::SCtor() {
+};
+
 } // namespace System::Private::CoreLib::Internal::Runtime::InteropServices::ComponentActivatorNamespace

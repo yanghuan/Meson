@@ -8,6 +8,7 @@ namespace RuntimeCompatibilityAttributeNamespace {
 CLASS(RuntimeCompatibilityAttribute) {
   public: Boolean get_WrapNonExceptionThrows() { return WrapNonExceptionThrows; }
   public: void set_WrapNonExceptionThrows(Boolean value) { WrapNonExceptionThrows = value; }
+  public: void Ctor();
   private: Boolean WrapNonExceptionThrows;
 };
 } // namespace RuntimeCompatibilityAttributeNamespace

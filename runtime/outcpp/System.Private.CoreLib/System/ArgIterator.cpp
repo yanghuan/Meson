@@ -1,6 +1,12 @@
 #include "ArgIterator-dep.h"
 
 namespace System::Private::CoreLib::System::ArgIteratorNamespace {
+void ArgIterator::Ctor(RuntimeArgumentHandle arglist) {
+};
+
+void ArgIterator::Ctor(RuntimeArgumentHandle arglist, void* ptr) {
+};
+
 TypedReference ArgIterator::GetNextArg() {
   return TypedReference();
 };

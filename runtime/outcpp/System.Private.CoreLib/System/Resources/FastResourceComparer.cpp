@@ -41,4 +41,10 @@ Int32 FastResourceComparer___::CompareOrdinal(Byte* a, Int32 byteLen, String b) 
   return Int32();
 };
 
+void FastResourceComparer___::Ctor() {
+};
+
+void FastResourceComparer___::SCtor() {
+};
+
 } // namespace System::Private::CoreLib::System::Resources::FastResourceComparerNamespace

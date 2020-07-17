@@ -1,6 +1,9 @@
 #include "MethodToken-dep.h"
 
 namespace System::Private::CoreLib::System::Reflection::Emit::MethodTokenNamespace {
+void MethodToken::Ctor(Int32 methodToken) {
+};
+
 Int32 MethodToken::GetHashCode() {
   return Int32();
 };

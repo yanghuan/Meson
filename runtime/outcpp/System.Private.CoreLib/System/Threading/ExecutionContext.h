@@ -3,14 +3,14 @@
 #include <rt/GCObject.h>
 #include <System.Private.CoreLib/System/Boolean.h>
 
-namespace System::Private::CoreLib::System::Runtime::Serialization {
-FORWARD(SerializationInfo)
-FORWARDS(StreamingContext)
-} // namespace System::Private::CoreLib::System::Runtime::Serialization
 namespace System::Private::CoreLib::System {
 FORWARD_(Array, T1, T2)
 FORWARD(Object)
 } // namespace System::Private::CoreLib::System
+namespace System::Private::CoreLib::System::Runtime::Serialization {
+FORWARD(SerializationInfo)
+FORWARDS(StreamingContext)
+} // namespace System::Private::CoreLib::System::Runtime::Serialization
 namespace System::Private::CoreLib::System::Threading {
 FORWARDS(AsyncFlowControl)
 FORWARD_(ContextCallback, T1, T2)
@@ -22,6 +22,8 @@ using namespace Runtime::Serialization;
 CLASS(ExecutionContext) {
   public: Boolean get_HasChangeNotifications();
   public: Boolean get_IsDefault();
+  private: void Ctor(Boolean isDefault);
+  private: void Ctor(IAsyncLocalValueMap localValues, Array<IAsyncLocal> localChangeNotifications, Boolean isFlowSuppressed);
   public: void GetObjectData(SerializationInfo info, StreamingContext context);
   public: static ExecutionContext Capture();
   private: ExecutionContext ShallowClone(Boolean isFlowSuppressed);
@@ -39,6 +41,7 @@ CLASS(ExecutionContext) {
   public: static void SetLocalValue(IAsyncLocal local, Object newValue, Boolean needChangeNotifications);
   public: ExecutionContext CreateCopy();
   public: void Dispose();
+  private: static void SCtor();
   public: static ExecutionContext Default;
   public: static ExecutionContext DefaultFlowSuppressed;
   private: IAsyncLocalValueMap m_localValues;

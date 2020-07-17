@@ -25,6 +25,7 @@ CLASS(TaskScheduler) {
   public: CLASS(SystemThreadingTasks_TaskSchedulerDebugView) {
     public: Int32 get_Id();
     public: IEnumerable<Task<>> get_ScheduledTasks();
+    public: void Ctor(TaskScheduler scheduler);
     private: TaskScheduler m_taskScheduler;
   };
   public: Int32 get_MaximumConcurrencyLevel();
@@ -39,12 +40,14 @@ CLASS(TaskScheduler) {
   public: Boolean TryDequeue(Task<> task);
   public: void NotifyWorkItemProgress();
   public: void InternalQueueTask(Task<> task);
+  protected: void Ctor();
   private: void AddToActiveTaskSchedulers();
   public: static TaskScheduler FromCurrentSynchronizationContext();
   protected: Boolean TryExecuteTask(Task<> task);
   public: static void PublishUnobservedTaskException(Object sender, UnobservedTaskExceptionEventArgs ueea);
   public: Array<Task<>> GetScheduledTasksForDebugger();
   public: static Array<TaskScheduler> GetTaskSchedulersForDebugger();
+  private: static void SCtor();
   private: static ConditionalWeakTable<TaskScheduler, Object> s_activeTaskSchedulers;
   private: static TaskScheduler s_defaultTaskScheduler;
   public: static Int32 s_taskSchedulerIdCounter;

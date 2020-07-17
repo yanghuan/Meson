@@ -7,6 +7,8 @@
 namespace System::Private::CoreLib::System::Globalization {
 namespace DaylightTimeStructNamespace {
 struct DaylightTimeStruct {
+  public: void Ctor(DateTime start, DateTime end, TimeSpan delta);
+  public: void Ctor();
   public: DateTime Start;
   public: DateTime End;
   public: TimeSpan Delta;

@@ -13,6 +13,7 @@ FORWARD(RuntimeType)
 namespace __ComObjectNamespace {
 using namespace Collections;
 CLASS(__ComObject) {
+  protected: void Ctor();
   public: Object GetData(Object key);
   public: Boolean SetData(Object key, Object data);
   public: void ReleaseAllData();

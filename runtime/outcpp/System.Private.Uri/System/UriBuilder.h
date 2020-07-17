@@ -31,7 +31,14 @@ CLASS(UriBuilder) {
   public: Uri get_Uri();
   public: String get_UserName();
   public: void set_UserName(String value);
+  public: void Ctor();
+  public: void Ctor(String uri);
+  public: void Ctor(Uri uri);
   private: void Init(Uri uri);
+  public: void Ctor(String schemeName, String hostName);
+  public: void Ctor(String scheme, String host, Int32 portNumber);
+  public: void Ctor(String scheme, String host, Int32 port, String pathValue);
+  public: void Ctor(String scheme, String host, Int32 port, String path, String extraValue);
   public: Boolean Equals(Object rparam);
   public: Int32 GetHashCode();
   private: void SetFieldsFromUri(Uri uri);

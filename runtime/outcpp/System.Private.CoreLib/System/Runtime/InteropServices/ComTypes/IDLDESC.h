@@ -7,6 +7,7 @@ namespace System::Private::CoreLib::System::Runtime::InteropServices::ComTypes {
 enum class IDLFLAG : int16_t;
 namespace IDLDESCNamespace {
 struct IDLDESC {
+  public: void Ctor();
   public: IntPtr dwReserved;
   public: IDLFLAG wIDLFlags;
 };

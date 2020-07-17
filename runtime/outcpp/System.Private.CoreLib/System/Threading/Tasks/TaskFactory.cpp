@@ -13,6 +13,9 @@ Boolean TaskFactory___<>::CompleteOnInvokePromise___::get_InvokeMayRunArbitraryC
   return Boolean();
 };
 
+void TaskFactory___<>::CompleteOnInvokePromise___::Ctor(IList<Task<>> tasks, Boolean isSyncBlocking) {
+};
+
 void TaskFactory___<>::CompleteOnInvokePromise___::Invoke(Task<> completingTask) {
 };
 

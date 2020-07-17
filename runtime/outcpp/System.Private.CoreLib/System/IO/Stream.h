@@ -8,6 +8,7 @@ namespace System::Private::CoreLib::System {
 FORWARD_(Array, T1, T2)
 FORWARD(AsyncCallback)
 FORWARDS(Byte)
+FORWARD(Exception)
 FORWARD_(Func, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18)
 FORWARD(IAsyncResult)
 FORWARDS(Int64)
@@ -17,6 +18,9 @@ FORWARDS(ReadOnlyMemory, T)
 FORWARDS(ReadOnlySpan, T)
 FORWARDS(Span, T)
 } // namespace System::Private::CoreLib::System
+namespace System::Private::CoreLib::System::Buffers {
+FORWARD(ReadOnlySpanAction, T, TArg)
+} // namespace System::Private::CoreLib::System::Buffers
 namespace System::Private::CoreLib::System::Threading {
 FORWARDS(CancellationToken)
 FORWARD_(ContextCallback, T1, T2)
@@ -29,9 +33,6 @@ namespace System::Private::CoreLib::System::Threading::Tasks {
 FORWARD_(Task, T1, T2)
 FORWARDS_(ValueTask, T1, T2)
 } // namespace System::Private::CoreLib::System::Threading::Tasks
-namespace System::Private::CoreLib::System::Buffers {
-FORWARD(ReadOnlySpanAction, T, TArg)
-} // namespace System::Private::CoreLib::System::Buffers
 namespace System::Private::CoreLib::System::Runtime::ExceptionServices {
 FORWARD(ExceptionDispatchInfo)
 } // namespace System::Private::CoreLib::System::Runtime::ExceptionServices
@@ -44,6 +45,7 @@ using namespace Threading;
 using namespace Threading::Tasks;
 CLASS(Stream) {
   private: struct ReadWriteParameters {
+    public: void Ctor();
     public: Array<Byte> Buffer;
     public: Int32 Offset;
     public: Int32 Count;
@@ -55,6 +57,8 @@ CLASS(Stream) {
     public: Int64 get_Length();
     public: Int64 get_Position();
     public: void set_Position(Int64 value);
+    public: void Ctor(ReadOnlySpanAction<Byte, Object> action, Object state);
+    public: void Ctor(Func<ReadOnlyMemory<Byte>, Object, CancellationToken, ValueTask<>> func, Object state);
     public: void Write(Array<Byte> buffer, Int32 offset, Int32 count);
     public: void Write(ReadOnlySpan<Byte> span);
     public: Task<> WriteAsync(Array<Byte> buffer, Int32 offset, Int32 length, CancellationToken cancellationToken);
@@ -71,6 +75,7 @@ CLASS(Stream) {
   private: CLASS(ReadWriteTask) {
     private: Boolean get_InvokeMayRunArbitraryCodeOfITaskCompletionAction();
     public: void ClearBeginState();
+    public: void Ctor(Boolean isRead, Boolean apm, Func<Object, Int32> function, Object state, Stream stream, Array<Byte> buffer, Int32 offset, Int32 count, AsyncCallback callback);
     private: static void InvokeAsyncCallback(Object completedTask);
     public: Boolean _isRead;
     public: Boolean _apm;
@@ -90,6 +95,7 @@ CLASS(Stream) {
     public: Int64 get_Length();
     public: Int64 get_Position();
     public: void set_Position(Int64 value);
+    public: void Ctor();
     public: void CopyTo(Stream destination, Int32 bufferSize);
     public: Task<> CopyToAsync(Stream destination, Int32 bufferSize, CancellationToken cancellationToken);
     public: void CopyTo(ReadOnlySpanAction<Byte, Object> callback, Object state, Int32 bufferSize);
@@ -113,6 +119,7 @@ CLASS(Stream) {
     public: void WriteByte(Byte value);
     public: Int64 Seek(Int64 offset, SeekOrigin origin);
     public: void SetLength(Int64 length);
+    private: static void SCtor();
     private: static Task<Int32> s_zeroTask;
   };
   private: CLASS(SynchronousAsyncResult) {
@@ -120,6 +127,9 @@ CLASS(Stream) {
     public: WaitHandle get_AsyncWaitHandle();
     public: Object get_AsyncState();
     public: Boolean get_CompletedSynchronously();
+    public: void Ctor(Int32 bytesRead, Object asyncStateObject);
+    public: void Ctor(Object asyncStateObject);
+    public: void Ctor(Exception ex, Object asyncStateObject, Boolean isWrite);
     public: void ThrowIfError();
     public: static Int32 EndRead(IAsyncResult asyncResult);
     public: static void EndWrite(IAsyncResult asyncResult);
@@ -142,6 +152,7 @@ CLASS(Stream) {
     public: void set_ReadTimeout(Int32 value);
     public: Int32 get_WriteTimeout();
     public: void set_WriteTimeout(Int32 value);
+    public: void Ctor(Stream stream);
     public: void Close();
     protected: void Dispose(Boolean disposing);
     public: ValueTask<> DisposeAsync();
@@ -224,6 +235,8 @@ CLASS(Stream) {
   public: static Int32 BlockingEndRead(IAsyncResult asyncResult);
   public: IAsyncResult BlockingBeginWrite(Array<Byte> buffer, Int32 offset, Int32 count, AsyncCallback callback, Object state);
   public: static void BlockingEndWrite(IAsyncResult asyncResult);
+  protected: void Ctor();
+  private: static void SCtor();
   public: static Stream Null;
   private: SemaphoreSlim _asyncActiveSemaphore;
 };

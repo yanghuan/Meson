@@ -50,6 +50,12 @@ Boolean TextInfo___::get_IsInvariant() {
   return Boolean();
 };
 
+void TextInfo___::Ctor(CultureData cultureData) {
+};
+
+void TextInfo___::Ctor(CultureData cultureData, Boolean readOnly) {
+};
+
 Object TextInfo___::Clone() {
   return nullptr;
 };
@@ -170,6 +176,9 @@ void TextInfo___::NlsChangeCase(Char* pSource, Int32 pSourceLen, Char* pResult, 
 
 Boolean TextInfo___::IsInvariantLocale(String localeName) {
   return Boolean();
+};
+
+void TextInfo___::SCtor() {
 };
 
 } // namespace System::Private::CoreLib::System::Globalization::TextInfoNamespace

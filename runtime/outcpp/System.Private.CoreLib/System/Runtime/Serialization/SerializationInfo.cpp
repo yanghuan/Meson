@@ -37,6 +37,12 @@ DeserializationToken SerializationInfo___::StartDeserialization() {
   return DeserializationToken();
 };
 
+void SerializationInfo___::Ctor(Type type, IFormatterConverter converter) {
+};
+
+void SerializationInfo___::Ctor(Type type, IFormatterConverter converter, Boolean requireSameTokenInPartialTrust) {
+};
+
 void SerializationInfo___::SetType(Type type) {
 };
 
@@ -179,6 +185,9 @@ DateTime SerializationInfo___::GetDateTime(String name) {
 
 String SerializationInfo___::GetString(String name) {
   return nullptr;
+};
+
+void SerializationInfo___::SCtor() {
 };
 
 } // namespace System::Private::CoreLib::System::Runtime::Serialization::SerializationInfoNamespace

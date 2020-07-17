@@ -25,11 +25,14 @@ using namespace Runtime::CompilerServices;
 using namespace Tasks;
 CLASS(SemaphoreSlim) {
   private: CLASS(TaskNode) {
+    public: void Ctor();
     public: TaskNode Prev;
     public: TaskNode Next;
   };
   public: Int32 get_CurrentCount();
   public: WaitHandle get_AvailableWaitHandle();
+  public: void Ctor(Int32 initialCount);
+  public: void Ctor(Int32 initialCount, Int32 maxCount);
   public: void Wait();
   public: void Wait(CancellationToken cancellationToken);
   public: Boolean Wait(TimeSpan timeout);
@@ -52,6 +55,7 @@ CLASS(SemaphoreSlim) {
   protected: void Dispose(Boolean disposing);
   private: static void CancellationTokenCanceledEventHandler(Object obj);
   private: void CheckDispose();
+  private: static void SCtor();
   private: Int32 m_currentCount;
   private: Int32 m_maxCount;
   private: Int32 m_waitCount;

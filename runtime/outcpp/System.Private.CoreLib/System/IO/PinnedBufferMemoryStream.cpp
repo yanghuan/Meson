@@ -1,6 +1,9 @@
 #include "PinnedBufferMemoryStream-dep.h"
 
 namespace System::Private::CoreLib::System::IO::PinnedBufferMemoryStreamNamespace {
+void PinnedBufferMemoryStream___::Ctor(Array<Byte> array) {
+};
+
 Int32 PinnedBufferMemoryStream___::Read(Span<Byte> buffer) {
   return Int32();
 };

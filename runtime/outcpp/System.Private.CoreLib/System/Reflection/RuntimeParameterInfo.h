@@ -23,8 +23,10 @@ enum class ParameterAttributes;
 FORWARD(CustomAttributeData)
 FORWARD(MemberInfo)
 FORWARD(MethodBase)
+FORWARD(MethodInfo)
 FORWARD(ParameterInfo)
 FORWARD(RuntimeModule)
+FORWARD(RuntimePropertyInfo)
 namespace RuntimeParameterInfoNamespace {
 using namespace Collections::Generic;
 using Collections::Generic::IList;
@@ -40,6 +42,10 @@ CLASS(RuntimeParameterInfo) {
   public: static Array<ParameterInfo> GetParameters(IRuntimeMethodInfo methodHandle, MemberInfo member, Signature sig, ParameterInfo& returnParameter, Boolean fetchReturnParameter);
   public: void SetName(String name);
   public: void SetAttributes(ParameterAttributes attributes);
+  public: void Ctor(RuntimeParameterInfo accessor, RuntimePropertyInfo property);
+  private: void Ctor(RuntimeParameterInfo accessor, MemberInfo member);
+  private: void Ctor(Signature signature, MetadataImport scope, Int32 tkParamDef, Int32 position, ParameterAttributes attributes, MemberInfo member);
+  public: void Ctor(MethodInfo owner, String name, Type parameterType, Int32 position);
   private: Object GetDefaultValue(Boolean raw);
   private: Object GetDefaultValueInternal(Boolean raw);
   private: static Decimal GetRawDecimalConstant(CustomAttributeData attr);
@@ -52,6 +58,7 @@ CLASS(RuntimeParameterInfo) {
   public: Array<Object> GetCustomAttributes(Type attributeType, Boolean inherit);
   public: Boolean IsDefined(Type attributeType, Boolean inherit);
   public: IList<CustomAttributeData> GetCustomAttributesData();
+  private: static void SCtor();
   private: static Type s_DecimalConstantAttributeType;
   private: static Type s_CustomConstantAttributeType;
   private: Int32 m_tkParamDef;

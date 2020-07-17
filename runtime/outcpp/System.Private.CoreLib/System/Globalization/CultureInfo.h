@@ -72,7 +72,13 @@ CLASS(CultureInfo) {
   private: static void AsyncLocalSetCurrentUICulture(AsyncLocalValueChangedArgs<CultureInfo> args);
   private: static CultureInfo InitializeUserDefaultCulture();
   private: static CultureInfo InitializeUserDefaultUICulture();
+  public: void Ctor(String name);
+  public: void Ctor(String name, Boolean useUserOverride);
+  private: void Ctor(CultureData cultureData, Boolean isReadOnly);
   private: static CultureInfo CreateCultureInfoNoThrow(String name, Boolean useUserOverride);
+  public: void Ctor(Int32 culture);
+  public: void Ctor(Int32 culture, Boolean useUserOverride);
+  public: void Ctor(String cultureName, String textAndCompareCultureName);
   private: static CultureInfo GetCultureByName(String name);
   public: static CultureInfo CreateSpecificCulture(String name);
   public: static Boolean VerifyCultureName(String cultureName, Boolean throwException);
@@ -98,6 +104,7 @@ CLASS(CultureInfo) {
   private: static CultureInfo NlsGetPredefinedCultureInfo(String name);
   public: static CultureInfo GetUserDefaultCulture();
   private: static CultureInfo GetUserDefaultUICulture();
+  private: static void SCtor();
   private: Boolean _isReadOnly;
   private: CompareInfo _compareInfo;
   private: TextInfo _textInfo;

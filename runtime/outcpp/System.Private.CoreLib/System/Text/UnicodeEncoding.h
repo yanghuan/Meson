@@ -21,11 +21,15 @@ namespace UnicodeEncodingNamespace {
 CLASS(UnicodeEncoding) {
   private: CLASS(Decoder) {
     public: Boolean get_HasState();
+    public: void Ctor(UnicodeEncoding encoding);
     public: void Reset();
     public: Int32 lastByte;
     public: Char lastChar;
   };
   public: ReadOnlySpan<Byte> get_Preamble();
+  public: void Ctor();
+  public: void Ctor(Boolean bigEndian, Boolean byteOrderMark);
+  public: void Ctor(Boolean bigEndian, Boolean byteOrderMark, Boolean throwOnInvalidBytes);
   public: void SetDefaultFallbacks();
   public: Int32 GetByteCount(Array<Char> chars, Int32 index, Int32 count);
   public: Int32 GetByteCount(String s);
@@ -49,6 +53,7 @@ CLASS(UnicodeEncoding) {
   public: Int32 GetMaxCharCount(Int32 byteCount);
   public: Boolean Equals(Object value);
   public: Int32 GetHashCode();
+  private: static void SCtor();
   public: static UnicodeEncoding s_bigEndianDefault;
   public: static UnicodeEncoding s_littleEndianDefault;
   private: Boolean isThrowException;

@@ -34,6 +34,7 @@ CLASS(EncoderFallbackBuffer) {
   private: Rune GetNextRune();
   public: Boolean InternalFallback(Char ch, Char*& chars);
   public: static void ThrowLastCharRecursive(Int32 charRecursive);
+  protected: void Ctor();
   public: Char* charStart;
   public: Char* charEnd;
   public: EncoderNLS encoder;

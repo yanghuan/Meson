@@ -301,4 +301,7 @@ Boolean SignatureType___::IsValueTypeImpl() {
   return Boolean();
 };
 
+void SignatureType___::Ctor() {
+};
+
 } // namespace System::Private::CoreLib::System::Reflection::SignatureTypeNamespace

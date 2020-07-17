@@ -30,6 +30,8 @@ struct Vector128DebugView {
   public: Array<UInt16> get_UInt16View();
   public: Array<UInt32> get_UInt32View();
   public: Array<UInt64> get_UInt64View();
+  public: void Ctor(Vector128<T> value);
+  public: void Ctor();
   private: Vector128<T> _value;
 };
 } // namespace Vector128DebugViewNamespace

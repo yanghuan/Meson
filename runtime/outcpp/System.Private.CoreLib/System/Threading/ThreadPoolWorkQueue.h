@@ -28,6 +28,7 @@ CLASS(ThreadPoolWorkQueue) {
     public: Object LocalPop();
     private: Object LocalPopCore();
     public: Object TrySteal(Boolean& missedSteal);
+    public: void Ctor();
     public: Array<Object> m_array;
     private: Int32 m_mask;
     private: Int32 m_headIndex;
@@ -38,10 +39,12 @@ CLASS(ThreadPoolWorkQueue) {
     public: static Array<WorkStealingQueue> get_Queues();
     public: static void Add(WorkStealingQueue queue);
     public: static void Remove(WorkStealingQueue queue);
+    private: static void SCtor();
     private: static Array<WorkStealingQueue> _queues;
   };
   public: Int64 get_LocalCount();
   public: Int64 get_GlobalCount();
+  public: void Ctor();
   public: ThreadPoolWorkQueueThreadLocals GetOrCreateThreadLocals();
   private: ThreadPoolWorkQueueThreadLocals CreateThreadLocals();
   public: void EnsureThreadRequested();

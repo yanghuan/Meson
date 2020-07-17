@@ -12,6 +12,8 @@ namespace MemberNotNullWhenAttributeNamespace {
 CLASS(MemberNotNullWhenAttribute) {
   public: Boolean get_ReturnValue() { return ReturnValue; }
   public: Array<String> get_Members() { return Members; }
+  public: void Ctor(Boolean returnValue, String member);
+  public: void Ctor(Boolean returnValue, Array<String> members);
   private: Boolean ReturnValue;
   private: Array<String> Members;
 };

@@ -22,6 +22,7 @@ FORWARDS(StreamingContext)
 namespace System::Private::CoreLib::System::Collections::Generic {
 enum class InsertionBehavior : uint8_t;
 FORWARD(ICollection, T)
+FORWARD(IDictionary, TKey, TValue)
 FORWARD(IEnumerable, T)
 FORWARD(IEqualityComparer, T)
 namespace DictionaryNamespace {
@@ -31,6 +32,7 @@ using ICollection = Generic::ICollection<T>;
 using ICollection1 = Collections::ICollection;
 CLASS(Dictionary, TKey, TValue) {
   private: struct Entry {
+    public: void Ctor();
     public: UInt32 hashCode;
     public: Int32 next;
     public: TKey key;
@@ -42,8 +44,10 @@ CLASS(Dictionary, TKey, TValue) {
     private: DictionaryEntry get_EntryOfIDictionaryEnumerator();
     private: Object get_KeyOfIDictionaryEnumerator();
     private: Object get_ValueOfIDictionaryEnumerator();
+    public: void Ctor(Dictionary<TKey, TValue> dictionary, Int32 getEnumeratorRetType);
     public: Boolean MoveNext();
     public: void Dispose();
+    public: void Ctor();
     private: Dictionary<TKey, TValue> _dictionary;
     private: Int32 _version;
     private: Int32 _index;
@@ -54,8 +58,10 @@ CLASS(Dictionary, TKey, TValue) {
     public: struct Enumerator {
       public: TKey get_Current();
       private: Object get_CurrentOfIEnumerator();
+      public: void Ctor(Dictionary<TKey, TValue> dictionary);
       public: void Dispose();
       public: Boolean MoveNext();
+      public: void Ctor();
       private: Dictionary<TKey, TValue> _dictionary;
       private: Int32 _index;
       private: Int32 _version;
@@ -65,6 +71,7 @@ CLASS(Dictionary, TKey, TValue) {
     private: Boolean get_IsReadOnlyOfICollectionTKey();
     private: Boolean get_IsSynchronizedOfICollection();
     private: Object get_SyncRootOfICollection();
+    public: void Ctor(Dictionary<TKey, TValue> dictionary);
     public: Enumerator GetEnumerator();
     public: void CopyTo(Array<TKey> array, Int32 index);
     private: Dictionary<TKey, TValue> _dictionary;
@@ -73,8 +80,10 @@ CLASS(Dictionary, TKey, TValue) {
     public: struct Enumerator {
       public: TValue get_Current();
       private: Object get_CurrentOfIEnumerator();
+      public: void Ctor(Dictionary<TKey, TValue> dictionary);
       public: void Dispose();
       public: Boolean MoveNext();
+      public: void Ctor();
       private: Dictionary<TKey, TValue> _dictionary;
       private: Int32 _index;
       private: Int32 _version;
@@ -84,6 +93,7 @@ CLASS(Dictionary, TKey, TValue) {
     private: Boolean get_IsReadOnlyOfICollectionTValue();
     private: Boolean get_IsSynchronizedOfICollection();
     private: Object get_SyncRootOfICollection();
+    public: void Ctor(Dictionary<TKey, TValue> dictionary);
     public: Enumerator GetEnumerator();
     public: void CopyTo(Array<TValue> array, Int32 index);
     private: Dictionary<TKey, TValue> _dictionary;
@@ -107,6 +117,15 @@ CLASS(Dictionary, TKey, TValue) {
   private: ICollection1 get_ValuesOfIDictionary();
   private: Object get_ItemOfIDictionary(Object key);
   private: void set_ItemOfIDictionary(Object key, Object value);
+  public: void Ctor();
+  public: void Ctor(Int32 capacity);
+  public: void Ctor(IEqualityComparer<TKey> comparer);
+  public: void Ctor(Int32 capacity, IEqualityComparer<TKey> comparer);
+  public: void Ctor(IDictionary<TKey, TValue> dictionary);
+  public: void Ctor(IDictionary<TKey, TValue> dictionary, IEqualityComparer<TKey> comparer);
+  public: void Ctor(IEnumerable<KeyValuePair<TKey, TValue>> collection);
+  public: void Ctor(IEnumerable<KeyValuePair<TKey, TValue>> collection, IEqualityComparer<TKey> comparer);
+  protected: void Ctor(SerializationInfo info, StreamingContext context);
   public: void Add(TKey key, TValue value);
   public: void Clear();
   public: Boolean ContainsKey(TKey key);

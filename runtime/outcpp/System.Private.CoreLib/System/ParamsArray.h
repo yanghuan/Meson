@@ -10,7 +10,13 @@ namespace ParamsArrayNamespace {
 struct ParamsArray {
   public: Int32 get_Length();
   public: Object get_Item(Int32 index);
+  public: void Ctor(Object arg0);
+  public: void Ctor(Object arg0, Object arg1);
+  public: void Ctor(Object arg0, Object arg1, Object arg2);
+  public: void Ctor(Array<Object> args);
   private: Object GetAtSlow(Int32 index);
+  private: static void SCtor();
+  public: void Ctor();
   private: static Array<Object> s_oneArgArray;
   private: static Array<Object> s_twoArgArray;
   private: static Array<Object> s_threeArgArray;

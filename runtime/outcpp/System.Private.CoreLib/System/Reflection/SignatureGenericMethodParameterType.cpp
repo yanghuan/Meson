@@ -13,4 +13,7 @@ String SignatureGenericMethodParameterType___::get_Name() {
   return nullptr;
 };
 
+void SignatureGenericMethodParameterType___::Ctor(Int32 position) {
+};
+
 } // namespace System::Private::CoreLib::System::Reflection::SignatureGenericMethodParameterTypeNamespace

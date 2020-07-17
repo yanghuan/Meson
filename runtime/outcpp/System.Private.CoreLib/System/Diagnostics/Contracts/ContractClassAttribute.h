@@ -9,6 +9,7 @@ namespace System::Private::CoreLib::System::Diagnostics::Contracts {
 namespace ContractClassAttributeNamespace {
 CLASS(ContractClassAttribute) {
   public: Type get_TypeContainingContracts();
+  public: void Ctor(Type typeContainingContracts);
   private: Type _typeWithContracts;
 };
 } // namespace ContractClassAttributeNamespace

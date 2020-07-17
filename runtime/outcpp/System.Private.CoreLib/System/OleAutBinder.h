@@ -12,6 +12,7 @@ namespace OleAutBinderNamespace {
 using namespace Globalization;
 CLASS(OleAutBinder) {
   public: Object ChangeType(Object value, Type type, CultureInfo cultureInfo);
+  public: void Ctor();
 };
 } // namespace OleAutBinderNamespace
 using OleAutBinder = OleAutBinderNamespace::OleAutBinder;

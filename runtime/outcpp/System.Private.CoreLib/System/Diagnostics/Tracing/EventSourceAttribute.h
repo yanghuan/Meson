@@ -14,6 +14,7 @@ CLASS(EventSourceAttribute) {
   public: void set_Guid(String value) { Guid = value; }
   public: String get_LocalizationResources() { return LocalizationResources; }
   public: void set_LocalizationResources(String value) { LocalizationResources = value; }
+  public: void Ctor();
   private: String Name;
   private: String Guid;
   private: String LocalizationResources;

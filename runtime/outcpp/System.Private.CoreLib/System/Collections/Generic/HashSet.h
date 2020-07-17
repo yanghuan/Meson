@@ -22,6 +22,7 @@ namespace HashSetNamespace {
 using namespace Runtime::Serialization;
 CLASS(HashSet, T) {
   private: struct Entry {
+    public: void Ctor();
     public: Int32 HashCode;
     public: Int32 Next;
     public: T Value;
@@ -29,8 +30,10 @@ CLASS(HashSet, T) {
   public: struct Enumerator {
     public: T get_Current();
     private: Object get_CurrentOfIEnumerator();
+    public: void Ctor(HashSet<T> hashSet);
     public: Boolean MoveNext();
     public: void Dispose();
+    public: void Ctor();
     private: HashSet<T> _hashSet;
     private: Int32 _version;
     private: Int32 _index;
@@ -39,6 +42,13 @@ CLASS(HashSet, T) {
   public: Int32 get_Count();
   private: Boolean get_IsReadOnlyOfICollectionT();
   public: IEqualityComparer<T> get_Comparer();
+  public: void Ctor();
+  public: void Ctor(IEqualityComparer<T> comparer);
+  public: void Ctor(Int32 capacity);
+  public: void Ctor(IEnumerable<T> collection);
+  public: void Ctor(IEnumerable<T> collection, IEqualityComparer<T> comparer);
+  public: void Ctor(Int32 capacity, IEqualityComparer<T> comparer);
+  protected: void Ctor(SerializationInfo info, StreamingContext context);
   private: void ConstructFrom(HashSet<T> source);
   public: void Clear();
   public: Boolean Contains(T item);

@@ -8,6 +8,10 @@
 #include <System.Private.CoreLib/System/Int32.h>
 #include <System.Private.CoreLib/System/TimeSpan.h>
 
+namespace System::Private::CoreLib::System::Runtime::Serialization {
+FORWARD(SerializationInfo)
+FORWARDS(StreamingContext)
+} // namespace System::Private::CoreLib::System::Runtime::Serialization
 namespace System::Private::CoreLib::System::Collections::Generic {
 FORWARD(Dictionary, TKey, TValue)
 } // namespace System::Private::CoreLib::System::Collections::Generic
@@ -40,6 +44,7 @@ using namespace ::System::Private::CoreLib::Internal::Win32;
 using namespace Collections::Generic;
 using namespace Collections::ObjectModel;
 using namespace Globalization;
+using namespace Runtime::Serialization;
 using namespace Text;
 CLASS(TimeZoneInfo) {
   private: enum class TimeZoneInfoResult {
@@ -60,9 +65,12 @@ CLASS(TimeZoneInfo) {
     public: static Boolean op_Inequality(TransitionTime t1, TransitionTime t2);
     public: Boolean Equals(TransitionTime other);
     public: Int32 GetHashCode();
+    private: void Ctor(DateTime timeOfDay, Int32 month, Int32 week, Int32 day, DayOfWeek dayOfWeek, Boolean isFixedDateRule);
     public: static TransitionTime CreateFixedDateRule(DateTime timeOfDay, Int32 month, Int32 day);
     public: static TransitionTime CreateFloatingDateRule(DateTime timeOfDay, Int32 month, Int32 week, DayOfWeek dayOfWeek);
     private: static void ValidateTransitionTime(DateTime timeOfDay, Int32 month, Int32 week, Int32 day, DayOfWeek dayOfWeek);
+    private: void Ctor(SerializationInfo info, StreamingContext context);
+    public: void Ctor();
     private: DateTime _timeOfDay;
     private: Byte _month;
     private: Byte _week;
@@ -81,12 +89,15 @@ CLASS(TimeZoneInfo) {
     public: Boolean get_HasDaylightSaving();
     public: Boolean Equals(AdjustmentRule other);
     public: Int32 GetHashCode();
+    private: void Ctor(DateTime dateStart, DateTime dateEnd, TimeSpan daylightDelta, TransitionTime daylightTransitionStart, TransitionTime daylightTransitionEnd, TimeSpan baseUtcOffsetDelta, Boolean noDaylightTransitions);
     public: static AdjustmentRule CreateAdjustmentRule(DateTime dateStart, DateTime dateEnd, TimeSpan daylightDelta, TransitionTime daylightTransitionStart, TransitionTime daylightTransitionEnd);
     public: static AdjustmentRule CreateAdjustmentRule(DateTime dateStart, DateTime dateEnd, TimeSpan daylightDelta, TransitionTime daylightTransitionStart, TransitionTime daylightTransitionEnd, TimeSpan baseUtcOffsetDelta, Boolean noDaylightTransitions);
     public: Boolean IsStartDateMarkerForBeginningOfYear();
     public: Boolean IsEndDateMarkerForEndOfYear();
     private: static void ValidateAdjustmentRule(DateTime dateStart, DateTime dateEnd, TimeSpan daylightDelta, TransitionTime daylightTransitionStart, TransitionTime daylightTransitionEnd, Boolean noDaylightTransitions);
     private: static void AdjustDaylightDeltaToExpectedRange(TimeSpan& daylightDelta, TimeSpan& baseUtcOffsetDelta);
+    private: void Ctor(SerializationInfo info, StreamingContext context);
+    private: static void SCtor();
     private: static TimeSpan DaylightDeltaAdjustment;
     private: static TimeSpan MaxDaylightDelta;
     private: DateTime _dateStart;
@@ -98,6 +109,7 @@ CLASS(TimeZoneInfo) {
     private: Boolean _noDaylightTransitions;
   };
   private: CLASS(OffsetAndRule) {
+    public: void Ctor(Int32 year, TimeSpan offset, AdjustmentRule rule);
     public: Int32 Year;
     public: TimeSpan Offset;
     public: AdjustmentRule Rule;
@@ -108,6 +120,7 @@ CLASS(TimeZoneInfo) {
     public: DateTimeKind GetCorrespondingKind(TimeZoneInfo timeZone);
     private: static TimeZoneInfo GetCurrentOneYearLocal();
     public: OffsetAndRule GetOneYearLocalFromUtc(Int32 year);
+    public: void Ctor();
     private: TimeZoneInfo _localTimeZone;
     public: Dictionary<String, TimeZoneInfo> _systemTimeZones;
     public: ReadOnlyCollection<TimeZoneInfo> _readOnlySystemTimeZones;
@@ -123,6 +136,7 @@ CLASS(TimeZoneInfo) {
     };
     public: static String GetSerializedString(TimeZoneInfo zone);
     public: static TimeZoneInfo GetDeserializedTimeZoneInfo(String source);
+    private: void Ctor(String str);
     private: static void SerializeSubstitute(String text, ValueStringBuilder& serializedText);
     private: static void SerializeTransitionTime(TransitionTime time, ValueStringBuilder& serializedText);
     private: static void VerifyIsEscapableCharacter(Char c);
@@ -134,6 +148,7 @@ CLASS(TimeZoneInfo) {
     private: Array<AdjustmentRule> GetNextAdjustmentRuleArrayValue();
     private: AdjustmentRule GetNextAdjustmentRuleValue();
     private: TransitionTime GetNextTransitionTimeValue();
+    public: void Ctor();
     private: String _serializedText;
     private: Int32 _currentTokenStartIndex;
     private: State _state;
@@ -184,9 +199,11 @@ CLASS(TimeZoneInfo) {
   public: Boolean HasSameRules(TimeZoneInfo other);
   public: String ToSerializedString();
   public: String ToString();
+  private: void Ctor(String id, TimeSpan baseUtcOffset, String displayName, String standardDisplayName, String daylightDisplayName, Array<AdjustmentRule> adjustmentRules, Boolean disableDaylightSavingTime);
   public: static TimeZoneInfo CreateCustomTimeZone(String id, TimeSpan baseUtcOffset, String displayName, String standardDisplayName);
   public: static TimeZoneInfo CreateCustomTimeZone(String id, TimeSpan baseUtcOffset, String displayName, String standardDisplayName, String daylightDisplayName, Array<AdjustmentRule> adjustmentRules);
   public: static TimeZoneInfo CreateCustomTimeZone(String id, TimeSpan baseUtcOffset, String displayName, String standardDisplayName, String daylightDisplayName, Array<AdjustmentRule> adjustmentRules, Boolean disableDaylightSavingTime);
+  private: void Ctor(SerializationInfo info, StreamingContext context);
   private: AdjustmentRule GetAdjustmentRuleForTime(DateTime dateTime, Nullable<Int32>& ruleIndex);
   private: AdjustmentRule GetAdjustmentRuleForTime(DateTime dateTime, Boolean dateTimeisUtc, Nullable<Int32>& ruleIndex);
   private: Int32 CompareAdjustmentRuleToDateTime(AdjustmentRule rule, AdjustmentRule previousRule, DateTime dateTime, DateTime dateOnly, Boolean dateTimeisUtc);
@@ -215,6 +232,7 @@ CLASS(TimeZoneInfo) {
   private: static Boolean IsValidAdjustmentRuleOffest(TimeSpan baseUtcOffset, AdjustmentRule adjustmentRule);
   public: Array<AdjustmentRule> GetAdjustmentRules();
   private: static void PopulateAllSystemTimeZones(CachedData cachedData);
+  private: void Ctor(Interop::Kernel32::TIME_ZONE_INFORMATION& zone, Boolean dstDisabled);
   private: static Boolean CheckDaylightSavingTimeNotSupported(Interop::Kernel32::TIME_ZONE_INFORMATION& timeZone);
   private: static AdjustmentRule CreateAdjustmentRuleFromTimeZoneInformation(Interop::Kernel32::REG_TZI_FORMAT& timeZoneInformation, DateTime startDate, DateTime endDate, Int32 defaultBaseUtcOffset);
   private: static String FindIdFromTimeZoneInformation(Interop::Kernel32::TIME_ZONE_INFORMATION& timeZone, Boolean& dstDisabled);
@@ -231,6 +249,7 @@ CLASS(TimeZoneInfo) {
   private: static String TryGetLocalizedNameByNativeResource(String filePath, Int32 resource);
   private: static void GetLocalizedNamesByRegistryKey(RegistryKey key, String& displayName, String& standardName, String& daylightName);
   private: static TimeZoneInfoResult TryGetTimeZoneFromLocalMachine(String id, TimeZoneInfo& value, Exception& e);
+  private: static void SCtor();
   private: String _id;
   private: String _displayName;
   private: String _standardDisplayName;

@@ -21,6 +21,9 @@ IList<ExceptionHandlingClause> RuntimeMethodBody___::get_ExceptionHandlingClause
   return nullptr;
 };
 
+void RuntimeMethodBody___::Ctor() {
+};
+
 Array<Byte> RuntimeMethodBody___::GetILAsByteArray() {
   return Array<Byte>();
 };

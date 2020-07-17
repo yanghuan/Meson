@@ -1,6 +1,9 @@
 #include "ScopeTree-dep.h"
 
 namespace System::Private::CoreLib::System::Reflection::Emit::ScopeTreeNamespace {
+void ScopeTree___::Ctor() {
+};
+
 Int32 ScopeTree___::GetCurrentActiveScopeIndex() {
   return Int32();
 };

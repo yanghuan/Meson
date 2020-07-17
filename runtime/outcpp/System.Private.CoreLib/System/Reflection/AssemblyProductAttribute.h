@@ -9,6 +9,7 @@ namespace System::Private::CoreLib::System::Reflection {
 namespace AssemblyProductAttributeNamespace {
 CLASS(AssemblyProductAttribute) {
   public: String get_Product() { return Product; }
+  public: void Ctor(String product);
   private: String Product;
 };
 } // namespace AssemblyProductAttributeNamespace

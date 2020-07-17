@@ -96,9 +96,11 @@ CLASS(RuntimeType) {
   struct ListBuilder {
     public: T get_Item(Int32 index);
     public: Int32 get_Count();
+    public: void Ctor(Int32 capacity);
     public: Array<T> ToArray();
     public: void CopyTo(Array<Object> array, Int32 index);
     public: void Add(T item);
+    public: void Ctor();
     private: Array<T> _items;
     private: T _item;
     private: Int32 _count;
@@ -115,16 +117,19 @@ CLASS(RuntimeType) {
       NestedType = 6,
     };
     private: struct Filter {
+      public: void Ctor(Byte* pUtf8Name, Int32 cUtf8Name, MemberListType listType);
       public: Boolean Match(MdUtf8String name);
       public: Boolean RequiresStringComparison();
       public: Boolean CaseSensitive();
       public: UInt32 GetHashToMatch();
+      public: void Ctor();
       private: MdUtf8String m_name;
       private: MemberListType m_listType;
       private: UInt32 m_nameHash;
     };
     private: CLASS(MemberInfoCache, T) {
       public: RuntimeType get_ReflectedType();
+      public: void Ctor(RuntimeTypeCache runtimeTypeCache);
       public: MethodBase AddMethod(RuntimeType declaringType, RuntimeMethodHandleInternal method, CacheType cacheType);
       public: FieldInfo AddField(RuntimeFieldHandleInternal field);
       private: Array<T> Populate(String name, MemberListType listType, CacheType cacheType);
@@ -158,6 +163,7 @@ CLASS(RuntimeType) {
     public: TypeCode get_TypeCode();
     public: void set_TypeCode(TypeCode value);
     public: Boolean get_IsGlobal();
+    public: void Ctor(RuntimeType runtimeType);
     private: String ConstructName(String& name, TypeNameFormatFlags formatFlags);
     public: String GetName(TypeNameKind kind);
     public: String GetNameSpace();
@@ -200,6 +206,7 @@ CLASS(RuntimeType) {
     private: Array<Object> _emptyArray;
   };
   private: CLASS(ActivatorCache) {
+    public: void Ctor(RuntimeMethodHandleInternal rmh);
     private: void Initialize();
     public: void EnsureInitialized();
     public: RuntimeMethodHandleInternal _hCtorMethodHandle;
@@ -266,6 +273,7 @@ CLASS(RuntimeType) {
   private: static Boolean FilterApplyMethodInfo(RuntimeMethodInfo method, BindingFlags bindingFlags, CallingConventions callConv, Array<Type> argumentTypes);
   private: static Boolean FilterApplyConstructorInfo(RuntimeConstructorInfo constructor, BindingFlags bindingFlags, CallingConventions callConv, Array<Type> argumentTypes);
   private: static Boolean FilterApplyMethodBase(MethodBase methodBase, BindingFlags methodFlags, BindingFlags bindingFlags, CallingConventions callConv, Array<Type> argumentTypes);
+  public: void Ctor();
   public: Boolean CacheEquals(Object o);
   private: RuntimeTypeCache InitializeCache();
   private: String GetDefaultMemberName();
@@ -359,6 +367,7 @@ CLASS(RuntimeType) {
   public: Boolean IsAssignableFrom(TypeInfo typeInfo);
   public: Boolean IsAssignableFrom(Type c);
   private: RuntimeType GetBaseType();
+  private: static void SCtor();
   private: Object m_keepalive;
   private: IntPtr m_cache;
   public: IntPtr m_handle;

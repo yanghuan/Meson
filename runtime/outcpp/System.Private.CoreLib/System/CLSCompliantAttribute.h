@@ -7,6 +7,7 @@ namespace System::Private::CoreLib::System {
 namespace CLSCompliantAttributeNamespace {
 CLASS(CLSCompliantAttribute) {
   public: Boolean get_IsCompliant();
+  public: void Ctor(Boolean isCompliant);
   private: Boolean _compliant;
 };
 } // namespace CLSCompliantAttributeNamespace

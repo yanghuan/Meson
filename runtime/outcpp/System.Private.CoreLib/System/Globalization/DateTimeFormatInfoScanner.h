@@ -39,6 +39,7 @@ CLASS(DateTimeFormatInfoScanner) {
   private: static Boolean EqualStringArrays(Array<String> array1, Array<String> array2);
   private: static Boolean ArrayElementsHaveSpace(Array<String> array);
   private: static Boolean ArrayElementsBeginWithDigit(Array<String> array);
+  public: void Ctor();
   public: List<String> m_dateWords;
   private: FoundDatePattern _ymdFlags;
 };

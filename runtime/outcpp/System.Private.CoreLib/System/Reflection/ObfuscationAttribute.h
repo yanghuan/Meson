@@ -17,6 +17,7 @@ CLASS(ObfuscationAttribute) {
   public: void set_ApplyToMembers(Boolean value) { ApplyToMembers = value; }
   public: String get_Feature() { return Feature; }
   public: void set_Feature(String value) { Feature = value; }
+  public: void Ctor();
   private: Boolean StripAfterObfuscation;
   private: Boolean Exclude;
   private: Boolean ApplyToMembers;

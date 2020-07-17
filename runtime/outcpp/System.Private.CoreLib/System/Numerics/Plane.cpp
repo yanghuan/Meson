@@ -3,6 +3,15 @@
 #include <System.Private.CoreLib/System/Numerics/Plane-dep.h>
 
 namespace System::Private::CoreLib::System::Numerics::PlaneNamespace {
+void Plane::Ctor(Single x, Single y, Single z, Single d) {
+};
+
+void Plane::Ctor(Vector3 normal, Single d) {
+};
+
+void Plane::Ctor(Vector4 value) {
+};
+
 Plane Plane::CreateFromVertices(Vector3 point1, Vector3 point2, Vector3 point3) {
   return Plane();
 };

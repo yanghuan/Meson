@@ -31,6 +31,27 @@ Int64 MemoryStream___::get_Position() {
 void MemoryStream___::set_Position(Int64 value) {
 };
 
+void MemoryStream___::Ctor() {
+};
+
+void MemoryStream___::Ctor(Int32 capacity) {
+};
+
+void MemoryStream___::Ctor(Array<Byte> buffer) {
+};
+
+void MemoryStream___::Ctor(Array<Byte> buffer, Boolean writable) {
+};
+
+void MemoryStream___::Ctor(Array<Byte> buffer, Int32 index, Int32 count) {
+};
+
+void MemoryStream___::Ctor(Array<Byte> buffer, Int32 index, Int32 count, Boolean writable) {
+};
+
+void MemoryStream___::Ctor(Array<Byte> buffer, Int32 index, Int32 count, Boolean writable, Boolean publiclyVisible) {
+};
+
 void MemoryStream___::EnsureNotClosed() {
 };
 

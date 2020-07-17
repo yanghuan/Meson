@@ -22,36 +22,47 @@ namespace System::Private::CoreLib::System::Threading {
 namespace VolatileNamespace {
 class Volatile {
   private: struct VolatileBoolean {
+    public: void Ctor();
     public: Boolean Value;
   };
   private: struct VolatileByte {
+    public: void Ctor();
     public: Byte Value;
   };
   private: struct VolatileInt16 {
+    public: void Ctor();
     public: Int16 Value;
   };
   private: struct VolatileInt32 {
+    public: void Ctor();
     public: Int32 Value;
   };
   private: struct VolatileIntPtr {
+    public: void Ctor();
     public: IntPtr Value;
   };
   private: struct VolatileSByte {
+    public: void Ctor();
     public: SByte Value;
   };
   private: struct VolatileSingle {
+    public: void Ctor();
     public: Single Value;
   };
   private: struct VolatileUInt16 {
+    public: void Ctor();
     public: UInt16 Value;
   };
   private: struct VolatileUInt32 {
+    public: void Ctor();
     public: UInt32 Value;
   };
   private: struct VolatileUIntPtr {
+    public: void Ctor();
     public: UIntPtr Value;
   };
   private: struct VolatileObject {
+    public: void Ctor();
     public: Object Value;
   };
   public: static Boolean Read(Boolean& location);

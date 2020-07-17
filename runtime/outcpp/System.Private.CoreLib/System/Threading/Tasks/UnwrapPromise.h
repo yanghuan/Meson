@@ -9,6 +9,7 @@ FORWARD_(Task, T1, T2)
 namespace UnwrapPromiseNamespace {
 CLASS(UnwrapPromise, TResult) {
   public: Boolean get_InvokeMayRunArbitraryCode();
+  public: void Ctor(Task<> outerTask, Boolean lookForOce);
   public: void Invoke(Task<> completingTask);
   private: void InvokeCore(Task<> completingTask);
   private: void InvokeCoreAsync(Task<> completingTask);

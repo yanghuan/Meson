@@ -19,6 +19,7 @@ FORWARD(TypeBuilder)
 namespace AssemblyBuilderDataNamespace {
 using namespace Collections::Generic;
 CLASS(AssemblyBuilderData) {
+  public: void Ctor(InternalAssemblyBuilder assembly, AssemblyBuilderAccess access);
   public: void CheckTypeNameConflict(String strTypeName, TypeBuilder enclosingType);
   public: List<ModuleBuilder> _moduleBuilderList;
   public: AssemblyBuilderAccess _access;

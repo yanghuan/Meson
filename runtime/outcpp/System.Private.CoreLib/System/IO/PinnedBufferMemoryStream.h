@@ -15,6 +15,7 @@ namespace System::Private::CoreLib::System::IO {
 namespace PinnedBufferMemoryStreamNamespace {
 using namespace Runtime::InteropServices;
 CLASS(PinnedBufferMemoryStream) {
+  public: void Ctor(Array<Byte> array);
   public: Int32 Read(Span<Byte> buffer);
   public: void Write(ReadOnlySpan<Byte> buffer);
   protected: void Finalize();

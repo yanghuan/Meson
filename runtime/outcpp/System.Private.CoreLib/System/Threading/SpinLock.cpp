@@ -13,6 +13,9 @@ Boolean SystemThreading_SpinLockDebugView___::get_IsHeld() {
   return Boolean();
 };
 
+void SystemThreading_SpinLockDebugView___::Ctor(SpinLock spinLock) {
+};
+
 Boolean SpinLock::get_IsHeld() {
   return Boolean();
 };
@@ -27,6 +30,9 @@ Boolean SpinLock::get_IsThreadOwnerTrackingEnabled() {
 
 Int32 SpinLock::CompareExchange(Int32& location, Int32 value, Int32 comparand, Boolean& success) {
   return Int32();
+};
+
+void SpinLock::Ctor(Boolean enableThreadOwnerTracking) {
 };
 
 void SpinLock::Enter(Boolean& lockTaken) {

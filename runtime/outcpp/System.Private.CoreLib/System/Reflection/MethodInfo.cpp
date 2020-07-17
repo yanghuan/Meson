@@ -19,6 +19,9 @@ Int32 MethodInfo___::get_GenericParameterCount() {
   return Int32();
 };
 
+void MethodInfo___::Ctor() {
+};
+
 Array<Type> MethodInfo___::GetGenericArguments() {
   return Array<Type>();
 };

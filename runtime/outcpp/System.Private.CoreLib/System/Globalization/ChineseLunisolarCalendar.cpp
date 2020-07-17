@@ -57,8 +57,14 @@ Int32 ChineseLunisolarCalendar___::GetGregorianYear(Int32 year, Int32 era) {
   return Int32();
 };
 
+void ChineseLunisolarCalendar___::Ctor() {
+};
+
 Int32 ChineseLunisolarCalendar___::GetEra(DateTime time) {
   return Int32();
+};
+
+void ChineseLunisolarCalendar___::SCtor() {
 };
 
 } // namespace System::Private::CoreLib::System::Globalization::ChineseLunisolarCalendarNamespace

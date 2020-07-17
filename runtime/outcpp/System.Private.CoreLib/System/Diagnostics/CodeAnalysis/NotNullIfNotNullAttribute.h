@@ -9,6 +9,7 @@ namespace System::Private::CoreLib::System::Diagnostics::CodeAnalysis {
 namespace NotNullIfNotNullAttributeNamespace {
 CLASS(NotNullIfNotNullAttribute) {
   public: String get_ParameterName() { return ParameterName; }
+  public: void Ctor(String parameterName);
   private: String ParameterName;
 };
 } // namespace NotNullIfNotNullAttributeNamespace

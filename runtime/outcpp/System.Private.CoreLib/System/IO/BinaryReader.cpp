@@ -5,6 +5,15 @@ Stream BinaryReader___::get_BaseStream() {
   return nullptr;
 };
 
+void BinaryReader___::Ctor(Stream input) {
+};
+
+void BinaryReader___::Ctor(Stream input, Encoding encoding) {
+};
+
+void BinaryReader___::Ctor(Stream input, Encoding encoding, Boolean leaveOpen) {
+};
+
 void BinaryReader___::Dispose(Boolean disposing) {
 };
 

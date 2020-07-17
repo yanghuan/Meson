@@ -18,6 +18,7 @@ CLASS(OverlappedData) {
   public: Int32& get_OffsetLow();
   public: Int32& get_OffsetHigh();
   public: IntPtr& get_EventHandle();
+  public: void Ctor(Overlapped overlapped);
   public: NativeOverlapped* Pack(IOCompletionCallback iocb, Object userData);
   public: NativeOverlapped* UnsafePack(IOCompletionCallback iocb, Object userData);
   private: NativeOverlapped* AllocateNativeOverlapped();

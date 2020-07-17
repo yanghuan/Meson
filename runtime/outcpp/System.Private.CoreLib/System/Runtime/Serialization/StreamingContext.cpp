@@ -9,6 +9,12 @@ Object StreamingContext::get_Context() {
   return nullptr;
 };
 
+void StreamingContext::Ctor(StreamingContextStates state) {
+};
+
+void StreamingContext::Ctor(StreamingContextStates state, Object additional) {
+};
+
 Boolean StreamingContext::Equals(Object obj) {
   return Boolean();
 };

@@ -7,6 +7,7 @@
 namespace System::Private::CoreLib::System::Runtime::InteropServices::ComTypes {
 namespace DISPPARAMSNamespace {
 struct DISPPARAMS {
+  public: void Ctor();
   public: IntPtr rgvarg;
   public: IntPtr rgdispidNamedArgs;
   public: Int32 cArgs;

@@ -3,12 +3,18 @@
 #include <System.Private.CoreLib/System/IO/TextReader-dep.h>
 
 namespace System::Private::CoreLib::System::IO::TextReaderNamespace {
+void TextReader___::NullTextReader___::Ctor() {
+};
+
 Int32 TextReader___::NullTextReader___::Read(Array<Char> buffer, Int32 index, Int32 count) {
   return Int32();
 };
 
 String TextReader___::NullTextReader___::ReadLine() {
   return nullptr;
+};
+
+void TextReader___::SyncTextReader___::Ctor(TextReader t) {
 };
 
 void TextReader___::SyncTextReader___::Close() {
@@ -55,6 +61,9 @@ Task<Int32> TextReader___::SyncTextReader___::ReadBlockAsync(Array<Char> buffer,
 
 Task<Int32> TextReader___::SyncTextReader___::ReadAsync(Array<Char> buffer, Int32 index, Int32 count) {
   return nullptr;
+};
+
+void TextReader___::Ctor() {
 };
 
 void TextReader___::Close() {
@@ -132,6 +141,9 @@ ValueTask<Int32> TextReader___::ReadBlockAsyncInternal(Memory<Char> buffer, Canc
 
 TextReader TextReader___::Synchronized(TextReader reader) {
   return nullptr;
+};
+
+void TextReader___::SCtor() {
 };
 
 } // namespace System::Private::CoreLib::System::IO::TextReaderNamespace

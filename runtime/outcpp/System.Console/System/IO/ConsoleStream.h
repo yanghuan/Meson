@@ -10,6 +10,7 @@ FORWARDS(Int32)
 FORWARDS(Int64)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::IO {
+enum class FileAccess;
 enum class SeekOrigin;
 } // namespace System::Private::CoreLib::System::IO
 namespace System::Console::System::IO {
@@ -23,6 +24,7 @@ CLASS(ConsoleStream) {
   public: Int64 get_Length();
   public: Int64 get_Position();
   public: void set_Position(Int64 value);
+  public: void Ctor(FileAccess access);
   protected: void Dispose(Boolean disposing);
   public: void Flush();
   public: void SetLength(Int64 value);

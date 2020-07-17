@@ -9,4 +9,7 @@ Int32 OAVariantLib::GetCVTypeFromClass(Type ctype) {
   return Int32();
 };
 
+void OAVariantLib::SCtor() {
+};
+
 } // namespace System::Private::CoreLib::Microsoft::Win32::OAVariantLibNamespace

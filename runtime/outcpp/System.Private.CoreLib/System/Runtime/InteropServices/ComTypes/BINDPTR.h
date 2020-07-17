@@ -6,6 +6,7 @@
 namespace System::Private::CoreLib::System::Runtime::InteropServices::ComTypes {
 namespace BINDPTRNamespace {
 struct BINDPTR {
+  public: void Ctor();
   public: IntPtr lpfuncdesc;
   public: IntPtr lpvardesc;
   public: IntPtr lptcomp;

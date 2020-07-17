@@ -81,6 +81,12 @@ Boolean TypeDelegator___::IsAssignableFrom(TypeInfo typeInfo) {
   return Boolean();
 };
 
+void TypeDelegator___::Ctor() {
+};
+
+void TypeDelegator___::Ctor(Type delegatingType) {
+};
+
 Object TypeDelegator___::InvokeMember(String name, BindingFlags invokeAttr, Binder binder, Object target, Array<Object> args, Array<ParameterModifier> modifiers, CultureInfo culture, Array<String> namedParameters) {
   return nullptr;
 };

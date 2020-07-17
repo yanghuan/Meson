@@ -26,6 +26,7 @@ CLASS(EventPayload) {
   public: void set_Item(String key, Object value);
   public: Int32 get_Count();
   public: Boolean get_IsReadOnly();
+  public: void Ctor(List<String> payloadNames, List<Object> payloadValues);
   public: void Add(String key, Object value);
   public: void Add(KeyValuePair<String, Object> payloadEntry);
   public: void Clear();

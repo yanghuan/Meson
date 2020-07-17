@@ -9,4 +9,7 @@ IEnumerator<KeyValuePair<String, Object>> CounterPayload___::GetEnumerator() {
   return nullptr;
 };
 
+void CounterPayload___::Ctor() {
+};
+
 } // namespace System::Private::CoreLib::System::Diagnostics::Tracing::CounterPayloadNamespace

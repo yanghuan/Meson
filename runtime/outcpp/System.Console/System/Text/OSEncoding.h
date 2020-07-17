@@ -20,6 +20,7 @@ using namespace ::System::Private::CoreLib::System::Text;
 CLASS(OSEncoding) {
   public: String get_EncodingName();
   public: String get_WebName();
+  public: void Ctor(Int32 codePage);
   public: Int32 GetByteCount(Array<Char> chars, Int32 index, Int32 count);
   public: Int32 GetByteCount(String s);
   public: Int32 GetBytes(String s, Int32 charIndex, Int32 charCount, Array<Byte> bytes, Int32 byteIndex);

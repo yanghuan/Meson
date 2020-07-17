@@ -11,6 +11,7 @@ namespace CerHashtableNamespace {
 template <class K, class V>
 struct CerHashtable {
   private: CLASS(Table) {
+    public: void Ctor(Int32 size);
     public: void Insert(K key, V value);
     public: Array<K> m_keys;
     public: Array<V> m_values;
@@ -20,6 +21,7 @@ struct CerHashtable {
   public: void set_Item(K key, V value);
   private: static Int32 GetHashCodeHelper(K key);
   private: void Rehash(Int32 newSize);
+  public: void Ctor();
   private: Table m_Table;
 };
 } // namespace CerHashtableNamespace

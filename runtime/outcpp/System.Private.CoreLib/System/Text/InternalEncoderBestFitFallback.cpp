@@ -5,6 +5,9 @@ Int32 InternalEncoderBestFitFallback___::get_MaxCharCount() {
   return Int32();
 };
 
+void InternalEncoderBestFitFallback___::Ctor(Encoding encoding) {
+};
+
 EncoderFallbackBuffer InternalEncoderBestFitFallback___::CreateFallbackBuffer() {
   return nullptr;
 };

@@ -5,6 +5,7 @@
 namespace System::Private::CoreLib::System::Diagnostics {
 namespace DebuggerHiddenAttributeNamespace {
 CLASS(DebuggerHiddenAttribute) {
+  public: void Ctor();
 };
 } // namespace DebuggerHiddenAttributeNamespace
 using DebuggerHiddenAttribute = DebuggerHiddenAttributeNamespace::DebuggerHiddenAttribute;

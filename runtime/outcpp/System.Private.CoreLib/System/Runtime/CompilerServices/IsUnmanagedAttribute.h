@@ -5,6 +5,7 @@
 namespace System::Private::CoreLib::System::Runtime::CompilerServices {
 namespace IsUnmanagedAttributeNamespace {
 CLASS(IsUnmanagedAttribute) {
+  public: void Ctor();
 };
 } // namespace IsUnmanagedAttributeNamespace
 using IsUnmanagedAttribute = IsUnmanagedAttributeNamespace::IsUnmanagedAttribute;

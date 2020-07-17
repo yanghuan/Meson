@@ -1,6 +1,9 @@
 #include "Array-dep.h"
 
 namespace System::Private::CoreLib::System::ArrayNamespace {
+void Array___<>::SorterObjectArray::Ctor(Array<Object> keys, Array<Object> items, IComparer comparer) {
+};
+
 void Array___<>::SorterObjectArray::SwapIfGreater(Int32 a, Int32 b) {
 };
 
@@ -27,6 +30,9 @@ void Array___<>::SorterObjectArray::DownHeap(Int32 i, Int32 n, Int32 lo) {
 };
 
 void Array___<>::SorterObjectArray::InsertionSort(Int32 lo, Int32 hi) {
+};
+
+void Array___<>::SorterGenericArray::Ctor(Array<> keys, Array<> items, IComparer comparer) {
 };
 
 void Array___<>::SorterGenericArray::SwapIfGreater(Int32 a, Int32 b) {
@@ -173,6 +179,9 @@ Int32 Array___<>::GetLowerBound(Int32 dimension) {
 
 Boolean Array___<>::IsValueOfElementType(Object value) {
   return Boolean();
+};
+
+void Array___<>::Ctor() {
 };
 
 Array<> Array___<>::CreateInstance(Type elementType, Array<Int64> lengths) {

@@ -31,6 +31,7 @@ CLASS(TypeInfo) {
   public: IEnumerable<TypeInfo> get_DeclaredNestedTypes();
   public: IEnumerable<PropertyInfo> get_DeclaredProperties();
   public: IEnumerable<Type> get_ImplementedInterfaces();
+  protected: void Ctor();
   public: Type AsType();
   public: EventInfo GetDeclaredEvent(String name);
   public: FieldInfo GetDeclaredField(String name);

@@ -17,6 +17,8 @@ CLASS(LocalBuilder) {
   public: Boolean get_IsPinned();
   public: Type get_LocalType();
   public: Int32 get_LocalIndex();
+  public: void Ctor(Int32 localIndex, Type localType, MethodInfo methodBuilder);
+  public: void Ctor(Int32 localIndex, Type localType, MethodInfo methodBuilder, Boolean isPinned);
   public: Int32 GetLocalIndex();
   public: MethodInfo GetMethodBuilder();
   public: void SetLocalSymInfo(String name);

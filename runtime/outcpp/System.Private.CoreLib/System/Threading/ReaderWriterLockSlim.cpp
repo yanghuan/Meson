@@ -9,6 +9,12 @@ Boolean ReaderWriterLockSlim___::TimeoutTracker::get_IsExpired() {
   return Boolean();
 };
 
+void ReaderWriterLockSlim___::TimeoutTracker::Ctor(TimeSpan timeout) {
+};
+
+void ReaderWriterLockSlim___::TimeoutTracker::Ctor(Int32 millisecondsTimeout) {
+};
+
 UInt16 ReaderWriterLockSlim___::SpinLock::get_EnterForEnterAnyReadDeprioritizedCount() {
   return UInt16();
 };
@@ -90,6 +96,12 @@ Int32 ReaderWriterLockSlim___::get_WaitingWriteCount() {
 };
 
 void ReaderWriterLockSlim___::InitializeThreadCounts() {
+};
+
+void ReaderWriterLockSlim___::Ctor() {
+};
+
+void ReaderWriterLockSlim___::Ctor(LockRecursionPolicy recursionPolicy) {
 };
 
 Boolean ReaderWriterLockSlim___::IsRWEntryEmpty(ReaderWriterCount rwc) {

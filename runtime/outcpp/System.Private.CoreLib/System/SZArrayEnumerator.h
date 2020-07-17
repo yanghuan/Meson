@@ -10,6 +10,7 @@ FORWARD(Object)
 namespace SZArrayEnumeratorNamespace {
 CLASS(SZArrayEnumerator) {
   public: Object get_Current();
+  public: void Ctor(Array<> array);
   public: Object Clone();
   public: Boolean MoveNext();
   public: void Reset();

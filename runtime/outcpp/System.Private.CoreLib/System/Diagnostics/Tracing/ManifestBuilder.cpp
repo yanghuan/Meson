@@ -1,8 +1,14 @@
 #include "ManifestBuilder-dep.h"
 
 namespace System::Private::CoreLib::System::Diagnostics::Tracing::ManifestBuilderNamespace {
+void ManifestBuilder___::ChannelInfo___::Ctor() {
+};
+
 IList<String> ManifestBuilder___::get_Errors() {
   return nullptr;
+};
+
+void ManifestBuilder___::Ctor(String providerName, Guid providerGuid, String dllName, ResourceManager resources, EventManifestOptions flags) {
 };
 
 void ManifestBuilder___::AddOpcode(String name, Int32 value) {
@@ -100,6 +106,9 @@ String ManifestBuilder___::TranslateToManifestConvention(String eventMessage, St
 
 Int32 ManifestBuilder___::TranslateIndexToManifestConvention(Int32 idx, String evtName) {
   return Int32();
+};
+
+void ManifestBuilder___::SCtor() {
 };
 
 } // namespace System::Private::CoreLib::System::Diagnostics::Tracing::ManifestBuilderNamespace

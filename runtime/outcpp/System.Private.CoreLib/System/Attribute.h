@@ -72,6 +72,7 @@ CLASS(Attribute) {
   public: static Boolean IsDefined(Assembly element, Type attributeType, Boolean inherit);
   public: static Attribute GetCustomAttribute(Assembly element, Type attributeType);
   public: static Attribute GetCustomAttribute(Assembly element, Type attributeType, Boolean inherit);
+  protected: void Ctor();
   public: Boolean Equals(Object obj);
   public: Int32 GetHashCode();
   private: static Boolean AreFieldValuesEqual(Object thisValue, Object thatValue);

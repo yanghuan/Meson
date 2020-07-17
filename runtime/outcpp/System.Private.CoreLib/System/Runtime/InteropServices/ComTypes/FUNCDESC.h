@@ -12,6 +12,7 @@ enum class FUNCKIND;
 enum class INVOKEKIND;
 namespace FUNCDESCNamespace {
 struct FUNCDESC {
+  public: void Ctor();
   public: Int32 memid;
   public: IntPtr lprgscode;
   public: IntPtr lprgelemdescParam;

@@ -33,6 +33,15 @@ String FrameworkName___::ToString() {
   return nullptr;
 };
 
+void FrameworkName___::Ctor(String identifier, Version version) {
+};
+
+void FrameworkName___::Ctor(String identifier, Version version, String profile) {
+};
+
+void FrameworkName___::Ctor(String frameworkName) {
+};
+
 Boolean FrameworkName___::op_Equality(FrameworkName left, FrameworkName right) {
   return Boolean();
 };

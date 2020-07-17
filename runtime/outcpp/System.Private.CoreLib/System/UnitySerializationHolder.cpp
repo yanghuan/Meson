@@ -4,6 +4,9 @@ namespace System::Private::CoreLib::System::UnitySerializationHolderNamespace {
 void UnitySerializationHolder___::GetUnitySerializationInfo(SerializationInfo info, Int32 unityType) {
 };
 
+void UnitySerializationHolder___::Ctor(SerializationInfo info, StreamingContext context) {
+};
+
 void UnitySerializationHolder___::GetObjectData(SerializationInfo info, StreamingContext context) {
 };
 

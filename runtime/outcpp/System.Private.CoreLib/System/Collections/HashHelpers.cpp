@@ -25,4 +25,7 @@ UInt32 HashHelpers::FastMod(UInt32 value, UInt32 divisor, UInt64 multiplier) {
   return UInt32();
 };
 
+void HashHelpers::SCtor() {
+};
+
 } // namespace System::Private::CoreLib::System::Collections::HashHelpersNamespace

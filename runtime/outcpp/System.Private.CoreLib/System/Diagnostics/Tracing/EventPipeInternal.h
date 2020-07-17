@@ -26,6 +26,7 @@ class EventPipeInternal {
   private: struct EventPipeProviderConfigurationNative {
     public: static void MarshalToNative(EventPipeProviderConfiguration managed, EventPipeProviderConfigurationNative& native);
     public: void Release();
+    public: void Ctor();
     private: Char* m_pProviderName;
     private: UInt64 m_keywords;
     private: UInt32 m_loggingLevel;

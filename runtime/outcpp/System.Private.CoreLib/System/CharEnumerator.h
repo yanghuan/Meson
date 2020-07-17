@@ -12,6 +12,7 @@ namespace CharEnumeratorNamespace {
 CLASS(CharEnumerator) {
   private: Object get_CurrentOfIEnumerator();
   public: Char get_Current();
+  public: void Ctor(String str);
   public: Object Clone();
   public: Boolean MoveNext();
   public: void Dispose();

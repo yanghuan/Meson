@@ -3,6 +3,9 @@
 #include <System.Private.CoreLib/System/Threading/CompressedStack-dep.h>
 
 namespace System::Private::CoreLib::System::Threading::CompressedStackNamespace {
+void CompressedStack___::Ctor() {
+};
+
 void CompressedStack___::GetObjectData(SerializationInfo info, StreamingContext context) {
 };
 

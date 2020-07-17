@@ -50,6 +50,10 @@ struct Vector4 {
   public: static Vector4 Divide(Vector4 left, Vector4 right);
   public: static Vector4 Divide(Vector4 left, Single divisor);
   public: static Vector4 Negate(Vector4 value);
+  public: void Ctor(Single value);
+  public: void Ctor(Single x, Single y, Single z, Single w);
+  public: void Ctor(Vector2 value, Single z, Single w);
+  public: void Ctor(Vector3 value, Single w);
   public: void CopyTo(Array<Single> array);
   public: void CopyTo(Array<Single> array, Int32 index);
   public: Boolean Equals(Vector4 other);
@@ -68,6 +72,7 @@ struct Vector4 {
   public: static Vector4 op_UnaryNegation(Vector4 value);
   public: static Boolean op_Equality(Vector4 left, Vector4 right);
   public: static Boolean op_Inequality(Vector4 left, Vector4 right);
+  public: void Ctor();
   public: Single X;
   public: Single Y;
   public: Single Z;

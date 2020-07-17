@@ -13,6 +13,9 @@ CLASS(ObsoleteAttribute) {
   public: void set_DiagnosticId(String value) { DiagnosticId = value; }
   public: String get_UrlFormat() { return UrlFormat; }
   public: void set_UrlFormat(String value) { UrlFormat = value; }
+  public: void Ctor();
+  public: void Ctor(String message);
+  public: void Ctor(String message, Boolean error);
   private: String Message;
   private: Boolean IsError;
   private: String DiagnosticId;

@@ -10,6 +10,7 @@ FORWARD(Object)
 namespace System::Private::CoreLib::System::Reflection::Emit {
 namespace InternalModuleBuilderNamespace {
 CLASS(InternalModuleBuilder) {
+  private: void Ctor();
   public: Boolean Equals(Object obj);
   public: Int32 GetHashCode();
 };

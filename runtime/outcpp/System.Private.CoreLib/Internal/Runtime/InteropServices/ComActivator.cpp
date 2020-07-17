@@ -1,6 +1,9 @@
 #include "ComActivator-dep.h"
 
 namespace System::Private::CoreLib::Internal::Runtime::InteropServices::ComActivatorNamespace {
+void ComActivator::BasicClassFactory___::Ctor(Guid clsid, Type classType) {
+};
+
 Type ComActivator::BasicClassFactory___::GetValidatedInterfaceType(Type classType, Guid& riid, Object outer) {
   return nullptr;
 };
@@ -16,6 +19,9 @@ void ComActivator::BasicClassFactory___::CreateInstance(Object pUnkOuter, Guid& 
 };
 
 void ComActivator::BasicClassFactory___::LockServer(Boolean fLock) {
+};
+
+void ComActivator::LicenseClassFactory___::Ctor(Guid clsid, Type classType) {
 };
 
 void ComActivator::LicenseClassFactory___::CreateInstance(Object pUnkOuter, Guid& riid, Object& ppvObject) {
@@ -65,6 +71,9 @@ Type ComActivator::FindClassType(Guid clsid, String assemblyPath, String assembl
 
 AssemblyLoadContext ComActivator::GetALC(String assemblyPath) {
   return nullptr;
+};
+
+void ComActivator::SCtor() {
 };
 
 } // namespace System::Private::CoreLib::Internal::Runtime::InteropServices::ComActivatorNamespace

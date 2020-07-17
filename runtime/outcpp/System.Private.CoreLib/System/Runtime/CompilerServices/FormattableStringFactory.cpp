@@ -9,6 +9,9 @@ Int32 FormattableStringFactory::ConcreteFormattableString___::get_ArgumentCount(
   return Int32();
 };
 
+void FormattableStringFactory::ConcreteFormattableString___::Ctor(String format, Array<Object> arguments) {
+};
+
 Array<Object> FormattableStringFactory::ConcreteFormattableString___::GetArguments() {
   return Array<Object>();
 };

@@ -9,6 +9,7 @@
 namespace System::Private::CoreLib::System::Diagnostics::Tracing {
 namespace EventPipeEventInstanceDataNamespace {
 struct EventPipeEventInstanceData {
+  public: void Ctor();
   public: IntPtr ProviderID;
   public: UInt32 EventID;
   public: UInt32 ThreadID;

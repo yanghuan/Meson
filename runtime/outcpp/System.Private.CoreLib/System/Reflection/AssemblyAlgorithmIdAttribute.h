@@ -3,10 +3,16 @@
 #include <rt/GCObject.h>
 #include <System.Private.CoreLib/System/UInt32.h>
 
+namespace System::Private::CoreLib::System::Configuration::Assemblies {
+enum class AssemblyHashAlgorithm;
+} // namespace System::Private::CoreLib::System::Configuration::Assemblies
 namespace System::Private::CoreLib::System::Reflection {
 namespace AssemblyAlgorithmIdAttributeNamespace {
+using namespace Configuration::Assemblies;
 CLASS(AssemblyAlgorithmIdAttribute) {
   public: UInt32 get_AlgorithmId() { return AlgorithmId; }
+  public: void Ctor(AssemblyHashAlgorithm algorithmId);
+  public: void Ctor(UInt32 algorithmId);
   private: UInt32 AlgorithmId;
 };
 } // namespace AssemblyAlgorithmIdAttributeNamespace

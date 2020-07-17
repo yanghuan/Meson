@@ -4,19 +4,20 @@
 #include <System.Private.CoreLib/System/Byte.h>
 #include <System.Private.CoreLib/System/Int32.h>
 
+namespace System::Private::CoreLib::System::Text {
+FORWARD(Encoding)
+} // namespace System::Private::CoreLib::System::Text
 namespace System::Private::CoreLib::System {
 FORWARD_(Array, T1, T2)
 FORWARDS(Boolean)
 FORWARDS(Char)
 } // namespace System::Private::CoreLib::System
-namespace System::Private::CoreLib::System::Text {
-FORWARD(Encoding)
-} // namespace System::Private::CoreLib::System::Text
 namespace System::Console::System::Text {
 namespace DecoderDBCSNamespace {
 using namespace ::System::Private::CoreLib::System;
 using namespace ::System::Private::CoreLib::System::Text;
 CLASS(DecoderDBCS) {
+  public: void Ctor(Encoding encoding);
   private: Boolean IsLeadByte(Byte b);
   public: void Reset();
   public: Int32 GetCharCount(Array<Byte> bytes, Int32 index, Int32 count);

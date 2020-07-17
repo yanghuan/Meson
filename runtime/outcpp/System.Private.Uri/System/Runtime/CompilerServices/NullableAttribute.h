@@ -10,6 +10,7 @@ namespace System::Private::Uri::System::Runtime::CompilerServices {
 namespace NullableAttributeNamespace {
 using namespace ::System::Private::CoreLib::System;
 CLASS(NullableAttribute) {
+  public: void Ctor(Byte _);
   public: Array<Byte> NullableFlags;
 };
 } // namespace NullableAttributeNamespace

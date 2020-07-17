@@ -12,4 +12,7 @@ Boolean EventAttribute___::get_IsOpcodeSet() {
   return Boolean();
 };
 
+void EventAttribute___::Ctor(Int32 eventId) {
+};
+
 } // namespace System::Private::CoreLib::System::Diagnostics::Tracing::EventAttributeNamespace

@@ -22,6 +22,7 @@ using namespace Threading;
 CLASS(ActivityTracker) {
   private: CLASS(ActivityInfo) {
     public: Guid get_ActivityId();
+    public: void Ctor(String name, Int64 uniqueId, ActivityInfo creator, Guid activityIDToRestore, EventActivityOptions options);
     public: static String Path(ActivityInfo activityInfo);
     public: String ToString();
     public: static String LiveActivities(ActivityInfo list);
@@ -48,6 +49,8 @@ CLASS(ActivityTracker) {
   private: static ActivityInfo FindActiveActivity(String name, ActivityInfo startLocation);
   private: static String NormalizeActivityName(String providerName, String activityName, Int32 task);
   private: void ActivityChanging(AsyncLocalValueChangedArgs<ActivityInfo> args);
+  public: void Ctor();
+  private: static void SCtor();
   private: AsyncLocal<ActivityInfo> m_current;
   private: Boolean m_checkedForEnable;
   private: static ActivityTracker s_activityTrackerInstance;

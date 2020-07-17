@@ -5,6 +5,12 @@ Object EventListener___::get_EventListenersLock() {
   return nullptr;
 };
 
+void EventListener___::SCtor() {
+};
+
+void EventListener___::Ctor() {
+};
+
 void EventListener___::Dispose() {
 };
 

@@ -23,10 +23,13 @@ struct YieldAwaitable {
     private: static Action<> OutputCorrelationEtwEvent(Action<> continuation);
     private: static void RunAction(Object state);
     public: void GetResult();
+    private: static void SCtor();
+    public: void Ctor();
     private: static WaitCallback s_waitCallbackRunAction;
     private: static SendOrPostCallback s_sendOrPostCallbackRunAction;
   };
   public: YieldAwaiter GetAwaiter();
+  public: void Ctor();
 };
 } // namespace YieldAwaitableNamespace
 using YieldAwaitable = YieldAwaitableNamespace::YieldAwaitable;

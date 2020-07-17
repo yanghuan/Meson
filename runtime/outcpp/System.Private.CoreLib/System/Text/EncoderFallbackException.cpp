@@ -17,6 +17,24 @@ Int32 EncoderFallbackException___::get_Index() {
   return Int32();
 };
 
+void EncoderFallbackException___::Ctor() {
+};
+
+void EncoderFallbackException___::Ctor(String message) {
+};
+
+void EncoderFallbackException___::Ctor(String message, Exception innerException) {
+};
+
+void EncoderFallbackException___::Ctor(String message, Char charUnknown, Int32 index) {
+};
+
+void EncoderFallbackException___::Ctor(String message, Char charUnknownHigh, Char charUnknownLow, Int32 index) {
+};
+
+void EncoderFallbackException___::Ctor(SerializationInfo serializationInfo, StreamingContext streamingContext) {
+};
+
 Boolean EncoderFallbackException___::IsUnknownSurrogate() {
   return Boolean();
 };

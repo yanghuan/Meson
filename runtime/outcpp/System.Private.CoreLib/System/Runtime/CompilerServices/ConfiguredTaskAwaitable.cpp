@@ -5,6 +5,9 @@ Boolean ConfiguredTaskAwaitable<>::ConfiguredTaskAwaiter::get_IsCompleted() {
   return Boolean();
 };
 
+void ConfiguredTaskAwaitable<>::ConfiguredTaskAwaiter::Ctor(Task<> task, Boolean continueOnCapturedContext) {
+};
+
 void ConfiguredTaskAwaitable<>::ConfiguredTaskAwaiter::OnCompleted(Action<> continuation) {
 };
 

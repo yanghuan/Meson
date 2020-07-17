@@ -4,6 +4,15 @@ namespace System::Private::CoreLib::System::Reflection::Emit::DynamicResolverNam
 void DynamicResolver___::DestroyScout___::Finalize() {
 };
 
+void DynamicResolver___::DestroyScout___::Ctor() {
+};
+
+void DynamicResolver___::Ctor(DynamicILGenerator ilGenerator) {
+};
+
+void DynamicResolver___::Ctor(DynamicILInfo dynamicILInfo) {
+};
+
 void DynamicResolver___::Finalize() {
 };
 

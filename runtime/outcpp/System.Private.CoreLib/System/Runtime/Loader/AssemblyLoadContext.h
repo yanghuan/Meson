@@ -51,7 +51,9 @@ CLASS(AssemblyLoadContext) {
     Unloading = 1,
   };
   public: struct ContextualReflectionScope {
+    public: void Ctor(AssemblyLoadContext activating);
     public: void Dispose();
+    public: void Ctor();
     private: AssemblyLoadContext _activated;
     private: AssemblyLoadContext _predecessor;
     private: Boolean _initialized;
@@ -90,6 +92,10 @@ CLASS(AssemblyLoadContext) {
   private: static void StartAssemblyLoad(Guid& activityId, Guid& relatedActivityId);
   private: static void StopAssemblyLoad(Guid& activityId);
   private: static void InitializeDefaultContext();
+  protected: void Ctor();
+  protected: void Ctor(Boolean isCollectible);
+  public: void Ctor(String name, Boolean isCollectible);
+  public: void Ctor(Boolean representsTPALoadContext, Boolean isCollectible, String name);
   protected: void Finalize();
   private: void RaiseUnloadEvent();
   private: void InitiateUnload();
@@ -121,6 +127,7 @@ CLASS(AssemblyLoadContext) {
   private: static RuntimeAssembly InvokeResolveEvent(ResolveEventHandler eventHandler, RuntimeAssembly assembly, String name);
   private: Assembly ResolveSatelliteAssembly(AssemblyName assemblyName);
   public: IntPtr GetResolvedUnmanagedDll(Assembly assembly, String unmanagedDllName);
+  private: static void SCtor();
   private: static Dictionary<Int64, WeakReference<AssemblyLoadContext>> s_allContexts;
   private: static Int64 s_nextId;
   private: Object _unloadLock;

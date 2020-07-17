@@ -7,6 +7,7 @@ namespace System::Private::CoreLib::System::Diagnostics::CodeAnalysis {
 namespace NotNullWhenAttributeNamespace {
 CLASS(NotNullWhenAttribute) {
   public: Boolean get_ReturnValue() { return ReturnValue; }
+  public: void Ctor(Boolean returnValue);
   private: Boolean ReturnValue;
 };
 } // namespace NotNullWhenAttributeNamespace

@@ -1,6 +1,9 @@
 #include "InvokeTypeInfo-dep.h"
 
 namespace System::Private::CoreLib::System::Diagnostics::Tracing::InvokeTypeInfoNamespace {
+void InvokeTypeInfo___::Ctor(Type type, TypeAnalysis typeAnalysis) {
+};
+
 void InvokeTypeInfo___::WriteMetadata(TraceLoggingMetadataCollector collector, String name, EventFieldFormat format) {
 };
 

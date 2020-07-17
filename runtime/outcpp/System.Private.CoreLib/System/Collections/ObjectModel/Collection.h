@@ -29,6 +29,8 @@ CLASS(Collection, T) {
   private: void set_ItemOfIList(Int32 index, Object value);
   private: Boolean get_IsReadOnlyOfIList();
   private: Boolean get_IsFixedSizeOfIList();
+  public: void Ctor();
+  public: void Ctor(IList<T> list);
   public: void Add(T item);
   public: void Clear();
   public: void CopyTo(Array<T> array, Int32 index);

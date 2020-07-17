@@ -11,10 +11,12 @@ FORWARDS(Single)
 FORWARD(String)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Diagnostics::Tracing {
+FORWARD(EventSource)
 namespace IncrementingPollingCounterNamespace {
 CLASS(IncrementingPollingCounter) {
   public: TimeSpan get_DisplayRateTimeScale() { return DisplayRateTimeScale; }
   public: void set_DisplayRateTimeScale(TimeSpan value) { DisplayRateTimeScale = value; }
+  public: void Ctor(String name, EventSource eventSource, Func<Double> totalValueProvider);
   public: String ToString();
   public: void UpdateMetric();
   public: void WritePayload(Single intervalSec, Int32 pollingIntervalMillisec);

@@ -1,6 +1,9 @@
 #include "SymbolToken-dep.h"
 
 namespace System::Private::CoreLib::System::Diagnostics::SymbolStore::SymbolTokenNamespace {
+void SymbolToken::Ctor(Int32 val) {
+};
+
 Int32 SymbolToken::GetToken() {
   return Int32();
 };

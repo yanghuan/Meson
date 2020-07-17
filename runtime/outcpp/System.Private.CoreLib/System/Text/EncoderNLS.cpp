@@ -17,6 +17,9 @@ Boolean EncoderNLS___::get_HasState() {
   return Boolean();
 };
 
+void EncoderNLS___::Ctor(Encoding encoding) {
+};
+
 void EncoderNLS___::Reset() {
 };
 

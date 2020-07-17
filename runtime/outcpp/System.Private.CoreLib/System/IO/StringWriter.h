@@ -11,6 +11,7 @@ FORWARD(UnicodeEncoding)
 namespace System::Private::CoreLib::System {
 FORWARD_(Array, T1, T2)
 FORWARDS(Char)
+FORWARD(IFormatProvider)
 FORWARDS(Int32)
 FORWARDS(ReadOnlyMemory, T)
 FORWARDS(ReadOnlySpan, T)
@@ -29,6 +30,10 @@ using namespace Threading;
 using namespace Threading::Tasks;
 CLASS(StringWriter) {
   public: Encoding get_Encoding();
+  public: void Ctor();
+  public: void Ctor(IFormatProvider formatProvider);
+  public: void Ctor(StringBuilder sb);
+  public: void Ctor(StringBuilder sb, IFormatProvider formatProvider);
   public: void Close();
   protected: void Dispose(Boolean disposing);
   public: StringBuilder GetStringBuilder();

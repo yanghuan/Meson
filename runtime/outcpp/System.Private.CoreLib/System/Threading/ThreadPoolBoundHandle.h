@@ -18,6 +18,7 @@ namespace ThreadPoolBoundHandleNamespace {
 using namespace Runtime::InteropServices;
 CLASS(ThreadPoolBoundHandle) {
   public: SafeHandle get_Handle();
+  private: void Ctor(SafeHandle handle);
   public: static ThreadPoolBoundHandle BindHandle(SafeHandle handle);
   public: NativeOverlapped* AllocateNativeOverlapped(IOCompletionCallback callback, Object state, Object pinData);
   public: NativeOverlapped* AllocateNativeOverlapped(PreAllocatedOverlapped preAllocated);

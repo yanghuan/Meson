@@ -8,6 +8,7 @@ FORWARD(Object)
 namespace System::Private::CoreLib::System::Runtime::Remoting {
 namespace ObjectHandleNamespace {
 CLASS(ObjectHandle) {
+  public: void Ctor(Object o);
   public: Object Unwrap();
   private: Object _wrappedObject;
 };

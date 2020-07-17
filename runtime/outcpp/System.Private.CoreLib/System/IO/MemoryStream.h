@@ -42,6 +42,13 @@ CLASS(MemoryStream) {
   public: Int64 get_Length();
   public: Int64 get_Position();
   public: void set_Position(Int64 value);
+  public: void Ctor();
+  public: void Ctor(Int32 capacity);
+  public: void Ctor(Array<Byte> buffer);
+  public: void Ctor(Array<Byte> buffer, Boolean writable);
+  public: void Ctor(Array<Byte> buffer, Int32 index, Int32 count);
+  public: void Ctor(Array<Byte> buffer, Int32 index, Int32 count, Boolean writable);
+  public: void Ctor(Array<Byte> buffer, Int32 index, Int32 count, Boolean writable, Boolean publiclyVisible);
   private: void EnsureNotClosed();
   private: void EnsureWriteable();
   protected: void Dispose(Boolean disposing);

@@ -12,6 +12,9 @@ Object ResourceLocator::get_Value() {
 void ResourceLocator::set_Value(Object value) {
 };
 
+void ResourceLocator::Ctor(Int32 dataPos, Object value) {
+};
+
 Boolean ResourceLocator::CanCache(ResourceTypeCode value) {
   return Boolean();
 };

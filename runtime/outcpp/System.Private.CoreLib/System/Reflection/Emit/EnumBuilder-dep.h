@@ -16,6 +16,7 @@
 #include <System.Private.CoreLib/System/Reflection/ConstructorInfo-dep.h>
 #include <System.Private.CoreLib/System/Reflection/Emit/CustomAttributeBuilder-dep.h>
 #include <System.Private.CoreLib/System/Reflection/Emit/FieldBuilder-dep.h>
+#include <System.Private.CoreLib/System/Reflection/Emit/ModuleBuilder-dep.h>
 #include <System.Private.CoreLib/System/Reflection/Emit/TypeBuilder-dep.h>
 #include <System.Private.CoreLib/System/Reflection/Emit/TypeToken-dep.h>
 #include <System.Private.CoreLib/System/Reflection/EventInfo-dep.h>

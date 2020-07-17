@@ -1,6 +1,12 @@
 #include "RuntimeResourceSet-dep.h"
 
 namespace System::Private::CoreLib::System::Resources::RuntimeResourceSetNamespace {
+void RuntimeResourceSet___::Ctor(String fileName) {
+};
+
+void RuntimeResourceSet___::Ctor(Stream stream, Boolean permitDeserialization) {
+};
+
 void RuntimeResourceSet___::Dispose(Boolean disposing) {
 };
 

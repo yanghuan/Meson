@@ -13,4 +13,7 @@ ResourceLocation ManifestResourceInfo___::get_ResourceLocation() {
   return ResourceLocation::Embedded;
 };
 
+void ManifestResourceInfo___::Ctor(Assembly containingAssembly, String containingFileName, Reflection::ResourceLocation resourceLocation) {
+};
+
 } // namespace System::Private::CoreLib::System::Reflection::ManifestResourceInfoNamespace

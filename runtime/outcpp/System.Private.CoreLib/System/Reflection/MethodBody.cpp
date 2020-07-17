@@ -21,6 +21,9 @@ IList<ExceptionHandlingClause> MethodBody___::get_ExceptionHandlingClauses() {
   return nullptr;
 };
 
+void MethodBody___::Ctor() {
+};
+
 Array<Byte> MethodBody___::GetILAsByteArray() {
   return Array<Byte>();
 };

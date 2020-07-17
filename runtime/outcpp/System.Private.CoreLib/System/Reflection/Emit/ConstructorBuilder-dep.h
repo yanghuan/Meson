@@ -16,6 +16,7 @@
 #include <System.Private.CoreLib/System/Reflection/Emit/ILGenerator-dep.h>
 #include <System.Private.CoreLib/System/Reflection/Emit/MethodBuilder-dep.h>
 #include <System.Private.CoreLib/System/Reflection/Emit/MethodToken-dep.h>
+#include <System.Private.CoreLib/System/Reflection/Emit/ModuleBuilder-dep.h>
 #include <System.Private.CoreLib/System/Reflection/Emit/ParameterBuilder-dep.h>
 #include <System.Private.CoreLib/System/Reflection/Emit/TypeBuilder-dep.h>
 #include <System.Private.CoreLib/System/Reflection/MethodAttributes.h>

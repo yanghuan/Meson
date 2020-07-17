@@ -223,4 +223,7 @@ Boolean Utf8Parser::TryParseTimeSpanLittleG(ReadOnlySpan<Byte> source, TimeSpan&
   return Boolean();
 };
 
+void Utf8Parser::SCtor() {
+};
+
 } // namespace System::Private::CoreLib::System::Buffers::Text::Utf8ParserNamespace

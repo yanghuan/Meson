@@ -7,6 +7,9 @@ Range Range::get_All() {
   return Range();
 };
 
+void Range::Ctor(Index start, Index end) {
+};
+
 Boolean Range::Equals(Object value) {
   return Boolean();
 };

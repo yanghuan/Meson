@@ -61,6 +61,9 @@ Int32 ParameterInfo___::get_MetadataToken() {
   return Int32();
 };
 
+void ParameterInfo___::Ctor() {
+};
+
 Boolean ParameterInfo___::IsDefined(Type attributeType, Boolean inherit) {
   return Boolean();
 };

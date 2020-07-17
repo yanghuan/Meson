@@ -1,6 +1,9 @@
 #include "StringToken-dep.h"
 
 namespace System::Private::CoreLib::System::Reflection::Emit::StringTokenNamespace {
+void StringToken::Ctor(Int32 str) {
+};
+
 Int32 StringToken::GetHashCode() {
   return Int32();
 };

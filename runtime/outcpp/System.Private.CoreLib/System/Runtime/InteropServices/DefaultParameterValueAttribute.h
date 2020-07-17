@@ -9,6 +9,7 @@ namespace System::Private::CoreLib::System::Runtime::InteropServices {
 namespace DefaultParameterValueAttributeNamespace {
 CLASS(DefaultParameterValueAttribute) {
   public: Object get_Value() { return Value; }
+  public: void Ctor(Object value);
   private: Object Value;
 };
 } // namespace DefaultParameterValueAttributeNamespace

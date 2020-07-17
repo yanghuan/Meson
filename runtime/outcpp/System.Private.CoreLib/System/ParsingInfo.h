@@ -13,6 +13,7 @@ namespace ParsingInfoNamespace {
 using namespace Globalization;
 struct ParsingInfo {
   public: void Init();
+  public: void Ctor();
   public: Calendar calendar;
   public: Int32 dayOfWeek;
   public: DateTimeParse::TM timeMark;

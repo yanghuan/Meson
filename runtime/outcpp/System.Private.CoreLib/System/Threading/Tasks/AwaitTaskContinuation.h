@@ -24,6 +24,7 @@ namespace AwaitTaskContinuationNamespace {
 using namespace Runtime::CompilerServices;
 CLASS(AwaitTaskContinuation) {
   public: static Boolean get_IsValidLocationForInlining();
+  public: void Ctor(Action<> action, Boolean flowExecutionContext);
   protected: Task<> CreateTask(Action<Object> action, Object state, TaskScheduler scheduler);
   public: void Run(Task<> task, Boolean canInlineContinuationTask);
   protected: static ContextCallback<> GetInvokeActionCallback();
@@ -32,6 +33,7 @@ CLASS(AwaitTaskContinuation) {
   public: static void RunOrScheduleAction(IAsyncStateMachineBox box, Boolean allowInlining);
   public: static void UnsafeScheduleAction(Action<> action, Task<> task);
   public: Array<Delegate> GetDelegateContinuationsForDebugger();
+  private: static void SCtor();
   private: ExecutionContext m_capturedContext;
   protected: Action<> m_action;
   protected: Int32 m_continuationId;

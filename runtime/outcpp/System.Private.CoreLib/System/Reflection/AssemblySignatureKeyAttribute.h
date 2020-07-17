@@ -10,6 +10,7 @@ namespace AssemblySignatureKeyAttributeNamespace {
 CLASS(AssemblySignatureKeyAttribute) {
   public: String get_PublicKey() { return PublicKey; }
   public: String get_Countersignature() { return Countersignature; }
+  public: void Ctor(String publicKey, String countersignature);
   private: String PublicKey;
   private: String Countersignature;
 };

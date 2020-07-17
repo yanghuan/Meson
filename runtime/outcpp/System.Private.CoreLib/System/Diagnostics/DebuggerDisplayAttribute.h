@@ -18,6 +18,7 @@ CLASS(DebuggerDisplayAttribute) {
   public: void set_Target(Type value);
   public: String get_TargetTypeName() { return TargetTypeName; }
   public: void set_TargetTypeName(String value) { TargetTypeName = value; }
+  public: void Ctor(String value);
   private: Type _target;
   private: String Value;
   private: String Name;

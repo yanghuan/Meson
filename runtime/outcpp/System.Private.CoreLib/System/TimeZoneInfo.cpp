@@ -47,6 +47,9 @@ Int32 TimeZoneInfo___::TransitionTime::GetHashCode() {
   return Int32();
 };
 
+void TimeZoneInfo___::TransitionTime::Ctor(DateTime timeOfDay, Int32 month, Int32 week, Int32 day, DayOfWeek dayOfWeek, Boolean isFixedDateRule) {
+};
+
 TimeZoneInfo::in::TransitionTime TimeZoneInfo___::TransitionTime::CreateFixedDateRule(DateTime timeOfDay, Int32 month, Int32 day) {
   return TimeZoneInfo::in::TransitionTime();
 };
@@ -56,6 +59,9 @@ TimeZoneInfo::in::TransitionTime TimeZoneInfo___::TransitionTime::CreateFloating
 };
 
 void TimeZoneInfo___::TransitionTime::ValidateTransitionTime(DateTime timeOfDay, Int32 month, Int32 week, Int32 day, DayOfWeek dayOfWeek) {
+};
+
+void TimeZoneInfo___::TransitionTime::Ctor(SerializationInfo info, StreamingContext context) {
 };
 
 DateTime TimeZoneInfo___::AdjustmentRule___::get_DateStart() {
@@ -98,6 +104,9 @@ Int32 TimeZoneInfo___::AdjustmentRule___::GetHashCode() {
   return Int32();
 };
 
+void TimeZoneInfo___::AdjustmentRule___::Ctor(DateTime dateStart, DateTime dateEnd, TimeSpan daylightDelta, TransitionTime daylightTransitionStart, TransitionTime daylightTransitionEnd, TimeSpan baseUtcOffsetDelta, Boolean noDaylightTransitions) {
+};
+
 TimeZoneInfo::in::AdjustmentRule TimeZoneInfo___::AdjustmentRule___::CreateAdjustmentRule(DateTime dateStart, DateTime dateEnd, TimeSpan daylightDelta, TransitionTime daylightTransitionStart, TransitionTime daylightTransitionEnd) {
   return nullptr;
 };
@@ -120,6 +129,15 @@ void TimeZoneInfo___::AdjustmentRule___::ValidateAdjustmentRule(DateTime dateSta
 void TimeZoneInfo___::AdjustmentRule___::AdjustDaylightDeltaToExpectedRange(TimeSpan& daylightDelta, TimeSpan& baseUtcOffsetDelta) {
 };
 
+void TimeZoneInfo___::AdjustmentRule___::Ctor(SerializationInfo info, StreamingContext context) {
+};
+
+void TimeZoneInfo___::AdjustmentRule___::SCtor() {
+};
+
+void TimeZoneInfo___::OffsetAndRule___::Ctor(Int32 year, TimeSpan offset, AdjustmentRule rule) {
+};
+
 TimeZoneInfo TimeZoneInfo___::CachedData___::get_Local() {
   return nullptr;
 };
@@ -140,12 +158,18 @@ TimeZoneInfo::in::OffsetAndRule TimeZoneInfo___::CachedData___::GetOneYearLocalF
   return nullptr;
 };
 
+void TimeZoneInfo___::CachedData___::Ctor() {
+};
+
 String TimeZoneInfo___::StringSerializer::GetSerializedString(TimeZoneInfo zone) {
   return nullptr;
 };
 
 TimeZoneInfo TimeZoneInfo___::StringSerializer::GetDeserializedTimeZoneInfo(String source) {
   return nullptr;
+};
+
+void TimeZoneInfo___::StringSerializer::Ctor(String str) {
 };
 
 void TimeZoneInfo___::StringSerializer::SerializeSubstitute(String text, ValueStringBuilder& serializedText) {
@@ -371,6 +395,9 @@ String TimeZoneInfo___::ToString() {
   return nullptr;
 };
 
+void TimeZoneInfo___::Ctor(String id, TimeSpan baseUtcOffset, String displayName, String standardDisplayName, String daylightDisplayName, Array<AdjustmentRule> adjustmentRules, Boolean disableDaylightSavingTime) {
+};
+
 TimeZoneInfo TimeZoneInfo___::CreateCustomTimeZone(String id, TimeSpan baseUtcOffset, String displayName, String standardDisplayName) {
   return nullptr;
 };
@@ -381,6 +408,9 @@ TimeZoneInfo TimeZoneInfo___::CreateCustomTimeZone(String id, TimeSpan baseUtcOf
 
 TimeZoneInfo TimeZoneInfo___::CreateCustomTimeZone(String id, TimeSpan baseUtcOffset, String displayName, String standardDisplayName, String daylightDisplayName, Array<AdjustmentRule> adjustmentRules, Boolean disableDaylightSavingTime) {
   return nullptr;
+};
+
+void TimeZoneInfo___::Ctor(SerializationInfo info, StreamingContext context) {
 };
 
 TimeZoneInfo::in::AdjustmentRule TimeZoneInfo___::GetAdjustmentRuleForTime(DateTime dateTime, Nullable<Int32>& ruleIndex) {
@@ -493,6 +523,9 @@ Array<TimeZoneInfo::in::AdjustmentRule> TimeZoneInfo___::GetAdjustmentRules() {
 void TimeZoneInfo___::PopulateAllSystemTimeZones(CachedData cachedData) {
 };
 
+void TimeZoneInfo___::Ctor(Interop::Kernel32::TIME_ZONE_INFORMATION& zone, Boolean dstDisabled) {
+};
+
 Boolean TimeZoneInfo___::CheckDaylightSavingTimeNotSupported(Interop::Kernel32::TIME_ZONE_INFORMATION& timeZone) {
   return Boolean();
 };
@@ -554,6 +587,9 @@ void TimeZoneInfo___::GetLocalizedNamesByRegistryKey(RegistryKey key, String& di
 
 TimeZoneInfo::in::TimeZoneInfoResult TimeZoneInfo___::TryGetTimeZoneFromLocalMachine(String id, TimeZoneInfo& value, Exception& e) {
   return TimeZoneInfo::in::TimeZoneInfoResult::SecurityException;
+};
+
+void TimeZoneInfo___::SCtor() {
 };
 
 } // namespace System::Private::CoreLib::System::TimeZoneInfoNamespace

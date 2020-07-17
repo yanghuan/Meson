@@ -13,8 +13,10 @@ FORWARD(IOCompletionCallback)
 FORWARDS(NativeOverlapped)
 namespace _IOCompletionCallbackNamespace {
 CLASS(_IOCompletionCallback) {
+  public: void Ctor(IOCompletionCallback ioCompletionCallback, ExecutionContext executionContext);
   public: static void IOCompletionCallback_Context(Object state);
   public: static void PerformIOCompletionCallback(UInt32 errorCode, UInt32 numBytes, NativeOverlapped* pNativeOverlapped);
+  private: static void SCtor();
   private: IOCompletionCallback _ioCompletionCallback;
   private: ExecutionContext _executionContext;
   private: UInt32 _errorCode;

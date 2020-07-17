@@ -283,6 +283,9 @@ Boolean Type___::IsRuntimeImplemented() {
   return Boolean();
 };
 
+void Type___::Ctor() {
+};
+
 Type Type___::GetType() {
   return nullptr;
 };
@@ -636,6 +639,9 @@ Boolean Type___::FilterAttributeImpl(MemberInfo m, Object filterCriteria) {
 
 Boolean Type___::FilterNameImpl(MemberInfo m, Object filterCriteria, StringComparison comparison) {
   return Boolean();
+};
+
+void Type___::SCtor() {
 };
 
 } // namespace System::Private::CoreLib::System::TypeNamespace

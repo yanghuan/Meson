@@ -5,6 +5,9 @@ Boolean TaskExceptionHolder___::get_ContainsFaultList() {
   return Boolean();
 };
 
+void TaskExceptionHolder___::Ctor(Task<> task) {
+};
+
 void TaskExceptionHolder___::Finalize() {
 };
 

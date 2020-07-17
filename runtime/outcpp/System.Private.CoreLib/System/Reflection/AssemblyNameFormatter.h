@@ -25,6 +25,7 @@ class AssemblyNameFormatter {
   public: static String ComputeDisplayName(String name, Version version, String cultureName, Array<Byte> pkt, AssemblyNameFlags flags, AssemblyContentType contentType);
   private: static void AppendQuoted(StringBuilder sb, String s);
   private: static Version CanonicalizeVersion(Version version);
+  private: static void SCtor();
   public: static Array<KeyValuePair<Char, String>> EscapeSequences;
 };
 } // namespace AssemblyNameFormatterNamespace

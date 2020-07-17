@@ -18,6 +18,12 @@ Object GCHandle::InternalGet(IntPtr handle) {
   return nullptr;
 };
 
+void GCHandle::Ctor(Object value, GCHandleType type) {
+};
+
+void GCHandle::Ctor(IntPtr handle) {
+};
+
 GCHandle GCHandle::Alloc(Object value) {
   return GCHandle();
 };

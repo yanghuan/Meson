@@ -17,6 +17,7 @@ class AsyncTaskCache {
   private: static Boolean GetPoolAsyncValueTasksSwitch();
   private: static Int32 GetPoolAsyncValueTasksLimitValue();
   private: static Array<Task<Int32>> CreateInt32Tasks();
+  private: static void SCtor();
   public: static Task<Boolean> s_trueTask;
   public: static Task<Boolean> s_falseTask;
   public: static Array<Task<Int32>> s_int32Tasks;

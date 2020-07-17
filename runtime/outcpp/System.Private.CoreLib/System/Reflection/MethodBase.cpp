@@ -119,6 +119,9 @@ Array<Object> MethodBase___::CheckArguments(Array<Object> parameters, Binder bin
   return Array<Object>();
 };
 
+void MethodBase___::Ctor() {
+};
+
 MethodBody MethodBase___::GetMethodBody() {
   return nullptr;
 };

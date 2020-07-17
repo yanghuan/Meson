@@ -4,4 +4,7 @@ namespace System::Private::CoreLib::System::Runtime::CompilerServices::LAHashDep
 void LAHashDependentHashTracker___::Finalize() {
 };
 
+void LAHashDependentHashTracker___::Ctor() {
+};
+
 } // namespace System::Private::CoreLib::System::Runtime::CompilerServices::LAHashDependentHashTrackerNamespace

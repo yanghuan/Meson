@@ -123,6 +123,15 @@ Vector3 Vector3::Negate(Vector3 value) {
   return Vector3();
 };
 
+void Vector3::Ctor(Single value) {
+};
+
+void Vector3::Ctor(Vector2 value, Single z) {
+};
+
+void Vector3::Ctor(Single x, Single y, Single z) {
+};
+
 void Vector3::CopyTo(Array<Single> array) {
 };
 

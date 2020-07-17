@@ -61,6 +61,9 @@ Type SymbolType___::FormCompoundType(String format, Type baseType, Int32 curInde
   return nullptr;
 };
 
+void SymbolType___::Ctor(TypeKind typeKind) {
+};
+
 void SymbolType___::SetElementType(Type baseType) {
 };
 

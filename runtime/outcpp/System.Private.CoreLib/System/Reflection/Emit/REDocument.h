@@ -14,6 +14,7 @@ namespace System::Private::CoreLib::System::Reflection::Emit {
 namespace REDocumentNamespace {
 using namespace Diagnostics::SymbolStore;
 CLASS(REDocument) {
+  public: void Ctor(ISymbolDocumentWriter document);
   public: void AddLineNumberInfo(ISymbolDocumentWriter document, Int32 iOffset, Int32 iStartLine, Int32 iStartColumn, Int32 iEndLine, Int32 iEndColumn);
   private: void EnsureCapacity();
   public: void EmitLineNumberInfo(ISymbolWriter symWriter);

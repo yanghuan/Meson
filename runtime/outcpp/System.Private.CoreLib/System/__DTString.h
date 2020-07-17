@@ -20,6 +20,8 @@ using namespace Globalization;
 struct __DTString {
   public: Int32 get_Length();
   public: CompareInfo get_CompareInfo();
+  public: void Ctor(ReadOnlySpan<Char> str, DateTimeFormatInfo dtfi, Boolean checkDigitToken);
+  public: void Ctor(ReadOnlySpan<Char> str, DateTimeFormatInfo dtfi);
   public: Boolean GetNext();
   public: Boolean AtEnd();
   public: Boolean Advance(Int32 count);
@@ -41,6 +43,8 @@ struct __DTString {
   public: void RemoveLeadingInQuoteSpaces();
   public: DTSubString GetSubString();
   public: void ConsumeSubString(DTSubString sub);
+  private: static void SCtor();
+  public: void Ctor();
   public: ReadOnlySpan<Char> Value;
   public: Int32 Index;
   public: Char m_current;

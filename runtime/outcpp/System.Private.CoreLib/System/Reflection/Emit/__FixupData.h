@@ -7,6 +7,7 @@
 namespace System::Private::CoreLib::System::Reflection::Emit {
 namespace __FixupDataNamespace {
 struct __FixupData {
+  public: void Ctor();
   public: Label m_fixupLabel;
   public: Int32 m_fixupPos;
   public: Int32 m_fixupInstSize;

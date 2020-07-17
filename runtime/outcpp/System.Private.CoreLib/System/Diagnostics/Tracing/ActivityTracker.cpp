@@ -7,6 +7,9 @@ Guid ActivityTracker___::ActivityInfo___::get_ActivityId() {
   return Guid();
 };
 
+void ActivityTracker___::ActivityInfo___::Ctor(String name, Int64 uniqueId, ActivityInfo creator, Guid activityIDToRestore, EventActivityOptions options) {
+};
+
 String ActivityTracker___::ActivityInfo___::Path(ActivityInfo activityInfo) {
   return nullptr;
 };
@@ -58,6 +61,12 @@ String ActivityTracker___::NormalizeActivityName(String providerName, String act
 };
 
 void ActivityTracker___::ActivityChanging(AsyncLocalValueChangedArgs<ActivityInfo> args) {
+};
+
+void ActivityTracker___::Ctor() {
+};
+
+void ActivityTracker___::SCtor() {
 };
 
 } // namespace System::Private::CoreLib::System::Diagnostics::Tracing::ActivityTrackerNamespace

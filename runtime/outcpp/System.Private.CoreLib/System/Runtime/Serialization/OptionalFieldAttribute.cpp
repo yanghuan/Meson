@@ -8,4 +8,7 @@ Int32 OptionalFieldAttribute___::get_VersionAdded() {
 void OptionalFieldAttribute___::set_VersionAdded(Int32 value) {
 };
 
+void OptionalFieldAttribute___::Ctor() {
+};
+
 } // namespace System::Private::CoreLib::System::Runtime::Serialization::OptionalFieldAttributeNamespace

@@ -13,6 +13,7 @@ FORWARD(LoaderAllocatorScout)
 FORWARD(RuntimeMethodInfo)
 namespace LoaderAllocatorNamespace {
 CLASS(LoaderAllocator) {
+  private: void Ctor();
   private: LoaderAllocatorScout m_scout;
   private: Array<Object> m_slots;
   public: CerHashtable<RuntimeMethodInfo, RuntimeMethodInfo> m_methodInstantiations;

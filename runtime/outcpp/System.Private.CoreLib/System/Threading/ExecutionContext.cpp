@@ -11,6 +11,12 @@ Boolean ExecutionContext___::get_IsDefault() {
   return Boolean();
 };
 
+void ExecutionContext___::Ctor(Boolean isDefault) {
+};
+
+void ExecutionContext___::Ctor(IAsyncLocalValueMap localValues, Array<IAsyncLocal> localChangeNotifications, Boolean isFlowSuppressed) {
+};
+
 void ExecutionContext___::GetObjectData(SerializationInfo info, StreamingContext context) {
 };
 
@@ -66,6 +72,9 @@ ExecutionContext ExecutionContext___::CreateCopy() {
 };
 
 void ExecutionContext___::Dispose() {
+};
+
+void ExecutionContext___::SCtor() {
 };
 
 } // namespace System::Private::CoreLib::System::Threading::ExecutionContextNamespace

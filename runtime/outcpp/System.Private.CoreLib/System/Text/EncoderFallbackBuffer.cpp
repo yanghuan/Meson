@@ -51,4 +51,7 @@ Boolean EncoderFallbackBuffer___::InternalFallback(Char ch, Char*& chars) {
 void EncoderFallbackBuffer___::ThrowLastCharRecursive(Int32 charRecursive) {
 };
 
+void EncoderFallbackBuffer___::Ctor() {
+};
+
 } // namespace System::Private::CoreLib::System::Text::EncoderFallbackBufferNamespace

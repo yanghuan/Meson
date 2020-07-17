@@ -26,18 +26,23 @@ using namespace Collections::Generic;
 using namespace Text;
 CLASS(CalendarData) {
   private: struct IcuEnumCalendarsData {
+    public: void Ctor();
     public: List<String> Results;
     public: Boolean DisallowDuplicates;
   };
   private: struct EnumData {
+    public: void Ctor();
     public: String userOverride;
     public: List<String> strings;
   };
   public: struct NlsEnumCalendarsData {
+    public: void Ctor();
     public: Int32 userOverride;
     public: List<Int32> calendars;
   };
+  private: void Ctor();
   private: static CalendarData CreateInvariant();
+  public: void Ctor(String localeName, CalendarId calendarId, Boolean bUseUserOverrides);
   private: void InitializeEraNames(String localeName, CalendarId calendarId);
   private: void InitializeAbbreviatedEraNames(String localeName, CalendarId calendarId);
   public: static CalendarData GetCalendarData(CalendarId calendarId);
@@ -71,6 +76,7 @@ CLASS(CalendarData) {
   private: static Boolean GetCalendarMonthInfo(String localeName, CalendarId calendar, UInt32 calType, Array<String>& outputStrings);
   private: static Interop::BOOL EnumCalendarsCallback(Char* lpCalendarInfoString, UInt32 calendar, IntPtr reserved, void* lParam);
   private: static String GetUserDefaultLocaleName();
+  private: static void SCtor();
   public: String sNativeName;
   public: Array<String> saShortDates;
   public: Array<String> saYearMonths;

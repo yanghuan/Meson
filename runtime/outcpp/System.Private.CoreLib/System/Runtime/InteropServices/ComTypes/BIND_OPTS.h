@@ -6,6 +6,7 @@
 namespace System::Private::CoreLib::System::Runtime::InteropServices::ComTypes {
 namespace BIND_OPTSNamespace {
 struct BIND_OPTS {
+  public: void Ctor();
   public: Int32 cbStruct;
   public: Int32 grfFlags;
   public: Int32 grfMode;

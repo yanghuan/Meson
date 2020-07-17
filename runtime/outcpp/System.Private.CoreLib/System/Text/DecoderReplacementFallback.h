@@ -14,6 +14,8 @@ namespace DecoderReplacementFallbackNamespace {
 CLASS(DecoderReplacementFallback) {
   public: String get_DefaultString();
   public: Int32 get_MaxCharCount();
+  public: void Ctor();
+  public: void Ctor(String replacement);
   public: DecoderFallbackBuffer CreateFallbackBuffer();
   public: Boolean Equals(Object value);
   public: Int32 GetHashCode();

@@ -5,6 +5,7 @@
 namespace System::Private::Uri::System {
 namespace HttpStyleUriParserNamespace {
 CLASS(HttpStyleUriParser) {
+  public: void Ctor();
 };
 } // namespace HttpStyleUriParserNamespace
 using HttpStyleUriParser = HttpStyleUriParserNamespace::HttpStyleUriParser;

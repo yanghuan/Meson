@@ -3,16 +3,34 @@
 #include <System.Private.CoreLib/System/Threading/CancellationTokenSource-dep.h>
 
 namespace System::Private::CoreLib::System::Threading::CancellationTokenSourceNamespace {
+void CancellationTokenSource___::CallbackNode___::Ctor(CallbackPartition partition) {
+};
+
 void CancellationTokenSource___::CallbackNode___::ExecuteCallback() {
+};
+
+void CancellationTokenSource___::Linked1CancellationTokenSource___::Ctor(CancellationToken token1) {
 };
 
 void CancellationTokenSource___::Linked1CancellationTokenSource___::Dispose(Boolean disposing) {
 };
 
+void CancellationTokenSource___::Linked2CancellationTokenSource___::Ctor(CancellationToken token1, CancellationToken token2) {
+};
+
 void CancellationTokenSource___::Linked2CancellationTokenSource___::Dispose(Boolean disposing) {
 };
 
+void CancellationTokenSource___::LinkedNCancellationTokenSource___::Ctor(Array<CancellationToken> tokens) {
+};
+
 void CancellationTokenSource___::LinkedNCancellationTokenSource___::Dispose(Boolean disposing) {
+};
+
+void CancellationTokenSource___::LinkedNCancellationTokenSource___::SCtor() {
+};
+
+void CancellationTokenSource___::CallbackPartition___::Ctor(CancellationTokenSource source) {
 };
 
 Boolean CancellationTokenSource___::CallbackPartition___::Unregister(Int64 id, CallbackNode node) {
@@ -44,6 +62,15 @@ WaitHandle CancellationTokenSource___::get_WaitHandle() {
 
 Int64 CancellationTokenSource___::get_ExecutingCallback() {
   return Int64();
+};
+
+void CancellationTokenSource___::Ctor() {
+};
+
+void CancellationTokenSource___::Ctor(TimeSpan delay) {
+};
+
+void CancellationTokenSource___::Ctor(Int32 millisecondsDelay) {
 };
 
 void CancellationTokenSource___::InitializeWithTimer(Int32 millisecondsDelay) {
@@ -104,6 +131,9 @@ void CancellationTokenSource___::WaitForCallbackToComplete(Int64 id) {
 
 ValueTask<> CancellationTokenSource___::WaitForCallbackToCompleteAsync(Int64 id) {
   return ValueTask<>();
+};
+
+void CancellationTokenSource___::SCtor() {
 };
 
 } // namespace System::Private::CoreLib::System::Threading::CancellationTokenSourceNamespace

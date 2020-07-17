@@ -18,6 +18,7 @@ CLASS(ExceptionHandlingClause) {
   public: Int32 get_HandlerLength();
   public: Int32 get_FilterOffset();
   public: Type get_CatchType();
+  protected: void Ctor();
   public: String ToString();
 };
 } // namespace ExceptionHandlingClauseNamespace

@@ -9,6 +9,7 @@ namespace System::Private::CoreLib::System::Resources {
 namespace SatelliteContractVersionAttributeNamespace {
 CLASS(SatelliteContractVersionAttribute) {
   public: String get_Version() { return Version; }
+  public: void Ctor(String version);
   private: String Version;
 };
 } // namespace SatelliteContractVersionAttributeNamespace

@@ -10,8 +10,10 @@ FORWARDS(Single)
 FORWARD(String)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Diagnostics::Tracing {
+FORWARD(EventSource)
 namespace PollingCounterNamespace {
 CLASS(PollingCounter) {
+  public: void Ctor(String name, EventSource eventSource, Func<Double> metricProvider);
   public: String ToString();
   public: void WritePayload(Single intervalSec, Int32 pollingIntervalMillisec);
   private: Func<Double> _metricProvider;

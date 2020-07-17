@@ -7,9 +7,11 @@ namespace System::Private::CoreLib::System {
 FORWARD(String)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Reflection::Emit {
+FORWARD(ModuleBuilder)
 FORWARD(TypeBuilder)
 namespace ModuleBuilderDataNamespace {
 CLASS(ModuleBuilderData) {
+  public: void Ctor(ModuleBuilder module, String moduleName);
   public: TypeBuilder _globalTypeBuilder;
   public: String _moduleName;
   public: Boolean _hasGlobalBeenCreated;

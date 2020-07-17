@@ -6,17 +6,47 @@
 
 namespace System::Private::CoreLib::System {
 FORWARD_(Array, T1, T2)
+FORWARDS(Boolean)
+FORWARDS(Byte)
+FORWARDS(Char)
+FORWARDS(DateTime)
+FORWARDS(Decimal)
+FORWARDS(Double)
+FORWARDS(Int16)
 FORWARD(Object)
+FORWARDS(SByte)
+FORWARDS(Single)
 FORWARD(Type)
+FORWARDS(UInt16)
+FORWARDS(UInt32)
+FORWARDS(UInt64)
 namespace VariantNamespace {
 struct Variant {
   public: Int32 get_CVType();
   public: void SetFieldsObject(Object val);
+  public: void Ctor(Int32 flags, Object or_, Int64 data);
+  public: void Ctor(Boolean val);
+  public: void Ctor(SByte val);
+  public: void Ctor(Byte val);
+  public: void Ctor(Int16 val);
+  public: void Ctor(UInt16 val);
+  public: void Ctor(Char val);
+  public: void Ctor(Int32 val);
+  public: void Ctor(UInt32 val);
+  public: void Ctor(Int64 val);
+  public: void Ctor(UInt64 val);
+  public: void Ctor(Single val);
+  public: void Ctor(Double val);
+  public: void Ctor(DateTime val);
+  public: void Ctor(Decimal val);
+  public: void Ctor(Object obj);
   public: Object ToObject();
   private: Object BoxEnum();
   public: static void MarshalHelperConvertObjectToVariant(Object o, Variant& v);
   public: static Object MarshalHelperConvertVariantToObject(Variant& v);
   public: static void MarshalHelperCastVariant(Object pValue, Int32 vt, Variant& v);
+  private: static void SCtor();
+  public: void Ctor();
   private: Object _objref;
   private: Int64 _data;
   private: Int32 _flags;

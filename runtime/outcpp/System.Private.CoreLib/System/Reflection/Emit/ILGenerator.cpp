@@ -13,6 +13,12 @@ Int32 ILGenerator___::get_ILOffset() {
   return Int32();
 };
 
+void ILGenerator___::Ctor(MethodInfo methodBuilder) {
+};
+
+void ILGenerator___::Ctor(MethodInfo methodBuilder, Int32 size) {
+};
+
 void ILGenerator___::RecordTokenFixup() {
 };
 

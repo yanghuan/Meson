@@ -3,6 +3,14 @@
 #include <rt/GCObject.h>
 #include <System.Private.CoreLib/System/Int32.h>
 
+namespace System::Private::CoreLib::System {
+FORWARD_(Array, T1, T2)
+FORWARDS(Boolean)
+FORWARDS(Byte)
+FORWARD(RuntimeType)
+FORWARD(String)
+FORWARD(Type)
+} // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Reflection {
 enum class CallingConventions;
 FORWARD(ConstructorInfo)
@@ -14,14 +22,6 @@ FORWARD(RuntimeFieldInfo)
 FORWARD(RuntimeMethodInfo)
 FORWARD(RuntimeModule)
 } // namespace System::Private::CoreLib::System::Reflection
-namespace System::Private::CoreLib::System {
-FORWARD_(Array, T1, T2)
-FORWARDS(Boolean)
-FORWARDS(Byte)
-FORWARD(RuntimeType)
-FORWARD(String)
-FORWARD(Type)
-} // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Runtime::InteropServices {
 enum class CallingConvention;
 } // namespace System::Private::CoreLib::System::Runtime::InteropServices
@@ -38,6 +38,7 @@ namespace DynamicILGeneratorNamespace {
 using namespace Diagnostics::SymbolStore;
 using namespace Runtime::InteropServices;
 CLASS(DynamicILGenerator) {
+  public: void Ctor(DynamicMethod method, Array<Byte> methodSignature, Int32 size);
   public: void GetCallableMethod(RuntimeModule module, DynamicMethod dm);
   public: LocalBuilder DeclareLocal(Type localType, Boolean pinned);
   public: void Emit(OpCode opcode, MethodInfo meth);

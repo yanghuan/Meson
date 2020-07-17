@@ -5,6 +5,7 @@
 namespace System::Private::CoreLib::System {
 namespace SerializableAttributeNamespace {
 CLASS(SerializableAttribute) {
+  public: void Ctor();
 };
 } // namespace SerializableAttributeNamespace
 using SerializableAttribute = SerializableAttributeNamespace::SerializableAttribute;

@@ -9,6 +9,7 @@ FORWARD(Object)
 namespace RuntimeFieldInfoStubNamespace {
 CLASS(RuntimeFieldInfoStub) {
   private: RuntimeFieldHandleInternal get_ValueOfIRuntimeFieldInfo();
+  public: void Ctor();
   private: Object m_keepalive;
   private: Object m_c;
   private: Object m_d;

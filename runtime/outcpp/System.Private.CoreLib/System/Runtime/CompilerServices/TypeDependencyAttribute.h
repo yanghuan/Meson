@@ -8,6 +8,7 @@ FORWARD(String)
 namespace System::Private::CoreLib::System::Runtime::CompilerServices {
 namespace TypeDependencyAttributeNamespace {
 CLASS(TypeDependencyAttribute) {
+  public: void Ctor(String typeName);
   private: String typeName;
 };
 } // namespace TypeDependencyAttributeNamespace

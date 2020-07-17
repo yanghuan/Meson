@@ -1,6 +1,9 @@
 #include "ScalarTypeInfo-dep.h"
 
 namespace System::Private::CoreLib::System::Diagnostics::Tracing::ScalarTypeInfoNamespace {
+void ScalarTypeInfo___::Ctor(Type type, Func<EventFieldFormat, TraceLoggingDataType, TraceLoggingDataType> formatFunc, TraceLoggingDataType nativeFormat) {
+};
+
 void ScalarTypeInfo___::WriteMetadata(TraceLoggingMetadataCollector collector, String name, EventFieldFormat format) {
 };
 

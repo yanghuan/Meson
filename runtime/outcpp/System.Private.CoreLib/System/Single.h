@@ -59,6 +59,7 @@ struct Single : public rt::PrimitiveType<Single> {
   public: static Boolean TryParse(ReadOnlySpan<Char> s, NumberStyles style, IFormatProvider provider, Single& result);
   private: static Boolean TryParse(ReadOnlySpan<Char> s, NumberStyles style, NumberFormatInfo info, Single& result);
   public: TypeCode GetTypeCode();
+  public: void Ctor();
   private: float m_value;
   public: static constexpr float MinValue = -3.4028235E+38;
   public: static constexpr float Epsilon = 1E-45;

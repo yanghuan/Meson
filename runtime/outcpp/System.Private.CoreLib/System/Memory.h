@@ -5,6 +5,7 @@
 
 namespace System::Private::CoreLib::System::Buffers {
 FORWARDS(MemoryHandle)
+FORWARD(MemoryManager, T)
 } // namespace System::Private::CoreLib::System::Buffers
 namespace System::Private::CoreLib::System {
 FORWARD_(Array, T1, T2)
@@ -22,6 +23,12 @@ struct Memory {
   public: Int32 get_Length();
   public: Boolean get_IsEmpty();
   public: Span<T> get_Span();
+  public: void Ctor(Array<T> array);
+  public: void Ctor(Array<T> array, Int32 start);
+  public: void Ctor(Array<T> array, Int32 start, Int32 length);
+  public: void Ctor(MemoryManager<T> manager, Int32 length);
+  public: void Ctor(MemoryManager<T> manager, Int32 start, Int32 length);
+  public: void Ctor(Object obj, Int32 start, Int32 length);
   public: static Memory<T> op_Implicit(Array<T> array);
   public: static Memory<T> op_Implicit(ArraySegment<T> segment);
   public: static ReadOnlyMemory<T> op_Implicit(Memory<T> memory);
@@ -35,6 +42,7 @@ struct Memory {
   public: Boolean Equals(Object obj);
   public: Boolean Equals(Memory<T> other);
   public: Int32 GetHashCode();
+  public: void Ctor();
   private: Object _object;
   private: Int32 _index;
   private: Int32 _length;

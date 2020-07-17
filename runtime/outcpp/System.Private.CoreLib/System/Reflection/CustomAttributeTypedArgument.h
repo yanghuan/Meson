@@ -13,6 +13,7 @@ FORWARD(Type)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Reflection {
 enum class CustomAttributeEncoding;
+FORWARDS(CustomAttributeEncodedArgument)
 FORWARD(RuntimeModule)
 namespace CustomAttributeTypedArgumentNamespace {
 struct CustomAttributeTypedArgument {
@@ -22,12 +23,16 @@ struct CustomAttributeTypedArgument {
   private: static Object EncodedValueToRawValue(Int64 val, CustomAttributeEncoding encodedType);
   private: static RuntimeType ResolveType(RuntimeModule scope, String typeName);
   private: static Object CanonicalizeValue(Object value);
+  public: void Ctor(RuntimeModule scope, CustomAttributeEncodedArgument encodedArg);
   public: static Boolean op_Equality(CustomAttributeTypedArgument left, CustomAttributeTypedArgument right);
   public: static Boolean op_Inequality(CustomAttributeTypedArgument left, CustomAttributeTypedArgument right);
+  public: void Ctor(Type argumentType, Object value);
+  public: void Ctor(Object value);
   public: String ToString();
   public: String ToString(Boolean typed);
   public: Int32 GetHashCode();
   public: Boolean Equals(Object obj);
+  public: void Ctor();
   private: Object m_value;
   private: Type m_argumentType;
 };

@@ -16,6 +16,9 @@ FORWARDS(Quaternion)
 FORWARDS(Vector4)
 namespace PlaneNamespace {
 struct Plane {
+  public: void Ctor(Single x, Single y, Single z, Single d);
+  public: void Ctor(Vector3 normal, Single d);
+  public: void Ctor(Vector4 value);
   public: static Plane CreateFromVertices(Vector3 point1, Vector3 point2, Vector3 point3);
   public: static Plane Normalize(Plane value);
   public: static Plane Transform(Plane plane, Matrix4x4 matrix);
@@ -29,6 +32,7 @@ struct Plane {
   public: Boolean Equals(Object obj);
   public: String ToString();
   public: Int32 GetHashCode();
+  public: void Ctor();
   public: Vector3 Normal;
   public: Single D;
 };

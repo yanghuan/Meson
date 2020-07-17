@@ -9,6 +9,9 @@ AggregateException UnobservedTaskExceptionEventArgs___::get_Exception() {
   return nullptr;
 };
 
+void UnobservedTaskExceptionEventArgs___::Ctor(AggregateException exception) {
+};
+
 void UnobservedTaskExceptionEventArgs___::SetObserved() {
 };
 

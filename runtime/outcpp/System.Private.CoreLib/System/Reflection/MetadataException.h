@@ -9,6 +9,7 @@ FORWARD(String)
 namespace System::Private::CoreLib::System::Reflection {
 namespace MetadataExceptionNamespace {
 CLASS(MetadataException) {
+  public: void Ctor(Int32 hr);
   public: String ToString();
   private: Int32 m_hr;
 };

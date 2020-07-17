@@ -18,6 +18,7 @@ using namespace Collections::Generic;
 using Collections::Generic::IEnumerator;
 CLASS(SingleProducerSingleConsumerQueue, T) {
   private: struct SegmentState {
+    public: void Ctor();
     public: PaddingFor32 m_pad0;
     public: Int32 m_first;
     public: Int32 m_lastCopy;
@@ -27,15 +28,18 @@ CLASS(SingleProducerSingleConsumerQueue, T) {
     public: PaddingFor32 m_pad2;
   };
   private: CLASS(Segment) {
+    public: void Ctor(Int32 size);
     public: Segment m_next;
     public: Array<T> m_array;
     public: SegmentState m_state;
   };
   private: CLASS(SingleProducerSingleConsumerQueue_DebugView) {
+    public: void Ctor(SingleProducerSingleConsumerQueue<T> queue);
     private: SingleProducerSingleConsumerQueue<T> m_queue;
   };
   public: Boolean get_IsEmpty();
   public: Int32 get_Count();
+  public: void Ctor();
   public: void Enqueue(T item);
   private: void EnqueueSlow(T item, Segment& segment);
   public: Boolean TryDequeue(T& result);

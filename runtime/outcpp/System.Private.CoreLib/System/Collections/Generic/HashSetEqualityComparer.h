@@ -15,6 +15,7 @@ CLASS(HashSetEqualityComparer, T) {
   public: Int32 GetHashCode(HashSet<T> obj);
   public: Boolean Equals(Object obj);
   public: Int32 GetHashCode();
+  public: void Ctor();
 };
 } // namespace HashSetEqualityComparerNamespace
 template <class T>

@@ -17,6 +17,12 @@ CLASS(DebuggerVisualizerAttribute) {
   public: void set_Target(Type value);
   public: String get_TargetTypeName() { return TargetTypeName; }
   public: void set_TargetTypeName(String value) { TargetTypeName = value; }
+  public: void Ctor(String visualizerTypeName);
+  public: void Ctor(String visualizerTypeName, String visualizerObjectSourceTypeName);
+  public: void Ctor(String visualizerTypeName, Type visualizerObjectSource);
+  public: void Ctor(Type visualizer);
+  public: void Ctor(Type visualizer, Type visualizerObjectSource);
+  public: void Ctor(Type visualizer, String visualizerObjectSourceTypeName);
   private: Type _target;
   private: String VisualizerObjectSourceTypeName;
   private: String VisualizerTypeName;

@@ -11,9 +11,11 @@ FORWARDS(Char)
 FORWARD(String)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Text {
+FORWARD(DecoderReplacementFallback)
 namespace DecoderReplacementFallbackBufferNamespace {
 CLASS(DecoderReplacementFallbackBuffer) {
   public: Int32 get_Remaining();
+  public: void Ctor(DecoderReplacementFallback fallback);
   public: Boolean Fallback(Array<Byte> bytesUnknown, Int32 index);
   public: Char GetNextChar();
   public: Boolean MovePrevious();

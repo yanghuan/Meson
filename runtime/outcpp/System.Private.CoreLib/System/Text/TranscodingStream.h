@@ -17,6 +17,10 @@ FORWARDS(ReadOnlyMemory, T)
 FORWARDS(ReadOnlySpan, T)
 FORWARDS(Span, T)
 } // namespace System::Private::CoreLib::System
+namespace System::Private::CoreLib::System::IO {
+enum class SeekOrigin;
+FORWARD(Stream)
+} // namespace System::Private::CoreLib::System::IO
 namespace System::Private::CoreLib::System::Threading::Tasks {
 FORWARD_(Task, T1, T2)
 FORWARDS_(ValueTask, T1, T2)
@@ -24,10 +28,6 @@ FORWARDS_(ValueTask, T1, T2)
 namespace System::Private::CoreLib::System::Threading {
 FORWARDS(CancellationToken)
 } // namespace System::Private::CoreLib::System::Threading
-namespace System::Private::CoreLib::System::IO {
-enum class SeekOrigin;
-FORWARD(Stream)
-} // namespace System::Private::CoreLib::System::IO
 namespace System::Private::CoreLib::System::Text {
 FORWARD(Decoder)
 FORWARD(Encoder)
@@ -43,6 +43,7 @@ CLASS(TranscodingStream) {
   public: Int64 get_Length();
   public: Int64 get_Position();
   public: void set_Position(Int64 value);
+  public: void Ctor(Stream innerStream, Encoding innerEncoding, Encoding thisEncoding, Boolean leaveOpen);
   public: IAsyncResult BeginRead(Array<Byte> buffer, Int32 offset, Int32 count, AsyncCallback callback, Object state);
   public: IAsyncResult BeginWrite(Array<Byte> buffer, Int32 offset, Int32 count, AsyncCallback callback, Object state);
   protected: void Dispose(Boolean disposing);

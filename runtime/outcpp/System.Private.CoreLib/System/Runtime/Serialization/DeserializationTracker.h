@@ -8,6 +8,7 @@ namespace DeserializationTrackerNamespace {
 CLASS(DeserializationTracker) {
   public: Boolean get_DeserializationInProgress() { return DeserializationInProgress; }
   public: void set_DeserializationInProgress(Boolean value) { DeserializationInProgress = value; }
+  public: void Ctor();
   private: Boolean DeserializationInProgress;
 };
 } // namespace DeserializationTrackerNamespace

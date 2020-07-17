@@ -10,8 +10,10 @@ FORWARDS(Single)
 FORWARD(String)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Diagnostics::Tracing {
+FORWARD(EventSource)
 namespace EventCounterNamespace {
 CLASS(EventCounter) {
+  public: void Ctor(String name, EventSource eventSource);
   public: void WriteMetric(Single value);
   public: void WriteMetric(Double value);
   public: String ToString();

@@ -1,6 +1,9 @@
 #include "EventToken-dep.h"
 
 namespace System::Private::CoreLib::System::Reflection::Emit::EventTokenNamespace {
+void EventToken::Ctor(Int32 eventToken) {
+};
+
 Int32 EventToken::GetHashCode() {
   return Int32();
 };

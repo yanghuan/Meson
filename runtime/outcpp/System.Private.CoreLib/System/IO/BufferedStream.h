@@ -41,6 +41,8 @@ CLASS(BufferedStream) {
   public: Int64 get_Position();
   public: void set_Position(Int64 value);
   public: SemaphoreSlim LazyEnsureAsyncActiveSemaphoreInitialized();
+  public: void Ctor(Stream stream);
+  public: void Ctor(Stream stream, Int32 bufferSize);
   private: void EnsureNotClosed();
   private: void EnsureCanSeek();
   private: void EnsureCanRead();

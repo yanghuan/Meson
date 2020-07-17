@@ -17,6 +17,9 @@ String ConsoleEncoding___::get_WebName() {
   return nullptr;
 };
 
+void ConsoleEncoding___::Ctor(Encoding encoding) {
+};
+
 Array<Byte> ConsoleEncoding___::GetPreamble() {
   return Array<Byte>();
 };

@@ -19,6 +19,12 @@ Object PermissionSet___::get_SyncRoot() {
   return nullptr;
 };
 
+void PermissionSet___::Ctor(PermissionState state) {
+};
+
+void PermissionSet___::Ctor(PermissionSet permSet) {
+};
+
 IPermission PermissionSet___::AddPermission(IPermission perm) {
   return nullptr;
 };

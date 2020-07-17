@@ -10,10 +10,12 @@ FORWARD(Object)
 namespace System::Private::CoreLib::System::Diagnostics::SymbolStore {
 namespace SymbolTokenNamespace {
 struct SymbolToken {
+  public: void Ctor(Int32 val);
   public: Int32 GetToken();
   public: Int32 GetHashCode();
   public: Boolean Equals(Object obj);
   public: Boolean Equals(SymbolToken obj);
+  public: void Ctor();
   public: Int32 m_token;
 };
 } // namespace SymbolTokenNamespace

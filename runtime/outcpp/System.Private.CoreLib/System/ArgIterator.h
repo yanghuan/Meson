@@ -7,11 +7,16 @@
 namespace System::Private::CoreLib::System {
 FORWARDS(Boolean)
 FORWARD(Object)
+FORWARDS(RuntimeArgumentHandle)
 FORWARD(RuntimeType)
 FORWARDS(RuntimeTypeHandle)
 FORWARDS(TypedReference)
 namespace ArgIteratorNamespace {
 struct ArgIterator {
+  private: void Ctor(IntPtr arglist);
+  public: void Ctor(RuntimeArgumentHandle arglist);
+  private: void Ctor(IntPtr arglist, void* ptr);
+  public: void Ctor(RuntimeArgumentHandle arglist, void* ptr);
   public: TypedReference GetNextArg();
   private: void FCallGetNextArg(void* result);
   public: TypedReference GetNextArg(RuntimeTypeHandle rth);
@@ -22,6 +27,7 @@ struct ArgIterator {
   public: RuntimeTypeHandle GetNextArgType();
   public: Int32 GetHashCode();
   public: Boolean Equals(Object o);
+  public: void Ctor();
   private: IntPtr ArgCookie;
   private: IntPtr sigPtr;
   private: IntPtr sigPtrLen;

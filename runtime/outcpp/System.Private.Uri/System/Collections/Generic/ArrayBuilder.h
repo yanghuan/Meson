@@ -16,6 +16,7 @@ struct ArrayBuilder {
   public: Array<T> ToArray();
   public: void UncheckedAdd(T item);
   private: void EnsureCapacity(Int32 minimum);
+  public: void Ctor();
   private: Array<T> _array;
   private: Int32 _count;
 };

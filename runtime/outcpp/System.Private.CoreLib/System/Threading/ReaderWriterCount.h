@@ -7,6 +7,7 @@
 namespace System::Private::CoreLib::System::Threading {
 namespace ReaderWriterCountNamespace {
 CLASS(ReaderWriterCount) {
+  public: void Ctor();
   public: Int64 lockID;
   public: Int32 readercount;
   public: Int32 writercount;

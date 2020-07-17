@@ -11,6 +11,7 @@ namespace UnobservedTaskExceptionEventArgsNamespace {
 CLASS(UnobservedTaskExceptionEventArgs) {
   public: Boolean get_Observed();
   public: AggregateException get_Exception();
+  public: void Ctor(AggregateException exception);
   public: void SetObserved();
   private: AggregateException m_exception;
   public: Boolean m_observed;

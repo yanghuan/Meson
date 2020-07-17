@@ -12,6 +12,7 @@ enum class CharSet;
 namespace DllImportAttributeNamespace {
 CLASS(DllImportAttribute) {
   public: String get_Value() { return Value; }
+  public: void Ctor(String dllName);
   private: String Value;
   public: String EntryPoint;
   public: CharSet CharSet;

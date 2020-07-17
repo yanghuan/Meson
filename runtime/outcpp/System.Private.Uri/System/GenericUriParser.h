@@ -7,6 +7,7 @@ enum class GenericUriParserOptions;
 enum class UriSyntaxFlags;
 namespace GenericUriParserNamespace {
 CLASS(GenericUriParser) {
+  public: void Ctor(GenericUriParserOptions options);
   private: static UriSyntaxFlags MapGenericParserOptions(GenericUriParserOptions options);
 };
 } // namespace GenericUriParserNamespace

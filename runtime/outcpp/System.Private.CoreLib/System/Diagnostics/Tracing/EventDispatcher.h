@@ -10,6 +10,7 @@ namespace System::Private::CoreLib::System::Diagnostics::Tracing {
 FORWARD(EventListener)
 namespace EventDispatcherNamespace {
 CLASS(EventDispatcher) {
+  public: void Ctor(EventDispatcher next, Array<Boolean> eventEnabled, EventListener listener);
   public: EventListener m_Listener;
   public: Array<Boolean> m_EventEnabled;
   public: EventDispatcher m_Next;

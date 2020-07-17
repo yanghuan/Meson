@@ -100,6 +100,7 @@ CLASS(Uri) {
     FoundNonAscii = 8,
   };
   private: struct Offset {
+    public: void Ctor();
     public: UInt16 Scheme;
     public: UInt16 User;
     public: UInt16 Host;
@@ -110,6 +111,7 @@ CLASS(Uri) {
     public: UInt16 End;
   };
   private: CLASS(MoreInfo) {
+    public: void Ctor();
     public: String Path;
     public: String Query;
     public: String Fragment;
@@ -118,6 +120,7 @@ CLASS(Uri) {
   };
   private: CLASS(UriInfo) {
     public: MoreInfo get_MoreInfo();
+    public: void Ctor();
     public: Offset Offset;
     public: String String;
     public: ::System::Private::CoreLib::System::String Host;
@@ -169,8 +172,15 @@ CLASS(Uri) {
   private: UriInfo EnsureUriInfo();
   private: void EnsureParseRemaining();
   private: void EnsureHostString(Boolean allowDnsOptimization);
+  public: void Ctor(String uriString);
+  public: void Ctor(String uriString, Boolean dontEscape);
+  public: void Ctor(Uri baseUri, String relativeUri, Boolean dontEscape);
+  public: void Ctor(String uriString, UriKind uriKind);
+  public: void Ctor(Uri baseUri, String relativeUri);
+  protected: void Ctor(SerializationInfo serializationInfo, StreamingContext streamingContext);
   protected: void GetObjectData(SerializationInfo serializationInfo, StreamingContext streamingContext);
   private: void CreateUri(Uri baseUri, String relativeUri, Boolean dontEscape);
+  public: void Ctor(Uri baseUri, Uri relativeUri);
   private: static void GetCombinedString(Uri baseUri, String relativeStr, Boolean dontEscape, String& result);
   private: static UriFormatException GetException(ParsingError err);
   private: static Boolean StaticIsFile(UriParser syntax);
@@ -240,6 +250,7 @@ CLASS(Uri) {
   public: static String EscapeUriString(String stringToEscape);
   public: static String EscapeDataString(String stringToEscape);
   public: String EscapeUnescapeIri(String input, Int32 start, Int32 end, UriComponents component);
+  private: void Ctor(Flags flags, UriParser uriParser, String uri);
   public: static Uri CreateHelper(String uriString, Boolean dontEscape, UriKind uriKind, UriFormatException& e);
   public: static Uri ResolveHelper(Uri baseUri, Uri relativeUri, String& newUriString, Boolean& userEscaped);
   private: String GetRelativeSerializationString(UriFormat format);
@@ -247,6 +258,7 @@ CLASS(Uri) {
   public: Boolean IsBaseOf(Uri uri);
   public: Boolean IsBaseOfHelper(Uri uriLink);
   private: void CreateThisFromUri(Uri otherUri);
+  private: static void SCtor();
   public: static String UriSchemeFile;
   public: static String UriSchemeFtp;
   public: static String UriSchemeGopher;

@@ -114,4 +114,7 @@ Array<Object> CustomAttribute::CreateAttributeArrayHelper(RuntimeType elementTyp
   return Array<Object>();
 };
 
+void CustomAttribute::SCtor() {
+};
+
 } // namespace System::Private::CoreLib::System::Reflection::CustomAttributeNamespace

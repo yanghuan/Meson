@@ -44,6 +44,12 @@ Boolean ConstructorBuilder___::get_InitLocals() {
 void ConstructorBuilder___::set_InitLocals(Boolean value) {
 };
 
+void ConstructorBuilder___::Ctor(String name, MethodAttributes attributes, CallingConventions callingConvention, Array<Type> parameterTypes, Array<Array<Type>> requiredCustomModifiers, Array<Array<Type>> optionalCustomModifiers, ModuleBuilder mod, TypeBuilder type) {
+};
+
+void ConstructorBuilder___::Ctor(String name, MethodAttributes attributes, CallingConventions callingConvention, Array<Type> parameterTypes, ModuleBuilder mod, TypeBuilder type) {
+};
+
 Array<Type> ConstructorBuilder___::GetParameterTypes() {
   return Array<Type>();
 };

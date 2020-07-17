@@ -3,6 +3,9 @@
 #include <System.Private.CoreLib/System/Security/SecureString-dep.h>
 
 namespace System::Private::CoreLib::System::Security::SecureStringNamespace {
+void SecureString___::UnmanagedBuffer___::Ctor() {
+};
+
 SecureString::in::UnmanagedBuffer SecureString___::UnmanagedBuffer___::Allocate(Int32 byteLength) {
   return nullptr;
 };
@@ -18,7 +21,16 @@ Int32 SecureString___::get_Length() {
   return Int32();
 };
 
+void SecureString___::Ctor() {
+};
+
+void SecureString___::Ctor(Char* value, Int32 length) {
+};
+
 void SecureString___::Initialize(ReadOnlySpan<Char> value) {
+};
+
+void SecureString___::Ctor(SecureString str) {
 };
 
 void SecureString___::EnsureCapacity(Int32 capacity) {

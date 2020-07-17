@@ -33,6 +33,9 @@ FieldAttributes FieldBuilder___::get_Attributes() {
   return FieldAttributes::ReservedMask;
 };
 
+void FieldBuilder___::Ctor(TypeBuilder typeBuilder, String fieldName, Type type, Array<Type> requiredCustomModifiers, Array<Type> optionalCustomModifiers, FieldAttributes attributes) {
+};
+
 void FieldBuilder___::SetData(Array<Byte> data, Int32 size) {
 };
 

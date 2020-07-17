@@ -21,6 +21,33 @@ String CultureNotFoundException___::get_Message() {
   return nullptr;
 };
 
+void CultureNotFoundException___::Ctor() {
+};
+
+void CultureNotFoundException___::Ctor(String message) {
+};
+
+void CultureNotFoundException___::Ctor(String paramName, String message) {
+};
+
+void CultureNotFoundException___::Ctor(String message, Exception innerException) {
+};
+
+void CultureNotFoundException___::Ctor(String paramName, String invalidCultureName, String message) {
+};
+
+void CultureNotFoundException___::Ctor(String message, String invalidCultureName, Exception innerException) {
+};
+
+void CultureNotFoundException___::Ctor(String message, Int32 invalidCultureId, Exception innerException) {
+};
+
+void CultureNotFoundException___::Ctor(String paramName, Int32 invalidCultureId, String message) {
+};
+
+void CultureNotFoundException___::Ctor(SerializationInfo info, StreamingContext context) {
+};
+
 void CultureNotFoundException___::GetObjectData(SerializationInfo info, StreamingContext context) {
 };
 

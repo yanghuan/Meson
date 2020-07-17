@@ -9,6 +9,7 @@ namespace System::Private::CoreLib::System::Reflection {
 namespace AssemblyInformationalVersionAttributeNamespace {
 CLASS(AssemblyInformationalVersionAttribute) {
   public: String get_InformationalVersion() { return InformationalVersion; }
+  public: void Ctor(String informationalVersion);
   private: String InformationalVersion;
 };
 } // namespace AssemblyInformationalVersionAttributeNamespace

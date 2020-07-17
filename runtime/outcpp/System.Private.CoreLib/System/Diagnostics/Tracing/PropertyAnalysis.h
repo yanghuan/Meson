@@ -16,6 +16,7 @@ FORWARD(TraceLoggingTypeInfo)
 namespace PropertyAnalysisNamespace {
 using namespace Reflection;
 CLASS(PropertyAnalysis) {
+  public: void Ctor(String name, PropertyInfo propertyInfo, TraceLoggingTypeInfo typeInfo, EventFieldAttribute fieldAttribute);
   public: String name;
   public: PropertyInfo propertyInfo;
   public: Func<PropertyValue, PropertyValue> getter;

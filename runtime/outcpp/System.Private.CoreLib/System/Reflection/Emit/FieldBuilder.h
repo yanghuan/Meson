@@ -37,6 +37,7 @@ CLASS(FieldBuilder) {
   public: Type get_FieldType();
   public: RuntimeFieldHandle get_FieldHandle();
   public: FieldAttributes get_Attributes();
+  public: void Ctor(TypeBuilder typeBuilder, String fieldName, Type type, Array<Type> requiredCustomModifiers, Array<Type> optionalCustomModifiers, FieldAttributes attributes);
   public: void SetData(Array<Byte> data, Int32 size);
   public: Object GetValue(Object obj);
   public: void SetValue(Object obj, Object val, BindingFlags invokeAttr, Binder binder, CultureInfo culture);
