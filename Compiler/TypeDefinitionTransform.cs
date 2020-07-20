@@ -316,7 +316,7 @@ namespace Meson.Compiler {
             underlyingTypeConstructor.AddInitializationList(fieldName, IdentifierSyntax.Value);
             statements.Add(underlyingTypeConstructor);
 
-            var getValueMethod = new MethodDefinitionSyntax(new RefExpressionSyntax(typeName), "getValue", Array.Empty<ParameterSyntax>(), false, accessibilityToken) { 
+            var getValueMethod = new MethodDefinitionSyntax(new RefExpressionSyntax(typeName), "get", Array.Empty<ParameterSyntax>(), false, accessibilityToken) { 
               IsConstexpr  = true,
               IsNoexcept = true,
               Body = new BlockSyntax() { IsSingleLine = true },

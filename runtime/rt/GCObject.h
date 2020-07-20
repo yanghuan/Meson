@@ -232,9 +232,9 @@ namespace rt {
       return T1::op_Implicit(*this);
     }
 
-    template<class size_t>
-    constexpr auto& operator [](size_t index) {
-      return (*get())[index];
+    template <class... Args>
+    constexpr auto& operator [](Args&&... args) {
+      return get()->operator[](std::forward<Args>(args)...);
     }
 
     T* get() const noexcept {
@@ -394,6 +394,11 @@ namespace rt {
       return begin()[index];
     }
 
+    template <class T> 
+    constexpr T& operator [](T index) {
+      return begin()[index.get()];
+    }
+
     static size_t GetAllocSize(size_t n) noexcept {
       return sizeof(GCObject<array>) + n * sizeof(T);
     }
@@ -523,3 +528,6 @@ namespace rt {
   }
 }  // namespace rt
 
+#if defined(_MSC_VER)
+  #pragma warning(disable:4674)
+#endif

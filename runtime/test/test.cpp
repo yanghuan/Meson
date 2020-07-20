@@ -14,9 +14,7 @@ int main() {
     Int32 a = 1;
     ++a;
     ++a;
-    Int32 b = 2;
-    a = a + b;
-    std::cout << a << std::endl;
+    std::cout << a.get() << std::endl;
     return 0;
 }
 

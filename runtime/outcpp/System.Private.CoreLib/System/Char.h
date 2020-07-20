@@ -22,7 +22,7 @@ using namespace Globalization;
 struct Char : public rt::PrimitiveType<Char> {
   public: constexpr Char() noexcept : m_value(0) {}
   public: constexpr Char(char8_t value) noexcept : m_value(value) {}
-  public: constexpr char8_t& getValue() noexcept  { return m_value; }
+  public: constexpr char8_t& get() noexcept  { return m_value; }
   private: static ReadOnlySpan<Byte> get_Latin1CharInfo();
   private: static Boolean IsLatin1(Char ch);
   private: static Boolean IsAscii(Char ch);
