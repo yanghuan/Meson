@@ -125,8 +125,7 @@ namespace Meson.Compiler.CppAst {
     public readonly List<StatementSyntax> Statements = new List<StatementSyntax>();
     internal int TempCount;
 
-    public BlockSyntax() { 
-    }
+    public BlockSyntax() {}
 
     public BlockSyntax(StatementSyntax statement) {
       Statements.Add(statement);
@@ -145,6 +144,12 @@ namespace Meson.Compiler.CppAst {
     }
 
     public static readonly BlockSyntax EmptyBlock = new BlockSyntax() { IsSingleLine = true };
+  }
+
+  sealed class BlockStatementSyntax : BlockSyntax {
+    internal override void Render(CppRenderer renderer) {
+      renderer.Render(this);
+    }
   }
 
   sealed class NamespaceSyntax : BlockSyntax {

@@ -20,7 +20,9 @@ namespace Meson.Compiler {
     private bool isNewLine_;
     private int indentLevel_;
     private int singleLineCounter_;
+    private int noSemicolonCounter_;
     private bool IsSingleLine => singleLineCounter_ > 0;
+    private bool IsNoSemicolon => noSemicolonCounter_ > 0;
 
     public CppRenderer(ITypeDefinition rootType, string outDir) {
       rootType_ = rootType;
@@ -94,6 +96,9 @@ namespace Meson.Compiler {
     }
 
     private void WriteSemicolon() {
+      if (IsNoSemicolon) {
+        return;
+      }
       Write(Tokens.Semicolon);
     }
 
@@ -263,6 +268,11 @@ namespace Meson.Compiler {
       }
     }
 
+    internal void Render(BlockStatementSyntax node) {
+      Render((BlockSyntax)node);
+      WriteNewLine();
+    }
+
     internal void Render(NamespaceSyntax node) {
       if (!node.IsEmpty) {
         Write(node.NamespaceToken);
@@ -430,8 +440,10 @@ namespace Meson.Compiler {
 
     internal void Render(ParameterSyntax node) {
       node.Type.Render(this);
-      WriteSpace();
-      node.Name.Render(this);
+      if (node.Name != null) {
+        WriteSpace();
+        node.Name.Render(this);
+      }
     }
 
     internal void Render(ConstructorDefinitionSyntax node) {
@@ -666,24 +678,36 @@ namespace Meson.Compiler {
       WriteNewLine();
     }
 
+    private void OpenForIteratorStatement() {
+      ++noSemicolonCounter_;
+      ++singleLineCounter_;
+    }
+
+    private void CloseForIteratorStatement() {
+      --noSemicolonCounter_;
+      --singleLineCounter_;
+    }
+
     internal void Render(ForStatementSyntax node) {
       Write(Tokens.For);
       WriteSpace();
       Write(Tokens.OpenParentheses);
       if (node.Initializers != null) {
-        ++singleLineCounter_;
+        OpenForIteratorStatement();
         WriteNodesWithSeparated(node.Initializers);
-        --singleLineCounter_;
+        CloseForIteratorStatement();
       }
       WriteSemicolon();
       if (node.Condition != null) {
+        WriteSpace();
         node.Condition.Render(this);
       }
       WriteSemicolon();
       if (node.Iterators != null) {
-        ++singleLineCounter_;
+        WriteSpace();
+        OpenForIteratorStatement();
         WriteNodesWithSeparated(node.Iterators);
-        --singleLineCounter_;
+        CloseForIteratorStatement();
       }
       Write(Tokens.CloseParentheses);
       WriteSpace();

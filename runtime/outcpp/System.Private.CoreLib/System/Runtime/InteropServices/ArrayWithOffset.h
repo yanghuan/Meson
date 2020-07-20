@@ -9,7 +9,7 @@ FORWARD(Object)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Runtime::InteropServices {
 namespace ArrayWithOffsetNamespace {
-struct ArrayWithOffset {
+struct ArrayWithOffset : public rt::ValueType<ArrayWithOffset> {
   public: void Ctor(Object array, Int32 offset);
   public: Object GetArray();
   public: Int32 GetOffset();

@@ -8,7 +8,7 @@ FORWARDS(Boolean)
 FORWARD(Object)
 FORWARD(String)
 namespace IndexNamespace {
-struct Index {
+struct Index : public rt::ValueType<Index> {
   public: static Index get_Start();
   public: static Index get_End();
   public: Int32 get_Value();

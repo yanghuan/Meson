@@ -438,6 +438,34 @@ namespace rt {
     bool operator >=(const T& other) {
       return static_cast<T*>(this)->m_value >= other.m_value;
     }
+
+    template <class T1 = T> requires(std::is_arithmetic_v<decltype(T1().m_value)>) 
+    T1 operator ++() {
+      auto p = static_cast<T*>(this);
+      ++p->m_value;
+      return *p;
+    } 
+
+    template <class T1 = T> requires(std::is_arithmetic_v<decltype(T1().m_value)>) 
+    T1 operator ++(int) {
+      auto p = static_cast<T*>(this);
+      T1 tmp = *p;
+      ++p->m_value;
+      return tmp;
+    }
+  };
+
+  template <class T>
+  struct ValueType {  
+    template <class R, class T1 = T> requires(std::is_same<R, decltype(T1::op_Explicit(T1()))>::value)
+    explicit operator R() {
+      return T1::op_Explicit(*static_cast<T1*>(this));
+    }
+
+    template <class R, class T1 = T> requires(std::is_same<R, decltype(T1::op_Explicit(T1(), R()))>::value)
+    explicit operator R() {
+      return T1::op_Explicit(*static_cast<T1*>(this), R());
+    }
   };
 
   template <class T, size_t N>
@@ -451,7 +479,7 @@ namespace rt {
   }
 
   template <class T, class V>
-  bool as(const V& v) {
+  T as(const V& v) {
     return nullptr;
   }
 

@@ -13,7 +13,7 @@ enum class ConsoleKey;
 enum class ConsoleModifiers;
 namespace ConsoleKeyInfoNamespace {
 using namespace ::System::Private::CoreLib::System;
-struct ConsoleKeyInfo {
+struct ConsoleKeyInfo : public rt::ValueType<ConsoleKeyInfo> {
   public: Char get_KeyChar();
   public: ConsoleKey get_Key();
   public: ConsoleModifiers get_Modifiers();

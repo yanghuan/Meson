@@ -16,7 +16,7 @@ FORWARDS(Matrix4x4)
 FORWARDS(Quaternion)
 FORWARDS(Vector2)
 namespace Vector3Namespace {
-struct Vector3 {
+struct Vector3 : public rt::ValueType<Vector3> {
   public: static Vector3 get_Zero();
   public: static Vector3 get_One();
   public: static Vector3 get_UnitX();

@@ -19,7 +19,7 @@ FORWARD(String)
 namespace IntPtrNamespace {
 using namespace Globalization;
 using namespace Runtime::Serialization;
-struct IntPtr {
+struct IntPtr : public rt::ValueType<IntPtr> {
   public: static Int32 get_Size();
   public: static IntPtr get_MaxValue();
   public: static IntPtr get_MinValue();
@@ -34,9 +34,9 @@ struct IntPtr {
   public: static IntPtr op_Explicit(Int32 value);
   public: static IntPtr op_Explicit(Int64 value);
   public: static IntPtr op_Explicit(void* value);
-  public: static void* op_Explicit(IntPtr value);
-  public: static Int32 op_Explicit(IntPtr value);
-  public: static Int64 op_Explicit(IntPtr value);
+  public: static void* op_Explicit(IntPtr value, void*);
+  public: static Int32 op_Explicit(IntPtr value, Int32);
+  public: static Int64 op_Explicit(IntPtr value, Int64);
   public: static Boolean op_Equality(IntPtr value1, IntPtr value2);
   public: static Boolean op_Inequality(IntPtr value1, IntPtr value2);
   public: static IntPtr Add(IntPtr pointer, Int32 offset);

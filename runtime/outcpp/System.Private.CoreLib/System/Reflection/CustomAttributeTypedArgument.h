@@ -16,7 +16,7 @@ enum class CustomAttributeEncoding;
 FORWARDS(CustomAttributeEncodedArgument)
 FORWARD(RuntimeModule)
 namespace CustomAttributeTypedArgumentNamespace {
-struct CustomAttributeTypedArgument {
+struct CustomAttributeTypedArgument : public rt::ValueType<CustomAttributeTypedArgument> {
   public: Type get_ArgumentType();
   public: Object get_Value();
   private: static Type CustomAttributeEncodingToType(CustomAttributeEncoding encodedType);

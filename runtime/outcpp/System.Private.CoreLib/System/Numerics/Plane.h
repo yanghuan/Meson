@@ -15,7 +15,7 @@ FORWARDS(Matrix4x4)
 FORWARDS(Quaternion)
 FORWARDS(Vector4)
 namespace PlaneNamespace {
-struct Plane {
+struct Plane : public rt::ValueType<Plane> {
   public: void Ctor(Single x, Single y, Single z, Single d);
   public: void Ctor(Vector3 normal, Single d);
   public: void Ctor(Vector4 value);

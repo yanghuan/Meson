@@ -106,7 +106,7 @@ Array<> Array___<>::CreateInstance(Type elementType, Int32 length) {
   if (runtimeType == nullptr) {
     ThrowHelper::ThrowArgumentException(ExceptionResource::Arg_MustBeType, ExceptionArgument::elementType);
   }
-  return InternalCreate((void*)runtimeType->get_TypeHandle()->get_Value(), 1, &length, nullptr);
+  return InternalCreate((void*)runtimeType->get_TypeHandle().get_Value(), 1, &length, nullptr);
 };
 
 Array<> Array___<>::CreateInstance(Type elementType, Int32 length1, Int32 length2) {
@@ -127,7 +127,7 @@ Array<> Array___<>::CreateInstance(Type elementType, Int32 length1, Int32 length
   Int32* ptr = default;
   *ptr = length1;
   ptr[1] = length2;
-  return InternalCreate((void*)runtimeType->get_TypeHandle()->get_Value(), 2, ptr, nullptr);
+  return InternalCreate((void*)runtimeType->get_TypeHandle().get_Value(), 2, ptr, nullptr);
 };
 
 Array<> Array___<>::CreateInstance(Type elementType, Int32 length1, Int32 length2, Int32 length3) {
@@ -152,7 +152,7 @@ Array<> Array___<>::CreateInstance(Type elementType, Int32 length1, Int32 length
   *ptr = length1;
   ptr[1] = length2;
   ptr[2] = length3;
-  return InternalCreate((void*)runtimeType->get_TypeHandle()->get_Value(), 3, ptr, nullptr);
+  return InternalCreate((void*)runtimeType->get_TypeHandle().get_Value(), 3, ptr, nullptr);
 };
 
 Array<> Array___<>::CreateInstance(Type elementType, Array<Int32> lengths) {
@@ -169,13 +169,16 @@ Array<> Array___<>::CreateInstance(Type elementType, Array<Int32> lengths) {
   if (runtimeType == nullptr) {
     ThrowHelper::ThrowArgumentException(ExceptionResource::Arg_MustBeType, ExceptionArgument::elementType);
   }
-  for (Int32 i = 0;;i < lengths->get_Length();++i;) {
+  for (Int32 i = 0; i < lengths->get_Length(); ++i) {
     if (lengths[i] < 0) {
       ThrowHelper::ThrowArgumentOutOfRangeException(ExceptionArgument::lengths, i, ExceptionResource::ArgumentOutOfRange_NeedNonNegNum);
     }
   }
   {
-  }};
+    Int32* pLengths = &lengths[0];
+    return InternalCreate((void*)runtimeType->get_TypeHandle().get_Value(), lengths->get_Length(), pLengths, nullptr);
+  }
+};
 
 Array<> Array___<>::CreateInstance(Type elementType, Array<Int32> lengths, Array<Int32> lowerBounds) {
   if (elementType == nullptr) {
@@ -197,13 +200,19 @@ Array<> Array___<>::CreateInstance(Type elementType, Array<Int32> lengths, Array
   if (runtimeType == nullptr) {
     ThrowHelper::ThrowArgumentException(ExceptionResource::Arg_MustBeType, ExceptionArgument::elementType);
   }
-  for (Int32 i = 0;;i < lengths->get_Length();++i;) {
+  for (Int32 i = 0; i < lengths->get_Length(); ++i) {
     if (lengths[i] < 0) {
       ThrowHelper::ThrowArgumentOutOfRangeException(ExceptionArgument::lengths, i, ExceptionResource::ArgumentOutOfRange_NeedNonNegNum);
     }
   }
   {
-  }};
+    Int32* pLengths = &lengths[0];
+    {
+      Int32* pLowerBounds = &lowerBounds[0];
+      return InternalCreate((void*)runtimeType->get_TypeHandle().get_Value(), lengths->get_Length(), pLengths, pLowerBounds);
+    }
+  }
+};
 
 void Array___<>::Copy(Array<> sourceArray, Array<> destinationArray, Int32 length) {
   if (sourceArray == nullptr) {
@@ -643,13 +652,13 @@ Int32 Array___<>::IndexOf(Array<> array, Object value, Int32 startIndex, Int32 c
   Object array2 = rt::as<Object>(array);
   if (array2 != nullptr) {
     if (value == nullptr) {
-      for (Int32 i = startIndex;;i < num;++i;) {
+      for (Int32 i = startIndex; i < num; ++i) {
         if (array2[i] == nullptr) {
           return i;
         }
       }
     } else {
-      for (Int32 j = startIndex;;j < num;++j;) {
+      for (Int32 j = startIndex; j < num; ++j) {
         Object obj = array2[j];
         if (obj != nullptr && obj->Equals(value)) {
           return j;
@@ -668,7 +677,7 @@ Int32 Array___<>::IndexOf(Array<> array, Object value, Int32 startIndex, Int32 c
       Int32 num2 = -1;
     }
   }
-  for (Int32 k = startIndex;;k < num;++k;) {
+  for (Int32 k = startIndex; k < num; ++k) {
     Object value2 = array->GetValue(k);
     if (value2 == nullptr) {
       if (value == nullptr) {

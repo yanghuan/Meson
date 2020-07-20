@@ -10,7 +10,7 @@ FORWARD(Object)
 namespace System::Private::CoreLib::System::Threading {
 FORWARD(Thread)
 namespace AsyncFlowControlNamespace {
-struct AsyncFlowControl {
+struct AsyncFlowControl : public rt::ValueType<AsyncFlowControl> {
   public: void Initialize(Thread currentThread);
   public: void Undo();
   public: void Dispose();

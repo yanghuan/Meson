@@ -11,7 +11,7 @@ FORWARD(Object)
 namespace System::Private::CoreLib::System::Runtime::InteropServices {
 enum class GCHandleType;
 namespace GCHandleNamespace {
-struct GCHandle {
+struct GCHandle : public rt::ValueType<GCHandle> {
   public: Object get_Target();
   public: void set_Target(Object value);
   public: Boolean get_IsAllocated();

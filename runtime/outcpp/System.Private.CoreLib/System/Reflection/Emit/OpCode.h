@@ -17,7 +17,7 @@ enum class OpCodeValues;
 enum class OperandType;
 enum class StackBehaviour;
 namespace OpCodeNamespace {
-struct OpCode {
+struct OpCode : public rt::ValueType<OpCode> {
   public: OperandType get_OperandType();
   public: FlowControl get_FlowControl();
   public: OpCodeType get_OpCodeType();

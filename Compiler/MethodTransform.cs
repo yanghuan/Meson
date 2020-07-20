@@ -377,7 +377,7 @@ namespace Meson.Compiler {
             }
             return target.TwoColon(name);
           } else {
-            return target.Arrow(name);
+            return member.DeclaringTypeDefinition.IsRefType() ? target.Arrow(name) : target.Dot(name);
           }
         }
       }
@@ -616,7 +616,17 @@ namespace Meson.Compiler {
     }
 
     public SyntaxNode VisitFixedStatement(FixedStatement fixedStatement) {
-      var block = new BlockSyntax();
+      var type = fixedStatement.Type.AcceptExpression(this);
+      var variables = fixedStatement.Variables.Select(i => i.Accept<VariableInitializerSyntax>(this));
+      var declaration = new VariableDeclarationStatementSyntax(type, variables);
+      var embeddedStatement = fixedStatement.EmbeddedStatement.AcceptStatement(this);
+      var block = new BlockStatementSyntax();
+      block.Add(declaration);
+      if (embeddedStatement is BlockSyntax blockSyntax) {
+        block.AddRange(blockSyntax.Statements);
+      } else {
+        block.Add(embeddedStatement);
+      }
       return block;
     }
 
@@ -842,10 +852,11 @@ namespace Meson.Compiler {
 
     public SyntaxNode VisitMethodDeclaration(MethodDeclaration methodDeclaration) {
       var method = MethodSymbol;
-      var parameters = method.Parameters.Select(i => GetParameterSyntax(i, method));
+      var parameters = method.Parameters.Select(i => GetParameterSyntax(i, method)).ToList();
       var name = GetMemberName(MethodSymbol);
       var declaringType = GetDeclaringType(method.DeclaringTypeDefinition);
       var returnType = GetTypeName(method.ReturnType, method, false);
+      typeDefinition_.CheckOperatorParameters(method, parameters, returnType);
       MethodImplementationSyntax node = new MethodImplementationSyntax(name, returnType, parameters, declaringType);
       PushFunction(node);
       if (methodDeclaration != null) {

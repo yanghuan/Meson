@@ -24,7 +24,7 @@ FORWARDS(UInt32)
 namespace RuntimeFieldHandleNamespace {
 using namespace Reflection;
 using namespace Runtime::Serialization;
-struct RuntimeFieldHandle {
+struct RuntimeFieldHandle : public rt::ValueType<RuntimeFieldHandle> {
   public: IntPtr get_Value();
   public: void Ctor(IRuntimeFieldInfo fieldInfo);
   public: IRuntimeFieldInfo GetRuntimeFieldInfo();

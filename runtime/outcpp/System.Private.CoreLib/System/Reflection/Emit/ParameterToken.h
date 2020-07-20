@@ -9,7 +9,7 @@ FORWARD(Object)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Reflection::Emit {
 namespace ParameterTokenNamespace {
-struct ParameterToken {
+struct ParameterToken : public rt::ValueType<ParameterToken> {
   public: Int32 get_Token() { return Token; }
   public: void Ctor(Int32 parameterToken);
   public: Int32 GetHashCode();

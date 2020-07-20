@@ -53,7 +53,7 @@ CLASS(TimeZoneInfo) {
     InvalidTimeZoneException = 2,
     SecurityException = 3,
   };
-  public: struct TransitionTime {
+  public: struct TransitionTime : public rt::ValueType<TransitionTime> {
     public: DateTime get_TimeOfDay();
     public: Int32 get_Month();
     public: Int32 get_Week();

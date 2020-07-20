@@ -9,7 +9,7 @@ FORWARD(Object)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Reflection::Emit {
 namespace StringTokenNamespace {
-struct StringToken {
+struct StringToken : public rt::ValueType<StringToken> {
   public: Int32 get_Token() { return Token; }
   public: void Ctor(Int32 str);
   public: Int32 GetHashCode();

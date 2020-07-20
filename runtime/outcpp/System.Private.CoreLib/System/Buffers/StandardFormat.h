@@ -14,7 +14,7 @@ FORWARD(String)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Buffers {
 namespace StandardFormatNamespace {
-struct StandardFormat {
+struct StandardFormat : public rt::ValueType<StandardFormat> {
   public: Char get_Symbol();
   public: Byte get_Precision();
   public: Boolean get_HasPrecision();

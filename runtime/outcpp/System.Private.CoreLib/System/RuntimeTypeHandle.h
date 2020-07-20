@@ -51,7 +51,7 @@ using namespace Runtime::InteropServices;
 using namespace Runtime::Loader;
 using namespace Runtime::Serialization;
 using namespace Threading;
-struct RuntimeTypeHandle {
+struct RuntimeTypeHandle : public rt::ValueType<RuntimeTypeHandle> {
   public: struct IntroducedMethodEnumerator {
     public: RuntimeMethodHandleInternal get_Current();
     public: void Ctor(RuntimeType type);

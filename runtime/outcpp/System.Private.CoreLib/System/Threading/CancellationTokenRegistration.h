@@ -15,7 +15,7 @@ namespace System::Private::CoreLib::System::Threading {
 FORWARDS(CancellationToken)
 namespace CancellationTokenRegistrationNamespace {
 using namespace Tasks;
-struct CancellationTokenRegistration {
+struct CancellationTokenRegistration : public rt::ValueType<CancellationTokenRegistration> {
   public: CancellationToken get_Token();
   public: void Ctor(Int64 id, Object/*CancellationTokenSource.CallbackNode*/ node);
   public: void Dispose();

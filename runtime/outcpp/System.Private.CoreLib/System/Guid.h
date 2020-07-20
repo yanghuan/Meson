@@ -17,7 +17,7 @@ FORWARD(String)
 FORWARDS(UInt16)
 FORWARDS(UInt32)
 namespace GuidNamespace {
-struct Guid {
+struct Guid : public rt::ValueType<Guid> {
   private: enum class GuidParseThrowStyle : uint8_t {
     None = 0,
     All = 1,

@@ -13,7 +13,7 @@ FORWARD(Type)
 namespace System::Private::CoreLib::System::Reflection {
 FORWARD(MemberInfo)
 namespace CustomAttributeNamedArgumentNamespace {
-struct CustomAttributeNamedArgument {
+struct CustomAttributeNamedArgument : public rt::ValueType<CustomAttributeNamedArgument> {
   public: Type get_ArgumentType();
   public: MemberInfo get_MemberInfo();
   public: CustomAttributeTypedArgument get_TypedValue();

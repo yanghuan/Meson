@@ -20,7 +20,7 @@ FORWARDS(UInt64)
 namespace UIntPtrNamespace {
 using namespace Globalization;
 using namespace Runtime::Serialization;
-struct UIntPtr {
+struct UIntPtr : public rt::ValueType<UIntPtr> {
   public: static Int32 get_Size();
   public: static UIntPtr get_MaxValue();
   public: static UIntPtr get_MinValue();
@@ -35,9 +35,9 @@ struct UIntPtr {
   public: static UIntPtr op_Explicit(UInt32 value);
   public: static UIntPtr op_Explicit(UInt64 value);
   public: static UIntPtr op_Explicit(void* value);
-  public: static void* op_Explicit(UIntPtr value);
-  public: static UInt32 op_Explicit(UIntPtr value);
-  public: static UInt64 op_Explicit(UIntPtr value);
+  public: static void* op_Explicit(UIntPtr value, void*);
+  public: static UInt32 op_Explicit(UIntPtr value, UInt32);
+  public: static UInt64 op_Explicit(UIntPtr value, UInt64);
   public: static Boolean op_Equality(UIntPtr value1, UIntPtr value2);
   public: static Boolean op_Inequality(UIntPtr value1, UIntPtr value2);
   public: static UIntPtr Add(UIntPtr pointer, Int32 offset);

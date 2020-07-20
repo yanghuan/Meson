@@ -164,10 +164,19 @@ namespace Meson.Compiler {
       return Generator.GetMemberName(field);
     }
 
+    internal void CheckOperatorParameters(IMethod method, List<ParameterSyntax> parameters, ExpressionSyntax returnType) {
+      if (method.SymbolKind == SymbolKind.Operator && method.Name == "op_Explicit") {
+        if (method.DeclaringTypeDefinition.Methods.Any(i => i != method && i.Name == method.Name && i.Parameters.First().Type == method.Parameters.First().Type)) {
+          parameters.Add(new ParameterSyntax(returnType, null));
+        }
+      }
+    }
+
     private void VisitMethod(IMethod method, ITypeDefinition typeDefinition, ClassSyntax node) {
       var parameters = method.Parameters.Select(i => GetParameterSyntax(i, method, typeDefinition)).ToList();
       var methodName = GetMemberName(method);
       var returnType = GetRetuenTypeSyntax(method, typeDefinition);
+      CheckOperatorParameters(method, parameters, returnType);
       var methodDefinition = new MethodDefinitionSyntax(returnType, methodName, parameters, method.IsStatic, !method.IsMainEntryPoint() ? method.Accessibility.ToTokenString() : Tokens.Public);
       node.Statements.Add(methodDefinition);
       if (method.HasBody) {
@@ -485,6 +494,8 @@ namespace Meson.Compiler {
       VisitFields(type, node);
       if (isPrimitiveType_) {
         node.Add(new FriendClassDeclarationSyntax(IdentifierSyntax.PrimitiveType, true) { Template = TemplateSyntax.T  });
+      } else if (type.Kind == TypeKind.Struct && type.TypeParameterCount == 0 && !IsMulti && type.Methods.Any(i => i.SymbolKind == SymbolKind.Operator)) {
+        node.Bases.Add(new BaseSyntax(IdentifierSyntax.ValueType.Generic(node.Name)));
       }
     }
 

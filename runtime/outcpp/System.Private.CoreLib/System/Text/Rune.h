@@ -26,7 +26,7 @@ namespace System::Private::CoreLib::System::Text {
 namespace RuneNamespace {
 using namespace Buffers;
 using namespace Globalization;
-struct Rune {
+struct Rune : public rt::ValueType<Rune> {
   private: static ReadOnlySpan<Byte> get_AsciiCharInfo();
   private: String get_DebuggerDisplay();
   public: Boolean get_IsAscii();

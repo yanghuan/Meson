@@ -525,47 +525,47 @@ Decimal Decimal::op_Explicit(Double value) {
   return Decimal();
 };
 
-Byte Decimal::op_Explicit(Decimal value) {
+Byte Decimal::op_Explicit(Decimal value, Byte) {
   return Byte();
 };
 
-SByte Decimal::op_Explicit(Decimal value) {
+SByte Decimal::op_Explicit(Decimal value, SByte) {
   return SByte();
 };
 
-Char Decimal::op_Explicit(Decimal value) {
+Char Decimal::op_Explicit(Decimal value, Char) {
   return Char();
 };
 
-Int16 Decimal::op_Explicit(Decimal value) {
+Int16 Decimal::op_Explicit(Decimal value, Int16) {
   return Int16();
 };
 
-UInt16 Decimal::op_Explicit(Decimal value) {
+UInt16 Decimal::op_Explicit(Decimal value, UInt16) {
   return UInt16();
 };
 
-Int32 Decimal::op_Explicit(Decimal value) {
+Int32 Decimal::op_Explicit(Decimal value, Int32) {
   return Int32();
 };
 
-UInt32 Decimal::op_Explicit(Decimal value) {
+UInt32 Decimal::op_Explicit(Decimal value, UInt32) {
   return UInt32();
 };
 
-Int64 Decimal::op_Explicit(Decimal value) {
+Int64 Decimal::op_Explicit(Decimal value, Int64) {
   return Int64();
 };
 
-UInt64 Decimal::op_Explicit(Decimal value) {
+UInt64 Decimal::op_Explicit(Decimal value, UInt64) {
   return UInt64();
 };
 
-Single Decimal::op_Explicit(Decimal value) {
+Single Decimal::op_Explicit(Decimal value, Single) {
   return Single();
 };
 
-Double Decimal::op_Explicit(Decimal value) {
+Double Decimal::op_Explicit(Decimal value, Double) {
   return Double();
 };
 

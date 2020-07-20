@@ -29,7 +29,7 @@ FORWARDS(TimeSpan)
 namespace DateTimeOffsetNamespace {
 using namespace Globalization;
 using namespace Runtime::Serialization;
-struct DateTimeOffset {
+struct DateTimeOffset : public rt::ValueType<DateTimeOffset> {
   public: static DateTimeOffset get_Now();
   public: static DateTimeOffset get_UtcNow();
   public: DateTime get_DateTime();

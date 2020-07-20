@@ -9,7 +9,7 @@ FORWARD(Object)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Reflection::Emit {
 namespace SignatureTokenNamespace {
-struct SignatureToken {
+struct SignatureToken : public rt::ValueType<SignatureToken> {
   public: Int32 get_Token() { return Token; }
   public: void Ctor(Int32 signatureToken);
   public: Int32 GetHashCode();

@@ -9,7 +9,7 @@ FORWARD(Object)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Reflection::Emit {
 namespace LabelNamespace {
-struct Label {
+struct Label : public rt::ValueType<Label> {
   public: void Ctor(Int32 label);
   public: Int32 GetLabelValue();
   public: Int32 GetHashCode();

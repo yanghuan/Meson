@@ -19,7 +19,7 @@ FORWARDS(Span, T)
 FORWARD(String)
 namespace TimeSpanNamespace {
 using namespace Globalization;
-struct TimeSpan {
+struct TimeSpan : public rt::ValueType<TimeSpan> {
   public: Int64 get_Ticks();
   public: Int32 get_Days();
   public: Int32 get_Hours();

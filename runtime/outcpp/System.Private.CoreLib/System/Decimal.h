@@ -29,7 +29,7 @@ FORWARD(String)
 FORWARDS(UInt16)
 namespace DecimalNamespace {
 using namespace Globalization;
-struct Decimal {
+struct Decimal : public rt::ValueType<Decimal> {
   private: struct DecCalc {
     private: struct Buf24 {
       public: UInt64 get_Low64();
@@ -221,17 +221,17 @@ struct Decimal {
   public: static Decimal op_Implicit(UInt64 value);
   public: static Decimal op_Explicit(Single value);
   public: static Decimal op_Explicit(Double value);
-  public: static Byte op_Explicit(Decimal value);
-  public: static SByte op_Explicit(Decimal value);
-  public: static Char op_Explicit(Decimal value);
-  public: static Int16 op_Explicit(Decimal value);
-  public: static UInt16 op_Explicit(Decimal value);
-  public: static Int32 op_Explicit(Decimal value);
-  public: static UInt32 op_Explicit(Decimal value);
-  public: static Int64 op_Explicit(Decimal value);
-  public: static UInt64 op_Explicit(Decimal value);
-  public: static Single op_Explicit(Decimal value);
-  public: static Double op_Explicit(Decimal value);
+  public: static Byte op_Explicit(Decimal value, Byte);
+  public: static SByte op_Explicit(Decimal value, SByte);
+  public: static Char op_Explicit(Decimal value, Char);
+  public: static Int16 op_Explicit(Decimal value, Int16);
+  public: static UInt16 op_Explicit(Decimal value, UInt16);
+  public: static Int32 op_Explicit(Decimal value, Int32);
+  public: static UInt32 op_Explicit(Decimal value, UInt32);
+  public: static Int64 op_Explicit(Decimal value, Int64);
+  public: static UInt64 op_Explicit(Decimal value, UInt64);
+  public: static Single op_Explicit(Decimal value, Single);
+  public: static Double op_Explicit(Decimal value, Double);
   public: static Decimal op_UnaryPlus(Decimal d);
   public: static Decimal op_UnaryNegation(Decimal d);
   public: static Decimal op_Increment(Decimal d);

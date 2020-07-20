@@ -10,7 +10,7 @@ FORWARD(String)
 namespace System::Private::CoreLib::System::Reflection {
 enum class MetadataTokenType;
 namespace MetadataTokenNamespace {
-struct MetadataToken {
+struct MetadataToken : public rt::ValueType<MetadataToken> {
   public: Boolean get_IsGlobalTypeDefToken();
   public: MetadataTokenType get_TokenType();
   public: Boolean get_IsTypeRef();

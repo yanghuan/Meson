@@ -2,6 +2,10 @@ using System;
 using System.Runtime.InteropServices;
 
 namespace Test {
+  abstract class A {
+    public abstract int aaa { get; }
+  }
+
   class Program {
     public Program() {
     }
@@ -21,6 +25,8 @@ namespace Test {
       Print(a1);
       Print(b1);
       Print(c1);
+      DateTime t = default;
+      t.AddDays(2).ToString();
     }
 
     private static void Print(int a) {

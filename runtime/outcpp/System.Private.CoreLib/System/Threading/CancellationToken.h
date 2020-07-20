@@ -13,7 +13,7 @@ FORWARDS(CancellationTokenRegistration)
 FORWARD(CancellationTokenSource)
 FORWARD(WaitHandle)
 namespace CancellationTokenNamespace {
-struct CancellationToken {
+struct CancellationToken : public rt::ValueType<CancellationToken> {
   public: static CancellationToken get_None();
   public: Boolean get_IsCancellationRequested();
   public: Boolean get_CanBeCanceled();

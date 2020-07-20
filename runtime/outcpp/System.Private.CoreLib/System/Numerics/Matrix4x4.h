@@ -20,7 +20,7 @@ FORWARDS(Plane)
 FORWARDS(Quaternion)
 namespace Matrix4x4Namespace {
 using namespace Runtime::Intrinsics;
-struct Matrix4x4 {
+struct Matrix4x4 : public rt::ValueType<Matrix4x4> {
   private: struct CanonicalBasis {
     public: void Ctor();
     public: Vector3 Row0;

@@ -55,15 +55,15 @@ IntPtr IntPtr::op_Explicit(void* value) {
   return IntPtr();
 };
 
-void* IntPtr::op_Explicit(IntPtr value) {
+void* IntPtr::op_Explicit(IntPtr value, void*) {
   return nullptr;
 };
 
-Int32 IntPtr::op_Explicit(IntPtr value) {
+Int32 IntPtr::op_Explicit(IntPtr value, Int32) {
   return Int32();
 };
 
-Int64 IntPtr::op_Explicit(IntPtr value) {
+Int64 IntPtr::op_Explicit(IntPtr value, Int64) {
   return Int64();
 };
 

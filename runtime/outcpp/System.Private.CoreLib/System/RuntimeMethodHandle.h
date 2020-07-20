@@ -43,7 +43,7 @@ using namespace Reflection;
 using namespace Runtime::CompilerServices;
 using namespace Runtime::Serialization;
 using namespace Threading;
-struct RuntimeMethodHandle {
+struct RuntimeMethodHandle : public rt::ValueType<RuntimeMethodHandle> {
   public: IntPtr get_Value();
   public: static IRuntimeMethodInfo EnsureNonNullMethodInfo(IRuntimeMethodInfo method);
   public: void Ctor(IRuntimeMethodInfo method);

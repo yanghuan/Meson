@@ -37,7 +37,7 @@ namespace ModuleHandleNamespace {
 using namespace Reflection;
 using namespace Reflection::Emit;
 using namespace Runtime::CompilerServices;
-struct ModuleHandle {
+struct ModuleHandle : public rt::ValueType<ModuleHandle> {
   public: Int32 get_MDStreamVersion();
   private: static ModuleHandle GetEmptyMH();
   public: void Ctor(RuntimeModule module);

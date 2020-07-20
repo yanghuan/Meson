@@ -8,7 +8,7 @@ FORWARD(Object)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Runtime::InteropServices {
 namespace HandleRefNamespace {
-struct HandleRef {
+struct HandleRef : public rt::ValueType<HandleRef> {
   public: Object get_Wrapper();
   public: IntPtr get_Handle();
   public: void Ctor(Object wrapper, IntPtr handle);

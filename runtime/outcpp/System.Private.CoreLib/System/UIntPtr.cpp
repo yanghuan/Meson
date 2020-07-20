@@ -55,15 +55,15 @@ UIntPtr UIntPtr::op_Explicit(void* value) {
   return UIntPtr();
 };
 
-void* UIntPtr::op_Explicit(UIntPtr value) {
+void* UIntPtr::op_Explicit(UIntPtr value, void*) {
   return nullptr;
 };
 
-UInt32 UIntPtr::op_Explicit(UIntPtr value) {
+UInt32 UIntPtr::op_Explicit(UIntPtr value, UInt32) {
   return UInt32();
 };
 
-UInt64 UIntPtr::op_Explicit(UIntPtr value) {
+UInt64 UIntPtr::op_Explicit(UIntPtr value, UInt64) {
   return UInt64();
 };
 

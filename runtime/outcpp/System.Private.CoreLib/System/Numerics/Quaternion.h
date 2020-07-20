@@ -13,7 +13,7 @@ namespace System::Private::CoreLib::System::Numerics {
 FORWARDS(Matrix4x4)
 FORWARDS(Vector3)
 namespace QuaternionNamespace {
-struct Quaternion {
+struct Quaternion : public rt::ValueType<Quaternion> {
   public: static Quaternion get_Identity();
   public: Boolean get_IsIdentity();
   public: void Ctor(Single x, Single y, Single z, Single w);

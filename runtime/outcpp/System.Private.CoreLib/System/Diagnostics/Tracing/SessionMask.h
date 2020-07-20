@@ -8,7 +8,7 @@ FORWARDS(UInt64)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Diagnostics::Tracing {
 namespace SessionMaskNamespace {
-struct SessionMask {
+struct SessionMask : public rt::ValueType<SessionMask> {
   public: static SessionMask get_All();
   public: void Ctor(UInt32 mask);
   public: UInt64 ToEventKeywords();

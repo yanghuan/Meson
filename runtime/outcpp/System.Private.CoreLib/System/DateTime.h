@@ -31,7 +31,7 @@ FORWARDS(TimeSpan)
 namespace DateTimeNamespace {
 using namespace Globalization;
 using namespace Runtime::Serialization;
-struct DateTime {
+struct DateTime : public rt::ValueType<DateTime> {
   private: struct FullSystemTime {
     public: void Ctor(Int32 year, Int32 month, DayOfWeek dayOfWeek, Int32 day, Int32 hour, Int32 minute, Int32 second);
     public: void Ctor(Int64 ticks);

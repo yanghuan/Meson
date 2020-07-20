@@ -9,7 +9,7 @@ FORWARD(Object)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Reflection::Emit {
 namespace EventTokenNamespace {
-struct EventToken {
+struct EventToken : public rt::ValueType<EventToken> {
   public: Int32 get_Token() { return Token; }
   public: void Ctor(Int32 eventToken);
   public: Int32 GetHashCode();
