@@ -21,6 +21,7 @@ using namespace Globalization;
 struct Int16 : public rt::PrimitiveType<Int16> {
   public: constexpr Int16() noexcept : m_value(0) {}
   public: constexpr Int16(int16_t value) noexcept : m_value(value) {}
+  public: constexpr int16_t& getValue() noexcept  { return m_value; }
   public: Int32 CompareTo(Object value);
   public: Int32 CompareTo(Int16 value);
   public: Boolean Equals(Object obj);

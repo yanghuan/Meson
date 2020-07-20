@@ -22,6 +22,7 @@ using namespace Globalization;
 struct Double : public rt::PrimitiveType<Double> {
   public: constexpr Double() noexcept : m_value(0) {}
   public: constexpr Double(double value) noexcept : m_value(value) {}
+  public: constexpr double& getValue() noexcept  { return m_value; }
   public: static Boolean IsFinite(Double d);
   public: static Boolean IsInfinity(Double d);
   public: static Boolean IsNaN(Double d);

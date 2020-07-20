@@ -329,9 +329,7 @@ namespace Meson.Compiler.CppAst {
     public bool IsNoexcept { get; set; }
     public string AccessibilityToken { get; }
     public IdentifierSyntax Name { get; }
-    public string OpenParentheses => Tokens.OpenParentheses;
     public readonly List<ParameterSyntax> Parameters = new List<ParameterSyntax>();
-    public string CloseParentheses => Tokens.CloseParentheses;
     public List<InvationExpressionSyntax> InitializationList = new List<InvationExpressionSyntax>();
     public BlockSyntax Body { get; set; }
 
@@ -351,13 +349,13 @@ namespace Meson.Compiler.CppAst {
   }
 
   sealed class MethodDefinitionSyntax : StatementSyntax {
+    public bool IsConstexpr { get; set; }
+    public bool IsNoexcept { get; set; }
     public string AccessibilityToken { get; }
     public ExpressionSyntax RetuenType { get; }
     public IdentifierSyntax Name { get; }
     public bool IsStatic { get; }
-    public string OpenParentheses => Tokens.OpenParentheses;
     public readonly List<ParameterSyntax> Parameters = new List<ParameterSyntax>();
-    public string CloseParentheses => Tokens.CloseParentheses;
     public BlockSyntax Body { get; set; }
 
     public MethodDefinitionSyntax(ExpressionSyntax retuenType, IdentifierSyntax name, IEnumerable<ParameterSyntax> parameters, bool isStatic, string accessibilityToken) {

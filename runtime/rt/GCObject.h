@@ -63,8 +63,11 @@ namespace rt {
   static constexpr bool IsObject = IsDerived<object, T>;
 
   template <class T>
+  static constexpr bool IsArray = IsDerived<Array_, T>;
+
+  template <class T>
   class GCObject : public GCObjectHead {
-    static constexpr bool IsSpeicalObject = IsString<T> || IsDerived<Array_, T>;
+    static constexpr bool IsSpeicalObject = IsString<T> || IsArray<T>;
   public:
     T* get() noexcept {
       return &v_;
@@ -118,7 +121,7 @@ namespace rt {
     struct __Type {
       struct element_type;
     };
-    using element_type = typename std::conditional_t<IsDerived<Array_, T>, T, __Type>::element_type;
+    using element_type = typename std::conditional_t<IsArray<T>, T, __Type>::element_type;
     using type = typename RefElementType<element_type>::type;
     static constexpr bool value = RefElementType<element_type>::value;
   };
@@ -131,7 +134,7 @@ namespace rt {
   };
 
   template <class T, class T1>
-  static constexpr bool IsArrayConvertible = IsDerived<Array_, T> && IsDerived<Array_, T1> && IsArrayConvertible__<T, T1>::value;
+  static constexpr bool IsArrayConvertible = IsArray<T> && IsArray<T1> && IsArrayConvertible__<T, T1>::value;
 
   template <class T, class T1>
   static constexpr bool IsConvertible = IsDerivedConvertible<T, T1> || IsArrayConvertible<T, T1>;
@@ -414,7 +417,7 @@ namespace rt {
   static constexpr float NegativeInfinity = 0b11111111100000000000000000000000;
 
   template <class T>
-  struct PrimitiveType {  
+  struct PrimitiveType { 
     bool operator ==(const T& other) {
       return static_cast<T*>(this)->m_value == other.m_value;
     }
@@ -441,14 +444,14 @@ namespace rt {
 
     template <class T1 = T> requires(std::is_arithmetic_v<decltype(T1().m_value)>) 
     T1 operator ++() {
-      auto p = static_cast<T*>(this);
+      auto p = static_cast<T1*>(this);
       ++p->m_value;
       return *p;
     } 
 
     template <class T1 = T> requires(std::is_arithmetic_v<decltype(T1().m_value)>) 
     T1 operator ++(int) {
-      auto p = static_cast<T*>(this);
+      auto p = static_cast<T1*>(this);
       T1 tmp = *p;
       ++p->m_value;
       return tmp;

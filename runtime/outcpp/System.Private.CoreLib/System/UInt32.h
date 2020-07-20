@@ -20,6 +20,7 @@ using namespace Globalization;
 struct UInt32 : public rt::PrimitiveType<UInt32> {
   public: constexpr UInt32() noexcept : m_value(0) {}
   public: constexpr UInt32(uint32_t value) noexcept : m_value(value) {}
+  public: constexpr uint32_t& getValue() noexcept  { return m_value; }
   public: Int32 CompareTo(Object value);
   public: Int32 CompareTo(UInt32 value);
   public: Boolean Equals(Object obj);

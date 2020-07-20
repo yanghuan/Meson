@@ -453,9 +453,9 @@ namespace Meson.Compiler {
         WriteSpace();
       }
       node.Name.Render(this);
-      Write(node.OpenParentheses);
+      Write(Tokens.OpenParentheses);
       WriteNodesWithSeparated(node.Parameters);
-      Write(node.CloseParentheses);
+      Write(Tokens.CloseParentheses);
       if (node.IsNoexcept) {
         WriteSpace();
         Write(Tokens.Noexcept);
@@ -481,12 +481,21 @@ namespace Meson.Compiler {
         Write(Tokens.Static);
         WriteSpace();
       }
+      if (node.IsConstexpr) {
+        Write(Tokens.Constexpr);
+        WriteSpace();
+      }
       node.RetuenType.Render(this);
       WriteSpace();
       node.Name.Render(this);
-      Write(node.OpenParentheses);
+      Write(Tokens.OpenParentheses);
       WriteNodesWithSeparated(node.Parameters);
-      Write(node.CloseParentheses);
+      Write(Tokens.CloseParentheses);
+      if (node.IsNoexcept) {
+        WriteSpace();
+        Write(Tokens.Noexcept);
+        WriteSpace();
+      }
       if (node.Body != null) {
         WriteSpace();
         node.Body.Render(this);

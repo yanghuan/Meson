@@ -20,6 +20,7 @@ using namespace Globalization;
 struct Int64 : public rt::PrimitiveType<Int64> {
   public: constexpr Int64() noexcept : m_value(0) {}
   public: constexpr Int64(int64_t value) noexcept : m_value(value) {}
+  public: constexpr int64_t& getValue() noexcept  { return m_value; }
   public: Int32 CompareTo(Object value);
   public: Int32 CompareTo(Int64 value);
   public: Boolean Equals(Object obj);

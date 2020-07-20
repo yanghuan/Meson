@@ -11,8 +11,12 @@
 using namespace System::Private::CoreLib::System;
 
 int main() {
-    IntPtr a;
-    void* p = (void*)a;
+    Int32 a = 1;
+    ++a;
+    ++a;
+    Int32 b = 2;
+    a = a + b;
+    std::cout << a << std::endl;
     return 0;
 }
 

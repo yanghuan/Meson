@@ -15,6 +15,7 @@ namespace BooleanNamespace {
 struct Boolean : public rt::PrimitiveType<Boolean> {
   public: constexpr Boolean() noexcept : m_value(false) {}
   public: constexpr Boolean(bool value) noexcept : m_value(value) {}
+  public: constexpr bool& getValue() noexcept  { return m_value; }
   public: Int32 GetHashCode();
   public: String ToString();
   public: String ToString(IFormatProvider provider);

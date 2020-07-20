@@ -21,6 +21,7 @@ using namespace Globalization;
 struct Byte : public rt::PrimitiveType<Byte> {
   public: constexpr Byte() noexcept : m_value(0) {}
   public: constexpr Byte(uint8_t value) noexcept : m_value(value) {}
+  public: constexpr uint8_t& getValue() noexcept  { return m_value; }
   public: Int32 CompareTo(Object value);
   public: Int32 CompareTo(Byte value);
   public: Boolean Equals(Object obj);
