@@ -227,7 +227,7 @@ namespace rt {
       return R();
     }
 
-    template <class R, class T1 = T> requires(std::is_same<R, decltype(T1::op_Implicit(ref<T1>()))>::value)
+    template <class R, class T1 = T> requires(std::is_same_v<R, decltype(T1::op_Implicit(ref<T1>()))>)
     operator R() {
       return T1::op_Implicit(*this);
     }
@@ -447,6 +447,11 @@ namespace rt {
       return static_cast<T*>(this)->m_value >= other.m_value;
     }
 
+    template <class T1 = T> requires(std::is_same_v<bool, decltype(T1().m_value)>)
+    operator bool() {
+      return static_cast<T*>(this)->m_value;
+    }
+
     template <class T1 = T> requires(std::is_arithmetic_v<decltype(T1().m_value)>) 
     T1 operator ++() {
       auto p = static_cast<T1*>(this);
@@ -465,12 +470,12 @@ namespace rt {
 
   template <class T>
   struct ValueType {  
-    template <class R, class T1 = T> requires(std::is_same<R, decltype(T1::op_Explicit(T1()))>::value)
+    template <class R, class T1 = T> requires(std::is_same_v<R, decltype(T1::op_Explicit(T1()))>)
     explicit operator R() {
       return T1::op_Explicit(*static_cast<T1*>(this));
     }
 
-    template <class R, class T1 = T> requires(std::is_same<R, decltype(T1::op_Explicit(T1(), R()))>::value)
+    template <class R, class T1 = T> requires(std::is_same_v<R, decltype(T1::op_Explicit(T1(), R()))>)
     explicit operator R() {
       return T1::op_Explicit(*static_cast<T1*>(this), R());
     }

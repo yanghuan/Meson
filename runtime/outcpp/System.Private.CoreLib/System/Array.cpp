@@ -222,11 +222,11 @@ void Array___<>::Copy(Array<> sourceArray, Array<> destinationArray, Int32 lengt
     ThrowHelper::ThrowArgumentNullException(ExceptionArgument::destinationArray);
   }
   MethodTable* methodTable = RuntimeHelpers::GetMethodTable(sourceArray);
-  if (methodTable == RuntimeHelpers::GetMethodTable(destinationArray) && !methodTable->IsMultiDimensionalArray && (UInt64)(UInt32)length <= (UInt64)(UIntPtr)(void*)sourceArray->get_LongLength() && (UInt64)(UInt32)length <= (UInt64)(UIntPtr)(void*)destinationArray->get_LongLength()) {
+  if (methodTable == RuntimeHelpers::GetMethodTable(destinationArray) && !methodTable->get_IsMultiDimensionalArray() && (UInt64)(UInt32)length <= (UInt64)(UIntPtr)(void*)sourceArray->get_LongLength() && (UInt64)(UInt32)length <= (UInt64)(UIntPtr)(void*)destinationArray->get_LongLength()) {
     UIntPtr uIntPtr = (UIntPtr)(void*)((Int64)(UInt32)length * (Int64)methodTable->ComponentSize);
     Byte data = Unsafe::As(sourceArray)->Data;
     Byte data2 = Unsafe::As(destinationArray)->Data;
-    if (methodTable->ContainsGCPointers) {
+    if (methodTable->get_ContainsGCPointers()) {
       Buffer::BulkMoveWithWriteBarrier(data2, data, uIntPtr);
     } else {
       Buffer::Memmove(data2, data, uIntPtr);
@@ -239,12 +239,12 @@ void Array___<>::Copy(Array<> sourceArray, Array<> destinationArray, Int32 lengt
 void Array___<>::Copy(Array<> sourceArray, Int32 sourceIndex, Array<> destinationArray, Int32 destinationIndex, Int32 length) {
   if (sourceArray != nullptr && destinationArray != nullptr) {
     MethodTable* methodTable = RuntimeHelpers::GetMethodTable(sourceArray);
-    if (methodTable == RuntimeHelpers::GetMethodTable(destinationArray) && !methodTable->IsMultiDimensionalArray && length >= 0 && sourceIndex >= 0 && destinationIndex >= 0 && (UInt64)(UInt32)(sourceIndex + length) <= (UInt64)(UIntPtr)(void*)sourceArray->get_LongLength() && (UInt64)(UInt32)(destinationIndex + length) <= (UInt64)(UIntPtr)(void*)destinationArray->get_LongLength()) {
+    if (methodTable == RuntimeHelpers::GetMethodTable(destinationArray) && !methodTable->get_IsMultiDimensionalArray() && length >= 0 && sourceIndex >= 0 && destinationIndex >= 0 && (UInt64)(UInt32)(sourceIndex + length) <= (UInt64)(UIntPtr)(void*)sourceArray->get_LongLength() && (UInt64)(UInt32)(destinationIndex + length) <= (UInt64)(UIntPtr)(void*)destinationArray->get_LongLength()) {
       UIntPtr uIntPtr = (UIntPtr)(void*)methodTable->ComponentSize;
       UIntPtr uIntPtr2 = (UIntPtr)(void*)((Int64)(UInt32)length * (Int64)(UInt64)uIntPtr);
       Byte source = Unsafe::AddByteOffset(Unsafe::As(sourceArray)->Data, (UIntPtr)(void*)((Int64)(UInt32)sourceIndex * (Int64)(UInt64)uIntPtr));
       Byte destination = Unsafe::AddByteOffset(Unsafe::As(destinationArray)->Data, (UIntPtr)(void*)((Int64)(UInt32)destinationIndex * (Int64)(UInt64)uIntPtr));
-      if (methodTable->ContainsGCPointers) {
+      if (methodTable->get_ContainsGCPointers()) {
         Buffer::BulkMoveWithWriteBarrier(destination, source, uIntPtr2);
       } else {
         Buffer::Memmove(destination, source, uIntPtr2);
@@ -285,8 +285,8 @@ void Array___<>::Clear(Array<> array, Int32 index, Int32 length) {
   Byte source = Unsafe::As(array)->Data;
   Int32 num = 0;
   MethodTable* methodTable = RuntimeHelpers::GetMethodTable(array);
-  if (methodTable->IsMultiDimensionalArray) {
-    Int32 multiDimensionalArrayRank = methodTable->MultiDimensionalArrayRank;
+  if (methodTable->get_IsMultiDimensionalArray()) {
+    Int32 multiDimensionalArrayRank = methodTable->get_MultiDimensionalArrayRank();
     num = Unsafe::Add(Unsafe::As(source), multiDimensionalArrayRank);
     source = Unsafe::Add(source, 8 * multiDimensionalArrayRank);
   }
@@ -297,7 +297,7 @@ void Array___<>::Clear(Array<> array, Int32 index, Int32 length) {
   UIntPtr uIntPtr = (UIntPtr)(void*)methodTable->ComponentSize;
   Byte reference = Unsafe::AddByteOffset(source, (UIntPtr)(void*)((Int64)(UInt32)num2 * (Int64)(UInt64)uIntPtr));
   UIntPtr uIntPtr2 = (UIntPtr)(void*)((Int64)(UInt32)length * (Int64)(UInt64)uIntPtr);
-  if (methodTable->ContainsGCPointers) {
+  if (methodTable->get_ContainsGCPointers()) {
   } else {
     SpanHelpers::ClearWithoutReferences(reference, uIntPtr2);
   }

@@ -231,7 +231,8 @@ namespace Meson.Compiler {
     }
 
     public SyntaxNode VisitDefaultValueExpression(DefaultValueExpression defaultValueExpression) {
-      throw new NotImplementedException();
+      var typeName = defaultValueExpression.Type.AcceptExpression(this);
+      return IdentifierSyntax.Default.Generic(typeName);
     }
 
     public SyntaxNode VisitDirectionExpression(DirectionExpression directionExpression) {
@@ -346,6 +347,36 @@ namespace Meson.Compiler {
       throw new NotImplementedException();
     }
 
+    private MemberAccessExpressionSyntax BuildMemberAccessExpression(ExpressionSyntax target, ISymbol symbol, AstNode node, bool isPointer = false) {
+      switch (symbol.SymbolKind) {
+        case SymbolKind.Field:
+        case SymbolKind.Property:
+        case SymbolKind.Method: {
+            var member = (IEntity)symbol;
+            bool isGetter = false;
+            if (symbol.SymbolKind == SymbolKind.Property) {
+              var property = (IProperty)symbol;
+              isGetter = !(node.Parent is AssignmentExpression);
+              member = isGetter ? property.Getter : property.Setter;
+            }
+            ExpressionSyntax name = GetMemberName(member);
+            if (isGetter) {
+              name = name.Invation();
+            }
+            if (member.IsStatic) {
+              if (member.DeclaringTypeDefinition.IsRefType()) {
+                target = target.TwoColon(IdentifierSyntax.In);
+              }
+              return target.TwoColon(name);
+            } else {
+              return (isPointer || member.DeclaringTypeDefinition.IsRefType()) ? target.Arrow(name) : target.Dot(name);
+            }
+          }
+      }
+      throw new NotImplementedException();
+    }
+
+
     public SyntaxNode VisitMemberReferenceExpression(MemberReferenceExpression memberReferenceExpression) {
       var target = memberReferenceExpression.Target.Accept<ExpressionSyntax>(this);
       var symbol = memberReferenceExpression.GetSymbol() ?? memberReferenceExpression.Parent.GetSymbol();
@@ -355,33 +386,7 @@ namespace Meson.Compiler {
           symbol = typeSymbol.Members.First(i => i.Name == memberReferenceExpression.MemberName);
         }
       }
-      
-      switch (symbol.SymbolKind) {
-        case SymbolKind.Field: 
-        case SymbolKind.Property:
-        case SymbolKind.Method: {
-          var member = (IEntity)symbol;
-          bool isGetter = false;
-          if (symbol.SymbolKind == SymbolKind.Property) {
-            var property = (IProperty)symbol;
-            isGetter = !(memberReferenceExpression.Parent is AssignmentExpression);
-            member = isGetter ? property.Getter : property.Setter;
-          }
-          ExpressionSyntax name = GetMemberName(member);
-          if (isGetter) {
-            name = name.Invation();
-          }
-          if (member.IsStatic) {
-            if (member.DeclaringTypeDefinition.IsRefType()) {
-              target = target.TwoColon(IdentifierSyntax.In);
-            }
-            return target.TwoColon(name);
-          } else {
-            return member.DeclaringTypeDefinition.IsRefType() ? target.Arrow(name) : target.Dot(name);
-          }
-        }
-      }
-      throw new NotImplementedException();
+      return BuildMemberAccessExpression(target, symbol, memberReferenceExpression);
     }
 
     public SyntaxNode VisitNamedArgumentExpression(NamedArgumentExpression namedArgumentExpression) {
@@ -423,8 +428,7 @@ namespace Meson.Compiler {
     public SyntaxNode VisitPointerReferenceExpression(PointerReferenceExpression pointerReferenceExpression) {
       var target = pointerReferenceExpression.Target.AcceptExpression(this);
       var symbol = pointerReferenceExpression.GetSymbol();
-      var name = GetMemberName(symbol);
-      return target.Arrow(name);
+      return BuildMemberAccessExpression(target, symbol, pointerReferenceExpression, true);
     }
 
     public SyntaxNode VisitPrimitiveExpression(PrimitiveExpression primitiveExpression) {
