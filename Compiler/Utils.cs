@@ -594,6 +594,11 @@ namespace Meson.Compiler {
       return !(symbol is IField field && field.IsStatic);
     }
 
+    public static bool IsCtor(this IMethod method) {
+      return false;
+      //return !method.IsStatic && method.SymbolKind == SymbolKind.Constructor && method.DeclaringType.Kind == TypeKind.Struct;
+    }
+
     public static bool IsMainEntryPoint(this IMethod symbol) {
       if (symbol.Name == "Main" && symbol.IsStatic && symbol.TypeArguments.Count == 0 && symbol.DeclaringType.TypeArguments.Count == 0) {
         if (symbol.ReturnType.Kind == TypeKind.Void || symbol.ReturnType.IsInt32()) {

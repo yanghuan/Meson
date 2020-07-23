@@ -894,10 +894,11 @@ namespace Meson.Compiler {
 
     public SyntaxNode VisitMethodDeclaration(MethodDeclaration methodDeclaration) {
       var method = MethodSymbol;
+      bool isCtor = method.IsCtor();
       var parameters = method.Parameters.Select(i => GetParameterSyntax(i, method)).ToList();
-      var name = GetMemberName(MethodSymbol);
+      var name = isCtor ? classNode_.Name : GetMemberName(MethodSymbol);
       var declaringType = GetDeclaringType(method.DeclaringTypeDefinition);
-      var returnType = GetTypeName(method.ReturnType, method, false);
+      var returnType = isCtor ? null : GetTypeName(method.ReturnType, method, false);
       typeDefinition_.CheckOperatorParameters(method, parameters, returnType);
       MethodImplementationSyntax node = new MethodImplementationSyntax(name, returnType, parameters, declaringType);
       PushFunction(node);

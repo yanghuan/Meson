@@ -421,8 +421,13 @@ namespace rt {
   template <class T>
   static constexpr float NegativeInfinity = 0b11111111100000000000000000000000;
 
+  struct PrimitiveType_ {};
+
   template <class T>
-  struct PrimitiveType { 
+  static constexpr bool IsPrimitive = IsDerived<PrimitiveType_, T>;
+
+  template <class T>
+  struct PrimitiveType : public PrimitiveType_ { 
     bool operator ==(const T& other) {
       return static_cast<T*>(this)->m_value == other.m_value;
     }
@@ -465,6 +470,16 @@ namespace rt {
       T1 tmp = *p;
       ++p->m_value;
       return tmp;
+    }
+
+    template <class R> requires(IsPrimitive<R>)
+    explicit operator R() {
+      return (decltype(R().m_value))static_cast<T*>(this)->m_value;
+    }
+
+    template <class R = void*> requires(std::is_same_v<R, void*>)
+    explicit operator R() {
+      return (R)static_cast<T*>(this)->m_value;
     }
   };
 

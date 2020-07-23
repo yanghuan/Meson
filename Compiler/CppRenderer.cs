@@ -446,10 +446,21 @@ namespace Meson.Compiler {
       }
     }
 
-    internal void Render(ConstructorDefinitionSyntax node) {
+    internal void Render(MethodDefinitionSyntax node) {
       WriteAccessibility(node.AccessibilityToken);
+      if (node.IsStatic) {
+        Write(Tokens.Static);
+        WriteSpace();
+      }
       if (node.IsConstexpr) {
         Write(Tokens.Constexpr);
+        WriteSpace();
+      }
+      if (node.RetuenType != null) {
+        node.RetuenType.Render(this);
+        WriteSpace();
+      } else if (node.IsExplicit) {
+        Write(Tokens.Explicit);
         WriteSpace();
       }
       node.Name.Render(this);
@@ -461,7 +472,7 @@ namespace Meson.Compiler {
         Write(Tokens.Noexcept);
         WriteSpace();
       }
-      if (node.InitializationList.Count > 0) {
+      if (node.InitializationList != null && node.InitializationList.Count > 0) {
         WriteColon();
         WriteSpace();
         WriteNodesWithSeparated(node.InitializationList);
@@ -475,39 +486,11 @@ namespace Meson.Compiler {
       WriteNewLine();
     }
 
-    internal void Render(MethodDefinitionSyntax node) {
-      WriteAccessibility(node.AccessibilityToken);
-      if (node.IsStatic) {
-        Write(Tokens.Static);
-        WriteSpace();
-      }
-      if (node.IsConstexpr) {
-        Write(Tokens.Constexpr);
-        WriteSpace();
-      }
-      node.RetuenType.Render(this);
-      WriteSpace();
-      node.Name.Render(this);
-      Write(Tokens.OpenParentheses);
-      WriteNodesWithSeparated(node.Parameters);
-      Write(Tokens.CloseParentheses);
-      if (node.IsNoexcept) {
-        WriteSpace();
-        Write(Tokens.Noexcept);
-        WriteSpace();
-      }
-      if (node.Body != null) {
-        WriteSpace();
-        node.Body.Render(this);
-      } else {
-        WriteSemicolon();
-      }
-      WriteNewLine();
-    }
-
     internal void Render(MethodImplementationSyntax node) {
-      node.RetuenType.Render(this);
-      WriteSpace();
+      if (node.RetuenType != null) {
+        node.RetuenType.Render(this);
+        WriteSpace();
+      }
       if (node.DeclaringType != null) {
         node.DeclaringType.Render(this);
         Write(Tokens.TwoColon);

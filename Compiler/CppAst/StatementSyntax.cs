@@ -324,38 +324,16 @@ namespace Meson.Compiler.CppAst {
     }
   }
 
-  sealed class ConstructorDefinitionSyntax : StatementSyntax {
-    public bool IsConstexpr { get; set; }
-    public bool IsNoexcept { get; set; }
-    public string AccessibilityToken { get; }
-    public IdentifierSyntax Name { get; }
-    public readonly List<ParameterSyntax> Parameters = new List<ParameterSyntax>();
-    public List<InvationExpressionSyntax> InitializationList = new List<InvationExpressionSyntax>();
-    public BlockSyntax Body { get; set; }
-
-    public ConstructorDefinitionSyntax(IdentifierSyntax name, IEnumerable<ParameterSyntax> parameters, string accessibilityToken) {
-      Name = name;
-      Parameters.AddRange(parameters);
-      AccessibilityToken = accessibilityToken;
-    }
-
-    public void AddInitializationList(IdentifierSyntax name, ExpressionSyntax value) {
-      InitializationList.Add(name.Invation(value));
-    }
-
-    internal override void Render(CppRenderer renderer) {
-      renderer.Render(this);
-    }
-  }
-
   sealed class MethodDefinitionSyntax : StatementSyntax {
     public bool IsConstexpr { get; set; }
+    public bool IsExplicit { get; set; }
     public bool IsNoexcept { get; set; }
     public string AccessibilityToken { get; }
     public ExpressionSyntax RetuenType { get; }
     public IdentifierSyntax Name { get; }
     public bool IsStatic { get; }
     public readonly List<ParameterSyntax> Parameters = new List<ParameterSyntax>();
+    public List<InvationExpressionSyntax> InitializationList { get; set; }
     public BlockSyntax Body { get; set; }
 
     public MethodDefinitionSyntax(ExpressionSyntax retuenType, IdentifierSyntax name, IEnumerable<ParameterSyntax> parameters, bool isStatic, string accessibilityToken) {
@@ -364,6 +342,17 @@ namespace Meson.Compiler.CppAst {
       Parameters.AddRange(parameters);
       IsStatic = isStatic;
       AccessibilityToken = accessibilityToken;
+    }
+
+    public MethodDefinitionSyntax(IdentifierSyntax name, IEnumerable<ParameterSyntax> parameters, string accessibilityToken) {
+      Name = name;
+      Parameters.AddRange(parameters);
+      AccessibilityToken = accessibilityToken;
+    }
+
+    public void AddInitializationList(IdentifierSyntax name, ExpressionSyntax value) {
+      InitializationList ??= new List<InvationExpressionSyntax>();
+      InitializationList.Add(name.Invation(value));
     }
 
     internal override void Render(CppRenderer renderer) {

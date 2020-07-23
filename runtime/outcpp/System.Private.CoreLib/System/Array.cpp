@@ -630,6 +630,7 @@ void Array___<>::SetValue(Object value, Array<Int64> indices) {
 };
 
 Int32 Array___<>::GetMedian(Int32 low, Int32 hi) {
+  return low + (hi - low >> 1);
 };
 
 Int64 Array___<>::GetLongLength(Int32 dimension) {
