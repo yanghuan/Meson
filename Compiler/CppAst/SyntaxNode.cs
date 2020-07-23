@@ -124,6 +124,8 @@ namespace Meson.Compiler.CppAst {
     public const string Semicolon = ";";
     public const string Colon = ":";
     public new const string Equals = "=";
+    public const string PlusEquals = "+=";
+    public const string SubEquals = "-=";
     public const string EqualsEquals = "==";
     public const string NotEquals = "!=";
     public const string Plus = "+";
@@ -142,9 +144,11 @@ namespace Meson.Compiler.CppAst {
     public const string Arrow = "->";
     public const string TwoColon = "::";
     public const string Less = "<";
+    public const string LessLess = "<<";
     public const string LessEquals = "<=";
     public const string Greater = ">";
     public const string GreaterEquals = ">=";
+    public const string GreaterGreater = ">>";
     public const string LineComment = "//";
     public const string OpneComment = "/*";
     public const string CloseComment = "*/";

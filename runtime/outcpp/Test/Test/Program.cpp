@@ -22,7 +22,7 @@ void Program___::Main(Array<String> args) {
   Print(a);
   Print(a2);
   Print(a3);
-  rt::default<DateTime>.AddDays(2).ToString();
+  DateTime().AddDays(2).ToString();
 };
 
 void Program___::Print(Int32 a) {

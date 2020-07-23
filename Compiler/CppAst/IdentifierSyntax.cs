@@ -22,12 +22,13 @@ namespace Meson.Compiler.CppAst {
     public static readonly IdentifierSyntax Cast = "rt::cast";
     public static readonly IdentifierSyntax Throw = "rt::throw_exception";
     public static readonly IdentifierSyntax NewObj = "rt::newobj";
-    public static readonly IdentifierSyntax Default = "rt::default";
+    public static readonly IdentifierSyntax NewArray = "rt::newarr";
     public static readonly IdentifierSyntax Out = "out";
     public static readonly IdentifierSyntax Value = "value";
     public static readonly IdentifierSyntax This = "this";
     public static readonly IdentifierSyntax NAME = "NAME";
     public static readonly IdentifierSyntax Nullptr = Tokens.Nullptr;
+    public static readonly IdentifierSyntax Sizeof = Tokens.Sizeof;
   }
 
   internal class ValueTextIdentifierSyntax : IdentifierSyntax {

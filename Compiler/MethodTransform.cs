@@ -131,7 +131,10 @@ namespace Meson.Compiler {
     }
 
     public SyntaxNode VisitArrayCreateExpression(ArrayCreateExpression arrayCreateExpression) {
-      throw new NotImplementedException();
+      var type = arrayCreateExpression.GetResolveResult().Type;
+      var typeName = GetTypeName(type);
+      var size = arrayCreateExpression.Arguments.First().AcceptExpression(this);
+      return IdentifierSyntax.NewArray.Generic(typeName).Invation(size);
     }
 
     public SyntaxNode VisitArrayInitializerExpression(ArrayInitializerExpression arrayInitializerExpression) {
@@ -148,6 +151,12 @@ namespace Meson.Compiler {
       switch (operatorToken) {
         case AssignmentOperatorType.Assign:
           return Tokens.Equals;
+
+        case AssignmentOperatorType.Add:
+          return Tokens.PlusEquals;
+
+        case AssignmentOperatorType.Subtract:
+          return Tokens.SubEquals;
       }
       throw new NotImplementedException();
     }
@@ -204,6 +213,12 @@ namespace Meson.Compiler {
         case BinaryOperatorType.Modulus:
           return Tokens.Mod;
 
+        case BinaryOperatorType.ShiftRight:
+          return Tokens.GreaterGreater;
+
+        case BinaryOperatorType.ShiftLeft:
+          return Tokens.LessLess;
+
         default:
           throw new NotImplementedException();
       }
@@ -231,8 +246,11 @@ namespace Meson.Compiler {
     }
 
     public SyntaxNode VisitDefaultValueExpression(DefaultValueExpression defaultValueExpression) {
-      var typeName = defaultValueExpression.Type.AcceptExpression(this);
-      return IdentifierSyntax.Default.Generic(typeName);
+      var type = (ITypeDefinition)defaultValueExpression.Type.GetSymbol();
+      if (type.IsRefType()) {
+        return IdentifierSyntax.Nullptr;
+      }
+      return GetTypeName(type).Invation();
     }
 
     public SyntaxNode VisitDirectionExpression(DirectionExpression directionExpression) {
@@ -333,8 +351,18 @@ namespace Meson.Compiler {
     }
 
     public SyntaxNode VisitInvocationExpression(InvocationExpression invocationExpression) {
+      var arguments = BuildInvocationArguments(invocationExpression);
+      if (invocationExpression.Target is MemberReferenceExpression memberReference) {
+        var method = (IMethod)invocationExpression.GetSymbol();
+        if (method.IsExtensionMethod) {
+          var memberReferenceTarget = memberReference.Target.AcceptExpression(this);
+          arguments.Insert(0, memberReferenceTarget);
+          return GetTypeName(method.DeclaringTypeDefinition).TwoColon(GetMemberName(method)).Invation(arguments);
+        }
+      }
+
       var target = invocationExpression.Target.AcceptExpression(this);
-      return target.Invation(BuildInvocationArguments(invocationExpression));
+      return target.Invation(arguments);
     }
 
     public SyntaxNode VisitIsExpression(IsExpression isExpression) {
@@ -354,10 +382,20 @@ namespace Meson.Compiler {
         case SymbolKind.Method: {
             var member = (IEntity)symbol;
             bool isGetter = false;
-            if (symbol.SymbolKind == SymbolKind.Property) {
-              var property = (IProperty)symbol;
-              isGetter = !(node.Parent is AssignmentExpression);
-              member = isGetter ? property.Getter : property.Setter;
+            switch (symbol.SymbolKind) {
+              case SymbolKind.Property: {
+                  var property = (IProperty)symbol;
+                  isGetter = !(node.Parent is AssignmentExpression);
+                  member = isGetter ? property.Getter : property.Setter;
+                  break;
+                }
+              case SymbolKind.Method: {
+                  var method = (IMethod)symbol;
+                  if (method.IsExtensionMethod) {
+
+                  }
+                  break;
+                }
             }
             ExpressionSyntax name = GetMemberName(member);
             if (isGetter) {
@@ -375,7 +413,6 @@ namespace Meson.Compiler {
       }
       throw new NotImplementedException();
     }
-
 
     public SyntaxNode VisitMemberReferenceExpression(MemberReferenceExpression memberReferenceExpression) {
       var target = memberReferenceExpression.Target.Accept<ExpressionSyntax>(this);
@@ -436,7 +473,8 @@ namespace Meson.Compiler {
     }
 
     public SyntaxNode VisitSizeOfExpression(SizeOfExpression sizeOfExpression) {
-      throw new NotImplementedException();
+      var type = sizeOfExpression.Type.AcceptExpression(this);
+      return IdentifierSyntax.Sizeof.Invation(type);
     }
 
     public SyntaxNode VisitStackAllocExpression(StackAllocExpression stackAllocExpression) {

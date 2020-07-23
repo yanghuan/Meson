@@ -1,9 +1,11 @@
 #include "Array-dep.h"
 
 #include <System.Private.CoreLib/Internal/Runtime/CompilerServices/Unsafe-dep.h>
+#include <System.Private.CoreLib/System/ArgumentException-dep.h>
 #include <System.Private.CoreLib/System/ArgumentOutOfRangeException-dep.h>
 #include <System.Private.CoreLib/System/Array-dep.h>
 #include <System.Private.CoreLib/System/ArrayEnumerator-dep.h>
+#include <System.Private.CoreLib/System/ArrayTypeMismatchException-dep.h>
 #include <System.Private.CoreLib/System/Buffer-dep.h>
 #include <System.Private.CoreLib/System/Byte-dep.h>
 #include <System.Private.CoreLib/System/Collections/Comparer-dep.h>
@@ -272,6 +274,35 @@ void Array___<>::Copy(Array<> sourceArray, Int32 sourceIndex, Array<> destinatio
   if (sourceIndex < lowerBound || sourceIndex - lowerBound < 0) {
     rt::throw_exception<ArgumentOutOfRangeException>("sourceIndex", SR::get_ArgumentOutOfRange_ArrayLB());
   }
+  sourceIndex -= lowerBound;
+  Int32 lowerBound2 = destinationArray->GetLowerBound(0);
+  if (destinationIndex < lowerBound2 || destinationIndex - lowerBound2 < 0) {
+    rt::throw_exception<ArgumentOutOfRangeException>("destinationIndex", SR::get_ArgumentOutOfRange_ArrayLB());
+  }
+  destinationIndex -= lowerBound2;
+  if ((UInt64)(UInt32)(sourceIndex + length) > (UInt64)(UIntPtr)(void*)sourceArray->get_LongLength()) {
+    rt::throw_exception<ArgumentException>(SR::get_Arg_LongerThanSrcArray(), "sourceArray");
+  }
+  if ((UInt64)(UInt32)(destinationIndex + length) > (UInt64)(UIntPtr)(void*)destinationArray->get_LongLength()) {
+    rt::throw_exception<ArgumentException>(SR::get_Arg_LongerThanDestArray(), "destinationArray");
+  }
+  if (sourceArray->GetType() == destinationArray->GetType() || IsSimpleCopy(sourceArray, destinationArray)) {
+    MethodTable* methodTable = RuntimeHelpers::GetMethodTable(sourceArray);
+    UIntPtr uIntPtr = (UIntPtr)(void*)methodTable->ComponentSize;
+    UIntPtr uIntPtr2 = (UIntPtr)(void*)((Int64)(UInt32)length * (Int64)(UInt64)uIntPtr);
+    Byte source = Unsafe::AddByteOffset(RuntimeHelpers::GetRawArrayData(sourceArray), (UIntPtr)(void*)((Int64)(UInt32)sourceIndex * (Int64)(UInt64)uIntPtr));
+    Byte destination = Unsafe::AddByteOffset(RuntimeHelpers::GetRawArrayData(destinationArray), (UIntPtr)(void*)((Int64)(UInt32)destinationIndex * (Int64)(UInt64)uIntPtr));
+    if (methodTable->get_ContainsGCPointers()) {
+      Buffer::BulkMoveWithWriteBarrier(destination, source, uIntPtr2);
+    } else {
+      Buffer::Memmove(destination, source, uIntPtr2);
+    }
+  } else {
+    if (reliable) {
+      rt::throw_exception<ArrayTypeMismatchException>(SR::get_ArrayTypeMismatch_ConstrainedCopy());
+    }
+    CopySlow(sourceArray, sourceIndex, destinationArray, destinationIndex, length);
+  }
 };
 
 void Array___<>::ConstrainedCopy(Array<> sourceArray, Int32 sourceIndex, Array<> destinationArray, Int32 destinationIndex, Int32 length) {
@@ -298,6 +329,7 @@ void Array___<>::Clear(Array<> array, Int32 index, Int32 length) {
   Byte reference = Unsafe::AddByteOffset(source, (UIntPtr)(void*)((Int64)(UInt32)num2 * (Int64)(UInt64)uIntPtr));
   UIntPtr uIntPtr2 = (UIntPtr)(void*)((Int64)(UInt32)length * (Int64)(UInt64)uIntPtr);
   if (methodTable->get_ContainsGCPointers()) {
+    SpanHelpers::ClearWithReferences(Unsafe::As(reference), (UIntPtr)(void*)((UInt64)uIntPtr2 / (UInt64)(UInt32)sizeof(IntPtr)));
   } else {
     SpanHelpers::ClearWithoutReferences(reference, uIntPtr2);
   }
@@ -310,12 +342,21 @@ Object Array___<>::GetValue(Array<Int32> indices) {
   if (get_Rank() != indices->get_Length()) {
     ThrowHelper::ThrowArgumentException(ExceptionResource::Arg_RankIndices);
   }
+  TypedReference typedReference = TypedReference();
+  {
+    Int32* pIndices = &indices[0];
+    InternalGetReference(&typedReference, indices->get_Length(), pIndices);
+  }
+  return TypedReference::InternalToObject(&typedReference);
 };
 
 Object Array___<>::GetValue(Int32 index) {
   if (get_Rank() != 1) {
     ThrowHelper::ThrowArgumentException(ExceptionResource::Arg_Need1DArray);
   }
+  TypedReference typedReference = TypedReference();
+  InternalGetReference(&typedReference, 1, &index);
+  return TypedReference::InternalToObject(&typedReference);
 };
 
 Object Array___<>::GetValue(Int32 index1, Int32 index2) {
@@ -326,6 +367,9 @@ Object Array___<>::GetValue(Int32 index1, Int32 index2) {
   Int32* ptr = default;
   *ptr = index1;
   ptr[1] = index2;
+  TypedReference typedReference = TypedReference();
+  InternalGetReference(&typedReference, 2, ptr);
+  return TypedReference::InternalToObject(&typedReference);
 };
 
 Object Array___<>::GetValue(Int32 index1, Int32 index2, Int32 index3) {
@@ -337,12 +381,18 @@ Object Array___<>::GetValue(Int32 index1, Int32 index2, Int32 index3) {
   *ptr = index1;
   ptr[1] = index2;
   ptr[2] = index3;
+  TypedReference typedReference = TypedReference();
+  InternalGetReference(&typedReference, 3, ptr);
+  return TypedReference::InternalToObject(&typedReference);
 };
 
 void Array___<>::SetValue(Object value, Int32 index) {
   if (get_Rank() != 1) {
     ThrowHelper::ThrowArgumentException(ExceptionResource::Arg_Need1DArray);
   }
+  TypedReference typedReference = TypedReference();
+  InternalGetReference(&typedReference, 1, &index);
+  InternalSetValue(&typedReference, value);
 };
 
 void Array___<>::SetValue(Object value, Int32 index1, Int32 index2) {
@@ -353,6 +403,9 @@ void Array___<>::SetValue(Object value, Int32 index1, Int32 index2) {
   Int32* ptr = default;
   *ptr = index1;
   ptr[1] = index2;
+  TypedReference typedReference = TypedReference();
+  InternalGetReference(&typedReference, 2, ptr);
+  InternalSetValue(&typedReference, value);
 };
 
 void Array___<>::SetValue(Object value, Int32 index1, Int32 index2, Int32 index3) {
@@ -364,6 +417,9 @@ void Array___<>::SetValue(Object value, Int32 index1, Int32 index2, Int32 index3
   *ptr = index1;
   ptr[1] = index2;
   ptr[2] = index3;
+  TypedReference typedReference = TypedReference();
+  InternalGetReference(&typedReference, 3, ptr);
+  InternalSetValue(&typedReference, value);
 };
 
 void Array___<>::SetValue(Object value, Array<Int32> indices) {
@@ -373,6 +429,12 @@ void Array___<>::SetValue(Object value, Array<Int32> indices) {
   if (get_Rank() != indices->get_Length()) {
     ThrowHelper::ThrowArgumentException(ExceptionResource::Arg_RankIndices);
   }
+  TypedReference typedReference = TypedReference();
+  {
+    Int32* pIndices = &indices[0];
+    InternalGetReference(&typedReference, indices->get_Length(), pIndices);
+  }
+  InternalSetValue(&typedReference, value);
 };
 
 Int32 Array___<>::GetLength(Int32 dimension) {
@@ -421,6 +483,16 @@ Array<> Array___<>::CreateInstance(Type elementType, Array<Int64> lengths) {
   if (lengths->get_Length() == 0) {
     ThrowHelper::ThrowArgumentException(ExceptionResource::Arg_NeedAtLeast1Rank);
   }
+  Int32 array = rt::newarr<Array<Int32>>(lengths->get_Length());
+  for (Int32 i = 0; i < lengths->get_Length(); ++i) {
+    Int64 num = lengths[i];
+    Int32 num2 = (Int32)num;
+    if (num != num2) {
+      ThrowHelper::ThrowArgumentOutOfRangeException(ExceptionArgument::len, ExceptionResource::ArgumentOutOfRange_HugeArrayNotSupported);
+    }
+    array[i] = num2;
+  }
+  return CreateInstance(elementType, array);
 };
 
 void Array___<>::Copy(Array<> sourceArray, Array<> destinationArray, Int64 length) {
@@ -490,6 +562,16 @@ Object Array___<>::GetValue(Array<Int64> indices) {
   if (get_Rank() != indices->get_Length()) {
     ThrowHelper::ThrowArgumentException(ExceptionResource::Arg_RankIndices);
   }
+  Int32 array = rt::newarr<Array<Int32>>(indices->get_Length());
+  for (Int32 i = 0; i < indices->get_Length(); ++i) {
+    Int64 num = indices[i];
+    Int32 num2 = (Int32)num;
+    if (num != num2) {
+      ThrowHelper::ThrowArgumentOutOfRangeException(ExceptionArgument::index, ExceptionResource::ArgumentOutOfRange_HugeArrayNotSupported);
+    }
+    array[i] = num2;
+  }
+  return GetValue(array);
 };
 
 void Array___<>::SetValue(Object value, Int64 index) {
@@ -535,6 +617,16 @@ void Array___<>::SetValue(Object value, Array<Int64> indices) {
   if (get_Rank() != indices->get_Length()) {
     ThrowHelper::ThrowArgumentException(ExceptionResource::Arg_RankIndices);
   }
+  Int32 array = rt::newarr<Array<Int32>>(indices->get_Length());
+  for (Int32 i = 0; i < indices->get_Length(); ++i) {
+    Int64 num = indices[i];
+    Int32 num2 = (Int32)num;
+    if (num != num2) {
+      ThrowHelper::ThrowArgumentOutOfRangeException(ExceptionArgument::index, ExceptionResource::ArgumentOutOfRange_HugeArrayNotSupported);
+    }
+    array[i] = num2;
+  }
+  SetValue(value, array);
 };
 
 Int32 Array___<>::GetMedian(Int32 low, Int32 hi) {
@@ -593,7 +685,7 @@ Int32 Array___<>::BinarySearch(Array<> array, Int32 index, Int32 length, Object 
   }
   if (comparer == Comparer::in::Default) {
     CorElementType corElementTypeOfElementType = array->GetCorElementTypeOfElementType();
-    if (corElementTypeOfElementType::IsPrimitiveType()) {
+    if (RuntimeHelpers::IsPrimitiveType(corElementTypeOfElementType)) {
       if (value == nullptr) {
       }
       if (array->IsValueOfElementType(value)) {
@@ -668,7 +760,7 @@ Int32 Array___<>::IndexOf(Array<> array, Object value, Int32 startIndex, Int32 c
     return -1;
   }
   CorElementType corElementTypeOfElementType = array->GetCorElementTypeOfElementType();
-  if (corElementTypeOfElementType::IsPrimitiveType()) {
+  if (RuntimeHelpers::IsPrimitiveType(corElementTypeOfElementType)) {
     if (value == nullptr) {
       return lowerBound - 1;
     }
@@ -736,7 +828,7 @@ Int32 Array___<>::LastIndexOf(Array<> array, Object value, Int32 startIndex, Int
     return -1;
   }
   CorElementType corElementTypeOfElementType = array->GetCorElementTypeOfElementType();
-  if (corElementTypeOfElementType::IsPrimitiveType()) {
+  if (RuntimeHelpers::IsPrimitiveType(corElementTypeOfElementType)) {
     if (value == nullptr) {
       return lowerBound - 1;
     }
