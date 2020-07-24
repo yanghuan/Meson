@@ -10,11 +10,11 @@ namespace System::Private::CoreLib::System::Diagnostics::Tracing {
 namespace SessionMaskNamespace {
 struct SessionMask : public rt::ValueType<SessionMask> {
   public: static SessionMask get_All();
-  public: void Ctor(UInt32 mask);
+  public: explicit SessionMask(UInt32 mask);
   public: UInt64 ToEventKeywords();
   public: static SessionMask FromEventKeywords(UInt64 m);
   public: static UInt32 op_Explicit(SessionMask m);
-  public: void Ctor();
+  public: explicit SessionMask() {}
   private: UInt32 m_mask;
 };
 } // namespace SessionMaskNamespace

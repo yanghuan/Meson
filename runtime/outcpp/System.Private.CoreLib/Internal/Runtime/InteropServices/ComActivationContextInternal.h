@@ -11,7 +11,6 @@ namespace System::Private::CoreLib::Internal::Runtime::InteropServices {
 namespace ComActivationContextInternalNamespace {
 using namespace ::System::Private::CoreLib::System;
 struct ComActivationContextInternal {
-  public: void Ctor();
   public: Guid ClassId;
   public: Guid InterfaceId;
   public: Char* AssemblyPathBuffer;

@@ -20,7 +20,6 @@ using Collections::Generic::IList;
 CLASS(ThreadLocal, T) {
   private: FORWARDN(LinkedSlot)
   private: struct LinkedSlotVolatile {
-    public: void Ctor();
     public: LinkedSlot Value;
   };
   private: CLASS(LinkedSlot) {

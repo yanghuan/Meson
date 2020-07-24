@@ -44,7 +44,6 @@ struct SByte : public rt::PrimitiveType<SByte> {
   public: static Boolean TryParse(ReadOnlySpan<Char> s, NumberStyles style, IFormatProvider provider, SByte& result);
   private: static Boolean TryParse(ReadOnlySpan<Char> s, NumberStyles style, NumberFormatInfo info, SByte& result);
   public: TypeCode GetTypeCode();
-  public: void Ctor();
   private: int8_t m_value;
   public: static constexpr int8_t MaxValue = 127;
   public: static constexpr int8_t MinValue = -128;

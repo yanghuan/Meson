@@ -46,7 +46,7 @@ using namespace Threading;
 struct RuntimeMethodHandle : public rt::ValueType<RuntimeMethodHandle> {
   public: IntPtr get_Value();
   public: static IRuntimeMethodInfo EnsureNonNullMethodInfo(IRuntimeMethodInfo method);
-  public: void Ctor(IRuntimeMethodInfo method);
+  public: explicit RuntimeMethodHandle(IRuntimeMethodInfo method);
   public: IRuntimeMethodInfo GetMethodInfo();
   private: static IntPtr GetValueInternal(RuntimeMethodHandle rmh);
   public: void GetObjectData(SerializationInfo info, StreamingContext context);
@@ -101,7 +101,7 @@ struct RuntimeMethodHandle : public rt::ValueType<RuntimeMethodHandle> {
   public: static RuntimeMethodBody GetMethodBody(IRuntimeMethodInfo method, RuntimeType declaringType);
   public: static Boolean IsConstructor(RuntimeMethodHandleInternal method);
   public: static LoaderAllocator GetLoaderAllocator(RuntimeMethodHandleInternal method);
-  public: void Ctor();
+  public: explicit RuntimeMethodHandle() {}
   private: IRuntimeMethodInfo m_value;
 };
 } // namespace RuntimeMethodHandleNamespace

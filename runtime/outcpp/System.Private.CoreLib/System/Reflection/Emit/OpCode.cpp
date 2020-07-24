@@ -33,7 +33,7 @@ String OpCode::get_Name() {
   return nullptr;
 };
 
-void OpCode::Ctor(OpCodeValues value, Int32 flags) {
+OpCode::OpCode(OpCodeValues value, Int32 flags) {
 };
 
 Boolean OpCode::EndsUncondJmpBlk() {

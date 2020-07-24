@@ -14,9 +14,9 @@ namespace QCallModuleNamespace {
 using namespace Reflection;
 using namespace Reflection::Emit;
 struct QCallModule {
-  public: void Ctor(RuntimeModule& module);
-  public: void Ctor(ModuleBuilder& module);
-  public: void Ctor();
+  public: explicit QCallModule(RuntimeModule& module);
+  public: explicit QCallModule(ModuleBuilder& module);
+  public: explicit QCallModule() {}
   private: void* _ptr;
   private: IntPtr _module;
 };

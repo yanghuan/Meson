@@ -45,7 +45,6 @@ using namespace Threading;
 using namespace Threading::Tasks;
 CLASS(Stream) {
   private: struct ReadWriteParameters {
-    public: void Ctor();
     public: Array<Byte> Buffer;
     public: Int32 Offset;
     public: Int32 Count;

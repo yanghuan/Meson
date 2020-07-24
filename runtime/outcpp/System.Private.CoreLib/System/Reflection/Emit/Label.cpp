@@ -1,7 +1,7 @@
 #include "Label-dep.h"
 
 namespace System::Private::CoreLib::System::Reflection::Emit::LabelNamespace {
-void Label::Ctor(Int32 label) {
+Label::Label(Int32 label) {
 };
 
 Int32 Label::GetLabelValue() {

@@ -22,7 +22,7 @@ Boolean StringBuilder___::ChunkEnumerator::MoveNext() {
   return Boolean();
 };
 
-void StringBuilder___::ChunkEnumerator::Ctor(StringBuilder stringBuilder) {
+StringBuilder___::ChunkEnumerator::ChunkEnumerator(StringBuilder stringBuilder) {
 };
 
 Int32 StringBuilder___::ChunkEnumerator::ChunkCount(StringBuilder stringBuilder) {

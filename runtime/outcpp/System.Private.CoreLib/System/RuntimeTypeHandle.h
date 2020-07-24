@@ -54,10 +54,10 @@ using namespace Threading;
 struct RuntimeTypeHandle : public rt::ValueType<RuntimeTypeHandle> {
   public: struct IntroducedMethodEnumerator {
     public: RuntimeMethodHandleInternal get_Current();
-    public: void Ctor(RuntimeType type);
+    public: explicit IntroducedMethodEnumerator(RuntimeType type);
     public: Boolean MoveNext();
     public: IntroducedMethodEnumerator GetEnumerator();
-    public: void Ctor();
+    public: explicit IntroducedMethodEnumerator() {}
     private: Boolean _firstCall;
     private: RuntimeMethodHandleInternal _handle;
   };
@@ -74,7 +74,7 @@ struct RuntimeTypeHandle : public rt::ValueType<RuntimeTypeHandle> {
   public: Boolean Equals(Object obj);
   public: Boolean Equals(RuntimeTypeHandle handle);
   public: static IntPtr GetValueInternal(RuntimeTypeHandle handle);
-  public: void Ctor(RuntimeType type);
+  public: explicit RuntimeTypeHandle(RuntimeType type);
   public: static Boolean IsTypeDefinition(RuntimeType type);
   public: static Boolean IsPrimitive(RuntimeType type);
   public: static Boolean IsByRef(RuntimeType type);
@@ -162,7 +162,7 @@ struct RuntimeTypeHandle : public rt::ValueType<RuntimeTypeHandle> {
   public: static MetadataImport GetMetadataImport(RuntimeType type);
   public: void GetObjectData(SerializationInfo info, StreamingContext context);
   public: static Boolean IsEquivalentTo(RuntimeType rtType1, RuntimeType rtType2);
-  public: void Ctor();
+  public: explicit RuntimeTypeHandle() {}
   public: RuntimeType m_type;
 };
 } // namespace RuntimeTypeHandleNamespace

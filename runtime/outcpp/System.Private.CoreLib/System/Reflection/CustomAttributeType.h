@@ -13,8 +13,8 @@ struct CustomAttributeType {
   public: CustomAttributeEncoding get_EncodedEnumType();
   public: CustomAttributeEncoding get_EncodedArrayType();
   public: String get_EnumName();
-  public: void Ctor(CustomAttributeEncoding encodedType, CustomAttributeEncoding encodedArrayType, CustomAttributeEncoding encodedEnumType, String enumName);
-  public: void Ctor();
+  public: explicit CustomAttributeType(CustomAttributeEncoding encodedType, CustomAttributeEncoding encodedArrayType, CustomAttributeEncoding encodedEnumType, String enumName);
+  public: explicit CustomAttributeType() {}
   private: String m_enumName;
   private: CustomAttributeEncoding m_encodedType;
   private: CustomAttributeEncoding m_encodedEnumType;

@@ -11,13 +11,13 @@ namespace System::Private::CoreLib::System::Reflection::Emit {
 namespace EventTokenNamespace {
 struct EventToken : public rt::ValueType<EventToken> {
   public: Int32 get_Token() { return Token; }
-  public: void Ctor(Int32 eventToken);
+  public: explicit EventToken(Int32 eventToken);
   public: Int32 GetHashCode();
   public: Boolean Equals(Object obj);
   public: Boolean Equals(EventToken obj);
   public: static Boolean op_Equality(EventToken a, EventToken b);
   public: static Boolean op_Inequality(EventToken a, EventToken b);
-  public: void Ctor();
+  public: explicit EventToken() {}
   public: static EventToken Empty;
   private: Int32 Token;
 };

@@ -100,7 +100,6 @@ CLASS(Uri) {
     FoundNonAscii = 8,
   };
   private: struct Offset {
-    public: void Ctor();
     public: UInt16 Scheme;
     public: UInt16 User;
     public: UInt16 Host;

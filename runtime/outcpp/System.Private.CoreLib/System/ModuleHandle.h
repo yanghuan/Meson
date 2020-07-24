@@ -40,7 +40,7 @@ using namespace Runtime::CompilerServices;
 struct ModuleHandle : public rt::ValueType<ModuleHandle> {
   public: Int32 get_MDStreamVersion();
   private: static ModuleHandle GetEmptyMH();
-  public: void Ctor(RuntimeModule module);
+  public: explicit ModuleHandle(RuntimeModule module);
   public: RuntimeModule GetRuntimeModule();
   public: Int32 GetHashCode();
   public: Boolean Equals(Object obj);
@@ -77,7 +77,7 @@ struct ModuleHandle : public rt::ValueType<ModuleHandle> {
   private: static IntPtr _GetMetadataImport(RuntimeModule module);
   public: static MetadataImport GetMetadataImport(RuntimeModule module);
   private: static void SCtor();
-  public: void Ctor();
+  public: explicit ModuleHandle() {}
   public: static ModuleHandle EmptyHandle;
   private: RuntimeModule m_ptr;
 };

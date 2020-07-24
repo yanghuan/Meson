@@ -23,11 +23,11 @@ CLASS(List, T) {
   public: struct Enumerator {
     public: T get_Current();
     private: Object get_CurrentOfIEnumerator();
-    public: void Ctor(List<T> list);
+    public: explicit Enumerator(List<T> list);
     public: void Dispose();
     public: Boolean MoveNext();
     private: Boolean MoveNextRare();
-    public: void Ctor();
+    public: explicit Enumerator() {}
     private: List<T> _list;
     private: Int32 _index;
     private: Int32 _version;

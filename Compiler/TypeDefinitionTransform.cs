@@ -173,9 +173,12 @@ namespace Meson.Compiler {
     }
 
     private void VisitMethod(IMethod method, ITypeDefinition typeDefinition, ClassSyntax node) {
-      bool isCtor = method.IsCtor(); 
+      bool isCtor = method.IsCtor();
       if (isCtor && !method.HasBody) {
-        return;
+        bool hasOtherCtor = typeDefinition.Methods.Any(i => i.SymbolKind == SymbolKind.Constructor && i != method && !i.IsStatic);
+        if (!hasOtherCtor) {
+          return;
+        }
       }
 
       var parameters = method.Parameters.Select(i => GetParameterSyntax(i, method, typeDefinition)).ToList();
@@ -204,6 +207,10 @@ namespace Meson.Compiler {
           if (typeDefinition.TypeParameterCount == 0) {
             new MethodTransform(this, method, node);
           }
+        }
+      } else {
+        if (isCtor) {
+          methodDefinition.Body = new BlockSyntax() { IsSingleLine = true };
         }
       }
     }

@@ -22,67 +22,67 @@ Int32 PropertyValue::get_ScalarLength() {
   return Int32();
 };
 
-void PropertyValue::Ctor(Object value) {
+PropertyValue::PropertyValue(Object value) {
 };
 
-void PropertyValue::Ctor(Scalar scalar, Int32 scalarLength) {
+PropertyValue::PropertyValue(Scalar scalar, Int32 scalarLength) {
 };
 
-void PropertyValue::Ctor(Boolean value) {
+PropertyValue::PropertyValue(Boolean value) {
 };
 
-void PropertyValue::Ctor(Byte value) {
+PropertyValue::PropertyValue(Byte value) {
 };
 
-void PropertyValue::Ctor(SByte value) {
+PropertyValue::PropertyValue(SByte value) {
 };
 
-void PropertyValue::Ctor(Char value) {
+PropertyValue::PropertyValue(Char value) {
 };
 
-void PropertyValue::Ctor(Int16 value) {
+PropertyValue::PropertyValue(Int16 value) {
 };
 
-void PropertyValue::Ctor(UInt16 value) {
+PropertyValue::PropertyValue(UInt16 value) {
 };
 
-void PropertyValue::Ctor(Int32 value) {
+PropertyValue::PropertyValue(Int32 value) {
 };
 
-void PropertyValue::Ctor(UInt32 value) {
+PropertyValue::PropertyValue(UInt32 value) {
 };
 
-void PropertyValue::Ctor(Int64 value) {
+PropertyValue::PropertyValue(Int64 value) {
 };
 
-void PropertyValue::Ctor(UInt64 value) {
+PropertyValue::PropertyValue(UInt64 value) {
 };
 
-void PropertyValue::Ctor(IntPtr value) {
+PropertyValue::PropertyValue(IntPtr value) {
 };
 
-void PropertyValue::Ctor(UIntPtr value) {
+PropertyValue::PropertyValue(UIntPtr value) {
 };
 
-void PropertyValue::Ctor(Single value) {
+PropertyValue::PropertyValue(Single value) {
 };
 
-void PropertyValue::Ctor(Double value) {
+PropertyValue::PropertyValue(Double value) {
 };
 
-void PropertyValue::Ctor(Guid value) {
+PropertyValue::PropertyValue(Guid value) {
 };
 
-void PropertyValue::Ctor(DateTime value) {
+PropertyValue::PropertyValue(DateTime value) {
 };
 
-void PropertyValue::Ctor(DateTimeOffset value) {
+PropertyValue::PropertyValue(DateTimeOffset value) {
 };
 
-void PropertyValue::Ctor(TimeSpan value) {
+PropertyValue::PropertyValue(TimeSpan value) {
 };
 
-void PropertyValue::Ctor(Decimal value) {
+PropertyValue::PropertyValue(Decimal value) {
 };
 
 Func<Object, PropertyValue> PropertyValue::GetFactory(Type type) {

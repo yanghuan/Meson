@@ -9,10 +9,10 @@ CompareInfo __DTString::get_CompareInfo() {
   return nullptr;
 };
 
-void __DTString::Ctor(ReadOnlySpan<Char> str, DateTimeFormatInfo dtfi, Boolean checkDigitToken) {
+__DTString::__DTString(ReadOnlySpan<Char> str, DateTimeFormatInfo dtfi, Boolean checkDigitToken) {
 };
 
-void __DTString::Ctor(ReadOnlySpan<Char> str, DateTimeFormatInfo dtfi) {
+__DTString::__DTString(ReadOnlySpan<Char> str, DateTimeFormatInfo dtfi) {
 };
 
 Boolean __DTString::GetNext() {

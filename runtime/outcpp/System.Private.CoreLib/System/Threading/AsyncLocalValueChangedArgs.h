@@ -10,8 +10,8 @@ struct AsyncLocalValueChangedArgs {
   public: T get_PreviousValue() { return PreviousValue; }
   public: T get_CurrentValue() { return CurrentValue; }
   public: Boolean get_ThreadContextChanged() { return ThreadContextChanged; }
-  public: void Ctor(T previousValue, T currentValue, Boolean contextChanged);
-  public: void Ctor();
+  public: explicit AsyncLocalValueChangedArgs(T previousValue, T currentValue, Boolean contextChanged);
+  public: explicit AsyncLocalValueChangedArgs() {}
   private: T PreviousValue;
   private: T CurrentValue;
   private: Boolean ThreadContextChanged;

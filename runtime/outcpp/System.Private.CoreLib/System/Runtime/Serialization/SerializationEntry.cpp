@@ -13,7 +13,7 @@ Type SerializationEntry::get_ObjectType() {
   return nullptr;
 };
 
-void SerializationEntry::Ctor(String entryName, Object entryValue, Type entryType) {
+SerializationEntry::SerializationEntry(String entryName, Object entryValue, Type entryType) {
 };
 
 } // namespace System::Private::CoreLib::System::Runtime::Serialization::SerializationEntryNamespace

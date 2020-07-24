@@ -16,7 +16,6 @@ namespace ResolverNamespace {
 using namespace Reflection;
 CLASS(Resolver) {
   public: struct CORINFO_EH_CLAUSE {
-    public: void Ctor();
     public: Int32 Flags;
     public: Int32 TryOffset;
     public: Int32 TryLength;

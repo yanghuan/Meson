@@ -47,7 +47,7 @@ Int32 TimeZoneInfo___::TransitionTime::GetHashCode() {
   return Int32();
 };
 
-void TimeZoneInfo___::TransitionTime::Ctor(DateTime timeOfDay, Int32 month, Int32 week, Int32 day, DayOfWeek dayOfWeek, Boolean isFixedDateRule) {
+TimeZoneInfo___::TransitionTime::TransitionTime(DateTime timeOfDay, Int32 month, Int32 week, Int32 day, DayOfWeek dayOfWeek, Boolean isFixedDateRule) {
 };
 
 TimeZoneInfo::in::TransitionTime TimeZoneInfo___::TransitionTime::CreateFixedDateRule(DateTime timeOfDay, Int32 month, Int32 day) {
@@ -61,7 +61,7 @@ TimeZoneInfo::in::TransitionTime TimeZoneInfo___::TransitionTime::CreateFloating
 void TimeZoneInfo___::TransitionTime::ValidateTransitionTime(DateTime timeOfDay, Int32 month, Int32 week, Int32 day, DayOfWeek dayOfWeek) {
 };
 
-void TimeZoneInfo___::TransitionTime::Ctor(SerializationInfo info, StreamingContext context) {
+TimeZoneInfo___::TransitionTime::TransitionTime(SerializationInfo info, StreamingContext context) {
 };
 
 DateTime TimeZoneInfo___::AdjustmentRule___::get_DateStart() {
@@ -169,7 +169,7 @@ TimeZoneInfo TimeZoneInfo___::StringSerializer::GetDeserializedTimeZoneInfo(Stri
   return nullptr;
 };
 
-void TimeZoneInfo___::StringSerializer::Ctor(String str) {
+TimeZoneInfo___::StringSerializer::StringSerializer(String str) {
 };
 
 void TimeZoneInfo___::StringSerializer::SerializeSubstitute(String text, ValueStringBuilder& serializedText) {

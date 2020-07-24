@@ -3,7 +3,7 @@
 #include <System.Private.CoreLib/System/Runtime/Loader/AssemblyLoadContext-dep.h>
 
 namespace System::Private::CoreLib::System::Runtime::Loader::AssemblyLoadContextNamespace {
-void AssemblyLoadContext___::ContextualReflectionScope::Ctor(AssemblyLoadContext activating) {
+AssemblyLoadContext___::ContextualReflectionScope::ContextualReflectionScope(AssemblyLoadContext activating) {
 };
 
 void AssemblyLoadContext___::ContextualReflectionScope::Dispose() {

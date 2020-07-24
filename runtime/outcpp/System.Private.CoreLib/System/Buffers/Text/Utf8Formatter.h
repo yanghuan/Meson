@@ -30,7 +30,6 @@ namespace System::Private::CoreLib::System::Buffers::Text {
 namespace Utf8FormatterNamespace {
 class Utf8Formatter {
   private: struct DecomposedGuid {
-    public: void Ctor();
     public: Guid Guid;
     public: Byte Byte00;
     public: Byte Byte01;

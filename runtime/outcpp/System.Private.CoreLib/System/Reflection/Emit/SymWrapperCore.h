@@ -25,7 +25,6 @@ using namespace Diagnostics::SymbolStore;
 CLASS(SymWrapperCore) {
   private: CLASS(SymDocumentWriter) {
     private: struct ISymUnmanagedDocumentWriter {
-      public: void Ctor();
       public: IntPtr m_unmanagedVTable;
     };
     private: CLASS(DSetCheckSum) {
@@ -35,7 +34,6 @@ CLASS(SymWrapperCore) {
       public: Int32 EndInvoke(IAsyncResult result);
     };
     private: struct ISymUnmanagedDocumentWriterVTable {
-      public: void Ctor();
       public: IntPtr QueryInterface;
       public: IntPtr AddRef;
       public: IntPtr Release;
@@ -50,7 +48,6 @@ CLASS(SymWrapperCore) {
   };
   public: CLASS(SymWriter) {
     private: struct ISymUnmanagedWriter {
-      public: void Ctor();
       public: IntPtr m_unmanagedVTable;
     };
     private: CLASS(DInitialize) {
@@ -144,7 +141,6 @@ CLASS(SymWrapperCore) {
       public: Int32 EndInvoke(IAsyncResult result);
     };
     private: struct ISymUnmanagedWriterVTable {
-      public: void Ctor();
       public: IntPtr QueryInterface;
       public: IntPtr AddRef;
       public: IntPtr Release;

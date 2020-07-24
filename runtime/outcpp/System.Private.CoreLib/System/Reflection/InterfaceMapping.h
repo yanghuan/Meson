@@ -10,7 +10,6 @@ namespace System::Private::CoreLib::System::Reflection {
 FORWARD(MethodInfo)
 namespace InterfaceMappingNamespace {
 struct InterfaceMapping {
-  public: void Ctor();
   public: Type TargetType;
   public: Type InterfaceType;
   public: Array<MethodInfo> TargetMethods;

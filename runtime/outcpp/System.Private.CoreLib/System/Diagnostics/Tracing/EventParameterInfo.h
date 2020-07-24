@@ -28,7 +28,6 @@ struct EventParameterInfo {
   public: Boolean GetMetadataLengthV2(UInt32& size);
   private: static Boolean GetMetadataLengthForTypeV2(TraceLoggingTypeInfo typeInfo, UInt32& size);
   private: static Boolean GetMetadataLengthForNamedTypeV2(String name, TraceLoggingTypeInfo typeInfo, UInt32& size);
-  public: void Ctor();
   public: String ParameterName;
   public: Type ParameterType;
   public: TraceLoggingTypeInfo TypeInfo;

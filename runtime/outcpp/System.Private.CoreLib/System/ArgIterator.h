@@ -13,10 +13,10 @@ FORWARDS(RuntimeTypeHandle)
 FORWARDS(TypedReference)
 namespace ArgIteratorNamespace {
 struct ArgIterator {
-  private: void Ctor(IntPtr arglist);
-  public: void Ctor(RuntimeArgumentHandle arglist);
-  private: void Ctor(IntPtr arglist, void* ptr);
-  public: void Ctor(RuntimeArgumentHandle arglist, void* ptr);
+  private: explicit ArgIterator(IntPtr arglist) {}
+  public: explicit ArgIterator(RuntimeArgumentHandle arglist);
+  private: explicit ArgIterator(IntPtr arglist, void* ptr) {}
+  public: explicit ArgIterator(RuntimeArgumentHandle arglist, void* ptr);
   public: TypedReference GetNextArg();
   private: void FCallGetNextArg(void* result);
   public: TypedReference GetNextArg(RuntimeTypeHandle rth);
@@ -27,7 +27,7 @@ struct ArgIterator {
   public: RuntimeTypeHandle GetNextArgType();
   public: Int32 GetHashCode();
   public: Boolean Equals(Object o);
-  public: void Ctor();
+  public: explicit ArgIterator() {}
   private: IntPtr ArgCookie;
   private: IntPtr sigPtr;
   private: IntPtr sigPtrLen;

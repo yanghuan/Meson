@@ -14,9 +14,9 @@ struct ResourceLocator {
   public: Int32 get_DataPosition();
   public: Object get_Value();
   public: void set_Value(Object value);
-  public: void Ctor(Int32 dataPos, Object value);
+  public: explicit ResourceLocator(Int32 dataPos, Object value);
   public: static Boolean CanCache(ResourceTypeCode value);
-  public: void Ctor();
+  public: explicit ResourceLocator() {}
   public: Object _value;
   public: Int32 _dataPos;
 };

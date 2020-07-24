@@ -6,7 +6,6 @@
 namespace System::Private::CoreLib::System::Diagnostics::Tracing {
 namespace EventPipeSessionInfoNamespace {
 struct EventPipeSessionInfo {
-  public: void Ctor();
   public: Int64 StartTimeAsUTCFileTime;
   public: Int64 StartTimeStamp;
   public: Int64 TimeStampFrequency;

@@ -96,11 +96,11 @@ CLASS(RuntimeType) {
   struct ListBuilder {
     public: T get_Item(Int32 index);
     public: Int32 get_Count();
-    public: void Ctor(Int32 capacity);
+    public: explicit ListBuilder(Int32 capacity);
     public: Array<T> ToArray();
     public: void CopyTo(Array<Object> array, Int32 index);
     public: void Add(T item);
-    public: void Ctor();
+    public: explicit ListBuilder() {}
     private: Array<T> _items;
     private: T _item;
     private: Int32 _count;
@@ -117,12 +117,12 @@ CLASS(RuntimeType) {
       NestedType = 6,
     };
     private: struct Filter {
-      public: void Ctor(Byte* pUtf8Name, Int32 cUtf8Name, MemberListType listType);
+      public: explicit Filter(Byte* pUtf8Name, Int32 cUtf8Name, MemberListType listType);
       public: Boolean Match(MdUtf8String name);
       public: Boolean RequiresStringComparison();
       public: Boolean CaseSensitive();
       public: UInt32 GetHashToMatch();
-      public: void Ctor();
+      public: explicit Filter() {}
       private: MdUtf8String m_name;
       private: MemberListType m_listType;
       private: UInt32 m_nameHash;

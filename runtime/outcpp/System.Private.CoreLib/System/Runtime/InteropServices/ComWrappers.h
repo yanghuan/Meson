@@ -24,16 +24,13 @@ using namespace Collections;
 using namespace CompilerServices;
 CLASS(ComWrappers) {
   public: struct ComInterfaceEntry {
-    public: void Ctor();
     public: Guid IID;
     public: IntPtr Vtable;
   };
   public: struct ComInterfaceDispatch {
     private: struct ComInterfaceInstance {
-      public: void Ctor();
       public: IntPtr GcHandle;
     };
-    public: void Ctor();
     public: IntPtr Vtable;
   };
   public: IntPtr GetOrCreateComInterfaceForObject(Object instance, CreateComInterfaceFlags flags);

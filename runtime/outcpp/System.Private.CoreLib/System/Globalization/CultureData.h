@@ -91,12 +91,10 @@ CLASS(CultureData) {
     EbcdicCodePage = 4114,
   };
   private: struct EnumLocaleData {
-    public: void Ctor();
     public: String regionName;
     public: String cultureName;
   };
   private: struct EnumData {
-    public: void Ctor();
     public: List<String> strings;
   };
   private: static Dictionary<String, String> get_RegionNames();

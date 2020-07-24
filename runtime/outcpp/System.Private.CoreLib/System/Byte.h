@@ -44,7 +44,6 @@ struct Byte : public rt::PrimitiveType<Byte> {
   public: String ToString(String format, IFormatProvider provider);
   public: Boolean TryFormat(Span<Char> destination, Int32& charsWritten, ReadOnlySpan<Char> format, IFormatProvider provider);
   public: TypeCode GetTypeCode();
-  public: void Ctor();
   private: uint8_t m_value;
   public: static constexpr uint8_t MaxValue = 255;
   public: static constexpr uint8_t MinValue = 0;

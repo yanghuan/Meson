@@ -10,8 +10,8 @@ namespace System::Private::CoreLib::System::Runtime::CompilerServices {
 namespace QCallAssemblyNamespace {
 using namespace Reflection;
 struct QCallAssembly {
-  public: void Ctor(RuntimeAssembly& assembly);
-  public: void Ctor();
+  public: explicit QCallAssembly(RuntimeAssembly& assembly);
+  public: explicit QCallAssembly() {}
   private: void* _ptr;
   private: IntPtr _assembly;
 };

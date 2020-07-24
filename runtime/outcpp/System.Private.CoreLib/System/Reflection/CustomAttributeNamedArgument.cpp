@@ -29,10 +29,10 @@ Boolean CustomAttributeNamedArgument::op_Inequality(CustomAttributeNamedArgument
   return Boolean();
 };
 
-void CustomAttributeNamedArgument::Ctor(MemberInfo memberInfo, Object value) {
+CustomAttributeNamedArgument::CustomAttributeNamedArgument(MemberInfo memberInfo, Object value) {
 };
 
-void CustomAttributeNamedArgument::Ctor(MemberInfo memberInfo, CustomAttributeTypedArgument typedArgument) {
+CustomAttributeNamedArgument::CustomAttributeNamedArgument(MemberInfo memberInfo, CustomAttributeTypedArgument typedArgument) {
 };
 
 String CustomAttributeNamedArgument::ToString() {

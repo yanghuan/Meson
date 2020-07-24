@@ -7,7 +7,6 @@
 namespace System::Private::CoreLib::System::Reflection {
 namespace CustomAttributeRecordNamespace {
 struct CustomAttributeRecord {
-  public: void Ctor();
   public: ConstArray blob;
   public: MetadataToken tkCtor;
 };

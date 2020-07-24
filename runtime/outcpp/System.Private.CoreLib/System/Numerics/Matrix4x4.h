@@ -22,13 +22,11 @@ namespace Matrix4x4Namespace {
 using namespace Runtime::Intrinsics;
 struct Matrix4x4 : public rt::ValueType<Matrix4x4> {
   private: struct CanonicalBasis {
-    public: void Ctor();
     public: Vector3 Row0;
     public: Vector3 Row1;
     public: Vector3 Row2;
   };
   private: struct VectorBasis {
-    public: void Ctor();
     public: Vector3* Element0;
     public: Vector3* Element1;
     public: Vector3* Element2;
@@ -37,8 +35,8 @@ struct Matrix4x4 : public rt::ValueType<Matrix4x4> {
   public: Boolean get_IsIdentity();
   public: Vector3 get_Translation();
   public: void set_Translation(Vector3 value);
-  public: void Ctor(Single m11, Single m12, Single m13, Single m14, Single m21, Single m22, Single m23, Single m24, Single m31, Single m32, Single m33, Single m34, Single m41, Single m42, Single m43, Single m44);
-  public: void Ctor(Matrix3x2 value);
+  public: explicit Matrix4x4(Single m11, Single m12, Single m13, Single m14, Single m21, Single m22, Single m23, Single m24, Single m31, Single m32, Single m33, Single m34, Single m41, Single m42, Single m43, Single m44);
+  public: explicit Matrix4x4(Matrix3x2 value);
   public: static Matrix4x4 CreateBillboard(Vector3 objectPosition, Vector3 cameraPosition, Vector3 cameraUpVector, Vector3 cameraForwardVector);
   public: static Matrix4x4 CreateConstrainedBillboard(Vector3 objectPosition, Vector3 cameraPosition, Vector3 rotateAxis, Vector3 cameraForwardVector, Vector3 objectForwardVector);
   public: static Matrix4x4 CreateTranslation(Vector3 position);
@@ -91,7 +89,7 @@ struct Matrix4x4 : public rt::ValueType<Matrix4x4> {
   public: String ToString();
   public: Int32 GetHashCode();
   private: static void SCtor();
-  public: void Ctor();
+  public: explicit Matrix4x4() {}
   public: Single M11;
   public: Single M12;
   public: Single M13;

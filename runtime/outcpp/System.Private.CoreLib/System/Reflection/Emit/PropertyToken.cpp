@@ -1,7 +1,7 @@
 #include "PropertyToken-dep.h"
 
 namespace System::Private::CoreLib::System::Reflection::Emit::PropertyTokenNamespace {
-void PropertyToken::Ctor(Int32 propertyToken) {
+PropertyToken::PropertyToken(Int32 propertyToken) {
 };
 
 Int32 PropertyToken::GetHashCode() {

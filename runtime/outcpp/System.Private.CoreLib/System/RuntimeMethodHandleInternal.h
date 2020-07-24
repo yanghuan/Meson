@@ -10,8 +10,8 @@ struct RuntimeMethodHandleInternal {
   public: static RuntimeMethodHandleInternal get_EmptyHandle();
   public: IntPtr get_Value();
   public: Boolean IsNullHandle();
-  public: void Ctor(IntPtr value);
-  public: void Ctor();
+  public: explicit RuntimeMethodHandleInternal(IntPtr value);
+  public: explicit RuntimeMethodHandleInternal() {}
   public: IntPtr m_handle;
 };
 } // namespace RuntimeMethodHandleInternalNamespace

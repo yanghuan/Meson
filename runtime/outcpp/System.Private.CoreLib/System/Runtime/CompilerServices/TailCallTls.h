@@ -8,7 +8,6 @@ namespace System::Private::CoreLib::System::Runtime::CompilerServices {
 FORWARDS(PortableTailCallFrame)
 namespace TailCallTlsNamespace {
 struct TailCallTls {
-  public: void Ctor();
   public: PortableTailCallFrame* Frame;
   public: IntPtr ArgBuffer;
   private: IntPtr _argBufferSize;

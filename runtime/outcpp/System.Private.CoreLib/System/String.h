@@ -40,7 +40,6 @@ using namespace Globalization;
 using namespace Text;
 CLASS(String) : public rt::string {
   private: struct ProbabilisticMap {
-    public: void Ctor();
   };
   public: Char get_Chars(Int32 index);
   public: Int32 get_Length();

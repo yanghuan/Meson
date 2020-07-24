@@ -13,8 +13,8 @@ struct Index : public rt::ValueType<Index> {
   public: static Index get_End();
   public: Int32 get_Value();
   public: Boolean get_IsFromEnd();
-  public: void Ctor(Int32 value, Boolean fromEnd);
-  private: void Ctor(Int32 value);
+  public: explicit Index(Int32 value, Boolean fromEnd);
+  private: explicit Index(Int32 value);
   public: static Index FromStart(Int32 value);
   public: static Index FromEnd(Int32 value);
   public: Int32 GetOffset(Int32 length);
@@ -24,7 +24,7 @@ struct Index : public rt::ValueType<Index> {
   public: static Index op_Implicit(Int32 value);
   public: String ToString();
   private: String ToStringFromEnd();
-  public: void Ctor();
+  public: explicit Index() {}
   private: Int32 _value;
 };
 } // namespace IndexNamespace

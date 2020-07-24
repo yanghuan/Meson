@@ -18,10 +18,10 @@ Vector3 Matrix4x4::get_Translation() {
 void Matrix4x4::set_Translation(Vector3 value) {
 };
 
-void Matrix4x4::Ctor(Single m11, Single m12, Single m13, Single m14, Single m21, Single m22, Single m23, Single m24, Single m31, Single m32, Single m33, Single m34, Single m41, Single m42, Single m43, Single m44) {
+Matrix4x4::Matrix4x4(Single m11, Single m12, Single m13, Single m14, Single m21, Single m22, Single m23, Single m24, Single m31, Single m32, Single m33, Single m34, Single m41, Single m42, Single m43, Single m44) {
 };
 
-void Matrix4x4::Ctor(Matrix3x2 value) {
+Matrix4x4::Matrix4x4(Matrix3x2 value) {
 };
 
 Matrix4x4 Matrix4x4::CreateBillboard(Vector3 objectPosition, Vector3 cameraPosition, Vector3 cameraUpVector, Vector3 cameraForwardVector) {

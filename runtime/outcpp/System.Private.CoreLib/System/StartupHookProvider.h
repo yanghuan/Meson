@@ -11,7 +11,6 @@ namespace StartupHookProviderNamespace {
 using namespace Reflection;
 class StartupHookProvider {
   private: struct StartupHookNameOrPath {
-    public: void Ctor();
     public: AssemblyName AssemblyName;
     public: String Path;
   };

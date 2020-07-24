@@ -18,8 +18,8 @@ struct CancellationToken : public rt::ValueType<CancellationToken> {
   public: Boolean get_IsCancellationRequested();
   public: Boolean get_CanBeCanceled();
   public: WaitHandle get_WaitHandle();
-  public: void Ctor(CancellationTokenSource source);
-  public: void Ctor(Boolean canceled);
+  public: explicit CancellationToken(CancellationTokenSource source);
+  public: explicit CancellationToken(Boolean canceled);
   public: CancellationTokenRegistration Register(Action<> callback);
   public: CancellationTokenRegistration Register(Action<> callback, Boolean useSynchronizationContext);
   public: CancellationTokenRegistration Register(Action<Object> callback, Object state);
@@ -34,7 +34,7 @@ struct CancellationToken : public rt::ValueType<CancellationToken> {
   public: void ThrowIfCancellationRequested();
   private: void ThrowOperationCanceledException();
   private: static void SCtor();
-  public: void Ctor();
+  public: explicit CancellationToken() {}
   private: CancellationTokenSource _source;
   private: static Action<Object> s_actionToActionObjShunt;
 };

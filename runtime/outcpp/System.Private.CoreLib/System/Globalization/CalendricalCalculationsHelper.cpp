@@ -1,7 +1,7 @@
 #include "CalendricalCalculationsHelper-dep.h"
 
 namespace System::Private::CoreLib::System::Globalization::CalendricalCalculationsHelperNamespace {
-void CalendricalCalculationsHelper::EphemerisCorrectionAlgorithmMap::Ctor(Int32 year, CorrectionAlgorithm algorithm) {
+CalendricalCalculationsHelper::EphemerisCorrectionAlgorithmMap::EphemerisCorrectionAlgorithmMap(Int32 year, CorrectionAlgorithm algorithm) {
 };
 
 Double CalendricalCalculationsHelper::RadiansFromDegrees(Double degree) {

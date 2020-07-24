@@ -9,7 +9,7 @@ IRuntimeMethodInfo RuntimeMethodHandle::EnsureNonNullMethodInfo(IRuntimeMethodIn
   return nullptr;
 };
 
-void RuntimeMethodHandle::Ctor(IRuntimeMethodInfo method) {
+RuntimeMethodHandle::RuntimeMethodHandle(IRuntimeMethodInfo method) {
 };
 
 IRuntimeMethodInfo RuntimeMethodHandle::GetMethodInfo() {

@@ -13,10 +13,10 @@ struct ArraySegment {
   public: struct Enumerator {
     public: T get_Current();
     private: Object get_CurrentOfIEnumerator();
-    public: void Ctor(ArraySegment<T> arraySegment);
+    public: explicit Enumerator(ArraySegment<T> arraySegment);
     public: Boolean MoveNext();
     public: void Dispose();
-    public: void Ctor();
+    public: explicit Enumerator() {}
     private: Array<T> _array;
     private: Int32 _start;
     private: Int32 _end;
@@ -32,8 +32,8 @@ struct ArraySegment {
   private: void set_ItemOfIListT(Int32 index, T value);
   private: T get_ItemOfIReadOnlyListT(Int32 index);
   private: Boolean get_IsReadOnlyOfICollectionT();
-  public: void Ctor(Array<T> array);
-  public: void Ctor(Array<T> array, Int32 offset, Int32 count);
+  public: explicit ArraySegment(Array<T> array);
+  public: explicit ArraySegment(Array<T> array, Int32 offset, Int32 count);
   public: Enumerator GetEnumerator();
   public: Int32 GetHashCode();
   public: void CopyTo(Array<T> destination);
@@ -49,7 +49,7 @@ struct ArraySegment {
   public: static ArraySegment<T> op_Implicit(Array<T> array);
   private: void ThrowInvalidOperationIfDefault();
   private: static void SCtor();
-  public: void Ctor();
+  public: explicit ArraySegment() {}
   private: static ArraySegment<T> Empty;
   private: Array<T> _array;
   private: Int32 _offset;

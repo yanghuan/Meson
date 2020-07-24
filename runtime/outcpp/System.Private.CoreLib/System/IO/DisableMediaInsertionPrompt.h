@@ -9,7 +9,6 @@ namespace DisableMediaInsertionPromptNamespace {
 struct DisableMediaInsertionPrompt {
   public: static DisableMediaInsertionPrompt Create();
   public: void Dispose();
-  public: void Ctor();
   private: Boolean _disableSuccess;
   private: UInt32 _oldMode;
 };

@@ -33,9 +33,9 @@ using namespace Globalization;
 using namespace Runtime::Serialization;
 struct DateTime : public rt::ValueType<DateTime> {
   private: struct FullSystemTime {
-    public: void Ctor(Int32 year, Int32 month, DayOfWeek dayOfWeek, Int32 day, Int32 hour, Int32 minute, Int32 second);
-    public: void Ctor(Int64 ticks);
-    public: void Ctor();
+    public: explicit FullSystemTime(Int32 year, Int32 month, DayOfWeek dayOfWeek, Int32 day, Int32 hour, Int32 minute, Int32 second);
+    public: explicit FullSystemTime(Int64 ticks);
+    public: explicit FullSystemTime() {}
     public: Interop::Kernel32::SYSTEMTIME systemTime;
     public: Int64 hundredNanoSecond;
   };
@@ -62,20 +62,20 @@ struct DateTime : public rt::ValueType<DateTime> {
   private: static void GetSystemTimeWithLeapSecondsHandling(FullSystemTime* time);
   private: static Boolean SystemTimeToFileTime(Interop::Kernel32::SYSTEMTIME* time, Int64* fileTime);
   private: static Int64 GetSystemTimeAsFileTime();
-  public: void Ctor(Int64 ticks);
-  private: void Ctor(UInt64 dateData);
-  public: void Ctor(Int64 ticks, DateTimeKind kind);
-  public: void Ctor(Int64 ticks, DateTimeKind kind, Boolean isAmbiguousDst);
-  public: void Ctor(Int32 year, Int32 month, Int32 day);
-  public: void Ctor(Int32 year, Int32 month, Int32 day, Calendar calendar);
-  public: void Ctor(Int32 year, Int32 month, Int32 day, Int32 hour, Int32 minute, Int32 second);
-  public: void Ctor(Int32 year, Int32 month, Int32 day, Int32 hour, Int32 minute, Int32 second, DateTimeKind kind);
-  public: void Ctor(Int32 year, Int32 month, Int32 day, Int32 hour, Int32 minute, Int32 second, Calendar calendar);
-  public: void Ctor(Int32 year, Int32 month, Int32 day, Int32 hour, Int32 minute, Int32 second, Int32 millisecond);
-  public: void Ctor(Int32 year, Int32 month, Int32 day, Int32 hour, Int32 minute, Int32 second, Int32 millisecond, DateTimeKind kind);
-  public: void Ctor(Int32 year, Int32 month, Int32 day, Int32 hour, Int32 minute, Int32 second, Int32 millisecond, Calendar calendar);
-  public: void Ctor(Int32 year, Int32 month, Int32 day, Int32 hour, Int32 minute, Int32 second, Int32 millisecond, Calendar calendar, DateTimeKind kind);
-  private: void Ctor(SerializationInfo info, StreamingContext context);
+  public: explicit DateTime(Int64 ticks);
+  private: explicit DateTime(UInt64 dateData);
+  public: explicit DateTime(Int64 ticks, DateTimeKind kind);
+  public: explicit DateTime(Int64 ticks, DateTimeKind kind, Boolean isAmbiguousDst);
+  public: explicit DateTime(Int32 year, Int32 month, Int32 day);
+  public: explicit DateTime(Int32 year, Int32 month, Int32 day, Calendar calendar);
+  public: explicit DateTime(Int32 year, Int32 month, Int32 day, Int32 hour, Int32 minute, Int32 second);
+  public: explicit DateTime(Int32 year, Int32 month, Int32 day, Int32 hour, Int32 minute, Int32 second, DateTimeKind kind);
+  public: explicit DateTime(Int32 year, Int32 month, Int32 day, Int32 hour, Int32 minute, Int32 second, Calendar calendar);
+  public: explicit DateTime(Int32 year, Int32 month, Int32 day, Int32 hour, Int32 minute, Int32 second, Int32 millisecond);
+  public: explicit DateTime(Int32 year, Int32 month, Int32 day, Int32 hour, Int32 minute, Int32 second, Int32 millisecond, DateTimeKind kind);
+  public: explicit DateTime(Int32 year, Int32 month, Int32 day, Int32 hour, Int32 minute, Int32 second, Int32 millisecond, Calendar calendar);
+  public: explicit DateTime(Int32 year, Int32 month, Int32 day, Int32 hour, Int32 minute, Int32 second, Int32 millisecond, Calendar calendar, DateTimeKind kind);
+  private: explicit DateTime(SerializationInfo info, StreamingContext context);
   public: DateTime Add(TimeSpan value);
   private: DateTime Add(Double value, Int32 scale);
   public: DateTime AddDays(Double value);
@@ -169,7 +169,7 @@ struct DateTime : public rt::ValueType<DateTime> {
   private: static Int64 ToFileTimeLeapSecondsAware(Int64 ticks);
   private: static DateTime CreateDateTimeFromSystemTime(FullSystemTime& time);
   private: static void SCtor();
-  public: void Ctor();
+  public: explicit DateTime() {}
   private: static Array<Int32> s_daysToMonth365;
   private: static Array<Int32> s_daysToMonth366;
   public: static DateTime MinValue;

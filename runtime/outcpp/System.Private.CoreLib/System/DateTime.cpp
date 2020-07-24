@@ -3,10 +3,10 @@
 #include <System.Private.CoreLib/System/DateTime-dep.h>
 
 namespace System::Private::CoreLib::System::DateTimeNamespace {
-void DateTime::FullSystemTime::Ctor(Int32 year, Int32 month, DayOfWeek dayOfWeek, Int32 day, Int32 hour, Int32 minute, Int32 second) {
+DateTime::FullSystemTime::FullSystemTime(Int32 year, Int32 month, DayOfWeek dayOfWeek, Int32 day, Int32 hour, Int32 minute, Int32 second) {
 };
 
-void DateTime::FullSystemTime::Ctor(Int64 ticks) {
+DateTime::FullSystemTime::FullSystemTime(Int64 ticks) {
 };
 
 Int64 DateTime::get_InternalTicks() {
@@ -81,46 +81,46 @@ DateTime DateTime::get_UtcNow() {
   return DateTime();
 };
 
-void DateTime::Ctor(Int64 ticks) {
+DateTime::DateTime(Int64 ticks) {
 };
 
-void DateTime::Ctor(UInt64 dateData) {
+DateTime::DateTime(UInt64 dateData) {
 };
 
-void DateTime::Ctor(Int64 ticks, DateTimeKind kind) {
+DateTime::DateTime(Int64 ticks, DateTimeKind kind) {
 };
 
-void DateTime::Ctor(Int64 ticks, DateTimeKind kind, Boolean isAmbiguousDst) {
+DateTime::DateTime(Int64 ticks, DateTimeKind kind, Boolean isAmbiguousDst) {
 };
 
-void DateTime::Ctor(Int32 year, Int32 month, Int32 day) {
+DateTime::DateTime(Int32 year, Int32 month, Int32 day) {
 };
 
-void DateTime::Ctor(Int32 year, Int32 month, Int32 day, Calendar calendar) {
+DateTime::DateTime(Int32 year, Int32 month, Int32 day, Calendar calendar) {
 };
 
-void DateTime::Ctor(Int32 year, Int32 month, Int32 day, Int32 hour, Int32 minute, Int32 second) {
+DateTime::DateTime(Int32 year, Int32 month, Int32 day, Int32 hour, Int32 minute, Int32 second) {
 };
 
-void DateTime::Ctor(Int32 year, Int32 month, Int32 day, Int32 hour, Int32 minute, Int32 second, DateTimeKind kind) {
+DateTime::DateTime(Int32 year, Int32 month, Int32 day, Int32 hour, Int32 minute, Int32 second, DateTimeKind kind) {
 };
 
-void DateTime::Ctor(Int32 year, Int32 month, Int32 day, Int32 hour, Int32 minute, Int32 second, Calendar calendar) {
+DateTime::DateTime(Int32 year, Int32 month, Int32 day, Int32 hour, Int32 minute, Int32 second, Calendar calendar) {
 };
 
-void DateTime::Ctor(Int32 year, Int32 month, Int32 day, Int32 hour, Int32 minute, Int32 second, Int32 millisecond) {
+DateTime::DateTime(Int32 year, Int32 month, Int32 day, Int32 hour, Int32 minute, Int32 second, Int32 millisecond) {
 };
 
-void DateTime::Ctor(Int32 year, Int32 month, Int32 day, Int32 hour, Int32 minute, Int32 second, Int32 millisecond, DateTimeKind kind) {
+DateTime::DateTime(Int32 year, Int32 month, Int32 day, Int32 hour, Int32 minute, Int32 second, Int32 millisecond, DateTimeKind kind) {
 };
 
-void DateTime::Ctor(Int32 year, Int32 month, Int32 day, Int32 hour, Int32 minute, Int32 second, Int32 millisecond, Calendar calendar) {
+DateTime::DateTime(Int32 year, Int32 month, Int32 day, Int32 hour, Int32 minute, Int32 second, Int32 millisecond, Calendar calendar) {
 };
 
-void DateTime::Ctor(Int32 year, Int32 month, Int32 day, Int32 hour, Int32 minute, Int32 second, Int32 millisecond, Calendar calendar, DateTimeKind kind) {
+DateTime::DateTime(Int32 year, Int32 month, Int32 day, Int32 hour, Int32 minute, Int32 second, Int32 millisecond, Calendar calendar, DateTimeKind kind) {
 };
 
-void DateTime::Ctor(SerializationInfo info, StreamingContext context) {
+DateTime::DateTime(SerializationInfo info, StreamingContext context) {
 };
 
 DateTime DateTime::Add(TimeSpan value) {

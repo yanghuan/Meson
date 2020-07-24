@@ -26,17 +26,14 @@ using namespace Collections::Generic;
 using namespace Text;
 CLASS(CalendarData) {
   private: struct IcuEnumCalendarsData {
-    public: void Ctor();
     public: List<String> Results;
     public: Boolean DisallowDuplicates;
   };
   private: struct EnumData {
-    public: void Ctor();
     public: String userOverride;
     public: List<String> strings;
   };
   public: struct NlsEnumCalendarsData {
-    public: void Ctor();
     public: Int32 userOverride;
     public: List<Int32> calendars;
   };

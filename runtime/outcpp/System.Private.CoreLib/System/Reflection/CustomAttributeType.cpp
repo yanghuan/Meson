@@ -17,7 +17,7 @@ String CustomAttributeType::get_EnumName() {
   return nullptr;
 };
 
-void CustomAttributeType::Ctor(CustomAttributeEncoding encodedType, CustomAttributeEncoding encodedArrayType, CustomAttributeEncoding encodedEnumType, String enumName) {
+CustomAttributeType::CustomAttributeType(CustomAttributeEncoding encodedType, CustomAttributeEncoding encodedArrayType, CustomAttributeEncoding encodedEnumType, String enumName) {
 };
 
 } // namespace System::Private::CoreLib::System::Reflection::CustomAttributeTypeNamespace

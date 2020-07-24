@@ -17,7 +17,7 @@ String EventPipeProviderConfiguration::get_FilterData() {
   return nullptr;
 };
 
-void EventPipeProviderConfiguration::Ctor(String providerName, UInt64 keywords, UInt32 loggingLevel, String filterData) {
+EventPipeProviderConfiguration::EventPipeProviderConfiguration(String providerName, UInt64 keywords, UInt32 loggingLevel, String filterData) {
 };
 
 } // namespace System::Private::CoreLib::System::Diagnostics::Tracing::EventPipeProviderConfigurationNamespace

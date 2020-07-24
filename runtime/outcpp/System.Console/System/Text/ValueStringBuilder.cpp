@@ -8,7 +8,7 @@ Int32 ValueStringBuilder::get_Capacity() {
   return Int32();
 };
 
-void ValueStringBuilder::Ctor(Span<Char> initialBuffer) {
+ValueStringBuilder::ValueStringBuilder(Span<Char> initialBuffer) {
 };
 
 void ValueStringBuilder::EnsureCapacity(Int32 capacity) {

@@ -23,10 +23,10 @@ struct IntPtr : public rt::ValueType<IntPtr> {
   public: static Int32 get_Size();
   public: static IntPtr get_MaxValue();
   public: static IntPtr get_MinValue();
-  public: void Ctor(Int32 value);
-  public: void Ctor(Int64 value);
-  public: void Ctor(void* value);
-  private: void Ctor(SerializationInfo info, StreamingContext context);
+  public: explicit IntPtr(Int32 value);
+  public: explicit IntPtr(Int64 value);
+  public: explicit IntPtr(void* value);
+  private: explicit IntPtr(SerializationInfo info, StreamingContext context);
   public: Boolean Equals(Object obj);
   public: Int32 GetHashCode();
   public: Int32 ToInt32();
@@ -57,7 +57,7 @@ struct IntPtr : public rt::ValueType<IntPtr> {
   public: static IntPtr Parse(String s, NumberStyles style, IFormatProvider provider);
   public: static Boolean TryParse(String s, IntPtr& result);
   public: static Boolean TryParse(String s, NumberStyles style, IFormatProvider provider, IntPtr& result);
-  public: void Ctor();
+  public: explicit IntPtr() {}
   private: void* _value;
   public: static IntPtr Zero;
 };

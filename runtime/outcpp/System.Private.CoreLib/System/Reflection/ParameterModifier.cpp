@@ -12,7 +12,7 @@ Array<Boolean> ParameterModifier::get_IsByRefArray() {
   return Array<Boolean>();
 };
 
-void ParameterModifier::Ctor(Int32 parameterCount) {
+ParameterModifier::ParameterModifier(Int32 parameterCount) {
 };
 
 } // namespace System::Private::CoreLib::System::Reflection::ParameterModifierNamespace

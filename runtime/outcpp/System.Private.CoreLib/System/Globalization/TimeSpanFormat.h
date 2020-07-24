@@ -36,7 +36,6 @@ class TimeSpanFormat {
     public: String get_End();
     public: static FormatLiterals InitInvariant(Boolean isNegative);
     public: void Init(ReadOnlySpan<Char> format, Boolean useInvariantFieldLengths);
-    public: void Ctor();
     public: String AppCompatLiteral;
     public: Int32 dd;
     public: Int32 hh;

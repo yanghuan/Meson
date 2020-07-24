@@ -13,11 +13,11 @@ namespace StreamingContextNamespace {
 struct StreamingContext {
   public: StreamingContextStates get_State();
   public: Object get_Context();
-  public: void Ctor(StreamingContextStates state);
-  public: void Ctor(StreamingContextStates state, Object additional);
+  public: explicit StreamingContext(StreamingContextStates state);
+  public: explicit StreamingContext(StreamingContextStates state, Object additional);
   public: Boolean Equals(Object obj);
   public: Int32 GetHashCode();
-  public: void Ctor();
+  public: explicit StreamingContext() {}
   private: Object _additionalContext;
   private: StreamingContextStates _state;
 };

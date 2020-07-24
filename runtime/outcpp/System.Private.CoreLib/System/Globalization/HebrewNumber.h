@@ -53,8 +53,8 @@ class HebrewNumber {
     END = 100,
   };
   private: struct HebrewValue {
-    public: void Ctor(HebrewToken token, Int16 value);
-    public: void Ctor();
+    public: explicit HebrewValue(HebrewToken token, Int16 value);
+    public: explicit HebrewValue() {}
     public: HebrewToken token;
     public: Int16 value;
   };

@@ -1,7 +1,7 @@
 #include "ArrayWithOffset-dep.h"
 
 namespace System::Private::CoreLib::System::Runtime::InteropServices::ArrayWithOffsetNamespace {
-void ArrayWithOffset::Ctor(Object array, Int32 offset) {
+ArrayWithOffset::ArrayWithOffset(Object array, Int32 offset) {
 };
 
 Object ArrayWithOffset::GetArray() {

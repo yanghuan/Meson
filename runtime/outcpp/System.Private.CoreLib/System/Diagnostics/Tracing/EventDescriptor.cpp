@@ -29,10 +29,10 @@ Int64 EventDescriptor::get_Keywords() {
   return Int64();
 };
 
-void EventDescriptor::Ctor(Int32 traceloggingId, Byte level, Byte opcode, Int64 keywords) {
+EventDescriptor::EventDescriptor(Int32 traceloggingId, Byte level, Byte opcode, Int64 keywords) {
 };
 
-void EventDescriptor::Ctor(Int32 id, Byte version, Byte channel, Byte level, Byte opcode, Int32 task, Int64 keywords) {
+EventDescriptor::EventDescriptor(Int32 id, Byte version, Byte channel, Byte level, Byte opcode, Int32 task, Int64 keywords) {
 };
 
 Boolean EventDescriptor::Equals(Object obj) {

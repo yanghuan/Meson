@@ -8,7 +8,6 @@
 namespace System::Private::CoreLib::System::StubHelpers {
 namespace NativeDecimalNamespace {
 struct NativeDecimal {
-  public: void Ctor();
   private: UInt16 reserved;
   private: UInt16 signScale;
   private: UInt32 hi32;

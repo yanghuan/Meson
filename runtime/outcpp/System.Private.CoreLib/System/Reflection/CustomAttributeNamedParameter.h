@@ -12,8 +12,8 @@ enum class CustomAttributeEncoding;
 namespace CustomAttributeNamedParameterNamespace {
 struct CustomAttributeNamedParameter {
   public: CustomAttributeEncodedArgument get_EncodedArgument();
-  public: void Ctor(String argumentName, CustomAttributeEncoding fieldOrProperty, CustomAttributeType type);
-  public: void Ctor();
+  public: explicit CustomAttributeNamedParameter(String argumentName, CustomAttributeEncoding fieldOrProperty, CustomAttributeType type);
+  public: explicit CustomAttributeNamedParameter() {}
   private: String m_argumentName;
   private: CustomAttributeEncoding m_fieldOrProperty;
   private: CustomAttributeEncoding m_padding;

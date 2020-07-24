@@ -452,9 +452,20 @@ namespace rt {
       return static_cast<T*>(this)->m_value >= other.m_value;
     }
 
-    template <class T1 = T> requires(std::is_same_v<bool, decltype(T1().m_value)>)
-    operator bool() {
-      return static_cast<T*>(this)->m_value;
+    T operator +(const T& other) {
+      return static_cast<T*>(this)->m_value + other.m_value;
+    }
+    
+    T operator -(const T& other) {
+      return static_cast<T*>(this)->m_value - other.m_value;
+    }
+
+    T operator *(const T& other) {
+      return static_cast<T*>(this)->m_value * other.m_value;
+    }
+
+    T operator /(const T& other) {
+      return static_cast<T*>(this)->m_value / other.m_value;
     }
 
     template <class T1 = T> requires(std::is_arithmetic_v<decltype(T1().m_value)>) 
@@ -470,6 +481,11 @@ namespace rt {
       T1 tmp = *p;
       ++p->m_value;
       return tmp;
+    }
+
+    template <class T1 = T> requires(std::is_same_v<bool, decltype(T1().m_value)>)
+    operator bool() {
+      return static_cast<T*>(this)->m_value;
     }
 
     template <class R> requires(IsPrimitive<R>)

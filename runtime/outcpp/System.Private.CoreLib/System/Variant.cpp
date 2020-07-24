@@ -5,52 +5,52 @@ Int32 Variant::get_CVType() {
   return Int32();
 };
 
-void Variant::Ctor(Int32 flags, Object or_, Int64 data) {
+Variant::Variant(Int32 flags, Object or_, Int64 data) {
 };
 
-void Variant::Ctor(Boolean val) {
+Variant::Variant(Boolean val) {
 };
 
-void Variant::Ctor(SByte val) {
+Variant::Variant(SByte val) {
 };
 
-void Variant::Ctor(Byte val) {
+Variant::Variant(Byte val) {
 };
 
-void Variant::Ctor(Int16 val) {
+Variant::Variant(Int16 val) {
 };
 
-void Variant::Ctor(UInt16 val) {
+Variant::Variant(UInt16 val) {
 };
 
-void Variant::Ctor(Char val) {
+Variant::Variant(Char val) {
 };
 
-void Variant::Ctor(Int32 val) {
+Variant::Variant(Int32 val) {
 };
 
-void Variant::Ctor(UInt32 val) {
+Variant::Variant(UInt32 val) {
 };
 
-void Variant::Ctor(Int64 val) {
+Variant::Variant(Int64 val) {
 };
 
-void Variant::Ctor(UInt64 val) {
+Variant::Variant(UInt64 val) {
 };
 
-void Variant::Ctor(Single val) {
+Variant::Variant(Single val) {
 };
 
-void Variant::Ctor(Double val) {
+Variant::Variant(Double val) {
 };
 
-void Variant::Ctor(DateTime val) {
+Variant::Variant(DateTime val) {
 };
 
-void Variant::Ctor(Decimal val) {
+Variant::Variant(Decimal val) {
 };
 
-void Variant::Ctor(Object obj) {
+Variant::Variant(Object obj) {
 };
 
 Object Variant::ToObject() {

@@ -35,7 +35,7 @@ using namespace ::System::Private::CoreLib::Internal::Runtime::CompilerServices;
 using namespace Collections;
 using namespace Reflection;
 using namespace Runtime::CompilerServices;
-void Array___<>::SorterObjectArray::Ctor(Array<Object> keys, Array<Object> items, IComparer comparer) {
+Array___<>::SorterObjectArray::SorterObjectArray(Array<Object> keys, Array<Object> items, IComparer comparer) {
 };
 
 void Array___<>::SorterObjectArray::SwapIfGreater(Int32 a, Int32 b) {
@@ -66,7 +66,7 @@ void Array___<>::SorterObjectArray::DownHeap(Int32 i, Int32 n, Int32 lo) {
 void Array___<>::SorterObjectArray::InsertionSort(Int32 lo, Int32 hi) {
 };
 
-void Array___<>::SorterGenericArray::Ctor(Array<> keys, Array<> items, IComparer comparer) {
+Array___<>::SorterGenericArray::SorterGenericArray(Array<> keys, Array<> items, IComparer comparer) {
 };
 
 void Array___<>::SorterGenericArray::SwapIfGreater(Int32 a, Int32 b) {

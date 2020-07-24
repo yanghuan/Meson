@@ -595,8 +595,7 @@ namespace Meson.Compiler {
     }
 
     public static bool IsCtor(this IMethod method) {
-      return false;
-      //return !method.IsStatic && method.SymbolKind == SymbolKind.Constructor && method.DeclaringType.Kind == TypeKind.Struct;
+      return !method.IsStatic && method.SymbolKind == SymbolKind.Constructor && method.DeclaringType.Kind == TypeKind.Struct;
     }
 
     public static bool IsMainEntryPoint(this IMethod symbol) {

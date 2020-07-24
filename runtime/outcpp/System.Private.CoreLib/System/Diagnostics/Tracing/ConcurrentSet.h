@@ -11,7 +11,6 @@ template <class KeyType, class ItemType>
 struct ConcurrentSet {
   public: ItemType TryGet(KeyType key);
   public: ItemType GetOrAdd(ItemType newItem);
-  public: void Ctor();
   private: Array<ItemType> items;
 };
 } // namespace ConcurrentSetNamespace

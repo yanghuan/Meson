@@ -47,16 +47,16 @@ Double TimeSpan::get_TotalSeconds() {
   return Double();
 };
 
-void TimeSpan::Ctor(Int64 ticks) {
+TimeSpan::TimeSpan(Int64 ticks) {
 };
 
-void TimeSpan::Ctor(Int32 hours, Int32 minutes, Int32 seconds) {
+TimeSpan::TimeSpan(Int32 hours, Int32 minutes, Int32 seconds) {
 };
 
-void TimeSpan::Ctor(Int32 days, Int32 hours, Int32 minutes, Int32 seconds) {
+TimeSpan::TimeSpan(Int32 days, Int32 hours, Int32 minutes, Int32 seconds) {
 };
 
-void TimeSpan::Ctor(Int32 days, Int32 hours, Int32 minutes, Int32 seconds, Int32 milliseconds) {
+TimeSpan::TimeSpan(Int32 days, Int32 hours, Int32 minutes, Int32 seconds, Int32 milliseconds) {
 };
 
 TimeSpan TimeSpan::Add(TimeSpan ts) {

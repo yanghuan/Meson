@@ -16,9 +16,9 @@ template <class T>
 struct ReadOnlySpan {
   public: struct Enumerator {
     public: T& get_Current();
-    public: void Ctor(ReadOnlySpan<T> span);
+    public: explicit Enumerator(ReadOnlySpan<T> span);
     public: Boolean MoveNext();
-    public: void Ctor();
+    public: explicit Enumerator() {}
     private: ReadOnlySpan<T> _span;
     private: Int32 _index;
   };
@@ -26,10 +26,10 @@ struct ReadOnlySpan {
   public: Int32 get_Length();
   public: Boolean get_IsEmpty();
   public: static ReadOnlySpan<T> get_Empty();
-  public: void Ctor(Array<T> array);
-  public: void Ctor(Array<T> array, Int32 start, Int32 length);
-  public: void Ctor(void* pointer, Int32 length);
-  public: void Ctor(T& ptr, Int32 length);
+  public: explicit ReadOnlySpan(Array<T> array);
+  public: explicit ReadOnlySpan(Array<T> array, Int32 start, Int32 length);
+  public: explicit ReadOnlySpan(void* pointer, Int32 length);
+  public: explicit ReadOnlySpan(T& ptr, Int32 length);
   public: static Boolean op_Inequality(ReadOnlySpan<T> left, ReadOnlySpan<T> right);
   public: Boolean Equals(Object obj);
   public: Int32 GetHashCode();
@@ -43,7 +43,7 @@ struct ReadOnlySpan {
   public: ReadOnlySpan<T> Slice(Int32 start);
   public: ReadOnlySpan<T> Slice(Int32 start, Int32 length);
   public: Array<T> ToArray();
-  public: void Ctor();
+  public: explicit ReadOnlySpan() {}
   public: ByReference<T> _pointer;
   private: Int32 _length;
 };

@@ -13,8 +13,8 @@ struct SerializationEntry {
   public: Object get_Value();
   public: String get_Name();
   public: Type get_ObjectType();
-  public: void Ctor(String entryName, Object entryValue, Type entryType);
-  public: void Ctor();
+  public: explicit SerializationEntry(String entryName, Object entryValue, Type entryType);
+  public: explicit SerializationEntry() {}
   private: String _name;
   private: Object _value;
   private: Type _type;

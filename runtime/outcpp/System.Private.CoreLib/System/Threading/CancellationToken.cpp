@@ -19,10 +19,10 @@ WaitHandle CancellationToken::get_WaitHandle() {
   return nullptr;
 };
 
-void CancellationToken::Ctor(CancellationTokenSource source) {
+CancellationToken::CancellationToken(CancellationTokenSource source) {
 };
 
-void CancellationToken::Ctor(Boolean canceled) {
+CancellationToken::CancellationToken(Boolean canceled) {
 };
 
 CancellationTokenRegistration CancellationToken::Register(Action<> callback) {

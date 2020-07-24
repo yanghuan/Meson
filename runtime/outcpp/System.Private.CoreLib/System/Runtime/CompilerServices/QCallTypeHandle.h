@@ -10,9 +10,9 @@ FORWARDS(RuntimeTypeHandle)
 namespace System::Private::CoreLib::System::Runtime::CompilerServices {
 namespace QCallTypeHandleNamespace {
 struct QCallTypeHandle {
-  public: void Ctor(RuntimeType& type);
-  public: void Ctor(RuntimeTypeHandle& rth);
-  public: void Ctor();
+  public: explicit QCallTypeHandle(RuntimeType& type);
+  public: explicit QCallTypeHandle(RuntimeTypeHandle& rth);
+  public: explicit QCallTypeHandle() {}
   private: void* _ptr;
   private: IntPtr _handle;
 };

@@ -7,7 +7,7 @@ Rune SpanRuneEnumerator::get_Current() {
   return Rune();
 };
 
-void SpanRuneEnumerator::Ctor(ReadOnlySpan<Char> buffer) {
+SpanRuneEnumerator::SpanRuneEnumerator(ReadOnlySpan<Char> buffer) {
 };
 
 SpanRuneEnumerator SpanRuneEnumerator::GetEnumerator() {

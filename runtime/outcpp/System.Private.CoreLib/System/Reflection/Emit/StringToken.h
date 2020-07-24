@@ -11,13 +11,13 @@ namespace System::Private::CoreLib::System::Reflection::Emit {
 namespace StringTokenNamespace {
 struct StringToken : public rt::ValueType<StringToken> {
   public: Int32 get_Token() { return Token; }
-  public: void Ctor(Int32 str);
+  public: explicit StringToken(Int32 str);
   public: Int32 GetHashCode();
   public: Boolean Equals(Object obj);
   public: Boolean Equals(StringToken obj);
   public: static Boolean op_Equality(StringToken a, StringToken b);
   public: static Boolean op_Inequality(StringToken a, StringToken b);
-  public: void Ctor();
+  public: explicit StringToken() {}
   private: Int32 Token;
 };
 } // namespace StringTokenNamespace

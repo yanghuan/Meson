@@ -12,7 +12,6 @@ namespace System::Private::CoreLib::System::Collections::Concurrent {
 namespace ConcurrentQueueSegmentNamespace {
 CLASS(ConcurrentQueueSegment, T) {
   public: struct Slot {
-    public: void Ctor();
     public: T Item;
     public: Int32 SequenceNumber;
   };

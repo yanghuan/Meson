@@ -47,9 +47,9 @@ struct Vector3 : public rt::ValueType<Vector3> {
   public: static Vector3 Divide(Vector3 left, Vector3 right);
   public: static Vector3 Divide(Vector3 left, Single divisor);
   public: static Vector3 Negate(Vector3 value);
-  public: void Ctor(Single value);
-  public: void Ctor(Vector2 value, Single z);
-  public: void Ctor(Single x, Single y, Single z);
+  public: explicit Vector3(Single value);
+  public: explicit Vector3(Vector2 value, Single z);
+  public: explicit Vector3(Single x, Single y, Single z);
   public: void CopyTo(Array<Single> array);
   public: void CopyTo(Array<Single> array, Int32 index);
   public: Boolean Equals(Vector3 other);
@@ -68,7 +68,7 @@ struct Vector3 : public rt::ValueType<Vector3> {
   public: static Vector3 op_UnaryNegation(Vector3 value);
   public: static Boolean op_Equality(Vector3 left, Vector3 right);
   public: static Boolean op_Inequality(Vector3 left, Vector3 right);
-  public: void Ctor();
+  public: explicit Vector3() {}
   public: Single X;
   public: Single Y;
   public: Single Z;

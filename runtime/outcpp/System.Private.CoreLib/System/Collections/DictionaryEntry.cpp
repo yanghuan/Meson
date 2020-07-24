@@ -15,7 +15,7 @@ Object DictionaryEntry::get_Value() {
 void DictionaryEntry::set_Value(Object value) {
 };
 
-void DictionaryEntry::Ctor(Object key, Object value) {
+DictionaryEntry::DictionaryEntry(Object key, Object value) {
 };
 
 void DictionaryEntry::Deconstruct(Object& key, Object& value) {

@@ -3,7 +3,7 @@
 #include <System.Private.CoreLib/System/Exception-dep.h>
 
 namespace System::Private::CoreLib::System::ExceptionNamespace {
-void Exception___::DispatchState::Ctor(Array<Byte> stackTrace, Array<Object> dynamicMethods, String remoteStackTrace, UIntPtr ipForWatsonBuckets, Array<Byte> watsonBuckets) {
+Exception___::DispatchState::DispatchState(Array<Byte> stackTrace, Array<Object> dynamicMethods, String remoteStackTrace, UIntPtr ipForWatsonBuckets, Array<Byte> watsonBuckets) {
 };
 
 MethodBase Exception___::get_TargetSite() {

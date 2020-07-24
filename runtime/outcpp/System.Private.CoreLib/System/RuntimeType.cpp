@@ -3,7 +3,7 @@
 #include <System.Private.CoreLib/System/RuntimeType-dep.h>
 
 namespace System::Private::CoreLib::System::RuntimeTypeNamespace {
-void RuntimeType___::RuntimeTypeCache___::Filter::Ctor(Byte* pUtf8Name, Int32 cUtf8Name, MemberListType listType) {
+RuntimeType___::RuntimeTypeCache___::Filter::Filter(Byte* pUtf8Name, Int32 cUtf8Name, MemberListType listType) {
 };
 
 Boolean RuntimeType___::RuntimeTypeCache___::Filter::Match(MdUtf8String name) {

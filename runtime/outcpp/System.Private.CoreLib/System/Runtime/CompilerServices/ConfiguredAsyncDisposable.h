@@ -10,9 +10,9 @@ namespace System::Private::CoreLib::System::Runtime::CompilerServices {
 FORWARDS_(ConfiguredValueTaskAwaitable, T1, T2)
 namespace ConfiguredAsyncDisposableNamespace {
 struct ConfiguredAsyncDisposable {
-  public: void Ctor(IAsyncDisposable source, Boolean continueOnCapturedContext);
+  public: explicit ConfiguredAsyncDisposable(IAsyncDisposable source, Boolean continueOnCapturedContext);
   public: ConfiguredValueTaskAwaitable<> DisposeAsync();
-  public: void Ctor();
+  public: explicit ConfiguredAsyncDisposable() {}
   private: IAsyncDisposable _source;
   private: Boolean _continueOnCapturedContext;
 };

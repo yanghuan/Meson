@@ -6,9 +6,9 @@ namespace System::Private::CoreLib::System::Runtime::Serialization {
 FORWARD(DeserializationTracker)
 namespace DeserializationTokenNamespace {
 struct DeserializationToken {
-  public: void Ctor(DeserializationTracker tracker);
+  public: explicit DeserializationToken(DeserializationTracker tracker);
   public: void Dispose();
-  public: void Ctor();
+  public: explicit DeserializationToken() {}
   private: DeserializationTracker _tracker;
 };
 } // namespace DeserializationTokenNamespace

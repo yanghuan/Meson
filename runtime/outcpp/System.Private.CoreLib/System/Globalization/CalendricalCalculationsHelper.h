@@ -22,8 +22,8 @@ class CalendricalCalculationsHelper {
     Year1620to1699 = 5,
   };
   private: struct EphemerisCorrectionAlgorithmMap {
-    public: void Ctor(Int32 year, CorrectionAlgorithm algorithm);
-    public: void Ctor();
+    public: explicit EphemerisCorrectionAlgorithmMap(Int32 year, CorrectionAlgorithm algorithm);
+    public: explicit EphemerisCorrectionAlgorithmMap() {}
     public: Int32 _lowestYear;
     public: CorrectionAlgorithm _algorithm;
   };

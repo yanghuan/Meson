@@ -32,7 +32,7 @@ Int32 SpinLock::CompareExchange(Int32& location, Int32 value, Int32 comparand, B
   return Int32();
 };
 
-void SpinLock::Ctor(Boolean enableThreadOwnerTracking) {
+SpinLock::SpinLock(Boolean enableThreadOwnerTracking) {
 };
 
 void SpinLock::Enter(Boolean& lockTaken) {

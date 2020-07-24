@@ -25,12 +25,10 @@ enum class VarEnum;
 namespace VariantNamespace {
 struct Variant {
   private: struct Record {
-    public: void Ctor();
     public: IntPtr _record;
     public: IntPtr _recordInfo;
   };
   private: struct UnionTypes {
-    public: void Ctor();
     public: SByte _i1;
     public: Int16 _i2;
     public: Int32 _i4;
@@ -55,7 +53,6 @@ struct Variant {
     public: Record _record;
   };
   private: struct TypeUnion {
-    public: void Ctor();
     public: UInt16 _vt;
     public: UInt16 _wReserved1;
     public: UInt16 _wReserved2;
@@ -90,7 +87,6 @@ struct Variant {
   public: void CopyFromIndirect(Object value);
   public: Object ToObject();
   public: void Clear();
-  public: void Ctor();
   private: TypeUnion _typeUnion;
   private: Decimal _decimal;
 };

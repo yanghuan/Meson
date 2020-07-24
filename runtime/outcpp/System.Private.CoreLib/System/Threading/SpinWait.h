@@ -22,7 +22,6 @@ struct SpinWait {
   public: static Boolean SpinUntil(Func<Boolean> condition, TimeSpan timeout);
   public: static Boolean SpinUntil(Func<Boolean> condition, Int32 millisecondsTimeout);
   private: static void SCtor();
-  public: void Ctor();
   public: static Int32 SpinCountforSpinBeforeWait;
   private: Int32 _count;
 };

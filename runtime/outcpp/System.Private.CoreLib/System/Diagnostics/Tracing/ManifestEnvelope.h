@@ -10,7 +10,6 @@ struct ManifestEnvelope {
   public: enum class ManifestFormats : uint8_t {
     SimpleXmlFormat = 1,
   };
-  public: void Ctor();
   public: ManifestFormats Format;
   public: Byte MajorVersion;
   public: Byte MinorVersion;

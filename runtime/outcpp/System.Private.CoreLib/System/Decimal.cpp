@@ -16,7 +16,7 @@ void Decimal::DecCalc::Buf24::set_Mid64(UInt64 value) {
 void Decimal::DecCalc::Buf24::set_High64(UInt64 value) {
 };
 
-void Decimal::DecCalc::PowerOvfl::Ctor(UInt32 hi, UInt32 mid, UInt32 lo) {
+Decimal::DecCalc::PowerOvfl::PowerOvfl(UInt32 hi, UInt32 mid, UInt32 lo) {
 };
 
 UInt64 Decimal::DecCalc::Buf12::get_Low64() {
@@ -223,25 +223,25 @@ UInt64 Decimal::get_Low64() {
   return UInt64();
 };
 
-void Decimal::Ctor(Currency value) {
+Decimal::Decimal(Currency value) {
 };
 
-void Decimal::Ctor(Int32 value) {
+Decimal::Decimal(Int32 value) {
 };
 
-void Decimal::Ctor(UInt32 value) {
+Decimal::Decimal(UInt32 value) {
 };
 
-void Decimal::Ctor(Int64 value) {
+Decimal::Decimal(Int64 value) {
 };
 
-void Decimal::Ctor(UInt64 value) {
+Decimal::Decimal(UInt64 value) {
 };
 
-void Decimal::Ctor(Single value) {
+Decimal::Decimal(Single value) {
 };
 
-void Decimal::Ctor(Double value) {
+Decimal::Decimal(Double value) {
 };
 
 Decimal Decimal::FromOACurrency(Int64 cy) {
@@ -256,19 +256,19 @@ Boolean Decimal::IsValid(Int32 flags) {
   return Boolean();
 };
 
-void Decimal::Ctor(Array<Int32> bits) {
+Decimal::Decimal(Array<Int32> bits) {
 };
 
-void Decimal::Ctor(ReadOnlySpan<Int32> bits) {
+Decimal::Decimal(ReadOnlySpan<Int32> bits) {
 };
 
-void Decimal::Ctor(Int32 lo, Int32 mid, Int32 hi, Boolean isNegative, Byte scale) {
+Decimal::Decimal(Int32 lo, Int32 mid, Int32 hi, Boolean isNegative, Byte scale) {
 };
 
-void Decimal::Ctor(Int32 lo, Int32 mid, Int32 hi, Int32 flags) {
+Decimal::Decimal(Int32 lo, Int32 mid, Int32 hi, Int32 flags) {
 };
 
-void Decimal::Ctor(Decimal& d, Int32 flags) {
+Decimal::Decimal(Decimal& d, Int32 flags) {
 };
 
 Decimal Decimal::Abs(Decimal& d) {

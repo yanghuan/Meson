@@ -39,8 +39,8 @@ CLASS(Exception) {
     OutOfMemory = 3,
   };
   public: struct DispatchState {
-    public: void Ctor(Array<Byte> stackTrace, Array<Object> dynamicMethods, String remoteStackTrace, UIntPtr ipForWatsonBuckets, Array<Byte> watsonBuckets);
-    public: void Ctor();
+    public: explicit DispatchState(Array<Byte> stackTrace, Array<Object> dynamicMethods, String remoteStackTrace, UIntPtr ipForWatsonBuckets, Array<Byte> watsonBuckets);
+    public: explicit DispatchState() {}
     public: Array<Byte> StackTrace;
     public: Array<Object> DynamicMethods;
     public: String RemoteStackTrace;

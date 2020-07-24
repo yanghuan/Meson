@@ -1,7 +1,7 @@
 #include "SignatureToken-dep.h"
 
 namespace System::Private::CoreLib::System::Reflection::Emit::SignatureTokenNamespace {
-void SignatureToken::Ctor(Int32 signatureToken) {
+SignatureToken::SignatureToken(Int32 signatureToken) {
 };
 
 Int32 SignatureToken::GetHashCode() {

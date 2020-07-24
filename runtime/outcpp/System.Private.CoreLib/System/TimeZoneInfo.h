@@ -65,12 +65,12 @@ CLASS(TimeZoneInfo) {
     public: static Boolean op_Inequality(TransitionTime t1, TransitionTime t2);
     public: Boolean Equals(TransitionTime other);
     public: Int32 GetHashCode();
-    private: void Ctor(DateTime timeOfDay, Int32 month, Int32 week, Int32 day, DayOfWeek dayOfWeek, Boolean isFixedDateRule);
+    private: explicit TransitionTime(DateTime timeOfDay, Int32 month, Int32 week, Int32 day, DayOfWeek dayOfWeek, Boolean isFixedDateRule);
     public: static TransitionTime CreateFixedDateRule(DateTime timeOfDay, Int32 month, Int32 day);
     public: static TransitionTime CreateFloatingDateRule(DateTime timeOfDay, Int32 month, Int32 week, DayOfWeek dayOfWeek);
     private: static void ValidateTransitionTime(DateTime timeOfDay, Int32 month, Int32 week, Int32 day, DayOfWeek dayOfWeek);
-    private: void Ctor(SerializationInfo info, StreamingContext context);
-    public: void Ctor();
+    private: explicit TransitionTime(SerializationInfo info, StreamingContext context);
+    public: explicit TransitionTime() {}
     private: DateTime _timeOfDay;
     private: Byte _month;
     private: Byte _week;
@@ -136,7 +136,7 @@ CLASS(TimeZoneInfo) {
     };
     public: static String GetSerializedString(TimeZoneInfo zone);
     public: static TimeZoneInfo GetDeserializedTimeZoneInfo(String source);
-    private: void Ctor(String str);
+    private: explicit StringSerializer(String str);
     private: static void SerializeSubstitute(String text, ValueStringBuilder& serializedText);
     private: static void SerializeTransitionTime(TransitionTime time, ValueStringBuilder& serializedText);
     private: static void VerifyIsEscapableCharacter(Char c);
@@ -148,7 +148,7 @@ CLASS(TimeZoneInfo) {
     private: Array<AdjustmentRule> GetNextAdjustmentRuleArrayValue();
     private: AdjustmentRule GetNextAdjustmentRuleValue();
     private: TransitionTime GetNextTransitionTimeValue();
-    public: void Ctor();
+    public: explicit StringSerializer() {}
     private: String _serializedText;
     private: Int32 _currentTokenStartIndex;
     private: State _state;

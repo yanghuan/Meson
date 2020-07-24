@@ -10,7 +10,6 @@ enum class LIBFLAGS : int16_t;
 enum class SYSKIND;
 namespace TYPELIBATTRNamespace {
 struct TYPELIBATTR {
-  public: void Ctor();
   public: Guid guid;
   public: Int32 lcid;
   public: SYSKIND syskind;

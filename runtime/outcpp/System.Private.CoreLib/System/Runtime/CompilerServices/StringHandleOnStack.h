@@ -8,8 +8,8 @@ FORWARD(String)
 namespace System::Private::CoreLib::System::Runtime::CompilerServices {
 namespace StringHandleOnStackNamespace {
 struct StringHandleOnStack {
-  public: void Ctor(String& s);
-  public: void Ctor();
+  public: explicit StringHandleOnStack(String& s);
+  public: explicit StringHandleOnStack() {}
   private: void* _ptr;
 };
 } // namespace StringHandleOnStackNamespace

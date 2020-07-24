@@ -41,7 +41,6 @@ struct UInt32 : public rt::PrimitiveType<UInt32> {
   public: static Boolean TryParse(String s, NumberStyles style, IFormatProvider provider, UInt32& result);
   public: static Boolean TryParse(ReadOnlySpan<Char> s, NumberStyles style, IFormatProvider provider, UInt32& result);
   public: TypeCode GetTypeCode();
-  public: void Ctor();
   private: uint32_t m_value;
   public: static constexpr uint32_t MaxValue = 4294967295u;
   public: static constexpr uint32_t MinValue = 0u;

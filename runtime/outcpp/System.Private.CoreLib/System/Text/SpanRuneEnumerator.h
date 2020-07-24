@@ -12,10 +12,10 @@ namespace System::Private::CoreLib::System::Text {
 namespace SpanRuneEnumeratorNamespace {
 struct SpanRuneEnumerator {
   public: Rune get_Current();
-  public: void Ctor(ReadOnlySpan<Char> buffer);
+  public: explicit SpanRuneEnumerator(ReadOnlySpan<Char> buffer);
   public: SpanRuneEnumerator GetEnumerator();
   public: Boolean MoveNext();
-  public: void Ctor();
+  public: explicit SpanRuneEnumerator() {}
   private: ReadOnlySpan<Char> _remaining;
   private: Rune _current;
 };

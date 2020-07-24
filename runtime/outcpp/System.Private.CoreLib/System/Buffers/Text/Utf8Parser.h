@@ -40,7 +40,6 @@ class Utf8Parser {
   private: struct TimeSpanSplitter {
     public: Boolean TrySplitTimeSpan(ReadOnlySpan<Byte> source, Boolean periodUsedToSeparateDay, Int32& bytesConsumed);
     private: static ComponentParseResult ParseComponent(ReadOnlySpan<Byte> source, Boolean neverParseAsFraction, Int32& srcIndex, UInt32& value);
-    public: void Ctor();
     public: UInt32 V1;
     public: UInt32 V2;
     public: UInt32 V3;

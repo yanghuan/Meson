@@ -28,7 +28,6 @@ namespace HashtableNamespace {
 using namespace Runtime::Serialization;
 CLASS(Hashtable) {
   private: struct bucket {
-    public: void Ctor();
     public: Object key;
     public: Object val;
     public: Int32 hash_coll;

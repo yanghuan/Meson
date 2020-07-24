@@ -41,9 +41,9 @@ CLASS(ReaderWriterLockSlim) {
   private: struct TimeoutTracker {
     public: Int32 get_RemainingMilliseconds();
     public: Boolean get_IsExpired();
-    public: void Ctor(TimeSpan timeout);
-    public: void Ctor(Int32 millisecondsTimeout);
-    public: void Ctor();
+    public: explicit TimeoutTracker(TimeSpan timeout);
+    public: explicit TimeoutTracker(Int32 millisecondsTimeout);
+    public: explicit TimeoutTracker() {}
     private: Int32 _total;
     private: Int32 _start;
   };
@@ -56,7 +56,6 @@ CLASS(ReaderWriterLockSlim) {
     public: void Enter(EnterSpinLockReason reason);
     private: void EnterSpin(EnterSpinLockReason reason);
     public: void Exit();
-    public: void Ctor();
     private: Int32 _isLocked;
     private: Int32 _enterDeprioritizationState;
   };

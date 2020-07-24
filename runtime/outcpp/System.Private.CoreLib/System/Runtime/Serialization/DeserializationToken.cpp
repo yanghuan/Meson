@@ -1,7 +1,7 @@
 #include "DeserializationToken-dep.h"
 
 namespace System::Private::CoreLib::System::Runtime::Serialization::DeserializationTokenNamespace {
-void DeserializationToken::Ctor(DeserializationTracker tracker) {
+DeserializationToken::DeserializationToken(DeserializationTracker tracker) {
 };
 
 void DeserializationToken::Dispose() {

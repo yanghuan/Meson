@@ -1,7 +1,7 @@
 #include "TypeToken-dep.h"
 
 namespace System::Private::CoreLib::System::Reflection::Emit::TypeTokenNamespace {
-void TypeToken::Ctor(Int32 typeToken) {
+TypeToken::TypeToken(Int32 typeToken) {
 };
 
 Int32 TypeToken::GetHashCode() {

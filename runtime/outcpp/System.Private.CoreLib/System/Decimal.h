@@ -36,7 +36,6 @@ struct Decimal : public rt::ValueType<Decimal> {
       public: void set_Low64(UInt64 value);
       public: void set_Mid64(UInt64 value);
       public: void set_High64(UInt64 value);
-      public: void Ctor();
       public: UInt32 U0;
       public: UInt32 U1;
       public: UInt32 U2;
@@ -48,8 +47,8 @@ struct Decimal : public rt::ValueType<Decimal> {
       private: UInt64 uhigh64LE;
     };
     private: struct PowerOvfl {
-      public: void Ctor(UInt32 hi, UInt32 mid, UInt32 lo);
-      public: void Ctor();
+      public: explicit PowerOvfl(UInt32 hi, UInt32 mid, UInt32 lo);
+      public: explicit PowerOvfl() {}
       public: UInt32 Hi;
       public: UInt64 MidLo;
     };
@@ -58,7 +57,6 @@ struct Decimal : public rt::ValueType<Decimal> {
       public: void set_Low64(UInt64 value);
       public: UInt64 get_High64();
       public: void set_High64(UInt64 value);
-      public: void Ctor();
       public: UInt32 U0;
       public: UInt32 U1;
       public: UInt32 U2;
@@ -70,7 +68,6 @@ struct Decimal : public rt::ValueType<Decimal> {
       public: void set_Low64(UInt64 value);
       public: UInt64 get_High64();
       public: void set_High64(UInt64 value);
-      public: void Ctor();
       public: UInt32 U0;
       public: UInt32 U1;
       public: UInt32 U2;
@@ -79,7 +76,6 @@ struct Decimal : public rt::ValueType<Decimal> {
       private: UInt64 uhigh64LE;
     };
     private: struct Buf28 {
-      public: void Ctor();
       public: Buf24 Buf24;
       public: UInt32 U6;
     };
@@ -125,7 +121,6 @@ struct Decimal : public rt::ValueType<Decimal> {
     public: static void InternalRound(DecCalc& d, UInt32 scale, MidpointRounding mode);
     public: static UInt32 DecDivMod1E9(DecCalc& value);
     private: static void SCtor();
-    public: void Ctor();
     private: UInt32 uflags;
     private: UInt32 uhi;
     private: UInt32 ulo;
@@ -142,21 +137,21 @@ struct Decimal : public rt::ValueType<Decimal> {
   public: Boolean get_IsNegative();
   public: Int32 get_Scale();
   private: UInt64 get_Low64();
-  public: void Ctor(Currency value);
-  public: void Ctor(Int32 value);
-  public: void Ctor(UInt32 value);
-  public: void Ctor(Int64 value);
-  public: void Ctor(UInt64 value);
-  public: void Ctor(Single value);
-  public: void Ctor(Double value);
+  public: explicit Decimal(Currency value);
+  public: explicit Decimal(Int32 value);
+  public: explicit Decimal(UInt32 value);
+  public: explicit Decimal(Int64 value);
+  public: explicit Decimal(UInt64 value);
+  public: explicit Decimal(Single value);
+  public: explicit Decimal(Double value);
   public: static Decimal FromOACurrency(Int64 cy);
   public: static Int64 ToOACurrency(Decimal value);
   private: static Boolean IsValid(Int32 flags);
-  public: void Ctor(Array<Int32> bits);
-  public: void Ctor(ReadOnlySpan<Int32> bits);
-  public: void Ctor(Int32 lo, Int32 mid, Int32 hi, Boolean isNegative, Byte scale);
-  private: void Ctor(Int32 lo, Int32 mid, Int32 hi, Int32 flags);
-  private: void Ctor(Decimal& d, Int32 flags);
+  public: explicit Decimal(Array<Int32> bits);
+  public: explicit Decimal(ReadOnlySpan<Int32> bits);
+  public: explicit Decimal(Int32 lo, Int32 mid, Int32 hi, Boolean isNegative, Byte scale);
+  private: explicit Decimal(Int32 lo, Int32 mid, Int32 hi, Int32 flags);
+  private: explicit Decimal(Decimal& d, Int32 flags);
   public: static Decimal Abs(Decimal& d);
   public: static Decimal Add(Decimal d1, Decimal d2);
   public: static Decimal Ceiling(Decimal d);
@@ -250,7 +245,7 @@ struct Decimal : public rt::ValueType<Decimal> {
   public: TypeCode GetTypeCode();
   public: static UInt32 DecDivMod1E9(Decimal& value);
   private: static void SCtor();
-  public: void Ctor();
+  public: explicit Decimal() {}
   private: Int32 flags;
   private: Int32 hi;
   private: Int32 lo;

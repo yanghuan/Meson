@@ -18,7 +18,6 @@ namespace ConditionalWeakTableNamespace {
 using namespace Collections::Generic;
 CLASS(ConditionalWeakTable, TKey, TValue) {
   private: struct Entry {
-    public: void Ctor();
     public: DependentHandle depHnd;
     public: Int32 HashCode;
     public: Int32 Next;

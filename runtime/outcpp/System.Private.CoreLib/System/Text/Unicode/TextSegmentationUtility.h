@@ -34,9 +34,9 @@ class TextSegmentationUtility {
     private: void set_CurrentCodeUnitOffset(Int32 value) { CurrentCodeUnitOffset = value; }
     public: GraphemeClusterBreakType get_CurrentType() { return CurrentType; }
     private: void set_CurrentType(GraphemeClusterBreakType value) { CurrentType = value; }
-    public: void Ctor(ReadOnlySpan<T> buffer, DecodeFirstRune<T> decoder);
+    public: explicit Processor(ReadOnlySpan<T> buffer, DecodeFirstRune<T> decoder);
     public: void MoveNext();
-    public: void Ctor();
+    public: explicit Processor() {}
     private: ReadOnlySpan<T> _buffer;
     private: DecodeFirstRune<T> _decoder;
     private: Int32 _codeUnitLengthOfCurrentScalar;

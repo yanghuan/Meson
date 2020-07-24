@@ -51,9 +51,9 @@ CLASS(AssemblyLoadContext) {
     Unloading = 1,
   };
   public: struct ContextualReflectionScope {
-    public: void Ctor(AssemblyLoadContext activating);
+    public: explicit ContextualReflectionScope(AssemblyLoadContext activating);
     public: void Dispose();
-    public: void Ctor();
+    public: explicit ContextualReflectionScope() {}
     private: AssemblyLoadContext _activated;
     private: AssemblyLoadContext _predecessor;
     private: Boolean _initialized;

@@ -18,7 +18,7 @@ Vector2 Matrix3x2::get_Translation() {
 void Matrix3x2::set_Translation(Vector2 value) {
 };
 
-void Matrix3x2::Ctor(Single m11, Single m12, Single m21, Single m22, Single m31, Single m32) {
+Matrix3x2::Matrix3x2(Single m11, Single m12, Single m21, Single m22, Single m31, Single m32) {
 };
 
 Matrix3x2 Matrix3x2::CreateTranslation(Vector2 position) {

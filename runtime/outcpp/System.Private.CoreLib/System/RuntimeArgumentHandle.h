@@ -7,7 +7,6 @@ namespace System::Private::CoreLib::System {
 namespace RuntimeArgumentHandleNamespace {
 struct RuntimeArgumentHandle {
   public: IntPtr get_Value();
-  public: void Ctor();
   private: IntPtr m_ptr;
 };
 } // namespace RuntimeArgumentHandleNamespace

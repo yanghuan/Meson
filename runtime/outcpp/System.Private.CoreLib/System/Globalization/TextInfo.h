@@ -27,10 +27,8 @@ CLASS(TextInfo) {
     True = 2,
   };
   private: struct ToUpperConversion {
-    public: void Ctor();
   };
   private: struct ToLowerConversion {
-    public: void Ctor();
   };
   public: Int32 get_ANSICodePage();
   public: Int32 get_OEMCodePage();

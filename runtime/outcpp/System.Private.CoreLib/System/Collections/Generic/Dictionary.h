@@ -32,7 +32,6 @@ using ICollection = Generic::ICollection<T>;
 using ICollection1 = Collections::ICollection;
 CLASS(Dictionary, TKey, TValue) {
   private: struct Entry {
-    public: void Ctor();
     public: UInt32 hashCode;
     public: Int32 next;
     public: TKey key;
@@ -44,10 +43,10 @@ CLASS(Dictionary, TKey, TValue) {
     private: DictionaryEntry get_EntryOfIDictionaryEnumerator();
     private: Object get_KeyOfIDictionaryEnumerator();
     private: Object get_ValueOfIDictionaryEnumerator();
-    public: void Ctor(Dictionary<TKey, TValue> dictionary, Int32 getEnumeratorRetType);
+    public: explicit Enumerator(Dictionary<TKey, TValue> dictionary, Int32 getEnumeratorRetType);
     public: Boolean MoveNext();
     public: void Dispose();
-    public: void Ctor();
+    public: explicit Enumerator() {}
     private: Dictionary<TKey, TValue> _dictionary;
     private: Int32 _version;
     private: Int32 _index;
@@ -58,10 +57,10 @@ CLASS(Dictionary, TKey, TValue) {
     public: struct Enumerator {
       public: TKey get_Current();
       private: Object get_CurrentOfIEnumerator();
-      public: void Ctor(Dictionary<TKey, TValue> dictionary);
+      public: explicit Enumerator(Dictionary<TKey, TValue> dictionary);
       public: void Dispose();
       public: Boolean MoveNext();
-      public: void Ctor();
+      public: explicit Enumerator() {}
       private: Dictionary<TKey, TValue> _dictionary;
       private: Int32 _index;
       private: Int32 _version;
@@ -80,10 +79,10 @@ CLASS(Dictionary, TKey, TValue) {
     public: struct Enumerator {
       public: TValue get_Current();
       private: Object get_CurrentOfIEnumerator();
-      public: void Ctor(Dictionary<TKey, TValue> dictionary);
+      public: explicit Enumerator(Dictionary<TKey, TValue> dictionary);
       public: void Dispose();
       public: Boolean MoveNext();
-      public: void Ctor();
+      public: explicit Enumerator() {}
       private: Dictionary<TKey, TValue> _dictionary;
       private: Int32 _index;
       private: Int32 _version;

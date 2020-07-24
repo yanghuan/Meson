@@ -20,8 +20,8 @@ struct GCHandle : public rt::ValueType<GCHandle> {
   public: static Object InternalGet(IntPtr handle);
   private: static void InternalSet(IntPtr handle, Object value);
   public: static Object InternalCompareExchange(IntPtr handle, Object value, Object oldValue);
-  private: void Ctor(Object value, GCHandleType type);
-  private: void Ctor(IntPtr handle);
+  private: explicit GCHandle(Object value, GCHandleType type);
+  private: explicit GCHandle(IntPtr handle);
   public: static GCHandle Alloc(Object value);
   public: static GCHandle Alloc(Object value, GCHandleType type);
   public: void Free();
@@ -37,7 +37,7 @@ struct GCHandle : public rt::ValueType<GCHandle> {
   private: static IntPtr GetHandleValue(IntPtr handle);
   private: static Boolean IsPinned(IntPtr handle);
   private: static void ThrowIfInvalid(IntPtr handle);
-  public: void Ctor();
+  public: explicit GCHandle() {}
   private: IntPtr _handle;
 };
 } // namespace GCHandleNamespace

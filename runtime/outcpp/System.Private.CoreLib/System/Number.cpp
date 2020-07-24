@@ -11,13 +11,13 @@ Number::DiyFp Number::DiyFp::CreateAndGetBoundaries(Single value, DiyFp& mMinus,
   return Number::DiyFp();
 };
 
-void Number::DiyFp::Ctor(Double value) {
+Number::DiyFp::DiyFp(Double value) {
 };
 
-void Number::DiyFp::Ctor(Single value) {
+Number::DiyFp::DiyFp(Single value) {
 };
 
-void Number::DiyFp::Ctor(UInt64 f, Int32 e) {
+Number::DiyFp::DiyFp(UInt64 f, Int32 e) {
 };
 
 Number::DiyFp Number::DiyFp::Multiply(DiyFp& other) {
@@ -35,7 +35,7 @@ Number::DiyFp Number::DiyFp::Subtract(DiyFp& other) {
 void Number::DiyFp::GetBoundaries(Int32 implicitBitIndex, DiyFp& mMinus, DiyFp& mPlus) {
 };
 
-void Number::NumberBuffer::Ctor(NumberBufferKind kind, Byte* digits, Int32 digitsLength) {
+Number::NumberBuffer::NumberBuffer(NumberBufferKind kind, Byte* digits, Int32 digitsLength) {
 };
 
 Byte* Number::NumberBuffer::GetDigitsPointer() {
@@ -200,7 +200,7 @@ Boolean Number::Grisu3::TryRoundWeedShortest(Span<Byte> buffer, Int32 length, UI
 void Number::Grisu3::SCtor() {
 };
 
-void Number::FloatingPointInfo::Ctor(UInt16 denormalMantissaBits, UInt16 exponentBits, Int32 maxBinaryExponent, Int32 exponentBias, UInt64 infinityBits) {
+Number::FloatingPointInfo::FloatingPointInfo(UInt16 denormalMantissaBits, UInt16 exponentBits, Int32 maxBinaryExponent, Int32 exponentBias, UInt64 infinityBits) {
 };
 
 void Number::FloatingPointInfo::SCtor() {

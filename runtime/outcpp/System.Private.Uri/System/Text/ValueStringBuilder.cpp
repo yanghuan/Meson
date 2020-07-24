@@ -5,10 +5,10 @@ Int32 ValueStringBuilder::get_Length() {
   return Int32();
 };
 
-void ValueStringBuilder::Ctor(Span<Char> initialBuffer) {
+ValueStringBuilder::ValueStringBuilder(Span<Char> initialBuffer) {
 };
 
-void ValueStringBuilder::Ctor(Int32 initialCapacity) {
+ValueStringBuilder::ValueStringBuilder(Int32 initialCapacity) {
 };
 
 void ValueStringBuilder::EnsureCapacity(Int32 capacity) {

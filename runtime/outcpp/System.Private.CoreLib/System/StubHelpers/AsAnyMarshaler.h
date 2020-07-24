@@ -30,7 +30,7 @@ struct AsAnyMarshaler {
   private: static Boolean IsAnsi(Int32 dwFlags);
   private: static Boolean IsThrowOn(Int32 dwFlags);
   private: static Boolean IsBestFit(Int32 dwFlags);
-  public: void Ctor(IntPtr pvArrayMarshaler);
+  public: explicit AsAnyMarshaler(IntPtr pvArrayMarshaler);
   private: IntPtr ConvertArrayToNative(Object pManagedHome, Int32 dwFlags);
   private: static IntPtr ConvertStringToNative(String pManagedHome, Int32 dwFlags);
   private: IntPtr ConvertStringBuilderToNative(StringBuilder pManagedHome, Int32 dwFlags);
@@ -38,7 +38,7 @@ struct AsAnyMarshaler {
   public: IntPtr ConvertToNative(Object pManagedHome, Int32 dwFlags);
   public: void ConvertToManaged(Object pManagedHome, IntPtr pNativeHome);
   public: void ClearNative(IntPtr pNativeHome);
-  public: void Ctor();
+  public: explicit AsAnyMarshaler() {}
   private: IntPtr pvArrayMarshaler;
   private: BackPropAction backPropAction;
   private: Type layoutType;

@@ -25,7 +25,6 @@ struct EventSourceOptions {
   public: void set_Tags(EventTags value);
   public: EventActivityOptions get_ActivityOptions();
   public: void set_ActivityOptions(EventActivityOptions value);
-  public: void Ctor();
   public: EventKeywords keywords;
   public: EventTags tags;
   public: EventActivityOptions activityOptions;

@@ -11,7 +11,7 @@ ModuleHandle ModuleHandle::GetEmptyMH() {
   return ModuleHandle();
 };
 
-void ModuleHandle::Ctor(RuntimeModule module) {
+ModuleHandle::ModuleHandle(RuntimeModule module) {
 };
 
 RuntimeModule ModuleHandle::GetRuntimeModule() {

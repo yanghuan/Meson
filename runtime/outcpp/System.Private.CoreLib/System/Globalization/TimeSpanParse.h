@@ -39,19 +39,19 @@ class TimeSpanParse {
     NumOverflow = 4,
   };
   private: struct TimeSpanToken {
-    public: void Ctor(TTT type);
-    public: void Ctor(Int32 number);
-    public: void Ctor(Int32 number, Int32 leadingZeroes);
-    public: void Ctor(TTT type, Int32 number, Int32 leadingZeroes, ReadOnlySpan<Char> separator);
+    public: explicit TimeSpanToken(TTT type);
+    public: explicit TimeSpanToken(Int32 number);
+    public: explicit TimeSpanToken(Int32 number, Int32 leadingZeroes);
+    public: explicit TimeSpanToken(TTT type, Int32 number, Int32 leadingZeroes, ReadOnlySpan<Char> separator);
     public: Boolean NormalizeAndValidateFraction();
-    public: void Ctor();
+    public: explicit TimeSpanToken() {}
     public: TTT _ttt;
     public: Int32 _num;
     public: Int32 _zeroes;
     public: ReadOnlySpan<Char> _sep;
   };
   private: struct TimeSpanResult {
-    public: void Ctor(Boolean throwOnFailure, ReadOnlySpan<Char> originalTimeSpanString);
+    public: explicit TimeSpanResult(Boolean throwOnFailure, ReadOnlySpan<Char> originalTimeSpanString);
     public: Boolean SetNoFormatSpecifierFailure();
     public: Boolean SetBadQuoteFailure(Char failingCharacter);
     public: Boolean SetInvalidStringFailure();
@@ -59,7 +59,7 @@ class TimeSpanParse {
     public: Boolean SetOverflowFailure();
     public: Boolean SetBadTimeSpanFailure();
     public: Boolean SetBadFormatSpecifierFailure(Nullable<Char> formatSpecifierCharacter);
-    public: void Ctor();
+    public: explicit TimeSpanResult() {}
     public: TimeSpan parsedTimeSpan;
     private: Boolean _throwOnFailure;
     private: ReadOnlySpan<Char> _originalTimeSpanString;
@@ -67,11 +67,11 @@ class TimeSpanParse {
   private: struct TimeSpanTokenizer {
     public: Boolean get_EOL();
     public: Char get_NextChar();
-    public: void Ctor(ReadOnlySpan<Char> input);
-    public: void Ctor(ReadOnlySpan<Char> input, Int32 startPosition);
+    public: explicit TimeSpanTokenizer(ReadOnlySpan<Char> input);
+    public: explicit TimeSpanTokenizer(ReadOnlySpan<Char> input, Int32 startPosition);
     public: TimeSpanToken GetNextToken();
     public: void BackOne();
-    public: void Ctor();
+    public: explicit TimeSpanTokenizer() {}
     private: ReadOnlySpan<Char> _value;
     private: Int32 _pos;
   };
@@ -91,7 +91,6 @@ class TimeSpanParse {
     public: Boolean ProcessToken(TimeSpanToken& tok, TimeSpanResult& result);
     private: Boolean AddSep(ReadOnlySpan<Char> sep, TimeSpanResult& result);
     private: Boolean AddNum(TimeSpanToken num, TimeSpanResult& result);
-    public: void Ctor();
     public: TTT _lastSeenTTT;
     public: Int32 _tokenCount;
     public: Int32 _sepCount;
@@ -121,7 +120,6 @@ class TimeSpanParse {
     public: Boolean ParseInt(Int32 max, Int32& i, TimeSpanResult& result);
     public: Boolean ParseTime(Int64& time, TimeSpanResult& result);
     public: void SkipBlanks();
-    public: void Ctor();
     private: ReadOnlySpan<Char> _str;
     private: Char _ch;
     private: Int32 _pos;

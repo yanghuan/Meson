@@ -22,7 +22,6 @@ namespace HashSetNamespace {
 using namespace Runtime::Serialization;
 CLASS(HashSet, T) {
   private: struct Entry {
-    public: void Ctor();
     public: Int32 HashCode;
     public: Int32 Next;
     public: T Value;
@@ -30,10 +29,10 @@ CLASS(HashSet, T) {
   public: struct Enumerator {
     public: T get_Current();
     private: Object get_CurrentOfIEnumerator();
-    public: void Ctor(HashSet<T> hashSet);
+    public: explicit Enumerator(HashSet<T> hashSet);
     public: Boolean MoveNext();
     public: void Dispose();
-    public: void Ctor();
+    public: explicit Enumerator() {}
     private: HashSet<T> _hashSet;
     private: Int32 _version;
     private: Int32 _index;

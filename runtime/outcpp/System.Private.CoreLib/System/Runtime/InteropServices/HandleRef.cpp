@@ -9,7 +9,7 @@ IntPtr HandleRef::get_Handle() {
   return IntPtr();
 };
 
-void HandleRef::Ctor(Object wrapper, IntPtr handle) {
+HandleRef::HandleRef(Object wrapper, IntPtr handle) {
 };
 
 IntPtr HandleRef::op_Explicit(HandleRef value) {

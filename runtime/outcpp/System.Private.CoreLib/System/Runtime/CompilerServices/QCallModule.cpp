@@ -1,10 +1,10 @@
 #include "QCallModule-dep.h"
 
 namespace System::Private::CoreLib::System::Runtime::CompilerServices::QCallModuleNamespace {
-void QCallModule::Ctor(RuntimeModule& module) {
+QCallModule::QCallModule(RuntimeModule& module) {
 };
 
-void QCallModule::Ctor(ModuleBuilder& module) {
+QCallModule::QCallModule(ModuleBuilder& module) {
 };
 
 } // namespace System::Private::CoreLib::System::Runtime::CompilerServices::QCallModuleNamespace

@@ -14,7 +14,7 @@ struct Range {
   public: Index get_Start() { return Start; }
   public: Index get_End() { return End; }
   public: static Range get_All();
-  public: void Ctor(Index start, Index end);
+  public: explicit Range(Index start, Index end);
   public: Boolean Equals(Object value);
   public: Boolean Equals(Range other);
   public: Int32 GetHashCode();
@@ -22,7 +22,7 @@ struct Range {
   public: static Range StartAt(Index start);
   public: static Range EndAt(Index end);
   public: ValueTuple<> GetOffsetAndLength(Int32 length);
-  public: void Ctor();
+  public: explicit Range() {}
   private: Index Start;
   private: Index End;
 };

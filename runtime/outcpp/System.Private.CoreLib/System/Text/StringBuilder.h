@@ -44,9 +44,9 @@ CLASS(StringBuilder) {
     public: ReadOnlyMemory<Char> get_Current();
     public: ChunkEnumerator GetEnumerator();
     public: Boolean MoveNext();
-    public: void Ctor(StringBuilder stringBuilder);
+    public: explicit ChunkEnumerator(StringBuilder stringBuilder);
     private: static Int32 ChunkCount(StringBuilder stringBuilder);
-    public: void Ctor();
+    public: explicit ChunkEnumerator() {}
     private: StringBuilder _firstChunk;
     private: StringBuilder _currentChunk;
     private: ManyChunkInfo _manyChunks;

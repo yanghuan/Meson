@@ -8,8 +8,8 @@ namespace System::Private::CoreLib::System::Reflection {
 namespace CustomAttributeCtorParameterNamespace {
 struct CustomAttributeCtorParameter {
   public: CustomAttributeEncodedArgument get_CustomAttributeEncodedArgument();
-  public: void Ctor(CustomAttributeType type);
-  public: void Ctor();
+  public: explicit CustomAttributeCtorParameter(CustomAttributeType type);
+  public: explicit CustomAttributeCtorParameter() {}
   private: CustomAttributeType m_type;
   private: CustomAttributeEncodedArgument m_encodedArgument;
 };

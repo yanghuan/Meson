@@ -5,7 +5,7 @@ CancellationToken CancellationTokenRegistration::get_Token() {
   return CancellationToken();
 };
 
-void CancellationTokenRegistration::Ctor(Int64 id, Object/*CancellationTokenSource.CallbackNode*/ node) {
+CancellationTokenRegistration::CancellationTokenRegistration(Int64 id, Object/*CancellationTokenSource.CallbackNode*/ node) {
 };
 
 void CancellationTokenRegistration::Dispose() {

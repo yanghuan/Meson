@@ -5,8 +5,8 @@
 namespace System::Private::CoreLib::System::Runtime::CompilerServices {
 namespace ObjectHandleOnStackNamespace {
 struct ObjectHandleOnStack {
-  private: void Ctor(void* pObject);
-  public: void Ctor();
+  private: explicit ObjectHandleOnStack(void* pObject);
+  public: explicit ObjectHandleOnStack() {}
   private: void* _ptr;
 };
 } // namespace ObjectHandleOnStackNamespace

@@ -131,16 +131,16 @@ Vector4 Vector4::Negate(Vector4 value) {
   return Vector4();
 };
 
-void Vector4::Ctor(Single value) {
+Vector4::Vector4(Single value) {
 };
 
-void Vector4::Ctor(Single x, Single y, Single z, Single w) {
+Vector4::Vector4(Single x, Single y, Single z, Single w) {
 };
 
-void Vector4::Ctor(Vector2 value, Single z, Single w) {
+Vector4::Vector4(Vector2 value, Single z, Single w) {
 };
 
-void Vector4::Ctor(Vector3 value, Single w) {
+Vector4::Vector4(Vector3 value, Single w) {
 };
 
 void Vector4::CopyTo(Array<Single> array) {

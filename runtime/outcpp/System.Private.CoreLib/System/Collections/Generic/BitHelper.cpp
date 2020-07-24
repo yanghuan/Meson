@@ -1,7 +1,7 @@
 #include "BitHelper-dep.h"
 
 namespace System::Private::CoreLib::System::Collections::Generic::BitHelperNamespace {
-void BitHelper::Ctor(Span<Int32> span, Boolean clear) {
+BitHelper::BitHelper(Span<Int32> span, Boolean clear) {
 };
 
 void BitHelper::MarkBit(Int32 bitPosition) {

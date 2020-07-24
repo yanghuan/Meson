@@ -34,7 +34,6 @@ struct DataCollector {
   private: void PinArray(Object value, Int32 size);
   private: void ScalarsBegin();
   private: void ScalarsEnd();
-  public: void Ctor();
   public: static DataCollector ThreadInstance;
   private: Byte* scratchEnd;
   private: EventSource::in::EventData* datasEnd;

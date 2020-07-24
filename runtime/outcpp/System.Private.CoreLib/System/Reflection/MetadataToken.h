@@ -29,9 +29,9 @@ struct MetadataToken : public rt::ValueType<MetadataToken> {
   public: static Int32 op_Implicit(MetadataToken token);
   public: static MetadataToken op_Implicit(Int32 token);
   public: static Boolean IsNullToken(Int32 token);
-  public: void Ctor(Int32 token);
+  public: explicit MetadataToken(Int32 token);
   public: String ToString();
-  public: void Ctor();
+  public: explicit MetadataToken() {}
   public: Int32 Value;
 };
 } // namespace MetadataTokenNamespace

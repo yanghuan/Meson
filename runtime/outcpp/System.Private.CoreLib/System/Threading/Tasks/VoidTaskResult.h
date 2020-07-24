@@ -5,7 +5,6 @@
 namespace System::Private::CoreLib::System::Threading::Tasks {
 namespace VoidTaskResultNamespace {
 struct VoidTaskResult {
-  public: void Ctor();
 };
 } // namespace VoidTaskResultNamespace
 using VoidTaskResult = VoidTaskResultNamespace::VoidTaskResult;

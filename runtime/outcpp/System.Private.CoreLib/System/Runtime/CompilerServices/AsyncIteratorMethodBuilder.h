@@ -12,7 +12,6 @@ struct AsyncIteratorMethodBuilder {
   public: Object get_ObjectIdForDebugger();
   public: static AsyncIteratorMethodBuilder Create();
   public: void Complete();
-  public: void Ctor();
   private: AsyncTaskMethodBuilder<> _methodBuilder;
 };
 } // namespace AsyncIteratorMethodBuilderNamespace

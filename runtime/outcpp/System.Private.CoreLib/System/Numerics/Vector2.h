@@ -47,8 +47,8 @@ struct Vector2 : public rt::ValueType<Vector2> {
   public: static Vector2 Divide(Vector2 left, Vector2 right);
   public: static Vector2 Divide(Vector2 left, Single divisor);
   public: static Vector2 Negate(Vector2 value);
-  public: void Ctor(Single value);
-  public: void Ctor(Single x, Single y);
+  public: explicit Vector2(Single value);
+  public: explicit Vector2(Single x, Single y);
   public: void CopyTo(Array<Single> array);
   public: void CopyTo(Array<Single> array, Int32 index);
   public: Boolean Equals(Vector2 other);
@@ -67,7 +67,7 @@ struct Vector2 : public rt::ValueType<Vector2> {
   public: static Vector2 op_UnaryNegation(Vector2 value);
   public: static Boolean op_Equality(Vector2 left, Vector2 right);
   public: static Boolean op_Inequality(Vector2 left, Vector2 right);
-  public: void Ctor();
+  public: explicit Vector2() {}
   public: Single X;
   public: Single Y;
 };

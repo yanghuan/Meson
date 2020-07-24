@@ -83,22 +83,22 @@ Int32 DateTimeOffset::get_Year() {
   return Int32();
 };
 
-void DateTimeOffset::Ctor(Int64 ticks, TimeSpan offset) {
+DateTimeOffset::DateTimeOffset(Int64 ticks, TimeSpan offset) {
 };
 
-void DateTimeOffset::Ctor(DateTime dateTime) {
+DateTimeOffset::DateTimeOffset(DateTime dateTime) {
 };
 
-void DateTimeOffset::Ctor(DateTime dateTime, TimeSpan offset) {
+DateTimeOffset::DateTimeOffset(DateTime dateTime, TimeSpan offset) {
 };
 
-void DateTimeOffset::Ctor(Int32 year, Int32 month, Int32 day, Int32 hour, Int32 minute, Int32 second, TimeSpan offset) {
+DateTimeOffset::DateTimeOffset(Int32 year, Int32 month, Int32 day, Int32 hour, Int32 minute, Int32 second, TimeSpan offset) {
 };
 
-void DateTimeOffset::Ctor(Int32 year, Int32 month, Int32 day, Int32 hour, Int32 minute, Int32 second, Int32 millisecond, TimeSpan offset) {
+DateTimeOffset::DateTimeOffset(Int32 year, Int32 month, Int32 day, Int32 hour, Int32 minute, Int32 second, Int32 millisecond, TimeSpan offset) {
 };
 
-void DateTimeOffset::Ctor(Int32 year, Int32 month, Int32 day, Int32 hour, Int32 minute, Int32 second, Int32 millisecond, Calendar calendar, TimeSpan offset) {
+DateTimeOffset::DateTimeOffset(Int32 year, Int32 month, Int32 day, Int32 hour, Int32 minute, Int32 second, Int32 millisecond, Calendar calendar, TimeSpan offset) {
 };
 
 DateTimeOffset DateTimeOffset::ToOffset(TimeSpan offset) {
@@ -177,7 +177,7 @@ DateTimeOffset DateTimeOffset::FromUnixTimeMilliseconds(Int64 milliseconds) {
   return DateTimeOffset();
 };
 
-void DateTimeOffset::Ctor(SerializationInfo info, StreamingContext context) {
+DateTimeOffset::DateTimeOffset(SerializationInfo info, StreamingContext context) {
 };
 
 Int32 DateTimeOffset::GetHashCode() {

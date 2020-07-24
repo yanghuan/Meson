@@ -13,7 +13,6 @@ struct ConstArray {
   public: IntPtr get_Signature();
   public: Int32 get_Length();
   public: Byte get_Item(Int32 index);
-  public: void Ctor();
   public: Int32 m_length;
   public: IntPtr m_constArray;
 };

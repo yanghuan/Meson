@@ -1,7 +1,7 @@
 #include "Currency-dep.h"
 
 namespace System::Private::CoreLib::System::CurrencyNamespace {
-void Currency::Ctor(Decimal value) {
+Currency::Currency(Decimal value) {
 };
 
 } // namespace System::Private::CoreLib::System::CurrencyNamespace

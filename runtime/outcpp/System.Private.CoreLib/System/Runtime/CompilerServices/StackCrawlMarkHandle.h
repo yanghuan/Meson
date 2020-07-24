@@ -9,8 +9,8 @@ namespace System::Private::CoreLib::System::Runtime::CompilerServices {
 namespace StackCrawlMarkHandleNamespace {
 using namespace Threading;
 struct StackCrawlMarkHandle {
-  public: void Ctor(StackCrawlMark& stackMark);
-  public: void Ctor();
+  public: explicit StackCrawlMarkHandle(StackCrawlMark& stackMark);
+  public: explicit StackCrawlMarkHandle() {}
   private: void* _ptr;
 };
 } // namespace StackCrawlMarkHandleNamespace

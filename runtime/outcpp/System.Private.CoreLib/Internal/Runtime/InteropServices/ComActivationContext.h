@@ -12,7 +12,6 @@ namespace ComActivationContextNamespace {
 using namespace ::System::Private::CoreLib::System;
 struct ComActivationContext {
   public: static ComActivationContext Create(ComActivationContextInternal& cxtInt);
-  public: void Ctor();
   public: Guid ClassId;
   public: Guid InterfaceId;
   public: String AssemblyPath;

@@ -17,13 +17,11 @@ class CastHelpers {
     MaybeCast = 2,
   };
   private: struct CastCacheEntry {
-    public: void Ctor();
     public: Int32 _version;
     public: UIntPtr _source;
     public: UIntPtr _targetAndResult;
   };
   public: struct ArrayElement {
-    public: void Ctor();
     public: Object Value;
   };
   private: static Int32 KeyToBucket(Int32& tableData, UIntPtr source, UIntPtr target);

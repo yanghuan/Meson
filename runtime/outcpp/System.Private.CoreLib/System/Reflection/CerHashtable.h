@@ -21,7 +21,6 @@ struct CerHashtable {
   public: void set_Item(K key, V value);
   private: static Int32 GetHashCodeHelper(K key);
   private: void Rehash(Int32 newSize);
-  public: void Ctor();
   private: Table m_Table;
 };
 } // namespace CerHashtableNamespace

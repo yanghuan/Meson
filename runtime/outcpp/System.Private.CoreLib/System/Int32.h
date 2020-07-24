@@ -40,7 +40,6 @@ struct Int32 : public rt::PrimitiveType<Int32> {
   public: static Boolean TryParse(String s, NumberStyles style, IFormatProvider provider, Int32& result);
   public: static Boolean TryParse(ReadOnlySpan<Char> s, NumberStyles style, IFormatProvider provider, Int32& result);
   public: TypeCode GetTypeCode();
-  public: void Ctor();
   private: int32_t m_value;
   public: static constexpr int32_t MaxValue = 2147483647;
   public: static constexpr int32_t MinValue = -2147483648;

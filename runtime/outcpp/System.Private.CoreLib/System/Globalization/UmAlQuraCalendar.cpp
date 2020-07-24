@@ -3,7 +3,7 @@
 #include <System.Private.CoreLib/System/Globalization/UmAlQuraCalendar-dep.h>
 
 namespace System::Private::CoreLib::System::Globalization::UmAlQuraCalendarNamespace {
-void UmAlQuraCalendar___::DateMapping::Ctor(Int32 MonthsLengthFlags, Int32 GYear, Int32 GMonth, Int32 GDay) {
+UmAlQuraCalendar___::DateMapping::DateMapping(Int32 MonthsLengthFlags, Int32 GYear, Int32 GMonth, Int32 GDay) {
 };
 
 DateTime UmAlQuraCalendar___::get_MinSupportedDateTime() {

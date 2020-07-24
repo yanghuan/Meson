@@ -22,9 +22,9 @@ struct ReadOnlyMemory {
   public: Int32 get_Length();
   public: Boolean get_IsEmpty();
   public: ReadOnlySpan<T> get_Span();
-  public: void Ctor(Array<T> array);
-  public: void Ctor(Array<T> array, Int32 start, Int32 length);
-  public: void Ctor(Object obj, Int32 start, Int32 length);
+  public: explicit ReadOnlyMemory(Array<T> array);
+  public: explicit ReadOnlyMemory(Array<T> array, Int32 start, Int32 length);
+  public: explicit ReadOnlyMemory(Object obj, Int32 start, Int32 length);
   public: static ReadOnlyMemory<T> op_Implicit(Array<T> array);
   public: static ReadOnlyMemory<T> op_Implicit(ArraySegment<T> segment);
   public: String ToString();
@@ -38,7 +38,7 @@ struct ReadOnlyMemory {
   public: Boolean Equals(ReadOnlyMemory<T> other);
   public: Int32 GetHashCode();
   public: Object GetObjectStartLength(Int32& start, Int32& length);
-  public: void Ctor();
+  public: explicit ReadOnlyMemory() {}
   private: Object _object;
   private: Int32 _index;
   private: Int32 _length;

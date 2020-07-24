@@ -17,7 +17,7 @@ struct SpinLock {
   public: Boolean get_IsHeldByCurrentThread();
   public: Boolean get_IsThreadOwnerTrackingEnabled();
   private: static Int32 CompareExchange(Int32& location, Int32 value, Int32 comparand, Boolean& success);
-  public: void Ctor(Boolean enableThreadOwnerTracking);
+  public: explicit SpinLock(Boolean enableThreadOwnerTracking);
   public: void Enter(Boolean& lockTaken);
   public: void TryEnter(Boolean& lockTaken);
   public: void TryEnter(TimeSpan timeout, Boolean& lockTaken);
@@ -28,7 +28,7 @@ struct SpinLock {
   public: void Exit();
   public: void Exit(Boolean useMemoryBarrier);
   private: void ExitSlowPath(Boolean useMemoryBarrier);
-  public: void Ctor();
+  public: explicit SpinLock() {}
   private: Int32 _owner;
 };
 CLASS(SystemThreading_SpinLockDebugView) {

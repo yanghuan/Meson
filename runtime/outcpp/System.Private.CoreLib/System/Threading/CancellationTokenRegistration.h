@@ -17,7 +17,7 @@ namespace CancellationTokenRegistrationNamespace {
 using namespace Tasks;
 struct CancellationTokenRegistration : public rt::ValueType<CancellationTokenRegistration> {
   public: CancellationToken get_Token();
-  public: void Ctor(Int64 id, Object/*CancellationTokenSource.CallbackNode*/ node);
+  public: explicit CancellationTokenRegistration(Int64 id, Object/*CancellationTokenSource.CallbackNode*/ node);
   public: void Dispose();
   public: ValueTask<> DisposeAsync();
   public: Boolean Unregister();
@@ -28,7 +28,7 @@ struct CancellationTokenRegistration : public rt::ValueType<CancellationTokenReg
   public: Boolean Equals(Object obj);
   public: Boolean Equals(CancellationTokenRegistration other);
   public: Int32 GetHashCode();
-  public: void Ctor();
+  public: explicit CancellationTokenRegistration() {}
   private: Int64 _id;
   private: Object/*CancellationTokenSource.CallbackNode*/ _node;
 };

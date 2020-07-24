@@ -31,11 +31,11 @@ using namespace Text;
 class WebUtility {
   private: struct UrlDecoder {
     private: void FlushBytes();
-    public: void Ctor(Int32 bufferSize, Encoding encoding);
+    public: explicit UrlDecoder(Int32 bufferSize, Encoding encoding);
     public: void AddChar(Char ch);
     public: void AddByte(Byte b);
     public: String GetString();
-    public: void Ctor();
+    public: explicit UrlDecoder() {}
     private: Int32 _bufferSize;
     private: Int32 _numChars;
     private: Array<Char> _charBuffer;

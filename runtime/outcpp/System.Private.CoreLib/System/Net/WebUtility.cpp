@@ -4,7 +4,7 @@ namespace System::Private::CoreLib::System::Net::WebUtilityNamespace {
 void WebUtility::UrlDecoder::FlushBytes() {
 };
 
-void WebUtility::UrlDecoder::Ctor(Int32 bufferSize, Encoding encoding) {
+WebUtility::UrlDecoder::UrlDecoder(Int32 bufferSize, Encoding encoding) {
 };
 
 void WebUtility::UrlDecoder::AddChar(Char ch) {

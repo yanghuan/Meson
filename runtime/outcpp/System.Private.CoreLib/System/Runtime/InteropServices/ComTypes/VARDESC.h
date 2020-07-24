@@ -14,11 +14,9 @@ enum class VARKIND;
 namespace VARDESCNamespace {
 struct VARDESC {
   public: struct DESCUNION {
-    public: void Ctor();
     public: Int32 oInst;
     public: IntPtr lpvarValue;
   };
-  public: void Ctor();
   public: Int32 memid;
   public: String lpstrSchema;
   public: DESCUNION desc;

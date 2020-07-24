@@ -11,13 +11,13 @@ namespace System::Private::CoreLib::System::Reflection::Emit {
 namespace ParameterTokenNamespace {
 struct ParameterToken : public rt::ValueType<ParameterToken> {
   public: Int32 get_Token() { return Token; }
-  public: void Ctor(Int32 parameterToken);
+  public: explicit ParameterToken(Int32 parameterToken);
   public: Int32 GetHashCode();
   public: Boolean Equals(Object obj);
   public: Boolean Equals(ParameterToken obj);
   public: static Boolean op_Equality(ParameterToken a, ParameterToken b);
   public: static Boolean op_Inequality(ParameterToken a, ParameterToken b);
-  public: void Ctor();
+  public: explicit ParameterToken() {}
   public: static ParameterToken Empty;
   private: Int32 Token;
 };

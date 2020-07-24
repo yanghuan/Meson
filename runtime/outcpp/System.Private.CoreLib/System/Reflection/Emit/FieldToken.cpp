@@ -1,7 +1,7 @@
 #include "FieldToken-dep.h"
 
 namespace System::Private::CoreLib::System::Reflection::Emit::FieldTokenNamespace {
-void FieldToken::Ctor(Int32 fieldToken, Type fieldClass) {
+FieldToken::FieldToken(Int32 fieldToken, Type fieldClass) {
 };
 
 Int32 FieldToken::GetHashCode() {

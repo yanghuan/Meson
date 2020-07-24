@@ -19,11 +19,11 @@ template <>
 struct ConfiguredTaskAwaitable<> {
   public: struct ConfiguredTaskAwaiter {
     public: Boolean get_IsCompleted();
-    public: void Ctor(Task<> task, Boolean continueOnCapturedContext);
+    public: explicit ConfiguredTaskAwaiter(Task<> task, Boolean continueOnCapturedContext);
     public: void OnCompleted(Action<> continuation);
     public: void UnsafeOnCompleted(Action<> continuation);
     public: void GetResult();
-    public: void Ctor();
+    public: explicit ConfiguredTaskAwaiter() {}
     public: Task<> m_task;
     public: Boolean m_continueOnCapturedContext;
   };
@@ -33,11 +33,11 @@ template <class TResult>
 struct ConfiguredTaskAwaitable<TResult> {
   public: struct ConfiguredTaskAwaiter {
     public: Boolean get_IsCompleted();
-    public: void Ctor(Task<TResult> task, Boolean continueOnCapturedContext);
+    public: explicit ConfiguredTaskAwaiter(Task<TResult> task, Boolean continueOnCapturedContext);
     public: void OnCompleted(Action<> continuation);
     public: void UnsafeOnCompleted(Action<> continuation);
     public: TResult GetResult();
-    public: void Ctor();
+    public: explicit ConfiguredTaskAwaiter() {}
     private: Task<TResult> m_task;
     private: Boolean m_continueOnCapturedContext;
   };

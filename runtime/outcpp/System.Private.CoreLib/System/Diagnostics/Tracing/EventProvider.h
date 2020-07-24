@@ -43,8 +43,8 @@ CLASS(EventProvider) {
     Other = 5,
   };
   public: struct SessionInfo {
-    public: void Ctor(Int32 sessionIdBit_, Int32 etwSessionId_);
-    public: void Ctor();
+    public: explicit SessionInfo(Int32 sessionIdBit_, Int32 etwSessionId_);
+    public: explicit SessionInfo() {}
     public: Int32 sessionIdBit;
     public: Int32 etwSessionId;
   };
@@ -55,7 +55,6 @@ CLASS(EventProvider) {
     public: void EndInvoke(List<SessionInfo>& sessionList, IAsyncResult result);
   };
   public: struct EventData {
-    public: void Ctor();
     public: UInt64 Ptr;
     public: UInt32 Size;
     public: UInt32 Reserved;

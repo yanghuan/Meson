@@ -27,7 +27,6 @@ struct DateTimeResult {
   public: void SetFailure(ParseFailureKind failure, String failureMessageID);
   public: void SetFailure(ParseFailureKind failure, String failureMessageID, Object failureMessageFormatArgument);
   public: void SetFailure(ParseFailureKind failure, String failureMessageID, Object failureMessageFormatArgument, String failureArgumentName);
-  public: void Ctor();
   public: Int32 Year;
   public: Int32 Month;
   public: Int32 Day;

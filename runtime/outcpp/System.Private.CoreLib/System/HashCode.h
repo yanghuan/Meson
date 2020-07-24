@@ -21,7 +21,6 @@ struct HashCode {
   public: Int32 GetHashCode();
   public: Boolean Equals(Object obj);
   private: static void SCtor();
-  public: void Ctor();
   private: static UInt32 s_seed;
   private: UInt32 _v1;
   private: UInt32 _v2;

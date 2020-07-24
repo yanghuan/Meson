@@ -11,13 +11,13 @@ namespace System::Private::CoreLib::System::Reflection::Emit {
 namespace TypeTokenNamespace {
 struct TypeToken : public rt::ValueType<TypeToken> {
   public: Int32 get_Token() { return Token; }
-  public: void Ctor(Int32 typeToken);
+  public: explicit TypeToken(Int32 typeToken);
   public: Int32 GetHashCode();
   public: Boolean Equals(Object obj);
   public: Boolean Equals(TypeToken obj);
   public: static Boolean op_Equality(TypeToken a, TypeToken b);
   public: static Boolean op_Inequality(TypeToken a, TypeToken b);
-  public: void Ctor();
+  public: explicit TypeToken() {}
   public: static TypeToken Empty;
   private: Int32 Token;
 };

@@ -3,7 +3,7 @@
 #include <System.Private.CoreLib/System/Diagnostics/Tracing/EventProvider-dep.h>
 
 namespace System::Private::CoreLib::System::Diagnostics::Tracing::EventProviderNamespace {
-void EventProvider___::SessionInfo::Ctor(Int32 sessionIdBit_, Int32 etwSessionId_) {
+EventProvider___::SessionInfo::SessionInfo(Int32 sessionIdBit_, Int32 etwSessionId_) {
 };
 
 EventLevel EventProvider___::get_Level() {

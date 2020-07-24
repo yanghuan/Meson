@@ -7,7 +7,6 @@
 namespace System::Private::CoreLib::System::Runtime::InteropServices::ComTypes {
 namespace TYPEDESCNamespace {
 struct TYPEDESC {
-  public: void Ctor();
   public: IntPtr lpValue;
   public: Int16 vt;
 };

@@ -8,7 +8,6 @@ namespace System::Private::CoreLib::Internal::Runtime::InteropServices {
 namespace LICINFONamespace {
 using namespace ::System::Private::CoreLib::System;
 struct LICINFO {
-  public: void Ctor();
   public: Int32 cbLicInfo;
   public: Boolean fRuntimeKeyAvail;
   public: Boolean fLicVerified;

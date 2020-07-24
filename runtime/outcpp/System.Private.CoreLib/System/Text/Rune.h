@@ -36,11 +36,11 @@ struct Rune : public rt::ValueType<Rune> {
   public: Int32 get_Utf16SequenceLength();
   public: Int32 get_Utf8SequenceLength();
   public: Int32 get_Value();
-  public: void Ctor(Char ch);
-  public: void Ctor(Char highSurrogate, Char lowSurrogate);
-  public: void Ctor(Int32 value);
-  public: void Ctor(UInt32 value);
-  private: void Ctor(UInt32 scalarValue, Boolean unused);
+  public: explicit Rune(Char ch);
+  public: explicit Rune(Char highSurrogate, Char lowSurrogate);
+  public: explicit Rune(Int32 value);
+  public: explicit Rune(UInt32 value);
+  private: explicit Rune(UInt32 scalarValue, Boolean unused);
   public: static Boolean op_Equality(Rune left, Rune right);
   public: static Boolean op_Inequality(Rune left, Rune right);
   public: static Boolean op_LessThan(Rune left, Rune right);
@@ -99,7 +99,7 @@ struct Rune : public rt::ValueType<Rune> {
   public: static Rune ToLowerInvariant(Rune value);
   public: static Rune ToUpper(Rune value, CultureInfo culture);
   public: static Rune ToUpperInvariant(Rune value);
-  public: void Ctor();
+  public: explicit Rune() {}
   private: UInt32 _value;
 };
 } // namespace RuneNamespace

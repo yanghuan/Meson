@@ -9,10 +9,10 @@ Boolean ReaderWriterLockSlim___::TimeoutTracker::get_IsExpired() {
   return Boolean();
 };
 
-void ReaderWriterLockSlim___::TimeoutTracker::Ctor(TimeSpan timeout) {
+ReaderWriterLockSlim___::TimeoutTracker::TimeoutTracker(TimeSpan timeout) {
 };
 
-void ReaderWriterLockSlim___::TimeoutTracker::Ctor(Int32 millisecondsTimeout) {
+ReaderWriterLockSlim___::TimeoutTracker::TimeoutTracker(Int32 millisecondsTimeout) {
 };
 
 UInt16 ReaderWriterLockSlim___::SpinLock::get_EnterForEnterAnyReadDeprioritizedCount() {

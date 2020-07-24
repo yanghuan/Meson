@@ -15,12 +15,12 @@ using namespace ::System::Private::CoreLib::System;
 struct ValueStringBuilder {
   public: void set_Length(Int32 value);
   public: Int32 get_Capacity();
-  public: void Ctor(Span<Char> initialBuffer);
+  public: explicit ValueStringBuilder(Span<Char> initialBuffer);
   public: void EnsureCapacity(Int32 capacity);
   public: String ToString();
   private: void Grow(Int32 additionalCapacityBeyondPos);
   public: void Dispose();
-  public: void Ctor();
+  public: explicit ValueStringBuilder() {}
   private: Array<Char> _arrayToReturnToPool;
   private: Span<Char> _chars;
   private: Int32 _pos;

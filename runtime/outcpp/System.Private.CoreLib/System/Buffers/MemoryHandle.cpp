@@ -5,7 +5,7 @@ void* MemoryHandle::get_Pointer() {
   return nullptr;
 };
 
-void MemoryHandle::Ctor(void* pointer, GCHandle handle, IPinnable pinnable) {
+MemoryHandle::MemoryHandle(void* pointer, GCHandle handle, IPinnable pinnable) {
 };
 
 void MemoryHandle::Dispose() {

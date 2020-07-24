@@ -12,7 +12,6 @@ FORWARD(String)
 namespace System::Private::CoreLib::System::Runtime::InteropServices::ComTypes {
 namespace STATSTGNamespace {
 struct STATSTG {
-  public: void Ctor();
   public: String pwcsName;
   public: Int32 type;
   public: Int64 cbSize;

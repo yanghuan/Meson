@@ -13,7 +13,6 @@ enum class TYPEFLAGS : int16_t;
 enum class TYPEKIND;
 namespace TYPEATTRNamespace {
 struct TYPEATTR {
-  public: void Ctor();
   public: static constexpr Int32 MEMBER_ID_NIL = -1;
   public: Guid guid;
   public: Int32 lcid;

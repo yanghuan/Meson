@@ -14,10 +14,10 @@ namespace StringRuneEnumeratorNamespace {
 struct StringRuneEnumerator {
   public: Rune get_Current();
   private: Object get_CurrentOfIEnumerator();
-  public: void Ctor(String value);
+  public: explicit StringRuneEnumerator(String value);
   public: StringRuneEnumerator GetEnumerator();
   public: Boolean MoveNext();
-  public: void Ctor();
+  public: explicit StringRuneEnumerator() {}
   private: String _string;
   private: Rune _current;
   private: Int32 _nextIndex;

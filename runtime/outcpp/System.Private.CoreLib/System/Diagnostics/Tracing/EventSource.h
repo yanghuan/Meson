@@ -74,7 +74,6 @@ CLASS(EventSource) {
     public: void set_Size(Int32 value);
     public: void set_Reserved(Int32 value);
     public: void SetMetadata(Byte* pointer, Int32 size, Int32 reserved);
-    public: void Ctor();
     public: UInt64 m_Ptr;
     public: Int32 m_Size;
     public: Int32 m_Reserved;
@@ -85,7 +84,6 @@ CLASS(EventSource) {
     public: void Append(ReadOnlySpan<Byte> input);
     public: void Finish(Array<Byte> output);
     private: void Drain();
-    public: void Ctor();
     private: Int64 length;
     private: Array<UInt32> w;
     private: Int32 pos;
@@ -97,7 +95,6 @@ CLASS(EventSource) {
     private: EventProviderType m_eventProviderType;
   };
   public: struct EventMetadata {
-    public: void Ctor();
     public: EventDescriptor Descriptor;
     public: IntPtr EventHandle;
     public: EventTags Tags;

@@ -25,9 +25,9 @@ using namespace Runtime::Intrinsics;
 class SpanHelpers {
   public: template <class T, class TComparer>
   struct ComparerComparable {
-    public: void Ctor(T value, TComparer comparer);
+    public: explicit ComparerComparable(T value, TComparer comparer);
     public: Int32 CompareTo(T other);
-    public: void Ctor();
+    public: explicit ComparerComparable() {}
     private: T _value;
     private: TComparer _comparer;
   };

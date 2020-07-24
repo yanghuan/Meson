@@ -16,8 +16,8 @@ enum class CalendarId : uint16_t;
 namespace UmAlQuraCalendarNamespace {
 CLASS(UmAlQuraCalendar) {
   private: struct DateMapping {
-    public: void Ctor(Int32 MonthsLengthFlags, Int32 GYear, Int32 GMonth, Int32 GDay);
-    public: void Ctor();
+    public: explicit DateMapping(Int32 MonthsLengthFlags, Int32 GYear, Int32 GMonth, Int32 GDay);
+    public: explicit DateMapping() {}
     public: Int32 HijriMonthsLengthFlags;
     public: DateTime GregorianDate;
   };

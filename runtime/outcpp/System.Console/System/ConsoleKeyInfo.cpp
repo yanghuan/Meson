@@ -13,7 +13,7 @@ ConsoleModifiers ConsoleKeyInfo::get_Modifiers() {
   return ConsoleModifiers::Control;
 };
 
-void ConsoleKeyInfo::Ctor(Char keyChar, ConsoleKey key, Boolean shift, Boolean alt, Boolean control) {
+ConsoleKeyInfo::ConsoleKeyInfo(Char keyChar, ConsoleKey key, Boolean shift, Boolean alt, Boolean control) {
 };
 
 Boolean ConsoleKeyInfo::Equals(Object value) {

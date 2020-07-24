@@ -13,11 +13,11 @@ enum class ExceptionHandlingClauseOptions;
 namespace System::Private::CoreLib::System::Reflection::Emit {
 namespace ExceptionHandlerNamespace {
 struct ExceptionHandler {
-  public: void Ctor(Int32 tryStartOffset, Int32 tryEndOffset, Int32 filterOffset, Int32 handlerStartOffset, Int32 handlerEndOffset, Int32 kind, Int32 exceptionTypeToken);
+  public: explicit ExceptionHandler(Int32 tryStartOffset, Int32 tryEndOffset, Int32 filterOffset, Int32 handlerStartOffset, Int32 handlerEndOffset, Int32 kind, Int32 exceptionTypeToken);
   public: Int32 GetHashCode();
   public: Boolean Equals(Object obj);
   public: Boolean Equals(ExceptionHandler other);
-  public: void Ctor();
+  public: explicit ExceptionHandler() {}
   public: Int32 m_exceptionClass;
   public: Int32 m_tryStartOffset;
   public: Int32 m_tryEndOffset;
