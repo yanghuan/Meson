@@ -683,6 +683,10 @@ Int32 Array___<>::BinarySearch(Array<> array, Int32 index, Int32 length, Object 
   Int32 num2 = index + length - 1;
   Object array2 = rt::as<Object>(array);
   if (array2 != nullptr) {
+    while (num <= num2) {
+      Int32 median = GetMedian(num, num2);
+      Int32 num3;
+    }
   }
   if (comparer == Comparer::in::Default) {
     CorElementType corElementTypeOfElementType = array->GetCorElementTypeOfElementType();
@@ -694,6 +698,10 @@ Int32 Array___<>::BinarySearch(Array<> array, Int32 index, Int32 length, Object 
         Int32 num4 = -1;
       }
     }
+  }
+  while (num <= num2) {
+    Int32 median2 = GetMedian(num, num2);
+    Int32 num5;
   }
 };
 

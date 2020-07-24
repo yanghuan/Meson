@@ -551,6 +551,20 @@ namespace Meson.Compiler.CppAst {
     }
   }
 
+  sealed class WhileStatementSyntax : StatementSyntax {
+    public ExpressionSyntax Condition { get; }
+    public StatementSyntax EmbeddedStatement { get; }
+
+    public WhileStatementSyntax(ExpressionSyntax condition, StatementSyntax embeddedStatement) {
+      Condition = condition;
+      EmbeddedStatement = embeddedStatement;
+    }
+
+    internal override void Render(CppRenderer renderer) {
+      renderer.Render(this);
+    }
+  }
+
   sealed class VariableInitializerSyntax : SyntaxNode {
     public IdentifierSyntax Name { get; }
     public ExpressionSyntax Initializer { get; }

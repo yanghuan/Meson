@@ -772,7 +772,9 @@ namespace Meson.Compiler {
     }
 
     public SyntaxNode VisitWhileStatement(WhileStatement whileStatement) {
-      throw new NotImplementedException();
+      var condition = whileStatement.Condition.AcceptExpression(this);
+      var embeddedStatement = whileStatement.EmbeddedStatement.AcceptStatement(this);
+      return new WhileStatementSyntax(condition, embeddedStatement);
     }
 
     public SyntaxNode VisitYieldBreakStatement(YieldBreakStatement yieldBreakStatement) {
