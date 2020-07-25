@@ -23,6 +23,8 @@ class AsyncMethodBuilderCore {
     public: Task<> _innerTask;
   };
   public: static Boolean get_TrackAsyncMethodCompletion();
+  public: template <class TStateMachine>
+  static void Start(TStateMachine& stateMachine);
   public: static void SetStateMachine(IAsyncStateMachine stateMachine, Task<> task);
   public: static String GetAsyncStateMachineDescription(IAsyncStateMachine stateMachine);
   public: static Action<> CreateContinuationWrapper(Action<> continuation, Action<Action<>, Task<>> invokeAction, Task<> innerTask);

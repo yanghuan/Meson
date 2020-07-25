@@ -7,6 +7,14 @@ Int32 CastHelpers::KeyToBucket(Int32& tableData, UIntPtr source, UIntPtr target)
   return Int32();
 };
 
+Int32& CastHelpers::TableData(Array<Int32> table) {
+  return Int32();
+};
+
+CastHelpers::CastCacheEntry& CastHelpers::Element(Int32& tableData, Int32 index) {
+  return CastHelpers::CastCacheEntry();
+};
+
 Int32 CastHelpers::HashShift(Int32& tableData) {
   return Int32();
 };
@@ -53,6 +61,18 @@ Object CastHelpers::ChkCastClass(void* toTypeHnd, Object obj) {
 
 Object CastHelpers::ChkCastClassSpecial(void* toTypeHnd, Object obj) {
   return nullptr;
+};
+
+Byte& CastHelpers::Unbox(void* toTypeHnd, Object obj) {
+  return Byte();
+};
+
+Object& CastHelpers::ThrowArrayMismatchException() {
+  return Object();
+};
+
+Object& CastHelpers::LdelemaRef(Array<> array, Int32 index, void* type) {
+  return Object();
 };
 
 void CastHelpers::StelemRef(Array<> array, Int32 index, Object obj) {

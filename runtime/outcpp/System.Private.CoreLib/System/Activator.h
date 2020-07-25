@@ -41,6 +41,10 @@ class Activator {
   public: static Object CreateInstance(Type type, Boolean nonPublic);
   public: static Object CreateInstance(Type type, Boolean nonPublic, Boolean wrapExceptions);
   private: static ObjectHandle CreateInstanceInternal(String assemblyString, String typeName, Boolean ignoreCase, BindingFlags bindingAttr, Binder binder, Array<Object> args, CultureInfo culture, Array<Object> activationAttributes, StackCrawlMark& stackMark);
+  public: template <class T>
+  static T CreateInstance();
+  private: template <class T>
+  static T CreateDefaultInstance();
 };
 } // namespace ActivatorNamespace
 using Activator = ActivatorNamespace::Activator;

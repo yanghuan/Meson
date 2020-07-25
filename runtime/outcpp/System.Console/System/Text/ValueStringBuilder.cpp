@@ -14,6 +14,10 @@ ValueStringBuilder::ValueStringBuilder(Span<Char> initialBuffer) {
 void ValueStringBuilder::EnsureCapacity(Int32 capacity) {
 };
 
+Char& ValueStringBuilder::GetPinnableReference() {
+  return Char();
+};
+
 String ValueStringBuilder::ToString() {
   return nullptr;
 };

@@ -34,6 +34,10 @@ ComEventsMethod ComEventsSink___::AddMethod(Int32 dispid) {
   return nullptr;
 };
 
+Variant& ComEventsSink___::GetVariant(Variant& pSrc) {
+  return Variant();
+};
+
 void ComEventsSink___::Advise(Object rcw) {
 };
 

@@ -15,6 +15,9 @@ enum class CompareOptions;
 FORWARD(CompareInfo)
 FORWARD(CultureInfo)
 } // namespace System::Private::CoreLib::System::Globalization
+namespace System::Private::CoreLib::System::Buffers {
+FORWARD(SpanAction, T, TArg)
+} // namespace System::Private::CoreLib::System::Buffers
 namespace System::Private::CoreLib::System::Collections::Generic {
 FORWARD(IEnumerable, T)
 FORWARDS(ValueListBuilder, T)
@@ -35,6 +38,7 @@ FORWARDS(ReadOnlySpan, T)
 FORWARDS(SByte)
 FORWARDS(UInt32)
 namespace StringNamespace {
+using namespace Buffers;
 using namespace Collections::Generic;
 using namespace Globalization;
 using namespace Text;
@@ -106,6 +110,8 @@ CLASS(String) : public rt::string {
   private: String Ctor(SByte* value, Int32 startIndex, Int32 length, Encoding enc);
   private: String Ctor(Char c, Int32 count);
   private: String Ctor(ReadOnlySpan<Char> value);
+  public: template <class TState>
+  static String Create(Int32 length, TState state, SpanAction<Char, TState> action);
   public: static ReadOnlySpan<Char> op_Implicit(String value);
   public: Boolean TryGetSpan(Int32 startIndex, Int32 count, ReadOnlySpan<Char>& slice);
   public: Object Clone();
@@ -115,6 +121,8 @@ CLASS(String) : public rt::string {
   public: Array<Char> ToCharArray(Int32 startIndex, Int32 length);
   public: static Boolean IsNullOrEmpty(String value);
   public: static Boolean IsNullOrWhiteSpace(String value);
+  public: Char& GetPinnableReference();
+  public: Char& GetRawStringData();
   public: static String CreateStringFromEncoding(Byte* bytes, Int32 byteLength, Encoding encoding);
   public: static String CreateFromChar(Char c);
   public: static String CreateFromChar(Char c1, Char c2);
@@ -137,6 +145,8 @@ CLASS(String) : public rt::string {
   public: static String Concat(Object arg0, Object arg1);
   public: static String Concat(Object arg0, Object arg1, Object arg2);
   public: static String Concat(Array<Object> args);
+  public: template <class T>
+  static String Concat(IEnumerable<T> values);
   public: static String Concat(IEnumerable<String> values);
   public: static String Concat(String str0, String str1);
   public: static String Concat(String str0, String str1, String str2);
@@ -157,12 +167,18 @@ CLASS(String) : public rt::string {
   public: String Insert(Int32 startIndex, String value);
   public: static String Join(Char separator, Array<String> value);
   public: static String Join(Char separator, Array<Object> values);
+  public: template <class T>
+  static String Join(Char separator, IEnumerable<T> values);
   public: static String Join(Char separator, Array<String> value, Int32 startIndex, Int32 count);
   public: static String Join(String separator, Array<String> value);
   public: static String Join(String separator, Array<Object> values);
+  public: template <class T>
+  static String Join(String separator, IEnumerable<T> values);
   public: static String Join(String separator, IEnumerable<String> values);
   public: static String Join(String separator, Array<String> value, Int32 startIndex, Int32 count);
   private: static String JoinCore(Char* separator, Int32 separatorLength, Array<Object> values);
+  private: template <class T>
+  static String JoinCore(Char* separator, Int32 separatorLength, IEnumerable<T> values);
   private: static String JoinCore(Char* separator, Int32 separatorLength, Array<String> value, Int32 startIndex, Int32 count);
   public: String PadLeft(Int32 totalWidth);
   public: String PadLeft(Int32 totalWidth, Char paddingChar);

@@ -30,8 +30,12 @@ namespace System::Private::CoreLib::System::Runtime::Serialization {
 FORWARD(SerializationInfo)
 FORWARDS(StreamingContext)
 } // namespace System::Private::CoreLib::System::Runtime::Serialization
+namespace System::Private::CoreLib::System::Collections::Generic {
+FORWARD(IEnumerable, T)
+} // namespace System::Private::CoreLib::System::Collections::Generic
 namespace System::Private::CoreLib::System::Text {
 namespace StringBuilderNamespace {
+using namespace Collections::Generic;
 using namespace Runtime::Serialization;
 CLASS(StringBuilder) {
   public: struct ChunkEnumerator {
@@ -104,14 +108,26 @@ CLASS(StringBuilder) {
   public: StringBuilder Append(UInt16 value);
   public: StringBuilder Append(UInt32 value);
   public: StringBuilder Append(UInt64 value);
+  private: template <class T>
+  StringBuilder AppendSpanFormattable(T value);
+  public: template <class T>
+  StringBuilder AppendSpanFormattable(T value, String format, IFormatProvider provider);
   public: StringBuilder Append(Object value);
   public: StringBuilder Append(Array<Char> value);
   public: StringBuilder Append(ReadOnlySpan<Char> value);
   public: StringBuilder Append(ReadOnlyMemory<Char> value);
   public: StringBuilder AppendJoin(String separator, Array<Object> values);
+  public: template <class T>
+  StringBuilder AppendJoin(String separator, IEnumerable<T> values);
   public: StringBuilder AppendJoin(String separator, Array<String> values);
   public: StringBuilder AppendJoin(Char separator, Array<Object> values);
+  public: template <class T>
+  StringBuilder AppendJoin(Char separator, IEnumerable<T> values);
   public: StringBuilder AppendJoin(Char separator, Array<String> values);
+  private: template <class T>
+  StringBuilder AppendJoinCore(Char* separator, Int32 separatorLength, IEnumerable<T> values);
+  private: template <class T>
+  StringBuilder AppendJoinCore(Char* separator, Int32 separatorLength, Array<T> values);
   public: StringBuilder Insert(Int32 index, String value);
   public: StringBuilder Insert(Int32 index, Boolean value);
   public: StringBuilder Insert(Int32 index, SByte value);

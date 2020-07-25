@@ -21,11 +21,15 @@ struct ValueStringBuilder {
   public: Int32 get_Capacity();
   public: Char& get_Item(Int32 index);
   public: Span<Char> get_RawChars();
+  public: template <class T>
+  void AppendSpanFormattable(T value, String format, IFormatProvider provider);
   public: void AppendFormatHelper(IFormatProvider provider, String format, ParamsArray args);
   private: static void ThrowFormatError();
   public: explicit ValueStringBuilder(Span<Char> initialBuffer);
   public: explicit ValueStringBuilder(Int32 initialCapacity);
   public: void EnsureCapacity(Int32 capacity);
+  public: Char& GetPinnableReference();
+  public: Char& GetPinnableReference(Boolean terminate);
   public: String ToString();
   public: ReadOnlySpan<Char> AsSpan(Boolean terminate);
   public: ReadOnlySpan<Char> AsSpan();

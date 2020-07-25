@@ -134,10 +134,6 @@ namespace Meson.Compiler {
         return false;
       }
 
-      if (method.TypeParameters.Count > 0 || method.TypeArguments.Count > 0) {
-        return false;
-      }
-
       if (method.Name.Contains('<')) {
         return false;
       }
@@ -147,10 +143,6 @@ namespace Meson.Compiler {
           return false;
         }
       } else if (method.Name.Contains('.')) {
-        return false;
-      }
-
-      if (method.ReturnType.Kind == TypeKind.ByReference) {
         return false;
       }
 
@@ -190,6 +182,10 @@ namespace Meson.Compiler {
         var returnType = GetRetuenTypeSyntax(method, typeDefinition);
         CheckOperatorParameters(method, parameters, returnType);
         methodDefinition = new MethodDefinitionSyntax(returnType, methodName, parameters, method.IsStatic, !method.IsMainEntryPoint() ? method.Accessibility.ToTokenString() : Tokens.Public);
+        if (method.TypeParameters.Count > 0) {
+          var typeParameters = method.TypeParameters.Select(i => (ValueTextIdentifierSyntax)i.Name);
+          methodDefinition.Template = new TemplateSyntax(typeParameters);
+        }
       }
       node.Statements.Add(methodDefinition);
       if (method.HasBody) {
@@ -204,7 +200,7 @@ namespace Meson.Compiler {
             CompilationUnit.AddPropertyFieldTypeReference(property);
           }
         } else {
-          if (typeDefinition.TypeParameterCount == 0) {
+          if (typeDefinition.TypeParameterCount == 0 && method.TypeParameters.Count ==0 && method.TypeArguments.Count == 0) {
             new MethodTransform(this, method, node);
           }
         }

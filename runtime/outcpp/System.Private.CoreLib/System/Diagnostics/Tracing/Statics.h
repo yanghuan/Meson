@@ -44,6 +44,10 @@ class Statics {
   public: static IEnumerable<PropertyInfo> GetProperties(Type type);
   public: static MethodInfo GetGetMethod(PropertyInfo propInfo);
   public: static Boolean HasCustomAttribute(PropertyInfo propInfo, Type attributeType);
+  public: template <class AttributeType>
+  static AttributeType GetCustomAttribute(PropertyInfo propInfo);
+  public: template <class AttributeType>
+  static AttributeType GetCustomAttribute(Type type);
   public: static Array<Type> GetGenericArguments(Type type);
   public: static Type FindEnumerableElementType(Type type);
   public: static Boolean IsGenericMatch(Type type, Object openType);

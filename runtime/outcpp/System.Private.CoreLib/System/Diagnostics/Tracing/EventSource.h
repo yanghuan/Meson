@@ -208,6 +208,14 @@ CLASS(EventSource) {
   public: void Ctor(String eventSourceName, EventSourceSettings config, Array<String> traits);
   public: void Write(String eventName);
   public: void Write(String eventName, EventSourceOptions options);
+  public: template <class T>
+  void Write(String eventName, T data);
+  public: template <class T>
+  void Write(String eventName, EventSourceOptions options, T data);
+  public: template <class T>
+  void Write(String eventName, EventSourceOptions& options, T& data);
+  public: template <class T>
+  void Write(String eventName, EventSourceOptions& options, Guid& activityId, Guid& relatedActivityId, T& data);
   private: void WriteMultiMerge(String eventName, EventSourceOptions& options, TraceLoggingEventTypes eventTypes, Guid* activityID, Guid* childActivityID, Array<Object> values);
   private: void WriteMultiMergeInner(String eventName, EventSourceOptions& options, TraceLoggingEventTypes eventTypes, Guid* activityID, Guid* childActivityID, Array<Object> values);
   public: void WriteMultiMerge(String eventName, EventSourceOptions& options, TraceLoggingEventTypes eventTypes, Guid* activityID, Guid* childActivityID, EventData* data);

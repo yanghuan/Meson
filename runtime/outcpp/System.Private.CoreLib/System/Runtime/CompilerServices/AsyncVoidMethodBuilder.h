@@ -17,7 +17,13 @@ using namespace Threading;
 struct AsyncVoidMethodBuilder {
   public: Object get_ObjectIdForDebugger();
   public: static AsyncVoidMethodBuilder Create();
+  public: template <class TStateMachine>
+  void Start(TStateMachine& stateMachine);
   public: void SetStateMachine(IAsyncStateMachine stateMachine);
+  public: template <class TAwaiter, class TStateMachine>
+  void AwaitOnCompleted(TAwaiter& awaiter, TStateMachine& stateMachine);
+  public: template <class TAwaiter, class TStateMachine>
+  void AwaitUnsafeOnCompleted(TAwaiter& awaiter, TStateMachine& stateMachine);
   public: void SetResult();
   public: void SetException(Exception exception);
   private: void NotifySynchronizationContextOfCompletion();

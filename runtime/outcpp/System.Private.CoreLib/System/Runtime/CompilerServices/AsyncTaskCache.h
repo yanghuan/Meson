@@ -16,6 +16,8 @@ using namespace Threading::Tasks;
 class AsyncTaskCache {
   private: static Boolean GetPoolAsyncValueTasksSwitch();
   private: static Int32 GetPoolAsyncValueTasksLimitValue();
+  public: template <class TResult>
+  static Task<TResult> CreateCacheableTask(TResult result);
   private: static Array<Task<Int32>> CreateInt32Tasks();
   private: static void SCtor();
   public: static Task<Boolean> s_trueTask;

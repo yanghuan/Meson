@@ -181,7 +181,7 @@ namespace Meson.Compiler {
           return Tokens.NotEquals;
 
         case BinaryOperatorType.LessThan:
-          return Tokens.Less; 
+          return Tokens.Less;
 
         case BinaryOperatorType.LessThanOrEqual:
           return Tokens.LessEquals;
@@ -246,8 +246,11 @@ namespace Meson.Compiler {
     }
 
     public SyntaxNode VisitDefaultValueExpression(DefaultValueExpression defaultValueExpression) {
-      var type = (ITypeDefinition)defaultValueExpression.Type.GetSymbol();
-      if (type.IsRefType()) {
+      var type = (IType)defaultValueExpression.Type.GetSymbol();
+      if (type == null) {
+        type = defaultValueExpression.GetResolveResult().Type;
+      }
+      if (type.IsReferenceType == true) {
         return IdentifierSyntax.Nullptr;
       }
       return GetTypeName(type).Invation();
@@ -375,31 +378,36 @@ namespace Meson.Compiler {
       throw new NotImplementedException();
     }
 
-    private MemberAccessExpressionSyntax BuildMemberAccessExpression(ExpressionSyntax target, ISymbol symbol, AstNode node, bool isPointer = false) {
+    private MemberAccessExpressionSyntax BuildMemberAccessExpression(ExpressionSyntax target, ISymbol symbol, AstNode node, IReadOnlyCollection<AstType> typeArguments, bool isPointer = false) {
       switch (symbol.SymbolKind) {
         case SymbolKind.Field:
         case SymbolKind.Property:
         case SymbolKind.Method: {
             var member = (IEntity)symbol;
-            bool isGetter = false;
+            ExpressionSyntax name;
             switch (symbol.SymbolKind) {
               case SymbolKind.Property: {
                   var property = (IProperty)symbol;
-                  isGetter = !(node.Parent is AssignmentExpression);
+                  bool isGetter = !(node.Parent is AssignmentExpression);
                   member = isGetter ? property.Getter : property.Setter;
-                  break;
-                }
-              case SymbolKind.Method: {
-                  var method = (IMethod)symbol;
-                  if (method.IsExtensionMethod) {
-
+                  name = GetMemberName(member);
+                  if (isGetter) {
+                    name = name.Invation();
                   }
                   break;
                 }
-            }
-            ExpressionSyntax name = GetMemberName(member);
-            if (isGetter) {
-              name = name.Invation();
+              case SymbolKind.Method: {
+                  name = GetMemberName(member);
+                  if (typeArguments.Count > 0) {
+                    var types = typeArguments.Select(i => i.AcceptExpression(this));
+                    name = name.Generic(types);
+                  }
+                  break;
+                }
+              default: {
+                  name = GetMemberName(member);
+                  break;
+                }
             }
             if (member.IsStatic) {
               if (member.DeclaringTypeDefinition.IsRefType()) {
@@ -423,7 +431,7 @@ namespace Meson.Compiler {
           symbol = typeSymbol.Members.First(i => i.Name == memberReferenceExpression.MemberName);
         }
       }
-      return BuildMemberAccessExpression(target, symbol, memberReferenceExpression);
+      return BuildMemberAccessExpression(target, symbol, memberReferenceExpression, memberReferenceExpression.TypeArguments);
     }
 
     public SyntaxNode VisitNamedArgumentExpression(NamedArgumentExpression namedArgumentExpression) {
@@ -465,7 +473,7 @@ namespace Meson.Compiler {
     public SyntaxNode VisitPointerReferenceExpression(PointerReferenceExpression pointerReferenceExpression) {
       var target = pointerReferenceExpression.Target.AcceptExpression(this);
       var symbol = pointerReferenceExpression.GetSymbol();
-      return BuildMemberAccessExpression(target, symbol, pointerReferenceExpression, true);
+      return BuildMemberAccessExpression(target, symbol, pointerReferenceExpression, pointerReferenceExpression.TypeArguments, true);
     }
 
     public SyntaxNode VisitPrimitiveExpression(PrimitiveExpression primitiveExpression) {

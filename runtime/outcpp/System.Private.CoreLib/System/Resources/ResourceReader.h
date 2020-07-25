@@ -25,6 +25,9 @@ FORWARD(UnmanagedMemoryStream)
 namespace System::Private::CoreLib::System::Collections::Generic {
 FORWARD(Dictionary, TKey, TValue)
 } // namespace System::Private::CoreLib::System::Collections::Generic
+namespace System::Private::CoreLib::System::Reflection {
+FORWARD(MethodInfo)
+} // namespace System::Private::CoreLib::System::Reflection
 namespace System::Private::CoreLib::System::Resources {
 enum class ResourceTypeCode;
 FORWARDS(ResourceLocator)
@@ -32,6 +35,7 @@ namespace ResourceReaderNamespace {
 using namespace Collections;
 using namespace Collections::Generic;
 using namespace IO;
+using namespace Reflection;
 CLASS(ResourceReader) {
   public: CLASS(ResourceEnumerator) {
     public: Object get_Key();
@@ -50,6 +54,8 @@ CLASS(ResourceReader) {
   public: void Ctor(Stream stream, Dictionary<String, ResourceLocator> resCache, Boolean permitDeserialization);
   private: Object DeserializeObject(Int32 typeIndex);
   private: void InitializeBinaryFormatter();
+  private: template <class TInstance>
+  static Func<Object, Stream, Object> CreateUntypedDelegate(MethodInfo method);
   private: static Boolean ValidateReaderType(String readerType);
   public: void GetResourceData(String resourceName, String& resourceType, Array<Byte>& resourceData);
   public: void Ctor(String fileName);

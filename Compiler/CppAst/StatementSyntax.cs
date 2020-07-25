@@ -220,10 +220,7 @@ namespace Meson.Compiler.CppAst {
   }
 
   sealed class TemplateSyntax : SyntaxNode {
-    public string TemplateToken => Tokens.Template;
-    public string OpenBrace => Tokens.Less;
-    public readonly List<SyntaxNode> Arguments = new List<SyntaxNode>();
-    public string CloseBrace => Tokens.Greater;
+    public readonly List<TemplateTypenameSyntax> Arguments = new List<TemplateTypenameSyntax>();
 
     public TemplateSyntax(TemplateTypenameSyntax argument) {
       Arguments.Add(argument);
@@ -237,13 +234,17 @@ namespace Meson.Compiler.CppAst {
       Arguments.AddRange(args);
     }
 
+    public TemplateSyntax(IEnumerable<IdentifierSyntax> args) {
+      Arguments.AddRange(args.Select(i => new TemplateTypenameSyntax(i)));
+    }
+
     internal override void Render(CppRenderer renderer) {
       renderer.Render(this);
     }
 
     public static readonly TemplateSyntax T = new TemplateSyntax(new TemplateTypenameSyntax(IdentifierSyntax.T));
     public static readonly TemplateSyntax Empty = new TemplateSyntax();
-    public IEnumerable<IdentifierSyntax> TypeNames => Arguments.OfType<TemplateTypenameSyntax>().Select(i => i.Name);
+    public IEnumerable<IdentifierSyntax> TypeNames => Arguments.Select(i => i.Name);
   }
 
   sealed class BaseSyntax : SyntaxNode {
@@ -325,6 +326,7 @@ namespace Meson.Compiler.CppAst {
   }
 
   sealed class MethodDefinitionSyntax : StatementSyntax {
+    public TemplateSyntax Template { get; set; }
     public bool IsConstexpr { get; set; }
     public bool IsExplicit { get; set; }
     public bool IsNoexcept { get; set; }

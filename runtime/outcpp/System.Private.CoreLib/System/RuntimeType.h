@@ -165,6 +165,10 @@ CLASS(RuntimeType) {
     public: Boolean get_IsGlobal();
     public: void Ctor(RuntimeType runtimeType);
     private: String ConstructName(String& name, TypeNameFormatFlags formatFlags);
+    private: template <class T>
+    Array<T> GetMemberList(MemberInfoCache<T>& m_cache, MemberListType listType, String name, CacheType cacheType);
+    private: template <class T>
+    MemberInfoCache<T> GetMemberCache(MemberInfoCache<T>& m_cache);
     public: String GetName(TypeNameKind kind);
     public: String GetNameSpace();
     public: RuntimeType GetEnclosingType();

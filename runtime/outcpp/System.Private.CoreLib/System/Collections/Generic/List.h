@@ -8,6 +8,7 @@ FORWARD_(Action, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T1
 FORWARD_(Array, T1, T2)
 FORWARDS(Boolean)
 FORWARD(Comparison, T)
+FORWARD(Converter, TInput, TOutput)
 FORWARD(Object)
 FORWARD(Predicate, T)
 } // namespace System::Private::CoreLib::System
@@ -58,6 +59,8 @@ CLASS(List, T) {
   public: Int32 BinarySearch(T item, IComparer<T> comparer);
   public: void Clear();
   public: Boolean Contains(T item);
+  public: template <class TOutput>
+  List<TOutput> ConvertAll(Converter<T, TOutput> converter);
   public: void CopyTo(Array<T> array);
   public: void CopyTo(Int32 index, Array<T> array, Int32 arrayIndex, Int32 count);
   public: void CopyTo(Array<T> array, Int32 arrayIndex);

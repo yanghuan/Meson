@@ -183,6 +183,8 @@ struct Decimal : public rt::ValueType<Decimal> {
   public: static Boolean TryGetBits(Decimal d, Span<Int32> destination, Int32& valuesWritten);
   public: static void GetBytes(Decimal& d, Array<Byte> buffer);
   public: static Decimal ToDecimal(ReadOnlySpan<Byte> span);
+  public: static Decimal& Max(Decimal& d1, Decimal& d2);
+  public: static Decimal& Min(Decimal& d1, Decimal& d2);
   public: static Decimal Remainder(Decimal d1, Decimal d2);
   public: static Decimal Multiply(Decimal d1, Decimal d2);
   public: static Decimal Negate(Decimal d);
@@ -243,6 +245,7 @@ struct Decimal : public rt::ValueType<Decimal> {
   public: static Boolean op_GreaterThan(Decimal d1, Decimal d2);
   public: static Boolean op_GreaterThanOrEqual(Decimal d1, Decimal d2);
   public: TypeCode GetTypeCode();
+  private: static DecCalc& AsMutable(Decimal& d);
   public: static UInt32 DecDivMod1E9(Decimal& value);
   private: static void SCtor();
   public: explicit Decimal() {}

@@ -40,7 +40,15 @@ class ThrowHelper {
   public: static void ThrowArgumentOutOfRange_BadYearMonthDay();
   public: static void ThrowArgumentOutOfRange_BadHourMinuteSecond();
   public: static void ThrowArgumentOutOfRange_TimeSpanTooLong();
+  public: template <class T>
+  static void ThrowWrongKeyTypeArgumentException(T key, Type targetType);
+  public: template <class T>
+  static void ThrowWrongValueTypeArgumentException(T value, Type targetType);
   private: static ArgumentException GetAddingDuplicateWithKeyArgumentException(Object key);
+  public: template <class T>
+  static void ThrowAddingDuplicateWithKeyArgumentException(T key);
+  public: template <class T>
+  static void ThrowKeyNotFoundException(T key);
   public: static void ThrowArgumentException(ExceptionResource resource);
   public: static void ThrowArgumentException(ExceptionResource resource, ExceptionArgument argument);
   private: static ArgumentNullException GetArgumentNullException(ExceptionArgument argument);
@@ -82,6 +90,10 @@ class ThrowHelper {
   private: static ArgumentException GetArgumentException(ExceptionResource resource, ExceptionArgument argument);
   private: static ArgumentOutOfRangeException GetArgumentOutOfRangeException(ExceptionArgument argument, Int32 paramNumber, ExceptionResource resource);
   private: static InvalidOperationException GetInvalidOperationException_EnumCurrent(Int32 index);
+  public: template <class T>
+  static void IfNullAndNullsAreIllegalThenThrow(Object value, ExceptionArgument argName);
+  public: template <class T>
+  static void ThrowForUnsupportedVectorBaseType();
   private: static String GetArgumentName(ExceptionArgument argument);
   private: static String GetResourceString(ExceptionResource resource);
 };

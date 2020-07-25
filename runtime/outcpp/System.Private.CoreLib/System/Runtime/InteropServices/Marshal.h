@@ -3,6 +3,7 @@
 #include <rt/GCObject.h>
 
 namespace System::Private::CoreLib::System {
+FORWARD_(Action, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17)
 FORWARD_(Array, T1, T2)
 FORWARDS(Boolean)
 FORWARDS(Byte)
@@ -10,6 +11,7 @@ FORWARDS(Char)
 FORWARD(Delegate)
 FORWARDS(Double)
 FORWARD(Exception)
+FORWARD_(Func, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18)
 FORWARDS(Guid)
 FORWARDS(Int16)
 FORWARDS(Int32)
@@ -55,10 +57,14 @@ class Marshal {
   public: static Int16 ReadInt16(Object ptr, Int32 ofs);
   public: static Int32 ReadInt32(Object ptr, Int32 ofs);
   public: static Int64 ReadInt64(Object ptr, Int32 ofs);
+  private: template <class T>
+  static T ReadValueSlow(Object ptr, Int32 ofs, Func<IntPtr, Int32, T> readValueHelper);
   public: static void WriteByte(Object ptr, Int32 ofs, Byte val);
   public: static void WriteInt16(Object ptr, Int32 ofs, Int16 val);
   public: static void WriteInt32(Object ptr, Int32 ofs, Int32 val);
   public: static void WriteInt64(Object ptr, Int32 ofs, Int64 val);
+  private: template <class T>
+  static void WriteValueSlow(Object ptr, Int32 ofs, T val, Action<IntPtr, Int32, T> writeValueHelper);
   public: static Int32 GetLastWin32Error();
   public: static void SetLastWin32Error(Int32 error);
   private: static void PrelinkCore(MethodInfo m);
@@ -84,6 +90,8 @@ class Marshal {
   public: static IntPtr GetIDispatchForObject(Object o);
   private: static IntPtr GetIDispatchForObjectNative(Object o, Boolean onlyInContext);
   public: static IntPtr GetComInterfaceForObject(Object o, Type T);
+  public: template <class T, class TInterface>
+  static IntPtr GetComInterfaceForObject(T o);
   public: static IntPtr GetComInterfaceForObject(Object o, Type T, CustomQueryInterfaceMode mode);
   private: static IntPtr GetComInterfaceForObjectNative(Object o, Type t, Boolean onlyInContext, Boolean fEnableCustomizedQueryInterface);
   public: static Object GetObjectForIUnknown(IntPtr pUnk);
@@ -92,6 +100,8 @@ class Marshal {
   private: static Object GetUniqueObjectForIUnknownNative(IntPtr unknown);
   public: static Object GetTypedObjectForIUnknown(IntPtr pUnk, Type t);
   public: static IntPtr CreateAggregatedObject(IntPtr pOuter, Object o);
+  public: template <class T>
+  static IntPtr CreateAggregatedObject(IntPtr pOuter, T o);
   public: static void CleanupUnusedObjectsInCurrentContext();
   public: static Boolean AreComObjectsAvailableForCleanup();
   public: static Boolean IsComObject(Object o);
@@ -109,14 +119,22 @@ class Marshal {
   public: static Object GetComObjectData(Object obj, Object key);
   public: static Boolean SetComObjectData(Object obj, Object key, Object data);
   public: static Object CreateWrapperOfType(Object o, Type t);
+  public: template <class T, class TWrapper>
+  static TWrapper CreateWrapperOfType(T o);
   private: static Object InternalCreateWrapperOfType(Object o, Type t);
   public: static Boolean IsTypeVisibleFromCom(Type t);
   public: static Int32 QueryInterface(IntPtr pUnk, Guid& iid, IntPtr& ppv);
   public: static Int32 AddRef(IntPtr pUnk);
   public: static Int32 Release(IntPtr pUnk);
   public: static void GetNativeVariantForObject(Object obj, IntPtr pDstNativeVariant);
+  public: template <class T>
+  static void GetNativeVariantForObject(T obj, IntPtr pDstNativeVariant);
   public: static Object GetObjectForNativeVariant(IntPtr pSrcNativeVariant);
+  public: template <class T>
+  static T GetObjectForNativeVariant(IntPtr pSrcNativeVariant);
   public: static Array<Object> GetObjectsForNativeVariants(IntPtr aSrcNativeVariant, Int32 cVars);
+  public: template <class T>
+  static Array<T> GetObjectsForNativeVariants(IntPtr aSrcNativeVariant, Int32 cVars);
   public: static Int32 GetStartComSlot(Type t);
   public: static Int32 GetEndComSlot(Type t);
   public: static Object BindToMoniker(String monikerName);
@@ -134,8 +152,16 @@ class Marshal {
   public: static String PtrToStringUTF8(IntPtr ptr);
   public: static String PtrToStringUTF8(IntPtr ptr, Int32 byteLen);
   public: static Int32 SizeOf(Object structure);
+  public: template <class T>
+  static Int32 SizeOf(T structure);
   public: static Int32 SizeOf(Type t);
+  public: template <class T>
+  static Int32 SizeOf();
   public: static IntPtr UnsafeAddrOfPinnedArrayElement(Array<> arr, Int32 index);
+  public: template <class T>
+  static IntPtr UnsafeAddrOfPinnedArrayElement(Array<T> arr, Int32 index);
+  public: template <class T>
+  static IntPtr OffsetOf(String fieldName);
   public: static void Copy(Array<Int32> source, Int32 startIndex, IntPtr destination, Int32 length);
   public: static void Copy(Array<Char> source, Int32 startIndex, IntPtr destination, Int32 length);
   public: static void Copy(Array<Int16> source, Int32 startIndex, IntPtr destination, Int32 length);
@@ -144,6 +170,8 @@ class Marshal {
   public: static void Copy(Array<Double> source, Int32 startIndex, IntPtr destination, Int32 length);
   public: static void Copy(Array<Byte> source, Int32 startIndex, IntPtr destination, Int32 length);
   public: static void Copy(Array<IntPtr> source, Int32 startIndex, IntPtr destination, Int32 length);
+  private: template <class T>
+  static void CopyToNative(Array<T> source, Int32 startIndex, IntPtr destination, Int32 length);
   public: static void Copy(IntPtr source, Array<Int32> destination, Int32 startIndex, Int32 length);
   public: static void Copy(IntPtr source, Array<Char> destination, Int32 startIndex, Int32 length);
   public: static void Copy(IntPtr source, Array<Int16> destination, Int32 startIndex, Int32 length);
@@ -152,6 +180,8 @@ class Marshal {
   public: static void Copy(IntPtr source, Array<Double> destination, Int32 startIndex, Int32 length);
   public: static void Copy(IntPtr source, Array<Byte> destination, Int32 startIndex, Int32 length);
   public: static void Copy(IntPtr source, Array<IntPtr> destination, Int32 startIndex, Int32 length);
+  private: template <class T>
+  static void CopyToManaged(IntPtr source, Array<T> destination, Int32 startIndex, Int32 length);
   public: static Byte ReadByte(IntPtr ptr, Int32 ofs);
   public: static Byte ReadByte(IntPtr ptr);
   public: static Int16 ReadInt16(IntPtr ptr, Int32 ofs);
@@ -179,8 +209,16 @@ class Marshal {
   public: static void WriteInt64(IntPtr ptr, Int64 val);
   public: static void Prelink(MethodInfo m);
   public: static void PrelinkAll(Type c);
+  public: template <class T>
+  static void StructureToPtr(T structure, IntPtr ptr, Boolean fDeleteOld);
   public: static Object PtrToStructure(IntPtr ptr, Type structureType);
   public: static void PtrToStructure(IntPtr ptr, Object structure);
+  public: template <class T>
+  static void PtrToStructure(IntPtr ptr, T structure);
+  public: template <class T>
+  static T PtrToStructure(IntPtr ptr);
+  public: template <class T>
+  static void DestroyStructure(IntPtr ptr);
   public: static Exception GetExceptionForHR(Int32 errorCode);
   public: static Exception GetExceptionForHR(Int32 errorCode, IntPtr errorInfo);
   public: static void ThrowExceptionForHR(Int32 errorCode);
@@ -198,7 +236,11 @@ class Marshal {
   public: static Guid GenerateGuidForType(Type type);
   public: static String GenerateProgIdForType(Type type);
   public: static Delegate GetDelegateForFunctionPointer(IntPtr ptr, Type t);
+  public: template <class TDelegate>
+  static TDelegate GetDelegateForFunctionPointer(IntPtr ptr);
   public: static IntPtr GetFunctionPointerForDelegate(Delegate d);
+  public: template <class TDelegate>
+  static IntPtr GetFunctionPointerForDelegate(TDelegate d);
   public: static Int32 GetHRForLastWin32Error();
   public: static void ZeroFreeBSTR(IntPtr s);
   public: static void ZeroFreeCoTaskMemAnsi(IntPtr s);

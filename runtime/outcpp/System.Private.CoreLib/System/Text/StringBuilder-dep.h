@@ -6,6 +6,7 @@
 #include <System.Private.CoreLib/System/Boolean-dep.h>
 #include <System.Private.CoreLib/System/Byte-dep.h>
 #include <System.Private.CoreLib/System/Char-dep.h>
+#include <System.Private.CoreLib/System/Collections/Generic/IEnumerable.h>
 #include <System.Private.CoreLib/System/Decimal-dep.h>
 #include <System.Private.CoreLib/System/Double-dep.h>
 #include <System.Private.CoreLib/System/IFormatProvider.h>

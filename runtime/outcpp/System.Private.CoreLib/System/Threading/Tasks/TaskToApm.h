@@ -29,6 +29,8 @@ class TaskToApm {
   };
   public: static IAsyncResult Begin(Task<> task, AsyncCallback callback, Object state);
   public: static void End(IAsyncResult asyncResult);
+  public: template <class TResult>
+  static TResult End(IAsyncResult asyncResult);
   private: static void ThrowArgumentException(IAsyncResult asyncResult);
 };
 } // namespace TaskToApmNamespace

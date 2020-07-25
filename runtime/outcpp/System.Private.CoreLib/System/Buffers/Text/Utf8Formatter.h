@@ -61,6 +61,8 @@ class Utf8Formatter {
   private: static Boolean TryFormatDecimalG(Number::NumberBuffer& number, Span<Byte> destination, Int32& bytesWritten);
   public: static Boolean TryFormat(Double value, Span<Byte> destination, Int32& bytesWritten, StandardFormat format);
   public: static Boolean TryFormat(Single value, Span<Byte> destination, Int32& bytesWritten, StandardFormat format);
+  private: template <class T>
+  static Boolean TryFormatFloatingPoint(T value, Span<Byte> destination, Int32& bytesWritten, StandardFormat format);
   public: static Boolean TryFormat(Guid value, Span<Byte> destination, Int32& bytesWritten, StandardFormat format);
   public: static Boolean TryFormat(Byte value, Span<Byte> destination, Int32& bytesWritten, StandardFormat format);
   public: static Boolean TryFormat(SByte value, Span<Byte> destination, Int32& bytesWritten, StandardFormat format);

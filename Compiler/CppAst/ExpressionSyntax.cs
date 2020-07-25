@@ -55,6 +55,10 @@ namespace Meson.Compiler.CppAst {
       return new GenericIdentifierSyntax(this, args);
     }
 
+    internal GenericIdentifierSyntax Generic(IEnumerable<ExpressionSyntax> args) {
+      return new GenericIdentifierSyntax(this, args);
+    }
+
     internal ParenthesizedExpressionSyntax Parenthesized() {
       return new ParenthesizedExpressionSyntax(this);
     }

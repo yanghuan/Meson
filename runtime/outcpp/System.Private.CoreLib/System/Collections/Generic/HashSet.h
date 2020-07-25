@@ -52,6 +52,7 @@ CLASS(HashSet, T) {
   public: void Clear();
   public: Boolean Contains(T item);
   private: Int32 FindItemIndex(T item);
+  private: Int32& GetBucketRef(Int32 hashCode);
   public: Boolean Remove(T item);
   public: Enumerator GetEnumerator();
   public: void GetObjectData(SerializationInfo info, StreamingContext context);

@@ -54,6 +54,12 @@ CLASS(TextInfo) {
   private: Char ChangeCase(Char c, Boolean toUpper);
   public: void ChangeCaseToLower(ReadOnlySpan<Char> source, Span<Char> destination);
   public: void ChangeCaseToUpper(ReadOnlySpan<Char> source, Span<Char> destination);
+  private: template <class TConversion>
+  void ChangeCaseCommon(ReadOnlySpan<Char> source, Span<Char> destination);
+  private: template <class TConversion>
+  void ChangeCaseCommon(Char& source, Char& destination, Int32 charCount);
+  private: template <class TConversion>
+  String ChangeCaseCommon(String source);
   public: static String ToLowerAsciiInvariant(String s);
   public: static void ToLowerAsciiInvariant(ReadOnlySpan<Char> source, Span<Char> destination);
   private: static String ToUpperAsciiInvariant(String s);

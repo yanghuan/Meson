@@ -15,6 +15,7 @@ FORWARDS(Byte)
 FORWARDS(Char)
 FORWARDS(Int32)
 FORWARDS(IntPtr)
+FORWARDS(ReadOnlySpan, T)
 FORWARDS(UInt16)
 FORWARDS(UInt32)
 FORWARDS(UInt64)
@@ -31,6 +32,10 @@ class SpanHelpers {
     private: T _value;
     private: TComparer _comparer;
   };
+  public: template <class T, class TComparable>
+  static Int32 BinarySearch(ReadOnlySpan<T> span, TComparable comparable);
+  public: template <class T, class TComparable>
+  static Int32 BinarySearch(T& spanStart, Int32 length, TComparable comparable);
   public: static Int32 IndexOf(Byte& searchSpace, Int32 searchSpaceLength, Byte& value, Int32 valueLength);
   public: static Int32 IndexOfAny(Byte& searchSpace, Int32 searchSpaceLength, Byte& value, Int32 valueLength);
   public: static Int32 LastIndexOfAny(Byte& searchSpace, Int32 searchSpaceLength, Byte& value, Int32 valueLength);
@@ -85,6 +90,32 @@ class SpanHelpers {
   private: static IntPtr UnalignedCountVector128(Char& searchSpace);
   public: static void ClearWithoutReferences(Byte& b, UIntPtr byteLength);
   public: static void ClearWithReferences(IntPtr& ip, UIntPtr pointerSizeLength);
+  public: template <class T>
+  static Int32 IndexOf(T& searchSpace, Int32 searchSpaceLength, T& value, Int32 valueLength);
+  public: template <class T>
+  static Boolean Contains(T& searchSpace, T value, Int32 length);
+  public: template <class T>
+  static Int32 IndexOf(T& searchSpace, T value, Int32 length);
+  public: template <class T>
+  static Int32 IndexOfAny(T& searchSpace, T value0, T value1, Int32 length);
+  public: template <class T>
+  static Int32 IndexOfAny(T& searchSpace, T value0, T value1, T value2, Int32 length);
+  public: template <class T>
+  static Int32 IndexOfAny(T& searchSpace, Int32 searchSpaceLength, T& value, Int32 valueLength);
+  public: template <class T>
+  static Int32 LastIndexOf(T& searchSpace, Int32 searchSpaceLength, T& value, Int32 valueLength);
+  public: template <class T>
+  static Int32 LastIndexOf(T& searchSpace, T value, Int32 length);
+  public: template <class T>
+  static Int32 LastIndexOfAny(T& searchSpace, T value0, T value1, Int32 length);
+  public: template <class T>
+  static Int32 LastIndexOfAny(T& searchSpace, T value0, T value1, T value2, Int32 length);
+  public: template <class T>
+  static Int32 LastIndexOfAny(T& searchSpace, Int32 searchSpaceLength, T& value, Int32 valueLength);
+  public: template <class T>
+  static Boolean SequenceEqual(T& first, T& second, Int32 length);
+  public: template <class T>
+  static Int32 SequenceCompareTo(T& first, Int32 firstLength, T& second, Int32 secondLength);
 };
 } // namespace SpanHelpersNamespace
 using SpanHelpers = SpanHelpersNamespace::SpanHelpers;

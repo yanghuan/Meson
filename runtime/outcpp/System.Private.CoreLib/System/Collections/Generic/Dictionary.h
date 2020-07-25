@@ -132,6 +132,7 @@ CLASS(Dictionary, TKey, TValue) {
   private: void CopyTo(Array<KeyValuePair<TKey, TValue>> array, Int32 index);
   public: Enumerator GetEnumerator();
   public: void GetObjectData(SerializationInfo info, StreamingContext context);
+  private: TValue& FindValue(TKey key);
   private: Int32 Initialize(Int32 capacity);
   private: Boolean TryInsert(TKey key, TValue value, InsertionBehavior behavior);
   public: void OnDeserialization(Object sender);
@@ -145,6 +146,7 @@ CLASS(Dictionary, TKey, TValue) {
   public: void TrimExcess();
   public: void TrimExcess(Int32 capacity);
   private: static Boolean IsCompatibleKey(Object key);
+  private: Int32& GetBucket(UInt32 hashCode);
   private: Array<Int32> _buckets;
   private: Array<Entry> _entries;
   private: UInt64 _fastModMultiplier;

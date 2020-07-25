@@ -80,6 +80,10 @@ class Volatile {
   public: static void Write(UInt64& location, UInt64 value);
   public: static UIntPtr Read(UIntPtr& location);
   public: static void Write(UIntPtr& location, UIntPtr value);
+  public: template <class T>
+  static T Read(T& location);
+  public: template <class T>
+  static void Write(T& location, T value);
 };
 } // namespace VolatileNamespace
 using Volatile = VolatileNamespace::Volatile;

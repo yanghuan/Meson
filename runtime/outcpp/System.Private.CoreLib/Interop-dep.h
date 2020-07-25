@@ -9,6 +9,7 @@
 #include <System.Private.CoreLib/System/Array-dep.h>
 #include <System.Private.CoreLib/System/AsyncCallback-dep.h>
 #include <System.Private.CoreLib/System/Boolean-dep.h>
+#include <System.Private.CoreLib/System/Buffers/SpanFunc-dep.h>
 #include <System.Private.CoreLib/System/Byte-dep.h>
 #include <System.Private.CoreLib/System/Char-dep.h>
 #include <System.Private.CoreLib/System/Diagnostics/Tracing/EventDescriptor-dep.h>

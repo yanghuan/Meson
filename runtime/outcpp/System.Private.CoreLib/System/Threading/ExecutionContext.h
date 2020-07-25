@@ -4,6 +4,7 @@
 #include <System.Private.CoreLib/System/Boolean.h>
 
 namespace System::Private::CoreLib::System {
+FORWARD_(Action, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17)
 FORWARD_(Array, T1, T2)
 FORWARD(Object)
 } // namespace System::Private::CoreLib::System
@@ -32,7 +33,11 @@ CLASS(ExecutionContext) {
   public: static Boolean IsFlowSuppressed();
   public: static void Run(ExecutionContext executionContext, ContextCallback<> callback, Object state);
   public: static void RunInternal(ExecutionContext executionContext, ContextCallback<> callback, Object state);
+  public: template <class TState>
+  static void RunInternal(ExecutionContext executionContext, ContextCallback<TState> callback, TState& state);
   public: static void RunFromThreadPoolDispatchLoop(Thread threadPoolThread, ExecutionContext executionContext, ContextCallback<> callback, Object state);
+  public: template <class TState>
+  static void RunForThreadPoolUnsafe(ExecutionContext executionContext, Action<TState> callback, TState& state);
   public: static void RestoreChangedContextToThread(Thread currentThread, ExecutionContext contextToRestore, ExecutionContext currentContext);
   public: static void ResetThreadPoolThread(Thread currentThread);
   public: static void OnValuesChanged(ExecutionContext previousExecutionCtx, ExecutionContext nextExecutionCtx);

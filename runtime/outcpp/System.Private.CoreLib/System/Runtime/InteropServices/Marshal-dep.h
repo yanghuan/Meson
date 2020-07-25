@@ -2,6 +2,7 @@
 
 #include "Marshal.h"
 
+#include <System.Private.CoreLib/System/Action-dep.h>
 #include <System.Private.CoreLib/System/Array-dep.h>
 #include <System.Private.CoreLib/System/Boolean-dep.h>
 #include <System.Private.CoreLib/System/Byte-dep.h>
@@ -9,6 +10,7 @@
 #include <System.Private.CoreLib/System/Delegate-dep.h>
 #include <System.Private.CoreLib/System/Double-dep.h>
 #include <System.Private.CoreLib/System/Exception-dep.h>
+#include <System.Private.CoreLib/System/Func-dep.h>
 #include <System.Private.CoreLib/System/Guid-dep.h>
 #include <System.Private.CoreLib/System/Int16-dep.h>
 #include <System.Private.CoreLib/System/Int32-dep.h>

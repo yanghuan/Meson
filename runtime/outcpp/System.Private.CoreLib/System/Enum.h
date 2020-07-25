@@ -66,9 +66,19 @@ CLASS(Enum) {
   public: static UInt64 ToUInt64(Object value);
   public: static Object Parse(Type enumType, String value);
   public: static Object Parse(Type enumType, String value, Boolean ignoreCase);
+  public: template <class TEnum>
+  static TEnum Parse(String value);
+  public: template <class TEnum>
+  static TEnum Parse(String value, Boolean ignoreCase);
   public: static Boolean TryParse(Type enumType, String value, Object& result);
   public: static Boolean TryParse(Type enumType, String value, Boolean ignoreCase, Object& result);
   private: static Boolean TryParse(Type enumType, String value, Boolean ignoreCase, Boolean throwOnFailure, Object& result);
+  public: template <class TEnum>
+  static Boolean TryParse(String value, TEnum& result);
+  public: template <class TEnum>
+  static Boolean TryParse(String value, Boolean ignoreCase, TEnum& result);
+  private: template <class TEnum>
+  static Boolean TryParse(String value, Boolean ignoreCase, Boolean throwOnFailure, TEnum& result);
   private: static Boolean TryParseInt32Enum(RuntimeType enumType, String originalValueString, ReadOnlySpan<Char> value, Int32 minInclusive, Int32 maxInclusive, Boolean ignoreCase, Boolean throwOnFailure, TypeCode type, Int32& result);
   private: static Boolean TryParseUInt32Enum(RuntimeType enumType, String originalValueString, ReadOnlySpan<Char> value, UInt32 maxInclusive, Boolean ignoreCase, Boolean throwOnFailure, TypeCode type, UInt32& result);
   private: static Boolean TryParseInt64Enum(RuntimeType enumType, String originalValueString, ReadOnlySpan<Char> value, Boolean ignoreCase, Boolean throwOnFailure, Int64& result);

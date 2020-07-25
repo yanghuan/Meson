@@ -342,11 +342,11 @@ namespace Meson.Compiler {
     }
 
     internal void Render(TemplateSyntax node) {
-      Write(node.TemplateToken);
+      Write(Tokens.Template);
       WriteSpace();
-      Write(node.OpenBrace);
+      Write(Tokens.Less);
       WriteNodesWithSeparated(node.Arguments);
-      Write(node.CloseBrace);
+      Write(Tokens.Greater);
       WriteNewLine();
     }
 
@@ -448,6 +448,7 @@ namespace Meson.Compiler {
 
     internal void Render(MethodDefinitionSyntax node) {
       WriteAccessibility(node.AccessibilityToken);
+      node.Template?.Render(this);
       if (node.IsStatic) {
         Write(Tokens.Static);
         WriteSpace();

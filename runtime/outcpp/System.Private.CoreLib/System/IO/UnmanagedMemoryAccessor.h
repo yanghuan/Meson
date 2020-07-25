@@ -8,6 +8,7 @@ namespace System::Private::CoreLib::System::Runtime::InteropServices {
 FORWARD(SafeBuffer)
 } // namespace System::Private::CoreLib::System::Runtime::InteropServices
 namespace System::Private::CoreLib::System {
+FORWARD_(Array, T1, T2)
 FORWARDS(Byte)
 FORWARDS(Char)
 FORWARDS(Decimal)
@@ -48,6 +49,10 @@ CLASS(UnmanagedMemoryAccessor) {
   public: UInt16 ReadUInt16(Int64 position);
   public: UInt32 ReadUInt32(Int64 position);
   public: UInt64 ReadUInt64(Int64 position);
+  public: template <class T>
+  void Read(Int64 position, T& structure);
+  public: template <class T>
+  Int32 ReadArray(Int64 position, Array<T> array, Int32 offset, Int32 count);
   public: void Write(Int64 position, Boolean value);
   public: void Write(Int64 position, Byte value);
   public: void Write(Int64 position, Char value);
@@ -61,6 +66,10 @@ CLASS(UnmanagedMemoryAccessor) {
   public: void Write(Int64 position, UInt16 value);
   public: void Write(Int64 position, UInt32 value);
   public: void Write(Int64 position, UInt64 value);
+  public: template <class T>
+  void Write(Int64 position, T& structure);
+  public: template <class T>
+  void WriteArray(Int64 position, Array<T> array, Int32 offset, Int32 count);
   private: void EnsureSafeToRead(Int64 position, Int32 sizeOfType);
   private: void EnsureSafeToWrite(Int64 position, Int32 sizeOfType);
   private: SafeBuffer _buffer;

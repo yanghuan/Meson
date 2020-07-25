@@ -9,6 +9,7 @@
 #include <System.Private.CoreLib/System/Collections/Generic/IEnumerable.h>
 #include <System.Private.CoreLib/System/Collections/ObjectModel/ReadOnlyCollection-dep.h>
 #include <System.Private.CoreLib/System/Comparison-dep.h>
+#include <System.Private.CoreLib/System/Converter-dep.h>
 #include <System.Private.CoreLib/System/Int32-dep.h>
 #include <System.Private.CoreLib/System/Object-dep.h>
 #include <System.Private.CoreLib/System/Predicate-dep.h>

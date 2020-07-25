@@ -31,6 +31,8 @@ CLASS(ComWrappers) {
     private: struct ComInterfaceInstance {
       public: IntPtr GcHandle;
     };
+    public: template <class T>
+    static T GetInstance(ComInterfaceDispatch* dispatchPtr);
     public: IntPtr Vtable;
   };
   public: IntPtr GetOrCreateComInterfaceForObject(Object instance, CreateComInterfaceFlags flags);

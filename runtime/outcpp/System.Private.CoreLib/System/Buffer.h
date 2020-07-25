@@ -31,6 +31,8 @@ class Buffer {
   public: static void MemoryCopy(void* source, void* destination, Int64 destinationSizeInBytes, Int64 sourceBytesToCopy);
   public: static void MemoryCopy(void* source, void* destination, UInt64 destinationSizeInBytes, UInt64 sourceBytesToCopy);
   public: static void Memmove(Byte* dest, Byte* src, UIntPtr len);
+  public: template <class T>
+  static void Memmove(T& destination, T& source, UIntPtr elementCount);
   private: static void Memmove(Byte& dest, Byte& src, UIntPtr len);
   private: static void _Memmove(Byte* dest, Byte* src, UIntPtr len);
   private: static void _Memmove(Byte& dest, Byte& src, UIntPtr len);

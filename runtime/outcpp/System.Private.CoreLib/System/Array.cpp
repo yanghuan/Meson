@@ -19,6 +19,7 @@
 #include <System.Private.CoreLib/System/RankException-dep.h>
 #include <System.Private.CoreLib/System/Reflection/CorElementType.h>
 #include <System.Private.CoreLib/System/Runtime/CompilerServices/MethodTable-dep.h>
+#include <System.Private.CoreLib/System/Runtime/CompilerServices/RawArrayData-dep.h>
 #include <System.Private.CoreLib/System/Runtime/CompilerServices/RuntimeHelpers-dep.h>
 #include <System.Private.CoreLib/System/RuntimeType-dep.h>
 #include <System.Private.CoreLib/System/SpanHelpers-dep.h>
@@ -35,7 +36,7 @@ using namespace ::System::Private::CoreLib::Internal::Runtime::CompilerServices;
 using namespace Collections;
 using namespace Reflection;
 using namespace Runtime::CompilerServices;
-Array___<>::SorterObjectArray::SorterObjectArray(Array<Object> keys, Array<Object> items, IComparer comparer) {
+Array___<>::SorterObjectArray::SorterObjectArray(Array<Object> keys, Array<Object> items, IComparer1 comparer) {
 };
 
 void Array___<>::SorterObjectArray::SwapIfGreater(Int32 a, Int32 b) {
@@ -66,7 +67,7 @@ void Array___<>::SorterObjectArray::DownHeap(Int32 i, Int32 n, Int32 lo) {
 void Array___<>::SorterObjectArray::InsertionSort(Int32 lo, Int32 hi) {
 };
 
-Array___<>::SorterGenericArray::SorterGenericArray(Array<> keys, Array<> items, IComparer comparer) {
+Array___<>::SorterGenericArray::SorterGenericArray(Array<> keys, Array<> items, IComparer1 comparer) {
 };
 
 void Array___<>::SorterGenericArray::SwapIfGreater(Int32 a, Int32 b) {
@@ -226,12 +227,12 @@ void Array___<>::Copy(Array<> sourceArray, Array<> destinationArray, Int32 lengt
   MethodTable* methodTable = RuntimeHelpers::GetMethodTable(sourceArray);
   if (methodTable == RuntimeHelpers::GetMethodTable(destinationArray) && !methodTable->get_IsMultiDimensionalArray() && (UInt64)(UInt32)length <= (UInt64)(UIntPtr)(void*)sourceArray->get_LongLength() && (UInt64)(UInt32)length <= (UInt64)(UIntPtr)(void*)destinationArray->get_LongLength()) {
     UIntPtr uIntPtr = (UIntPtr)(void*)((Int64)(UInt32)length * (Int64)methodTable->ComponentSize);
-    Byte data = Unsafe::As(sourceArray)->Data;
-    Byte data2 = Unsafe::As(destinationArray)->Data;
+    Byte data = Unsafe::As<RawArrayData>(sourceArray)->Data;
+    Byte data2 = Unsafe::As<RawArrayData>(destinationArray)->Data;
     if (methodTable->get_ContainsGCPointers()) {
       Buffer::BulkMoveWithWriteBarrier(data2, data, uIntPtr);
     } else {
-      Buffer::Memmove(data2, data, uIntPtr);
+      Buffer::Memmove<Byte>(data2, data, uIntPtr);
     }
   } else {
     Copy(sourceArray, sourceArray->GetLowerBound(0), destinationArray, destinationArray->GetLowerBound(0), length, false);
@@ -244,12 +245,12 @@ void Array___<>::Copy(Array<> sourceArray, Int32 sourceIndex, Array<> destinatio
     if (methodTable == RuntimeHelpers::GetMethodTable(destinationArray) && !methodTable->get_IsMultiDimensionalArray() && length >= 0 && sourceIndex >= 0 && destinationIndex >= 0 && (UInt64)(UInt32)(sourceIndex + length) <= (UInt64)(UIntPtr)(void*)sourceArray->get_LongLength() && (UInt64)(UInt32)(destinationIndex + length) <= (UInt64)(UIntPtr)(void*)destinationArray->get_LongLength()) {
       UIntPtr uIntPtr = (UIntPtr)(void*)methodTable->ComponentSize;
       UIntPtr uIntPtr2 = (UIntPtr)(void*)((Int64)(UInt32)length * (Int64)(UInt64)uIntPtr);
-      Byte source = Unsafe::AddByteOffset(Unsafe::As(sourceArray)->Data, (UIntPtr)(void*)((Int64)(UInt32)sourceIndex * (Int64)(UInt64)uIntPtr));
-      Byte destination = Unsafe::AddByteOffset(Unsafe::As(destinationArray)->Data, (UIntPtr)(void*)((Int64)(UInt32)destinationIndex * (Int64)(UInt64)uIntPtr));
+      Byte source = Unsafe::AddByteOffset(Unsafe::As<RawArrayData>(sourceArray)->Data, (UIntPtr)(void*)((Int64)(UInt32)sourceIndex * (Int64)(UInt64)uIntPtr));
+      Byte destination = Unsafe::AddByteOffset(Unsafe::As<RawArrayData>(destinationArray)->Data, (UIntPtr)(void*)((Int64)(UInt32)destinationIndex * (Int64)(UInt64)uIntPtr));
       if (methodTable->get_ContainsGCPointers()) {
         Buffer::BulkMoveWithWriteBarrier(destination, source, uIntPtr2);
       } else {
-        Buffer::Memmove(destination, source, uIntPtr2);
+        Buffer::Memmove<Byte>(destination, source, uIntPtr2);
       }
       return;
     }
@@ -264,7 +265,7 @@ void Array___<>::Copy(Array<> sourceArray, Int32 sourceIndex, Array<> destinatio
   if (destinationArray == nullptr) {
     ThrowHelper::ThrowArgumentNullException(ExceptionArgument::destinationArray);
   }
-  if (sourceArray->GetType() != destinationArray->GetType() && sourceArray->get_Rank() != destinationArray->get_Rank()) {
+  if (((Object)sourceArray)->GetType() != destinationArray->GetType() && sourceArray->get_Rank() != destinationArray->get_Rank()) {
     rt::throw_exception<RankException>(SR::get_Rank_MustMatch());
   }
   if (length < 0) {
@@ -286,7 +287,7 @@ void Array___<>::Copy(Array<> sourceArray, Int32 sourceIndex, Array<> destinatio
   if ((UInt64)(UInt32)(destinationIndex + length) > (UInt64)(UIntPtr)(void*)destinationArray->get_LongLength()) {
     rt::throw_exception<ArgumentException>(SR::get_Arg_LongerThanDestArray(), "destinationArray");
   }
-  if (sourceArray->GetType() == destinationArray->GetType() || IsSimpleCopy(sourceArray, destinationArray)) {
+  if ((Object)sourceArray->GetType() == destinationArray->GetType() || IsSimpleCopy(sourceArray, destinationArray)) {
     MethodTable* methodTable = RuntimeHelpers::GetMethodTable(sourceArray);
     UIntPtr uIntPtr = (UIntPtr)(void*)methodTable->ComponentSize;
     UIntPtr uIntPtr2 = (UIntPtr)(void*)((Int64)(UInt32)length * (Int64)(UInt64)uIntPtr);
@@ -295,7 +296,7 @@ void Array___<>::Copy(Array<> sourceArray, Int32 sourceIndex, Array<> destinatio
     if (methodTable->get_ContainsGCPointers()) {
       Buffer::BulkMoveWithWriteBarrier(destination, source, uIntPtr2);
     } else {
-      Buffer::Memmove(destination, source, uIntPtr2);
+      Buffer::Memmove<Byte>(destination, source, uIntPtr2);
     }
   } else {
     if (reliable) {
@@ -313,12 +314,12 @@ void Array___<>::Clear(Array<> array, Int32 index, Int32 length) {
   if (array == nullptr) {
     ThrowHelper::ThrowArgumentNullException(ExceptionArgument::array);
   }
-  Byte source = Unsafe::As(array)->Data;
+  Byte source = Unsafe::As<RawArrayData>(array)->Data;
   Int32 num = 0;
   MethodTable* methodTable = RuntimeHelpers::GetMethodTable(array);
   if (methodTable->get_IsMultiDimensionalArray()) {
     Int32 multiDimensionalArrayRank = methodTable->get_MultiDimensionalArrayRank();
-    num = Unsafe::Add(Unsafe::As(source), multiDimensionalArrayRank);
+    num = Unsafe::Add(Unsafe::As<Byte, Int32>(source), multiDimensionalArrayRank);
     source = Unsafe::Add(source, 8 * multiDimensionalArrayRank);
   }
   Int32 num2 = index - num;
@@ -329,7 +330,7 @@ void Array___<>::Clear(Array<> array, Int32 index, Int32 length) {
   Byte reference = Unsafe::AddByteOffset(source, (UIntPtr)(void*)((Int64)(UInt32)num2 * (Int64)(UInt64)uIntPtr));
   UIntPtr uIntPtr2 = (UIntPtr)(void*)((Int64)(UInt32)length * (Int64)(UInt64)uIntPtr);
   if (methodTable->get_ContainsGCPointers()) {
-    SpanHelpers::ClearWithReferences(Unsafe::As(reference), (UIntPtr)(void*)((UInt64)uIntPtr2 / (UInt64)(UInt32)sizeof(IntPtr)));
+    SpanHelpers::ClearWithReferences(Unsafe::As<Byte, IntPtr>(reference), (UIntPtr)(void*)((UInt64)uIntPtr2 / (UInt64)(UInt32)sizeof(IntPtr)));
   } else {
     SpanHelpers::ClearWithoutReferences(reference, uIntPtr2);
   }
@@ -652,14 +653,14 @@ Int32 Array___<>::BinarySearch(Array<> array, Int32 index, Int32 length, Object 
   return BinarySearch(array, index, length, value, nullptr);
 };
 
-Int32 Array___<>::BinarySearch(Array<> array, Object value, IComparer comparer) {
+Int32 Array___<>::BinarySearch(Array<> array, Object value, IComparer1 comparer) {
   if (array == nullptr) {
     ThrowHelper::ThrowArgumentNullException(ExceptionArgument::array);
   }
   return BinarySearch(array, array->GetLowerBound(0), array->get_Length(), value, comparer);
 };
 
-Int32 Array___<>::BinarySearch(Array<> array, Int32 index, Int32 length, Object value, IComparer comparer) {
+Int32 Array___<>::BinarySearch(Array<> array, Int32 index, Int32 length, Object value, IComparer1 comparer) {
   if (array == nullptr) {
     ThrowHelper::ThrowArgumentNullException(ExceptionArgument::array);
   }
@@ -900,25 +901,25 @@ void Array___<>::Sort(Array<> keys, Array<> items, Int32 index, Int32 length) {
   Sort(keys, items, index, length, nullptr);
 };
 
-void Array___<>::Sort(Array<> array, IComparer comparer) {
+void Array___<>::Sort(Array<> array, IComparer1 comparer) {
   if (array == nullptr) {
     ThrowHelper::ThrowArgumentNullException(ExceptionArgument::array);
   }
   Sort(array, nullptr, array->GetLowerBound(0), array->get_Length(), comparer);
 };
 
-void Array___<>::Sort(Array<> keys, Array<> items, IComparer comparer) {
+void Array___<>::Sort(Array<> keys, Array<> items, IComparer1 comparer) {
   if (keys == nullptr) {
     ThrowHelper::ThrowArgumentNullException(ExceptionArgument::keys);
   }
   Sort(keys, items, keys->GetLowerBound(0), keys->get_Length(), comparer);
 };
 
-void Array___<>::Sort(Array<> array, Int32 index, Int32 length, IComparer comparer) {
+void Array___<>::Sort(Array<> array, Int32 index, Int32 length, IComparer1 comparer) {
   Sort(array, nullptr, index, length, comparer);
 };
 
-void Array___<>::Sort(Array<> keys, Array<> items, Int32 index, Int32 length, IComparer comparer) {
+void Array___<>::Sort(Array<> keys, Array<> items, Int32 index, Int32 length, IComparer1 comparer) {
   if (keys == nullptr) {
     ThrowHelper::ThrowArgumentNullException(ExceptionArgument::keys);
   }

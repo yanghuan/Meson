@@ -17,12 +17,24 @@ void RuntimeHelpers::PrepareMethod(RuntimeMethodHandle method) {
 void RuntimeHelpers::PrepareMethod(RuntimeMethodHandle method, Array<RuntimeTypeHandle> instantiation) {
 };
 
+Byte& RuntimeHelpers::GetRawData(Object obj) {
+  return Byte();
+};
+
 UIntPtr RuntimeHelpers::GetRawObjectDataSize(Object obj) {
   return UIntPtr();
 };
 
+Byte& RuntimeHelpers::GetRawArrayData(Array<> array) {
+  return Byte();
+};
+
 UInt16 RuntimeHelpers::GetElementSize(Array<> array) {
   return UInt16();
+};
+
+Int32& RuntimeHelpers::GetMultiDimensionalArrayBounds(Array<> array) {
+  return Int32();
 };
 
 Int32 RuntimeHelpers::GetMultiDimensionalArrayRank(Array<> array) {

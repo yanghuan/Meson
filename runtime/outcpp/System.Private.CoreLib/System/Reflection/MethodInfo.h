@@ -28,6 +28,10 @@ CLASS(MethodInfo) {
   public: MethodInfo GetBaseDefinition();
   public: Delegate CreateDelegate(Type delegateType);
   public: Delegate CreateDelegate(Type delegateType, Object target);
+  public: template <class T>
+  T CreateDelegate();
+  public: template <class T>
+  T CreateDelegate(Object target);
   public: Boolean Equals(Object obj);
   public: Int32 GetHashCode();
   public: static Boolean op_Equality(MethodInfo left, MethodInfo right);

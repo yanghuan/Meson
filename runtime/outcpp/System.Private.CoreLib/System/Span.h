@@ -36,6 +36,7 @@ struct Span {
   public: static Span<T> op_Implicit(Array<T> array);
   public: static Span<T> op_Implicit(ArraySegment<T> segment);
   public: Enumerator GetEnumerator();
+  public: T& GetPinnableReference();
   public: void Clear();
   public: void Fill(T value);
   public: void CopyTo(Span<T> destination);

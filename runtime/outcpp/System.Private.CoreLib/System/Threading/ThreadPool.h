@@ -71,6 +71,10 @@ class ThreadPool {
   public: static RegisteredWaitHandle UnsafeRegisterWaitForSingleObject(WaitHandle waitObject, WaitOrTimerCallback callBack, Object state, TimeSpan timeout, Boolean executeOnlyOnce);
   public: static Boolean QueueUserWorkItem(WaitCallback callBack);
   public: static Boolean QueueUserWorkItem(WaitCallback callBack, Object state);
+  public: template <class TState>
+  static Boolean QueueUserWorkItem(Action<TState> callBack, TState state, Boolean preferLocal);
+  public: template <class TState>
+  static Boolean UnsafeQueueUserWorkItem(Action<TState> callBack, TState state, Boolean preferLocal);
   public: static Boolean UnsafeQueueUserWorkItem(WaitCallback callBack, Object state);
   public: static Boolean UnsafeQueueUserWorkItem(IThreadPoolWorkItem callBack, Boolean preferLocal);
   public: static void UnsafeQueueUserWorkItemInternal(Object callBack, Boolean preferLocal);

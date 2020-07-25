@@ -12,6 +12,7 @@ FORWARD(IConnectionPoint)
 } // namespace System::Private::CoreLib::System::Runtime::InteropServices::ComTypes
 namespace System::Private::CoreLib::System::Runtime::InteropServices {
 FORWARD(ComEventsMethod)
+FORWARDS(Variant)
 namespace ComEventsSinkNamespace {
 using namespace ComTypes;
 CLASS(ComEventsSink) {
@@ -23,6 +24,7 @@ CLASS(ComEventsSink) {
   public: ComEventsMethod RemoveMethod(ComEventsMethod method);
   public: ComEventsMethod FindMethod(Int32 dispid);
   public: ComEventsMethod AddMethod(Int32 dispid);
+  private: static Variant& GetVariant(Variant& pSrc);
   private: void Advise(Object rcw);
   private: void Unadvise();
   private: Guid _iidSourceItf;

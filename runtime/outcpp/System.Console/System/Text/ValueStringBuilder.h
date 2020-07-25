@@ -17,6 +17,7 @@ struct ValueStringBuilder {
   public: Int32 get_Capacity();
   public: explicit ValueStringBuilder(Span<Char> initialBuffer);
   public: void EnsureCapacity(Int32 capacity);
+  public: Char& GetPinnableReference();
   public: String ToString();
   private: void Grow(Int32 additionalCapacityBeyondPos);
   public: void Dispose();

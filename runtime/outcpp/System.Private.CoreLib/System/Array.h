@@ -9,16 +9,32 @@ FORWARD(IEnumerator)
 namespace System::Private::CoreLib::System::Reflection {
 enum class CorElementType : uint8_t;
 } // namespace System::Private::CoreLib::System::Reflection
+namespace System::Private::CoreLib::System::Collections::ObjectModel {
+FORWARD(ReadOnlyCollection, T)
+} // namespace System::Private::CoreLib::System::Collections::ObjectModel
+namespace System::Private::CoreLib::System::Collections::Generic {
+FORWARD(IComparer, T)
+} // namespace System::Private::CoreLib::System::Collections::Generic
 namespace System::Private::CoreLib::System {
+FORWARD_(Action, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17)
 FORWARD_(Array, T1, T2)
 FORWARDS(Boolean)
+FORWARD(Comparison, T)
+FORWARD(Converter, TInput, TOutput)
 FORWARDS(Int32)
 FORWARDS(Int64)
 FORWARD(Object)
+FORWARD(Predicate, T)
+FORWARDS(Span, T)
 FORWARD(Type)
 namespace ArrayNamespace {
 using namespace Collections;
+using namespace Collections::Generic;
+using namespace Collections::ObjectModel;
 using namespace Reflection;
+template <class T>
+using IComparer = Collections::Generic::IComparer<T>;
+using IComparer1 = Collections::IComparer;
 ARRAY(({
   private: template <class T>
   class EmptyArray {
@@ -26,7 +42,7 @@ ARRAY(({
     public: static Array<T> Value;
   };
   private: struct SorterObjectArray {
-    public: explicit SorterObjectArray(Array<Object> keys, Array<Object> items, IComparer comparer);
+    public: explicit SorterObjectArray(Array<Object> keys, Array<Object> items, IComparer1 comparer);
     public: void SwapIfGreater(Int32 a, Int32 b);
     private: void Swap(Int32 i, Int32 j);
     public: void Sort(Int32 left, Int32 length);
@@ -39,10 +55,10 @@ ARRAY(({
     public: explicit SorterObjectArray() {}
     private: Array<> keys;
     private: Array<> items;
-    private: IComparer comparer;
+    private: IComparer1 comparer;
   };
   private: struct SorterGenericArray {
-    public: explicit SorterGenericArray(Array<> keys, Array<> items, IComparer comparer);
+    public: explicit SorterGenericArray(Array<> keys, Array<> items, IComparer1 comparer);
     public: void SwapIfGreater(Int32 a, Int32 b);
     private: void Swap(Int32 i, Int32 j);
     public: void Sort(Int32 left, Int32 length);
@@ -55,7 +71,7 @@ ARRAY(({
     public: explicit SorterGenericArray() {}
     private: Array<> keys;
     private: Array<> items;
-    private: IComparer comparer;
+    private: IComparer1 comparer;
   };
   public: Int32 get_Length();
   public: Int64 get_LongLength();
@@ -97,6 +113,10 @@ ARRAY(({
   private: Boolean IsValueOfElementType(Object value);
   public: void Initialize();
   public: void Ctor();
+  public: template <class T>
+  static ReadOnlyCollection<T> AsReadOnly(Array<T> array);
+  public: template <class T>
+  static void Resize(Array<T>& array, Int32 newSize);
   public: static Array<> CreateInstance(Type elementType, Array<Int64> lengths);
   public: static void Copy(Array<> sourceArray, Array<> destinationArray, Int64 length);
   public: static void Copy(Array<> sourceArray, Int64 sourceIndex, Array<> destinationArray, Int64 destinationIndex, Int64 length);
@@ -113,26 +133,102 @@ ARRAY(({
   public: Object Clone();
   public: static Int32 BinarySearch(Array<> array, Object value);
   public: static Int32 BinarySearch(Array<> array, Int32 index, Int32 length, Object value);
-  public: static Int32 BinarySearch(Array<> array, Object value, IComparer comparer);
-  public: static Int32 BinarySearch(Array<> array, Int32 index, Int32 length, Object value, IComparer comparer);
+  public: static Int32 BinarySearch(Array<> array, Object value, IComparer1 comparer);
+  public: static Int32 BinarySearch(Array<> array, Int32 index, Int32 length, Object value, IComparer1 comparer);
+  public: template <class T>
+  static Int32 BinarySearch(Array<T> array, T value);
+  public: template <class T>
+  static Int32 BinarySearch(Array<T> array, T value, IComparer<T> comparer);
+  public: template <class T>
+  static Int32 BinarySearch(Array<T> array, Int32 index, Int32 length, T value);
+  public: template <class T>
+  static Int32 BinarySearch(Array<T> array, Int32 index, Int32 length, T value, IComparer<T> comparer);
+  public: template <class TInput, class TOutput>
+  static Array<TOutput> ConvertAll(Array<TInput> array, Converter<TInput, TOutput> converter);
   public: void CopyTo(Array<> array, Int32 index);
   public: void CopyTo(Array<> array, Int64 index);
+  public: template <class T>
+  static Array<T> Empty();
+  public: template <class T>
+  static Boolean Exists(Array<T> array, Predicate<T> match);
+  public: template <class T>
+  static void Fill(Array<T> array, T value);
+  public: template <class T>
+  static void Fill(Array<T> array, T value, Int32 startIndex, Int32 count);
+  public: template <class T>
+  static T Find(Array<T> array, Predicate<T> match);
+  public: template <class T>
+  static Array<T> FindAll(Array<T> array, Predicate<T> match);
+  public: template <class T>
+  static Int32 FindIndex(Array<T> array, Predicate<T> match);
+  public: template <class T>
+  static Int32 FindIndex(Array<T> array, Int32 startIndex, Predicate<T> match);
+  public: template <class T>
+  static Int32 FindIndex(Array<T> array, Int32 startIndex, Int32 count, Predicate<T> match);
+  public: template <class T>
+  static T FindLast(Array<T> array, Predicate<T> match);
+  public: template <class T>
+  static Int32 FindLastIndex(Array<T> array, Predicate<T> match);
+  public: template <class T>
+  static Int32 FindLastIndex(Array<T> array, Int32 startIndex, Predicate<T> match);
+  public: template <class T>
+  static Int32 FindLastIndex(Array<T> array, Int32 startIndex, Int32 count, Predicate<T> match);
+  public: template <class T>
+  static void ForEach(Array<T> array, Action<T> action);
   public: static Int32 IndexOf(Array<> array, Object value);
   public: static Int32 IndexOf(Array<> array, Object value, Int32 startIndex);
   public: static Int32 IndexOf(Array<> array, Object value, Int32 startIndex, Int32 count);
+  public: template <class T>
+  static Int32 IndexOf(Array<T> array, T value);
+  public: template <class T>
+  static Int32 IndexOf(Array<T> array, T value, Int32 startIndex);
+  public: template <class T>
+  static Int32 IndexOf(Array<T> array, T value, Int32 startIndex, Int32 count);
   public: static Int32 LastIndexOf(Array<> array, Object value);
   public: static Int32 LastIndexOf(Array<> array, Object value, Int32 startIndex);
   public: static Int32 LastIndexOf(Array<> array, Object value, Int32 startIndex, Int32 count);
+  public: template <class T>
+  static Int32 LastIndexOf(Array<T> array, T value);
+  public: template <class T>
+  static Int32 LastIndexOf(Array<T> array, T value, Int32 startIndex);
+  public: template <class T>
+  static Int32 LastIndexOf(Array<T> array, T value, Int32 startIndex, Int32 count);
   public: static void Reverse(Array<> array);
   public: static void Reverse(Array<> array, Int32 index, Int32 length);
+  public: template <class T>
+  static void Reverse(Array<T> array);
+  public: template <class T>
+  static void Reverse(Array<T> array, Int32 index, Int32 length);
   public: static void Sort(Array<> array);
   public: static void Sort(Array<> keys, Array<> items);
   public: static void Sort(Array<> array, Int32 index, Int32 length);
   public: static void Sort(Array<> keys, Array<> items, Int32 index, Int32 length);
-  public: static void Sort(Array<> array, IComparer comparer);
-  public: static void Sort(Array<> keys, Array<> items, IComparer comparer);
-  public: static void Sort(Array<> array, Int32 index, Int32 length, IComparer comparer);
-  public: static void Sort(Array<> keys, Array<> items, Int32 index, Int32 length, IComparer comparer);
+  public: static void Sort(Array<> array, IComparer1 comparer);
+  public: static void Sort(Array<> keys, Array<> items, IComparer1 comparer);
+  public: static void Sort(Array<> array, Int32 index, Int32 length, IComparer1 comparer);
+  public: static void Sort(Array<> keys, Array<> items, Int32 index, Int32 length, IComparer1 comparer);
+  public: template <class T>
+  static void Sort(Array<T> array);
+  public: template <class TKey, class TValue>
+  static void Sort(Array<TKey> keys, Array<TValue> items);
+  public: template <class T>
+  static void Sort(Array<T> array, Int32 index, Int32 length);
+  public: template <class TKey, class TValue>
+  static void Sort(Array<TKey> keys, Array<TValue> items, Int32 index, Int32 length);
+  public: template <class T>
+  static void Sort(Array<T> array, IComparer<T> comparer);
+  public: template <class TKey, class TValue>
+  static void Sort(Array<TKey> keys, Array<TValue> items, IComparer<TKey> comparer);
+  public: template <class T>
+  static void Sort(Array<T> array, Int32 index, Int32 length, IComparer<T> comparer);
+  public: template <class TKey, class TValue>
+  static void Sort(Array<TKey> keys, Array<TValue> items, Int32 index, Int32 length, IComparer<TKey> comparer);
+  public: template <class T>
+  static void Sort(Array<T> array, Comparison<T> comparison);
+  public: template <class T>
+  static Boolean TrueForAll(Array<T> array, Predicate<T> match);
+  private: template <class T>
+  static Span<T> UnsafeArrayAsSpan(Array<> array, Int32 adjustedIndex, Int32 length);
   public: IEnumerator GetEnumerator();
 }))
 } // namespace ArrayNamespace

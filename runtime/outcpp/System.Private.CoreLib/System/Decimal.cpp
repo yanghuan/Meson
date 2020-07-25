@@ -394,6 +394,14 @@ Decimal Decimal::ToDecimal(ReadOnlySpan<Byte> span) {
   return Decimal();
 };
 
+Decimal& Decimal::Max(Decimal& d1, Decimal& d2) {
+  return Decimal();
+};
+
+Decimal& Decimal::Min(Decimal& d1, Decimal& d2) {
+  return Decimal();
+};
+
 Decimal Decimal::Remainder(Decimal d1, Decimal d2) {
   return Decimal();
 };
@@ -631,6 +639,10 @@ Boolean Decimal::op_GreaterThanOrEqual(Decimal d1, Decimal d2) {
 
 TypeCode Decimal::GetTypeCode() {
   return TypeCode::String;
+};
+
+Decimal::DecCalc& Decimal::AsMutable(Decimal& d) {
+  return Decimal::DecCalc();
 };
 
 UInt32 Decimal::DecDivMod1E9(Decimal& value) {

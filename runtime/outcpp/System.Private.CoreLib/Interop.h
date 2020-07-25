@@ -53,11 +53,15 @@ FORWARDS(EventDescriptor)
 namespace System::Private::CoreLib::Internal::Win32::SafeHandles {
 FORWARD(SafeRegistryHandle)
 } // namespace System::Private::CoreLib::Internal::Win32::SafeHandles
+namespace System::Private::CoreLib::System::Buffers {
+FORWARD(SpanFunc, TSpan, T1, T2, T3, TResult)
+} // namespace System::Private::CoreLib::System::Buffers
 namespace System::Private::CoreLib {
 namespace InteropNamespace {
 using namespace ::System::Private::CoreLib::Internal::Win32::SafeHandles;
 using namespace ::System::Private::CoreLib::Microsoft::Win32::SafeHandles;
 using namespace ::System::Private::CoreLib::System;
+using namespace ::System::Private::CoreLib::System::Buffers;
 using namespace ::System::Private::CoreLib::System::Diagnostics::Tracing;
 using namespace ::System::Private::CoreLib::System::Globalization;
 using namespace ::System::Private::CoreLib::System::IO;
@@ -563,6 +567,8 @@ class Interop {
     public: static IntPtr GetProcessWindowStation();
     public: static Boolean GetUserObjectInformationW(IntPtr hObj, Int32 nIndex, void* pvBuffer, UInt32 nLength, UInt32& lpnLengthNeeded);
   };
+  public: template <class TArg1, class TArg2, class TArg3>
+  static Boolean CallStringMethod(SpanFunc<Char, TArg1, TArg2, TArg3, Globalization::ResultCode> interopCall, TArg1 arg1, TArg2 arg2, TArg3 arg3, String& result);
   public: static void GetRandomBytes(Byte* buffer, Int32 length);
   public: static UInt32 GetCurrentProcessId();
 };

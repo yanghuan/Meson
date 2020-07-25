@@ -44,6 +44,10 @@ CLASS(ILGenerator) {
   public: Int32 get_CurrExcStackCount();
   public: Array<__ExceptionInfo> get_CurrExcStack();
   public: Int32 get_ILOffset();
+  public: template <class T>
+  static Array<T> EnlargeArray(Array<T> incoming);
+  public: template <class T>
+  static Array<T> EnlargeArray(Array<T> incoming, Int32 requiredSize);
   public: void Ctor(MethodInfo methodBuilder);
   public: void Ctor(MethodInfo methodBuilder, Int32 size);
   public: void RecordTokenFixup();

@@ -6,6 +6,7 @@ namespace System::Private::CoreLib::System {
 FORWARD_(Array, T1, T2)
 FORWARD(AsyncCallback)
 FORWARDS(Boolean)
+FORWARDS(Byte)
 FORWARD(Delegate)
 FORWARD(IAsyncResult)
 FORWARDS(Int32)
@@ -14,6 +15,7 @@ FORWARDS(IntPtr)
 FORWARD(IRuntimeMethodInfo)
 FORWARDS(ModuleHandle)
 FORWARD(Object)
+FORWARDS(Range)
 FORWARDS(RuntimeFieldHandle)
 FORWARDS(RuntimeMethodHandle)
 FORWARDS(RuntimeMethodHandleInternal)
@@ -65,8 +67,19 @@ class RuntimeHelpers {
   public: static Boolean TryEnsureSufficientExecutionStack();
   private: static Object GetUninitializedObjectInternal(Type type);
   public: static Object AllocateUninitializedClone(Object obj);
+  public: template <class T>
+  static Boolean IsReferenceOrContainsReferences();
+  public: template <class T>
+  static Boolean IsBitwiseEquatable();
+  public: template <class T>
+  static Boolean EnumEquals(T x, T y);
+  public: template <class T>
+  static Int32 EnumCompareTo(T x, T y);
+  public: static Byte& GetRawData(Object obj);
   public: static UIntPtr GetRawObjectDataSize(Object obj);
+  public: static Byte& GetRawArrayData(Array<> array);
   public: static UInt16 GetElementSize(Array<> array);
+  public: static Int32& GetMultiDimensionalArrayBounds(Array<> array);
   public: static Int32 GetMultiDimensionalArrayRank(Array<> array);
   public: static Boolean ObjectHasComponentSize(Object obj);
   public: static MethodTable* GetMethodTable(Object obj);
@@ -77,6 +90,8 @@ class RuntimeHelpers {
   private: static TailCallTls* GetTailCallInfo(IntPtr retAddrSlot, IntPtr* retAddr);
   public: static Int64 GetILBytesJitted();
   public: static Int32 GetMethodsJittedCount();
+  public: template <class T>
+  static Array<T> GetSubArray(Array<T> array, Range range);
   public: static Object GetUninitializedObject(Type type);
   public: static void ExecuteCodeWithGuaranteedCleanup(TryCode code, CleanupCode backoutCode, Object userData);
   public: static void PrepareContractedDelegate(Delegate d);

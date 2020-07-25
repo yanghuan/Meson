@@ -36,6 +36,7 @@ struct ReadOnlySpan {
   public: static ReadOnlySpan<T> op_Implicit(Array<T> array);
   public: static ReadOnlySpan<T> op_Implicit(ArraySegment<T> segment);
   public: Enumerator GetEnumerator();
+  public: T& GetPinnableReference();
   public: void CopyTo(Span<T> destination);
   public: Boolean TryCopyTo(Span<T> destination);
   public: static Boolean op_Equality(ReadOnlySpan<T> left, ReadOnlySpan<T> right);

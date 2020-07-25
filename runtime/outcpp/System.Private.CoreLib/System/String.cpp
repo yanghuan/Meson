@@ -268,6 +268,14 @@ Boolean String___::IsNullOrWhiteSpace(String value) {
   return Boolean();
 };
 
+Char& String___::GetPinnableReference() {
+  return Char();
+};
+
+Char& String___::GetRawStringData() {
+  return Char();
+};
+
 String String___::CreateStringFromEncoding(Byte* bytes, Int32 byteLength, Encoding encoding) {
   return nullptr;
 };

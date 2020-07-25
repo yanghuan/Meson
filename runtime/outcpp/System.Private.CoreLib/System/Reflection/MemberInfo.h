@@ -31,6 +31,8 @@ CLASS(MemberInfo) {
   public: Boolean get_IsCollectible();
   public: Int32 get_MetadataToken();
   public: Boolean CacheEquals(Object o);
+  public: template <class TOther>
+  Boolean HasSameMetadataDefinitionAsCore(MemberInfo other);
   protected: void Ctor();
   public: Boolean HasSameMetadataDefinitionAs(MemberInfo other);
   public: Boolean IsDefined(Type attributeType, Boolean inherit);

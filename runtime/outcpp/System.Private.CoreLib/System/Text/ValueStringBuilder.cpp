@@ -35,6 +35,14 @@ ValueStringBuilder::ValueStringBuilder(Int32 initialCapacity) {
 void ValueStringBuilder::EnsureCapacity(Int32 capacity) {
 };
 
+Char& ValueStringBuilder::GetPinnableReference() {
+  return Char();
+};
+
+Char& ValueStringBuilder::GetPinnableReference(Boolean terminate) {
+  return Char();
+};
+
 String ValueStringBuilder::ToString() {
   return nullptr;
 };

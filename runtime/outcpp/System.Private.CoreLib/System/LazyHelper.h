@@ -25,6 +25,8 @@ CLASS(LazyHelper) {
   public: static Nullable<LazyThreadSafetyMode> GetMode(LazyHelper state);
   public: static Boolean GetIsValueFaulted(LazyHelper state);
   public: static LazyHelper Create(LazyThreadSafetyMode mode, Boolean useDefaultConstructor);
+  public: template <class T>
+  static T CreateViaDefaultConstructor();
   public: static LazyThreadSafetyMode GetModeFromIsThreadSafe(Boolean isThreadSafe);
   private: static void SCtor();
   public: static LazyHelper NoneViaConstructor;

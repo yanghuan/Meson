@@ -63,6 +63,8 @@ class Utf8Parser {
   public: static Boolean TryParse(ReadOnlySpan<Byte> source, Single& value, Int32& bytesConsumed, Char standardFormat);
   public: static Boolean TryParse(ReadOnlySpan<Byte> source, Double& value, Int32& bytesConsumed, Char standardFormat);
   private: static Boolean TryParseNormalAsFloatingPoint(ReadOnlySpan<Byte> source, Number::NumberBuffer& number, Int32& bytesConsumed, Char standardFormat);
+  private: template <class T>
+  static Boolean TryParseAsSpecialFloatingPoint(ReadOnlySpan<Byte> source, T positiveInfinity, T negativeInfinity, T nan, T& value, Int32& bytesConsumed);
   public: static Boolean TryParse(ReadOnlySpan<Byte> source, Guid& value, Int32& bytesConsumed, Char standardFormat);
   private: static Boolean TryParseGuidN(ReadOnlySpan<Byte> text, Guid& value, Int32& bytesConsumed);
   private: static Boolean TryParseGuidCore(ReadOnlySpan<Byte> source, Guid& value, Int32& bytesConsumed, Int32 ends);

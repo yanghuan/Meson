@@ -25,12 +25,16 @@ class Interlocked {
   public: static Double Exchange(Double& location1, Double value);
   public: static Object Exchange(Object& location1, Object value);
   public: static IntPtr Exchange(IntPtr& location1, IntPtr value);
+  public: template <class T>
+  static T Exchange(T& location1, T value);
   public: static Int32 CompareExchange(Int32& location1, Int32 value, Int32 comparand);
   public: static Int64 CompareExchange(Int64& location1, Int64 value, Int64 comparand);
   public: static Single CompareExchange(Single& location1, Single value, Single comparand);
   public: static Double CompareExchange(Double& location1, Double value, Double comparand);
   public: static Object CompareExchange(Object& location1, Object value, Object comparand);
   public: static IntPtr CompareExchange(IntPtr& location1, IntPtr value, IntPtr comparand);
+  public: template <class T>
+  static T CompareExchange(T& location1, T value, T comparand);
   public: static Int32 Add(Int32& location1, Int32 value);
   public: static Int64 Add(Int64& location1, Int64 value);
   private: static Int32 ExchangeAdd(Int32& location1, Int32 value);
