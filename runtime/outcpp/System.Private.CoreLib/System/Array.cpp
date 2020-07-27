@@ -232,7 +232,7 @@ void Array___<>::Copy(Array<> sourceArray, Array<> destinationArray, Int32 lengt
     if (methodTable->get_ContainsGCPointers()) {
       Buffer::BulkMoveWithWriteBarrier(data2, data, uIntPtr);
     } else {
-      Buffer::Memmove<Byte>(data2, data, uIntPtr);
+      Buffer::Memmove(data2, data, uIntPtr);
     }
   } else {
     Copy(sourceArray, sourceArray->GetLowerBound(0), destinationArray, destinationArray->GetLowerBound(0), length, false);
@@ -250,7 +250,7 @@ void Array___<>::Copy(Array<> sourceArray, Int32 sourceIndex, Array<> destinatio
       if (methodTable->get_ContainsGCPointers()) {
         Buffer::BulkMoveWithWriteBarrier(destination, source, uIntPtr2);
       } else {
-        Buffer::Memmove<Byte>(destination, source, uIntPtr2);
+        Buffer::Memmove(destination, source, uIntPtr2);
       }
       return;
     }
@@ -265,7 +265,7 @@ void Array___<>::Copy(Array<> sourceArray, Int32 sourceIndex, Array<> destinatio
   if (destinationArray == nullptr) {
     ThrowHelper::ThrowArgumentNullException(ExceptionArgument::destinationArray);
   }
-  if (((Object)sourceArray)->GetType() != destinationArray->GetType() && sourceArray->get_Rank() != destinationArray->get_Rank()) {
+  if (sourceArray->GetType() != destinationArray->GetType() && sourceArray->get_Rank() != destinationArray->get_Rank()) {
     rt::throw_exception<RankException>(SR::get_Rank_MustMatch());
   }
   if (length < 0) {
@@ -287,7 +287,7 @@ void Array___<>::Copy(Array<> sourceArray, Int32 sourceIndex, Array<> destinatio
   if ((UInt64)(UInt32)(destinationIndex + length) > (UInt64)(UIntPtr)(void*)destinationArray->get_LongLength()) {
     rt::throw_exception<ArgumentException>(SR::get_Arg_LongerThanDestArray(), "destinationArray");
   }
-  if ((Object)sourceArray->GetType() == destinationArray->GetType() || IsSimpleCopy(sourceArray, destinationArray)) {
+  if (sourceArray->GetType() == destinationArray->GetType() || IsSimpleCopy(sourceArray, destinationArray)) {
     MethodTable* methodTable = RuntimeHelpers::GetMethodTable(sourceArray);
     UIntPtr uIntPtr = (UIntPtr)(void*)methodTable->ComponentSize;
     UIntPtr uIntPtr2 = (UIntPtr)(void*)((Int64)(UInt32)length * (Int64)(UInt64)uIntPtr);
@@ -296,7 +296,7 @@ void Array___<>::Copy(Array<> sourceArray, Int32 sourceIndex, Array<> destinatio
     if (methodTable->get_ContainsGCPointers()) {
       Buffer::BulkMoveWithWriteBarrier(destination, source, uIntPtr2);
     } else {
-      Buffer::Memmove<Byte>(destination, source, uIntPtr2);
+      Buffer::Memmove(destination, source, uIntPtr2);
     }
   } else {
     if (reliable) {

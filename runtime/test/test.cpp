@@ -10,11 +10,19 @@
 
 using namespace System::Private::CoreLib::System;
 
+struct B {
+};
+
+struct C {
+};
+
+struct A : public B, public C {
+    int a;    
+};
+
+
 int main() {
-    Int32 a = 1;
-    ++a;
-    ++a;
-    std::cout << a.get() << std::endl;
+    std::cout << sizeof(A);
     return 0;
 }
 
