@@ -8,6 +8,11 @@ using namespace System::Private::CoreLib::System;
 
 int main__()
 {
+          
+  auto i = []<class T>() -> void {
+    
+  };
+
   String a = String("ddddd");
   ValueTuple<int, int, int> t;
   t.Item1 = 2;

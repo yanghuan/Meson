@@ -232,4 +232,23 @@ namespace Meson.Compiler.CppAst {
       renderer.Render(this);
     }
   }
+
+  sealed class LambdaExpressionSyntax : ExpressionSyntax {
+    public List<string> Captures { get; set; }
+    public List<TemplateTypenameSyntax> TypeParameters { get; set; }
+    public ExpressionSyntax RetuenType { get; }
+    public List<ParameterSyntax> Parameters { get; } = new List<ParameterSyntax>();
+    public BlockSyntax Body { get; }
+
+    public LambdaExpressionSyntax(IEnumerable<ParameterSyntax> parameters, ExpressionSyntax retuenType, BlockSyntax body) {
+      Parameters.AddRange(parameters);
+      RetuenType = retuenType;
+      Body = body;
+    }
+
+    internal override void Render(CppRenderer renderer) {
+      renderer.Render(this);
+    }
+  }
+
 }

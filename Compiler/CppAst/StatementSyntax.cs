@@ -5,9 +5,16 @@ using System.Text;
 
 namespace Meson.Compiler.CppAst {
   internal abstract class StatementSyntax : SyntaxNode {
+    private sealed class EmptyStatementSyntax : StatementSyntax {
+      internal override void Render(CppRenderer renderer) {
+      }
+    }
+
     public static implicit operator StatementSyntax(ExpressionSyntax expression) {
       return new ExpressionStatementSyntax(expression);
     }
+
+    public static readonly StatementSyntax Empty = new EmptyStatementSyntax();
   }
 
   sealed class ExpressionStatementSyntax : StatementSyntax {
@@ -220,7 +227,7 @@ namespace Meson.Compiler.CppAst {
   }
 
   sealed class TemplateSyntax : SyntaxNode {
-    public readonly List<TemplateTypenameSyntax> Arguments = new List<TemplateTypenameSyntax>();
+    public List<TemplateTypenameSyntax> Arguments { get; } = new List<TemplateTypenameSyntax>();
 
     public TemplateSyntax(TemplateTypenameSyntax argument) {
       Arguments.Add(argument);
@@ -363,6 +370,8 @@ namespace Meson.Compiler.CppAst {
   }
 
   sealed class MethodImplementationSyntax : BlockSyntax {
+    public bool IsStatic { get; set; }
+    public TemplateSyntax Template { get; set; }
     public ExpressionSyntax DeclaringType { get; }
     public ExpressionSyntax RetuenType { get; }
     public IdentifierSyntax Name { get; }
@@ -599,4 +608,84 @@ namespace Meson.Compiler.CppAst {
       renderer.Render(this);
     }
   }
+
+  sealed class CatchClauseSyntax : BlockSyntax {
+    public ExpressionSyntax Type { get; }
+    public IdentifierSyntax Name { get; }
+
+    public CatchClauseSyntax(ExpressionSyntax type, IdentifierSyntax name) {
+      Type = type;
+      Name = name;
+    }
+
+    internal override void Render(CppRenderer renderer) {
+      renderer.Render(this);
+    }
+  }
+
+  sealed class TryStatementSyntax : BlockSyntax {
+    public List<CatchClauseSyntax> CatchClauses { get; } = new List<CatchClauseSyntax>();
+    public BlockSyntax FinallyBlock { get; }
+
+    public TryStatementSyntax(BlockSyntax tryBlock, IEnumerable<CatchClauseSyntax> catchClauses, BlockSyntax finallyBlock = null) {
+      AddRange(tryBlock.Statements);
+      CatchClauses.AddRange(catchClauses);
+      FinallyBlock = finallyBlock;
+    }
+
+    internal override void Render(CppRenderer renderer) {
+      renderer.Render(this);
+    }
+  }
+
+  sealed class CaseLabelSyntax : SyntaxNode {
+    public ExpressionSyntax Expression { get; }
+
+    public CaseLabelSyntax(ExpressionSyntax expression) {
+      Expression = expression;
+    }
+
+    internal override void Render(CppRenderer renderer) {
+      renderer.Render(this);
+    }
+  }
+
+  sealed class SwitchSectionSyntax : SyntaxNode {
+    public List<CaseLabelSyntax> CaseLabels { get; } = new List<CaseLabelSyntax>();
+    public List<StatementSyntax> Statements { get; } = new List<StatementSyntax>();
+
+    public SwitchSectionSyntax(IEnumerable<CaseLabelSyntax> caseLabels, IEnumerable<StatementSyntax> statements) {
+      CaseLabels.AddRange(caseLabels);
+      Statements.AddRange(statements);
+    }
+
+    internal override void Render(CppRenderer renderer) {
+      renderer.Render(this);
+    }
+  }
+
+  sealed class SwitchStatementSyntax : StatementSyntax {
+    public ExpressionSyntax Expression { get; }
+    public List<SwitchSectionSyntax> SwitchSections { get; } = new List<SwitchSectionSyntax>();
+
+    public SwitchStatementSyntax(ExpressionSyntax expression, IEnumerable<SwitchSectionSyntax> switchSections) {
+      Expression = expression;
+      SwitchSections.AddRange(switchSections);
+    }
+
+    internal override void Render(CppRenderer renderer) {
+      renderer.Render(this);
+    }
+  }
+
+  sealed class BreakStatementSyntax : StatementSyntax {
+    private BreakStatementSyntax() { }
+
+    internal override void Render(CppRenderer renderer) {
+      renderer.Render(this);
+    }
+
+    public static readonly BreakStatementSyntax Ins = new BreakStatementSyntax();
+  }
+
 }

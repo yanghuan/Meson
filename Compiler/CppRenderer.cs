@@ -183,6 +183,10 @@ namespace Meson.Compiler {
       }
     }
 
+    private void WriteBlock(BlockSyntax block) {
+      Render(block);
+    }
+
     internal void Render(CodeTemplateExpressionSyntax node) {
       WriteNodes(node.Expressions);
     }
@@ -269,7 +273,7 @@ namespace Meson.Compiler {
     }
 
     internal void Render(BlockStatementSyntax node) {
-      Render((BlockSyntax)node);
+      WriteBlock(node);
       WriteNewLine();
     }
 
@@ -279,7 +283,7 @@ namespace Meson.Compiler {
         WriteSpace();
         Write(node.Name);
         WriteSpace();
-        Render((BlockSyntax)node);
+        WriteBlock(node);
         WriteSpace();
         Write(Tokens.LineComment);
         WriteSpace();
@@ -312,7 +316,7 @@ namespace Meson.Compiler {
         node.UnderlyingType.Render(this);
       }
       WriteSpace();
-      Render((BlockSyntax)node);
+      WriteBlock(node);
       WriteSemicolon();
       WriteNewLine();
     }
@@ -382,7 +386,7 @@ namespace Meson.Compiler {
             Write("ARRAY");
             Write(Tokens.OpenParentheses);
             Write(Tokens.OpenParentheses);
-            Render((BlockSyntax)node);
+            WriteBlock(node);
             Write(Tokens.CloseParentheses);
             Write(Tokens.CloseParentheses);
             WriteNewLine();
@@ -410,7 +414,7 @@ namespace Meson.Compiler {
         WriteNodesWithSeparated(node.Bases);
         WriteSpace();
       }
-      Render((BlockSyntax)node);
+      WriteBlock(node);
       WriteSemicolon();
       WriteNewLine();
     }
@@ -488,6 +492,11 @@ namespace Meson.Compiler {
     }
 
     internal void Render(MethodImplementationSyntax node) {
+      node.Template?.Render(this);
+      if (node.IsStatic) {
+        Write(Tokens.Static);
+        WriteSpace();
+      }
       if (node.RetuenType != null) {
         node.RetuenType.Render(this);
         WriteSpace();
@@ -501,7 +510,7 @@ namespace Meson.Compiler {
       WriteNodesWithSeparated(node.Parameters);
       Write(Tokens.CloseParentheses);
       WriteSpace();
-      Render((BlockSyntax)node);
+      WriteBlock(node);
       WriteSemicolon();
       WriteNewLine();
     }
@@ -733,6 +742,30 @@ namespace Meson.Compiler {
       Write(Tokens.CloseParentheses);
     }
 
+    internal void Render(LambdaExpressionSyntax node) {
+      Write(Tokens.OpenBracket);
+      if (node.Captures != null) {
+        Write(string.Join(", ", node.Captures));
+      }
+      Write(Tokens.CloseBracket);
+      if (node.TypeParameters != null) {
+        Write(Tokens.Less);
+        WriteNodesWithSeparated(node.TypeParameters);
+        Write(Tokens.Greater);
+      }
+      Write(Tokens.OpenParentheses);
+      WriteNodesWithSeparated(node.Parameters);
+      Write(Tokens.CloseParentheses);
+      if (node.RetuenType != null) {
+        WriteSpace();
+        Write(Tokens.Arrow);
+        WriteSpace();
+        node.RetuenType.Render(this);
+      }
+      WriteSpace();
+      WriteBlock(node.Body);
+    }
+
     internal void Render(VariableInitializerSyntax node) {
       node.Name.Render(this);
       if (node.Initializer != null) {
@@ -747,6 +780,75 @@ namespace Meson.Compiler {
       node.Type.Render(this);
       WriteSpace();
       WriteNodesWithSeparated(node.Variables);
+      WriteSemicolon();
+      WriteNewLine();
+    }
+
+    internal void Render(CatchClauseSyntax node) {
+      WriteSpace();
+      Write(Tokens.Catch);
+      WriteSpace();
+      Write(Tokens.OpenParentheses);
+      node.Type.Render(this);
+      WriteSpace();
+      node.Name.Render(this);
+      Write(Tokens.CloseParentheses);
+      WriteSpace();
+      WriteBlock(node);
+    }
+
+    internal void Render(TryStatementSyntax node) {
+      Write(Tokens.Try);
+      WriteBlock(node);
+      WriteNodes(node.CatchClauses);
+      if (node.FinallyBlock != null) {
+        WriteSpace();
+        Write(Tokens.Finally);
+        WriteColon();
+        WriteSpace();
+        node.FinallyBlock.Render(this);
+      }
+      WriteNewLine();
+    }
+
+    internal void Render(CaseLabelSyntax node) {
+      if (node.Expression != null) {
+        Write(Tokens.Case);
+        WriteSpace();
+        node.Expression.Render(this);
+        WriteColon();
+      } else {
+        Write(Tokens.Default);
+        WriteColon();
+      }
+      WriteNewLine();
+    }
+
+    internal void Render(SwitchSectionSyntax node) {
+      WriteNodes(node.CaseLabels);
+      AddIndent();
+      WriteNodes(node.Statements);
+      Outdent();
+    }
+
+    internal void Render(SwitchStatementSyntax node) {
+      Write(Tokens.Switch);
+      WriteSpace();
+      Write(Tokens.OpenParentheses);
+      node.Expression.Render(this);
+      Write(Tokens.CloseParentheses);
+      WriteSpace();
+      Write(Tokens.OpenBrace);
+      WriteNewLine();
+      AddIndent();
+      WriteNodes(node.SwitchSections);
+      Outdent();
+      Write(Tokens.CloseBrace);
+      WriteNewLine();
+    }
+
+    internal void Render(BreakStatementSyntax node) {
+      Write(Tokens.Break);
       WriteSemicolon();
       WriteNewLine();
     }

@@ -10,18 +10,18 @@
 
 using namespace System::Private::CoreLib::System;
 
-struct B {
-};
+template <class T>
+void f() {
 
-struct C {
-};
-
-struct A : public B, public C {
-    int a;    
-};
-
+}
 
 int main() {
+    struct A {
+        void f() {
+
+        }
+    };
+
     std::cout << sizeof(A);
     return 0;
 }

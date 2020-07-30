@@ -8,13 +8,18 @@
 #include <System.Private.CoreLib/System/ArrayTypeMismatchException-dep.h>
 #include <System.Private.CoreLib/System/Buffer-dep.h>
 #include <System.Private.CoreLib/System/Byte-dep.h>
+#include <System.Private.CoreLib/System/Char-dep.h>
 #include <System.Private.CoreLib/System/Collections/Comparer-dep.h>
+#include <System.Private.CoreLib/System/Double-dep.h>
+#include <System.Private.CoreLib/System/Exception-dep.h>
 #include <System.Private.CoreLib/System/ExceptionArgument.h>
 #include <System.Private.CoreLib/System/ExceptionResource.h>
 #include <System.Private.CoreLib/System/IndexOutOfRangeException-dep.h>
+#include <System.Private.CoreLib/System/Int16-dep.h>
 #include <System.Private.CoreLib/System/Int32-dep.h>
 #include <System.Private.CoreLib/System/Int64-dep.h>
 #include <System.Private.CoreLib/System/IntPtr-dep.h>
+#include <System.Private.CoreLib/System/MemoryExtensions-dep.h>
 #include <System.Private.CoreLib/System/Object-dep.h>
 #include <System.Private.CoreLib/System/RankException-dep.h>
 #include <System.Private.CoreLib/System/Reflection/CorElementType.h>
@@ -22,11 +27,15 @@
 #include <System.Private.CoreLib/System/Runtime/CompilerServices/RawArrayData-dep.h>
 #include <System.Private.CoreLib/System/Runtime/CompilerServices/RuntimeHelpers-dep.h>
 #include <System.Private.CoreLib/System/RuntimeType-dep.h>
+#include <System.Private.CoreLib/System/SByte-dep.h>
+#include <System.Private.CoreLib/System/Single-dep.h>
+#include <System.Private.CoreLib/System/Span-dep.h>
 #include <System.Private.CoreLib/System/SpanHelpers-dep.h>
 #include <System.Private.CoreLib/System/SR-dep.h>
 #include <System.Private.CoreLib/System/SZArrayEnumerator-dep.h>
 #include <System.Private.CoreLib/System/ThrowHelper-dep.h>
 #include <System.Private.CoreLib/System/TypedReference-dep.h>
+#include <System.Private.CoreLib/System/UInt16-dep.h>
 #include <System.Private.CoreLib/System/UInt32-dep.h>
 #include <System.Private.CoreLib/System/UInt64-dep.h>
 #include <System.Private.CoreLib/System/UIntPtr-dep.h>
@@ -172,7 +181,7 @@ Array<> Array___<>::CreateInstance(Type elementType, Array<Int32> lengths) {
   if (runtimeType == nullptr) {
     ThrowHelper::ThrowArgumentException(ExceptionResource::Arg_MustBeType, ExceptionArgument::elementType);
   }
-  for (Int32 i = 0; i < lengths->get_Length(); ++i) {
+  for (Int32 i = 0; i < lengths->get_Length(); i++) {
     if (lengths[i] < 0) {
       ThrowHelper::ThrowArgumentOutOfRangeException(ExceptionArgument::lengths, i, ExceptionResource::ArgumentOutOfRange_NeedNonNegNum);
     }
@@ -203,7 +212,7 @@ Array<> Array___<>::CreateInstance(Type elementType, Array<Int32> lengths, Array
   if (runtimeType == nullptr) {
     ThrowHelper::ThrowArgumentException(ExceptionResource::Arg_MustBeType, ExceptionArgument::elementType);
   }
-  for (Int32 i = 0; i < lengths->get_Length(); ++i) {
+  for (Int32 i = 0; i < lengths->get_Length(); i++) {
     if (lengths[i] < 0) {
       ThrowHelper::ThrowArgumentOutOfRangeException(ExceptionArgument::lengths, i, ExceptionResource::ArgumentOutOfRange_NeedNonNegNum);
     }
@@ -485,7 +494,7 @@ Array<> Array___<>::CreateInstance(Type elementType, Array<Int64> lengths) {
     ThrowHelper::ThrowArgumentException(ExceptionResource::Arg_NeedAtLeast1Rank);
   }
   Int32 array = rt::newarr<Array<Int32>>(lengths->get_Length());
-  for (Int32 i = 0; i < lengths->get_Length(); ++i) {
+  for (Int32 i = 0; i < lengths->get_Length(); i++) {
     Int64 num = lengths[i];
     Int32 num2 = (Int32)num;
     if (num != num2) {
@@ -564,7 +573,7 @@ Object Array___<>::GetValue(Array<Int64> indices) {
     ThrowHelper::ThrowArgumentException(ExceptionResource::Arg_RankIndices);
   }
   Int32 array = rt::newarr<Array<Int32>>(indices->get_Length());
-  for (Int32 i = 0; i < indices->get_Length(); ++i) {
+  for (Int32 i = 0; i < indices->get_Length(); i++) {
     Int64 num = indices[i];
     Int32 num2 = (Int32)num;
     if (num != num2) {
@@ -619,7 +628,7 @@ void Array___<>::SetValue(Object value, Array<Int64> indices) {
     ThrowHelper::ThrowArgumentException(ExceptionResource::Arg_RankIndices);
   }
   Int32 array = rt::newarr<Array<Int32>>(indices->get_Length());
-  for (Int32 i = 0; i < indices->get_Length(); ++i) {
+  for (Int32 i = 0; i < indices->get_Length(); i++) {
     Int64 num = indices[i];
     Int32 num2 = (Int32)num;
     if (num != num2) {
@@ -660,6 +669,10 @@ Int32 Array___<>::BinarySearch(Array<> array, Object value, IComparer1 comparer)
   return BinarySearch(array, array->GetLowerBound(0), array->get_Length(), value, comparer);
 };
 
+template <class T>
+Int32 GenericBinarySearch(Array<> array, Int32 adjustedIndex, Int32 length, Object value) {
+  return MemoryExtensions::BinarySearch(UnsafeArrayAsSpan<T>(array, adjustedIndex, length), Unsafe::As<Byte, T>(RuntimeHelpers::GetRawData(value)));
+};
 Int32 Array___<>::BinarySearch(Array<> array, Int32 index, Int32 length, Object value, IComparer1 comparer) {
   if (array == nullptr) {
     ThrowHelper::ThrowArgumentNullException(ExceptionArgument::array);
@@ -687,23 +700,90 @@ Int32 Array___<>::BinarySearch(Array<> array, Int32 index, Int32 length, Object 
     while (num <= num2) {
       Int32 median = GetMedian(num, num2);
       Int32 num3;
+      try{
+        num3 = comparer->Compare(array2[median], value);
+      } catch (Exception e) {
+      }
+      if (num3 == 0) {
+        return median;
+      }
+      if (num3 < 0) {
+        num = median + 1;
+      } else {
+        num2 = median - 1;
+      }
     }
+    return ~num;
   }
   if (comparer == Comparer::in::Default) {
     CorElementType corElementTypeOfElementType = array->GetCorElementTypeOfElementType();
     if (RuntimeHelpers::IsPrimitiveType(corElementTypeOfElementType)) {
       if (value == nullptr) {
+        return ~index;
       }
       if (array->IsValueOfElementType(value)) {
         Int32 adjustedIndex2 = index - lowerBound;
         Int32 num4 = -1;
+        switch (corElementTypeOfElementType) {
+          case CorElementType::ELEMENT_TYPE_I1:
+            num4 = GenericBinarySearch<SByte>(array, adjustedIndex2, length, value);
+            break;
+          case CorElementType::ELEMENT_TYPE_BOOLEAN:
+          case CorElementType::ELEMENT_TYPE_U1:
+            num4 = GenericBinarySearch<Byte>(array, adjustedIndex2, length, value);
+            break;
+          case CorElementType::ELEMENT_TYPE_I2:
+            num4 = GenericBinarySearch<Int16>(array, adjustedIndex2, length, value);
+            break;
+          case CorElementType::ELEMENT_TYPE_CHAR:
+          case CorElementType::ELEMENT_TYPE_U2:
+            num4 = GenericBinarySearch<UInt16>(array, adjustedIndex2, length, value);
+            break;
+          case CorElementType::ELEMENT_TYPE_I4:
+            num4 = GenericBinarySearch<Int32>(array, adjustedIndex2, length, value);
+            break;
+          case CorElementType::ELEMENT_TYPE_U4:
+            num4 = GenericBinarySearch<UInt32>(array, adjustedIndex2, length, value);
+            break;
+          case CorElementType::ELEMENT_TYPE_I8:
+          case CorElementType::ELEMENT_TYPE_I:
+            num4 = GenericBinarySearch<Int64>(array, adjustedIndex2, length, value);
+            break;
+          case CorElementType::ELEMENT_TYPE_U8:
+          case CorElementType::ELEMENT_TYPE_U:
+            num4 = GenericBinarySearch<UInt64>(array, adjustedIndex2, length, value);
+            break;
+          case CorElementType::ELEMENT_TYPE_R4:
+            num4 = GenericBinarySearch<Single>(array, adjustedIndex2, length, value);
+            break;
+          case CorElementType::ELEMENT_TYPE_R8:
+            num4 = GenericBinarySearch<Double>(array, adjustedIndex2, length, value);
+            break;
+        }
+        if (num4 < 0) {
+          return ~(index + ~num4);
+        }
+        return index + num4;
       }
     }
   }
   while (num <= num2) {
     Int32 median2 = GetMedian(num, num2);
     Int32 num5;
+    try{
+      num5 = comparer->Compare(array->GetValue(median2), value);
+    } catch (Exception e2) {
+    }
+    if (num5 == 0) {
+      return median2;
+    }
+    if (num5 < 0) {
+      num = median2 + 1;
+    } else {
+      num2 = median2 - 1;
+    }
   }
+  return ~num;
 };
 
 void Array___<>::CopyTo(Array<> array, Int32 index) {
@@ -736,6 +816,10 @@ Int32 Array___<>::IndexOf(Array<> array, Object value, Int32 startIndex) {
   return IndexOf(array, value, startIndex, array->get_Length() - startIndex + lowerBound);
 };
 
+template <class T>
+Int32 GenericIndexOf(Array<> array, Object value, Int32 adjustedIndex, Int32 length) {
+  return MemoryExtensions::IndexOf(UnsafeArrayAsSpan<T>(array, adjustedIndex, length), Unsafe::As<Byte, T>(RuntimeHelpers::GetRawData(value)));
+};
 Int32 Array___<>::IndexOf(Array<> array, Object value, Int32 startIndex, Int32 count) {
   if (array == nullptr) {
     ThrowHelper::ThrowArgumentNullException(ExceptionArgument::array);
@@ -754,13 +838,13 @@ Int32 Array___<>::IndexOf(Array<> array, Object value, Int32 startIndex, Int32 c
   Object array2 = rt::as<Object>(array);
   if (array2 != nullptr) {
     if (value == nullptr) {
-      for (Int32 i = startIndex; i < num; ++i) {
+      for (Int32 i = startIndex; i < num; i++) {
         if (array2[i] == nullptr) {
           return i;
         }
       }
     } else {
-      for (Int32 j = startIndex; j < num; ++j) {
+      for (Int32 j = startIndex; j < num; j++) {
         Object obj = array2[j];
         if (obj != nullptr && obj->Equals(value)) {
           return j;
@@ -777,9 +861,37 @@ Int32 Array___<>::IndexOf(Array<> array, Object value, Int32 startIndex, Int32 c
     if (array->IsValueOfElementType(value)) {
       Int32 adjustedIndex2 = startIndex - lowerBound;
       Int32 num2 = -1;
+      switch (corElementTypeOfElementType) {
+        case CorElementType::ELEMENT_TYPE_BOOLEAN:
+        case CorElementType::ELEMENT_TYPE_I1:
+        case CorElementType::ELEMENT_TYPE_U1:
+          num2 = GenericIndexOf<Byte>(array, value, adjustedIndex2, count);
+          break;
+        case CorElementType::ELEMENT_TYPE_CHAR:
+        case CorElementType::ELEMENT_TYPE_I2:
+        case CorElementType::ELEMENT_TYPE_U2:
+          num2 = GenericIndexOf<Char>(array, value, adjustedIndex2, count);
+          break;
+        case CorElementType::ELEMENT_TYPE_I4:
+        case CorElementType::ELEMENT_TYPE_U4:
+          num2 = GenericIndexOf<Int32>(array, value, adjustedIndex2, count);
+          break;
+        case CorElementType::ELEMENT_TYPE_I8:
+        case CorElementType::ELEMENT_TYPE_U8:
+        case CorElementType::ELEMENT_TYPE_I:
+        case CorElementType::ELEMENT_TYPE_U:
+          num2 = GenericIndexOf<Int64>(array, value, adjustedIndex2, count);
+          break;
+        case CorElementType::ELEMENT_TYPE_R4:
+          num2 = GenericIndexOf<Single>(array, value, adjustedIndex2, count);
+          break;
+        case CorElementType::ELEMENT_TYPE_R8:
+          num2 = GenericIndexOf<Double>(array, value, adjustedIndex2, count);
+          break;
+      }
     }
   }
-  for (Int32 k = startIndex; k < num; ++k) {
+  for (Int32 k = startIndex; k < num; k++) {
     Object value2 = array->GetValue(k);
     if (value2 == nullptr) {
       if (value == nullptr) {
@@ -809,6 +921,10 @@ Int32 Array___<>::LastIndexOf(Array<> array, Object value, Int32 startIndex) {
   return LastIndexOf(array, value, startIndex, startIndex + 1 - lowerBound);
 };
 
+template <class T>
+Int32 GenericLastIndexOf(Array<> array, Object value, Int32 adjustedIndex, Int32 length) {
+  return MemoryExtensions::LastIndexOf(UnsafeArrayAsSpan<T>(array, adjustedIndex, length), Unsafe::As<Byte, T>(RuntimeHelpers::GetRawData(value)));
+};
 Int32 Array___<>::LastIndexOf(Array<> array, Object value, Int32 startIndex, Int32 count) {
   if (array == nullptr) {
     ThrowHelper::ThrowArgumentNullException(ExceptionArgument::array);
@@ -833,7 +949,18 @@ Int32 Array___<>::LastIndexOf(Array<> array, Object value, Int32 startIndex, Int
   Object array2 = rt::as<Object>(array);
   if (array2 != nullptr) {
     if (value == nullptr) {
+      for (Int32 num2 = startIndex; num2 >= num; num2--) {
+        if (array2[num2] == nullptr) {
+          return num2;
+        }
+      }
     } else {
+      for (Int32 num3 = startIndex; num3 >= num; num3--) {
+        Object obj = array2[num3];
+        if (obj != nullptr && obj->Equals(value)) {
+          return num3;
+        }
+      }
     }
     return -1;
   }
@@ -845,8 +972,48 @@ Int32 Array___<>::LastIndexOf(Array<> array, Object value, Int32 startIndex, Int
     if (array->IsValueOfElementType(value)) {
       Int32 adjustedIndex2 = num - lowerBound;
       Int32 num4 = -1;
+      switch (corElementTypeOfElementType) {
+        case CorElementType::ELEMENT_TYPE_BOOLEAN:
+        case CorElementType::ELEMENT_TYPE_I1:
+        case CorElementType::ELEMENT_TYPE_U1:
+          num4 = GenericLastIndexOf<Byte>(array, value, adjustedIndex2, count);
+          break;
+        case CorElementType::ELEMENT_TYPE_CHAR:
+        case CorElementType::ELEMENT_TYPE_I2:
+        case CorElementType::ELEMENT_TYPE_U2:
+          num4 = GenericLastIndexOf<Char>(array, value, adjustedIndex2, count);
+          break;
+        case CorElementType::ELEMENT_TYPE_I4:
+        case CorElementType::ELEMENT_TYPE_U4:
+          num4 = GenericLastIndexOf<Int32>(array, value, adjustedIndex2, count);
+          break;
+        case CorElementType::ELEMENT_TYPE_I8:
+        case CorElementType::ELEMENT_TYPE_U8:
+        case CorElementType::ELEMENT_TYPE_I:
+        case CorElementType::ELEMENT_TYPE_U:
+          num4 = GenericLastIndexOf<Int64>(array, value, adjustedIndex2, count);
+          break;
+        case CorElementType::ELEMENT_TYPE_R4:
+          num4 = GenericLastIndexOf<Single>(array, value, adjustedIndex2, count);
+          break;
+        case CorElementType::ELEMENT_TYPE_R8:
+          num4 = GenericLastIndexOf<Double>(array, value, adjustedIndex2, count);
+          break;
+      }
     }
   }
+  for (Int32 num5 = startIndex; num5 >= num; num5--) {
+    Object value2 = array->GetValue(num5);
+    if (value2 == nullptr) {
+      if (value == nullptr) {
+        return num5;
+      }
+    } else if (value2->Equals(value)) {
+      return num5;
+    }
+
+  }
+  return lowerBound - 1;
 };
 
 void Array___<>::Reverse(Array<> array) {
@@ -877,6 +1044,44 @@ void Array___<>::Reverse(Array<> array, Int32 index, Int32 length) {
     return;
   }
   Int32 adjustedIndex = index - lowerBound;
+  switch (array->GetCorElementTypeOfElementType()) {
+    case CorElementType::ELEMENT_TYPE_BOOLEAN:
+    case CorElementType::ELEMENT_TYPE_I1:
+    case CorElementType::ELEMENT_TYPE_U1:
+      MemoryExtensions::Reverse(UnsafeArrayAsSpan<Byte>(array, adjustedIndex, length));
+      return;
+    case CorElementType::ELEMENT_TYPE_CHAR:
+    case CorElementType::ELEMENT_TYPE_I2:
+    case CorElementType::ELEMENT_TYPE_U2:
+      MemoryExtensions::Reverse(UnsafeArrayAsSpan<Int16>(array, adjustedIndex, length));
+      return;
+    case CorElementType::ELEMENT_TYPE_I4:
+    case CorElementType::ELEMENT_TYPE_U4:
+    case CorElementType::ELEMENT_TYPE_R4:
+      MemoryExtensions::Reverse(UnsafeArrayAsSpan<Int32>(array, adjustedIndex, length));
+      return;
+    case CorElementType::ELEMENT_TYPE_I8:
+    case CorElementType::ELEMENT_TYPE_U8:
+    case CorElementType::ELEMENT_TYPE_R8:
+    case CorElementType::ELEMENT_TYPE_I:
+    case CorElementType::ELEMENT_TYPE_U:
+      MemoryExtensions::Reverse(UnsafeArrayAsSpan<Int64>(array, adjustedIndex, length));
+      return;
+    case CorElementType::ELEMENT_TYPE_ARRAY:
+    case CorElementType::ELEMENT_TYPE_OBJECT:
+    case CorElementType::ELEMENT_TYPE_SZARRAY:
+      MemoryExtensions::Reverse(UnsafeArrayAsSpan<Object>(array, adjustedIndex, length));
+      return;
+  }
+  Int32 num = index;
+  Int32 num2 = index + length - 1;
+  while (num < num2) {
+    Object value = array->GetValue(num);
+    array->SetValue(array->GetValue(num2), num);
+    array->SetValue(value, num2);
+    num++;
+    num2--;
+  }
 };
 
 void Array___<>::Sort(Array<> array) {
@@ -919,10 +1124,92 @@ void Array___<>::Sort(Array<> array, Int32 index, Int32 length, IComparer1 compa
   Sort(array, nullptr, index, length, comparer);
 };
 
+template <class T>
+void GenericSort(Array<> keys, Array<> items, Int32 adjustedIndex, Int32 length) {
+  Span<T> span = UnsafeArrayAsSpan<T>(keys, adjustedIndex, length);
+  if (items != nullptr) {
+    MemoryExtensions::Sort(span, UnsafeArrayAsSpan<T>(items, adjustedIndex, length));
+  } else {
+    MemoryExtensions::Sort(span);
+  }
+};
 void Array___<>::Sort(Array<> keys, Array<> items, Int32 index, Int32 length, IComparer1 comparer) {
   if (keys == nullptr) {
     ThrowHelper::ThrowArgumentNullException(ExceptionArgument::keys);
   }
+  if (keys->get_Rank() != 1 || (items != nullptr && items->get_Rank() != 1)) {
+    ThrowHelper::ThrowRankException(ExceptionResource::Rank_MultiDimNotSupported);
+  }
+  Int32 lowerBound = keys->GetLowerBound(0);
+  if (items != nullptr && lowerBound != items->GetLowerBound(0)) {
+    ThrowHelper::ThrowArgumentException(ExceptionResource::Arg_LowerBoundsMustMatch);
+  }
+  if (index < lowerBound) {
+    ThrowHelper::ThrowIndexArgumentOutOfRange_NeedNonNegNumException();
+  }
+  if (length < 0) {
+    ThrowHelper::ThrowLengthArgumentOutOfRange_ArgumentOutOfRange_NeedNonNegNum();
+  }
+  if (keys->get_Length() - (index - lowerBound) < length || (items != nullptr && index - lowerBound > items->get_Length() - length)) {
+    ThrowHelper::ThrowArgumentException(ExceptionResource::Argument_InvalidOffLen);
+  }
+  if (length <= 1) {
+    return;
+  }
+  if (comparer == nullptr) {
+    comparer = Comparer::in::Default;
+  }
+  Object array = rt::as<Object>(keys);
+  if (array != nullptr) {
+    Object array2 = rt::as<Object>(items);
+    if (items == nullptr || array2 != nullptr) {
+      rt::newobj<Array<>::in::SorterObjectArray>(array, array2, comparer).Sort(index, length);
+      return;
+    }
+  }
+  if (comparer == Comparer::in::Default) {
+    CorElementType corElementTypeOfElementType = keys->GetCorElementTypeOfElementType();
+    if (items == nullptr || items->GetCorElementTypeOfElementType() == corElementTypeOfElementType) {
+      Int32 adjustedIndex2 = index - lowerBound;
+      switch (corElementTypeOfElementType) {
+        case CorElementType::ELEMENT_TYPE_I1:
+          GenericSort<SByte>(keys, items, adjustedIndex2, length);
+          return;
+        case CorElementType::ELEMENT_TYPE_BOOLEAN:
+        case CorElementType::ELEMENT_TYPE_U1:
+          GenericSort<Byte>(keys, items, adjustedIndex2, length);
+          return;
+        case CorElementType::ELEMENT_TYPE_I2:
+          GenericSort<Int16>(keys, items, adjustedIndex2, length);
+          return;
+        case CorElementType::ELEMENT_TYPE_CHAR:
+        case CorElementType::ELEMENT_TYPE_U2:
+          GenericSort<UInt16>(keys, items, adjustedIndex2, length);
+          return;
+        case CorElementType::ELEMENT_TYPE_I4:
+          GenericSort<Int32>(keys, items, adjustedIndex2, length);
+          return;
+        case CorElementType::ELEMENT_TYPE_U4:
+          GenericSort<UInt32>(keys, items, adjustedIndex2, length);
+          return;
+        case CorElementType::ELEMENT_TYPE_I8:
+        case CorElementType::ELEMENT_TYPE_I:
+          GenericSort<Int64>(keys, items, adjustedIndex2, length);
+          return;
+        case CorElementType::ELEMENT_TYPE_U8:
+        case CorElementType::ELEMENT_TYPE_U:
+          GenericSort<UInt64>(keys, items, adjustedIndex2, length);
+          return;
+        case CorElementType::ELEMENT_TYPE_R4:
+          GenericSort<Single>(keys, items, adjustedIndex2, length);
+          return;
+        case CorElementType::ELEMENT_TYPE_R8:
+          GenericSort<Double>(keys, items, adjustedIndex2, length);
+          return;
+      }
+    }
+  }
+  rt::newobj<Array<>::in::SorterGenericArray>(keys, items, comparer).Sort(index, length);
 };
 
 IEnumerator Array___<>::GetEnumerator() {

@@ -523,25 +523,40 @@ namespace Meson.Compiler {
 
     private static string GetUnaryOperator(UnaryOperatorType type) {
       switch (type) {
+        case UnaryOperatorType.BitNot:
+          return Tokens.Tilde;
+
         case UnaryOperatorType.AddressOf:
           return Tokens.Ampersand;
 
         case UnaryOperatorType.Not:
           return Tokens.Exclamation;
 
+        case UnaryOperatorType.Increment:
+        case UnaryOperatorType.PostIncrement:
+          return Tokens.PlusPlus;
+
+        case UnaryOperatorType.Decrement:
+        case UnaryOperatorType.PostDecrement:
+          return Tokens.SubSub;
+
         case UnaryOperatorType.Dereference:
           return Tokens.Asterisk;
 
-        case UnaryOperatorType.PostIncrement:
-          return Tokens.PlusPlus;
+        case UnaryOperatorType.SuppressNullableWarning:
+          return string.Empty;
       }
-
+      
       throw new NotImplementedException();
     }
 
     public SyntaxNode VisitUnaryOperatorExpression(UnaryOperatorExpression unaryOperatorExpression) {
       string operatorToken = GetUnaryOperator(unaryOperatorExpression.Operator);
       var expression = unaryOperatorExpression.Expression.AcceptExpression(this);
+      bool isPosOperator = unaryOperatorExpression.Operator == UnaryOperatorType.PostIncrement || unaryOperatorExpression.Operator == UnaryOperatorType.PostDecrement;
+      if (isPosOperator) {
+        return new PostfixUnaryExpression(expression, operatorToken);
+      }
       return new PrefixUnaryExpressionSyntax(operatorToken, expression);
     }
 
@@ -641,7 +656,7 @@ namespace Meson.Compiler {
     }
 
     public SyntaxNode VisitBreakStatement(BreakStatement breakStatement) {
-      throw new NotImplementedException();
+      return BreakStatementSyntax.Ins;
     }
 
     public SyntaxNode VisitCheckedStatement(CheckedStatement checkedStatement) {
@@ -728,15 +743,20 @@ namespace Meson.Compiler {
     }
 
     public SyntaxNode VisitSwitchStatement(SwitchStatement switchStatement) {
-      throw new NotImplementedException();
+      var expression = switchStatement.Expression.AcceptExpression(this);
+      var switchSections = switchStatement.SwitchSections.Select(i => i.Accept<SwitchSectionSyntax>(this));
+      return new SwitchStatementSyntax(expression, switchSections);
     }
 
     public SyntaxNode VisitSwitchSection(SwitchSection switchSection) {
-      throw new NotImplementedException();
+      var caseLabels = switchSection.CaseLabels.Select(i => i.Accept<CaseLabelSyntax>(this));
+      var statements = switchSection.Statements.Select(i => i.AcceptStatement(this));
+      return new SwitchSectionSyntax(caseLabels, statements);
     }
 
     public SyntaxNode VisitCaseLabel(CaseLabel caseLabel) {
-      throw new NotImplementedException();
+      var expression = caseLabel.Expression.IsNull ? null : caseLabel.Expression.AcceptExpression(this);
+      return new CaseLabelSyntax(expression);
     }
 
     public SyntaxNode VisitThrowStatement(ThrowStatement throwStatement) {
@@ -750,11 +770,16 @@ namespace Meson.Compiler {
     }
 
     public SyntaxNode VisitTryCatchStatement(TryCatchStatement tryCatchStatement) {
-      throw new NotImplementedException();
+      var tryBlock = tryCatchStatement.TryBlock.Accept<BlockSyntax>(this);
+      var catchClauses = tryCatchStatement.CatchClauses.Select(i => i.Accept<CatchClauseSyntax>(this));
+      var finallyBlock = !tryCatchStatement.FinallyBlock.IsNull ? tryCatchStatement.FinallyBlock.Accept<BlockSyntax>(this) : null;
+      return new TryStatementSyntax(tryBlock, catchClauses, finallyBlock);
     }
 
     public SyntaxNode VisitCatchClause(CatchClause catchClause) {
-      throw new NotImplementedException();
+      var type = catchClause.Type.AcceptExpression(this);
+      var name = catchClause.VariableNameToken.Accept<IdentifierSyntax>(this);
+      return new CatchClauseSyntax(type, name);
     }
 
     public SyntaxNode VisitUncheckedStatement(UncheckedStatement uncheckedStatement) {
@@ -775,8 +800,33 @@ namespace Meson.Compiler {
       return new VariableDeclarationStatementSyntax(type, variables);
     }
 
+    private ParameterSyntax GetParameterSyntax(IParameter parameter) {
+      var type = GetTypeName(parameter.Type);
+      var name = GetMemberName(parameter);
+      return new ParameterSyntax(type, name);
+    }
+
     public SyntaxNode VisitLocalFunctionDeclarationStatement(LocalFunctionDeclarationStatement localFunctionDeclarationStatement) {
-      throw new NotImplementedException();
+      var method = (IMethod)localFunctionDeclarationStatement.GetSymbol();
+      var name = localFunctionDeclarationStatement.NameToken.Accept<IdentifierSyntax>(this);
+      var parameters = method.Parameters.Select(GetParameterSyntax);
+      var retuenType = GetTypeName(method.ReturnType);
+      if (method.IsStatic) {
+        var function = new MethodImplementationSyntax(name, retuenType, parameters) {
+          IsStatic = true,
+          Template = method.GetTemplateSyntax()
+        };
+        PushFunction(function);
+        var body = localFunctionDeclarationStatement.Body.Accept<BlockSyntax>(this);
+        function.AddRange(body.Statements);
+        PopFunction();
+        CompilationUnit.AddSrcStatement(function);
+        return StatementSyntax.Empty;
+      } else {
+        var body = localFunctionDeclarationStatement.Body.Accept<BlockSyntax>(this);
+        var lambdaExpressionSyntax = new LambdaExpressionSyntax(parameters, retuenType, body);
+        return new VariableDeclarationStatementSyntax(IdentifierSyntax.Auto, name, lambdaExpressionSyntax);
+      }
     }
 
     public SyntaxNode VisitWhileStatement(WhileStatement whileStatement) {

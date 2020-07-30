@@ -26,6 +26,8 @@ namespace Meson.Compiler.CppAst {
     public static readonly IdentifierSyntax Out = "out";
     public static readonly IdentifierSyntax Value = "value";
     public static readonly IdentifierSyntax This = "this";
+    public static readonly IdentifierSyntax Auto = "auto";
+    public static readonly IdentifierSyntax Invoke = "Invoke";
     public static readonly IdentifierSyntax NAME = "NAME";
     public static readonly IdentifierSyntax Nullptr = Tokens.Nullptr;
     public static readonly IdentifierSyntax Sizeof = Tokens.Sizeof;

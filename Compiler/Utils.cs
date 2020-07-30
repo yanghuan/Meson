@@ -444,6 +444,14 @@ namespace Meson.Compiler {
       return template;
     }
 
+    public static TemplateSyntax GetTemplateSyntax(this IMethod method) {
+      if (method.TypeParameters.Count > 0) {
+        var typeParameters = method.TypeParameters.Select(i => (IdentifierSyntax)i.Name);
+        return new TemplateSyntax(typeParameters);
+      }
+      return null;
+    }
+
     public static ForwardMacroSyntax GetForwardStatement(this ITypeDefinition type, int genericCount) {
       return new ForwardMacroSyntax(type.Name, genericCount.GetTypeNames(), type.Kind == TypeKind.Struct ? ForwardMacroKind.MultiStruct : ForwardMacroKind.MultiClass);
     }

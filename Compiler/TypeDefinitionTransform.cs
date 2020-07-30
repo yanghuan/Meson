@@ -181,11 +181,9 @@ namespace Meson.Compiler {
         var methodName = GetMemberName(method);
         var returnType = GetRetuenTypeSyntax(method, typeDefinition);
         CheckOperatorParameters(method, parameters, returnType);
-        methodDefinition = new MethodDefinitionSyntax(returnType, methodName, parameters, method.IsStatic, !method.IsMainEntryPoint() ? method.Accessibility.ToTokenString() : Tokens.Public);
-        if (method.TypeParameters.Count > 0) {
-          var typeParameters = method.TypeParameters.Select(i => (ValueTextIdentifierSyntax)i.Name);
-          methodDefinition.Template = new TemplateSyntax(typeParameters);
-        }
+        methodDefinition = new MethodDefinitionSyntax(returnType, methodName, parameters, method.IsStatic, !method.IsMainEntryPoint() ? method.Accessibility.ToTokenString() : Tokens.Public) {
+          Template = method.GetTemplateSyntax()
+        };
       }
       node.Statements.Add(methodDefinition);
       if (method.HasBody) {

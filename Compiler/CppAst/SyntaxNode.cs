@@ -115,6 +115,7 @@ namespace Meson.Compiler.CppAst {
     public const string Include = "include";
     public const string Define = "define";
     public const string Undef = "undef";
+    public const string Finally = "finally";
     public const string OpenParentheses = "(";
     public const string CloseParentheses = ")";
     public const string OpenBrace = "{";
@@ -131,6 +132,7 @@ namespace Meson.Compiler.CppAst {
     public const string Plus = "+";
     public const string PlusPlus = "++";
     public const string Sub = "-";
+    public const string SubSub = "--";
     public const string Multiply = "*";
     public const string Div = "/";
     public const string Mod = "%";
@@ -152,6 +154,7 @@ namespace Meson.Compiler.CppAst {
     public const string LineComment = "//";
     public const string OpneComment = "/*";
     public const string CloseComment = "*/";
+    public const string Tilde = "~";
 
     private static readonly HashSet<string> ReservedWords = new HashSet<string>() {            
       // compiler reserved words
