@@ -149,7 +149,7 @@ CLASS_(Task) : public Object::in {
   private: static ContextCallback<> s_ecCallback;
 };
 CLASS_(Task, TResult) : public Task<>::in {
-  public: class TaskWhenAnyCast : public Object::in {
+  public: class TaskWhenAnyCast {
     private: static void SCtor();
     public: static Func<Task<Task<>>, Task<TResult>> Value;
   };

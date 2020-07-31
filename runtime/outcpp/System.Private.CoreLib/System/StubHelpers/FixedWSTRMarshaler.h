@@ -1,7 +1,6 @@
 #pragma once
 
 #include <rt/GCObject.h>
-#include <System.Private.CoreLib/System/Object.h>
 
 namespace System::Private::CoreLib::System {
 FORWARDS(Int32)
@@ -10,7 +9,7 @@ FORWARD(String)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::StubHelpers {
 namespace FixedWSTRMarshalerNamespace {
-class FixedWSTRMarshaler : public Object::in {
+class FixedWSTRMarshaler {
   public: static void ConvertToNative(String strManaged, IntPtr nativeHome, Int32 length);
 };
 } // namespace FixedWSTRMarshalerNamespace

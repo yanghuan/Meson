@@ -1,20 +1,20 @@
 #pragma once
 
 #include <rt/GCObject.h>
-#include <System.Private.CoreLib/System/Object.h>
 
 namespace System::Private::CoreLib::System {
 FORWARDS(Boolean)
 FORWARDS(Byte)
 FORWARDS(Int32)
 FORWARDS(IntPtr)
+FORWARD(Object)
 FORWARDS(UInt32)
 FORWARDS(UIntPtr)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::Internal::Runtime::CompilerServices {
 namespace UnsafeNamespace {
 using namespace ::System::Private::CoreLib::System;
-class Unsafe : public Object::in {
+class Unsafe {
   public: template <class T>
   static void* AsPointer(T& value);
   public: template <class T>

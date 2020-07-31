@@ -1,7 +1,6 @@
 #pragma once
 
 #include <rt/GCObject.h>
-#include <System.Private.CoreLib/System/Object.h>
 #include <System.Private.CoreLib/System/UInt64.h>
 
 namespace System::Private::CoreLib::System {
@@ -11,7 +10,7 @@ FORWARDS(Int32)
 FORWARDS(ReadOnlySpan, T)
 FORWARDS(UInt32)
 namespace MarvinNamespace {
-class Marvin : public Object::in {
+class Marvin {
   public: static UInt64 get_DefaultSeed() { return DefaultSeed; }
   public: static Int32 ComputeHash32(ReadOnlySpan<Byte> data, UInt64 seed);
   public: static Int32 ComputeHash32(Byte& data, UInt32 count, UInt32 p0, UInt32 p1);

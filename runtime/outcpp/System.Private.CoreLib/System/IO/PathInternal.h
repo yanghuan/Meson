@@ -1,7 +1,6 @@
 #pragma once
 
 #include <rt/GCObject.h>
-#include <System.Private.CoreLib/System/Object.h>
 
 namespace System::Private::CoreLib::System {
 enum class StringComparison;
@@ -17,7 +16,7 @@ FORWARDS(ValueStringBuilder)
 namespace System::Private::CoreLib::System::IO {
 namespace PathInternalNamespace {
 using namespace Text;
-class PathInternal : public Object::in {
+class PathInternal {
   public: static Boolean StartsWithDirectorySeparator(ReadOnlySpan<Char> path);
   public: static Boolean IsRoot(ReadOnlySpan<Char> path);
   public: static Int32 GetCommonPathLength(String first, String second, Boolean ignoreCase);

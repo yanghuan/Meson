@@ -3,7 +3,6 @@
 #include <rt/GCObject.h>
 #include <System.Private.CoreLib/System/Int32.h>
 #include <System.Private.CoreLib/System/MulticastDelegate.h>
-#include <System.Private.CoreLib/System/Object.h>
 #include <System.Private.CoreLib/System/ReadOnlySpan.h>
 
 namespace System::Private::CoreLib::System {
@@ -11,6 +10,7 @@ FORWARD(AsyncCallback)
 FORWARDS(Char)
 FORWARD(IAsyncResult)
 FORWARDS(IntPtr)
+FORWARD(Object)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Text {
 FORWARDS(Rune)
@@ -22,7 +22,7 @@ namespace System::Private::CoreLib::System::Text::Unicode {
 enum class GraphemeClusterBreakType;
 namespace TextSegmentationUtilityNamespace {
 using namespace Buffers;
-class TextSegmentationUtility : public Object::in {
+class TextSegmentationUtility {
   private: CLASS(DecodeFirstRune, T) : public MulticastDelegate::in {
     public: void Ctor(Object object, IntPtr method);
     public: OperationStatus Invoke(ReadOnlySpan<T> input, Rune& rune, Int32& elementsConsumed);

@@ -1,7 +1,6 @@
 #pragma once
 
 #include <rt/GCObject.h>
-#include <System.Private.CoreLib/System/Object.h>
 
 namespace System::Private::CoreLib::System::Collections::Generic {
 FORWARD(Dictionary, TKey, TValue)
@@ -14,12 +13,13 @@ FORWARDS(Boolean)
 FORWARDS(Char)
 FORWARD_(EventHandler, T1, T2)
 FORWARDS(Int32)
+FORWARD(Object)
 FORWARD(String)
 FORWARD(UnhandledExceptionEventHandler)
 namespace AppContextNamespace {
 using namespace Collections::Generic;
 using namespace Runtime::ExceptionServices;
-class AppContext : public Object::in {
+class AppContext {
   public: static String get_BaseDirectory();
   public: static String get_TargetFrameworkName();
   public: static Object GetData(String name);

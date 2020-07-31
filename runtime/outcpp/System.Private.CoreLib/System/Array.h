@@ -37,7 +37,7 @@ using IComparer = Collections::Generic::IComparer<T>;
 using IComparer1 = Collections::IComparer;
 ARRAY(({
   private: template <class T>
-  class EmptyArray : public Object::in {
+  class EmptyArray {
     private: static void SCtor();
     public: static Array<T> Value;
   };

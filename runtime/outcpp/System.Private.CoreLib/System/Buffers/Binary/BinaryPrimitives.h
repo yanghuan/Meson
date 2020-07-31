@@ -1,7 +1,6 @@
 #pragma once
 
 #include <rt/GCObject.h>
-#include <System.Private.CoreLib/System/Object.h>
 
 namespace System::Private::CoreLib::System {
 FORWARDS(Boolean)
@@ -20,7 +19,7 @@ FORWARDS(UInt64)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Buffers::Binary {
 namespace BinaryPrimitivesNamespace {
-class BinaryPrimitives : public Object::in {
+class BinaryPrimitives {
   public: static SByte ReverseEndianness(SByte value);
   public: static Int16 ReverseEndianness(Int16 value);
   public: static Int32 ReverseEndianness(Int32 value);

@@ -1,7 +1,6 @@
 #pragma once
 
 #include <rt/GCObject.h>
-#include <System.Private.CoreLib/System/Object.h>
 
 namespace System::Private::CoreLib::System {
 FORWARD(Attribute)
@@ -18,7 +17,7 @@ FORWARD(Module)
 FORWARD(ParameterInfo)
 namespace CustomAttributeExtensionsNamespace {
 using namespace Collections::Generic;
-class CustomAttributeExtensions : public Object::in {
+class CustomAttributeExtensions {
   public: static Attribute GetCustomAttribute(Assembly element, Type attributeType);
   public: static Attribute GetCustomAttribute(Module element, Type attributeType);
   public: static Attribute GetCustomAttribute(MemberInfo element, Type attributeType);

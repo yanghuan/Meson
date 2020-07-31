@@ -2,7 +2,6 @@
 
 #include <rt/GCObject.h>
 #include <System.Private.CoreLib/System/MulticastDelegate.h>
-#include <System.Private.CoreLib/System/Object.h>
 
 namespace System::Private::CoreLib::System::Globalization {
 enum class DateTimeStyles;
@@ -27,6 +26,7 @@ FORWARD(Exception)
 FORWARD(IAsyncResult)
 FORWARDS(Int32)
 FORWARDS(IntPtr)
+FORWARD(Object)
 FORWARDS(ParsingInfo)
 FORWARDS(ReadOnlySpan, T)
 FORWARD(String)
@@ -34,7 +34,7 @@ FORWARDS(TimeSpan)
 namespace DateTimeParseNamespace {
 using namespace Globalization;
 using namespace Text;
-class DateTimeParse : public Object::in {
+class DateTimeParse {
   public: enum class DTT {
     End = 0,
     NumEnd = 1,

@@ -1,7 +1,6 @@
 #pragma once
 
 #include <rt/GCObject.h>
-#include <System.Private.CoreLib/System/Object.h>
 
 namespace System::Private::CoreLib::System {
 enum class Base64FormattingOptions;
@@ -18,6 +17,7 @@ FORWARD(IFormatProvider)
 FORWARDS(Int16)
 FORWARDS(Int32)
 FORWARDS(Int64)
+FORWARD(Object)
 FORWARDS(ReadOnlySpan, T)
 FORWARDS(SByte)
 FORWARDS(Single)
@@ -28,7 +28,7 @@ FORWARDS(UInt16)
 FORWARDS(UInt32)
 FORWARDS(UInt64)
 namespace ConvertNamespace {
-class Convert : public Object::in {
+class Convert {
   private: static ReadOnlySpan<SByte> get_DecodingMap();
   private: static Boolean TryDecodeFromUtf16(ReadOnlySpan<Char> utf16, Span<Byte> bytes, Int32& consumed, Int32& written);
   private: static Int32 Decode(Char& encodedChars, SByte& decodingMap);

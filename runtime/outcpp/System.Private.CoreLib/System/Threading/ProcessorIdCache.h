@@ -1,7 +1,6 @@
 #pragma once
 
 #include <rt/GCObject.h>
-#include <System.Private.CoreLib/System/Object.h>
 
 namespace System::Private::CoreLib::System {
 FORWARDS(Boolean)
@@ -9,7 +8,7 @@ FORWARDS(Int32)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Threading {
 namespace ProcessorIdCacheNamespace {
-class ProcessorIdCache : public Object::in {
+class ProcessorIdCache {
   private: static Int32 RefreshCurrentProcessorId();
   public: static Int32 GetCurrentProcessorId();
   public: static Boolean ProcessorNumberSpeedCheck();

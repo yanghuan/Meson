@@ -122,14 +122,16 @@ namespace Meson.Compiler {
         Kind = GetClassKind(type),
         AccessibilityToken = GetAccessibilityString(type),
       };
-      var baseType = type.DirectBaseTypes.FirstOrDefault(i => i.Kind == TypeKind.Class);
-      if (baseType != null) {
-        var baseTypeName = CompilationUnit.GetTypeName(new TypeNameArgs() { 
-          Type = baseType,
-          Definition = type,
-          IsInHead = true,          
-        });
-        node.Bases.Add(new BaseSyntax(baseTypeName.TwoColon(IdentifierSyntax.In)));
+      if (!type.IsStatic) {
+        var baseType = type.DirectBaseTypes.FirstOrDefault(i => i.Kind == TypeKind.Class);
+        if (baseType != null) {
+          var baseTypeName = CompilationUnit.GetTypeName(new TypeNameArgs() {
+            Type = baseType,
+            Definition = type,
+            IsInHead = true,
+          });
+          node.Bases.Add(new BaseSyntax(baseTypeName.TwoColon(IdentifierSyntax.In)));
+        }
       }
       VisitMembers(type, node);
       parent_.Add(node);

@@ -1,7 +1,6 @@
 #pragma once
 
 #include <rt/GCObject.h>
-#include <System.Private.CoreLib/System/Object.h>
 
 namespace System::Private::CoreLib::System {
 FORWARD_(Array, T1, T2)
@@ -18,7 +17,7 @@ FORWARD(CodePageDataItem)
 FORWARD(EncodingInfo)
 namespace EncodingTableNamespace {
 using namespace Collections;
-class EncodingTable : public Object::in {
+class EncodingTable {
   public: static Int32 GetCodePageFromName(String name);
   private: static Int32 InternalGetCodePageFromName(String name);
   public: static Array<EncodingInfo> GetEncodings();

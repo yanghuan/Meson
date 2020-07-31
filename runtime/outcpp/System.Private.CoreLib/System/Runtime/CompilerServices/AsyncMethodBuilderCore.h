@@ -15,7 +15,7 @@ namespace System::Private::CoreLib::System::Runtime::CompilerServices {
 FORWARD(IAsyncStateMachine)
 namespace AsyncMethodBuilderCoreNamespace {
 using namespace Threading::Tasks;
-class AsyncMethodBuilderCore : public Object::in {
+class AsyncMethodBuilderCore {
   private: CLASS(ContinuationWrapper) : public Object::in {
     public: void Ctor(Action<> continuation, Action<Action<>, Task<>> invokeAction, Task<> innerTask);
     public: void Invoke();

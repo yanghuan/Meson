@@ -1,20 +1,20 @@
 #pragma once
 
 #include <rt/GCObject.h>
-#include <System.Private.CoreLib/System/Object.h>
 
 namespace System::Private::CoreLib::System::Resources {
 FORWARD(ResourceManager)
 } // namespace System::Private::CoreLib::System::Resources
 namespace System::Private::CoreLib::System {
 FORWARDS(Boolean)
+FORWARD(Object)
 FORWARD(String)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::Uri::System {
 namespace SRNamespace {
 using namespace ::System::Private::CoreLib::System;
 using namespace ::System::Private::CoreLib::System::Resources;
-class SR : public Object::in {
+class SR {
   public: static ResourceManager get_ResourceManager();
   public: static String get_net_uri_BadAuthority();
   public: static String get_net_uri_BadAuthorityTerminator();

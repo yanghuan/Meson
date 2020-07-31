@@ -17,7 +17,7 @@ namespace System::Private::CoreLib::System::Threading {
 FORWARD(IAsyncLocal)
 namespace AsyncLocalValueMapNamespace {
 using namespace Collections::Generic;
-class AsyncLocalValueMap : public Object::in {
+class AsyncLocalValueMap {
   private: CLASS(EmptyAsyncLocalValueMap) : public Object::in {
     public: IAsyncLocalValueMap Set(IAsyncLocal key, Object value, Boolean treatNullValueAsNonexistent);
     public: Boolean TryGetValue(IAsyncLocal key, Object& value);

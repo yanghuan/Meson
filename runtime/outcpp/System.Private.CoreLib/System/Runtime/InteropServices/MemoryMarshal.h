@@ -1,7 +1,6 @@
 #pragma once
 
 #include <rt/GCObject.h>
-#include <System.Private.CoreLib/System/Object.h>
 
 namespace System::Private::CoreLib::System {
 FORWARD_(Array, T1, T2)
@@ -22,7 +21,7 @@ FORWARD(IEnumerable, T)
 namespace System::Private::CoreLib::System::Runtime::InteropServices {
 namespace MemoryMarshalNamespace {
 using namespace Collections::Generic;
-class MemoryMarshal : public Object::in {
+class MemoryMarshal {
   public: template <class T>
   static T& GetArrayDataReference(Array<T> array);
   public: template <class T>

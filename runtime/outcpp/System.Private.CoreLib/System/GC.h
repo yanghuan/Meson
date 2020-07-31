@@ -1,7 +1,6 @@
 #pragma once
 
 #include <rt/GCObject.h>
-#include <System.Private.CoreLib/System/Object.h>
 
 namespace System::Private::CoreLib::System {
 enum class GCCollectionMode;
@@ -12,12 +11,13 @@ FORWARDS(GCMemoryInfo)
 FORWARDS(Int32)
 FORWARDS(Int64)
 FORWARDS(IntPtr)
+FORWARD(Object)
 FORWARDS(UInt32)
 FORWARDS(UInt64)
 FORWARDS(UIntPtr)
 FORWARD_(WeakReference, T1, T2)
 namespace GCNamespace {
-class GC : public Object::in {
+class GC {
   public: enum class GC_ALLOC_FLAGS {
     GC_ALLOC_NO_FLAGS = 0,
     GC_ALLOC_ZEROING_OPTIONAL = 16,

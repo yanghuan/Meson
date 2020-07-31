@@ -1,7 +1,6 @@
 #pragma once
 
 #include <rt/GCObject.h>
-#include <System.Private.CoreLib/System/Object.h>
 
 namespace System::Private::CoreLib::System {
 FORWARDS(IntPtr)
@@ -9,7 +8,7 @@ FORWARDS(IntPtr)
 namespace System::Private::CoreLib::Internal::Runtime::InteropServices {
 namespace InMemoryAssemblyLoaderNamespace {
 using namespace ::System::Private::CoreLib::System;
-class InMemoryAssemblyLoader : public Object::in {
+class InMemoryAssemblyLoader {
   public: static void LoadInMemoryAssembly(IntPtr moduleHandle, IntPtr assemblyPath);
 };
 } // namespace InMemoryAssemblyLoaderNamespace

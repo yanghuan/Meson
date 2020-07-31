@@ -1,7 +1,6 @@
 #pragma once
 
 #include <rt/GCObject.h>
-#include <System.Private.CoreLib/System/Object.h>
 
 namespace System::Private::CoreLib::System {
 FORWARDS(Boolean)
@@ -13,7 +12,7 @@ FORWARDS(UIntPtr)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Text {
 namespace ASCIIUtilityNamespace {
-class ASCIIUtility : public Object::in {
+class ASCIIUtility {
   private: static Boolean AllBytesInUInt64AreAscii(UInt64 value);
   private: static Boolean AllCharsInUInt32AreAscii(UInt32 value);
   private: static Boolean AllCharsInUInt64AreAscii(UInt64 value);

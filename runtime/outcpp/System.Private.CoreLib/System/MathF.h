@@ -1,7 +1,6 @@
 #pragma once
 
 #include <rt/GCObject.h>
-#include <System.Private.CoreLib/System/Object.h>
 #include <System.Private.CoreLib/System/Single.h>
 
 namespace System::Private::CoreLib::System {
@@ -9,7 +8,7 @@ enum class MidpointRounding;
 FORWARD_(Array, T1, T2)
 FORWARDS(Int32)
 namespace MathFNamespace {
-class MathF : public Object::in {
+class MathF {
   public: static Single Acos(Single x);
   public: static Single Acosh(Single x);
   public: static Single Asin(Single x);

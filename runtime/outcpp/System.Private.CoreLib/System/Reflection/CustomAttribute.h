@@ -1,7 +1,6 @@
 #pragma once
 
 #include <rt/GCObject.h>
-#include <System.Private.CoreLib/System/Object.h>
 #include <System.Private.CoreLib/System/RuntimeType.h>
 
 namespace System::Private::CoreLib::System {
@@ -13,6 +12,7 @@ FORWARDS(Byte)
 FORWARDS(Int32)
 FORWARDS(IntPtr)
 FORWARD(IRuntimeMethodInfo)
+FORWARD(Object)
 FORWARD(String)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Reflection {
@@ -28,7 +28,7 @@ FORWARD(RuntimeModule)
 FORWARD(RuntimeParameterInfo)
 FORWARD(RuntimePropertyInfo)
 namespace CustomAttributeNamespace {
-class CustomAttribute : public Object::in {
+class CustomAttribute {
   public: static Boolean IsDefined(RuntimeType type, RuntimeType caType, Boolean inherit);
   public: static Boolean IsDefined(RuntimeMethodInfo method, RuntimeType caType, Boolean inherit);
   public: static Boolean IsDefined(RuntimeConstructorInfo ctor, RuntimeType caType);

@@ -1,12 +1,11 @@
 #pragma once
 
 #include <rt/GCObject.h>
-#include <System.Private.CoreLib/System/Object.h>
 
 namespace System::Private::CoreLib::System {
 FORWARD(Exception)
 namespace NotImplementedNamespace {
-class NotImplemented : public Object::in {
+class NotImplemented {
   public: static Exception get_ByDesign();
 };
 } // namespace NotImplementedNamespace

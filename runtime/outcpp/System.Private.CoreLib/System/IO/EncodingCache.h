@@ -1,7 +1,6 @@
 #pragma once
 
 #include <rt/GCObject.h>
-#include <System.Private.CoreLib/System/Object.h>
 
 namespace System::Private::CoreLib::System::Text {
 FORWARD(Encoding)
@@ -9,7 +8,7 @@ FORWARD(Encoding)
 namespace System::Private::CoreLib::System::IO {
 namespace EncodingCacheNamespace {
 using namespace Text;
-class EncodingCache : public Object::in {
+class EncodingCache {
   private: static void SCtor();
   public: static Encoding UTF8NoBOM;
 };

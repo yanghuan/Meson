@@ -1,7 +1,6 @@
 #pragma once
 
 #include <rt/GCObject.h>
-#include <System.Private.CoreLib/System/Object.h>
 
 namespace System::Private::CoreLib::System::Runtime::CompilerServices {
 FORWARDS(QCallAssembly)
@@ -17,7 +16,7 @@ FORWARD(Assembly)
 namespace System::Private::CoreLib::System::Reflection::Metadata {
 namespace AssemblyExtensionsNamespace {
 using namespace Runtime::CompilerServices;
-class AssemblyExtensions : public Object::in {
+class AssemblyExtensions {
   private: static Boolean InternalTryGetRawMetadata(QCallAssembly assembly, Byte*& blob, Int32& length);
   public: static Boolean TryGetRawMetadata(Assembly assembly, Byte*& blob, Int32& length);
 };

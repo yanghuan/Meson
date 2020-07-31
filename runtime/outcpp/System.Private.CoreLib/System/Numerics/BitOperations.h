@@ -1,7 +1,6 @@
 #pragma once
 
 #include <rt/GCObject.h>
-#include <System.Private.CoreLib/System/Object.h>
 
 namespace System::Private::CoreLib::System {
 FORWARDS(Byte)
@@ -13,7 +12,7 @@ FORWARDS(UInt64)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Numerics {
 namespace BitOperationsNamespace {
-class BitOperations : public Object::in {
+class BitOperations {
   private: static ReadOnlySpan<Byte> get_TrailingZeroCountDeBruijn();
   private: static ReadOnlySpan<Byte> get_Log2DeBruijn();
   public: static Int32 LeadingZeroCount(UInt32 value);

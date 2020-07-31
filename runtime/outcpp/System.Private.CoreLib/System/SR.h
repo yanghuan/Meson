@@ -1,7 +1,6 @@
 #pragma once
 
 #include <rt/GCObject.h>
-#include <System.Private.CoreLib/System/Object.h>
 
 namespace System::Private::CoreLib::System::Resources {
 FORWARD(ResourceManager)
@@ -14,11 +13,12 @@ FORWARD_(Array, T1, T2)
 FORWARDS(Boolean)
 FORWARD(IFormatProvider)
 FORWARDS(Int32)
+FORWARD(Object)
 FORWARD(String)
 namespace SRNamespace {
 using namespace Collections::Generic;
 using namespace Resources;
-class SR : public Object::in {
+class SR {
   public: static ResourceManager get_ResourceManager();
   public: static String get_Acc_CreateAbstEx();
   public: static String get_Acc_CreateArgIterator();

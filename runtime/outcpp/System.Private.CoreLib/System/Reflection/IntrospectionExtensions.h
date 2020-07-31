@@ -1,7 +1,6 @@
 #pragma once
 
 #include <rt/GCObject.h>
-#include <System.Private.CoreLib/System/Object.h>
 
 namespace System::Private::CoreLib::System {
 FORWARD(Type)
@@ -9,7 +8,7 @@ FORWARD(Type)
 namespace System::Private::CoreLib::System::Reflection {
 FORWARD(TypeInfo)
 namespace IntrospectionExtensionsNamespace {
-class IntrospectionExtensions : public Object::in {
+class IntrospectionExtensions {
   public: static TypeInfo GetTypeInfo(Type type);
 };
 } // namespace IntrospectionExtensionsNamespace

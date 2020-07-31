@@ -1,7 +1,6 @@
 #pragma once
 
 #include <rt/GCObject.h>
-#include <System.Private.CoreLib/System/Object.h>
 
 namespace System::Private::CoreLib::System {
 FORWARDS(Int32)
@@ -12,7 +11,7 @@ namespace System::Private::CoreLib::System::Runtime::Versioning {
 enum class ResourceScope;
 enum class SxSRequirements;
 namespace VersioningHelperNamespace {
-class VersioningHelper : public Object::in {
+class VersioningHelper {
   public: static String MakeVersionSafeName(String name, ResourceScope from, ResourceScope to);
   public: static String MakeVersionSafeName(String name, ResourceScope from, ResourceScope to, Type type);
   private: static String GetCLRInstanceString();

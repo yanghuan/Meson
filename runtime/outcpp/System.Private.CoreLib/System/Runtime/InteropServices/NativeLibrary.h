@@ -1,7 +1,6 @@
 #pragma once
 
 #include <rt/GCObject.h>
-#include <System.Private.CoreLib/System/Object.h>
 
 namespace System::Private::CoreLib::System {
 FORWARDS(Boolean)
@@ -23,7 +22,7 @@ FORWARD(DllImportResolver)
 namespace NativeLibraryNamespace {
 using namespace CompilerServices;
 using namespace Reflection;
-class NativeLibrary : public Object::in {
+class NativeLibrary {
   public: static IntPtr LoadLibraryByName(String libraryName, Assembly assembly, Nullable<DllImportSearchPath> searchPath, Boolean throwOnError);
   public: static IntPtr LoadFromPath(String libraryName, Boolean throwOnError);
   public: static IntPtr LoadByName(String libraryName, QCallAssembly callingAssembly, Boolean hasDllImportSearchPathFlag, UInt32 dllImportSearchPathFlag, Boolean throwOnError);

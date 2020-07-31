@@ -1,7 +1,6 @@
 #pragma once
 
 #include <rt/GCObject.h>
-#include <System.Private.CoreLib/System/Object.h>
 
 namespace System::Private::CoreLib::System::Diagnostics::Contracts {
 enum class ContractFailureKind;
@@ -15,7 +14,7 @@ FORWARD(String)
 namespace System::Private::CoreLib::System::Runtime::CompilerServices {
 namespace ContractHelperNamespace {
 using namespace Diagnostics::Contracts;
-class ContractHelper : public Object::in {
+class ContractHelper {
   public: static String RaiseContractFailedEvent(ContractFailureKind failureKind, String userMessage, String conditionText, Exception innerException);
   public: static void TriggerFailure(ContractFailureKind kind, String displayMessage, String userMessage, String conditionText, Exception innerException);
   private: static String GetFailureMessage(ContractFailureKind failureKind, String conditionText);

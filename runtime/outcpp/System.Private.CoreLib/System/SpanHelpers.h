@@ -1,7 +1,6 @@
 #pragma once
 
 #include <rt/GCObject.h>
-#include <System.Private.CoreLib/System/Object.h>
 
 namespace System::Private::CoreLib::System::Numerics {
 FORWARDS_(Vector, T1, T2)
@@ -24,7 +23,7 @@ FORWARDS(UIntPtr)
 namespace SpanHelpersNamespace {
 using namespace Numerics;
 using namespace Runtime::Intrinsics;
-class SpanHelpers : public Object::in {
+class SpanHelpers {
   public: template <class T, class TComparer>
   struct ComparerComparable {
     public: explicit ComparerComparable(T value, TComparer comparer);

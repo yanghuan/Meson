@@ -2,7 +2,6 @@
 
 #include <rt/GCObject.h>
 #include <System.Private.CoreLib/System/Int16.h>
-#include <System.Private.CoreLib/System/Object.h>
 
 namespace System::Private::CoreLib::System::Text {
 FORWARD(StringBuilder)
@@ -18,7 +17,7 @@ enum class HebrewNumberParsingState;
 FORWARDS(HebrewNumberParsingContext)
 namespace HebrewNumberNamespace {
 using namespace Text;
-class HebrewNumber : public Object::in {
+class HebrewNumber {
   private: enum class HebrewToken : int16_t {
     Invalid = -1,
     Digit400 = 0,

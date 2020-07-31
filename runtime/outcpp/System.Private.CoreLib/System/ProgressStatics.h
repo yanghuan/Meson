@@ -1,7 +1,6 @@
 #pragma once
 
 #include <rt/GCObject.h>
-#include <System.Private.CoreLib/System/Object.h>
 
 namespace System::Private::CoreLib::System::Threading {
 FORWARD(SynchronizationContext)
@@ -9,7 +8,7 @@ FORWARD(SynchronizationContext)
 namespace System::Private::CoreLib::System {
 namespace ProgressStaticsNamespace {
 using namespace Threading;
-class ProgressStatics : public Object::in {
+class ProgressStatics {
   private: static void SCtor();
   public: static SynchronizationContext DefaultContext;
 };

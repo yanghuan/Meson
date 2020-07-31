@@ -2,7 +2,6 @@
 
 #include <rt/GCObject.h>
 #include <System.Private.CoreLib/System/Boolean.h>
-#include <System.Private.CoreLib/System/Object.h>
 
 namespace System::Private::CoreLib::System {
 FORWARDS(Char)
@@ -12,7 +11,7 @@ FORWARD(String)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Globalization {
 namespace GlobalizationModeNamespace {
-class GlobalizationMode : public Object::in {
+class GlobalizationMode {
   public: static Boolean get_Invariant() { return Invariant; }
   public: static Boolean get_UseNls() { return UseNls; }
   private: static Boolean GetInvariantSwitchValue();

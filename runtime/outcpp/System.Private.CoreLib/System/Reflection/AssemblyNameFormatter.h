@@ -1,7 +1,6 @@
 #pragma once
 
 #include <rt/GCObject.h>
-#include <System.Private.CoreLib/System/Object.h>
 
 namespace System::Private::CoreLib::System {
 FORWARD_(Array, T1, T2)
@@ -22,7 +21,7 @@ enum class AssemblyNameFlags;
 namespace AssemblyNameFormatterNamespace {
 using namespace Collections::Generic;
 using namespace Text;
-class AssemblyNameFormatter : public Object::in {
+class AssemblyNameFormatter {
   public: static String ComputeDisplayName(String name, Version version, String cultureName, Array<Byte> pkt, AssemblyNameFlags flags, AssemblyContentType contentType);
   private: static void AppendQuoted(StringBuilder sb, String s);
   private: static Version CanonicalizeVersion(Version version);

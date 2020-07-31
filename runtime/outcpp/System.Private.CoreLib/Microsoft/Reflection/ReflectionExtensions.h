@@ -1,7 +1,6 @@
 #pragma once
 
 #include <rt/GCObject.h>
-#include <System.Private.CoreLib/System/Object.h>
 
 namespace System::Private::CoreLib::System {
 enum class TypeCode;
@@ -15,7 +14,7 @@ namespace System::Private::CoreLib::Microsoft::Reflection {
 namespace ReflectionExtensionsNamespace {
 using namespace ::System::Private::CoreLib::System;
 using namespace ::System::Private::CoreLib::System::Reflection;
-class ReflectionExtensions : public Object::in {
+class ReflectionExtensions {
   public: static Boolean IsEnum(Type type);
   public: static Boolean IsAbstract(Type type);
   public: static Boolean IsSealed(Type type);

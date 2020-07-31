@@ -1,7 +1,6 @@
 #pragma once
 
 #include <rt/GCObject.h>
-#include <System.Private.CoreLib/System/Object.h>
 
 namespace System::Private::CoreLib::System {
 FORWARD_(Array, T1, T2)
@@ -11,6 +10,7 @@ FORWARD(Delegate)
 FORWARD(Exception)
 FORWARDS(Int32)
 FORWARDS(IntPtr)
+FORWARD(Object)
 FORWARDS(UInt32)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Runtime::InteropServices {
@@ -20,7 +20,7 @@ namespace System::Private::CoreLib::System::StubHelpers {
 FORWARD(CleanupWorkListElement)
 namespace StubHelpersNamespace {
 using namespace Runtime::InteropServices;
-class StubHelpers : public Object::in {
+class StubHelpers {
   public: static Boolean IsQCall(IntPtr pMD);
   public: static void InitDeclaringType(IntPtr pMD);
   public: static IntPtr GetNDirectTarget(IntPtr pMD);

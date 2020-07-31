@@ -1,7 +1,6 @@
 #pragma once
 
 #include <rt/GCObject.h>
-#include <System.Private.CoreLib/System/Object.h>
 
 namespace System::Private::CoreLib::System::Reflection {
 enum class BindingFlags;
@@ -19,6 +18,7 @@ enum class StackCrawlMark;
 namespace System::Private::CoreLib::System {
 FORWARD_(Array, T1, T2)
 FORWARDS(Boolean)
+FORWARD(Object)
 FORWARD(String)
 FORWARD(Type)
 namespace ActivatorNamespace {
@@ -26,7 +26,7 @@ using namespace Globalization;
 using namespace Reflection;
 using namespace Runtime::Remoting;
 using namespace Threading;
-class Activator : public Object::in {
+class Activator {
   public: static Object CreateInstance(Type type, BindingFlags bindingAttr, Binder binder, Array<Object> args, CultureInfo culture);
   public: static Object CreateInstance(Type type, Array<Object> args);
   public: static Object CreateInstance(Type type, Array<Object> args, Array<Object> activationAttributes);

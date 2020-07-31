@@ -11,7 +11,7 @@ FORWARD(String)
 namespace System::Private::CoreLib::System::Diagnostics {
 FORWARD(ICustomDebuggerNotification)
 namespace DebuggerNamespace {
-class Debugger : public Object::in {
+class Debugger {
   private: CLASS(CrossThreadDependencyNotification) : public Object::in {
     public: void Ctor();
   };

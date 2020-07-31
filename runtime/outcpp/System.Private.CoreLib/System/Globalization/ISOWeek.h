@@ -1,7 +1,6 @@
 #pragma once
 
 #include <rt/GCObject.h>
-#include <System.Private.CoreLib/System/Object.h>
 
 namespace System::Private::CoreLib::System {
 enum class DayOfWeek;
@@ -10,7 +9,7 @@ FORWARDS(Int32)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Globalization {
 namespace ISOWeekNamespace {
-class ISOWeek : public Object::in {
+class ISOWeek {
   public: static Int32 GetWeekOfYear(DateTime date);
   public: static Int32 GetYear(DateTime date);
   public: static DateTime GetYearStart(Int32 year);

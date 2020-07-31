@@ -1,7 +1,6 @@
 #pragma once
 
 #include <rt/GCObject.h>
-#include <System.Private.CoreLib/System/Object.h>
 
 namespace System::Private::CoreLib::System::Text {
 FORWARD(StringBuilder)
@@ -13,7 +12,7 @@ FORWARDS(IntPtr)
 namespace System::Private::CoreLib::System::StubHelpers {
 namespace UTF8BufferMarshalerNamespace {
 using namespace Text;
-class UTF8BufferMarshaler : public Object::in {
+class UTF8BufferMarshaler {
   public: static IntPtr ConvertToNative(StringBuilder sb, IntPtr pNativeBuffer, Int32 flags);
   public: static void ConvertToManaged(StringBuilder sb, IntPtr pNative);
 };

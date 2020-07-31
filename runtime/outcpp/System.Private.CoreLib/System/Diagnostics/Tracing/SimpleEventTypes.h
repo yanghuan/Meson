@@ -1,13 +1,12 @@
 #pragma once
 
 #include <rt/GCObject.h>
-#include <System.Private.CoreLib/System/Object.h>
 
 namespace System::Private::CoreLib::System::Diagnostics::Tracing {
 FORWARD(TraceLoggingEventTypes)
 namespace SimpleEventTypesNamespace {
 template <class T>
-class SimpleEventTypes : public Object::in {
+class SimpleEventTypes {
   public: static TraceLoggingEventTypes get_Instance();
   private: static TraceLoggingEventTypes InitInstance();
   private: static TraceLoggingEventTypes instance;

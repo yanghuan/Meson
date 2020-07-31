@@ -25,7 +25,7 @@ namespace ComActivatorNamespace {
 using namespace ::System::Private::CoreLib::System;
 using namespace ::System::Private::CoreLib::System::Collections::Generic;
 using namespace ::System::Private::CoreLib::System::Runtime::Loader;
-class ComActivator : public Object::in {
+class ComActivator {
   private: CLASS(BasicClassFactory) : public Object::in {
     public: void Ctor(Guid clsid, Type classType);
     public: static Type GetValidatedInterfaceType(Type classType, Guid& riid, Object outer);

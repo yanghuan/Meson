@@ -2,7 +2,6 @@
 
 #include <rt/GCObject.h>
 #include <System.Private.CoreLib/System/Double.h>
-#include <System.Private.CoreLib/System/Object.h>
 
 namespace System::Private::CoreLib::System {
 enum class MidpointRounding;
@@ -18,7 +17,7 @@ FORWARDS(UInt16)
 FORWARDS(UInt32)
 FORWARDS(UInt64)
 namespace MathNamespace {
-class Math : public Object::in {
+class Math {
   public: static Double Abs(Double value);
   public: static Single Abs(Single value);
   public: static Double Acos(Double d);

@@ -37,7 +37,7 @@ using namespace Reflection;
 using namespace Runtime::Serialization;
 using namespace Text;
 CLASS(CompareInfo) : public Object::in {
-  private: class SortHandleCache : public Object::in {
+  private: class SortHandleCache {
     public: static IntPtr GetCachedSortHandle(String sortName);
     private: static void SCtor();
     private: static Dictionary<String, IntPtr> s_sortNameToSortHandleCache;

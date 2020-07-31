@@ -1,7 +1,6 @@
 #pragma once
 
 #include <rt/GCObject.h>
-#include <System.Private.CoreLib/System/Object.h>
 
 namespace System::Private::CoreLib::System {
 FORWARD_(Array, T1, T2)
@@ -20,7 +19,7 @@ FORWARDS(UInt16)
 FORWARDS(UInt32)
 FORWARDS(UInt64)
 namespace BitConverterNamespace {
-class BitConverter : public Object::in {
+class BitConverter {
   public: static Array<Byte> GetBytes(Boolean value);
   public: static Boolean TryWriteBytes(Span<Byte> destination, Boolean value);
   public: static Array<Byte> GetBytes(Char value);

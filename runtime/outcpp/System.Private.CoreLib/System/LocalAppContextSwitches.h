@@ -1,14 +1,13 @@
 #pragma once
 
 #include <rt/GCObject.h>
-#include <System.Private.CoreLib/System/Object.h>
 
 namespace System::Private::CoreLib::System {
 FORWARDS(Boolean)
 FORWARDS(Int32)
 FORWARD(String)
 namespace LocalAppContextSwitchesNamespace {
-class LocalAppContextSwitches : public Object::in {
+class LocalAppContextSwitches {
   public: static Boolean get_EnforceJapaneseEraYearRanges();
   public: static Boolean get_FormatJapaneseFirstYearAsANumber();
   public: static Boolean get_EnforceLegacyJapaneseDateParsing();

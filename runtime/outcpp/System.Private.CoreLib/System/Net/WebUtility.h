@@ -2,7 +2,6 @@
 
 #include <rt/GCObject.h>
 #include <System.Private.CoreLib/System/Int32.h>
-#include <System.Private.CoreLib/System/Object.h>
 
 namespace System::Private::CoreLib::System::Text {
 FORWARD(Encoding)
@@ -29,7 +28,7 @@ namespace WebUtilityNamespace {
 using namespace Collections::Generic;
 using namespace IO;
 using namespace Text;
-class WebUtility : public Object::in {
+class WebUtility {
   private: struct UrlDecoder {
     private: void FlushBytes();
     public: explicit UrlDecoder(Int32 bufferSize, Encoding encoding);
@@ -44,7 +43,7 @@ class WebUtility : public Object::in {
     private: Array<Byte> _byteBuffer;
     private: Encoding _encoding;
   };
-  private: class HtmlEntities : public Object::in {
+  private: class HtmlEntities {
     public: static Char Lookup(ReadOnlySpan<Char> entity);
     private: static UInt64 ToUInt64Key(ReadOnlySpan<Char> entity);
     private: static void SCtor();

@@ -1,7 +1,6 @@
 #pragma once
 
 #include <rt/GCObject.h>
-#include <System.Private.CoreLib/System/Object.h>
 
 namespace System::Private::CoreLib::System {
 FORWARDS(Boolean)
@@ -17,7 +16,7 @@ enum class OperationStatus;
 namespace System::Private::CoreLib::System::Text::Unicode {
 namespace Utf8Namespace {
 using namespace Buffers;
-class Utf8 : public Object::in {
+class Utf8 {
   public: static OperationStatus FromUtf16(ReadOnlySpan<Char> source, Span<Byte> destination, Int32& charsRead, Int32& bytesWritten, Boolean replaceInvalidSequences, Boolean isFinalBlock);
   public: static OperationStatus ToUtf16(ReadOnlySpan<Byte> source, Span<Char> destination, Int32& bytesRead, Int32& charsWritten, Boolean replaceInvalidSequences, Boolean isFinalBlock);
 };

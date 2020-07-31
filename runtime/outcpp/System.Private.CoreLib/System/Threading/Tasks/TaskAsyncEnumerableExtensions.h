@@ -1,7 +1,6 @@
 #pragma once
 
 #include <rt/GCObject.h>
-#include <System.Private.CoreLib/System/Object.h>
 
 namespace System::Private::CoreLib::System {
 FORWARDS(Boolean)
@@ -21,7 +20,7 @@ namespace System::Private::CoreLib::System::Threading::Tasks {
 namespace TaskAsyncEnumerableExtensionsNamespace {
 using namespace Collections::Generic;
 using namespace Runtime::CompilerServices;
-class TaskAsyncEnumerableExtensions : public Object::in {
+class TaskAsyncEnumerableExtensions {
   public: static ConfiguredAsyncDisposable ConfigureAwait(IAsyncDisposable source, Boolean continueOnCapturedContext);
   public: template <class T>
   static ConfiguredCancelableAsyncEnumerable<T> ConfigureAwait(IAsyncEnumerable<T> source, Boolean continueOnCapturedContext);

@@ -1,7 +1,6 @@
 #pragma once
 
 #include <rt/GCObject.h>
-#include <System.Private.CoreLib/System/Object.h>
 
 namespace System::Private::CoreLib::System {
 FORWARDS(Boolean)
@@ -16,7 +15,7 @@ enum class OperationStatus;
 namespace System::Private::CoreLib::System::Text::Unicode {
 namespace Utf8UtilityNamespace {
 using namespace Buffers;
-class Utf8Utility : public Object::in {
+class Utf8Utility {
   private: static UInt32 ExtractCharFromFirstThreeByteSequence(UInt32 value);
   private: static UInt32 ExtractCharFromFirstTwoByteSequence(UInt32 value);
   private: static UInt32 ExtractCharsFromFourByteSequence(UInt32 value);

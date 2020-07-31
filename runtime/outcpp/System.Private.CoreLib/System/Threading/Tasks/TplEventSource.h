@@ -3,7 +3,6 @@
 #include <rt/GCObject.h>
 #include <System.Private.CoreLib/System/Boolean.h>
 #include <System.Private.CoreLib/System/Diagnostics/Tracing/EventSource.h>
-#include <System.Private.CoreLib/System/Object.h>
 
 namespace System::Private::CoreLib::System::Diagnostics::Tracing {
 FORWARD(EventCommandEventArgs)
@@ -12,6 +11,7 @@ namespace System::Private::CoreLib::System {
 FORWARDS(Guid)
 FORWARDS(Int32)
 FORWARDS(Int64)
+FORWARD(Object)
 FORWARD(String)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Runtime::CompilerServices {
@@ -26,9 +26,9 @@ CLASS(TplEventSource) : public EventSource::in {
     Synchronous = 1,
     Asynchronous = 2,
   };
-  public: class Tasks : public Object::in {
+  public: class Tasks {
   };
-  public: class Keywords : public Object::in {
+  public: class Keywords {
   };
   protected: void OnEventCommand(EventCommandEventArgs command);
   private: void Ctor();

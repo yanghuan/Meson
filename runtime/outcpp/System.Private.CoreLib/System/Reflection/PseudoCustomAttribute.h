@@ -1,7 +1,6 @@
 #pragma once
 
 #include <rt/GCObject.h>
-#include <System.Private.CoreLib/System/Object.h>
 #include <System.Private.CoreLib/System/RuntimeType.h>
 
 namespace System::Private::CoreLib::System::Collections::Generic {
@@ -26,7 +25,7 @@ FORWARD(RuntimeParameterInfo)
 namespace PseudoCustomAttributeNamespace {
 using namespace Collections::Generic;
 using namespace Runtime::InteropServices;
-class PseudoCustomAttribute : public Object::in {
+class PseudoCustomAttribute {
   private: static Dictionary<RuntimeType, RuntimeType> CreatePseudoCustomAttributeDictionary();
   public: static void GetCustomAttributes(RuntimeType type, RuntimeType caType, RuntimeType::in::ListBuilder<Attribute>& pcas);
   public: static Boolean IsDefined(RuntimeType type, RuntimeType caType);

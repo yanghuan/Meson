@@ -1,7 +1,6 @@
 #pragma once
 
 #include <rt/GCObject.h>
-#include <System.Private.CoreLib/System/Object.h>
 
 namespace System::Private::CoreLib::System {
 FORWARD_(Array, T1, T2)
@@ -11,7 +10,7 @@ FORWARDS(Int64)
 FORWARDS(UInt64)
 FORWARDS(UIntPtr)
 namespace BufferNamespace {
-class Buffer : public Object::in {
+class Buffer {
   private: struct Block16 {
   };
   private: struct Block64 {

@@ -1,7 +1,6 @@
 #pragma once
 
 #include <rt/GCObject.h>
-#include <System.Private.CoreLib/System/Object.h>
 
 namespace System::Private::CoreLib::System {
 FORWARDS(Boolean)
@@ -16,7 +15,7 @@ FORWARDS(ValueStringBuilder)
 namespace System::Private::CoreLib::System::IO {
 namespace PathHelperNamespace {
 using namespace Text;
-class PathHelper : public Object::in {
+class PathHelper {
   public: static String Normalize(String path);
   public: static String Normalize(ValueStringBuilder& path);
   private: static void GetFullPathName(ReadOnlySpan<Char> path, ValueStringBuilder& builder);

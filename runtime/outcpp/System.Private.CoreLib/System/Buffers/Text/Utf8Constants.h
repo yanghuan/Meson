@@ -1,14 +1,13 @@
 #pragma once
 
 #include <rt/GCObject.h>
-#include <System.Private.CoreLib/System/Object.h>
 
 namespace System::Private::CoreLib::System {
 FORWARDS(TimeSpan)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Buffers::Text {
 namespace Utf8ConstantsNamespace {
-class Utf8Constants : public Object::in {
+class Utf8Constants {
   private: static void SCtor();
   public: static TimeSpan NullUtcOffset;
 };

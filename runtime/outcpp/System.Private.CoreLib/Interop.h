@@ -9,7 +9,6 @@
 #include <System.Private.CoreLib/System/Int64.h>
 #include <System.Private.CoreLib/System/IntPtr.h>
 #include <System.Private.CoreLib/System/MulticastDelegate.h>
-#include <System.Private.CoreLib/System/Object.h>
 #include <System.Private.CoreLib/System/UInt16.h>
 #include <System.Private.CoreLib/System/UInt32.h>
 #include <System.Private.CoreLib/System/UInt64.h>
@@ -20,6 +19,7 @@ FORWARD_(Array, T1, T2)
 FORWARD(AsyncCallback)
 FORWARDS(Boolean)
 FORWARD(IAsyncResult)
+FORWARD(Object)
 FORWARDS(ReadOnlySpan, T)
 FORWARDS(Span, T)
 FORWARD(String)
@@ -69,7 +69,7 @@ using namespace ::System::Private::CoreLib::System::IO;
 using namespace ::System::Private::CoreLib::System::Runtime::InteropServices;
 using namespace ::System::Private::CoreLib::System::Text;
 using namespace ::System::Private::CoreLib::System::Threading;
-class Interop : public Object::in {
+class Interop {
   public: enum class BOOL {
     FALSE = 0,
     TRUE = 1,
@@ -78,7 +78,7 @@ class Interop : public Object::in {
     FALSE = 0,
     TRUE = 1,
   };
-  public: class Kernel32 : public Object::in {
+  public: class Kernel32 {
     public: enum class FINDEX_INFO_LEVELS : uint32_t {
       FindExInfoStandard = 0,
       FindExInfoBasic = 1,
@@ -364,19 +364,19 @@ class Interop : public Object::in {
     public: static Boolean SetEnvironmentVariable(String lpName, String lpValue);
     public: static Int32 WriteFile(SafeHandle handle, Byte* bytes, Int32 numBytesToWrite, Int32& numBytesWritten, IntPtr mustBeZero);
   };
-  public: class Ole32 : public Object::in {
+  public: class Ole32 {
     public: static IntPtr CoTaskMemAlloc(UIntPtr cb);
     public: static IntPtr CoTaskMemRealloc(IntPtr pv, UIntPtr cb);
     public: static void CoTaskMemFree(IntPtr ptr);
     public: static Int32 CoCreateGuid(Guid& guid);
   };
-  public: class OleAut32 : public Object::in {
+  public: class OleAut32 {
     public: static IntPtr SysAllocStringByteLen(Array<Byte> str, UInt32 len);
     public: static void VariantClear(IntPtr variant);
     public: static IntPtr SysAllocStringLen(String src, Int32 len);
     public: static void SysFreeString(IntPtr bstr);
   };
-  public: class Globalization : public Object::in {
+  public: class Globalization {
     public: enum class ResultCode {
       Success = 0,
       UnknownError = 1,
@@ -423,13 +423,13 @@ class Interop : public Object::in {
     public: static Int32 IsNormalized(NormalizationForm normalizationForm, Char* src, Int32 srcLen);
     public: static Int32 NormalizeString(NormalizationForm normalizationForm, Char* src, Int32 srcLen, Char* dstBuffer, Int32 dstBufferCapacity);
   };
-  public: class Normaliz : public Object::in {
+  public: class Normaliz {
     public: static Int32 IdnToAscii(UInt32 dwFlags, Char* lpUnicodeCharStr, Int32 cchUnicodeChar, Char* lpASCIICharStr, Int32 cchASCIIChar);
     public: static Int32 IdnToUnicode(UInt32 dwFlags, Char* lpASCIICharStr, Int32 cchASCIIChar, Char* lpUnicodeCharStr, Int32 cchUnicodeChar);
     public: static BOOL IsNormalizedString(NormalizationForm normForm, Char* source, Int32 length);
     public: static Int32 NormalizeString(NormalizationForm normForm, Char* source, Int32 sourceLength, Char* destination, Int32 destinationLength);
   };
-  public: class Advapi32 : public Object::in {
+  public: class Advapi32 {
     public: enum class ActivityControl : uint32_t {
       EVENT_ACTIVITY_CTRL_GET_ID = 1,
       EVENT_ACTIVITY_CTRL_SET_ID = 2,
@@ -499,7 +499,7 @@ class Interop : public Object::in {
     public: static Int32 RegQueryValueEx(SafeRegistryHandle hKey, String lpValueName, Array<Int32> lpReserved, Int32& lpType, Array<Char> lpData, Int32& lpcbData);
     public: static Int32 RegSetValueEx(SafeRegistryHandle hKey, String lpValueName, Int32 Reserved, Int32 dwType, String lpData, Int32 cbData);
   };
-  public: class HostPolicy : public Object::in {
+  public: class HostPolicy {
     public: CLASS(corehost_resolve_component_dependencies_result_fn) : public MulticastDelegate::in {
       public: void Ctor(Object object, IntPtr method);
       public: void Invoke(String assemblyPaths, String nativeSearchPaths, String resourceSearchPaths);
@@ -515,7 +515,7 @@ class Interop : public Object::in {
     public: static Int32 corehost_resolve_component_dependencies(String componentMainAssemblyPath, corehost_resolve_component_dependencies_result_fn result);
     public: static IntPtr corehost_set_error_writer(IntPtr errorWriter);
   };
-  public: class BCrypt : public Object::in {
+  public: class BCrypt {
     public: enum class NTSTATUS : uint32_t {
       STATUS_SUCCESS = 0,
       STATUS_NOT_FOUND = 3221226021,
@@ -525,11 +525,11 @@ class Interop : public Object::in {
     };
     public: static NTSTATUS BCryptGenRandom(IntPtr hAlgorithm, Byte* pbBuffer, Int32 cbBuffer, Int32 dwFlags);
   };
-  public: class Crypt32 : public Object::in {
+  public: class Crypt32 {
     public: static Boolean CryptProtectMemory(SafeBuffer pData, UInt32 cbData, UInt32 dwFlags);
     public: static Boolean CryptUnprotectMemory(SafeBuffer pData, UInt32 cbData, UInt32 dwFlags);
   };
-  public: class NtDll : public Object::in {
+  public: class NtDll {
     public: struct IO_STATUS_BLOCK {
       private: UInt32 Status;
       private: IntPtr Information;
@@ -551,13 +551,13 @@ class Interop : public Object::in {
     private: static Int32 RtlGetVersion(RTL_OSVERSIONINFOEX& lpVersionInformation);
     public: static Int32 RtlGetVersionEx(RTL_OSVERSIONINFOEX& osvi);
   };
-  public: class Secur32 : public Object::in {
+  public: class Secur32 {
     public: static BOOLEAN GetUserNameExW(Int32 NameFormat, Char& lpNameBuffer, UInt32& lpnSize);
   };
-  public: class Shell32 : public Object::in {
+  public: class Shell32 {
     public: static Int32 SHGetKnownFolderPath(Guid rfid, UInt32 dwFlags, IntPtr hToken, String& ppszPath);
   };
-  public: class User32 : public Object::in {
+  public: class User32 {
     public: struct USEROBJECTFLAGS {
       public: Int32 fInherit;
       public: Int32 fReserved;
