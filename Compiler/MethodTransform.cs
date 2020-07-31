@@ -26,7 +26,7 @@ namespace Meson.Compiler {
     private readonly TypeDefinitionTransform typeDefinition_;
     private readonly ClassSyntax classNode_;
     private readonly Stack<IMethod> methodSymbols_ = new Stack<IMethod>();
-    private readonly Stack<MethodImplementationSyntax> functions_ = new Stack<MethodImplementationSyntax>();
+    private readonly Stack<MethodDefinitionSyntax> functions_ = new Stack<MethodDefinitionSyntax>();
     private readonly Stack<BlockSyntax> blocks_ = new Stack<BlockSyntax>();
 
     public MethodTransform(TypeDefinitionTransform typeDefinition, IMethod methodSymbol, ClassSyntax classNode) {
@@ -40,7 +40,7 @@ namespace Meson.Compiler {
     private AssemblyTransform AssemblyTransform => typeDefinition_.AssemblyTransform;
     private IMethod MethodSymbol => methodSymbols_.Peek();
     private BlockSyntax Block => blocks_.Peek();
-    private MethodImplementationSyntax Function => functions_.Peek();
+    private MethodDefinitionSyntax Function => functions_.Peek();
     private IdentifierSyntax GetMemberName(ISymbol symbol) => Generator.GetMemberName(symbol);
     private ExpressionSyntax GetTypeName(IType type, ISymbol symbol = null, bool isInDelaring = true) => typeDefinition_.GetTypeName(type, isInDelaring ? MethodSymbol.DeclaringTypeDefinition : null, symbol);
 
@@ -54,7 +54,7 @@ namespace Meson.Compiler {
       return name;
     }
 
-    private void PushFunction(MethodImplementationSyntax function) {
+    private void PushFunction(MethodDefinitionSyntax function) {
       functions_.Push(function);
     }
 
@@ -78,12 +78,12 @@ namespace Meson.Compiler {
     private void Visit(IMethod methodSymbol) {
       if (methodSymbol.HasBody) {
         methodSymbols_.Push(methodSymbol);
-        MethodImplementationSyntax node;
+        MethodDefinitionSyntax node;
         if (IsMethodExport(methodSymbol)) {
           var methodDeclaration = Generator.GetMethodDeclaration(methodSymbol);
-          node = methodDeclaration?.Accept<MethodImplementationSyntax>(this);
+          node = methodDeclaration?.Accept<MethodDefinitionSyntax>(this);
         } else {
-          node = (MethodImplementationSyntax)VisitMethodDeclaration(null);
+          node = (MethodDefinitionSyntax)VisitMethodDeclaration(null);
         }
         methodSymbols_.Pop();
         if (node != null) {
@@ -106,19 +106,19 @@ namespace Meson.Compiler {
       return false;
     }
 
-    private void InsetMainFuntion(IMethod methodSymbol, MethodImplementationSyntax method) {
+    private void InsetMainFuntion(IMethod methodSymbol, MethodDefinitionSyntax method) {
       var typeDefinition = methodSymbol.DeclaringTypeDefinition;
       IdentifierSyntax ns = typeDefinition.GetFullNamespace();
       var typeName = GetTypeName(typeDefinition, typeDefinition, false);
       if (typeDefinition.IsRefType()) {
         typeName = typeName.TwoColon(IdentifierSyntax.In);
       }
-      var node = new MethodImplementationSyntax("main", "int", new ParameterSyntax[] {
+      var node = new MethodDefinitionSyntax("main", new ParameterSyntax[] {
         new ParameterSyntax("int", "argc"),
         new ParameterSyntax("char*", "argv[]"),
-      });
+      }, "int");
       var invation = new InvationExpressionSyntax("rt::init", "argc", "argv", ns.TwoColon(typeName).TwoColon(method.Name).Address());
-      node.Add(invation.Return());
+      node.AddStatement(invation.Return());
       CompilationUnit.SrcStatements.Add(node);
     }
 
@@ -812,13 +812,13 @@ namespace Meson.Compiler {
       var parameters = method.Parameters.Select(GetParameterSyntax);
       var retuenType = GetTypeName(method.ReturnType);
       if (method.IsStatic) {
-        var function = new MethodImplementationSyntax(name, retuenType, parameters) {
+        var function = new MethodDefinitionSyntax(name, parameters, retuenType) {
           IsStatic = true,
           Template = method.GetTemplateSyntax()
         };
         PushFunction(function);
         var body = localFunctionDeclarationStatement.Body.Accept<BlockSyntax>(this);
-        function.AddRange(body.Statements);
+        function.AddStatements(body.Statements);
         PopFunction();
         CompilationUnit.AddSrcStatement(function);
         return StatementSyntax.Empty;
@@ -922,31 +922,31 @@ namespace Meson.Compiler {
       return name;
     }
 
-    private void InsertDefaultReturnValue(MethodImplementationSyntax node, IMethod method, ExpressionSyntax returnType) {
+    private void InsertDefaultReturnValue(MethodDefinitionSyntax node, IMethod method, ExpressionSyntax returnType) {
       switch (method.ReturnType.Kind) {
         case TypeKind.Pointer:
         case TypeKind.Class:
         case TypeKind.Interface:
         case TypeKind.Delegate: {
-            node.Add(IdentifierSyntax.Nullptr.Return());
+            node.AddStatement(IdentifierSyntax.Nullptr.Return());
             break;
           }
         case TypeKind.ByReference: {
             var refIdentifier = (RefExpressionSyntax)returnType;
-            node.Add(refIdentifier.Expression.Invation().Return());
+            node.AddStatement(refIdentifier.Expression.Invation().Return());
             break;
           }
         case TypeKind.Enum: {
             var field = method.ReturnType.GetDefinition().Fields.Last();
             var name = GetMemberName(field);
-            node.Add(returnType.TwoColon(name).Return());
+            node.AddStatement(returnType.TwoColon(name).Return());
             break;
           }
         case TypeKind.Void: {
             break;
           }
         default: {
-            node.Add(returnType.Invation().Return());
+            node.AddStatement(returnType.Invation().Return());
             break;
           }
       }
@@ -967,11 +967,14 @@ namespace Meson.Compiler {
         returnType = GetTypeName(method.ReturnType, method, false);
         typeDefinition_.CheckOperatorParameters(method, parameters, returnType);
       }
-      MethodImplementationSyntax node = new MethodImplementationSyntax(name, returnType, parameters, declaringType);
+      MethodDefinitionSyntax node = new MethodDefinitionSyntax(name, parameters, returnType) {
+        DeclaringType = declaringType,
+        Body = new BlockSyntax(),
+      };
       PushFunction(node);
       if (methodDeclaration != null) {
         var block = methodDeclaration.Body.Accept<BlockSyntax>(this);
-        node.AddRange(block.Statements);
+        node.AddStatements(block.Statements);
       }
       if (!IsMethodExport(method)) {
         InsertDefaultReturnValue(node, method, returnType);

@@ -468,6 +468,10 @@ namespace Meson.Compiler {
         Write(Tokens.Explicit);
         WriteSpace();
       }
+      if (node.DeclaringType != null) {
+        node.DeclaringType.Render(this);
+        Write(Tokens.TwoColon);
+      }
       node.Name.Render(this);
       Write(Tokens.OpenParentheses);
       WriteNodesWithSeparated(node.Parameters);
@@ -488,30 +492,6 @@ namespace Meson.Compiler {
       } else {
         WriteSemicolon();
       }
-      WriteNewLine();
-    }
-
-    internal void Render(MethodImplementationSyntax node) {
-      node.Template?.Render(this);
-      if (node.IsStatic) {
-        Write(Tokens.Static);
-        WriteSpace();
-      }
-      if (node.RetuenType != null) {
-        node.RetuenType.Render(this);
-        WriteSpace();
-      }
-      if (node.DeclaringType != null) {
-        node.DeclaringType.Render(this);
-        Write(Tokens.TwoColon);
-      }
-      node.Name.Render(this);
-      Write(Tokens.OpenParentheses);
-      WriteNodesWithSeparated(node.Parameters);
-      Write(Tokens.CloseParentheses);
-      WriteSpace();
-      WriteBlock(node);
-      WriteSemicolon();
       WriteNewLine();
     }
 

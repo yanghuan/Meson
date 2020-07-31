@@ -3,21 +3,21 @@
 namespace System::Private::CoreLib::System::Reflection::CustomAttributeTypeNamespace {
 CustomAttributeEncoding CustomAttributeType::get_EncodedType() {
   return CustomAttributeEncoding::Enum;
-};
+}
 
 CustomAttributeEncoding CustomAttributeType::get_EncodedEnumType() {
   return CustomAttributeEncoding::Enum;
-};
+}
 
 CustomAttributeEncoding CustomAttributeType::get_EncodedArrayType() {
   return CustomAttributeEncoding::Enum;
-};
+}
 
 String CustomAttributeType::get_EnumName() {
   return nullptr;
-};
+}
 
 CustomAttributeType::CustomAttributeType(CustomAttributeEncoding encodedType, CustomAttributeEncoding encodedArrayType, CustomAttributeEncoding encodedEnumType, String enumName) {
-};
+}
 
 } // namespace System::Private::CoreLib::System::Reflection::CustomAttributeTypeNamespace

@@ -5,17 +5,17 @@
 namespace System::Private::CoreLib::System::RuntimeMethodHandleInternalNamespace {
 RuntimeMethodHandleInternal RuntimeMethodHandleInternal::get_EmptyHandle() {
   return RuntimeMethodHandleInternal();
-};
+}
 
 IntPtr RuntimeMethodHandleInternal::get_Value() {
   return IntPtr();
-};
+}
 
 Boolean RuntimeMethodHandleInternal::IsNullHandle() {
   return Boolean();
-};
+}
 
 RuntimeMethodHandleInternal::RuntimeMethodHandleInternal(IntPtr value) {
-};
+}
 
 } // namespace System::Private::CoreLib::System::RuntimeMethodHandleInternalNamespace

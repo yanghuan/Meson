@@ -2,6 +2,6 @@
 
 namespace System::Private::CoreLib::System::FlagsAttributeNamespace {
 void FlagsAttribute___::Ctor() {
-};
+}
 
 } // namespace System::Private::CoreLib::System::FlagsAttributeNamespace

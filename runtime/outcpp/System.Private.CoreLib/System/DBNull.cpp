@@ -2,27 +2,27 @@
 
 namespace System::Private::CoreLib::System::DBNullNamespace {
 void DBNull___::Ctor() {
-};
+}
 
 void DBNull___::Ctor(SerializationInfo info, StreamingContext context) {
-};
+}
 
 void DBNull___::GetObjectData(SerializationInfo info, StreamingContext context) {
-};
+}
 
 String DBNull___::ToString() {
   return nullptr;
-};
+}
 
 String DBNull___::ToString(IFormatProvider provider) {
   return nullptr;
-};
+}
 
 TypeCode DBNull___::GetTypeCode() {
   return TypeCode::String;
-};
+}
 
 void DBNull___::SCtor() {
-};
+}
 
 } // namespace System::Private::CoreLib::System::DBNullNamespace

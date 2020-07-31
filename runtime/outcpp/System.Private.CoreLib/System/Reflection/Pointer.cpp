@@ -2,22 +2,22 @@
 
 namespace System::Private::CoreLib::System::Reflection::PointerNamespace {
 void Pointer___::Ctor(void* ptr, Type ptrType) {
-};
+}
 
 Object Pointer___::Box(void* ptr, Type type) {
   return nullptr;
-};
+}
 
 void* Pointer___::Unbox(Object ptr) {
   return nullptr;
-};
+}
 
 Type Pointer___::GetPointerType() {
   return nullptr;
-};
+}
 
 IntPtr Pointer___::GetPointerValue() {
   return IntPtr();
-};
+}
 
 } // namespace System::Private::CoreLib::System::Reflection::PointerNamespace

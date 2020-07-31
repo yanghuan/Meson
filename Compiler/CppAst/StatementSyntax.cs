@@ -337,26 +337,20 @@ namespace Meson.Compiler.CppAst {
     public bool IsConstexpr { get; set; }
     public bool IsExplicit { get; set; }
     public bool IsNoexcept { get; set; }
-    public string AccessibilityToken { get; }
+    public bool IsStatic { get; set; }
+    public string AccessibilityToken { get; set; }
     public ExpressionSyntax RetuenType { get; }
+    public ExpressionSyntax DeclaringType { get; set; }
     public IdentifierSyntax Name { get; }
-    public bool IsStatic { get; }
     public readonly List<ParameterSyntax> Parameters = new List<ParameterSyntax>();
     public List<InvationExpressionSyntax> InitializationList { get; set; }
     public BlockSyntax Body { get; set; }
+    public int TotalTempCount { get; set; }
 
-    public MethodDefinitionSyntax(ExpressionSyntax retuenType, IdentifierSyntax name, IEnumerable<ParameterSyntax> parameters, bool isStatic, string accessibilityToken) {
+    public MethodDefinitionSyntax(IdentifierSyntax name, IEnumerable<ParameterSyntax> parameters, ExpressionSyntax retuenType = null) {
+      Name = name;
+      Parameters.AddRange(parameters);
       RetuenType = retuenType;
-      Name = name;
-      Parameters.AddRange(parameters);
-      IsStatic = isStatic;
-      AccessibilityToken = accessibilityToken;
-    }
-
-    public MethodDefinitionSyntax(IdentifierSyntax name, IEnumerable<ParameterSyntax> parameters, string accessibilityToken) {
-      Name = name;
-      Parameters.AddRange(parameters);
-      AccessibilityToken = accessibilityToken;
     }
 
     public void AddInitializationList(IdentifierSyntax name, ExpressionSyntax value) {
@@ -364,25 +358,14 @@ namespace Meson.Compiler.CppAst {
       InitializationList.Add(name.Invation(value));
     }
 
-    internal override void Render(CppRenderer renderer) {
-      renderer.Render(this);
+    public void AddStatement(StatementSyntax statement) {
+      Body ??= new BlockSyntax();
+      Body.Add(statement);
     }
-  }
 
-  sealed class MethodImplementationSyntax : BlockSyntax {
-    public bool IsStatic { get; set; }
-    public TemplateSyntax Template { get; set; }
-    public ExpressionSyntax DeclaringType { get; }
-    public ExpressionSyntax RetuenType { get; }
-    public IdentifierSyntax Name { get; }
-    public readonly List<ParameterSyntax> Parameters = new List<ParameterSyntax>();
-    internal int TotalTempCount;
-
-    public MethodImplementationSyntax(IdentifierSyntax name, ExpressionSyntax retuenType, IEnumerable<ParameterSyntax> parameters, ExpressionSyntax declaringType = null) {
-      Name = name;
-      RetuenType = retuenType;
-      DeclaringType = declaringType;
-      Parameters.AddRange(parameters);
+    public void AddStatements(IEnumerable<StatementSyntax> nodes) {
+      Body ??= new BlockSyntax();
+      Body.AddRange(nodes);
     }
 
     internal override void Render(CppRenderer renderer) {

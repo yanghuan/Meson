@@ -176,13 +176,18 @@ namespace Meson.Compiler {
       var parameters = method.Parameters.Select(i => GetParameterSyntax(i, method, typeDefinition)).ToList();
       MethodDefinitionSyntax methodDefinition;
       if (isCtor) {
-        methodDefinition = new MethodDefinitionSyntax(node.Name, parameters, method.Accessibility.ToTokenString()) { IsExplicit = true };
+        methodDefinition = new MethodDefinitionSyntax(node.Name, parameters) { 
+          IsExplicit = true,
+          AccessibilityToken = method.Accessibility.ToTokenString(),
+        };
       } else {
         var methodName = GetMemberName(method);
         var returnType = GetRetuenTypeSyntax(method, typeDefinition);
         CheckOperatorParameters(method, parameters, returnType);
-        methodDefinition = new MethodDefinitionSyntax(returnType, methodName, parameters, method.IsStatic, !method.IsMainEntryPoint() ? method.Accessibility.ToTokenString() : Tokens.Public) {
-          Template = method.GetTemplateSyntax()
+        methodDefinition = new MethodDefinitionSyntax(methodName, parameters, returnType) {
+          Template = method.GetTemplateSyntax(),
+          IsStatic = method.IsStatic,
+          AccessibilityToken = !method.IsMainEntryPoint() ? method.Accessibility.ToTokenString() : Tokens.Public,
         };
       }
       node.Statements.Add(methodDefinition);
@@ -311,7 +316,8 @@ namespace Meson.Compiler {
 
             var statements = new StatementListSyntax(); 
             string accessibilityToken = Accessibility.Public.ToTokenString();
-            var defaultConstructor = new MethodDefinitionSyntax(node.Name, Array.Empty<ParameterSyntax>(), accessibilityToken) { 
+            var defaultConstructor = new MethodDefinitionSyntax(node.Name, Array.Empty<ParameterSyntax>()) {
+              AccessibilityToken = accessibilityToken,
               Body = BlockSyntax.EmptyBlock,
               IsConstexpr = true,
               IsNoexcept = true,
@@ -319,7 +325,8 @@ namespace Meson.Compiler {
             defaultConstructor.AddInitializationList(fieldName, field.Type.GetDefinition().GetPrimitiveTypeDefaultValue());
             statements.Add(defaultConstructor);
 
-            var underlyingTypeConstructor = new MethodDefinitionSyntax(node.Name, new ParameterSyntax(typeName, IdentifierSyntax.Value).ArrayOf(), accessibilityToken) { 
+            var underlyingTypeConstructor = new MethodDefinitionSyntax(node.Name, new ParameterSyntax(typeName, IdentifierSyntax.Value).ArrayOf()) {
+              AccessibilityToken = accessibilityToken,
               Body = BlockSyntax.EmptyBlock,
               IsConstexpr = true,
               IsNoexcept = true,
@@ -327,7 +334,8 @@ namespace Meson.Compiler {
             underlyingTypeConstructor.AddInitializationList(fieldName, IdentifierSyntax.Value);
             statements.Add(underlyingTypeConstructor);
 
-            var getValueMethod = new MethodDefinitionSyntax(new RefExpressionSyntax(typeName), "get", Array.Empty<ParameterSyntax>(), false, accessibilityToken) { 
+            var getValueMethod = new MethodDefinitionSyntax("get", Array.Empty<ParameterSyntax>(), new RefExpressionSyntax(typeName)) { 
+              AccessibilityToken = accessibilityToken,
               IsConstexpr  = true,
               IsNoexcept = true,
               Body = new BlockSyntax() { IsSingleLine = true },

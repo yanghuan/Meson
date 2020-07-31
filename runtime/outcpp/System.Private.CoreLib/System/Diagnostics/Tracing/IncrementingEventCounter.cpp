@@ -2,19 +2,19 @@
 
 namespace System::Private::CoreLib::System::Diagnostics::Tracing::IncrementingEventCounterNamespace {
 void IncrementingEventCounter___::Ctor(String name, EventSource eventSource) {
-};
+}
 
 void IncrementingEventCounter___::Increment(Double increment) {
-};
+}
 
 String IncrementingEventCounter___::ToString() {
   return nullptr;
-};
+}
 
 void IncrementingEventCounter___::WritePayload(Single intervalSec, Int32 pollingIntervalMillisec) {
-};
+}
 
 void IncrementingEventCounter___::UpdateMetric() {
-};
+}
 
 } // namespace System::Private::CoreLib::System::Diagnostics::Tracing::IncrementingEventCounterNamespace

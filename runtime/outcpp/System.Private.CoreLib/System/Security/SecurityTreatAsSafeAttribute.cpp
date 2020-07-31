@@ -2,6 +2,6 @@
 
 namespace System::Private::CoreLib::System::Security::SecurityTreatAsSafeAttributeNamespace {
 void SecurityTreatAsSafeAttribute___::Ctor() {
-};
+}
 
 } // namespace System::Private::CoreLib::System::Security::SecurityTreatAsSafeAttributeNamespace

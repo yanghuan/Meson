@@ -46,66 +46,66 @@ using namespace Collections;
 using namespace Reflection;
 using namespace Runtime::CompilerServices;
 Array___<>::SorterObjectArray::SorterObjectArray(Array<Object> keys, Array<Object> items, IComparer1 comparer) {
-};
+}
 
 void Array___<>::SorterObjectArray::SwapIfGreater(Int32 a, Int32 b) {
-};
+}
 
 void Array___<>::SorterObjectArray::Swap(Int32 i, Int32 j) {
-};
+}
 
 void Array___<>::SorterObjectArray::Sort(Int32 left, Int32 length) {
-};
+}
 
 void Array___<>::SorterObjectArray::IntrospectiveSort(Int32 left, Int32 length) {
-};
+}
 
 void Array___<>::SorterObjectArray::IntroSort(Int32 lo, Int32 hi, Int32 depthLimit) {
-};
+}
 
 Int32 Array___<>::SorterObjectArray::PickPivotAndPartition(Int32 lo, Int32 hi) {
   return Int32();
-};
+}
 
 void Array___<>::SorterObjectArray::Heapsort(Int32 lo, Int32 hi) {
-};
+}
 
 void Array___<>::SorterObjectArray::DownHeap(Int32 i, Int32 n, Int32 lo) {
-};
+}
 
 void Array___<>::SorterObjectArray::InsertionSort(Int32 lo, Int32 hi) {
-};
+}
 
 Array___<>::SorterGenericArray::SorterGenericArray(Array<> keys, Array<> items, IComparer1 comparer) {
-};
+}
 
 void Array___<>::SorterGenericArray::SwapIfGreater(Int32 a, Int32 b) {
-};
+}
 
 void Array___<>::SorterGenericArray::Swap(Int32 i, Int32 j) {
-};
+}
 
 void Array___<>::SorterGenericArray::Sort(Int32 left, Int32 length) {
-};
+}
 
 void Array___<>::SorterGenericArray::IntrospectiveSort(Int32 left, Int32 length) {
-};
+}
 
 void Array___<>::SorterGenericArray::IntroSort(Int32 lo, Int32 hi, Int32 depthLimit) {
-};
+}
 
 Int32 Array___<>::SorterGenericArray::PickPivotAndPartition(Int32 lo, Int32 hi) {
   return Int32();
-};
+}
 
 void Array___<>::SorterGenericArray::Heapsort(Int32 lo, Int32 hi) {
-};
+}
 
 void Array___<>::SorterGenericArray::DownHeap(Int32 i, Int32 n, Int32 lo) {
-};
+}
 
 void Array___<>::SorterGenericArray::InsertionSort(Int32 lo, Int32 hi) {
-};
+}
 
 Array<> Array___<>::CreateInstance(Type elementType, Int32 length) {
   if ((Object)elementType == nullptr) {
@@ -119,7 +119,7 @@ Array<> Array___<>::CreateInstance(Type elementType, Int32 length) {
     ThrowHelper::ThrowArgumentException(ExceptionResource::Arg_MustBeType, ExceptionArgument::elementType);
   }
   return InternalCreate((void*)runtimeType->get_TypeHandle().get_Value(), 1, &length, nullptr);
-};
+}
 
 Array<> Array___<>::CreateInstance(Type elementType, Int32 length1, Int32 length2) {
   if ((Object)elementType == nullptr) {
@@ -140,7 +140,7 @@ Array<> Array___<>::CreateInstance(Type elementType, Int32 length1, Int32 length
   *ptr = length1;
   ptr[1] = length2;
   return InternalCreate((void*)runtimeType->get_TypeHandle().get_Value(), 2, ptr, nullptr);
-};
+}
 
 Array<> Array___<>::CreateInstance(Type elementType, Int32 length1, Int32 length2, Int32 length3) {
   if ((Object)elementType == nullptr) {
@@ -165,7 +165,7 @@ Array<> Array___<>::CreateInstance(Type elementType, Int32 length1, Int32 length
   ptr[1] = length2;
   ptr[2] = length3;
   return InternalCreate((void*)runtimeType->get_TypeHandle().get_Value(), 3, ptr, nullptr);
-};
+}
 
 Array<> Array___<>::CreateInstance(Type elementType, Array<Int32> lengths) {
   if ((Object)elementType == nullptr) {
@@ -190,7 +190,7 @@ Array<> Array___<>::CreateInstance(Type elementType, Array<Int32> lengths) {
     Int32* pLengths = &lengths[0];
     return InternalCreate((void*)runtimeType->get_TypeHandle().get_Value(), lengths->get_Length(), pLengths, nullptr);
   }
-};
+}
 
 Array<> Array___<>::CreateInstance(Type elementType, Array<Int32> lengths, Array<Int32> lowerBounds) {
   if (elementType == nullptr) {
@@ -224,7 +224,7 @@ Array<> Array___<>::CreateInstance(Type elementType, Array<Int32> lengths, Array
       return InternalCreate((void*)runtimeType->get_TypeHandle().get_Value(), lengths->get_Length(), pLengths, pLowerBounds);
     }
   }
-};
+}
 
 void Array___<>::Copy(Array<> sourceArray, Array<> destinationArray, Int32 length) {
   if (sourceArray == nullptr) {
@@ -246,7 +246,7 @@ void Array___<>::Copy(Array<> sourceArray, Array<> destinationArray, Int32 lengt
   } else {
     Copy(sourceArray, sourceArray->GetLowerBound(0), destinationArray, destinationArray->GetLowerBound(0), length, false);
   }
-};
+}
 
 void Array___<>::Copy(Array<> sourceArray, Int32 sourceIndex, Array<> destinationArray, Int32 destinationIndex, Int32 length) {
   if (sourceArray != nullptr && destinationArray != nullptr) {
@@ -265,7 +265,7 @@ void Array___<>::Copy(Array<> sourceArray, Int32 sourceIndex, Array<> destinatio
     }
   }
   Copy(sourceArray, sourceIndex, destinationArray, destinationIndex, length, false);
-};
+}
 
 void Array___<>::Copy(Array<> sourceArray, Int32 sourceIndex, Array<> destinationArray, Int32 destinationIndex, Int32 length, Boolean reliable) {
   if (sourceArray == nullptr) {
@@ -313,11 +313,11 @@ void Array___<>::Copy(Array<> sourceArray, Int32 sourceIndex, Array<> destinatio
     }
     CopySlow(sourceArray, sourceIndex, destinationArray, destinationIndex, length);
   }
-};
+}
 
 void Array___<>::ConstrainedCopy(Array<> sourceArray, Int32 sourceIndex, Array<> destinationArray, Int32 destinationIndex, Int32 length) {
   Copy(sourceArray, sourceIndex, destinationArray, destinationIndex, length, true);
-};
+}
 
 void Array___<>::Clear(Array<> array, Int32 index, Int32 length) {
   if (array == nullptr) {
@@ -343,7 +343,7 @@ void Array___<>::Clear(Array<> array, Int32 index, Int32 length) {
   } else {
     SpanHelpers::ClearWithoutReferences(reference, uIntPtr2);
   }
-};
+}
 
 Object Array___<>::GetValue(Array<Int32> indices) {
   if (indices == nullptr) {
@@ -358,7 +358,7 @@ Object Array___<>::GetValue(Array<Int32> indices) {
     InternalGetReference(&typedReference, indices->get_Length(), pIndices);
   }
   return TypedReference::InternalToObject(&typedReference);
-};
+}
 
 Object Array___<>::GetValue(Int32 index) {
   if (get_Rank() != 1) {
@@ -367,7 +367,7 @@ Object Array___<>::GetValue(Int32 index) {
   TypedReference typedReference = TypedReference();
   InternalGetReference(&typedReference, 1, &index);
   return TypedReference::InternalToObject(&typedReference);
-};
+}
 
 Object Array___<>::GetValue(Int32 index1, Int32 index2) {
   if (get_Rank() != 2) {
@@ -380,7 +380,7 @@ Object Array___<>::GetValue(Int32 index1, Int32 index2) {
   TypedReference typedReference = TypedReference();
   InternalGetReference(&typedReference, 2, ptr);
   return TypedReference::InternalToObject(&typedReference);
-};
+}
 
 Object Array___<>::GetValue(Int32 index1, Int32 index2, Int32 index3) {
   if (get_Rank() != 3) {
@@ -394,7 +394,7 @@ Object Array___<>::GetValue(Int32 index1, Int32 index2, Int32 index3) {
   TypedReference typedReference = TypedReference();
   InternalGetReference(&typedReference, 3, ptr);
   return TypedReference::InternalToObject(&typedReference);
-};
+}
 
 void Array___<>::SetValue(Object value, Int32 index) {
   if (get_Rank() != 1) {
@@ -403,7 +403,7 @@ void Array___<>::SetValue(Object value, Int32 index) {
   TypedReference typedReference = TypedReference();
   InternalGetReference(&typedReference, 1, &index);
   InternalSetValue(&typedReference, value);
-};
+}
 
 void Array___<>::SetValue(Object value, Int32 index1, Int32 index2) {
   if (get_Rank() != 2) {
@@ -416,7 +416,7 @@ void Array___<>::SetValue(Object value, Int32 index1, Int32 index2) {
   TypedReference typedReference = TypedReference();
   InternalGetReference(&typedReference, 2, ptr);
   InternalSetValue(&typedReference, value);
-};
+}
 
 void Array___<>::SetValue(Object value, Int32 index1, Int32 index2, Int32 index3) {
   if (get_Rank() != 3) {
@@ -430,7 +430,7 @@ void Array___<>::SetValue(Object value, Int32 index1, Int32 index2, Int32 index3
   TypedReference typedReference = TypedReference();
   InternalGetReference(&typedReference, 3, ptr);
   InternalSetValue(&typedReference, value);
-};
+}
 
 void Array___<>::SetValue(Object value, Array<Int32> indices) {
   if (indices == nullptr) {
@@ -445,7 +445,7 @@ void Array___<>::SetValue(Object value, Array<Int32> indices) {
     InternalGetReference(&typedReference, indices->get_Length(), pIndices);
   }
   InternalSetValue(&typedReference, value);
-};
+}
 
 Int32 Array___<>::GetLength(Int32 dimension) {
   Int32 multiDimensionalArrayRank = RuntimeHelpers::GetMultiDimensionalArrayRank((Array<>)this);
@@ -456,7 +456,7 @@ Int32 Array___<>::GetLength(Int32 dimension) {
     rt::throw_exception<IndexOutOfRangeException>(SR::get_IndexOutOfRange_ArrayRankIndex());
   }
   return Unsafe::Add(RuntimeHelpers::GetMultiDimensionalArrayBounds((Array<>)this), dimension);
-};
+}
 
 Int32 Array___<>::GetUpperBound(Int32 dimension) {
   Int32 multiDimensionalArrayRank = RuntimeHelpers::GetMultiDimensionalArrayRank((Array<>)this);
@@ -468,7 +468,7 @@ Int32 Array___<>::GetUpperBound(Int32 dimension) {
   }
   Int32 multiDimensionalArrayBounds = RuntimeHelpers::GetMultiDimensionalArrayBounds((Array<>)this);
   return Unsafe::Add(multiDimensionalArrayBounds, dimension) + Unsafe::Add(multiDimensionalArrayBounds, multiDimensionalArrayRank + dimension) - 1;
-};
+}
 
 Int32 Array___<>::GetLowerBound(Int32 dimension) {
   Int32 multiDimensionalArrayRank = RuntimeHelpers::GetMultiDimensionalArrayRank((Array<>)this);
@@ -479,12 +479,12 @@ Int32 Array___<>::GetLowerBound(Int32 dimension) {
     rt::throw_exception<IndexOutOfRangeException>(SR::get_IndexOutOfRange_ArrayRankIndex());
   }
   return Unsafe::Add(RuntimeHelpers::GetMultiDimensionalArrayBounds((Array<>)this), multiDimensionalArrayRank + dimension);
-};
+}
 
 Boolean Array___<>::IsValueOfElementType(Object value) {
   MethodTable* methodTable = RuntimeHelpers::GetMethodTable((Array<>)this);
   return (IntPtr)methodTable->ElementType == (IntPtr)(void*)RuntimeHelpers::GetMethodTable(value);
-};
+}
 
 Array<> Array___<>::CreateInstance(Type elementType, Array<Int64> lengths) {
   if (lengths == nullptr) {
@@ -503,7 +503,7 @@ Array<> Array___<>::CreateInstance(Type elementType, Array<Int64> lengths) {
     array[i] = num2;
   }
   return CreateInstance(elementType, array);
-};
+}
 
 void Array___<>::Copy(Array<> sourceArray, Array<> destinationArray, Int64 length) {
   Int32 num = (Int32)length;
@@ -511,7 +511,7 @@ void Array___<>::Copy(Array<> sourceArray, Array<> destinationArray, Int64 lengt
     ThrowHelper::ThrowArgumentOutOfRangeException(ExceptionArgument::length, ExceptionResource::ArgumentOutOfRange_HugeArrayNotSupported);
   }
   Copy(sourceArray, destinationArray, num);
-};
+}
 
 void Array___<>::Copy(Array<> sourceArray, Int64 sourceIndex, Array<> destinationArray, Int64 destinationIndex, Int64 length) {
   Int32 num = (Int32)sourceIndex;
@@ -527,7 +527,7 @@ void Array___<>::Copy(Array<> sourceArray, Int64 sourceIndex, Array<> destinatio
     ThrowHelper::ThrowArgumentOutOfRangeException(ExceptionArgument::length, ExceptionResource::ArgumentOutOfRange_HugeArrayNotSupported);
   }
   Copy(sourceArray, num, destinationArray, num2, num3);
-};
+}
 
 Object Array___<>::GetValue(Int64 index) {
   Int32 num = (Int32)index;
@@ -535,7 +535,7 @@ Object Array___<>::GetValue(Int64 index) {
     ThrowHelper::ThrowArgumentOutOfRangeException(ExceptionArgument::index, ExceptionResource::ArgumentOutOfRange_HugeArrayNotSupported);
   }
   return GetValue(num);
-};
+}
 
 Object Array___<>::GetValue(Int64 index1, Int64 index2) {
   Int32 num = (Int32)index1;
@@ -547,7 +547,7 @@ Object Array___<>::GetValue(Int64 index1, Int64 index2) {
     ThrowHelper::ThrowArgumentOutOfRangeException(ExceptionArgument::index2, ExceptionResource::ArgumentOutOfRange_HugeArrayNotSupported);
   }
   return GetValue(num, num2);
-};
+}
 
 Object Array___<>::GetValue(Int64 index1, Int64 index2, Int64 index3) {
   Int32 num = (Int32)index1;
@@ -563,7 +563,7 @@ Object Array___<>::GetValue(Int64 index1, Int64 index2, Int64 index3) {
     ThrowHelper::ThrowArgumentOutOfRangeException(ExceptionArgument::index3, ExceptionResource::ArgumentOutOfRange_HugeArrayNotSupported);
   }
   return GetValue(num, num2, num3);
-};
+}
 
 Object Array___<>::GetValue(Array<Int64> indices) {
   if (indices == nullptr) {
@@ -582,7 +582,7 @@ Object Array___<>::GetValue(Array<Int64> indices) {
     array[i] = num2;
   }
   return GetValue(array);
-};
+}
 
 void Array___<>::SetValue(Object value, Int64 index) {
   Int32 num = (Int32)index;
@@ -590,7 +590,7 @@ void Array___<>::SetValue(Object value, Int64 index) {
     ThrowHelper::ThrowArgumentOutOfRangeException(ExceptionArgument::index, ExceptionResource::ArgumentOutOfRange_HugeArrayNotSupported);
   }
   SetValue(value, num);
-};
+}
 
 void Array___<>::SetValue(Object value, Int64 index1, Int64 index2) {
   Int32 num = (Int32)index1;
@@ -602,7 +602,7 @@ void Array___<>::SetValue(Object value, Int64 index1, Int64 index2) {
     ThrowHelper::ThrowArgumentOutOfRangeException(ExceptionArgument::index2, ExceptionResource::ArgumentOutOfRange_HugeArrayNotSupported);
   }
   SetValue(value, num, num2);
-};
+}
 
 void Array___<>::SetValue(Object value, Int64 index1, Int64 index2, Int64 index3) {
   Int32 num = (Int32)index1;
@@ -618,7 +618,7 @@ void Array___<>::SetValue(Object value, Int64 index1, Int64 index2, Int64 index3
     ThrowHelper::ThrowArgumentOutOfRangeException(ExceptionArgument::index3, ExceptionResource::ArgumentOutOfRange_HugeArrayNotSupported);
   }
   SetValue(value, num, num2, num3);
-};
+}
 
 void Array___<>::SetValue(Object value, Array<Int64> indices) {
   if (indices == nullptr) {
@@ -637,42 +637,42 @@ void Array___<>::SetValue(Object value, Array<Int64> indices) {
     array[i] = num2;
   }
   SetValue(value, array);
-};
+}
 
 Int32 Array___<>::GetMedian(Int32 low, Int32 hi) {
   return low + (hi - low >> 1);
-};
+}
 
 Int64 Array___<>::GetLongLength(Int32 dimension) {
   return GetLength(dimension);
-};
+}
 
 Object Array___<>::Clone() {
   return MemberwiseClone();
-};
+}
 
 Int32 Array___<>::BinarySearch(Array<> array, Object value) {
   if (array == nullptr) {
     ThrowHelper::ThrowArgumentNullException(ExceptionArgument::array);
   }
   return BinarySearch(array, array->GetLowerBound(0), array->get_Length(), value, nullptr);
-};
+}
 
 Int32 Array___<>::BinarySearch(Array<> array, Int32 index, Int32 length, Object value) {
   return BinarySearch(array, index, length, value, nullptr);
-};
+}
 
 Int32 Array___<>::BinarySearch(Array<> array, Object value, IComparer1 comparer) {
   if (array == nullptr) {
     ThrowHelper::ThrowArgumentNullException(ExceptionArgument::array);
   }
   return BinarySearch(array, array->GetLowerBound(0), array->get_Length(), value, comparer);
-};
+}
 
 template <class T>
-Int32 GenericBinarySearch(Array<> array, Int32 adjustedIndex, Int32 length, Object value) {
+static Int32 GenericBinarySearch(Array<> array, Int32 adjustedIndex, Int32 length, Object value) {
   return MemoryExtensions::BinarySearch(UnsafeArrayAsSpan<T>(array, adjustedIndex, length), Unsafe::As<Byte, T>(RuntimeHelpers::GetRawData(value)));
-};
+}
 Int32 Array___<>::BinarySearch(Array<> array, Int32 index, Int32 length, Object value, IComparer1 comparer) {
   if (array == nullptr) {
     ThrowHelper::ThrowArgumentNullException(ExceptionArgument::array);
@@ -784,14 +784,14 @@ Int32 Array___<>::BinarySearch(Array<> array, Int32 index, Int32 length, Object 
     }
   }
   return ~num;
-};
+}
 
 void Array___<>::CopyTo(Array<> array, Int32 index) {
   if (array != nullptr && array->get_Rank() != 1) {
     ThrowHelper::ThrowArgumentException(ExceptionResource::Arg_RankMultiDimNotSupported);
   }
   Copy((Array<>)this, GetLowerBound(0), array, index, get_Length());
-};
+}
 
 void Array___<>::CopyTo(Array<> array, Int64 index) {
   Int32 num = (Int32)index;
@@ -799,14 +799,14 @@ void Array___<>::CopyTo(Array<> array, Int64 index) {
     ThrowHelper::ThrowArgumentOutOfRangeException(ExceptionArgument::index, ExceptionResource::ArgumentOutOfRange_HugeArrayNotSupported);
   }
   CopyTo(array, num);
-};
+}
 
 Int32 Array___<>::IndexOf(Array<> array, Object value) {
   if (array == nullptr) {
     ThrowHelper::ThrowArgumentNullException(ExceptionArgument::array);
   }
   return IndexOf(array, value, array->GetLowerBound(0), array->get_Length());
-};
+}
 
 Int32 Array___<>::IndexOf(Array<> array, Object value, Int32 startIndex) {
   if (array == nullptr) {
@@ -814,12 +814,12 @@ Int32 Array___<>::IndexOf(Array<> array, Object value, Int32 startIndex) {
   }
   Int32 lowerBound = array->GetLowerBound(0);
   return IndexOf(array, value, startIndex, array->get_Length() - startIndex + lowerBound);
-};
+}
 
 template <class T>
-Int32 GenericIndexOf(Array<> array, Object value, Int32 adjustedIndex, Int32 length) {
+static Int32 GenericIndexOf(Array<> array, Object value, Int32 adjustedIndex, Int32 length) {
   return MemoryExtensions::IndexOf(UnsafeArrayAsSpan<T>(array, adjustedIndex, length), Unsafe::As<Byte, T>(RuntimeHelpers::GetRawData(value)));
-};
+}
 Int32 Array___<>::IndexOf(Array<> array, Object value, Int32 startIndex, Int32 count) {
   if (array == nullptr) {
     ThrowHelper::ThrowArgumentNullException(ExceptionArgument::array);
@@ -903,7 +903,7 @@ Int32 Array___<>::IndexOf(Array<> array, Object value, Int32 startIndex, Int32 c
 
   }
   return lowerBound - 1;
-};
+}
 
 Int32 Array___<>::LastIndexOf(Array<> array, Object value) {
   if (array == nullptr) {
@@ -911,7 +911,7 @@ Int32 Array___<>::LastIndexOf(Array<> array, Object value) {
   }
   Int32 lowerBound = array->GetLowerBound(0);
   return LastIndexOf(array, value, array->get_Length() - 1 + lowerBound, array->get_Length());
-};
+}
 
 Int32 Array___<>::LastIndexOf(Array<> array, Object value, Int32 startIndex) {
   if (array == nullptr) {
@@ -919,12 +919,12 @@ Int32 Array___<>::LastIndexOf(Array<> array, Object value, Int32 startIndex) {
   }
   Int32 lowerBound = array->GetLowerBound(0);
   return LastIndexOf(array, value, startIndex, startIndex + 1 - lowerBound);
-};
+}
 
 template <class T>
-Int32 GenericLastIndexOf(Array<> array, Object value, Int32 adjustedIndex, Int32 length) {
+static Int32 GenericLastIndexOf(Array<> array, Object value, Int32 adjustedIndex, Int32 length) {
   return MemoryExtensions::LastIndexOf(UnsafeArrayAsSpan<T>(array, adjustedIndex, length), Unsafe::As<Byte, T>(RuntimeHelpers::GetRawData(value)));
-};
+}
 Int32 Array___<>::LastIndexOf(Array<> array, Object value, Int32 startIndex, Int32 count) {
   if (array == nullptr) {
     ThrowHelper::ThrowArgumentNullException(ExceptionArgument::array);
@@ -1014,14 +1014,14 @@ Int32 Array___<>::LastIndexOf(Array<> array, Object value, Int32 startIndex, Int
 
   }
   return lowerBound - 1;
-};
+}
 
 void Array___<>::Reverse(Array<> array) {
   if (array == nullptr) {
     ThrowHelper::ThrowArgumentNullException(ExceptionArgument::array);
   }
   Reverse(array, array->GetLowerBound(0), array->get_Length());
-};
+}
 
 void Array___<>::Reverse(Array<> array, Int32 index, Int32 length) {
   if (array == nullptr) {
@@ -1082,57 +1082,57 @@ void Array___<>::Reverse(Array<> array, Int32 index, Int32 length) {
     num++;
     num2--;
   }
-};
+}
 
 void Array___<>::Sort(Array<> array) {
   if (array == nullptr) {
     ThrowHelper::ThrowArgumentNullException(ExceptionArgument::array);
   }
   Sort(array, nullptr, array->GetLowerBound(0), array->get_Length(), nullptr);
-};
+}
 
 void Array___<>::Sort(Array<> keys, Array<> items) {
   if (keys == nullptr) {
     ThrowHelper::ThrowArgumentNullException(ExceptionArgument::keys);
   }
   Sort(keys, items, keys->GetLowerBound(0), keys->get_Length(), nullptr);
-};
+}
 
 void Array___<>::Sort(Array<> array, Int32 index, Int32 length) {
   Sort(array, nullptr, index, length, nullptr);
-};
+}
 
 void Array___<>::Sort(Array<> keys, Array<> items, Int32 index, Int32 length) {
   Sort(keys, items, index, length, nullptr);
-};
+}
 
 void Array___<>::Sort(Array<> array, IComparer1 comparer) {
   if (array == nullptr) {
     ThrowHelper::ThrowArgumentNullException(ExceptionArgument::array);
   }
   Sort(array, nullptr, array->GetLowerBound(0), array->get_Length(), comparer);
-};
+}
 
 void Array___<>::Sort(Array<> keys, Array<> items, IComparer1 comparer) {
   if (keys == nullptr) {
     ThrowHelper::ThrowArgumentNullException(ExceptionArgument::keys);
   }
   Sort(keys, items, keys->GetLowerBound(0), keys->get_Length(), comparer);
-};
+}
 
 void Array___<>::Sort(Array<> array, Int32 index, Int32 length, IComparer1 comparer) {
   Sort(array, nullptr, index, length, comparer);
-};
+}
 
 template <class T>
-void GenericSort(Array<> keys, Array<> items, Int32 adjustedIndex, Int32 length) {
+static void GenericSort(Array<> keys, Array<> items, Int32 adjustedIndex, Int32 length) {
   Span<T> span = UnsafeArrayAsSpan<T>(keys, adjustedIndex, length);
   if (items != nullptr) {
     MemoryExtensions::Sort(span, UnsafeArrayAsSpan<T>(items, adjustedIndex, length));
   } else {
     MemoryExtensions::Sort(span);
   }
-};
+}
 void Array___<>::Sort(Array<> keys, Array<> items, Int32 index, Int32 length, IComparer1 comparer) {
   if (keys == nullptr) {
     ThrowHelper::ThrowArgumentNullException(ExceptionArgument::keys);
@@ -1210,7 +1210,7 @@ void Array___<>::Sort(Array<> keys, Array<> items, Int32 index, Int32 length, IC
     }
   }
   rt::newobj<Array<>::in::SorterGenericArray>(keys, items, comparer).Sort(index, length);
-};
+}
 
 IEnumerator Array___<>::GetEnumerator() {
   Int32 lowerBound = GetLowerBound(0);
@@ -1218,6 +1218,6 @@ IEnumerator Array___<>::GetEnumerator() {
     return rt::newobj<SZArrayEnumerator>((Array<>)this);
   }
   return rt::newobj<ArrayEnumerator>((Array<>)this, lowerBound, get_Length());
-};
+}
 
 } // namespace System::Private::CoreLib::System::ArrayNamespace

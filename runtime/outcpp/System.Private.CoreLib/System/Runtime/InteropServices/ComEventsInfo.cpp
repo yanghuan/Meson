@@ -4,29 +4,29 @@
 
 namespace System::Private::CoreLib::System::Runtime::InteropServices::ComEventsInfoNamespace {
 void ComEventsInfo___::Ctor(Object rcw) {
-};
+}
 
 void ComEventsInfo___::Finalize() {
-};
+}
 
 ComEventsInfo ComEventsInfo___::Find(Object rcw) {
   return nullptr;
-};
+}
 
 ComEventsInfo ComEventsInfo___::FromObject(Object rcw) {
   return nullptr;
-};
+}
 
 ComEventsSink ComEventsInfo___::FindSink(Guid& iid) {
   return nullptr;
-};
+}
 
 ComEventsSink ComEventsInfo___::AddSink(Guid& iid) {
   return nullptr;
-};
+}
 
 ComEventsSink ComEventsInfo___::RemoveSink(ComEventsSink sink) {
   return nullptr;
-};
+}
 
 } // namespace System::Private::CoreLib::System::Runtime::InteropServices::ComEventsInfoNamespace

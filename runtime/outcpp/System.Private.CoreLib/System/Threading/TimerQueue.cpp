@@ -4,54 +4,54 @@
 
 namespace System::Private::CoreLib::System::Threading::TimerQueueNamespace {
 void TimerQueue___::AppDomainTimerSafeHandle___::Ctor() {
-};
+}
 
 Boolean TimerQueue___::AppDomainTimerSafeHandle___::ReleaseHandle() {
   return Boolean();
-};
+}
 
 Int64 TimerQueue___::get_TickCount64() {
   return Int64();
-};
+}
 
 void TimerQueue___::Ctor(Int32 id) {
-};
+}
 
 Boolean TimerQueue___::SetTimer(UInt32 actualDuration) {
   return Boolean();
-};
+}
 
 void TimerQueue___::AppDomainTimerCallback(Int32 id) {
-};
+}
 
 Array<TimerQueue> TimerQueue___::CreateTimerQueues() {
   return Array<TimerQueue>();
-};
+}
 
 Boolean TimerQueue___::EnsureTimerFiresBy(UInt32 requestedDuration) {
   return Boolean();
-};
+}
 
 void TimerQueue___::FireNextTimers() {
-};
+}
 
 Boolean TimerQueue___::UpdateTimer(TimerQueueTimer timer, UInt32 dueTime, UInt32 period) {
   return Boolean();
-};
+}
 
 void TimerQueue___::MoveTimerToCorrectList(TimerQueueTimer timer, Boolean shortList) {
-};
+}
 
 void TimerQueue___::LinkTimer(TimerQueueTimer timer) {
-};
+}
 
 void TimerQueue___::UnlinkTimer(TimerQueueTimer timer) {
-};
+}
 
 void TimerQueue___::DeleteTimer(TimerQueueTimer timer) {
-};
+}
 
 void TimerQueue___::SCtor() {
-};
+}
 
 } // namespace System::Private::CoreLib::System::Threading::TimerQueueNamespace

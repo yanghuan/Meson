@@ -2,6 +2,6 @@
 
 namespace System::Private::CoreLib::System::ContextBoundObjectNamespace {
 void ContextBoundObject___::Ctor() {
-};
+}
 
 } // namespace System::Private::CoreLib::System::ContextBoundObjectNamespace
