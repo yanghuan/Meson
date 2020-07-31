@@ -1,6 +1,7 @@
 #pragma once
 
 #include <rt/GCObject.h>
+#include <System.Private.CoreLib/System/MarshalByRefObject.h>
 
 namespace System::Private::CoreLib::System {
 FORWARDS(Boolean)
@@ -10,7 +11,7 @@ namespace System::Private::CoreLib::System::Threading {
 FORWARD(RegisteredWaitHandleSafe)
 FORWARD(WaitHandle)
 namespace RegisteredWaitHandleNamespace {
-CLASS(RegisteredWaitHandle) {
+CLASS(RegisteredWaitHandle) : public MarshalByRefObject::in {
   public: void Ctor();
   public: void SetHandle(IntPtr handle);
   public: void SetWaitObject(WaitHandle waitObject);

@@ -1,12 +1,13 @@
 #pragma once
 
 #include <rt/GCObject.h>
+#include <System.Private.CoreLib/System/Boolean.h>
 #include <System.Private.CoreLib/System/Int32.h>
+#include <System.Private.CoreLib/System/Object.h>
+#include <System.Private.CoreLib/System/Threading/Tasks/Task.h>
 
 namespace System::Private::CoreLib::System {
 FORWARD_(Action, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17)
-FORWARDS(Boolean)
-FORWARD(Object)
 FORWARDS(TimeSpan)
 FORWARDS(UInt32)
 } // namespace System::Private::CoreLib::System
@@ -23,8 +24,8 @@ FORWARD(WaitHandle)
 namespace SemaphoreSlimNamespace {
 using namespace Runtime::CompilerServices;
 using namespace Tasks;
-CLASS(SemaphoreSlim) {
-  private: CLASS(TaskNode) {
+CLASS(SemaphoreSlim) : public Object::in {
+  private: CLASS(TaskNode) : public Task<Boolean>::in {
     public: void Ctor();
     public: TaskNode Prev;
     public: TaskNode Next;

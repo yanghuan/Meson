@@ -1,6 +1,7 @@
 #pragma once
 
 #include <rt/GCObject.h>
+#include <System.Private.CoreLib/System/Globalization/Calendar.h>
 
 namespace System::Private::CoreLib::System {
 enum class DayOfWeek;
@@ -13,11 +14,10 @@ namespace System::Private::CoreLib::System::Globalization {
 enum class CalendarAlgorithmType;
 enum class CalendarId : uint16_t;
 enum class CalendarWeekRule;
-FORWARD(Calendar)
 FORWARD(EraInfo)
 FORWARD(GregorianCalendarHelper)
 namespace TaiwanCalendarNamespace {
-CLASS(TaiwanCalendar) {
+CLASS(TaiwanCalendar) : public Calendar::in {
   public: DateTime get_MinSupportedDateTime();
   public: DateTime get_MaxSupportedDateTime();
   public: CalendarAlgorithmType get_AlgorithmType();

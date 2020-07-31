@@ -1,6 +1,7 @@
 #pragma once
 
 #include <rt/GCObject.h>
+#include <System.Private.CoreLib/System/Reflection/TypeInfo.h>
 
 namespace System::Private::CoreLib::System {
 FORWARD_(Array, T1, T2)
@@ -29,7 +30,6 @@ FORWARD(MethodInfo)
 FORWARD(Module)
 FORWARDS(ParameterModifier)
 FORWARD(PropertyInfo)
-FORWARD(TypeInfo)
 } // namespace System::Private::CoreLib::System::Reflection
 namespace System::Private::CoreLib::System::Globalization {
 FORWARD(CultureInfo)
@@ -42,7 +42,7 @@ FORWARD(TypeBuilder)
 FORWARDS(TypeToken)
 namespace EnumBuilderNamespace {
 using namespace Globalization;
-CLASS(EnumBuilder) {
+CLASS(EnumBuilder) : public TypeInfo::in {
   public: TypeToken get_TypeToken();
   public: FieldBuilder get_UnderlyingField();
   public: String get_Name();

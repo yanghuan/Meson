@@ -3,14 +3,14 @@
 #include <rt/GCObject.h>
 #include <System.Private.CoreLib/System/Guid.h>
 #include <System.Private.CoreLib/System/Int32.h>
+#include <System.Private.CoreLib/System/Object.h>
 
 namespace System::Private::CoreLib::System {
 FORWARDS(Boolean)
-FORWARD(Object)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Globalization {
 namespace SortVersionNamespace {
-CLASS(SortVersion) {
+CLASS(SortVersion) : public Object::in {
   public: Int32 get_FullVersion();
   public: Guid get_SortId();
   public: void Ctor(Int32 fullVersion, Guid sortId);

@@ -3,6 +3,7 @@
 #include <rt/GCObject.h>
 #include <System.Private.CoreLib/System/Boolean.h>
 #include <System.Private.CoreLib/System/Int32.h>
+#include <System.Private.CoreLib/System/Object.h>
 
 namespace System::Private::CoreLib::System {
 FORWARD_(Array, T1, T2)
@@ -17,26 +18,26 @@ namespace System::Private::CoreLib::System::Threading {
 namespace ThreadLocalNamespace {
 using namespace Collections::Generic;
 using Collections::Generic::IList;
-CLASS(ThreadLocal, T) {
+CLASS(ThreadLocal, T) : public Object::in {
   private: FORWARDN(LinkedSlot)
   private: struct LinkedSlotVolatile {
     public: LinkedSlot Value;
   };
-  private: CLASS(LinkedSlot) {
+  private: CLASS(LinkedSlot) : public Object::in {
     public: void Ctor(Array<LinkedSlotVolatile> slotArray);
     public: LinkedSlot _next;
     public: LinkedSlot _previous;
     public: Array<LinkedSlotVolatile> _slotArray;
     public: T _value;
   };
-  private: CLASS(IdManager) {
+  private: CLASS(IdManager) : public Object::in {
     public: Int32 GetId();
     public: void ReturnId(Int32 id);
     public: void Ctor();
     private: Int32 _nextIdToTry;
     private: List<Boolean> _freeIds;
   };
-  private: CLASS(FinalizationHelper) {
+  private: CLASS(FinalizationHelper) : public Object::in {
     public: void Ctor(Array<LinkedSlotVolatile> slotArray, Boolean trackAllValues);
     protected: void Finalize();
     public: Array<LinkedSlotVolatile> SlotArray;

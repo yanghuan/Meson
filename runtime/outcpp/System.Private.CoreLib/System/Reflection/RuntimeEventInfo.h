@@ -2,6 +2,7 @@
 
 #include <rt/GCObject.h>
 #include <System.Private.CoreLib/System/Int32.h>
+#include <System.Private.CoreLib/System/Reflection/EventInfo.h>
 #include <System.Private.CoreLib/System/RuntimeType.h>
 
 namespace System::Private::CoreLib::System {
@@ -27,7 +28,7 @@ FORWARD(RuntimeModule)
 namespace RuntimeEventInfoNamespace {
 using namespace Collections::Generic;
 using Collections::Generic::IList;
-CLASS(RuntimeEventInfo) {
+CLASS(RuntimeEventInfo) : public EventInfo::in {
   public: BindingFlags get_BindingFlags();
   public: MemberTypes get_MemberType();
   public: String get_Name();

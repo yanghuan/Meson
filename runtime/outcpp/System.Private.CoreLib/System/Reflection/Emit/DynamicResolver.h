@@ -2,6 +2,8 @@
 
 #include <rt/GCObject.h>
 #include <System.Private.CoreLib/System/Int32.h>
+#include <System.Private.CoreLib/System/Object.h>
+#include <System.Private.CoreLib/System/Resolver.h>
 #include <System.Private.CoreLib/System/RuntimeMethodHandleInternal.h>
 
 namespace System::Private::CoreLib::System {
@@ -21,7 +23,7 @@ FORWARD(DynamicILInfo)
 FORWARD(DynamicMethod)
 FORWARD(DynamicScope)
 namespace DynamicResolverNamespace {
-CLASS(DynamicResolver) {
+CLASS(DynamicResolver) : public Resolver::in {
   public: enum class SecurityControlFlags {
     Default = 0,
     SkipVisibilityChecks = 1,
@@ -29,7 +31,7 @@ CLASS(DynamicResolver) {
     HasCreationContext = 4,
     CanSkipCSEvaluation = 8,
   };
-  private: CLASS(DestroyScout) {
+  private: CLASS(DestroyScout) : public Object::in {
     protected: void Finalize();
     public: void Ctor();
     public: RuntimeMethodHandleInternal m_methodHandle;

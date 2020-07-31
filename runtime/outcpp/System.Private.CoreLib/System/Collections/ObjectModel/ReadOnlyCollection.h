@@ -1,12 +1,12 @@
 #pragma once
 
 #include <rt/GCObject.h>
+#include <System.Private.CoreLib/System/Object.h>
 
 namespace System::Private::CoreLib::System {
 FORWARD_(Array, T1, T2)
 FORWARDS(Boolean)
 FORWARDS(Int32)
-FORWARD(Object)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Collections::Generic {
 FORWARD(IEnumerator, T)
@@ -17,7 +17,7 @@ namespace ReadOnlyCollectionNamespace {
 using namespace Generic;
 using Generic::IList;
 using Generic::IEnumerator;
-CLASS(ReadOnlyCollection, T) {
+CLASS(ReadOnlyCollection, T) : public Object::in {
   public: Int32 get_Count();
   public: T get_Item(Int32 index);
   protected: IList<T> get_Items();

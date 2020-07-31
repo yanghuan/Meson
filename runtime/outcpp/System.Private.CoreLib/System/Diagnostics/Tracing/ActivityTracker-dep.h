@@ -8,6 +8,7 @@
 #include <System.Private.CoreLib/System/Guid-dep.h>
 #include <System.Private.CoreLib/System/Int32-dep.h>
 #include <System.Private.CoreLib/System/Int64-dep.h>
+#include <System.Private.CoreLib/System/Object-dep.h>
 #include <System.Private.CoreLib/System/String-dep.h>
 #include <System.Private.CoreLib/System/Threading/AsyncLocal-dep.h>
 #include <System.Private.CoreLib/System/Threading/AsyncLocalValueChangedArgs-dep.h>

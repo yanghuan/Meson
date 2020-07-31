@@ -1,6 +1,7 @@
 #pragma once
 
 #include <rt/GCObject.h>
+#include <System.Private.CoreLib/System/Attribute.h>
 #include <System.Private.CoreLib/System/Boolean.h>
 
 namespace System::Private::CoreLib::System {
@@ -10,7 +11,7 @@ namespace System::Private::CoreLib::System::Runtime::InteropServices {
 enum class CallingConvention;
 enum class CharSet;
 namespace DllImportAttributeNamespace {
-CLASS(DllImportAttribute) {
+CLASS(DllImportAttribute) : public Attribute::in {
   public: String get_Value() { return Value; }
   public: void Ctor(String dllName);
   private: String Value;

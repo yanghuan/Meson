@@ -2,11 +2,12 @@
 
 #include <rt/GCObject.h>
 #include <System.Private.CoreLib/Interop.h>
+#include <System.Private.CoreLib/System/Object.h>
 
 namespace System::Private::CoreLib::System {
 FORWARDS(Boolean)
 namespace ApplicationModelNamespace {
-class ApplicationModel {
+class ApplicationModel : public Object::in {
   private: static Interop::BOOL IsAppXProcess();
   private: static void SCtor();
   public: static Boolean IsUap;

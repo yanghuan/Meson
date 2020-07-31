@@ -1,6 +1,7 @@
 #pragma once
 
 #include <rt/GCObject.h>
+#include <System.Private.CoreLib/System/Reflection/MemberInfo.h>
 
 namespace System::Private::CoreLib::System {
 FORWARD_(Array, T1, T2)
@@ -30,7 +31,7 @@ FORWARD(ParameterInfo)
 namespace MethodBaseNamespace {
 using namespace Globalization;
 using namespace Text;
-CLASS(MethodBase) {
+CLASS(MethodBase) : public MemberInfo::in {
   public: MethodAttributes get_Attributes();
   public: MethodImplAttributes get_MethodImplementationFlags();
   public: CallingConventions get_CallingConvention();

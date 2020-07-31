@@ -1,6 +1,7 @@
 #pragma once
 
 #include <rt/GCObject.h>
+#include <System.Private.CoreLib/System/Reflection/TypeInfo.h>
 
 namespace System::Private::CoreLib::System {
 FORWARD_(Array, T1, T2)
@@ -31,10 +32,9 @@ FORWARD(MethodInfo)
 FORWARD(Module)
 FORWARDS(ParameterModifier)
 FORWARD(PropertyInfo)
-FORWARD(TypeInfo)
 namespace TypeDelegatorNamespace {
 using namespace Globalization;
-CLASS(TypeDelegator) {
+CLASS(TypeDelegator) : public TypeInfo::in {
   public: Guid get_GUID();
   public: Int32 get_MetadataToken();
   public: Module get_Module();

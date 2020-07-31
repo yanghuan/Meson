@@ -1,6 +1,7 @@
 #pragma once
 
 #include <rt/GCObject.h>
+#include <System.Private.CoreLib/System/Reflection/MethodBase.h>
 
 namespace System::Private::CoreLib::System {
 FORWARD_(Array, T1, T2)
@@ -15,7 +16,7 @@ enum class MemberTypes;
 FORWARD(ICustomAttributeProvider)
 FORWARD(ParameterInfo)
 namespace MethodInfoNamespace {
-CLASS(MethodInfo) {
+CLASS(MethodInfo) : public MethodBase::in {
   public: MemberTypes get_MemberType();
   public: ParameterInfo get_ReturnParameter();
   public: Type get_ReturnType();

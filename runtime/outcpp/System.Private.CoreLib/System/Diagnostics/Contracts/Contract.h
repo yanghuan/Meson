@@ -1,6 +1,7 @@
 #pragma once
 
 #include <rt/GCObject.h>
+#include <System.Private.CoreLib/System/Object.h>
 
 namespace System::Private::CoreLib::System {
 FORWARDS(Boolean)
@@ -16,7 +17,7 @@ namespace System::Private::CoreLib::System::Diagnostics::Contracts {
 enum class ContractFailureKind;
 namespace ContractNamespace {
 using namespace Collections::Generic;
-class Contract {
+class Contract : public Object::in {
   public: static void Assume(Boolean condition);
   public: static void Assume(Boolean condition, String userMessage);
   public: static void Assert(Boolean condition);

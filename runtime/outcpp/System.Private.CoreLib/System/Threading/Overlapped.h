@@ -1,19 +1,19 @@
 #pragma once
 
 #include <rt/GCObject.h>
+#include <System.Private.CoreLib/System/Object.h>
 
 namespace System::Private::CoreLib::System {
 FORWARD(IAsyncResult)
 FORWARDS(Int32)
 FORWARDS(IntPtr)
-FORWARD(Object)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Threading {
 FORWARD(IOCompletionCallback)
 FORWARDS(NativeOverlapped)
 FORWARD(OverlappedData)
 namespace OverlappedNamespace {
-CLASS(Overlapped) {
+CLASS(Overlapped) : public Object::in {
   public: IAsyncResult get_AsyncResult();
   public: void set_AsyncResult(IAsyncResult value);
   public: Int32 get_OffsetLow();

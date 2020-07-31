@@ -3,6 +3,7 @@
 #include <rt/GCObject.h>
 #include <System.Private.CoreLib/System/Boolean.h>
 #include <System.Private.CoreLib/System/Int32.h>
+#include <System.Private.CoreLib/System/Object.h>
 
 namespace System::Private::CoreLib::System::Reflection {
 enum class CallingConventions;
@@ -13,7 +14,6 @@ FORWARD(Module)
 namespace System::Private::CoreLib::System {
 FORWARD_(Array, T1, T2)
 FORWARDS(Byte)
-FORWARD(Object)
 FORWARD(String)
 FORWARD(Type)
 } // namespace System::Private::CoreLib::System
@@ -25,7 +25,7 @@ FORWARD(ModuleBuilder)
 FORWARDS(TypeToken)
 namespace SignatureHelperNamespace {
 using namespace Runtime::InteropServices;
-CLASS(SignatureHelper) {
+CLASS(SignatureHelper) : public Object::in {
   public: Int32 get_ArgumentCount();
   public: static SignatureHelper GetMethodSigHelper(Module mod, Type returnType, Array<Type> parameterTypes);
   public: static SignatureHelper GetMethodSigHelper(Module mod, CallingConventions callingConvention, Type returnType, Int32 cGenericParam);

@@ -1,6 +1,7 @@
 #pragma once
 
 #include <rt/GCObject.h>
+#include <System.Private.CoreLib/System/Object.h>
 
 namespace System::Private::CoreLib::System {
 FORWARD_(Array, T1, T2)
@@ -26,7 +27,7 @@ namespace UriHelperNamespace {
 using namespace ::System::Private::CoreLib::System;
 using namespace ::System::Private::CoreLib::System::Text;
 using namespace Text;
-class UriHelper {
+class UriHelper : public Object::in {
   public: static ReadOnlySpan<Boolean> get_UnreservedReservedTable();
   public: static ReadOnlySpan<Boolean> get_UnreservedTable();
   public: static Boolean TestForSubPath(Char* selfPtr, Int32 selfLength, Char* otherPtr, Int32 otherLength, Boolean ignoreCase);

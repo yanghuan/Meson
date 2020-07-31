@@ -3,6 +3,8 @@
 #include <rt/GCObject.h>
 #include <System.Private.CoreLib/System/Boolean.h>
 #include <System.Private.CoreLib/System/Int32.h>
+#include <System.Private.CoreLib/System/Object.h>
+#include <System.Private.CoreLib/System/Reflection/Binder.h>
 
 namespace System::Private::CoreLib::System::Reflection {
 enum class BindingFlags;
@@ -17,13 +19,12 @@ FORWARD(CultureInfo)
 } // namespace System::Private::CoreLib::System::Globalization
 namespace System::Private::CoreLib::System {
 FORWARD_(Array, T1, T2)
-FORWARD(Object)
 FORWARD(String)
 FORWARD(Type)
 namespace DefaultBinderNamespace {
 using namespace Globalization;
 using namespace Reflection;
-CLASS(DefaultBinder) {
+CLASS(DefaultBinder) : public Binder::in {
   private: enum class Primitives {
     Boolean = 8,
     Char = 16,
@@ -41,7 +42,7 @@ CLASS(DefaultBinder) {
     DateTime = 65536,
     String = 262144,
   };
-  public: CLASS(BinderState) {
+  public: CLASS(BinderState) : public Object::in {
     public: void Ctor(Array<Int32> argsMap, Int32 originalSize, Boolean isParamArray);
     public: Array<Int32> _argsMap;
     public: Int32 _originalSize;

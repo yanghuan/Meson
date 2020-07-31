@@ -1,6 +1,7 @@
 #pragma once
 
 #include <rt/GCObject.h>
+#include <System.Private.CoreLib/System/Object.h>
 
 namespace System::Private::CoreLib::System {
 FORWARD_(Array, T1, T2)
@@ -17,7 +18,7 @@ FORWARD(LocalVariableInfo)
 namespace MethodBodyNamespace {
 using namespace Collections::Generic;
 using Collections::Generic::IList;
-CLASS(MethodBody) {
+CLASS(MethodBody) : public Object::in {
   public: Int32 get_LocalSignatureMetadataToken();
   public: IList<LocalVariableInfo> get_LocalVariables();
   public: Int32 get_MaxStackSize();

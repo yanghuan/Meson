@@ -3,6 +3,7 @@
 #include <rt/GCObject.h>
 #include <System.Private.CoreLib/Interop.h>
 #include <System.Private.CoreLib/System/Diagnostics/Tracing/EventProvider.h>
+#include <System.Private.CoreLib/System/Object.h>
 
 namespace System::Private::CoreLib::System {
 FORWARDS(Byte)
@@ -17,7 +18,7 @@ namespace System::Private::CoreLib::System::Diagnostics::Tracing {
 FORWARDS(EventDescriptor)
 FORWARD(EventSource)
 namespace IEventProviderNamespace {
-CLASS(IEventProvider) {
+CLASS(IEventProvider) : public Object::in {
   public: UInt32 EventRegister(EventSource eventSource, Interop::Advapi32::EtwEnableCallback enableCallback, void* callbackContext, Int64& registrationHandle);
   public: UInt32 EventUnregister(Int64 registrationHandle);
   public: EventProvider::in::WriteEventErrorCode EventWriteTransfer(Int64 registrationHandle, EventDescriptor& eventDescriptor, IntPtr eventHandle, Guid* activityId, Guid* relatedActivityId, Int32 userDataCount, void/*EventProvider.EventData*/* userData);

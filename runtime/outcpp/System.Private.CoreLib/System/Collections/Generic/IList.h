@@ -1,13 +1,14 @@
 #pragma once
 
 #include <rt/GCObject.h>
+#include <System.Private.CoreLib/System/Object.h>
 
 namespace System::Private::CoreLib::System {
 FORWARDS(Int32)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Collections::Generic {
 namespace IListNamespace {
-CLASS(IList, T) {
+CLASS(IList, T) : public Object::in {
   public: T get_Item(Int32 index);
   public: void set_Item(Int32 index, T value);
   public: Int32 IndexOf(T item);

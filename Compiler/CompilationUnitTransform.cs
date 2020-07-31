@@ -68,6 +68,37 @@ namespace Meson.Compiler {
           CompilationUnit.AddEnumHeadInclude();
         }
       }
+
+      CompilationUnit.AddNamespaceClose();
+      CheckSpeicalTypeKind(root_);
+    }
+
+    private void CheckSpeicalTypeKind(ITypeDefinition type) {
+      switch (type.KnownTypeCode) {
+        case KnownTypeCode.Object:
+        case KnownTypeCode.Boolean:
+        case KnownTypeCode.Char:
+        case KnownTypeCode.SByte:
+        case KnownTypeCode.Byte:
+        case KnownTypeCode.Int16:
+        case KnownTypeCode.UInt16:
+        case KnownTypeCode.Int32:
+        case KnownTypeCode.UInt32:
+        case KnownTypeCode.Int64:
+        case KnownTypeCode.UInt64:
+        case KnownTypeCode.Single:
+        case KnownTypeCode.Double:
+        case KnownTypeCode.String:
+          NamespaceSyntax rt = new NamespaceSyntax(IdentifierSyntax.Meson);
+          ClassSyntax kindClass = new ClassSyntax(IdentifierSyntax.TypeKind.Generic(type.GetFullName()), true) { Template = new TemplateSyntax() };
+          kindClass.Add(new FieldDefinitionSyntax(IdentifierSyntax.TypeCode, "Kind", true, null) {
+            IsConstexpr = true,
+            ConstantValue = IdentifierSyntax.TypeCode.TwoColon(type.KnownTypeCode.ToString()),
+          });
+          rt.Add(kindClass);
+          CompilationUnit.HeadStatements.Add(rt);
+          break;
+      }
     }
 
     private void AddTypeUsingDeclaration(NamespaceSyntax rootNamespace, NamespaceSyntax classNamespace, TypeDefinitionTransform typeDefinition, IEnumerable<ITypeDefinition> types) {

@@ -1,17 +1,17 @@
 #pragma once
 
 #include <rt/GCObject.h>
+#include <System.Private.CoreLib/System/Object.h>
 
 namespace System::Private::CoreLib::System {
 FORWARDS(Int32)
-FORWARD(Object)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Runtime::InteropServices::ComTypes {
 FORWARDS(FILETIME)
 FORWARD(IEnumMoniker)
 FORWARD(IMoniker)
 namespace IRunningObjectTableNamespace {
-CLASS(IRunningObjectTable) {
+CLASS(IRunningObjectTable) : public Object::in {
   public: Int32 Register(Int32 grfFlags, Object punkObject, IMoniker pmkObjectName);
   public: void Revoke(Int32 dwRegister);
   public: Int32 IsRunning(IMoniker pmkObjectName);

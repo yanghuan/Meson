@@ -2,6 +2,7 @@
 
 #include <rt/GCObject.h>
 #include <System.Private.CoreLib/System/Int32.h>
+#include <System.Private.CoreLib/System/Reflection/PropertyInfo.h>
 #include <System.Private.CoreLib/System/RuntimeType.h>
 
 namespace System::Private::CoreLib::System {
@@ -34,7 +35,7 @@ namespace RuntimePropertyInfoNamespace {
 using namespace Collections::Generic;
 using namespace Globalization;
 using Collections::Generic::IList;
-CLASS(RuntimePropertyInfo) {
+CLASS(RuntimePropertyInfo) : public PropertyInfo::in {
   public: Signature get_Signature();
   public: BindingFlags get_BindingFlags();
   public: MemberTypes get_MemberType();

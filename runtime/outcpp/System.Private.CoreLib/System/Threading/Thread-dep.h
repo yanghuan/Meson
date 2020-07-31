@@ -17,6 +17,7 @@
 #include <System.Private.CoreLib/System/IntPtr-dep.h>
 #include <System.Private.CoreLib/System/LocalDataStoreSlot-dep.h>
 #include <System.Private.CoreLib/System/Object-dep.h>
+#include <System.Private.CoreLib/System/Runtime/ConstrainedExecution/CriticalFinalizerObject-dep.h>
 #include <System.Private.CoreLib/System/Runtime/Serialization/DeserializationTracker-dep.h>
 #include <System.Private.CoreLib/System/SByte-dep.h>
 #include <System.Private.CoreLib/System/Security/Principal/IPrincipal.h>

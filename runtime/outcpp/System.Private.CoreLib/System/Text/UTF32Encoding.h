@@ -3,6 +3,8 @@
 #include <rt/GCObject.h>
 #include <System.Private.CoreLib/System/Boolean.h>
 #include <System.Private.CoreLib/System/Int32.h>
+#include <System.Private.CoreLib/System/Text/DecoderNLS.h>
+#include <System.Private.CoreLib/System/Text/Encoding.h>
 
 namespace System::Private::CoreLib::System {
 FORWARD_(Array, T1, T2)
@@ -15,12 +17,11 @@ FORWARDS(UInt32)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Text {
 FORWARD(Decoder)
-FORWARD(DecoderNLS)
 FORWARD(Encoder)
 FORWARD(EncoderNLS)
 namespace UTF32EncodingNamespace {
-CLASS(UTF32Encoding) {
-  private: CLASS(UTF32Decoder) {
+CLASS(UTF32Encoding) : public Encoding::in {
+  private: CLASS(UTF32Decoder) : public DecoderNLS::in {
     public: Boolean get_HasState();
     public: void Ctor(UTF32Encoding encoding);
     public: void Reset();

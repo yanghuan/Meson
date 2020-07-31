@@ -1,6 +1,7 @@
 #pragma once
 
 #include <rt/GCObject.h>
+#include <System.Private.CoreLib/System/Object.h>
 
 namespace System::Private::CoreLib::System {
 FORWARD_(Array, T1, T2)
@@ -17,7 +18,7 @@ namespace System::Private::CoreLib::System::Runtime::InteropServices {
 enum class InvokeFlags : int16_t;
 namespace IDispatchNamespace {
 using namespace ComTypes;
-CLASS(IDispatch) {
+CLASS(IDispatch) : public Object::in {
   public: Int32 GetTypeInfoCount();
   public: ITypeInfo GetTypeInfo(Int32 iTInfo, Int32 lcid);
   public: void GetIDsOfNames(Guid& riid, Array<String> rgszNames, Int32 cNames, Int32 lcid, Array<Int32> rgDispId);

@@ -2,6 +2,8 @@
 
 #include <rt/GCObject.h>
 #include <System.Private.CoreLib/System/Boolean.h>
+#include <System.Private.CoreLib/System/Diagnostics/Tracing/EventSource.h>
+#include <System.Private.CoreLib/System/Object.h>
 
 namespace System::Private::CoreLib::System::Diagnostics::Tracing {
 FORWARD(EventCommandEventArgs)
@@ -10,7 +12,6 @@ namespace System::Private::CoreLib::System {
 FORWARDS(Guid)
 FORWARDS(Int32)
 FORWARDS(Int64)
-FORWARD(Object)
 FORWARD(String)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Runtime::CompilerServices {
@@ -20,14 +21,14 @@ namespace System::Private::CoreLib::System::Threading::Tasks {
 namespace TplEventSourceNamespace {
 using namespace Diagnostics::Tracing;
 using namespace Runtime::CompilerServices;
-CLASS(TplEventSource) {
+CLASS(TplEventSource) : public EventSource::in {
   public: enum class TaskWaitBehavior {
     Synchronous = 1,
     Asynchronous = 2,
   };
-  public: class Tasks {
+  public: class Tasks : public Object::in {
   };
-  public: class Keywords {
+  public: class Keywords : public Object::in {
   };
   protected: void OnEventCommand(EventCommandEventArgs command);
   private: void Ctor();

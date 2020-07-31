@@ -1,13 +1,13 @@
 #pragma once
 
 #include <rt/GCObject.h>
+#include <System.Private.CoreLib/System/Type.h>
 
 namespace System::Private::CoreLib::System {
 FORWARD_(Array, T1, T2)
 FORWARDS(Boolean)
 FORWARDS(Int32)
 FORWARD(String)
-FORWARD(Type)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Collections::Generic {
 FORWARD(IEnumerable, T)
@@ -21,7 +21,7 @@ FORWARD(MethodInfo)
 FORWARD(PropertyInfo)
 namespace TypeInfoNamespace {
 using namespace Collections::Generic;
-CLASS(TypeInfo) {
+CLASS(TypeInfo) : public Type::in {
   public: Array<Type> get_GenericTypeParameters();
   public: IEnumerable<ConstructorInfo> get_DeclaredConstructors();
   public: IEnumerable<EventInfo> get_DeclaredEvents();

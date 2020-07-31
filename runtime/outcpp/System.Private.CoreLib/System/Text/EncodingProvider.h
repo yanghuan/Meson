@@ -1,11 +1,11 @@
 #pragma once
 
 #include <rt/GCObject.h>
+#include <System.Private.CoreLib/System/Object.h>
 
 namespace System::Private::CoreLib::System {
 FORWARD_(Array, T1, T2)
 FORWARDS(Int32)
-FORWARD(Object)
 FORWARD(String)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Text {
@@ -13,7 +13,7 @@ FORWARD(DecoderFallback)
 FORWARD(EncoderFallback)
 FORWARD(Encoding)
 namespace EncodingProviderNamespace {
-CLASS(EncodingProvider) {
+CLASS(EncodingProvider) : public Object::in {
   public: void Ctor();
   public: Encoding GetEncoding(String name);
   public: Encoding GetEncoding(Int32 codepage);

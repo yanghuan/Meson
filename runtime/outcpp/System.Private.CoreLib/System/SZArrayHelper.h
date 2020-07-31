@@ -1,6 +1,7 @@
 #pragma once
 
 #include <rt/GCObject.h>
+#include <System.Private.CoreLib/System/Object.h>
 
 namespace System::Private::CoreLib::System::Collections::Generic {
 FORWARD(IEnumerator, T)
@@ -12,7 +13,7 @@ FORWARDS(Int32)
 namespace SZArrayHelperNamespace {
 using namespace Collections::Generic;
 using Collections::Generic::IEnumerator;
-CLASS(SZArrayHelper) {
+CLASS(SZArrayHelper) : public Object::in {
   public: template <class T>
   IEnumerator<T> GetEnumerator();
   private: template <class T>

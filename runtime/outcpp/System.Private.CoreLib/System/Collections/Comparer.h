@@ -1,6 +1,7 @@
 #pragma once
 
 #include <rt/GCObject.h>
+#include <System.Private.CoreLib/System/Object.h>
 
 namespace System::Private::CoreLib::System::Globalization {
 FORWARD(CompareInfo)
@@ -12,13 +13,12 @@ FORWARDS(StreamingContext)
 } // namespace System::Private::CoreLib::System::Runtime::Serialization
 namespace System::Private::CoreLib::System {
 FORWARDS(Int32)
-FORWARD(Object)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Collections {
 namespace ComparerNamespace {
 using namespace Globalization;
 using namespace Runtime::Serialization;
-CLASS(Comparer) {
+CLASS(Comparer) : public Object::in {
   public: void Ctor(CultureInfo culture);
   private: void Ctor(SerializationInfo info, StreamingContext context);
   public: void GetObjectData(SerializationInfo info, StreamingContext context);

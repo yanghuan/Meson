@@ -2,20 +2,20 @@
 
 #include <rt/GCObject.h>
 #include <System.Private.CoreLib/System/Boolean.h>
+#include <System.Private.CoreLib/System/Object.h>
 
-namespace System::Private::CoreLib::System {
-FORWARD(AsyncCallback)
-FORWARD(IAsyncResult)
-FORWARD(Object)
-} // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Threading {
 FORWARD(WaitHandle)
 } // namespace System::Private::CoreLib::System::Threading
+namespace System::Private::CoreLib::System {
+FORWARD(AsyncCallback)
+FORWARD(IAsyncResult)
+} // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Threading::Tasks {
 FORWARD_(Task, T1, T2)
 namespace TaskToApmNamespace {
-class TaskToApm {
-  public: CLASS(TaskAsyncResult) {
+class TaskToApm : public Object::in {
+  public: CLASS(TaskAsyncResult) : public Object::in {
     public: Object get_AsyncState() { return AsyncState; }
     public: Boolean get_CompletedSynchronously() { return CompletedSynchronously; }
     public: Boolean get_IsCompleted();

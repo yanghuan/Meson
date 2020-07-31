@@ -1,6 +1,7 @@
 #pragma once
 
 #include <rt/GCObject.h>
+#include <System.Private.CoreLib/System/Object.h>
 
 namespace System::Private::CoreLib::System {
 FORWARD_(Array, T1, T2)
@@ -17,7 +18,7 @@ enum class FORMATFLAGS;
 FORWARD(DateTimeFormatInfo)
 namespace DateTimeFormatInfoScannerNamespace {
 using namespace Collections::Generic;
-CLASS(DateTimeFormatInfoScanner) {
+CLASS(DateTimeFormatInfoScanner) : public Object::in {
   private: enum class FoundDatePattern {
     None = 0,
     FoundYearPatternFlag = 1,

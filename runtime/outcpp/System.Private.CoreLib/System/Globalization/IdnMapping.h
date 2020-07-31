@@ -2,18 +2,18 @@
 
 #include <rt/GCObject.h>
 #include <System.Private.CoreLib/System/Boolean.h>
+#include <System.Private.CoreLib/System/Object.h>
 
 namespace System::Private::CoreLib::System {
 FORWARD_(Array, T1, T2)
 FORWARDS(Char)
 FORWARDS(Int32)
-FORWARD(Object)
 FORWARD(String)
 FORWARDS(UInt32)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Globalization {
 namespace IdnMappingNamespace {
-CLASS(IdnMapping) {
+CLASS(IdnMapping) : public Object::in {
   public: Boolean get_AllowUnassigned();
   public: void set_AllowUnassigned(Boolean value);
   public: Boolean get_UseStd3AsciiRules();

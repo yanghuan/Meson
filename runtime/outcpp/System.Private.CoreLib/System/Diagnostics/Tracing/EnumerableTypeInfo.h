@@ -1,6 +1,7 @@
 #pragma once
 
 #include <rt/GCObject.h>
+#include <System.Private.CoreLib/System/Diagnostics/Tracing/TraceLoggingTypeInfo.h>
 
 namespace System::Private::CoreLib::System {
 FORWARD(Object)
@@ -12,9 +13,8 @@ enum class EventFieldFormat;
 FORWARDS(PropertyValue)
 FORWARD(TraceLoggingDataCollector)
 FORWARD(TraceLoggingMetadataCollector)
-FORWARD(TraceLoggingTypeInfo)
 namespace EnumerableTypeInfoNamespace {
-CLASS(EnumerableTypeInfo) {
+CLASS(EnumerableTypeInfo) : public TraceLoggingTypeInfo::in {
   public: TraceLoggingTypeInfo get_ElementInfo();
   public: void Ctor(Type type, TraceLoggingTypeInfo elementInfo);
   public: void WriteMetadata(TraceLoggingMetadataCollector collector, String name, EventFieldFormat format);

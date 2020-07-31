@@ -1,6 +1,7 @@
 #pragma once
 
 #include <rt/GCObject.h>
+#include <System.Private.CoreLib/System/SystemException.h>
 #include <System.Private.CoreLib/System/Threading/CancellationToken.h>
 
 namespace System::Private::CoreLib::System::Runtime::Serialization {
@@ -13,7 +14,7 @@ FORWARD(String)
 namespace OperationCanceledExceptionNamespace {
 using namespace Runtime::Serialization;
 using namespace Threading;
-CLASS(OperationCanceledException) {
+CLASS(OperationCanceledException) : public SystemException::in {
   public: CancellationToken get_CancellationToken();
   private: void set_CancellationToken(CancellationToken value);
   public: void Ctor();

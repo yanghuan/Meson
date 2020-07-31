@@ -3,6 +3,7 @@
 #include <rt/GCObject.h>
 #include <System.Private.CoreLib/System/Boolean.h>
 #include <System.Private.CoreLib/System/Int32.h>
+#include <System.Private.CoreLib/System/Object.h>
 
 namespace System::Private::CoreLib::System::Text {
 FORWARD(Decoder)
@@ -29,7 +30,7 @@ namespace System::Private::CoreLib::System::IO {
 FORWARD(Stream)
 namespace BinaryReaderNamespace {
 using namespace Text;
-CLASS(BinaryReader) {
+CLASS(BinaryReader) : public Object::in {
   public: Stream get_BaseStream();
   public: void Ctor(Stream input);
   public: void Ctor(Stream input, Encoding encoding);

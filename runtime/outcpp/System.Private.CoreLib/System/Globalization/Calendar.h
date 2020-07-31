@@ -3,6 +3,7 @@
 #include <rt/GCObject.h>
 #include <System.Private.CoreLib/System/Boolean.h>
 #include <System.Private.CoreLib/System/Int32.h>
+#include <System.Private.CoreLib/System/Object.h>
 
 namespace System::Private::CoreLib::System {
 enum class DayOfWeek;
@@ -10,14 +11,13 @@ FORWARD_(Array, T1, T2)
 FORWARDS(DateTime)
 FORWARDS(Double)
 FORWARDS(Int64)
-FORWARD(Object)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Globalization {
 enum class CalendarAlgorithmType;
 enum class CalendarId : uint16_t;
 enum class CalendarWeekRule;
 namespace CalendarNamespace {
-CLASS(Calendar) {
+CLASS(Calendar) : public Object::in {
   public: DateTime get_MinSupportedDateTime();
   public: DateTime get_MaxSupportedDateTime();
   public: CalendarAlgorithmType get_AlgorithmType();

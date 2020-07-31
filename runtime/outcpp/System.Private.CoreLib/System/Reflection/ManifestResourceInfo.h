@@ -1,6 +1,7 @@
 #pragma once
 
 #include <rt/GCObject.h>
+#include <System.Private.CoreLib/System/Object.h>
 
 namespace System::Private::CoreLib::System {
 FORWARD(String)
@@ -9,7 +10,7 @@ namespace System::Private::CoreLib::System::Reflection {
 enum class ResourceLocation;
 FORWARD(Assembly)
 namespace ManifestResourceInfoNamespace {
-CLASS(ManifestResourceInfo) {
+CLASS(ManifestResourceInfo) : public Object::in {
   public: Assembly get_ReferencedAssembly();
   public: String get_FileName();
   public: ResourceLocation get_ResourceLocation();

@@ -34,6 +34,7 @@
 #include <System.Private.CoreLib/System/Threading/NativeOverlapped-dep.h>
 #include <System.Private.CoreLib/System/Threading/PreAllocatedOverlapped-dep.h>
 #include <System.Private.CoreLib/System/Threading/Tasks/Task-dep.h>
+#include <System.Private.CoreLib/System/Threading/Tasks/TaskCompletionSource-dep.h>
 #include <System.Private.CoreLib/System/Threading/Tasks/ValueTask-dep.h>
 #include <System.Private.CoreLib/System/UInt32-dep.h>
 #include <System.Private.CoreLib/System/UInt64-dep.h>

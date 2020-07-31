@@ -2,11 +2,11 @@
 
 #include <rt/GCObject.h>
 #include <System.Private.CoreLib/System/Boolean.h>
+#include <System.Private.CoreLib/System/Object.h>
 
 namespace System::Private::CoreLib::System {
 FORWARD(AggregateException)
 FORWARD(Exception)
-FORWARD(Object)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Collections::ObjectModel {
 FORWARD(ReadOnlyCollection, T)
@@ -23,7 +23,7 @@ namespace TaskExceptionHolderNamespace {
 using namespace Collections::Generic;
 using namespace Collections::ObjectModel;
 using namespace Runtime::ExceptionServices;
-CLASS(TaskExceptionHolder) {
+CLASS(TaskExceptionHolder) : public Object::in {
   public: Boolean get_ContainsFaultList();
   public: void Ctor(Task<> task);
   protected: void Finalize();

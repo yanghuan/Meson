@@ -1,6 +1,7 @@
 #pragma once
 
 #include <rt/GCObject.h>
+#include <System.Private.CoreLib/System/Attribute.h>
 #include <System.Private.CoreLib/System/Int16.h>
 #include <System.Private.CoreLib/System/Int32.h>
 
@@ -12,7 +13,7 @@ namespace System::Private::CoreLib::System::Runtime::InteropServices {
 enum class UnmanagedType;
 enum class VarEnum;
 namespace MarshalAsAttributeNamespace {
-CLASS(MarshalAsAttribute) {
+CLASS(MarshalAsAttribute) : public Attribute::in {
   public: UnmanagedType get_Value() { return Value; }
   public: void Ctor(UnmanagedType unmanagedType);
   public: void Ctor(Int16 unmanagedType);

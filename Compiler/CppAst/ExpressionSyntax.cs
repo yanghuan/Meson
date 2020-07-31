@@ -251,4 +251,20 @@ namespace Meson.Compiler.CppAst {
     }
   }
 
+  sealed class ConditionalExpressionSyntax : ExpressionSyntax {
+    public ExpressionSyntax Condition { get; }
+    public ExpressionSyntax TrueExpression { get; }
+    public ExpressionSyntax FalseExpression { get; }
+
+    public ConditionalExpressionSyntax(ExpressionSyntax condition, ExpressionSyntax trueExpression, ExpressionSyntax falseExpression) {
+      Condition = condition;
+      TrueExpression = trueExpression;
+      FalseExpression = falseExpression;
+    }
+
+    internal override void Render(CppRenderer renderer) {
+      renderer.Render(this);
+    }
+  }
+
 }

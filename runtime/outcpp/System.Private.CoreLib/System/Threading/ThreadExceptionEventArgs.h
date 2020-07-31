@@ -1,13 +1,14 @@
 #pragma once
 
 #include <rt/GCObject.h>
+#include <System.Private.CoreLib/System/EventArgs.h>
 
 namespace System::Private::CoreLib::System {
 FORWARD(Exception)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Threading {
 namespace ThreadExceptionEventArgsNamespace {
-CLASS(ThreadExceptionEventArgs) {
+CLASS(ThreadExceptionEventArgs) : public EventArgs::in {
   public: Exception get_Exception();
   public: void Ctor(Exception t);
   private: Exception m_exception;

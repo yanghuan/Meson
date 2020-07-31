@@ -4,13 +4,14 @@
 #include <System.Private.CoreLib/System/Boolean.h>
 #include <System.Private.CoreLib/System/Collections/Concurrent/PaddedHeadAndTail.h>
 #include <System.Private.CoreLib/System/Int32.h>
+#include <System.Private.CoreLib/System/Object.h>
 
 namespace System::Private::CoreLib::System {
 FORWARD_(Array, T1, T2)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Collections::Concurrent {
 namespace ConcurrentQueueSegmentNamespace {
-CLASS(ConcurrentQueueSegment, T) {
+CLASS(ConcurrentQueueSegment, T) : public Object::in {
   public: struct Slot {
     public: T Item;
     public: Int32 SequenceNumber;

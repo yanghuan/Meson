@@ -3,10 +3,10 @@
 #include <rt/GCObject.h>
 #include <System.Private.CoreLib/System/DateTime.h>
 #include <System.Private.CoreLib/System/Int32.h>
+#include <System.Private.CoreLib/System/Object.h>
 
 namespace System::Private::CoreLib::System {
 FORWARD_(Array, T1, T2)
-FORWARD(Object)
 FORWARDS(Single)
 FORWARD_(WeakReference, T1, T2)
 } // namespace System::Private::CoreLib::System
@@ -24,7 +24,7 @@ FORWARD(EventSource)
 namespace CounterGroupNamespace {
 using namespace Collections::Generic;
 using namespace Threading;
-CLASS(CounterGroup) {
+CLASS(CounterGroup) : public Object::in {
   public: void Ctor(EventSource eventSource);
   public: void Add(DiagnosticCounter eventCounter);
   public: void Remove(DiagnosticCounter eventCounter);

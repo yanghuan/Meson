@@ -1,6 +1,7 @@
 #pragma once
 
 #include <rt/GCObject.h>
+#include <System.Private.CoreLib/System/DefaultBinder.h>
 
 namespace System::Private::CoreLib::System::Globalization {
 FORWARD(CultureInfo)
@@ -10,7 +11,7 @@ FORWARD(Object)
 FORWARD(Type)
 namespace OleAutBinderNamespace {
 using namespace Globalization;
-CLASS(OleAutBinder) {
+CLASS(OleAutBinder) : public DefaultBinder::in {
   public: Object ChangeType(Object value, Type type, CultureInfo cultureInfo);
   public: void Ctor();
 };

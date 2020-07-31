@@ -2,6 +2,7 @@
 
 #include <rt/GCObject.h>
 #include <System.Private.CoreLib/System/Int32.h>
+#include <System.Private.CoreLib/System/SystemException.h>
 
 namespace System::Private::CoreLib::System {
 FORWARD(Exception)
@@ -16,7 +17,7 @@ FORWARD(Mutex)
 FORWARD(WaitHandle)
 namespace AbandonedMutexExceptionNamespace {
 using namespace Runtime::Serialization;
-CLASS(AbandonedMutexException) {
+CLASS(AbandonedMutexException) : public SystemException::in {
   public: Mutex get_Mutex();
   public: Int32 get_MutexIndex();
   public: void Ctor();

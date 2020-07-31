@@ -1,6 +1,7 @@
 #pragma once
 
 #include <rt/GCObject.h>
+#include <System.Private.CoreLib/System/Collections/Generic/EqualityComparer.h>
 #include <System.Private.CoreLib/System/Collections/Generic/IEqualityComparer.h>
 
 namespace System::Private::CoreLib::System {
@@ -15,7 +16,7 @@ FORWARDS(StreamingContext)
 namespace System::Private::CoreLib::System::Collections::Generic {
 namespace NonRandomizedStringEqualityComparerNamespace {
 using namespace Runtime::Serialization;
-CLASS(NonRandomizedStringEqualityComparer) {
+CLASS(NonRandomizedStringEqualityComparer) : public EqualityComparer<String>::in {
   public: static IEqualityComparer<String> get_Default() { return Default; }
   private: void Ctor();
   private: void Ctor(SerializationInfo information, StreamingContext context);

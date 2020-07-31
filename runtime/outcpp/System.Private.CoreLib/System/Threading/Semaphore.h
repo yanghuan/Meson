@@ -14,7 +14,7 @@ FORWARD(SafeWaitHandle)
 namespace System::Private::CoreLib::System::Threading {
 namespace SemaphoreNamespace {
 using namespace ::System::Private::CoreLib::Microsoft::Win32::SafeHandles;
-CLASS(Semaphore) {
+CLASS(Semaphore) : public WaitHandle::in {
   public: void Ctor(Int32 initialCount, Int32 maximumCount);
   public: void Ctor(Int32 initialCount, Int32 maximumCount, String name);
   public: void Ctor(Int32 initialCount, Int32 maximumCount, String name, Boolean& createdNew);

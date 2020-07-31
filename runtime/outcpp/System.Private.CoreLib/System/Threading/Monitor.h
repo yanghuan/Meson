@@ -1,17 +1,17 @@
 #pragma once
 
 #include <rt/GCObject.h>
+#include <System.Private.CoreLib/System/Object.h>
 
 namespace System::Private::CoreLib::System {
 FORWARDS(Boolean)
 FORWARDS(Int32)
 FORWARDS(Int64)
-FORWARD(Object)
 FORWARDS(TimeSpan)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Threading {
 namespace MonitorNamespace {
-class Monitor {
+class Monitor : public Object::in {
   public: static Int64 get_LockContentionCount();
   public: static void Enter(Object obj);
   public: static void Enter(Object obj, Boolean& lockTaken);

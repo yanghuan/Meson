@@ -1,6 +1,7 @@
 #pragma once
 
 #include <rt/GCObject.h>
+#include <System.Private.CoreLib/System/FormatException.h>
 
 namespace System::Private::CoreLib::System {
 FORWARD(Exception)
@@ -13,7 +14,7 @@ FORWARDS(StreamingContext)
 namespace System::Private::CoreLib::System::Reflection {
 namespace CustomAttributeFormatExceptionNamespace {
 using namespace Runtime::Serialization;
-CLASS(CustomAttributeFormatException) {
+CLASS(CustomAttributeFormatException) : public FormatException::in {
   public: void Ctor();
   public: void Ctor(String message);
   public: void Ctor(String message, Exception inner);

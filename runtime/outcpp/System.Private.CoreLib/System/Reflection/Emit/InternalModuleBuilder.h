@@ -1,6 +1,7 @@
 #pragma once
 
 #include <rt/GCObject.h>
+#include <System.Private.CoreLib/System/Reflection/RuntimeModule.h>
 
 namespace System::Private::CoreLib::System {
 FORWARDS(Boolean)
@@ -9,7 +10,7 @@ FORWARD(Object)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Reflection::Emit {
 namespace InternalModuleBuilderNamespace {
-CLASS(InternalModuleBuilder) {
+CLASS(InternalModuleBuilder) : public RuntimeModule::in {
   private: void Ctor();
   public: Boolean Equals(Object obj);
   public: Int32 GetHashCode();

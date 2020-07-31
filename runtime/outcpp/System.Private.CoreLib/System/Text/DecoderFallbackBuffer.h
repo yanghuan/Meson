@@ -2,6 +2,7 @@
 
 #include <rt/GCObject.h>
 #include <System.Private.CoreLib/System/Int32.h>
+#include <System.Private.CoreLib/System/Object.h>
 
 namespace System::Private::CoreLib::System {
 FORWARD_(Array, T1, T2)
@@ -16,7 +17,7 @@ FORWARD(DecoderNLS)
 FORWARD(Encoding)
 FORWARDS(Rune)
 namespace DecoderFallbackBufferNamespace {
-CLASS(DecoderFallbackBuffer) {
+CLASS(DecoderFallbackBuffer) : public Object::in {
   public: Int32 get_Remaining();
   public: Boolean Fallback(Array<Byte> bytesUnknown, Int32 index);
   public: Char GetNextChar();

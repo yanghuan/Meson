@@ -1,6 +1,7 @@
 #pragma once
 
 #include <rt/GCObject.h>
+#include <System.Private.CoreLib/System/Reflection/Module.h>
 
 namespace System::Private::CoreLib::System {
 FORWARD_(Array, T1, T2)
@@ -32,7 +33,6 @@ FORWARD(FieldInfo)
 FORWARD(MemberInfo)
 FORWARD(MethodBase)
 FORWARD(MethodInfo)
-FORWARD(Module)
 FORWARDS(ParameterModifier)
 FORWARD(RuntimeConstructorInfo)
 FORWARD(RuntimeFieldInfo)
@@ -78,7 +78,7 @@ using namespace Diagnostics::SymbolStore;
 using namespace Runtime::CompilerServices;
 using namespace Runtime::InteropServices;
 using Collections::Generic::IList;
-CLASS(ModuleBuilder) {
+CLASS(ModuleBuilder) : public Module::in {
   public: AssemblyBuilder get_ContainingAssemblyBuilder();
   public: Object get_SyncRoot();
   public: InternalModuleBuilder get_InternalModule();

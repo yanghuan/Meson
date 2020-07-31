@@ -1,6 +1,7 @@
 #pragma once
 
 #include <rt/GCObject.h>
+#include <System.Private.CoreLib/System/Attribute.h>
 
 namespace System::Private::CoreLib::System {
 FORWARD(String)
@@ -8,7 +9,7 @@ FORWARD(Type)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Diagnostics {
 namespace DebuggerVisualizerAttributeNamespace {
-CLASS(DebuggerVisualizerAttribute) {
+CLASS(DebuggerVisualizerAttribute) : public Attribute::in {
   public: String get_VisualizerObjectSourceTypeName() { return VisualizerObjectSourceTypeName; }
   public: String get_VisualizerTypeName() { return VisualizerTypeName; }
   public: String get_Description() { return Description; }

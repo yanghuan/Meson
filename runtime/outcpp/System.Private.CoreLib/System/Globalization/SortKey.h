@@ -1,20 +1,20 @@
 #pragma once
 
 #include <rt/GCObject.h>
+#include <System.Private.CoreLib/System/Object.h>
 
 namespace System::Private::CoreLib::System {
 FORWARD_(Array, T1, T2)
 FORWARDS(Boolean)
 FORWARDS(Byte)
 FORWARDS(Int32)
-FORWARD(Object)
 FORWARD(String)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Globalization {
 enum class CompareOptions;
 FORWARD(CompareInfo)
 namespace SortKeyNamespace {
-CLASS(SortKey) {
+CLASS(SortKey) : public Object::in {
   public: String get_OriginalString();
   public: Array<Byte> get_KeyData();
   public: void Ctor(CompareInfo compareInfo, String str, CompareOptions options, Array<Byte> keyData);

@@ -1,6 +1,7 @@
 #pragma once
 
 #include <rt/GCObject.h>
+#include <System.Private.CoreLib/System/Object.h>
 
 namespace System::Private::CoreLib::System {
 FORWARDS(Int32)
@@ -9,7 +10,7 @@ FORWARD(String)
 namespace System::Private::CoreLib::System::Text {
 FORWARD(StringBuilder)
 namespace StringBuilderCacheNamespace {
-class StringBuilderCache {
+class StringBuilderCache : public Object::in {
   public: static StringBuilder Acquire(Int32 capacity);
   public: static void Release(StringBuilder sb);
   public: static String GetStringAndRelease(StringBuilder sb);

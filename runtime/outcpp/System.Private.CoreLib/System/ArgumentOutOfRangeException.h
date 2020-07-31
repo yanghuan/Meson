@@ -1,6 +1,7 @@
 #pragma once
 
 #include <rt/GCObject.h>
+#include <System.Private.CoreLib/System/ArgumentException.h>
 
 namespace System::Private::CoreLib::System::Runtime::Serialization {
 FORWARD(SerializationInfo)
@@ -12,7 +13,7 @@ FORWARD(Object)
 FORWARD(String)
 namespace ArgumentOutOfRangeExceptionNamespace {
 using namespace Runtime::Serialization;
-CLASS(ArgumentOutOfRangeException) {
+CLASS(ArgumentOutOfRangeException) : public ArgumentException::in {
   public: String get_Message();
   public: Object get_ActualValue();
   public: void Ctor();

@@ -1,6 +1,7 @@
 #pragma once
 
 #include <rt/GCObject.h>
+#include <System.Private.CoreLib/System/Object.h>
 
 namespace System::Private::CoreLib::System {
 FORWARD_(Array, T1, T2)
@@ -18,7 +19,7 @@ namespace System::Private::CoreLib::System::Reflection {
 namespace StrongNameKeyPairNamespace {
 using namespace IO;
 using namespace Runtime::Serialization;
-CLASS(StrongNameKeyPair) {
+CLASS(StrongNameKeyPair) : public Object::in {
   public: Array<Byte> get_PublicKey();
   public: void Ctor(FileStream keyPairFile);
   public: void Ctor(Array<Byte> keyPairArray);

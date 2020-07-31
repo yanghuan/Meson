@@ -2,6 +2,7 @@
 
 #include <rt/GCObject.h>
 #include <System.Private.CoreLib/System/Boolean.h>
+#include <System.Private.CoreLib/System/Object.h>
 
 namespace System::Private::CoreLib::System::Globalization {
 FORWARD(CultureInfo)
@@ -14,7 +15,7 @@ namespace ResourceFallbackManagerNamespace {
 using namespace Collections::Generic;
 using namespace Globalization;
 using Collections::Generic::IEnumerator;
-CLASS(ResourceFallbackManager) {
+CLASS(ResourceFallbackManager) : public Object::in {
   public: void Ctor(CultureInfo startingCulture, CultureInfo neutralResourcesCulture, Boolean useParents);
   public: IEnumerator<CultureInfo> GetEnumerator();
   private: CultureInfo m_startingCulture;

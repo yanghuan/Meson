@@ -3,24 +3,24 @@
 #include <rt/GCObject.h>
 #include <System.Private.CoreLib/System/Boolean.h>
 #include <System.Private.CoreLib/System/Int32.h>
+#include <System.Private.CoreLib/System/Object.h>
 
 namespace System::Private::CoreLib::System {
 FORWARD_(Array, T1, T2)
-FORWARD(Object)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Collections {
 FORWARDS(DictionaryEntry)
 FORWARD(ICollection)
 FORWARD(IDictionaryEnumerator)
 namespace ListDictionaryInternalNamespace {
-CLASS(ListDictionaryInternal) {
-  private: CLASS(DictionaryNode) {
+CLASS(ListDictionaryInternal) : public Object::in {
+  private: CLASS(DictionaryNode) : public Object::in {
     public: void Ctor();
     public: Object key;
     public: Object value;
     public: DictionaryNode next;
   };
-  private: CLASS(NodeEnumerator) {
+  private: CLASS(NodeEnumerator) : public Object::in {
     public: Object get_Current();
     public: DictionaryEntry get_Entry();
     public: Object get_Key();
@@ -33,8 +33,8 @@ CLASS(ListDictionaryInternal) {
     private: Int32 version;
     private: Boolean start;
   };
-  private: CLASS(NodeKeyValueCollection) {
-    private: CLASS(NodeKeyValueEnumerator) {
+  private: CLASS(NodeKeyValueCollection) : public Object::in {
+    private: CLASS(NodeKeyValueEnumerator) : public Object::in {
       public: Object get_Current();
       public: void Ctor(ListDictionaryInternal list, Boolean isKeys);
       public: Boolean MoveNext();

@@ -12,7 +12,7 @@
 
 namespace rt {
   enum class TypeCode {
-    Empty = 0,
+    None = 0,
     Object = 1,
     String = 2,
     Boolean = 3,
@@ -32,7 +32,7 @@ namespace rt {
 
   template <class T>
   struct TypeKind {
-    static constexpr TypeCode Kind = TypeCode::Empty;
+    static constexpr TypeCode Kind = TypeCode::None;
   };
   
   class object;

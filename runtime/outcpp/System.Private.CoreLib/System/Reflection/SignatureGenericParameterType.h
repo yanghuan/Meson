@@ -2,6 +2,7 @@
 
 #include <rt/GCObject.h>
 #include <System.Private.CoreLib/System/Int32.h>
+#include <System.Private.CoreLib/System/Reflection/SignatureType.h>
 
 namespace System::Private::CoreLib::System {
 FORWARD_(Array, T1, T2)
@@ -10,9 +11,8 @@ FORWARD(String)
 FORWARD(Type)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Reflection {
-FORWARD(SignatureType)
 namespace SignatureGenericParameterTypeNamespace {
-CLASS(SignatureGenericParameterType) {
+CLASS(SignatureGenericParameterType) : public SignatureType::in {
   public: Boolean get_IsTypeDefinition();
   public: Boolean get_IsGenericTypeDefinition();
   public: Boolean get_IsByRefLike();

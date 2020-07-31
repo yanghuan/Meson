@@ -1,6 +1,7 @@
 #pragma once
 
 #include <rt/GCObject.h>
+#include <System.Private.CoreLib/System/Object.h>
 
 namespace System::Private::CoreLib::System {
 FORWARDS(Int32)
@@ -8,7 +9,7 @@ FORWARDS(Int64)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Diagnostics::Tracing {
 namespace RuntimeEventSourceHelperNamespace {
-class RuntimeEventSourceHelper {
+class RuntimeEventSourceHelper : public Object::in {
   public: static Int32 GetCpuUsage();
   private: static Int64 s_prevProcUserTime;
   private: static Int64 s_prevProcKernelTime;

@@ -1,6 +1,8 @@
 #pragma once
 
 #include <rt/GCObject.h>
+#include <System.Private.CoreLib/System/MulticastDelegate.h>
+#include <System.Private.CoreLib/System/Runtime/InteropServices/SafeHandle.h>
 
 namespace System::Private::CoreLib::System {
 FORWARD(AsyncCallback)
@@ -11,8 +13,9 @@ FORWARD(Object)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Reflection::Emit {
 namespace PunkSafeHandleNamespace {
-CLASS(PunkSafeHandle) {
-  private: CLASS(DRelease) {
+using namespace Runtime::InteropServices;
+CLASS(PunkSafeHandle) : public SafeHandle::in {
+  private: CLASS(DRelease) : public MulticastDelegate::in {
     public: void Ctor(Object object, IntPtr method);
     public: void Invoke(IntPtr punk);
     public: IAsyncResult BeginInvoke(IntPtr punk, AsyncCallback callback, Object object);

@@ -1,6 +1,7 @@
 #pragma once
 
 #include <rt/GCObject.h>
+#include <System.Private.CoreLib/System/Threading/Tasks/Task.h>
 
 namespace System::Private::CoreLib::System {
 FORWARD(Delegate)
@@ -11,7 +12,7 @@ enum class InternalTaskOptions;
 enum class TaskCreationOptions;
 FORWARD_(Task, T1, T2)
 namespace ContinuationTaskFromResultTaskNamespace {
-CLASS(ContinuationTaskFromResultTask, TAntecedentResult) {
+CLASS(ContinuationTaskFromResultTask, TAntecedentResult) : public Task<>::in {
   public: void Ctor(Task<TAntecedentResult> antecedent, Delegate action, Object state, TaskCreationOptions creationOptions, InternalTaskOptions internalOptions);
   public: void InnerInvoke();
   private: Task<TAntecedentResult> m_antecedent;

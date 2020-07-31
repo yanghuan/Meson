@@ -1,6 +1,7 @@
 #pragma once
 
 #include <rt/GCObject.h>
+#include <System.Private.CoreLib/System/Object.h>
 
 namespace System::Private::CoreLib::System::Reflection {
 FORWARD(Assembly)
@@ -19,12 +20,11 @@ FORWARD_(Array, T1, T2)
 FORWARD(AttributeUsageAttribute)
 FORWARDS(Boolean)
 FORWARDS(Int32)
-FORWARD(Object)
 FORWARD(Type)
 namespace AttributeNamespace {
 using namespace Collections::Generic;
 using namespace Reflection;
-CLASS(Attribute) {
+CLASS(Attribute) : public Object::in {
   public: Object get_TypeId();
   private: static Array<Attribute> InternalGetCustomAttributes(PropertyInfo element, Type type, Boolean inherit);
   private: static Boolean InternalIsDefined(PropertyInfo element, Type attributeType, Boolean inherit);

@@ -2,6 +2,7 @@
 
 #include <rt/GCObject.h>
 #include <System.Private.CoreLib/System/Int32.h>
+#include <System.Private.CoreLib/System/Object.h>
 
 namespace System::Private::CoreLib::System::Collections {
 FORWARD(IDictionary)
@@ -26,7 +27,7 @@ namespace EnvironmentNamespace {
 using namespace ::System::Private::CoreLib::Internal::Win32;
 using namespace Collections;
 using namespace Text;
-class Environment {
+class Environment : public Object::in {
   public: enum class SpecialFolder {
     ApplicationData = 26,
     CommonApplicationData = 35,
@@ -81,11 +82,11 @@ class Environment {
     Create = 32768,
     DoNotVerify = 16384,
   };
-  private: class WinRTFolderPaths {
+  private: class WinRTFolderPaths : public Object::in {
     public: static String GetFolderPath(SpecialFolder folder, SpecialFolderOption option);
     private: static Func<SpecialFolder, SpecialFolderOption, String> s_winRTFolderPathsGetFolderPath;
   };
-  private: class WindowsVersion {
+  private: class WindowsVersion : public Object::in {
     private: static Boolean GetIsWindows8OrAbove();
     private: static void SCtor();
     public: static Boolean IsWindows8OrAbove;

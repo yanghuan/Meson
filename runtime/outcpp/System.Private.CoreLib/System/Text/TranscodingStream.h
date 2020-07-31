@@ -3,6 +3,7 @@
 #include <rt/GCObject.h>
 #include <System.Private.CoreLib/System/Boolean.h>
 #include <System.Private.CoreLib/System/Int32.h>
+#include <System.Private.CoreLib/System/IO/Stream.h>
 
 namespace System::Private::CoreLib::System {
 FORWARD_(Array, T1, T2)
@@ -17,10 +18,6 @@ FORWARDS(ReadOnlyMemory, T)
 FORWARDS(ReadOnlySpan, T)
 FORWARDS(Span, T)
 } // namespace System::Private::CoreLib::System
-namespace System::Private::CoreLib::System::IO {
-enum class SeekOrigin;
-FORWARD(Stream)
-} // namespace System::Private::CoreLib::System::IO
 namespace System::Private::CoreLib::System::Threading::Tasks {
 FORWARD_(Task, T1, T2)
 FORWARDS_(ValueTask, T1, T2)
@@ -28,6 +25,9 @@ FORWARDS_(ValueTask, T1, T2)
 namespace System::Private::CoreLib::System::Threading {
 FORWARDS(CancellationToken)
 } // namespace System::Private::CoreLib::System::Threading
+namespace System::Private::CoreLib::System::IO {
+enum class SeekOrigin;
+} // namespace System::Private::CoreLib::System::IO
 namespace System::Private::CoreLib::System::Text {
 FORWARD(Decoder)
 FORWARD(Encoder)
@@ -36,7 +36,7 @@ namespace TranscodingStreamNamespace {
 using namespace IO;
 using namespace Threading;
 using namespace Threading::Tasks;
-CLASS(TranscodingStream) {
+CLASS(TranscodingStream) : public Stream::in {
   public: Boolean get_CanRead();
   public: Boolean get_CanSeek();
   public: Boolean get_CanWrite();

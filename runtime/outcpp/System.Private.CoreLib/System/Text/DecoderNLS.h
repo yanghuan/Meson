@@ -3,6 +3,7 @@
 #include <rt/GCObject.h>
 #include <System.Private.CoreLib/System/Boolean.h>
 #include <System.Private.CoreLib/System/Int32.h>
+#include <System.Private.CoreLib/System/Text/Decoder.h>
 
 namespace System::Private::CoreLib::System {
 FORWARD_(Array, T1, T2)
@@ -14,7 +15,7 @@ FORWARDS(Span, T)
 namespace System::Private::CoreLib::System::Text {
 FORWARD(Encoding)
 namespace DecoderNLSNamespace {
-CLASS(DecoderNLS) {
+CLASS(DecoderNLS) : public Decoder::in {
   public: Boolean get_MustFlush();
   public: Boolean get_HasState();
   public: Boolean get_HasLeftoverData();

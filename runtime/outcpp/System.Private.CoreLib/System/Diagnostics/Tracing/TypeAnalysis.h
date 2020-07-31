@@ -1,6 +1,7 @@
 #pragma once
 
 #include <rt/GCObject.h>
+#include <System.Private.CoreLib/System/Object.h>
 
 namespace System::Private::CoreLib::System {
 FORWARD_(Array, T1, T2)
@@ -19,7 +20,7 @@ FORWARD(EventDataAttribute)
 FORWARD(PropertyAnalysis)
 namespace TypeAnalysisNamespace {
 using namespace Collections::Generic;
-CLASS(TypeAnalysis) {
+CLASS(TypeAnalysis) : public Object::in {
   public: void Ctor(Type dataType, EventDataAttribute eventAttrib, List<Type> recursionCheck);
   public: Array<PropertyAnalysis> properties;
   public: String name;

@@ -1,10 +1,11 @@
 #pragma once
 
 #include <rt/GCObject.h>
+#include <System.Private.CoreLib/System/Object.h>
 
 namespace System::Private::CoreLib::System::StubHelpers {
 namespace CleanupWorkListElementNamespace {
-CLASS(CleanupWorkListElement) {
+CLASS(CleanupWorkListElement) : public Object::in {
   protected: void DestroyCore();
   public: void Destroy();
   public: static void AddToCleanupList(CleanupWorkListElement& list, CleanupWorkListElement newElement);

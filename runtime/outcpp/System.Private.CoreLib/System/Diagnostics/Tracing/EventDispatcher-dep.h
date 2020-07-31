@@ -5,3 +5,4 @@
 #include <System.Private.CoreLib/System/Array-dep.h>
 #include <System.Private.CoreLib/System/Boolean-dep.h>
 #include <System.Private.CoreLib/System/Diagnostics/Tracing/EventListener-dep.h>
+#include <System.Private.CoreLib/System/Object-dep.h>

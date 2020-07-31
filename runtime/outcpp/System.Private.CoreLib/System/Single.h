@@ -73,3 +73,9 @@ struct Single : public rt::PrimitiveType<Single> {
 } // namespace SingleNamespace
 using Single = SingleNamespace::Single;
 } // namespace System::Private::CoreLib::System
+namespace rt {
+template <>
+struct TypeKind<::System::Private::CoreLib::System::Single> {
+  static constexpr TypeCode Kind = TypeCode::Single;
+};
+} // namespace rt

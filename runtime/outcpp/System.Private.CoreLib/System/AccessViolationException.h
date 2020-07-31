@@ -3,6 +3,7 @@
 #include <rt/GCObject.h>
 #include <System.Private.CoreLib/System/Int32.h>
 #include <System.Private.CoreLib/System/IntPtr.h>
+#include <System.Private.CoreLib/System/SystemException.h>
 
 namespace System::Private::CoreLib::System::Runtime::Serialization {
 FORWARD(SerializationInfo)
@@ -13,7 +14,7 @@ FORWARD(Exception)
 FORWARD(String)
 namespace AccessViolationExceptionNamespace {
 using namespace Runtime::Serialization;
-CLASS(AccessViolationException) {
+CLASS(AccessViolationException) : public SystemException::in {
   public: void Ctor();
   public: void Ctor(String message);
   public: void Ctor(String message, Exception innerException);

@@ -1,6 +1,7 @@
 #pragma once
 
 #include <rt/GCObject.h>
+#include <System.Private.CoreLib/System/Object.h>
 
 namespace System::Private::CoreLib::System {
 FORWARD_(Array, T1, T2)
@@ -18,7 +19,7 @@ FORWARD(ISymbolDocumentWriter)
 FORWARDS(SymbolToken)
 namespace ISymbolWriterNamespace {
 using namespace Reflection;
-CLASS(ISymbolWriter) {
+CLASS(ISymbolWriter) : public Object::in {
   public: ISymbolDocumentWriter DefineDocument(String url, Guid language, Guid languageVendor, Guid documentType);
   public: void OpenMethod(SymbolToken method);
   public: void CloseMethod();

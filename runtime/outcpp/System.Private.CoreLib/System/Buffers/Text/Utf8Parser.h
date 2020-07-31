@@ -3,6 +3,7 @@
 #include <rt/GCObject.h>
 #include <System.Private.CoreLib/System/Boolean.h>
 #include <System.Private.CoreLib/System/Number.h>
+#include <System.Private.CoreLib/System/Object.h>
 #include <System.Private.CoreLib/System/UInt32.h>
 
 namespace System::Private::CoreLib::System {
@@ -27,7 +28,7 @@ FORWARDS(UInt64)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Buffers::Text {
 namespace Utf8ParserNamespace {
-class Utf8Parser {
+class Utf8Parser : public Object::in {
   private: enum class ParseNumberOptions {
     AllowExponent = 1,
   };

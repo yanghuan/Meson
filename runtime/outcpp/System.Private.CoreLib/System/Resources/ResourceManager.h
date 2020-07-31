@@ -2,10 +2,10 @@
 
 #include <rt/GCObject.h>
 #include <System.Private.CoreLib/System/Boolean.h>
+#include <System.Private.CoreLib/System/Object.h>
 
 namespace System::Private::CoreLib::System {
 FORWARDS(Int32)
-FORWARD(Object)
 FORWARD(String)
 FORWARD(Type)
 FORWARD(Version)
@@ -31,13 +31,13 @@ using namespace Collections::Generic;
 using namespace Globalization;
 using namespace IO;
 using namespace Reflection;
-CLASS(ResourceManager) {
-  public: CLASS(CultureNameResourceSetPair) {
+CLASS(ResourceManager) : public Object::in {
+  public: CLASS(CultureNameResourceSetPair) : public Object::in {
     public: void Ctor();
     public: String lastCultureName;
     public: ResourceSet lastResourceSet;
   };
-  public: CLASS(ResourceManagerMediator) {
+  public: CLASS(ResourceManagerMediator) : public Object::in {
     public: String get_ModuleDir();
     public: Type get_LocationInfo();
     public: Type get_UserResourceSet();

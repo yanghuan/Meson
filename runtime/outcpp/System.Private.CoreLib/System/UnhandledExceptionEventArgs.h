@@ -2,11 +2,12 @@
 
 #include <rt/GCObject.h>
 #include <System.Private.CoreLib/System/Boolean.h>
+#include <System.Private.CoreLib/System/EventArgs.h>
 
 namespace System::Private::CoreLib::System {
 FORWARD(Object)
 namespace UnhandledExceptionEventArgsNamespace {
-CLASS(UnhandledExceptionEventArgs) {
+CLASS(UnhandledExceptionEventArgs) : public EventArgs::in {
   public: Object get_ExceptionObject();
   public: Boolean get_IsTerminating();
   public: void Ctor(Object exception, Boolean isTerminating);

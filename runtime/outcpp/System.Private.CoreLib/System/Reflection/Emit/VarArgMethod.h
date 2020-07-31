@@ -1,6 +1,7 @@
 #pragma once
 
 #include <rt/GCObject.h>
+#include <System.Private.CoreLib/System/Object.h>
 
 namespace System::Private::CoreLib::System::Reflection {
 FORWARD(RuntimeMethodInfo)
@@ -9,7 +10,7 @@ namespace System::Private::CoreLib::System::Reflection::Emit {
 FORWARD(DynamicMethod)
 FORWARD(SignatureHelper)
 namespace VarArgMethodNamespace {
-CLASS(VarArgMethod) {
+CLASS(VarArgMethod) : public Object::in {
   public: void Ctor(DynamicMethod dm, SignatureHelper signature);
   public: void Ctor(RuntimeMethodInfo method, SignatureHelper signature);
   public: RuntimeMethodInfo m_method;

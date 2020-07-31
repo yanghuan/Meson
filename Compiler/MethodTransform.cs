@@ -242,7 +242,10 @@ namespace Meson.Compiler {
     }
 
     public SyntaxNode VisitConditionalExpression(ConditionalExpression conditionalExpression) {
-      throw new NotImplementedException();
+      var condition = conditionalExpression.Condition.AcceptExpression(this);
+      var trueExpression = conditionalExpression.TrueExpression.AcceptExpression(this);
+      var falseExpression = conditionalExpression.FalseExpression.AcceptExpression(this);
+      return new ConditionalExpressionSyntax(condition, trueExpression, falseExpression);
     }
 
     public SyntaxNode VisitDefaultValueExpression(DefaultValueExpression defaultValueExpression) {

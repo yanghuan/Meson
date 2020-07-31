@@ -1,6 +1,7 @@
 #pragma once
 
 #include <rt/GCObject.h>
+#include <System.Private.CoreLib/System/SystemException.h>
 
 namespace System::Private::CoreLib::System {
 FORWARD(Exception)
@@ -20,7 +21,7 @@ namespace System::Private::CoreLib::System::Security {
 namespace SecurityExceptionNamespace {
 using namespace Reflection;
 using namespace Runtime::Serialization;
-CLASS(SecurityException) {
+CLASS(SecurityException) : public SystemException::in {
   public: Object get_Demanded() { return Demanded; }
   public: void set_Demanded(Object value) { Demanded = value; }
   public: Object get_DenySetInstance() { return DenySetInstance; }

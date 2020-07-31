@@ -2,6 +2,7 @@
 
 #include <rt/GCObject.h>
 #include <System.Private.CoreLib/System/Boolean.h>
+#include <System.Private.CoreLib/System/EventArgs.h>
 #include <System.Private.CoreLib/System/Int32.h>
 
 namespace System::Private::CoreLib::System::Collections::Generic {
@@ -20,7 +21,7 @@ FORWARD(EventListener)
 FORWARD(EventSource)
 namespace EventCommandEventArgsNamespace {
 using namespace Collections::Generic;
-CLASS(EventCommandEventArgs) {
+CLASS(EventCommandEventArgs) : public EventArgs::in {
   public: EventCommand get_Command() { return Command; }
   public: void set_Command(EventCommand value) { Command = value; }
   public: IDictionary<String, String> get_Arguments() { return Arguments; }

@@ -1,19 +1,19 @@
 #pragma once
 
 #include <rt/GCObject.h>
+#include <System.Private.CoreLib/System/Object.h>
 
 namespace System::Private::CoreLib::System {
 FORWARDS(Boolean)
 FORWARD(Exception)
 FORWARDS(Int32)
-FORWARD(Object)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Threading::Tasks {
 enum class TaskCreationOptions;
 enum class TaskStatus;
 FORWARD_(Task, T1, T2)
 namespace SystemThreadingTasks_FutureDebugViewNamespace {
-CLASS(SystemThreadingTasks_FutureDebugView, TResult) {
+CLASS(SystemThreadingTasks_FutureDebugView, TResult) : public Object::in {
   public: TResult get_Result();
   public: Object get_AsyncState();
   public: TaskCreationOptions get_CreationOptions();

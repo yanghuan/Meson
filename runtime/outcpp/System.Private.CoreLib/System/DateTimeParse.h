@@ -1,6 +1,8 @@
 #pragma once
 
 #include <rt/GCObject.h>
+#include <System.Private.CoreLib/System/MulticastDelegate.h>
+#include <System.Private.CoreLib/System/Object.h>
 
 namespace System::Private::CoreLib::System::Globalization {
 enum class DateTimeStyles;
@@ -25,7 +27,6 @@ FORWARD(Exception)
 FORWARD(IAsyncResult)
 FORWARDS(Int32)
 FORWARDS(IntPtr)
-FORWARD(Object)
 FORWARDS(ParsingInfo)
 FORWARDS(ReadOnlySpan, T)
 FORWARD(String)
@@ -33,7 +34,7 @@ FORWARDS(TimeSpan)
 namespace DateTimeParseNamespace {
 using namespace Globalization;
 using namespace Text;
-class DateTimeParse {
+class DateTimeParse : public Object::in {
   public: enum class DTT {
     End = 0,
     NumEnd = 1,
@@ -103,7 +104,7 @@ class DateTimeParse {
     TX_TS = 37,
     DX_NNY = 38,
   };
-  public: CLASS(MatchNumberDelegate) {
+  public: CLASS(MatchNumberDelegate) : public MulticastDelegate::in {
     public: void Ctor(Object object, IntPtr method);
     public: Boolean Invoke(__DTString& str, Int32 digitLen, Int32& result);
     public: IAsyncResult BeginInvoke(__DTString& str, Int32 digitLen, Int32& result, AsyncCallback callback, Object object);

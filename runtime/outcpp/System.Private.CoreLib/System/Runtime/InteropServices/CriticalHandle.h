@@ -3,10 +3,12 @@
 #include <rt/GCObject.h>
 #include <System.Private.CoreLib/System/Boolean.h>
 #include <System.Private.CoreLib/System/IntPtr.h>
+#include <System.Private.CoreLib/System/Runtime/ConstrainedExecution/CriticalFinalizerObject.h>
 
 namespace System::Private::CoreLib::System::Runtime::InteropServices {
 namespace CriticalHandleNamespace {
-CLASS(CriticalHandle) {
+using namespace ConstrainedExecution;
+CLASS(CriticalHandle) : public CriticalFinalizerObject::in {
   public: Boolean get_IsClosed();
   public: Boolean get_IsInvalid();
   protected: void Ctor(IntPtr invalidHandleValue);

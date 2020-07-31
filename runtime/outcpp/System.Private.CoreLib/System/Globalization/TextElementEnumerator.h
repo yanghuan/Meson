@@ -2,15 +2,15 @@
 
 #include <rt/GCObject.h>
 #include <System.Private.CoreLib/System/Int32.h>
+#include <System.Private.CoreLib/System/Object.h>
 
 namespace System::Private::CoreLib::System {
 FORWARDS(Boolean)
-FORWARD(Object)
 FORWARD(String)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Globalization {
 namespace TextElementEnumeratorNamespace {
-CLASS(TextElementEnumerator) {
+CLASS(TextElementEnumerator) : public Object::in {
   public: Object get_Current();
   public: Int32 get_ElementIndex();
   public: void Ctor(String str, Int32 startIndex);

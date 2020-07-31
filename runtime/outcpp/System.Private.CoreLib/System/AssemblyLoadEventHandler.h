@@ -1,6 +1,7 @@
 #pragma once
 
 #include <rt/GCObject.h>
+#include <System.Private.CoreLib/System/MulticastDelegate.h>
 
 namespace System::Private::CoreLib::System {
 FORWARD(AssemblyLoadEventArgs)
@@ -9,7 +10,7 @@ FORWARD(IAsyncResult)
 FORWARDS(IntPtr)
 FORWARD(Object)
 namespace AssemblyLoadEventHandlerNamespace {
-CLASS(AssemblyLoadEventHandler) {
+CLASS(AssemblyLoadEventHandler) : public MulticastDelegate::in {
   public: void Ctor(Object object, IntPtr method);
   public: void Invoke(Object sender, AssemblyLoadEventArgs args);
   public: IAsyncResult BeginInvoke(Object sender, AssemblyLoadEventArgs args, AsyncCallback callback, Object object);

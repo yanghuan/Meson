@@ -1,20 +1,21 @@
 #pragma once
 
 #include <rt/GCObject.h>
+#include <System.Private.CoreLib/System/Diagnostics/Tracing/EventSource.h>
+#include <System.Private.CoreLib/System/Object.h>
 
 namespace System::Private::CoreLib::System {
 FORWARDS(Boolean)
 FORWARDS(Int32)
 FORWARDS(Int64)
-FORWARD(Object)
 FORWARD(String)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Diagnostics::Tracing {
 namespace FrameworkEventSourceNamespace {
-CLASS(FrameworkEventSource) {
-  public: class Keywords {
+CLASS(FrameworkEventSource) : public EventSource::in {
+  public: class Keywords : public Object::in {
   };
-  public: class Tasks {
+  public: class Tasks : public Object::in {
   };
   private: void Ctor();
   private: void WriteEvent(Int32 eventId, Int64 arg1, Int32 arg2, String arg3, Boolean arg4, Int32 arg5, Int32 arg6);

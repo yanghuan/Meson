@@ -1,6 +1,7 @@
 #pragma once
 
 #include <rt/GCObject.h>
+#include <System.Private.CoreLib/System/Threading/Tasks/AwaitTaskContinuation.h>
 
 namespace System::Private::CoreLib::System::Threading {
 FORWARD_(ContextCallback, T1, T2)
@@ -16,7 +17,7 @@ FORWARD(Object)
 namespace System::Private::CoreLib::System::Threading::Tasks {
 FORWARD_(Task, T1, T2)
 namespace SynchronizationContextAwaitTaskContinuationNamespace {
-CLASS(SynchronizationContextAwaitTaskContinuation) {
+CLASS(SynchronizationContextAwaitTaskContinuation) : public AwaitTaskContinuation::in {
   public: void Ctor(SynchronizationContext context, Action<> action, Boolean flowExecutionContext);
   public: void Run(Task<> task, Boolean canInlineContinuationTask);
   private: static void PostAction(Object state);

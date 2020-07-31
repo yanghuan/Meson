@@ -1,11 +1,11 @@
 #pragma once
 
 #include <rt/GCObject.h>
+#include <System.Private.CoreLib/System/Object.h>
 
 namespace System::Private::CoreLib::System {
 FORWARDS(Int32)
 FORWARDS(IntPtr)
-FORWARD(Object)
 FORWARD(String)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Runtime::InteropServices {
@@ -13,7 +13,7 @@ FORWARD(ICustomMarshaler)
 } // namespace System::Private::CoreLib::System::Runtime::InteropServices
 namespace System::Private::CoreLib::System::Runtime::InteropServices::CustomMarshalers {
 namespace EnumeratorToEnumVariantMarshalerNamespace {
-CLASS(EnumeratorToEnumVariantMarshaler) {
+CLASS(EnumeratorToEnumVariantMarshaler) : public Object::in {
   public: static ICustomMarshaler GetInstance(String cookie);
   private: void Ctor();
   public: void CleanUpManagedData(Object ManagedObj);

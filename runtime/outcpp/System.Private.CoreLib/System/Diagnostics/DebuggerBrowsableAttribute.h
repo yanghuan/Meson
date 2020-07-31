@@ -1,11 +1,12 @@
 #pragma once
 
 #include <rt/GCObject.h>
+#include <System.Private.CoreLib/System/Attribute.h>
 
 namespace System::Private::CoreLib::System::Diagnostics {
 enum class DebuggerBrowsableState;
 namespace DebuggerBrowsableAttributeNamespace {
-CLASS(DebuggerBrowsableAttribute) {
+CLASS(DebuggerBrowsableAttribute) : public Attribute::in {
   public: DebuggerBrowsableState get_State() { return State; }
   public: void Ctor(DebuggerBrowsableState state);
   private: DebuggerBrowsableState State;

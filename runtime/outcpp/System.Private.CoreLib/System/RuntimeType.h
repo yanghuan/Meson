@@ -5,7 +5,9 @@
 #include <System.Private.CoreLib/System/Int32.h>
 #include <System.Private.CoreLib/System/IntPtr.h>
 #include <System.Private.CoreLib/System/MdUtf8String.h>
+#include <System.Private.CoreLib/System/Object.h>
 #include <System.Private.CoreLib/System/Reflection/CerHashtable.h>
+#include <System.Private.CoreLib/System/Reflection/TypeInfo.h>
 #include <System.Private.CoreLib/System/RuntimeMethodHandleInternal.h>
 #include <System.Private.CoreLib/System/UInt32.h>
 
@@ -35,7 +37,6 @@ FORWARD(RuntimeFieldInfo)
 FORWARD(RuntimeMethodInfo)
 FORWARD(RuntimeModule)
 FORWARD(RuntimePropertyInfo)
-FORWARD(TypeInfo)
 } // namespace System::Private::CoreLib::System::Reflection
 namespace System::Private::CoreLib::System::Collections::Generic {
 FORWARD(Dictionary, TKey, TValue)
@@ -64,7 +65,6 @@ FORWARDS(Guid)
 FORWARDS(Int64)
 FORWARD(IRuntimeFieldInfo)
 FORWARD(IRuntimeMethodInfo)
-FORWARD(Object)
 FORWARD(OleAutBinder)
 FORWARDS(RuntimeFieldHandleInternal)
 FORWARDS(RuntimeTypeHandle)
@@ -77,7 +77,7 @@ using namespace Reflection;
 using namespace Runtime::InteropServices;
 using namespace Threading;
 using Collections::Generic::IList;
-CLASS(RuntimeType) {
+CLASS(RuntimeType) : public TypeInfo::in {
   public: enum class MemberListType {
     All = 0,
     CaseSensitive = 1,
@@ -106,7 +106,7 @@ CLASS(RuntimeType) {
     private: Int32 _count;
     private: Int32 _capacity;
   };
-  public: CLASS(RuntimeTypeCache) {
+  public: CLASS(RuntimeTypeCache) : public Object::in {
     public: enum class CacheType {
       Method = 0,
       Constructor = 1,
@@ -127,7 +127,7 @@ CLASS(RuntimeType) {
       private: MemberListType m_listType;
       private: UInt32 m_nameHash;
     };
-    private: CLASS(MemberInfoCache, T) {
+    private: CLASS(MemberInfoCache, T) : public Object::in {
       public: RuntimeType get_ReflectedType();
       public: void Ctor(RuntimeTypeCache runtimeTypeCache);
       public: MethodBase AddMethod(RuntimeType declaringType, RuntimeMethodHandleInternal method, CacheType cacheType);
@@ -209,7 +209,7 @@ CLASS(RuntimeType) {
     private: Object m_genericCache;
     private: Array<Object> _emptyArray;
   };
-  private: CLASS(ActivatorCache) {
+  private: CLASS(ActivatorCache) : public Object::in {
     public: void Ctor(RuntimeMethodHandleInternal rmh);
     private: void Initialize();
     public: void EnsureInitialized();

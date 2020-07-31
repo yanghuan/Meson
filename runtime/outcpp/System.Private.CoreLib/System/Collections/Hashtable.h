@@ -3,11 +3,11 @@
 #include <rt/GCObject.h>
 #include <System.Private.CoreLib/System/Boolean.h>
 #include <System.Private.CoreLib/System/Int32.h>
+#include <System.Private.CoreLib/System/Object.h>
 #include <System.Private.CoreLib/System/Single.h>
 
 namespace System::Private::CoreLib::System {
 FORWARD_(Array, T1, T2)
-FORWARD(Object)
 FORWARDS(UInt32)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Runtime::Serialization {
@@ -26,13 +26,13 @@ FORWARD(IHashCodeProvider)
 FORWARD(KeyValuePairs)
 namespace HashtableNamespace {
 using namespace Runtime::Serialization;
-CLASS(Hashtable) {
+CLASS(Hashtable) : public Object::in {
   private: struct bucket {
     public: Object key;
     public: Object val;
     public: Int32 hash_coll;
   };
-  private: CLASS(KeyCollection) {
+  private: CLASS(KeyCollection) : public Object::in {
     public: Boolean get_IsSynchronized();
     public: Object get_SyncRoot();
     public: Int32 get_Count();
@@ -41,7 +41,7 @@ CLASS(Hashtable) {
     public: IEnumerator GetEnumerator();
     private: Hashtable _hashtable;
   };
-  private: CLASS(ValueCollection) {
+  private: CLASS(ValueCollection) : public Object::in {
     public: Boolean get_IsSynchronized();
     public: Object get_SyncRoot();
     public: Int32 get_Count();
@@ -50,7 +50,7 @@ CLASS(Hashtable) {
     public: IEnumerator GetEnumerator();
     private: Hashtable _hashtable;
   };
-  private: CLASS(SyncHashtable) {
+  private: CLASS(SyncHashtable) : public Hashtable::in {
     public: Int32 get_Count();
     public: Boolean get_IsReadOnly();
     public: Boolean get_IsFixedSize();
@@ -75,7 +75,7 @@ CLASS(Hashtable) {
     public: Array<KeyValuePairs> ToKeyValuePairsArray();
     protected: Hashtable _table;
   };
-  private: CLASS(HashtableEnumerator) {
+  private: CLASS(HashtableEnumerator) : public Object::in {
     public: Object get_Key();
     public: DictionaryEntry get_Entry();
     public: Object get_Current();
@@ -92,7 +92,7 @@ CLASS(Hashtable) {
     private: Object _currentKey;
     private: Object _currentValue;
   };
-  public: CLASS(HashtableDebugView) {
+  public: CLASS(HashtableDebugView) : public Object::in {
     public: Array<KeyValuePairs> get_Items();
     public: void Ctor(Hashtable hashtable);
     private: Hashtable _hashtable;

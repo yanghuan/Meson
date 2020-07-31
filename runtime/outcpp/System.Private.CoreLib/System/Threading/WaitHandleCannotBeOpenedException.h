@@ -1,6 +1,7 @@
 #pragma once
 
 #include <rt/GCObject.h>
+#include <System.Private.CoreLib/System/ApplicationException.h>
 
 namespace System::Private::CoreLib::System {
 FORWARD(Exception)
@@ -13,7 +14,7 @@ FORWARDS(StreamingContext)
 namespace System::Private::CoreLib::System::Threading {
 namespace WaitHandleCannotBeOpenedExceptionNamespace {
 using namespace Runtime::Serialization;
-CLASS(WaitHandleCannotBeOpenedException) {
+CLASS(WaitHandleCannotBeOpenedException) : public ApplicationException::in {
   public: void Ctor();
   public: void Ctor(String message);
   public: void Ctor(String message, Exception innerException);

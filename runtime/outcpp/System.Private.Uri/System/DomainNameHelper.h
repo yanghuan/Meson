@@ -1,6 +1,7 @@
 #pragma once
 
 #include <rt/GCObject.h>
+#include <System.Private.CoreLib/System/Object.h>
 
 namespace System::Private::CoreLib::System {
 FORWARD_(Array, T1, T2)
@@ -16,7 +17,7 @@ namespace System::Private::Uri::System {
 namespace DomainNameHelperNamespace {
 using namespace ::System::Private::CoreLib::System;
 using namespace ::System::Private::CoreLib::System::Globalization;
-class DomainNameHelper {
+class DomainNameHelper : public Object::in {
   public: static String ParseCanonicalName(String str, Int32 start, Int32 end, Boolean& loopback);
   public: static Boolean IsValid(Char* name, Int32 pos, Int32& returnedEnd, Boolean& notCanonical, Boolean notImplicitFile);
   public: static Boolean IsValidByIri(Char* name, Int32 pos, Int32& returnedEnd, Boolean& notCanonical, Boolean notImplicitFile);

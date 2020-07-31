@@ -1,12 +1,13 @@
 #pragma once
 
 #include <rt/GCObject.h>
+#include <System.Private.CoreLib/System/Attribute.h>
 #include <System.Private.CoreLib/System/Boolean.h>
 
 namespace System::Private::CoreLib::System::Diagnostics::Tracing {
 enum class EventChannelType;
 namespace EventChannelAttributeNamespace {
-CLASS(EventChannelAttribute) {
+CLASS(EventChannelAttribute) : public Attribute::in {
   public: Boolean get_Enabled() { return Enabled; }
   public: void set_Enabled(Boolean value) { Enabled = value; }
   public: EventChannelType get_EventChannelType() { return EventChannelType; }

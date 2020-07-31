@@ -1,6 +1,7 @@
 #pragma once
 
 #include <rt/GCObject.h>
+#include <System.Private.CoreLib/System/Object.h>
 
 namespace System::Private::CoreLib::System {
 FORWARDS(Byte)
@@ -16,7 +17,7 @@ FORWARDS(UInt64)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Numerics {
 namespace ConstantHelperNamespace {
-class ConstantHelper {
+class ConstantHelper : public Object::in {
   public: static Byte GetByteWithAllBitsSet();
   public: static SByte GetSByteWithAllBitsSet();
   public: static UInt16 GetUInt16WithAllBitsSet();

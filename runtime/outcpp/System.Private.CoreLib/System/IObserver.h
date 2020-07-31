@@ -1,11 +1,12 @@
 #pragma once
 
 #include <rt/GCObject.h>
+#include <System.Private.CoreLib/System/Object.h>
 
 namespace System::Private::CoreLib::System {
 FORWARD(Exception)
 namespace IObserverNamespace {
-CLASS(IObserver, T) {
+CLASS(IObserver, T) : public Object::in {
   public: void OnNext(T value);
   public: void OnError(Exception error);
   public: void OnCompleted();

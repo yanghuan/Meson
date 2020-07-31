@@ -1,6 +1,7 @@
 #pragma once
 
 #include <rt/GCObject.h>
+#include <System.Private.CoreLib/System/Collections/Generic/EqualityComparer.h>
 
 namespace System::Private::CoreLib::System {
 FORWARD_(Array, T1, T2)
@@ -15,7 +16,7 @@ FORWARDS(StreamingContext)
 namespace System::Private::CoreLib::System::Collections::Generic {
 namespace EnumEqualityComparerNamespace {
 using namespace Runtime::Serialization;
-CLASS(EnumEqualityComparer, T) {
+CLASS(EnumEqualityComparer, T) : public EqualityComparer<T>::in {
   public: Boolean Equals(T x, T y);
   public: Int32 IndexOf(Array<T> array, T value, Int32 startIndex, Int32 count);
   public: Int32 LastIndexOf(Array<T> array, T value, Int32 startIndex, Int32 count);

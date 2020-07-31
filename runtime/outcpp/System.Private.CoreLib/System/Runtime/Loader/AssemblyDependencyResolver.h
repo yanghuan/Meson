@@ -1,6 +1,7 @@
 #pragma once
 
 #include <rt/GCObject.h>
+#include <System.Private.CoreLib/System/Object.h>
 
 namespace System::Private::CoreLib::System {
 FORWARD_(Array, T1, T2)
@@ -16,7 +17,7 @@ namespace System::Private::CoreLib::System::Runtime::Loader {
 namespace AssemblyDependencyResolverNamespace {
 using namespace Collections::Generic;
 using namespace Reflection;
-CLASS(AssemblyDependencyResolver) {
+CLASS(AssemblyDependencyResolver) : public Object::in {
   public: void Ctor(String componentAssemblyPath);
   public: String ResolveAssemblyToPath(AssemblyName assemblyName);
   public: String ResolveUnmanagedDllToPath(String unmanagedDllName);

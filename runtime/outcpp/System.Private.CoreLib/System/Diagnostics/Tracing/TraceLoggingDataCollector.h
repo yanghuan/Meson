@@ -1,6 +1,7 @@
 #pragma once
 
 #include <rt/GCObject.h>
+#include <System.Private.CoreLib/System/Object.h>
 
 namespace System::Private::CoreLib::System {
 FORWARDS(Boolean)
@@ -12,7 +13,7 @@ FORWARD(String)
 namespace System::Private::CoreLib::System::Diagnostics::Tracing {
 FORWARDS(PropertyValue)
 namespace TraceLoggingDataCollectorNamespace {
-CLASS(TraceLoggingDataCollector) {
+CLASS(TraceLoggingDataCollector) : public Object::in {
   private: void Ctor();
   public: Int32 BeginBufferedArray();
   public: void EndBufferedArray(Int32 bookmark, Int32 count);

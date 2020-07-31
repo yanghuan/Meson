@@ -3,6 +3,7 @@
 #include <rt/GCObject.h>
 #include <System.Private.CoreLib/System/Boolean.h>
 #include <System.Private.CoreLib/System/Int32.h>
+#include <System.Private.CoreLib/System/Reflection/SignatureHasElementType.h>
 
 namespace System::Private::CoreLib::System {
 FORWARD(String)
@@ -10,7 +11,7 @@ FORWARD(String)
 namespace System::Private::CoreLib::System::Reflection {
 FORWARD(SignatureType)
 namespace SignatureArrayTypeNamespace {
-CLASS(SignatureArrayType) {
+CLASS(SignatureArrayType) : public SignatureHasElementType::in {
   public: Boolean get_IsSZArray();
   public: Boolean get_IsVariableBoundArray();
   protected: String get_Suffix();

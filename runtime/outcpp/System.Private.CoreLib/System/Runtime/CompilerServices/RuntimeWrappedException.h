@@ -1,6 +1,7 @@
 #pragma once
 
 #include <rt/GCObject.h>
+#include <System.Private.CoreLib/System/Exception.h>
 
 namespace System::Private::CoreLib::System {
 FORWARD(Object)
@@ -12,7 +13,7 @@ FORWARDS(StreamingContext)
 namespace System::Private::CoreLib::System::Runtime::CompilerServices {
 namespace RuntimeWrappedExceptionNamespace {
 using namespace Serialization;
-CLASS(RuntimeWrappedException) {
+CLASS(RuntimeWrappedException) : public Exception::in {
   public: Object get_WrappedException();
   public: void Ctor(Object thrownObject);
   private: void Ctor(SerializationInfo info, StreamingContext context);

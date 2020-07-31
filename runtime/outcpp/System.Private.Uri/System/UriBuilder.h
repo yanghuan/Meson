@@ -3,16 +3,16 @@
 #include <rt/GCObject.h>
 #include <System.Private.CoreLib/System/Boolean.h>
 #include <System.Private.CoreLib/System/Int32.h>
+#include <System.Private.CoreLib/System/Object.h>
 
 namespace System::Private::CoreLib::System {
-FORWARD(Object)
 FORWARD(String)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::Uri::System {
 FORWARD(Uri)
 namespace UriBuilderNamespace {
 using namespace ::System::Private::CoreLib::System;
-CLASS(UriBuilder) {
+CLASS(UriBuilder) : public Object::in {
   private: void set_Extra(String value);
   public: String get_Fragment();
   public: void set_Fragment(String value);

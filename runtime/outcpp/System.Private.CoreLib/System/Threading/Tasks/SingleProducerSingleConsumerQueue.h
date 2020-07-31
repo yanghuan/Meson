@@ -3,6 +3,7 @@
 #include <rt/GCObject.h>
 #include <System.Private.CoreLib/Internal/PaddingFor32.h>
 #include <System.Private.CoreLib/System/Int32.h>
+#include <System.Private.CoreLib/System/Object.h>
 
 namespace System::Private::CoreLib::System {
 FORWARD_(Array, T1, T2)
@@ -16,7 +17,7 @@ namespace SingleProducerSingleConsumerQueueNamespace {
 using namespace ::System::Private::CoreLib::Internal;
 using namespace Collections::Generic;
 using Collections::Generic::IEnumerator;
-CLASS(SingleProducerSingleConsumerQueue, T) {
+CLASS(SingleProducerSingleConsumerQueue, T) : public Object::in {
   private: struct SegmentState {
     public: PaddingFor32 m_pad0;
     public: Int32 m_first;
@@ -26,13 +27,13 @@ CLASS(SingleProducerSingleConsumerQueue, T) {
     public: Int32 m_last;
     public: PaddingFor32 m_pad2;
   };
-  private: CLASS(Segment) {
+  private: CLASS(Segment) : public Object::in {
     public: void Ctor(Int32 size);
     public: Segment m_next;
     public: Array<T> m_array;
     public: SegmentState m_state;
   };
-  private: CLASS(SingleProducerSingleConsumerQueue_DebugView) {
+  private: CLASS(SingleProducerSingleConsumerQueue_DebugView) : public Object::in {
     public: void Ctor(SingleProducerSingleConsumerQueue<T> queue);
     private: SingleProducerSingleConsumerQueue<T> m_queue;
   };

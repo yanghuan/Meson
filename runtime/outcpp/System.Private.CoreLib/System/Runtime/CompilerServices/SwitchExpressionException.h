@@ -1,6 +1,7 @@
 #pragma once
 
 #include <rt/GCObject.h>
+#include <System.Private.CoreLib/System/InvalidOperationException.h>
 
 namespace System::Private::CoreLib::System {
 FORWARD(Exception)
@@ -14,7 +15,7 @@ FORWARDS(StreamingContext)
 namespace System::Private::CoreLib::System::Runtime::CompilerServices {
 namespace SwitchExpressionExceptionNamespace {
 using namespace Serialization;
-CLASS(SwitchExpressionException) {
+CLASS(SwitchExpressionException) : public InvalidOperationException::in {
   public: Object get_UnmatchedValue() { return UnmatchedValue; }
   public: String get_Message();
   public: void Ctor();

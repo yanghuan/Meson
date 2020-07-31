@@ -1,6 +1,7 @@
 #pragma once
 
 #include <rt/GCObject.h>
+#include <System.Private.CoreLib/System/Object.h>
 
 namespace System::Private::CoreLib::System::Text {
 FORWARD(StringBuilder)
@@ -24,7 +25,7 @@ FORWARDS(UInt64)
 namespace DateTimeFormatNamespace {
 using namespace Globalization;
 using namespace Text;
-class DateTimeFormat {
+class DateTimeFormat : public Object::in {
   public: static void FormatDigits(StringBuilder outputBuffer, Int32 value, Int32 len);
   public: static void FormatDigits(StringBuilder outputBuffer, Int32 value, Int32 len, Boolean overrideLengthLimit);
   private: static void HebrewFormatDigits(StringBuilder outputBuffer, Int32 digits);

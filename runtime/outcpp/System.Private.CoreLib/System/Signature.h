@@ -2,6 +2,7 @@
 
 #include <rt/GCObject.h>
 #include <System.Private.CoreLib/System/Int32.h>
+#include <System.Private.CoreLib/System/Object.h>
 #include <System.Private.CoreLib/System/RuntimeMethodHandleInternal.h>
 
 namespace System::Private::CoreLib::System::Reflection {
@@ -12,13 +13,12 @@ FORWARD_(Array, T1, T2)
 FORWARDS(Boolean)
 FORWARD(IRuntimeFieldInfo)
 FORWARD(IRuntimeMethodInfo)
-FORWARD(Object)
 FORWARDS(RuntimeFieldHandleInternal)
 FORWARD(RuntimeType)
 FORWARD(Type)
 namespace SignatureNamespace {
 using namespace Reflection;
-CLASS(Signature) {
+CLASS(Signature) : public Object::in {
   public: CallingConventions get_CallingConvention();
   public: Array<RuntimeType> get_Arguments();
   public: RuntimeType get_ReturnType();

@@ -1,6 +1,7 @@
 #pragma once
 
 #include <rt/GCObject.h>
+#include <System.Private.CoreLib/System/Object.h>
 
 namespace System::Private::CoreLib::System {
 FORWARD(String)
@@ -12,7 +13,7 @@ namespace System::Private::CoreLib::Internal {
 namespace ConsoleNamespace {
 using namespace ::System::Private::CoreLib::Microsoft::Win32::SafeHandles;
 using namespace ::System::Private::CoreLib::System;
-class Console {
+class Console : public Object::in {
   public: static void Write(String s);
   public: static void WriteLine(String s);
   public: static void WriteLine();

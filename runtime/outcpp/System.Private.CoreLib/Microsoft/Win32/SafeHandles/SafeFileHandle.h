@@ -1,6 +1,7 @@
 #pragma once
 
 #include <rt/GCObject.h>
+#include <System.Private.CoreLib/Microsoft/Win32/SafeHandles/SafeHandleZeroOrMinusOneIsInvalid.h>
 #include <System.Private.CoreLib/System/Boolean.h>
 #include <System.Private.CoreLib/System/Nullable.h>
 
@@ -14,7 +15,7 @@ namespace System::Private::CoreLib::Microsoft::Win32::SafeHandles {
 namespace SafeFileHandleNamespace {
 using namespace ::System::Private::CoreLib::System;
 using namespace ::System::Private::CoreLib::System::Threading;
-CLASS(SafeFileHandle) {
+CLASS(SafeFileHandle) : public SafeHandleZeroOrMinusOneIsInvalid::in {
   public: Nullable<Boolean> get_IsAsync();
   public: void set_IsAsync(Nullable<Boolean> value);
   public: ThreadPoolBoundHandle get_ThreadPoolBinding() { return ThreadPoolBinding; }

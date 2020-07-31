@@ -3,6 +3,7 @@
 #include <rt/GCObject.h>
 #include <System.Private.CoreLib/System/Boolean.h>
 #include <System.Private.CoreLib/System/Int32.h>
+#include <System.Private.CoreLib/System/Object.h>
 #include <System.Private.CoreLib/System/Threading/AsyncLocal.h>
 
 namespace System::Private::CoreLib::System {
@@ -14,7 +15,6 @@ FORWARDS(Decimal)
 FORWARDS(Double)
 FORWARDS(Int16)
 FORWARDS(Int64)
-FORWARD(Object)
 FORWARDS(SByte)
 FORWARDS(Single)
 FORWARD(String)
@@ -33,7 +33,7 @@ FORWARD(SerializationInfoEnumerator)
 namespace SerializationInfoNamespace {
 using namespace Collections::Generic;
 using namespace Threading;
-CLASS(SerializationInfo) {
+CLASS(SerializationInfo) : public Object::in {
   public: static AsyncLocal<Boolean> get_AsyncDeserializationInProgress() { return AsyncDeserializationInProgress; }
   public: static Boolean get_DeserializationInProgress();
   public: String get_FullTypeName();

@@ -2,6 +2,7 @@
 
 #include <rt/GCObject.h>
 #include <System.Private.CoreLib/System/Boolean.h>
+#include <System.Private.CoreLib/System/StubHelpers/CleanupWorkListElement.h>
 
 namespace System::Private::CoreLib::System::Runtime::InteropServices {
 FORWARD(SafeHandle)
@@ -12,7 +13,7 @@ FORWARDS(IntPtr)
 namespace System::Private::CoreLib::System::StubHelpers {
 namespace SafeHandleCleanupWorkListElementNamespace {
 using namespace Runtime::InteropServices;
-CLASS(SafeHandleCleanupWorkListElement) {
+CLASS(SafeHandleCleanupWorkListElement) : public CleanupWorkListElement::in {
   public: void Ctor(SafeHandle handle);
   protected: void DestroyCore();
   public: IntPtr AddRef();

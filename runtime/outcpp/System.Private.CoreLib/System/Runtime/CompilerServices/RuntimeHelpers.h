@@ -1,6 +1,8 @@
 #pragma once
 
 #include <rt/GCObject.h>
+#include <System.Private.CoreLib/System/MulticastDelegate.h>
+#include <System.Private.CoreLib/System/Object.h>
 
 namespace System::Private::CoreLib::System {
 FORWARD_(Array, T1, T2)
@@ -14,7 +16,6 @@ FORWARDS(Int64)
 FORWARDS(IntPtr)
 FORWARD(IRuntimeMethodInfo)
 FORWARDS(ModuleHandle)
-FORWARD(Object)
 FORWARDS(Range)
 FORWARDS(RuntimeFieldHandle)
 FORWARDS(RuntimeMethodHandle)
@@ -36,14 +37,14 @@ FORWARDS(QCallTypeHandle)
 FORWARDS(TailCallTls)
 namespace RuntimeHelpersNamespace {
 using namespace Reflection;
-class RuntimeHelpers {
-  public: CLASS(TryCode) {
+class RuntimeHelpers : public Object::in {
+  public: CLASS(TryCode) : public MulticastDelegate::in {
     public: void Ctor(Object object, IntPtr method);
     public: void Invoke(Object userData);
     public: IAsyncResult BeginInvoke(Object userData, AsyncCallback callback, Object object);
     public: void EndInvoke(IAsyncResult result);
   };
-  public: CLASS(CleanupCode) {
+  public: CLASS(CleanupCode) : public MulticastDelegate::in {
     public: void Ctor(Object object, IntPtr method);
     public: void Invoke(Object userData, Boolean exceptionThrown);
     public: IAsyncResult BeginInvoke(Object userData, Boolean exceptionThrown, AsyncCallback callback, Object object);

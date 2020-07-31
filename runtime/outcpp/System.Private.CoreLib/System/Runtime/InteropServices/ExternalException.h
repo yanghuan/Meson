@@ -1,6 +1,7 @@
 #pragma once
 
 #include <rt/GCObject.h>
+#include <System.Private.CoreLib/System/SystemException.h>
 
 namespace System::Private::CoreLib::System {
 FORWARD(Exception)
@@ -14,7 +15,7 @@ FORWARDS(StreamingContext)
 namespace System::Private::CoreLib::System::Runtime::InteropServices {
 namespace ExternalExceptionNamespace {
 using namespace Serialization;
-CLASS(ExternalException) {
+CLASS(ExternalException) : public SystemException::in {
   public: Int32 get_ErrorCode();
   public: void Ctor();
   public: void Ctor(String message);

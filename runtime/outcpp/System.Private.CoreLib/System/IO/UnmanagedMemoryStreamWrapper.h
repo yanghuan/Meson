@@ -1,6 +1,7 @@
 #pragma once
 
 #include <rt/GCObject.h>
+#include <System.Private.CoreLib/System/IO/MemoryStream.h>
 
 namespace System::Private::CoreLib::System {
 FORWARD_(Array, T1, T2)
@@ -28,7 +29,7 @@ FORWARD(UnmanagedMemoryStream)
 namespace UnmanagedMemoryStreamWrapperNamespace {
 using namespace Threading;
 using namespace Threading::Tasks;
-CLASS(UnmanagedMemoryStreamWrapper) {
+CLASS(UnmanagedMemoryStreamWrapper) : public MemoryStream::in {
   public: Boolean get_CanRead();
   public: Boolean get_CanSeek();
   public: Boolean get_CanWrite();

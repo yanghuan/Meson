@@ -1,6 +1,7 @@
 #pragma once
 
 #include <rt/GCObject.h>
+#include <System.Private.CoreLib/System/Reflection/TypeInfo.h>
 
 namespace System::Private::CoreLib::System {
 FORWARD_(Array, T1, T2)
@@ -29,7 +30,6 @@ FORWARD(MethodInfo)
 FORWARD(Module)
 FORWARDS(ParameterModifier)
 FORWARD(PropertyInfo)
-FORWARD(TypeInfo)
 } // namespace System::Private::CoreLib::System::Reflection
 namespace System::Private::CoreLib::System::Globalization {
 FORWARD(CultureInfo)
@@ -41,7 +41,7 @@ namespace System::Private::CoreLib::System::Reflection::Emit {
 namespace TypeBuilderInstantiationNamespace {
 using namespace Collections;
 using namespace Globalization;
-CLASS(TypeBuilderInstantiation) {
+CLASS(TypeBuilderInstantiation) : public TypeInfo::in {
   public: Type get_DeclaringType();
   public: Type get_ReflectedType();
   public: String get_Name();

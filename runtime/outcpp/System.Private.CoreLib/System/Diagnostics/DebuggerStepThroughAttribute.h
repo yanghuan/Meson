@@ -1,10 +1,11 @@
 #pragma once
 
 #include <rt/GCObject.h>
+#include <System.Private.CoreLib/System/Attribute.h>
 
 namespace System::Private::CoreLib::System::Diagnostics {
 namespace DebuggerStepThroughAttributeNamespace {
-CLASS(DebuggerStepThroughAttribute) {
+CLASS(DebuggerStepThroughAttribute) : public Attribute::in {
   public: void Ctor();
 };
 } // namespace DebuggerStepThroughAttributeNamespace

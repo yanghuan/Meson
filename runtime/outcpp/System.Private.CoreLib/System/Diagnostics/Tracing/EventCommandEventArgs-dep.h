@@ -11,5 +11,6 @@
 #include <System.Private.CoreLib/System/Diagnostics/Tracing/EventListener-dep.h>
 #include <System.Private.CoreLib/System/Diagnostics/Tracing/EventProviderType.h>
 #include <System.Private.CoreLib/System/Diagnostics/Tracing/EventSource-dep.h>
+#include <System.Private.CoreLib/System/EventArgs-dep.h>
 #include <System.Private.CoreLib/System/Int32-dep.h>
 #include <System.Private.CoreLib/System/String-dep.h>

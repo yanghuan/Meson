@@ -1,6 +1,7 @@
 #pragma once
 
 #include <rt/GCObject.h>
+#include <System.Private.CoreLib/System/Text/DecoderFallbackBuffer.h>
 
 namespace System::Private::CoreLib::System {
 FORWARD_(Array, T1, T2)
@@ -11,7 +12,7 @@ FORWARDS(Int32)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Text {
 namespace DecoderExceptionFallbackBufferNamespace {
-CLASS(DecoderExceptionFallbackBuffer) {
+CLASS(DecoderExceptionFallbackBuffer) : public DecoderFallbackBuffer::in {
   public: Int32 get_Remaining();
   public: Boolean Fallback(Array<Byte> bytesUnknown, Int32 index);
   public: Char GetNextChar();

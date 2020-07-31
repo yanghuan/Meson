@@ -1,10 +1,11 @@
 #pragma once
 
 #include <rt/GCObject.h>
+#include <System.Private.CoreLib/System/Object.h>
 
 namespace System::Private::CoreLib::System::Reflection {
 namespace MissingNamespace {
-CLASS(Missing) {
+CLASS(Missing) : public Object::in {
   private: void Ctor();
   private: static void SCtor();
   public: static Missing Value;

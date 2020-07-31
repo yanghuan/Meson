@@ -1,15 +1,13 @@
 #pragma once
 
 #include <rt/GCObject.h>
+#include <System.Private.CoreLib/System/Object.h>
 
-namespace System::Private::CoreLib::System {
-FORWARD(Object)
-} // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Reflection {
 FORWARD(Assembly)
 FORWARD(TypeInfo)
 namespace ReflectionContextNamespace {
-CLASS(ReflectionContext) {
+CLASS(ReflectionContext) : public Object::in {
   protected: void Ctor();
   public: Assembly MapAssembly(Assembly assembly);
   public: TypeInfo MapType(TypeInfo type);

@@ -1,6 +1,7 @@
 #pragma once
 
 #include <rt/GCObject.h>
+#include <System.Private.CoreLib/System/SystemException.h>
 
 namespace System::Private::CoreLib::System::Runtime::Serialization {
 FORWARD(SerializationInfo)
@@ -11,7 +12,7 @@ FORWARD(Exception)
 FORWARD(String)
 namespace MemberAccessExceptionNamespace {
 using namespace Runtime::Serialization;
-CLASS(MemberAccessException) {
+CLASS(MemberAccessException) : public SystemException::in {
   public: void Ctor();
   public: void Ctor(String message);
   public: void Ctor(String message, Exception inner);

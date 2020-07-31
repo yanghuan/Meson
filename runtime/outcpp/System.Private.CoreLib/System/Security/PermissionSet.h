@@ -1,13 +1,13 @@
 #pragma once
 
 #include <rt/GCObject.h>
+#include <System.Private.CoreLib/System/Object.h>
 
 namespace System::Private::CoreLib::System {
 FORWARD_(Array, T1, T2)
 FORWARDS(Boolean)
 FORWARDS(Byte)
 FORWARDS(Int32)
-FORWARD(Object)
 FORWARD(String)
 FORWARD(Type)
 } // namespace System::Private::CoreLib::System
@@ -23,7 +23,7 @@ FORWARD(SecurityElement)
 namespace PermissionSetNamespace {
 using namespace Collections;
 using namespace Permissions;
-CLASS(PermissionSet) {
+CLASS(PermissionSet) : public Object::in {
   public: Int32 get_Count();
   public: Boolean get_IsReadOnly();
   public: Boolean get_IsSynchronized();

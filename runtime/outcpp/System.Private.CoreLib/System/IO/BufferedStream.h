@@ -2,6 +2,7 @@
 
 #include <rt/GCObject.h>
 #include <System.Private.CoreLib/System/Int32.h>
+#include <System.Private.CoreLib/System/IO/Stream.h>
 
 namespace System::Private::CoreLib::System {
 FORWARD_(Array, T1, T2)
@@ -27,11 +28,10 @@ FORWARDS_(ValueTask, T1, T2)
 } // namespace System::Private::CoreLib::System::Threading::Tasks
 namespace System::Private::CoreLib::System::IO {
 enum class SeekOrigin;
-FORWARD(Stream)
 namespace BufferedStreamNamespace {
 using namespace Threading;
 using namespace Threading::Tasks;
-CLASS(BufferedStream) {
+CLASS(BufferedStream) : public Stream::in {
   public: Stream get_UnderlyingStream();
   public: Int32 get_BufferSize();
   public: Boolean get_CanRead();

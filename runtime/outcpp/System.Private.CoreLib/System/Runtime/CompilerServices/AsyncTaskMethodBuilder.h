@@ -1,6 +1,7 @@
 #pragma once
 
 #include <rt/GCObject.h>
+#include <System.Private.CoreLib/System/Threading/Tasks/Task.h>
 
 namespace System::Private::CoreLib::System::Threading::Tasks {
 FORWARD_(Task, T1, T2)
@@ -30,11 +31,11 @@ struct AsyncTaskMethodBuilder<> {
 };
 template <class TResult>
 struct AsyncTaskMethodBuilder<TResult> {
-  private: CLASS(DebugFinalizableAsyncStateMachineBox, TStateMachine) {
+  private: CLASS(DebugFinalizableAsyncStateMachineBox, TStateMachine) : public AsyncStateMachineBox<TStateMachine>::in {
     protected: void Finalize();
     public: void Ctor();
   };
-  private: CLASS(AsyncStateMachineBox, TStateMachine) {
+  private: CLASS(AsyncStateMachineBox, TStateMachine) : public Task<TResult>::in {
     public: Action<> get_MoveNextAction();
     private: static void ExecutionContextCallback(Object s);
     public: void ExecuteFromThreadPool(Thread threadPoolThread);

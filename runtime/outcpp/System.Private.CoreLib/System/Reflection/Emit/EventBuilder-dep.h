@@ -4,6 +4,7 @@
 
 #include <System.Private.CoreLib/System/Array-dep.h>
 #include <System.Private.CoreLib/System/Byte-dep.h>
+#include <System.Private.CoreLib/System/Object-dep.h>
 #include <System.Private.CoreLib/System/Reflection/ConstructorInfo-dep.h>
 #include <System.Private.CoreLib/System/Reflection/Emit/CustomAttributeBuilder-dep.h>
 #include <System.Private.CoreLib/System/Reflection/Emit/EventToken-dep.h>

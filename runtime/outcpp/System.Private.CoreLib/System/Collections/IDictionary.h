@@ -1,16 +1,16 @@
 #pragma once
 
 #include <rt/GCObject.h>
+#include <System.Private.CoreLib/System/Object.h>
 
 namespace System::Private::CoreLib::System {
 FORWARDS(Boolean)
-FORWARD(Object)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Collections {
 FORWARD(ICollection)
 FORWARD(IDictionaryEnumerator)
 namespace IDictionaryNamespace {
-CLASS(IDictionary) {
+CLASS(IDictionary) : public Object::in {
   public: Object get_Item(Object key);
   public: void set_Item(Object key, Object value);
   public: ICollection get_Keys();

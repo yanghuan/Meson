@@ -1,6 +1,7 @@
 #pragma once
 
 #include <rt/GCObject.h>
+#include <System.Private.CoreLib/System/Object.h>
 
 namespace System::Private::CoreLib::System {
 FORWARD_(Array, T1, T2)
@@ -10,7 +11,7 @@ FORWARD(String)
 namespace System::Private::CoreLib::System::Globalization {
 enum class IcuLocaleDataParts;
 namespace IcuLocaleDataNamespace {
-class IcuLocaleData {
+class IcuLocaleData : public Object::in {
   public: static String LCIDToLocaleName(Int32 culture);
   public: static Int32 GetLocaleDataNumericPart(String cultureName, IcuLocaleDataParts part);
   public: static String GetThreeLetterWindowsLanguageName(String cultureName);

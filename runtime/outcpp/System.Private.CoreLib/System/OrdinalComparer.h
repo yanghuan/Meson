@@ -2,13 +2,14 @@
 
 #include <rt/GCObject.h>
 #include <System.Private.CoreLib/System/Boolean.h>
+#include <System.Private.CoreLib/System/StringComparer.h>
 
 namespace System::Private::CoreLib::System {
 FORWARDS(Int32)
 FORWARD(Object)
 FORWARD(String)
 namespace OrdinalComparerNamespace {
-CLASS(OrdinalComparer) {
+CLASS(OrdinalComparer) : public StringComparer::in {
   public: void Ctor(Boolean ignoreCase);
   public: Int32 Compare(String x, String y);
   public: Boolean Equals(String x, String y);

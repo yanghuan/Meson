@@ -1,6 +1,7 @@
 #pragma once
 
 #include <rt/GCObject.h>
+#include <System.Private.CoreLib/System/MissingMemberException.h>
 
 namespace System::Private::CoreLib::System::Runtime::Serialization {
 FORWARD(SerializationInfo)
@@ -11,7 +12,7 @@ FORWARD(Exception)
 FORWARD(String)
 namespace MissingFieldExceptionNamespace {
 using namespace Runtime::Serialization;
-CLASS(MissingFieldException) {
+CLASS(MissingFieldException) : public MissingMemberException::in {
   public: String get_Message();
   public: void Ctor();
   public: void Ctor(String message);

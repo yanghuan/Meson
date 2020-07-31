@@ -1,12 +1,13 @@
 #pragma once
 
 #include <rt/GCObject.h>
+#include <System.Private.CoreLib/System/Object.h>
 
 namespace System::Private::CoreLib::System {
 FORWARD(IFormatProvider)
 FORWARD(String)
 namespace IFormattableNamespace {
-CLASS(IFormattable) {
+CLASS(IFormattable) : public Object::in {
   public: String ToString(String format, IFormatProvider formatProvider);
 };
 } // namespace IFormattableNamespace

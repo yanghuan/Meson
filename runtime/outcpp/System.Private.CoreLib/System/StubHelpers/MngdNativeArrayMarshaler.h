@@ -4,13 +4,11 @@
 #include <System.Private.CoreLib/System/Int16.h>
 #include <System.Private.CoreLib/System/Int32.h>
 #include <System.Private.CoreLib/System/IntPtr.h>
+#include <System.Private.CoreLib/System/Object.h>
 
-namespace System::Private::CoreLib::System {
-FORWARD(Object)
-} // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::StubHelpers {
 namespace MngdNativeArrayMarshalerNamespace {
-class MngdNativeArrayMarshaler {
+class MngdNativeArrayMarshaler : public Object::in {
   public: struct MarshalerState {
     private: IntPtr m_pElementMT;
     private: IntPtr m_Array;

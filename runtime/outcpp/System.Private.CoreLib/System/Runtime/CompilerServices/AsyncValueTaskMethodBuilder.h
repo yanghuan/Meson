@@ -1,6 +1,7 @@
 #pragma once
 
 #include <rt/GCObject.h>
+#include <System.Private.CoreLib/System/Object.h>
 #include <System.Private.CoreLib/System/Threading/Tasks/Sources/ManualResetValueTaskSourceCore.h>
 
 namespace System::Private::CoreLib::System::Threading::Tasks {
@@ -10,7 +11,6 @@ namespace System::Private::CoreLib::System {
 FORWARD_(Action, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17)
 FORWARDS(Int16)
 FORWARDS(Int32)
-FORWARD(Object)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Threading {
 FORWARD_(ContextCallback, T1, T2)
@@ -33,13 +33,13 @@ struct AsyncValueTaskMethodBuilder<> {
 template <class TResult>
 struct AsyncValueTaskMethodBuilder<TResult> {
   CLASS_FORWARD(StateMachineBox, T1, T2, T3)
-  public: CLASS_(StateMachineBox) {
+  public: CLASS_(StateMachineBox) : public Object::in {
     public: Int16 get_Version();
     protected: Action<> _moveNextAction;
     public: ExecutionContext Context;
     protected: ManualResetValueTaskSourceCore<TResult> _valueTaskSource;
   };
-  private: CLASS_(StateMachineBox, TStateMachine) {
+  private: CLASS_(StateMachineBox, TStateMachine) : public StateMachineBox<>::in {
     public: Action<> get_MoveNextAction();
     private: static ContextCallback<> s_callback;
     private: static Int32 s_cacheLock;
@@ -48,7 +48,7 @@ struct AsyncValueTaskMethodBuilder<TResult> {
     private: StateMachineBox<TStateMachine> _next;
     public: TStateMachine StateMachine;
   };
-  private: CLASS(SyncSuccessSentinelStateMachineBox) {
+  private: CLASS(SyncSuccessSentinelStateMachineBox) : public StateMachineBox<>::in {
     public: void Ctor();
   };
   public: ValueTask<TResult> get_Task();

@@ -3,6 +3,7 @@
 #include <rt/GCObject.h>
 #include <System.Private.CoreLib/System/Boolean.h>
 #include <System.Private.CoreLib/System/Int64.h>
+#include <System.Private.CoreLib/System/Object.h>
 
 namespace System::Private::CoreLib::System {
 FORWARDS(Double)
@@ -10,7 +11,7 @@ FORWARDS(TimeSpan)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Diagnostics {
 namespace StopwatchNamespace {
-CLASS(Stopwatch) {
+CLASS(Stopwatch) : public Object::in {
   public: Boolean get_IsRunning();
   public: TimeSpan get_Elapsed();
   public: Int64 get_ElapsedMilliseconds();

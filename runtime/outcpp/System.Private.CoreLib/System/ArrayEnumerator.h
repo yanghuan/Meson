@@ -3,12 +3,12 @@
 #include <rt/GCObject.h>
 #include <System.Private.CoreLib/System/Boolean.h>
 #include <System.Private.CoreLib/System/Int32.h>
+#include <System.Private.CoreLib/System/Object.h>
 
 namespace System::Private::CoreLib::System {
 FORWARD_(Array, T1, T2)
-FORWARD(Object)
 namespace ArrayEnumeratorNamespace {
-CLASS(ArrayEnumerator) {
+CLASS(ArrayEnumerator) : public Object::in {
   public: Object get_Current();
   public: void Ctor(Array<> array, Int32 index, Int32 count);
   private: void IncArray();

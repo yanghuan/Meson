@@ -1,12 +1,12 @@
 #pragma once
 
 #include <rt/GCObject.h>
+#include <System.Private.CoreLib/System/Object.h>
 
 namespace System::Private::CoreLib::System {
 FORWARD_(Array, T1, T2)
 FORWARDS(Boolean)
 FORWARDS(Int32)
-FORWARD(Object)
 FORWARD(String)
 FORWARD(Type)
 } // namespace System::Private::CoreLib::System
@@ -21,7 +21,7 @@ FORWARD(Module)
 namespace MemberInfoNamespace {
 using namespace Collections::Generic;
 using Collections::Generic::IList;
-CLASS(MemberInfo) {
+CLASS(MemberInfo) : public Object::in {
   public: MemberTypes get_MemberType();
   public: String get_Name();
   public: Type get_DeclaringType();

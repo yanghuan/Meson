@@ -18,6 +18,7 @@
 #include <System.Private.CoreLib/System/IO/FileAccess.h>
 #include <System.Private.CoreLib/System/IO/FileStream-dep.h>
 #include <System.Private.CoreLib/System/IO/Stream-dep.h>
+#include <System.Private.CoreLib/System/IO/UnmanagedMemoryStream-dep.h>
 #include <System.Private.CoreLib/System/Object-dep.h>
 #include <System.Private.CoreLib/System/Reflection/Assembly-dep.h>
 #include <System.Private.CoreLib/System/Reflection/AssemblyName-dep.h>

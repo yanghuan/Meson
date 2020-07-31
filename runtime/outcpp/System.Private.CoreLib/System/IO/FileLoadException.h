@@ -1,6 +1,7 @@
 #pragma once
 
 #include <rt/GCObject.h>
+#include <System.Private.CoreLib/System/IO/IOException.h>
 
 namespace System::Private::CoreLib::System {
 FORWARD(Exception)
@@ -18,7 +19,7 @@ namespace System::Private::CoreLib::System::IO {
 namespace FileLoadExceptionNamespace {
 using namespace Runtime::CompilerServices;
 using namespace Runtime::Serialization;
-CLASS(FileLoadException) {
+CLASS(FileLoadException) : public IOException::in {
   public: String get_Message();
   public: String get_FileName() { return FileName; }
   public: String get_FusionLog() { return FusionLog; }

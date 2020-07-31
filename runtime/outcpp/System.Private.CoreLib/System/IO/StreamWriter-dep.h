@@ -8,6 +8,7 @@
 #include <System.Private.CoreLib/System/Char-dep.h>
 #include <System.Private.CoreLib/System/Int32-dep.h>
 #include <System.Private.CoreLib/System/IO/Stream-dep.h>
+#include <System.Private.CoreLib/System/IO/TextWriter-dep.h>
 #include <System.Private.CoreLib/System/Object-dep.h>
 #include <System.Private.CoreLib/System/ParamsArray-dep.h>
 #include <System.Private.CoreLib/System/ReadOnlyMemory-dep.h>

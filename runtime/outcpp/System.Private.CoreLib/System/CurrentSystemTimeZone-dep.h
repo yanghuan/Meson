@@ -10,3 +10,4 @@
 #include <System.Private.CoreLib/System/Int64-dep.h>
 #include <System.Private.CoreLib/System/String-dep.h>
 #include <System.Private.CoreLib/System/TimeSpan-dep.h>
+#include <System.Private.CoreLib/System/TimeZone-dep.h>

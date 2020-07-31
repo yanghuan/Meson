@@ -1,15 +1,15 @@
 #pragma once
 
 #include <rt/GCObject.h>
+#include <System.Private.CoreLib/System/Object.h>
 
 namespace System::Private::CoreLib::System {
 FORWARDS(Guid)
-FORWARD(Object)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Runtime::InteropServices {
 FORWARD(ComEventsSink)
 namespace ComEventsInfoNamespace {
-CLASS(ComEventsInfo) {
+CLASS(ComEventsInfo) : public Object::in {
   private: void Ctor(Object rcw);
   protected: void Finalize();
   public: static ComEventsInfo Find(Object rcw);

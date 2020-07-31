@@ -53,3 +53,9 @@ struct UInt16 : public rt::PrimitiveType<UInt16> {
 } // namespace UInt16Namespace
 using UInt16 = UInt16Namespace::UInt16;
 } // namespace System::Private::CoreLib::System
+namespace rt {
+template <>
+struct TypeKind<::System::Private::CoreLib::System::UInt16> {
+  static constexpr TypeCode Kind = TypeCode::UInt16;
+};
+} // namespace rt

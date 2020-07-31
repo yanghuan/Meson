@@ -3,11 +3,11 @@
 #include <rt/GCObject.h>
 #include <System.Private.CoreLib/System/Guid.h>
 #include <System.Private.CoreLib/System/IntPtr.h>
+#include <System.Private.CoreLib/System/Object.h>
 
 namespace System::Private::CoreLib::System {
 FORWARDS(Boolean)
 FORWARDS(Int32)
-FORWARD(Object)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Runtime::CompilerServices {
 FORWARDS(ObjectHandleOnStack)
@@ -22,7 +22,7 @@ enum class CreateObjectFlags;
 namespace ComWrappersNamespace {
 using namespace Collections;
 using namespace CompilerServices;
-CLASS(ComWrappers) {
+CLASS(ComWrappers) : public Object::in {
   public: struct ComInterfaceEntry {
     public: Guid IID;
     public: IntPtr Vtable;

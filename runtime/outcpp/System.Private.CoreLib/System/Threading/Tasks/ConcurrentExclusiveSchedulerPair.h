@@ -3,6 +3,9 @@
 #include <rt/GCObject.h>
 #include <System.Private.CoreLib/System/Boolean.h>
 #include <System.Private.CoreLib/System/Int32.h>
+#include <System.Private.CoreLib/System/Object.h>
+#include <System.Private.CoreLib/System/Threading/Tasks/Task.h>
+#include <System.Private.CoreLib/System/Threading/Tasks/TaskScheduler.h>
 
 namespace System::Private::CoreLib::System::Collections::Generic {
 FORWARD(IEnumerable, T)
@@ -11,7 +14,6 @@ FORWARD(List, T)
 namespace System::Private::CoreLib::System {
 FORWARD(Exception)
 FORWARD_(Func, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18)
-FORWARD(Object)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Threading {
 FORWARD(ThreadLocal, T)
@@ -19,11 +21,9 @@ FORWARD(ThreadLocal, T)
 namespace System::Private::CoreLib::System::Threading::Tasks {
 enum class TaskCreationOptions;
 FORWARD(IProducerConsumerQueue, T)
-FORWARD_(Task, T1, T2)
-FORWARD(TaskScheduler)
 namespace ConcurrentExclusiveSchedulerPairNamespace {
 using namespace Collections::Generic;
-CLASS(ConcurrentExclusiveSchedulerPair) {
+CLASS(ConcurrentExclusiveSchedulerPair) : public Object::in {
   private: enum class ProcessingMode : uint8_t {
     NotCurrentlyProcessing = 0,
     ProcessingExclusiveTask = 1,
@@ -31,18 +31,18 @@ CLASS(ConcurrentExclusiveSchedulerPair) {
     Completing = 4,
     Completed = 8,
   };
-  private: CLASS(CompletionState) {
+  private: CLASS(CompletionState) : public Task<>::in {
     public: void Ctor();
     public: Boolean m_completionRequested;
     public: Boolean m_completionQueued;
     public: List<Exception> m_exceptions;
   };
-  private: CLASS(SchedulerWorkItem) {
+  private: CLASS(SchedulerWorkItem) : public Object::in {
     public: void Ctor(ConcurrentExclusiveSchedulerPair pair);
     private: ConcurrentExclusiveSchedulerPair _pair;
   };
-  private: CLASS(ConcurrentExclusiveTaskScheduler) {
-    private: CLASS(DebugView) {
+  private: CLASS(ConcurrentExclusiveTaskScheduler) : public TaskScheduler::in {
+    private: CLASS(DebugView) : public Object::in {
       public: Int32 get_MaximumConcurrencyLevel();
       public: IEnumerable<Task<>> get_ScheduledTasks();
       public: ConcurrentExclusiveSchedulerPair get_SchedulerPair();
@@ -65,7 +65,7 @@ CLASS(ConcurrentExclusiveSchedulerPair) {
     private: ProcessingMode m_processingMode;
     public: IProducerConsumerQueue<Task<>> m_tasks;
   };
-  private: CLASS(DebugView) {
+  private: CLASS(DebugView) : public Object::in {
     public: ProcessingMode get_Mode();
     public: IEnumerable<Task<>> get_ScheduledExclusive();
     public: IEnumerable<Task<>> get_ScheduledConcurrent();

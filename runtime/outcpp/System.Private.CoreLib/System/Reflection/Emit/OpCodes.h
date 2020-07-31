@@ -1,6 +1,7 @@
 #pragma once
 
 #include <rt/GCObject.h>
+#include <System.Private.CoreLib/System/Object.h>
 
 namespace System::Private::CoreLib::System {
 FORWARDS(Boolean)
@@ -8,7 +9,7 @@ FORWARDS(Boolean)
 namespace System::Private::CoreLib::System::Reflection::Emit {
 FORWARDS(OpCode)
 namespace OpCodesNamespace {
-CLASS(OpCodes) {
+CLASS(OpCodes) : public Object::in {
   public: static Boolean TakesSingleByteArgument(OpCode inst);
   private: static void SCtor();
   public: static OpCode Nop;

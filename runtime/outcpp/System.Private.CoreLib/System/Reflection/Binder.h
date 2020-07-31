@@ -1,10 +1,10 @@
 #pragma once
 
 #include <rt/GCObject.h>
+#include <System.Private.CoreLib/System/Object.h>
 
 namespace System::Private::CoreLib::System {
 FORWARD_(Array, T1, T2)
-FORWARD(Object)
 FORWARD(String)
 FORWARD(Type)
 } // namespace System::Private::CoreLib::System
@@ -19,7 +19,7 @@ FORWARDS(ParameterModifier)
 FORWARD(PropertyInfo)
 namespace BinderNamespace {
 using namespace Globalization;
-CLASS(Binder) {
+CLASS(Binder) : public Object::in {
   protected: void Ctor();
   public: FieldInfo BindToField(BindingFlags bindingAttr, Array<FieldInfo> match, Object value, CultureInfo culture);
   public: MethodBase BindToMethod(BindingFlags bindingAttr, Array<MethodBase> match, Array<Object>& args, Array<ParameterModifier> modifiers, CultureInfo culture, Array<String> names, Object& state);

@@ -2,6 +2,7 @@
 
 #include <rt/GCObject.h>
 #include <System.Private.CoreLib/System/Int32.h>
+#include <System.Private.CoreLib/System/Object.h>
 
 namespace System::Private::CoreLib::System::Collections::Generic {
 FORWARD(IEnumerable, T)
@@ -10,7 +11,6 @@ namespace System::Private::CoreLib::System {
 FORWARD_(Array, T1, T2)
 FORWARDS(Boolean)
 FORWARD_(EventHandler, T1, T2)
-FORWARD(Object)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Runtime::CompilerServices {
 FORWARD(ConditionalWeakTable, TKey, TValue)
@@ -21,8 +21,8 @@ FORWARD(UnobservedTaskExceptionEventArgs)
 namespace TaskSchedulerNamespace {
 using namespace Collections::Generic;
 using namespace Runtime::CompilerServices;
-CLASS(TaskScheduler) {
-  public: CLASS(SystemThreadingTasks_TaskSchedulerDebugView) {
+CLASS(TaskScheduler) : public Object::in {
+  public: CLASS(SystemThreadingTasks_TaskSchedulerDebugView) : public Object::in {
     public: Int32 get_Id();
     public: IEnumerable<Task<>> get_ScheduledTasks();
     public: void Ctor(TaskScheduler scheduler);

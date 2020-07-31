@@ -4,6 +4,11 @@
 #include <System.Private.CoreLib/System/Boolean.h>
 #include <System.Private.CoreLib/System/Char.h>
 #include <System.Private.CoreLib/System/Int32.h>
+#include <System.Private.CoreLib/System/Text/DecoderFallback.h>
+#include <System.Private.CoreLib/System/Text/DecoderFallbackBuffer.h>
+#include <System.Private.CoreLib/System/Text/DecoderNLS.h>
+#include <System.Private.CoreLib/System/Text/EncoderNLS.h>
+#include <System.Private.CoreLib/System/Text/Encoding.h>
 
 namespace System::Private::CoreLib::System {
 FORWARD_(Array, T1, T2)
@@ -14,13 +19,10 @@ FORWARD(String)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Text {
 FORWARD(Decoder)
-FORWARD(DecoderFallbackBuffer)
-FORWARD(DecoderNLS)
 FORWARD(Encoder)
-FORWARD(EncoderNLS)
 namespace UTF7EncodingNamespace {
-CLASS(UTF7Encoding) {
-  private: CLASS(Decoder) {
+CLASS(UTF7Encoding) : public Encoding::in {
+  private: CLASS(Decoder) : public DecoderNLS::in {
     public: Boolean get_HasState();
     public: void Ctor(UTF7Encoding encoding);
     public: void Reset();
@@ -28,21 +30,21 @@ CLASS(UTF7Encoding) {
     public: Int32 bitCount;
     public: Boolean firstByte;
   };
-  private: CLASS(Encoder) {
+  private: CLASS(Encoder) : public EncoderNLS::in {
     public: Boolean get_HasState();
     public: void Ctor(UTF7Encoding encoding);
     public: void Reset();
     public: Int32 bits;
     public: Int32 bitCount;
   };
-  private: CLASS(DecoderUTF7Fallback) {
+  private: CLASS(DecoderUTF7Fallback) : public DecoderFallback::in {
     public: Int32 get_MaxCharCount();
     public: DecoderFallbackBuffer CreateFallbackBuffer();
     public: Boolean Equals(Object value);
     public: Int32 GetHashCode();
     public: void Ctor();
   };
-  private: CLASS(DecoderUTF7FallbackBuffer) {
+  private: CLASS(DecoderUTF7FallbackBuffer) : public DecoderFallbackBuffer::in {
     public: Int32 get_Remaining();
     public: Boolean Fallback(Array<Byte> bytesUnknown, Int32 index);
     public: Char GetNextChar();

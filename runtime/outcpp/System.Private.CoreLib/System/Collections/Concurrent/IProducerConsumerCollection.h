@@ -1,6 +1,7 @@
 #pragma once
 
 #include <rt/GCObject.h>
+#include <System.Private.CoreLib/System/Object.h>
 
 namespace System::Private::CoreLib::System {
 FORWARD_(Array, T1, T2)
@@ -9,7 +10,7 @@ FORWARDS(Int32)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Collections::Concurrent {
 namespace IProducerConsumerCollectionNamespace {
-CLASS(IProducerConsumerCollection, T) {
+CLASS(IProducerConsumerCollection, T) : public Object::in {
   public: void CopyTo(Array<T> array, Int32 index);
   public: Boolean TryAdd(T item);
   public: Boolean TryTake(T& item);

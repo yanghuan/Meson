@@ -1,6 +1,7 @@
 #pragma once
 
 #include <rt/GCObject.h>
+#include <System.Private.CoreLib/System/Object.h>
 
 namespace System::Private::CoreLib::System {
 FORWARDS(Boolean)
@@ -26,7 +27,7 @@ enum class UnicodeCategory;
 namespace CharUnicodeInfoNamespace {
 using namespace Text;
 using namespace Text::Unicode;
-class CharUnicodeInfo {
+class CharUnicodeInfo : public Object::in {
   private: static ReadOnlySpan<Byte> get_CategoryCasingLevel1Index();
   private: static ReadOnlySpan<Byte> get_CategoryCasingLevel2Index();
   private: static ReadOnlySpan<Byte> get_CategoryCasingLevel3Index();

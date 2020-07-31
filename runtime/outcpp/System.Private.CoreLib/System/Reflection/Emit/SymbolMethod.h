@@ -2,6 +2,7 @@
 
 #include <rt/GCObject.h>
 #include <System.Private.CoreLib/System/Reflection/Emit/MethodToken.h>
+#include <System.Private.CoreLib/System/Reflection/MethodInfo.h>
 
 namespace System::Private::CoreLib::System::Reflection {
 enum class BindingFlags;
@@ -10,7 +11,6 @@ enum class MethodAttributes;
 enum class MethodImplAttributes;
 FORWARD(Binder)
 FORWARD(ICustomAttributeProvider)
-FORWARD(MethodInfo)
 FORWARD(Module)
 FORWARD(ParameterInfo)
 } // namespace System::Private::CoreLib::System::Reflection
@@ -30,7 +30,7 @@ FORWARD(ModuleBuilder)
 FORWARD(SignatureHelper)
 namespace SymbolMethodNamespace {
 using namespace Globalization;
-CLASS(SymbolMethod) {
+CLASS(SymbolMethod) : public MethodInfo::in {
   public: Module get_Module();
   public: Type get_ReflectedType();
   public: String get_Name();

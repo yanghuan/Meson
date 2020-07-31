@@ -1,6 +1,7 @@
 #pragma once
 
 #include <rt/GCObject.h>
+#include <System.Private.CoreLib/System/Diagnostics/Tracing/TraceLoggingTypeInfo.h>
 
 namespace System::Private::CoreLib::System {
 FORWARD_(Array, T1, T2)
@@ -16,7 +17,7 @@ FORWARD(TraceLoggingDataCollector)
 FORWARD(TraceLoggingMetadataCollector)
 FORWARD(TypeAnalysis)
 namespace InvokeTypeInfoNamespace {
-CLASS(InvokeTypeInfo) {
+CLASS(InvokeTypeInfo) : public TraceLoggingTypeInfo::in {
   public: void Ctor(Type type, TypeAnalysis typeAnalysis);
   public: void WriteMetadata(TraceLoggingMetadataCollector collector, String name, EventFieldFormat format);
   public: void WriteData(TraceLoggingDataCollector collector, PropertyValue value);

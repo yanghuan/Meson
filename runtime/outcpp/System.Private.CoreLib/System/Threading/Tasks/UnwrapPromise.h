@@ -3,11 +3,12 @@
 #include <rt/GCObject.h>
 #include <System.Private.CoreLib/System/Boolean.h>
 #include <System.Private.CoreLib/System/Byte.h>
+#include <System.Private.CoreLib/System/Threading/Tasks/Task.h>
 
 namespace System::Private::CoreLib::System::Threading::Tasks {
 FORWARD_(Task, T1, T2)
 namespace UnwrapPromiseNamespace {
-CLASS(UnwrapPromise, TResult) {
+CLASS(UnwrapPromise, TResult) : public Task<TResult>::in {
   public: Boolean get_InvokeMayRunArbitraryCode();
   public: void Ctor(Task<> outerTask, Boolean lookForOce);
   public: void Invoke(Task<> completingTask);

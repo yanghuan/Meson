@@ -2,6 +2,7 @@
 
 #include <rt/GCObject.h>
 #include <System.Private.CoreLib/System/Boolean.h>
+#include <System.Private.CoreLib/System/Security/Permissions/CodeAccessSecurityAttribute.h>
 
 namespace System::Private::CoreLib::System::Security {
 FORWARD(IPermission)
@@ -10,7 +11,7 @@ namespace System::Private::CoreLib::System::Security::Permissions {
 enum class SecurityAction;
 enum class SecurityPermissionFlag;
 namespace SecurityPermissionAttributeNamespace {
-CLASS(SecurityPermissionAttribute) {
+CLASS(SecurityPermissionAttribute) : public CodeAccessSecurityAttribute::in {
   public: Boolean get_Assertion() { return Assertion; }
   public: void set_Assertion(Boolean value) { Assertion = value; }
   public: Boolean get_BindingRedirects() { return BindingRedirects; }

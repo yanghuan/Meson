@@ -1,13 +1,14 @@
 #pragma once
 
 #include <rt/GCObject.h>
+#include <System.Private.CoreLib/System/Buffers/ArrayPool.h>
 #include <System.Private.CoreLib/System/Int32.h>
+#include <System.Private.CoreLib/System/Object.h>
 #include <System.Private.CoreLib/System/UInt32.h>
 
 namespace System::Private::CoreLib::System {
 FORWARD_(Array, T1, T2)
 FORWARDS(Boolean)
-FORWARD(Object)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Runtime::CompilerServices {
 FORWARD(ConditionalWeakTable, TKey, TValue)
@@ -15,13 +16,13 @@ FORWARD(ConditionalWeakTable, TKey, TValue)
 namespace System::Private::CoreLib::System::Buffers {
 namespace TlsOverPerCoreLockedStacksArrayPoolNamespace {
 using namespace Runtime::CompilerServices;
-CLASS(TlsOverPerCoreLockedStacksArrayPool, T) {
+CLASS(TlsOverPerCoreLockedStacksArrayPool, T) : public ArrayPool<T>::in {
   private: enum class MemoryPressure {
     Low = 0,
     Medium = 1,
     High = 2,
   };
-  private: CLASS(LockedStack) {
+  private: CLASS(LockedStack) : public Object::in {
     public: Boolean TryPush(Array<T> array);
     public: Array<T> TryPop();
     public: void Trim(UInt32 tickCount, Int32 id, MemoryPressure pressure, Int32 bucketSize);
@@ -30,7 +31,7 @@ CLASS(TlsOverPerCoreLockedStacksArrayPool, T) {
     private: Int32 _count;
     private: UInt32 _firstStackItemMS;
   };
-  private: CLASS(PerCoreLockedStacks) {
+  private: CLASS(PerCoreLockedStacks) : public Object::in {
     public: void Ctor();
     public: void TryPush(Array<T> array);
     public: Array<T> TryPop();

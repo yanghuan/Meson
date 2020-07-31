@@ -1,6 +1,7 @@
 #pragma once
 
 #include <rt/GCObject.h>
+#include <System.Private.CoreLib/System/Object.h>
 
 namespace System::Private::CoreLib::System {
 FORWARD_(Array, T1, T2)
@@ -14,7 +15,7 @@ FORWARDS(MetadataImport)
 FORWARD(MethodInfo)
 FORWARD(RuntimeMethodInfo)
 namespace AssociatesNamespace {
-class Associates {
+class Associates : public Object::in {
   public: enum class Attributes {
     ComposedOfAllVirtualMethods = 1,
     ComposedOfAllPrivateMethods = 2,

@@ -1,11 +1,12 @@
 #pragma once
 
 #include <rt/GCObject.h>
+#include <System.Private.CoreLib/System/Object.h>
 
 namespace System::Private::CoreLib::System {
 FORWARD(String)
 namespace EmptyNamespace {
-CLASS(Empty) {
+CLASS(Empty) : public Object::in {
   private: void Ctor();
   public: String ToString();
   private: static void SCtor();

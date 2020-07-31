@@ -1,6 +1,7 @@
 #pragma once
 
 #include <rt/GCObject.h>
+#include <System.Private.CoreLib/System/Reflection/MemberInfo.h>
 
 namespace System::Private::CoreLib::System {
 FORWARD_(Array, T1, T2)
@@ -22,7 +23,7 @@ enum class MemberTypes;
 FORWARD(Binder)
 namespace FieldInfoNamespace {
 using namespace Globalization;
-CLASS(FieldInfo) {
+CLASS(FieldInfo) : public MemberInfo::in {
   public: MemberTypes get_MemberType();
   public: FieldAttributes get_Attributes();
   public: Type get_FieldType();

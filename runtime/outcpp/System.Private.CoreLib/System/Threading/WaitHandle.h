@@ -2,6 +2,7 @@
 
 #include <rt/GCObject.h>
 #include <System.Private.CoreLib/System/Int32.h>
+#include <System.Private.CoreLib/System/MarshalByRefObject.h>
 
 namespace System::Private::CoreLib::System {
 FORWARD_(Array, T1, T2)
@@ -17,7 +18,7 @@ FORWARD(SafeWaitHandle)
 namespace System::Private::CoreLib::System::Threading {
 namespace WaitHandleNamespace {
 using namespace ::System::Private::CoreLib::Microsoft::Win32::SafeHandles;
-CLASS(WaitHandle) {
+CLASS(WaitHandle) : public MarshalByRefObject::in {
   public: enum class OpenExistingResult {
     Success = 0,
     NameNotFound = 1,

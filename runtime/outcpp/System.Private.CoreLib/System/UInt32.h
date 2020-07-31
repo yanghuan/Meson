@@ -50,3 +50,9 @@ struct UInt32 : public rt::PrimitiveType<UInt32> {
 } // namespace UInt32Namespace
 using UInt32 = UInt32Namespace::UInt32;
 } // namespace System::Private::CoreLib::System
+namespace rt {
+template <>
+struct TypeKind<::System::Private::CoreLib::System::UInt32> {
+  static constexpr TypeCode Kind = TypeCode::UInt32;
+};
+} // namespace rt

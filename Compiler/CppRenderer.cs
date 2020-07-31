@@ -281,7 +281,7 @@ namespace Meson.Compiler {
       if (!node.IsEmpty) {
         Write(node.NamespaceToken);
         WriteSpace();
-        Write(node.Name);
+        node.Name.Render(this);
         WriteSpace();
         WriteBlock(node);
         WriteSpace();
@@ -289,7 +289,7 @@ namespace Meson.Compiler {
         WriteSpace();
         Write(node.NamespaceToken);
         WriteSpace();
-        Write(node.Name);
+        node.Name.Render(this);
         WriteNewLine();
       }
     }
@@ -744,6 +744,18 @@ namespace Meson.Compiler {
       }
       WriteSpace();
       WriteBlock(node.Body);
+    }
+
+    internal void Render(ConditionalExpressionSyntax node) {
+      node.Condition.Render(this);
+      WriteSpace();
+      Write(Tokens.Question);
+      WriteSpace();
+      node.TrueExpression.Render(this);
+      WriteSpace();
+      WriteColon();
+      WriteSpace();
+      node.FalseExpression.Render(this);
     }
 
     internal void Render(VariableInitializerSyntax node) {

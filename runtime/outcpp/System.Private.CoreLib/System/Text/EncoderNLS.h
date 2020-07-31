@@ -4,6 +4,7 @@
 #include <System.Private.CoreLib/System/Boolean.h>
 #include <System.Private.CoreLib/System/Char.h>
 #include <System.Private.CoreLib/System/Int32.h>
+#include <System.Private.CoreLib/System/Text/Encoder.h>
 
 namespace System::Private::CoreLib::System {
 FORWARD_(Array, T1, T2)
@@ -14,7 +15,7 @@ FORWARDS(Span, T)
 namespace System::Private::CoreLib::System::Text {
 FORWARD(Encoding)
 namespace EncoderNLSNamespace {
-CLASS(EncoderNLS) {
+CLASS(EncoderNLS) : public Encoder::in {
   public: Encoding get_Encoding();
   public: Boolean get_MustFlush();
   public: Boolean get_HasLeftoverData();

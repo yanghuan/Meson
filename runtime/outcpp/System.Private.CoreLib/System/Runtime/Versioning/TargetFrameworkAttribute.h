@@ -1,13 +1,14 @@
 #pragma once
 
 #include <rt/GCObject.h>
+#include <System.Private.CoreLib/System/Attribute.h>
 
 namespace System::Private::CoreLib::System {
 FORWARD(String)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Runtime::Versioning {
 namespace TargetFrameworkAttributeNamespace {
-CLASS(TargetFrameworkAttribute) {
+CLASS(TargetFrameworkAttribute) : public Attribute::in {
   public: String get_FrameworkName();
   public: String get_FrameworkDisplayName();
   public: void set_FrameworkDisplayName(String value);

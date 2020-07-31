@@ -2,6 +2,7 @@
 
 #include <rt/GCObject.h>
 #include <System.Private.CoreLib/System/Int32.h>
+#include <System.Private.CoreLib/System/Object.h>
 
 namespace System::Private::CoreLib::System {
 FORWARD_(Array, T1, T2)
@@ -14,7 +15,6 @@ FORWARD(IFormatProvider)
 FORWARDS(Int16)
 FORWARDS(Int64)
 FORWARDS(IntPtr)
-FORWARD(Object)
 FORWARDS(ParamsArray)
 FORWARDS(ReadOnlyMemory, T)
 FORWARDS(ReadOnlySpan, T)
@@ -37,9 +37,9 @@ namespace System::Private::CoreLib::System::Text {
 namespace StringBuilderNamespace {
 using namespace Collections::Generic;
 using namespace Runtime::Serialization;
-CLASS(StringBuilder) {
+CLASS(StringBuilder) : public Object::in {
   public: struct ChunkEnumerator {
-    private: CLASS(ManyChunkInfo) {
+    private: CLASS(ManyChunkInfo) : public Object::in {
       public: Boolean MoveNext(StringBuilder& current);
       public: void Ctor(StringBuilder stringBuilder, Int32 chunkCount);
       private: Array<StringBuilder> _chunks;

@@ -10,6 +10,7 @@
 #include <System.Private.CoreLib/System/Reflection/Binder-dep.h>
 #include <System.Private.CoreLib/System/Reflection/BindingFlags.h>
 #include <System.Private.CoreLib/System/Reflection/FieldAttributes.h>
+#include <System.Private.CoreLib/System/Reflection/RuntimeFieldInfo-dep.h>
 #include <System.Private.CoreLib/System/Reflection/RuntimeModule-dep.h>
 #include <System.Private.CoreLib/System/RuntimeFieldHandle-dep.h>
 #include <System.Private.CoreLib/System/RuntimeType-dep.h>

@@ -1,6 +1,7 @@
 #pragma once
 
 #include <rt/GCObject.h>
+#include <System.Private.CoreLib/System/Object.h>
 
 namespace System::Private::CoreLib::System {
 FORWARDS(Boolean)
@@ -12,7 +13,7 @@ enum class NormalizationForm;
 namespace System::Private::CoreLib::System::Globalization {
 namespace NormalizationNamespace {
 using namespace Text;
-class Normalization {
+class Normalization : public Object::in {
   public: static Boolean IsNormalized(String strInput, NormalizationForm normalizationForm);
   public: static String Normalize(String strInput, NormalizationForm normalizationForm);
   private: static Boolean IcuIsNormalized(String strInput, NormalizationForm normalizationForm);

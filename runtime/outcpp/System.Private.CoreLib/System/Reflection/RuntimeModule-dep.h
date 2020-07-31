@@ -22,6 +22,7 @@
 #include <System.Private.CoreLib/System/Reflection/MetadataImport-dep.h>
 #include <System.Private.CoreLib/System/Reflection/MethodBase-dep.h>
 #include <System.Private.CoreLib/System/Reflection/MethodInfo-dep.h>
+#include <System.Private.CoreLib/System/Reflection/Module-dep.h>
 #include <System.Private.CoreLib/System/Reflection/ParameterModifier-dep.h>
 #include <System.Private.CoreLib/System/Reflection/PortableExecutableKinds.h>
 #include <System.Private.CoreLib/System/Reflection/RuntimeAssembly-dep.h>

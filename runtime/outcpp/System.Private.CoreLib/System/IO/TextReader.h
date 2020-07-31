@@ -1,6 +1,7 @@
 #pragma once
 
 #include <rt/GCObject.h>
+#include <System.Private.CoreLib/System/MarshalByRefObject.h>
 
 namespace System::Private::CoreLib::System {
 FORWARD_(Array, T1, T2)
@@ -22,13 +23,13 @@ namespace System::Private::CoreLib::System::IO {
 namespace TextReaderNamespace {
 using namespace Threading;
 using namespace Threading::Tasks;
-CLASS(TextReader) {
-  private: CLASS(NullTextReader) {
+CLASS(TextReader) : public MarshalByRefObject::in {
+  private: CLASS(NullTextReader) : public TextReader::in {
     public: void Ctor();
     public: Int32 Read(Array<Char> buffer, Int32 index, Int32 count);
     public: String ReadLine();
   };
-  public: CLASS(SyncTextReader) {
+  public: CLASS(SyncTextReader) : public TextReader::in {
     public: void Ctor(TextReader t);
     public: void Close();
     protected: void Dispose(Boolean disposing);

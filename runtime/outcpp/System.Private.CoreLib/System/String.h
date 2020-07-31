@@ -3,6 +3,7 @@
 #include <rt/GCObject.h>
 #include <System.Private.CoreLib/System/Char.h>
 #include <System.Private.CoreLib/System/Int32.h>
+#include <System.Private.CoreLib/System/Object.h>
 
 namespace System::Private::CoreLib::System::Text {
 enum class NormalizationForm;
@@ -32,7 +33,6 @@ FORWARDS(Byte)
 FORWARD(CharEnumerator)
 FORWARD(IFormatProvider)
 FORWARDS(IntPtr)
-FORWARD(Object)
 FORWARDS(ParamsArray)
 FORWARDS(ReadOnlySpan, T)
 FORWARDS(SByte)
@@ -42,7 +42,7 @@ using namespace Buffers;
 using namespace Collections::Generic;
 using namespace Globalization;
 using namespace Text;
-CLASS(String) : public rt::string {
+CLASS(String) : public Object::in {
   private: struct ProbabilisticMap {
   };
   public: Char get_Chars(Int32 index);
@@ -274,3 +274,9 @@ CLASS(String) : public rt::string {
 } // namespace StringNamespace
 using String = StringNamespace::String;
 } // namespace System::Private::CoreLib::System
+namespace rt {
+template <>
+struct TypeKind<::System::Private::CoreLib::System::String> {
+  static constexpr TypeCode Kind = TypeCode::String;
+};
+} // namespace rt

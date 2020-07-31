@@ -4,6 +4,7 @@
 #include <System.Private.CoreLib/System/Boolean.h>
 #include <System.Private.CoreLib/System/Byte.h>
 #include <System.Private.CoreLib/System/Int32.h>
+#include <System.Private.CoreLib/System/Object.h>
 #include <System.Private.CoreLib/System/Span.h>
 #include <System.Private.CoreLib/System/UInt16.h>
 #include <System.Private.CoreLib/System/UInt32.h>
@@ -32,7 +33,7 @@ FORWARD(String)
 namespace NumberNamespace {
 using namespace Globalization;
 using namespace Text;
-class Number {
+class Number : public Object::in {
   public: enum class NumberBufferKind : uint8_t {
     Unknown = 0,
     Integer = 1,
@@ -109,7 +110,7 @@ class Number {
     private: Int32 _length;
     private: rt::FixedBuffer<UInt32, 115> _blocks;
   };
-  public: class Grisu3 {
+  public: class Grisu3 : public Object::in {
     public: static Boolean TryRunDouble(Double value, Int32 requestedDigits, NumberBuffer& number);
     public: static Boolean TryRunSingle(Single value, Int32 requestedDigits, NumberBuffer& number);
     private: static Boolean TryRunCounted(DiyFp& w, Int32 requestedDigits, Span<Byte> buffer, Int32& length, Int32& decimalExponent);

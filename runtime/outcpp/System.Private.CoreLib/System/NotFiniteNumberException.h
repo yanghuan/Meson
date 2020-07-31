@@ -1,6 +1,7 @@
 #pragma once
 
 #include <rt/GCObject.h>
+#include <System.Private.CoreLib/System/ArithmeticException.h>
 #include <System.Private.CoreLib/System/Double.h>
 
 namespace System::Private::CoreLib::System::Runtime::Serialization {
@@ -12,7 +13,7 @@ FORWARD(Exception)
 FORWARD(String)
 namespace NotFiniteNumberExceptionNamespace {
 using namespace Runtime::Serialization;
-CLASS(NotFiniteNumberException) {
+CLASS(NotFiniteNumberException) : public ArithmeticException::in {
   public: Double get_OffendingNumber();
   public: void Ctor();
   public: void Ctor(Double offendingNumber);

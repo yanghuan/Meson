@@ -2,13 +2,13 @@
 
 #include <rt/GCObject.h>
 #include <System.Private.CoreLib/System/Int32.h>
+#include <System.Private.CoreLib/System/Object.h>
 
 namespace System::Private::CoreLib::System {
 FORWARD_(Array, T1, T2)
 FORWARDS(Boolean)
-FORWARD(Object)
 namespace SZGenericArrayEnumeratorNamespace {
-CLASS(SZGenericArrayEnumerator, T) {
+CLASS(SZGenericArrayEnumerator, T) : public Object::in {
   public: T get_Current();
   private: Object get_CurrentOfIEnumerator();
   public: void Ctor(Array<T> array);

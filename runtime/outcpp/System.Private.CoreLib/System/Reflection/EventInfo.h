@@ -1,6 +1,7 @@
 #pragma once
 
 #include <rt/GCObject.h>
+#include <System.Private.CoreLib/System/Reflection/MemberInfo.h>
 
 namespace System::Private::CoreLib::System {
 FORWARD_(Array, T1, T2)
@@ -15,7 +16,7 @@ enum class EventAttributes;
 enum class MemberTypes;
 FORWARD(MethodInfo)
 namespace EventInfoNamespace {
-CLASS(EventInfo) {
+CLASS(EventInfo) : public MemberInfo::in {
   public: MemberTypes get_MemberType();
   public: EventAttributes get_Attributes();
   public: Boolean get_IsSpecialName();

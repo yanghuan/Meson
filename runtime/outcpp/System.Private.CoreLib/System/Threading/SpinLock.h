@@ -2,6 +2,7 @@
 
 #include <rt/GCObject.h>
 #include <System.Private.CoreLib/System/Int32.h>
+#include <System.Private.CoreLib/System/Object.h>
 
 namespace System::Private::CoreLib::System {
 FORWARDS(Boolean)
@@ -31,7 +32,7 @@ struct SpinLock {
   public: explicit SpinLock() {}
   private: Int32 _owner;
 };
-CLASS(SystemThreading_SpinLockDebugView) {
+CLASS(SystemThreading_SpinLockDebugView) : public Object::in {
   public: Nullable<Boolean> get_IsHeldByCurrentThread();
   public: Nullable<Int32> get_OwnerThreadID();
   public: Boolean get_IsHeld();

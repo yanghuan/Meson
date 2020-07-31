@@ -1,13 +1,14 @@
 #pragma once
 
 #include <rt/GCObject.h>
+#include <System.Private.CoreLib/System/Attribute.h>
 
 namespace System::Private::CoreLib::System {
 FORWARD(String)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Reflection {
 namespace AssemblyDefaultAliasAttributeNamespace {
-CLASS(AssemblyDefaultAliasAttribute) {
+CLASS(AssemblyDefaultAliasAttribute) : public Attribute::in {
   public: String get_DefaultAlias() { return DefaultAlias; }
   public: void Ctor(String defaultAlias);
   private: String DefaultAlias;

@@ -1,6 +1,7 @@
 #pragma once
 
 #include <rt/GCObject.h>
+#include <System.Private.CoreLib/System/Object.h>
 
 namespace System::Private::CoreLib::System::Text {
 FORWARD(StringBuilder)
@@ -14,7 +15,7 @@ FORWARD(String)
 namespace PasteArgumentsNamespace {
 using namespace Collections::Generic;
 using namespace Text;
-class PasteArguments {
+class PasteArguments : public Object::in {
   public: static void AppendArgument(StringBuilder stringBuilder, String argument);
   private: static Boolean ContainsNoWhitespaceOrQuotes(String s);
   public: static String Paste(IEnumerable<String> arguments, Boolean pasteFirstArgumentUsingArgV0Rules);

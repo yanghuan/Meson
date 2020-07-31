@@ -1,10 +1,11 @@
 #pragma once
 
 #include <rt/GCObject.h>
+#include <System.Private.CoreLib/System/Object.h>
 
 namespace System::Private::CoreLib::System {
 namespace IProgressNamespace {
-CLASS(IProgress, T) {
+CLASS(IProgress, T) : public Object::in {
   public: void Report(T value);
 };
 } // namespace IProgressNamespace

@@ -3,6 +3,7 @@
 #include <rt/GCObject.h>
 #include <System.Private.CoreLib/System/Boolean.h>
 #include <System.Private.CoreLib/System/Int16.h>
+#include <System.Private.CoreLib/System/Threading/Tasks/Task.h>
 
 namespace System::Private::CoreLib::System::Threading::Tasks::Sources {
 FORWARD_(IValueTaskSource, T1, T2)
@@ -12,7 +13,6 @@ FORWARD_(Action, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T1
 FORWARD(Object)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Threading::Tasks {
-FORWARD_(Task, T1, T2)
 namespace ValueTaskNamespace {
 using namespace Sources;
 template <class T1 = void, class T2 = void>
@@ -20,7 +20,7 @@ struct ValueTask {
 };
 template <>
 struct ValueTask<> {
-  private: CLASS(ValueTaskSourceAsTask) {
+  private: CLASS(ValueTaskSourceAsTask) : public Task<>::in {
     public: void Ctor(IValueTaskSource<> source, Int16 token);
     private: static void SCtor();
     private: static Action<Object> s_completionAction;
@@ -39,7 +39,7 @@ struct ValueTask<> {
 };
 template <class TResult>
 struct ValueTask<TResult> {
-  private: CLASS(ValueTaskSourceAsTask) {
+  private: CLASS(ValueTaskSourceAsTask) : public Task<TResult>::in {
     public: void Ctor(IValueTaskSource<TResult> source, Int16 token);
     private: static void SCtor();
     private: static Action<Object> s_completionAction;

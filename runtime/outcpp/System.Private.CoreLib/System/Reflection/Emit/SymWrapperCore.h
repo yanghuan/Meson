@@ -2,6 +2,8 @@
 
 #include <rt/GCObject.h>
 #include <System.Private.CoreLib/System/IntPtr.h>
+#include <System.Private.CoreLib/System/MulticastDelegate.h>
+#include <System.Private.CoreLib/System/Object.h>
 
 namespace System::Private::CoreLib::System {
 FORWARD_(Array, T1, T2)
@@ -11,7 +13,6 @@ FORWARDS(Byte)
 FORWARDS(Guid)
 FORWARD(IAsyncResult)
 FORWARDS(Int32)
-FORWARD(Object)
 FORWARD(String)
 FORWARDS(UInt32)
 } // namespace System::Private::CoreLib::System
@@ -22,12 +23,12 @@ namespace System::Private::CoreLib::System::Reflection::Emit {
 FORWARD(PunkSafeHandle)
 namespace SymWrapperCoreNamespace {
 using namespace Diagnostics::SymbolStore;
-CLASS(SymWrapperCore) {
-  private: CLASS(SymDocumentWriter) {
+CLASS(SymWrapperCore) : public Object::in {
+  private: CLASS(SymDocumentWriter) : public Object::in {
     private: struct ISymUnmanagedDocumentWriter {
       public: IntPtr m_unmanagedVTable;
     };
-    private: CLASS(DSetCheckSum) {
+    private: CLASS(DSetCheckSum) : public MulticastDelegate::in {
       public: void Ctor(Object object, IntPtr method);
       public: Int32 Invoke(ISymUnmanagedDocumentWriter* pThis, Guid algorithmId, UInt32 checkSumSize, Array<Byte> checkSum);
       public: IAsyncResult BeginInvoke(ISymUnmanagedDocumentWriter* pThis, Guid algorithmId, UInt32 checkSumSize, Array<Byte> checkSum, AsyncCallback callback, Object object);
@@ -46,95 +47,95 @@ CLASS(SymWrapperCore) {
     private: ISymUnmanagedDocumentWriter* m_pDocWriter;
     private: ISymUnmanagedDocumentWriterVTable m_vtable;
   };
-  public: CLASS(SymWriter) {
+  public: CLASS(SymWriter) : public Object::in {
     private: struct ISymUnmanagedWriter {
       public: IntPtr m_unmanagedVTable;
     };
-    private: CLASS(DInitialize) {
+    private: CLASS(DInitialize) : public MulticastDelegate::in {
       public: void Ctor(Object object, IntPtr method);
       public: Int32 Invoke(ISymUnmanagedWriter* pthis, IntPtr emitter, String filename, IntPtr pIStream, Boolean fFullBuild);
       public: IAsyncResult BeginInvoke(ISymUnmanagedWriter* pthis, IntPtr emitter, String filename, IntPtr pIStream, Boolean fFullBuild, AsyncCallback callback, Object object);
       public: Int32 EndInvoke(IAsyncResult result);
     };
-    private: CLASS(DDefineDocument) {
+    private: CLASS(DDefineDocument) : public MulticastDelegate::in {
       public: void Ctor(Object object, IntPtr method);
       public: Int32 Invoke(ISymUnmanagedWriter* pthis, String url, Guid& language, Guid& languageVender, Guid& documentType, PunkSafeHandle& ppsymUnmanagedDocumentWriter);
       public: IAsyncResult BeginInvoke(ISymUnmanagedWriter* pthis, String url, Guid& language, Guid& languageVender, Guid& documentType, PunkSafeHandle& ppsymUnmanagedDocumentWriter, AsyncCallback callback, Object object);
       public: Int32 EndInvoke(Guid& language, Guid& languageVender, Guid& documentType, PunkSafeHandle& ppsymUnmanagedDocumentWriter, IAsyncResult result);
     };
-    private: CLASS(DSetUserEntryPoint) {
+    private: CLASS(DSetUserEntryPoint) : public MulticastDelegate::in {
       public: void Ctor(Object object, IntPtr method);
       public: Int32 Invoke(ISymUnmanagedWriter* pthis, Int32 entryMethod);
       public: IAsyncResult BeginInvoke(ISymUnmanagedWriter* pthis, Int32 entryMethod, AsyncCallback callback, Object object);
       public: Int32 EndInvoke(IAsyncResult result);
     };
-    private: CLASS(DOpenMethod) {
+    private: CLASS(DOpenMethod) : public MulticastDelegate::in {
       public: void Ctor(Object object, IntPtr method);
       public: Int32 Invoke(ISymUnmanagedWriter* pthis, Int32 entryMethod);
       public: IAsyncResult BeginInvoke(ISymUnmanagedWriter* pthis, Int32 entryMethod, AsyncCallback callback, Object object);
       public: Int32 EndInvoke(IAsyncResult result);
     };
-    private: CLASS(DCloseMethod) {
+    private: CLASS(DCloseMethod) : public MulticastDelegate::in {
       public: void Ctor(Object object, IntPtr method);
       public: Int32 Invoke(ISymUnmanagedWriter* pthis);
       public: IAsyncResult BeginInvoke(ISymUnmanagedWriter* pthis, AsyncCallback callback, Object object);
       public: Int32 EndInvoke(IAsyncResult result);
     };
-    private: CLASS(DDefineSequencePoints) {
+    private: CLASS(DDefineSequencePoints) : public MulticastDelegate::in {
       public: void Ctor(Object object, IntPtr method);
       public: Int32 Invoke(ISymUnmanagedWriter* pthis, PunkSafeHandle document, Int32 spCount, Array<Int32> offsets, Array<Int32> lines, Array<Int32> columns, Array<Int32> endLines, Array<Int32> endColumns);
       public: IAsyncResult BeginInvoke(ISymUnmanagedWriter* pthis, PunkSafeHandle document, Int32 spCount, Array<Int32> offsets, Array<Int32> lines, Array<Int32> columns, Array<Int32> endLines, Array<Int32> endColumns, AsyncCallback callback, Object object);
       public: Int32 EndInvoke(IAsyncResult result);
     };
-    private: CLASS(DOpenScope) {
+    private: CLASS(DOpenScope) : public MulticastDelegate::in {
       public: void Ctor(Object object, IntPtr method);
       public: Int32 Invoke(ISymUnmanagedWriter* pthis, Int32 startOffset, Int32& pretval);
       public: IAsyncResult BeginInvoke(ISymUnmanagedWriter* pthis, Int32 startOffset, Int32& pretval, AsyncCallback callback, Object object);
       public: Int32 EndInvoke(Int32& pretval, IAsyncResult result);
     };
-    private: CLASS(DCloseScope) {
+    private: CLASS(DCloseScope) : public MulticastDelegate::in {
       public: void Ctor(Object object, IntPtr method);
       public: Int32 Invoke(ISymUnmanagedWriter* pthis, Int32 endOffset);
       public: IAsyncResult BeginInvoke(ISymUnmanagedWriter* pthis, Int32 endOffset, AsyncCallback callback, Object object);
       public: Int32 EndInvoke(IAsyncResult result);
     };
-    private: CLASS(DSetScopeRange) {
+    private: CLASS(DSetScopeRange) : public MulticastDelegate::in {
       public: void Ctor(Object object, IntPtr method);
       public: Int32 Invoke(ISymUnmanagedWriter* pthis, Int32 scopeID, Int32 startOffset, Int32 endOffset);
       public: IAsyncResult BeginInvoke(ISymUnmanagedWriter* pthis, Int32 scopeID, Int32 startOffset, Int32 endOffset, AsyncCallback callback, Object object);
       public: Int32 EndInvoke(IAsyncResult result);
     };
-    private: CLASS(DDefineLocalVariable) {
+    private: CLASS(DDefineLocalVariable) : public MulticastDelegate::in {
       public: void Ctor(Object object, IntPtr method);
       public: Int32 Invoke(ISymUnmanagedWriter* pthis, String name, Int32 attributes, Int32 cSig, Array<Byte> signature, Int32 addrKind, Int32 addr1, Int32 addr2, Int32 addr3, Int32 startOffset, Int32 endOffset);
       public: IAsyncResult BeginInvoke(ISymUnmanagedWriter* pthis, String name, Int32 attributes, Int32 cSig, Array<Byte> signature, Int32 addrKind, Int32 addr1, Int32 addr2, Int32 addr3, Int32 startOffset, Int32 endOffset, AsyncCallback callback, Object object);
       public: Int32 EndInvoke(IAsyncResult result);
     };
-    private: CLASS(DClose) {
+    private: CLASS(DClose) : public MulticastDelegate::in {
       public: void Ctor(Object object, IntPtr method);
       public: Int32 Invoke(ISymUnmanagedWriter* pthis);
       public: IAsyncResult BeginInvoke(ISymUnmanagedWriter* pthis, AsyncCallback callback, Object object);
       public: Int32 EndInvoke(IAsyncResult result);
     };
-    private: CLASS(DSetSymAttribute) {
+    private: CLASS(DSetSymAttribute) : public MulticastDelegate::in {
       public: void Ctor(Object object, IntPtr method);
       public: Int32 Invoke(ISymUnmanagedWriter* pthis, Int32 parent, String name, Int32 cData, Array<Byte> data);
       public: IAsyncResult BeginInvoke(ISymUnmanagedWriter* pthis, Int32 parent, String name, Int32 cData, Array<Byte> data, AsyncCallback callback, Object object);
       public: Int32 EndInvoke(IAsyncResult result);
     };
-    private: CLASS(DOpenNamespace) {
+    private: CLASS(DOpenNamespace) : public MulticastDelegate::in {
       public: void Ctor(Object object, IntPtr method);
       public: Int32 Invoke(ISymUnmanagedWriter* pthis, String name);
       public: IAsyncResult BeginInvoke(ISymUnmanagedWriter* pthis, String name, AsyncCallback callback, Object object);
       public: Int32 EndInvoke(IAsyncResult result);
     };
-    private: CLASS(DCloseNamespace) {
+    private: CLASS(DCloseNamespace) : public MulticastDelegate::in {
       public: void Ctor(Object object, IntPtr method);
       public: Int32 Invoke(ISymUnmanagedWriter* pthis);
       public: IAsyncResult BeginInvoke(ISymUnmanagedWriter* pthis, AsyncCallback callback, Object object);
       public: Int32 EndInvoke(IAsyncResult result);
     };
-    private: CLASS(DUsingNamespace) {
+    private: CLASS(DUsingNamespace) : public MulticastDelegate::in {
       public: void Ctor(Object object, IntPtr method);
       public: Int32 Invoke(ISymUnmanagedWriter* pthis, String name);
       public: IAsyncResult BeginInvoke(ISymUnmanagedWriter* pthis, String name, AsyncCallback callback, Object object);

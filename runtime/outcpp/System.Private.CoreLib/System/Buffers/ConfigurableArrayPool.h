@@ -1,7 +1,9 @@
 #pragma once
 
 #include <rt/GCObject.h>
+#include <System.Private.CoreLib/System/Buffers/ArrayPool.h>
 #include <System.Private.CoreLib/System/Int32.h>
+#include <System.Private.CoreLib/System/Object.h>
 #include <System.Private.CoreLib/System/Threading/SpinLock.h>
 
 namespace System::Private::CoreLib::System {
@@ -11,8 +13,8 @@ FORWARDS(Boolean)
 namespace System::Private::CoreLib::System::Buffers {
 namespace ConfigurableArrayPoolNamespace {
 using namespace Threading;
-CLASS(ConfigurableArrayPool, T) {
-  private: CLASS(Bucket) {
+CLASS(ConfigurableArrayPool, T) : public ArrayPool<T>::in {
+  private: CLASS(Bucket) : public Object::in {
     public: Int32 get_Id();
     public: void Ctor(Int32 bufferLength, Int32 numberOfBuffers, Int32 poolId);
     public: Array<T> Rent();

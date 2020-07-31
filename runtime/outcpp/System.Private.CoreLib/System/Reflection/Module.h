@@ -1,6 +1,7 @@
 #pragma once
 
 #include <rt/GCObject.h>
+#include <System.Private.CoreLib/System/Object.h>
 
 namespace System::Private::CoreLib::System {
 enum class StringComparison;
@@ -10,7 +11,6 @@ FORWARDS(Byte)
 FORWARDS(Guid)
 FORWARDS(Int32)
 FORWARDS(ModuleHandle)
-FORWARD(Object)
 FORWARD(String)
 FORWARD(Type)
 } // namespace System::Private::CoreLib::System
@@ -40,7 +40,7 @@ namespace ModuleNamespace {
 using namespace Collections::Generic;
 using namespace Runtime::Serialization;
 using Collections::Generic::IList;
-CLASS(Module) {
+CLASS(Module) : public Object::in {
   public: Assembly get_Assembly();
   public: String get_FullyQualifiedName();
   public: String get_Name();

@@ -3,6 +3,7 @@
 #include <rt/GCObject.h>
 #include <System.Private.CoreLib/System/Char.h>
 #include <System.Private.CoreLib/System/Int32.h>
+#include <System.Private.CoreLib/System/Text/EncoderFallbackBuffer.h>
 
 namespace System::Private::CoreLib::System {
 FORWARDS(Boolean)
@@ -11,7 +12,7 @@ FORWARD(Object)
 namespace System::Private::CoreLib::System::Text {
 FORWARD(InternalEncoderBestFitFallback)
 namespace InternalEncoderBestFitFallbackBufferNamespace {
-CLASS(InternalEncoderBestFitFallbackBuffer) {
+CLASS(InternalEncoderBestFitFallbackBuffer) : public EncoderFallbackBuffer::in {
   private: static Object get_InternalSyncObject();
   public: Int32 get_Remaining();
   public: void Ctor(InternalEncoderBestFitFallback fallback);

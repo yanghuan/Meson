@@ -2,6 +2,7 @@
 
 #include <rt/GCObject.h>
 #include <System.Private.CoreLib/System/DateTime.h>
+#include <System.Private.CoreLib/System/Globalization/Calendar.h>
 #include <System.Private.CoreLib/System/Int32.h>
 
 namespace System::Private::CoreLib::System {
@@ -14,7 +15,7 @@ namespace System::Private::CoreLib::System::Globalization {
 enum class CalendarAlgorithmType;
 enum class CalendarId : uint16_t;
 namespace UmAlQuraCalendarNamespace {
-CLASS(UmAlQuraCalendar) {
+CLASS(UmAlQuraCalendar) : public Calendar::in {
   private: struct DateMapping {
     public: explicit DateMapping(Int32 MonthsLengthFlags, Int32 GYear, Int32 GMonth, Int32 GDay);
     public: explicit DateMapping() {}

@@ -1,6 +1,7 @@
 #pragma once
 
 #include <rt/GCObject.h>
+#include <System.Private.CoreLib/System/Runtime/InteropServices/SafeHandle.h>
 
 namespace System::Private::CoreLib::System {
 FORWARDS(Boolean)
@@ -8,7 +9,8 @@ FORWARDS(Boolean)
 namespace System::Private::CoreLib::Microsoft::Win32::SafeHandles {
 namespace SafeHandleMinusOneIsInvalidNamespace {
 using namespace ::System::Private::CoreLib::System;
-CLASS(SafeHandleMinusOneIsInvalid) {
+using namespace ::System::Private::CoreLib::System::Runtime::InteropServices;
+CLASS(SafeHandleMinusOneIsInvalid) : public SafeHandle::in {
   public: Boolean get_IsInvalid();
   protected: void Ctor(Boolean ownsHandle);
 };

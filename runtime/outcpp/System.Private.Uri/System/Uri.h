@@ -1,6 +1,7 @@
 #pragma once
 
 #include <rt/GCObject.h>
+#include <System.Private.CoreLib/System/Object.h>
 #include <System.Private.CoreLib/System/UInt16.h>
 
 namespace System::Private::CoreLib::System {
@@ -9,7 +10,6 @@ FORWARD_(Array, T1, T2)
 FORWARDS(Boolean)
 FORWARDS(Char)
 FORWARDS(Int32)
-FORWARD(Object)
 FORWARDS(ReadOnlySpan, T)
 FORWARD(String)
 } // namespace System::Private::CoreLib::System
@@ -29,7 +29,7 @@ FORWARD(UriParser)
 namespace UriNamespace {
 using namespace ::System::Private::CoreLib::System;
 using namespace ::System::Private::CoreLib::System::Runtime::Serialization;
-CLASS(Uri) {
+CLASS(Uri) : public Object::in {
   public: enum class Flags : uint64_t {
     Zero = 0,
     SchemeNotCanonical = 1,
@@ -109,7 +109,7 @@ CLASS(Uri) {
     public: UInt16 Fragment;
     public: UInt16 End;
   };
-  private: CLASS(MoreInfo) {
+  private: CLASS(MoreInfo) : public Object::in {
     public: void Ctor();
     public: String Path;
     public: String Query;
@@ -117,7 +117,7 @@ CLASS(Uri) {
     public: String AbsoluteUri;
     public: String RemoteUrl;
   };
-  private: CLASS(UriInfo) {
+  private: CLASS(UriInfo) : public Object::in {
     public: MoreInfo get_MoreInfo();
     public: void Ctor();
     public: Offset Offset;

@@ -1,6 +1,7 @@
 #pragma once
 
 #include <rt/GCObject.h>
+#include <System.Private.CoreLib/System/Object.h>
 
 namespace System::Private::CoreLib::System {
 FORWARD_(Array, T1, T2)
@@ -9,7 +10,7 @@ FORWARDS(IntPtr)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Diagnostics::Tracing {
 namespace TraceLoggingEventHandleTableNamespace {
-CLASS(TraceLoggingEventHandleTable) {
+CLASS(TraceLoggingEventHandleTable) : public Object::in {
   public: IntPtr get_Item(Int32 eventID);
   public: void Ctor();
   public: void SetEventHandle(Int32 eventID, IntPtr eventHandle);

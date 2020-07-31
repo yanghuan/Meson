@@ -3,6 +3,7 @@
 #include <rt/GCObject.h>
 #include <System.Private.CoreLib/System/Boolean.h>
 #include <System.Private.CoreLib/System/Int32.h>
+#include <System.Private.CoreLib/System/IO/TextWriter.h>
 
 namespace System::Private::CoreLib::System::Text {
 FORWARD(Encoder)
@@ -31,7 +32,7 @@ namespace StreamWriterNamespace {
 using namespace Text;
 using namespace Threading;
 using namespace Threading::Tasks;
-CLASS(StreamWriter) {
+CLASS(StreamWriter) : public TextWriter::in {
   private: static Encoding get_UTF8NoBOM();
   public: Boolean get_AutoFlush();
   public: void set_AutoFlush(Boolean value);

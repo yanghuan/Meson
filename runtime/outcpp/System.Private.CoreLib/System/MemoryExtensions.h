@@ -1,6 +1,7 @@
 #pragma once
 
 #include <rt/GCObject.h>
+#include <System.Private.CoreLib/System/Object.h>
 
 namespace System::Private::CoreLib::System::Globalization {
 FORWARD(CultureInfo)
@@ -27,7 +28,7 @@ FORWARD(String)
 namespace MemoryExtensionsNamespace {
 using namespace Globalization;
 using namespace Text;
-class MemoryExtensions {
+class MemoryExtensions : public Object::in {
   public: template <class T>
   static Span<T> AsSpan(Array<T> array, Int32 start);
   public: template <class T>

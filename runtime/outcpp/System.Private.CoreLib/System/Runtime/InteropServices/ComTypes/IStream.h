@@ -1,6 +1,7 @@
 #pragma once
 
 #include <rt/GCObject.h>
+#include <System.Private.CoreLib/System/Object.h>
 
 namespace System::Private::CoreLib::System {
 FORWARD_(Array, T1, T2)
@@ -12,7 +13,7 @@ FORWARDS(IntPtr)
 namespace System::Private::CoreLib::System::Runtime::InteropServices::ComTypes {
 FORWARDS(STATSTG)
 namespace IStreamNamespace {
-CLASS(IStream) {
+CLASS(IStream) : public Object::in {
   public: void Read(Array<Byte> pv, Int32 cb, IntPtr pcbRead);
   public: void Write(Array<Byte> pv, Int32 cb, IntPtr pcbWritten);
   public: void Seek(Int64 dlibMove, Int32 dwOrigin, IntPtr plibNewPosition);

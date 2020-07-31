@@ -1,6 +1,7 @@
 #pragma once
 
 #include <rt/GCObject.h>
+#include <System.Private.CoreLib/System/Diagnostics/Tracing/DiagnosticCounter.h>
 #include <System.Private.CoreLib/System/Double.h>
 #include <System.Private.CoreLib/System/Int32.h>
 
@@ -12,7 +13,7 @@ FORWARD(String)
 namespace System::Private::CoreLib::System::Diagnostics::Tracing {
 FORWARD(EventSource)
 namespace EventCounterNamespace {
-CLASS(EventCounter) {
+CLASS(EventCounter) : public DiagnosticCounter::in {
   public: void Ctor(String name, EventSource eventSource);
   public: void WriteMetric(Single value);
   public: void WriteMetric(Double value);

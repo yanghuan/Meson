@@ -1,6 +1,7 @@
 #pragma once
 
 #include <rt/GCObject.h>
+#include <System.Private.CoreLib/System/Diagnostics/Tracing/DiagnosticCounter.h>
 #include <System.Private.CoreLib/System/Double.h>
 
 namespace System::Private::CoreLib::System {
@@ -12,7 +13,7 @@ FORWARD(String)
 namespace System::Private::CoreLib::System::Diagnostics::Tracing {
 FORWARD(EventSource)
 namespace PollingCounterNamespace {
-CLASS(PollingCounter) {
+CLASS(PollingCounter) : public DiagnosticCounter::in {
   public: void Ctor(String name, EventSource eventSource, Func<Double> metricProvider);
   public: String ToString();
   public: void WritePayload(Single intervalSec, Int32 pollingIntervalMillisec);

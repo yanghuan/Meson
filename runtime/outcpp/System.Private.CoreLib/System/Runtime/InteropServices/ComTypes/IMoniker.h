@@ -1,13 +1,13 @@
 #pragma once
 
 #include <rt/GCObject.h>
+#include <System.Private.CoreLib/System/Object.h>
 
 namespace System::Private::CoreLib::System {
 FORWARDS(Boolean)
 FORWARDS(Guid)
 FORWARDS(Int32)
 FORWARDS(Int64)
-FORWARD(Object)
 FORWARD(String)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Runtime::InteropServices::ComTypes {
@@ -16,7 +16,7 @@ FORWARD(IBindCtx)
 FORWARD(IEnumMoniker)
 FORWARD(IStream)
 namespace IMonikerNamespace {
-CLASS(IMoniker) {
+CLASS(IMoniker) : public Object::in {
   public: void GetClassID(Guid& pClassID);
   public: Int32 IsDirty();
   public: void Load(IStream pStm);

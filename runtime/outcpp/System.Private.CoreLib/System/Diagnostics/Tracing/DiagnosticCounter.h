@@ -1,6 +1,7 @@
 #pragma once
 
 #include <rt/GCObject.h>
+#include <System.Private.CoreLib/System/Object.h>
 
 namespace System::Private::CoreLib::System {
 FORWARDS(Int32)
@@ -15,7 +16,7 @@ FORWARD(CounterGroup)
 FORWARD(EventSource)
 namespace DiagnosticCounterNamespace {
 using namespace Collections::Generic;
-CLASS(DiagnosticCounter) {
+CLASS(DiagnosticCounter) : public Object::in {
   public: String get_DisplayName();
   public: void set_DisplayName(String value);
   public: String get_DisplayUnits();

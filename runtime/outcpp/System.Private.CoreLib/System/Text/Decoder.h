@@ -1,6 +1,7 @@
 #pragma once
 
 #include <rt/GCObject.h>
+#include <System.Private.CoreLib/System/Object.h>
 
 namespace System::Private::CoreLib::System {
 FORWARD_(Array, T1, T2)
@@ -15,7 +16,7 @@ namespace System::Private::CoreLib::System::Text {
 FORWARD(DecoderFallback)
 FORWARD(DecoderFallbackBuffer)
 namespace DecoderNamespace {
-CLASS(Decoder) {
+CLASS(Decoder) : public Object::in {
   public: DecoderFallback get_Fallback();
   public: void set_Fallback(DecoderFallback value);
   public: DecoderFallbackBuffer get_FallbackBuffer();

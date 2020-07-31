@@ -1,6 +1,7 @@
 #pragma once
 
 #include <rt/GCObject.h>
+#include <System.Private.CoreLib/System/Object.h>
 #include <System.Private.CoreLib/System/TimeSpan.h>
 #include <System.Private.CoreLib/System/UInt32.h>
 
@@ -17,7 +18,7 @@ enum class EventPipeSerializationFormat;
 FORWARDS(EventPipeProviderConfiguration)
 namespace EventPipeConfigurationNamespace {
 using namespace Collections::Generic;
-CLASS(EventPipeConfiguration) {
+CLASS(EventPipeConfiguration) : public Object::in {
   public: String get_OutputFile();
   public: EventPipeSerializationFormat get_Format();
   public: UInt32 get_CircularBufferSizeInMB();

@@ -4,10 +4,12 @@
 #include <System.Private.CoreLib/System/Boolean.h>
 #include <System.Private.CoreLib/System/Byte.h>
 #include <System.Private.CoreLib/System/Diagnostics/Tracing/EventDescriptor.h>
+#include <System.Private.CoreLib/System/Diagnostics/Tracing/EventProvider.h>
 #include <System.Private.CoreLib/System/Guid.h>
 #include <System.Private.CoreLib/System/Int32.h>
 #include <System.Private.CoreLib/System/Int64.h>
 #include <System.Private.CoreLib/System/IntPtr.h>
+#include <System.Private.CoreLib/System/Object.h>
 #include <System.Private.CoreLib/System/UInt64.h>
 
 namespace System::Private::CoreLib::System {
@@ -17,7 +19,6 @@ FORWARDS(Char)
 FORWARDS(DateTime)
 FORWARD_(EventHandler, T1, T2)
 FORWARD(Exception)
-FORWARD(Object)
 FORWARDS(ReadOnlySpan, T)
 FORWARD(String)
 FORWARD(Type)
@@ -66,7 +67,7 @@ namespace EventSourceNamespace {
 using namespace Collections::Generic;
 using namespace Reflection;
 using namespace Runtime::InteropServices;
-CLASS(EventSource) {
+CLASS(EventSource) : public Object::in {
   public: struct EventData {
     public: IntPtr get_DataPointer();
     public: void set_DataPointer(IntPtr value);
@@ -88,7 +89,7 @@ CLASS(EventSource) {
     private: Array<UInt32> w;
     private: Int32 pos;
   };
-  private: CLASS(OverideEventProvider) {
+  private: CLASS(OverideEventProvider) : public EventProvider::in {
     public: void Ctor(EventSource eventSource, EventProviderType providerType);
     protected: void OnControllerCommand(ControllerCommand command, IDictionary<String, String> arguments, Int32 perEventSourceSessionId, Int32 etwSessionId);
     private: EventSource m_eventSource;

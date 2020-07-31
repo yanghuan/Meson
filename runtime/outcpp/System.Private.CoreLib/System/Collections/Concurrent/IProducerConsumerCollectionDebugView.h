@@ -1,6 +1,7 @@
 #pragma once
 
 #include <rt/GCObject.h>
+#include <System.Private.CoreLib/System/Object.h>
 
 namespace System::Private::CoreLib::System {
 FORWARD_(Array, T1, T2)
@@ -8,7 +9,7 @@ FORWARD_(Array, T1, T2)
 namespace System::Private::CoreLib::System::Collections::Concurrent {
 FORWARD(IProducerConsumerCollection, T)
 namespace IProducerConsumerCollectionDebugViewNamespace {
-CLASS(IProducerConsumerCollectionDebugView, T) {
+CLASS(IProducerConsumerCollectionDebugView, T) : public Object::in {
   public: Array<T> get_Items();
   public: void Ctor(IProducerConsumerCollection<T> collection);
   private: IProducerConsumerCollection<T> _collection;

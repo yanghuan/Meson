@@ -1,6 +1,7 @@
 #pragma once
 
 #include <rt/GCObject.h>
+#include <System.Private.CoreLib/System/Reflection/SignatureHasElementType.h>
 
 namespace System::Private::CoreLib::System {
 FORWARDS(Boolean)
@@ -10,7 +11,7 @@ FORWARD(String)
 namespace System::Private::CoreLib::System::Reflection {
 FORWARD(SignatureType)
 namespace SignaturePointerTypeNamespace {
-CLASS(SignaturePointerType) {
+CLASS(SignaturePointerType) : public SignatureHasElementType::in {
   public: Boolean get_IsSZArray();
   public: Boolean get_IsVariableBoundArray();
   protected: String get_Suffix();

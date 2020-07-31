@@ -3,6 +3,7 @@
 #include <rt/GCObject.h>
 #include <System.Private.CoreLib/System/Boolean.h>
 #include <System.Private.CoreLib/System/Reflection/Emit/MethodToken.h>
+#include <System.Private.CoreLib/System/Reflection/MethodInfo.h>
 
 namespace System::Private::CoreLib::System {
 FORWARD_(Array, T1, T2)
@@ -23,7 +24,6 @@ FORWARD(Binder)
 FORWARD(ConstructorInfo)
 FORWARD(ICustomAttributeProvider)
 FORWARD(MethodBase)
-FORWARD(MethodInfo)
 FORWARD(Module)
 FORWARD(ParameterInfo)
 } // namespace System::Private::CoreLib::System::Reflection
@@ -43,7 +43,7 @@ FORWARD(SignatureHelper)
 FORWARD(TypeBuilder)
 namespace MethodBuilderNamespace {
 using namespace Globalization;
-CLASS(MethodBuilder) {
+CLASS(MethodBuilder) : public MethodInfo::in {
   public: Int32 get_ExceptionHandlerCount();
   public: String get_Name();
   public: Int32 get_MetadataTokenInternal();

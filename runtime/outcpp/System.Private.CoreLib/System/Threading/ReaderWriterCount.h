@@ -3,10 +3,11 @@
 #include <rt/GCObject.h>
 #include <System.Private.CoreLib/System/Int32.h>
 #include <System.Private.CoreLib/System/Int64.h>
+#include <System.Private.CoreLib/System/Object.h>
 
 namespace System::Private::CoreLib::System::Threading {
 namespace ReaderWriterCountNamespace {
-CLASS(ReaderWriterCount) {
+CLASS(ReaderWriterCount) : public Object::in {
   public: void Ctor();
   public: Int64 lockID;
   public: Int32 readercount;

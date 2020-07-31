@@ -2,6 +2,7 @@
 
 #include <rt/GCObject.h>
 #include <System.Private.CoreLib/System/Boolean.h>
+#include <System.Private.CoreLib/System/Text/Encoding.h>
 
 namespace System::Private::CoreLib::System {
 FORWARD_(Array, T1, T2)
@@ -25,8 +26,8 @@ FORWARD(EncoderFallback)
 FORWARDS(Rune)
 namespace UTF8EncodingNamespace {
 using namespace Buffers;
-CLASS(UTF8Encoding) {
-  public: CLASS(UTF8EncodingSealed) {
+CLASS(UTF8Encoding) : public Encoding::in {
+  public: CLASS(UTF8EncodingSealed) : public UTF8Encoding::in {
     public: ReadOnlySpan<Byte> get_Preamble();
     public: void Ctor(Boolean encoderShouldEmitUTF8Identifier);
     public: Object Clone();

@@ -2,14 +2,14 @@
 
 #include <rt/GCObject.h>
 #include <System.Private.CoreLib/System/Int32.h>
+#include <System.Private.CoreLib/System/Object.h>
 
 namespace System::Private::CoreLib::System {
 FORWARD(Exception)
-FORWARD(Object)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Runtime::InteropServices {
 namespace ErrorWrapperNamespace {
-CLASS(ErrorWrapper) {
+CLASS(ErrorWrapper) : public Object::in {
   public: Int32 get_ErrorCode() { return ErrorCode; }
   public: void Ctor(Int32 errorCode);
   public: void Ctor(Object errorCode);

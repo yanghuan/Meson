@@ -2,13 +2,11 @@
 
 #include <rt/GCObject.h>
 #include <System.Private.CoreLib/System/Boolean.h>
+#include <System.Private.CoreLib/System/Object.h>
 
 namespace System::Private::CoreLib::System::Runtime::InteropServices {
 FORWARD(SafeHandle)
 } // namespace System::Private::CoreLib::System::Runtime::InteropServices
-namespace System::Private::CoreLib::System {
-FORWARD(Object)
-} // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Threading {
 FORWARD(IOCompletionCallback)
 FORWARDS(NativeOverlapped)
@@ -16,7 +14,7 @@ FORWARD(PreAllocatedOverlapped)
 FORWARD(ThreadPoolBoundHandleOverlapped)
 namespace ThreadPoolBoundHandleNamespace {
 using namespace Runtime::InteropServices;
-CLASS(ThreadPoolBoundHandle) {
+CLASS(ThreadPoolBoundHandle) : public Object::in {
   public: SafeHandle get_Handle();
   private: void Ctor(SafeHandle handle);
   public: static ThreadPoolBoundHandle BindHandle(SafeHandle handle);

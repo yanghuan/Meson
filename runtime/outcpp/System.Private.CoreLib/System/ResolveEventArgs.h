@@ -1,6 +1,7 @@
 #pragma once
 
 #include <rt/GCObject.h>
+#include <System.Private.CoreLib/System/EventArgs.h>
 
 namespace System::Private::CoreLib::System::Reflection {
 FORWARD(Assembly)
@@ -9,7 +10,7 @@ namespace System::Private::CoreLib::System {
 FORWARD(String)
 namespace ResolveEventArgsNamespace {
 using namespace Reflection;
-CLASS(ResolveEventArgs) {
+CLASS(ResolveEventArgs) : public EventArgs::in {
   public: String get_Name() { return Name; }
   public: Assembly get_RequestingAssembly() { return RequestingAssembly; }
   public: void Ctor(String name);

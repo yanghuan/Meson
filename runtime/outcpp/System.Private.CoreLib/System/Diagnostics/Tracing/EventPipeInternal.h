@@ -3,6 +3,7 @@
 #include <rt/GCObject.h>
 #include <System.Private.CoreLib/Interop.h>
 #include <System.Private.CoreLib/System/Diagnostics/Tracing/EventProvider.h>
+#include <System.Private.CoreLib/System/Object.h>
 #include <System.Private.CoreLib/System/UInt32.h>
 #include <System.Private.CoreLib/System/UInt64.h>
 
@@ -22,7 +23,7 @@ FORWARDS(EventPipeEventInstanceData)
 FORWARDS(EventPipeProviderConfiguration)
 FORWARDS(EventPipeSessionInfo)
 namespace EventPipeInternalNamespace {
-class EventPipeInternal {
+class EventPipeInternal : public Object::in {
   private: struct EventPipeProviderConfigurationNative {
     public: static void MarshalToNative(EventPipeProviderConfiguration managed, EventPipeProviderConfigurationNative& native);
     public: void Release();

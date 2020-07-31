@@ -13,7 +13,7 @@ FORWARD(SafeWaitHandle)
 namespace System::Private::CoreLib::System::Threading {
 namespace MutexNamespace {
 using namespace ::System::Private::CoreLib::Microsoft::Win32::SafeHandles;
-CLASS(Mutex) {
+CLASS(Mutex) : public WaitHandle::in {
   public: void Ctor(Boolean initiallyOwned, String name, Boolean& createdNew);
   public: void Ctor(Boolean initiallyOwned, String name);
   public: void Ctor(Boolean initiallyOwned);

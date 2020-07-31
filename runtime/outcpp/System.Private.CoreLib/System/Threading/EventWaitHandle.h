@@ -14,7 +14,7 @@ namespace System::Private::CoreLib::System::Threading {
 enum class EventResetMode;
 namespace EventWaitHandleNamespace {
 using namespace ::System::Private::CoreLib::Microsoft::Win32::SafeHandles;
-CLASS(EventWaitHandle) {
+CLASS(EventWaitHandle) : public WaitHandle::in {
   public: void Ctor(Boolean initialState, EventResetMode mode);
   public: void Ctor(Boolean initialState, EventResetMode mode, String name);
   public: void Ctor(Boolean initialState, EventResetMode mode, String name, Boolean& createdNew);

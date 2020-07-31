@@ -11,7 +11,9 @@
 #include <System.Private.CoreLib/System/SByte-dep.h>
 #include <System.Private.CoreLib/System/String-dep.h>
 #include <System.Private.CoreLib/System/Text/Decoder-dep.h>
+#include <System.Private.CoreLib/System/Text/DecoderFallback-dep.h>
 #include <System.Private.CoreLib/System/Text/DecoderFallbackBuffer-dep.h>
 #include <System.Private.CoreLib/System/Text/DecoderNLS-dep.h>
 #include <System.Private.CoreLib/System/Text/Encoder-dep.h>
 #include <System.Private.CoreLib/System/Text/EncoderNLS-dep.h>
+#include <System.Private.CoreLib/System/Text/Encoding-dep.h>

@@ -1,15 +1,15 @@
 #pragma once
 
 #include <rt/GCObject.h>
+#include <System.Private.CoreLib/System/Object.h>
 
 namespace System::Private::CoreLib::System {
 FORWARD_(Array, T1, T2)
 FORWARD(IFormatProvider)
 FORWARDS(Int32)
-FORWARD(Object)
 FORWARD(String)
 namespace FormattableStringNamespace {
-CLASS(FormattableString) {
+CLASS(FormattableString) : public Object::in {
   public: String get_Format();
   public: Int32 get_ArgumentCount();
   public: Array<Object> GetArguments();

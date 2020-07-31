@@ -1,6 +1,7 @@
 #pragma once
 
 #include <rt/GCObject.h>
+#include <System.Private.CoreLib/System/Object.h>
 
 namespace System::Private::CoreLib::System::Threading::Tasks {
 FORWARDS_(ValueTask, T1, T2)
@@ -11,7 +12,7 @@ FORWARDS(Boolean)
 namespace System::Private::CoreLib::System::Collections::Generic {
 namespace IAsyncEnumeratorNamespace {
 using namespace Threading::Tasks;
-CLASS(IAsyncEnumerator, T) {
+CLASS(IAsyncEnumerator, T) : public Object::in {
   public: T get_Current();
   public: ValueTask<Boolean> MoveNextAsync();
 };

@@ -3,6 +3,7 @@
 #include <rt/GCObject.h>
 #include <System.Private.CoreLib/System/Boolean.h>
 #include <System.Private.CoreLib/System/Int32.h>
+#include <System.Private.CoreLib/System/Object.h>
 
 namespace System::Private::CoreLib::System {
 FORWARDS(Byte)
@@ -15,7 +16,7 @@ FORWARD(EncoderNLS)
 FORWARD(Encoding)
 FORWARDS(Rune)
 namespace EncoderFallbackBufferNamespace {
-CLASS(EncoderFallbackBuffer) {
+CLASS(EncoderFallbackBuffer) : public Object::in {
   public: Int32 get_Remaining();
   public: Boolean Fallback(Char charUnknown, Int32 index);
   public: Boolean Fallback(Char charUnknownHigh, Char charUnknownLow, Int32 index);

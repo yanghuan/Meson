@@ -1,11 +1,12 @@
 #pragma once
 
 #include <rt/GCObject.h>
+#include <System.Private.CoreLib/System/Object.h>
 
 namespace System::Private::CoreLib::System {
 FORWARDS(Boolean)
 namespace IEquatableNamespace {
-CLASS(IEquatable, T) {
+CLASS(IEquatable, T) : public Object::in {
   public: Boolean Equals(T other);
 };
 } // namespace IEquatableNamespace

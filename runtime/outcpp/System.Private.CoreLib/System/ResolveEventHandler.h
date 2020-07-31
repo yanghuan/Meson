@@ -1,6 +1,7 @@
 #pragma once
 
 #include <rt/GCObject.h>
+#include <System.Private.CoreLib/System/MulticastDelegate.h>
 
 namespace System::Private::CoreLib::System::Reflection {
 FORWARD(Assembly)
@@ -13,7 +14,7 @@ FORWARD(Object)
 FORWARD(ResolveEventArgs)
 namespace ResolveEventHandlerNamespace {
 using namespace Reflection;
-CLASS(ResolveEventHandler) {
+CLASS(ResolveEventHandler) : public MulticastDelegate::in {
   public: void Ctor(Object object, IntPtr method);
   public: Assembly Invoke(Object sender, ResolveEventArgs args);
   public: IAsyncResult BeginInvoke(Object sender, ResolveEventArgs args, AsyncCallback callback, Object object);

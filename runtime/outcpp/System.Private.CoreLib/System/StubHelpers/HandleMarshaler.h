@@ -1,6 +1,7 @@
 #pragma once
 
 #include <rt/GCObject.h>
+#include <System.Private.CoreLib/System/Object.h>
 
 namespace System::Private::CoreLib::System::Runtime::InteropServices {
 FORWARD(SafeHandle)
@@ -12,7 +13,7 @@ namespace System::Private::CoreLib::System::StubHelpers {
 FORWARD(CleanupWorkListElement)
 namespace HandleMarshalerNamespace {
 using namespace Runtime::InteropServices;
-CLASS(HandleMarshaler) {
+CLASS(HandleMarshaler) : public Object::in {
   public: static IntPtr ConvertSafeHandleToNative(SafeHandle handle, CleanupWorkListElement& cleanupWorkList);
   public: static void ThrowSafeHandleFieldChanged();
   public: static void ThrowCriticalHandleFieldChanged();

@@ -3,6 +3,7 @@
 #include <rt/GCObject.h>
 #include <System.Private.CoreLib/System/Int32.h>
 #include <System.Private.CoreLib/System/Reflection/Emit/PropertyToken.h>
+#include <System.Private.CoreLib/System/Reflection/PropertyInfo.h>
 
 namespace System::Private::CoreLib::System::Reflection {
 enum class BindingFlags;
@@ -33,7 +34,7 @@ FORWARD(SignatureHelper)
 FORWARD(TypeBuilder)
 namespace PropertyBuilderNamespace {
 using namespace Globalization;
-CLASS(PropertyBuilder) {
+CLASS(PropertyBuilder) : public PropertyInfo::in {
   public: PropertyToken get_PropertyToken();
   public: Module get_Module();
   public: Type get_PropertyType();

@@ -12,6 +12,7 @@
 #include <System.Private.CoreLib/System/Diagnostics/Tracing/EventSource-dep.h>
 #include <System.Private.CoreLib/System/Diagnostics/Tracing/EventTags.h>
 #include <System.Private.CoreLib/System/Diagnostics/Tracing/EventTask.h>
+#include <System.Private.CoreLib/System/EventArgs-dep.h>
 #include <System.Private.CoreLib/System/Guid-dep.h>
 #include <System.Private.CoreLib/System/Int32-dep.h>
 #include <System.Private.CoreLib/System/Int64-dep.h>

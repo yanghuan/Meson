@@ -3,6 +3,7 @@
 #include <rt/GCObject.h>
 #include <System.Private.CoreLib/System/Int32.h>
 #include <System.Private.CoreLib/System/IntPtr.h>
+#include <System.Private.CoreLib/System/Object.h>
 #include <System.Private.CoreLib/System/UIntPtr.h>
 
 namespace System::Private::CoreLib::System::Reflection {
@@ -23,7 +24,6 @@ FORWARD_(Array, T1, T2)
 FORWARDS(Boolean)
 FORWARDS(Byte)
 FORWARD(IRuntimeMethodInfo)
-FORWARD(Object)
 FORWARD(String)
 FORWARD(Type)
 FORWARDS(UInt32)
@@ -32,7 +32,7 @@ using namespace Collections;
 using namespace Reflection;
 using namespace Runtime::CompilerServices;
 using namespace Runtime::Serialization;
-CLASS(Exception) {
+CLASS(Exception) : public Object::in {
   public: enum class ExceptionMessageKind {
     ThreadAbort = 1,
     ThreadInterrupted = 2,

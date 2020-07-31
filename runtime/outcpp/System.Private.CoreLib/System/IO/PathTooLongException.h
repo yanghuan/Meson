@@ -1,6 +1,7 @@
 #pragma once
 
 #include <rt/GCObject.h>
+#include <System.Private.CoreLib/System/IO/IOException.h>
 
 namespace System::Private::CoreLib::System {
 FORWARD(Exception)
@@ -13,7 +14,7 @@ FORWARDS(StreamingContext)
 namespace System::Private::CoreLib::System::IO {
 namespace PathTooLongExceptionNamespace {
 using namespace Runtime::Serialization;
-CLASS(PathTooLongException) {
+CLASS(PathTooLongException) : public IOException::in {
   public: void Ctor();
   public: void Ctor(String message);
   public: void Ctor(String message, Exception innerException);

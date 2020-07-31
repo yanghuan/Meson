@@ -1,6 +1,7 @@
 #pragma once
 
 #include <rt/GCObject.h>
+#include <System.Private.CoreLib/System/Attribute.h>
 
 namespace System::Private::CoreLib::System {
 FORWARDS(Int32)
@@ -9,7 +10,7 @@ FORWARDS(UInt32)
 namespace System::Private::CoreLib::System::Reflection {
 enum class AssemblyNameFlags;
 namespace AssemblyFlagsAttributeNamespace {
-CLASS(AssemblyFlagsAttribute) {
+CLASS(AssemblyFlagsAttribute) : public Attribute::in {
   public: UInt32 get_Flags();
   public: Int32 get_AssemblyFlags();
   public: void Ctor(UInt32 flags);

@@ -155,6 +155,7 @@ namespace Meson.Compiler.CppAst {
     public const string OpneComment = "/*";
     public const string CloseComment = "*/";
     public const string Tilde = "~";
+    public const string Question = "?";
 
     private static readonly HashSet<string> ReservedWords = new HashSet<string>() {            
       // compiler reserved words

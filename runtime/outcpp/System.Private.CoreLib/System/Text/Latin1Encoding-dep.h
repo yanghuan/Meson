@@ -9,4 +9,5 @@
 #include <System.Private.CoreLib/System/Int32-dep.h>
 #include <System.Private.CoreLib/System/Text/DecoderNLS-dep.h>
 #include <System.Private.CoreLib/System/Text/EncoderNLS-dep.h>
+#include <System.Private.CoreLib/System/Text/EncodingNLS-dep.h>
 #include <System.Private.CoreLib/System/Text/NormalizationForm.h>

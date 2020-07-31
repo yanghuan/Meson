@@ -3,10 +3,10 @@
 #include <rt/GCObject.h>
 #include <System.Private.CoreLib/System/Int32.h>
 #include <System.Private.CoreLib/System/IntPtr.h>
+#include <System.Private.CoreLib/System/Object.h>
 
 namespace System::Private::CoreLib::System {
 FORWARD(IAsyncResult)
-FORWARD(Object)
 FORWARDS(UInt32)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Threading {
@@ -14,7 +14,7 @@ FORWARD(IOCompletionCallback)
 FORWARDS(NativeOverlapped)
 FORWARD(Overlapped)
 namespace OverlappedDataNamespace {
-CLASS(OverlappedData) {
+CLASS(OverlappedData) : public Object::in {
   public: Int32& get_OffsetLow();
   public: Int32& get_OffsetHigh();
   public: IntPtr& get_EventHandle();

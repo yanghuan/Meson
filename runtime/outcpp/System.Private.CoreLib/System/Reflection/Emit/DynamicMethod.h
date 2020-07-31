@@ -2,6 +2,7 @@
 
 #include <rt/GCObject.h>
 #include <System.Private.CoreLib/System/Boolean.h>
+#include <System.Private.CoreLib/System/Reflection/MethodInfo.h>
 
 namespace System::Private::CoreLib::System {
 FORWARD_(Array, T1, T2)
@@ -22,7 +23,6 @@ enum class MethodImplAttributes;
 enum class ParameterAttributes;
 FORWARD(Binder)
 FORWARD(ICustomAttributeProvider)
-FORWARD(MethodInfo)
 FORWARD(Module)
 FORWARD(ParameterInfo)
 FORWARD(RuntimeModule)
@@ -40,8 +40,8 @@ FORWARD(InternalModuleBuilder)
 FORWARD(ParameterBuilder)
 namespace DynamicMethodNamespace {
 using namespace Globalization;
-CLASS(DynamicMethod) {
-  public: CLASS(RTDynamicMethod) {
+CLASS(DynamicMethod) : public MethodInfo::in {
+  public: CLASS(RTDynamicMethod) : public MethodInfo::in {
     public: String get_Name();
     public: Type get_DeclaringType();
     public: Type get_ReflectedType();

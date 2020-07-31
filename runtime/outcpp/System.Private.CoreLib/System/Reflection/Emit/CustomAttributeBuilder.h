@@ -1,6 +1,7 @@
 #pragma once
 
 #include <rt/GCObject.h>
+#include <System.Private.CoreLib/System/Object.h>
 
 namespace System::Private::CoreLib::System::Reflection {
 FORWARD(ConstructorInfo)
@@ -12,7 +13,6 @@ FORWARD_(Array, T1, T2)
 FORWARDS(Boolean)
 FORWARDS(Byte)
 FORWARDS(Int32)
-FORWARD(Object)
 FORWARD(String)
 FORWARD(Type)
 } // namespace System::Private::CoreLib::System
@@ -23,7 +23,7 @@ namespace System::Private::CoreLib::System::Reflection::Emit {
 FORWARD(ModuleBuilder)
 namespace CustomAttributeBuilderNamespace {
 using namespace IO;
-CLASS(CustomAttributeBuilder) {
+CLASS(CustomAttributeBuilder) : public Object::in {
   public: void Ctor(ConstructorInfo con, Array<Object> constructorArgs);
   public: void Ctor(ConstructorInfo con, Array<Object> constructorArgs, Array<PropertyInfo> namedProperties, Array<Object> propertyValues);
   public: void Ctor(ConstructorInfo con, Array<Object> constructorArgs, Array<FieldInfo> namedFields, Array<Object> fieldValues);

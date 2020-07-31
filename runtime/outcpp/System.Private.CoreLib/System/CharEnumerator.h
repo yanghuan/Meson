@@ -3,13 +3,13 @@
 #include <rt/GCObject.h>
 #include <System.Private.CoreLib/System/Char.h>
 #include <System.Private.CoreLib/System/Int32.h>
+#include <System.Private.CoreLib/System/Object.h>
 
 namespace System::Private::CoreLib::System {
 FORWARDS(Boolean)
-FORWARD(Object)
 FORWARD(String)
 namespace CharEnumeratorNamespace {
-CLASS(CharEnumerator) {
+CLASS(CharEnumerator) : public Object::in {
   private: Object get_CurrentOfIEnumerator();
   public: Char get_Current();
   public: void Ctor(String str);

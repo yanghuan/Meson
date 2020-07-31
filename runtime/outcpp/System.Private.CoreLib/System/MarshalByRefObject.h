@@ -1,12 +1,12 @@
 #pragma once
 
 #include <rt/GCObject.h>
+#include <System.Private.CoreLib/System/Object.h>
 
 namespace System::Private::CoreLib::System {
 FORWARDS(Boolean)
-FORWARD(Object)
 namespace MarshalByRefObjectNamespace {
-CLASS(MarshalByRefObject) {
+CLASS(MarshalByRefObject) : public Object::in {
   protected: void Ctor();
   public: Object GetLifetimeService();
   public: Object InitializeLifetimeService();

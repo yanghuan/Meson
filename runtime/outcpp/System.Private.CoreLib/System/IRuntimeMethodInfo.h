@@ -1,11 +1,12 @@
 #pragma once
 
 #include <rt/GCObject.h>
+#include <System.Private.CoreLib/System/Object.h>
 
 namespace System::Private::CoreLib::System {
 FORWARDS(RuntimeMethodHandleInternal)
 namespace IRuntimeMethodInfoNamespace {
-CLASS(IRuntimeMethodInfo) {
+CLASS(IRuntimeMethodInfo) : public Object::in {
   public: RuntimeMethodHandleInternal get_Value();
 };
 } // namespace IRuntimeMethodInfoNamespace

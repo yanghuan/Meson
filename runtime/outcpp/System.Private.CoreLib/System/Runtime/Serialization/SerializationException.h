@@ -1,6 +1,7 @@
 #pragma once
 
 #include <rt/GCObject.h>
+#include <System.Private.CoreLib/System/SystemException.h>
 
 namespace System::Private::CoreLib::System {
 FORWARD(Exception)
@@ -10,7 +11,7 @@ namespace System::Private::CoreLib::System::Runtime::Serialization {
 FORWARD(SerializationInfo)
 FORWARDS(StreamingContext)
 namespace SerializationExceptionNamespace {
-CLASS(SerializationException) {
+CLASS(SerializationException) : public SystemException::in {
   public: void Ctor();
   public: void Ctor(String message);
   public: void Ctor(String message, Exception innerException);

@@ -1,6 +1,7 @@
 #pragma once
 
 #include <rt/GCObject.h>
+#include <System.Private.CoreLib/System/Text/EncodingNLS.h>
 
 namespace System::Private::CoreLib::System {
 FORWARD_(Array, T1, T2)
@@ -14,7 +15,7 @@ enum class NormalizationForm;
 FORWARD(DecoderNLS)
 FORWARD(EncoderNLS)
 namespace Latin1EncodingNamespace {
-CLASS(Latin1Encoding) {
+CLASS(Latin1Encoding) : public EncodingNLS::in {
   public: Boolean get_IsSingleByte();
   public: void Ctor();
   public: Int32 GetByteCount(Char* chars, Int32 charCount, EncoderNLS encoder);

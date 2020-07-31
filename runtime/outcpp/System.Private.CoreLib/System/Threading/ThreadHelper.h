@@ -1,10 +1,10 @@
 #pragma once
 
 #include <rt/GCObject.h>
+#include <System.Private.CoreLib/System/Object.h>
 
 namespace System::Private::CoreLib::System {
 FORWARD(Delegate)
-FORWARD(Object)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Globalization {
 FORWARD(CultureInfo)
@@ -14,7 +14,7 @@ FORWARD_(ContextCallback, T1, T2)
 FORWARD(ExecutionContext)
 namespace ThreadHelperNamespace {
 using namespace Globalization;
-CLASS(ThreadHelper) {
+CLASS(ThreadHelper) : public Object::in {
   public: void Ctor(Delegate start);
   public: void SetExecutionContextHelper(ExecutionContext ec);
   private: static void ThreadStart_Context(Object state);

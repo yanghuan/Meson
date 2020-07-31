@@ -13,6 +13,7 @@
 #include <System.Private.CoreLib/System/Int32.h>
 #include <System.Private.CoreLib/System/Int64.h>
 #include <System.Private.CoreLib/System/IntPtr.h>
+#include <System.Private.CoreLib/System/Object.h>
 #include <System.Private.CoreLib/System/SByte.h>
 #include <System.Private.CoreLib/System/Single.h>
 #include <System.Private.CoreLib/System/TimeSpan.h>
@@ -27,7 +28,6 @@ FORWARD(PropertyInfo)
 namespace System::Private::CoreLib::System {
 FORWARD(Delegate)
 FORWARD_(Func, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18)
-FORWARD(Object)
 FORWARD(Type)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Diagnostics::Tracing {
@@ -55,12 +55,12 @@ struct PropertyValue {
     public: TimeSpan AsTimeSpan;
     public: Decimal AsDecimal;
   };
-  private: CLASS(TypeHelper) {
+  private: CLASS(TypeHelper) : public Object::in {
     public: Func<PropertyValue, PropertyValue> GetPropertyGetter(PropertyInfo property);
     protected: Delegate GetGetMethod(PropertyInfo property, Type propertyType);
     protected: void Ctor();
   };
-  private: CLASS(ReferenceTypeHelper, TContainer) {
+  private: CLASS(ReferenceTypeHelper, TContainer) : public TypeHelper::in {
     public: Func<PropertyValue, PropertyValue> GetPropertyGetter(PropertyInfo property);
     public: void Ctor();
   };

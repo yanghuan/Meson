@@ -3,6 +3,7 @@
 #include <rt/GCObject.h>
 #include <System.Private.CoreLib/System/Boolean.h>
 #include <System.Private.CoreLib/System/Int32.h>
+#include <System.Private.CoreLib/System/Reflection/MethodBody.h>
 
 namespace System::Private::CoreLib::System::Collections::Generic {
 FORWARD(IList, T)
@@ -18,7 +19,7 @@ FORWARD(MethodBase)
 namespace RuntimeMethodBodyNamespace {
 using namespace Collections::Generic;
 using Collections::Generic::IList;
-CLASS(RuntimeMethodBody) {
+CLASS(RuntimeMethodBody) : public MethodBody::in {
   public: Int32 get_LocalSignatureMetadataToken();
   public: IList<LocalVariableInfo> get_LocalVariables();
   public: Int32 get_MaxStackSize();

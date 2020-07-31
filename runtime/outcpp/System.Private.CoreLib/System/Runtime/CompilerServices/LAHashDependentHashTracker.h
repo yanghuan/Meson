@@ -2,12 +2,13 @@
 
 #include <rt/GCObject.h>
 #include <System.Private.CoreLib/System/IntPtr.h>
+#include <System.Private.CoreLib/System/Object.h>
 #include <System.Private.CoreLib/System/Runtime/InteropServices/GCHandle.h>
 
 namespace System::Private::CoreLib::System::Runtime::CompilerServices {
 namespace LAHashDependentHashTrackerNamespace {
 using namespace InteropServices;
-CLASS(LAHashDependentHashTracker) {
+CLASS(LAHashDependentHashTracker) : public Object::in {
   protected: void Finalize();
   public: void Ctor();
   private: GCHandle _dependentHandle;

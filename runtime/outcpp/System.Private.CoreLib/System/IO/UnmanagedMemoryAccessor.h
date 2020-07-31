@@ -3,6 +3,7 @@
 #include <rt/GCObject.h>
 #include <System.Private.CoreLib/System/Boolean.h>
 #include <System.Private.CoreLib/System/Int64.h>
+#include <System.Private.CoreLib/System/Object.h>
 
 namespace System::Private::CoreLib::System::Runtime::InteropServices {
 FORWARD(SafeBuffer)
@@ -25,7 +26,7 @@ namespace System::Private::CoreLib::System::IO {
 enum class FileAccess;
 namespace UnmanagedMemoryAccessorNamespace {
 using namespace Runtime::InteropServices;
-CLASS(UnmanagedMemoryAccessor) {
+CLASS(UnmanagedMemoryAccessor) : public Object::in {
   public: Int64 get_Capacity();
   public: Boolean get_CanRead();
   public: Boolean get_CanWrite();

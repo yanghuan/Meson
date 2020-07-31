@@ -1,6 +1,7 @@
 #pragma once
 
 #include <rt/GCObject.h>
+#include <System.Private.CoreLib/System/MulticastDelegate.h>
 
 namespace System::Private::CoreLib::System {
 FORWARD(AsyncCallback)
@@ -8,7 +9,7 @@ FORWARD(IAsyncResult)
 FORWARDS(IntPtr)
 FORWARD(Object)
 namespace CtorDelegateNamespace {
-CLASS(CtorDelegate) {
+CLASS(CtorDelegate) : public MulticastDelegate::in {
   public: void Ctor(Object object, IntPtr method);
   public: void Invoke(Object instance);
   public: IAsyncResult BeginInvoke(Object instance, AsyncCallback callback, Object object);

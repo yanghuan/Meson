@@ -2,11 +2,11 @@
 
 #include <rt/GCObject.h>
 #include <System.Private.CoreLib/System/Int32.h>
+#include <System.Private.CoreLib/System/Object.h>
 
 namespace System::Private::CoreLib::System {
 FORWARD_(Array, T1, T2)
 FORWARDS(Boolean)
-FORWARD(Object)
 FORWARD(String)
 FORWARD(Type)
 } // namespace System::Private::CoreLib::System
@@ -25,7 +25,7 @@ namespace ParameterInfoNamespace {
 using namespace Collections::Generic;
 using namespace Runtime::Serialization;
 using Collections::Generic::IList;
-CLASS(ParameterInfo) {
+CLASS(ParameterInfo) : public Object::in {
   public: ParameterAttributes get_Attributes();
   public: MemberInfo get_Member();
   public: String get_Name();

@@ -1,6 +1,7 @@
 #pragma once
 
 #include <rt/GCObject.h>
+#include <System.Private.CoreLib/System/Object.h>
 
 namespace System::Private::CoreLib::System {
 FORWARD_(Array, T1, T2)
@@ -8,7 +9,6 @@ FORWARDS(Guid)
 FORWARDS(Int16)
 FORWARDS(Int32)
 FORWARDS(IntPtr)
-FORWARD(Object)
 FORWARD(String)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Runtime::InteropServices::ComTypes {
@@ -20,7 +20,7 @@ FORWARD(ITypeComp)
 FORWARD(ITypeInfo)
 FORWARD(ITypeLib)
 namespace ITypeInfo2Namespace {
-CLASS(ITypeInfo2) {
+CLASS(ITypeInfo2) : public Object::in {
   public: void GetTypeAttr(IntPtr& ppTypeAttr);
   public: void GetTypeComp(ITypeComp& ppTComp);
   public: void GetFuncDesc(Int32 index, IntPtr& ppFuncDesc);

@@ -1,11 +1,12 @@
 #pragma once
 
 #include <rt/GCObject.h>
+#include <System.Private.CoreLib/System/Object.h>
 
 namespace System::Private::CoreLib::System::Security {
 FORWARD(SecurityElement)
 namespace ISecurityEncodableNamespace {
-CLASS(ISecurityEncodable) {
+CLASS(ISecurityEncodable) : public Object::in {
   public: void FromXml(SecurityElement e);
   public: SecurityElement ToXml();
 };

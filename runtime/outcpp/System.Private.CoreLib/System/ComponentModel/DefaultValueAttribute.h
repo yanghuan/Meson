@@ -1,6 +1,7 @@
 #pragma once
 
 #include <rt/GCObject.h>
+#include <System.Private.CoreLib/System/Attribute.h>
 
 namespace System::Private::CoreLib::System {
 FORWARDS(Boolean)
@@ -21,7 +22,7 @@ FORWARDS(UInt64)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::ComponentModel {
 namespace DefaultValueAttributeNamespace {
-CLASS(DefaultValueAttribute) {
+CLASS(DefaultValueAttribute) : public Attribute::in {
   public: Object get_Value();
   public: void Ctor(Type type, String value);
   public: void Ctor(Char value);

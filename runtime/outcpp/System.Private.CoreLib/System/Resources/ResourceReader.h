@@ -4,15 +4,8 @@
 #include <System.Private.CoreLib/System/Boolean.h>
 #include <System.Private.CoreLib/System/Int32.h>
 #include <System.Private.CoreLib/System/Int64.h>
+#include <System.Private.CoreLib/System/Object.h>
 
-namespace System::Private::CoreLib::System {
-FORWARD_(Array, T1, T2)
-FORWARDS(Byte)
-FORWARD_(Func, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18)
-FORWARD(Object)
-FORWARD(String)
-FORWARD(Type)
-} // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Collections {
 FORWARDS(DictionaryEntry)
 FORWARD(IDictionaryEnumerator)
@@ -25,6 +18,13 @@ FORWARD(UnmanagedMemoryStream)
 namespace System::Private::CoreLib::System::Collections::Generic {
 FORWARD(Dictionary, TKey, TValue)
 } // namespace System::Private::CoreLib::System::Collections::Generic
+namespace System::Private::CoreLib::System {
+FORWARD_(Array, T1, T2)
+FORWARDS(Byte)
+FORWARD_(Func, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18)
+FORWARD(String)
+FORWARD(Type)
+} // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Reflection {
 FORWARD(MethodInfo)
 } // namespace System::Private::CoreLib::System::Reflection
@@ -36,8 +36,8 @@ using namespace Collections;
 using namespace Collections::Generic;
 using namespace IO;
 using namespace Reflection;
-CLASS(ResourceReader) {
-  public: CLASS(ResourceEnumerator) {
+CLASS(ResourceReader) : public Object::in {
+  public: CLASS(ResourceEnumerator) : public Object::in {
     public: Object get_Key();
     public: Object get_Current();
     public: Int32 get_DataPosition();

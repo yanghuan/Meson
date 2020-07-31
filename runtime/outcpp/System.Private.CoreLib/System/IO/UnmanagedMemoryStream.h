@@ -3,6 +3,7 @@
 #include <rt/GCObject.h>
 #include <System.Private.CoreLib/System/Boolean.h>
 #include <System.Private.CoreLib/System/Int64.h>
+#include <System.Private.CoreLib/System/IO/Stream.h>
 
 namespace System::Private::CoreLib::System {
 FORWARD_(Array, T1, T2)
@@ -35,7 +36,7 @@ using namespace Buffers;
 using namespace Runtime::InteropServices;
 using namespace Threading;
 using namespace Threading::Tasks;
-CLASS(UnmanagedMemoryStream) {
+CLASS(UnmanagedMemoryStream) : public Stream::in {
   public: Boolean get_CanRead();
   public: Boolean get_CanSeek();
   public: Boolean get_CanWrite();

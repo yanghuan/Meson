@@ -1,10 +1,11 @@
 #pragma once
 
 #include <rt/GCObject.h>
+#include <System.Private.CoreLib/System/Attribute.h>
 
 namespace System::Private::CoreLib::System::Runtime::CompilerServices {
 namespace EnumeratorCancellationAttributeNamespace {
-CLASS(EnumeratorCancellationAttribute) {
+CLASS(EnumeratorCancellationAttribute) : public Attribute::in {
   public: void Ctor();
 };
 } // namespace EnumeratorCancellationAttributeNamespace

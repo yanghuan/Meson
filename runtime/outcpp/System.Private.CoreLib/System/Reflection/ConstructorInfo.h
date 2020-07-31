@@ -1,6 +1,7 @@
 #pragma once
 
 #include <rt/GCObject.h>
+#include <System.Private.CoreLib/System/Reflection/MethodBase.h>
 
 namespace System::Private::CoreLib::System {
 FORWARD_(Array, T1, T2)
@@ -19,7 +20,7 @@ enum class MemberTypes;
 FORWARD(Binder)
 namespace ConstructorInfoNamespace {
 using namespace Globalization;
-CLASS(ConstructorInfo) {
+CLASS(ConstructorInfo) : public MethodBase::in {
   public: MemberTypes get_MemberType();
   public: Type GetReturnType();
   protected: void Ctor();

@@ -2,6 +2,7 @@
 
 #include <rt/GCObject.h>
 #include <System.Private.CoreLib/System/Char.h>
+#include <System.Private.CoreLib/System/Text/DecoderFallback.h>
 
 namespace System::Private::CoreLib::System {
 FORWARD_(Array, T1, T2)
@@ -13,7 +14,7 @@ namespace System::Private::CoreLib::System::Text {
 FORWARD(DecoderFallbackBuffer)
 FORWARD(Encoding)
 namespace InternalDecoderBestFitFallbackNamespace {
-CLASS(InternalDecoderBestFitFallback) {
+CLASS(InternalDecoderBestFitFallback) : public DecoderFallback::in {
   public: Int32 get_MaxCharCount();
   public: void Ctor(Encoding encoding);
   public: DecoderFallbackBuffer CreateFallbackBuffer();

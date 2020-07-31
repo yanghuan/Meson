@@ -1,6 +1,7 @@
 #pragma once
 
 #include <rt/GCObject.h>
+#include <System.Private.CoreLib/System/Object.h>
 
 namespace System::Private::CoreLib::System::Threading {
 enum class LazyThreadSafetyMode;
@@ -13,7 +14,7 @@ FORWARDS_(Nullable, T1, T2)
 namespace LazyNamespace {
 using namespace Threading;
 CLASS_FORWARD(Lazy, T1, T2, T3)
-CLASS_(Lazy, T) {
+CLASS_(Lazy, T) : public Object::in {
   public: T get_ValueForDebugDisplay();
   public: Nullable<LazyThreadSafetyMode> get_Mode();
   public: Boolean get_IsValueFaulted();
@@ -23,7 +24,7 @@ CLASS_(Lazy, T) {
   private: Func<T> _factory;
   private: T _value;
 };
-CLASS_(Lazy, T, TMetadata) {
+CLASS_(Lazy, T, TMetadata) : public Lazy<T>::in {
   public: TMetadata get_Metadata();
   private: TMetadata _metadata;
 };

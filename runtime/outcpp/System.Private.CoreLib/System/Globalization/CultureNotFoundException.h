@@ -1,6 +1,7 @@
 #pragma once
 
 #include <rt/GCObject.h>
+#include <System.Private.CoreLib/System/ArgumentException.h>
 #include <System.Private.CoreLib/System/Int32.h>
 #include <System.Private.CoreLib/System/Nullable.h>
 
@@ -15,7 +16,7 @@ FORWARDS(StreamingContext)
 namespace System::Private::CoreLib::System::Globalization {
 namespace CultureNotFoundExceptionNamespace {
 using namespace Runtime::Serialization;
-CLASS(CultureNotFoundException) {
+CLASS(CultureNotFoundException) : public ArgumentException::in {
   public: Nullable<Int32> get_InvalidCultureId();
   public: String get_InvalidCultureName();
   private: static String get_DefaultMessage();

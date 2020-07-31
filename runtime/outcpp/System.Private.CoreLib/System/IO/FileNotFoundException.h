@@ -1,6 +1,7 @@
 #pragma once
 
 #include <rt/GCObject.h>
+#include <System.Private.CoreLib/System/IO/IOException.h>
 
 namespace System::Private::CoreLib::System {
 FORWARD(Exception)
@@ -14,7 +15,7 @@ FORWARDS(StreamingContext)
 namespace System::Private::CoreLib::System::IO {
 namespace FileNotFoundExceptionNamespace {
 using namespace Runtime::Serialization;
-CLASS(FileNotFoundException) {
+CLASS(FileNotFoundException) : public IOException::in {
   public: String get_Message();
   public: String get_FileName() { return FileName; }
   public: String get_FusionLog() { return FusionLog; }

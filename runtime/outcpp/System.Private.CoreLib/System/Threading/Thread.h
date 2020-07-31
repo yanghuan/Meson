@@ -4,6 +4,7 @@
 #include <System.Private.CoreLib/Interop.h>
 #include <System.Private.CoreLib/System/Int32.h>
 #include <System.Private.CoreLib/System/IntPtr.h>
+#include <System.Private.CoreLib/System/Runtime/ConstrainedExecution/CriticalFinalizerObject.h>
 
 namespace System::Private::CoreLib::System {
 FORWARD(AppDomain)
@@ -53,9 +54,10 @@ FORWARD(ThreadStart)
 namespace ThreadNamespace {
 using namespace Collections::Generic;
 using namespace Globalization;
+using namespace Runtime::ConstrainedExecution;
 using namespace Runtime::Serialization;
 using namespace Security::Principal;
-CLASS(Thread) {
+CLASS(Thread) : public CriticalFinalizerObject::in {
   private: class LocalDataStore {
     public: static LocalDataStoreSlot AllocateSlot();
     private: static Dictionary<String, LocalDataStoreSlot> EnsureNameToSlotMap();

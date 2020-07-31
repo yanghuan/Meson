@@ -2,6 +2,7 @@
 
 #include <rt/GCObject.h>
 #include <System.Private.CoreLib/System/Int32.h>
+#include <System.Private.CoreLib/System/Object.h>
 
 namespace System::Private::CoreLib::System {
 FORWARD_(Array, T1, T2)
@@ -16,7 +17,7 @@ enum class ScopeAction : int8_t;
 FORWARD(LocalSymInfo)
 namespace ScopeTreeNamespace {
 using namespace Diagnostics::SymbolStore;
-CLASS(ScopeTree) {
+CLASS(ScopeTree) : public Object::in {
   public: void Ctor();
   public: Int32 GetCurrentActiveScopeIndex();
   public: void AddLocalSymInfoToCurrentScope(String strName, Array<Byte> signature, Int32 slot, Int32 startOffset, Int32 endOffset);

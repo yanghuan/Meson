@@ -2,6 +2,7 @@
 
 #include <rt/GCObject.h>
 #include <System.Private.CoreLib/System/Boolean.h>
+#include <System.Private.CoreLib/System/Runtime/ConstrainedExecution/CriticalFinalizerObject.h>
 #include <System.Private.CoreLib/System/UInt64.h>
 
 namespace System::Private::CoreLib::System {
@@ -11,7 +12,8 @@ FORWARDS(UIntPtr)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Runtime {
 namespace MemoryFailPointNamespace {
-CLASS(MemoryFailPoint) {
+using namespace ConstrainedExecution;
+CLASS(MemoryFailPoint) : public CriticalFinalizerObject::in {
   private: static Int64 get_LastKnownFreeAddressSpace();
   private: static void set_LastKnownFreeAddressSpace(Int64 value);
   private: static Int64 get_LastTimeCheckingAddressSpace();

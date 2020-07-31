@@ -8,3 +8,4 @@
 #include <System.Private.CoreLib/System/Threading/SendOrPostCallback-dep.h>
 #include <System.Private.CoreLib/System/Threading/SynchronizationContext-dep.h>
 #include <System.Private.CoreLib/System/Threading/Tasks/Task-dep.h>
+#include <System.Private.CoreLib/System/Threading/Tasks/TaskScheduler-dep.h>

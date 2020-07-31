@@ -1,6 +1,7 @@
 #pragma once
 
 #include <rt/GCObject.h>
+#include <System.Private.CoreLib/System/Object.h>
 
 namespace System::Private::CoreLib::System {
 FORWARD_(Array, T1, T2)
@@ -10,7 +11,7 @@ FORWARDS(Int32)
 namespace System::Private::CoreLib::System::Buffers {
 FORWARD(TlsOverPerCoreLockedStacksArrayPool, T)
 namespace ArrayPoolNamespace {
-CLASS(ArrayPool, T) {
+CLASS(ArrayPool, T) : public Object::in {
   public: static ArrayPool<T> get_Shared();
   public: static ArrayPool<T> Create();
   public: static ArrayPool<T> Create(Int32 maxArrayLength, Int32 maxArraysPerBucket);

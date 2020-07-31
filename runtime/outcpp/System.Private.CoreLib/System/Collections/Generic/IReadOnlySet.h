@@ -1,6 +1,7 @@
 #pragma once
 
 #include <rt/GCObject.h>
+#include <System.Private.CoreLib/System/Object.h>
 
 namespace System::Private::CoreLib::System {
 FORWARDS(Boolean)
@@ -8,7 +9,7 @@ FORWARDS(Boolean)
 namespace System::Private::CoreLib::System::Collections::Generic {
 FORWARD(IEnumerable, T)
 namespace IReadOnlySetNamespace {
-CLASS(IReadOnlySet, T) {
+CLASS(IReadOnlySet, T) : public Object::in {
   public: Boolean Contains(T item);
   public: Boolean IsProperSubsetOf(IEnumerable<T> other);
   public: Boolean IsProperSupersetOf(IEnumerable<T> other);

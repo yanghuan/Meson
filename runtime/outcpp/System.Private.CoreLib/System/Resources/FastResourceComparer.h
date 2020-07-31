@@ -1,18 +1,18 @@
 #pragma once
 
 #include <rt/GCObject.h>
+#include <System.Private.CoreLib/System/Object.h>
 
 namespace System::Private::CoreLib::System {
 FORWARD_(Array, T1, T2)
 FORWARDS(Boolean)
 FORWARDS(Byte)
 FORWARDS(Int32)
-FORWARD(Object)
 FORWARD(String)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Resources {
 namespace FastResourceComparerNamespace {
-CLASS(FastResourceComparer) {
+CLASS(FastResourceComparer) : public Object::in {
   public: Int32 GetHashCode(Object key);
   public: Int32 GetHashCode(String key);
   public: static Int32 HashFunction(String key);

@@ -1,13 +1,11 @@
 #pragma once
 
 #include <rt/GCObject.h>
+#include <System.Private.CoreLib/System/Object.h>
 
-namespace System::Private::CoreLib::System {
-FORWARD(Object)
-} // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Diagnostics {
 namespace EditAndContinueHelperNamespace {
-CLASS(EditAndContinueHelper) {
+CLASS(EditAndContinueHelper) : public Object::in {
   private: Object _objectReference;
 };
 } // namespace EditAndContinueHelperNamespace

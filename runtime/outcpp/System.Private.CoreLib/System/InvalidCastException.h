@@ -1,6 +1,7 @@
 #pragma once
 
 #include <rt/GCObject.h>
+#include <System.Private.CoreLib/System/SystemException.h>
 
 namespace System::Private::CoreLib::System::Runtime::Serialization {
 FORWARD(SerializationInfo)
@@ -12,7 +13,7 @@ FORWARDS(Int32)
 FORWARD(String)
 namespace InvalidCastExceptionNamespace {
 using namespace Runtime::Serialization;
-CLASS(InvalidCastException) {
+CLASS(InvalidCastException) : public SystemException::in {
   public: void Ctor();
   public: void Ctor(String message);
   public: void Ctor(String message, Exception innerException);

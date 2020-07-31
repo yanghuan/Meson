@@ -1,6 +1,7 @@
 #pragma once
 
 #include <rt/GCObject.h>
+#include <System.Private.CoreLib/System/Attribute.h>
 #include <System.Private.CoreLib/System/Boolean.h>
 
 namespace System::Private::CoreLib::System {
@@ -8,7 +9,7 @@ FORWARD(String)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Diagnostics::Contracts {
 namespace ContractOptionAttributeNamespace {
-CLASS(ContractOptionAttribute) {
+CLASS(ContractOptionAttribute) : public Attribute::in {
   public: String get_Category();
   public: String get_Setting();
   public: Boolean get_Enabled();

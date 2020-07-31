@@ -3,11 +3,11 @@
 #include <rt/GCObject.h>
 #include <System.Private.CoreLib/System/Boolean.h>
 #include <System.Private.CoreLib/System/Int32.h>
+#include <System.Private.CoreLib/System/Object.h>
 
 namespace System::Private::CoreLib::System {
 FORWARD_(Array, T1, T2)
 FORWARD(Delegate)
-FORWARD(Object)
 FORWARD(Type)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Collections::Generic {
@@ -16,8 +16,8 @@ FORWARD(List, T)
 namespace System::Private::CoreLib::System::Runtime::InteropServices {
 namespace ComEventsMethodNamespace {
 using namespace Collections::Generic;
-CLASS(ComEventsMethod) {
-  public: CLASS(DelegateWrapper) {
+CLASS(ComEventsMethod) : public Object::in {
+  public: CLASS(DelegateWrapper) : public Object::in {
     public: Delegate get_Delegate() { return Delegate; }
     public: void set_Delegate(Delegate value) { Delegate = value; }
     public: Boolean get_WrapArgs() { return WrapArgs; }

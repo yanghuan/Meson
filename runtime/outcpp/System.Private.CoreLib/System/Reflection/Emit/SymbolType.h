@@ -3,6 +3,7 @@
 #include <rt/GCObject.h>
 #include <System.Private.CoreLib/System/Boolean.h>
 #include <System.Private.CoreLib/System/Int32.h>
+#include <System.Private.CoreLib/System/Reflection/TypeInfo.h>
 
 namespace System::Private::CoreLib::System {
 FORWARD_(Array, T1, T2)
@@ -28,7 +29,6 @@ FORWARD(MethodInfo)
 FORWARD(Module)
 FORWARDS(ParameterModifier)
 FORWARD(PropertyInfo)
-FORWARD(TypeInfo)
 } // namespace System::Private::CoreLib::System::Reflection
 namespace System::Private::CoreLib::System::Globalization {
 FORWARD(CultureInfo)
@@ -37,7 +37,7 @@ namespace System::Private::CoreLib::System::Reflection::Emit {
 enum class TypeKind;
 namespace SymbolTypeNamespace {
 using namespace Globalization;
-CLASS(SymbolType) {
+CLASS(SymbolType) : public TypeInfo::in {
   public: Boolean get_IsTypeDefinition();
   public: Boolean get_IsSZArray();
   public: Guid get_GUID();

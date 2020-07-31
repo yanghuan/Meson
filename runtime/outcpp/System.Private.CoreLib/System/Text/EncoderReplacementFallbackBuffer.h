@@ -2,6 +2,7 @@
 
 #include <rt/GCObject.h>
 #include <System.Private.CoreLib/System/Int32.h>
+#include <System.Private.CoreLib/System/Text/EncoderFallbackBuffer.h>
 
 namespace System::Private::CoreLib::System {
 FORWARDS(Boolean)
@@ -11,7 +12,7 @@ FORWARD(String)
 namespace System::Private::CoreLib::System::Text {
 FORWARD(EncoderReplacementFallback)
 namespace EncoderReplacementFallbackBufferNamespace {
-CLASS(EncoderReplacementFallbackBuffer) {
+CLASS(EncoderReplacementFallbackBuffer) : public EncoderFallbackBuffer::in {
   public: Int32 get_Remaining();
   public: void Ctor(EncoderReplacementFallback fallback);
   public: Boolean Fallback(Char charUnknown, Int32 index);

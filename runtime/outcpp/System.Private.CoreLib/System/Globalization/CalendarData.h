@@ -4,6 +4,7 @@
 #include <System.Private.CoreLib/Interop.h>
 #include <System.Private.CoreLib/System/Boolean.h>
 #include <System.Private.CoreLib/System/Int32.h>
+#include <System.Private.CoreLib/System/Object.h>
 
 namespace System::Private::CoreLib::System::Collections::Generic {
 FORWARD(List, T)
@@ -24,7 +25,7 @@ enum class CalendarId : uint16_t;
 namespace CalendarDataNamespace {
 using namespace Collections::Generic;
 using namespace Text;
-CLASS(CalendarData) {
+CLASS(CalendarData) : public Object::in {
   private: struct IcuEnumCalendarsData {
     public: List<String> Results;
     public: Boolean DisallowDuplicates;

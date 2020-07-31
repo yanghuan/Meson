@@ -2,6 +2,7 @@
 
 #include <rt/GCObject.h>
 #include <System.Private.CoreLib/System/Int32.h>
+#include <System.Private.CoreLib/System/SystemException.h>
 
 namespace System::Private::CoreLib::System::Runtime::CompilerServices {
 FORWARDS(StringHandleOnStack)
@@ -16,7 +17,7 @@ FORWARD(String)
 namespace TypeLoadExceptionNamespace {
 using namespace Runtime::CompilerServices;
 using namespace Runtime::Serialization;
-CLASS(TypeLoadException) {
+CLASS(TypeLoadException) : public SystemException::in {
   public: String get_Message();
   public: String get_TypeName();
   private: void Ctor(String className, String assemblyName, String messageArg, Int32 resourceId);

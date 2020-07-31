@@ -2,6 +2,7 @@
 
 #include <rt/GCObject.h>
 #include <System.Private.CoreLib/System/Boolean.h>
+#include <System.Private.CoreLib/System/Threading/Overlapped.h>
 
 namespace System::Private::CoreLib::System {
 FORWARD(Object)
@@ -13,7 +14,7 @@ FORWARDS(NativeOverlapped)
 FORWARD(PreAllocatedOverlapped)
 FORWARD(ThreadPoolBoundHandle)
 namespace ThreadPoolBoundHandleOverlappedNamespace {
-CLASS(ThreadPoolBoundHandleOverlapped) {
+CLASS(ThreadPoolBoundHandleOverlapped) : public Overlapped::in {
   public: void Ctor(IOCompletionCallback callback, Object state, Object pinData, PreAllocatedOverlapped preAllocated);
   private: static void CompletionCallback(UInt32 errorCode, UInt32 numBytes, NativeOverlapped* nativeOverlapped);
   private: static void SCtor();

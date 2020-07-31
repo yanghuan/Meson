@@ -1,6 +1,7 @@
 #pragma once
 
 #include <rt/GCObject.h>
+#include <System.Private.CoreLib/System/Object.h>
 
 namespace System::Private::CoreLib::System {
 FORWARDS(Byte)
@@ -8,7 +9,7 @@ FORWARDS(Char)
 FORWARDS(Int32)
 FORWARDS(Span, T)
 namespace HexConverterNamespace {
-class HexConverter {
+class HexConverter : public Object::in {
   public: enum class Casing : uint32_t {
     Upper = 0,
     Lower = 8224,

@@ -2,16 +2,16 @@
 
 #include <rt/GCObject.h>
 #include <System.Private.CoreLib/System/Int32.h>
+#include <System.Private.CoreLib/System/Object.h>
 
 namespace System::Private::CoreLib::System {
 FORWARDS(Boolean)
-FORWARD(Object)
 FORWARD(String)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Text {
 FORWARD(Encoding)
 namespace EncodingInfoNamespace {
-CLASS(EncodingInfo) {
+CLASS(EncodingInfo) : public Object::in {
   public: Int32 get_CodePage() { return CodePage; }
   public: String get_Name() { return Name; }
   public: String get_DisplayName() { return DisplayName; }

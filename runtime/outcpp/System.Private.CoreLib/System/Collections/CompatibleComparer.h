@@ -1,17 +1,17 @@
 #pragma once
 
 #include <rt/GCObject.h>
+#include <System.Private.CoreLib/System/Object.h>
 
 namespace System::Private::CoreLib::System {
 FORWARDS(Boolean)
 FORWARDS(Int32)
-FORWARD(Object)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Collections {
 FORWARD(IComparer)
 FORWARD(IHashCodeProvider)
 namespace CompatibleComparerNamespace {
-CLASS(CompatibleComparer) {
+CLASS(CompatibleComparer) : public Object::in {
   public: IHashCodeProvider get_HashCodeProvider();
   public: IComparer get_Comparer();
   public: void Ctor(IHashCodeProvider hashCodeProvider, IComparer comparer);

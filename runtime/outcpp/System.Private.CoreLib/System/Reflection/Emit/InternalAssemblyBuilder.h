@@ -1,6 +1,7 @@
 #pragma once
 
 #include <rt/GCObject.h>
+#include <System.Private.CoreLib/System/Reflection/RuntimeAssembly.h>
 
 namespace System::Private::CoreLib::System {
 FORWARD_(Array, T1, T2)
@@ -20,7 +21,7 @@ FORWARD(ManifestResourceInfo)
 namespace System::Private::CoreLib::System::Reflection::Emit {
 namespace InternalAssemblyBuilderNamespace {
 using namespace IO;
-CLASS(InternalAssemblyBuilder) {
+CLASS(InternalAssemblyBuilder) : public RuntimeAssembly::in {
   public: String get_Location();
   public: String get_CodeBase();
   public: String get_ImageRuntimeVersion();

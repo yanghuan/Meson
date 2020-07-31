@@ -1,9 +1,9 @@
 #pragma once
 
 #include <rt/GCObject.h>
+#include <System.Private.CoreLib/System/Exception.h>
 
 namespace System::Private::CoreLib::System {
-FORWARD(Exception)
 FORWARD(String)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Runtime::Serialization {
@@ -14,7 +14,7 @@ namespace System::Private::CoreLib::System::Diagnostics::Contracts {
 enum class ContractFailureKind;
 namespace ContractExceptionNamespace {
 using namespace Runtime::Serialization;
-CLASS(ContractException) {
+CLASS(ContractException) : public Exception::in {
   public: ContractFailureKind get_Kind();
   public: String get_Failure();
   public: String get_UserMessage();

@@ -1,6 +1,7 @@
 #pragma once
 
 #include <rt/GCObject.h>
+#include <System.Private.CoreLib/System/Attribute.h>
 
 namespace System::Private::CoreLib::System {
 FORWARD_(Array, T1, T2)
@@ -8,7 +9,7 @@ FORWARDS(Boolean)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Runtime::CompilerServices {
 namespace NativeIntegerAttributeNamespace {
-CLASS(NativeIntegerAttribute) {
+CLASS(NativeIntegerAttribute) : public Attribute::in {
   public: void Ctor();
   public: Array<Boolean> TransformFlags;
 };

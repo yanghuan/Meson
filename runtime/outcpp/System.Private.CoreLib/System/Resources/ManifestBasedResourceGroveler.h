@@ -1,6 +1,7 @@
 #pragma once
 
 #include <rt/GCObject.h>
+#include <System.Private.CoreLib/System/Object.h>
 #include <System.Private.CoreLib/System/Resources/ResourceManager.h>
 
 namespace System::Private::CoreLib::System::Reflection {
@@ -28,7 +29,7 @@ using namespace Collections::Generic;
 using namespace Globalization;
 using namespace IO;
 using namespace Reflection;
-CLASS(ManifestBasedResourceGroveler) {
+CLASS(ManifestBasedResourceGroveler) : public Object::in {
   private: static Assembly InternalGetSatelliteAssembly(Assembly mainAssembly, CultureInfo culture, Version version);
   public: void Ctor(ResourceManager::in::ResourceManagerMediator mediator);
   public: ResourceSet GrovelForResourceSet(CultureInfo culture, Dictionary<String, ResourceSet> localResourceSets, Boolean tryParents, Boolean createIfNotExists);

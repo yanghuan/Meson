@@ -1,10 +1,11 @@
 #pragma once
 
 #include <rt/GCObject.h>
+#include <System.Private.CoreLib/System/Object.h>
 
 namespace System::Private::CoreLib::System::Diagnostics::Tracing {
 namespace NoOpEventProviderNamespace {
-CLASS(NoOpEventProvider) {
+CLASS(NoOpEventProvider) : public Object::in {
   public: void Ctor();
 };
 } // namespace NoOpEventProviderNamespace

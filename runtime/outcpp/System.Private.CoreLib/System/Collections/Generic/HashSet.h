@@ -2,12 +2,12 @@
 
 #include <rt/GCObject.h>
 #include <System.Private.CoreLib/System/Int32.h>
+#include <System.Private.CoreLib/System/Object.h>
 #include <System.Private.CoreLib/System/UInt64.h>
 
 namespace System::Private::CoreLib::System {
 FORWARD_(Array, T1, T2)
 FORWARDS(Boolean)
-FORWARD(Object)
 FORWARD(Predicate, T)
 FORWARDS_(ValueTuple, T1, T2, T3, T4, T5, T6, T7, T8, T9)
 } // namespace System::Private::CoreLib::System
@@ -20,7 +20,7 @@ FORWARD(IEnumerable, T)
 FORWARD(IEqualityComparer, T)
 namespace HashSetNamespace {
 using namespace Runtime::Serialization;
-CLASS(HashSet, T) {
+CLASS(HashSet, T) : public Object::in {
   private: struct Entry {
     public: Int32 HashCode;
     public: Int32 Next;

@@ -1,10 +1,11 @@
 #pragma once
 
 #include <rt/GCObject.h>
+#include <System.Private.CoreLib/System/Object.h>
 
 namespace System::Private::CoreLib::System::Diagnostics::Tracing {
 namespace EtwEventProviderNamespace {
-CLASS(EtwEventProvider) {
+CLASS(EtwEventProvider) : public Object::in {
   public: void Ctor();
 };
 } // namespace EtwEventProviderNamespace

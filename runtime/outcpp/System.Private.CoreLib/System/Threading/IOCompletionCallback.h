@@ -1,6 +1,7 @@
 #pragma once
 
 #include <rt/GCObject.h>
+#include <System.Private.CoreLib/System/MulticastDelegate.h>
 
 namespace System::Private::CoreLib::System {
 FORWARD(AsyncCallback)
@@ -12,7 +13,7 @@ FORWARDS(UInt32)
 namespace System::Private::CoreLib::System::Threading {
 FORWARDS(NativeOverlapped)
 namespace IOCompletionCallbackNamespace {
-CLASS(IOCompletionCallback) {
+CLASS(IOCompletionCallback) : public MulticastDelegate::in {
   public: void Ctor(Object object, IntPtr method);
   public: void Invoke(UInt32 errorCode, UInt32 numBytes, NativeOverlapped* pOVERLAP);
   public: IAsyncResult BeginInvoke(UInt32 errorCode, UInt32 numBytes, NativeOverlapped* pOVERLAP, AsyncCallback callback, Object object);

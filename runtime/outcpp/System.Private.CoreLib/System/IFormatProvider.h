@@ -1,12 +1,12 @@
 #pragma once
 
 #include <rt/GCObject.h>
+#include <System.Private.CoreLib/System/Object.h>
 
 namespace System::Private::CoreLib::System {
-FORWARD(Object)
 FORWARD(Type)
 namespace IFormatProviderNamespace {
-CLASS(IFormatProvider) {
+CLASS(IFormatProvider) : public Object::in {
   public: Object GetFormat(Type formatType);
 };
 } // namespace IFormatProviderNamespace

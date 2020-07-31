@@ -1,6 +1,7 @@
 #pragma once
 
 #include <rt/GCObject.h>
+#include <System.Private.CoreLib/System/Threading/Tasks/TaskScheduler.h>
 
 namespace System::Private::CoreLib::System {
 FORWARDS(Boolean)
@@ -16,7 +17,7 @@ namespace System::Private::CoreLib::System::Threading::Tasks {
 FORWARD_(Task, T1, T2)
 namespace ThreadPoolTaskSchedulerNamespace {
 using namespace Collections::Generic;
-CLASS(ThreadPoolTaskScheduler) {
+CLASS(ThreadPoolTaskScheduler) : public TaskScheduler::in {
   public: void Ctor();
   public: void QueueTask(Task<> task);
   protected: Boolean TryExecuteTaskInline(Task<> task, Boolean taskWasPreviouslyQueued);

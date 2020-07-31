@@ -1,10 +1,11 @@
 #pragma once
 
 #include <rt/GCObject.h>
+#include <System.Private.CoreLib/System/Object.h>
 
 namespace System::Private::CoreLib::System {
 namespace EventArgsNamespace {
-CLASS(EventArgs) {
+CLASS(EventArgs) : public Object::in {
   public: void Ctor();
   private: static void SCtor();
   public: static EventArgs Empty;

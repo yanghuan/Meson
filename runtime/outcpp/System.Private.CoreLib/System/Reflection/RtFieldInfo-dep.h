@@ -12,6 +12,7 @@
 #include <System.Private.CoreLib/System/Reflection/BindingFlags.h>
 #include <System.Private.CoreLib/System/Reflection/FieldAttributes.h>
 #include <System.Private.CoreLib/System/Reflection/INVOCATION_FLAGS.h>
+#include <System.Private.CoreLib/System/Reflection/RuntimeFieldInfo-dep.h>
 #include <System.Private.CoreLib/System/Reflection/RuntimeModule-dep.h>
 #include <System.Private.CoreLib/System/RuntimeFieldHandle-dep.h>
 #include <System.Private.CoreLib/System/RuntimeFieldHandleInternal-dep.h>

@@ -1,6 +1,7 @@
 #pragma once
 
 #include <rt/GCObject.h>
+#include <System.Private.CoreLib/System/Object.h>
 
 namespace System::Private::CoreLib::System {
 enum class StringComparison;
@@ -19,7 +20,7 @@ FORWARDS(ValueStringBuilder)
 namespace System::Private::CoreLib::System::IO {
 namespace PathNamespace {
 using namespace Text;
-class Path {
+class Path : public Object::in {
   private: static ReadOnlySpan<Byte> get_Base32Char();
   public: static StringComparison get_StringComparison();
   public: static Boolean get_IsCaseSensitive();

@@ -2,6 +2,7 @@
 
 #include <rt/GCObject.h>
 #include <System.Private.CoreLib/System/IntPtr.h>
+#include <System.Private.CoreLib/System/Reflection/RuntimeFieldInfo.h>
 #include <System.Private.CoreLib/System/RuntimeType.h>
 
 namespace System::Private::CoreLib::System {
@@ -26,7 +27,7 @@ FORWARD(Binder)
 FORWARD(RuntimeModule)
 namespace RtFieldInfoNamespace {
 using namespace Globalization;
-CLASS(RtFieldInfo) {
+CLASS(RtFieldInfo) : public RuntimeFieldInfo::in {
   public: INVOCATION_FLAGS get_InvocationFlags();
   private: RuntimeFieldHandleInternal get_ValueOfIRuntimeFieldInfo();
   public: String get_Name();

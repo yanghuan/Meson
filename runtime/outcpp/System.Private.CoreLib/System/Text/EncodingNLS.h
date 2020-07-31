@@ -1,6 +1,7 @@
 #pragma once
 
 #include <rt/GCObject.h>
+#include <System.Private.CoreLib/System/Text/Encoding.h>
 
 namespace System::Private::CoreLib::System {
 FORWARD_(Array, T1, T2)
@@ -13,7 +14,7 @@ namespace System::Private::CoreLib::System::Text {
 FORWARD(Decoder)
 FORWARD(Encoder)
 namespace EncodingNLSNamespace {
-CLASS(EncodingNLS) {
+CLASS(EncodingNLS) : public Encoding::in {
   protected: void Ctor(Int32 codePage);
   public: Int32 GetByteCount(Array<Char> chars, Int32 index, Int32 count);
   public: Int32 GetByteCount(String s);

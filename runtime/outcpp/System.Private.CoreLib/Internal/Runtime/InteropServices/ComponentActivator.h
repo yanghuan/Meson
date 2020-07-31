@@ -1,6 +1,8 @@
 #pragma once
 
 #include <rt/GCObject.h>
+#include <System.Private.CoreLib/System/MulticastDelegate.h>
+#include <System.Private.CoreLib/System/Object.h>
 
 namespace System::Private::CoreLib::System {
 FORWARD(AsyncCallback)
@@ -8,7 +10,6 @@ FORWARD(Delegate)
 FORWARD(IAsyncResult)
 FORWARDS(Int32)
 FORWARDS(IntPtr)
-FORWARD(Object)
 FORWARD(String)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Collections::Generic {
@@ -19,8 +20,8 @@ FORWARD(IsolatedComponentLoadContext)
 namespace ComponentActivatorNamespace {
 using namespace ::System::Private::CoreLib::System;
 using namespace ::System::Private::CoreLib::System::Collections::Generic;
-class ComponentActivator {
-  public: CLASS(ComponentEntryPoint) {
+class ComponentActivator : public Object::in {
+  public: CLASS(ComponentEntryPoint) : public MulticastDelegate::in {
     public: void Ctor(Object object, IntPtr method);
     public: Int32 Invoke(IntPtr args, Int32 sizeBytes);
     public: IAsyncResult BeginInvoke(IntPtr args, Int32 sizeBytes, AsyncCallback callback, Object object);

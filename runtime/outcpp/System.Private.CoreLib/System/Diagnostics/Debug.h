@@ -1,18 +1,18 @@
 #pragma once
 
 #include <rt/GCObject.h>
+#include <System.Private.CoreLib/System/Object.h>
 
 namespace System::Private::CoreLib::System {
 FORWARD_(Array, T1, T2)
 FORWARDS(Boolean)
 FORWARDS(Int32)
-FORWARD(Object)
 FORWARD(String)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Diagnostics {
 FORWARD(DebugProvider)
 namespace DebugNamespace {
-class Debug {
+class Debug : public Object::in {
   public: static Boolean get_AutoFlush();
   public: static void set_AutoFlush(Boolean value);
   public: static Int32 get_IndentLevel();

@@ -1,6 +1,7 @@
 #pragma once
 
 #include <rt/GCObject.h>
+#include <System.Private.CoreLib/System/Attribute.h>
 #include <System.Private.CoreLib/System/Boolean.h>
 
 namespace System::Private::CoreLib::System {
@@ -8,7 +9,7 @@ FORWARD(String)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Reflection {
 namespace ObfuscationAttributeNamespace {
-CLASS(ObfuscationAttribute) {
+CLASS(ObfuscationAttribute) : public Attribute::in {
   public: Boolean get_StripAfterObfuscation() { return StripAfterObfuscation; }
   public: void set_StripAfterObfuscation(Boolean value) { StripAfterObfuscation = value; }
   public: Boolean get_Exclude() { return Exclude; }

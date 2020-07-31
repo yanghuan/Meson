@@ -1,11 +1,12 @@
 #pragma once
 
 #include <rt/GCObject.h>
+#include <System.Private.CoreLib/System/Attribute.h>
 
 namespace System::Private::CoreLib::System::Runtime::Versioning {
 enum class ResourceScope;
 namespace ResourceConsumptionAttributeNamespace {
-CLASS(ResourceConsumptionAttribute) {
+CLASS(ResourceConsumptionAttribute) : public Attribute::in {
   public: ResourceScope get_ResourceScope() { return ResourceScope; }
   public: ResourceScope get_ConsumptionScope() { return ConsumptionScope; }
   public: void Ctor(ResourceScope resourceScope);

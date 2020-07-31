@@ -1,13 +1,14 @@
 #pragma once
 
 #include <rt/GCObject.h>
+#include <System.Private.CoreLib/System/Attribute.h>
 
 namespace System::Private::CoreLib::System {
 FORWARD(String)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Reflection {
 namespace DefaultMemberAttributeNamespace {
-CLASS(DefaultMemberAttribute) {
+CLASS(DefaultMemberAttribute) : public Attribute::in {
   public: String get_MemberName() { return MemberName; }
   public: void Ctor(String memberName);
   private: String MemberName;

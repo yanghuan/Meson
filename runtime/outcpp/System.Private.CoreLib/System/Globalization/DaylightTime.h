@@ -2,11 +2,12 @@
 
 #include <rt/GCObject.h>
 #include <System.Private.CoreLib/System/DateTime.h>
+#include <System.Private.CoreLib/System/Object.h>
 #include <System.Private.CoreLib/System/TimeSpan.h>
 
 namespace System::Private::CoreLib::System::Globalization {
 namespace DaylightTimeNamespace {
-CLASS(DaylightTime) {
+CLASS(DaylightTime) : public Object::in {
   public: DateTime get_Start();
   public: DateTime get_End();
   public: TimeSpan get_Delta();

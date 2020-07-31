@@ -1,6 +1,7 @@
 #pragma once
 
 #include <rt/GCObject.h>
+#include <System.Private.CoreLib/System/OrdinalComparer.h>
 
 namespace System::Private::CoreLib::System::Runtime::Serialization {
 FORWARD(SerializationInfo)
@@ -12,7 +13,7 @@ FORWARDS(Int32)
 FORWARD(String)
 namespace OrdinalIgnoreCaseComparerNamespace {
 using namespace Runtime::Serialization;
-CLASS(OrdinalIgnoreCaseComparer) {
+CLASS(OrdinalIgnoreCaseComparer) : public OrdinalComparer::in {
   public: void Ctor();
   public: Int32 Compare(String x, String y);
   public: Boolean Equals(String x, String y);

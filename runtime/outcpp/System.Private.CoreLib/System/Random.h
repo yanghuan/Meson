@@ -2,6 +2,7 @@
 
 #include <rt/GCObject.h>
 #include <System.Private.CoreLib/System/Int32.h>
+#include <System.Private.CoreLib/System/Object.h>
 
 namespace System::Private::CoreLib::System {
 FORWARD_(Array, T1, T2)
@@ -9,7 +10,7 @@ FORWARDS(Byte)
 FORWARDS(Double)
 FORWARDS(Span, T)
 namespace RandomNamespace {
-CLASS(Random) {
+CLASS(Random) : public Object::in {
   public: void Ctor();
   public: void Ctor(Int32 Seed);
   protected: Double Sample();

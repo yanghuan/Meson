@@ -1,11 +1,12 @@
 #pragma once
 
 #include <rt/GCObject.h>
+#include <System.Private.CoreLib/System/Attribute.h>
 
 namespace System::Private::CoreLib::System::Runtime::CompilerServices {
 enum class LoadHint;
 namespace DefaultDependencyAttributeNamespace {
-CLASS(DefaultDependencyAttribute) {
+CLASS(DefaultDependencyAttribute) : public Attribute::in {
   public: LoadHint get_LoadHint() { return LoadHint; }
   public: void Ctor(LoadHint loadHintArgument);
   private: LoadHint LoadHint;

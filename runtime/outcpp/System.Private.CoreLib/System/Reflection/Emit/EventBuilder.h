@@ -1,6 +1,7 @@
 #pragma once
 
 #include <rt/GCObject.h>
+#include <System.Private.CoreLib/System/Object.h>
 #include <System.Private.CoreLib/System/Reflection/Emit/EventToken.h>
 
 namespace System::Private::CoreLib::System {
@@ -19,7 +20,7 @@ FORWARD(MethodBuilder)
 FORWARD(ModuleBuilder)
 FORWARD(TypeBuilder)
 namespace EventBuilderNamespace {
-CLASS(EventBuilder) {
+CLASS(EventBuilder) : public Object::in {
   public: void Ctor(ModuleBuilder mod, String name, EventAttributes attr, TypeBuilder type, EventToken evToken);
   public: EventToken GetEventToken();
   private: void SetMethodSemantics(MethodBuilder mdBuilder, MethodSemanticsAttributes semantics);

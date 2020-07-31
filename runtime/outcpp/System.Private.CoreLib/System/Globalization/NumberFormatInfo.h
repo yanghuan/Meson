@@ -3,11 +3,11 @@
 #include <rt/GCObject.h>
 #include <System.Private.CoreLib/System/Boolean.h>
 #include <System.Private.CoreLib/System/Int32.h>
+#include <System.Private.CoreLib/System/Object.h>
 
 namespace System::Private::CoreLib::System {
 FORWARD_(Array, T1, T2)
 FORWARD(IFormatProvider)
-FORWARD(Object)
 FORWARD(String)
 FORWARD(Type)
 } // namespace System::Private::CoreLib::System
@@ -16,7 +16,7 @@ enum class DigitShapes;
 enum class NumberStyles;
 FORWARD(CultureData)
 namespace NumberFormatInfoNamespace {
-CLASS(NumberFormatInfo) {
+CLASS(NumberFormatInfo) : public Object::in {
   public: Boolean get_HasInvariantNumberSigns();
   public: static NumberFormatInfo get_InvariantInfo();
   public: Int32 get_CurrencyDecimalDigits();

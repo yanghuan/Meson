@@ -1,6 +1,7 @@
 #pragma once
 
 #include <rt/GCObject.h>
+#include <System.Private.CoreLib/System/Object.h>
 #include <System.Private.CoreLib/System/RuntimeType.h>
 
 namespace System::Private::CoreLib::System {
@@ -8,7 +9,6 @@ FORWARD_(Array, T1, T2)
 FORWARD(Attribute)
 FORWARDS(Boolean)
 FORWARDS(Int32)
-FORWARD(Object)
 FORWARD(String)
 FORWARD(Type)
 } // namespace System::Private::CoreLib::System
@@ -51,7 +51,7 @@ using namespace Collections::Generic;
 using namespace Runtime::CompilerServices;
 using namespace Runtime::InteropServices;
 using Collections::Generic::IList;
-CLASS(CustomAttributeData) {
+CLASS(CustomAttributeData) : public Object::in {
   public: Type get_AttributeType();
   public: ConstructorInfo get_Constructor();
   public: IList<CustomAttributeTypedArgument> get_ConstructorArguments();

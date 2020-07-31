@@ -3,23 +3,21 @@
 #include <rt/GCObject.h>
 #include <System.Private.CoreLib/System/Boolean.h>
 #include <System.Private.CoreLib/System/Int32.h>
+#include <System.Private.CoreLib/System/Object.h>
+#include <System.Private.CoreLib/System/Runtime/InteropServices/SafeBuffer.h>
 
 namespace System::Private::CoreLib::System {
 FORWARDS(Char)
 FORWARDS(IntPtr)
-FORWARD(Object)
 FORWARDS(ReadOnlySpan, T)
 FORWARDS(Span, T)
 FORWARDS(UInt64)
 } // namespace System::Private::CoreLib::System
-namespace System::Private::CoreLib::System::Runtime::InteropServices {
-FORWARD(SafeBuffer)
-} // namespace System::Private::CoreLib::System::Runtime::InteropServices
 namespace System::Private::CoreLib::System::Security {
 namespace SecureStringNamespace {
 using namespace Runtime::InteropServices;
-CLASS(SecureString) {
-  private: CLASS(UnmanagedBuffer) {
+CLASS(SecureString) : public Object::in {
+  private: CLASS(UnmanagedBuffer) : public SafeBuffer::in {
     private: void Ctor();
     public: static UnmanagedBuffer Allocate(Int32 byteLength);
     public: static void Copy(UnmanagedBuffer source, UnmanagedBuffer destination, UInt64 bytesLength);

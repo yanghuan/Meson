@@ -3,10 +3,8 @@
 #include <rt/GCObject.h>
 #include <System.Private.CoreLib/System/Guid.h>
 #include <System.Private.CoreLib/System/Int32.h>
+#include <System.Private.CoreLib/System/Object.h>
 
-namespace System::Private::CoreLib::System {
-FORWARD(Object)
-} // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Runtime::InteropServices::ComTypes {
 FORWARD(IConnectionPoint)
 } // namespace System::Private::CoreLib::System::Runtime::InteropServices::ComTypes
@@ -15,7 +13,7 @@ FORWARD(ComEventsMethod)
 FORWARDS(Variant)
 namespace ComEventsSinkNamespace {
 using namespace ComTypes;
-CLASS(ComEventsSink) {
+CLASS(ComEventsSink) : public Object::in {
   public: void Ctor(Object rcw, Guid iid);
   public: static ComEventsSink Find(ComEventsSink sinks, Guid& iid);
   public: static ComEventsSink Add(ComEventsSink sinks, ComEventsSink sink);

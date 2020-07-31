@@ -27,6 +27,7 @@
 #include <System.Private.CoreLib/System/Diagnostics/Tracing/EventManifestOptions.h>
 #include <System.Private.CoreLib/System/Diagnostics/Tracing/EventOpcode.h>
 #include <System.Private.CoreLib/System/Diagnostics/Tracing/EventPayload-dep.h>
+#include <System.Private.CoreLib/System/Diagnostics/Tracing/EventProvider-dep.h>
 #include <System.Private.CoreLib/System/Diagnostics/Tracing/EventProviderType.h>
 #include <System.Private.CoreLib/System/Diagnostics/Tracing/EventSourceOptions-dep.h>
 #include <System.Private.CoreLib/System/Diagnostics/Tracing/EventSourceSettings.h>

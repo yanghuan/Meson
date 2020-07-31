@@ -1,13 +1,14 @@
 #pragma once
 
 #include <rt/GCObject.h>
+#include <System.Private.CoreLib/System/Attribute.h>
 
 namespace System::Private::CoreLib::System {
 FORWARD(String)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Reflection {
 namespace AssemblyCopyrightAttributeNamespace {
-CLASS(AssemblyCopyrightAttribute) {
+CLASS(AssemblyCopyrightAttribute) : public Attribute::in {
   public: String get_Copyright() { return Copyright; }
   public: void Ctor(String copyright);
   private: String Copyright;

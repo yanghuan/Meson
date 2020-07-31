@@ -1,13 +1,14 @@
 #pragma once
 
 #include <rt/GCObject.h>
+#include <System.Private.CoreLib/System/Attribute.h>
 
 namespace System::Private::CoreLib::System {
 FORWARD(Type)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Diagnostics::Contracts {
 namespace ContractClassForAttributeNamespace {
-CLASS(ContractClassForAttribute) {
+CLASS(ContractClassForAttribute) : public Attribute::in {
   public: Type get_TypeContractsAreFor();
   public: void Ctor(Type typeContractsAreFor);
   private: Type _typeIAmAContractFor;

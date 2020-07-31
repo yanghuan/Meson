@@ -1,6 +1,7 @@
 #pragma once
 
 #include <rt/GCObject.h>
+#include <System.Private.CoreLib/System/FormatException.h>
 
 namespace System::Private::CoreLib::System {
 FORWARD(Exception)
@@ -14,7 +15,7 @@ namespace System::Private::Uri::System {
 namespace UriFormatExceptionNamespace {
 using namespace ::System::Private::CoreLib::System;
 using namespace ::System::Private::CoreLib::System::Runtime::Serialization;
-CLASS(UriFormatException) {
+CLASS(UriFormatException) : public FormatException::in {
   public: void Ctor();
   public: void Ctor(String textString);
   public: void Ctor(String textString, Exception e);

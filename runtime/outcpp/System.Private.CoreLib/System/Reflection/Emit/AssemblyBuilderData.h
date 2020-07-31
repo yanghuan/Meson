@@ -1,6 +1,7 @@
 #pragma once
 
 #include <rt/GCObject.h>
+#include <System.Private.CoreLib/System/Object.h>
 
 namespace System::Private::CoreLib::System {
 FORWARD(String)
@@ -18,7 +19,7 @@ FORWARD(ModuleBuilder)
 FORWARD(TypeBuilder)
 namespace AssemblyBuilderDataNamespace {
 using namespace Collections::Generic;
-CLASS(AssemblyBuilderData) {
+CLASS(AssemblyBuilderData) : public Object::in {
   public: void Ctor(InternalAssemblyBuilder assembly, AssemblyBuilderAccess access);
   public: void CheckTypeNameConflict(String strTypeName, TypeBuilder enclosingType);
   public: List<ModuleBuilder> _moduleBuilderList;

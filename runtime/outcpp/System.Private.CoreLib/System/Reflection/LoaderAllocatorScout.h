@@ -2,13 +2,14 @@
 
 #include <rt/GCObject.h>
 #include <System.Private.CoreLib/System/IntPtr.h>
+#include <System.Private.CoreLib/System/Object.h>
 
 namespace System::Private::CoreLib::System {
 FORWARDS(Boolean)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Reflection {
 namespace LoaderAllocatorScoutNamespace {
-CLASS(LoaderAllocatorScout) {
+CLASS(LoaderAllocatorScout) : public Object::in {
   private: static Boolean Destroy(IntPtr nativeLoaderAllocator);
   protected: void Finalize();
   public: void Ctor();

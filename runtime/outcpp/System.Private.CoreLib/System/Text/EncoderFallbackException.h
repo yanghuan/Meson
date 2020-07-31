@@ -1,6 +1,7 @@
 #pragma once
 
 #include <rt/GCObject.h>
+#include <System.Private.CoreLib/System/ArgumentException.h>
 #include <System.Private.CoreLib/System/Char.h>
 #include <System.Private.CoreLib/System/Int32.h>
 
@@ -16,7 +17,7 @@ FORWARDS(StreamingContext)
 namespace System::Private::CoreLib::System::Text {
 namespace EncoderFallbackExceptionNamespace {
 using namespace Runtime::Serialization;
-CLASS(EncoderFallbackException) {
+CLASS(EncoderFallbackException) : public ArgumentException::in {
   public: Char get_CharUnknown();
   public: Char get_CharUnknownHigh();
   public: Char get_CharUnknownLow();

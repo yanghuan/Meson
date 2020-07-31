@@ -3,6 +3,7 @@
 #include <rt/GCObject.h>
 #include <System.Private.CoreLib/System/Boolean.h>
 #include <System.Private.CoreLib/System/Int32.h>
+#include <System.Private.CoreLib/System/Object.h>
 
 namespace System::Private::CoreLib::System {
 enum class DayOfWeek;
@@ -11,7 +12,6 @@ FORWARDS(__DTString)
 FORWARD_(Array, T1, T2)
 FORWARDS(Char)
 FORWARD(IFormatProvider)
-FORWARD(Object)
 FORWARDS(ReadOnlySpan, T)
 FORWARD(String)
 FORWARD(Type)
@@ -27,8 +27,8 @@ FORWARD(CompareInfo)
 FORWARD(CultureData)
 FORWARD(CultureInfo)
 namespace DateTimeFormatInfoNamespace {
-CLASS(DateTimeFormatInfo) {
-  public: CLASS(TokenHashValue) {
+CLASS(DateTimeFormatInfo) : public Object::in {
+  public: CLASS(TokenHashValue) : public Object::in {
     public: void Ctor(String tokenString, TokenType tokenType, Int32 tokenValue);
     public: String tokenString;
     public: TokenType tokenType;

@@ -1,7 +1,9 @@
 #pragma once
 
 #include <rt/GCObject.h>
+#include <System.Private.CoreLib/System/Globalization/Calendar.h>
 #include <System.Private.CoreLib/System/Int32.h>
+#include <System.Private.CoreLib/System/Object.h>
 
 namespace System::Private::CoreLib::System {
 enum class DayOfWeek;
@@ -17,8 +19,8 @@ namespace System::Private::CoreLib::System::Globalization {
 enum class CalendarAlgorithmType;
 enum class CalendarId : uint16_t;
 namespace HebrewCalendarNamespace {
-CLASS(HebrewCalendar) {
-  public: CLASS(DateBuffer) {
+CLASS(HebrewCalendar) : public Calendar::in {
+  public: CLASS(DateBuffer) : public Object::in {
     public: void Ctor();
     public: Int32 year;
     public: Int32 month;

@@ -2,6 +2,7 @@
 
 #include <rt/GCObject.h>
 #include <System.Private.CoreLib/System/Boolean.h>
+#include <System.Private.CoreLib/System/IO/TextWriter.h>
 
 namespace System::Private::CoreLib::System::Text {
 FORWARD(Encoding)
@@ -28,7 +29,7 @@ namespace StringWriterNamespace {
 using namespace Text;
 using namespace Threading;
 using namespace Threading::Tasks;
-CLASS(StringWriter) {
+CLASS(StringWriter) : public TextWriter::in {
   public: Encoding get_Encoding();
   public: void Ctor();
   public: void Ctor(IFormatProvider formatProvider);

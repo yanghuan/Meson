@@ -1,6 +1,7 @@
 #pragma once
 
 #include <rt/GCObject.h>
+#include <System.Private.CoreLib/System/Type.h>
 
 namespace System::Private::CoreLib::System {
 enum class TypeCode;
@@ -11,7 +12,6 @@ FORWARDS(Int32)
 FORWARD(Object)
 FORWARDS(RuntimeTypeHandle)
 FORWARD(String)
-FORWARD(Type)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Collections::Generic {
 FORWARD(IEnumerable, T)
@@ -49,7 +49,7 @@ using namespace Collections::Generic;
 using namespace Globalization;
 using namespace Runtime::InteropServices;
 using Collections::Generic::IList;
-CLASS(SignatureType) {
+CLASS(SignatureType) : public Type::in {
   public: Boolean get_IsSignatureType();
   public: Boolean get_IsTypeDefinition();
   public: Boolean get_IsSZArray();

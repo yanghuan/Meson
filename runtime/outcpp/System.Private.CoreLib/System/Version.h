@@ -2,6 +2,7 @@
 
 #include <rt/GCObject.h>
 #include <System.Private.CoreLib/System/Int32.h>
+#include <System.Private.CoreLib/System/Object.h>
 
 namespace System::Private::CoreLib::System::Text {
 FORWARD(StringBuilder)
@@ -10,13 +11,12 @@ namespace System::Private::CoreLib::System {
 FORWARDS(Boolean)
 FORWARDS(Char)
 FORWARDS(Int16)
-FORWARD(Object)
 FORWARDS(ReadOnlySpan, T)
 FORWARDS(Span, T)
 FORWARD(String)
 namespace VersionNamespace {
 using namespace Text;
-CLASS(Version) {
+CLASS(Version) : public Object::in {
   public: Int32 get_Major();
   public: Int32 get_Minor();
   public: Int32 get_Build();

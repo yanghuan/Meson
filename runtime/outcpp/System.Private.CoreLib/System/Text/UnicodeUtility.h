@@ -1,6 +1,7 @@
 #pragma once
 
 #include <rt/GCObject.h>
+#include <System.Private.CoreLib/System/Object.h>
 
 namespace System::Private::CoreLib::System {
 FORWARDS(Boolean)
@@ -10,7 +11,7 @@ FORWARDS(UInt32)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Text {
 namespace UnicodeUtilityNamespace {
-class UnicodeUtility {
+class UnicodeUtility : public Object::in {
   public: static Int32 GetPlane(UInt32 codePoint);
   public: static UInt32 GetScalarFromUtf16SurrogatePair(UInt32 highSurrogateCodePoint, UInt32 lowSurrogateCodePoint);
   public: static Int32 GetUtf16SequenceLength(UInt32 value);

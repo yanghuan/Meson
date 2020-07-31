@@ -3,6 +3,9 @@
 #include <rt/GCObject.h>
 #include <System.Private.CoreLib/System/Boolean.h>
 #include <System.Private.CoreLib/System/Int32.h>
+#include <System.Private.CoreLib/System/Object.h>
+#include <System.Private.CoreLib/System/Text/Decoder.h>
+#include <System.Private.CoreLib/System/Text/Encoder.h>
 #include <System.Private.CoreLib/System/Text/UTF8Encoding.h>
 
 namespace System::Private::CoreLib::System::Runtime::Serialization {
@@ -12,7 +15,6 @@ namespace System::Private::CoreLib::System {
 FORWARD_(Array, T1, T2)
 FORWARDS(Byte)
 FORWARDS(Char)
-FORWARD(Object)
 FORWARDS(ReadOnlySpan, T)
 FORWARDS(Span, T)
 FORWARD(String)
@@ -26,11 +28,9 @@ enum class OperationStatus;
 namespace System::Private::CoreLib::System::Text {
 enum class NormalizationForm;
 FORWARD(CodePageDataItem)
-FORWARD(Decoder)
 FORWARD(DecoderFallback)
 FORWARD(DecoderFallbackBuffer)
 FORWARD(DecoderNLS)
-FORWARD(Encoder)
 FORWARD(EncoderFallback)
 FORWARD(EncoderFallbackBuffer)
 FORWARD(EncoderNLS)
@@ -41,8 +41,8 @@ namespace EncodingNamespace {
 using namespace Buffers;
 using namespace IO;
 using namespace Runtime::Serialization;
-CLASS(Encoding) {
-  public: CLASS(DefaultEncoder) {
+CLASS(Encoding) : public Object::in {
+  public: CLASS(DefaultEncoder) : public Encoder::in {
     public: void Ctor(Encoding encoding);
     public: Object GetRealObject(StreamingContext context);
     public: Int32 GetByteCount(Array<Char> chars, Int32 index, Int32 count, Boolean flush);
@@ -51,7 +51,7 @@ CLASS(Encoding) {
     public: Int32 GetBytes(Char* chars, Int32 charCount, Byte* bytes, Int32 byteCount, Boolean flush);
     private: Encoding _encoding;
   };
-  public: CLASS(DefaultDecoder) {
+  public: CLASS(DefaultDecoder) : public Decoder::in {
     public: void Ctor(Encoding encoding);
     public: Object GetRealObject(StreamingContext context);
     public: Int32 GetCharCount(Array<Byte> bytes, Int32 index, Int32 count);
@@ -62,7 +62,7 @@ CLASS(Encoding) {
     public: Int32 GetChars(Byte* bytes, Int32 byteCount, Char* chars, Int32 charCount, Boolean flush);
     private: Encoding _encoding;
   };
-  public: CLASS(EncodingCharBuffer) {
+  public: CLASS(EncodingCharBuffer) : public Object::in {
     public: Boolean get_MoreData();
     public: Int32 get_BytesUsed();
     public: Int32 get_Count();
@@ -84,7 +84,7 @@ CLASS(Encoding) {
     private: Byte* _bytes;
     private: DecoderFallbackBuffer _fallbackBuffer;
   };
-  public: CLASS(EncodingByteBuffer) {
+  public: CLASS(EncodingByteBuffer) : public Object::in {
     public: Boolean get_MoreData();
     public: Int32 get_CharsUsed();
     public: Int32 get_Count();

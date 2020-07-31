@@ -1,13 +1,14 @@
 #pragma once
 
 #include <rt/GCObject.h>
+#include <System.Private.CoreLib/System/Object.h>
 
 namespace System::Private::CoreLib::System {
 FORWARDS(Boolean)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Security {
 namespace IPermissionNamespace {
-CLASS(IPermission) {
+CLASS(IPermission) : public Object::in {
   public: IPermission Copy();
   public: void Demand();
   public: IPermission Intersect(IPermission target);

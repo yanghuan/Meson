@@ -4,6 +4,7 @@
 #include <System.Private.CoreLib/System/Boolean.h>
 #include <System.Private.CoreLib/System/Int32.h>
 #include <System.Private.CoreLib/System/IntPtr.h>
+#include <System.Private.CoreLib/System/Runtime/ConstrainedExecution/CriticalFinalizerObject.h>
 
 namespace System::Private::CoreLib::System::Runtime::InteropServices {
 FORWARD(SafeHandle)
@@ -11,8 +12,9 @@ FORWARD(SafeHandle)
 namespace System::Private::CoreLib::System::Threading {
 FORWARD(WaitHandle)
 namespace RegisteredWaitHandleSafeNamespace {
+using namespace Runtime::ConstrainedExecution;
 using namespace Runtime::InteropServices;
-CLASS(RegisteredWaitHandleSafe) {
+CLASS(RegisteredWaitHandleSafe) : public CriticalFinalizerObject::in {
   private: static IntPtr get_InvalidHandle();
   public: IntPtr GetHandle();
   public: void SetHandle(IntPtr handle);

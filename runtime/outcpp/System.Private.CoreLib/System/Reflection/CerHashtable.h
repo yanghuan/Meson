@@ -2,6 +2,7 @@
 
 #include <rt/GCObject.h>
 #include <System.Private.CoreLib/System/Int32.h>
+#include <System.Private.CoreLib/System/Object.h>
 
 namespace System::Private::CoreLib::System {
 FORWARD_(Array, T1, T2)
@@ -10,7 +11,7 @@ namespace System::Private::CoreLib::System::Reflection {
 namespace CerHashtableNamespace {
 template <class K, class V>
 struct CerHashtable {
-  private: CLASS(Table) {
+  private: CLASS(Table) : public Object::in {
     public: void Ctor(Int32 size);
     public: void Insert(K key, V value);
     public: Array<K> m_keys;

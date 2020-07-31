@@ -1,6 +1,7 @@
 #pragma once
 
 #include <rt/GCObject.h>
+#include <System.Private.CoreLib/System/Diagnostics/Tracing/DiagnosticCounter.h>
 #include <System.Private.CoreLib/System/Double.h>
 #include <System.Private.CoreLib/System/TimeSpan.h>
 
@@ -12,7 +13,7 @@ FORWARD(String)
 namespace System::Private::CoreLib::System::Diagnostics::Tracing {
 FORWARD(EventSource)
 namespace IncrementingEventCounterNamespace {
-CLASS(IncrementingEventCounter) {
+CLASS(IncrementingEventCounter) : public DiagnosticCounter::in {
   public: TimeSpan get_DisplayRateTimeScale() { return DisplayRateTimeScale; }
   public: void set_DisplayRateTimeScale(TimeSpan value) { DisplayRateTimeScale = value; }
   public: void Ctor(String name, EventSource eventSource);

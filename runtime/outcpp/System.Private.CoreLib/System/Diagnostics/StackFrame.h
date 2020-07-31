@@ -3,6 +3,7 @@
 #include <rt/GCObject.h>
 #include <System.Private.CoreLib/System/Boolean.h>
 #include <System.Private.CoreLib/System/Int32.h>
+#include <System.Private.CoreLib/System/Object.h>
 
 namespace System::Private::CoreLib::System::Text {
 FORWARD(StringBuilder)
@@ -18,7 +19,7 @@ FORWARD(StackFrameHelper)
 namespace StackFrameNamespace {
 using namespace Reflection;
 using namespace Text;
-CLASS(StackFrame) {
+CLASS(StackFrame) : public Object::in {
   public: Boolean get_IsLastFrameFromForeignExceptionStackTrace();
   public: void Ctor(StackFrameHelper stackFrameHelper, Int32 skipFrames, Boolean needFileInfo);
   private: void BuildStackFrame(Int32 skipFrames, Boolean needFileInfo);

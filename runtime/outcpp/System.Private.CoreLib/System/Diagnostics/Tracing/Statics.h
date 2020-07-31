@@ -1,13 +1,13 @@
 #pragma once
 
 #include <rt/GCObject.h>
+#include <System.Private.CoreLib/System/Object.h>
 
 namespace System::Private::CoreLib::System {
 FORWARD_(Array, T1, T2)
 FORWARDS(Boolean)
 FORWARDS(Byte)
 FORWARDS(Int32)
-FORWARD(Object)
 FORWARD(String)
 FORWARD(Type)
 } // namespace System::Private::CoreLib::System
@@ -26,7 +26,7 @@ FORWARD(TraceLoggingTypeInfo)
 namespace StaticsNamespace {
 using namespace Collections::Generic;
 using namespace Reflection;
-class Statics {
+class Statics : public Object::in {
   public: static Array<Byte> MetadataForString(String name, Int32 prefixSize, Int32 suffixSize, Int32 additionalSize);
   public: static void EncodeTags(Int32 tags, Int32& pos, Array<Byte> metadata);
   public: static Byte Combine(Int32 settingValue, Byte defaultValue);

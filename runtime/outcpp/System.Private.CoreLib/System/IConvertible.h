@@ -1,6 +1,7 @@
 #pragma once
 
 #include <rt/GCObject.h>
+#include <System.Private.CoreLib/System/Object.h>
 
 namespace System::Private::CoreLib::System {
 enum class TypeCode;
@@ -14,7 +15,6 @@ FORWARD(IFormatProvider)
 FORWARDS(Int16)
 FORWARDS(Int32)
 FORWARDS(Int64)
-FORWARD(Object)
 FORWARDS(SByte)
 FORWARDS(Single)
 FORWARD(String)
@@ -23,7 +23,7 @@ FORWARDS(UInt16)
 FORWARDS(UInt32)
 FORWARDS(UInt64)
 namespace IConvertibleNamespace {
-CLASS(IConvertible) {
+CLASS(IConvertible) : public Object::in {
   public: TypeCode GetTypeCode();
   public: Boolean ToBoolean(IFormatProvider provider);
   public: Char ToChar(IFormatProvider provider);

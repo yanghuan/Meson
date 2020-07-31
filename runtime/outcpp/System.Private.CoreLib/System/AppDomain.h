@@ -1,6 +1,7 @@
 #pragma once
 
 #include <rt/GCObject.h>
+#include <System.Private.CoreLib/System/MarshalByRefObject.h>
 
 namespace System::Private::CoreLib::System::Security {
 FORWARD(PermissionSet)
@@ -45,7 +46,7 @@ using namespace Reflection;
 using namespace Runtime::Remoting;
 using namespace Security;
 using namespace Security::Principal;
-CLASS(AppDomain) {
+CLASS(AppDomain) : public MarshalByRefObject::in {
   public: static AppDomain get_CurrentDomain();
   public: String get_BaseDirectory();
   public: String get_RelativeSearchPath();

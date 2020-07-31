@@ -1,6 +1,7 @@
 #pragma once
 
 #include <rt/GCObject.h>
+#include <System.Private.CoreLib/System/SystemException.h>
 
 namespace System::Private::CoreLib::System {
 FORWARD(Object)
@@ -12,7 +13,7 @@ FORWARDS(StreamingContext)
 namespace System::Private::CoreLib::System::Threading {
 namespace ThreadAbortExceptionNamespace {
 using namespace Runtime::Serialization;
-CLASS(ThreadAbortException) {
+CLASS(ThreadAbortException) : public SystemException::in {
   public: Object get_ExceptionState();
   public: void Ctor();
   private: void Ctor(SerializationInfo info, StreamingContext context);

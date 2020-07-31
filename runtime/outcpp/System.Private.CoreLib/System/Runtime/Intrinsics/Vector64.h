@@ -1,6 +1,7 @@
 #pragma once
 
 #include <rt/GCObject.h>
+#include <System.Private.CoreLib/System/Object.h>
 #include <System.Private.CoreLib/System/UInt64.h>
 
 namespace System::Private::CoreLib::System {
@@ -14,7 +15,7 @@ template <class T1 = void, class T2 = void>
 class Vector64 {
 };
 template <>
-class Vector64<> {
+class Vector64<> : public Object::in {
 };
 template <class T>
 struct Vector64<T> {

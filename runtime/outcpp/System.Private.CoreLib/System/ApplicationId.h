@@ -1,6 +1,7 @@
 #pragma once
 
 #include <rt/GCObject.h>
+#include <System.Private.CoreLib/System/Object.h>
 
 namespace System::Private::CoreLib::System::Text {
 FORWARDS(ValueStringBuilder)
@@ -10,12 +11,11 @@ FORWARD_(Array, T1, T2)
 FORWARDS(Boolean)
 FORWARDS(Byte)
 FORWARDS(Int32)
-FORWARD(Object)
 FORWARD(String)
 FORWARD(Version)
 namespace ApplicationIdNamespace {
 using namespace Text;
-CLASS(ApplicationId) {
+CLASS(ApplicationId) : public Object::in {
   public: String get_Culture() { return Culture; }
   public: String get_Name() { return Name; }
   public: String get_ProcessorArchitecture() { return ProcessorArchitecture; }

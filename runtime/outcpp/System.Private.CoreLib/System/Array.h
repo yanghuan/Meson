@@ -1,6 +1,7 @@
 #pragma once
 
 #include <rt/GCObject.h>
+#include <System.Private.CoreLib/System/Object.h>
 
 namespace System::Private::CoreLib::System::Collections {
 FORWARD(IComparer)
@@ -23,7 +24,6 @@ FORWARD(Comparison, T)
 FORWARD(Converter, TInput, TOutput)
 FORWARDS(Int32)
 FORWARDS(Int64)
-FORWARD(Object)
 FORWARD(Predicate, T)
 FORWARDS(Span, T)
 FORWARD(Type)
@@ -37,7 +37,7 @@ using IComparer = Collections::Generic::IComparer<T>;
 using IComparer1 = Collections::IComparer;
 ARRAY(({
   private: template <class T>
-  class EmptyArray {
+  class EmptyArray : public Object::in {
     private: static void SCtor();
     public: static Array<T> Value;
   };

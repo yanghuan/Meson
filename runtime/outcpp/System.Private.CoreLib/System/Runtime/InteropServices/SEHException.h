@@ -1,6 +1,7 @@
 #pragma once
 
 #include <rt/GCObject.h>
+#include <System.Private.CoreLib/System/Runtime/InteropServices/ExternalException.h>
 
 namespace System::Private::CoreLib::System {
 FORWARDS(Boolean)
@@ -14,7 +15,7 @@ FORWARDS(StreamingContext)
 namespace System::Private::CoreLib::System::Runtime::InteropServices {
 namespace SEHExceptionNamespace {
 using namespace Serialization;
-CLASS(SEHException) {
+CLASS(SEHException) : public ExternalException::in {
   public: void Ctor();
   public: void Ctor(String message);
   public: void Ctor(String message, Exception inner);

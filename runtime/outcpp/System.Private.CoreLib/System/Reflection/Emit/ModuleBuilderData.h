@@ -2,6 +2,7 @@
 
 #include <rt/GCObject.h>
 #include <System.Private.CoreLib/System/Boolean.h>
+#include <System.Private.CoreLib/System/Object.h>
 
 namespace System::Private::CoreLib::System {
 FORWARD(String)
@@ -10,7 +11,7 @@ namespace System::Private::CoreLib::System::Reflection::Emit {
 FORWARD(ModuleBuilder)
 FORWARD(TypeBuilder)
 namespace ModuleBuilderDataNamespace {
-CLASS(ModuleBuilderData) {
+CLASS(ModuleBuilderData) : public Object::in {
   public: void Ctor(ModuleBuilder module, String moduleName);
   public: TypeBuilder _globalTypeBuilder;
   public: String _moduleName;

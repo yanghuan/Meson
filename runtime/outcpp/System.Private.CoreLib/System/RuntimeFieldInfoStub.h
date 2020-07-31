@@ -2,12 +2,12 @@
 
 #include <rt/GCObject.h>
 #include <System.Private.CoreLib/System/Int32.h>
+#include <System.Private.CoreLib/System/Object.h>
 #include <System.Private.CoreLib/System/RuntimeFieldHandleInternal.h>
 
 namespace System::Private::CoreLib::System {
-FORWARD(Object)
 namespace RuntimeFieldInfoStubNamespace {
-CLASS(RuntimeFieldInfoStub) {
+CLASS(RuntimeFieldInfoStub) : public Object::in {
   private: RuntimeFieldHandleInternal get_ValueOfIRuntimeFieldInfo();
   public: void Ctor();
   private: Object m_keepalive;

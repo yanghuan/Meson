@@ -2,6 +2,7 @@
 
 #include <rt/GCObject.h>
 #include <System.Private.CoreLib/System/Int32.h>
+#include <System.Private.CoreLib/System/Object.h>
 
 namespace System::Private::CoreLib::System::Reflection {
 FORWARD(MethodInfo)
@@ -14,7 +15,7 @@ FORWARD(RuntimeType)
 FORWARD(String)
 namespace ResolverNamespace {
 using namespace Reflection;
-CLASS(Resolver) {
+CLASS(Resolver) : public Object::in {
   public: struct CORINFO_EH_CLAUSE {
     public: Int32 Flags;
     public: Int32 TryOffset;

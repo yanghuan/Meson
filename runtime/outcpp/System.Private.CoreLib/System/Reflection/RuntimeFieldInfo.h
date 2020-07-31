@@ -1,6 +1,7 @@
 #pragma once
 
 #include <rt/GCObject.h>
+#include <System.Private.CoreLib/System/Reflection/FieldInfo.h>
 #include <System.Private.CoreLib/System/RuntimeType.h>
 
 namespace System::Private::CoreLib::System {
@@ -23,7 +24,7 @@ FORWARD(RuntimeModule)
 namespace RuntimeFieldInfoNamespace {
 using namespace Collections::Generic;
 using Collections::Generic::IList;
-CLASS(RuntimeFieldInfo) {
+CLASS(RuntimeFieldInfo) : public FieldInfo::in {
   public: BindingFlags get_BindingFlags();
   private: RuntimeType get_ReflectedTypeInternal();
   public: MemberTypes get_MemberType();

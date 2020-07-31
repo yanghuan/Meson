@@ -2,6 +2,7 @@
 
 #include <rt/GCObject.h>
 #include <System.Private.CoreLib/System/Int32.h>
+#include <System.Private.CoreLib/System/Reflection/RuntimeFieldInfo.h>
 #include <System.Private.CoreLib/System/RuntimeType.h>
 
 namespace System::Private::CoreLib::System {
@@ -24,7 +25,7 @@ FORWARD(Binder)
 FORWARD(RuntimeModule)
 namespace MdFieldInfoNamespace {
 using namespace Globalization;
-CLASS(MdFieldInfo) {
+CLASS(MdFieldInfo) : public RuntimeFieldInfo::in {
   public: String get_Name();
   public: Int32 get_MetadataToken();
   public: RuntimeFieldHandle get_FieldHandle();

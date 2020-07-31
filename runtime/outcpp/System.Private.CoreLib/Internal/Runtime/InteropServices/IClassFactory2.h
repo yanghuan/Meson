@@ -1,19 +1,19 @@
 #pragma once
 
 #include <rt/GCObject.h>
+#include <System.Private.CoreLib/System/Object.h>
 
 namespace System::Private::CoreLib::System {
 FORWARDS(Boolean)
 FORWARDS(Guid)
 FORWARDS(Int32)
-FORWARD(Object)
 FORWARD(String)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::Internal::Runtime::InteropServices {
 FORWARDS(LICINFO)
 namespace IClassFactory2Namespace {
 using namespace ::System::Private::CoreLib::System;
-CLASS(IClassFactory2) {
+CLASS(IClassFactory2) : public Object::in {
   public: void CreateInstance(Object pUnkOuter, Guid& riid, Object& ppvObject);
   public: void LockServer(Boolean fLock);
   public: void GetLicInfo(LICINFO& pLicInfo);

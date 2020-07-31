@@ -42,3 +42,9 @@ struct Boolean : public rt::PrimitiveType<Boolean> {
 } // namespace BooleanNamespace
 using Boolean = BooleanNamespace::Boolean;
 } // namespace System::Private::CoreLib::System
+namespace rt {
+template <>
+struct TypeKind<::System::Private::CoreLib::System::Boolean> {
+  static constexpr TypeCode Kind = TypeCode::Boolean;
+};
+} // namespace rt

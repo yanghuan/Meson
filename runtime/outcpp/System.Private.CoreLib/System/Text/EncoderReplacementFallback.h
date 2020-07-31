@@ -1,6 +1,7 @@
 #pragma once
 
 #include <rt/GCObject.h>
+#include <System.Private.CoreLib/System/Text/EncoderFallback.h>
 
 namespace System::Private::CoreLib::System {
 FORWARDS(Boolean)
@@ -11,7 +12,7 @@ FORWARD(String)
 namespace System::Private::CoreLib::System::Text {
 FORWARD(EncoderFallbackBuffer)
 namespace EncoderReplacementFallbackNamespace {
-CLASS(EncoderReplacementFallback) {
+CLASS(EncoderReplacementFallback) : public EncoderFallback::in {
   public: String get_DefaultString();
   public: Int32 get_MaxCharCount();
   public: void Ctor();

@@ -1,12 +1,12 @@
 #pragma once
 
 #include <rt/GCObject.h>
+#include <System.Private.CoreLib/System/Object.h>
 
 namespace System::Private::CoreLib::System {
 FORWARD_(Array, T1, T2)
 FORWARDS(Byte)
 FORWARDS(Int32)
-FORWARD(Object)
 FORWARDS(RuntimeFieldHandle)
 FORWARDS(RuntimeMethodHandle)
 FORWARDS(RuntimeTypeHandle)
@@ -20,7 +20,7 @@ FORWARD(DynamicMethod)
 FORWARD(VarArgMethod)
 namespace DynamicScopeNamespace {
 using namespace Collections::Generic;
-CLASS(DynamicScope) {
+CLASS(DynamicScope) : public Object::in {
   public: Object get_Item(Int32 token);
   public: Int32 GetTokenFor(VarArgMethod varArgMethod);
   public: String GetString(Int32 token);

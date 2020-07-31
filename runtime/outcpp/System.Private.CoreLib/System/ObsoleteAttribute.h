@@ -1,12 +1,13 @@
 #pragma once
 
 #include <rt/GCObject.h>
+#include <System.Private.CoreLib/System/Attribute.h>
 #include <System.Private.CoreLib/System/Boolean.h>
 
 namespace System::Private::CoreLib::System {
 FORWARD(String)
 namespace ObsoleteAttributeNamespace {
-CLASS(ObsoleteAttribute) {
+CLASS(ObsoleteAttribute) : public Attribute::in {
   public: String get_Message() { return Message; }
   public: Boolean get_IsError() { return IsError; }
   public: String get_DiagnosticId() { return DiagnosticId; }

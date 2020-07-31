@@ -1,6 +1,7 @@
 #pragma once
 
 #include <rt/GCObject.h>
+#include <System.Private.CoreLib/System/Object.h>
 
 namespace System::Private::CoreLib::System {
 FORWARD_(Array, T1, T2)
@@ -10,7 +11,7 @@ FORWARDS(IntPtr)
 namespace System::Private::CoreLib::System::Runtime::InteropServices::ComTypes {
 FORWARD(IConnectionPoint)
 namespace IEnumConnectionPointsNamespace {
-CLASS(IEnumConnectionPoints) {
+CLASS(IEnumConnectionPoints) : public Object::in {
   public: Int32 Next(Int32 celt, Array<IConnectionPoint> rgelt, IntPtr pceltFetched);
   public: Int32 Skip(Int32 celt);
   public: void Reset();

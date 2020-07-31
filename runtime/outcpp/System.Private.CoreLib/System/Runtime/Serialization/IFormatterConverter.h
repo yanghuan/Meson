@@ -1,6 +1,7 @@
 #pragma once
 
 #include <rt/GCObject.h>
+#include <System.Private.CoreLib/System/Object.h>
 
 namespace System::Private::CoreLib::System {
 enum class TypeCode;
@@ -13,7 +14,6 @@ FORWARDS(Double)
 FORWARDS(Int16)
 FORWARDS(Int32)
 FORWARDS(Int64)
-FORWARD(Object)
 FORWARDS(SByte)
 FORWARDS(Single)
 FORWARD(String)
@@ -24,7 +24,7 @@ FORWARDS(UInt64)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Runtime::Serialization {
 namespace IFormatterConverterNamespace {
-CLASS(IFormatterConverter) {
+CLASS(IFormatterConverter) : public Object::in {
   public: Object Convert(Object value, Type type);
   public: Object Convert(Object value, TypeCode typeCode);
   public: Boolean ToBoolean(Object value);

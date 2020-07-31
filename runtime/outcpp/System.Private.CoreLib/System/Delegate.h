@@ -2,6 +2,7 @@
 
 #include <rt/GCObject.h>
 #include <System.Private.CoreLib/System/IntPtr.h>
+#include <System.Private.CoreLib/System/Object.h>
 
 namespace System::Private::CoreLib::System::Reflection {
 FORWARD(MethodInfo)
@@ -18,7 +19,6 @@ FORWARDS(Boolean)
 FORWARDS(Int32)
 FORWARD(IRuntimeMethodInfo)
 FORWARD(MulticastDelegate)
-FORWARD(Object)
 FORWARDS(RuntimeMethodHandle)
 FORWARD(RuntimeType)
 FORWARD(String)
@@ -26,7 +26,7 @@ FORWARD(Type)
 namespace DelegateNamespace {
 using namespace Reflection;
 using namespace Runtime::Serialization;
-CLASS(Delegate) {
+CLASS(Delegate) : public Object::in {
   public: Object get_Target();
   public: MethodInfo get_Method();
   protected: void Ctor(Object target, String method);

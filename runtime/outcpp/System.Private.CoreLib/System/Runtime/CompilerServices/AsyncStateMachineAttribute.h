@@ -1,13 +1,14 @@
 #pragma once
 
 #include <rt/GCObject.h>
+#include <System.Private.CoreLib/System/Runtime/CompilerServices/StateMachineAttribute.h>
 
 namespace System::Private::CoreLib::System {
 FORWARD(Type)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Runtime::CompilerServices {
 namespace AsyncStateMachineAttributeNamespace {
-CLASS(AsyncStateMachineAttribute) {
+CLASS(AsyncStateMachineAttribute) : public StateMachineAttribute::in {
   public: void Ctor(Type stateMachineType);
 };
 } // namespace AsyncStateMachineAttributeNamespace

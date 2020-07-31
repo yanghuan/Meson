@@ -2,6 +2,7 @@
 
 #include <rt/GCObject.h>
 #include <System.Private.CoreLib/System/Boolean.h>
+#include <System.Private.CoreLib/System/Reflection/Assembly.h>
 
 namespace System::Private::CoreLib::System {
 FORWARD_(Array, T1, T2)
@@ -14,7 +15,6 @@ FORWARD(Type)
 FORWARD(Version)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Reflection {
-FORWARD(Assembly)
 FORWARD(AssemblyName)
 FORWARD(ConstructorInfo)
 FORWARD(CustomAttributeData)
@@ -56,7 +56,7 @@ using namespace IO;
 using namespace Runtime::CompilerServices;
 using namespace Threading;
 using Collections::Generic::IList;
-CLASS(AssemblyBuilder) {
+CLASS(AssemblyBuilder) : public Assembly::in {
   public: Object get_SyncRoot();
   public: InternalAssemblyBuilder get_InternalAssembly();
   public: String get_Location();

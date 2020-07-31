@@ -1,6 +1,7 @@
 #pragma once
 
 #include <rt/GCObject.h>
+#include <System.Private.CoreLib/System/MarshalByRefObject.h>
 
 namespace System::Private::CoreLib::System::Collections {
 FORWARD(Hashtable)
@@ -12,7 +13,7 @@ FORWARD(Object)
 FORWARD(RuntimeType)
 namespace __ComObjectNamespace {
 using namespace Collections;
-CLASS(__ComObject) {
+CLASS(__ComObject) : public MarshalByRefObject::in {
   protected: void Ctor();
   public: Object GetData(Object key);
   public: Boolean SetData(Object key, Object data);

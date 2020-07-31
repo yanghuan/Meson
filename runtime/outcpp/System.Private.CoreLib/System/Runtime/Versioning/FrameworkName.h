@@ -1,17 +1,17 @@
 #pragma once
 
 #include <rt/GCObject.h>
+#include <System.Private.CoreLib/System/Object.h>
 
 namespace System::Private::CoreLib::System {
 FORWARDS(Boolean)
 FORWARDS(Int32)
-FORWARD(Object)
 FORWARD(String)
 FORWARD(Version)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Runtime::Versioning {
 namespace FrameworkNameNamespace {
-CLASS(FrameworkName) {
+CLASS(FrameworkName) : public Object::in {
   public: String get_Identifier();
   public: Version get_Version();
   public: String get_Profile();

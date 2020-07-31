@@ -3,6 +3,7 @@
 #include <rt/GCObject.h>
 #include <System.Private.CoreLib/System/Boolean.h>
 #include <System.Private.CoreLib/System/Int32.h>
+#include <System.Private.CoreLib/System/IO/TextWriter.h>
 
 namespace System::Private::CoreLib::System::Text {
 FORWARD(Encoding)
@@ -17,14 +18,11 @@ FORWARDS(Single)
 FORWARD(String)
 FORWARDS(UInt32)
 } // namespace System::Private::CoreLib::System
-namespace System::Private::CoreLib::System::IO {
-FORWARD(TextWriter)
-} // namespace System::Private::CoreLib::System::IO
 namespace System::Private::CoreLib::System::CodeDom::Compiler {
 namespace IndentedTextWriterNamespace {
 using namespace IO;
 using namespace Text;
-CLASS(IndentedTextWriter) {
+CLASS(IndentedTextWriter) : public TextWriter::in {
   public: Encoding get_Encoding();
   public: String get_NewLine();
   public: void set_NewLine(String value);

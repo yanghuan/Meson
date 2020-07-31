@@ -1,6 +1,7 @@
 #pragma once
 
 #include <rt/GCObject.h>
+#include <System.Private.CoreLib/System/Object.h>
 
 namespace System::Private::CoreLib::System::Collections {
 FORWARD(IEqualityComparer)
@@ -10,7 +11,7 @@ FORWARDS(Int32)
 FORWARD(String)
 namespace IValueTupleInternalNamespace {
 using namespace Collections;
-CLASS(IValueTupleInternal) {
+CLASS(IValueTupleInternal) : public Object::in {
   public: Int32 GetHashCode(IEqualityComparer comparer);
   public: String ToStringEnd();
 };

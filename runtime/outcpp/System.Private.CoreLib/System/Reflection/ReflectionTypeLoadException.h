@@ -1,6 +1,7 @@
 #pragma once
 
 #include <rt/GCObject.h>
+#include <System.Private.CoreLib/System/SystemException.h>
 
 namespace System::Private::CoreLib::System {
 FORWARD_(Array, T1, T2)
@@ -16,7 +17,7 @@ FORWARDS(StreamingContext)
 namespace System::Private::CoreLib::System::Reflection {
 namespace ReflectionTypeLoadExceptionNamespace {
 using namespace Runtime::Serialization;
-CLASS(ReflectionTypeLoadException) {
+CLASS(ReflectionTypeLoadException) : public SystemException::in {
   public: Array<Type> get_Types() { return Types; }
   public: Array<Exception> get_LoaderExceptions() { return LoaderExceptions; }
   public: String get_Message();

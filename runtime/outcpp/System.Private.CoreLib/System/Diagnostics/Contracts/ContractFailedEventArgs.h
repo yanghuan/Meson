@@ -2,6 +2,7 @@
 
 #include <rt/GCObject.h>
 #include <System.Private.CoreLib/System/Boolean.h>
+#include <System.Private.CoreLib/System/EventArgs.h>
 
 namespace System::Private::CoreLib::System {
 FORWARD(Exception)
@@ -10,7 +11,7 @@ FORWARD(String)
 namespace System::Private::CoreLib::System::Diagnostics::Contracts {
 enum class ContractFailureKind;
 namespace ContractFailedEventArgsNamespace {
-CLASS(ContractFailedEventArgs) {
+CLASS(ContractFailedEventArgs) : public EventArgs::in {
   public: String get_Message();
   public: String get_Condition();
   public: ContractFailureKind get_FailureKind();

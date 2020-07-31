@@ -1,6 +1,7 @@
 #pragma once
 
 #include <rt/GCObject.h>
+#include <System.Private.CoreLib/System/Object.h>
 
 namespace System::Private::CoreLib::System {
 FORWARDS(Boolean)
@@ -12,7 +13,7 @@ namespace System::Private::Uri::System {
 enum class UriComponents;
 namespace IriHelperNamespace {
 using namespace ::System::Private::CoreLib::System;
-class IriHelper {
+class IriHelper : public Object::in {
   public: static Boolean CheckIriUnicodeRange(Char unicode, Boolean isQuery);
   public: static Boolean CheckIriUnicodeRange(Char highSurr, Char lowSurr, Boolean& isSurrogatePair, Boolean isQuery);
   public: static Boolean CheckIsReserved(Char ch, UriComponents component);

@@ -1,6 +1,7 @@
 #pragma once
 
 #include <rt/GCObject.h>
+#include <System.Private.CoreLib/System/Object.h>
 
 namespace System::Private::CoreLib::System {
 FORWARD_(Array, T1, T2)
@@ -9,7 +10,7 @@ FORWARDS(Int32)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Collections::Generic {
 namespace ICollectionNamespace {
-CLASS(ICollection, T) {
+CLASS(ICollection, T) : public Object::in {
   public: Int32 get_Count();
   public: Boolean get_IsReadOnly();
   public: void Add(T item);

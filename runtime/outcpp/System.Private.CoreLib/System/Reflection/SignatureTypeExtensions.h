@@ -1,6 +1,7 @@
 #pragma once
 
 #include <rt/GCObject.h>
+#include <System.Private.CoreLib/System/Object.h>
 
 namespace System::Private::CoreLib::System {
 FORWARD_(Array, T1, T2)
@@ -13,7 +14,7 @@ FORWARD(MethodInfo)
 FORWARD(ParameterInfo)
 FORWARD(SignatureType)
 namespace SignatureTypeExtensionsNamespace {
-class SignatureTypeExtensions {
+class SignatureTypeExtensions : public Object::in {
   public: static Boolean MatchesParameterTypeExactly(Type pattern, ParameterInfo parameter);
   public: static Boolean MatchesExactly(SignatureType pattern, Type actual);
   public: static Type TryResolveAgainstGenericMethod(SignatureType signatureType, MethodInfo genericMethod);

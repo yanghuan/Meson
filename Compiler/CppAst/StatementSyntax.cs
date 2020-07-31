@@ -161,10 +161,10 @@ namespace Meson.Compiler.CppAst {
 
   sealed class NamespaceSyntax : BlockSyntax {
     public string NamespaceToken => Tokens.Namespace;
-    public string Name { get; }
+    public IdentifierSyntax Name { get; }
     public bool IsEmpty => Statements.Count == 0;
 
-    public NamespaceSyntax(string name) {
+    public NamespaceSyntax(IdentifierSyntax name) {
       IsPreventIdnet = true;
       Name = name;
     }
@@ -228,6 +228,8 @@ namespace Meson.Compiler.CppAst {
 
   sealed class TemplateSyntax : SyntaxNode {
     public List<TemplateTypenameSyntax> Arguments { get; } = new List<TemplateTypenameSyntax>();
+
+    public TemplateSyntax() {}
 
     public TemplateSyntax(TemplateTypenameSyntax argument) {
       Arguments.Add(argument);

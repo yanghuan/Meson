@@ -1,6 +1,7 @@
 #pragma once
 
 #include <rt/GCObject.h>
+#include <System.Private.CoreLib/System/Object.h>
 
 namespace System::Private::CoreLib::System {
 FORWARD_(Array, T1, T2)
@@ -13,7 +14,7 @@ FORWARD_(Task, T1, T2)
 namespace System::Private::CoreLib::System::Runtime::CompilerServices {
 namespace AsyncTaskCacheNamespace {
 using namespace Threading::Tasks;
-class AsyncTaskCache {
+class AsyncTaskCache : public Object::in {
   private: static Boolean GetPoolAsyncValueTasksSwitch();
   private: static Int32 GetPoolAsyncValueTasksLimitValue();
   public: template <class TResult>

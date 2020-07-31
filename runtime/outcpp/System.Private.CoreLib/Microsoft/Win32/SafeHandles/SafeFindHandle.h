@@ -1,6 +1,7 @@
 #pragma once
 
 #include <rt/GCObject.h>
+#include <System.Private.CoreLib/Microsoft/Win32/SafeHandles/SafeHandleZeroOrMinusOneIsInvalid.h>
 
 namespace System::Private::CoreLib::System {
 FORWARDS(Boolean)
@@ -8,7 +9,7 @@ FORWARDS(Boolean)
 namespace System::Private::CoreLib::Microsoft::Win32::SafeHandles {
 namespace SafeFindHandleNamespace {
 using namespace ::System::Private::CoreLib::System;
-CLASS(SafeFindHandle) {
+CLASS(SafeFindHandle) : public SafeHandleZeroOrMinusOneIsInvalid::in {
   public: void Ctor();
   protected: Boolean ReleaseHandle();
 };

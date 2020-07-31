@@ -1,17 +1,17 @@
 #pragma once
 
 #include <rt/GCObject.h>
+#include <System.Private.CoreLib/System/Object.h>
 
 namespace System::Private::CoreLib::System {
 FORWARDS(Boolean)
 FORWARDS(Int32)
-FORWARD(Object)
 FORWARD(String)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Globalization {
 FORWARD(CultureData)
 namespace RegionInfoNamespace {
-CLASS(RegionInfo) {
+CLASS(RegionInfo) : public Object::in {
   public: static RegionInfo get_CurrentRegion();
   public: String get_Name();
   public: String get_EnglishName();

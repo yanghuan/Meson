@@ -1,6 +1,7 @@
 #pragma once
 
 #include <rt/GCObject.h>
+#include <System.Private.CoreLib/System/Text/Encoding.h>
 
 namespace System::Private::CoreLib::System {
 FORWARD_(Array, T1, T2)
@@ -26,8 +27,8 @@ FORWARD(EncoderNLS)
 FORWARDS(Rune)
 namespace ASCIIEncodingNamespace {
 using namespace Buffers;
-CLASS(ASCIIEncoding) {
-  public: CLASS(ASCIIEncodingSealed) {
+CLASS(ASCIIEncoding) : public Encoding::in {
+  public: CLASS(ASCIIEncodingSealed) : public ASCIIEncoding::in {
     public: Object Clone();
     public: void Ctor();
   };

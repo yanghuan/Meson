@@ -10,3 +10,4 @@
 #include <System.Private.CoreLib/System/Reflection/ExceptionHandlingClause-dep.h>
 #include <System.Private.CoreLib/System/Reflection/LocalVariableInfo-dep.h>
 #include <System.Private.CoreLib/System/Reflection/MethodBase-dep.h>
+#include <System.Private.CoreLib/System/Reflection/MethodBody-dep.h>

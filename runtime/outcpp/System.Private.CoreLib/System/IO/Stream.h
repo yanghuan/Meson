@@ -3,6 +3,9 @@
 #include <rt/GCObject.h>
 #include <System.Private.CoreLib/System/Boolean.h>
 #include <System.Private.CoreLib/System/Int32.h>
+#include <System.Private.CoreLib/System/MarshalByRefObject.h>
+#include <System.Private.CoreLib/System/Object.h>
+#include <System.Private.CoreLib/System/Threading/Tasks/Task.h>
 
 namespace System::Private::CoreLib::System {
 FORWARD_(Array, T1, T2)
@@ -13,7 +16,6 @@ FORWARD_(Func, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15,
 FORWARD(IAsyncResult)
 FORWARDS(Int64)
 FORWARDS(Memory, T)
-FORWARD(Object)
 FORWARDS(ReadOnlyMemory, T)
 FORWARDS(ReadOnlySpan, T)
 FORWARDS(Span, T)
@@ -43,13 +45,13 @@ using namespace Buffers;
 using namespace Runtime::ExceptionServices;
 using namespace Threading;
 using namespace Threading::Tasks;
-CLASS(Stream) {
+CLASS(Stream) : public MarshalByRefObject::in {
   private: struct ReadWriteParameters {
     public: Array<Byte> Buffer;
     public: Int32 Offset;
     public: Int32 Count;
   };
-  private: CLASS(WriteCallbackStream) {
+  private: CLASS(WriteCallbackStream) : public Stream::in {
     public: Boolean get_CanRead();
     public: Boolean get_CanSeek();
     public: Boolean get_CanWrite();
@@ -71,7 +73,7 @@ CLASS(Stream) {
     private: Func<ReadOnlyMemory<Byte>, Object, CancellationToken, ValueTask<>> _func;
     private: Object _state;
   };
-  private: CLASS(ReadWriteTask) {
+  private: CLASS(ReadWriteTask) : public Task<Int32>::in {
     private: Boolean get_InvokeMayRunArbitraryCodeOfITaskCompletionAction();
     public: void ClearBeginState();
     public: void Ctor(Boolean isRead, Boolean apm, Func<Object, Int32> function, Object state, Stream stream, Array<Byte> buffer, Int32 offset, Int32 count, AsyncCallback callback);
@@ -87,7 +89,7 @@ CLASS(Stream) {
     private: ExecutionContext _context;
     private: static ContextCallback<> s_invokeAsyncCallback;
   };
-  private: CLASS(NullStream) {
+  private: CLASS(NullStream) : public Stream::in {
     public: Boolean get_CanRead();
     public: Boolean get_CanWrite();
     public: Boolean get_CanSeek();
@@ -121,7 +123,7 @@ CLASS(Stream) {
     private: static void SCtor();
     private: static Task<Int32> s_zeroTask;
   };
-  private: CLASS(SynchronousAsyncResult) {
+  private: CLASS(SynchronousAsyncResult) : public Object::in {
     public: Boolean get_IsCompleted();
     public: WaitHandle get_AsyncWaitHandle();
     public: Object get_AsyncState();
@@ -139,7 +141,7 @@ CLASS(Stream) {
     private: Boolean _endXxxCalled;
     private: Int32 _bytesRead;
   };
-  private: CLASS(SyncStream) {
+  private: CLASS(SyncStream) : public Stream::in {
     public: Boolean get_CanRead();
     public: Boolean get_CanWrite();
     public: Boolean get_CanSeek();

@@ -1,10 +1,10 @@
 #pragma once
 
 #include <rt/GCObject.h>
+#include <System.Private.CoreLib/System/Object.h>
 
 namespace System::Private::CoreLib::System {
 FORWARDS(Boolean)
-FORWARD(Object)
 FORWARD(String)
 FORWARD(Type)
 } // namespace System::Private::CoreLib::System
@@ -20,7 +20,7 @@ FORWARD(IResourceReader)
 namespace ResourceSetNamespace {
 using namespace Collections;
 using namespace IO;
-CLASS(ResourceSet) {
+CLASS(ResourceSet) : public Object::in {
   protected: void Ctor();
   public: void Ctor(Boolean junk);
   public: void Ctor(String fileName);

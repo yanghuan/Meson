@@ -1,13 +1,14 @@
 #pragma once
 
 #include <rt/GCObject.h>
+#include <System.Private.CoreLib/System/Threading/EventWaitHandle.h>
 
 namespace System::Private::CoreLib::System {
 FORWARDS(Boolean)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Threading {
 namespace ManualResetEventNamespace {
-CLASS(ManualResetEvent) {
+CLASS(ManualResetEvent) : public EventWaitHandle::in {
   public: void Ctor(Boolean initialState);
 };
 } // namespace ManualResetEventNamespace

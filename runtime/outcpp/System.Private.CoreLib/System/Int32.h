@@ -49,3 +49,9 @@ struct Int32 : public rt::PrimitiveType<Int32> {
 } // namespace Int32Namespace
 using Int32 = Int32Namespace::Int32;
 } // namespace System::Private::CoreLib::System
+namespace rt {
+template <>
+struct TypeKind<::System::Private::CoreLib::System::Int32> {
+  static constexpr TypeCode Kind = TypeCode::Int32;
+};
+} // namespace rt

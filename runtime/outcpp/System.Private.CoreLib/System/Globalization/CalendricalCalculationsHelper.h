@@ -2,6 +2,7 @@
 
 #include <rt/GCObject.h>
 #include <System.Private.CoreLib/System/Int32.h>
+#include <System.Private.CoreLib/System/Object.h>
 
 namespace System::Private::CoreLib::System {
 FORWARD_(Array, T1, T2)
@@ -12,7 +13,7 @@ FORWARDS(Int64)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Globalization {
 namespace CalendricalCalculationsHelperNamespace {
-class CalendricalCalculationsHelper {
+class CalendricalCalculationsHelper : public Object::in {
   private: enum class CorrectionAlgorithm {
     Default = 0,
     Year1988to2019 = 1,

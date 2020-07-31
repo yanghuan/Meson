@@ -1,6 +1,7 @@
 #pragma once
 
 #include <rt/GCObject.h>
+#include <System.Private.CoreLib/System/Threading/Tasks/TaskContinuation.h>
 
 namespace System::Private::CoreLib::System {
 FORWARD_(Array, T1, T2)
@@ -12,7 +13,7 @@ enum class TaskContinuationOptions;
 FORWARD_(Task, T1, T2)
 FORWARD(TaskScheduler)
 namespace ContinueWithTaskContinuationNamespace {
-CLASS(ContinueWithTaskContinuation) {
+CLASS(ContinueWithTaskContinuation) : public TaskContinuation::in {
   public: void Ctor(Task<> task, TaskContinuationOptions options, TaskScheduler scheduler);
   public: void Run(Task<> completedTask, Boolean canInlineContinuationTask);
   public: Array<Delegate> GetDelegateContinuationsForDebugger();

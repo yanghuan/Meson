@@ -1,14 +1,12 @@
 #pragma once
 
 #include <rt/GCObject.h>
+#include <System.Private.CoreLib/System/Object.h>
 
-namespace System::Private::CoreLib::System {
-FORWARD(Object)
-} // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Collections {
 FORWARDS(DictionaryEntry)
 namespace IDictionaryEnumeratorNamespace {
-CLASS(IDictionaryEnumerator) {
+CLASS(IDictionaryEnumerator) : public Object::in {
   public: Object get_Key();
   public: Object get_Value();
   public: DictionaryEntry get_Entry();

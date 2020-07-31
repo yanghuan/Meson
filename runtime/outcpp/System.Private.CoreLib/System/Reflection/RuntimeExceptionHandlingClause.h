@@ -2,6 +2,7 @@
 
 #include <rt/GCObject.h>
 #include <System.Private.CoreLib/System/Int32.h>
+#include <System.Private.CoreLib/System/Reflection/ExceptionHandlingClause.h>
 
 namespace System::Private::CoreLib::System {
 FORWARD(String)
@@ -11,7 +12,7 @@ namespace System::Private::CoreLib::System::Reflection {
 enum class ExceptionHandlingClauseOptions;
 FORWARD(RuntimeMethodBody)
 namespace RuntimeExceptionHandlingClauseNamespace {
-CLASS(RuntimeExceptionHandlingClause) {
+CLASS(RuntimeExceptionHandlingClause) : public ExceptionHandlingClause::in {
   public: ExceptionHandlingClauseOptions get_Flags();
   public: Int32 get_TryOffset();
   public: Int32 get_TryLength();

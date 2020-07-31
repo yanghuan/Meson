@@ -12,6 +12,7 @@
 #include <System.Private.CoreLib/System/Reflection/Binder-dep.h>
 #include <System.Private.CoreLib/System/Reflection/BindingFlags.h>
 #include <System.Private.CoreLib/System/Reflection/CallingConventions.h>
+#include <System.Private.CoreLib/System/Reflection/ConstructorInfo-dep.h>
 #include <System.Private.CoreLib/System/Reflection/CustomAttributeData-dep.h>
 #include <System.Private.CoreLib/System/Reflection/INVOCATION_FLAGS.h>
 #include <System.Private.CoreLib/System/Reflection/MemberInfo-dep.h>

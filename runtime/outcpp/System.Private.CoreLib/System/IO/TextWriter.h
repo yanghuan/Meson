@@ -1,6 +1,7 @@
 #pragma once
 
 #include <rt/GCObject.h>
+#include <System.Private.CoreLib/System/MarshalByRefObject.h>
 
 namespace System::Private::CoreLib::System::Text {
 FORWARD(Encoding)
@@ -35,8 +36,8 @@ namespace TextWriterNamespace {
 using namespace Text;
 using namespace Threading;
 using namespace Threading::Tasks;
-CLASS(TextWriter) {
-  private: CLASS(NullTextWriter) {
+CLASS(TextWriter) : public MarshalByRefObject::in {
+  private: CLASS(NullTextWriter) : public TextWriter::in {
     public: Encoding get_Encoding();
     public: void Ctor();
     public: void Write(Array<Char> buffer, Int32 index, Int32 count);
@@ -46,7 +47,7 @@ CLASS(TextWriter) {
     public: void WriteLine(Object value);
     public: void Write(Char value);
   };
-  public: CLASS(SyncTextWriter) {
+  public: CLASS(SyncTextWriter) : public TextWriter::in {
     public: Encoding get_Encoding();
     public: IFormatProvider get_FormatProvider();
     public: String get_NewLine();

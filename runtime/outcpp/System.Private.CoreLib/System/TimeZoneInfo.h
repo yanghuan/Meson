@@ -6,6 +6,7 @@
 #include <System.Private.CoreLib/System/Byte.h>
 #include <System.Private.CoreLib/System/DateTime.h>
 #include <System.Private.CoreLib/System/Int32.h>
+#include <System.Private.CoreLib/System/Object.h>
 #include <System.Private.CoreLib/System/TimeSpan.h>
 
 namespace System::Private::CoreLib::System::Runtime::Serialization {
@@ -37,7 +38,6 @@ FORWARDS(DateTimeOffset)
 FORWARD(Exception)
 FORWARDS(Int64)
 FORWARDS_(Nullable, T1, T2)
-FORWARD(Object)
 FORWARD(String)
 namespace TimeZoneInfoNamespace {
 using namespace ::System::Private::CoreLib::Internal::Win32;
@@ -46,7 +46,7 @@ using namespace Collections::ObjectModel;
 using namespace Globalization;
 using namespace Runtime::Serialization;
 using namespace Text;
-CLASS(TimeZoneInfo) {
+CLASS(TimeZoneInfo) : public Object::in {
   private: enum class TimeZoneInfoResult {
     Success = 0,
     TimeZoneNotFoundException = 1,
@@ -78,7 +78,7 @@ CLASS(TimeZoneInfo) {
     private: DayOfWeek _dayOfWeek;
     private: Boolean _isFixedDateRule;
   };
-  public: CLASS(AdjustmentRule) {
+  public: CLASS(AdjustmentRule) : public Object::in {
     public: DateTime get_DateStart();
     public: DateTime get_DateEnd();
     public: TimeSpan get_DaylightDelta();
@@ -108,13 +108,13 @@ CLASS(TimeZoneInfo) {
     private: TimeSpan _baseUtcOffsetDelta;
     private: Boolean _noDaylightTransitions;
   };
-  private: CLASS(OffsetAndRule) {
+  private: CLASS(OffsetAndRule) : public Object::in {
     public: void Ctor(Int32 year, TimeSpan offset, AdjustmentRule rule);
     public: Int32 Year;
     public: TimeSpan Offset;
     public: AdjustmentRule Rule;
   };
-  private: CLASS(CachedData) {
+  private: CLASS(CachedData) : public Object::in {
     public: TimeZoneInfo get_Local();
     private: TimeZoneInfo CreateLocal();
     public: DateTimeKind GetCorrespondingKind(TimeZoneInfo timeZone);

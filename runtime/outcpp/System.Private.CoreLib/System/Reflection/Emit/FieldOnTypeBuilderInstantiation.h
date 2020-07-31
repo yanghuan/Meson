@@ -1,13 +1,13 @@
 #pragma once
 
 #include <rt/GCObject.h>
+#include <System.Private.CoreLib/System/Reflection/FieldInfo.h>
 
 namespace System::Private::CoreLib::System::Reflection {
 enum class BindingFlags;
 enum class FieldAttributes;
 enum class MemberTypes;
 FORWARD(Binder)
-FORWARD(FieldInfo)
 FORWARD(Module)
 } // namespace System::Private::CoreLib::System::Reflection
 namespace System::Private::CoreLib::System {
@@ -27,7 +27,7 @@ namespace System::Private::CoreLib::System::Reflection::Emit {
 FORWARD(TypeBuilderInstantiation)
 namespace FieldOnTypeBuilderInstantiationNamespace {
 using namespace Globalization;
-CLASS(FieldOnTypeBuilderInstantiation) {
+CLASS(FieldOnTypeBuilderInstantiation) : public FieldInfo::in {
   public: FieldInfo get_FieldInfo();
   public: MemberTypes get_MemberType();
   public: String get_Name();

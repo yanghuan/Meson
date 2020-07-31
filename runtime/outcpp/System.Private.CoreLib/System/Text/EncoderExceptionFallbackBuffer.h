@@ -1,6 +1,7 @@
 #pragma once
 
 #include <rt/GCObject.h>
+#include <System.Private.CoreLib/System/Text/EncoderFallbackBuffer.h>
 
 namespace System::Private::CoreLib::System {
 FORWARDS(Boolean)
@@ -9,7 +10,7 @@ FORWARDS(Int32)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Text {
 namespace EncoderExceptionFallbackBufferNamespace {
-CLASS(EncoderExceptionFallbackBuffer) {
+CLASS(EncoderExceptionFallbackBuffer) : public EncoderFallbackBuffer::in {
   public: Int32 get_Remaining();
   public: void Ctor();
   public: Boolean Fallback(Char charUnknown, Int32 index);

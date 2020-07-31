@@ -1,6 +1,7 @@
 #pragma once
 
 #include <rt/GCObject.h>
+#include <System.Private.CoreLib/System/Object.h>
 
 namespace System::Private::CoreLib::System {
 FORWARDS(Boolean)
@@ -12,7 +13,7 @@ namespace System::Private::CoreLib::System::Threading {
 FORWARD(ThreadLocal, T)
 namespace SystemThreading_ThreadLocalDebugViewNamespace {
 using namespace Collections::Generic;
-CLASS(SystemThreading_ThreadLocalDebugView, T) {
+CLASS(SystemThreading_ThreadLocalDebugView, T) : public Object::in {
   public: Boolean get_IsValueCreated();
   public: T get_Value();
   public: List<T> get_Values();

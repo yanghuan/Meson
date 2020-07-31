@@ -1,6 +1,7 @@
 #pragma once
 
 #include <rt/GCObject.h>
+#include <System.Private.CoreLib/System/Object.h>
 
 namespace System::Private::CoreLib::System {
 FORWARDS(Boolean)
@@ -13,7 +14,7 @@ FORWARD(TimerQueueTimer)
 FORWARD(WaitHandle)
 namespace TimerHolderNamespace {
 using namespace Tasks;
-CLASS(TimerHolder) {
+CLASS(TimerHolder) : public Object::in {
   public: void Ctor(TimerQueueTimer timer);
   protected: void Finalize();
   public: void Close();

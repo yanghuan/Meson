@@ -2,13 +2,13 @@
 
 #include <rt/GCObject.h>
 #include <System.Private.CoreLib/System/Int32.h>
+#include <System.Private.CoreLib/System/Object.h>
 #include <System.Private.CoreLib/System/Reflection/Emit/ParameterToken.h>
 
 namespace System::Private::CoreLib::System {
 FORWARD_(Array, T1, T2)
 FORWARDS(Boolean)
 FORWARDS(Byte)
-FORWARD(Object)
 FORWARD(String)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Reflection {
@@ -19,7 +19,7 @@ namespace System::Private::CoreLib::System::Reflection::Emit {
 FORWARD(CustomAttributeBuilder)
 FORWARD(MethodBuilder)
 namespace ParameterBuilderNamespace {
-CLASS(ParameterBuilder) {
+CLASS(ParameterBuilder) : public Object::in {
   public: String get_Name();
   public: Int32 get_Position();
   public: Int32 get_Attributes();

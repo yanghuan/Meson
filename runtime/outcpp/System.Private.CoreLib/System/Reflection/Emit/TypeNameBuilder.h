@@ -3,6 +3,7 @@
 #include <rt/GCObject.h>
 #include <System.Private.CoreLib/System/Boolean.h>
 #include <System.Private.CoreLib/System/Int32.h>
+#include <System.Private.CoreLib/System/Object.h>
 
 namespace System::Private::CoreLib::System {
 FORWARDS(Char)
@@ -19,7 +20,7 @@ namespace System::Private::CoreLib::System::Reflection::Emit {
 namespace TypeNameBuilderNamespace {
 using namespace Collections::Generic;
 using namespace Text;
-CLASS(TypeNameBuilder) {
+CLASS(TypeNameBuilder) : public Object::in {
   public: enum class Format {
     ToString = 0,
     FullName = 1,

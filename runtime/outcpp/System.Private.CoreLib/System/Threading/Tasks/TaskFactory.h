@@ -2,7 +2,9 @@
 
 #include <rt/GCObject.h>
 #include <System.Private.CoreLib/System/Int32.h>
+#include <System.Private.CoreLib/System/Object.h>
 #include <System.Private.CoreLib/System/Threading/CancellationToken.h>
+#include <System.Private.CoreLib/System/Threading/Tasks/Task.h>
 
 namespace System::Private::CoreLib::System {
 FORWARD_(Array, T1, T2)
@@ -23,21 +25,21 @@ namespace TaskFactoryNamespace {
 using namespace Collections::Generic;
 using Collections::Generic::IList;
 CLASS_FORWARD(TaskFactory, T1, T2)
-CLASS_(TaskFactory) {
+CLASS_(TaskFactory) : public Object::in {
   CLASS_FORWARD(CompleteOnCountdownPromise, T1, T2)
-  private: CLASS_(CompleteOnCountdownPromise) {
+  private: CLASS_(CompleteOnCountdownPromise) : public Task<Array<Task<>>>::in {
     public: Boolean get_InvokeMayRunArbitraryCode();
     public: Boolean get_ShouldNotifyDebuggerOfWaitCompletion();
     private: Array<Task<>> _tasks;
     private: Int32 _count;
   };
-  private: CLASS_(CompleteOnCountdownPromise, T) {
+  private: CLASS_(CompleteOnCountdownPromise, T) : public Task<Array<Task<T>>>::in {
     public: Boolean get_InvokeMayRunArbitraryCode();
     public: Boolean get_ShouldNotifyDebuggerOfWaitCompletion();
     private: Array<Task<T>> _tasks;
     private: Int32 _count;
   };
-  public: CLASS(CompleteOnInvokePromise) {
+  public: CLASS(CompleteOnInvokePromise) : public Task<Task<>>::in {
     public: Boolean get_InvokeMayRunArbitraryCode();
     public: void Ctor(IList<Task<>> tasks, Boolean isSyncBlocking);
     public: void Invoke(Task<> completingTask);
@@ -54,8 +56,8 @@ CLASS_(TaskFactory) {
   private: TaskCreationOptions m_defaultCreationOptions;
   private: TaskContinuationOptions m_defaultContinuationOptions;
 };
-CLASS_(TaskFactory, TResult) {
-  private: CLASS(FromAsyncTrimPromise, TInstance) {
+CLASS_(TaskFactory, TResult) : public Object::in {
+  private: CLASS(FromAsyncTrimPromise, TInstance) : public Task<TResult>::in {
     public: void Ctor(TInstance thisRef, Func<TInstance, IAsyncResult, TResult> endMethod);
     public: static void CompleteFromAsyncResult(IAsyncResult asyncResult);
     public: void Complete(TInstance thisRef, Func<TInstance, IAsyncResult, TResult> endMethod, IAsyncResult asyncResult, Boolean requiresSynchronization);

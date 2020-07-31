@@ -4,11 +4,11 @@
 #include <System.Private.CoreLib/Interop.h>
 #include <System.Private.CoreLib/System/Boolean.h>
 #include <System.Private.CoreLib/System/Int32.h>
+#include <System.Private.CoreLib/System/Object.h>
 
 namespace System::Private::CoreLib::System {
 FORWARD_(Array, T1, T2)
 FORWARDS(Char)
-FORWARD(Object)
 FORWARDS(ReadOnlySpan, T)
 FORWARD(String)
 FORWARDS(UInt32)
@@ -26,7 +26,7 @@ FORWARD(CultureInfo)
 FORWARD(NumberFormatInfo)
 namespace CultureDataNamespace {
 using namespace Collections::Generic;
-CLASS(CultureData) {
+CLASS(CultureData) : public Object::in {
   private: enum class LocaleStringData : uint32_t {
     LocalizedDisplayName = 2,
     EnglishDisplayName = 114,

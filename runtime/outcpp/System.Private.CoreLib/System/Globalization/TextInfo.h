@@ -3,11 +3,11 @@
 #include <rt/GCObject.h>
 #include <System.Private.CoreLib/System/Boolean.h>
 #include <System.Private.CoreLib/System/IntPtr.h>
+#include <System.Private.CoreLib/System/Object.h>
 
 namespace System::Private::CoreLib::System {
 FORWARDS(Char)
 FORWARDS(Int32)
-FORWARD(Object)
 FORWARDS(ReadOnlySpan, T)
 FORWARDS(Span, T)
 FORWARD(String)
@@ -20,7 +20,7 @@ enum class UnicodeCategory;
 FORWARD(CultureData)
 namespace TextInfoNamespace {
 using namespace Text;
-CLASS(TextInfo) {
+CLASS(TextInfo) : public Object::in {
   private: enum class Tristate : uint8_t {
     NotInitialized = 0,
     False = 1,

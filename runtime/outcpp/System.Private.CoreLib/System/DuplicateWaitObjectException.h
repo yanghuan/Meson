@@ -1,6 +1,7 @@
 #pragma once
 
 #include <rt/GCObject.h>
+#include <System.Private.CoreLib/System/ArgumentException.h>
 
 namespace System::Private::CoreLib::System::Runtime::Serialization {
 FORWARD(SerializationInfo)
@@ -11,7 +12,7 @@ FORWARD(Exception)
 FORWARD(String)
 namespace DuplicateWaitObjectExceptionNamespace {
 using namespace Runtime::Serialization;
-CLASS(DuplicateWaitObjectException) {
+CLASS(DuplicateWaitObjectException) : public ArgumentException::in {
   public: void Ctor();
   public: void Ctor(String parameterName);
   public: void Ctor(String parameterName, String message);

@@ -2,6 +2,7 @@
 
 #include <rt/GCObject.h>
 #include <System.Private.CoreLib/System/Diagnostics/Tracing/EventSource.h>
+#include <System.Private.CoreLib/System/Object.h>
 
 namespace System::Private::CoreLib::System {
 FORWARD_(Array, T1, T2)
@@ -18,7 +19,7 @@ enum class EventOpcode;
 FORWARDS(EventParameterInfo)
 FORWARD(TraceLoggingEventTypes)
 namespace EventPipeMetadataGeneratorNamespace {
-CLASS(EventPipeMetadataGenerator) {
+CLASS(EventPipeMetadataGenerator) : public Object::in {
   private: enum class MetadataTag {
     Opcode = 1,
     ParameterPayload = 2,

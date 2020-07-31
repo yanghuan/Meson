@@ -2,6 +2,7 @@
 
 #include <rt/GCObject.h>
 #include <System.Private.CoreLib/System/Int32.h>
+#include <System.Private.CoreLib/System/Object.h>
 
 namespace System::Private::CoreLib::System {
 FORWARD_(Array, T1, T2)
@@ -14,7 +15,7 @@ FORWARD(ISymbolWriter)
 namespace System::Private::CoreLib::System::Reflection::Emit {
 namespace LocalSymInfoNamespace {
 using namespace Diagnostics::SymbolStore;
-CLASS(LocalSymInfo) {
+CLASS(LocalSymInfo) : public Object::in {
   public: void Ctor();
   private: void EnsureCapacityNamespace();
   private: void EnsureCapacity();

@@ -1,6 +1,7 @@
 #pragma once
 
 #include <rt/GCObject.h>
+#include <System.Private.CoreLib/System/Globalization/EastAsianLunisolarCalendar.h>
 
 namespace System::Private::CoreLib::System {
 FORWARD_(Array, T1, T2)
@@ -12,7 +13,7 @@ enum class CalendarId : uint16_t;
 FORWARD(EraInfo)
 FORWARD(GregorianCalendarHelper)
 namespace TaiwanLunisolarCalendarNamespace {
-CLASS(TaiwanLunisolarCalendar) {
+CLASS(TaiwanLunisolarCalendar) : public EastAsianLunisolarCalendar::in {
   public: DateTime get_MinSupportedDateTime();
   public: DateTime get_MaxSupportedDateTime();
   protected: Int32 get_DaysInYearBeforeMinSupportedYear();

@@ -1,6 +1,7 @@
 #pragma once
 
 #include <rt/GCObject.h>
+#include <System.Private.CoreLib/System/Object.h>
 
 namespace System::Private::CoreLib::System {
 FORWARD_(Action, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17)
@@ -8,7 +9,6 @@ FORWARD_(Array, T1, T2)
 FORWARDS(Boolean)
 FORWARDS(Char)
 FORWARDS(Int32)
-FORWARD(Object)
 FORWARD(String)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Collections {
@@ -18,7 +18,7 @@ FORWARD(Hashtable)
 namespace System::Private::CoreLib::System::Security {
 namespace SecurityElementNamespace {
 using namespace Collections;
-CLASS(SecurityElement) {
+CLASS(SecurityElement) : public Object::in {
   public: String get_Tag();
   public: void set_Tag(String value);
   public: Hashtable get_Attributes();

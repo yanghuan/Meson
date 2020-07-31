@@ -1,6 +1,7 @@
 #pragma once
 
 #include <rt/GCObject.h>
+#include <System.Private.CoreLib/System/Attribute.h>
 
 namespace System::Private::CoreLib::System {
 FORWARDS(Boolean)
@@ -10,7 +11,7 @@ FORWARD(Object)
 namespace System::Private::CoreLib::System::ComponentModel {
 enum class EditorBrowsableState;
 namespace EditorBrowsableAttributeNamespace {
-CLASS(EditorBrowsableAttribute) {
+CLASS(EditorBrowsableAttribute) : public Attribute::in {
   public: EditorBrowsableState get_State() { return State; }
   public: void Ctor(EditorBrowsableState state);
   public: void Ctor();

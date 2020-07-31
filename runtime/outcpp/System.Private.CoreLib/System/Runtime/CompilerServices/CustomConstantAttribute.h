@@ -1,13 +1,14 @@
 #pragma once
 
 #include <rt/GCObject.h>
+#include <System.Private.CoreLib/System/Attribute.h>
 
 namespace System::Private::CoreLib::System {
 FORWARD(Object)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Runtime::CompilerServices {
 namespace CustomConstantAttributeNamespace {
-CLASS(CustomConstantAttribute) {
+CLASS(CustomConstantAttribute) : public Attribute::in {
   public: Object get_Value();
   protected: void Ctor();
 };

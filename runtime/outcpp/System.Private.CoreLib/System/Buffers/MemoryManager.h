@@ -1,6 +1,7 @@
 #pragma once
 
 #include <rt/GCObject.h>
+#include <System.Private.CoreLib/System/Object.h>
 
 namespace System::Private::CoreLib::System {
 FORWARDS(ArraySegment, T)
@@ -12,7 +13,7 @@ FORWARDS(Span, T)
 namespace System::Private::CoreLib::System::Buffers {
 FORWARDS(MemoryHandle)
 namespace MemoryManagerNamespace {
-CLASS(MemoryManager, T) {
+CLASS(MemoryManager, T) : public Object::in {
   public: Memory<T> get_Memory();
   public: Span<T> GetSpan();
   public: MemoryHandle Pin(Int32 elementIndex);

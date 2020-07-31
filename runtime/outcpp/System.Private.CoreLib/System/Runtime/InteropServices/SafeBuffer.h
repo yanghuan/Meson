@@ -1,6 +1,7 @@
 #pragma once
 
 #include <rt/GCObject.h>
+#include <System.Private.CoreLib/Microsoft/Win32/SafeHandles/SafeHandleZeroOrMinusOneIsInvalid.h>
 #include <System.Private.CoreLib/System/UIntPtr.h>
 
 namespace System::Private::CoreLib::System {
@@ -14,7 +15,8 @@ FORWARDS(UInt64)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Runtime::InteropServices {
 namespace SafeBufferNamespace {
-CLASS(SafeBuffer) {
+using namespace ::System::Private::CoreLib::Microsoft::Win32::SafeHandles;
+CLASS(SafeBuffer) : public SafeHandleZeroOrMinusOneIsInvalid::in {
   private: static UIntPtr get_Uninitialized();
   public: UInt64 get_ByteLength();
   protected: void Ctor(Boolean ownsHandle);

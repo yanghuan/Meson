@@ -2,6 +2,7 @@
 
 #include <rt/GCObject.h>
 #include <System.Private.CoreLib/System/Numerics/Register.h>
+#include <System.Private.CoreLib/System/Object.h>
 
 namespace System::Private::CoreLib::System {
 FORWARDS(Boolean)
@@ -13,7 +14,7 @@ template <class T1 = void, class T2 = void>
 class Vector {
 };
 template <>
-class Vector<> {
+class Vector<> : public Object::in {
   public: static Boolean get_IsHardwareAccelerated();
 };
 template <class T>

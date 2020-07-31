@@ -1,6 +1,8 @@
 #pragma once
 
 #include <rt/GCObject.h>
+#include <System.Private.CoreLib/System/Diagnostics/Tracing/EventSource.h>
+#include <System.Private.CoreLib/System/Object.h>
 
 namespace System::Private::CoreLib::System {
 FORWARDS(Boolean)
@@ -18,8 +20,8 @@ FORWARDS(UInt64)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Diagnostics::Tracing {
 namespace NativeRuntimeEventSourceNamespace {
-CLASS(NativeRuntimeEventSource) {
-  public: CLASS(Keywords) {
+CLASS(NativeRuntimeEventSource) : public EventSource::in {
+  public: CLASS(Keywords) : public Object::in {
   };
   private: void Ctor();
   public: void ProcessEvent(UInt32 eventID, UInt32 osThreadID, DateTime timeStamp, Guid activityId, Guid childActivityId, ReadOnlySpan<Byte> payload);

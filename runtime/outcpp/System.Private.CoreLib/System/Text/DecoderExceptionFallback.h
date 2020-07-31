@@ -1,6 +1,7 @@
 #pragma once
 
 #include <rt/GCObject.h>
+#include <System.Private.CoreLib/System/Text/DecoderFallback.h>
 
 namespace System::Private::CoreLib::System {
 FORWARDS(Boolean)
@@ -10,7 +11,7 @@ FORWARD(Object)
 namespace System::Private::CoreLib::System::Text {
 FORWARD(DecoderFallbackBuffer)
 namespace DecoderExceptionFallbackNamespace {
-CLASS(DecoderExceptionFallback) {
+CLASS(DecoderExceptionFallback) : public DecoderFallback::in {
   public: Int32 get_MaxCharCount();
   public: DecoderFallbackBuffer CreateFallbackBuffer();
   public: Boolean Equals(Object value);

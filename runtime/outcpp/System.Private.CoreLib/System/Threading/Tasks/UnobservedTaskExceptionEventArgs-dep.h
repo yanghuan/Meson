@@ -4,3 +4,4 @@
 
 #include <System.Private.CoreLib/System/AggregateException-dep.h>
 #include <System.Private.CoreLib/System/Boolean-dep.h>
+#include <System.Private.CoreLib/System/EventArgs-dep.h>

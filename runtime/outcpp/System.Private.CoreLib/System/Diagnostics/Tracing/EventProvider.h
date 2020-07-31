@@ -7,6 +7,8 @@
 #include <System.Private.CoreLib/System/Guid.h>
 #include <System.Private.CoreLib/System/Int32.h>
 #include <System.Private.CoreLib/System/Int64.h>
+#include <System.Private.CoreLib/System/MulticastDelegate.h>
+#include <System.Private.CoreLib/System/Object.h>
 #include <System.Private.CoreLib/System/UInt32.h>
 #include <System.Private.CoreLib/System/UInt64.h>
 
@@ -15,7 +17,6 @@ FORWARD_(Array, T1, T2)
 FORWARD(AsyncCallback)
 FORWARD(IAsyncResult)
 FORWARDS(IntPtr)
-FORWARD(Object)
 FORWARD(String)
 FORWARD_(Tuple, T1, T2, T3, T4, T5, T6, T7, T8, T9)
 } // namespace System::Private::CoreLib::System
@@ -33,7 +34,7 @@ FORWARD(EventSource)
 FORWARD(IEventProvider)
 namespace EventProviderNamespace {
 using namespace Collections::Generic;
-CLASS(EventProvider) {
+CLASS(EventProvider) : public Object::in {
   public: enum class WriteEventErrorCode {
     NoError = 0,
     NoFreeBuffers = 1,
@@ -48,7 +49,7 @@ CLASS(EventProvider) {
     public: Int32 sessionIdBit;
     public: Int32 etwSessionId;
   };
-  private: CLASS(SessionInfoCallback) {
+  private: CLASS(SessionInfoCallback) : public MulticastDelegate::in {
     public: void Ctor(Object object, IntPtr method);
     public: void Invoke(Int32 etwSessionId, Int64 matchAllKeywords, List<SessionInfo>& sessionList);
     public: IAsyncResult BeginInvoke(Int32 etwSessionId, Int64 matchAllKeywords, List<SessionInfo>& sessionList, AsyncCallback callback, Object object);

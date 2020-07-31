@@ -1,6 +1,7 @@
 #pragma once
 
 #include <rt/GCObject.h>
+#include <System.Private.CoreLib/System/Runtime/Loader/AssemblyLoadContext.h>
 
 namespace System::Private::CoreLib::System {
 FORWARDS(IntPtr)
@@ -18,7 +19,7 @@ namespace IsolatedComponentLoadContextNamespace {
 using namespace ::System::Private::CoreLib::System;
 using namespace ::System::Private::CoreLib::System::Reflection;
 using namespace ::System::Private::CoreLib::System::Runtime::Loader;
-CLASS(IsolatedComponentLoadContext) {
+CLASS(IsolatedComponentLoadContext) : public AssemblyLoadContext::in {
   public: void Ctor(String componentAssemblyPath);
   protected: Assembly Load(AssemblyName assemblyName);
   protected: IntPtr LoadUnmanagedDll(String unmanagedDllName);

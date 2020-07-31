@@ -2,6 +2,7 @@
 
 #include <rt/GCObject.h>
 #include <System.Private.CoreLib/System/Boolean.h>
+#include <System.Private.CoreLib/System/Object.h>
 
 namespace System::Private::CoreLib::System {
 namespace NullableNamespace {
@@ -9,7 +10,7 @@ template <class T1 = void, class T2 = void>
 class Nullable {
 };
 template <>
-class Nullable<> {
+class Nullable<> : public Object::in {
 };
 template <class T>
 struct Nullable<T> {

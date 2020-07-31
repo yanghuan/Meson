@@ -2,6 +2,7 @@
 
 #include <rt/GCObject.h>
 #include <System.Private.CoreLib/System/Int32.h>
+#include <System.Private.CoreLib/System/Object.h>
 #include <System.Private.CoreLib/System/UInt64.h>
 
 namespace System::Private::CoreLib::System {
@@ -41,8 +42,8 @@ using namespace Globalization;
 using namespace Resources;
 using namespace Text;
 using Collections::Generic::IList;
-CLASS(ManifestBuilder) {
-  private: CLASS(ChannelInfo) {
+CLASS(ManifestBuilder) : public Object::in {
+  private: CLASS(ChannelInfo) : public Object::in {
     public: void Ctor();
     public: String Name;
     public: UInt64 Keywords;

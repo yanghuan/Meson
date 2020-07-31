@@ -1,6 +1,8 @@
 #pragma once
 
 #include <rt/GCObject.h>
+#include <System.Private.CoreLib/System/Collections/Generic/KeyValuePair.h>
+#include <System.Private.CoreLib/System/Diagnostics/Tracing/ConcurrentSetItem.h>
 #include <System.Private.CoreLib/System/Int32.h>
 
 namespace System::Private::CoreLib::System {
@@ -9,9 +11,6 @@ FORWARDS(Byte)
 FORWARDS(IntPtr)
 FORWARD(String)
 } // namespace System::Private::CoreLib::System
-namespace System::Private::CoreLib::System::Collections::Generic {
-FORWARDS_(KeyValuePair, T1, T2, T3)
-} // namespace System::Private::CoreLib::System::Collections::Generic
 namespace System::Private::CoreLib::System::Diagnostics::Tracing {
 enum class EventTags;
 FORWARDS(EventDescriptor)
@@ -20,7 +19,7 @@ FORWARD(TraceLoggingEventHandleTable)
 FORWARD(TraceLoggingEventTypes)
 namespace NameInfoNamespace {
 using namespace Collections::Generic;
-CLASS(NameInfo) {
+CLASS(NameInfo) : public ConcurrentSetItem<KeyValuePair<String, EventTags>, NameInfo>::in {
   public: static void ReserveEventIDsBelow(Int32 eventId);
   public: void Ctor(String name, EventTags tags, Int32 typeMetadataSize);
   public: Int32 Compare(NameInfo other);

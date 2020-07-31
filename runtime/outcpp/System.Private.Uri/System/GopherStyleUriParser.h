@@ -1,10 +1,11 @@
 #pragma once
 
 #include <rt/GCObject.h>
+#include <System.Private.Uri/System/UriParser.h>
 
 namespace System::Private::Uri::System {
 namespace GopherStyleUriParserNamespace {
-CLASS(GopherStyleUriParser) {
+CLASS(GopherStyleUriParser) : public UriParser::in {
   public: void Ctor();
 };
 } // namespace GopherStyleUriParserNamespace

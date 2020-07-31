@@ -1,11 +1,11 @@
 #pragma once
 
 #include <rt/GCObject.h>
+#include <System.Private.CoreLib/System/Object.h>
 
 namespace System::Private::CoreLib::System {
 FORWARDS(Boolean)
 FORWARD(Exception)
-FORWARD(Object)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Collections::Generic {
 FORWARD(IEnumerable, T)
@@ -18,7 +18,7 @@ enum class TaskCreationOptions;
 FORWARD_(Task, T1, T2)
 namespace TaskCompletionSourceNamespace {
 using namespace Collections::Generic;
-CLASS(TaskCompletionSource, TResult) {
+CLASS(TaskCompletionSource, TResult) : public Object::in {
   public: Task<TResult> get_Task();
   public: void Ctor();
   public: void Ctor(TaskCreationOptions creationOptions);

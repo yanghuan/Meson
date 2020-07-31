@@ -1,13 +1,14 @@
 #pragma once
 
 #include <rt/GCObject.h>
+#include <System.Private.CoreLib/System/Object.h>
 
 namespace System::Private::CoreLib::System {
 FORWARDS(Int32)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Collections::Generic {
 namespace IComparerNamespace {
-CLASS(IComparer, T) {
+CLASS(IComparer, T) : public Object::in {
   public: Int32 Compare(T x, T y);
 };
 } // namespace IComparerNamespace

@@ -1,6 +1,7 @@
 #pragma once
 
 #include <rt/GCObject.h>
+#include <System.Private.CoreLib/System/MulticastDelegate.h>
 
 namespace System::Private::CoreLib::System {
 FORWARD(AsyncCallback)
@@ -9,7 +10,7 @@ FORWARDS(IntPtr)
 FORWARD(Object)
 FORWARD(UnhandledExceptionEventArgs)
 namespace UnhandledExceptionEventHandlerNamespace {
-CLASS(UnhandledExceptionEventHandler) {
+CLASS(UnhandledExceptionEventHandler) : public MulticastDelegate::in {
   public: void Ctor(Object object, IntPtr method);
   public: void Invoke(Object sender, UnhandledExceptionEventArgs e);
   public: IAsyncResult BeginInvoke(Object sender, UnhandledExceptionEventArgs e, AsyncCallback callback, Object object);

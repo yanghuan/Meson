@@ -9,6 +9,7 @@
 #include <System.Private.CoreLib/System/Func-dep.h>
 #include <System.Private.CoreLib/System/IAsyncResult.h>
 #include <System.Private.CoreLib/System/Int32-dep.h>
+#include <System.Private.CoreLib/System/Object-dep.h>
 #include <System.Private.CoreLib/System/Threading/CancellationToken-dep.h>
 #include <System.Private.CoreLib/System/Threading/Tasks/Task-dep.h>
 #include <System.Private.CoreLib/System/Threading/Tasks/TaskContinuationOptions.h>

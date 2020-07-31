@@ -2,6 +2,7 @@
 
 #include <rt/GCObject.h>
 #include <System.Private.CoreLib/System/Int32.h>
+#include <System.Private.CoreLib/System/Object.h>
 
 namespace System::Private::CoreLib::System {
 FORWARD_(Array, T1, T2)
@@ -40,7 +41,7 @@ FORWARD(SignatureHelper)
 namespace ILGeneratorNamespace {
 using namespace Diagnostics::SymbolStore;
 using namespace Runtime::InteropServices;
-CLASS(ILGenerator) {
+CLASS(ILGenerator) : public Object::in {
   public: Int32 get_CurrExcStackCount();
   public: Array<__ExceptionInfo> get_CurrExcStack();
   public: Int32 get_ILOffset();

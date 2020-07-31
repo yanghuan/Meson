@@ -1,6 +1,7 @@
 #pragma once
 
 #include <rt/GCObject.h>
+#include <System.Private.CoreLib/System/Object.h>
 
 namespace System::Private::CoreLib::System {
 FORWARDS(Boolean)
@@ -16,7 +17,7 @@ FORWARDS(StandardFormat)
 } // namespace System::Private::CoreLib::System::Buffers
 namespace System::Private::CoreLib::System::Buffers::Text {
 namespace FormattingHelpersNamespace {
-class FormattingHelpers {
+class FormattingHelpers : public Object::in {
   public: static Int32 CountDigits(UInt64 value);
   public: static Int32 CountDigits(UInt32 value);
   public: static Int32 CountHexDigits(UInt64 value);

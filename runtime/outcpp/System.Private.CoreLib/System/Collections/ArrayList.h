@@ -3,10 +3,10 @@
 #include <rt/GCObject.h>
 #include <System.Private.CoreLib/System/Boolean.h>
 #include <System.Private.CoreLib/System/Int32.h>
+#include <System.Private.CoreLib/System/Object.h>
 
 namespace System::Private::CoreLib::System {
 FORWARD_(Array, T1, T2)
-FORWARD(Object)
 FORWARD(Type)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Collections {
@@ -15,9 +15,9 @@ FORWARD(IComparer)
 FORWARD(IEnumerator)
 FORWARD(IList)
 namespace ArrayListNamespace {
-CLASS(ArrayList) {
-  private: CLASS(IListWrapper) {
-    private: CLASS(IListWrapperEnumWrapper) {
+CLASS(ArrayList) : public Object::in {
+  private: CLASS(IListWrapper) : public ArrayList::in {
+    private: CLASS(IListWrapperEnumWrapper) : public Object::in {
       public: Object get_Current();
       public: void Ctor(IListWrapper listWrapper, Int32 startIndex, Int32 count);
       private: void Ctor();
@@ -70,7 +70,7 @@ CLASS(ArrayList) {
     public: void TrimToSize();
     private: IList _list;
   };
-  private: CLASS(SyncArrayList) {
+  private: CLASS(SyncArrayList) : public ArrayList::in {
     public: Int32 get_Capacity();
     public: void set_Capacity(Int32 value);
     public: Int32 get_Count();
@@ -117,7 +117,7 @@ CLASS(ArrayList) {
     private: ArrayList _list;
     private: Object _root;
   };
-  private: CLASS(SyncIList) {
+  private: CLASS(SyncIList) : public Object::in {
     public: Int32 get_Count();
     public: Boolean get_IsReadOnly();
     public: Boolean get_IsFixedSize();
@@ -138,7 +138,7 @@ CLASS(ArrayList) {
     private: IList _list;
     private: Object _root;
   };
-  private: CLASS(FixedSizeList) {
+  private: CLASS(FixedSizeList) : public Object::in {
     public: Int32 get_Count();
     public: Boolean get_IsReadOnly();
     public: Boolean get_IsFixedSize();
@@ -158,7 +158,7 @@ CLASS(ArrayList) {
     public: void RemoveAt(Int32 index);
     private: IList _list;
   };
-  private: CLASS(FixedSizeArrayList) {
+  private: CLASS(FixedSizeArrayList) : public ArrayList::in {
     public: Int32 get_Count();
     public: Boolean get_IsReadOnly();
     public: Boolean get_IsFixedSize();
@@ -199,7 +199,7 @@ CLASS(ArrayList) {
     public: void TrimToSize();
     private: ArrayList _list;
   };
-  private: CLASS(ReadOnlyList) {
+  private: CLASS(ReadOnlyList) : public Object::in {
     public: Int32 get_Count();
     public: Boolean get_IsReadOnly();
     public: Boolean get_IsFixedSize();
@@ -219,7 +219,7 @@ CLASS(ArrayList) {
     public: void RemoveAt(Int32 index);
     private: IList _list;
   };
-  private: CLASS(ReadOnlyArrayList) {
+  private: CLASS(ReadOnlyArrayList) : public ArrayList::in {
     public: Int32 get_Count();
     public: Boolean get_IsReadOnly();
     public: Boolean get_IsFixedSize();
@@ -260,7 +260,7 @@ CLASS(ArrayList) {
     public: void TrimToSize();
     private: ArrayList _list;
   };
-  private: CLASS(ArrayListEnumerator) {
+  private: CLASS(ArrayListEnumerator) : public Object::in {
     public: Object get_Current();
     public: void Ctor(ArrayList list, Int32 index, Int32 count);
     public: Object Clone();
@@ -273,7 +273,7 @@ CLASS(ArrayList) {
     private: Object _currentElement;
     private: Int32 _startIndex;
   };
-  private: CLASS(Range) {
+  private: CLASS(Range) : public ArrayList::in {
     public: Int32 get_Capacity();
     public: void set_Capacity(Int32 value);
     public: Int32 get_Count();
@@ -318,7 +318,7 @@ CLASS(ArrayList) {
     private: Int32 _baseSize;
     private: Int32 _baseVersion;
   };
-  private: CLASS(ArrayListEnumeratorSimple) {
+  private: CLASS(ArrayListEnumeratorSimple) : public Object::in {
     public: Object get_Current();
     public: void Ctor(ArrayList list);
     public: Object Clone();
@@ -332,7 +332,7 @@ CLASS(ArrayList) {
     private: Boolean _isArrayList;
     private: static Object s_dummyObject;
   };
-  public: CLASS(ArrayListDebugView) {
+  public: CLASS(ArrayListDebugView) : public Object::in {
     public: Array<Object> get_Items();
     public: void Ctor(ArrayList arrayList);
     private: ArrayList _arrayList;

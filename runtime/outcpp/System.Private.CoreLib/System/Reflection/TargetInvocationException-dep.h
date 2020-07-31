@@ -2,6 +2,7 @@
 
 #include "TargetInvocationException.h"
 
+#include <System.Private.CoreLib/System/ApplicationException-dep.h>
 #include <System.Private.CoreLib/System/Exception-dep.h>
 #include <System.Private.CoreLib/System/Runtime/Serialization/SerializationInfo-dep.h>
 #include <System.Private.CoreLib/System/Runtime/Serialization/StreamingContext-dep.h>

@@ -1,6 +1,7 @@
 #pragma once
 
 #include <rt/GCObject.h>
+#include <System.Private.CoreLib/System/Object.h>
 
 namespace System::Private::CoreLib::System {
 FORWARDS(Boolean)
@@ -12,7 +13,7 @@ FORWARDS(UInt64)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Text::Unicode {
 namespace Utf16UtilityNamespace {
-class Utf16Utility {
+class Utf16Utility : public Object::in {
   public: static Boolean AllCharsInUInt32AreAscii(UInt32 value);
   public: static Boolean AllCharsInUInt64AreAscii(UInt64 value);
   public: static UInt32 ConvertAllAsciiCharsInUInt32ToLowercase(UInt32 value);

@@ -3,6 +3,7 @@
 #include <rt/GCObject.h>
 #include <System.Private.CoreLib/System/Boolean.h>
 #include <System.Private.CoreLib/System/Int32.h>
+#include <System.Private.CoreLib/System/IO/TextReader.h>
 
 namespace System::Private::CoreLib::System::Text {
 FORWARD(Decoder)
@@ -29,8 +30,8 @@ namespace StreamReaderNamespace {
 using namespace Text;
 using namespace Threading;
 using namespace Threading::Tasks;
-CLASS(StreamReader) {
-  private: CLASS(NullStreamReader) {
+CLASS(StreamReader) : public TextReader::in {
+  private: CLASS(NullStreamReader) : public StreamReader::in {
     public: Encoding get_CurrentEncoding();
     protected: void Dispose(Boolean disposing);
     public: Int32 Peek();

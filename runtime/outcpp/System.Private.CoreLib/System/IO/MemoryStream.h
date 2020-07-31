@@ -3,6 +3,7 @@
 #include <rt/GCObject.h>
 #include <System.Private.CoreLib/System/Boolean.h>
 #include <System.Private.CoreLib/System/Int32.h>
+#include <System.Private.CoreLib/System/IO/Stream.h>
 
 namespace System::Private::CoreLib::System {
 FORWARD_(Array, T1, T2)
@@ -28,12 +29,11 @@ FORWARD(ReadOnlySpanAction, T, TArg)
 } // namespace System::Private::CoreLib::System::Buffers
 namespace System::Private::CoreLib::System::IO {
 enum class SeekOrigin;
-FORWARD(Stream)
 namespace MemoryStreamNamespace {
 using namespace Buffers;
 using namespace Threading;
 using namespace Threading::Tasks;
-CLASS(MemoryStream) {
+CLASS(MemoryStream) : public Stream::in {
   public: Boolean get_CanRead();
   public: Boolean get_CanSeek();
   public: Boolean get_CanWrite();

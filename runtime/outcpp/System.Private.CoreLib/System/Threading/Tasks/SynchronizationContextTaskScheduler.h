@@ -1,6 +1,7 @@
 #pragma once
 
 #include <rt/GCObject.h>
+#include <System.Private.CoreLib/System/Threading/Tasks/TaskScheduler.h>
 
 namespace System::Private::CoreLib::System {
 FORWARDS(Boolean)
@@ -17,7 +18,7 @@ namespace System::Private::CoreLib::System::Threading::Tasks {
 FORWARD_(Task, T1, T2)
 namespace SynchronizationContextTaskSchedulerNamespace {
 using namespace Collections::Generic;
-CLASS(SynchronizationContextTaskScheduler) {
+CLASS(SynchronizationContextTaskScheduler) : public TaskScheduler::in {
   public: Int32 get_MaximumConcurrencyLevel();
   public: void Ctor();
   public: void QueueTask(Task<> task);

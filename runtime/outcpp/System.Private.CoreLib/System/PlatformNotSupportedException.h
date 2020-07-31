@@ -1,6 +1,7 @@
 #pragma once
 
 #include <rt/GCObject.h>
+#include <System.Private.CoreLib/System/NotSupportedException.h>
 
 namespace System::Private::CoreLib::System::Runtime::Serialization {
 FORWARD(SerializationInfo)
@@ -11,7 +12,7 @@ FORWARD(Exception)
 FORWARD(String)
 namespace PlatformNotSupportedExceptionNamespace {
 using namespace Runtime::Serialization;
-CLASS(PlatformNotSupportedException) {
+CLASS(PlatformNotSupportedException) : public NotSupportedException::in {
   public: void Ctor();
   public: void Ctor(String message);
   public: void Ctor(String message, Exception inner);

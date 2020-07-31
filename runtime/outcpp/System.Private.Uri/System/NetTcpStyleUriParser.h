@@ -1,10 +1,11 @@
 #pragma once
 
 #include <rt/GCObject.h>
+#include <System.Private.Uri/System/UriParser.h>
 
 namespace System::Private::Uri::System {
 namespace NetTcpStyleUriParserNamespace {
-CLASS(NetTcpStyleUriParser) {
+CLASS(NetTcpStyleUriParser) : public UriParser::in {
   public: void Ctor();
 };
 } // namespace NetTcpStyleUriParserNamespace

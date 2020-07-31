@@ -1,10 +1,11 @@
 #pragma once
 
 #include <rt/GCObject.h>
+#include <System.Private.CoreLib/System/Attribute.h>
 
 namespace System::Private::CoreLib::System::Runtime::Serialization {
 namespace OnDeserializedAttributeNamespace {
-CLASS(OnDeserializedAttribute) {
+CLASS(OnDeserializedAttribute) : public Attribute::in {
   public: void Ctor();
 };
 } // namespace OnDeserializedAttributeNamespace

@@ -1,6 +1,7 @@
 #pragma once
 
 #include <rt/GCObject.h>
+#include <System.Private.CoreLib/System/Object.h>
 
 namespace System::Private::CoreLib::System::Collections {
 FORWARD(IDictionaryEnumerator)
@@ -8,7 +9,7 @@ FORWARD(IDictionaryEnumerator)
 namespace System::Private::CoreLib::System::Resources {
 namespace IResourceReaderNamespace {
 using namespace Collections;
-CLASS(IResourceReader) {
+CLASS(IResourceReader) : public Object::in {
   public: void Close();
   public: IDictionaryEnumerator GetEnumerator();
 };

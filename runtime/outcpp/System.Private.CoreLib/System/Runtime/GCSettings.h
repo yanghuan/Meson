@@ -1,6 +1,7 @@
 #pragma once
 
 #include <rt/GCObject.h>
+#include <System.Private.CoreLib/System/Object.h>
 
 namespace System::Private::CoreLib::System {
 FORWARDS(Boolean)
@@ -9,7 +10,7 @@ namespace System::Private::CoreLib::System::Runtime {
 enum class GCLargeObjectHeapCompactionMode;
 enum class GCLatencyMode;
 namespace GCSettingsNamespace {
-class GCSettings {
+class GCSettings : public Object::in {
   private: enum class SetLatencyModeStatus {
     Succeeded = 0,
     NoGCInProgress = 1,

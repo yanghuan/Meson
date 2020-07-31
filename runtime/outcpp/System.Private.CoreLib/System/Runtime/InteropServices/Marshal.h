@@ -1,6 +1,7 @@
 #pragma once
 
 #include <rt/GCObject.h>
+#include <System.Private.CoreLib/System/Object.h>
 
 namespace System::Private::CoreLib::System {
 FORWARD_(Action, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17)
@@ -18,7 +19,6 @@ FORWARDS(Int32)
 FORWARDS(Int64)
 FORWARDS(IntPtr)
 FORWARD(IRuntimeFieldInfo)
-FORWARD(Object)
 FORWARDS(ReadOnlySpan, T)
 FORWARDS(RuntimeMethodHandleInternal)
 FORWARDS(Single)
@@ -49,7 +49,7 @@ using namespace CompilerServices;
 using namespace ComTypes;
 using namespace Reflection;
 using namespace Security;
-class Marshal {
+class Marshal : public Object::in {
   public: static Int32 SizeOfHelper(Type t, Boolean throwIfNotMarshalable);
   public: static IntPtr OffsetOf(Type t, String fieldName);
   private: static IntPtr OffsetOfHelper(IRuntimeFieldInfo f);

@@ -1,6 +1,7 @@
 #pragma once
 
 #include <rt/GCObject.h>
+#include <System.Private.CoreLib/System/Object.h>
 
 namespace System::Private::CoreLib::System::Threading {
 enum class LazyThreadSafetyMode;
@@ -11,7 +12,7 @@ FORWARD_(Lazy, T1, T2, T3)
 FORWARDS_(Nullable, T1, T2)
 namespace LazyDebugViewNamespace {
 using namespace Threading;
-CLASS(LazyDebugView, T) {
+CLASS(LazyDebugView, T) : public Object::in {
   public: Boolean get_IsValueCreated();
   public: T get_Value();
   public: Nullable<LazyThreadSafetyMode> get_Mode();

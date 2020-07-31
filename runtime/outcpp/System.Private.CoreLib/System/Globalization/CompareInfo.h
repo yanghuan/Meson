@@ -4,11 +4,11 @@
 #include <System.Private.CoreLib/System/Boolean.h>
 #include <System.Private.CoreLib/System/Int32.h>
 #include <System.Private.CoreLib/System/IntPtr.h>
+#include <System.Private.CoreLib/System/Object.h>
 
 namespace System::Private::CoreLib::System {
 FORWARDS(Byte)
 FORWARDS(Char)
-FORWARD(Object)
 FORWARDS(ReadOnlySpan, T)
 FORWARDS(Span, T)
 FORWARD(String)
@@ -36,8 +36,8 @@ using namespace Collections::Generic;
 using namespace Reflection;
 using namespace Runtime::Serialization;
 using namespace Text;
-CLASS(CompareInfo) {
-  private: class SortHandleCache {
+CLASS(CompareInfo) : public Object::in {
+  private: class SortHandleCache : public Object::in {
     public: static IntPtr GetCachedSortHandle(String sortName);
     private: static void SCtor();
     private: static Dictionary<String, IntPtr> s_sortNameToSortHandleCache;

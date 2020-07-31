@@ -1,14 +1,12 @@
 #pragma once
 
 #include <rt/GCObject.h>
+#include <System.Private.CoreLib/System/Object.h>
 
-namespace System::Private::CoreLib::System {
-FORWARD(Object)
-} // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Runtime::Serialization {
 FORWARDS(StreamingContext)
 namespace IObjectReferenceNamespace {
-CLASS(IObjectReference) {
+CLASS(IObjectReference) : public Object::in {
   public: Object GetRealObject(StreamingContext context);
 };
 } // namespace IObjectReferenceNamespace

@@ -2,6 +2,7 @@
 
 #include <rt/GCObject.h>
 #include <System.Private.CoreLib/System/Int64.h>
+#include <System.Private.CoreLib/System/TimeZone.h>
 
 namespace System::Private::CoreLib::System::Globalization {
 FORWARD(DaylightTime)
@@ -18,7 +19,7 @@ FORWARDS(TimeSpan)
 namespace CurrentSystemTimeZoneNamespace {
 using namespace Collections;
 using namespace Globalization;
-CLASS(CurrentSystemTimeZone) {
+CLASS(CurrentSystemTimeZone) : public TimeZone::in {
   public: String get_StandardName();
   public: String get_DaylightName();
   public: void Ctor();

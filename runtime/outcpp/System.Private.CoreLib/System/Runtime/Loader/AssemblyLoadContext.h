@@ -4,6 +4,7 @@
 #include <System.Private.CoreLib/System/Boolean.h>
 #include <System.Private.CoreLib/System/Int64.h>
 #include <System.Private.CoreLib/System/IntPtr.h>
+#include <System.Private.CoreLib/System/Object.h>
 
 namespace System::Private::CoreLib::System::Collections::Generic {
 FORWARD(Dictionary, TKey, TValue)
@@ -22,7 +23,6 @@ FORWARDS(Byte)
 FORWARD_(Func, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18)
 FORWARDS(Guid)
 FORWARDS(Int32)
-FORWARD(Object)
 FORWARDS(ReadOnlySpan, T)
 FORWARD(ResolveEventHandler)
 FORWARD(String)
@@ -45,7 +45,7 @@ using namespace CompilerServices;
 using namespace IO;
 using namespace Reflection;
 using namespace Threading;
-CLASS(AssemblyLoadContext) {
+CLASS(AssemblyLoadContext) : public Object::in {
   private: enum class InternalState {
     Alive = 0,
     Unloading = 1,

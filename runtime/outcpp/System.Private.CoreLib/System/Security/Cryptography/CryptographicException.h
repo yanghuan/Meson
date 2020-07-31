@@ -1,6 +1,7 @@
 #pragma once
 
 #include <rt/GCObject.h>
+#include <System.Private.CoreLib/System/SystemException.h>
 
 namespace System::Private::CoreLib::System {
 FORWARD(Exception)
@@ -14,7 +15,7 @@ FORWARDS(StreamingContext)
 namespace System::Private::CoreLib::System::Security::Cryptography {
 namespace CryptographicExceptionNamespace {
 using namespace Runtime::Serialization;
-CLASS(CryptographicException) {
+CLASS(CryptographicException) : public SystemException::in {
   public: void Ctor();
   public: void Ctor(Int32 hr);
   public: void Ctor(String message);

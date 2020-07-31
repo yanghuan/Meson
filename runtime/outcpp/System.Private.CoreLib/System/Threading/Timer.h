@@ -1,6 +1,7 @@
 #pragma once
 
 #include <rt/GCObject.h>
+#include <System.Private.CoreLib/System/MarshalByRefObject.h>
 
 namespace System::Private::CoreLib::System {
 FORWARDS(Boolean)
@@ -19,7 +20,7 @@ FORWARD(TimerHolder)
 FORWARD(WaitHandle)
 namespace TimerNamespace {
 using namespace Tasks;
-CLASS(Timer) {
+CLASS(Timer) : public MarshalByRefObject::in {
   public: static Int64 get_ActiveCount();
   public: void Ctor(TimerCallback callback, Object state, Int32 dueTime, Int32 period);
   public: void Ctor(TimerCallback callback, Object state, Int32 dueTime, Int32 period, Boolean flowExecutionContext);

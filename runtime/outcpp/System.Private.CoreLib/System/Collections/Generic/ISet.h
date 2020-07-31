@@ -1,6 +1,7 @@
 #pragma once
 
 #include <rt/GCObject.h>
+#include <System.Private.CoreLib/System/Object.h>
 
 namespace System::Private::CoreLib::System {
 FORWARDS(Boolean)
@@ -8,7 +9,7 @@ FORWARDS(Boolean)
 namespace System::Private::CoreLib::System::Collections::Generic {
 FORWARD(IEnumerable, T)
 namespace ISetNamespace {
-CLASS(ISet, T) {
+CLASS(ISet, T) : public Object::in {
   public: Boolean Add(T item);
   public: void UnionWith(IEnumerable<T> other);
   public: void IntersectWith(IEnumerable<T> other);

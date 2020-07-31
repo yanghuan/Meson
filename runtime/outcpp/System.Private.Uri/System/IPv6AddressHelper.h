@@ -1,6 +1,7 @@
 #pragma once
 
 #include <rt/GCObject.h>
+#include <System.Private.CoreLib/System/Object.h>
 
 namespace System::Private::CoreLib::System {
 FORWARDS(Boolean)
@@ -15,7 +16,7 @@ FORWARDS_(ValueTuple, T1, T2, T3, T4, T5, T6, T7, T8, T9)
 namespace System::Private::Uri::System {
 namespace IPv6AddressHelperNamespace {
 using namespace ::System::Private::CoreLib::System;
-class IPv6AddressHelper {
+class IPv6AddressHelper : public Object::in {
   public: static String ParseCanonicalName(String str, Int32 start, Boolean& isLoopback, String& scopeId);
   private: static Boolean IsLoopback(ReadOnlySpan<UInt16> numbers);
   private: static Boolean InternalIsValid(Char* name, Int32 start, Int32& end, Boolean validateStrictAddress);

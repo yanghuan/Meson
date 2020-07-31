@@ -4,13 +4,13 @@
 #include <System.Private.CoreLib/System/Boolean.h>
 #include <System.Private.CoreLib/System/Int32.h>
 #include <System.Private.CoreLib/System/Int64.h>
+#include <System.Private.CoreLib/System/Object.h>
 #include <System.Private.CoreLib/System/Threading/CancellationTokenRegistration.h>
 #include <System.Private.CoreLib/System/Threading/SpinLock.h>
 
 namespace System::Private::CoreLib::System {
 FORWARD_(Action, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17)
 FORWARD_(Array, T1, T2)
-FORWARD(Object)
 FORWARDS(TimeSpan)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Threading::Tasks {
@@ -26,9 +26,9 @@ FORWARD(TimerQueueTimer)
 FORWARD(WaitHandle)
 namespace CancellationTokenSourceNamespace {
 using namespace Tasks;
-CLASS(CancellationTokenSource) {
+CLASS(CancellationTokenSource) : public Object::in {
   public: FORWARDN(CallbackPartition)
-  public: CLASS(CallbackNode) {
+  public: CLASS(CallbackNode) : public Object::in {
     public: void Ctor(CallbackPartition partition);
     public: void ExecuteCallback();
     public: CallbackPartition Partition;
@@ -40,25 +40,25 @@ CLASS(CancellationTokenSource) {
     public: ExecutionContext ExecutionContext;
     public: SynchronizationContext SynchronizationContext;
   };
-  private: CLASS(Linked1CancellationTokenSource) {
+  private: CLASS(Linked1CancellationTokenSource) : public CancellationTokenSource::in {
     public: void Ctor(CancellationToken token1);
     protected: void Dispose(Boolean disposing);
     private: CancellationTokenRegistration _reg1;
   };
-  private: CLASS(Linked2CancellationTokenSource) {
+  private: CLASS(Linked2CancellationTokenSource) : public CancellationTokenSource::in {
     public: void Ctor(CancellationToken token1, CancellationToken token2);
     protected: void Dispose(Boolean disposing);
     private: CancellationTokenRegistration _reg1;
     private: CancellationTokenRegistration _reg2;
   };
-  private: CLASS(LinkedNCancellationTokenSource) {
+  private: CLASS(LinkedNCancellationTokenSource) : public CancellationTokenSource::in {
     public: void Ctor(Array<CancellationToken> tokens);
     protected: void Dispose(Boolean disposing);
     private: static void SCtor();
     public: static Action<Object> s_linkedTokenCancelDelegate;
     private: Array<CancellationTokenRegistration> _linkingRegistrations;
   };
-  public: CLASS(CallbackPartition) {
+  public: CLASS(CallbackPartition) : public Object::in {
     public: void Ctor(CancellationTokenSource source);
     public: Boolean Unregister(Int64 id, CallbackNode node);
     public: CancellationTokenSource Source;

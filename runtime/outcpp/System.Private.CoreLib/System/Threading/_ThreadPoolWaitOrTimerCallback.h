@@ -1,17 +1,17 @@
 #pragma once
 
 #include <rt/GCObject.h>
+#include <System.Private.CoreLib/System/Object.h>
 
 namespace System::Private::CoreLib::System {
 FORWARDS(Boolean)
-FORWARD(Object)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Threading {
 FORWARD_(ContextCallback, T1, T2)
 FORWARD(ExecutionContext)
 FORWARD(WaitOrTimerCallback)
 namespace _ThreadPoolWaitOrTimerCallbackNamespace {
-CLASS(_ThreadPoolWaitOrTimerCallback) {
+CLASS(_ThreadPoolWaitOrTimerCallback) : public Object::in {
   public: void Ctor(WaitOrTimerCallback waitOrTimerCallback, Object state, Boolean flowExecutionContext);
   private: static void WaitOrTimerCallback_Context_t(Object state);
   private: static void WaitOrTimerCallback_Context_f(Object state);

@@ -1,6 +1,7 @@
 #pragma once
 
 #include <rt/GCObject.h>
+#include <System.Private.CoreLib/System/Object.h>
 
 namespace System::Private::CoreLib::Internal::Win32::SafeHandles {
 FORWARD(SafeRegistryHandle)
@@ -10,14 +11,13 @@ FORWARD_(Array, T1, T2)
 FORWARDS(Boolean)
 FORWARDS(Int32)
 FORWARDS(IntPtr)
-FORWARD(Object)
 FORWARD(String)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::Internal::Win32 {
 namespace RegistryKeyNamespace {
 using namespace ::System::Private::CoreLib::System;
 using namespace SafeHandles;
-CLASS(RegistryKey) {
+CLASS(RegistryKey) : public Object::in {
   private: void Ctor(SafeRegistryHandle hkey);
   public: void DeleteValue(String name, Boolean throwOnMissingValue);
   public: static RegistryKey OpenBaseKey(IntPtr hKey);

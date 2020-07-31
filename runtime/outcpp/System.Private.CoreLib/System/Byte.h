@@ -53,3 +53,9 @@ struct Byte : public rt::PrimitiveType<Byte> {
 } // namespace ByteNamespace
 using Byte = ByteNamespace::Byte;
 } // namespace System::Private::CoreLib::System
+namespace rt {
+template <>
+struct TypeKind<::System::Private::CoreLib::System::Byte> {
+  static constexpr TypeCode Kind = TypeCode::Byte;
+};
+} // namespace rt

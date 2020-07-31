@@ -1,6 +1,7 @@
 #pragma once
 
 #include <rt/GCObject.h>
+#include <System.Private.CoreLib/System/Attribute.h>
 
 namespace System::Private::CoreLib::System {
 FORWARD(String)
@@ -9,7 +10,7 @@ namespace System::Private::CoreLib::System::Diagnostics::Tracing {
 enum class EventFieldFormat;
 enum class EventFieldTags;
 namespace EventFieldAttributeNamespace {
-CLASS(EventFieldAttribute) {
+CLASS(EventFieldAttribute) : public Attribute::in {
   public: EventFieldTags get_Tags() { return Tags; }
   public: void set_Tags(EventFieldTags value) { Tags = value; }
   public: String get_Name() { return Name; }

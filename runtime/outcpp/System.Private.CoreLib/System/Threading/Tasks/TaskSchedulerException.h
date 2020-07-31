@@ -1,9 +1,9 @@
 #pragma once
 
 #include <rt/GCObject.h>
+#include <System.Private.CoreLib/System/Exception.h>
 
 namespace System::Private::CoreLib::System {
-FORWARD(Exception)
 FORWARD(String)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Runtime::Serialization {
@@ -13,7 +13,7 @@ FORWARDS(StreamingContext)
 namespace System::Private::CoreLib::System::Threading::Tasks {
 namespace TaskSchedulerExceptionNamespace {
 using namespace Runtime::Serialization;
-CLASS(TaskSchedulerException) {
+CLASS(TaskSchedulerException) : public Exception::in {
   public: void Ctor();
   public: void Ctor(String message);
   public: void Ctor(Exception innerException);

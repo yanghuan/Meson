@@ -1,6 +1,7 @@
 #pragma once
 
 #include <rt/GCObject.h>
+#include <System.Private.CoreLib/System/Object.h>
 
 namespace System::Private::CoreLib::System::Text {
 FORWARD(StringBuilder)
@@ -14,7 +15,7 @@ FORWARD(String)
 namespace ITupleInternalNamespace {
 using namespace Collections;
 using namespace Text;
-CLASS(ITupleInternal) {
+CLASS(ITupleInternal) : public Object::in {
   public: String ToString(StringBuilder sb);
   public: Int32 GetHashCode(IEqualityComparer comparer);
 };

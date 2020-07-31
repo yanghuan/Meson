@@ -1,11 +1,12 @@
 #pragma once
 
 #include <rt/GCObject.h>
+#include <System.Private.CoreLib/System/Attribute.h>
 
 namespace System::Private::CoreLib::System::Runtime::InteropServices {
 enum class DllImportSearchPath;
 namespace DefaultDllImportSearchPathsAttributeNamespace {
-CLASS(DefaultDllImportSearchPathsAttribute) {
+CLASS(DefaultDllImportSearchPathsAttribute) : public Attribute::in {
   public: DllImportSearchPath get_Paths() { return Paths; }
   public: void Ctor(DllImportSearchPath paths);
   private: DllImportSearchPath Paths;

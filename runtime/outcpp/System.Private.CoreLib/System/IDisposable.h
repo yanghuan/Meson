@@ -1,10 +1,11 @@
 #pragma once
 
 #include <rt/GCObject.h>
+#include <System.Private.CoreLib/System/Object.h>
 
 namespace System::Private::CoreLib::System {
 namespace IDisposableNamespace {
-CLASS(IDisposable) {
+CLASS(IDisposable) : public Object::in {
   public: void Dispose();
 };
 } // namespace IDisposableNamespace

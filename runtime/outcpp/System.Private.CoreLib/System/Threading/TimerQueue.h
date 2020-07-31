@@ -1,10 +1,12 @@
 #pragma once
 
 #include <rt/GCObject.h>
+#include <System.Private.CoreLib/Microsoft/Win32/SafeHandles/SafeHandleZeroOrMinusOneIsInvalid.h>
 #include <System.Private.CoreLib/System/Array.h>
 #include <System.Private.CoreLib/System/Boolean.h>
 #include <System.Private.CoreLib/System/Int32.h>
 #include <System.Private.CoreLib/System/Int64.h>
+#include <System.Private.CoreLib/System/Object.h>
 #include <System.Private.CoreLib/System/UInt32.h>
 
 namespace System::Private::CoreLib::System {
@@ -13,8 +15,9 @@ FORWARDS(IntPtr)
 namespace System::Private::CoreLib::System::Threading {
 FORWARD(TimerQueueTimer)
 namespace TimerQueueNamespace {
-CLASS(TimerQueue) {
-  private: CLASS(AppDomainTimerSafeHandle) {
+using namespace ::System::Private::CoreLib::Microsoft::Win32::SafeHandles;
+CLASS(TimerQueue) : public Object::in {
+  private: CLASS(AppDomainTimerSafeHandle) : public SafeHandleZeroOrMinusOneIsInvalid::in {
     public: void Ctor();
     protected: Boolean ReleaseHandle();
   };

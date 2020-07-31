@@ -1,10 +1,11 @@
 #pragma once
 
 #include <rt/GCObject.h>
+#include <System.Private.CoreLib/System/ValueType.h>
 
 namespace System::Private::CoreLib::System {
 namespace VoidNamespace {
-CLASS(Void) {
+CLASS(Void) : public ValueType::in {
 };
 } // namespace VoidNamespace
 using Void = VoidNamespace::Void;

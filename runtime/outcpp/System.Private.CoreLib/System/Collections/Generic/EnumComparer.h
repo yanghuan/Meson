@@ -1,6 +1,7 @@
 #pragma once
 
 #include <rt/GCObject.h>
+#include <System.Private.CoreLib/System/Collections/Generic/Comparer.h>
 
 namespace System::Private::CoreLib::System {
 FORWARDS(Boolean)
@@ -14,7 +15,7 @@ FORWARDS(StreamingContext)
 namespace System::Private::CoreLib::System::Collections::Generic {
 namespace EnumComparerNamespace {
 using namespace Runtime::Serialization;
-CLASS(EnumComparer, T) {
+CLASS(EnumComparer, T) : public Comparer<T>::in {
   public: Int32 Compare(T x, T y);
   public: void Ctor();
   private: void Ctor(SerializationInfo info, StreamingContext context);

@@ -2,6 +2,7 @@
 
 #include <rt/GCObject.h>
 #include <System.Private.CoreLib/System/Boolean.h>
+#include <System.Private.CoreLib/System/Resources/ResourceSet.h>
 
 namespace System::Private::CoreLib::System {
 FORWARD(Object)
@@ -23,7 +24,7 @@ namespace RuntimeResourceSetNamespace {
 using namespace Collections;
 using namespace Collections::Generic;
 using namespace IO;
-CLASS(RuntimeResourceSet) {
+CLASS(RuntimeResourceSet) : public ResourceSet::in {
   public: void Ctor(String fileName);
   public: void Ctor(Stream stream, Boolean permitDeserialization);
   protected: void Dispose(Boolean disposing);

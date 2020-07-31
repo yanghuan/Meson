@@ -5,6 +5,7 @@
 #include <System.Private.CoreLib/System/Char.h>
 #include <System.Private.CoreLib/System/Globalization/TimeSpanFormat.h>
 #include <System.Private.CoreLib/System/Int32.h>
+#include <System.Private.CoreLib/System/Object.h>
 #include <System.Private.CoreLib/System/ReadOnlySpan.h>
 #include <System.Private.CoreLib/System/TimeSpan.h>
 
@@ -23,7 +24,7 @@ enum class TimeSpanStyles;
 FORWARD(DateTimeFormatInfo)
 namespace TimeSpanParseNamespace {
 using namespace Text;
-class TimeSpanParse {
+class TimeSpanParse : public Object::in {
   private: enum class TimeSpanStandardStyles : uint8_t {
     None = 0,
     Invariant = 1,

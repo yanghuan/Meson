@@ -1,15 +1,15 @@
 #pragma once
 
 #include <rt/GCObject.h>
+#include <System.Private.CoreLib/System/Object.h>
 
 namespace System::Private::CoreLib::System {
 FORWARDS(Boolean)
 FORWARDS(Int32)
 FORWARDS(IntPtr)
-FORWARD(Object)
 FORWARD(String)
 namespace ValueTypeNamespace {
-CLASS(ValueType) {
+CLASS(ValueType) : public Object::in {
   public: Boolean Equals(Object obj);
   private: static Boolean CanCompareBits(Object obj);
   private: static Boolean FastEqualsCheck(Object a, Object b);

@@ -4,6 +4,7 @@
 #include <System.Private.CoreLib/System/Boolean.h>
 #include <System.Private.CoreLib/System/Int32.h>
 #include <System.Private.CoreLib/System/Int64.h>
+#include <System.Private.CoreLib/System/Object.h>
 #include <System.Private.CoreLib/System/UInt32.h>
 
 namespace System::Private::CoreLib::System {
@@ -15,7 +16,7 @@ enum class LockRecursionPolicy;
 FORWARD(EventWaitHandle)
 FORWARD(ReaderWriterCount)
 namespace ReaderWriterLockSlimNamespace {
-CLASS(ReaderWriterLockSlim) {
+CLASS(ReaderWriterLockSlim) : public Object::in {
   private: enum class WaiterStates : uint8_t {
     None = 0,
     NoWaiters = 1,

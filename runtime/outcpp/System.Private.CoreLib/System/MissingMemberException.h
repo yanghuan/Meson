@@ -1,6 +1,7 @@
 #pragma once
 
 #include <rt/GCObject.h>
+#include <System.Private.CoreLib/System/MemberAccessException.h>
 
 namespace System::Private::CoreLib::System::Runtime::Serialization {
 FORWARD(SerializationInfo)
@@ -13,7 +14,7 @@ FORWARD(Exception)
 FORWARD(String)
 namespace MissingMemberExceptionNamespace {
 using namespace Runtime::Serialization;
-CLASS(MissingMemberException) {
+CLASS(MissingMemberException) : public MemberAccessException::in {
   public: String get_Message();
   public: static String FormatSignature(Array<Byte> signature);
   public: void Ctor();

@@ -1,6 +1,7 @@
 #pragma once
 
 #include <rt/GCObject.h>
+#include <System.Private.CoreLib/System/SystemException.h>
 
 namespace System::Private::CoreLib::System {
 FORWARD(Exception)
@@ -13,7 +14,7 @@ FORWARDS(StreamingContext)
 namespace System::Private::CoreLib::System::Resources {
 namespace MissingSatelliteAssemblyExceptionNamespace {
 using namespace Runtime::Serialization;
-CLASS(MissingSatelliteAssemblyException) {
+CLASS(MissingSatelliteAssemblyException) : public SystemException::in {
   public: String get_CultureName();
   public: void Ctor();
   public: void Ctor(String message);

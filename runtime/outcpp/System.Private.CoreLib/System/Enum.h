@@ -3,6 +3,8 @@
 #include <rt/GCObject.h>
 #include <System.Private.CoreLib/Interop.h>
 #include <System.Private.CoreLib/System/Boolean.h>
+#include <System.Private.CoreLib/System/Object.h>
+#include <System.Private.CoreLib/System/ValueType.h>
 
 namespace System::Private::CoreLib::System::Runtime::CompilerServices {
 FORWARDS(ObjectHandleOnStack)
@@ -20,7 +22,6 @@ FORWARD(IFormatProvider)
 FORWARDS(Int16)
 FORWARDS(Int32)
 FORWARDS(Int64)
-FORWARD(Object)
 FORWARDS(ReadOnlySpan, T)
 FORWARD(RuntimeType)
 FORWARDS(SByte)
@@ -32,8 +33,8 @@ FORWARDS(UInt64)
 namespace EnumNamespace {
 using namespace Reflection;
 using namespace Runtime::CompilerServices;
-CLASS(Enum) {
-  private: CLASS(EnumInfo) {
+CLASS(Enum) : public ValueType::in {
+  private: CLASS(EnumInfo) : public Object::in {
     public: void Ctor(Boolean hasFlagsAttribute, Array<UInt64> values, Array<String> names);
     public: Boolean HasFlagsAttribute;
     public: Array<UInt64> Values;

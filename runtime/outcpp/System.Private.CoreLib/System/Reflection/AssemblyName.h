@@ -3,13 +3,13 @@
 #include <rt/GCObject.h>
 #include <System.Private.CoreLib/System/Char.h>
 #include <System.Private.CoreLib/System/Int16.h>
+#include <System.Private.CoreLib/System/Object.h>
 
 namespace System::Private::CoreLib::System {
 FORWARD_(Array, T1, T2)
 FORWARDS(Boolean)
 FORWARDS(Byte)
 FORWARDS(Int32)
-FORWARD(Object)
 FORWARD(String)
 FORWARD(Version)
 } // namespace System::Private::CoreLib::System
@@ -35,7 +35,7 @@ namespace AssemblyNameNamespace {
 using namespace Configuration::Assemblies;
 using namespace Globalization;
 using namespace Runtime::Serialization;
-CLASS(AssemblyName) {
+CLASS(AssemblyName) : public Object::in {
   public: String get_Name();
   public: void set_Name(String value);
   public: Version get_Version();

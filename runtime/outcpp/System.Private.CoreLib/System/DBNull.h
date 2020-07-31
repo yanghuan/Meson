@@ -1,6 +1,7 @@
 #pragma once
 
 #include <rt/GCObject.h>
+#include <System.Private.CoreLib/System/Object.h>
 
 namespace System::Private::CoreLib::System::Runtime::Serialization {
 FORWARD(SerializationInfo)
@@ -12,7 +13,7 @@ FORWARD(IFormatProvider)
 FORWARD(String)
 namespace DBNullNamespace {
 using namespace Runtime::Serialization;
-CLASS(DBNull) {
+CLASS(DBNull) : public Object::in {
   private: void Ctor();
   private: void Ctor(SerializationInfo info, StreamingContext context);
   public: void GetObjectData(SerializationInfo info, StreamingContext context);

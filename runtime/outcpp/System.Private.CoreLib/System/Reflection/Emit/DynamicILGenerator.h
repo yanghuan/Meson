@@ -2,6 +2,7 @@
 
 #include <rt/GCObject.h>
 #include <System.Private.CoreLib/System/Int32.h>
+#include <System.Private.CoreLib/System/Reflection/Emit/ILGenerator.h>
 
 namespace System::Private::CoreLib::System {
 FORWARD_(Array, T1, T2)
@@ -37,7 +38,7 @@ FORWARD(SignatureHelper)
 namespace DynamicILGeneratorNamespace {
 using namespace Diagnostics::SymbolStore;
 using namespace Runtime::InteropServices;
-CLASS(DynamicILGenerator) {
+CLASS(DynamicILGenerator) : public ILGenerator::in {
   public: void Ctor(DynamicMethod method, Array<Byte> methodSignature, Int32 size);
   public: void GetCallableMethod(RuntimeModule module, DynamicMethod dm);
   public: LocalBuilder DeclareLocal(Type localType, Boolean pinned);

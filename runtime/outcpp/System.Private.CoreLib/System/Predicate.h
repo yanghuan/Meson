@@ -1,6 +1,7 @@
 #pragma once
 
 #include <rt/GCObject.h>
+#include <System.Private.CoreLib/System/MulticastDelegate.h>
 
 namespace System::Private::CoreLib::System {
 FORWARD(AsyncCallback)
@@ -9,7 +10,7 @@ FORWARD(IAsyncResult)
 FORWARDS(IntPtr)
 FORWARD(Object)
 namespace PredicateNamespace {
-CLASS(Predicate, T) {
+CLASS(Predicate, T) : public MulticastDelegate::in {
   public: void Ctor(Object object, IntPtr method);
   public: Boolean Invoke(T obj);
   public: IAsyncResult BeginInvoke(T obj, AsyncCallback callback, Object object);

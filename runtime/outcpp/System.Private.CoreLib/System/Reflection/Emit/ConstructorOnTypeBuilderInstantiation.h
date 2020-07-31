@@ -1,6 +1,7 @@
 #pragma once
 
 #include <rt/GCObject.h>
+#include <System.Private.CoreLib/System/Reflection/ConstructorInfo.h>
 
 namespace System::Private::CoreLib::System::Reflection {
 enum class BindingFlags;
@@ -9,7 +10,6 @@ enum class MemberTypes;
 enum class MethodAttributes;
 enum class MethodImplAttributes;
 FORWARD(Binder)
-FORWARD(ConstructorInfo)
 FORWARD(Module)
 FORWARD(ParameterInfo)
 } // namespace System::Private::CoreLib::System::Reflection
@@ -29,7 +29,7 @@ namespace System::Private::CoreLib::System::Reflection::Emit {
 FORWARD(TypeBuilderInstantiation)
 namespace ConstructorOnTypeBuilderInstantiationNamespace {
 using namespace Globalization;
-CLASS(ConstructorOnTypeBuilderInstantiation) {
+CLASS(ConstructorOnTypeBuilderInstantiation) : public ConstructorInfo::in {
   public: MemberTypes get_MemberType();
   public: String get_Name();
   public: Type get_DeclaringType();

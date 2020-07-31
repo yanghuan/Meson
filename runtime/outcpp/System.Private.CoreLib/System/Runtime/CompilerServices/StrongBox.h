@@ -1,13 +1,11 @@
 #pragma once
 
 #include <rt/GCObject.h>
+#include <System.Private.CoreLib/System/Object.h>
 
-namespace System::Private::CoreLib::System {
-FORWARD(Object)
-} // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Runtime::CompilerServices {
 namespace StrongBoxNamespace {
-CLASS(StrongBox, T) {
+CLASS(StrongBox, T) : public Object::in {
   private: Object get_ValueOfIStrongBox();
   private: void set_ValueOfIStrongBox(Object value);
   public: void Ctor();

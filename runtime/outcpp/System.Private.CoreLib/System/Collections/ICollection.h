@@ -1,16 +1,16 @@
 #pragma once
 
 #include <rt/GCObject.h>
+#include <System.Private.CoreLib/System/Object.h>
 
 namespace System::Private::CoreLib::System {
 FORWARD_(Array, T1, T2)
 FORWARDS(Boolean)
 FORWARDS(Int32)
-FORWARD(Object)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Collections {
 namespace ICollectionNamespace {
-CLASS(ICollection) {
+CLASS(ICollection) : public Object::in {
   public: Int32 get_Count();
   public: Object get_SyncRoot();
   public: Boolean get_IsSynchronized();

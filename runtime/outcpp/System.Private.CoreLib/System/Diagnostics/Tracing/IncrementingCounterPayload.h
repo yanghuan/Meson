@@ -2,10 +2,10 @@
 
 #include <rt/GCObject.h>
 #include <System.Private.CoreLib/System/Double.h>
+#include <System.Private.CoreLib/System/Object.h>
 #include <System.Private.CoreLib/System/Single.h>
 
 namespace System::Private::CoreLib::System {
-FORWARD(Object)
 FORWARD(String)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Collections::Generic {
@@ -17,7 +17,7 @@ namespace System::Private::CoreLib::System::Diagnostics::Tracing {
 namespace IncrementingCounterPayloadNamespace {
 using namespace Collections::Generic;
 using Collections::Generic::IEnumerator;
-CLASS(IncrementingCounterPayload) {
+CLASS(IncrementingCounterPayload) : public Object::in {
   public: String get_Name() { return Name; }
   public: void set_Name(String value) { Name = value; }
   public: String get_DisplayName() { return DisplayName; }

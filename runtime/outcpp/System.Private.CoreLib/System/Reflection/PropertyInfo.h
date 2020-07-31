@@ -1,6 +1,7 @@
 #pragma once
 
 #include <rt/GCObject.h>
+#include <System.Private.CoreLib/System/Reflection/MemberInfo.h>
 
 namespace System::Private::CoreLib::System {
 FORWARD_(Array, T1, T2)
@@ -21,7 +22,7 @@ FORWARD(MethodInfo)
 FORWARD(ParameterInfo)
 namespace PropertyInfoNamespace {
 using namespace Globalization;
-CLASS(PropertyInfo) {
+CLASS(PropertyInfo) : public MemberInfo::in {
   public: MemberTypes get_MemberType();
   public: Type get_PropertyType();
   public: PropertyAttributes get_Attributes();

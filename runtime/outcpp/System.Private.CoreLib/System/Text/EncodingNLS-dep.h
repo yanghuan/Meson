@@ -9,3 +9,4 @@
 #include <System.Private.CoreLib/System/String-dep.h>
 #include <System.Private.CoreLib/System/Text/Decoder-dep.h>
 #include <System.Private.CoreLib/System/Text/Encoder-dep.h>
+#include <System.Private.CoreLib/System/Text/Encoding-dep.h>

@@ -2,6 +2,7 @@
 
 #include <rt/GCObject.h>
 #include <System.Private.CoreLib/System/Int32.h>
+#include <System.Private.CoreLib/System/Object.h>
 
 namespace System::Private::CoreLib::System {
 enum class DayOfWeek;
@@ -15,7 +16,7 @@ enum class CalendarWeekRule;
 FORWARD(Calendar)
 FORWARD(EraInfo)
 namespace GregorianCalendarHelperNamespace {
-CLASS(GregorianCalendarHelper) {
+CLASS(GregorianCalendarHelper) : public Object::in {
   public: Int32 get_MaxYear();
   public: Array<Int32> get_Eras();
   public: void Ctor(Calendar cal, Array<EraInfo> eraInfo);

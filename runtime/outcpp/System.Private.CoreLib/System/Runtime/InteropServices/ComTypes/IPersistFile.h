@@ -1,6 +1,7 @@
 #pragma once
 
 #include <rt/GCObject.h>
+#include <System.Private.CoreLib/System/Object.h>
 
 namespace System::Private::CoreLib::System {
 FORWARDS(Boolean)
@@ -10,7 +11,7 @@ FORWARD(String)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Runtime::InteropServices::ComTypes {
 namespace IPersistFileNamespace {
-CLASS(IPersistFile) {
+CLASS(IPersistFile) : public Object::in {
   public: void GetClassID(Guid& pClassID);
   public: Int32 IsDirty();
   public: void Load(String pszFileName, Int32 dwMode);

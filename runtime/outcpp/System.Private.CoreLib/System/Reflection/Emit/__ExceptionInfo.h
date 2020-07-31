@@ -2,6 +2,7 @@
 
 #include <rt/GCObject.h>
 #include <System.Private.CoreLib/System/Int32.h>
+#include <System.Private.CoreLib/System/Object.h>
 #include <System.Private.CoreLib/System/Reflection/Emit/Label.h>
 
 namespace System::Private::CoreLib::System {
@@ -11,7 +12,7 @@ FORWARD(Type)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Reflection::Emit {
 namespace __ExceptionInfoNamespace {
-CLASS(__ExceptionInfo) {
+CLASS(__ExceptionInfo) : public Object::in {
   public: void Ctor(Int32 startAddr, Label endLabel);
   private: void MarkHelper(Int32 catchorfilterAddr, Int32 catchEndAddr, Type catchClass, Int32 type);
   public: void MarkFilterAddr(Int32 filterAddr);

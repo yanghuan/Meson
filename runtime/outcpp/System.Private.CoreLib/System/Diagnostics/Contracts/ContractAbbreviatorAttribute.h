@@ -1,10 +1,11 @@
 #pragma once
 
 #include <rt/GCObject.h>
+#include <System.Private.CoreLib/System/Attribute.h>
 
 namespace System::Private::CoreLib::System::Diagnostics::Contracts {
 namespace ContractAbbreviatorAttributeNamespace {
-CLASS(ContractAbbreviatorAttribute) {
+CLASS(ContractAbbreviatorAttribute) : public Attribute::in {
   public: void Ctor();
 };
 } // namespace ContractAbbreviatorAttributeNamespace

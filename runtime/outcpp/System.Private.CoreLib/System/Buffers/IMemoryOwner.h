@@ -1,13 +1,14 @@
 #pragma once
 
 #include <rt/GCObject.h>
+#include <System.Private.CoreLib/System/Object.h>
 
 namespace System::Private::CoreLib::System {
 FORWARDS(Memory, T)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Buffers {
 namespace IMemoryOwnerNamespace {
-CLASS(IMemoryOwner, T) {
+CLASS(IMemoryOwner, T) : public Object::in {
   public: Memory<T> get_Memory();
 };
 } // namespace IMemoryOwnerNamespace

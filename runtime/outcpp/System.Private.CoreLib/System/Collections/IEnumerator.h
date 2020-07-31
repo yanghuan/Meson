@@ -1,14 +1,14 @@
 #pragma once
 
 #include <rt/GCObject.h>
+#include <System.Private.CoreLib/System/Object.h>
 
 namespace System::Private::CoreLib::System {
 FORWARDS(Boolean)
-FORWARD(Object)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Collections {
 namespace IEnumeratorNamespace {
-CLASS(IEnumerator) {
+CLASS(IEnumerator) : public Object::in {
   public: Object get_Current();
   public: Boolean MoveNext();
   public: void Reset();

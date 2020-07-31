@@ -1,18 +1,16 @@
 #pragma once
 
 #include <rt/GCObject.h>
+#include <System.Private.CoreLib/System/Object.h>
 #include <System.Private.CoreLib/System/UInt32.h>
 
-namespace System::Private::CoreLib::System {
-FORWARD(Object)
-} // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Threading {
 FORWARD_(ContextCallback, T1, T2)
 FORWARD(ExecutionContext)
 FORWARD(IOCompletionCallback)
 FORWARDS(NativeOverlapped)
 namespace _IOCompletionCallbackNamespace {
-CLASS(_IOCompletionCallback) {
+CLASS(_IOCompletionCallback) : public Object::in {
   public: void Ctor(IOCompletionCallback ioCompletionCallback, ExecutionContext executionContext);
   public: static void IOCompletionCallback_Context(Object state);
   public: static void PerformIOCompletionCallback(UInt32 errorCode, UInt32 numBytes, NativeOverlapped* pNativeOverlapped);

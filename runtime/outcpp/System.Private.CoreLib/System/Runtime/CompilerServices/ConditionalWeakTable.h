@@ -4,6 +4,8 @@
 #include <System.Private.CoreLib/System/Boolean.h>
 #include <System.Private.CoreLib/System/Collections/Generic/KeyValuePair.h>
 #include <System.Private.CoreLib/System/Int32.h>
+#include <System.Private.CoreLib/System/MulticastDelegate.h>
+#include <System.Private.CoreLib/System/Object.h>
 #include <System.Private.CoreLib/System/Runtime/CompilerServices/DependentHandle.h>
 
 namespace System::Private::CoreLib::System {
@@ -11,24 +13,23 @@ FORWARD_(Array, T1, T2)
 FORWARD(AsyncCallback)
 FORWARD(IAsyncResult)
 FORWARDS(IntPtr)
-FORWARD(Object)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Runtime::CompilerServices {
 namespace ConditionalWeakTableNamespace {
 using namespace Collections::Generic;
-CLASS(ConditionalWeakTable, TKey, TValue) {
+CLASS(ConditionalWeakTable, TKey, TValue) : public Object::in {
   private: struct Entry {
     public: DependentHandle depHnd;
     public: Int32 HashCode;
     public: Int32 Next;
   };
-  public: CLASS(CreateValueCallback) {
+  public: CLASS(CreateValueCallback) : public MulticastDelegate::in {
     public: void Ctor(Object object, IntPtr method);
     public: TValue Invoke(TKey key);
     public: IAsyncResult BeginInvoke(TKey key, AsyncCallback callback, Object object);
     public: TValue EndInvoke(IAsyncResult result);
   };
-  private: CLASS(Enumerator) {
+  private: CLASS(Enumerator) : public Object::in {
     public: KeyValuePair<TKey, TValue> get_Current();
     private: Object get_CurrentOfIEnumerator();
     public: void Ctor(ConditionalWeakTable<TKey, TValue> table);
@@ -41,7 +42,7 @@ CLASS(ConditionalWeakTable, TKey, TValue) {
     private: Int32 _currentIndex;
     private: KeyValuePair<TKey, TValue> _current;
   };
-  private: CLASS(Container) {
+  private: CLASS(Container) : public Object::in {
     public: Boolean get_HasCapacity();
     public: Int32 get_FirstFreeEntry();
     public: void Ctor(ConditionalWeakTable<TKey, TValue> parent);

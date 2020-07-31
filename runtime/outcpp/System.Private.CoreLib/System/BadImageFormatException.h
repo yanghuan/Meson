@@ -1,6 +1,7 @@
 #pragma once
 
 #include <rt/GCObject.h>
+#include <System.Private.CoreLib/System/SystemException.h>
 
 namespace System::Private::CoreLib::System::Runtime::Serialization {
 FORWARD(SerializationInfo)
@@ -12,7 +13,7 @@ FORWARDS(Int32)
 FORWARD(String)
 namespace BadImageFormatExceptionNamespace {
 using namespace Runtime::Serialization;
-CLASS(BadImageFormatException) {
+CLASS(BadImageFormatException) : public SystemException::in {
   public: String get_Message();
   public: String get_FileName();
   public: String get_FusionLog();

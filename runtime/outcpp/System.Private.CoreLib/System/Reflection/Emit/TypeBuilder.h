@@ -3,7 +3,9 @@
 #include <rt/GCObject.h>
 #include <System.Private.CoreLib/System/Boolean.h>
 #include <System.Private.CoreLib/System/Int32.h>
+#include <System.Private.CoreLib/System/Object.h>
 #include <System.Private.CoreLib/System/Reflection/Emit/TypeToken.h>
+#include <System.Private.CoreLib/System/Reflection/TypeInfo.h>
 
 namespace System::Private::CoreLib::System::Reflection {
 enum class BindingFlags;
@@ -30,13 +32,11 @@ FORWARD(MethodInfo)
 FORWARD(Module)
 FORWARDS(ParameterModifier)
 FORWARD(PropertyInfo)
-FORWARD(TypeInfo)
 } // namespace System::Private::CoreLib::System::Reflection
 namespace System::Private::CoreLib::System {
 FORWARD_(Array, T1, T2)
 FORWARDS(Byte)
 FORWARDS(Guid)
-FORWARD(Object)
 FORWARD(RuntimeType)
 FORWARDS(RuntimeTypeHandle)
 FORWARD(String)
@@ -72,8 +72,8 @@ using namespace Collections::Generic;
 using namespace Globalization;
 using namespace Runtime::CompilerServices;
 using namespace Runtime::InteropServices;
-CLASS(TypeBuilder) {
-  private: CLASS(CustAttr) {
+CLASS(TypeBuilder) : public TypeInfo::in {
+  private: CLASS(CustAttr) : public Object::in {
     public: void Ctor(ConstructorInfo con, Array<Byte> binaryAttribute);
     public: void Ctor(CustomAttributeBuilder customBuilder);
     public: void Bake(ModuleBuilder module, Int32 token);

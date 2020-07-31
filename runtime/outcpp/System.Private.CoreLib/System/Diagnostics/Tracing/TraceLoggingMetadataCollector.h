@@ -4,6 +4,7 @@
 #include <System.Private.CoreLib/System/Boolean.h>
 #include <System.Private.CoreLib/System/Int16.h>
 #include <System.Private.CoreLib/System/Int32.h>
+#include <System.Private.CoreLib/System/Object.h>
 #include <System.Private.CoreLib/System/SByte.h>
 
 namespace System::Private::CoreLib::System {
@@ -20,8 +21,8 @@ enum class TraceLoggingDataType;
 FORWARD(FieldMetadata)
 namespace TraceLoggingMetadataCollectorNamespace {
 using namespace Collections::Generic;
-CLASS(TraceLoggingMetadataCollector) {
-  private: CLASS(Impl) {
+CLASS(TraceLoggingMetadataCollector) : public Object::in {
+  private: CLASS(Impl) : public Object::in {
     public: void AddScalar(Int32 size);
     public: void AddNonscalar();
     public: void BeginBuffered();

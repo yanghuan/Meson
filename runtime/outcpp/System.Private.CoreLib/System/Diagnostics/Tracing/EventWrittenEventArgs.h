@@ -2,6 +2,7 @@
 
 #include <rt/GCObject.h>
 #include <System.Private.CoreLib/System/DateTime.h>
+#include <System.Private.CoreLib/System/EventArgs.h>
 #include <System.Private.CoreLib/System/Guid.h>
 #include <System.Private.CoreLib/System/Int32.h>
 #include <System.Private.CoreLib/System/Int64.h>
@@ -25,7 +26,7 @@ enum class EventTask;
 FORWARD(EventSource)
 namespace EventWrittenEventArgsNamespace {
 using namespace Collections::ObjectModel;
-CLASS(EventWrittenEventArgs) {
+CLASS(EventWrittenEventArgs) : public EventArgs::in {
   public: String get_EventName();
   public: void set_EventName(String value);
   public: Int32 get_EventId() { return EventId; }

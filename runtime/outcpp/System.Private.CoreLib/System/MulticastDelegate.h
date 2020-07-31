@@ -1,6 +1,7 @@
 #pragma once
 
 #include <rt/GCObject.h>
+#include <System.Private.CoreLib/System/Delegate.h>
 #include <System.Private.CoreLib/System/IntPtr.h>
 
 namespace System::Private::CoreLib::System::Runtime::Serialization {
@@ -13,7 +14,6 @@ FORWARD(MethodInfo)
 namespace System::Private::CoreLib::System {
 FORWARD_(Array, T1, T2)
 FORWARDS(Boolean)
-FORWARD(Delegate)
 FORWARDS(Int32)
 FORWARD(Object)
 FORWARD(String)
@@ -21,7 +21,7 @@ FORWARD(Type)
 namespace MulticastDelegateNamespace {
 using namespace Reflection;
 using namespace Runtime::Serialization;
-CLASS(MulticastDelegate) {
+CLASS(MulticastDelegate) : public Delegate::in {
   protected: void Ctor(Object target, String method);
   protected: void Ctor(Type target, String method);
   public: Boolean IsUnmanagedFunctionPtr();

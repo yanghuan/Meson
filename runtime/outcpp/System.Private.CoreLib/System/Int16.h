@@ -53,3 +53,9 @@ struct Int16 : public rt::PrimitiveType<Int16> {
 } // namespace Int16Namespace
 using Int16 = Int16Namespace::Int16;
 } // namespace System::Private::CoreLib::System
+namespace rt {
+template <>
+struct TypeKind<::System::Private::CoreLib::System::Int16> {
+  static constexpr TypeCode Kind = TypeCode::Int16;
+};
+} // namespace rt

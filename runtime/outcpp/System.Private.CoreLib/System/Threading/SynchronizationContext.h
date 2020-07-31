@@ -2,17 +2,17 @@
 
 #include <rt/GCObject.h>
 #include <System.Private.CoreLib/System/Boolean.h>
+#include <System.Private.CoreLib/System/Object.h>
 
 namespace System::Private::CoreLib::System {
 FORWARD_(Array, T1, T2)
 FORWARDS(Int32)
 FORWARDS(IntPtr)
-FORWARD(Object)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Threading {
 FORWARD(SendOrPostCallback)
 namespace SynchronizationContextNamespace {
-CLASS(SynchronizationContext) {
+CLASS(SynchronizationContext) : public Object::in {
   public: static SynchronizationContext get_Current();
   private: static Int32 InvokeWaitMethodHelper(SynchronizationContext syncContext, Array<IntPtr> waitHandles, Boolean waitAll, Int32 millisecondsTimeout);
   public: void Ctor();

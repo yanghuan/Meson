@@ -1,6 +1,7 @@
 #pragma once
 
 #include <rt/GCObject.h>
+#include <System.Private.CoreLib/System/MulticastDelegate.h>
 
 namespace System::Private::CoreLib::System {
 FORWARD(AsyncCallback)
@@ -17,7 +18,7 @@ namespace System::Private::CoreLib::System::Runtime::InteropServices {
 enum class DllImportSearchPath;
 namespace DllImportResolverNamespace {
 using namespace Reflection;
-CLASS(DllImportResolver) {
+CLASS(DllImportResolver) : public MulticastDelegate::in {
   public: void Ctor(Object object, IntPtr method);
   public: IntPtr Invoke(String libraryName, Assembly assembly, Nullable<DllImportSearchPath> searchPath);
   public: IAsyncResult BeginInvoke(String libraryName, Assembly assembly, Nullable<DllImportSearchPath> searchPath, AsyncCallback callback, Object object);

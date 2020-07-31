@@ -1,6 +1,7 @@
 #pragma once
 
 #include <rt/GCObject.h>
+#include <System.Private.CoreLib/System/OperationCanceledException.h>
 
 namespace System::Private::CoreLib::System {
 FORWARD(Exception)
@@ -17,7 +18,7 @@ namespace System::Private::CoreLib::System::Threading::Tasks {
 FORWARD_(Task, T1, T2)
 namespace TaskCanceledExceptionNamespace {
 using namespace Runtime::Serialization;
-CLASS(TaskCanceledException) {
+CLASS(TaskCanceledException) : public OperationCanceledException::in {
   public: Task<> get_Task();
   public: void Ctor();
   public: void Ctor(String message);

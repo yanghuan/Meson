@@ -1,11 +1,11 @@
 #pragma once
 
 #include <rt/GCObject.h>
+#include <System.Private.CoreLib/System/Object.h>
 
 namespace System::Private::CoreLib::System {
-FORWARD(Object)
 namespace ICloneableNamespace {
-CLASS(ICloneable) {
+CLASS(ICloneable) : public Object::in {
   public: Object Clone();
 };
 } // namespace ICloneableNamespace

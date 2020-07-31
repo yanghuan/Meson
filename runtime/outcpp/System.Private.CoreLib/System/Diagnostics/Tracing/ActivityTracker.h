@@ -5,6 +5,7 @@
 #include <System.Private.CoreLib/System/Guid.h>
 #include <System.Private.CoreLib/System/Int32.h>
 #include <System.Private.CoreLib/System/Int64.h>
+#include <System.Private.CoreLib/System/Object.h>
 
 namespace System::Private::CoreLib::System {
 FORWARDS(Byte)
@@ -19,8 +20,8 @@ namespace System::Private::CoreLib::System::Diagnostics::Tracing {
 enum class EventActivityOptions;
 namespace ActivityTrackerNamespace {
 using namespace Threading;
-CLASS(ActivityTracker) {
-  private: CLASS(ActivityInfo) {
+CLASS(ActivityTracker) : public Object::in {
+  private: CLASS(ActivityInfo) : public Object::in {
     public: Guid get_ActivityId();
     public: void Ctor(String name, Int64 uniqueId, ActivityInfo creator, Guid activityIDToRestore, EventActivityOptions options);
     public: static String Path(ActivityInfo activityInfo);

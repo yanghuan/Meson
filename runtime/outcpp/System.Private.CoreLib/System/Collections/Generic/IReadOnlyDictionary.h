@@ -1,6 +1,7 @@
 #pragma once
 
 #include <rt/GCObject.h>
+#include <System.Private.CoreLib/System/Object.h>
 
 namespace System::Private::CoreLib::System {
 FORWARDS(Boolean)
@@ -8,7 +9,7 @@ FORWARDS(Boolean)
 namespace System::Private::CoreLib::System::Collections::Generic {
 FORWARD(IEnumerable, T)
 namespace IReadOnlyDictionaryNamespace {
-CLASS(IReadOnlyDictionary, TKey, TValue) {
+CLASS(IReadOnlyDictionary, TKey, TValue) : public Object::in {
   public: TValue get_Item(TKey key);
   public: IEnumerable<TKey> get_Keys();
   public: IEnumerable<TValue> get_Values();

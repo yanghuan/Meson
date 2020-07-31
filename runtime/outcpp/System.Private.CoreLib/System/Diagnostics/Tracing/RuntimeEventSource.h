@@ -1,13 +1,14 @@
 #pragma once
 
 #include <rt/GCObject.h>
+#include <System.Private.CoreLib/System/Diagnostics/Tracing/EventSource.h>
 
 namespace System::Private::CoreLib::System::Diagnostics::Tracing {
 FORWARD(EventCommandEventArgs)
 FORWARD(IncrementingPollingCounter)
 FORWARD(PollingCounter)
 namespace RuntimeEventSourceNamespace {
-CLASS(RuntimeEventSource) {
+CLASS(RuntimeEventSource) : public EventSource::in {
   public: static void Initialize();
   private: void Ctor();
   protected: void OnEventCommand(EventCommandEventArgs command);

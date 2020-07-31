@@ -3,17 +3,17 @@
 #include <rt/GCObject.h>
 #include <System.Private.CoreLib/System/Boolean.h>
 #include <System.Private.CoreLib/System/Int32.h>
+#include <System.Private.CoreLib/System/Object.h>
 
 namespace System::Private::CoreLib::System {
 FORWARD_(Array, T1, T2)
-FORWARD(Object)
 FORWARD(String)
 FORWARD(Type)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Runtime::Serialization {
 FORWARDS(SerializationEntry)
 namespace SerializationInfoEnumeratorNamespace {
-CLASS(SerializationInfoEnumerator) {
+CLASS(SerializationInfoEnumerator) : public Object::in {
   private: Object get_CurrentOfIEnumerator();
   public: SerializationEntry get_Current();
   public: String get_Name();

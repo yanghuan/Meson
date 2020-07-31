@@ -1,11 +1,12 @@
 #pragma once
 
 #include <rt/GCObject.h>
+#include <System.Private.CoreLib/System/Attribute.h>
 #include <System.Private.CoreLib/System/Byte.h>
 
 namespace System::Private::CoreLib::System::Runtime::CompilerServices {
 namespace NullableContextAttributeNamespace {
-CLASS(NullableContextAttribute) {
+CLASS(NullableContextAttribute) : public Attribute::in {
   public: void Ctor(Byte _);
   public: Byte Flag;
 };

@@ -1,20 +1,20 @@
 #pragma once
 
 #include <rt/GCObject.h>
+#include <System.Private.CoreLib/System/Object.h>
 
 namespace System::Private::CoreLib::System {
 FORWARDS(Double)
 FORWARDS(Int32)
 FORWARDS(Int64)
 FORWARDS(IntPtr)
-FORWARD(Object)
 FORWARDS(Single)
 FORWARDS(UInt32)
 FORWARDS(UInt64)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Threading {
 namespace InterlockedNamespace {
-class Interlocked {
+class Interlocked : public Object::in {
   public: static Int32 Increment(Int32& location);
   public: static Int64 Increment(Int64& location);
   public: static Int32 Decrement(Int32& location);

@@ -1,6 +1,7 @@
 #pragma once
 
 #include <rt/GCObject.h>
+#include <System.Private.CoreLib/System/Object.h>
 
 namespace System::Private::CoreLib::System::Globalization {
 enum class CompareOptions;
@@ -11,13 +12,12 @@ enum class StringComparison;
 FORWARDS(Boolean)
 FORWARD(CultureAwareComparer)
 FORWARDS(Int32)
-FORWARD(Object)
 FORWARD(OrdinalCaseSensitiveComparer)
 FORWARD(OrdinalIgnoreCaseComparer)
 FORWARD(String)
 namespace StringComparerNamespace {
 using namespace Globalization;
-CLASS(StringComparer) {
+CLASS(StringComparer) : public Object::in {
   public: static StringComparer get_InvariantCulture();
   public: static StringComparer get_InvariantCultureIgnoreCase();
   public: static StringComparer get_CurrentCulture();

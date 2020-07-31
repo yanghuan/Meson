@@ -8,6 +8,8 @@
 #include <System.Private.CoreLib/System/Int32.h>
 #include <System.Private.CoreLib/System/Int64.h>
 #include <System.Private.CoreLib/System/IntPtr.h>
+#include <System.Private.CoreLib/System/MulticastDelegate.h>
+#include <System.Private.CoreLib/System/Object.h>
 #include <System.Private.CoreLib/System/UInt16.h>
 #include <System.Private.CoreLib/System/UInt32.h>
 #include <System.Private.CoreLib/System/UInt64.h>
@@ -18,7 +20,6 @@ FORWARD_(Array, T1, T2)
 FORWARD(AsyncCallback)
 FORWARDS(Boolean)
 FORWARD(IAsyncResult)
-FORWARD(Object)
 FORWARDS(ReadOnlySpan, T)
 FORWARDS(Span, T)
 FORWARD(String)
@@ -68,7 +69,7 @@ using namespace ::System::Private::CoreLib::System::IO;
 using namespace ::System::Private::CoreLib::System::Runtime::InteropServices;
 using namespace ::System::Private::CoreLib::System::Text;
 using namespace ::System::Private::CoreLib::System::Threading;
-class Interop {
+class Interop : public Object::in {
   public: enum class BOOL {
     FALSE = 0,
     TRUE = 1,
@@ -77,7 +78,7 @@ class Interop {
     FALSE = 0,
     TRUE = 1,
   };
-  public: class Kernel32 {
+  public: class Kernel32 : public Object::in {
     public: enum class FINDEX_INFO_LEVELS : uint32_t {
       FindExInfoStandard = 0,
       FindExInfoBasic = 1,
@@ -145,19 +146,19 @@ class Interop {
       private: rt::FixedBuffer<Char, 260> _cFileName;
       private: rt::FixedBuffer<Char, 14> _cAlternateFileName;
     };
-    public: CLASS(EnumLocalesProcEx) {
+    public: CLASS(EnumLocalesProcEx) : public MulticastDelegate::in {
       public: void Ctor(Object object, IntPtr method);
       public: BOOL Invoke(Char* lpLocaleString, UInt32 dwFlags, void* lParam);
       public: IAsyncResult BeginInvoke(Char* lpLocaleString, UInt32 dwFlags, void* lParam, AsyncCallback callback, Object object);
       public: BOOL EndInvoke(IAsyncResult result);
     };
-    public: CLASS(EnumTimeFormatsProcEx) {
+    public: CLASS(EnumTimeFormatsProcEx) : public MulticastDelegate::in {
       public: void Ctor(Object object, IntPtr method);
       public: BOOL Invoke(Char* lpTimeFormatString, void* lParam);
       public: IAsyncResult BeginInvoke(Char* lpTimeFormatString, void* lParam, AsyncCallback callback, Object object);
       public: BOOL EndInvoke(IAsyncResult result);
     };
-    public: CLASS(EnumCalendarInfoProcExEx) {
+    public: CLASS(EnumCalendarInfoProcExEx) : public MulticastDelegate::in {
       public: void Ctor(Object object, IntPtr method);
       public: BOOL Invoke(Char* lpCalendarInfoString, UInt32 Calendar, IntPtr lpReserved, void* lParam);
       public: IAsyncResult BeginInvoke(Char* lpCalendarInfoString, UInt32 Calendar, IntPtr lpReserved, void* lParam, AsyncCallback callback, Object object);
@@ -363,26 +364,26 @@ class Interop {
     public: static Boolean SetEnvironmentVariable(String lpName, String lpValue);
     public: static Int32 WriteFile(SafeHandle handle, Byte* bytes, Int32 numBytesToWrite, Int32& numBytesWritten, IntPtr mustBeZero);
   };
-  public: class Ole32 {
+  public: class Ole32 : public Object::in {
     public: static IntPtr CoTaskMemAlloc(UIntPtr cb);
     public: static IntPtr CoTaskMemRealloc(IntPtr pv, UIntPtr cb);
     public: static void CoTaskMemFree(IntPtr ptr);
     public: static Int32 CoCreateGuid(Guid& guid);
   };
-  public: class OleAut32 {
+  public: class OleAut32 : public Object::in {
     public: static IntPtr SysAllocStringByteLen(Array<Byte> str, UInt32 len);
     public: static void VariantClear(IntPtr variant);
     public: static IntPtr SysAllocStringLen(String src, Int32 len);
     public: static void SysFreeString(IntPtr bstr);
   };
-  public: class Globalization {
+  public: class Globalization : public Object::in {
     public: enum class ResultCode {
       Success = 0,
       UnknownError = 1,
       InsufficentBuffer = 2,
       OutOfMemory = 3,
     };
-    public: CLASS(EnumCalendarInfoCallback) {
+    public: CLASS(EnumCalendarInfoCallback) : public MulticastDelegate::in {
       public: void Ctor(Object object, IntPtr method);
       public: void Invoke(String calendarString, IntPtr context);
       public: IAsyncResult BeginInvoke(String calendarString, IntPtr context, AsyncCallback callback, Object object);
@@ -422,13 +423,13 @@ class Interop {
     public: static Int32 IsNormalized(NormalizationForm normalizationForm, Char* src, Int32 srcLen);
     public: static Int32 NormalizeString(NormalizationForm normalizationForm, Char* src, Int32 srcLen, Char* dstBuffer, Int32 dstBufferCapacity);
   };
-  public: class Normaliz {
+  public: class Normaliz : public Object::in {
     public: static Int32 IdnToAscii(UInt32 dwFlags, Char* lpUnicodeCharStr, Int32 cchUnicodeChar, Char* lpASCIICharStr, Int32 cchASCIIChar);
     public: static Int32 IdnToUnicode(UInt32 dwFlags, Char* lpASCIICharStr, Int32 cchASCIIChar, Char* lpUnicodeCharStr, Int32 cchUnicodeChar);
     public: static BOOL IsNormalizedString(NormalizationForm normForm, Char* source, Int32 length);
     public: static Int32 NormalizeString(NormalizationForm normForm, Char* source, Int32 sourceLength, Char* destination, Int32 destinationLength);
   };
-  public: class Advapi32 {
+  public: class Advapi32 : public Object::in {
     public: enum class ActivityControl : uint32_t {
       EVENT_ACTIVITY_CTRL_GET_ID = 1,
       EVENT_ACTIVITY_CTRL_SET_ID = 2,
@@ -453,7 +454,7 @@ class Interop {
       public: Int32 Size;
       public: Int32 Type;
     };
-    public: CLASS(EtwEnableCallback) {
+    public: CLASS(EtwEnableCallback) : public MulticastDelegate::in {
       public: void Ctor(Object object, IntPtr method);
       public: void Invoke(Guid& sourceId, Int32 isEnabled, Byte level, Int64 matchAnyKeywords, Int64 matchAllKeywords, EVENT_FILTER_DESCRIPTOR* filterData, void* callbackContext);
       public: IAsyncResult BeginInvoke(Guid& sourceId, Int32 isEnabled, Byte level, Int64 matchAnyKeywords, Int64 matchAllKeywords, EVENT_FILTER_DESCRIPTOR* filterData, void* callbackContext, AsyncCallback callback, Object object);
@@ -498,14 +499,14 @@ class Interop {
     public: static Int32 RegQueryValueEx(SafeRegistryHandle hKey, String lpValueName, Array<Int32> lpReserved, Int32& lpType, Array<Char> lpData, Int32& lpcbData);
     public: static Int32 RegSetValueEx(SafeRegistryHandle hKey, String lpValueName, Int32 Reserved, Int32 dwType, String lpData, Int32 cbData);
   };
-  public: class HostPolicy {
-    public: CLASS(corehost_resolve_component_dependencies_result_fn) {
+  public: class HostPolicy : public Object::in {
+    public: CLASS(corehost_resolve_component_dependencies_result_fn) : public MulticastDelegate::in {
       public: void Ctor(Object object, IntPtr method);
       public: void Invoke(String assemblyPaths, String nativeSearchPaths, String resourceSearchPaths);
       public: IAsyncResult BeginInvoke(String assemblyPaths, String nativeSearchPaths, String resourceSearchPaths, AsyncCallback callback, Object object);
       public: void EndInvoke(IAsyncResult result);
     };
-    public: CLASS(corehost_error_writer_fn) {
+    public: CLASS(corehost_error_writer_fn) : public MulticastDelegate::in {
       public: void Ctor(Object object, IntPtr method);
       public: void Invoke(String message);
       public: IAsyncResult BeginInvoke(String message, AsyncCallback callback, Object object);
@@ -514,7 +515,7 @@ class Interop {
     public: static Int32 corehost_resolve_component_dependencies(String componentMainAssemblyPath, corehost_resolve_component_dependencies_result_fn result);
     public: static IntPtr corehost_set_error_writer(IntPtr errorWriter);
   };
-  public: class BCrypt {
+  public: class BCrypt : public Object::in {
     public: enum class NTSTATUS : uint32_t {
       STATUS_SUCCESS = 0,
       STATUS_NOT_FOUND = 3221226021,
@@ -524,11 +525,11 @@ class Interop {
     };
     public: static NTSTATUS BCryptGenRandom(IntPtr hAlgorithm, Byte* pbBuffer, Int32 cbBuffer, Int32 dwFlags);
   };
-  public: class Crypt32 {
+  public: class Crypt32 : public Object::in {
     public: static Boolean CryptProtectMemory(SafeBuffer pData, UInt32 cbData, UInt32 dwFlags);
     public: static Boolean CryptUnprotectMemory(SafeBuffer pData, UInt32 cbData, UInt32 dwFlags);
   };
-  public: class NtDll {
+  public: class NtDll : public Object::in {
     public: struct IO_STATUS_BLOCK {
       private: UInt32 Status;
       private: IntPtr Information;
@@ -550,13 +551,13 @@ class Interop {
     private: static Int32 RtlGetVersion(RTL_OSVERSIONINFOEX& lpVersionInformation);
     public: static Int32 RtlGetVersionEx(RTL_OSVERSIONINFOEX& osvi);
   };
-  public: class Secur32 {
+  public: class Secur32 : public Object::in {
     public: static BOOLEAN GetUserNameExW(Int32 NameFormat, Char& lpNameBuffer, UInt32& lpnSize);
   };
-  public: class Shell32 {
+  public: class Shell32 : public Object::in {
     public: static Int32 SHGetKnownFolderPath(Guid rfid, UInt32 dwFlags, IntPtr hToken, String& ppszPath);
   };
-  public: class User32 {
+  public: class User32 : public Object::in {
     public: struct USEROBJECTFLAGS {
       public: Int32 fInherit;
       public: Int32 fReserved;

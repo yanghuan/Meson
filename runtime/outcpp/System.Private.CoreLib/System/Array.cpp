@@ -889,6 +889,7 @@ Int32 Array___<>::IndexOf(Array<> array, Object value, Int32 startIndex, Int32 c
           num2 = GenericIndexOf<Double>(array, value, adjustedIndex2, count);
           break;
       }
+      return ((num2 >= 0) ? startIndex : lowerBound) + num2;
     }
   }
   for (Int32 k = startIndex; k < num; k++) {
@@ -1000,6 +1001,7 @@ Int32 Array___<>::LastIndexOf(Array<> array, Object value, Int32 startIndex, Int
           num4 = GenericLastIndexOf<Double>(array, value, adjustedIndex2, count);
           break;
       }
+      return ((num4 >= 0) ? num : lowerBound) + num4;
     }
   }
   for (Int32 num5 = startIndex; num5 >= num; num5--) {

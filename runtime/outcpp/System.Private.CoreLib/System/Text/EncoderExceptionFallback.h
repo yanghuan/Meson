@@ -1,6 +1,7 @@
 #pragma once
 
 #include <rt/GCObject.h>
+#include <System.Private.CoreLib/System/Text/EncoderFallback.h>
 
 namespace System::Private::CoreLib::System {
 FORWARDS(Boolean)
@@ -10,7 +11,7 @@ FORWARD(Object)
 namespace System::Private::CoreLib::System::Text {
 FORWARD(EncoderFallbackBuffer)
 namespace EncoderExceptionFallbackNamespace {
-CLASS(EncoderExceptionFallback) {
+CLASS(EncoderExceptionFallback) : public EncoderFallback::in {
   public: Int32 get_MaxCharCount();
   public: void Ctor();
   public: EncoderFallbackBuffer CreateFallbackBuffer();

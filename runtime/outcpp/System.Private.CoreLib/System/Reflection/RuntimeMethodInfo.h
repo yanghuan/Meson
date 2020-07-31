@@ -2,6 +2,7 @@
 
 #include <rt/GCObject.h>
 #include <System.Private.CoreLib/System/IntPtr.h>
+#include <System.Private.CoreLib/System/Reflection/MethodInfo.h>
 #include <System.Private.CoreLib/System/RuntimeType.h>
 
 namespace System::Private::CoreLib::System {
@@ -39,7 +40,6 @@ FORWARD(ICustomAttributeProvider)
 FORWARD(MemberInfo)
 FORWARD(MethodBase)
 FORWARD(MethodBody)
-FORWARD(MethodInfo)
 FORWARD(Module)
 FORWARD(ParameterInfo)
 FORWARD(RuntimeModule)
@@ -48,7 +48,7 @@ using namespace Collections::Generic;
 using namespace Globalization;
 using namespace Threading;
 using Collections::Generic::IList;
-CLASS(RuntimeMethodInfo) {
+CLASS(RuntimeMethodInfo) : public MethodInfo::in {
   public: INVOCATION_FLAGS get_InvocationFlags();
   private: RuntimeMethodHandleInternal get_ValueOfIRuntimeMethodInfo();
   private: RuntimeType get_ReflectedTypeInternal();

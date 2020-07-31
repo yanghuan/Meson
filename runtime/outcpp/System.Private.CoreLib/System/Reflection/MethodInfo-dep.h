@@ -9,5 +9,6 @@
 #include <System.Private.CoreLib/System/Object-dep.h>
 #include <System.Private.CoreLib/System/Reflection/ICustomAttributeProvider.h>
 #include <System.Private.CoreLib/System/Reflection/MemberTypes.h>
+#include <System.Private.CoreLib/System/Reflection/MethodBase-dep.h>
 #include <System.Private.CoreLib/System/Reflection/ParameterInfo-dep.h>
 #include <System.Private.CoreLib/System/Type-dep.h>

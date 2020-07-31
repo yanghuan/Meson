@@ -1,6 +1,7 @@
 #pragma once
 
 #include <rt/GCObject.h>
+#include <System.Private.CoreLib/System/Object.h>
 
 namespace System::Private::CoreLib::System {
 FORWARDS(Guid)
@@ -9,7 +10,7 @@ namespace System::Private::CoreLib::System::Runtime::InteropServices::ComTypes {
 FORWARD(IConnectionPoint)
 FORWARD(IEnumConnectionPoints)
 namespace IConnectionPointContainerNamespace {
-CLASS(IConnectionPointContainer) {
+CLASS(IConnectionPointContainer) : public Object::in {
   public: void EnumConnectionPoints(IEnumConnectionPoints& ppEnum);
   public: void FindConnectionPoint(Guid& riid, IConnectionPoint& ppCP);
 };

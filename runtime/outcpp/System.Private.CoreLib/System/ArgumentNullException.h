@@ -1,6 +1,7 @@
 #pragma once
 
 #include <rt/GCObject.h>
+#include <System.Private.CoreLib/System/ArgumentException.h>
 
 namespace System::Private::CoreLib::System::Runtime::Serialization {
 FORWARD(SerializationInfo)
@@ -11,7 +12,7 @@ FORWARD(Exception)
 FORWARD(String)
 namespace ArgumentNullExceptionNamespace {
 using namespace Runtime::Serialization;
-CLASS(ArgumentNullException) {
+CLASS(ArgumentNullException) : public ArgumentException::in {
   public: void Ctor();
   public: void Ctor(String paramName);
   public: void Ctor(String message, Exception innerException);

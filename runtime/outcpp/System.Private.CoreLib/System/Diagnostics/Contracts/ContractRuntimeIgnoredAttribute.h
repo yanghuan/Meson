@@ -1,10 +1,11 @@
 #pragma once
 
 #include <rt/GCObject.h>
+#include <System.Private.CoreLib/System/Attribute.h>
 
 namespace System::Private::CoreLib::System::Diagnostics::Contracts {
 namespace ContractRuntimeIgnoredAttributeNamespace {
-CLASS(ContractRuntimeIgnoredAttribute) {
+CLASS(ContractRuntimeIgnoredAttribute) : public Attribute::in {
   public: void Ctor();
 };
 } // namespace ContractRuntimeIgnoredAttributeNamespace

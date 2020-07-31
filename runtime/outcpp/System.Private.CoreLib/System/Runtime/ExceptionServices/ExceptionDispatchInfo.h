@@ -2,10 +2,11 @@
 
 #include <rt/GCObject.h>
 #include <System.Private.CoreLib/System/Exception.h>
+#include <System.Private.CoreLib/System/Object.h>
 
 namespace System::Private::CoreLib::System::Runtime::ExceptionServices {
 namespace ExceptionDispatchInfoNamespace {
-CLASS(ExceptionDispatchInfo) {
+CLASS(ExceptionDispatchInfo) : public Object::in {
   public: Exception get_SourceException();
   private: void Ctor(Exception exception);
   public: static ExceptionDispatchInfo Capture(Exception source);

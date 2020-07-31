@@ -1,20 +1,20 @@
 #pragma once
 
 #include <rt/GCObject.h>
+#include <System.Private.CoreLib/System/Object.h>
 
+namespace System::Private::CoreLib::System::Collections::Generic {
+FORWARD(IDictionary, TKey, TValue)
+FORWARD(List, T)
+} // namespace System::Private::CoreLib::System::Collections::Generic
 namespace System::Private::CoreLib::System {
 FORWARDS(Boolean)
 FORWARD(EventArgs)
 FORWARD_(EventHandler, T1, T2)
 FORWARDS(Int32)
-FORWARD(Object)
 FORWARD(String)
 FORWARD_(WeakReference, T1, T2)
 } // namespace System::Private::CoreLib::System
-namespace System::Private::CoreLib::System::Collections::Generic {
-FORWARD(IDictionary, TKey, TValue)
-FORWARD(List, T)
-} // namespace System::Private::CoreLib::System::Collections::Generic
 namespace System::Private::CoreLib::System::Diagnostics::Tracing {
 enum class EventKeywords : int64_t;
 enum class EventLevel;
@@ -23,7 +23,7 @@ FORWARD(EventSourceCreatedEventArgs)
 FORWARD(EventWrittenEventArgs)
 namespace EventListenerNamespace {
 using namespace Collections::Generic;
-CLASS(EventListener) {
+CLASS(EventListener) : public Object::in {
   public: static Object get_EventListenersLock();
   private: static void SCtor();
   public: void Ctor();

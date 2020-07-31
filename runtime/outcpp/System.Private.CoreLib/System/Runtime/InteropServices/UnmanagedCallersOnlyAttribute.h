@@ -1,6 +1,7 @@
 #pragma once
 
 #include <rt/GCObject.h>
+#include <System.Private.CoreLib/System/Attribute.h>
 
 namespace System::Private::CoreLib::System {
 FORWARD(String)
@@ -8,7 +9,7 @@ FORWARD(String)
 namespace System::Private::CoreLib::System::Runtime::InteropServices {
 enum class CallingConvention;
 namespace UnmanagedCallersOnlyAttributeNamespace {
-CLASS(UnmanagedCallersOnlyAttribute) {
+CLASS(UnmanagedCallersOnlyAttribute) : public Attribute::in {
   public: void Ctor();
   public: CallingConvention CallingConvention;
   public: String EntryPoint;

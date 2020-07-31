@@ -1,6 +1,7 @@
 #pragma once
 
 #include <rt/GCObject.h>
+#include <System.Private.CoreLib/System/Object.h>
 
 namespace System::Private::CoreLib::System::Globalization {
 FORWARD(DaylightTime)
@@ -9,12 +10,11 @@ namespace System::Private::CoreLib::System {
 FORWARDS(Boolean)
 FORWARDS(DateTime)
 FORWARDS(Int32)
-FORWARD(Object)
 FORWARD(String)
 FORWARDS(TimeSpan)
 namespace TimeZoneNamespace {
 using namespace Globalization;
-CLASS(TimeZone) {
+CLASS(TimeZone) : public Object::in {
   private: static Object get_InternalSyncObject();
   public: static TimeZone get_CurrentTimeZone();
   public: String get_StandardName();

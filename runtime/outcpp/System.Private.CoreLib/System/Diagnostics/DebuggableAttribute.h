@@ -1,13 +1,14 @@
 #pragma once
 
 #include <rt/GCObject.h>
+#include <System.Private.CoreLib/System/Attribute.h>
 
 namespace System::Private::CoreLib::System {
 FORWARDS(Boolean)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Diagnostics {
 namespace DebuggableAttributeNamespace {
-CLASS(DebuggableAttribute) {
+CLASS(DebuggableAttribute) : public Attribute::in {
   public: enum class DebuggingModes {
     None = 0,
     Default = 1,

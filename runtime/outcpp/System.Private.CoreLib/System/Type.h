@@ -1,6 +1,7 @@
 #pragma once
 
 #include <rt/GCObject.h>
+#include <System.Private.CoreLib/System/Reflection/MemberInfo.h>
 
 namespace System::Private::CoreLib::System::Reflection {
 enum class BindingFlags;
@@ -16,7 +17,6 @@ FORWARD(EventInfo)
 FORWARD(FieldInfo)
 FORWARDS(InterfaceMapping)
 FORWARD(MemberFilter)
-FORWARD(MemberInfo)
 FORWARD(MethodBase)
 FORWARD(MethodInfo)
 FORWARD(Module)
@@ -48,7 +48,7 @@ namespace TypeNamespace {
 using namespace Globalization;
 using namespace Reflection;
 using namespace Runtime::InteropServices;
-CLASS(Type) {
+CLASS(Type) : public MemberInfo::in {
   public: Boolean get_IsInterface();
   public: MemberTypes get_MemberType();
   public: String get_Namespace();

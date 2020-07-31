@@ -1,10 +1,11 @@
 #pragma once
 
 #include <rt/GCObject.h>
+#include <System.Private.Uri/System/UriParser.h>
 
 namespace System::Private::Uri::System {
 namespace NewsStyleUriParserNamespace {
-CLASS(NewsStyleUriParser) {
+CLASS(NewsStyleUriParser) : public UriParser::in {
   public: void Ctor();
 };
 } // namespace NewsStyleUriParserNamespace

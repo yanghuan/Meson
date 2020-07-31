@@ -1,6 +1,7 @@
 #pragma once
 
 #include <rt/GCObject.h>
+#include <System.Private.CoreLib/System/Object.h>
 
 namespace System::Private::CoreLib::System {
 FORWARDS(Boolean)
@@ -10,7 +11,7 @@ FORWARDS(Int64)
 FORWARDS(ReadOnlySpan, T)
 FORWARD(String)
 namespace ParseNumbersNamespace {
-class ParseNumbers {
+class ParseNumbers : public Object::in {
   public: static Int64 StringToLong(ReadOnlySpan<Char> s, Int32 radix, Int32 flags);
   public: static Int64 StringToLong(ReadOnlySpan<Char> s, Int32 radix, Int32 flags, Int32& currPos);
   public: static Int32 StringToInt(ReadOnlySpan<Char> s, Int32 radix, Int32 flags);

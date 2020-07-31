@@ -1,12 +1,13 @@
 #pragma once
 
 #include <rt/GCObject.h>
+#include <System.Private.CoreLib/System/Attribute.h>
 #include <System.Private.CoreLib/System/Boolean.h>
 
 namespace System::Private::CoreLib::System {
 enum class AttributeTargets;
 namespace AttributeUsageAttributeNamespace {
-CLASS(AttributeUsageAttribute) {
+CLASS(AttributeUsageAttribute) : public Attribute::in {
   public: AttributeTargets get_ValidOn();
   public: Boolean get_AllowMultiple();
   public: void set_AllowMultiple(Boolean value);

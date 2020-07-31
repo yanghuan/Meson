@@ -5,6 +5,7 @@
 #include <System.Private.CoreLib/System/Collections/Generic/KeyValuePair.h>
 #include <System.Private.CoreLib/System/Diagnostics/Tracing/ConcurrentSet.h>
 #include <System.Private.CoreLib/System/Int32.h>
+#include <System.Private.CoreLib/System/Object.h>
 
 namespace System::Private::CoreLib::System {
 FORWARD_(Array, T1, T2)
@@ -22,7 +23,7 @@ FORWARD(TraceLoggingTypeInfo)
 namespace TraceLoggingEventTypesNamespace {
 using namespace Collections::Generic;
 using namespace Reflection;
-CLASS(TraceLoggingEventTypes) {
+CLASS(TraceLoggingEventTypes) : public Object::in {
   public: String get_Name();
   public: EventTags get_Tags();
   public: void Ctor(String name, EventTags tags, Array<Type> types);

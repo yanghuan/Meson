@@ -8,7 +8,7 @@ FORWARDS(Int32)
 FORWARD(String)
 FORWARD(Type)
 namespace ObjectNamespace {
-CLASS(Object) : public rt::object {
+CLASS(Object) {
   public: Type GetType();
   protected: Object MemberwiseClone();
   public: void Ctor();
@@ -22,3 +22,9 @@ CLASS(Object) : public rt::object {
 } // namespace ObjectNamespace
 using Object = ObjectNamespace::Object;
 } // namespace System::Private::CoreLib::System
+namespace rt {
+template <>
+struct TypeKind<::System::Private::CoreLib::System::Object> {
+  static constexpr TypeCode Kind = TypeCode::Object;
+};
+} // namespace rt

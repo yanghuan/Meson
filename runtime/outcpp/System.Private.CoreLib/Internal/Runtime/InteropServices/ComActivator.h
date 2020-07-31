@@ -2,11 +2,11 @@
 
 #include <rt/GCObject.h>
 #include <System.Private.CoreLib/System/Guid.h>
+#include <System.Private.CoreLib/System/Object.h>
 
 namespace System::Private::CoreLib::System {
 FORWARDS(Boolean)
 FORWARDS(Int32)
-FORWARD(Object)
 FORWARD(String)
 FORWARD(Type)
 } // namespace System::Private::CoreLib::System
@@ -25,8 +25,8 @@ namespace ComActivatorNamespace {
 using namespace ::System::Private::CoreLib::System;
 using namespace ::System::Private::CoreLib::System::Collections::Generic;
 using namespace ::System::Private::CoreLib::System::Runtime::Loader;
-class ComActivator {
-  private: CLASS(BasicClassFactory) {
+class ComActivator : public Object::in {
+  private: CLASS(BasicClassFactory) : public Object::in {
     public: void Ctor(Guid clsid, Type classType);
     public: static Type GetValidatedInterfaceType(Type classType, Guid& riid, Object outer);
     public: static void ValidateObjectIsMarshallableAsInterface(Object obj, Type interfaceType);
@@ -36,7 +36,7 @@ class ComActivator {
     private: Guid _classId;
     private: Type _classType;
   };
-  private: CLASS(LicenseClassFactory) {
+  private: CLASS(LicenseClassFactory) : public Object::in {
     public: void Ctor(Guid clsid, Type classType);
     public: void CreateInstance(Object pUnkOuter, Guid& riid, Object& ppvObject);
     public: void LockServer(Boolean fLock);

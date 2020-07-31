@@ -1,6 +1,7 @@
 #pragma once
 
 #include <rt/GCObject.h>
+#include <System.Private.CoreLib/System/Attribute.h>
 
 namespace System::Private::CoreLib::System {
 FORWARD(String)
@@ -11,7 +12,7 @@ enum class EventLevel;
 enum class EventOpcode;
 enum class EventTags;
 namespace EventDataAttributeNamespace {
-CLASS(EventDataAttribute) {
+CLASS(EventDataAttribute) : public Attribute::in {
   public: String get_Name() { return Name; }
   public: void set_Name(String value) { Name = value; }
   public: EventLevel get_Level();

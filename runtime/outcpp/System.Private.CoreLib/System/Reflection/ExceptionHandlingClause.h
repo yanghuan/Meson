@@ -1,6 +1,7 @@
 #pragma once
 
 #include <rt/GCObject.h>
+#include <System.Private.CoreLib/System/Object.h>
 
 namespace System::Private::CoreLib::System {
 FORWARDS(Int32)
@@ -10,7 +11,7 @@ FORWARD(Type)
 namespace System::Private::CoreLib::System::Reflection {
 enum class ExceptionHandlingClauseOptions;
 namespace ExceptionHandlingClauseNamespace {
-CLASS(ExceptionHandlingClause) {
+CLASS(ExceptionHandlingClause) : public Object::in {
   public: ExceptionHandlingClauseOptions get_Flags();
   public: Int32 get_TryOffset();
   public: Int32 get_TryLength();

@@ -73,3 +73,9 @@ struct Double : public rt::PrimitiveType<Double> {
 } // namespace DoubleNamespace
 using Double = DoubleNamespace::Double;
 } // namespace System::Private::CoreLib::System
+namespace rt {
+template <>
+struct TypeKind<::System::Private::CoreLib::System::Double> {
+  static constexpr TypeCode Kind = TypeCode::Double;
+};
+} // namespace rt

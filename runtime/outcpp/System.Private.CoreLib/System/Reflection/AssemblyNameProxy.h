@@ -1,6 +1,7 @@
 #pragma once
 
 #include <rt/GCObject.h>
+#include <System.Private.CoreLib/System/MarshalByRefObject.h>
 
 namespace System::Private::CoreLib::System {
 FORWARD(String)
@@ -8,7 +9,7 @@ FORWARD(String)
 namespace System::Private::CoreLib::System::Reflection {
 FORWARD(AssemblyName)
 namespace AssemblyNameProxyNamespace {
-CLASS(AssemblyNameProxy) {
+CLASS(AssemblyNameProxy) : public MarshalByRefObject::in {
   public: AssemblyName GetAssemblyName(String assemblyFile);
   public: void Ctor();
 };

@@ -1,19 +1,19 @@
 #pragma once
 
 #include <rt/GCObject.h>
+#include <System.Private.CoreLib/System/FormattableString.h>
+#include <System.Private.CoreLib/System/Object.h>
 
 namespace System::Private::CoreLib::System {
 FORWARD_(Array, T1, T2)
-FORWARD(FormattableString)
 FORWARD(IFormatProvider)
 FORWARDS(Int32)
-FORWARD(Object)
 FORWARD(String)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Runtime::CompilerServices {
 namespace FormattableStringFactoryNamespace {
-class FormattableStringFactory {
-  private: CLASS(ConcreteFormattableString) {
+class FormattableStringFactory : public Object::in {
+  private: CLASS(ConcreteFormattableString) : public FormattableString::in {
     public: String get_Format();
     public: Int32 get_ArgumentCount();
     public: void Ctor(String format, Array<Object> arguments);

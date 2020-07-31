@@ -1,14 +1,14 @@
 #pragma once
 
 #include <rt/GCObject.h>
+#include <System.Private.CoreLib/System/Object.h>
 
 namespace System::Private::CoreLib::System {
 FORWARDS(IntPtr)
-FORWARD(Object)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::StubHelpers {
 namespace MngdRefCustomMarshalerNamespace {
-class MngdRefCustomMarshaler {
+class MngdRefCustomMarshaler : public Object::in {
   public: static void CreateMarshaler(IntPtr pMarshalState, IntPtr pCMHelper);
   public: static void ConvertContentsToNative(IntPtr pMarshalState, Object& pManagedHome, IntPtr pNativeHome);
   public: static void ConvertContentsToManaged(IntPtr pMarshalState, Object& pManagedHome, IntPtr pNativeHome);

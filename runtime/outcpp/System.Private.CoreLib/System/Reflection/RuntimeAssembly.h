@@ -3,6 +3,8 @@
 #include <rt/GCObject.h>
 #include <System.Private.CoreLib/Interop.h>
 #include <System.Private.CoreLib/System/IntPtr.h>
+#include <System.Private.CoreLib/System/IO/UnmanagedMemoryStream.h>
+#include <System.Private.CoreLib/System/Reflection/Assembly.h>
 
 namespace System::Private::CoreLib::System {
 FORWARD_(Array, T1, T2)
@@ -51,7 +53,6 @@ enum class AssemblyHashAlgorithm;
 } // namespace System::Private::CoreLib::System::Configuration::Assemblies
 namespace System::Private::CoreLib::System::Reflection {
 enum class AssemblyNameFlags;
-FORWARD(Assembly)
 FORWARD(AssemblyName)
 FORWARD(CustomAttributeData)
 FORWARD(ManifestResourceInfo)
@@ -71,8 +72,8 @@ using namespace Runtime::Loader;
 using namespace Runtime::Serialization;
 using namespace Threading;
 using Collections::Generic::IList;
-CLASS(RuntimeAssembly) {
-  private: CLASS(ManifestResourceStream) {
+CLASS(RuntimeAssembly) : public Assembly::in {
+  private: CLASS(ManifestResourceStream) : public UnmanagedMemoryStream::in {
     public: void Ctor(RuntimeAssembly manifestAssembly, Byte* pointer, Int64 length, Int64 capacity, FileAccess access);
     private: RuntimeAssembly _manifestAssembly;
   };

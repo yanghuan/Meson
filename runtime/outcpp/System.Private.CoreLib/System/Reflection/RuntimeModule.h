@@ -2,6 +2,7 @@
 
 #include <rt/GCObject.h>
 #include <System.Private.CoreLib/System/IntPtr.h>
+#include <System.Private.CoreLib/System/Reflection/Module.h>
 
 namespace System::Private::CoreLib::System {
 FORWARD_(Array, T1, T2)
@@ -48,7 +49,7 @@ using namespace Collections::Generic;
 using namespace Runtime::CompilerServices;
 using namespace Runtime::Serialization;
 using Collections::Generic::IList;
-CLASS(RuntimeModule) {
+CLASS(RuntimeModule) : public Module::in {
   public: Int32 get_MDStreamVersion();
   public: RuntimeType get_RuntimeType();
   public: MetadataImport get_MetadataImport();

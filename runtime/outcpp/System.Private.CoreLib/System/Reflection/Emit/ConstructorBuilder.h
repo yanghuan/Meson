@@ -2,6 +2,7 @@
 
 #include <rt/GCObject.h>
 #include <System.Private.CoreLib/System/Boolean.h>
+#include <System.Private.CoreLib/System/Reflection/ConstructorInfo.h>
 
 namespace System::Private::CoreLib::System {
 FORWARD_(Array, T1, T2)
@@ -19,7 +20,6 @@ enum class MethodAttributes;
 enum class MethodImplAttributes;
 enum class ParameterAttributes;
 FORWARD(Binder)
-FORWARD(ConstructorInfo)
 FORWARD(Module)
 FORWARD(ParameterInfo)
 } // namespace System::Private::CoreLib::System::Reflection
@@ -36,7 +36,7 @@ FORWARD(ParameterBuilder)
 FORWARD(TypeBuilder)
 namespace ConstructorBuilderNamespace {
 using namespace Globalization;
-CLASS(ConstructorBuilder) {
+CLASS(ConstructorBuilder) : public ConstructorInfo::in {
   public: Int32 get_MetadataTokenInternal();
   public: Module get_Module();
   public: Type get_ReflectedType();

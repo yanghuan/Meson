@@ -1,6 +1,7 @@
 #pragma once
 
 #include <rt/GCObject.h>
+#include <System.Private.CoreLib/System/Attribute.h>
 #include <System.Private.CoreLib/System/Boolean.h>
 #include <System.Private.CoreLib/System/Byte.h>
 #include <System.Private.CoreLib/System/Int32.h>
@@ -17,7 +18,7 @@ enum class EventOpcode;
 enum class EventTags;
 enum class EventTask;
 namespace EventAttributeNamespace {
-CLASS(EventAttribute) {
+CLASS(EventAttribute) : public Attribute::in {
   public: Int32 get_EventId() { return EventId; }
   private: void set_EventId(Int32 value) { EventId = value; }
   public: EventLevel get_Level() { return Level; }

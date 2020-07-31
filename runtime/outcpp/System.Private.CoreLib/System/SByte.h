@@ -53,3 +53,9 @@ struct SByte : public rt::PrimitiveType<SByte> {
 } // namespace SByteNamespace
 using SByte = SByteNamespace::SByte;
 } // namespace System::Private::CoreLib::System
+namespace rt {
+template <>
+struct TypeKind<::System::Private::CoreLib::System::SByte> {
+  static constexpr TypeCode Kind = TypeCode::SByte;
+};
+} // namespace rt

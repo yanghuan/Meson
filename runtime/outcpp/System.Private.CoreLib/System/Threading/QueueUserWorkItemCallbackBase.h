@@ -1,10 +1,11 @@
 #pragma once
 
 #include <rt/GCObject.h>
+#include <System.Private.CoreLib/System/Object.h>
 
 namespace System::Private::CoreLib::System::Threading {
 namespace QueueUserWorkItemCallbackBaseNamespace {
-CLASS(QueueUserWorkItemCallbackBase) {
+CLASS(QueueUserWorkItemCallbackBase) : public Object::in {
   public: void Execute();
   protected: void Ctor();
 };

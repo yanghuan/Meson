@@ -2,6 +2,7 @@
 
 #include <rt/GCObject.h>
 #include <System.Private.CoreLib/System/Int32.h>
+#include <System.Private.CoreLib/System/Object.h>
 
 namespace System::Private::CoreLib::System {
 FORWARDS(Boolean)
@@ -19,8 +20,8 @@ FORWARD(UriFormatException)
 namespace UriParserNamespace {
 using namespace ::System::Private::CoreLib::System;
 using namespace ::System::Private::CoreLib::System::Collections;
-CLASS(UriParser) {
-  private: CLASS(BuiltInUriParser) {
+CLASS(UriParser) : public Object::in {
+  private: CLASS(BuiltInUriParser) : public UriParser::in {
     public: void Ctor(String lwrCaseScheme, Int32 defaultPort, UriSyntaxFlags syntaxFlags);
   };
   public: String get_SchemeName();

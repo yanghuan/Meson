@@ -1,6 +1,7 @@
 #pragma once
 
 #include <rt/GCObject.h>
+#include <System.Private.CoreLib/System/Object.h>
 
 namespace System::Private::CoreLib::System {
 FORWARD_(Array, T1, T2)
@@ -9,7 +10,7 @@ FORWARDS(Int32)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Collections::Generic {
 namespace EqualityComparerNamespace {
-CLASS(EqualityComparer, T) {
+CLASS(EqualityComparer, T) : public Object::in {
   public: static EqualityComparer<T> get_Default() { return Default; }
   public: Int32 IndexOf(Array<T> array, T value, Int32 startIndex, Int32 count);
   public: Int32 LastIndexOf(Array<T> array, T value, Int32 startIndex, Int32 count);

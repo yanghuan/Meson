@@ -4,6 +4,7 @@
 #include <System.Private.CoreLib/System/Boolean.h>
 #include <System.Private.CoreLib/System/Int32.h>
 #include <System.Private.CoreLib/System/Reflection/MetadataImport.h>
+#include <System.Private.CoreLib/System/Reflection/ParameterInfo.h>
 
 namespace System::Private::CoreLib::System {
 FORWARD_(Array, T1, T2)
@@ -24,13 +25,12 @@ FORWARD(CustomAttributeData)
 FORWARD(MemberInfo)
 FORWARD(MethodBase)
 FORWARD(MethodInfo)
-FORWARD(ParameterInfo)
 FORWARD(RuntimeModule)
 FORWARD(RuntimePropertyInfo)
 namespace RuntimeParameterInfoNamespace {
 using namespace Collections::Generic;
 using Collections::Generic::IList;
-CLASS(RuntimeParameterInfo) {
+CLASS(RuntimeParameterInfo) : public ParameterInfo::in {
   public: Type get_ParameterType();
   public: String get_Name();
   public: Boolean get_HasDefaultValue();

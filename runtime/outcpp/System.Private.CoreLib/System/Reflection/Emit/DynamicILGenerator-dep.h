@@ -11,6 +11,7 @@
 #include <System.Private.CoreLib/System/Reflection/ConstructorInfo-dep.h>
 #include <System.Private.CoreLib/System/Reflection/Emit/DynamicMethod-dep.h>
 #include <System.Private.CoreLib/System/Reflection/Emit/DynamicScope-dep.h>
+#include <System.Private.CoreLib/System/Reflection/Emit/ILGenerator-dep.h>
 #include <System.Private.CoreLib/System/Reflection/Emit/LocalBuilder-dep.h>
 #include <System.Private.CoreLib/System/Reflection/Emit/OpCode-dep.h>
 #include <System.Private.CoreLib/System/Reflection/Emit/SignatureHelper-dep.h>

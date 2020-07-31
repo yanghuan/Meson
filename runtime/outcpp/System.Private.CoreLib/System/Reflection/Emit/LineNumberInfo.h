@@ -2,6 +2,7 @@
 
 #include <rt/GCObject.h>
 #include <System.Private.CoreLib/System/Int32.h>
+#include <System.Private.CoreLib/System/Object.h>
 
 namespace System::Private::CoreLib::System::Diagnostics::SymbolStore {
 FORWARD(ISymbolDocumentWriter)
@@ -14,7 +15,7 @@ namespace System::Private::CoreLib::System::Reflection::Emit {
 FORWARD(REDocument)
 namespace LineNumberInfoNamespace {
 using namespace Diagnostics::SymbolStore;
-CLASS(LineNumberInfo) {
+CLASS(LineNumberInfo) : public Object::in {
   public: void Ctor();
   public: void AddLineNumberInfo(ISymbolDocumentWriter document, Int32 iOffset, Int32 iStartLine, Int32 iStartColumn, Int32 iEndLine, Int32 iEndColumn);
   private: Int32 FindDocument(ISymbolDocumentWriter document);

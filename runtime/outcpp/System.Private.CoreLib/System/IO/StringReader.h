@@ -2,6 +2,7 @@
 
 #include <rt/GCObject.h>
 #include <System.Private.CoreLib/System/Int32.h>
+#include <System.Private.CoreLib/System/IO/TextReader.h>
 
 namespace System::Private::CoreLib::System {
 FORWARD_(Array, T1, T2)
@@ -22,7 +23,7 @@ namespace System::Private::CoreLib::System::IO {
 namespace StringReaderNamespace {
 using namespace Threading;
 using namespace Threading::Tasks;
-CLASS(StringReader) {
+CLASS(StringReader) : public TextReader::in {
   public: void Ctor(String s);
   public: void Close();
   protected: void Dispose(Boolean disposing);

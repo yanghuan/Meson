@@ -1,6 +1,7 @@
 #pragma once
 
 #include <rt/GCObject.h>
+#include <System.Private.CoreLib/System/Object.h>
 
 namespace System::Private::CoreLib::System::Collections::Generic {
 FORWARD(Dictionary, TKey, TValue)
@@ -14,7 +15,6 @@ FORWARDS(Boolean)
 FORWARDS(Byte)
 FORWARDS(Int32)
 FORWARDS(Int64)
-FORWARD(Object)
 FORWARD(ResolveEventArgs)
 FORWARD(String)
 FORWARD(Type)
@@ -65,7 +65,7 @@ using namespace Runtime::Serialization;
 using namespace Security;
 using namespace Threading;
 using Collections::Generic::IList;
-CLASS(Assembly) {
+CLASS(Assembly) : public Object::in {
   public: IEnumerable<TypeInfo> get_DefinedTypes();
   public: IEnumerable<Type> get_ExportedTypes();
   public: String get_CodeBase();

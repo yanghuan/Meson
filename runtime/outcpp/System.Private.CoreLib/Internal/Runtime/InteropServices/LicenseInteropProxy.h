@@ -1,11 +1,11 @@
 #pragma once
 
 #include <rt/GCObject.h>
+#include <System.Private.CoreLib/System/Object.h>
 
 namespace System::Private::CoreLib::System {
 FORWARDS(Boolean)
 FORWARDS(IntPtr)
-FORWARD(Object)
 FORWARDS(RuntimeTypeHandle)
 FORWARD(String)
 FORWARD(Type)
@@ -17,7 +17,7 @@ namespace System::Private::CoreLib::Internal::Runtime::InteropServices {
 namespace LicenseInteropProxyNamespace {
 using namespace ::System::Private::CoreLib::System;
 using namespace ::System::Private::CoreLib::System::Reflection;
-CLASS(LicenseInteropProxy) {
+CLASS(LicenseInteropProxy) : public Object::in {
   public: void Ctor();
   public: static Object Create();
   public: static Boolean HasLicense(Type type);

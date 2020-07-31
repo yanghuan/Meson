@@ -1,6 +1,7 @@
 #pragma once
 
 #include <rt/GCObject.h>
+#include <System.Private.CoreLib/System/Attribute.h>
 #include <System.Private.CoreLib/System/Int32.h>
 
 namespace System::Private::CoreLib::System {
@@ -10,7 +11,7 @@ namespace System::Private::CoreLib::System::Runtime::InteropServices {
 enum class CharSet;
 enum class LayoutKind;
 namespace StructLayoutAttributeNamespace {
-CLASS(StructLayoutAttribute) {
+CLASS(StructLayoutAttribute) : public Attribute::in {
   public: LayoutKind get_Value() { return Value; }
   public: void Ctor(LayoutKind layoutKind);
   public: void Ctor(Int16 layoutKind);

@@ -5,15 +5,13 @@
 #include <System.Private.CoreLib/System/DateTime.h>
 #include <System.Private.CoreLib/System/Int64.h>
 #include <System.Private.CoreLib/System/IntPtr.h>
+#include <System.Private.CoreLib/System/Object.h>
 #include <System.Private.CoreLib/System/UInt32.h>
 #include <System.Private.CoreLib/System/UInt64.h>
 
 namespace System::Private::CoreLib::System::Threading::Tasks {
 FORWARD_(Task, T1, T2)
 } // namespace System::Private::CoreLib::System::Threading::Tasks
-namespace System::Private::CoreLib::System {
-FORWARD(Object)
-} // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Collections::Generic {
 FORWARD(Dictionary, TKey, TValue)
 } // namespace System::Private::CoreLib::System::Collections::Generic
@@ -26,8 +24,8 @@ FORWARD(EventPipeWaitHandle)
 namespace EventPipeEventDispatcherNamespace {
 using namespace Collections::Generic;
 using namespace Threading::Tasks;
-CLASS(EventPipeEventDispatcher) {
-  public: CLASS(EventListenerSubscription) {
+CLASS(EventPipeEventDispatcher) : public Object::in {
+  public: CLASS(EventListenerSubscription) : public Object::in {
     public: EventKeywords get_MatchAnyKeywords() { return MatchAnyKeywords; }
     private: void set_MatchAnyKeywords(EventKeywords value) { MatchAnyKeywords = value; }
     public: EventLevel get_Level() { return Level; }

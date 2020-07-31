@@ -2,6 +2,7 @@
 
 #include <rt/GCObject.h>
 #include <System.Private.CoreLib/System/Int32.h>
+#include <System.Private.CoreLib/System/Text/DecoderFallbackBuffer.h>
 
 namespace System::Private::CoreLib::System {
 FORWARD_(Array, T1, T2)
@@ -13,7 +14,7 @@ FORWARD(String)
 namespace System::Private::CoreLib::System::Text {
 FORWARD(DecoderReplacementFallback)
 namespace DecoderReplacementFallbackBufferNamespace {
-CLASS(DecoderReplacementFallbackBuffer) {
+CLASS(DecoderReplacementFallbackBuffer) : public DecoderFallbackBuffer::in {
   public: Int32 get_Remaining();
   public: void Ctor(DecoderReplacementFallback fallback);
   public: Boolean Fallback(Array<Byte> bytesUnknown, Int32 index);

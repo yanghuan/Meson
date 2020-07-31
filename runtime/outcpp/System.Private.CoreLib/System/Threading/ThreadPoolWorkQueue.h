@@ -4,12 +4,12 @@
 #include <System.Private.CoreLib/Internal/PaddingFor32.h>
 #include <System.Private.CoreLib/System/Boolean.h>
 #include <System.Private.CoreLib/System/Int32.h>
+#include <System.Private.CoreLib/System/Object.h>
 #include <System.Private.CoreLib/System/Threading/SpinLock.h>
 
 namespace System::Private::CoreLib::System {
 FORWARD_(Array, T1, T2)
 FORWARDS(Int64)
-FORWARD(Object)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Collections::Concurrent {
 FORWARD(ConcurrentQueue, T)
@@ -19,8 +19,8 @@ FORWARD(ThreadPoolWorkQueueThreadLocals)
 namespace ThreadPoolWorkQueueNamespace {
 using namespace ::System::Private::CoreLib::Internal;
 using namespace Collections::Concurrent;
-CLASS(ThreadPoolWorkQueue) {
-  public: CLASS(WorkStealingQueue) {
+CLASS(ThreadPoolWorkQueue) : public Object::in {
+  public: CLASS(WorkStealingQueue) : public Object::in {
     public: Boolean get_CanSteal();
     public: Int32 get_Count();
     public: void LocalPush(Object obj);

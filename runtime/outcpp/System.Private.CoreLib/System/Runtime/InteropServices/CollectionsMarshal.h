@@ -1,6 +1,7 @@
 #pragma once
 
 #include <rt/GCObject.h>
+#include <System.Private.CoreLib/System/Object.h>
 
 namespace System::Private::CoreLib::System::Collections::Generic {
 FORWARD(List, T)
@@ -11,7 +12,7 @@ FORWARDS(Span, T)
 namespace System::Private::CoreLib::System::Runtime::InteropServices {
 namespace CollectionsMarshalNamespace {
 using namespace Collections::Generic;
-class CollectionsMarshal {
+class CollectionsMarshal : public Object::in {
   public: template <class T>
   static Span<T> AsSpan(List<T> list);
 };

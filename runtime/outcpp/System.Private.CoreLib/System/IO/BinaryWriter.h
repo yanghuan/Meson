@@ -3,6 +3,7 @@
 #include <rt/GCObject.h>
 #include <System.Private.CoreLib/System/Boolean.h>
 #include <System.Private.CoreLib/System/Int32.h>
+#include <System.Private.CoreLib/System/Object.h>
 
 namespace System::Private::CoreLib::System::Text {
 FORWARD(Encoder)
@@ -33,7 +34,7 @@ FORWARD(Stream)
 namespace BinaryWriterNamespace {
 using namespace Text;
 using namespace Threading::Tasks;
-CLASS(BinaryWriter) {
+CLASS(BinaryWriter) : public Object::in {
   public: Stream get_BaseStream();
   protected: void Ctor();
   public: void Ctor(Stream output);

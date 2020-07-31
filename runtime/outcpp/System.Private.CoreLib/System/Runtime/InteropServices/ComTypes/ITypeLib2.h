@@ -1,6 +1,7 @@
 #pragma once
 
 #include <rt/GCObject.h>
+#include <System.Private.CoreLib/System/Object.h>
 
 namespace System::Private::CoreLib::System {
 FORWARD_(Array, T1, T2)
@@ -9,7 +10,6 @@ FORWARDS(Guid)
 FORWARDS(Int16)
 FORWARDS(Int32)
 FORWARDS(IntPtr)
-FORWARD(Object)
 FORWARD(String)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Runtime::InteropServices::ComTypes {
@@ -17,7 +17,7 @@ enum class TYPEKIND;
 FORWARD(ITypeComp)
 FORWARD(ITypeInfo)
 namespace ITypeLib2Namespace {
-CLASS(ITypeLib2) {
+CLASS(ITypeLib2) : public Object::in {
   public: Int32 GetTypeInfoCount();
   public: void GetTypeInfo(Int32 index, ITypeInfo& ppTI);
   public: void GetTypeInfoType(Int32 index, TYPEKIND& pTKind);

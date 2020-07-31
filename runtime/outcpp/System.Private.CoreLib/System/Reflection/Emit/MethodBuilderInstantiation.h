@@ -1,6 +1,7 @@
 #pragma once
 
 #include <rt/GCObject.h>
+#include <System.Private.CoreLib/System/Reflection/MethodInfo.h>
 
 namespace System::Private::CoreLib::System::Reflection {
 enum class BindingFlags;
@@ -10,7 +11,6 @@ enum class MethodAttributes;
 enum class MethodImplAttributes;
 FORWARD(Binder)
 FORWARD(ICustomAttributeProvider)
-FORWARD(MethodInfo)
 FORWARD(Module)
 FORWARD(ParameterInfo)
 } // namespace System::Private::CoreLib::System::Reflection
@@ -28,7 +28,7 @@ FORWARD(CultureInfo)
 namespace System::Private::CoreLib::System::Reflection::Emit {
 namespace MethodBuilderInstantiationNamespace {
 using namespace Globalization;
-CLASS(MethodBuilderInstantiation) {
+CLASS(MethodBuilderInstantiation) : public MethodInfo::in {
   public: MemberTypes get_MemberType();
   public: String get_Name();
   public: Type get_DeclaringType();

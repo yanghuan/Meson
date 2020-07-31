@@ -1,13 +1,11 @@
 #pragma once
 
 #include <rt/GCObject.h>
+#include <System.Private.CoreLib/System/Object.h>
 
-namespace System::Private::CoreLib::System {
-FORWARD(Object)
-} // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Runtime::Serialization {
 namespace IDeserializationCallbackNamespace {
-CLASS(IDeserializationCallback) {
+CLASS(IDeserializationCallback) : public Object::in {
   public: void OnDeserialization(Object sender);
 };
 } // namespace IDeserializationCallbackNamespace

@@ -1,6 +1,7 @@
 #pragma once
 
 #include <rt/GCObject.h>
+#include <System.Private.CoreLib/System/Object.h>
 
 namespace System::Private::CoreLib::System {
 FORWARDS(Boolean)
@@ -10,8 +11,8 @@ FORWARD(String)
 namespace System::Private::CoreLib::System::Diagnostics {
 FORWARD(ICustomDebuggerNotification)
 namespace DebuggerNamespace {
-class Debugger {
-  private: CLASS(CrossThreadDependencyNotification) {
+class Debugger : public Object::in {
+  private: CLASS(CrossThreadDependencyNotification) : public Object::in {
     public: void Ctor();
   };
   public: static Boolean get_IsAttached();

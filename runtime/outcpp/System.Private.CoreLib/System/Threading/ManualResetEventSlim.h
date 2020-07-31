@@ -2,11 +2,11 @@
 
 #include <rt/GCObject.h>
 #include <System.Private.CoreLib/System/Int32.h>
+#include <System.Private.CoreLib/System/Object.h>
 
 namespace System::Private::CoreLib::System {
 FORWARD_(Action, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17)
 FORWARDS(Boolean)
-FORWARD(Object)
 FORWARDS(TimeSpan)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Threading {
@@ -14,7 +14,7 @@ FORWARDS(CancellationToken)
 FORWARD(ManualResetEvent)
 FORWARD(WaitHandle)
 namespace ManualResetEventSlimNamespace {
-CLASS(ManualResetEventSlim) {
+CLASS(ManualResetEventSlim) : public Object::in {
   public: WaitHandle get_WaitHandle();
   public: Boolean get_IsSet();
   private: void set_IsSet(Boolean value);

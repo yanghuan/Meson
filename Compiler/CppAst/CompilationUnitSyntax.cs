@@ -21,7 +21,6 @@ namespace Meson.Compiler.CppAst {
     }
 
     internal override void Render(CppRenderer renderer) {
-      HeadStatements.Add(headNamespaceSyntax_);
       renderer.Render(this);
     }
 
@@ -31,6 +30,10 @@ namespace Meson.Compiler.CppAst {
       srcNamespaceSyntax_ = new NamespaceSyntax($"{name}{Tokens.TwoColon}{classNamespaceName}");
       SrcStatements.Add(srcNamespaceSyntax_);
       return (headNamespaceSyntax_, new NamespaceSyntax(classNamespaceName));
+    }
+
+    internal void AddNamespaceClose() {
+      HeadStatements.Add(headNamespaceSyntax_);
     }
 
     public void AddHeadIncludes(IEnumerable<string> references) {

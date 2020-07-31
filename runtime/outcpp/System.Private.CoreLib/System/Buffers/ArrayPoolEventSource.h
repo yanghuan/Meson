@@ -1,13 +1,15 @@
 #pragma once
 
 #include <rt/GCObject.h>
+#include <System.Private.CoreLib/System/Diagnostics/Tracing/EventSource.h>
 
 namespace System::Private::CoreLib::System {
 FORWARDS(Int32)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Buffers {
 namespace ArrayPoolEventSourceNamespace {
-CLASS(ArrayPoolEventSource) {
+using namespace Diagnostics::Tracing;
+CLASS(ArrayPoolEventSource) : public EventSource::in {
   public: enum class BufferAllocatedReason {
     Pooled = 0,
     OverMaximumSize = 1,

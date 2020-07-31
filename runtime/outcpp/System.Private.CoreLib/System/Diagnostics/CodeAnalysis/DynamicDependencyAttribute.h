@@ -1,6 +1,7 @@
 #pragma once
 
 #include <rt/GCObject.h>
+#include <System.Private.CoreLib/System/Attribute.h>
 
 namespace System::Private::CoreLib::System {
 FORWARD(String)
@@ -9,7 +10,7 @@ FORWARD(Type)
 namespace System::Private::CoreLib::System::Diagnostics::CodeAnalysis {
 enum class DynamicallyAccessedMemberTypes;
 namespace DynamicDependencyAttributeNamespace {
-CLASS(DynamicDependencyAttribute) {
+CLASS(DynamicDependencyAttribute) : public Attribute::in {
   public: String get_MemberSignature() { return MemberSignature; }
   public: DynamicallyAccessedMemberTypes get_MemberTypes() { return MemberTypes; }
   public: Type get_Type() { return Type; }

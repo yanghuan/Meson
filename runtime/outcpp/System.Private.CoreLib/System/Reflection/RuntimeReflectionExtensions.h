@@ -1,6 +1,7 @@
 #pragma once
 
 #include <rt/GCObject.h>
+#include <System.Private.CoreLib/System/Object.h>
 
 namespace System::Private::CoreLib::System {
 FORWARD_(Array, T1, T2)
@@ -20,7 +21,7 @@ FORWARD(PropertyInfo)
 FORWARD(TypeInfo)
 namespace RuntimeReflectionExtensionsNamespace {
 using namespace Collections::Generic;
-class RuntimeReflectionExtensions {
+class RuntimeReflectionExtensions : public Object::in {
   public: static IEnumerable<FieldInfo> GetRuntimeFields(Type type);
   public: static IEnumerable<MethodInfo> GetRuntimeMethods(Type type);
   public: static IEnumerable<PropertyInfo> GetRuntimeProperties(Type type);

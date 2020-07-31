@@ -11,6 +11,7 @@
 #include <System.Private.CoreLib/System/Reflection/Binder-dep.h>
 #include <System.Private.CoreLib/System/Reflection/BindingFlags.h>
 #include <System.Private.CoreLib/System/Reflection/CallingConventions.h>
+#include <System.Private.CoreLib/System/Reflection/MemberInfo-dep.h>
 #include <System.Private.CoreLib/System/Reflection/MethodAttributes.h>
 #include <System.Private.CoreLib/System/Reflection/MethodBody-dep.h>
 #include <System.Private.CoreLib/System/Reflection/MethodImplAttributes.h>

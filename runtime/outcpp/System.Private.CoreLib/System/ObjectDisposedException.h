@@ -1,6 +1,7 @@
 #pragma once
 
 #include <rt/GCObject.h>
+#include <System.Private.CoreLib/System/InvalidOperationException.h>
 
 namespace System::Private::CoreLib::System::Runtime::Serialization {
 FORWARD(SerializationInfo)
@@ -11,7 +12,7 @@ FORWARD(Exception)
 FORWARD(String)
 namespace ObjectDisposedExceptionNamespace {
 using namespace Runtime::Serialization;
-CLASS(ObjectDisposedException) {
+CLASS(ObjectDisposedException) : public InvalidOperationException::in {
   public: String get_Message();
   public: String get_ObjectName();
   private: void Ctor();

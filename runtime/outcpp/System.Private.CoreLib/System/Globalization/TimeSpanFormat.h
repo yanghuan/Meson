@@ -2,6 +2,7 @@
 
 #include <rt/GCObject.h>
 #include <System.Private.CoreLib/System/Int32.h>
+#include <System.Private.CoreLib/System/Object.h>
 
 namespace System::Private::CoreLib::System {
 FORWARD_(Array, T1, T2)
@@ -21,7 +22,7 @@ namespace System::Private::CoreLib::System::Globalization {
 FORWARD(DateTimeFormatInfo)
 namespace TimeSpanFormatNamespace {
 using namespace Text;
-class TimeSpanFormat {
+class TimeSpanFormat : public Object::in {
   private: enum class StandardFormat {
     C = 0,
     G = 1,

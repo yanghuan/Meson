@@ -1,6 +1,7 @@
 #pragma once
 
 #include <rt/GCObject.h>
+#include <System.Private.CoreLib/System/Object.h>
 
 namespace System::Private::CoreLib::System {
 FORWARD_(Array, T1, T2)
@@ -17,7 +18,7 @@ namespace System::Private::CoreLib::Microsoft::Win32 {
 namespace OAVariantLibNamespace {
 using namespace ::System::Private::CoreLib::System;
 using namespace ::System::Private::CoreLib::System::Globalization;
-class OAVariantLib {
+class OAVariantLib : public Object::in {
   public: static Variant ChangeType(Variant source, Type targetClass, Int16 options, CultureInfo culture);
   private: static Int32 GetCVTypeFromClass(Type ctype);
   private: static void ChangeTypeEx(Variant& result, Variant& source, Int32 lcid, IntPtr typeHandle, Int32 cvType, Int16 flags);

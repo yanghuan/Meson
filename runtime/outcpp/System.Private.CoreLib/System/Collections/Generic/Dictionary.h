@@ -3,18 +3,18 @@
 #include <rt/GCObject.h>
 #include <System.Private.CoreLib/System/Collections/Generic/KeyValuePair.h>
 #include <System.Private.CoreLib/System/Int32.h>
+#include <System.Private.CoreLib/System/Object.h>
 #include <System.Private.CoreLib/System/UInt32.h>
 #include <System.Private.CoreLib/System/UInt64.h>
 
-namespace System::Private::CoreLib::System {
-FORWARD_(Array, T1, T2)
-FORWARDS(Boolean)
-FORWARD(Object)
-} // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Collections {
 FORWARDS(DictionaryEntry)
 FORWARD(ICollection)
 } // namespace System::Private::CoreLib::System::Collections
+namespace System::Private::CoreLib::System {
+FORWARD_(Array, T1, T2)
+FORWARDS(Boolean)
+} // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Runtime::Serialization {
 FORWARD(SerializationInfo)
 FORWARDS(StreamingContext)
@@ -30,7 +30,7 @@ using namespace Runtime::Serialization;
 template <class T>
 using ICollection = Generic::ICollection<T>;
 using ICollection1 = Collections::ICollection;
-CLASS(Dictionary, TKey, TValue) {
+CLASS(Dictionary, TKey, TValue) : public Object::in {
   private: struct Entry {
     public: UInt32 hashCode;
     public: Int32 next;
@@ -53,7 +53,7 @@ CLASS(Dictionary, TKey, TValue) {
     private: KeyValuePair<TKey, TValue> _current;
     private: Int32 _getEnumeratorRetType;
   };
-  public: CLASS(KeyCollection) {
+  public: CLASS(KeyCollection) : public Object::in {
     public: struct Enumerator {
       public: TKey get_Current();
       private: Object get_CurrentOfIEnumerator();
@@ -75,7 +75,7 @@ CLASS(Dictionary, TKey, TValue) {
     public: void CopyTo(Array<TKey> array, Int32 index);
     private: Dictionary<TKey, TValue> _dictionary;
   };
-  public: CLASS(ValueCollection) {
+  public: CLASS(ValueCollection) : public Object::in {
     public: struct Enumerator {
       public: TValue get_Current();
       private: Object get_CurrentOfIEnumerator();

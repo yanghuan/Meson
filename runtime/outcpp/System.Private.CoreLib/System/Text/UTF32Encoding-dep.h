@@ -14,4 +14,5 @@
 #include <System.Private.CoreLib/System/Text/DecoderNLS-dep.h>
 #include <System.Private.CoreLib/System/Text/Encoder-dep.h>
 #include <System.Private.CoreLib/System/Text/EncoderNLS-dep.h>
+#include <System.Private.CoreLib/System/Text/Encoding-dep.h>
 #include <System.Private.CoreLib/System/UInt32-dep.h>

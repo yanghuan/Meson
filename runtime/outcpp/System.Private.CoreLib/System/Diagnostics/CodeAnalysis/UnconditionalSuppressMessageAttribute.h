@@ -1,13 +1,14 @@
 #pragma once
 
 #include <rt/GCObject.h>
+#include <System.Private.CoreLib/System/Attribute.h>
 
 namespace System::Private::CoreLib::System {
 FORWARD(String)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Diagnostics::CodeAnalysis {
 namespace UnconditionalSuppressMessageAttributeNamespace {
-CLASS(UnconditionalSuppressMessageAttribute) {
+CLASS(UnconditionalSuppressMessageAttribute) : public Attribute::in {
   public: String get_Category() { return Category; }
   public: String get_CheckId() { return CheckId; }
   public: String get_Scope() { return Scope; }

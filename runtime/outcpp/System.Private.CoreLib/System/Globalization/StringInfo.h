@@ -1,18 +1,18 @@
 #pragma once
 
 #include <rt/GCObject.h>
+#include <System.Private.CoreLib/System/Object.h>
 
 namespace System::Private::CoreLib::System {
 FORWARD_(Array, T1, T2)
 FORWARDS(Boolean)
 FORWARDS(Int32)
-FORWARD(Object)
 FORWARD(String)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Globalization {
 FORWARD(TextElementEnumerator)
 namespace StringInfoNamespace {
-CLASS(StringInfo) {
+CLASS(StringInfo) : public Object::in {
   private: Array<Int32> get_Indexes();
   public: String get_String();
   public: void set_String(String value);

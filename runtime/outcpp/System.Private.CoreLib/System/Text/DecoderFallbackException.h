@@ -1,6 +1,7 @@
 #pragma once
 
 #include <rt/GCObject.h>
+#include <System.Private.CoreLib/System/ArgumentException.h>
 #include <System.Private.CoreLib/System/Int32.h>
 
 namespace System::Private::CoreLib::System {
@@ -16,7 +17,7 @@ FORWARDS(StreamingContext)
 namespace System::Private::CoreLib::System::Text {
 namespace DecoderFallbackExceptionNamespace {
 using namespace Runtime::Serialization;
-CLASS(DecoderFallbackException) {
+CLASS(DecoderFallbackException) : public ArgumentException::in {
   public: Array<Byte> get_BytesUnknown();
   public: Int32 get_Index();
   public: void Ctor();

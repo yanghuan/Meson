@@ -1,11 +1,11 @@
 #pragma once
 
 #include <rt/GCObject.h>
+#include <System.Private.CoreLib/System/Runtime/Loader/AssemblyLoadContext.h>
 
 namespace System::Private::CoreLib::System::Runtime::Loader {
-FORWARD(AssemblyLoadContext)
 namespace DefaultAssemblyLoadContextNamespace {
-CLASS(DefaultAssemblyLoadContext) {
+CLASS(DefaultAssemblyLoadContext) : public AssemblyLoadContext::in {
   public: void Ctor();
   private: static void SCtor();
   public: static AssemblyLoadContext s_loadContext;

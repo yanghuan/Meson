@@ -2,6 +2,7 @@
 
 #include <rt/GCObject.h>
 #include <System.Private.CoreLib/System/Int32.h>
+#include <System.Private.CoreLib/System/Object.h>
 
 namespace System::Private::CoreLib::System {
 FORWARD_(Array, T1, T2)
@@ -18,7 +19,7 @@ namespace System::Private::CoreLib::System::Reflection::Emit {
 FORWARD(DynamicMethod)
 FORWARD(DynamicScope)
 namespace DynamicILInfoNamespace {
-CLASS(DynamicILInfo) {
+CLASS(DynamicILInfo) : public Object::in {
   public: Array<Byte> get_LocalSignature();
   public: Array<Byte> get_Exceptions();
   public: Array<Byte> get_Code();

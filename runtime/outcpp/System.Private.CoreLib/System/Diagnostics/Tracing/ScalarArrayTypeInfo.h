@@ -1,6 +1,7 @@
 #pragma once
 
 #include <rt/GCObject.h>
+#include <System.Private.CoreLib/System/Diagnostics/Tracing/TraceLoggingTypeInfo.h>
 #include <System.Private.CoreLib/System/Int32.h>
 
 namespace System::Private::CoreLib::System {
@@ -14,9 +15,8 @@ enum class TraceLoggingDataType;
 FORWARDS(PropertyValue)
 FORWARD(TraceLoggingDataCollector)
 FORWARD(TraceLoggingMetadataCollector)
-FORWARD(TraceLoggingTypeInfo)
 namespace ScalarArrayTypeInfoNamespace {
-CLASS(ScalarArrayTypeInfo) {
+CLASS(ScalarArrayTypeInfo) : public TraceLoggingTypeInfo::in {
   private: void Ctor(Type type, Func<EventFieldFormat, TraceLoggingDataType, TraceLoggingDataType> formatFunc, TraceLoggingDataType nativeFormat, Int32 elementSize);
   public: void WriteMetadata(TraceLoggingMetadataCollector collector, String name, EventFieldFormat format);
   public: void WriteData(TraceLoggingDataCollector collector, PropertyValue value);

@@ -2,6 +2,8 @@
 
 #include <rt/GCObject.h>
 #include <System.Private.CoreLib/System/Int32.h>
+#include <System.Private.CoreLib/System/MulticastDelegate.h>
+#include <System.Private.CoreLib/System/Object.h>
 
 namespace System::Private::CoreLib::System {
 FORWARD_(Array, T1, T2)
@@ -10,7 +12,6 @@ FORWARDS(Boolean)
 FORWARD(Exception)
 FORWARD(IAsyncResult)
 FORWARDS(IntPtr)
-FORWARD(Object)
 FORWARD(String)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Reflection {
@@ -24,8 +25,8 @@ namespace System::Private::CoreLib::System::Diagnostics {
 namespace StackFrameHelperNamespace {
 using namespace Reflection;
 using namespace Threading;
-CLASS(StackFrameHelper) {
-  private: CLASS(GetSourceLineInfoDelegate) {
+CLASS(StackFrameHelper) : public Object::in {
+  private: CLASS(GetSourceLineInfoDelegate) : public MulticastDelegate::in {
     public: void Ctor(Object object, IntPtr method);
     public: void Invoke(Assembly assembly, String assemblyPath, IntPtr loadedPeAddress, Int32 loadedPeSize, IntPtr inMemoryPdbAddress, Int32 inMemoryPdbSize, Int32 methodToken, Int32 ilOffset, String& sourceFile, Int32& sourceLine, Int32& sourceColumn);
     public: IAsyncResult BeginInvoke(Assembly assembly, String assemblyPath, IntPtr loadedPeAddress, Int32 loadedPeSize, IntPtr inMemoryPdbAddress, Int32 inMemoryPdbSize, Int32 methodToken, Int32 ilOffset, String& sourceFile, Int32& sourceLine, Int32& sourceColumn, AsyncCallback callback, Object object);

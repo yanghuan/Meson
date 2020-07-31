@@ -1,6 +1,7 @@
 #pragma once
 
 #include <rt/GCObject.h>
+#include <System.Private.CoreLib/System/Object.h>
 
 namespace System::Private::CoreLib::System::Threading {
 enum class LazyThreadSafetyMode;
@@ -16,7 +17,7 @@ FORWARDS_(Nullable, T1, T2)
 namespace LazyHelperNamespace {
 using namespace Runtime::ExceptionServices;
 using namespace Threading;
-CLASS(LazyHelper) {
+CLASS(LazyHelper) : public Object::in {
   public: LazyState get_State() { return State; }
   public: void Ctor(LazyState state);
   public: void Ctor(LazyThreadSafetyMode mode, Exception exception);

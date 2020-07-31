@@ -3,6 +3,7 @@
 #include <rt/GCObject.h>
 #include <System.Private.CoreLib/System/Int32.h>
 #include <System.Private.CoreLib/System/Reflection/Emit/FieldToken.h>
+#include <System.Private.CoreLib/System/Reflection/FieldInfo.h>
 
 namespace System::Private::CoreLib::System::Reflection {
 enum class BindingFlags;
@@ -28,7 +29,7 @@ FORWARD(CustomAttributeBuilder)
 FORWARD(TypeBuilder)
 namespace FieldBuilderNamespace {
 using namespace Globalization;
-CLASS(FieldBuilder) {
+CLASS(FieldBuilder) : public FieldInfo::in {
   public: Int32 get_MetadataTokenInternal();
   public: Module get_Module();
   public: String get_Name();

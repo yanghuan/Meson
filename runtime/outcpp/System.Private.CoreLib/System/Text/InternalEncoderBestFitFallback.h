@@ -1,6 +1,7 @@
 #pragma once
 
 #include <rt/GCObject.h>
+#include <System.Private.CoreLib/System/Text/EncoderFallback.h>
 
 namespace System::Private::CoreLib::System {
 FORWARD_(Array, T1, T2)
@@ -13,7 +14,7 @@ namespace System::Private::CoreLib::System::Text {
 FORWARD(EncoderFallbackBuffer)
 FORWARD(Encoding)
 namespace InternalEncoderBestFitFallbackNamespace {
-CLASS(InternalEncoderBestFitFallback) {
+CLASS(InternalEncoderBestFitFallback) : public EncoderFallback::in {
   public: Int32 get_MaxCharCount();
   public: void Ctor(Encoding encoding);
   public: EncoderFallbackBuffer CreateFallbackBuffer();

@@ -1,6 +1,7 @@
 #pragma once
 
 #include <rt/GCObject.h>
+#include <System.Private.CoreLib/System/Object.h>
 
 namespace System::Private::CoreLib::System::Collections {
 FORWARD(IEnumerator)
@@ -12,13 +13,12 @@ namespace System::Private::CoreLib::System {
 FORWARD_(Array, T1, T2)
 FORWARDS(Int32)
 FORWARDS(IntPtr)
-FORWARD(Object)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Runtime::InteropServices::CustomMarshalers {
 namespace EnumVariantViewOfEnumeratorNamespace {
 using namespace Collections;
 using namespace ComTypes;
-CLASS(EnumVariantViewOfEnumerator) {
+CLASS(EnumVariantViewOfEnumerator) : public Object::in {
   public: IEnumerator get_Enumerator() { return Enumerator; }
   public: void Ctor(IEnumerator enumerator);
   public: IEnumVARIANT Clone();

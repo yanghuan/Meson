@@ -2,6 +2,7 @@
 
 #include <rt/GCObject.h>
 #include <System.Private.CoreLib/System/IntPtr.h>
+#include <System.Private.CoreLib/System/Reflection/ConstructorInfo.h>
 #include <System.Private.CoreLib/System/RuntimeType.h>
 
 namespace System::Private::CoreLib::System {
@@ -39,7 +40,7 @@ namespace RuntimeConstructorInfoNamespace {
 using namespace Collections::Generic;
 using namespace Globalization;
 using Collections::Generic::IList;
-CLASS(RuntimeConstructorInfo) {
+CLASS(RuntimeConstructorInfo) : public ConstructorInfo::in {
   public: INVOCATION_FLAGS get_InvocationFlags();
   private: RuntimeMethodHandleInternal get_ValueOfIRuntimeMethodInfo();
   private: Signature get_Signature();

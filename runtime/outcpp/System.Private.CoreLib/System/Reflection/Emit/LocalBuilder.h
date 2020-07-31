@@ -3,6 +3,7 @@
 #include <rt/GCObject.h>
 #include <System.Private.CoreLib/System/Boolean.h>
 #include <System.Private.CoreLib/System/Int32.h>
+#include <System.Private.CoreLib/System/Reflection/LocalVariableInfo.h>
 
 namespace System::Private::CoreLib::System {
 FORWARD(String)
@@ -13,7 +14,7 @@ FORWARD(MethodInfo)
 } // namespace System::Private::CoreLib::System::Reflection
 namespace System::Private::CoreLib::System::Reflection::Emit {
 namespace LocalBuilderNamespace {
-CLASS(LocalBuilder) {
+CLASS(LocalBuilder) : public LocalVariableInfo::in {
   public: Boolean get_IsPinned();
   public: Type get_LocalType();
   public: Int32 get_LocalIndex();

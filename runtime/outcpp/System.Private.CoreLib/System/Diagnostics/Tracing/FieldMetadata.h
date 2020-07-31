@@ -3,6 +3,7 @@
 #include <rt/GCObject.h>
 #include <System.Private.CoreLib/System/Byte.h>
 #include <System.Private.CoreLib/System/Int32.h>
+#include <System.Private.CoreLib/System/Object.h>
 #include <System.Private.CoreLib/System/UInt16.h>
 
 namespace System::Private::CoreLib::System {
@@ -14,7 +15,7 @@ namespace System::Private::CoreLib::System::Diagnostics::Tracing {
 enum class EventFieldTags;
 enum class TraceLoggingDataType;
 namespace FieldMetadataNamespace {
-CLASS(FieldMetadata) {
+CLASS(FieldMetadata) : public Object::in {
   public: void Ctor(String name, TraceLoggingDataType type, EventFieldTags tags, Boolean variableCount);
   private: void Ctor(String name, TraceLoggingDataType dataType, EventFieldTags tags, Byte countFlags, UInt16 fixedCount, Array<Byte> custom);
   public: void IncrementStructFieldCount();

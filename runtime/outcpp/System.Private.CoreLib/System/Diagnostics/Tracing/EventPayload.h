@@ -1,6 +1,7 @@
 #pragma once
 
 #include <rt/GCObject.h>
+#include <System.Private.CoreLib/System/Object.h>
 
 namespace System::Private::CoreLib::System::Collections::Generic {
 FORWARD(ICollection, T)
@@ -12,14 +13,13 @@ namespace System::Private::CoreLib::System {
 FORWARD_(Array, T1, T2)
 FORWARDS(Boolean)
 FORWARDS(Int32)
-FORWARD(Object)
 FORWARD(String)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Diagnostics::Tracing {
 namespace EventPayloadNamespace {
 using namespace Collections::Generic;
 using Collections::Generic::IEnumerator;
-CLASS(EventPayload) {
+CLASS(EventPayload) : public Object::in {
   public: ICollection<String> get_Keys();
   public: ICollection<Object> get_Values();
   public: Object get_Item(String key);

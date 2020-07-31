@@ -6,9 +6,18 @@
 #include <System.Private.CoreLib/System/Buffers/MemoryHandle.h>
 #include <System.Private.CoreLib/System/Int32.h>
 #include <System.Private.CoreLib/System/Int64.h>
+#include <System.Private.CoreLib/System/IO/Stream.h>
+#include <System.Private.CoreLib/System/Object.h>
 #include <System.Private.CoreLib/System/Threading/CancellationTokenRegistration.h>
+#include <System.Private.CoreLib/System/Threading/Tasks/TaskCompletionSource.h>
 #include <System.Private.CoreLib/System/UInt32.h>
 
+namespace System::Private::CoreLib::System::Threading {
+FORWARDS(CancellationToken)
+FORWARD(IOCompletionCallback)
+FORWARDS(NativeOverlapped)
+FORWARD(PreAllocatedOverlapped)
+} // namespace System::Private::CoreLib::System::Threading
 namespace System::Private::CoreLib::System {
 FORWARD_(Action, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17)
 FORWARD_(Array, T1, T2)
@@ -19,19 +28,12 @@ FORWARD(IAsyncResult)
 FORWARDS(IntPtr)
 FORWARDS(Memory, T)
 FORWARDS_(Nullable, T1, T2)
-FORWARD(Object)
 FORWARDS(ReadOnlyMemory, T)
 FORWARDS(ReadOnlySpan, T)
 FORWARDS(Span, T)
 FORWARD(String)
 FORWARDS(UInt64)
 } // namespace System::Private::CoreLib::System
-namespace System::Private::CoreLib::System::Threading {
-FORWARDS(CancellationToken)
-FORWARD(IOCompletionCallback)
-FORWARDS(NativeOverlapped)
-FORWARD(PreAllocatedOverlapped)
-} // namespace System::Private::CoreLib::System::Threading
 namespace System::Private::CoreLib::Microsoft::Win32::SafeHandles {
 FORWARD(SafeFileHandle)
 } // namespace System::Private::CoreLib::Microsoft::Win32::SafeHandles
@@ -45,14 +47,13 @@ enum class FileMode;
 enum class FileOptions;
 enum class FileShare;
 enum class SeekOrigin;
-FORWARD(Stream)
 namespace FileStreamNamespace {
 using namespace ::System::Private::CoreLib::Microsoft::Win32::SafeHandles;
 using namespace Buffers;
 using namespace Threading;
 using namespace Threading::Tasks;
-CLASS(FileStream) {
-  private: CLASS(AsyncCopyToAwaitable) {
+CLASS(FileStream) : public Stream::in {
+  private: CLASS(AsyncCopyToAwaitable) : public Object::in {
     public: Object get_CancellationLock();
     public: Boolean get_IsCompleted();
     public: void Ctor(FileStream fileStream);
@@ -73,7 +74,7 @@ CLASS(FileStream) {
     public: UInt32 _errorCode;
     public: UInt32 _numBytes;
   };
-  private: CLASS(FileStreamCompletionSource) {
+  private: CLASS(FileStreamCompletionSource) : public TaskCompletionSource<Int32>::in {
     public: NativeOverlapped* get_Overlapped();
     protected: void Ctor(FileStream stream, Int32 numBufferedBytes, Array<Byte> bytes);
     public: void SetCompletedSynchronously(Int32 numBytes);
@@ -90,7 +91,7 @@ CLASS(FileStream) {
     private: NativeOverlapped* _overlapped;
     private: Int64 _result;
   };
-  private: CLASS(MemoryFileStreamCompletionSource) {
+  private: CLASS(MemoryFileStreamCompletionSource) : public FileStreamCompletionSource::in {
     public: void Ctor(FileStream stream, Int32 numBufferedBytes, ReadOnlyMemory<Byte> memory);
     public: void ReleaseNativeResource();
     private: MemoryHandle _handle;

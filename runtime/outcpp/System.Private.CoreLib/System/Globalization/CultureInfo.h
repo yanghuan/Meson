@@ -3,10 +3,10 @@
 #include <rt/GCObject.h>
 #include <System.Private.CoreLib/System/Boolean.h>
 #include <System.Private.CoreLib/System/Int32.h>
+#include <System.Private.CoreLib/System/Object.h>
 
 namespace System::Private::CoreLib::System {
 FORWARD_(Array, T1, T2)
-FORWARD(Object)
 FORWARD(String)
 FORWARD(Type)
 } // namespace System::Private::CoreLib::System
@@ -29,7 +29,7 @@ FORWARD(TextInfo)
 namespace CultureInfoNamespace {
 using namespace Collections::Generic;
 using namespace Threading;
-CLASS(CultureInfo) {
+CLASS(CultureInfo) : public Object::in {
   public: static CultureInfo get_CurrentCulture();
   public: static void set_CurrentCulture(CultureInfo value);
   public: static CultureInfo get_CurrentUICulture();

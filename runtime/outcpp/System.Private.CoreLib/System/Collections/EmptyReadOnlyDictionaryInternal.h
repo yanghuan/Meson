@@ -1,20 +1,20 @@
 #pragma once
 
 #include <rt/GCObject.h>
+#include <System.Private.CoreLib/System/Object.h>
 
 namespace System::Private::CoreLib::System {
 FORWARD_(Array, T1, T2)
 FORWARDS(Boolean)
 FORWARDS(Int32)
-FORWARD(Object)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Collections {
 FORWARDS(DictionaryEntry)
 FORWARD(ICollection)
 FORWARD(IDictionaryEnumerator)
 namespace EmptyReadOnlyDictionaryInternalNamespace {
-CLASS(EmptyReadOnlyDictionaryInternal) {
-  private: CLASS(NodeEnumerator) {
+CLASS(EmptyReadOnlyDictionaryInternal) : public Object::in {
+  private: CLASS(NodeEnumerator) : public Object::in {
     public: Object get_Current();
     public: Object get_Key();
     public: Object get_Value();

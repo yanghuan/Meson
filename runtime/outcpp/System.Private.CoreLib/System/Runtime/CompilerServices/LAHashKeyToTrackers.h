@@ -1,13 +1,11 @@
 #pragma once
 
 #include <rt/GCObject.h>
+#include <System.Private.CoreLib/System/Object.h>
 
-namespace System::Private::CoreLib::System {
-FORWARD(Object)
-} // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Runtime::CompilerServices {
 namespace LAHashKeyToTrackersNamespace {
-CLASS(LAHashKeyToTrackers) {
+CLASS(LAHashKeyToTrackers) : public Object::in {
   private: Object _trackerOrTrackerSet;
   private: Object _laLocalKeyValueStore;
 };

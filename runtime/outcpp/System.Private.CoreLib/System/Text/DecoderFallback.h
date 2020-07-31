@@ -1,6 +1,7 @@
 #pragma once
 
 #include <rt/GCObject.h>
+#include <System.Private.CoreLib/System/Object.h>
 
 namespace System::Private::CoreLib::System {
 FORWARDS(Int32)
@@ -8,7 +9,7 @@ FORWARDS(Int32)
 namespace System::Private::CoreLib::System::Text {
 FORWARD(DecoderFallbackBuffer)
 namespace DecoderFallbackNamespace {
-CLASS(DecoderFallback) {
+CLASS(DecoderFallback) : public Object::in {
   public: static DecoderFallback get_ReplacementFallback();
   public: static DecoderFallback get_ExceptionFallback();
   public: Int32 get_MaxCharCount();

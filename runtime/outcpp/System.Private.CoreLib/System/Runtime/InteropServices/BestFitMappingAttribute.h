@@ -1,11 +1,12 @@
 #pragma once
 
 #include <rt/GCObject.h>
+#include <System.Private.CoreLib/System/Attribute.h>
 #include <System.Private.CoreLib/System/Boolean.h>
 
 namespace System::Private::CoreLib::System::Runtime::InteropServices {
 namespace BestFitMappingAttributeNamespace {
-CLASS(BestFitMappingAttribute) {
+CLASS(BestFitMappingAttribute) : public Attribute::in {
   public: Boolean get_BestFitMapping() { return BestFitMapping; }
   public: void Ctor(Boolean BestFitMapping);
   private: Boolean BestFitMapping;

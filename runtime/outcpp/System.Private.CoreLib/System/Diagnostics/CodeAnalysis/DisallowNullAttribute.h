@@ -1,10 +1,11 @@
 #pragma once
 
 #include <rt/GCObject.h>
+#include <System.Private.CoreLib/System/Attribute.h>
 
 namespace System::Private::CoreLib::System::Diagnostics::CodeAnalysis {
 namespace DisallowNullAttributeNamespace {
-CLASS(DisallowNullAttribute) {
+CLASS(DisallowNullAttribute) : public Attribute::in {
   public: void Ctor();
 };
 } // namespace DisallowNullAttributeNamespace

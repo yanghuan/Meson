@@ -1,6 +1,7 @@
 #pragma once
 
 #include <rt/GCObject.h>
+#include <System.Private.CoreLib/System/OutOfMemoryException.h>
 
 namespace System::Private::CoreLib::System::Runtime::Serialization {
 FORWARD(SerializationInfo)
@@ -11,7 +12,7 @@ FORWARD(Exception)
 FORWARD(String)
 namespace InsufficientMemoryExceptionNamespace {
 using namespace Runtime::Serialization;
-CLASS(InsufficientMemoryException) {
+CLASS(InsufficientMemoryException) : public OutOfMemoryException::in {
   public: void Ctor();
   public: void Ctor(String message);
   public: void Ctor(String message, Exception innerException);
