@@ -2,7 +2,6 @@
 
 #include <rt/GCObject.h>
 #include <System.Private.CoreLib/System/Collections/Generic/EqualityComparer.h>
-#include <System.Private.CoreLib/System/Collections/Generic/IEqualityComparer.h>
 
 namespace System::Private::CoreLib::System {
 FORWARDS(Boolean)
@@ -14,6 +13,7 @@ FORWARD(SerializationInfo)
 FORWARDS(StreamingContext)
 } // namespace System::Private::CoreLib::System::Runtime::Serialization
 namespace System::Private::CoreLib::System::Collections::Generic {
+FORWARD(IEqualityComparer, T)
 namespace NonRandomizedStringEqualityComparerNamespace {
 using namespace Runtime::Serialization;
 CLASS(NonRandomizedStringEqualityComparer) : public EqualityComparer<String>::in {

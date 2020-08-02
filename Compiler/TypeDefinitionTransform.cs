@@ -208,7 +208,7 @@ namespace Meson.Compiler {
             methodDefinition.Body = new BlockSyntax(new BinaryExpressionSyntax(fieldName, Tokens.Equals, IdentifierSyntax.Value)) { IsSingleLine = true };
           }
           if (property.IsStatic) {
-            CompilationUnit.AddPropertyFieldTypeReference(property);
+            //CompilationUnit.AddPropertyFieldTypeReference(property);
           }
         } else {
           if (typeDefinition.TypeParameterCount == 0 && method.TypeParameters.Count ==0 && method.TypeArguments.Count == 0) {

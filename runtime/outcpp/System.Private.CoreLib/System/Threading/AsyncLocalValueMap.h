@@ -3,7 +3,6 @@
 #include <rt/GCObject.h>
 #include <System.Private.CoreLib/System/Collections/Generic/Dictionary.h>
 #include <System.Private.CoreLib/System/Object.h>
-#include <System.Private.CoreLib/System/Threading/IAsyncLocalValueMap.h>
 
 namespace System::Private::CoreLib::System {
 FORWARD_(Array, T1, T2)
@@ -15,6 +14,7 @@ FORWARDS_(KeyValuePair, T1, T2, T3)
 } // namespace System::Private::CoreLib::System::Collections::Generic
 namespace System::Private::CoreLib::System::Threading {
 FORWARD(IAsyncLocal)
+FORWARD(IAsyncLocalValueMap)
 namespace AsyncLocalValueMapNamespace {
 using namespace Collections::Generic;
 class AsyncLocalValueMap {

@@ -6,7 +6,6 @@
 #include <System.Private.CoreLib/System/Threading/CancellationToken.h>
 #include <System.Private.CoreLib/System/Threading/CancellationTokenRegistration.h>
 #include <System.Private.CoreLib/System/Threading/ManualResetEventSlim.h>
-#include <System.Private.CoreLib/System/Threading/Tasks/TaskFactory.h>
 
 namespace System::Private::CoreLib::System::Threading {
 FORWARD_(ContextCallback, T1, T2)

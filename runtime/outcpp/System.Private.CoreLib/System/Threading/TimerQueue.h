@@ -2,7 +2,6 @@
 
 #include <rt/GCObject.h>
 #include <System.Private.CoreLib/Microsoft/Win32/SafeHandles/SafeHandleZeroOrMinusOneIsInvalid.h>
-#include <System.Private.CoreLib/System/Array.h>
 #include <System.Private.CoreLib/System/Boolean.h>
 #include <System.Private.CoreLib/System/Int32.h>
 #include <System.Private.CoreLib/System/Int64.h>
@@ -10,6 +9,7 @@
 #include <System.Private.CoreLib/System/UInt32.h>
 
 namespace System::Private::CoreLib::System {
+FORWARD_(Array, T1, T2)
 FORWARDS(IntPtr)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Threading {

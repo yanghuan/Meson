@@ -4,8 +4,10 @@
 #include <System.Private.CoreLib/System/Boolean.h>
 #include <System.Private.CoreLib/System/Int32.h>
 #include <System.Private.CoreLib/System/Object.h>
-#include <System.Private.CoreLib/System/Threading/AsyncLocal.h>
 
+namespace System::Private::CoreLib::System::Threading {
+FORWARD(AsyncLocal, T)
+} // namespace System::Private::CoreLib::System::Threading
 namespace System::Private::CoreLib::System {
 FORWARD_(Array, T1, T2)
 FORWARDS(Byte)
