@@ -16,6 +16,7 @@ namespace Meson.Compiler {
     private readonly Dictionary<ISymbol, NestedCycleRefTypeNameSyntax> nestedCycleRefNames_ = new Dictionary<ISymbol, NestedCycleRefTypeNameSyntax>();
     private readonly Dictionary<string, SymbolNameSyntax> typeBaseNames_ = new Dictionary<string, SymbolNameSyntax>();
     private readonly Dictionary<string, HashSet<ITypeDefinition>> sameBaseNames_ = new Dictionary<string, HashSet<ITypeDefinition>>();
+    
     public CompilationUnitTransform(AssemblyTransform assemblyTransform, List<ITypeDefinition> types) {
       AssemblyTransform = assemblyTransform;
       root_ = types.First();
@@ -331,7 +332,7 @@ namespace Meson.Compiler {
 
       var typeDefinition = args.Type.GetDefinition();
       if (typeDefinition != null) {
-        var declaringType = AssemblyTransform.GetDeclaringType(typeDefinition);
+        var declaringType = typeDefinition.DeclaringTypeDefinition;
         if (declaringType != null && (args.Definition == null || !AssemblyTransform.IsInternalMemberType(args.Type, args.Definition))) {
           var outTypeName = GetTypeName(args.With(declaringType, false));
           if (declaringType.GetDefinition().IsRefType()) {
@@ -341,12 +342,9 @@ namespace Meson.Compiler {
         }
       }
 
-      if (!isGeneric) {
-        var definition = args.Type.GetDefinition();
-        if (definition != null) {
-          if (Generator.IsVoidGenericType(definition)) {
-            typeName = new GenericIdentifierSyntax(typeName);
-          }
+      if (!isGeneric && typeDefinition != null) {
+        if (Generator.IsVoidGenericType(typeDefinition)) {
+          typeName = new GenericIdentifierSyntax(typeName);
         }
       }
 

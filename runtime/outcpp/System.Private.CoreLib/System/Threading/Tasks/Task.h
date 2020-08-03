@@ -39,8 +39,10 @@ FORWARDS(VoidTaskResult)
 namespace TaskNamespace {
 using namespace Collections::Generic;
 using namespace Runtime::CompilerServices;
+class DelayPromise___; using DelayPromise = rt::ref<DelayPromise___>;
 CLASS_FORWARD(Task, T1, T2)
 CLASS_(Task) : public Object::in {
+  public: using DelayPromise = DelayPromise;
   public: CLASS(ContingentProperties) : public Object::in {
     public: void SetCompleted();
     public: void UnregisterCancellationCallback();
@@ -120,7 +122,7 @@ CLASS(DelayPromise) : public Task<>::in {
   protected: void Cleanup();
   private: TimerQueueTimer _timer;
 };
-CLASS(DelayPromiseWithCancellation) : public DelayPromise::in {
+CLASS(DelayPromiseWithCancellation) : public Task<>::in::DelayPromise::in {
   public: void Ctor(Int32 millisecondsDelay, CancellationToken token);
   private: void CompleteCanceled();
   protected: void Cleanup();
