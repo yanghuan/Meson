@@ -21,9 +21,7 @@ namespace UriParserNamespace {
 using namespace ::System::Private::CoreLib::System;
 using namespace ::System::Private::CoreLib::System::Collections;
 CLASS(UriParser) : public Object::in {
-  private: CLASS(BuiltInUriParser) : public UriParser::in {
-    public: void Ctor(String lwrCaseScheme, Int32 defaultPort, UriSyntaxFlags syntaxFlags);
-  };
+  friend class BuiltInUriParser___;
   public: String get_SchemeName();
   public: Int32 get_DefaultPort();
   public: UriSyntaxFlags get_Flags();
@@ -76,6 +74,9 @@ CLASS(UriParser) : public Object::in {
   private: UriSyntaxFlags _flags;
   private: Int32 _port;
   private: String _scheme;
+};
+CLASS(BuiltInUriParser) : public UriParser::in {
+  public: void Ctor(String lwrCaseScheme, Int32 defaultPort, UriSyntaxFlags syntaxFlags);
 };
 } // namespace UriParserNamespace
 using UriParser = UriParserNamespace::UriParser;

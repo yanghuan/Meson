@@ -329,12 +329,16 @@ namespace Meson.Compiler {
         }
       }
 
-      if (args.Type.DeclaringType != null && (args.Definition == null || !AssemblyTransform.IsInternalMemberType(args.Type, args.Definition))) {
-        var outTypeName = GetTypeName(args.With(args.Type.DeclaringType, false));
-        if (args.Type.DeclaringType.GetDefinition().IsRefType()) {
-          outTypeName = outTypeName.TwoColon(IdentifierSyntax.In);
+      var typeDefinition = args.Type.GetDefinition();
+      if (typeDefinition != null) {
+        var declaringType = AssemblyTransform.GetDeclaringType(typeDefinition);
+        if (declaringType != null && (args.Definition == null || !AssemblyTransform.IsInternalMemberType(args.Type, args.Definition))) {
+          var outTypeName = GetTypeName(args.With(declaringType, false));
+          if (declaringType.GetDefinition().IsRefType()) {
+            outTypeName = outTypeName.TwoColon(IdentifierSyntax.In);
+          }
+          return outTypeName.TwoColon(typeName);
         }
-        return outTypeName.TwoColon(typeName);
       }
 
       if (!isGeneric) {

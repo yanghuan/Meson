@@ -913,7 +913,7 @@ namespace Meson.Compiler {
     }
 
     private ExpressionSyntax GetDeclaringType(ITypeDefinition type) {
-      ExpressionSyntax name = type.IsRefType() ? $"{type.Name}___" : type.Name;
+      ExpressionSyntax name = type.IsRefType() ? type.Name.Wrap() : type.Name;
       if (Generator.IsVoidGenericType(type)) {
         name = new GenericIdentifierSyntax(name);
       }

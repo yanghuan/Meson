@@ -32,29 +32,29 @@ void Task___<>::SetOnCountdownMres___::Ctor(Int32 count) {
 void Task___<>::SetOnCountdownMres___::Invoke(Task<> completingTask) {
 }
 
-void Task___<>::DelayPromise___::Ctor(Int32 millisecondsDelay) {
+void DelayPromise___::Ctor(Int32 millisecondsDelay) {
 }
 
-void Task___<>::DelayPromise___::CompleteTimedOut() {
+void DelayPromise___::CompleteTimedOut() {
 }
 
-void Task___<>::DelayPromise___::Cleanup() {
+void DelayPromise___::Cleanup() {
 }
 
-void Task___<>::DelayPromiseWithCancellation___::Ctor(Int32 millisecondsDelay, CancellationToken token) {
+void DelayPromiseWithCancellation___::Ctor(Int32 millisecondsDelay, CancellationToken token) {
 }
 
-void Task___<>::DelayPromiseWithCancellation___::CompleteCanceled() {
+void DelayPromiseWithCancellation___::CompleteCanceled() {
 }
 
-void Task___<>::DelayPromiseWithCancellation___::Cleanup() {
+void DelayPromiseWithCancellation___::Cleanup() {
 }
 
-Boolean Task___<>::WhenAllPromise___<>::get_InvokeMayRunArbitraryCode() {
+Boolean WhenAllPromise___<>::get_InvokeMayRunArbitraryCode() {
   return Boolean();
 }
 
-Boolean Task___<>::WhenAllPromise___<>::get_ShouldNotifyDebuggerOfWaitCompletion() {
+Boolean WhenAllPromise___<>::get_ShouldNotifyDebuggerOfWaitCompletion() {
   return Boolean();
 }
 

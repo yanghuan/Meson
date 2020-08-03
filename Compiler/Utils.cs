@@ -682,6 +682,10 @@ namespace Meson.Compiler {
       return name + "Namespace";
     }
 
+    public static string Wrap(this string name) {
+      return name + "___";
+    }
+
     public static ExpressionSyntax WithFullName(this ExpressionSyntax typeName, IType type, ITypeDefinition definition = null) {
       var typeDefinition = type.GetDefinition();
       string ns = typeDefinition.GetFullNamespace(true, definition);

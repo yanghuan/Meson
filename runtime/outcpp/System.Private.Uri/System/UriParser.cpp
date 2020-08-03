@@ -3,7 +3,7 @@
 #include <System.Private.Uri/System/UriParser-dep.h>
 
 namespace System::Private::Uri::System::UriParserNamespace {
-void UriParser___::BuiltInUriParser___::Ctor(String lwrCaseScheme, Int32 defaultPort, UriSyntaxFlags syntaxFlags) {
+void BuiltInUriParser___::Ctor(String lwrCaseScheme, Int32 defaultPort, UriSyntaxFlags syntaxFlags) {
 }
 
 String UriParser___::get_SchemeName() {

@@ -3,314 +3,314 @@
 #include <System.Private.CoreLib/System/Collections/ArrayList-dep.h>
 
 namespace System::Private::CoreLib::System::Collections::ArrayListNamespace {
-Object ArrayList___::IListWrapper___::IListWrapperEnumWrapper___::get_Current() {
+Object IListWrapper___::IListWrapperEnumWrapper___::get_Current() {
   return nullptr;
 }
 
-void ArrayList___::IListWrapper___::IListWrapperEnumWrapper___::Ctor(IListWrapper listWrapper, Int32 startIndex, Int32 count) {
+void IListWrapper___::IListWrapperEnumWrapper___::Ctor(IListWrapper listWrapper, Int32 startIndex, Int32 count) {
 }
 
-void ArrayList___::IListWrapper___::IListWrapperEnumWrapper___::Ctor() {
+void IListWrapper___::IListWrapperEnumWrapper___::Ctor() {
 }
 
-Object ArrayList___::IListWrapper___::IListWrapperEnumWrapper___::Clone() {
+Object IListWrapper___::IListWrapperEnumWrapper___::Clone() {
   return nullptr;
 }
 
-Boolean ArrayList___::IListWrapper___::IListWrapperEnumWrapper___::MoveNext() {
+Boolean IListWrapper___::IListWrapperEnumWrapper___::MoveNext() {
   return Boolean();
 }
 
-void ArrayList___::IListWrapper___::IListWrapperEnumWrapper___::Reset() {
+void IListWrapper___::IListWrapperEnumWrapper___::Reset() {
 }
 
-Int32 ArrayList___::IListWrapper___::get_Capacity() {
+Int32 IListWrapper___::get_Capacity() {
   return Int32();
 }
 
-void ArrayList___::IListWrapper___::set_Capacity(Int32 value) {
+void IListWrapper___::set_Capacity(Int32 value) {
 }
 
-Int32 ArrayList___::IListWrapper___::get_Count() {
+Int32 IListWrapper___::get_Count() {
   return Int32();
 }
 
-Boolean ArrayList___::IListWrapper___::get_IsReadOnly() {
+Boolean IListWrapper___::get_IsReadOnly() {
   return Boolean();
 }
 
-Boolean ArrayList___::IListWrapper___::get_IsFixedSize() {
+Boolean IListWrapper___::get_IsFixedSize() {
   return Boolean();
 }
 
-Boolean ArrayList___::IListWrapper___::get_IsSynchronized() {
+Boolean IListWrapper___::get_IsSynchronized() {
   return Boolean();
 }
 
-Object ArrayList___::IListWrapper___::get_Item(Int32 index) {
+Object IListWrapper___::get_Item(Int32 index) {
   return nullptr;
 }
 
-void ArrayList___::IListWrapper___::set_Item(Int32 index, Object value) {
+void IListWrapper___::set_Item(Int32 index, Object value) {
 }
 
-Object ArrayList___::IListWrapper___::get_SyncRoot() {
+Object IListWrapper___::get_SyncRoot() {
   return nullptr;
 }
 
-void ArrayList___::IListWrapper___::Ctor(IList list) {
+void IListWrapper___::Ctor(IList list) {
 }
 
-Int32 ArrayList___::IListWrapper___::Add(Object obj) {
+Int32 IListWrapper___::Add(Object obj) {
   return Int32();
 }
 
-void ArrayList___::IListWrapper___::AddRange(ICollection c) {
+void IListWrapper___::AddRange(ICollection c) {
 }
 
-Int32 ArrayList___::IListWrapper___::BinarySearch(Int32 index, Int32 count, Object value, IComparer comparer) {
+Int32 IListWrapper___::BinarySearch(Int32 index, Int32 count, Object value, IComparer comparer) {
   return Int32();
 }
 
-void ArrayList___::IListWrapper___::Clear() {
+void IListWrapper___::Clear() {
 }
 
-Object ArrayList___::IListWrapper___::Clone() {
+Object IListWrapper___::Clone() {
   return nullptr;
 }
 
-Boolean ArrayList___::IListWrapper___::Contains(Object obj) {
+Boolean IListWrapper___::Contains(Object obj) {
   return Boolean();
 }
 
-void ArrayList___::IListWrapper___::CopyTo(Array<> array, Int32 index) {
+void IListWrapper___::CopyTo(Array<> array, Int32 index) {
 }
 
-void ArrayList___::IListWrapper___::CopyTo(Int32 index, Array<> array, Int32 arrayIndex, Int32 count) {
+void IListWrapper___::CopyTo(Int32 index, Array<> array, Int32 arrayIndex, Int32 count) {
 }
 
-IEnumerator ArrayList___::IListWrapper___::GetEnumerator() {
+IEnumerator IListWrapper___::GetEnumerator() {
   return nullptr;
 }
 
-IEnumerator ArrayList___::IListWrapper___::GetEnumerator(Int32 index, Int32 count) {
+IEnumerator IListWrapper___::GetEnumerator(Int32 index, Int32 count) {
   return nullptr;
 }
 
-Int32 ArrayList___::IListWrapper___::IndexOf(Object value) {
+Int32 IListWrapper___::IndexOf(Object value) {
   return Int32();
 }
 
-Int32 ArrayList___::IListWrapper___::IndexOf(Object value, Int32 startIndex) {
+Int32 IListWrapper___::IndexOf(Object value, Int32 startIndex) {
   return Int32();
 }
 
-Int32 ArrayList___::IListWrapper___::IndexOf(Object value, Int32 startIndex, Int32 count) {
+Int32 IListWrapper___::IndexOf(Object value, Int32 startIndex, Int32 count) {
   return Int32();
 }
 
-void ArrayList___::IListWrapper___::Insert(Int32 index, Object obj) {
+void IListWrapper___::Insert(Int32 index, Object obj) {
 }
 
-void ArrayList___::IListWrapper___::InsertRange(Int32 index, ICollection c) {
+void IListWrapper___::InsertRange(Int32 index, ICollection c) {
 }
 
-Int32 ArrayList___::IListWrapper___::LastIndexOf(Object value) {
+Int32 IListWrapper___::LastIndexOf(Object value) {
   return Int32();
 }
 
-Int32 ArrayList___::IListWrapper___::LastIndexOf(Object value, Int32 startIndex) {
+Int32 IListWrapper___::LastIndexOf(Object value, Int32 startIndex) {
   return Int32();
 }
 
-Int32 ArrayList___::IListWrapper___::LastIndexOf(Object value, Int32 startIndex, Int32 count) {
+Int32 IListWrapper___::LastIndexOf(Object value, Int32 startIndex, Int32 count) {
   return Int32();
 }
 
-void ArrayList___::IListWrapper___::Remove(Object value) {
+void IListWrapper___::Remove(Object value) {
 }
 
-void ArrayList___::IListWrapper___::RemoveAt(Int32 index) {
+void IListWrapper___::RemoveAt(Int32 index) {
 }
 
-void ArrayList___::IListWrapper___::RemoveRange(Int32 index, Int32 count) {
+void IListWrapper___::RemoveRange(Int32 index, Int32 count) {
 }
 
-void ArrayList___::IListWrapper___::Reverse(Int32 index, Int32 count) {
+void IListWrapper___::Reverse(Int32 index, Int32 count) {
 }
 
-void ArrayList___::IListWrapper___::SetRange(Int32 index, ICollection c) {
+void IListWrapper___::SetRange(Int32 index, ICollection c) {
 }
 
-ArrayList ArrayList___::IListWrapper___::GetRange(Int32 index, Int32 count) {
+ArrayList IListWrapper___::GetRange(Int32 index, Int32 count) {
   return nullptr;
 }
 
-void ArrayList___::IListWrapper___::Sort(Int32 index, Int32 count, IComparer comparer) {
+void IListWrapper___::Sort(Int32 index, Int32 count, IComparer comparer) {
 }
 
-Array<Object> ArrayList___::IListWrapper___::ToArray() {
+Array<Object> IListWrapper___::ToArray() {
   return Array<Object>();
 }
 
-Array<> ArrayList___::IListWrapper___::ToArray(Type type) {
+Array<> IListWrapper___::ToArray(Type type) {
   return nullptr;
 }
 
-void ArrayList___::IListWrapper___::TrimToSize() {
+void IListWrapper___::TrimToSize() {
 }
 
-Int32 ArrayList___::SyncArrayList___::get_Capacity() {
+Int32 SyncArrayList___::get_Capacity() {
   return Int32();
 }
 
-void ArrayList___::SyncArrayList___::set_Capacity(Int32 value) {
+void SyncArrayList___::set_Capacity(Int32 value) {
 }
 
-Int32 ArrayList___::SyncArrayList___::get_Count() {
+Int32 SyncArrayList___::get_Count() {
   return Int32();
 }
 
-Boolean ArrayList___::SyncArrayList___::get_IsReadOnly() {
+Boolean SyncArrayList___::get_IsReadOnly() {
   return Boolean();
 }
 
-Boolean ArrayList___::SyncArrayList___::get_IsFixedSize() {
+Boolean SyncArrayList___::get_IsFixedSize() {
   return Boolean();
 }
 
-Boolean ArrayList___::SyncArrayList___::get_IsSynchronized() {
+Boolean SyncArrayList___::get_IsSynchronized() {
   return Boolean();
 }
 
-Object ArrayList___::SyncArrayList___::get_Item(Int32 index) {
+Object SyncArrayList___::get_Item(Int32 index) {
   return nullptr;
 }
 
-void ArrayList___::SyncArrayList___::set_Item(Int32 index, Object value) {
+void SyncArrayList___::set_Item(Int32 index, Object value) {
 }
 
-Object ArrayList___::SyncArrayList___::get_SyncRoot() {
+Object SyncArrayList___::get_SyncRoot() {
   return nullptr;
 }
 
-void ArrayList___::SyncArrayList___::Ctor(ArrayList list) {
+void SyncArrayList___::Ctor(ArrayList list) {
 }
 
-Int32 ArrayList___::SyncArrayList___::Add(Object value) {
+Int32 SyncArrayList___::Add(Object value) {
   return Int32();
 }
 
-void ArrayList___::SyncArrayList___::AddRange(ICollection c) {
+void SyncArrayList___::AddRange(ICollection c) {
 }
 
-Int32 ArrayList___::SyncArrayList___::BinarySearch(Object value) {
+Int32 SyncArrayList___::BinarySearch(Object value) {
   return Int32();
 }
 
-Int32 ArrayList___::SyncArrayList___::BinarySearch(Object value, IComparer comparer) {
+Int32 SyncArrayList___::BinarySearch(Object value, IComparer comparer) {
   return Int32();
 }
 
-Int32 ArrayList___::SyncArrayList___::BinarySearch(Int32 index, Int32 count, Object value, IComparer comparer) {
+Int32 SyncArrayList___::BinarySearch(Int32 index, Int32 count, Object value, IComparer comparer) {
   return Int32();
 }
 
-void ArrayList___::SyncArrayList___::Clear() {
+void SyncArrayList___::Clear() {
 }
 
-Object ArrayList___::SyncArrayList___::Clone() {
+Object SyncArrayList___::Clone() {
   return nullptr;
 }
 
-Boolean ArrayList___::SyncArrayList___::Contains(Object item) {
+Boolean SyncArrayList___::Contains(Object item) {
   return Boolean();
 }
 
-void ArrayList___::SyncArrayList___::CopyTo(Array<> array) {
+void SyncArrayList___::CopyTo(Array<> array) {
 }
 
-void ArrayList___::SyncArrayList___::CopyTo(Array<> array, Int32 index) {
+void SyncArrayList___::CopyTo(Array<> array, Int32 index) {
 }
 
-void ArrayList___::SyncArrayList___::CopyTo(Int32 index, Array<> array, Int32 arrayIndex, Int32 count) {
+void SyncArrayList___::CopyTo(Int32 index, Array<> array, Int32 arrayIndex, Int32 count) {
 }
 
-IEnumerator ArrayList___::SyncArrayList___::GetEnumerator() {
+IEnumerator SyncArrayList___::GetEnumerator() {
   return nullptr;
 }
 
-IEnumerator ArrayList___::SyncArrayList___::GetEnumerator(Int32 index, Int32 count) {
+IEnumerator SyncArrayList___::GetEnumerator(Int32 index, Int32 count) {
   return nullptr;
 }
 
-Int32 ArrayList___::SyncArrayList___::IndexOf(Object value) {
+Int32 SyncArrayList___::IndexOf(Object value) {
   return Int32();
 }
 
-Int32 ArrayList___::SyncArrayList___::IndexOf(Object value, Int32 startIndex) {
+Int32 SyncArrayList___::IndexOf(Object value, Int32 startIndex) {
   return Int32();
 }
 
-Int32 ArrayList___::SyncArrayList___::IndexOf(Object value, Int32 startIndex, Int32 count) {
+Int32 SyncArrayList___::IndexOf(Object value, Int32 startIndex, Int32 count) {
   return Int32();
 }
 
-void ArrayList___::SyncArrayList___::Insert(Int32 index, Object value) {
+void SyncArrayList___::Insert(Int32 index, Object value) {
 }
 
-void ArrayList___::SyncArrayList___::InsertRange(Int32 index, ICollection c) {
+void SyncArrayList___::InsertRange(Int32 index, ICollection c) {
 }
 
-Int32 ArrayList___::SyncArrayList___::LastIndexOf(Object value) {
+Int32 SyncArrayList___::LastIndexOf(Object value) {
   return Int32();
 }
 
-Int32 ArrayList___::SyncArrayList___::LastIndexOf(Object value, Int32 startIndex) {
+Int32 SyncArrayList___::LastIndexOf(Object value, Int32 startIndex) {
   return Int32();
 }
 
-Int32 ArrayList___::SyncArrayList___::LastIndexOf(Object value, Int32 startIndex, Int32 count) {
+Int32 SyncArrayList___::LastIndexOf(Object value, Int32 startIndex, Int32 count) {
   return Int32();
 }
 
-void ArrayList___::SyncArrayList___::Remove(Object value) {
+void SyncArrayList___::Remove(Object value) {
 }
 
-void ArrayList___::SyncArrayList___::RemoveAt(Int32 index) {
+void SyncArrayList___::RemoveAt(Int32 index) {
 }
 
-void ArrayList___::SyncArrayList___::RemoveRange(Int32 index, Int32 count) {
+void SyncArrayList___::RemoveRange(Int32 index, Int32 count) {
 }
 
-void ArrayList___::SyncArrayList___::Reverse(Int32 index, Int32 count) {
+void SyncArrayList___::Reverse(Int32 index, Int32 count) {
 }
 
-void ArrayList___::SyncArrayList___::SetRange(Int32 index, ICollection c) {
+void SyncArrayList___::SetRange(Int32 index, ICollection c) {
 }
 
-ArrayList ArrayList___::SyncArrayList___::GetRange(Int32 index, Int32 count) {
+ArrayList SyncArrayList___::GetRange(Int32 index, Int32 count) {
   return nullptr;
 }
 
-void ArrayList___::SyncArrayList___::Sort() {
+void SyncArrayList___::Sort() {
 }
 
-void ArrayList___::SyncArrayList___::Sort(IComparer comparer) {
+void SyncArrayList___::Sort(IComparer comparer) {
 }
 
-void ArrayList___::SyncArrayList___::Sort(Int32 index, Int32 count, IComparer comparer) {
+void SyncArrayList___::Sort(Int32 index, Int32 count, IComparer comparer) {
 }
 
-Array<Object> ArrayList___::SyncArrayList___::ToArray() {
+Array<Object> SyncArrayList___::ToArray() {
   return Array<Object>();
 }
 
-Array<> ArrayList___::SyncArrayList___::ToArray(Type type) {
+Array<> SyncArrayList___::ToArray(Type type) {
   return nullptr;
 }
 
-void ArrayList___::SyncArrayList___::TrimToSize() {
+void SyncArrayList___::TrimToSize() {
 }
 
 Int32 ArrayList___::SyncIList___::get_Count() {
@@ -435,140 +435,140 @@ void ArrayList___::FixedSizeList___::Remove(Object value) {
 void ArrayList___::FixedSizeList___::RemoveAt(Int32 index) {
 }
 
-Int32 ArrayList___::FixedSizeArrayList___::get_Count() {
+Int32 FixedSizeArrayList___::get_Count() {
   return Int32();
 }
 
-Boolean ArrayList___::FixedSizeArrayList___::get_IsReadOnly() {
+Boolean FixedSizeArrayList___::get_IsReadOnly() {
   return Boolean();
 }
 
-Boolean ArrayList___::FixedSizeArrayList___::get_IsFixedSize() {
+Boolean FixedSizeArrayList___::get_IsFixedSize() {
   return Boolean();
 }
 
-Boolean ArrayList___::FixedSizeArrayList___::get_IsSynchronized() {
+Boolean FixedSizeArrayList___::get_IsSynchronized() {
   return Boolean();
 }
 
-Object ArrayList___::FixedSizeArrayList___::get_Item(Int32 index) {
+Object FixedSizeArrayList___::get_Item(Int32 index) {
   return nullptr;
 }
 
-void ArrayList___::FixedSizeArrayList___::set_Item(Int32 index, Object value) {
+void FixedSizeArrayList___::set_Item(Int32 index, Object value) {
 }
 
-Object ArrayList___::FixedSizeArrayList___::get_SyncRoot() {
+Object FixedSizeArrayList___::get_SyncRoot() {
   return nullptr;
 }
 
-Int32 ArrayList___::FixedSizeArrayList___::get_Capacity() {
+Int32 FixedSizeArrayList___::get_Capacity() {
   return Int32();
 }
 
-void ArrayList___::FixedSizeArrayList___::set_Capacity(Int32 value) {
+void FixedSizeArrayList___::set_Capacity(Int32 value) {
 }
 
-void ArrayList___::FixedSizeArrayList___::Ctor(ArrayList l) {
+void FixedSizeArrayList___::Ctor(ArrayList l) {
 }
 
-Int32 ArrayList___::FixedSizeArrayList___::Add(Object obj) {
+Int32 FixedSizeArrayList___::Add(Object obj) {
   return Int32();
 }
 
-void ArrayList___::FixedSizeArrayList___::AddRange(ICollection c) {
+void FixedSizeArrayList___::AddRange(ICollection c) {
 }
 
-Int32 ArrayList___::FixedSizeArrayList___::BinarySearch(Int32 index, Int32 count, Object value, IComparer comparer) {
+Int32 FixedSizeArrayList___::BinarySearch(Int32 index, Int32 count, Object value, IComparer comparer) {
   return Int32();
 }
 
-void ArrayList___::FixedSizeArrayList___::Clear() {
+void FixedSizeArrayList___::Clear() {
 }
 
-Object ArrayList___::FixedSizeArrayList___::Clone() {
+Object FixedSizeArrayList___::Clone() {
   return nullptr;
 }
 
-Boolean ArrayList___::FixedSizeArrayList___::Contains(Object obj) {
+Boolean FixedSizeArrayList___::Contains(Object obj) {
   return Boolean();
 }
 
-void ArrayList___::FixedSizeArrayList___::CopyTo(Array<> array, Int32 index) {
+void FixedSizeArrayList___::CopyTo(Array<> array, Int32 index) {
 }
 
-void ArrayList___::FixedSizeArrayList___::CopyTo(Int32 index, Array<> array, Int32 arrayIndex, Int32 count) {
+void FixedSizeArrayList___::CopyTo(Int32 index, Array<> array, Int32 arrayIndex, Int32 count) {
 }
 
-IEnumerator ArrayList___::FixedSizeArrayList___::GetEnumerator() {
+IEnumerator FixedSizeArrayList___::GetEnumerator() {
   return nullptr;
 }
 
-IEnumerator ArrayList___::FixedSizeArrayList___::GetEnumerator(Int32 index, Int32 count) {
+IEnumerator FixedSizeArrayList___::GetEnumerator(Int32 index, Int32 count) {
   return nullptr;
 }
 
-Int32 ArrayList___::FixedSizeArrayList___::IndexOf(Object value) {
+Int32 FixedSizeArrayList___::IndexOf(Object value) {
   return Int32();
 }
 
-Int32 ArrayList___::FixedSizeArrayList___::IndexOf(Object value, Int32 startIndex) {
+Int32 FixedSizeArrayList___::IndexOf(Object value, Int32 startIndex) {
   return Int32();
 }
 
-Int32 ArrayList___::FixedSizeArrayList___::IndexOf(Object value, Int32 startIndex, Int32 count) {
+Int32 FixedSizeArrayList___::IndexOf(Object value, Int32 startIndex, Int32 count) {
   return Int32();
 }
 
-void ArrayList___::FixedSizeArrayList___::Insert(Int32 index, Object obj) {
+void FixedSizeArrayList___::Insert(Int32 index, Object obj) {
 }
 
-void ArrayList___::FixedSizeArrayList___::InsertRange(Int32 index, ICollection c) {
+void FixedSizeArrayList___::InsertRange(Int32 index, ICollection c) {
 }
 
-Int32 ArrayList___::FixedSizeArrayList___::LastIndexOf(Object value) {
+Int32 FixedSizeArrayList___::LastIndexOf(Object value) {
   return Int32();
 }
 
-Int32 ArrayList___::FixedSizeArrayList___::LastIndexOf(Object value, Int32 startIndex) {
+Int32 FixedSizeArrayList___::LastIndexOf(Object value, Int32 startIndex) {
   return Int32();
 }
 
-Int32 ArrayList___::FixedSizeArrayList___::LastIndexOf(Object value, Int32 startIndex, Int32 count) {
+Int32 FixedSizeArrayList___::LastIndexOf(Object value, Int32 startIndex, Int32 count) {
   return Int32();
 }
 
-void ArrayList___::FixedSizeArrayList___::Remove(Object value) {
+void FixedSizeArrayList___::Remove(Object value) {
 }
 
-void ArrayList___::FixedSizeArrayList___::RemoveAt(Int32 index) {
+void FixedSizeArrayList___::RemoveAt(Int32 index) {
 }
 
-void ArrayList___::FixedSizeArrayList___::RemoveRange(Int32 index, Int32 count) {
+void FixedSizeArrayList___::RemoveRange(Int32 index, Int32 count) {
 }
 
-void ArrayList___::FixedSizeArrayList___::SetRange(Int32 index, ICollection c) {
+void FixedSizeArrayList___::SetRange(Int32 index, ICollection c) {
 }
 
-ArrayList ArrayList___::FixedSizeArrayList___::GetRange(Int32 index, Int32 count) {
+ArrayList FixedSizeArrayList___::GetRange(Int32 index, Int32 count) {
   return nullptr;
 }
 
-void ArrayList___::FixedSizeArrayList___::Reverse(Int32 index, Int32 count) {
+void FixedSizeArrayList___::Reverse(Int32 index, Int32 count) {
 }
 
-void ArrayList___::FixedSizeArrayList___::Sort(Int32 index, Int32 count, IComparer comparer) {
+void FixedSizeArrayList___::Sort(Int32 index, Int32 count, IComparer comparer) {
 }
 
-Array<Object> ArrayList___::FixedSizeArrayList___::ToArray() {
+Array<Object> FixedSizeArrayList___::ToArray() {
   return Array<Object>();
 }
 
-Array<> ArrayList___::FixedSizeArrayList___::ToArray(Type type) {
+Array<> FixedSizeArrayList___::ToArray(Type type) {
   return nullptr;
 }
 
-void ArrayList___::FixedSizeArrayList___::TrimToSize() {
+void FixedSizeArrayList___::TrimToSize() {
 }
 
 Int32 ArrayList___::ReadOnlyList___::get_Count() {
@@ -632,140 +632,140 @@ void ArrayList___::ReadOnlyList___::Remove(Object value) {
 void ArrayList___::ReadOnlyList___::RemoveAt(Int32 index) {
 }
 
-Int32 ArrayList___::ReadOnlyArrayList___::get_Count() {
+Int32 ReadOnlyArrayList___::get_Count() {
   return Int32();
 }
 
-Boolean ArrayList___::ReadOnlyArrayList___::get_IsReadOnly() {
+Boolean ReadOnlyArrayList___::get_IsReadOnly() {
   return Boolean();
 }
 
-Boolean ArrayList___::ReadOnlyArrayList___::get_IsFixedSize() {
+Boolean ReadOnlyArrayList___::get_IsFixedSize() {
   return Boolean();
 }
 
-Boolean ArrayList___::ReadOnlyArrayList___::get_IsSynchronized() {
+Boolean ReadOnlyArrayList___::get_IsSynchronized() {
   return Boolean();
 }
 
-Object ArrayList___::ReadOnlyArrayList___::get_Item(Int32 index) {
+Object ReadOnlyArrayList___::get_Item(Int32 index) {
   return nullptr;
 }
 
-void ArrayList___::ReadOnlyArrayList___::set_Item(Int32 index, Object value) {
+void ReadOnlyArrayList___::set_Item(Int32 index, Object value) {
 }
 
-Object ArrayList___::ReadOnlyArrayList___::get_SyncRoot() {
+Object ReadOnlyArrayList___::get_SyncRoot() {
   return nullptr;
 }
 
-Int32 ArrayList___::ReadOnlyArrayList___::get_Capacity() {
+Int32 ReadOnlyArrayList___::get_Capacity() {
   return Int32();
 }
 
-void ArrayList___::ReadOnlyArrayList___::set_Capacity(Int32 value) {
+void ReadOnlyArrayList___::set_Capacity(Int32 value) {
 }
 
-void ArrayList___::ReadOnlyArrayList___::Ctor(ArrayList l) {
+void ReadOnlyArrayList___::Ctor(ArrayList l) {
 }
 
-Int32 ArrayList___::ReadOnlyArrayList___::Add(Object obj) {
+Int32 ReadOnlyArrayList___::Add(Object obj) {
   return Int32();
 }
 
-void ArrayList___::ReadOnlyArrayList___::AddRange(ICollection c) {
+void ReadOnlyArrayList___::AddRange(ICollection c) {
 }
 
-Int32 ArrayList___::ReadOnlyArrayList___::BinarySearch(Int32 index, Int32 count, Object value, IComparer comparer) {
+Int32 ReadOnlyArrayList___::BinarySearch(Int32 index, Int32 count, Object value, IComparer comparer) {
   return Int32();
 }
 
-void ArrayList___::ReadOnlyArrayList___::Clear() {
+void ReadOnlyArrayList___::Clear() {
 }
 
-Object ArrayList___::ReadOnlyArrayList___::Clone() {
+Object ReadOnlyArrayList___::Clone() {
   return nullptr;
 }
 
-Boolean ArrayList___::ReadOnlyArrayList___::Contains(Object obj) {
+Boolean ReadOnlyArrayList___::Contains(Object obj) {
   return Boolean();
 }
 
-void ArrayList___::ReadOnlyArrayList___::CopyTo(Array<> array, Int32 index) {
+void ReadOnlyArrayList___::CopyTo(Array<> array, Int32 index) {
 }
 
-void ArrayList___::ReadOnlyArrayList___::CopyTo(Int32 index, Array<> array, Int32 arrayIndex, Int32 count) {
+void ReadOnlyArrayList___::CopyTo(Int32 index, Array<> array, Int32 arrayIndex, Int32 count) {
 }
 
-IEnumerator ArrayList___::ReadOnlyArrayList___::GetEnumerator() {
+IEnumerator ReadOnlyArrayList___::GetEnumerator() {
   return nullptr;
 }
 
-IEnumerator ArrayList___::ReadOnlyArrayList___::GetEnumerator(Int32 index, Int32 count) {
+IEnumerator ReadOnlyArrayList___::GetEnumerator(Int32 index, Int32 count) {
   return nullptr;
 }
 
-Int32 ArrayList___::ReadOnlyArrayList___::IndexOf(Object value) {
+Int32 ReadOnlyArrayList___::IndexOf(Object value) {
   return Int32();
 }
 
-Int32 ArrayList___::ReadOnlyArrayList___::IndexOf(Object value, Int32 startIndex) {
+Int32 ReadOnlyArrayList___::IndexOf(Object value, Int32 startIndex) {
   return Int32();
 }
 
-Int32 ArrayList___::ReadOnlyArrayList___::IndexOf(Object value, Int32 startIndex, Int32 count) {
+Int32 ReadOnlyArrayList___::IndexOf(Object value, Int32 startIndex, Int32 count) {
   return Int32();
 }
 
-void ArrayList___::ReadOnlyArrayList___::Insert(Int32 index, Object obj) {
+void ReadOnlyArrayList___::Insert(Int32 index, Object obj) {
 }
 
-void ArrayList___::ReadOnlyArrayList___::InsertRange(Int32 index, ICollection c) {
+void ReadOnlyArrayList___::InsertRange(Int32 index, ICollection c) {
 }
 
-Int32 ArrayList___::ReadOnlyArrayList___::LastIndexOf(Object value) {
+Int32 ReadOnlyArrayList___::LastIndexOf(Object value) {
   return Int32();
 }
 
-Int32 ArrayList___::ReadOnlyArrayList___::LastIndexOf(Object value, Int32 startIndex) {
+Int32 ReadOnlyArrayList___::LastIndexOf(Object value, Int32 startIndex) {
   return Int32();
 }
 
-Int32 ArrayList___::ReadOnlyArrayList___::LastIndexOf(Object value, Int32 startIndex, Int32 count) {
+Int32 ReadOnlyArrayList___::LastIndexOf(Object value, Int32 startIndex, Int32 count) {
   return Int32();
 }
 
-void ArrayList___::ReadOnlyArrayList___::Remove(Object value) {
+void ReadOnlyArrayList___::Remove(Object value) {
 }
 
-void ArrayList___::ReadOnlyArrayList___::RemoveAt(Int32 index) {
+void ReadOnlyArrayList___::RemoveAt(Int32 index) {
 }
 
-void ArrayList___::ReadOnlyArrayList___::RemoveRange(Int32 index, Int32 count) {
+void ReadOnlyArrayList___::RemoveRange(Int32 index, Int32 count) {
 }
 
-void ArrayList___::ReadOnlyArrayList___::SetRange(Int32 index, ICollection c) {
+void ReadOnlyArrayList___::SetRange(Int32 index, ICollection c) {
 }
 
-ArrayList ArrayList___::ReadOnlyArrayList___::GetRange(Int32 index, Int32 count) {
+ArrayList ReadOnlyArrayList___::GetRange(Int32 index, Int32 count) {
   return nullptr;
 }
 
-void ArrayList___::ReadOnlyArrayList___::Reverse(Int32 index, Int32 count) {
+void ReadOnlyArrayList___::Reverse(Int32 index, Int32 count) {
 }
 
-void ArrayList___::ReadOnlyArrayList___::Sort(Int32 index, Int32 count, IComparer comparer) {
+void ReadOnlyArrayList___::Sort(Int32 index, Int32 count, IComparer comparer) {
 }
 
-Array<Object> ArrayList___::ReadOnlyArrayList___::ToArray() {
+Array<Object> ReadOnlyArrayList___::ToArray() {
   return Array<Object>();
 }
 
-Array<> ArrayList___::ReadOnlyArrayList___::ToArray(Type type) {
+Array<> ReadOnlyArrayList___::ToArray(Type type) {
   return nullptr;
 }
 
-void ArrayList___::ReadOnlyArrayList___::TrimToSize() {
+void ReadOnlyArrayList___::TrimToSize() {
 }
 
 Object ArrayList___::ArrayListEnumerator___::get_Current() {
@@ -786,143 +786,143 @@ Boolean ArrayList___::ArrayListEnumerator___::MoveNext() {
 void ArrayList___::ArrayListEnumerator___::Reset() {
 }
 
-Int32 ArrayList___::Range___::get_Capacity() {
+Int32 Range___::get_Capacity() {
   return Int32();
 }
 
-void ArrayList___::Range___::set_Capacity(Int32 value) {
+void Range___::set_Capacity(Int32 value) {
 }
 
-Int32 ArrayList___::Range___::get_Count() {
+Int32 Range___::get_Count() {
   return Int32();
 }
 
-Boolean ArrayList___::Range___::get_IsReadOnly() {
+Boolean Range___::get_IsReadOnly() {
   return Boolean();
 }
 
-Boolean ArrayList___::Range___::get_IsFixedSize() {
+Boolean Range___::get_IsFixedSize() {
   return Boolean();
 }
 
-Boolean ArrayList___::Range___::get_IsSynchronized() {
+Boolean Range___::get_IsSynchronized() {
   return Boolean();
 }
 
-Object ArrayList___::Range___::get_SyncRoot() {
+Object Range___::get_SyncRoot() {
   return nullptr;
 }
 
-Object ArrayList___::Range___::get_Item(Int32 index) {
+Object Range___::get_Item(Int32 index) {
   return nullptr;
 }
 
-void ArrayList___::Range___::set_Item(Int32 index, Object value) {
+void Range___::set_Item(Int32 index, Object value) {
 }
 
-void ArrayList___::Range___::Ctor(ArrayList list, Int32 index, Int32 count) {
+void Range___::Ctor(ArrayList list, Int32 index, Int32 count) {
 }
 
-void ArrayList___::Range___::InternalUpdateRange() {
+void Range___::InternalUpdateRange() {
 }
 
-void ArrayList___::Range___::InternalUpdateVersion() {
+void Range___::InternalUpdateVersion() {
 }
 
-Int32 ArrayList___::Range___::Add(Object value) {
+Int32 Range___::Add(Object value) {
   return Int32();
 }
 
-void ArrayList___::Range___::AddRange(ICollection c) {
+void Range___::AddRange(ICollection c) {
 }
 
-Int32 ArrayList___::Range___::BinarySearch(Int32 index, Int32 count, Object value, IComparer comparer) {
+Int32 Range___::BinarySearch(Int32 index, Int32 count, Object value, IComparer comparer) {
   return Int32();
 }
 
-void ArrayList___::Range___::Clear() {
+void Range___::Clear() {
 }
 
-Object ArrayList___::Range___::Clone() {
+Object Range___::Clone() {
   return nullptr;
 }
 
-Boolean ArrayList___::Range___::Contains(Object item) {
+Boolean Range___::Contains(Object item) {
   return Boolean();
 }
 
-void ArrayList___::Range___::CopyTo(Array<> array, Int32 index) {
+void Range___::CopyTo(Array<> array, Int32 index) {
 }
 
-void ArrayList___::Range___::CopyTo(Int32 index, Array<> array, Int32 arrayIndex, Int32 count) {
+void Range___::CopyTo(Int32 index, Array<> array, Int32 arrayIndex, Int32 count) {
 }
 
-IEnumerator ArrayList___::Range___::GetEnumerator() {
+IEnumerator Range___::GetEnumerator() {
   return nullptr;
 }
 
-IEnumerator ArrayList___::Range___::GetEnumerator(Int32 index, Int32 count) {
+IEnumerator Range___::GetEnumerator(Int32 index, Int32 count) {
   return nullptr;
 }
 
-ArrayList ArrayList___::Range___::GetRange(Int32 index, Int32 count) {
+ArrayList Range___::GetRange(Int32 index, Int32 count) {
   return nullptr;
 }
 
-Int32 ArrayList___::Range___::IndexOf(Object value) {
+Int32 Range___::IndexOf(Object value) {
   return Int32();
 }
 
-Int32 ArrayList___::Range___::IndexOf(Object value, Int32 startIndex) {
+Int32 Range___::IndexOf(Object value, Int32 startIndex) {
   return Int32();
 }
 
-Int32 ArrayList___::Range___::IndexOf(Object value, Int32 startIndex, Int32 count) {
+Int32 Range___::IndexOf(Object value, Int32 startIndex, Int32 count) {
   return Int32();
 }
 
-void ArrayList___::Range___::Insert(Int32 index, Object value) {
+void Range___::Insert(Int32 index, Object value) {
 }
 
-void ArrayList___::Range___::InsertRange(Int32 index, ICollection c) {
+void Range___::InsertRange(Int32 index, ICollection c) {
 }
 
-Int32 ArrayList___::Range___::LastIndexOf(Object value) {
+Int32 Range___::LastIndexOf(Object value) {
   return Int32();
 }
 
-Int32 ArrayList___::Range___::LastIndexOf(Object value, Int32 startIndex) {
+Int32 Range___::LastIndexOf(Object value, Int32 startIndex) {
   return Int32();
 }
 
-Int32 ArrayList___::Range___::LastIndexOf(Object value, Int32 startIndex, Int32 count) {
+Int32 Range___::LastIndexOf(Object value, Int32 startIndex, Int32 count) {
   return Int32();
 }
 
-void ArrayList___::Range___::RemoveAt(Int32 index) {
+void Range___::RemoveAt(Int32 index) {
 }
 
-void ArrayList___::Range___::RemoveRange(Int32 index, Int32 count) {
+void Range___::RemoveRange(Int32 index, Int32 count) {
 }
 
-void ArrayList___::Range___::Reverse(Int32 index, Int32 count) {
+void Range___::Reverse(Int32 index, Int32 count) {
 }
 
-void ArrayList___::Range___::SetRange(Int32 index, ICollection c) {
+void Range___::SetRange(Int32 index, ICollection c) {
 }
 
-void ArrayList___::Range___::Sort(Int32 index, Int32 count, IComparer comparer) {
+void Range___::Sort(Int32 index, Int32 count, IComparer comparer) {
 }
 
-Array<Object> ArrayList___::Range___::ToArray() {
+Array<Object> Range___::ToArray() {
   return Array<Object>();
 }
 
-Array<> ArrayList___::Range___::ToArray(Type type) {
+Array<> Range___::ToArray(Type type) {
   return nullptr;
 }
 
-void ArrayList___::Range___::TrimToSize() {
+void Range___::TrimToSize() {
 }
 
 Object ArrayList___::ArrayListEnumeratorSimple___::get_Current() {

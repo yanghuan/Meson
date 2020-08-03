@@ -13,7 +13,7 @@ FORWARDS(UInt32)
 namespace System::Private::CoreLib::System::Threading {
 namespace SpinLockNamespace {
 struct SpinLock {
-  friend class NAME(SystemThreading_SpinLockDebugView);
+  friend class SystemThreading_SpinLockDebugView___;
   public: Boolean get_IsHeld();
   public: Boolean get_IsHeldByCurrentThread();
   public: Boolean get_IsThreadOwnerTrackingEnabled();

@@ -1,38 +1,38 @@
 #include "StreamReader-dep.h"
 
 namespace System::Private::CoreLib::System::IO::StreamReaderNamespace {
-Encoding StreamReader___::NullStreamReader___::get_CurrentEncoding() {
+Encoding NullStreamReader___::get_CurrentEncoding() {
   return nullptr;
 }
 
-void StreamReader___::NullStreamReader___::Dispose(Boolean disposing) {
+void NullStreamReader___::Dispose(Boolean disposing) {
 }
 
-Int32 StreamReader___::NullStreamReader___::Peek() {
+Int32 NullStreamReader___::Peek() {
   return Int32();
 }
 
-Int32 StreamReader___::NullStreamReader___::Read() {
+Int32 NullStreamReader___::Read() {
   return Int32();
 }
 
-Int32 StreamReader___::NullStreamReader___::Read(Array<Char> buffer, Int32 index, Int32 count) {
+Int32 NullStreamReader___::Read(Array<Char> buffer, Int32 index, Int32 count) {
   return Int32();
 }
 
-String StreamReader___::NullStreamReader___::ReadLine() {
+String NullStreamReader___::ReadLine() {
   return nullptr;
 }
 
-String StreamReader___::NullStreamReader___::ReadToEnd() {
+String NullStreamReader___::ReadToEnd() {
   return nullptr;
 }
 
-Int32 StreamReader___::NullStreamReader___::ReadBuffer() {
+Int32 NullStreamReader___::ReadBuffer() {
   return Int32();
 }
 
-void StreamReader___::NullStreamReader___::Ctor() {
+void NullStreamReader___::Ctor() {
 }
 
 Encoding StreamReader___::get_CurrentEncoding() {

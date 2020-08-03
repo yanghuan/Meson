@@ -28,10 +28,7 @@ FORWARDS(Rune)
 namespace ASCIIEncodingNamespace {
 using namespace Buffers;
 CLASS(ASCIIEncoding) : public Encoding::in {
-  public: CLASS(ASCIIEncodingSealed) : public ASCIIEncoding::in {
-    public: Object Clone();
-    public: void Ctor();
-  };
+  friend class ASCIIEncodingSealed___;
   public: Boolean get_IsSingleByte();
   public: void Ctor();
   public: void SetDefaultFallbacks();
@@ -69,6 +66,10 @@ CLASS(ASCIIEncoding) : public Encoding::in {
   public: Encoder GetEncoder();
   private: static void SCtor();
   public: static ASCIIEncodingSealed s_default;
+};
+CLASS(ASCIIEncodingSealed) : public ASCIIEncoding::in {
+  public: Object Clone();
+  public: void Ctor();
 };
 } // namespace ASCIIEncodingNamespace
 using ASCIIEncoding = ASCIIEncodingNamespace::ASCIIEncoding;

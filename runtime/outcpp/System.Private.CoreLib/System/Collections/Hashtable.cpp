@@ -47,83 +47,83 @@ IEnumerator Hashtable___::ValueCollection___::GetEnumerator() {
   return nullptr;
 }
 
-Int32 Hashtable___::SyncHashtable___::get_Count() {
+Int32 SyncHashtable___::get_Count() {
   return Int32();
 }
 
-Boolean Hashtable___::SyncHashtable___::get_IsReadOnly() {
+Boolean SyncHashtable___::get_IsReadOnly() {
   return Boolean();
 }
 
-Boolean Hashtable___::SyncHashtable___::get_IsFixedSize() {
+Boolean SyncHashtable___::get_IsFixedSize() {
   return Boolean();
 }
 
-Boolean Hashtable___::SyncHashtable___::get_IsSynchronized() {
+Boolean SyncHashtable___::get_IsSynchronized() {
   return Boolean();
 }
 
-Object Hashtable___::SyncHashtable___::get_Item(Object key) {
+Object SyncHashtable___::get_Item(Object key) {
   return nullptr;
 }
 
-void Hashtable___::SyncHashtable___::set_Item(Object key, Object value) {
+void SyncHashtable___::set_Item(Object key, Object value) {
 }
 
-Object Hashtable___::SyncHashtable___::get_SyncRoot() {
+Object SyncHashtable___::get_SyncRoot() {
   return nullptr;
 }
 
-ICollection Hashtable___::SyncHashtable___::get_Keys() {
+ICollection SyncHashtable___::get_Keys() {
   return nullptr;
 }
 
-ICollection Hashtable___::SyncHashtable___::get_Values() {
+ICollection SyncHashtable___::get_Values() {
   return nullptr;
 }
 
-void Hashtable___::SyncHashtable___::Ctor(Hashtable table) {
+void SyncHashtable___::Ctor(Hashtable table) {
 }
 
-void Hashtable___::SyncHashtable___::GetObjectData(SerializationInfo info, StreamingContext context) {
+void SyncHashtable___::GetObjectData(SerializationInfo info, StreamingContext context) {
 }
 
-void Hashtable___::SyncHashtable___::Add(Object key, Object value) {
+void SyncHashtable___::Add(Object key, Object value) {
 }
 
-void Hashtable___::SyncHashtable___::Clear() {
+void SyncHashtable___::Clear() {
 }
 
-Boolean Hashtable___::SyncHashtable___::Contains(Object key) {
+Boolean SyncHashtable___::Contains(Object key) {
   return Boolean();
 }
 
-Boolean Hashtable___::SyncHashtable___::ContainsKey(Object key) {
+Boolean SyncHashtable___::ContainsKey(Object key) {
   return Boolean();
 }
 
-Boolean Hashtable___::SyncHashtable___::ContainsValue(Object key) {
+Boolean SyncHashtable___::ContainsValue(Object key) {
   return Boolean();
 }
 
-void Hashtable___::SyncHashtable___::CopyTo(Array<> array, Int32 arrayIndex) {
+void SyncHashtable___::CopyTo(Array<> array, Int32 arrayIndex) {
 }
 
-Object Hashtable___::SyncHashtable___::Clone() {
+Object SyncHashtable___::Clone() {
   return nullptr;
 }
 
-IDictionaryEnumerator Hashtable___::SyncHashtable___::GetEnumerator() {
+IDictionaryEnumerator SyncHashtable___::GetEnumerator() {
   return nullptr;
 }
 
-void Hashtable___::SyncHashtable___::Remove(Object key) {
+void SyncHashtable___::Remove(Object key) {
 }
 
-void Hashtable___::SyncHashtable___::OnDeserialization(Object sender) {
+void SyncHashtable___::OnDeserialization(Object sender) {
 }
 
-Array<KeyValuePairs> Hashtable___::SyncHashtable___::ToKeyValuePairsArray() {
+Array<KeyValuePairs> SyncHashtable___::ToKeyValuePairsArray() {
   return Array<KeyValuePairs>();
 }
 

@@ -1,30 +1,30 @@
 #include "UTF8Encoding-dep.h"
 
 namespace System::Private::CoreLib::System::Text::UTF8EncodingNamespace {
-ReadOnlySpan<Byte> UTF8Encoding___::UTF8EncodingSealed___::get_Preamble() {
+ReadOnlySpan<Byte> UTF8EncodingSealed___::get_Preamble() {
   return ReadOnlySpan<Byte>();
 }
 
-void UTF8Encoding___::UTF8EncodingSealed___::Ctor(Boolean encoderShouldEmitUTF8Identifier) {
+void UTF8EncodingSealed___::Ctor(Boolean encoderShouldEmitUTF8Identifier) {
 }
 
-Object UTF8Encoding___::UTF8EncodingSealed___::Clone() {
+Object UTF8EncodingSealed___::Clone() {
   return nullptr;
 }
 
-Array<Byte> UTF8Encoding___::UTF8EncodingSealed___::GetBytes(String s) {
+Array<Byte> UTF8EncodingSealed___::GetBytes(String s) {
   return Array<Byte>();
 }
 
-Array<Byte> UTF8Encoding___::UTF8EncodingSealed___::GetBytesForSmallInput(String s) {
+Array<Byte> UTF8EncodingSealed___::GetBytesForSmallInput(String s) {
   return Array<Byte>();
 }
 
-String UTF8Encoding___::UTF8EncodingSealed___::GetString(Array<Byte> bytes) {
+String UTF8EncodingSealed___::GetString(Array<Byte> bytes) {
   return nullptr;
 }
 
-String UTF8Encoding___::UTF8EncodingSealed___::GetStringForSmallInput(Array<Byte> bytes) {
+String UTF8EncodingSealed___::GetStringForSmallInput(Array<Byte> bytes) {
   return nullptr;
 }
 

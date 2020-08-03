@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics.Contracts;
 using System.Linq;
 using System.Reflection;
-
+using ICSharpCode.Decompiler.CSharp.Syntax;
 using ICSharpCode.Decompiler.TypeSystem;
 using Meson.Compiler.CppAst;
 
@@ -133,8 +133,8 @@ namespace Meson.Compiler {
           node.Bases.Add(new BaseSyntax(baseTypeName.TwoColon(IdentifierSyntax.In)));
         }
       }
-      VisitMembers(type, node);
       parent_.Add(node);
+      VisitMembers(type, node);
     }
 
     private bool IsExportMethod(IMethod method) {
@@ -315,49 +315,53 @@ namespace Meson.Compiler {
       return true;
     }
 
+    private void GetFieldNameAndType(ITypeDefinition typeDefinition, ClassSyntax node, IField field, out IdentifierSyntax fieldName, out ExpressionSyntax typeName) {
+      fieldName = GetMemberName(field);
+      if (IsValueTypeInnerField(field, typeDefinition, out typeName)) {
+        if (!field.IsStatic) {
+          node.Bases.Add(new BaseSyntax(IdentifierSyntax.PrimitiveType.Generic(node.Name)));
+
+          var statements = new StatementListSyntax();
+          string accessibilityToken = Accessibility.Public.ToTokenString();
+          var defaultConstructor = new MethodDefinitionSyntax(node.Name, Array.Empty<ParameterSyntax>()) {
+            AccessibilityToken = accessibilityToken,
+            Body = BlockSyntax.EmptyBlock,
+            IsConstexpr = true,
+            IsNoexcept = true,
+          };
+          defaultConstructor.AddInitializationList(fieldName, field.Type.GetDefinition().GetPrimitiveTypeDefaultValue());
+          statements.Add(defaultConstructor);
+
+          var underlyingTypeConstructor = new MethodDefinitionSyntax(node.Name, new ParameterSyntax(typeName, IdentifierSyntax.Value).ArrayOf()) {
+            AccessibilityToken = accessibilityToken,
+            Body = BlockSyntax.EmptyBlock,
+            IsConstexpr = true,
+            IsNoexcept = true,
+          };
+          underlyingTypeConstructor.AddInitializationList(fieldName, IdentifierSyntax.Value);
+          statements.Add(underlyingTypeConstructor);
+
+          var getValueMethod = new MethodDefinitionSyntax("get", Array.Empty<ParameterSyntax>(), new RefExpressionSyntax(typeName)) {
+            AccessibilityToken = accessibilityToken,
+            IsConstexpr = true,
+            IsNoexcept = true,
+            Body = new BlockSyntax() { IsSingleLine = true },
+          };
+          getValueMethod.Body.Add(fieldName.Return());
+          statements.Add(getValueMethod);
+
+          node.Statements.Insert(0, statements);
+          isPrimitiveType_ = true;
+        }
+      } else if (IsArrayInnerSpecialField(field, typeDefinition, out typeName)) {
+      } else {
+        typeName = GetFieldTypeName(field, typeDefinition);
+      }
+    }
+
     private void VisitFields(ITypeDefinition typeDefinition, ClassSyntax node) {
       foreach (var field in typeDefinition.Fields.Where(IsFieldExport)) {
-        var fieldName = GetMemberName(field);
-        if (IsValueTypeInnerField(field, typeDefinition, out ExpressionSyntax typeName)) {
-          if (!field.IsStatic) {
-            node.Bases.Add(new BaseSyntax(IdentifierSyntax.PrimitiveType.Generic(node.Name)));
-
-            var statements = new StatementListSyntax(); 
-            string accessibilityToken = Accessibility.Public.ToTokenString();
-            var defaultConstructor = new MethodDefinitionSyntax(node.Name, Array.Empty<ParameterSyntax>()) {
-              AccessibilityToken = accessibilityToken,
-              Body = BlockSyntax.EmptyBlock,
-              IsConstexpr = true,
-              IsNoexcept = true,
-            };
-            defaultConstructor.AddInitializationList(fieldName, field.Type.GetDefinition().GetPrimitiveTypeDefaultValue());
-            statements.Add(defaultConstructor);
-
-            var underlyingTypeConstructor = new MethodDefinitionSyntax(node.Name, new ParameterSyntax(typeName, IdentifierSyntax.Value).ArrayOf()) {
-              AccessibilityToken = accessibilityToken,
-              Body = BlockSyntax.EmptyBlock,
-              IsConstexpr = true,
-              IsNoexcept = true,
-            };
-            underlyingTypeConstructor.AddInitializationList(fieldName, IdentifierSyntax.Value);
-            statements.Add(underlyingTypeConstructor);
-
-            var getValueMethod = new MethodDefinitionSyntax("get", Array.Empty<ParameterSyntax>(), new RefExpressionSyntax(typeName)) { 
-              AccessibilityToken = accessibilityToken,
-              IsConstexpr  = true,
-              IsNoexcept = true,
-              Body = new BlockSyntax() { IsSingleLine = true },
-            };
-            getValueMethod.Body.Add(fieldName.Return());
-            statements.Add(getValueMethod);
-
-            node.Statements.Insert(0, statements);
-            isPrimitiveType_ = true;
-          }
-        } else if (IsArrayInnerSpecialField(field, typeDefinition, out typeName)) {
-        } else {
-          typeName = GetFieldTypeName(field, typeDefinition);
-        }
+        GetFieldNameAndType(typeDefinition, node, field, out var fieldName, out var typeName);
         Contract.Assert(typeName != null);
         var constantValue = field.GetConstantValue();
         node.Statements.Add(new FieldDefinitionSyntax(typeName, fieldName, field.IsStatic, field.Accessibility.ToTokenString()) {
@@ -498,10 +502,7 @@ namespace Meson.Compiler {
         if (brotherType != null) {
           foreach (var nestedType in types) {
             bool isRef = nestedType.IsRefType();
-            ExpressionSyntax name = (IdentifierSyntax)nestedType.Name;
-            if (isRef) {
-              name = IdentifierSyntax.NAME.Invation(name);
-            }
+            string name = isRef ? nestedType.Name.Wrap() : nestedType.Name;
             var friend = new FriendClassDeclarationSyntax(name, !isRef) { Template = nestedType.GetTemplateSyntax() };
             node.Add(friend);
           }

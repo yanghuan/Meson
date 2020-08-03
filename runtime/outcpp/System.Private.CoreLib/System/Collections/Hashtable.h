@@ -50,31 +50,7 @@ CLASS(Hashtable) : public Object::in {
     public: IEnumerator GetEnumerator();
     private: Hashtable _hashtable;
   };
-  private: CLASS(SyncHashtable) : public Hashtable::in {
-    public: Int32 get_Count();
-    public: Boolean get_IsReadOnly();
-    public: Boolean get_IsFixedSize();
-    public: Boolean get_IsSynchronized();
-    public: Object get_Item(Object key);
-    public: void set_Item(Object key, Object value);
-    public: Object get_SyncRoot();
-    public: ICollection get_Keys();
-    public: ICollection get_Values();
-    public: void Ctor(Hashtable table);
-    public: void GetObjectData(SerializationInfo info, StreamingContext context);
-    public: void Add(Object key, Object value);
-    public: void Clear();
-    public: Boolean Contains(Object key);
-    public: Boolean ContainsKey(Object key);
-    public: Boolean ContainsValue(Object key);
-    public: void CopyTo(Array<> array, Int32 arrayIndex);
-    public: Object Clone();
-    public: IDictionaryEnumerator GetEnumerator();
-    public: void Remove(Object key);
-    public: void OnDeserialization(Object sender);
-    public: Array<KeyValuePairs> ToKeyValuePairsArray();
-    protected: Hashtable _table;
-  };
+  friend class SyncHashtable___;
   private: CLASS(HashtableEnumerator) : public Object::in {
     public: Object get_Key();
     public: DictionaryEntry get_Entry();
@@ -163,6 +139,31 @@ CLASS(Hashtable) : public Object::in {
   private: ICollection _keys;
   private: ICollection _values;
   private: IEqualityComparer _keycomparer;
+};
+CLASS(SyncHashtable) : public Hashtable::in {
+  public: Int32 get_Count();
+  public: Boolean get_IsReadOnly();
+  public: Boolean get_IsFixedSize();
+  public: Boolean get_IsSynchronized();
+  public: Object get_Item(Object key);
+  public: void set_Item(Object key, Object value);
+  public: Object get_SyncRoot();
+  public: ICollection get_Keys();
+  public: ICollection get_Values();
+  public: void Ctor(Hashtable table);
+  public: void GetObjectData(SerializationInfo info, StreamingContext context);
+  public: void Add(Object key, Object value);
+  public: void Clear();
+  public: Boolean Contains(Object key);
+  public: Boolean ContainsKey(Object key);
+  public: Boolean ContainsValue(Object key);
+  public: void CopyTo(Array<> array, Int32 arrayIndex);
+  public: Object Clone();
+  public: IDictionaryEnumerator GetEnumerator();
+  public: void Remove(Object key);
+  public: void OnDeserialization(Object sender);
+  public: Array<KeyValuePairs> ToKeyValuePairsArray();
+  protected: Hashtable _table;
 };
 } // namespace HashtableNamespace
 using Hashtable = HashtableNamespace::Hashtable;

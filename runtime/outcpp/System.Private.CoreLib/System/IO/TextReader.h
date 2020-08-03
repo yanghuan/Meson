@@ -24,27 +24,8 @@ namespace TextReaderNamespace {
 using namespace Threading;
 using namespace Threading::Tasks;
 CLASS(TextReader) : public MarshalByRefObject::in {
-  private: CLASS(NullTextReader) : public TextReader::in {
-    public: void Ctor();
-    public: Int32 Read(Array<Char> buffer, Int32 index, Int32 count);
-    public: String ReadLine();
-  };
-  public: CLASS(SyncTextReader) : public TextReader::in {
-    public: void Ctor(TextReader t);
-    public: void Close();
-    protected: void Dispose(Boolean disposing);
-    public: Int32 Peek();
-    public: Int32 Read();
-    public: Int32 Read(Array<Char> buffer, Int32 index, Int32 count);
-    public: Int32 ReadBlock(Array<Char> buffer, Int32 index, Int32 count);
-    public: String ReadLine();
-    public: String ReadToEnd();
-    public: Task<String> ReadLineAsync();
-    public: Task<String> ReadToEndAsync();
-    public: Task<Int32> ReadBlockAsync(Array<Char> buffer, Int32 index, Int32 count);
-    public: Task<Int32> ReadAsync(Array<Char> buffer, Int32 index, Int32 count);
-    public: TextReader _in;
-  };
+  friend class NullTextReader___;
+  friend class SyncTextReader___;
   protected: void Ctor();
   public: void Close();
   public: void Dispose();
@@ -68,6 +49,27 @@ CLASS(TextReader) : public MarshalByRefObject::in {
   public: static TextReader Synchronized(TextReader reader);
   private: static void SCtor();
   public: static TextReader Null;
+};
+CLASS(NullTextReader) : public TextReader::in {
+  public: void Ctor();
+  public: Int32 Read(Array<Char> buffer, Int32 index, Int32 count);
+  public: String ReadLine();
+};
+CLASS(SyncTextReader) : public TextReader::in {
+  public: void Ctor(TextReader t);
+  public: void Close();
+  protected: void Dispose(Boolean disposing);
+  public: Int32 Peek();
+  public: Int32 Read();
+  public: Int32 Read(Array<Char> buffer, Int32 index, Int32 count);
+  public: Int32 ReadBlock(Array<Char> buffer, Int32 index, Int32 count);
+  public: String ReadLine();
+  public: String ReadToEnd();
+  public: Task<String> ReadLineAsync();
+  public: Task<String> ReadToEndAsync();
+  public: Task<Int32> ReadBlockAsync(Array<Char> buffer, Int32 index, Int32 count);
+  public: Task<Int32> ReadAsync(Array<Char> buffer, Int32 index, Int32 count);
+  public: TextReader _in;
 };
 } // namespace TextReaderNamespace
 using TextReader = TextReaderNamespace::TextReader;

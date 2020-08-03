@@ -59,6 +59,14 @@ namespace Meson.Compiler {
         var declaringType = type.GetStructReferenceDeclaringType();
         if (declaringType != null) {
           nestedBrotherTypes_.Add(type, declaringType);
+        } else {
+          var baseType = type.DirectBaseTypes.FirstOrDefault();
+          if (baseType != null) {
+            declaringType = type.DeclaringType.GetDefinition();
+            if (baseType.Is(declaringType)) {
+              nestedBrotherTypes_.Add(type, declaringType);
+            }
+          }
         }
       }
     }

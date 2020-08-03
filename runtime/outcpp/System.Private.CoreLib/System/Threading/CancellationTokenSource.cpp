@@ -9,25 +9,25 @@ void CancellationTokenSource___::CallbackNode___::Ctor(CallbackPartition partiti
 void CancellationTokenSource___::CallbackNode___::ExecuteCallback() {
 }
 
-void CancellationTokenSource___::Linked1CancellationTokenSource___::Ctor(CancellationToken token1) {
+void Linked1CancellationTokenSource___::Ctor(CancellationToken token1) {
 }
 
-void CancellationTokenSource___::Linked1CancellationTokenSource___::Dispose(Boolean disposing) {
+void Linked1CancellationTokenSource___::Dispose(Boolean disposing) {
 }
 
-void CancellationTokenSource___::Linked2CancellationTokenSource___::Ctor(CancellationToken token1, CancellationToken token2) {
+void Linked2CancellationTokenSource___::Ctor(CancellationToken token1, CancellationToken token2) {
 }
 
-void CancellationTokenSource___::Linked2CancellationTokenSource___::Dispose(Boolean disposing) {
+void Linked2CancellationTokenSource___::Dispose(Boolean disposing) {
 }
 
-void CancellationTokenSource___::LinkedNCancellationTokenSource___::Ctor(Array<CancellationToken> tokens) {
+void LinkedNCancellationTokenSource___::Ctor(Array<CancellationToken> tokens) {
 }
 
-void CancellationTokenSource___::LinkedNCancellationTokenSource___::Dispose(Boolean disposing) {
+void LinkedNCancellationTokenSource___::Dispose(Boolean disposing) {
 }
 
-void CancellationTokenSource___::LinkedNCancellationTokenSource___::SCtor() {
+void LinkedNCancellationTokenSource___::SCtor() {
 }
 
 void CancellationTokenSource___::CallbackPartition___::Ctor(CancellationTokenSource source) {

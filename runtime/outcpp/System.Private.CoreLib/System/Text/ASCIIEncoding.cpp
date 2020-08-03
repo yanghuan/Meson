@@ -1,11 +1,11 @@
 #include "ASCIIEncoding-dep.h"
 
 namespace System::Private::CoreLib::System::Text::ASCIIEncodingNamespace {
-Object ASCIIEncoding___::ASCIIEncodingSealed___::Clone() {
+Object ASCIIEncodingSealed___::Clone() {
   return nullptr;
 }
 
-void ASCIIEncoding___::ASCIIEncodingSealed___::Ctor() {
+void ASCIIEncodingSealed___::Ctor() {
 }
 
 Boolean ASCIIEncoding___::get_IsSingleByte() {

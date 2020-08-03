@@ -3,65 +3,65 @@
 #include <System.Private.CoreLib/System/IO/Stream-dep.h>
 
 namespace System::Private::CoreLib::System::IO::StreamNamespace {
-Boolean Stream___::WriteCallbackStream___::get_CanRead() {
+Boolean WriteCallbackStream___::get_CanRead() {
   return Boolean();
 }
 
-Boolean Stream___::WriteCallbackStream___::get_CanSeek() {
+Boolean WriteCallbackStream___::get_CanSeek() {
   return Boolean();
 }
 
-Boolean Stream___::WriteCallbackStream___::get_CanWrite() {
+Boolean WriteCallbackStream___::get_CanWrite() {
   return Boolean();
 }
 
-Int64 Stream___::WriteCallbackStream___::get_Length() {
+Int64 WriteCallbackStream___::get_Length() {
   return Int64();
 }
 
-Int64 Stream___::WriteCallbackStream___::get_Position() {
+Int64 WriteCallbackStream___::get_Position() {
   return Int64();
 }
 
-void Stream___::WriteCallbackStream___::set_Position(Int64 value) {
+void WriteCallbackStream___::set_Position(Int64 value) {
 }
 
-void Stream___::WriteCallbackStream___::Ctor(ReadOnlySpanAction<Byte, Object> action, Object state) {
+void WriteCallbackStream___::Ctor(ReadOnlySpanAction<Byte, Object> action, Object state) {
 }
 
-void Stream___::WriteCallbackStream___::Ctor(Func<ReadOnlyMemory<Byte>, Object, CancellationToken, ValueTask<>> func, Object state) {
+void WriteCallbackStream___::Ctor(Func<ReadOnlyMemory<Byte>, Object, CancellationToken, ValueTask<>> func, Object state) {
 }
 
-void Stream___::WriteCallbackStream___::Write(Array<Byte> buffer, Int32 offset, Int32 count) {
+void WriteCallbackStream___::Write(Array<Byte> buffer, Int32 offset, Int32 count) {
 }
 
-void Stream___::WriteCallbackStream___::Write(ReadOnlySpan<Byte> span) {
+void WriteCallbackStream___::Write(ReadOnlySpan<Byte> span) {
 }
 
-Task<> Stream___::WriteCallbackStream___::WriteAsync(Array<Byte> buffer, Int32 offset, Int32 length, CancellationToken cancellationToken) {
+Task<> WriteCallbackStream___::WriteAsync(Array<Byte> buffer, Int32 offset, Int32 length, CancellationToken cancellationToken) {
   return nullptr;
 }
 
-ValueTask<> Stream___::WriteCallbackStream___::WriteAsync(ReadOnlyMemory<Byte> buffer, CancellationToken cancellationToken) {
+ValueTask<> WriteCallbackStream___::WriteAsync(ReadOnlyMemory<Byte> buffer, CancellationToken cancellationToken) {
   return ValueTask<>();
 }
 
-void Stream___::WriteCallbackStream___::Flush() {
+void WriteCallbackStream___::Flush() {
 }
 
-Task<> Stream___::WriteCallbackStream___::FlushAsync(CancellationToken token) {
+Task<> WriteCallbackStream___::FlushAsync(CancellationToken token) {
   return nullptr;
 }
 
-Int32 Stream___::WriteCallbackStream___::Read(Array<Byte> buffer, Int32 offset, Int32 count) {
+Int32 WriteCallbackStream___::Read(Array<Byte> buffer, Int32 offset, Int32 count) {
   return Int32();
 }
 
-Int64 Stream___::WriteCallbackStream___::Seek(Int64 offset, SeekOrigin origin) {
+Int64 WriteCallbackStream___::Seek(Int64 offset, SeekOrigin origin) {
   return Int64();
 }
 
-void Stream___::WriteCallbackStream___::SetLength(Int64 value) {
+void WriteCallbackStream___::SetLength(Int64 value) {
 }
 
 Boolean Stream___::ReadWriteTask___::get_InvokeMayRunArbitraryCodeOfITaskCompletionAction() {
@@ -77,116 +77,116 @@ void Stream___::ReadWriteTask___::Ctor(Boolean isRead, Boolean apm, Func<Object,
 void Stream___::ReadWriteTask___::InvokeAsyncCallback(Object completedTask) {
 }
 
-Boolean Stream___::NullStream___::get_CanRead() {
+Boolean NullStream___::get_CanRead() {
   return Boolean();
 }
 
-Boolean Stream___::NullStream___::get_CanWrite() {
+Boolean NullStream___::get_CanWrite() {
   return Boolean();
 }
 
-Boolean Stream___::NullStream___::get_CanSeek() {
+Boolean NullStream___::get_CanSeek() {
   return Boolean();
 }
 
-Int64 Stream___::NullStream___::get_Length() {
+Int64 NullStream___::get_Length() {
   return Int64();
 }
 
-Int64 Stream___::NullStream___::get_Position() {
+Int64 NullStream___::get_Position() {
   return Int64();
 }
 
-void Stream___::NullStream___::set_Position(Int64 value) {
+void NullStream___::set_Position(Int64 value) {
 }
 
-void Stream___::NullStream___::Ctor() {
+void NullStream___::Ctor() {
 }
 
-void Stream___::NullStream___::CopyTo(Stream destination, Int32 bufferSize) {
+void NullStream___::CopyTo(Stream destination, Int32 bufferSize) {
 }
 
-Task<> Stream___::NullStream___::CopyToAsync(Stream destination, Int32 bufferSize, CancellationToken cancellationToken) {
+Task<> NullStream___::CopyToAsync(Stream destination, Int32 bufferSize, CancellationToken cancellationToken) {
   return nullptr;
 }
 
-void Stream___::NullStream___::CopyTo(ReadOnlySpanAction<Byte, Object> callback, Object state, Int32 bufferSize) {
+void NullStream___::CopyTo(ReadOnlySpanAction<Byte, Object> callback, Object state, Int32 bufferSize) {
 }
 
-Task<> Stream___::NullStream___::CopyToAsync(Func<ReadOnlyMemory<Byte>, Object, CancellationToken, ValueTask<>> callback, Object state, Int32 bufferSize, CancellationToken cancellationToken) {
+Task<> NullStream___::CopyToAsync(Func<ReadOnlyMemory<Byte>, Object, CancellationToken, ValueTask<>> callback, Object state, Int32 bufferSize, CancellationToken cancellationToken) {
   return nullptr;
 }
 
-void Stream___::NullStream___::Dispose(Boolean disposing) {
+void NullStream___::Dispose(Boolean disposing) {
 }
 
-void Stream___::NullStream___::Flush() {
+void NullStream___::Flush() {
 }
 
-Task<> Stream___::NullStream___::FlushAsync(CancellationToken cancellationToken) {
+Task<> NullStream___::FlushAsync(CancellationToken cancellationToken) {
   return nullptr;
 }
 
-IAsyncResult Stream___::NullStream___::BeginRead(Array<Byte> buffer, Int32 offset, Int32 count, AsyncCallback callback, Object state) {
+IAsyncResult NullStream___::BeginRead(Array<Byte> buffer, Int32 offset, Int32 count, AsyncCallback callback, Object state) {
   return nullptr;
 }
 
-Int32 Stream___::NullStream___::EndRead(IAsyncResult asyncResult) {
+Int32 NullStream___::EndRead(IAsyncResult asyncResult) {
   return Int32();
 }
 
-IAsyncResult Stream___::NullStream___::BeginWrite(Array<Byte> buffer, Int32 offset, Int32 count, AsyncCallback callback, Object state) {
+IAsyncResult NullStream___::BeginWrite(Array<Byte> buffer, Int32 offset, Int32 count, AsyncCallback callback, Object state) {
   return nullptr;
 }
 
-void Stream___::NullStream___::EndWrite(IAsyncResult asyncResult) {
+void NullStream___::EndWrite(IAsyncResult asyncResult) {
 }
 
-Int32 Stream___::NullStream___::Read(Array<Byte> buffer, Int32 offset, Int32 count) {
+Int32 NullStream___::Read(Array<Byte> buffer, Int32 offset, Int32 count) {
   return Int32();
 }
 
-Int32 Stream___::NullStream___::Read(Span<Byte> buffer) {
+Int32 NullStream___::Read(Span<Byte> buffer) {
   return Int32();
 }
 
-Task<Int32> Stream___::NullStream___::ReadAsync(Array<Byte> buffer, Int32 offset, Int32 count, CancellationToken cancellationToken) {
+Task<Int32> NullStream___::ReadAsync(Array<Byte> buffer, Int32 offset, Int32 count, CancellationToken cancellationToken) {
   return nullptr;
 }
 
-ValueTask<Int32> Stream___::NullStream___::ReadAsync(Memory<Byte> buffer, CancellationToken cancellationToken) {
+ValueTask<Int32> NullStream___::ReadAsync(Memory<Byte> buffer, CancellationToken cancellationToken) {
   return ValueTask<Int32>();
 }
 
-Int32 Stream___::NullStream___::ReadByte() {
+Int32 NullStream___::ReadByte() {
   return Int32();
 }
 
-void Stream___::NullStream___::Write(Array<Byte> buffer, Int32 offset, Int32 count) {
+void NullStream___::Write(Array<Byte> buffer, Int32 offset, Int32 count) {
 }
 
-void Stream___::NullStream___::Write(ReadOnlySpan<Byte> buffer) {
+void NullStream___::Write(ReadOnlySpan<Byte> buffer) {
 }
 
-Task<> Stream___::NullStream___::WriteAsync(Array<Byte> buffer, Int32 offset, Int32 count, CancellationToken cancellationToken) {
+Task<> NullStream___::WriteAsync(Array<Byte> buffer, Int32 offset, Int32 count, CancellationToken cancellationToken) {
   return nullptr;
 }
 
-ValueTask<> Stream___::NullStream___::WriteAsync(ReadOnlyMemory<Byte> buffer, CancellationToken cancellationToken) {
+ValueTask<> NullStream___::WriteAsync(ReadOnlyMemory<Byte> buffer, CancellationToken cancellationToken) {
   return ValueTask<>();
 }
 
-void Stream___::NullStream___::WriteByte(Byte value) {
+void NullStream___::WriteByte(Byte value) {
 }
 
-Int64 Stream___::NullStream___::Seek(Int64 offset, SeekOrigin origin) {
+Int64 NullStream___::Seek(Int64 offset, SeekOrigin origin) {
   return Int64();
 }
 
-void Stream___::NullStream___::SetLength(Int64 length) {
+void NullStream___::SetLength(Int64 length) {
 }
 
-void Stream___::NullStream___::SCtor() {
+void NullStream___::SCtor() {
 }
 
 Boolean Stream___::SynchronousAsyncResult___::get_IsCompleted() {
@@ -224,104 +224,104 @@ Int32 Stream___::SynchronousAsyncResult___::EndRead(IAsyncResult asyncResult) {
 void Stream___::SynchronousAsyncResult___::EndWrite(IAsyncResult asyncResult) {
 }
 
-Boolean Stream___::SyncStream___::get_CanRead() {
+Boolean SyncStream___::get_CanRead() {
   return Boolean();
 }
 
-Boolean Stream___::SyncStream___::get_CanWrite() {
+Boolean SyncStream___::get_CanWrite() {
   return Boolean();
 }
 
-Boolean Stream___::SyncStream___::get_CanSeek() {
+Boolean SyncStream___::get_CanSeek() {
   return Boolean();
 }
 
-Boolean Stream___::SyncStream___::get_CanTimeout() {
+Boolean SyncStream___::get_CanTimeout() {
   return Boolean();
 }
 
-Int64 Stream___::SyncStream___::get_Length() {
+Int64 SyncStream___::get_Length() {
   return Int64();
 }
 
-Int64 Stream___::SyncStream___::get_Position() {
+Int64 SyncStream___::get_Position() {
   return Int64();
 }
 
-void Stream___::SyncStream___::set_Position(Int64 value) {
+void SyncStream___::set_Position(Int64 value) {
 }
 
-Int32 Stream___::SyncStream___::get_ReadTimeout() {
+Int32 SyncStream___::get_ReadTimeout() {
   return Int32();
 }
 
-void Stream___::SyncStream___::set_ReadTimeout(Int32 value) {
+void SyncStream___::set_ReadTimeout(Int32 value) {
 }
 
-Int32 Stream___::SyncStream___::get_WriteTimeout() {
+Int32 SyncStream___::get_WriteTimeout() {
   return Int32();
 }
 
-void Stream___::SyncStream___::set_WriteTimeout(Int32 value) {
+void SyncStream___::set_WriteTimeout(Int32 value) {
 }
 
-void Stream___::SyncStream___::Ctor(Stream stream) {
+void SyncStream___::Ctor(Stream stream) {
 }
 
-void Stream___::SyncStream___::Close() {
+void SyncStream___::Close() {
 }
 
-void Stream___::SyncStream___::Dispose(Boolean disposing) {
+void SyncStream___::Dispose(Boolean disposing) {
 }
 
-ValueTask<> Stream___::SyncStream___::DisposeAsync() {
+ValueTask<> SyncStream___::DisposeAsync() {
   return ValueTask<>();
 }
 
-void Stream___::SyncStream___::Flush() {
+void SyncStream___::Flush() {
 }
 
-Int32 Stream___::SyncStream___::Read(Array<Byte> bytes, Int32 offset, Int32 count) {
+Int32 SyncStream___::Read(Array<Byte> bytes, Int32 offset, Int32 count) {
   return Int32();
 }
 
-Int32 Stream___::SyncStream___::Read(Span<Byte> buffer) {
+Int32 SyncStream___::Read(Span<Byte> buffer) {
   return Int32();
 }
 
-Int32 Stream___::SyncStream___::ReadByte() {
+Int32 SyncStream___::ReadByte() {
   return Int32();
 }
 
-IAsyncResult Stream___::SyncStream___::BeginRead(Array<Byte> buffer, Int32 offset, Int32 count, AsyncCallback callback, Object state) {
+IAsyncResult SyncStream___::BeginRead(Array<Byte> buffer, Int32 offset, Int32 count, AsyncCallback callback, Object state) {
   return nullptr;
 }
 
-Int32 Stream___::SyncStream___::EndRead(IAsyncResult asyncResult) {
+Int32 SyncStream___::EndRead(IAsyncResult asyncResult) {
   return Int32();
 }
 
-Int64 Stream___::SyncStream___::Seek(Int64 offset, SeekOrigin origin) {
+Int64 SyncStream___::Seek(Int64 offset, SeekOrigin origin) {
   return Int64();
 }
 
-void Stream___::SyncStream___::SetLength(Int64 length) {
+void SyncStream___::SetLength(Int64 length) {
 }
 
-void Stream___::SyncStream___::Write(Array<Byte> bytes, Int32 offset, Int32 count) {
+void SyncStream___::Write(Array<Byte> bytes, Int32 offset, Int32 count) {
 }
 
-void Stream___::SyncStream___::Write(ReadOnlySpan<Byte> buffer) {
+void SyncStream___::Write(ReadOnlySpan<Byte> buffer) {
 }
 
-void Stream___::SyncStream___::WriteByte(Byte b) {
+void SyncStream___::WriteByte(Byte b) {
 }
 
-IAsyncResult Stream___::SyncStream___::BeginWrite(Array<Byte> buffer, Int32 offset, Int32 count, AsyncCallback callback, Object state) {
+IAsyncResult SyncStream___::BeginWrite(Array<Byte> buffer, Int32 offset, Int32 count, AsyncCallback callback, Object state) {
   return nullptr;
 }
 
-void Stream___::SyncStream___::EndWrite(IAsyncResult asyncResult) {
+void SyncStream___::EndWrite(IAsyncResult asyncResult) {
 }
 
 Boolean Stream___::get_CanTimeout() {

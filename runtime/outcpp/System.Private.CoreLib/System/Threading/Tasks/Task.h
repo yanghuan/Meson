@@ -66,39 +66,6 @@ CLASS_(Task) : public Object::in {
     public: void Invoke(Task<> completingTask);
     private: Int32 _count;
   };
-  private: CLASS(DelayPromise) : public Task<>::in {
-    public: void Ctor(Int32 millisecondsDelay);
-    private: void CompleteTimedOut();
-    protected: void Cleanup();
-    private: TimerQueueTimer _timer;
-  };
-  private: CLASS(DelayPromiseWithCancellation) : public DelayPromise::in {
-    public: void Ctor(Int32 millisecondsDelay, CancellationToken token);
-    private: void CompleteCanceled();
-    protected: void Cleanup();
-    private: CancellationToken _token;
-    private: CancellationTokenRegistration _registration;
-  };
-  CLASS_FORWARD(WhenAllPromise, T1, T2)
-  private: CLASS_(WhenAllPromise) : public Task<>::in {
-    public: Boolean get_InvokeMayRunArbitraryCode();
-    public: Boolean get_ShouldNotifyDebuggerOfWaitCompletion();
-    private: Array<Task<>> m_tasks;
-    private: Int32 m_count;
-  };
-  private: CLASS_(WhenAllPromise, T) : public Task<Array<T>>::in {
-    public: Boolean get_InvokeMayRunArbitraryCode();
-    public: Boolean get_ShouldNotifyDebuggerOfWaitCompletion();
-    private: Array<Task<T>> m_tasks;
-    private: Int32 m_count;
-  };
-  private: CLASS(TwoTaskWhenAnyPromise, TTask) : public Task<TTask>::in {
-    public: Boolean get_InvokeMayRunArbitraryCode();
-    public: void Ctor(TTask task1, TTask task2);
-    public: void Invoke(Task<> completingTask);
-    private: TTask _task1;
-    private: TTask _task2;
-  };
   private: Task<> get_ParentForDebugger();
   private: Int32 get_StateFlagsForDebugger();
   private: String get_DebuggerDisplayMethodDescription();
@@ -146,6 +113,39 @@ CLASS_(Task) : public Object::in {
   private: static TaskFactory<> Factory;
   public: static Task<VoidTaskResult> s_cachedCompleted;
   private: static ContextCallback<> s_ecCallback;
+};
+CLASS(DelayPromise) : public Task<>::in {
+  public: void Ctor(Int32 millisecondsDelay);
+  private: void CompleteTimedOut();
+  protected: void Cleanup();
+  private: TimerQueueTimer _timer;
+};
+CLASS(DelayPromiseWithCancellation) : public DelayPromise::in {
+  public: void Ctor(Int32 millisecondsDelay, CancellationToken token);
+  private: void CompleteCanceled();
+  protected: void Cleanup();
+  private: CancellationToken _token;
+  private: CancellationTokenRegistration _registration;
+};
+CLASS_FORWARD(WhenAllPromise, T1, T2)
+CLASS_(WhenAllPromise) : public Task<>::in {
+  public: Boolean get_InvokeMayRunArbitraryCode();
+  public: Boolean get_ShouldNotifyDebuggerOfWaitCompletion();
+  private: Array<Task<>> m_tasks;
+  private: Int32 m_count;
+};
+CLASS_(WhenAllPromise, T) : public Task<Array<T>>::in {
+  public: Boolean get_InvokeMayRunArbitraryCode();
+  public: Boolean get_ShouldNotifyDebuggerOfWaitCompletion();
+  private: Array<Task<T>> m_tasks;
+  private: Int32 m_count;
+};
+CLASS(TwoTaskWhenAnyPromise, TTask) : public Task<TTask>::in {
+  public: Boolean get_InvokeMayRunArbitraryCode();
+  public: void Ctor(TTask task1, TTask task2);
+  public: void Invoke(Task<> completingTask);
+  private: TTask _task1;
+  private: TTask _task2;
 };
 CLASS_(Task, TResult) : public Task<>::in {
   public: class TaskWhenAnyCast {

@@ -26,16 +26,10 @@ FORWARD(EncoderFallback)
 FORWARDS(Rune)
 namespace UTF8EncodingNamespace {
 using namespace Buffers;
+class UTF8EncodingSealed___;
+using UTF8EncodingSealed = rt::ref<UTF8EncodingSealed___>;
 CLASS(UTF8Encoding) : public Encoding::in {
-  public: CLASS(UTF8EncodingSealed) : public UTF8Encoding::in {
-    public: ReadOnlySpan<Byte> get_Preamble();
-    public: void Ctor(Boolean encoderShouldEmitUTF8Identifier);
-    public: Object Clone();
-    public: Array<Byte> GetBytes(String s);
-    private: Array<Byte> GetBytesForSmallInput(String s);
-    public: String GetString(Array<Byte> bytes);
-    private: String GetStringForSmallInput(Array<Byte> bytes);
-  };
+  friend class UTF8EncodingSealed___;
   public: static ReadOnlySpan<Byte> get_PreambleSpan();
   public: ReadOnlySpan<Byte> get_Preamble();
   public: void Ctor();
@@ -80,6 +74,15 @@ CLASS(UTF8Encoding) : public Encoding::in {
   public: static UTF8EncodingSealed s_default;
   private: Boolean _emitUTF8Identifier;
   private: Boolean _isThrowException;
+};
+CLASS(UTF8EncodingSealed) : public UTF8Encoding::in {
+  public: ReadOnlySpan<Byte> get_Preamble();
+  public: void Ctor(Boolean encoderShouldEmitUTF8Identifier);
+  public: Object Clone();
+  public: Array<Byte> GetBytes(String s);
+  private: Array<Byte> GetBytesForSmallInput(String s);
+  public: String GetString(Array<Byte> bytes);
+  private: String GetStringForSmallInput(Array<Byte> bytes);
 };
 } // namespace UTF8EncodingNamespace
 using UTF8Encoding = UTF8EncodingNamespace::UTF8Encoding;

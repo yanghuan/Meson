@@ -31,17 +31,7 @@ using namespace Text;
 using namespace Threading;
 using namespace Threading::Tasks;
 CLASS(StreamReader) : public TextReader::in {
-  private: CLASS(NullStreamReader) : public StreamReader::in {
-    public: Encoding get_CurrentEncoding();
-    protected: void Dispose(Boolean disposing);
-    public: Int32 Peek();
-    public: Int32 Read();
-    public: Int32 Read(Array<Char> buffer, Int32 index, Int32 count);
-    public: String ReadLine();
-    public: String ReadToEnd();
-    public: Int32 ReadBuffer();
-    public: void Ctor();
-  };
+  friend class NullStreamReader___;
   public: Encoding get_CurrentEncoding();
   public: Stream get_BaseStream();
   public: Boolean get_EndOfStream();
@@ -106,6 +96,17 @@ CLASS(StreamReader) : public TextReader::in {
   private: Boolean _isBlocked;
   private: Boolean _closable;
   private: Task<> _asyncReadTask;
+};
+CLASS(NullStreamReader) : public StreamReader::in {
+  public: Encoding get_CurrentEncoding();
+  protected: void Dispose(Boolean disposing);
+  public: Int32 Peek();
+  public: Int32 Read();
+  public: Int32 Read(Array<Char> buffer, Int32 index, Int32 count);
+  public: String ReadLine();
+  public: String ReadToEnd();
+  public: Int32 ReadBuffer();
+  public: void Ctor();
 };
 } // namespace StreamReaderNamespace
 using StreamReader = StreamReaderNamespace::StreamReader;
