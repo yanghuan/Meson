@@ -1,6 +1,6 @@
 #pragma once
 
-#include <rt/GCObject.h>
+#include <System.Private.CoreLib/System/ValueType.h>
 
 namespace System::Private::CoreLib::System::Numerics {
 FORWARDS_(Vector, T1, T2)
@@ -25,7 +25,7 @@ using namespace Numerics;
 using namespace Runtime::Intrinsics;
 class SpanHelpers {
   public: template <class T, class TComparer>
-  struct ComparerComparable {
+  struct ComparerComparable : public valueType<ComparerComparable<T, TComparer>> {
     public: explicit ComparerComparable(T value, TComparer comparer);
     public: Int32 CompareTo(T other);
     public: explicit ComparerComparable() {}

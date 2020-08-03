@@ -1,6 +1,6 @@
 #pragma once
 
-#include <rt/GCObject.h>
+#include <System.Private.CoreLib/System/ValueType.h>
 
 namespace System::Private::CoreLib::System {
 FORWARDS(Boolean)
@@ -15,12 +15,12 @@ template <class T1 = void, class T2 = void>
 struct TaskAwaiter {
 };
 template <>
-struct TaskAwaiter<> {
+struct TaskAwaiter<> : public valueType<TaskAwaiter> {
   public: Boolean get_IsCompleted();
   public: Task<> m_task;
 };
 template <class TResult>
-struct TaskAwaiter<TResult> {
+struct TaskAwaiter<TResult> : public valueType<TaskAwaiter<TResult>> {
   public: Boolean get_IsCompleted();
   private: Task<TResult> m_task;
 };

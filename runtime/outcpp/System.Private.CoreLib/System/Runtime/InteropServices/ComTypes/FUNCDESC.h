@@ -1,17 +1,17 @@
 #pragma once
 
-#include <rt/GCObject.h>
 #include <System.Private.CoreLib/System/Int16.h>
 #include <System.Private.CoreLib/System/Int32.h>
 #include <System.Private.CoreLib/System/IntPtr.h>
 #include <System.Private.CoreLib/System/Runtime/InteropServices/ComTypes/ELEMDESC.h>
+#include <System.Private.CoreLib/System/ValueType.h>
 
 namespace System::Private::CoreLib::System::Runtime::InteropServices::ComTypes {
 enum class CALLCONV;
 enum class FUNCKIND;
 enum class INVOKEKIND;
 namespace FUNCDESCNamespace {
-struct FUNCDESC {
+struct FUNCDESC : public valueType<FUNCDESC> {
   public: Int32 memid;
   public: IntPtr lprgscode;
   public: IntPtr lprgelemdescParam;

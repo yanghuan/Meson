@@ -1,17 +1,17 @@
 #pragma once
 
-#include <rt/GCObject.h>
 #include <System.Private.CoreLib/System/Guid.h>
 #include <System.Private.CoreLib/System/Int32.h>
 #include <System.Private.CoreLib/System/Int64.h>
 #include <System.Private.CoreLib/System/Runtime/InteropServices/ComTypes/FILETIME.h>
+#include <System.Private.CoreLib/System/ValueType.h>
 
 namespace System::Private::CoreLib::System {
 FORWARD(String)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Runtime::InteropServices::ComTypes {
 namespace STATSTGNamespace {
-struct STATSTG {
+struct STATSTG : public valueType<STATSTG> {
   public: String pwcsName;
   public: Int32 type;
   public: Int64 cbSize;

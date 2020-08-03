@@ -1,6 +1,5 @@
 #pragma once
 
-#include <rt/GCObject.h>
 #include <System.Private.CoreLib/System/EventArgs.h>
 #include <System.Private.CoreLib/System/Runtime/Serialization/StreamingContext.h>
 

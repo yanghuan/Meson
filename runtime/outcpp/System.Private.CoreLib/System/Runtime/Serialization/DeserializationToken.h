@@ -1,11 +1,11 @@
 #pragma once
 
-#include <rt/GCObject.h>
+#include <System.Private.CoreLib/System/ValueType.h>
 
 namespace System::Private::CoreLib::System::Runtime::Serialization {
 FORWARD(DeserializationTracker)
 namespace DeserializationTokenNamespace {
-struct DeserializationToken {
+struct DeserializationToken : public valueType<DeserializationToken> {
   public: explicit DeserializationToken(DeserializationTracker tracker);
   public: void Dispose();
   public: explicit DeserializationToken() {}

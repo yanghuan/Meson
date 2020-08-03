@@ -1,7 +1,7 @@
 #pragma once
 
-#include <rt/GCObject.h>
 #include <System.Private.CoreLib/System/Int32.h>
+#include <System.Private.CoreLib/System/ValueType.h>
 
 namespace System::Private::CoreLib::System {
 FORWARDS(Boolean)
@@ -9,7 +9,7 @@ FORWARD(Object)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Runtime::InteropServices {
 namespace ArrayWithOffsetNamespace {
-struct ArrayWithOffset : public rt::ValueType<ArrayWithOffset> {
+struct ArrayWithOffset : public valueType<ArrayWithOffset> {
   public: explicit ArrayWithOffset(Object array, Int32 offset);
   public: Object GetArray();
   public: Int32 GetOffset();

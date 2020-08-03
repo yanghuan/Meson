@@ -1,7 +1,7 @@
 #pragma once
 
-#include <rt/GCObject.h>
 #include <System.Private.CoreLib/System/Int32.h>
+#include <System.Private.CoreLib/System/ValueType.h>
 
 namespace System::Private::CoreLib::System {
 FORWARDS(Boolean)
@@ -10,7 +10,7 @@ FORWARD(Type)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Reflection::Emit {
 namespace FieldTokenNamespace {
-struct FieldToken : public rt::ValueType<FieldToken> {
+struct FieldToken : public valueType<FieldToken> {
   public: Int32 get_Token() { return Token; }
   public: explicit FieldToken(Int32 fieldToken, Type fieldClass);
   public: Int32 GetHashCode();

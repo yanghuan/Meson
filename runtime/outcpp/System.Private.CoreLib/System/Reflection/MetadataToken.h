@@ -1,7 +1,7 @@
 #pragma once
 
-#include <rt/GCObject.h>
 #include <System.Private.CoreLib/System/Int32.h>
+#include <System.Private.CoreLib/System/ValueType.h>
 
 namespace System::Private::CoreLib::System {
 FORWARDS(Boolean)
@@ -10,7 +10,7 @@ FORWARD(String)
 namespace System::Private::CoreLib::System::Reflection {
 enum class MetadataTokenType;
 namespace MetadataTokenNamespace {
-struct MetadataToken : public rt::ValueType<MetadataToken> {
+struct MetadataToken : public valueType<MetadataToken> {
   public: Boolean get_IsGlobalTypeDefToken();
   public: MetadataTokenType get_TokenType();
   public: Boolean get_IsTypeRef();

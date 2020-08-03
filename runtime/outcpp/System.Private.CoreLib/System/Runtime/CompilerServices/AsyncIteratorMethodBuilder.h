@@ -1,14 +1,14 @@
 #pragma once
 
-#include <rt/GCObject.h>
 #include <System.Private.CoreLib/System/Runtime/CompilerServices/AsyncTaskMethodBuilder.h>
+#include <System.Private.CoreLib/System/ValueType.h>
 
 namespace System::Private::CoreLib::System {
 FORWARD(Object)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Runtime::CompilerServices {
 namespace AsyncIteratorMethodBuilderNamespace {
-struct AsyncIteratorMethodBuilder {
+struct AsyncIteratorMethodBuilder : public valueType<AsyncIteratorMethodBuilder> {
   public: Object get_ObjectIdForDebugger();
   public: static AsyncIteratorMethodBuilder Create();
   public: template <class TStateMachine>

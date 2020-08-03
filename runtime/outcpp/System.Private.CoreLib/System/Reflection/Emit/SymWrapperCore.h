@@ -1,9 +1,9 @@
 #pragma once
 
-#include <rt/GCObject.h>
 #include <System.Private.CoreLib/System/IntPtr.h>
 #include <System.Private.CoreLib/System/MulticastDelegate.h>
 #include <System.Private.CoreLib/System/Object.h>
+#include <System.Private.CoreLib/System/ValueType.h>
 
 namespace System::Private::CoreLib::System {
 FORWARD_(Array, T1, T2)
@@ -25,7 +25,7 @@ namespace SymWrapperCoreNamespace {
 using namespace Diagnostics::SymbolStore;
 CLASS(SymWrapperCore) : public Object::in {
   private: CLASS(SymDocumentWriter) : public Object::in {
-    private: struct ISymUnmanagedDocumentWriter {
+    private: struct ISymUnmanagedDocumentWriter : public valueType<ISymUnmanagedDocumentWriter> {
       public: IntPtr m_unmanagedVTable;
     };
     private: CLASS(DSetCheckSum) : public MulticastDelegate::in {
@@ -34,7 +34,7 @@ CLASS(SymWrapperCore) : public Object::in {
       public: IAsyncResult BeginInvoke(ISymUnmanagedDocumentWriter* pThis, Guid algorithmId, UInt32 checkSumSize, Array<Byte> checkSum, AsyncCallback callback, Object object);
       public: Int32 EndInvoke(IAsyncResult result);
     };
-    private: struct ISymUnmanagedDocumentWriterVTable {
+    private: struct ISymUnmanagedDocumentWriterVTable : public valueType<ISymUnmanagedDocumentWriterVTable> {
       public: IntPtr QueryInterface;
       public: IntPtr AddRef;
       public: IntPtr Release;
@@ -48,7 +48,7 @@ CLASS(SymWrapperCore) : public Object::in {
     private: ISymUnmanagedDocumentWriterVTable m_vtable;
   };
   public: CLASS(SymWriter) : public Object::in {
-    private: struct ISymUnmanagedWriter {
+    private: struct ISymUnmanagedWriter : public valueType<ISymUnmanagedWriter> {
       public: IntPtr m_unmanagedVTable;
     };
     private: CLASS(DInitialize) : public MulticastDelegate::in {
@@ -141,7 +141,7 @@ CLASS(SymWrapperCore) : public Object::in {
       public: IAsyncResult BeginInvoke(ISymUnmanagedWriter* pthis, String name, AsyncCallback callback, Object object);
       public: Int32 EndInvoke(IAsyncResult result);
     };
-    private: struct ISymUnmanagedWriterVTable {
+    private: struct ISymUnmanagedWriterVTable : public valueType<ISymUnmanagedWriterVTable> {
       public: IntPtr QueryInterface;
       public: IntPtr AddRef;
       public: IntPtr Release;

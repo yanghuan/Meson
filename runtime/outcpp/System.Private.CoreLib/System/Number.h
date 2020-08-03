@@ -1,6 +1,5 @@
 #pragma once
 
-#include <rt/GCObject.h>
 #include <System.Private.CoreLib/System/Boolean.h>
 #include <System.Private.CoreLib/System/Byte.h>
 #include <System.Private.CoreLib/System/Int32.h>
@@ -8,6 +7,7 @@
 #include <System.Private.CoreLib/System/UInt16.h>
 #include <System.Private.CoreLib/System/UInt32.h>
 #include <System.Private.CoreLib/System/UInt64.h>
+#include <System.Private.CoreLib/System/ValueType.h>
 
 namespace System::Private::CoreLib::System::Globalization {
 enum class NumberStyles;
@@ -44,7 +44,7 @@ class Number {
     Failed = 1,
     Overflow = 2,
   };
-  public: struct DiyFp {
+  public: struct DiyFp : public valueType<DiyFp> {
     public: static DiyFp CreateAndGetBoundaries(Double value, DiyFp& mMinus, DiyFp& mPlus);
     public: static DiyFp CreateAndGetBoundaries(Single value, DiyFp& mMinus, DiyFp& mPlus);
     public: explicit DiyFp(Double value);
@@ -58,7 +58,7 @@ class Number {
     public: UInt64 f;
     public: Int32 e;
   };
-  public: struct NumberBuffer {
+  public: struct NumberBuffer : public valueType<NumberBuffer> {
     public: explicit NumberBuffer(NumberBufferKind kind, Byte* digits, Int32 digitsLength);
     public: Byte* GetDigitsPointer();
     public: String ToString();
@@ -70,7 +70,7 @@ class Number {
     public: NumberBufferKind Kind;
     public: Span<Byte> Digits;
   };
-  public: struct BigInteger {
+  public: struct BigInteger : public valueType<BigInteger> {
     public: static void Add(BigInteger& lhs, BigInteger& rhs, BigInteger& result);
     public: static Int32 Compare(BigInteger& lhs, BigInteger& rhs);
     public: static UInt32 CountSignificantBits(UInt32 value);
@@ -126,7 +126,7 @@ class Number {
     private: static Array<UInt64> s_CachedPowersSignificand;
     private: static Array<UInt32> s_SmallPowersOfTen;
   };
-  public: struct FloatingPointInfo {
+  public: struct FloatingPointInfo : public valueType<FloatingPointInfo> {
     public: UInt64 get_ZeroBits() { return ZeroBits; }
     public: UInt64 get_InfinityBits() { return InfinityBits; }
     public: UInt64 get_NormalMantissaMask() { return NormalMantissaMask; }

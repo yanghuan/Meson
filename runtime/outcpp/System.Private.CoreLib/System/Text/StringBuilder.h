@@ -1,8 +1,8 @@
 #pragma once
 
-#include <rt/GCObject.h>
 #include <System.Private.CoreLib/System/Int32.h>
 #include <System.Private.CoreLib/System/Object.h>
+#include <System.Private.CoreLib/System/ValueType.h>
 
 namespace System::Private::CoreLib::System {
 FORWARD_(Array, T1, T2)
@@ -38,7 +38,7 @@ namespace StringBuilderNamespace {
 using namespace Collections::Generic;
 using namespace Runtime::Serialization;
 CLASS(StringBuilder) : public Object::in {
-  public: struct ChunkEnumerator {
+  public: struct ChunkEnumerator : public valueType<ChunkEnumerator> {
     private: CLASS(ManyChunkInfo) : public Object::in {
       public: Boolean MoveNext(StringBuilder& current);
       public: void Ctor(StringBuilder stringBuilder, Int32 chunkCount);

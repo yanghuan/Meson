@@ -1,6 +1,6 @@
 #pragma once
 
-#include <rt/GCObject.h>
+#include <System.Private.CoreLib/System/ValueType.h>
 
 namespace System::Private::CoreLib::System::Runtime::Serialization {
 FORWARD(SerializationInfo)
@@ -20,7 +20,7 @@ FORWARDS(UInt64)
 namespace UIntPtrNamespace {
 using namespace Globalization;
 using namespace Runtime::Serialization;
-struct UIntPtr : public rt::ValueType<UIntPtr> {
+struct UIntPtr : public valueType<UIntPtr> {
   public: static Int32 get_Size();
   public: static UIntPtr get_MaxValue();
   public: static UIntPtr get_MinValue();

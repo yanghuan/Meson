@@ -1,6 +1,5 @@
 #pragma once
 
-#include <rt/GCObject.h>
 #include <System.Private.CoreLib/System/Byte.h>
 #include <System.Private.CoreLib/System/Double.h>
 #include <System.Private.CoreLib/System/Int16.h>
@@ -11,10 +10,11 @@
 #include <System.Private.CoreLib/System/UInt16.h>
 #include <System.Private.CoreLib/System/UInt32.h>
 #include <System.Private.CoreLib/System/UInt64.h>
+#include <System.Private.CoreLib/System/ValueType.h>
 
 namespace System::Private::CoreLib::System::Numerics {
 namespace RegisterNamespace {
-struct Register {
+struct Register : public valueType<Register> {
   public: Byte byte_0;
   public: Byte byte_1;
   public: Byte byte_2;

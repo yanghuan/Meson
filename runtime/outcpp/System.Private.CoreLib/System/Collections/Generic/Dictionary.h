@@ -1,11 +1,11 @@
 #pragma once
 
-#include <rt/GCObject.h>
 #include <System.Private.CoreLib/System/Collections/Generic/KeyValuePair.h>
 #include <System.Private.CoreLib/System/Int32.h>
 #include <System.Private.CoreLib/System/Object.h>
 #include <System.Private.CoreLib/System/UInt32.h>
 #include <System.Private.CoreLib/System/UInt64.h>
+#include <System.Private.CoreLib/System/ValueType.h>
 
 namespace System::Private::CoreLib::System::Collections {
 FORWARDS(DictionaryEntry)
@@ -31,13 +31,13 @@ template <class T>
 using ICollection = Generic::ICollection<T>;
 using ICollection1 = Collections::ICollection;
 CLASS(Dictionary, TKey, TValue) : public Object::in {
-  private: struct Entry {
+  private: struct Entry : public valueType<Entry> {
     public: UInt32 hashCode;
     public: Int32 next;
     public: TKey key;
     public: TValue value;
   };
-  public: struct Enumerator {
+  public: struct Enumerator : public valueType<Enumerator> {
     public: KeyValuePair<TKey, TValue> get_Current();
     private: Object get_CurrentOfIEnumerator();
     private: DictionaryEntry get_EntryOfIDictionaryEnumerator();
@@ -54,7 +54,7 @@ CLASS(Dictionary, TKey, TValue) : public Object::in {
     private: Int32 _getEnumeratorRetType;
   };
   public: CLASS(KeyCollection) : public Object::in {
-    public: struct Enumerator {
+    public: struct Enumerator : public valueType<Enumerator> {
       public: TKey get_Current();
       private: Object get_CurrentOfIEnumerator();
       public: explicit Enumerator(Dictionary<TKey, TValue> dictionary);
@@ -76,7 +76,7 @@ CLASS(Dictionary, TKey, TValue) : public Object::in {
     private: Dictionary<TKey, TValue> _dictionary;
   };
   public: CLASS(ValueCollection) : public Object::in {
-    public: struct Enumerator {
+    public: struct Enumerator : public valueType<Enumerator> {
       public: TValue get_Current();
       private: Object get_CurrentOfIEnumerator();
       public: explicit Enumerator(Dictionary<TKey, TValue> dictionary);

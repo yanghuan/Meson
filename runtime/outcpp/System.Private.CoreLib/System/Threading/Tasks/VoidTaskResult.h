@@ -1,10 +1,10 @@
 #pragma once
 
-#include <rt/GCObject.h>
+#include <System.Private.CoreLib/System/ValueType.h>
 
 namespace System::Private::CoreLib::System::Threading::Tasks {
 namespace VoidTaskResultNamespace {
-struct VoidTaskResult {
+struct VoidTaskResult : public valueType<VoidTaskResult> {
 };
 } // namespace VoidTaskResultNamespace
 using VoidTaskResult = VoidTaskResultNamespace::VoidTaskResult;

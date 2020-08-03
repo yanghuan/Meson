@@ -1,8 +1,8 @@
 #pragma once
 
-#include <rt/GCObject.h>
 #include <System.Private.CoreLib/System/Numerics/Vector3.h>
 #include <System.Private.CoreLib/System/Single.h>
+#include <System.Private.CoreLib/System/ValueType.h>
 
 namespace System::Private::CoreLib::System {
 FORWARDS(Boolean)
@@ -20,13 +20,13 @@ FORWARDS(Plane)
 FORWARDS(Quaternion)
 namespace Matrix4x4Namespace {
 using namespace Runtime::Intrinsics;
-struct Matrix4x4 : public rt::ValueType<Matrix4x4> {
-  private: struct CanonicalBasis {
+struct Matrix4x4 : public valueType<Matrix4x4> {
+  private: struct CanonicalBasis : public valueType<CanonicalBasis> {
     public: Vector3 Row0;
     public: Vector3 Row1;
     public: Vector3 Row2;
   };
-  private: struct VectorBasis {
+  private: struct VectorBasis : public valueType<VectorBasis> {
     public: Vector3* Element0;
     public: Vector3* Element1;
     public: Vector3* Element2;

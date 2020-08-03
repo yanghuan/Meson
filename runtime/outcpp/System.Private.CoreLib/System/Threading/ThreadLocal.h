@@ -1,9 +1,9 @@
 #pragma once
 
-#include <rt/GCObject.h>
 #include <System.Private.CoreLib/System/Boolean.h>
 #include <System.Private.CoreLib/System/Int32.h>
 #include <System.Private.CoreLib/System/Object.h>
+#include <System.Private.CoreLib/System/ValueType.h>
 
 namespace System::Private::CoreLib::System {
 FORWARD_(Array, T1, T2)
@@ -20,7 +20,7 @@ using namespace Collections::Generic;
 using Collections::Generic::IList;
 CLASS(ThreadLocal, T) : public Object::in {
   private: FORWARDN(LinkedSlot)
-  private: struct LinkedSlotVolatile {
+  private: struct LinkedSlotVolatile : public valueType<LinkedSlotVolatile> {
     public: LinkedSlot Value;
   };
   private: CLASS(LinkedSlot) : public Object::in {

@@ -1,7 +1,7 @@
 #pragma once
 
-#include <rt/GCObject.h>
 #include <System.Private.CoreLib/System/Int32.h>
+#include <System.Private.CoreLib/System/ValueType.h>
 
 namespace System::Private::CoreLib::System {
 FORWARDS(Boolean)
@@ -10,7 +10,7 @@ FORWARD(Object)
 namespace System::Private::CoreLib::System::Resources {
 enum class ResourceTypeCode;
 namespace ResourceLocatorNamespace {
-struct ResourceLocator {
+struct ResourceLocator : public valueType<ResourceLocator> {
   public: Int32 get_DataPosition();
   public: Object get_Value();
   public: void set_Value(Object value);

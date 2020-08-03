@@ -1,7 +1,7 @@
 #pragma once
 
-#include <rt/GCObject.h>
 #include <System.Private.CoreLib/System/Threading/Tasks/Task.h>
+#include <System.Private.CoreLib/System/ValueType.h>
 
 namespace System::Private::CoreLib::System::Threading::Tasks {
 FORWARD_(Task, T1, T2)
@@ -24,13 +24,13 @@ template <class T1 = void, class T2 = void>
 struct AsyncTaskMethodBuilder {
 };
 template <>
-struct AsyncTaskMethodBuilder<> {
+struct AsyncTaskMethodBuilder<> : public valueType<AsyncTaskMethodBuilder> {
   public: Task<> get_Task();
   public: Object get_ObjectIdForDebugger();
   private: Task<VoidTaskResult> m_task;
 };
 template <class TResult>
-struct AsyncTaskMethodBuilder<TResult> {
+struct AsyncTaskMethodBuilder<TResult> : public valueType<AsyncTaskMethodBuilder<TResult>> {
   private: CLASS(DebugFinalizableAsyncStateMachineBox, TStateMachine) : public AsyncStateMachineBox<TStateMachine>::in {
     protected: void Finalize();
     public: void Ctor();

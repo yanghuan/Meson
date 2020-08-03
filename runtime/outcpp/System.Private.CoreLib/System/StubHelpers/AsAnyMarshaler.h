@@ -1,7 +1,7 @@
 #pragma once
 
-#include <rt/GCObject.h>
 #include <System.Private.CoreLib/System/IntPtr.h>
+#include <System.Private.CoreLib/System/ValueType.h>
 
 namespace System::Private::CoreLib::System {
 FORWARDS(Boolean)
@@ -17,7 +17,7 @@ namespace System::Private::CoreLib::System::StubHelpers {
 FORWARD(CleanupWorkListElement)
 namespace AsAnyMarshalerNamespace {
 using namespace Text;
-struct AsAnyMarshaler {
+struct AsAnyMarshaler : public valueType<AsAnyMarshaler> {
   private: enum class BackPropAction {
     None = 0,
     Array = 1,

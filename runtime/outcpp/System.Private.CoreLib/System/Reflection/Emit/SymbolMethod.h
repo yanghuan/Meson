@@ -1,6 +1,5 @@
 #pragma once
 
-#include <rt/GCObject.h>
 #include <System.Private.CoreLib/System/Reflection/Emit/MethodToken.h>
 #include <System.Private.CoreLib/System/Reflection/MethodInfo.h>
 

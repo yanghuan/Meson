@@ -1,6 +1,6 @@
 #pragma once
 
-#include <rt/GCObject.h>
+#include <System.Private.CoreLib/System/ValueType.h>
 
 namespace System::Private::CoreLib::System::Globalization {
 enum class NumberStyles;
@@ -18,7 +18,7 @@ FORWARDS(Span, T)
 FORWARD(String)
 namespace SByteNamespace {
 using namespace Globalization;
-struct SByte : public rt::PrimitiveType<SByte> {
+struct SByte : public valueType<SByte> {
   public: constexpr SByte() noexcept : m_value(0) {}
   public: constexpr SByte(int8_t value) noexcept : m_value(value) {}
   public: constexpr int8_t& get() noexcept  { return m_value; }
@@ -47,8 +47,6 @@ struct SByte : public rt::PrimitiveType<SByte> {
   private: int8_t m_value;
   public: static constexpr int8_t MaxValue = 127;
   public: static constexpr int8_t MinValue = -128;
-  template <class T>
-  friend struct rt::PrimitiveType;
 };
 } // namespace SByteNamespace
 using SByte = SByteNamespace::SByte;

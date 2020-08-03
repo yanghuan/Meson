@@ -1,7 +1,7 @@
 #pragma once
 
-#include <rt/GCObject.h>
 #include <System.Private.CoreLib/System/Object.h>
+#include <System.Private.CoreLib/System/ValueType.h>
 
 namespace System::Private::CoreLib::System::Collections {
 FORWARD(IComparer)
@@ -41,7 +41,7 @@ ARRAY(({
     private: static void SCtor();
     public: static Array<T> Value;
   };
-  private: struct SorterObjectArray {
+  private: struct SorterObjectArray : public valueType<SorterObjectArray> {
     public: explicit SorterObjectArray(Array<Object> keys, Array<Object> items, IComparer1 comparer);
     public: void SwapIfGreater(Int32 a, Int32 b);
     private: void Swap(Int32 i, Int32 j);
@@ -57,7 +57,7 @@ ARRAY(({
     private: Array<> items;
     private: IComparer1 comparer;
   };
-  private: struct SorterGenericArray {
+  private: struct SorterGenericArray : public valueType<SorterGenericArray> {
     public: explicit SorterGenericArray(Array<> keys, Array<> items, IComparer1 comparer);
     public: void SwapIfGreater(Int32 a, Int32 b);
     private: void Swap(Int32 i, Int32 j);

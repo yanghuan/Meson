@@ -1,6 +1,5 @@
 #pragma once
 
-#include <rt/GCObject.h>
 #include <System.Private.CoreLib/System/Byte.h>
 #include <System.Private.CoreLib/System/Decimal.h>
 #include <System.Private.CoreLib/System/Double.h>
@@ -13,6 +12,7 @@
 #include <System.Private.CoreLib/System/UInt16.h>
 #include <System.Private.CoreLib/System/UInt32.h>
 #include <System.Private.CoreLib/System/UInt64.h>
+#include <System.Private.CoreLib/System/ValueType.h>
 
 namespace System::Private::CoreLib::System {
 FORWARDS(Boolean)
@@ -23,12 +23,12 @@ FORWARD(String)
 namespace System::Private::CoreLib::System::Runtime::InteropServices {
 enum class VarEnum;
 namespace VariantNamespace {
-struct Variant {
-  private: struct Record {
+struct Variant : public valueType<Variant> {
+  private: struct Record : public valueType<Record> {
     public: IntPtr _record;
     public: IntPtr _recordInfo;
   };
-  private: struct UnionTypes {
+  private: struct UnionTypes : public valueType<UnionTypes> {
     public: SByte _i1;
     public: Int16 _i2;
     public: Int32 _i4;
@@ -52,7 +52,7 @@ struct Variant {
     public: IntPtr _byref;
     public: Record _record;
   };
-  private: struct TypeUnion {
+  private: struct TypeUnion : public valueType<TypeUnion> {
     public: UInt16 _vt;
     public: UInt16 _wReserved1;
     public: UInt16 _wReserved2;

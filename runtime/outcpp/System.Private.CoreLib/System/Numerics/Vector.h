@@ -1,7 +1,7 @@
 #pragma once
 
-#include <rt/GCObject.h>
 #include <System.Private.CoreLib/System/Numerics/Register.h>
+#include <System.Private.CoreLib/System/ValueType.h>
 
 namespace System::Private::CoreLib::System {
 FORWARDS(Boolean)
@@ -17,7 +17,7 @@ class Vector<> {
   public: static Boolean get_IsHardwareAccelerated();
 };
 template <class T>
-struct Vector<T> {
+struct Vector<T> : public valueType<Vector<T>> {
   public: static Int32 get_Count();
   public: static Vector<T> get_Zero();
   public: static Vector<T> get_One();

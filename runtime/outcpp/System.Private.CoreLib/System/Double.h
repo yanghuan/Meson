@@ -1,6 +1,6 @@
 #pragma once
 
-#include <rt/GCObject.h>
+#include <System.Private.CoreLib/System/ValueType.h>
 
 namespace System::Private::CoreLib::System::Globalization {
 enum class NumberStyles;
@@ -19,7 +19,7 @@ FORWARD(String)
 FORWARDS(UInt64)
 namespace DoubleNamespace {
 using namespace Globalization;
-struct Double : public rt::PrimitiveType<Double> {
+struct Double : public valueType<Double> {
   public: constexpr Double() noexcept : m_value(0) {}
   public: constexpr Double(double value) noexcept : m_value(value) {}
   public: constexpr double& get() noexcept  { return m_value; }
@@ -67,8 +67,6 @@ struct Double : public rt::PrimitiveType<Double> {
   public: static constexpr double NegativeInfinity = rt::NegativeInfinity<double>;
   public: static constexpr double PositiveInfinity = rt::PositiveInfinity<double>;
   public: static constexpr double NaN = rt::NaN<double>;
-  template <class T>
-  friend struct rt::PrimitiveType;
 };
 } // namespace DoubleNamespace
 using Double = DoubleNamespace::Double;

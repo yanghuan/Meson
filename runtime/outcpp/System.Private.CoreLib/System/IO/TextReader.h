@@ -1,6 +1,5 @@
 #pragma once
 
-#include <rt/GCObject.h>
 #include <System.Private.CoreLib/System/MarshalByRefObject.h>
 
 namespace System::Private::CoreLib::System {
@@ -24,8 +23,8 @@ namespace TextReaderNamespace {
 using namespace Threading;
 using namespace Threading::Tasks;
 CLASS(TextReader) : public MarshalByRefObject::in {
-  friend class NullTextReader___;
-  friend class SyncTextReader___;
+  private: FRIENDN(NullTextReader)
+  public: FRIENDN(SyncTextReader)
   protected: void Ctor();
   public: void Close();
   public: void Dispose();

@@ -1,6 +1,6 @@
 #pragma once
 
-#include <rt/GCObject.h>
+#include <System.Private.CoreLib/System/ValueType.h>
 
 namespace System::Private::CoreLib::System::Globalization {
 enum class UnicodeCategory;
@@ -19,7 +19,7 @@ FORWARD(String)
 FORWARDS(UInt32)
 namespace CharNamespace {
 using namespace Globalization;
-struct Char : public rt::PrimitiveType<Char> {
+struct Char : public valueType<Char> {
   public: constexpr Char() noexcept : m_value(0) {}
   public: constexpr Char(char8_t value) noexcept : m_value(value) {}
   public: constexpr char8_t& get() noexcept  { return m_value; }
@@ -95,8 +95,6 @@ struct Char : public rt::PrimitiveType<Char> {
   private: char8_t m_value;
   public: static constexpr char8_t MaxValue = 65535;
   public: static constexpr char8_t MinValue = 0;
-  template <class T>
-  friend struct rt::PrimitiveType;
 };
 } // namespace CharNamespace
 using Char = CharNamespace::Char;

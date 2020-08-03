@@ -8,3 +8,4 @@
 #include <System.Private.CoreLib/System/Object-dep.h>
 #include <System.Private.CoreLib/System/Threading/CancellationToken-dep.h>
 #include <System.Private.CoreLib/System/Threading/Tasks/ValueTask-dep.h>
+#include <System.Private.CoreLib/System/ValueType-dep.h>

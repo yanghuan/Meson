@@ -13,6 +13,7 @@
 #include <System.Private.CoreLib/System/String-dep.h>
 #include <System.Private.CoreLib/System/StringComparison.h>
 #include <System.Private.CoreLib/System/UInt16-dep.h>
+#include <System.Private.CoreLib/System/ValueType-dep.h>
 #include <System.Private.Uri/System/ParsingError.h>
 #include <System.Private.Uri/System/UriComponents.h>
 #include <System.Private.Uri/System/UriFormat.h>

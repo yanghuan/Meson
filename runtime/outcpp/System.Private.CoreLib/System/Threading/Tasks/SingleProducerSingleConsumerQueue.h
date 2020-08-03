@@ -1,9 +1,9 @@
 #pragma once
 
-#include <rt/GCObject.h>
 #include <System.Private.CoreLib/Internal/PaddingFor32.h>
 #include <System.Private.CoreLib/System/Int32.h>
 #include <System.Private.CoreLib/System/Object.h>
+#include <System.Private.CoreLib/System/ValueType.h>
 
 namespace System::Private::CoreLib::System {
 FORWARD_(Array, T1, T2)
@@ -18,7 +18,7 @@ using namespace ::System::Private::CoreLib::Internal;
 using namespace Collections::Generic;
 using Collections::Generic::IEnumerator;
 CLASS(SingleProducerSingleConsumerQueue, T) : public Object::in {
-  private: struct SegmentState {
+  private: struct SegmentState : public valueType<SegmentState> {
     public: PaddingFor32 m_pad0;
     public: Int32 m_first;
     public: Int32 m_lastCopy;

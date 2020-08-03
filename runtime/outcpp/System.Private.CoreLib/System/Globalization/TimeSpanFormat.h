@@ -1,7 +1,7 @@
 #pragma once
 
-#include <rt/GCObject.h>
 #include <System.Private.CoreLib/System/Int32.h>
+#include <System.Private.CoreLib/System/ValueType.h>
 
 namespace System::Private::CoreLib::System {
 FORWARD_(Array, T1, T2)
@@ -27,7 +27,7 @@ class TimeSpanFormat {
     G = 1,
     g = 2,
   };
-  public: struct FormatLiterals {
+  public: struct FormatLiterals : public valueType<FormatLiterals> {
     public: String get_Start();
     public: String get_DayHourSep();
     public: String get_HourMinuteSep();

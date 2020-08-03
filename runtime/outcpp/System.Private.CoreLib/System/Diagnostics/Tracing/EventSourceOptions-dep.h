@@ -9,3 +9,4 @@
 #include <System.Private.CoreLib/System/Diagnostics/Tracing/EventLevel.h>
 #include <System.Private.CoreLib/System/Diagnostics/Tracing/EventOpcode.h>
 #include <System.Private.CoreLib/System/Diagnostics/Tracing/EventTags.h>
+#include <System.Private.CoreLib/System/ValueType-dep.h>

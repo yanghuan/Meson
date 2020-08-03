@@ -1,6 +1,6 @@
 #pragma once
 
-#include <rt/GCObject.h>
+#include <System.Private.CoreLib/System/ValueType.h>
 
 namespace System::Private::CoreLib::System {
 FORWARDS(Boolean)
@@ -10,7 +10,7 @@ FORWARD(Object)
 namespace System::Private::CoreLib::System::Runtime::Serialization {
 enum class StreamingContextStates;
 namespace StreamingContextNamespace {
-struct StreamingContext {
+struct StreamingContext : public valueType<StreamingContext> {
   public: StreamingContextStates get_State();
   public: Object get_Context();
   public: explicit StreamingContext(StreamingContextStates state);

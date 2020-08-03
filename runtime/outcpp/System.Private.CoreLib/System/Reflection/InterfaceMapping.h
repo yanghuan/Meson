@@ -1,6 +1,6 @@
 #pragma once
 
-#include <rt/GCObject.h>
+#include <System.Private.CoreLib/System/ValueType.h>
 
 namespace System::Private::CoreLib::System {
 FORWARD_(Array, T1, T2)
@@ -9,7 +9,7 @@ FORWARD(Type)
 namespace System::Private::CoreLib::System::Reflection {
 FORWARD(MethodInfo)
 namespace InterfaceMappingNamespace {
-struct InterfaceMapping {
+struct InterfaceMapping : public valueType<InterfaceMapping> {
   public: Type TargetType;
   public: Type InterfaceType;
   public: Array<MethodInfo> TargetMethods;

@@ -28,3 +28,4 @@
 #include <System.Private.CoreLib/System/Threading/Tasks/Task-dep.h>
 #include <System.Private.CoreLib/System/Threading/Tasks/ValueTask-dep.h>
 #include <System.Private.CoreLib/System/Threading/WaitHandle-dep.h>
+#include <System.Private.CoreLib/System/ValueType-dep.h>

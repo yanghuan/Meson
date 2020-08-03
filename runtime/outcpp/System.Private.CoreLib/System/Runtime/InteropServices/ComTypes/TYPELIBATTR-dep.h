@@ -7,3 +7,4 @@
 #include <System.Private.CoreLib/System/Int32-dep.h>
 #include <System.Private.CoreLib/System/Runtime/InteropServices/ComTypes/LIBFLAGS.h>
 #include <System.Private.CoreLib/System/Runtime/InteropServices/ComTypes/SYSKIND.h>
+#include <System.Private.CoreLib/System/ValueType-dep.h>

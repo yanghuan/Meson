@@ -1,6 +1,5 @@
 #pragma once
 
-#include <rt/GCObject.h>
 #include <System.Private.CoreLib/System/Boolean.h>
 #include <System.Private.CoreLib/System/Text/Encoding.h>
 
@@ -26,11 +25,8 @@ FORWARD(EncoderFallback)
 FORWARDS(Rune)
 namespace UTF8EncodingNamespace {
 using namespace Buffers;
-class UTF8EncodingSealed___;
-using UTF8EncodingSealed = rt::ref<UTF8EncodingSealed___>;
 CLASS(UTF8Encoding) : public Encoding::in {
-  friend class UTF8EncodingSealed___;
-  public: using UTF8EncodingSealed = UTF8EncodingSealed;
+  public: FRIENDN(UTF8EncodingSealed)
   public: static ReadOnlySpan<Byte> get_PreambleSpan();
   public: ReadOnlySpan<Byte> get_Preamble();
   public: void Ctor();

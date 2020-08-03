@@ -1,6 +1,5 @@
 #pragma once
 
-#include <rt/GCObject.h>
 #include <System.Private.CoreLib/System/Int32.h>
 #include <System.Private.CoreLib/System/Reflection/Emit/PropertyToken.h>
 #include <System.Private.CoreLib/System/Reflection/PropertyInfo.h>

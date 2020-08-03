@@ -27,4 +27,3 @@
 #include <System.Private.CoreLib/System/Text/EncodingProvider-dep.h>
 #include <System.Private.CoreLib/System/Text/NormalizationForm.h>
 #include <System.Private.CoreLib/System/Text/Rune-dep.h>
-#include <System.Private.CoreLib/System/Text/UTF8Encoding-dep.h>

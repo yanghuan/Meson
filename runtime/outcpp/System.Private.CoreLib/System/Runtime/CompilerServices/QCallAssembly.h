@@ -1,7 +1,7 @@
 #pragma once
 
-#include <rt/GCObject.h>
 #include <System.Private.CoreLib/System/IntPtr.h>
+#include <System.Private.CoreLib/System/ValueType.h>
 
 namespace System::Private::CoreLib::System::Reflection {
 FORWARD(RuntimeAssembly)
@@ -9,7 +9,7 @@ FORWARD(RuntimeAssembly)
 namespace System::Private::CoreLib::System::Runtime::CompilerServices {
 namespace QCallAssemblyNamespace {
 using namespace Reflection;
-struct QCallAssembly {
+struct QCallAssembly : public valueType<QCallAssembly> {
   public: explicit QCallAssembly(RuntimeAssembly& assembly);
   public: explicit QCallAssembly() {}
   private: void* _ptr;

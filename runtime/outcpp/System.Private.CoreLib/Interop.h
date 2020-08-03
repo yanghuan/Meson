@@ -1,6 +1,5 @@
 #pragma once
 
-#include <rt/GCObject.h>
 #include <System.Private.CoreLib/System/Byte.h>
 #include <System.Private.CoreLib/System/Char.h>
 #include <System.Private.CoreLib/System/Guid.h>
@@ -13,6 +12,7 @@
 #include <System.Private.CoreLib/System/UInt32.h>
 #include <System.Private.CoreLib/System/UInt64.h>
 #include <System.Private.CoreLib/System/UIntPtr.h>
+#include <System.Private.CoreLib/System/ValueType.h>
 
 namespace System::Private::CoreLib::System {
 FORWARD_(Array, T1, T2)
@@ -94,7 +94,7 @@ class Interop {
       GetFileExInfoStandard = 0,
       GetFileExMaxInfoLevel = 1,
     };
-    public: struct SYSTEMTIME {
+    public: struct SYSTEMTIME : public valueType<SYSTEMTIME> {
       public: Boolean Equals(SYSTEMTIME& other);
       public: UInt16 Year;
       public: UInt16 Month;
@@ -105,7 +105,7 @@ class Interop {
       public: UInt16 Second;
       public: UInt16 Milliseconds;
     };
-    public: struct TIME_DYNAMIC_ZONE_INFORMATION {
+    public: struct TIME_DYNAMIC_ZONE_INFORMATION : public valueType<TIME_DYNAMIC_ZONE_INFORMATION> {
       public: String GetTimeZoneKeyName();
       public: Int32 Bias;
       public: rt::FixedBuffer<Char, 32> StandardName;
@@ -117,11 +117,11 @@ class Interop {
       public: rt::FixedBuffer<Char, 128> TimeZoneKeyName;
       public: Byte DynamicDaylightTimeDisabled;
     };
-    public: struct FILE_TIME {
+    public: struct FILE_TIME : public valueType<FILE_TIME> {
       public: UInt32 dwLowDateTime;
       public: UInt32 dwHighDateTime;
     };
-    public: struct TIME_ZONE_INFORMATION {
+    public: struct TIME_ZONE_INFORMATION : public valueType<TIME_ZONE_INFORMATION> {
       public: explicit TIME_ZONE_INFORMATION(TIME_DYNAMIC_ZONE_INFORMATION& dtzi);
       public: String GetStandardName();
       public: String GetDaylightName();
@@ -134,7 +134,7 @@ class Interop {
       public: SYSTEMTIME DaylightDate;
       public: Int32 DaylightBias;
     };
-    public: struct WIN32_FIND_DATA {
+    public: struct WIN32_FIND_DATA : public valueType<WIN32_FIND_DATA> {
       public: UInt32 dwFileAttributes;
       public: FILE_TIME ftCreationTime;
       public: FILE_TIME ftLastAccessTime;
@@ -164,26 +164,26 @@ class Interop {
       public: IAsyncResult BeginInvoke(Char* lpCalendarInfoString, UInt32 Calendar, IntPtr lpReserved, void* lParam, AsyncCallback callback, Object object);
       public: BOOL EndInvoke(IAsyncResult result);
     };
-    public: struct NlsVersionInfoEx {
+    public: struct NlsVersionInfoEx : public valueType<NlsVersionInfoEx> {
       public: Int32 dwNLSVersionInfoSize;
       public: Int32 dwNLSVersion;
       public: Int32 dwDefinedVersion;
       public: Int32 dwEffectiveId;
       public: Guid guidCustomVersion;
     };
-    public: struct FILE_STANDARD_INFO {
+    public: struct FILE_STANDARD_INFO : public valueType<FILE_STANDARD_INFO> {
       public: Int64 AllocationSize;
       public: Int64 EndOfFile;
       public: UInt32 NumberOfLinks;
       public: BOOL DeletePending;
       public: BOOL Directory;
     };
-    public: struct CPINFO {
+    public: struct CPINFO : public valueType<CPINFO> {
       public: Int32 MaxCharSize;
       public: rt::FixedBuffer<Byte, 2> DefaultChar;
       public: rt::FixedBuffer<Byte, 12> LeadByte;
     };
-    public: struct PROCESS_MEMORY_COUNTERS {
+    public: struct PROCESS_MEMORY_COUNTERS : public valueType<PROCESS_MEMORY_COUNTERS> {
       public: UInt32 cb;
       public: UInt32 PageFaultCount;
       public: UIntPtr PeakWorkingSetSize;
@@ -195,7 +195,7 @@ class Interop {
       public: UIntPtr PagefileUsage;
       public: UIntPtr PeakPagefileUsage;
     };
-    public: struct MEMORY_BASIC_INFORMATION {
+    public: struct MEMORY_BASIC_INFORMATION : public valueType<MEMORY_BASIC_INFORMATION> {
       public: void* BaseAddress;
       public: void* AllocationBase;
       public: UInt32 AllocationProtect;
@@ -204,7 +204,7 @@ class Interop {
       public: UInt32 Protect;
       public: UInt32 Type;
     };
-    public: struct MEMORYSTATUSEX {
+    public: struct MEMORYSTATUSEX : public valueType<MEMORYSTATUSEX> {
       public: UInt32 dwLength;
       public: UInt32 dwMemoryLoad;
       public: UInt64 ullTotalPhys;
@@ -215,12 +215,12 @@ class Interop {
       public: UInt64 ullAvailVirtual;
       public: UInt64 ullAvailExtendedVirtual;
     };
-    public: struct SECURITY_ATTRIBUTES {
+    public: struct SECURITY_ATTRIBUTES : public valueType<SECURITY_ATTRIBUTES> {
       public: UInt32 nLength;
       public: IntPtr lpSecurityDescriptor;
       public: BOOL bInheritHandle;
     };
-    public: struct SYSTEM_INFO {
+    public: struct SYSTEM_INFO : public valueType<SYSTEM_INFO> {
       public: UInt16 wProcessorArchitecture;
       public: UInt16 wReserved;
       public: Int32 dwPageSize;
@@ -233,7 +233,7 @@ class Interop {
       public: Int16 wProcessorLevel;
       public: Int16 wProcessorRevision;
     };
-    public: struct REG_TZI_FORMAT {
+    public: struct REG_TZI_FORMAT : public valueType<REG_TZI_FORMAT> {
       public: explicit REG_TZI_FORMAT(TIME_ZONE_INFORMATION& tzi);
       public: explicit REG_TZI_FORMAT() {}
       public: Int32 Bias;
@@ -242,7 +242,7 @@ class Interop {
       public: SYSTEMTIME StandardDate;
       public: SYSTEMTIME DaylightDate;
     };
-    public: struct WIN32_FILE_ATTRIBUTE_DATA {
+    public: struct WIN32_FILE_ATTRIBUTE_DATA : public valueType<WIN32_FILE_ATTRIBUTE_DATA> {
       public: void PopulateFrom(WIN32_FIND_DATA& findData);
       public: Int32 dwFileAttributes;
       public: FILE_TIME ftCreationTime;
@@ -251,7 +251,7 @@ class Interop {
       public: UInt32 nFileSizeHigh;
       public: UInt32 nFileSizeLow;
     };
-    public: struct OSVERSIONINFOEX {
+    public: struct OSVERSIONINFOEX : public valueType<OSVERSIONINFOEX> {
       public: Int32 dwOSVersionInfoSize;
       public: Int32 dwMajorVersion;
       public: Int32 dwMinorVersion;
@@ -449,7 +449,7 @@ class Interop {
       TraceStackTracingInfo = 3,
       MaxTraceSetInfoClass = 4,
     };
-    public: struct EVENT_FILTER_DESCRIPTOR {
+    public: struct EVENT_FILTER_DESCRIPTOR : public valueType<EVENT_FILTER_DESCRIPTOR> {
       public: Int64 Ptr;
       public: Int32 Size;
       public: Int32 Type;
@@ -460,17 +460,17 @@ class Interop {
       public: IAsyncResult BeginInvoke(Guid& sourceId, Int32 isEnabled, Byte level, Int64 matchAnyKeywords, Int64 matchAllKeywords, EVENT_FILTER_DESCRIPTOR* filterData, void* callbackContext, AsyncCallback callback, Object object);
       public: void EndInvoke(Guid& sourceId, IAsyncResult result);
     };
-    public: struct TRACE_GUID_INFO {
+    public: struct TRACE_GUID_INFO : public valueType<TRACE_GUID_INFO> {
       public: Int32 InstanceCount;
       public: Int32 Reserved;
     };
-    public: struct TRACE_PROVIDER_INSTANCE_INFO {
+    public: struct TRACE_PROVIDER_INSTANCE_INFO : public valueType<TRACE_PROVIDER_INSTANCE_INFO> {
       public: Int32 NextOffset;
       public: Int32 EnableCount;
       public: Int32 Pid;
       public: Int32 Flags;
     };
-    public: struct TRACE_ENABLE_INFO {
+    public: struct TRACE_ENABLE_INFO : public valueType<TRACE_ENABLE_INFO> {
       public: Int32 IsEnabled;
       public: Byte Level;
       public: Byte Reserved1;
@@ -530,11 +530,11 @@ class Interop {
     public: static Boolean CryptUnprotectMemory(SafeBuffer pData, UInt32 cbData, UInt32 dwFlags);
   };
   public: class NtDll {
-    public: struct IO_STATUS_BLOCK {
+    public: struct IO_STATUS_BLOCK : public valueType<IO_STATUS_BLOCK> {
       private: UInt32 Status;
       private: IntPtr Information;
     };
-    public: struct RTL_OSVERSIONINFOEX {
+    public: struct RTL_OSVERSIONINFOEX : public valueType<RTL_OSVERSIONINFOEX> {
       public: UInt32 dwOSVersionInfoSize;
       public: UInt32 dwMajorVersion;
       public: UInt32 dwMinorVersion;
@@ -542,7 +542,7 @@ class Interop {
       public: UInt32 dwPlatformId;
       public: rt::FixedBuffer<Char, 128> szCSDVersion;
     };
-    public: struct SYSTEM_LEAP_SECOND_INFORMATION {
+    public: struct SYSTEM_LEAP_SECOND_INFORMATION : public valueType<SYSTEM_LEAP_SECOND_INFORMATION> {
       public: BOOLEAN Enabled;
       public: UInt32 Flags;
     };
@@ -558,7 +558,7 @@ class Interop {
     public: static Int32 SHGetKnownFolderPath(Guid rfid, UInt32 dwFlags, IntPtr hToken, String& ppszPath);
   };
   public: class User32 {
-    public: struct USEROBJECTFLAGS {
+    public: struct USEROBJECTFLAGS : public valueType<USEROBJECTFLAGS> {
       public: Int32 fInherit;
       public: Int32 fReserved;
       public: Int32 dwFlags;

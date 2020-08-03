@@ -1,14 +1,14 @@
 #pragma once
 
-#include <rt/GCObject.h>
 #include <System.Private.CoreLib/System/IntPtr.h>
+#include <System.Private.CoreLib/System/ValueType.h>
 
 namespace System::Private::CoreLib::System {
 FORWARD(Object)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Runtime::InteropServices {
 namespace HandleRefNamespace {
-struct HandleRef : public rt::ValueType<HandleRef> {
+struct HandleRef : public valueType<HandleRef> {
   public: Object get_Wrapper();
   public: IntPtr get_Handle();
   public: explicit HandleRef(Object wrapper, IntPtr handle);

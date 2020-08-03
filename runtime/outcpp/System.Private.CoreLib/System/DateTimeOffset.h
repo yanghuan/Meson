@@ -1,8 +1,8 @@
 #pragma once
 
-#include <rt/GCObject.h>
 #include <System.Private.CoreLib/System/DateTime.h>
 #include <System.Private.CoreLib/System/Int16.h>
+#include <System.Private.CoreLib/System/ValueType.h>
 
 namespace System::Private::CoreLib::System::Globalization {
 enum class DateTimeStyles;
@@ -29,7 +29,7 @@ FORWARDS(TimeSpan)
 namespace DateTimeOffsetNamespace {
 using namespace Globalization;
 using namespace Runtime::Serialization;
-struct DateTimeOffset : public rt::ValueType<DateTimeOffset> {
+struct DateTimeOffset : public valueType<DateTimeOffset> {
   public: static DateTimeOffset get_Now();
   public: static DateTimeOffset get_UtcNow();
   public: DateTime get_DateTime();

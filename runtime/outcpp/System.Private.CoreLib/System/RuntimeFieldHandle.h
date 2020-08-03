@@ -1,6 +1,6 @@
 #pragma once
 
-#include <rt/GCObject.h>
+#include <System.Private.CoreLib/System/ValueType.h>
 
 namespace System::Private::CoreLib::System::Reflection {
 enum class FieldAttributes;
@@ -24,7 +24,7 @@ FORWARDS(UInt32)
 namespace RuntimeFieldHandleNamespace {
 using namespace Reflection;
 using namespace Runtime::Serialization;
-struct RuntimeFieldHandle : public rt::ValueType<RuntimeFieldHandle> {
+struct RuntimeFieldHandle : public valueType<RuntimeFieldHandle> {
   public: IntPtr get_Value();
   public: explicit RuntimeFieldHandle(IRuntimeFieldInfo fieldInfo);
   public: IRuntimeFieldInfo GetRuntimeFieldInfo();

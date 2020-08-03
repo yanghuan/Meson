@@ -1,8 +1,8 @@
 #pragma once
 
-#include <rt/GCObject.h>
 #include <System.Private.CoreLib/System/Numerics/Vector3.h>
 #include <System.Private.CoreLib/System/Single.h>
+#include <System.Private.CoreLib/System/ValueType.h>
 
 namespace System::Private::CoreLib::System {
 FORWARDS(Boolean)
@@ -15,7 +15,7 @@ FORWARDS(Matrix4x4)
 FORWARDS(Quaternion)
 FORWARDS(Vector4)
 namespace PlaneNamespace {
-struct Plane : public rt::ValueType<Plane> {
+struct Plane : public valueType<Plane> {
   public: explicit Plane(Single x, Single y, Single z, Single d);
   public: explicit Plane(Vector3 normal, Single d);
   public: explicit Plane(Vector4 value);

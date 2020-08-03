@@ -1,9 +1,9 @@
 #pragma once
 
-#include <rt/GCObject.h>
 #include <System.Private.CoreLib/System/Int16.h>
 #include <System.Private.CoreLib/System/Int32.h>
 #include <System.Private.CoreLib/System/IntPtr.h>
+#include <System.Private.CoreLib/System/ValueType.h>
 
 namespace System::Private::CoreLib::System {
 FORWARD(Object)
@@ -11,7 +11,7 @@ FORWARD(Object)
 namespace System::Private::CoreLib::System::StubHelpers {
 namespace MngdNativeArrayMarshalerNamespace {
 class MngdNativeArrayMarshaler {
-  public: struct MarshalerState {
+  public: struct MarshalerState : public valueType<MarshalerState> {
     private: IntPtr m_pElementMT;
     private: IntPtr m_Array;
     private: IntPtr m_pManagedNativeArrayMarshaler;

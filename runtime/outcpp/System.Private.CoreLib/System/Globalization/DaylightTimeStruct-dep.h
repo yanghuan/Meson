@@ -4,3 +4,4 @@
 
 #include <System.Private.CoreLib/System/DateTime-dep.h>
 #include <System.Private.CoreLib/System/TimeSpan-dep.h>
+#include <System.Private.CoreLib/System/ValueType-dep.h>

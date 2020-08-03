@@ -1,6 +1,5 @@
 #pragma once
 
-#include <rt/GCObject.h>
 #include <System.Private.CoreLib/System/Text/EncoderFallback.h>
 
 namespace System::Private::CoreLib::System {

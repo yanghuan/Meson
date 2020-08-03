@@ -23,3 +23,4 @@
 #include <System.Private.CoreLib/System/Runtime/InteropServices/UnmanagedType.h>
 #include <System.Private.CoreLib/System/Runtime/InteropServices/VarEnum.h>
 #include <System.Private.CoreLib/System/String-dep.h>
+#include <System.Private.CoreLib/System/ValueType-dep.h>

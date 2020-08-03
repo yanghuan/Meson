@@ -1,7 +1,7 @@
 #pragma once
 
-#include <rt/GCObject.h>
 #include <System.Private.CoreLib/System/Int64.h>
+#include <System.Private.CoreLib/System/ValueType.h>
 
 namespace System::Private::CoreLib::System {
 FORWARDS(Boolean)
@@ -15,7 +15,7 @@ namespace System::Private::CoreLib::System::Threading {
 FORWARDS(CancellationToken)
 namespace CancellationTokenRegistrationNamespace {
 using namespace Tasks;
-struct CancellationTokenRegistration : public rt::ValueType<CancellationTokenRegistration> {
+struct CancellationTokenRegistration : public valueType<CancellationTokenRegistration> {
   public: CancellationToken get_Token();
   public: explicit CancellationTokenRegistration(Int64 id, Object/*CancellationTokenSource.CallbackNode*/ node);
   public: void Dispose();

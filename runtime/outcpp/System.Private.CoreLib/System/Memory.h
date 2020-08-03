@@ -1,7 +1,7 @@
 #pragma once
 
-#include <rt/GCObject.h>
 #include <System.Private.CoreLib/System/Int32.h>
+#include <System.Private.CoreLib/System/ValueType.h>
 
 namespace System::Private::CoreLib::System::Buffers {
 FORWARDS(MemoryHandle)
@@ -18,7 +18,7 @@ FORWARD(String)
 namespace MemoryNamespace {
 using namespace Buffers;
 template <class T>
-struct Memory {
+struct Memory : public valueType<Memory<T>> {
   public: static Memory<T> get_Empty();
   public: Int32 get_Length();
   public: Boolean get_IsEmpty();

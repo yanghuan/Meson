@@ -1,12 +1,12 @@
 #pragma once
 
-#include <rt/GCObject.h>
 #include <System.Private.CoreLib/System/Boolean.h>
 #include <System.Private.CoreLib/System/UInt32.h>
+#include <System.Private.CoreLib/System/ValueType.h>
 
 namespace System::Private::CoreLib::System::IO {
 namespace DisableMediaInsertionPromptNamespace {
-struct DisableMediaInsertionPrompt {
+struct DisableMediaInsertionPrompt : public valueType<DisableMediaInsertionPrompt> {
   public: static DisableMediaInsertionPrompt Create();
   public: void Dispose();
   private: Boolean _disableSuccess;

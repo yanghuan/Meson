@@ -1,10 +1,10 @@
 #pragma once
 
-#include <rt/GCObject.h>
 #include <System.Private.CoreLib/System/Boolean.h>
 #include <System.Private.CoreLib/System/Char.h>
 #include <System.Private.CoreLib/System/Int32.h>
 #include <System.Private.CoreLib/System/ReadOnlySpan.h>
+#include <System.Private.CoreLib/System/ValueType.h>
 
 namespace System::Private::CoreLib::System::Globalization {
 FORWARD(CompareInfo)
@@ -17,7 +17,7 @@ FORWARDS(DTSubString)
 FORWARD(String)
 namespace __DTStringNamespace {
 using namespace Globalization;
-struct __DTString {
+struct __DTString : public valueType<__DTString> {
   public: Int32 get_Length();
   public: CompareInfo get_CompareInfo();
   public: explicit __DTString(ReadOnlySpan<Char> str, DateTimeFormatInfo dtfi, Boolean checkDigitToken);

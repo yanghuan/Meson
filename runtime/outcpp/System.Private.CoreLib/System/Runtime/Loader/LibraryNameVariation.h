@@ -1,6 +1,6 @@
 #pragma once
 
-#include <rt/GCObject.h>
+#include <System.Private.CoreLib/System/ValueType.h>
 
 namespace System::Private::CoreLib::System {
 FORWARDS(Boolean)
@@ -12,7 +12,7 @@ FORWARD(IEnumerable, T)
 namespace System::Private::CoreLib::System::Runtime::Loader {
 namespace LibraryNameVariationNamespace {
 using namespace Collections::Generic;
-struct LibraryNameVariation {
+struct LibraryNameVariation : public valueType<LibraryNameVariation> {
   public: explicit LibraryNameVariation(String prefix, String suffix);
   public: static IEnumerable<LibraryNameVariation> DetermineLibraryNameVariations(String libName, Boolean isRelativePath, Boolean forOSLoader);
   public: explicit LibraryNameVariation() {}

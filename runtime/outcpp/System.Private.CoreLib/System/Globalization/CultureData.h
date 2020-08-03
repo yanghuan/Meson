@@ -1,10 +1,10 @@
 #pragma once
 
-#include <rt/GCObject.h>
 #include <System.Private.CoreLib/Interop.h>
 #include <System.Private.CoreLib/System/Boolean.h>
 #include <System.Private.CoreLib/System/Int32.h>
 #include <System.Private.CoreLib/System/Object.h>
+#include <System.Private.CoreLib/System/ValueType.h>
 
 namespace System::Private::CoreLib::System {
 FORWARD_(Array, T1, T2)
@@ -90,11 +90,11 @@ CLASS(CultureData) : public Object::in {
     MacCodePage = 4113,
     EbcdicCodePage = 4114,
   };
-  private: struct EnumLocaleData {
+  private: struct EnumLocaleData : public valueType<EnumLocaleData> {
     public: String regionName;
     public: String cultureName;
   };
-  private: struct EnumData {
+  private: struct EnumData : public valueType<EnumData> {
     public: List<String> strings;
   };
   private: static Dictionary<String, String> get_RegionNames();

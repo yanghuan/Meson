@@ -1,8 +1,8 @@
 #pragma once
 
-#include <rt/GCObject.h>
 #include <System.Private.CoreLib/System/Int32.h>
 #include <System.Private.CoreLib/System/Object.h>
+#include <System.Private.CoreLib/System/ValueType.h>
 
 namespace System::Private::CoreLib::System::Reflection {
 FORWARD(MethodInfo)
@@ -16,7 +16,7 @@ FORWARD(String)
 namespace ResolverNamespace {
 using namespace Reflection;
 CLASS(Resolver) : public Object::in {
-  public: struct CORINFO_EH_CLAUSE {
+  public: struct CORINFO_EH_CLAUSE : public valueType<CORINFO_EH_CLAUSE> {
     public: Int32 Flags;
     public: Int32 TryOffset;
     public: Int32 TryLength;

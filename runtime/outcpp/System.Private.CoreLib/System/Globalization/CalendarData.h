@@ -1,10 +1,10 @@
 #pragma once
 
-#include <rt/GCObject.h>
 #include <System.Private.CoreLib/Interop.h>
 #include <System.Private.CoreLib/System/Boolean.h>
 #include <System.Private.CoreLib/System/Int32.h>
 #include <System.Private.CoreLib/System/Object.h>
+#include <System.Private.CoreLib/System/ValueType.h>
 
 namespace System::Private::CoreLib::System::Collections::Generic {
 FORWARD(List, T)
@@ -26,15 +26,15 @@ namespace CalendarDataNamespace {
 using namespace Collections::Generic;
 using namespace Text;
 CLASS(CalendarData) : public Object::in {
-  private: struct IcuEnumCalendarsData {
+  private: struct IcuEnumCalendarsData : public valueType<IcuEnumCalendarsData> {
     public: List<String> Results;
     public: Boolean DisallowDuplicates;
   };
-  private: struct EnumData {
+  private: struct EnumData : public valueType<EnumData> {
     public: String userOverride;
     public: List<String> strings;
   };
-  public: struct NlsEnumCalendarsData {
+  public: struct NlsEnumCalendarsData : public valueType<NlsEnumCalendarsData> {
     public: Int32 userOverride;
     public: List<Int32> calendars;
   };

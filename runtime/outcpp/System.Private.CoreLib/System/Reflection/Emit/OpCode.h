@@ -1,7 +1,7 @@
 #pragma once
 
-#include <rt/GCObject.h>
 #include <System.Private.CoreLib/System/Int32.h>
+#include <System.Private.CoreLib/System/ValueType.h>
 
 namespace System::Private::CoreLib::System {
 FORWARD_(Array, T1, T2)
@@ -17,7 +17,7 @@ enum class OpCodeValues;
 enum class OperandType;
 enum class StackBehaviour;
 namespace OpCodeNamespace {
-struct OpCode : public rt::ValueType<OpCode> {
+struct OpCode : public valueType<OpCode> {
   public: OperandType get_OperandType();
   public: FlowControl get_FlowControl();
   public: OpCodeType get_OpCodeType();

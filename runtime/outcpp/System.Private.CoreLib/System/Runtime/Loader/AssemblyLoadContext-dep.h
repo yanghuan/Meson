@@ -25,4 +25,5 @@
 #include <System.Private.CoreLib/System/Runtime/CompilerServices/QCallAssembly-dep.h>
 #include <System.Private.CoreLib/System/String-dep.h>
 #include <System.Private.CoreLib/System/Threading/AsyncLocal-dep.h>
+#include <System.Private.CoreLib/System/ValueType-dep.h>
 #include <System.Private.CoreLib/System/WeakReference-dep.h>

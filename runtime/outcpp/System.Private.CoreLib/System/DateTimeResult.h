@@ -1,12 +1,12 @@
 #pragma once
 
-#include <rt/GCObject.h>
 #include <System.Private.CoreLib/System/Char.h>
 #include <System.Private.CoreLib/System/DateTime.h>
 #include <System.Private.CoreLib/System/Double.h>
 #include <System.Private.CoreLib/System/Int32.h>
 #include <System.Private.CoreLib/System/ReadOnlySpan.h>
 #include <System.Private.CoreLib/System/TimeSpan.h>
+#include <System.Private.CoreLib/System/ValueType.h>
 
 namespace System::Private::CoreLib::System::Globalization {
 FORWARD(Calendar)
@@ -18,7 +18,7 @@ FORWARD(Object)
 FORWARD(String)
 namespace DateTimeResultNamespace {
 using namespace Globalization;
-struct DateTimeResult {
+struct DateTimeResult : public valueType<DateTimeResult> {
   public: void Init(ReadOnlySpan<Char> originalDateTimeString);
   public: void SetDate(Int32 year, Int32 month, Int32 day);
   public: void SetBadFormatSpecifierFailure();

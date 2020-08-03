@@ -1,6 +1,6 @@
 #pragma once
 
-#include <rt/GCObject.h>
+#include <System.Private.CoreLib/System/ValueType.h>
 
 namespace System::Private::CoreLib::System {
 enum class TypeCode;
@@ -14,7 +14,7 @@ namespace System::Private::CoreLib::System::Diagnostics::Tracing {
 FORWARD(PropertyAnalysis)
 FORWARD(TraceLoggingTypeInfo)
 namespace EventParameterInfoNamespace {
-struct EventParameterInfo {
+struct EventParameterInfo : public valueType<EventParameterInfo> {
   public: void SetInfo(String name, Type type, TraceLoggingTypeInfo typeInfo);
   public: Boolean GenerateMetadata(Byte* pMetadataBlob, UInt32& offset, UInt32 blobSize);
   private: static Boolean GenerateMetadataForProperty(PropertyAnalysis property, Byte* pMetadataBlob, UInt32& offset, UInt32 blobSize);

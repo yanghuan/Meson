@@ -1,6 +1,6 @@
 #pragma once
 
-#include <rt/GCObject.h>
+#include <System.Private.CoreLib/System/ValueType.h>
 
 namespace System::Private::CoreLib::System::Globalization {
 enum class NumberStyles;
@@ -17,7 +17,7 @@ FORWARDS(Span, T)
 FORWARD(String)
 namespace UInt32Namespace {
 using namespace Globalization;
-struct UInt32 : public rt::PrimitiveType<UInt32> {
+struct UInt32 : public valueType<UInt32> {
   public: constexpr UInt32() noexcept : m_value(0) {}
   public: constexpr UInt32(uint32_t value) noexcept : m_value(value) {}
   public: constexpr uint32_t& get() noexcept  { return m_value; }
@@ -44,8 +44,6 @@ struct UInt32 : public rt::PrimitiveType<UInt32> {
   private: uint32_t m_value;
   public: static constexpr uint32_t MaxValue = 4294967295u;
   public: static constexpr uint32_t MinValue = 0u;
-  template <class T>
-  friend struct rt::PrimitiveType;
 };
 } // namespace UInt32Namespace
 using UInt32 = UInt32Namespace::UInt32;

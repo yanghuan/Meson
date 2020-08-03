@@ -1,9 +1,9 @@
 #pragma once
 
-#include <rt/GCObject.h>
 #include <System.Private.CoreLib/System/Guid.h>
 #include <System.Private.CoreLib/System/IntPtr.h>
 #include <System.Private.CoreLib/System/Object.h>
+#include <System.Private.CoreLib/System/ValueType.h>
 
 namespace System::Private::CoreLib::System {
 FORWARDS(Boolean)
@@ -23,12 +23,12 @@ namespace ComWrappersNamespace {
 using namespace Collections;
 using namespace CompilerServices;
 CLASS(ComWrappers) : public Object::in {
-  public: struct ComInterfaceEntry {
+  public: struct ComInterfaceEntry : public valueType<ComInterfaceEntry> {
     public: Guid IID;
     public: IntPtr Vtable;
   };
-  public: struct ComInterfaceDispatch {
-    private: struct ComInterfaceInstance {
+  public: struct ComInterfaceDispatch : public valueType<ComInterfaceDispatch> {
+    private: struct ComInterfaceInstance : public valueType<ComInterfaceInstance> {
       public: IntPtr GcHandle;
     };
     public: template <class T>

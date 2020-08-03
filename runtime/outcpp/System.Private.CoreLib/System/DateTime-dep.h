@@ -23,3 +23,4 @@
 #include <System.Private.CoreLib/System/TimeSpan-dep.h>
 #include <System.Private.CoreLib/System/TypeCode.h>
 #include <System.Private.CoreLib/System/UInt64-dep.h>
+#include <System.Private.CoreLib/System/ValueType-dep.h>

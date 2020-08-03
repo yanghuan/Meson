@@ -1,8 +1,8 @@
 #pragma once
 
-#include <rt/GCObject.h>
 #include <System.Private.CoreLib/System/Int32.h>
 #include <System.Private.CoreLib/System/UIntPtr.h>
+#include <System.Private.CoreLib/System/ValueType.h>
 
 namespace System::Private::CoreLib::System {
 FORWARD_(Array, T1, T2)
@@ -17,12 +17,12 @@ class CastHelpers {
     CanCast = 1,
     MaybeCast = 2,
   };
-  private: struct CastCacheEntry {
+  private: struct CastCacheEntry : public valueType<CastCacheEntry> {
     public: Int32 _version;
     public: UIntPtr _source;
     public: UIntPtr _targetAndResult;
   };
-  public: struct ArrayElement {
+  public: struct ArrayElement : public valueType<ArrayElement> {
     public: Object Value;
   };
   private: static Int32 KeyToBucket(Int32& tableData, UIntPtr source, UIntPtr target);

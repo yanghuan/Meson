@@ -1,7 +1,7 @@
 #pragma once
 
-#include <rt/GCObject.h>
 #include <System.Private.CoreLib/System/Single.h>
+#include <System.Private.CoreLib/System/ValueType.h>
 
 namespace System::Private::CoreLib::System {
 FORWARDS(Boolean)
@@ -13,7 +13,7 @@ namespace System::Private::CoreLib::System::Numerics {
 FORWARDS(Matrix4x4)
 FORWARDS(Vector3)
 namespace QuaternionNamespace {
-struct Quaternion : public rt::ValueType<Quaternion> {
+struct Quaternion : public valueType<Quaternion> {
   public: static Quaternion get_Identity();
   public: Boolean get_IsIdentity();
   public: explicit Quaternion(Single x, Single y, Single z, Single w);

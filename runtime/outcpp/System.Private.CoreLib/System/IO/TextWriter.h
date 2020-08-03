@@ -1,6 +1,5 @@
 #pragma once
 
-#include <rt/GCObject.h>
 #include <System.Private.CoreLib/System/MarshalByRefObject.h>
 
 namespace System::Private::CoreLib::System::Text {
@@ -37,8 +36,8 @@ using namespace Text;
 using namespace Threading;
 using namespace Threading::Tasks;
 CLASS(TextWriter) : public MarshalByRefObject::in {
-  friend class NullTextWriter___;
-  friend class SyncTextWriter___;
+  private: FRIENDN(NullTextWriter)
+  public: FRIENDN(SyncTextWriter)
   public: IFormatProvider get_FormatProvider();
   public: Encoding get_Encoding();
   public: String get_NewLine();

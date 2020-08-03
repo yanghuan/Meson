@@ -1,7 +1,7 @@
 #pragma once
 
-#include <rt/GCObject.h>
 #include <System.Private.CoreLib/System/Int64.h>
+#include <System.Private.CoreLib/System/ValueType.h>
 
 namespace System::Private::CoreLib::System::Globalization {
 enum class TimeSpanStyles;
@@ -19,7 +19,7 @@ FORWARDS(Span, T)
 FORWARD(String)
 namespace TimeSpanNamespace {
 using namespace Globalization;
-struct TimeSpan : public rt::ValueType<TimeSpan> {
+struct TimeSpan : public valueType<TimeSpan> {
   public: Int64 get_Ticks();
   public: Int32 get_Days();
   public: Int32 get_Hours();

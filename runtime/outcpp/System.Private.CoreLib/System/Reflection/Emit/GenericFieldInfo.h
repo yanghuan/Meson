@@ -1,6 +1,5 @@
 #pragma once
 
-#include <rt/GCObject.h>
 #include <System.Private.CoreLib/System/Object.h>
 #include <System.Private.CoreLib/System/RuntimeFieldHandle.h>
 #include <System.Private.CoreLib/System/RuntimeTypeHandle.h>

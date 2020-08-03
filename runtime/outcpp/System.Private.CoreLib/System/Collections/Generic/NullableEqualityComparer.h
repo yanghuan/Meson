@@ -1,6 +1,5 @@
 #pragma once
 
-#include <rt/GCObject.h>
 #include <System.Private.CoreLib/System/Collections/Generic/EqualityComparer.h>
 #include <System.Private.CoreLib/System/Nullable.h>
 

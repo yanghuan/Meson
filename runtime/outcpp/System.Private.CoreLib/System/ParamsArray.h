@@ -1,13 +1,13 @@
 #pragma once
 
-#include <rt/GCObject.h>
+#include <System.Private.CoreLib/System/ValueType.h>
 
 namespace System::Private::CoreLib::System {
 FORWARD_(Array, T1, T2)
 FORWARDS(Int32)
 FORWARD(Object)
 namespace ParamsArrayNamespace {
-struct ParamsArray {
+struct ParamsArray : public valueType<ParamsArray> {
   public: Int32 get_Length();
   public: Object get_Item(Int32 index);
   public: explicit ParamsArray(Object arg0);

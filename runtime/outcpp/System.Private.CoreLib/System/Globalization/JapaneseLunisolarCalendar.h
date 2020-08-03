@@ -1,6 +1,5 @@
 #pragma once
 
-#include <rt/GCObject.h>
 #include <System.Private.CoreLib/System/Globalization/EastAsianLunisolarCalendar.h>
 #include <System.Private.CoreLib/System/Int32.h>
 

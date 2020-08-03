@@ -7,3 +7,4 @@
 #include <System.Private.CoreLib/System/Object-dep.h>
 #include <System.Private.CoreLib/System/Threading/SendOrPostCallback-dep.h>
 #include <System.Private.CoreLib/System/Threading/WaitCallback-dep.h>
+#include <System.Private.CoreLib/System/ValueType-dep.h>

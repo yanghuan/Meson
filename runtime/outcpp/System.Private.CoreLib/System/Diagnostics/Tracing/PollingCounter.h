@@ -1,6 +1,5 @@
 #pragma once
 
-#include <rt/GCObject.h>
 #include <System.Private.CoreLib/System/Diagnostics/Tracing/DiagnosticCounter.h>
 #include <System.Private.CoreLib/System/Double.h>
 

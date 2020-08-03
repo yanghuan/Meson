@@ -1,9 +1,9 @@
 #pragma once
 
-#include <rt/GCObject.h>
 #include <System.Private.CoreLib/System/Int32.h>
 #include <System.Private.CoreLib/System/Object.h>
 #include <System.Private.CoreLib/System/UInt64.h>
+#include <System.Private.CoreLib/System/ValueType.h>
 
 namespace System::Private::CoreLib::System {
 FORWARD_(Array, T1, T2)
@@ -21,12 +21,12 @@ FORWARD(IEqualityComparer, T)
 namespace HashSetNamespace {
 using namespace Runtime::Serialization;
 CLASS(HashSet, T) : public Object::in {
-  private: struct Entry {
+  private: struct Entry : public valueType<Entry> {
     public: Int32 HashCode;
     public: Int32 Next;
     public: T Value;
   };
-  public: struct Enumerator {
+  public: struct Enumerator : public valueType<Enumerator> {
     public: T get_Current();
     private: Object get_CurrentOfIEnumerator();
     public: explicit Enumerator(HashSet<T> hashSet);

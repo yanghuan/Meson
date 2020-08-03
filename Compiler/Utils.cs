@@ -243,7 +243,7 @@ namespace Meson.Compiler {
             return type.Fields.Select(i => i.Type).Concat(type.Methods.SelectMany(i => i.Parameters).Select(i => i.Type));
           }
         case ReferenceTypeKind.FieldReference: {
-            return type.Fields.Where(i => !i.IsStatic).Select(i => i.Type.GetReferenceType() ?? i.Type);
+            return type.Fields.Where(i => !i.IsStatic).Select(i => i.Type.GetReferenceType() ?? i.Type).Concat(type.DirectBaseTypes.Where(i => i.IsKnownType(KnownTypeCode.None)));
           }
       }
       throw new InvalidProgramException();
@@ -551,6 +551,13 @@ namespace Meson.Compiler {
 
     public static ForwardMacroSyntax GetNestedForwardStatement(this ITypeDefinition type) {
       return new ForwardMacroSyntax(type.Name, type.GetTypeParameters().Select(i => (IdentifierSyntax)i.Name), ForwardMacroKind.NestedClass);
+    }
+
+    public static ForwardMacroSyntax GetNestedFriendStatement(this ITypeDefinition type) {
+      ForwardMacroKind kind = type.Kind == TypeKind.Struct ? ForwardMacroKind.FriendNestedStruct : ForwardMacroKind.FriendNestedClass;
+      return new ForwardMacroSyntax(type.Name, type.GetTypeParameters().Select(i => (IdentifierSyntax)i.Name), kind) { 
+        AccessibilityToken = type.Accessibility.ToTokenString(),
+      };
     }
 
     public static StatementSyntax GetForwardStatement(this ITypeDefinition type) {

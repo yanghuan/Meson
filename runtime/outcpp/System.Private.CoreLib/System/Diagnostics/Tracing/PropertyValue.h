@@ -1,6 +1,5 @@
 #pragma once
 
-#include <rt/GCObject.h>
 #include <System.Private.CoreLib/System/Boolean.h>
 #include <System.Private.CoreLib/System/Byte.h>
 #include <System.Private.CoreLib/System/Char.h>
@@ -21,6 +20,7 @@
 #include <System.Private.CoreLib/System/UInt32.h>
 #include <System.Private.CoreLib/System/UInt64.h>
 #include <System.Private.CoreLib/System/UIntPtr.h>
+#include <System.Private.CoreLib/System/ValueType.h>
 
 namespace System::Private::CoreLib::System::Reflection {
 FORWARD(PropertyInfo)
@@ -33,8 +33,8 @@ FORWARD(Type)
 namespace System::Private::CoreLib::System::Diagnostics::Tracing {
 namespace PropertyValueNamespace {
 using namespace Reflection;
-struct PropertyValue {
-  public: struct Scalar {
+struct PropertyValue : public valueType<PropertyValue> {
+  public: struct Scalar : public valueType<Scalar> {
     public: Boolean AsBoolean;
     public: Byte AsByte;
     public: SByte AsSByte;

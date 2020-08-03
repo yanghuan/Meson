@@ -1,9 +1,9 @@
 #pragma once
 
-#include <rt/GCObject.h>
 #include <System.Private.CoreLib/System/Int32.h>
 #include <System.Private.CoreLib/System/UInt32.h>
 #include <System.Private.CoreLib/System/UInt64.h>
+#include <System.Private.CoreLib/System/ValueType.h>
 
 namespace System::Private::CoreLib::System::Globalization {
 enum class NumberStyles;
@@ -29,9 +29,9 @@ FORWARD(String)
 FORWARDS(UInt16)
 namespace DecimalNamespace {
 using namespace Globalization;
-struct Decimal : public rt::ValueType<Decimal> {
-  private: struct DecCalc {
-    private: struct Buf24 {
+struct Decimal : public valueType<Decimal> {
+  private: struct DecCalc : public valueType<DecCalc> {
+    private: struct Buf24 : public valueType<Buf24> {
       public: UInt64 get_Low64();
       public: void set_Low64(UInt64 value);
       public: void set_Mid64(UInt64 value);
@@ -46,13 +46,13 @@ struct Decimal : public rt::ValueType<Decimal> {
       private: UInt64 umid64LE;
       private: UInt64 uhigh64LE;
     };
-    private: struct PowerOvfl {
+    private: struct PowerOvfl : public valueType<PowerOvfl> {
       public: explicit PowerOvfl(UInt32 hi, UInt32 mid, UInt32 lo);
       public: explicit PowerOvfl() {}
       public: UInt32 Hi;
       public: UInt64 MidLo;
     };
-    private: struct Buf12 {
+    private: struct Buf12 : public valueType<Buf12> {
       public: UInt64 get_Low64();
       public: void set_Low64(UInt64 value);
       public: UInt64 get_High64();
@@ -63,7 +63,7 @@ struct Decimal : public rt::ValueType<Decimal> {
       private: UInt64 ulo64LE;
       private: UInt64 uhigh64LE;
     };
-    private: struct Buf16 {
+    private: struct Buf16 : public valueType<Buf16> {
       public: UInt64 get_Low64();
       public: void set_Low64(UInt64 value);
       public: UInt64 get_High64();
@@ -75,7 +75,7 @@ struct Decimal : public rt::ValueType<Decimal> {
       private: UInt64 ulo64LE;
       private: UInt64 uhigh64LE;
     };
-    private: struct Buf28 {
+    private: struct Buf28 : public valueType<Buf28> {
       public: Buf24 Buf24;
       public: UInt32 U6;
     };

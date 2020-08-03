@@ -1,6 +1,5 @@
 #pragma once
 
-#include <rt/GCObject.h>
 #include <System.Private.CoreLib/System/Int32.h>
 #include <System.Private.CoreLib/System/Object.h>
 
@@ -21,7 +20,7 @@ namespace UriParserNamespace {
 using namespace ::System::Private::CoreLib::System;
 using namespace ::System::Private::CoreLib::System::Collections;
 CLASS(UriParser) : public Object::in {
-  friend class BuiltInUriParser___;
+  private: FRIENDN(BuiltInUriParser)
   public: String get_SchemeName();
   public: Int32 get_DefaultPort();
   public: UriSyntaxFlags get_Flags();

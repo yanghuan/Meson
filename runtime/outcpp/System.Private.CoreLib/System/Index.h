@@ -1,14 +1,14 @@
 #pragma once
 
-#include <rt/GCObject.h>
 #include <System.Private.CoreLib/System/Int32.h>
+#include <System.Private.CoreLib/System/ValueType.h>
 
 namespace System::Private::CoreLib::System {
 FORWARDS(Boolean)
 FORWARD(Object)
 FORWARD(String)
 namespace IndexNamespace {
-struct Index : public rt::ValueType<Index> {
+struct Index : public valueType<Index> {
   public: static Index get_Start();
   public: static Index get_End();
   public: Int32 get_Value();

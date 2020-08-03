@@ -1,6 +1,6 @@
 #pragma once
 
-#include <rt/GCObject.h>
+#include <System.Private.CoreLib/System/ValueType.h>
 
 namespace System::Private::CoreLib::System {
 FORWARDS(Boolean)
@@ -16,7 +16,7 @@ enum class CustomAttributeEncoding;
 FORWARDS(CustomAttributeEncodedArgument)
 FORWARD(RuntimeModule)
 namespace CustomAttributeTypedArgumentNamespace {
-struct CustomAttributeTypedArgument : public rt::ValueType<CustomAttributeTypedArgument> {
+struct CustomAttributeTypedArgument : public valueType<CustomAttributeTypedArgument> {
   public: Type get_ArgumentType();
   public: Object get_Value();
   private: static Type CustomAttributeEncodingToType(CustomAttributeEncoding encodedType);

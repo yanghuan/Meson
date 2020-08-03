@@ -1,9 +1,9 @@
 #pragma once
 
-#include <rt/GCObject.h>
 #include <System.Private.CoreLib/System/Boolean.h>
 #include <System.Private.CoreLib/System/IntPtr.h>
 #include <System.Private.CoreLib/System/Object.h>
+#include <System.Private.CoreLib/System/ValueType.h>
 
 namespace System::Private::CoreLib::System {
 FORWARDS(Char)
@@ -26,9 +26,9 @@ CLASS(TextInfo) : public Object::in {
     False = 1,
     True = 2,
   };
-  private: struct ToUpperConversion {
+  private: struct ToUpperConversion : public valueType<ToUpperConversion> {
   };
-  private: struct ToLowerConversion {
+  private: struct ToLowerConversion : public valueType<ToLowerConversion> {
   };
   public: Int32 get_ANSICodePage();
   public: Int32 get_OEMCodePage();

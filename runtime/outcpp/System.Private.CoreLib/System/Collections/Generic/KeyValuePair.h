@@ -1,6 +1,6 @@
 #pragma once
 
-#include <rt/GCObject.h>
+#include <System.Private.CoreLib/System/ValueType.h>
 
 namespace System::Private::CoreLib::System::Collections::Generic {
 namespace KeyValuePairNamespace {
@@ -11,7 +11,7 @@ template <>
 class KeyValuePair<> {
 };
 template <class TKey, class TValue>
-struct KeyValuePair<TKey, TValue> {
+struct KeyValuePair<TKey, TValue> : public valueType<KeyValuePair<TKey, TValue>> {
   public: TKey get_Key();
   public: TValue get_Value();
   private: TKey key;

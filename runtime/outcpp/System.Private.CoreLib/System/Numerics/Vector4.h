@@ -1,7 +1,7 @@
 #pragma once
 
-#include <rt/GCObject.h>
 #include <System.Private.CoreLib/System/Single.h>
+#include <System.Private.CoreLib/System/ValueType.h>
 
 namespace System::Private::CoreLib::System {
 FORWARD_(Array, T1, T2)
@@ -17,7 +17,7 @@ FORWARDS(Quaternion)
 FORWARDS(Vector2)
 FORWARDS(Vector3)
 namespace Vector4Namespace {
-struct Vector4 : public rt::ValueType<Vector4> {
+struct Vector4 : public valueType<Vector4> {
   public: static Vector4 get_Zero();
   public: static Vector4 get_One();
   public: static Vector4 get_UnitX();

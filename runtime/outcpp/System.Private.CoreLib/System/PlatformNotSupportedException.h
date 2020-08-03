@@ -1,6 +1,5 @@
 #pragma once
 
-#include <rt/GCObject.h>
 #include <System.Private.CoreLib/System/NotSupportedException.h>
 
 namespace System::Private::CoreLib::System::Runtime::Serialization {

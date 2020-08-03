@@ -1,8 +1,8 @@
 #pragma once
 
-#include <rt/GCObject.h>
 #include <System.Private.CoreLib/System/Int32.h>
 #include <System.Private.CoreLib/System/Span.h>
+#include <System.Private.CoreLib/System/ValueType.h>
 
 namespace System::Private::CoreLib::System {
 FORWARD_(Array, T1, T2)
@@ -11,7 +11,7 @@ FORWARDS(ReadOnlySpan, T)
 namespace System::Private::CoreLib::System::Collections::Generic {
 namespace ValueListBuilderNamespace {
 template <class T>
-struct ValueListBuilder {
+struct ValueListBuilder : public valueType<ValueListBuilder<T>> {
   public: Int32 get_Length();
   public: explicit ValueListBuilder(Span<T> initialSpan);
   public: void Append(T item);

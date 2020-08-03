@@ -10,3 +10,4 @@
 #include <System.Private.CoreLib/System/Threading/ExecutionContext-dep.h>
 #include <System.Private.CoreLib/System/Threading/Tasks/Sources/ManualResetValueTaskSourceCore-dep.h>
 #include <System.Private.CoreLib/System/Threading/Tasks/ValueTask-dep.h>
+#include <System.Private.CoreLib/System/ValueType-dep.h>

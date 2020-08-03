@@ -1,8 +1,8 @@
 #pragma once
 
-#include <rt/GCObject.h>
 #include <System.Private.CoreLib/System/Int32.h>
 #include <System.Private.CoreLib/System/Text/Rune.h>
+#include <System.Private.CoreLib/System/ValueType.h>
 
 namespace System::Private::CoreLib::System {
 FORWARDS(Boolean)
@@ -11,7 +11,7 @@ FORWARD(String)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Text {
 namespace StringRuneEnumeratorNamespace {
-struct StringRuneEnumerator {
+struct StringRuneEnumerator : public valueType<StringRuneEnumerator> {
   public: Rune get_Current();
   private: Object get_CurrentOfIEnumerator();
   public: explicit StringRuneEnumerator(String value);

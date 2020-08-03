@@ -1,13 +1,13 @@
 #pragma once
 
-#include <rt/GCObject.h>
 #include <System.Private.CoreLib/System/Byte.h>
 #include <System.Private.CoreLib/System/IntPtr.h>
+#include <System.Private.CoreLib/System/ValueType.h>
 
 namespace System::Private::CoreLib::System::Runtime::CompilerServices {
 FORWARDS(PortableTailCallFrame)
 namespace TailCallTlsNamespace {
-struct TailCallTls {
+struct TailCallTls : public valueType<TailCallTls> {
   public: PortableTailCallFrame* Frame;
   public: IntPtr ArgBuffer;
   private: IntPtr _argBufferSize;

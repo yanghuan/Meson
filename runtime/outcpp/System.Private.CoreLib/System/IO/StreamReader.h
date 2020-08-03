@@ -1,6 +1,5 @@
 #pragma once
 
-#include <rt/GCObject.h>
 #include <System.Private.CoreLib/System/Boolean.h>
 #include <System.Private.CoreLib/System/Int32.h>
 #include <System.Private.CoreLib/System/IO/TextReader.h>
@@ -31,7 +30,7 @@ using namespace Text;
 using namespace Threading;
 using namespace Threading::Tasks;
 CLASS(StreamReader) : public TextReader::in {
-  friend class NullStreamReader___;
+  private: FRIENDN(NullStreamReader)
   public: Encoding get_CurrentEncoding();
   public: Stream get_BaseStream();
   public: Boolean get_EndOfStream();

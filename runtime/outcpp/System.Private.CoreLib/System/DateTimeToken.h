@@ -1,13 +1,13 @@
 #pragma once
 
-#include <rt/GCObject.h>
 #include <System.Private.CoreLib/System/DateTimeParse.h>
 #include <System.Private.CoreLib/System/Int32.h>
+#include <System.Private.CoreLib/System/ValueType.h>
 
 namespace System::Private::CoreLib::System {
 enum class TokenType;
 namespace DateTimeTokenNamespace {
-struct DateTimeToken {
+struct DateTimeToken : public valueType<DateTimeToken> {
   public: DateTimeParse::DTT dtt;
   public: TokenType suffix;
   public: Int32 num;

@@ -1,13 +1,13 @@
 #pragma once
 
-#include <rt/GCObject.h>
 #include <System.Private.CoreLib/System/Runtime/InteropServices/GCHandle.h>
+#include <System.Private.CoreLib/System/ValueType.h>
 
 namespace System::Private::CoreLib::System::Buffers {
 FORWARD(IPinnable)
 namespace MemoryHandleNamespace {
 using namespace Runtime::InteropServices;
-struct MemoryHandle {
+struct MemoryHandle : public valueType<MemoryHandle> {
   public: void* get_Pointer();
   public: explicit MemoryHandle(void* pointer, GCHandle handle, IPinnable pinnable);
   public: void Dispose();

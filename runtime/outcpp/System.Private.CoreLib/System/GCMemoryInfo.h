@@ -1,11 +1,11 @@
 #pragma once
 
-#include <rt/GCObject.h>
 #include <System.Private.CoreLib/System/Int64.h>
+#include <System.Private.CoreLib/System/ValueType.h>
 
 namespace System::Private::CoreLib::System {
 namespace GCMemoryInfoNamespace {
-struct GCMemoryInfo {
+struct GCMemoryInfo : public valueType<GCMemoryInfo> {
   public: Int64 get_HighMemoryLoadThresholdBytes() { return HighMemoryLoadThresholdBytes; }
   public: Int64 get_MemoryLoadBytes() { return MemoryLoadBytes; }
   public: Int64 get_TotalAvailableMemoryBytes() { return TotalAvailableMemoryBytes; }

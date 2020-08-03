@@ -1,7 +1,7 @@
 #pragma once
 
-#include <rt/GCObject.h>
 #include <System.Private.CoreLib/Interop.h>
+#include <System.Private.CoreLib/System/ValueType.h>
 
 namespace System::Private::CoreLib::System::Runtime::Serialization {
 FORWARD(SerializationInfo)
@@ -43,7 +43,7 @@ using namespace Reflection;
 using namespace Runtime::CompilerServices;
 using namespace Runtime::Serialization;
 using namespace Threading;
-struct RuntimeMethodHandle : public rt::ValueType<RuntimeMethodHandle> {
+struct RuntimeMethodHandle : public valueType<RuntimeMethodHandle> {
   public: IntPtr get_Value();
   public: static IRuntimeMethodInfo EnsureNonNullMethodInfo(IRuntimeMethodInfo method);
   public: explicit RuntimeMethodHandle(IRuntimeMethodInfo method);

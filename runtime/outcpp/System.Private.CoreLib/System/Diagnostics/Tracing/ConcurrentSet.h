@@ -1,6 +1,6 @@
 #pragma once
 
-#include <rt/GCObject.h>
+#include <System.Private.CoreLib/System/ValueType.h>
 
 namespace System::Private::CoreLib::System {
 FORWARD_(Array, T1, T2)
@@ -8,7 +8,7 @@ FORWARD_(Array, T1, T2)
 namespace System::Private::CoreLib::System::Diagnostics::Tracing {
 namespace ConcurrentSetNamespace {
 template <class KeyType, class ItemType>
-struct ConcurrentSet {
+struct ConcurrentSet : public valueType<ConcurrentSet<KeyType, ItemType>> {
   public: ItemType TryGet(KeyType key);
   public: ItemType GetOrAdd(ItemType newItem);
   private: Array<ItemType> items;

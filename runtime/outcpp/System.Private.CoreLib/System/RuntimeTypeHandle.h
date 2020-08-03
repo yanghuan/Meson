@@ -1,9 +1,9 @@
 #pragma once
 
-#include <rt/GCObject.h>
 #include <System.Private.CoreLib/Interop.h>
 #include <System.Private.CoreLib/System/Boolean.h>
 #include <System.Private.CoreLib/System/RuntimeMethodHandleInternal.h>
+#include <System.Private.CoreLib/System/ValueType.h>
 
 namespace System::Private::CoreLib::System::Reflection {
 enum class CorElementType : uint8_t;
@@ -51,8 +51,8 @@ using namespace Runtime::InteropServices;
 using namespace Runtime::Loader;
 using namespace Runtime::Serialization;
 using namespace Threading;
-struct RuntimeTypeHandle : public rt::ValueType<RuntimeTypeHandle> {
-  public: struct IntroducedMethodEnumerator {
+struct RuntimeTypeHandle : public valueType<RuntimeTypeHandle> {
+  public: struct IntroducedMethodEnumerator : public valueType<IntroducedMethodEnumerator> {
     public: RuntimeMethodHandleInternal get_Current();
     public: explicit IntroducedMethodEnumerator(RuntimeType type);
     public: Boolean MoveNext();

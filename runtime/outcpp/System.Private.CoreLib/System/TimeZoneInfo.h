@@ -1,6 +1,5 @@
 #pragma once
 
-#include <rt/GCObject.h>
 #include <System.Private.CoreLib/Interop.h>
 #include <System.Private.CoreLib/System/Boolean.h>
 #include <System.Private.CoreLib/System/Byte.h>
@@ -8,6 +7,7 @@
 #include <System.Private.CoreLib/System/Int32.h>
 #include <System.Private.CoreLib/System/Object.h>
 #include <System.Private.CoreLib/System/TimeSpan.h>
+#include <System.Private.CoreLib/System/ValueType.h>
 
 namespace System::Private::CoreLib::System::Runtime::Serialization {
 FORWARD(SerializationInfo)
@@ -53,7 +53,7 @@ CLASS(TimeZoneInfo) : public Object::in {
     InvalidTimeZoneException = 2,
     SecurityException = 3,
   };
-  public: struct TransitionTime : public rt::ValueType<TransitionTime> {
+  public: struct TransitionTime : public valueType<TransitionTime> {
     public: DateTime get_TimeOfDay();
     public: Int32 get_Month();
     public: Int32 get_Week();
@@ -127,7 +127,7 @@ CLASS(TimeZoneInfo) : public Object::in {
     public: Boolean _allSystemTimeZonesRead;
     private: OffsetAndRule _oneYearLocalFromUtc;
   };
-  private: struct StringSerializer {
+  private: struct StringSerializer : public valueType<StringSerializer> {
     private: enum class State {
       Escaped = 0,
       NotEscaped = 1,

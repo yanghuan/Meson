@@ -152,3 +152,13 @@
   using n = ns::name<BOOST_PP_SEQ_ENUM(seq)>;
 
 #define FORWARDS_(name, ...) FORWARDS_MULTI(name, name, BOOST_PP_VARIADIC_TO_SEQ(__VA_ARGS__), BOOST_PP_CAT(name, Namespace))
+
+#define FRIENDN_(n, name) \
+  friend class name;\
+  using n = rt::ref<name>;
+
+#define FRIENDN(name) FRIENDN_(name, NAME(name))
+
+#define FRIENDNS(name) \
+  friend struct name;\
+  using name = name;

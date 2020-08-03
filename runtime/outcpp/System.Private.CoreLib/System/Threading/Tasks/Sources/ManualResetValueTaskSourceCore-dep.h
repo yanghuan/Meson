@@ -11,3 +11,4 @@
 #include <System.Private.CoreLib/System/Threading/ExecutionContext-dep.h>
 #include <System.Private.CoreLib/System/Threading/Tasks/Sources/ValueTaskSourceOnCompletedFlags.h>
 #include <System.Private.CoreLib/System/Threading/Tasks/Sources/ValueTaskSourceStatus.h>
+#include <System.Private.CoreLib/System/ValueType-dep.h>

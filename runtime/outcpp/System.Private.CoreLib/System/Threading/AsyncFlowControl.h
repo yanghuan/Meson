@@ -1,6 +1,6 @@
 #pragma once
 
-#include <rt/GCObject.h>
+#include <System.Private.CoreLib/System/ValueType.h>
 
 namespace System::Private::CoreLib::System {
 FORWARDS(Boolean)
@@ -10,7 +10,7 @@ FORWARD(Object)
 namespace System::Private::CoreLib::System::Threading {
 FORWARD(Thread)
 namespace AsyncFlowControlNamespace {
-struct AsyncFlowControl : public rt::ValueType<AsyncFlowControl> {
+struct AsyncFlowControl : public valueType<AsyncFlowControl> {
   public: void Initialize(Thread currentThread);
   public: void Undo();
   public: void Dispose();

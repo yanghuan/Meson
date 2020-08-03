@@ -1,7 +1,7 @@
 #pragma once
 
-#include <rt/GCObject.h>
 #include <System.Private.CoreLib/System/UInt32.h>
+#include <System.Private.CoreLib/System/ValueType.h>
 
 namespace System::Private::CoreLib::System::Collections::Generic {
 FORWARD(IEqualityComparer, T)
@@ -12,7 +12,7 @@ FORWARDS(Int32)
 FORWARD(Object)
 namespace HashCodeNamespace {
 using namespace Collections::Generic;
-struct HashCode {
+struct HashCode : public valueType<HashCode> {
   private: static UInt32 GenerateGlobalSeed();
   public: template <class T1>
   static Int32 Combine(T1 value1);

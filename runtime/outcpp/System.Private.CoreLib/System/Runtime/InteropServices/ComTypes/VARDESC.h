@@ -1,10 +1,10 @@
 #pragma once
 
-#include <rt/GCObject.h>
 #include <System.Private.CoreLib/System/Int16.h>
 #include <System.Private.CoreLib/System/Int32.h>
 #include <System.Private.CoreLib/System/IntPtr.h>
 #include <System.Private.CoreLib/System/Runtime/InteropServices/ComTypes/ELEMDESC.h>
+#include <System.Private.CoreLib/System/ValueType.h>
 
 namespace System::Private::CoreLib::System {
 FORWARD(String)
@@ -12,8 +12,8 @@ FORWARD(String)
 namespace System::Private::CoreLib::System::Runtime::InteropServices::ComTypes {
 enum class VARKIND;
 namespace VARDESCNamespace {
-struct VARDESC {
-  public: struct DESCUNION {
+struct VARDESC : public valueType<VARDESC> {
+  public: struct DESCUNION : public valueType<DESCUNION> {
     public: Int32 oInst;
     public: IntPtr lpvarValue;
   };

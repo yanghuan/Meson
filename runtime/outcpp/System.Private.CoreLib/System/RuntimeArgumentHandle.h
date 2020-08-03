@@ -1,11 +1,11 @@
 #pragma once
 
-#include <rt/GCObject.h>
 #include <System.Private.CoreLib/System/IntPtr.h>
+#include <System.Private.CoreLib/System/ValueType.h>
 
 namespace System::Private::CoreLib::System {
 namespace RuntimeArgumentHandleNamespace {
-struct RuntimeArgumentHandle {
+struct RuntimeArgumentHandle : public valueType<RuntimeArgumentHandle> {
   public: IntPtr get_Value();
   private: IntPtr m_ptr;
 };

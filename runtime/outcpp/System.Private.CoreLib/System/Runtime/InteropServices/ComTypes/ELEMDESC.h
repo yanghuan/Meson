@@ -1,14 +1,14 @@
 #pragma once
 
-#include <rt/GCObject.h>
 #include <System.Private.CoreLib/System/Runtime/InteropServices/ComTypes/IDLDESC.h>
 #include <System.Private.CoreLib/System/Runtime/InteropServices/ComTypes/PARAMDESC.h>
 #include <System.Private.CoreLib/System/Runtime/InteropServices/ComTypes/TYPEDESC.h>
+#include <System.Private.CoreLib/System/ValueType.h>
 
 namespace System::Private::CoreLib::System::Runtime::InteropServices::ComTypes {
 namespace ELEMDESCNamespace {
-struct ELEMDESC {
-  public: struct DESCUNION {
+struct ELEMDESC : public valueType<ELEMDESC> {
+  public: struct DESCUNION : public valueType<DESCUNION> {
     public: IDLDESC idldesc;
     public: PARAMDESC paramdesc;
   };

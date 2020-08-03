@@ -1,8 +1,8 @@
 #pragma once
 
-#include <rt/GCObject.h>
 #include <System.Private.CoreLib/System/Object.h>
 #include <System.Private.CoreLib/System/UInt16.h>
+#include <System.Private.CoreLib/System/ValueType.h>
 
 namespace System::Private::CoreLib::System {
 enum class StringComparison;
@@ -99,7 +99,7 @@ CLASS(Uri) : public Object::in {
     NotIriCanonical = 64,
     FoundNonAscii = 8,
   };
-  private: struct Offset {
+  private: struct Offset : public valueType<Offset> {
     public: UInt16 Scheme;
     public: UInt16 User;
     public: UInt16 Host;

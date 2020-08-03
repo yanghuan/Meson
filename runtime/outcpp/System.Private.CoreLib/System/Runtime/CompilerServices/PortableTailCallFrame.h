@@ -1,11 +1,11 @@
 #pragma once
 
-#include <rt/GCObject.h>
 #include <System.Private.CoreLib/System/IntPtr.h>
+#include <System.Private.CoreLib/System/ValueType.h>
 
 namespace System::Private::CoreLib::System::Runtime::CompilerServices {
 namespace PortableTailCallFrameNamespace {
-struct PortableTailCallFrame {
+struct PortableTailCallFrame : public valueType<PortableTailCallFrame> {
   public: PortableTailCallFrame* Prev;
   public: IntPtr TailCallAwareReturnAddress;
   public: IntPtr NextCall;

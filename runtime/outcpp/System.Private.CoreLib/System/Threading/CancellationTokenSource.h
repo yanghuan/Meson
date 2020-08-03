@@ -1,6 +1,5 @@
 #pragma once
 
-#include <rt/GCObject.h>
 #include <System.Private.CoreLib/System/Boolean.h>
 #include <System.Private.CoreLib/System/Int32.h>
 #include <System.Private.CoreLib/System/Int64.h>
@@ -40,9 +39,9 @@ CLASS(CancellationTokenSource) : public Object::in {
     public: ExecutionContext ExecutionContext;
     public: SynchronizationContext SynchronizationContext;
   };
-  friend class Linked1CancellationTokenSource___;
-  friend class Linked2CancellationTokenSource___;
-  friend class LinkedNCancellationTokenSource___;
+  private: FRIENDN(Linked1CancellationTokenSource)
+  private: FRIENDN(Linked2CancellationTokenSource)
+  private: FRIENDN(LinkedNCancellationTokenSource)
   public: CLASS(CallbackPartition) : public Object::in {
     public: void Ctor(CancellationTokenSource source);
     public: Boolean Unregister(Int64 id, CallbackNode node);

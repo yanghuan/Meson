@@ -10,3 +10,4 @@
 #include <System.Private.CoreLib/System/Runtime/InteropServices/ComTypes/TYPEDESC-dep.h>
 #include <System.Private.CoreLib/System/Runtime/InteropServices/ComTypes/TYPEFLAGS.h>
 #include <System.Private.CoreLib/System/Runtime/InteropServices/ComTypes/TYPEKIND.h>
+#include <System.Private.CoreLib/System/ValueType-dep.h>

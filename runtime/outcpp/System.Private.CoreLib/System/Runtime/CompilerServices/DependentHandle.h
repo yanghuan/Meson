@@ -1,7 +1,7 @@
 #pragma once
 
-#include <rt/GCObject.h>
 #include <System.Private.CoreLib/System/IntPtr.h>
+#include <System.Private.CoreLib/System/ValueType.h>
 
 namespace System::Private::CoreLib::System {
 FORWARDS(Boolean)
@@ -9,7 +9,7 @@ FORWARD(Object)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Runtime::CompilerServices {
 namespace DependentHandleNamespace {
-struct DependentHandle {
+struct DependentHandle : public valueType<DependentHandle> {
   public: Boolean get_IsAllocated();
   public: explicit DependentHandle(Object primary, Object secondary);
   public: Object GetPrimary();

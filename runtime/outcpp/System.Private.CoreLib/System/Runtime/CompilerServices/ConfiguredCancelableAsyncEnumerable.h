@@ -1,8 +1,8 @@
 #pragma once
 
-#include <rt/GCObject.h>
 #include <System.Private.CoreLib/System/Boolean.h>
 #include <System.Private.CoreLib/System/Threading/CancellationToken.h>
+#include <System.Private.CoreLib/System/ValueType.h>
 
 namespace System::Private::CoreLib::System::Collections::Generic {
 FORWARD(IAsyncEnumerable, T)
@@ -14,8 +14,8 @@ namespace ConfiguredCancelableAsyncEnumerableNamespace {
 using namespace Collections::Generic;
 using namespace Threading;
 template <class T>
-struct ConfiguredCancelableAsyncEnumerable {
-  public: struct Enumerator {
+struct ConfiguredCancelableAsyncEnumerable : public valueType<ConfiguredCancelableAsyncEnumerable<T>> {
+  public: struct Enumerator : public valueType<Enumerator> {
     public: T get_Current();
     public: explicit Enumerator(IAsyncEnumerator<T> enumerator, Boolean continueOnCapturedContext);
     public: ConfiguredValueTaskAwaitable<Boolean> MoveNextAsync();

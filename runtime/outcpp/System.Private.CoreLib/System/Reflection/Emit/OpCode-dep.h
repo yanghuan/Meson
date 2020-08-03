@@ -13,3 +13,4 @@
 #include <System.Private.CoreLib/System/Reflection/Emit/OperandType.h>
 #include <System.Private.CoreLib/System/Reflection/Emit/StackBehaviour.h>
 #include <System.Private.CoreLib/System/String-dep.h>
+#include <System.Private.CoreLib/System/ValueType-dep.h>

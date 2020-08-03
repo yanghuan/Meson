@@ -1,6 +1,6 @@
 #pragma once
 
-#include <rt/GCObject.h>
+#include <System.Private.CoreLib/System/ValueType.h>
 
 namespace System::Private::CoreLib::System::Reflection {
 FORWARD(AssemblyName)
@@ -10,7 +10,7 @@ FORWARD(String)
 namespace StartupHookProviderNamespace {
 using namespace Reflection;
 class StartupHookProvider {
-  private: struct StartupHookNameOrPath {
+  private: struct StartupHookNameOrPath : public valueType<StartupHookNameOrPath> {
     public: AssemblyName AssemblyName;
     public: String Path;
   };

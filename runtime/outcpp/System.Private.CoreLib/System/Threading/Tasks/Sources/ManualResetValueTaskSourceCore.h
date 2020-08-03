@@ -1,8 +1,8 @@
 #pragma once
 
-#include <rt/GCObject.h>
 #include <System.Private.CoreLib/System/Boolean.h>
 #include <System.Private.CoreLib/System/Int16.h>
+#include <System.Private.CoreLib/System/ValueType.h>
 
 namespace System::Private::CoreLib::System {
 FORWARD_(Action, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17)
@@ -21,7 +21,7 @@ enum class ValueTaskSourceStatus;
 namespace ManualResetValueTaskSourceCoreNamespace {
 using namespace Runtime::ExceptionServices;
 template <class TResult>
-struct ManualResetValueTaskSourceCore {
+struct ManualResetValueTaskSourceCore : public valueType<ManualResetValueTaskSourceCore<TResult>> {
   public: Boolean get_RunContinuationsAsynchronously() { return RunContinuationsAsynchronously; }
   public: void set_RunContinuationsAsynchronously(Boolean value) { RunContinuationsAsynchronously = value; }
   public: Int16 get_Version();

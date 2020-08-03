@@ -1,9 +1,9 @@
 #pragma once
 
-#include <rt/GCObject.h>
 #include <System.Private.CoreLib/System/Boolean.h>
 #include <System.Private.CoreLib/System/DateTimeParse.h>
 #include <System.Private.CoreLib/System/Int32.h>
+#include <System.Private.CoreLib/System/ValueType.h>
 
 namespace System::Private::CoreLib::System::Globalization {
 FORWARD(Calendar)
@@ -11,7 +11,7 @@ FORWARD(Calendar)
 namespace System::Private::CoreLib::System {
 namespace ParsingInfoNamespace {
 using namespace Globalization;
-struct ParsingInfo {
+struct ParsingInfo : public valueType<ParsingInfo> {
   public: void Init();
   public: Calendar calendar;
   public: Int32 dayOfWeek;

@@ -1,15 +1,15 @@
 #pragma once
 
-#include <rt/GCObject.h>
 #include <System.Private.CoreLib/System/UInt32.h>
 #include <System.Private.CoreLib/System/UInt64.h>
+#include <System.Private.CoreLib/System/ValueType.h>
 
 namespace System::Private::CoreLib::System {
 FORWARD(String)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Diagnostics::Tracing {
 namespace EventPipeProviderConfigurationNamespace {
-struct EventPipeProviderConfiguration {
+struct EventPipeProviderConfiguration : public valueType<EventPipeProviderConfiguration> {
   public: String get_ProviderName();
   public: UInt64 get_Keywords();
   public: UInt32 get_LoggingLevel();

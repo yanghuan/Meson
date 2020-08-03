@@ -1,11 +1,11 @@
 #pragma once
 
-#include <rt/GCObject.h>
 #include <System.Private.CoreLib/System/IntPtr.h>
+#include <System.Private.CoreLib/System/ValueType.h>
 
 namespace System::Private::CoreLib::System {
 namespace RuntimeFieldHandleInternalNamespace {
-struct RuntimeFieldHandleInternal {
+struct RuntimeFieldHandleInternal : public valueType<RuntimeFieldHandleInternal> {
   public: IntPtr get_Value();
   public: explicit RuntimeFieldHandleInternal(IntPtr value);
   public: explicit RuntimeFieldHandleInternal() {}

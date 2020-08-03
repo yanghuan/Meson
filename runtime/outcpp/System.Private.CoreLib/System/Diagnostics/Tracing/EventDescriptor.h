@@ -1,10 +1,10 @@
 #pragma once
 
-#include <rt/GCObject.h>
 #include <System.Private.CoreLib/System/Byte.h>
 #include <System.Private.CoreLib/System/Int32.h>
 #include <System.Private.CoreLib/System/Int64.h>
 #include <System.Private.CoreLib/System/UInt16.h>
+#include <System.Private.CoreLib/System/ValueType.h>
 
 namespace System::Private::CoreLib::System {
 FORWARDS(Boolean)
@@ -12,7 +12,7 @@ FORWARD(Object)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Diagnostics::Tracing {
 namespace EventDescriptorNamespace {
-struct EventDescriptor {
+struct EventDescriptor : public valueType<EventDescriptor> {
   public: Int32 get_EventId();
   public: Byte get_Version();
   public: Byte get_Channel();

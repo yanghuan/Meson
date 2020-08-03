@@ -456,6 +456,8 @@ namespace Meson.Compiler.CppAst {
     MultiNestedClass,
     Struct,
     MultiStruct,
+    FriendNestedClass,
+    FriendNestedStruct,
   }
 
   sealed class ForwardMacroSyntax : StatementSyntax {
@@ -465,7 +467,9 @@ namespace Meson.Compiler.CppAst {
       "FORWARDN",
       "FORWARDN_",
       "FORWARDS",
-      "FORWARDS_"
+      "FORWARDS_",
+      "FRIENDN",
+      "FRIENDNS"
     };
 
     public ForwardMacroKind Kind { get; }
@@ -478,14 +482,6 @@ namespace Meson.Compiler.CppAst {
       Invation = Macro.Invation();
       Invation.Arguments.Add(name);
       Invation.Arguments.AddRange(typeArguments);
-    }
-
-    public ExpressionStatementSyntax ToUsingMacroSyntax(string ns) {
-      IdentifierSyntax name = macros_[(int)Kind].Replace(macros_.First(), "USING");
-      var invation = name.Invation();
-      invation.Arguments.Add(ns.ReplaceDot());
-      invation.Arguments.AddRange(Invation.Arguments);
-      return new ExpressionStatementSyntax(invation) { HasSemicolon = false };
     }
 
     internal override void Render(CppRenderer renderer) {

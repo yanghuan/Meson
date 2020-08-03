@@ -1,6 +1,5 @@
 #pragma once
 
-#include <rt/GCObject.h>
 #include <System.Private.CoreLib/System/Diagnostics/Tracing/EventSource.h>
 
 namespace System::Private::CoreLib::System {

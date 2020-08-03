@@ -1,6 +1,6 @@
 #pragma once
 
-#include <rt/GCObject.h>
+#include <System.Private.CoreLib/System/ValueType.h>
 
 namespace System::Private::CoreLib::System {
 FORWARD_(Array, T1, T2)
@@ -11,9 +11,9 @@ FORWARDS(UInt64)
 FORWARDS(UIntPtr)
 namespace BufferNamespace {
 class Buffer {
-  private: struct Block16 {
+  private: struct Block16 : public valueType<Block16> {
   };
-  private: struct Block64 {
+  private: struct Block64 : public valueType<Block64> {
   };
   public: static void _ZeroMemory(Byte& b, UIntPtr byteLength);
   private: static void __ZeroMemory(void* b, UIntPtr byteLength);

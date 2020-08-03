@@ -1,6 +1,6 @@
 #pragma once
 
-#include <rt/GCObject.h>
+#include <System.Private.CoreLib/System/ValueType.h>
 
 namespace System::Private::CoreLib::System::Threading {
 enum class StackCrawlMark;
@@ -8,7 +8,7 @@ enum class StackCrawlMark;
 namespace System::Private::CoreLib::System::Runtime::CompilerServices {
 namespace StackCrawlMarkHandleNamespace {
 using namespace Threading;
-struct StackCrawlMarkHandle {
+struct StackCrawlMarkHandle : public valueType<StackCrawlMarkHandle> {
   public: explicit StackCrawlMarkHandle(StackCrawlMark& stackMark);
   public: explicit StackCrawlMarkHandle() {}
   private: void* _ptr;

@@ -1,6 +1,6 @@
 #pragma once
 
-#include <rt/GCObject.h>
+#include <System.Private.CoreLib/System/ValueType.h>
 
 namespace System::Private::CoreLib::System {
 FORWARD_(Array, T1, T2)
@@ -9,7 +9,7 @@ FORWARDS(Int32)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Reflection {
 namespace ParameterModifierNamespace {
-struct ParameterModifier {
+struct ParameterModifier : public valueType<ParameterModifier> {
   public: Boolean get_Item(Int32 index);
   public: void set_Item(Int32 index, Boolean value);
   public: Array<Boolean> get_IsByRefArray();

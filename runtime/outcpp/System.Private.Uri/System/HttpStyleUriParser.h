@@ -1,6 +1,5 @@
 #pragma once
 
-#include <rt/GCObject.h>
 #include <System.Private.Uri/System/UriParser.h>
 
 namespace System::Private::Uri::System {

@@ -1,9 +1,9 @@
 #pragma once
 
-#include <rt/GCObject.h>
 #include <System.Private.CoreLib/System/Boolean.h>
 #include <System.Private.CoreLib/System/Int16.h>
 #include <System.Private.CoreLib/System/Threading/Tasks/Task.h>
+#include <System.Private.CoreLib/System/ValueType.h>
 
 namespace System::Private::CoreLib::System::Threading::Tasks::Sources {
 FORWARD_(IValueTaskSource, T1, T2)
@@ -19,7 +19,7 @@ template <class T1 = void, class T2 = void>
 struct ValueTask {
 };
 template <>
-struct ValueTask<> {
+struct ValueTask<> : public valueType<ValueTask> {
   private: CLASS(ValueTaskSourceAsTask) : public Task<>::in {
     public: void Ctor(IValueTaskSource<> source, Int16 token);
     private: static void SCtor();
@@ -38,7 +38,7 @@ struct ValueTask<> {
   public: Boolean _continueOnCapturedContext;
 };
 template <class TResult>
-struct ValueTask<TResult> {
+struct ValueTask<TResult> : public valueType<ValueTask<TResult>> {
   private: CLASS(ValueTaskSourceAsTask) : public Task<TResult>::in {
     public: void Ctor(IValueTaskSource<TResult> source, Int16 token);
     private: static void SCtor();

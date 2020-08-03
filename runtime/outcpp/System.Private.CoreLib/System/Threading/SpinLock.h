@@ -1,8 +1,8 @@
 #pragma once
 
-#include <rt/GCObject.h>
 #include <System.Private.CoreLib/System/Int32.h>
 #include <System.Private.CoreLib/System/Object.h>
+#include <System.Private.CoreLib/System/ValueType.h>
 
 namespace System::Private::CoreLib::System {
 FORWARDS(Boolean)
@@ -12,8 +12,8 @@ FORWARDS(UInt32)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Threading {
 namespace SpinLockNamespace {
-struct SpinLock {
-  friend class SystemThreading_SpinLockDebugView___;
+struct SpinLock : public valueType<SpinLock> {
+  public: FRIENDN(SystemThreading_SpinLockDebugView)
   public: Boolean get_IsHeld();
   public: Boolean get_IsHeldByCurrentThread();
   public: Boolean get_IsThreadOwnerTrackingEnabled();

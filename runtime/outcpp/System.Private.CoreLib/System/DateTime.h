@@ -1,9 +1,9 @@
 #pragma once
 
-#include <rt/GCObject.h>
 #include <System.Private.CoreLib/Interop.h>
 #include <System.Private.CoreLib/System/Int64.h>
 #include <System.Private.CoreLib/System/UInt64.h>
+#include <System.Private.CoreLib/System/ValueType.h>
 
 namespace System::Private::CoreLib::System::Globalization {
 enum class DateTimeStyles;
@@ -31,8 +31,8 @@ FORWARDS(TimeSpan)
 namespace DateTimeNamespace {
 using namespace Globalization;
 using namespace Runtime::Serialization;
-struct DateTime : public rt::ValueType<DateTime> {
-  private: struct FullSystemTime {
+struct DateTime : public valueType<DateTime> {
+  private: struct FullSystemTime : public valueType<FullSystemTime> {
     public: explicit FullSystemTime(Int32 year, Int32 month, DayOfWeek dayOfWeek, Int32 day, Int32 hour, Int32 minute, Int32 second);
     public: explicit FullSystemTime(Int64 ticks);
     public: explicit FullSystemTime() {}

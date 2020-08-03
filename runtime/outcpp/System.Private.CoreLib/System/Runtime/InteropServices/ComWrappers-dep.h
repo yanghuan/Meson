@@ -12,3 +12,4 @@
 #include <System.Private.CoreLib/System/Runtime/InteropServices/ComWrappersScenario.h>
 #include <System.Private.CoreLib/System/Runtime/InteropServices/CreateComInterfaceFlags.h>
 #include <System.Private.CoreLib/System/Runtime/InteropServices/CreateObjectFlags.h>
+#include <System.Private.CoreLib/System/ValueType-dep.h>

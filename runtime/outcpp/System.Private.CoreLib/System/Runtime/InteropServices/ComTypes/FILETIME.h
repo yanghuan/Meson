@@ -1,11 +1,11 @@
 #pragma once
 
-#include <rt/GCObject.h>
 #include <System.Private.CoreLib/System/Int32.h>
+#include <System.Private.CoreLib/System/ValueType.h>
 
 namespace System::Private::CoreLib::System::Runtime::InteropServices::ComTypes {
 namespace FILETIMENamespace {
-struct FILETIME {
+struct FILETIME : public valueType<FILETIME> {
   public: Int32 dwLowDateTime;
   public: Int32 dwHighDateTime;
 };

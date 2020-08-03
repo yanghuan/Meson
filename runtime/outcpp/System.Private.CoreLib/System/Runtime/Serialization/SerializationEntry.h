@@ -1,6 +1,6 @@
 #pragma once
 
-#include <rt/GCObject.h>
+#include <System.Private.CoreLib/System/ValueType.h>
 
 namespace System::Private::CoreLib::System {
 FORWARD(Object)
@@ -9,7 +9,7 @@ FORWARD(Type)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Runtime::Serialization {
 namespace SerializationEntryNamespace {
-struct SerializationEntry {
+struct SerializationEntry : public valueType<SerializationEntry> {
   public: Object get_Value();
   public: String get_Name();
   public: Type get_ObjectType();

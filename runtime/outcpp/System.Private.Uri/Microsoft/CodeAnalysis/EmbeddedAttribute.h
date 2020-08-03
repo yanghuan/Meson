@@ -1,6 +1,5 @@
 #pragma once
 
-#include <rt/GCObject.h>
 #include <System.Private.CoreLib/System/Attribute.h>
 
 namespace System::Private::Uri::Microsoft::CodeAnalysis {

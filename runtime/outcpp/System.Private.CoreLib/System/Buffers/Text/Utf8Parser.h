@@ -1,9 +1,9 @@
 #pragma once
 
-#include <rt/GCObject.h>
 #include <System.Private.CoreLib/System/Boolean.h>
 #include <System.Private.CoreLib/System/Number.h>
 #include <System.Private.CoreLib/System/UInt32.h>
+#include <System.Private.CoreLib/System/ValueType.h>
 
 namespace System::Private::CoreLib::System {
 enum class DateTimeKind;
@@ -37,7 +37,7 @@ class Utf8Parser {
     Period = 2,
     ParseFailure = 3,
   };
-  private: struct TimeSpanSplitter {
+  private: struct TimeSpanSplitter : public valueType<TimeSpanSplitter> {
     public: Boolean TrySplitTimeSpan(ReadOnlySpan<Byte> source, Boolean periodUsedToSeparateDay, Int32& bytesConsumed);
     private: static ComponentParseResult ParseComponent(ReadOnlySpan<Byte> source, Boolean neverParseAsFraction, Int32& srcIndex, UInt32& value);
     public: UInt32 V1;

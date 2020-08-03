@@ -1,10 +1,10 @@
 #pragma once
 
-#include <rt/GCObject.h>
 #include <System.Private.CoreLib/System/Boolean.h>
 #include <System.Private.CoreLib/System/Int32.h>
 #include <System.Private.CoreLib/System/Object.h>
 #include <System.Private.CoreLib/System/Single.h>
+#include <System.Private.CoreLib/System/ValueType.h>
 
 namespace System::Private::CoreLib::System {
 FORWARD_(Array, T1, T2)
@@ -27,7 +27,7 @@ FORWARD(KeyValuePairs)
 namespace HashtableNamespace {
 using namespace Runtime::Serialization;
 CLASS(Hashtable) : public Object::in {
-  private: struct bucket {
+  private: struct bucket : public valueType<bucket> {
     public: Object key;
     public: Object val;
     public: Int32 hash_coll;
@@ -50,7 +50,7 @@ CLASS(Hashtable) : public Object::in {
     public: IEnumerator GetEnumerator();
     private: Hashtable _hashtable;
   };
-  friend class SyncHashtable___;
+  private: FRIENDN(SyncHashtable)
   private: CLASS(HashtableEnumerator) : public Object::in {
     public: Object get_Key();
     public: DictionaryEntry get_Entry();

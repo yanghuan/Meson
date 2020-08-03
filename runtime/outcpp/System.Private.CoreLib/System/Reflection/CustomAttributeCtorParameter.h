@@ -1,12 +1,12 @@
 #pragma once
 
-#include <rt/GCObject.h>
 #include <System.Private.CoreLib/System/Reflection/CustomAttributeEncodedArgument.h>
 #include <System.Private.CoreLib/System/Reflection/CustomAttributeType.h>
+#include <System.Private.CoreLib/System/ValueType.h>
 
 namespace System::Private::CoreLib::System::Reflection {
 namespace CustomAttributeCtorParameterNamespace {
-struct CustomAttributeCtorParameter {
+struct CustomAttributeCtorParameter : public valueType<CustomAttributeCtorParameter> {
   public: CustomAttributeEncodedArgument get_CustomAttributeEncodedArgument();
   public: explicit CustomAttributeCtorParameter(CustomAttributeType type);
   public: explicit CustomAttributeCtorParameter() {}

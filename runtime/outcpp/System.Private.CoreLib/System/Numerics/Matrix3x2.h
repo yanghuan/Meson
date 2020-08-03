@@ -1,7 +1,7 @@
 #pragma once
 
-#include <rt/GCObject.h>
 #include <System.Private.CoreLib/System/Single.h>
+#include <System.Private.CoreLib/System/ValueType.h>
 
 namespace System::Private::CoreLib::System {
 FORWARDS(Boolean)
@@ -12,7 +12,7 @@ FORWARD(String)
 namespace System::Private::CoreLib::System::Numerics {
 FORWARDS(Vector2)
 namespace Matrix3x2Namespace {
-struct Matrix3x2 : public rt::ValueType<Matrix3x2> {
+struct Matrix3x2 : public valueType<Matrix3x2> {
   public: static Matrix3x2 get_Identity();
   public: Boolean get_IsIdentity();
   public: Vector2 get_Translation();

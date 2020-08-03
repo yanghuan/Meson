@@ -1,12 +1,12 @@
 #pragma once
 
-#include <rt/GCObject.h>
 #include <System.Private.CoreLib/System/Boolean.h>
 #include <System.Private.CoreLib/System/Char.h>
 #include <System.Private.CoreLib/System/Globalization/TimeSpanFormat.h>
 #include <System.Private.CoreLib/System/Int32.h>
 #include <System.Private.CoreLib/System/ReadOnlySpan.h>
 #include <System.Private.CoreLib/System/TimeSpan.h>
+#include <System.Private.CoreLib/System/ValueType.h>
 
 namespace System::Private::CoreLib::System {
 FORWARD_(Array, T1, T2)
@@ -38,7 +38,7 @@ class TimeSpanParse {
     Sep = 3,
     NumOverflow = 4,
   };
-  private: struct TimeSpanToken {
+  private: struct TimeSpanToken : public valueType<TimeSpanToken> {
     public: explicit TimeSpanToken(TTT type);
     public: explicit TimeSpanToken(Int32 number);
     public: explicit TimeSpanToken(Int32 number, Int32 leadingZeroes);
@@ -50,7 +50,7 @@ class TimeSpanParse {
     public: Int32 _zeroes;
     public: ReadOnlySpan<Char> _sep;
   };
-  private: struct TimeSpanResult {
+  private: struct TimeSpanResult : public valueType<TimeSpanResult> {
     public: explicit TimeSpanResult(Boolean throwOnFailure, ReadOnlySpan<Char> originalTimeSpanString);
     public: Boolean SetNoFormatSpecifierFailure();
     public: Boolean SetBadQuoteFailure(Char failingCharacter);
@@ -64,7 +64,7 @@ class TimeSpanParse {
     private: Boolean _throwOnFailure;
     private: ReadOnlySpan<Char> _originalTimeSpanString;
   };
-  private: struct TimeSpanTokenizer {
+  private: struct TimeSpanTokenizer : public valueType<TimeSpanTokenizer> {
     public: Boolean get_EOL();
     public: Char get_NextChar();
     public: explicit TimeSpanTokenizer(ReadOnlySpan<Char> input);
@@ -75,7 +75,7 @@ class TimeSpanParse {
     private: ReadOnlySpan<Char> _value;
     private: Int32 _pos;
   };
-  private: struct TimeSpanRawInfo {
+  private: struct TimeSpanRawInfo : public valueType<TimeSpanRawInfo> {
     public: TimeSpanFormat::FormatLiterals get_PositiveLocalized();
     public: TimeSpanFormat::FormatLiterals get_NegativeLocalized();
     public: Boolean FullAppCompatMatch(TimeSpanFormat::FormatLiterals pattern);
@@ -113,7 +113,7 @@ class TimeSpanParse {
     public: ReadOnlySpan<Char> _literals4;
     public: ReadOnlySpan<Char> _literals5;
   };
-  private: struct StringParser {
+  private: struct StringParser : public valueType<StringParser> {
     public: void NextChar();
     public: Char NextNonDigit();
     public: Boolean TryParse(ReadOnlySpan<Char> input, TimeSpanResult& result);

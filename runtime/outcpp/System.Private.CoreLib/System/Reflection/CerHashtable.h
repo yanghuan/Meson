@@ -1,8 +1,8 @@
 #pragma once
 
-#include <rt/GCObject.h>
 #include <System.Private.CoreLib/System/Int32.h>
 #include <System.Private.CoreLib/System/Object.h>
+#include <System.Private.CoreLib/System/ValueType.h>
 
 namespace System::Private::CoreLib::System {
 FORWARD_(Array, T1, T2)
@@ -10,7 +10,7 @@ FORWARD_(Array, T1, T2)
 namespace System::Private::CoreLib::System::Reflection {
 namespace CerHashtableNamespace {
 template <class K, class V>
-struct CerHashtable {
+struct CerHashtable : public valueType<CerHashtable<K, V>> {
   private: CLASS(Table) : public Object::in {
     public: void Ctor(Int32 size);
     public: void Insert(K key, V value);

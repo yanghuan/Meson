@@ -9,3 +9,4 @@
 #include <System.Private.CoreLib/System/Threading/Tasks/Task-dep.h>
 #include <System.Private.CoreLib/System/Threading/Tasks/VoidTaskResult-dep.h>
 #include <System.Private.CoreLib/System/Threading/Thread-dep.h>
+#include <System.Private.CoreLib/System/ValueType-dep.h>

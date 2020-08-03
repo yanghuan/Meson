@@ -1,7 +1,7 @@
 #pragma once
 
-#include <rt/GCObject.h>
 #include <System.Private.CoreLib/System/Int32.h>
+#include <System.Private.CoreLib/System/ValueType.h>
 
 namespace System::Private::CoreLib::System {
 FORWARDS(Boolean)
@@ -12,7 +12,7 @@ enum class ExceptionHandlingClauseOptions;
 } // namespace System::Private::CoreLib::System::Reflection
 namespace System::Private::CoreLib::System::Reflection::Emit {
 namespace ExceptionHandlerNamespace {
-struct ExceptionHandler {
+struct ExceptionHandler : public valueType<ExceptionHandler> {
   public: explicit ExceptionHandler(Int32 tryStartOffset, Int32 tryEndOffset, Int32 filterOffset, Int32 handlerStartOffset, Int32 handlerEndOffset, Int32 kind, Int32 exceptionTypeToken);
   public: Int32 GetHashCode();
   public: Boolean Equals(Object obj);

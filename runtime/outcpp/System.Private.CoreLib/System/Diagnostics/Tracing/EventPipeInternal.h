@@ -1,10 +1,10 @@
 #pragma once
 
-#include <rt/GCObject.h>
 #include <System.Private.CoreLib/Interop.h>
 #include <System.Private.CoreLib/System/Diagnostics/Tracing/EventProvider.h>
 #include <System.Private.CoreLib/System/UInt32.h>
 #include <System.Private.CoreLib/System/UInt64.h>
+#include <System.Private.CoreLib/System/ValueType.h>
 
 namespace System::Private::CoreLib::System {
 FORWARD_(Array, T1, T2)
@@ -23,7 +23,7 @@ FORWARDS(EventPipeProviderConfiguration)
 FORWARDS(EventPipeSessionInfo)
 namespace EventPipeInternalNamespace {
 class EventPipeInternal {
-  private: struct EventPipeProviderConfigurationNative {
+  private: struct EventPipeProviderConfigurationNative : public valueType<EventPipeProviderConfigurationNative> {
     public: static void MarshalToNative(EventPipeProviderConfiguration managed, EventPipeProviderConfigurationNative& native);
     public: void Release();
     private: Char* m_pProviderName;

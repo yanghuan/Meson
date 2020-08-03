@@ -1,9 +1,9 @@
 #pragma once
 
-#include <rt/GCObject.h>
 #include <System.Private.CoreLib/System/Byte.h>
 #include <System.Private.CoreLib/System/Guid.h>
 #include <System.Private.CoreLib/System/Number.h>
+#include <System.Private.CoreLib/System/ValueType.h>
 
 namespace System::Private::CoreLib::System {
 FORWARD_(Array, T1, T2)
@@ -29,7 +29,7 @@ FORWARDS(StandardFormat)
 namespace System::Private::CoreLib::System::Buffers::Text {
 namespace Utf8FormatterNamespace {
 class Utf8Formatter {
-  private: struct DecomposedGuid {
+  private: struct DecomposedGuid : public valueType<DecomposedGuid> {
     public: Guid Guid;
     public: Byte Byte00;
     public: Byte Byte01;

@@ -1,6 +1,5 @@
 #pragma once
 
-#include <rt/GCObject.h>
 #include <System.Private.CoreLib/System/Text/Encoding.h>
 
 namespace System::Private::CoreLib::System {
@@ -28,7 +27,7 @@ FORWARDS(Rune)
 namespace ASCIIEncodingNamespace {
 using namespace Buffers;
 CLASS(ASCIIEncoding) : public Encoding::in {
-  friend class ASCIIEncodingSealed___;
+  public: FRIENDN(ASCIIEncodingSealed)
   public: Boolean get_IsSingleByte();
   public: void Ctor();
   public: void SetDefaultFallbacks();

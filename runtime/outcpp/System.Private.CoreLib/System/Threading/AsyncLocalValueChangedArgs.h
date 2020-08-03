@@ -1,12 +1,12 @@
 #pragma once
 
-#include <rt/GCObject.h>
 #include <System.Private.CoreLib/System/Boolean.h>
+#include <System.Private.CoreLib/System/ValueType.h>
 
 namespace System::Private::CoreLib::System::Threading {
 namespace AsyncLocalValueChangedArgsNamespace {
 template <class T>
-struct AsyncLocalValueChangedArgs {
+struct AsyncLocalValueChangedArgs : public valueType<AsyncLocalValueChangedArgs<T>> {
   public: T get_PreviousValue() { return PreviousValue; }
   public: T get_CurrentValue() { return CurrentValue; }
   public: Boolean get_ThreadContextChanged() { return ThreadContextChanged; }

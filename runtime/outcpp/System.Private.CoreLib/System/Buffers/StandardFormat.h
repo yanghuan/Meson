@@ -1,7 +1,7 @@
 #pragma once
 
-#include <rt/GCObject.h>
 #include <System.Private.CoreLib/System/Byte.h>
+#include <System.Private.CoreLib/System/ValueType.h>
 
 namespace System::Private::CoreLib::System {
 FORWARDS(Boolean)
@@ -14,7 +14,7 @@ FORWARD(String)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Buffers {
 namespace StandardFormatNamespace {
-struct StandardFormat : public rt::ValueType<StandardFormat> {
+struct StandardFormat : public valueType<StandardFormat> {
   public: Char get_Symbol();
   public: Byte get_Precision();
   public: Boolean get_HasPrecision();

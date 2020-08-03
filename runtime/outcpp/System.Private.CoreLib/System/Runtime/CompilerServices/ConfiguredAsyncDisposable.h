@@ -1,7 +1,7 @@
 #pragma once
 
-#include <rt/GCObject.h>
 #include <System.Private.CoreLib/System/Boolean.h>
+#include <System.Private.CoreLib/System/ValueType.h>
 
 namespace System::Private::CoreLib::System {
 FORWARD(IAsyncDisposable)
@@ -9,7 +9,7 @@ FORWARD(IAsyncDisposable)
 namespace System::Private::CoreLib::System::Runtime::CompilerServices {
 FORWARDS_(ConfiguredValueTaskAwaitable, T1, T2)
 namespace ConfiguredAsyncDisposableNamespace {
-struct ConfiguredAsyncDisposable {
+struct ConfiguredAsyncDisposable : public valueType<ConfiguredAsyncDisposable> {
   public: explicit ConfiguredAsyncDisposable(IAsyncDisposable source, Boolean continueOnCapturedContext);
   public: ConfiguredValueTaskAwaitable<> DisposeAsync();
   public: explicit ConfiguredAsyncDisposable() {}

@@ -1,6 +1,5 @@
 #pragma once
 
-#include <rt/GCObject.h>
 #include <System.Private.CoreLib/System/Boolean.h>
 #include <System.Private.CoreLib/System/Byte.h>
 #include <System.Private.CoreLib/System/Int16.h>
@@ -11,6 +10,7 @@
 #include <System.Private.CoreLib/System/UInt16.h>
 #include <System.Private.CoreLib/System/UInt32.h>
 #include <System.Private.CoreLib/System/UIntPtr.h>
+#include <System.Private.CoreLib/System/ValueType.h>
 
 namespace System::Private::CoreLib::System {
 FORWARDS(Double)
@@ -21,37 +21,37 @@ FORWARDS(UInt64)
 namespace System::Private::CoreLib::System::Threading {
 namespace VolatileNamespace {
 class Volatile {
-  private: struct VolatileBoolean {
+  private: struct VolatileBoolean : public valueType<VolatileBoolean> {
     public: Boolean Value;
   };
-  private: struct VolatileByte {
+  private: struct VolatileByte : public valueType<VolatileByte> {
     public: Byte Value;
   };
-  private: struct VolatileInt16 {
+  private: struct VolatileInt16 : public valueType<VolatileInt16> {
     public: Int16 Value;
   };
-  private: struct VolatileInt32 {
+  private: struct VolatileInt32 : public valueType<VolatileInt32> {
     public: Int32 Value;
   };
-  private: struct VolatileIntPtr {
+  private: struct VolatileIntPtr : public valueType<VolatileIntPtr> {
     public: IntPtr Value;
   };
-  private: struct VolatileSByte {
+  private: struct VolatileSByte : public valueType<VolatileSByte> {
     public: SByte Value;
   };
-  private: struct VolatileSingle {
+  private: struct VolatileSingle : public valueType<VolatileSingle> {
     public: Single Value;
   };
-  private: struct VolatileUInt16 {
+  private: struct VolatileUInt16 : public valueType<VolatileUInt16> {
     public: UInt16 Value;
   };
-  private: struct VolatileUInt32 {
+  private: struct VolatileUInt32 : public valueType<VolatileUInt32> {
     public: UInt32 Value;
   };
-  private: struct VolatileUIntPtr {
+  private: struct VolatileUIntPtr : public valueType<VolatileUIntPtr> {
     public: UIntPtr Value;
   };
-  private: struct VolatileObject {
+  private: struct VolatileObject : public valueType<VolatileObject> {
     public: Object Value;
   };
   public: static Boolean Read(Boolean& location);

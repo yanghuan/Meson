@@ -13,3 +13,4 @@
 #include <System.Private.CoreLib/System/Runtime/Intrinsics/Vector128-dep.h>
 #include <System.Private.CoreLib/System/Single-dep.h>
 #include <System.Private.CoreLib/System/String-dep.h>
+#include <System.Private.CoreLib/System/ValueType-dep.h>

@@ -1,7 +1,7 @@
 #pragma once
 
-#include <rt/GCObject.h>
 #include <System.Private.CoreLib/System/Int32.h>
+#include <System.Private.CoreLib/System/ValueType.h>
 
 namespace System::Private::CoreLib::System {
 FORWARDS(Boolean)
@@ -9,7 +9,7 @@ FORWARDS(Boolean)
 namespace System::Private::CoreLib::System::Threading {
 namespace DeferredDisposableLifetimeNamespace {
 template <class T>
-struct DeferredDisposableLifetime {
+struct DeferredDisposableLifetime : public valueType<DeferredDisposableLifetime<T>> {
   public: Boolean AddRef();
   public: void Release(T obj);
   public: void Dispose(T obj);

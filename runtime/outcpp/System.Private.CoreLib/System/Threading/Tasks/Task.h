@@ -1,6 +1,5 @@
 #pragma once
 
-#include <rt/GCObject.h>
 #include <System.Private.CoreLib/System/Int32.h>
 #include <System.Private.CoreLib/System/Object.h>
 #include <System.Private.CoreLib/System/Threading/CancellationToken.h>
@@ -39,10 +38,8 @@ FORWARDS(VoidTaskResult)
 namespace TaskNamespace {
 using namespace Collections::Generic;
 using namespace Runtime::CompilerServices;
-class DelayPromise___; using DelayPromise = rt::ref<DelayPromise___>;
 CLASS_FORWARD(Task, T1, T2)
 CLASS_(Task) : public Object::in {
-  public: using DelayPromise = DelayPromise;
   public: CLASS(ContingentProperties) : public Object::in {
     public: void SetCompleted();
     public: void UnregisterCancellationCallback();
@@ -68,6 +65,9 @@ CLASS_(Task) : public Object::in {
     public: void Invoke(Task<> completingTask);
     private: Int32 _count;
   };
+  private: FRIENDN(DelayPromise)
+  private: FRIENDN(DelayPromiseWithCancellation)
+  private: FRIENDN(TwoTaskWhenAnyPromise, TTask)
   private: Task<> get_ParentForDebugger();
   private: Int32 get_StateFlagsForDebugger();
   private: String get_DebuggerDisplayMethodDescription();

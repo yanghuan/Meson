@@ -1,7 +1,7 @@
 #pragma once
 
-#include <rt/GCObject.h>
 #include <System.Private.CoreLib/System/Int32.h>
+#include <System.Private.CoreLib/System/ValueType.h>
 
 namespace System::Private::CoreLib::System {
 FORWARDS(Boolean)
@@ -9,7 +9,7 @@ FORWARDS(Byte)
 FORWARD(String)
 FORWARDS(UInt32)
 namespace MdUtf8StringNamespace {
-struct MdUtf8String {
+struct MdUtf8String : public valueType<MdUtf8String> {
   private: static Boolean EqualsCaseInsensitive(void* szLhs, void* szRhs, Int32 cSz);
   private: static UInt32 HashCaseInsensitive(void* sz, Int32 cSz);
   public: explicit MdUtf8String(void* pStringHeap);

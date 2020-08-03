@@ -1,7 +1,7 @@
 #pragma once
 
-#include <rt/GCObject.h>
 #include <System.Private.CoreLib/System/Int32.h>
+#include <System.Private.CoreLib/System/ValueType.h>
 
 namespace System::Private::CoreLib::System {
 FORWARD_(Array, T1, T2)
@@ -9,8 +9,8 @@ FORWARDS(Boolean)
 FORWARD(Object)
 namespace ArraySegmentNamespace {
 template <class T>
-struct ArraySegment {
-  public: struct Enumerator {
+struct ArraySegment : public valueType<ArraySegment<T>> {
+  public: struct Enumerator : public valueType<Enumerator> {
     public: T get_Current();
     private: Object get_CurrentOfIEnumerator();
     public: explicit Enumerator(ArraySegment<T> arraySegment);

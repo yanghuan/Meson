@@ -1,7 +1,7 @@
 #pragma once
 
-#include <rt/GCObject.h>
 #include <System.Private.CoreLib/System/UInt32.h>
+#include <System.Private.CoreLib/System/ValueType.h>
 
 namespace System::Private::CoreLib::System {
 FORWARDS(Boolean)
@@ -26,7 +26,7 @@ namespace System::Private::CoreLib::System::Text {
 namespace RuneNamespace {
 using namespace Buffers;
 using namespace Globalization;
-struct Rune : public rt::ValueType<Rune> {
+struct Rune : public valueType<Rune> {
   private: static ReadOnlySpan<Byte> get_AsciiCharInfo();
   private: String get_DebuggerDisplay();
   public: Boolean get_IsAscii();

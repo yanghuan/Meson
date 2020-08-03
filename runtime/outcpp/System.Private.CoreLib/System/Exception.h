@@ -1,10 +1,10 @@
 #pragma once
 
-#include <rt/GCObject.h>
 #include <System.Private.CoreLib/System/Int32.h>
 #include <System.Private.CoreLib/System/IntPtr.h>
 #include <System.Private.CoreLib/System/Object.h>
 #include <System.Private.CoreLib/System/UIntPtr.h>
+#include <System.Private.CoreLib/System/ValueType.h>
 
 namespace System::Private::CoreLib::System::Reflection {
 FORWARD(MethodBase)
@@ -38,7 +38,7 @@ CLASS(Exception) : public Object::in {
     ThreadInterrupted = 2,
     OutOfMemory = 3,
   };
-  public: struct DispatchState {
+  public: struct DispatchState : public valueType<DispatchState> {
     public: explicit DispatchState(Array<Byte> stackTrace, Array<Object> dynamicMethods, String remoteStackTrace, UIntPtr ipForWatsonBuckets, Array<Byte> watsonBuckets);
     public: explicit DispatchState() {}
     public: Array<Byte> StackTrace;

@@ -1,6 +1,5 @@
 #pragma once
 
-#include <rt/GCObject.h>
 #include <System.Private.CoreLib/System/Boolean.h>
 #include <System.Private.CoreLib/System/Int32.h>
 #include <System.Private.CoreLib/System/Object.h>
@@ -16,8 +15,8 @@ FORWARD(IEnumerator)
 FORWARD(IList)
 namespace ArrayListNamespace {
 CLASS(ArrayList) : public Object::in {
-  friend class IListWrapper___;
-  friend class SyncArrayList___;
+  private: FRIENDN(IListWrapper)
+  private: FRIENDN(SyncArrayList)
   private: CLASS(SyncIList) : public Object::in {
     public: Int32 get_Count();
     public: Boolean get_IsReadOnly();
@@ -59,7 +58,7 @@ CLASS(ArrayList) : public Object::in {
     public: void RemoveAt(Int32 index);
     private: IList _list;
   };
-  friend class FixedSizeArrayList___;
+  private: FRIENDN(FixedSizeArrayList)
   private: CLASS(ReadOnlyList) : public Object::in {
     public: Int32 get_Count();
     public: Boolean get_IsReadOnly();
@@ -80,7 +79,7 @@ CLASS(ArrayList) : public Object::in {
     public: void RemoveAt(Int32 index);
     private: IList _list;
   };
-  friend class ReadOnlyArrayList___;
+  private: FRIENDN(ReadOnlyArrayList)
   private: CLASS(ArrayListEnumerator) : public Object::in {
     public: Object get_Current();
     public: void Ctor(ArrayList list, Int32 index, Int32 count);
@@ -94,7 +93,7 @@ CLASS(ArrayList) : public Object::in {
     private: Object _currentElement;
     private: Int32 _startIndex;
   };
-  friend class Range___;
+  private: FRIENDN(Range)
   private: CLASS(ArrayListEnumeratorSimple) : public Object::in {
     public: Object get_Current();
     public: void Ctor(ArrayList list);

@@ -26,3 +26,4 @@
 #include <System.Private.CoreLib/System/Text/ValueStringBuilder-dep.h>
 #include <System.Private.CoreLib/System/TimeSpan-dep.h>
 #include <System.Private.CoreLib/System/TimeZoneInfoOptions.h>
+#include <System.Private.CoreLib/System/ValueType-dep.h>

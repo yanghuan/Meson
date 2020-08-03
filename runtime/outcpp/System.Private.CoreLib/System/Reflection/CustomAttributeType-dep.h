@@ -4,3 +4,4 @@
 
 #include <System.Private.CoreLib/System/Reflection/CustomAttributeEncoding.h>
 #include <System.Private.CoreLib/System/String-dep.h>
+#include <System.Private.CoreLib/System/ValueType-dep.h>

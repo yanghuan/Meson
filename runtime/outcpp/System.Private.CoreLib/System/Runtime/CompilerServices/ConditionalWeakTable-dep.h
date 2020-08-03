@@ -12,3 +12,4 @@
 #include <System.Private.CoreLib/System/MulticastDelegate-dep.h>
 #include <System.Private.CoreLib/System/Object-dep.h>
 #include <System.Private.CoreLib/System/Runtime/CompilerServices/DependentHandle-dep.h>
+#include <System.Private.CoreLib/System/ValueType-dep.h>

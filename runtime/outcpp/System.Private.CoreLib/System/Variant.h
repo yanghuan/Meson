@@ -1,8 +1,8 @@
 #pragma once
 
-#include <rt/GCObject.h>
 #include <System.Private.CoreLib/System/Int32.h>
 #include <System.Private.CoreLib/System/Int64.h>
+#include <System.Private.CoreLib/System/ValueType.h>
 
 namespace System::Private::CoreLib::System {
 FORWARD_(Array, T1, T2)
@@ -21,7 +21,7 @@ FORWARDS(UInt16)
 FORWARDS(UInt32)
 FORWARDS(UInt64)
 namespace VariantNamespace {
-struct Variant {
+struct Variant : public valueType<Variant> {
   public: Int32 get_CVType();
   public: void SetFieldsObject(Object val);
   public: explicit Variant(Int32 flags, Object or_, Int64 data);

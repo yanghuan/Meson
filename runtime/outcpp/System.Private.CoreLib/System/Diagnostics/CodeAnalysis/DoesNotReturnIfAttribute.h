@@ -1,6 +1,5 @@
 #pragma once
 
-#include <rt/GCObject.h>
 #include <System.Private.CoreLib/System/Attribute.h>
 #include <System.Private.CoreLib/System/Boolean.h>
 

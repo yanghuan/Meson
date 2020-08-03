@@ -1,6 +1,5 @@
 #pragma once
 
-#include <rt/GCObject.h>
 #include <System.Private.CoreLib/System/Boolean.h>
 #include <System.Private.CoreLib/System/Int32.h>
 #include <System.Private.CoreLib/System/IntPtr.h>
@@ -10,6 +9,7 @@
 #include <System.Private.CoreLib/System/Reflection/TypeInfo.h>
 #include <System.Private.CoreLib/System/RuntimeMethodHandleInternal.h>
 #include <System.Private.CoreLib/System/UInt32.h>
+#include <System.Private.CoreLib/System/ValueType.h>
 
 namespace System::Private::CoreLib::System::Reflection {
 enum class BindingFlags;
@@ -93,7 +93,7 @@ CLASS(RuntimeType) : public TypeInfo::in {
     SafeArray = 65536,
   };
   public: template <class T>
-  struct ListBuilder {
+  struct ListBuilder : public valueType<ListBuilder<T>> {
     public: T get_Item(Int32 index);
     public: Int32 get_Count();
     public: explicit ListBuilder(Int32 capacity);
@@ -116,7 +116,7 @@ CLASS(RuntimeType) : public TypeInfo::in {
       Interface = 5,
       NestedType = 6,
     };
-    private: struct Filter {
+    private: struct Filter : public valueType<Filter> {
       public: explicit Filter(Byte* pUtf8Name, Int32 cUtf8Name, MemberListType listType);
       public: Boolean Match(MdUtf8String name);
       public: Boolean RequiresStringComparison();

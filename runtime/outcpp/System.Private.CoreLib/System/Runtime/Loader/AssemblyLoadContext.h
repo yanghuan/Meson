@@ -1,10 +1,10 @@
 #pragma once
 
-#include <rt/GCObject.h>
 #include <System.Private.CoreLib/System/Boolean.h>
 #include <System.Private.CoreLib/System/Int64.h>
 #include <System.Private.CoreLib/System/IntPtr.h>
 #include <System.Private.CoreLib/System/Object.h>
+#include <System.Private.CoreLib/System/ValueType.h>
 
 namespace System::Private::CoreLib::System::Collections::Generic {
 FORWARD(Dictionary, TKey, TValue)
@@ -50,7 +50,7 @@ CLASS(AssemblyLoadContext) : public Object::in {
     Alive = 0,
     Unloading = 1,
   };
-  public: struct ContextualReflectionScope {
+  public: struct ContextualReflectionScope : public valueType<ContextualReflectionScope> {
     public: explicit ContextualReflectionScope(AssemblyLoadContext activating);
     public: void Dispose();
     public: explicit ContextualReflectionScope() {}

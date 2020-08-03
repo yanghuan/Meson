@@ -1,7 +1,7 @@
 #pragma once
 
-#include <rt/GCObject.h>
 #include <System.Private.CoreLib/System/Int32.h>
+#include <System.Private.CoreLib/System/ValueType.h>
 
 namespace System::Private::CoreLib::System::Text {
 FORWARD(Encoding)
@@ -29,7 +29,7 @@ using namespace Collections::Generic;
 using namespace IO;
 using namespace Text;
 class WebUtility {
-  private: struct UrlDecoder {
+  private: struct UrlDecoder : public valueType<UrlDecoder> {
     private: void FlushBytes();
     public: explicit UrlDecoder(Int32 bufferSize, Encoding encoding);
     public: void AddChar(Char ch);

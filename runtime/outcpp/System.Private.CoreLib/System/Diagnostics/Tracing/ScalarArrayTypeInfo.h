@@ -1,6 +1,5 @@
 #pragma once
 
-#include <rt/GCObject.h>
 #include <System.Private.CoreLib/System/Diagnostics/Tracing/TraceLoggingTypeInfo.h>
 #include <System.Private.CoreLib/System/Int32.h>
 

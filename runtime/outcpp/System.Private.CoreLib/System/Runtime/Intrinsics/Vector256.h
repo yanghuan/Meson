@@ -1,7 +1,7 @@
 #pragma once
 
-#include <rt/GCObject.h>
 #include <System.Private.CoreLib/System/UInt64.h>
+#include <System.Private.CoreLib/System/ValueType.h>
 
 namespace System::Private::CoreLib::System {
 FORWARDS(Boolean)
@@ -17,7 +17,7 @@ template <>
 class Vector256<> {
 };
 template <class T>
-struct Vector256<T> {
+struct Vector256<T> : public valueType<Vector256<T>> {
   public: static Int32 get_Count();
   public: static Vector256<T> get_Zero();
   public: static Vector256<T> get_AllBitsSet();

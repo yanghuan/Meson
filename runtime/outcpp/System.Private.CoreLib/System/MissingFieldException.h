@@ -1,6 +1,5 @@
 #pragma once
 
-#include <rt/GCObject.h>
 #include <System.Private.CoreLib/System/MissingMemberException.h>
 
 namespace System::Private::CoreLib::System::Runtime::Serialization {

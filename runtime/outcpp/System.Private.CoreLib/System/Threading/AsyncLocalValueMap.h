@@ -1,6 +1,5 @@
 #pragma once
 
-#include <rt/GCObject.h>
 #include <System.Private.CoreLib/System/Collections/Generic/Dictionary.h>
 #include <System.Private.CoreLib/System/Object.h>
 

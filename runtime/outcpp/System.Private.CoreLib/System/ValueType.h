@@ -1,6 +1,5 @@
 #pragma once
 
-#include <rt/GCObject.h>
 #include <System.Private.CoreLib/System/Object.h>
 
 namespace System::Private::CoreLib::System {
@@ -20,4 +19,7 @@ CLASS(ValueType) : public Object::in {
 };
 } // namespace ValueTypeNamespace
 using ValueType = ValueTypeNamespace::ValueType;
+template <class T>
+struct valueType : public rt::valueType<T, ValueType::in> {
+};
 } // namespace System::Private::CoreLib::System

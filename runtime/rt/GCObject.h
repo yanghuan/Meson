@@ -536,6 +536,11 @@ namespace rt {
     }
   };
 
+  template <class T, class V>
+  struct valueType : public V {
+    
+  };
+
   template <class T, size_t N>
   struct FixedBuffer {
     T v[N];

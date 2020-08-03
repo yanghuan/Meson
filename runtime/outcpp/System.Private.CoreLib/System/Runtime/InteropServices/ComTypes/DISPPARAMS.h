@@ -1,12 +1,12 @@
 #pragma once
 
-#include <rt/GCObject.h>
 #include <System.Private.CoreLib/System/Int32.h>
 #include <System.Private.CoreLib/System/IntPtr.h>
+#include <System.Private.CoreLib/System/ValueType.h>
 
 namespace System::Private::CoreLib::System::Runtime::InteropServices::ComTypes {
 namespace DISPPARAMSNamespace {
-struct DISPPARAMS {
+struct DISPPARAMS : public valueType<DISPPARAMS> {
   public: IntPtr rgvarg;
   public: IntPtr rgdispidNamedArgs;
   public: Int32 cArgs;

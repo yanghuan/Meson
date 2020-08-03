@@ -1,7 +1,7 @@
 #pragma once
 
-#include <rt/GCObject.h>
 #include <System.Private.CoreLib/System/Runtime/Intrinsics/Vector256.h>
+#include <System.Private.CoreLib/System/ValueType.h>
 
 namespace System::Private::CoreLib::System {
 FORWARD_(Array, T1, T2)
@@ -19,7 +19,7 @@ FORWARDS(UInt64)
 namespace System::Private::CoreLib::System::Runtime::Intrinsics {
 namespace Vector256DebugViewNamespace {
 template <class T>
-struct Vector256DebugView {
+struct Vector256DebugView : public valueType<Vector256DebugView<T>> {
   public: Array<Byte> get_ByteView();
   public: Array<Double> get_DoubleView();
   public: Array<Int16> get_Int16View();

@@ -1,14 +1,14 @@
 #pragma once
 
-#include <rt/GCObject.h>
 #include <System.Private.CoreLib/System/UInt32.h>
+#include <System.Private.CoreLib/System/ValueType.h>
 
 namespace System::Private::CoreLib::System {
 FORWARDS(Int32)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Threading {
 namespace FastRandomNamespace {
-struct FastRandom {
+struct FastRandom : public valueType<FastRandom> {
   public: explicit FastRandom(Int32 seed);
   public: Int32 Next(Int32 maxValue);
   public: explicit FastRandom() {}

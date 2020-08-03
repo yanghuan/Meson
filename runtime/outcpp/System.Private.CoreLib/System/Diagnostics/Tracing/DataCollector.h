@@ -1,9 +1,9 @@
 #pragma once
 
-#include <rt/GCObject.h>
 #include <System.Private.CoreLib/System/Boolean.h>
 #include <System.Private.CoreLib/System/Diagnostics/Tracing/EventSource.h>
 #include <System.Private.CoreLib/System/Int32.h>
+#include <System.Private.CoreLib/System/ValueType.h>
 
 namespace System::Private::CoreLib::System {
 FORWARD_(Array, T1, T2)
@@ -17,7 +17,7 @@ FORWARDS(GCHandle)
 namespace System::Private::CoreLib::System::Diagnostics::Tracing {
 namespace DataCollectorNamespace {
 using namespace Runtime::InteropServices;
-struct DataCollector {
+struct DataCollector : public valueType<DataCollector> {
   public: void Enable(Byte* scratch, Int32 scratchSize, EventSource::in::EventData* datas, Int32 dataCount, GCHandle* pins, Int32 pinCount);
   public: void Disable();
   public: EventSource::in::EventData* Finish();

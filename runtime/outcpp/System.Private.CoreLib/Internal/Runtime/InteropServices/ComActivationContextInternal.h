@@ -1,8 +1,8 @@
 #pragma once
 
-#include <rt/GCObject.h>
 #include <System.Private.CoreLib/System/Guid.h>
 #include <System.Private.CoreLib/System/IntPtr.h>
+#include <System.Private.CoreLib/System/ValueType.h>
 
 namespace System::Private::CoreLib::System {
 FORWARDS(Char)
@@ -10,7 +10,7 @@ FORWARDS(Char)
 namespace System::Private::CoreLib::Internal::Runtime::InteropServices {
 namespace ComActivationContextInternalNamespace {
 using namespace ::System::Private::CoreLib::System;
-struct ComActivationContextInternal {
+struct ComActivationContextInternal : public valueType<ComActivationContextInternal> {
   public: Guid ClassId;
   public: Guid InterfaceId;
   public: Char* AssemblyPathBuffer;

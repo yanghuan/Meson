@@ -1,7 +1,7 @@
 #pragma once
 
-#include <rt/GCObject.h>
 #include <System.Private.CoreLib/Interop.h>
+#include <System.Private.CoreLib/System/ValueType.h>
 
 namespace System::Private::CoreLib::System::Reflection {
 enum class ImageFileMachine;
@@ -37,7 +37,7 @@ namespace ModuleHandleNamespace {
 using namespace Reflection;
 using namespace Reflection::Emit;
 using namespace Runtime::CompilerServices;
-struct ModuleHandle : public rt::ValueType<ModuleHandle> {
+struct ModuleHandle : public valueType<ModuleHandle> {
   public: Int32 get_MDStreamVersion();
   private: static ModuleHandle GetEmptyMH();
   public: explicit ModuleHandle(RuntimeModule module);

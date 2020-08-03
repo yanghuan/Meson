@@ -1,11 +1,11 @@
 #pragma once
 
-#include <rt/GCObject.h>
 #include <System.Private.CoreLib/System/Boolean.h>
 #include <System.Private.CoreLib/System/Int32.h>
 #include <System.Private.CoreLib/System/Int64.h>
 #include <System.Private.CoreLib/System/Object.h>
 #include <System.Private.CoreLib/System/UInt32.h>
+#include <System.Private.CoreLib/System/ValueType.h>
 
 namespace System::Private::CoreLib::System {
 FORWARDS(TimeSpan)
@@ -39,7 +39,7 @@ CLASS(ReaderWriterLockSlim) : public Object::in {
     Write = 2,
     UpgradeToWrite = 3,
   };
-  private: struct TimeoutTracker {
+  private: struct TimeoutTracker : public valueType<TimeoutTracker> {
     public: Int32 get_RemainingMilliseconds();
     public: Boolean get_IsExpired();
     public: explicit TimeoutTracker(TimeSpan timeout);
@@ -48,7 +48,7 @@ CLASS(ReaderWriterLockSlim) : public Object::in {
     private: Int32 _total;
     private: Int32 _start;
   };
-  private: struct SpinLock {
+  private: struct SpinLock : public valueType<SpinLock> {
     private: UInt16 get_EnterForEnterAnyReadDeprioritizedCount();
     private: UInt16 get_EnterForEnterAnyWriteDeprioritizedCount();
     private: static Int32 GetEnterDeprioritizationStateChange(EnterSpinLockReason reason);

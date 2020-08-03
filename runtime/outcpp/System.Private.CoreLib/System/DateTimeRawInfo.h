@@ -1,14 +1,14 @@
 #pragma once
 
-#include <rt/GCObject.h>
 #include <System.Private.CoreLib/System/Boolean.h>
 #include <System.Private.CoreLib/System/DateTimeParse.h>
 #include <System.Private.CoreLib/System/Double.h>
 #include <System.Private.CoreLib/System/Int32.h>
+#include <System.Private.CoreLib/System/ValueType.h>
 
 namespace System::Private::CoreLib::System {
 namespace DateTimeRawInfoNamespace {
-struct DateTimeRawInfo {
+struct DateTimeRawInfo : public valueType<DateTimeRawInfo> {
   public: void Init(Int32* numberBuffer);
   public: void AddNumber(Int32 value);
   public: Int32 GetNumber(Int32 index);

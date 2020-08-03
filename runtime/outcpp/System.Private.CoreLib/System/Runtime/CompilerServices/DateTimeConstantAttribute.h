@@ -1,6 +1,5 @@
 #pragma once
 
-#include <rt/GCObject.h>
 #include <System.Private.CoreLib/System/DateTime.h>
 #include <System.Private.CoreLib/System/Runtime/CompilerServices/CustomConstantAttribute.h>
 

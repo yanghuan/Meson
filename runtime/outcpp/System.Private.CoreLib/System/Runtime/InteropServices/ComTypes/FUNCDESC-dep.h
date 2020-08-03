@@ -9,3 +9,4 @@
 #include <System.Private.CoreLib/System/Runtime/InteropServices/ComTypes/ELEMDESC-dep.h>
 #include <System.Private.CoreLib/System/Runtime/InteropServices/ComTypes/FUNCKIND.h>
 #include <System.Private.CoreLib/System/Runtime/InteropServices/ComTypes/INVOKEKIND.h>
+#include <System.Private.CoreLib/System/ValueType-dep.h>

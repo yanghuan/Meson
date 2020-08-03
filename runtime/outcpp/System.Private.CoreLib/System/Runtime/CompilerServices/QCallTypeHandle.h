@@ -1,7 +1,7 @@
 #pragma once
 
-#include <rt/GCObject.h>
 #include <System.Private.CoreLib/System/IntPtr.h>
+#include <System.Private.CoreLib/System/ValueType.h>
 
 namespace System::Private::CoreLib::System {
 FORWARD(RuntimeType)
@@ -9,7 +9,7 @@ FORWARDS(RuntimeTypeHandle)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Runtime::CompilerServices {
 namespace QCallTypeHandleNamespace {
-struct QCallTypeHandle {
+struct QCallTypeHandle : public valueType<QCallTypeHandle> {
   public: explicit QCallTypeHandle(RuntimeType& type);
   public: explicit QCallTypeHandle(RuntimeTypeHandle& rth);
   public: explicit QCallTypeHandle() {}

@@ -122,6 +122,12 @@ namespace Meson.Compiler {
       }
       var usingDeclaration = new UsingDeclarationSyntax(name, type) { Template = template };
       rootNamespace.Add(usingDeclaration);
+      if (root_.KnownTypeCode == KnownTypeCode.ValueType) {
+        ClassSyntax valueType = new ClassSyntax(IdentifierSyntax.ValueType, true) { Template = TemplateSyntax.T };
+        var baseType = IdentifierSyntax.Meson.TwoColon(IdentifierSyntax.ValueType).Generic(IdentifierSyntax.T, name.TwoColon(IdentifierSyntax.In));
+        valueType.Bases.Add(new BaseSyntax(baseType));
+        rootNamespace.Add(valueType);
+      }
     }
 
     private static void SortForwards(List<(ITypeDefinition Type, StatementSyntax Forward)> list) {

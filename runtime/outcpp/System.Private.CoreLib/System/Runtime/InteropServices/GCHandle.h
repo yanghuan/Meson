@@ -1,7 +1,7 @@
 #pragma once
 
-#include <rt/GCObject.h>
 #include <System.Private.CoreLib/System/IntPtr.h>
+#include <System.Private.CoreLib/System/ValueType.h>
 
 namespace System::Private::CoreLib::System {
 FORWARDS(Boolean)
@@ -11,7 +11,7 @@ FORWARD(Object)
 namespace System::Private::CoreLib::System::Runtime::InteropServices {
 enum class GCHandleType;
 namespace GCHandleNamespace {
-struct GCHandle : public rt::ValueType<GCHandle> {
+struct GCHandle : public valueType<GCHandle> {
   public: Object get_Target();
   public: void set_Target(Object value);
   public: Boolean get_IsAllocated();

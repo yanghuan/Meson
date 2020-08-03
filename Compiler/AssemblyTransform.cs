@@ -2,8 +2,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-using ICSharpCode.Decompiler;
-using ICSharpCode.Decompiler.CSharp;
 using ICSharpCode.Decompiler.TypeSystem;
 
 namespace Meson.Compiler {
@@ -76,8 +74,8 @@ namespace Meson.Compiler {
     }
 
     internal IType GetDeclaringType(ITypeDefinition type) {
-      var brotherTypeType = nestedBrotherTypes_.GetOrDefault(type);
-      return (brotherTypeType ?? type).DeclaringType;
+      var brotherType = nestedBrotherTypes_.GetOrDefault(type);
+      return (brotherType ?? type).DeclaringType;
     }
 
     public bool IsInternalMemberType(IType memberType, ITypeDefinition typeDefinition) {

@@ -1,7 +1,7 @@
 #pragma once
 
-#include <rt/GCObject.h>
 #include <System.Private.CoreLib/System/Runtime/CompilerServices/AsyncTaskMethodBuilder.h>
+#include <System.Private.CoreLib/System/ValueType.h>
 
 namespace System::Private::CoreLib::System {
 FORWARD(Exception)
@@ -14,7 +14,7 @@ namespace System::Private::CoreLib::System::Runtime::CompilerServices {
 FORWARD(IAsyncStateMachine)
 namespace AsyncVoidMethodBuilderNamespace {
 using namespace Threading;
-struct AsyncVoidMethodBuilder {
+struct AsyncVoidMethodBuilder : public valueType<AsyncVoidMethodBuilder> {
   public: Object get_ObjectIdForDebugger();
   public: static AsyncVoidMethodBuilder Create();
   public: template <class TStateMachine>

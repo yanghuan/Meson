@@ -1,7 +1,7 @@
 #pragma once
 
-#include <rt/GCObject.h>
 #include <System.Private.CoreLib/System/Int32.h>
+#include <System.Private.CoreLib/System/ValueType.h>
 
 namespace System::Private::CoreLib::System {
 FORWARDS(Boolean)
@@ -10,7 +10,7 @@ FORWARDS(TimeSpan)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Threading {
 namespace SpinWaitNamespace {
-struct SpinWait {
+struct SpinWait : public valueType<SpinWait> {
   public: Int32 get_Count();
   public: void set_Count(Int32 value);
   public: Boolean get_NextSpinWillYield();

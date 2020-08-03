@@ -1,6 +1,5 @@
 #pragma once
 
-#include <rt/GCObject.h>
 #include <System.Private.CoreLib/System/Boolean.h>
 #include <System.Private.CoreLib/System/Byte.h>
 #include <System.Private.CoreLib/System/Diagnostics/Tracing/EventDescriptor.h>
@@ -11,6 +10,7 @@
 #include <System.Private.CoreLib/System/IntPtr.h>
 #include <System.Private.CoreLib/System/Object.h>
 #include <System.Private.CoreLib/System/UInt64.h>
+#include <System.Private.CoreLib/System/ValueType.h>
 
 namespace System::Private::CoreLib::System {
 FORWARD_(Array, T1, T2)
@@ -68,7 +68,7 @@ using namespace Collections::Generic;
 using namespace Reflection;
 using namespace Runtime::InteropServices;
 CLASS(EventSource) : public Object::in {
-  public: struct EventData {
+  public: struct EventData : public valueType<EventData> {
     public: IntPtr get_DataPointer();
     public: void set_DataPointer(IntPtr value);
     public: Int32 get_Size();
@@ -79,7 +79,7 @@ CLASS(EventSource) : public Object::in {
     public: Int32 m_Size;
     public: Int32 m_Reserved;
   };
-  private: struct Sha1ForNonSecretPurposes {
+  private: struct Sha1ForNonSecretPurposes : public valueType<Sha1ForNonSecretPurposes> {
     public: void Start();
     public: void Append(Byte input);
     public: void Append(ReadOnlySpan<Byte> input);
@@ -95,7 +95,7 @@ CLASS(EventSource) : public Object::in {
     private: EventSource m_eventSource;
     private: EventProviderType m_eventProviderType;
   };
-  public: struct EventMetadata {
+  public: struct EventMetadata : public valueType<EventMetadata> {
     public: EventDescriptor Descriptor;
     public: IntPtr EventHandle;
     public: EventTags Tags;

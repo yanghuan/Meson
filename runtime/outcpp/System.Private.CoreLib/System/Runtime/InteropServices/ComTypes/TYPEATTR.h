@@ -1,18 +1,18 @@
 #pragma once
 
-#include <rt/GCObject.h>
 #include <System.Private.CoreLib/System/Guid.h>
 #include <System.Private.CoreLib/System/Int16.h>
 #include <System.Private.CoreLib/System/Int32.h>
 #include <System.Private.CoreLib/System/IntPtr.h>
 #include <System.Private.CoreLib/System/Runtime/InteropServices/ComTypes/IDLDESC.h>
 #include <System.Private.CoreLib/System/Runtime/InteropServices/ComTypes/TYPEDESC.h>
+#include <System.Private.CoreLib/System/ValueType.h>
 
 namespace System::Private::CoreLib::System::Runtime::InteropServices::ComTypes {
 enum class TYPEFLAGS : int16_t;
 enum class TYPEKIND;
 namespace TYPEATTRNamespace {
-struct TYPEATTR {
+struct TYPEATTR : public valueType<TYPEATTR> {
   public: static constexpr Int32 MEMBER_ID_NIL = -1;
   public: Guid guid;
   public: Int32 lcid;

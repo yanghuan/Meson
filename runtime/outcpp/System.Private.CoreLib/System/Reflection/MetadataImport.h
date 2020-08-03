@@ -1,7 +1,7 @@
 #pragma once
 
-#include <rt/GCObject.h>
 #include <System.Private.CoreLib/System/IntPtr.h>
+#include <System.Private.CoreLib/System/ValueType.h>
 
 namespace System::Private::CoreLib::System {
 FORWARDS(Boolean)
@@ -30,7 +30,7 @@ FORWARDS(MetadataEnumResult)
 FORWARDS(MetadataToken)
 namespace MetadataImportNamespace {
 using namespace Runtime::InteropServices;
-struct MetadataImport {
+struct MetadataImport : public valueType<MetadataImport> {
   public: Int32 GetHashCode();
   public: Boolean Equals(Object obj);
   private: Boolean Equals(MetadataImport import);

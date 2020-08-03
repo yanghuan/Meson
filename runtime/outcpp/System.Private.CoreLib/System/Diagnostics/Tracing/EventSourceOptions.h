@@ -1,7 +1,7 @@
 #pragma once
 
-#include <rt/GCObject.h>
 #include <System.Private.CoreLib/System/Byte.h>
+#include <System.Private.CoreLib/System/ValueType.h>
 
 namespace System::Private::CoreLib::System {
 FORWARDS(Boolean)
@@ -13,7 +13,7 @@ enum class EventLevel;
 enum class EventOpcode;
 enum class EventTags;
 namespace EventSourceOptionsNamespace {
-struct EventSourceOptions {
+struct EventSourceOptions : public valueType<EventSourceOptions> {
   public: EventLevel get_Level();
   public: void set_Level(EventLevel value);
   public: EventOpcode get_Opcode();

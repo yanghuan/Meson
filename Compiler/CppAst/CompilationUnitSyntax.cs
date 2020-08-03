@@ -36,9 +36,16 @@ namespace Meson.Compiler.CppAst {
       HeadStatements.Add(headNamespaceSyntax_);
     }
 
-    public void AddHeadIncludes(IEnumerable<string> references) {
+    private void AddGCObjectHeadInclude() {
       HeadStatements.Add(new IncludePretreatmentSyntax("rt/GCObject.h"));
-      HeadStatements.AddRange(references.Select(i => new IncludePretreatmentSyntax(i)));
+    }
+
+    internal void AddHeadIncludes(IEnumerable<string> references) {
+      if (references.Any()) {
+        HeadStatements.AddRange(references.Select(i => new IncludePretreatmentSyntax(i)));
+      } else {
+        AddGCObjectHeadInclude();
+      }
       HeadStatements.Add(BlankLinesStatement.One);
     }
 

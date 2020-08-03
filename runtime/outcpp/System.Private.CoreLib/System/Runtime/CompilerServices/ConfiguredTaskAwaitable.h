@@ -1,7 +1,7 @@
 #pragma once
 
-#include <rt/GCObject.h>
 #include <System.Private.CoreLib/System/Boolean.h>
+#include <System.Private.CoreLib/System/ValueType.h>
 
 namespace System::Private::CoreLib::System::Threading::Tasks {
 FORWARD_(Task, T1, T2)
@@ -16,8 +16,8 @@ template <class T1 = void, class T2 = void>
 struct ConfiguredTaskAwaitable {
 };
 template <>
-struct ConfiguredTaskAwaitable<> {
-  public: struct ConfiguredTaskAwaiter {
+struct ConfiguredTaskAwaitable<> : public valueType<ConfiguredTaskAwaitable> {
+  public: struct ConfiguredTaskAwaiter : public valueType<ConfiguredTaskAwaiter> {
     public: Boolean get_IsCompleted();
     public: explicit ConfiguredTaskAwaiter(Task<> task, Boolean continueOnCapturedContext);
     public: void OnCompleted(Action<> continuation);
@@ -30,8 +30,8 @@ struct ConfiguredTaskAwaitable<> {
   private: ConfiguredTaskAwaiter m_configuredTaskAwaiter;
 };
 template <class TResult>
-struct ConfiguredTaskAwaitable<TResult> {
-  public: struct ConfiguredTaskAwaiter {
+struct ConfiguredTaskAwaitable<TResult> : public valueType<ConfiguredTaskAwaitable<TResult>> {
+  public: struct ConfiguredTaskAwaiter : public valueType<ConfiguredTaskAwaiter> {
     public: Boolean get_IsCompleted();
     public: explicit ConfiguredTaskAwaiter(Task<TResult> task, Boolean continueOnCapturedContext);
     public: void OnCompleted(Action<> continuation);

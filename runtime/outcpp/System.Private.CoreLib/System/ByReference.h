@@ -1,12 +1,12 @@
 #pragma once
 
-#include <rt/GCObject.h>
 #include <System.Private.CoreLib/System/IntPtr.h>
+#include <System.Private.CoreLib/System/ValueType.h>
 
 namespace System::Private::CoreLib::System {
 namespace ByReferenceNamespace {
 template <class T>
-struct ByReference {
+struct ByReference : public valueType<ByReference<T>> {
   public: T& get_Value();
   public: explicit ByReference(T& value);
   public: explicit ByReference() {}

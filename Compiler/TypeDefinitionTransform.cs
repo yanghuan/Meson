@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics.Contracts;
 using System.Linq;
 using System.Reflection;
-using ICSharpCode.Decompiler.CSharp.Syntax;
+
 using ICSharpCode.Decompiler.TypeSystem;
 using Meson.Compiler.CppAst;
 
@@ -16,7 +16,6 @@ namespace Meson.Compiler {
     private readonly List<ITypeDefinition> types_;
     private readonly TypeDefinitionTransform parentTransform_;
     private readonly Dictionary<ITypeDefinition, ITypeDefinition> nestedCycleTypes_ = new Dictionary<ITypeDefinition, ITypeDefinition>();
-    private bool isPrimitiveType_;
 
     public TypeDefinitionTransform(CompilationUnitTransform compilationUnit, BlockSyntax parent, IEnumerable<ITypeDefinition> types, TypeDefinitionTransform parentTransform = null) {
       CompilationUnit = compilationUnit;
@@ -99,6 +98,15 @@ namespace Meson.Compiler {
         Kind = GetClassKind(type),
         AccessibilityToken = GetAccessibilityString(type),
       };
+      var baseType = type.DirectBaseTypes.First();
+      Contract.Assert(baseType.IsKnownType(KnownTypeCode.ValueType));
+      CompilationUnit.GetTypeName(new TypeNameArgs() { 
+        Type = baseType,
+        Definition = type,
+        IsForward = false,
+        IsInHead = true,
+      });
+      node.Bases.Add(new BaseSyntax(IdentifierSyntax.ValueType.Generic(template == null ? node.Name : node.Name.Generic(template.TypeNames))));
       parent_.Add(node);
       VisitMembers(type, node);
     }
@@ -315,12 +323,12 @@ namespace Meson.Compiler {
       return true;
     }
 
-    private void GetFieldNameAndType(ITypeDefinition typeDefinition, ClassSyntax node, IField field, out IdentifierSyntax fieldName, out ExpressionSyntax typeName) {
+    private bool GetFieldNameAndType(ITypeDefinition typeDefinition, ClassSyntax node, IField field, out IdentifierSyntax fieldName, out ExpressionSyntax typeName) {
+      bool isPrimitiveType = false;
       fieldName = GetMemberName(field);
       if (IsValueTypeInnerField(field, typeDefinition, out typeName)) {
+        isPrimitiveType = true;
         if (!field.IsStatic) {
-          node.Bases.Add(new BaseSyntax(IdentifierSyntax.PrimitiveType.Generic(node.Name)));
-
           var statements = new StatementListSyntax();
           string accessibilityToken = Accessibility.Public.ToTokenString();
           var defaultConstructor = new MethodDefinitionSyntax(node.Name, Array.Empty<ParameterSyntax>()) {
@@ -349,24 +357,23 @@ namespace Meson.Compiler {
           };
           getValueMethod.Body.Add(fieldName.Return());
           statements.Add(getValueMethod);
-
           node.Statements.Insert(0, statements);
-          isPrimitiveType_ = true;
         }
       } else if (IsArrayInnerSpecialField(field, typeDefinition, out typeName)) {
       } else {
         typeName = GetFieldTypeName(field, typeDefinition);
       }
+      return isPrimitiveType;
     }
 
     private void VisitFields(ITypeDefinition typeDefinition, ClassSyntax node) {
       foreach (var field in typeDefinition.Fields.Where(IsFieldExport)) {
-        GetFieldNameAndType(typeDefinition, node, field, out var fieldName, out var typeName);
+        bool isPrimitiveType = GetFieldNameAndType(typeDefinition, node, field, out var fieldName, out var typeName);
         Contract.Assert(typeName != null);
         var constantValue = field.GetConstantValue();
         node.Statements.Add(new FieldDefinitionSyntax(typeName, fieldName, field.IsStatic, field.Accessibility.ToTokenString()) {
           IsConstexpr = field.IsConst,
-          ConstantValue = field.IsConst ? Utils.GetPrimitiveExpression(constantValue, isPrimitiveType_) : null,
+          ConstantValue = field.IsConst ? Utils.GetPrimitiveExpression(constantValue, isPrimitiveType) : null,
         });
       }
     }
@@ -494,19 +501,30 @@ namespace Meson.Compiler {
       return types.Where(i => !i.Name.StartsWith('<'));
     }
 
+    private ITypeDefinition GetNestedBrotherType(IEnumerable<ITypeDefinition> types, ClassSyntax node) {
+      var brotherType = AssemblyTransform.GetNestedBrotherType(types);
+      if (brotherType != null) {
+        if (types.Count() == 1) {
+          node.Add(types.First().GetNestedFriendStatement());
+        } else {
+          /*
+          foreach (var nestedType in types) {
+            bool isRef = nestedType.IsRefType();
+            string name = isRef ? nestedType.Name.Wrap() : nestedType.Name;
+            var template = nestedType.GetTemplateSyntax();
+            var friend = new FriendClassDeclarationSyntax(name, !isRef) { Template = template };
+            node.Add(friend);
+          }*/
+        }
+      }
+      return brotherType;
+    }
+
     private void VisitTypes(ITypeDefinition type, ClassSyntax node) {
       var nestedTypes = GetNestedTypes(type);
       var sameNameTypes = nestedTypes.GroupBy(i => i.Name);
       foreach (var types in sameNameTypes) {
-        var brotherType = AssemblyTransform.GetNestedBrotherType(types);
-        if (brotherType != null) {
-          foreach (var nestedType in types) {
-            bool isRef = nestedType.IsRefType();
-            string name = isRef ? nestedType.Name.Wrap() : nestedType.Name;
-            var friend = new FriendClassDeclarationSyntax(name, !isRef) { Template = nestedType.GetTemplateSyntax() };
-            node.Add(friend);
-          }
-        }
+        var brotherType = GetNestedBrotherType(types, node);
         var block = brotherType != null ? GetBrotherTypeParnetBlock(brotherType) : node;
         new TypeDefinitionTransform(CompilationUnit, block, types, this);
       }
@@ -528,11 +546,6 @@ namespace Meson.Compiler {
       VisitPropertys(type, node);
       VisitMethods(type, node);
       VisitFields(type, node);
-      if (isPrimitiveType_) {
-        node.Add(new FriendClassDeclarationSyntax(IdentifierSyntax.PrimitiveType, true) { Template = TemplateSyntax.T  });
-      } else if (type.Kind == TypeKind.Struct && type.TypeParameterCount == 0 && !IsMulti && type.Methods.Any(i => i.SymbolKind == SymbolKind.Operator)) {
-        node.Bases.Add(new BaseSyntax(IdentifierSyntax.ValueType.Generic(node.Name)));
-      }
     }
 
     private BlockSyntax GetBrotherTypeParnetBlock(ITypeDefinition brotherType) {

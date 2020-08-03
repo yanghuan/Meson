@@ -9,3 +9,4 @@
 #include <System.Private.CoreLib/System/Threading/CancellationTokenRegistration-dep.h>
 #include <System.Private.CoreLib/System/Threading/CancellationTokenSource-dep.h>
 #include <System.Private.CoreLib/System/Threading/WaitHandle-dep.h>
+#include <System.Private.CoreLib/System/ValueType-dep.h>

@@ -1,11 +1,11 @@
 #pragma once
 
-#include <rt/GCObject.h>
 #include <System.Private.CoreLib/System/Boolean.h>
 #include <System.Private.CoreLib/System/Int32.h>
 #include <System.Private.CoreLib/System/MarshalByRefObject.h>
 #include <System.Private.CoreLib/System/Object.h>
 #include <System.Private.CoreLib/System/Threading/Tasks/Task.h>
+#include <System.Private.CoreLib/System/ValueType.h>
 
 namespace System::Private::CoreLib::System {
 FORWARD_(Array, T1, T2)
@@ -46,12 +46,12 @@ using namespace Runtime::ExceptionServices;
 using namespace Threading;
 using namespace Threading::Tasks;
 CLASS(Stream) : public MarshalByRefObject::in {
-  private: struct ReadWriteParameters {
+  private: struct ReadWriteParameters : public valueType<ReadWriteParameters> {
     public: Array<Byte> Buffer;
     public: Int32 Offset;
     public: Int32 Count;
   };
-  friend class WriteCallbackStream___;
+  private: FRIENDN(WriteCallbackStream)
   private: CLASS(ReadWriteTask) : public Task<Int32>::in {
     private: Boolean get_InvokeMayRunArbitraryCodeOfITaskCompletionAction();
     public: void ClearBeginState();
@@ -68,7 +68,7 @@ CLASS(Stream) : public MarshalByRefObject::in {
     private: ExecutionContext _context;
     private: static ContextCallback<> s_invokeAsyncCallback;
   };
-  friend class NullStream___;
+  private: FRIENDN(NullStream)
   private: CLASS(SynchronousAsyncResult) : public Object::in {
     public: Boolean get_IsCompleted();
     public: WaitHandle get_AsyncWaitHandle();
@@ -87,7 +87,7 @@ CLASS(Stream) : public MarshalByRefObject::in {
     private: Boolean _endXxxCalled;
     private: Int32 _bytesRead;
   };
-  friend class SyncStream___;
+  private: FRIENDN(SyncStream)
   public: Boolean get_CanRead();
   public: Boolean get_CanSeek();
   public: Boolean get_CanTimeout();

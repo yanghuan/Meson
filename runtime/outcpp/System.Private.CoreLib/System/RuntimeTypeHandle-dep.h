@@ -31,3 +31,4 @@
 #include <System.Private.CoreLib/System/Threading/StackCrawlMark.h>
 #include <System.Private.CoreLib/System/Type-dep.h>
 #include <System.Private.CoreLib/System/TypeNameFormatFlags.h>
+#include <System.Private.CoreLib/System/ValueType-dep.h>

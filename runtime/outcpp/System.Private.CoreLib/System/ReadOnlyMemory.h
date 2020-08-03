@@ -1,7 +1,7 @@
 #pragma once
 
-#include <rt/GCObject.h>
 #include <System.Private.CoreLib/System/Int32.h>
+#include <System.Private.CoreLib/System/ValueType.h>
 
 namespace System::Private::CoreLib::System::Buffers {
 FORWARDS(MemoryHandle)
@@ -17,7 +17,7 @@ FORWARD(String)
 namespace ReadOnlyMemoryNamespace {
 using namespace Buffers;
 template <class T>
-struct ReadOnlyMemory {
+struct ReadOnlyMemory : public valueType<ReadOnlyMemory<T>> {
   public: static ReadOnlyMemory<T> get_Empty();
   public: Int32 get_Length();
   public: Boolean get_IsEmpty();

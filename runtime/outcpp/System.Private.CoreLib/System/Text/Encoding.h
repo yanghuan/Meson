@@ -1,12 +1,10 @@
 #pragma once
 
-#include <rt/GCObject.h>
 #include <System.Private.CoreLib/System/Boolean.h>
 #include <System.Private.CoreLib/System/Int32.h>
 #include <System.Private.CoreLib/System/Object.h>
 #include <System.Private.CoreLib/System/Text/Decoder.h>
 #include <System.Private.CoreLib/System/Text/Encoder.h>
-//#include <System.Private.CoreLib/System/Text/UTF8Encoding.h>
 
 namespace System::Private::CoreLib::System::Runtime::Serialization {
 FORWARDS(StreamingContext)
@@ -215,7 +213,7 @@ CLASS(Encoding) : public Object::in {
   public: Int32 GetCharsWithFallback(Byte* pOriginalBytes, Int32 originalByteCount, Char* pOriginalChars, Int32 originalCharCount, Int32 bytesConsumedSoFar, Int32 charsWrittenSoFar, DecoderNLS decoder);
   public: Int32 GetCharsWithFallback(ReadOnlySpan<Byte> bytes, Int32 originalBytesLength, Span<Char> chars, Int32 originalCharsLength, DecoderNLS decoder);
   private: static void SCtor();
-  //private: static UTF8Encoding::in::UTF8EncodingSealed s_defaultEncoding;
+  private: static Object/*UTF8Encoding.UTF8EncodingSealed*/ s_defaultEncoding;
   public: Int32 _codePage;
   public: CodePageDataItem _dataItem;
   private: Boolean _isReadOnly;

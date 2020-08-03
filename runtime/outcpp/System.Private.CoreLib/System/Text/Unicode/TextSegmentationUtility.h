@@ -1,9 +1,9 @@
 #pragma once
 
-#include <rt/GCObject.h>
 #include <System.Private.CoreLib/System/Int32.h>
 #include <System.Private.CoreLib/System/MulticastDelegate.h>
 #include <System.Private.CoreLib/System/ReadOnlySpan.h>
+#include <System.Private.CoreLib/System/ValueType.h>
 
 namespace System::Private::CoreLib::System {
 FORWARD(AsyncCallback)
@@ -30,7 +30,7 @@ class TextSegmentationUtility {
     public: OperationStatus EndInvoke(Rune& rune, Int32& elementsConsumed, IAsyncResult result);
   };
   private: template <class T>
-  struct Processor {
+  struct Processor : public valueType<Processor<T>> {
     public: Int32 get_CurrentCodeUnitOffset() { return CurrentCodeUnitOffset; }
     private: void set_CurrentCodeUnitOffset(Int32 value) { CurrentCodeUnitOffset = value; }
     public: GraphemeClusterBreakType get_CurrentType() { return CurrentType; }

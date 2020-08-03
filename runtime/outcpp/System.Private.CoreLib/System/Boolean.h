@@ -1,6 +1,6 @@
 #pragma once
 
-#include <rt/GCObject.h>
+#include <System.Private.CoreLib/System/ValueType.h>
 
 namespace System::Private::CoreLib::System {
 enum class TypeCode;
@@ -12,7 +12,7 @@ FORWARDS(ReadOnlySpan, T)
 FORWARDS(Span, T)
 FORWARD(String)
 namespace BooleanNamespace {
-struct Boolean : public rt::PrimitiveType<Boolean> {
+struct Boolean : public valueType<Boolean> {
   public: constexpr Boolean() noexcept : m_value(false) {}
   public: constexpr Boolean(bool value) noexcept : m_value(value) {}
   public: constexpr bool& get() noexcept  { return m_value; }
@@ -36,8 +36,6 @@ struct Boolean : public rt::PrimitiveType<Boolean> {
   private: bool m_value;
   public: static String TrueString;
   public: static String FalseString;
-  template <class T>
-  friend struct rt::PrimitiveType;
 };
 } // namespace BooleanNamespace
 using Boolean = BooleanNamespace::Boolean;

@@ -1,7 +1,7 @@
 #pragma once
 
-#include <rt/GCObject.h>
 #include <System.Private.CoreLib/System/Int32.h>
+#include <System.Private.CoreLib/System/ValueType.h>
 
 namespace System::Private::CoreLib::System {
 FORWARD_(Array, T1, T2)
@@ -21,7 +21,7 @@ class CalendricalCalculationsHelper {
     Year1700to1799 = 4,
     Year1620to1699 = 5,
   };
-  private: struct EphemerisCorrectionAlgorithmMap {
+  private: struct EphemerisCorrectionAlgorithmMap : public valueType<EphemerisCorrectionAlgorithmMap> {
     public: explicit EphemerisCorrectionAlgorithmMap(Int32 year, CorrectionAlgorithm algorithm);
     public: explicit EphemerisCorrectionAlgorithmMap() {}
     public: Int32 _lowestYear;

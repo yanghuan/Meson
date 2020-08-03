@@ -1,14 +1,14 @@
 #pragma once
 
-#include <rt/GCObject.h>
 #include <System.Private.CoreLib/System/UInt32.h>
+#include <System.Private.CoreLib/System/ValueType.h>
 
 namespace System::Private::CoreLib::System {
 FORWARDS(UInt64)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Diagnostics::Tracing {
 namespace SessionMaskNamespace {
-struct SessionMask : public rt::ValueType<SessionMask> {
+struct SessionMask : public valueType<SessionMask> {
   public: static SessionMask get_All();
   public: explicit SessionMask(UInt32 mask);
   public: UInt64 ToEventKeywords();

@@ -1,11 +1,11 @@
 #pragma once
 
-#include <rt/GCObject.h>
 #include <System.Private.CoreLib/System/Int32.h>
+#include <System.Private.CoreLib/System/ValueType.h>
 
 namespace System::Private::CoreLib::System::Runtime::InteropServices::ComTypes {
 namespace BIND_OPTSNamespace {
-struct BIND_OPTS {
+struct BIND_OPTS : public valueType<BIND_OPTS> {
   public: Int32 cbStruct;
   public: Int32 grfFlags;
   public: Int32 grfMode;

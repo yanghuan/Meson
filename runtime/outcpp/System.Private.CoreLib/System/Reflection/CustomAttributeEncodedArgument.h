@@ -1,8 +1,8 @@
 #pragma once
 
-#include <rt/GCObject.h>
 #include <System.Private.CoreLib/System/Int64.h>
 #include <System.Private.CoreLib/System/Reflection/CustomAttributeType.h>
+#include <System.Private.CoreLib/System/ValueType.h>
 
 namespace System::Private::CoreLib::System {
 FORWARD_(Array, T1, T2)
@@ -17,7 +17,7 @@ FORWARDS(CustomAttributeNamedParameter)
 FORWARD(RuntimeAssembly)
 FORWARD(RuntimeModule)
 namespace CustomAttributeEncodedArgumentNamespace {
-struct CustomAttributeEncodedArgument {
+struct CustomAttributeEncodedArgument : public valueType<CustomAttributeEncodedArgument> {
   public: CustomAttributeType get_CustomAttributeType();
   public: Int64 get_PrimitiveValue();
   public: Array<CustomAttributeEncodedArgument> get_ArrayValue();

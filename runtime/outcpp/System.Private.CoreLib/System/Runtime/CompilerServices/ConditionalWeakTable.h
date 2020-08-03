@@ -1,12 +1,12 @@
 #pragma once
 
-#include <rt/GCObject.h>
 #include <System.Private.CoreLib/System/Boolean.h>
 #include <System.Private.CoreLib/System/Collections/Generic/KeyValuePair.h>
 #include <System.Private.CoreLib/System/Int32.h>
 #include <System.Private.CoreLib/System/MulticastDelegate.h>
 #include <System.Private.CoreLib/System/Object.h>
 #include <System.Private.CoreLib/System/Runtime/CompilerServices/DependentHandle.h>
+#include <System.Private.CoreLib/System/ValueType.h>
 
 namespace System::Private::CoreLib::System {
 FORWARD_(Array, T1, T2)
@@ -18,7 +18,7 @@ namespace System::Private::CoreLib::System::Runtime::CompilerServices {
 namespace ConditionalWeakTableNamespace {
 using namespace Collections::Generic;
 CLASS(ConditionalWeakTable, TKey, TValue) : public Object::in {
-  private: struct Entry {
+  private: struct Entry : public valueType<Entry> {
     public: DependentHandle depHnd;
     public: Int32 HashCode;
     public: Int32 Next;

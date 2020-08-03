@@ -1,6 +1,5 @@
 #pragma once
 
-#include <rt/GCObject.h>
 #include <System.Private.CoreLib/Interop.h>
 #include <System.Private.CoreLib/System/Boolean.h>
 #include <System.Private.CoreLib/System/Byte.h>
@@ -11,6 +10,7 @@
 #include <System.Private.CoreLib/System/Object.h>
 #include <System.Private.CoreLib/System/UInt32.h>
 #include <System.Private.CoreLib/System/UInt64.h>
+#include <System.Private.CoreLib/System/ValueType.h>
 
 namespace System::Private::CoreLib::System {
 FORWARD_(Array, T1, T2)
@@ -43,7 +43,7 @@ CLASS(EventProvider) : public Object::in {
     TooManyArgs = 4,
     Other = 5,
   };
-  public: struct SessionInfo {
+  public: struct SessionInfo : public valueType<SessionInfo> {
     public: explicit SessionInfo(Int32 sessionIdBit_, Int32 etwSessionId_);
     public: explicit SessionInfo() {}
     public: Int32 sessionIdBit;
@@ -55,7 +55,7 @@ CLASS(EventProvider) : public Object::in {
     public: IAsyncResult BeginInvoke(Int32 etwSessionId, Int64 matchAllKeywords, List<SessionInfo>& sessionList, AsyncCallback callback, Object object);
     public: void EndInvoke(List<SessionInfo>& sessionList, IAsyncResult result);
   };
-  public: struct EventData {
+  public: struct EventData : public valueType<EventData> {
     public: UInt64 Ptr;
     public: UInt32 Size;
     public: UInt32 Reserved;

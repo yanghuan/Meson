@@ -13,3 +13,4 @@
 #include <System.Private.CoreLib/System/ReadOnlySpan-dep.h>
 #include <System.Private.CoreLib/System/String-dep.h>
 #include <System.Private.CoreLib/System/TimeSpan-dep.h>
+#include <System.Private.CoreLib/System/ValueType-dep.h>

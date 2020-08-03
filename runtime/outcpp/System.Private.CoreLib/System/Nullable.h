@@ -1,7 +1,7 @@
 #pragma once
 
-#include <rt/GCObject.h>
 #include <System.Private.CoreLib/System/Boolean.h>
+#include <System.Private.CoreLib/System/ValueType.h>
 
 namespace System::Private::CoreLib::System {
 namespace NullableNamespace {
@@ -12,7 +12,7 @@ template <>
 class Nullable<> {
 };
 template <class T>
-struct Nullable<T> {
+struct Nullable<T> : public valueType<Nullable<T>> {
   public: Boolean get_HasValue();
   public: T get_Value();
   private: Boolean hasValue;

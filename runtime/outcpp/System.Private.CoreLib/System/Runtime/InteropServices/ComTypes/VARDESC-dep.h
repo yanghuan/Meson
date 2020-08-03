@@ -8,3 +8,4 @@
 #include <System.Private.CoreLib/System/Runtime/InteropServices/ComTypes/ELEMDESC-dep.h>
 #include <System.Private.CoreLib/System/Runtime/InteropServices/ComTypes/VARKIND.h>
 #include <System.Private.CoreLib/System/String-dep.h>
+#include <System.Private.CoreLib/System/ValueType-dep.h>

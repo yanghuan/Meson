@@ -1,8 +1,8 @@
 #pragma once
 
-#include <rt/GCObject.h>
 #include <System.Private.CoreLib/System/Object.h>
 #include <System.Private.CoreLib/System/Threading/Tasks/Sources/ManualResetValueTaskSourceCore.h>
+#include <System.Private.CoreLib/System/ValueType.h>
 
 namespace System::Private::CoreLib::System::Threading::Tasks {
 FORWARDS_(ValueTask, T1, T2)
@@ -25,13 +25,13 @@ template <class T1 = void, class T2 = void>
 struct AsyncValueTaskMethodBuilder {
 };
 template <>
-struct AsyncValueTaskMethodBuilder<> {
+struct AsyncValueTaskMethodBuilder<> : public valueType<AsyncValueTaskMethodBuilder> {
   public: ValueTask<> get_Task();
   private: static Object s_syncSuccessSentinel;
   private: Object m_task;
 };
 template <class TResult>
-struct AsyncValueTaskMethodBuilder<TResult> {
+struct AsyncValueTaskMethodBuilder<TResult> : public valueType<AsyncValueTaskMethodBuilder<TResult>> {
   CLASS_FORWARD(StateMachineBox, T1, T2, T3)
   public: CLASS_(StateMachineBox) : public Object::in {
     public: Int16 get_Version();

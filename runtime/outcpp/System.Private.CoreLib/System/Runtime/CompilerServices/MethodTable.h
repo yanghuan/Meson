@@ -1,8 +1,8 @@
 #pragma once
 
-#include <rt/GCObject.h>
 #include <System.Private.CoreLib/System/UInt16.h>
 #include <System.Private.CoreLib/System/UInt32.h>
+#include <System.Private.CoreLib/System/ValueType.h>
 
 namespace System::Private::CoreLib::System {
 FORWARDS(Boolean)
@@ -10,7 +10,7 @@ FORWARDS(Int32)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Runtime::CompilerServices {
 namespace MethodTableNamespace {
-struct MethodTable {
+struct MethodTable : public valueType<MethodTable> {
   public: Boolean get_HasComponentSize();
   public: Boolean get_ContainsGCPointers();
   public: Boolean get_NonTrivialInterfaceCast();

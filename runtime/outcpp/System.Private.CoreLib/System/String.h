@@ -1,9 +1,9 @@
 #pragma once
 
-#include <rt/GCObject.h>
 #include <System.Private.CoreLib/System/Char.h>
 #include <System.Private.CoreLib/System/Int32.h>
 #include <System.Private.CoreLib/System/Object.h>
+#include <System.Private.CoreLib/System/ValueType.h>
 
 namespace System::Private::CoreLib::System::Text {
 enum class NormalizationForm;
@@ -43,7 +43,7 @@ using namespace Collections::Generic;
 using namespace Globalization;
 using namespace Text;
 CLASS(String) : public Object::in {
-  private: struct ProbabilisticMap {
+  private: struct ProbabilisticMap : public valueType<ProbabilisticMap> {
   };
   public: Char get_Chars(Int32 index);
   public: Int32 get_Length();

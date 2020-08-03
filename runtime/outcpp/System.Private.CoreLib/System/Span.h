@@ -1,8 +1,8 @@
 #pragma once
 
-#include <rt/GCObject.h>
 #include <System.Private.CoreLib/System/ByReference.h>
 #include <System.Private.CoreLib/System/Int32.h>
+#include <System.Private.CoreLib/System/ValueType.h>
 
 namespace System::Private::CoreLib::System {
 FORWARD_(Array, T1, T2)
@@ -13,8 +13,8 @@ FORWARDS(ReadOnlySpan, T)
 FORWARD(String)
 namespace SpanNamespace {
 template <class T>
-struct Span {
-  public: struct Enumerator {
+struct Span : public valueType<Span<T>> {
+  public: struct Enumerator : public valueType<Enumerator> {
     public: T& get_Current();
     public: explicit Enumerator(Span<T> span);
     public: Boolean MoveNext();

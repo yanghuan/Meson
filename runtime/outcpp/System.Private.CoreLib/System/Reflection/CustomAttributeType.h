@@ -1,6 +1,6 @@
 #pragma once
 
-#include <rt/GCObject.h>
+#include <System.Private.CoreLib/System/ValueType.h>
 
 namespace System::Private::CoreLib::System {
 FORWARD(String)
@@ -8,7 +8,7 @@ FORWARD(String)
 namespace System::Private::CoreLib::System::Reflection {
 enum class CustomAttributeEncoding;
 namespace CustomAttributeTypeNamespace {
-struct CustomAttributeType {
+struct CustomAttributeType : public valueType<CustomAttributeType> {
   public: CustomAttributeEncoding get_EncodedType();
   public: CustomAttributeEncoding get_EncodedEnumType();
   public: CustomAttributeEncoding get_EncodedArrayType();

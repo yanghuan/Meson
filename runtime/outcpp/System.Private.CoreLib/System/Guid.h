@@ -1,9 +1,9 @@
 #pragma once
 
-#include <rt/GCObject.h>
 #include <System.Private.CoreLib/System/Byte.h>
 #include <System.Private.CoreLib/System/Int16.h>
 #include <System.Private.CoreLib/System/Int32.h>
+#include <System.Private.CoreLib/System/ValueType.h>
 
 namespace System::Private::CoreLib::System {
 FORWARD_(Array, T1, T2)
@@ -17,13 +17,13 @@ FORWARD(String)
 FORWARDS(UInt16)
 FORWARDS(UInt32)
 namespace GuidNamespace {
-struct Guid : public rt::ValueType<Guid> {
+struct Guid : public valueType<Guid> {
   private: enum class GuidParseThrowStyle : uint8_t {
     None = 0,
     All = 1,
     AllButOverflow = 2,
   };
-  friend struct GuidResult;
+  private: FRIENDNS(GuidResult)
   public: explicit Guid(Array<Byte> b);
   public: explicit Guid(ReadOnlySpan<Byte> b);
   public: explicit Guid(UInt32 a, UInt16 b, UInt16 c, Byte d, Byte e, Byte f, Byte g, Byte h, Byte i, Byte j, Byte k);
@@ -80,7 +80,7 @@ struct Guid : public rt::ValueType<Guid> {
   private: Byte _j;
   private: Byte _k;
 };
-struct GuidResult {
+struct GuidResult : public valueType<GuidResult> {
   public: explicit GuidResult(Guid::GuidParseThrowStyle canThrow);
   public: void SetFailure(Boolean overflow, String failureMessageID);
   public: explicit GuidResult() {}

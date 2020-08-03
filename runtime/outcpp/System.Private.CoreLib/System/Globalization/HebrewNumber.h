@@ -1,7 +1,7 @@
 #pragma once
 
-#include <rt/GCObject.h>
 #include <System.Private.CoreLib/System/Int16.h>
+#include <System.Private.CoreLib/System/ValueType.h>
 
 namespace System::Private::CoreLib::System::Text {
 FORWARD(StringBuilder)
@@ -52,7 +52,7 @@ class HebrewNumber {
     S9_DQ = 16,
     END = 100,
   };
-  private: struct HebrewValue {
+  private: struct HebrewValue : public valueType<HebrewValue> {
     public: explicit HebrewValue(HebrewToken token, Int16 value);
     public: explicit HebrewValue() {}
     public: HebrewToken token;

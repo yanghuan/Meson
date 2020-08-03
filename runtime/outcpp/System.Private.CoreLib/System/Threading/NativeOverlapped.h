@@ -1,12 +1,12 @@
 #pragma once
 
-#include <rt/GCObject.h>
 #include <System.Private.CoreLib/System/Int32.h>
 #include <System.Private.CoreLib/System/IntPtr.h>
+#include <System.Private.CoreLib/System/ValueType.h>
 
 namespace System::Private::CoreLib::System::Threading {
 namespace NativeOverlappedNamespace {
-struct NativeOverlapped {
+struct NativeOverlapped : public valueType<NativeOverlapped> {
   public: IntPtr InternalLow;
   public: IntPtr InternalHigh;
   public: Int32 OffsetLow;
