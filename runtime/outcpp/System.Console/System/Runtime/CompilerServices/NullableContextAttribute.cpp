@@ -2,6 +2,6 @@
 
 namespace System::Console::System::Runtime::CompilerServices::NullableContextAttributeNamespace {
 void NullableContextAttribute___::Ctor(Byte _) {
-};
+}
 
 } // namespace System::Console::System::Runtime::CompilerServices::NullableContextAttributeNamespace

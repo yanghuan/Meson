@@ -1,7 +1,7 @@
 #pragma once
 
-#include <rt/GCObject.h>
 #include <System.Private.CoreLib/System/Boolean.h>
+#include <System.Private.CoreLib/System/IO/Stream.h>
 
 namespace System::Private::CoreLib::System {
 FORWARD_(Array, T1, T2)
@@ -17,7 +17,7 @@ namespace System::Console::System::IO {
 namespace ConsoleStreamNamespace {
 using namespace ::System::Private::CoreLib::System;
 using namespace ::System::Private::CoreLib::System::IO;
-CLASS(ConsoleStream) {
+CLASS(ConsoleStream) : public Stream::in {
   public: Boolean get_CanRead();
   public: Boolean get_CanWrite();
   public: Boolean get_CanSeek();

@@ -1,7 +1,7 @@
 #pragma once
 
-#include <rt/GCObject.h>
 #include <System.Private.CoreLib/System/Char.h>
+#include <System.Private.CoreLib/System/ValueType.h>
 
 namespace System::Private::CoreLib::System {
 FORWARDS(Boolean)
@@ -13,7 +13,7 @@ enum class ConsoleKey;
 enum class ConsoleModifiers;
 namespace ConsoleKeyInfoNamespace {
 using namespace ::System::Private::CoreLib::System;
-struct ConsoleKeyInfo : public rt::ValueType<ConsoleKeyInfo> {
+struct ConsoleKeyInfo : public valueType<ConsoleKeyInfo> {
   public: Char get_KeyChar();
   public: ConsoleKey get_Key();
   public: ConsoleModifiers get_Modifiers();

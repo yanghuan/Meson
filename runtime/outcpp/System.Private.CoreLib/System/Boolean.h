@@ -15,7 +15,8 @@ namespace BooleanNamespace {
 struct Boolean : public valueType<Boolean> {
   public: constexpr Boolean() noexcept : m_value(false) {}
   public: constexpr Boolean(bool value) noexcept : m_value(value) {}
-  public: constexpr bool& get() noexcept  { return m_value; }
+  public: constexpr bool& get() noexcept { return m_value; }
+  public: constexpr bool get() const noexcept { return m_value; }
   public: Int32 GetHashCode();
   public: String ToString();
   public: String ToString(IFormatProvider provider);
@@ -43,6 +44,6 @@ using Boolean = BooleanNamespace::Boolean;
 namespace rt {
 template <>
 struct TypeKind<::System::Private::CoreLib::System::Boolean> {
-  static constexpr TypeCode Kind = TypeCode::Boolean;
+  static constexpr TypeCode code = TypeCode::Boolean;
 };
 } // namespace rt

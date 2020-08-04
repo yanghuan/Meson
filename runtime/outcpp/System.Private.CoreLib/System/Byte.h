@@ -21,7 +21,8 @@ using namespace Globalization;
 struct Byte : public valueType<Byte> {
   public: constexpr Byte() noexcept : m_value(0) {}
   public: constexpr Byte(uint8_t value) noexcept : m_value(value) {}
-  public: constexpr uint8_t& get() noexcept  { return m_value; }
+  public: constexpr uint8_t& get() noexcept { return m_value; }
+  public: constexpr uint8_t get() const noexcept { return m_value; }
   public: Int32 CompareTo(Object value);
   public: Int32 CompareTo(Byte value);
   public: Boolean Equals(Object obj);
@@ -54,6 +55,6 @@ using Byte = ByteNamespace::Byte;
 namespace rt {
 template <>
 struct TypeKind<::System::Private::CoreLib::System::Byte> {
-  static constexpr TypeCode Kind = TypeCode::Byte;
+  static constexpr TypeCode code = TypeCode::Byte;
 };
 } // namespace rt

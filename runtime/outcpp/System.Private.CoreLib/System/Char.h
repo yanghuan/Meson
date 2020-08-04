@@ -22,7 +22,8 @@ using namespace Globalization;
 struct Char : public valueType<Char> {
   public: constexpr Char() noexcept : m_value(0) {}
   public: constexpr Char(char8_t value) noexcept : m_value(value) {}
-  public: constexpr char8_t& get() noexcept  { return m_value; }
+  public: constexpr char8_t& get() noexcept { return m_value; }
+  public: constexpr char8_t get() const noexcept { return m_value; }
   private: static ReadOnlySpan<Byte> get_Latin1CharInfo();
   private: static Boolean IsLatin1(Char ch);
   private: static Boolean IsAscii(Char ch);
@@ -102,6 +103,6 @@ using Char = CharNamespace::Char;
 namespace rt {
 template <>
 struct TypeKind<::System::Private::CoreLib::System::Char> {
-  static constexpr TypeCode Kind = TypeCode::Char;
+  static constexpr TypeCode code = TypeCode::Char;
 };
 } // namespace rt

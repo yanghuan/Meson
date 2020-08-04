@@ -11,7 +11,6 @@ namespace Meson.Compiler.CppAst {
 
     public static readonly IdentifierSyntax Meson = "rt";
     public static readonly IdentifierSyntax FixedBuffer = "rt::FixedBuffer";
-    public static readonly IdentifierSyntax ValueType = "valueType";
     public static readonly IdentifierSyntax TypeKind = "TypeKind";
     public static readonly IdentifierSyntax TypeCode = "TypeCode";
     public static readonly IdentifierSyntax Void = "void";

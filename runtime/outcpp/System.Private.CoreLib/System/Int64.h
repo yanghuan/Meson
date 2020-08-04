@@ -20,7 +20,8 @@ using namespace Globalization;
 struct Int64 : public valueType<Int64> {
   public: constexpr Int64() noexcept : m_value(0) {}
   public: constexpr Int64(int64_t value) noexcept : m_value(value) {}
-  public: constexpr int64_t& get() noexcept  { return m_value; }
+  public: constexpr int64_t& get() noexcept { return m_value; }
+  public: constexpr int64_t get() const noexcept { return m_value; }
   public: Int32 CompareTo(Object value);
   public: Int32 CompareTo(Int64 value);
   public: Boolean Equals(Object obj);
@@ -51,6 +52,6 @@ using Int64 = Int64Namespace::Int64;
 namespace rt {
 template <>
 struct TypeKind<::System::Private::CoreLib::System::Int64> {
-  static constexpr TypeCode Kind = TypeCode::Int64;
+  static constexpr TypeCode code = TypeCode::Int64;
 };
 } // namespace rt

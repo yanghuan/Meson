@@ -21,7 +21,8 @@ using namespace Globalization;
 struct SByte : public valueType<SByte> {
   public: constexpr SByte() noexcept : m_value(0) {}
   public: constexpr SByte(int8_t value) noexcept : m_value(value) {}
-  public: constexpr int8_t& get() noexcept  { return m_value; }
+  public: constexpr int8_t& get() noexcept { return m_value; }
+  public: constexpr int8_t get() const noexcept { return m_value; }
   public: Int32 CompareTo(Object obj);
   public: Int32 CompareTo(SByte value);
   public: Boolean Equals(Object obj);
@@ -54,6 +55,6 @@ using SByte = SByteNamespace::SByte;
 namespace rt {
 template <>
 struct TypeKind<::System::Private::CoreLib::System::SByte> {
-  static constexpr TypeCode Kind = TypeCode::SByte;
+  static constexpr TypeCode code = TypeCode::SByte;
 };
 } // namespace rt

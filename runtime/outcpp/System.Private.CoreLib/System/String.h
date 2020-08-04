@@ -277,6 +277,6 @@ using String = StringNamespace::String;
 namespace rt {
 template <>
 struct TypeKind<::System::Private::CoreLib::System::String> {
-  static constexpr TypeCode Kind = TypeCode::String;
+  static constexpr TypeCode code = TypeCode::String;
 };
 } // namespace rt

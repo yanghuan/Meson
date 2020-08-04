@@ -32,7 +32,7 @@ namespace rt {
 
   template <class T>
   struct TypeKind {
-    static constexpr TypeCode Kind = TypeCode::None;
+    static constexpr TypeCode code = TypeCode::None;
   };
   
   class object;
@@ -84,9 +84,6 @@ namespace rt {
   static constexpr bool IsString = IsDerived<string, T>;
   
   template <class T>
-  static constexpr bool IsObject = IsDerived<object, T>;
-
-  template <class T>
   static constexpr bool IsArray = IsDerived<Array_, T>;
 
   template <class T>
@@ -118,15 +115,15 @@ namespace rt {
     friend class object;
     friend class string;
 
-    template <class T>
+    template <class T, class Base>
     friend class Array;
   };
 
   template <class T, class T1>
-  static constexpr bool IsEquatable = IsObject<T> || IsObject<T1> || IsDerived<T, T1> || IsDerived<T1, T>;
+  static constexpr bool IsEquatable = IsDerived<T, T1> || IsDerived<T1, T>;
 
   template <class T, class T1>
-  static constexpr bool IsDerivedConvertible = IsObject<T> || IsDerived<T, T1>;
+  static constexpr bool IsDerivedConvertible = IsDerived<T, T1>;
 
   template <class T>
   struct RefElementType {
@@ -154,7 +151,7 @@ namespace rt {
   struct IsArrayConvertible__ {
     using ElementTypeT = ArrayElementType<T>;
     using ElementTypeT1 = ArrayElementType<T1>;
-    static constexpr bool value = (IsObject<ElementTypeT::type> && ElementTypeT1::value) || IsDerived<ElementTypeT::type, ElementTypeT1::type>;
+    static constexpr bool value = ElementTypeT1::value || IsDerived<ElementTypeT::type, ElementTypeT1::type>;
   };
 
   template <class T, class T1>
@@ -246,11 +243,6 @@ namespace rt {
       return std::make_tuple(a, b);
     }
 
-    template <class R, class T1 = T> requires(IsObject<T1>)
-    explicit operator R() {
-      return R();
-    }
-
     template <class R, class T1 = T> requires(std::is_same_v<R, decltype(T1::op_Implicit(ref<T1>()))>)
     operator R() {
       return T1::op_Implicit(*this);
@@ -325,7 +317,7 @@ namespace rt {
     template <class T>
     friend class GCObject;
 
-    template <class T>
+    template <class T, class Base>
     friend class Array;
   };
 
@@ -377,8 +369,8 @@ namespace rt {
   };
 
   class Array_ {};
-  template <class T>
-  class Array : public Array_ {
+  template <class T, class Base>
+  class Array : public Base {
     struct array {
       int32_t length;
       T first[];
@@ -445,86 +437,99 @@ namespace rt {
   template <class T>
   static constexpr float NegativeInfinity = 0b11111111100000000000000000000000;
 
-  struct PrimitiveType_ {};
+  template <class T>
+  static constexpr bool IsPrimitive = TypeKind<T>::code != TypeCode::None;
 
   template <class T>
-  static constexpr bool IsPrimitive = IsDerived<PrimitiveType_, T>;
+  static constexpr bool IsArithmetic = TypeKind<T>::code >= TypeCode::Char && TypeKind<T>::code <= TypeCode::Double;
 
-  template <class T>
-  struct PrimitiveType : public PrimitiveType_ { 
-    bool operator ==(const T& other) {
-      return static_cast<T*>(this)->m_value == other.m_value;
+  template <class T, class Base>
+  struct ValueType : public Base {
+     bool operator ==(const T& other) {
+      return static_cast<T*>(this)->get() == other.get();
     }
 
     bool operator !=(const T& other) {
-      return static_cast<T*>(this)->m_value != other.m_value;
+      return static_cast<T*>(this)->get() != other.get();
     }
 
     bool operator <(const T& other) {
-      return static_cast<T*>(this)->m_value < other.m_value;
+      return static_cast<T*>(this)->get() < other.get();
     }
 
     bool operator <=(const T& other) {
-      return static_cast<T*>(this)->m_value <= other.m_value;
+      return static_cast<T*>(this)->get() <= other.get();
     }
 
     bool operator >(const T& other) {
-      return static_cast<T*>(this)->m_value > other.m_value;
+      return static_cast<T*>(this)->get() > other.get();
     }
 
     bool operator >=(const T& other) {
-      return static_cast<T*>(this)->m_value >= other.m_value;
+      return static_cast<T*>(this)->get() >= other.get();
     }
 
     T operator +(const T& other) {
-      return static_cast<T*>(this)->m_value + other.m_value;
+      return static_cast<T*>(this)->get() + other.get();
     }
     
     T operator -(const T& other) {
-      return static_cast<T*>(this)->m_value - other.m_value;
+      return static_cast<T*>(this)->get() - other.get();
     }
 
     T operator *(const T& other) {
-      return static_cast<T*>(this)->m_value * other.m_value;
+      return static_cast<T*>(this)->get() * other.get();
     }
 
     T operator /(const T& other) {
-      return static_cast<T*>(this)->m_value / other.m_value;
+      return static_cast<T*>(this)->get() / other.get();
     }
 
-    template <class T1 = T> requires(std::is_arithmetic_v<decltype(T1().m_value)>) 
+    template <class T1 = T> requires(IsArithmetic<T1>) 
     T1 operator ++() {
       auto p = static_cast<T1*>(this);
-      ++p->m_value;
+      ++p->get();
       return *p;
-    } 
+    }
 
-    template <class T1 = T> requires(std::is_arithmetic_v<decltype(T1().m_value)>) 
+    template <class T1 = T> requires(IsArithmetic<T1>) 
     T1 operator ++(int) {
       auto p = static_cast<T1*>(this);
       T1 tmp = *p;
-      ++p->m_value;
+      ++p->get();
       return tmp;
     }
 
-    template <class T1 = T> requires(std::is_same_v<bool, decltype(T1().m_value)>)
+    template <class T1 = T> requires(IsArithmetic<T1>) 
+    T1 operator --() {
+      auto p = static_cast<T1*>(this);
+      --p->get();
+      return *p;
+    }
+
+    template <class T1 = T> requires(IsArithmetic<T1>) 
+    T1 operator --(int) {
+      auto p = static_cast<T1*>(this);
+      T1 tmp = *p;
+      --p->get();
+      return tmp;
+    }
+
+    template <class T1 = T> requires(TypeKind<T1>::code == TypeCode::Boolean)
     operator bool() {
-      return static_cast<T*>(this)->m_value;
+      return static_cast<T*>(this)->get();
     }
 
     template <class R> requires(IsPrimitive<R>)
     explicit operator R() {
-      return (decltype(R().m_value))static_cast<T*>(this)->m_value;
+      return (decltype(R().get()))static_cast<T*>(this)->get();
     }
 
     template <class R = void*> requires(std::is_same_v<R, void*>)
     explicit operator R() {
-      return (R)static_cast<T*>(this)->m_value;
+      return (R)static_cast<T*>(this)->get();
     }
-  };
 
-  template <class T>
-  struct ValueType {  
     template <class R, class T1 = T> requires(std::is_same_v<R, decltype(T1::op_Explicit(T1()))>)
     explicit operator R() {
       return T1::op_Explicit(*static_cast<T1*>(this));
@@ -534,11 +539,6 @@ namespace rt {
     explicit operator R() {
       return T1::op_Explicit(*static_cast<T1*>(this), R());
     }
-  };
-
-  template <class T, class V>
-  struct valueType : public V {
-    
   };
 
   template <class T, size_t N>

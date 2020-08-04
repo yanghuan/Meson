@@ -5,6 +5,7 @@
 #include <System.Console/Interop-dep.h>
 #include <System.Console/System/ConsoleColor.h>
 #include <System.Console/System/ConsoleKeyInfo-dep.h>
+#include <System.Console/System/IO/ConsoleStream-dep.h>
 #include <System.Private.CoreLib/System/Array-dep.h>
 #include <System.Private.CoreLib/System/Boolean-dep.h>
 #include <System.Private.CoreLib/System/Byte-dep.h>

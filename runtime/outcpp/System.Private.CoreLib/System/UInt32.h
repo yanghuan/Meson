@@ -20,7 +20,8 @@ using namespace Globalization;
 struct UInt32 : public valueType<UInt32> {
   public: constexpr UInt32() noexcept : m_value(0) {}
   public: constexpr UInt32(uint32_t value) noexcept : m_value(value) {}
-  public: constexpr uint32_t& get() noexcept  { return m_value; }
+  public: constexpr uint32_t& get() noexcept { return m_value; }
+  public: constexpr uint32_t get() const noexcept { return m_value; }
   public: Int32 CompareTo(Object value);
   public: Int32 CompareTo(UInt32 value);
   public: Boolean Equals(Object obj);
@@ -51,6 +52,6 @@ using UInt32 = UInt32Namespace::UInt32;
 namespace rt {
 template <>
 struct TypeKind<::System::Private::CoreLib::System::UInt32> {
-  static constexpr TypeCode Kind = TypeCode::UInt32;
+  static constexpr TypeCode code = TypeCode::UInt32;
 };
 } // namespace rt

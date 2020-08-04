@@ -10,7 +10,7 @@ template <class T1 = void, class T2 = void, class T3 = void, class T4 = void, cl
 struct ValueTuple {
 };
 template <>
-struct ValueTuple<> : public valueType<ValueTuple> {
+struct ValueTuple<> : public valueType<ValueTuple<>> {
   private: Int32 get_LengthOfITuple();
   private: Object get_ItemOfITuple(Int32 index);
 };

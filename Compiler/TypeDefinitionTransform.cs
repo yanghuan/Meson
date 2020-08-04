@@ -106,7 +106,13 @@ namespace Meson.Compiler {
         IsForward = false,
         IsInHead = true,
       });
-      node.Bases.Add(new BaseSyntax(IdentifierSyntax.ValueType.Generic(template == null ? node.Name : node.Name.Generic(template.TypeNames))));
+      IdentifierSyntax typeArgument;
+      if (template == null) {
+        typeArgument = Generator.IsVoidGenericType(type) ? node.Name.Generic() : node.Name;
+      } else {
+        typeArgument = node.Name.Generic(template.TypeNames);
+      }
+      node.Bases.Add(new BaseSyntax(((IdentifierSyntax)baseType.Name.FirstCharLow()).Generic(typeArgument)));
       parent_.Add(node);
       VisitMembers(type, node);
     }
@@ -142,6 +148,15 @@ namespace Meson.Compiler {
         }
       }
       parent_.Add(node);
+      if (node.Kind == ClassKind.Array) {
+        ClassSyntax array = new ClassSyntax(node.Name) {
+          Template = TemplateSyntax.T,
+          Kind = ClassKind.MultiRef,
+        };
+        var baseType = IdentifierSyntax.Meson.TwoColon(((IdentifierSyntax)type.Name).Generic(IdentifierSyntax.T, node.Name.Generic().TwoColon(IdentifierSyntax.In)));
+        array.Bases.Add(new BaseSyntax(baseType));
+        parent_.Add(array);
+      }
       VisitMembers(type, node);
     }
 
@@ -349,14 +364,24 @@ namespace Meson.Compiler {
           underlyingTypeConstructor.AddInitializationList(fieldName, IdentifierSyntax.Value);
           statements.Add(underlyingTypeConstructor);
 
-          var getValueMethod = new MethodDefinitionSyntax("get", Array.Empty<ParameterSyntax>(), new RefExpressionSyntax(typeName)) {
+          var getValue = new MethodDefinitionSyntax("get", Array.Empty<ParameterSyntax>(), new RefExpressionSyntax(typeName)) {
             AccessibilityToken = accessibilityToken,
             IsConstexpr = true,
             IsNoexcept = true,
             Body = new BlockSyntax() { IsSingleLine = true },
           };
-          getValueMethod.Body.Add(fieldName.Return());
-          statements.Add(getValueMethod);
+          getValue.Body.Add(fieldName.Return());
+          statements.Add(getValue);
+
+          var getValueConst = new MethodDefinitionSyntax("get", Array.Empty<ParameterSyntax>(), typeName) {
+            AccessibilityToken = accessibilityToken,
+            IsConstexpr = true,
+            IsNoexcept = true,
+            IsConst = true,
+            Body = new BlockSyntax() { IsSingleLine = true },
+          };
+          getValueConst.Body.Add(fieldName.Return());
+          statements.Add(getValueConst);
           node.Statements.Insert(0, statements);
         }
       } else if (IsArrayInnerSpecialField(field, typeDefinition, out typeName)) {

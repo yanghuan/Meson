@@ -20,6 +20,6 @@ CLASS(ValueType) : public Object::in {
 } // namespace ValueTypeNamespace
 using ValueType = ValueTypeNamespace::ValueType;
 template <class T>
-struct valueType : public rt::valueType<T, ValueType::in> {
+struct valueType : public rt::ValueType<T, ValueType::in> {
 };
 } // namespace System::Private::CoreLib::System

@@ -22,7 +22,8 @@ using namespace Globalization;
 struct Single : public valueType<Single> {
   public: constexpr Single() noexcept : m_value(0) {}
   public: constexpr Single(float value) noexcept : m_value(value) {}
-  public: constexpr float& get() noexcept  { return m_value; }
+  public: constexpr float& get() noexcept { return m_value; }
+  public: constexpr float get() const noexcept { return m_value; }
   public: static Boolean IsFinite(Single f);
   public: static Boolean IsInfinity(Single f);
   public: static Boolean IsNaN(Single f);
@@ -74,6 +75,6 @@ using Single = SingleNamespace::Single;
 namespace rt {
 template <>
 struct TypeKind<::System::Private::CoreLib::System::Single> {
-  static constexpr TypeCode Kind = TypeCode::Single;
+  static constexpr TypeCode code = TypeCode::Single;
 };
 } // namespace rt

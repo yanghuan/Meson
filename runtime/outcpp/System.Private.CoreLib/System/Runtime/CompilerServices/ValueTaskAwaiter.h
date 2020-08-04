@@ -15,7 +15,7 @@ template <class T1 = void, class T2 = void>
 struct ValueTaskAwaiter {
 };
 template <>
-struct ValueTaskAwaiter<> : public valueType<ValueTaskAwaiter> {
+struct ValueTaskAwaiter<> : public valueType<ValueTaskAwaiter<>> {
   public: Boolean get_IsCompleted();
   public: static Action<Object> s_invokeActionDelegate;
   private: ValueTask<> _value;

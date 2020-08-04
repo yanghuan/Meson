@@ -1,6 +1,6 @@
 #pragma once
 
-#include <rt/GCObject.h>
+#include <System.Private.CoreLib/System/MulticastDelegate.h>
 
 namespace System::Private::CoreLib::System {
 FORWARD(AsyncCallback)
@@ -12,7 +12,7 @@ namespace System::Console::System {
 FORWARD(ConsoleCancelEventArgs)
 namespace ConsoleCancelEventHandlerNamespace {
 using namespace ::System::Private::CoreLib::System;
-CLASS(ConsoleCancelEventHandler) {
+CLASS(ConsoleCancelEventHandler) : public MulticastDelegate::in {
   public: void Ctor(Object object, IntPtr method);
   public: void Invoke(Object sender, ConsoleCancelEventArgs e);
   public: IAsyncResult BeginInvoke(Object sender, ConsoleCancelEventArgs e, AsyncCallback callback, Object object);

@@ -1,6 +1,6 @@
 #pragma once
 
-#include <rt/GCObject.h>
+#include <System.Private.CoreLib/System/Text/Encoding.h>
 
 namespace System::Private::CoreLib::System {
 FORWARD_(Array, T1, T2)
@@ -13,13 +13,12 @@ FORWARD(String)
 namespace System::Private::CoreLib::System::Text {
 FORWARD(Decoder)
 FORWARD(Encoder)
-FORWARD(Encoding)
 } // namespace System::Private::CoreLib::System::Text
 namespace System::Console::System::Text {
 namespace ConsoleEncodingNamespace {
 using namespace ::System::Private::CoreLib::System;
 using namespace ::System::Private::CoreLib::System::Text;
-CLASS(ConsoleEncoding) {
+CLASS(ConsoleEncoding) : public Encoding::in {
   public: Int32 get_CodePage();
   public: Boolean get_IsSingleByte();
   public: String get_EncodingName();

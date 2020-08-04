@@ -21,7 +21,8 @@ using namespace Globalization;
 struct Int16 : public valueType<Int16> {
   public: constexpr Int16() noexcept : m_value(0) {}
   public: constexpr Int16(int16_t value) noexcept : m_value(value) {}
-  public: constexpr int16_t& get() noexcept  { return m_value; }
+  public: constexpr int16_t& get() noexcept { return m_value; }
+  public: constexpr int16_t get() const noexcept { return m_value; }
   public: Int32 CompareTo(Object value);
   public: Int32 CompareTo(Int16 value);
   public: Boolean Equals(Object obj);
@@ -54,6 +55,6 @@ using Int16 = Int16Namespace::Int16;
 namespace rt {
 template <>
 struct TypeKind<::System::Private::CoreLib::System::Int16> {
-  static constexpr TypeCode Kind = TypeCode::Int16;
+  static constexpr TypeCode code = TypeCode::Int16;
 };
 } // namespace rt

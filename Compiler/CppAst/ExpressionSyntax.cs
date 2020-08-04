@@ -51,6 +51,8 @@ namespace Meson.Compiler.CppAst {
       return new InvationExpressionSyntax(this, arguments);
     }
 
+    internal GenericIdentifierSyntax Generic() => new GenericIdentifierSyntax(this);
+
     internal GenericIdentifierSyntax Generic(params ExpressionSyntax[] args) {
       return new GenericIdentifierSyntax(this, args);
     }

@@ -14,7 +14,7 @@ template <class T1 = void, class T2 = void>
 struct ConfiguredValueTaskAwaitable {
 };
 template <>
-struct ConfiguredValueTaskAwaitable<> : public valueType<ConfiguredValueTaskAwaitable> {
+struct ConfiguredValueTaskAwaitable<> : public valueType<ConfiguredValueTaskAwaitable<>> {
   public: struct ConfiguredValueTaskAwaiter : public valueType<ConfiguredValueTaskAwaiter> {
     public: Boolean get_IsCompleted();
     public: explicit ConfiguredValueTaskAwaiter(ValueTask<>& value);

@@ -35,21 +35,6 @@
 #define CLASSX(...) BOOST_PP_IF(BOOST_PP_EQUAL(BOOST_PP_VARIADIC_SIZE(__VA_ARGS__), 1), CLASS00_ , CLASS11_)
 #define CLASS(...) CLASSX(__VA_ARGS__)(BOOST_PP_VARIADIC_TO_SEQ(__VA_ARGS__))
 
-#define ARRAY_(n, name, code) \
-  template <class T1 = void, class T2 = void>\
-  class name {};\
-  template <class T>\
-  class name<T>;\
-  template <class T1 = void, class T2 = void>\
-  using n = rt::ref<name<T1, T2>>;\
-  template <>\
-  class name<>\
-  BOOST_PP_TUPLE_ENUM(code);\
-  template <class T>\
-  class name<T> : public rt::Array<T>, public name<> {};
-  
-#define ARRAY(code) ARRAY_(Array, NAME(Array), code)
-
 #define CLASS_VOID_OP(s, d, e) class e = void
 #define TEMPLATE_VOID(seq) (template<BOOST_PP_SEQ_ENUM(BOOST_PP_SEQ_TRANSFORM(CLASS_VOID_OP, _, seq))>)
 
@@ -153,12 +138,41 @@
 
 #define FORWARDS_(name, ...) FORWARDS_MULTI(name, name, BOOST_PP_VARIADIC_TO_SEQ(__VA_ARGS__), BOOST_PP_CAT(name, Namespace))
 
-#define FRIENDN_(n, name) \
+
+#define FRIENDNS0_(name) \
+  friend struct name;\
+  using name = name;
+
+#define FRIENDNS1(name, T, seq) \
+  BOOST_PP_TUPLE_ENUM(T)\
+  friend struct name;\
+  BOOST_PP_TUPLE_ENUM(T)\
+  using name = name<BOOST_PP_SEQ_ENUM(seq)>;
+
+#define FRIENDNS1_(name, seq) FRIENDNS1(name, TEMPLATE(seq), seq)
+#define FRIENDNS11_(seq) FRIENDNS1_(BOOST_PP_SEQ_HEAD(seq), BOOST_PP_SEQ_TAIL(seq))
+
+#define FRIENDNS00_(seq) FRIENDNS0_(BOOST_PP_SEQ_HEAD(seq))
+#define FRIENDNSX(...) BOOST_PP_IF(BOOST_PP_EQUAL(BOOST_PP_VARIADIC_SIZE(__VA_ARGS__), 1), FRIENDNS00_, FRIENDNS11_)
+#define FRIENDNS(...) FRIENDNSX(__VA_ARGS__)(BOOST_PP_VARIADIC_TO_SEQ(__VA_ARGS__))
+
+
+#define FRIENDN0(n, name) \
   friend class name;\
   using n = rt::ref<name>;
 
-#define FRIENDN(name) FRIENDN_(name, NAME(name))
+#define FRIENDN1(n, name, T, seq) \
+  BOOST_PP_TUPLE_ENUM(T)\
+  friend class name;\
+  BOOST_PP_TUPLE_ENUM(T)\
+  using n = rt::ref<name<BOOST_PP_SEQ_ENUM(seq)>>;
 
-#define FRIENDNS(name) \
-  friend struct name;\
-  using name = name;
+#define FRIENDN1_(name, seq) FRIENDN1(name, NAME(name), TEMPLATE(seq), seq)
+#define FRIENDN11_(seq) FRIENDN1_(BOOST_PP_SEQ_HEAD(seq), BOOST_PP_SEQ_TAIL(seq))
+
+#define FRIENDN0_(name) FRIENDN0(name, NAME(name))
+#define FRIENDN00_(seq) FRIENDN0_(BOOST_PP_SEQ_HEAD(seq))
+#define FRIENDNX(...) BOOST_PP_IF(BOOST_PP_EQUAL(BOOST_PP_VARIADIC_SIZE(__VA_ARGS__), 1), FRIENDN00_, FRIENDN11_)
+#define FRIENDN(...) FRIENDNX(__VA_ARGS__)(BOOST_PP_VARIADIC_TO_SEQ(__VA_ARGS__))
+
+

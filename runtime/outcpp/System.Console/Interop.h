@@ -1,20 +1,21 @@
 #pragma once
 
-#include <rt/GCObject.h>
 #include <System.Private.CoreLib/System/Boolean.h>
 #include <System.Private.CoreLib/System/Byte.h>
 #include <System.Private.CoreLib/System/Char.h>
 #include <System.Private.CoreLib/System/Int16.h>
 #include <System.Private.CoreLib/System/Int32.h>
+#include <System.Private.CoreLib/System/MulticastDelegate.h>
+#include <System.Private.CoreLib/System/Object.h>
 #include <System.Private.CoreLib/System/UInt16.h>
 #include <System.Private.CoreLib/System/UInt32.h>
+#include <System.Private.CoreLib/System/ValueType.h>
 
 namespace System::Private::CoreLib::System {
 FORWARD_(Array, T1, T2)
 FORWARD(AsyncCallback)
 FORWARD(IAsyncResult)
 FORWARDS(IntPtr)
-FORWARD(Object)
 FORWARDS(Span, T)
 FORWARD(String)
 } // namespace System::Private::CoreLib::System
@@ -26,7 +27,7 @@ class Interop {
     FALSE = 0,
     TRUE = 1,
   };
-  public: struct KeyEventRecord {
+  public: struct KeyEventRecord : public valueType<KeyEventRecord> {
     public: BOOL keyDown;
     public: Int16 repeatCount;
     public: Int16 virtualKeyCode;
@@ -34,7 +35,7 @@ class Interop {
     public: Char uChar;
     public: Int32 controlKeyState;
   };
-  public: struct InputRecord {
+  public: struct InputRecord : public valueType<InputRecord> {
     public: Int16 eventType;
     public: KeyEventRecord keyEvent;
   };
@@ -55,17 +56,17 @@ class Interop {
       BackgroundMask = 240,
       ColorMask = 255,
     };
-    public: struct COORD {
+    public: struct COORD : public valueType<COORD> {
       public: Int16 X;
       public: Int16 Y;
     };
-    public: struct SMALL_RECT {
+    public: struct SMALL_RECT : public valueType<SMALL_RECT> {
       public: Int16 Left;
       public: Int16 Top;
       public: Int16 Right;
       public: Int16 Bottom;
     };
-    private: struct CPINFOEXW {
+    private: struct CPINFOEXW : public valueType<CPINFOEXW> {
       public: UInt32 MaxCharSize;
       public: rt::FixedBuffer<Byte, 2> DefaultChar;
       public: rt::FixedBuffer<Byte, 12> LeadByte;
@@ -73,22 +74,22 @@ class Interop {
       public: UInt32 CodePage;
       public: rt::FixedBuffer<Char, 260> CodePageName;
     };
-    public: struct CONSOLE_CURSOR_INFO {
+    public: struct CONSOLE_CURSOR_INFO : public valueType<CONSOLE_CURSOR_INFO> {
       public: Int32 dwSize;
       public: Boolean bVisible;
     };
-    public: struct CONSOLE_SCREEN_BUFFER_INFO {
+    public: struct CONSOLE_SCREEN_BUFFER_INFO : public valueType<CONSOLE_SCREEN_BUFFER_INFO> {
       public: COORD dwSize;
       public: COORD dwCursorPosition;
       public: Int16 wAttributes;
       public: SMALL_RECT srWindow;
       public: COORD dwMaximumWindowSize;
     };
-    public: struct CHAR_INFO {
+    public: struct CHAR_INFO : public valueType<CHAR_INFO> {
       private: UInt16 charData;
       private: Int16 attributes;
     };
-    public: CLASS(ConsoleCtrlHandlerRoutine) {
+    public: CLASS(ConsoleCtrlHandlerRoutine) : public MulticastDelegate::in {
       public: void Ctor(Object object, IntPtr method);
       public: Boolean Invoke(Int32 controlType);
       public: IAsyncResult BeginInvoke(Int32 controlType, AsyncCallback callback, Object object);
@@ -134,7 +135,7 @@ class Interop {
     public: static Boolean WriteConsole(IntPtr hConsoleOutput, Byte* lpBuffer, Int32 nNumberOfCharsToWrite, Int32& lpNumberOfCharsWritten, IntPtr lpReservedMustBeNull);
     public: static Boolean WriteConsoleOutput(IntPtr hConsoleOutput, CHAR_INFO* buffer, COORD bufferSize, COORD bufferCoord, SMALL_RECT& writeRegion);
   };
-  public: CLASS(User32) {
+  public: CLASS(User32) : public Object::in {
     public: static Int16 GetKeyState(Int32 virtualKeyCode);
   };
 };

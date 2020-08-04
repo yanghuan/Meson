@@ -1,9 +1,9 @@
 #pragma once
 
-#include <rt/GCObject.h>
 #include <System.Private.CoreLib/System/Char.h>
 #include <System.Private.CoreLib/System/Int32.h>
 #include <System.Private.CoreLib/System/Span.h>
+#include <System.Private.CoreLib/System/ValueType.h>
 
 namespace System::Private::CoreLib::System {
 FORWARD_(Array, T1, T2)
@@ -12,7 +12,7 @@ FORWARD(String)
 namespace System::Console::System::Text {
 namespace ValueStringBuilderNamespace {
 using namespace ::System::Private::CoreLib::System;
-struct ValueStringBuilder {
+struct ValueStringBuilder : public valueType<ValueStringBuilder> {
   public: void set_Length(Int32 value);
   public: Int32 get_Capacity();
   public: explicit ValueStringBuilder(Span<Char> initialBuffer);

@@ -1,10 +1,7 @@
 #pragma once
 
-#include <rt/GCObject.h>
+#include <System.Private.CoreLib/System/IO/TextReader.h>
 
-namespace System::Private::CoreLib::System::IO {
-FORWARD(TextReader)
-} // namespace System::Private::CoreLib::System::IO
 namespace System::Private::CoreLib::System {
 FORWARD_(Array, T1, T2)
 FORWARDS(Boolean)
@@ -20,8 +17,7 @@ namespace SyncTextReaderNamespace {
 using namespace ::System::Private::CoreLib::System;
 using namespace ::System::Private::CoreLib::System::IO;
 using namespace ::System::Private::CoreLib::System::Threading::Tasks;
-CLASS(SyncTextReader) {
-  public: static SyncTextReader GetSynchronizedTextReader(TextReader reader);
+CLASS(SyncTextReader) : public TextReader::in {
   public: void Ctor(TextReader t);
   protected: void Dispose(Boolean disposing);
   public: Int32 Peek();

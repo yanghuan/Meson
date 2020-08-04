@@ -19,7 +19,7 @@ template <class T1 = void, class T2 = void>
 struct ValueTask {
 };
 template <>
-struct ValueTask<> : public valueType<ValueTask> {
+struct ValueTask<> : public valueType<ValueTask<>> {
   private: CLASS(ValueTaskSourceAsTask) : public Task<>::in {
     public: void Ctor(IValueTaskSource<> source, Int16 token);
     private: static void SCtor();

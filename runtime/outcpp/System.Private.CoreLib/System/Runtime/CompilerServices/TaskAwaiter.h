@@ -15,7 +15,7 @@ template <class T1 = void, class T2 = void>
 struct TaskAwaiter {
 };
 template <>
-struct TaskAwaiter<> : public valueType<TaskAwaiter> {
+struct TaskAwaiter<> : public valueType<TaskAwaiter<>> {
   public: Boolean get_IsCompleted();
   public: Task<> m_task;
 };

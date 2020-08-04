@@ -22,7 +22,8 @@ using namespace Globalization;
 struct Double : public valueType<Double> {
   public: constexpr Double() noexcept : m_value(0) {}
   public: constexpr Double(double value) noexcept : m_value(value) {}
-  public: constexpr double& get() noexcept  { return m_value; }
+  public: constexpr double& get() noexcept { return m_value; }
+  public: constexpr double get() const noexcept { return m_value; }
   public: static Boolean IsFinite(Double d);
   public: static Boolean IsInfinity(Double d);
   public: static Boolean IsNaN(Double d);
@@ -74,6 +75,6 @@ using Double = DoubleNamespace::Double;
 namespace rt {
 template <>
 struct TypeKind<::System::Private::CoreLib::System::Double> {
-  static constexpr TypeCode Kind = TypeCode::Double;
+  static constexpr TypeCode code = TypeCode::Double;
 };
 } // namespace rt

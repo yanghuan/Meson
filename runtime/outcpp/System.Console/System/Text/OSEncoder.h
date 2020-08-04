@@ -1,7 +1,7 @@
 #pragma once
 
-#include <rt/GCObject.h>
 #include <System.Private.CoreLib/System/Char.h>
+#include <System.Private.CoreLib/System/Text/Encoder.h>
 
 namespace System::Private::CoreLib::System::Text {
 FORWARD(Encoding)
@@ -16,7 +16,7 @@ namespace System::Console::System::Text {
 namespace OSEncoderNamespace {
 using namespace ::System::Private::CoreLib::System;
 using namespace ::System::Private::CoreLib::System::Text;
-CLASS(OSEncoder) {
+CLASS(OSEncoder) : public Encoder::in {
   public: void Ctor(Encoding encoding);
   public: void Reset();
   public: Int32 GetByteCount(Array<Char> chars, Int32 index, Int32 count, Boolean flush);

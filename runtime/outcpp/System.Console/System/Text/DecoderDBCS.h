@@ -1,8 +1,8 @@
 #pragma once
 
-#include <rt/GCObject.h>
 #include <System.Private.CoreLib/System/Byte.h>
 #include <System.Private.CoreLib/System/Int32.h>
+#include <System.Private.CoreLib/System/Text/Decoder.h>
 
 namespace System::Private::CoreLib::System::Text {
 FORWARD(Encoding)
@@ -16,7 +16,7 @@ namespace System::Console::System::Text {
 namespace DecoderDBCSNamespace {
 using namespace ::System::Private::CoreLib::System;
 using namespace ::System::Private::CoreLib::System::Text;
-CLASS(DecoderDBCS) {
+CLASS(DecoderDBCS) : public Decoder::in {
   public: void Ctor(Encoding encoding);
   private: Boolean IsLeadByte(Byte b);
   public: void Reset();

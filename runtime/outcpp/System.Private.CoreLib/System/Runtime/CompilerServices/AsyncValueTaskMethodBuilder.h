@@ -25,7 +25,7 @@ template <class T1 = void, class T2 = void>
 struct AsyncValueTaskMethodBuilder {
 };
 template <>
-struct AsyncValueTaskMethodBuilder<> : public valueType<AsyncValueTaskMethodBuilder> {
+struct AsyncValueTaskMethodBuilder<> : public valueType<AsyncValueTaskMethodBuilder<>> {
   public: ValueTask<> get_Task();
   private: static Object s_syncSuccessSentinel;
   private: Object m_task;

@@ -383,6 +383,25 @@ namespace Meson.Compiler {
             break;
           }
         case ClassKind.Array: {
+            Write("CLASS_FORWARD");
+            Write(Tokens.OpenParentheses);
+            WriteNodesWithSeparated(new IdentifierSyntax[] { node.Name }.Concat(2.GetTypeNames()));
+            Write(Tokens.CloseParentheses);
+            WriteNewLine();
+
+            Write("CLASS_");
+            Write(Tokens.OpenParentheses);
+            WriteNodesWithSeparated(new IdentifierSyntax[] { node.Name }.Concat(1.GetTypeNames()));
+            Write(Tokens.CloseParentheses);
+            WriteSemicolon();
+            WriteNewLine();
+
+            Write("CLASS_");
+            Write(Tokens.OpenParentheses);
+            node.Name.Render(this);
+            Write(Tokens.CloseParentheses);
+            break;
+            /*
             Write("ARRAY");
             Write(Tokens.OpenParentheses);
             Write(Tokens.OpenParentheses);
@@ -390,7 +409,7 @@ namespace Meson.Compiler {
             Write(Tokens.CloseParentheses);
             Write(Tokens.CloseParentheses);
             WriteNewLine();
-            return;
+            return;*/
           }
         case ClassKind.Multi: {
             node.Template ??= new TemplateSyntax();
@@ -476,12 +495,16 @@ namespace Meson.Compiler {
       Write(Tokens.OpenParentheses);
       WriteNodesWithSeparated(node.Parameters);
       Write(Tokens.CloseParentheses);
+      if (node.IsConst) {
+        WriteSpace();
+        Write(Tokens.Const);
+      }
       if (node.IsNoexcept) {
         WriteSpace();
         Write(Tokens.Noexcept);
-        WriteSpace();
       }
       if (node.InitializationList != null && node.InitializationList.Count > 0) {
+        WriteSpace();
         WriteColon();
         WriteSpace();
         WriteNodesWithSeparated(node.InitializationList);

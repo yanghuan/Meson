@@ -1,7 +1,7 @@
 #pragma once
 
-#include <rt/GCObject.h>
 #include <System.Private.CoreLib/System/Int32.h>
+#include <System.Private.CoreLib/System/Text/Encoding.h>
 
 namespace System::Private::CoreLib::System {
 FORWARD_(Array, T1, T2)
@@ -17,7 +17,7 @@ namespace System::Console::System::Text {
 namespace OSEncodingNamespace {
 using namespace ::System::Private::CoreLib::System;
 using namespace ::System::Private::CoreLib::System::Text;
-CLASS(OSEncoding) {
+CLASS(OSEncoding) : public Encoding::in {
   public: String get_EncodingName();
   public: String get_WebName();
   public: void Ctor(Int32 codePage);

@@ -35,7 +35,9 @@ using namespace Reflection;
 template <class T>
 using IComparer = Collections::Generic::IComparer<T>;
 using IComparer1 = Collections::IComparer;
-ARRAY(({
+CLASS_FORWARD(Array, T1, T2)
+CLASS_(Array, T1);
+CLASS_(Array) : public Object::in {
   private: template <class T>
   class EmptyArray {
     private: static void SCtor();
@@ -230,7 +232,9 @@ ARRAY(({
   private: template <class T>
   static Span<T> UnsafeArrayAsSpan(Array<> array, Int32 adjustedIndex, Int32 length);
   public: IEnumerator GetEnumerator();
-}))
+};
+CLASS_(Array, T) : public rt::Array<T, Array<>::in> {
+};
 } // namespace ArrayNamespace
 template <class T1 = void, class T2 = void>
 using Array = ArrayNamespace::Array<T1, T2>;

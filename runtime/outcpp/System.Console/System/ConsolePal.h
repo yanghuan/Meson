@@ -1,9 +1,10 @@
 #pragma once
 
-#include <rt/GCObject.h>
 #include <System.Console/Interop.h>
+#include <System.Console/System/IO/ConsoleStream.h>
 #include <System.Private.CoreLib/System/Boolean.h>
 #include <System.Private.CoreLib/System/IntPtr.h>
+#include <System.Private.CoreLib/System/Object.h>
 
 namespace System::Private::CoreLib::System::IO {
 enum class FileAccess;
@@ -15,7 +16,6 @@ FORWARD_(Array, T1, T2)
 FORWARDS(Byte)
 FORWARDS(Char)
 FORWARDS(Int32)
-FORWARD(Object)
 FORWARD(String)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Text {
@@ -28,6 +28,7 @@ namespace ConsolePalNamespace {
 using namespace ::System::Private::CoreLib::System;
 using namespace ::System::Private::CoreLib::System::IO;
 using namespace ::System::Private::CoreLib::System::Text;
+using namespace IO;
 class ConsolePal {
   public: enum class ControlKeyState {
     RightAltPressed = 1,
@@ -40,7 +41,7 @@ class ConsolePal {
     CapsLockOn = 128,
     EnhancedKey = 256,
   };
-  private: CLASS(WindowsConsoleStream) {
+  private: CLASS(WindowsConsoleStream) : public ConsoleStream::in {
     public: void Ctor(IntPtr handle, FileAccess access, Boolean useFileAPIs);
     protected: void Dispose(Boolean disposing);
     public: Int32 Read(Array<Byte> buffer, Int32 offset, Int32 count);
@@ -52,7 +53,7 @@ class ConsolePal {
     private: IntPtr _handle;
     private: Boolean _useFileAPIs;
   };
-  public: CLASS(ControlCHandlerRegistrar) {
+  public: CLASS(ControlCHandlerRegistrar) : public Object::in {
     public: void Ctor();
     public: void Register();
     public: void Unregister();

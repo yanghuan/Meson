@@ -92,7 +92,7 @@ namespace Meson.Compiler {
         case KnownTypeCode.String:
           NamespaceSyntax rt = new NamespaceSyntax(IdentifierSyntax.Meson);
           ClassSyntax kindClass = new ClassSyntax(IdentifierSyntax.TypeKind.Generic(type.GetFullName()), true) { Template = new TemplateSyntax() };
-          kindClass.Add(new FieldDefinitionSyntax(IdentifierSyntax.TypeCode, "Kind", true, null) {
+          kindClass.Add(new FieldDefinitionSyntax(IdentifierSyntax.TypeCode, "code", true, null) {
             IsConstexpr = true,
             ConstantValue = IdentifierSyntax.TypeCode.TwoColon(type.KnownTypeCode.ToString()),
           });
@@ -123,8 +123,8 @@ namespace Meson.Compiler {
       var usingDeclaration = new UsingDeclarationSyntax(name, type) { Template = template };
       rootNamespace.Add(usingDeclaration);
       if (root_.KnownTypeCode == KnownTypeCode.ValueType) {
-        ClassSyntax valueType = new ClassSyntax(IdentifierSyntax.ValueType, true) { Template = TemplateSyntax.T };
-        var baseType = IdentifierSyntax.Meson.TwoColon(IdentifierSyntax.ValueType).Generic(IdentifierSyntax.T, name.TwoColon(IdentifierSyntax.In));
+        ClassSyntax valueType = new ClassSyntax(root_.Name.FirstCharLow(), true) { Template = TemplateSyntax.T };
+        var baseType = IdentifierSyntax.Meson.TwoColon(root_.Name).Generic(IdentifierSyntax.T, name.TwoColon(IdentifierSyntax.In));
         valueType.Bases.Add(new BaseSyntax(baseType));
         rootNamespace.Add(valueType);
       }
@@ -350,7 +350,7 @@ namespace Meson.Compiler {
 
       if (!isGeneric && typeDefinition != null) {
         if (Generator.IsVoidGenericType(typeDefinition)) {
-          typeName = new GenericIdentifierSyntax(typeName);
+          typeName = typeName.Generic();
         }
       }
 

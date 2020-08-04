@@ -1,6 +1,5 @@
 #pragma once
 
-#include <rt/GCObject.h>
 #include <System.Console/System/ConsolePal.h>
 
 namespace System::Private::CoreLib::System::IO {

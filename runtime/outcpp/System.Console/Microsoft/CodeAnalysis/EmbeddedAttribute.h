@@ -1,10 +1,11 @@
 #pragma once
 
-#include <rt/GCObject.h>
+#include <System.Private.CoreLib/System/Attribute.h>
 
 namespace System::Console::Microsoft::CodeAnalysis {
 namespace EmbeddedAttributeNamespace {
-CLASS(EmbeddedAttribute) {
+using namespace ::System::Private::CoreLib::System;
+CLASS(EmbeddedAttribute) : public Attribute::in {
   public: void Ctor();
 };
 } // namespace EmbeddedAttributeNamespace

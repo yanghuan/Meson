@@ -693,6 +693,10 @@ namespace Meson.Compiler {
       return name + "___";
     }
 
+    public static string FirstCharLow(this string name) {
+      return char.ToLower(name[0]) + name.Substring(1);
+    }
+
     public static ExpressionSyntax WithFullName(this ExpressionSyntax typeName, IType type, ITypeDefinition definition = null) {
       var typeDefinition = type.GetDefinition();
       string ns = typeDefinition.GetFullNamespace(true, definition);

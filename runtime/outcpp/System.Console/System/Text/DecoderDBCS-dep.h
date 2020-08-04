@@ -7,4 +7,5 @@
 #include <System.Private.CoreLib/System/Byte-dep.h>
 #include <System.Private.CoreLib/System/Char-dep.h>
 #include <System.Private.CoreLib/System/Int32-dep.h>
+#include <System.Private.CoreLib/System/Text/Decoder-dep.h>
 #include <System.Private.CoreLib/System/Text/Encoding-dep.h>
