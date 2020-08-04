@@ -520,24 +520,24 @@ namespace rt {
       return static_cast<T*>(this)->get();
     }
 
-    template <class R> requires(IsPrimitive<R>)
+    template <class R> requires(IsPrimitive<R> && IsPrimitive<T>)
     explicit operator R() {
-      return (decltype(R().get()))static_cast<T*>(this)->get();
+      return static_cast<decltype(R().get())>(static_cast<T*>(this)->get());
     }
 
-    template <class R = void*> requires(std::is_same_v<R, void*>)
-    explicit operator R() {
-      return (R)static_cast<T*>(this)->get();
+    template <class T1 = T> requires(IsPrimitive<T1>)
+    explicit operator void*() {
+      return static_cast<void*>(static_cast<T*>(this)->get());
     }
 
-    template <class R, class T1 = T> requires(std::is_same_v<R, decltype(T1::op_Explicit(T1()))>)
+    template <class R> requires(std::is_same_v<R, decltype(T::op_Explicit(T()))>)
     explicit operator R() {
-      return T1::op_Explicit(*static_cast<T1*>(this));
+      return T::op_Explicit(*static_cast<T*>(this));
     }
 
-    template <class R, class T1 = T> requires(std::is_same_v<R, decltype(T1::op_Explicit(T1(), R()))>)
+    template <class R> requires(std::is_same_v<R, decltype(T::op_Explicit(T(), R()))>)
     explicit operator R() {
-      return T1::op_Explicit(*static_cast<T1*>(this), R());
+      return T::op_Explicit(*static_cast<T*>(this), R());
     }
   };
 

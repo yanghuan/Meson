@@ -697,6 +697,10 @@ namespace Meson.Compiler {
       return char.ToLower(name[0]) + name.Substring(1);
     }
 
+    public static IdentifierSyntax Identifier(this string name) {
+      return name;
+    }
+
     public static ExpressionSyntax WithFullName(this ExpressionSyntax typeName, IType type, ITypeDefinition definition = null) {
       var typeDefinition = type.GetDefinition();
       string ns = typeDefinition.GetFullNamespace(true, definition);

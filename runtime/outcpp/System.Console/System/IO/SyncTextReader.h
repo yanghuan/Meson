@@ -18,6 +18,7 @@ using namespace ::System::Private::CoreLib::System;
 using namespace ::System::Private::CoreLib::System::IO;
 using namespace ::System::Private::CoreLib::System::Threading::Tasks;
 CLASS(SyncTextReader) : public TextReader::in {
+  public: static SyncTextReaderNamespace::SyncTextReader GetSynchronizedTextReader(TextReader reader);
   public: void Ctor(TextReader t);
   protected: void Dispose(Boolean disposing);
   public: Int32 Peek();

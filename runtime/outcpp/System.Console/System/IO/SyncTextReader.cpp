@@ -1,6 +1,12 @@
 #include "SyncTextReader-dep.h"
 
+#include <System.Console/System/IO/SyncTextReader-dep.h>
+
 namespace System::Console::System::IO::SyncTextReaderNamespace {
+SyncTextReader SyncTextReader___::GetSynchronizedTextReader(TextReader reader) {
+  return nullptr;
+}
+
 void SyncTextReader___::Ctor(TextReader t) {
 }
 

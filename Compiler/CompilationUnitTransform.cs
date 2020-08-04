@@ -351,6 +351,14 @@ namespace Meson.Compiler {
       if (!isGeneric && typeDefinition != null) {
         if (Generator.IsVoidGenericType(typeDefinition)) {
           typeName = typeName.Generic();
+        } else if (args.IsInHead) {
+          var definitionBaseType = args.Definition.DirectBaseTypes.FirstOrDefault()?.GetDefinition();
+          if (definitionBaseType != null && definitionBaseType.KnownTypeCode == KnownTypeCode.None) {
+            var sameNameBaseType = definitionBaseType.NestedTypes.FirstOrDefault(i => i.Name == typeDefinition.Name);
+            if (sameNameBaseType != null && sameNameBaseType != typeDefinition) {
+              typeName = typeDefinition.Name.WithNamespace().Identifier().TwoColon(typeName);
+            }
+          }
         }
       }
 

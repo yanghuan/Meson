@@ -1,6 +1,9 @@
 #include "test.h"
 #include "runtime.h"
 #include <System.Private.CoreLib/System/Int32-dep.h>
+#include <System.Private.CoreLib/System/IntPtr-dep.h>
+#include <System.Private.CoreLib/System/UIntPtr-dep.h>
+#include <System.Private.CoreLib/System/UInt64-dep.h>
 
 #include <cstdio>
 #include <limits>
@@ -11,15 +14,11 @@ using namespace System::Private::CoreLib::System;
 
 int main() {
   Int32 a = 10;
-  float b = 20.03232;
-  int32_t c = b;
-  if (a < b) {
-
-  }
-  double d = b;
-  int32_t e = d;
-  Int32 f = d;
   std::cout << sizeof(a);
+
+  UIntPtr i(nullptr);
+  UInt64 ii = (UInt64)i;
+
   return 0;
 }
 
