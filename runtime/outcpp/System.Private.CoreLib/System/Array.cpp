@@ -241,7 +241,7 @@ void Array___<>::Copy(Array<> sourceArray, Array<> destinationArray, Int32 lengt
     if (methodTable->get_ContainsGCPointers()) {
       Buffer::BulkMoveWithWriteBarrier(data2, data, uIntPtr);
     } else {
-      Buffer::Memmove(data2, data, uIntPtr);
+      Buffer::Memmove<Byte>(data2, data, uIntPtr);
     }
   } else {
     Copy(sourceArray, sourceArray->GetLowerBound(0), destinationArray, destinationArray->GetLowerBound(0), length, false);
@@ -259,7 +259,7 @@ void Array___<>::Copy(Array<> sourceArray, Int32 sourceIndex, Array<> destinatio
       if (methodTable->get_ContainsGCPointers()) {
         Buffer::BulkMoveWithWriteBarrier(destination, source, uIntPtr2);
       } else {
-        Buffer::Memmove(destination, source, uIntPtr2);
+        Buffer::Memmove<Byte>(destination, source, uIntPtr2);
       }
       return;
     }
@@ -305,7 +305,7 @@ void Array___<>::Copy(Array<> sourceArray, Int32 sourceIndex, Array<> destinatio
     if (methodTable->get_ContainsGCPointers()) {
       Buffer::BulkMoveWithWriteBarrier(destination, source, uIntPtr2);
     } else {
-      Buffer::Memmove(destination, source, uIntPtr2);
+      Buffer::Memmove<Byte>(destination, source, uIntPtr2);
     }
   } else {
     if (reliable) {

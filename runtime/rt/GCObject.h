@@ -445,43 +445,61 @@ namespace rt {
 
   template <class T, class Base>
   struct ValueType : public Base {
-     bool operator ==(const T& other) {
+    T operator =(const T& other) noexcept {
+      auto p = static_cast<T*>(this);
+      p->get() = other.get();
+      return *p;
+    }
+
+    T operator +=(const T& other) {
+      auto p = static_cast<T*>(this);
+      p->get() += other.get();
+      return *p;
+    }
+
+    T operator -=(const T& other) {
+      auto p = static_cast<T*>(this);
+      p->get() -= other.get();
+      return *p;
+    }
+
+    bool operator ==(const T& other) const noexcept {
       return static_cast<T*>(this)->get() == other.get();
     }
 
-    bool operator !=(const T& other) {
+    bool operator !=(const T& other) const noexcept {
       return static_cast<T*>(this)->get() != other.get();
     }
 
-    bool operator <(const T& other) {
+    bool operator <(const T& other) const noexcept {
       return static_cast<T*>(this)->get() < other.get();
     }
 
-    bool operator <=(const T& other) {
+    bool operator <=(const T& other) const noexcept {
       return static_cast<T*>(this)->get() <= other.get();
     }
 
-    bool operator >(const T& other) {
+    bool operator >(const T& other) const noexcept {
       return static_cast<T*>(this)->get() > other.get();
     }
 
-    bool operator >=(const T& other) {
+    bool operator >=(const T& other) const noexcept {
       return static_cast<T*>(this)->get() >= other.get();
     }
 
-    T operator +(const T& other) {
+    T operator +(const T& other) const {
       return static_cast<T*>(this)->get() + other.get();
     }
     
-    T operator -(const T& other) {
+    T operator -(const T& other) const {
       return static_cast<T*>(this)->get() - other.get();
     }
 
-    T operator *(const T& other) {
+    T operator *(const T& other) const {
       return static_cast<T*>(this)->get() * other.get();
     }
 
-    T operator /(const T& other) {
+    T operator /(const T& other) const {
       return static_cast<T*>(this)->get() / other.get();
     }
 
@@ -516,17 +534,17 @@ namespace rt {
     }
 
     template <class T1 = T> requires(TypeKind<T1>::code == TypeCode::Boolean)
-    operator bool() {
+    operator bool() const noexcept {
       return static_cast<T*>(this)->get();
     }
 
     template <class R> requires(IsPrimitive<R> && IsPrimitive<T>)
-    explicit operator R() {
+    explicit operator R() const {
       return static_cast<decltype(R().get())>(static_cast<T*>(this)->get());
     }
 
     template <class T1 = T> requires(IsPrimitive<T1>)
-    explicit operator void*() {
+    explicit operator void*() const noexcept {
       return static_cast<void*>(static_cast<T*>(this)->get());
     }
 
@@ -592,6 +610,11 @@ namespace rt {
     return *reinterpret_cast<A*>(&rt::Array<T>::newarr(n));
   }
 }  // namespace rt
+
+template <class T, class T1> requires(std::is_arithmetic_v<T> && rt::IsArithmetic<T1>) 
+inline auto operator *(const T& a, const T1& b) { 
+  return b * a;
+}
 
 #if defined(_MSC_VER)
   #pragma warning(disable:4674)

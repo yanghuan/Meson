@@ -82,7 +82,7 @@ namespace Meson.Compiler.CppAst {
 
   internal sealed class MemberAccessExpressionSyntax : ExpressionSyntax {
     public ExpressionSyntax Expression { get; private set; }
-    public ExpressionSyntax Name { get; }
+    public ExpressionSyntax Name { get; set; }
     public string OperatorToken { get; }
 
     public MemberAccessExpressionSyntax(ExpressionSyntax expression, ExpressionSyntax name, MemberAccessOperator kind) {

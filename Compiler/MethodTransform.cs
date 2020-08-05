@@ -366,7 +366,53 @@ namespace Meson.Compiler {
         }
       }
       var target = invocationExpression.Target.AcceptExpression(this);
+      CheckNoVisibleMethod(symbol, invocationExpression, ref target, arguments);
       return target.Invation(arguments);
+    }
+
+    private static bool IsParameterTypeSame(IReadOnlyList<IParameter> parameters, AstNodeCollection<Expression> arguments) {
+      if (parameters.Count == arguments.Count) {
+        int i = 0;
+        foreach (var argument in arguments) {
+          var parameter = parameters[i];
+          var resolveResult = argument.GetResolveResult();
+          if (resolveResult.Type.FullName != parameter.Type.FullName) {
+            return false;
+          }
+          ++i;
+        }
+        return true;
+      }
+      return false;
+    }
+
+    private void CheckNoVisibleMethod(IMethod symbol, InvocationExpression invocationExpression, ref ExpressionSyntax target, List<ExpressionSyntax> arguments) {
+      if (symbol.IsLocalFunction) {
+        return;
+      }
+      
+      var methods = symbol.DeclaringTypeDefinition.Methods.Where(i => i != symbol.MemberDefinition && i.Name == symbol.Name && i.Accessibility != Accessibility.Public);
+      var method = methods.FirstOrDefault(i => IsParameterTypeSame(i.Parameters, invocationExpression.Arguments));
+      if (method != null) {
+        if (symbol.TypeParameters.Count == 0) {
+          int i = 0;
+          foreach (var argument in invocationExpression.Arguments) {
+            var parameter = symbol.Parameters[i];
+            var resolveResult = argument.GetResolveResult();
+            if (resolveResult.Type.FullName != parameter.Type.FullName) {
+              var argumentExpression = arguments[i];
+              var parameterTypeExpression = GetTypeName(parameter.Type);
+              arguments[i] = argumentExpression.CastTo(parameterTypeExpression);
+            }
+            ++i;
+          }
+        } else {
+          if (target is MemberAccessExpressionSyntax memberAccess && !(memberAccess.Name is GenericIdentifierSyntax)) {
+            var typeArguments = symbol.TypeArguments.Select(i => GetTypeName(i));
+            memberAccess.Name = memberAccess.Name.Generic(typeArguments);
+          }
+        }
+      }
     }
 
     public SyntaxNode VisitIsExpression(IsExpression isExpression) {
