@@ -239,3 +239,9 @@ CLASS_(Array, T) : public rt::Array<T, Array<>::in> {
 template <class T1 = void, class T2 = void>
 using Array = ArrayNamespace::Array<T1, T2>;
 } // namespace System::Private::CoreLib::System
+namespace rt {
+template <class T>
+struct TypeKind<::System::Private::CoreLib::System::ArrayNamespace::Array___<T>> {
+  static constexpr TypeCode code = TypeCode::Array;
+};
+} // namespace rt

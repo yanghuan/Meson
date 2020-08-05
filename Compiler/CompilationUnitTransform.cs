@@ -16,7 +16,7 @@ namespace Meson.Compiler {
     private readonly Dictionary<ISymbol, NestedCycleRefTypeNameSyntax> nestedCycleRefNames_ = new Dictionary<ISymbol, NestedCycleRefTypeNameSyntax>();
     private readonly Dictionary<string, SymbolNameSyntax> typeBaseNames_ = new Dictionary<string, SymbolNameSyntax>();
     private readonly Dictionary<string, HashSet<ITypeDefinition>> sameBaseNames_ = new Dictionary<string, HashSet<ITypeDefinition>>();
-    
+
     public CompilationUnitTransform(AssemblyTransform assemblyTransform, List<ITypeDefinition> types) {
       AssemblyTransform = assemblyTransform;
       root_ = types.First();
@@ -90,8 +90,17 @@ namespace Meson.Compiler {
         case KnownTypeCode.Single:
         case KnownTypeCode.Double:
         case KnownTypeCode.String:
+        case KnownTypeCode.Array:
           NamespaceSyntax rt = new NamespaceSyntax(IdentifierSyntax.Meson);
-          ClassSyntax kindClass = new ClassSyntax(IdentifierSyntax.TypeKind.Generic(type.GetFullName()), true) { Template = new TemplateSyntax() };
+          ExpressionSyntax typeName = type.GetFullName();
+          TemplateSyntax template;
+          if (type.KnownTypeCode == KnownTypeCode.Array) {
+            typeName = typeName.Generic(IdentifierSyntax.T);
+            template = TemplateSyntax.T;
+          } else {
+            template = new TemplateSyntax();
+          }
+          ClassSyntax kindClass = new ClassSyntax(IdentifierSyntax.TypeKind.Generic(typeName), true) { Template = template };
           kindClass.Add(new FieldDefinitionSyntax(IdentifierSyntax.TypeCode, "code", true, null) {
             IsConstexpr = true,
             ConstantValue = IdentifierSyntax.TypeCode.TwoColon(type.KnownTypeCode.ToString()),
@@ -136,20 +145,20 @@ namespace Meson.Compiler {
         bool isEnumOfY = y.Type.Kind == TypeKind.Enum;
         if (isEnumOfX) {
           if (!isEnumOfY) {
-            return - 1;
+            return -1;
           } else {
             goto Out;
           }
         } else if (isEnumOfY) {
           return 1;
         }
-      Out:  
+      Out:
         return x.Type.Name.CompareTo(y.Type.Name);
       });
     }
 
     private void AddForwards(NamespaceSyntax rootNamespace, Dictionary<ITypeDefinition, StatementSyntax> forwards, StatementListSyntax usingsSyntax) {
-      var curs =  new List<(ITypeDefinition Type, StatementSyntax Forward)>();
+      var curs = new List<(ITypeDefinition Type, StatementSyntax Forward)>();
       var outs = new List<(ITypeDefinition Type, StatementSyntax Forward)>();
       foreach (var (type, forward) in forwards) {
         if (root_.IsSameNamespace(type)) {

@@ -24,7 +24,7 @@ using Object = ObjectNamespace::Object;
 } // namespace System::Private::CoreLib::System
 namespace rt {
 template <>
-struct TypeKind<::System::Private::CoreLib::System::Object> {
+struct TypeKind<::System::Private::CoreLib::System::Object::in> {
   static constexpr TypeCode code = TypeCode::Object;
 };
 } // namespace rt

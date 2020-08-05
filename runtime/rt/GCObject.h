@@ -28,6 +28,7 @@ namespace rt {
     Single = 13,
     Double = 14,
     Decimal = 15,
+    Array = 16,
   };
 
   template <class T>
@@ -37,7 +38,6 @@ namespace rt {
   
   class object;
   class string;
-  class Array_;
   template <class T>
   class ref;
 
@@ -81,14 +81,13 @@ namespace rt {
   static constexpr bool IsDerived = std::is_convertible<Derived*, Base*>::value;
 
   template <class T>
-  static constexpr bool IsString = IsDerived<string, T>;
+  static constexpr bool IsString = TypeKind<T>::code == TypeCode::String;
   
   template <class T>
-  static constexpr bool IsArray = IsDerived<Array_, T>;
+  static constexpr bool IsArray = TypeKind<T>::code == TypeCode::Array;
 
   template <class T>
   class GCObject : public GCObjectHead {
-    static constexpr bool IsSpeicalObject = IsString<T> || IsArray<T>;
   public:
     T* get() noexcept {
       return &v_;
@@ -105,8 +104,11 @@ namespace rt {
     GCObject(const TypeMetadata& klass) noexcept : GCObjectHead(klass) {}
 
     constexpr size_t GetAllocSize() noexcept {
-      if constexpr (IsSpeicalObject) {
+      if constexpr (IsArray<T>) {
         return get()->GetAllocSize();
+      }
+      if constexpr (IsString<T>) {
+        return reinterpret_cast<string*>(get())->GetAllocSize();
       }
       return sizeof(GCObject);
     }
@@ -121,9 +123,6 @@ namespace rt {
 
   template <class T, class T1>
   static constexpr bool IsEquatable = IsDerived<T, T1> || IsDerived<T1, T>;
-
-  template <class T, class T1>
-  static constexpr bool IsDerivedConvertible = IsDerived<T, T1>;
 
   template <class T>
   struct RefElementType {
@@ -148,17 +147,14 @@ namespace rt {
   };
 
   template <class T, class T1>
-  struct IsArrayConvertible__ {
+  struct IsArrayConvertible {
     using ElementTypeT = ArrayElementType<T>;
     using ElementTypeT1 = ArrayElementType<T1>;
-    static constexpr bool value = ElementTypeT1::value || IsDerived<ElementTypeT::type, ElementTypeT1::type>;
+    static constexpr bool value = ElementTypeT::value && ElementTypeT1::value && IsDerived<ElementTypeT::type, ElementTypeT1::type>;
   };
 
   template <class T, class T1>
-  static constexpr bool IsArrayConvertible = IsArray<T> && IsArray<T1> && IsArrayConvertible__<T, T1>::value;
-
-  template <class T, class T1>
-  static constexpr bool IsConvertible = IsDerivedConvertible<T, T1> || IsArrayConvertible<T, T1>;
+  static constexpr bool IsConvertible = IsDerived<T, T1> || IsArrayConvertible<T, T1>::value;
 
   template <class T>
   class ref {
@@ -368,7 +364,6 @@ namespace rt {
     static GCObject<string>* alloc(size_t n);
   };
 
-  class Array_ {};
   template <class T, class Base>
   class Array : public Base {
     struct array {
@@ -548,12 +543,12 @@ namespace rt {
       return static_cast<void*>(static_cast<T*>(this)->get());
     }
 
-    template <class R> requires(std::is_same_v<R, decltype(T::op_Explicit(T()))>)
+    template <class R, class T1 = T> requires(std::is_same_v<R, decltype(T1::op_Explicit(T1()))>)
     explicit operator R() {
       return T::op_Explicit(*static_cast<T*>(this));
     }
 
-    template <class R> requires(std::is_same_v<R, decltype(T::op_Explicit(T(), R()))>)
+    template <class R, class T1 = T> requires(std::is_same_v<R, decltype(T1::op_Explicit(T1(), R()))>)
     explicit operator R() {
       return T::op_Explicit(*static_cast<T*>(this), R());
     }
