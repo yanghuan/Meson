@@ -18,7 +18,8 @@ int main() {
 
   UIntPtr i(nullptr);
   UInt64 ii = (UInt64)i;
-
+  
+  a.ToString();
   return 0;
 }
 

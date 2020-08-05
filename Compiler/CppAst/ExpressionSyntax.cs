@@ -27,6 +27,10 @@ namespace Meson.Compiler.CppAst {
       return new MemberAccessExpressionSyntax(this, expression, MemberAccessOperator.Dot);
     }
 
+    internal MemberAccessExpressionSyntax WithIn() {
+      return TwoColon(IdentifierSyntax.In);
+    }
+
     internal CastExpressionSyntax CastTo(ExpressionSyntax target) {
       return new CastExpressionSyntax(this, target);
     }

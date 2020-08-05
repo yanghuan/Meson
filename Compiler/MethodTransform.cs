@@ -111,7 +111,7 @@ namespace Meson.Compiler {
       IdentifierSyntax ns = typeDefinition.GetFullNamespace();
       var typeName = GetTypeName(typeDefinition, typeDefinition, false);
       if (typeDefinition.IsRefType()) {
-        typeName = typeName.TwoColon(IdentifierSyntax.In);
+        typeName = typeName.WithIn();
       }
       var node = new MethodDefinitionSyntax("main", new ParameterSyntax[] {
         new ParameterSyntax("int", "argc"),
@@ -351,22 +351,20 @@ namespace Meson.Compiler {
       return defaultValue;
     }
 
-    private List<ExpressionSyntax> BuildInvocationArguments(InvocationExpression invocationExpression) {
-      var symbol = (IMethod)invocationExpression.GetSymbol();
+    private List<ExpressionSyntax> BuildInvocationArguments(IMethod symbol, InvocationExpression invocationExpression) {
       return BuildArguments(symbol, invocationExpression.Arguments);
     }
 
     public SyntaxNode VisitInvocationExpression(InvocationExpression invocationExpression) {
-      var arguments = BuildInvocationArguments(invocationExpression);
+      var symbol = (IMethod)invocationExpression.GetSymbol();
+      var arguments = BuildInvocationArguments(symbol, invocationExpression);
       if (invocationExpression.Target is MemberReferenceExpression memberReference) {
-        var method = (IMethod)invocationExpression.GetSymbol();
-        if (method.IsExtensionMethod) {
+        if (symbol.IsExtensionMethod) {
           var memberReferenceTarget = memberReference.Target.AcceptExpression(this);
           arguments.Insert(0, memberReferenceTarget);
-          return GetTypeName(method.DeclaringTypeDefinition).TwoColon(GetMemberName(method)).Invation(arguments);
+          return GetTypeName(symbol.DeclaringTypeDefinition).TwoColon(GetMemberName(symbol)).Invation(arguments);
         }
       }
-
       var target = invocationExpression.Target.AcceptExpression(this);
       return target.Invation(arguments);
     }
@@ -414,7 +412,7 @@ namespace Meson.Compiler {
             }
             if (member.IsStatic) {
               if (member.DeclaringTypeDefinition.IsRefType()) {
-                target = target.TwoColon(IdentifierSyntax.In);
+                target = target.WithIn();
               }
               return target.TwoColon(name);
             } else {

@@ -144,7 +144,7 @@ namespace Meson.Compiler {
             Definition = type,
             IsInHead = true,
           });
-          node.Bases.Add(new BaseSyntax(baseTypeName.TwoColon(IdentifierSyntax.In)));
+          node.Bases.Add(new BaseSyntax(baseTypeName.WithIn()));
         }
       }
       parent_.Add(node);
@@ -153,7 +153,7 @@ namespace Meson.Compiler {
           Template = TemplateSyntax.T,
           Kind = ClassKind.MultiRef,
         };
-        var baseType = IdentifierSyntax.Meson.TwoColon(((IdentifierSyntax)type.Name).Generic(IdentifierSyntax.T, node.Name.Generic().TwoColon(IdentifierSyntax.In)));
+        var baseType = IdentifierSyntax.Meson.TwoColon(((IdentifierSyntax)type.Name).Generic(IdentifierSyntax.T, node.Name.Generic().WithIn()));
         array.Bases.Add(new BaseSyntax(baseType));
         parent_.Add(array);
       }

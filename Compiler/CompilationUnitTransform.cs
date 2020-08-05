@@ -124,7 +124,7 @@ namespace Meson.Compiler {
       rootNamespace.Add(usingDeclaration);
       if (root_.KnownTypeCode == KnownTypeCode.ValueType) {
         ClassSyntax valueType = new ClassSyntax(root_.Name.FirstCharLow(), true) { Template = TemplateSyntax.T };
-        var baseType = IdentifierSyntax.Meson.TwoColon(root_.Name).Generic(IdentifierSyntax.T, name.TwoColon(IdentifierSyntax.In));
+        var baseType = IdentifierSyntax.Meson.TwoColon(root_.Name).Generic(IdentifierSyntax.T, name.WithIn());
         valueType.Bases.Add(new BaseSyntax(baseType));
         rootNamespace.Add(valueType);
       }
@@ -342,7 +342,7 @@ namespace Meson.Compiler {
         if (declaringType != null && (args.Definition == null || !AssemblyTransform.IsInternalMemberType(args.Type, args.Definition))) {
           var outTypeName = GetTypeName(args.With(declaringType, false));
           if (declaringType.GetDefinition().IsRefType()) {
-            outTypeName = outTypeName.TwoColon(IdentifierSyntax.In);
+            outTypeName = outTypeName.WithIn();
           }
           return outTypeName.TwoColon(typeName);
         }
