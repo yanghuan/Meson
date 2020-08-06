@@ -131,12 +131,13 @@ namespace rt {
     GCObject(const TypeMetadata& klass) noexcept : GCObjectHead(klass) {}
 
     constexpr size_t GetAllocSize() noexcept {
+      /*
       if constexpr (IsArray<T>) {
         return get()->GetAllocSize();
       }
       if constexpr (IsString<T>) {
         return reinterpret_cast<string*>(get())->GetAllocSize();
-      }
+      }*/
       return sizeof(GCObject);
     }
 
