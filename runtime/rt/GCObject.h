@@ -81,10 +81,13 @@ namespace rt {
   static constexpr bool IsDerived = std::is_convertible<Derived*, Base*>::value;
 
   template <class T>
+  static constexpr bool IsObject = TypeKind<T>::code == TypeCode::Object;
+
+  template <class T>
   static constexpr bool IsString = TypeKind<T>::code == TypeCode::String;
   
   template <class T>
-  static constexpr bool IsArray = TypeKind<T>::code == TypeCode::Array;
+  static constexpr bool IsArray = TypeKind<ref<T>>::code == TypeCode::Array;
 
   template <class T>
   class GCObject : public GCObjectHead {

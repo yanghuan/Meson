@@ -241,7 +241,11 @@ using Array = ArrayNamespace::Array<T1, T2>;
 } // namespace System::Private::CoreLib::System
 namespace rt {
 template <class T>
-struct TypeKind<::System::Private::CoreLib::System::ArrayNamespace::Array___<T>> {
+struct TypeKind<::System::Private::CoreLib::System::Array<T, void>> {
+  static constexpr TypeCode code = TypeCode::Array;
+};
+template <class T>
+struct TypeKind<::System::Private::CoreLib::System::Array<ref<T>, void>> {
   static constexpr TypeCode code = TypeCode::Array;
 };
 } // namespace rt
