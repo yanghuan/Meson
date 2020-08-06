@@ -27,8 +27,7 @@ namespace rt {
     UInt64 = 12,
     Single = 13,
     Double = 14,
-    Decimal = 15,
-    Array = 16,
+    Array = 15,
   };
 
   template <class T>
@@ -85,9 +84,27 @@ namespace rt {
 
   template <class T>
   static constexpr bool IsString = TypeKind<T>::code == TypeCode::String;
+
+  template <typename, typename = void>
+  struct has_array_code : std::false_type {
+  };
+
+  /*
+  template <typename T>
+  struct has_array_code<T, std::void_t<decltype(T::code == TypeCode::Array)>> : std::true_type {
+  };
+
+  template <typename T>
+  struct has_array_code<T, std::void_t<decltype(T::code)>> : std::is_same<bool, decltype(T::code == TypeCode::Array)>
+  {};*/
+
+
+  template <typename T>
+  struct has_array_code<T, std::void_t<decltype(T::code == TypeCode::Array)>> : std::true_type {
+  };
   
   template <class T>
-  static constexpr bool IsArray = TypeKind<ref<T>>::code == TypeCode::Array;
+  static constexpr bool IsArray = has_array_code<T>::value;
 
   template <class T>
   class GCObject : public GCObjectHead {
@@ -375,6 +392,7 @@ namespace rt {
     };
   public:
     using element_type = T;
+    static constexpr TypeCode code = TypeCode::Array;
 
     ~Array() noexcept {
       for (const T& i : *this) {

@@ -90,17 +90,12 @@ namespace Meson.Compiler {
         case KnownTypeCode.Single:
         case KnownTypeCode.Double:
         case KnownTypeCode.String:
-        case KnownTypeCode.Array:
           NamespaceSyntax rt = new NamespaceSyntax(IdentifierSyntax.Meson);
           ExpressionSyntax typeName = type.GetFullName();
-          TemplateSyntax template;
-          if (type.KnownTypeCode == KnownTypeCode.Array) {
-            typeName = typeName.Generic(IdentifierSyntax.T);
-            template = TemplateSyntax.T;
-          } else {
-            template = new TemplateSyntax();
+          if (type.IsReferenceType == true) {
+            typeName = typeName.WithIn();
           }
-          ClassSyntax kindClass = new ClassSyntax(IdentifierSyntax.TypeKind.Generic(typeName), true) { Template = template };
+          ClassSyntax kindClass = new ClassSyntax(IdentifierSyntax.TypeKind.Generic(typeName), true) { Template = new TemplateSyntax() };
           kindClass.Add(new FieldDefinitionSyntax(IdentifierSyntax.TypeCode, "code", true, null) {
             IsConstexpr = true,
             ConstantValue = IdentifierSyntax.TypeCode.TwoColon(type.KnownTypeCode.ToString()),

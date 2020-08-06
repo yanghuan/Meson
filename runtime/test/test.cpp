@@ -15,27 +15,24 @@
 using namespace System::Private::CoreLib::System;
 
 int main() {
-  using T = rt::IsArrayConvertible<Array<String>::in, Array<Object>::in>;
-  constexpr bool tttt = T::value;
+  constexpr auto code = Array<String>::in::code;
+  constexpr bool ttt = rt::IsArray<Array<String>::in>;
+  constexpr bool bbb = rt::IsArray<rt::Array<int, rt::string>>;
 
-  constexpr int aa = (int)rt::TypeKind<Array<String>>::code;
-  std::cout <<  "aa:" << aa << std::endl;
+  std::cout << "code:" << (int)code << " " << ttt << ":" << bbb << std::endl;
 
-  constexpr int bb = (int)rt::TypeKind<Array<int>>::code;
-  std::cout <<  "bb:" << bb << std::endl;
+  //Array<String> s = nullptr;
+  //auto i = s->aaaa;
 
   Int32 a = 10;
   std::cout << sizeof(a);
 
-  String s = "ddd";
-  s = s + "aaa";
+  //String s = "ddd";
+  //s = s + "aaa";
 
-  std::cout << ((char*)s.get() + 4);
+  //std::cout << ((char*)s.get() + 4);
   //Array<String> arr = nullptr;
   //Array<Object> bb = arr;
-
-
-
   return 0;
 }
 

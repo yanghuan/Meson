@@ -35,8 +35,17 @@ using namespace Reflection;
 template <class T>
 using IComparer = Collections::Generic::IComparer<T>;
 using IComparer1 = Collections::IComparer;
-CLASS_FORWARD(Array, T1, T2)
-CLASS_(Array, T1);
+//CLASS_FORWARD(Array, T1, T2)
+//CLASS_(Array, T1);
+template <class T1 = void, class T2 = void>
+class Array___ {};
+
+template <class T1>
+class Array___<T1>;
+
+template <class T1 = void, class T2 = void>
+using Array = rt::ref<Array___<T1, T2>>;
+
 CLASS_(Array) : public Object::in {
   private: template <class T>
   class EmptyArray {
@@ -234,18 +243,9 @@ CLASS_(Array) : public Object::in {
   public: IEnumerator GetEnumerator();
 };
 CLASS_(Array, T) : public rt::Array<T, Array<>::in> {
+  public: int aaaa;
 };
 } // namespace ArrayNamespace
 template <class T1 = void, class T2 = void>
 using Array = ArrayNamespace::Array<T1, T2>;
 } // namespace System::Private::CoreLib::System
-namespace rt {
-template <class T>
-struct TypeKind<::System::Private::CoreLib::System::Array<T, void>> {
-  static constexpr TypeCode code = TypeCode::Array;
-};
-template <class T>
-struct TypeKind<::System::Private::CoreLib::System::Array<ref<T>, void>> {
-  static constexpr TypeCode code = TypeCode::Array;
-};
-} // namespace rt
