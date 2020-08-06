@@ -76,6 +76,14 @@ namespace rt {
     friend class ref;
   };
 
+  template <class T, class = void>
+  struct IsComplete : std::false_type {
+  };
+
+  template <class T>
+  struct IsComplete< T, decltype(void(sizeof(T))) > : std::true_type {
+  };
+
   template <class Base, class Derived>
   static constexpr bool IsDerived = std::is_convertible<Derived*, Base*>::value;
 
@@ -96,15 +104,14 @@ namespace rt {
 
   template <typename T>
   struct has_array_code<T, std::void_t<decltype(T::code)>> : std::is_same<bool, decltype(T::code == TypeCode::Array)>
-  {};*/
-
+  {};
+  */
 
   template <typename T>
   struct has_array_code<T, std::void_t<decltype(T::code == TypeCode::Array)>> : std::true_type {
   };
-  
-  template <class T>
-  static constexpr bool IsArray = has_array_code<T>::value;
+
+  template <class T> static constexpr bool IsArray = has_array_code<T>::value;
 
   template <class T>
   class GCObject : public GCObjectHead {
@@ -158,6 +165,7 @@ namespace rt {
 
   template <class T>
   struct ArrayElementType {
+    static_assert(IsComplete<T>::value, "not complete type");
     struct __Type {
       struct element_type;
     };
@@ -227,8 +235,8 @@ namespace rt {
       return *this;
     }
 
-    template <class T1> requires(IsConvertible<T, T1>)
-    ref& operator = (const ref<T1>& right) noexcept {
+    template <class T1> requires(!std::is_same_v<T, T1> && IsConvertible<T, T1>)
+    ref& operator =(const ref<T1>& right) noexcept {
       ref(p_);
       copyOf(right);
       return *this;

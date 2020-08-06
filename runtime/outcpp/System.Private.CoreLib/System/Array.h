@@ -35,8 +35,10 @@ using namespace Reflection;
 template <class T>
 using IComparer = Collections::Generic::IComparer<T>;
 using IComparer1 = Collections::IComparer;
-//CLASS_FORWARD(Array, T1, T2)
-//CLASS_(Array, T1);
+CLASS_FORWARD(Array, T1, T2)
+CLASS_(Array, T1);
+
+/*
 template <class T1 = void, class T2 = void>
 class Array___ {};
 
@@ -45,6 +47,7 @@ class Array___<T1>;
 
 template <class T1 = void, class T2 = void>
 using Array = rt::ref<Array___<T1, T2>>;
+*/
 
 CLASS_(Array) : public Object::in {
   private: template <class T>
