@@ -553,7 +553,7 @@ namespace rt {
       return static_cast<T*>(this)->get();
     }
 
-    template <class R> requires(IsPrimitive<R> && IsPrimitive<T>)
+    template <class R, class T1 = T> requires(IsPrimitive<R> && IsPrimitive<T1>)
     explicit operator R() const {
       return static_cast<decltype(R().get())>(static_cast<T*>(this)->get());
     }
@@ -608,10 +608,9 @@ namespace rt {
 
   template <class T, class... Args>
   inline T newobj(Args&&... args) {
-    /*
-    if constexpr (IsString<T>) { 
+    if constexpr (IsString<T::in>) { 
       return T::in::Ctor(std::forward<Args>(args)...); 
-    }*/
+    }
     return rt::object::newobj<T>(std::forward<Args>(args)...);
   }
 

@@ -17,8 +17,7 @@ using namespace System::Private::CoreLib::System;
 
 class No_Complete;
 
-int main() {
-  #if 1
+void testIsArray() {
   using TArray = ArrayNamespace::Array___<String>;
   constexpr auto code = TArray::code;
   constexpr bool ttt = std::is_same<bool, decltype(TArray::code == rt::TypeCode::Array)>::value;
@@ -28,9 +27,15 @@ int main() {
   constexpr bool ff = rt::IsArray<String::in>;
   constexpr bool gg = rt::IsComplete<No_Complete>::value;
   constexpr bool hh = rt::IsComplete<int>::value;
-
   std::printf("code:%d, tt:%d, bb:%d, cc:%d, ee:%d ff:%d \n", code, ttt, bbb, cc, ee, ff);
+}
 
+int main() {
+  Array<>::in* p = nullptr;
+  Array<> arr = (Array<>)p;
+
+
+  #if 1
   //Array<String> s = nullptr;
   //auto i = s->aaaa;
 
@@ -44,8 +49,8 @@ int main() {
   Array<String> arr = nullptr;
   Array<Object> bb = arr;
   //Array<int> k = arr;
-
   #endif
+
   return 0;
 }
 
