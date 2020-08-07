@@ -48,13 +48,8 @@ struct UInt16 : public valueType<UInt16> {
   private: uint16_t m_value;
   public: static constexpr uint16_t MaxValue = 65535;
   public: static constexpr uint16_t MinValue = 0;
+  public: static constexpr rt::TypeCode code = rt::TypeCode::UInt16;
 };
 } // namespace UInt16Namespace
 using UInt16 = UInt16Namespace::UInt16;
 } // namespace System::Private::CoreLib::System
-namespace rt {
-template <>
-struct TypeKind<::System::Private::CoreLib::System::UInt16> {
-  static constexpr TypeCode code = TypeCode::UInt16;
-};
-} // namespace rt

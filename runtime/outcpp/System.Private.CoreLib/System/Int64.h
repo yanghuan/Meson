@@ -45,13 +45,8 @@ struct Int64 : public valueType<Int64> {
   private: int64_t m_value;
   public: static constexpr int64_t MaxValue = 9223372036854775807;
   public: static constexpr int64_t MinValue = -9223372036854775808;
+  public: static constexpr rt::TypeCode code = rt::TypeCode::Int64;
 };
 } // namespace Int64Namespace
 using Int64 = Int64Namespace::Int64;
 } // namespace System::Private::CoreLib::System
-namespace rt {
-template <>
-struct TypeKind<::System::Private::CoreLib::System::Int64> {
-  static constexpr TypeCode code = TypeCode::Int64;
-};
-} // namespace rt

@@ -96,13 +96,8 @@ struct Char : public valueType<Char> {
   private: char8_t m_value;
   public: static constexpr char8_t MaxValue = 65535;
   public: static constexpr char8_t MinValue = 0;
+  public: static constexpr rt::TypeCode code = rt::TypeCode::Char;
 };
 } // namespace CharNamespace
 using Char = CharNamespace::Char;
 } // namespace System::Private::CoreLib::System
-namespace rt {
-template <>
-struct TypeKind<::System::Private::CoreLib::System::Char> {
-  static constexpr TypeCode code = TypeCode::Char;
-};
-} // namespace rt

@@ -48,13 +48,8 @@ struct Byte : public valueType<Byte> {
   private: uint8_t m_value;
   public: static constexpr uint8_t MaxValue = 255;
   public: static constexpr uint8_t MinValue = 0;
+  public: static constexpr rt::TypeCode code = rt::TypeCode::Byte;
 };
 } // namespace ByteNamespace
 using Byte = ByteNamespace::Byte;
 } // namespace System::Private::CoreLib::System
-namespace rt {
-template <>
-struct TypeKind<::System::Private::CoreLib::System::Byte> {
-  static constexpr TypeCode code = TypeCode::Byte;
-};
-} // namespace rt

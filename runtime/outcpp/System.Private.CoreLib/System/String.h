@@ -270,13 +270,8 @@ CLASS(String) : public Object::in {
   public: static String Empty;
   private: Int32 _stringLength;
   private: Char _firstChar;
+  public: static constexpr rt::TypeCode code = rt::TypeCode::String;
 };
 } // namespace StringNamespace
 using String = StringNamespace::String;
 } // namespace System::Private::CoreLib::System
-namespace rt {
-template <>
-struct TypeKind<::System::Private::CoreLib::System::String::in> {
-  static constexpr TypeCode code = TypeCode::String;
-};
-} // namespace rt

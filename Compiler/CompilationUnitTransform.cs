@@ -69,43 +69,10 @@ namespace Meson.Compiler {
           CompilationUnit.AddEnumHeadInclude();
         }
       }
-
       CompilationUnit.AddNamespaceClose();
-      CheckSpeicalTypeKind(root_);
     }
 
-    private void CheckSpeicalTypeKind(ITypeDefinition type) {
-      switch (type.KnownTypeCode) {
-        case KnownTypeCode.Object:
-        case KnownTypeCode.Boolean:
-        case KnownTypeCode.Char:
-        case KnownTypeCode.SByte:
-        case KnownTypeCode.Byte:
-        case KnownTypeCode.Int16:
-        case KnownTypeCode.UInt16:
-        case KnownTypeCode.Int32:
-        case KnownTypeCode.UInt32:
-        case KnownTypeCode.Int64:
-        case KnownTypeCode.UInt64:
-        case KnownTypeCode.Single:
-        case KnownTypeCode.Double:
-        case KnownTypeCode.String:
-          NamespaceSyntax rt = new NamespaceSyntax(IdentifierSyntax.Meson);
-          ExpressionSyntax typeName = type.GetFullName();
-          if (type.IsReferenceType == true) {
-            typeName = typeName.WithIn();
-          }
-          ClassSyntax kindClass = new ClassSyntax(IdentifierSyntax.TypeKind.Generic(typeName), true) { Template = new TemplateSyntax() };
-          kindClass.Add(new FieldDefinitionSyntax(IdentifierSyntax.TypeCode, "code", true, null) {
-            IsConstexpr = true,
-            ConstantValue = IdentifierSyntax.TypeCode.TwoColon(type.KnownTypeCode.ToString()),
-          });
-          rt.Add(kindClass);
-          CompilationUnit.HeadStatements.Add(rt);
-          break;
-      }
-    }
-
+  
     private void AddTypeUsingDeclaration(NamespaceSyntax rootNamespace, NamespaceSyntax classNamespace, TypeDefinitionTransform typeDefinition, IEnumerable<ITypeDefinition> types) {
       IdentifierSyntax name = root_.Name;
       ExpressionSyntax type = ((IdentifierSyntax)classNamespace.Name).TwoColon(name);

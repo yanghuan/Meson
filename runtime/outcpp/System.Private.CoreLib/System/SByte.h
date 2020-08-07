@@ -48,13 +48,8 @@ struct SByte : public valueType<SByte> {
   private: int8_t m_value;
   public: static constexpr int8_t MaxValue = 127;
   public: static constexpr int8_t MinValue = -128;
+  public: static constexpr rt::TypeCode code = rt::TypeCode::SByte;
 };
 } // namespace SByteNamespace
 using SByte = SByteNamespace::SByte;
 } // namespace System::Private::CoreLib::System
-namespace rt {
-template <>
-struct TypeKind<::System::Private::CoreLib::System::SByte> {
-  static constexpr TypeCode code = TypeCode::SByte;
-};
-} // namespace rt

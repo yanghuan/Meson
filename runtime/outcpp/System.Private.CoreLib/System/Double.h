@@ -68,13 +68,8 @@ struct Double : public valueType<Double> {
   public: static constexpr double NegativeInfinity = rt::NegativeInfinity<double>;
   public: static constexpr double PositiveInfinity = rt::PositiveInfinity<double>;
   public: static constexpr double NaN = rt::NaN<double>;
+  public: static constexpr rt::TypeCode code = rt::TypeCode::Double;
 };
 } // namespace DoubleNamespace
 using Double = DoubleNamespace::Double;
 } // namespace System::Private::CoreLib::System
-namespace rt {
-template <>
-struct TypeKind<::System::Private::CoreLib::System::Double> {
-  static constexpr TypeCode code = TypeCode::Double;
-};
-} // namespace rt

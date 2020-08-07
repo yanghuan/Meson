@@ -145,6 +145,9 @@ namespace Meson.Compiler {
             IsInHead = true,
           });
           node.Bases.Add(new BaseSyntax(baseTypeName.WithIn()));
+        } else {
+          Contract.Assert(type.IsKnownType(KnownTypeCode.Object));
+          node.Bases.Add(new BaseSyntax(IdentifierSyntax.Meson.TwoColon(type.Name.FirstCharLow())));
         }
       }
       parent_.Add(node);
@@ -571,6 +574,30 @@ namespace Meson.Compiler {
       VisitPropertys(type, node);
       VisitMethods(type, node);
       VisitFields(type, node);
+      AddTypeCode(type, node);
+    }
+
+    private void AddTypeCode(ITypeDefinition type, ClassSyntax node) {
+      switch (type.KnownTypeCode) {
+        case KnownTypeCode.Boolean:
+        case KnownTypeCode.Char:
+        case KnownTypeCode.SByte:
+        case KnownTypeCode.Byte:
+        case KnownTypeCode.Int16:
+        case KnownTypeCode.UInt16:
+        case KnownTypeCode.Int32:
+        case KnownTypeCode.UInt32:
+        case KnownTypeCode.Int64:
+        case KnownTypeCode.UInt64:
+        case KnownTypeCode.Single:
+        case KnownTypeCode.Double:
+        case KnownTypeCode.String:
+          node.Add(new FieldDefinitionSyntax(IdentifierSyntax.TypeCode, "code", true, Accessibility.Public.ToTokenString()) { 
+            IsConstexpr = true,
+            ConstantValue = IdentifierSyntax.TypeCode.TwoColon(type.Name),
+          });
+          break;
+      }
     }
 
     private BlockSyntax GetBrotherTypeParnetBlock(ITypeDefinition brotherType) {

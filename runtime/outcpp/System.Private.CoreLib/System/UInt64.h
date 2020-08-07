@@ -45,13 +45,8 @@ struct UInt64 : public valueType<UInt64> {
   private: uint64_t m_value;
   public: static constexpr uint64_t MaxValue = 18446744073709551615;
   public: static constexpr uint64_t MinValue = 0;
+  public: static constexpr rt::TypeCode code = rt::TypeCode::UInt64;
 };
 } // namespace UInt64Namespace
 using UInt64 = UInt64Namespace::UInt64;
 } // namespace System::Private::CoreLib::System
-namespace rt {
-template <>
-struct TypeKind<::System::Private::CoreLib::System::UInt64> {
-  static constexpr TypeCode code = TypeCode::UInt64;
-};
-} // namespace rt

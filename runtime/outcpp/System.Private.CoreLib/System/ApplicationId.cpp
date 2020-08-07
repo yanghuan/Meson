@@ -1,5 +1,7 @@
 #include "ApplicationId-dep.h"
 
+#include <System.Private.CoreLib/System/ApplicationId-dep.h>
+
 namespace System::Private::CoreLib::System::ApplicationIdNamespace {
 Array<Byte> ApplicationId___::get_PublicKeyToken() {
   return Array<Byte>();

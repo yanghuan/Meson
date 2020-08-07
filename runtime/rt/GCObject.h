@@ -30,11 +30,6 @@ namespace rt {
     Array = 15,
   };
 
-  template <class T>
-  struct TypeKind {
-    static constexpr TypeCode code = TypeCode::None;
-  };
-  
   class object;
   class string;
   template <class T>
@@ -81,37 +76,33 @@ namespace rt {
   };
 
   template <class T>
-  struct IsComplete< T, decltype(void(sizeof(T))) > : std::true_type {
+  struct IsComplete<T, decltype(void(sizeof(T))) > : std::true_type {
   };
 
   template <class Base, class Derived>
   static constexpr bool IsDerived = std::is_convertible<Derived*, Base*>::value;
 
-  template <class T>
-  static constexpr bool IsObject = TypeKind<T>::code == TypeCode::Object;
-
-  template <class T>
-  static constexpr bool IsString = TypeKind<T>::code == TypeCode::String;
-
   template <typename, typename = void>
-  struct has_array_code : std::false_type {
-  };
-
-  /*
-  template <typename T>
-  struct has_array_code<T, std::void_t<decltype(T::code == TypeCode::Array)>> : std::true_type {
+  struct GetTypeCode {
+    static constexpr TypeCode value = TypeCode::None;
   };
 
   template <typename T>
-  struct has_array_code<T, std::void_t<decltype(T::code)>> : std::is_same<bool, decltype(T::code == TypeCode::Array)>
-  {};
-  */
-
-  template <typename T>
-  struct has_array_code<T, std::void_t<decltype(T::code == TypeCode::Array)>> : std::true_type {
+  struct GetTypeCode<T, std::void_t<decltype(T::code != TypeCode::None)>> {
+    static constexpr TypeCode value = T::code;
   };
 
-  template <class T> static constexpr bool IsArray = has_array_code<T>::value;
+  template <class T>
+  static constexpr TypeCode CodeOf = GetTypeCode<T>::value;
+
+  template <class T>
+  static constexpr bool IsObject = std::is_base_of_v<object, T>;
+
+  template <class T> 
+  static constexpr bool IsString = CodeOf<T> == TypeCode::String;
+
+  template <class T> 
+  static constexpr bool IsArray = CodeOf<T> == TypeCode::Array;
 
   template <class T>
   class GCObject : public GCObjectHead {
@@ -131,13 +122,12 @@ namespace rt {
     GCObject(const TypeMetadata& klass) noexcept : GCObjectHead(klass) {}
 
     constexpr size_t GetAllocSize() noexcept {
-      /*
       if constexpr (IsArray<T>) {
         return get()->GetAllocSize();
       }
       if constexpr (IsString<T>) {
         return reinterpret_cast<string*>(get())->GetAllocSize();
-      }*/
+      }
       return sizeof(GCObject);
     }
 
@@ -205,7 +195,7 @@ namespace rt {
     ref(const ref<T1>& other) noexcept {
       copyOf(other);
     }
-
+  
     template <class T1 = T> requires(IsString<T1>)
     ref(const char* str) {
       moveOf(string::load(str));
@@ -463,10 +453,10 @@ namespace rt {
   static constexpr float NegativeInfinity = 0b11111111100000000000000000000000;
 
   template <class T>
-  static constexpr bool IsPrimitive = TypeKind<T>::code != TypeCode::None;
+  static constexpr bool IsPrimitive = CodeOf<T> != TypeCode::None;
 
   template <class T>
-  static constexpr bool IsArithmetic = TypeKind<T>::code >= TypeCode::Char && TypeKind<T>::code <= TypeCode::Double;
+  static constexpr bool IsArithmetic = CodeOf<T> >= TypeCode::Char && CodeOf<T> <= TypeCode::Double;
 
   template <class T, class Base>
   struct ValueType : public Base {
@@ -529,36 +519,36 @@ namespace rt {
     }
 
     template <class T1 = T> requires(IsArithmetic<T1>) 
-    T1 operator ++() {
-      auto p = static_cast<T1*>(this);
+    T operator ++() {
+      auto p = static_cast<T*>(this);
       ++p->get();
       return *p;
     }
 
     template <class T1 = T> requires(IsArithmetic<T1>) 
-    T1 operator ++(int) {
-      auto p = static_cast<T1*>(this);
-      T1 tmp = *p;
+    T operator ++(int) {
+      auto p = static_cast<T*>(this);
+      T tmp = *p;
       ++p->get();
       return tmp;
     }
 
     template <class T1 = T> requires(IsArithmetic<T1>) 
-    T1 operator --() {
-      auto p = static_cast<T1*>(this);
+    T operator --() {
+      auto p = static_cast<T*>(this);
       --p->get();
       return *p;
     }
 
     template <class T1 = T> requires(IsArithmetic<T1>) 
-    T1 operator --(int) {
-      auto p = static_cast<T1*>(this);
-      T1 tmp = *p;
+    T operator --(int) {
+      auto p = static_cast<T*>(this);
+      T tmp = *p;
       --p->get();
       return tmp;
     }
 
-    template <class T1 = T> requires(TypeKind<T1>::code == TypeCode::Boolean)
+    template <class T1 = T> requires(CodeOf<T1> == TypeCode::Boolean)
     operator bool() const noexcept {
       return static_cast<T*>(this)->get();
     }
@@ -618,9 +608,10 @@ namespace rt {
 
   template <class T, class... Args>
   inline T newobj(Args&&... args) {
+    /*
     if constexpr (IsString<T>) { 
       return T::in::Ctor(std::forward<Args>(args)...); 
-    }
+    }*/
     return rt::object::newobj<T>(std::forward<Args>(args)...);
   }
 

@@ -68,13 +68,8 @@ struct Single : public valueType<Single> {
   public: static constexpr float PositiveInfinity = rt::PositiveInfinity<float>;
   public: static constexpr float NegativeInfinity = rt::NegativeInfinity<float>;
   public: static constexpr float NaN = rt::NaN<float>;
+  public: static constexpr rt::TypeCode code = rt::TypeCode::Single;
 };
 } // namespace SingleNamespace
 using Single = SingleNamespace::Single;
 } // namespace System::Private::CoreLib::System
-namespace rt {
-template <>
-struct TypeKind<::System::Private::CoreLib::System::Single> {
-  static constexpr TypeCode code = TypeCode::Single;
-};
-} // namespace rt

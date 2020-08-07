@@ -25,7 +25,7 @@ int main() {
   constexpr bool bbb = rt::IsArray<rt::Array<String, rt::string>>;
   constexpr bool cc = rt::IsArray<TArray>;
   constexpr bool ee = rt::IsArray<Array<int>::in>;
-  constexpr bool ff = rt::IsArray<String>;
+  constexpr bool ff = rt::IsArray<String::in>;
   constexpr bool gg = rt::IsComplete<No_Complete>::value;
   constexpr bool hh = rt::IsComplete<int>::value;
 
@@ -37,8 +37,8 @@ int main() {
   Int32 a = 10;
   std::printf("sizeof(int):%zd", sizeof(a));
 
-  //String s = "ddd";
-  //s = s + "aaa";
+  String s = "ddd";
+  s = s + "aaa";
 
   //std::cout << ((char*)s.get() + 4);
   Array<String> arr = nullptr;

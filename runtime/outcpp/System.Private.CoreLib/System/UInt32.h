@@ -45,13 +45,8 @@ struct UInt32 : public valueType<UInt32> {
   private: uint32_t m_value;
   public: static constexpr uint32_t MaxValue = 4294967295u;
   public: static constexpr uint32_t MinValue = 0u;
+  public: static constexpr rt::TypeCode code = rt::TypeCode::UInt32;
 };
 } // namespace UInt32Namespace
 using UInt32 = UInt32Namespace::UInt32;
 } // namespace System::Private::CoreLib::System
-namespace rt {
-template <>
-struct TypeKind<::System::Private::CoreLib::System::UInt32> {
-  static constexpr TypeCode code = TypeCode::UInt32;
-};
-} // namespace rt

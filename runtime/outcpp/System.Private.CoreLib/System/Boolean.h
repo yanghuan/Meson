@@ -37,13 +37,8 @@ struct Boolean : public valueType<Boolean> {
   private: bool m_value;
   public: static String TrueString;
   public: static String FalseString;
+  public: static constexpr rt::TypeCode code = rt::TypeCode::Boolean;
 };
 } // namespace BooleanNamespace
 using Boolean = BooleanNamespace::Boolean;
 } // namespace System::Private::CoreLib::System
-namespace rt {
-template <>
-struct TypeKind<::System::Private::CoreLib::System::Boolean> {
-  static constexpr TypeCode code = TypeCode::Boolean;
-};
-} // namespace rt

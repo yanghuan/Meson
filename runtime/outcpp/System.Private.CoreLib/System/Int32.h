@@ -44,13 +44,8 @@ struct Int32 : public valueType<Int32> {
   private: int32_t m_value;
   public: static constexpr int32_t MaxValue = 2147483647;
   public: static constexpr int32_t MinValue = -2147483648;
+  public: static constexpr rt::TypeCode code = rt::TypeCode::Int32;
 };
 } // namespace Int32Namespace
 using Int32 = Int32Namespace::Int32;
 } // namespace System::Private::CoreLib::System
-namespace rt {
-template <>
-struct TypeKind<::System::Private::CoreLib::System::Int32> {
-  static constexpr TypeCode code = TypeCode::Int32;
-};
-} // namespace rt
