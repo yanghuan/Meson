@@ -118,6 +118,10 @@ namespace rt {
       }
     }
 
+    static GCObject<T>* From(T* p) {
+      return ((void*)p) - sizeof(GCObjectHead);
+    }
+
   private:
     GCObject(const TypeMetadata& klass) noexcept : GCObjectHead(klass) {}
 
@@ -182,10 +186,9 @@ namespace rt {
     using in = T;
 
     constexpr ref() noexcept : p_(nullptr)  {}
-
     constexpr ref(nullptr_t) noexcept : p_(nullptr) {}
-
     explicit ref(GCObject* p) noexcept : p_(p) {}
+    explicit ref(T* p) noexcept : p_(GCObject::From(p)) {}
 
     ref(const ref& other) noexcept {
       copyOf(other);
@@ -553,6 +556,11 @@ namespace rt {
       return static_cast<T*>(this)->get();
     }
 
+    template <class R, class T1 = T> requires(CodeOf<T1> == TypeCode::Int32 && CodeOf<R> == TypeCode::Int64)
+    operator R() {
+      return static_cast<T*>(this)->get();
+    }
+
     template <class R, class T1 = T> requires(IsPrimitive<R> && IsPrimitive<T1>)
     explicit operator R() const {
       return static_cast<decltype(R().get())>(static_cast<T*>(this)->get());
@@ -619,10 +627,10 @@ namespace rt {
     //throw_exception(newobj<Ex>(std::forward<Args>(args)...));
   }
 
-  template <class A>
-  inline auto newarr(int32_t n) {
+  template <class A, class Size>
+  inline auto newarr(const Size& n) {
     using T = A::in::element_type;
-    return *reinterpret_cast<A*>(&rt::Array<T>::newarr(n));
+    return *reinterpret_cast<A*>(&rt::Array<T, object>::newarr(n.get()));
   }
 }  // namespace rt
 

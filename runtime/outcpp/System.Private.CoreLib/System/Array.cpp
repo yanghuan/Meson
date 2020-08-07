@@ -236,8 +236,8 @@ void Array___<>::Copy(Array<> sourceArray, Array<> destinationArray, Int32 lengt
   MethodTable* methodTable = RuntimeHelpers::GetMethodTable(sourceArray);
   if (methodTable == RuntimeHelpers::GetMethodTable(destinationArray) && !methodTable->get_IsMultiDimensionalArray() && (UInt64)(UInt32)length <= (UInt64)(UIntPtr)(void*)sourceArray->get_LongLength() && (UInt64)(UInt32)length <= (UInt64)(UIntPtr)(void*)destinationArray->get_LongLength()) {
     UIntPtr uIntPtr = (UIntPtr)(void*)((Int64)(UInt32)length * (Int64)methodTable->ComponentSize);
-    Byte data = Unsafe::As<RawArrayData>(sourceArray)->Data;
-    Byte data2 = Unsafe::As<RawArrayData>(destinationArray)->Data;
+    Byte& data = Unsafe::As<RawArrayData>(sourceArray)->Data;
+    Byte& data2 = Unsafe::As<RawArrayData>(destinationArray)->Data;
     if (methodTable->get_ContainsGCPointers()) {
       Buffer::BulkMoveWithWriteBarrier(data2, data, uIntPtr);
     } else {
@@ -254,8 +254,8 @@ void Array___<>::Copy(Array<> sourceArray, Int32 sourceIndex, Array<> destinatio
     if (methodTable == RuntimeHelpers::GetMethodTable(destinationArray) && !methodTable->get_IsMultiDimensionalArray() && length >= 0 && sourceIndex >= 0 && destinationIndex >= 0 && (UInt64)(UInt32)(sourceIndex + length) <= (UInt64)(UIntPtr)(void*)sourceArray->get_LongLength() && (UInt64)(UInt32)(destinationIndex + length) <= (UInt64)(UIntPtr)(void*)destinationArray->get_LongLength()) {
       UIntPtr uIntPtr = (UIntPtr)(void*)methodTable->ComponentSize;
       UIntPtr uIntPtr2 = (UIntPtr)(void*)((Int64)(UInt32)length * (Int64)(UInt64)uIntPtr);
-      Byte source = Unsafe::AddByteOffset(Unsafe::As<RawArrayData>(sourceArray)->Data, (UIntPtr)(void*)((Int64)(UInt32)sourceIndex * (Int64)(UInt64)uIntPtr));
-      Byte destination = Unsafe::AddByteOffset(Unsafe::As<RawArrayData>(destinationArray)->Data, (UIntPtr)(void*)((Int64)(UInt32)destinationIndex * (Int64)(UInt64)uIntPtr));
+      Byte& source = Unsafe::AddByteOffset(Unsafe::As<RawArrayData>(sourceArray)->Data, (UIntPtr)(void*)((Int64)(UInt32)sourceIndex * (Int64)(UInt64)uIntPtr));
+      Byte& destination = Unsafe::AddByteOffset(Unsafe::As<RawArrayData>(destinationArray)->Data, (UIntPtr)(void*)((Int64)(UInt32)destinationIndex * (Int64)(UInt64)uIntPtr));
       if (methodTable->get_ContainsGCPointers()) {
         Buffer::BulkMoveWithWriteBarrier(destination, source, uIntPtr2);
       } else {
@@ -300,8 +300,8 @@ void Array___<>::Copy(Array<> sourceArray, Int32 sourceIndex, Array<> destinatio
     MethodTable* methodTable = RuntimeHelpers::GetMethodTable(sourceArray);
     UIntPtr uIntPtr = (UIntPtr)(void*)methodTable->ComponentSize;
     UIntPtr uIntPtr2 = (UIntPtr)(void*)((Int64)(UInt32)length * (Int64)(UInt64)uIntPtr);
-    Byte source = Unsafe::AddByteOffset(RuntimeHelpers::GetRawArrayData(sourceArray), (UIntPtr)(void*)((Int64)(UInt32)sourceIndex * (Int64)(UInt64)uIntPtr));
-    Byte destination = Unsafe::AddByteOffset(RuntimeHelpers::GetRawArrayData(destinationArray), (UIntPtr)(void*)((Int64)(UInt32)destinationIndex * (Int64)(UInt64)uIntPtr));
+    Byte& source = Unsafe::AddByteOffset(RuntimeHelpers::GetRawArrayData(sourceArray), (UIntPtr)(void*)((Int64)(UInt32)sourceIndex * (Int64)(UInt64)uIntPtr));
+    Byte& destination = Unsafe::AddByteOffset(RuntimeHelpers::GetRawArrayData(destinationArray), (UIntPtr)(void*)((Int64)(UInt32)destinationIndex * (Int64)(UInt64)uIntPtr));
     if (methodTable->get_ContainsGCPointers()) {
       Buffer::BulkMoveWithWriteBarrier(destination, source, uIntPtr2);
     } else {
@@ -323,7 +323,7 @@ void Array___<>::Clear(Array<> array, Int32 index, Int32 length) {
   if (array == nullptr) {
     ThrowHelper::ThrowArgumentNullException(ExceptionArgument::array);
   }
-  Byte source = Unsafe::As<RawArrayData>(array)->Data;
+  Byte& source = Unsafe::As<RawArrayData>(array)->Data;
   Int32 num = 0;
   MethodTable* methodTable = RuntimeHelpers::GetMethodTable(array);
   if (methodTable->get_IsMultiDimensionalArray()) {
@@ -336,7 +336,7 @@ void Array___<>::Clear(Array<> array, Int32 index, Int32 length) {
     ThrowHelper::ThrowIndexOutOfRangeException();
   }
   UIntPtr uIntPtr = (UIntPtr)(void*)methodTable->ComponentSize;
-  Byte reference = Unsafe::AddByteOffset(source, (UIntPtr)(void*)((Int64)(UInt32)num2 * (Int64)(UInt64)uIntPtr));
+  Byte& reference = Unsafe::AddByteOffset(source, (UIntPtr)(void*)((Int64)(UInt32)num2 * (Int64)(UInt64)uIntPtr));
   UIntPtr uIntPtr2 = (UIntPtr)(void*)((Int64)(UInt32)length * (Int64)(UInt64)uIntPtr);
   if (methodTable->get_ContainsGCPointers()) {
     SpanHelpers::ClearWithReferences(Unsafe::As<Byte, IntPtr>(reference), (UIntPtr)(void*)((UInt64)uIntPtr2 / (UInt64)(UInt32)sizeof(IntPtr)));
@@ -466,7 +466,7 @@ Int32 Array___<>::GetUpperBound(Int32 dimension) {
   if ((UInt32)dimension >= (UInt32)multiDimensionalArrayRank) {
     rt::throw_exception<IndexOutOfRangeException>(SR::get_IndexOutOfRange_ArrayRankIndex());
   }
-  Int32 multiDimensionalArrayBounds = RuntimeHelpers::GetMultiDimensionalArrayBounds((Array<>)this);
+  Int32& multiDimensionalArrayBounds = RuntimeHelpers::GetMultiDimensionalArrayBounds((Array<>)this);
   return Unsafe::Add(multiDimensionalArrayBounds, dimension) + Unsafe::Add(multiDimensionalArrayBounds, multiDimensionalArrayRank + dimension) - 1;
 }
 
@@ -493,7 +493,7 @@ Array<> Array___<>::CreateInstance(Type elementType, Array<Int64> lengths) {
   if (lengths->get_Length() == 0) {
     ThrowHelper::ThrowArgumentException(ExceptionResource::Arg_NeedAtLeast1Rank);
   }
-  Int32 array = rt::newarr<Array<Int32>>(lengths->get_Length());
+  Array<Int32> array = rt::newarr<Array<Int32>>(lengths->get_Length());
   for (Int32 i = 0; i < lengths->get_Length(); i++) {
     Int64 num = lengths[i];
     Int32 num2 = (Int32)num;
@@ -572,7 +572,7 @@ Object Array___<>::GetValue(Array<Int64> indices) {
   if (get_Rank() != indices->get_Length()) {
     ThrowHelper::ThrowArgumentException(ExceptionResource::Arg_RankIndices);
   }
-  Int32 array = rt::newarr<Array<Int32>>(indices->get_Length());
+  Array<Int32> array = rt::newarr<Array<Int32>>(indices->get_Length());
   for (Int32 i = 0; i < indices->get_Length(); i++) {
     Int64 num = indices[i];
     Int32 num2 = (Int32)num;
@@ -627,7 +627,7 @@ void Array___<>::SetValue(Object value, Array<Int64> indices) {
   if (get_Rank() != indices->get_Length()) {
     ThrowHelper::ThrowArgumentException(ExceptionResource::Arg_RankIndices);
   }
-  Int32 array = rt::newarr<Array<Int32>>(indices->get_Length());
+  Array<Int32> array = rt::newarr<Array<Int32>>(indices->get_Length());
   for (Int32 i = 0; i < indices->get_Length(); i++) {
     Int64 num = indices[i];
     Int32 num2 = (Int32)num;
@@ -695,7 +695,7 @@ Int32 Array___<>::BinarySearch(Array<> array, Int32 index, Int32 length, Object 
   }
   Int32 num = index;
   Int32 num2 = index + length - 1;
-  Object array2 = rt::as<Object>(array);
+  Array<Object> array2 = rt::as<Array<Object>>(array);
   if (array2 != nullptr) {
     while (num <= num2) {
       Int32 median = GetMedian(num, num2);
@@ -835,7 +835,7 @@ Int32 Array___<>::IndexOf(Array<> array, Object value, Int32 startIndex, Int32 c
     ThrowHelper::ThrowCountArgumentOutOfRange_ArgumentOutOfRange_Count();
   }
   Int32 num = startIndex + count;
-  Object array2 = rt::as<Object>(array);
+  Array<Object> array2 = rt::as<Array<Object>>(array);
   if (array2 != nullptr) {
     if (value == nullptr) {
       for (Int32 i = startIndex; i < num; i++) {
@@ -947,7 +947,7 @@ Int32 Array___<>::LastIndexOf(Array<> array, Object value, Int32 startIndex, Int
     ThrowHelper::ThrowRankException(ExceptionResource::Rank_MultiDimNotSupported);
   }
   Int32 num = startIndex - count + 1;
-  Object array2 = rt::as<Object>(array);
+  Array<Object> array2 = rt::as<Array<Object>>(array);
   if (array2 != nullptr) {
     if (value == nullptr) {
       for (Int32 num2 = startIndex; num2 >= num; num2--) {
@@ -1161,9 +1161,9 @@ void Array___<>::Sort(Array<> keys, Array<> items, Int32 index, Int32 length, IC
   if (comparer == nullptr) {
     comparer = Comparer::in::Default;
   }
-  Object array = rt::as<Object>(keys);
+  Array<Object> array = rt::as<Array<Object>>(keys);
   if (array != nullptr) {
-    Object array2 = rt::as<Object>(items);
+    Array<Object> array2 = rt::as<Array<Object>>(items);
     if (items == nullptr || array2 != nullptr) {
       rt::newobj<Array<>::in::SorterObjectArray>(array, array2, comparer).Sort(index, length);
       return;

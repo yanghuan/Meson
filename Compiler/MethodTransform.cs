@@ -1079,8 +1079,8 @@ namespace Meson.Compiler {
     }
 
     public SyntaxNode VisitComposedType(ComposedType composedType) {
-      var expression = composedType.BaseType.AcceptExpression(this);
-      return new PostfixUnaryExpression(expression, new string(Tokens.Asterisk[0], composedType.PointerRank));
+      var type = composedType.GetResolveResult().Type;
+       return GetTypeName(type);
     }
 
     public SyntaxNode VisitArraySpecifier(ArraySpecifier arraySpecifier) {

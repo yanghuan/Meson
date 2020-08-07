@@ -4,6 +4,7 @@
 #include <System.Private.CoreLib/System/Int32-dep.h>
 #include <System.Private.CoreLib/System/IntPtr-dep.h>
 #include <System.Private.CoreLib/System/UIntPtr-dep.h>
+#include <System.Private.CoreLib/System/Int64-dep.h>
 #include <System.Private.CoreLib/System/UInt64-dep.h>
 #include <System.Private.CoreLib/System/String-dep.h>
 
@@ -31,26 +32,8 @@ void testIsArray() {
 }
 
 int main() {
-  Array<>::in* p = nullptr;
-  Array<> arr = (Array<>)p;
-
-
-  #if 1
-  //Array<String> s = nullptr;
-  //auto i = s->aaaa;
-
-  Int32 a = 10;
-  std::printf("sizeof(int):%zd", sizeof(a));
-
-  String s = "ddd";
-  s = s + "aaa";
-
-  //std::cout << ((char*)s.get() + 4);
-  Array<String> arr = nullptr;
-  Array<Object> bb = arr;
-  //Array<int> k = arr;
-  #endif
-
+  double d = 10;
+  int vv = d;
   return 0;
 }
 
