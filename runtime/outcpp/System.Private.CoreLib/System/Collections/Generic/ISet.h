@@ -12,6 +12,7 @@ namespace System::Private::CoreLib::System::Collections::Generic {
 FORWARD(ICollection, T)
 FORWARD(IEnumerable, T)
 namespace ISetNamespace {
+using Generic::ICollection;
 template <class T>
 using IEnumerable = Generic::IEnumerable<T>;
 using IEnumerable1 = Collections::IEnumerable;

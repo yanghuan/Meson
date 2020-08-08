@@ -75,7 +75,7 @@ namespace Meson.Compiler {
   
     private void AddTypeUsingDeclaration(NamespaceSyntax rootNamespace, NamespaceSyntax classNamespace, TypeDefinitionTransform typeDefinition, IEnumerable<ITypeDefinition> types) {
       IdentifierSyntax name = root_.Name;
-      ExpressionSyntax type = ((IdentifierSyntax)classNamespace.Name).TwoColon(name);
+      ExpressionSyntax type = classNamespace.Name.TwoColon(name);
       TemplateSyntax template;
       if (root_.IsArrayType()) {
         const int kGenericCount = 2;
@@ -128,7 +128,7 @@ namespace Meson.Compiler {
         } else {
           outs.Add((type, forward));
         }
-        if (type.IsIEnumeratorOfT() || type.IsIListOfT()) {
+        if (type.IsIEnumeratorOfT() || type.IsIListOfT() || type.IsICollectionOfT()) {
           usingsSyntax.Add(new UsingNamespaceOrTypeSyntax(type.GetFullName(root_), false));
         }
       }
@@ -397,25 +397,18 @@ namespace Meson.Compiler {
     }
 
     public TypeNameArgs With(IType type, bool isForward) {
-      return new TypeNameArgs() {
-        Type = type,
-        Definition = Definition,
-        IsForward = isForward,
-        Original = Original,
-        IsInHead = IsInHead,
-        Symbol = Symbol,
-      };
+      var result = this;
+      result.Type = type;
+      result.IsForward = isForward;
+      return result;
     }
 
     public TypeNameArgs With(IType type, bool isForward, IType original) {
-      return new TypeNameArgs() {
-        Type = type,
-        Definition = Definition,
-        IsForward = isForward,
-        Original = original,
-        IsInHead = IsInHead,
-        Symbol = Symbol,
-      };
+      var result = this;
+      result.Type = type;
+      result.IsForward = isForward;
+      result.Original = original;
+      return result;
     }
   }
 }

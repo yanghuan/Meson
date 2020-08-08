@@ -32,6 +32,7 @@ FORWARD(IReadOnlySet, T)
 FORWARD(ISet, T)
 namespace HashSetNamespace {
 using namespace Runtime::Serialization;
+using Generic::ICollection;
 using Generic::IEnumerator;
 template <class T>
 using IEnumerable = Generic::IEnumerable<T>;

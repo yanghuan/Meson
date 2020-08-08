@@ -2,6 +2,7 @@
 #include "runtime.h"
 #include <System.Private.CoreLib/System/Array-dep.h>
 #include <System.Private.CoreLib/System/Int32-dep.h>
+#include <System.Private.CoreLib/System/UInt32-dep.h>
 #include <System.Private.CoreLib/System/IntPtr-dep.h>
 #include <System.Private.CoreLib/System/UIntPtr-dep.h>
 #include <System.Private.CoreLib/System/Int64-dep.h>
@@ -32,8 +33,12 @@ void testIsArray() {
 }
 
 int main() {
-  double d = 10;
-  int vv = d;
+  Int32 a  = 10;
+  UInt32 b = (UInt32)a;
+  int64_t c = 10;
+  void* p = (void*)(c);
+
+
   return 0;
 }
 

@@ -8,6 +8,14 @@ namespace Test {
 
     private void F(int a) {
     }
+
+    public static int operator == (A a, A b) {
+      return 2;
+    }
+
+    public static int operator !=(A a, A b) {
+      return 2;
+    }
   }
 
   class Program {

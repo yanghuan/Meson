@@ -24,6 +24,7 @@ namespace System::Private::CoreLib::System::Collections::ObjectModel {
 namespace CollectionNamespace {
 using namespace Generic;
 using Generic::IList;
+using Generic::ICollection;
 using Generic::IEnumerator;
 template <class T>
 using IList = Generic::IList<T>;

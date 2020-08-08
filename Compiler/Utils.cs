@@ -350,6 +350,10 @@ namespace Meson.Compiler {
       return type.KnownTypeCode == KnownTypeCode.IListOfT;
     }
 
+    public static bool IsICollectionOfT(this ITypeDefinition type) {
+      return type.KnownTypeCode == KnownTypeCode.ICollectionOfT;
+    }
+
     public static IType Original(this IType type) {
       if (type is NullabilityAnnotatedType t) {
         type = t.TypeWithoutAnnotation;
@@ -695,6 +699,11 @@ namespace Meson.Compiler {
 
     public static string FirstCharLow(this string name) {
       return char.ToLower(name[0]) + name.Substring(1);
+    }
+
+    public static string LastNamespace(this string ns) {
+      int pos = ns.LastIndexOf('.');
+      return pos != -1 ? ns.Substring(pos + 1) : ns;
     }
 
     public static IdentifierSyntax Identifier(this string name) {

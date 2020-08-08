@@ -122,7 +122,7 @@ namespace rt {
     }
 
     static GCObject<T>* From(T* p) {
-      return ((void*)p) - sizeof(GCObjectHead);
+      return reinterpret_cast<GCObject<T>*>(reinterpret_cast<int8_t*>(p) - sizeof(GCObjectHead));
     }
 
   private:
@@ -147,7 +147,7 @@ namespace rt {
   };
 
   template <class T, class T1>
-  static constexpr bool IsEquatable = IsDerived<T, T1> || IsDerived<T1, T>;
+  static constexpr bool IsEquatable = IsDerived<T, T1> || IsDerived<T1, T> || CodeOf<T> == TypeCode::Interface || CodeOf<T1> == TypeCode::Interface;
 
   template <class T>
   struct RefElementType {
@@ -172,15 +172,20 @@ namespace rt {
     static constexpr bool value = RefElementType<element_type>::value;
   };
 
-  template <class T, class T1>
+  template <class To, class From>
   struct IsArrayConvertible {
-    using ElementTypeT = ArrayElementType<T>;
-    using ElementTypeT1 = ArrayElementType<T1>;
-    static constexpr bool value = ElementTypeT::value && ElementTypeT1::value && IsDerived<ElementTypeT::type, ElementTypeT1::type>;
+    using ElementTypeTo = ArrayElementType<To>;
+    using ElementTypeFrom = ArrayElementType<From>;
+    static constexpr bool value = ElementTypeTo::value && ElementTypeFrom::value && IsDerived<ElementTypeTo::type, ElementTypeFrom::type>;
   };
 
-  template <class T, class T1>
-  static constexpr bool IsConvertible = IsDerived<T, T1> || IsArrayConvertible<T, T1>::value;
+  template <class To, class From>
+  struct IsInterfaceConvertible {
+    static constexpr bool value = CodeOf<To> == TypeCode::Interface;
+  };
+
+  template <class To, class From>
+  static constexpr bool IsConvertible = IsDerived<To, From> || IsArrayConvertible<To, From>::value || IsInterfaceConvertible<To, From>::value;
 
   template <class T>
   class ref {
@@ -464,76 +469,95 @@ namespace rt {
   template <class T>
   static constexpr bool IsArithmetic = CodeOf<T> >= TypeCode::Char && CodeOf<T> <= TypeCode::Double;
 
+  template <class T>
+  static constexpr bool AlwaysTrue = true;
+
   template <class T, class Base>
   struct ValueType : public Base {
+    /*  
     T operator =(const T& other) noexcept {
       auto p = static_cast<T*>(this);
       p->get() = other.get();
       return *p;
-    }
+    }*/
 
+    template <class T1 = T> requires(IsArithmetic<T1>) 
     T operator +=(const T& other) {
       auto p = static_cast<T*>(this);
       p->get() += other.get();
       return *p;
     }
 
+    template <class T1 = T> requires(IsArithmetic<T1>) 
     T operator -=(const T& other) {
       auto p = static_cast<T*>(this);
       p->get() -= other.get();
       return *p;
     }
 
+    template <class T1 = T> requires(IsPrimitive<T1>) 
     bool operator ==(const T& other) const noexcept {
-      return static_cast<T*>(this)->get() == other.get();
+      return static_cast<const T*>(this)->get() == other.get();
     }
 
+    template <class T1 = T> requires(IsPrimitive<T1>) 
     bool operator !=(const T& other) const noexcept {
-      return static_cast<T*>(this)->get() != other.get();
+      return static_cast<const T*>(this)->get() != other.get();
     }
 
+    template <class T1 = T> requires(IsArithmetic<T1>) 
     bool operator <(const T& other) const noexcept {
-      return static_cast<T*>(this)->get() < other.get();
+      return static_cast<const T*>(this)->get() < other.get();
     }
 
+    template <class T1 = T> requires(IsArithmetic<T1>) 
     bool operator <=(const T& other) const noexcept {
-      return static_cast<T*>(this)->get() <= other.get();
+      return static_cast<const T*>(this)->get() <= other.get();
     }
 
+    template <class T1 = T> requires(IsArithmetic<T1>) 
     bool operator >(const T& other) const noexcept {
-      return static_cast<T*>(this)->get() > other.get();
+      return static_cast<const T*>(this)->get() > other.get();
     }
 
+    template <class T1 = T> requires(IsArithmetic<T1>) 
     bool operator >=(const T& other) const noexcept {
-      return static_cast<T*>(this)->get() >= other.get();
+      return static_cast<const T*>(this)->get() >= other.get();
     }
 
+    template <class T1 = T> requires(IsArithmetic<T1>) 
     T operator +(const T& other) const {
-      return static_cast<T*>(this)->get() + other.get();
+      return static_cast<const T*>(this)->get() + other.get();
     }
     
+    template <class T1 = T> requires(IsArithmetic<T1>) 
     T operator -(const T& other) const {
-      return static_cast<T*>(this)->get() - other.get();
+      return static_cast<const T*>(this)->get() - other.get();
     }
 
+    template <class T1 = T> requires(IsArithmetic<T1>) 
     T operator *(const T& other) const {
-      return static_cast<T*>(this)->get() * other.get();
+      return static_cast<const T*>(this)->get() * other.get();
     }
 
+    template <class T1 = T> requires(IsArithmetic<T1>) 
     T operator /(const T& other) const {
-      return static_cast<T*>(this)->get() / other.get();
+      return static_cast<const T*>(this)->get() / other.get();
     }
 
+    template <class T1 = T> requires(IsArithmetic<T1>) 
     T operator >>(const T& other) const {
-      return static_cast<T*>(this)->get() >> other.get();
+      return static_cast<const T*>(this)->get() >> other.get();
     }
 
+    template <class T1 = T> requires(IsArithmetic<T1>) 
     T operator <<(const T& other) const {
-      return static_cast<T*>(this)->get() << other.get();
+      return static_cast<const T*>(this)->get() << other.get();
     }
 
+    template <class T1 = T> requires(IsArithmetic<T1>) 
     T operator ~() const noexcept {
-      return ~static_cast<T*>(this)->get();
+      return ~static_cast<const T*>(this)->get();
     }
 
     template <class T1 = T> requires(IsArithmetic<T1>) 
@@ -568,7 +592,7 @@ namespace rt {
 
     template <class T1 = T> requires(CodeOf<T1> == TypeCode::Boolean)
     operator bool() const noexcept {
-      return static_cast<T*>(this)->get();
+      return static_cast<const T*>(this)->get();
     }
 
     template <class R, class T1 = T> requires(CodeOf<T1> == TypeCode::Int32 && CodeOf<R> == TypeCode::Int64)
@@ -578,12 +602,12 @@ namespace rt {
 
     template <class R, class T1 = T> requires(IsPrimitive<R> && IsPrimitive<T1>)
     explicit operator R() const {
-      return static_cast<decltype(R().get())>(static_cast<T*>(this)->get());
+      return static_cast<std::remove_reference_t<decltype(R().get())>>(static_cast<const T*>(this)->get());
     }
 
     template <class T1 = T> requires(IsPrimitive<T1>)
     explicit operator void*() const noexcept {
-      return static_cast<void*>(static_cast<T*>(this)->get());
+      return (void*)(static_cast<const T*>(this)->get());
     }
 
     template <class R, class T1 = T> requires(std::is_same_v<R, decltype(T1::op_Explicit(T1()))>)
@@ -594,6 +618,16 @@ namespace rt {
     template <class R, class T1 = T> requires(std::is_same_v<R, decltype(T1::op_Explicit(T1(), R()))>)
     explicit operator R() {
       return T::op_Explicit(*static_cast<T*>(this), R());
+    }
+
+    template <class T1 = T> requires(AlwaysTrue<decltype(T1::op_Equality(T1(), T1()))>) 
+    auto operator ==(const T& other) {
+      return T::op_Equality(*static_cast<T*>(this), other);
+    }
+
+    template <class T1 = T> requires(AlwaysTrue<decltype(T1::op_Inequality(T1(), T1()))>) 
+    auto operator !=(const T& other) {
+      return T::op_Inequality(*static_cast<T*>(this), other);
     }
   };
 

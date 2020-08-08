@@ -23,6 +23,7 @@ namespace System::Private::CoreLib::System::Diagnostics::Tracing {
 namespace EventPayloadNamespace {
 using namespace Collections;
 using namespace Collections::Generic;
+using Collections::Generic::ICollection;
 using Collections::Generic::IEnumerator;
 template <class T>
 using IEnumerable = Collections::Generic::IEnumerable<T>;

@@ -1214,7 +1214,7 @@ void Array___<>::Sort(Array<> keys, Array<> items, Int32 index, Int32 length, IC
   rt::newobj<Array<>::in::SorterGenericArray>(keys, items, comparer).Sort(index, length);
 }
 
-IEnumerator Array___<>::GetEnumerator() {
+Collections::IEnumerator Array___<>::GetEnumerator() {
   Int32 lowerBound = GetLowerBound(0);
   if (get_Rank() == 1 && lowerBound == 0) {
     return rt::newobj<SZArrayEnumerator>((Array<>)this);

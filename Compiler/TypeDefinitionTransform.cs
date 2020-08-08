@@ -130,14 +130,22 @@ namespace Meson.Compiler {
       return type.IsRefType() ? ClassKind.Ref : ClassKind.None;
     }
 
+    private ExpressionSyntax GetInterfaceType(ITypeDefinition definition, IType type) {
+      var typeExpression = CompilationUnit.GetTypeName(new TypeNameArgs() {
+        Type = type,
+        Definition = definition,
+        IsInHead = true,
+        IsForward = true,
+      });
+      if (type.Name == definition.Name) {
+        typeExpression = type.Namespace.LastNamespace().Identifier().TwoColon(typeExpression);
+      }
+      return typeExpression;
+    }
+
     private void AddInterfaces(ITypeDefinition type, ClassSyntax node, IEnumerable<IType> interfaces) {
       if (interfaces.Any()) {
-        var interfaceTypes = interfaces.Select(i => CompilationUnit.GetTypeName(new TypeNameArgs() {
-          Type = i,
-          Definition = type,
-          IsInHead = true,
-          IsForward = true,
-        }));
+        var interfaceTypes = interfaces.Select(i => GetInterfaceType(type, i));
         node.Add(new UsingDeclarationSyntax(IdentifierSyntax.Interface, IdentifierSyntax.TypeList.Generic(interfaceTypes)) {
           AccessibilityToken = Accessibility.Public.ToTokenString(),
         });
