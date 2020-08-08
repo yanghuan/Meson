@@ -19,7 +19,12 @@ namespace Test {
   }
 
   class Program {
+    static void f() {
+
+    }
+
     private static void Main(string[] args) {
+      f();
       Console.WriteLine(args);
       int a = 10;
       A aa = new A();

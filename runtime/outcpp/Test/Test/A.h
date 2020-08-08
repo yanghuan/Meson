@@ -12,6 +12,8 @@ using namespace ::System::Private::CoreLib::System;
 CLASS(A) : public Object::in {
   public: void F(Double a);
   private: void F(Int32 a);
+  public: static Int32 op_Equality(A a, A b);
+  public: static Int32 op_Inequality(A a, A b);
   public: void Ctor();
 };
 } // namespace ANamespace

@@ -388,6 +388,9 @@ namespace Meson.Compiler {
 
     private void CheckNoVisibleMethod(IMethod symbol, InvocationExpression invocationExpression, ref ExpressionSyntax target, List<ExpressionSyntax> arguments) {
       if (symbol.IsLocalFunction) {
+        if (symbol.IsStatic && target is GenericIdentifierSyntax generic) {
+          generic.Name = generic.Name.Dot("operator()");
+        }
         return;
       }
       
@@ -858,22 +861,16 @@ namespace Meson.Compiler {
       var name = localFunctionDeclarationStatement.NameToken.Accept<IdentifierSyntax>(this);
       var parameters = method.Parameters.Select(GetParameterSyntax);
       var retuenType = GetTypeName(method.ReturnType);
+      var body = localFunctionDeclarationStatement.Body.Accept<BlockSyntax>(this);
+      var lambdaExpressionSyntax = new LambdaExpressionSyntax(parameters, retuenType, body) { 
+        TypeParameters = method.GetTemplateSyntax()?.Arguments,
+      };
+      var declaration = new VariableDeclarationStatementSyntax(IdentifierSyntax.Auto, name, lambdaExpressionSyntax);
       if (method.IsStatic) {
-        var function = new MethodDefinitionSyntax(name, parameters, retuenType) {
-          IsStatic = true,
-          Template = method.GetTemplateSyntax()
-        };
-        PushFunction(function);
-        var body = localFunctionDeclarationStatement.Body.Accept<BlockSyntax>(this);
-        function.AddStatements(body.Statements);
-        PopFunction();
-        CompilationUnit.AddSrcStatement(function);
+        Function.Body.Statements.Insert(0, declaration);
         return StatementSyntax.Empty;
-      } else {
-        var body = localFunctionDeclarationStatement.Body.Accept<BlockSyntax>(this);
-        var lambdaExpressionSyntax = new LambdaExpressionSyntax(parameters, retuenType, body);
-        return new VariableDeclarationStatementSyntax(IdentifierSyntax.Auto, name, lambdaExpressionSyntax);
       }
+      return declaration;
     }
 
     public SyntaxNode VisitWhileStatement(WhileStatement whileStatement) {

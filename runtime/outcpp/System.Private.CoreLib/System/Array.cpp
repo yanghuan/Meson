@@ -669,11 +669,10 @@ Int32 Array___<>::BinarySearch(Array<> array, Object value, IComparer1 comparer)
   return BinarySearch(array, array->GetLowerBound(0), array->get_Length(), value, comparer);
 }
 
-template <class T>
-static Int32 GenericBinarySearch(Array<> array, Int32 adjustedIndex, Int32 length, Object value) {
-  return MemoryExtensions::BinarySearch(UnsafeArrayAsSpan<T>(array, adjustedIndex, length), Unsafe::As<Byte, T>(RuntimeHelpers::GetRawData(value)));
-}
 Int32 Array___<>::BinarySearch(Array<> array, Int32 index, Int32 length, Object value, IComparer1 comparer) {
+  auto GenericBinarySearch = []<class T>(Array<> array, Int32 adjustedIndex, Int32 length, Object value) -> Int32 {
+    return MemoryExtensions::BinarySearch(UnsafeArrayAsSpan<T>(array, adjustedIndex, length), Unsafe::As<Byte, T>(RuntimeHelpers::GetRawData(value)));
+  };
   if (array == nullptr) {
     ThrowHelper::ThrowArgumentNullException(ExceptionArgument::array);
   }
@@ -726,38 +725,38 @@ Int32 Array___<>::BinarySearch(Array<> array, Int32 index, Int32 length, Object 
         Int32 num4 = -1;
         switch (corElementTypeOfElementType) {
           case CorElementType::ELEMENT_TYPE_I1:
-            num4 = GenericBinarySearch<SByte>(array, adjustedIndex2, length, value);
+            num4 = GenericBinarySearch.operator()<SByte>(array, adjustedIndex2, length, value);
             break;
           case CorElementType::ELEMENT_TYPE_BOOLEAN:
           case CorElementType::ELEMENT_TYPE_U1:
-            num4 = GenericBinarySearch<Byte>(array, adjustedIndex2, length, value);
+            num4 = GenericBinarySearch.operator()<Byte>(array, adjustedIndex2, length, value);
             break;
           case CorElementType::ELEMENT_TYPE_I2:
-            num4 = GenericBinarySearch<Int16>(array, adjustedIndex2, length, value);
+            num4 = GenericBinarySearch.operator()<Int16>(array, adjustedIndex2, length, value);
             break;
           case CorElementType::ELEMENT_TYPE_CHAR:
           case CorElementType::ELEMENT_TYPE_U2:
-            num4 = GenericBinarySearch<UInt16>(array, adjustedIndex2, length, value);
+            num4 = GenericBinarySearch.operator()<UInt16>(array, adjustedIndex2, length, value);
             break;
           case CorElementType::ELEMENT_TYPE_I4:
-            num4 = GenericBinarySearch<Int32>(array, adjustedIndex2, length, value);
+            num4 = GenericBinarySearch.operator()<Int32>(array, adjustedIndex2, length, value);
             break;
           case CorElementType::ELEMENT_TYPE_U4:
-            num4 = GenericBinarySearch<UInt32>(array, adjustedIndex2, length, value);
+            num4 = GenericBinarySearch.operator()<UInt32>(array, adjustedIndex2, length, value);
             break;
           case CorElementType::ELEMENT_TYPE_I8:
           case CorElementType::ELEMENT_TYPE_I:
-            num4 = GenericBinarySearch<Int64>(array, adjustedIndex2, length, value);
+            num4 = GenericBinarySearch.operator()<Int64>(array, adjustedIndex2, length, value);
             break;
           case CorElementType::ELEMENT_TYPE_U8:
           case CorElementType::ELEMENT_TYPE_U:
-            num4 = GenericBinarySearch<UInt64>(array, adjustedIndex2, length, value);
+            num4 = GenericBinarySearch.operator()<UInt64>(array, adjustedIndex2, length, value);
             break;
           case CorElementType::ELEMENT_TYPE_R4:
-            num4 = GenericBinarySearch<Single>(array, adjustedIndex2, length, value);
+            num4 = GenericBinarySearch.operator()<Single>(array, adjustedIndex2, length, value);
             break;
           case CorElementType::ELEMENT_TYPE_R8:
-            num4 = GenericBinarySearch<Double>(array, adjustedIndex2, length, value);
+            num4 = GenericBinarySearch.operator()<Double>(array, adjustedIndex2, length, value);
             break;
         }
         if (num4 < 0) {
@@ -816,11 +815,10 @@ Int32 Array___<>::IndexOf(Array<> array, Object value, Int32 startIndex) {
   return IndexOf(array, value, startIndex, array->get_Length() - startIndex + lowerBound);
 }
 
-template <class T>
-static Int32 GenericIndexOf(Array<> array, Object value, Int32 adjustedIndex, Int32 length) {
-  return MemoryExtensions::IndexOf(UnsafeArrayAsSpan<T>(array, adjustedIndex, length), Unsafe::As<Byte, T>(RuntimeHelpers::GetRawData(value)));
-}
 Int32 Array___<>::IndexOf(Array<> array, Object value, Int32 startIndex, Int32 count) {
+  auto GenericIndexOf = []<class T>(Array<> array, Object value, Int32 adjustedIndex, Int32 length) -> Int32 {
+    return MemoryExtensions::IndexOf(UnsafeArrayAsSpan<T>(array, adjustedIndex, length), Unsafe::As<Byte, T>(RuntimeHelpers::GetRawData(value)));
+  };
   if (array == nullptr) {
     ThrowHelper::ThrowArgumentNullException(ExceptionArgument::array);
   }
@@ -865,28 +863,28 @@ Int32 Array___<>::IndexOf(Array<> array, Object value, Int32 startIndex, Int32 c
         case CorElementType::ELEMENT_TYPE_BOOLEAN:
         case CorElementType::ELEMENT_TYPE_I1:
         case CorElementType::ELEMENT_TYPE_U1:
-          num2 = GenericIndexOf<Byte>(array, value, adjustedIndex2, count);
+          num2 = GenericIndexOf.operator()<Byte>(array, value, adjustedIndex2, count);
           break;
         case CorElementType::ELEMENT_TYPE_CHAR:
         case CorElementType::ELEMENT_TYPE_I2:
         case CorElementType::ELEMENT_TYPE_U2:
-          num2 = GenericIndexOf<Char>(array, value, adjustedIndex2, count);
+          num2 = GenericIndexOf.operator()<Char>(array, value, adjustedIndex2, count);
           break;
         case CorElementType::ELEMENT_TYPE_I4:
         case CorElementType::ELEMENT_TYPE_U4:
-          num2 = GenericIndexOf<Int32>(array, value, adjustedIndex2, count);
+          num2 = GenericIndexOf.operator()<Int32>(array, value, adjustedIndex2, count);
           break;
         case CorElementType::ELEMENT_TYPE_I8:
         case CorElementType::ELEMENT_TYPE_U8:
         case CorElementType::ELEMENT_TYPE_I:
         case CorElementType::ELEMENT_TYPE_U:
-          num2 = GenericIndexOf<Int64>(array, value, adjustedIndex2, count);
+          num2 = GenericIndexOf.operator()<Int64>(array, value, adjustedIndex2, count);
           break;
         case CorElementType::ELEMENT_TYPE_R4:
-          num2 = GenericIndexOf<Single>(array, value, adjustedIndex2, count);
+          num2 = GenericIndexOf.operator()<Single>(array, value, adjustedIndex2, count);
           break;
         case CorElementType::ELEMENT_TYPE_R8:
-          num2 = GenericIndexOf<Double>(array, value, adjustedIndex2, count);
+          num2 = GenericIndexOf.operator()<Double>(array, value, adjustedIndex2, count);
           break;
       }
       return ((num2 >= 0) ? startIndex : lowerBound) + num2;
@@ -922,11 +920,10 @@ Int32 Array___<>::LastIndexOf(Array<> array, Object value, Int32 startIndex) {
   return LastIndexOf(array, value, startIndex, startIndex + 1 - lowerBound);
 }
 
-template <class T>
-static Int32 GenericLastIndexOf(Array<> array, Object value, Int32 adjustedIndex, Int32 length) {
-  return MemoryExtensions::LastIndexOf(UnsafeArrayAsSpan<T>(array, adjustedIndex, length), Unsafe::As<Byte, T>(RuntimeHelpers::GetRawData(value)));
-}
 Int32 Array___<>::LastIndexOf(Array<> array, Object value, Int32 startIndex, Int32 count) {
+  auto GenericLastIndexOf = []<class T>(Array<> array, Object value, Int32 adjustedIndex, Int32 length) -> Int32 {
+    return MemoryExtensions::LastIndexOf(UnsafeArrayAsSpan<T>(array, adjustedIndex, length), Unsafe::As<Byte, T>(RuntimeHelpers::GetRawData(value)));
+  };
   if (array == nullptr) {
     ThrowHelper::ThrowArgumentNullException(ExceptionArgument::array);
   }
@@ -977,28 +974,28 @@ Int32 Array___<>::LastIndexOf(Array<> array, Object value, Int32 startIndex, Int
         case CorElementType::ELEMENT_TYPE_BOOLEAN:
         case CorElementType::ELEMENT_TYPE_I1:
         case CorElementType::ELEMENT_TYPE_U1:
-          num4 = GenericLastIndexOf<Byte>(array, value, adjustedIndex2, count);
+          num4 = GenericLastIndexOf.operator()<Byte>(array, value, adjustedIndex2, count);
           break;
         case CorElementType::ELEMENT_TYPE_CHAR:
         case CorElementType::ELEMENT_TYPE_I2:
         case CorElementType::ELEMENT_TYPE_U2:
-          num4 = GenericLastIndexOf<Char>(array, value, adjustedIndex2, count);
+          num4 = GenericLastIndexOf.operator()<Char>(array, value, adjustedIndex2, count);
           break;
         case CorElementType::ELEMENT_TYPE_I4:
         case CorElementType::ELEMENT_TYPE_U4:
-          num4 = GenericLastIndexOf<Int32>(array, value, adjustedIndex2, count);
+          num4 = GenericLastIndexOf.operator()<Int32>(array, value, adjustedIndex2, count);
           break;
         case CorElementType::ELEMENT_TYPE_I8:
         case CorElementType::ELEMENT_TYPE_U8:
         case CorElementType::ELEMENT_TYPE_I:
         case CorElementType::ELEMENT_TYPE_U:
-          num4 = GenericLastIndexOf<Int64>(array, value, adjustedIndex2, count);
+          num4 = GenericLastIndexOf.operator()<Int64>(array, value, adjustedIndex2, count);
           break;
         case CorElementType::ELEMENT_TYPE_R4:
-          num4 = GenericLastIndexOf<Single>(array, value, adjustedIndex2, count);
+          num4 = GenericLastIndexOf.operator()<Single>(array, value, adjustedIndex2, count);
           break;
         case CorElementType::ELEMENT_TYPE_R8:
-          num4 = GenericLastIndexOf<Double>(array, value, adjustedIndex2, count);
+          num4 = GenericLastIndexOf.operator()<Double>(array, value, adjustedIndex2, count);
           break;
       }
       return ((num4 >= 0) ? num : lowerBound) + num4;
@@ -1126,16 +1123,15 @@ void Array___<>::Sort(Array<> array, Int32 index, Int32 length, IComparer1 compa
   Sort(array, nullptr, index, length, comparer);
 }
 
-template <class T>
-static void GenericSort(Array<> keys, Array<> items, Int32 adjustedIndex, Int32 length) {
-  Span<T> span = UnsafeArrayAsSpan<T>(keys, adjustedIndex, length);
-  if (items != nullptr) {
-    MemoryExtensions::Sort(span, UnsafeArrayAsSpan<T>(items, adjustedIndex, length));
-  } else {
-    MemoryExtensions::Sort(span);
-  }
-}
 void Array___<>::Sort(Array<> keys, Array<> items, Int32 index, Int32 length, IComparer1 comparer) {
+  auto GenericSort = []<class T>(Array<> keys, Array<> items, Int32 adjustedIndex, Int32 length) -> void {
+    Span<T> span = UnsafeArrayAsSpan<T>(keys, adjustedIndex, length);
+    if (items != nullptr) {
+      MemoryExtensions::Sort(span, UnsafeArrayAsSpan<T>(items, adjustedIndex, length));
+    } else {
+      MemoryExtensions::Sort(span);
+    }
+  };
   if (keys == nullptr) {
     ThrowHelper::ThrowArgumentNullException(ExceptionArgument::keys);
   }
@@ -1175,38 +1171,38 @@ void Array___<>::Sort(Array<> keys, Array<> items, Int32 index, Int32 length, IC
       Int32 adjustedIndex2 = index - lowerBound;
       switch (corElementTypeOfElementType) {
         case CorElementType::ELEMENT_TYPE_I1:
-          GenericSort<SByte>(keys, items, adjustedIndex2, length);
+          GenericSort.operator()<SByte>(keys, items, adjustedIndex2, length);
           return;
         case CorElementType::ELEMENT_TYPE_BOOLEAN:
         case CorElementType::ELEMENT_TYPE_U1:
-          GenericSort<Byte>(keys, items, adjustedIndex2, length);
+          GenericSort.operator()<Byte>(keys, items, adjustedIndex2, length);
           return;
         case CorElementType::ELEMENT_TYPE_I2:
-          GenericSort<Int16>(keys, items, adjustedIndex2, length);
+          GenericSort.operator()<Int16>(keys, items, adjustedIndex2, length);
           return;
         case CorElementType::ELEMENT_TYPE_CHAR:
         case CorElementType::ELEMENT_TYPE_U2:
-          GenericSort<UInt16>(keys, items, adjustedIndex2, length);
+          GenericSort.operator()<UInt16>(keys, items, adjustedIndex2, length);
           return;
         case CorElementType::ELEMENT_TYPE_I4:
-          GenericSort<Int32>(keys, items, adjustedIndex2, length);
+          GenericSort.operator()<Int32>(keys, items, adjustedIndex2, length);
           return;
         case CorElementType::ELEMENT_TYPE_U4:
-          GenericSort<UInt32>(keys, items, adjustedIndex2, length);
+          GenericSort.operator()<UInt32>(keys, items, adjustedIndex2, length);
           return;
         case CorElementType::ELEMENT_TYPE_I8:
         case CorElementType::ELEMENT_TYPE_I:
-          GenericSort<Int64>(keys, items, adjustedIndex2, length);
+          GenericSort.operator()<Int64>(keys, items, adjustedIndex2, length);
           return;
         case CorElementType::ELEMENT_TYPE_U8:
         case CorElementType::ELEMENT_TYPE_U:
-          GenericSort<UInt64>(keys, items, adjustedIndex2, length);
+          GenericSort.operator()<UInt64>(keys, items, adjustedIndex2, length);
           return;
         case CorElementType::ELEMENT_TYPE_R4:
-          GenericSort<Single>(keys, items, adjustedIndex2, length);
+          GenericSort.operator()<Single>(keys, items, adjustedIndex2, length);
           return;
         case CorElementType::ELEMENT_TYPE_R8:
-          GenericSort<Double>(keys, items, adjustedIndex2, length);
+          GenericSort.operator()<Double>(keys, items, adjustedIndex2, length);
           return;
       }
     }

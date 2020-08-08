@@ -33,11 +33,16 @@ void testIsArray() {
 }
 
 int main() {
+  auto f = []<class T>(Int32 t){
+
+  };
+
+
   Int32 a  = 10;
   UInt32 b = (UInt32)a;
   int64_t c = 10;
   void* p = (void*)(c);
-
+  f.operator()<Int32>(a);
 
   return 0;
 }

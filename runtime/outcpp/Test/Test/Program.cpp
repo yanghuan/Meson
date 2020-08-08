@@ -9,7 +9,11 @@
 namespace Test::Test::ProgramNamespace {
 using namespace ::System::Console::System;
 using namespace ::System::Private::CoreLib::System;
+void Program___::f() {
+}
+
 void Program___::Main(Array<String> args) {
+  f();
   Console::WriteLine(args);
   Int32 num = 10;
   A a = rt::newobj<A>();
