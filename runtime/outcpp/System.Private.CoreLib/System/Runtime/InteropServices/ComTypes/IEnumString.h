@@ -15,6 +15,7 @@ CLASS(IEnumString) : public Object::in {
   public: Int32 Skip(Int32 celt);
   public: void Reset();
   public: void Clone(IEnumString& ppenum);
+  public: static constexpr rt::TypeCode code = rt::TypeCode::Interface;
 };
 } // namespace IEnumStringNamespace
 using IEnumString = IEnumStringNamespace::IEnumString;

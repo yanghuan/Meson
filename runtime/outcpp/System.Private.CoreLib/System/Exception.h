@@ -34,7 +34,7 @@ using namespace Reflection;
 using namespace Runtime::CompilerServices;
 using namespace Runtime::Serialization;
 CLASS(Exception) : public Object::in {
-  using interface = rt::TypeList<ISerializable>;
+  public: using interface = rt::TypeList<ISerializable>;
   public: enum class ExceptionMessageKind {
     ThreadAbort = 1,
     ThreadInterrupted = 2,

@@ -12,7 +12,7 @@ namespace System::Private::CoreLib::System::Runtime::InteropServices {
 namespace SafeHandleNamespace {
 using namespace ConstrainedExecution;
 CLASS(SafeHandle) : public CriticalFinalizerObject::in {
-  using interface = rt::TypeList<IDisposable>;
+  public: using interface = rt::TypeList<IDisposable>;
   public: Boolean get_IsClosed();
   public: Boolean get_IsInvalid();
   protected: void Ctor(IntPtr invalidHandleValue, Boolean ownsHandle);

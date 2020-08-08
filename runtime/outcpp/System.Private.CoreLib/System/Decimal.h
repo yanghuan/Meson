@@ -39,7 +39,7 @@ namespace DecimalNamespace {
 using namespace Globalization;
 using namespace Runtime::Serialization;
 struct Decimal : public valueType<Decimal> {
-  using interface = rt::TypeList<IFormattable, IComparable<>, IConvertible, IComparable<Decimal>, IEquatable<Decimal>, IDeserializationCallback, ISpanFormattable>;
+  public: using interface = rt::TypeList<IFormattable, IComparable<>, IConvertible, IComparable<Decimal>, IEquatable<Decimal>, IDeserializationCallback, ISpanFormattable>;
   private: struct DecCalc : public valueType<DecCalc> {
     private: struct Buf24 : public valueType<Buf24> {
       public: UInt64 get_Low64();

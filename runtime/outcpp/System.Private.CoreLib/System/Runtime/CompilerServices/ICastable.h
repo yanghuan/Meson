@@ -12,6 +12,7 @@ namespace ICastableNamespace {
 CLASS(ICastable) : public Object::in {
   public: Boolean IsInstanceOfInterface(RuntimeTypeHandle interfaceType, Exception& castError);
   public: RuntimeTypeHandle GetImplType(RuntimeTypeHandle interfaceType);
+  public: static constexpr rt::TypeCode code = rt::TypeCode::Interface;
 };
 } // namespace ICastableNamespace
 using ICastable = ICastableNamespace::ICastable;

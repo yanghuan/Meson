@@ -22,6 +22,7 @@ CLASS(IDispatch) : public Object::in {
   public: ITypeInfo GetTypeInfo(Int32 iTInfo, Int32 lcid);
   public: void GetIDsOfNames(Guid& riid, Array<String> rgszNames, Int32 cNames, Int32 lcid, Array<Int32> rgDispId);
   public: void Invoke(Int32 dispIdMember, Guid& riid, Int32 lcid, InvokeFlags wFlags, DISPPARAMS& pDispParams, IntPtr pVarResult, IntPtr pExcepInfo, IntPtr puArgErr);
+  public: static constexpr rt::TypeCode code = rt::TypeCode::Interface;
 };
 } // namespace IDispatchNamespace
 using IDispatch = IDispatchNamespace::IDispatch;

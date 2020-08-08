@@ -8,6 +8,7 @@ FORWARDS(StreamingContext)
 namespace ISerializableNamespace {
 CLASS(ISerializable) : public Object::in {
   public: void GetObjectData(SerializationInfo info, StreamingContext context);
+  public: static constexpr rt::TypeCode code = rt::TypeCode::Interface;
 };
 } // namespace ISerializableNamespace
 using ISerializable = ISerializableNamespace::ISerializable;

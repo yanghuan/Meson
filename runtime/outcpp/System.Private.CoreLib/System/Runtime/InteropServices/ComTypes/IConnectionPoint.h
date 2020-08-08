@@ -16,6 +16,7 @@ CLASS(IConnectionPoint) : public Object::in {
   public: void Advise(Object pUnkSink, Int32& pdwCookie);
   public: void Unadvise(Int32 dwCookie);
   public: void EnumConnections(IEnumConnections& ppEnum);
+  public: static constexpr rt::TypeCode code = rt::TypeCode::Interface;
 };
 } // namespace IConnectionPointNamespace
 using IConnectionPoint = IConnectionPointNamespace::IConnectionPoint;

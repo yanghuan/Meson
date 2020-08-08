@@ -19,14 +19,14 @@ struct ValueTaskAwaiter {
 };
 template <>
 struct ValueTaskAwaiter<> : public valueType<ValueTaskAwaiter<>> {
-  using interface = rt::TypeList<ICriticalNotifyCompletion, INotifyCompletion, IStateMachineBoxAwareAwaiter>;
+  public: using interface = rt::TypeList<ICriticalNotifyCompletion, INotifyCompletion, IStateMachineBoxAwareAwaiter>;
   public: Boolean get_IsCompleted();
   public: static Action<Object> s_invokeActionDelegate;
   private: ValueTask<> _value;
 };
 template <class TResult>
 struct ValueTaskAwaiter<TResult> : public valueType<ValueTaskAwaiter<TResult>> {
-  using interface = rt::TypeList<ICriticalNotifyCompletion, INotifyCompletion, IStateMachineBoxAwareAwaiter>;
+  public: using interface = rt::TypeList<ICriticalNotifyCompletion, INotifyCompletion, IStateMachineBoxAwareAwaiter>;
   public: Boolean get_IsCompleted();
   private: ValueTask<TResult> _value;
 };

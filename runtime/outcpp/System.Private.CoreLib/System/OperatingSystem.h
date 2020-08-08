@@ -15,7 +15,7 @@ FORWARD(Version)
 namespace OperatingSystemNamespace {
 using namespace Runtime::Serialization;
 CLASS(OperatingSystem) : public Object::in {
-  using interface = rt::TypeList<ISerializable, ICloneable>;
+  public: using interface = rt::TypeList<ISerializable, ICloneable>;
   public: PlatformID get_Platform();
   public: String get_ServicePack();
   public: Version get_Version();

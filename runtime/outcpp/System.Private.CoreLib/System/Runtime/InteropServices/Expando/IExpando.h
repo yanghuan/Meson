@@ -14,9 +14,10 @@ namespace System::Private::CoreLib::System::Runtime::InteropServices::Expando {
 namespace IExpandoNamespace {
 using namespace Reflection;
 CLASS(IExpando) : public Object::in {
-  using interface = rt::TypeList<IReflect>;
+  public: using interface = rt::TypeList<IReflect>;
   public: FieldInfo AddField(String name);
   public: void RemoveMember(MemberInfo m);
+  public: static constexpr rt::TypeCode code = rt::TypeCode::Interface;
 };
 } // namespace IExpandoNamespace
 using IExpando = IExpandoNamespace::IExpando;

@@ -26,7 +26,7 @@ namespace TextInfoNamespace {
 using namespace Runtime::Serialization;
 using namespace Text;
 CLASS(TextInfo) : public Object::in {
-  using interface = rt::TypeList<ICloneable, IDeserializationCallback>;
+  public: using interface = rt::TypeList<ICloneable, IDeserializationCallback>;
   private: enum class Tristate : uint8_t {
     NotInitialized = 0,
     False = 1,

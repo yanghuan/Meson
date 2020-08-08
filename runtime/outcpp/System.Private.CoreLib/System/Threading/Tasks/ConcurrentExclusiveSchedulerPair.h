@@ -38,7 +38,7 @@ CLASS(ConcurrentExclusiveSchedulerPair) : public Object::in {
     public: List<Exception> m_exceptions;
   };
   private: CLASS(SchedulerWorkItem) : public Object::in {
-    using interface = rt::TypeList<IThreadPoolWorkItem>;
+    public: using interface = rt::TypeList<IThreadPoolWorkItem>;
     public: void Ctor(ConcurrentExclusiveSchedulerPair pair);
     private: ConcurrentExclusiveSchedulerPair _pair;
   };

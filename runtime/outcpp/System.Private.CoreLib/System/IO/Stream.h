@@ -49,7 +49,7 @@ using namespace Runtime::ExceptionServices;
 using namespace Threading;
 using namespace Threading::Tasks;
 CLASS(Stream) : public MarshalByRefObject::in {
-  using interface = rt::TypeList<IDisposable, IAsyncDisposable>;
+  public: using interface = rt::TypeList<IDisposable, IAsyncDisposable>;
   private: struct ReadWriteParameters : public valueType<ReadWriteParameters> {
     public: Array<Byte> Buffer;
     public: Int32 Offset;
@@ -57,7 +57,7 @@ CLASS(Stream) : public MarshalByRefObject::in {
   };
   private: FRIENDN(WriteCallbackStream)
   private: CLASS(ReadWriteTask) : public Task<Int32>::in {
-    using interface = rt::TypeList<ITaskCompletionAction>;
+    public: using interface = rt::TypeList<ITaskCompletionAction>;
     private: Boolean get_InvokeMayRunArbitraryCodeOfITaskCompletionAction();
     public: void ClearBeginState();
     public: void Ctor(Boolean isRead, Boolean apm, Func<Object, Int32> function, Object state, Stream stream, Array<Byte> buffer, Int32 offset, Int32 count, AsyncCallback callback);
@@ -75,7 +75,7 @@ CLASS(Stream) : public MarshalByRefObject::in {
   };
   private: FRIENDN(NullStream)
   private: CLASS(SynchronousAsyncResult) : public Object::in {
-    using interface = rt::TypeList<IAsyncResult>;
+    public: using interface = rt::TypeList<IAsyncResult>;
     public: Boolean get_IsCompleted();
     public: WaitHandle get_AsyncWaitHandle();
     public: Object get_AsyncState();
@@ -220,7 +220,7 @@ CLASS(NullStream) : public Stream::in {
   private: static Task<Int32> s_zeroTask;
 };
 CLASS(SyncStream) : public Stream::in {
-  using interface = rt::TypeList<IDisposable>;
+  public: using interface = rt::TypeList<IDisposable>;
   public: Boolean get_CanRead();
   public: Boolean get_CanWrite();
   public: Boolean get_CanSeek();

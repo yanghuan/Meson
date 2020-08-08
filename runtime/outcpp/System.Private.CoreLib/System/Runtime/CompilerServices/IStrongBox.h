@@ -7,6 +7,7 @@ namespace IStrongBoxNamespace {
 CLASS(IStrongBox) : public Object::in {
   public: Object get_Value();
   public: void set_Value(Object value);
+  public: static constexpr rt::TypeCode code = rt::TypeCode::Interface;
 };
 } // namespace IStrongBoxNamespace
 using IStrongBox = IStrongBoxNamespace::IStrongBox;

@@ -8,6 +8,7 @@ namespace ISecurityEncodableNamespace {
 CLASS(ISecurityEncodable) : public Object::in {
   public: void FromXml(SecurityElement e);
   public: SecurityElement ToXml();
+  public: static constexpr rt::TypeCode code = rt::TypeCode::Interface;
 };
 } // namespace ISecurityEncodableNamespace
 using ISecurityEncodable = ISecurityEncodableNamespace::ISecurityEncodable;

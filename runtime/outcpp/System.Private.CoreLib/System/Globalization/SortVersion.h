@@ -11,7 +11,7 @@ FORWARD(IEquatable, T)
 namespace System::Private::CoreLib::System::Globalization {
 namespace SortVersionNamespace {
 CLASS(SortVersion) : public Object::in {
-  using interface = rt::TypeList<IEquatable<SortVersion>>;
+  public: using interface = rt::TypeList<IEquatable<SortVersion>>;
   public: Int32 get_FullVersion();
   public: Guid get_SortId();
   public: void Ctor(Int32 fullVersion, Guid sortId);

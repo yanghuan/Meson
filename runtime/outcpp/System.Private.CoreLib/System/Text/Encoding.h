@@ -42,9 +42,9 @@ using namespace Buffers;
 using namespace IO;
 using namespace Runtime::Serialization;
 CLASS(Encoding) : public Object::in {
-  using interface = rt::TypeList<ICloneable>;
+  public: using interface = rt::TypeList<ICloneable>;
   public: CLASS(DefaultEncoder) : public Encoder::in {
-    using interface = rt::TypeList<IObjectReference>;
+    public: using interface = rt::TypeList<IObjectReference>;
     public: void Ctor(Encoding encoding);
     public: Object GetRealObject(StreamingContext context);
     public: Int32 GetByteCount(Array<Char> chars, Int32 index, Int32 count, Boolean flush);
@@ -54,7 +54,7 @@ CLASS(Encoding) : public Object::in {
     private: Encoding _encoding;
   };
   public: CLASS(DefaultDecoder) : public Decoder::in {
-    using interface = rt::TypeList<IObjectReference>;
+    public: using interface = rt::TypeList<IObjectReference>;
     public: void Ctor(Encoding encoding);
     public: Object GetRealObject(StreamingContext context);
     public: Int32 GetCharCount(Array<Byte> bytes, Int32 index, Int32 count);

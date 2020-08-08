@@ -52,7 +52,7 @@ CLASS(AssemblyLoadContext) : public Object::in {
     Unloading = 1,
   };
   public: struct ContextualReflectionScope : public valueType<ContextualReflectionScope> {
-    using interface = rt::TypeList<IDisposable>;
+    public: using interface = rt::TypeList<IDisposable>;
     public: explicit ContextualReflectionScope(AssemblyLoadContext activating);
     public: void Dispose();
     public: explicit ContextualReflectionScope() {}

@@ -18,7 +18,7 @@ namespace System::Private::CoreLib::System::Reflection {
 namespace ReflectionTypeLoadExceptionNamespace {
 using namespace Runtime::Serialization;
 CLASS(ReflectionTypeLoadException) : public SystemException::in {
-  using interface = rt::TypeList<ISerializable>;
+  public: using interface = rt::TypeList<ISerializable>;
   public: Array<Type> get_Types() { return Types; }
   public: Array<Exception> get_LoaderExceptions() { return LoaderExceptions; }
   public: String get_Message();

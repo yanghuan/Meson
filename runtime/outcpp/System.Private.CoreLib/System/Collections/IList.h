@@ -11,7 +11,7 @@ FORWARD(ICollection)
 FORWARD(IEnumerable)
 namespace IListNamespace {
 CLASS(IList) : public Object::in {
-  using interface = rt::TypeList<ICollection, IEnumerable>;
+  public: using interface = rt::TypeList<ICollection, IEnumerable>;
   public: Object get_Item(Int32 index);
   public: void set_Item(Int32 index, Object value);
   public: Boolean get_IsReadOnly();
@@ -23,6 +23,7 @@ CLASS(IList) : public Object::in {
   public: void Insert(Int32 index, Object value);
   public: void Remove(Object value);
   public: void RemoveAt(Int32 index);
+  public: static constexpr rt::TypeCode code = rt::TypeCode::Interface;
 };
 } // namespace IListNamespace
 using IList = IListNamespace::IList;

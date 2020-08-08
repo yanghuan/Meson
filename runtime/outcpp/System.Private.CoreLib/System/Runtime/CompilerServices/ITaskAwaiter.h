@@ -5,6 +5,7 @@
 namespace System::Private::CoreLib::System::Runtime::CompilerServices {
 namespace ITaskAwaiterNamespace {
 CLASS(ITaskAwaiter) : public Object::in {
+  public: static constexpr rt::TypeCode code = rt::TypeCode::Interface;
 };
 } // namespace ITaskAwaiterNamespace
 using ITaskAwaiter = ITaskAwaiterNamespace::ITaskAwaiter;

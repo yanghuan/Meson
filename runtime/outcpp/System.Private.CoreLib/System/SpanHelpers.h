@@ -27,7 +27,7 @@ using namespace Runtime::Intrinsics;
 class SpanHelpers {
   public: template <class T, class TComparer>
   struct ComparerComparable : public valueType<ComparerComparable<T, TComparer>> {
-    using interface = rt::TypeList<IComparable<T>>;
+    public: using interface = rt::TypeList<IComparable<T>>;
     public: explicit ComparerComparable(T value, TComparer comparer);
     public: Int32 CompareTo(T other);
     public: explicit ComparerComparable() {}

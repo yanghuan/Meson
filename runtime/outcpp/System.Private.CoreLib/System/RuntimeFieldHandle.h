@@ -26,7 +26,7 @@ namespace RuntimeFieldHandleNamespace {
 using namespace Reflection;
 using namespace Runtime::Serialization;
 struct RuntimeFieldHandle : public valueType<RuntimeFieldHandle> {
-  using interface = rt::TypeList<ISerializable>;
+  public: using interface = rt::TypeList<ISerializable>;
   public: IntPtr get_Value();
   public: explicit RuntimeFieldHandle(IRuntimeFieldInfo fieldInfo);
   public: IRuntimeFieldInfo GetRuntimeFieldInfo();

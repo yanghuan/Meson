@@ -21,7 +21,7 @@ struct ConfiguredTaskAwaitable {
 template <>
 struct ConfiguredTaskAwaitable<> : public valueType<ConfiguredTaskAwaitable<>> {
   public: struct ConfiguredTaskAwaiter : public valueType<ConfiguredTaskAwaiter> {
-    using interface = rt::TypeList<ICriticalNotifyCompletion, INotifyCompletion, IConfiguredTaskAwaiter>;
+    public: using interface = rt::TypeList<ICriticalNotifyCompletion, INotifyCompletion, IConfiguredTaskAwaiter>;
     public: Boolean get_IsCompleted();
     public: explicit ConfiguredTaskAwaiter(Task<> task, Boolean continueOnCapturedContext);
     public: void OnCompleted(Action<> continuation);
@@ -36,7 +36,7 @@ struct ConfiguredTaskAwaitable<> : public valueType<ConfiguredTaskAwaitable<>> {
 template <class TResult>
 struct ConfiguredTaskAwaitable<TResult> : public valueType<ConfiguredTaskAwaitable<TResult>> {
   public: struct ConfiguredTaskAwaiter : public valueType<ConfiguredTaskAwaiter> {
-    using interface = rt::TypeList<ICriticalNotifyCompletion, INotifyCompletion, IConfiguredTaskAwaiter>;
+    public: using interface = rt::TypeList<ICriticalNotifyCompletion, INotifyCompletion, IConfiguredTaskAwaiter>;
     public: Boolean get_IsCompleted();
     public: explicit ConfiguredTaskAwaiter(Task<TResult> task, Boolean continueOnCapturedContext);
     public: void OnCompleted(Action<> continuation);

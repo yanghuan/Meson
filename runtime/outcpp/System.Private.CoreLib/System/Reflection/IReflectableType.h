@@ -7,6 +7,7 @@ FORWARD(TypeInfo)
 namespace IReflectableTypeNamespace {
 CLASS(IReflectableType) : public Object::in {
   public: TypeInfo GetTypeInfo();
+  public: static constexpr rt::TypeCode code = rt::TypeCode::Interface;
 };
 } // namespace IReflectableTypeNamespace
 using IReflectableType = IReflectableTypeNamespace::IReflectableType;

@@ -40,14 +40,14 @@ template <class T>
 using IEnumerator = Generic::IEnumerator<T>;
 using IEnumerator1 = Collections::IEnumerator;
 CLASS(HashSet, T) : public Object::in {
-  using interface = rt::TypeList<ICollection<T>, IEnumerable<T>, IEnumerable1, ISet<T>, IReadOnlyCollection<T>, IReadOnlySet<T>, ISerializable, IDeserializationCallback>;
+  public: using interface = rt::TypeList<ICollection<T>, IEnumerable<T>, IEnumerable1, ISet<T>, IReadOnlyCollection<T>, IReadOnlySet<T>, ISerializable, IDeserializationCallback>;
   private: struct Entry : public valueType<Entry> {
     public: Int32 HashCode;
     public: Int32 Next;
     public: T Value;
   };
   public: struct Enumerator : public valueType<Enumerator> {
-    using interface = rt::TypeList<IEnumerator<T>, IDisposable, IEnumerator1>;
+    public: using interface = rt::TypeList<IEnumerator<T>, IDisposable, IEnumerator1>;
     public: T get_Current();
     private: Object get_CurrentOfIEnumerator();
     public: explicit Enumerator(HashSet<T> hashSet);

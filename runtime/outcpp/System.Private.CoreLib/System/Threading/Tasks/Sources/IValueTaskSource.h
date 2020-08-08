@@ -6,8 +6,10 @@ namespace System::Private::CoreLib::System::Threading::Tasks::Sources {
 namespace IValueTaskSourceNamespace {
 CLASS_FORWARD(IValueTaskSource, T1, T2)
 CLASS_(IValueTaskSource) : public Object::in {
+  public: static constexpr rt::TypeCode code = rt::TypeCode::Interface;
 };
 CLASS_(IValueTaskSource, TResult) : public Object::in {
+  public: static constexpr rt::TypeCode code = rt::TypeCode::Interface;
 };
 } // namespace IValueTaskSourceNamespace
 template <class T1 = void, class T2 = void>

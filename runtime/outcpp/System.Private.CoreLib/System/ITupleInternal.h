@@ -19,9 +19,10 @@ using namespace Collections;
 using namespace Runtime::CompilerServices;
 using namespace Text;
 CLASS(ITupleInternal) : public Object::in {
-  using interface = rt::TypeList<ITuple>;
+  public: using interface = rt::TypeList<ITuple>;
   public: String ToString(StringBuilder sb);
   public: Int32 GetHashCode(IEqualityComparer comparer);
+  public: static constexpr rt::TypeCode code = rt::TypeCode::Interface;
 };
 } // namespace ITupleInternalNamespace
 using ITupleInternal = ITupleInternalNamespace::ITupleInternal;

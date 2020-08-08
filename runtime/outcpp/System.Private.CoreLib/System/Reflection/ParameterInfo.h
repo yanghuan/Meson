@@ -27,7 +27,7 @@ using namespace Collections::Generic;
 using namespace Runtime::Serialization;
 using Collections::Generic::IList;
 CLASS(ParameterInfo) : public Object::in {
-  using interface = rt::TypeList<ICustomAttributeProvider, IObjectReference>;
+  public: using interface = rt::TypeList<ICustomAttributeProvider, IObjectReference>;
   public: ParameterAttributes get_Attributes();
   public: MemberInfo get_Member();
   public: String get_Name();

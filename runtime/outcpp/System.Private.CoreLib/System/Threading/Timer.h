@@ -22,7 +22,7 @@ FORWARD(WaitHandle)
 namespace TimerNamespace {
 using namespace Tasks;
 CLASS(Timer) : public MarshalByRefObject::in {
-  using interface = rt::TypeList<IDisposable, IAsyncDisposable>;
+  public: using interface = rt::TypeList<IDisposable, IAsyncDisposable>;
   public: static Int64 get_ActiveCount();
   public: void Ctor(TimerCallback callback, Object state, Int32 dueTime, Int32 period);
   public: void Ctor(TimerCallback callback, Object state, Int32 dueTime, Int32 period, Boolean flowExecutionContext);

@@ -54,7 +54,7 @@ template <class T>
 using IEnumerable = Collections::Generic::IEnumerable<T>;
 using IEnumerable1 = Collections::IEnumerable;
 CLASS(String) : public Object::in {
-  using interface = rt::TypeList<IComparable<>, IEnumerable1, IConvertible, IEnumerable<Char>, IComparable<String>, IEquatable<String>, ICloneable>;
+  public: using interface = rt::TypeList<IComparable<>, IEnumerable1, IConvertible, IEnumerable<Char>, IComparable<String>, IEquatable<String>, ICloneable>;
   private: struct ProbabilisticMap : public valueType<ProbabilisticMap> {
   };
   public: Char get_Chars(Int32 index);

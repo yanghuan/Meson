@@ -11,6 +11,7 @@ namespace IEqualityComparerNamespace {
 CLASS(IEqualityComparer, T) : public Object::in {
   public: Boolean Equals(T x, T y);
   public: Int32 GetHashCode(T obj);
+  public: static constexpr rt::TypeCode code = rt::TypeCode::Interface;
 };
 } // namespace IEqualityComparerNamespace
 template <class T>

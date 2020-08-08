@@ -11,6 +11,7 @@ namespace ITaskCompletionActionNamespace {
 CLASS(ITaskCompletionAction) : public Object::in {
   public: Boolean get_InvokeMayRunArbitraryCode();
   public: void Invoke(Task<> completingTask);
+  public: static constexpr rt::TypeCode code = rt::TypeCode::Interface;
 };
 } // namespace ITaskCompletionActionNamespace
 using ITaskCompletionAction = ITaskCompletionActionNamespace::ITaskCompletionAction;

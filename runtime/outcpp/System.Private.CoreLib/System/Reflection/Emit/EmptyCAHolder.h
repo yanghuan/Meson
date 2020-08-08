@@ -8,7 +8,7 @@ FORWARD(ICustomAttributeProvider)
 namespace System::Private::CoreLib::System::Reflection::Emit {
 namespace EmptyCAHolderNamespace {
 CLASS(EmptyCAHolder) : public Object::in {
-  using interface = rt::TypeList<ICustomAttributeProvider>;
+  public: using interface = rt::TypeList<ICustomAttributeProvider>;
   public: void Ctor();
 };
 } // namespace EmptyCAHolderNamespace

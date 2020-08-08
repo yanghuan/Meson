@@ -7,6 +7,7 @@ namespace IAsyncStateMachineNamespace {
 CLASS(IAsyncStateMachine) : public Object::in {
   public: void MoveNext();
   public: void SetStateMachine(IAsyncStateMachine stateMachine);
+  public: static constexpr rt::TypeCode code = rt::TypeCode::Interface;
 };
 } // namespace IAsyncStateMachineNamespace
 using IAsyncStateMachine = IAsyncStateMachineNamespace::IAsyncStateMachine;

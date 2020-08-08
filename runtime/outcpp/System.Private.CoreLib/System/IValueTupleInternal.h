@@ -15,9 +15,10 @@ namespace IValueTupleInternalNamespace {
 using namespace Collections;
 using namespace Runtime::CompilerServices;
 CLASS(IValueTupleInternal) : public Object::in {
-  using interface = rt::TypeList<ITuple>;
+  public: using interface = rt::TypeList<ITuple>;
   public: Int32 GetHashCode(IEqualityComparer comparer);
   public: String ToStringEnd();
+  public: static constexpr rt::TypeCode code = rt::TypeCode::Interface;
 };
 } // namespace IValueTupleInternalNamespace
 using IValueTupleInternal = IValueTupleInternalNamespace::IValueTupleInternal;

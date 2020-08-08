@@ -25,7 +25,7 @@ using namespace Collections;
 using namespace Collections::Generic;
 using namespace IO;
 CLASS(RuntimeResourceSet) : public ResourceSet::in {
-  using interface = rt::TypeList<IEnumerable>;
+  public: using interface = rt::TypeList<IEnumerable>;
   public: void Ctor(String fileName);
   public: void Ctor(Stream stream, Boolean permitDeserialization);
   protected: void Dispose(Boolean disposing);

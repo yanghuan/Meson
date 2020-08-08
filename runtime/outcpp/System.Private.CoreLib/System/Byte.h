@@ -24,7 +24,7 @@ FORWARD(String)
 namespace ByteNamespace {
 using namespace Globalization;
 struct Byte : public valueType<Byte> {
-  using interface = rt::TypeList<IComparable<>, IConvertible, IFormattable, IComparable<Byte>, IEquatable<Byte>, ISpanFormattable>;
+  public: using interface = rt::TypeList<IComparable<>, IConvertible, IFormattable, IComparable<Byte>, IEquatable<Byte>, ISpanFormattable>;
   public: constexpr Byte() noexcept : m_value(0) {}
   public: constexpr Byte(uint8_t value) noexcept : m_value(value) {}
   public: constexpr uint8_t& get() noexcept { return m_value; }

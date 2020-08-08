@@ -17,7 +17,7 @@ enum class NumberStyles;
 FORWARD(CultureData)
 namespace NumberFormatInfoNamespace {
 CLASS(NumberFormatInfo) : public Object::in {
-  using interface = rt::TypeList<IFormatProvider, ICloneable>;
+  public: using interface = rt::TypeList<IFormatProvider, ICloneable>;
   public: Boolean get_HasInvariantNumberSigns();
   public: static NumberFormatInfo get_InvariantInfo();
   public: Int32 get_CurrencyDecimalDigits();

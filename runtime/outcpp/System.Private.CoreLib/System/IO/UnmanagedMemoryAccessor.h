@@ -27,7 +27,7 @@ enum class FileAccess;
 namespace UnmanagedMemoryAccessorNamespace {
 using namespace Runtime::InteropServices;
 CLASS(UnmanagedMemoryAccessor) : public Object::in {
-  using interface = rt::TypeList<IDisposable>;
+  public: using interface = rt::TypeList<IDisposable>;
   public: Int64 get_Capacity();
   public: Boolean get_CanRead();
   public: Boolean get_CanWrite();

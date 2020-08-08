@@ -30,7 +30,7 @@ template <class T>
 using IEnumerator = Collections::Generic::IEnumerator<T>;
 using IEnumerator1 = Collections::IEnumerator;
 struct StringRuneEnumerator : public valueType<StringRuneEnumerator> {
-  using interface = rt::TypeList<IEnumerable<Rune>, IEnumerable1, IEnumerator<Rune>, IDisposable, IEnumerator1>;
+  public: using interface = rt::TypeList<IEnumerable<Rune>, IEnumerable1, IEnumerator<Rune>, IDisposable, IEnumerator1>;
   public: Rune get_Current();
   private: Object get_CurrentOfIEnumerator();
   public: explicit StringRuneEnumerator(String value);

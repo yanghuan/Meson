@@ -15,7 +15,7 @@ FORWARD(String)
 namespace MissingMemberExceptionNamespace {
 using namespace Runtime::Serialization;
 CLASS(MissingMemberException) : public MemberAccessException::in {
-  using interface = rt::TypeList<ISerializable>;
+  public: using interface = rt::TypeList<ISerializable>;
   public: String get_Message();
   public: static String FormatSignature(Array<Byte> signature);
   public: void Ctor();

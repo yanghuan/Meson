@@ -9,8 +9,9 @@ namespace System::Private::CoreLib::System::Runtime::CompilerServices {
 FORWARD(INotifyCompletion)
 namespace ICriticalNotifyCompletionNamespace {
 CLASS(ICriticalNotifyCompletion) : public Object::in {
-  using interface = rt::TypeList<INotifyCompletion>;
+  public: using interface = rt::TypeList<INotifyCompletion>;
   public: void UnsafeOnCompleted(Action<> continuation);
+  public: static constexpr rt::TypeCode code = rt::TypeCode::Interface;
 };
 } // namespace ICriticalNotifyCompletionNamespace
 using ICriticalNotifyCompletion = ICriticalNotifyCompletionNamespace::ICriticalNotifyCompletion;

@@ -8,7 +8,7 @@ namespace System::Private::CoreLib::System {
 FORWARD(IRuntimeFieldInfo)
 namespace RuntimeFieldInfoStubNamespace {
 CLASS(RuntimeFieldInfoStub) : public Object::in {
-  using interface = rt::TypeList<IRuntimeFieldInfo>;
+  public: using interface = rt::TypeList<IRuntimeFieldInfo>;
   private: RuntimeFieldHandleInternal get_ValueOfIRuntimeFieldInfo();
   public: void Ctor();
   private: Object m_keepalive;

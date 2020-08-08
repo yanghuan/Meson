@@ -27,6 +27,7 @@ CLASS(ITypeLib) : public Object::in {
   public: Boolean IsName(String szNameBuf, Int32 lHashVal);
   public: void FindName(String szNameBuf, Int32 lHashVal, Array<ITypeInfo> ppTInfo, Array<Int32> rgMemId, Int16& pcFound);
   public: void ReleaseTLibAttr(IntPtr pTLibAttr);
+  public: static constexpr rt::TypeCode code = rt::TypeCode::Interface;
 };
 } // namespace ITypeLibNamespace
 using ITypeLib = ITypeLibNamespace::ITypeLib;

@@ -23,7 +23,7 @@ FORWARD(String)
 namespace UInt64Namespace {
 using namespace Globalization;
 struct UInt64 : public valueType<UInt64> {
-  using interface = rt::TypeList<IComparable<>, IConvertible, IFormattable, IComparable<UInt64>, IEquatable<UInt64>, ISpanFormattable>;
+  public: using interface = rt::TypeList<IComparable<>, IConvertible, IFormattable, IComparable<UInt64>, IEquatable<UInt64>, ISpanFormattable>;
   public: constexpr UInt64() noexcept : m_value(0) {}
   public: constexpr UInt64(uint64_t value) noexcept : m_value(value) {}
   public: constexpr uint64_t& get() noexcept { return m_value; }

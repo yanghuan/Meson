@@ -15,7 +15,7 @@ namespace System::Private::CoreLib::System::Runtime::InteropServices::CustomMars
 namespace EnumerableViewOfDispatchNamespace {
 using namespace Collections;
 CLASS(EnumerableViewOfDispatch) : public Object::in {
-  using interface = rt::TypeList<ICustomAdapter, IEnumerable>;
+  public: using interface = rt::TypeList<ICustomAdapter, IEnumerable>;
   private: IDispatch get_Dispatch();
   public: void Ctor(Object dispatch);
   public: IEnumerator GetEnumerator();

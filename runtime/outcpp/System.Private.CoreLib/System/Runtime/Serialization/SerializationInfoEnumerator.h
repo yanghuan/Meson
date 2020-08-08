@@ -17,7 +17,7 @@ FORWARDS(SerializationEntry)
 namespace SerializationInfoEnumeratorNamespace {
 using namespace Collections;
 CLASS(SerializationInfoEnumerator) : public Object::in {
-  using interface = rt::TypeList<IEnumerator>;
+  public: using interface = rt::TypeList<IEnumerator>;
   private: Object get_CurrentOfIEnumerator();
   public: SerializationEntry get_Current();
   public: String get_Name();

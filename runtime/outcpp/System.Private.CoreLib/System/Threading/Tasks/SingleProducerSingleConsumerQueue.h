@@ -27,7 +27,7 @@ template <class T>
 using IEnumerable = Collections::Generic::IEnumerable<T>;
 using IEnumerable1 = Collections::IEnumerable;
 CLASS(SingleProducerSingleConsumerQueue, T) : public Object::in {
-  using interface = rt::TypeList<IProducerConsumerQueue<T>, IEnumerable<T>, IEnumerable1>;
+  public: using interface = rt::TypeList<IProducerConsumerQueue<T>, IEnumerable<T>, IEnumerable1>;
   private: struct SegmentState : public valueType<SegmentState> {
     public: PaddingFor32 m_pad0;
     public: Int32 m_first;

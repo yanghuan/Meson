@@ -26,7 +26,7 @@ namespace SymWrapperCoreNamespace {
 using namespace Diagnostics::SymbolStore;
 CLASS(SymWrapperCore) : public Object::in {
   private: CLASS(SymDocumentWriter) : public Object::in {
-    using interface = rt::TypeList<ISymbolDocumentWriter>;
+    public: using interface = rt::TypeList<ISymbolDocumentWriter>;
     private: struct ISymUnmanagedDocumentWriter : public valueType<ISymUnmanagedDocumentWriter> {
       public: IntPtr m_unmanagedVTable;
     };
@@ -50,7 +50,7 @@ CLASS(SymWrapperCore) : public Object::in {
     private: ISymUnmanagedDocumentWriterVTable m_vtable;
   };
   public: CLASS(SymWriter) : public Object::in {
-    using interface = rt::TypeList<ISymbolWriter>;
+    public: using interface = rt::TypeList<ISymbolWriter>;
     private: struct ISymUnmanagedWriter : public valueType<ISymUnmanagedWriter> {
       public: IntPtr m_unmanagedVTable;
     };

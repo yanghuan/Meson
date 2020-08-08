@@ -21,7 +21,7 @@ template <class T>
 using IEnumerator = Collections::Generic::IEnumerator<T>;
 using IEnumerator1 = Collections::IEnumerator;
 CLASS(SZGenericArrayEnumerator, T) : public Object::in {
-  using interface = rt::TypeList<IEnumerator<T>, IDisposable, IEnumerator1>;
+  public: using interface = rt::TypeList<IEnumerator<T>, IDisposable, IEnumerator1>;
   public: T get_Current();
   private: Object get_CurrentOfIEnumerator();
   public: void Ctor(Array<T> array);

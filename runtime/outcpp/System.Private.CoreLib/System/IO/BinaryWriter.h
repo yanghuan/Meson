@@ -36,7 +36,7 @@ namespace BinaryWriterNamespace {
 using namespace Text;
 using namespace Threading::Tasks;
 CLASS(BinaryWriter) : public Object::in {
-  using interface = rt::TypeList<IDisposable, IAsyncDisposable>;
+  public: using interface = rt::TypeList<IDisposable, IAsyncDisposable>;
   public: Stream get_BaseStream();
   protected: void Ctor();
   public: void Ctor(Stream output);

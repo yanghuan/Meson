@@ -31,7 +31,7 @@ using namespace Collections;
 using namespace Permissions;
 using namespace Runtime::Serialization;
 CLASS(PermissionSet) : public Object::in {
-  using interface = rt::TypeList<ICollection, IEnumerable, IDeserializationCallback, ISecurityEncodable, IStackWalk>;
+  public: using interface = rt::TypeList<ICollection, IEnumerable, IDeserializationCallback, ISecurityEncodable, IStackWalk>;
   public: Int32 get_Count();
   public: Boolean get_IsReadOnly();
   public: Boolean get_IsSynchronized();

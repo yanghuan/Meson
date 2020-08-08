@@ -35,7 +35,7 @@ template <class T>
 using IEnumerable = Generic::IEnumerable<T>;
 using IEnumerable1 = Collections::IEnumerable;
 CLASS(ReadOnlyCollection, T) : public Object::in {
-  using interface = rt::TypeList<IList<T>, ICollection<T>, IEnumerable<T>, IEnumerable1, IList1, ICollection1, IReadOnlyList<T>, IReadOnlyCollection<T>>;
+  public: using interface = rt::TypeList<IList<T>, ICollection<T>, IEnumerable<T>, IEnumerable1, IList1, ICollection1, IReadOnlyList<T>, IReadOnlyCollection<T>>;
   public: Int32 get_Count();
   public: T get_Item(Int32 index);
   protected: IList<T> get_Items();

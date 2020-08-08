@@ -16,12 +16,13 @@ template <class T>
 using IEnumerable = Generic::IEnumerable<T>;
 using IEnumerable1 = Collections::IEnumerable;
 CLASS(IList, T) : public Object::in {
-  using interface = rt::TypeList<ICollection<T>, IEnumerable<T>, IEnumerable1>;
+  public: using interface = rt::TypeList<ICollection<T>, IEnumerable<T>, IEnumerable1>;
   public: T get_Item(Int32 index);
   public: void set_Item(Int32 index, T value);
   public: Int32 IndexOf(T item);
   public: void Insert(Int32 index, T item);
   public: void RemoveAt(Int32 index);
+  public: static constexpr rt::TypeCode code = rt::TypeCode::Interface;
 };
 } // namespace IListNamespace
 template <class T>

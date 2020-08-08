@@ -9,6 +9,7 @@ CLASS(IStackWalk) : public Object::in {
   public: void Demand();
   public: void Deny();
   public: void PermitOnly();
+  public: static constexpr rt::TypeCode code = rt::TypeCode::Interface;
 };
 } // namespace IStackWalkNamespace
 using IStackWalk = IStackWalkNamespace::IStackWalk;

@@ -17,7 +17,7 @@ template <class T>
 using IEnumerable = Generic::IEnumerable<T>;
 using IEnumerable1 = Collections::IEnumerable;
 CLASS(IDictionary, TKey, TValue) : public Object::in {
-  using interface = rt::TypeList<ICollection<KeyValuePair<TKey, TValue>>, IEnumerable<KeyValuePair<TKey, TValue>>, IEnumerable1>;
+  public: using interface = rt::TypeList<ICollection<KeyValuePair<TKey, TValue>>, IEnumerable<KeyValuePair<TKey, TValue>>, IEnumerable1>;
   public: TValue get_Item(TKey key);
   public: void set_Item(TKey key, TValue value);
   public: ICollection<TKey> get_Keys();
@@ -26,6 +26,7 @@ CLASS(IDictionary, TKey, TValue) : public Object::in {
   public: void Add(TKey key, TValue value);
   public: Boolean Remove(TKey key);
   public: Boolean TryGetValue(TKey key, TValue& value);
+  public: static constexpr rt::TypeCode code = rt::TypeCode::Interface;
 };
 } // namespace IDictionaryNamespace
 template <class TKey, class TValue>

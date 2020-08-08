@@ -28,7 +28,7 @@ template <class T>
 using IEnumerable = Collections::Generic::IEnumerable<T>;
 using IEnumerable1 = Collections::IEnumerable;
 CLASS(EventPayload) : public Object::in {
-  using interface = rt::TypeList<IDictionary<String, Object>, ICollection<KeyValuePair<String, Object>>, IEnumerable<KeyValuePair<String, Object>>, IEnumerable1>;
+  public: using interface = rt::TypeList<IDictionary<String, Object>, ICollection<KeyValuePair<String, Object>>, IEnumerable<KeyValuePair<String, Object>>, IEnumerable1>;
   public: ICollection<String> get_Keys();
   public: ICollection<Object> get_Values();
   public: Object get_Item(String key);

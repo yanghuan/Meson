@@ -15,7 +15,7 @@ FORWARD_(Task, T1, T2)
 namespace TaskToApmNamespace {
 class TaskToApm {
   public: CLASS(TaskAsyncResult) : public Object::in {
-    using interface = rt::TypeList<IAsyncResult>;
+    public: using interface = rt::TypeList<IAsyncResult>;
     public: Object get_AsyncState() { return AsyncState; }
     public: Boolean get_CompletedSynchronously() { return CompletedSynchronously; }
     public: Boolean get_IsCompleted();

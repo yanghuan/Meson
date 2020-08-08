@@ -11,11 +11,12 @@ namespace System::Private::CoreLib::System::Collections {
 FORWARD(IEnumerable)
 namespace ICollectionNamespace {
 CLASS(ICollection) : public Object::in {
-  using interface = rt::TypeList<IEnumerable>;
+  public: using interface = rt::TypeList<IEnumerable>;
   public: Int32 get_Count();
   public: Object get_SyncRoot();
   public: Boolean get_IsSynchronized();
   public: void CopyTo(Array<> array, Int32 index);
+  public: static constexpr rt::TypeCode code = rt::TypeCode::Interface;
 };
 } // namespace ICollectionNamespace
 using ICollection = ICollectionNamespace::ICollection;

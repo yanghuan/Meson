@@ -18,7 +18,7 @@ namespace RegistryKeyNamespace {
 using namespace ::System::Private::CoreLib::System;
 using namespace SafeHandles;
 CLASS(RegistryKey) : public Object::in {
-  using interface = rt::TypeList<IDisposable>;
+  public: using interface = rt::TypeList<IDisposable>;
   private: void Ctor(SafeRegistryHandle hkey);
   public: void DeleteValue(String name, Boolean throwOnMissingValue);
   public: static RegistryKey OpenBaseKey(IntPtr hKey);

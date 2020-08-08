@@ -38,7 +38,7 @@ namespace DateTimeNamespace {
 using namespace Globalization;
 using namespace Runtime::Serialization;
 struct DateTime : public valueType<DateTime> {
-  using interface = rt::TypeList<IComparable<>, IFormattable, IConvertible, IComparable<DateTime>, IEquatable<DateTime>, ISerializable, ISpanFormattable>;
+  public: using interface = rt::TypeList<IComparable<>, IFormattable, IConvertible, IComparable<DateTime>, IEquatable<DateTime>, ISerializable, ISpanFormattable>;
   private: struct FullSystemTime : public valueType<FullSystemTime> {
     public: explicit FullSystemTime(Int32 year, Int32 month, DayOfWeek dayOfWeek, Int32 day, Int32 hour, Int32 minute, Int32 second);
     public: explicit FullSystemTime(Int64 ticks);

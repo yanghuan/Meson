@@ -10,7 +10,7 @@ FORWARD(ITaskCompletionAction)
 FORWARD_(Task, T1, T2)
 namespace CompletionActionInvokerNamespace {
 CLASS(CompletionActionInvoker) : public Object::in {
-  using interface = rt::TypeList<IThreadPoolWorkItem>;
+  public: using interface = rt::TypeList<IThreadPoolWorkItem>;
   public: void Ctor(ITaskCompletionAction action, Task<> completingTask);
   private: ITaskCompletionAction m_action;
   private: Task<> m_completingTask;

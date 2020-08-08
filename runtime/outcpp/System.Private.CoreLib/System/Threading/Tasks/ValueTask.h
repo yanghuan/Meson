@@ -21,7 +21,7 @@ struct ValueTask {
 };
 template <>
 struct ValueTask<> : public valueType<ValueTask<>> {
-  using interface = rt::TypeList<IEquatable<ValueTask<>>>;
+  public: using interface = rt::TypeList<IEquatable<ValueTask<>>>;
   private: CLASS(ValueTaskSourceAsTask) : public Task<>::in {
     public: void Ctor(IValueTaskSource<> source, Int16 token);
     private: static void SCtor();
@@ -41,7 +41,7 @@ struct ValueTask<> : public valueType<ValueTask<>> {
 };
 template <class TResult>
 struct ValueTask<TResult> : public valueType<ValueTask<TResult>> {
-  using interface = rt::TypeList<IEquatable<ValueTask<TResult>>>;
+  public: using interface = rt::TypeList<IEquatable<ValueTask<TResult>>>;
   private: CLASS(ValueTaskSourceAsTask) : public Task<TResult>::in {
     public: void Ctor(IValueTaskSource<TResult> source, Int16 token);
     private: static void SCtor();

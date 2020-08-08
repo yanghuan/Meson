@@ -21,7 +21,7 @@ namespace CultureAwareComparerNamespace {
 using namespace Globalization;
 using namespace Runtime::Serialization;
 CLASS(CultureAwareComparer) : public StringComparer::in {
-  using interface = rt::TypeList<ISerializable>;
+  public: using interface = rt::TypeList<ISerializable>;
   public: void Ctor(CultureInfo culture, CompareOptions options);
   public: void Ctor(CompareInfo compareInfo, CompareOptions options);
   private: void Ctor(SerializationInfo info, StreamingContext context);

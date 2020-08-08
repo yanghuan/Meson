@@ -22,7 +22,7 @@ namespace MemberInfoNamespace {
 using namespace Collections::Generic;
 using Collections::Generic::IList;
 CLASS(MemberInfo) : public Object::in {
-  using interface = rt::TypeList<ICustomAttributeProvider>;
+  public: using interface = rt::TypeList<ICustomAttributeProvider>;
   public: MemberTypes get_MemberType();
   public: String get_Name();
   public: Type get_DeclaringType();

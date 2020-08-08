@@ -12,6 +12,7 @@ namespace ISymbolDocumentWriterNamespace {
 CLASS(ISymbolDocumentWriter) : public Object::in {
   public: void SetCheckSum(Guid algorithmId, Array<Byte> checkSum);
   public: void SetSource(Array<Byte> source);
+  public: static constexpr rt::TypeCode code = rt::TypeCode::Interface;
 };
 } // namespace ISymbolDocumentWriterNamespace
 using ISymbolDocumentWriter = ISymbolDocumentWriterNamespace::ISymbolDocumentWriter;

@@ -28,21 +28,21 @@ CLASS_FORWARD(TaskFactory, T1, T2)
 CLASS_(TaskFactory) : public Object::in {
   CLASS_FORWARD(CompleteOnCountdownPromise, T1, T2)
   private: CLASS_(CompleteOnCountdownPromise) : public Task<Array<Task<>>>::in {
-    using interface = rt::TypeList<ITaskCompletionAction>;
+    public: using interface = rt::TypeList<ITaskCompletionAction>;
     public: Boolean get_InvokeMayRunArbitraryCode();
     public: Boolean get_ShouldNotifyDebuggerOfWaitCompletion();
     private: Array<Task<>> _tasks;
     private: Int32 _count;
   };
   private: CLASS_(CompleteOnCountdownPromise, T) : public Task<Array<Task<T>>>::in {
-    using interface = rt::TypeList<ITaskCompletionAction>;
+    public: using interface = rt::TypeList<ITaskCompletionAction>;
     public: Boolean get_InvokeMayRunArbitraryCode();
     public: Boolean get_ShouldNotifyDebuggerOfWaitCompletion();
     private: Array<Task<T>> _tasks;
     private: Int32 _count;
   };
   public: CLASS(CompleteOnInvokePromise) : public Task<Task<>>::in {
-    using interface = rt::TypeList<ITaskCompletionAction>;
+    public: using interface = rt::TypeList<ITaskCompletionAction>;
     public: Boolean get_InvokeMayRunArbitraryCode();
     public: void Ctor(IList<Task<>> tasks, Boolean isSyncBlocking);
     public: void Invoke(Task<> completingTask);

@@ -51,7 +51,7 @@ template <class T>
 using IEnumerator = Generic::IEnumerator<T>;
 using IEnumerator1 = Collections::IEnumerator;
 CLASS(Dictionary, TKey, TValue) : public Object::in {
-  using interface = rt::TypeList<IDictionary<TKey, TValue>, ICollection<KeyValuePair<TKey, TValue>>, IEnumerable<KeyValuePair<TKey, TValue>>, IEnumerable1, IDictionary1, ICollection1, IReadOnlyDictionary<TKey, TValue>, IReadOnlyCollection<KeyValuePair<TKey, TValue>>, ISerializable, IDeserializationCallback>;
+  public: using interface = rt::TypeList<IDictionary<TKey, TValue>, ICollection<KeyValuePair<TKey, TValue>>, IEnumerable<KeyValuePair<TKey, TValue>>, IEnumerable1, IDictionary1, ICollection1, IReadOnlyDictionary<TKey, TValue>, IReadOnlyCollection<KeyValuePair<TKey, TValue>>, ISerializable, IDeserializationCallback>;
   private: struct Entry : public valueType<Entry> {
     public: UInt32 hashCode;
     public: Int32 next;
@@ -59,7 +59,7 @@ CLASS(Dictionary, TKey, TValue) : public Object::in {
     public: TValue value;
   };
   public: struct Enumerator : public valueType<Enumerator> {
-    using interface = rt::TypeList<IEnumerator<KeyValuePair<TKey, TValue>>, IDisposable, IEnumerator1, IDictionaryEnumerator>;
+    public: using interface = rt::TypeList<IEnumerator<KeyValuePair<TKey, TValue>>, IDisposable, IEnumerator1, IDictionaryEnumerator>;
     public: KeyValuePair<TKey, TValue> get_Current();
     private: Object get_CurrentOfIEnumerator();
     private: DictionaryEntry get_EntryOfIDictionaryEnumerator();
@@ -76,9 +76,9 @@ CLASS(Dictionary, TKey, TValue) : public Object::in {
     private: Int32 _getEnumeratorRetType;
   };
   public: CLASS(KeyCollection) : public Object::in {
-    using interface = rt::TypeList<ICollection<TKey>, IEnumerable<TKey>, IEnumerable1, ICollection1, IReadOnlyCollection<TKey>>;
+    public: using interface = rt::TypeList<ICollection<TKey>, IEnumerable<TKey>, IEnumerable1, ICollection1, IReadOnlyCollection<TKey>>;
     public: struct Enumerator : public valueType<Enumerator> {
-      using interface = rt::TypeList<IEnumerator<TKey>, IDisposable, IEnumerator1>;
+      public: using interface = rt::TypeList<IEnumerator<TKey>, IDisposable, IEnumerator1>;
       public: TKey get_Current();
       private: Object get_CurrentOfIEnumerator();
       public: explicit Enumerator(Dictionary<TKey, TValue> dictionary);
@@ -100,9 +100,9 @@ CLASS(Dictionary, TKey, TValue) : public Object::in {
     private: Dictionary<TKey, TValue> _dictionary;
   };
   public: CLASS(ValueCollection) : public Object::in {
-    using interface = rt::TypeList<ICollection<TValue>, IEnumerable<TValue>, IEnumerable1, ICollection1, IReadOnlyCollection<TValue>>;
+    public: using interface = rt::TypeList<ICollection<TValue>, IEnumerable<TValue>, IEnumerable1, ICollection1, IReadOnlyCollection<TValue>>;
     public: struct Enumerator : public valueType<Enumerator> {
-      using interface = rt::TypeList<IEnumerator<TValue>, IDisposable, IEnumerator1>;
+      public: using interface = rt::TypeList<IEnumerator<TValue>, IDisposable, IEnumerator1>;
       public: TValue get_Current();
       private: Object get_CurrentOfIEnumerator();
       public: explicit Enumerator(Dictionary<TKey, TValue> dictionary);

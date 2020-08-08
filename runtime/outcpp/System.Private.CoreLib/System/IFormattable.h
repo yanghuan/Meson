@@ -8,6 +8,7 @@ FORWARD(String)
 namespace IFormattableNamespace {
 CLASS(IFormattable) : public Object::in {
   public: String ToString(String format, IFormatProvider formatProvider);
+  public: static constexpr rt::TypeCode code = rt::TypeCode::Interface;
 };
 } // namespace IFormattableNamespace
 using IFormattable = IFormattableNamespace::IFormattable;

@@ -39,7 +39,7 @@ namespace StringBuilderNamespace {
 using namespace Collections::Generic;
 using namespace Runtime::Serialization;
 CLASS(StringBuilder) : public Object::in {
-  using interface = rt::TypeList<ISerializable>;
+  public: using interface = rt::TypeList<ISerializable>;
   public: struct ChunkEnumerator : public valueType<ChunkEnumerator> {
     private: CLASS(ManyChunkInfo) : public Object::in {
       public: Boolean MoveNext(StringBuilder& current);

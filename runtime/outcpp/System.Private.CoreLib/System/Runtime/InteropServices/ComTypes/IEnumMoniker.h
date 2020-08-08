@@ -15,6 +15,7 @@ CLASS(IEnumMoniker) : public Object::in {
   public: Int32 Skip(Int32 celt);
   public: void Reset();
   public: void Clone(IEnumMoniker& ppenum);
+  public: static constexpr rt::TypeCode code = rt::TypeCode::Interface;
 };
 } // namespace IEnumMonikerNamespace
 using IEnumMoniker = IEnumMonikerNamespace::IEnumMoniker;

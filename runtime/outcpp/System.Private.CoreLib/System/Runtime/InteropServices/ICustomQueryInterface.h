@@ -11,6 +11,7 @@ enum class CustomQueryInterfaceResult;
 namespace ICustomQueryInterfaceNamespace {
 CLASS(ICustomQueryInterface) : public Object::in {
   public: CustomQueryInterfaceResult GetInterface(Guid& iid, IntPtr& ppv);
+  public: static constexpr rt::TypeCode code = rt::TypeCode::Interface;
 };
 } // namespace ICustomQueryInterfaceNamespace
 using ICustomQueryInterface = ICustomQueryInterfaceNamespace::ICustomQueryInterface;

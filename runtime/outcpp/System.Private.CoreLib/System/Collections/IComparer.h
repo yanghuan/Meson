@@ -9,6 +9,7 @@ namespace System::Private::CoreLib::System::Collections {
 namespace IComparerNamespace {
 CLASS(IComparer) : public Object::in {
   public: Int32 Compare(Object x, Object y);
+  public: static constexpr rt::TypeCode code = rt::TypeCode::Interface;
 };
 } // namespace IComparerNamespace
 using IComparer = IComparerNamespace::IComparer;

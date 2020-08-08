@@ -25,7 +25,7 @@ namespace SemaphoreSlimNamespace {
 using namespace Runtime::CompilerServices;
 using namespace Tasks;
 CLASS(SemaphoreSlim) : public Object::in {
-  using interface = rt::TypeList<IDisposable>;
+  public: using interface = rt::TypeList<IDisposable>;
   private: CLASS(TaskNode) : public Task<Boolean>::in {
     public: void Ctor();
     public: TaskNode Prev;

@@ -21,7 +21,7 @@ namespace StrongNameKeyPairNamespace {
 using namespace IO;
 using namespace Runtime::Serialization;
 CLASS(StrongNameKeyPair) : public Object::in {
-  using interface = rt::TypeList<IDeserializationCallback, ISerializable>;
+  public: using interface = rt::TypeList<IDeserializationCallback, ISerializable>;
   public: Array<Byte> get_PublicKey();
   public: void Ctor(FileStream keyPairFile);
   public: void Ctor(Array<Byte> keyPairArray);

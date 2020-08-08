@@ -22,7 +22,7 @@ FORWARDS(UInt16)
 FORWARDS(UInt32)
 namespace GuidNamespace {
 struct Guid : public valueType<Guid> {
-  using interface = rt::TypeList<IFormattable, IComparable<>, IComparable<Guid>, IEquatable<Guid>, ISpanFormattable>;
+  public: using interface = rt::TypeList<IFormattable, IComparable<>, IComparable<Guid>, IEquatable<Guid>, ISpanFormattable>;
   private: enum class GuidParseThrowStyle : uint8_t {
     None = 0,
     All = 1,

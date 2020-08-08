@@ -9,8 +9,9 @@ FORWARDS(Memory, T)
 namespace System::Private::CoreLib::System::Buffers {
 namespace IMemoryOwnerNamespace {
 CLASS(IMemoryOwner, T) : public Object::in {
-  using interface = rt::TypeList<IDisposable>;
+  public: using interface = rt::TypeList<IDisposable>;
   public: Memory<T> get_Memory();
+  public: static constexpr rt::TypeCode code = rt::TypeCode::Interface;
 };
 } // namespace IMemoryOwnerNamespace
 template <class T>

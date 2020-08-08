@@ -7,10 +7,11 @@ FORWARDS(DictionaryEntry)
 FORWARD(IEnumerator)
 namespace IDictionaryEnumeratorNamespace {
 CLASS(IDictionaryEnumerator) : public Object::in {
-  using interface = rt::TypeList<IEnumerator>;
+  public: using interface = rt::TypeList<IEnumerator>;
   public: Object get_Key();
   public: Object get_Value();
   public: DictionaryEntry get_Entry();
+  public: static constexpr rt::TypeCode code = rt::TypeCode::Interface;
 };
 } // namespace IDictionaryEnumeratorNamespace
 using IDictionaryEnumerator = IDictionaryEnumeratorNamespace::IDictionaryEnumerator;

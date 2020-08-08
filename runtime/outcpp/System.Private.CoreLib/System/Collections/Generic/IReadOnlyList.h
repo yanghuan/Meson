@@ -16,8 +16,9 @@ template <class T>
 using IEnumerable = Generic::IEnumerable<T>;
 using IEnumerable1 = Collections::IEnumerable;
 CLASS(IReadOnlyList, T) : public Object::in {
-  using interface = rt::TypeList<IReadOnlyCollection<T>, IEnumerable<T>, IEnumerable1>;
+  public: using interface = rt::TypeList<IReadOnlyCollection<T>, IEnumerable<T>, IEnumerable1>;
   public: T get_Item(Int32 index);
+  public: static constexpr rt::TypeCode code = rt::TypeCode::Interface;
 };
 } // namespace IReadOnlyListNamespace
 template <class T>

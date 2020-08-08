@@ -43,7 +43,7 @@ using namespace Collections::Generic;
 using namespace Runtime::CompilerServices;
 CLASS_FORWARD(Task, T1, T2)
 CLASS_(Task) : public Object::in {
-  using interface = rt::TypeList<IAsyncResult, IDisposable>;
+  public: using interface = rt::TypeList<IAsyncResult, IDisposable>;
   public: CLASS(ContingentProperties) : public Object::in {
     public: void SetCompleted();
     public: void UnregisterCancellationCallback();
@@ -59,13 +59,13 @@ CLASS_(Task) : public Object::in {
     public: Task<> m_parent;
   };
   private: CLASS(SetOnInvokeMres) : public ManualResetEventSlim::in {
-    using interface = rt::TypeList<ITaskCompletionAction>;
+    public: using interface = rt::TypeList<ITaskCompletionAction>;
     public: Boolean get_InvokeMayRunArbitraryCode();
     public: void Ctor();
     public: void Invoke(Task<> completingTask);
   };
   private: CLASS(SetOnCountdownMres) : public ManualResetEventSlim::in {
-    using interface = rt::TypeList<ITaskCompletionAction>;
+    public: using interface = rt::TypeList<ITaskCompletionAction>;
     public: Boolean get_InvokeMayRunArbitraryCode();
     public: void Ctor(Int32 count);
     public: void Invoke(Task<> completingTask);
@@ -137,21 +137,21 @@ CLASS(DelayPromiseWithCancellation) : public Task<>::in::DelayPromise::in {
 };
 CLASS_FORWARD(WhenAllPromise, T1, T2)
 CLASS_(WhenAllPromise) : public Task<>::in {
-  using interface = rt::TypeList<ITaskCompletionAction>;
+  public: using interface = rt::TypeList<ITaskCompletionAction>;
   public: Boolean get_InvokeMayRunArbitraryCode();
   public: Boolean get_ShouldNotifyDebuggerOfWaitCompletion();
   private: Array<Task<>> m_tasks;
   private: Int32 m_count;
 };
 CLASS_(WhenAllPromise, T) : public Task<Array<T>>::in {
-  using interface = rt::TypeList<ITaskCompletionAction>;
+  public: using interface = rt::TypeList<ITaskCompletionAction>;
   public: Boolean get_InvokeMayRunArbitraryCode();
   public: Boolean get_ShouldNotifyDebuggerOfWaitCompletion();
   private: Array<Task<T>> m_tasks;
   private: Int32 m_count;
 };
 CLASS(TwoTaskWhenAnyPromise, TTask) : public Task<TTask>::in {
-  using interface = rt::TypeList<ITaskCompletionAction>;
+  public: using interface = rt::TypeList<ITaskCompletionAction>;
   public: Boolean get_InvokeMayRunArbitraryCode();
   public: void Ctor(TTask task1, TTask task2);
   public: void Invoke(Task<> completingTask);

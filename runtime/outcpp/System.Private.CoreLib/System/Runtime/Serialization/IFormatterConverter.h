@@ -41,6 +41,7 @@ CLASS(IFormatterConverter) : public Object::in {
   public: Decimal ToDecimal(Object value);
   public: DateTime ToDateTime(Object value);
   public: String ToString(Object value);
+  public: static constexpr rt::TypeCode code = rt::TypeCode::Interface;
 };
 } // namespace IFormatterConverterNamespace
 using IFormatterConverter = IFormatterConverterNamespace::IFormatterConverter;

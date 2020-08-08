@@ -27,7 +27,7 @@ template <class T>
 using IEnumerable = Generic::IEnumerable<T>;
 using IEnumerable1 = Collections::IEnumerable;
 CLASS(ConcurrentQueue, T) : public Object::in {
-  using interface = rt::TypeList<IProducerConsumerCollection<T>, IEnumerable<T>, IEnumerable1, ICollection, IReadOnlyCollection<T>>;
+  public: using interface = rt::TypeList<IProducerConsumerCollection<T>, IEnumerable<T>, IEnumerable1, ICollection, IReadOnlyCollection<T>>;
   private: Boolean get_IsSynchronizedOfICollection();
   private: Object get_SyncRootOfICollection();
   public: Boolean get_IsEmpty();

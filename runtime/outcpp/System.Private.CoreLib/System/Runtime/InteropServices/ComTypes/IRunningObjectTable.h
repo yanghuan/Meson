@@ -18,6 +18,7 @@ CLASS(IRunningObjectTable) : public Object::in {
   public: void NoteChangeTime(Int32 dwRegister, FILETIME& pfiletime);
   public: Int32 GetTimeOfLastChange(IMoniker pmkObjectName, FILETIME& pfiletime);
   public: void EnumRunning(IEnumMoniker& ppenumMoniker);
+  public: static constexpr rt::TypeCode code = rt::TypeCode::Interface;
 };
 } // namespace IRunningObjectTableNamespace
 using IRunningObjectTable = IRunningObjectTableNamespace::IRunningObjectTable;

@@ -29,7 +29,7 @@ namespace RuneNamespace {
 using namespace Buffers;
 using namespace Globalization;
 struct Rune : public valueType<Rune> {
-  using interface = rt::TypeList<IComparable<Rune>, IEquatable<Rune>>;
+  public: using interface = rt::TypeList<IComparable<Rune>, IEquatable<Rune>>;
   private: static ReadOnlySpan<Byte> get_AsciiCharInfo();
   private: String get_DebuggerDisplay();
   public: Boolean get_IsAscii();

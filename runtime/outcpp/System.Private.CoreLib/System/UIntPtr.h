@@ -25,7 +25,7 @@ namespace UIntPtrNamespace {
 using namespace Globalization;
 using namespace Runtime::Serialization;
 struct UIntPtr : public valueType<UIntPtr> {
-  using interface = rt::TypeList<IEquatable<UIntPtr>, IComparable<>, IComparable<UIntPtr>, IFormattable, ISerializable>;
+  public: using interface = rt::TypeList<IEquatable<UIntPtr>, IComparable<>, IComparable<UIntPtr>, IFormattable, ISerializable>;
   public: static Int32 get_Size();
   public: static UIntPtr get_MaxValue();
   public: static UIntPtr get_MinValue();

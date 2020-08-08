@@ -17,6 +17,7 @@ CLASS(IPersistFile) : public Object::in {
   public: void Save(String pszFileName, Boolean fRemember);
   public: void SaveCompleted(String pszFileName);
   public: void GetCurFile(String& ppszFileName);
+  public: static constexpr rt::TypeCode code = rt::TypeCode::Interface;
 };
 } // namespace IPersistFileNamespace
 using IPersistFile = IPersistFileNamespace::IPersistFile;

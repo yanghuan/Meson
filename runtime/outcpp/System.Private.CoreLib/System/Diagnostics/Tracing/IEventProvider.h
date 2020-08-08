@@ -23,6 +23,7 @@ CLASS(IEventProvider) : public Object::in {
   public: EventProvider::in::WriteEventErrorCode EventWriteTransfer(Int64 registrationHandle, EventDescriptor& eventDescriptor, IntPtr eventHandle, Guid* activityId, Guid* relatedActivityId, Int32 userDataCount, void/*EventProvider.EventData*/* userData);
   public: Int32 EventActivityIdControl(Interop::Advapi32::ActivityControl ControlCode, Guid& ActivityId);
   public: IntPtr DefineEventHandle(UInt32 eventID, String eventName, Int64 keywords, UInt32 eventVersion, UInt32 level, Byte* pMetadata, UInt32 metadataLength);
+  public: static constexpr rt::TypeCode code = rt::TypeCode::Interface;
 };
 } // namespace IEventProviderNamespace
 using IEventProvider = IEventProviderNamespace::IEventProvider;

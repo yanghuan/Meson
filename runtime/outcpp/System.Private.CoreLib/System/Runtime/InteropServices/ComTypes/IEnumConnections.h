@@ -15,6 +15,7 @@ CLASS(IEnumConnections) : public Object::in {
   public: Int32 Skip(Int32 celt);
   public: void Reset();
   public: void Clone(IEnumConnections& ppenum);
+  public: static constexpr rt::TypeCode code = rt::TypeCode::Interface;
 };
 } // namespace IEnumConnectionsNamespace
 using IEnumConnections = IEnumConnectionsNamespace::IEnumConnections;

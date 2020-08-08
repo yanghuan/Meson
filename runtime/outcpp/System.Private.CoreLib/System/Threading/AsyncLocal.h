@@ -10,7 +10,7 @@ FORWARDS(AsyncLocalValueChangedArgs, T)
 FORWARD(IAsyncLocal)
 namespace AsyncLocalNamespace {
 CLASS(AsyncLocal, T) : public Object::in {
-  using interface = rt::TypeList<IAsyncLocal>;
+  public: using interface = rt::TypeList<IAsyncLocal>;
   public: T get_Value();
   public: void set_Value(T value);
   public: void Ctor();

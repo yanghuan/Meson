@@ -24,6 +24,7 @@ CLASS(IStream) : public Object::in {
   public: void UnlockRegion(Int64 libOffset, Int64 cb, Int32 dwLockType);
   public: void Stat(STATSTG& pstatstg, Int32 grfStatFlag);
   public: void Clone(IStream& ppstm);
+  public: static constexpr rt::TypeCode code = rt::TypeCode::Interface;
 };
 } // namespace IStreamNamespace
 using IStream = IStreamNamespace::IStream;

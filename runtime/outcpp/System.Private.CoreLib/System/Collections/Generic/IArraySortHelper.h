@@ -6,8 +6,10 @@ namespace System::Private::CoreLib::System::Collections::Generic {
 namespace IArraySortHelperNamespace {
 CLASS_FORWARD(IArraySortHelper, T1, T2, T3)
 CLASS_(IArraySortHelper, TKey) : public Object::in {
+  public: static constexpr rt::TypeCode code = rt::TypeCode::Interface;
 };
 CLASS_(IArraySortHelper, TKey, TValue) : public Object::in {
+  public: static constexpr rt::TypeCode code = rt::TypeCode::Interface;
 };
 } // namespace IArraySortHelperNamespace
 template <class T1 = void, class T2 = void, class T3 = void>

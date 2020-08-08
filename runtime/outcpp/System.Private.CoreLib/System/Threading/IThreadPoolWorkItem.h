@@ -6,6 +6,7 @@ namespace System::Private::CoreLib::System::Threading {
 namespace IThreadPoolWorkItemNamespace {
 CLASS(IThreadPoolWorkItem) : public Object::in {
   public: void Execute();
+  public: static constexpr rt::TypeCode code = rt::TypeCode::Interface;
 };
 } // namespace IThreadPoolWorkItemNamespace
 using IThreadPoolWorkItem = IThreadPoolWorkItemNamespace::IThreadPoolWorkItem;

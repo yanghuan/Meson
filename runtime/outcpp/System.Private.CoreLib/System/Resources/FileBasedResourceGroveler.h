@@ -20,7 +20,7 @@ namespace FileBasedResourceGrovelerNamespace {
 using namespace Collections::Generic;
 using namespace Globalization;
 CLASS(FileBasedResourceGroveler) : public Object::in {
-  using interface = rt::TypeList<IResourceGroveler>;
+  public: using interface = rt::TypeList<IResourceGroveler>;
   public: void Ctor(ResourceManager::in::ResourceManagerMediator mediator);
   public: ResourceSet GrovelForResourceSet(CultureInfo culture, Dictionary<String, ResourceSet> localResourceSets, Boolean tryParents, Boolean createIfNotExists);
   private: String FindResourceFile(CultureInfo culture, String fileName);

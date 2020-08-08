@@ -100,7 +100,7 @@ namespace Meson.Compiler {
       };
       var baseType = type.DirectBaseTypes.First();
       Contract.Assert(baseType.IsKnownType(KnownTypeCode.ValueType));
-      CompilationUnit.GetTypeName(new TypeNameArgs() { 
+      CompilationUnit.GetTypeName(new TypeNameArgs() {
         Type = baseType,
         Definition = type,
         IsForward = false,
@@ -138,7 +138,7 @@ namespace Meson.Compiler {
           IsInHead = true,
           IsForward = true,
         }));
-        node.Add(new UsingDeclarationSyntax(IdentifierSyntax.Interface, IdentifierSyntax.TypeList.Generic(interfaceTypes)) { 
+        node.Add(new UsingDeclarationSyntax(IdentifierSyntax.Interface, IdentifierSyntax.TypeList.Generic(interfaceTypes)) {
           AccessibilityToken = Accessibility.Public.ToTokenString(),
         });
       }
@@ -232,7 +232,7 @@ namespace Meson.Compiler {
       var parameters = method.Parameters.Select(i => GetParameterSyntax(i, method, typeDefinition)).ToList();
       MethodDefinitionSyntax methodDefinition;
       if (isCtor) {
-        methodDefinition = new MethodDefinitionSyntax(node.Name, parameters) { 
+        methodDefinition = new MethodDefinitionSyntax(node.Name, parameters) {
           IsExplicit = true,
           AccessibilityToken = method.Accessibility.ToTokenString(),
         };
@@ -259,7 +259,7 @@ namespace Meson.Compiler {
             //CompilationUnit.AddPropertyFieldTypeReference(property);
           }
         } else {
-          if (typeDefinition.TypeParameterCount == 0 && method.TypeParameters.Count ==0 && method.TypeArguments.Count == 0) {
+          if (typeDefinition.TypeParameterCount == 0 && method.TypeParameters.Count == 0 && method.TypeArguments.Count == 0) {
             new MethodTransform(this, method, node);
           }
         }
@@ -613,12 +613,22 @@ namespace Meson.Compiler {
         case KnownTypeCode.UInt64:
         case KnownTypeCode.Single:
         case KnownTypeCode.Double:
-        case KnownTypeCode.String:
-          node.Add(new FieldDefinitionSyntax(IdentifierSyntax.TypeCode, "code", true, Accessibility.Public.ToTokenString()) { 
-            IsConstexpr = true,
-            ConstantValue = IdentifierSyntax.TypeCode.TwoColon(type.Name),
-          });
-          break;
+        case KnownTypeCode.String: {
+            node.Add(new FieldDefinitionSyntax(IdentifierSyntax.TypeCode, "code", true, Accessibility.Public.ToTokenString()) {
+              IsConstexpr = true,
+              ConstantValue = IdentifierSyntax.TypeCode.TwoColon(type.Name),
+            });
+            break;
+          }
+        default: {
+            if (type.Kind == TypeKind.Interface) {
+              node.Add(new FieldDefinitionSyntax(IdentifierSyntax.TypeCode, "code", true, Accessibility.Public.ToTokenString()) {
+                IsConstexpr = true,
+                ConstantValue = IdentifierSyntax.TypeCode.TwoColon(TypeKind.Interface.ToString()),
+              });
+            }
+            break;
+          }
       }
     }
 

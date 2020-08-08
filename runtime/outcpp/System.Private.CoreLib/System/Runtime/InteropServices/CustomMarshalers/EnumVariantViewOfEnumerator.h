@@ -21,7 +21,7 @@ namespace EnumVariantViewOfEnumeratorNamespace {
 using namespace Collections;
 using namespace ComTypes;
 CLASS(EnumVariantViewOfEnumerator) : public Object::in {
-  using interface = rt::TypeList<IEnumVARIANT, ICustomAdapter>;
+  public: using interface = rt::TypeList<IEnumVARIANT, ICustomAdapter>;
   public: IEnumerator get_Enumerator() { return Enumerator; }
   public: void Ctor(IEnumerator enumerator);
   public: IEnumVARIANT Clone();

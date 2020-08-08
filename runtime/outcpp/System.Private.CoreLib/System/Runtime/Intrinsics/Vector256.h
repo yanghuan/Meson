@@ -19,7 +19,7 @@ class Vector256<> {
 };
 template <class T>
 struct Vector256<T> : public valueType<Vector256<T>> {
-  using interface = rt::TypeList<IEquatable<Vector256<T>>>;
+  public: using interface = rt::TypeList<IEquatable<Vector256<T>>>;
   public: static Int32 get_Count();
   public: static Vector256<T> get_Zero();
   public: static Vector256<T> get_AllBitsSet();

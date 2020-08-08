@@ -14,12 +14,13 @@ FORWARDS(LICINFO)
 namespace IClassFactory2Namespace {
 using namespace ::System::Private::CoreLib::System;
 CLASS(IClassFactory2) : public Object::in {
-  using interface = rt::TypeList<IClassFactory>;
+  public: using interface = rt::TypeList<IClassFactory>;
   public: void CreateInstance(Object pUnkOuter, Guid& riid, Object& ppvObject);
   public: void LockServer(Boolean fLock);
   public: void GetLicInfo(LICINFO& pLicInfo);
   public: void RequestLicKey(Int32 dwReserved, String& pBstrKey);
   public: void CreateInstanceLic(Object pUnkOuter, Object pUnkReserved, Guid& riid, String bstrKey, Object& ppvObject);
+  public: static constexpr rt::TypeCode code = rt::TypeCode::Interface;
 };
 } // namespace IClassFactory2Namespace
 using IClassFactory2 = IClassFactory2Namespace::IClassFactory2;

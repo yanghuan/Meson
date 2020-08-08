@@ -14,7 +14,7 @@ namespace System::Private::CoreLib::System::Globalization {
 namespace TextElementEnumeratorNamespace {
 using namespace Collections;
 CLASS(TextElementEnumerator) : public Object::in {
-  using interface = rt::TypeList<IEnumerator>;
+  public: using interface = rt::TypeList<IEnumerator>;
   public: Object get_Current();
   public: Int32 get_ElementIndex();
   public: void Ctor(String str, Int32 startIndex);

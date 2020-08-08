@@ -67,7 +67,7 @@ using namespace Security;
 using namespace Threading;
 using Collections::Generic::IList;
 CLASS(Assembly) : public Object::in {
-  using interface = rt::TypeList<ICustomAttributeProvider, ISerializable>;
+  public: using interface = rt::TypeList<ICustomAttributeProvider, ISerializable>;
   public: IEnumerable<TypeInfo> get_DefinedTypes();
   public: IEnumerable<Type> get_ExportedTypes();
   public: String get_CodeBase();

@@ -22,7 +22,7 @@ FORWARD(Thread)
 namespace ExecutionContextNamespace {
 using namespace Runtime::Serialization;
 CLASS(ExecutionContext) : public Object::in {
-  using interface = rt::TypeList<IDisposable, ISerializable>;
+  public: using interface = rt::TypeList<IDisposable, ISerializable>;
   public: Boolean get_HasChangeNotifications();
   public: Boolean get_IsDefault();
   private: void Ctor(Boolean isDefault);

@@ -13,7 +13,7 @@ FORWARD(ICloneable)
 namespace ArrayEnumeratorNamespace {
 using namespace Collections;
 CLASS(ArrayEnumerator) : public Object::in {
-  using interface = rt::TypeList<IEnumerator, ICloneable>;
+  public: using interface = rt::TypeList<IEnumerator, ICloneable>;
   public: Object get_Current();
   public: void Ctor(Array<> array, Int32 index, Int32 count);
   private: void IncArray();

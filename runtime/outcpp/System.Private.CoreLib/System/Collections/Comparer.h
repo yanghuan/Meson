@@ -20,7 +20,7 @@ namespace ComparerNamespace {
 using namespace Globalization;
 using namespace Runtime::Serialization;
 CLASS(Comparer) : public Object::in {
-  using interface = rt::TypeList<IComparer, ISerializable>;
+  public: using interface = rt::TypeList<IComparer, ISerializable>;
   public: void Ctor(CultureInfo culture);
   private: void Ctor(SerializationInfo info, StreamingContext context);
   public: void GetObjectData(SerializationInfo info, StreamingContext context);

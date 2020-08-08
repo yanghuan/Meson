@@ -10,6 +10,7 @@ namespace System::Private::CoreLib::System::Runtime::InteropServices {
 namespace ICustomFactoryNamespace {
 CLASS(ICustomFactory) : public Object::in {
   public: MarshalByRefObject CreateInstance(Type serverType);
+  public: static constexpr rt::TypeCode code = rt::TypeCode::Interface;
 };
 } // namespace ICustomFactoryNamespace
 using ICustomFactory = ICustomFactoryNamespace::ICustomFactory;

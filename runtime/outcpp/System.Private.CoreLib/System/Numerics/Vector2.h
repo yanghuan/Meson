@@ -19,7 +19,7 @@ FORWARDS(Matrix4x4)
 FORWARDS(Quaternion)
 namespace Vector2Namespace {
 struct Vector2 : public valueType<Vector2> {
-  using interface = rt::TypeList<IEquatable<Vector2>, IFormattable>;
+  public: using interface = rt::TypeList<IEquatable<Vector2>, IFormattable>;
   public: static Vector2 get_Zero();
   public: static Vector2 get_One();
   public: static Vector2 get_UnitX();

@@ -11,7 +11,7 @@ namespace System::Private::CoreLib::System::Runtime::InteropServices {
 namespace CriticalHandleNamespace {
 using namespace ConstrainedExecution;
 CLASS(CriticalHandle) : public CriticalFinalizerObject::in {
-  using interface = rt::TypeList<IDisposable>;
+  public: using interface = rt::TypeList<IDisposable>;
   public: Boolean get_IsClosed();
   public: Boolean get_IsInvalid();
   protected: void Ctor(IntPtr invalidHandleValue);

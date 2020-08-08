@@ -24,7 +24,7 @@ FORWARD(String)
 namespace TimeSpanNamespace {
 using namespace Globalization;
 struct TimeSpan : public valueType<TimeSpan> {
-  using interface = rt::TypeList<IComparable<>, IComparable<TimeSpan>, IEquatable<TimeSpan>, IFormattable, ISpanFormattable>;
+  public: using interface = rt::TypeList<IComparable<>, IComparable<TimeSpan>, IEquatable<TimeSpan>, IFormattable, ISpanFormattable>;
   public: Int64 get_Ticks();
   public: Int32 get_Days();
   public: Int32 get_Hours();

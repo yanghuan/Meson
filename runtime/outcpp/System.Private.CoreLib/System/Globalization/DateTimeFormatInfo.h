@@ -28,7 +28,7 @@ FORWARD(CultureData)
 FORWARD(CultureInfo)
 namespace DateTimeFormatInfoNamespace {
 CLASS(DateTimeFormatInfo) : public Object::in {
-  using interface = rt::TypeList<IFormatProvider, ICloneable>;
+  public: using interface = rt::TypeList<IFormatProvider, ICloneable>;
   public: CLASS(TokenHashValue) : public Object::in {
     public: void Ctor(String tokenString, TokenType tokenType, Int32 tokenValue);
     public: String tokenString;

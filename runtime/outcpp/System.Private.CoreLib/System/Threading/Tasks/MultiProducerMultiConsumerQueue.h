@@ -22,7 +22,7 @@ template <class T>
 using IEnumerable = Collections::Generic::IEnumerable<T>;
 using IEnumerable1 = Collections::IEnumerable;
 CLASS(MultiProducerMultiConsumerQueue, T) : public ConcurrentQueue<T>::in {
-  using interface = rt::TypeList<IProducerConsumerQueue<T>, IEnumerable<T>, IEnumerable1>;
+  public: using interface = rt::TypeList<IProducerConsumerQueue<T>, IEnumerable<T>, IEnumerable1>;
   private: Boolean get_IsEmptyOfIProducerConsumerQueueT();
   private: Int32 get_CountOfIProducerConsumerQueueT();
   public: void Ctor();

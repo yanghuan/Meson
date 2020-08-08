@@ -7,6 +7,7 @@ FORWARD(Type)
 namespace IFormatProviderNamespace {
 CLASS(IFormatProvider) : public Object::in {
   public: Object GetFormat(Type formatType);
+  public: static constexpr rt::TypeCode code = rt::TypeCode::Interface;
 };
 } // namespace IFormatProviderNamespace
 using IFormatProvider = IFormatProviderNamespace::IFormatProvider;

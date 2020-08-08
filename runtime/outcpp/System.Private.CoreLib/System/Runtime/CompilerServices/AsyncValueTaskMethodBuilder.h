@@ -39,14 +39,14 @@ template <class TResult>
 struct AsyncValueTaskMethodBuilder<TResult> : public valueType<AsyncValueTaskMethodBuilder<TResult>> {
   CLASS_FORWARD(StateMachineBox, T1, T2, T3)
   public: CLASS_(StateMachineBox) : public Object::in {
-    using interface = rt::TypeList<IValueTaskSource<TResult>, IValueTaskSource<>>;
+    public: using interface = rt::TypeList<IValueTaskSource<TResult>, IValueTaskSource<>>;
     public: Int16 get_Version();
     protected: Action<> _moveNextAction;
     public: ExecutionContext Context;
     protected: ManualResetValueTaskSourceCore<TResult> _valueTaskSource;
   };
   private: CLASS_(StateMachineBox, TStateMachine) : public StateMachineBox<>::in {
-    using interface = rt::TypeList<IValueTaskSource<TResult>, IValueTaskSource<>, IAsyncStateMachineBox, IThreadPoolWorkItem>;
+    public: using interface = rt::TypeList<IValueTaskSource<TResult>, IValueTaskSource<>, IAsyncStateMachineBox, IThreadPoolWorkItem>;
     public: Action<> get_MoveNextAction();
     private: static ContextCallback<> s_callback;
     private: static Int32 s_cacheLock;

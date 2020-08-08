@@ -7,6 +7,7 @@ FORWARDS(Boolean)
 namespace IEquatableNamespace {
 CLASS(IEquatable, T) : public Object::in {
   public: Boolean Equals(T other);
+  public: static constexpr rt::TypeCode code = rt::TypeCode::Interface;
 };
 } // namespace IEquatableNamespace
 template <class T>

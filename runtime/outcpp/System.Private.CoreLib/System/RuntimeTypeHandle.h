@@ -53,7 +53,7 @@ using namespace Runtime::Loader;
 using namespace Runtime::Serialization;
 using namespace Threading;
 struct RuntimeTypeHandle : public valueType<RuntimeTypeHandle> {
-  using interface = rt::TypeList<ISerializable>;
+  public: using interface = rt::TypeList<ISerializable>;
   public: struct IntroducedMethodEnumerator : public valueType<IntroducedMethodEnumerator> {
     public: RuntimeMethodHandleInternal get_Current();
     public: explicit IntroducedMethodEnumerator(RuntimeType type);

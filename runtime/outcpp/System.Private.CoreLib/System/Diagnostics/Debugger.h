@@ -12,7 +12,7 @@ FORWARD(ICustomDebuggerNotification)
 namespace DebuggerNamespace {
 class Debugger {
   private: CLASS(CrossThreadDependencyNotification) : public Object::in {
-    using interface = rt::TypeList<ICustomDebuggerNotification>;
+    public: using interface = rt::TypeList<ICustomDebuggerNotification>;
     public: void Ctor();
   };
   public: static Boolean get_IsAttached();

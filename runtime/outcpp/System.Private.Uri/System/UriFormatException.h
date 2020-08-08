@@ -16,7 +16,7 @@ namespace UriFormatExceptionNamespace {
 using namespace ::System::Private::CoreLib::System;
 using namespace ::System::Private::CoreLib::System::Runtime::Serialization;
 CLASS(UriFormatException) : public FormatException::in {
-  using interface = rt::TypeList<ISerializable>;
+  public: using interface = rt::TypeList<ISerializable>;
   public: void Ctor();
   public: void Ctor(String textString);
   public: void Ctor(String textString, Exception e);

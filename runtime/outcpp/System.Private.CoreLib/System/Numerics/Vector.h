@@ -20,7 +20,7 @@ class Vector<> {
 };
 template <class T>
 struct Vector<T> : public valueType<Vector<T>> {
-  using interface = rt::TypeList<IEquatable<Vector<T>>, IFormattable>;
+  public: using interface = rt::TypeList<IEquatable<Vector<T>>, IFormattable>;
   public: static Int32 get_Count();
   public: static Vector<T> get_Zero();
   public: static Vector<T> get_One();

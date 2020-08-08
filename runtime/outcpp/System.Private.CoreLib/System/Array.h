@@ -44,7 +44,7 @@ using IComparer1 = Collections::IComparer;
 CLASS_FORWARD(Array, T1, T2)
 CLASS_(Array, T1);
 CLASS_(Array) : public Object::in {
-  using interface = rt::TypeList<ICloneable, Collections::IList, Collections::ICollection, Collections::IEnumerable, IStructuralComparable, IStructuralEquatable>;
+  public: using interface = rt::TypeList<ICloneable, IList, ICollection, IEnumerable, IStructuralComparable, IStructuralEquatable>;
   private: template <class T>
   class EmptyArray {
     private: static void SCtor();

@@ -31,7 +31,7 @@ namespace UriNamespace {
 using namespace ::System::Private::CoreLib::System;
 using namespace ::System::Private::CoreLib::System::Runtime::Serialization;
 CLASS(Uri) : public Object::in {
-  using interface = rt::TypeList<ISerializable>;
+  public: using interface = rt::TypeList<ISerializable>;
   public: enum class Flags : uint64_t {
     Zero = 0,
     SchemeNotCanonical = 1,

@@ -19,7 +19,7 @@ struct ConfiguredValueTaskAwaitable {
 template <>
 struct ConfiguredValueTaskAwaitable<> : public valueType<ConfiguredValueTaskAwaitable<>> {
   public: struct ConfiguredValueTaskAwaiter : public valueType<ConfiguredValueTaskAwaiter> {
-    using interface = rt::TypeList<ICriticalNotifyCompletion, INotifyCompletion, IStateMachineBoxAwareAwaiter>;
+    public: using interface = rt::TypeList<ICriticalNotifyCompletion, INotifyCompletion, IStateMachineBoxAwareAwaiter>;
     public: Boolean get_IsCompleted();
     public: explicit ConfiguredValueTaskAwaiter(ValueTask<>& value);
     public: void GetResult();
@@ -33,7 +33,7 @@ struct ConfiguredValueTaskAwaitable<> : public valueType<ConfiguredValueTaskAwai
 template <class TResult>
 struct ConfiguredValueTaskAwaitable<TResult> : public valueType<ConfiguredValueTaskAwaitable<TResult>> {
   public: struct ConfiguredValueTaskAwaiter : public valueType<ConfiguredValueTaskAwaiter> {
-    using interface = rt::TypeList<ICriticalNotifyCompletion, INotifyCompletion, IStateMachineBoxAwareAwaiter>;
+    public: using interface = rt::TypeList<ICriticalNotifyCompletion, INotifyCompletion, IStateMachineBoxAwareAwaiter>;
     public: Boolean get_IsCompleted();
     public: explicit ConfiguredValueTaskAwaiter(ValueTask<TResult>& value);
     public: TResult GetResult();

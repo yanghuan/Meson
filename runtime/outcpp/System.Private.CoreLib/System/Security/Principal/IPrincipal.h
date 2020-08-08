@@ -12,6 +12,7 @@ namespace IPrincipalNamespace {
 CLASS(IPrincipal) : public Object::in {
   public: IIdentity get_Identity();
   public: Boolean IsInRole(String role);
+  public: static constexpr rt::TypeCode code = rt::TypeCode::Interface;
 };
 } // namespace IPrincipalNamespace
 using IPrincipal = IPrincipalNamespace::IPrincipal;

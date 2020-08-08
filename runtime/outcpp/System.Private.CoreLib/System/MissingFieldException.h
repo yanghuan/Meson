@@ -13,7 +13,7 @@ FORWARD(String)
 namespace MissingFieldExceptionNamespace {
 using namespace Runtime::Serialization;
 CLASS(MissingFieldException) : public MissingMemberException::in {
-  using interface = rt::TypeList<ISerializable>;
+  public: using interface = rt::TypeList<ISerializable>;
   public: String get_Message();
   public: void Ctor();
   public: void Ctor(String message);

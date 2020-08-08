@@ -19,13 +19,13 @@ struct TaskAwaiter {
 };
 template <>
 struct TaskAwaiter<> : public valueType<TaskAwaiter<>> {
-  using interface = rt::TypeList<ICriticalNotifyCompletion, INotifyCompletion, ITaskAwaiter>;
+  public: using interface = rt::TypeList<ICriticalNotifyCompletion, INotifyCompletion, ITaskAwaiter>;
   public: Boolean get_IsCompleted();
   public: Task<> m_task;
 };
 template <class TResult>
 struct TaskAwaiter<TResult> : public valueType<TaskAwaiter<TResult>> {
-  using interface = rt::TypeList<ICriticalNotifyCompletion, INotifyCompletion, ITaskAwaiter>;
+  public: using interface = rt::TypeList<ICriticalNotifyCompletion, INotifyCompletion, ITaskAwaiter>;
   public: Boolean get_IsCompleted();
   private: Task<TResult> m_task;
 };

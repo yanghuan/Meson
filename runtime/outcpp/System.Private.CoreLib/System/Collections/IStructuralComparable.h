@@ -10,6 +10,7 @@ FORWARD(IComparer)
 namespace IStructuralComparableNamespace {
 CLASS(IStructuralComparable) : public Object::in {
   public: Int32 CompareTo(Object other, IComparer comparer);
+  public: static constexpr rt::TypeCode code = rt::TypeCode::Interface;
 };
 } // namespace IStructuralComparableNamespace
 using IStructuralComparable = IStructuralComparableNamespace::IStructuralComparable;

@@ -17,7 +17,7 @@ FORWARDS(Quaternion)
 FORWARDS(Vector4)
 namespace PlaneNamespace {
 struct Plane : public valueType<Plane> {
-  using interface = rt::TypeList<IEquatable<Plane>>;
+  public: using interface = rt::TypeList<IEquatable<Plane>>;
   public: explicit Plane(Single x, Single y, Single z, Single d);
   public: explicit Plane(Vector3 normal, Single d);
   public: explicit Plane(Vector4 value);

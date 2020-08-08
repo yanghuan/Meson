@@ -14,6 +14,7 @@ CLASS(ICustomMarshaler) : public Object::in {
   public: void CleanUpNativeData(IntPtr pNativeData);
   public: void CleanUpManagedData(Object ManagedObj);
   public: Int32 GetNativeDataSize();
+  public: static constexpr rt::TypeCode code = rt::TypeCode::Interface;
 };
 } // namespace ICustomMarshalerNamespace
 using ICustomMarshaler = ICustomMarshalerNamespace::ICustomMarshaler;

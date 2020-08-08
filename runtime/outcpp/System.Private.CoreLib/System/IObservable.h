@@ -8,6 +8,7 @@ FORWARD(IObserver, T)
 namespace IObservableNamespace {
 CLASS(IObservable, T) : public Object::in {
   public: IDisposable Subscribe(IObserver<T> observer);
+  public: static constexpr rt::TypeCode code = rt::TypeCode::Interface;
 };
 } // namespace IObservableNamespace
 template <class T>

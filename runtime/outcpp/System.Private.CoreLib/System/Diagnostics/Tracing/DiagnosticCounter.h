@@ -17,7 +17,7 @@ FORWARD(EventSource)
 namespace DiagnosticCounterNamespace {
 using namespace Collections::Generic;
 CLASS(DiagnosticCounter) : public Object::in {
-  using interface = rt::TypeList<IDisposable>;
+  public: using interface = rt::TypeList<IDisposable>;
   public: String get_DisplayName();
   public: void set_DisplayName(String value);
   public: String get_DisplayUnits();

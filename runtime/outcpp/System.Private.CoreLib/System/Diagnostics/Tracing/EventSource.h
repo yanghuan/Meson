@@ -69,7 +69,7 @@ using namespace Collections::Generic;
 using namespace Reflection;
 using namespace Runtime::InteropServices;
 CLASS(EventSource) : public Object::in {
-  using interface = rt::TypeList<IDisposable>;
+  public: using interface = rt::TypeList<IDisposable>;
   public: struct EventData : public valueType<EventData> {
     public: IntPtr get_DataPointer();
     public: void set_DataPointer(IntPtr value);

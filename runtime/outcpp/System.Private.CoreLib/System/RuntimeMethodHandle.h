@@ -45,7 +45,7 @@ using namespace Runtime::CompilerServices;
 using namespace Runtime::Serialization;
 using namespace Threading;
 struct RuntimeMethodHandle : public valueType<RuntimeMethodHandle> {
-  using interface = rt::TypeList<ISerializable>;
+  public: using interface = rt::TypeList<ISerializable>;
   public: IntPtr get_Value();
   public: static IRuntimeMethodInfo EnsureNonNullMethodInfo(IRuntimeMethodInfo method);
   public: explicit RuntimeMethodHandle(IRuntimeMethodInfo method);

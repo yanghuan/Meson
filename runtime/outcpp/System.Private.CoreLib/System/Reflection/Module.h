@@ -42,7 +42,7 @@ using namespace Collections::Generic;
 using namespace Runtime::Serialization;
 using Collections::Generic::IList;
 CLASS(Module) : public Object::in {
-  using interface = rt::TypeList<ICustomAttributeProvider, ISerializable>;
+  public: using interface = rt::TypeList<ICustomAttributeProvider, ISerializable>;
   public: Assembly get_Assembly();
   public: String get_FullyQualifiedName();
   public: String get_Name();

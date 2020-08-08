@@ -7,6 +7,7 @@ FORWARDS(RuntimeFieldHandleInternal)
 namespace IRuntimeFieldInfoNamespace {
 CLASS(IRuntimeFieldInfo) : public Object::in {
   public: RuntimeFieldHandleInternal get_Value();
+  public: static constexpr rt::TypeCode code = rt::TypeCode::Interface;
 };
 } // namespace IRuntimeFieldInfoNamespace
 using IRuntimeFieldInfo = IRuntimeFieldInfoNamespace::IRuntimeFieldInfo;

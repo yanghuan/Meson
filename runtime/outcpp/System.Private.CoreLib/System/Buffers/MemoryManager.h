@@ -16,7 +16,7 @@ FORWARD(IPinnable)
 FORWARDS(MemoryHandle)
 namespace MemoryManagerNamespace {
 CLASS(MemoryManager, T) : public Object::in {
-  using interface = rt::TypeList<IMemoryOwner<T>, IDisposable, IPinnable>;
+  public: using interface = rt::TypeList<IMemoryOwner<T>, IDisposable, IPinnable>;
   public: Memory<T> get_Memory();
   public: Span<T> GetSpan();
   public: MemoryHandle Pin(Int32 elementIndex);

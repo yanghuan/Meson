@@ -7,6 +7,7 @@ FORWARDS(StreamingContext)
 namespace IObjectReferenceNamespace {
 CLASS(IObjectReference) : public Object::in {
   public: Object GetRealObject(StreamingContext context);
+  public: static constexpr rt::TypeCode code = rt::TypeCode::Interface;
 };
 } // namespace IObjectReferenceNamespace
 using IObjectReference = IObjectReferenceNamespace::IObjectReference;

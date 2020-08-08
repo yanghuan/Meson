@@ -38,7 +38,7 @@ using namespace Text;
 using namespace Threading;
 using namespace Threading::Tasks;
 CLASS(TextWriter) : public MarshalByRefObject::in {
-  using interface = rt::TypeList<IDisposable, IAsyncDisposable>;
+  public: using interface = rt::TypeList<IDisposable, IAsyncDisposable>;
   private: FRIENDN(NullTextWriter)
   public: FRIENDN(SyncTextWriter)
   public: IFormatProvider get_FormatProvider();
@@ -124,7 +124,7 @@ CLASS(NullTextWriter) : public TextWriter::in {
   public: void Write(Char value);
 };
 CLASS(SyncTextWriter) : public TextWriter::in {
-  using interface = rt::TypeList<IDisposable>;
+  public: using interface = rt::TypeList<IDisposable>;
   public: Encoding get_Encoding();
   public: IFormatProvider get_FormatProvider();
   public: String get_NewLine();

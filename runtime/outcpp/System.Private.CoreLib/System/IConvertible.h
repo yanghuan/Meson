@@ -40,6 +40,7 @@ CLASS(IConvertible) : public Object::in {
   public: DateTime ToDateTime(IFormatProvider provider);
   public: String ToString(IFormatProvider provider);
   public: Object ToType(Type conversionType, IFormatProvider provider);
+  public: static constexpr rt::TypeCode code = rt::TypeCode::Interface;
 };
 } // namespace IConvertibleNamespace
 using IConvertible = IConvertibleNamespace::IConvertible;

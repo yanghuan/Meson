@@ -20,7 +20,7 @@ namespace MemoryNamespace {
 using namespace Buffers;
 template <class T>
 struct Memory : public valueType<Memory<T>> {
-  using interface = rt::TypeList<IEquatable<Memory<T>>>;
+  public: using interface = rt::TypeList<IEquatable<Memory<T>>>;
   public: static Memory<T> get_Empty();
   public: Int32 get_Length();
   public: Boolean get_IsEmpty();

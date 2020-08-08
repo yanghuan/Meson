@@ -24,7 +24,7 @@ FORWARD(String)
 namespace Int16Namespace {
 using namespace Globalization;
 struct Int16 : public valueType<Int16> {
-  using interface = rt::TypeList<IComparable<>, IConvertible, IFormattable, IComparable<Int16>, IEquatable<Int16>, ISpanFormattable>;
+  public: using interface = rt::TypeList<IComparable<>, IConvertible, IFormattable, IComparable<Int16>, IEquatable<Int16>, ISpanFormattable>;
   public: constexpr Int16() noexcept : m_value(0) {}
   public: constexpr Int16(int16_t value) noexcept : m_value(value) {}
   public: constexpr int16_t& get() noexcept { return m_value; }

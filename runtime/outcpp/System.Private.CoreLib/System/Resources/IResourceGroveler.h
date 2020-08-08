@@ -19,6 +19,7 @@ using namespace Collections::Generic;
 using namespace Globalization;
 CLASS(IResourceGroveler) : public Object::in {
   public: ResourceSet GrovelForResourceSet(CultureInfo culture, Dictionary<String, ResourceSet> localResourceSets, Boolean tryParents, Boolean createIfNotExists);
+  public: static constexpr rt::TypeCode code = rt::TypeCode::Interface;
 };
 } // namespace IResourceGrovelerNamespace
 using IResourceGroveler = IResourceGrovelerNamespace::IResourceGroveler;

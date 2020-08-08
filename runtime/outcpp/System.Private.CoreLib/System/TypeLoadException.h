@@ -18,7 +18,7 @@ namespace TypeLoadExceptionNamespace {
 using namespace Runtime::CompilerServices;
 using namespace Runtime::Serialization;
 CLASS(TypeLoadException) : public SystemException::in {
-  using interface = rt::TypeList<ISerializable>;
+  public: using interface = rt::TypeList<ISerializable>;
   public: String get_Message();
   public: String get_TypeName();
   private: void Ctor(String className, String assemblyName, String messageArg, Int32 resourceId);

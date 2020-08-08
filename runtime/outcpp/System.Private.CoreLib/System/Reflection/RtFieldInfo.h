@@ -28,7 +28,7 @@ FORWARD(RuntimeModule)
 namespace RtFieldInfoNamespace {
 using namespace Globalization;
 CLASS(RtFieldInfo) : public RuntimeFieldInfo::in {
-  using interface = rt::TypeList<IRuntimeFieldInfo>;
+  public: using interface = rt::TypeList<IRuntimeFieldInfo>;
   public: INVOCATION_FLAGS get_InvocationFlags();
   private: RuntimeFieldHandleInternal get_ValueOfIRuntimeFieldInfo();
   public: String get_Name();

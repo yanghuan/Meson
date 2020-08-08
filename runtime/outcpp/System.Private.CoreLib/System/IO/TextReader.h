@@ -24,7 +24,7 @@ namespace TextReaderNamespace {
 using namespace Threading;
 using namespace Threading::Tasks;
 CLASS(TextReader) : public MarshalByRefObject::in {
-  using interface = rt::TypeList<IDisposable>;
+  public: using interface = rt::TypeList<IDisposable>;
   private: FRIENDN(NullTextReader)
   public: FRIENDN(SyncTextReader)
   protected: void Ctor();

@@ -13,9 +13,10 @@ namespace System::Private::CoreLib::System::Resources {
 namespace IResourceReaderNamespace {
 using namespace Collections;
 CLASS(IResourceReader) : public Object::in {
-  using interface = rt::TypeList<IEnumerable, IDisposable>;
+  public: using interface = rt::TypeList<IEnumerable, IDisposable>;
   public: void Close();
   public: IDictionaryEnumerator GetEnumerator();
+  public: static constexpr rt::TypeCode code = rt::TypeCode::Interface;
 };
 } // namespace IResourceReaderNamespace
 using IResourceReader = IResourceReaderNamespace::IResourceReader;

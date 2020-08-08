@@ -11,8 +11,9 @@ FORWARD(IEnumerator)
 namespace System::Private::CoreLib::System::Collections::Generic {
 namespace IEnumeratorNamespace {
 CLASS(IEnumerator, T) : public Object::in {
-  using interface = rt::TypeList<IDisposable, Collections::IEnumerator>;
+  public: using interface = rt::TypeList<IDisposable, IEnumerator>;
   public: T get_Current();
+  public: static constexpr rt::TypeCode code = rt::TypeCode::Interface;
 };
 } // namespace IEnumeratorNamespace
 template <class T>

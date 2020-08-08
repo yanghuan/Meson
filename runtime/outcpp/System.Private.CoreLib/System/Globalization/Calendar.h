@@ -18,7 +18,7 @@ enum class CalendarId : uint16_t;
 enum class CalendarWeekRule;
 namespace CalendarNamespace {
 CLASS(Calendar) : public Object::in {
-  using interface = rt::TypeList<ICloneable>;
+  public: using interface = rt::TypeList<ICloneable>;
   public: DateTime get_MinSupportedDateTime();
   public: DateTime get_MaxSupportedDateTime();
   public: CalendarAlgorithmType get_AlgorithmType();

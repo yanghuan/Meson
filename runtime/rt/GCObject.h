@@ -13,7 +13,7 @@
 namespace rt {
   enum class TypeCode {
     None = 0,
-    Object = 1,
+    Array = 1,
     String = 2,
     Boolean = 3,
     Char = 4,
@@ -27,7 +27,7 @@ namespace rt {
     UInt64 = 12,
     Single = 13,
     Double = 14,
-    Array = 15,
+    Interface = 15,
   };
 
   template <class... Args>

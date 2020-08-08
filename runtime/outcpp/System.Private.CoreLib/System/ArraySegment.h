@@ -32,12 +32,10 @@ template <class T>
 using IEnumerator = Collections::Generic::IEnumerator<T>;
 using IEnumerator1 = Collections::IEnumerator;
 template <class T>
-using ICollection = Collections::Generic::ICollection<T>;
-template <class T>
 struct ArraySegment : public valueType<ArraySegment<T>> {
-  using interface = rt::TypeList<IList<T>, ICollection<T>, IEnumerable<T>, IEnumerable1, IReadOnlyList<T>, IReadOnlyCollection<T>>;
+  public: using interface = rt::TypeList<IList<T>, ICollection<T>, IEnumerable<T>, IEnumerable1, IReadOnlyList<T>, IReadOnlyCollection<T>>;
   public: struct Enumerator : public valueType<Enumerator> {
-    using interface = rt::TypeList<IEnumerator<T>, IDisposable, IEnumerator1>;
+    public: using interface = rt::TypeList<IEnumerator<T>, IDisposable, IEnumerator1>;
     public: T get_Current();
     private: Object get_CurrentOfIEnumerator();
     public: explicit Enumerator(ArraySegment<T> arraySegment);

@@ -9,7 +9,7 @@ namespace System::Private::CoreLib::System::Reflection {
 namespace MissingNamespace {
 using namespace Runtime::Serialization;
 CLASS(Missing) : public Object::in {
-  using interface = rt::TypeList<ISerializable>;
+  public: using interface = rt::TypeList<ISerializable>;
   private: void Ctor();
   private: static void SCtor();
   public: static Missing Value;

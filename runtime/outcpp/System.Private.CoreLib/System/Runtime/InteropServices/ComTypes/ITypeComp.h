@@ -15,6 +15,7 @@ namespace ITypeCompNamespace {
 CLASS(ITypeComp) : public Object::in {
   public: void Bind(String szName, Int32 lHashVal, Int16 wFlags, ITypeInfo& ppTInfo, DESCKIND& pDescKind, BINDPTR& pBindPtr);
   public: void BindType(String szName, Int32 lHashVal, ITypeInfo& ppTInfo, ITypeComp& ppTComp);
+  public: static constexpr rt::TypeCode code = rt::TypeCode::Interface;
 };
 } // namespace ITypeCompNamespace
 using ITypeComp = ITypeCompNamespace::ITypeComp;

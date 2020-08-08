@@ -8,7 +8,7 @@ FORWARDS(IntPtr)
 FORWARD(IRuntimeMethodInfo)
 namespace RuntimeMethodInfoStubNamespace {
 CLASS(RuntimeMethodInfoStub) : public Object::in {
-  using interface = rt::TypeList<IRuntimeMethodInfo>;
+  public: using interface = rt::TypeList<IRuntimeMethodInfo>;
   private: RuntimeMethodHandleInternal get_ValueOfIRuntimeMethodInfo();
   public: void Ctor(RuntimeMethodHandleInternal methodHandleValue, Object keepalive);
   public: void Ctor(IntPtr methodHandleValue, Object keepalive);

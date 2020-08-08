@@ -16,7 +16,7 @@ template <class T>
 using IEnumerable = Generic::IEnumerable<T>;
 using IEnumerable1 = Collections::IEnumerable;
 CLASS(ISet, T) : public Object::in {
-  using interface = rt::TypeList<ICollection<T>, IEnumerable<T>, IEnumerable1>;
+  public: using interface = rt::TypeList<ICollection<T>, IEnumerable<T>, IEnumerable1>;
   public: Boolean Add(T item);
   public: void UnionWith(IEnumerable<T> other);
   public: void IntersectWith(IEnumerable<T> other);
@@ -28,6 +28,7 @@ CLASS(ISet, T) : public Object::in {
   public: Boolean IsProperSubsetOf(IEnumerable<T> other);
   public: Boolean Overlaps(IEnumerable<T> other);
   public: Boolean SetEquals(IEnumerable<T> other);
+  public: static constexpr rt::TypeCode code = rt::TypeCode::Interface;
 };
 } // namespace ISetNamespace
 template <class T>

@@ -24,7 +24,7 @@ FORWARD(TaskScheduler)
 namespace AwaitTaskContinuationNamespace {
 using namespace Runtime::CompilerServices;
 CLASS(AwaitTaskContinuation) : public TaskContinuation::in {
-  using interface = rt::TypeList<IThreadPoolWorkItem>;
+  public: using interface = rt::TypeList<IThreadPoolWorkItem>;
   public: static Boolean get_IsValidLocationForInlining();
   public: void Ctor(Action<> action, Boolean flowExecutionContext);
   protected: Task<> CreateTask(Action<Object> action, Object state, TaskScheduler scheduler);

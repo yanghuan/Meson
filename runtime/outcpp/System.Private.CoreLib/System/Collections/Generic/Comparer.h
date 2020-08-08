@@ -16,7 +16,7 @@ template <class T>
 using IComparer = Generic::IComparer<T>;
 using IComparer1 = Collections::IComparer;
 CLASS(Comparer, T) : public Object::in {
-  using interface = rt::TypeList<IComparer1, IComparer<T>>;
+  public: using interface = rt::TypeList<IComparer1, IComparer<T>>;
   public: static Comparer<T> get_Default() { return Default; }
   public: static Comparer<T> Create(Comparison<T> comparison);
   public: Int32 Compare(T x, T y);

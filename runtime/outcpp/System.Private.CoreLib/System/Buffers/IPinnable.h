@@ -11,6 +11,7 @@ namespace IPinnableNamespace {
 CLASS(IPinnable) : public Object::in {
   public: MemoryHandle Pin(Int32 elementIndex);
   public: void Unpin();
+  public: static constexpr rt::TypeCode code = rt::TypeCode::Interface;
 };
 } // namespace IPinnableNamespace
 using IPinnable = IPinnableNamespace::IPinnable;

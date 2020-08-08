@@ -15,7 +15,7 @@ FORWARDS(Variant)
 namespace ComEventsSinkNamespace {
 using namespace ComTypes;
 CLASS(ComEventsSink) : public Object::in {
-  using interface = rt::TypeList<IDispatch, ICustomQueryInterface>;
+  public: using interface = rt::TypeList<IDispatch, ICustomQueryInterface>;
   public: void Ctor(Object rcw, Guid iid);
   public: static ComEventsSink Find(ComEventsSink sinks, Guid& iid);
   public: static ComEventsSink Add(ComEventsSink sinks, ComEventsSink sink);

@@ -37,6 +37,7 @@ CLASS(ITypeInfo) : public Object::in {
   public: void ReleaseTypeAttr(IntPtr pTypeAttr);
   public: void ReleaseFuncDesc(IntPtr pFuncDesc);
   public: void ReleaseVarDesc(IntPtr pVarDesc);
+  public: static constexpr rt::TypeCode code = rt::TypeCode::Interface;
 };
 } // namespace ITypeInfoNamespace
 using ITypeInfo = ITypeInfoNamespace::ITypeInfo;

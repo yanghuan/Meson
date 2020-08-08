@@ -31,7 +31,7 @@ namespace CultureInfoNamespace {
 using namespace Collections::Generic;
 using namespace Threading;
 CLASS(CultureInfo) : public Object::in {
-  using interface = rt::TypeList<IFormatProvider, ICloneable>;
+  public: using interface = rt::TypeList<IFormatProvider, ICloneable>;
   public: static CultureInfo get_CurrentCulture();
   public: static void set_CurrentCulture(CultureInfo value);
   public: static CultureInfo get_CurrentUICulture();

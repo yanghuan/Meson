@@ -10,7 +10,7 @@ FORWARD(IDisposable)
 namespace System::Private::CoreLib::System::IO {
 namespace DisableMediaInsertionPromptNamespace {
 struct DisableMediaInsertionPrompt : public valueType<DisableMediaInsertionPrompt> {
-  using interface = rt::TypeList<IDisposable>;
+  public: using interface = rt::TypeList<IDisposable>;
   public: static DisableMediaInsertionPrompt Create();
   public: void Dispose();
   private: Boolean _disableSuccess;

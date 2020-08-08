@@ -20,7 +20,7 @@ FORWARDS(Vector2)
 FORWARDS(Vector3)
 namespace Vector4Namespace {
 struct Vector4 : public valueType<Vector4> {
-  using interface = rt::TypeList<IEquatable<Vector4>, IFormattable>;
+  public: using interface = rt::TypeList<IEquatable<Vector4>, IFormattable>;
   public: static Vector4 get_Zero();
   public: static Vector4 get_One();
   public: static Vector4 get_UnitX();

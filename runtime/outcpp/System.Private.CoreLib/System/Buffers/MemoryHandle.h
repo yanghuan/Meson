@@ -11,7 +11,7 @@ FORWARD(IPinnable)
 namespace MemoryHandleNamespace {
 using namespace Runtime::InteropServices;
 struct MemoryHandle : public valueType<MemoryHandle> {
-  using interface = rt::TypeList<IDisposable>;
+  public: using interface = rt::TypeList<IDisposable>;
   public: void* get_Pointer();
   public: explicit MemoryHandle(void* pointer, GCHandle handle, IPinnable pinnable);
   public: void Dispose();

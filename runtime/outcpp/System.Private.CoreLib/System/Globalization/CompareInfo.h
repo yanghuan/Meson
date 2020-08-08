@@ -37,7 +37,7 @@ using namespace Reflection;
 using namespace Runtime::Serialization;
 using namespace Text;
 CLASS(CompareInfo) : public Object::in {
-  using interface = rt::TypeList<IDeserializationCallback>;
+  public: using interface = rt::TypeList<IDeserializationCallback>;
   private: class SortHandleCache {
     public: static IntPtr GetCachedSortHandle(String sortName);
     private: static void SCtor();

@@ -20,7 +20,7 @@ FORWARD(ITypeInfo)
 FORWARD(ITypeLib)
 namespace ITypeInfo2Namespace {
 CLASS(ITypeInfo2) : public Object::in {
-  using interface = rt::TypeList<ITypeInfo>;
+  public: using interface = rt::TypeList<ITypeInfo>;
   public: void GetTypeAttr(IntPtr& ppTypeAttr);
   public: void GetTypeComp(ITypeComp& ppTComp);
   public: void GetFuncDesc(Int32 index, IntPtr& ppFuncDesc);
@@ -55,6 +55,7 @@ CLASS(ITypeInfo2) : public Object::in {
   public: void GetAllParamCustData(Int32 indexFunc, Int32 indexParam, IntPtr pCustData);
   public: void GetAllVarCustData(Int32 index, IntPtr pCustData);
   public: void GetAllImplTypeCustData(Int32 index, IntPtr pCustData);
+  public: static constexpr rt::TypeCode code = rt::TypeCode::Interface;
 };
 } // namespace ITypeInfo2Namespace
 using ITypeInfo2 = ITypeInfo2Namespace::ITypeInfo2;

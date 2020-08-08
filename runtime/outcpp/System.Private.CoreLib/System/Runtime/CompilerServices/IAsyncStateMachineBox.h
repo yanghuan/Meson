@@ -12,6 +12,7 @@ CLASS(IAsyncStateMachineBox) : public Object::in {
   public: Action<> get_MoveNextAction();
   public: void MoveNext();
   public: IAsyncStateMachine GetStateMachineObject();
+  public: static constexpr rt::TypeCode code = rt::TypeCode::Interface;
 };
 } // namespace IAsyncStateMachineBoxNamespace
 using IAsyncStateMachineBox = IAsyncStateMachineBoxNamespace::IAsyncStateMachineBox;

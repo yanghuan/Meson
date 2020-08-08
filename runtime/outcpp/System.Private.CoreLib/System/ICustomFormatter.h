@@ -8,6 +8,7 @@ FORWARD(String)
 namespace ICustomFormatterNamespace {
 CLASS(ICustomFormatter) : public Object::in {
   public: String Format(String format, Object arg, IFormatProvider formatProvider);
+  public: static constexpr rt::TypeCode code = rt::TypeCode::Interface;
 };
 } // namespace ICustomFormatterNamespace
 using ICustomFormatter = ICustomFormatterNamespace::ICustomFormatter;

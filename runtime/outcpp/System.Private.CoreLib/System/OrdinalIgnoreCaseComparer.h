@@ -14,7 +14,7 @@ FORWARD(String)
 namespace OrdinalIgnoreCaseComparerNamespace {
 using namespace Runtime::Serialization;
 CLASS(OrdinalIgnoreCaseComparer) : public OrdinalComparer::in {
-  using interface = rt::TypeList<ISerializable>;
+  public: using interface = rt::TypeList<ISerializable>;
   public: void Ctor();
   public: Int32 Compare(String x, String y);
   public: Boolean Equals(String x, String y);

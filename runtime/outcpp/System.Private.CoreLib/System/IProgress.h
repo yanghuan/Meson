@@ -6,6 +6,7 @@ namespace System::Private::CoreLib::System {
 namespace IProgressNamespace {
 CLASS(IProgress, T) : public Object::in {
   public: void Report(T value);
+  public: static constexpr rt::TypeCode code = rt::TypeCode::Interface;
 };
 } // namespace IProgressNamespace
 template <class T>

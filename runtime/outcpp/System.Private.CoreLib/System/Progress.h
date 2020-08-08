@@ -13,7 +13,7 @@ FORWARD(IProgress, T)
 namespace ProgressNamespace {
 using namespace Threading;
 CLASS(Progress, T) : public Object::in {
-  using interface = rt::TypeList<IProgress<T>>;
+  public: using interface = rt::TypeList<IProgress<T>>;
   public: void Ctor();
   public: void Ctor(Action<T> handler);
   protected: void OnReport(T value);

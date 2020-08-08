@@ -23,7 +23,7 @@ template <class T>
 using IEnumerator = Collections::Generic::IEnumerator<T>;
 using IEnumerator1 = Collections::IEnumerator;
 CLASS(CharEnumerator) : public Object::in {
-  using interface = rt::TypeList<IEnumerator1, IEnumerator<Char>, IDisposable, ICloneable>;
+  public: using interface = rt::TypeList<IEnumerator1, IEnumerator<Char>, IDisposable, ICloneable>;
   private: Object get_CurrentOfIEnumerator();
   public: Char get_Current();
   public: void Ctor(String str);

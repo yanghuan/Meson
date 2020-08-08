@@ -13,7 +13,7 @@ FORWARD(String)
 namespace System::Private::CoreLib::System::Runtime::InteropServices::CustomMarshalers {
 namespace ExpandoToDispatchExMarshalerNamespace {
 CLASS(ExpandoToDispatchExMarshaler) : public Object::in {
-  using interface = rt::TypeList<ICustomMarshaler>;
+  public: using interface = rt::TypeList<ICustomMarshaler>;
   public: static ICustomMarshaler GetInstance(String cookie);
   private: void Ctor();
   public: void CleanUpManagedData(Object ManagedObj);

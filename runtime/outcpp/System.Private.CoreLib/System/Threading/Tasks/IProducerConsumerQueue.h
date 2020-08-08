@@ -20,11 +20,12 @@ template <class T>
 using IEnumerable = Collections::Generic::IEnumerable<T>;
 using IEnumerable1 = Collections::IEnumerable;
 CLASS(IProducerConsumerQueue, T) : public Object::in {
-  using interface = rt::TypeList<IEnumerable<T>, IEnumerable1>;
+  public: using interface = rt::TypeList<IEnumerable<T>, IEnumerable1>;
   public: Boolean get_IsEmpty();
   public: Int32 get_Count();
   public: void Enqueue(T item);
   public: Boolean TryDequeue(T& result);
+  public: static constexpr rt::TypeCode code = rt::TypeCode::Interface;
 };
 } // namespace IProducerConsumerQueueNamespace
 template <class T>

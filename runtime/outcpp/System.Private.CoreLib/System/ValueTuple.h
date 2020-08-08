@@ -23,20 +23,20 @@ struct ValueTuple {
 };
 template <>
 struct ValueTuple<> : public valueType<ValueTuple<>> {
-  using interface = rt::TypeList<IEquatable<ValueTuple<>>, IStructuralEquatable, IStructuralComparable, IComparable<>, IComparable<ValueTuple<>>, IValueTupleInternal, ITuple>;
+  public: using interface = rt::TypeList<IEquatable<ValueTuple<>>, IStructuralEquatable, IStructuralComparable, IComparable<>, IComparable<ValueTuple<>>, IValueTupleInternal, ITuple>;
   private: Int32 get_LengthOfITuple();
   private: Object get_ItemOfITuple(Int32 index);
 };
 template <class T1>
 struct ValueTuple<T1> : public valueType<ValueTuple<T1>> {
-  using interface = rt::TypeList<IEquatable<ValueTuple<T1>>, IStructuralEquatable, IStructuralComparable, IComparable<>, IComparable<ValueTuple<T1>>, IValueTupleInternal, ITuple>;
+  public: using interface = rt::TypeList<IEquatable<ValueTuple<T1>>, IStructuralEquatable, IStructuralComparable, IComparable<>, IComparable<ValueTuple<T1>>, IValueTupleInternal, ITuple>;
   private: Int32 get_LengthOfITuple();
   private: Object get_ItemOfITuple(Int32 index);
   public: T1 Item1;
 };
 template <class T1, class T2>
 struct ValueTuple<T1, T2> : public valueType<ValueTuple<T1, T2>> {
-  using interface = rt::TypeList<IEquatable<ValueTuple<>>, IStructuralEquatable, IStructuralComparable, IComparable<>, IComparable<ValueTuple<>>, IValueTupleInternal, ITuple>;
+  public: using interface = rt::TypeList<IEquatable<ValueTuple<>>, IStructuralEquatable, IStructuralComparable, IComparable<>, IComparable<ValueTuple<>>, IValueTupleInternal, ITuple>;
   private: Int32 get_LengthOfITuple();
   private: Object get_ItemOfITuple(Int32 index);
   public: T1 Item1;
@@ -44,7 +44,7 @@ struct ValueTuple<T1, T2> : public valueType<ValueTuple<T1, T2>> {
 };
 template <class T1, class T2, class T3>
 struct ValueTuple<T1, T2, T3> : public valueType<ValueTuple<T1, T2, T3>> {
-  using interface = rt::TypeList<IEquatable<ValueTuple<>>, IStructuralEquatable, IStructuralComparable, IComparable<>, IComparable<ValueTuple<>>, IValueTupleInternal, ITuple>;
+  public: using interface = rt::TypeList<IEquatable<ValueTuple<>>, IStructuralEquatable, IStructuralComparable, IComparable<>, IComparable<ValueTuple<>>, IValueTupleInternal, ITuple>;
   private: Int32 get_LengthOfITuple();
   private: Object get_ItemOfITuple(Int32 index);
   public: T1 Item1;
@@ -53,7 +53,7 @@ struct ValueTuple<T1, T2, T3> : public valueType<ValueTuple<T1, T2, T3>> {
 };
 template <class T1, class T2, class T3, class T4>
 struct ValueTuple<T1, T2, T3, T4> : public valueType<ValueTuple<T1, T2, T3, T4>> {
-  using interface = rt::TypeList<IEquatable<ValueTuple<>>, IStructuralEquatable, IStructuralComparable, IComparable<>, IComparable<ValueTuple<>>, IValueTupleInternal, ITuple>;
+  public: using interface = rt::TypeList<IEquatable<ValueTuple<>>, IStructuralEquatable, IStructuralComparable, IComparable<>, IComparable<ValueTuple<>>, IValueTupleInternal, ITuple>;
   private: Int32 get_LengthOfITuple();
   private: Object get_ItemOfITuple(Int32 index);
   public: T1 Item1;
@@ -63,7 +63,7 @@ struct ValueTuple<T1, T2, T3, T4> : public valueType<ValueTuple<T1, T2, T3, T4>>
 };
 template <class T1, class T2, class T3, class T4, class T5>
 struct ValueTuple<T1, T2, T3, T4, T5> : public valueType<ValueTuple<T1, T2, T3, T4, T5>> {
-  using interface = rt::TypeList<IEquatable<ValueTuple<>>, IStructuralEquatable, IStructuralComparable, IComparable<>, IComparable<ValueTuple<>>, IValueTupleInternal, ITuple>;
+  public: using interface = rt::TypeList<IEquatable<ValueTuple<>>, IStructuralEquatable, IStructuralComparable, IComparable<>, IComparable<ValueTuple<>>, IValueTupleInternal, ITuple>;
   private: Int32 get_LengthOfITuple();
   private: Object get_ItemOfITuple(Int32 index);
   public: T1 Item1;
@@ -74,7 +74,7 @@ struct ValueTuple<T1, T2, T3, T4, T5> : public valueType<ValueTuple<T1, T2, T3, 
 };
 template <class T1, class T2, class T3, class T4, class T5, class T6>
 struct ValueTuple<T1, T2, T3, T4, T5, T6> : public valueType<ValueTuple<T1, T2, T3, T4, T5, T6>> {
-  using interface = rt::TypeList<IEquatable<ValueTuple<>>, IStructuralEquatable, IStructuralComparable, IComparable<>, IComparable<ValueTuple<>>, IValueTupleInternal, ITuple>;
+  public: using interface = rt::TypeList<IEquatable<ValueTuple<>>, IStructuralEquatable, IStructuralComparable, IComparable<>, IComparable<ValueTuple<>>, IValueTupleInternal, ITuple>;
   private: Int32 get_LengthOfITuple();
   private: Object get_ItemOfITuple(Int32 index);
   public: T1 Item1;
@@ -86,7 +86,7 @@ struct ValueTuple<T1, T2, T3, T4, T5, T6> : public valueType<ValueTuple<T1, T2, 
 };
 template <class T1, class T2, class T3, class T4, class T5, class T6, class T7>
 struct ValueTuple<T1, T2, T3, T4, T5, T6, T7> : public valueType<ValueTuple<T1, T2, T3, T4, T5, T6, T7>> {
-  using interface = rt::TypeList<IEquatable<ValueTuple<>>, IStructuralEquatable, IStructuralComparable, IComparable<>, IComparable<ValueTuple<>>, IValueTupleInternal, ITuple>;
+  public: using interface = rt::TypeList<IEquatable<ValueTuple<>>, IStructuralEquatable, IStructuralComparable, IComparable<>, IComparable<ValueTuple<>>, IValueTupleInternal, ITuple>;
   private: Int32 get_LengthOfITuple();
   private: Object get_ItemOfITuple(Int32 index);
   public: T1 Item1;
@@ -99,7 +99,7 @@ struct ValueTuple<T1, T2, T3, T4, T5, T6, T7> : public valueType<ValueTuple<T1, 
 };
 template <class T1, class T2, class T3, class T4, class T5, class T6, class T7, class TRest>
 struct ValueTuple<T1, T2, T3, T4, T5, T6, T7, TRest> : public valueType<ValueTuple<T1, T2, T3, T4, T5, T6, T7, TRest>> {
-  using interface = rt::TypeList<IEquatable<ValueTuple<T1, T2, T3, T4, T5, T6, T7, TRest>>, IStructuralEquatable, IStructuralComparable, IComparable<>, IComparable<ValueTuple<T1, T2, T3, T4, T5, T6, T7, TRest>>, IValueTupleInternal, ITuple>;
+  public: using interface = rt::TypeList<IEquatable<ValueTuple<T1, T2, T3, T4, T5, T6, T7, TRest>>, IStructuralEquatable, IStructuralComparable, IComparable<>, IComparable<ValueTuple<T1, T2, T3, T4, T5, T6, T7, TRest>>, IValueTupleInternal, ITuple>;
   private: Int32 get_LengthOfITuple();
   private: Object get_ItemOfITuple(Int32 index);
   public: T1 Item1;

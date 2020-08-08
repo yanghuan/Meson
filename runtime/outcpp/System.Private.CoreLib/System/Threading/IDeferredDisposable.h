@@ -9,6 +9,7 @@ namespace System::Private::CoreLib::System::Threading {
 namespace IDeferredDisposableNamespace {
 CLASS(IDeferredDisposable) : public Object::in {
   public: void OnFinalRelease(Boolean disposed);
+  public: static constexpr rt::TypeCode code = rt::TypeCode::Interface;
 };
 } // namespace IDeferredDisposableNamespace
 using IDeferredDisposable = IDeferredDisposableNamespace::IDeferredDisposable;

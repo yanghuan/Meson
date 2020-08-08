@@ -14,6 +14,7 @@ CLASS(IAsyncResult) : public Object::in {
   public: WaitHandle get_AsyncWaitHandle();
   public: Object get_AsyncState();
   public: Boolean get_CompletedSynchronously();
+  public: static constexpr rt::TypeCode code = rt::TypeCode::Interface;
 };
 } // namespace IAsyncResultNamespace
 using IAsyncResult = IAsyncResultNamespace::IAsyncResult;

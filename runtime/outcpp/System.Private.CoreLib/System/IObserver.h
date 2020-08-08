@@ -9,6 +9,7 @@ CLASS(IObserver, T) : public Object::in {
   public: void OnNext(T value);
   public: void OnError(Exception error);
   public: void OnCompleted();
+  public: static constexpr rt::TypeCode code = rt::TypeCode::Interface;
 };
 } // namespace IObserverNamespace
 template <class T>

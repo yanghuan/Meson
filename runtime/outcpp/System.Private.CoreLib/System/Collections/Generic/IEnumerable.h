@@ -10,8 +10,9 @@ FORWARD(IEnumerator, T)
 namespace IEnumerableNamespace {
 using Generic::IEnumerator;
 CLASS(IEnumerable, T) : public Object::in {
-  using interface = rt::TypeList<Collections::IEnumerable>;
+  public: using interface = rt::TypeList<IEnumerable>;
   public: IEnumerator<T> GetEnumerator();
+  public: static constexpr rt::TypeCode code = rt::TypeCode::Interface;
 };
 } // namespace IEnumerableNamespace
 template <class T>

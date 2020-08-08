@@ -13,7 +13,7 @@ namespace System::Private::CoreLib::System::Reflection {
 namespace PointerNamespace {
 using namespace Runtime::Serialization;
 CLASS(Pointer) : public Object::in {
-  using interface = rt::TypeList<ISerializable>;
+  public: using interface = rt::TypeList<ISerializable>;
   private: void Ctor(void* ptr, Type ptrType);
   public: static Object Box(void* ptr, Type type);
   public: static void* Unbox(Object ptr);

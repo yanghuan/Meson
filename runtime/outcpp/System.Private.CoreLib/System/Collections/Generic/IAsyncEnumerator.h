@@ -13,9 +13,10 @@ namespace System::Private::CoreLib::System::Collections::Generic {
 namespace IAsyncEnumeratorNamespace {
 using namespace Threading::Tasks;
 CLASS(IAsyncEnumerator, T) : public Object::in {
-  using interface = rt::TypeList<IAsyncDisposable>;
+  public: using interface = rt::TypeList<IAsyncDisposable>;
   public: T get_Current();
   public: ValueTask<Boolean> MoveNextAsync();
+  public: static constexpr rt::TypeCode code = rt::TypeCode::Interface;
 };
 } // namespace IAsyncEnumeratorNamespace
 template <class T>

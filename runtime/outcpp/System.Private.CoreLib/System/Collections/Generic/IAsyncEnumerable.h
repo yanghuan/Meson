@@ -11,6 +11,7 @@ namespace IAsyncEnumerableNamespace {
 using namespace Threading;
 CLASS(IAsyncEnumerable, T) : public Object::in {
   public: IAsyncEnumerator<T> GetAsyncEnumerator(CancellationToken cancellationToken);
+  public: static constexpr rt::TypeCode code = rt::TypeCode::Interface;
 };
 } // namespace IAsyncEnumerableNamespace
 template <class T>

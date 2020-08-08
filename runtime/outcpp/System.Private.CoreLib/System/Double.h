@@ -25,7 +25,7 @@ FORWARDS(UInt64)
 namespace DoubleNamespace {
 using namespace Globalization;
 struct Double : public valueType<Double> {
-  using interface = rt::TypeList<IComparable<>, IConvertible, IFormattable, IComparable<Double>, IEquatable<Double>, ISpanFormattable>;
+  public: using interface = rt::TypeList<IComparable<>, IConvertible, IFormattable, IComparable<Double>, IEquatable<Double>, ISpanFormattable>;
   public: constexpr Double() noexcept : m_value(0) {}
   public: constexpr Double(double value) noexcept : m_value(value) {}
   public: constexpr double& get() noexcept { return m_value; }

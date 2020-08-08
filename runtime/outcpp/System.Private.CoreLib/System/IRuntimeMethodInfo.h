@@ -7,6 +7,7 @@ FORWARDS(RuntimeMethodHandleInternal)
 namespace IRuntimeMethodInfoNamespace {
 CLASS(IRuntimeMethodInfo) : public Object::in {
   public: RuntimeMethodHandleInternal get_Value();
+  public: static constexpr rt::TypeCode code = rt::TypeCode::Interface;
 };
 } // namespace IRuntimeMethodInfoNamespace
 using IRuntimeMethodInfo = IRuntimeMethodInfoNamespace::IRuntimeMethodInfo;

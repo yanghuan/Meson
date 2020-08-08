@@ -17,12 +17,13 @@ template <class T>
 using IEnumerable = Generic::IEnumerable<T>;
 using IEnumerable1 = Collections::IEnumerable;
 CLASS(IReadOnlyDictionary, TKey, TValue) : public Object::in {
-  using interface = rt::TypeList<IReadOnlyCollection<KeyValuePair<TKey, TValue>>, IEnumerable<KeyValuePair<TKey, TValue>>, IEnumerable1>;
+  public: using interface = rt::TypeList<IReadOnlyCollection<KeyValuePair<TKey, TValue>>, IEnumerable<KeyValuePair<TKey, TValue>>, IEnumerable1>;
   public: TValue get_Item(TKey key);
   public: IEnumerable<TKey> get_Keys();
   public: IEnumerable<TValue> get_Values();
   public: Boolean ContainsKey(TKey key);
   public: Boolean TryGetValue(TKey key, TValue& value);
+  public: static constexpr rt::TypeCode code = rt::TypeCode::Interface;
 };
 } // namespace IReadOnlyDictionaryNamespace
 template <class TKey, class TValue>

@@ -38,7 +38,7 @@ using namespace Configuration::Assemblies;
 using namespace Globalization;
 using namespace Runtime::Serialization;
 CLASS(AssemblyName) : public Object::in {
-  using interface = rt::TypeList<ICloneable, IDeserializationCallback, ISerializable>;
+  public: using interface = rt::TypeList<ICloneable, IDeserializationCallback, ISerializable>;
   public: String get_Name();
   public: void set_Name(String value);
   public: Version get_Version();

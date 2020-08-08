@@ -20,7 +20,7 @@ namespace EnumeratorViewOfEnumVariantNamespace {
 using namespace Collections;
 using namespace ComTypes;
 CLASS(EnumeratorViewOfEnumVariant) : public Object::in {
-  using interface = rt::TypeList<ICustomAdapter, IEnumerator>;
+  public: using interface = rt::TypeList<ICustomAdapter, IEnumerator>;
   public: Object get_Current();
   public: void Ctor(IEnumVARIANT enumVariantObject);
   public: Boolean MoveNext();

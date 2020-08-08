@@ -11,7 +11,7 @@ FORWARD(IDictionaryEnumerator)
 FORWARD(IEnumerable)
 namespace IDictionaryNamespace {
 CLASS(IDictionary) : public Object::in {
-  using interface = rt::TypeList<ICollection, IEnumerable>;
+  public: using interface = rt::TypeList<ICollection, IEnumerable>;
   public: Object get_Item(Object key);
   public: void set_Item(Object key, Object value);
   public: ICollection get_Keys();
@@ -23,6 +23,7 @@ CLASS(IDictionary) : public Object::in {
   public: void Clear();
   public: IDictionaryEnumerator GetEnumerator();
   public: void Remove(Object key);
+  public: static constexpr rt::TypeCode code = rt::TypeCode::Interface;
 };
 } // namespace IDictionaryNamespace
 using IDictionary = IDictionaryNamespace::IDictionary;

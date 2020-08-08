@@ -24,7 +24,7 @@ FORWARD(String)
 namespace SByteNamespace {
 using namespace Globalization;
 struct SByte : public valueType<SByte> {
-  using interface = rt::TypeList<IComparable<>, IConvertible, IFormattable, IComparable<SByte>, IEquatable<SByte>, ISpanFormattable>;
+  public: using interface = rt::TypeList<IComparable<>, IConvertible, IFormattable, IComparable<SByte>, IEquatable<SByte>, ISpanFormattable>;
   public: constexpr SByte() noexcept : m_value(0) {}
   public: constexpr SByte(int8_t value) noexcept : m_value(value) {}
   public: constexpr int8_t& get() noexcept { return m_value; }

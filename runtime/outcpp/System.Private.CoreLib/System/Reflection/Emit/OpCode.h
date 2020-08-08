@@ -19,7 +19,7 @@ enum class OperandType;
 enum class StackBehaviour;
 namespace OpCodeNamespace {
 struct OpCode : public valueType<OpCode> {
-  using interface = rt::TypeList<IEquatable<OpCode>>;
+  public: using interface = rt::TypeList<IEquatable<OpCode>>;
   public: OperandType get_OperandType();
   public: FlowControl get_FlowControl();
   public: OpCodeType get_OpCodeType();

@@ -58,7 +58,7 @@ using namespace Threading;
 using namespace Threading::Tasks;
 CLASS(FileStream) : public Stream::in {
   private: CLASS(AsyncCopyToAwaitable) : public Object::in {
-    using interface = rt::TypeList<ICriticalNotifyCompletion, INotifyCompletion>;
+    public: using interface = rt::TypeList<ICriticalNotifyCompletion, INotifyCompletion>;
     public: Object get_CancellationLock();
     public: Boolean get_IsCompleted();
     public: void Ctor(FileStream fileStream);

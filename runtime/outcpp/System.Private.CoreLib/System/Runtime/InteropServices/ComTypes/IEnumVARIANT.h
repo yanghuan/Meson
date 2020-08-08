@@ -14,6 +14,7 @@ CLASS(IEnumVARIANT) : public Object::in {
   public: Int32 Skip(Int32 celt);
   public: Int32 Reset();
   public: IEnumVARIANT Clone();
+  public: static constexpr rt::TypeCode code = rt::TypeCode::Interface;
 };
 } // namespace IEnumVARIANTNamespace
 using IEnumVARIANT = IEnumVARIANTNamespace::IEnumVARIANT;

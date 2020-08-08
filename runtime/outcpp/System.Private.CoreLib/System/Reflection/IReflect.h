@@ -33,6 +33,7 @@ CLASS(IReflect) : public Object::in {
   public: Array<MemberInfo> GetMember(String name, BindingFlags bindingAttr);
   public: Array<MemberInfo> GetMembers(BindingFlags bindingAttr);
   public: Object InvokeMember(String name, BindingFlags invokeAttr, Binder binder, Object target, Array<Object> args, Array<ParameterModifier> modifiers, CultureInfo culture, Array<String> namedParameters);
+  public: static constexpr rt::TypeCode code = rt::TypeCode::Interface;
 };
 } // namespace IReflectNamespace
 using IReflect = IReflectNamespace::IReflect;

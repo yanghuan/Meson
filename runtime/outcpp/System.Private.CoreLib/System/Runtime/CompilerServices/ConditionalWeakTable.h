@@ -35,7 +35,7 @@ template <class T>
 using IEnumerator = Collections::Generic::IEnumerator<T>;
 using IEnumerator1 = Collections::IEnumerator;
 CLASS(ConditionalWeakTable, TKey, TValue) : public Object::in {
-  using interface = rt::TypeList<IEnumerable<KeyValuePair<TKey, TValue>>, IEnumerable1>;
+  public: using interface = rt::TypeList<IEnumerable<KeyValuePair<TKey, TValue>>, IEnumerable1>;
   private: struct Entry : public valueType<Entry> {
     public: DependentHandle depHnd;
     public: Int32 HashCode;
@@ -48,7 +48,7 @@ CLASS(ConditionalWeakTable, TKey, TValue) : public Object::in {
     public: TValue EndInvoke(IAsyncResult result);
   };
   private: CLASS(Enumerator) : public Object::in {
-    using interface = rt::TypeList<IEnumerator<KeyValuePair<TKey, TValue>>, IDisposable, IEnumerator1>;
+    public: using interface = rt::TypeList<IEnumerator<KeyValuePair<TKey, TValue>>, IDisposable, IEnumerator1>;
     public: KeyValuePair<TKey, TValue> get_Current();
     private: Object get_CurrentOfIEnumerator();
     public: void Ctor(ConditionalWeakTable<TKey, TValue> table);

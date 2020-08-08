@@ -9,6 +9,7 @@ namespace System::Private::CoreLib::System::Runtime::CompilerServices {
 namespace INotifyCompletionNamespace {
 CLASS(INotifyCompletion) : public Object::in {
   public: void OnCompleted(Action<> continuation);
+  public: static constexpr rt::TypeCode code = rt::TypeCode::Interface;
 };
 } // namespace INotifyCompletionNamespace
 using INotifyCompletion = INotifyCompletionNamespace::INotifyCompletion;

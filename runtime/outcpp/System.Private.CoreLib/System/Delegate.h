@@ -28,7 +28,7 @@ namespace DelegateNamespace {
 using namespace Reflection;
 using namespace Runtime::Serialization;
 CLASS(Delegate) : public Object::in {
-  using interface = rt::TypeList<ICloneable, ISerializable>;
+  public: using interface = rt::TypeList<ICloneable, ISerializable>;
   public: Object get_Target();
   public: MethodInfo get_Method();
   protected: void Ctor(Object target, String method);

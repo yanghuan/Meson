@@ -37,7 +37,7 @@ struct AsyncTaskMethodBuilder<TResult> : public valueType<AsyncTaskMethodBuilder
     public: void Ctor();
   };
   private: CLASS(AsyncStateMachineBox, TStateMachine) : public Task<TResult>::in {
-    using interface = rt::TypeList<IAsyncStateMachineBox>;
+    public: using interface = rt::TypeList<IAsyncStateMachineBox>;
     public: Action<> get_MoveNextAction();
     private: static void ExecutionContextCallback(Object s);
     public: void ExecuteFromThreadPool(Thread threadPoolThread);

@@ -24,7 +24,7 @@ FORWARD(EventWrittenEventArgs)
 namespace EventListenerNamespace {
 using namespace Collections::Generic;
 CLASS(EventListener) : public Object::in {
-  using interface = rt::TypeList<IDisposable>;
+  public: using interface = rt::TypeList<IDisposable>;
   public: static Object get_EventListenersLock();
   private: static void SCtor();
   public: void Ctor();

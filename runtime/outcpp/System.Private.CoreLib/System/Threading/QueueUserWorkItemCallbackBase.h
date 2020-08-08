@@ -6,7 +6,7 @@ namespace System::Private::CoreLib::System::Threading {
 FORWARD(IThreadPoolWorkItem)
 namespace QueueUserWorkItemCallbackBaseNamespace {
 CLASS(QueueUserWorkItemCallbackBase) : public Object::in {
-  using interface = rt::TypeList<IThreadPoolWorkItem>;
+  public: using interface = rt::TypeList<IThreadPoolWorkItem>;
   public: void Execute();
   protected: void Ctor();
 };

@@ -19,7 +19,7 @@ FORWARDS(Quaternion)
 FORWARDS(Vector2)
 namespace Vector3Namespace {
 struct Vector3 : public valueType<Vector3> {
-  using interface = rt::TypeList<IEquatable<Vector3>, IFormattable>;
+  public: using interface = rt::TypeList<IEquatable<Vector3>, IFormattable>;
   public: static Vector3 get_Zero();
   public: static Vector3 get_One();
   public: static Vector3 get_UnitX();

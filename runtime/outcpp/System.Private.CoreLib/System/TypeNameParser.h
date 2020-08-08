@@ -28,7 +28,7 @@ using namespace Reflection;
 using namespace Runtime::CompilerServices;
 using namespace Threading;
 CLASS(TypeNameParser) : public Object::in {
-  using interface = rt::TypeList<IDisposable>;
+  public: using interface = rt::TypeList<IDisposable>;
   private: static void _CreateTypeNameParser(String typeName, ObjectHandleOnStack retHandle, Boolean throwOnError);
   private: static void _GetNames(SafeTypeNameParserHandle pTypeNameParser, ObjectHandleOnStack retArray);
   private: static void _GetTypeArguments(SafeTypeNameParserHandle pTypeNameParser, ObjectHandleOnStack retArray);

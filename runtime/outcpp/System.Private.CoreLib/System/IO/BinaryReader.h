@@ -31,7 +31,7 @@ FORWARD(Stream)
 namespace BinaryReaderNamespace {
 using namespace Text;
 CLASS(BinaryReader) : public Object::in {
-  using interface = rt::TypeList<IDisposable>;
+  public: using interface = rt::TypeList<IDisposable>;
   public: Stream get_BaseStream();
   public: void Ctor(Stream input);
   public: void Ctor(Stream input, Encoding encoding);

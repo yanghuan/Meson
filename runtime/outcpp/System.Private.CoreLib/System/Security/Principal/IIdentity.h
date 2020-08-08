@@ -12,6 +12,7 @@ CLASS(IIdentity) : public Object::in {
   public: String get_Name();
   public: String get_AuthenticationType();
   public: Boolean get_IsAuthenticated();
+  public: static constexpr rt::TypeCode code = rt::TypeCode::Interface;
 };
 } // namespace IIdentityNamespace
 using IIdentity = IIdentityNamespace::IIdentity;

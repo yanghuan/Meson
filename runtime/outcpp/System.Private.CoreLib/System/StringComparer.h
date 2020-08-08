@@ -33,7 +33,7 @@ template <class T>
 using IEqualityComparer = Collections::Generic::IEqualityComparer<T>;
 using IEqualityComparer1 = Collections::IEqualityComparer;
 CLASS(StringComparer) : public Object::in {
-  using interface = rt::TypeList<IComparer1, IEqualityComparer1, IComparer<String>, IEqualityComparer<String>>;
+  public: using interface = rt::TypeList<IComparer1, IEqualityComparer1, IComparer<String>, IEqualityComparer<String>>;
   public: static StringComparer get_InvariantCulture();
   public: static StringComparer get_InvariantCultureIgnoreCase();
   public: static StringComparer get_CurrentCulture();

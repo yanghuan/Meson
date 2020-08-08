@@ -17,7 +17,7 @@ template <class T>
 using IEnumerable = Generic::IEnumerable<T>;
 using IEnumerable1 = Collections::IEnumerable;
 CLASS(ICollection, T) : public Object::in {
-  using interface = rt::TypeList<IEnumerable<T>, IEnumerable1>;
+  public: using interface = rt::TypeList<IEnumerable<T>, IEnumerable1>;
   public: Int32 get_Count();
   public: Boolean get_IsReadOnly();
   public: void Add(T item);
@@ -25,6 +25,7 @@ CLASS(ICollection, T) : public Object::in {
   public: Boolean Contains(T item);
   public: void CopyTo(Array<T> array, Int32 arrayIndex);
   public: Boolean Remove(T item);
+  public: static constexpr rt::TypeCode code = rt::TypeCode::Interface;
 };
 } // namespace ICollectionNamespace
 template <class T>

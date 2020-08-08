@@ -16,7 +16,7 @@ template <class T>
 using IEqualityComparer = Generic::IEqualityComparer<T>;
 using IEqualityComparer1 = Collections::IEqualityComparer;
 CLASS(ReferenceEqualityComparer) : public Object::in {
-  using interface = rt::TypeList<IEqualityComparer<Object>, IEqualityComparer1>;
+  public: using interface = rt::TypeList<IEqualityComparer<Object>, IEqualityComparer1>;
   public: static ReferenceEqualityComparer get_Instance() { return Instance; }
   private: void Ctor();
   public: Boolean Equals(Object x, Object y);

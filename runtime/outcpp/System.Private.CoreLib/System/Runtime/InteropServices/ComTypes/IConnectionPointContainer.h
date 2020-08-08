@@ -12,6 +12,7 @@ namespace IConnectionPointContainerNamespace {
 CLASS(IConnectionPointContainer) : public Object::in {
   public: void EnumConnectionPoints(IEnumConnectionPoints& ppEnum);
   public: void FindConnectionPoint(Guid& riid, IConnectionPoint& ppCP);
+  public: static constexpr rt::TypeCode code = rt::TypeCode::Interface;
 };
 } // namespace IConnectionPointContainerNamespace
 using IConnectionPointContainer = IConnectionPointContainerNamespace::IConnectionPointContainer;

@@ -10,6 +10,7 @@ namespace IEnumerableNamespace {
 using namespace Collections;
 CLASS(IEnumerable) : public Object::in {
   public: IEnumerator GetEnumerator();
+  public: static constexpr rt::TypeCode code = rt::TypeCode::Interface;
 };
 } // namespace IEnumerableNamespace
 using IEnumerable = IEnumerableNamespace::IEnumerable;

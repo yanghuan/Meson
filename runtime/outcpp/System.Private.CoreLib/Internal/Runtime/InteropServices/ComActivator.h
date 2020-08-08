@@ -28,7 +28,7 @@ using namespace ::System::Private::CoreLib::System::Collections::Generic;
 using namespace ::System::Private::CoreLib::System::Runtime::Loader;
 class ComActivator {
   private: CLASS(BasicClassFactory) : public Object::in {
-    using interface = rt::TypeList<IClassFactory>;
+    public: using interface = rt::TypeList<IClassFactory>;
     public: void Ctor(Guid clsid, Type classType);
     public: static Type GetValidatedInterfaceType(Type classType, Guid& riid, Object outer);
     public: static void ValidateObjectIsMarshallableAsInterface(Object obj, Type interfaceType);
@@ -39,7 +39,7 @@ class ComActivator {
     private: Type _classType;
   };
   private: CLASS(LicenseClassFactory) : public Object::in {
-    using interface = rt::TypeList<IClassFactory2, IClassFactory>;
+    public: using interface = rt::TypeList<IClassFactory2, IClassFactory>;
     public: void Ctor(Guid clsid, Type classType);
     public: void CreateInstance(Object pUnkOuter, Guid& riid, Object& ppvObject);
     public: void LockServer(Boolean fLock);

@@ -36,6 +36,7 @@ CLASS(IMoniker) : public Object::in {
   public: void GetDisplayName(IBindCtx pbc, IMoniker pmkToLeft, String& ppszDisplayName);
   public: void ParseDisplayName(IBindCtx pbc, IMoniker pmkToLeft, String pszDisplayName, Int32& pchEaten, IMoniker& ppmkOut);
   public: Int32 IsSystemMoniker(Int32& pdwMksys);
+  public: static constexpr rt::TypeCode code = rt::TypeCode::Interface;
 };
 } // namespace IMonikerNamespace
 using IMoniker = IMonikerNamespace::IMoniker;

@@ -12,6 +12,7 @@ namespace IStructuralEquatableNamespace {
 CLASS(IStructuralEquatable) : public Object::in {
   public: Boolean Equals(Object other, IEqualityComparer comparer);
   public: Int32 GetHashCode(IEqualityComparer comparer);
+  public: static constexpr rt::TypeCode code = rt::TypeCode::Interface;
 };
 } // namespace IStructuralEquatableNamespace
 using IStructuralEquatable = IStructuralEquatableNamespace::IStructuralEquatable;

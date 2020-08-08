@@ -20,7 +20,7 @@ namespace ThreadLocalNamespace {
 using namespace Collections::Generic;
 using Collections::Generic::IList;
 CLASS(ThreadLocal, T) : public Object::in {
-  using interface = rt::TypeList<IDisposable>;
+  public: using interface = rt::TypeList<IDisposable>;
   private: FORWARDN(LinkedSlot)
   private: struct LinkedSlotVolatile : public valueType<LinkedSlotVolatile> {
     public: LinkedSlot Value;

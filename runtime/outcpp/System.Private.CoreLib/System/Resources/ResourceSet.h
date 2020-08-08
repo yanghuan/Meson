@@ -22,7 +22,7 @@ namespace ResourceSetNamespace {
 using namespace Collections;
 using namespace IO;
 CLASS(ResourceSet) : public Object::in {
-  using interface = rt::TypeList<IDisposable, IEnumerable>;
+  public: using interface = rt::TypeList<IDisposable, IEnumerable>;
   protected: void Ctor();
   public: void Ctor(Boolean junk);
   public: void Ctor(String fileName);

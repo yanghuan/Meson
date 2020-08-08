@@ -36,7 +36,7 @@ namespace EnumNamespace {
 using namespace Reflection;
 using namespace Runtime::CompilerServices;
 CLASS(Enum) : public ValueType::in {
-  using interface = rt::TypeList<IComparable<>, IFormattable, IConvertible>;
+  public: using interface = rt::TypeList<IComparable<>, IFormattable, IConvertible>;
   private: CLASS(EnumInfo) : public Object::in {
     public: void Ctor(Boolean hasFlagsAttribute, Array<UInt64> values, Array<String> names);
     public: Boolean HasFlagsAttribute;

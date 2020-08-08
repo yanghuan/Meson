@@ -18,7 +18,7 @@ FORWARD(ITypeInfo)
 FORWARD(ITypeLib)
 namespace ITypeLib2Namespace {
 CLASS(ITypeLib2) : public Object::in {
-  using interface = rt::TypeList<ITypeLib>;
+  public: using interface = rt::TypeList<ITypeLib>;
   public: Int32 GetTypeInfoCount();
   public: void GetTypeInfo(Int32 index, ITypeInfo& ppTI);
   public: void GetTypeInfoType(Int32 index, TYPEKIND& pTKind);
@@ -33,6 +33,7 @@ CLASS(ITypeLib2) : public Object::in {
   public: void GetDocumentation2(Int32 index, String& pbstrHelpString, Int32& pdwHelpStringContext, String& pbstrHelpStringDll);
   public: void GetLibStatistics(IntPtr pcUniqueNames, Int32& pcchUniqueNames);
   public: void GetAllCustData(IntPtr pCustData);
+  public: static constexpr rt::TypeCode code = rt::TypeCode::Interface;
 };
 } // namespace ITypeLib2Namespace
 using ITypeLib2 = ITypeLib2Namespace::ITypeLib2;

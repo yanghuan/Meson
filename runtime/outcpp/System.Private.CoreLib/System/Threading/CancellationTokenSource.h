@@ -27,7 +27,7 @@ FORWARD(WaitHandle)
 namespace CancellationTokenSourceNamespace {
 using namespace Tasks;
 CLASS(CancellationTokenSource) : public Object::in {
-  using interface = rt::TypeList<IDisposable>;
+  public: using interface = rt::TypeList<IDisposable>;
   public: FORWARDN(CallbackPartition)
   public: CLASS(CallbackNode) : public Object::in {
     public: void Ctor(CallbackPartition partition);

@@ -22,7 +22,7 @@ FORWARD(String)
 namespace Int32Namespace {
 using namespace Globalization;
 struct Int32 : public valueType<Int32> {
-  using interface = rt::TypeList<IComparable<>, IConvertible, IFormattable, IComparable<Int32>, IEquatable<Int32>, ISpanFormattable>;
+  public: using interface = rt::TypeList<IComparable<>, IConvertible, IFormattable, IComparable<Int32>, IEquatable<Int32>, ISpanFormattable>;
   public: constexpr Int32() noexcept : m_value(0) {}
   public: constexpr Int32(int32_t value) noexcept : m_value(value) {}
   public: constexpr int32_t& get() noexcept { return m_value; }

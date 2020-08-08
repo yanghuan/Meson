@@ -19,7 +19,7 @@ namespace ReadOnlyMemoryNamespace {
 using namespace Buffers;
 template <class T>
 struct ReadOnlyMemory : public valueType<ReadOnlyMemory<T>> {
-  using interface = rt::TypeList<IEquatable<ReadOnlyMemory<T>>>;
+  public: using interface = rt::TypeList<IEquatable<ReadOnlyMemory<T>>>;
   public: static ReadOnlyMemory<T> get_Empty();
   public: Int32 get_Length();
   public: Boolean get_IsEmpty();

@@ -22,6 +22,7 @@ CLASS(IBindCtx) : public Object::in {
   public: void GetObjectParam(String pszKey, Object& ppunk);
   public: void EnumObjectParam(IEnumString& ppenum);
   public: Int32 RevokeObjectParam(String pszKey);
+  public: static constexpr rt::TypeCode code = rt::TypeCode::Interface;
 };
 } // namespace IBindCtxNamespace
 using IBindCtx = IBindCtxNamespace::IBindCtx;

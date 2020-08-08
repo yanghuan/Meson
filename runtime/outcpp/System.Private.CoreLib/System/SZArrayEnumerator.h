@@ -13,7 +13,7 @@ FORWARD(ICloneable)
 namespace SZArrayEnumeratorNamespace {
 using namespace Collections;
 CLASS(SZArrayEnumerator) : public Object::in {
-  using interface = rt::TypeList<IEnumerator, ICloneable>;
+  public: using interface = rt::TypeList<IEnumerator, ICloneable>;
   public: Object get_Current();
   public: void Ctor(Array<> array);
   public: Object Clone();

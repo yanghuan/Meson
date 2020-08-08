@@ -36,7 +36,7 @@ namespace DateTimeOffsetNamespace {
 using namespace Globalization;
 using namespace Runtime::Serialization;
 struct DateTimeOffset : public valueType<DateTimeOffset> {
-  using interface = rt::TypeList<IComparable<>, IFormattable, IComparable<DateTimeOffset>, IEquatable<DateTimeOffset>, ISerializable, IDeserializationCallback, ISpanFormattable>;
+  public: using interface = rt::TypeList<IComparable<>, IFormattable, IComparable<DateTimeOffset>, IEquatable<DateTimeOffset>, ISerializable, IDeserializationCallback, ISpanFormattable>;
   public: static DateTimeOffset get_Now();
   public: static DateTimeOffset get_UtcNow();
   public: DateTime get_DateTime();

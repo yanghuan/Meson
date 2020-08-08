@@ -16,7 +16,7 @@ namespace System::Private::CoreLib::System::Collections::Generic {
 namespace EnumComparerNamespace {
 using namespace Runtime::Serialization;
 CLASS(EnumComparer, T) : public Comparer<T>::in {
-  using interface = rt::TypeList<ISerializable>;
+  public: using interface = rt::TypeList<ISerializable>;
   public: Int32 Compare(T x, T y);
   public: void Ctor();
   private: void Ctor(SerializationInfo info, StreamingContext context);

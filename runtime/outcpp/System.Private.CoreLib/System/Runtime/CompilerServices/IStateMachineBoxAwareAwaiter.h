@@ -7,6 +7,7 @@ FORWARD(IAsyncStateMachineBox)
 namespace IStateMachineBoxAwareAwaiterNamespace {
 CLASS(IStateMachineBoxAwareAwaiter) : public Object::in {
   public: void AwaitUnsafeOnCompleted(IAsyncStateMachineBox box);
+  public: static constexpr rt::TypeCode code = rt::TypeCode::Interface;
 };
 } // namespace IStateMachineBoxAwareAwaiterNamespace
 using IStateMachineBoxAwareAwaiter = IStateMachineBoxAwareAwaiterNamespace::IStateMachineBoxAwareAwaiter;

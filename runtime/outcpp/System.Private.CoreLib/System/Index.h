@@ -10,7 +10,7 @@ FORWARD(Object)
 FORWARD(String)
 namespace IndexNamespace {
 struct Index : public valueType<Index> {
-  using interface = rt::TypeList<IEquatable<Index>>;
+  public: using interface = rt::TypeList<IEquatable<Index>>;
   public: static Index get_Start();
   public: static Index get_End();
   public: Int32 get_Value();

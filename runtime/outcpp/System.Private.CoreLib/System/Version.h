@@ -20,7 +20,7 @@ FORWARD(String)
 namespace VersionNamespace {
 using namespace Text;
 CLASS(Version) : public Object::in {
-  using interface = rt::TypeList<ICloneable, IComparable<>, IComparable<Version>, IEquatable<Version>, ISpanFormattable>;
+  public: using interface = rt::TypeList<ICloneable, IComparable<>, IComparable<Version>, IEquatable<Version>, ISpanFormattable>;
   public: Int32 get_Major();
   public: Int32 get_Minor();
   public: Int32 get_Build();

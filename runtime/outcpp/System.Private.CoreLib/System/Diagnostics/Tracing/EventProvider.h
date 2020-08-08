@@ -36,7 +36,7 @@ FORWARD(IEventProvider)
 namespace EventProviderNamespace {
 using namespace Collections::Generic;
 CLASS(EventProvider) : public Object::in {
-  using interface = rt::TypeList<IDisposable>;
+  public: using interface = rt::TypeList<IDisposable>;
   public: enum class WriteEventErrorCode {
     NoError = 0,
     NoFreeBuffers = 1,
