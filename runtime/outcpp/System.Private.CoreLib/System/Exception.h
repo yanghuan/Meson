@@ -6,16 +6,17 @@
 #include <System.Private.CoreLib/System/UIntPtr.h>
 #include <System.Private.CoreLib/System/ValueType.h>
 
+namespace System::Private::CoreLib::System::Runtime::Serialization {
+FORWARD(ISerializable)
+FORWARD(SerializationInfo)
+FORWARDS(StreamingContext)
+} // namespace System::Private::CoreLib::System::Runtime::Serialization
 namespace System::Private::CoreLib::System::Reflection {
 FORWARD(MethodBase)
 } // namespace System::Private::CoreLib::System::Reflection
 namespace System::Private::CoreLib::System::Collections {
 FORWARD(IDictionary)
 } // namespace System::Private::CoreLib::System::Collections
-namespace System::Private::CoreLib::System::Runtime::Serialization {
-FORWARD(SerializationInfo)
-FORWARDS(StreamingContext)
-} // namespace System::Private::CoreLib::System::Runtime::Serialization
 namespace System::Private::CoreLib::System::Runtime::CompilerServices {
 FORWARDS(StringHandleOnStack)
 } // namespace System::Private::CoreLib::System::Runtime::CompilerServices
@@ -33,6 +34,7 @@ using namespace Reflection;
 using namespace Runtime::CompilerServices;
 using namespace Runtime::Serialization;
 CLASS(Exception) : public Object::in {
+  using interface = rt::TypeList<ISerializable>;
   public: enum class ExceptionMessageKind {
     ThreadAbort = 1,
     ThreadInterrupted = 2,

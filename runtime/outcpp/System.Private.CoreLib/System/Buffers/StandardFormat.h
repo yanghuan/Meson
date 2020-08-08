@@ -6,6 +6,7 @@
 namespace System::Private::CoreLib::System {
 FORWARDS(Boolean)
 FORWARDS(Char)
+FORWARD(IEquatable, T)
 FORWARDS(Int32)
 FORWARD(Object)
 FORWARDS(ReadOnlySpan, T)
@@ -15,6 +16,7 @@ FORWARD(String)
 namespace System::Private::CoreLib::System::Buffers {
 namespace StandardFormatNamespace {
 struct StandardFormat : public valueType<StandardFormat> {
+  using interface = rt::TypeList<IEquatable<StandardFormat>>;
   public: Char get_Symbol();
   public: Byte get_Precision();
   public: Boolean get_HasPrecision();

@@ -4,6 +4,11 @@
 #include <System.Private.CoreLib/System/Object.h>
 #include <System.Private.CoreLib/System/ValueType.h>
 
+namespace System::Private::CoreLib::System::Runtime::Serialization {
+FORWARD(ISerializable)
+FORWARD(SerializationInfo)
+FORWARDS(StreamingContext)
+} // namespace System::Private::CoreLib::System::Runtime::Serialization
 namespace System::Private::CoreLib::System {
 FORWARD_(Array, T1, T2)
 FORWARDS(Boolean)
@@ -26,10 +31,6 @@ FORWARDS(UInt16)
 FORWARDS(UInt32)
 FORWARDS(UInt64)
 } // namespace System::Private::CoreLib::System
-namespace System::Private::CoreLib::System::Runtime::Serialization {
-FORWARD(SerializationInfo)
-FORWARDS(StreamingContext)
-} // namespace System::Private::CoreLib::System::Runtime::Serialization
 namespace System::Private::CoreLib::System::Collections::Generic {
 FORWARD(IEnumerable, T)
 } // namespace System::Private::CoreLib::System::Collections::Generic
@@ -38,6 +39,7 @@ namespace StringBuilderNamespace {
 using namespace Collections::Generic;
 using namespace Runtime::Serialization;
 CLASS(StringBuilder) : public Object::in {
+  using interface = rt::TypeList<ISerializable>;
   public: struct ChunkEnumerator : public valueType<ChunkEnumerator> {
     private: CLASS(ManyChunkInfo) : public Object::in {
       public: Boolean MoveNext(StringBuilder& current);

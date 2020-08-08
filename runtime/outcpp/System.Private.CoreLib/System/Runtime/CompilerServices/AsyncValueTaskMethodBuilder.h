@@ -7,6 +7,9 @@
 namespace System::Private::CoreLib::System::Threading::Tasks {
 FORWARDS_(ValueTask, T1, T2)
 } // namespace System::Private::CoreLib::System::Threading::Tasks
+namespace System::Private::CoreLib::System::Threading::Tasks::Sources {
+FORWARD_(IValueTaskSource, T1, T2)
+} // namespace System::Private::CoreLib::System::Threading::Tasks::Sources
 namespace System::Private::CoreLib::System {
 FORWARD_(Action, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17)
 FORWARDS(Int16)
@@ -15,8 +18,10 @@ FORWARDS(Int32)
 namespace System::Private::CoreLib::System::Threading {
 FORWARD_(ContextCallback, T1, T2)
 FORWARD(ExecutionContext)
+FORWARD(IThreadPoolWorkItem)
 } // namespace System::Private::CoreLib::System::Threading
 namespace System::Private::CoreLib::System::Runtime::CompilerServices {
+FORWARD(IAsyncStateMachineBox)
 namespace AsyncValueTaskMethodBuilderNamespace {
 using namespace Threading;
 using namespace Threading::Tasks;
@@ -34,12 +39,14 @@ template <class TResult>
 struct AsyncValueTaskMethodBuilder<TResult> : public valueType<AsyncValueTaskMethodBuilder<TResult>> {
   CLASS_FORWARD(StateMachineBox, T1, T2, T3)
   public: CLASS_(StateMachineBox) : public Object::in {
+    using interface = rt::TypeList<IValueTaskSource<TResult>, IValueTaskSource<>>;
     public: Int16 get_Version();
     protected: Action<> _moveNextAction;
     public: ExecutionContext Context;
     protected: ManualResetValueTaskSourceCore<TResult> _valueTaskSource;
   };
   private: CLASS_(StateMachineBox, TStateMachine) : public StateMachineBox<>::in {
+    using interface = rt::TypeList<IValueTaskSource<TResult>, IValueTaskSource<>, IAsyncStateMachineBox, IThreadPoolWorkItem>;
     public: Action<> get_MoveNextAction();
     private: static ContextCallback<> s_callback;
     private: static Int32 s_cacheLock;

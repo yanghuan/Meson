@@ -10,8 +10,13 @@ namespace System::Private::CoreLib::System {
 enum class TypeCode;
 FORWARDS(Boolean)
 FORWARDS(Char)
+FORWARD_(IComparable, T1, T2)
+FORWARD(IConvertible)
+FORWARD(IEquatable, T)
 FORWARD(IFormatProvider)
+FORWARD(IFormattable)
 FORWARDS(Int32)
+FORWARD(ISpanFormattable)
 FORWARD(Object)
 FORWARDS(ReadOnlySpan, T)
 FORWARDS(Span, T)
@@ -20,6 +25,7 @@ FORWARDS(UInt32)
 namespace SingleNamespace {
 using namespace Globalization;
 struct Single : public valueType<Single> {
+  using interface = rt::TypeList<IComparable<>, IConvertible, IFormattable, IComparable<Single>, IEquatable<Single>, ISpanFormattable>;
   public: constexpr Single() noexcept : m_value(0) {}
   public: constexpr Single(float value) noexcept : m_value(value) {}
   public: constexpr float& get() noexcept { return m_value; }

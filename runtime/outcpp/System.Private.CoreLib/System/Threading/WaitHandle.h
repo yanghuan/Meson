@@ -6,6 +6,7 @@
 namespace System::Private::CoreLib::System {
 FORWARD_(Array, T1, T2)
 FORWARDS(Boolean)
+FORWARD(IDisposable)
 FORWARDS(IntPtr)
 FORWARDS(ReadOnlySpan, T)
 FORWARDS(Span, T)
@@ -18,6 +19,7 @@ namespace System::Private::CoreLib::System::Threading {
 namespace WaitHandleNamespace {
 using namespace ::System::Private::CoreLib::Microsoft::Win32::SafeHandles;
 CLASS(WaitHandle) : public MarshalByRefObject::in {
+  using interface = rt::TypeList<IDisposable>;
   public: enum class OpenExistingResult {
     Success = 0,
     NameNotFound = 1,

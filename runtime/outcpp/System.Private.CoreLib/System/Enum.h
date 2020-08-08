@@ -17,7 +17,10 @@ enum class TypeCode;
 FORWARD_(Array, T1, T2)
 FORWARDS(Byte)
 FORWARDS(Char)
+FORWARD_(IComparable, T1, T2)
+FORWARD(IConvertible)
 FORWARD(IFormatProvider)
+FORWARD(IFormattable)
 FORWARDS(Int16)
 FORWARDS(Int32)
 FORWARDS(Int64)
@@ -33,6 +36,7 @@ namespace EnumNamespace {
 using namespace Reflection;
 using namespace Runtime::CompilerServices;
 CLASS(Enum) : public ValueType::in {
+  using interface = rt::TypeList<IComparable<>, IFormattable, IConvertible>;
   private: CLASS(EnumInfo) : public Object::in {
     public: void Ctor(Boolean hasFlagsAttribute, Array<UInt64> values, Array<String> names);
     public: Boolean HasFlagsAttribute;

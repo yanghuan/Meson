@@ -7,6 +7,7 @@
 
 namespace System::Private::CoreLib::System {
 FORWARDS(Char)
+FORWARD(IDisposable)
 FORWARDS(IntPtr)
 FORWARDS(ReadOnlySpan, T)
 FORWARDS(Span, T)
@@ -16,6 +17,7 @@ namespace System::Private::CoreLib::System::Security {
 namespace SecureStringNamespace {
 using namespace Runtime::InteropServices;
 CLASS(SecureString) : public Object::in {
+  using interface = rt::TypeList<IDisposable>;
   private: CLASS(UnmanagedBuffer) : public SafeBuffer::in {
     private: void Ctor();
     public: static UnmanagedBuffer Allocate(Int32 byteLength);

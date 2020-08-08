@@ -20,6 +20,7 @@
 #include <System.Private.CoreLib/System/Reflection/Binder-dep.h>
 #include <System.Private.CoreLib/System/Reflection/BindingFlags.h>
 #include <System.Private.CoreLib/System/Reflection/CustomAttributeData-dep.h>
+#include <System.Private.CoreLib/System/Reflection/ICustomAttributeProvider.h>
 #include <System.Private.CoreLib/System/Reflection/ManifestResourceInfo-dep.h>
 #include <System.Private.CoreLib/System/Reflection/MethodInfo-dep.h>
 #include <System.Private.CoreLib/System/Reflection/Module-dep.h>
@@ -28,6 +29,7 @@
 #include <System.Private.CoreLib/System/ResolveEventArgs-dep.h>
 #include <System.Private.CoreLib/System/Runtime/CompilerServices/ObjectHandleOnStack-dep.h>
 #include <System.Private.CoreLib/System/Runtime/CompilerServices/StackCrawlMarkHandle-dep.h>
+#include <System.Private.CoreLib/System/Runtime/Serialization/ISerializable.h>
 #include <System.Private.CoreLib/System/Runtime/Serialization/SerializationInfo-dep.h>
 #include <System.Private.CoreLib/System/Runtime/Serialization/StreamingContext-dep.h>
 #include <System.Private.CoreLib/System/Security/SecurityRuleSet.h>

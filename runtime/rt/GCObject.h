@@ -30,6 +30,9 @@ namespace rt {
     Array = 15,
   };
 
+  template <class... Args>
+  using TypeList = std::tuple<Args...>;
+
   class object;
   class string;
   template <class T>
@@ -428,8 +431,8 @@ namespace rt {
       return begin()[index];
     }
 
-    template <class T> 
-    constexpr T& operator [](T index) {
+    template <class Size> 
+    constexpr T& operator [](const Size& index) {
       return begin()[index.get()];
     }
 
@@ -519,6 +522,18 @@ namespace rt {
 
     T operator /(const T& other) const {
       return static_cast<T*>(this)->get() / other.get();
+    }
+
+    T operator >>(const T& other) const {
+      return static_cast<T*>(this)->get() >> other.get();
+    }
+
+    T operator <<(const T& other) const {
+      return static_cast<T*>(this)->get() << other.get();
+    }
+
+    T operator ~() const noexcept {
+      return ~static_cast<T*>(this)->get();
     }
 
     template <class T1 = T> requires(IsArithmetic<T1>) 

@@ -13,7 +13,9 @@ FORWARD(AsyncCallback)
 FORWARDS(Byte)
 FORWARD(Exception)
 FORWARD_(Func, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18)
+FORWARD(IAsyncDisposable)
 FORWARD(IAsyncResult)
+FORWARD(IDisposable)
 FORWARDS(Int64)
 FORWARDS(Memory, T)
 FORWARDS(ReadOnlyMemory, T)
@@ -32,6 +34,7 @@ FORWARD(SemaphoreSlim)
 FORWARD(WaitHandle)
 } // namespace System::Private::CoreLib::System::Threading
 namespace System::Private::CoreLib::System::Threading::Tasks {
+FORWARD(ITaskCompletionAction)
 FORWARD_(Task, T1, T2)
 FORWARDS_(ValueTask, T1, T2)
 } // namespace System::Private::CoreLib::System::Threading::Tasks
@@ -46,6 +49,7 @@ using namespace Runtime::ExceptionServices;
 using namespace Threading;
 using namespace Threading::Tasks;
 CLASS(Stream) : public MarshalByRefObject::in {
+  using interface = rt::TypeList<IDisposable, IAsyncDisposable>;
   private: struct ReadWriteParameters : public valueType<ReadWriteParameters> {
     public: Array<Byte> Buffer;
     public: Int32 Offset;
@@ -53,6 +57,7 @@ CLASS(Stream) : public MarshalByRefObject::in {
   };
   private: FRIENDN(WriteCallbackStream)
   private: CLASS(ReadWriteTask) : public Task<Int32>::in {
+    using interface = rt::TypeList<ITaskCompletionAction>;
     private: Boolean get_InvokeMayRunArbitraryCodeOfITaskCompletionAction();
     public: void ClearBeginState();
     public: void Ctor(Boolean isRead, Boolean apm, Func<Object, Int32> function, Object state, Stream stream, Array<Byte> buffer, Int32 offset, Int32 count, AsyncCallback callback);
@@ -70,6 +75,7 @@ CLASS(Stream) : public MarshalByRefObject::in {
   };
   private: FRIENDN(NullStream)
   private: CLASS(SynchronousAsyncResult) : public Object::in {
+    using interface = rt::TypeList<IAsyncResult>;
     public: Boolean get_IsCompleted();
     public: WaitHandle get_AsyncWaitHandle();
     public: Object get_AsyncState();
@@ -214,6 +220,7 @@ CLASS(NullStream) : public Stream::in {
   private: static Task<Int32> s_zeroTask;
 };
 CLASS(SyncStream) : public Stream::in {
+  using interface = rt::TypeList<IDisposable>;
   public: Boolean get_CanRead();
   public: Boolean get_CanWrite();
   public: Boolean get_CanSeek();

@@ -7,11 +7,15 @@
 
 namespace System::Private::CoreLib::System {
 FORWARDS(Char)
+FORWARD(ICloneable)
 FORWARDS(Int32)
 FORWARDS(ReadOnlySpan, T)
 FORWARDS(Span, T)
 FORWARD(String)
 } // namespace System::Private::CoreLib::System
+namespace System::Private::CoreLib::System::Runtime::Serialization {
+FORWARD(IDeserializationCallback)
+} // namespace System::Private::CoreLib::System::Runtime::Serialization
 namespace System::Private::CoreLib::System::Text {
 FORWARD(StringBuilder)
 } // namespace System::Private::CoreLib::System::Text
@@ -19,8 +23,10 @@ namespace System::Private::CoreLib::System::Globalization {
 enum class UnicodeCategory;
 FORWARD(CultureData)
 namespace TextInfoNamespace {
+using namespace Runtime::Serialization;
 using namespace Text;
 CLASS(TextInfo) : public Object::in {
+  using interface = rt::TypeList<ICloneable, IDeserializationCallback>;
   private: enum class Tristate : uint8_t {
     NotInitialized = 0,
     False = 1,

@@ -23,6 +23,7 @@
 #include <System.Private.CoreLib/System/Runtime/CompilerServices/StringHandleOnStack-dep.h>
 #include <System.Private.CoreLib/System/Runtime/InteropServices/GCHandleType.h>
 #include <System.Private.CoreLib/System/Runtime/Loader/AssemblyLoadContext-dep.h>
+#include <System.Private.CoreLib/System/Runtime/Serialization/ISerializable.h>
 #include <System.Private.CoreLib/System/Runtime/Serialization/SerializationInfo-dep.h>
 #include <System.Private.CoreLib/System/Runtime/Serialization/StreamingContext-dep.h>
 #include <System.Private.CoreLib/System/RuntimeMethodHandleInternal-dep.h>

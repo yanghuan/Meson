@@ -5,19 +5,29 @@
 #include <System.Private.CoreLib/System/Object.h>
 #include <System.Private.CoreLib/System/ValueType.h>
 
+namespace System::Private::CoreLib::System::Collections::Generic {
+FORWARD(IEnumerable, T)
+FORWARD(IEnumerator, T)
+} // namespace System::Private::CoreLib::System::Collections::Generic
+namespace System::Private::CoreLib::System::Collections {
+FORWARD(IEnumerable)
+} // namespace System::Private::CoreLib::System::Collections
 namespace System::Private::CoreLib::System {
 FORWARD_(Array, T1, T2)
 FORWARDS(Boolean)
 } // namespace System::Private::CoreLib::System
-namespace System::Private::CoreLib::System::Collections::Generic {
-FORWARD(IEnumerator, T)
-} // namespace System::Private::CoreLib::System::Collections::Generic
 namespace System::Private::CoreLib::System::Threading::Tasks {
+FORWARD(IProducerConsumerQueue, T)
 namespace SingleProducerSingleConsumerQueueNamespace {
 using namespace ::System::Private::CoreLib::Internal;
+using namespace Collections;
 using namespace Collections::Generic;
 using Collections::Generic::IEnumerator;
+template <class T>
+using IEnumerable = Collections::Generic::IEnumerable<T>;
+using IEnumerable1 = Collections::IEnumerable;
 CLASS(SingleProducerSingleConsumerQueue, T) : public Object::in {
+  using interface = rt::TypeList<IProducerConsumerQueue<T>, IEnumerable<T>, IEnumerable1>;
   private: struct SegmentState : public valueType<SegmentState> {
     public: PaddingFor32 m_pad0;
     public: Int32 m_first;

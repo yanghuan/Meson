@@ -8,16 +8,34 @@
 #include <System.Private.CoreLib/System/Runtime/CompilerServices/DependentHandle.h>
 #include <System.Private.CoreLib/System/ValueType.h>
 
+namespace System::Private::CoreLib::System::Collections::Generic {
+FORWARD(IEnumerable, T)
+FORWARD(IEnumerator, T)
+} // namespace System::Private::CoreLib::System::Collections::Generic
+namespace System::Private::CoreLib::System::Collections {
+FORWARD(IEnumerable)
+FORWARD(IEnumerator)
+} // namespace System::Private::CoreLib::System::Collections
 namespace System::Private::CoreLib::System {
 FORWARD_(Array, T1, T2)
 FORWARD(AsyncCallback)
 FORWARD(IAsyncResult)
+FORWARD(IDisposable)
 FORWARDS(IntPtr)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Runtime::CompilerServices {
 namespace ConditionalWeakTableNamespace {
+using namespace Collections;
 using namespace Collections::Generic;
+using Collections::Generic::IEnumerator;
+template <class T>
+using IEnumerable = Collections::Generic::IEnumerable<T>;
+using IEnumerable1 = Collections::IEnumerable;
+template <class T>
+using IEnumerator = Collections::Generic::IEnumerator<T>;
+using IEnumerator1 = Collections::IEnumerator;
 CLASS(ConditionalWeakTable, TKey, TValue) : public Object::in {
+  using interface = rt::TypeList<IEnumerable<KeyValuePair<TKey, TValue>>, IEnumerable1>;
   private: struct Entry : public valueType<Entry> {
     public: DependentHandle depHnd;
     public: Int32 HashCode;
@@ -30,6 +48,7 @@ CLASS(ConditionalWeakTable, TKey, TValue) : public Object::in {
     public: TValue EndInvoke(IAsyncResult result);
   };
   private: CLASS(Enumerator) : public Object::in {
+    using interface = rt::TypeList<IEnumerator<KeyValuePair<TKey, TValue>>, IDisposable, IEnumerator1>;
     public: KeyValuePair<TKey, TValue> get_Current();
     private: Object get_CurrentOfIEnumerator();
     public: void Ctor(ConditionalWeakTable<TKey, TValue> table);

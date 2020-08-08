@@ -2,6 +2,11 @@
 
 #include <System.Private.CoreLib/System/Object.h>
 
+namespace System::Private::CoreLib::System::Runtime::Serialization {
+FORWARD(ISerializable)
+FORWARD(SerializationInfo)
+FORWARDS(StreamingContext)
+} // namespace System::Private::CoreLib::System::Runtime::Serialization
 namespace System::Private::CoreLib::System {
 enum class StringComparison;
 FORWARD_(Array, T1, T2)
@@ -17,10 +22,6 @@ namespace System::Private::CoreLib::System::Collections::Generic {
 FORWARD(IEnumerable, T)
 FORWARD(IList, T)
 } // namespace System::Private::CoreLib::System::Collections::Generic
-namespace System::Private::CoreLib::System::Runtime::Serialization {
-FORWARD(SerializationInfo)
-FORWARDS(StreamingContext)
-} // namespace System::Private::CoreLib::System::Runtime::Serialization
 namespace System::Private::CoreLib::System::Reflection {
 enum class BindingFlags;
 enum class CallingConventions;
@@ -30,6 +31,7 @@ FORWARD(Assembly)
 FORWARD(Binder)
 FORWARD(CustomAttributeData)
 FORWARD(FieldInfo)
+FORWARD(ICustomAttributeProvider)
 FORWARD(MemberInfo)
 FORWARD(MethodBase)
 FORWARD(MethodInfo)
@@ -40,6 +42,7 @@ using namespace Collections::Generic;
 using namespace Runtime::Serialization;
 using Collections::Generic::IList;
 CLASS(Module) : public Object::in {
+  using interface = rt::TypeList<ICustomAttributeProvider, ISerializable>;
   public: Assembly get_Assembly();
   public: String get_FullyQualifiedName();
   public: String get_Name();

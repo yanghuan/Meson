@@ -5,28 +5,49 @@
 #include <System.Private.CoreLib/System/UInt64.h>
 #include <System.Private.CoreLib/System/ValueType.h>
 
-namespace System::Private::CoreLib::System {
-FORWARD_(Array, T1, T2)
-FORWARDS(Boolean)
-FORWARD(Predicate, T)
-FORWARDS_(ValueTuple, T1, T2, T3, T4, T5, T6, T7, T8, T9)
-} // namespace System::Private::CoreLib::System
+namespace System::Private::CoreLib::System::Collections {
+FORWARD(IEnumerable)
+FORWARD(IEnumerator)
+} // namespace System::Private::CoreLib::System::Collections
 namespace System::Private::CoreLib::System::Runtime::Serialization {
+FORWARD(IDeserializationCallback)
+FORWARD(ISerializable)
 FORWARD(SerializationInfo)
 FORWARDS(StreamingContext)
 } // namespace System::Private::CoreLib::System::Runtime::Serialization
+namespace System::Private::CoreLib::System {
+FORWARD_(Array, T1, T2)
+FORWARDS(Boolean)
+FORWARD(IDisposable)
+FORWARD(Predicate, T)
+FORWARDS_(ValueTuple, T1, T2, T3, T4, T5, T6, T7, T8, T9)
+} // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Collections::Generic {
+FORWARD(ICollection, T)
 FORWARD(IEnumerable, T)
+FORWARD(IEnumerator, T)
 FORWARD(IEqualityComparer, T)
+FORWARD(IReadOnlyCollection, T)
+FORWARD(IReadOnlySet, T)
+FORWARD(ISet, T)
 namespace HashSetNamespace {
 using namespace Runtime::Serialization;
+using Generic::IEnumerator;
+template <class T>
+using IEnumerable = Generic::IEnumerable<T>;
+using IEnumerable1 = Collections::IEnumerable;
+template <class T>
+using IEnumerator = Generic::IEnumerator<T>;
+using IEnumerator1 = Collections::IEnumerator;
 CLASS(HashSet, T) : public Object::in {
+  using interface = rt::TypeList<ICollection<T>, IEnumerable<T>, IEnumerable1, ISet<T>, IReadOnlyCollection<T>, IReadOnlySet<T>, ISerializable, IDeserializationCallback>;
   private: struct Entry : public valueType<Entry> {
     public: Int32 HashCode;
     public: Int32 Next;
     public: T Value;
   };
   public: struct Enumerator : public valueType<Enumerator> {
+    using interface = rt::TypeList<IEnumerator<T>, IDisposable, IEnumerator1>;
     public: T get_Current();
     private: Object get_CurrentOfIEnumerator();
     public: explicit Enumerator(HashSet<T> hashSet);

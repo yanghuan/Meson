@@ -26,6 +26,8 @@
 #include <System.Private.CoreLib/System/Object-dep.h>
 #include <System.Private.CoreLib/System/ReadOnlyMemory-dep.h>
 #include <System.Private.CoreLib/System/ReadOnlySpan-dep.h>
+#include <System.Private.CoreLib/System/Runtime/CompilerServices/ICriticalNotifyCompletion.h>
+#include <System.Private.CoreLib/System/Runtime/CompilerServices/INotifyCompletion.h>
 #include <System.Private.CoreLib/System/Span-dep.h>
 #include <System.Private.CoreLib/System/String-dep.h>
 #include <System.Private.CoreLib/System/Threading/CancellationToken-dep.h>

@@ -5,6 +5,7 @@
 #include <System.Private.CoreLib/System/UInt64.h>
 
 namespace System::Private::CoreLib::System {
+FORWARD(IDisposable)
 FORWARDS(Int32)
 FORWARDS(Int64)
 FORWARDS(UIntPtr)
@@ -13,6 +14,7 @@ namespace System::Private::CoreLib::System::Runtime {
 namespace MemoryFailPointNamespace {
 using namespace ConstrainedExecution;
 CLASS(MemoryFailPoint) : public CriticalFinalizerObject::in {
+  using interface = rt::TypeList<IDisposable>;
   private: static Int64 get_LastKnownFreeAddressSpace();
   private: static void set_LastKnownFreeAddressSpace(Int64 value);
   private: static Int64 get_LastTimeCheckingAddressSpace();

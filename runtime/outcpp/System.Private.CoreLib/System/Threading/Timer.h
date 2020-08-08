@@ -4,6 +4,8 @@
 
 namespace System::Private::CoreLib::System {
 FORWARDS(Boolean)
+FORWARD(IAsyncDisposable)
+FORWARD(IDisposable)
 FORWARDS(Int32)
 FORWARDS(Int64)
 FORWARD(Object)
@@ -20,6 +22,7 @@ FORWARD(WaitHandle)
 namespace TimerNamespace {
 using namespace Tasks;
 CLASS(Timer) : public MarshalByRefObject::in {
+  using interface = rt::TypeList<IDisposable, IAsyncDisposable>;
   public: static Int64 get_ActiveCount();
   public: void Ctor(TimerCallback callback, Object state, Int32 dueTime, Int32 period);
   public: void Ctor(TimerCallback callback, Object state, Int32 dueTime, Int32 period, Boolean flowExecutionContext);

@@ -6,18 +6,22 @@
 
 namespace System::Private::CoreLib::System {
 FORWARD_(Array, T1, T2)
+FORWARD(ICloneable)
 FORWARD(Type)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Collections {
 FORWARD(ICollection)
 FORWARD(IComparer)
+FORWARD(IEnumerable)
 FORWARD(IEnumerator)
 FORWARD(IList)
 namespace ArrayListNamespace {
 CLASS(ArrayList) : public Object::in {
+  using interface = rt::TypeList<IList, ICollection, IEnumerable, ICloneable>;
   private: FRIENDN(IListWrapper)
   private: FRIENDN(SyncArrayList)
   private: CLASS(SyncIList) : public Object::in {
+    using interface = rt::TypeList<IList, ICollection, IEnumerable>;
     public: Int32 get_Count();
     public: Boolean get_IsReadOnly();
     public: Boolean get_IsFixedSize();
@@ -39,6 +43,7 @@ CLASS(ArrayList) : public Object::in {
     private: Object _root;
   };
   private: CLASS(FixedSizeList) : public Object::in {
+    using interface = rt::TypeList<IList, ICollection, IEnumerable>;
     public: Int32 get_Count();
     public: Boolean get_IsReadOnly();
     public: Boolean get_IsFixedSize();
@@ -60,6 +65,7 @@ CLASS(ArrayList) : public Object::in {
   };
   private: FRIENDN(FixedSizeArrayList)
   private: CLASS(ReadOnlyList) : public Object::in {
+    using interface = rt::TypeList<IList, ICollection, IEnumerable>;
     public: Int32 get_Count();
     public: Boolean get_IsReadOnly();
     public: Boolean get_IsFixedSize();
@@ -81,6 +87,7 @@ CLASS(ArrayList) : public Object::in {
   };
   private: FRIENDN(ReadOnlyArrayList)
   private: CLASS(ArrayListEnumerator) : public Object::in {
+    using interface = rt::TypeList<IEnumerator, ICloneable>;
     public: Object get_Current();
     public: void Ctor(ArrayList list, Int32 index, Int32 count);
     public: Object Clone();
@@ -95,6 +102,7 @@ CLASS(ArrayList) : public Object::in {
   };
   private: FRIENDN(Range)
   private: CLASS(ArrayListEnumeratorSimple) : public Object::in {
+    using interface = rt::TypeList<IEnumerator, ICloneable>;
     public: Object get_Current();
     public: void Ctor(ArrayList list);
     public: Object Clone();
@@ -174,6 +182,7 @@ CLASS(ArrayList) : public Object::in {
 };
 CLASS(IListWrapper) : public ArrayList::in {
   private: CLASS(IListWrapperEnumWrapper) : public Object::in {
+    using interface = rt::TypeList<IEnumerator, ICloneable>;
     public: Object get_Current();
     public: void Ctor(IListWrapper listWrapper, Int32 startIndex, Int32 count);
     private: void Ctor();

@@ -17,6 +17,7 @@
 #include <System.Private.CoreLib/System/Reflection/CallingConventions.h>
 #include <System.Private.CoreLib/System/Reflection/CustomAttributeData-dep.h>
 #include <System.Private.CoreLib/System/Reflection/FieldInfo-dep.h>
+#include <System.Private.CoreLib/System/Reflection/ICustomAttributeProvider.h>
 #include <System.Private.CoreLib/System/Reflection/ImageFileMachine.h>
 #include <System.Private.CoreLib/System/Reflection/MemberInfo-dep.h>
 #include <System.Private.CoreLib/System/Reflection/MethodBase-dep.h>
@@ -24,6 +25,7 @@
 #include <System.Private.CoreLib/System/Reflection/ParameterModifier-dep.h>
 #include <System.Private.CoreLib/System/Reflection/PortableExecutableKinds.h>
 #include <System.Private.CoreLib/System/Reflection/TypeFilter-dep.h>
+#include <System.Private.CoreLib/System/Runtime/Serialization/ISerializable.h>
 #include <System.Private.CoreLib/System/Runtime/Serialization/SerializationInfo-dep.h>
 #include <System.Private.CoreLib/System/Runtime/Serialization/StreamingContext-dep.h>
 #include <System.Private.CoreLib/System/String-dep.h>

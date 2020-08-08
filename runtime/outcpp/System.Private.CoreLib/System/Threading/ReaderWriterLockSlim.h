@@ -8,6 +8,7 @@
 #include <System.Private.CoreLib/System/ValueType.h>
 
 namespace System::Private::CoreLib::System {
+FORWARD(IDisposable)
 FORWARDS(TimeSpan)
 FORWARDS(UInt16)
 } // namespace System::Private::CoreLib::System
@@ -17,6 +18,7 @@ FORWARD(EventWaitHandle)
 FORWARD(ReaderWriterCount)
 namespace ReaderWriterLockSlimNamespace {
 CLASS(ReaderWriterLockSlim) : public Object::in {
+  using interface = rt::TypeList<IDisposable>;
   private: enum class WaiterStates : uint8_t {
     None = 0,
     NoWaiters = 1,

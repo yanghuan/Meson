@@ -9,9 +9,11 @@ FORWARD(SynchronizationContext)
 namespace System::Private::CoreLib::System {
 FORWARD_(Action, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17)
 FORWARD_(EventHandler, T1, T2)
+FORWARD(IProgress, T)
 namespace ProgressNamespace {
 using namespace Threading;
 CLASS(Progress, T) : public Object::in {
+  using interface = rt::TypeList<IProgress<T>>;
   public: void Ctor();
   public: void Ctor(Action<T> handler);
   protected: void OnReport(T value);

@@ -6,8 +6,10 @@ namespace System::Private::CoreLib::System {
 FORWARDS(Boolean)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Security {
+FORWARD(ISecurityEncodable)
 namespace IPermissionNamespace {
 CLASS(IPermission) : public Object::in {
+  using interface = rt::TypeList<ISecurityEncodable>;
   public: IPermission Copy();
   public: void Demand();
   public: IPermission Intersect(IPermission target);

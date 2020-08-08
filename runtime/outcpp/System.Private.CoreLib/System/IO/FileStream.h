@@ -11,6 +11,10 @@
 #include <System.Private.CoreLib/System/Threading/Tasks/TaskCompletionSource.h>
 #include <System.Private.CoreLib/System/UInt32.h>
 
+namespace System::Private::CoreLib::System::Runtime::CompilerServices {
+FORWARD(ICriticalNotifyCompletion)
+FORWARD(INotifyCompletion)
+} // namespace System::Private::CoreLib::System::Runtime::CompilerServices
 namespace System::Private::CoreLib::System::Threading {
 FORWARDS(CancellationToken)
 FORWARD(IOCompletionCallback)
@@ -49,10 +53,12 @@ enum class SeekOrigin;
 namespace FileStreamNamespace {
 using namespace ::System::Private::CoreLib::Microsoft::Win32::SafeHandles;
 using namespace Buffers;
+using namespace Runtime::CompilerServices;
 using namespace Threading;
 using namespace Threading::Tasks;
 CLASS(FileStream) : public Stream::in {
   private: CLASS(AsyncCopyToAwaitable) : public Object::in {
+    using interface = rt::TypeList<ICriticalNotifyCompletion, INotifyCompletion>;
     public: Object get_CancellationLock();
     public: Boolean get_IsCompleted();
     public: void Ctor(FileStream fileStream);

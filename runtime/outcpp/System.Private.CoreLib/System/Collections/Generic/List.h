@@ -4,24 +4,52 @@
 #include <System.Private.CoreLib/System/Object.h>
 #include <System.Private.CoreLib/System/ValueType.h>
 
+namespace System::Private::CoreLib::System::Collections {
+FORWARD(ICollection)
+FORWARD(IEnumerable)
+FORWARD(IEnumerator)
+FORWARD(IList)
+} // namespace System::Private::CoreLib::System::Collections
 namespace System::Private::CoreLib::System {
 FORWARD_(Action, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17)
 FORWARD_(Array, T1, T2)
 FORWARDS(Boolean)
 FORWARD(Comparison, T)
 FORWARD(Converter, TInput, TOutput)
+FORWARD(IDisposable)
 FORWARD(Predicate, T)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Collections::ObjectModel {
 FORWARD(ReadOnlyCollection, T)
 } // namespace System::Private::CoreLib::System::Collections::ObjectModel
 namespace System::Private::CoreLib::System::Collections::Generic {
+FORWARD(ICollection, T)
 FORWARD(IComparer, T)
 FORWARD(IEnumerable, T)
+FORWARD(IEnumerator, T)
+FORWARD(IList, T)
+FORWARD(IReadOnlyCollection, T)
+FORWARD(IReadOnlyList, T)
 namespace ListNamespace {
 using namespace ObjectModel;
+using Generic::IList;
+using Generic::IEnumerator;
+template <class T>
+using IList = Generic::IList<T>;
+using IList1 = Collections::IList;
+template <class T>
+using ICollection = Generic::ICollection<T>;
+using ICollection1 = Collections::ICollection;
+template <class T>
+using IEnumerable = Generic::IEnumerable<T>;
+using IEnumerable1 = Collections::IEnumerable;
+template <class T>
+using IEnumerator = Generic::IEnumerator<T>;
+using IEnumerator1 = Collections::IEnumerator;
 CLASS(List, T) : public Object::in {
+  using interface = rt::TypeList<IList<T>, ICollection<T>, IEnumerable<T>, IEnumerable1, IList1, ICollection1, IReadOnlyList<T>, IReadOnlyCollection<T>>;
   public: struct Enumerator : public valueType<Enumerator> {
+    using interface = rt::TypeList<IEnumerator<T>, IDisposable, IEnumerator1>;
     public: T get_Current();
     private: Object get_CurrentOfIEnumerator();
     public: explicit Enumerator(List<T> list);

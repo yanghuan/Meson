@@ -414,6 +414,7 @@ namespace Meson.Compiler.CppAst {
   }
 
   sealed class UsingDeclarationSyntax : StatementSyntax {
+    public string AccessibilityToken { get; set; }
     public TemplateSyntax Template { get; set; }
     public string UsingToken => Tokens.Using;
     public IdentifierSyntax Name { get; }

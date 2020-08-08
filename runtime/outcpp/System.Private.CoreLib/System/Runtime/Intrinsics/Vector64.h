@@ -5,6 +5,7 @@
 
 namespace System::Private::CoreLib::System {
 FORWARDS(Boolean)
+FORWARD(IEquatable, T)
 FORWARDS(Int32)
 FORWARD(String)
 } // namespace System::Private::CoreLib::System
@@ -18,6 +19,7 @@ class Vector64<> {
 };
 template <class T>
 struct Vector64<T> : public valueType<Vector64<T>> {
+  using interface = rt::TypeList<IEquatable<Vector64<T>>>;
   public: static Int32 get_Count();
   public: static Vector64<T> get_Zero();
   public: static Vector64<T> get_AllBitsSet();

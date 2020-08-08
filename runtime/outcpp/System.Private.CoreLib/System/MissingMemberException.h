@@ -3,6 +3,7 @@
 #include <System.Private.CoreLib/System/MemberAccessException.h>
 
 namespace System::Private::CoreLib::System::Runtime::Serialization {
+FORWARD(ISerializable)
 FORWARD(SerializationInfo)
 FORWARDS(StreamingContext)
 } // namespace System::Private::CoreLib::System::Runtime::Serialization
@@ -14,6 +15,7 @@ FORWARD(String)
 namespace MissingMemberExceptionNamespace {
 using namespace Runtime::Serialization;
 CLASS(MissingMemberException) : public MemberAccessException::in {
+  using interface = rt::TypeList<ISerializable>;
   public: String get_Message();
   public: static String FormatSignature(Array<Byte> signature);
   public: void Ctor();

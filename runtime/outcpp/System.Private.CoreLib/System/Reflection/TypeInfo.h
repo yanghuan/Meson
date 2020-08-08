@@ -15,12 +15,14 @@ namespace System::Private::CoreLib::System::Reflection {
 FORWARD(ConstructorInfo)
 FORWARD(EventInfo)
 FORWARD(FieldInfo)
+FORWARD(IReflectableType)
 FORWARD(MemberInfo)
 FORWARD(MethodInfo)
 FORWARD(PropertyInfo)
 namespace TypeInfoNamespace {
 using namespace Collections::Generic;
 CLASS(TypeInfo) : public Type::in {
+  using interface = rt::TypeList<IReflectableType>;
   public: Array<Type> get_GenericTypeParameters();
   public: IEnumerable<ConstructorInfo> get_DeclaredConstructors();
   public: IEnumerable<EventInfo> get_DeclaredEvents();

@@ -5,9 +5,11 @@
 #include <System.Private.CoreLib/System/Threading/Tasks/Task.h>
 
 namespace System::Private::CoreLib::System::Threading::Tasks {
+FORWARD(ITaskCompletionAction)
 FORWARD_(Task, T1, T2)
 namespace UnwrapPromiseNamespace {
 CLASS(UnwrapPromise, TResult) : public Task<TResult>::in {
+  using interface = rt::TypeList<ITaskCompletionAction>;
   public: Boolean get_InvokeMayRunArbitraryCode();
   public: void Ctor(Task<> outerTask, Boolean lookForOce);
   public: void Invoke(Task<> completingTask);

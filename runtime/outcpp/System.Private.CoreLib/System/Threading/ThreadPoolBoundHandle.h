@@ -3,6 +3,9 @@
 #include <System.Private.CoreLib/System/Boolean.h>
 #include <System.Private.CoreLib/System/Object.h>
 
+namespace System::Private::CoreLib::System {
+FORWARD(IDisposable)
+} // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Runtime::InteropServices {
 FORWARD(SafeHandle)
 } // namespace System::Private::CoreLib::System::Runtime::InteropServices
@@ -14,6 +17,7 @@ FORWARD(ThreadPoolBoundHandleOverlapped)
 namespace ThreadPoolBoundHandleNamespace {
 using namespace Runtime::InteropServices;
 CLASS(ThreadPoolBoundHandle) : public Object::in {
+  using interface = rt::TypeList<IDisposable>;
   public: SafeHandle get_Handle();
   private: void Ctor(SafeHandle handle);
   public: static ThreadPoolBoundHandle BindHandle(SafeHandle handle);

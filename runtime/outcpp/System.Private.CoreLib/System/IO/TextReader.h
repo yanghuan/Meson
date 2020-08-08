@@ -6,6 +6,7 @@ namespace System::Private::CoreLib::System {
 FORWARD_(Array, T1, T2)
 FORWARDS(Boolean)
 FORWARDS(Char)
+FORWARD(IDisposable)
 FORWARDS(Int32)
 FORWARDS(Memory, T)
 FORWARDS(Span, T)
@@ -23,6 +24,7 @@ namespace TextReaderNamespace {
 using namespace Threading;
 using namespace Threading::Tasks;
 CLASS(TextReader) : public MarshalByRefObject::in {
+  using interface = rt::TypeList<IDisposable>;
   private: FRIENDN(NullTextReader)
   public: FRIENDN(SyncTextReader)
   protected: void Ctor();

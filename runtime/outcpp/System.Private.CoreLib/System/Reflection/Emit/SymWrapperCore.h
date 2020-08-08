@@ -5,6 +5,10 @@
 #include <System.Private.CoreLib/System/Object.h>
 #include <System.Private.CoreLib/System/ValueType.h>
 
+namespace System::Private::CoreLib::System::Diagnostics::SymbolStore {
+FORWARD(ISymbolDocumentWriter)
+FORWARD(ISymbolWriter)
+} // namespace System::Private::CoreLib::System::Diagnostics::SymbolStore
 namespace System::Private::CoreLib::System {
 FORWARD_(Array, T1, T2)
 FORWARD(AsyncCallback)
@@ -16,15 +20,13 @@ FORWARDS(Int32)
 FORWARD(String)
 FORWARDS(UInt32)
 } // namespace System::Private::CoreLib::System
-namespace System::Private::CoreLib::System::Diagnostics::SymbolStore {
-FORWARD(ISymbolWriter)
-} // namespace System::Private::CoreLib::System::Diagnostics::SymbolStore
 namespace System::Private::CoreLib::System::Reflection::Emit {
 FORWARD(PunkSafeHandle)
 namespace SymWrapperCoreNamespace {
 using namespace Diagnostics::SymbolStore;
 CLASS(SymWrapperCore) : public Object::in {
   private: CLASS(SymDocumentWriter) : public Object::in {
+    using interface = rt::TypeList<ISymbolDocumentWriter>;
     private: struct ISymUnmanagedDocumentWriter : public valueType<ISymUnmanagedDocumentWriter> {
       public: IntPtr m_unmanagedVTable;
     };
@@ -48,6 +50,7 @@ CLASS(SymWrapperCore) : public Object::in {
     private: ISymUnmanagedDocumentWriterVTable m_vtable;
   };
   public: CLASS(SymWriter) : public Object::in {
+    using interface = rt::TypeList<ISymbolWriter>;
     private: struct ISymUnmanagedWriter : public valueType<ISymUnmanagedWriter> {
       public: IntPtr m_unmanagedVTable;
     };

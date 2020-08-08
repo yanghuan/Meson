@@ -22,6 +22,7 @@ FORWARD(Stream)
 } // namespace System::Private::CoreLib::System::IO
 namespace System::Private::CoreLib::System::Resources {
 enum class UltimateResourceFallbackLocation;
+FORWARD(IResourceGroveler)
 FORWARD(ResourceSet)
 namespace ManifestBasedResourceGrovelerNamespace {
 using namespace Collections::Generic;
@@ -29,6 +30,7 @@ using namespace Globalization;
 using namespace IO;
 using namespace Reflection;
 CLASS(ManifestBasedResourceGroveler) : public Object::in {
+  using interface = rt::TypeList<IResourceGroveler>;
   private: static Assembly InternalGetSatelliteAssembly(Assembly mainAssembly, CultureInfo culture, Version version);
   public: void Ctor(ResourceManager::in::ResourceManagerMediator mediator);
   public: ResourceSet GrovelForResourceSet(CultureInfo culture, Dictionary<String, ResourceSet> localResourceSets, Boolean tryParents, Boolean createIfNotExists);

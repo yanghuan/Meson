@@ -62,6 +62,7 @@ FORWARDS(Char)
 FORWARD(CtorDelegate)
 FORWARD(Exception)
 FORWARDS(Guid)
+FORWARD(ICloneable)
 FORWARDS(Int64)
 FORWARD(IRuntimeFieldInfo)
 FORWARD(IRuntimeMethodInfo)
@@ -78,6 +79,7 @@ using namespace Runtime::InteropServices;
 using namespace Threading;
 using Collections::Generic::IList;
 CLASS(RuntimeType) : public TypeInfo::in {
+  using interface = rt::TypeList<ICloneable>;
   public: enum class MemberListType {
     All = 0,
     CaseSensitive = 1,

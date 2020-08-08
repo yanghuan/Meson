@@ -12,6 +12,7 @@
 #include <System.Private.CoreLib/System/Diagnostics/Tracing/EventWrittenEventArgs-dep.h>
 #include <System.Private.CoreLib/System/EventArgs-dep.h>
 #include <System.Private.CoreLib/System/EventHandler-dep.h>
+#include <System.Private.CoreLib/System/IDisposable.h>
 #include <System.Private.CoreLib/System/Int32-dep.h>
 #include <System.Private.CoreLib/System/Object-dep.h>
 #include <System.Private.CoreLib/System/String-dep.h>

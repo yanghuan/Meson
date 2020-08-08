@@ -4,15 +4,13 @@
 #include <System.Private.CoreLib/System/Int64.h>
 #include <System.Private.CoreLib/System/Object.h>
 
-namespace System::Private::CoreLib::System::Runtime::InteropServices {
-FORWARD(SafeBuffer)
-} // namespace System::Private::CoreLib::System::Runtime::InteropServices
 namespace System::Private::CoreLib::System {
 FORWARD_(Array, T1, T2)
 FORWARDS(Byte)
 FORWARDS(Char)
 FORWARDS(Decimal)
 FORWARDS(Double)
+FORWARD(IDisposable)
 FORWARDS(Int16)
 FORWARDS(Int32)
 FORWARDS(SByte)
@@ -21,11 +19,15 @@ FORWARDS(UInt16)
 FORWARDS(UInt32)
 FORWARDS(UInt64)
 } // namespace System::Private::CoreLib::System
+namespace System::Private::CoreLib::System::Runtime::InteropServices {
+FORWARD(SafeBuffer)
+} // namespace System::Private::CoreLib::System::Runtime::InteropServices
 namespace System::Private::CoreLib::System::IO {
 enum class FileAccess;
 namespace UnmanagedMemoryAccessorNamespace {
 using namespace Runtime::InteropServices;
 CLASS(UnmanagedMemoryAccessor) : public Object::in {
+  using interface = rt::TypeList<IDisposable>;
   public: Int64 get_Capacity();
   public: Boolean get_CanRead();
   public: Boolean get_CanWrite();

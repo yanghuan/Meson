@@ -4,6 +4,11 @@
 #include <System.Private.CoreLib/System/UInt16.h>
 #include <System.Private.CoreLib/System/ValueType.h>
 
+namespace System::Private::CoreLib::System::Runtime::Serialization {
+FORWARD(ISerializable)
+FORWARD(SerializationInfo)
+FORWARDS(StreamingContext)
+} // namespace System::Private::CoreLib::System::Runtime::Serialization
 namespace System::Private::CoreLib::System {
 enum class StringComparison;
 FORWARD_(Array, T1, T2)
@@ -13,10 +18,6 @@ FORWARDS(Int32)
 FORWARDS(ReadOnlySpan, T)
 FORWARD(String)
 } // namespace System::Private::CoreLib::System
-namespace System::Private::CoreLib::System::Runtime::Serialization {
-FORWARD(SerializationInfo)
-FORWARDS(StreamingContext)
-} // namespace System::Private::CoreLib::System::Runtime::Serialization
 namespace System::Private::Uri::System {
 enum class ParsingError;
 enum class UriComponents;
@@ -30,6 +31,7 @@ namespace UriNamespace {
 using namespace ::System::Private::CoreLib::System;
 using namespace ::System::Private::CoreLib::System::Runtime::Serialization;
 CLASS(Uri) : public Object::in {
+  using interface = rt::TypeList<ISerializable>;
   public: enum class Flags : uint64_t {
     Zero = 0,
     SchemeNotCanonical = 1,

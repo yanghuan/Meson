@@ -2,15 +2,16 @@
 
 #include <System.Private.CoreLib/System/StringComparer.h>
 
+namespace System::Private::CoreLib::System::Runtime::Serialization {
+FORWARD(ISerializable)
+FORWARD(SerializationInfo)
+FORWARDS(StreamingContext)
+} // namespace System::Private::CoreLib::System::Runtime::Serialization
 namespace System::Private::CoreLib::System::Globalization {
 enum class CompareOptions;
 FORWARD(CompareInfo)
 FORWARD(CultureInfo)
 } // namespace System::Private::CoreLib::System::Globalization
-namespace System::Private::CoreLib::System::Runtime::Serialization {
-FORWARD(SerializationInfo)
-FORWARDS(StreamingContext)
-} // namespace System::Private::CoreLib::System::Runtime::Serialization
 namespace System::Private::CoreLib::System {
 FORWARDS(Boolean)
 FORWARDS(Int32)
@@ -20,6 +21,7 @@ namespace CultureAwareComparerNamespace {
 using namespace Globalization;
 using namespace Runtime::Serialization;
 CLASS(CultureAwareComparer) : public StringComparer::in {
+  using interface = rt::TypeList<ISerializable>;
   public: void Ctor(CultureInfo culture, CompareOptions options);
   public: void Ctor(CompareInfo compareInfo, CompareOptions options);
   private: void Ctor(SerializationInfo info, StreamingContext context);

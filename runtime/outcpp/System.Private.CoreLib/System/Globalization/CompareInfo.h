@@ -5,6 +5,10 @@
 #include <System.Private.CoreLib/System/IntPtr.h>
 #include <System.Private.CoreLib/System/Object.h>
 
+namespace System::Private::CoreLib::System::Runtime::Serialization {
+FORWARD(IDeserializationCallback)
+FORWARDS(StreamingContext)
+} // namespace System::Private::CoreLib::System::Runtime::Serialization
 namespace System::Private::CoreLib::System {
 FORWARDS(Byte)
 FORWARDS(Char)
@@ -22,9 +26,6 @@ FORWARD(Assembly)
 namespace System::Private::CoreLib::System::Text {
 FORWARDS(Rune)
 } // namespace System::Private::CoreLib::System::Text
-namespace System::Private::CoreLib::System::Runtime::Serialization {
-FORWARDS(StreamingContext)
-} // namespace System::Private::CoreLib::System::Runtime::Serialization
 namespace System::Private::CoreLib::System::Globalization {
 enum class CompareOptions;
 FORWARD(CultureInfo)
@@ -36,6 +37,7 @@ using namespace Reflection;
 using namespace Runtime::Serialization;
 using namespace Text;
 CLASS(CompareInfo) : public Object::in {
+  using interface = rt::TypeList<IDeserializationCallback>;
   private: class SortHandleCache {
     public: static IntPtr GetCachedSortHandle(String sortName);
     private: static void SCtor();

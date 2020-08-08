@@ -6,6 +6,7 @@
 
 namespace System::Private::CoreLib::System {
 FORWARD_(Array, T1, T2)
+FORWARD(ICloneable)
 FORWARD(IFormatProvider)
 FORWARD(String)
 FORWARD(Type)
@@ -16,6 +17,7 @@ enum class NumberStyles;
 FORWARD(CultureData)
 namespace NumberFormatInfoNamespace {
 CLASS(NumberFormatInfo) : public Object::in {
+  using interface = rt::TypeList<IFormatProvider, ICloneable>;
   public: Boolean get_HasInvariantNumberSigns();
   public: static NumberFormatInfo get_InvariantInfo();
   public: Int32 get_CurrencyDecimalDigits();

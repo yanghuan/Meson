@@ -2,6 +2,9 @@
 
 #include <System.Private.CoreLib/System/Object.h>
 
+namespace System::Private::CoreLib::System::Runtime::CompilerServices {
+FORWARD(ITuple)
+} // namespace System::Private::CoreLib::System::Runtime::CompilerServices
 namespace System::Private::CoreLib::System::Collections {
 FORWARD(IEqualityComparer)
 } // namespace System::Private::CoreLib::System::Collections
@@ -10,7 +13,9 @@ FORWARDS(Int32)
 FORWARD(String)
 namespace IValueTupleInternalNamespace {
 using namespace Collections;
+using namespace Runtime::CompilerServices;
 CLASS(IValueTupleInternal) : public Object::in {
+  using interface = rt::TypeList<ITuple>;
   public: Int32 GetHashCode(IEqualityComparer comparer);
   public: String ToStringEnd();
 };

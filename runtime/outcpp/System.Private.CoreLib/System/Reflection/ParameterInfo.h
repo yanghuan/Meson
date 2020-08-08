@@ -3,6 +3,10 @@
 #include <System.Private.CoreLib/System/Int32.h>
 #include <System.Private.CoreLib/System/Object.h>
 
+namespace System::Private::CoreLib::System::Runtime::Serialization {
+FORWARD(IObjectReference)
+FORWARDS(StreamingContext)
+} // namespace System::Private::CoreLib::System::Runtime::Serialization
 namespace System::Private::CoreLib::System {
 FORWARD_(Array, T1, T2)
 FORWARDS(Boolean)
@@ -13,18 +17,17 @@ namespace System::Private::CoreLib::System::Collections::Generic {
 FORWARD(IEnumerable, T)
 FORWARD(IList, T)
 } // namespace System::Private::CoreLib::System::Collections::Generic
-namespace System::Private::CoreLib::System::Runtime::Serialization {
-FORWARDS(StreamingContext)
-} // namespace System::Private::CoreLib::System::Runtime::Serialization
 namespace System::Private::CoreLib::System::Reflection {
 enum class ParameterAttributes;
 FORWARD(CustomAttributeData)
+FORWARD(ICustomAttributeProvider)
 FORWARD(MemberInfo)
 namespace ParameterInfoNamespace {
 using namespace Collections::Generic;
 using namespace Runtime::Serialization;
 using Collections::Generic::IList;
 CLASS(ParameterInfo) : public Object::in {
+  using interface = rt::TypeList<ICustomAttributeProvider, IObjectReference>;
   public: ParameterAttributes get_Attributes();
   public: MemberInfo get_Member();
   public: String get_Name();

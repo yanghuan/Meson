@@ -8,8 +8,10 @@ FORWARDS(Boolean)
 FORWARDS(Int32)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Collections {
+FORWARD(IEnumerable)
 namespace ICollectionNamespace {
 CLASS(ICollection) : public Object::in {
+  using interface = rt::TypeList<IEnumerable>;
   public: Int32 get_Count();
   public: Object get_SyncRoot();
   public: Boolean get_IsSynchronized();

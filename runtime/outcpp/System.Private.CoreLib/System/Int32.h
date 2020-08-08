@@ -9,7 +9,12 @@ namespace System::Private::CoreLib::System {
 enum class TypeCode;
 FORWARDS(Boolean)
 FORWARDS(Char)
+FORWARD_(IComparable, T1, T2)
+FORWARD(IConvertible)
+FORWARD(IEquatable, T)
 FORWARD(IFormatProvider)
+FORWARD(IFormattable)
+FORWARD(ISpanFormattable)
 FORWARD(Object)
 FORWARDS(ReadOnlySpan, T)
 FORWARDS(Span, T)
@@ -17,6 +22,7 @@ FORWARD(String)
 namespace Int32Namespace {
 using namespace Globalization;
 struct Int32 : public valueType<Int32> {
+  using interface = rt::TypeList<IComparable<>, IConvertible, IFormattable, IComparable<Int32>, IEquatable<Int32>, ISpanFormattable>;
   public: constexpr Int32() noexcept : m_value(0) {}
   public: constexpr Int32(int32_t value) noexcept : m_value(value) {}
   public: constexpr int32_t& get() noexcept { return m_value; }

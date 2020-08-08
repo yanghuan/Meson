@@ -15,6 +15,7 @@ FORWARD(ConstructorInfo)
 FORWARD(EventInfo)
 FORWARD(FieldInfo)
 FORWARDS(InterfaceMapping)
+FORWARD(IReflect)
 FORWARD(MemberFilter)
 FORWARD(MethodBase)
 FORWARD(MethodInfo)
@@ -48,6 +49,7 @@ using namespace Globalization;
 using namespace Reflection;
 using namespace Runtime::InteropServices;
 CLASS(Type) : public MemberInfo::in {
+  using interface = rt::TypeList<IReflect>;
   public: Boolean get_IsInterface();
   public: MemberTypes get_MemberType();
   public: String get_Namespace();

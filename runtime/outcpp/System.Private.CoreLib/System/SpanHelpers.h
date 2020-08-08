@@ -13,6 +13,7 @@ namespace System::Private::CoreLib::System {
 FORWARDS(Boolean)
 FORWARDS(Byte)
 FORWARDS(Char)
+FORWARD_(IComparable, T1, T2)
 FORWARDS(Int32)
 FORWARDS(IntPtr)
 FORWARDS(ReadOnlySpan, T)
@@ -26,6 +27,7 @@ using namespace Runtime::Intrinsics;
 class SpanHelpers {
   public: template <class T, class TComparer>
   struct ComparerComparable : public valueType<ComparerComparable<T, TComparer>> {
+    using interface = rt::TypeList<IComparable<T>>;
     public: explicit ComparerComparable(T value, TComparer comparer);
     public: Int32 CompareTo(T other);
     public: explicit ComparerComparable() {}

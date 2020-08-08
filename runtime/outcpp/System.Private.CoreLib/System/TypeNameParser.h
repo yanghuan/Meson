@@ -18,6 +18,7 @@ FORWARD_(Array, T1, T2)
 FORWARDS(Boolean)
 FORWARDS(Char)
 FORWARD_(Func, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18)
+FORWARD(IDisposable)
 FORWARDS(Int32)
 FORWARD(SafeTypeNameParserHandle)
 FORWARD(String)
@@ -27,6 +28,7 @@ using namespace Reflection;
 using namespace Runtime::CompilerServices;
 using namespace Threading;
 CLASS(TypeNameParser) : public Object::in {
+  using interface = rt::TypeList<IDisposable>;
   private: static void _CreateTypeNameParser(String typeName, ObjectHandleOnStack retHandle, Boolean throwOnError);
   private: static void _GetNames(SafeTypeNameParserHandle pTypeNameParser, ObjectHandleOnStack retArray);
   private: static void _GetTypeArguments(SafeTypeNameParserHandle pTypeNameParser, ObjectHandleOnStack retArray);

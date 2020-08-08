@@ -4,6 +4,7 @@
 #include <System.Private.CoreLib/System/ValueType.h>
 
 namespace System::Private::CoreLib::System::Runtime::Serialization {
+FORWARD(ISerializable)
 FORWARD(SerializationInfo)
 FORWARDS(StreamingContext)
 } // namespace System::Private::CoreLib::System::Runtime::Serialization
@@ -44,6 +45,7 @@ using namespace Runtime::CompilerServices;
 using namespace Runtime::Serialization;
 using namespace Threading;
 struct RuntimeMethodHandle : public valueType<RuntimeMethodHandle> {
+  using interface = rt::TypeList<ISerializable>;
   public: IntPtr get_Value();
   public: static IRuntimeMethodInfo EnsureNonNullMethodInfo(IRuntimeMethodInfo method);
   public: explicit RuntimeMethodHandle(IRuntimeMethodInfo method);

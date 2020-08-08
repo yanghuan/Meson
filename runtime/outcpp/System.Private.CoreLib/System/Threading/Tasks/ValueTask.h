@@ -5,13 +5,14 @@
 #include <System.Private.CoreLib/System/Threading/Tasks/Task.h>
 #include <System.Private.CoreLib/System/ValueType.h>
 
+namespace System::Private::CoreLib::System {
+FORWARD_(Action, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17)
+FORWARD(IEquatable, T)
+FORWARD(Object)
+} // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Threading::Tasks::Sources {
 FORWARD_(IValueTaskSource, T1, T2)
 } // namespace System::Private::CoreLib::System::Threading::Tasks::Sources
-namespace System::Private::CoreLib::System {
-FORWARD_(Action, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17)
-FORWARD(Object)
-} // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Threading::Tasks {
 namespace ValueTaskNamespace {
 using namespace Sources;
@@ -20,6 +21,7 @@ struct ValueTask {
 };
 template <>
 struct ValueTask<> : public valueType<ValueTask<>> {
+  using interface = rt::TypeList<IEquatable<ValueTask<>>>;
   private: CLASS(ValueTaskSourceAsTask) : public Task<>::in {
     public: void Ctor(IValueTaskSource<> source, Int16 token);
     private: static void SCtor();
@@ -39,6 +41,7 @@ struct ValueTask<> : public valueType<ValueTask<>> {
 };
 template <class TResult>
 struct ValueTask<TResult> : public valueType<ValueTask<TResult>> {
+  using interface = rt::TypeList<IEquatable<ValueTask<TResult>>>;
   private: CLASS(ValueTaskSourceAsTask) : public Task<TResult>::in {
     public: void Ctor(IValueTaskSource<TResult> source, Int16 token);
     private: static void SCtor();

@@ -6,6 +6,7 @@
 namespace System::Private::CoreLib::System {
 FORWARD_(Array, T1, T2)
 FORWARDS(Boolean)
+FORWARD(IEquatable, T)
 FORWARDS(Int16)
 FORWARD(Object)
 FORWARD(String)
@@ -18,6 +19,7 @@ enum class OperandType;
 enum class StackBehaviour;
 namespace OpCodeNamespace {
 struct OpCode : public valueType<OpCode> {
+  using interface = rt::TypeList<IEquatable<OpCode>>;
   public: OperandType get_OperandType();
   public: FlowControl get_FlowControl();
   public: OpCodeType get_OpCodeType();

@@ -3,6 +3,7 @@
 #include <System.Private.CoreLib/System/MissingMemberException.h>
 
 namespace System::Private::CoreLib::System::Runtime::Serialization {
+FORWARD(ISerializable)
 FORWARD(SerializationInfo)
 FORWARDS(StreamingContext)
 } // namespace System::Private::CoreLib::System::Runtime::Serialization
@@ -12,6 +13,7 @@ FORWARD(String)
 namespace MissingFieldExceptionNamespace {
 using namespace Runtime::Serialization;
 CLASS(MissingFieldException) : public MissingMemberException::in {
+  using interface = rt::TypeList<ISerializable>;
   public: String get_Message();
   public: void Ctor();
   public: void Ctor(String message);

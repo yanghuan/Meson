@@ -8,8 +8,10 @@ FORWARDS(Boolean)
 namespace System::Private::CoreLib::System::Collections {
 FORWARD(ICollection)
 FORWARD(IDictionaryEnumerator)
+FORWARD(IEnumerable)
 namespace IDictionaryNamespace {
 CLASS(IDictionary) : public Object::in {
+  using interface = rt::TypeList<ICollection, IEnumerable>;
   public: Object get_Item(Object key);
   public: void set_Item(Object key, Object value);
   public: ICollection get_Keys();

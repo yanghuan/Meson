@@ -5,6 +5,9 @@
 
 namespace System::Private::CoreLib::System {
 FORWARDS(Boolean)
+FORWARD(IAsyncDisposable)
+FORWARD(IDisposable)
+FORWARD(IEquatable, T)
 FORWARDS(Int32)
 FORWARD(Object)
 } // namespace System::Private::CoreLib::System
@@ -16,6 +19,7 @@ FORWARDS(CancellationToken)
 namespace CancellationTokenRegistrationNamespace {
 using namespace Tasks;
 struct CancellationTokenRegistration : public valueType<CancellationTokenRegistration> {
+  using interface = rt::TypeList<IEquatable<CancellationTokenRegistration>, IDisposable, IAsyncDisposable>;
   public: CancellationToken get_Token();
   public: explicit CancellationTokenRegistration(Int64 id, Object/*CancellationTokenSource.CallbackNode*/ node);
   public: void Dispose();

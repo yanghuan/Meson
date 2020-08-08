@@ -6,6 +6,7 @@
 #include <System.Private.CoreLib/System/AsyncCallback-dep.h>
 #include <System.Private.CoreLib/System/Boolean-dep.h>
 #include <System.Private.CoreLib/System/Byte-dep.h>
+#include <System.Private.CoreLib/System/Diagnostics/SymbolStore/ISymbolDocumentWriter.h>
 #include <System.Private.CoreLib/System/Diagnostics/SymbolStore/ISymbolWriter.h>
 #include <System.Private.CoreLib/System/Guid-dep.h>
 #include <System.Private.CoreLib/System/IAsyncResult.h>

@@ -5,10 +5,12 @@
 namespace System::Private::CoreLib::System {
 FORWARD_(Array, T1, T2)
 FORWARD(IFormatProvider)
+FORWARD(IFormattable)
 FORWARDS(Int32)
 FORWARD(String)
 namespace FormattableStringNamespace {
 CLASS(FormattableString) : public Object::in {
+  using interface = rt::TypeList<IFormattable>;
   public: String get_Format();
   public: Int32 get_ArgumentCount();
   public: Array<Object> GetArguments();

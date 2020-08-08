@@ -4,6 +4,7 @@
 
 namespace System::Private::CoreLib::System {
 FORWARDS(Boolean)
+FORWARD(IEquatable, T)
 FORWARDS(Int32)
 FORWARD(String)
 FORWARD(Version)
@@ -11,6 +12,7 @@ FORWARD(Version)
 namespace System::Private::CoreLib::System::Runtime::Versioning {
 namespace FrameworkNameNamespace {
 CLASS(FrameworkName) : public Object::in {
+  using interface = rt::TypeList<IEquatable<FrameworkName>>;
   public: String get_Identifier();
   public: Version get_Version();
   public: String get_Profile();

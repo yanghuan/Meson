@@ -12,6 +12,7 @@ namespace Meson.Compiler.CppAst {
     public static readonly IdentifierSyntax Meson = "rt";
     public static readonly IdentifierSyntax FixedBuffer = "rt::FixedBuffer";
     public static readonly IdentifierSyntax TypeCode = "rt::TypeCode";
+    public static readonly IdentifierSyntax TypeList = "rt::TypeList";
     public static readonly IdentifierSyntax Void = "void";
     public static readonly IdentifierSyntax Object = "Object";
     public static readonly IdentifierSyntax T = "T";
@@ -26,6 +27,7 @@ namespace Meson.Compiler.CppAst {
     public static readonly IdentifierSyntax Value = "value";
     public static readonly IdentifierSyntax This = "this";
     public static readonly IdentifierSyntax Auto = "auto";
+    public static readonly IdentifierSyntax Interface = "interface";
     public static readonly IdentifierSyntax Invoke = "Invoke";
     public static readonly IdentifierSyntax Nullptr = Tokens.Nullptr;
     public static readonly IdentifierSyntax Sizeof = Tokens.Sizeof;

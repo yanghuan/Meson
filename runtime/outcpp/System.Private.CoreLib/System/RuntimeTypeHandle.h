@@ -5,6 +5,11 @@
 #include <System.Private.CoreLib/System/RuntimeMethodHandleInternal.h>
 #include <System.Private.CoreLib/System/ValueType.h>
 
+namespace System::Private::CoreLib::System::Runtime::Serialization {
+FORWARD(ISerializable)
+FORWARD(SerializationInfo)
+FORWARDS(StreamingContext)
+} // namespace System::Private::CoreLib::System::Runtime::Serialization
 namespace System::Private::CoreLib::System::Reflection {
 enum class CorElementType : uint8_t;
 enum class TypeAttributes;
@@ -28,10 +33,6 @@ enum class StackCrawlMark;
 namespace System::Private::CoreLib::System::Runtime::Loader {
 FORWARD(AssemblyLoadContext)
 } // namespace System::Private::CoreLib::System::Runtime::Loader
-namespace System::Private::CoreLib::System::Runtime::Serialization {
-FORWARD(SerializationInfo)
-FORWARDS(StreamingContext)
-} // namespace System::Private::CoreLib::System::Runtime::Serialization
 namespace System::Private::CoreLib::System {
 enum class TypeNameFormatFlags;
 FORWARD_(Array, T1, T2)
@@ -52,6 +53,7 @@ using namespace Runtime::Loader;
 using namespace Runtime::Serialization;
 using namespace Threading;
 struct RuntimeTypeHandle : public valueType<RuntimeTypeHandle> {
+  using interface = rt::TypeList<ISerializable>;
   public: struct IntroducedMethodEnumerator : public valueType<IntroducedMethodEnumerator> {
     public: RuntimeMethodHandleInternal get_Current();
     public: explicit IntroducedMethodEnumerator(RuntimeType type);

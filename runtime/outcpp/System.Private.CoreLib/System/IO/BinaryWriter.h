@@ -4,19 +4,14 @@
 #include <System.Private.CoreLib/System/Int32.h>
 #include <System.Private.CoreLib/System/Object.h>
 
-namespace System::Private::CoreLib::System::Text {
-FORWARD(Encoder)
-FORWARD(Encoding)
-} // namespace System::Private::CoreLib::System::Text
-namespace System::Private::CoreLib::System::Threading::Tasks {
-FORWARDS_(ValueTask, T1, T2)
-} // namespace System::Private::CoreLib::System::Threading::Tasks
 namespace System::Private::CoreLib::System {
 FORWARD_(Array, T1, T2)
 FORWARDS(Byte)
 FORWARDS(Char)
 FORWARDS(Decimal)
 FORWARDS(Double)
+FORWARD(IAsyncDisposable)
+FORWARD(IDisposable)
 FORWARDS(Int16)
 FORWARDS(Int64)
 FORWARDS(ReadOnlySpan, T)
@@ -27,6 +22,13 @@ FORWARDS(UInt16)
 FORWARDS(UInt32)
 FORWARDS(UInt64)
 } // namespace System::Private::CoreLib::System
+namespace System::Private::CoreLib::System::Text {
+FORWARD(Encoder)
+FORWARD(Encoding)
+} // namespace System::Private::CoreLib::System::Text
+namespace System::Private::CoreLib::System::Threading::Tasks {
+FORWARDS_(ValueTask, T1, T2)
+} // namespace System::Private::CoreLib::System::Threading::Tasks
 namespace System::Private::CoreLib::System::IO {
 enum class SeekOrigin;
 FORWARD(Stream)
@@ -34,6 +36,7 @@ namespace BinaryWriterNamespace {
 using namespace Text;
 using namespace Threading::Tasks;
 CLASS(BinaryWriter) : public Object::in {
+  using interface = rt::TypeList<IDisposable, IAsyncDisposable>;
   public: Stream get_BaseStream();
   protected: void Ctor();
   public: void Ctor(Stream output);

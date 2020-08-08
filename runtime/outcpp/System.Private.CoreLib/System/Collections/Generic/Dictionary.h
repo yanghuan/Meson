@@ -10,27 +10,48 @@
 namespace System::Private::CoreLib::System::Collections {
 FORWARDS(DictionaryEntry)
 FORWARD(ICollection)
+FORWARD(IDictionary)
+FORWARD(IDictionaryEnumerator)
+FORWARD(IEnumerable)
+FORWARD(IEnumerator)
 } // namespace System::Private::CoreLib::System::Collections
-namespace System::Private::CoreLib::System {
-FORWARD_(Array, T1, T2)
-FORWARDS(Boolean)
-} // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Runtime::Serialization {
+FORWARD(IDeserializationCallback)
+FORWARD(ISerializable)
 FORWARD(SerializationInfo)
 FORWARDS(StreamingContext)
 } // namespace System::Private::CoreLib::System::Runtime::Serialization
+namespace System::Private::CoreLib::System {
+FORWARD_(Array, T1, T2)
+FORWARDS(Boolean)
+FORWARD(IDisposable)
+} // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Collections::Generic {
 enum class InsertionBehavior : uint8_t;
 FORWARD(ICollection, T)
 FORWARD(IDictionary, TKey, TValue)
 FORWARD(IEnumerable, T)
+FORWARD(IEnumerator, T)
 FORWARD(IEqualityComparer, T)
+FORWARD(IReadOnlyCollection, T)
+FORWARD(IReadOnlyDictionary, TKey, TValue)
 namespace DictionaryNamespace {
 using namespace Runtime::Serialization;
+using Generic::IEnumerator;
+template <class TKey, class TValue>
+using IDictionary = Generic::IDictionary<TKey, TValue>;
+using IDictionary1 = Collections::IDictionary;
 template <class T>
 using ICollection = Generic::ICollection<T>;
 using ICollection1 = Collections::ICollection;
+template <class T>
+using IEnumerable = Generic::IEnumerable<T>;
+using IEnumerable1 = Collections::IEnumerable;
+template <class T>
+using IEnumerator = Generic::IEnumerator<T>;
+using IEnumerator1 = Collections::IEnumerator;
 CLASS(Dictionary, TKey, TValue) : public Object::in {
+  using interface = rt::TypeList<IDictionary<TKey, TValue>, ICollection<KeyValuePair<TKey, TValue>>, IEnumerable<KeyValuePair<TKey, TValue>>, IEnumerable1, IDictionary1, ICollection1, IReadOnlyDictionary<TKey, TValue>, IReadOnlyCollection<KeyValuePair<TKey, TValue>>, ISerializable, IDeserializationCallback>;
   private: struct Entry : public valueType<Entry> {
     public: UInt32 hashCode;
     public: Int32 next;
@@ -38,6 +59,7 @@ CLASS(Dictionary, TKey, TValue) : public Object::in {
     public: TValue value;
   };
   public: struct Enumerator : public valueType<Enumerator> {
+    using interface = rt::TypeList<IEnumerator<KeyValuePair<TKey, TValue>>, IDisposable, IEnumerator1, IDictionaryEnumerator>;
     public: KeyValuePair<TKey, TValue> get_Current();
     private: Object get_CurrentOfIEnumerator();
     private: DictionaryEntry get_EntryOfIDictionaryEnumerator();
@@ -54,7 +76,9 @@ CLASS(Dictionary, TKey, TValue) : public Object::in {
     private: Int32 _getEnumeratorRetType;
   };
   public: CLASS(KeyCollection) : public Object::in {
+    using interface = rt::TypeList<ICollection<TKey>, IEnumerable<TKey>, IEnumerable1, ICollection1, IReadOnlyCollection<TKey>>;
     public: struct Enumerator : public valueType<Enumerator> {
+      using interface = rt::TypeList<IEnumerator<TKey>, IDisposable, IEnumerator1>;
       public: TKey get_Current();
       private: Object get_CurrentOfIEnumerator();
       public: explicit Enumerator(Dictionary<TKey, TValue> dictionary);
@@ -76,7 +100,9 @@ CLASS(Dictionary, TKey, TValue) : public Object::in {
     private: Dictionary<TKey, TValue> _dictionary;
   };
   public: CLASS(ValueCollection) : public Object::in {
+    using interface = rt::TypeList<ICollection<TValue>, IEnumerable<TValue>, IEnumerable1, ICollection1, IReadOnlyCollection<TValue>>;
     public: struct Enumerator : public valueType<Enumerator> {
+      using interface = rt::TypeList<IEnumerator<TValue>, IDisposable, IEnumerator1>;
       public: TValue get_Current();
       private: Object get_CurrentOfIEnumerator();
       public: explicit Enumerator(Dictionary<TKey, TValue> dictionary);

@@ -18,6 +18,7 @@
 #include <System.Private.CoreLib/System/Diagnostics/Tracing/IEventProvider.h>
 #include <System.Private.CoreLib/System/Guid-dep.h>
 #include <System.Private.CoreLib/System/IAsyncResult.h>
+#include <System.Private.CoreLib/System/IDisposable.h>
 #include <System.Private.CoreLib/System/Int32-dep.h>
 #include <System.Private.CoreLib/System/Int64-dep.h>
 #include <System.Private.CoreLib/System/IntPtr-dep.h>

@@ -9,6 +9,7 @@
 #include <System.Private.CoreLib/System/Reflection/ConstructorInfo-dep.h>
 #include <System.Private.CoreLib/System/Reflection/EventInfo-dep.h>
 #include <System.Private.CoreLib/System/Reflection/FieldInfo-dep.h>
+#include <System.Private.CoreLib/System/Reflection/IReflectableType.h>
 #include <System.Private.CoreLib/System/Reflection/MemberInfo-dep.h>
 #include <System.Private.CoreLib/System/Reflection/MethodInfo-dep.h>
 #include <System.Private.CoreLib/System/Reflection/PropertyInfo-dep.h>

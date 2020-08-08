@@ -113,6 +113,7 @@ namespace Meson.Compiler {
         typeArgument = node.Name.Generic(template.TypeNames);
       }
       node.Bases.Add(new BaseSyntax(((IdentifierSyntax)baseType.Name.FirstCharLow()).Generic(typeArgument)));
+      AddInterfaces(type, node, type.DirectBaseTypes.Skip(1));
       parent_.Add(node);
       VisitMembers(type, node);
     }
@@ -129,6 +130,20 @@ namespace Meson.Compiler {
       return type.IsRefType() ? ClassKind.Ref : ClassKind.None;
     }
 
+    private void AddInterfaces(ITypeDefinition type, ClassSyntax node, IEnumerable<IType> interfaces) {
+      if (interfaces.Any()) {
+        var interfaceTypes = interfaces.Select(i => CompilationUnit.GetTypeName(new TypeNameArgs() {
+          Type = i,
+          Definition = type,
+          IsInHead = true,
+          IsForward = true,
+        }));
+        node.Add(new UsingDeclarationSyntax(IdentifierSyntax.Interface, IdentifierSyntax.TypeList.Generic(interfaceTypes)) { 
+          AccessibilityToken = Accessibility.Public.ToTokenString(),
+        });
+      }
+    }
+
     private void VistClass(ITypeDefinition type) {
       var template = type.GetTemplateSyntax();
       ClassSyntax node = new ClassSyntax(type.Name) {
@@ -137,14 +152,21 @@ namespace Meson.Compiler {
         AccessibilityToken = GetAccessibilityString(type),
       };
       if (!type.IsStatic) {
-        var baseType = type.DirectBaseTypes.FirstOrDefault(i => i.Kind == TypeKind.Class);
-        if (baseType != null) {
-          var baseTypeName = CompilationUnit.GetTypeName(new TypeNameArgs() {
-            Type = baseType,
-            Definition = type,
-            IsInHead = true,
-          });
-          node.Bases.Add(new BaseSyntax(baseTypeName.WithIn()));
+        var firstBaseType = type.DirectBaseTypes.FirstOrDefault();
+        if (firstBaseType != null) {
+          IEnumerable<IType> interfaces;
+          if (firstBaseType.Kind == TypeKind.Class) {
+            var baseTypeName = CompilationUnit.GetTypeName(new TypeNameArgs() {
+              Type = firstBaseType,
+              Definition = type,
+              IsInHead = true,
+            });
+            node.Bases.Add(new BaseSyntax(baseTypeName.WithIn()));
+            interfaces = type.DirectBaseTypes.Skip(1);
+          } else {
+            interfaces = type.DirectBaseTypes;
+          }
+          AddInterfaces(type, node, interfaces);
         } else {
           Contract.Assert(type.IsKnownType(KnownTypeCode.Object));
           node.Bases.Add(new BaseSyntax(IdentifierSyntax.Meson.TwoColon(type.Name.FirstCharLow())));
@@ -385,7 +407,7 @@ namespace Meson.Compiler {
           };
           getValueConst.Body.Add(fieldName.Return());
           statements.Add(getValueConst);
-          node.Statements.Insert(0, statements);
+          node.Statements.Insert(1, statements);
         }
       } else if (IsArrayInnerSpecialField(field, typeDefinition, out typeName)) {
       } else {

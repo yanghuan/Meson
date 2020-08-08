@@ -6,6 +6,20 @@
 #include <System.Private.CoreLib/System/Object.h>
 #include <System.Private.CoreLib/System/ValueType.h>
 
+namespace System::Private::CoreLib::System {
+FORWARD_(Action, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17)
+FORWARD_(Array, T1, T2)
+FORWARD(AssemblyLoadEventHandler)
+FORWARDS(Byte)
+FORWARD_(Func, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18)
+FORWARDS(Guid)
+FORWARD(IDisposable)
+FORWARDS(Int32)
+FORWARDS(ReadOnlySpan, T)
+FORWARD(ResolveEventHandler)
+FORWARD(String)
+FORWARD_(WeakReference, T1, T2)
+} // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Collections::Generic {
 FORWARD(Dictionary, TKey, TValue)
 FORWARD(IEnumerable, T)
@@ -15,19 +29,6 @@ FORWARD(Assembly)
 FORWARD(AssemblyName)
 FORWARD(RuntimeAssembly)
 } // namespace System::Private::CoreLib::System::Reflection
-namespace System::Private::CoreLib::System {
-FORWARD_(Action, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17)
-FORWARD_(Array, T1, T2)
-FORWARD(AssemblyLoadEventHandler)
-FORWARDS(Byte)
-FORWARD_(Func, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18)
-FORWARDS(Guid)
-FORWARDS(Int32)
-FORWARDS(ReadOnlySpan, T)
-FORWARD(ResolveEventHandler)
-FORWARD(String)
-FORWARD_(WeakReference, T1, T2)
-} // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Runtime::CompilerServices {
 FORWARDS(ObjectHandleOnStack)
 FORWARDS(QCallAssembly)
@@ -51,6 +52,7 @@ CLASS(AssemblyLoadContext) : public Object::in {
     Unloading = 1,
   };
   public: struct ContextualReflectionScope : public valueType<ContextualReflectionScope> {
+    using interface = rt::TypeList<IDisposable>;
     public: explicit ContextualReflectionScope(AssemblyLoadContext activating);
     public: void Dispose();
     public: explicit ContextualReflectionScope() {}

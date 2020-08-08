@@ -5,12 +5,14 @@
 
 namespace System::Private::CoreLib::System {
 FORWARDS(Boolean)
+FORWARD(IEquatable, T)
 FORWARDS(Int32)
 FORWARD(Object)
 FORWARD(String)
 FORWARDS_(ValueTuple, T1, T2, T3, T4, T5, T6, T7, T8, T9)
 namespace RangeNamespace {
 struct Range : public valueType<Range> {
+  using interface = rt::TypeList<IEquatable<Range>>;
   public: Index get_Start() { return Start; }
   public: Index get_End() { return End; }
   public: static Range get_All();

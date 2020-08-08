@@ -10,6 +10,7 @@
 #include <System.Private.CoreLib/System/Globalization/CalendarAlgorithmType.h>
 #include <System.Private.CoreLib/System/Globalization/CalendarId.h>
 #include <System.Private.CoreLib/System/Globalization/CalendarWeekRule.h>
+#include <System.Private.CoreLib/System/ICloneable.h>
 #include <System.Private.CoreLib/System/Int32-dep.h>
 #include <System.Private.CoreLib/System/Int64-dep.h>
 #include <System.Private.CoreLib/System/Object-dep.h>

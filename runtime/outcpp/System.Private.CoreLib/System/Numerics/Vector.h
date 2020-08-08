@@ -5,6 +5,8 @@
 
 namespace System::Private::CoreLib::System {
 FORWARDS(Boolean)
+FORWARD(IEquatable, T)
+FORWARD(IFormattable)
 FORWARDS(Int32)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Numerics {
@@ -18,6 +20,7 @@ class Vector<> {
 };
 template <class T>
 struct Vector<T> : public valueType<Vector<T>> {
+  using interface = rt::TypeList<IEquatable<Vector<T>>, IFormattable>;
   public: static Int32 get_Count();
   public: static Vector<T> get_Zero();
   public: static Vector<T> get_One();

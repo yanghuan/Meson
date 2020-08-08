@@ -3,13 +3,14 @@
 #include <System.Private.CoreLib/System/Int32.h>
 #include <System.Private.CoreLib/System/SystemException.h>
 
-namespace System::Private::CoreLib::System::Runtime::CompilerServices {
-FORWARDS(StringHandleOnStack)
-} // namespace System::Private::CoreLib::System::Runtime::CompilerServices
 namespace System::Private::CoreLib::System::Runtime::Serialization {
+FORWARD(ISerializable)
 FORWARD(SerializationInfo)
 FORWARDS(StreamingContext)
 } // namespace System::Private::CoreLib::System::Runtime::Serialization
+namespace System::Private::CoreLib::System::Runtime::CompilerServices {
+FORWARDS(StringHandleOnStack)
+} // namespace System::Private::CoreLib::System::Runtime::CompilerServices
 namespace System::Private::CoreLib::System {
 FORWARD(Exception)
 FORWARD(String)
@@ -17,6 +18,7 @@ namespace TypeLoadExceptionNamespace {
 using namespace Runtime::CompilerServices;
 using namespace Runtime::Serialization;
 CLASS(TypeLoadException) : public SystemException::in {
+  using interface = rt::TypeList<ISerializable>;
   public: String get_Message();
   public: String get_TypeName();
   private: void Ctor(String className, String assemblyName, String messageArg, Int32 resourceId);

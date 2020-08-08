@@ -8,6 +8,7 @@ namespace System::Private::CoreLib::System {
 FORWARD_(Array, T1, T2)
 FORWARDS(Boolean)
 FORWARDS(Int32)
+FORWARD(IRuntimeMethodInfo)
 FORWARD(Object)
 FORWARDS(RuntimeMethodHandle)
 FORWARDS(RuntimeMethodHandleInternal)
@@ -40,6 +41,7 @@ using namespace Collections::Generic;
 using namespace Globalization;
 using Collections::Generic::IList;
 CLASS(RuntimeConstructorInfo) : public ConstructorInfo::in {
+  using interface = rt::TypeList<IRuntimeMethodInfo>;
   public: INVOCATION_FLAGS get_InvocationFlags();
   private: RuntimeMethodHandleInternal get_ValueOfIRuntimeMethodInfo();
   private: Signature get_Signature();

@@ -5,6 +5,9 @@
 #include <System.Private.CoreLib/System/UInt64.h>
 #include <System.Private.CoreLib/System/ValueType.h>
 
+namespace System::Private::CoreLib::System::Runtime::Serialization {
+FORWARD(IDeserializationCallback)
+} // namespace System::Private::CoreLib::System::Runtime::Serialization
 namespace System::Private::CoreLib::System::Globalization {
 enum class NumberStyles;
 } // namespace System::Private::CoreLib::System::Globalization
@@ -17,9 +20,14 @@ FORWARDS(Byte)
 FORWARDS(Char)
 FORWARDS(Currency)
 FORWARDS(Double)
+FORWARD_(IComparable, T1, T2)
+FORWARD(IConvertible)
+FORWARD(IEquatable, T)
 FORWARD(IFormatProvider)
+FORWARD(IFormattable)
 FORWARDS(Int16)
 FORWARDS(Int64)
+FORWARD(ISpanFormattable)
 FORWARD(Object)
 FORWARDS(ReadOnlySpan, T)
 FORWARDS(SByte)
@@ -29,7 +37,9 @@ FORWARD(String)
 FORWARDS(UInt16)
 namespace DecimalNamespace {
 using namespace Globalization;
+using namespace Runtime::Serialization;
 struct Decimal : public valueType<Decimal> {
+  using interface = rt::TypeList<IFormattable, IComparable<>, IConvertible, IComparable<Decimal>, IEquatable<Decimal>, IDeserializationCallback, ISpanFormattable>;
   private: struct DecCalc : public valueType<DecCalc> {
     private: struct Buf24 : public valueType<Buf24> {
       public: UInt64 get_Low64();

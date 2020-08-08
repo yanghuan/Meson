@@ -5,6 +5,9 @@
 namespace System::Private::CoreLib::System {
 enum class TypeCode;
 FORWARDS(Char)
+FORWARD_(IComparable, T1, T2)
+FORWARD(IConvertible)
+FORWARD(IEquatable, T)
 FORWARD(IFormatProvider)
 FORWARDS(Int32)
 FORWARD(Object)
@@ -13,6 +16,7 @@ FORWARDS(Span, T)
 FORWARD(String)
 namespace BooleanNamespace {
 struct Boolean : public valueType<Boolean> {
+  using interface = rt::TypeList<IComparable<>, IConvertible, IComparable<Boolean>, IEquatable<Boolean>>;
   public: constexpr Boolean() noexcept : m_value(false) {}
   public: constexpr Boolean(bool value) noexcept : m_value(value) {}
   public: constexpr bool& get() noexcept { return m_value; }

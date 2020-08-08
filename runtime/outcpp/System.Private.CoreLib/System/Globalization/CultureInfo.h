@@ -6,6 +6,8 @@
 
 namespace System::Private::CoreLib::System {
 FORWARD_(Array, T1, T2)
+FORWARD(ICloneable)
+FORWARD(IFormatProvider)
 FORWARD(String)
 FORWARD(Type)
 } // namespace System::Private::CoreLib::System
@@ -29,6 +31,7 @@ namespace CultureInfoNamespace {
 using namespace Collections::Generic;
 using namespace Threading;
 CLASS(CultureInfo) : public Object::in {
+  using interface = rt::TypeList<IFormatProvider, ICloneable>;
   public: static CultureInfo get_CurrentCulture();
   public: static void set_CurrentCulture(CultureInfo value);
   public: static CultureInfo get_CurrentUICulture();

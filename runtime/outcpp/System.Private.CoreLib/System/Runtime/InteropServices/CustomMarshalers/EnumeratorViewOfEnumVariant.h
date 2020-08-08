@@ -3,6 +3,12 @@
 #include <System.Private.CoreLib/System/Boolean.h>
 #include <System.Private.CoreLib/System/Object.h>
 
+namespace System::Private::CoreLib::System::Runtime::InteropServices {
+FORWARD(ICustomAdapter)
+} // namespace System::Private::CoreLib::System::Runtime::InteropServices
+namespace System::Private::CoreLib::System::Collections {
+FORWARD(IEnumerator)
+} // namespace System::Private::CoreLib::System::Collections
 namespace System::Private::CoreLib::System::Runtime::InteropServices::ComTypes {
 FORWARD(IEnumVARIANT)
 } // namespace System::Private::CoreLib::System::Runtime::InteropServices::ComTypes
@@ -11,8 +17,10 @@ FORWARD_(Array, T1, T2)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Runtime::InteropServices::CustomMarshalers {
 namespace EnumeratorViewOfEnumVariantNamespace {
+using namespace Collections;
 using namespace ComTypes;
 CLASS(EnumeratorViewOfEnumVariant) : public Object::in {
+  using interface = rt::TypeList<ICustomAdapter, IEnumerator>;
   public: Object get_Current();
   public: void Ctor(IEnumVARIANT enumVariantObject);
   public: Boolean MoveNext();

@@ -3,6 +3,7 @@
 #include <System.Private.CoreLib/System/OrdinalComparer.h>
 
 namespace System::Private::CoreLib::System::Runtime::Serialization {
+FORWARD(ISerializable)
 FORWARD(SerializationInfo)
 FORWARDS(StreamingContext)
 } // namespace System::Private::CoreLib::System::Runtime::Serialization
@@ -13,6 +14,7 @@ FORWARD(String)
 namespace OrdinalCaseSensitiveComparerNamespace {
 using namespace Runtime::Serialization;
 CLASS(OrdinalCaseSensitiveComparer) : public OrdinalComparer::in {
+  using interface = rt::TypeList<ISerializable>;
   public: void Ctor();
   public: Int32 Compare(String x, String y);
   public: Boolean Equals(String x, String y);

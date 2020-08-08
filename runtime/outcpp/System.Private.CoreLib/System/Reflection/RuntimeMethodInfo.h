@@ -10,6 +10,7 @@ FORWARD_(Array, T1, T2)
 FORWARDS(Boolean)
 FORWARD(Delegate)
 FORWARDS(Int32)
+FORWARD(IRuntimeMethodInfo)
 FORWARD(Object)
 FORWARDS(RuntimeMethodHandle)
 FORWARDS(RuntimeMethodHandleInternal)
@@ -48,6 +49,7 @@ using namespace Globalization;
 using namespace Threading;
 using Collections::Generic::IList;
 CLASS(RuntimeMethodInfo) : public MethodInfo::in {
+  using interface = rt::TypeList<IRuntimeMethodInfo>;
   public: INVOCATION_FLAGS get_InvocationFlags();
   private: RuntimeMethodHandleInternal get_ValueOfIRuntimeMethodInfo();
   private: RuntimeType get_ReflectedTypeInternal();

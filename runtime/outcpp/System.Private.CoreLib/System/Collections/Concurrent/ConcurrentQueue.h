@@ -2,22 +2,32 @@
 
 #include <System.Private.CoreLib/System/Object.h>
 
+namespace System::Private::CoreLib::System::Collections::Generic {
+FORWARD(IEnumerable, T)
+FORWARD(IEnumerator, T)
+FORWARD(IReadOnlyCollection, T)
+} // namespace System::Private::CoreLib::System::Collections::Generic
+namespace System::Private::CoreLib::System::Collections {
+FORWARD(ICollection)
+FORWARD(IEnumerable)
+} // namespace System::Private::CoreLib::System::Collections
 namespace System::Private::CoreLib::System {
 FORWARD_(Array, T1, T2)
 FORWARDS(Boolean)
 FORWARDS(Int32)
 FORWARDS(Int64)
 } // namespace System::Private::CoreLib::System
-namespace System::Private::CoreLib::System::Collections::Generic {
-FORWARD(IEnumerable, T)
-FORWARD(IEnumerator, T)
-} // namespace System::Private::CoreLib::System::Collections::Generic
 namespace System::Private::CoreLib::System::Collections::Concurrent {
 FORWARD(ConcurrentQueueSegment, T)
+FORWARD(IProducerConsumerCollection, T)
 namespace ConcurrentQueueNamespace {
 using namespace Generic;
 using Generic::IEnumerator;
+template <class T>
+using IEnumerable = Generic::IEnumerable<T>;
+using IEnumerable1 = Collections::IEnumerable;
 CLASS(ConcurrentQueue, T) : public Object::in {
+  using interface = rt::TypeList<IProducerConsumerCollection<T>, IEnumerable<T>, IEnumerable1, ICollection, IReadOnlyCollection<T>>;
   private: Boolean get_IsSynchronizedOfICollection();
   private: Object get_SyncRootOfICollection();
   public: Boolean get_IsEmpty();

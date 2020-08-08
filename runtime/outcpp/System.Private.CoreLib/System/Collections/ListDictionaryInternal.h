@@ -10,9 +10,13 @@ FORWARD_(Array, T1, T2)
 namespace System::Private::CoreLib::System::Collections {
 FORWARDS(DictionaryEntry)
 FORWARD(ICollection)
+FORWARD(IDictionary)
 FORWARD(IDictionaryEnumerator)
+FORWARD(IEnumerable)
+FORWARD(IEnumerator)
 namespace ListDictionaryInternalNamespace {
 CLASS(ListDictionaryInternal) : public Object::in {
+  using interface = rt::TypeList<IDictionary, ICollection, IEnumerable>;
   private: CLASS(DictionaryNode) : public Object::in {
     public: void Ctor();
     public: Object key;
@@ -20,6 +24,7 @@ CLASS(ListDictionaryInternal) : public Object::in {
     public: DictionaryNode next;
   };
   private: CLASS(NodeEnumerator) : public Object::in {
+    using interface = rt::TypeList<IDictionaryEnumerator, IEnumerator>;
     public: Object get_Current();
     public: DictionaryEntry get_Entry();
     public: Object get_Key();
@@ -33,7 +38,9 @@ CLASS(ListDictionaryInternal) : public Object::in {
     private: Boolean start;
   };
   private: CLASS(NodeKeyValueCollection) : public Object::in {
+    using interface = rt::TypeList<ICollection, IEnumerable>;
     private: CLASS(NodeKeyValueEnumerator) : public Object::in {
+      using interface = rt::TypeList<IEnumerator>;
       public: Object get_Current();
       public: void Ctor(ListDictionaryInternal list, Boolean isKeys);
       public: Boolean MoveNext();

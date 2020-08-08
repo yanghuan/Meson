@@ -11,6 +11,7 @@ namespace System::Private::CoreLib::System {
 FORWARD_(Array, T1, T2)
 FORWARDS(ArraySegment, T)
 FORWARDS(Boolean)
+FORWARD(IEquatable, T)
 FORWARD(Object)
 FORWARDS(ReadOnlyMemory, T)
 FORWARDS(Span, T)
@@ -19,6 +20,7 @@ namespace MemoryNamespace {
 using namespace Buffers;
 template <class T>
 struct Memory : public valueType<Memory<T>> {
+  using interface = rt::TypeList<IEquatable<Memory<T>>>;
   public: static Memory<T> get_Empty();
   public: Int32 get_Length();
   public: Boolean get_IsEmpty();

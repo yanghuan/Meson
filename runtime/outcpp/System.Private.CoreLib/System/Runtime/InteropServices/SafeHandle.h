@@ -5,10 +5,14 @@
 #include <System.Private.CoreLib/System/IntPtr.h>
 #include <System.Private.CoreLib/System/Runtime/ConstrainedExecution/CriticalFinalizerObject.h>
 
+namespace System::Private::CoreLib::System {
+FORWARD(IDisposable)
+} // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Runtime::InteropServices {
 namespace SafeHandleNamespace {
 using namespace ConstrainedExecution;
 CLASS(SafeHandle) : public CriticalFinalizerObject::in {
+  using interface = rt::TypeList<IDisposable>;
   public: Boolean get_IsClosed();
   public: Boolean get_IsInvalid();
   protected: void Ctor(IntPtr invalidHandleValue, Boolean ownsHandle);

@@ -10,6 +10,7 @@ enum class TokenType;
 FORWARDS(__DTString)
 FORWARD_(Array, T1, T2)
 FORWARDS(Char)
+FORWARD(ICloneable)
 FORWARD(IFormatProvider)
 FORWARDS(ReadOnlySpan, T)
 FORWARD(String)
@@ -27,6 +28,7 @@ FORWARD(CultureData)
 FORWARD(CultureInfo)
 namespace DateTimeFormatInfoNamespace {
 CLASS(DateTimeFormatInfo) : public Object::in {
+  using interface = rt::TypeList<IFormatProvider, ICloneable>;
   public: CLASS(TokenHashValue) : public Object::in {
     public: void Ctor(String tokenString, TokenType tokenType, Int32 tokenValue);
     public: String tokenString;

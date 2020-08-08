@@ -2,13 +2,18 @@
 
 #include <System.Private.CoreLib/System/Object.h>
 
+namespace System::Private::CoreLib::System::Runtime::Serialization {
+FORWARD(ISerializable)
+} // namespace System::Private::CoreLib::System::Runtime::Serialization
 namespace System::Private::CoreLib::System {
 FORWARDS(IntPtr)
 FORWARD(Type)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Reflection {
 namespace PointerNamespace {
+using namespace Runtime::Serialization;
 CLASS(Pointer) : public Object::in {
+  using interface = rt::TypeList<ISerializable>;
   private: void Ctor(void* ptr, Type ptrType);
   public: static Object Box(void* ptr, Type type);
   public: static void* Unbox(Object ptr);

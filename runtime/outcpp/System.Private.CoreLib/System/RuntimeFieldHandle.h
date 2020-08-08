@@ -2,14 +2,15 @@
 
 #include <System.Private.CoreLib/System/ValueType.h>
 
+namespace System::Private::CoreLib::System::Runtime::Serialization {
+FORWARD(ISerializable)
+FORWARD(SerializationInfo)
+FORWARDS(StreamingContext)
+} // namespace System::Private::CoreLib::System::Runtime::Serialization
 namespace System::Private::CoreLib::System::Reflection {
 enum class FieldAttributes;
 FORWARD(RtFieldInfo)
 } // namespace System::Private::CoreLib::System::Reflection
-namespace System::Private::CoreLib::System::Runtime::Serialization {
-FORWARD(SerializationInfo)
-FORWARDS(StreamingContext)
-} // namespace System::Private::CoreLib::System::Runtime::Serialization
 namespace System::Private::CoreLib::System {
 FORWARDS(Boolean)
 FORWARDS(Int32)
@@ -25,6 +26,7 @@ namespace RuntimeFieldHandleNamespace {
 using namespace Reflection;
 using namespace Runtime::Serialization;
 struct RuntimeFieldHandle : public valueType<RuntimeFieldHandle> {
+  using interface = rt::TypeList<ISerializable>;
   public: IntPtr get_Value();
   public: explicit RuntimeFieldHandle(IRuntimeFieldInfo fieldInfo);
   public: IRuntimeFieldInfo GetRuntimeFieldInfo();

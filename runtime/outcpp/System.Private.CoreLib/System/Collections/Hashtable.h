@@ -6,20 +6,24 @@
 #include <System.Private.CoreLib/System/Single.h>
 #include <System.Private.CoreLib/System/ValueType.h>
 
-namespace System::Private::CoreLib::System {
-FORWARD_(Array, T1, T2)
-FORWARDS(UInt32)
-} // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Runtime::Serialization {
+FORWARD(IDeserializationCallback)
+FORWARD(ISerializable)
 FORWARD(SerializationInfo)
 FORWARDS(StreamingContext)
 } // namespace System::Private::CoreLib::System::Runtime::Serialization
+namespace System::Private::CoreLib::System {
+FORWARD_(Array, T1, T2)
+FORWARD(ICloneable)
+FORWARDS(UInt32)
+} // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Collections {
 FORWARDS(DictionaryEntry)
 FORWARD(ICollection)
 FORWARD(IComparer)
 FORWARD(IDictionary)
 FORWARD(IDictionaryEnumerator)
+FORWARD(IEnumerable)
 FORWARD(IEnumerator)
 FORWARD(IEqualityComparer)
 FORWARD(IHashCodeProvider)
@@ -27,12 +31,14 @@ FORWARD(KeyValuePairs)
 namespace HashtableNamespace {
 using namespace Runtime::Serialization;
 CLASS(Hashtable) : public Object::in {
+  using interface = rt::TypeList<IDictionary, ICollection, IEnumerable, ISerializable, IDeserializationCallback, ICloneable>;
   private: struct bucket : public valueType<bucket> {
     public: Object key;
     public: Object val;
     public: Int32 hash_coll;
   };
   private: CLASS(KeyCollection) : public Object::in {
+    using interface = rt::TypeList<ICollection, IEnumerable>;
     public: Boolean get_IsSynchronized();
     public: Object get_SyncRoot();
     public: Int32 get_Count();
@@ -42,6 +48,7 @@ CLASS(Hashtable) : public Object::in {
     private: Hashtable _hashtable;
   };
   private: CLASS(ValueCollection) : public Object::in {
+    using interface = rt::TypeList<ICollection, IEnumerable>;
     public: Boolean get_IsSynchronized();
     public: Object get_SyncRoot();
     public: Int32 get_Count();
@@ -52,6 +59,7 @@ CLASS(Hashtable) : public Object::in {
   };
   private: FRIENDN(SyncHashtable)
   private: CLASS(HashtableEnumerator) : public Object::in {
+    using interface = rt::TypeList<IDictionaryEnumerator, IEnumerator, ICloneable>;
     public: Object get_Key();
     public: DictionaryEntry get_Entry();
     public: Object get_Current();
@@ -141,6 +149,7 @@ CLASS(Hashtable) : public Object::in {
   private: IEqualityComparer _keycomparer;
 };
 CLASS(SyncHashtable) : public Hashtable::in {
+  using interface = rt::TypeList<IEnumerable>;
   public: Int32 get_Count();
   public: Boolean get_IsReadOnly();
   public: Boolean get_IsFixedSize();

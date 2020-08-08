@@ -3,16 +3,19 @@
 #include <System.Private.CoreLib/System/Object.h>
 
 namespace System::Private::CoreLib::System::Runtime::Serialization {
+FORWARD(ISerializable)
 FORWARD(SerializationInfo)
 FORWARDS(StreamingContext)
 } // namespace System::Private::CoreLib::System::Runtime::Serialization
 namespace System::Private::CoreLib::System {
 enum class PlatformID;
+FORWARD(ICloneable)
 FORWARD(String)
 FORWARD(Version)
 namespace OperatingSystemNamespace {
 using namespace Runtime::Serialization;
 CLASS(OperatingSystem) : public Object::in {
+  using interface = rt::TypeList<ISerializable, ICloneable>;
   public: PlatformID get_Platform();
   public: String get_ServicePack();
   public: Version get_Version();

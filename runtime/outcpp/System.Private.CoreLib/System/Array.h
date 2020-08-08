@@ -4,8 +4,13 @@
 #include <System.Private.CoreLib/System/ValueType.h>
 
 namespace System::Private::CoreLib::System::Collections {
+FORWARD(ICollection)
 FORWARD(IComparer)
+FORWARD(IEnumerable)
 FORWARD(IEnumerator)
+FORWARD(IList)
+FORWARD(IStructuralComparable)
+FORWARD(IStructuralEquatable)
 } // namespace System::Private::CoreLib::System::Collections
 namespace System::Private::CoreLib::System::Reflection {
 enum class CorElementType : uint8_t;
@@ -22,6 +27,7 @@ FORWARD_(Array, T1, T2)
 FORWARDS(Boolean)
 FORWARD(Comparison, T)
 FORWARD(Converter, TInput, TOutput)
+FORWARD(ICloneable)
 FORWARDS(Int32)
 FORWARDS(Int64)
 FORWARD(Predicate, T)
@@ -38,6 +44,7 @@ using IComparer1 = Collections::IComparer;
 CLASS_FORWARD(Array, T1, T2)
 CLASS_(Array, T1);
 CLASS_(Array) : public Object::in {
+  using interface = rt::TypeList<ICloneable, Collections::IList, Collections::ICollection, Collections::IEnumerable, IStructuralComparable, IStructuralEquatable>;
   private: template <class T>
   class EmptyArray {
     private: static void SCtor();

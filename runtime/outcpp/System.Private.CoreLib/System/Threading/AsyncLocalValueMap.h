@@ -18,11 +18,13 @@ namespace AsyncLocalValueMapNamespace {
 using namespace Collections::Generic;
 class AsyncLocalValueMap {
   private: CLASS(EmptyAsyncLocalValueMap) : public Object::in {
+    using interface = rt::TypeList<IAsyncLocalValueMap>;
     public: IAsyncLocalValueMap Set(IAsyncLocal key, Object value, Boolean treatNullValueAsNonexistent);
     public: Boolean TryGetValue(IAsyncLocal key, Object& value);
     public: void Ctor();
   };
   private: CLASS(OneElementAsyncLocalValueMap) : public Object::in {
+    using interface = rt::TypeList<IAsyncLocalValueMap>;
     public: void Ctor(IAsyncLocal key, Object value);
     public: IAsyncLocalValueMap Set(IAsyncLocal key, Object value, Boolean treatNullValueAsNonexistent);
     public: Boolean TryGetValue(IAsyncLocal key, Object& value);
@@ -30,6 +32,7 @@ class AsyncLocalValueMap {
     private: Object _value1;
   };
   private: CLASS(TwoElementAsyncLocalValueMap) : public Object::in {
+    using interface = rt::TypeList<IAsyncLocalValueMap>;
     public: void Ctor(IAsyncLocal key1, Object value1, IAsyncLocal key2, Object value2);
     public: IAsyncLocalValueMap Set(IAsyncLocal key, Object value, Boolean treatNullValueAsNonexistent);
     public: Boolean TryGetValue(IAsyncLocal key, Object& value);
@@ -39,6 +42,7 @@ class AsyncLocalValueMap {
     private: Object _value2;
   };
   private: CLASS(ThreeElementAsyncLocalValueMap) : public Object::in {
+    using interface = rt::TypeList<IAsyncLocalValueMap>;
     public: void Ctor(IAsyncLocal key1, Object value1, IAsyncLocal key2, Object value2, IAsyncLocal key3, Object value3);
     public: IAsyncLocalValueMap Set(IAsyncLocal key, Object value, Boolean treatNullValueAsNonexistent);
     public: Boolean TryGetValue(IAsyncLocal key, Object& value);
@@ -50,6 +54,7 @@ class AsyncLocalValueMap {
     private: Object _value3;
   };
   private: CLASS(MultiElementAsyncLocalValueMap) : public Object::in {
+    using interface = rt::TypeList<IAsyncLocalValueMap>;
     public: void Ctor(Int32 count);
     public: void UnsafeStore(Int32 index, IAsyncLocal key, Object value);
     public: IAsyncLocalValueMap Set(IAsyncLocal key, Object value, Boolean treatNullValueAsNonexistent);
@@ -57,6 +62,7 @@ class AsyncLocalValueMap {
     private: Array<KeyValuePair<IAsyncLocal, Object>> _keyValues;
   };
   private: CLASS(ManyElementAsyncLocalValueMap) : public Dictionary<IAsyncLocal, Object>::in {
+    using interface = rt::TypeList<IAsyncLocalValueMap>;
     public: void Ctor(Int32 capacity);
     public: IAsyncLocalValueMap Set(IAsyncLocal key, Object value, Boolean treatNullValueAsNonexistent);
   };

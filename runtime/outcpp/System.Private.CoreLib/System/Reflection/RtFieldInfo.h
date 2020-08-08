@@ -8,6 +8,7 @@ namespace System::Private::CoreLib::System {
 FORWARD_(Array, T1, T2)
 FORWARDS(Boolean)
 FORWARDS(Int32)
+FORWARD(IRuntimeFieldInfo)
 FORWARD(Object)
 FORWARDS(RuntimeFieldHandle)
 FORWARDS(RuntimeFieldHandleInternal)
@@ -27,6 +28,7 @@ FORWARD(RuntimeModule)
 namespace RtFieldInfoNamespace {
 using namespace Globalization;
 CLASS(RtFieldInfo) : public RuntimeFieldInfo::in {
+  using interface = rt::TypeList<IRuntimeFieldInfo>;
   public: INVOCATION_FLAGS get_InvocationFlags();
   private: RuntimeFieldHandleInternal get_ValueOfIRuntimeFieldInfo();
   public: String get_Name();

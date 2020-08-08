@@ -5,6 +5,7 @@
 
 namespace System::Private::CoreLib::System {
 FORWARDS(Boolean)
+FORWARD(IEquatable, T)
 FORWARDS(Int32)
 FORWARD(Object)
 FORWARD(String)
@@ -14,6 +15,7 @@ FORWARDS(Matrix4x4)
 FORWARDS(Vector3)
 namespace QuaternionNamespace {
 struct Quaternion : public valueType<Quaternion> {
+  using interface = rt::TypeList<IEquatable<Quaternion>>;
   public: static Quaternion get_Identity();
   public: Boolean get_IsIdentity();
   public: explicit Quaternion(Single x, Single y, Single z, Single w);

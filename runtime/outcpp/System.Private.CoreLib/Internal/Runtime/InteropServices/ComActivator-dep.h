@@ -4,6 +4,8 @@
 
 #include <System.Private.CoreLib/Internal/Runtime/InteropServices/ComActivationContext-dep.h>
 #include <System.Private.CoreLib/Internal/Runtime/InteropServices/ComActivationContextInternal-dep.h>
+#include <System.Private.CoreLib/Internal/Runtime/InteropServices/IClassFactory.h>
+#include <System.Private.CoreLib/Internal/Runtime/InteropServices/IClassFactory2.h>
 #include <System.Private.CoreLib/Internal/Runtime/InteropServices/LicenseInteropProxy-dep.h>
 #include <System.Private.CoreLib/Internal/Runtime/InteropServices/LICINFO-dep.h>
 #include <System.Private.CoreLib/System/Boolean-dep.h>

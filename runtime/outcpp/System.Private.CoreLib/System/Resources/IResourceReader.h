@@ -4,11 +4,16 @@
 
 namespace System::Private::CoreLib::System::Collections {
 FORWARD(IDictionaryEnumerator)
+FORWARD(IEnumerable)
 } // namespace System::Private::CoreLib::System::Collections
+namespace System::Private::CoreLib::System {
+FORWARD(IDisposable)
+} // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Resources {
 namespace IResourceReaderNamespace {
 using namespace Collections;
 CLASS(IResourceReader) : public Object::in {
+  using interface = rt::TypeList<IEnumerable, IDisposable>;
   public: void Close();
   public: IDictionaryEnumerator GetEnumerator();
 };

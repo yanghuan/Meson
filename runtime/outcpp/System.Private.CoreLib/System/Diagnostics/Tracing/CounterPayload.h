@@ -5,19 +5,27 @@
 #include <System.Private.CoreLib/System/Object.h>
 #include <System.Private.CoreLib/System/Single.h>
 
-namespace System::Private::CoreLib::System {
-FORWARD(String)
-} // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Collections::Generic {
 FORWARD(IEnumerable, T)
 FORWARD(IEnumerator, T)
 FORWARDS_(KeyValuePair, T1, T2, T3)
 } // namespace System::Private::CoreLib::System::Collections::Generic
+namespace System::Private::CoreLib::System {
+FORWARD(String)
+} // namespace System::Private::CoreLib::System
+namespace System::Private::CoreLib::System::Collections {
+FORWARD(IEnumerable)
+} // namespace System::Private::CoreLib::System::Collections
 namespace System::Private::CoreLib::System::Diagnostics::Tracing {
 namespace CounterPayloadNamespace {
+using namespace Collections;
 using namespace Collections::Generic;
 using Collections::Generic::IEnumerator;
+template <class T>
+using IEnumerable = Collections::Generic::IEnumerable<T>;
+using IEnumerable1 = Collections::IEnumerable;
 CLASS(CounterPayload) : public Object::in {
+  using interface = rt::TypeList<IEnumerable<KeyValuePair<String, Object>>, IEnumerable1>;
   public: String get_Name() { return Name; }
   public: void set_Name(String value) { Name = value; }
   public: String get_DisplayName() { return DisplayName; }

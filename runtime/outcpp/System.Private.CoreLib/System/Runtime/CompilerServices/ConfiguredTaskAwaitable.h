@@ -10,6 +10,9 @@ namespace System::Private::CoreLib::System {
 FORWARD_(Action, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Runtime::CompilerServices {
+FORWARD(IConfiguredTaskAwaiter)
+FORWARD(ICriticalNotifyCompletion)
+FORWARD(INotifyCompletion)
 namespace ConfiguredTaskAwaitableNamespace {
 using namespace Threading::Tasks;
 template <class T1 = void, class T2 = void>
@@ -18,6 +21,7 @@ struct ConfiguredTaskAwaitable {
 template <>
 struct ConfiguredTaskAwaitable<> : public valueType<ConfiguredTaskAwaitable<>> {
   public: struct ConfiguredTaskAwaiter : public valueType<ConfiguredTaskAwaiter> {
+    using interface = rt::TypeList<ICriticalNotifyCompletion, INotifyCompletion, IConfiguredTaskAwaiter>;
     public: Boolean get_IsCompleted();
     public: explicit ConfiguredTaskAwaiter(Task<> task, Boolean continueOnCapturedContext);
     public: void OnCompleted(Action<> continuation);
@@ -32,6 +36,7 @@ struct ConfiguredTaskAwaitable<> : public valueType<ConfiguredTaskAwaitable<>> {
 template <class TResult>
 struct ConfiguredTaskAwaitable<TResult> : public valueType<ConfiguredTaskAwaitable<TResult>> {
   public: struct ConfiguredTaskAwaiter : public valueType<ConfiguredTaskAwaiter> {
+    using interface = rt::TypeList<ICriticalNotifyCompletion, INotifyCompletion, IConfiguredTaskAwaiter>;
     public: Boolean get_IsCompleted();
     public: explicit ConfiguredTaskAwaiter(Task<TResult> task, Boolean continueOnCapturedContext);
     public: void OnCompleted(Action<> continuation);

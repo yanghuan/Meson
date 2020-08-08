@@ -9,13 +9,18 @@ FORWARD(StringBuilder)
 namespace System::Private::CoreLib::System {
 FORWARDS(Boolean)
 FORWARDS(Char)
+FORWARD(ICloneable)
+FORWARD_(IComparable, T1, T2)
+FORWARD(IEquatable, T)
 FORWARDS(Int16)
+FORWARD(ISpanFormattable)
 FORWARDS(ReadOnlySpan, T)
 FORWARDS(Span, T)
 FORWARD(String)
 namespace VersionNamespace {
 using namespace Text;
 CLASS(Version) : public Object::in {
+  using interface = rt::TypeList<ICloneable, IComparable<>, IComparable<Version>, IEquatable<Version>, ISpanFormattable>;
   public: Int32 get_Major();
   public: Int32 get_Minor();
   public: Int32 get_Build();

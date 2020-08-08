@@ -9,7 +9,11 @@ namespace System::Private::CoreLib::System {
 FORWARD_(Array, T1, T2)
 FORWARDS(Boolean)
 FORWARDS(Char)
+FORWARD_(IComparable, T1, T2)
+FORWARD(IEquatable, T)
 FORWARD(IFormatProvider)
+FORWARD(IFormattable)
+FORWARD(ISpanFormattable)
 FORWARD(Object)
 FORWARDS(ReadOnlySpan, T)
 FORWARDS(Span, T)
@@ -18,6 +22,7 @@ FORWARDS(UInt16)
 FORWARDS(UInt32)
 namespace GuidNamespace {
 struct Guid : public valueType<Guid> {
+  using interface = rt::TypeList<IFormattable, IComparable<>, IComparable<Guid>, IEquatable<Guid>, ISpanFormattable>;
   private: enum class GuidParseThrowStyle : uint8_t {
     None = 0,
     All = 1,

@@ -2,21 +2,40 @@
 
 #include <System.Private.CoreLib/System/Object.h>
 
+namespace System::Private::CoreLib::System::Collections::Generic {
+FORWARD(ICollection, T)
+FORWARD(IEnumerable, T)
+FORWARD(IEnumerator, T)
+FORWARD(IList, T)
+FORWARD(IReadOnlyCollection, T)
+FORWARD(IReadOnlyList, T)
+} // namespace System::Private::CoreLib::System::Collections::Generic
+namespace System::Private::CoreLib::System::Collections {
+FORWARD(ICollection)
+FORWARD(IEnumerable)
+FORWARD(IList)
+} // namespace System::Private::CoreLib::System::Collections
 namespace System::Private::CoreLib::System {
 FORWARD_(Array, T1, T2)
 FORWARDS(Boolean)
 FORWARDS(Int32)
 } // namespace System::Private::CoreLib::System
-namespace System::Private::CoreLib::System::Collections::Generic {
-FORWARD(IEnumerator, T)
-FORWARD(IList, T)
-} // namespace System::Private::CoreLib::System::Collections::Generic
 namespace System::Private::CoreLib::System::Collections::ObjectModel {
 namespace ReadOnlyCollectionNamespace {
 using namespace Generic;
 using Generic::IList;
 using Generic::IEnumerator;
+template <class T>
+using IList = Generic::IList<T>;
+using IList1 = Collections::IList;
+template <class T>
+using ICollection = Generic::ICollection<T>;
+using ICollection1 = Collections::ICollection;
+template <class T>
+using IEnumerable = Generic::IEnumerable<T>;
+using IEnumerable1 = Collections::IEnumerable;
 CLASS(ReadOnlyCollection, T) : public Object::in {
+  using interface = rt::TypeList<IList<T>, ICollection<T>, IEnumerable<T>, IEnumerable1, IList1, ICollection1, IReadOnlyList<T>, IReadOnlyCollection<T>>;
   public: Int32 get_Count();
   public: T get_Item(Int32 index);
   protected: IList<T> get_Items();

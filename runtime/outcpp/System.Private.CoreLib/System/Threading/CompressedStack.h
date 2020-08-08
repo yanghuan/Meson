@@ -3,6 +3,7 @@
 #include <System.Private.CoreLib/System/Object.h>
 
 namespace System::Private::CoreLib::System::Runtime::Serialization {
+FORWARD(ISerializable)
 FORWARD(SerializationInfo)
 FORWARDS(StreamingContext)
 } // namespace System::Private::CoreLib::System::Runtime::Serialization
@@ -11,6 +12,7 @@ FORWARD_(ContextCallback, T1, T2)
 namespace CompressedStackNamespace {
 using namespace Runtime::Serialization;
 CLASS(CompressedStack) : public Object::in {
+  using interface = rt::TypeList<ISerializable>;
   private: void Ctor();
   public: void GetObjectData(SerializationInfo info, StreamingContext context);
   public: static CompressedStack Capture();

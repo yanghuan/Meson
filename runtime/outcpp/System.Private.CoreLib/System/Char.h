@@ -11,6 +11,9 @@ enum class TypeCode;
 FORWARDS(Boolean)
 FORWARDS(Byte)
 FORWARDS(Double)
+FORWARD_(IComparable, T1, T2)
+FORWARD(IConvertible)
+FORWARD(IEquatable, T)
 FORWARD(IFormatProvider)
 FORWARDS(Int32)
 FORWARD(Object)
@@ -20,6 +23,7 @@ FORWARDS(UInt32)
 namespace CharNamespace {
 using namespace Globalization;
 struct Char : public valueType<Char> {
+  using interface = rt::TypeList<IComparable<>, IComparable<Char>, IEquatable<Char>, IConvertible>;
   public: constexpr Char() noexcept : m_value(0) {}
   public: constexpr Char(char8_t value) noexcept : m_value(value) {}
   public: constexpr char8_t& get() noexcept { return m_value; }

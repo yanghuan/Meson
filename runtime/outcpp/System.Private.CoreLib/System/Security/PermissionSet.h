@@ -2,6 +2,14 @@
 
 #include <System.Private.CoreLib/System/Object.h>
 
+namespace System::Private::CoreLib::System::Collections {
+FORWARD(ICollection)
+FORWARD(IEnumerable)
+FORWARD(IEnumerator)
+} // namespace System::Private::CoreLib::System::Collections
+namespace System::Private::CoreLib::System::Runtime::Serialization {
+FORWARD(IDeserializationCallback)
+} // namespace System::Private::CoreLib::System::Runtime::Serialization
 namespace System::Private::CoreLib::System {
 FORWARD_(Array, T1, T2)
 FORWARDS(Boolean)
@@ -13,16 +21,17 @@ FORWARD(Type)
 namespace System::Private::CoreLib::System::Security::Permissions {
 enum class PermissionState;
 } // namespace System::Private::CoreLib::System::Security::Permissions
-namespace System::Private::CoreLib::System::Collections {
-FORWARD(IEnumerator)
-} // namespace System::Private::CoreLib::System::Collections
 namespace System::Private::CoreLib::System::Security {
 FORWARD(IPermission)
+FORWARD(ISecurityEncodable)
+FORWARD(IStackWalk)
 FORWARD(SecurityElement)
 namespace PermissionSetNamespace {
 using namespace Collections;
 using namespace Permissions;
+using namespace Runtime::Serialization;
 CLASS(PermissionSet) : public Object::in {
+  using interface = rt::TypeList<ICollection, IEnumerable, IDeserializationCallback, ISecurityEncodable, IStackWalk>;
   public: Int32 get_Count();
   public: Boolean get_IsReadOnly();
   public: Boolean get_IsSynchronized();

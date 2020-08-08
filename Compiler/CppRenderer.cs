@@ -575,6 +575,7 @@ namespace Meson.Compiler {
     }
 
     internal void Render(UsingDeclarationSyntax node) {
+      WriteAccessibility(node.AccessibilityToken);
       node.Template?.Render(this);
       Write(node.UsingToken);
       WriteSpace();

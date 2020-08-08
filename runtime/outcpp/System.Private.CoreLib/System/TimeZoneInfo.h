@@ -10,6 +10,8 @@
 #include <System.Private.CoreLib/System/ValueType.h>
 
 namespace System::Private::CoreLib::System::Runtime::Serialization {
+FORWARD(IDeserializationCallback)
+FORWARD(ISerializable)
 FORWARD(SerializationInfo)
 FORWARDS(StreamingContext)
 } // namespace System::Private::CoreLib::System::Runtime::Serialization
@@ -36,6 +38,7 @@ FORWARD_(Array, T1, T2)
 FORWARDS(Char)
 FORWARDS(DateTimeOffset)
 FORWARD(Exception)
+FORWARD(IEquatable, T)
 FORWARDS(Int64)
 FORWARDS_(Nullable, T1, T2)
 FORWARD(String)
@@ -47,6 +50,7 @@ using namespace Globalization;
 using namespace Runtime::Serialization;
 using namespace Text;
 CLASS(TimeZoneInfo) : public Object::in {
+  using interface = rt::TypeList<IEquatable<TimeZoneInfo>, ISerializable, IDeserializationCallback>;
   private: enum class TimeZoneInfoResult {
     Success = 0,
     TimeZoneNotFoundException = 1,
@@ -54,6 +58,7 @@ CLASS(TimeZoneInfo) : public Object::in {
     SecurityException = 3,
   };
   public: struct TransitionTime : public valueType<TransitionTime> {
+    using interface = rt::TypeList<IEquatable<TransitionTime>, ISerializable, IDeserializationCallback>;
     public: DateTime get_TimeOfDay();
     public: Int32 get_Month();
     public: Int32 get_Week();
@@ -79,6 +84,7 @@ CLASS(TimeZoneInfo) : public Object::in {
     private: Boolean _isFixedDateRule;
   };
   public: CLASS(AdjustmentRule) : public Object::in {
+    using interface = rt::TypeList<IEquatable<AdjustmentRule>, ISerializable, IDeserializationCallback>;
     public: DateTime get_DateStart();
     public: DateTime get_DateEnd();
     public: TimeSpan get_DaylightDelta();

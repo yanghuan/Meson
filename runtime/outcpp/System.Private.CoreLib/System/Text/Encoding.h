@@ -6,17 +6,19 @@
 #include <System.Private.CoreLib/System/Text/Decoder.h>
 #include <System.Private.CoreLib/System/Text/Encoder.h>
 
-namespace System::Private::CoreLib::System::Runtime::Serialization {
-FORWARDS(StreamingContext)
-} // namespace System::Private::CoreLib::System::Runtime::Serialization
 namespace System::Private::CoreLib::System {
 FORWARD_(Array, T1, T2)
 FORWARDS(Byte)
 FORWARDS(Char)
+FORWARD(ICloneable)
 FORWARDS(ReadOnlySpan, T)
 FORWARDS(Span, T)
 FORWARD(String)
 } // namespace System::Private::CoreLib::System
+namespace System::Private::CoreLib::System::Runtime::Serialization {
+FORWARD(IObjectReference)
+FORWARDS(StreamingContext)
+} // namespace System::Private::CoreLib::System::Runtime::Serialization
 namespace System::Private::CoreLib::System::IO {
 FORWARD(Stream)
 } // namespace System::Private::CoreLib::System::IO
@@ -40,7 +42,9 @@ using namespace Buffers;
 using namespace IO;
 using namespace Runtime::Serialization;
 CLASS(Encoding) : public Object::in {
+  using interface = rt::TypeList<ICloneable>;
   public: CLASS(DefaultEncoder) : public Encoder::in {
+    using interface = rt::TypeList<IObjectReference>;
     public: void Ctor(Encoding encoding);
     public: Object GetRealObject(StreamingContext context);
     public: Int32 GetByteCount(Array<Char> chars, Int32 index, Int32 count, Boolean flush);
@@ -50,6 +54,7 @@ CLASS(Encoding) : public Object::in {
     private: Encoding _encoding;
   };
   public: CLASS(DefaultDecoder) : public Decoder::in {
+    using interface = rt::TypeList<IObjectReference>;
     public: void Ctor(Encoding encoding);
     public: Object GetRealObject(StreamingContext context);
     public: Int32 GetCharCount(Array<Byte> bytes, Int32 index, Int32 count);

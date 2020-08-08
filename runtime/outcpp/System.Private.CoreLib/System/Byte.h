@@ -10,8 +10,13 @@ namespace System::Private::CoreLib::System {
 enum class TypeCode;
 FORWARDS(Boolean)
 FORWARDS(Char)
+FORWARD_(IComparable, T1, T2)
+FORWARD(IConvertible)
+FORWARD(IEquatable, T)
 FORWARD(IFormatProvider)
+FORWARD(IFormattable)
 FORWARDS(Int32)
+FORWARD(ISpanFormattable)
 FORWARD(Object)
 FORWARDS(ReadOnlySpan, T)
 FORWARDS(Span, T)
@@ -19,6 +24,7 @@ FORWARD(String)
 namespace ByteNamespace {
 using namespace Globalization;
 struct Byte : public valueType<Byte> {
+  using interface = rt::TypeList<IComparable<>, IConvertible, IFormattable, IComparable<Byte>, IEquatable<Byte>, ISpanFormattable>;
   public: constexpr Byte() noexcept : m_value(0) {}
   public: constexpr Byte(uint8_t value) noexcept : m_value(value) {}
   public: constexpr uint8_t& get() noexcept { return m_value; }

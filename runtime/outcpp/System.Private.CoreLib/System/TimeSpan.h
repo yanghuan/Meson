@@ -11,8 +11,12 @@ FORWARD_(Array, T1, T2)
 FORWARDS(Boolean)
 FORWARDS(Char)
 FORWARDS(Double)
+FORWARD_(IComparable, T1, T2)
+FORWARD(IEquatable, T)
 FORWARD(IFormatProvider)
+FORWARD(IFormattable)
 FORWARDS(Int32)
+FORWARD(ISpanFormattable)
 FORWARD(Object)
 FORWARDS(ReadOnlySpan, T)
 FORWARDS(Span, T)
@@ -20,6 +24,7 @@ FORWARD(String)
 namespace TimeSpanNamespace {
 using namespace Globalization;
 struct TimeSpan : public valueType<TimeSpan> {
+  using interface = rt::TypeList<IComparable<>, IComparable<TimeSpan>, IEquatable<TimeSpan>, IFormattable, ISpanFormattable>;
   public: Int64 get_Ticks();
   public: Int32 get_Days();
   public: Int32 get_Hours();

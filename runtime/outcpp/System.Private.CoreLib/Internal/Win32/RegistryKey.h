@@ -2,21 +2,23 @@
 
 #include <System.Private.CoreLib/System/Object.h>
 
-namespace System::Private::CoreLib::Internal::Win32::SafeHandles {
-FORWARD(SafeRegistryHandle)
-} // namespace System::Private::CoreLib::Internal::Win32::SafeHandles
 namespace System::Private::CoreLib::System {
 FORWARD_(Array, T1, T2)
 FORWARDS(Boolean)
+FORWARD(IDisposable)
 FORWARDS(Int32)
 FORWARDS(IntPtr)
 FORWARD(String)
 } // namespace System::Private::CoreLib::System
+namespace System::Private::CoreLib::Internal::Win32::SafeHandles {
+FORWARD(SafeRegistryHandle)
+} // namespace System::Private::CoreLib::Internal::Win32::SafeHandles
 namespace System::Private::CoreLib::Internal::Win32 {
 namespace RegistryKeyNamespace {
 using namespace ::System::Private::CoreLib::System;
 using namespace SafeHandles;
 CLASS(RegistryKey) : public Object::in {
+  using interface = rt::TypeList<IDisposable>;
   private: void Ctor(SafeRegistryHandle hkey);
   public: void DeleteValue(String name, Boolean throwOnMissingValue);
   public: static RegistryKey OpenBaseKey(IntPtr hKey);

@@ -4,6 +4,9 @@
 #include <System.Private.CoreLib/System/Int32.h>
 #include <System.Private.CoreLib/System/Object.h>
 
+namespace System::Private::CoreLib::System::Collections {
+FORWARD(IEnumerator)
+} // namespace System::Private::CoreLib::System::Collections
 namespace System::Private::CoreLib::System {
 FORWARD_(Array, T1, T2)
 FORWARD(String)
@@ -12,7 +15,9 @@ FORWARD(Type)
 namespace System::Private::CoreLib::System::Runtime::Serialization {
 FORWARDS(SerializationEntry)
 namespace SerializationInfoEnumeratorNamespace {
+using namespace Collections;
 CLASS(SerializationInfoEnumerator) : public Object::in {
+  using interface = rt::TypeList<IEnumerator>;
   private: Object get_CurrentOfIEnumerator();
   public: SerializationEntry get_Current();
   public: String get_Name();

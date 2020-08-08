@@ -4,6 +4,8 @@
 #include <System.Private.CoreLib/System/Object.h>
 
 namespace System::Private::CoreLib::System::Runtime::Serialization {
+FORWARD(IObjectReference)
+FORWARD(ISerializable)
 FORWARD(SerializationInfo)
 FORWARDS(StreamingContext)
 } // namespace System::Private::CoreLib::System::Runtime::Serialization
@@ -12,6 +14,7 @@ FORWARD(String)
 namespace UnitySerializationHolderNamespace {
 using namespace Runtime::Serialization;
 CLASS(UnitySerializationHolder) : public Object::in {
+  using interface = rt::TypeList<ISerializable, IObjectReference>;
   public: static void GetUnitySerializationInfo(SerializationInfo info, Int32 unityType);
   public: void Ctor(SerializationInfo info, StreamingContext context);
   public: void GetObjectData(SerializationInfo info, StreamingContext context);

@@ -5,11 +5,13 @@
 
 namespace System::Private::CoreLib::System {
 FORWARDS(Boolean)
+FORWARD(IEquatable, T)
 FORWARD(Object)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Reflection::Emit {
 namespace LabelNamespace {
 struct Label : public valueType<Label> {
+  using interface = rt::TypeList<IEquatable<Label>>;
   public: explicit Label(Int32 label);
   public: Int32 GetLabelValue();
   public: Int32 GetHashCode();

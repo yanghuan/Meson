@@ -7,6 +7,7 @@
 namespace System::Private::CoreLib::System {
 FORWARDS(Boolean)
 FORWARDS(Byte)
+FORWARD(IEquatable, T)
 FORWARDS(Int32)
 FORWARD(Object)
 FORWARD(String)
@@ -21,6 +22,7 @@ FORWARDS(Quaternion)
 namespace Matrix4x4Namespace {
 using namespace Runtime::Intrinsics;
 struct Matrix4x4 : public valueType<Matrix4x4> {
+  using interface = rt::TypeList<IEquatable<Matrix4x4>>;
   private: struct CanonicalBasis : public valueType<CanonicalBasis> {
     public: Vector3 Row0;
     public: Vector3 Row1;

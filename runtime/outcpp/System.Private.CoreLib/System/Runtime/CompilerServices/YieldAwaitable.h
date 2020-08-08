@@ -12,10 +12,14 @@ FORWARD(SendOrPostCallback)
 FORWARD(WaitCallback)
 } // namespace System::Private::CoreLib::System::Threading
 namespace System::Private::CoreLib::System::Runtime::CompilerServices {
+FORWARD(ICriticalNotifyCompletion)
+FORWARD(INotifyCompletion)
+FORWARD(IStateMachineBoxAwareAwaiter)
 namespace YieldAwaitableNamespace {
 using namespace Threading;
 struct YieldAwaitable : public valueType<YieldAwaitable> {
   public: struct YieldAwaiter : public valueType<YieldAwaiter> {
+    using interface = rt::TypeList<ICriticalNotifyCompletion, INotifyCompletion, IStateMachineBoxAwareAwaiter>;
     public: Boolean get_IsCompleted();
     public: void OnCompleted(Action<> continuation);
     public: void UnsafeOnCompleted(Action<> continuation);

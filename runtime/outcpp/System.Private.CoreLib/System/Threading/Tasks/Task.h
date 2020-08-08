@@ -6,6 +6,17 @@
 #include <System.Private.CoreLib/System/Threading/CancellationTokenRegistration.h>
 #include <System.Private.CoreLib/System/Threading/ManualResetEventSlim.h>
 
+namespace System::Private::CoreLib::System {
+FORWARD(AggregateException)
+FORWARD_(Array, T1, T2)
+FORWARDS(Boolean)
+FORWARD(Delegate)
+FORWARD_(Func, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18)
+FORWARD(IAsyncResult)
+FORWARD(IDisposable)
+FORWARDS_(Nullable, T1, T2)
+FORWARD(String)
+} // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Threading {
 FORWARD_(ContextCallback, T1, T2)
 FORWARD(ExecutionContext)
@@ -19,18 +30,10 @@ namespace System::Private::CoreLib::System::Collections::Generic {
 FORWARD(Dictionary, TKey, TValue)
 FORWARD(List, T)
 } // namespace System::Private::CoreLib::System::Collections::Generic
-namespace System::Private::CoreLib::System {
-FORWARD(AggregateException)
-FORWARD_(Array, T1, T2)
-FORWARDS(Boolean)
-FORWARD(Delegate)
-FORWARD_(Func, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18)
-FORWARDS_(Nullable, T1, T2)
-FORWARD(String)
-} // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Threading::Tasks {
 enum class TaskCreationOptions;
 enum class TaskStatus;
+FORWARD(ITaskCompletionAction)
 FORWARD(TaskExceptionHolder)
 FORWARD_(TaskFactory, T1, T2)
 FORWARD(TaskScheduler)
@@ -40,6 +43,7 @@ using namespace Collections::Generic;
 using namespace Runtime::CompilerServices;
 CLASS_FORWARD(Task, T1, T2)
 CLASS_(Task) : public Object::in {
+  using interface = rt::TypeList<IAsyncResult, IDisposable>;
   public: CLASS(ContingentProperties) : public Object::in {
     public: void SetCompleted();
     public: void UnregisterCancellationCallback();
@@ -55,11 +59,13 @@ CLASS_(Task) : public Object::in {
     public: Task<> m_parent;
   };
   private: CLASS(SetOnInvokeMres) : public ManualResetEventSlim::in {
+    using interface = rt::TypeList<ITaskCompletionAction>;
     public: Boolean get_InvokeMayRunArbitraryCode();
     public: void Ctor();
     public: void Invoke(Task<> completingTask);
   };
   private: CLASS(SetOnCountdownMres) : public ManualResetEventSlim::in {
+    using interface = rt::TypeList<ITaskCompletionAction>;
     public: Boolean get_InvokeMayRunArbitraryCode();
     public: void Ctor(Int32 count);
     public: void Invoke(Task<> completingTask);
@@ -131,18 +137,21 @@ CLASS(DelayPromiseWithCancellation) : public Task<>::in::DelayPromise::in {
 };
 CLASS_FORWARD(WhenAllPromise, T1, T2)
 CLASS_(WhenAllPromise) : public Task<>::in {
+  using interface = rt::TypeList<ITaskCompletionAction>;
   public: Boolean get_InvokeMayRunArbitraryCode();
   public: Boolean get_ShouldNotifyDebuggerOfWaitCompletion();
   private: Array<Task<>> m_tasks;
   private: Int32 m_count;
 };
 CLASS_(WhenAllPromise, T) : public Task<Array<T>>::in {
+  using interface = rt::TypeList<ITaskCompletionAction>;
   public: Boolean get_InvokeMayRunArbitraryCode();
   public: Boolean get_ShouldNotifyDebuggerOfWaitCompletion();
   private: Array<Task<T>> m_tasks;
   private: Int32 m_count;
 };
 CLASS(TwoTaskWhenAnyPromise, TTask) : public Task<TTask>::in {
+  using interface = rt::TypeList<ITaskCompletionAction>;
   public: Boolean get_InvokeMayRunArbitraryCode();
   public: void Ctor(TTask task1, TTask task2);
   public: void Invoke(Task<> completingTask);

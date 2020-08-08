@@ -4,6 +4,7 @@
 
 namespace System::Private::CoreLib::System {
 FORWARDS(Boolean)
+FORWARD(IDisposable)
 FORWARDS(Int32)
 FORWARD(Object)
 } // namespace System::Private::CoreLib::System
@@ -11,6 +12,7 @@ namespace System::Private::CoreLib::System::Threading {
 FORWARD(Thread)
 namespace AsyncFlowControlNamespace {
 struct AsyncFlowControl : public valueType<AsyncFlowControl> {
+  using interface = rt::TypeList<IDisposable>;
   public: void Initialize(Thread currentThread);
   public: void Undo();
   public: void Dispose();

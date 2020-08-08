@@ -5,6 +5,13 @@
 #include <System.Private.CoreLib/System/Object.h>
 #include <System.Private.CoreLib/System/ValueType.h>
 
+namespace System::Private::CoreLib::System::Collections {
+FORWARD(IEnumerable)
+} // namespace System::Private::CoreLib::System::Collections
+namespace System::Private::CoreLib::System::Collections::Generic {
+FORWARD(IEnumerable, T)
+FORWARDS(ValueListBuilder, T)
+} // namespace System::Private::CoreLib::System::Collections::Generic
 namespace System::Private::CoreLib::System::Text {
 enum class NormalizationForm;
 enum class TrimType;
@@ -19,10 +26,6 @@ FORWARD(CultureInfo)
 namespace System::Private::CoreLib::System::Buffers {
 FORWARD(SpanAction, T, TArg)
 } // namespace System::Private::CoreLib::System::Buffers
-namespace System::Private::CoreLib::System::Collections::Generic {
-FORWARD(IEnumerable, T)
-FORWARDS(ValueListBuilder, T)
-} // namespace System::Private::CoreLib::System::Collections::Generic
 namespace System::Private::CoreLib::System {
 enum class StringComparison;
 enum class StringSplitOptions;
@@ -31,6 +34,10 @@ FORWARD_(Array, T1, T2)
 FORWARDS(Boolean)
 FORWARDS(Byte)
 FORWARD(CharEnumerator)
+FORWARD(ICloneable)
+FORWARD_(IComparable, T1, T2)
+FORWARD(IConvertible)
+FORWARD(IEquatable, T)
 FORWARD(IFormatProvider)
 FORWARDS(IntPtr)
 FORWARDS(ParamsArray)
@@ -39,10 +46,15 @@ FORWARDS(SByte)
 FORWARDS(UInt32)
 namespace StringNamespace {
 using namespace Buffers;
+using namespace Collections;
 using namespace Collections::Generic;
 using namespace Globalization;
 using namespace Text;
+template <class T>
+using IEnumerable = Collections::Generic::IEnumerable<T>;
+using IEnumerable1 = Collections::IEnumerable;
 CLASS(String) : public Object::in {
+  using interface = rt::TypeList<IComparable<>, IEnumerable1, IConvertible, IEnumerable<Char>, IComparable<String>, IEquatable<String>, ICloneable>;
   private: struct ProbabilisticMap : public valueType<ProbabilisticMap> {
   };
   public: Char get_Chars(Int32 index);

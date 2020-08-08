@@ -5,6 +5,7 @@
 
 namespace System::Private::CoreLib::System {
 FORWARDS(Boolean)
+FORWARD(IEquatable, T)
 FORWARD(Object)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Reflection {
@@ -13,6 +14,7 @@ enum class ExceptionHandlingClauseOptions;
 namespace System::Private::CoreLib::System::Reflection::Emit {
 namespace ExceptionHandlerNamespace {
 struct ExceptionHandler : public valueType<ExceptionHandler> {
+  using interface = rt::TypeList<IEquatable<ExceptionHandler>>;
   public: explicit ExceptionHandler(Int32 tryStartOffset, Int32 tryEndOffset, Int32 filterOffset, Int32 handlerStartOffset, Int32 handlerEndOffset, Int32 kind, Int32 exceptionTypeToken);
   public: Int32 GetHashCode();
   public: Boolean Equals(Object obj);

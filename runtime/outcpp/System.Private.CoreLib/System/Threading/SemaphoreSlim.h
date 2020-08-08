@@ -7,6 +7,7 @@
 
 namespace System::Private::CoreLib::System {
 FORWARD_(Action, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17)
+FORWARD(IDisposable)
 FORWARDS(TimeSpan)
 FORWARDS(UInt32)
 } // namespace System::Private::CoreLib::System
@@ -24,6 +25,7 @@ namespace SemaphoreSlimNamespace {
 using namespace Runtime::CompilerServices;
 using namespace Tasks;
 CLASS(SemaphoreSlim) : public Object::in {
+  using interface = rt::TypeList<IDisposable>;
   private: CLASS(TaskNode) : public Task<Boolean>::in {
     public: void Ctor();
     public: TaskNode Prev;

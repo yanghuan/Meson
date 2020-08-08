@@ -9,6 +9,7 @@ enum class DayOfWeek;
 FORWARD_(Array, T1, T2)
 FORWARDS(DateTime)
 FORWARDS(Double)
+FORWARD(ICloneable)
 FORWARDS(Int64)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Globalization {
@@ -17,6 +18,7 @@ enum class CalendarId : uint16_t;
 enum class CalendarWeekRule;
 namespace CalendarNamespace {
 CLASS(Calendar) : public Object::in {
+  using interface = rt::TypeList<ICloneable>;
   public: DateTime get_MinSupportedDateTime();
   public: DateTime get_MaxSupportedDateTime();
   public: CalendarAlgorithmType get_AlgorithmType();

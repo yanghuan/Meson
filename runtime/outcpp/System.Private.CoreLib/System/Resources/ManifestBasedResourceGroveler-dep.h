@@ -8,6 +8,7 @@
 #include <System.Private.CoreLib/System/IO/Stream-dep.h>
 #include <System.Private.CoreLib/System/Object-dep.h>
 #include <System.Private.CoreLib/System/Reflection/Assembly-dep.h>
+#include <System.Private.CoreLib/System/Resources/IResourceGroveler.h>
 #include <System.Private.CoreLib/System/Resources/ResourceManager-dep.h>
 #include <System.Private.CoreLib/System/Resources/ResourceSet-dep.h>
 #include <System.Private.CoreLib/System/Resources/UltimateResourceFallbackLocation.h>

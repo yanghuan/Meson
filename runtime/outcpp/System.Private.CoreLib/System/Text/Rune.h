@@ -8,6 +8,8 @@ FORWARDS(Boolean)
 FORWARDS(Byte)
 FORWARDS(Char)
 FORWARDS(Double)
+FORWARD_(IComparable, T1, T2)
+FORWARD(IEquatable, T)
 FORWARDS(Int32)
 FORWARD(Object)
 FORWARDS(ReadOnlySpan, T)
@@ -27,6 +29,7 @@ namespace RuneNamespace {
 using namespace Buffers;
 using namespace Globalization;
 struct Rune : public valueType<Rune> {
+  using interface = rt::TypeList<IComparable<Rune>, IEquatable<Rune>>;
   private: static ReadOnlySpan<Byte> get_AsciiCharInfo();
   private: String get_DebuggerDisplay();
   public: Boolean get_IsAscii();

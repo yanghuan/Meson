@@ -2,6 +2,14 @@
 
 #include <System.Private.CoreLib/System/Object.h>
 
+namespace System::Private::CoreLib::System::Collections {
+FORWARD(IComparer)
+FORWARD(IEqualityComparer)
+} // namespace System::Private::CoreLib::System::Collections
+namespace System::Private::CoreLib::System::Collections::Generic {
+FORWARD(IComparer, T)
+FORWARD(IEqualityComparer, T)
+} // namespace System::Private::CoreLib::System::Collections::Generic
 namespace System::Private::CoreLib::System {
 FORWARD_(Array, T1, T2)
 FORWARDS(Boolean)
@@ -11,7 +19,16 @@ FORWARD(String)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Resources {
 namespace FastResourceComparerNamespace {
+using namespace Collections;
+using namespace Collections::Generic;
+template <class T>
+using IComparer = Collections::Generic::IComparer<T>;
+using IComparer1 = Collections::IComparer;
+template <class T>
+using IEqualityComparer = Collections::Generic::IEqualityComparer<T>;
+using IEqualityComparer1 = Collections::IEqualityComparer;
 CLASS(FastResourceComparer) : public Object::in {
+  using interface = rt::TypeList<IComparer1, IEqualityComparer1, IComparer<String>, IEqualityComparer<String>>;
   public: Int32 GetHashCode(Object key);
   public: Int32 GetHashCode(String key);
   public: static Int32 HashFunction(String key);

@@ -21,6 +21,7 @@
 #include <System.Private.CoreLib/System/Reflection/FieldInfo-dep.h>
 #include <System.Private.CoreLib/System/Reflection/GenericParameterAttributes.h>
 #include <System.Private.CoreLib/System/Reflection/InterfaceMapping-dep.h>
+#include <System.Private.CoreLib/System/Reflection/IReflect.h>
 #include <System.Private.CoreLib/System/Reflection/MemberFilter-dep.h>
 #include <System.Private.CoreLib/System/Reflection/MemberInfo-dep.h>
 #include <System.Private.CoreLib/System/Reflection/MemberTypes.h>

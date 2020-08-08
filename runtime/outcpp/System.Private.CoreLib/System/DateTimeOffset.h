@@ -4,23 +4,29 @@
 #include <System.Private.CoreLib/System/Int16.h>
 #include <System.Private.CoreLib/System/ValueType.h>
 
+namespace System::Private::CoreLib::System::Runtime::Serialization {
+FORWARD(IDeserializationCallback)
+FORWARD(ISerializable)
+FORWARD(SerializationInfo)
+FORWARDS(StreamingContext)
+} // namespace System::Private::CoreLib::System::Runtime::Serialization
 namespace System::Private::CoreLib::System::Globalization {
 enum class DateTimeStyles;
 FORWARD(Calendar)
 } // namespace System::Private::CoreLib::System::Globalization
-namespace System::Private::CoreLib::System::Runtime::Serialization {
-FORWARD(SerializationInfo)
-FORWARDS(StreamingContext)
-} // namespace System::Private::CoreLib::System::Runtime::Serialization
 namespace System::Private::CoreLib::System {
 enum class DayOfWeek;
 FORWARD_(Array, T1, T2)
 FORWARDS(Boolean)
 FORWARDS(Char)
 FORWARDS(Double)
+FORWARD_(IComparable, T1, T2)
+FORWARD(IEquatable, T)
 FORWARD(IFormatProvider)
+FORWARD(IFormattable)
 FORWARDS(Int32)
 FORWARDS(Int64)
+FORWARD(ISpanFormattable)
 FORWARD(Object)
 FORWARDS(ReadOnlySpan, T)
 FORWARDS(Span, T)
@@ -30,6 +36,7 @@ namespace DateTimeOffsetNamespace {
 using namespace Globalization;
 using namespace Runtime::Serialization;
 struct DateTimeOffset : public valueType<DateTimeOffset> {
+  using interface = rt::TypeList<IComparable<>, IFormattable, IComparable<DateTimeOffset>, IEquatable<DateTimeOffset>, ISerializable, IDeserializationCallback, ISpanFormattable>;
   public: static DateTimeOffset get_Now();
   public: static DateTimeOffset get_UtcNow();
   public: DateTime get_DateTime();

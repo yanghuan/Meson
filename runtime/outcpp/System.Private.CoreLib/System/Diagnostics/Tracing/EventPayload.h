@@ -4,6 +4,8 @@
 
 namespace System::Private::CoreLib::System::Collections::Generic {
 FORWARD(ICollection, T)
+FORWARD(IDictionary, TKey, TValue)
+FORWARD(IEnumerable, T)
 FORWARD(IEnumerator, T)
 FORWARDS_(KeyValuePair, T1, T2, T3)
 FORWARD(List, T)
@@ -14,11 +16,19 @@ FORWARDS(Boolean)
 FORWARDS(Int32)
 FORWARD(String)
 } // namespace System::Private::CoreLib::System
+namespace System::Private::CoreLib::System::Collections {
+FORWARD(IEnumerable)
+} // namespace System::Private::CoreLib::System::Collections
 namespace System::Private::CoreLib::System::Diagnostics::Tracing {
 namespace EventPayloadNamespace {
+using namespace Collections;
 using namespace Collections::Generic;
 using Collections::Generic::IEnumerator;
+template <class T>
+using IEnumerable = Collections::Generic::IEnumerable<T>;
+using IEnumerable1 = Collections::IEnumerable;
 CLASS(EventPayload) : public Object::in {
+  using interface = rt::TypeList<IDictionary<String, Object>, ICollection<KeyValuePair<String, Object>>, IEnumerable<KeyValuePair<String, Object>>, IEnumerable1>;
   public: ICollection<String> get_Keys();
   public: ICollection<Object> get_Values();
   public: Object get_Item(String key);

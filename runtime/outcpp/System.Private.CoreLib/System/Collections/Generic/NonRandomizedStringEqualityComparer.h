@@ -8,6 +8,7 @@ FORWARDS(Int32)
 FORWARD(String)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Runtime::Serialization {
+FORWARD(ISerializable)
 FORWARD(SerializationInfo)
 FORWARDS(StreamingContext)
 } // namespace System::Private::CoreLib::System::Runtime::Serialization
@@ -16,6 +17,7 @@ FORWARD(IEqualityComparer, T)
 namespace NonRandomizedStringEqualityComparerNamespace {
 using namespace Runtime::Serialization;
 CLASS(NonRandomizedStringEqualityComparer) : public EqualityComparer<String>::in {
+  using interface = rt::TypeList<ISerializable>;
   public: static IEqualityComparer<String> get_Default() { return Default; }
   private: void Ctor();
   private: void Ctor(SerializationInfo information, StreamingContext context);

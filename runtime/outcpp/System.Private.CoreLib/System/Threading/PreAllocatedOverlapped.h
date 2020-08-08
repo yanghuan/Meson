@@ -5,12 +5,15 @@
 
 namespace System::Private::CoreLib::System {
 FORWARDS(Boolean)
+FORWARD(IDisposable)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Threading {
+FORWARD(IDeferredDisposable)
 FORWARD(IOCompletionCallback)
 FORWARD(ThreadPoolBoundHandleOverlapped)
 namespace PreAllocatedOverlappedNamespace {
 CLASS(PreAllocatedOverlapped) : public Object::in {
+  using interface = rt::TypeList<IDisposable, IDeferredDisposable>;
   public: void Ctor(IOCompletionCallback callback, Object state, Object pinData);
   public: Boolean AddRef();
   public: void Release();

@@ -6,7 +6,9 @@
 namespace System::Private::CoreLib::System {
 FORWARD_(Array, T1, T2)
 FORWARDS(Boolean)
+FORWARD(IEquatable, T)
 FORWARD(IFormatProvider)
+FORWARD(IFormattable)
 FORWARDS(Int32)
 FORWARD(Object)
 FORWARD(String)
@@ -17,6 +19,7 @@ FORWARDS(Quaternion)
 FORWARDS(Vector2)
 namespace Vector3Namespace {
 struct Vector3 : public valueType<Vector3> {
+  using interface = rt::TypeList<IEquatable<Vector3>, IFormattable>;
   public: static Vector3 get_Zero();
   public: static Vector3 get_One();
   public: static Vector3 get_UnitX();

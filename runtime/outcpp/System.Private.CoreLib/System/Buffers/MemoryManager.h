@@ -5,14 +5,18 @@
 namespace System::Private::CoreLib::System {
 FORWARDS(ArraySegment, T)
 FORWARDS(Boolean)
+FORWARD(IDisposable)
 FORWARDS(Int32)
 FORWARDS(Memory, T)
 FORWARDS(Span, T)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Buffers {
+FORWARD(IMemoryOwner, T)
+FORWARD(IPinnable)
 FORWARDS(MemoryHandle)
 namespace MemoryManagerNamespace {
 CLASS(MemoryManager, T) : public Object::in {
+  using interface = rt::TypeList<IMemoryOwner<T>, IDisposable, IPinnable>;
   public: Memory<T> get_Memory();
   public: Span<T> GetSpan();
   public: MemoryHandle Pin(Int32 elementIndex);

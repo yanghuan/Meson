@@ -9,6 +9,7 @@
 #include <System.Private.CoreLib/System/Configuration/Assemblies/AssemblyHashAlgorithm.h>
 #include <System.Private.CoreLib/System/Configuration/Assemblies/AssemblyVersionCompatibility.h>
 #include <System.Private.CoreLib/System/Globalization/CultureInfo-dep.h>
+#include <System.Private.CoreLib/System/ICloneable.h>
 #include <System.Private.CoreLib/System/Int16-dep.h>
 #include <System.Private.CoreLib/System/Int32-dep.h>
 #include <System.Private.CoreLib/System/Object-dep.h>
@@ -18,6 +19,8 @@
 #include <System.Private.CoreLib/System/Reflection/PortableExecutableKinds.h>
 #include <System.Private.CoreLib/System/Reflection/ProcessorArchitecture.h>
 #include <System.Private.CoreLib/System/Reflection/StrongNameKeyPair-dep.h>
+#include <System.Private.CoreLib/System/Runtime/Serialization/IDeserializationCallback.h>
+#include <System.Private.CoreLib/System/Runtime/Serialization/ISerializable.h>
 #include <System.Private.CoreLib/System/Runtime/Serialization/SerializationInfo-dep.h>
 #include <System.Private.CoreLib/System/Runtime/Serialization/StreamingContext-dep.h>
 #include <System.Private.CoreLib/System/String-dep.h>

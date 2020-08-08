@@ -8,10 +8,17 @@ namespace System::Private::CoreLib::System {
 FORWARD_(Array, T1, T2)
 FORWARDS(Boolean)
 FORWARDS(Byte)
+FORWARD(ICloneable)
 FORWARDS(Int32)
 FORWARD(String)
 FORWARD(Version)
 } // namespace System::Private::CoreLib::System
+namespace System::Private::CoreLib::System::Runtime::Serialization {
+FORWARD(IDeserializationCallback)
+FORWARD(ISerializable)
+FORWARD(SerializationInfo)
+FORWARDS(StreamingContext)
+} // namespace System::Private::CoreLib::System::Runtime::Serialization
 namespace System::Private::CoreLib::System::Globalization {
 FORWARD(CultureInfo)
 } // namespace System::Private::CoreLib::System::Globalization
@@ -19,10 +26,6 @@ namespace System::Private::CoreLib::System::Configuration::Assemblies {
 enum class AssemblyHashAlgorithm;
 enum class AssemblyVersionCompatibility;
 } // namespace System::Private::CoreLib::System::Configuration::Assemblies
-namespace System::Private::CoreLib::System::Runtime::Serialization {
-FORWARD(SerializationInfo)
-FORWARDS(StreamingContext)
-} // namespace System::Private::CoreLib::System::Runtime::Serialization
 namespace System::Private::CoreLib::System::Reflection {
 enum class AssemblyContentType;
 enum class AssemblyNameFlags;
@@ -35,6 +38,7 @@ using namespace Configuration::Assemblies;
 using namespace Globalization;
 using namespace Runtime::Serialization;
 CLASS(AssemblyName) : public Object::in {
+  using interface = rt::TypeList<ICloneable, IDeserializationCallback, ISerializable>;
   public: String get_Name();
   public: void set_Name(String value);
   public: Version get_Version();

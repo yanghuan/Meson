@@ -8,7 +8,17 @@
 namespace System::Private::CoreLib::System::Collections {
 FORWARDS(DictionaryEntry)
 FORWARD(IDictionaryEnumerator)
+FORWARD(IEnumerable)
+FORWARD(IEnumerator)
 } // namespace System::Private::CoreLib::System::Collections
+namespace System::Private::CoreLib::System {
+FORWARD_(Array, T1, T2)
+FORWARDS(Byte)
+FORWARD_(Func, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18)
+FORWARD(IDisposable)
+FORWARD(String)
+FORWARD(Type)
+} // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::IO {
 FORWARD(BinaryReader)
 FORWARD(Stream)
@@ -17,18 +27,12 @@ FORWARD(UnmanagedMemoryStream)
 namespace System::Private::CoreLib::System::Collections::Generic {
 FORWARD(Dictionary, TKey, TValue)
 } // namespace System::Private::CoreLib::System::Collections::Generic
-namespace System::Private::CoreLib::System {
-FORWARD_(Array, T1, T2)
-FORWARDS(Byte)
-FORWARD_(Func, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18)
-FORWARD(String)
-FORWARD(Type)
-} // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Reflection {
 FORWARD(MethodInfo)
 } // namespace System::Private::CoreLib::System::Reflection
 namespace System::Private::CoreLib::System::Resources {
 enum class ResourceTypeCode;
+FORWARD(IResourceReader)
 FORWARDS(ResourceLocator)
 namespace ResourceReaderNamespace {
 using namespace Collections;
@@ -36,7 +40,9 @@ using namespace Collections::Generic;
 using namespace IO;
 using namespace Reflection;
 CLASS(ResourceReader) : public Object::in {
+  using interface = rt::TypeList<IResourceReader, IEnumerable, IDisposable>;
   public: CLASS(ResourceEnumerator) : public Object::in {
+    using interface = rt::TypeList<IDictionaryEnumerator, IEnumerator>;
     public: Object get_Key();
     public: Object get_Current();
     public: Int32 get_DataPosition();

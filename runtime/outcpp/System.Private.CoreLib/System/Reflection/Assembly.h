@@ -2,6 +2,11 @@
 
 #include <System.Private.CoreLib/System/Object.h>
 
+namespace System::Private::CoreLib::System::Runtime::Serialization {
+FORWARD(ISerializable)
+FORWARD(SerializationInfo)
+FORWARDS(StreamingContext)
+} // namespace System::Private::CoreLib::System::Runtime::Serialization
 namespace System::Private::CoreLib::System::Collections::Generic {
 FORWARD(Dictionary, TKey, TValue)
 FORWARD(IEnumerable, T)
@@ -37,10 +42,6 @@ FORWARD(Stream)
 namespace System::Private::CoreLib::System::Globalization {
 FORWARD(CultureInfo)
 } // namespace System::Private::CoreLib::System::Globalization
-namespace System::Private::CoreLib::System::Runtime::Serialization {
-FORWARD(SerializationInfo)
-FORWARDS(StreamingContext)
-} // namespace System::Private::CoreLib::System::Runtime::Serialization
 namespace System::Private::CoreLib::System::Configuration::Assemblies {
 enum class AssemblyHashAlgorithm;
 } // namespace System::Private::CoreLib::System::Configuration::Assemblies
@@ -49,6 +50,7 @@ enum class BindingFlags;
 FORWARD(AssemblyName)
 FORWARD(Binder)
 FORWARD(CustomAttributeData)
+FORWARD(ICustomAttributeProvider)
 FORWARD(ManifestResourceInfo)
 FORWARD(MethodInfo)
 FORWARD(Module)
@@ -65,6 +67,7 @@ using namespace Security;
 using namespace Threading;
 using Collections::Generic::IList;
 CLASS(Assembly) : public Object::in {
+  using interface = rt::TypeList<ICustomAttributeProvider, ISerializable>;
   public: IEnumerable<TypeInfo> get_DefinedTypes();
   public: IEnumerable<Type> get_ExportedTypes();
   public: String get_CodeBase();

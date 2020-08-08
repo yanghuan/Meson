@@ -2,6 +2,11 @@
 
 #include <System.Private.CoreLib/System/SystemException.h>
 
+namespace System::Private::CoreLib::System::Runtime::Serialization {
+FORWARD(ISerializable)
+FORWARD(SerializationInfo)
+FORWARDS(StreamingContext)
+} // namespace System::Private::CoreLib::System::Runtime::Serialization
 namespace System::Private::CoreLib::System {
 FORWARD_(Array, T1, T2)
 FORWARDS(Boolean)
@@ -9,14 +14,11 @@ FORWARD(Exception)
 FORWARD(String)
 FORWARD(Type)
 } // namespace System::Private::CoreLib::System
-namespace System::Private::CoreLib::System::Runtime::Serialization {
-FORWARD(SerializationInfo)
-FORWARDS(StreamingContext)
-} // namespace System::Private::CoreLib::System::Runtime::Serialization
 namespace System::Private::CoreLib::System::Reflection {
 namespace ReflectionTypeLoadExceptionNamespace {
 using namespace Runtime::Serialization;
 CLASS(ReflectionTypeLoadException) : public SystemException::in {
+  using interface = rt::TypeList<ISerializable>;
   public: Array<Type> get_Types() { return Types; }
   public: Array<Exception> get_LoaderExceptions() { return LoaderExceptions; }
   public: String get_Message();

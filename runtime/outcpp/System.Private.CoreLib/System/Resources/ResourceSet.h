@@ -4,22 +4,25 @@
 
 namespace System::Private::CoreLib::System {
 FORWARDS(Boolean)
+FORWARD(IDisposable)
 FORWARD(String)
 FORWARD(Type)
 } // namespace System::Private::CoreLib::System
-namespace System::Private::CoreLib::System::IO {
-FORWARD(Stream)
-} // namespace System::Private::CoreLib::System::IO
 namespace System::Private::CoreLib::System::Collections {
 FORWARD(Hashtable)
 FORWARD(IDictionaryEnumerator)
+FORWARD(IEnumerable)
 } // namespace System::Private::CoreLib::System::Collections
+namespace System::Private::CoreLib::System::IO {
+FORWARD(Stream)
+} // namespace System::Private::CoreLib::System::IO
 namespace System::Private::CoreLib::System::Resources {
 FORWARD(IResourceReader)
 namespace ResourceSetNamespace {
 using namespace Collections;
 using namespace IO;
 CLASS(ResourceSet) : public Object::in {
+  using interface = rt::TypeList<IDisposable, IEnumerable>;
   protected: void Ctor();
   public: void Ctor(Boolean junk);
   public: void Ctor(String fileName);

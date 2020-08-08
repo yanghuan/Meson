@@ -3,6 +3,7 @@
 #include <System.Private.CoreLib/System/ValueType.h>
 
 namespace System::Private::CoreLib::System::Runtime::Serialization {
+FORWARD(ISerializable)
 FORWARD(SerializationInfo)
 FORWARDS(StreamingContext)
 } // namespace System::Private::CoreLib::System::Runtime::Serialization
@@ -11,7 +12,10 @@ enum class NumberStyles;
 } // namespace System::Private::CoreLib::System::Globalization
 namespace System::Private::CoreLib::System {
 FORWARDS(Boolean)
+FORWARD_(IComparable, T1, T2)
+FORWARD(IEquatable, T)
 FORWARD(IFormatProvider)
+FORWARD(IFormattable)
 FORWARDS(Int32)
 FORWARDS(Int64)
 FORWARD(Object)
@@ -20,6 +24,7 @@ namespace IntPtrNamespace {
 using namespace Globalization;
 using namespace Runtime::Serialization;
 struct IntPtr : public valueType<IntPtr> {
+  using interface = rt::TypeList<IEquatable<IntPtr>, IComparable<>, IComparable<IntPtr>, IFormattable, ISerializable>;
   public: static Int32 get_Size();
   public: static IntPtr get_MaxValue();
   public: static IntPtr get_MinValue();

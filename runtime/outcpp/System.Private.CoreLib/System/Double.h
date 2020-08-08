@@ -10,8 +10,13 @@ namespace System::Private::CoreLib::System {
 enum class TypeCode;
 FORWARDS(Boolean)
 FORWARDS(Char)
+FORWARD_(IComparable, T1, T2)
+FORWARD(IConvertible)
+FORWARD(IEquatable, T)
 FORWARD(IFormatProvider)
+FORWARD(IFormattable)
 FORWARDS(Int32)
+FORWARD(ISpanFormattable)
 FORWARD(Object)
 FORWARDS(ReadOnlySpan, T)
 FORWARDS(Span, T)
@@ -20,6 +25,7 @@ FORWARDS(UInt64)
 namespace DoubleNamespace {
 using namespace Globalization;
 struct Double : public valueType<Double> {
+  using interface = rt::TypeList<IComparable<>, IConvertible, IFormattable, IComparable<Double>, IEquatable<Double>, ISpanFormattable>;
   public: constexpr Double() noexcept : m_value(0) {}
   public: constexpr Double(double value) noexcept : m_value(value) {}
   public: constexpr double& get() noexcept { return m_value; }

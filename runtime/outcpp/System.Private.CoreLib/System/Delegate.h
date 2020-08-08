@@ -3,18 +3,20 @@
 #include <System.Private.CoreLib/System/IntPtr.h>
 #include <System.Private.CoreLib/System/Object.h>
 
+namespace System::Private::CoreLib::System::Runtime::Serialization {
+FORWARD(ISerializable)
+FORWARD(SerializationInfo)
+FORWARDS(StreamingContext)
+} // namespace System::Private::CoreLib::System::Runtime::Serialization
 namespace System::Private::CoreLib::System::Reflection {
 FORWARD(MethodInfo)
 FORWARD(RuntimeMethodInfo)
 } // namespace System::Private::CoreLib::System::Reflection
-namespace System::Private::CoreLib::System::Runtime::Serialization {
-FORWARD(SerializationInfo)
-FORWARDS(StreamingContext)
-} // namespace System::Private::CoreLib::System::Runtime::Serialization
 namespace System::Private::CoreLib::System {
 enum class DelegateBindingFlags;
 FORWARD_(Array, T1, T2)
 FORWARDS(Boolean)
+FORWARD(ICloneable)
 FORWARDS(Int32)
 FORWARD(IRuntimeMethodInfo)
 FORWARD(MulticastDelegate)
@@ -26,6 +28,7 @@ namespace DelegateNamespace {
 using namespace Reflection;
 using namespace Runtime::Serialization;
 CLASS(Delegate) : public Object::in {
+  using interface = rt::TypeList<ICloneable, ISerializable>;
   public: Object get_Target();
   public: MethodInfo get_Method();
   protected: void Ctor(Object target, String method);

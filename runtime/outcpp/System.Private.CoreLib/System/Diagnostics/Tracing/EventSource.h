@@ -19,6 +19,7 @@ FORWARDS(Char)
 FORWARDS(DateTime)
 FORWARD_(EventHandler, T1, T2)
 FORWARD(Exception)
+FORWARD(IDisposable)
 FORWARDS(ReadOnlySpan, T)
 FORWARD(String)
 FORWARD(Type)
@@ -68,6 +69,7 @@ using namespace Collections::Generic;
 using namespace Reflection;
 using namespace Runtime::InteropServices;
 CLASS(EventSource) : public Object::in {
+  using interface = rt::TypeList<IDisposable>;
   public: struct EventData : public valueType<EventData> {
     public: IntPtr get_DataPointer();
     public: void set_DataPointer(IntPtr value);

@@ -10,9 +10,14 @@
 #include <System.Private.CoreLib/System/CharEnumerator-dep.h>
 #include <System.Private.CoreLib/System/Collections/Generic/IEnumerable.h>
 #include <System.Private.CoreLib/System/Collections/Generic/ValueListBuilder-dep.h>
+#include <System.Private.CoreLib/System/Collections/IEnumerable.h>
 #include <System.Private.CoreLib/System/Globalization/CompareInfo-dep.h>
 #include <System.Private.CoreLib/System/Globalization/CompareOptions.h>
 #include <System.Private.CoreLib/System/Globalization/CultureInfo-dep.h>
+#include <System.Private.CoreLib/System/ICloneable.h>
+#include <System.Private.CoreLib/System/IComparable.h>
+#include <System.Private.CoreLib/System/IConvertible.h>
+#include <System.Private.CoreLib/System/IEquatable.h>
 #include <System.Private.CoreLib/System/IFormatProvider.h>
 #include <System.Private.CoreLib/System/Int32-dep.h>
 #include <System.Private.CoreLib/System/IntPtr-dep.h>
