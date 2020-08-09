@@ -54,13 +54,12 @@ namespace rt {
   inline TypeMetadata gTypeMetadata;
 
   class GCObjectHead {
-  protected:
+  public:
     GCObjectHead(const TypeMetadata& metadata) noexcept : metadata_(metadata) {}
-
+  protected:
     bool refDec() noexcept {
       return --refs_ == 0;
     }
-
   private:
     void refAdd() noexcept {
       printf("refAdd\n");
@@ -126,8 +125,6 @@ namespace rt {
     }
 
   private:
-    GCObject(const TypeMetadata& klass) noexcept : GCObjectHead(klass) {}
-
     constexpr size_t GetAllocSize() noexcept {
       if constexpr (IsArray<T>) {
         return get()->GetAllocSize();
@@ -332,7 +329,7 @@ namespace rt {
       using GCObject = typename T::GCObject;
       using element_type = typename T::in;
       void* p = alloc(sizeof(GCObject));
-      GCObject* temp = new (p) GCObject(getTypeMetadata<T>());
+      auto temp = static_cast<GCObject*>(new (p) GCObjectHead(getTypeMetadata<T>()));
       new (temp->get()) element_type(std::forward<Args>(args)...);
       return T(temp);
     }
@@ -447,7 +444,7 @@ namespace rt {
 
     static ref<array> newarr(size_t n) {
       void* p = object::alloc(GetAllocSize(n));
-      auto temp = new (p) GCObject<array>(gTypeMetadata);
+      auto temp = static_cast<GCObject<array>*>(new (p) GCObjectHead(gTypeMetadata));
       temp->get()->length = static_cast<int32_t>(n);
       return ref<array>(temp);
     }

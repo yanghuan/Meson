@@ -54,7 +54,7 @@ namespace rt {
   GCObject<string>* string::alloc(size_t length) {
     checkOutOfMemory(length);
     void* address = gcAlloc(nullptr, 0, string::GetAllocSize(length));
-    auto gcObj = new (address) GCObject<str>(gMetadata);
+    auto gcObj = static_cast<GCObject<str>*>(new (address) GCObjectHead(gMetadata));
     gcObj->get()->length = static_cast<int32_t>(length);
     return reinterpret_cast<GCObject<string>*>(gcObj);
   }
