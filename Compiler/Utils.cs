@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Diagnostics.Contracts;
 using System.Linq;
 using System.Text;
@@ -19,6 +20,18 @@ namespace Meson.Compiler {
   public sealed class CompilationErrorException : Exception {
     public CompilationErrorException(string message) : base(message) {
     }
+  }
+
+  public sealed class TypeDefinitionEqualityComparer : IEqualityComparer<ITypeDefinition> {
+    public bool Equals(ITypeDefinition x, ITypeDefinition y) {
+      return x.EQ(y);
+    }
+
+    public int GetHashCode(ITypeDefinition obj) {
+      return $"{obj.ParentModule.Name}.{obj.FullName}".GetHashCode();
+    }
+
+    public static readonly TypeDefinitionEqualityComparer Default = new TypeDefinitionEqualityComparer();
   }
 
   internal static class Utils {
@@ -52,10 +65,10 @@ namespace Meson.Compiler {
       return t;
     }
 
-    public static bool TryAdd<K, V>(this Dictionary<K, HashSet<V>> dict, K key, V value) {
+    public static bool TryAdd<K, V>(this Dictionary<K, HashSet<V>> dict, K key, V value, IEqualityComparer<V> comparer = null) {
       var set = dict.GetOrDefault(key);
       if (set == null) {
-        set = new HashSet<V>();
+        set = new HashSet<V>(comparer);
         dict.Add(key, set);
       }
       return set.Add(value);
@@ -281,17 +294,8 @@ namespace Meson.Compiler {
       return typeDefinition.IsMemberTypeExists(memberType, isRecursiveTypeDefinition ? new HashSet<ITypeDefinition>() : null);
     }
 
-    public static bool IsSame(this ITypeDefinition type, IType other) {
-      if (other != null) {
-        if (other is ITypeDefinition) {
-          return other == type;
-        }
-
-        if (other is ParameterizedType parameterizedType) {
-          return type.IsSame(parameterizedType.GenericType);
-        }
-      }
-      return false;
+    public static bool EQ(this ITypeDefinition a, ITypeDefinition b) {
+      return a.FullName == b.FullName && a.ParentModule.Name == b.ParentModule.Name;
     }
 
     public static bool IsRefType(this ITypeDefinition type) {
@@ -786,10 +790,6 @@ namespace Meson.Compiler {
       }
 
       return false;
-    }
-
-    public static bool EqualsWithoutNullability(this IType type, IType other) {
-      return type.ChangeNullability(Nullability.Oblivious).Equals(other.ChangeNullability(Nullability.Oblivious));
     }
 
     public static bool IsOverridable(this IProperty symbol) {

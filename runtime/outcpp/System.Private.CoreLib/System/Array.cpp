@@ -1161,7 +1161,7 @@ void Array___<>::Sort(Array<> keys, Array<> items, Int32 index, Int32 length, IC
   if (array != nullptr) {
     Array<Object> array2 = rt::as<Array<Object>>(items);
     if (items == nullptr || array2 != nullptr) {
-      rt::newobj<Array<>::in::SorterObjectArray>(array, array2, comparer).Sort(index, length);
+      SorterObjectArray(array, array2, comparer).Sort(index, length);
       return;
     }
   }
@@ -1207,7 +1207,7 @@ void Array___<>::Sort(Array<> keys, Array<> items, Int32 index, Int32 length, IC
       }
     }
   }
-  rt::newobj<Array<>::in::SorterGenericArray>(keys, items, comparer).Sort(index, length);
+  SorterGenericArray(keys, items, comparer).Sort(index, length);
 }
 
 Collections::IEnumerator Array___<>::GetEnumerator() {
