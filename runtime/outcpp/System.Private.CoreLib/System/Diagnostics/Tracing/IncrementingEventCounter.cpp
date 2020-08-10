@@ -1,7 +1,7 @@
 #include "IncrementingEventCounter-dep.h"
 
 namespace System::Private::CoreLib::System::Diagnostics::Tracing::IncrementingEventCounterNamespace {
-void IncrementingEventCounter___::ctor(String name, Tracing::EventSource eventSource) {
+void IncrementingEventCounter___::ctor(String name, EventSource eventSource) {
 }
 
 void IncrementingEventCounter___::Increment(Double increment) {

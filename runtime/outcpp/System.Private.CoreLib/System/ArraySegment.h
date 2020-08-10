@@ -48,7 +48,7 @@ struct ArraySegment : public valueType<ArraySegment<T>> {
     private: Int32 _end;
     private: Int32 _current;
   };
-  public: static ArraySegment<T> get_Empty() { return Empty; }
+  public: static ArraySegment<T> get_Empty();
   public: Array<T> get_Array();
   public: Int32 get_Offset();
   public: Int32 get_Count();

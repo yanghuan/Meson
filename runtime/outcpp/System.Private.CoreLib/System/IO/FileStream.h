@@ -11,10 +11,6 @@
 #include <System.Private.CoreLib/System/Threading/Tasks/TaskCompletionSource.h>
 #include <System.Private.CoreLib/System/UInt32.h>
 
-namespace System::Private::CoreLib::System::Runtime::CompilerServices {
-FORWARD(ICriticalNotifyCompletion)
-FORWARD(INotifyCompletion)
-} // namespace System::Private::CoreLib::System::Runtime::CompilerServices
 namespace System::Private::CoreLib::System::Threading {
 FORWARDS(CancellationToken)
 FORWARD(IOCompletionCallback)
@@ -37,6 +33,10 @@ FORWARDS(Span, T)
 FORWARD(String)
 FORWARDS(UInt64)
 } // namespace System::Private::CoreLib::System
+namespace System::Private::CoreLib::System::Runtime::CompilerServices {
+FORWARD(ICriticalNotifyCompletion)
+FORWARD(INotifyCompletion)
+} // namespace System::Private::CoreLib::System::Runtime::CompilerServices
 namespace System::Private::CoreLib::Microsoft::Win32::SafeHandles {
 FORWARD(SafeFileHandle)
 } // namespace System::Private::CoreLib::Microsoft::Win32::SafeHandles
@@ -57,6 +57,23 @@ using namespace Runtime::CompilerServices;
 using namespace Threading;
 using namespace Threading::Tasks;
 CLASS(FileStream) : public Stream::in {
+  private: CLASS(FileStreamCompletionSource) : public TaskCompletionSource<Int32>::in {
+    public: NativeOverlapped* get_Overlapped();
+    protected: void ctor(FileStream stream, Int32 numBufferedBytes, Array<Byte> bytes);
+    public: void SetCompletedSynchronously(Int32 numBytes);
+    public: void RegisterForCancellation(CancellationToken cancellationToken);
+    public: void ReleaseNativeResource();
+    public: static void IOCallback(UInt32 errorCode, UInt32 numBytes, NativeOverlapped* pOverlapped);
+    private: void CompleteCallback(UInt64 packedResult);
+    private: static void Cancel(Object state);
+    public: static FileStreamCompletionSource Create(FileStream stream, Int32 numBufferedBytesRead, ReadOnlyMemory<Byte> memory);
+    private: static Action<Object> s_cancelCallback;
+    private: FileStream _stream;
+    private: Int32 _numBufferedBytes;
+    private: CancellationTokenRegistration _cancellationRegistration;
+    private: NativeOverlapped* _overlapped;
+    private: Int64 _result;
+  };
   private: CLASS(AsyncCopyToAwaitable) : public Object::in {
     public: using interface = rt::TypeList<ICriticalNotifyCompletion, INotifyCompletion>;
     public: Object get_CancellationLock();
@@ -78,23 +95,6 @@ CLASS(FileStream) : public Stream::in {
     public: Action<> _continuation;
     public: UInt32 _errorCode;
     public: UInt32 _numBytes;
-  };
-  private: CLASS(FileStreamCompletionSource) : public TaskCompletionSource<Int32>::in {
-    public: NativeOverlapped* get_Overlapped();
-    protected: void ctor(FileStream stream, Int32 numBufferedBytes, Array<Byte> bytes);
-    public: void SetCompletedSynchronously(Int32 numBytes);
-    public: void RegisterForCancellation(CancellationToken cancellationToken);
-    public: void ReleaseNativeResource();
-    public: static void IOCallback(UInt32 errorCode, UInt32 numBytes, NativeOverlapped* pOverlapped);
-    private: void CompleteCallback(UInt64 packedResult);
-    private: static void Cancel(Object state);
-    public: static FileStreamCompletionSource Create(FileStream stream, Int32 numBufferedBytesRead, ReadOnlyMemory<Byte> memory);
-    private: static Action<Object> s_cancelCallback;
-    private: FileStream _stream;
-    private: Int32 _numBufferedBytes;
-    private: CancellationTokenRegistration _cancellationRegistration;
-    private: NativeOverlapped* _overlapped;
-    private: Int64 _result;
   };
   private: CLASS(MemoryFileStreamCompletionSource) : public FileStreamCompletionSource::in {
     public: void ctor(FileStream stream, Int32 numBufferedBytes, ReadOnlyMemory<Byte> memory);

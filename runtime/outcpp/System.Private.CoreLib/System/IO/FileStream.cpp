@@ -3,6 +3,35 @@
 #include <System.Private.CoreLib/System/IO/FileStream-dep.h>
 
 namespace System::Private::CoreLib::System::IO::FileStreamNamespace {
+NativeOverlapped* FileStream___::FileStreamCompletionSource___::get_Overlapped() {
+  return nullptr;
+}
+
+void FileStream___::FileStreamCompletionSource___::ctor(FileStream stream, Int32 numBufferedBytes, Array<Byte> bytes) {
+}
+
+void FileStream___::FileStreamCompletionSource___::SetCompletedSynchronously(Int32 numBytes) {
+}
+
+void FileStream___::FileStreamCompletionSource___::RegisterForCancellation(CancellationToken cancellationToken) {
+}
+
+void FileStream___::FileStreamCompletionSource___::ReleaseNativeResource() {
+}
+
+void FileStream___::FileStreamCompletionSource___::IOCallback(UInt32 errorCode, UInt32 numBytes, NativeOverlapped* pOverlapped) {
+}
+
+void FileStream___::FileStreamCompletionSource___::CompleteCallback(UInt64 packedResult) {
+}
+
+void FileStream___::FileStreamCompletionSource___::Cancel(Object state) {
+}
+
+FileStream::in::FileStreamCompletionSource FileStream___::FileStreamCompletionSource___::Create(FileStream stream, Int32 numBufferedBytesRead, ReadOnlyMemory<Byte> memory) {
+  return nullptr;
+}
+
 Object FileStream___::AsyncCopyToAwaitable___::get_CancellationLock() {
   return nullptr;
 }
@@ -37,35 +66,6 @@ void FileStream___::AsyncCopyToAwaitable___::UnsafeOnCompleted(Action<> continua
 }
 
 void FileStream___::AsyncCopyToAwaitable___::ctor_static() {
-}
-
-NativeOverlapped* FileStream___::FileStreamCompletionSource___::get_Overlapped() {
-  return nullptr;
-}
-
-void FileStream___::FileStreamCompletionSource___::ctor(FileStream stream, Int32 numBufferedBytes, Array<Byte> bytes) {
-}
-
-void FileStream___::FileStreamCompletionSource___::SetCompletedSynchronously(Int32 numBytes) {
-}
-
-void FileStream___::FileStreamCompletionSource___::RegisterForCancellation(CancellationToken cancellationToken) {
-}
-
-void FileStream___::FileStreamCompletionSource___::ReleaseNativeResource() {
-}
-
-void FileStream___::FileStreamCompletionSource___::IOCallback(UInt32 errorCode, UInt32 numBytes, NativeOverlapped* pOverlapped) {
-}
-
-void FileStream___::FileStreamCompletionSource___::CompleteCallback(UInt64 packedResult) {
-}
-
-void FileStream___::FileStreamCompletionSource___::Cancel(Object state) {
-}
-
-FileStream::in::FileStreamCompletionSource FileStream___::FileStreamCompletionSource___::Create(FileStream stream, Int32 numBufferedBytesRead, ReadOnlyMemory<Byte> memory) {
-  return nullptr;
 }
 
 void FileStream___::MemoryFileStreamCompletionSource___::ctor(FileStream stream, Int32 numBufferedBytes, ReadOnlyMemory<Byte> memory) {

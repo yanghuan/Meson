@@ -173,19 +173,6 @@ namespace Meson.Compiler {
       }
     }
 
-    public void AddPropertyFieldTypeReference(IProperty property) {
-      var referenceType = property.ReturnType.GetReferenceType();
-      if (referenceType != null) {
-        var rootType = property.DeclaringTypeDefinition.GetReferenceType();
-        if (!Generator.IsCompilationUnitIn(rootType, referenceType)) {
-          var referenceTypeDefinition = referenceType.GetDefinition();
-          if (referenceTypeDefinition.Kind != TypeKind.Enum) {
-            AddHeadReference(referenceTypeDefinition, false);
-          }
-        }
-      }
-    }
-
     private void AddSrcReference(ITypeDefinition type) {
       if (!headReferences_.ContainsKey(type)) {
         srcReferences_.Add(type);

@@ -49,7 +49,7 @@ using namespace Buffers;
 using namespace Collections;
 using namespace Collections::Generic;
 using namespace Globalization;
-using namespace System::Text;
+using namespace Text;
 template <class T>
 using IEnumerable = Collections::Generic::IEnumerable<T>;
 using IEnumerable1 = Collections::IEnumerable;

@@ -3,6 +3,15 @@
 #include <System.Private.CoreLib/System/Threading/Tasks/Task-dep.h>
 
 namespace System::Private::CoreLib::System::Threading::Tasks::TaskNamespace {
+void DelayPromise___::ctor(Int32 millisecondsDelay) {
+}
+
+void DelayPromise___::CompleteTimedOut() {
+}
+
+void DelayPromise___::Cleanup() {
+}
+
 void Task___<>::ContingentProperties___::SetCompleted() {
 }
 
@@ -30,15 +39,6 @@ void Task___<>::SetOnCountdownMres___::ctor(Int32 count) {
 }
 
 void Task___<>::SetOnCountdownMres___::Invoke(Task<> completingTask) {
-}
-
-void DelayPromise___::ctor(Int32 millisecondsDelay) {
-}
-
-void DelayPromise___::CompleteTimedOut() {
-}
-
-void DelayPromise___::Cleanup() {
 }
 
 void DelayPromiseWithCancellation___::ctor(Int32 millisecondsDelay, CancellationToken token) {

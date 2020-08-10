@@ -44,7 +44,7 @@ using IComparer1 = Collections::IComparer;
 CLASS_FORWARD(Array, T1, T2)
 CLASS_(Array, T1);
 CLASS_(Array) : public Object::in {
-  public: using interface = rt::TypeList<ICloneable, Collections::IList, Collections::ICollection, Collections::IEnumerable, IStructuralComparable, IStructuralEquatable>;
+  public: using interface = rt::TypeList<ICloneable, IList, ICollection, IEnumerable, IStructuralComparable, IStructuralEquatable>;
   private: template <class T>
   class EmptyArray {
     private: static void ctor_static();
@@ -238,7 +238,7 @@ CLASS_(Array) : public Object::in {
   static Boolean TrueForAll(Array<T> array, Predicate<T> match);
   private: template <class T>
   static Span<T> UnsafeArrayAsSpan(Array<> array, Int32 adjustedIndex, Int32 length);
-  public: Collections::IEnumerator GetEnumerator();
+  public: IEnumerator GetEnumerator();
 };
 CLASS_(Array, T) : public rt::Array<T, Array<>::in> {
 };

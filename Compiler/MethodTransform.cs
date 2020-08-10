@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics.Contracts;
 using System.Linq;
 using System.Net.NetworkInformation;
+using System.Reflection;
 using System.Text;
 
 using ICSharpCode.Decompiler.CSharp;
@@ -78,19 +79,18 @@ namespace Meson.Compiler {
     private void Visit(IMethod methodSymbol) {
       if (methodSymbol.HasBody) {
         methodSymbols_.Push(methodSymbol);
-        MethodDefinitionSyntax node;
-        if (IsMethodExport(methodSymbol)) {
-          var methodDeclaration = Generator.GetMethodDeclaration(methodSymbol);
-          node = methodDeclaration?.Accept<MethodDefinitionSyntax>(this);
-        } else {
-          node = (MethodDefinitionSyntax)VisitMethodDeclaration(null);
-        }
+        var methodDeclaration = IsMethodExport(methodSymbol) ? Generator.GetMethodDeclaration(methodSymbol) : null;
+        var node = (MethodDefinitionSyntax)VisitMethodDeclaration(methodDeclaration);
         methodSymbols_.Pop();
         if (node != null) {
-          CompilationUnit.AddSrcStatement(node);
-          CompilationUnit.AddSrcStatement(BlankLinesStatement.One);
-          if (methodSymbol.IsMainEntryPoint()) {
-            InsetMainFuntion(methodSymbol, node);
+          if (node.IsInline) {
+            CompilationUnit.AddInlineMethodDefinition(node);
+          } else {
+            CompilationUnit.AddSrcStatement(node);
+            CompilationUnit.AddSrcStatement(BlankLinesStatement.One);
+            if (methodSymbol.IsMainEntryPoint()) {
+              InsetMainFuntion(methodSymbol, node);
+            }
           }
         }
       }
@@ -1026,8 +1026,15 @@ namespace Meson.Compiler {
       if (methodDeclaration != null) {
         var block = methodDeclaration.Body.Accept<BlockSyntax>(this);
         node.AddStatements(block.Statements);
-      }
-      if (!IsMethodExport(method)) {
+      } else if (method.AccessorOwner is IProperty property && property.IsPropertyField()) {
+        node.IsInline = true;
+        var fieldName = typeDefinition_.GetPropertyFieldName(method.DeclaringTypeDefinition, property);
+        if (method.AccessorKind == MethodSemanticsAttributes.Getter) {
+          node.Body.Add(new ReturnStatementSyntax(fieldName));
+        } else {
+          node.Body.Add(new BinaryExpressionSyntax(fieldName, Tokens.Equals, IdentifierSyntax.Value));
+        }
+      } else if (!IsMethodExport(method)) {
         InsertDefaultReturnValue(node, method, returnType);
       }
       PopFunction();

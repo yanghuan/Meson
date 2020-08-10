@@ -472,6 +472,10 @@ namespace Meson.Compiler {
     internal void Render(MethodDefinitionSyntax node) {
       WriteAccessibility(node.AccessibilityToken);
       node.Template?.Render(this);
+      if (node.IsInline) {
+        Write(Tokens.Inline);
+        WriteSpace();
+      }
       if (node.IsStatic) {
         Write(Tokens.Static);
         WriteSpace();

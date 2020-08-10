@@ -40,9 +40,9 @@ using namespace Collections::Generic;
 using namespace IO;
 using namespace Reflection;
 CLASS(ResourceReader) : public Object::in {
-  public: using interface = rt::TypeList<IResourceReader, Collections::IEnumerable, IDisposable>;
+  public: using interface = rt::TypeList<IResourceReader, IEnumerable, IDisposable>;
   public: CLASS(ResourceEnumerator) : public Object::in {
-    public: using interface = rt::TypeList<IDictionaryEnumerator, Collections::IEnumerator>;
+    public: using interface = rt::TypeList<IDictionaryEnumerator, IEnumerator>;
     public: Object get_Key();
     public: Object get_Current();
     public: Int32 get_DataPosition();

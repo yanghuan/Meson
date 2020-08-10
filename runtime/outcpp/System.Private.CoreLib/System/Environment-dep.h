@@ -15,3 +15,10 @@
 #include <System.Private.CoreLib/System/String-dep.h>
 #include <System.Private.CoreLib/System/Text/ValueStringBuilder-dep.h>
 #include <System.Private.CoreLib/System/Version-dep.h>
+
+namespace System::Private::CoreLib::System::EnvironmentNamespace {
+inline Int32 Environment::get_ProcessorCount() {
+  return ProcessorCount;
+}
+
+} // namespace System::Private::CoreLib::System::EnvironmentNamespace

@@ -107,6 +107,36 @@ void Array___<>::SorterGenericArray::DownHeap(Int32 i, Int32 n, Int32 lo) {
 void Array___<>::SorterGenericArray::InsertionSort(Int32 lo, Int32 hi) {
 }
 
+Int32 Array___<>::get_Length() {
+}
+
+Int64 Array___<>::get_LongLength() {
+}
+
+Int32 Array___<>::get_Rank() {
+}
+
+Int32 Array___<>::get_CountOfICollection() {
+}
+
+Object Array___<>::get_SyncRoot() {
+}
+
+Boolean Array___<>::get_IsReadOnly() {
+}
+
+Boolean Array___<>::get_IsFixedSize() {
+}
+
+Boolean Array___<>::get_IsSynchronized() {
+}
+
+Object Array___<>::get_ItemOfIList(Int32 index) {
+}
+
+void Array___<>::set_ItemOfIList(Int32 index, Object value) {
+}
+
 Array<> Array___<>::CreateInstance(Type elementType, Int32 length) {
   if ((Object)elementType == nullptr) {
     ThrowHelper::ThrowArgumentNullException(ExceptionArgument::elementType);
@@ -484,6 +514,9 @@ Int32 Array___<>::GetLowerBound(Int32 dimension) {
 Boolean Array___<>::IsValueOfElementType(Object value) {
   MethodTable* methodTable = RuntimeHelpers::GetMethodTable((Array<>)this);
   return (IntPtr)methodTable->ElementType == (IntPtr)(void*)RuntimeHelpers::GetMethodTable(value);
+}
+
+void Array___<>::ctor() {
 }
 
 Array<> Array___<>::CreateInstance(Type elementType, Array<Int64> lengths) {
@@ -1210,7 +1243,7 @@ void Array___<>::Sort(Array<> keys, Array<> items, Int32 index, Int32 length, IC
   SorterGenericArray(keys, items, comparer).Sort(index, length);
 }
 
-Collections::IEnumerator Array___<>::GetEnumerator() {
+IEnumerator Array___<>::GetEnumerator() {
   Int32 lowerBound = GetLowerBound(0);
   if (get_Rank() == 1 && lowerBound == 0) {
     return rt::newobj<SZArrayEnumerator>((Array<>)this);

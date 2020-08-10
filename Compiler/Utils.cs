@@ -248,15 +248,19 @@ namespace Meson.Compiler {
     }
 
     private static IEnumerable<IType> GetMemberReferenceTypes(this ITypeDefinition type, ReferenceTypeKind kind) {
+      static IEnumerable<IType> GetBaseTypes(ITypeDefinition type) {
+        return type.DirectBaseTypes.Where(i => i.IsKnownType(KnownTypeCode.None));
+      }
+
       switch (kind) {
         case ReferenceTypeKind.FieldStore: {
-            return type.Fields.Where(i => !i.IsStatic).Select(i => i.Type);
+            return type.Fields.Where(i => !i.IsStatic).Select(i => i.Type).Distinct();
           }
         case ReferenceTypeKind.NestedReference: {
-            return type.Fields.Select(i => i.Type).Concat(type.Methods.SelectMany(i => i.Parameters).Select(i => i.Type));
+            return GetBaseTypes(type).Concat(type.Fields.Select(i => i.Type)).Concat(type.Methods.SelectMany(i => i.Parameters).Select(i => i.Type)).Distinct();
           }
         case ReferenceTypeKind.FieldReference: {
-            return type.Fields.Where(i => !i.IsStatic).Select(i => i.Type.GetReferenceType() ?? i.Type).Concat(type.DirectBaseTypes.Where(i => i.IsKnownType(KnownTypeCode.None)));
+            return GetBaseTypes(type).Concat( type.Fields.Where(i => !i.IsStatic).Select(i => i.Type.GetReferenceType() ?? i.Type)).Distinct();
           }
       }
       throw new InvalidProgramException();

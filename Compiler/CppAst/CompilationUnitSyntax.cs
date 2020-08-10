@@ -7,7 +7,8 @@ namespace Meson.Compiler.CppAst {
   class CompilationUnitSyntax : SyntaxNode {
     public readonly List<StatementSyntax> HeadStatements = new List<StatementSyntax>();
     public readonly List<StatementSyntax> SrcStatements = new List<StatementSyntax>();
-    public readonly List<StatementSyntax> ReferencesIncludes = new List<StatementSyntax>();
+    private readonly List<StatementSyntax> referencesIncludes_ = new List<StatementSyntax>();
+    private readonly List<StatementSyntax> inlineStatements_ = new List<StatementSyntax>();
     private readonly StatementListSyntax srcIncludes_ = new StatementListSyntax();
     private NamespaceSyntax headNamespaceSyntax_;
     private NamespaceSyntax srcNamespaceSyntax_;
@@ -55,12 +56,12 @@ namespace Meson.Compiler.CppAst {
     }
 
     public void AddReferencesIncludes(string typeName, IEnumerable<string> references) {
-      ReferencesIncludes.Add(PragmaPretreatmentSyntax.Once);
-      ReferencesIncludes.Add(BlankLinesStatement.One);
-      ReferencesIncludes.Add(new IncludePretreatmentSyntax($"{typeName}.h", false));
+      referencesIncludes_.Add(PragmaPretreatmentSyntax.Once);
+      referencesIncludes_.Add(BlankLinesStatement.One);
+      referencesIncludes_.Add(new IncludePretreatmentSyntax($"{typeName}.h", false));
       if (references.Any()) {
-        ReferencesIncludes.Add(BlankLinesStatement.One);
-        ReferencesIncludes.AddRange(references.Select(i => new IncludePretreatmentSyntax(i)));
+        referencesIncludes_.Add(BlankLinesStatement.One);
+        referencesIncludes_.AddRange(references.Select(i => new IncludePretreatmentSyntax(i)));
       }
 
       srcIncludes_.Add(new IncludePretreatmentSyntax($"{typeName}{Utils.kDependExtra}.h", false));
@@ -76,6 +77,26 @@ namespace Meson.Compiler.CppAst {
 
     public void AddSrcStatement(StatementSyntax statement) {
       srcNamespaceSyntax_.Add(statement);
+    }
+
+    internal void AddInlineMethodDefinition(MethodDefinitionSyntax node) {
+      inlineStatements_.Add(node);
+      inlineStatements_.Add(BlankLinesStatement.One);
+    }
+
+    internal List<StatementSyntax> ReferencesIncludes {
+      get {
+        if (inlineStatements_.Count == 0) {
+          return referencesIncludes_;
+        }
+
+        var statements = referencesIncludes_.ToList();
+        statements.Add(BlankLinesStatement.One);
+        var ns = new NamespaceSyntax(srcNamespaceSyntax_.Name);
+        ns.AddRange(inlineStatements_);
+        statements.Add(ns);
+        return statements;
+      }
     }
   }
 }

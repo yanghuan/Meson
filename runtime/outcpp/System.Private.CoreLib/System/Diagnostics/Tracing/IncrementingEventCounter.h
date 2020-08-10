@@ -15,7 +15,7 @@ namespace IncrementingEventCounterNamespace {
 CLASS(IncrementingEventCounter) : public DiagnosticCounter::in {
   public: TimeSpan get_DisplayRateTimeScale() { return DisplayRateTimeScale; }
   public: void set_DisplayRateTimeScale(TimeSpan value) { DisplayRateTimeScale = value; }
-  public: void ctor(String name, Tracing::EventSource eventSource);
+  public: void ctor(String name, EventSource eventSource);
   public: void Increment(Double increment);
   public: String ToString();
   public: void WritePayload(Single intervalSec, Int32 pollingIntervalMillisec);

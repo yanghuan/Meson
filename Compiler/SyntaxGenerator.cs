@@ -20,6 +20,7 @@ namespace Meson.Compiler {
     private readonly Dictionary<IModule, CSharpDecompiler> decompilers_ = new Dictionary<IModule, CSharpDecompiler>();
     private readonly Dictionary<ITypeDefinition, RefMultiGenericTypeInfo> multiGenericTypes_ = new Dictionary<ITypeDefinition, RefMultiGenericTypeInfo>();
     private readonly Dictionary<ISymbol, SymbolNameSyntax> memberNames_ = new Dictionary<ISymbol, SymbolNameSyntax>();
+    private readonly Dictionary<ITypeDefinition, string> sameNameTypes_ = new Dictionary<ITypeDefinition, string>(TypeDefinitionEqualityComparer.Default);
     private static readonly DecompilerSettings decompilerSettings_ = new DecompilerSettings(LanguageVersion.Latest);
 
     public SyntaxGenerator(Options options) {
@@ -48,6 +49,17 @@ namespace Meson.Compiler {
       var decompiler = GetDecompiler(method.ParentModule);
       var node = decompiler.Decompile(method.MetadataToken);
       return node.Members.OfType<MethodDeclaration>().FirstOrDefault();
+    }
+
+    private static bool IsSameTypeCanMeet(List<ITypeDefinition> types) {
+      if (types.All(i => i.Accessibility != Accessibility.Public)) {
+        var moduleCount = types.Select(i => i.ParentModule.Name).Distinct().Count();
+        if (moduleCount == types.Count) {
+          return false;
+        }
+      }
+
+      return true;
     }
 
     private IEnumerable<CompilationUnitTransform> GetCompilationUnits() {

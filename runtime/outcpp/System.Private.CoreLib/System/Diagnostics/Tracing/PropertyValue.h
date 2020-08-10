@@ -34,6 +34,11 @@ namespace System::Private::CoreLib::System::Diagnostics::Tracing {
 namespace PropertyValueNamespace {
 using namespace Reflection;
 struct PropertyValue : public valueType<PropertyValue> {
+  private: CLASS(TypeHelper) : public Object::in {
+    public: Func<PropertyValue, PropertyValue> GetPropertyGetter(PropertyInfo property);
+    protected: Delegate GetGetMethod(PropertyInfo property, Type propertyType);
+    protected: void ctor();
+  };
   public: struct Scalar : public valueType<Scalar> {
     public: Boolean AsBoolean;
     public: Byte AsByte;
@@ -54,11 +59,6 @@ struct PropertyValue : public valueType<PropertyValue> {
     public: DateTimeOffset AsDateTimeOffset;
     public: TimeSpan AsTimeSpan;
     public: Decimal AsDecimal;
-  };
-  private: CLASS(TypeHelper) : public Object::in {
-    public: Func<PropertyValue, PropertyValue> GetPropertyGetter(PropertyInfo property);
-    protected: Delegate GetGetMethod(PropertyInfo property, Type propertyType);
-    protected: void ctor();
   };
   private: CLASS(ReferenceTypeHelper, TContainer) : public TypeHelper::in {
     public: Func<PropertyValue, PropertyValue> GetPropertyGetter(PropertyInfo property);

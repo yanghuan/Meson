@@ -44,6 +44,7 @@ using namespace Runtime::CompilerServices;
 CLASS_FORWARD(Task, T1, T2)
 CLASS_(Task) : public Object::in {
   public: using interface = rt::TypeList<IAsyncResult, IDisposable>;
+  private: FRIENDN(DelayPromise)
   public: CLASS(ContingentProperties) : public Object::in {
     public: void SetCompleted();
     public: void UnregisterCancellationCallback();
@@ -71,7 +72,6 @@ CLASS_(Task) : public Object::in {
     public: void Invoke(Task<> completingTask);
     private: Int32 _count;
   };
-  private: FRIENDN(DelayPromise)
   private: FRIENDN(DelayPromiseWithCancellation)
   private: FRIENDN(TwoTaskWhenAnyPromise, TTask)
   private: Task<> get_ParentForDebugger();

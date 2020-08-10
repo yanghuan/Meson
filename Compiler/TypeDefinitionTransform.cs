@@ -213,19 +213,19 @@ namespace Meson.Compiler {
       return true;
     }
 
-    private IdentifierSyntax GetPropertyFieldName(ITypeDefinition typeDefinition, IProperty property) {
-      string fieldName = property.GetBackingFieldName();
-      var field = typeDefinition.Fields.First(i => i.Name == fieldName);
-      Contract.Assert(field != null);
-      return Generator.GetMemberName(field);
-    }
-
     internal void CheckOperatorParameters(IMethod method, List<ParameterSyntax> parameters, ExpressionSyntax returnType) {
       if (method.SymbolKind == SymbolKind.Operator && method.Name == "op_Explicit") {
         if (method.DeclaringTypeDefinition.Methods.Any(i => i != method && i.Name == method.Name && i.Parameters.First().Type == method.Parameters.First().Type)) {
           parameters.Add(new ParameterSyntax(returnType, null));
         }
       }
+    }
+
+    internal IdentifierSyntax GetPropertyFieldName(ITypeDefinition typeDefinition, IProperty property) {
+      string fieldName = property.GetBackingFieldName();
+      var field = typeDefinition.Fields.First(i => i.Name == fieldName);
+      Contract.Assert(field != null);
+      return Generator.GetMemberName(field);
     }
 
     private void VisitMethod(IMethod method, ITypeDefinition typeDefinition, ClassSyntax node) {
@@ -256,15 +256,12 @@ namespace Meson.Compiler {
       }
       node.Statements.Add(methodDefinition);
       if (method.HasBody) {
-        if (method.AccessorOwner is IProperty property && property.IsPropertyField()) {
+        if ((!method.IsStatic || method.ReturnType.IsReferenceType == true) && method.AccessorOwner is IProperty property && property.IsPropertyField()) {
           var fieldName = GetPropertyFieldName(typeDefinition, property);
           if (method.AccessorKind == MethodSemanticsAttributes.Getter) {
             methodDefinition.Body = new BlockSyntax(new ReturnStatementSyntax(fieldName)) { IsSingleLine = true };
           } else {
             methodDefinition.Body = new BlockSyntax(new BinaryExpressionSyntax(fieldName, Tokens.Equals, IdentifierSyntax.Value)) { IsSingleLine = true };
-          }
-          if (property.IsStatic) {
-            //CompilationUnit.AddPropertyFieldTypeReference(property);
           }
         } else {
           if (typeDefinition.TypeParameterCount == 0 && method.TypeParameters.Count == 0 && method.TypeArguments.Count == 0) {
