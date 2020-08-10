@@ -32,6 +32,11 @@ void testIsArray() {
   std::printf("code:%d, tt:%d, bb:%d, cc:%d, ee:%d ff:%d \n", code, ttt, bbb, cc, ee, ff);
 }
 
+void TestObject() {
+  Object o = nullptr;
+  Int32 i = (Int32)o;
+}
+
 int main() {
   auto f = []<class T>(Int32 t){
 

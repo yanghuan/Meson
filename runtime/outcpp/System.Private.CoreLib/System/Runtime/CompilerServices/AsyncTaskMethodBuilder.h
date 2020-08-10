@@ -32,10 +32,6 @@ struct AsyncTaskMethodBuilder<> : public valueType<AsyncTaskMethodBuilder<>> {
 };
 template <class TResult>
 struct AsyncTaskMethodBuilder<TResult> : public valueType<AsyncTaskMethodBuilder<TResult>> {
-  private: CLASS(DebugFinalizableAsyncStateMachineBox, TStateMachine) : public AsyncStateMachineBox<TStateMachine>::in {
-    protected: void Finalize();
-    public: void ctor();
-  };
   private: CLASS(AsyncStateMachineBox, TStateMachine) : public Task<TResult>::in {
     public: using interface = rt::TypeList<IAsyncStateMachineBox>;
     public: Action<> get_MoveNextAction();
@@ -49,6 +45,10 @@ struct AsyncTaskMethodBuilder<TResult> : public valueType<AsyncTaskMethodBuilder
     private: Action<> _moveNextAction;
     public: TStateMachine StateMachine;
     public: ExecutionContext Context;
+  };
+  private: CLASS(DebugFinalizableAsyncStateMachineBox, TStateMachine) : public AsyncStateMachineBox<TStateMachine>::in {
+    protected: void Finalize();
+    public: void ctor();
   };
   public: Task<TResult> get_Task();
   public: Object get_ObjectIdForDebugger();

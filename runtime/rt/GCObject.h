@@ -97,14 +97,21 @@ namespace rt {
   template <class T>
   static constexpr TypeCode CodeOf = GetTypeCode<T>::value;
 
-  template <class T>
-  static constexpr bool IsObject = std::is_base_of_v<object, T>;
-
   template <class T> 
   static constexpr bool IsString = CodeOf<T> == TypeCode::String;
 
   template <class T> 
   static constexpr bool IsArray = CodeOf<T> == TypeCode::Array;
+
+  template <class T>
+  struct IsObjectType {
+    struct __Type {
+    };
+    static constexpr bool value = std::is_base_of_v<object, typename std::conditional_t<IsComplete<T>::value, T, __Type>>;
+  };
+
+  template <class T>
+  static constexpr bool IsObject = IsObjectType<T>::value;
 
   template <class T>
   class GCObject : public GCObjectHead {
@@ -157,6 +164,9 @@ namespace rt {
     using type = T;
     static constexpr bool value = true;
   };
+
+  template <class T>
+  static constexpr bool IsRef = RefElementType<T>::value;
 
   template <class T>
   struct ArrayElementType {
@@ -269,6 +279,11 @@ namespace rt {
     template <class R, class T1 = T> requires(std::is_same_v<R, decltype(T1::op_Implicit(ref<T1>()))>)
     operator R() {
       return T1::op_Implicit(*this);
+    }
+
+    template <class R, class T1 = T> requires(!IsRef<R> && IsObject<T1>)
+    explicit operator R() {
+      return R();
     }
 
     template <class... Args>
@@ -645,7 +660,7 @@ namespace rt {
 
   template <class R, class Arg>
   int init(int argc, char* argv[], R (*f)(Arg)) {
-    auto args = Array<ref<string>>::newarr(argc - 1);
+    auto args = Array<ref<string>, object>::newarr(argc - 1);
     f(*reinterpret_cast<Arg*>(&args));
     return 0;
   }
