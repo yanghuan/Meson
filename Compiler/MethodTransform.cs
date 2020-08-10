@@ -496,15 +496,22 @@ namespace Meson.Compiler {
       return IdentifierSyntax.Nullptr;
     }
 
-    private ExpressionSyntax BuildObjectCreateExpression(ObjectCreateExpression objectCreateExpression, out List<ExpressionSyntax> arguments) {
-      var method = (IMethod)objectCreateExpression.GetSymbol();
+    private ExpressionSyntax BuildObjectCreateExpression(ObjectCreateExpression objectCreateExpression, out List<ExpressionSyntax> arguments, out IMethod method) {
+      method = (IMethod)objectCreateExpression.GetSymbol();
       var typeName = objectCreateExpression.Type.AcceptExpression(this);
       arguments = BuildArguments(method, objectCreateExpression.Arguments);
       return typeName;
     }
 
+    private ExpressionSyntax BuildObjectCreateExpression(ObjectCreateExpression objectCreateExpression, out List<ExpressionSyntax> arguments) {
+      return BuildObjectCreateExpression(objectCreateExpression, out arguments, out _);
+    }
+
     public SyntaxNode VisitObjectCreateExpression(ObjectCreateExpression objectCreateExpression) {
-      var typeName = BuildObjectCreateExpression(objectCreateExpression, out var arguments);
+      var typeName = BuildObjectCreateExpression(objectCreateExpression, out var arguments, out IMethod method);
+      if (method.DeclaringType.Kind == TypeKind.Struct) {
+        return typeName.Invation(arguments);
+      }
       return IdentifierSyntax.NewObj.Generic(typeName).Invation(arguments);
     }
 

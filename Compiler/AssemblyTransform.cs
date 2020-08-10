@@ -73,27 +73,27 @@ namespace Meson.Compiler {
       return new CompilationUnitTransform(this, types);
     }
 
-    internal IType GetDeclaringType(ITypeDefinition type) {
+    internal ITypeDefinition GetDeclaringType(ITypeDefinition type) {
       var brotherType = nestedBrotherTypes_.GetOrDefault(type);
-      return (brotherType ?? type).DeclaringType;
+      return (brotherType ?? type).DeclaringTypeDefinition;
     }
 
-    public bool IsInternalMemberType(IType memberType, ITypeDefinition typeDefinition) {
-      if (typeDefinition.IsSame(memberType)) {
+    public bool IsInternalMemberType(ITypeDefinition memberType, ITypeDefinition typeDefinition) {
+      if (typeDefinition.EQ(memberType)) {
         return true;
       }
 
-      var memberTypeDeclaringType = memberType.DeclaringType.GetDefinition();
-      if (typeDefinition.IsSame(memberTypeDeclaringType)) {
+      var memberTypeDeclaringType = memberType.DeclaringTypeDefinition;
+      if (typeDefinition.EQ(memberTypeDeclaringType)) {
         return true;
       }
 
-      IType declaringType = GetDeclaringType(typeDefinition);
+      ITypeDefinition declaringType = GetDeclaringType(typeDefinition);
       while (declaringType != null) {
-        if (declaringType.Equals(memberTypeDeclaringType)) {
+        if (declaringType.EQ(memberTypeDeclaringType)) {
           return true;
         }
-        declaringType = declaringType.DeclaringType;
+        declaringType = declaringType.DeclaringTypeDefinition;
       }
       return false;
     }

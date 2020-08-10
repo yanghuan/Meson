@@ -14,7 +14,7 @@ namespace Meson.Compiler {
     private readonly HashSet<ITypeDefinition> srcReferences_ = new HashSet<ITypeDefinition>();
     private readonly ITypeDefinition root_;
     private readonly Dictionary<ISymbol, NestedCycleRefTypeNameSyntax> nestedCycleRefNames_ = new Dictionary<ISymbol, NestedCycleRefTypeNameSyntax>();
-    private readonly Dictionary<string, SymbolNameSyntax> typeBaseNames_ = new Dictionary<string, SymbolNameSyntax>();
+    private readonly Dictionary<ITypeDefinition, SymbolNameSyntax> typeBaseNames_ = new Dictionary<ITypeDefinition, SymbolNameSyntax>(TypeDefinitionEqualityComparer.Default);
     private readonly Dictionary<string, HashSet<ITypeDefinition>> sameBaseNames_ = new Dictionary<string, HashSet<ITypeDefinition>>();
 
     public CompilationUnitTransform(AssemblyTransform assemblyTransform, List<ITypeDefinition> types) {
@@ -72,7 +72,6 @@ namespace Meson.Compiler {
       CompilationUnit.AddNamespaceClose();
     }
 
-  
     private void AddTypeUsingDeclaration(NamespaceSyntax rootNamespace, NamespaceSyntax classNamespace, TypeDefinitionTransform typeDefinition, IEnumerable<ITypeDefinition> types) {
       IdentifierSyntax name = root_.Name;
       ExpressionSyntax type = classNamespace.Name.TwoColon(name);
@@ -249,13 +248,12 @@ namespace Meson.Compiler {
         return type.Name;
       }
 
-      string fullName = typeDefinition.GetFullName();
-      var expression = typeBaseNames_.GetOrDefault(fullName);
+      var expression = typeBaseNames_.GetOrDefault(typeDefinition);
       if (expression == null) {
         string name = type.Name;
         expression = new SymbolNameSyntax(name);
-        typeBaseNames_.Add(fullName, expression);
-        sameBaseNames_.TryAdd(name, typeDefinition);
+        typeBaseNames_.Add(typeDefinition, expression);
+        sameBaseNames_.TryAdd(name, typeDefinition, TypeDefinitionEqualityComparer.Default);
       }
       return expression;
     }
@@ -310,7 +308,7 @@ namespace Meson.Compiler {
       var typeDefinition = args.Type.GetDefinition();
       if (typeDefinition != null) {
         var declaringType = typeDefinition.DeclaringTypeDefinition;
-        if (declaringType != null && (args.Definition == null || !AssemblyTransform.IsInternalMemberType(args.Type, args.Definition))) {
+        if (declaringType != null && (args.Definition == null || !AssemblyTransform.IsInternalMemberType(typeDefinition, args.Definition))) {
           var outTypeName = GetTypeName(args.With(declaringType, false));
           if (declaringType.GetDefinition().IsRefType()) {
             outTypeName = outTypeName.WithIn();
@@ -363,7 +361,7 @@ namespace Meson.Compiler {
             });
             int index = 0;
             foreach (var type in types) {
-              var name = typeBaseNames_[type.GetFullName()];
+              var name = typeBaseNames_[type];
               if (index == 0) {
                 headUsingsSyntax.Add(GetUsingDeclarationSyntax(name.NameExpression, type, root_));
               } else {
