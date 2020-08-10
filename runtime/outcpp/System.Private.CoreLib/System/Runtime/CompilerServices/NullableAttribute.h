@@ -9,8 +9,8 @@ FORWARDS(Byte)
 namespace System::Private::CoreLib::System::Runtime::CompilerServices {
 namespace NullableAttributeNamespace {
 CLASS(NullableAttribute) : public Attribute::in {
-  public: void Ctor(Byte _);
-  public: void Ctor(Array<Byte> _);
+  public: void ctor(Byte _);
+  public: void ctor(Array<Byte> _);
   public: Array<Byte> NullableFlags;
 };
 } // namespace NullableAttributeNamespace

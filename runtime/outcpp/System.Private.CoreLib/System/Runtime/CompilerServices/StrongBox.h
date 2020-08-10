@@ -9,8 +9,8 @@ CLASS(StrongBox, T) : public Object::in {
   public: using interface = rt::TypeList<IStrongBox>;
   private: Object get_ValueOfIStrongBox();
   private: void set_ValueOfIStrongBox(Object value);
-  public: void Ctor();
-  public: void Ctor(T value);
+  public: void ctor();
+  public: void ctor(T value);
   public: T Value;
 };
 } // namespace StrongBoxNamespace

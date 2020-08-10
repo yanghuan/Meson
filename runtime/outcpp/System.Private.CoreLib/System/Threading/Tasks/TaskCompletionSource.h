@@ -19,10 +19,10 @@ namespace TaskCompletionSourceNamespace {
 using namespace Collections::Generic;
 CLASS(TaskCompletionSource, TResult) : public Object::in {
   public: Task<TResult> get_Task();
-  public: void Ctor();
-  public: void Ctor(TaskCreationOptions creationOptions);
-  public: void Ctor(Object state);
-  public: void Ctor(Object state, TaskCreationOptions creationOptions);
+  public: void ctor();
+  public: void ctor(TaskCreationOptions creationOptions);
+  public: void ctor(Object state);
+  public: void ctor(Object state, TaskCreationOptions creationOptions);
   private: void SpinUntilCompleted();
   public: Boolean TrySetException(Exception exception);
   public: Boolean TrySetException(IEnumerable<Exception> exceptions);

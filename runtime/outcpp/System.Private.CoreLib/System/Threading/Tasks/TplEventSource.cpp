@@ -4,7 +4,7 @@ namespace System::Private::CoreLib::System::Threading::Tasks::TplEventSourceName
 void TplEventSource___::OnEventCommand(EventCommandEventArgs command) {
 }
 
-void TplEventSource___::Ctor() {
+void TplEventSource___::ctor() {
 }
 
 void TplEventSource___::TaskScheduled(Int32 OriginatingTaskSchedulerID, Int32 OriginatingTaskID, Int32 TaskID, Int32 CreatingTaskID, Int32 TaskCreationOptions, Int32 appDomain) {
@@ -59,7 +59,7 @@ Guid TplEventSource___::CreateGuidForTaskID(Int32 taskID) {
   return Guid();
 }
 
-void TplEventSource___::SCtor() {
+void TplEventSource___::ctor_static() {
 }
 
 } // namespace System::Private::CoreLib::System::Threading::Tasks::TplEventSourceNamespace

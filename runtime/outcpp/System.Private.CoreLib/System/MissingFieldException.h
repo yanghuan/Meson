@@ -15,11 +15,11 @@ using namespace Runtime::Serialization;
 CLASS(MissingFieldException) : public MissingMemberException::in {
   public: using interface = rt::TypeList<ISerializable>;
   public: String get_Message();
-  public: void Ctor();
-  public: void Ctor(String message);
-  public: void Ctor(String message, Exception inner);
-  public: void Ctor(String className, String fieldName);
-  protected: void Ctor(SerializationInfo info, StreamingContext context);
+  public: void ctor();
+  public: void ctor(String message);
+  public: void ctor(String message, Exception inner);
+  public: void ctor(String className, String fieldName);
+  protected: void ctor(SerializationInfo info, StreamingContext context);
 };
 } // namespace MissingFieldExceptionNamespace
 using MissingFieldException = MissingFieldExceptionNamespace::MissingFieldException;

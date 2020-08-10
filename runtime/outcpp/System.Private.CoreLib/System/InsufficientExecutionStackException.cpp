@@ -1,16 +1,16 @@
 #include "InsufficientExecutionStackException-dep.h"
 
 namespace System::Private::CoreLib::System::InsufficientExecutionStackExceptionNamespace {
-void InsufficientExecutionStackException___::Ctor() {
+void InsufficientExecutionStackException___::ctor() {
 }
 
-void InsufficientExecutionStackException___::Ctor(String message) {
+void InsufficientExecutionStackException___::ctor(String message) {
 }
 
-void InsufficientExecutionStackException___::Ctor(String message, Exception innerException) {
+void InsufficientExecutionStackException___::ctor(String message, Exception innerException) {
 }
 
-void InsufficientExecutionStackException___::Ctor(SerializationInfo info, StreamingContext context) {
+void InsufficientExecutionStackException___::ctor(SerializationInfo info, StreamingContext context) {
 }
 
 } // namespace System::Private::CoreLib::System::InsufficientExecutionStackExceptionNamespace

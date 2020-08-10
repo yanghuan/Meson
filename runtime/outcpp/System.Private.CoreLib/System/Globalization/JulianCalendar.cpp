@@ -28,7 +28,7 @@ Int32 JulianCalendar___::get_TwoDigitYearMax() {
 void JulianCalendar___::set_TwoDigitYearMax(Int32 value) {
 }
 
-void JulianCalendar___::Ctor() {
+void JulianCalendar___::ctor() {
 }
 
 void JulianCalendar___::CheckEraRange(Int32 era) {
@@ -119,7 +119,7 @@ Int32 JulianCalendar___::ToFourDigitYear(Int32 year) {
   return Int32();
 }
 
-void JulianCalendar___::SCtor() {
+void JulianCalendar___::ctor_static() {
 }
 
 } // namespace System::Private::CoreLib::System::Globalization::JulianCalendarNamespace

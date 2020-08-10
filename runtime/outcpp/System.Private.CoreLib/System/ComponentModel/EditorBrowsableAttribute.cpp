@@ -1,10 +1,10 @@
 #include "EditorBrowsableAttribute-dep.h"
 
 namespace System::Private::CoreLib::System::ComponentModel::EditorBrowsableAttributeNamespace {
-void EditorBrowsableAttribute___::Ctor(EditorBrowsableState state) {
+void EditorBrowsableAttribute___::ctor(EditorBrowsableState state) {
 }
 
-void EditorBrowsableAttribute___::Ctor() {
+void EditorBrowsableAttribute___::ctor() {
 }
 
 Boolean EditorBrowsableAttribute___::Equals(Object obj) {

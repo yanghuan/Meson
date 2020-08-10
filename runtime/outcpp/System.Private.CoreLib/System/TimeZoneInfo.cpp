@@ -104,7 +104,7 @@ Int32 TimeZoneInfo___::AdjustmentRule___::GetHashCode() {
   return Int32();
 }
 
-void TimeZoneInfo___::AdjustmentRule___::Ctor(DateTime dateStart, DateTime dateEnd, TimeSpan daylightDelta, TransitionTime daylightTransitionStart, TransitionTime daylightTransitionEnd, TimeSpan baseUtcOffsetDelta, Boolean noDaylightTransitions) {
+void TimeZoneInfo___::AdjustmentRule___::ctor(DateTime dateStart, DateTime dateEnd, TimeSpan daylightDelta, TransitionTime daylightTransitionStart, TransitionTime daylightTransitionEnd, TimeSpan baseUtcOffsetDelta, Boolean noDaylightTransitions) {
 }
 
 TimeZoneInfo::in::AdjustmentRule TimeZoneInfo___::AdjustmentRule___::CreateAdjustmentRule(DateTime dateStart, DateTime dateEnd, TimeSpan daylightDelta, TransitionTime daylightTransitionStart, TransitionTime daylightTransitionEnd) {
@@ -129,13 +129,13 @@ void TimeZoneInfo___::AdjustmentRule___::ValidateAdjustmentRule(DateTime dateSta
 void TimeZoneInfo___::AdjustmentRule___::AdjustDaylightDeltaToExpectedRange(TimeSpan& daylightDelta, TimeSpan& baseUtcOffsetDelta) {
 }
 
-void TimeZoneInfo___::AdjustmentRule___::Ctor(SerializationInfo info, StreamingContext context) {
+void TimeZoneInfo___::AdjustmentRule___::ctor(SerializationInfo info, StreamingContext context) {
 }
 
-void TimeZoneInfo___::AdjustmentRule___::SCtor() {
+void TimeZoneInfo___::AdjustmentRule___::ctor_static() {
 }
 
-void TimeZoneInfo___::OffsetAndRule___::Ctor(Int32 year, TimeSpan offset, AdjustmentRule rule) {
+void TimeZoneInfo___::OffsetAndRule___::ctor(Int32 year, TimeSpan offset, AdjustmentRule rule) {
 }
 
 TimeZoneInfo TimeZoneInfo___::CachedData___::get_Local() {
@@ -158,7 +158,7 @@ TimeZoneInfo::in::OffsetAndRule TimeZoneInfo___::CachedData___::GetOneYearLocalF
   return nullptr;
 }
 
-void TimeZoneInfo___::CachedData___::Ctor() {
+void TimeZoneInfo___::CachedData___::ctor() {
 }
 
 String TimeZoneInfo___::StringSerializer::GetSerializedString(TimeZoneInfo zone) {
@@ -395,7 +395,7 @@ String TimeZoneInfo___::ToString() {
   return nullptr;
 }
 
-void TimeZoneInfo___::Ctor(String id, TimeSpan baseUtcOffset, String displayName, String standardDisplayName, String daylightDisplayName, Array<AdjustmentRule> adjustmentRules, Boolean disableDaylightSavingTime) {
+void TimeZoneInfo___::ctor(String id, TimeSpan baseUtcOffset, String displayName, String standardDisplayName, String daylightDisplayName, Array<AdjustmentRule> adjustmentRules, Boolean disableDaylightSavingTime) {
 }
 
 TimeZoneInfo TimeZoneInfo___::CreateCustomTimeZone(String id, TimeSpan baseUtcOffset, String displayName, String standardDisplayName) {
@@ -410,7 +410,7 @@ TimeZoneInfo TimeZoneInfo___::CreateCustomTimeZone(String id, TimeSpan baseUtcOf
   return nullptr;
 }
 
-void TimeZoneInfo___::Ctor(SerializationInfo info, StreamingContext context) {
+void TimeZoneInfo___::ctor(SerializationInfo info, StreamingContext context) {
 }
 
 TimeZoneInfo::in::AdjustmentRule TimeZoneInfo___::GetAdjustmentRuleForTime(DateTime dateTime, Nullable<Int32>& ruleIndex) {
@@ -523,7 +523,7 @@ Array<TimeZoneInfo::in::AdjustmentRule> TimeZoneInfo___::GetAdjustmentRules() {
 void TimeZoneInfo___::PopulateAllSystemTimeZones(CachedData cachedData) {
 }
 
-void TimeZoneInfo___::Ctor(Interop::Kernel32::TIME_ZONE_INFORMATION& zone, Boolean dstDisabled) {
+void TimeZoneInfo___::ctor(Interop::Kernel32::TIME_ZONE_INFORMATION& zone, Boolean dstDisabled) {
 }
 
 Boolean TimeZoneInfo___::CheckDaylightSavingTimeNotSupported(Interop::Kernel32::TIME_ZONE_INFORMATION& timeZone) {
@@ -589,7 +589,7 @@ TimeZoneInfo::in::TimeZoneInfoResult TimeZoneInfo___::TryGetTimeZoneFromLocalMac
   return TimeZoneInfo::in::TimeZoneInfoResult::SecurityException;
 }
 
-void TimeZoneInfo___::SCtor() {
+void TimeZoneInfo___::ctor_static() {
 }
 
 } // namespace System::Private::CoreLib::System::TimeZoneInfoNamespace

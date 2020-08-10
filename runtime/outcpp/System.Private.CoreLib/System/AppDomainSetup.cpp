@@ -9,7 +9,7 @@ String AppDomainSetup___::get_TargetFrameworkName() {
   return nullptr;
 }
 
-void AppDomainSetup___::Ctor() {
+void AppDomainSetup___::ctor() {
 }
 
 } // namespace System::Private::CoreLib::System::AppDomainSetupNamespace

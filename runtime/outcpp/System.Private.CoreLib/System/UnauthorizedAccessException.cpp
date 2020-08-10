@@ -1,16 +1,16 @@
 #include "UnauthorizedAccessException-dep.h"
 
 namespace System::Private::CoreLib::System::UnauthorizedAccessExceptionNamespace {
-void UnauthorizedAccessException___::Ctor() {
+void UnauthorizedAccessException___::ctor() {
 }
 
-void UnauthorizedAccessException___::Ctor(String message) {
+void UnauthorizedAccessException___::ctor(String message) {
 }
 
-void UnauthorizedAccessException___::Ctor(String message, Exception inner) {
+void UnauthorizedAccessException___::ctor(String message, Exception inner) {
 }
 
-void UnauthorizedAccessException___::Ctor(SerializationInfo info, StreamingContext context) {
+void UnauthorizedAccessException___::ctor(SerializationInfo info, StreamingContext context) {
 }
 
 } // namespace System::Private::CoreLib::System::UnauthorizedAccessExceptionNamespace

@@ -5,7 +5,7 @@
 namespace System::Private::CoreLib::System::Diagnostics::CodeAnalysis {
 namespace DoesNotReturnAttributeNamespace {
 CLASS(DoesNotReturnAttribute) : public Attribute::in {
-  public: void Ctor();
+  public: void ctor();
 };
 } // namespace DoesNotReturnAttributeNamespace
 using DoesNotReturnAttribute = DoesNotReturnAttributeNamespace::DoesNotReturnAttribute;

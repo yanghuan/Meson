@@ -5,7 +5,7 @@
 namespace System::Private::CoreLib::System::Diagnostics::Contracts {
 namespace PureAttributeNamespace {
 CLASS(PureAttribute) : public Attribute::in {
-  public: void Ctor();
+  public: void ctor();
 };
 } // namespace PureAttributeNamespace
 using PureAttribute = PureAttributeNamespace::PureAttribute;

@@ -26,13 +26,13 @@ Int32 ManualResetEventSlim___::get_Waiters() {
 void ManualResetEventSlim___::set_Waiters(Int32 value) {
 }
 
-void ManualResetEventSlim___::Ctor() {
+void ManualResetEventSlim___::ctor() {
 }
 
-void ManualResetEventSlim___::Ctor(Boolean initialState) {
+void ManualResetEventSlim___::ctor(Boolean initialState) {
 }
 
-void ManualResetEventSlim___::Ctor(Boolean initialState, Int32 spinCount) {
+void ManualResetEventSlim___::ctor(Boolean initialState, Int32 spinCount) {
 }
 
 void ManualResetEventSlim___::Initialize(Boolean initialState, Int32 spinCount) {
@@ -98,7 +98,7 @@ Int32 ManualResetEventSlim___::ExtractStatePortion(Int32 state, Int32 mask) {
   return Int32();
 }
 
-void ManualResetEventSlim___::SCtor() {
+void ManualResetEventSlim___::ctor_static() {
 }
 
 } // namespace System::Private::CoreLib::System::Threading::ManualResetEventSlimNamespace

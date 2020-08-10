@@ -30,7 +30,7 @@ CLASS(TplEventSource) : public EventSource::in {
   public: class Keywords {
   };
   protected: void OnEventCommand(EventCommandEventArgs command);
-  private: void Ctor();
+  private: void ctor();
   public: void TaskScheduled(Int32 OriginatingTaskSchedulerID, Int32 OriginatingTaskID, Int32 TaskID, Int32 CreatingTaskID, Int32 TaskCreationOptions, Int32 appDomain);
   public: void TaskStarted(Int32 OriginatingTaskSchedulerID, Int32 OriginatingTaskID, Int32 TaskID);
   public: void TaskCompleted(Int32 OriginatingTaskSchedulerID, Int32 OriginatingTaskID, Int32 TaskID, Boolean IsExceptional);
@@ -48,7 +48,7 @@ CLASS(TplEventSource) : public EventSource::in {
   public: void IncompleteAsyncMethod(IAsyncStateMachineBox stateMachineBox);
   private: void IncompleteAsyncMethod(String stateMachineDescription);
   public: static Guid CreateGuidForTaskID(Int32 taskID);
-  private: static void SCtor();
+  private: static void ctor_static();
   public: Boolean TasksSetActivityIds;
   public: Boolean Debug;
   private: Boolean DebugActivityId;

@@ -3,10 +3,10 @@
 #include <System.Private.CoreLib/System/LazyHelper-dep.h>
 
 namespace System::Private::CoreLib::System::LazyHelperNamespace {
-void LazyHelper___::Ctor(LazyState state) {
+void LazyHelper___::ctor(LazyState state) {
 }
 
-void LazyHelper___::Ctor(LazyThreadSafetyMode mode, Exception exception) {
+void LazyHelper___::ctor(LazyThreadSafetyMode mode, Exception exception) {
 }
 
 void LazyHelper___::ThrowException() {
@@ -32,7 +32,7 @@ LazyThreadSafetyMode LazyHelper___::GetModeFromIsThreadSafe(Boolean isThreadSafe
   return LazyThreadSafetyMode::ExecutionAndPublication;
 }
 
-void LazyHelper___::SCtor() {
+void LazyHelper___::ctor_static() {
 }
 
 } // namespace System::Private::CoreLib::System::LazyHelperNamespace

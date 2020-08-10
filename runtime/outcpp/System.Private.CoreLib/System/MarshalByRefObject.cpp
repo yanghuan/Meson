@@ -3,7 +3,7 @@
 #include <System.Private.CoreLib/System/MarshalByRefObject-dep.h>
 
 namespace System::Private::CoreLib::System::MarshalByRefObjectNamespace {
-void MarshalByRefObject___::Ctor() {
+void MarshalByRefObject___::ctor() {
 }
 
 Object MarshalByRefObject___::GetLifetimeService() {

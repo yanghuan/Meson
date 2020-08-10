@@ -5,10 +5,10 @@ LoaderOptimization LoaderOptimizationAttribute___::get_Value() {
   return LoaderOptimization::SingleDomain;
 }
 
-void LoaderOptimizationAttribute___::Ctor(Byte value) {
+void LoaderOptimizationAttribute___::ctor(Byte value) {
 }
 
-void LoaderOptimizationAttribute___::Ctor(LoaderOptimization value) {
+void LoaderOptimizationAttribute___::ctor(LoaderOptimization value) {
 }
 
 } // namespace System::Private::CoreLib::System::LoaderOptimizationAttributeNamespace

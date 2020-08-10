@@ -37,7 +37,7 @@ struct Boolean : public valueType<Boolean> {
   public: static Boolean TryParse(ReadOnlySpan<Char> value, Boolean& result);
   private: static ReadOnlySpan<Char> TrimWhiteSpaceAndNull(ReadOnlySpan<Char> value);
   public: TypeCode GetTypeCode();
-  private: static void SCtor();
+  private: static void ctor_static();
   private: bool m_value;
   public: static String TrueString;
   public: static String FalseString;

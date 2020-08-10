@@ -5,7 +5,7 @@
 namespace System::Private::CoreLib::System::Runtime::CompilerServices {
 namespace SuppressIldasmAttributeNamespace {
 CLASS(SuppressIldasmAttribute) : public Attribute::in {
-  public: void Ctor();
+  public: void ctor();
 };
 } // namespace SuppressIldasmAttributeNamespace
 using SuppressIldasmAttribute = SuppressIldasmAttributeNamespace::SuppressIldasmAttribute;

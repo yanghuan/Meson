@@ -17,14 +17,14 @@ namespace TimerQueueNamespace {
 using namespace ::System::Private::CoreLib::Microsoft::Win32::SafeHandles;
 CLASS(TimerQueue) : public Object::in {
   private: CLASS(AppDomainTimerSafeHandle) : public SafeHandleZeroOrMinusOneIsInvalid::in {
-    public: void Ctor();
+    public: void ctor();
     protected: Boolean ReleaseHandle();
   };
   public: static Array<TimerQueue> get_Instances() { return Instances; }
   public: Int64 get_ActiveCount() { return ActiveCount; }
   private: void set_ActiveCount(Int64 value) { ActiveCount = value; }
   private: static Int64 get_TickCount64();
-  private: void Ctor(Int32 id);
+  private: void ctor(Int32 id);
   private: Boolean SetTimer(UInt32 actualDuration);
   public: static void AppDomainTimerCallback(Int32 id);
   private: static AppDomainTimerSafeHandle CreateAppDomainTimer(UInt32 dueTime, Int32 id);
@@ -38,7 +38,7 @@ CLASS(TimerQueue) : public Object::in {
   private: void LinkTimer(TimerQueueTimer timer);
   private: void UnlinkTimer(TimerQueueTimer timer);
   public: void DeleteTimer(TimerQueueTimer timer);
-  private: static void SCtor();
+  private: static void ctor_static();
   private: Int32 _id;
   private: AppDomainTimerSafeHandle m_appDomainTimer;
   private: static Array<TimerQueue> Instances;

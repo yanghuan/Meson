@@ -1,16 +1,16 @@
 #include "MethodAccessException-dep.h"
 
 namespace System::Private::CoreLib::System::MethodAccessExceptionNamespace {
-void MethodAccessException___::Ctor() {
+void MethodAccessException___::ctor() {
 }
 
-void MethodAccessException___::Ctor(String message) {
+void MethodAccessException___::ctor(String message) {
 }
 
-void MethodAccessException___::Ctor(String message, Exception inner) {
+void MethodAccessException___::ctor(String message, Exception inner) {
 }
 
-void MethodAccessException___::Ctor(SerializationInfo info, StreamingContext context) {
+void MethodAccessException___::ctor(SerializationInfo info, StreamingContext context) {
 }
 
 } // namespace System::Private::CoreLib::System::MethodAccessExceptionNamespace

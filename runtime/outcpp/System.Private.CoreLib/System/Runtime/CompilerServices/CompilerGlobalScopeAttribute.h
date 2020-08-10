@@ -5,7 +5,7 @@
 namespace System::Private::CoreLib::System::Runtime::CompilerServices {
 namespace CompilerGlobalScopeAttributeNamespace {
 CLASS(CompilerGlobalScopeAttribute) : public Attribute::in {
-  public: void Ctor();
+  public: void ctor();
 };
 } // namespace CompilerGlobalScopeAttributeNamespace
 using CompilerGlobalScopeAttribute = CompilerGlobalScopeAttributeNamespace::CompilerGlobalScopeAttribute;

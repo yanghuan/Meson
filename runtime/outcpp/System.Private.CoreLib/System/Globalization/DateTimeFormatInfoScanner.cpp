@@ -54,7 +54,7 @@ Boolean DateTimeFormatInfoScanner___::ArrayElementsBeginWithDigit(Array<String> 
   return Boolean();
 }
 
-void DateTimeFormatInfoScanner___::Ctor() {
+void DateTimeFormatInfoScanner___::ctor() {
 }
 
 } // namespace System::Private::CoreLib::System::Globalization::DateTimeFormatInfoScannerNamespace

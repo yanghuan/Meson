@@ -18,15 +18,15 @@ CLASS(FileNotFoundException) : public IOException::in {
   public: String get_Message();
   public: String get_FileName() { return FileName; }
   public: String get_FusionLog() { return FusionLog; }
-  private: void Ctor(String fileName, Int32 hResult);
-  public: void Ctor();
-  public: void Ctor(String message);
-  public: void Ctor(String message, Exception innerException);
-  public: void Ctor(String message, String fileName);
-  public: void Ctor(String message, String fileName, Exception innerException);
+  private: void ctor(String fileName, Int32 hResult);
+  public: void ctor();
+  public: void ctor(String message);
+  public: void ctor(String message, Exception innerException);
+  public: void ctor(String message, String fileName);
+  public: void ctor(String message, String fileName, Exception innerException);
   private: void SetMessageField();
   public: String ToString();
-  protected: void Ctor(SerializationInfo info, StreamingContext context);
+  protected: void ctor(SerializationInfo info, StreamingContext context);
   public: void GetObjectData(SerializationInfo info, StreamingContext context);
   private: String FileName;
   private: String FusionLog;

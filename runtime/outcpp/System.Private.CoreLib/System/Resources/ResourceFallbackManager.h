@@ -24,7 +24,7 @@ using IEnumerable = Collections::Generic::IEnumerable<T>;
 using IEnumerable1 = Collections::IEnumerable;
 CLASS(ResourceFallbackManager) : public Object::in {
   public: using interface = rt::TypeList<IEnumerable<CultureInfo>, IEnumerable1>;
-  public: void Ctor(CultureInfo startingCulture, CultureInfo neutralResourcesCulture, Boolean useParents);
+  public: void ctor(CultureInfo startingCulture, CultureInfo neutralResourcesCulture, Boolean useParents);
   public: IEnumerator<CultureInfo> GetEnumerator();
   private: CultureInfo m_startingCulture;
   private: CultureInfo m_neutralResourcesCulture;

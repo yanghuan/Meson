@@ -57,14 +57,14 @@ Int32 KoreanLunisolarCalendar___::GetGregorianYear(Int32 year, Int32 era) {
   return Int32();
 }
 
-void KoreanLunisolarCalendar___::Ctor() {
+void KoreanLunisolarCalendar___::ctor() {
 }
 
 Int32 KoreanLunisolarCalendar___::GetEra(DateTime time) {
   return Int32();
 }
 
-void KoreanLunisolarCalendar___::SCtor() {
+void KoreanLunisolarCalendar___::ctor_static() {
 }
 
 } // namespace System::Private::CoreLib::System::Globalization::KoreanLunisolarCalendarNamespace

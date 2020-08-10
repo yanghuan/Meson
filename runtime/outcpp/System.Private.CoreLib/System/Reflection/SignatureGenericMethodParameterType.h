@@ -13,7 +13,7 @@ CLASS(SignatureGenericMethodParameterType) : public SignatureGenericParameterTyp
   public: Boolean get_IsGenericTypeParameter();
   public: Boolean get_IsGenericMethodParameter();
   public: String get_Name();
-  public: void Ctor(Int32 position);
+  public: void ctor(Int32 position);
 };
 } // namespace SignatureGenericMethodParameterTypeNamespace
 using SignatureGenericMethodParameterType = SignatureGenericMethodParameterTypeNamespace::SignatureGenericMethodParameterType;

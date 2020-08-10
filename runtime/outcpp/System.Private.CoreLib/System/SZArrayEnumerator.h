@@ -15,7 +15,7 @@ using namespace Collections;
 CLASS(SZArrayEnumerator) : public Object::in {
   public: using interface = rt::TypeList<IEnumerator, ICloneable>;
   public: Object get_Current();
-  public: void Ctor(Array<> array);
+  public: void ctor(Array<> array);
   public: Object Clone();
   public: Boolean MoveNext();
   public: void Reset();

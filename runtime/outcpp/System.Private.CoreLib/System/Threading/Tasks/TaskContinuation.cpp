@@ -4,7 +4,7 @@ namespace System::Private::CoreLib::System::Threading::Tasks::TaskContinuationNa
 void TaskContinuation___::InlineIfPossibleOrElseQueue(Task<> task, Boolean needsProtection) {
 }
 
-void TaskContinuation___::Ctor() {
+void TaskContinuation___::ctor() {
 }
 
 } // namespace System::Private::CoreLib::System::Threading::Tasks::TaskContinuationNamespace

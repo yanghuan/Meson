@@ -23,8 +23,8 @@ CLASS(EqualityComparer, T) : public Object::in {
   public: Int32 LastIndexOf(Array<T> array, T value, Int32 startIndex, Int32 count);
   public: Boolean Equals(T x, T y);
   public: Int32 GetHashCode(T obj);
-  protected: void Ctor();
-  private: static void SCtor();
+  protected: void ctor();
+  private: static void ctor_static();
   private: static EqualityComparer<T> Default;
 };
 } // namespace EqualityComparerNamespace

@@ -141,7 +141,7 @@ Boolean Utf8Formatter::TryFormat(TimeSpan value, Span<Byte> destination, Int32& 
   return Boolean();
 }
 
-void Utf8Formatter::SCtor() {
+void Utf8Formatter::ctor_static() {
 }
 
 } // namespace System::Private::CoreLib::System::Buffers::Text::Utf8FormatterNamespace

@@ -1,7 +1,7 @@
 #include "TimerHolder-dep.h"
 
 namespace System::Private::CoreLib::System::Threading::TimerHolderNamespace {
-void TimerHolder___::Ctor(TimerQueueTimer timer) {
+void TimerHolder___::ctor(TimerQueueTimer timer) {
 }
 
 void TimerHolder___::Finalize() {

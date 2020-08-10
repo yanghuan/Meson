@@ -17,7 +17,7 @@ namespace LicenseInteropProxyNamespace {
 using namespace ::System::Private::CoreLib::System;
 using namespace ::System::Private::CoreLib::System::Reflection;
 CLASS(LicenseInteropProxy) : public Object::in {
-  public: void Ctor();
+  public: void ctor();
   public: static Object Create();
   public: static Boolean HasLicense(Type type);
   public: void GetLicInfo(Type type, Boolean& runtimeKeyAvail, Boolean& licVerified);
@@ -25,7 +25,7 @@ CLASS(LicenseInteropProxy) : public Object::in {
   public: Object AllocateAndValidateLicense(Type type, String key, Boolean isDesignTime);
   public: void GetCurrentContextInfo(RuntimeTypeHandle rth, Boolean& isDesignTime, IntPtr& bstrKey);
   public: void SaveKeyInCurrentContext(IntPtr bstrKey);
-  private: static void SCtor();
+  private: static void ctor_static();
   private: static Type s_licenseAttrType;
   private: static Type s_licenseExceptionType;
   private: MethodInfo _createWithContext;

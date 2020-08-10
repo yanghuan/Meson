@@ -11,8 +11,8 @@ namespace SafeRegistryHandleNamespace {
 using namespace ::System::Private::CoreLib::Microsoft::Win32::SafeHandles;
 using namespace ::System::Private::CoreLib::System;
 CLASS(SafeRegistryHandle) : public SafeHandleZeroOrMinusOneIsInvalid::in {
-  public: void Ctor();
-  public: void Ctor(IntPtr preexistingHandle, Boolean ownsHandle);
+  public: void ctor();
+  public: void ctor(IntPtr preexistingHandle, Boolean ownsHandle);
   protected: Boolean ReleaseHandle();
 };
 } // namespace SafeRegistryHandleNamespace

@@ -8,22 +8,22 @@ Type DebuggerVisualizerAttribute___::get_Target() {
 void DebuggerVisualizerAttribute___::set_Target(Type value) {
 }
 
-void DebuggerVisualizerAttribute___::Ctor(String visualizerTypeName) {
+void DebuggerVisualizerAttribute___::ctor(String visualizerTypeName) {
 }
 
-void DebuggerVisualizerAttribute___::Ctor(String visualizerTypeName, String visualizerObjectSourceTypeName) {
+void DebuggerVisualizerAttribute___::ctor(String visualizerTypeName, String visualizerObjectSourceTypeName) {
 }
 
-void DebuggerVisualizerAttribute___::Ctor(String visualizerTypeName, Type visualizerObjectSource) {
+void DebuggerVisualizerAttribute___::ctor(String visualizerTypeName, Type visualizerObjectSource) {
 }
 
-void DebuggerVisualizerAttribute___::Ctor(Type visualizer) {
+void DebuggerVisualizerAttribute___::ctor(Type visualizer) {
 }
 
-void DebuggerVisualizerAttribute___::Ctor(Type visualizer, Type visualizerObjectSource) {
+void DebuggerVisualizerAttribute___::ctor(Type visualizer, Type visualizerObjectSource) {
 }
 
-void DebuggerVisualizerAttribute___::Ctor(Type visualizer, String visualizerObjectSourceTypeName) {
+void DebuggerVisualizerAttribute___::ctor(Type visualizer, String visualizerObjectSourceTypeName) {
 }
 
 } // namespace System::Private::CoreLib::System::Diagnostics::DebuggerVisualizerAttributeNamespace

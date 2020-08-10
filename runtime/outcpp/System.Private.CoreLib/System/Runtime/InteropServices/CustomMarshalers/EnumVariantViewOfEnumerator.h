@@ -23,7 +23,7 @@ using namespace ComTypes;
 CLASS(EnumVariantViewOfEnumerator) : public Object::in {
   public: using interface = rt::TypeList<IEnumVARIANT, ICustomAdapter>;
   public: IEnumerator get_Enumerator() { return Enumerator; }
-  public: void Ctor(IEnumerator enumerator);
+  public: void ctor(IEnumerator enumerator);
   public: IEnumVARIANT Clone();
   public: Int32 Next(Int32 celt, Array<Object> rgVar, IntPtr pceltFetched);
   public: Int32 Reset();

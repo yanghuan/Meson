@@ -33,7 +33,7 @@ CLASS(MdFieldInfo) : public RuntimeFieldInfo::in {
   public: Boolean get_IsSecuritySafeCritical();
   public: Boolean get_IsSecurityTransparent();
   public: Type get_FieldType();
-  public: void Ctor(Int32 tkField, FieldAttributes fieldAttributes, RuntimeTypeHandle declaringTypeHandle, RuntimeType::in::RuntimeTypeCache reflectedTypeCache, BindingFlags bindingFlags);
+  public: void ctor(Int32 tkField, FieldAttributes fieldAttributes, RuntimeTypeHandle declaringTypeHandle, RuntimeType::in::RuntimeTypeCache reflectedTypeCache, BindingFlags bindingFlags);
   public: Boolean CacheEquals(Object o);
   public: RuntimeModule GetRuntimeModule();
   public: Object GetValueDirect(TypedReference obj);

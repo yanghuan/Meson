@@ -1,10 +1,10 @@
 #include "NonRandomizedStringEqualityComparer-dep.h"
 
 namespace System::Private::CoreLib::System::Collections::Generic::NonRandomizedStringEqualityComparerNamespace {
-void NonRandomizedStringEqualityComparer___::Ctor() {
+void NonRandomizedStringEqualityComparer___::ctor() {
 }
 
-void NonRandomizedStringEqualityComparer___::Ctor(SerializationInfo information, StreamingContext context) {
+void NonRandomizedStringEqualityComparer___::ctor(SerializationInfo information, StreamingContext context) {
 }
 
 Boolean NonRandomizedStringEqualityComparer___::Equals(String x, String y) {
@@ -18,7 +18,7 @@ Int32 NonRandomizedStringEqualityComparer___::GetHashCode(String obj) {
 void NonRandomizedStringEqualityComparer___::GetObjectData(SerializationInfo info, StreamingContext context) {
 }
 
-void NonRandomizedStringEqualityComparer___::SCtor() {
+void NonRandomizedStringEqualityComparer___::ctor_static() {
 }
 
 } // namespace System::Private::CoreLib::System::Collections::Generic::NonRandomizedStringEqualityComparerNamespace

@@ -15,7 +15,7 @@ Int32 Hashtable___::KeyCollection___::get_Count() {
   return Int32();
 }
 
-void Hashtable___::KeyCollection___::Ctor(Hashtable hashtable) {
+void Hashtable___::KeyCollection___::ctor(Hashtable hashtable) {
 }
 
 void Hashtable___::KeyCollection___::CopyTo(Array<> array, Int32 arrayIndex) {
@@ -37,7 +37,7 @@ Int32 Hashtable___::ValueCollection___::get_Count() {
   return Int32();
 }
 
-void Hashtable___::ValueCollection___::Ctor(Hashtable hashtable) {
+void Hashtable___::ValueCollection___::ctor(Hashtable hashtable) {
 }
 
 void Hashtable___::ValueCollection___::CopyTo(Array<> array, Int32 arrayIndex) {
@@ -82,7 +82,7 @@ ICollection SyncHashtable___::get_Values() {
   return nullptr;
 }
 
-void SyncHashtable___::Ctor(Hashtable table) {
+void SyncHashtable___::ctor(Hashtable table) {
 }
 
 void SyncHashtable___::GetObjectData(SerializationInfo info, StreamingContext context) {
@@ -143,7 +143,7 @@ Object Hashtable___::HashtableEnumerator___::get_Value() {
   return nullptr;
 }
 
-void Hashtable___::HashtableEnumerator___::Ctor(Hashtable hashtable, Int32 getObjRetType) {
+void Hashtable___::HashtableEnumerator___::ctor(Hashtable hashtable, Int32 getObjRetType) {
 }
 
 Object Hashtable___::HashtableEnumerator___::Clone() {
@@ -161,7 +161,7 @@ Array<KeyValuePairs> Hashtable___::HashtableDebugView___::get_Items() {
   return Array<KeyValuePairs>();
 }
 
-void Hashtable___::HashtableDebugView___::Ctor(Hashtable hashtable) {
+void Hashtable___::HashtableDebugView___::ctor(Hashtable hashtable) {
 }
 
 IHashCodeProvider Hashtable___::get_hcp() {
@@ -217,55 +217,55 @@ Int32 Hashtable___::get_Count() {
   return Int32();
 }
 
-void Hashtable___::Ctor(Boolean trash) {
+void Hashtable___::ctor(Boolean trash) {
 }
 
-void Hashtable___::Ctor() {
+void Hashtable___::ctor() {
 }
 
-void Hashtable___::Ctor(Int32 capacity) {
+void Hashtable___::ctor(Int32 capacity) {
 }
 
-void Hashtable___::Ctor(Int32 capacity, Single loadFactor) {
+void Hashtable___::ctor(Int32 capacity, Single loadFactor) {
 }
 
-void Hashtable___::Ctor(Int32 capacity, Single loadFactor, IEqualityComparer equalityComparer) {
+void Hashtable___::ctor(Int32 capacity, Single loadFactor, IEqualityComparer equalityComparer) {
 }
 
-void Hashtable___::Ctor(IHashCodeProvider hcp, IComparer comparer) {
+void Hashtable___::ctor(IHashCodeProvider hcp, IComparer comparer) {
 }
 
-void Hashtable___::Ctor(IEqualityComparer equalityComparer) {
+void Hashtable___::ctor(IEqualityComparer equalityComparer) {
 }
 
-void Hashtable___::Ctor(Int32 capacity, IHashCodeProvider hcp, IComparer comparer) {
+void Hashtable___::ctor(Int32 capacity, IHashCodeProvider hcp, IComparer comparer) {
 }
 
-void Hashtable___::Ctor(Int32 capacity, IEqualityComparer equalityComparer) {
+void Hashtable___::ctor(Int32 capacity, IEqualityComparer equalityComparer) {
 }
 
-void Hashtable___::Ctor(IDictionary d) {
+void Hashtable___::ctor(IDictionary d) {
 }
 
-void Hashtable___::Ctor(IDictionary d, Single loadFactor) {
+void Hashtable___::ctor(IDictionary d, Single loadFactor) {
 }
 
-void Hashtable___::Ctor(IDictionary d, IHashCodeProvider hcp, IComparer comparer) {
+void Hashtable___::ctor(IDictionary d, IHashCodeProvider hcp, IComparer comparer) {
 }
 
-void Hashtable___::Ctor(IDictionary d, IEqualityComparer equalityComparer) {
+void Hashtable___::ctor(IDictionary d, IEqualityComparer equalityComparer) {
 }
 
-void Hashtable___::Ctor(Int32 capacity, Single loadFactor, IHashCodeProvider hcp, IComparer comparer) {
+void Hashtable___::ctor(Int32 capacity, Single loadFactor, IHashCodeProvider hcp, IComparer comparer) {
 }
 
-void Hashtable___::Ctor(IDictionary d, Single loadFactor, IHashCodeProvider hcp, IComparer comparer) {
+void Hashtable___::ctor(IDictionary d, Single loadFactor, IHashCodeProvider hcp, IComparer comparer) {
 }
 
-void Hashtable___::Ctor(IDictionary d, Single loadFactor, IEqualityComparer equalityComparer) {
+void Hashtable___::ctor(IDictionary d, Single loadFactor, IEqualityComparer equalityComparer) {
 }
 
-void Hashtable___::Ctor(SerializationInfo info, StreamingContext context) {
+void Hashtable___::ctor(SerializationInfo info, StreamingContext context) {
 }
 
 UInt32 Hashtable___::InitHash(Object key, Int32 hashsize, UInt32& seed, UInt32& incr) {

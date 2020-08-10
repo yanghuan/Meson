@@ -3,7 +3,7 @@
 #include <System.Private.CoreLib/System/Threading/SemaphoreSlim-dep.h>
 
 namespace System::Private::CoreLib::System::Threading::SemaphoreSlimNamespace {
-void SemaphoreSlim___::TaskNode___::Ctor() {
+void SemaphoreSlim___::TaskNode___::ctor() {
 }
 
 Int32 SemaphoreSlim___::get_CurrentCount() {
@@ -14,10 +14,10 @@ WaitHandle SemaphoreSlim___::get_AvailableWaitHandle() {
   return nullptr;
 }
 
-void SemaphoreSlim___::Ctor(Int32 initialCount) {
+void SemaphoreSlim___::ctor(Int32 initialCount) {
 }
 
-void SemaphoreSlim___::Ctor(Int32 initialCount, Int32 maxCount) {
+void SemaphoreSlim___::ctor(Int32 initialCount, Int32 maxCount) {
 }
 
 void SemaphoreSlim___::Wait() {
@@ -102,7 +102,7 @@ void SemaphoreSlim___::CancellationTokenCanceledEventHandler(Object obj) {
 void SemaphoreSlim___::CheckDispose() {
 }
 
-void SemaphoreSlim___::SCtor() {
+void SemaphoreSlim___::ctor_static() {
 }
 
 } // namespace System::Private::CoreLib::System::Threading::SemaphoreSlimNamespace

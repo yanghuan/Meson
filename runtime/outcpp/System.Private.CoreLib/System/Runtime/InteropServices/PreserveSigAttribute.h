@@ -5,7 +5,7 @@
 namespace System::Private::CoreLib::System::Runtime::InteropServices {
 namespace PreserveSigAttributeNamespace {
 CLASS(PreserveSigAttribute) : public Attribute::in {
-  public: void Ctor();
+  public: void ctor();
 };
 } // namespace PreserveSigAttributeNamespace
 using PreserveSigAttribute = PreserveSigAttributeNamespace::PreserveSigAttribute;

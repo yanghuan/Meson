@@ -92,7 +92,7 @@ CLASS(EventSource) : public Object::in {
     private: Int32 pos;
   };
   private: CLASS(OverideEventProvider) : public EventProvider::in {
-    public: void Ctor(EventSource eventSource, EventProviderType providerType);
+    public: void ctor(EventSource eventSource, EventProviderType providerType);
     protected: void OnControllerCommand(ControllerCommand command, IDictionary<String, String> arguments, Int32 perEventSourceSessionId, Int32 etwSessionId);
     private: EventSource m_eventSource;
     private: EventProviderType m_eventProviderType;
@@ -133,10 +133,10 @@ CLASS(EventSource) : public Object::in {
   public: String ToString();
   public: static void SetCurrentThreadActivityId(Guid activityId);
   public: static void SetCurrentThreadActivityId(Guid activityId, Guid& oldActivityThatWillContinue);
-  protected: void Ctor();
-  protected: void Ctor(Boolean throwOnEventWriteErrors);
-  protected: void Ctor(EventSourceSettings settings);
-  protected: void Ctor(EventSourceSettings settings, Array<String> traits);
+  protected: void ctor();
+  protected: void ctor(Boolean throwOnEventWriteErrors);
+  protected: void ctor(EventSourceSettings settings);
+  protected: void ctor(EventSourceSettings settings, Array<String> traits);
   private: void DefineEventPipeEvents();
   public: void GetMetadata(Guid& eventSourceGuid, String& eventSourceName, Array<EventMetadata>& eventData, Array<Byte>& manifestBytes);
   protected: void OnEventCommand(EventCommandEventArgs command);
@@ -165,8 +165,8 @@ CLASS(EventSource) : public Object::in {
   protected: void Dispose(Boolean disposing);
   protected: void Finalize();
   private: void WriteEventRaw(String eventName, EventDescriptor& eventDescriptor, IntPtr eventHandle, Guid* activityID, Guid* relatedActivityID, Int32 dataCount, IntPtr data);
-  public: void Ctor(Guid eventSourceGuid, String eventSourceName);
-  public: void Ctor(Guid eventSourceGuid, String eventSourceName, EventSourceSettings settings, Array<String> traits);
+  public: void ctor(Guid eventSourceGuid, String eventSourceName);
+  public: void ctor(Guid eventSourceGuid, String eventSourceName, EventSourceSettings settings, Array<String> traits);
   private: void Initialize(Guid eventSourceGuid, String eventSourceName, Array<String> traits);
   private: static String GetName(Type eventSourceType, EventManifestOptions flags);
   private: static Guid GenerateGuidFromName(String name);
@@ -206,9 +206,9 @@ CLASS(EventSource) : public Object::in {
   private: static Int32 GetHelperCallFirstArg(MethodInfo method);
   public: void ReportOutOfBandMessage(String msg);
   private: EventSourceSettings ValidateSettings(EventSourceSettings settings);
-  public: void Ctor(String eventSourceName);
-  public: void Ctor(String eventSourceName, EventSourceSettings config);
-  public: void Ctor(String eventSourceName, EventSourceSettings config, Array<String> traits);
+  public: void ctor(String eventSourceName);
+  public: void ctor(String eventSourceName, EventSourceSettings config);
+  public: void ctor(String eventSourceName, EventSourceSettings config, Array<String> traits);
   public: void Write(String eventName);
   public: void Write(String eventName, EventSourceOptions options);
   public: template <class T>

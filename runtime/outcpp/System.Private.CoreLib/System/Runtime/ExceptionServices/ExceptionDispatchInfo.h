@@ -7,7 +7,7 @@ namespace System::Private::CoreLib::System::Runtime::ExceptionServices {
 namespace ExceptionDispatchInfoNamespace {
 CLASS(ExceptionDispatchInfo) : public Object::in {
   public: Exception get_SourceException();
-  private: void Ctor(Exception exception);
+  private: void ctor(Exception exception);
   public: static ExceptionDispatchInfo Capture(Exception source);
   public: void Throw();
   public: static void Throw(Exception source);

@@ -5,7 +5,7 @@
 namespace System::Private::CoreLib::System::Runtime::CompilerServices {
 namespace EnumeratorCancellationAttributeNamespace {
 CLASS(EnumeratorCancellationAttribute) : public Attribute::in {
-  public: void Ctor();
+  public: void ctor();
 };
 } // namespace EnumeratorCancellationAttributeNamespace
 using EnumeratorCancellationAttribute = EnumeratorCancellationAttributeNamespace::EnumeratorCancellationAttribute;

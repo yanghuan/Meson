@@ -21,7 +21,7 @@ using namespace Globalization;
 CLASS(CurrentSystemTimeZone) : public TimeZone::in {
   public: String get_StandardName();
   public: String get_DaylightName();
-  public: void Ctor();
+  public: void ctor();
   public: Int64 GetUtcOffsetFromUniversalTime(DateTime time, Boolean& isAmbiguousLocalDst);
   public: DateTime ToLocalTime(DateTime time);
   public: DaylightTime GetDaylightChanges(Int32 year);

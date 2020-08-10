@@ -17,7 +17,7 @@ CLASS(DecoderExceptionFallbackBuffer) : public DecoderFallbackBuffer::in {
   public: Char GetNextChar();
   public: Boolean MovePrevious();
   private: void Throw(Array<Byte> bytesUnknown, Int32 index);
-  public: void Ctor();
+  public: void ctor();
 };
 } // namespace DecoderExceptionFallbackBufferNamespace
 using DecoderExceptionFallbackBuffer = DecoderExceptionFallbackBufferNamespace::DecoderExceptionFallbackBuffer;

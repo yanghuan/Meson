@@ -18,7 +18,7 @@ class IcuLocaleData {
   public: static String GetConsoleUICulture(String cultureName);
   private: static Int32 SearchCultureName(String name);
   private: static Int32 CompareOrdinal(String s1, String s2, Int32 index, Int32 length);
-  private: static void SCtor();
+  private: static void ctor_static();
   private: static Array<Int32> s_localeNamesIndices;
   private: static Array<Int32> s_nameIndexToNumericData;
   private: static Array<Int32> s_lcids;

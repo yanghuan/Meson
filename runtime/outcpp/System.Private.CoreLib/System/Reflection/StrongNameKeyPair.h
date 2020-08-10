@@ -23,10 +23,10 @@ using namespace Runtime::Serialization;
 CLASS(StrongNameKeyPair) : public Object::in {
   public: using interface = rt::TypeList<IDeserializationCallback, ISerializable>;
   public: Array<Byte> get_PublicKey();
-  public: void Ctor(FileStream keyPairFile);
-  public: void Ctor(Array<Byte> keyPairArray);
-  protected: void Ctor(SerializationInfo info, StreamingContext context);
-  public: void Ctor(String keyPairContainer);
+  public: void ctor(FileStream keyPairFile);
+  public: void ctor(Array<Byte> keyPairArray);
+  protected: void ctor(SerializationInfo info, StreamingContext context);
+  public: void ctor(String keyPairContainer);
 };
 } // namespace StrongNameKeyPairNamespace
 using StrongNameKeyPair = StrongNameKeyPairNamespace::StrongNameKeyPair;

@@ -8,7 +8,7 @@ namespace AppDomainSetupNamespace {
 CLASS(AppDomainSetup) : public Object::in {
   public: String get_ApplicationBase();
   public: String get_TargetFrameworkName();
-  public: void Ctor();
+  public: void ctor();
 };
 } // namespace AppDomainSetupNamespace
 using AppDomainSetup = AppDomainSetupNamespace::AppDomainSetup;

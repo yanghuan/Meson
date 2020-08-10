@@ -132,7 +132,7 @@ Array<Object> ThreadPool::GetLocallyQueuedWorkItemsForDebugger() {
   return Array<Object>();
 }
 
-void ThreadPool::SCtor() {
+void ThreadPool::ctor_static() {
 }
 
 } // namespace System::Private::CoreLib::System::Threading::ThreadPoolNamespace

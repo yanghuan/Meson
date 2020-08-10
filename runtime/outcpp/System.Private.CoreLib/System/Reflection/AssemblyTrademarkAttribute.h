@@ -9,7 +9,7 @@ namespace System::Private::CoreLib::System::Reflection {
 namespace AssemblyTrademarkAttributeNamespace {
 CLASS(AssemblyTrademarkAttribute) : public Attribute::in {
   public: String get_Trademark() { return Trademark; }
-  public: void Ctor(String trademark);
+  public: void ctor(String trademark);
   private: String Trademark;
 };
 } // namespace AssemblyTrademarkAttributeNamespace

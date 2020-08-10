@@ -13,7 +13,7 @@ String InternalAssemblyBuilder___::get_ImageRuntimeVersion() {
   return nullptr;
 }
 
-void InternalAssemblyBuilder___::Ctor() {
+void InternalAssemblyBuilder___::ctor() {
 }
 
 Boolean InternalAssemblyBuilder___::Equals(Object obj) {

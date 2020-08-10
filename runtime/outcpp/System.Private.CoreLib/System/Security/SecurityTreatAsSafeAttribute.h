@@ -5,7 +5,7 @@
 namespace System::Private::CoreLib::System::Security {
 namespace SecurityTreatAsSafeAttributeNamespace {
 CLASS(SecurityTreatAsSafeAttribute) : public Attribute::in {
-  public: void Ctor();
+  public: void ctor();
 };
 } // namespace SecurityTreatAsSafeAttributeNamespace
 using SecurityTreatAsSafeAttribute = SecurityTreatAsSafeAttributeNamespace::SecurityTreatAsSafeAttribute;

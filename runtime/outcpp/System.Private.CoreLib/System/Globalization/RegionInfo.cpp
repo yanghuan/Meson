@@ -59,13 +59,13 @@ String RegionInfo___::get_ISOCurrencySymbol() {
   return nullptr;
 }
 
-void RegionInfo___::Ctor(String name) {
+void RegionInfo___::ctor(String name) {
 }
 
-void RegionInfo___::Ctor(Int32 culture) {
+void RegionInfo___::ctor(Int32 culture) {
 }
 
-void RegionInfo___::Ctor(CultureData cultureData) {
+void RegionInfo___::ctor(CultureData cultureData) {
 }
 
 Boolean RegionInfo___::Equals(Object value) {

@@ -5,7 +5,7 @@ Int32 TextSegmentationUtility::GetLengthOfFirstUtf16ExtendedGraphemeCluster(Read
   return Int32();
 }
 
-void TextSegmentationUtility::SCtor() {
+void TextSegmentationUtility::ctor_static() {
 }
 
 } // namespace System::Private::CoreLib::System::Text::Unicode::TextSegmentationUtilityNamespace

@@ -73,7 +73,7 @@ using namespace Threading;
 using Collections::Generic::IList;
 CLASS(RuntimeAssembly) : public Assembly::in {
   private: CLASS(ManifestResourceStream) : public UnmanagedMemoryStream::in {
-    public: void Ctor(RuntimeAssembly manifestAssembly, Byte* pointer, Int64 length, Int64 capacity, FileAccess access);
+    public: void ctor(RuntimeAssembly manifestAssembly, Byte* pointer, Int64 length, Int64 capacity, FileAccess access);
     private: RuntimeAssembly _manifestAssembly;
   };
   public: Object get_SyncRoot();
@@ -89,7 +89,7 @@ CLASS(RuntimeAssembly) : public Assembly::in {
   public: Boolean get_GlobalAssemblyCache();
   public: Int64 get_HostContext();
   public: Boolean get_IsDynamic();
-  public: void Ctor();
+  public: void ctor();
   public: IntPtr GetUnderlyingNativeHandle();
   private: static void GetCodeBase(QCallAssembly assembly, Boolean copiedName, StringHandleOnStack retString);
   public: String GetCodeBase(Boolean copiedName);

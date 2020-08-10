@@ -90,7 +90,7 @@ class Interop {
       private: Int16 attributes;
     };
     public: CLASS(ConsoleCtrlHandlerRoutine) : public MulticastDelegate::in {
-      public: void Ctor(Object object, IntPtr method);
+      public: void ctor(Object object, IntPtr method);
       public: Boolean Invoke(Int32 controlType);
       public: IAsyncResult BeginInvoke(Int32 controlType, AsyncCallback callback, Object object);
       public: Boolean EndInvoke(IAsyncResult result);

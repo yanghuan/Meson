@@ -60,7 +60,7 @@ CLASS(Stream) : public MarshalByRefObject::in {
     public: using interface = rt::TypeList<ITaskCompletionAction>;
     private: Boolean get_InvokeMayRunArbitraryCodeOfITaskCompletionAction();
     public: void ClearBeginState();
-    public: void Ctor(Boolean isRead, Boolean apm, Func<Object, Int32> function, Object state, Stream stream, Array<Byte> buffer, Int32 offset, Int32 count, AsyncCallback callback);
+    public: void ctor(Boolean isRead, Boolean apm, Func<Object, Int32> function, Object state, Stream stream, Array<Byte> buffer, Int32 offset, Int32 count, AsyncCallback callback);
     private: static void InvokeAsyncCallback(Object completedTask);
     public: Boolean _isRead;
     public: Boolean _apm;
@@ -80,9 +80,9 @@ CLASS(Stream) : public MarshalByRefObject::in {
     public: WaitHandle get_AsyncWaitHandle();
     public: Object get_AsyncState();
     public: Boolean get_CompletedSynchronously();
-    public: void Ctor(Int32 bytesRead, Object asyncStateObject);
-    public: void Ctor(Object asyncStateObject);
-    public: void Ctor(Exception ex, Object asyncStateObject, Boolean isWrite);
+    public: void ctor(Int32 bytesRead, Object asyncStateObject);
+    public: void ctor(Object asyncStateObject);
+    public: void ctor(Exception ex, Object asyncStateObject, Boolean isWrite);
     public: void ThrowIfError();
     public: static Int32 EndRead(IAsyncResult asyncResult);
     public: static void EndWrite(IAsyncResult asyncResult);
@@ -158,8 +158,8 @@ CLASS(Stream) : public MarshalByRefObject::in {
   public: static Int32 BlockingEndRead(IAsyncResult asyncResult);
   public: IAsyncResult BlockingBeginWrite(Array<Byte> buffer, Int32 offset, Int32 count, AsyncCallback callback, Object state);
   public: static void BlockingEndWrite(IAsyncResult asyncResult);
-  protected: void Ctor();
-  private: static void SCtor();
+  protected: void ctor();
+  private: static void ctor_static();
   public: static Stream Null;
   private: SemaphoreSlim _asyncActiveSemaphore;
 };
@@ -170,8 +170,8 @@ CLASS(WriteCallbackStream) : public Stream::in {
   public: Int64 get_Length();
   public: Int64 get_Position();
   public: void set_Position(Int64 value);
-  public: void Ctor(ReadOnlySpanAction<Byte, Object> action, Object state);
-  public: void Ctor(Func<ReadOnlyMemory<Byte>, Object, CancellationToken, ValueTask<>> func, Object state);
+  public: void ctor(ReadOnlySpanAction<Byte, Object> action, Object state);
+  public: void ctor(Func<ReadOnlyMemory<Byte>, Object, CancellationToken, ValueTask<>> func, Object state);
   public: void Write(Array<Byte> buffer, Int32 offset, Int32 count);
   public: void Write(ReadOnlySpan<Byte> span);
   public: Task<> WriteAsync(Array<Byte> buffer, Int32 offset, Int32 length, CancellationToken cancellationToken);
@@ -192,7 +192,7 @@ CLASS(NullStream) : public Stream::in {
   public: Int64 get_Length();
   public: Int64 get_Position();
   public: void set_Position(Int64 value);
-  public: void Ctor();
+  public: void ctor();
   public: void CopyTo(Stream destination, Int32 bufferSize);
   public: Task<> CopyToAsync(Stream destination, Int32 bufferSize, CancellationToken cancellationToken);
   public: void CopyTo(ReadOnlySpanAction<Byte, Object> callback, Object state, Int32 bufferSize);
@@ -216,7 +216,7 @@ CLASS(NullStream) : public Stream::in {
   public: void WriteByte(Byte value);
   public: Int64 Seek(Int64 offset, SeekOrigin origin);
   public: void SetLength(Int64 length);
-  private: static void SCtor();
+  private: static void ctor_static();
   private: static Task<Int32> s_zeroTask;
 };
 CLASS(SyncStream) : public Stream::in {
@@ -232,7 +232,7 @@ CLASS(SyncStream) : public Stream::in {
   public: void set_ReadTimeout(Int32 value);
   public: Int32 get_WriteTimeout();
   public: void set_WriteTimeout(Int32 value);
-  public: void Ctor(Stream stream);
+  public: void ctor(Stream stream);
   public: void Close();
   protected: void Dispose(Boolean disposing);
   public: ValueTask<> DisposeAsync();

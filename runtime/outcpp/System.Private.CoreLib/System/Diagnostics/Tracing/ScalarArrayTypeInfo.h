@@ -16,7 +16,7 @@ FORWARD(TraceLoggingDataCollector)
 FORWARD(TraceLoggingMetadataCollector)
 namespace ScalarArrayTypeInfoNamespace {
 CLASS(ScalarArrayTypeInfo) : public TraceLoggingTypeInfo::in {
-  private: void Ctor(Type type, Func<EventFieldFormat, TraceLoggingDataType, TraceLoggingDataType> formatFunc, TraceLoggingDataType nativeFormat, Int32 elementSize);
+  private: void ctor(Type type, Func<EventFieldFormat, TraceLoggingDataType, TraceLoggingDataType> formatFunc, TraceLoggingDataType nativeFormat, Int32 elementSize);
   public: void WriteMetadata(TraceLoggingMetadataCollector collector, String name, EventFieldFormat format);
   public: void WriteData(TraceLoggingDataCollector collector, PropertyValue value);
   public: static TraceLoggingTypeInfo Boolean();

@@ -11,7 +11,7 @@ namespace System::Private::CoreLib::System::Runtime::CompilerServices {
 namespace DateTimeConstantAttributeNamespace {
 CLASS(DateTimeConstantAttribute) : public CustomConstantAttribute::in {
   public: Object get_Value();
-  public: void Ctor(Int64 ticks);
+  public: void ctor(Int64 ticks);
   private: DateTime _date;
 };
 } // namespace DateTimeConstantAttributeNamespace

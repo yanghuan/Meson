@@ -11,7 +11,7 @@ FORWARD(ModuleBuilder)
 FORWARD(TypeBuilder)
 namespace ModuleBuilderDataNamespace {
 CLASS(ModuleBuilderData) : public Object::in {
-  public: void Ctor(ModuleBuilder module, String moduleName);
+  public: void ctor(ModuleBuilder module, String moduleName);
   public: TypeBuilder _globalTypeBuilder;
   public: String _moduleName;
   public: Boolean _hasGlobalBeenCreated;

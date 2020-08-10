@@ -32,7 +32,7 @@ CLASS(DynamicScope) : public Object::in {
   public: Int32 GetTokenFor(RuntimeTypeHandle type);
   public: Int32 GetTokenFor(String literal);
   public: Int32 GetTokenFor(Array<Byte> signature);
-  public: void Ctor();
+  public: void ctor();
   public: List<Object> m_tokens;
 };
 } // namespace DynamicScopeNamespace

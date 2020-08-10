@@ -60,7 +60,7 @@ class CustomAttribute {
   private: static void _GetPropertyOrFieldData(RuntimeModule pModule, Byte** ppBlobStart, Byte* pBlobEnd, String& name, Boolean& bIsProperty, RuntimeType& type, Object& value);
   private: static void GetPropertyOrFieldData(RuntimeModule module, IntPtr& blobStart, IntPtr blobEnd, String& name, Boolean& isProperty, RuntimeType& type, Object& value);
   private: static Array<Object> CreateAttributeArrayHelper(RuntimeType elementType, Int32 elementCount);
-  private: static void SCtor();
+  private: static void ctor_static();
   private: static RuntimeType Type_RuntimeType;
   private: static RuntimeType Type_Type;
 };

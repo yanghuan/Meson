@@ -17,7 +17,7 @@ CLASS(TextElementEnumerator) : public Object::in {
   public: using interface = rt::TypeList<IEnumerator>;
   public: Object get_Current();
   public: Int32 get_ElementIndex();
-  public: void Ctor(String str, Int32 startIndex);
+  public: void ctor(String str, Int32 startIndex);
   public: Boolean MoveNext();
   public: String GetTextElement();
   public: void Reset();

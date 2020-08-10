@@ -49,7 +49,7 @@ CLASS(ReadOnlyCollection, T) : public Object::in {
   private: Boolean get_IsReadOnlyOfIList();
   private: Object get_ItemOfIList(Int32 index);
   private: void set_ItemOfIList(Int32 index, Object value);
-  public: void Ctor(IList<T> list);
+  public: void ctor(IList<T> list);
   public: Boolean Contains(T value);
   public: void CopyTo(Array<T> array, Int32 index);
   public: IEnumerator<T> GetEnumerator();

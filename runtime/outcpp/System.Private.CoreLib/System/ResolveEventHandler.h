@@ -14,7 +14,7 @@ FORWARD(ResolveEventArgs)
 namespace ResolveEventHandlerNamespace {
 using namespace Reflection;
 CLASS(ResolveEventHandler) : public MulticastDelegate::in {
-  public: void Ctor(Object object, IntPtr method);
+  public: void ctor(Object object, IntPtr method);
   public: Assembly Invoke(Object sender, ResolveEventArgs args);
   public: IAsyncResult BeginInvoke(Object sender, ResolveEventArgs args, AsyncCallback callback, Object object);
   public: Assembly EndInvoke(IAsyncResult result);

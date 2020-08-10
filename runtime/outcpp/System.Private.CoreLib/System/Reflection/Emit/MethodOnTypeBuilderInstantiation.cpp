@@ -61,7 +61,7 @@ MethodInfo MethodOnTypeBuilderInstantiation___::GetMethod(MethodInfo method, Typ
   return nullptr;
 }
 
-void MethodOnTypeBuilderInstantiation___::Ctor(MethodInfo method, TypeBuilderInstantiation type) {
+void MethodOnTypeBuilderInstantiation___::ctor(MethodInfo method, TypeBuilderInstantiation type) {
 }
 
 Array<Type> MethodOnTypeBuilderInstantiation___::GetParameterTypes() {

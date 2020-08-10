@@ -80,10 +80,10 @@ CLASS(Exception) : public Object::in {
   private: static void GetMessageFromNativeResources(ExceptionMessageKind kind, StringHandleOnStack retMesg);
   public: DispatchState CaptureDispatchState();
   public: void SetCurrentStackTrace();
-  public: void Ctor();
-  public: void Ctor(String message);
-  public: void Ctor(String message, Exception innerException);
-  protected: void Ctor(SerializationInfo info, StreamingContext context);
+  public: void ctor();
+  public: void ctor(String message);
+  public: void ctor(String message, Exception innerException);
+  protected: void ctor(SerializationInfo info, StreamingContext context);
   private: String GetClassName();
   public: Exception GetBaseException();
   public: void GetObjectData(SerializationInfo info, StreamingContext context);

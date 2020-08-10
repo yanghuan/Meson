@@ -11,7 +11,7 @@ TimeZone TimeZone___::get_CurrentTimeZone() {
   return nullptr;
 }
 
-void TimeZone___::Ctor() {
+void TimeZone___::ctor() {
 }
 
 void TimeZone___::ResetTimeZone() {

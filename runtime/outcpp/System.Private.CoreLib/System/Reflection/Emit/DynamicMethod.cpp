@@ -53,7 +53,7 @@ ICustomAttributeProvider DynamicMethod___::RTDynamicMethod___::get_ReturnTypeCus
   return nullptr;
 }
 
-void DynamicMethod___::RTDynamicMethod___::Ctor(DynamicMethod owner, String name, MethodAttributes attributes, CallingConventions callingConvention) {
+void DynamicMethod___::RTDynamicMethod___::ctor(DynamicMethod owner, String name, MethodAttributes attributes, CallingConventions callingConvention) {
 }
 
 String DynamicMethod___::RTDynamicMethod___::ToString() {
@@ -151,28 +151,28 @@ Boolean DynamicMethod___::get_InitLocals() {
 void DynamicMethod___::set_InitLocals(Boolean value) {
 }
 
-void DynamicMethod___::Ctor(String name, Type returnType, Array<Type> parameterTypes) {
+void DynamicMethod___::ctor(String name, Type returnType, Array<Type> parameterTypes) {
 }
 
-void DynamicMethod___::Ctor(String name, Type returnType, Array<Type> parameterTypes, Boolean restrictedSkipVisibility) {
+void DynamicMethod___::ctor(String name, Type returnType, Array<Type> parameterTypes, Boolean restrictedSkipVisibility) {
 }
 
-void DynamicMethod___::Ctor(String name, Type returnType, Array<Type> parameterTypes, Module m) {
+void DynamicMethod___::ctor(String name, Type returnType, Array<Type> parameterTypes, Module m) {
 }
 
-void DynamicMethod___::Ctor(String name, Type returnType, Array<Type> parameterTypes, Module m, Boolean skipVisibility) {
+void DynamicMethod___::ctor(String name, Type returnType, Array<Type> parameterTypes, Module m, Boolean skipVisibility) {
 }
 
-void DynamicMethod___::Ctor(String name, MethodAttributes attributes, CallingConventions callingConvention, Type returnType, Array<Type> parameterTypes, Module m, Boolean skipVisibility) {
+void DynamicMethod___::ctor(String name, MethodAttributes attributes, CallingConventions callingConvention, Type returnType, Array<Type> parameterTypes, Module m, Boolean skipVisibility) {
 }
 
-void DynamicMethod___::Ctor(String name, Type returnType, Array<Type> parameterTypes, Type owner) {
+void DynamicMethod___::ctor(String name, Type returnType, Array<Type> parameterTypes, Type owner) {
 }
 
-void DynamicMethod___::Ctor(String name, Type returnType, Array<Type> parameterTypes, Type owner, Boolean skipVisibility) {
+void DynamicMethod___::ctor(String name, Type returnType, Array<Type> parameterTypes, Type owner, Boolean skipVisibility) {
 }
 
-void DynamicMethod___::Ctor(String name, MethodAttributes attributes, CallingConventions callingConvention, Type returnType, Array<Type> parameterTypes, Type owner, Boolean skipVisibility) {
+void DynamicMethod___::ctor(String name, MethodAttributes attributes, CallingConventions callingConvention, Type returnType, Array<Type> parameterTypes, Type owner, Boolean skipVisibility) {
 }
 
 void DynamicMethod___::CheckConsistency(MethodAttributes attributes, CallingConventions callingConvention) {
@@ -249,7 +249,7 @@ MethodInfo DynamicMethod___::GetMethodInfo() {
   return nullptr;
 }
 
-void DynamicMethod___::SCtor() {
+void DynamicMethod___::ctor_static() {
 }
 
 } // namespace System::Private::CoreLib::System::Reflection::Emit::DynamicMethodNamespace

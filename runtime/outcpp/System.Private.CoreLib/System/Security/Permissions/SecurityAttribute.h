@@ -14,7 +14,7 @@ CLASS(SecurityAttribute) : public Attribute::in {
   public: void set_Action(SecurityAction value) { Action = value; }
   public: Boolean get_Unrestricted() { return Unrestricted; }
   public: void set_Unrestricted(Boolean value) { Unrestricted = value; }
-  protected: void Ctor(SecurityAction action);
+  protected: void ctor(SecurityAction action);
   public: IPermission CreatePermission();
   private: SecurityAction Action;
   private: Boolean Unrestricted;

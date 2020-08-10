@@ -14,7 +14,7 @@ FORWARD(Decoder)
 FORWARD(Encoder)
 namespace EncodingNLSNamespace {
 CLASS(EncodingNLS) : public Encoding::in {
-  protected: void Ctor(Int32 codePage);
+  protected: void ctor(Int32 codePage);
   public: Int32 GetByteCount(Array<Char> chars, Int32 index, Int32 count);
   public: Int32 GetByteCount(String s);
   public: Int32 GetByteCount(Char* chars, Int32 count);

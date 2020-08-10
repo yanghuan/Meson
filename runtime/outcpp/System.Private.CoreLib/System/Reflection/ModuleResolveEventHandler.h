@@ -13,7 +13,7 @@ namespace System::Private::CoreLib::System::Reflection {
 FORWARD(Module)
 namespace ModuleResolveEventHandlerNamespace {
 CLASS(ModuleResolveEventHandler) : public MulticastDelegate::in {
-  public: void Ctor(Object object, IntPtr method);
+  public: void ctor(Object object, IntPtr method);
   public: Module Invoke(Object sender, ResolveEventArgs e);
   public: IAsyncResult BeginInvoke(Object sender, ResolveEventArgs e, AsyncCallback callback, Object object);
   public: Module EndInvoke(IAsyncResult result);

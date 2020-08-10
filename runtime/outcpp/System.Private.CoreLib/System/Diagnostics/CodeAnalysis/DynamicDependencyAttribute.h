@@ -17,11 +17,11 @@ CLASS(DynamicDependencyAttribute) : public Attribute::in {
   public: String get_AssemblyName() { return AssemblyName; }
   public: String get_Condition() { return Condition; }
   public: void set_Condition(String value) { Condition = value; }
-  public: void Ctor(String memberSignature);
-  public: void Ctor(String memberSignature, Type type);
-  public: void Ctor(String memberSignature, String typeName, String assemblyName);
-  public: void Ctor(DynamicallyAccessedMemberTypes memberTypes, Type type);
-  public: void Ctor(DynamicallyAccessedMemberTypes memberTypes, String typeName, String assemblyName);
+  public: void ctor(String memberSignature);
+  public: void ctor(String memberSignature, Type type);
+  public: void ctor(String memberSignature, String typeName, String assemblyName);
+  public: void ctor(DynamicallyAccessedMemberTypes memberTypes, Type type);
+  public: void ctor(DynamicallyAccessedMemberTypes memberTypes, String typeName, String assemblyName);
   private: String MemberSignature;
   private: DynamicallyAccessedMemberTypes MemberTypes;
   private: Type Type;

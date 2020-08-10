@@ -1,7 +1,7 @@
 #include "ObjectHandle-dep.h"
 
 namespace System::Private::CoreLib::System::Runtime::Remoting::ObjectHandleNamespace {
-void ObjectHandle___::Ctor(Object o) {
+void ObjectHandle___::ctor(Object o) {
 }
 
 Object ObjectHandle___::Unwrap() {

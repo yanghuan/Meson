@@ -5,7 +5,7 @@ Type TypeNameParser___::GetType(String typeName, Func<AssemblyName, Assembly> as
   return nullptr;
 }
 
-void TypeNameParser___::Ctor(SafeTypeNameParserHandle handle) {
+void TypeNameParser___::ctor(SafeTypeNameParserHandle handle) {
 }
 
 void TypeNameParser___::Dispose() {
@@ -47,7 +47,7 @@ String TypeNameParser___::GetAssemblyName() {
   return nullptr;
 }
 
-void TypeNameParser___::SCtor() {
+void TypeNameParser___::ctor_static() {
 }
 
 } // namespace System::Private::CoreLib::System::TypeNameParserNamespace

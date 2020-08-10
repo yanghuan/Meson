@@ -1,7 +1,7 @@
 #include "OSEncoder-dep.h"
 
 namespace System::Console::System::Text::OSEncoderNamespace {
-void OSEncoder___::Ctor(Encoding encoding) {
+void OSEncoder___::ctor(Encoding encoding) {
 }
 
 void OSEncoder___::Reset() {

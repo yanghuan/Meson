@@ -10,8 +10,8 @@ namespace RuntimeMethodInfoStubNamespace {
 CLASS(RuntimeMethodInfoStub) : public Object::in {
   public: using interface = rt::TypeList<IRuntimeMethodInfo>;
   private: RuntimeMethodHandleInternal get_ValueOfIRuntimeMethodInfo();
-  public: void Ctor(RuntimeMethodHandleInternal methodHandleValue, Object keepalive);
-  public: void Ctor(IntPtr methodHandleValue, Object keepalive);
+  public: void ctor(RuntimeMethodHandleInternal methodHandleValue, Object keepalive);
+  public: void ctor(IntPtr methodHandleValue, Object keepalive);
   private: Object m_keepalive;
   private: Object m_a;
   private: Object m_b;

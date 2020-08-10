@@ -12,8 +12,8 @@ namespace System::Private::CoreLib::System::Runtime::CompilerServices {
 namespace DecimalConstantAttributeNamespace {
 CLASS(DecimalConstantAttribute) : public Attribute::in {
   public: Decimal get_Value();
-  public: void Ctor(Byte scale, Byte sign, UInt32 hi, UInt32 mid, UInt32 low);
-  public: void Ctor(Byte scale, Byte sign, Int32 hi, Int32 mid, Int32 low);
+  public: void ctor(Byte scale, Byte sign, UInt32 hi, UInt32 mid, UInt32 low);
+  public: void ctor(Byte scale, Byte sign, Int32 hi, Int32 mid, Int32 low);
   private: Decimal _dec;
 };
 } // namespace DecimalConstantAttributeNamespace

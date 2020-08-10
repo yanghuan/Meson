@@ -14,7 +14,7 @@ EventKeywords EventProvider___::get_MatchAnyKeyword() {
   return EventKeywords::EventLogClassic;
 }
 
-void EventProvider___::Ctor(EventProviderType providerType) {
+void EventProvider___::ctor(EventProviderType providerType) {
 }
 
 void EventProvider___::Register(EventSource eventSource) {

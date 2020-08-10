@@ -1,7 +1,7 @@
 #include "AssemblyInformationalVersionAttribute-dep.h"
 
 namespace System::Private::CoreLib::System::Reflection::AssemblyInformationalVersionAttributeNamespace {
-void AssemblyInformationalVersionAttribute___::Ctor(String informationalVersion) {
+void AssemblyInformationalVersionAttribute___::ctor(String informationalVersion) {
 }
 
 } // namespace System::Private::CoreLib::System::Reflection::AssemblyInformationalVersionAttributeNamespace

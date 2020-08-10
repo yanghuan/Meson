@@ -9,7 +9,7 @@ Type ConstructorInfo___::GetReturnType() {
   return nullptr;
 }
 
-void ConstructorInfo___::Ctor() {
+void ConstructorInfo___::ctor() {
 }
 
 Object ConstructorInfo___::Invoke(Array<Object> parameters) {
@@ -32,7 +32,7 @@ Boolean ConstructorInfo___::op_Inequality(ConstructorInfo left, ConstructorInfo 
   return Boolean();
 }
 
-void ConstructorInfo___::SCtor() {
+void ConstructorInfo___::ctor_static() {
 }
 
 } // namespace System::Private::CoreLib::System::Reflection::ConstructorInfoNamespace

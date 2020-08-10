@@ -9,7 +9,7 @@ IComparer CompatibleComparer___::get_Comparer() {
   return nullptr;
 }
 
-void CompatibleComparer___::Ctor(IHashCodeProvider hashCodeProvider, IComparer comparer) {
+void CompatibleComparer___::ctor(IHashCodeProvider hashCodeProvider, IComparer comparer) {
 }
 
 Boolean CompatibleComparer___::Equals(Object a, Object b) {

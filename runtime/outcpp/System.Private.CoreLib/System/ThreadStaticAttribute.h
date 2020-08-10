@@ -5,7 +5,7 @@
 namespace System::Private::CoreLib::System {
 namespace ThreadStaticAttributeNamespace {
 CLASS(ThreadStaticAttribute) : public Attribute::in {
-  public: void Ctor();
+  public: void ctor();
 };
 } // namespace ThreadStaticAttributeNamespace
 using ThreadStaticAttribute = ThreadStaticAttributeNamespace::ThreadStaticAttribute;

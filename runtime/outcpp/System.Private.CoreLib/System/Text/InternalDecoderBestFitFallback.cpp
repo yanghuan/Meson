@@ -5,7 +5,7 @@ Int32 InternalDecoderBestFitFallback___::get_MaxCharCount() {
   return Int32();
 }
 
-void InternalDecoderBestFitFallback___::Ctor(Encoding encoding) {
+void InternalDecoderBestFitFallback___::ctor(Encoding encoding) {
 }
 
 DecoderFallbackBuffer InternalDecoderBestFitFallback___::CreateFallbackBuffer() {

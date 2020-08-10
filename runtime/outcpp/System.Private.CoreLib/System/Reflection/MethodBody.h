@@ -23,7 +23,7 @@ CLASS(MethodBody) : public Object::in {
   public: Int32 get_MaxStackSize();
   public: Boolean get_InitLocals();
   public: IList<ExceptionHandlingClause> get_ExceptionHandlingClauses();
-  protected: void Ctor();
+  protected: void ctor();
   public: Array<Byte> GetILAsByteArray();
 };
 } // namespace MethodBodyNamespace

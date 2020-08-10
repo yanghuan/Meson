@@ -10,7 +10,7 @@ namespace GeneratedCodeAttributeNamespace {
 CLASS(GeneratedCodeAttribute) : public Attribute::in {
   public: String get_Tool();
   public: String get_Version();
-  public: void Ctor(String tool, String version);
+  public: void ctor(String tool, String version);
   private: String _tool;
   private: String _version;
 };

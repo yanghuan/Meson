@@ -9,7 +9,7 @@ namespace System::Private::CoreLib::System::Reflection {
 namespace AssemblyDescriptionAttributeNamespace {
 CLASS(AssemblyDescriptionAttribute) : public Attribute::in {
   public: String get_Description() { return Description; }
-  public: void Ctor(String description);
+  public: void ctor(String description);
   private: String Description;
 };
 } // namespace AssemblyDescriptionAttributeNamespace

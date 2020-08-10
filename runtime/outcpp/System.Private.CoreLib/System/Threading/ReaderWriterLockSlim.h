@@ -76,8 +76,8 @@ CLASS(ReaderWriterLockSlim) : public Object::in {
   public: Int32 get_WaitingUpgradeCount();
   public: Int32 get_WaitingWriteCount();
   private: void InitializeThreadCounts();
-  public: void Ctor();
-  public: void Ctor(LockRecursionPolicy recursionPolicy);
+  public: void ctor();
+  public: void ctor(LockRecursionPolicy recursionPolicy);
   private: static Boolean IsRWEntryEmpty(ReaderWriterCount rwc);
   private: Boolean IsRwHashEntryChanged(ReaderWriterCount lrwc);
   private: ReaderWriterCount GetThreadRWCount(Boolean dontAllocate);

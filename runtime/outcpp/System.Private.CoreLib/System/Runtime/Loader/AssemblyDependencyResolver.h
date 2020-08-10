@@ -17,7 +17,7 @@ namespace AssemblyDependencyResolverNamespace {
 using namespace Collections::Generic;
 using namespace Reflection;
 CLASS(AssemblyDependencyResolver) : public Object::in {
-  public: void Ctor(String componentAssemblyPath);
+  public: void ctor(String componentAssemblyPath);
   public: String ResolveAssemblyToPath(AssemblyName assemblyName);
   public: String ResolveUnmanagedDllToPath(String unmanagedDllName);
   private: static Array<String> SplitPathsList(String pathsList);

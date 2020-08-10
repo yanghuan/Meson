@@ -5,7 +5,7 @@ Int32 EncoderExceptionFallback___::get_MaxCharCount() {
   return Int32();
 }
 
-void EncoderExceptionFallback___::Ctor() {
+void EncoderExceptionFallback___::ctor() {
 }
 
 EncoderFallbackBuffer EncoderExceptionFallback___::CreateFallbackBuffer() {

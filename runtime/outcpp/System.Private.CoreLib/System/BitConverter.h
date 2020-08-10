@@ -67,7 +67,7 @@ class BitConverter {
   public: static Double Int64BitsToDouble(Int64 value);
   public: static Int32 SingleToInt32Bits(Single value);
   public: static Single Int32BitsToSingle(Int32 value);
-  private: static void SCtor();
+  private: static void ctor_static();
   public: static Boolean IsLittleEndian;
 };
 } // namespace BitConverterNamespace

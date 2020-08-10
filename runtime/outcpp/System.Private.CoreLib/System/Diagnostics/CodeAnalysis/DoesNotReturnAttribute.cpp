@@ -1,7 +1,7 @@
 #include "DoesNotReturnAttribute-dep.h"
 
 namespace System::Private::CoreLib::System::Diagnostics::CodeAnalysis::DoesNotReturnAttributeNamespace {
-void DoesNotReturnAttribute___::Ctor() {
+void DoesNotReturnAttribute___::ctor() {
 }
 
 } // namespace System::Private::CoreLib::System::Diagnostics::CodeAnalysis::DoesNotReturnAttributeNamespace

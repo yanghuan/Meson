@@ -7,7 +7,7 @@ FORWARD(IEventProvider)
 namespace EtwEventProviderNamespace {
 CLASS(EtwEventProvider) : public Object::in {
   public: using interface = rt::TypeList<IEventProvider>;
-  public: void Ctor();
+  public: void ctor();
 };
 } // namespace EtwEventProviderNamespace
 using EtwEventProvider = EtwEventProviderNamespace::EtwEventProvider;

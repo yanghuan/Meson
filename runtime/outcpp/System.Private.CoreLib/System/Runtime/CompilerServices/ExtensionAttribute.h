@@ -5,7 +5,7 @@
 namespace System::Private::CoreLib::System::Runtime::CompilerServices {
 namespace ExtensionAttributeNamespace {
 CLASS(ExtensionAttribute) : public Attribute::in {
-  public: void Ctor();
+  public: void ctor();
 };
 } // namespace ExtensionAttributeNamespace
 using ExtensionAttribute = ExtensionAttributeNamespace::ExtensionAttribute;

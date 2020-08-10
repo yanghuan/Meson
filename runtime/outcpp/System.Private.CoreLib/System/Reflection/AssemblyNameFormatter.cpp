@@ -12,7 +12,7 @@ Version AssemblyNameFormatter::CanonicalizeVersion(Version version) {
   return nullptr;
 }
 
-void AssemblyNameFormatter::SCtor() {
+void AssemblyNameFormatter::ctor_static() {
 }
 
 } // namespace System::Private::CoreLib::System::Reflection::AssemblyNameFormatterNamespace

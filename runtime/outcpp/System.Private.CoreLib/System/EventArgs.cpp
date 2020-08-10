@@ -1,10 +1,10 @@
 #include "EventArgs-dep.h"
 
 namespace System::Private::CoreLib::System::EventArgsNamespace {
-void EventArgs___::Ctor() {
+void EventArgs___::ctor() {
 }
 
-void EventArgs___::SCtor() {
+void EventArgs___::ctor_static() {
 }
 
 } // namespace System::Private::CoreLib::System::EventArgsNamespace

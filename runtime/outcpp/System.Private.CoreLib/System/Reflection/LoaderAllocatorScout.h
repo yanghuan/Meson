@@ -11,7 +11,7 @@ namespace LoaderAllocatorScoutNamespace {
 CLASS(LoaderAllocatorScout) : public Object::in {
   private: static Boolean Destroy(IntPtr nativeLoaderAllocator);
   protected: void Finalize();
-  public: void Ctor();
+  public: void ctor();
   public: IntPtr m_nativeLoaderAllocator;
 };
 } // namespace LoaderAllocatorScoutNamespace

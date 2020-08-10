@@ -30,7 +30,7 @@ Object ThreadPoolWorkQueue___::WorkStealingQueue___::TrySteal(Boolean& missedSte
   return nullptr;
 }
 
-void ThreadPoolWorkQueue___::WorkStealingQueue___::Ctor() {
+void ThreadPoolWorkQueue___::WorkStealingQueue___::ctor() {
 }
 
 Array<ThreadPoolWorkQueue::in::WorkStealingQueue> ThreadPoolWorkQueue___::WorkStealingQueueList::get_Queues() {
@@ -43,7 +43,7 @@ void ThreadPoolWorkQueue___::WorkStealingQueueList::Add(WorkStealingQueue queue)
 void ThreadPoolWorkQueue___::WorkStealingQueueList::Remove(WorkStealingQueue queue) {
 }
 
-void ThreadPoolWorkQueue___::WorkStealingQueueList::SCtor() {
+void ThreadPoolWorkQueue___::WorkStealingQueueList::ctor_static() {
 }
 
 Int64 ThreadPoolWorkQueue___::get_LocalCount() {
@@ -54,7 +54,7 @@ Int64 ThreadPoolWorkQueue___::get_GlobalCount() {
   return Int64();
 }
 
-void ThreadPoolWorkQueue___::Ctor() {
+void ThreadPoolWorkQueue___::ctor() {
 }
 
 ThreadPoolWorkQueueThreadLocals ThreadPoolWorkQueue___::GetOrCreateThreadLocals() {

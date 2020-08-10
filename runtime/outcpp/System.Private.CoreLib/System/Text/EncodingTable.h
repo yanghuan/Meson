@@ -24,7 +24,7 @@ class EncodingTable {
   public: static CodePageDataItem GetCodePageDataItem(Int32 codePage);
   private: static CodePageDataItem InternalGetCodePageDataItem(Int32 codePage, Int32 index);
   private: static String GetDisplayName(Int32 codePage, Int32 englishNameIndex);
-  private: static void SCtor();
+  private: static void ctor_static();
   private: static Array<Int32> s_encodingNameIndices;
   private: static Array<UInt16> s_codePagesByName;
   private: static Array<UInt16> s_mappedCodePages;

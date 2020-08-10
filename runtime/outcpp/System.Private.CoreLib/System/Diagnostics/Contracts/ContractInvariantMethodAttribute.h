@@ -5,7 +5,7 @@
 namespace System::Private::CoreLib::System::Diagnostics::Contracts {
 namespace ContractInvariantMethodAttributeNamespace {
 CLASS(ContractInvariantMethodAttribute) : public Attribute::in {
-  public: void Ctor();
+  public: void ctor();
 };
 } // namespace ContractInvariantMethodAttributeNamespace
 using ContractInvariantMethodAttribute = ContractInvariantMethodAttributeNamespace::ContractInvariantMethodAttribute;

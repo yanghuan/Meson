@@ -13,11 +13,11 @@ namespace System::Private::CoreLib::System::Threading::Tasks {
 namespace TaskSchedulerExceptionNamespace {
 using namespace Runtime::Serialization;
 CLASS(TaskSchedulerException) : public Exception::in {
-  public: void Ctor();
-  public: void Ctor(String message);
-  public: void Ctor(Exception innerException);
-  public: void Ctor(String message, Exception innerException);
-  protected: void Ctor(SerializationInfo info, StreamingContext context);
+  public: void ctor();
+  public: void ctor(String message);
+  public: void ctor(Exception innerException);
+  public: void ctor(String message, Exception innerException);
+  protected: void ctor(SerializationInfo info, StreamingContext context);
 };
 } // namespace TaskSchedulerExceptionNamespace
 using TaskSchedulerException = TaskSchedulerExceptionNamespace::TaskSchedulerException;

@@ -1,7 +1,7 @@
 #include "DateTimeOffsetTypeInfo-dep.h"
 
 namespace System::Private::CoreLib::System::Diagnostics::Tracing::DateTimeOffsetTypeInfoNamespace {
-void DateTimeOffsetTypeInfo___::Ctor() {
+void DateTimeOffsetTypeInfo___::ctor() {
 }
 
 void DateTimeOffsetTypeInfo___::WriteMetadata(TraceLoggingMetadataCollector collector, String name, EventFieldFormat format) {

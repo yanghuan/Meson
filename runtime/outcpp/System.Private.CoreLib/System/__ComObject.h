@@ -13,7 +13,7 @@ FORWARD(RuntimeType)
 namespace __ComObjectNamespace {
 using namespace Collections;
 CLASS(__ComObject) : public MarshalByRefObject::in {
-  protected: void Ctor();
+  protected: void ctor();
   public: Object GetData(Object key);
   public: Boolean SetData(Object key, Object data);
   public: void ReleaseAllData();

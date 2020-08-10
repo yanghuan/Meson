@@ -37,7 +37,7 @@ CLASS(UnmanagedMemoryStreamWrapper) : public MemoryStream::in {
   public: Int64 get_Length();
   public: Int64 get_Position();
   public: void set_Position(Int64 value);
-  public: void Ctor(UnmanagedMemoryStream stream);
+  public: void ctor(UnmanagedMemoryStream stream);
   protected: void Dispose(Boolean disposing);
   public: void Flush();
   public: Array<Byte> GetBuffer();

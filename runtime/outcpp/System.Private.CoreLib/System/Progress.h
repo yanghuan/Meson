@@ -14,8 +14,8 @@ namespace ProgressNamespace {
 using namespace Threading;
 CLASS(Progress, T) : public Object::in {
   public: using interface = rt::TypeList<IProgress<T>>;
-  public: void Ctor();
-  public: void Ctor(Action<T> handler);
+  public: void ctor();
+  public: void ctor(Action<T> handler);
   protected: void OnReport(T value);
   private: void InvokeHandlers(Object state);
   private: SynchronizationContext _synchronizationContext;

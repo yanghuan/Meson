@@ -31,10 +31,10 @@ Func<Object, PropertyValue> TraceLoggingTypeInfo___::get_PropertyValueFactory() 
   return nullptr;
 }
 
-void TraceLoggingTypeInfo___::Ctor(Type dataType) {
+void TraceLoggingTypeInfo___::ctor(Type dataType) {
 }
 
-void TraceLoggingTypeInfo___::Ctor(Type dataType, String name, EventLevel level, EventOpcode opcode, EventKeywords keywords, EventTags tags) {
+void TraceLoggingTypeInfo___::ctor(Type dataType, String name, EventLevel level, EventOpcode opcode, EventKeywords keywords, EventTags tags) {
 }
 
 Object TraceLoggingTypeInfo___::GetData(Object value) {

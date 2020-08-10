@@ -13,8 +13,8 @@ CLASS(AsyncLocal, T) : public Object::in {
   public: using interface = rt::TypeList<IAsyncLocal>;
   public: T get_Value();
   public: void set_Value(T value);
-  public: void Ctor();
-  public: void Ctor(Action<AsyncLocalValueChangedArgs<T>> valueChangedHandler);
+  public: void ctor();
+  public: void ctor(Action<AsyncLocalValueChangedArgs<T>> valueChangedHandler);
   private: Action<AsyncLocalValueChangedArgs<T>> m_valueChangedHandler;
 };
 } // namespace AsyncLocalNamespace

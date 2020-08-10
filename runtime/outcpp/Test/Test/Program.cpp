@@ -20,7 +20,7 @@ void Program___::Main(Array<String> args) {
   a->F((Double)num);
 }
 
-void Program___::Ctor() {
+void Program___::ctor() {
 }
 
 } // namespace Test::Test::ProgramNamespace

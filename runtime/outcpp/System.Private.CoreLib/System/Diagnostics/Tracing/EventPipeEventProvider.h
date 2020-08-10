@@ -8,7 +8,7 @@ FORWARD(IEventProvider)
 namespace EventPipeEventProviderNamespace {
 CLASS(EventPipeEventProvider) : public Object::in {
   public: using interface = rt::TypeList<IEventProvider>;
-  public: void Ctor();
+  public: void ctor();
   private: IntPtr m_provHandle;
 };
 } // namespace EventPipeEventProviderNamespace

@@ -27,7 +27,7 @@ CLASS(TraceLoggingMetadataCollector) : public Object::in {
     public: void BeginBuffered();
     public: void EndBuffered();
     public: Int32 Encode(Array<Byte> metadata);
-    public: void Ctor();
+    public: void ctor();
     public: List<FieldMetadata> fields;
     public: Int16 scratchSize;
     public: SByte dataCount;
@@ -41,8 +41,8 @@ CLASS(TraceLoggingMetadataCollector) : public Object::in {
   public: Int32 get_DataCount();
   public: Int32 get_PinCount();
   private: Boolean get_BeginningBufferedArray();
-  public: void Ctor();
-  private: void Ctor(TraceLoggingMetadataCollector other, FieldMetadata group);
+  public: void ctor();
+  private: void ctor(TraceLoggingMetadataCollector other, FieldMetadata group);
   public: TraceLoggingMetadataCollector AddGroup(String name);
   public: void AddScalar(String name, TraceLoggingDataType type);
   public: void AddNullTerminatedString(String name, TraceLoggingDataType type);

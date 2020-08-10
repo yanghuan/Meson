@@ -5,7 +5,7 @@
 namespace System::Private::CoreLib::System::Runtime::InteropServices {
 namespace SuppressGCTransitionAttributeNamespace {
 CLASS(SuppressGCTransitionAttribute) : public Attribute::in {
-  public: void Ctor();
+  public: void ctor();
 };
 } // namespace SuppressGCTransitionAttributeNamespace
 using SuppressGCTransitionAttribute = SuppressGCTransitionAttributeNamespace::SuppressGCTransitionAttribute;

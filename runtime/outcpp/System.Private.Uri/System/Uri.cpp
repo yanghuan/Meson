@@ -3,14 +3,14 @@
 #include <System.Private.Uri/System/Uri-dep.h>
 
 namespace System::Private::Uri::System::UriNamespace {
-void Uri___::MoreInfo___::Ctor() {
+void Uri___::MoreInfo___::ctor() {
 }
 
 Uri::in::MoreInfo Uri___::UriInfo___::get_MoreInfo() {
   return nullptr;
 }
 
-void Uri___::UriInfo___::Ctor() {
+void Uri___::UriInfo___::ctor() {
 }
 
 Boolean Uri___::get_IsImplicitFile() {
@@ -182,22 +182,22 @@ void Uri___::EnsureParseRemaining() {
 void Uri___::EnsureHostString(Boolean allowDnsOptimization) {
 }
 
-void Uri___::Ctor(String uriString) {
+void Uri___::ctor(String uriString) {
 }
 
-void Uri___::Ctor(String uriString, Boolean dontEscape) {
+void Uri___::ctor(String uriString, Boolean dontEscape) {
 }
 
-void Uri___::Ctor(Uri baseUri, String relativeUri, Boolean dontEscape) {
+void Uri___::ctor(Uri baseUri, String relativeUri, Boolean dontEscape) {
 }
 
-void Uri___::Ctor(String uriString, UriKind uriKind) {
+void Uri___::ctor(String uriString, UriKind uriKind) {
 }
 
-void Uri___::Ctor(Uri baseUri, String relativeUri) {
+void Uri___::ctor(Uri baseUri, String relativeUri) {
 }
 
-void Uri___::Ctor(SerializationInfo serializationInfo, StreamingContext streamingContext) {
+void Uri___::ctor(SerializationInfo serializationInfo, StreamingContext streamingContext) {
 }
 
 void Uri___::GetObjectData(SerializationInfo serializationInfo, StreamingContext streamingContext) {
@@ -206,7 +206,7 @@ void Uri___::GetObjectData(SerializationInfo serializationInfo, StreamingContext
 void Uri___::CreateUri(Uri baseUri, String relativeUri, Boolean dontEscape) {
 }
 
-void Uri___::Ctor(Uri baseUri, Uri relativeUri) {
+void Uri___::ctor(Uri baseUri, Uri relativeUri) {
 }
 
 void Uri___::GetCombinedString(Uri baseUri, String relativeStr, Boolean dontEscape, String& result) {
@@ -471,7 +471,7 @@ String Uri___::EscapeUnescapeIri(String input, Int32 start, Int32 end, UriCompon
   return nullptr;
 }
 
-void Uri___::Ctor(Flags flags, UriParser uriParser, String uri) {
+void Uri___::ctor(Flags flags, UriParser uriParser, String uri) {
 }
 
 Uri Uri___::CreateHelper(String uriString, Boolean dontEscape, UriKind uriKind, UriFormatException& e) {
@@ -501,7 +501,7 @@ Boolean Uri___::IsBaseOfHelper(Uri uriLink) {
 void Uri___::CreateThisFromUri(Uri otherUri) {
 }
 
-void Uri___::SCtor() {
+void Uri___::ctor_static() {
 }
 
 } // namespace System::Private::Uri::System::UriNamespace

@@ -74,13 +74,13 @@ CLASS(CultureInfo) : public Object::in {
   private: static void AsyncLocalSetCurrentUICulture(AsyncLocalValueChangedArgs<CultureInfo> args);
   private: static CultureInfo InitializeUserDefaultCulture();
   private: static CultureInfo InitializeUserDefaultUICulture();
-  public: void Ctor(String name);
-  public: void Ctor(String name, Boolean useUserOverride);
-  private: void Ctor(CultureData cultureData, Boolean isReadOnly);
+  public: void ctor(String name);
+  public: void ctor(String name, Boolean useUserOverride);
+  private: void ctor(CultureData cultureData, Boolean isReadOnly);
   private: static CultureInfo CreateCultureInfoNoThrow(String name, Boolean useUserOverride);
-  public: void Ctor(Int32 culture);
-  public: void Ctor(Int32 culture, Boolean useUserOverride);
-  public: void Ctor(String cultureName, String textAndCompareCultureName);
+  public: void ctor(Int32 culture);
+  public: void ctor(Int32 culture, Boolean useUserOverride);
+  public: void ctor(String cultureName, String textAndCompareCultureName);
   private: static CultureInfo GetCultureByName(String name);
   public: static CultureInfo CreateSpecificCulture(String name);
   public: static Boolean VerifyCultureName(String cultureName, Boolean throwException);
@@ -106,7 +106,7 @@ CLASS(CultureInfo) : public Object::in {
   private: static CultureInfo NlsGetPredefinedCultureInfo(String name);
   public: static CultureInfo GetUserDefaultCulture();
   private: static CultureInfo GetUserDefaultUICulture();
-  private: static void SCtor();
+  private: static void ctor_static();
   private: Boolean _isReadOnly;
   private: CompareInfo _compareInfo;
   private: TextInfo _textInfo;

@@ -11,7 +11,7 @@ EncoderFallback EncoderFallback___::get_ExceptionFallback() {
   return nullptr;
 }
 
-void EncoderFallback___::Ctor() {
+void EncoderFallback___::ctor() {
 }
 
 } // namespace System::Private::CoreLib::System::Text::EncoderFallbackNamespace

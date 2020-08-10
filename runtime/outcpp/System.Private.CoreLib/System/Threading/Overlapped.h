@@ -23,9 +23,9 @@ CLASS(Overlapped) : public Object::in {
   public: void set_EventHandle(Int32 value);
   public: IntPtr get_EventHandleIntPtr();
   public: void set_EventHandleIntPtr(IntPtr value);
-  public: void Ctor();
-  public: void Ctor(Int32 offsetLo, Int32 offsetHi, IntPtr hEvent, IAsyncResult ar);
-  public: void Ctor(Int32 offsetLo, Int32 offsetHi, Int32 hEvent, IAsyncResult ar);
+  public: void ctor();
+  public: void ctor(Int32 offsetLo, Int32 offsetHi, IntPtr hEvent, IAsyncResult ar);
+  public: void ctor(Int32 offsetLo, Int32 offsetHi, Int32 hEvent, IAsyncResult ar);
   public: NativeOverlapped* Pack(IOCompletionCallback iocb);
   public: NativeOverlapped* Pack(IOCompletionCallback iocb, Object userData);
   public: NativeOverlapped* UnsafePack(IOCompletionCallback iocb);

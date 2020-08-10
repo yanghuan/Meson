@@ -26,9 +26,9 @@ CLASS(KoreanLunisolarCalendar) : public EastAsianLunisolarCalendar::in {
   public: Int32 GetYearInfo(Int32 lunarYear, Int32 index);
   public: Int32 GetYear(Int32 year, DateTime time);
   public: Int32 GetGregorianYear(Int32 year, Int32 era);
-  public: void Ctor();
+  public: void ctor();
   public: Int32 GetEra(DateTime time);
-  private: static void SCtor();
+  private: static void ctor_static();
   public: static constexpr Int32 GregorianEra = 1;
   private: static DateTime s_minDate;
   private: static DateTime s_maxDate;

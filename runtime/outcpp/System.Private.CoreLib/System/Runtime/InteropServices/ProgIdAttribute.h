@@ -9,7 +9,7 @@ namespace System::Private::CoreLib::System::Runtime::InteropServices {
 namespace ProgIdAttributeNamespace {
 CLASS(ProgIdAttribute) : public Attribute::in {
   public: String get_Value() { return Value; }
-  public: void Ctor(String progId);
+  public: void ctor(String progId);
   private: String Value;
 };
 } // namespace ProgIdAttributeNamespace

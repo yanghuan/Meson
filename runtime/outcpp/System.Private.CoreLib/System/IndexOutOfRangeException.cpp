@@ -1,16 +1,16 @@
 #include "IndexOutOfRangeException-dep.h"
 
 namespace System::Private::CoreLib::System::IndexOutOfRangeExceptionNamespace {
-void IndexOutOfRangeException___::Ctor() {
+void IndexOutOfRangeException___::ctor() {
 }
 
-void IndexOutOfRangeException___::Ctor(String message) {
+void IndexOutOfRangeException___::ctor(String message) {
 }
 
-void IndexOutOfRangeException___::Ctor(String message, Exception innerException) {
+void IndexOutOfRangeException___::ctor(String message, Exception innerException) {
 }
 
-void IndexOutOfRangeException___::Ctor(SerializationInfo info, StreamingContext context) {
+void IndexOutOfRangeException___::ctor(SerializationInfo info, StreamingContext context) {
 }
 
 } // namespace System::Private::CoreLib::System::IndexOutOfRangeExceptionNamespace

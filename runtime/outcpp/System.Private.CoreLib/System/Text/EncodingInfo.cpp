@@ -1,7 +1,7 @@
 #include "EncodingInfo-dep.h"
 
 namespace System::Private::CoreLib::System::Text::EncodingInfoNamespace {
-void EncodingInfo___::Ctor(Int32 codePage, String name, String displayName) {
+void EncodingInfo___::ctor(Int32 codePage, String name, String displayName) {
 }
 
 Encoding EncodingInfo___::GetEncoding() {

@@ -23,7 +23,7 @@ UInt32 IdnMapping___::get_NlsFlags() {
   return UInt32();
 }
 
-void IdnMapping___::Ctor() {
+void IdnMapping___::ctor() {
 }
 
 String IdnMapping___::GetAscii(String unicode) {
@@ -151,7 +151,7 @@ String IdnMapping___::NlsGetUnicodeCore(String asciiString, Char* ascii, Int32 c
 void IdnMapping___::ThrowForZeroLength(Boolean unicode) {
 }
 
-void IdnMapping___::SCtor() {
+void IdnMapping___::ctor_static() {
 }
 
 } // namespace System::Private::CoreLib::System::Globalization::IdnMappingNamespace

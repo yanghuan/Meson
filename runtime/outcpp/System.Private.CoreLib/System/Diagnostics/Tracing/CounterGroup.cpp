@@ -3,7 +3,7 @@
 #include <System.Private.CoreLib/System/Diagnostics/Tracing/CounterGroup-dep.h>
 
 namespace System::Private::CoreLib::System::Diagnostics::Tracing::CounterGroupNamespace {
-void CounterGroup___::Ctor(EventSource eventSource) {
+void CounterGroup___::ctor(EventSource eventSource) {
 }
 
 void CounterGroup___::Add(DiagnosticCounter eventCounter) {
@@ -40,7 +40,7 @@ void CounterGroup___::OnTimer() {
 void CounterGroup___::PollForValues() {
 }
 
-void CounterGroup___::SCtor() {
+void CounterGroup___::ctor_static() {
 }
 
 } // namespace System::Private::CoreLib::System::Diagnostics::Tracing::CounterGroupNamespace

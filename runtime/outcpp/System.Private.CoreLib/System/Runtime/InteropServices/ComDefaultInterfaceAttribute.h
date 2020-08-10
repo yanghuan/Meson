@@ -9,7 +9,7 @@ namespace System::Private::CoreLib::System::Runtime::InteropServices {
 namespace ComDefaultInterfaceAttributeNamespace {
 CLASS(ComDefaultInterfaceAttribute) : public Attribute::in {
   public: Type get_Value() { return Value; }
-  public: void Ctor(Type defaultInterface);
+  public: void ctor(Type defaultInterface);
   private: Type Value;
 };
 } // namespace ComDefaultInterfaceAttributeNamespace

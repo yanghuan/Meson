@@ -147,19 +147,19 @@ class Interop {
       private: rt::FixedBuffer<Char, 14> _cAlternateFileName;
     };
     public: CLASS(EnumLocalesProcEx) : public MulticastDelegate::in {
-      public: void Ctor(Object object, IntPtr method);
+      public: void ctor(Object object, IntPtr method);
       public: BOOL Invoke(Char* lpLocaleString, UInt32 dwFlags, void* lParam);
       public: IAsyncResult BeginInvoke(Char* lpLocaleString, UInt32 dwFlags, void* lParam, AsyncCallback callback, Object object);
       public: BOOL EndInvoke(IAsyncResult result);
     };
     public: CLASS(EnumTimeFormatsProcEx) : public MulticastDelegate::in {
-      public: void Ctor(Object object, IntPtr method);
+      public: void ctor(Object object, IntPtr method);
       public: BOOL Invoke(Char* lpTimeFormatString, void* lParam);
       public: IAsyncResult BeginInvoke(Char* lpTimeFormatString, void* lParam, AsyncCallback callback, Object object);
       public: BOOL EndInvoke(IAsyncResult result);
     };
     public: CLASS(EnumCalendarInfoProcExEx) : public MulticastDelegate::in {
-      public: void Ctor(Object object, IntPtr method);
+      public: void ctor(Object object, IntPtr method);
       public: BOOL Invoke(Char* lpCalendarInfoString, UInt32 Calendar, IntPtr lpReserved, void* lParam);
       public: IAsyncResult BeginInvoke(Char* lpCalendarInfoString, UInt32 Calendar, IntPtr lpReserved, void* lParam, AsyncCallback callback, Object object);
       public: BOOL EndInvoke(IAsyncResult result);
@@ -384,7 +384,7 @@ class Interop {
       OutOfMemory = 3,
     };
     public: CLASS(EnumCalendarInfoCallback) : public MulticastDelegate::in {
-      public: void Ctor(Object object, IntPtr method);
+      public: void ctor(Object object, IntPtr method);
       public: void Invoke(String calendarString, IntPtr context);
       public: IAsyncResult BeginInvoke(String calendarString, IntPtr context, AsyncCallback callback, Object object);
       public: void EndInvoke(IAsyncResult result);
@@ -455,7 +455,7 @@ class Interop {
       public: Int32 Type;
     };
     public: CLASS(EtwEnableCallback) : public MulticastDelegate::in {
-      public: void Ctor(Object object, IntPtr method);
+      public: void ctor(Object object, IntPtr method);
       public: void Invoke(Guid& sourceId, Int32 isEnabled, Byte level, Int64 matchAnyKeywords, Int64 matchAllKeywords, EVENT_FILTER_DESCRIPTOR* filterData, void* callbackContext);
       public: IAsyncResult BeginInvoke(Guid& sourceId, Int32 isEnabled, Byte level, Int64 matchAnyKeywords, Int64 matchAllKeywords, EVENT_FILTER_DESCRIPTOR* filterData, void* callbackContext, AsyncCallback callback, Object object);
       public: void EndInvoke(Guid& sourceId, IAsyncResult result);
@@ -501,13 +501,13 @@ class Interop {
   };
   public: class HostPolicy {
     public: CLASS(corehost_resolve_component_dependencies_result_fn) : public MulticastDelegate::in {
-      public: void Ctor(Object object, IntPtr method);
+      public: void ctor(Object object, IntPtr method);
       public: void Invoke(String assemblyPaths, String nativeSearchPaths, String resourceSearchPaths);
       public: IAsyncResult BeginInvoke(String assemblyPaths, String nativeSearchPaths, String resourceSearchPaths, AsyncCallback callback, Object object);
       public: void EndInvoke(IAsyncResult result);
     };
     public: CLASS(corehost_error_writer_fn) : public MulticastDelegate::in {
-      public: void Ctor(Object object, IntPtr method);
+      public: void ctor(Object object, IntPtr method);
       public: void Invoke(String message);
       public: IAsyncResult BeginInvoke(String message, AsyncCallback callback, Object object);
       public: void EndInvoke(IAsyncResult result);

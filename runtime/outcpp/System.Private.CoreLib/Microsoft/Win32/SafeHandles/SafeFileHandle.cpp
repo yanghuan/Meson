@@ -8,10 +8,10 @@ Nullable<Boolean> SafeFileHandle___::get_IsAsync() {
 void SafeFileHandle___::set_IsAsync(Nullable<Boolean> value) {
 }
 
-void SafeFileHandle___::Ctor() {
+void SafeFileHandle___::ctor() {
 }
 
-void SafeFileHandle___::Ctor(IntPtr preexistingHandle, Boolean ownsHandle) {
+void SafeFileHandle___::ctor(IntPtr preexistingHandle, Boolean ownsHandle) {
 }
 
 Boolean SafeFileHandle___::ReleaseHandle() {

@@ -1,7 +1,7 @@
 #include "DefaultBinder-dep.h"
 
 namespace System::Private::CoreLib::System::DefaultBinderNamespace {
-void DefaultBinder___::BinderState___::Ctor(Array<Int32> argsMap, Int32 originalSize, Boolean isParamArray) {
+void DefaultBinder___::BinderState___::ctor(Array<Int32> argsMap, Int32 originalSize, Boolean isParamArray) {
 }
 
 MethodBase DefaultBinder___::BindToMethod(BindingFlags bindingAttr, Array<MethodBase> match, Array<Object>& args, Array<ParameterModifier> modifiers, CultureInfo cultureInfo, Array<String> names, Object& state) {
@@ -78,10 +78,10 @@ Boolean DefaultBinder___::CanChangePrimitive(Type source, Type target) {
   return Boolean();
 }
 
-void DefaultBinder___::Ctor() {
+void DefaultBinder___::ctor() {
 }
 
-void DefaultBinder___::SCtor() {
+void DefaultBinder___::ctor_static() {
 }
 
 } // namespace System::Private::CoreLib::System::DefaultBinderNamespace

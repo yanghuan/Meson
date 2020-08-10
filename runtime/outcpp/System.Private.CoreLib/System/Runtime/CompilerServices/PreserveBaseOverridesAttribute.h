@@ -5,7 +5,7 @@
 namespace System::Private::CoreLib::System::Runtime::CompilerServices {
 namespace PreserveBaseOverridesAttributeNamespace {
 CLASS(PreserveBaseOverridesAttribute) : public Attribute::in {
-  public: void Ctor();
+  public: void ctor();
 };
 } // namespace PreserveBaseOverridesAttributeNamespace
 using PreserveBaseOverridesAttribute = PreserveBaseOverridesAttributeNamespace::PreserveBaseOverridesAttribute;

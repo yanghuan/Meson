@@ -1,7 +1,7 @@
 #include "LocalSymInfo-dep.h"
 
 namespace System::Private::CoreLib::System::Reflection::Emit::LocalSymInfoNamespace {
-void LocalSymInfo___::Ctor() {
+void LocalSymInfo___::ctor() {
 }
 
 void LocalSymInfo___::EnsureCapacityNamespace() {

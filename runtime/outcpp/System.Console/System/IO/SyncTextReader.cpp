@@ -7,7 +7,7 @@ SyncTextReader SyncTextReader___::GetSynchronizedTextReader(TextReader reader) {
   return nullptr;
 }
 
-void SyncTextReader___::Ctor(TextReader t) {
+void SyncTextReader___::ctor(TextReader t) {
 }
 
 void SyncTextReader___::Dispose(Boolean disposing) {

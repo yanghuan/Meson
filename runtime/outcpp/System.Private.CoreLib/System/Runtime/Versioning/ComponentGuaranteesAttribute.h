@@ -7,7 +7,7 @@ enum class ComponentGuaranteesOptions;
 namespace ComponentGuaranteesAttributeNamespace {
 CLASS(ComponentGuaranteesAttribute) : public Attribute::in {
   public: ComponentGuaranteesOptions get_Guarantees() { return Guarantees; }
-  public: void Ctor(ComponentGuaranteesOptions guarantees);
+  public: void ctor(ComponentGuaranteesOptions guarantees);
   private: ComponentGuaranteesOptions Guarantees;
 };
 } // namespace ComponentGuaranteesAttributeNamespace

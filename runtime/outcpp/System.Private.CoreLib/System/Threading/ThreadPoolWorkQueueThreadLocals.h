@@ -8,7 +8,7 @@ namespace System::Private::CoreLib::System::Threading {
 FORWARD(Thread)
 namespace ThreadPoolWorkQueueThreadLocalsNamespace {
 CLASS(ThreadPoolWorkQueueThreadLocals) : public Object::in {
-  public: void Ctor(ThreadPoolWorkQueue tpq);
+  public: void ctor(ThreadPoolWorkQueue tpq);
   protected: void Finalize();
   public: static ThreadPoolWorkQueueThreadLocals threadLocals;
   public: ThreadPoolWorkQueue workQueue;

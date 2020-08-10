@@ -5,7 +5,7 @@
 namespace System::Private::Uri::System {
 namespace NetPipeStyleUriParserNamespace {
 CLASS(NetPipeStyleUriParser) : public UriParser::in {
-  public: void Ctor();
+  public: void ctor();
 };
 } // namespace NetPipeStyleUriParserNamespace
 using NetPipeStyleUriParser = NetPipeStyleUriParserNamespace::NetPipeStyleUriParser;

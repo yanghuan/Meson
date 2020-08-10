@@ -13,7 +13,7 @@ CLASS(ManifestResourceInfo) : public Object::in {
   public: Assembly get_ReferencedAssembly();
   public: String get_FileName();
   public: ResourceLocation get_ResourceLocation();
-  public: void Ctor(Assembly containingAssembly, String containingFileName, ResourceLocation resourceLocation);
+  public: void ctor(Assembly containingAssembly, String containingFileName, ResourceLocation resourceLocation);
   private: Assembly ReferencedAssembly;
   private: String FileName;
   private: ResourceLocation ResourceLocation;

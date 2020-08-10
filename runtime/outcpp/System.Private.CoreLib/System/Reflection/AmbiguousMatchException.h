@@ -14,10 +14,10 @@ namespace System::Private::CoreLib::System::Reflection {
 namespace AmbiguousMatchExceptionNamespace {
 using namespace Runtime::Serialization;
 CLASS(AmbiguousMatchException) : public SystemException::in {
-  public: void Ctor();
-  public: void Ctor(String message);
-  public: void Ctor(String message, Exception inner);
-  private: void Ctor(SerializationInfo info, StreamingContext context);
+  public: void ctor();
+  public: void ctor(String message);
+  public: void ctor(String message, Exception inner);
+  private: void ctor(SerializationInfo info, StreamingContext context);
 };
 } // namespace AmbiguousMatchExceptionNamespace
 using AmbiguousMatchException = AmbiguousMatchExceptionNamespace::AmbiguousMatchException;

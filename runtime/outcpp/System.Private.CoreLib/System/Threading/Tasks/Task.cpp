@@ -9,14 +9,14 @@ void Task___<>::ContingentProperties___::SetCompleted() {
 void Task___<>::ContingentProperties___::UnregisterCancellationCallback() {
 }
 
-void Task___<>::ContingentProperties___::Ctor() {
+void Task___<>::ContingentProperties___::ctor() {
 }
 
 Boolean Task___<>::SetOnInvokeMres___::get_InvokeMayRunArbitraryCode() {
   return Boolean();
 }
 
-void Task___<>::SetOnInvokeMres___::Ctor() {
+void Task___<>::SetOnInvokeMres___::ctor() {
 }
 
 void Task___<>::SetOnInvokeMres___::Invoke(Task<> completingTask) {
@@ -26,13 +26,13 @@ Boolean Task___<>::SetOnCountdownMres___::get_InvokeMayRunArbitraryCode() {
   return Boolean();
 }
 
-void Task___<>::SetOnCountdownMres___::Ctor(Int32 count) {
+void Task___<>::SetOnCountdownMres___::ctor(Int32 count) {
 }
 
 void Task___<>::SetOnCountdownMres___::Invoke(Task<> completingTask) {
 }
 
-void DelayPromise___::Ctor(Int32 millisecondsDelay) {
+void DelayPromise___::ctor(Int32 millisecondsDelay) {
 }
 
 void DelayPromise___::CompleteTimedOut() {
@@ -41,7 +41,7 @@ void DelayPromise___::CompleteTimedOut() {
 void DelayPromise___::Cleanup() {
 }
 
-void DelayPromiseWithCancellation___::Ctor(Int32 millisecondsDelay, CancellationToken token) {
+void DelayPromiseWithCancellation___::ctor(Int32 millisecondsDelay, CancellationToken token) {
 }
 
 void DelayPromiseWithCancellation___::CompleteCanceled() {

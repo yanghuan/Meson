@@ -10,11 +10,11 @@ namespace System::Private::CoreLib::System::Runtime::InteropServices {
 namespace ComSourceInterfacesAttributeNamespace {
 CLASS(ComSourceInterfacesAttribute) : public Attribute::in {
   public: String get_Value() { return Value; }
-  public: void Ctor(String sourceInterfaces);
-  public: void Ctor(Type sourceInterface);
-  public: void Ctor(Type sourceInterface1, Type sourceInterface2);
-  public: void Ctor(Type sourceInterface1, Type sourceInterface2, Type sourceInterface3);
-  public: void Ctor(Type sourceInterface1, Type sourceInterface2, Type sourceInterface3, Type sourceInterface4);
+  public: void ctor(String sourceInterfaces);
+  public: void ctor(Type sourceInterface);
+  public: void ctor(Type sourceInterface1, Type sourceInterface2);
+  public: void ctor(Type sourceInterface1, Type sourceInterface2, Type sourceInterface3);
+  public: void ctor(Type sourceInterface1, Type sourceInterface2, Type sourceInterface3, Type sourceInterface4);
   private: String Value;
 };
 } // namespace ComSourceInterfacesAttributeNamespace

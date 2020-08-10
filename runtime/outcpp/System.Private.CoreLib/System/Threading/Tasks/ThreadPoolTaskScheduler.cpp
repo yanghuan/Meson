@@ -1,7 +1,7 @@
 #include "ThreadPoolTaskScheduler-dep.h"
 
 namespace System::Private::CoreLib::System::Threading::Tasks::ThreadPoolTaskSchedulerNamespace {
-void ThreadPoolTaskScheduler___::Ctor() {
+void ThreadPoolTaskScheduler___::ctor() {
 }
 
 void ThreadPoolTaskScheduler___::QueueTask(Task<> task) {
@@ -26,7 +26,7 @@ IEnumerable<Task<>> ThreadPoolTaskScheduler___::FilterTasksFromWorkItems(IEnumer
 void ThreadPoolTaskScheduler___::NotifyWorkItemProgress() {
 }
 
-void ThreadPoolTaskScheduler___::SCtor() {
+void ThreadPoolTaskScheduler___::ctor_static() {
 }
 
 } // namespace System::Private::CoreLib::System::Threading::Tasks::ThreadPoolTaskSchedulerNamespace

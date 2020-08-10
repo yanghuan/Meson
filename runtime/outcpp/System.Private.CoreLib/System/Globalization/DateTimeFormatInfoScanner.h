@@ -39,7 +39,7 @@ CLASS(DateTimeFormatInfoScanner) : public Object::in {
   private: static Boolean EqualStringArrays(Array<String> array1, Array<String> array2);
   private: static Boolean ArrayElementsHaveSpace(Array<String> array);
   private: static Boolean ArrayElementsBeginWithDigit(Array<String> array);
-  public: void Ctor();
+  public: void ctor();
   public: List<String> m_dateWords;
   private: FoundDatePattern _ymdFlags;
 };

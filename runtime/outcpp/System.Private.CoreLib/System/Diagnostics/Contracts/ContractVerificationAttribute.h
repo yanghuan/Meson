@@ -7,7 +7,7 @@ namespace System::Private::CoreLib::System::Diagnostics::Contracts {
 namespace ContractVerificationAttributeNamespace {
 CLASS(ContractVerificationAttribute) : public Attribute::in {
   public: Boolean get_Value();
-  public: void Ctor(Boolean value);
+  public: void ctor(Boolean value);
   private: Boolean _value;
 };
 } // namespace ContractVerificationAttributeNamespace

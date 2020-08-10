@@ -49,7 +49,7 @@ CLASS(RuntimePropertyInfo) : public PropertyInfo::in {
   public: PropertyAttributes get_Attributes();
   public: Boolean get_CanRead();
   public: Boolean get_CanWrite();
-  public: void Ctor(Int32 tkProperty, RuntimeType declaredType, RuntimeType::in::RuntimeTypeCache reflectedTypeCache, Boolean& isPrivate);
+  public: void ctor(Int32 tkProperty, RuntimeType declaredType, RuntimeType::in::RuntimeTypeCache reflectedTypeCache, Boolean& isPrivate);
   public: Boolean CacheEquals(Object o);
   public: Boolean EqualsSig(RuntimePropertyInfo target);
   public: String ToString();

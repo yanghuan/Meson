@@ -154,7 +154,7 @@ UInt32 Number::BigInteger::DivRem32(UInt32 value, UInt32& remainder) {
   return UInt32();
 }
 
-void Number::BigInteger::SCtor() {
+void Number::BigInteger::ctor_static() {
 }
 
 Boolean Number::Grisu3::TryRunDouble(Double value, Int32 requestedDigits, NumberBuffer& number) {
@@ -197,13 +197,13 @@ Boolean Number::Grisu3::TryRoundWeedShortest(Span<Byte> buffer, Int32 length, UI
   return Boolean();
 }
 
-void Number::Grisu3::SCtor() {
+void Number::Grisu3::ctor_static() {
 }
 
 Number::FloatingPointInfo::FloatingPointInfo(UInt16 denormalMantissaBits, UInt16 exponentBits, Int32 maxBinaryExponent, Int32 exponentBias, UInt64 infinityBits) {
 }
 
-void Number::FloatingPointInfo::SCtor() {
+void Number::FloatingPointInfo::ctor_static() {
 }
 
 ReadOnlySpan<Byte> Number::get_CharToHexLookup() {
@@ -638,7 +638,7 @@ Single Number::NumberToSingle(NumberBuffer& number) {
   return Single();
 }
 
-void Number::SCtor() {
+void Number::ctor_static() {
 }
 
 } // namespace System::Private::CoreLib::System::NumberNamespace

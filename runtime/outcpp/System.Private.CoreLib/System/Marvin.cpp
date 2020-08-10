@@ -24,7 +24,7 @@ Int32 Marvin::ComputeHash32OrdinalIgnoreCaseSlow(Char& data, Int32 count, UInt32
   return Int32();
 }
 
-void Marvin::SCtor() {
+void Marvin::ctor_static() {
 }
 
 } // namespace System::Private::CoreLib::System::MarvinNamespace

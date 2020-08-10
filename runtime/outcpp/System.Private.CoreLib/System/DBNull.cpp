@@ -1,10 +1,10 @@
 #include "DBNull-dep.h"
 
 namespace System::Private::CoreLib::System::DBNullNamespace {
-void DBNull___::Ctor() {
+void DBNull___::ctor() {
 }
 
-void DBNull___::Ctor(SerializationInfo info, StreamingContext context) {
+void DBNull___::ctor(SerializationInfo info, StreamingContext context) {
 }
 
 void DBNull___::GetObjectData(SerializationInfo info, StreamingContext context) {
@@ -22,7 +22,7 @@ TypeCode DBNull___::GetTypeCode() {
   return TypeCode::String;
 }
 
-void DBNull___::SCtor() {
+void DBNull___::ctor_static() {
 }
 
 } // namespace System::Private::CoreLib::System::DBNullNamespace

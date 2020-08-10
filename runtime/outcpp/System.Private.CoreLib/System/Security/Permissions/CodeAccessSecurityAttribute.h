@@ -6,7 +6,7 @@ namespace System::Private::CoreLib::System::Security::Permissions {
 enum class SecurityAction;
 namespace CodeAccessSecurityAttributeNamespace {
 CLASS(CodeAccessSecurityAttribute) : public SecurityAttribute::in {
-  protected: void Ctor(SecurityAction action);
+  protected: void ctor(SecurityAction action);
 };
 } // namespace CodeAccessSecurityAttributeNamespace
 using CodeAccessSecurityAttribute = CodeAccessSecurityAttributeNamespace::CodeAccessSecurityAttribute;

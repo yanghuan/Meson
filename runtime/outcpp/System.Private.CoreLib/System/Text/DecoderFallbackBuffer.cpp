@@ -47,7 +47,7 @@ Boolean DecoderFallbackBuffer___::TryDrainRemainingDataForGetChars(Span<Char> ch
 void DecoderFallbackBuffer___::ThrowLastBytesRecursive(Array<Byte> bytesUnknown) {
 }
 
-void DecoderFallbackBuffer___::Ctor() {
+void DecoderFallbackBuffer___::ctor() {
 }
 
 } // namespace System::Private::CoreLib::System::Text::DecoderFallbackBufferNamespace

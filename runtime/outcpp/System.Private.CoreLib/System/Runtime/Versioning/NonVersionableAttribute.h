@@ -5,7 +5,7 @@
 namespace System::Private::CoreLib::System::Runtime::Versioning {
 namespace NonVersionableAttributeNamespace {
 CLASS(NonVersionableAttribute) : public Attribute::in {
-  public: void Ctor();
+  public: void ctor();
 };
 } // namespace NonVersionableAttributeNamespace
 using NonVersionableAttribute = NonVersionableAttributeNamespace::NonVersionableAttribute;

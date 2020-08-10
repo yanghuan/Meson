@@ -3,10 +3,10 @@
 #include <System.Private.CoreLib/System/Reflection/Emit/TypeBuilder-dep.h>
 
 namespace System::Private::CoreLib::System::Reflection::Emit::TypeBuilderNamespace {
-void TypeBuilder___::CustAttr___::Ctor(ConstructorInfo con, Array<Byte> binaryAttribute) {
+void TypeBuilder___::CustAttr___::ctor(ConstructorInfo con, Array<Byte> binaryAttribute) {
 }
 
-void TypeBuilder___::CustAttr___::Ctor(CustomAttributeBuilder customBuilder) {
+void TypeBuilder___::CustAttr___::ctor(CustomAttributeBuilder customBuilder) {
 }
 
 void TypeBuilder___::CustAttr___::Bake(ModuleBuilder module, Int32 token) {
@@ -162,16 +162,16 @@ Boolean TypeBuilder___::IsTypeEqual(Type t1, Type t2) {
 void TypeBuilder___::SetConstantValue(ModuleBuilder module, Int32 tk, Type destType, Object value) {
 }
 
-void TypeBuilder___::Ctor(ModuleBuilder module) {
+void TypeBuilder___::ctor(ModuleBuilder module) {
 }
 
-void TypeBuilder___::Ctor(String szName, Int32 genParamPos, MethodBuilder declMeth) {
+void TypeBuilder___::ctor(String szName, Int32 genParamPos, MethodBuilder declMeth) {
 }
 
-void TypeBuilder___::Ctor(String szName, Int32 genParamPos, TypeBuilder declType) {
+void TypeBuilder___::ctor(String szName, Int32 genParamPos, TypeBuilder declType) {
 }
 
-void TypeBuilder___::Ctor(String fullname, TypeAttributes attr, Type parent, Array<Type> interfaces, ModuleBuilder module, PackingSize iPackingSize, Int32 iTypeSize, TypeBuilder enclosingType) {
+void TypeBuilder___::ctor(String fullname, TypeAttributes attr, Type parent, Array<Type> interfaces, ModuleBuilder module, PackingSize iPackingSize, Int32 iTypeSize, TypeBuilder enclosingType) {
 }
 
 FieldBuilder TypeBuilder___::DefineDataHelper(String name, Array<Byte> data, Int32 size, FieldAttributes attributes) {

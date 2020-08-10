@@ -1,16 +1,16 @@
 #include "DivideByZeroException-dep.h"
 
 namespace System::Private::CoreLib::System::DivideByZeroExceptionNamespace {
-void DivideByZeroException___::Ctor() {
+void DivideByZeroException___::ctor() {
 }
 
-void DivideByZeroException___::Ctor(String message) {
+void DivideByZeroException___::ctor(String message) {
 }
 
-void DivideByZeroException___::Ctor(String message, Exception innerException) {
+void DivideByZeroException___::ctor(String message, Exception innerException) {
 }
 
-void DivideByZeroException___::Ctor(SerializationInfo info, StreamingContext context) {
+void DivideByZeroException___::ctor(SerializationInfo info, StreamingContext context) {
 }
 
 } // namespace System::Private::CoreLib::System::DivideByZeroExceptionNamespace

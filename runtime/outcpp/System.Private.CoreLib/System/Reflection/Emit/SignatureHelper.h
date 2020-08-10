@@ -42,10 +42,10 @@ CLASS(SignatureHelper) : public Object::in {
   public: static SignatureHelper GetPropertySigHelper(Module mod, Type returnType, Array<Type> requiredReturnTypeCustomModifiers, Array<Type> optionalReturnTypeCustomModifiers, Array<Type> parameterTypes, Array<Array<Type>> requiredParameterTypeCustomModifiers, Array<Array<Type>> optionalParameterTypeCustomModifiers);
   public: static SignatureHelper GetPropertySigHelper(Module mod, CallingConventions callingConvention, Type returnType, Array<Type> requiredReturnTypeCustomModifiers, Array<Type> optionalReturnTypeCustomModifiers, Array<Type> parameterTypes, Array<Array<Type>> requiredParameterTypeCustomModifiers, Array<Array<Type>> optionalParameterTypeCustomModifiers);
   public: static SignatureHelper GetTypeSigToken(Module module, Type type);
-  private: void Ctor(Module mod, MdSigCallingConvention callingConvention);
-  private: void Ctor(Module mod, MdSigCallingConvention callingConvention, Int32 cGenericParameters, Type returnType, Array<Type> requiredCustomModifiers, Array<Type> optionalCustomModifiers);
-  private: void Ctor(Module mod, MdSigCallingConvention callingConvention, Type returnType, Array<Type> requiredCustomModifiers, Array<Type> optionalCustomModifiers);
-  private: void Ctor(Module mod, Type type);
+  private: void ctor(Module mod, MdSigCallingConvention callingConvention);
+  private: void ctor(Module mod, MdSigCallingConvention callingConvention, Int32 cGenericParameters, Type returnType, Array<Type> requiredCustomModifiers, Array<Type> optionalCustomModifiers);
+  private: void ctor(Module mod, MdSigCallingConvention callingConvention, Type returnType, Array<Type> requiredCustomModifiers, Array<Type> optionalCustomModifiers);
+  private: void ctor(Module mod, Type type);
   private: void Init(Module mod);
   private: void Init(Module mod, MdSigCallingConvention callingConvention);
   private: void Init(Module mod, MdSigCallingConvention callingConvention, Int32 cGenericParam);

@@ -72,7 +72,7 @@ CLASS(AssemblyBuilder) : public Assembly::in {
   private: static RuntimeModule GetInMemoryAssemblyModule(RuntimeAssembly assembly);
   public: ModuleBuilder GetModuleBuilder(InternalModuleBuilder module);
   public: RuntimeAssembly GetNativeHandle();
-  public: void Ctor(AssemblyName name, AssemblyBuilderAccess access, StackCrawlMark& stackMark, IEnumerable<CustomAttributeBuilder> unsafeAssemblyAttributes);
+  public: void ctor(AssemblyName name, AssemblyBuilderAccess access, StackCrawlMark& stackMark, IEnumerable<CustomAttributeBuilder> unsafeAssemblyAttributes);
   private: void InitManifestModule();
   public: static AssemblyBuilder DefineDynamicAssembly(AssemblyName name, AssemblyBuilderAccess access);
   public: static AssemblyBuilder DefineDynamicAssembly(AssemblyName name, AssemblyBuilderAccess access, IEnumerable<CustomAttributeBuilder> assemblyAttributes);
@@ -111,7 +111,7 @@ CLASS(AssemblyBuilder) : public Assembly::in {
   private: void SetCustomAttributeNoLock(ConstructorInfo con, Array<Byte> binaryAttribute);
   public: void SetCustomAttribute(CustomAttributeBuilder customBuilder);
   private: void SetCustomAttributeNoLock(CustomAttributeBuilder customBuilder);
-  private: static void SCtor();
+  private: static void ctor_static();
   public: AssemblyBuilderData _assemblyData;
   private: InternalAssemblyBuilder _internalAssemblyBuilder;
   private: ModuleBuilder _manifestModuleBuilder;

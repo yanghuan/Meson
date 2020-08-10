@@ -30,7 +30,7 @@ CLASS(CancellationTokenSource) : public Object::in {
   public: using interface = rt::TypeList<IDisposable>;
   public: FORWARDN(CallbackPartition)
   public: CLASS(CallbackNode) : public Object::in {
-    public: void Ctor(CallbackPartition partition);
+    public: void ctor(CallbackPartition partition);
     public: void ExecuteCallback();
     public: CallbackPartition Partition;
     public: CallbackNode Prev;
@@ -45,7 +45,7 @@ CLASS(CancellationTokenSource) : public Object::in {
   private: FRIENDN(Linked2CancellationTokenSource)
   private: FRIENDN(LinkedNCancellationTokenSource)
   public: CLASS(CallbackPartition) : public Object::in {
-    public: void Ctor(CancellationTokenSource source);
+    public: void ctor(CancellationTokenSource source);
     public: Boolean Unregister(Int64 id, CallbackNode node);
     public: CancellationTokenSource Source;
     public: SpinLock Lock;
@@ -60,9 +60,9 @@ CLASS(CancellationTokenSource) : public Object::in {
   public: CancellationToken get_Token();
   public: WaitHandle get_WaitHandle();
   public: Int64 get_ExecutingCallback();
-  public: void Ctor();
-  public: void Ctor(TimeSpan delay);
-  public: void Ctor(Int32 millisecondsDelay);
+  public: void ctor();
+  public: void ctor(TimeSpan delay);
+  public: void ctor(Int32 millisecondsDelay);
   private: void InitializeWithTimer(Int32 millisecondsDelay);
   public: void Cancel();
   public: void Cancel(Boolean throwOnFirstException);
@@ -81,7 +81,7 @@ CLASS(CancellationTokenSource) : public Object::in {
   public: static CancellationTokenSource CreateLinkedTokenSource(Array<CancellationToken> tokens);
   public: void WaitForCallbackToComplete(Int64 id);
   public: ValueTask<> WaitForCallbackToCompleteAsync(Int64 id);
-  private: static void SCtor();
+  private: static void ctor_static();
   public: static CancellationTokenSource s_canceledSource;
   public: static CancellationTokenSource s_neverCanceledSource;
   private: static TimerCallback s_timerCallback;
@@ -96,20 +96,20 @@ CLASS(CancellationTokenSource) : public Object::in {
   private: Boolean _disposed;
 };
 CLASS(Linked1CancellationTokenSource) : public CancellationTokenSource::in {
-  public: void Ctor(CancellationToken token1);
+  public: void ctor(CancellationToken token1);
   protected: void Dispose(Boolean disposing);
   private: CancellationTokenRegistration _reg1;
 };
 CLASS(Linked2CancellationTokenSource) : public CancellationTokenSource::in {
-  public: void Ctor(CancellationToken token1, CancellationToken token2);
+  public: void ctor(CancellationToken token1, CancellationToken token2);
   protected: void Dispose(Boolean disposing);
   private: CancellationTokenRegistration _reg1;
   private: CancellationTokenRegistration _reg2;
 };
 CLASS(LinkedNCancellationTokenSource) : public CancellationTokenSource::in {
-  public: void Ctor(Array<CancellationToken> tokens);
+  public: void ctor(Array<CancellationToken> tokens);
   protected: void Dispose(Boolean disposing);
-  private: static void SCtor();
+  private: static void ctor_static();
   public: static Action<Object> s_linkedTokenCancelDelegate;
   private: Array<CancellationTokenRegistration> _linkingRegistrations;
 };

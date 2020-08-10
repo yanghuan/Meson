@@ -9,7 +9,7 @@ FORWARDS(Boolean)
 namespace System::Private::CoreLib::System::Runtime::CompilerServices {
 namespace NativeIntegerAttributeNamespace {
 CLASS(NativeIntegerAttribute) : public Attribute::in {
-  public: void Ctor();
+  public: void ctor();
   public: Array<Boolean> TransformFlags;
 };
 } // namespace NativeIntegerAttributeNamespace

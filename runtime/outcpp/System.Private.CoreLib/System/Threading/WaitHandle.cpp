@@ -23,7 +23,7 @@ Int32 WaitHandle___::SignalAndWaitCore(IntPtr waitHandleToSignal, IntPtr waitHan
   return Int32();
 }
 
-void WaitHandle___::Ctor() {
+void WaitHandle___::ctor() {
 }
 
 Int32 WaitHandle___::ToTimeoutMilliseconds(TimeSpan timeout) {
@@ -137,7 +137,7 @@ Boolean WaitHandle___::SignalAndWait(WaitHandle toSignal, WaitHandle toWaitOn, I
   return Boolean();
 }
 
-void WaitHandle___::SCtor() {
+void WaitHandle___::ctor_static() {
 }
 
 } // namespace System::Private::CoreLib::System::Threading::WaitHandleNamespace

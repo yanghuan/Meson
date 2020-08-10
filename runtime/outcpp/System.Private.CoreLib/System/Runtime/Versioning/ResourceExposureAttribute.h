@@ -7,7 +7,7 @@ enum class ResourceScope;
 namespace ResourceExposureAttributeNamespace {
 CLASS(ResourceExposureAttribute) : public Attribute::in {
   public: ResourceScope get_ResourceExposureLevel() { return ResourceExposureLevel; }
-  public: void Ctor(ResourceScope exposureLevel);
+  public: void ctor(ResourceScope exposureLevel);
   private: ResourceScope ResourceExposureLevel;
 };
 } // namespace ResourceExposureAttributeNamespace

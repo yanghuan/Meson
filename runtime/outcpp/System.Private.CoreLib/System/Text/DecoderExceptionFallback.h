@@ -15,7 +15,7 @@ CLASS(DecoderExceptionFallback) : public DecoderFallback::in {
   public: DecoderFallbackBuffer CreateFallbackBuffer();
   public: Boolean Equals(Object value);
   public: Int32 GetHashCode();
-  public: void Ctor();
+  public: void ctor();
 };
 } // namespace DecoderExceptionFallbackNamespace
 using DecoderExceptionFallback = DecoderExceptionFallbackNamespace::DecoderExceptionFallback;

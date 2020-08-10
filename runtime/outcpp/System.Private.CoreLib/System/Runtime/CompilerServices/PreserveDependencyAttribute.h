@@ -8,8 +8,8 @@ FORWARD(String)
 namespace System::Private::CoreLib::System::Runtime::CompilerServices {
 namespace PreserveDependencyAttributeNamespace {
 CLASS(PreserveDependencyAttribute) : public Attribute::in {
-  public: void Ctor(String memberSignature, String typeName);
-  public: void Ctor(String memberSignature, String typeName, String assemblyName);
+  public: void ctor(String memberSignature, String typeName);
+  public: void ctor(String memberSignature, String typeName, String assemblyName);
   private: String MemberSignature;
   private: String TypeName;
   private: String AssemblyName;

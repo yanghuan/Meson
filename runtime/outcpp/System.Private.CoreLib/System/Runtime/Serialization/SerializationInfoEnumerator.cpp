@@ -21,7 +21,7 @@ Type SerializationInfoEnumerator___::get_ObjectType() {
   return nullptr;
 }
 
-void SerializationInfoEnumerator___::Ctor(Array<String> members, Array<Object> info, Array<Type> types, Int32 numItems) {
+void SerializationInfoEnumerator___::ctor(Array<String> members, Array<Object> info, Array<Type> types, Int32 numItems) {
 }
 
 Boolean SerializationInfoEnumerator___::MoveNext() {

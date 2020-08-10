@@ -148,7 +148,7 @@ Int64 CalendricalCalculationsHelper::PersianNewYearOnOrBefore(Int64 numberOfDays
   return Int64();
 }
 
-void CalendricalCalculationsHelper::SCtor() {
+void CalendricalCalculationsHelper::ctor_static() {
 }
 
 } // namespace System::Private::CoreLib::System::Globalization::CalendricalCalculationsHelperNamespace

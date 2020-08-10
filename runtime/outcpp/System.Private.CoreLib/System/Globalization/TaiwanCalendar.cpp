@@ -32,7 +32,7 @@ Calendar TaiwanCalendar___::GetDefaultInstance() {
   return nullptr;
 }
 
-void TaiwanCalendar___::Ctor() {
+void TaiwanCalendar___::ctor() {
 }
 
 DateTime TaiwanCalendar___::AddMonths(DateTime time, Int32 months) {
@@ -107,7 +107,7 @@ Int32 TaiwanCalendar___::ToFourDigitYear(Int32 year) {
   return Int32();
 }
 
-void TaiwanCalendar___::SCtor() {
+void TaiwanCalendar___::ctor_static() {
 }
 
 } // namespace System::Private::CoreLib::System::Globalization::TaiwanCalendarNamespace

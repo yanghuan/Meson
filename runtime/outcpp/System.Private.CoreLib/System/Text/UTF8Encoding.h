@@ -29,9 +29,9 @@ CLASS(UTF8Encoding) : public Encoding::in {
   public: FRIENDN(UTF8EncodingSealed)
   public: static ReadOnlySpan<Byte> get_PreambleSpan();
   public: ReadOnlySpan<Byte> get_Preamble();
-  public: void Ctor();
-  public: void Ctor(Boolean encoderShouldEmitUTF8Identifier);
-  public: void Ctor(Boolean encoderShouldEmitUTF8Identifier, Boolean throwOnInvalidBytes);
+  public: void ctor();
+  public: void ctor(Boolean encoderShouldEmitUTF8Identifier);
+  public: void ctor(Boolean encoderShouldEmitUTF8Identifier, Boolean throwOnInvalidBytes);
   public: void SetDefaultFallbacks();
   public: Int32 GetByteCount(Array<Char> chars, Int32 index, Int32 count);
   public: Int32 GetByteCount(String chars);
@@ -67,14 +67,14 @@ CLASS(UTF8Encoding) : public Encoding::in {
   public: Array<Byte> GetPreamble();
   public: Boolean Equals(Object value);
   public: Int32 GetHashCode();
-  private: static void SCtor();
+  private: static void ctor_static();
   public: static UTF8EncodingSealed s_default;
   private: Boolean _emitUTF8Identifier;
   private: Boolean _isThrowException;
 };
 CLASS(UTF8EncodingSealed) : public UTF8Encoding::in {
   public: ReadOnlySpan<Byte> get_Preamble();
-  public: void Ctor(Boolean encoderShouldEmitUTF8Identifier);
+  public: void ctor(Boolean encoderShouldEmitUTF8Identifier);
   public: Object Clone();
   public: Array<Byte> GetBytes(String s);
   private: Array<Byte> GetBytesForSmallInput(String s);

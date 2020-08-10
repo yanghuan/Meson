@@ -58,11 +58,11 @@ struct PropertyValue : public valueType<PropertyValue> {
   private: CLASS(TypeHelper) : public Object::in {
     public: Func<PropertyValue, PropertyValue> GetPropertyGetter(PropertyInfo property);
     protected: Delegate GetGetMethod(PropertyInfo property, Type propertyType);
-    protected: void Ctor();
+    protected: void ctor();
   };
   private: CLASS(ReferenceTypeHelper, TContainer) : public TypeHelper::in {
     public: Func<PropertyValue, PropertyValue> GetPropertyGetter(PropertyInfo property);
-    public: void Ctor();
+    public: void ctor();
   };
   public: Object get_ReferenceValue();
   public: Scalar get_ScalarValue();

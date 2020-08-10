@@ -56,7 +56,7 @@ struct AsyncValueTaskMethodBuilder<TResult> : public valueType<AsyncValueTaskMet
     public: TStateMachine StateMachine;
   };
   private: CLASS(SyncSuccessSentinelStateMachineBox) : public StateMachineBox<>::in {
-    public: void Ctor();
+    public: void ctor();
   };
   public: ValueTask<TResult> get_Task();
   public: static Object s_syncSuccessSentinel;

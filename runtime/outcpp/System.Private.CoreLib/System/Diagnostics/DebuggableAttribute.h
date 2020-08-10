@@ -18,8 +18,8 @@ CLASS(DebuggableAttribute) : public Attribute::in {
   public: Boolean get_IsJITTrackingEnabled();
   public: Boolean get_IsJITOptimizerDisabled();
   public: DebuggingModes get_DebuggingFlags() { return DebuggingFlags; }
-  public: void Ctor(Boolean isJITTrackingEnabled, Boolean isJITOptimizerDisabled);
-  public: void Ctor(DebuggingModes modes);
+  public: void ctor(Boolean isJITTrackingEnabled, Boolean isJITOptimizerDisabled);
+  public: void ctor(DebuggingModes modes);
   private: DebuggingModes DebuggingFlags;
 };
 } // namespace DebuggableAttributeNamespace

@@ -10,8 +10,8 @@ namespace MissingNamespace {
 using namespace Runtime::Serialization;
 CLASS(Missing) : public Object::in {
   public: using interface = rt::TypeList<ISerializable>;
-  private: void Ctor();
-  private: static void SCtor();
+  private: void ctor();
+  private: static void ctor_static();
   public: static Missing Value;
 };
 } // namespace MissingNamespace

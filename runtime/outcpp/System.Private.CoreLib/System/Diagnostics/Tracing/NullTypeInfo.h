@@ -13,7 +13,7 @@ FORWARD(TraceLoggingDataCollector)
 FORWARD(TraceLoggingMetadataCollector)
 namespace NullTypeInfoNamespace {
 CLASS(NullTypeInfo) : public TraceLoggingTypeInfo::in {
-  public: void Ctor();
+  public: void ctor();
   public: void WriteMetadata(TraceLoggingMetadataCollector collector, String name, EventFieldFormat format);
   public: void WriteData(TraceLoggingDataCollector collector, PropertyValue value);
   public: Object GetData(Object value);

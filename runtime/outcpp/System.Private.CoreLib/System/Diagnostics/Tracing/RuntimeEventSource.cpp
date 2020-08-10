@@ -4,7 +4,7 @@ namespace System::Private::CoreLib::System::Diagnostics::Tracing::RuntimeEventSo
 void RuntimeEventSource___::Initialize() {
 }
 
-void RuntimeEventSource___::Ctor() {
+void RuntimeEventSource___::ctor() {
 }
 
 void RuntimeEventSource___::OnEventCommand(EventCommandEventArgs command) {

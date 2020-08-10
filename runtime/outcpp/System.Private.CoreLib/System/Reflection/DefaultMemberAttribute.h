@@ -9,7 +9,7 @@ namespace System::Private::CoreLib::System::Reflection {
 namespace DefaultMemberAttributeNamespace {
 CLASS(DefaultMemberAttribute) : public Attribute::in {
   public: String get_MemberName() { return MemberName; }
-  public: void Ctor(String memberName);
+  public: void ctor(String memberName);
   private: String MemberName;
 };
 } // namespace DefaultMemberAttributeNamespace

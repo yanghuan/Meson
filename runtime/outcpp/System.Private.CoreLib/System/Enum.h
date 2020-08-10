@@ -38,7 +38,7 @@ using namespace Runtime::CompilerServices;
 CLASS(Enum) : public ValueType::in {
   public: using interface = rt::TypeList<IComparable<>, IFormattable, IConvertible>;
   private: CLASS(EnumInfo) : public Object::in {
-    public: void Ctor(Boolean hasFlagsAttribute, Array<UInt64> values, Array<String> names);
+    public: void ctor(Boolean hasFlagsAttribute, Array<UInt64> values, Array<String> names);
     public: Boolean HasFlagsAttribute;
     public: Array<UInt64> Values;
     public: Array<String> Names;
@@ -111,7 +111,7 @@ CLASS(Enum) : public ValueType::in {
   public: static Object ToObject(Type enumType, UInt64 value);
   private: static Object ToObject(Type enumType, Char value);
   private: static Object ToObject(Type enumType, Boolean value);
-  protected: void Ctor();
+  protected: void ctor();
 };
 } // namespace EnumNamespace
 using Enum = EnumNamespace::Enum;

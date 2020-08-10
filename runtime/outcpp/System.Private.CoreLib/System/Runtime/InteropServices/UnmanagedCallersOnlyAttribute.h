@@ -9,7 +9,7 @@ namespace System::Private::CoreLib::System::Runtime::InteropServices {
 enum class CallingConvention;
 namespace UnmanagedCallersOnlyAttributeNamespace {
 CLASS(UnmanagedCallersOnlyAttribute) : public Attribute::in {
-  public: void Ctor();
+  public: void ctor();
   public: CallingConvention CallingConvention;
   public: String EntryPoint;
 };

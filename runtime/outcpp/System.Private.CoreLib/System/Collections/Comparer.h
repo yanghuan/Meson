@@ -21,11 +21,11 @@ using namespace Globalization;
 using namespace Runtime::Serialization;
 CLASS(Comparer) : public Object::in {
   public: using interface = rt::TypeList<IComparer, ISerializable>;
-  public: void Ctor(CultureInfo culture);
-  private: void Ctor(SerializationInfo info, StreamingContext context);
+  public: void ctor(CultureInfo culture);
+  private: void ctor(SerializationInfo info, StreamingContext context);
   public: void GetObjectData(SerializationInfo info, StreamingContext context);
   public: Int32 Compare(Object a, Object b);
-  private: static void SCtor();
+  private: static void ctor_static();
   private: CompareInfo _compareInfo;
   public: static Comparer Default;
   public: static Comparer DefaultInvariant;

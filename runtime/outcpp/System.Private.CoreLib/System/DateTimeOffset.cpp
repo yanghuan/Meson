@@ -360,7 +360,7 @@ Boolean DateTimeOffset::op_GreaterThanOrEqual(DateTimeOffset left, DateTimeOffse
   return Boolean();
 }
 
-void DateTimeOffset::SCtor() {
+void DateTimeOffset::ctor_static() {
 }
 
 } // namespace System::Private::CoreLib::System::DateTimeOffsetNamespace

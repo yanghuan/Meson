@@ -5,7 +5,7 @@
 namespace System::Private::CoreLib::System::Runtime::InteropServices {
 namespace ComImportAttributeNamespace {
 CLASS(ComImportAttribute) : public Attribute::in {
-  public: void Ctor();
+  public: void ctor();
 };
 } // namespace ComImportAttributeNamespace
 using ComImportAttribute = ComImportAttributeNamespace::ComImportAttribute;

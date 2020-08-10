@@ -1,7 +1,7 @@
 #include "SecurityAttribute-dep.h"
 
 namespace System::Private::CoreLib::System::Security::Permissions::SecurityAttributeNamespace {
-void SecurityAttribute___::Ctor(SecurityAction action) {
+void SecurityAttribute___::ctor(SecurityAction action) {
 }
 
 } // namespace System::Private::CoreLib::System::Security::Permissions::SecurityAttributeNamespace

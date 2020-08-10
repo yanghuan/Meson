@@ -14,13 +14,13 @@ FORWARD(ExecutionContext)
 namespace ThreadHelperNamespace {
 using namespace Globalization;
 CLASS(ThreadHelper) : public Object::in {
-  public: void Ctor(Delegate start);
+  public: void ctor(Delegate start);
   public: void SetExecutionContextHelper(ExecutionContext ec);
   private: static void ThreadStart_Context(Object state);
   private: void InitializeCulture();
   public: void ThreadStart(Object obj);
   public: void ThreadStart();
-  private: static void SCtor();
+  private: static void ctor_static();
   private: Delegate _start;
   public: CultureInfo _startCulture;
   public: CultureInfo _startUICulture;

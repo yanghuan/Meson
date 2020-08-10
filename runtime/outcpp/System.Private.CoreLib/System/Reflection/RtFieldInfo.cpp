@@ -33,7 +33,7 @@ INVOCATION_FLAGS RtFieldInfo___::InitializeInvocationFlags() {
   return INVOCATION_FLAGS::INVOCATION_FLAGS_CONSTRUCTOR_INVOKE;
 }
 
-void RtFieldInfo___::Ctor(RuntimeFieldHandleInternal handle, RuntimeType declaringType, RuntimeType::in::RuntimeTypeCache reflectedTypeCache, BindingFlags bindingFlags) {
+void RtFieldInfo___::ctor(RuntimeFieldHandleInternal handle, RuntimeType declaringType, RuntimeType::in::RuntimeTypeCache reflectedTypeCache, BindingFlags bindingFlags) {
 }
 
 void RtFieldInfo___::CheckConsistency(Object target) {

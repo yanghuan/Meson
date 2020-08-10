@@ -1,10 +1,10 @@
 #include "MemberNotNullAttribute-dep.h"
 
 namespace System::Private::CoreLib::System::Diagnostics::CodeAnalysis::MemberNotNullAttributeNamespace {
-void MemberNotNullAttribute___::Ctor(String member) {
+void MemberNotNullAttribute___::ctor(String member) {
 }
 
-void MemberNotNullAttribute___::Ctor(Array<String> members) {
+void MemberNotNullAttribute___::ctor(Array<String> members) {
 }
 
 } // namespace System::Private::CoreLib::System::Diagnostics::CodeAnalysis::MemberNotNullAttributeNamespace

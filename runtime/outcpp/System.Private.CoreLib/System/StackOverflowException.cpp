@@ -1,16 +1,16 @@
 #include "StackOverflowException-dep.h"
 
 namespace System::Private::CoreLib::System::StackOverflowExceptionNamespace {
-void StackOverflowException___::Ctor() {
+void StackOverflowException___::ctor() {
 }
 
-void StackOverflowException___::Ctor(String message) {
+void StackOverflowException___::ctor(String message) {
 }
 
-void StackOverflowException___::Ctor(String message, Exception innerException) {
+void StackOverflowException___::ctor(String message, Exception innerException) {
 }
 
-void StackOverflowException___::Ctor(SerializationInfo info, StreamingContext context) {
+void StackOverflowException___::ctor(SerializationInfo info, StreamingContext context) {
 }
 
 } // namespace System::Private::CoreLib::System::StackOverflowExceptionNamespace

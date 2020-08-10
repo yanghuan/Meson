@@ -10,8 +10,8 @@ namespace System::Private::CoreLib::System::Diagnostics::CodeAnalysis {
 namespace MemberNotNullAttributeNamespace {
 CLASS(MemberNotNullAttribute) : public Attribute::in {
   public: Array<String> get_Members() { return Members; }
-  public: void Ctor(String member);
-  public: void Ctor(Array<String> members);
+  public: void ctor(String member);
+  public: void ctor(Array<String> members);
   private: Array<String> Members;
 };
 } // namespace MemberNotNullAttributeNamespace

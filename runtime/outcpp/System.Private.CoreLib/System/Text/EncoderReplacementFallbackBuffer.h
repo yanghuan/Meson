@@ -13,7 +13,7 @@ FORWARD(EncoderReplacementFallback)
 namespace EncoderReplacementFallbackBufferNamespace {
 CLASS(EncoderReplacementFallbackBuffer) : public EncoderFallbackBuffer::in {
   public: Int32 get_Remaining();
-  public: void Ctor(EncoderReplacementFallback fallback);
+  public: void ctor(EncoderReplacementFallback fallback);
   public: Boolean Fallback(Char charUnknown, Int32 index);
   public: Boolean Fallback(Char charUnknownHigh, Char charUnknownLow, Int32 index);
   public: Char GetNextChar();

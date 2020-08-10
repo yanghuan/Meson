@@ -1,7 +1,7 @@
 #include "ArrayTypeInfo-dep.h"
 
 namespace System::Private::CoreLib::System::Diagnostics::Tracing::ArrayTypeInfoNamespace {
-void ArrayTypeInfo___::Ctor(Type type, TraceLoggingTypeInfo elementInfo) {
+void ArrayTypeInfo___::ctor(Type type, TraceLoggingTypeInfo elementInfo) {
 }
 
 void ArrayTypeInfo___::WriteMetadata(TraceLoggingMetadataCollector collector, String name, EventFieldFormat format) {

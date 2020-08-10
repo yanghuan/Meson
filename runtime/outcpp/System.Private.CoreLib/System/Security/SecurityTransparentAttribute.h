@@ -5,7 +5,7 @@
 namespace System::Private::CoreLib::System::Security {
 namespace SecurityTransparentAttributeNamespace {
 CLASS(SecurityTransparentAttribute) : public Attribute::in {
-  public: void Ctor();
+  public: void ctor();
 };
 } // namespace SecurityTransparentAttributeNamespace
 using SecurityTransparentAttribute = SecurityTransparentAttributeNamespace::SecurityTransparentAttribute;

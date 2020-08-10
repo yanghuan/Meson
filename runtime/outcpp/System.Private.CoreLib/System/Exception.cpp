@@ -95,16 +95,16 @@ Exception::in::DispatchState Exception___::CaptureDispatchState() {
 void Exception___::SetCurrentStackTrace() {
 }
 
-void Exception___::Ctor() {
+void Exception___::ctor() {
 }
 
-void Exception___::Ctor(String message) {
+void Exception___::ctor(String message) {
 }
 
-void Exception___::Ctor(String message, Exception innerException) {
+void Exception___::ctor(String message, Exception innerException) {
 }
 
-void Exception___::Ctor(SerializationInfo info, StreamingContext context) {
+void Exception___::ctor(SerializationInfo info, StreamingContext context) {
 }
 
 String Exception___::GetClassName() {

@@ -17,7 +17,7 @@ namespace OSEncoderNamespace {
 using namespace ::System::Private::CoreLib::System;
 using namespace ::System::Private::CoreLib::System::Text;
 CLASS(OSEncoder) : public Encoder::in {
-  public: void Ctor(Encoding encoding);
+  public: void ctor(Encoding encoding);
   public: void Reset();
   public: Int32 GetByteCount(Array<Char> chars, Int32 index, Int32 count, Boolean flush);
   private: Int32 ConvertWithLeftOverChar(Char* chars, Int32 count, Byte* bytes, Int32 byteCount);

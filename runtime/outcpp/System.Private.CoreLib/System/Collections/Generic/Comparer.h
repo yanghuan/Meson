@@ -20,8 +20,8 @@ CLASS(Comparer, T) : public Object::in {
   public: static Comparer<T> get_Default() { return Default; }
   public: static Comparer<T> Create(Comparison<T> comparison);
   public: Int32 Compare(T x, T y);
-  protected: void Ctor();
-  private: static void SCtor();
+  protected: void ctor();
+  private: static void ctor_static();
   private: static Comparer<T> Default;
 };
 } // namespace ComparerNamespace

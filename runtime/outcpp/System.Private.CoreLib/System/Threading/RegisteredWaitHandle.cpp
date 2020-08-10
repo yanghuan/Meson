@@ -1,7 +1,7 @@
 #include "RegisteredWaitHandle-dep.h"
 
 namespace System::Private::CoreLib::System::Threading::RegisteredWaitHandleNamespace {
-void RegisteredWaitHandle___::Ctor() {
+void RegisteredWaitHandle___::ctor() {
 }
 
 void RegisteredWaitHandle___::SetHandle(IntPtr handle) {

@@ -1,7 +1,7 @@
 #include "NativeRuntimeEventSource-dep.h"
 
 namespace System::Private::CoreLib::System::Diagnostics::Tracing::NativeRuntimeEventSourceNamespace {
-void NativeRuntimeEventSource___::Ctor() {
+void NativeRuntimeEventSource___::ctor() {
 }
 
 void NativeRuntimeEventSource___::ProcessEvent(UInt32 eventID, UInt32 osThreadID, DateTime timeStamp, Guid activityId, Guid childActivityId, ReadOnlySpan<Byte> payload) {
@@ -427,7 +427,7 @@ void NativeRuntimeEventSource___::AssemblyLoadFromResolveHandlerInvoked(UInt16 C
 void NativeRuntimeEventSource___::KnownPathProbed(UInt16 ClrInstanceID, String FilePath, UInt16 Source, Int32 Result) {
 }
 
-void NativeRuntimeEventSource___::SCtor() {
+void NativeRuntimeEventSource___::ctor_static() {
 }
 
 } // namespace System::Private::CoreLib::System::Diagnostics::Tracing::NativeRuntimeEventSourceNamespace

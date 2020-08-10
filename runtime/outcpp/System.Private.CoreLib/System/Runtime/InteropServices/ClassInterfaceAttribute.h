@@ -10,8 +10,8 @@ enum class ClassInterfaceType;
 namespace ClassInterfaceAttributeNamespace {
 CLASS(ClassInterfaceAttribute) : public Attribute::in {
   public: ClassInterfaceType get_Value() { return Value; }
-  public: void Ctor(ClassInterfaceType classInterfaceType);
-  public: void Ctor(Int16 classInterfaceType);
+  public: void ctor(ClassInterfaceType classInterfaceType);
+  public: void ctor(Int16 classInterfaceType);
   private: ClassInterfaceType Value;
 };
 } // namespace ClassInterfaceAttributeNamespace

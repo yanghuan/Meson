@@ -38,9 +38,9 @@ CLASS(CalendarData) : public Object::in {
     public: Int32 userOverride;
     public: List<Int32> calendars;
   };
-  private: void Ctor();
+  private: void ctor();
   private: static CalendarData CreateInvariant();
-  public: void Ctor(String localeName, CalendarId calendarId, Boolean bUseUserOverrides);
+  public: void ctor(String localeName, CalendarId calendarId, Boolean bUseUserOverrides);
   private: void InitializeEraNames(String localeName, CalendarId calendarId);
   private: void InitializeAbbreviatedEraNames(String localeName, CalendarId calendarId);
   public: static CalendarData GetCalendarData(CalendarId calendarId);
@@ -74,7 +74,7 @@ CLASS(CalendarData) : public Object::in {
   private: static Boolean GetCalendarMonthInfo(String localeName, CalendarId calendar, UInt32 calType, Array<String>& outputStrings);
   private: static Interop::BOOL EnumCalendarsCallback(Char* lpCalendarInfoString, UInt32 calendar, IntPtr reserved, void* lParam);
   private: static String GetUserDefaultLocaleName();
-  private: static void SCtor();
+  private: static void ctor_static();
   public: String sNativeName;
   public: Array<String> saShortDates;
   public: Array<String> saYearMonths;

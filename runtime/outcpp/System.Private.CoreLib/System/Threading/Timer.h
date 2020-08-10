@@ -24,12 +24,12 @@ using namespace Tasks;
 CLASS(Timer) : public MarshalByRefObject::in {
   public: using interface = rt::TypeList<IDisposable, IAsyncDisposable>;
   public: static Int64 get_ActiveCount();
-  public: void Ctor(TimerCallback callback, Object state, Int32 dueTime, Int32 period);
-  public: void Ctor(TimerCallback callback, Object state, Int32 dueTime, Int32 period, Boolean flowExecutionContext);
-  public: void Ctor(TimerCallback callback, Object state, TimeSpan dueTime, TimeSpan period);
-  public: void Ctor(TimerCallback callback, Object state, UInt32 dueTime, UInt32 period);
-  public: void Ctor(TimerCallback callback, Object state, Int64 dueTime, Int64 period);
-  public: void Ctor(TimerCallback callback);
+  public: void ctor(TimerCallback callback, Object state, Int32 dueTime, Int32 period);
+  public: void ctor(TimerCallback callback, Object state, Int32 dueTime, Int32 period, Boolean flowExecutionContext);
+  public: void ctor(TimerCallback callback, Object state, TimeSpan dueTime, TimeSpan period);
+  public: void ctor(TimerCallback callback, Object state, UInt32 dueTime, UInt32 period);
+  public: void ctor(TimerCallback callback, Object state, Int64 dueTime, Int64 period);
+  public: void ctor(TimerCallback callback);
   private: void TimerSetup(TimerCallback callback, Object state, UInt32 dueTime, UInt32 period, Boolean flowExecutionContext);
   public: Boolean Change(Int32 dueTime, Int32 period);
   public: Boolean Change(TimeSpan dueTime, TimeSpan period);

@@ -18,8 +18,8 @@ using namespace Runtime::ExceptionServices;
 using namespace Threading;
 CLASS(LazyHelper) : public Object::in {
   public: LazyState get_State() { return State; }
-  public: void Ctor(LazyState state);
-  public: void Ctor(LazyThreadSafetyMode mode, Exception exception);
+  public: void ctor(LazyState state);
+  public: void ctor(LazyThreadSafetyMode mode, Exception exception);
   public: void ThrowException();
   private: LazyThreadSafetyMode GetMode();
   public: static Nullable<LazyThreadSafetyMode> GetMode(LazyHelper state);
@@ -28,7 +28,7 @@ CLASS(LazyHelper) : public Object::in {
   public: template <class T>
   static T CreateViaDefaultConstructor();
   public: static LazyThreadSafetyMode GetModeFromIsThreadSafe(Boolean isThreadSafe);
-  private: static void SCtor();
+  private: static void ctor_static();
   public: static LazyHelper NoneViaConstructor;
   public: static LazyHelper NoneViaFactory;
   public: static LazyHelper PublicationOnlyViaConstructor;

@@ -1,22 +1,22 @@
 #include "SecurityException-dep.h"
 
 namespace System::Private::CoreLib::System::Security::SecurityExceptionNamespace {
-void SecurityException___::Ctor() {
+void SecurityException___::ctor() {
 }
 
-void SecurityException___::Ctor(String message) {
+void SecurityException___::ctor(String message) {
 }
 
-void SecurityException___::Ctor(String message, Exception inner) {
+void SecurityException___::ctor(String message, Exception inner) {
 }
 
-void SecurityException___::Ctor(String message, Type type) {
+void SecurityException___::ctor(String message, Type type) {
 }
 
-void SecurityException___::Ctor(String message, Type type, String state) {
+void SecurityException___::ctor(String message, Type type, String state) {
 }
 
-void SecurityException___::Ctor(SerializationInfo info, StreamingContext context) {
+void SecurityException___::ctor(SerializationInfo info, StreamingContext context) {
 }
 
 String SecurityException___::ToString() {

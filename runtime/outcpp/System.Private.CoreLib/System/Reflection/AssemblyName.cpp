@@ -88,10 +88,10 @@ String AssemblyName___::get_FullName() {
   return nullptr;
 }
 
-void AssemblyName___::Ctor(String assemblyName) {
+void AssemblyName___::ctor(String assemblyName) {
 }
 
-void AssemblyName___::Ctor(String name, Array<Byte> publicKey, Array<Byte> publicKeyToken, Version version, CultureInfo cultureInfo, AssemblyHashAlgorithm hashAlgorithm, AssemblyVersionCompatibility versionCompatibility, String codeBase, AssemblyNameFlags flags, StrongNameKeyPair keyPair) {
+void AssemblyName___::ctor(String name, Array<Byte> publicKey, Array<Byte> publicKeyToken, Version version, CultureInfo cultureInfo, AssemblyHashAlgorithm hashAlgorithm, AssemblyVersionCompatibility versionCompatibility, String codeBase, AssemblyNameFlags flags, StrongNameKeyPair keyPair) {
 }
 
 AssemblyName AssemblyName___::GetFileInformationCore(String assemblyFile) {
@@ -105,7 +105,7 @@ ProcessorArchitecture AssemblyName___::CalculateProcArchIndex(PortableExecutable
   return ProcessorArchitecture::Arm;
 }
 
-void AssemblyName___::Ctor() {
+void AssemblyName___::ctor() {
 }
 
 Object AssemblyName___::Clone() {

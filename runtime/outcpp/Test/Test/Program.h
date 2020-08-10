@@ -12,7 +12,7 @@ using namespace ::System::Private::CoreLib::System;
 CLASS(Program) : public Object::in {
   private: static void f();
   public: static void Main(Array<String> args);
-  public: void Ctor();
+  public: void ctor();
 };
 } // namespace ProgramNamespace
 using Program = ProgramNamespace::Program;

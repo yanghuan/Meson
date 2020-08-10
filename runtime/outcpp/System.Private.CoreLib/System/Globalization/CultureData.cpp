@@ -669,10 +669,10 @@ CultureData CultureData___::GetCurrentRegionData() {
   return nullptr;
 }
 
-void CultureData___::Ctor() {
+void CultureData___::ctor() {
 }
 
-void CultureData___::SCtor() {
+void CultureData___::ctor_static() {
 }
 
 } // namespace System::Private::CoreLib::System::Globalization::CultureDataNamespace

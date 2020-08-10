@@ -36,7 +36,7 @@ CLASS(SystemThreading_SpinLockDebugView) : public Object::in {
   public: Nullable<Boolean> get_IsHeldByCurrentThread();
   public: Nullable<Int32> get_OwnerThreadID();
   public: Boolean get_IsHeld();
-  public: void Ctor(SpinLock spinLock);
+  public: void ctor(SpinLock spinLock);
   private: SpinLock _spinLock;
 };
 } // namespace SpinLockNamespace

@@ -5,7 +5,7 @@
 namespace System::Private::CoreLib::System::Runtime::CompilerServices {
 namespace StringFreezingAttributeNamespace {
 CLASS(StringFreezingAttribute) : public Attribute::in {
-  public: void Ctor();
+  public: void ctor();
 };
 } // namespace StringFreezingAttributeNamespace
 using StringFreezingAttribute = StringFreezingAttributeNamespace::StringFreezingAttribute;

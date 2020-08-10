@@ -7,7 +7,7 @@ namespace System::Private::CoreLib::System::Runtime::InteropServices {
 namespace ComVisibleAttributeNamespace {
 CLASS(ComVisibleAttribute) : public Attribute::in {
   public: Boolean get_Value() { return Value; }
-  public: void Ctor(Boolean visibility);
+  public: void ctor(Boolean visibility);
   private: Boolean Value;
 };
 } // namespace ComVisibleAttributeNamespace

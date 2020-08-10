@@ -34,7 +34,7 @@ template <class TResult>
 struct AsyncTaskMethodBuilder<TResult> : public valueType<AsyncTaskMethodBuilder<TResult>> {
   private: CLASS(DebugFinalizableAsyncStateMachineBox, TStateMachine) : public AsyncStateMachineBox<TStateMachine>::in {
     protected: void Finalize();
-    public: void Ctor();
+    public: void ctor();
   };
   private: CLASS(AsyncStateMachineBox, TStateMachine) : public Task<TResult>::in {
     public: using interface = rt::TypeList<IAsyncStateMachineBox>;
@@ -43,8 +43,8 @@ struct AsyncTaskMethodBuilder<TResult> : public valueType<AsyncTaskMethodBuilder
     public: void ExecuteFromThreadPool(Thread threadPoolThread);
     public: void MoveNext();
     private: void MoveNext(Thread threadPoolThread);
-    public: void Ctor();
-    private: static void SCtor();
+    public: void ctor();
+    private: static void ctor_static();
     private: static ContextCallback<> s_callback;
     private: Action<> _moveNextAction;
     public: TStateMachine StateMachine;

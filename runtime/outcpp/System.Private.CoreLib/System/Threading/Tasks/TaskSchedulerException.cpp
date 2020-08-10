@@ -1,19 +1,19 @@
 #include "TaskSchedulerException-dep.h"
 
 namespace System::Private::CoreLib::System::Threading::Tasks::TaskSchedulerExceptionNamespace {
-void TaskSchedulerException___::Ctor() {
+void TaskSchedulerException___::ctor() {
 }
 
-void TaskSchedulerException___::Ctor(String message) {
+void TaskSchedulerException___::ctor(String message) {
 }
 
-void TaskSchedulerException___::Ctor(Exception innerException) {
+void TaskSchedulerException___::ctor(Exception innerException) {
 }
 
-void TaskSchedulerException___::Ctor(String message, Exception innerException) {
+void TaskSchedulerException___::ctor(String message, Exception innerException) {
 }
 
-void TaskSchedulerException___::Ctor(SerializationInfo info, StreamingContext context) {
+void TaskSchedulerException___::ctor(SerializationInfo info, StreamingContext context) {
 }
 
 } // namespace System::Private::CoreLib::System::Threading::Tasks::TaskSchedulerExceptionNamespace

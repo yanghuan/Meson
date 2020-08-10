@@ -31,10 +31,10 @@ ArrayList SecurityElement___::get_Children() {
 void SecurityElement___::set_Children(ArrayList value) {
 }
 
-void SecurityElement___::Ctor(String tag) {
+void SecurityElement___::ctor(String tag) {
 }
 
-void SecurityElement___::Ctor(String tag, String text) {
+void SecurityElement___::ctor(String tag, String text) {
 }
 
 void SecurityElement___::AddAttributeSafe(String name, String value) {
@@ -109,7 +109,7 @@ SecurityElement SecurityElement___::FromString(String xml) {
   return nullptr;
 }
 
-void SecurityElement___::SCtor() {
+void SecurityElement___::ctor_static() {
 }
 
 } // namespace System::Private::CoreLib::System::Security::SecurityElementNamespace

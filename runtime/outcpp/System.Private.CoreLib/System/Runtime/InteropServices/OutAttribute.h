@@ -5,7 +5,7 @@
 namespace System::Private::CoreLib::System::Runtime::InteropServices {
 namespace OutAttributeNamespace {
 CLASS(OutAttribute) : public Attribute::in {
-  public: void Ctor();
+  public: void ctor();
 };
 } // namespace OutAttributeNamespace
 using OutAttribute = OutAttributeNamespace::OutAttribute;

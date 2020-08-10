@@ -11,7 +11,7 @@ Int32 SynchronizationContext___::InvokeWaitMethodHelper(SynchronizationContext s
   return Int32();
 }
 
-void SynchronizationContext___::Ctor() {
+void SynchronizationContext___::ctor() {
 }
 
 void SynchronizationContext___::SetWaitNotificationRequired() {

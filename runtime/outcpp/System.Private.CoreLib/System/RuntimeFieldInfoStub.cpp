@@ -5,7 +5,7 @@ RuntimeFieldHandleInternal RuntimeFieldInfoStub___::get_ValueOfIRuntimeFieldInfo
   return RuntimeFieldHandleInternal();
 }
 
-void RuntimeFieldInfoStub___::Ctor() {
+void RuntimeFieldInfoStub___::ctor() {
 }
 
 } // namespace System::Private::CoreLib::System::RuntimeFieldInfoStubNamespace

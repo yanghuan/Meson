@@ -3,7 +3,7 @@
 #include <System.Private.CoreLib/System/IO/TextReader-dep.h>
 
 namespace System::Private::CoreLib::System::IO::TextReaderNamespace {
-void NullTextReader___::Ctor() {
+void NullTextReader___::ctor() {
 }
 
 Int32 NullTextReader___::Read(Array<Char> buffer, Int32 index, Int32 count) {
@@ -14,7 +14,7 @@ String NullTextReader___::ReadLine() {
   return nullptr;
 }
 
-void SyncTextReader___::Ctor(TextReader t) {
+void SyncTextReader___::ctor(TextReader t) {
 }
 
 void SyncTextReader___::Close() {
@@ -63,7 +63,7 @@ Task<Int32> SyncTextReader___::ReadAsync(Array<Char> buffer, Int32 index, Int32 
   return nullptr;
 }
 
-void TextReader___::Ctor() {
+void TextReader___::ctor() {
 }
 
 void TextReader___::Close() {
@@ -143,7 +143,7 @@ TextReader TextReader___::Synchronized(TextReader reader) {
   return nullptr;
 }
 
-void TextReader___::SCtor() {
+void TextReader___::ctor_static() {
 }
 
 } // namespace System::Private::CoreLib::System::IO::TextReaderNamespace

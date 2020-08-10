@@ -6,7 +6,7 @@ namespace System::Private::CoreLib::System {
 FORWARDS(Boolean)
 namespace MarshalByRefObjectNamespace {
 CLASS(MarshalByRefObject) : public Object::in {
-  protected: void Ctor();
+  protected: void ctor();
   public: Object GetLifetimeService();
   public: Object InitializeLifetimeService();
   protected: MarshalByRefObject MemberwiseClone(Boolean cloneIdentity);

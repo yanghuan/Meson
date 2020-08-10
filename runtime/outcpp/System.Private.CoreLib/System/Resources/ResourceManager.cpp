@@ -3,7 +3,7 @@
 #include <System.Private.CoreLib/System/Resources/ResourceManager-dep.h>
 
 namespace System::Private::CoreLib::System::Resources::ResourceManagerNamespace {
-void ResourceManager___::CultureNameResourceSetPair___::Ctor() {
+void ResourceManager___::CultureNameResourceSetPair___::ctor() {
 }
 
 String ResourceManager___::ResourceManagerMediator___::get_ModuleDir() {
@@ -52,7 +52,7 @@ String ResourceManager___::ResourceManagerMediator___::get_BaseName() {
   return nullptr;
 }
 
-void ResourceManager___::ResourceManagerMediator___::Ctor(ResourceManager rm) {
+void ResourceManager___::ResourceManagerMediator___::ctor(ResourceManager rm) {
 }
 
 String ResourceManager___::ResourceManagerMediator___::GetResourceFileName(CultureInfo culture) {
@@ -85,19 +85,19 @@ UltimateResourceFallbackLocation ResourceManager___::get_FallbackLocation() {
 void ResourceManager___::set_FallbackLocation(UltimateResourceFallbackLocation value) {
 }
 
-void ResourceManager___::Ctor() {
+void ResourceManager___::ctor() {
 }
 
-void ResourceManager___::Ctor(String baseName, String resourceDir, Type userResourceSet) {
+void ResourceManager___::ctor(String baseName, String resourceDir, Type userResourceSet) {
 }
 
-void ResourceManager___::Ctor(String baseName, Assembly assembly) {
+void ResourceManager___::ctor(String baseName, Assembly assembly) {
 }
 
-void ResourceManager___::Ctor(String baseName, Assembly assembly, Type usingResourceSet) {
+void ResourceManager___::ctor(String baseName, Assembly assembly, Type usingResourceSet) {
 }
 
-void ResourceManager___::Ctor(Type resourceSource) {
+void ResourceManager___::ctor(Type resourceSource) {
 }
 
 void ResourceManager___::CommonAssemblyInit() {
@@ -169,7 +169,7 @@ UnmanagedMemoryStream ResourceManager___::GetStream(String name, CultureInfo cul
   return nullptr;
 }
 
-void ResourceManager___::SCtor() {
+void ResourceManager___::ctor_static() {
 }
 
 } // namespace System::Private::CoreLib::System::Resources::ResourceManagerNamespace

@@ -1,7 +1,7 @@
 #include "InternalModuleBuilder-dep.h"
 
 namespace System::Private::CoreLib::System::Reflection::Emit::InternalModuleBuilderNamespace {
-void InternalModuleBuilder___::Ctor() {
+void InternalModuleBuilder___::ctor() {
 }
 
 Boolean InternalModuleBuilder___::Equals(Object obj) {

@@ -1,7 +1,7 @@
 #include "ArrayPoolEventSource-dep.h"
 
 namespace System::Private::CoreLib::System::Buffers::ArrayPoolEventSourceNamespace {
-void ArrayPoolEventSource___::Ctor() {
+void ArrayPoolEventSource___::ctor() {
 }
 
 void ArrayPoolEventSource___::BufferRented(Int32 bufferId, Int32 bufferSize, Int32 poolId, Int32 bucketId) {
@@ -19,7 +19,7 @@ void ArrayPoolEventSource___::BufferTrimmed(Int32 bufferId, Int32 bufferSize, In
 void ArrayPoolEventSource___::BufferTrimPoll(Int32 milliseconds, Int32 pressure) {
 }
 
-void ArrayPoolEventSource___::SCtor() {
+void ArrayPoolEventSource___::ctor_static() {
 }
 
 } // namespace System::Private::CoreLib::System::Buffers::ArrayPoolEventSourceNamespace

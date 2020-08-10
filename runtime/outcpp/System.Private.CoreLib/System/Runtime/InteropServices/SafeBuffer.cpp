@@ -9,7 +9,7 @@ UInt64 SafeBuffer___::get_ByteLength() {
   return UInt64();
 }
 
-void SafeBuffer___::Ctor(Boolean ownsHandle) {
+void SafeBuffer___::ctor(Boolean ownsHandle) {
 }
 
 void SafeBuffer___::Initialize(UInt64 numBytes) {

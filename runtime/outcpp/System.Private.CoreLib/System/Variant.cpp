@@ -67,7 +67,7 @@ Object Variant::MarshalHelperConvertVariantToObject(Variant& v) {
 void Variant::MarshalHelperCastVariant(Object pValue, Int32 vt, Variant& v) {
 }
 
-void Variant::SCtor() {
+void Variant::ctor_static() {
 }
 
 } // namespace System::Private::CoreLib::System::VariantNamespace

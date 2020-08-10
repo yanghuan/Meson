@@ -6,7 +6,7 @@ namespace System::Private::CoreLib::System::Diagnostics::Tracing {
 namespace EventPipeWaitHandleNamespace {
 using namespace Threading;
 CLASS(EventPipeWaitHandle) : public WaitHandle::in {
-  public: void Ctor();
+  public: void ctor();
 };
 } // namespace EventPipeWaitHandleNamespace
 using EventPipeWaitHandle = EventPipeWaitHandleNamespace::EventPipeWaitHandle;

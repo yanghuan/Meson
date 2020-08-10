@@ -9,7 +9,7 @@ namespace System::Private::CoreLib::System::Runtime::CompilerServices {
 namespace AccessedThroughPropertyAttributeNamespace {
 CLASS(AccessedThroughPropertyAttribute) : public Attribute::in {
   public: String get_PropertyName() { return PropertyName; }
-  public: void Ctor(String propertyName);
+  public: void ctor(String propertyName);
   private: String PropertyName;
 };
 } // namespace AccessedThroughPropertyAttributeNamespace

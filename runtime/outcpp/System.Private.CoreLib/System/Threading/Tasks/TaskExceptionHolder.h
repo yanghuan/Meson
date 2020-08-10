@@ -24,7 +24,7 @@ using namespace Collections::ObjectModel;
 using namespace Runtime::ExceptionServices;
 CLASS(TaskExceptionHolder) : public Object::in {
   public: Boolean get_ContainsFaultList();
-  public: void Ctor(Task<> task);
+  public: void ctor(Task<> task);
   protected: void Finalize();
   public: void Add(Object exceptionObject, Boolean representsCancellation);
   private: void SetCancellationException(Object exceptionObject);

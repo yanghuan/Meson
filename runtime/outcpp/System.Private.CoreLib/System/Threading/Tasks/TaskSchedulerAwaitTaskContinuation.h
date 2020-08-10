@@ -11,7 +11,7 @@ FORWARD_(Task, T1, T2)
 FORWARD(TaskScheduler)
 namespace TaskSchedulerAwaitTaskContinuationNamespace {
 CLASS(TaskSchedulerAwaitTaskContinuation) : public AwaitTaskContinuation::in {
-  public: void Ctor(TaskScheduler scheduler, Action<> action, Boolean flowExecutionContext);
+  public: void ctor(TaskScheduler scheduler, Action<> action, Boolean flowExecutionContext);
   public: void Run(Task<> ignored, Boolean canInlineContinuationTask);
   private: TaskScheduler m_scheduler;
 };

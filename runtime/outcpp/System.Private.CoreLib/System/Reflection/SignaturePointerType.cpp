@@ -13,7 +13,7 @@ String SignaturePointerType___::get_Suffix() {
   return nullptr;
 }
 
-void SignaturePointerType___::Ctor(SignatureType elementType) {
+void SignaturePointerType___::ctor(SignatureType elementType) {
 }
 
 Boolean SignaturePointerType___::IsArrayImpl() {

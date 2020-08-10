@@ -37,7 +37,7 @@ Type PropertyBuilder___::get_ReflectedType() {
   return nullptr;
 }
 
-void PropertyBuilder___::Ctor(ModuleBuilder mod, String name, SignatureHelper sig, PropertyAttributes attr, Type returnType, PropertyToken prToken, TypeBuilder containingType) {
+void PropertyBuilder___::ctor(ModuleBuilder mod, String name, SignatureHelper sig, PropertyAttributes attr, Type returnType, PropertyToken prToken, TypeBuilder containingType) {
 }
 
 void PropertyBuilder___::SetConstant(Object defaultValue) {

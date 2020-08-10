@@ -23,7 +23,7 @@ CLASS(SerializationInfoEnumerator) : public Object::in {
   public: String get_Name();
   public: Object get_Value();
   public: Type get_ObjectType();
-  public: void Ctor(Array<String> members, Array<Object> info, Array<Type> types, Int32 numItems);
+  public: void ctor(Array<String> members, Array<Object> info, Array<Type> types, Int32 numItems);
   public: Boolean MoveNext();
   public: void Reset();
   private: Array<String> _members;

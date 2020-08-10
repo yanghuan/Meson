@@ -18,7 +18,7 @@ namespace GregorianCalendarHelperNamespace {
 CLASS(GregorianCalendarHelper) : public Object::in {
   public: Int32 get_MaxYear();
   public: Array<Int32> get_Eras();
-  public: void Ctor(Calendar cal, Array<EraInfo> eraInfo);
+  public: void ctor(Calendar cal, Array<EraInfo> eraInfo);
   private: Int32 GetYearOffset(Int32 year, Int32 era, Boolean throwOnError);
   public: Int32 GetGregorianYear(Int32 year, Int32 era);
   public: Boolean IsValidYear(Int32 year, Int32 era);
@@ -47,7 +47,7 @@ CLASS(GregorianCalendarHelper) : public Object::in {
   public: DateTime ToDateTime(Int32 year, Int32 month, Int32 day, Int32 hour, Int32 minute, Int32 second, Int32 millisecond, Int32 era);
   public: Int32 GetWeekOfYear(DateTime time, CalendarWeekRule rule, DayOfWeek firstDayOfWeek);
   public: Int32 ToFourDigitYear(Int32 year, Int32 twoDigitYearMax);
-  private: static void SCtor();
+  private: static void ctor_static();
   public: static Array<Int32> DaysToMonth365;
   public: static Array<Int32> DaysToMonth366;
   public: Int32 m_maxYear;

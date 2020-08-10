@@ -5,7 +5,7 @@ Boolean Latin1Encoding___::get_IsSingleByte() {
   return Boolean();
 }
 
-void Latin1Encoding___::Ctor() {
+void Latin1Encoding___::ctor() {
 }
 
 Int32 Latin1Encoding___::GetByteCount(Char* chars, Int32 charCount, EncoderNLS encoder) {
@@ -40,7 +40,7 @@ Array<Char> Latin1Encoding___::GetBestFitUnicodeToBytesData() {
   return Array<Char>();
 }
 
-void Latin1Encoding___::SCtor() {
+void Latin1Encoding___::ctor_static() {
 }
 
 } // namespace System::Private::CoreLib::System::Text::Latin1EncodingNamespace

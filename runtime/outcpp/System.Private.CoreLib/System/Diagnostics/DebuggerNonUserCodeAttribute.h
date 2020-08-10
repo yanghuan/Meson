@@ -5,7 +5,7 @@
 namespace System::Private::CoreLib::System::Diagnostics {
 namespace DebuggerNonUserCodeAttributeNamespace {
 CLASS(DebuggerNonUserCodeAttribute) : public Attribute::in {
-  public: void Ctor();
+  public: void ctor();
 };
 } // namespace DebuggerNonUserCodeAttributeNamespace
 using DebuggerNonUserCodeAttribute = DebuggerNonUserCodeAttributeNamespace::DebuggerNonUserCodeAttribute;

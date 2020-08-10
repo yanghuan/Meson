@@ -33,9 +33,9 @@ using namespace Text;
 CLASS(BinaryReader) : public Object::in {
   public: using interface = rt::TypeList<IDisposable>;
   public: Stream get_BaseStream();
-  public: void Ctor(Stream input);
-  public: void Ctor(Stream input, Encoding encoding);
-  public: void Ctor(Stream input, Encoding encoding, Boolean leaveOpen);
+  public: void ctor(Stream input);
+  public: void ctor(Stream input, Encoding encoding);
+  public: void ctor(Stream input, Encoding encoding, Boolean leaveOpen);
   protected: void Dispose(Boolean disposing);
   public: void Dispose();
   public: void Close();

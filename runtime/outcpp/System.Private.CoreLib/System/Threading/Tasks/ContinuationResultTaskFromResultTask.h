@@ -11,7 +11,7 @@ enum class InternalTaskOptions;
 enum class TaskCreationOptions;
 namespace ContinuationResultTaskFromResultTaskNamespace {
 CLASS(ContinuationResultTaskFromResultTask, TAntecedentResult, TResult) : public Task<TResult>::in {
-  public: void Ctor(Task<TAntecedentResult> antecedent, Delegate function, Object state, TaskCreationOptions creationOptions, InternalTaskOptions internalOptions);
+  public: void ctor(Task<TAntecedentResult> antecedent, Delegate function, Object state, TaskCreationOptions creationOptions, InternalTaskOptions internalOptions);
   public: void InnerInvoke();
   private: Task<TAntecedentResult> m_antecedent;
 };

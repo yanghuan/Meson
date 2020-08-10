@@ -13,7 +13,7 @@ namespace System::Private::CoreLib::System::StubHelpers {
 namespace SafeHandleCleanupWorkListElementNamespace {
 using namespace Runtime::InteropServices;
 CLASS(SafeHandleCleanupWorkListElement) : public CleanupWorkListElement::in {
-  public: void Ctor(SafeHandle handle);
+  public: void ctor(SafeHandle handle);
   protected: void DestroyCore();
   public: IntPtr AddRef();
   private: SafeHandle m_handle;

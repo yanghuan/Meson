@@ -15,7 +15,7 @@ using namespace Collections::Generic;
 using Collections::Generic::IList;
 CLASS(TupleElementNamesAttribute) : public Attribute::in {
   public: IList<String> get_TransformNames();
-  public: void Ctor(Array<String> transformNames);
+  public: void ctor(Array<String> transformNames);
   private: Array<String> _transformNames;
 };
 } // namespace TupleElementNamesAttributeNamespace

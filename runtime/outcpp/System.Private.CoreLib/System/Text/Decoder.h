@@ -20,7 +20,7 @@ CLASS(Decoder) : public Object::in {
   public: void set_Fallback(DecoderFallback value);
   public: DecoderFallbackBuffer get_FallbackBuffer();
   public: Boolean get_InternalHasFallbackBuffer();
-  protected: void Ctor();
+  protected: void ctor();
   public: void Reset();
   public: Int32 GetCharCount(Array<Byte> bytes, Int32 index, Int32 count);
   public: Int32 GetCharCount(Array<Byte> bytes, Int32 index, Int32 count, Boolean flush);

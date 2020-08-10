@@ -17,7 +17,7 @@ Array<EventPipeProviderConfiguration> EventPipeConfiguration___::get_Providers()
   return Array<EventPipeProviderConfiguration>();
 }
 
-void EventPipeConfiguration___::Ctor(String outputFile, EventPipeSerializationFormat format, UInt32 circularBufferSizeInMB) {
+void EventPipeConfiguration___::ctor(String outputFile, EventPipeSerializationFormat format, UInt32 circularBufferSizeInMB) {
 }
 
 void EventPipeConfiguration___::EnableProvider(String providerName, UInt64 keywords, UInt32 loggingLevel) {

@@ -15,12 +15,12 @@ namespace System::Private::CoreLib::System::Security::Cryptography {
 namespace CryptographicExceptionNamespace {
 using namespace Runtime::Serialization;
 CLASS(CryptographicException) : public SystemException::in {
-  public: void Ctor();
-  public: void Ctor(Int32 hr);
-  public: void Ctor(String message);
-  public: void Ctor(String message, Exception inner);
-  public: void Ctor(String format, String insert);
-  protected: void Ctor(SerializationInfo info, StreamingContext context);
+  public: void ctor();
+  public: void ctor(Int32 hr);
+  public: void ctor(String message);
+  public: void ctor(String message, Exception inner);
+  public: void ctor(String format, String insert);
+  protected: void ctor(SerializationInfo info, StreamingContext context);
 };
 } // namespace CryptographicExceptionNamespace
 using CryptographicException = CryptographicExceptionNamespace::CryptographicException;

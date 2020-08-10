@@ -35,22 +35,22 @@ Byte* UnmanagedMemoryStream___::get_PositionPointer() {
 void UnmanagedMemoryStream___::set_PositionPointer(Byte* value) {
 }
 
-void UnmanagedMemoryStream___::Ctor() {
+void UnmanagedMemoryStream___::ctor() {
 }
 
-void UnmanagedMemoryStream___::Ctor(SafeBuffer buffer, Int64 offset, Int64 length) {
+void UnmanagedMemoryStream___::ctor(SafeBuffer buffer, Int64 offset, Int64 length) {
 }
 
-void UnmanagedMemoryStream___::Ctor(SafeBuffer buffer, Int64 offset, Int64 length, FileAccess access) {
+void UnmanagedMemoryStream___::ctor(SafeBuffer buffer, Int64 offset, Int64 length, FileAccess access) {
 }
 
 void UnmanagedMemoryStream___::Initialize(SafeBuffer buffer, Int64 offset, Int64 length, FileAccess access) {
 }
 
-void UnmanagedMemoryStream___::Ctor(Byte* pointer, Int64 length) {
+void UnmanagedMemoryStream___::ctor(Byte* pointer, Int64 length) {
 }
 
-void UnmanagedMemoryStream___::Ctor(Byte* pointer, Int64 length, Int64 capacity, FileAccess access) {
+void UnmanagedMemoryStream___::ctor(Byte* pointer, Int64 length, Int64 capacity, FileAccess access) {
 }
 
 void UnmanagedMemoryStream___::Initialize(Byte* pointer, Int64 length, Int64 capacity, FileAccess access) {

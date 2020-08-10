@@ -45,8 +45,8 @@ CLASS(TextWriter) : public MarshalByRefObject::in {
   public: Encoding get_Encoding();
   public: String get_NewLine();
   public: void set_NewLine(String value);
-  protected: void Ctor();
-  protected: void Ctor(IFormatProvider formatProvider);
+  protected: void ctor();
+  protected: void ctor(IFormatProvider formatProvider);
   public: void Close();
   protected: void Dispose(Boolean disposing);
   public: void Dispose();
@@ -106,7 +106,7 @@ CLASS(TextWriter) : public MarshalByRefObject::in {
   public: Task<> WriteLineAsync();
   public: Task<> FlushAsync();
   public: static TextWriter Synchronized(TextWriter writer);
-  private: static void SCtor();
+  private: static void ctor_static();
   public: static TextWriter Null;
   private: static Array<Char> s_coreNewLine;
   protected: Array<Char> CoreNewLine;
@@ -115,7 +115,7 @@ CLASS(TextWriter) : public MarshalByRefObject::in {
 };
 CLASS(NullTextWriter) : public TextWriter::in {
   public: Encoding get_Encoding();
-  public: void Ctor();
+  public: void ctor();
   public: void Write(Array<Char> buffer, Int32 index, Int32 count);
   public: void Write(String value);
   public: void WriteLine();
@@ -129,7 +129,7 @@ CLASS(SyncTextWriter) : public TextWriter::in {
   public: IFormatProvider get_FormatProvider();
   public: String get_NewLine();
   public: void set_NewLine(String value);
-  public: void Ctor(TextWriter t);
+  public: void ctor(TextWriter t);
   public: void Close();
   protected: void Dispose(Boolean disposing);
   public: void Flush();

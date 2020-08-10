@@ -45,7 +45,7 @@ FieldInfo FieldOnTypeBuilderInstantiation___::GetField(FieldInfo Field, TypeBuil
   return nullptr;
 }
 
-void FieldOnTypeBuilderInstantiation___::Ctor(FieldInfo field, TypeBuilderInstantiation type) {
+void FieldOnTypeBuilderInstantiation___::ctor(FieldInfo field, TypeBuilderInstantiation type) {
 }
 
 Array<Object> FieldOnTypeBuilderInstantiation___::GetCustomAttributes(Boolean inherit) {

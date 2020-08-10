@@ -14,8 +14,8 @@ namespace ThreadAbortExceptionNamespace {
 using namespace Runtime::Serialization;
 CLASS(ThreadAbortException) : public SystemException::in {
   public: Object get_ExceptionState();
-  public: void Ctor();
-  private: void Ctor(SerializationInfo info, StreamingContext context);
+  public: void ctor();
+  private: void ctor(SerializationInfo info, StreamingContext context);
 };
 } // namespace ThreadAbortExceptionNamespace
 using ThreadAbortException = ThreadAbortExceptionNamespace::ThreadAbortException;

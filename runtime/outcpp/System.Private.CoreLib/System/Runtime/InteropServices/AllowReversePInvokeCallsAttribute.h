@@ -5,7 +5,7 @@
 namespace System::Private::CoreLib::System::Runtime::InteropServices {
 namespace AllowReversePInvokeCallsAttributeNamespace {
 CLASS(AllowReversePInvokeCallsAttribute) : public Attribute::in {
-  public: void Ctor();
+  public: void ctor();
 };
 } // namespace AllowReversePInvokeCallsAttributeNamespace
 using AllowReversePInvokeCallsAttribute = AllowReversePInvokeCallsAttributeNamespace::AllowReversePInvokeCallsAttribute;

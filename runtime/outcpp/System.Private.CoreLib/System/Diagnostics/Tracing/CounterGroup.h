@@ -24,7 +24,7 @@ namespace CounterGroupNamespace {
 using namespace Collections::Generic;
 using namespace Threading;
 CLASS(CounterGroup) : public Object::in {
-  public: void Ctor(EventSource eventSource);
+  public: void ctor(EventSource eventSource);
   public: void Add(DiagnosticCounter eventCounter);
   public: void Remove(DiagnosticCounter eventCounter);
   private: void RegisterCommandCallback();
@@ -36,7 +36,7 @@ CLASS(CounterGroup) : public Object::in {
   private: void ResetCounters();
   private: void OnTimer();
   private: static void PollForValues();
-  private: static void SCtor();
+  private: static void ctor_static();
   private: EventSource _eventSource;
   private: List<DiagnosticCounter> _counters;
   private: static Object s_counterGroupLock;

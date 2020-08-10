@@ -5,7 +5,7 @@
 namespace System::Private::CoreLib::System::Runtime::CompilerServices {
 namespace CompilerGeneratedAttributeNamespace {
 CLASS(CompilerGeneratedAttribute) : public Attribute::in {
-  public: void Ctor();
+  public: void ctor();
 };
 } // namespace CompilerGeneratedAttributeNamespace
 using CompilerGeneratedAttribute = CompilerGeneratedAttributeNamespace::CompilerGeneratedAttribute;

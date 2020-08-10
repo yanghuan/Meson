@@ -7,7 +7,7 @@ FORWARD(Assembly)
 FORWARD(TypeInfo)
 namespace ReflectionContextNamespace {
 CLASS(ReflectionContext) : public Object::in {
-  protected: void Ctor();
+  protected: void ctor();
   public: Assembly MapAssembly(Assembly assembly);
   public: TypeInfo MapType(TypeInfo type);
   public: TypeInfo GetTypeForObject(Object value);

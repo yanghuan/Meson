@@ -38,10 +38,10 @@ using namespace Threading::Tasks;
 CLASS(BinaryWriter) : public Object::in {
   public: using interface = rt::TypeList<IDisposable, IAsyncDisposable>;
   public: Stream get_BaseStream();
-  protected: void Ctor();
-  public: void Ctor(Stream output);
-  public: void Ctor(Stream output, Encoding encoding);
-  public: void Ctor(Stream output, Encoding encoding, Boolean leaveOpen);
+  protected: void ctor();
+  public: void ctor(Stream output);
+  public: void ctor(Stream output, Encoding encoding);
+  public: void ctor(Stream output, Encoding encoding, Boolean leaveOpen);
   public: void Close();
   protected: void Dispose(Boolean disposing);
   public: void Dispose();
@@ -70,7 +70,7 @@ CLASS(BinaryWriter) : public Object::in {
   public: void Write(ReadOnlySpan<Char> chars);
   public: void Write7BitEncodedInt(Int32 value);
   public: void Write7BitEncodedInt64(Int64 value);
-  private: static void SCtor();
+  private: static void ctor_static();
   public: static BinaryWriter Null;
   protected: Stream OutStream;
   private: Array<Byte> _buffer;

@@ -12,8 +12,8 @@ FORWARD(String)
 namespace System::Private::CoreLib::System::Globalization {
 namespace GlobalizationModeNamespace {
 class GlobalizationMode {
-  public: static Boolean get_Invariant() { return Invariant; }
-  public: static Boolean get_UseNls() { return UseNls; }
+  public: static Boolean get_Invariant();
+  public: static Boolean get_UseNls();
   private: static Boolean GetInvariantSwitchValue();
   private: static Boolean TryGetAppLocalIcuSwitchValue(String& value);
   private: static Boolean GetSwitchValue(String switchName, String envVariable);
@@ -23,7 +23,7 @@ class GlobalizationMode {
   private: static IntPtr LoadLibrary(String library, Boolean failOnLoadFailure);
   private: static Boolean LoadIcu();
   private: static void LoadAppLocalIcuCore(ReadOnlySpan<Char> version, ReadOnlySpan<Char> suffix);
-  private: static void SCtor();
+  private: static void ctor_static();
   private: static Boolean Invariant;
   private: static Boolean UseNls;
 };

@@ -12,7 +12,7 @@ CLASS(InternalsVisibleToAttribute) : public Attribute::in {
   public: String get_AssemblyName() { return AssemblyName; }
   public: Boolean get_AllInternalsVisible() { return AllInternalsVisible; }
   public: void set_AllInternalsVisible(Boolean value) { AllInternalsVisible = value; }
-  public: void Ctor(String assemblyName);
+  public: void ctor(String assemblyName);
   private: String AssemblyName;
   private: Boolean AllInternalsVisible;
 };

@@ -29,7 +29,7 @@ CLASS(ArrayList) : public Object::in {
     public: Object get_Item(Int32 index);
     public: void set_Item(Int32 index, Object value);
     public: Object get_SyncRoot();
-    public: void Ctor(IList list);
+    public: void ctor(IList list);
     public: Int32 Add(Object value);
     public: void Clear();
     public: Boolean Contains(Object item);
@@ -51,7 +51,7 @@ CLASS(ArrayList) : public Object::in {
     public: Object get_Item(Int32 index);
     public: void set_Item(Int32 index, Object value);
     public: Object get_SyncRoot();
-    public: void Ctor(IList l);
+    public: void ctor(IList l);
     public: Int32 Add(Object obj);
     public: void Clear();
     public: Boolean Contains(Object obj);
@@ -73,7 +73,7 @@ CLASS(ArrayList) : public Object::in {
     public: Object get_Item(Int32 index);
     public: void set_Item(Int32 index, Object value);
     public: Object get_SyncRoot();
-    public: void Ctor(IList l);
+    public: void ctor(IList l);
     public: Int32 Add(Object obj);
     public: void Clear();
     public: Boolean Contains(Object obj);
@@ -89,7 +89,7 @@ CLASS(ArrayList) : public Object::in {
   private: CLASS(ArrayListEnumerator) : public Object::in {
     public: using interface = rt::TypeList<IEnumerator, ICloneable>;
     public: Object get_Current();
-    public: void Ctor(ArrayList list, Int32 index, Int32 count);
+    public: void ctor(ArrayList list, Int32 index, Int32 count);
     public: Object Clone();
     public: Boolean MoveNext();
     public: void Reset();
@@ -104,11 +104,11 @@ CLASS(ArrayList) : public Object::in {
   private: CLASS(ArrayListEnumeratorSimple) : public Object::in {
     public: using interface = rt::TypeList<IEnumerator, ICloneable>;
     public: Object get_Current();
-    public: void Ctor(ArrayList list);
+    public: void ctor(ArrayList list);
     public: Object Clone();
     public: Boolean MoveNext();
     public: void Reset();
-    private: static void SCtor();
+    private: static void ctor_static();
     private: ArrayList _list;
     private: Int32 _index;
     private: Int32 _version;
@@ -118,7 +118,7 @@ CLASS(ArrayList) : public Object::in {
   };
   public: CLASS(ArrayListDebugView) : public Object::in {
     public: Array<Object> get_Items();
-    public: void Ctor(ArrayList arrayList);
+    public: void ctor(ArrayList arrayList);
     private: ArrayList _arrayList;
   };
   public: Int32 get_Capacity();
@@ -130,9 +130,9 @@ CLASS(ArrayList) : public Object::in {
   public: Object get_SyncRoot();
   public: Object get_Item(Int32 index);
   public: void set_Item(Int32 index, Object value);
-  public: void Ctor();
-  public: void Ctor(Int32 capacity);
-  public: void Ctor(ICollection c);
+  public: void ctor();
+  public: void ctor(Int32 capacity);
+  public: void ctor(ICollection c);
   public: static ArrayList Adapter(IList list);
   public: Int32 Add(Object value);
   public: void AddRange(ICollection c);
@@ -184,8 +184,8 @@ CLASS(IListWrapper) : public ArrayList::in {
   private: CLASS(IListWrapperEnumWrapper) : public Object::in {
     public: using interface = rt::TypeList<IEnumerator, ICloneable>;
     public: Object get_Current();
-    public: void Ctor(IListWrapper listWrapper, Int32 startIndex, Int32 count);
-    private: void Ctor();
+    public: void ctor(IListWrapper listWrapper, Int32 startIndex, Int32 count);
+    private: void ctor();
     public: Object Clone();
     public: Boolean MoveNext();
     public: void Reset();
@@ -204,7 +204,7 @@ CLASS(IListWrapper) : public ArrayList::in {
   public: Object get_Item(Int32 index);
   public: void set_Item(Int32 index, Object value);
   public: Object get_SyncRoot();
-  public: void Ctor(IList list);
+  public: void ctor(IList list);
   public: Int32 Add(Object obj);
   public: void AddRange(ICollection c);
   public: Int32 BinarySearch(Int32 index, Int32 count, Object value, IComparer comparer);
@@ -245,7 +245,7 @@ CLASS(SyncArrayList) : public ArrayList::in {
   public: Object get_Item(Int32 index);
   public: void set_Item(Int32 index, Object value);
   public: Object get_SyncRoot();
-  public: void Ctor(ArrayList list);
+  public: void ctor(ArrayList list);
   public: Int32 Add(Object value);
   public: void AddRange(ICollection c);
   public: Int32 BinarySearch(Object value);
@@ -292,7 +292,7 @@ CLASS(FixedSizeArrayList) : public ArrayList::in {
   public: Object get_SyncRoot();
   public: Int32 get_Capacity();
   public: void set_Capacity(Int32 value);
-  public: void Ctor(ArrayList l);
+  public: void ctor(ArrayList l);
   public: Int32 Add(Object obj);
   public: void AddRange(ICollection c);
   public: Int32 BinarySearch(Int32 index, Int32 count, Object value, IComparer comparer);
@@ -333,7 +333,7 @@ CLASS(ReadOnlyArrayList) : public ArrayList::in {
   public: Object get_SyncRoot();
   public: Int32 get_Capacity();
   public: void set_Capacity(Int32 value);
-  public: void Ctor(ArrayList l);
+  public: void ctor(ArrayList l);
   public: Int32 Add(Object obj);
   public: void AddRange(ICollection c);
   public: Int32 BinarySearch(Int32 index, Int32 count, Object value, IComparer comparer);
@@ -374,7 +374,7 @@ CLASS(Range) : public ArrayList::in {
   public: Object get_SyncRoot();
   public: Object get_Item(Int32 index);
   public: void set_Item(Int32 index, Object value);
-  public: void Ctor(ArrayList list, Int32 index, Int32 count);
+  public: void ctor(ArrayList list, Int32 index, Int32 count);
   private: void InternalUpdateRange();
   private: void InternalUpdateVersion();
   public: Int32 Add(Object value);

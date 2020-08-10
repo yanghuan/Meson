@@ -15,7 +15,7 @@ FORWARD(TraceLoggingMetadataCollector)
 namespace EnumerableTypeInfoNamespace {
 CLASS(EnumerableTypeInfo) : public TraceLoggingTypeInfo::in {
   public: TraceLoggingTypeInfo get_ElementInfo();
-  public: void Ctor(Type type, TraceLoggingTypeInfo elementInfo);
+  public: void ctor(Type type, TraceLoggingTypeInfo elementInfo);
   public: void WriteMetadata(TraceLoggingMetadataCollector collector, String name, EventFieldFormat format);
   public: void WriteData(TraceLoggingDataCollector collector, PropertyValue value);
   public: Object GetData(Object value);

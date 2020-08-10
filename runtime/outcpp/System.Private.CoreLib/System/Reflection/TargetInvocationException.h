@@ -14,9 +14,9 @@ namespace System::Private::CoreLib::System::Reflection {
 namespace TargetInvocationExceptionNamespace {
 using namespace Runtime::Serialization;
 CLASS(TargetInvocationException) : public ApplicationException::in {
-  public: void Ctor(Exception inner);
-  public: void Ctor(String message, Exception inner);
-  private: void Ctor(SerializationInfo info, StreamingContext context);
+  public: void ctor(Exception inner);
+  public: void ctor(String message, Exception inner);
+  private: void ctor(SerializationInfo info, StreamingContext context);
 };
 } // namespace TargetInvocationExceptionNamespace
 using TargetInvocationException = TargetInvocationExceptionNamespace::TargetInvocationException;

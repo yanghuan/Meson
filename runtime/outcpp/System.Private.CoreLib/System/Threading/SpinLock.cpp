@@ -13,7 +13,7 @@ Boolean SystemThreading_SpinLockDebugView___::get_IsHeld() {
   return Boolean();
 }
 
-void SystemThreading_SpinLockDebugView___::Ctor(SpinLock spinLock) {
+void SystemThreading_SpinLockDebugView___::ctor(SpinLock spinLock) {
 }
 
 Boolean SpinLock::get_IsHeld() {

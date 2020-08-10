@@ -12,7 +12,7 @@ enum class TaskCreationOptions;
 FORWARD_(Task, T1, T2)
 namespace ContinuationResultTaskFromTaskNamespace {
 CLASS(ContinuationResultTaskFromTask, TResult) : public Task<TResult>::in {
-  public: void Ctor(Task<> antecedent, Delegate function, Object state, TaskCreationOptions creationOptions, InternalTaskOptions internalOptions);
+  public: void ctor(Task<> antecedent, Delegate function, Object state, TaskCreationOptions creationOptions, InternalTaskOptions internalOptions);
   public: void InnerInvoke();
   private: Task<> m_antecedent;
 };

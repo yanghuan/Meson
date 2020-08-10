@@ -1,7 +1,7 @@
 #include "DebuggerHiddenAttribute-dep.h"
 
 namespace System::Private::CoreLib::System::Diagnostics::DebuggerHiddenAttributeNamespace {
-void DebuggerHiddenAttribute___::Ctor() {
+void DebuggerHiddenAttribute___::ctor() {
 }
 
 } // namespace System::Private::CoreLib::System::Diagnostics::DebuggerHiddenAttributeNamespace

@@ -5,19 +5,19 @@ String MissingFieldException___::get_Message() {
   return nullptr;
 }
 
-void MissingFieldException___::Ctor() {
+void MissingFieldException___::ctor() {
 }
 
-void MissingFieldException___::Ctor(String message) {
+void MissingFieldException___::ctor(String message) {
 }
 
-void MissingFieldException___::Ctor(String message, Exception inner) {
+void MissingFieldException___::ctor(String message, Exception inner) {
 }
 
-void MissingFieldException___::Ctor(String className, String fieldName) {
+void MissingFieldException___::ctor(String className, String fieldName) {
 }
 
-void MissingFieldException___::Ctor(SerializationInfo info, StreamingContext context) {
+void MissingFieldException___::ctor(SerializationInfo info, StreamingContext context) {
 }
 
 } // namespace System::Private::CoreLib::System::MissingFieldExceptionNamespace

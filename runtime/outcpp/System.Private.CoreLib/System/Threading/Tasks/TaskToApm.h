@@ -20,7 +20,7 @@ class TaskToApm {
     public: Boolean get_CompletedSynchronously() { return CompletedSynchronously; }
     public: Boolean get_IsCompleted();
     public: WaitHandle get_AsyncWaitHandle();
-    public: void Ctor(Task<> task, Object state, AsyncCallback callback);
+    public: void ctor(Task<> task, Object state, AsyncCallback callback);
     private: void InvokeCallback();
     public: Task<> _task;
     private: AsyncCallback _callback;

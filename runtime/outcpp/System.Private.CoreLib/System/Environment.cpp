@@ -9,7 +9,7 @@ Boolean Environment::WindowsVersion::GetIsWindows8OrAbove() {
   return Boolean();
 }
 
-void Environment::WindowsVersion::SCtor() {
+void Environment::WindowsVersion::ctor_static() {
 }
 
 Int32 Environment::get_CurrentManagedThreadId() {
@@ -202,7 +202,7 @@ IDictionary Environment::GetEnvironmentVariables() {
   return nullptr;
 }
 
-void Environment::SCtor() {
+void Environment::ctor_static() {
 }
 
 } // namespace System::Private::CoreLib::System::EnvironmentNamespace

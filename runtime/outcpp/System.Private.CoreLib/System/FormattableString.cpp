@@ -13,7 +13,7 @@ String FormattableString___::ToString() {
   return nullptr;
 }
 
-void FormattableString___::Ctor() {
+void FormattableString___::ctor() {
 }
 
 } // namespace System::Private::CoreLib::System::FormattableStringNamespace

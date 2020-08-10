@@ -23,9 +23,9 @@ CLASS(ManualResetEventSlim) : public Object::in {
   private: void set_SpinCount(Int32 value);
   private: Int32 get_Waiters();
   private: void set_Waiters(Int32 value);
-  public: void Ctor();
-  public: void Ctor(Boolean initialState);
-  public: void Ctor(Boolean initialState, Int32 spinCount);
+  public: void ctor();
+  public: void ctor(Boolean initialState);
+  public: void ctor(Boolean initialState, Int32 spinCount);
   private: void Initialize(Boolean initialState, Int32 spinCount);
   private: void EnsureLockObjectCreated();
   private: void LazyInitializeEvent();
@@ -45,7 +45,7 @@ CLASS(ManualResetEventSlim) : public Object::in {
   private: void UpdateStateAtomically(Int32 newBits, Int32 updateBitsMask);
   private: static Int32 ExtractStatePortionAndShiftRight(Int32 state, Int32 mask, Int32 rightBitShiftCount);
   private: static Int32 ExtractStatePortion(Int32 state, Int32 mask);
-  private: static void SCtor();
+  private: static void ctor_static();
   private: Object m_lock;
   private: ManualResetEvent m_eventObj;
   private: Int32 m_combinedState;

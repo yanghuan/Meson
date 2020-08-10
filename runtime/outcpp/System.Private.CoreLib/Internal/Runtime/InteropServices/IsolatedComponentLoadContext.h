@@ -19,7 +19,7 @@ using namespace ::System::Private::CoreLib::System;
 using namespace ::System::Private::CoreLib::System::Reflection;
 using namespace ::System::Private::CoreLib::System::Runtime::Loader;
 CLASS(IsolatedComponentLoadContext) : public AssemblyLoadContext::in {
-  public: void Ctor(String componentAssemblyPath);
+  public: void ctor(String componentAssemblyPath);
   protected: Assembly Load(AssemblyName assemblyName);
   protected: IntPtr LoadUnmanagedDll(String unmanagedDllName);
   private: AssemblyDependencyResolver _resolver;

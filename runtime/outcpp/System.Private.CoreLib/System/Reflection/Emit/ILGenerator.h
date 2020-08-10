@@ -48,8 +48,8 @@ CLASS(ILGenerator) : public Object::in {
   static Array<T> EnlargeArray(Array<T> incoming);
   public: template <class T>
   static Array<T> EnlargeArray(Array<T> incoming, Int32 requiredSize);
-  public: void Ctor(MethodInfo methodBuilder);
-  public: void Ctor(MethodInfo methodBuilder, Int32 size);
+  public: void ctor(MethodInfo methodBuilder);
+  public: void ctor(MethodInfo methodBuilder, Int32 size);
   public: void RecordTokenFixup();
   public: void InternalEmit(OpCode opcode);
   public: void UpdateStackSize(OpCode opcode, Int32 stackchange);

@@ -47,7 +47,7 @@ Boolean RuntimeType___::RuntimeTypeCache___::get_IsGlobal() {
   return Boolean();
 }
 
-void RuntimeType___::RuntimeTypeCache___::Ctor(RuntimeType runtimeType) {
+void RuntimeType___::RuntimeTypeCache___::ctor(RuntimeType runtimeType) {
 }
 
 String RuntimeType___::RuntimeTypeCache___::ConstructName(String& name, TypeNameFormatFlags formatFlags) {
@@ -125,7 +125,7 @@ FieldInfo RuntimeType___::RuntimeTypeCache___::GetField(RuntimeFieldHandleIntern
   return nullptr;
 }
 
-void RuntimeType___::ActivatorCache___::Ctor(RuntimeMethodHandleInternal rmh) {
+void RuntimeType___::ActivatorCache___::ctor(RuntimeMethodHandleInternal rmh) {
 }
 
 void RuntimeType___::ActivatorCache___::Initialize() {
@@ -358,7 +358,7 @@ Boolean RuntimeType___::FilterApplyMethodBase(MethodBase methodBase, BindingFlag
   return Boolean();
 }
 
-void RuntimeType___::Ctor() {
+void RuntimeType___::ctor() {
 }
 
 Boolean RuntimeType___::CacheEquals(Object o) {
@@ -702,7 +702,7 @@ RuntimeType RuntimeType___::GetBaseType() {
   return nullptr;
 }
 
-void RuntimeType___::SCtor() {
+void RuntimeType___::ctor_static() {
 }
 
 } // namespace System::Private::CoreLib::System::RuntimeTypeNamespace

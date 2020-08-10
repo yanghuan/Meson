@@ -24,7 +24,7 @@ CLASS(RuntimeMethodBody) : public MethodBody::in {
   public: Int32 get_MaxStackSize();
   public: Boolean get_InitLocals();
   public: IList<ExceptionHandlingClause> get_ExceptionHandlingClauses();
-  private: void Ctor();
+  private: void ctor();
   public: Array<Byte> GetILAsByteArray();
   private: Array<Byte> _IL;
   private: Array<ExceptionHandlingClause> _exceptionHandlingClauses;

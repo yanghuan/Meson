@@ -5,8 +5,8 @@
 namespace System::Private::CoreLib::System::Runtime::Loader {
 namespace DefaultAssemblyLoadContextNamespace {
 CLASS(DefaultAssemblyLoadContext) : public AssemblyLoadContext::in {
-  public: void Ctor();
-  private: static void SCtor();
+  public: void ctor();
+  private: static void ctor_static();
   public: static AssemblyLoadContext s_loadContext;
 };
 } // namespace DefaultAssemblyLoadContextNamespace

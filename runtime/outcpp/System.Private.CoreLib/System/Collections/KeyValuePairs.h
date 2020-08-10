@@ -5,7 +5,7 @@
 namespace System::Private::CoreLib::System::Collections {
 namespace KeyValuePairsNamespace {
 CLASS(KeyValuePairs) : public Object::in {
-  public: void Ctor(Object key, Object value);
+  public: void ctor(Object key, Object value);
   private: Object _key;
   private: Object _value;
 };

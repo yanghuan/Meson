@@ -17,7 +17,7 @@ using namespace Collections;
 CLASS(EnumerableViewOfDispatch) : public Object::in {
   public: using interface = rt::TypeList<ICustomAdapter, IEnumerable>;
   private: IDispatch get_Dispatch();
-  public: void Ctor(Object dispatch);
+  public: void ctor(Object dispatch);
   public: IEnumerator GetEnumerator();
   public: Object GetUnderlyingObject();
   private: static constexpr Int32 DISPID_NEWENUM = -4;

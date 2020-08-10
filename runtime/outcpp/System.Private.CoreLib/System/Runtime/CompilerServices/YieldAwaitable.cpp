@@ -26,7 +26,7 @@ void YieldAwaitable::YieldAwaiter::RunAction(Object state) {
 void YieldAwaitable::YieldAwaiter::GetResult() {
 }
 
-void YieldAwaitable::YieldAwaiter::SCtor() {
+void YieldAwaitable::YieldAwaiter::ctor_static() {
 }
 
 YieldAwaitable::YieldAwaiter YieldAwaitable::GetAwaiter() {

@@ -28,12 +28,12 @@ CLASS(Version) : public Object::in {
   public: Int16 get_MajorRevision();
   public: Int16 get_MinorRevision();
   private: Int32 get_DefaultFormatFieldCount();
-  public: void Ctor(Int32 major, Int32 minor, Int32 build, Int32 revision);
-  public: void Ctor(Int32 major, Int32 minor, Int32 build);
-  public: void Ctor(Int32 major, Int32 minor);
-  public: void Ctor(String version);
-  public: void Ctor();
-  private: void Ctor(Version version);
+  public: void ctor(Int32 major, Int32 minor, Int32 build, Int32 revision);
+  public: void ctor(Int32 major, Int32 minor, Int32 build);
+  public: void ctor(Int32 major, Int32 minor);
+  public: void ctor(String version);
+  public: void ctor();
+  private: void ctor(Version version);
   public: Object Clone();
   public: Int32 CompareTo(Object version);
   public: Int32 CompareTo(Version value);

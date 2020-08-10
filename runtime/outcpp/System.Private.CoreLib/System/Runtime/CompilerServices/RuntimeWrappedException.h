@@ -14,8 +14,8 @@ namespace RuntimeWrappedExceptionNamespace {
 using namespace Serialization;
 CLASS(RuntimeWrappedException) : public Exception::in {
   public: Object get_WrappedException();
-  public: void Ctor(Object thrownObject);
-  private: void Ctor(SerializationInfo info, StreamingContext context);
+  public: void ctor(Object thrownObject);
+  private: void ctor(SerializationInfo info, StreamingContext context);
   public: void GetObjectData(SerializationInfo info, StreamingContext context);
   private: Object _wrappedException;
 };

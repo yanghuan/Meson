@@ -7,7 +7,7 @@ enum class DllImportSearchPath;
 namespace DefaultDllImportSearchPathsAttributeNamespace {
 CLASS(DefaultDllImportSearchPathsAttribute) : public Attribute::in {
   public: DllImportSearchPath get_Paths() { return Paths; }
-  public: void Ctor(DllImportSearchPath paths);
+  public: void ctor(DllImportSearchPath paths);
   private: DllImportSearchPath Paths;
 };
 } // namespace DefaultDllImportSearchPathsAttributeNamespace

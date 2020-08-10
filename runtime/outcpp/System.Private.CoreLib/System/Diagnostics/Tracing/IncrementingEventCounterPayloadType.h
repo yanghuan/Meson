@@ -8,7 +8,7 @@ namespace IncrementingEventCounterPayloadTypeNamespace {
 CLASS(IncrementingEventCounterPayloadType) : public Object::in {
   public: IncrementingCounterPayload get_Payload() { return Payload; }
   public: void set_Payload(IncrementingCounterPayload value) { Payload = value; }
-  public: void Ctor(IncrementingCounterPayload payload);
+  public: void ctor(IncrementingCounterPayload payload);
   private: IncrementingCounterPayload Payload;
 };
 } // namespace IncrementingEventCounterPayloadTypeNamespace

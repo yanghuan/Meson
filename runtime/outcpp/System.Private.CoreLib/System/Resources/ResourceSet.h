@@ -23,11 +23,11 @@ using namespace Collections;
 using namespace IO;
 CLASS(ResourceSet) : public Object::in {
   public: using interface = rt::TypeList<IDisposable, IEnumerable>;
-  protected: void Ctor();
-  public: void Ctor(Boolean junk);
-  public: void Ctor(String fileName);
-  public: void Ctor(Stream stream);
-  public: void Ctor(IResourceReader reader);
+  protected: void ctor();
+  public: void ctor(Boolean junk);
+  public: void ctor(String fileName);
+  public: void ctor(Stream stream);
+  public: void ctor(IResourceReader reader);
   public: void Close();
   protected: void Dispose(Boolean disposing);
   public: void Dispose();

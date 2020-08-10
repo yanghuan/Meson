@@ -1,7 +1,7 @@
 #include "TimerQueueTimer-dep.h"
 
 namespace System::Private::CoreLib::System::Threading::TimerQueueTimerNamespace {
-void TimerQueueTimer___::Ctor(TimerCallback timerCallback, Object state, UInt32 dueTime, UInt32 period, Boolean flowExecutionContext) {
+void TimerQueueTimer___::ctor(TimerCallback timerCallback, Object state, UInt32 dueTime, UInt32 period, Boolean flowExecutionContext) {
 }
 
 Boolean TimerQueueTimer___::Change(UInt32 dueTime, UInt32 period) {
@@ -28,7 +28,7 @@ void TimerQueueTimer___::SignalNoCallbacksRunning() {
 void TimerQueueTimer___::CallCallback(Boolean isThreadPool) {
 }
 
-void TimerQueueTimer___::SCtor() {
+void TimerQueueTimer___::ctor_static() {
 }
 
 } // namespace System::Private::CoreLib::System::Threading::TimerQueueTimerNamespace

@@ -9,7 +9,7 @@ namespace System::Private::CoreLib::System::Reflection::Emit {
 namespace EmptyCAHolderNamespace {
 CLASS(EmptyCAHolder) : public Object::in {
   public: using interface = rt::TypeList<ICustomAttributeProvider>;
-  public: void Ctor();
+  public: void ctor();
 };
 } // namespace EmptyCAHolderNamespace
 using EmptyCAHolder = EmptyCAHolderNamespace::EmptyCAHolder;

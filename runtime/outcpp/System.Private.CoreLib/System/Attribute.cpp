@@ -189,7 +189,7 @@ Attribute Attribute___::GetCustomAttribute(Assembly element, Type attributeType,
   return nullptr;
 }
 
-void Attribute___::Ctor() {
+void Attribute___::ctor() {
 }
 
 Boolean Attribute___::Equals(Object obj) {

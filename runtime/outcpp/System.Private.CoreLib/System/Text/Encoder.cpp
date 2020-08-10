@@ -16,7 +16,7 @@ Boolean Encoder___::get_InternalHasFallbackBuffer() {
   return Boolean();
 }
 
-void Encoder___::Ctor() {
+void Encoder___::ctor() {
 }
 
 void Encoder___::Reset() {

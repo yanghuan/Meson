@@ -24,7 +24,7 @@ Int64 TranscodingStream___::get_Position() {
 void TranscodingStream___::set_Position(Int64 value) {
 }
 
-void TranscodingStream___::Ctor(Stream innerStream, Encoding innerEncoding, Encoding thisEncoding, Boolean leaveOpen) {
+void TranscodingStream___::ctor(Stream innerStream, Encoding innerEncoding, Encoding thisEncoding, Boolean leaveOpen) {
 }
 
 IAsyncResult TranscodingStream___::BeginRead(Array<Byte> buffer, Int32 offset, Int32 count, AsyncCallback callback, Object state) {

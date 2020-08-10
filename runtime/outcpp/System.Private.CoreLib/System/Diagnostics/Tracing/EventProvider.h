@@ -52,7 +52,7 @@ CLASS(EventProvider) : public Object::in {
     public: Int32 etwSessionId;
   };
   private: CLASS(SessionInfoCallback) : public MulticastDelegate::in {
-    public: void Ctor(Object object, IntPtr method);
+    public: void ctor(Object object, IntPtr method);
     public: void Invoke(Int32 etwSessionId, Int64 matchAllKeywords, List<SessionInfo>& sessionList);
     public: IAsyncResult BeginInvoke(Int32 etwSessionId, Int64 matchAllKeywords, List<SessionInfo>& sessionList, AsyncCallback callback, Object object);
     public: void EndInvoke(List<SessionInfo>& sessionList, IAsyncResult result);
@@ -64,7 +64,7 @@ CLASS(EventProvider) : public Object::in {
   };
   protected: EventLevel get_Level();
   protected: EventKeywords get_MatchAnyKeyword();
-  public: void Ctor(EventProviderType providerType);
+  public: void ctor(EventProviderType providerType);
   public: void Register(EventSource eventSource);
   public: void Dispose();
   protected: void Dispose(Boolean disposing);

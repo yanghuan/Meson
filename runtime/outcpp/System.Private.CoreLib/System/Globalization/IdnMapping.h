@@ -19,7 +19,7 @@ CLASS(IdnMapping) : public Object::in {
   public: void set_UseStd3AsciiRules(Boolean value);
   private: UInt32 get_IcuFlags();
   private: UInt32 get_NlsFlags();
-  public: void Ctor();
+  public: void ctor();
   public: String GetAscii(String unicode);
   public: String GetAscii(String unicode, Int32 index);
   public: String GetAscii(String unicode, Int32 index, Int32 count);
@@ -52,7 +52,7 @@ CLASS(IdnMapping) : public Object::in {
   private: String NlsGetUnicodeCore(String asciiString, Char* ascii, Int32 count);
   private: String NlsGetUnicodeCore(String asciiString, Char* ascii, Int32 count, UInt32 flags, Char* output, Int32 outputLength);
   private: static void ThrowForZeroLength(Boolean unicode);
-  private: static void SCtor();
+  private: static void ctor_static();
   private: Boolean _allowUnassigned;
   private: Boolean _useStd3AsciiRules;
   private: static Array<Char> s_dotSeparators;

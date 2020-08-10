@@ -18,7 +18,7 @@ CLASS(ConcurrentQueueSegment, T) : public Object::in {
   };
   public: Int32 get_Capacity();
   public: Int32 get_FreezeOffset();
-  public: void Ctor(Int32 boundedLength);
+  public: void ctor(Int32 boundedLength);
   public: static Int32 RoundUpToPowerOf2(Int32 i);
   public: void EnsureFrozenForEnqueues();
   public: Boolean TryDequeue(T& item);

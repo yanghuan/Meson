@@ -9,7 +9,7 @@ namespace System::Private::CoreLib::System::Diagnostics::Contracts {
 namespace ContractClassForAttributeNamespace {
 CLASS(ContractClassForAttribute) : public Attribute::in {
   public: Type get_TypeContractsAreFor();
-  public: void Ctor(Type typeContractsAreFor);
+  public: void ctor(Type typeContractsAreFor);
   private: Type _typeIAmAContractFor;
 };
 } // namespace ContractClassForAttributeNamespace

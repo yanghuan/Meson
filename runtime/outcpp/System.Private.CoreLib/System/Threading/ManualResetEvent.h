@@ -8,7 +8,7 @@ FORWARDS(Boolean)
 namespace System::Private::CoreLib::System::Threading {
 namespace ManualResetEventNamespace {
 CLASS(ManualResetEvent) : public EventWaitHandle::in {
-  public: void Ctor(Boolean initialState);
+  public: void ctor(Boolean initialState);
 };
 } // namespace ManualResetEventNamespace
 using ManualResetEvent = ManualResetEventNamespace::ManualResetEvent;

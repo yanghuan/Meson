@@ -20,7 +20,7 @@ FORWARD(PropertyAnalysis)
 namespace TypeAnalysisNamespace {
 using namespace Collections::Generic;
 CLASS(TypeAnalysis) : public Object::in {
-  public: void Ctor(Type dataType, EventDataAttribute eventAttrib, List<Type> recursionCheck);
+  public: void ctor(Type dataType, EventDataAttribute eventAttrib, List<Type> recursionCheck);
   public: Array<PropertyAnalysis> properties;
   public: String name;
   public: EventKeywords keywords;

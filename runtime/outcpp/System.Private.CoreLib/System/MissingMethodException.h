@@ -13,11 +13,11 @@ namespace MissingMethodExceptionNamespace {
 using namespace Runtime::Serialization;
 CLASS(MissingMethodException) : public MissingMemberException::in {
   public: String get_Message();
-  public: void Ctor();
-  public: void Ctor(String message);
-  public: void Ctor(String message, Exception inner);
-  public: void Ctor(String className, String methodName);
-  protected: void Ctor(SerializationInfo info, StreamingContext context);
+  public: void ctor();
+  public: void ctor(String message);
+  public: void ctor(String message, Exception inner);
+  public: void ctor(String className, String methodName);
+  protected: void ctor(SerializationInfo info, StreamingContext context);
 };
 } // namespace MissingMethodExceptionNamespace
 using MissingMethodException = MissingMethodExceptionNamespace::MissingMethodException;

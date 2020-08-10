@@ -10,7 +10,7 @@ FORWARD(IProducerConsumerCollection, T)
 namespace IProducerConsumerCollectionDebugViewNamespace {
 CLASS(IProducerConsumerCollectionDebugView, T) : public Object::in {
   public: Array<T> get_Items();
-  public: void Ctor(IProducerConsumerCollection<T> collection);
+  public: void ctor(IProducerConsumerCollection<T> collection);
   private: IProducerConsumerCollection<T> _collection;
 };
 } // namespace IProducerConsumerCollectionDebugViewNamespace

@@ -49,7 +49,7 @@ String SignatureGenericParameterType___::get_Namespace() {
   return nullptr;
 }
 
-void SignatureGenericParameterType___::Ctor(Int32 position) {
+void SignatureGenericParameterType___::ctor(Int32 position) {
 }
 
 Boolean SignatureGenericParameterType___::HasElementTypeImpl() {

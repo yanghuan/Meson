@@ -5,7 +5,7 @@ ReadOnlySpan<Byte> UTF8EncodingSealed___::get_Preamble() {
   return ReadOnlySpan<Byte>();
 }
 
-void UTF8EncodingSealed___::Ctor(Boolean encoderShouldEmitUTF8Identifier) {
+void UTF8EncodingSealed___::ctor(Boolean encoderShouldEmitUTF8Identifier) {
 }
 
 Object UTF8EncodingSealed___::Clone() {
@@ -36,13 +36,13 @@ ReadOnlySpan<Byte> UTF8Encoding___::get_Preamble() {
   return ReadOnlySpan<Byte>();
 }
 
-void UTF8Encoding___::Ctor() {
+void UTF8Encoding___::ctor() {
 }
 
-void UTF8Encoding___::Ctor(Boolean encoderShouldEmitUTF8Identifier) {
+void UTF8Encoding___::ctor(Boolean encoderShouldEmitUTF8Identifier) {
 }
 
-void UTF8Encoding___::Ctor(Boolean encoderShouldEmitUTF8Identifier, Boolean throwOnInvalidBytes) {
+void UTF8Encoding___::ctor(Boolean encoderShouldEmitUTF8Identifier, Boolean throwOnInvalidBytes) {
 }
 
 void UTF8Encoding___::SetDefaultFallbacks() {
@@ -184,7 +184,7 @@ Int32 UTF8Encoding___::GetHashCode() {
   return Int32();
 }
 
-void UTF8Encoding___::SCtor() {
+void UTF8Encoding___::ctor_static() {
 }
 
 } // namespace System::Private::CoreLib::System::Text::UTF8EncodingNamespace

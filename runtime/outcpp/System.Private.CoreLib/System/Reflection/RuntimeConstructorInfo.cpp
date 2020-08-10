@@ -73,7 +73,7 @@ Boolean RuntimeConstructorInfo___::get_ContainsGenericParameters() {
   return Boolean();
 }
 
-void RuntimeConstructorInfo___::Ctor(RuntimeMethodHandleInternal handle, RuntimeType declaringType, RuntimeType::in::RuntimeTypeCache reflectedTypeCache, MethodAttributes methodAttributes, BindingFlags bindingFlags) {
+void RuntimeConstructorInfo___::ctor(RuntimeMethodHandleInternal handle, RuntimeType declaringType, RuntimeType::in::RuntimeTypeCache reflectedTypeCache, MethodAttributes methodAttributes, BindingFlags bindingFlags) {
 }
 
 Boolean RuntimeConstructorInfo___::CacheEquals(Object o) {

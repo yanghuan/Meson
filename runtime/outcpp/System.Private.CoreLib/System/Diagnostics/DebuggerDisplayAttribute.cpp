@@ -8,7 +8,7 @@ Type DebuggerDisplayAttribute___::get_Target() {
 void DebuggerDisplayAttribute___::set_Target(System::Type value) {
 }
 
-void DebuggerDisplayAttribute___::Ctor(String value) {
+void DebuggerDisplayAttribute___::ctor(String value) {
 }
 
 } // namespace System::Private::CoreLib::System::Diagnostics::DebuggerDisplayAttributeNamespace

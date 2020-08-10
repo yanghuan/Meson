@@ -5,10 +5,10 @@ RuntimeMethodHandleInternal RuntimeMethodInfoStub___::get_ValueOfIRuntimeMethodI
   return RuntimeMethodHandleInternal();
 }
 
-void RuntimeMethodInfoStub___::Ctor(RuntimeMethodHandleInternal methodHandleValue, Object keepalive) {
+void RuntimeMethodInfoStub___::ctor(RuntimeMethodHandleInternal methodHandleValue, Object keepalive) {
 }
 
-void RuntimeMethodInfoStub___::Ctor(IntPtr methodHandleValue, Object keepalive) {
+void RuntimeMethodInfoStub___::ctor(IntPtr methodHandleValue, Object keepalive) {
 }
 
 } // namespace System::Private::CoreLib::System::RuntimeMethodInfoStubNamespace

@@ -25,7 +25,7 @@ UInt64 WebUtility::HtmlEntities::ToUInt64Key(ReadOnlySpan<Char> entity) {
   return UInt64();
 }
 
-void WebUtility::HtmlEntities::SCtor() {
+void WebUtility::HtmlEntities::ctor_static() {
 }
 
 String WebUtility::HtmlEncode(String value) {

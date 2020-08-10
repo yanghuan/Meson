@@ -330,7 +330,7 @@ namespace rt {
       using element_type = typename T::in;
       void* p = alloc(sizeof(GCObject));
       auto temp = static_cast<GCObject*>(new (p) GCObjectHead(getTypeMetadata<T>()));
-      new (temp->get()) element_type(std::forward<Args>(args)...);
+      temp->get()->ctor(std::forward<Args>(args)...);
       return T(temp);
     }
   private:

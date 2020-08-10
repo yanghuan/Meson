@@ -107,7 +107,7 @@ Boolean Assembly___::IsRuntimeImplemented() {
   return Boolean();
 }
 
-void Assembly___::Ctor() {
+void Assembly___::ctor() {
 }
 
 Array<Type> Assembly___::GetTypes() {
@@ -313,7 +313,7 @@ Assembly Assembly___::ReflectionOnlyLoadFrom(String assemblyFile) {
   return nullptr;
 }
 
-void Assembly___::SCtor() {
+void Assembly___::ctor_static() {
 }
 
 } // namespace System::Private::CoreLib::System::Reflection::AssemblyNamespace

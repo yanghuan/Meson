@@ -43,13 +43,13 @@ using namespace Text;
 using Collections::Generic::IList;
 CLASS(ManifestBuilder) : public Object::in {
   private: CLASS(ChannelInfo) : public Object::in {
-    public: void Ctor();
+    public: void ctor();
     public: String Name;
     public: UInt64 Keywords;
     public: EventChannelAttribute Attribs;
   };
   public: IList<String> get_Errors();
-  public: void Ctor(String providerName, Guid providerGuid, String dllName, ResourceManager resources, EventManifestOptions flags);
+  public: void ctor(String providerName, Guid providerGuid, String dllName, ResourceManager resources, EventManifestOptions flags);
   public: void AddOpcode(String name, Int32 value);
   public: void AddTask(String name, Int32 value);
   public: void AddKeyword(String name, UInt64 value);
@@ -77,7 +77,7 @@ CLASS(ManifestBuilder) : public Object::in {
   private: static void UpdateStringBuilder(StringBuilder& stringBuilder, String eventMessage, Int32 startIndex, Int32 count);
   private: String TranslateToManifestConvention(String eventMessage, String evtName);
   private: Int32 TranslateIndexToManifestConvention(Int32 idx, String evtName);
-  private: static void SCtor();
+  private: static void ctor_static();
   private: static Array<String> s_escapes;
   private: Dictionary<Int32, String> opcodeTab;
   private: Dictionary<Int32, String> taskTab;

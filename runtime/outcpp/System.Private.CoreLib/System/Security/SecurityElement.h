@@ -26,8 +26,8 @@ CLASS(SecurityElement) : public Object::in {
   public: void set_Text(String value);
   public: ArrayList get_Children();
   public: void set_Children(ArrayList value);
-  public: void Ctor(String tag);
-  public: void Ctor(String tag, String text);
+  public: void ctor(String tag);
+  public: void ctor(String tag, String text);
   public: void AddAttributeSafe(String name, String value);
   public: void AddAttribute(String name, String value);
   public: void AddChild(SecurityElement child);
@@ -47,7 +47,7 @@ CLASS(SecurityElement) : public Object::in {
   public: SecurityElement SearchForChildByTag(String tag);
   public: String SearchForTextOfTag(String tag);
   public: static SecurityElement FromString(String xml);
-  private: static void SCtor();
+  private: static void ctor_static();
   public: String _tag;
   public: String _text;
   private: ArrayList _children;

@@ -14,9 +14,9 @@ FORWARD(PreAllocatedOverlapped)
 FORWARD(ThreadPoolBoundHandle)
 namespace ThreadPoolBoundHandleOverlappedNamespace {
 CLASS(ThreadPoolBoundHandleOverlapped) : public Overlapped::in {
-  public: void Ctor(IOCompletionCallback callback, Object state, Object pinData, PreAllocatedOverlapped preAllocated);
+  public: void ctor(IOCompletionCallback callback, Object state, Object pinData, PreAllocatedOverlapped preAllocated);
   private: static void CompletionCallback(UInt32 errorCode, UInt32 numBytes, NativeOverlapped* nativeOverlapped);
-  private: static void SCtor();
+  private: static void ctor_static();
   private: static IOCompletionCallback s_completionCallback;
   private: IOCompletionCallback _userCallback;
   public: Object _userState;

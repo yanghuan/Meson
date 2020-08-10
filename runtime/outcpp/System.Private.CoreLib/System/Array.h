@@ -47,7 +47,7 @@ CLASS_(Array) : public Object::in {
   public: using interface = rt::TypeList<ICloneable, Collections::IList, Collections::ICollection, Collections::IEnumerable, IStructuralComparable, IStructuralEquatable>;
   private: template <class T>
   class EmptyArray {
-    private: static void SCtor();
+    private: static void ctor_static();
     public: static Array<T> Value;
   };
   private: struct SorterObjectArray : public valueType<SorterObjectArray> {
@@ -121,7 +121,7 @@ CLASS_(Array) : public Object::in {
   public: CorElementType GetCorElementTypeOfElementType();
   private: Boolean IsValueOfElementType(Object value);
   public: void Initialize();
-  public: void Ctor();
+  public: void ctor();
   public: template <class T>
   static ReadOnlyCollection<T> AsReadOnly(Array<T> array);
   public: template <class T>

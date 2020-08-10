@@ -76,7 +76,7 @@ CLASS(RuntimeMethodInfo) : public MethodInfo::in {
   public: Boolean get_IsGenericMethodDefinition();
   public: Boolean get_ContainsGenericParameters();
   private: static Boolean IsDisallowedByRefType(Type type);
-  public: void Ctor(RuntimeMethodHandleInternal handle, RuntimeType declaringType, RuntimeType::in::RuntimeTypeCache reflectedTypeCache, MethodAttributes methodAttributes, BindingFlags bindingFlags, Object keepalive);
+  public: void ctor(RuntimeMethodHandleInternal handle, RuntimeType declaringType, RuntimeType::in::RuntimeTypeCache reflectedTypeCache, MethodAttributes methodAttributes, BindingFlags bindingFlags, Object keepalive);
   private: Array<ParameterInfo> FetchNonReturnParameters();
   private: ParameterInfo FetchReturnParameter();
   public: Boolean CacheEquals(Object o);

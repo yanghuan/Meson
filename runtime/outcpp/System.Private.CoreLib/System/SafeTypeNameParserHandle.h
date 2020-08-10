@@ -9,7 +9,7 @@ namespace SafeTypeNameParserHandleNamespace {
 using namespace ::System::Private::CoreLib::Microsoft::Win32::SafeHandles;
 CLASS(SafeTypeNameParserHandle) : public SafeHandleZeroOrMinusOneIsInvalid::in {
   private: static void _ReleaseTypeNameParser(IntPtr pTypeNameParser);
-  public: void Ctor();
+  public: void ctor();
   protected: Boolean ReleaseHandle();
 };
 } // namespace SafeTypeNameParserHandleNamespace

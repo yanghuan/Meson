@@ -18,7 +18,7 @@ CLASS(EventDataAttribute) : public Attribute::in {
   public: EventOpcode get_Opcode();
   public: EventKeywords get_Keywords() { return Keywords; }
   public: EventTags get_Tags() { return Tags; }
-  public: void Ctor();
+  public: void ctor();
   private: EventLevel level;
   private: EventOpcode opcode;
   private: String Name;

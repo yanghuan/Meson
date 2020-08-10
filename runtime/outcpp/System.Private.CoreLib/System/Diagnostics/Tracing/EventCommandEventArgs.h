@@ -27,7 +27,7 @@ CLASS(EventCommandEventArgs) : public EventArgs::in {
   public: void set_Arguments(IDictionary<String, String> value) { Arguments = value; }
   public: Boolean EnableEvent(Int32 eventId);
   public: Boolean DisableEvent(Int32 eventId);
-  public: void Ctor(EventCommand command, IDictionary<String, String> arguments, EventSource eventSource, EventListener listener, EventProviderType eventProviderType, Int32 perEventSourceSessionId, Int32 etwSessionId, Boolean enable, EventLevel level, EventKeywords matchAnyKeyword);
+  public: void ctor(EventCommand command, IDictionary<String, String> arguments, EventSource eventSource, EventListener listener, EventProviderType eventProviderType, Int32 perEventSourceSessionId, Int32 etwSessionId, Boolean enable, EventLevel level, EventKeywords matchAnyKeyword);
   private: EventCommand Command;
   private: IDictionary<String, String> Arguments;
   public: EventSource eventSource;

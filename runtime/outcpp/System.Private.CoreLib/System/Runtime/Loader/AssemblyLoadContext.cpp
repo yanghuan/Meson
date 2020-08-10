@@ -84,16 +84,16 @@ void AssemblyLoadContext___::StopAssemblyLoad(Guid& activityId) {
 void AssemblyLoadContext___::InitializeDefaultContext() {
 }
 
-void AssemblyLoadContext___::Ctor() {
+void AssemblyLoadContext___::ctor() {
 }
 
-void AssemblyLoadContext___::Ctor(Boolean isCollectible) {
+void AssemblyLoadContext___::ctor(Boolean isCollectible) {
 }
 
-void AssemblyLoadContext___::Ctor(String name, Boolean isCollectible) {
+void AssemblyLoadContext___::ctor(String name, Boolean isCollectible) {
 }
 
-void AssemblyLoadContext___::Ctor(Boolean representsTPALoadContext, Boolean isCollectible, String name) {
+void AssemblyLoadContext___::ctor(Boolean representsTPALoadContext, Boolean isCollectible, String name) {
 }
 
 void AssemblyLoadContext___::Finalize() {
@@ -212,7 +212,7 @@ IntPtr AssemblyLoadContext___::GetResolvedUnmanagedDll(Assembly assembly, String
   return IntPtr();
 }
 
-void AssemblyLoadContext___::SCtor() {
+void AssemblyLoadContext___::ctor_static() {
 }
 
 } // namespace System::Private::CoreLib::System::Runtime::Loader::AssemblyLoadContextNamespace

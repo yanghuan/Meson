@@ -35,7 +35,7 @@ CLASS(WaitHandle) : public MarshalByRefObject::in {
   private: static Int32 WaitMultipleIgnoringSyncContext(IntPtr* waitHandles, Int32 numHandles, Boolean waitAll, Int32 millisecondsTimeout);
   private: static Int32 SignalAndWaitCore(IntPtr waitHandleToSignal, IntPtr waitHandleToWaitOn, Int32 millisecondsTimeout);
   private: static Int32 SignalAndWaitNative(IntPtr waitHandleToSignal, IntPtr waitHandleToWaitOn, Int32 millisecondsTimeout);
-  protected: void Ctor();
+  protected: void ctor();
   public: static Int32 ToTimeoutMilliseconds(TimeSpan timeout);
   public: void Close();
   protected: void Dispose(Boolean explicitDisposing);
@@ -65,7 +65,7 @@ CLASS(WaitHandle) : public MarshalByRefObject::in {
   public: static Boolean SignalAndWait(WaitHandle toSignal, WaitHandle toWaitOn);
   public: static Boolean SignalAndWait(WaitHandle toSignal, WaitHandle toWaitOn, TimeSpan timeout, Boolean exitContext);
   public: static Boolean SignalAndWait(WaitHandle toSignal, WaitHandle toWaitOn, Int32 millisecondsTimeout, Boolean exitContext);
-  private: static void SCtor();
+  private: static void ctor_static();
   public: static constexpr Int32 MaxWaitHandles = 64;
   protected: static IntPtr InvalidHandle;
   private: SafeWaitHandle _waitHandle;

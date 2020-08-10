@@ -5,7 +5,7 @@ Int32 EncoderReplacementFallbackBuffer___::get_Remaining() {
   return Int32();
 }
 
-void EncoderReplacementFallbackBuffer___::Ctor(EncoderReplacementFallback fallback) {
+void EncoderReplacementFallbackBuffer___::ctor(EncoderReplacementFallback fallback) {
 }
 
 Boolean EncoderReplacementFallbackBuffer___::Fallback(Char charUnknown, Int32 index) {

@@ -25,7 +25,7 @@ Boolean ContractFailedEventArgs___::get_Unwind() {
   return Boolean();
 }
 
-void ContractFailedEventArgs___::Ctor(ContractFailureKind failureKind, String message, String condition, Exception originalException) {
+void ContractFailedEventArgs___::ctor(ContractFailureKind failureKind, String message, String condition, Exception originalException) {
 }
 
 void ContractFailedEventArgs___::SetHandled() {

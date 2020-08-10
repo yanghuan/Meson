@@ -9,7 +9,7 @@ CLASS(ObfuscateAssemblyAttribute) : public Attribute::in {
   public: Boolean get_AssemblyIsPrivate() { return AssemblyIsPrivate; }
   public: Boolean get_StripAfterObfuscation() { return StripAfterObfuscation; }
   public: void set_StripAfterObfuscation(Boolean value) { StripAfterObfuscation = value; }
-  public: void Ctor(Boolean assemblyIsPrivate);
+  public: void ctor(Boolean assemblyIsPrivate);
   private: Boolean AssemblyIsPrivate;
   private: Boolean StripAfterObfuscation;
 };

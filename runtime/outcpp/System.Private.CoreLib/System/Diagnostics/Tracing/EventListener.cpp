@@ -5,10 +5,10 @@ Object EventListener___::get_EventListenersLock() {
   return nullptr;
 }
 
-void EventListener___::SCtor() {
+void EventListener___::ctor_static() {
 }
 
-void EventListener___::Ctor() {
+void EventListener___::ctor() {
 }
 
 void EventListener___::Dispose() {

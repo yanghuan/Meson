@@ -12,7 +12,7 @@ namespace CerHashtableNamespace {
 template <class K, class V>
 struct CerHashtable : public valueType<CerHashtable<K, V>> {
   private: CLASS(Table) : public Object::in {
-    public: void Ctor(Int32 size);
+    public: void ctor(Int32 size);
     public: void Insert(K key, V value);
     public: Array<K> m_keys;
     public: Array<V> m_values;

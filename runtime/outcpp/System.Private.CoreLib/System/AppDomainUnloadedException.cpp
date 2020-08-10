@@ -1,16 +1,16 @@
 #include "AppDomainUnloadedException-dep.h"
 
 namespace System::Private::CoreLib::System::AppDomainUnloadedExceptionNamespace {
-void AppDomainUnloadedException___::Ctor() {
+void AppDomainUnloadedException___::ctor() {
 }
 
-void AppDomainUnloadedException___::Ctor(String message) {
+void AppDomainUnloadedException___::ctor(String message) {
 }
 
-void AppDomainUnloadedException___::Ctor(String message, Exception innerException) {
+void AppDomainUnloadedException___::ctor(String message, Exception innerException) {
 }
 
-void AppDomainUnloadedException___::Ctor(SerializationInfo info, StreamingContext context) {
+void AppDomainUnloadedException___::ctor(SerializationInfo info, StreamingContext context) {
 }
 
 } // namespace System::Private::CoreLib::System::AppDomainUnloadedExceptionNamespace

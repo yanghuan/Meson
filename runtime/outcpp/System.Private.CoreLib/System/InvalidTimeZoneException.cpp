@@ -1,16 +1,16 @@
 #include "InvalidTimeZoneException-dep.h"
 
 namespace System::Private::CoreLib::System::InvalidTimeZoneExceptionNamespace {
-void InvalidTimeZoneException___::Ctor() {
+void InvalidTimeZoneException___::ctor() {
 }
 
-void InvalidTimeZoneException___::Ctor(String message) {
+void InvalidTimeZoneException___::ctor(String message) {
 }
 
-void InvalidTimeZoneException___::Ctor(String message, Exception innerException) {
+void InvalidTimeZoneException___::ctor(String message, Exception innerException) {
 }
 
-void InvalidTimeZoneException___::Ctor(SerializationInfo info, StreamingContext context) {
+void InvalidTimeZoneException___::ctor(SerializationInfo info, StreamingContext context) {
 }
 
 } // namespace System::Private::CoreLib::System::InvalidTimeZoneExceptionNamespace

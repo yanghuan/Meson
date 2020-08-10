@@ -9,7 +9,7 @@ namespace System::Private::CoreLib::System::Threading {
 namespace ThreadExceptionEventArgsNamespace {
 CLASS(ThreadExceptionEventArgs) : public EventArgs::in {
   public: Exception get_Exception();
-  public: void Ctor(Exception t);
+  public: void ctor(Exception t);
   private: Exception m_exception;
 };
 } // namespace ThreadExceptionEventArgsNamespace

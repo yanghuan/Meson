@@ -57,7 +57,7 @@ StructLayoutAttribute PseudoCustomAttribute::GetStructLayoutCustomAttribute(Runt
   return nullptr;
 }
 
-void PseudoCustomAttribute::SCtor() {
+void PseudoCustomAttribute::ctor_static() {
 }
 
 } // namespace System::Private::CoreLib::System::Reflection::PseudoCustomAttributeNamespace

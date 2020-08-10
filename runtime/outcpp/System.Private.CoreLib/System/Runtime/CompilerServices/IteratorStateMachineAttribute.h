@@ -8,7 +8,7 @@ FORWARD(Type)
 namespace System::Private::CoreLib::System::Runtime::CompilerServices {
 namespace IteratorStateMachineAttributeNamespace {
 CLASS(IteratorStateMachineAttribute) : public StateMachineAttribute::in {
-  public: void Ctor(Type stateMachineType);
+  public: void ctor(Type stateMachineType);
 };
 } // namespace IteratorStateMachineAttributeNamespace
 using IteratorStateMachineAttribute = IteratorStateMachineAttributeNamespace::IteratorStateMachineAttribute;

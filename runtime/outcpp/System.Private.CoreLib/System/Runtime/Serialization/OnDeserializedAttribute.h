@@ -5,7 +5,7 @@
 namespace System::Private::CoreLib::System::Runtime::Serialization {
 namespace OnDeserializedAttributeNamespace {
 CLASS(OnDeserializedAttribute) : public Attribute::in {
-  public: void Ctor();
+  public: void ctor();
 };
 } // namespace OnDeserializedAttributeNamespace
 using OnDeserializedAttribute = OnDeserializedAttributeNamespace::OnDeserializedAttribute;

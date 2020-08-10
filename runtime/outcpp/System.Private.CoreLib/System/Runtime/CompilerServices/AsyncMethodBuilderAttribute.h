@@ -9,7 +9,7 @@ namespace System::Private::CoreLib::System::Runtime::CompilerServices {
 namespace AsyncMethodBuilderAttributeNamespace {
 CLASS(AsyncMethodBuilderAttribute) : public Attribute::in {
   public: Type get_BuilderType() { return BuilderType; }
-  public: void Ctor(Type builderType);
+  public: void ctor(Type builderType);
   private: Type BuilderType;
 };
 } // namespace AsyncMethodBuilderAttributeNamespace

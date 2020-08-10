@@ -7,7 +7,7 @@ FORWARDS(Boolean)
 namespace ApplicationModelNamespace {
 class ApplicationModel {
   private: static Interop::BOOL IsAppXProcess();
-  private: static void SCtor();
+  private: static void ctor_static();
   public: static Boolean IsUap;
 };
 } // namespace ApplicationModelNamespace

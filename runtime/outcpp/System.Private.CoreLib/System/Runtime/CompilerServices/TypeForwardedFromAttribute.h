@@ -9,7 +9,7 @@ namespace System::Private::CoreLib::System::Runtime::CompilerServices {
 namespace TypeForwardedFromAttributeNamespace {
 CLASS(TypeForwardedFromAttribute) : public Attribute::in {
   public: String get_AssemblyFullName() { return AssemblyFullName; }
-  public: void Ctor(String assemblyFullName);
+  public: void ctor(String assemblyFullName);
   private: String AssemblyFullName;
 };
 } // namespace TypeForwardedFromAttributeNamespace

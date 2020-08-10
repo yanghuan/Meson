@@ -1,16 +1,16 @@
 #include "SynchronizationLockException-dep.h"
 
 namespace System::Private::CoreLib::System::Threading::SynchronizationLockExceptionNamespace {
-void SynchronizationLockException___::Ctor() {
+void SynchronizationLockException___::ctor() {
 }
 
-void SynchronizationLockException___::Ctor(String message) {
+void SynchronizationLockException___::ctor(String message) {
 }
 
-void SynchronizationLockException___::Ctor(String message, Exception innerException) {
+void SynchronizationLockException___::ctor(String message, Exception innerException) {
 }
 
-void SynchronizationLockException___::Ctor(SerializationInfo info, StreamingContext context) {
+void SynchronizationLockException___::ctor(SerializationInfo info, StreamingContext context) {
 }
 
 } // namespace System::Private::CoreLib::System::Threading::SynchronizationLockExceptionNamespace

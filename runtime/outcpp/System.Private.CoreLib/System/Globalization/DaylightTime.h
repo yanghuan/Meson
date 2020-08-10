@@ -10,7 +10,7 @@ CLASS(DaylightTime) : public Object::in {
   public: DateTime get_Start();
   public: DateTime get_End();
   public: TimeSpan get_Delta();
-  public: void Ctor(DateTime start, DateTime end, TimeSpan delta);
+  public: void ctor(DateTime start, DateTime end, TimeSpan delta);
   private: DateTime _start;
   private: DateTime _end;
   private: TimeSpan _delta;

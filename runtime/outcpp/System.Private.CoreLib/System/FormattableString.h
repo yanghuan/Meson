@@ -19,7 +19,7 @@ CLASS(FormattableString) : public Object::in {
   public: static String Invariant(FormattableString formattable);
   public: static String CurrentCulture(FormattableString formattable);
   public: String ToString();
-  protected: void Ctor();
+  protected: void ctor();
 };
 } // namespace FormattableStringNamespace
 using FormattableString = FormattableStringNamespace::FormattableString;

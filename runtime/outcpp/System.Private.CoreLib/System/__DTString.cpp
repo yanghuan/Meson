@@ -93,7 +93,7 @@ DTSubString __DTString::GetSubString() {
 void __DTString::ConsumeSubString(DTSubString sub) {
 }
 
-void __DTString::SCtor() {
+void __DTString::ctor_static() {
 }
 
 } // namespace System::Private::CoreLib::System::__DTStringNamespace

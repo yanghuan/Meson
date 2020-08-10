@@ -32,7 +32,7 @@ Int32 NullStreamReader___::ReadBuffer() {
   return Int32();
 }
 
-void NullStreamReader___::Ctor() {
+void NullStreamReader___::ctor() {
 }
 
 Encoding StreamReader___::get_CurrentEncoding() {
@@ -53,40 +53,40 @@ void StreamReader___::CheckAsyncTaskInProgress() {
 void StreamReader___::ThrowAsyncIOInProgress() {
 }
 
-void StreamReader___::Ctor() {
+void StreamReader___::ctor() {
 }
 
-void StreamReader___::Ctor(Stream stream) {
+void StreamReader___::ctor(Stream stream) {
 }
 
-void StreamReader___::Ctor(Stream stream, Boolean detectEncodingFromByteOrderMarks) {
+void StreamReader___::ctor(Stream stream, Boolean detectEncodingFromByteOrderMarks) {
 }
 
-void StreamReader___::Ctor(Stream stream, Encoding encoding) {
+void StreamReader___::ctor(Stream stream, Encoding encoding) {
 }
 
-void StreamReader___::Ctor(Stream stream, Encoding encoding, Boolean detectEncodingFromByteOrderMarks) {
+void StreamReader___::ctor(Stream stream, Encoding encoding, Boolean detectEncodingFromByteOrderMarks) {
 }
 
-void StreamReader___::Ctor(Stream stream, Encoding encoding, Boolean detectEncodingFromByteOrderMarks, Int32 bufferSize) {
+void StreamReader___::ctor(Stream stream, Encoding encoding, Boolean detectEncodingFromByteOrderMarks, Int32 bufferSize) {
 }
 
-void StreamReader___::Ctor(Stream stream, Encoding encoding, Boolean detectEncodingFromByteOrderMarks, Int32 bufferSize, Boolean leaveOpen) {
+void StreamReader___::ctor(Stream stream, Encoding encoding, Boolean detectEncodingFromByteOrderMarks, Int32 bufferSize, Boolean leaveOpen) {
 }
 
-void StreamReader___::Ctor(String path) {
+void StreamReader___::ctor(String path) {
 }
 
-void StreamReader___::Ctor(String path, Boolean detectEncodingFromByteOrderMarks) {
+void StreamReader___::ctor(String path, Boolean detectEncodingFromByteOrderMarks) {
 }
 
-void StreamReader___::Ctor(String path, Encoding encoding) {
+void StreamReader___::ctor(String path, Encoding encoding) {
 }
 
-void StreamReader___::Ctor(String path, Encoding encoding, Boolean detectEncodingFromByteOrderMarks) {
+void StreamReader___::ctor(String path, Encoding encoding, Boolean detectEncodingFromByteOrderMarks) {
 }
 
-void StreamReader___::Ctor(String path, Encoding encoding, Boolean detectEncodingFromByteOrderMarks, Int32 bufferSize) {
+void StreamReader___::ctor(String path, Encoding encoding, Boolean detectEncodingFromByteOrderMarks, Int32 bufferSize) {
 }
 
 Stream StreamReader___::ValidateArgsAndOpenPath(String path, Encoding encoding, Int32 bufferSize) {
@@ -199,7 +199,7 @@ ValueTask<Int32> StreamReader___::ReadBufferAsync(CancellationToken cancellation
 void StreamReader___::ThrowIfDisposed() {
 }
 
-void StreamReader___::SCtor() {
+void StreamReader___::ctor_static() {
 }
 
 } // namespace System::Private::CoreLib::System::IO::StreamReaderNamespace

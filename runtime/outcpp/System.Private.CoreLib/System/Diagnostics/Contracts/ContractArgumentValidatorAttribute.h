@@ -5,7 +5,7 @@
 namespace System::Private::CoreLib::System::Diagnostics::Contracts {
 namespace ContractArgumentValidatorAttributeNamespace {
 CLASS(ContractArgumentValidatorAttribute) : public Attribute::in {
-  public: void Ctor();
+  public: void ctor();
 };
 } // namespace ContractArgumentValidatorAttributeNamespace
 using ContractArgumentValidatorAttribute = ContractArgumentValidatorAttributeNamespace::ContractArgumentValidatorAttribute;

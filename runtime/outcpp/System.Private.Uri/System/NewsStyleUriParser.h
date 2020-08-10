@@ -5,7 +5,7 @@
 namespace System::Private::Uri::System {
 namespace NewsStyleUriParserNamespace {
 CLASS(NewsStyleUriParser) : public UriParser::in {
-  public: void Ctor();
+  public: void ctor();
 };
 } // namespace NewsStyleUriParserNamespace
 using NewsStyleUriParser = NewsStyleUriParserNamespace::NewsStyleUriParser;

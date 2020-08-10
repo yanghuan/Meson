@@ -5,7 +5,7 @@
 namespace System::Private::CoreLib::System::Diagnostics::CodeAnalysis {
 namespace DisallowNullAttributeNamespace {
 CLASS(DisallowNullAttribute) : public Attribute::in {
-  public: void Ctor();
+  public: void ctor();
 };
 } // namespace DisallowNullAttributeNamespace
 using DisallowNullAttribute = DisallowNullAttributeNamespace::DisallowNullAttribute;

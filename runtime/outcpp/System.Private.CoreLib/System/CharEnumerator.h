@@ -26,7 +26,7 @@ CLASS(CharEnumerator) : public Object::in {
   public: using interface = rt::TypeList<IEnumerator1, IEnumerator<Char>, IDisposable, ICloneable>;
   private: Object get_CurrentOfIEnumerator();
   public: Char get_Current();
-  public: void Ctor(String str);
+  public: void ctor(String str);
   public: Object Clone();
   public: Boolean MoveNext();
   public: void Dispose();

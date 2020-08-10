@@ -25,7 +25,7 @@ Object ParamsArray::GetAtSlow(Int32 index) {
   return nullptr;
 }
 
-void ParamsArray::SCtor() {
+void ParamsArray::ctor_static() {
 }
 
 } // namespace System::Private::CoreLib::System::ParamsArrayNamespace

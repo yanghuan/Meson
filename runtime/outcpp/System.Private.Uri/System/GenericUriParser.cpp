@@ -1,7 +1,7 @@
 #include "GenericUriParser-dep.h"
 
 namespace System::Private::Uri::System::GenericUriParserNamespace {
-void GenericUriParser___::Ctor(GenericUriParserOptions options) {
+void GenericUriParser___::ctor(GenericUriParserOptions options) {
 }
 
 UriSyntaxFlags GenericUriParser___::MapGenericParserOptions(GenericUriParserOptions options) {

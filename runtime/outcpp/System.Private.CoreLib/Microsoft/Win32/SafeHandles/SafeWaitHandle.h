@@ -10,8 +10,8 @@ namespace System::Private::CoreLib::Microsoft::Win32::SafeHandles {
 namespace SafeWaitHandleNamespace {
 using namespace ::System::Private::CoreLib::System;
 CLASS(SafeWaitHandle) : public SafeHandleZeroOrMinusOneIsInvalid::in {
-  private: void Ctor();
-  public: void Ctor(IntPtr existingHandle, Boolean ownsHandle);
+  private: void ctor();
+  public: void ctor(IntPtr existingHandle, Boolean ownsHandle);
   protected: Boolean ReleaseHandle();
 };
 } // namespace SafeWaitHandleNamespace

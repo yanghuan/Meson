@@ -14,7 +14,7 @@ CLASS(NullableComparer, T) : public Comparer<Nullable<T>>::in {
   public: Int32 Compare(Nullable<T> x, Nullable<T> y);
   public: Boolean Equals(Object obj);
   public: Int32 GetHashCode();
-  public: void Ctor();
+  public: void ctor();
 };
 } // namespace NullableComparerNamespace
 template <class T>

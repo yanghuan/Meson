@@ -17,13 +17,13 @@ Boolean UnmanagedMemoryAccessor___::get_IsOpen() {
   return Boolean();
 }
 
-void UnmanagedMemoryAccessor___::Ctor() {
+void UnmanagedMemoryAccessor___::ctor() {
 }
 
-void UnmanagedMemoryAccessor___::Ctor(SafeBuffer buffer, Int64 offset, Int64 capacity) {
+void UnmanagedMemoryAccessor___::ctor(SafeBuffer buffer, Int64 offset, Int64 capacity) {
 }
 
-void UnmanagedMemoryAccessor___::Ctor(SafeBuffer buffer, Int64 offset, Int64 capacity, FileAccess access) {
+void UnmanagedMemoryAccessor___::ctor(SafeBuffer buffer, Int64 offset, Int64 capacity, FileAccess access) {
 }
 
 void UnmanagedMemoryAccessor___::Initialize(SafeBuffer buffer, Int64 offset, Int64 capacity, FileAccess access) {

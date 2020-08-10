@@ -12,10 +12,10 @@ FORWARD(String)
 namespace OverflowExceptionNamespace {
 using namespace Runtime::Serialization;
 CLASS(OverflowException) : public ArithmeticException::in {
-  public: void Ctor();
-  public: void Ctor(String message);
-  public: void Ctor(String message, Exception innerException);
-  protected: void Ctor(SerializationInfo info, StreamingContext context);
+  public: void ctor();
+  public: void ctor(String message);
+  public: void ctor(String message, Exception innerException);
+  protected: void ctor(SerializationInfo info, StreamingContext context);
 };
 } // namespace OverflowExceptionNamespace
 using OverflowException = OverflowExceptionNamespace::OverflowException;

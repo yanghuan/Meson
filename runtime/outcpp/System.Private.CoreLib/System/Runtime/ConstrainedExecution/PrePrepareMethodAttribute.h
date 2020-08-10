@@ -5,7 +5,7 @@
 namespace System::Private::CoreLib::System::Runtime::ConstrainedExecution {
 namespace PrePrepareMethodAttributeNamespace {
 CLASS(PrePrepareMethodAttribute) : public Attribute::in {
-  public: void Ctor();
+  public: void ctor();
 };
 } // namespace PrePrepareMethodAttributeNamespace
 using PrePrepareMethodAttribute = PrePrepareMethodAttributeNamespace::PrePrepareMethodAttribute;

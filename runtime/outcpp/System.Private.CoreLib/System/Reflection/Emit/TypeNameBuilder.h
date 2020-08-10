@@ -25,7 +25,7 @@ CLASS(TypeNameBuilder) : public Object::in {
     FullName = 1,
     AssemblyQualifiedName = 2,
   };
-  private: void Ctor();
+  private: void ctor();
   private: void OpenGenericArguments();
   private: void CloseGenericArguments();
   private: void OpenGenericArgument();

@@ -5,7 +5,7 @@ Int32 EncoderExceptionFallbackBuffer___::get_Remaining() {
   return Int32();
 }
 
-void EncoderExceptionFallbackBuffer___::Ctor() {
+void EncoderExceptionFallbackBuffer___::ctor() {
 }
 
 Boolean EncoderExceptionFallbackBuffer___::Fallback(Char charUnknown, Int32 index) {

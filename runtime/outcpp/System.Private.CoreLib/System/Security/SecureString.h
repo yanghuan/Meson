@@ -19,17 +19,17 @@ using namespace Runtime::InteropServices;
 CLASS(SecureString) : public Object::in {
   public: using interface = rt::TypeList<IDisposable>;
   private: CLASS(UnmanagedBuffer) : public SafeBuffer::in {
-    private: void Ctor();
+    private: void ctor();
     public: static UnmanagedBuffer Allocate(Int32 byteLength);
     public: static void Copy(UnmanagedBuffer source, UnmanagedBuffer destination, UInt64 bytesLength);
     protected: Boolean ReleaseHandle();
     private: Int32 _byteLength;
   };
   public: Int32 get_Length();
-  public: void Ctor();
-  public: void Ctor(Char* value, Int32 length);
+  public: void ctor();
+  public: void ctor(Char* value, Int32 length);
   private: void Initialize(ReadOnlySpan<Char> value);
-  private: void Ctor(SecureString str);
+  private: void ctor(SecureString str);
   private: void EnsureCapacity(Int32 capacity);
   public: void AppendChar(Char c);
   public: void Clear();

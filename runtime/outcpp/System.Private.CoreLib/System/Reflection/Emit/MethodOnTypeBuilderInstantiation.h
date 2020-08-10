@@ -44,7 +44,7 @@ CLASS(MethodOnTypeBuilderInstantiation) : public MethodInfo::in {
   public: ParameterInfo get_ReturnParameter();
   public: ICustomAttributeProvider get_ReturnTypeCustomAttributes();
   public: static MethodInfo GetMethod(MethodInfo method, TypeBuilderInstantiation type);
-  public: void Ctor(MethodInfo method, TypeBuilderInstantiation type);
+  public: void ctor(MethodInfo method, TypeBuilderInstantiation type);
   public: Array<Type> GetParameterTypes();
   public: Array<Object> GetCustomAttributes(Boolean inherit);
   public: Array<Object> GetCustomAttributes(Type attributeType, Boolean inherit);

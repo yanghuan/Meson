@@ -19,11 +19,11 @@ namespace SynchronizationContextTaskSchedulerNamespace {
 using namespace Collections::Generic;
 CLASS(SynchronizationContextTaskScheduler) : public TaskScheduler::in {
   public: Int32 get_MaximumConcurrencyLevel();
-  public: void Ctor();
+  public: void ctor();
   public: void QueueTask(Task<> task);
   protected: Boolean TryExecuteTaskInline(Task<> task, Boolean taskWasPreviouslyQueued);
   protected: IEnumerable<Task<>> GetScheduledTasks();
-  private: static void SCtor();
+  private: static void ctor_static();
   private: SynchronizationContext m_synchronizationContext;
   private: static SendOrPostCallback s_postCallback;
 };

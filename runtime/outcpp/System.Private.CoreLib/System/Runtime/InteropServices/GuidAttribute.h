@@ -9,7 +9,7 @@ namespace System::Private::CoreLib::System::Runtime::InteropServices {
 namespace GuidAttributeNamespace {
 CLASS(GuidAttribute) : public Attribute::in {
   public: String get_Value() { return Value; }
-  public: void Ctor(String guid);
+  public: void ctor(String guid);
   private: String Value;
 };
 } // namespace GuidAttributeNamespace

@@ -45,7 +45,7 @@ Int32 ComWrappers___::CallICustomQueryInterface(Object customQueryInterfaceMaybe
   return Int32();
 }
 
-void ComWrappers___::Ctor() {
+void ComWrappers___::ctor() {
 }
 
 } // namespace System::Private::CoreLib::System::Runtime::InteropServices::ComWrappersNamespace

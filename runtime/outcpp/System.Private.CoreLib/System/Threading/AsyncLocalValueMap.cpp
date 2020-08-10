@@ -9,10 +9,10 @@ Boolean AsyncLocalValueMap::EmptyAsyncLocalValueMap___::TryGetValue(IAsyncLocal 
   return Boolean();
 }
 
-void AsyncLocalValueMap::EmptyAsyncLocalValueMap___::Ctor() {
+void AsyncLocalValueMap::EmptyAsyncLocalValueMap___::ctor() {
 }
 
-void AsyncLocalValueMap::OneElementAsyncLocalValueMap___::Ctor(IAsyncLocal key, Object value) {
+void AsyncLocalValueMap::OneElementAsyncLocalValueMap___::ctor(IAsyncLocal key, Object value) {
 }
 
 IAsyncLocalValueMap AsyncLocalValueMap::OneElementAsyncLocalValueMap___::Set(IAsyncLocal key, Object value, Boolean treatNullValueAsNonexistent) {
@@ -23,7 +23,7 @@ Boolean AsyncLocalValueMap::OneElementAsyncLocalValueMap___::TryGetValue(IAsyncL
   return Boolean();
 }
 
-void AsyncLocalValueMap::TwoElementAsyncLocalValueMap___::Ctor(IAsyncLocal key1, Object value1, IAsyncLocal key2, Object value2) {
+void AsyncLocalValueMap::TwoElementAsyncLocalValueMap___::ctor(IAsyncLocal key1, Object value1, IAsyncLocal key2, Object value2) {
 }
 
 IAsyncLocalValueMap AsyncLocalValueMap::TwoElementAsyncLocalValueMap___::Set(IAsyncLocal key, Object value, Boolean treatNullValueAsNonexistent) {
@@ -34,7 +34,7 @@ Boolean AsyncLocalValueMap::TwoElementAsyncLocalValueMap___::TryGetValue(IAsyncL
   return Boolean();
 }
 
-void AsyncLocalValueMap::ThreeElementAsyncLocalValueMap___::Ctor(IAsyncLocal key1, Object value1, IAsyncLocal key2, Object value2, IAsyncLocal key3, Object value3) {
+void AsyncLocalValueMap::ThreeElementAsyncLocalValueMap___::ctor(IAsyncLocal key1, Object value1, IAsyncLocal key2, Object value2, IAsyncLocal key3, Object value3) {
 }
 
 IAsyncLocalValueMap AsyncLocalValueMap::ThreeElementAsyncLocalValueMap___::Set(IAsyncLocal key, Object value, Boolean treatNullValueAsNonexistent) {
@@ -45,7 +45,7 @@ Boolean AsyncLocalValueMap::ThreeElementAsyncLocalValueMap___::TryGetValue(IAsyn
   return Boolean();
 }
 
-void AsyncLocalValueMap::MultiElementAsyncLocalValueMap___::Ctor(Int32 count) {
+void AsyncLocalValueMap::MultiElementAsyncLocalValueMap___::ctor(Int32 count) {
 }
 
 void AsyncLocalValueMap::MultiElementAsyncLocalValueMap___::UnsafeStore(Int32 index, IAsyncLocal key, Object value) {
@@ -59,7 +59,7 @@ Boolean AsyncLocalValueMap::MultiElementAsyncLocalValueMap___::TryGetValue(IAsyn
   return Boolean();
 }
 
-void AsyncLocalValueMap::ManyElementAsyncLocalValueMap___::Ctor(Int32 capacity) {
+void AsyncLocalValueMap::ManyElementAsyncLocalValueMap___::ctor(Int32 capacity) {
 }
 
 IAsyncLocalValueMap AsyncLocalValueMap::ManyElementAsyncLocalValueMap___::Set(IAsyncLocal key, Object value, Boolean treatNullValueAsNonexistent) {
@@ -74,7 +74,7 @@ IAsyncLocalValueMap AsyncLocalValueMap::Create(IAsyncLocal key, Object value, Bo
   return nullptr;
 }
 
-void AsyncLocalValueMap::SCtor() {
+void AsyncLocalValueMap::ctor_static() {
 }
 
 } // namespace System::Private::CoreLib::System::Threading::AsyncLocalValueMapNamespace

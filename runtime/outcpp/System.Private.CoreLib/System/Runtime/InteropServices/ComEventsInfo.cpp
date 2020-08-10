@@ -3,7 +3,7 @@
 #include <System.Private.CoreLib/System/Runtime/InteropServices/ComEventsInfo-dep.h>
 
 namespace System::Private::CoreLib::System::Runtime::InteropServices::ComEventsInfoNamespace {
-void ComEventsInfo___::Ctor(Object rcw) {
+void ComEventsInfo___::ctor(Object rcw) {
 }
 
 void ComEventsInfo___::Finalize() {

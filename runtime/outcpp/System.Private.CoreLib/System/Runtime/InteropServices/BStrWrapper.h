@@ -9,8 +9,8 @@ namespace System::Private::CoreLib::System::Runtime::InteropServices {
 namespace BStrWrapperNamespace {
 CLASS(BStrWrapper) : public Object::in {
   public: String get_WrappedObject() { return WrappedObject; }
-  public: void Ctor(String value);
-  public: void Ctor(Object value);
+  public: void ctor(String value);
+  public: void ctor(Object value);
   private: String WrappedObject;
 };
 } // namespace BStrWrapperNamespace

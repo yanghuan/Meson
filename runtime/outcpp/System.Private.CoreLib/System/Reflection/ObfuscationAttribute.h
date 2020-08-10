@@ -17,7 +17,7 @@ CLASS(ObfuscationAttribute) : public Attribute::in {
   public: void set_ApplyToMembers(Boolean value) { ApplyToMembers = value; }
   public: String get_Feature() { return Feature; }
   public: void set_Feature(String value) { Feature = value; }
-  public: void Ctor();
+  public: void ctor();
   private: Boolean StripAfterObfuscation;
   private: Boolean Exclude;
   private: Boolean ApplyToMembers;

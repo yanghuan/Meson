@@ -5,7 +5,7 @@
 namespace System::Private::CoreLib::System::Runtime::CompilerServices {
 namespace DisablePrivateReflectionAttributeNamespace {
 CLASS(DisablePrivateReflectionAttribute) : public Attribute::in {
-  public: void Ctor();
+  public: void ctor();
 };
 } // namespace DisablePrivateReflectionAttributeNamespace
 using DisablePrivateReflectionAttribute = DisablePrivateReflectionAttributeNamespace::DisablePrivateReflectionAttribute;

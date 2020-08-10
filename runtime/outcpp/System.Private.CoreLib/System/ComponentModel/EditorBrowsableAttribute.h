@@ -12,8 +12,8 @@ enum class EditorBrowsableState;
 namespace EditorBrowsableAttributeNamespace {
 CLASS(EditorBrowsableAttribute) : public Attribute::in {
   public: EditorBrowsableState get_State() { return State; }
-  public: void Ctor(EditorBrowsableState state);
-  public: void Ctor();
+  public: void ctor(EditorBrowsableState state);
+  public: void ctor();
   public: Boolean Equals(Object obj);
   public: Int32 GetHashCode();
   private: EditorBrowsableState State;

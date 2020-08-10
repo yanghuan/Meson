@@ -13,7 +13,7 @@ namespace System::Private::CoreLib::System::Diagnostics {
 namespace DebugProviderNamespace {
 CLASS(DebugProvider) : public Object::in {
   private: CLASS(DebugAssertException) : public Exception::in {
-    public: void Ctor(String message, String detailMessage, String stackTrace);
+    public: void ctor(String message, String detailMessage, String stackTrace);
     private: static String Terminate(String s);
   };
   public: void Fail(String message, String detailMessage);
@@ -26,8 +26,8 @@ CLASS(DebugProvider) : public Object::in {
   public: static void FailCore(String stackTrace, String message, String detailMessage, String errorSource);
   public: static void WriteCore(String message);
   private: static void WriteToDebugger(String message);
-  public: void Ctor();
-  private: static void SCtor();
+  public: void ctor();
+  private: static void ctor_static();
   private: static Object s_lock;
   private: Boolean _needIndent;
   private: String _indentString;

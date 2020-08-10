@@ -5,19 +5,19 @@ Int32 ExternalException___::get_ErrorCode() {
   return Int32();
 }
 
-void ExternalException___::Ctor() {
+void ExternalException___::ctor() {
 }
 
-void ExternalException___::Ctor(String message) {
+void ExternalException___::ctor(String message) {
 }
 
-void ExternalException___::Ctor(String message, Exception inner) {
+void ExternalException___::ctor(String message, Exception inner) {
 }
 
-void ExternalException___::Ctor(String message, Int32 errorCode) {
+void ExternalException___::ctor(String message, Int32 errorCode) {
 }
 
-void ExternalException___::Ctor(SerializationInfo info, StreamingContext context) {
+void ExternalException___::ctor(SerializationInfo info, StreamingContext context) {
 }
 
 String ExternalException___::ToString() {

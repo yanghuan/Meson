@@ -5,7 +5,7 @@ ICustomMarshaler TypeToTypeInfoMarshaler___::GetInstance(String cookie) {
   return nullptr;
 }
 
-void TypeToTypeInfoMarshaler___::Ctor() {
+void TypeToTypeInfoMarshaler___::ctor() {
 }
 
 void TypeToTypeInfoMarshaler___::CleanUpManagedData(Object ManagedObj) {
@@ -26,7 +26,7 @@ Object TypeToTypeInfoMarshaler___::MarshalNativeToManaged(IntPtr pNativeData) {
   return nullptr;
 }
 
-void TypeToTypeInfoMarshaler___::SCtor() {
+void TypeToTypeInfoMarshaler___::ctor_static() {
 }
 
 } // namespace System::Private::CoreLib::System::Runtime::InteropServices::CustomMarshalers::TypeToTypeInfoMarshalerNamespace

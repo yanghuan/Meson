@@ -13,7 +13,7 @@ namespace DebuggerNamespace {
 class Debugger {
   private: CLASS(CrossThreadDependencyNotification) : public Object::in {
     public: using interface = rt::TypeList<ICustomDebuggerNotification>;
-    public: void Ctor();
+    public: void ctor();
   };
   public: static Boolean get_IsAttached();
   public: static void Break();

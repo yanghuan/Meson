@@ -13,9 +13,9 @@ namespace System::Private::CoreLib::System::Threading {
 namespace ThreadStartExceptionNamespace {
 using namespace Runtime::Serialization;
 CLASS(ThreadStartException) : public SystemException::in {
-  public: void Ctor();
-  public: void Ctor(Exception reason);
-  private: void Ctor(SerializationInfo info, StreamingContext context);
+  public: void ctor();
+  public: void ctor(Exception reason);
+  private: void ctor(SerializationInfo info, StreamingContext context);
 };
 } // namespace ThreadStartExceptionNamespace
 using ThreadStartException = ThreadStartExceptionNamespace::ThreadStartException;

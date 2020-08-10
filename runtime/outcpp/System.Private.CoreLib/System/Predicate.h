@@ -10,7 +10,7 @@ FORWARDS(IntPtr)
 FORWARD(Object)
 namespace PredicateNamespace {
 CLASS(Predicate, T) : public MulticastDelegate::in {
-  public: void Ctor(Object object, IntPtr method);
+  public: void ctor(Object object, IntPtr method);
   public: Boolean Invoke(T obj);
   public: IAsyncResult BeginInvoke(T obj, AsyncCallback callback, Object object);
   public: Boolean EndInvoke(IAsyncResult result);

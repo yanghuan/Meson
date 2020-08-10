@@ -1,10 +1,10 @@
 #include "Missing-dep.h"
 
 namespace System::Private::CoreLib::System::Reflection::MissingNamespace {
-void Missing___::Ctor() {
+void Missing___::ctor() {
 }
 
-void Missing___::SCtor() {
+void Missing___::ctor_static() {
 }
 
 } // namespace System::Private::CoreLib::System::Reflection::MissingNamespace

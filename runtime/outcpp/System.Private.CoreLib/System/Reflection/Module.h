@@ -52,7 +52,7 @@ CLASS(Module) : public Object::in {
   public: ModuleHandle get_ModuleHandle();
   public: IEnumerable<CustomAttributeData> get_CustomAttributes();
   public: Int32 get_MetadataToken();
-  protected: void Ctor();
+  protected: void ctor();
   protected: ModuleHandle GetModuleHandleImpl();
   public: void GetPEKind(PortableExecutableKinds& peKind, ImageFileMachine& machine);
   public: Boolean IsResource();
@@ -92,7 +92,7 @@ CLASS(Module) : public Object::in {
   public: static Boolean op_Inequality(Module left, Module right);
   public: String ToString();
   private: static Boolean FilterTypeNameImpl(Type cls, Object filterCriteria, StringComparison comparison);
-  private: static void SCtor();
+  private: static void ctor_static();
   public: static TypeFilter FilterTypeName;
   public: static TypeFilter FilterTypeNameIgnoreCase;
 };

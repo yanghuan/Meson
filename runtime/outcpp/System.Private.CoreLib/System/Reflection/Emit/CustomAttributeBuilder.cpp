@@ -1,16 +1,16 @@
 #include "CustomAttributeBuilder-dep.h"
 
 namespace System::Private::CoreLib::System::Reflection::Emit::CustomAttributeBuilderNamespace {
-void CustomAttributeBuilder___::Ctor(ConstructorInfo con, Array<Object> constructorArgs) {
+void CustomAttributeBuilder___::ctor(ConstructorInfo con, Array<Object> constructorArgs) {
 }
 
-void CustomAttributeBuilder___::Ctor(ConstructorInfo con, Array<Object> constructorArgs, Array<PropertyInfo> namedProperties, Array<Object> propertyValues) {
+void CustomAttributeBuilder___::ctor(ConstructorInfo con, Array<Object> constructorArgs, Array<PropertyInfo> namedProperties, Array<Object> propertyValues) {
 }
 
-void CustomAttributeBuilder___::Ctor(ConstructorInfo con, Array<Object> constructorArgs, Array<FieldInfo> namedFields, Array<Object> fieldValues) {
+void CustomAttributeBuilder___::ctor(ConstructorInfo con, Array<Object> constructorArgs, Array<FieldInfo> namedFields, Array<Object> fieldValues) {
 }
 
-void CustomAttributeBuilder___::Ctor(ConstructorInfo con, Array<Object> constructorArgs, Array<PropertyInfo> namedProperties, Array<Object> propertyValues, Array<FieldInfo> namedFields, Array<Object> fieldValues) {
+void CustomAttributeBuilder___::ctor(ConstructorInfo con, Array<Object> constructorArgs, Array<PropertyInfo> namedProperties, Array<Object> propertyValues, Array<FieldInfo> namedFields, Array<Object> fieldValues) {
 }
 
 Boolean CustomAttributeBuilder___::ValidateType(Type t) {

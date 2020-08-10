@@ -22,7 +22,7 @@ using namespace Threading;
 CLASS(ActivityTracker) : public Object::in {
   private: CLASS(ActivityInfo) : public Object::in {
     public: Guid get_ActivityId();
-    public: void Ctor(String name, Int64 uniqueId, ActivityInfo creator, Guid activityIDToRestore, EventActivityOptions options);
+    public: void ctor(String name, Int64 uniqueId, ActivityInfo creator, Guid activityIDToRestore, EventActivityOptions options);
     public: static String Path(ActivityInfo activityInfo);
     public: String ToString();
     public: static String LiveActivities(ActivityInfo list);
@@ -49,8 +49,8 @@ CLASS(ActivityTracker) : public Object::in {
   private: static ActivityInfo FindActiveActivity(String name, ActivityInfo startLocation);
   private: static String NormalizeActivityName(String providerName, String activityName, Int32 task);
   private: void ActivityChanging(AsyncLocalValueChangedArgs<ActivityInfo> args);
-  public: void Ctor();
-  private: static void SCtor();
+  public: void ctor();
+  private: static void ctor_static();
   private: AsyncLocal<ActivityInfo> m_current;
   private: Boolean m_checkedForEnable;
   private: static ActivityTracker s_activityTrackerInstance;

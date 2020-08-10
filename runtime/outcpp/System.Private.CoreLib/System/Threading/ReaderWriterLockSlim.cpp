@@ -98,10 +98,10 @@ Int32 ReaderWriterLockSlim___::get_WaitingWriteCount() {
 void ReaderWriterLockSlim___::InitializeThreadCounts() {
 }
 
-void ReaderWriterLockSlim___::Ctor() {
+void ReaderWriterLockSlim___::ctor() {
 }
 
-void ReaderWriterLockSlim___::Ctor(LockRecursionPolicy recursionPolicy) {
+void ReaderWriterLockSlim___::ctor(LockRecursionPolicy recursionPolicy) {
 }
 
 Boolean ReaderWriterLockSlim___::IsRWEntryEmpty(ReaderWriterCount rwc) {

@@ -15,7 +15,7 @@ namespace OrdinalCaseSensitiveComparerNamespace {
 using namespace Runtime::Serialization;
 CLASS(OrdinalCaseSensitiveComparer) : public OrdinalComparer::in {
   public: using interface = rt::TypeList<ISerializable>;
-  public: void Ctor();
+  public: void ctor();
   public: Int32 Compare(String x, String y);
   public: Boolean Equals(String x, String y);
   public: Int32 GetHashCode(String obj);

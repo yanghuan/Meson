@@ -5,7 +5,7 @@ String ContractPublicPropertyNameAttribute___::get_Name() {
   return nullptr;
 }
 
-void ContractPublicPropertyNameAttribute___::Ctor(String name) {
+void ContractPublicPropertyNameAttribute___::ctor(String name) {
 }
 
 } // namespace System::Private::CoreLib::System::Diagnostics::Contracts::ContractPublicPropertyNameAttributeNamespace

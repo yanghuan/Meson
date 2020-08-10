@@ -17,7 +17,7 @@ FORWARD(LocalSymInfo)
 namespace ScopeTreeNamespace {
 using namespace Diagnostics::SymbolStore;
 CLASS(ScopeTree) : public Object::in {
-  public: void Ctor();
+  public: void ctor();
   public: Int32 GetCurrentActiveScopeIndex();
   public: void AddLocalSymInfoToCurrentScope(String strName, Array<Byte> signature, Int32 slot, Int32 startOffset, Int32 endOffset);
   public: void AddUsingNamespaceToCurrentScope(String strNamespace);

@@ -15,11 +15,11 @@ namespace System::Private::CoreLib::System::IO {
 namespace IOExceptionNamespace {
 using namespace Runtime::Serialization;
 CLASS(IOException) : public SystemException::in {
-  public: void Ctor();
-  public: void Ctor(String message);
-  public: void Ctor(String message, Int32 hresult);
-  public: void Ctor(String message, Exception innerException);
-  protected: void Ctor(SerializationInfo info, StreamingContext context);
+  public: void ctor();
+  public: void ctor(String message);
+  public: void ctor(String message, Int32 hresult);
+  public: void ctor(String message, Exception innerException);
+  protected: void ctor(SerializationInfo info, StreamingContext context);
 };
 } // namespace IOExceptionNamespace
 using IOException = IOExceptionNamespace::IOException;

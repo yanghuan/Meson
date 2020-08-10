@@ -28,8 +28,8 @@ CLASS(IndentedTextWriter) : public TextWriter::in {
   public: Int32 get_Indent();
   public: void set_Indent(Int32 value);
   public: TextWriter get_InnerWriter();
-  public: void Ctor(TextWriter writer);
-  public: void Ctor(TextWriter writer, String tabString);
+  public: void ctor(TextWriter writer);
+  public: void ctor(TextWriter writer, String tabString);
   public: void Close();
   public: void Flush();
   protected: void OutputTabs();

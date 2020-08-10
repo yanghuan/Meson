@@ -17,10 +17,10 @@ using namespace ::System::Private::CoreLib::System;
 using namespace ::System::Private::CoreLib::System::Runtime::Serialization;
 CLASS(UriFormatException) : public FormatException::in {
   public: using interface = rt::TypeList<ISerializable>;
-  public: void Ctor();
-  public: void Ctor(String textString);
-  public: void Ctor(String textString, Exception e);
-  protected: void Ctor(SerializationInfo serializationInfo, StreamingContext streamingContext);
+  public: void ctor();
+  public: void ctor(String textString);
+  public: void ctor(String textString, Exception e);
+  protected: void ctor(SerializationInfo serializationInfo, StreamingContext streamingContext);
 };
 } // namespace UriFormatExceptionNamespace
 using UriFormatException = UriFormatExceptionNamespace::UriFormatException;

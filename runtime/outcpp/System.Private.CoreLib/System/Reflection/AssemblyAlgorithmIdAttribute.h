@@ -11,8 +11,8 @@ namespace AssemblyAlgorithmIdAttributeNamespace {
 using namespace Configuration::Assemblies;
 CLASS(AssemblyAlgorithmIdAttribute) : public Attribute::in {
   public: UInt32 get_AlgorithmId() { return AlgorithmId; }
-  public: void Ctor(AssemblyHashAlgorithm algorithmId);
-  public: void Ctor(UInt32 algorithmId);
+  public: void ctor(AssemblyHashAlgorithm algorithmId);
+  public: void ctor(UInt32 algorithmId);
   private: UInt32 AlgorithmId;
 };
 } // namespace AssemblyAlgorithmIdAttributeNamespace

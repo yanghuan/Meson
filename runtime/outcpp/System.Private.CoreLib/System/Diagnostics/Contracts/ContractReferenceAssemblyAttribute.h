@@ -5,7 +5,7 @@
 namespace System::Private::CoreLib::System::Diagnostics::Contracts {
 namespace ContractReferenceAssemblyAttributeNamespace {
 CLASS(ContractReferenceAssemblyAttribute) : public Attribute::in {
-  public: void Ctor();
+  public: void ctor();
 };
 } // namespace ContractReferenceAssemblyAttributeNamespace
 using ContractReferenceAssemblyAttribute = ContractReferenceAssemblyAttributeNamespace::ContractReferenceAssemblyAttribute;

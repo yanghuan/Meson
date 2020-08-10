@@ -20,7 +20,7 @@ enum class CalendarId : uint16_t;
 namespace HebrewCalendarNamespace {
 CLASS(HebrewCalendar) : public Calendar::in {
   public: CLASS(DateBuffer) : public Object::in {
-    public: void Ctor();
+    public: void ctor();
     public: Int32 year;
     public: Int32 month;
     public: Int32 day;
@@ -34,7 +34,7 @@ CLASS(HebrewCalendar) : public Calendar::in {
   public: Array<Int32> get_Eras();
   public: Int32 get_TwoDigitYearMax();
   public: void set_TwoDigitYearMax(Int32 value);
-  public: void Ctor();
+  public: void ctor();
   private: static void CheckHebrewYearValue(Int32 y, Int32 era, String varName);
   private: void CheckHebrewMonthValue(Int32 year, Int32 month, Int32 era);
   private: void CheckHebrewDayValue(Int32 year, Int32 month, Int32 day, Int32 era);
@@ -63,7 +63,7 @@ CLASS(HebrewCalendar) : public Calendar::in {
   private: static DateTime HebrewToGregorian(Int32 hebrewYear, Int32 hebrewMonth, Int32 hebrewDay, Int32 hour, Int32 minute, Int32 second, Int32 millisecond);
   public: DateTime ToDateTime(Int32 year, Int32 month, Int32 day, Int32 hour, Int32 minute, Int32 second, Int32 millisecond, Int32 era);
   public: Int32 ToFourDigitYear(Int32 year);
-  private: static void SCtor();
+  private: static void ctor_static();
   public: static Int32 HebrewEra;
   private: static DateTime s_calendarMinValue;
   private: static DateTime s_calendarMaxValue;

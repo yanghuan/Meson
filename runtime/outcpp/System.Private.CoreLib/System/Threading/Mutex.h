@@ -13,11 +13,11 @@ namespace System::Private::CoreLib::System::Threading {
 namespace MutexNamespace {
 using namespace ::System::Private::CoreLib::Microsoft::Win32::SafeHandles;
 CLASS(Mutex) : public WaitHandle::in {
-  public: void Ctor(Boolean initiallyOwned, String name, Boolean& createdNew);
-  public: void Ctor(Boolean initiallyOwned, String name);
-  public: void Ctor(Boolean initiallyOwned);
-  public: void Ctor();
-  private: void Ctor(SafeWaitHandle handle);
+  public: void ctor(Boolean initiallyOwned, String name, Boolean& createdNew);
+  public: void ctor(Boolean initiallyOwned, String name);
+  public: void ctor(Boolean initiallyOwned);
+  public: void ctor();
+  private: void ctor(SafeWaitHandle handle);
   public: static Mutex OpenExisting(String name);
   public: static Boolean TryOpenExisting(String name, Mutex& result);
   private: void CreateMutexCore(Boolean initiallyOwned, String name, Boolean& createdNew);

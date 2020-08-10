@@ -7,8 +7,8 @@ namespace System::Private::CoreLib::System::Runtime::InteropServices {
 namespace CurrencyWrapperNamespace {
 CLASS(CurrencyWrapper) : public Object::in {
   public: Decimal get_WrappedObject() { return WrappedObject; }
-  public: void Ctor(Decimal obj);
-  public: void Ctor(Object obj);
+  public: void ctor(Decimal obj);
+  public: void ctor(Object obj);
   private: Decimal WrappedObject;
 };
 } // namespace CurrencyWrapperNamespace

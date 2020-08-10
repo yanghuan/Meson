@@ -19,8 +19,8 @@ CLASS(SafeFileHandle) : public SafeHandleZeroOrMinusOneIsInvalid::in {
   public: void set_IsAsync(Nullable<Boolean> value);
   public: ThreadPoolBoundHandle get_ThreadPoolBinding() { return ThreadPoolBinding; }
   public: void set_ThreadPoolBinding(ThreadPoolBoundHandle value) { ThreadPoolBinding = value; }
-  private: void Ctor();
-  public: void Ctor(IntPtr preexistingHandle, Boolean ownsHandle);
+  private: void ctor();
+  public: void ctor(IntPtr preexistingHandle, Boolean ownsHandle);
   protected: Boolean ReleaseHandle();
   private: Nullable<Boolean> _isAsync;
   private: ThreadPoolBoundHandle ThreadPoolBinding;

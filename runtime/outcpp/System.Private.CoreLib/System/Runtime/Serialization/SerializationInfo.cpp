@@ -37,10 +37,10 @@ DeserializationToken SerializationInfo___::StartDeserialization() {
   return DeserializationToken();
 }
 
-void SerializationInfo___::Ctor(Type type, IFormatterConverter converter) {
+void SerializationInfo___::ctor(Type type, IFormatterConverter converter) {
 }
 
-void SerializationInfo___::Ctor(Type type, IFormatterConverter converter, Boolean requireSameTokenInPartialTrust) {
+void SerializationInfo___::ctor(Type type, IFormatterConverter converter, Boolean requireSameTokenInPartialTrust) {
 }
 
 void SerializationInfo___::SetType(Type type) {
@@ -187,7 +187,7 @@ String SerializationInfo___::GetString(String name) {
   return nullptr;
 }
 
-void SerializationInfo___::SCtor() {
+void SerializationInfo___::ctor_static() {
 }
 
 } // namespace System::Private::CoreLib::System::Runtime::Serialization::SerializationInfoNamespace

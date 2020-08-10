@@ -53,7 +53,7 @@ class DateTimeFormat {
   private: static void WriteDigits(UInt64 value, Span<Char> buffer);
   public: static Array<String> GetAllDateTimes(DateTime dateTime, Char format, DateTimeFormatInfo dtfi);
   public: static Array<String> GetAllDateTimes(DateTime dateTime, DateTimeFormatInfo dtfi);
-  private: static void SCtor();
+  private: static void ctor_static();
   public: static Array<Char> allStandardFormats;
   public: static DateTimeFormatInfo InvariantFormatInfo;
   public: static Array<String> InvariantAbbreviatedMonthNames;

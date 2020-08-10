@@ -17,7 +17,7 @@ FORWARD(TraceLoggingMetadataCollector)
 FORWARD(TypeAnalysis)
 namespace InvokeTypeInfoNamespace {
 CLASS(InvokeTypeInfo) : public TraceLoggingTypeInfo::in {
-  public: void Ctor(Type type, TypeAnalysis typeAnalysis);
+  public: void ctor(Type type, TypeAnalysis typeAnalysis);
   public: void WriteMetadata(TraceLoggingMetadataCollector collector, String name, EventFieldFormat format);
   public: void WriteData(TraceLoggingDataCollector collector, PropertyValue value);
   public: Object GetData(Object value);

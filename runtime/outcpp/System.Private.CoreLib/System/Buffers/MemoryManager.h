@@ -25,7 +25,7 @@ CLASS(MemoryManager, T) : public Object::in {
   protected: Memory<T> CreateMemory(Int32 start, Int32 length);
   public: Boolean TryGetArray(ArraySegment<T>& segment);
   protected: void Dispose(Boolean disposing);
-  protected: void Ctor();
+  protected: void ctor();
 };
 } // namespace MemoryManagerNamespace
 template <class T>

@@ -23,10 +23,10 @@ CLASS(Signature) : public Object::in {
   public: RuntimeType get_ReturnType();
   public: RuntimeType get_FieldType();
   private: void GetSignature(void* pCorSig, Int32 cCorSig, RuntimeFieldHandleInternal fieldHandle, IRuntimeMethodInfo methodHandle, RuntimeType declaringType);
-  public: void Ctor(IRuntimeMethodInfo method, Array<RuntimeType> arguments, RuntimeType returnType, CallingConventions callingConvention);
-  public: void Ctor(IRuntimeMethodInfo methodHandle, RuntimeType declaringType);
-  public: void Ctor(IRuntimeFieldInfo fieldHandle, RuntimeType declaringType);
-  public: void Ctor(void* pCorSig, Int32 cCorSig, RuntimeType declaringType);
+  public: void ctor(IRuntimeMethodInfo method, Array<RuntimeType> arguments, RuntimeType returnType, CallingConventions callingConvention);
+  public: void ctor(IRuntimeMethodInfo methodHandle, RuntimeType declaringType);
+  public: void ctor(IRuntimeFieldInfo fieldHandle, RuntimeType declaringType);
+  public: void ctor(void* pCorSig, Int32 cCorSig, RuntimeType declaringType);
   public: static Boolean CompareSig(Signature sig1, Signature sig2);
   public: Array<Type> GetCustomModifiers(Int32 position, Boolean required);
   public: Array<RuntimeType> m_arguments;

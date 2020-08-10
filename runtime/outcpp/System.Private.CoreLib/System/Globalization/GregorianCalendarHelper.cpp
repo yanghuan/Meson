@@ -9,7 +9,7 @@ Array<Int32> GregorianCalendarHelper___::get_Eras() {
   return Array<Int32>();
 }
 
-void GregorianCalendarHelper___::Ctor(Calendar cal, Array<EraInfo> eraInfo) {
+void GregorianCalendarHelper___::ctor(Calendar cal, Array<EraInfo> eraInfo) {
 }
 
 Int32 GregorianCalendarHelper___::GetYearOffset(Int32 year, Int32 era, Boolean throwOnError) {
@@ -122,7 +122,7 @@ Int32 GregorianCalendarHelper___::ToFourDigitYear(Int32 year, Int32 twoDigitYear
   return Int32();
 }
 
-void GregorianCalendarHelper___::SCtor() {
+void GregorianCalendarHelper___::ctor_static() {
 }
 
 } // namespace System::Private::CoreLib::System::Globalization::GregorianCalendarHelperNamespace

@@ -17,13 +17,13 @@ String ContractException___::get_Condition() {
   return nullptr;
 }
 
-void ContractException___::Ctor() {
+void ContractException___::ctor() {
 }
 
-void ContractException___::Ctor(ContractFailureKind kind, String failure, String userMessage, String condition, Exception innerException) {
+void ContractException___::ctor(ContractFailureKind kind, String failure, String userMessage, String condition, Exception innerException) {
 }
 
-void ContractException___::Ctor(SerializationInfo info, StreamingContext context) {
+void ContractException___::ctor(SerializationInfo info, StreamingContext context) {
 }
 
 void ContractException___::GetObjectData(SerializationInfo info, StreamingContext context) {

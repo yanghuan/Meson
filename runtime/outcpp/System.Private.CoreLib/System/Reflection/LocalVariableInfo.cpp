@@ -13,7 +13,7 @@ Boolean LocalVariableInfo___::get_IsPinned() {
   return Boolean();
 }
 
-void LocalVariableInfo___::Ctor() {
+void LocalVariableInfo___::ctor() {
 }
 
 String LocalVariableInfo___::ToString() {

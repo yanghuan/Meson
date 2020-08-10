@@ -487,7 +487,7 @@ DateTime DateTime::CreateDateTimeFromSystemTime(FullSystemTime& time) {
   return DateTime();
 }
 
-void DateTime::SCtor() {
+void DateTime::ctor_static() {
 }
 
 } // namespace System::Private::CoreLib::System::DateTimeNamespace

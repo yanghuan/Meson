@@ -35,7 +35,7 @@ Boolean SpinWait::SpinUntil(Func<Boolean> condition, Int32 millisecondsTimeout) 
   return Boolean();
 }
 
-void SpinWait::SCtor() {
+void SpinWait::ctor_static() {
 }
 
 } // namespace System::Private::CoreLib::System::Threading::SpinWaitNamespace

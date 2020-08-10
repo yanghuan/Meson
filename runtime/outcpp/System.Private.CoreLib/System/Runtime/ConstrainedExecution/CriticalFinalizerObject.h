@@ -5,7 +5,7 @@
 namespace System::Private::CoreLib::System::Runtime::ConstrainedExecution {
 namespace CriticalFinalizerObjectNamespace {
 CLASS(CriticalFinalizerObject) : public Object::in {
-  protected: void Ctor();
+  protected: void ctor();
   protected: void Finalize();
 };
 } // namespace CriticalFinalizerObjectNamespace

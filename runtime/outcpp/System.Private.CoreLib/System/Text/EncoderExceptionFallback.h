@@ -12,7 +12,7 @@ FORWARD(EncoderFallbackBuffer)
 namespace EncoderExceptionFallbackNamespace {
 CLASS(EncoderExceptionFallback) : public EncoderFallback::in {
   public: Int32 get_MaxCharCount();
-  public: void Ctor();
+  public: void ctor();
   public: EncoderFallbackBuffer CreateFallbackBuffer();
   public: Boolean Equals(Object value);
   public: Int32 GetHashCode();

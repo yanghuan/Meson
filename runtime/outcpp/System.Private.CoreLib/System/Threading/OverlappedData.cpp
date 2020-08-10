@@ -13,7 +13,7 @@ IntPtr& OverlappedData___::get_EventHandle() {
   return IntPtr();
 }
 
-void OverlappedData___::Ctor(Overlapped overlapped) {
+void OverlappedData___::ctor(Overlapped overlapped) {
 }
 
 NativeOverlapped* OverlappedData___::Pack(IOCompletionCallback iocb, Object userData) {

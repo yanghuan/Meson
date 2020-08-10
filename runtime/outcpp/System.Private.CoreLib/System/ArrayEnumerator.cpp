@@ -5,7 +5,7 @@ Object ArrayEnumerator___::get_Current() {
   return nullptr;
 }
 
-void ArrayEnumerator___::Ctor(Array<> array, Int32 index, Int32 count) {
+void ArrayEnumerator___::ctor(Array<> array, Int32 index, Int32 count) {
 }
 
 void ArrayEnumerator___::IncArray() {

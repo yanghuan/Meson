@@ -38,18 +38,18 @@ CLASS(SingleProducerSingleConsumerQueue, T) : public Object::in {
     public: PaddingFor32 m_pad2;
   };
   private: CLASS(Segment) : public Object::in {
-    public: void Ctor(Int32 size);
+    public: void ctor(Int32 size);
     public: Segment m_next;
     public: Array<T> m_array;
     public: SegmentState m_state;
   };
   private: CLASS(SingleProducerSingleConsumerQueue_DebugView) : public Object::in {
-    public: void Ctor(SingleProducerSingleConsumerQueue<T> queue);
+    public: void ctor(SingleProducerSingleConsumerQueue<T> queue);
     private: SingleProducerSingleConsumerQueue<T> m_queue;
   };
   public: Boolean get_IsEmpty();
   public: Int32 get_Count();
-  public: void Ctor();
+  public: void ctor();
   public: void Enqueue(T item);
   private: void EnqueueSlow(T item, Segment& segment);
   public: Boolean TryDequeue(T& result);

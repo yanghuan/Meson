@@ -61,14 +61,14 @@ Array<EraInfo> JapaneseLunisolarCalendar___::TrimEras(Array<EraInfo> baseEras) {
   return Array<EraInfo>();
 }
 
-void JapaneseLunisolarCalendar___::Ctor() {
+void JapaneseLunisolarCalendar___::ctor() {
 }
 
 Int32 JapaneseLunisolarCalendar___::GetEra(DateTime time) {
   return Int32();
 }
 
-void JapaneseLunisolarCalendar___::SCtor() {
+void JapaneseLunisolarCalendar___::ctor_static() {
 }
 
 } // namespace System::Private::CoreLib::System::Globalization::JapaneseLunisolarCalendarNamespace

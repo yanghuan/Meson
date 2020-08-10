@@ -8,7 +8,7 @@ FORWARD(Type)
 namespace System::Private::CoreLib::System::Runtime::CompilerServices {
 namespace AsyncStateMachineAttributeNamespace {
 CLASS(AsyncStateMachineAttribute) : public StateMachineAttribute::in {
-  public: void Ctor(Type stateMachineType);
+  public: void ctor(Type stateMachineType);
 };
 } // namespace AsyncStateMachineAttributeNamespace
 using AsyncStateMachineAttribute = AsyncStateMachineAttributeNamespace::AsyncStateMachineAttribute;

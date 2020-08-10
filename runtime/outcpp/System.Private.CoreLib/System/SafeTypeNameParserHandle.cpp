@@ -1,7 +1,7 @@
 #include "SafeTypeNameParserHandle-dep.h"
 
 namespace System::Private::CoreLib::System::SafeTypeNameParserHandleNamespace {
-void SafeTypeNameParserHandle___::Ctor() {
+void SafeTypeNameParserHandle___::ctor() {
 }
 
 Boolean SafeTypeNameParserHandle___::ReleaseHandle() {

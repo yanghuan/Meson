@@ -5,7 +5,7 @@
 namespace System::Private::CoreLib::System::Runtime::ExceptionServices {
 namespace HandleProcessCorruptedStateExceptionsAttributeNamespace {
 CLASS(HandleProcessCorruptedStateExceptionsAttribute) : public Attribute::in {
-  public: void Ctor();
+  public: void ctor();
 };
 } // namespace HandleProcessCorruptedStateExceptionsAttributeNamespace
 using HandleProcessCorruptedStateExceptionsAttribute = HandleProcessCorruptedStateExceptionsAttributeNamespace::HandleProcessCorruptedStateExceptionsAttribute;

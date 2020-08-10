@@ -25,7 +25,7 @@ CLASS(DynamicILInfo) : public Object::in {
   public: Int32 get_MaxStackSize();
   public: DynamicMethod get_DynamicMethod();
   public: DynamicScope get_DynamicScope();
-  public: void Ctor(DynamicMethod method, Array<Byte> methodSignature);
+  public: void ctor(DynamicMethod method, Array<Byte> methodSignature);
   public: void GetCallableMethod(RuntimeModule module, DynamicMethod dm);
   public: void SetCode(Array<Byte> code, Int32 maxStackSize);
   public: void SetCode(Byte* code, Int32 codeSize, Int32 maxStackSize);

@@ -13,7 +13,7 @@ namespace CompressedStackNamespace {
 using namespace Runtime::Serialization;
 CLASS(CompressedStack) : public Object::in {
   public: using interface = rt::TypeList<ISerializable>;
-  private: void Ctor();
+  private: void ctor();
   public: void GetObjectData(SerializationInfo info, StreamingContext context);
   public: static CompressedStack Capture();
   public: CompressedStack CreateCopy();

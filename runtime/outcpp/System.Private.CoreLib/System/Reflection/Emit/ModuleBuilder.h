@@ -90,7 +90,7 @@ CLASS(ModuleBuilder) : public Module::in {
   public: Assembly get_Assembly();
   public: static IntPtr nCreateISymWriterForDynamicModule(Module module, String filename);
   public: static String UnmangleTypeName(String typeName);
-  public: void Ctor(AssemblyBuilder assemblyBuilder, InternalModuleBuilder internalModuleBuilder);
+  public: void ctor(AssemblyBuilder assemblyBuilder, InternalModuleBuilder internalModuleBuilder);
   public: void AddType(String name, Type type);
   public: void CheckTypeNameConflict(String strTypeName, Type enclosingType);
   private: static Type GetType(String strFormat, Type baseType);

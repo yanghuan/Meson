@@ -48,7 +48,7 @@ CLASS(ResourceReader) : public Object::in {
     public: Int32 get_DataPosition();
     public: DictionaryEntry get_Entry();
     public: Object get_Value();
-    public: void Ctor(ResourceReader reader);
+    public: void ctor(ResourceReader reader);
     public: Boolean MoveNext();
     public: void Reset();
     private: ResourceReader _reader;
@@ -56,15 +56,15 @@ CLASS(ResourceReader) : public Object::in {
     private: Int32 _currentName;
     private: Int32 _dataPosition;
   };
-  public: void Ctor(Stream stream, Dictionary<String, ResourceLocator> resCache, Boolean permitDeserialization);
+  public: void ctor(Stream stream, Dictionary<String, ResourceLocator> resCache, Boolean permitDeserialization);
   private: Object DeserializeObject(Int32 typeIndex);
   private: void InitializeBinaryFormatter();
   private: template <class TInstance>
   static Func<Object, Stream, Object> CreateUntypedDelegate(MethodInfo method);
   private: static Boolean ValidateReaderType(String readerType);
   public: void GetResourceData(String resourceName, String& resourceType, Array<Byte>& resourceData);
-  public: void Ctor(String fileName);
-  public: void Ctor(Stream stream);
+  public: void ctor(String fileName);
+  public: void ctor(Stream stream);
   public: void Close();
   public: void Dispose();
   private: void Dispose(Boolean disposing);

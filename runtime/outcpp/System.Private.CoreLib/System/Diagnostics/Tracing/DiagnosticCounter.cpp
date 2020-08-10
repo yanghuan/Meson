@@ -15,7 +15,7 @@ String DiagnosticCounter___::get_DisplayUnits() {
 void DiagnosticCounter___::set_DisplayUnits(String value) {
 }
 
-void DiagnosticCounter___::Ctor(String name, Tracing::EventSource eventSource) {
+void DiagnosticCounter___::ctor(String name, Tracing::EventSource eventSource) {
 }
 
 void DiagnosticCounter___::Publish() {

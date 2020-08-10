@@ -23,21 +23,21 @@ namespace System::Private::CoreLib::System::ComponentModel {
 namespace DefaultValueAttributeNamespace {
 CLASS(DefaultValueAttribute) : public Attribute::in {
   public: Object get_Value();
-  public: void Ctor(Type type, String value);
-  public: void Ctor(Char value);
-  public: void Ctor(Byte value);
-  public: void Ctor(Int16 value);
-  public: void Ctor(Int32 value);
-  public: void Ctor(Int64 value);
-  public: void Ctor(Single value);
-  public: void Ctor(Double value);
-  public: void Ctor(Boolean value);
-  public: void Ctor(String value);
-  public: void Ctor(Object value);
-  public: void Ctor(SByte value);
-  public: void Ctor(UInt16 value);
-  public: void Ctor(UInt32 value);
-  public: void Ctor(UInt64 value);
+  public: void ctor(Type type, String value);
+  public: void ctor(Char value);
+  public: void ctor(Byte value);
+  public: void ctor(Int16 value);
+  public: void ctor(Int32 value);
+  public: void ctor(Int64 value);
+  public: void ctor(Single value);
+  public: void ctor(Double value);
+  public: void ctor(Boolean value);
+  public: void ctor(String value);
+  public: void ctor(Object value);
+  public: void ctor(SByte value);
+  public: void ctor(UInt16 value);
+  public: void ctor(UInt32 value);
+  public: void ctor(UInt64 value);
   public: Boolean Equals(Object obj);
   public: Int32 GetHashCode();
   protected: void SetValue(Object value);

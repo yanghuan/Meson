@@ -52,7 +52,7 @@ CLASS(EventWrittenEventArgs) : public EventArgs::in {
   public: void set_OSThreadId(Int64 value);
   public: DateTime get_TimeStamp() { return TimeStamp; }
   public: void set_TimeStamp(DateTime value) { TimeStamp = value; }
-  public: void Ctor(EventSource eventSource);
+  public: void ctor(EventSource eventSource);
   private: Int32 EventId;
   private: Guid RelatedActivityId;
   private: ReadOnlyCollection<Object> Payload;

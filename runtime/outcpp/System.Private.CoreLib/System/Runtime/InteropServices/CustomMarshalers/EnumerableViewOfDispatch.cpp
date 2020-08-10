@@ -5,7 +5,7 @@ IDispatch EnumerableViewOfDispatch___::get_Dispatch() {
   return nullptr;
 }
 
-void EnumerableViewOfDispatch___::Ctor(Object dispatch) {
+void EnumerableViewOfDispatch___::ctor(Object dispatch) {
 }
 
 IEnumerator EnumerableViewOfDispatch___::GetEnumerator() {

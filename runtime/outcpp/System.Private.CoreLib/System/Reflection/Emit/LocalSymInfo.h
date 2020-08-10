@@ -15,7 +15,7 @@ namespace System::Private::CoreLib::System::Reflection::Emit {
 namespace LocalSymInfoNamespace {
 using namespace Diagnostics::SymbolStore;
 CLASS(LocalSymInfo) : public Object::in {
-  public: void Ctor();
+  public: void ctor();
   private: void EnsureCapacityNamespace();
   private: void EnsureCapacity();
   public: void AddLocalSymInfo(String strName, Array<Byte> signature, Int32 slot, Int32 startOffset, Int32 endOffset);

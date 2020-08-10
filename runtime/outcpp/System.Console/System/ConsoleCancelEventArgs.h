@@ -11,7 +11,7 @@ CLASS(ConsoleCancelEventArgs) : public EventArgs::in {
   public: Boolean get_Cancel() { return Cancel; }
   public: void set_Cancel(Boolean value) { Cancel = value; }
   public: ConsoleSpecialKey get_SpecialKey();
-  public: void Ctor(ConsoleSpecialKey type);
+  public: void ctor(ConsoleSpecialKey type);
   private: ConsoleSpecialKey _type;
   private: Boolean Cancel;
 };

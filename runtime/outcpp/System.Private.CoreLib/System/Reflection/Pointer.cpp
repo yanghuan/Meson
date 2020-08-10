@@ -1,7 +1,7 @@
 #include "Pointer-dep.h"
 
 namespace System::Private::CoreLib::System::Reflection::PointerNamespace {
-void Pointer___::Ctor(void* ptr, Type ptrType) {
+void Pointer___::ctor(void* ptr, Type ptrType) {
 }
 
 Object Pointer___::Box(void* ptr, Type type) {

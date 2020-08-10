@@ -17,10 +17,10 @@ String OperatingSystem___::get_VersionString() {
   return nullptr;
 }
 
-void OperatingSystem___::Ctor(PlatformID platform, Version version) {
+void OperatingSystem___::ctor(PlatformID platform, Version version) {
 }
 
-void OperatingSystem___::Ctor(PlatformID platform, Version version, String servicePack) {
+void OperatingSystem___::ctor(PlatformID platform, Version version, String servicePack) {
 }
 
 void OperatingSystem___::GetObjectData(SerializationInfo info, StreamingContext context) {

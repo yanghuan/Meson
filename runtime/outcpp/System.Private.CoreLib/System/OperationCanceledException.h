@@ -16,13 +16,13 @@ using namespace Threading;
 CLASS(OperationCanceledException) : public SystemException::in {
   public: CancellationToken get_CancellationToken();
   private: void set_CancellationToken(CancellationToken value);
-  public: void Ctor();
-  public: void Ctor(String message);
-  public: void Ctor(String message, Exception innerException);
-  public: void Ctor(CancellationToken token);
-  public: void Ctor(String message, CancellationToken token);
-  public: void Ctor(String message, Exception innerException, CancellationToken token);
-  protected: void Ctor(SerializationInfo info, StreamingContext context);
+  public: void ctor();
+  public: void ctor(String message);
+  public: void ctor(String message, Exception innerException);
+  public: void ctor(CancellationToken token);
+  public: void ctor(String message, CancellationToken token);
+  public: void ctor(String message, Exception innerException, CancellationToken token);
+  protected: void ctor(SerializationInfo info, StreamingContext context);
   private: CancellationToken _cancellationToken;
 };
 } // namespace OperationCanceledExceptionNamespace

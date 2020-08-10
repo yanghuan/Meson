@@ -9,8 +9,8 @@ FORWARDS(Memory, T)
 namespace MemoryDebugViewNamespace {
 CLASS(MemoryDebugView, T) : public Object::in {
   public: Array<T> get_Items();
-  public: void Ctor(Memory<T> memory);
-  public: void Ctor(ReadOnlyMemory<T> memory);
+  public: void ctor(Memory<T> memory);
+  public: void ctor(ReadOnlyMemory<T> memory);
   private: ReadOnlyMemory<T> _memory;
 };
 } // namespace MemoryDebugViewNamespace

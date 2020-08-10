@@ -5,7 +5,7 @@
 namespace System::Private::CoreLib::System::Runtime::CompilerServices {
 namespace IsReadOnlyAttributeNamespace {
 CLASS(IsReadOnlyAttribute) : public Attribute::in {
-  public: void Ctor();
+  public: void ctor();
 };
 } // namespace IsReadOnlyAttributeNamespace
 using IsReadOnlyAttribute = IsReadOnlyAttributeNamespace::IsReadOnlyAttribute;

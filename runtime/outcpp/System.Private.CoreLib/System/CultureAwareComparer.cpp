@@ -1,13 +1,13 @@
 #include "CultureAwareComparer-dep.h"
 
 namespace System::Private::CoreLib::System::CultureAwareComparerNamespace {
-void CultureAwareComparer___::Ctor(CultureInfo culture, CompareOptions options) {
+void CultureAwareComparer___::ctor(CultureInfo culture, CompareOptions options) {
 }
 
-void CultureAwareComparer___::Ctor(CompareInfo compareInfo, CompareOptions options) {
+void CultureAwareComparer___::ctor(CompareInfo compareInfo, CompareOptions options) {
 }
 
-void CultureAwareComparer___::Ctor(SerializationInfo info, StreamingContext context) {
+void CultureAwareComparer___::ctor(SerializationInfo info, StreamingContext context) {
 }
 
 Int32 CultureAwareComparer___::Compare(String x, String y) {

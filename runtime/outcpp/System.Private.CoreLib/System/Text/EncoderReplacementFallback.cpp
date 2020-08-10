@@ -9,10 +9,10 @@ Int32 EncoderReplacementFallback___::get_MaxCharCount() {
   return Int32();
 }
 
-void EncoderReplacementFallback___::Ctor() {
+void EncoderReplacementFallback___::ctor() {
 }
 
-void EncoderReplacementFallback___::Ctor(String replacement) {
+void EncoderReplacementFallback___::ctor(String replacement) {
 }
 
 EncoderFallbackBuffer EncoderReplacementFallback___::CreateFallbackBuffer() {

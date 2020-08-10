@@ -32,11 +32,11 @@ CLASS(DynamicResolver) : public Resolver::in {
   };
   private: CLASS(DestroyScout) : public Object::in {
     protected: void Finalize();
-    public: void Ctor();
+    public: void ctor();
     public: RuntimeMethodHandleInternal m_methodHandle;
   };
-  public: void Ctor(DynamicILGenerator ilGenerator);
-  public: void Ctor(DynamicILInfo dynamicILInfo);
+  public: void ctor(DynamicILGenerator ilGenerator);
+  public: void ctor(DynamicILInfo dynamicILInfo);
   protected: void Finalize();
   public: RuntimeType GetJitContext(Int32& securityControlFlags);
   private: static Int32 CalculateNumberOfExceptions(Array<__ExceptionInfo> excp);

@@ -9,7 +9,7 @@ String ValueType___::ToString() {
   return nullptr;
 }
 
-void ValueType___::Ctor() {
+void ValueType___::ctor() {
 }
 
 } // namespace System::Private::CoreLib::System::ValueTypeNamespace

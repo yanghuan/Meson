@@ -15,11 +15,11 @@ namespace MissingSatelliteAssemblyExceptionNamespace {
 using namespace Runtime::Serialization;
 CLASS(MissingSatelliteAssemblyException) : public SystemException::in {
   public: String get_CultureName();
-  public: void Ctor();
-  public: void Ctor(String message);
-  public: void Ctor(String message, String cultureName);
-  public: void Ctor(String message, Exception inner);
-  protected: void Ctor(SerializationInfo info, StreamingContext context);
+  public: void ctor();
+  public: void ctor(String message);
+  public: void ctor(String message, String cultureName);
+  public: void ctor(String message, Exception inner);
+  protected: void ctor(SerializationInfo info, StreamingContext context);
   private: String _cultureName;
 };
 } // namespace MissingSatelliteAssemblyExceptionNamespace

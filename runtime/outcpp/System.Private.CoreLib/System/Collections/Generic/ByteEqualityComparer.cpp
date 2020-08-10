@@ -17,7 +17,7 @@ Int32 ByteEqualityComparer___::GetHashCode() {
   return Int32();
 }
 
-void ByteEqualityComparer___::Ctor() {
+void ByteEqualityComparer___::ctor() {
 }
 
 } // namespace System::Private::CoreLib::System::Collections::Generic::ByteEqualityComparerNamespace

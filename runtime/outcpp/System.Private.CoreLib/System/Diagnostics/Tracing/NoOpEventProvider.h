@@ -7,7 +7,7 @@ FORWARD(IEventProvider)
 namespace NoOpEventProviderNamespace {
 CLASS(NoOpEventProvider) : public Object::in {
   public: using interface = rt::TypeList<IEventProvider>;
-  public: void Ctor();
+  public: void ctor();
 };
 } // namespace NoOpEventProviderNamespace
 using NoOpEventProvider = NoOpEventProviderNamespace::NoOpEventProvider;

@@ -1,7 +1,7 @@
 #include "TraceLoggingDataCollector-dep.h"
 
 namespace System::Private::CoreLib::System::Diagnostics::Tracing::TraceLoggingDataCollectorNamespace {
-void TraceLoggingDataCollector___::Ctor() {
+void TraceLoggingDataCollector___::ctor() {
 }
 
 Int32 TraceLoggingDataCollector___::BeginBufferedArray() {
@@ -29,7 +29,7 @@ void TraceLoggingDataCollector___::AddNullTerminatedString(String value) {
 void TraceLoggingDataCollector___::AddArray(PropertyValue value, Int32 elementSize) {
 }
 
-void TraceLoggingDataCollector___::SCtor() {
+void TraceLoggingDataCollector___::ctor_static() {
 }
 
 } // namespace System::Private::CoreLib::System::Diagnostics::Tracing::TraceLoggingDataCollectorNamespace

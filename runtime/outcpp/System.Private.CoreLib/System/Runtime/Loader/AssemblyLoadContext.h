@@ -94,10 +94,10 @@ CLASS(AssemblyLoadContext) : public Object::in {
   private: static void StartAssemblyLoad(Guid& activityId, Guid& relatedActivityId);
   private: static void StopAssemblyLoad(Guid& activityId);
   private: static void InitializeDefaultContext();
-  protected: void Ctor();
-  protected: void Ctor(Boolean isCollectible);
-  public: void Ctor(String name, Boolean isCollectible);
-  public: void Ctor(Boolean representsTPALoadContext, Boolean isCollectible, String name);
+  protected: void ctor();
+  protected: void ctor(Boolean isCollectible);
+  public: void ctor(String name, Boolean isCollectible);
+  public: void ctor(Boolean representsTPALoadContext, Boolean isCollectible, String name);
   protected: void Finalize();
   private: void RaiseUnloadEvent();
   private: void InitiateUnload();
@@ -129,7 +129,7 @@ CLASS(AssemblyLoadContext) : public Object::in {
   private: static RuntimeAssembly InvokeResolveEvent(ResolveEventHandler eventHandler, RuntimeAssembly assembly, String name);
   private: Assembly ResolveSatelliteAssembly(AssemblyName assemblyName);
   public: IntPtr GetResolvedUnmanagedDll(Assembly assembly, String unmanagedDllName);
-  private: static void SCtor();
+  private: static void ctor_static();
   private: static Dictionary<Int64, WeakReference<AssemblyLoadContext>> s_allContexts;
   private: static Int64 s_nextId;
   private: Object _unloadLock;

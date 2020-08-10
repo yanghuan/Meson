@@ -42,7 +42,7 @@ CLASS(TranscodingStream) : public Stream::in {
   public: Int64 get_Length();
   public: Int64 get_Position();
   public: void set_Position(Int64 value);
-  public: void Ctor(Stream innerStream, Encoding innerEncoding, Encoding thisEncoding, Boolean leaveOpen);
+  public: void ctor(Stream innerStream, Encoding innerEncoding, Encoding thisEncoding, Boolean leaveOpen);
   public: IAsyncResult BeginRead(Array<Byte> buffer, Int32 offset, Int32 count, AsyncCallback callback, Object state);
   public: IAsyncResult BeginWrite(Array<Byte> buffer, Int32 offset, Int32 count, AsyncCallback callback, Object state);
   protected: void Dispose(Boolean disposing);

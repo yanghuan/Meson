@@ -5,7 +5,7 @@
 namespace System::Private::CoreLib::System::Runtime::CompilerServices {
 namespace UnsafeValueTypeAttributeNamespace {
 CLASS(UnsafeValueTypeAttribute) : public Attribute::in {
-  public: void Ctor();
+  public: void ctor();
 };
 } // namespace UnsafeValueTypeAttributeNamespace
 using UnsafeValueTypeAttribute = UnsafeValueTypeAttributeNamespace::UnsafeValueTypeAttribute;

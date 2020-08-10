@@ -46,7 +46,7 @@ class WebUtility {
   private: class HtmlEntities {
     public: static Char Lookup(ReadOnlySpan<Char> entity);
     private: static UInt64 ToUInt64Key(ReadOnlySpan<Char> entity);
-    private: static void SCtor();
+    private: static void ctor_static();
     private: static Dictionary<UInt64, Char> s_lookupTable;
   };
   public: static String HtmlEncode(String value);

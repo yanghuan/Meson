@@ -47,7 +47,7 @@ CLASS_(Task) : public Object::in {
   public: CLASS(ContingentProperties) : public Object::in {
     public: void SetCompleted();
     public: void UnregisterCancellationCallback();
-    public: void Ctor();
+    public: void ctor();
     public: ExecutionContext m_capturedContext;
     public: ManualResetEventSlim m_completionEvent;
     public: TaskExceptionHolder m_exceptionsHolder;
@@ -61,13 +61,13 @@ CLASS_(Task) : public Object::in {
   private: CLASS(SetOnInvokeMres) : public ManualResetEventSlim::in {
     public: using interface = rt::TypeList<ITaskCompletionAction>;
     public: Boolean get_InvokeMayRunArbitraryCode();
-    public: void Ctor();
+    public: void ctor();
     public: void Invoke(Task<> completingTask);
   };
   private: CLASS(SetOnCountdownMres) : public ManualResetEventSlim::in {
     public: using interface = rt::TypeList<ITaskCompletionAction>;
     public: Boolean get_InvokeMayRunArbitraryCode();
-    public: void Ctor(Int32 count);
+    public: void ctor(Int32 count);
     public: void Invoke(Task<> completingTask);
     private: Int32 _count;
   };
@@ -123,13 +123,13 @@ CLASS_(Task) : public Object::in {
   private: static ContextCallback<> s_ecCallback;
 };
 CLASS(DelayPromise) : public Task<>::in {
-  public: void Ctor(Int32 millisecondsDelay);
+  public: void ctor(Int32 millisecondsDelay);
   private: void CompleteTimedOut();
   protected: void Cleanup();
   private: TimerQueueTimer _timer;
 };
 CLASS(DelayPromiseWithCancellation) : public Task<>::in::DelayPromise::in {
-  public: void Ctor(Int32 millisecondsDelay, CancellationToken token);
+  public: void ctor(Int32 millisecondsDelay, CancellationToken token);
   private: void CompleteCanceled();
   protected: void Cleanup();
   private: CancellationToken _token;
@@ -153,14 +153,14 @@ CLASS_(WhenAllPromise, T) : public Task<Array<T>>::in {
 CLASS(TwoTaskWhenAnyPromise, TTask) : public Task<TTask>::in {
   public: using interface = rt::TypeList<ITaskCompletionAction>;
   public: Boolean get_InvokeMayRunArbitraryCode();
-  public: void Ctor(TTask task1, TTask task2);
+  public: void ctor(TTask task1, TTask task2);
   public: void Invoke(Task<> completingTask);
   private: TTask _task1;
   private: TTask _task2;
 };
 CLASS_(Task, TResult) : public Task<>::in {
   public: class TaskWhenAnyCast {
-    private: static void SCtor();
+    private: static void ctor_static();
     public: static Func<Task<Task<>>, Task<TResult>> Value;
   };
   private: String get_DebuggerDisplayResultDescription();

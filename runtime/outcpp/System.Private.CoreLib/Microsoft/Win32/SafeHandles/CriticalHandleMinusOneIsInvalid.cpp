@@ -5,7 +5,7 @@ Boolean CriticalHandleMinusOneIsInvalid___::get_IsInvalid() {
   return Boolean();
 }
 
-void CriticalHandleMinusOneIsInvalid___::Ctor() {
+void CriticalHandleMinusOneIsInvalid___::ctor() {
 }
 
 } // namespace System::Private::CoreLib::Microsoft::Win32::SafeHandles::CriticalHandleMinusOneIsInvalidNamespace

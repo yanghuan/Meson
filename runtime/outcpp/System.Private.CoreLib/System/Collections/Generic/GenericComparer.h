@@ -13,7 +13,7 @@ CLASS(GenericComparer, T) : public Comparer<T>::in {
   public: Int32 Compare(T x, T y);
   public: Boolean Equals(Object obj);
   public: Int32 GetHashCode();
-  public: void Ctor();
+  public: void ctor();
 };
 } // namespace GenericComparerNamespace
 template <class T>

@@ -104,7 +104,7 @@ Array<String> DateTimeFormat::GetAllDateTimes(DateTime dateTime, DateTimeFormatI
   return Array<String>();
 }
 
-void DateTimeFormat::SCtor() {
+void DateTimeFormat::ctor_static() {
 }
 
 } // namespace System::Private::CoreLib::System::DateTimeFormatNamespace

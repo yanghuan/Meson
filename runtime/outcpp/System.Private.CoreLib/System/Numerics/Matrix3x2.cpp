@@ -145,7 +145,7 @@ Int32 Matrix3x2::GetHashCode() {
   return Int32();
 }
 
-void Matrix3x2::SCtor() {
+void Matrix3x2::ctor_static() {
 }
 
 } // namespace System::Private::CoreLib::System::Numerics::Matrix3x2Namespace

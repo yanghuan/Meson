@@ -15,8 +15,8 @@ enum class EventFieldTags;
 enum class TraceLoggingDataType;
 namespace FieldMetadataNamespace {
 CLASS(FieldMetadata) : public Object::in {
-  public: void Ctor(String name, TraceLoggingDataType type, EventFieldTags tags, Boolean variableCount);
-  private: void Ctor(String name, TraceLoggingDataType dataType, EventFieldTags tags, Byte countFlags, UInt16 fixedCount, Array<Byte> custom);
+  public: void ctor(String name, TraceLoggingDataType type, EventFieldTags tags, Boolean variableCount);
+  private: void ctor(String name, TraceLoggingDataType dataType, EventFieldTags tags, Byte countFlags, UInt16 fixedCount, Array<Byte> custom);
   public: void IncrementStructFieldCount();
   public: void Encode(Int32& pos, Array<Byte> metadata);
   private: String name;

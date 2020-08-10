@@ -20,7 +20,7 @@ CLASS(Encoder) : public Object::in {
   public: void set_Fallback(EncoderFallback value);
   public: EncoderFallbackBuffer get_FallbackBuffer();
   public: Boolean get_InternalHasFallbackBuffer();
-  protected: void Ctor();
+  protected: void ctor();
   public: void Reset();
   public: Int32 GetByteCount(Array<Char> chars, Int32 index, Int32 count, Boolean flush);
   public: Int32 GetByteCount(Char* chars, Int32 count, Boolean flush);

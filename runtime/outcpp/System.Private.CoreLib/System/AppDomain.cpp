@@ -70,7 +70,7 @@ TimeSpan AppDomain___::get_MonitoringTotalProcessorTime() {
   return TimeSpan();
 }
 
-void AppDomain___::Ctor() {
+void AppDomain___::ctor() {
 }
 
 void AppDomain___::SetDynamicBase(String path) {
@@ -242,7 +242,7 @@ IPrincipal AppDomain___::GetThreadPrincipal() {
   return nullptr;
 }
 
-void AppDomain___::SCtor() {
+void AppDomain___::ctor_static() {
 }
 
 } // namespace System::Private::CoreLib::System::AppDomainNamespace

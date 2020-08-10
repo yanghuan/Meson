@@ -19,12 +19,12 @@ using namespace Runtime::Serialization;
 CLASS(NonRandomizedStringEqualityComparer) : public EqualityComparer<String>::in {
   public: using interface = rt::TypeList<ISerializable>;
   public: static IEqualityComparer<String> get_Default() { return Default; }
-  private: void Ctor();
-  private: void Ctor(SerializationInfo information, StreamingContext context);
+  private: void ctor();
+  private: void ctor(SerializationInfo information, StreamingContext context);
   public: Boolean Equals(String x, String y);
   public: Int32 GetHashCode(String obj);
   public: void GetObjectData(SerializationInfo info, StreamingContext context);
-  private: static void SCtor();
+  private: static void ctor_static();
   private: static IEqualityComparer<String> Default;
 };
 } // namespace NonRandomizedStringEqualityComparerNamespace

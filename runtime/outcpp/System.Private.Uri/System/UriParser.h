@@ -25,7 +25,7 @@ CLASS(UriParser) : public Object::in {
   public: Int32 get_DefaultPort();
   public: UriSyntaxFlags get_Flags();
   public: Boolean get_IsSimple();
-  protected: void Ctor();
+  protected: void ctor();
   protected: UriParser OnNewUri();
   protected: void OnRegister(String schemeName, Int32 defaultPort);
   protected: void InitializeAndValidate(Uri uri, UriFormatException& parsingError);
@@ -39,7 +39,7 @@ CLASS(UriParser) : public Object::in {
   public: Boolean InFact(UriSyntaxFlags flags);
   public: Boolean IsAllSet(UriSyntaxFlags flags);
   private: Boolean IsFullMatch(UriSyntaxFlags flags, UriSyntaxFlags expected);
-  public: void Ctor(UriSyntaxFlags flags);
+  public: void ctor(UriSyntaxFlags flags);
   private: static void FetchSyntax(UriParser syntax, String lwrCaseSchemeName, Int32 defaultPort);
   public: static UriParser FindOrFetchAsUnknownV1Syntax(String lwrCaseScheme);
   public: static UriParser GetSyntax(String lwrCaseScheme);
@@ -50,7 +50,7 @@ CLASS(UriParser) : public Object::in {
   public: Boolean InternalIsBaseOf(Uri thisBaseUri, Uri uriLink);
   public: String InternalGetComponents(Uri thisUri, UriComponents uriComponents, UriFormat uriFormat);
   public: Boolean InternalIsWellFormedOriginalString(Uri thisUri);
-  private: static void SCtor();
+  private: static void ctor_static();
   public: static UriParser HttpUri;
   public: static UriParser HttpsUri;
   public: static UriParser WsUri;
@@ -75,7 +75,7 @@ CLASS(UriParser) : public Object::in {
   private: String _scheme;
 };
 CLASS(BuiltInUriParser) : public UriParser::in {
-  public: void Ctor(String lwrCaseScheme, Int32 defaultPort, UriSyntaxFlags syntaxFlags);
+  public: void ctor(String lwrCaseScheme, Int32 defaultPort, UriSyntaxFlags syntaxFlags);
 };
 } // namespace UriParserNamespace
 using UriParser = UriParserNamespace::UriParser;

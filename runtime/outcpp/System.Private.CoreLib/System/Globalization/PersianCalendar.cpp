@@ -32,7 +32,7 @@ Int32 PersianCalendar___::get_TwoDigitYearMax() {
 void PersianCalendar___::set_TwoDigitYearMax(Int32 value) {
 }
 
-void PersianCalendar___::Ctor() {
+void PersianCalendar___::ctor() {
 }
 
 Int64 PersianCalendar___::GetAbsoluteDatePersian(Int32 year, Int32 month, Int32 day) {
@@ -131,7 +131,7 @@ Int32 PersianCalendar___::ToFourDigitYear(Int32 year) {
   return Int32();
 }
 
-void PersianCalendar___::SCtor() {
+void PersianCalendar___::ctor_static() {
 }
 
 } // namespace System::Private::CoreLib::System::Globalization::PersianCalendarNamespace

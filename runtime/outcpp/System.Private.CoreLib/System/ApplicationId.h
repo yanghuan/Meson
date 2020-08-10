@@ -20,7 +20,7 @@ CLASS(ApplicationId) : public Object::in {
   public: String get_ProcessorArchitecture() { return ProcessorArchitecture; }
   public: Version get_Version() { return Version; }
   public: Array<Byte> get_PublicKeyToken();
-  public: void Ctor(Array<Byte> publicKeyToken, String name, Version version, String processorArchitecture, String culture);
+  public: void ctor(Array<Byte> publicKeyToken, String name, Version version, String processorArchitecture, String culture);
   public: ApplicationId Copy();
   public: String ToString();
   private: static void EncodeHexString(Array<Byte> sArray, ValueStringBuilder& stringBuilder);

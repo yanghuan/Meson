@@ -38,7 +38,7 @@ void EventSource___::Sha1ForNonSecretPurposes::Finish(Array<Byte> output) {
 void EventSource___::Sha1ForNonSecretPurposes::Drain() {
 }
 
-void EventSource___::OverideEventProvider___::Ctor(EventSource eventSource, EventProviderType providerType) {
+void EventSource___::OverideEventProvider___::ctor(EventSource eventSource, EventProviderType providerType) {
 }
 
 void EventSource___::OverideEventProvider___::OnControllerCommand(ControllerCommand command, IDictionary<String, String> arguments, Int32 perEventSourceSessionId, Int32 etwSessionId) {
@@ -125,16 +125,16 @@ void EventSource___::SetCurrentThreadActivityId(Guid activityId) {
 void EventSource___::SetCurrentThreadActivityId(Guid activityId, Guid& oldActivityThatWillContinue) {
 }
 
-void EventSource___::Ctor() {
+void EventSource___::ctor() {
 }
 
-void EventSource___::Ctor(Boolean throwOnEventWriteErrors) {
+void EventSource___::ctor(Boolean throwOnEventWriteErrors) {
 }
 
-void EventSource___::Ctor(EventSourceSettings settings) {
+void EventSource___::ctor(EventSourceSettings settings) {
 }
 
-void EventSource___::Ctor(EventSourceSettings settings, Array<String> traits) {
+void EventSource___::ctor(EventSourceSettings settings, Array<String> traits) {
 }
 
 void EventSource___::DefineEventPipeEvents() {
@@ -221,10 +221,10 @@ void EventSource___::Finalize() {
 void EventSource___::WriteEventRaw(String eventName, EventDescriptor& eventDescriptor, IntPtr eventHandle, Guid* activityID, Guid* relatedActivityID, Int32 dataCount, IntPtr data) {
 }
 
-void EventSource___::Ctor(Guid eventSourceGuid, String eventSourceName) {
+void EventSource___::ctor(Guid eventSourceGuid, String eventSourceName) {
 }
 
-void EventSource___::Ctor(Guid eventSourceGuid, String eventSourceName, EventSourceSettings settings, Array<String> traits) {
+void EventSource___::ctor(Guid eventSourceGuid, String eventSourceName, EventSourceSettings settings, Array<String> traits) {
 }
 
 void EventSource___::Initialize(Guid eventSourceGuid, String eventSourceName, Array<String> traits) {
@@ -363,13 +363,13 @@ EventSourceSettings EventSource___::ValidateSettings(EventSourceSettings setting
   return EventSourceSettings::EtwSelfDescribingEventFormat;
 }
 
-void EventSource___::Ctor(String eventSourceName) {
+void EventSource___::ctor(String eventSourceName) {
 }
 
-void EventSource___::Ctor(String eventSourceName, EventSourceSettings config) {
+void EventSource___::ctor(String eventSourceName, EventSourceSettings config) {
 }
 
-void EventSource___::Ctor(String eventSourceName, EventSourceSettings config, Array<String> traits) {
+void EventSource___::ctor(String eventSourceName, EventSourceSettings config, Array<String> traits) {
 }
 
 void EventSource___::Write(String eventName) {

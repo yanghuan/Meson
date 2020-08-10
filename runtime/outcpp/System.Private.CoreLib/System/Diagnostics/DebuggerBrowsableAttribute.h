@@ -7,7 +7,7 @@ enum class DebuggerBrowsableState;
 namespace DebuggerBrowsableAttributeNamespace {
 CLASS(DebuggerBrowsableAttribute) : public Attribute::in {
   public: DebuggerBrowsableState get_State() { return State; }
-  public: void Ctor(DebuggerBrowsableState state);
+  public: void ctor(DebuggerBrowsableState state);
   private: DebuggerBrowsableState State;
 };
 } // namespace DebuggerBrowsableAttributeNamespace

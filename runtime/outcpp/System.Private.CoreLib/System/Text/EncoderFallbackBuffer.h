@@ -34,7 +34,7 @@ CLASS(EncoderFallbackBuffer) : public Object::in {
   private: Rune GetNextRune();
   public: Boolean InternalFallback(Char ch, Char*& chars);
   public: static void ThrowLastCharRecursive(Int32 charRecursive);
-  protected: void Ctor();
+  protected: void ctor();
   public: Char* charStart;
   public: Char* charEnd;
   public: EncoderNLS encoder;

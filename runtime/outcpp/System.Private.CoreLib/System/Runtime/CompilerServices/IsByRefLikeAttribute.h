@@ -5,7 +5,7 @@
 namespace System::Private::CoreLib::System::Runtime::CompilerServices {
 namespace IsByRefLikeAttributeNamespace {
 CLASS(IsByRefLikeAttribute) : public Attribute::in {
-  public: void Ctor();
+  public: void ctor();
 };
 } // namespace IsByRefLikeAttributeNamespace
 using IsByRefLikeAttribute = IsByRefLikeAttributeNamespace::IsByRefLikeAttribute;

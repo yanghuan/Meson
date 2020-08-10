@@ -1,10 +1,10 @@
 #include "DefaultAssemblyLoadContext-dep.h"
 
 namespace System::Private::CoreLib::System::Runtime::Loader::DefaultAssemblyLoadContextNamespace {
-void DefaultAssemblyLoadContext___::Ctor() {
+void DefaultAssemblyLoadContext___::ctor() {
 }
 
-void DefaultAssemblyLoadContext___::SCtor() {
+void DefaultAssemblyLoadContext___::ctor_static() {
 }
 
 } // namespace System::Private::CoreLib::System::Runtime::Loader::DefaultAssemblyLoadContextNamespace

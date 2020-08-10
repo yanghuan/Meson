@@ -15,7 +15,7 @@ using namespace Collections;
 CLASS(ArrayEnumerator) : public Object::in {
   public: using interface = rt::TypeList<IEnumerator, ICloneable>;
   public: Object get_Current();
-  public: void Ctor(Array<> array, Int32 index, Int32 count);
+  public: void ctor(Array<> array, Int32 index, Int32 count);
   private: void IncArray();
   public: Object Clone();
   public: Boolean MoveNext();

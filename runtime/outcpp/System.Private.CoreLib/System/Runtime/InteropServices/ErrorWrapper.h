@@ -10,9 +10,9 @@ namespace System::Private::CoreLib::System::Runtime::InteropServices {
 namespace ErrorWrapperNamespace {
 CLASS(ErrorWrapper) : public Object::in {
   public: Int32 get_ErrorCode() { return ErrorCode; }
-  public: void Ctor(Int32 errorCode);
-  public: void Ctor(Object errorCode);
-  public: void Ctor(Exception e);
+  public: void ctor(Int32 errorCode);
+  public: void ctor(Object errorCode);
+  public: void ctor(Exception e);
   private: Int32 ErrorCode;
 };
 } // namespace ErrorWrapperNamespace

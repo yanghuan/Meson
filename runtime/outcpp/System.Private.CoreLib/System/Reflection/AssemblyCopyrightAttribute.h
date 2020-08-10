@@ -9,7 +9,7 @@ namespace System::Private::CoreLib::System::Reflection {
 namespace AssemblyCopyrightAttributeNamespace {
 CLASS(AssemblyCopyrightAttribute) : public Attribute::in {
   public: String get_Copyright() { return Copyright; }
-  public: void Ctor(String copyright);
+  public: void ctor(String copyright);
   private: String Copyright;
 };
 } // namespace AssemblyCopyrightAttributeNamespace

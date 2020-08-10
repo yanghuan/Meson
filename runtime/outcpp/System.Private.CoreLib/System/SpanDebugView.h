@@ -9,8 +9,8 @@ FORWARDS(Span, T)
 namespace SpanDebugViewNamespace {
 CLASS(SpanDebugView, T) : public Object::in {
   public: Array<T> get_Items();
-  public: void Ctor(Span<T> span);
-  public: void Ctor(ReadOnlySpan<T> span);
+  public: void ctor(Span<T> span);
+  public: void ctor(ReadOnlySpan<T> span);
   private: Array<T> _array;
 };
 } // namespace SpanDebugViewNamespace

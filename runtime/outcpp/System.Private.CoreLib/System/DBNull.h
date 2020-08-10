@@ -16,13 +16,13 @@ namespace DBNullNamespace {
 using namespace Runtime::Serialization;
 CLASS(DBNull) : public Object::in {
   public: using interface = rt::TypeList<ISerializable, IConvertible>;
-  private: void Ctor();
-  private: void Ctor(SerializationInfo info, StreamingContext context);
+  private: void ctor();
+  private: void ctor(SerializationInfo info, StreamingContext context);
   public: void GetObjectData(SerializationInfo info, StreamingContext context);
   public: String ToString();
   public: String ToString(IFormatProvider provider);
   public: TypeCode GetTypeCode();
-  private: static void SCtor();
+  private: static void ctor_static();
   public: static DBNull Value;
 };
 } // namespace DBNullNamespace

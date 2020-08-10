@@ -13,7 +13,7 @@ CLASS(EncoderFallback) : public Object::in {
   public: static EncoderFallback get_ExceptionFallback();
   public: Int32 get_MaxCharCount();
   public: EncoderFallbackBuffer CreateFallbackBuffer();
-  protected: void Ctor();
+  protected: void ctor();
   private: static EncoderFallback s_replacementFallback;
   private: static EncoderFallback s_exceptionFallback;
 };

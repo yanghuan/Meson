@@ -42,7 +42,7 @@ CLASS(ConstructorOnTypeBuilderInstantiation) : public ConstructorInfo::in {
   public: Boolean get_ContainsGenericParameters();
   public: Boolean get_IsGenericMethod();
   public: static ConstructorInfo GetConstructor(ConstructorInfo Constructor, TypeBuilderInstantiation type);
-  public: void Ctor(ConstructorInfo constructor, TypeBuilderInstantiation type);
+  public: void ctor(ConstructorInfo constructor, TypeBuilderInstantiation type);
   public: Array<Type> GetParameterTypes();
   public: Type GetReturnType();
   public: Array<Object> GetCustomAttributes(Boolean inherit);

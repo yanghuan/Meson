@@ -14,7 +14,7 @@ CLASS(EventSourceAttribute) : public Attribute::in {
   public: void set_Guid(String value) { Guid = value; }
   public: String get_LocalizationResources() { return LocalizationResources; }
   public: void set_LocalizationResources(String value) { LocalizationResources = value; }
-  public: void Ctor();
+  public: void ctor();
   private: String Name;
   private: String Guid;
   private: String LocalizationResources;

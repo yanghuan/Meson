@@ -101,7 +101,7 @@ Boolean GenericTypeParameterBuilder___::IsAssignableFrom(TypeInfo typeInfo) {
   return Boolean();
 }
 
-void GenericTypeParameterBuilder___::Ctor(TypeBuilder type) {
+void GenericTypeParameterBuilder___::ctor(TypeBuilder type) {
 }
 
 String GenericTypeParameterBuilder___::ToString() {

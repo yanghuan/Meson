@@ -34,7 +34,7 @@ CLASS(MemberInfo) : public Object::in {
   public: Boolean CacheEquals(Object o);
   public: template <class TOther>
   Boolean HasSameMetadataDefinitionAsCore(MemberInfo other);
-  protected: void Ctor();
+  protected: void ctor();
   public: Boolean HasSameMetadataDefinitionAs(MemberInfo other);
   public: Boolean IsDefined(Type attributeType, Boolean inherit);
   public: Array<Object> GetCustomAttributes(Boolean inherit);

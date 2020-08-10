@@ -11,7 +11,7 @@ using namespace ::System::Private::CoreLib::System;
 using namespace ::System::Private::CoreLib::System::Runtime::InteropServices;
 CLASS(SafeHandleMinusOneIsInvalid) : public SafeHandle::in {
   public: Boolean get_IsInvalid();
-  protected: void Ctor(Boolean ownsHandle);
+  protected: void ctor(Boolean ownsHandle);
 };
 } // namespace SafeHandleMinusOneIsInvalidNamespace
 using SafeHandleMinusOneIsInvalid = SafeHandleMinusOneIsInvalidNamespace::SafeHandleMinusOneIsInvalid;

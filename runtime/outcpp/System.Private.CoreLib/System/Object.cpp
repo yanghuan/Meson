@@ -7,7 +7,7 @@ Object Object___::MemberwiseClone() {
   return nullptr;
 }
 
-void Object___::Ctor() {
+void Object___::ctor() {
 }
 
 void Object___::Finalize() {

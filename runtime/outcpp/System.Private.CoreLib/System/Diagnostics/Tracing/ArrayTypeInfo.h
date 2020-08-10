@@ -14,7 +14,7 @@ FORWARD(TraceLoggingDataCollector)
 FORWARD(TraceLoggingMetadataCollector)
 namespace ArrayTypeInfoNamespace {
 CLASS(ArrayTypeInfo) : public TraceLoggingTypeInfo::in {
-  public: void Ctor(Type type, TraceLoggingTypeInfo elementInfo);
+  public: void ctor(Type type, TraceLoggingTypeInfo elementInfo);
   public: void WriteMetadata(TraceLoggingMetadataCollector collector, String name, EventFieldFormat format);
   public: void WriteData(TraceLoggingDataCollector collector, PropertyValue value);
   public: Object GetData(Object value);

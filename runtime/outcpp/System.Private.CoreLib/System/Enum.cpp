@@ -3,7 +3,7 @@
 #include <System.Private.CoreLib/System/Enum-dep.h>
 
 namespace System::Private::CoreLib::System::EnumNamespace {
-void Enum___::EnumInfo___::Ctor(Boolean hasFlagsAttribute, Array<UInt64> values, Array<String> names) {
+void Enum___::EnumInfo___::ctor(Boolean hasFlagsAttribute, Array<UInt64> values, Array<String> names) {
 }
 
 Enum::in::EnumInfo Enum___::GetEnumInfo(RuntimeType enumType, Boolean getNames) {
@@ -214,7 +214,7 @@ Object Enum___::ToObject(Type enumType, Boolean value) {
   return nullptr;
 }
 
-void Enum___::Ctor() {
+void Enum___::ctor() {
 }
 
 } // namespace System::Private::CoreLib::System::EnumNamespace

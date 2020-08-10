@@ -5,7 +5,7 @@ Boolean SafeHandleZeroOrMinusOneIsInvalid___::get_IsInvalid() {
   return Boolean();
 }
 
-void SafeHandleZeroOrMinusOneIsInvalid___::Ctor(Boolean ownsHandle) {
+void SafeHandleZeroOrMinusOneIsInvalid___::ctor(Boolean ownsHandle) {
 }
 
 } // namespace System::Private::CoreLib::Microsoft::Win32::SafeHandles::SafeHandleZeroOrMinusOneIsInvalidNamespace

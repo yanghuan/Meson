@@ -175,7 +175,7 @@ struct DateTime : public valueType<DateTime> {
   private: static DateTime FromFileTimeLeapSecondsAware(Int64 fileTime);
   private: static Int64 ToFileTimeLeapSecondsAware(Int64 ticks);
   private: static DateTime CreateDateTimeFromSystemTime(FullSystemTime& time);
-  private: static void SCtor();
+  private: static void ctor_static();
   public: explicit DateTime() {}
   private: static Array<Int32> s_daysToMonth365;
   private: static Array<Int32> s_daysToMonth366;

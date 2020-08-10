@@ -7,7 +7,7 @@ enum class CharSet;
 namespace DefaultCharSetAttributeNamespace {
 CLASS(DefaultCharSetAttribute) : public Attribute::in {
   public: CharSet get_CharSet() { return CharSet; }
-  public: void Ctor(CharSet charSet);
+  public: void ctor(CharSet charSet);
   private: CharSet CharSet;
 };
 } // namespace DefaultCharSetAttributeNamespace

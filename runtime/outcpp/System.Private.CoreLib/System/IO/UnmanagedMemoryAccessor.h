@@ -32,9 +32,9 @@ CLASS(UnmanagedMemoryAccessor) : public Object::in {
   public: Boolean get_CanRead();
   public: Boolean get_CanWrite();
   protected: Boolean get_IsOpen();
-  protected: void Ctor();
-  public: void Ctor(SafeBuffer buffer, Int64 offset, Int64 capacity);
-  public: void Ctor(SafeBuffer buffer, Int64 offset, Int64 capacity, FileAccess access);
+  protected: void ctor();
+  public: void ctor(SafeBuffer buffer, Int64 offset, Int64 capacity);
+  public: void ctor(SafeBuffer buffer, Int64 offset, Int64 capacity, FileAccess access);
   protected: void Initialize(SafeBuffer buffer, Int64 offset, Int64 capacity, FileAccess access);
   protected: void Dispose(Boolean disposing);
   public: void Dispose();

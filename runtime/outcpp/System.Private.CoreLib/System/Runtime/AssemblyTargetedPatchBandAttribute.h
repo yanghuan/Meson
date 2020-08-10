@@ -9,7 +9,7 @@ namespace System::Private::CoreLib::System::Runtime {
 namespace AssemblyTargetedPatchBandAttributeNamespace {
 CLASS(AssemblyTargetedPatchBandAttribute) : public Attribute::in {
   public: String get_TargetedPatchBand() { return TargetedPatchBand; }
-  public: void Ctor(String targetedPatchBand);
+  public: void ctor(String targetedPatchBand);
   private: String TargetedPatchBand;
 };
 } // namespace AssemblyTargetedPatchBandAttributeNamespace

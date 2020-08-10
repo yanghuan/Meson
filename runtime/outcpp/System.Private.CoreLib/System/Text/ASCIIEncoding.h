@@ -29,7 +29,7 @@ using namespace Buffers;
 CLASS(ASCIIEncoding) : public Encoding::in {
   public: FRIENDN(ASCIIEncodingSealed)
   public: Boolean get_IsSingleByte();
-  public: void Ctor();
+  public: void ctor();
   public: void SetDefaultFallbacks();
   public: Int32 GetByteCount(Array<Char> chars, Int32 index, Int32 count);
   public: Int32 GetByteCount(String chars);
@@ -63,12 +63,12 @@ CLASS(ASCIIEncoding) : public Encoding::in {
   public: Int32 GetMaxCharCount(Int32 byteCount);
   public: Decoder GetDecoder();
   public: Encoder GetEncoder();
-  private: static void SCtor();
+  private: static void ctor_static();
   public: static ASCIIEncodingSealed s_default;
 };
 CLASS(ASCIIEncodingSealed) : public ASCIIEncoding::in {
   public: Object Clone();
-  public: void Ctor();
+  public: void ctor();
 };
 } // namespace ASCIIEncodingNamespace
 using ASCIIEncoding = ASCIIEncodingNamespace::ASCIIEncoding;

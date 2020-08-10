@@ -36,18 +36,18 @@ CLASS(StreamReader) : public TextReader::in {
   public: Boolean get_EndOfStream();
   private: void CheckAsyncTaskInProgress();
   private: static void ThrowAsyncIOInProgress();
-  private: void Ctor();
-  public: void Ctor(Stream stream);
-  public: void Ctor(Stream stream, Boolean detectEncodingFromByteOrderMarks);
-  public: void Ctor(Stream stream, Encoding encoding);
-  public: void Ctor(Stream stream, Encoding encoding, Boolean detectEncodingFromByteOrderMarks);
-  public: void Ctor(Stream stream, Encoding encoding, Boolean detectEncodingFromByteOrderMarks, Int32 bufferSize);
-  public: void Ctor(Stream stream, Encoding encoding, Boolean detectEncodingFromByteOrderMarks, Int32 bufferSize, Boolean leaveOpen);
-  public: void Ctor(String path);
-  public: void Ctor(String path, Boolean detectEncodingFromByteOrderMarks);
-  public: void Ctor(String path, Encoding encoding);
-  public: void Ctor(String path, Encoding encoding, Boolean detectEncodingFromByteOrderMarks);
-  public: void Ctor(String path, Encoding encoding, Boolean detectEncodingFromByteOrderMarks, Int32 bufferSize);
+  private: void ctor();
+  public: void ctor(Stream stream);
+  public: void ctor(Stream stream, Boolean detectEncodingFromByteOrderMarks);
+  public: void ctor(Stream stream, Encoding encoding);
+  public: void ctor(Stream stream, Encoding encoding, Boolean detectEncodingFromByteOrderMarks);
+  public: void ctor(Stream stream, Encoding encoding, Boolean detectEncodingFromByteOrderMarks, Int32 bufferSize);
+  public: void ctor(Stream stream, Encoding encoding, Boolean detectEncodingFromByteOrderMarks, Int32 bufferSize, Boolean leaveOpen);
+  public: void ctor(String path);
+  public: void ctor(String path, Boolean detectEncodingFromByteOrderMarks);
+  public: void ctor(String path, Encoding encoding);
+  public: void ctor(String path, Encoding encoding, Boolean detectEncodingFromByteOrderMarks);
+  public: void ctor(String path, Encoding encoding, Boolean detectEncodingFromByteOrderMarks, Int32 bufferSize);
   private: static Stream ValidateArgsAndOpenPath(String path, Encoding encoding, Int32 bufferSize);
   public: void Close();
   protected: void Dispose(Boolean disposing);
@@ -77,7 +77,7 @@ CLASS(StreamReader) : public TextReader::in {
   public: ValueTask<Int32> ReadBlockAsync(Memory<Char> buffer, CancellationToken cancellationToken);
   private: ValueTask<Int32> ReadBufferAsync(CancellationToken cancellationToken);
   private: void ThrowIfDisposed();
-  private: static void SCtor();
+  private: static void ctor_static();
   public: static StreamReader Null;
   private: Stream _stream;
   private: Encoding _encoding;
@@ -105,7 +105,7 @@ CLASS(NullStreamReader) : public StreamReader::in {
   public: String ReadLine();
   public: String ReadToEnd();
   public: Int32 ReadBuffer();
-  public: void Ctor();
+  public: void ctor();
 };
 } // namespace StreamReaderNamespace
 using StreamReader = StreamReaderNamespace::StreamReader;

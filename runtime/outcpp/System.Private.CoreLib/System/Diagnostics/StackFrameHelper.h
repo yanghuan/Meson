@@ -26,12 +26,12 @@ using namespace Reflection;
 using namespace Threading;
 CLASS(StackFrameHelper) : public Object::in {
   private: CLASS(GetSourceLineInfoDelegate) : public MulticastDelegate::in {
-    public: void Ctor(Object object, IntPtr method);
+    public: void ctor(Object object, IntPtr method);
     public: void Invoke(Assembly assembly, String assemblyPath, IntPtr loadedPeAddress, Int32 loadedPeSize, IntPtr inMemoryPdbAddress, Int32 inMemoryPdbSize, Int32 methodToken, Int32 ilOffset, String& sourceFile, Int32& sourceLine, Int32& sourceColumn);
     public: IAsyncResult BeginInvoke(Assembly assembly, String assemblyPath, IntPtr loadedPeAddress, Int32 loadedPeSize, IntPtr inMemoryPdbAddress, Int32 inMemoryPdbSize, Int32 methodToken, Int32 ilOffset, String& sourceFile, Int32& sourceLine, Int32& sourceColumn, AsyncCallback callback, Object object);
     public: void EndInvoke(String& sourceFile, Int32& sourceLine, Int32& sourceColumn, IAsyncResult result);
   };
-  public: void Ctor(Thread target);
+  public: void ctor(Thread target);
   public: void InitializeSourceInfo(Int32 iSkip, Boolean fNeedFileInfo, Exception exception);
   public: MethodBase GetMethodBase(Int32 i);
   public: Int32 GetOffset(Int32 i);

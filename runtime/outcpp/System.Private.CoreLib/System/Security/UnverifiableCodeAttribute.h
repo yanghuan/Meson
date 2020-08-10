@@ -5,7 +5,7 @@
 namespace System::Private::CoreLib::System::Security {
 namespace UnverifiableCodeAttributeNamespace {
 CLASS(UnverifiableCodeAttribute) : public Attribute::in {
-  public: void Ctor();
+  public: void ctor();
 };
 } // namespace UnverifiableCodeAttributeNamespace
 using UnverifiableCodeAttribute = UnverifiableCodeAttributeNamespace::UnverifiableCodeAttribute;

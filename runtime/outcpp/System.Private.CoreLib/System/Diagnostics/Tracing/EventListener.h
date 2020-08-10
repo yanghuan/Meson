@@ -26,8 +26,8 @@ using namespace Collections::Generic;
 CLASS(EventListener) : public Object::in {
   public: using interface = rt::TypeList<IDisposable>;
   public: static Object get_EventListenersLock();
-  private: static void SCtor();
-  public: void Ctor();
+  private: static void ctor_static();
+  public: void ctor();
   public: void Dispose();
   public: void EnableEvents(EventSource eventSource, EventLevel level);
   public: void EnableEvents(EventSource eventSource, EventLevel level, EventKeywords matchAnyKeyword);

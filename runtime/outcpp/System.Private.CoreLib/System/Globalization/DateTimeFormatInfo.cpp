@@ -3,7 +3,7 @@
 #include <System.Private.CoreLib/System/Globalization/DateTimeFormatInfo-dep.h>
 
 namespace System::Private::CoreLib::System::Globalization::DateTimeFormatInfoNamespace {
-void DateTimeFormatInfo___::TokenHashValue___::Ctor(String tokenString, TokenType tokenType, Int32 tokenValue) {
+void DateTimeFormatInfo___::TokenHashValue___::ctor(String tokenString, TokenType tokenType, Int32 tokenValue) {
 }
 
 String DateTimeFormatInfo___::get_CultureName() {
@@ -337,10 +337,10 @@ Array<String> DateTimeFormatInfo___::internalGetMonthNamesCore() {
   return Array<String>();
 }
 
-void DateTimeFormatInfo___::Ctor() {
+void DateTimeFormatInfo___::ctor() {
 }
 
-void DateTimeFormatInfo___::Ctor(CultureData cultureData, Calendar cal) {
+void DateTimeFormatInfo___::ctor(CultureData cultureData, Calendar cal) {
 }
 
 void DateTimeFormatInfo___::InitializeOverridableProperties(CultureData cultureData, CalendarId calendarId) {

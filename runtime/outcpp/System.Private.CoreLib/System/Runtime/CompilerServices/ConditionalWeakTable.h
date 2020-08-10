@@ -42,7 +42,7 @@ CLASS(ConditionalWeakTable, TKey, TValue) : public Object::in {
     public: Int32 Next;
   };
   public: CLASS(CreateValueCallback) : public MulticastDelegate::in {
-    public: void Ctor(Object object, IntPtr method);
+    public: void ctor(Object object, IntPtr method);
     public: TValue Invoke(TKey key);
     public: IAsyncResult BeginInvoke(TKey key, AsyncCallback callback, Object object);
     public: TValue EndInvoke(IAsyncResult result);
@@ -51,7 +51,7 @@ CLASS(ConditionalWeakTable, TKey, TValue) : public Object::in {
     public: using interface = rt::TypeList<IEnumerator<KeyValuePair<TKey, TValue>>, IDisposable, IEnumerator1>;
     public: KeyValuePair<TKey, TValue> get_Current();
     private: Object get_CurrentOfIEnumerator();
-    public: void Ctor(ConditionalWeakTable<TKey, TValue> table);
+    public: void ctor(ConditionalWeakTable<TKey, TValue> table);
     protected: void Finalize();
     public: void Dispose();
     public: Boolean MoveNext();
@@ -64,8 +64,8 @@ CLASS(ConditionalWeakTable, TKey, TValue) : public Object::in {
   private: CLASS(Container) : public Object::in {
     public: Boolean get_HasCapacity();
     public: Int32 get_FirstFreeEntry();
-    public: void Ctor(ConditionalWeakTable<TKey, TValue> parent);
-    private: void Ctor(ConditionalWeakTable<TKey, TValue> parent, Array<Int32> buckets, Array<Entry> entries, Int32 firstFreeEntry);
+    public: void ctor(ConditionalWeakTable<TKey, TValue> parent);
+    private: void ctor(ConditionalWeakTable<TKey, TValue> parent, Array<Int32> buckets, Array<Entry> entries, Int32 firstFreeEntry);
     public: void CreateEntryNoResize(TKey key, TValue value);
     public: Boolean TryGetValueWorker(TKey key, TValue& value);
     public: Int32 FindEntry(TKey key, Object& value);
@@ -86,7 +86,7 @@ CLASS(ConditionalWeakTable, TKey, TValue) : public Object::in {
     private: Boolean _finalized;
     private: Object _oldKeepAlive;
   };
-  public: void Ctor();
+  public: void ctor();
   public: Boolean TryGetValue(TKey key, TValue& value);
   public: void Add(TKey key, TValue value);
   public: void AddOrUpdate(TKey key, TValue value);

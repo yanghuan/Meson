@@ -122,7 +122,7 @@ Boolean MetadataImport::IsValidToken(Int32 token) {
   return Boolean();
 }
 
-void MetadataImport::SCtor() {
+void MetadataImport::ctor_static() {
 }
 
 } // namespace System::Private::CoreLib::System::Reflection::MetadataImportNamespace

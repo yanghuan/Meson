@@ -7,7 +7,7 @@ namespace System::Private::CoreLib::System::Diagnostics::CodeAnalysis {
 namespace DoesNotReturnIfAttributeNamespace {
 CLASS(DoesNotReturnIfAttribute) : public Attribute::in {
   public: Boolean get_ParameterValue() { return ParameterValue; }
-  public: void Ctor(Boolean parameterValue);
+  public: void ctor(Boolean parameterValue);
   private: Boolean ParameterValue;
 };
 } // namespace DoesNotReturnIfAttributeNamespace

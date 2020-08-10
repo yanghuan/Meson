@@ -15,7 +15,7 @@ Int32 A___::op_Inequality(A a, A b) {
   return Int32();
 }
 
-void A___::Ctor() {
+void A___::ctor() {
 }
 
 } // namespace Test::Test::ANamespace

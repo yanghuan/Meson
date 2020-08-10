@@ -31,7 +31,7 @@ Int64 UnmanagedMemoryStreamWrapper___::get_Position() {
 void UnmanagedMemoryStreamWrapper___::set_Position(Int64 value) {
 }
 
-void UnmanagedMemoryStreamWrapper___::Ctor(UnmanagedMemoryStream stream) {
+void UnmanagedMemoryStreamWrapper___::ctor(UnmanagedMemoryStream stream) {
 }
 
 void UnmanagedMemoryStreamWrapper___::Dispose(Boolean disposing) {

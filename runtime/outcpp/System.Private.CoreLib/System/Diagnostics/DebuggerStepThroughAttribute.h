@@ -5,7 +5,7 @@
 namespace System::Private::CoreLib::System::Diagnostics {
 namespace DebuggerStepThroughAttributeNamespace {
 CLASS(DebuggerStepThroughAttribute) : public Attribute::in {
-  public: void Ctor();
+  public: void ctor();
 };
 } // namespace DebuggerStepThroughAttributeNamespace
 using DebuggerStepThroughAttribute = DebuggerStepThroughAttributeNamespace::DebuggerStepThroughAttribute;

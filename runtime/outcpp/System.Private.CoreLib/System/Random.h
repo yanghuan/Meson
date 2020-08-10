@@ -10,8 +10,8 @@ FORWARDS(Double)
 FORWARDS(Span, T)
 namespace RandomNamespace {
 CLASS(Random) : public Object::in {
-  public: void Ctor();
-  public: void Ctor(Int32 Seed);
+  public: void ctor();
+  public: void ctor(Int32 Seed);
   protected: Double Sample();
   private: Int32 InternalSample();
   private: static Int32 GenerateSeed();
@@ -23,7 +23,7 @@ CLASS(Random) : public Object::in {
   public: Double NextDouble();
   public: void NextBytes(Array<Byte> buffer);
   public: void NextBytes(Span<Byte> buffer);
-  private: static void SCtor();
+  private: static void ctor_static();
   private: Int32 _inext;
   private: Int32 _inextp;
   private: Array<Int32> _seedArray;

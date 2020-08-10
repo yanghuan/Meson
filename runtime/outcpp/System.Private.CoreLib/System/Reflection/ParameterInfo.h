@@ -43,7 +43,7 @@ CLASS(ParameterInfo) : public Object::in {
   public: Boolean get_HasDefaultValue();
   public: IEnumerable<CustomAttributeData> get_CustomAttributes();
   public: Int32 get_MetadataToken();
-  protected: void Ctor();
+  protected: void ctor();
   public: Boolean IsDefined(Type attributeType, Boolean inherit);
   public: IList<CustomAttributeData> GetCustomAttributesData();
   public: Array<Object> GetCustomAttributes(Boolean inherit);

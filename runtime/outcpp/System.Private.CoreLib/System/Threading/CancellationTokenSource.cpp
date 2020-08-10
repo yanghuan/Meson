@@ -3,34 +3,34 @@
 #include <System.Private.CoreLib/System/Threading/CancellationTokenSource-dep.h>
 
 namespace System::Private::CoreLib::System::Threading::CancellationTokenSourceNamespace {
-void CancellationTokenSource___::CallbackNode___::Ctor(CallbackPartition partition) {
+void CancellationTokenSource___::CallbackNode___::ctor(CallbackPartition partition) {
 }
 
 void CancellationTokenSource___::CallbackNode___::ExecuteCallback() {
 }
 
-void Linked1CancellationTokenSource___::Ctor(CancellationToken token1) {
+void Linked1CancellationTokenSource___::ctor(CancellationToken token1) {
 }
 
 void Linked1CancellationTokenSource___::Dispose(Boolean disposing) {
 }
 
-void Linked2CancellationTokenSource___::Ctor(CancellationToken token1, CancellationToken token2) {
+void Linked2CancellationTokenSource___::ctor(CancellationToken token1, CancellationToken token2) {
 }
 
 void Linked2CancellationTokenSource___::Dispose(Boolean disposing) {
 }
 
-void LinkedNCancellationTokenSource___::Ctor(Array<CancellationToken> tokens) {
+void LinkedNCancellationTokenSource___::ctor(Array<CancellationToken> tokens) {
 }
 
 void LinkedNCancellationTokenSource___::Dispose(Boolean disposing) {
 }
 
-void LinkedNCancellationTokenSource___::SCtor() {
+void LinkedNCancellationTokenSource___::ctor_static() {
 }
 
-void CancellationTokenSource___::CallbackPartition___::Ctor(CancellationTokenSource source) {
+void CancellationTokenSource___::CallbackPartition___::ctor(CancellationTokenSource source) {
 }
 
 Boolean CancellationTokenSource___::CallbackPartition___::Unregister(Int64 id, CallbackNode node) {
@@ -64,13 +64,13 @@ Int64 CancellationTokenSource___::get_ExecutingCallback() {
   return Int64();
 }
 
-void CancellationTokenSource___::Ctor() {
+void CancellationTokenSource___::ctor() {
 }
 
-void CancellationTokenSource___::Ctor(TimeSpan delay) {
+void CancellationTokenSource___::ctor(TimeSpan delay) {
 }
 
-void CancellationTokenSource___::Ctor(Int32 millisecondsDelay) {
+void CancellationTokenSource___::ctor(Int32 millisecondsDelay) {
 }
 
 void CancellationTokenSource___::InitializeWithTimer(Int32 millisecondsDelay) {
@@ -133,7 +133,7 @@ ValueTask<> CancellationTokenSource___::WaitForCallbackToCompleteAsync(Int64 id)
   return ValueTask<>();
 }
 
-void CancellationTokenSource___::SCtor() {
+void CancellationTokenSource___::ctor_static() {
 }
 
 } // namespace System::Private::CoreLib::System::Threading::CancellationTokenSourceNamespace

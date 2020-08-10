@@ -15,13 +15,13 @@ namespace EnumerableToDispatchMarshalerNamespace {
 CLASS(EnumerableToDispatchMarshaler) : public Object::in {
   public: using interface = rt::TypeList<ICustomMarshaler>;
   public: static ICustomMarshaler GetInstance(String cookie);
-  private: void Ctor();
+  private: void ctor();
   public: void CleanUpManagedData(Object ManagedObj);
   public: void CleanUpNativeData(IntPtr pNativeData);
   public: Int32 GetNativeDataSize();
   public: IntPtr MarshalManagedToNative(Object ManagedObj);
   public: Object MarshalNativeToManaged(IntPtr pNativeData);
-  private: static void SCtor();
+  private: static void ctor_static();
   private: static EnumerableToDispatchMarshaler s_enumerableToDispatchMarshaler;
 };
 } // namespace EnumerableToDispatchMarshalerNamespace

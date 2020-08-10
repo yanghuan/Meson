@@ -5,7 +5,7 @@ Object DateTimeConstantAttribute___::get_Value() {
   return nullptr;
 }
 
-void DateTimeConstantAttribute___::Ctor(Int64 ticks) {
+void DateTimeConstantAttribute___::ctor(Int64 ticks) {
 }
 
 } // namespace System::Private::CoreLib::System::Runtime::CompilerServices::DateTimeConstantAttributeNamespace

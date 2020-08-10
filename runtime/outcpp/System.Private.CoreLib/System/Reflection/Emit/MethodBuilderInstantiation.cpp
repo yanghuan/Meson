@@ -61,7 +61,7 @@ MethodInfo MethodBuilderInstantiation___::MakeGenericMethod(MethodInfo method, A
   return nullptr;
 }
 
-void MethodBuilderInstantiation___::Ctor(MethodInfo method, Array<Type> inst) {
+void MethodBuilderInstantiation___::ctor(MethodInfo method, Array<Type> inst) {
 }
 
 Array<Type> MethodBuilderInstantiation___::GetParameterTypes() {

@@ -5,16 +5,16 @@ Encoding StringWriter___::get_Encoding() {
   return nullptr;
 }
 
-void StringWriter___::Ctor() {
+void StringWriter___::ctor() {
 }
 
-void StringWriter___::Ctor(IFormatProvider formatProvider) {
+void StringWriter___::ctor(IFormatProvider formatProvider) {
 }
 
-void StringWriter___::Ctor(StringBuilder sb) {
+void StringWriter___::ctor(StringBuilder sb) {
 }
 
-void StringWriter___::Ctor(StringBuilder sb, IFormatProvider formatProvider) {
+void StringWriter___::ctor(StringBuilder sb, IFormatProvider formatProvider) {
 }
 
 void StringWriter___::Close() {

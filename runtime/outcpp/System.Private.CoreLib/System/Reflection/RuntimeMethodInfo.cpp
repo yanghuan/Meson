@@ -107,7 +107,7 @@ Boolean RuntimeMethodInfo___::IsDisallowedByRefType(Type type) {
   return Boolean();
 }
 
-void RuntimeMethodInfo___::Ctor(RuntimeMethodHandleInternal handle, RuntimeType declaringType, RuntimeType::in::RuntimeTypeCache reflectedTypeCache, MethodAttributes methodAttributes, BindingFlags bindingFlags, Object keepalive) {
+void RuntimeMethodInfo___::ctor(RuntimeMethodHandleInternal handle, RuntimeType declaringType, RuntimeType::in::RuntimeTypeCache reflectedTypeCache, MethodAttributes methodAttributes, BindingFlags bindingFlags, Object keepalive) {
 }
 
 Array<ParameterInfo> RuntimeMethodInfo___::FetchNonReturnParameters() {

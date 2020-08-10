@@ -67,7 +67,7 @@ TypeCode Boolean::GetTypeCode() {
   return TypeCode::String;
 }
 
-void Boolean::SCtor() {
+void Boolean::ctor_static() {
 }
 
 } // namespace System::Private::CoreLib::System::BooleanNamespace

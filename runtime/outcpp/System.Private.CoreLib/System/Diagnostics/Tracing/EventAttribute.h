@@ -39,7 +39,7 @@ CLASS(EventAttribute) : public Attribute::in {
   public: void set_Tags(EventTags value) { Tags = value; }
   public: EventActivityOptions get_ActivityOptions() { return ActivityOptions; }
   public: void set_ActivityOptions(EventActivityOptions value) { ActivityOptions = value; }
-  public: void Ctor(Int32 eventId);
+  public: void ctor(Int32 eventId);
   private: Int32 EventId;
   private: EventLevel Level;
   private: EventKeywords Keywords;

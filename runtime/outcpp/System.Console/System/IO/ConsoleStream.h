@@ -24,7 +24,7 @@ CLASS(ConsoleStream) : public Stream::in {
   public: Int64 get_Length();
   public: Int64 get_Position();
   public: void set_Position(Int64 value);
-  public: void Ctor(FileAccess access);
+  public: void ctor(FileAccess access);
   protected: void Dispose(Boolean disposing);
   public: void Flush();
   public: void SetLength(Int64 value);

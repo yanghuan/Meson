@@ -15,7 +15,7 @@ Boolean HebrewNumber::IsDigit(Char ch) {
   return Boolean();
 }
 
-void HebrewNumber::SCtor() {
+void HebrewNumber::ctor_static() {
 }
 
 } // namespace System::Private::CoreLib::System::Globalization::HebrewNumberNamespace

@@ -14,7 +14,7 @@ FORWARD(WaitHandle)
 namespace TimerHolderNamespace {
 using namespace Tasks;
 CLASS(TimerHolder) : public Object::in {
-  public: void Ctor(TimerQueueTimer timer);
+  public: void ctor(TimerQueueTimer timer);
   protected: void Finalize();
   public: void Close();
   public: Boolean Close(WaitHandle notifyObject);

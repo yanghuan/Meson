@@ -75,7 +75,7 @@ void CancellationToken::ThrowIfCancellationRequested() {
 void CancellationToken::ThrowOperationCanceledException() {
 }
 
-void CancellationToken::SCtor() {
+void CancellationToken::ctor_static() {
 }
 
 } // namespace System::Private::CoreLib::System::Threading::CancellationTokenNamespace

@@ -64,7 +64,7 @@ CLASS(MethodBuilder) : public MethodInfo::in {
   public: Boolean get_InitLocals();
   public: void set_InitLocals(Boolean value);
   public: String get_Signature();
-  public: void Ctor(String name, MethodAttributes attributes, CallingConventions callingConvention, Type returnType, Array<Type> returnTypeRequiredCustomModifiers, Array<Type> returnTypeOptionalCustomModifiers, Array<Type> parameterTypes, Array<Array<Type>> parameterTypeRequiredCustomModifiers, Array<Array<Type>> parameterTypeOptionalCustomModifiers, ModuleBuilder mod, TypeBuilder type);
+  public: void ctor(String name, MethodAttributes attributes, CallingConventions callingConvention, Type returnType, Array<Type> returnTypeRequiredCustomModifiers, Array<Type> returnTypeOptionalCustomModifiers, Array<Type> parameterTypes, Array<Array<Type>> parameterTypeRequiredCustomModifiers, Array<Array<Type>> parameterTypeOptionalCustomModifiers, ModuleBuilder mod, TypeBuilder type);
   public: void CheckContext(Array<Array<Type>> typess);
   public: void CheckContext(Array<Type> types);
   public: void CreateMethodBodyHelper(ILGenerator il);

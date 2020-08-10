@@ -43,7 +43,7 @@ CLASS(PropertyBuilder) : public PropertyInfo::in {
   public: String get_Name();
   public: Type get_DeclaringType();
   public: Type get_ReflectedType();
-  public: void Ctor(ModuleBuilder mod, String name, SignatureHelper sig, PropertyAttributes attr, Type returnType, PropertyToken prToken, TypeBuilder containingType);
+  public: void ctor(ModuleBuilder mod, String name, SignatureHelper sig, PropertyAttributes attr, Type returnType, PropertyToken prToken, TypeBuilder containingType);
   public: void SetConstant(Object defaultValue);
   private: void SetMethodSemantics(MethodBuilder mdBuilder, MethodSemanticsAttributes semantics);
   public: void SetGetMethod(MethodBuilder mdBuilder);

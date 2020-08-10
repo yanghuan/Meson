@@ -33,7 +33,7 @@ CLASS(DecoderFallbackBuffer) : public Object::in {
   public: Int32 DrainRemainingDataForGetCharCount();
   public: Boolean TryDrainRemainingDataForGetChars(Span<Char> chars, Int32& charsWritten);
   public: void ThrowLastBytesRecursive(Array<Byte> bytesUnknown);
-  protected: void Ctor();
+  protected: void ctor();
   public: Byte* byteStart;
   public: Char* charEnd;
   public: Encoding _encoding;

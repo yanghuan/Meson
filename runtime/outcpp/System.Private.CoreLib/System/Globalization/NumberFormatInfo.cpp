@@ -208,7 +208,7 @@ DigitShapes NumberFormatInfo___::get_DigitSubstitution() {
 void NumberFormatInfo___::set_DigitSubstitution(DigitShapes value) {
 }
 
-void NumberFormatInfo___::Ctor() {
+void NumberFormatInfo___::ctor() {
 }
 
 void NumberFormatInfo___::VerifyDecimalSeparator(String decSep, String propertyName) {
@@ -226,7 +226,7 @@ void NumberFormatInfo___::VerifyDigitSubstitution(DigitShapes digitSub, String p
 void NumberFormatInfo___::UpdateHasInvariantNumberSigns() {
 }
 
-void NumberFormatInfo___::Ctor(CultureData cultureData) {
+void NumberFormatInfo___::ctor(CultureData cultureData) {
 }
 
 void NumberFormatInfo___::VerifyWritable() {

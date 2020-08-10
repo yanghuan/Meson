@@ -5,7 +5,7 @@
 namespace System::Private::CoreLib::System {
 namespace MTAThreadAttributeNamespace {
 CLASS(MTAThreadAttribute) : public Attribute::in {
-  public: void Ctor();
+  public: void ctor();
 };
 } // namespace MTAThreadAttributeNamespace
 using MTAThreadAttribute = MTAThreadAttributeNamespace::MTAThreadAttribute;

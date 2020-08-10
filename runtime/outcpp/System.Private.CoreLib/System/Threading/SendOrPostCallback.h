@@ -11,7 +11,7 @@ FORWARD(Object)
 namespace System::Private::CoreLib::System::Threading {
 namespace SendOrPostCallbackNamespace {
 CLASS(SendOrPostCallback) : public MulticastDelegate::in {
-  public: void Ctor(Object object, IntPtr method);
+  public: void ctor(Object object, IntPtr method);
   public: void Invoke(Object state);
   public: IAsyncResult BeginInvoke(Object state, AsyncCallback callback, Object object);
   public: void EndInvoke(IAsyncResult result);

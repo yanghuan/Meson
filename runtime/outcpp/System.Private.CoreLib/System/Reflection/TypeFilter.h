@@ -13,7 +13,7 @@ FORWARD(Type)
 namespace System::Private::CoreLib::System::Reflection {
 namespace TypeFilterNamespace {
 CLASS(TypeFilter) : public MulticastDelegate::in {
-  public: void Ctor(Object object, IntPtr method);
+  public: void ctor(Object object, IntPtr method);
   public: Boolean Invoke(Type m, Object filterCriteria);
   public: IAsyncResult BeginInvoke(Type m, Object filterCriteria, AsyncCallback callback, Object object);
   public: Boolean EndInvoke(IAsyncResult result);

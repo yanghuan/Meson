@@ -20,12 +20,12 @@ namespace NameInfoNamespace {
 using namespace Collections::Generic;
 CLASS(NameInfo) : public ConcurrentSetItem<KeyValuePair<String, EventTags>, NameInfo>::in {
   public: static void ReserveEventIDsBelow(Int32 eventId);
-  public: void Ctor(String name, EventTags tags, Int32 typeMetadataSize);
+  public: void ctor(String name, EventTags tags, Int32 typeMetadataSize);
   public: Int32 Compare(NameInfo other);
   public: Int32 Compare(KeyValuePair<String, EventTags> key);
   private: Int32 Compare(String otherName, EventTags otherTags);
   public: IntPtr GetOrCreateEventHandle(EventProvider provider, TraceLoggingEventHandleTable eventHandleTable, EventDescriptor descriptor, TraceLoggingEventTypes eventTypes);
-  private: static void SCtor();
+  private: static void ctor_static();
   private: static Int32 lastIdentity;
   public: String name;
   public: EventTags tags;

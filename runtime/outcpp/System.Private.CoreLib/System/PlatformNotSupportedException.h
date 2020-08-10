@@ -12,10 +12,10 @@ FORWARD(String)
 namespace PlatformNotSupportedExceptionNamespace {
 using namespace Runtime::Serialization;
 CLASS(PlatformNotSupportedException) : public NotSupportedException::in {
-  public: void Ctor();
-  public: void Ctor(String message);
-  public: void Ctor(String message, Exception inner);
-  protected: void Ctor(SerializationInfo info, StreamingContext context);
+  public: void ctor();
+  public: void ctor(String message);
+  public: void ctor(String message, Exception inner);
+  protected: void ctor(SerializationInfo info, StreamingContext context);
 };
 } // namespace PlatformNotSupportedExceptionNamespace
 using PlatformNotSupportedException = PlatformNotSupportedExceptionNamespace::PlatformNotSupportedException;

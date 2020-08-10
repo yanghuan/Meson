@@ -8,8 +8,8 @@ enum class CompilationRelaxations;
 namespace CompilationRelaxationsAttributeNamespace {
 CLASS(CompilationRelaxationsAttribute) : public Attribute::in {
   public: Int32 get_CompilationRelaxations() { return CompilationRelaxations; }
-  public: void Ctor(Int32 relaxations);
-  public: void Ctor(CompilationRelaxations relaxations);
+  public: void ctor(Int32 relaxations);
+  public: void ctor(CompilationRelaxations relaxations);
   private: Int32 CompilationRelaxations;
 };
 } // namespace CompilationRelaxationsAttributeNamespace

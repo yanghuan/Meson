@@ -14,7 +14,7 @@ CLASS(SignatureByRefType) : public SignatureHasElementType::in {
   public: Boolean get_IsSZArray();
   public: Boolean get_IsVariableBoundArray();
   protected: String get_Suffix();
-  public: void Ctor(SignatureType elementType);
+  public: void ctor(SignatureType elementType);
   protected: Boolean IsArrayImpl();
   protected: Boolean IsByRefImpl();
   protected: Boolean IsPointerImpl();

@@ -5,7 +5,7 @@
 namespace System::Private::CoreLib::System::Runtime::InteropServices {
 namespace OptionalAttributeNamespace {
 CLASS(OptionalAttribute) : public Attribute::in {
-  public: void Ctor();
+  public: void ctor();
 };
 } // namespace OptionalAttributeNamespace
 using OptionalAttribute = OptionalAttributeNamespace::OptionalAttribute;

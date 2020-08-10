@@ -3,7 +3,7 @@
 #include <System.Private.CoreLib/System/Runtime/InteropServices/ComEventsMethod-dep.h>
 
 namespace System::Private::CoreLib::System::Runtime::InteropServices::ComEventsMethodNamespace {
-void ComEventsMethod___::DelegateWrapper___::Ctor(System::Delegate d, Boolean wrapArgs) {
+void ComEventsMethod___::DelegateWrapper___::ctor(System::Delegate d, Boolean wrapArgs) {
 }
 
 Object ComEventsMethod___::DelegateWrapper___::Invoke(Array<Object> args) {
@@ -17,7 +17,7 @@ Boolean ComEventsMethod___::get_Empty() {
   return Boolean();
 }
 
-void ComEventsMethod___::Ctor(Int32 dispid) {
+void ComEventsMethod___::ctor(Int32 dispid) {
 }
 
 ComEventsMethod ComEventsMethod___::Find(ComEventsMethod methods, Int32 dispid) {

@@ -9,7 +9,7 @@ namespace System::Private::CoreLib::System::Runtime::ExceptionServices {
 namespace FirstChanceExceptionEventArgsNamespace {
 CLASS(FirstChanceExceptionEventArgs) : public EventArgs::in {
   public: Exception get_Exception() { return Exception; }
-  public: void Ctor(Exception exception);
+  public: void ctor(Exception exception);
   private: Exception Exception;
 };
 } // namespace FirstChanceExceptionEventArgsNamespace

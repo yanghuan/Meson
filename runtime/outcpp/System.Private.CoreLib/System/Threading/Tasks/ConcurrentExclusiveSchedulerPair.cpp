@@ -3,10 +3,10 @@
 #include <System.Private.CoreLib/System/Threading/Tasks/ConcurrentExclusiveSchedulerPair-dep.h>
 
 namespace System::Private::CoreLib::System::Threading::Tasks::ConcurrentExclusiveSchedulerPairNamespace {
-void ConcurrentExclusiveSchedulerPair___::CompletionState___::Ctor() {
+void ConcurrentExclusiveSchedulerPair___::CompletionState___::ctor() {
 }
 
-void ConcurrentExclusiveSchedulerPair___::SchedulerWorkItem___::Ctor(ConcurrentExclusiveSchedulerPair pair) {
+void ConcurrentExclusiveSchedulerPair___::SchedulerWorkItem___::ctor(ConcurrentExclusiveSchedulerPair pair) {
 }
 
 Int32 ConcurrentExclusiveSchedulerPair___::ConcurrentExclusiveTaskScheduler___::DebugView___::get_MaximumConcurrencyLevel() {
@@ -21,7 +21,7 @@ ConcurrentExclusiveSchedulerPair ConcurrentExclusiveSchedulerPair___::Concurrent
   return nullptr;
 }
 
-void ConcurrentExclusiveSchedulerPair___::ConcurrentExclusiveTaskScheduler___::DebugView___::Ctor(ConcurrentExclusiveTaskScheduler scheduler) {
+void ConcurrentExclusiveSchedulerPair___::ConcurrentExclusiveTaskScheduler___::DebugView___::ctor(ConcurrentExclusiveTaskScheduler scheduler) {
 }
 
 Int32 ConcurrentExclusiveSchedulerPair___::ConcurrentExclusiveTaskScheduler___::get_MaximumConcurrencyLevel() {
@@ -32,7 +32,7 @@ Int32 ConcurrentExclusiveSchedulerPair___::ConcurrentExclusiveTaskScheduler___::
   return Int32();
 }
 
-void ConcurrentExclusiveSchedulerPair___::ConcurrentExclusiveTaskScheduler___::Ctor(ConcurrentExclusiveSchedulerPair pair, Int32 maxConcurrencyLevel, ProcessingMode processingMode) {
+void ConcurrentExclusiveSchedulerPair___::ConcurrentExclusiveTaskScheduler___::ctor(ConcurrentExclusiveSchedulerPair pair, Int32 maxConcurrencyLevel, ProcessingMode processingMode) {
 }
 
 void ConcurrentExclusiveSchedulerPair___::ConcurrentExclusiveTaskScheduler___::QueueTask(Task<> task) {
@@ -57,7 +57,7 @@ IEnumerable<Task<>> ConcurrentExclusiveSchedulerPair___::ConcurrentExclusiveTask
   return nullptr;
 }
 
-void ConcurrentExclusiveSchedulerPair___::ConcurrentExclusiveTaskScheduler___::SCtor() {
+void ConcurrentExclusiveSchedulerPair___::ConcurrentExclusiveTaskScheduler___::ctor_static() {
 }
 
 ConcurrentExclusiveSchedulerPair::in::ProcessingMode ConcurrentExclusiveSchedulerPair___::DebugView___::get_Mode() {
@@ -80,7 +80,7 @@ TaskScheduler ConcurrentExclusiveSchedulerPair___::DebugView___::get_TargetSched
   return nullptr;
 }
 
-void ConcurrentExclusiveSchedulerPair___::DebugView___::Ctor(ConcurrentExclusiveSchedulerPair pair) {
+void ConcurrentExclusiveSchedulerPair___::DebugView___::ctor(ConcurrentExclusiveSchedulerPair pair) {
 }
 
 Int32 ConcurrentExclusiveSchedulerPair___::get_DefaultMaxConcurrencyLevel() {
@@ -123,16 +123,16 @@ ConcurrentExclusiveSchedulerPair::in::ProcessingMode ConcurrentExclusiveSchedule
   return ConcurrentExclusiveSchedulerPair::in::ProcessingMode::Completed;
 }
 
-void ConcurrentExclusiveSchedulerPair___::Ctor() {
+void ConcurrentExclusiveSchedulerPair___::ctor() {
 }
 
-void ConcurrentExclusiveSchedulerPair___::Ctor(TaskScheduler taskScheduler) {
+void ConcurrentExclusiveSchedulerPair___::ctor(TaskScheduler taskScheduler) {
 }
 
-void ConcurrentExclusiveSchedulerPair___::Ctor(TaskScheduler taskScheduler, Int32 maxConcurrencyLevel) {
+void ConcurrentExclusiveSchedulerPair___::ctor(TaskScheduler taskScheduler, Int32 maxConcurrencyLevel) {
 }
 
-void ConcurrentExclusiveSchedulerPair___::Ctor(TaskScheduler taskScheduler, Int32 maxConcurrencyLevel, Int32 maxItemsPerTask) {
+void ConcurrentExclusiveSchedulerPair___::ctor(TaskScheduler taskScheduler, Int32 maxConcurrencyLevel, Int32 maxItemsPerTask) {
 }
 
 void ConcurrentExclusiveSchedulerPair___::Complete() {

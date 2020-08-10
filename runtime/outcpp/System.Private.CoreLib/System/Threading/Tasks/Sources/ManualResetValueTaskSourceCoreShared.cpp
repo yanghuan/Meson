@@ -4,7 +4,7 @@ namespace System::Private::CoreLib::System::Threading::Tasks::Sources::ManualRes
 void ManualResetValueTaskSourceCoreShared::CompletionSentinel(Object _) {
 }
 
-void ManualResetValueTaskSourceCoreShared::SCtor() {
+void ManualResetValueTaskSourceCoreShared::ctor_static() {
 }
 
 } // namespace System::Private::CoreLib::System::Threading::Tasks::Sources::ManualResetValueTaskSourceCoreSharedNamespace

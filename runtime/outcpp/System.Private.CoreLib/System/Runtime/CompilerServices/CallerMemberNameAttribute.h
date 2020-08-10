@@ -5,7 +5,7 @@
 namespace System::Private::CoreLib::System::Runtime::CompilerServices {
 namespace CallerMemberNameAttributeNamespace {
 CLASS(CallerMemberNameAttribute) : public Attribute::in {
-  public: void Ctor();
+  public: void ctor();
 };
 } // namespace CallerMemberNameAttributeNamespace
 using CallerMemberNameAttribute = CallerMemberNameAttributeNamespace::CallerMemberNameAttribute;

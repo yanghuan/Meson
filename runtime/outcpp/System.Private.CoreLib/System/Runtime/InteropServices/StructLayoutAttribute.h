@@ -12,8 +12,8 @@ enum class LayoutKind;
 namespace StructLayoutAttributeNamespace {
 CLASS(StructLayoutAttribute) : public Attribute::in {
   public: LayoutKind get_Value() { return Value; }
-  public: void Ctor(LayoutKind layoutKind);
-  public: void Ctor(Int16 layoutKind);
+  public: void ctor(LayoutKind layoutKind);
+  public: void ctor(Int16 layoutKind);
   private: LayoutKind Value;
   public: Int32 Pack;
   public: Int32 Size;

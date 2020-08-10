@@ -22,7 +22,7 @@ namespace NativeRuntimeEventSourceNamespace {
 CLASS(NativeRuntimeEventSource) : public EventSource::in {
   public: CLASS(Keywords) : public Object::in {
   };
-  private: void Ctor();
+  private: void ctor();
   public: void ProcessEvent(UInt32 eventID, UInt32 osThreadID, DateTime timeStamp, Guid activityId, Guid childActivityId, ReadOnlySpan<Byte> payload);
   private: void GCStart_V2(UInt32 Count, UInt32 Depth, UInt32 Reason, UInt32 Type, UInt16 ClrInstanceID, UInt64 ClientSequenceNumber);
   private: void GCEnd_V1(UInt32 Count, UInt32 Depth, UInt16 ClrInstanceID);
@@ -164,7 +164,7 @@ CLASS(NativeRuntimeEventSource) : public EventSource::in {
   private: void AppDomainAssemblyResolveHandlerInvoked(UInt16 ClrInstanceID, String AssemblyName, String HandlerName, String ResultAssemblyName, String ResultAssemblyPath);
   private: void AssemblyLoadFromResolveHandlerInvoked(UInt16 ClrInstanceID, String AssemblyName, Boolean IsTrackedLoad, String RequestingAssemblyPath, String ComputedRequestedAssemblyPath);
   private: void KnownPathProbed(UInt16 ClrInstanceID, String FilePath, UInt16 Source, Int32 Result);
-  private: static void SCtor();
+  private: static void ctor_static();
   public: static NativeRuntimeEventSource Log;
 };
 } // namespace NativeRuntimeEventSourceNamespace

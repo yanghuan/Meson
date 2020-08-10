@@ -5,7 +5,7 @@
 namespace System::Private::CoreLib::System::Diagnostics {
 namespace DebuggerStepperBoundaryAttributeNamespace {
 CLASS(DebuggerStepperBoundaryAttribute) : public Attribute::in {
-  public: void Ctor();
+  public: void ctor();
 };
 } // namespace DebuggerStepperBoundaryAttributeNamespace
 using DebuggerStepperBoundaryAttribute = DebuggerStepperBoundaryAttributeNamespace::DebuggerStepperBoundaryAttribute;

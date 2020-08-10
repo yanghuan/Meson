@@ -10,8 +10,8 @@ enum class ComInterfaceType;
 namespace InterfaceTypeAttributeNamespace {
 CLASS(InterfaceTypeAttribute) : public Attribute::in {
   public: ComInterfaceType get_Value() { return Value; }
-  public: void Ctor(ComInterfaceType interfaceType);
-  public: void Ctor(Int16 interfaceType);
+  public: void ctor(ComInterfaceType interfaceType);
+  public: void ctor(Int16 interfaceType);
   private: ComInterfaceType Value;
 };
 } // namespace InterfaceTypeAttributeNamespace

@@ -32,7 +32,7 @@ using namespace IO;
 using namespace Reflection;
 CLASS(ResourceManager) : public Object::in {
   public: CLASS(CultureNameResourceSetPair) : public Object::in {
-    public: void Ctor();
+    public: void ctor();
     public: String lastCultureName;
     public: ResourceSet lastResourceSet;
   };
@@ -49,7 +49,7 @@ CLASS(ResourceManager) : public Object::in {
     public: UltimateResourceFallbackLocation get_FallbackLoc();
     public: Assembly get_MainAssembly();
     public: String get_BaseName();
-    public: void Ctor(ResourceManager rm);
+    public: void ctor(ResourceManager rm);
     public: String GetResourceFileName(CultureInfo culture);
     public: static Version ObtainSatelliteContractVersion(Assembly a);
     private: ResourceManager _rm;
@@ -60,11 +60,11 @@ CLASS(ResourceManager) : public Object::in {
   public: Type get_ResourceSetType();
   protected: UltimateResourceFallbackLocation get_FallbackLocation();
   protected: void set_FallbackLocation(UltimateResourceFallbackLocation value);
-  protected: void Ctor();
-  private: void Ctor(String baseName, String resourceDir, Type userResourceSet);
-  public: void Ctor(String baseName, Assembly assembly);
-  public: void Ctor(String baseName, Assembly assembly, Type usingResourceSet);
-  public: void Ctor(Type resourceSource);
+  protected: void ctor();
+  private: void ctor(String baseName, String resourceDir, Type userResourceSet);
+  public: void ctor(String baseName, Assembly assembly);
+  public: void ctor(String baseName, Assembly assembly, Type usingResourceSet);
+  public: void ctor(Type resourceSource);
   private: void CommonAssemblyInit();
   public: void ReleaseAllResources();
   public: static ResourceManager CreateFileBasedResourceManager(String baseName, String resourceDir, Type usingResourceSet);
@@ -83,7 +83,7 @@ CLASS(ResourceManager) : public Object::in {
   private: Object GetObject(String name, CultureInfo culture, Boolean wrapUnmanagedMemStream);
   public: UnmanagedMemoryStream GetStream(String name);
   public: UnmanagedMemoryStream GetStream(String name, CultureInfo culture);
-  private: static void SCtor();
+  private: static void ctor_static();
   protected: String BaseNameField;
   protected: Assembly MainAssembly;
   private: Dictionary<String, ResourceSet> _resourceSets;

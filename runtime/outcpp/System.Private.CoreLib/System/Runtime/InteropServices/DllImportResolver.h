@@ -18,7 +18,7 @@ enum class DllImportSearchPath;
 namespace DllImportResolverNamespace {
 using namespace Reflection;
 CLASS(DllImportResolver) : public MulticastDelegate::in {
-  public: void Ctor(Object object, IntPtr method);
+  public: void ctor(Object object, IntPtr method);
   public: IntPtr Invoke(String libraryName, Assembly assembly, Nullable<DllImportSearchPath> searchPath);
   public: IAsyncResult BeginInvoke(String libraryName, Assembly assembly, Nullable<DllImportSearchPath> searchPath, AsyncCallback callback, Object object);
   public: IntPtr EndInvoke(IAsyncResult result);

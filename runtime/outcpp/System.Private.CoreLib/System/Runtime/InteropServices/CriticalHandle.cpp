@@ -5,7 +5,7 @@ Boolean CriticalHandle___::get_IsClosed() {
   return Boolean();
 }
 
-void CriticalHandle___::Ctor(IntPtr invalidHandleValue) {
+void CriticalHandle___::ctor(IntPtr invalidHandleValue) {
 }
 
 void CriticalHandle___::Finalize() {

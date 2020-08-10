@@ -1,7 +1,7 @@
 #include "IsolatedComponentLoadContext-dep.h"
 
 namespace System::Private::CoreLib::Internal::Runtime::InteropServices::IsolatedComponentLoadContextNamespace {
-void IsolatedComponentLoadContext___::Ctor(String componentAssemblyPath) {
+void IsolatedComponentLoadContext___::ctor(String componentAssemblyPath) {
 }
 
 Assembly IsolatedComponentLoadContext___::Load(AssemblyName assemblyName) {

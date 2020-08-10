@@ -21,7 +21,7 @@ using namespace Collections::Generic;
 using namespace Globalization;
 CLASS(FileBasedResourceGroveler) : public Object::in {
   public: using interface = rt::TypeList<IResourceGroveler>;
-  public: void Ctor(ResourceManager::in::ResourceManagerMediator mediator);
+  public: void ctor(ResourceManager::in::ResourceManagerMediator mediator);
   public: ResourceSet GrovelForResourceSet(CultureInfo culture, Dictionary<String, ResourceSet> localResourceSets, Boolean tryParents, Boolean createIfNotExists);
   private: String FindResourceFile(CultureInfo culture, String fileName);
   private: ResourceSet CreateResourceSet(String file);

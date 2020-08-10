@@ -21,9 +21,9 @@ CLASS(FrameworkName) : public Object::in {
   public: Boolean Equals(FrameworkName other);
   public: Int32 GetHashCode();
   public: String ToString();
-  public: void Ctor(String identifier, Version version);
-  public: void Ctor(String identifier, Version version, String profile);
-  public: void Ctor(String frameworkName);
+  public: void ctor(String identifier, Version version);
+  public: void ctor(String identifier, Version version, String profile);
+  public: void ctor(String frameworkName);
   public: static Boolean op_Equality(FrameworkName left, FrameworkName right);
   public: static Boolean op_Inequality(FrameworkName left, FrameworkName right);
   private: String _identifier;

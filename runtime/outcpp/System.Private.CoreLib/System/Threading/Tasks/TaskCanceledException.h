@@ -19,12 +19,12 @@ namespace TaskCanceledExceptionNamespace {
 using namespace Runtime::Serialization;
 CLASS(TaskCanceledException) : public OperationCanceledException::in {
   public: Task<> get_Task();
-  public: void Ctor();
-  public: void Ctor(String message);
-  public: void Ctor(String message, Exception innerException);
-  public: void Ctor(String message, Exception innerException, CancellationToken token);
-  public: void Ctor(Task<> task);
-  protected: void Ctor(SerializationInfo info, StreamingContext context);
+  public: void ctor();
+  public: void ctor(String message);
+  public: void ctor(String message, Exception innerException);
+  public: void ctor(String message, Exception innerException, CancellationToken token);
+  public: void ctor(Task<> task);
+  protected: void ctor(SerializationInfo info, StreamingContext context);
   private: Task<> _canceledTask;
 };
 } // namespace TaskCanceledExceptionNamespace

@@ -5,13 +5,13 @@ String ReflectionTypeLoadException___::get_Message() {
   return nullptr;
 }
 
-void ReflectionTypeLoadException___::Ctor(Array<Type> classes, Array<Exception> exceptions) {
+void ReflectionTypeLoadException___::ctor(Array<Type> classes, Array<Exception> exceptions) {
 }
 
-void ReflectionTypeLoadException___::Ctor(Array<Type> classes, Array<Exception> exceptions, String message) {
+void ReflectionTypeLoadException___::ctor(Array<Type> classes, Array<Exception> exceptions, String message) {
 }
 
-void ReflectionTypeLoadException___::Ctor(SerializationInfo info, StreamingContext context) {
+void ReflectionTypeLoadException___::ctor(SerializationInfo info, StreamingContext context) {
 }
 
 void ReflectionTypeLoadException___::GetObjectData(SerializationInfo info, StreamingContext context) {

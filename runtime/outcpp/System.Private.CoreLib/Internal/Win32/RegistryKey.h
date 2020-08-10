@@ -19,7 +19,7 @@ using namespace ::System::Private::CoreLib::System;
 using namespace SafeHandles;
 CLASS(RegistryKey) : public Object::in {
   public: using interface = rt::TypeList<IDisposable>;
-  private: void Ctor(SafeRegistryHandle hkey);
+  private: void ctor(SafeRegistryHandle hkey);
   public: void DeleteValue(String name, Boolean throwOnMissingValue);
   public: static RegistryKey OpenBaseKey(IntPtr hKey);
   public: RegistryKey OpenSubKey(String name);

@@ -16,7 +16,7 @@ CLASS(SystemThreading_ThreadLocalDebugView, T) : public Object::in {
   public: Boolean get_IsValueCreated();
   public: T get_Value();
   public: List<T> get_Values();
-  public: void Ctor(ThreadLocal<T> tlocal);
+  public: void ctor(ThreadLocal<T> tlocal);
   private: ThreadLocal<T> _tlocal;
 };
 } // namespace SystemThreading_ThreadLocalDebugViewNamespace

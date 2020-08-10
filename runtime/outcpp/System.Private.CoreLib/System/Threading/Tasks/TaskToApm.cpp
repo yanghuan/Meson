@@ -9,7 +9,7 @@ WaitHandle TaskToApm::TaskAsyncResult___::get_AsyncWaitHandle() {
   return nullptr;
 }
 
-void TaskToApm::TaskAsyncResult___::Ctor(Task<> task, Object state, AsyncCallback callback) {
+void TaskToApm::TaskAsyncResult___::ctor(Task<> task, Object state, AsyncCallback callback) {
 }
 
 void TaskToApm::TaskAsyncResult___::InvokeCallback() {

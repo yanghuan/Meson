@@ -47,8 +47,8 @@ CLASS(ConstructorBuilder) : public ConstructorInfo::in {
   public: String get_Signature();
   public: Boolean get_InitLocals();
   public: void set_InitLocals(Boolean value);
-  public: void Ctor(String name, MethodAttributes attributes, CallingConventions callingConvention, Array<Type> parameterTypes, Array<Array<Type>> requiredCustomModifiers, Array<Array<Type>> optionalCustomModifiers, ModuleBuilder mod, TypeBuilder type);
-  public: void Ctor(String name, MethodAttributes attributes, CallingConventions callingConvention, Array<Type> parameterTypes, ModuleBuilder mod, TypeBuilder type);
+  public: void ctor(String name, MethodAttributes attributes, CallingConventions callingConvention, Array<Type> parameterTypes, Array<Array<Type>> requiredCustomModifiers, Array<Array<Type>> optionalCustomModifiers, ModuleBuilder mod, TypeBuilder type);
+  public: void ctor(String name, MethodAttributes attributes, CallingConventions callingConvention, Array<Type> parameterTypes, ModuleBuilder mod, TypeBuilder type);
   public: Array<Type> GetParameterTypes();
   private: TypeBuilder GetTypeBuilder();
   public: String ToString();

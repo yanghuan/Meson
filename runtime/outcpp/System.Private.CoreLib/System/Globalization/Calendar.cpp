@@ -42,7 +42,7 @@ Int32 Calendar___::get_TwoDigitYearMax() {
 void Calendar___::set_TwoDigitYearMax(Int32 value) {
 }
 
-void Calendar___::Ctor() {
+void Calendar___::ctor() {
 }
 
 Object Calendar___::Clone() {

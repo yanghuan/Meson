@@ -16,8 +16,8 @@ CLASS(StringInfo) : public Object::in {
   public: String get_String();
   public: void set_String(String value);
   public: Int32 get_LengthInTextElements();
-  public: void Ctor();
-  public: void Ctor(String value);
+  public: void ctor();
+  public: void ctor(String value);
   public: Boolean Equals(Object value);
   public: Int32 GetHashCode();
   public: String SubstringByTextElements(Int32 startingTextElement);

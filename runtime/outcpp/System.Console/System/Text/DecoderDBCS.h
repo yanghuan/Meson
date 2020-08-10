@@ -17,7 +17,7 @@ namespace DecoderDBCSNamespace {
 using namespace ::System::Private::CoreLib::System;
 using namespace ::System::Private::CoreLib::System::Text;
 CLASS(DecoderDBCS) : public Decoder::in {
-  public: void Ctor(Encoding encoding);
+  public: void ctor(Encoding encoding);
   private: Boolean IsLeadByte(Byte b);
   public: void Reset();
   public: Int32 GetCharCount(Array<Byte> bytes, Int32 index, Int32 count);

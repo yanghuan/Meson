@@ -8,7 +8,7 @@ namespace QueueUserWorkItemCallbackBaseNamespace {
 CLASS(QueueUserWorkItemCallbackBase) : public Object::in {
   public: using interface = rt::TypeList<IThreadPoolWorkItem>;
   public: void Execute();
-  protected: void Ctor();
+  protected: void ctor();
 };
 } // namespace QueueUserWorkItemCallbackBaseNamespace
 using QueueUserWorkItemCallbackBase = QueueUserWorkItemCallbackBaseNamespace::QueueUserWorkItemCallbackBase;

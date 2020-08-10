@@ -1,7 +1,7 @@
 #include "EncodingNLS-dep.h"
 
 namespace System::Private::CoreLib::System::Text::EncodingNLSNamespace {
-void EncodingNLS___::Ctor(Int32 codePage) {
+void EncodingNLS___::ctor(Int32 codePage) {
 }
 
 Int32 EncodingNLS___::GetByteCount(Array<Char> chars, Int32 index, Int32 count) {

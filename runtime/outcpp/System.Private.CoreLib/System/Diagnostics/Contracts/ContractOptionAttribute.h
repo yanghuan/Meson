@@ -13,8 +13,8 @@ CLASS(ContractOptionAttribute) : public Attribute::in {
   public: String get_Setting();
   public: Boolean get_Enabled();
   public: String get_Value();
-  public: void Ctor(String category, String setting, Boolean enabled);
-  public: void Ctor(String category, String setting, String value);
+  public: void ctor(String category, String setting, Boolean enabled);
+  public: void ctor(String category, String setting, String value);
   private: String _category;
   private: String _setting;
   private: Boolean _enabled;

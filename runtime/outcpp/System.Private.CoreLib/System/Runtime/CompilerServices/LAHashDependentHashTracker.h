@@ -9,7 +9,7 @@ namespace LAHashDependentHashTrackerNamespace {
 using namespace InteropServices;
 CLASS(LAHashDependentHashTracker) : public Object::in {
   protected: void Finalize();
-  public: void Ctor();
+  public: void ctor();
   private: GCHandle _dependentHandle;
   private: IntPtr _loaderAllocator;
 };

@@ -5,7 +5,7 @@ Boolean SafeHandle___::get_IsClosed() {
   return Boolean();
 }
 
-void SafeHandle___::Ctor(IntPtr invalidHandleValue, Boolean ownsHandle) {
+void SafeHandle___::ctor(IntPtr invalidHandleValue, Boolean ownsHandle) {
 }
 
 void SafeHandle___::Finalize() {

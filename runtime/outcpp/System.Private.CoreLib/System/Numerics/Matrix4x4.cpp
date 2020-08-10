@@ -228,7 +228,7 @@ Int32 Matrix4x4::GetHashCode() {
   return Int32();
 }
 
-void Matrix4x4::SCtor() {
+void Matrix4x4::ctor_static() {
 }
 
 } // namespace System::Private::CoreLib::System::Numerics::Matrix4x4Namespace

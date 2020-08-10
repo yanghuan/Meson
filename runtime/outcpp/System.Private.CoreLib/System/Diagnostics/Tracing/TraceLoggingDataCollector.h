@@ -13,7 +13,7 @@ namespace System::Private::CoreLib::System::Diagnostics::Tracing {
 FORWARDS(PropertyValue)
 namespace TraceLoggingDataCollectorNamespace {
 CLASS(TraceLoggingDataCollector) : public Object::in {
-  private: void Ctor();
+  private: void ctor();
   public: Int32 BeginBufferedArray();
   public: void EndBufferedArray(Int32 bookmark, Int32 count);
   public: void AddScalar(PropertyValue value);
@@ -22,7 +22,7 @@ CLASS(TraceLoggingDataCollector) : public Object::in {
   public: void AddScalar(Boolean value);
   public: void AddNullTerminatedString(String value);
   public: void AddArray(PropertyValue value, Int32 elementSize);
-  private: static void SCtor();
+  private: static void ctor_static();
   public: static TraceLoggingDataCollector Instance;
 };
 } // namespace TraceLoggingDataCollectorNamespace

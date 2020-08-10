@@ -43,16 +43,16 @@ void RuntimeParameterInfo___::SetName(String name) {
 void RuntimeParameterInfo___::SetAttributes(ParameterAttributes attributes) {
 }
 
-void RuntimeParameterInfo___::Ctor(RuntimeParameterInfo accessor, RuntimePropertyInfo property) {
+void RuntimeParameterInfo___::ctor(RuntimeParameterInfo accessor, RuntimePropertyInfo property) {
 }
 
-void RuntimeParameterInfo___::Ctor(RuntimeParameterInfo accessor, MemberInfo member) {
+void RuntimeParameterInfo___::ctor(RuntimeParameterInfo accessor, MemberInfo member) {
 }
 
-void RuntimeParameterInfo___::Ctor(Signature signature, MetadataImport scope, Int32 tkParamDef, Int32 position, ParameterAttributes attributes, MemberInfo member) {
+void RuntimeParameterInfo___::ctor(Signature signature, MetadataImport scope, Int32 tkParamDef, Int32 position, ParameterAttributes attributes, MemberInfo member) {
 }
 
-void RuntimeParameterInfo___::Ctor(MethodInfo owner, String name, Type parameterType, Int32 position) {
+void RuntimeParameterInfo___::ctor(MethodInfo owner, String name, Type parameterType, Int32 position) {
 }
 
 Object RuntimeParameterInfo___::GetDefaultValue(Boolean raw) {
@@ -103,7 +103,7 @@ IList<CustomAttributeData> RuntimeParameterInfo___::GetCustomAttributesData() {
   return nullptr;
 }
 
-void RuntimeParameterInfo___::SCtor() {
+void RuntimeParameterInfo___::ctor_static() {
 }
 
 } // namespace System::Private::CoreLib::System::Reflection::RuntimeParameterInfoNamespace

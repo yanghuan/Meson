@@ -5,16 +5,16 @@ Stream BinaryWriter___::get_BaseStream() {
   return nullptr;
 }
 
-void BinaryWriter___::Ctor() {
+void BinaryWriter___::ctor() {
 }
 
-void BinaryWriter___::Ctor(Stream output) {
+void BinaryWriter___::ctor(Stream output) {
 }
 
-void BinaryWriter___::Ctor(Stream output, Encoding encoding) {
+void BinaryWriter___::ctor(Stream output, Encoding encoding) {
 }
 
-void BinaryWriter___::Ctor(Stream output, Encoding encoding, Boolean leaveOpen) {
+void BinaryWriter___::ctor(Stream output, Encoding encoding, Boolean leaveOpen) {
 }
 
 void BinaryWriter___::Close() {
@@ -103,7 +103,7 @@ void BinaryWriter___::Write7BitEncodedInt(Int32 value) {
 void BinaryWriter___::Write7BitEncodedInt64(Int64 value) {
 }
 
-void BinaryWriter___::SCtor() {
+void BinaryWriter___::ctor_static() {
 }
 
 } // namespace System::Private::CoreLib::System::IO::BinaryWriterNamespace

@@ -36,8 +36,8 @@ CLASS(PermissionSet) : public Object::in {
   public: Boolean get_IsReadOnly();
   public: Boolean get_IsSynchronized();
   public: Object get_SyncRoot();
-  public: void Ctor(PermissionState state);
-  public: void Ctor(PermissionSet permSet);
+  public: void ctor(PermissionState state);
+  public: void ctor(PermissionSet permSet);
   public: IPermission AddPermission(IPermission perm);
   protected: IPermission AddPermissionImpl(IPermission perm);
   public: void Assert();

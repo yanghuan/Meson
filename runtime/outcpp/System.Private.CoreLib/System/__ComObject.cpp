@@ -1,7 +1,7 @@
 #include "__ComObject-dep.h"
 
 namespace System::Private::CoreLib::System::__ComObjectNamespace {
-void __ComObject___::Ctor() {
+void __ComObject___::ctor() {
 }
 
 Object __ComObject___::GetData(Object key) {

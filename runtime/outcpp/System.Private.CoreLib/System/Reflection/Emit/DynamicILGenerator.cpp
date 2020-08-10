@@ -1,7 +1,7 @@
 #include "DynamicILGenerator-dep.h"
 
 namespace System::Private::CoreLib::System::Reflection::Emit::DynamicILGeneratorNamespace {
-void DynamicILGenerator___::Ctor(DynamicMethod method, Array<Byte> methodSignature, Int32 size) {
+void DynamicILGenerator___::ctor(DynamicMethod method, Array<Byte> methodSignature, Int32 size) {
 }
 
 void DynamicILGenerator___::GetCallableMethod(RuntimeModule module, DynamicMethod dm) {

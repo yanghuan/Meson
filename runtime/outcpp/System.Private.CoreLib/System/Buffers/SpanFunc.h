@@ -12,7 +12,7 @@ FORWARDS(Span, T)
 namespace System::Private::CoreLib::System::Buffers {
 namespace SpanFuncNamespace {
 CLASS(SpanFunc, TSpan, T1, T2, T3, TResult) : public MulticastDelegate::in {
-  public: void Ctor(Object object, IntPtr method);
+  public: void ctor(Object object, IntPtr method);
   public: TResult Invoke(Span<TSpan> span, T1 arg1, T2 arg2, T3 arg3);
   public: IAsyncResult BeginInvoke(Span<TSpan> span, T1 arg1, T2 arg2, T3 arg3, AsyncCallback callback, Object object);
   public: TResult EndInvoke(IAsyncResult result);

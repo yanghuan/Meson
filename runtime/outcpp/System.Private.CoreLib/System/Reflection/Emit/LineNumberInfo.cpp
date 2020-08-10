@@ -1,7 +1,7 @@
 #include "LineNumberInfo-dep.h"
 
 namespace System::Private::CoreLib::System::Reflection::Emit::LineNumberInfoNamespace {
-void LineNumberInfo___::Ctor() {
+void LineNumberInfo___::ctor() {
 }
 
 void LineNumberInfo___::AddLineNumberInfo(ISymbolDocumentWriter document, Int32 iOffset, Int32 iStartLine, Int32 iStartColumn, Int32 iEndLine, Int32 iEndColumn) {

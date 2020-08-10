@@ -64,7 +64,7 @@ StringBuilder TimeSpanFormat::FormatCustomized(TimeSpan value, ReadOnlySpan<Char
   return nullptr;
 }
 
-void TimeSpanFormat::SCtor() {
+void TimeSpanFormat::ctor_static() {
 }
 
 } // namespace System::Private::CoreLib::System::Globalization::TimeSpanFormatNamespace

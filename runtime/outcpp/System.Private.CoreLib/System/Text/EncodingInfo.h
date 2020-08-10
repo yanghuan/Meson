@@ -14,7 +14,7 @@ CLASS(EncodingInfo) : public Object::in {
   public: Int32 get_CodePage() { return CodePage; }
   public: String get_Name() { return Name; }
   public: String get_DisplayName() { return DisplayName; }
-  public: void Ctor(Int32 codePage, String name, String displayName);
+  public: void ctor(Int32 codePage, String name, String displayName);
   public: Encoding GetEncoding();
   public: Boolean Equals(Object value);
   public: Int32 GetHashCode();

@@ -64,28 +64,28 @@ String UriBuilder___::get_UserName() {
 void UriBuilder___::set_UserName(String value) {
 }
 
-void UriBuilder___::Ctor() {
+void UriBuilder___::ctor() {
 }
 
-void UriBuilder___::Ctor(String uri) {
+void UriBuilder___::ctor(String uri) {
 }
 
-void UriBuilder___::Ctor(Uri uri) {
+void UriBuilder___::ctor(Uri uri) {
 }
 
 void UriBuilder___::Init(Uri uri) {
 }
 
-void UriBuilder___::Ctor(String schemeName, String hostName) {
+void UriBuilder___::ctor(String schemeName, String hostName) {
 }
 
-void UriBuilder___::Ctor(String scheme, String host, Int32 portNumber) {
+void UriBuilder___::ctor(String scheme, String host, Int32 portNumber) {
 }
 
-void UriBuilder___::Ctor(String scheme, String host, Int32 port, String pathValue) {
+void UriBuilder___::ctor(String scheme, String host, Int32 port, String pathValue) {
 }
 
-void UriBuilder___::Ctor(String scheme, String host, Int32 port, String path, String extraValue) {
+void UriBuilder___::ctor(String scheme, String host, Int32 port, String path, String extraValue) {
 }
 
 Boolean UriBuilder___::Equals(Object rparam) {

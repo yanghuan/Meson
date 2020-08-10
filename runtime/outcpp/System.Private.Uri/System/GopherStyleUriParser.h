@@ -5,7 +5,7 @@
 namespace System::Private::Uri::System {
 namespace GopherStyleUriParserNamespace {
 CLASS(GopherStyleUriParser) : public UriParser::in {
-  public: void Ctor();
+  public: void ctor();
 };
 } // namespace GopherStyleUriParserNamespace
 using GopherStyleUriParser = GopherStyleUriParserNamespace::GopherStyleUriParser;

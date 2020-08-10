@@ -7,7 +7,7 @@ namespace System::Private::CoreLib::System::Runtime::InteropServices {
 namespace FieldOffsetAttributeNamespace {
 CLASS(FieldOffsetAttribute) : public Attribute::in {
   public: Int32 get_Value() { return Value; }
-  public: void Ctor(Int32 offset);
+  public: void ctor(Int32 offset);
   private: Int32 Value;
 };
 } // namespace FieldOffsetAttributeNamespace

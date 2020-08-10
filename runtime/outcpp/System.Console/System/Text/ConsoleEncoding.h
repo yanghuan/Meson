@@ -23,7 +23,7 @@ CLASS(ConsoleEncoding) : public Encoding::in {
   public: Boolean get_IsSingleByte();
   public: String get_EncodingName();
   public: String get_WebName();
-  public: void Ctor(Encoding encoding);
+  public: void ctor(Encoding encoding);
   public: Array<Byte> GetPreamble();
   public: Int32 GetByteCount(Array<Char> chars);
   public: Int32 GetByteCount(Char* chars, Int32 count);

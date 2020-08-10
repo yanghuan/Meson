@@ -16,7 +16,7 @@ namespace IncrementingPollingCounterNamespace {
 CLASS(IncrementingPollingCounter) : public DiagnosticCounter::in {
   public: TimeSpan get_DisplayRateTimeScale() { return DisplayRateTimeScale; }
   public: void set_DisplayRateTimeScale(TimeSpan value) { DisplayRateTimeScale = value; }
-  public: void Ctor(String name, EventSource eventSource, Func<Double> totalValueProvider);
+  public: void ctor(String name, Tracing::EventSource eventSource, Func<Double> totalValueProvider);
   public: String ToString();
   public: void UpdateMetric();
   public: void WritePayload(Single intervalSec, Int32 pollingIntervalMillisec);

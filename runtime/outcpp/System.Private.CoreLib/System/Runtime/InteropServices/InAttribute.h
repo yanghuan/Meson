@@ -5,7 +5,7 @@
 namespace System::Private::CoreLib::System::Runtime::InteropServices {
 namespace InAttributeNamespace {
 CLASS(InAttribute) : public Attribute::in {
-  public: void Ctor();
+  public: void ctor();
 };
 } // namespace InAttributeNamespace
 using InAttribute = InAttributeNamespace::InAttribute;

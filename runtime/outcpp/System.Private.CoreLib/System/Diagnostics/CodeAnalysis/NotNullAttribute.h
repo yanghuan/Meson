@@ -5,7 +5,7 @@
 namespace System::Private::CoreLib::System::Diagnostics::CodeAnalysis {
 namespace NotNullAttributeNamespace {
 CLASS(NotNullAttribute) : public Attribute::in {
-  public: void Ctor();
+  public: void ctor();
 };
 } // namespace NotNullAttributeNamespace
 using NotNullAttribute = NotNullAttributeNamespace::NotNullAttribute;

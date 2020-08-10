@@ -14,7 +14,7 @@ CLASS(A) : public Object::in {
   private: void F(Int32 a);
   public: static Int32 op_Equality(A a, A b);
   public: static Int32 op_Inequality(A a, A b);
-  public: void Ctor();
+  public: void ctor();
 };
 } // namespace ANamespace
 using A = ANamespace::A;

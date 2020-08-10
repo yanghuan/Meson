@@ -1,7 +1,7 @@
 #include "FtpStyleUriParser-dep.h"
 
 namespace System::Private::Uri::System::FtpStyleUriParserNamespace {
-void FtpStyleUriParser___::Ctor() {
+void FtpStyleUriParser___::ctor() {
 }
 
 } // namespace System::Private::Uri::System::FtpStyleUriParserNamespace

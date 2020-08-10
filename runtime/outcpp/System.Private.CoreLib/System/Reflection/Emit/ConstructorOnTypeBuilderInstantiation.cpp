@@ -53,7 +53,7 @@ ConstructorInfo ConstructorOnTypeBuilderInstantiation___::GetConstructor(Constru
   return nullptr;
 }
 
-void ConstructorOnTypeBuilderInstantiation___::Ctor(ConstructorInfo constructor, TypeBuilderInstantiation type) {
+void ConstructorOnTypeBuilderInstantiation___::ctor(ConstructorInfo constructor, TypeBuilderInstantiation type) {
 }
 
 Array<Type> ConstructorOnTypeBuilderInstantiation___::GetParameterTypes() {

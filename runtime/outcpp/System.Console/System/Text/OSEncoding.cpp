@@ -9,7 +9,7 @@ String OSEncoding___::get_WebName() {
   return nullptr;
 }
 
-void OSEncoding___::Ctor(Int32 codePage) {
+void OSEncoding___::ctor(Int32 codePage) {
 }
 
 Int32 OSEncoding___::GetByteCount(Array<Char> chars, Int32 index, Int32 count) {

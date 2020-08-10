@@ -1,16 +1,16 @@
 #include "ExecutionEngineException-dep.h"
 
 namespace System::Private::CoreLib::System::ExecutionEngineExceptionNamespace {
-void ExecutionEngineException___::Ctor() {
+void ExecutionEngineException___::ctor() {
 }
 
-void ExecutionEngineException___::Ctor(String message) {
+void ExecutionEngineException___::ctor(String message) {
 }
 
-void ExecutionEngineException___::Ctor(String message, Exception innerException) {
+void ExecutionEngineException___::ctor(String message, Exception innerException) {
 }
 
-void ExecutionEngineException___::Ctor(SerializationInfo info, StreamingContext context) {
+void ExecutionEngineException___::ctor(SerializationInfo info, StreamingContext context) {
 }
 
 } // namespace System::Private::CoreLib::System::ExecutionEngineExceptionNamespace

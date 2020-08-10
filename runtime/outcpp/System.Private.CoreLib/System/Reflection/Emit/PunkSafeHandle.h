@@ -15,7 +15,7 @@ namespace PunkSafeHandleNamespace {
 using namespace Runtime::InteropServices;
 CLASS(PunkSafeHandle) : public SafeHandle::in {
   private: CLASS(DRelease) : public MulticastDelegate::in {
-    public: void Ctor(Object object, IntPtr method);
+    public: void ctor(Object object, IntPtr method);
     public: void Invoke(IntPtr punk);
     public: IAsyncResult BeginInvoke(IntPtr punk, AsyncCallback callback, Object object);
     public: void EndInvoke(IAsyncResult result);
@@ -23,7 +23,7 @@ CLASS(PunkSafeHandle) : public SafeHandle::in {
   public: Boolean get_IsInvalid();
   protected: Boolean ReleaseHandle();
   private: static IntPtr nGetDReleaseTarget();
-  private: static void SCtor();
+  private: static void ctor_static();
   private: static DRelease m_Release;
 };
 } // namespace PunkSafeHandleNamespace

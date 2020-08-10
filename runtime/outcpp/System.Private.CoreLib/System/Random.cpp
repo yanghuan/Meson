@@ -1,10 +1,10 @@
 #include "Random-dep.h"
 
 namespace System::Private::CoreLib::System::RandomNamespace {
-void Random___::Ctor() {
+void Random___::ctor() {
 }
 
-void Random___::Ctor(Int32 Seed) {
+void Random___::ctor(Int32 Seed) {
 }
 
 Double Random___::Sample() {
@@ -49,7 +49,7 @@ void Random___::NextBytes(Array<Byte> buffer) {
 void Random___::NextBytes(Span<Byte> buffer) {
 }
 
-void Random___::SCtor() {
+void Random___::ctor_static() {
 }
 
 } // namespace System::Private::CoreLib::System::RandomNamespace

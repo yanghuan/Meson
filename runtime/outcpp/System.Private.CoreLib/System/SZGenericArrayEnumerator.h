@@ -24,10 +24,10 @@ CLASS(SZGenericArrayEnumerator, T) : public Object::in {
   public: using interface = rt::TypeList<IEnumerator<T>, IDisposable, IEnumerator1>;
   public: T get_Current();
   private: Object get_CurrentOfIEnumerator();
-  public: void Ctor(Array<T> array);
+  public: void ctor(Array<T> array);
   public: Boolean MoveNext();
   public: void Dispose();
-  private: static void SCtor();
+  private: static void ctor_static();
   private: Array<T> _array;
   private: Int32 _index;
   public: static SZGenericArrayEnumerator<T> Empty;

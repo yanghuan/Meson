@@ -37,7 +37,7 @@ ICustomAttributeProvider SymbolMethod___::get_ReturnTypeCustomAttributes() {
   return nullptr;
 }
 
-void SymbolMethod___::Ctor(ModuleBuilder mod, MethodToken token, Type arrayClass, String methodName, CallingConventions callingConvention, Type returnType, Array<Type> parameterTypes) {
+void SymbolMethod___::ctor(ModuleBuilder mod, MethodToken token, Type arrayClass, String methodName, CallingConventions callingConvention, Type returnType, Array<Type> parameterTypes) {
 }
 
 Array<Type> SymbolMethod___::GetParameterTypes() {

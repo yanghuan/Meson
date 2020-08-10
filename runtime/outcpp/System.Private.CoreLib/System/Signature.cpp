@@ -17,16 +17,16 @@ RuntimeType Signature___::get_FieldType() {
   return nullptr;
 }
 
-void Signature___::Ctor(IRuntimeMethodInfo method, Array<RuntimeType> arguments, RuntimeType returnType, CallingConventions callingConvention) {
+void Signature___::ctor(IRuntimeMethodInfo method, Array<RuntimeType> arguments, RuntimeType returnType, CallingConventions callingConvention) {
 }
 
-void Signature___::Ctor(IRuntimeMethodInfo methodHandle, RuntimeType declaringType) {
+void Signature___::ctor(IRuntimeMethodInfo methodHandle, RuntimeType declaringType) {
 }
 
-void Signature___::Ctor(IRuntimeFieldInfo fieldHandle, RuntimeType declaringType) {
+void Signature___::ctor(IRuntimeFieldInfo fieldHandle, RuntimeType declaringType) {
 }
 
-void Signature___::Ctor(void* pCorSig, Int32 cCorSig, RuntimeType declaringType) {
+void Signature___::ctor(void* pCorSig, Int32 cCorSig, RuntimeType declaringType) {
 }
 
 } // namespace System::Private::CoreLib::System::SignatureNamespace

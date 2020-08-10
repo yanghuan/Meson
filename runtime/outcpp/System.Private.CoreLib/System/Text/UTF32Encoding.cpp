@@ -5,7 +5,7 @@ Boolean UTF32Encoding___::UTF32Decoder___::get_HasState() {
   return Boolean();
 }
 
-void UTF32Encoding___::UTF32Decoder___::Ctor(UTF32Encoding encoding) {
+void UTF32Encoding___::UTF32Decoder___::ctor(UTF32Encoding encoding) {
 }
 
 void UTF32Encoding___::UTF32Decoder___::Reset() {
@@ -15,13 +15,13 @@ ReadOnlySpan<Byte> UTF32Encoding___::get_Preamble() {
   return ReadOnlySpan<Byte>();
 }
 
-void UTF32Encoding___::Ctor() {
+void UTF32Encoding___::ctor() {
 }
 
-void UTF32Encoding___::Ctor(Boolean bigEndian, Boolean byteOrderMark) {
+void UTF32Encoding___::ctor(Boolean bigEndian, Boolean byteOrderMark) {
 }
 
-void UTF32Encoding___::Ctor(Boolean bigEndian, Boolean byteOrderMark, Boolean throwOnInvalidCharacters) {
+void UTF32Encoding___::ctor(Boolean bigEndian, Boolean byteOrderMark, Boolean throwOnInvalidCharacters) {
 }
 
 void UTF32Encoding___::SetDefaultFallbacks() {
@@ -127,7 +127,7 @@ Int32 UTF32Encoding___::GetHashCode() {
   return Int32();
 }
 
-void UTF32Encoding___::SCtor() {
+void UTF32Encoding___::ctor_static() {
 }
 
 } // namespace System::Private::CoreLib::System::Text::UTF32EncodingNamespace

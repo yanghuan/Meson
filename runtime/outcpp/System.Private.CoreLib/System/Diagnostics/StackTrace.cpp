@@ -18,31 +18,31 @@ void StackTrace___::InitializeForCurrentThread(Int32 skipFrames, Boolean fNeedFi
 void StackTrace___::CaptureStackTrace(Int32 skipFrames, Boolean fNeedFileInfo, Exception e) {
 }
 
-void StackTrace___::Ctor() {
+void StackTrace___::ctor() {
 }
 
-void StackTrace___::Ctor(Boolean fNeedFileInfo) {
+void StackTrace___::ctor(Boolean fNeedFileInfo) {
 }
 
-void StackTrace___::Ctor(Int32 skipFrames) {
+void StackTrace___::ctor(Int32 skipFrames) {
 }
 
-void StackTrace___::Ctor(Int32 skipFrames, Boolean fNeedFileInfo) {
+void StackTrace___::ctor(Int32 skipFrames, Boolean fNeedFileInfo) {
 }
 
-void StackTrace___::Ctor(Exception e) {
+void StackTrace___::ctor(Exception e) {
 }
 
-void StackTrace___::Ctor(Exception e, Boolean fNeedFileInfo) {
+void StackTrace___::ctor(Exception e, Boolean fNeedFileInfo) {
 }
 
-void StackTrace___::Ctor(Exception e, Int32 skipFrames) {
+void StackTrace___::ctor(Exception e, Int32 skipFrames) {
 }
 
-void StackTrace___::Ctor(Exception e, Int32 skipFrames, Boolean fNeedFileInfo) {
+void StackTrace___::ctor(Exception e, Int32 skipFrames, Boolean fNeedFileInfo) {
 }
 
-void StackTrace___::Ctor(StackFrame frame) {
+void StackTrace___::ctor(StackFrame frame) {
 }
 
 StackFrame StackTrace___::GetFrame(Int32 index) {

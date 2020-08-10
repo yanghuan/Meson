@@ -5,22 +5,22 @@ Task<> TaskCanceledException___::get_Task() {
   return nullptr;
 }
 
-void TaskCanceledException___::Ctor() {
+void TaskCanceledException___::ctor() {
 }
 
-void TaskCanceledException___::Ctor(String message) {
+void TaskCanceledException___::ctor(String message) {
 }
 
-void TaskCanceledException___::Ctor(String message, Exception innerException) {
+void TaskCanceledException___::ctor(String message, Exception innerException) {
 }
 
-void TaskCanceledException___::Ctor(String message, Exception innerException, CancellationToken token) {
+void TaskCanceledException___::ctor(String message, Exception innerException, CancellationToken token) {
 }
 
-void TaskCanceledException___::Ctor(Task<> task) {
+void TaskCanceledException___::ctor(Task<> task) {
 }
 
-void TaskCanceledException___::Ctor(SerializationInfo info, StreamingContext context) {
+void TaskCanceledException___::ctor(SerializationInfo info, StreamingContext context) {
 }
 
 } // namespace System::Private::CoreLib::System::Threading::Tasks::TaskCanceledExceptionNamespace

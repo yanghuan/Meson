@@ -23,7 +23,7 @@ Object ResourceReader___::ResourceEnumerator___::get_Value() {
   return nullptr;
 }
 
-void ResourceReader___::ResourceEnumerator___::Ctor(ResourceReader reader) {
+void ResourceReader___::ResourceEnumerator___::ctor(ResourceReader reader) {
 }
 
 Boolean ResourceReader___::ResourceEnumerator___::MoveNext() {
@@ -33,7 +33,7 @@ Boolean ResourceReader___::ResourceEnumerator___::MoveNext() {
 void ResourceReader___::ResourceEnumerator___::Reset() {
 }
 
-void ResourceReader___::Ctor(Stream stream, Dictionary<String, ResourceLocator> resCache, Boolean permitDeserialization) {
+void ResourceReader___::ctor(Stream stream, Dictionary<String, ResourceLocator> resCache, Boolean permitDeserialization) {
 }
 
 Object ResourceReader___::DeserializeObject(Int32 typeIndex) {
@@ -50,10 +50,10 @@ Boolean ResourceReader___::ValidateReaderType(String readerType) {
 void ResourceReader___::GetResourceData(String resourceName, String& resourceType, Array<Byte>& resourceData) {
 }
 
-void ResourceReader___::Ctor(String fileName) {
+void ResourceReader___::ctor(String fileName) {
 }
 
-void ResourceReader___::Ctor(Stream stream) {
+void ResourceReader___::ctor(Stream stream) {
 }
 
 void ResourceReader___::Close() {

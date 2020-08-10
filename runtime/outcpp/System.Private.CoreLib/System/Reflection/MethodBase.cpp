@@ -119,7 +119,7 @@ Array<Object> MethodBase___::CheckArguments(Array<Object> parameters, Binder bin
   return Array<Object>();
 }
 
-void MethodBase___::Ctor() {
+void MethodBase___::ctor() {
 }
 
 MethodBody MethodBase___::GetMethodBody() {

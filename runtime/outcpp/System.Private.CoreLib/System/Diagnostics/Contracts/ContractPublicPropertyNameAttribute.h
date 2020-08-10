@@ -9,7 +9,7 @@ namespace System::Private::CoreLib::System::Diagnostics::Contracts {
 namespace ContractPublicPropertyNameAttributeNamespace {
 CLASS(ContractPublicPropertyNameAttribute) : public Attribute::in {
   public: String get_Name();
-  public: void Ctor(String name);
+  public: void ctor(String name);
   private: String _publicName;
 };
 } // namespace ContractPublicPropertyNameAttributeNamespace

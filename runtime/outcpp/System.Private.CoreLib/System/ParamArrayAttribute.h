@@ -5,7 +5,7 @@
 namespace System::Private::CoreLib::System {
 namespace ParamArrayAttributeNamespace {
 CLASS(ParamArrayAttribute) : public Attribute::in {
-  public: void Ctor();
+  public: void ctor();
 };
 } // namespace ParamArrayAttributeNamespace
 using ParamArrayAttribute = ParamArrayAttributeNamespace::ParamArrayAttribute;

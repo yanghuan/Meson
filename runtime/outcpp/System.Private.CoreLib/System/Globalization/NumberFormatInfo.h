@@ -76,13 +76,13 @@ CLASS(NumberFormatInfo) : public Object::in {
   public: void set_NativeDigits(Array<String> value);
   public: DigitShapes get_DigitSubstitution();
   public: void set_DigitSubstitution(DigitShapes value);
-  public: void Ctor();
+  public: void ctor();
   private: static void VerifyDecimalSeparator(String decSep, String propertyName);
   private: static void VerifyGroupSeparator(String groupSep, String propertyName);
   private: static void VerifyNativeDigits(Array<String> nativeDig, String propertyName);
   private: static void VerifyDigitSubstitution(DigitShapes digitSub, String propertyName);
   private: void UpdateHasInvariantNumberSigns();
-  public: void Ctor(CultureData cultureData);
+  public: void ctor(CultureData cultureData);
   private: void VerifyWritable();
   public: static NumberFormatInfo GetInstance(IFormatProvider formatProvider);
   public: Object Clone();

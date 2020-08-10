@@ -87,7 +87,7 @@ class Environment {
   };
   private: class WindowsVersion {
     private: static Boolean GetIsWindows8OrAbove();
-    private: static void SCtor();
+    private: static void ctor_static();
     public: static Boolean IsWindows8OrAbove;
   };
   public: static Int32 get_CurrentManagedThreadId();
@@ -96,7 +96,7 @@ class Environment {
   public: static String get_StackTrace();
   public: static Int32 get_TickCount();
   public: static Int64 get_TickCount64();
-  public: static Int32 get_ProcessorCount() { return ProcessorCount; }
+  public: static Int32 get_ProcessorCount();
   public: static Boolean get_IsSingleProcessor();
   public: static Boolean get_HasShutdownStarted();
   public: static String get_CommandLine();
@@ -151,7 +151,7 @@ class Environment {
   private: static String GetEnvironmentVariableCore(String variable);
   private: static void SetEnvironmentVariableCore(String variable, String value);
   public: static IDictionary GetEnvironmentVariables();
-  private: static void SCtor();
+  private: static void ctor_static();
   private: static Int32 ProcessorCount;
   private: static Array<String> s_commandLineArgs;
   private: static OperatingSystem s_osVersion;

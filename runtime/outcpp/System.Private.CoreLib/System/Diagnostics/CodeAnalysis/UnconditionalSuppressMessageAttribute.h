@@ -18,7 +18,7 @@ CLASS(UnconditionalSuppressMessageAttribute) : public Attribute::in {
   public: void set_MessageId(String value) { MessageId = value; }
   public: String get_Justification() { return Justification; }
   public: void set_Justification(String value) { Justification = value; }
-  public: void Ctor(String category, String checkId);
+  public: void ctor(String category, String checkId);
   private: String Category;
   private: String CheckId;
   private: String Scope;

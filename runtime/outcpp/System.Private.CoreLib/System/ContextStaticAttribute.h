@@ -5,7 +5,7 @@
 namespace System::Private::CoreLib::System {
 namespace ContextStaticAttributeNamespace {
 CLASS(ContextStaticAttribute) : public Attribute::in {
-  public: void Ctor();
+  public: void ctor();
 };
 } // namespace ContextStaticAttributeNamespace
 using ContextStaticAttribute = ContextStaticAttributeNamespace::ContextStaticAttribute;

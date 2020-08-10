@@ -104,7 +104,7 @@ class DateTimeParse {
     DX_NNY = 38,
   };
   public: CLASS(MatchNumberDelegate) : public MulticastDelegate::in {
-    public: void Ctor(Object object, IntPtr method);
+    public: void ctor(Object object, IntPtr method);
     public: Boolean Invoke(__DTString& str, Int32 digitLen, Int32& result);
     public: IAsyncResult BeginInvoke(__DTString& str, Int32 digitLen, Int32& result, AsyncCallback callback, Object object);
     public: Boolean EndInvoke(__DTString& str, Int32& result, IAsyncResult __result);
@@ -194,7 +194,7 @@ class DateTimeParse {
   private: static Boolean ParseFormatR(ReadOnlySpan<Char> source, ParsingInfo& parseInfo, DateTimeResult& result);
   private: static Boolean ParseFormatO(ReadOnlySpan<Char> source, DateTimeResult& result);
   private: static Exception GetDateTimeParseException(DateTimeResult& result);
-  private: static void SCtor();
+  private: static void ctor_static();
   private: static MatchNumberDelegate s_hebrewNumberParser;
   private: static Array<Array<DS>> s_dateParsingStates;
 };

@@ -264,8 +264,8 @@ CLASS(CultureData) : public Object::in {
   private: String NlsGetConsoleFallbackName(String cultureName);
   private: Boolean InitCultureDataCore();
   public: static CultureData GetCurrentRegionData();
-  public: void Ctor();
-  private: static void SCtor();
+  public: void ctor();
+  private: static void ctor_static();
   private: String _sRealName;
   private: String _sWindowsName;
   private: String _sName;

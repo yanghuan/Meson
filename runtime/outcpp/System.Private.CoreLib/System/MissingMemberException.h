@@ -18,11 +18,11 @@ CLASS(MissingMemberException) : public MemberAccessException::in {
   public: using interface = rt::TypeList<ISerializable>;
   public: String get_Message();
   public: static String FormatSignature(Array<Byte> signature);
-  public: void Ctor();
-  public: void Ctor(String message);
-  public: void Ctor(String message, Exception inner);
-  public: void Ctor(String className, String memberName);
-  protected: void Ctor(SerializationInfo info, StreamingContext context);
+  public: void ctor();
+  public: void ctor(String message);
+  public: void ctor(String message, Exception inner);
+  public: void ctor(String className, String memberName);
+  protected: void ctor(SerializationInfo info, StreamingContext context);
   public: void GetObjectData(SerializationInfo info, StreamingContext context);
   protected: String ClassName;
   protected: String MemberName;

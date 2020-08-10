@@ -25,9 +25,9 @@ CLASS(RegionInfo) : public Object::in {
   public: String get_CurrencyNativeName();
   public: String get_CurrencySymbol();
   public: String get_ISOCurrencySymbol();
-  public: void Ctor(String name);
-  public: void Ctor(Int32 culture);
-  public: void Ctor(CultureData cultureData);
+  public: void ctor(String name);
+  public: void ctor(Int32 culture);
+  public: void ctor(CultureData cultureData);
   public: Boolean Equals(Object value);
   public: Int32 GetHashCode();
   public: String ToString();

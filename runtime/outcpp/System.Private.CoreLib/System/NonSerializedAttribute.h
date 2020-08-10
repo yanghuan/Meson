@@ -5,7 +5,7 @@
 namespace System::Private::CoreLib::System {
 namespace NonSerializedAttributeNamespace {
 CLASS(NonSerializedAttribute) : public Attribute::in {
-  public: void Ctor();
+  public: void ctor();
 };
 } // namespace NonSerializedAttributeNamespace
 using NonSerializedAttribute = NonSerializedAttributeNamespace::NonSerializedAttribute;

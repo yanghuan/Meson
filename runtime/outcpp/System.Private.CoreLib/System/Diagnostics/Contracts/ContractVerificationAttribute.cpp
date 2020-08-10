@@ -5,7 +5,7 @@ Boolean ContractVerificationAttribute___::get_Value() {
   return Boolean();
 }
 
-void ContractVerificationAttribute___::Ctor(Boolean value) {
+void ContractVerificationAttribute___::ctor(Boolean value) {
 }
 
 } // namespace System::Private::CoreLib::System::Diagnostics::Contracts::ContractVerificationAttributeNamespace

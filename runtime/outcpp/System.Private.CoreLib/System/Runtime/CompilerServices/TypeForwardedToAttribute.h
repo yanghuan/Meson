@@ -9,7 +9,7 @@ namespace System::Private::CoreLib::System::Runtime::CompilerServices {
 namespace TypeForwardedToAttributeNamespace {
 CLASS(TypeForwardedToAttribute) : public Attribute::in {
   public: Type get_Destination() { return Destination; }
-  public: void Ctor(Type destination);
+  public: void ctor(Type destination);
   private: Type Destination;
 };
 } // namespace TypeForwardedToAttributeNamespace

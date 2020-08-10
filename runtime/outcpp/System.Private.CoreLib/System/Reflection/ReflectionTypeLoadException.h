@@ -22,9 +22,9 @@ CLASS(ReflectionTypeLoadException) : public SystemException::in {
   public: Array<Type> get_Types() { return Types; }
   public: Array<Exception> get_LoaderExceptions() { return LoaderExceptions; }
   public: String get_Message();
-  public: void Ctor(Array<Type> classes, Array<Exception> exceptions);
-  public: void Ctor(Array<Type> classes, Array<Exception> exceptions, String message);
-  private: void Ctor(SerializationInfo info, StreamingContext context);
+  public: void ctor(Array<Type> classes, Array<Exception> exceptions);
+  public: void ctor(Array<Type> classes, Array<Exception> exceptions, String message);
+  private: void ctor(SerializationInfo info, StreamingContext context);
   public: void GetObjectData(SerializationInfo info, StreamingContext context);
   public: String ToString();
   private: String CreateString(Boolean isMessage);

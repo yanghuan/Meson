@@ -23,7 +23,7 @@ CLASS(RegisteredWaitHandleSafe) : public CriticalFinalizerObject::in {
   protected: void Finalize();
   private: static void WaitHandleCleanupNative(IntPtr handle);
   private: static Boolean UnregisterWaitNative(IntPtr handle, SafeHandle waitObject);
-  public: void Ctor();
+  public: void ctor();
   private: IntPtr registeredWaitHandle;
   private: WaitHandle m_internalWaitObject;
   private: Boolean bReleaseNeeded;

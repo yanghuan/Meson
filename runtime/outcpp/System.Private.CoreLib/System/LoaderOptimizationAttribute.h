@@ -8,8 +8,8 @@ enum class LoaderOptimization;
 namespace LoaderOptimizationAttributeNamespace {
 CLASS(LoaderOptimizationAttribute) : public Attribute::in {
   public: LoaderOptimization get_Value();
-  public: void Ctor(Byte value);
-  public: void Ctor(LoaderOptimization value);
+  public: void ctor(Byte value);
+  public: void ctor(LoaderOptimization value);
   private: Byte _val;
 };
 } // namespace LoaderOptimizationAttributeNamespace

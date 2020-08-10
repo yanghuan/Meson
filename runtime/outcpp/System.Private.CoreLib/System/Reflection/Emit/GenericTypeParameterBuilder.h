@@ -66,7 +66,7 @@ CLASS(GenericTypeParameterBuilder) : public TypeInfo::in {
   public: GenericParameterAttributes get_GenericParameterAttributes();
   public: MethodBase get_DeclaringMethod();
   public: Boolean IsAssignableFrom(TypeInfo typeInfo);
-  public: void Ctor(TypeBuilder type);
+  public: void ctor(TypeBuilder type);
   public: String ToString();
   public: Boolean Equals(Object o);
   public: Int32 GetHashCode();

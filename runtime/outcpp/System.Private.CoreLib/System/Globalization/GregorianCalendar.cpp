@@ -39,10 +39,10 @@ Calendar GregorianCalendar___::GetDefaultInstance() {
   return nullptr;
 }
 
-void GregorianCalendar___::Ctor() {
+void GregorianCalendar___::ctor() {
 }
 
-void GregorianCalendar___::Ctor(GregorianCalendarTypes type) {
+void GregorianCalendar___::ctor(GregorianCalendarTypes type) {
 }
 
 Int64 GregorianCalendar___::GetAbsoluteDate(Int32 year, Int32 month, Int32 day) {
@@ -133,7 +133,7 @@ Int32 GregorianCalendar___::ToFourDigitYear(Int32 year) {
   return Int32();
 }
 
-void GregorianCalendar___::SCtor() {
+void GregorianCalendar___::ctor_static() {
 }
 
 } // namespace System::Private::CoreLib::System::Globalization::GregorianCalendarNamespace

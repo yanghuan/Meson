@@ -10,7 +10,7 @@ FORWARD(Object)
 FORWARD(UnhandledExceptionEventArgs)
 namespace UnhandledExceptionEventHandlerNamespace {
 CLASS(UnhandledExceptionEventHandler) : public MulticastDelegate::in {
-  public: void Ctor(Object object, IntPtr method);
+  public: void ctor(Object object, IntPtr method);
   public: void Invoke(Object sender, UnhandledExceptionEventArgs e);
   public: IAsyncResult BeginInvoke(Object sender, UnhandledExceptionEventArgs e, AsyncCallback callback, Object object);
   public: void EndInvoke(IAsyncResult result);

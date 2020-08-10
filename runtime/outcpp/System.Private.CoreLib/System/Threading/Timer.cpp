@@ -5,22 +5,22 @@ Int64 Timer___::get_ActiveCount() {
   return Int64();
 }
 
-void Timer___::Ctor(TimerCallback callback, Object state, Int32 dueTime, Int32 period) {
+void Timer___::ctor(TimerCallback callback, Object state, Int32 dueTime, Int32 period) {
 }
 
-void Timer___::Ctor(TimerCallback callback, Object state, Int32 dueTime, Int32 period, Boolean flowExecutionContext) {
+void Timer___::ctor(TimerCallback callback, Object state, Int32 dueTime, Int32 period, Boolean flowExecutionContext) {
 }
 
-void Timer___::Ctor(TimerCallback callback, Object state, TimeSpan dueTime, TimeSpan period) {
+void Timer___::ctor(TimerCallback callback, Object state, TimeSpan dueTime, TimeSpan period) {
 }
 
-void Timer___::Ctor(TimerCallback callback, Object state, UInt32 dueTime, UInt32 period) {
+void Timer___::ctor(TimerCallback callback, Object state, UInt32 dueTime, UInt32 period) {
 }
 
-void Timer___::Ctor(TimerCallback callback, Object state, Int64 dueTime, Int64 period) {
+void Timer___::ctor(TimerCallback callback, Object state, Int64 dueTime, Int64 period) {
 }
 
-void Timer___::Ctor(TimerCallback callback) {
+void Timer___::ctor(TimerCallback callback) {
 }
 
 void Timer___::TimerSetup(TimerCallback callback, Object state, UInt32 dueTime, UInt32 period, Boolean flowExecutionContext) {

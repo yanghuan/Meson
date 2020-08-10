@@ -23,10 +23,10 @@ FORWARD(ModuleBuilder)
 namespace CustomAttributeBuilderNamespace {
 using namespace IO;
 CLASS(CustomAttributeBuilder) : public Object::in {
-  public: void Ctor(ConstructorInfo con, Array<Object> constructorArgs);
-  public: void Ctor(ConstructorInfo con, Array<Object> constructorArgs, Array<PropertyInfo> namedProperties, Array<Object> propertyValues);
-  public: void Ctor(ConstructorInfo con, Array<Object> constructorArgs, Array<FieldInfo> namedFields, Array<Object> fieldValues);
-  public: void Ctor(ConstructorInfo con, Array<Object> constructorArgs, Array<PropertyInfo> namedProperties, Array<Object> propertyValues, Array<FieldInfo> namedFields, Array<Object> fieldValues);
+  public: void ctor(ConstructorInfo con, Array<Object> constructorArgs);
+  public: void ctor(ConstructorInfo con, Array<Object> constructorArgs, Array<PropertyInfo> namedProperties, Array<Object> propertyValues);
+  public: void ctor(ConstructorInfo con, Array<Object> constructorArgs, Array<FieldInfo> namedFields, Array<Object> fieldValues);
+  public: void ctor(ConstructorInfo con, Array<Object> constructorArgs, Array<PropertyInfo> namedProperties, Array<Object> propertyValues, Array<FieldInfo> namedFields, Array<Object> fieldValues);
   private: Boolean ValidateType(Type t);
   private: static void VerifyTypeAndPassedObjectType(Type type, Type passedType, String paramName);
   private: static void EmitType(BinaryWriter writer, Type type);

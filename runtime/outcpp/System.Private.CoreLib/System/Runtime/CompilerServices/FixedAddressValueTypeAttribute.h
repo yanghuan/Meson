@@ -5,7 +5,7 @@
 namespace System::Private::CoreLib::System::Runtime::CompilerServices {
 namespace FixedAddressValueTypeAttributeNamespace {
 CLASS(FixedAddressValueTypeAttribute) : public Attribute::in {
-  public: void Ctor();
+  public: void ctor();
 };
 } // namespace FixedAddressValueTypeAttributeNamespace
 using FixedAddressValueTypeAttribute = FixedAddressValueTypeAttributeNamespace::FixedAddressValueTypeAttribute;

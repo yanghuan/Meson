@@ -9,7 +9,7 @@ namespace System::Private::CoreLib::System::Runtime::CompilerServices {
 namespace CallerArgumentExpressionAttributeNamespace {
 CLASS(CallerArgumentExpressionAttribute) : public Attribute::in {
   public: String get_ParameterName() { return ParameterName; }
-  public: void Ctor(String parameterName);
+  public: void ctor(String parameterName);
   private: String ParameterName;
 };
 } // namespace CallerArgumentExpressionAttributeNamespace

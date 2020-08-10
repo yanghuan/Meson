@@ -9,7 +9,7 @@ namespace System::Private::CoreLib::System {
 namespace ProgressStaticsNamespace {
 using namespace Threading;
 class ProgressStatics {
-  private: static void SCtor();
+  private: static void ctor_static();
   public: static SynchronizationContext DefaultContext;
 };
 } // namespace ProgressStaticsNamespace

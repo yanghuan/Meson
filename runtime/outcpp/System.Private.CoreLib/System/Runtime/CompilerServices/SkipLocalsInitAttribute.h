@@ -5,7 +5,7 @@
 namespace System::Private::CoreLib::System::Runtime::CompilerServices {
 namespace SkipLocalsInitAttributeNamespace {
 CLASS(SkipLocalsInitAttribute) : public Attribute::in {
-  public: void Ctor();
+  public: void ctor();
 };
 } // namespace SkipLocalsInitAttributeNamespace
 using SkipLocalsInitAttribute = SkipLocalsInitAttributeNamespace::SkipLocalsInitAttribute;

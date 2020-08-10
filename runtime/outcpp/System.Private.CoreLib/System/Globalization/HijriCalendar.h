@@ -25,7 +25,7 @@ CLASS(HijriCalendar) : public Calendar::in {
   public: Array<Int32> get_Eras();
   public: Int32 get_TwoDigitYearMax();
   public: void set_TwoDigitYearMax(Int32 value);
-  public: void Ctor();
+  public: void ctor();
   private: Int64 GetAbsoluteDateHijri(Int32 y, Int32 m, Int32 d);
   private: Int64 DaysUpToHijriYear(Int32 HijriYear);
   public: static void CheckTicksRange(Int64 ticks);
@@ -52,7 +52,7 @@ CLASS(HijriCalendar) : public Calendar::in {
   public: Int32 ToFourDigitYear(Int32 year);
   private: Int32 GetHijriDateAdjustment();
   private: static Int32 GetAdvanceHijriDate();
-  private: static void SCtor();
+  private: static void ctor_static();
   public: static Int32 HijriEra;
   private: static Array<Int32> s_hijriMonthDays;
   private: Int32 _hijriAdvance;

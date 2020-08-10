@@ -17,7 +17,7 @@ CLASS(ContractFailedEventArgs) : public EventArgs::in {
   public: Exception get_OriginalException();
   public: Boolean get_Handled();
   public: Boolean get_Unwind();
-  public: void Ctor(ContractFailureKind failureKind, String message, String condition, Exception originalException);
+  public: void ctor(ContractFailureKind failureKind, String message, String condition, Exception originalException);
   public: void SetHandled();
   public: void SetUnwind();
   private: ContractFailureKind _failureKind;

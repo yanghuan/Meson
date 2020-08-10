@@ -17,10 +17,10 @@ String ContractOptionAttribute___::get_Value() {
   return nullptr;
 }
 
-void ContractOptionAttribute___::Ctor(String category, String setting, Boolean enabled) {
+void ContractOptionAttribute___::ctor(String category, String setting, Boolean enabled) {
 }
 
-void ContractOptionAttribute___::Ctor(String category, String setting, String value) {
+void ContractOptionAttribute___::ctor(String category, String setting, String value) {
 }
 
 } // namespace System::Private::CoreLib::System::Diagnostics::Contracts::ContractOptionAttributeNamespace

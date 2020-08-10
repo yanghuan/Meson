@@ -13,11 +13,11 @@ namespace TypeInitializationExceptionNamespace {
 using namespace Runtime::Serialization;
 CLASS(TypeInitializationException) : public SystemException::in {
   public: String get_TypeName();
-  private: void Ctor();
-  public: void Ctor(String fullTypeName, Exception innerException);
-  public: void Ctor(String message);
-  public: void Ctor(String fullTypeName, String message, Exception innerException);
-  private: void Ctor(SerializationInfo info, StreamingContext context);
+  private: void ctor();
+  public: void ctor(String fullTypeName, Exception innerException);
+  public: void ctor(String message);
+  public: void ctor(String fullTypeName, String message, Exception innerException);
+  private: void ctor(SerializationInfo info, StreamingContext context);
   public: void GetObjectData(SerializationInfo info, StreamingContext context);
   private: String _typeName;
 };

@@ -5,7 +5,7 @@
 namespace System::Private::CoreLib::System::Runtime::CompilerServices {
 namespace CallerFilePathAttributeNamespace {
 CLASS(CallerFilePathAttribute) : public Attribute::in {
-  public: void Ctor();
+  public: void ctor();
 };
 } // namespace CallerFilePathAttributeNamespace
 using CallerFilePathAttribute = CallerFilePathAttributeNamespace::CallerFilePathAttribute;

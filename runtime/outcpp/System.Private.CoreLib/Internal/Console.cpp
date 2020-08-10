@@ -10,7 +10,7 @@ void Console::WriteLine(String s) {
 void Console::WriteLine() {
 }
 
-void Console::SCtor() {
+void Console::ctor_static() {
 }
 
 } // namespace System::Private::CoreLib::Internal::ConsoleNamespace

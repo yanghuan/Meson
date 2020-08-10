@@ -15,7 +15,7 @@ CLASS(EventFieldAttribute) : public Attribute::in {
   public: String get_Name() { return Name; }
   public: EventFieldFormat get_Format() { return Format; }
   public: void set_Format(EventFieldFormat value) { Format = value; }
-  public: void Ctor();
+  public: void ctor();
   private: EventFieldTags Tags;
   private: String Name;
   private: EventFieldFormat Format;

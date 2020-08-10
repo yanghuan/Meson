@@ -3,13 +3,13 @@
 #include <System.Private.CoreLib/System/Threading/EventWaitHandle-dep.h>
 
 namespace System::Private::CoreLib::System::Threading::EventWaitHandleNamespace {
-void EventWaitHandle___::Ctor(Boolean initialState, EventResetMode mode) {
+void EventWaitHandle___::ctor(Boolean initialState, EventResetMode mode) {
 }
 
-void EventWaitHandle___::Ctor(Boolean initialState, EventResetMode mode, String name) {
+void EventWaitHandle___::ctor(Boolean initialState, EventResetMode mode, String name) {
 }
 
-void EventWaitHandle___::Ctor(Boolean initialState, EventResetMode mode, String name, Boolean& createdNew) {
+void EventWaitHandle___::ctor(Boolean initialState, EventResetMode mode, String name, Boolean& createdNew) {
 }
 
 EventWaitHandle EventWaitHandle___::OpenExisting(String name) {
@@ -20,7 +20,7 @@ Boolean EventWaitHandle___::TryOpenExisting(String name, EventWaitHandle& result
   return Boolean();
 }
 
-void EventWaitHandle___::Ctor(SafeWaitHandle handle) {
+void EventWaitHandle___::ctor(SafeWaitHandle handle) {
 }
 
 void EventWaitHandle___::CreateEventCore(Boolean initialState, EventResetMode mode, String name, Boolean& createdNew) {

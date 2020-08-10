@@ -1,16 +1,16 @@
 #include "NotSupportedException-dep.h"
 
 namespace System::Private::CoreLib::System::NotSupportedExceptionNamespace {
-void NotSupportedException___::Ctor() {
+void NotSupportedException___::ctor() {
 }
 
-void NotSupportedException___::Ctor(String message) {
+void NotSupportedException___::ctor(String message) {
 }
 
-void NotSupportedException___::Ctor(String message, Exception innerException) {
+void NotSupportedException___::ctor(String message, Exception innerException) {
 }
 
-void NotSupportedException___::Ctor(SerializationInfo info, StreamingContext context) {
+void NotSupportedException___::ctor(SerializationInfo info, StreamingContext context) {
 }
 
 } // namespace System::Private::CoreLib::System::NotSupportedExceptionNamespace

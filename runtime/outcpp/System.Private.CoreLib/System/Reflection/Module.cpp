@@ -37,7 +37,7 @@ Int32 Module___::get_MetadataToken() {
   return Int32();
 }
 
-void Module___::Ctor() {
+void Module___::ctor() {
 }
 
 ModuleHandle Module___::GetModuleHandleImpl() {
@@ -194,7 +194,7 @@ Boolean Module___::FilterTypeNameImpl(Type cls, Object filterCriteria, StringCom
   return Boolean();
 }
 
-void Module___::SCtor() {
+void Module___::ctor_static() {
 }
 
 } // namespace System::Private::CoreLib::System::Reflection::ModuleNamespace

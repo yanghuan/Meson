@@ -68,7 +68,7 @@ Int64 EventWrittenEventArgs___::get_OSThreadId() {
 void EventWrittenEventArgs___::set_OSThreadId(Int64 value) {
 }
 
-void EventWrittenEventArgs___::Ctor(EventSource eventSource) {
+void EventWrittenEventArgs___::ctor(EventSource eventSource) {
 }
 
 } // namespace System::Private::CoreLib::System::Diagnostics::Tracing::EventWrittenEventArgsNamespace

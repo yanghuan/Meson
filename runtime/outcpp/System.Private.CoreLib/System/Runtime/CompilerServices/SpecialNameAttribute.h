@@ -5,7 +5,7 @@
 namespace System::Private::CoreLib::System::Runtime::CompilerServices {
 namespace SpecialNameAttributeNamespace {
 CLASS(SpecialNameAttribute) : public Attribute::in {
-  public: void Ctor();
+  public: void ctor();
 };
 } // namespace SpecialNameAttributeNamespace
 using SpecialNameAttribute = SpecialNameAttributeNamespace::SpecialNameAttribute;

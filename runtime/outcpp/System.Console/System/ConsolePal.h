@@ -42,7 +42,7 @@ class ConsolePal {
     EnhancedKey = 256,
   };
   private: CLASS(WindowsConsoleStream) : public ConsoleStream::in {
-    public: void Ctor(IntPtr handle, FileAccess access, Boolean useFileAPIs);
+    public: void ctor(IntPtr handle, FileAccess access, Boolean useFileAPIs);
     protected: void Dispose(Boolean disposing);
     public: Int32 Read(Array<Byte> buffer, Int32 offset, Int32 count);
     public: void Write(Array<Byte> buffer, Int32 offset, Int32 count);
@@ -54,7 +54,7 @@ class ConsolePal {
     private: Boolean _useFileAPIs;
   };
   public: CLASS(ControlCHandlerRegistrar) : public Object::in {
-    public: void Ctor();
+    public: void ctor();
     public: void Register();
     public: void Unregister();
     private: static Boolean BreakEvent(Int32 controlType);
@@ -129,7 +129,7 @@ class ConsolePal {
   private: static ConsoleColor ColorAttributeToConsoleColor(Interop::Kernel32::Color c);
   private: static Interop::Kernel32::CONSOLE_SCREEN_BUFFER_INFO GetBufferInfo();
   private: static Interop::Kernel32::CONSOLE_SCREEN_BUFFER_INFO GetBufferInfo(Boolean throwOnNoConsole, Boolean& succeeded);
-  private: static void SCtor();
+  private: static void ctor_static();
   private: static Object s_readKeySyncObject;
   private: static Interop::InputRecord _cachedInputRecord;
   private: static Boolean _haveReadDefaultColors;

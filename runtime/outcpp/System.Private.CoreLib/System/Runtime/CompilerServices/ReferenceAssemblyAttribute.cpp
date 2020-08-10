@@ -1,10 +1,10 @@
 #include "ReferenceAssemblyAttribute-dep.h"
 
 namespace System::Private::CoreLib::System::Runtime::CompilerServices::ReferenceAssemblyAttributeNamespace {
-void ReferenceAssemblyAttribute___::Ctor() {
+void ReferenceAssemblyAttribute___::ctor() {
 }
 
-void ReferenceAssemblyAttribute___::Ctor(String description) {
+void ReferenceAssemblyAttribute___::ctor(String description) {
 }
 
 } // namespace System::Private::CoreLib::System::Runtime::CompilerServices::ReferenceAssemblyAttributeNamespace

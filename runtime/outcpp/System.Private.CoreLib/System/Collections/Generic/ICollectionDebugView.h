@@ -11,7 +11,7 @@ namespace ICollectionDebugViewNamespace {
 using Generic::ICollection;
 CLASS(ICollectionDebugView, T) : public Object::in {
   public: Array<T> get_Items();
-  public: void Ctor(ICollection<T> collection);
+  public: void ctor(ICollection<T> collection);
   private: ICollection<T> _collection;
 };
 } // namespace ICollectionDebugViewNamespace

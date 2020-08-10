@@ -18,9 +18,9 @@ CLASS(ContractException) : public Exception::in {
   public: String get_Failure();
   public: String get_UserMessage();
   public: String get_Condition();
-  private: void Ctor();
-  public: void Ctor(ContractFailureKind kind, String failure, String userMessage, String condition, Exception innerException);
-  private: void Ctor(SerializationInfo info, StreamingContext context);
+  private: void ctor();
+  public: void ctor(ContractFailureKind kind, String failure, String userMessage, String condition, Exception innerException);
+  private: void ctor(SerializationInfo info, StreamingContext context);
   public: void GetObjectData(SerializationInfo info, StreamingContext context);
   private: ContractFailureKind _kind;
   private: String _userMessage;

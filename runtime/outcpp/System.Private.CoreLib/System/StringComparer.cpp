@@ -51,10 +51,10 @@ Int32 StringComparer___::GetHashCode(Object obj) {
   return Int32();
 }
 
-void StringComparer___::Ctor() {
+void StringComparer___::ctor() {
 }
 
-void StringComparer___::SCtor() {
+void StringComparer___::ctor_static() {
 }
 
 } // namespace System::Private::CoreLib::System::StringComparerNamespace

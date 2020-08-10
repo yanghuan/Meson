@@ -14,8 +14,8 @@ enum class VarEnum;
 namespace MarshalAsAttributeNamespace {
 CLASS(MarshalAsAttribute) : public Attribute::in {
   public: UnmanagedType get_Value() { return Value; }
-  public: void Ctor(UnmanagedType unmanagedType);
-  public: void Ctor(Int16 unmanagedType);
+  public: void ctor(UnmanagedType unmanagedType);
+  public: void ctor(Int16 unmanagedType);
   private: UnmanagedType Value;
   public: VarEnum SafeArraySubType;
   public: Type SafeArrayUserDefinedSubType;

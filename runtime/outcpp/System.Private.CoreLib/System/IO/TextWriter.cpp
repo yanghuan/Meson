@@ -7,7 +7,7 @@ Encoding NullTextWriter___::get_Encoding() {
   return nullptr;
 }
 
-void NullTextWriter___::Ctor() {
+void NullTextWriter___::ctor() {
 }
 
 void NullTextWriter___::Write(Array<Char> buffer, Int32 index, Int32 count) {
@@ -43,7 +43,7 @@ String SyncTextWriter___::get_NewLine() {
 void SyncTextWriter___::set_NewLine(String value) {
 }
 
-void SyncTextWriter___::Ctor(TextWriter t) {
+void SyncTextWriter___::ctor(TextWriter t) {
 }
 
 void SyncTextWriter___::Close() {
@@ -235,10 +235,10 @@ String TextWriter___::get_NewLine() {
 void TextWriter___::set_NewLine(String value) {
 }
 
-void TextWriter___::Ctor() {
+void TextWriter___::ctor() {
 }
 
-void TextWriter___::Ctor(IFormatProvider formatProvider) {
+void TextWriter___::ctor(IFormatProvider formatProvider) {
 }
 
 void TextWriter___::Close() {
@@ -434,7 +434,7 @@ TextWriter TextWriter___::Synchronized(TextWriter writer) {
   return nullptr;
 }
 
-void TextWriter___::SCtor() {
+void TextWriter___::ctor_static() {
 }
 
 } // namespace System::Private::CoreLib::System::IO::TextWriterNamespace

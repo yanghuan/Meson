@@ -7,7 +7,7 @@ void CleanupWorkListElement___::Destroy() {
 void CleanupWorkListElement___::AddToCleanupList(CleanupWorkListElement& list, CleanupWorkListElement newElement) {
 }
 
-void CleanupWorkListElement___::Ctor() {
+void CleanupWorkListElement___::ctor() {
 }
 
 } // namespace System::Private::CoreLib::System::StubHelpers::CleanupWorkListElementNamespace

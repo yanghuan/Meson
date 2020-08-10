@@ -13,11 +13,11 @@ FORWARD(String)
 namespace InvalidCastExceptionNamespace {
 using namespace Runtime::Serialization;
 CLASS(InvalidCastException) : public SystemException::in {
-  public: void Ctor();
-  public: void Ctor(String message);
-  public: void Ctor(String message, Exception innerException);
-  public: void Ctor(String message, Int32 errorCode);
-  protected: void Ctor(SerializationInfo info, StreamingContext context);
+  public: void ctor();
+  public: void ctor(String message);
+  public: void ctor(String message, Exception innerException);
+  public: void ctor(String message, Int32 errorCode);
+  protected: void ctor(SerializationInfo info, StreamingContext context);
 };
 } // namespace InvalidCastExceptionNamespace
 using InvalidCastException = InvalidCastExceptionNamespace::InvalidCastException;

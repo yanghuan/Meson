@@ -5,7 +5,7 @@
 namespace System::Private::CoreLib::System::Diagnostics {
 namespace StackTraceHiddenAttributeNamespace {
 CLASS(StackTraceHiddenAttribute) : public Attribute::in {
-  public: void Ctor();
+  public: void ctor();
 };
 } // namespace StackTraceHiddenAttributeNamespace
 using StackTraceHiddenAttribute = StackTraceHiddenAttributeNamespace::StackTraceHiddenAttribute;

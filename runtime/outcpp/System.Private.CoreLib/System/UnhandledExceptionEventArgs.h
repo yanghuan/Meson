@@ -9,7 +9,7 @@ namespace UnhandledExceptionEventArgsNamespace {
 CLASS(UnhandledExceptionEventArgs) : public EventArgs::in {
   public: Object get_ExceptionObject();
   public: Boolean get_IsTerminating();
-  public: void Ctor(Object exception, Boolean isTerminating);
+  public: void ctor(Object exception, Boolean isTerminating);
   private: Object _exception;
   private: Boolean _isTerminating;
 };

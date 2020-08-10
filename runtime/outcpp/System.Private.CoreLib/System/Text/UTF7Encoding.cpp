@@ -5,7 +5,7 @@ Boolean UTF7Encoding___::Decoder___::get_HasState() {
   return Boolean();
 }
 
-void UTF7Encoding___::Decoder___::Ctor(UTF7Encoding encoding) {
+void UTF7Encoding___::Decoder___::ctor(UTF7Encoding encoding) {
 }
 
 void UTF7Encoding___::Decoder___::Reset() {
@@ -15,7 +15,7 @@ Boolean UTF7Encoding___::Encoder___::get_HasState() {
   return Boolean();
 }
 
-void UTF7Encoding___::Encoder___::Ctor(UTF7Encoding encoding) {
+void UTF7Encoding___::Encoder___::ctor(UTF7Encoding encoding) {
 }
 
 void UTF7Encoding___::Encoder___::Reset() {
@@ -37,7 +37,7 @@ Int32 UTF7Encoding___::DecoderUTF7Fallback___::GetHashCode() {
   return Int32();
 }
 
-void UTF7Encoding___::DecoderUTF7Fallback___::Ctor() {
+void UTF7Encoding___::DecoderUTF7Fallback___::ctor() {
 }
 
 Int32 UTF7Encoding___::DecoderUTF7FallbackBuffer___::get_Remaining() {
@@ -63,13 +63,13 @@ Int32 UTF7Encoding___::DecoderUTF7FallbackBuffer___::InternalFallback(Array<Byte
   return Int32();
 }
 
-void UTF7Encoding___::DecoderUTF7FallbackBuffer___::Ctor() {
+void UTF7Encoding___::DecoderUTF7FallbackBuffer___::ctor() {
 }
 
-void UTF7Encoding___::Ctor() {
+void UTF7Encoding___::ctor() {
 }
 
-void UTF7Encoding___::Ctor(Boolean allowOptionals) {
+void UTF7Encoding___::ctor(Boolean allowOptionals) {
 }
 
 void UTF7Encoding___::MakeTables() {
@@ -162,7 +162,7 @@ Int32 UTF7Encoding___::GetMaxCharCount(Int32 byteCount) {
   return Int32();
 }
 
-void UTF7Encoding___::SCtor() {
+void UTF7Encoding___::ctor_static() {
 }
 
 } // namespace System::Private::CoreLib::System::Text::UTF7EncodingNamespace

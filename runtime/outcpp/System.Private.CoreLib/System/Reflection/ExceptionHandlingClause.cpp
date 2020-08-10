@@ -29,7 +29,7 @@ Type ExceptionHandlingClause___::get_CatchType() {
   return nullptr;
 }
 
-void ExceptionHandlingClause___::Ctor() {
+void ExceptionHandlingClause___::ctor() {
 }
 
 String ExceptionHandlingClause___::ToString() {

@@ -9,8 +9,8 @@ namespace System::Private::CoreLib::System::Runtime::CompilerServices {
 namespace ReferenceAssemblyAttributeNamespace {
 CLASS(ReferenceAssemblyAttribute) : public Attribute::in {
   public: String get_Description() { return Description; }
-  public: void Ctor();
-  public: void Ctor(String description);
+  public: void ctor();
+  public: void ctor(String description);
   private: String Description;
 };
 } // namespace ReferenceAssemblyAttributeNamespace

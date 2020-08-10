@@ -16,7 +16,7 @@ using namespace Runtime::Serialization;
 CLASS(UnitySerializationHolder) : public Object::in {
   public: using interface = rt::TypeList<ISerializable, IObjectReference>;
   public: static void GetUnitySerializationInfo(SerializationInfo info, Int32 unityType);
-  public: void Ctor(SerializationInfo info, StreamingContext context);
+  public: void ctor(SerializationInfo info, StreamingContext context);
   public: void GetObjectData(SerializationInfo info, StreamingContext context);
   public: Object GetRealObject(StreamingContext context);
   private: Int32 _unityType;

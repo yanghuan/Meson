@@ -112,7 +112,7 @@ CLASS(Uri) : public Object::in {
     public: UInt16 End;
   };
   private: CLASS(MoreInfo) : public Object::in {
-    public: void Ctor();
+    public: void ctor();
     public: String Path;
     public: String Query;
     public: String Fragment;
@@ -121,7 +121,7 @@ CLASS(Uri) : public Object::in {
   };
   private: CLASS(UriInfo) : public Object::in {
     public: MoreInfo get_MoreInfo();
-    public: void Ctor();
+    public: void ctor();
     public: Offset Offset;
     public: String String;
     public: ::System::Private::CoreLib::System::String Host;
@@ -173,15 +173,15 @@ CLASS(Uri) : public Object::in {
   private: UriInfo EnsureUriInfo();
   private: void EnsureParseRemaining();
   private: void EnsureHostString(Boolean allowDnsOptimization);
-  public: void Ctor(String uriString);
-  public: void Ctor(String uriString, Boolean dontEscape);
-  public: void Ctor(Uri baseUri, String relativeUri, Boolean dontEscape);
-  public: void Ctor(String uriString, UriKind uriKind);
-  public: void Ctor(Uri baseUri, String relativeUri);
-  protected: void Ctor(SerializationInfo serializationInfo, StreamingContext streamingContext);
+  public: void ctor(String uriString);
+  public: void ctor(String uriString, Boolean dontEscape);
+  public: void ctor(Uri baseUri, String relativeUri, Boolean dontEscape);
+  public: void ctor(String uriString, UriKind uriKind);
+  public: void ctor(Uri baseUri, String relativeUri);
+  protected: void ctor(SerializationInfo serializationInfo, StreamingContext streamingContext);
   protected: void GetObjectData(SerializationInfo serializationInfo, StreamingContext streamingContext);
   private: void CreateUri(Uri baseUri, String relativeUri, Boolean dontEscape);
-  public: void Ctor(Uri baseUri, Uri relativeUri);
+  public: void ctor(Uri baseUri, Uri relativeUri);
   private: static void GetCombinedString(Uri baseUri, String relativeStr, Boolean dontEscape, String& result);
   private: static UriFormatException GetException(ParsingError err);
   private: static Boolean StaticIsFile(UriParser syntax);
@@ -251,7 +251,7 @@ CLASS(Uri) : public Object::in {
   public: static String EscapeUriString(String stringToEscape);
   public: static String EscapeDataString(String stringToEscape);
   public: String EscapeUnescapeIri(String input, Int32 start, Int32 end, UriComponents component);
-  private: void Ctor(Flags flags, UriParser uriParser, String uri);
+  private: void ctor(Flags flags, UriParser uriParser, String uri);
   public: static Uri CreateHelper(String uriString, Boolean dontEscape, UriKind uriKind, UriFormatException& e);
   public: static Uri ResolveHelper(Uri baseUri, Uri relativeUri, String& newUriString, Boolean& userEscaped);
   private: String GetRelativeSerializationString(UriFormat format);
@@ -259,7 +259,7 @@ CLASS(Uri) : public Object::in {
   public: Boolean IsBaseOf(Uri uri);
   public: Boolean IsBaseOfHelper(Uri uriLink);
   private: void CreateThisFromUri(Uri otherUri);
-  private: static void SCtor();
+  private: static void ctor_static();
   public: static String UriSchemeFile;
   public: static String UriSchemeFtp;
   public: static String UriSchemeGopher;

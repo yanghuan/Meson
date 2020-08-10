@@ -9,7 +9,7 @@ FORWARDS(IntPtr)
 FORWARD(Object)
 namespace ConverterNamespace {
 CLASS(Converter, TInput, TOutput) : public MulticastDelegate::in {
-  public: void Ctor(Object object, IntPtr method);
+  public: void ctor(Object object, IntPtr method);
   public: TOutput Invoke(TInput input);
   public: IAsyncResult BeginInvoke(TInput input, AsyncCallback callback, Object object);
   public: TOutput EndInvoke(IAsyncResult result);

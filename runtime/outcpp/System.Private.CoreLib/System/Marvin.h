@@ -18,7 +18,7 @@ class Marvin {
   private: static UInt64 GenerateSeed();
   public: static Int32 ComputeHash32OrdinalIgnoreCase(Char& data, Int32 count, UInt32 p0, UInt32 p1);
   private: static Int32 ComputeHash32OrdinalIgnoreCaseSlow(Char& data, Int32 count, UInt32 p0, UInt32 p1);
-  private: static void SCtor();
+  private: static void ctor_static();
   private: static UInt64 DefaultSeed;
 };
 } // namespace MarvinNamespace

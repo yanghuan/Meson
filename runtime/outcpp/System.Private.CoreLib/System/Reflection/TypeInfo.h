@@ -32,7 +32,7 @@ CLASS(TypeInfo) : public Type::in {
   public: IEnumerable<TypeInfo> get_DeclaredNestedTypes();
   public: IEnumerable<PropertyInfo> get_DeclaredProperties();
   public: IEnumerable<Type> get_ImplementedInterfaces();
-  protected: void Ctor();
+  protected: void ctor();
   public: Type AsType();
   public: EventInfo GetDeclaredEvent(String name);
   public: FieldInfo GetDeclaredField(String name);

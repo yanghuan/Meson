@@ -36,10 +36,10 @@ SemaphoreSlim BufferedStream___::LazyEnsureAsyncActiveSemaphoreInitialized() {
   return nullptr;
 }
 
-void BufferedStream___::Ctor(Stream stream) {
+void BufferedStream___::ctor(Stream stream) {
 }
 
-void BufferedStream___::Ctor(Stream stream, Int32 bufferSize) {
+void BufferedStream___::ctor(Stream stream, Int32 bufferSize) {
 }
 
 void BufferedStream___::EnsureNotClosed() {

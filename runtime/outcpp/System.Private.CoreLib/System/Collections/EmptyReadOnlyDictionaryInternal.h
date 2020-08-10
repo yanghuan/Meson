@@ -23,7 +23,7 @@ CLASS(EmptyReadOnlyDictionaryInternal) : public Object::in {
     public: Object get_Key();
     public: Object get_Value();
     public: DictionaryEntry get_Entry();
-    public: void Ctor();
+    public: void ctor();
     public: Boolean MoveNext();
     public: void Reset();
   };
@@ -36,7 +36,7 @@ CLASS(EmptyReadOnlyDictionaryInternal) : public Object::in {
   public: ICollection get_Values();
   public: Boolean get_IsReadOnly();
   public: Boolean get_IsFixedSize();
-  public: void Ctor();
+  public: void ctor();
   public: void CopyTo(Array<> array, Int32 index);
   public: Boolean Contains(Object key);
   public: void Add(Object key, Object value);

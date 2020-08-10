@@ -15,7 +15,7 @@ class FormattableStringFactory {
   private: CLASS(ConcreteFormattableString) : public FormattableString::in {
     public: String get_Format();
     public: Int32 get_ArgumentCount();
-    public: void Ctor(String format, Array<Object> arguments);
+    public: void ctor(String format, Array<Object> arguments);
     public: Array<Object> GetArguments();
     public: Object GetArgument(Int32 index);
     public: String ToString(IFormatProvider formatProvider);

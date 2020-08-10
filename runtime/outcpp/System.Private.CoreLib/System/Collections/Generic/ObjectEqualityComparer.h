@@ -17,7 +17,7 @@ CLASS(ObjectEqualityComparer, T) : public EqualityComparer<T>::in {
   public: Int32 GetHashCode(T obj);
   public: Boolean Equals(Object obj);
   public: Int32 GetHashCode();
-  public: void Ctor();
+  public: void ctor();
 };
 } // namespace ObjectEqualityComparerNamespace
 template <class T>

@@ -7,10 +7,10 @@ Object IListWrapper___::IListWrapperEnumWrapper___::get_Current() {
   return nullptr;
 }
 
-void IListWrapper___::IListWrapperEnumWrapper___::Ctor(IListWrapper listWrapper, Int32 startIndex, Int32 count) {
+void IListWrapper___::IListWrapperEnumWrapper___::ctor(IListWrapper listWrapper, Int32 startIndex, Int32 count) {
 }
 
-void IListWrapper___::IListWrapperEnumWrapper___::Ctor() {
+void IListWrapper___::IListWrapperEnumWrapper___::ctor() {
 }
 
 Object IListWrapper___::IListWrapperEnumWrapper___::Clone() {
@@ -58,7 +58,7 @@ Object IListWrapper___::get_SyncRoot() {
   return nullptr;
 }
 
-void IListWrapper___::Ctor(IList list) {
+void IListWrapper___::ctor(IList list) {
 }
 
 Int32 IListWrapper___::Add(Object obj) {
@@ -194,7 +194,7 @@ Object SyncArrayList___::get_SyncRoot() {
   return nullptr;
 }
 
-void SyncArrayList___::Ctor(ArrayList list) {
+void SyncArrayList___::ctor(ArrayList list) {
 }
 
 Int32 SyncArrayList___::Add(Object value) {
@@ -340,7 +340,7 @@ Object ArrayList___::SyncIList___::get_SyncRoot() {
   return nullptr;
 }
 
-void ArrayList___::SyncIList___::Ctor(IList list) {
+void ArrayList___::SyncIList___::ctor(IList list) {
 }
 
 Int32 ArrayList___::SyncIList___::Add(Object value) {
@@ -401,7 +401,7 @@ Object ArrayList___::FixedSizeList___::get_SyncRoot() {
   return nullptr;
 }
 
-void ArrayList___::FixedSizeList___::Ctor(IList l) {
+void ArrayList___::FixedSizeList___::ctor(IList l) {
 }
 
 Int32 ArrayList___::FixedSizeList___::Add(Object obj) {
@@ -469,7 +469,7 @@ Int32 FixedSizeArrayList___::get_Capacity() {
 void FixedSizeArrayList___::set_Capacity(Int32 value) {
 }
 
-void FixedSizeArrayList___::Ctor(ArrayList l) {
+void FixedSizeArrayList___::ctor(ArrayList l) {
 }
 
 Int32 FixedSizeArrayList___::Add(Object obj) {
@@ -598,7 +598,7 @@ Object ArrayList___::ReadOnlyList___::get_SyncRoot() {
   return nullptr;
 }
 
-void ArrayList___::ReadOnlyList___::Ctor(IList l) {
+void ArrayList___::ReadOnlyList___::ctor(IList l) {
 }
 
 Int32 ArrayList___::ReadOnlyList___::Add(Object obj) {
@@ -666,7 +666,7 @@ Int32 ReadOnlyArrayList___::get_Capacity() {
 void ReadOnlyArrayList___::set_Capacity(Int32 value) {
 }
 
-void ReadOnlyArrayList___::Ctor(ArrayList l) {
+void ReadOnlyArrayList___::ctor(ArrayList l) {
 }
 
 Int32 ReadOnlyArrayList___::Add(Object obj) {
@@ -772,7 +772,7 @@ Object ArrayList___::ArrayListEnumerator___::get_Current() {
   return nullptr;
 }
 
-void ArrayList___::ArrayListEnumerator___::Ctor(ArrayList list, Int32 index, Int32 count) {
+void ArrayList___::ArrayListEnumerator___::ctor(ArrayList list, Int32 index, Int32 count) {
 }
 
 Object ArrayList___::ArrayListEnumerator___::Clone() {
@@ -820,7 +820,7 @@ Object Range___::get_Item(Int32 index) {
 void Range___::set_Item(Int32 index, Object value) {
 }
 
-void Range___::Ctor(ArrayList list, Int32 index, Int32 count) {
+void Range___::ctor(ArrayList list, Int32 index, Int32 count) {
 }
 
 void Range___::InternalUpdateRange() {
@@ -929,7 +929,7 @@ Object ArrayList___::ArrayListEnumeratorSimple___::get_Current() {
   return nullptr;
 }
 
-void ArrayList___::ArrayListEnumeratorSimple___::Ctor(ArrayList list) {
+void ArrayList___::ArrayListEnumeratorSimple___::ctor(ArrayList list) {
 }
 
 Object ArrayList___::ArrayListEnumeratorSimple___::Clone() {
@@ -943,14 +943,14 @@ Boolean ArrayList___::ArrayListEnumeratorSimple___::MoveNext() {
 void ArrayList___::ArrayListEnumeratorSimple___::Reset() {
 }
 
-void ArrayList___::ArrayListEnumeratorSimple___::SCtor() {
+void ArrayList___::ArrayListEnumeratorSimple___::ctor_static() {
 }
 
 Array<Object> ArrayList___::ArrayListDebugView___::get_Items() {
   return Array<Object>();
 }
 
-void ArrayList___::ArrayListDebugView___::Ctor(ArrayList arrayList) {
+void ArrayList___::ArrayListDebugView___::ctor(ArrayList arrayList) {
 }
 
 Int32 ArrayList___::get_Capacity() {
@@ -987,13 +987,13 @@ Object ArrayList___::get_Item(Int32 index) {
 void ArrayList___::set_Item(Int32 index, Object value) {
 }
 
-void ArrayList___::Ctor() {
+void ArrayList___::ctor() {
 }
 
-void ArrayList___::Ctor(Int32 capacity) {
+void ArrayList___::ctor(Int32 capacity) {
 }
 
-void ArrayList___::Ctor(ICollection c) {
+void ArrayList___::ctor(ICollection c) {
 }
 
 ArrayList ArrayList___::Adapter(IList list) {

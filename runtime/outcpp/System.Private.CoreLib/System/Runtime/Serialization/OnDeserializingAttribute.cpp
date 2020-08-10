@@ -1,7 +1,7 @@
 #include "OnDeserializingAttribute-dep.h"
 
 namespace System::Private::CoreLib::System::Runtime::Serialization::OnDeserializingAttributeNamespace {
-void OnDeserializingAttribute___::Ctor() {
+void OnDeserializingAttribute___::ctor() {
 }
 
 } // namespace System::Private::CoreLib::System::Runtime::Serialization::OnDeserializingAttributeNamespace

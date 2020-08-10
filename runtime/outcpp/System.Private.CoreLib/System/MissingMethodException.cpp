@@ -5,19 +5,19 @@ String MissingMethodException___::get_Message() {
   return nullptr;
 }
 
-void MissingMethodException___::Ctor() {
+void MissingMethodException___::ctor() {
 }
 
-void MissingMethodException___::Ctor(String message) {
+void MissingMethodException___::ctor(String message) {
 }
 
-void MissingMethodException___::Ctor(String message, Exception inner) {
+void MissingMethodException___::ctor(String message, Exception inner) {
 }
 
-void MissingMethodException___::Ctor(String className, String methodName) {
+void MissingMethodException___::ctor(String className, String methodName) {
 }
 
-void MissingMethodException___::Ctor(SerializationInfo info, StreamingContext context) {
+void MissingMethodException___::ctor(SerializationInfo info, StreamingContext context) {
 }
 
 } // namespace System::Private::CoreLib::System::MissingMethodExceptionNamespace

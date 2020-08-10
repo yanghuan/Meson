@@ -1,16 +1,16 @@
 #include "TypeUnloadedException-dep.h"
 
 namespace System::Private::CoreLib::System::TypeUnloadedExceptionNamespace {
-void TypeUnloadedException___::Ctor() {
+void TypeUnloadedException___::ctor() {
 }
 
-void TypeUnloadedException___::Ctor(String message) {
+void TypeUnloadedException___::ctor(String message) {
 }
 
-void TypeUnloadedException___::Ctor(String message, Exception innerException) {
+void TypeUnloadedException___::ctor(String message, Exception innerException) {
 }
 
-void TypeUnloadedException___::Ctor(SerializationInfo info, StreamingContext context) {
+void TypeUnloadedException___::ctor(SerializationInfo info, StreamingContext context) {
 }
 
 } // namespace System::Private::CoreLib::System::TypeUnloadedExceptionNamespace

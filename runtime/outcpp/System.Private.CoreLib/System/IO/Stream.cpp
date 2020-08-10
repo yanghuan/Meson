@@ -26,10 +26,10 @@ Int64 WriteCallbackStream___::get_Position() {
 void WriteCallbackStream___::set_Position(Int64 value) {
 }
 
-void WriteCallbackStream___::Ctor(ReadOnlySpanAction<Byte, Object> action, Object state) {
+void WriteCallbackStream___::ctor(ReadOnlySpanAction<Byte, Object> action, Object state) {
 }
 
-void WriteCallbackStream___::Ctor(Func<ReadOnlyMemory<Byte>, Object, CancellationToken, ValueTask<>> func, Object state) {
+void WriteCallbackStream___::ctor(Func<ReadOnlyMemory<Byte>, Object, CancellationToken, ValueTask<>> func, Object state) {
 }
 
 void WriteCallbackStream___::Write(Array<Byte> buffer, Int32 offset, Int32 count) {
@@ -71,7 +71,7 @@ Boolean Stream___::ReadWriteTask___::get_InvokeMayRunArbitraryCodeOfITaskComplet
 void Stream___::ReadWriteTask___::ClearBeginState() {
 }
 
-void Stream___::ReadWriteTask___::Ctor(Boolean isRead, Boolean apm, Func<Object, Int32> function, Object state, Stream stream, Array<Byte> buffer, Int32 offset, Int32 count, AsyncCallback callback) {
+void Stream___::ReadWriteTask___::ctor(Boolean isRead, Boolean apm, Func<Object, Int32> function, Object state, Stream stream, Array<Byte> buffer, Int32 offset, Int32 count, AsyncCallback callback) {
 }
 
 void Stream___::ReadWriteTask___::InvokeAsyncCallback(Object completedTask) {
@@ -100,7 +100,7 @@ Int64 NullStream___::get_Position() {
 void NullStream___::set_Position(Int64 value) {
 }
 
-void NullStream___::Ctor() {
+void NullStream___::ctor() {
 }
 
 void NullStream___::CopyTo(Stream destination, Int32 bufferSize) {
@@ -186,7 +186,7 @@ Int64 NullStream___::Seek(Int64 offset, SeekOrigin origin) {
 void NullStream___::SetLength(Int64 length) {
 }
 
-void NullStream___::SCtor() {
+void NullStream___::ctor_static() {
 }
 
 Boolean Stream___::SynchronousAsyncResult___::get_IsCompleted() {
@@ -205,13 +205,13 @@ Boolean Stream___::SynchronousAsyncResult___::get_CompletedSynchronously() {
   return Boolean();
 }
 
-void Stream___::SynchronousAsyncResult___::Ctor(Int32 bytesRead, Object asyncStateObject) {
+void Stream___::SynchronousAsyncResult___::ctor(Int32 bytesRead, Object asyncStateObject) {
 }
 
-void Stream___::SynchronousAsyncResult___::Ctor(Object asyncStateObject) {
+void Stream___::SynchronousAsyncResult___::ctor(Object asyncStateObject) {
 }
 
-void Stream___::SynchronousAsyncResult___::Ctor(Exception ex, Object asyncStateObject, Boolean isWrite) {
+void Stream___::SynchronousAsyncResult___::ctor(Exception ex, Object asyncStateObject, Boolean isWrite) {
 }
 
 void Stream___::SynchronousAsyncResult___::ThrowIfError() {
@@ -265,7 +265,7 @@ Int32 SyncStream___::get_WriteTimeout() {
 void SyncStream___::set_WriteTimeout(Int32 value) {
 }
 
-void SyncStream___::Ctor(Stream stream) {
+void SyncStream___::ctor(Stream stream) {
 }
 
 void SyncStream___::Close() {
@@ -512,10 +512,10 @@ IAsyncResult Stream___::BlockingBeginWrite(Array<Byte> buffer, Int32 offset, Int
 void Stream___::BlockingEndWrite(IAsyncResult asyncResult) {
 }
 
-void Stream___::Ctor() {
+void Stream___::ctor() {
 }
 
-void Stream___::SCtor() {
+void Stream___::ctor_static() {
 }
 
 } // namespace System::Private::CoreLib::System::IO::StreamNamespace

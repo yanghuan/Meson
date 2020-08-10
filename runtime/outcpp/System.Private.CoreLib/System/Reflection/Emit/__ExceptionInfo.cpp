@@ -1,7 +1,7 @@
 #include "__ExceptionInfo-dep.h"
 
 namespace System::Private::CoreLib::System::Reflection::Emit::__ExceptionInfoNamespace {
-void __ExceptionInfo___::Ctor(Int32 startAddr, Label endLabel) {
+void __ExceptionInfo___::ctor(Int32 startAddr, Label endLabel) {
 }
 
 void __ExceptionInfo___::MarkHelper(Int32 catchorfilterAddr, Int32 catchEndAddr, Type catchClass, Int32 type) {

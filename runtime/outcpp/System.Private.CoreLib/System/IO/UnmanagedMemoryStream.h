@@ -45,12 +45,12 @@ CLASS(UnmanagedMemoryStream) : public Stream::in {
   public: void set_Position(Int64 value);
   public: Byte* get_PositionPointer();
   public: void set_PositionPointer(Byte* value);
-  protected: void Ctor();
-  public: void Ctor(SafeBuffer buffer, Int64 offset, Int64 length);
-  public: void Ctor(SafeBuffer buffer, Int64 offset, Int64 length, FileAccess access);
+  protected: void ctor();
+  public: void ctor(SafeBuffer buffer, Int64 offset, Int64 length);
+  public: void ctor(SafeBuffer buffer, Int64 offset, Int64 length, FileAccess access);
   protected: void Initialize(SafeBuffer buffer, Int64 offset, Int64 length, FileAccess access);
-  public: void Ctor(Byte* pointer, Int64 length);
-  public: void Ctor(Byte* pointer, Int64 length, Int64 capacity, FileAccess access);
+  public: void ctor(Byte* pointer, Int64 length);
+  public: void ctor(Byte* pointer, Int64 length, Int64 capacity, FileAccess access);
   protected: void Initialize(Byte* pointer, Int64 length, Int64 capacity, FileAccess access);
   public: void CopyTo(ReadOnlySpanAction<Byte, Object> callback, Object state, Int32 bufferSize);
   protected: void Dispose(Boolean disposing);

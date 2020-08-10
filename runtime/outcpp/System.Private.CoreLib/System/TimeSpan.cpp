@@ -310,7 +310,7 @@ Boolean TimeSpan::op_GreaterThanOrEqual(TimeSpan t1, TimeSpan t2) {
   return Boolean();
 }
 
-void TimeSpan::SCtor() {
+void TimeSpan::ctor_static() {
 }
 
 } // namespace System::Private::CoreLib::System::TimeSpanNamespace

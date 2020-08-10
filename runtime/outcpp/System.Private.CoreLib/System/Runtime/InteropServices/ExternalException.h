@@ -16,11 +16,11 @@ namespace ExternalExceptionNamespace {
 using namespace Serialization;
 CLASS(ExternalException) : public SystemException::in {
   public: Int32 get_ErrorCode();
-  public: void Ctor();
-  public: void Ctor(String message);
-  public: void Ctor(String message, Exception inner);
-  public: void Ctor(String message, Int32 errorCode);
-  protected: void Ctor(SerializationInfo info, StreamingContext context);
+  public: void ctor();
+  public: void ctor(String message);
+  public: void ctor(String message, Exception inner);
+  public: void ctor(String message, Int32 errorCode);
+  protected: void ctor(SerializationInfo info, StreamingContext context);
   public: String ToString();
 };
 } // namespace ExternalExceptionNamespace

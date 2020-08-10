@@ -8,8 +8,8 @@ namespace ResourceConsumptionAttributeNamespace {
 CLASS(ResourceConsumptionAttribute) : public Attribute::in {
   public: ResourceScope get_ResourceScope() { return ResourceScope; }
   public: ResourceScope get_ConsumptionScope() { return ConsumptionScope; }
-  public: void Ctor(ResourceScope resourceScope);
-  public: void Ctor(ResourceScope resourceScope, ResourceScope consumptionScope);
+  public: void ctor(ResourceScope resourceScope);
+  public: void ctor(ResourceScope resourceScope, ResourceScope consumptionScope);
   private: ResourceScope ResourceScope;
   private: Versioning::ResourceScope ConsumptionScope;
 };

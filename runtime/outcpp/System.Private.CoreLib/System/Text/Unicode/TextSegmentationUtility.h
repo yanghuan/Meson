@@ -24,7 +24,7 @@ namespace TextSegmentationUtilityNamespace {
 using namespace Buffers;
 class TextSegmentationUtility {
   private: CLASS(DecodeFirstRune, T) : public MulticastDelegate::in {
-    public: void Ctor(Object object, IntPtr method);
+    public: void ctor(Object object, IntPtr method);
     public: OperationStatus Invoke(ReadOnlySpan<T> input, Rune& rune, Int32& elementsConsumed);
     public: IAsyncResult BeginInvoke(ReadOnlySpan<T> input, Rune& rune, Int32& elementsConsumed, AsyncCallback callback, Object object);
     public: OperationStatus EndInvoke(Rune& rune, Int32& elementsConsumed, IAsyncResult result);
@@ -47,7 +47,7 @@ class TextSegmentationUtility {
   private: template <class T>
   static Int32 GetLengthOfFirstExtendedGraphemeCluster(ReadOnlySpan<T> input, DecodeFirstRune<T> decoder);
   public: static Int32 GetLengthOfFirstUtf16ExtendedGraphemeCluster(ReadOnlySpan<Char> input);
-  private: static void SCtor();
+  private: static void ctor_static();
   private: static DecodeFirstRune<Char> _utf16Decoder;
 };
 } // namespace TextSegmentationUtilityNamespace

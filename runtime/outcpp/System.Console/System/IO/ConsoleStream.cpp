@@ -24,7 +24,7 @@ Int64 ConsoleStream___::get_Position() {
 void ConsoleStream___::set_Position(Int64 value) {
 }
 
-void ConsoleStream___::Ctor(FileAccess access) {
+void ConsoleStream___::ctor(FileAccess access) {
 }
 
 void ConsoleStream___::Dispose(Boolean disposing) {

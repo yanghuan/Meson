@@ -61,7 +61,7 @@ String SignatureConstructedGenericType___::get_Namespace() {
   return nullptr;
 }
 
-void SignatureConstructedGenericType___::Ctor(Type genericTypeDefinition, Array<Type> typeArguments) {
+void SignatureConstructedGenericType___::ctor(Type genericTypeDefinition, Array<Type> typeArguments) {
 }
 
 Boolean SignatureConstructedGenericType___::HasElementTypeImpl() {

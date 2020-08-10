@@ -95,15 +95,15 @@ CLASS(TimeZoneInfo) : public Object::in {
     public: Boolean get_HasDaylightSaving();
     public: Boolean Equals(AdjustmentRule other);
     public: Int32 GetHashCode();
-    private: void Ctor(DateTime dateStart, DateTime dateEnd, TimeSpan daylightDelta, TransitionTime daylightTransitionStart, TransitionTime daylightTransitionEnd, TimeSpan baseUtcOffsetDelta, Boolean noDaylightTransitions);
+    private: void ctor(DateTime dateStart, DateTime dateEnd, TimeSpan daylightDelta, TransitionTime daylightTransitionStart, TransitionTime daylightTransitionEnd, TimeSpan baseUtcOffsetDelta, Boolean noDaylightTransitions);
     public: static AdjustmentRule CreateAdjustmentRule(DateTime dateStart, DateTime dateEnd, TimeSpan daylightDelta, TransitionTime daylightTransitionStart, TransitionTime daylightTransitionEnd);
     public: static AdjustmentRule CreateAdjustmentRule(DateTime dateStart, DateTime dateEnd, TimeSpan daylightDelta, TransitionTime daylightTransitionStart, TransitionTime daylightTransitionEnd, TimeSpan baseUtcOffsetDelta, Boolean noDaylightTransitions);
     public: Boolean IsStartDateMarkerForBeginningOfYear();
     public: Boolean IsEndDateMarkerForEndOfYear();
     private: static void ValidateAdjustmentRule(DateTime dateStart, DateTime dateEnd, TimeSpan daylightDelta, TransitionTime daylightTransitionStart, TransitionTime daylightTransitionEnd, Boolean noDaylightTransitions);
     private: static void AdjustDaylightDeltaToExpectedRange(TimeSpan& daylightDelta, TimeSpan& baseUtcOffsetDelta);
-    private: void Ctor(SerializationInfo info, StreamingContext context);
-    private: static void SCtor();
+    private: void ctor(SerializationInfo info, StreamingContext context);
+    private: static void ctor_static();
     private: static TimeSpan DaylightDeltaAdjustment;
     private: static TimeSpan MaxDaylightDelta;
     private: DateTime _dateStart;
@@ -115,7 +115,7 @@ CLASS(TimeZoneInfo) : public Object::in {
     private: Boolean _noDaylightTransitions;
   };
   private: CLASS(OffsetAndRule) : public Object::in {
-    public: void Ctor(Int32 year, TimeSpan offset, AdjustmentRule rule);
+    public: void ctor(Int32 year, TimeSpan offset, AdjustmentRule rule);
     public: Int32 Year;
     public: TimeSpan Offset;
     public: AdjustmentRule Rule;
@@ -126,7 +126,7 @@ CLASS(TimeZoneInfo) : public Object::in {
     public: DateTimeKind GetCorrespondingKind(TimeZoneInfo timeZone);
     private: static TimeZoneInfo GetCurrentOneYearLocal();
     public: OffsetAndRule GetOneYearLocalFromUtc(Int32 year);
-    public: void Ctor();
+    public: void ctor();
     private: TimeZoneInfo _localTimeZone;
     public: Dictionary<String, TimeZoneInfo> _systemTimeZones;
     public: ReadOnlyCollection<TimeZoneInfo> _readOnlySystemTimeZones;
@@ -205,11 +205,11 @@ CLASS(TimeZoneInfo) : public Object::in {
   public: Boolean HasSameRules(TimeZoneInfo other);
   public: String ToSerializedString();
   public: String ToString();
-  private: void Ctor(String id, TimeSpan baseUtcOffset, String displayName, String standardDisplayName, String daylightDisplayName, Array<AdjustmentRule> adjustmentRules, Boolean disableDaylightSavingTime);
+  private: void ctor(String id, TimeSpan baseUtcOffset, String displayName, String standardDisplayName, String daylightDisplayName, Array<AdjustmentRule> adjustmentRules, Boolean disableDaylightSavingTime);
   public: static TimeZoneInfo CreateCustomTimeZone(String id, TimeSpan baseUtcOffset, String displayName, String standardDisplayName);
   public: static TimeZoneInfo CreateCustomTimeZone(String id, TimeSpan baseUtcOffset, String displayName, String standardDisplayName, String daylightDisplayName, Array<AdjustmentRule> adjustmentRules);
   public: static TimeZoneInfo CreateCustomTimeZone(String id, TimeSpan baseUtcOffset, String displayName, String standardDisplayName, String daylightDisplayName, Array<AdjustmentRule> adjustmentRules, Boolean disableDaylightSavingTime);
-  private: void Ctor(SerializationInfo info, StreamingContext context);
+  private: void ctor(SerializationInfo info, StreamingContext context);
   private: AdjustmentRule GetAdjustmentRuleForTime(DateTime dateTime, Nullable<Int32>& ruleIndex);
   private: AdjustmentRule GetAdjustmentRuleForTime(DateTime dateTime, Boolean dateTimeisUtc, Nullable<Int32>& ruleIndex);
   private: Int32 CompareAdjustmentRuleToDateTime(AdjustmentRule rule, AdjustmentRule previousRule, DateTime dateTime, DateTime dateOnly, Boolean dateTimeisUtc);
@@ -238,7 +238,7 @@ CLASS(TimeZoneInfo) : public Object::in {
   private: static Boolean IsValidAdjustmentRuleOffest(TimeSpan baseUtcOffset, AdjustmentRule adjustmentRule);
   public: Array<AdjustmentRule> GetAdjustmentRules();
   private: static void PopulateAllSystemTimeZones(CachedData cachedData);
-  private: void Ctor(Interop::Kernel32::TIME_ZONE_INFORMATION& zone, Boolean dstDisabled);
+  private: void ctor(Interop::Kernel32::TIME_ZONE_INFORMATION& zone, Boolean dstDisabled);
   private: static Boolean CheckDaylightSavingTimeNotSupported(Interop::Kernel32::TIME_ZONE_INFORMATION& timeZone);
   private: static AdjustmentRule CreateAdjustmentRuleFromTimeZoneInformation(Interop::Kernel32::REG_TZI_FORMAT& timeZoneInformation, DateTime startDate, DateTime endDate, Int32 defaultBaseUtcOffset);
   private: static String FindIdFromTimeZoneInformation(Interop::Kernel32::TIME_ZONE_INFORMATION& timeZone, Boolean& dstDisabled);
@@ -255,7 +255,7 @@ CLASS(TimeZoneInfo) : public Object::in {
   private: static String TryGetLocalizedNameByNativeResource(String filePath, Int32 resource);
   private: static void GetLocalizedNamesByRegistryKey(RegistryKey key, String& displayName, String& standardName, String& daylightName);
   private: static TimeZoneInfoResult TryGetTimeZoneFromLocalMachine(String id, TimeZoneInfo& value, Exception& e);
-  private: static void SCtor();
+  private: static void ctor_static();
   private: String _id;
   private: String _displayName;
   private: String _standardDisplayName;

@@ -5,7 +5,7 @@ Int32 SynchronizationContextTaskScheduler___::get_MaximumConcurrencyLevel() {
   return Int32();
 }
 
-void SynchronizationContextTaskScheduler___::Ctor() {
+void SynchronizationContextTaskScheduler___::ctor() {
 }
 
 void SynchronizationContextTaskScheduler___::QueueTask(Task<> task) {
@@ -19,7 +19,7 @@ IEnumerable<Task<>> SynchronizationContextTaskScheduler___::GetScheduledTasks() 
   return nullptr;
 }
 
-void SynchronizationContextTaskScheduler___::SCtor() {
+void SynchronizationContextTaskScheduler___::ctor_static() {
 }
 
 } // namespace System::Private::CoreLib::System::Threading::Tasks::SynchronizationContextTaskSchedulerNamespace

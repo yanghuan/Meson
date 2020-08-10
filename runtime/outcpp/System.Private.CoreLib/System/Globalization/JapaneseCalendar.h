@@ -27,7 +27,7 @@ CLASS(JapaneseCalendar) : public Calendar::in {
   public: void set_TwoDigitYearMax(Int32 value);
   public: static Array<EraInfo> GetEraInfo();
   public: static Calendar GetDefaultInstance();
-  public: void Ctor();
+  public: void ctor();
   public: DateTime AddMonths(DateTime time, Int32 months);
   public: DateTime AddYears(DateTime time, Int32 years);
   public: Int32 GetDaysInMonth(Int32 year, Int32 month, Int32 era);
@@ -56,7 +56,7 @@ CLASS(JapaneseCalendar) : public Calendar::in {
   private: static Array<EraInfo> NlsGetJapaneseEras();
   private: static Int32 CompareEraRanges(EraInfo a, EraInfo b);
   private: static EraInfo GetEraFromValue(String value, String data);
-  private: static void SCtor();
+  private: static void ctor_static();
   private: static DateTime s_calendarMinValue;
   private: static Array<EraInfo> s_japaneseEraInfo;
   public: static Calendar s_defaultInstance;

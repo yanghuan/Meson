@@ -5,7 +5,7 @@ Object SZArrayEnumerator___::get_Current() {
   return nullptr;
 }
 
-void SZArrayEnumerator___::Ctor(Array<> array) {
+void SZArrayEnumerator___::ctor(Array<> array) {
 }
 
 Object SZArrayEnumerator___::Clone() {

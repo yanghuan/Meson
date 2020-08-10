@@ -1,7 +1,7 @@
 #include "ListDictionaryInternal-dep.h"
 
 namespace System::Private::CoreLib::System::Collections::ListDictionaryInternalNamespace {
-void ListDictionaryInternal___::DictionaryNode___::Ctor() {
+void ListDictionaryInternal___::DictionaryNode___::ctor() {
 }
 
 Object ListDictionaryInternal___::NodeEnumerator___::get_Current() {
@@ -20,7 +20,7 @@ Object ListDictionaryInternal___::NodeEnumerator___::get_Value() {
   return nullptr;
 }
 
-void ListDictionaryInternal___::NodeEnumerator___::Ctor(ListDictionaryInternal list) {
+void ListDictionaryInternal___::NodeEnumerator___::ctor(ListDictionaryInternal list) {
 }
 
 Boolean ListDictionaryInternal___::NodeEnumerator___::MoveNext() {
@@ -34,7 +34,7 @@ Object ListDictionaryInternal___::NodeKeyValueCollection___::NodeKeyValueEnumera
   return nullptr;
 }
 
-void ListDictionaryInternal___::NodeKeyValueCollection___::NodeKeyValueEnumerator___::Ctor(ListDictionaryInternal list, Boolean isKeys) {
+void ListDictionaryInternal___::NodeKeyValueCollection___::NodeKeyValueEnumerator___::ctor(ListDictionaryInternal list, Boolean isKeys) {
 }
 
 Boolean ListDictionaryInternal___::NodeKeyValueCollection___::NodeKeyValueEnumerator___::MoveNext() {
@@ -56,7 +56,7 @@ Object ListDictionaryInternal___::NodeKeyValueCollection___::get_SyncRootOfIColl
   return nullptr;
 }
 
-void ListDictionaryInternal___::NodeKeyValueCollection___::Ctor(ListDictionaryInternal list, Boolean isKeys) {
+void ListDictionaryInternal___::NodeKeyValueCollection___::ctor(ListDictionaryInternal list, Boolean isKeys) {
 }
 
 Object ListDictionaryInternal___::get_Item(Object key) {
@@ -94,7 +94,7 @@ ICollection ListDictionaryInternal___::get_Values() {
   return nullptr;
 }
 
-void ListDictionaryInternal___::Ctor() {
+void ListDictionaryInternal___::ctor() {
 }
 
 void ListDictionaryInternal___::Add(Object key, Object value) {

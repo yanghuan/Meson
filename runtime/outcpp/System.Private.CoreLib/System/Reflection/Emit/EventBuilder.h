@@ -20,7 +20,7 @@ FORWARD(ModuleBuilder)
 FORWARD(TypeBuilder)
 namespace EventBuilderNamespace {
 CLASS(EventBuilder) : public Object::in {
-  public: void Ctor(ModuleBuilder mod, String name, EventAttributes attr, TypeBuilder type, EventToken evToken);
+  public: void ctor(ModuleBuilder mod, String name, EventAttributes attr, TypeBuilder type, EventToken evToken);
   public: EventToken GetEventToken();
   private: void SetMethodSemantics(MethodBuilder mdBuilder, MethodSemanticsAttributes semantics);
   public: void SetAddOnMethod(MethodBuilder mdBuilder);

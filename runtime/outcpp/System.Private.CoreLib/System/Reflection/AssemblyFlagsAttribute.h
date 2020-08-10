@@ -12,9 +12,9 @@ namespace AssemblyFlagsAttributeNamespace {
 CLASS(AssemblyFlagsAttribute) : public Attribute::in {
   public: UInt32 get_Flags();
   public: Int32 get_AssemblyFlags();
-  public: void Ctor(UInt32 flags);
-  public: void Ctor(Int32 assemblyFlags);
-  public: void Ctor(AssemblyNameFlags assemblyFlags);
+  public: void ctor(UInt32 flags);
+  public: void ctor(Int32 assemblyFlags);
+  public: void ctor(AssemblyNameFlags assemblyFlags);
   private: AssemblyNameFlags _flags;
 };
 } // namespace AssemblyFlagsAttributeNamespace

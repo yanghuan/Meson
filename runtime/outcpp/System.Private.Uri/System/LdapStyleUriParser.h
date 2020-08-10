@@ -5,7 +5,7 @@
 namespace System::Private::Uri::System {
 namespace LdapStyleUriParserNamespace {
 CLASS(LdapStyleUriParser) : public UriParser::in {
-  public: void Ctor();
+  public: void ctor();
 };
 } // namespace LdapStyleUriParserNamespace
 using LdapStyleUriParser = LdapStyleUriParserNamespace::LdapStyleUriParser;

@@ -10,7 +10,7 @@ namespace RuntimeFieldInfoStubNamespace {
 CLASS(RuntimeFieldInfoStub) : public Object::in {
   public: using interface = rt::TypeList<IRuntimeFieldInfo>;
   private: RuntimeFieldHandleInternal get_ValueOfIRuntimeFieldInfo();
-  public: void Ctor();
+  public: void ctor();
   private: Object m_keepalive;
   private: Object m_c;
   private: Object m_d;

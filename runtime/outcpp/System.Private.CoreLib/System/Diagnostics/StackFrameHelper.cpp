@@ -1,7 +1,7 @@
 #include "StackFrameHelper-dep.h"
 
 namespace System::Private::CoreLib::System::Diagnostics::StackFrameHelperNamespace {
-void StackFrameHelper___::Ctor(Thread target) {
+void StackFrameHelper___::ctor(Thread target) {
 }
 
 void StackFrameHelper___::InitializeSourceInfo(Int32 iSkip, Boolean fNeedFileInfo, Exception exception) {

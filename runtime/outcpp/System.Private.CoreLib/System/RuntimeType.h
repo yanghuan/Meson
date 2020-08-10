@@ -131,7 +131,7 @@ CLASS(RuntimeType) : public TypeInfo::in {
     };
     private: CLASS(MemberInfoCache, T) : public Object::in {
       public: RuntimeType get_ReflectedType();
-      public: void Ctor(RuntimeTypeCache runtimeTypeCache);
+      public: void ctor(RuntimeTypeCache runtimeTypeCache);
       public: MethodBase AddMethod(RuntimeType declaringType, RuntimeMethodHandleInternal method, CacheType cacheType);
       public: FieldInfo AddField(RuntimeFieldHandleInternal field);
       private: Array<T> Populate(String name, MemberListType listType, CacheType cacheType);
@@ -165,7 +165,7 @@ CLASS(RuntimeType) : public TypeInfo::in {
     public: TypeCode get_TypeCode();
     public: void set_TypeCode(TypeCode value);
     public: Boolean get_IsGlobal();
-    public: void Ctor(RuntimeType runtimeType);
+    public: void ctor(RuntimeType runtimeType);
     private: String ConstructName(String& name, TypeNameFormatFlags formatFlags);
     private: template <class T>
     Array<T> GetMemberList(MemberInfoCache<T>& m_cache, MemberListType listType, String name, CacheType cacheType);
@@ -212,7 +212,7 @@ CLASS(RuntimeType) : public TypeInfo::in {
     private: Array<Object> _emptyArray;
   };
   private: CLASS(ActivatorCache) : public Object::in {
-    public: void Ctor(RuntimeMethodHandleInternal rmh);
+    public: void ctor(RuntimeMethodHandleInternal rmh);
     private: void Initialize();
     public: void EnsureInitialized();
     public: RuntimeMethodHandleInternal _hCtorMethodHandle;
@@ -279,7 +279,7 @@ CLASS(RuntimeType) : public TypeInfo::in {
   private: static Boolean FilterApplyMethodInfo(RuntimeMethodInfo method, BindingFlags bindingFlags, CallingConventions callConv, Array<Type> argumentTypes);
   private: static Boolean FilterApplyConstructorInfo(RuntimeConstructorInfo constructor, BindingFlags bindingFlags, CallingConventions callConv, Array<Type> argumentTypes);
   private: static Boolean FilterApplyMethodBase(MethodBase methodBase, BindingFlags methodFlags, BindingFlags bindingFlags, CallingConventions callConv, Array<Type> argumentTypes);
-  public: void Ctor();
+  public: void ctor();
   public: Boolean CacheEquals(Object o);
   private: RuntimeTypeCache InitializeCache();
   private: String GetDefaultMemberName();
@@ -373,7 +373,7 @@ CLASS(RuntimeType) : public TypeInfo::in {
   public: Boolean IsAssignableFrom(TypeInfo typeInfo);
   public: Boolean IsAssignableFrom(Type c);
   private: RuntimeType GetBaseType();
-  private: static void SCtor();
+  private: static void ctor_static();
   private: Object m_keepalive;
   private: IntPtr m_cache;
   public: IntPtr m_handle;

@@ -60,7 +60,7 @@ CLASS(RuntimeConstructorInfo) : public ConstructorInfo::in {
   public: Boolean get_IsSecuritySafeCritical();
   public: Boolean get_IsSecurityTransparent();
   public: Boolean get_ContainsGenericParameters();
-  public: void Ctor(RuntimeMethodHandleInternal handle, RuntimeType declaringType, RuntimeType::in::RuntimeTypeCache reflectedTypeCache, MethodAttributes methodAttributes, BindingFlags bindingFlags);
+  public: void ctor(RuntimeMethodHandleInternal handle, RuntimeType declaringType, RuntimeType::in::RuntimeTypeCache reflectedTypeCache, MethodAttributes methodAttributes, BindingFlags bindingFlags);
   public: Boolean CacheEquals(Object o);
   private: void CheckConsistency(Object target);
   public: String ToString();

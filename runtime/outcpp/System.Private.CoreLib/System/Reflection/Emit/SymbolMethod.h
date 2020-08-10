@@ -39,7 +39,7 @@ CLASS(SymbolMethod) : public MethodInfo::in {
   public: RuntimeMethodHandle get_MethodHandle();
   public: Type get_ReturnType();
   public: ICustomAttributeProvider get_ReturnTypeCustomAttributes();
-  public: void Ctor(ModuleBuilder mod, MethodToken token, Type arrayClass, String methodName, CallingConventions callingConvention, Type returnType, Array<Type> parameterTypes);
+  public: void ctor(ModuleBuilder mod, MethodToken token, Type arrayClass, String methodName, CallingConventions callingConvention, Type returnType, Array<Type> parameterTypes);
   public: Array<Type> GetParameterTypes();
   public: MethodToken GetToken(ModuleBuilder mod);
   public: Array<ParameterInfo> GetParameters();

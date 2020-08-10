@@ -5,7 +5,7 @@ AssemblyName AssemblyNameProxy___::GetAssemblyName(String assemblyFile) {
   return nullptr;
 }
 
-void AssemblyNameProxy___::Ctor() {
+void AssemblyNameProxy___::ctor() {
 }
 
 } // namespace System::Private::CoreLib::System::Reflection::AssemblyNameProxyNamespace

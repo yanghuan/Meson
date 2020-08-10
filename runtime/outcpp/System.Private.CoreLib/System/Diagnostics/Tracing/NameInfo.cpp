@@ -4,7 +4,7 @@ namespace System::Private::CoreLib::System::Diagnostics::Tracing::NameInfoNamesp
 void NameInfo___::ReserveEventIDsBelow(Int32 eventId) {
 }
 
-void NameInfo___::Ctor(String name, EventTags tags, Int32 typeMetadataSize) {
+void NameInfo___::ctor(String name, EventTags tags, Int32 typeMetadataSize) {
 }
 
 Int32 NameInfo___::Compare(NameInfo other) {
@@ -23,7 +23,7 @@ IntPtr NameInfo___::GetOrCreateEventHandle(EventProvider provider, TraceLoggingE
   return IntPtr();
 }
 
-void NameInfo___::SCtor() {
+void NameInfo___::ctor_static() {
 }
 
 } // namespace System::Private::CoreLib::System::Diagnostics::Tracing::NameInfoNamespace

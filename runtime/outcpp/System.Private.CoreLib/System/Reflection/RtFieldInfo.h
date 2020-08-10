@@ -37,7 +37,7 @@ CLASS(RtFieldInfo) : public RuntimeFieldInfo::in {
   public: FieldAttributes get_Attributes();
   public: Type get_FieldType();
   private: INVOCATION_FLAGS InitializeInvocationFlags();
-  public: void Ctor(RuntimeFieldHandleInternal handle, RuntimeType declaringType, RuntimeType::in::RuntimeTypeCache reflectedTypeCache, BindingFlags bindingFlags);
+  public: void ctor(RuntimeFieldHandleInternal handle, RuntimeType declaringType, RuntimeType::in::RuntimeTypeCache reflectedTypeCache, BindingFlags bindingFlags);
   public: void CheckConsistency(Object target);
   public: Boolean CacheEquals(Object o);
   public: RuntimeModule GetRuntimeModule();

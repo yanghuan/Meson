@@ -19,10 +19,10 @@ Object PermissionSet___::get_SyncRoot() {
   return nullptr;
 }
 
-void PermissionSet___::Ctor(PermissionState state) {
+void PermissionSet___::ctor(PermissionState state) {
 }
 
-void PermissionSet___::Ctor(PermissionSet permSet) {
+void PermissionSet___::ctor(PermissionSet permSet) {
 }
 
 IPermission PermissionSet___::AddPermission(IPermission perm) {

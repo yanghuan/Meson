@@ -28,7 +28,7 @@ CLASS(ParameterBuilder) : public Object::in {
   public: void SetConstant(Object defaultValue);
   public: void SetCustomAttribute(ConstructorInfo con, Array<Byte> binaryAttribute);
   public: void SetCustomAttribute(CustomAttributeBuilder customBuilder);
-  public: void Ctor(MethodBuilder methodBuilder, Int32 sequence, ParameterAttributes attributes, String paramName);
+  public: void ctor(MethodBuilder methodBuilder, Int32 sequence, ParameterAttributes attributes, String paramName);
   public: ParameterToken GetToken();
   private: String _name;
   private: Int32 _position;

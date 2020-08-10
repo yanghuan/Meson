@@ -15,7 +15,7 @@ FORWARD(DecoderReplacementFallback)
 namespace DecoderReplacementFallbackBufferNamespace {
 CLASS(DecoderReplacementFallbackBuffer) : public DecoderFallbackBuffer::in {
   public: Int32 get_Remaining();
-  public: void Ctor(DecoderReplacementFallback fallback);
+  public: void ctor(DecoderReplacementFallback fallback);
   public: Boolean Fallback(Array<Byte> bytesUnknown, Int32 index);
   public: Char GetNextChar();
   public: Boolean MovePrevious();

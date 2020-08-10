@@ -8,25 +8,25 @@ CancellationToken OperationCanceledException___::get_CancellationToken() {
 void OperationCanceledException___::set_CancellationToken(CancellationToken value) {
 }
 
-void OperationCanceledException___::Ctor() {
+void OperationCanceledException___::ctor() {
 }
 
-void OperationCanceledException___::Ctor(String message) {
+void OperationCanceledException___::ctor(String message) {
 }
 
-void OperationCanceledException___::Ctor(String message, Exception innerException) {
+void OperationCanceledException___::ctor(String message, Exception innerException) {
 }
 
-void OperationCanceledException___::Ctor(CancellationToken token) {
+void OperationCanceledException___::ctor(CancellationToken token) {
 }
 
-void OperationCanceledException___::Ctor(String message, CancellationToken token) {
+void OperationCanceledException___::ctor(String message, CancellationToken token) {
 }
 
-void OperationCanceledException___::Ctor(String message, Exception innerException, CancellationToken token) {
+void OperationCanceledException___::ctor(String message, Exception innerException, CancellationToken token) {
 }
 
-void OperationCanceledException___::Ctor(SerializationInfo info, StreamingContext context) {
+void OperationCanceledException___::ctor(SerializationInfo info, StreamingContext context) {
 }
 
 } // namespace System::Private::CoreLib::System::OperationCanceledExceptionNamespace

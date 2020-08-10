@@ -38,7 +38,7 @@ namespace DynamicILGeneratorNamespace {
 using namespace Diagnostics::SymbolStore;
 using namespace Runtime::InteropServices;
 CLASS(DynamicILGenerator) : public ILGenerator::in {
-  public: void Ctor(DynamicMethod method, Array<Byte> methodSignature, Int32 size);
+  public: void ctor(DynamicMethod method, Array<Byte> methodSignature, Int32 size);
   public: void GetCallableMethod(RuntimeModule module, DynamicMethod dm);
   public: LocalBuilder DeclareLocal(Type localType, Boolean pinned);
   public: void Emit(OpCode opcode, MethodInfo meth);

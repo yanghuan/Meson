@@ -52,7 +52,7 @@ CLASS(SymbolType) : public TypeInfo::in {
   public: Type get_UnderlyingSystemType();
   public: Boolean IsAssignableFrom(TypeInfo typeInfo);
   public: static Type FormCompoundType(String format, Type baseType, Int32 curIndex);
-  public: void Ctor(TypeKind typeKind);
+  public: void ctor(TypeKind typeKind);
   public: void SetElementType(Type baseType);
   private: void SetBounds(Int32 lower, Int32 upper);
   public: void SetFormat(String format, Int32 curIndex, Int32 length);

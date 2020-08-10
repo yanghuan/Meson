@@ -11,8 +11,8 @@ namespace NeutralResourcesLanguageAttributeNamespace {
 CLASS(NeutralResourcesLanguageAttribute) : public Attribute::in {
   public: String get_CultureName() { return CultureName; }
   public: UltimateResourceFallbackLocation get_Location() { return Location; }
-  public: void Ctor(String cultureName);
-  public: void Ctor(String cultureName, UltimateResourceFallbackLocation location);
+  public: void ctor(String cultureName);
+  public: void ctor(String cultureName, UltimateResourceFallbackLocation location);
   private: String CultureName;
   private: UltimateResourceFallbackLocation Location;
 };

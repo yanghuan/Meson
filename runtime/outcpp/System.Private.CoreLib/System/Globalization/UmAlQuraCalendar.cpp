@@ -45,7 +45,7 @@ Array<UmAlQuraCalendar::in::DateMapping> UmAlQuraCalendar___::InitDateMapping() 
   return Array<UmAlQuraCalendar::in::DateMapping>();
 }
 
-void UmAlQuraCalendar___::Ctor() {
+void UmAlQuraCalendar___::ctor() {
 }
 
 void UmAlQuraCalendar___::ConvertHijriToGregorian(Int32 HijriYear, Int32 HijriMonth, Int32 HijriDay, Int32& yg, Int32& mg, Int32& dg) {
@@ -146,7 +146,7 @@ Int32 UmAlQuraCalendar___::ToFourDigitYear(Int32 year) {
   return Int32();
 }
 
-void UmAlQuraCalendar___::SCtor() {
+void UmAlQuraCalendar___::ctor_static() {
 }
 
 } // namespace System::Private::CoreLib::System::Globalization::UmAlQuraCalendarNamespace

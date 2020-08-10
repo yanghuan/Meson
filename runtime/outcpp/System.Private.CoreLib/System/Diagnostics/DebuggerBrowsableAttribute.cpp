@@ -1,7 +1,7 @@
 #include "DebuggerBrowsableAttribute-dep.h"
 
 namespace System::Private::CoreLib::System::Diagnostics::DebuggerBrowsableAttributeNamespace {
-void DebuggerBrowsableAttribute___::Ctor(DebuggerBrowsableState state) {
+void DebuggerBrowsableAttribute___::ctor(DebuggerBrowsableState state) {
 }
 
 } // namespace System::Private::CoreLib::System::Diagnostics::DebuggerBrowsableAttributeNamespace

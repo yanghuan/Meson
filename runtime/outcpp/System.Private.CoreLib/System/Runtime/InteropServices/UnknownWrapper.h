@@ -6,7 +6,7 @@ namespace System::Private::CoreLib::System::Runtime::InteropServices {
 namespace UnknownWrapperNamespace {
 CLASS(UnknownWrapper) : public Object::in {
   public: Object get_WrappedObject() { return WrappedObject; }
-  public: void Ctor(Object obj);
+  public: void ctor(Object obj);
   private: Object WrappedObject;
 };
 } // namespace UnknownWrapperNamespace

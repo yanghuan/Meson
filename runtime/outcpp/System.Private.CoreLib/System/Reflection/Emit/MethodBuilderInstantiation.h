@@ -43,7 +43,7 @@ CLASS(MethodBuilderInstantiation) : public MethodInfo::in {
   public: ParameterInfo get_ReturnParameter();
   public: ICustomAttributeProvider get_ReturnTypeCustomAttributes();
   public: static MethodInfo MakeGenericMethod(MethodInfo method, Array<Type> inst);
-  public: void Ctor(MethodInfo method, Array<Type> inst);
+  public: void ctor(MethodInfo method, Array<Type> inst);
   public: Array<Type> GetParameterTypes();
   public: Array<Object> GetCustomAttributes(Boolean inherit);
   public: Array<Object> GetCustomAttributes(Type attributeType, Boolean inherit);

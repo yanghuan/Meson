@@ -1,7 +1,7 @@
 #include "DecimalTypeInfo-dep.h"
 
 namespace System::Private::CoreLib::System::Diagnostics::Tracing::DecimalTypeInfoNamespace {
-void DecimalTypeInfo___::Ctor() {
+void DecimalTypeInfo___::ctor() {
 }
 
 void DecimalTypeInfo___::WriteMetadata(TraceLoggingMetadataCollector collector, String name, EventFieldFormat format) {

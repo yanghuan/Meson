@@ -10,8 +10,8 @@ namespace TypeIdentifierAttributeNamespace {
 CLASS(TypeIdentifierAttribute) : public Attribute::in {
   public: String get_Scope() { return Scope; }
   public: String get_Identifier() { return Identifier; }
-  public: void Ctor();
-  public: void Ctor(String scope, String identifier);
+  public: void ctor();
+  public: void ctor(String scope, String identifier);
   private: String Scope;
   private: String Identifier;
 };

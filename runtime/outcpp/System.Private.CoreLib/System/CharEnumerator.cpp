@@ -9,7 +9,7 @@ Char CharEnumerator___::get_Current() {
   return Char();
 }
 
-void CharEnumerator___::Ctor(String str) {
+void CharEnumerator___::ctor(String str) {
 }
 
 Object CharEnumerator___::Clone() {

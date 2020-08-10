@@ -1,16 +1,16 @@
 #include "SEHException-dep.h"
 
 namespace System::Private::CoreLib::System::Runtime::InteropServices::SEHExceptionNamespace {
-void SEHException___::Ctor() {
+void SEHException___::ctor() {
 }
 
-void SEHException___::Ctor(String message) {
+void SEHException___::ctor(String message) {
 }
 
-void SEHException___::Ctor(String message, Exception inner) {
+void SEHException___::ctor(String message, Exception inner) {
 }
 
-void SEHException___::Ctor(SerializationInfo info, StreamingContext context) {
+void SEHException___::ctor(SerializationInfo info, StreamingContext context) {
 }
 
 Boolean SEHException___::CanResume() {

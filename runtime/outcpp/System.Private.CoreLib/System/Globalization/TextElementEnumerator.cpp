@@ -9,7 +9,7 @@ Int32 TextElementEnumerator___::get_ElementIndex() {
   return Int32();
 }
 
-void TextElementEnumerator___::Ctor(String str, Int32 startIndex) {
+void TextElementEnumerator___::ctor(String str, Int32 startIndex) {
 }
 
 Boolean TextElementEnumerator___::MoveNext() {

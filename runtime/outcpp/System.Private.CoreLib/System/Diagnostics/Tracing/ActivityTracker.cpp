@@ -7,7 +7,7 @@ Guid ActivityTracker___::ActivityInfo___::get_ActivityId() {
   return Guid();
 }
 
-void ActivityTracker___::ActivityInfo___::Ctor(String name, Int64 uniqueId, ActivityInfo creator, Guid activityIDToRestore, EventActivityOptions options) {
+void ActivityTracker___::ActivityInfo___::ctor(String name, Int64 uniqueId, ActivityInfo creator, Guid activityIDToRestore, EventActivityOptions options) {
 }
 
 String ActivityTracker___::ActivityInfo___::Path(ActivityInfo activityInfo) {
@@ -63,10 +63,10 @@ String ActivityTracker___::NormalizeActivityName(String providerName, String act
 void ActivityTracker___::ActivityChanging(AsyncLocalValueChangedArgs<ActivityInfo> args) {
 }
 
-void ActivityTracker___::Ctor() {
+void ActivityTracker___::ctor() {
 }
 
-void ActivityTracker___::SCtor() {
+void ActivityTracker___::ctor_static() {
 }
 
 } // namespace System::Private::CoreLib::System::Diagnostics::Tracing::ActivityTrackerNamespace

@@ -41,12 +41,12 @@ CLASS(SecurityException) : public SystemException::in {
   public: void set_RefusedSet(String value) { RefusedSet = value; }
   public: String get_Url() { return Url; }
   public: void set_Url(String value) { Url = value; }
-  public: void Ctor();
-  public: void Ctor(String message);
-  public: void Ctor(String message, Exception inner);
-  public: void Ctor(String message, Type type);
-  public: void Ctor(String message, Type type, String state);
-  protected: void Ctor(SerializationInfo info, StreamingContext context);
+  public: void ctor();
+  public: void ctor(String message);
+  public: void ctor(String message, Exception inner);
+  public: void ctor(String message, Type type);
+  public: void ctor(String message, Type type, String state);
+  protected: void ctor(SerializationInfo info, StreamingContext context);
   public: String ToString();
   public: void GetObjectData(SerializationInfo info, StreamingContext context);
   private: Object Demanded;

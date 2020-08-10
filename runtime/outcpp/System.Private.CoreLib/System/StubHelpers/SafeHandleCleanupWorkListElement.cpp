@@ -1,7 +1,7 @@
 #include "SafeHandleCleanupWorkListElement-dep.h"
 
 namespace System::Private::CoreLib::System::StubHelpers::SafeHandleCleanupWorkListElementNamespace {
-void SafeHandleCleanupWorkListElement___::Ctor(SafeHandle handle) {
+void SafeHandleCleanupWorkListElement___::ctor(SafeHandle handle) {
 }
 
 void SafeHandleCleanupWorkListElement___::DestroyCore() {

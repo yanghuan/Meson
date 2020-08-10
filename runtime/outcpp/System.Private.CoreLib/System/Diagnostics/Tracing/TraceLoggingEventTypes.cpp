@@ -9,16 +9,16 @@ EventTags TraceLoggingEventTypes___::get_Tags() {
   return EventTags::None;
 }
 
-void TraceLoggingEventTypes___::Ctor(String name, EventTags tags, Array<Type> types) {
+void TraceLoggingEventTypes___::ctor(String name, EventTags tags, Array<Type> types) {
 }
 
-void TraceLoggingEventTypes___::Ctor(String name, EventTags tags, Array<TraceLoggingTypeInfo> typeInfos) {
+void TraceLoggingEventTypes___::ctor(String name, EventTags tags, Array<TraceLoggingTypeInfo> typeInfos) {
 }
 
-void TraceLoggingEventTypes___::Ctor(String name, EventTags tags, Array<ParameterInfo> paramInfos) {
+void TraceLoggingEventTypes___::ctor(String name, EventTags tags, Array<ParameterInfo> paramInfos) {
 }
 
-void TraceLoggingEventTypes___::Ctor(EventTags tags, String defaultName, Array<TraceLoggingTypeInfo> typeInfos) {
+void TraceLoggingEventTypes___::ctor(EventTags tags, String defaultName, Array<TraceLoggingTypeInfo> typeInfos) {
 }
 
 NameInfo TraceLoggingEventTypes___::GetNameInfo(String name, EventTags tags) {

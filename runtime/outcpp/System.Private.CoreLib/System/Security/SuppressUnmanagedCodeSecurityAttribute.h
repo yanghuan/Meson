@@ -5,7 +5,7 @@
 namespace System::Private::CoreLib::System::Security {
 namespace SuppressUnmanagedCodeSecurityAttributeNamespace {
 CLASS(SuppressUnmanagedCodeSecurityAttribute) : public Attribute::in {
-  public: void Ctor();
+  public: void ctor();
 };
 } // namespace SuppressUnmanagedCodeSecurityAttributeNamespace
 using SuppressUnmanagedCodeSecurityAttribute = SuppressUnmanagedCodeSecurityAttributeNamespace::SuppressUnmanagedCodeSecurityAttribute;

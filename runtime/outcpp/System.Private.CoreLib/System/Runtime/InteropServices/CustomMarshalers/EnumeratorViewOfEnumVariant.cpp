@@ -5,7 +5,7 @@ Object EnumeratorViewOfEnumVariant___::get_Current() {
   return nullptr;
 }
 
-void EnumeratorViewOfEnumVariant___::Ctor(IEnumVARIANT enumVariantObject) {
+void EnumeratorViewOfEnumVariant___::ctor(IEnumVARIANT enumVariantObject) {
 }
 
 Boolean EnumeratorViewOfEnumVariant___::MoveNext() {

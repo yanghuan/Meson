@@ -7,7 +7,7 @@ Delegate PropertyValue::TypeHelper___::GetGetMethod(PropertyInfo property, Type 
   return nullptr;
 }
 
-void PropertyValue::TypeHelper___::Ctor() {
+void PropertyValue::TypeHelper___::ctor() {
 }
 
 Object PropertyValue::get_ReferenceValue() {

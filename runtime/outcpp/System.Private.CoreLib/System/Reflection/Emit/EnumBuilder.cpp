@@ -239,7 +239,7 @@ Type EnumBuilder___::MakeArrayType(Int32 rank) {
   return nullptr;
 }
 
-void EnumBuilder___::Ctor(String name, Type underlyingType, TypeAttributes visibility, ModuleBuilder module) {
+void EnumBuilder___::ctor(String name, Type underlyingType, TypeAttributes visibility, ModuleBuilder module) {
 }
 
 } // namespace System::Private::CoreLib::System::Reflection::Emit::EnumBuilderNamespace

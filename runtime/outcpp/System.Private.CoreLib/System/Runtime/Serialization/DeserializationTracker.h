@@ -8,7 +8,7 @@ namespace DeserializationTrackerNamespace {
 CLASS(DeserializationTracker) : public Object::in {
   public: Boolean get_DeserializationInProgress() { return DeserializationInProgress; }
   public: void set_DeserializationInProgress(Boolean value) { DeserializationInProgress = value; }
-  public: void Ctor();
+  public: void ctor();
   private: Boolean DeserializationInProgress;
 };
 } // namespace DeserializationTrackerNamespace

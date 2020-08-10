@@ -12,7 +12,7 @@ FORWARD(LoaderAllocatorScout)
 FORWARD(RuntimeMethodInfo)
 namespace LoaderAllocatorNamespace {
 CLASS(LoaderAllocator) : public Object::in {
-  private: void Ctor();
+  private: void ctor();
   private: LoaderAllocatorScout m_scout;
   private: Array<Object> m_slots;
   public: CerHashtable<RuntimeMethodInfo, RuntimeMethodInfo> m_methodInstantiations;

@@ -30,10 +30,10 @@ using namespace Threading;
 using namespace Threading::Tasks;
 CLASS(StringWriter) : public TextWriter::in {
   public: Encoding get_Encoding();
-  public: void Ctor();
-  public: void Ctor(IFormatProvider formatProvider);
-  public: void Ctor(StringBuilder sb);
-  public: void Ctor(StringBuilder sb, IFormatProvider formatProvider);
+  public: void ctor();
+  public: void ctor(IFormatProvider formatProvider);
+  public: void ctor(StringBuilder sb);
+  public: void ctor(StringBuilder sb, IFormatProvider formatProvider);
   public: void Close();
   protected: void Dispose(Boolean disposing);
   public: StringBuilder GetStringBuilder();

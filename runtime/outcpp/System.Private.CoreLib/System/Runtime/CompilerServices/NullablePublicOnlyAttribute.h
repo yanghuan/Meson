@@ -6,7 +6,7 @@
 namespace System::Private::CoreLib::System::Runtime::CompilerServices {
 namespace NullablePublicOnlyAttributeNamespace {
 CLASS(NullablePublicOnlyAttribute) : public Attribute::in {
-  public: void Ctor(Boolean _);
+  public: void ctor(Boolean _);
   public: Boolean IncludesInternals;
 };
 } // namespace NullablePublicOnlyAttributeNamespace

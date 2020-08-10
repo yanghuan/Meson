@@ -10,7 +10,7 @@ namespace AssemblySignatureKeyAttributeNamespace {
 CLASS(AssemblySignatureKeyAttribute) : public Attribute::in {
   public: String get_PublicKey() { return PublicKey; }
   public: String get_Countersignature() { return Countersignature; }
-  public: void Ctor(String publicKey, String countersignature);
+  public: void ctor(String publicKey, String countersignature);
   private: String PublicKey;
   private: String Countersignature;
 };

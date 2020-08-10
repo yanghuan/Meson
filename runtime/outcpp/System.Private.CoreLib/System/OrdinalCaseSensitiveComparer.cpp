@@ -1,7 +1,7 @@
 #include "OrdinalCaseSensitiveComparer-dep.h"
 
 namespace System::Private::CoreLib::System::OrdinalCaseSensitiveComparerNamespace {
-void OrdinalCaseSensitiveComparer___::Ctor() {
+void OrdinalCaseSensitiveComparer___::ctor() {
 }
 
 Int32 OrdinalCaseSensitiveComparer___::Compare(String x, String y) {

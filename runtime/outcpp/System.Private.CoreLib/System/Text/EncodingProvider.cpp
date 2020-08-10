@@ -1,7 +1,7 @@
 #include "EncodingProvider-dep.h"
 
 namespace System::Private::CoreLib::System::Text::EncodingProviderNamespace {
-void EncodingProvider___::Ctor() {
+void EncodingProvider___::ctor() {
 }
 
 Encoding EncodingProvider___::GetEncoding(String name, EncoderFallback encoderFallback, DecoderFallback decoderFallback) {
@@ -31,7 +31,7 @@ Encoding EncodingProvider___::GetEncodingFromProvider(String encodingName, Encod
   return nullptr;
 }
 
-void EncodingProvider___::SCtor() {
+void EncodingProvider___::ctor_static() {
 }
 
 } // namespace System::Private::CoreLib::System::Text::EncodingProviderNamespace

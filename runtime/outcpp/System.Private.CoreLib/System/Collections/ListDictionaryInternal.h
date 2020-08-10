@@ -18,7 +18,7 @@ namespace ListDictionaryInternalNamespace {
 CLASS(ListDictionaryInternal) : public Object::in {
   public: using interface = rt::TypeList<IDictionary, ICollection, IEnumerable>;
   private: CLASS(DictionaryNode) : public Object::in {
-    public: void Ctor();
+    public: void ctor();
     public: Object key;
     public: Object value;
     public: DictionaryNode next;
@@ -29,7 +29,7 @@ CLASS(ListDictionaryInternal) : public Object::in {
     public: DictionaryEntry get_Entry();
     public: Object get_Key();
     public: Object get_Value();
-    public: void Ctor(ListDictionaryInternal list);
+    public: void ctor(ListDictionaryInternal list);
     public: Boolean MoveNext();
     public: void Reset();
     private: ListDictionaryInternal list;
@@ -42,7 +42,7 @@ CLASS(ListDictionaryInternal) : public Object::in {
     private: CLASS(NodeKeyValueEnumerator) : public Object::in {
       public: using interface = rt::TypeList<IEnumerator>;
       public: Object get_Current();
-      public: void Ctor(ListDictionaryInternal list, Boolean isKeys);
+      public: void ctor(ListDictionaryInternal list, Boolean isKeys);
       public: Boolean MoveNext();
       public: void Reset();
       private: ListDictionaryInternal list;
@@ -54,7 +54,7 @@ CLASS(ListDictionaryInternal) : public Object::in {
     private: Int32 get_CountOfICollection();
     private: Boolean get_IsSynchronizedOfICollection();
     private: Object get_SyncRootOfICollection();
-    public: void Ctor(ListDictionaryInternal list, Boolean isKeys);
+    public: void ctor(ListDictionaryInternal list, Boolean isKeys);
     private: ListDictionaryInternal list;
     private: Boolean isKeys;
   };
@@ -67,7 +67,7 @@ CLASS(ListDictionaryInternal) : public Object::in {
   public: Boolean get_IsSynchronized();
   public: Object get_SyncRoot();
   public: ICollection get_Values();
-  public: void Ctor();
+  public: void ctor();
   public: void Add(Object key, Object value);
   public: void Clear();
   public: Boolean Contains(Object key);

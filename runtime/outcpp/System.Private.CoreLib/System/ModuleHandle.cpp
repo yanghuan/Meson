@@ -112,7 +112,7 @@ MetadataImport ModuleHandle::GetMetadataImport(RuntimeModule module) {
   return MetadataImport();
 }
 
-void ModuleHandle::SCtor() {
+void ModuleHandle::ctor_static() {
 }
 
 } // namespace System::Private::CoreLib::System::ModuleHandleNamespace

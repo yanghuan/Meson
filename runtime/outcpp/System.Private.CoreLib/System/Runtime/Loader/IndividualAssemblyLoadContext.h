@@ -8,7 +8,7 @@ FORWARD(String)
 namespace System::Private::CoreLib::System::Runtime::Loader {
 namespace IndividualAssemblyLoadContextNamespace {
 CLASS(IndividualAssemblyLoadContext) : public AssemblyLoadContext::in {
-  public: void Ctor(String name);
+  public: void ctor(String name);
 };
 } // namespace IndividualAssemblyLoadContextNamespace
 using IndividualAssemblyLoadContext = IndividualAssemblyLoadContextNamespace::IndividualAssemblyLoadContext;

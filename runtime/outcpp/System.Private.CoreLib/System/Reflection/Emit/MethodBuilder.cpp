@@ -84,7 +84,7 @@ String MethodBuilder___::get_Signature() {
   return nullptr;
 }
 
-void MethodBuilder___::Ctor(String name, MethodAttributes attributes, CallingConventions callingConvention, Type returnType, Array<Type> returnTypeRequiredCustomModifiers, Array<Type> returnTypeOptionalCustomModifiers, Array<Type> parameterTypes, Array<Array<Type>> parameterTypeRequiredCustomModifiers, Array<Array<Type>> parameterTypeOptionalCustomModifiers, ModuleBuilder mod, TypeBuilder type) {
+void MethodBuilder___::ctor(String name, MethodAttributes attributes, CallingConventions callingConvention, Type returnType, Array<Type> returnTypeRequiredCustomModifiers, Array<Type> returnTypeOptionalCustomModifiers, Array<Type> parameterTypes, Array<Array<Type>> parameterTypeRequiredCustomModifiers, Array<Array<Type>> parameterTypeOptionalCustomModifiers, ModuleBuilder mod, TypeBuilder type) {
 }
 
 void MethodBuilder___::CheckContext(Array<Array<Type>> typess) {

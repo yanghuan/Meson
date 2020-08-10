@@ -5,7 +5,7 @@
 namespace System::Private::Uri::System {
 namespace FtpStyleUriParserNamespace {
 CLASS(FtpStyleUriParser) : public UriParser::in {
-  public: void Ctor();
+  public: void ctor();
 };
 } // namespace FtpStyleUriParserNamespace
 using FtpStyleUriParser = FtpStyleUriParserNamespace::FtpStyleUriParser;

@@ -1,7 +1,7 @@
 #include "ProgressStatics-dep.h"
 
 namespace System::Private::CoreLib::System::ProgressStaticsNamespace {
-void ProgressStatics::SCtor() {
+void ProgressStatics::ctor_static() {
 }
 
 } // namespace System::Private::CoreLib::System::ProgressStaticsNamespace

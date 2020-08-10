@@ -50,10 +50,10 @@ Boolean TextInfo___::get_IsInvariant() {
   return Boolean();
 }
 
-void TextInfo___::Ctor(CultureData cultureData) {
+void TextInfo___::ctor(CultureData cultureData) {
 }
 
-void TextInfo___::Ctor(CultureData cultureData, Boolean readOnly) {
+void TextInfo___::ctor(CultureData cultureData, Boolean readOnly) {
 }
 
 Object TextInfo___::Clone() {
@@ -178,7 +178,7 @@ Boolean TextInfo___::IsInvariantLocale(String localeName) {
   return Boolean();
 }
 
-void TextInfo___::SCtor() {
+void TextInfo___::ctor_static() {
 }
 
 } // namespace System::Private::CoreLib::System::Globalization::TextInfoNamespace

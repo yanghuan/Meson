@@ -12,7 +12,7 @@ FORWARD_(Task, T1, T2)
 namespace GenericDelegateCacheNamespace {
 template <class TAntecedentResult, class TResult>
 class GenericDelegateCache {
-  private: static void SCtor();
+  private: static void ctor_static();
   public: static Func<Task<Task<>>, Object, TResult> CWAnyFuncDelegate;
   public: static Func<Task<Task<>>, Object, TResult> CWAnyActionDelegate;
   public: static Func<Task<Array<Task<TAntecedentResult>>>, Object, TResult> CWAllFuncDelegate;

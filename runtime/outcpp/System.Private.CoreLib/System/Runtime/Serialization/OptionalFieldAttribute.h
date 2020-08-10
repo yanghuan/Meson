@@ -8,7 +8,7 @@ namespace OptionalFieldAttributeNamespace {
 CLASS(OptionalFieldAttribute) : public Attribute::in {
   public: Int32 get_VersionAdded();
   public: void set_VersionAdded(Int32 value);
-  public: void Ctor();
+  public: void ctor();
   private: Int32 _versionAdded;
 };
 } // namespace OptionalFieldAttributeNamespace

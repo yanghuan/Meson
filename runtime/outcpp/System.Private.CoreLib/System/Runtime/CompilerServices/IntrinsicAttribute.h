@@ -5,7 +5,7 @@
 namespace System::Private::CoreLib::System::Runtime::CompilerServices {
 namespace IntrinsicAttributeNamespace {
 CLASS(IntrinsicAttribute) : public Attribute::in {
-  public: void Ctor();
+  public: void ctor();
 };
 } // namespace IntrinsicAttributeNamespace
 using IntrinsicAttribute = IntrinsicAttributeNamespace::IntrinsicAttribute;

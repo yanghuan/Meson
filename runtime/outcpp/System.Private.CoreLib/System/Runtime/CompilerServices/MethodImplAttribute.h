@@ -11,9 +11,9 @@ enum class MethodImplOptions;
 namespace MethodImplAttributeNamespace {
 CLASS(MethodImplAttribute) : public Attribute::in {
   public: MethodImplOptions get_Value() { return Value; }
-  public: void Ctor(MethodImplOptions methodImplOptions);
-  public: void Ctor(Int16 value);
-  public: void Ctor();
+  public: void ctor(MethodImplOptions methodImplOptions);
+  public: void ctor(Int16 value);
+  public: void ctor();
   public: MethodCodeType MethodCodeType;
   private: MethodImplOptions Value;
 };

@@ -37,7 +37,7 @@ CLASS(RuntimeEventInfo) : public EventInfo::in {
   public: Int32 get_MetadataToken();
   public: Module get_Module();
   public: EventAttributes get_Attributes();
-  public: void Ctor(Int32 tkEvent, RuntimeType declaredType, RuntimeType::in::RuntimeTypeCache reflectedTypeCache, Boolean& isPrivate);
+  public: void ctor(Int32 tkEvent, RuntimeType declaredType, RuntimeType::in::RuntimeTypeCache reflectedTypeCache, Boolean& isPrivate);
   public: Boolean CacheEquals(Object o);
   public: String ToString();
   public: Array<Object> GetCustomAttributes(Boolean inherit);

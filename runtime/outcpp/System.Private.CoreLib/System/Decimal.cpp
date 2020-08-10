@@ -196,7 +196,7 @@ UInt32 Decimal::DecCalc::DecDivMod1E9(DecCalc& value) {
   return UInt32();
 }
 
-void Decimal::DecCalc::SCtor() {
+void Decimal::DecCalc::ctor_static() {
 }
 
 UInt32 Decimal::get_High() {
@@ -649,7 +649,7 @@ UInt32 Decimal::DecDivMod1E9(Decimal& value) {
   return UInt32();
 }
 
-void Decimal::SCtor() {
+void Decimal::ctor_static() {
 }
 
 } // namespace System::Private::CoreLib::System::DecimalNamespace

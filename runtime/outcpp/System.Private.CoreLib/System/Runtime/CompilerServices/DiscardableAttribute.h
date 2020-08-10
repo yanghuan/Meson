@@ -5,7 +5,7 @@
 namespace System::Private::CoreLib::System::Runtime::CompilerServices {
 namespace DiscardableAttributeNamespace {
 CLASS(DiscardableAttribute) : public Attribute::in {
-  public: void Ctor();
+  public: void ctor();
 };
 } // namespace DiscardableAttributeNamespace
 using DiscardableAttribute = DiscardableAttributeNamespace::DiscardableAttribute;

@@ -5,7 +5,7 @@
 namespace System::Private::CoreLib::System::Diagnostics::CodeAnalysis {
 namespace ExcludeFromCodeCoverageAttributeNamespace {
 CLASS(ExcludeFromCodeCoverageAttribute) : public Attribute::in {
-  public: void Ctor();
+  public: void ctor();
 };
 } // namespace ExcludeFromCodeCoverageAttributeNamespace
 using ExcludeFromCodeCoverageAttribute = ExcludeFromCodeCoverageAttributeNamespace::ExcludeFromCodeCoverageAttribute;

@@ -11,7 +11,7 @@ namespace DictionaryValueCollectionDebugViewNamespace {
 using Generic::ICollection;
 CLASS(DictionaryValueCollectionDebugView, TKey, TValue) : public Object::in {
   public: Array<TValue> get_Items();
-  public: void Ctor(ICollection<TValue> collection);
+  public: void ctor(ICollection<TValue> collection);
   private: ICollection<TValue> _collection;
 };
 } // namespace DictionaryValueCollectionDebugViewNamespace

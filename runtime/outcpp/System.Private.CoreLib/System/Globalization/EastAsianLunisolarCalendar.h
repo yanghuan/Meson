@@ -31,7 +31,7 @@ CLASS(EastAsianLunisolarCalendar) : public Calendar::in {
   public: Int32 GetGregorianYear(Int32 year, Int32 era);
   public: Int32 MinEraCalendarYear(Int32 era);
   public: Int32 MaxEraCalendarYear(Int32 era);
-  public: void Ctor();
+  public: void ctor();
   public: void CheckTicksRange(Int64 ticks);
   public: void CheckEraRange(Int32 era);
   public: Int32 CheckYearRange(Int32 year, Int32 era);
@@ -59,7 +59,7 @@ CLASS(EastAsianLunisolarCalendar) : public Calendar::in {
   public: Boolean InternalIsLeapYear(Int32 year);
   public: Boolean IsLeapYear(Int32 year, Int32 era);
   public: Int32 ToFourDigitYear(Int32 year);
-  private: static void SCtor();
+  private: static void ctor_static();
   private: static Array<Int32> s_daysToMonth365;
   private: static Array<Int32> s_daysToMonth366;
 };
