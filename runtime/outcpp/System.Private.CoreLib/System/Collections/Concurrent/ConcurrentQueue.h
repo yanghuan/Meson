@@ -22,7 +22,6 @@ FORWARD(ConcurrentQueueSegment, T)
 FORWARD(IProducerConsumerCollection, T)
 namespace ConcurrentQueueNamespace {
 using namespace Generic;
-using Generic::IEnumerator;
 template <class T>
 using IEnumerable = Generic::IEnumerable<T>;
 using IEnumerable1 = Collections::IEnumerable;

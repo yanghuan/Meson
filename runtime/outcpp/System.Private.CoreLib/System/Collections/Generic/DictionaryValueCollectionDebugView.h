@@ -8,7 +8,6 @@ FORWARD_(Array, T1, T2)
 namespace System::Private::CoreLib::System::Collections::Generic {
 FORWARD(ICollection, T)
 namespace DictionaryValueCollectionDebugViewNamespace {
-using Generic::ICollection;
 CLASS(DictionaryValueCollectionDebugView, TKey, TValue) : public Object::in {
   public: Array<TValue> get_Items();
   public: void ctor(ICollection<TValue> collection);

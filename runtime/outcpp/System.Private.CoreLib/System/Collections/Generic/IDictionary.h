@@ -13,7 +13,6 @@ FORWARD(ICollection, T)
 FORWARD(IEnumerable, T)
 FORWARDS_(KeyValuePair, T1, T2, T3)
 namespace IDictionaryNamespace {
-using Generic::ICollection;
 template <class T>
 using IEnumerable = Generic::IEnumerable<T>;
 using IEnumerable1 = Collections::IEnumerable;

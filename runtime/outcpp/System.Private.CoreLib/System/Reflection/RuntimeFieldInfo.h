@@ -22,7 +22,6 @@ FORWARD(Module)
 FORWARD(RuntimeModule)
 namespace RuntimeFieldInfoNamespace {
 using namespace Collections::Generic;
-using Collections::Generic::IList;
 CLASS(RuntimeFieldInfo) : public FieldInfo::in {
   public: BindingFlags get_BindingFlags();
   private: RuntimeType get_ReflectedTypeInternal();

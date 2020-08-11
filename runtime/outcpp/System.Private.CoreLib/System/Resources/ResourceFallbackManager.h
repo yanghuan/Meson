@@ -18,7 +18,6 @@ namespace ResourceFallbackManagerNamespace {
 using namespace Collections;
 using namespace Collections::Generic;
 using namespace Globalization;
-using Collections::Generic::IEnumerator;
 template <class T>
 using IEnumerable = Collections::Generic::IEnumerable<T>;
 using IEnumerable1 = Collections::IEnumerable;

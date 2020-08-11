@@ -54,7 +54,6 @@ using namespace Globalization;
 using namespace IO;
 using namespace Runtime::CompilerServices;
 using namespace Threading;
-using Collections::Generic::IList;
 CLASS(AssemblyBuilder) : public Assembly::in {
   public: Object get_SyncRoot();
   public: InternalAssemblyBuilder get_InternalAssembly();

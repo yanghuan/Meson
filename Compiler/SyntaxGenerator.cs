@@ -66,17 +66,21 @@ namespace Meson.Compiler {
     internal bool TryGetReferenceUsing(ITypeDefinition reference, ITypeDefinition definition, out string usingNamespace, HashSet<ITypeDefinition> types) {
       if (!definition.IsNamespaceContain(reference)) {
         usingNamespace = reference.GetFullNamespace(true, definition);
-        AddImportTypes(definition, usingNamespace, types);
+        AddImportTypes(usingNamespace, types);
         return true;
       }
       usingNamespace = null;
       return false;
     }
 
-    private void AddImportTypes(ITypeDefinition definition, string usingNamespace, HashSet<ITypeDefinition> set) {
+    internal IEnumerable<ITypeDefinition> GetTypesInNamespace(string ns) {
+      return namespaceTypes_.GetOrDefault(ns);
+    }
+
+    private void AddImportTypes(string usingNamespace, HashSet<ITypeDefinition> set) {
       if (usingNamespace.StartsWith(Tokens.TwoColon)) {
         string ns = usingNamespace.Substring(Tokens.TwoColon.Length);
-        var types = namespaceTypes_.GetOrDefault(ns);
+        var types = GetTypesInNamespace(ns);
         if (types != null) {
           set.UnionWith(types);
         }

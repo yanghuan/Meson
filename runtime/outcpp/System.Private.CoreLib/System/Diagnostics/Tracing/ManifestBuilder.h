@@ -40,7 +40,6 @@ using namespace Collections::Generic;
 using namespace Globalization;
 using namespace Resources;
 using namespace Text;
-using Collections::Generic::IList;
 CLASS(ManifestBuilder) : public Object::in {
   private: CLASS(ChannelInfo) : public Object::in {
     public: void ctor();

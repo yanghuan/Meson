@@ -6,7 +6,6 @@
 
 namespace System::Private::CoreLib::System::Threading::Tasks {
 FORWARD(ITaskCompletionAction)
-FORWARD_(Task, T1, T2)
 namespace UnwrapPromiseNamespace {
 CLASS(UnwrapPromise, TResult) : public Task<TResult>::in {
   public: using interface = rt::TypeList<ITaskCompletionAction>;

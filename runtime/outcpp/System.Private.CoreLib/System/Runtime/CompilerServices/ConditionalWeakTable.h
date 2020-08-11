@@ -27,7 +27,6 @@ namespace System::Private::CoreLib::System::Runtime::CompilerServices {
 namespace ConditionalWeakTableNamespace {
 using namespace Collections;
 using namespace Collections::Generic;
-using Collections::Generic::IEnumerator;
 template <class T>
 using IEnumerable = Collections::Generic::IEnumerable<T>;
 using IEnumerable1 = Collections::IEnumerable;

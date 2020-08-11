@@ -161,13 +161,12 @@ namespace Meson.Compiler {
       return $"{string.Join('/', parts)}/{reference.Name}{extra}.h";
     }
 
-    private static IEnumerable<string> GetAllNamespaces(this ITypeDefinition type) {
-      string ns = type.Namespace;
+    public static IEnumerable<string> GetAllNamespaces(this string ns, string separator) {
       if (ns.Length > 0) {
         yield return ns;
         int index = ns.Length - 1;
         while (true) {
-          int pos = ns.LastIndexOf('.', index);
+          int pos = ns.LastIndexOf(separator, index);
           if (pos == -1) {
             break;
           }
@@ -179,7 +178,7 @@ namespace Meson.Compiler {
 
     public static string GetFullNamespace(this ITypeDefinition reference, bool hasGlobal = false, ITypeDefinition definition = null) {
       if (definition != null && definition.ParentModule.AssemblyName == reference.ParentModule.AssemblyName) {
-        foreach (string i in definition.GetAllNamespaces()) {
+        foreach (string i in definition.Namespace.GetAllNamespaces(".")) {
           if (reference.Namespace.StartsWith(i)) {
             string name;
             if (reference.Namespace == i) {

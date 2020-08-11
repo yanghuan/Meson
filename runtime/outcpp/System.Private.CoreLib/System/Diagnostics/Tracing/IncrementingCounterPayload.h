@@ -19,7 +19,6 @@ namespace System::Private::CoreLib::System::Diagnostics::Tracing {
 namespace IncrementingCounterPayloadNamespace {
 using namespace Collections;
 using namespace Collections::Generic;
-using Collections::Generic::IEnumerator;
 template <class T>
 using IEnumerable = Collections::Generic::IEnumerable<T>;
 using IEnumerable1 = Collections::IEnumerable;

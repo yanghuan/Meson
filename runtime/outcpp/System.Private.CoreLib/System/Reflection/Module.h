@@ -40,7 +40,6 @@ FORWARD(TypeFilter)
 namespace ModuleNamespace {
 using namespace Collections::Generic;
 using namespace Runtime::Serialization;
-using Collections::Generic::IList;
 CLASS(Module) : public Object::in {
   public: using interface = rt::TypeList<ICustomAttributeProvider, ISerializable>;
   public: Assembly get_Assembly();

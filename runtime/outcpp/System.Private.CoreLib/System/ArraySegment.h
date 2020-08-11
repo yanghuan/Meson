@@ -23,9 +23,6 @@ FORWARD(Object)
 namespace ArraySegmentNamespace {
 using namespace Collections;
 using namespace Collections::Generic;
-using Collections::Generic::IList;
-using Collections::Generic::ICollection;
-using Collections::Generic::IEnumerator;
 template <class T>
 using IEnumerable = Collections::Generic::IEnumerable<T>;
 using IEnumerable1 = Collections::IEnumerable;

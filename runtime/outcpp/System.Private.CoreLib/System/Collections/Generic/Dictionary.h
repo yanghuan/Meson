@@ -37,8 +37,6 @@ FORWARD(IReadOnlyCollection, T)
 FORWARD(IReadOnlyDictionary, TKey, TValue)
 namespace DictionaryNamespace {
 using namespace Runtime::Serialization;
-using Generic::ICollection;
-using Generic::IEnumerator;
 template <class TKey, class TValue>
 using IDictionary = Generic::IDictionary<TKey, TValue>;
 using IDictionary1 = Collections::IDictionary;

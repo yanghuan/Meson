@@ -22,7 +22,6 @@ namespace SingleProducerSingleConsumerQueueNamespace {
 using namespace ::System::Private::CoreLib::Internal;
 using namespace Collections;
 using namespace Collections::Generic;
-using Collections::Generic::IEnumerator;
 template <class T>
 using IEnumerable = Collections::Generic::IEnumerable<T>;
 using IEnumerable1 = Collections::IEnumerable;

@@ -70,7 +70,6 @@ using namespace Runtime::CompilerServices;
 using namespace Runtime::Loader;
 using namespace Runtime::Serialization;
 using namespace Threading;
-using Collections::Generic::IList;
 CLASS(RuntimeAssembly) : public Assembly::in {
   private: CLASS(ManifestResourceStream) : public UnmanagedMemoryStream::in {
     public: void ctor(RuntimeAssembly manifestAssembly, Byte* pointer, Int64 length, Int64 capacity, FileAccess access);

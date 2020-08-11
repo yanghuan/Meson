@@ -27,7 +27,6 @@ using namespace Collections::Generic;
 using namespace Collections::ObjectModel;
 using namespace Runtime::ExceptionServices;
 using namespace Runtime::Serialization;
-using Collections::Generic::IList;
 CLASS(AggregateException) : public Exception::in {
   public: ReadOnlyCollection<Exception> get_InnerExceptions();
   public: String get_Message();

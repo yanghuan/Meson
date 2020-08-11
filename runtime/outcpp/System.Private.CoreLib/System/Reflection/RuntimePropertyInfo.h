@@ -33,7 +33,6 @@ FORWARD(RuntimeModule)
 namespace RuntimePropertyInfoNamespace {
 using namespace Collections::Generic;
 using namespace Globalization;
-using Collections::Generic::IList;
 CLASS(RuntimePropertyInfo) : public PropertyInfo::in {
   public: Signature get_Signature();
   public: BindingFlags get_BindingFlags();

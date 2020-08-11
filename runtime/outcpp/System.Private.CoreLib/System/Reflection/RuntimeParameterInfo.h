@@ -28,7 +28,6 @@ FORWARD(RuntimeModule)
 FORWARD(RuntimePropertyInfo)
 namespace RuntimeParameterInfoNamespace {
 using namespace Collections::Generic;
-using Collections::Generic::IList;
 CLASS(RuntimeParameterInfo) : public ParameterInfo::in {
   public: Type get_ParameterType();
   public: String get_Name();

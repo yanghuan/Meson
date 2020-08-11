@@ -9,7 +9,6 @@ FORWARD(Object)
 namespace System::Private::CoreLib::System::Threading::Tasks {
 enum class InternalTaskOptions : int32_t;
 enum class TaskCreationOptions : int32_t;
-FORWARD_(Task, T1, T2)
 namespace ContinuationResultTaskFromTaskNamespace {
 CLASS(ContinuationResultTaskFromTask, TResult) : public Task<TResult>::in {
   public: void ctor(Task<> antecedent, Delegate function, Object state, TaskCreationOptions creationOptions, InternalTaskOptions internalOptions);

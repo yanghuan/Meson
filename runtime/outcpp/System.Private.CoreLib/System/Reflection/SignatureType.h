@@ -47,7 +47,6 @@ namespace SignatureTypeNamespace {
 using namespace Collections::Generic;
 using namespace Globalization;
 using namespace Runtime::InteropServices;
-using Collections::Generic::IList;
 CLASS(SignatureType) : public Type::in {
   public: Boolean get_IsSignatureType();
   public: Boolean get_IsTypeDefinition();

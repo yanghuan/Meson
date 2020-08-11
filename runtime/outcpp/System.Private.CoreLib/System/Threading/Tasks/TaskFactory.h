@@ -19,11 +19,9 @@ namespace System::Private::CoreLib::System::Threading::Tasks {
 enum class TaskContinuationOptions : int32_t;
 enum class TaskCreationOptions : int32_t;
 FORWARD(ITaskCompletionAction)
-FORWARD_(Task, T1, T2)
 FORWARD(TaskScheduler)
 namespace TaskFactoryNamespace {
 using namespace Collections::Generic;
-using Collections::Generic::IList;
 CLASS_FORWARD(TaskFactory, T1, T2)
 CLASS_(TaskFactory) : public Object::in {
   CLASS_FORWARD(CompleteOnCountdownPromise, T1, T2)

@@ -32,9 +32,6 @@ FORWARD(IReadOnlyCollection, T)
 FORWARD(IReadOnlyList, T)
 namespace ListNamespace {
 using namespace ObjectModel;
-using Generic::IList;
-using Generic::ICollection;
-using Generic::IEnumerator;
 template <class T>
 using IList = Generic::IList<T>;
 using IList1 = Collections::IList;

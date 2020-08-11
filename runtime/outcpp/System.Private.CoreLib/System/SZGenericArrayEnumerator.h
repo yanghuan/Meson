@@ -16,7 +16,6 @@ FORWARD(IDisposable)
 namespace SZGenericArrayEnumeratorNamespace {
 using namespace Collections;
 using namespace Collections::Generic;
-using Collections::Generic::IEnumerator;
 template <class T>
 using IEnumerator = Collections::Generic::IEnumerator<T>;
 using IEnumerator1 = Collections::IEnumerator;

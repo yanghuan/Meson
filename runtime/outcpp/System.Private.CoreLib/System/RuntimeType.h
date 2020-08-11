@@ -77,7 +77,6 @@ using namespace Globalization;
 using namespace Reflection;
 using namespace Runtime::InteropServices;
 using namespace Threading;
-using Collections::Generic::IList;
 CLASS(RuntimeType) : public TypeInfo::in {
   public: using interface = rt::TypeList<ICloneable>;
   public: enum class MemberListType : int32_t {

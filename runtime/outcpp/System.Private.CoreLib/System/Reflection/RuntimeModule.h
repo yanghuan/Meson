@@ -47,7 +47,6 @@ namespace RuntimeModuleNamespace {
 using namespace Collections::Generic;
 using namespace Runtime::CompilerServices;
 using namespace Runtime::Serialization;
-using Collections::Generic::IList;
 CLASS(RuntimeModule) : public Module::in {
   public: Int32 get_MDStreamVersion();
   public: RuntimeType get_RuntimeType();

@@ -3,7 +3,6 @@
 #include <System.Private.CoreLib/Internal/Runtime/CompilerServices/Unsafe-dep.h>
 #include <System.Private.CoreLib/System/ArgumentException-dep.h>
 #include <System.Private.CoreLib/System/ArgumentOutOfRangeException-dep.h>
-#include <System.Private.CoreLib/System/Array-dep.h>
 #include <System.Private.CoreLib/System/ArrayEnumerator-dep.h>
 #include <System.Private.CoreLib/System/ArrayTypeMismatchException-dep.h>
 #include <System.Private.CoreLib/System/Buffer-dep.h>
@@ -16,13 +15,9 @@
 #include <System.Private.CoreLib/System/ExceptionResource.h>
 #include <System.Private.CoreLib/System/IndexOutOfRangeException-dep.h>
 #include <System.Private.CoreLib/System/Int16-dep.h>
-#include <System.Private.CoreLib/System/Int32-dep.h>
-#include <System.Private.CoreLib/System/Int64-dep.h>
 #include <System.Private.CoreLib/System/IntPtr-dep.h>
 #include <System.Private.CoreLib/System/MemoryExtensions-dep.h>
-#include <System.Private.CoreLib/System/Object-dep.h>
 #include <System.Private.CoreLib/System/RankException-dep.h>
-#include <System.Private.CoreLib/System/Reflection/CorElementType.h>
 #include <System.Private.CoreLib/System/Runtime/CompilerServices/MethodTable-dep.h>
 #include <System.Private.CoreLib/System/Runtime/CompilerServices/RawArrayData-dep.h>
 #include <System.Private.CoreLib/System/Runtime/CompilerServices/RuntimeHelpers-dep.h>
@@ -43,7 +38,6 @@
 namespace System::Private::CoreLib::System::ArrayNamespace {
 using namespace ::System::Private::CoreLib::Internal::Runtime::CompilerServices;
 using namespace Collections;
-using namespace Reflection;
 using namespace Runtime::CompilerServices;
 Array___<>::SorterObjectArray::SorterObjectArray(Array<Object> keys, Array<Object> items, IComparer1 comparer) {
 }
