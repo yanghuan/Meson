@@ -8,11 +8,11 @@ FORWARD(IEnumerable)
 namespace System::Private::CoreLib::System::Collections::Generic {
 FORWARD(IEnumerator, T)
 namespace IEnumerableNamespace {
-using IEnumerable = Collections::IEnumerable;
+using IEnumerable_ = Collections::IEnumerable;
 template <class T>
 using IEnumerator = Generic::IEnumerator<T>;
 CLASS(IEnumerable, T) : public Object::in {
-  public: using interface = rt::TypeList<Collections::IEnumerable>;
+  public: using interface = rt::TypeList<IEnumerable_>;
   public: IEnumerator<T> GetEnumerator();
   public: static constexpr rt::TypeCode code = rt::TypeCode::Interface;
 };

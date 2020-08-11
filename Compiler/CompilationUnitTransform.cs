@@ -348,8 +348,8 @@ namespace Meson.Compiler {
     }
 
     private void CheckRefactorNames(StatementListSyntax headUsingsSyntax, StatementListSyntax srcUsingsSyntax, HashSet<ITypeDefinition> importTypes) {
+      HashSet<string> usedNames = new HashSet<string>() { root_.Name };
       var nameGroups = importTypes.GroupBy(i => i.Name).ToDictionary(i => i.Key, i => i.ToList());
-      HashSet<string> usedNames = new HashSet<string>();
       foreach (var referenceType in headReferences_.Keys) {
         var sameNameTypes = nameGroups.GetOrDefault(referenceType.Name);
         if (sameNameTypes != null && sameNameTypes.Count > 1) {

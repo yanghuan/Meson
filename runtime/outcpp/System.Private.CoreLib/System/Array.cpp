@@ -101,33 +101,6 @@ void Array___<>::SorterGenericArray::DownHeap(Int32 i, Int32 n, Int32 lo) {
 void Array___<>::SorterGenericArray::InsertionSort(Int32 lo, Int32 hi) {
 }
 
-Int32 Array___<>::get_Length() {
-}
-
-Int64 Array___<>::get_LongLength() {
-}
-
-Int32 Array___<>::get_Rank() {
-}
-
-Int32 Array___<>::get_CountOfICollection() {
-}
-
-Object Array___<>::get_SyncRoot() {
-}
-
-Boolean Array___<>::get_IsReadOnly() {
-}
-
-Boolean Array___<>::get_IsFixedSize() {
-}
-
-Boolean Array___<>::get_IsSynchronized() {
-}
-
-Object Array___<>::get_ItemOfIList(Int32 index) {
-}
-
 void Array___<>::set_ItemOfIList(Int32 index, Object value) {
 }
 

@@ -137,9 +137,6 @@ namespace Meson.Compiler {
         IsInHead = true,
         IsForward = true,
       });
-      if (type.Name == definition.Name) {
-        typeExpression = type.Namespace.LastNamespace().Identifier().TwoColon(typeExpression);
-      }
       return typeExpression;
     }
 
