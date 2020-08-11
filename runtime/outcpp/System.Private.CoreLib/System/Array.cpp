@@ -39,7 +39,7 @@ namespace System::Private::CoreLib::System::ArrayNamespace {
 using namespace ::System::Private::CoreLib::Internal::Runtime::CompilerServices;
 using namespace Collections;
 using namespace Runtime::CompilerServices;
-Array___<>::SorterObjectArray::SorterObjectArray(Array<Object> keys, Array<Object> items, IComparer1 comparer) {
+Array___<>::SorterObjectArray::SorterObjectArray(Array<Object> keys, Array<Object> items, IComparer comparer) {
 }
 
 void Array___<>::SorterObjectArray::SwapIfGreater(Int32 a, Int32 b) {
@@ -70,7 +70,7 @@ void Array___<>::SorterObjectArray::DownHeap(Int32 i, Int32 n, Int32 lo) {
 void Array___<>::SorterObjectArray::InsertionSort(Int32 lo, Int32 hi) {
 }
 
-Array___<>::SorterGenericArray::SorterGenericArray(Array<> keys, Array<> items, IComparer1 comparer) {
+Array___<>::SorterGenericArray::SorterGenericArray(Array<> keys, Array<> items, IComparer comparer) {
 }
 
 void Array___<>::SorterGenericArray::SwapIfGreater(Int32 a, Int32 b) {
@@ -689,14 +689,14 @@ Int32 Array___<>::BinarySearch(Array<> array, Int32 index, Int32 length, Object 
   return BinarySearch(array, index, length, value, nullptr);
 }
 
-Int32 Array___<>::BinarySearch(Array<> array, Object value, IComparer1 comparer) {
+Int32 Array___<>::BinarySearch(Array<> array, Object value, IComparer comparer) {
   if (array == nullptr) {
     ThrowHelper::ThrowArgumentNullException(ExceptionArgument::array);
   }
   return BinarySearch(array, array->GetLowerBound(0), array->get_Length(), value, comparer);
 }
 
-Int32 Array___<>::BinarySearch(Array<> array, Int32 index, Int32 length, Object value, IComparer1 comparer) {
+Int32 Array___<>::BinarySearch(Array<> array, Int32 index, Int32 length, Object value, IComparer comparer) {
   auto GenericBinarySearch = []<class T>(Array<> array, Int32 adjustedIndex, Int32 length, Object value) -> Int32 {
     return MemoryExtensions::BinarySearch(UnsafeArrayAsSpan<T>(array, adjustedIndex, length), Unsafe::As<Byte, T>(RuntimeHelpers::GetRawData(value)));
   };
@@ -1132,25 +1132,25 @@ void Array___<>::Sort(Array<> keys, Array<> items, Int32 index, Int32 length) {
   Sort(keys, items, index, length, nullptr);
 }
 
-void Array___<>::Sort(Array<> array, IComparer1 comparer) {
+void Array___<>::Sort(Array<> array, IComparer comparer) {
   if (array == nullptr) {
     ThrowHelper::ThrowArgumentNullException(ExceptionArgument::array);
   }
   Sort(array, nullptr, array->GetLowerBound(0), array->get_Length(), comparer);
 }
 
-void Array___<>::Sort(Array<> keys, Array<> items, IComparer1 comparer) {
+void Array___<>::Sort(Array<> keys, Array<> items, IComparer comparer) {
   if (keys == nullptr) {
     ThrowHelper::ThrowArgumentNullException(ExceptionArgument::keys);
   }
   Sort(keys, items, keys->GetLowerBound(0), keys->get_Length(), comparer);
 }
 
-void Array___<>::Sort(Array<> array, Int32 index, Int32 length, IComparer1 comparer) {
+void Array___<>::Sort(Array<> array, Int32 index, Int32 length, IComparer comparer) {
   Sort(array, nullptr, index, length, comparer);
 }
 
-void Array___<>::Sort(Array<> keys, Array<> items, Int32 index, Int32 length, IComparer1 comparer) {
+void Array___<>::Sort(Array<> keys, Array<> items, Int32 index, Int32 length, IComparer comparer) {
   auto GenericSort = []<class T>(Array<> keys, Array<> items, Int32 adjustedIndex, Int32 length) -> void {
     Span<T> span = UnsafeArrayAsSpan<T>(keys, adjustedIndex, length);
     if (items != nullptr) {

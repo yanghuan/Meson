@@ -15,9 +15,9 @@ FORWARD(IEnumerable, T)
 namespace ICollectionNamespace {
 template <class T>
 using IEnumerable = Generic::IEnumerable<T>;
-using IEnumerable1 = Collections::IEnumerable;
+using IEnumerable_ = Collections::IEnumerable;
 CLASS(ICollection, T) : public Object::in {
-  public: using interface = rt::TypeList<IEnumerable<T>, IEnumerable1>;
+  public: using interface = rt::TypeList<IEnumerable<T>, IEnumerable_>;
   public: Int32 get_Count();
   public: Boolean get_IsReadOnly();
   public: void Add(T item);

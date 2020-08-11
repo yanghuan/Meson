@@ -15,9 +15,9 @@ FORWARDS_(KeyValuePair, T1, T2, T3)
 namespace IReadOnlyDictionaryNamespace {
 template <class T>
 using IEnumerable = Generic::IEnumerable<T>;
-using IEnumerable1 = Collections::IEnumerable;
+using IEnumerable_ = Collections::IEnumerable;
 CLASS(IReadOnlyDictionary, TKey, TValue) : public Object::in {
-  public: using interface = rt::TypeList<IReadOnlyCollection<KeyValuePair<TKey, TValue>>, IEnumerable<KeyValuePair<TKey, TValue>>, IEnumerable1>;
+  public: using interface = rt::TypeList<IReadOnlyCollection<KeyValuePair<TKey, TValue>>, IEnumerable<KeyValuePair<TKey, TValue>>, IEnumerable_>;
   public: TValue get_Item(TKey key);
   public: IEnumerable<TKey> get_Keys();
   public: IEnumerable<TValue> get_Values();

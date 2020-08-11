@@ -25,15 +25,17 @@ namespace ReadOnlyCollectionNamespace {
 using namespace Generic;
 template <class T>
 using IList = Generic::IList<T>;
-using IList1 = Collections::IList;
 template <class T>
 using ICollection = Generic::ICollection<T>;
-using ICollection1 = Collections::ICollection;
 template <class T>
 using IEnumerable = Generic::IEnumerable<T>;
-using IEnumerable1 = Collections::IEnumerable;
+using IEnumerable_ = Collections::IEnumerable;
+using IList_ = Collections::IList;
+using ICollection_ = Collections::ICollection;
+template <class T>
+using IEnumerator = Generic::IEnumerator<T>;
 CLASS(ReadOnlyCollection, T) : public Object::in {
-  public: using interface = rt::TypeList<IList<T>, ICollection<T>, IEnumerable<T>, IEnumerable1, IList1, ICollection1, IReadOnlyList<T>, IReadOnlyCollection<T>>;
+  public: using interface = rt::TypeList<IList<T>, ICollection<T>, IEnumerable<T>, IEnumerable_, IList_, ICollection_, IReadOnlyList<T>, IReadOnlyCollection<T>>;
   public: Int32 get_Count();
   public: T get_Item(Int32 index);
   protected: IList<T> get_Items();

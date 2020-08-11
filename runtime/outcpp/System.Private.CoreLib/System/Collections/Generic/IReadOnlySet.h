@@ -14,9 +14,9 @@ FORWARD(IReadOnlyCollection, T)
 namespace IReadOnlySetNamespace {
 template <class T>
 using IEnumerable = Generic::IEnumerable<T>;
-using IEnumerable1 = Collections::IEnumerable;
+using IEnumerable_ = Collections::IEnumerable;
 CLASS(IReadOnlySet, T) : public Object::in {
-  public: using interface = rt::TypeList<IReadOnlyCollection<T>, IEnumerable<T>, IEnumerable1>;
+  public: using interface = rt::TypeList<IReadOnlyCollection<T>, IEnumerable<T>, IEnumerable_>;
   public: Boolean Contains(T item);
   public: Boolean IsProperSubsetOf(IEnumerable<T> other);
   public: Boolean IsProperSupersetOf(IEnumerable<T> other);

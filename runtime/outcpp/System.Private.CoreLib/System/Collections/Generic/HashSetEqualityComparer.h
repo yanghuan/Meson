@@ -10,6 +10,8 @@ namespace System::Private::CoreLib::System::Collections::Generic {
 FORWARD(HashSet, T)
 FORWARD(IEqualityComparer, T)
 namespace HashSetEqualityComparerNamespace {
+template <class T>
+using IEqualityComparer = Generic::IEqualityComparer<T>;
 CLASS(HashSetEqualityComparer, T) : public Object::in {
   public: using interface = rt::TypeList<IEqualityComparer<HashSet<T>>>;
   public: Boolean Equals(HashSet<T> x, HashSet<T> y);

@@ -39,18 +39,20 @@ namespace DictionaryNamespace {
 using namespace Runtime::Serialization;
 template <class TKey, class TValue>
 using IDictionary = Generic::IDictionary<TKey, TValue>;
-using IDictionary1 = Collections::IDictionary;
 template <class T>
 using ICollection = Generic::ICollection<T>;
-using ICollection1 = Collections::ICollection;
 template <class T>
 using IEnumerable = Generic::IEnumerable<T>;
-using IEnumerable1 = Collections::IEnumerable;
+using IEnumerable_ = Collections::IEnumerable;
+using IDictionary_ = Collections::IDictionary;
+using ICollection_ = Collections::ICollection;
 template <class T>
 using IEnumerator = Generic::IEnumerator<T>;
-using IEnumerator1 = Collections::IEnumerator;
+using IEnumerator_ = Collections::IEnumerator;
+template <class T>
+using IEqualityComparer = Generic::IEqualityComparer<T>;
 CLASS(Dictionary, TKey, TValue) : public Object::in {
-  public: using interface = rt::TypeList<IDictionary<TKey, TValue>, ICollection<KeyValuePair<TKey, TValue>>, IEnumerable<KeyValuePair<TKey, TValue>>, IEnumerable1, IDictionary1, ICollection1, IReadOnlyDictionary<TKey, TValue>, IReadOnlyCollection<KeyValuePair<TKey, TValue>>, ISerializable, IDeserializationCallback>;
+  public: using interface = rt::TypeList<IDictionary<TKey, TValue>, ICollection<KeyValuePair<TKey, TValue>>, IEnumerable<KeyValuePair<TKey, TValue>>, IEnumerable_, IDictionary_, ICollection_, IReadOnlyDictionary<TKey, TValue>, IReadOnlyCollection<KeyValuePair<TKey, TValue>>, ISerializable, IDeserializationCallback>;
   private: struct Entry : public valueType<Entry> {
     public: UInt32 hashCode;
     public: Int32 next;
@@ -58,7 +60,7 @@ CLASS(Dictionary, TKey, TValue) : public Object::in {
     public: TValue value;
   };
   public: struct Enumerator : public valueType<Enumerator> {
-    public: using interface = rt::TypeList<IEnumerator<KeyValuePair<TKey, TValue>>, IDisposable, IEnumerator1, IDictionaryEnumerator>;
+    public: using interface = rt::TypeList<IEnumerator<KeyValuePair<TKey, TValue>>, IDisposable, IEnumerator_, IDictionaryEnumerator>;
     public: KeyValuePair<TKey, TValue> get_Current();
     private: Object get_CurrentOfIEnumerator();
     private: DictionaryEntry get_EntryOfIDictionaryEnumerator();
@@ -75,9 +77,9 @@ CLASS(Dictionary, TKey, TValue) : public Object::in {
     private: Int32 _getEnumeratorRetType;
   };
   public: CLASS(KeyCollection) : public Object::in {
-    public: using interface = rt::TypeList<ICollection<TKey>, IEnumerable<TKey>, IEnumerable1, ICollection1, IReadOnlyCollection<TKey>>;
+    public: using interface = rt::TypeList<ICollection<TKey>, IEnumerable<TKey>, IEnumerable_, ICollection_, IReadOnlyCollection<TKey>>;
     public: struct Enumerator : public valueType<Enumerator> {
-      public: using interface = rt::TypeList<IEnumerator<TKey>, IDisposable, IEnumerator1>;
+      public: using interface = rt::TypeList<IEnumerator<TKey>, IDisposable, IEnumerator_>;
       public: TKey get_Current();
       private: Object get_CurrentOfIEnumerator();
       public: explicit Enumerator(Dictionary<TKey, TValue> dictionary);
@@ -99,9 +101,9 @@ CLASS(Dictionary, TKey, TValue) : public Object::in {
     private: Dictionary<TKey, TValue> _dictionary;
   };
   public: CLASS(ValueCollection) : public Object::in {
-    public: using interface = rt::TypeList<ICollection<TValue>, IEnumerable<TValue>, IEnumerable1, ICollection1, IReadOnlyCollection<TValue>>;
+    public: using interface = rt::TypeList<ICollection<TValue>, IEnumerable<TValue>, IEnumerable_, ICollection_, IReadOnlyCollection<TValue>>;
     public: struct Enumerator : public valueType<Enumerator> {
-      public: using interface = rt::TypeList<IEnumerator<TValue>, IDisposable, IEnumerator1>;
+      public: using interface = rt::TypeList<IEnumerator<TValue>, IDisposable, IEnumerator_>;
       public: TValue get_Current();
       private: Object get_CurrentOfIEnumerator();
       public: explicit Enumerator(Dictionary<TKey, TValue> dictionary);
@@ -137,8 +139,8 @@ CLASS(Dictionary, TKey, TValue) : public Object::in {
   private: Object get_SyncRootOfICollection();
   private: Boolean get_IsFixedSizeOfIDictionary();
   private: Boolean get_IsReadOnlyOfIDictionary();
-  private: ICollection1 get_KeysOfIDictionary();
-  private: ICollection1 get_ValuesOfIDictionary();
+  private: ICollection_ get_KeysOfIDictionary();
+  private: ICollection_ get_ValuesOfIDictionary();
   private: Object get_ItemOfIDictionary(Object key);
   private: void set_ItemOfIDictionary(Object key, Object value);
   public: void ctor();

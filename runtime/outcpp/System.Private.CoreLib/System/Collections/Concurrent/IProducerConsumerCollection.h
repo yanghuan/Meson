@@ -19,9 +19,10 @@ namespace IProducerConsumerCollectionNamespace {
 using namespace Generic;
 template <class T>
 using IEnumerable = Generic::IEnumerable<T>;
-using IEnumerable1 = Collections::IEnumerable;
+using IEnumerable_ = Collections::IEnumerable;
+using ICollection = Collections::ICollection;
 CLASS(IProducerConsumerCollection, T) : public Object::in {
-  public: using interface = rt::TypeList<IEnumerable<T>, IEnumerable1, ICollection>;
+  public: using interface = rt::TypeList<IEnumerable<T>, IEnumerable_, ICollection>;
   public: void CopyTo(Array<T> array, Int32 index);
   public: Boolean TryAdd(T item);
   public: Boolean TryTake(T& item);

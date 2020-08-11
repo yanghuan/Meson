@@ -18,11 +18,11 @@ FORWARD(String)
 namespace CharEnumeratorNamespace {
 using namespace Collections;
 using namespace Collections::Generic;
+using IEnumerator = Collections::IEnumerator;
 template <class T>
-using IEnumerator = Collections::Generic::IEnumerator<T>;
-using IEnumerator1 = Collections::IEnumerator;
+using IEnumerator_ = Collections::Generic::IEnumerator<T>;
 CLASS(CharEnumerator) : public Object::in {
-  public: using interface = rt::TypeList<IEnumerator1, IEnumerator<Char>, IDisposable, ICloneable>;
+  public: using interface = rt::TypeList<IEnumerator, IEnumerator_<Char>, IDisposable, ICloneable>;
   private: Object get_CurrentOfIEnumerator();
   public: Char get_Current();
   public: void ctor(String str);

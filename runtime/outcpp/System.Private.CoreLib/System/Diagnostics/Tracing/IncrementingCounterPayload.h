@@ -21,9 +21,11 @@ using namespace Collections;
 using namespace Collections::Generic;
 template <class T>
 using IEnumerable = Collections::Generic::IEnumerable<T>;
-using IEnumerable1 = Collections::IEnumerable;
+using IEnumerable_ = Collections::IEnumerable;
+template <class T>
+using IEnumerator = Collections::Generic::IEnumerator<T>;
 CLASS(IncrementingCounterPayload) : public Object::in {
-  public: using interface = rt::TypeList<IEnumerable<KeyValuePair<String, Object>>, IEnumerable1>;
+  public: using interface = rt::TypeList<IEnumerable<KeyValuePair<String, Object>>, IEnumerable_>;
   public: String get_Name() { return Name; }
   public: void set_Name(String value) { Name = value; }
   public: String get_DisplayName() { return DisplayName; }

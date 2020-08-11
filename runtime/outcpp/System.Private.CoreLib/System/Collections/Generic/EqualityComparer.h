@@ -13,11 +13,11 @@ FORWARDS(Int32)
 namespace System::Private::CoreLib::System::Collections::Generic {
 FORWARD(IEqualityComparer, T)
 namespace EqualityComparerNamespace {
+using IEqualityComparer = Collections::IEqualityComparer;
 template <class T>
-using IEqualityComparer = Generic::IEqualityComparer<T>;
-using IEqualityComparer1 = Collections::IEqualityComparer;
+using IEqualityComparer_ = Generic::IEqualityComparer<T>;
 CLASS(EqualityComparer, T) : public Object::in {
-  public: using interface = rt::TypeList<IEqualityComparer1, IEqualityComparer<T>>;
+  public: using interface = rt::TypeList<IEqualityComparer, IEqualityComparer_<T>>;
   public: static EqualityComparer<T> get_Default() { return Default; }
   public: Int32 IndexOf(Array<T> array, T value, Int32 startIndex, Int32 count);
   public: Int32 LastIndexOf(Array<T> array, T value, Int32 startIndex, Int32 count);

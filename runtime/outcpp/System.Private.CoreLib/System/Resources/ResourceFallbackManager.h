@@ -20,9 +20,11 @@ using namespace Collections::Generic;
 using namespace Globalization;
 template <class T>
 using IEnumerable = Collections::Generic::IEnumerable<T>;
-using IEnumerable1 = Collections::IEnumerable;
+using IEnumerable_ = Collections::IEnumerable;
+template <class T>
+using IEnumerator = Collections::Generic::IEnumerator<T>;
 CLASS(ResourceFallbackManager) : public Object::in {
-  public: using interface = rt::TypeList<IEnumerable<CultureInfo>, IEnumerable1>;
+  public: using interface = rt::TypeList<IEnumerable<CultureInfo>, IEnumerable_>;
   public: void ctor(CultureInfo startingCulture, CultureInfo neutralResourcesCulture, Boolean useParents);
   public: IEnumerator<CultureInfo> GetEnumerator();
   private: CultureInfo m_startingCulture;

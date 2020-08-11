@@ -16,6 +16,8 @@ namespace System::Private::CoreLib::System::Collections::Generic {
 FORWARD(IEqualityComparer, T)
 namespace NonRandomizedStringEqualityComparerNamespace {
 using namespace Runtime::Serialization;
+template <class T>
+using IEqualityComparer = Generic::IEqualityComparer<T>;
 CLASS(NonRandomizedStringEqualityComparer) : public EqualityComparer<String>::in {
   public: using interface = rt::TypeList<ISerializable>;
   public: static IEqualityComparer<String> get_Default() { return Default; }

@@ -21,14 +21,14 @@ namespace System::Private::CoreLib::System::Resources {
 namespace FastResourceComparerNamespace {
 using namespace Collections;
 using namespace Collections::Generic;
+using IComparer = Collections::IComparer;
+using IEqualityComparer = Collections::IEqualityComparer;
 template <class T>
-using IComparer = Collections::Generic::IComparer<T>;
-using IComparer1 = Collections::IComparer;
+using IComparer_ = Collections::Generic::IComparer<T>;
 template <class T>
-using IEqualityComparer = Collections::Generic::IEqualityComparer<T>;
-using IEqualityComparer1 = Collections::IEqualityComparer;
+using IEqualityComparer_ = Collections::Generic::IEqualityComparer<T>;
 CLASS(FastResourceComparer) : public Object::in {
-  public: using interface = rt::TypeList<IComparer1, IEqualityComparer1, IComparer<String>, IEqualityComparer<String>>;
+  public: using interface = rt::TypeList<IComparer, IEqualityComparer, IComparer_<String>, IEqualityComparer_<String>>;
   public: Int32 GetHashCode(Object key);
   public: Int32 GetHashCode(String key);
   public: static Int32 HashFunction(String key);

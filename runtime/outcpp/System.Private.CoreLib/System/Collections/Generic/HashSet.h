@@ -33,20 +33,24 @@ FORWARD(ISet, T)
 namespace HashSetNamespace {
 using namespace Runtime::Serialization;
 template <class T>
+using ICollection = Generic::ICollection<T>;
+template <class T>
 using IEnumerable = Generic::IEnumerable<T>;
-using IEnumerable1 = Collections::IEnumerable;
+using IEnumerable_ = Collections::IEnumerable;
 template <class T>
 using IEnumerator = Generic::IEnumerator<T>;
-using IEnumerator1 = Collections::IEnumerator;
+using IEnumerator_ = Collections::IEnumerator;
+template <class T>
+using IEqualityComparer = Generic::IEqualityComparer<T>;
 CLASS(HashSet, T) : public Object::in {
-  public: using interface = rt::TypeList<ICollection<T>, IEnumerable<T>, IEnumerable1, ISet<T>, IReadOnlyCollection<T>, IReadOnlySet<T>, ISerializable, IDeserializationCallback>;
+  public: using interface = rt::TypeList<ICollection<T>, IEnumerable<T>, IEnumerable_, ISet<T>, IReadOnlyCollection<T>, IReadOnlySet<T>, ISerializable, IDeserializationCallback>;
   private: struct Entry : public valueType<Entry> {
     public: Int32 HashCode;
     public: Int32 Next;
     public: T Value;
   };
   public: struct Enumerator : public valueType<Enumerator> {
-    public: using interface = rt::TypeList<IEnumerator<T>, IDisposable, IEnumerator1>;
+    public: using interface = rt::TypeList<IEnumerator<T>, IDisposable, IEnumerator_>;
     public: T get_Current();
     private: Object get_CurrentOfIEnumerator();
     public: explicit Enumerator(HashSet<T> hashSet);

@@ -18,9 +18,9 @@ using namespace Collections;
 using namespace Collections::Generic;
 template <class T>
 using IEnumerator = Collections::Generic::IEnumerator<T>;
-using IEnumerator1 = Collections::IEnumerator;
+using IEnumerator_ = Collections::IEnumerator;
 CLASS(SZGenericArrayEnumerator, T) : public Object::in {
-  public: using interface = rt::TypeList<IEnumerator<T>, IDisposable, IEnumerator1>;
+  public: using interface = rt::TypeList<IEnumerator<T>, IDisposable, IEnumerator_>;
   public: T get_Current();
   private: Object get_CurrentOfIEnumerator();
   public: void ctor(Array<T> array);

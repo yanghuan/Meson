@@ -34,20 +34,22 @@ namespace ListNamespace {
 using namespace ObjectModel;
 template <class T>
 using IList = Generic::IList<T>;
-using IList1 = Collections::IList;
 template <class T>
 using ICollection = Generic::ICollection<T>;
-using ICollection1 = Collections::ICollection;
 template <class T>
 using IEnumerable = Generic::IEnumerable<T>;
-using IEnumerable1 = Collections::IEnumerable;
+using IEnumerable_ = Collections::IEnumerable;
+using IList_ = Collections::IList;
+using ICollection_ = Collections::ICollection;
 template <class T>
 using IEnumerator = Generic::IEnumerator<T>;
-using IEnumerator1 = Collections::IEnumerator;
+using IEnumerator_ = Collections::IEnumerator;
+template <class T>
+using IComparer = Generic::IComparer<T>;
 CLASS(List, T) : public Object::in {
-  public: using interface = rt::TypeList<IList<T>, ICollection<T>, IEnumerable<T>, IEnumerable1, IList1, ICollection1, IReadOnlyList<T>, IReadOnlyCollection<T>>;
+  public: using interface = rt::TypeList<IList<T>, ICollection<T>, IEnumerable<T>, IEnumerable_, IList_, ICollection_, IReadOnlyList<T>, IReadOnlyCollection<T>>;
   public: struct Enumerator : public valueType<Enumerator> {
-    public: using interface = rt::TypeList<IEnumerator<T>, IDisposable, IEnumerator1>;
+    public: using interface = rt::TypeList<IEnumerator<T>, IDisposable, IEnumerator_>;
     public: T get_Current();
     private: Object get_CurrentOfIEnumerator();
     public: explicit Enumerator(List<T> list);

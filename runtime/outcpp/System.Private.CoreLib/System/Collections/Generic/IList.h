@@ -13,10 +13,12 @@ FORWARD(ICollection, T)
 FORWARD(IEnumerable, T)
 namespace IListNamespace {
 template <class T>
+using ICollection = Generic::ICollection<T>;
+template <class T>
 using IEnumerable = Generic::IEnumerable<T>;
-using IEnumerable1 = Collections::IEnumerable;
+using IEnumerable_ = Collections::IEnumerable;
 CLASS(IList, T) : public Object::in {
-  public: using interface = rt::TypeList<ICollection<T>, IEnumerable<T>, IEnumerable1>;
+  public: using interface = rt::TypeList<ICollection<T>, IEnumerable<T>, IEnumerable_>;
   public: T get_Item(Int32 index);
   public: void set_Item(Int32 index, T value);
   public: Int32 IndexOf(T item);

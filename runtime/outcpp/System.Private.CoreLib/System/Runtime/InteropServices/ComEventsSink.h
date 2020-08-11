@@ -14,6 +14,7 @@ FORWARD(IDispatch)
 FORWARDS(Variant)
 namespace ComEventsSinkNamespace {
 using namespace ComTypes;
+using Variant = InteropServices::Variant;
 CLASS(ComEventsSink) : public Object::in {
   public: using interface = rt::TypeList<IDispatch, ICustomQueryInterface>;
   public: void ctor(Object rcw, Guid iid);

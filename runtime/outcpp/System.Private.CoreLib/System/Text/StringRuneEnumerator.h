@@ -24,12 +24,12 @@ using namespace Collections;
 using namespace Collections::Generic;
 template <class T>
 using IEnumerable = Collections::Generic::IEnumerable<T>;
-using IEnumerable1 = Collections::IEnumerable;
+using IEnumerable_ = Collections::IEnumerable;
 template <class T>
 using IEnumerator = Collections::Generic::IEnumerator<T>;
-using IEnumerator1 = Collections::IEnumerator;
+using IEnumerator_ = Collections::IEnumerator;
 struct StringRuneEnumerator : public valueType<StringRuneEnumerator> {
-  public: using interface = rt::TypeList<IEnumerable<Rune>, IEnumerable1, IEnumerator<Rune>, IDisposable, IEnumerator1>;
+  public: using interface = rt::TypeList<IEnumerable<Rune>, IEnumerable_, IEnumerator<Rune>, IDisposable, IEnumerator_>;
   public: Rune get_Current();
   private: Object get_CurrentOfIEnumerator();
   public: explicit StringRuneEnumerator(String value);

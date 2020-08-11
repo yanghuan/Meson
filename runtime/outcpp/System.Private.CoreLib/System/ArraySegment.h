@@ -24,16 +24,20 @@ namespace ArraySegmentNamespace {
 using namespace Collections;
 using namespace Collections::Generic;
 template <class T>
+using IList = Collections::Generic::IList<T>;
+template <class T>
+using ICollection = Collections::Generic::ICollection<T>;
+template <class T>
 using IEnumerable = Collections::Generic::IEnumerable<T>;
-using IEnumerable1 = Collections::IEnumerable;
+using IEnumerable_ = Collections::IEnumerable;
 template <class T>
 using IEnumerator = Collections::Generic::IEnumerator<T>;
-using IEnumerator1 = Collections::IEnumerator;
+using IEnumerator_ = Collections::IEnumerator;
 template <class T>
 struct ArraySegment : public valueType<ArraySegment<T>> {
-  public: using interface = rt::TypeList<IList<T>, ICollection<T>, IEnumerable<T>, IEnumerable1, IReadOnlyList<T>, IReadOnlyCollection<T>>;
+  public: using interface = rt::TypeList<IList<T>, ICollection<T>, IEnumerable<T>, IEnumerable_, IReadOnlyList<T>, IReadOnlyCollection<T>>;
   public: struct Enumerator : public valueType<Enumerator> {
-    public: using interface = rt::TypeList<IEnumerator<T>, IDisposable, IEnumerator1>;
+    public: using interface = rt::TypeList<IEnumerator<T>, IDisposable, IEnumerator_>;
     public: T get_Current();
     private: Object get_CurrentOfIEnumerator();
     public: explicit Enumerator(ArraySegment<T> arraySegment);

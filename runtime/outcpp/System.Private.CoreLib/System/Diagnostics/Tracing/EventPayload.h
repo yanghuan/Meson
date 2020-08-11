@@ -23,11 +23,17 @@ namespace System::Private::CoreLib::System::Diagnostics::Tracing {
 namespace EventPayloadNamespace {
 using namespace Collections;
 using namespace Collections::Generic;
+template <class TKey, class TValue>
+using IDictionary = Collections::Generic::IDictionary<TKey, TValue>;
+template <class T>
+using ICollection = Collections::Generic::ICollection<T>;
 template <class T>
 using IEnumerable = Collections::Generic::IEnumerable<T>;
-using IEnumerable1 = Collections::IEnumerable;
+using IEnumerable_ = Collections::IEnumerable;
+template <class T>
+using IEnumerator = Collections::Generic::IEnumerator<T>;
 CLASS(EventPayload) : public Object::in {
-  public: using interface = rt::TypeList<IDictionary<String, Object>, ICollection<KeyValuePair<String, Object>>, IEnumerable<KeyValuePair<String, Object>>, IEnumerable1>;
+  public: using interface = rt::TypeList<IDictionary<String, Object>, ICollection<KeyValuePair<String, Object>>, IEnumerable<KeyValuePair<String, Object>>, IEnumerable_>;
   public: ICollection<String> get_Keys();
   public: ICollection<Object> get_Values();
   public: Object get_Item(String key);

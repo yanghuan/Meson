@@ -26,6 +26,7 @@ namespace UriHelperNamespace {
 using namespace ::System::Private::CoreLib::System;
 using namespace ::System::Private::CoreLib::System::Text;
 using namespace Text;
+using ValueStringBuilder = Text::ValueStringBuilder;
 class UriHelper {
   public: static ReadOnlySpan<Boolean> get_UnreservedReservedTable();
   public: static ReadOnlySpan<Boolean> get_UnreservedTable();

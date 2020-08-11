@@ -50,11 +50,11 @@ using namespace Collections;
 using namespace Collections::Generic;
 using namespace Globalization;
 using namespace Text;
+using IEnumerable = Collections::IEnumerable;
 template <class T>
-using IEnumerable = Collections::Generic::IEnumerable<T>;
-using IEnumerable1 = Collections::IEnumerable;
+using IEnumerable_ = Collections::Generic::IEnumerable<T>;
 CLASS(String) : public Object::in {
-  public: using interface = rt::TypeList<IComparable<>, IEnumerable1, IConvertible, IEnumerable<Char>, IComparable<String>, IEquatable<String>, ICloneable>;
+  public: using interface = rt::TypeList<IComparable<>, IEnumerable, IConvertible, IEnumerable_<Char>, IComparable<String>, IEquatable<String>, ICloneable>;
   private: struct ProbabilisticMap : public valueType<ProbabilisticMap> {
   };
   public: Char get_Chars(Int32 index);
@@ -158,8 +158,8 @@ CLASS(String) : public Object::in {
   public: static String Concat(Object arg0, Object arg1, Object arg2);
   public: static String Concat(Array<Object> args);
   public: template <class T>
-  static String Concat(IEnumerable<T> values);
-  public: static String Concat(IEnumerable<String> values);
+  static String Concat(IEnumerable_<T> values);
+  public: static String Concat(IEnumerable_<String> values);
   public: static String Concat(String str0, String str1);
   public: static String Concat(String str0, String str1, String str2);
   public: static String Concat(String str0, String str1, String str2, String str3);
@@ -180,17 +180,17 @@ CLASS(String) : public Object::in {
   public: static String Join(Char separator, Array<String> value);
   public: static String Join(Char separator, Array<Object> values);
   public: template <class T>
-  static String Join(Char separator, IEnumerable<T> values);
+  static String Join(Char separator, IEnumerable_<T> values);
   public: static String Join(Char separator, Array<String> value, Int32 startIndex, Int32 count);
   public: static String Join(String separator, Array<String> value);
   public: static String Join(String separator, Array<Object> values);
   public: template <class T>
-  static String Join(String separator, IEnumerable<T> values);
-  public: static String Join(String separator, IEnumerable<String> values);
+  static String Join(String separator, IEnumerable_<T> values);
+  public: static String Join(String separator, IEnumerable_<String> values);
   public: static String Join(String separator, Array<String> value, Int32 startIndex, Int32 count);
   private: static String JoinCore(Char* separator, Int32 separatorLength, Array<Object> values);
   private: template <class T>
-  static String JoinCore(Char* separator, Int32 separatorLength, IEnumerable<T> values);
+  static String JoinCore(Char* separator, Int32 separatorLength, IEnumerable_<T> values);
   private: static String JoinCore(Char* separator, Int32 separatorLength, Array<String> value, Int32 startIndex, Int32 count);
   public: String PadLeft(Int32 totalWidth);
   public: String PadLeft(Int32 totalWidth, Char paddingChar);

@@ -10,6 +10,7 @@ FORWARD(IEnumerator)
 } // namespace System::Private::CoreLib::System::Collections
 namespace System::Private::CoreLib::System::Collections::Generic {
 namespace IEnumeratorNamespace {
+using IEnumerator = Collections::IEnumerator;
 CLASS(IEnumerator, T) : public Object::in {
   public: using interface = rt::TypeList<IDisposable, Collections::IEnumerator>;
   public: T get_Current();

@@ -24,6 +24,7 @@ namespace RuntimeResourceSetNamespace {
 using namespace Collections;
 using namespace Collections::Generic;
 using namespace IO;
+using IEnumerable = Collections::IEnumerable;
 CLASS(RuntimeResourceSet) : public ResourceSet::in {
   public: using interface = rt::TypeList<IEnumerable>;
   public: void ctor(String fileName);

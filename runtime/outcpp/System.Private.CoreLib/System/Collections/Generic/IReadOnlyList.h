@@ -14,9 +14,9 @@ FORWARD(IReadOnlyCollection, T)
 namespace IReadOnlyListNamespace {
 template <class T>
 using IEnumerable = Generic::IEnumerable<T>;
-using IEnumerable1 = Collections::IEnumerable;
+using IEnumerable_ = Collections::IEnumerable;
 CLASS(IReadOnlyList, T) : public Object::in {
-  public: using interface = rt::TypeList<IReadOnlyCollection<T>, IEnumerable<T>, IEnumerable1>;
+  public: using interface = rt::TypeList<IReadOnlyCollection<T>, IEnumerable<T>, IEnumerable_>;
   public: T get_Item(Int32 index);
   public: static constexpr rt::TypeCode code = rt::TypeCode::Interface;
 };

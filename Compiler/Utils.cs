@@ -713,6 +713,16 @@ namespace Meson.Compiler {
       return pos != -1 ? ns.Substring(pos + 1) : ns;
     }
 
+    public static string GetNewIdentifierName(this string name, int index) {
+      return index switch
+      {
+        0 => name,
+        1 => name + "_",
+        2 => "_" + name,
+        _ => name + (index - 2),
+      };
+    }
+
     public static IdentifierSyntax Identifier(this string name) {
       return name;
     }

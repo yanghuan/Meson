@@ -24,9 +24,11 @@ using namespace Collections;
 using namespace Collections::Generic;
 template <class T>
 using IEnumerable = Collections::Generic::IEnumerable<T>;
-using IEnumerable1 = Collections::IEnumerable;
+using IEnumerable_ = Collections::IEnumerable;
+template <class T>
+using IEnumerator = Collections::Generic::IEnumerator<T>;
 CLASS(SingleProducerSingleConsumerQueue, T) : public Object::in {
-  public: using interface = rt::TypeList<IProducerConsumerQueue<T>, IEnumerable<T>, IEnumerable1>;
+  public: using interface = rt::TypeList<IProducerConsumerQueue<T>, IEnumerable<T>, IEnumerable_>;
   private: struct SegmentState : public valueType<SegmentState> {
     public: PaddingFor32 m_pad0;
     public: Int32 m_first;

@@ -15,6 +15,8 @@ FORWARD(Object)
 namespace System::Private::CoreLib::System::Collections::Generic {
 namespace EnumComparerNamespace {
 using namespace Runtime::Serialization;
+template <class T>
+using Comparer = Generic::Comparer<T>;
 CLASS(EnumComparer, T) : public Comparer<T>::in {
   public: using interface = rt::TypeList<ISerializable>;
   public: Int32 Compare(T x, T y);

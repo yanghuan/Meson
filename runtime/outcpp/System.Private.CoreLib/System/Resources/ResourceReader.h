@@ -39,6 +39,8 @@ using namespace Collections;
 using namespace Collections::Generic;
 using namespace IO;
 using namespace Reflection;
+using IEnumerable = Collections::IEnumerable;
+using IEnumerator = Collections::IEnumerator;
 CLASS(ResourceReader) : public Object::in {
   public: using interface = rt::TypeList<IResourceReader, IEnumerable, IDisposable>;
   public: CLASS(ResourceEnumerator) : public Object::in {

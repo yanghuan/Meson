@@ -38,9 +38,13 @@ using namespace Collections;
 using namespace Collections::Generic;
 using namespace Collections::ObjectModel;
 using namespace Reflection;
+using IList = Collections::IList;
+using ICollection = Collections::ICollection;
+using IEnumerable = Collections::IEnumerable;
+using IComparer = Collections::IComparer;
 template <class T>
-using IComparer = Collections::Generic::IComparer<T>;
-using IComparer1 = Collections::IComparer;
+using IComparer_ = Collections::Generic::IComparer<T>;
+using IEnumerator = Collections::IEnumerator;
 CLASS_FORWARD(Array, T1, T2)
 CLASS_(Array, T1);
 CLASS_(Array) : public Object::in {
@@ -51,7 +55,7 @@ CLASS_(Array) : public Object::in {
     public: static Array<T> Value;
   };
   private: struct SorterObjectArray : public valueType<SorterObjectArray> {
-    public: explicit SorterObjectArray(Array<Object> keys, Array<Object> items, IComparer1 comparer);
+    public: explicit SorterObjectArray(Array<Object> keys, Array<Object> items, IComparer comparer);
     public: void SwapIfGreater(Int32 a, Int32 b);
     private: void Swap(Int32 i, Int32 j);
     public: void Sort(Int32 left, Int32 length);
@@ -64,10 +68,10 @@ CLASS_(Array) : public Object::in {
     public: explicit SorterObjectArray() {}
     private: Array<> keys;
     private: Array<> items;
-    private: IComparer1 comparer;
+    private: IComparer comparer;
   };
   private: struct SorterGenericArray : public valueType<SorterGenericArray> {
-    public: explicit SorterGenericArray(Array<> keys, Array<> items, IComparer1 comparer);
+    public: explicit SorterGenericArray(Array<> keys, Array<> items, IComparer comparer);
     public: void SwapIfGreater(Int32 a, Int32 b);
     private: void Swap(Int32 i, Int32 j);
     public: void Sort(Int32 left, Int32 length);
@@ -80,7 +84,7 @@ CLASS_(Array) : public Object::in {
     public: explicit SorterGenericArray() {}
     private: Array<> keys;
     private: Array<> items;
-    private: IComparer1 comparer;
+    private: IComparer comparer;
   };
   public: Int32 get_Length();
   public: Int64 get_LongLength();
@@ -142,16 +146,16 @@ CLASS_(Array) : public Object::in {
   public: Object Clone();
   public: static Int32 BinarySearch(Array<> array, Object value);
   public: static Int32 BinarySearch(Array<> array, Int32 index, Int32 length, Object value);
-  public: static Int32 BinarySearch(Array<> array, Object value, IComparer1 comparer);
-  public: static Int32 BinarySearch(Array<> array, Int32 index, Int32 length, Object value, IComparer1 comparer);
+  public: static Int32 BinarySearch(Array<> array, Object value, IComparer comparer);
+  public: static Int32 BinarySearch(Array<> array, Int32 index, Int32 length, Object value, IComparer comparer);
   public: template <class T>
   static Int32 BinarySearch(Array<T> array, T value);
   public: template <class T>
-  static Int32 BinarySearch(Array<T> array, T value, IComparer<T> comparer);
+  static Int32 BinarySearch(Array<T> array, T value, IComparer_<T> comparer);
   public: template <class T>
   static Int32 BinarySearch(Array<T> array, Int32 index, Int32 length, T value);
   public: template <class T>
-  static Int32 BinarySearch(Array<T> array, Int32 index, Int32 length, T value, IComparer<T> comparer);
+  static Int32 BinarySearch(Array<T> array, Int32 index, Int32 length, T value, IComparer_<T> comparer);
   public: template <class TInput, class TOutput>
   static Array<TOutput> ConvertAll(Array<TInput> array, Converter<TInput, TOutput> converter);
   public: void CopyTo(Array<> array, Int32 index);
@@ -212,10 +216,10 @@ CLASS_(Array) : public Object::in {
   public: static void Sort(Array<> keys, Array<> items);
   public: static void Sort(Array<> array, Int32 index, Int32 length);
   public: static void Sort(Array<> keys, Array<> items, Int32 index, Int32 length);
-  public: static void Sort(Array<> array, IComparer1 comparer);
-  public: static void Sort(Array<> keys, Array<> items, IComparer1 comparer);
-  public: static void Sort(Array<> array, Int32 index, Int32 length, IComparer1 comparer);
-  public: static void Sort(Array<> keys, Array<> items, Int32 index, Int32 length, IComparer1 comparer);
+  public: static void Sort(Array<> array, IComparer comparer);
+  public: static void Sort(Array<> keys, Array<> items, IComparer comparer);
+  public: static void Sort(Array<> array, Int32 index, Int32 length, IComparer comparer);
+  public: static void Sort(Array<> keys, Array<> items, Int32 index, Int32 length, IComparer comparer);
   public: template <class T>
   static void Sort(Array<T> array);
   public: template <class TKey, class TValue>
@@ -225,13 +229,13 @@ CLASS_(Array) : public Object::in {
   public: template <class TKey, class TValue>
   static void Sort(Array<TKey> keys, Array<TValue> items, Int32 index, Int32 length);
   public: template <class T>
-  static void Sort(Array<T> array, IComparer<T> comparer);
+  static void Sort(Array<T> array, IComparer_<T> comparer);
   public: template <class TKey, class TValue>
-  static void Sort(Array<TKey> keys, Array<TValue> items, IComparer<TKey> comparer);
+  static void Sort(Array<TKey> keys, Array<TValue> items, IComparer_<TKey> comparer);
   public: template <class T>
-  static void Sort(Array<T> array, Int32 index, Int32 length, IComparer<T> comparer);
+  static void Sort(Array<T> array, Int32 index, Int32 length, IComparer_<T> comparer);
   public: template <class TKey, class TValue>
-  static void Sort(Array<TKey> keys, Array<TValue> items, Int32 index, Int32 length, IComparer<TKey> comparer);
+  static void Sort(Array<TKey> keys, Array<TValue> items, Int32 index, Int32 length, IComparer_<TKey> comparer);
   public: template <class T>
   static void Sort(Array<T> array, Comparison<T> comparison);
   public: template <class T>

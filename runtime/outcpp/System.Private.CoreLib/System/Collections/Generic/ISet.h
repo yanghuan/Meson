@@ -13,10 +13,12 @@ FORWARD(ICollection, T)
 FORWARD(IEnumerable, T)
 namespace ISetNamespace {
 template <class T>
+using ICollection = Generic::ICollection<T>;
+template <class T>
 using IEnumerable = Generic::IEnumerable<T>;
-using IEnumerable1 = Collections::IEnumerable;
+using IEnumerable_ = Collections::IEnumerable;
 CLASS(ISet, T) : public Object::in {
-  public: using interface = rt::TypeList<ICollection<T>, IEnumerable<T>, IEnumerable1>;
+  public: using interface = rt::TypeList<ICollection<T>, IEnumerable<T>, IEnumerable_>;
   public: Boolean Add(T item);
   public: void UnionWith(IEnumerable<T> other);
   public: void IntersectWith(IEnumerable<T> other);

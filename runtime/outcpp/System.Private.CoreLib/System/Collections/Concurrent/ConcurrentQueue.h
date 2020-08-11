@@ -24,9 +24,12 @@ namespace ConcurrentQueueNamespace {
 using namespace Generic;
 template <class T>
 using IEnumerable = Generic::IEnumerable<T>;
-using IEnumerable1 = Collections::IEnumerable;
+using IEnumerable_ = Collections::IEnumerable;
+using ICollection = Collections::ICollection;
+template <class T>
+using IEnumerator = Generic::IEnumerator<T>;
 CLASS(ConcurrentQueue, T) : public Object::in {
-  public: using interface = rt::TypeList<IProducerConsumerCollection<T>, IEnumerable<T>, IEnumerable1, ICollection, IReadOnlyCollection<T>>;
+  public: using interface = rt::TypeList<IProducerConsumerCollection<T>, IEnumerable<T>, IEnumerable_, ICollection, IReadOnlyCollection<T>>;
   private: Boolean get_IsSynchronizedOfICollection();
   private: Object get_SyncRootOfICollection();
   public: Boolean get_IsEmpty();

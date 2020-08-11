@@ -361,7 +361,7 @@ String String___::Concat(Array<Object> args) {
   return nullptr;
 }
 
-String String___::Concat(IEnumerable<String> values) {
+String String___::Concat(IEnumerable_<String> values) {
   return nullptr;
 }
 
@@ -453,7 +453,7 @@ String String___::Join(String separator, Array<Object> values) {
   return nullptr;
 }
 
-String String___::Join(String separator, IEnumerable<String> values) {
+String String___::Join(String separator, IEnumerable_<String> values) {
   return nullptr;
 }
 

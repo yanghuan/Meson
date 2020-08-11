@@ -18,9 +18,9 @@ using namespace Collections;
 using namespace Collections::Generic;
 template <class T>
 using IEnumerable = Collections::Generic::IEnumerable<T>;
-using IEnumerable1 = Collections::IEnumerable;
+using IEnumerable_ = Collections::IEnumerable;
 CLASS(IProducerConsumerQueue, T) : public Object::in {
-  public: using interface = rt::TypeList<IEnumerable<T>, IEnumerable1>;
+  public: using interface = rt::TypeList<IEnumerable<T>, IEnumerable_>;
   public: Boolean get_IsEmpty();
   public: Int32 get_Count();
   public: void Enqueue(T item);
