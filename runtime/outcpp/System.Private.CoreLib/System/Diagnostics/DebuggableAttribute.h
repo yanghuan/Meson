@@ -8,7 +8,7 @@ FORWARDS(Boolean)
 namespace System::Private::CoreLib::System::Diagnostics {
 namespace DebuggableAttributeNamespace {
 CLASS(DebuggableAttribute) : public Attribute::in {
-  public: enum class DebuggingModes {
+  public: enum class DebuggingModes : int32_t {
     None = 0,
     Default = 1,
     DisableOptimizations = 256,

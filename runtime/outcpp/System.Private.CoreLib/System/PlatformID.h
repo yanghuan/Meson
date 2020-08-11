@@ -1,7 +1,9 @@
 #pragma once
 
+#include <cstdint>
+
 namespace System::Private::CoreLib::System {
-enum class PlatformID {
+enum class PlatformID : int32_t {
   Win32S = 0,
   Win32Windows = 1,
   Win32NT = 2,

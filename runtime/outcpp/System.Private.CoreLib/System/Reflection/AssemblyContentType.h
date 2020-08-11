@@ -1,7 +1,9 @@
 #pragma once
 
+#include <cstdint>
+
 namespace System::Private::CoreLib::System::Reflection {
-enum class AssemblyContentType {
+enum class AssemblyContentType : int32_t {
   Default = 0,
   WindowsRuntime = 1,
 };

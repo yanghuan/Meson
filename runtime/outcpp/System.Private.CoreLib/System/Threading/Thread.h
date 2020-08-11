@@ -38,10 +38,10 @@ namespace System::Private::CoreLib::System::Runtime::Serialization {
 FORWARD(DeserializationTracker)
 } // namespace System::Private::CoreLib::System::Runtime::Serialization
 namespace System::Private::CoreLib::System::Threading {
-enum class ApartmentState;
-enum class StackCrawlMark;
-enum class ThreadPriority;
-enum class ThreadState;
+enum class ApartmentState : int32_t;
+enum class StackCrawlMark : int32_t;
+enum class ThreadPriority : int32_t;
+enum class ThreadState : int32_t;
 FORWARD(AsyncLocal, T)
 FORWARD(CompressedStack)
 FORWARD(ExecutionContext)

@@ -19,7 +19,7 @@ FORWARD(List, T)
 } // namespace System::Private::CoreLib::System::Collections::Generic
 namespace System::Private::CoreLib::System::Globalization {
 enum class CalendarId : uint16_t;
-enum class CultureTypes;
+enum class CultureTypes : int32_t;
 FORWARD(Calendar)
 FORWARD(CalendarData)
 FORWARD(CultureInfo)

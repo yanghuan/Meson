@@ -10,14 +10,14 @@
 #include <System.Private.CoreLib/System/ValueType.h>
 
 namespace System::Private::CoreLib::System::Globalization {
-enum class NumberStyles;
+enum class NumberStyles : int32_t;
 FORWARD(NumberFormatInfo)
 } // namespace System::Private::CoreLib::System::Globalization
 namespace System::Private::CoreLib::System::Text {
 FORWARDS(ValueStringBuilder)
 } // namespace System::Private::CoreLib::System::Text
 namespace System::Private::CoreLib::System {
-enum class TypeCode;
+enum class TypeCode : int32_t;
 FORWARD_(Array, T1, T2)
 FORWARDS(Char)
 FORWARDS(Decimal)
@@ -39,7 +39,7 @@ class Number {
     Decimal = 2,
     FloatingPoint = 3,
   };
-  public: enum class ParsingStatus {
+  public: enum class ParsingStatus : int32_t {
     OK = 0,
     Failed = 1,
     Overflow = 2,

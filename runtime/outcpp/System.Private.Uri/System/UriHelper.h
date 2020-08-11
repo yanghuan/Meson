@@ -20,7 +20,7 @@ namespace System::Private::CoreLib::System::Text {
 FORWARD(Encoding)
 } // namespace System::Private::CoreLib::System::Text
 namespace System::Private::Uri::System {
-enum class UnescapeMode;
+enum class UnescapeMode : int32_t;
 FORWARD(UriParser)
 namespace UriHelperNamespace {
 using namespace ::System::Private::CoreLib::System;

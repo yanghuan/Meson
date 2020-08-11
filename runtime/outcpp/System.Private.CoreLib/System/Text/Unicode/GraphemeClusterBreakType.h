@@ -1,7 +1,9 @@
 #pragma once
 
+#include <cstdint>
+
 namespace System::Private::CoreLib::System::Text::Unicode {
-enum class GraphemeClusterBreakType {
+enum class GraphemeClusterBreakType : int32_t {
   Other = 0,
   CR = 1,
   LF = 2,

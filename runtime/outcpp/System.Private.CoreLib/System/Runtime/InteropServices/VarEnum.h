@@ -1,7 +1,9 @@
 #pragma once
 
+#include <cstdint>
+
 namespace System::Private::CoreLib::System::Runtime::InteropServices {
-enum class VarEnum {
+enum class VarEnum : int32_t {
   VT_EMPTY = 0,
   VT_NULL = 1,
   VT_I2 = 2,

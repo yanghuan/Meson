@@ -31,9 +31,9 @@ namespace System::Private::CoreLib::Internal::Win32 {
 FORWARD(RegistryKey)
 } // namespace System::Private::CoreLib::Internal::Win32
 namespace System::Private::CoreLib::System {
-enum class DateTimeKind;
-enum class DayOfWeek;
-enum class TimeZoneInfoOptions;
+enum class DateTimeKind : int32_t;
+enum class DayOfWeek : int32_t;
+enum class TimeZoneInfoOptions : int32_t;
 FORWARD_(Array, T1, T2)
 FORWARDS(Char)
 FORWARDS(DateTimeOffset)
@@ -51,7 +51,7 @@ using namespace Runtime::Serialization;
 using namespace Text;
 CLASS(TimeZoneInfo) : public Object::in {
   public: using interface = rt::TypeList<IEquatable<TimeZoneInfo>, ISerializable, IDeserializationCallback>;
-  private: enum class TimeZoneInfoResult {
+  private: enum class TimeZoneInfoResult : int32_t {
     Success = 0,
     TimeZoneNotFoundException = 1,
     InvalidTimeZoneException = 2,
@@ -134,7 +134,7 @@ CLASS(TimeZoneInfo) : public Object::in {
     private: OffsetAndRule _oneYearLocalFromUtc;
   };
   private: struct StringSerializer : public valueType<StringSerializer> {
-    private: enum class State {
+    private: enum class State : int32_t {
       Escaped = 0,
       NotEscaped = 1,
       StartOfToken = 2,

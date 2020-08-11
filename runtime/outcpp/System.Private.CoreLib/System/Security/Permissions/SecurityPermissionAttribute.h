@@ -7,8 +7,8 @@ namespace System::Private::CoreLib::System::Security {
 FORWARD(IPermission)
 } // namespace System::Private::CoreLib::System::Security
 namespace System::Private::CoreLib::System::Security::Permissions {
-enum class SecurityAction;
-enum class SecurityPermissionFlag;
+enum class SecurityAction : int32_t;
+enum class SecurityPermissionFlag : int32_t;
 namespace SecurityPermissionAttributeNamespace {
 CLASS(SecurityPermissionAttribute) : public CodeAccessSecurityAttribute::in {
   public: Boolean get_Assertion() { return Assertion; }

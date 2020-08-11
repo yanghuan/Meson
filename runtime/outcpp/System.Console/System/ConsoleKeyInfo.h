@@ -9,8 +9,8 @@ FORWARDS(Int32)
 FORWARD(Object)
 } // namespace System::Private::CoreLib::System
 namespace System::Console::System {
-enum class ConsoleKey;
-enum class ConsoleModifiers;
+enum class ConsoleKey : int32_t;
+enum class ConsoleModifiers : int32_t;
 namespace ConsoleKeyInfoNamespace {
 using namespace ::System::Private::CoreLib::System;
 struct ConsoleKeyInfo : public valueType<ConsoleKeyInfo> {

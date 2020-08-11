@@ -1,7 +1,9 @@
 #pragma once
 
+#include <cstdint>
+
 namespace System::Private::CoreLib::System::Reflection::Emit {
-enum class OpCodeValues {
+enum class OpCodeValues : int32_t {
   Nop = 0,
   Break = 1,
   Ldarg_0 = 2,

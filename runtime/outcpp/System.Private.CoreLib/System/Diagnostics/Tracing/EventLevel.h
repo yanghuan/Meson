@@ -1,7 +1,9 @@
 #pragma once
 
+#include <cstdint>
+
 namespace System::Private::CoreLib::System::Diagnostics::Tracing {
-enum class EventLevel {
+enum class EventLevel : int32_t {
   LogAlways = 0,
   Critical = 1,
   Error = 2,

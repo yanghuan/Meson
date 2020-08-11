@@ -12,8 +12,8 @@ FORWARD(String)
 FORWARD(Type)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Globalization {
-enum class DigitShapes;
-enum class NumberStyles;
+enum class DigitShapes : int32_t;
+enum class NumberStyles : int32_t;
 FORWARD(CultureData)
 namespace NumberFormatInfoNamespace {
 CLASS(NumberFormatInfo) : public Object::in {

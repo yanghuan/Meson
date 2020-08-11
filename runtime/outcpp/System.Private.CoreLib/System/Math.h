@@ -3,7 +3,7 @@
 #include <System.Private.CoreLib/System/Double.h>
 
 namespace System::Private::CoreLib::System {
-enum class MidpointRounding;
+enum class MidpointRounding : int32_t;
 FORWARD_(Array, T1, T2)
 FORWARDS(Byte)
 FORWARDS(Decimal)

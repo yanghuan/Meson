@@ -3,7 +3,7 @@
 #include <System.Private.CoreLib/System/Security/Permissions/SecurityAttribute.h>
 
 namespace System::Private::CoreLib::System::Security::Permissions {
-enum class SecurityAction;
+enum class SecurityAction : int32_t;
 namespace CodeAccessSecurityAttributeNamespace {
 CLASS(CodeAccessSecurityAttribute) : public SecurityAttribute::in {
   protected: void ctor(SecurityAction action);

@@ -34,24 +34,11 @@ namespace Meson.Compiler {
       }
 
       var typeDefinition = new TypeDefinitionTransform(this, classNamespace, types);
-      if (root_.Kind != TypeKind.Enum) {
-        var headIncludes = new HashSet<string>();
-        var headUsings = new HashSet<string>();
-        var forwards = new Dictionary<ITypeDefinition, StatementSyntax>();
-        var srcIncludes = new HashSet<string>();
-        foreach (var (reference, isForward) in headReferences_) {
-          if (isForward) {
-            var forward = GetForwardMacroSyntax(reference, out var forwardType);
-            forwards[forwardType] = forward;
-            srcIncludes.Add(reference.GetReferenceIncludeString(true));
-          } else {
-            headIncludes.Add(reference.GetReferenceIncludeString());
-            srcIncludes.Add(reference.GetReferenceIncludeString(true));
-          }
-          if (!root_.IsNamespaceContain(reference)) {
-            headUsings.Add(reference.GetFullNamespace(true, root_));
-          }
-        }
+      if (root_.Kind == TypeKind.Enum) {
+        rootNamespace.AddRange(classNamespace.Statements);
+        CompilationUnit.AddEnumHeadInclude();
+      } else {
+        var (headIncludes, headUsings, srcIncludes, forwards, imports) = FillHeadReferences();
         CompilationUnit.AddHeadIncludes(headIncludes.OrderBy(i => i));
         headUsingsSyntax.AddRange(headUsings.OrderBy(i => i).Select(i => new UsingNamespaceOrTypeSyntax(i)));
         AddForwards(rootNamespace, forwards, headUsingsSyntax);
@@ -63,13 +50,30 @@ namespace Meson.Compiler {
           CompilationUnit.AddSrcReferencesIncludes(srcReferences_.Select(i => i.GetReferenceIncludeString(true)).OrderBy(i => i));
           srcUsingsSyntax.AddRange(srcReferences_.Where(i => !root_.IsNamespaceContain(i)).Select(i => i.GetFullNamespace(true, root_)).Distinct().OrderBy(i => i).Select(i => new UsingNamespaceOrTypeSyntax(i)));
         }
-      } else {
-        rootNamespace.AddRange(classNamespace.Statements);
-        if (!root_.EnumUnderlyingType.IsInt32()) {
-          CompilationUnit.AddEnumHeadInclude();
-        }
       }
       CompilationUnit.AddNamespaceClose();
+    }
+
+    private (HashSet<string>, HashSet<string>, HashSet<string>, Dictionary<ITypeDefinition, StatementSyntax>, HashSet<ITypeDefinition>) FillHeadReferences() {
+      var headIncludes = new HashSet<string>();
+      var headUsings = new HashSet<string>();
+      var srcIncludes = new HashSet<string>();
+      var forwards = new Dictionary<ITypeDefinition, StatementSyntax>(TypeDefinitionEqualityComparer.Default);
+      var imports = new HashSet<ITypeDefinition>(TypeDefinitionEqualityComparer.Default);
+      foreach (var (reference, isForward) in headReferences_) {
+        if (isForward) {
+          var forward = GetForwardMacroSyntax(reference, out var forwardType);
+          forwards[forwardType] = forward;
+          srcIncludes.Add(reference.GetReferenceIncludeString(true));
+        } else {
+          headIncludes.Add(reference.GetReferenceIncludeString());
+          srcIncludes.Add(reference.GetReferenceIncludeString(true));
+        }
+        if(Generator.TryGetReferenceUsing(reference, root_, out string usingNamespace, imports)) {
+          headUsings.Add(usingNamespace);
+        }
+      }
+      return (headIncludes, headUsings, srcIncludes, forwards, imports);
     }
 
     private void AddTypeUsingDeclaration(NamespaceSyntax rootNamespace, NamespaceSyntax classNamespace, TypeDefinitionTransform typeDefinition, IEnumerable<ITypeDefinition> types) {
@@ -113,6 +117,7 @@ namespace Meson.Compiler {
         } else if (isEnumOfY) {
           return 1;
         }
+
       Out:
         return x.Type.Name.CompareTo(y.Type.Name);
       });
@@ -317,7 +322,6 @@ namespace Meson.Compiler {
           }
         }
       }
-
       return typeName;
     }
 

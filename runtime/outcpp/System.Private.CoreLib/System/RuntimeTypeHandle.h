@@ -12,7 +12,7 @@ FORWARDS(StreamingContext)
 } // namespace System::Private::CoreLib::System::Runtime::Serialization
 namespace System::Private::CoreLib::System::Reflection {
 enum class CorElementType : uint8_t;
-enum class TypeAttributes;
+enum class TypeAttributes : int32_t;
 FORWARDS(MetadataImport)
 FORWARD(RuntimeAssembly)
 FORWARD(RuntimeModule)
@@ -25,16 +25,16 @@ FORWARDS(StackCrawlMarkHandle)
 FORWARDS(StringHandleOnStack)
 } // namespace System::Private::CoreLib::System::Runtime::CompilerServices
 namespace System::Private::CoreLib::System::Runtime::InteropServices {
-enum class GCHandleType;
+enum class GCHandleType : int32_t;
 } // namespace System::Private::CoreLib::System::Runtime::InteropServices
 namespace System::Private::CoreLib::System::Threading {
-enum class StackCrawlMark;
+enum class StackCrawlMark : int32_t;
 } // namespace System::Private::CoreLib::System::Threading
 namespace System::Private::CoreLib::System::Runtime::Loader {
 FORWARD(AssemblyLoadContext)
 } // namespace System::Private::CoreLib::System::Runtime::Loader
 namespace System::Private::CoreLib::System {
-enum class TypeNameFormatFlags;
+enum class TypeNameFormatFlags : int32_t;
 FORWARD_(Array, T1, T2)
 FORWARDS(Int32)
 FORWARDS(IntPtr)

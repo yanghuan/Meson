@@ -1,7 +1,9 @@
 #pragma once
 
+#include <cstdint>
+
 namespace System::Console::System {
-enum class ConsoleSpecialKey {
+enum class ConsoleSpecialKey : int32_t {
   ControlC = 0,
   ControlBreak = 1,
 };

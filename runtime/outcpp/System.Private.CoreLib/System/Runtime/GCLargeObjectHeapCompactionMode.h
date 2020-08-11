@@ -1,7 +1,9 @@
 #pragma once
 
+#include <cstdint>
+
 namespace System::Private::CoreLib::System::Runtime {
-enum class GCLargeObjectHeapCompactionMode {
+enum class GCLargeObjectHeapCompactionMode : int32_t {
   Default = 1,
   CompactOnce = 2,
 };

@@ -181,11 +181,14 @@ namespace Meson.Compiler {
       if (definition != null && definition.ParentModule.AssemblyName == reference.ParentModule.AssemblyName) {
         foreach (string i in definition.GetAllNamespaces()) {
           if (reference.Namespace.StartsWith(i)) {
+            string name;
             if (reference.Namespace == i) {
               int pos = reference.Namespace.LastIndexOf('.');
-              return pos != -1 ? reference.Namespace.Substring(pos + 1).ReplaceDot() : reference.Namespace.ReplaceDot();
+              name = pos != -1 ? reference.Namespace.Substring(pos + 1).ReplaceDot() : reference.Namespace.ReplaceDot();
+            } else {
+              name = reference.Namespace.Substring(i.Length + 1).ReplaceDot();
             }
-            return reference.Namespace.Substring(i.Length + 1).ReplaceDot();
+            return name;
           }
         }
       }
@@ -551,10 +554,7 @@ namespace Meson.Compiler {
     }
 
     public static IdentifierSyntax GetEnumUnderlyingTypeName(this ITypeDefinition type) {
-      if (!type.EnumUnderlyingType.IsInt32()) {
-        return innerValueTypeNames_[type.EnumUnderlyingType.FullName];
-      }
-      return null;
+      return innerValueTypeNames_[type.EnumUnderlyingType.FullName];
     }
 
     private static EnumForwardSyntax GetEnumForwardSyntax(this ITypeDefinition type) {

@@ -3,7 +3,7 @@
 #include <System.Private.CoreLib/System/RuntimeType.h>
 
 namespace System::Private::CoreLib::System {
-enum class AttributeTargets;
+enum class AttributeTargets : int32_t;
 FORWARD_(Array, T1, T2)
 FORWARD(AttributeUsageAttribute)
 FORWARDS(Boolean)

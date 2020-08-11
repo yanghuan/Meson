@@ -8,7 +8,7 @@ FORWARD(SerializationInfo)
 FORWARDS(StreamingContext)
 } // namespace System::Private::CoreLib::System::Runtime::Serialization
 namespace System::Private::CoreLib::System::Reflection {
-enum class FieldAttributes;
+enum class FieldAttributes : int32_t;
 FORWARD(RtFieldInfo)
 } // namespace System::Private::CoreLib::System::Reflection
 namespace System::Private::CoreLib::System {

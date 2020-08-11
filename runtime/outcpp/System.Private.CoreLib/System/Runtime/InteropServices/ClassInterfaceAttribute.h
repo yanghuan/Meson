@@ -6,7 +6,7 @@ namespace System::Private::CoreLib::System {
 FORWARDS(Int16)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Runtime::InteropServices {
-enum class ClassInterfaceType;
+enum class ClassInterfaceType : int32_t;
 namespace ClassInterfaceAttributeNamespace {
 CLASS(ClassInterfaceAttribute) : public Attribute::in {
   public: ClassInterfaceType get_Value() { return Value; }

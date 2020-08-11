@@ -3,7 +3,7 @@
 #include <rt/GCObject.h>
 
 namespace System::Private::CoreLib::System::Reflection {
-enum class BindingFlags;
+enum class BindingFlags : int32_t;
 FORWARD(Binder)
 } // namespace System::Private::CoreLib::System::Reflection
 namespace System::Private::CoreLib::System::Globalization {
@@ -13,7 +13,7 @@ namespace System::Private::CoreLib::System::Runtime::Remoting {
 FORWARD(ObjectHandle)
 } // namespace System::Private::CoreLib::System::Runtime::Remoting
 namespace System::Private::CoreLib::System::Threading {
-enum class StackCrawlMark;
+enum class StackCrawlMark : int32_t;
 } // namespace System::Private::CoreLib::System::Threading
 namespace System::Private::CoreLib::System {
 FORWARD_(Array, T1, T2)

@@ -1,7 +1,9 @@
 #pragma once
 
+#include <cstdint>
+
 namespace System::Private::CoreLib::System::Diagnostics::Tracing {
-enum class EventFieldFormat {
+enum class EventFieldFormat : int32_t {
   Default = 0,
   String = 2,
   Boolean = 3,

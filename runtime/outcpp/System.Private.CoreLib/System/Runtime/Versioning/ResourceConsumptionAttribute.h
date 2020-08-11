@@ -3,7 +3,7 @@
 #include <System.Private.CoreLib/System/Attribute.h>
 
 namespace System::Private::CoreLib::System::Runtime::Versioning {
-enum class ResourceScope;
+enum class ResourceScope : int32_t;
 namespace ResourceConsumptionAttributeNamespace {
 CLASS(ResourceConsumptionAttribute) : public Attribute::in {
   public: ResourceScope get_ResourceScope() { return ResourceScope; }

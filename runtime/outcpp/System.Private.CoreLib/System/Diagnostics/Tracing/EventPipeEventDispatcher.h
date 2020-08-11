@@ -15,9 +15,9 @@ namespace System::Private::CoreLib::System::Collections::Generic {
 FORWARD(Dictionary, TKey, TValue)
 } // namespace System::Private::CoreLib::System::Collections::Generic
 namespace System::Private::CoreLib::System::Diagnostics::Tracing {
-enum class EventCommand;
+enum class EventCommand : int32_t;
 enum class EventKeywords : int64_t;
-enum class EventLevel;
+enum class EventLevel : int32_t;
 FORWARD(EventListener)
 FORWARD(EventPipeWaitHandle)
 namespace EventPipeEventDispatcherNamespace {

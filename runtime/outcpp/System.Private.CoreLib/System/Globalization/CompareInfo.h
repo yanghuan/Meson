@@ -27,7 +27,7 @@ namespace System::Private::CoreLib::System::Text {
 FORWARDS(Rune)
 } // namespace System::Private::CoreLib::System::Text
 namespace System::Private::CoreLib::System::Globalization {
-enum class CompareOptions;
+enum class CompareOptions : int32_t;
 FORWARD(CultureInfo)
 FORWARD(SortKey)
 FORWARD(SortVersion)

@@ -5,7 +5,7 @@
 #include <System.Private.CoreLib/System/ValueType.h>
 
 namespace System::Private::CoreLib::System {
-enum class TokenType;
+enum class TokenType : int32_t;
 namespace DateTimeTokenNamespace {
 struct DateTimeToken : public valueType<DateTimeToken> {
   public: DateTimeParse::DTT dtt;

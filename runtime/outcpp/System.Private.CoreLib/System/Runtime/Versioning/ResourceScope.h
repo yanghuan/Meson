@@ -1,7 +1,9 @@
 #pragma once
 
+#include <cstdint>
+
 namespace System::Private::CoreLib::System::Runtime::Versioning {
-enum class ResourceScope {
+enum class ResourceScope : int32_t {
   None = 0,
   Machine = 1,
   Process = 2,

@@ -1,7 +1,9 @@
 #pragma once
 
+#include <cstdint>
+
 namespace System::Private::CoreLib::System::Diagnostics::Tracing {
-enum class TraceLoggingDataType {
+enum class TraceLoggingDataType : int32_t {
   Nil = 0,
   Utf16String = 1,
   MbcsString = 2,

@@ -1,7 +1,9 @@
 #pragma once
 
+#include <cstdint>
+
 namespace System::Private::CoreLib::System::Security::Principal {
-enum class TokenImpersonationLevel {
+enum class TokenImpersonationLevel : int32_t {
   None = 0,
   Anonymous = 1,
   Identification = 2,

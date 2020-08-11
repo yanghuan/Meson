@@ -10,7 +10,7 @@ FORWARDS(Char)
 FORWARDS(Int32)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Text {
-enum class NormalizationForm;
+enum class NormalizationForm : int32_t;
 FORWARD(DecoderNLS)
 FORWARD(EncoderNLS)
 namespace Latin1EncodingNamespace {

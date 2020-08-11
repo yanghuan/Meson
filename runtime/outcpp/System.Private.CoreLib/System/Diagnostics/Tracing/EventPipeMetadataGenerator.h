@@ -13,13 +13,13 @@ FORWARDS(UInt32)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Diagnostics::Tracing {
 enum class EventKeywords : int64_t;
-enum class EventLevel;
-enum class EventOpcode;
+enum class EventLevel : int32_t;
+enum class EventOpcode : int32_t;
 FORWARDS(EventParameterInfo)
 FORWARD(TraceLoggingEventTypes)
 namespace EventPipeMetadataGeneratorNamespace {
 CLASS(EventPipeMetadataGenerator) : public Object::in {
-  private: enum class MetadataTag {
+  private: enum class MetadataTag : int32_t {
     Opcode = 1,
     ParameterPayload = 2,
   };

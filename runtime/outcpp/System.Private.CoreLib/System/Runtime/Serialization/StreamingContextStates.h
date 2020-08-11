@@ -1,7 +1,9 @@
 #pragma once
 
+#include <cstdint>
+
 namespace System::Private::CoreLib::System::Runtime::Serialization {
-enum class StreamingContextStates {
+enum class StreamingContextStates : int32_t {
   CrossProcess = 1,
   CrossMachine = 2,
   File = 4,

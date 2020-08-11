@@ -3,8 +3,8 @@
 #include <rt/GCObject.h>
 
 namespace System::Private::CoreLib::System {
-enum class GCCollectionMode;
-enum class GCNotificationStatus;
+enum class GCCollectionMode : int32_t;
+enum class GCNotificationStatus : int32_t;
 FORWARD_(Array, T1, T2)
 FORWARDS(Boolean)
 FORWARDS(GCMemoryInfo)
@@ -18,18 +18,18 @@ FORWARDS(UIntPtr)
 FORWARD_(WeakReference, T1, T2)
 namespace GCNamespace {
 class GC {
-  public: enum class GC_ALLOC_FLAGS {
+  public: enum class GC_ALLOC_FLAGS : int32_t {
     GC_ALLOC_NO_FLAGS = 0,
     GC_ALLOC_ZEROING_OPTIONAL = 16,
     GC_ALLOC_PINNED_OBJECT_HEAP = 64,
   };
-  private: enum class StartNoGCRegionStatus {
+  private: enum class StartNoGCRegionStatus : int32_t {
     Succeeded = 0,
     NotEnoughMemory = 1,
     AmountTooLarge = 2,
     AlreadyInProgress = 3,
   };
-  private: enum class EndNoGCRegionStatus {
+  private: enum class EndNoGCRegionStatus : int32_t {
     Succeeded = 0,
     NotInProgress = 1,
     GCInduced = 2,

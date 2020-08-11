@@ -1,7 +1,9 @@
 #pragma once
 
+#include <cstdint>
+
 namespace System::Private::CoreLib::System {
-enum class LazyState {
+enum class LazyState : int32_t {
   NoneViaConstructor = 0,
   NoneViaFactory = 1,
   NoneException = 2,

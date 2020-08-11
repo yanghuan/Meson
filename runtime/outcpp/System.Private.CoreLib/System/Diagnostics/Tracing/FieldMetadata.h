@@ -11,8 +11,8 @@ FORWARDS(Boolean)
 FORWARD(String)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Diagnostics::Tracing {
-enum class EventFieldTags;
-enum class TraceLoggingDataType;
+enum class EventFieldTags : int32_t;
+enum class TraceLoggingDataType : int32_t;
 namespace FieldMetadataNamespace {
 CLASS(FieldMetadata) : public Object::in {
   public: void ctor(String name, TraceLoggingDataType type, EventFieldTags tags, Boolean variableCount);

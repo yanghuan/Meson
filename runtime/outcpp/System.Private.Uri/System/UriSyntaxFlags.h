@@ -1,7 +1,9 @@
 #pragma once
 
+#include <cstdint>
+
 namespace System::Private::Uri::System {
-enum class UriSyntaxFlags {
+enum class UriSyntaxFlags : int32_t {
   None = 0,
   MustHaveAuthority = 1,
   OptionalAuthority = 2,

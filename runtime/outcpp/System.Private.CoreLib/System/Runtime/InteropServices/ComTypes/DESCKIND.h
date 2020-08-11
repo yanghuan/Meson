@@ -1,7 +1,9 @@
 #pragma once
 
+#include <cstdint>
+
 namespace System::Private::CoreLib::System::Runtime::InteropServices::ComTypes {
-enum class DESCKIND {
+enum class DESCKIND : int32_t {
   DESCKIND_NONE = 0,
   DESCKIND_FUNCDESC = 1,
   DESCKIND_VARDESC = 2,

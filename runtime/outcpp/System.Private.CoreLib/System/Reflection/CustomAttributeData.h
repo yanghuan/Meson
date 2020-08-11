@@ -23,7 +23,7 @@ namespace System::Private::CoreLib::System::Runtime::CompilerServices {
 FORWARD(TypeForwardedToAttribute)
 } // namespace System::Private::CoreLib::System::Runtime::CompilerServices
 namespace System::Private::CoreLib::System::Reflection {
-enum class CustomAttributeEncoding;
+enum class CustomAttributeEncoding : int32_t;
 FORWARD(Assembly)
 FORWARDS(ConstArray)
 FORWARD(ConstructorInfo)

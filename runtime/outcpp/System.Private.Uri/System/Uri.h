@@ -10,7 +10,7 @@ FORWARD(SerializationInfo)
 FORWARDS(StreamingContext)
 } // namespace System::Private::CoreLib::System::Runtime::Serialization
 namespace System::Private::CoreLib::System {
-enum class StringComparison;
+enum class StringComparison : int32_t;
 FORWARD_(Array, T1, T2)
 FORWARDS(Boolean)
 FORWARDS(Char)
@@ -19,12 +19,12 @@ FORWARDS(ReadOnlySpan, T)
 FORWARD(String)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::Uri::System {
-enum class ParsingError;
-enum class UriComponents;
-enum class UriFormat;
-enum class UriHostNameType;
-enum class UriKind;
-enum class UriPartial;
+enum class ParsingError : int32_t;
+enum class UriComponents : int32_t;
+enum class UriFormat : int32_t;
+enum class UriHostNameType : int32_t;
+enum class UriKind : int32_t;
+enum class UriPartial : int32_t;
 FORWARD(UriFormatException)
 FORWARD(UriParser)
 namespace UriNamespace {
@@ -90,7 +90,7 @@ CLASS(Uri) : public Object::in {
     CustomParser_ParseMinimalAlreadyCalled = 4611686018427387904,
     Debug_LeftConstructor = 9223372036854775808,
   };
-  private: enum class Check {
+  private: enum class Check : int32_t {
     None = 0,
     EscapedCanonical = 1,
     DisplayCanonical = 2,

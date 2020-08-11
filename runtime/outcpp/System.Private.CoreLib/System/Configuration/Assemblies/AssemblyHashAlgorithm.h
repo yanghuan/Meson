@@ -1,7 +1,9 @@
 #pragma once
 
+#include <cstdint>
+
 namespace System::Private::CoreLib::System::Configuration::Assemblies {
-enum class AssemblyHashAlgorithm {
+enum class AssemblyHashAlgorithm : int32_t {
   None = 0,
   MD5 = 32771,
   SHA1 = 32772,

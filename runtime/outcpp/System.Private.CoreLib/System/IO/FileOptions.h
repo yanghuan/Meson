@@ -1,7 +1,9 @@
 #pragma once
 
+#include <cstdint>
+
 namespace System::Private::CoreLib::System::IO {
-enum class FileOptions {
+enum class FileOptions : int32_t {
   None = 0,
   WriteThrough = -2147483647 - 1,
   Asynchronous = 1073741824,

@@ -9,11 +9,11 @@ namespace System::Private::CoreLib::System::Runtime::Serialization {
 FORWARD(IDeserializationCallback)
 } // namespace System::Private::CoreLib::System::Runtime::Serialization
 namespace System::Private::CoreLib::System::Globalization {
-enum class NumberStyles;
+enum class NumberStyles : int32_t;
 } // namespace System::Private::CoreLib::System::Globalization
 namespace System::Private::CoreLib::System {
-enum class MidpointRounding;
-enum class TypeCode;
+enum class MidpointRounding : int32_t;
+enum class TypeCode : int32_t;
 FORWARD_(Array, T1, T2)
 FORWARDS(Boolean)
 FORWARDS(Byte)

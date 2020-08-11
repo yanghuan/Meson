@@ -19,7 +19,7 @@ FORWARD(IThreadPoolWorkItem)
 FORWARD(ThreadLocal, T)
 } // namespace System::Private::CoreLib::System::Threading
 namespace System::Private::CoreLib::System::Threading::Tasks {
-enum class TaskCreationOptions;
+enum class TaskCreationOptions : int32_t;
 FORWARD(IProducerConsumerQueue, T)
 namespace ConcurrentExclusiveSchedulerPairNamespace {
 using namespace Collections::Generic;

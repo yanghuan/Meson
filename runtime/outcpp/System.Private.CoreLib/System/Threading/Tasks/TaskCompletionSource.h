@@ -13,7 +13,7 @@ namespace System::Private::CoreLib::System::Threading {
 FORWARDS(CancellationToken)
 } // namespace System::Private::CoreLib::System::Threading
 namespace System::Private::CoreLib::System::Threading::Tasks {
-enum class TaskCreationOptions;
+enum class TaskCreationOptions : int32_t;
 FORWARD_(Task, T1, T2)
 namespace TaskCompletionSourceNamespace {
 using namespace Collections::Generic;

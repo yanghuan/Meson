@@ -16,10 +16,10 @@ namespace System::Private::CoreLib::System::Globalization {
 FORWARD(CultureInfo)
 } // namespace System::Private::CoreLib::System::Globalization
 namespace System::Private::CoreLib::System::Reflection {
-enum class BindingFlags;
-enum class CallingConventions;
-enum class MemberTypes;
-enum class TypeAttributes;
+enum class BindingFlags : int32_t;
+enum class CallingConventions : int32_t;
+enum class MemberTypes : int32_t;
+enum class TypeAttributes : int32_t;
 FORWARD(Assembly)
 FORWARD(Binder)
 FORWARD(ConstructorInfo)

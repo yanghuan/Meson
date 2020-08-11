@@ -1,7 +1,9 @@
 #pragma once
 
+#include <cstdint>
+
 namespace System::Private::CoreLib::System::Globalization {
-enum class FORMATFLAGS {
+enum class FORMATFLAGS : int32_t {
   None = 0,
   UseGenitiveMonth = 1,
   UseLeapYearMonth = 2,

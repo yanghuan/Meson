@@ -9,7 +9,7 @@ namespace System::Private::CoreLib::System::Text {
 FORWARDS(SpanRuneEnumerator)
 } // namespace System::Private::CoreLib::System::Text
 namespace System::Private::CoreLib::System {
-enum class StringComparison;
+enum class StringComparison : int32_t;
 FORWARD_(Array, T1, T2)
 FORWARDS(ArraySegment, T)
 FORWARDS(Boolean)

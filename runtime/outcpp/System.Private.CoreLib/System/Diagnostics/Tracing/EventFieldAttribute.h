@@ -6,8 +6,8 @@ namespace System::Private::CoreLib::System {
 FORWARD(String)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Diagnostics::Tracing {
-enum class EventFieldFormat;
-enum class EventFieldTags;
+enum class EventFieldFormat : int32_t;
+enum class EventFieldTags : int32_t;
 namespace EventFieldAttributeNamespace {
 CLASS(EventFieldAttribute) : public Attribute::in {
   public: EventFieldTags get_Tags() { return Tags; }

@@ -18,7 +18,7 @@ FORWARD(CleanupWorkListElement)
 namespace AsAnyMarshalerNamespace {
 using namespace Text;
 struct AsAnyMarshaler : public valueType<AsAnyMarshaler> {
-  private: enum class BackPropAction {
+  private: enum class BackPropAction : int32_t {
     None = 0,
     Array = 1,
     Layout = 2,

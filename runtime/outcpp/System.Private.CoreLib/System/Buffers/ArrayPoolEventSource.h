@@ -9,7 +9,7 @@ namespace System::Private::CoreLib::System::Buffers {
 namespace ArrayPoolEventSourceNamespace {
 using namespace Diagnostics::Tracing;
 CLASS(ArrayPoolEventSource) : public EventSource::in {
-  public: enum class BufferAllocatedReason {
+  public: enum class BufferAllocatedReason : int32_t {
     Pooled = 0,
     OverMaximumSize = 1,
     PoolExhausted = 2,

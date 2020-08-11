@@ -12,7 +12,7 @@ FORWARD(String)
 FORWARD(Type)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Reflection {
-enum class CallingConventions;
+enum class CallingConventions : int32_t;
 FORWARD(ConstructorInfo)
 FORWARD(FieldInfo)
 FORWARD(MethodBase)
@@ -23,7 +23,7 @@ FORWARD(RuntimeMethodInfo)
 FORWARD(RuntimeModule)
 } // namespace System::Private::CoreLib::System::Reflection
 namespace System::Private::CoreLib::System::Runtime::InteropServices {
-enum class CallingConvention;
+enum class CallingConvention : int32_t;
 } // namespace System::Private::CoreLib::System::Runtime::InteropServices
 namespace System::Private::CoreLib::System::Diagnostics::SymbolStore {
 FORWARD(ISymbolDocumentWriter)

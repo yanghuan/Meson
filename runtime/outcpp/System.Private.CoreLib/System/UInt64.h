@@ -3,10 +3,10 @@
 #include <System.Private.CoreLib/System/ValueType.h>
 
 namespace System::Private::CoreLib::System::Globalization {
-enum class NumberStyles;
+enum class NumberStyles : int32_t;
 } // namespace System::Private::CoreLib::System::Globalization
 namespace System::Private::CoreLib::System {
-enum class TypeCode;
+enum class TypeCode : int32_t;
 FORWARDS(Boolean)
 FORWARDS(Char)
 FORWARD_(IComparable, T1, T2)

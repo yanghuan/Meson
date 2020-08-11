@@ -31,8 +31,8 @@ FORWARD(Dictionary, TKey, TValue)
 FORWARD(List, T)
 } // namespace System::Private::CoreLib::System::Collections::Generic
 namespace System::Private::CoreLib::System::Threading::Tasks {
-enum class TaskCreationOptions;
-enum class TaskStatus;
+enum class TaskCreationOptions : int32_t;
+enum class TaskStatus : int32_t;
 FORWARD(ITaskCompletionAction)
 FORWARD(TaskExceptionHolder)
 FORWARD_(TaskFactory, T1, T2)

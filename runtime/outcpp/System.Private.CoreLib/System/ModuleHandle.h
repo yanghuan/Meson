@@ -4,8 +4,8 @@
 #include <System.Private.CoreLib/System/ValueType.h>
 
 namespace System::Private::CoreLib::System::Reflection {
-enum class ImageFileMachine;
-enum class PortableExecutableKinds;
+enum class ImageFileMachine : int32_t;
+enum class PortableExecutableKinds : int32_t;
 FORWARDS(MetadataImport)
 FORWARD(RuntimeModule)
 } // namespace System::Private::CoreLib::System::Reflection

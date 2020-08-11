@@ -12,7 +12,7 @@ namespace System::Private::CoreLib::System::Reflection {
 FORWARD(MethodInfo)
 } // namespace System::Private::CoreLib::System::Reflection
 namespace System::Private::CoreLib::System::Reflection::Emit {
-enum class AssemblyBuilderAccess;
+enum class AssemblyBuilderAccess : int32_t;
 FORWARD(InternalAssemblyBuilder)
 FORWARD(ModuleBuilder)
 FORWARD(TypeBuilder)

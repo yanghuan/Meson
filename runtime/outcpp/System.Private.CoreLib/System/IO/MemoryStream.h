@@ -27,7 +27,7 @@ namespace System::Private::CoreLib::System::Buffers {
 FORWARD(ReadOnlySpanAction, T, TArg)
 } // namespace System::Private::CoreLib::System::Buffers
 namespace System::Private::CoreLib::System::IO {
-enum class SeekOrigin;
+enum class SeekOrigin : int32_t;
 namespace MemoryStreamNamespace {
 using namespace Buffers;
 using namespace Threading;

@@ -15,8 +15,8 @@ namespace System::Private::CoreLib::System::Collections::Generic {
 FORWARD(List, T)
 } // namespace System::Private::CoreLib::System::Collections::Generic
 namespace System::Private::CoreLib::System::Diagnostics::Tracing {
-enum class EventFieldTags;
-enum class TraceLoggingDataType;
+enum class EventFieldTags : int32_t;
+enum class TraceLoggingDataType : int32_t;
 FORWARD(FieldMetadata)
 namespace TraceLoggingMetadataCollectorNamespace {
 using namespace Collections::Generic;

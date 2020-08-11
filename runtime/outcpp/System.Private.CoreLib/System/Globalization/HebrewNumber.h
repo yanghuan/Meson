@@ -13,7 +13,7 @@ FORWARDS(Char)
 FORWARDS(Int32)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Globalization {
-enum class HebrewNumberParsingState;
+enum class HebrewNumberParsingState : int32_t;
 FORWARDS(HebrewNumberParsingContext)
 namespace HebrewNumberNamespace {
 using namespace Text;

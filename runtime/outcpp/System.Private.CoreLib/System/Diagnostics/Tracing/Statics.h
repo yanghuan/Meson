@@ -20,8 +20,8 @@ FORWARD(MethodInfo)
 FORWARD(PropertyInfo)
 } // namespace System::Private::CoreLib::System::Reflection
 namespace System::Private::CoreLib::System::Diagnostics::Tracing {
-enum class EventFieldFormat;
-enum class TraceLoggingDataType;
+enum class EventFieldFormat : int32_t;
+enum class TraceLoggingDataType : int32_t;
 FORWARD(TraceLoggingTypeInfo)
 namespace StaticsNamespace {
 using namespace Collections::Generic;

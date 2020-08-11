@@ -3,7 +3,7 @@
 #include <System.Private.CoreLib/System/Attribute.h>
 
 namespace System::Private::CoreLib::System::Security {
-enum class PartialTrustVisibilityLevel;
+enum class PartialTrustVisibilityLevel : int32_t;
 namespace AllowPartiallyTrustedCallersAttributeNamespace {
 CLASS(AllowPartiallyTrustedCallersAttribute) : public Attribute::in {
   public: PartialTrustVisibilityLevel get_PartialTrustVisibilityLevel() { return PartialTrustVisibilityLevel; }

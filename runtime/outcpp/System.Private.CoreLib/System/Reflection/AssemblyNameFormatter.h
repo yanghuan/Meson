@@ -16,8 +16,8 @@ namespace System::Private::CoreLib::System::Collections::Generic {
 FORWARDS_(KeyValuePair, T1, T2, T3)
 } // namespace System::Private::CoreLib::System::Collections::Generic
 namespace System::Private::CoreLib::System::Reflection {
-enum class AssemblyContentType;
-enum class AssemblyNameFlags;
+enum class AssemblyContentType : int32_t;
+enum class AssemblyNameFlags : int32_t;
 namespace AssemblyNameFormatterNamespace {
 using namespace Collections::Generic;
 using namespace Text;

@@ -22,7 +22,7 @@ FORWARD(DateTimeFormatInfo)
 namespace TimeSpanFormatNamespace {
 using namespace Text;
 class TimeSpanFormat {
-  private: enum class StandardFormat {
+  private: enum class StandardFormat : int32_t {
     C = 0,
     G = 1,
     g = 2,

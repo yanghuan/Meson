@@ -22,7 +22,7 @@ namespace System::Private::CoreLib::System::IO {
 FORWARD(UnmanagedMemoryStream)
 } // namespace System::Private::CoreLib::System::IO
 namespace System::Private::CoreLib::System::Resources {
-enum class UltimateResourceFallbackLocation;
+enum class UltimateResourceFallbackLocation : int32_t;
 FORWARD(IResourceGroveler)
 FORWARD(ResourceSet)
 namespace ResourceManagerNamespace {

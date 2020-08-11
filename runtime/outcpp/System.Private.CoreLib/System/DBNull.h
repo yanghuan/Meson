@@ -8,7 +8,7 @@ FORWARD(SerializationInfo)
 FORWARDS(StreamingContext)
 } // namespace System::Private::CoreLib::System::Runtime::Serialization
 namespace System::Private::CoreLib::System {
-enum class TypeCode;
+enum class TypeCode : int32_t;
 FORWARD(IConvertible)
 FORWARD(IFormatProvider)
 FORWARD(String)

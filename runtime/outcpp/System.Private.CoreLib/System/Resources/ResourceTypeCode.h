@@ -1,7 +1,9 @@
 #pragma once
 
+#include <cstdint>
+
 namespace System::Private::CoreLib::System::Resources {
-enum class ResourceTypeCode {
+enum class ResourceTypeCode : int32_t {
   Null = 0,
   String = 1,
   Boolean = 2,

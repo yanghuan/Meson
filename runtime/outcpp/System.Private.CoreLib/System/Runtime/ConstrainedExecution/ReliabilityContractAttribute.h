@@ -3,8 +3,8 @@
 #include <System.Private.CoreLib/System/Attribute.h>
 
 namespace System::Private::CoreLib::System::Runtime::ConstrainedExecution {
-enum class Cer;
-enum class Consistency;
+enum class Cer : int32_t;
+enum class Consistency : int32_t;
 namespace ReliabilityContractAttributeNamespace {
 CLASS(ReliabilityContractAttribute) : public Attribute::in {
   public: Consistency get_ConsistencyGuarantee() { return ConsistencyGuarantee; }

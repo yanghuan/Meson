@@ -10,7 +10,7 @@
 
 namespace System::Private::CoreLib::System::Runtime::InteropServices::ComTypes {
 enum class TYPEFLAGS : int16_t;
-enum class TYPEKIND;
+enum class TYPEKIND : int32_t;
 namespace TYPEATTRNamespace {
 struct TYPEATTR : public valueType<TYPEATTR> {
   public: static constexpr Int32 MEMBER_ID_NIL = -1;

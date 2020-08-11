@@ -33,7 +33,7 @@ FORWARDS(ObjectHandleOnStack)
 FORWARDS(StackCrawlMarkHandle)
 } // namespace System::Private::CoreLib::System::Runtime::CompilerServices
 namespace System::Private::CoreLib::System::Threading {
-enum class StackCrawlMark;
+enum class StackCrawlMark : int32_t;
 } // namespace System::Private::CoreLib::System::Threading
 namespace System::Private::CoreLib::System::IO {
 FORWARD(FileStream)
@@ -43,10 +43,10 @@ namespace System::Private::CoreLib::System::Globalization {
 FORWARD(CultureInfo)
 } // namespace System::Private::CoreLib::System::Globalization
 namespace System::Private::CoreLib::System::Configuration::Assemblies {
-enum class AssemblyHashAlgorithm;
+enum class AssemblyHashAlgorithm : int32_t;
 } // namespace System::Private::CoreLib::System::Configuration::Assemblies
 namespace System::Private::CoreLib::System::Reflection {
-enum class BindingFlags;
+enum class BindingFlags : int32_t;
 FORWARD(AssemblyName)
 FORWARD(Binder)
 FORWARD(CustomAttributeData)

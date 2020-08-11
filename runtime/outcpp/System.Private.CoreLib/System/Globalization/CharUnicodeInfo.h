@@ -18,11 +18,11 @@ FORWARDS(Rune)
 FORWARD(StringBuilder)
 } // namespace System::Private::CoreLib::System::Text
 namespace System::Private::CoreLib::System::Text::Unicode {
-enum class GraphemeClusterBreakType;
+enum class GraphemeClusterBreakType : int32_t;
 } // namespace System::Private::CoreLib::System::Text::Unicode
 namespace System::Private::CoreLib::System::Globalization {
-enum class StrongBidiCategory;
-enum class UnicodeCategory;
+enum class StrongBidiCategory : int32_t;
+enum class UnicodeCategory : int32_t;
 namespace CharUnicodeInfoNamespace {
 using namespace Text;
 using namespace Text::Unicode;

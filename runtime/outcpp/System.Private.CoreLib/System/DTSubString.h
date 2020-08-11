@@ -6,7 +6,7 @@
 #include <System.Private.CoreLib/System/ValueType.h>
 
 namespace System::Private::CoreLib::System {
-enum class DTSubStringType;
+enum class DTSubStringType : int32_t;
 namespace DTSubStringNamespace {
 struct DTSubString : public valueType<DTSubString> {
   public: Char get_Item(Int32 relativeIndex);

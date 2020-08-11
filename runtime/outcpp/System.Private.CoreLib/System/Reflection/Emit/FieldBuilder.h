@@ -5,8 +5,8 @@
 #include <System.Private.CoreLib/System/Reflection/FieldInfo.h>
 
 namespace System::Private::CoreLib::System::Reflection {
-enum class BindingFlags;
-enum class FieldAttributes;
+enum class BindingFlags : int32_t;
+enum class FieldAttributes : int32_t;
 FORWARD(Binder)
 FORWARD(ConstructorInfo)
 FORWARD(Module)

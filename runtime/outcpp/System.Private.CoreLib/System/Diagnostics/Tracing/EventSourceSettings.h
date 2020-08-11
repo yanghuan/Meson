@@ -1,7 +1,9 @@
 #pragma once
 
+#include <cstdint>
+
 namespace System::Private::CoreLib::System::Diagnostics::Tracing {
-enum class EventSourceSettings {
+enum class EventSourceSettings : int32_t {
   Default = 0,
   ThrowOnEventWriteErrors = 1,
   EtwManifestEventFormat = 4,

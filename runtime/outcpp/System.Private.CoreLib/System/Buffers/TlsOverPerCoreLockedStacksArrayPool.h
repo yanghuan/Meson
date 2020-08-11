@@ -16,7 +16,7 @@ namespace System::Private::CoreLib::System::Buffers {
 namespace TlsOverPerCoreLockedStacksArrayPoolNamespace {
 using namespace Runtime::CompilerServices;
 CLASS(TlsOverPerCoreLockedStacksArrayPool, T) : public ArrayPool<T>::in {
-  private: enum class MemoryPressure {
+  private: enum class MemoryPressure : int32_t {
     Low = 0,
     Medium = 1,
     High = 2,

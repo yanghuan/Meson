@@ -1,7 +1,9 @@
 #pragma once
 
+#include <cstdint>
+
 namespace System::Private::Uri::System {
-enum class UriHostNameType {
+enum class UriHostNameType : int32_t {
   Unknown = 0,
   Basic = 1,
   Dns = 2,

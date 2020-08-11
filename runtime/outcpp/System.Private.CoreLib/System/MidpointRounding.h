@@ -1,7 +1,9 @@
 #pragma once
 
+#include <cstdint>
+
 namespace System::Private::CoreLib::System {
-enum class MidpointRounding {
+enum class MidpointRounding : int32_t {
   ToEven = 0,
   AwayFromZero = 1,
   ToZero = 2,

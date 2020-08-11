@@ -12,11 +12,11 @@ FORWARD(Object)
 FORWARD(String)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Reflection::Emit {
-enum class FlowControl;
-enum class OpCodeType;
-enum class OpCodeValues;
-enum class OperandType;
-enum class StackBehaviour;
+enum class FlowControl : int32_t;
+enum class OpCodeType : int32_t;
+enum class OpCodeValues : int32_t;
+enum class OperandType : int32_t;
+enum class StackBehaviour : int32_t;
 namespace OpCodeNamespace {
 struct OpCode : public valueType<OpCode> {
   public: using interface = rt::TypeList<IEquatable<OpCode>>;

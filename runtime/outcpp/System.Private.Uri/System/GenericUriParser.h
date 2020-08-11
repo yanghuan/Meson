@@ -3,8 +3,8 @@
 #include <System.Private.Uri/System/UriParser.h>
 
 namespace System::Private::Uri::System {
-enum class GenericUriParserOptions;
-enum class UriSyntaxFlags;
+enum class GenericUriParserOptions : int32_t;
+enum class UriSyntaxFlags : int32_t;
 namespace GenericUriParserNamespace {
 CLASS(GenericUriParser) : public UriParser::in {
   public: void ctor(GenericUriParserOptions options);

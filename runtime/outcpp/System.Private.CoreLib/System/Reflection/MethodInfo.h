@@ -11,7 +11,7 @@ FORWARD(Object)
 FORWARD(Type)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Reflection {
-enum class MemberTypes;
+enum class MemberTypes : int32_t;
 FORWARD(ICustomAttributeProvider)
 FORWARD(ParameterInfo)
 namespace MethodInfoNamespace {

@@ -42,7 +42,7 @@ namespace System::Private::CoreLib::System::Runtime::ExceptionServices {
 FORWARD(ExceptionDispatchInfo)
 } // namespace System::Private::CoreLib::System::Runtime::ExceptionServices
 namespace System::Private::CoreLib::System::IO {
-enum class SeekOrigin;
+enum class SeekOrigin : int32_t;
 namespace StreamNamespace {
 using namespace Buffers;
 using namespace Runtime::ExceptionServices;

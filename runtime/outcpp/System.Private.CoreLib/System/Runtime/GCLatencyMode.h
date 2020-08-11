@@ -1,7 +1,9 @@
 #pragma once
 
+#include <cstdint>
+
 namespace System::Private::CoreLib::System::Runtime {
-enum class GCLatencyMode {
+enum class GCLatencyMode : int32_t {
   Batch = 0,
   Interactive = 1,
   LowLatency = 2,

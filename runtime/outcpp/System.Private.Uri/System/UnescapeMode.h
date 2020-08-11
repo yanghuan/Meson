@@ -1,7 +1,9 @@
 #pragma once
 
+#include <cstdint>
+
 namespace System::Private::Uri::System {
-enum class UnescapeMode {
+enum class UnescapeMode : int32_t {
   CopyOnly = 0,
   Escape = 1,
   Unescape = 2,

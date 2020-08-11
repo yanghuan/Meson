@@ -1,7 +1,9 @@
 #pragma once
 
+#include <cstdint>
+
 namespace System::Private::CoreLib::System {
-enum class LoaderOptimization {
+enum class LoaderOptimization : int32_t {
   DisallowBindings = 4,
   DomainMask = 3,
   MultiDomain = 2,

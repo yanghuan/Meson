@@ -10,7 +10,7 @@ FORWARDS(Int32)
 FORWARD(String)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Globalization {
-enum class CompareOptions;
+enum class CompareOptions : int32_t;
 FORWARD(CompareInfo)
 namespace SortKeyNamespace {
 CLASS(SortKey) : public Object::in {

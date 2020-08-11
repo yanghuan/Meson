@@ -6,16 +6,16 @@ namespace System::Private::CoreLib::System::Security {
 FORWARD(PermissionSet)
 } // namespace System::Private::CoreLib::System::Security
 namespace System::Private::CoreLib::System::Configuration::Assemblies {
-enum class AssemblyHashAlgorithm;
+enum class AssemblyHashAlgorithm : int32_t;
 } // namespace System::Private::CoreLib::System::Configuration::Assemblies
 namespace System::Private::CoreLib::System::Reflection {
-enum class BindingFlags;
+enum class BindingFlags : int32_t;
 FORWARD(Assembly)
 FORWARD(AssemblyName)
 FORWARD(Binder)
 } // namespace System::Private::CoreLib::System::Reflection
 namespace System::Private::CoreLib::System::Security::Principal {
-enum class PrincipalPolicy;
+enum class PrincipalPolicy : int32_t;
 FORWARD(IPrincipal)
 } // namespace System::Private::CoreLib::System::Security::Principal
 namespace System::Private::CoreLib::System::Runtime::Remoting {

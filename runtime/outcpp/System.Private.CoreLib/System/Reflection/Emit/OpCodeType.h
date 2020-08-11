@@ -1,7 +1,9 @@
 #pragma once
 
+#include <cstdint>
+
 namespace System::Private::CoreLib::System::Reflection::Emit {
-enum class OpCodeType {
+enum class OpCodeType : int32_t {
   Annotation = 0,
   Macro = 1,
   Nternal = 2,

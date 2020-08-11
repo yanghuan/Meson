@@ -1,7 +1,9 @@
 #pragma once
 
+#include <cstdint>
+
 namespace System::Private::CoreLib::System::Threading::Tasks {
-enum class TaskStatus {
+enum class TaskStatus : int32_t {
   Created = 0,
   WaitingForActivation = 1,
   WaitingToRun = 2,

@@ -3,7 +3,7 @@
 #include <rt/GCObject.h>
 
 namespace System::Private::CoreLib::System::Diagnostics::Contracts {
-enum class ContractFailureKind;
+enum class ContractFailureKind : int32_t;
 FORWARD(ContractFailedEventArgs)
 } // namespace System::Private::CoreLib::System::Diagnostics::Contracts
 namespace System::Private::CoreLib::System {

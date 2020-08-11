@@ -1,7 +1,9 @@
 #pragma once
 
+#include <cstdint>
+
 namespace System::Private::CoreLib::System::IO {
-enum class FileAttributes {
+enum class FileAttributes : int32_t {
   ReadOnly = 1,
   Hidden = 2,
   System = 4,

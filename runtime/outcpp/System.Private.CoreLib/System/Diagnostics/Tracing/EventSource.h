@@ -41,17 +41,17 @@ namespace System::Private::CoreLib::System::Runtime::InteropServices {
 FORWARDS(GCHandle)
 } // namespace System::Private::CoreLib::System::Runtime::InteropServices
 namespace System::Private::CoreLib::System::Diagnostics::Tracing {
-enum class ControllerCommand;
-enum class EventActivityOptions;
+enum class ControllerCommand : int32_t;
+enum class EventActivityOptions : int32_t;
 enum class EventChannel : uint8_t;
-enum class EventCommand;
+enum class EventCommand : int32_t;
 enum class EventKeywords : int64_t;
-enum class EventLevel;
-enum class EventManifestOptions;
-enum class EventOpcode;
-enum class EventProviderType;
-enum class EventSourceSettings;
-enum class EventTags;
+enum class EventLevel : int32_t;
+enum class EventManifestOptions : int32_t;
+enum class EventOpcode : int32_t;
+enum class EventProviderType : int32_t;
+enum class EventSourceSettings : int32_t;
+enum class EventTags : int32_t;
 FORWARD(ActivityTracker)
 FORWARD(EventAttribute)
 FORWARD(EventCommandEventArgs)

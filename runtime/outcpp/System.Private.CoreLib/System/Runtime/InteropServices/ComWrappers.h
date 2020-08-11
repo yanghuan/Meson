@@ -16,9 +16,9 @@ namespace System::Private::CoreLib::System::Collections {
 FORWARD(IEnumerable)
 } // namespace System::Private::CoreLib::System::Collections
 namespace System::Private::CoreLib::System::Runtime::InteropServices {
-enum class ComWrappersScenario;
-enum class CreateComInterfaceFlags;
-enum class CreateObjectFlags;
+enum class ComWrappersScenario : int32_t;
+enum class CreateComInterfaceFlags : int32_t;
+enum class CreateObjectFlags : int32_t;
 namespace ComWrappersNamespace {
 using namespace Collections;
 using namespace CompilerServices;

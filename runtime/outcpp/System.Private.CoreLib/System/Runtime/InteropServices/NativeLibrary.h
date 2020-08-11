@@ -17,7 +17,7 @@ FORWARD(ConditionalWeakTable, TKey, TValue)
 FORWARDS(QCallAssembly)
 } // namespace System::Private::CoreLib::System::Runtime::CompilerServices
 namespace System::Private::CoreLib::System::Runtime::InteropServices {
-enum class DllImportSearchPath;
+enum class DllImportSearchPath : int32_t;
 FORWARD(DllImportResolver)
 namespace NativeLibraryNamespace {
 using namespace CompilerServices;

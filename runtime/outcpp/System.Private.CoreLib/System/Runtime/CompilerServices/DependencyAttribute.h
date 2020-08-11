@@ -6,7 +6,7 @@ namespace System::Private::CoreLib::System {
 FORWARD(String)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Runtime::CompilerServices {
-enum class LoadHint;
+enum class LoadHint : int32_t;
 namespace DependencyAttributeNamespace {
 CLASS(DependencyAttribute) : public Attribute::in {
   public: String get_DependentAssembly() { return DependentAssembly; }

@@ -9,13 +9,13 @@ namespace System::Private::CoreLib::System {
 FORWARD(String)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Diagnostics::Tracing {
-enum class EventActivityOptions;
+enum class EventActivityOptions : int32_t;
 enum class EventChannel : uint8_t;
 enum class EventKeywords : int64_t;
-enum class EventLevel;
-enum class EventOpcode;
-enum class EventTags;
-enum class EventTask;
+enum class EventLevel : int32_t;
+enum class EventOpcode : int32_t;
+enum class EventTags : int32_t;
+enum class EventTask : int32_t;
 namespace EventAttributeNamespace {
 CLASS(EventAttribute) : public Attribute::in {
   public: Int32 get_EventId() { return EventId; }

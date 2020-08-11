@@ -11,10 +11,10 @@ namespace System::Private::CoreLib::System {
 FORWARD(String)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Diagnostics::Tracing {
-enum class EventCommand;
+enum class EventCommand : int32_t;
 enum class EventKeywords : int64_t;
-enum class EventLevel;
-enum class EventProviderType;
+enum class EventLevel : int32_t;
+enum class EventProviderType : int32_t;
 FORWARD(EventDispatcher)
 FORWARD(EventListener)
 FORWARD(EventSource)

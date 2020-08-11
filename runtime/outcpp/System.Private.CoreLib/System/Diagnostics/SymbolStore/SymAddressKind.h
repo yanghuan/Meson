@@ -1,7 +1,9 @@
 #pragma once
 
+#include <cstdint>
+
 namespace System::Private::CoreLib::System::Diagnostics::SymbolStore {
-enum class SymAddressKind {
+enum class SymAddressKind : int32_t {
   ILOffset = 1,
   NativeRVA = 2,
   NativeRegister = 3,

@@ -8,7 +8,7 @@ FORWARD(String)
 FORWARD(Type)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Reflection {
-enum class ExceptionHandlingClauseOptions;
+enum class ExceptionHandlingClauseOptions : int32_t;
 namespace ExceptionHandlingClauseNamespace {
 CLASS(ExceptionHandlingClause) : public Object::in {
   public: ExceptionHandlingClauseOptions get_Flags();

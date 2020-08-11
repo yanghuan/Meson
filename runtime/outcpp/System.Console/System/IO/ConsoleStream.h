@@ -10,8 +10,8 @@ FORWARDS(Int32)
 FORWARDS(Int64)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::IO {
-enum class FileAccess;
-enum class SeekOrigin;
+enum class FileAccess : int32_t;
+enum class SeekOrigin : int32_t;
 } // namespace System::Private::CoreLib::System::IO
 namespace System::Console::System::IO {
 namespace ConsoleStreamNamespace {

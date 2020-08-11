@@ -6,7 +6,7 @@
 #include <System.Private.CoreLib/System/ValueType.h>
 
 namespace System::Private::CoreLib::System {
-enum class DateTimeKind;
+enum class DateTimeKind : int32_t;
 FORWARD_(Array, T1, T2)
 FORWARDS(Byte)
 FORWARDS(Char)
@@ -28,7 +28,7 @@ FORWARDS(UInt64)
 namespace System::Private::CoreLib::System::Buffers::Text {
 namespace Utf8ParserNamespace {
 class Utf8Parser {
-  private: enum class ParseNumberOptions {
+  private: enum class ParseNumberOptions : int32_t {
     AllowExponent = 1,
   };
   private: enum class ComponentParseResult : uint8_t {

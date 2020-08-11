@@ -4,7 +4,7 @@
 #include <System.Private.CoreLib/System/Int32.h>
 
 namespace System::Private::CoreLib::System::Runtime::CompilerServices {
-enum class CompilationRelaxations;
+enum class CompilationRelaxations : int32_t;
 namespace CompilationRelaxationsAttributeNamespace {
 CLASS(CompilationRelaxationsAttribute) : public Attribute::in {
   public: Int32 get_CompilationRelaxations() { return CompilationRelaxations; }

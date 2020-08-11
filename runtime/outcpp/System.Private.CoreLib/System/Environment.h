@@ -12,7 +12,7 @@ namespace System::Private::CoreLib::System::Text {
 FORWARDS(ValueStringBuilder)
 } // namespace System::Private::CoreLib::System::Text
 namespace System::Private::CoreLib::System {
-enum class EnvironmentVariableTarget;
+enum class EnvironmentVariableTarget : int32_t;
 FORWARD_(Array, T1, T2)
 FORWARDS(Boolean)
 FORWARD(Exception)
@@ -27,7 +27,7 @@ using namespace ::System::Private::CoreLib::Internal::Win32;
 using namespace Collections;
 using namespace Text;
 class Environment {
-  public: enum class SpecialFolder {
+  public: enum class SpecialFolder : int32_t {
     ApplicationData = 26,
     CommonApplicationData = 35,
     LocalApplicationData = 28,
@@ -76,7 +76,7 @@ class Environment {
     SystemX86 = 41,
     Windows = 36,
   };
-  public: enum class SpecialFolderOption {
+  public: enum class SpecialFolderOption : int32_t {
     None = 0,
     Create = 32768,
     DoNotVerify = 16384,

@@ -1,7 +1,9 @@
 #pragma once
 
+#include <cstdint>
+
 namespace System::Private::CoreLib::System::Runtime::InteropServices {
-enum class GCHandleType {
+enum class GCHandleType : int32_t {
   Weak = 0,
   WeakTrackResurrection = 1,
   Normal = 2,

@@ -13,12 +13,12 @@ namespace System::Private::CoreLib::System::Collections::Generic {
 FORWARD(List, T)
 } // namespace System::Private::CoreLib::System::Collections::Generic
 namespace System::Private::CoreLib::System::Globalization {
-enum class FORMATFLAGS;
+enum class FORMATFLAGS : int32_t;
 FORWARD(DateTimeFormatInfo)
 namespace DateTimeFormatInfoScannerNamespace {
 using namespace Collections::Generic;
 CLASS(DateTimeFormatInfoScanner) : public Object::in {
-  private: enum class FoundDatePattern {
+  private: enum class FoundDatePattern : int32_t {
     None = 0,
     FoundYearPatternFlag = 1,
     FoundMonthPatternFlag = 2,

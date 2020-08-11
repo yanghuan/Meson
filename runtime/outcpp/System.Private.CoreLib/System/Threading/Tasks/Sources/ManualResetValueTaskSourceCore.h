@@ -16,8 +16,8 @@ namespace System::Private::CoreLib::System::Runtime::ExceptionServices {
 FORWARD(ExceptionDispatchInfo)
 } // namespace System::Private::CoreLib::System::Runtime::ExceptionServices
 namespace System::Private::CoreLib::System::Threading::Tasks::Sources {
-enum class ValueTaskSourceOnCompletedFlags;
-enum class ValueTaskSourceStatus;
+enum class ValueTaskSourceOnCompletedFlags : int32_t;
+enum class ValueTaskSourceStatus : int32_t;
 namespace ManualResetValueTaskSourceCoreNamespace {
 using namespace Runtime::ExceptionServices;
 template <class TResult>

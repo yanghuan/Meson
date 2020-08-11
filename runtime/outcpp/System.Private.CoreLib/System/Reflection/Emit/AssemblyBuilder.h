@@ -24,7 +24,7 @@ FORWARD(RuntimeAssembly)
 FORWARD(RuntimeModule)
 } // namespace System::Private::CoreLib::System::Reflection
 namespace System::Private::CoreLib::System::Threading {
-enum class StackCrawlMark;
+enum class StackCrawlMark : int32_t;
 } // namespace System::Private::CoreLib::System::Threading
 namespace System::Private::CoreLib::System::Collections::Generic {
 FORWARD(IEnumerable, T)
@@ -42,7 +42,7 @@ namespace System::Private::CoreLib::System::Globalization {
 FORWARD(CultureInfo)
 } // namespace System::Private::CoreLib::System::Globalization
 namespace System::Private::CoreLib::System::Reflection::Emit {
-enum class AssemblyBuilderAccess;
+enum class AssemblyBuilderAccess : int32_t;
 FORWARD(AssemblyBuilderData)
 FORWARD(CustomAttributeBuilder)
 FORWARD(InternalAssemblyBuilder)

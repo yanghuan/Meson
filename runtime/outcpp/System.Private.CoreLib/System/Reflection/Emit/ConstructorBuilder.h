@@ -13,11 +13,11 @@ FORWARD(String)
 FORWARD(Type)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Reflection {
-enum class BindingFlags;
-enum class CallingConventions;
-enum class MethodAttributes;
-enum class MethodImplAttributes;
-enum class ParameterAttributes;
+enum class BindingFlags : int32_t;
+enum class CallingConventions : int32_t;
+enum class MethodAttributes : int32_t;
+enum class MethodImplAttributes : int32_t;
+enum class ParameterAttributes : int32_t;
 FORWARD(Binder)
 FORWARD(Module)
 FORWARD(ParameterInfo)

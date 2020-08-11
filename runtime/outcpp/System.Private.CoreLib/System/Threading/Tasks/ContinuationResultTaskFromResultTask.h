@@ -7,8 +7,8 @@ FORWARD(Delegate)
 FORWARD(Object)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Threading::Tasks {
-enum class InternalTaskOptions;
-enum class TaskCreationOptions;
+enum class InternalTaskOptions : int32_t;
+enum class TaskCreationOptions : int32_t;
 namespace ContinuationResultTaskFromResultTaskNamespace {
 CLASS(ContinuationResultTaskFromResultTask, TAntecedentResult, TResult) : public Task<TResult>::in {
   public: void ctor(Task<TAntecedentResult> antecedent, Delegate function, Object state, TaskCreationOptions creationOptions, InternalTaskOptions internalOptions);

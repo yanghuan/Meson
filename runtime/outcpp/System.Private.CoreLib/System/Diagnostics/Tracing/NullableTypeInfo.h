@@ -11,7 +11,7 @@ namespace System::Private::CoreLib::System::Collections::Generic {
 FORWARD(List, T)
 } // namespace System::Private::CoreLib::System::Collections::Generic
 namespace System::Private::CoreLib::System::Diagnostics::Tracing {
-enum class EventFieldFormat;
+enum class EventFieldFormat : int32_t;
 FORWARDS(PropertyValue)
 FORWARD(TraceLoggingDataCollector)
 FORWARD(TraceLoggingMetadataCollector)

@@ -16,10 +16,10 @@ namespace System::Private::CoreLib::System::Text {
 FORWARDS(Rune)
 } // namespace System::Private::CoreLib::System::Text
 namespace System::Private::CoreLib::System::Buffers {
-enum class OperationStatus;
+enum class OperationStatus : int32_t;
 } // namespace System::Private::CoreLib::System::Buffers
 namespace System::Private::CoreLib::System::Text::Unicode {
-enum class GraphemeClusterBreakType;
+enum class GraphemeClusterBreakType : int32_t;
 namespace TextSegmentationUtilityNamespace {
 using namespace Buffers;
 class TextSegmentationUtility {

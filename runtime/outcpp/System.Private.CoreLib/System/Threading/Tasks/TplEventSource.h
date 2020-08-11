@@ -21,7 +21,7 @@ namespace TplEventSourceNamespace {
 using namespace Diagnostics::Tracing;
 using namespace Runtime::CompilerServices;
 CLASS(TplEventSource) : public EventSource::in {
-  public: enum class TaskWaitBehavior {
+  public: enum class TaskWaitBehavior : int32_t {
     Synchronous = 1,
     Asynchronous = 2,
   };

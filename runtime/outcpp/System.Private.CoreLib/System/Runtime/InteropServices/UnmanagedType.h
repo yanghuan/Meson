@@ -1,7 +1,9 @@
 #pragma once
 
+#include <cstdint>
+
 namespace System::Private::CoreLib::System::Runtime::InteropServices {
-enum class UnmanagedType {
+enum class UnmanagedType : int32_t {
   Bool = 2,
   I1 = 3,
   U1 = 4,

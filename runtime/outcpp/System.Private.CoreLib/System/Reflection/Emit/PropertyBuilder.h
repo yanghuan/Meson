@@ -5,9 +5,9 @@
 #include <System.Private.CoreLib/System/Reflection/PropertyInfo.h>
 
 namespace System::Private::CoreLib::System::Reflection {
-enum class BindingFlags;
-enum class MethodSemanticsAttributes;
-enum class PropertyAttributes;
+enum class BindingFlags : int32_t;
+enum class MethodSemanticsAttributes : int32_t;
+enum class PropertyAttributes : int32_t;
 FORWARD(Binder)
 FORWARD(ConstructorInfo)
 FORWARD(MethodInfo)

@@ -1,7 +1,9 @@
 #pragma once
 
+#include <cstdint>
+
 namespace System::Private::CoreLib::System::Runtime::InteropServices {
-enum class ComInterfaceType {
+enum class ComInterfaceType : int32_t {
   InterfaceIsDual = 0,
   InterfaceIsIUnknown = 1,
   InterfaceIsIDispatch = 2,

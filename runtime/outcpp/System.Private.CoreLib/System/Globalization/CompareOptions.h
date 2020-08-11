@@ -1,7 +1,9 @@
 #pragma once
 
+#include <cstdint>
+
 namespace System::Private::CoreLib::System::Globalization {
-enum class CompareOptions {
+enum class CompareOptions : int32_t {
   None = 0,
   IgnoreCase = 1,
   IgnoreNonSpace = 2,

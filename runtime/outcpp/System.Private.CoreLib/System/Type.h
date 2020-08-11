@@ -3,11 +3,11 @@
 #include <System.Private.CoreLib/System/Reflection/MemberInfo.h>
 
 namespace System::Private::CoreLib::System::Reflection {
-enum class BindingFlags;
-enum class CallingConventions;
-enum class GenericParameterAttributes;
-enum class MemberTypes;
-enum class TypeAttributes;
+enum class BindingFlags : int32_t;
+enum class CallingConventions : int32_t;
+enum class GenericParameterAttributes : int32_t;
+enum class MemberTypes : int32_t;
+enum class TypeAttributes : int32_t;
 FORWARD(Assembly)
 FORWARD(AssemblyName)
 FORWARD(Binder)
@@ -31,8 +31,8 @@ namespace System::Private::CoreLib::System::Globalization {
 FORWARD(CultureInfo)
 } // namespace System::Private::CoreLib::System::Globalization
 namespace System::Private::CoreLib::System {
-enum class StringComparison;
-enum class TypeCode;
+enum class StringComparison : int32_t;
+enum class TypeCode : int32_t;
 FORWARD_(Array, T1, T2)
 FORWARDS(Boolean)
 FORWARDS(Char)

@@ -8,7 +8,7 @@ FORWARDS(Boolean)
 FORWARD(String)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Reflection {
-enum class MetadataTokenType;
+enum class MetadataTokenType : int32_t;
 namespace MetadataTokenNamespace {
 struct MetadataToken : public valueType<MetadataToken> {
   public: Boolean get_IsGlobalTypeDefToken();

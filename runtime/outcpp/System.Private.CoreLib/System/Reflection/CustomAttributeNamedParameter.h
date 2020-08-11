@@ -8,7 +8,7 @@ namespace System::Private::CoreLib::System {
 FORWARD(String)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Reflection {
-enum class CustomAttributeEncoding;
+enum class CustomAttributeEncoding : int32_t;
 namespace CustomAttributeNamedParameterNamespace {
 struct CustomAttributeNamedParameter : public valueType<CustomAttributeNamedParameter> {
   public: CustomAttributeEncodedArgument get_EncodedArgument();

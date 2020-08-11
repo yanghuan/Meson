@@ -1,7 +1,9 @@
 #pragma once
 
+#include <cstdint>
+
 namespace System::Private::CoreLib::System::Runtime::InteropServices {
-enum class CallingConvention {
+enum class CallingConvention : int32_t {
   Winapi = 1,
   Cdecl = 2,
   StdCall = 3,

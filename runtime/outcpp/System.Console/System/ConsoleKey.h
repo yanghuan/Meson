@@ -1,7 +1,9 @@
 #pragma once
 
+#include <cstdint>
+
 namespace System::Console::System {
-enum class ConsoleKey {
+enum class ConsoleKey : int32_t {
   Backspace = 8,
   Tab = 9,
   Clear = 12,

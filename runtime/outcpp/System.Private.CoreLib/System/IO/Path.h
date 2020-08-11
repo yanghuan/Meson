@@ -3,7 +3,7 @@
 #include <rt/GCObject.h>
 
 namespace System::Private::CoreLib::System {
-enum class StringComparison;
+enum class StringComparison : int32_t;
 FORWARD_(Array, T1, T2)
 FORWARDS(Boolean)
 FORWARDS(Byte)

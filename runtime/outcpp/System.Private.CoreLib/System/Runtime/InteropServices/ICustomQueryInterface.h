@@ -7,7 +7,7 @@ FORWARDS(Guid)
 FORWARDS(IntPtr)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Runtime::InteropServices {
-enum class CustomQueryInterfaceResult;
+enum class CustomQueryInterfaceResult : int32_t;
 namespace ICustomQueryInterfaceNamespace {
 CLASS(ICustomQueryInterface) : public Object::in {
   public: CustomQueryInterfaceResult GetInterface(Guid& iid, IntPtr& ppv);

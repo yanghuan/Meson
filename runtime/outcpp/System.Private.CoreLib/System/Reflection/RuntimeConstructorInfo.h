@@ -23,12 +23,12 @@ namespace System::Private::CoreLib::System::Globalization {
 FORWARD(CultureInfo)
 } // namespace System::Private::CoreLib::System::Globalization
 namespace System::Private::CoreLib::System::Reflection {
-enum class BindingFlags;
-enum class CallingConventions;
+enum class BindingFlags : int32_t;
+enum class CallingConventions : int32_t;
 enum class INVOCATION_FLAGS : uint32_t;
-enum class MemberTypes;
-enum class MethodAttributes;
-enum class MethodImplAttributes;
+enum class MemberTypes : int32_t;
+enum class MethodAttributes : int32_t;
+enum class MethodImplAttributes : int32_t;
 FORWARD(Binder)
 FORWARD(CustomAttributeData)
 FORWARD(MemberInfo)

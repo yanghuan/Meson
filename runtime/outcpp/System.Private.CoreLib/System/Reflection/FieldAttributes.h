@@ -1,7 +1,9 @@
 #pragma once
 
+#include <cstdint>
+
 namespace System::Private::CoreLib::System::Reflection {
-enum class FieldAttributes {
+enum class FieldAttributes : int32_t {
   FieldAccessMask = 7,
   PrivateScope = 0,
   Private = 1,

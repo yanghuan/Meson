@@ -1,7 +1,9 @@
 #pragma once
 
+#include <cstdint>
+
 namespace System::Private::CoreLib::System::Reflection {
-enum class MethodImplAttributes {
+enum class MethodImplAttributes : int32_t {
   CodeTypeMask = 3,
   IL = 0,
   Native = 1,

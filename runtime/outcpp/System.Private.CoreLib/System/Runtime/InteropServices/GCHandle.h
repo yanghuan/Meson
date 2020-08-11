@@ -9,7 +9,7 @@ FORWARDS(Int32)
 FORWARD(Object)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Runtime::InteropServices {
-enum class GCHandleType;
+enum class GCHandleType : int32_t;
 namespace GCHandleNamespace {
 struct GCHandle : public valueType<GCHandle> {
   public: Object get_Target();

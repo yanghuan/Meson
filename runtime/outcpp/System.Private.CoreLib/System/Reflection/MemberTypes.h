@@ -1,7 +1,9 @@
 #pragma once
 
+#include <cstdint>
+
 namespace System::Private::CoreLib::System::Reflection {
-enum class MemberTypes {
+enum class MemberTypes : int32_t {
   Constructor = 1,
   Event = 2,
   Field = 4,

@@ -11,7 +11,7 @@ FORWARD(CompareInfo)
 FORWARD(DateTimeFormatInfo)
 } // namespace System::Private::CoreLib::System::Globalization
 namespace System::Private::CoreLib::System {
-enum class TokenType;
+enum class TokenType : int32_t;
 FORWARD_(Array, T1, T2)
 FORWARDS(DTSubString)
 FORWARD(String)

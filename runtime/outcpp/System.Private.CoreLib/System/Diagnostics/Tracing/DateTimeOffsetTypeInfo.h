@@ -6,7 +6,7 @@ namespace System::Private::CoreLib::System {
 FORWARD(String)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Diagnostics::Tracing {
-enum class EventFieldFormat;
+enum class EventFieldFormat : int32_t;
 FORWARDS(PropertyValue)
 FORWARD(TraceLoggingDataCollector)
 FORWARD(TraceLoggingMetadataCollector)

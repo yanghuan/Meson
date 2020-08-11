@@ -21,7 +21,7 @@ FORWARD(Object)
 FORWARD(String)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Runtime::InteropServices {
-enum class VarEnum;
+enum class VarEnum : int32_t;
 namespace VariantNamespace {
 struct Variant : public valueType<Variant> {
   private: struct Record : public valueType<Record> {

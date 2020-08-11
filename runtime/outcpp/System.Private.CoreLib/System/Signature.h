@@ -5,7 +5,7 @@
 #include <System.Private.CoreLib/System/RuntimeMethodHandleInternal.h>
 
 namespace System::Private::CoreLib::System::Reflection {
-enum class CallingConventions;
+enum class CallingConventions : int32_t;
 } // namespace System::Private::CoreLib::System::Reflection
 namespace System::Private::CoreLib::System {
 FORWARD_(Array, T1, T2)

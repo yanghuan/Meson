@@ -1,7 +1,9 @@
 #pragma once
 
+#include <cstdint>
+
 namespace System::Private::CoreLib::System::Security::Permissions {
-enum class SecurityAction {
+enum class SecurityAction : int32_t {
   Assert = 3,
   Demand = 2,
   Deny = 4,

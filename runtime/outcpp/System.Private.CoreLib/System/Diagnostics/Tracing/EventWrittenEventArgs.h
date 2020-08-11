@@ -18,10 +18,10 @@ FORWARD(ReadOnlyCollection, T)
 namespace System::Private::CoreLib::System::Diagnostics::Tracing {
 enum class EventChannel : uint8_t;
 enum class EventKeywords : int64_t;
-enum class EventLevel;
-enum class EventOpcode;
-enum class EventTags;
-enum class EventTask;
+enum class EventLevel : int32_t;
+enum class EventOpcode : int32_t;
+enum class EventTags : int32_t;
+enum class EventTask : int32_t;
 FORWARD(EventSource)
 namespace EventWrittenEventArgsNamespace {
 using namespace Collections::ObjectModel;

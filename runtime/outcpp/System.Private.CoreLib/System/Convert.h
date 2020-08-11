@@ -3,8 +3,8 @@
 #include <rt/GCObject.h>
 
 namespace System::Private::CoreLib::System {
-enum class Base64FormattingOptions;
-enum class TypeCode;
+enum class Base64FormattingOptions : int32_t;
+enum class TypeCode : int32_t;
 FORWARD_(Array, T1, T2)
 FORWARDS(Boolean)
 FORWARDS(Byte)

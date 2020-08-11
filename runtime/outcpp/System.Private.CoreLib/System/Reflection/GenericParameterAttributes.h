@@ -1,7 +1,9 @@
 #pragma once
 
+#include <cstdint>
+
 namespace System::Private::CoreLib::System::Reflection {
-enum class GenericParameterAttributes {
+enum class GenericParameterAttributes : int32_t {
   None = 0,
   VarianceMask = 3,
   Covariant = 1,

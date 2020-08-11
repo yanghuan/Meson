@@ -4,7 +4,7 @@
 #include <System.Private.CoreLib/System/Boolean.h>
 
 namespace System::Private::CoreLib::System {
-enum class AttributeTargets;
+enum class AttributeTargets : int32_t;
 namespace AttributeUsageAttributeNamespace {
 CLASS(AttributeUsageAttribute) : public Attribute::in {
   public: AttributeTargets get_ValidOn();

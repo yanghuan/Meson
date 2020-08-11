@@ -11,7 +11,7 @@ FORWARD(Assembly)
 FORWARD(AssemblyName)
 } // namespace System::Private::CoreLib::System::Reflection
 namespace System::Private::CoreLib::System::Threading {
-enum class StackCrawlMark;
+enum class StackCrawlMark : int32_t;
 } // namespace System::Private::CoreLib::System::Threading
 namespace System::Private::CoreLib::System {
 FORWARD_(Array, T1, T2)

@@ -1,7 +1,9 @@
 #pragma once
 
+#include <cstdint>
+
 namespace System::Private::CoreLib::System::Reflection::Emit {
-enum class FlowControl {
+enum class FlowControl : int32_t {
   Branch = 0,
   Break = 1,
   Call = 2,

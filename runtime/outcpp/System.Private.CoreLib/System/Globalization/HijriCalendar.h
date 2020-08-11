@@ -4,14 +4,14 @@
 #include <System.Private.CoreLib/System/Int32.h>
 
 namespace System::Private::CoreLib::System {
-enum class DayOfWeek;
+enum class DayOfWeek : int32_t;
 FORWARD_(Array, T1, T2)
 FORWARDS(Boolean)
 FORWARDS(DateTime)
 FORWARDS(Int64)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Globalization {
-enum class CalendarAlgorithmType;
+enum class CalendarAlgorithmType : int32_t;
 enum class CalendarId : uint16_t;
 namespace HijriCalendarNamespace {
 CLASS(HijriCalendar) : public Calendar::in {

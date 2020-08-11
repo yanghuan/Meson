@@ -7,8 +7,8 @@ FORWARD(KeyNotFoundException)
 FORWARD(List, T)
 } // namespace System::Private::CoreLib::System::Collections::Generic
 namespace System::Private::CoreLib::System {
-enum class ExceptionArgument;
-enum class ExceptionResource;
+enum class ExceptionArgument : int32_t;
+enum class ExceptionResource : int32_t;
 FORWARD(ArgumentException)
 FORWARD(ArgumentNullException)
 FORWARD(ArgumentOutOfRangeException)

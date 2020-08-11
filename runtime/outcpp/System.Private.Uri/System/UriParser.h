@@ -11,9 +11,9 @@ namespace System::Private::CoreLib::System::Collections {
 FORWARD(Hashtable)
 } // namespace System::Private::CoreLib::System::Collections
 namespace System::Private::Uri::System {
-enum class UriComponents;
-enum class UriFormat;
-enum class UriSyntaxFlags;
+enum class UriComponents : int32_t;
+enum class UriFormat : int32_t;
+enum class UriSyntaxFlags : int32_t;
 FORWARD(Uri)
 FORWARD(UriFormatException)
 namespace UriParserNamespace {

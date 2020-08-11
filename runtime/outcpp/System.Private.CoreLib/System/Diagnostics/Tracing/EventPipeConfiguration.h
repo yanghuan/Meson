@@ -13,7 +13,7 @@ namespace System::Private::CoreLib::System::Collections::Generic {
 FORWARD(List, T)
 } // namespace System::Private::CoreLib::System::Collections::Generic
 namespace System::Private::CoreLib::System::Diagnostics::Tracing {
-enum class EventPipeSerializationFormat;
+enum class EventPipeSerializationFormat : int32_t;
 FORWARDS(EventPipeProviderConfiguration)
 namespace EventPipeConfigurationNamespace {
 using namespace Collections::Generic;

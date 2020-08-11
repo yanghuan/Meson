@@ -1,7 +1,9 @@
 #pragma once
 
+#include <cstdint>
+
 namespace System::Console::System {
-enum class ConsoleColor {
+enum class ConsoleColor : int32_t {
   Black = 0,
   DarkBlue = 1,
   DarkGreen = 2,

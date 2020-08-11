@@ -6,7 +6,7 @@
 #include <System.Private.CoreLib/System/Reflection/Binder.h>
 
 namespace System::Private::CoreLib::System::Reflection {
-enum class BindingFlags;
+enum class BindingFlags : int32_t;
 FORWARD(FieldInfo)
 FORWARD(MethodBase)
 FORWARD(ParameterInfo)
@@ -24,7 +24,7 @@ namespace DefaultBinderNamespace {
 using namespace Globalization;
 using namespace Reflection;
 CLASS(DefaultBinder) : public Binder::in {
-  private: enum class Primitives {
+  private: enum class Primitives : int32_t {
     Boolean = 8,
     Char = 16,
     SByte = 32,

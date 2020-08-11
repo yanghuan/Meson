@@ -10,10 +10,10 @@ FORWARDS(Int32)
 FORWARD(String)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Reflection {
-enum class FieldAttributes;
+enum class FieldAttributes : int32_t;
 } // namespace System::Private::CoreLib::System::Reflection
 namespace System::Private::CoreLib::System::Diagnostics::SymbolStore {
-enum class SymAddressKind;
+enum class SymAddressKind : int32_t;
 FORWARD(ISymbolDocumentWriter)
 FORWARDS(SymbolToken)
 namespace ISymbolWriterNamespace {

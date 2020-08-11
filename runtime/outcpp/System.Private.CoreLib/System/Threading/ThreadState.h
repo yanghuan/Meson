@@ -1,7 +1,9 @@
 #pragma once
 
+#include <cstdint>
+
 namespace System::Private::CoreLib::System::Threading {
-enum class ThreadState {
+enum class ThreadState : int32_t {
   Running = 0,
   StopRequested = 1,
   SuspendRequested = 2,

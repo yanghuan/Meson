@@ -10,7 +10,7 @@ FORWARDS(Int32)
 FORWARDS(UInt32)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Buffers {
-enum class OperationStatus;
+enum class OperationStatus : int32_t;
 } // namespace System::Private::CoreLib::System::Buffers
 namespace System::Private::CoreLib::System::Text::Unicode {
 namespace Utf8UtilityNamespace {

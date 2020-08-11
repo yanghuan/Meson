@@ -6,7 +6,7 @@ namespace System::Private::CoreLib::System {
 FORWARD(StringComparer)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Globalization {
-enum class CompareOptions;
+enum class CompareOptions : int32_t;
 FORWARD(CompareInfo)
 namespace GlobalizationExtensionsNamespace {
 class GlobalizationExtensions {

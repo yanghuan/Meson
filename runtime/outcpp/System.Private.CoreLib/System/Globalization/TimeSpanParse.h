@@ -19,7 +19,7 @@ namespace System::Private::CoreLib::System::Text {
 FORWARD(StringBuilder)
 } // namespace System::Private::CoreLib::System::Text
 namespace System::Private::CoreLib::System::Globalization {
-enum class TimeSpanStyles;
+enum class TimeSpanStyles : int32_t;
 FORWARD(DateTimeFormatInfo)
 namespace TimeSpanParseNamespace {
 using namespace Text;

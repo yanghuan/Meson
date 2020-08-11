@@ -4,7 +4,7 @@
 #include <System.Private.CoreLib/System/Boolean.h>
 
 namespace System::Private::CoreLib::System::Diagnostics::Tracing {
-enum class EventChannelType;
+enum class EventChannelType : int32_t;
 namespace EventChannelAttributeNamespace {
 CLASS(EventChannelAttribute) : public Attribute::in {
   public: Boolean get_Enabled() { return Enabled; }

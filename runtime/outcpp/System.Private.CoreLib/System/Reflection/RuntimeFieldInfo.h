@@ -14,8 +14,8 @@ namespace System::Private::CoreLib::System::Collections::Generic {
 FORWARD(IList, T)
 } // namespace System::Private::CoreLib::System::Collections::Generic
 namespace System::Private::CoreLib::System::Reflection {
-enum class BindingFlags;
-enum class MemberTypes;
+enum class BindingFlags : int32_t;
+enum class MemberTypes : int32_t;
 FORWARD(CustomAttributeData)
 FORWARD(MemberInfo)
 FORWARD(Module)

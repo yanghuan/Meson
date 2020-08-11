@@ -13,10 +13,10 @@ FORWARD(String)
 FORWARD(Type)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Reflection {
-enum class BindingFlags;
-enum class CallingConventions;
-enum class MemberTypes;
-enum class TypeAttributes;
+enum class BindingFlags : int32_t;
+enum class CallingConventions : int32_t;
+enum class MemberTypes : int32_t;
+enum class TypeAttributes : int32_t;
 FORWARD(Assembly)
 FORWARD(Binder)
 FORWARD(ConstructorInfo)
@@ -33,7 +33,7 @@ namespace System::Private::CoreLib::System::Globalization {
 FORWARD(CultureInfo)
 } // namespace System::Private::CoreLib::System::Globalization
 namespace System::Private::CoreLib::System::Reflection::Emit {
-enum class TypeKind;
+enum class TypeKind : int32_t;
 namespace SymbolTypeNamespace {
 using namespace Globalization;
 CLASS(SymbolType) : public TypeInfo::in {

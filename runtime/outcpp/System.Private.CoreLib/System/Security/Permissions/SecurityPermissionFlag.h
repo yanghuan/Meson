@@ -1,7 +1,9 @@
 #pragma once
 
+#include <cstdint>
+
 namespace System::Private::CoreLib::System::Security::Permissions {
-enum class SecurityPermissionFlag {
+enum class SecurityPermissionFlag : int32_t {
   AllFlags = 16383,
   Assertion = 1,
   BindingRedirects = 8192,

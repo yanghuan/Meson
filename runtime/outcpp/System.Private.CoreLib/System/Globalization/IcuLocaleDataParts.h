@@ -1,7 +1,9 @@
 #pragma once
 
+#include <cstdint>
+
 namespace System::Private::CoreLib::System::Globalization {
-enum class IcuLocaleDataParts {
+enum class IcuLocaleDataParts : int32_t {
   Lcid = 0,
   AnsiCodePage = 1,
   OemCodePage = 2,

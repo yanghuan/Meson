@@ -7,7 +7,7 @@ FORWARD(String)
 FORWARD(Type)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Diagnostics::CodeAnalysis {
-enum class DynamicallyAccessedMemberTypes;
+enum class DynamicallyAccessedMemberTypes : int32_t;
 namespace DynamicDependencyAttributeNamespace {
 CLASS(DynamicDependencyAttribute) : public Attribute::in {
   public: String get_MemberSignature() { return MemberSignature; }

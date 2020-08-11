@@ -20,7 +20,7 @@ namespace System::Private::CoreLib::System::Text {
 FORWARD(StringBuilder)
 } // namespace System::Private::CoreLib::System::Text
 namespace System::Private::CoreLib::System::Globalization {
-enum class UnicodeCategory;
+enum class UnicodeCategory : int32_t;
 FORWARD(CultureData)
 namespace TextInfoNamespace {
 using namespace Runtime::Serialization;

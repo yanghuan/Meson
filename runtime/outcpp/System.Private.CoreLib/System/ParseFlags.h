@@ -1,7 +1,9 @@
 #pragma once
 
+#include <cstdint>
+
 namespace System::Private::CoreLib::System {
-enum class ParseFlags {
+enum class ParseFlags : int32_t {
   HaveYear = 1,
   HaveMonth = 2,
   HaveDay = 4,

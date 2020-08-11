@@ -3,7 +3,7 @@
 #include <System.Private.CoreLib/System/ValueType.h>
 
 namespace System::Private::CoreLib::System {
-enum class TypeCode;
+enum class TypeCode : int32_t;
 FORWARDS(Boolean)
 FORWARDS(Byte)
 FORWARD(String)

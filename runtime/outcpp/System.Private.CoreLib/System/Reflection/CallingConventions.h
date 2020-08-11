@@ -1,7 +1,9 @@
 #pragma once
 
+#include <cstdint>
+
 namespace System::Private::CoreLib::System::Reflection {
-enum class CallingConventions {
+enum class CallingConventions : int32_t {
   Standard = 1,
   VarArgs = 2,
   Any = 3,

@@ -3,7 +3,7 @@
 #include <System.Private.CoreLib/System/Globalization/Calendar.h>
 
 namespace System::Private::CoreLib::System {
-enum class DayOfWeek;
+enum class DayOfWeek : int32_t;
 FORWARD_(Array, T1, T2)
 FORWARDS(Boolean)
 FORWARDS(DateTime)
@@ -11,9 +11,9 @@ FORWARDS(Int32)
 FORWARD(String)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Globalization {
-enum class CalendarAlgorithmType;
+enum class CalendarAlgorithmType : int32_t;
 enum class CalendarId : uint16_t;
-enum class CalendarWeekRule;
+enum class CalendarWeekRule : int32_t;
 FORWARD(EraInfo)
 FORWARD(GregorianCalendarHelper)
 namespace JapaneseCalendarNamespace {

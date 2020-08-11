@@ -1,7 +1,9 @@
 #pragma once
 
+#include <cstdint>
+
 namespace System::Private::CoreLib::System::Reflection::Emit {
-enum class OperandType {
+enum class OperandType : int32_t {
   InlineBrTarget = 0,
   InlineField = 1,
   InlineI = 2,

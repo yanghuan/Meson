@@ -3,7 +3,7 @@
 #include <System.Private.CoreLib/System/Attribute.h>
 
 namespace System::Private::CoreLib::System::Diagnostics::CodeAnalysis {
-enum class DynamicallyAccessedMemberTypes;
+enum class DynamicallyAccessedMemberTypes : int32_t;
 namespace DynamicallyAccessedMembersAttributeNamespace {
 CLASS(DynamicallyAccessedMembersAttribute) : public Attribute::in {
   public: DynamicallyAccessedMemberTypes get_MemberTypes() { return MemberTypes; }

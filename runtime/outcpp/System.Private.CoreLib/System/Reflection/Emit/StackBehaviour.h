@@ -1,7 +1,9 @@
 #pragma once
 
+#include <cstdint>
+
 namespace System::Private::CoreLib::System::Reflection::Emit {
-enum class StackBehaviour {
+enum class StackBehaviour : int32_t {
   Pop0 = 0,
   Pop1 = 1,
   Pop1_pop1 = 2,

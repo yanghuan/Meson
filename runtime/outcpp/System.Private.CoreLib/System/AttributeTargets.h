@@ -1,7 +1,9 @@
 #pragma once
 
+#include <cstdint>
+
 namespace System::Private::CoreLib::System {
-enum class AttributeTargets {
+enum class AttributeTargets : int32_t {
   Assembly = 1,
   Module = 2,
   Class = 4,

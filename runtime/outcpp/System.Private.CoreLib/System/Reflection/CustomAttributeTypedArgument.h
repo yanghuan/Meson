@@ -12,7 +12,7 @@ FORWARD(String)
 FORWARD(Type)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Reflection {
-enum class CustomAttributeEncoding;
+enum class CustomAttributeEncoding : int32_t;
 FORWARDS(CustomAttributeEncodedArgument)
 FORWARD(RuntimeModule)
 namespace CustomAttributeTypedArgumentNamespace {

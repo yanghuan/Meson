@@ -1,7 +1,9 @@
 #pragma once
 
+#include <cstdint>
+
 namespace System::Private::CoreLib::System::Reflection {
-enum class PInvokeAttributes {
+enum class PInvokeAttributes : int32_t {
   NoMangle = 1,
   CharSetMask = 6,
   CharSetNotSpec = 0,

@@ -16,7 +16,7 @@ FORWARD(AsyncLocal, T)
 FORWARDS(AsyncLocalValueChangedArgs, T)
 } // namespace System::Private::CoreLib::System::Threading
 namespace System::Private::CoreLib::System::Diagnostics::Tracing {
-enum class EventActivityOptions;
+enum class EventActivityOptions : int32_t;
 namespace ActivityTrackerNamespace {
 using namespace Threading;
 CLASS(ActivityTracker) : public Object::in {

@@ -8,7 +8,7 @@ FORWARDS(Int32)
 FORWARD(String)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Globalization {
-enum class IcuLocaleDataParts;
+enum class IcuLocaleDataParts : int32_t;
 namespace IcuLocaleDataNamespace {
 class IcuLocaleData {
   public: static String LCIDToLocaleName(Int32 culture);

@@ -1,7 +1,9 @@
 #pragma once
 
+#include <cstdint>
+
 namespace System::Private::CoreLib::System::Diagnostics::Tracing {
-enum class EventChannelType {
+enum class EventChannelType : int32_t {
   Admin = 1,
   Operational = 2,
   Analytic = 3,

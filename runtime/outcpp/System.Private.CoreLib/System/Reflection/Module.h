@@ -8,7 +8,7 @@ FORWARD(SerializationInfo)
 FORWARDS(StreamingContext)
 } // namespace System::Private::CoreLib::System::Runtime::Serialization
 namespace System::Private::CoreLib::System {
-enum class StringComparison;
+enum class StringComparison : int32_t;
 FORWARD_(Array, T1, T2)
 FORWARDS(Boolean)
 FORWARDS(Byte)
@@ -23,10 +23,10 @@ FORWARD(IEnumerable, T)
 FORWARD(IList, T)
 } // namespace System::Private::CoreLib::System::Collections::Generic
 namespace System::Private::CoreLib::System::Reflection {
-enum class BindingFlags;
-enum class CallingConventions;
-enum class ImageFileMachine;
-enum class PortableExecutableKinds;
+enum class BindingFlags : int32_t;
+enum class CallingConventions : int32_t;
+enum class ImageFileMachine : int32_t;
+enum class PortableExecutableKinds : int32_t;
 FORWARD(Assembly)
 FORWARD(Binder)
 FORWARD(CustomAttributeData)

@@ -16,7 +16,7 @@ FORWARD(ParameterInfo)
 } // namespace System::Private::CoreLib::System::Reflection
 namespace System::Private::CoreLib::System::Diagnostics::Tracing {
 enum class EventKeywords : int64_t;
-enum class EventTags;
+enum class EventTags : int32_t;
 FORWARD(NameInfo)
 FORWARD(TraceLoggingTypeInfo)
 namespace TraceLoggingEventTypesNamespace {

@@ -23,7 +23,7 @@ namespace StackTraceNamespace {
 using namespace Reflection;
 using namespace Text;
 CLASS(StackTrace) : public Object::in {
-  public: enum class TraceFormat {
+  public: enum class TraceFormat : int32_t {
     Normal = 0,
     TrailingNewLine = 1,
   };

@@ -13,7 +13,7 @@ namespace System::Private::CoreLib::System::Reflection {
 enum class CorElementType : uint8_t;
 } // namespace System::Private::CoreLib::System::Reflection
 namespace System::Private::CoreLib::System {
-enum class TypeCode;
+enum class TypeCode : int32_t;
 FORWARD_(Array, T1, T2)
 FORWARDS(Byte)
 FORWARDS(Char)

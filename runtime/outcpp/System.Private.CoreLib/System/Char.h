@@ -3,11 +3,11 @@
 #include <System.Private.CoreLib/System/ValueType.h>
 
 namespace System::Private::CoreLib::System::Globalization {
-enum class UnicodeCategory;
+enum class UnicodeCategory : int32_t;
 FORWARD(CultureInfo)
 } // namespace System::Private::CoreLib::System::Globalization
 namespace System::Private::CoreLib::System {
-enum class TypeCode;
+enum class TypeCode : int32_t;
 FORWARDS(Boolean)
 FORWARDS(Byte)
 FORWARDS(Double)

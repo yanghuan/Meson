@@ -13,18 +13,18 @@ FORWARD(Object)
 FORWARD(String)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Runtime::InteropServices {
-enum class UnmanagedType;
-enum class VarEnum;
+enum class UnmanagedType : int32_t;
+enum class VarEnum : int32_t;
 } // namespace System::Private::CoreLib::System::Runtime::InteropServices
 namespace System::Private::CoreLib::System::Reflection {
 enum class CorElementType : uint8_t;
-enum class EventAttributes;
-enum class FieldAttributes;
-enum class GenericParameterAttributes;
-enum class MetadataTokenType;
-enum class ParameterAttributes;
-enum class PInvokeAttributes;
-enum class PropertyAttributes;
+enum class EventAttributes : int32_t;
+enum class FieldAttributes : int32_t;
+enum class GenericParameterAttributes : int32_t;
+enum class MetadataTokenType : int32_t;
+enum class ParameterAttributes : int32_t;
+enum class PInvokeAttributes : int32_t;
+enum class PropertyAttributes : int32_t;
 FORWARDS(ConstArray)
 FORWARDS(MetadataEnumResult)
 FORWARDS(MetadataToken)

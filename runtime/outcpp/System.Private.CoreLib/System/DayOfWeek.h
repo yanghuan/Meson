@@ -1,7 +1,9 @@
 #pragma once
 
+#include <cstdint>
+
 namespace System::Private::CoreLib::System {
-enum class DayOfWeek {
+enum class DayOfWeek : int32_t {
   Sunday = 0,
   Monday = 1,
   Tuesday = 2,

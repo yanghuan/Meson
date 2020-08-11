@@ -1,7 +1,9 @@
 #pragma once
 
+#include <cstdint>
+
 namespace System::Private::CoreLib::System::Reflection {
-enum class MethodAttributes {
+enum class MethodAttributes : int32_t {
   MemberAccessMask = 7,
   PrivateScope = 0,
   Private = 1,

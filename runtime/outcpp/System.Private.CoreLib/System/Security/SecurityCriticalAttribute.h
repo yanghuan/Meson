@@ -3,7 +3,7 @@
 #include <System.Private.CoreLib/System/Attribute.h>
 
 namespace System::Private::CoreLib::System::Security {
-enum class SecurityCriticalScope;
+enum class SecurityCriticalScope : int32_t;
 namespace SecurityCriticalAttributeNamespace {
 CLASS(SecurityCriticalAttribute) : public Attribute::in {
   public: SecurityCriticalScope get_Scope() { return Scope; }

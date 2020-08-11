@@ -32,8 +32,8 @@ namespace System::Private::CoreLib::System::Threading {
 FORWARDS(NativeOverlapped)
 } // namespace System::Private::CoreLib::System::Threading
 namespace System::Private::CoreLib::System::IO {
-enum class FileMode;
-enum class FileShare;
+enum class FileMode : int32_t;
+enum class FileShare : int32_t;
 } // namespace System::Private::CoreLib::System::IO
 namespace System::Private::CoreLib::Microsoft::Win32::SafeHandles {
 FORWARD(SafeFileHandle)
@@ -41,12 +41,12 @@ FORWARD(SafeFindHandle)
 FORWARD(SafeWaitHandle)
 } // namespace System::Private::CoreLib::Microsoft::Win32::SafeHandles
 namespace System::Private::CoreLib::System::Globalization {
-enum class CalendarDataType;
+enum class CalendarDataType : int32_t;
 enum class CalendarId : uint16_t;
-enum class CompareOptions;
+enum class CompareOptions : int32_t;
 } // namespace System::Private::CoreLib::System::Globalization
 namespace System::Private::CoreLib::System::Text {
-enum class NormalizationForm;
+enum class NormalizationForm : int32_t;
 } // namespace System::Private::CoreLib::System::Text
 namespace System::Private::CoreLib::System::Diagnostics::Tracing {
 FORWARDS(EventDescriptor)
@@ -70,7 +70,7 @@ using namespace ::System::Private::CoreLib::System::Runtime::InteropServices;
 using namespace ::System::Private::CoreLib::System::Text;
 using namespace ::System::Private::CoreLib::System::Threading;
 class Interop {
-  public: enum class BOOL {
+  public: enum class BOOL : int32_t {
     FALSE = 0,
     TRUE = 1,
   };
@@ -377,7 +377,7 @@ class Interop {
     public: static void SysFreeString(IntPtr bstr);
   };
   public: class Globalization {
-    public: enum class ResultCode {
+    public: enum class ResultCode : int32_t {
       Success = 0,
       UnknownError = 1,
       InsufficentBuffer = 2,
@@ -437,12 +437,12 @@ class Interop {
       EVENT_ACTIVITY_CTRL_GET_SET_ID = 4,
       EVENT_ACTIVITY_CTRL_CREATE_SET_ID = 5,
     };
-    public: enum class EVENT_INFO_CLASS {
+    public: enum class EVENT_INFO_CLASS : int32_t {
       BinaryTrackInfo = 0,
       SetEnableAllKeywords = 1,
       SetTraits = 2,
     };
-    public: enum class TRACE_QUERY_INFO_CLASS {
+    public: enum class TRACE_QUERY_INFO_CLASS : int32_t {
       TraceGuidQueryList = 0,
       TraceGuidQueryInfo = 1,
       TraceGuidQueryProcess = 2,

@@ -23,7 +23,7 @@ namespace System::Console {
 namespace InteropNamespace {
 using namespace ::System::Private::CoreLib::System;
 class Interop {
-  public: enum class BOOL {
+  public: enum class BOOL : int32_t {
     FALSE = 0,
     TRUE = 1,
   };

@@ -1,7 +1,9 @@
 #pragma once
 
+#include <cstdint>
+
 namespace System::Private::CoreLib::System::Runtime::InteropServices::ComTypes {
-enum class CALLCONV {
+enum class CALLCONV : int32_t {
   CC_CDECL = 1,
   CC_MSCPASCAL = 2,
   CC_PASCAL = 2,

@@ -1,7 +1,9 @@
 #pragma once
 
+#include <cstdint>
+
 namespace System::Private::CoreLib::System::Runtime::CompilerServices {
-enum class MethodImplOptions {
+enum class MethodImplOptions : int32_t {
   Unmanaged = 4,
   NoInlining = 8,
   ForwardRef = 16,

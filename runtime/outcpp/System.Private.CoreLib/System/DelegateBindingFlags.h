@@ -1,7 +1,9 @@
 #pragma once
 
+#include <cstdint>
+
 namespace System::Private::CoreLib::System {
-enum class DelegateBindingFlags {
+enum class DelegateBindingFlags : int32_t {
   StaticMethodOnly = 1,
   InstanceMethodOnly = 2,
   OpenDelegateOnly = 4,

@@ -1,7 +1,9 @@
 #pragma once
 
+#include <cstdint>
+
 namespace System::Private::CoreLib::System::Runtime::InteropServices {
-enum class DllImportSearchPath {
+enum class DllImportSearchPath : int32_t {
   UseDllDirectoryForDependencies = 256,
   ApplicationDirectory = 512,
   UserDirectories = 1024,

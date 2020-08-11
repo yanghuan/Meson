@@ -9,8 +9,8 @@ FORWARD(String)
 FORWARD(Type)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Runtime::InteropServices {
-enum class UnmanagedType;
-enum class VarEnum;
+enum class UnmanagedType : int32_t;
+enum class VarEnum : int32_t;
 namespace MarshalAsAttributeNamespace {
 CLASS(MarshalAsAttribute) : public Attribute::in {
   public: UnmanagedType get_Value() { return Value; }

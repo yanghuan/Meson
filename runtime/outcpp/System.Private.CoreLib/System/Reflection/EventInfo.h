@@ -11,8 +11,8 @@ FORWARD(Object)
 FORWARD(Type)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Reflection {
-enum class EventAttributes;
-enum class MemberTypes;
+enum class EventAttributes : int32_t;
+enum class MemberTypes : int32_t;
 FORWARD(MethodInfo)
 namespace EventInfoNamespace {
 CLASS(EventInfo) : public MemberInfo::in {

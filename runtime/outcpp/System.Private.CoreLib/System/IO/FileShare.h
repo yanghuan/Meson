@@ -1,7 +1,9 @@
 #pragma once
 
+#include <cstdint>
+
 namespace System::Private::CoreLib::System::IO {
-enum class FileShare {
+enum class FileShare : int32_t {
   None = 0,
   Read = 1,
   Write = 2,

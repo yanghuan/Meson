@@ -8,7 +8,7 @@ FORWARDS(Int32)
 FORWARD(String)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Runtime::InteropServices::ComTypes {
-enum class DESCKIND;
+enum class DESCKIND : int32_t;
 FORWARDS(BINDPTR)
 FORWARD(ITypeInfo)
 namespace ITypeCompNamespace {

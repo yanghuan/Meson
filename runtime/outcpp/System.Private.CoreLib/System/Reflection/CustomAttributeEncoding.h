@@ -1,7 +1,9 @@
 #pragma once
 
+#include <cstdint>
+
 namespace System::Private::CoreLib::System::Reflection {
-enum class CustomAttributeEncoding {
+enum class CustomAttributeEncoding : int32_t {
   Undefined = 0,
   Boolean = 2,
   Char = 3,

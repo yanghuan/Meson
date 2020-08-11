@@ -19,7 +19,7 @@ FORWARD(String)
 FORWARD(Type)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Security::Permissions {
-enum class PermissionState;
+enum class PermissionState : int32_t;
 } // namespace System::Private::CoreLib::System::Security::Permissions
 namespace System::Private::CoreLib::System::Security {
 FORWARD(IPermission)

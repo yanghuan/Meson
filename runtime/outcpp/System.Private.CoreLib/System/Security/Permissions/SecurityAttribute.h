@@ -7,7 +7,7 @@ namespace System::Private::CoreLib::System::Security {
 FORWARD(IPermission)
 } // namespace System::Private::CoreLib::System::Security
 namespace System::Private::CoreLib::System::Security::Permissions {
-enum class SecurityAction;
+enum class SecurityAction : int32_t;
 namespace SecurityAttributeNamespace {
 CLASS(SecurityAttribute) : public Attribute::in {
   public: SecurityAction get_Action() { return Action; }

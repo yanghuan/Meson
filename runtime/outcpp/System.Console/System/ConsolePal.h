@@ -7,7 +7,7 @@
 #include <System.Private.CoreLib/System/Object.h>
 
 namespace System::Private::CoreLib::System::IO {
-enum class FileAccess;
+enum class FileAccess : int32_t;
 FORWARD(Stream)
 FORWARD(TextReader)
 } // namespace System::Private::CoreLib::System::IO
@@ -22,7 +22,7 @@ namespace System::Private::CoreLib::System::Text {
 FORWARD(Encoding)
 } // namespace System::Private::CoreLib::System::Text
 namespace System::Console::System {
-enum class ConsoleColor;
+enum class ConsoleColor : int32_t;
 FORWARDS(ConsoleKeyInfo)
 namespace ConsolePalNamespace {
 using namespace ::System::Private::CoreLib::System;
@@ -30,7 +30,7 @@ using namespace ::System::Private::CoreLib::System::IO;
 using namespace ::System::Private::CoreLib::System::Text;
 using namespace IO;
 class ConsolePal {
-  public: enum class ControlKeyState {
+  public: enum class ControlKeyState : int32_t {
     RightAltPressed = 1,
     LeftAltPressed = 2,
     RightCtrlPressed = 4,

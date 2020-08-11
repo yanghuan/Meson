@@ -1,7 +1,9 @@
 #pragma once
 
+#include <cstdint>
+
 namespace System::Private::CoreLib::System::Threading::Tasks {
-enum class InternalTaskOptions {
+enum class InternalTaskOptions : int32_t {
   None = 0,
   InternalOptionsMask = 65280,
   ContinuationTask = 512,

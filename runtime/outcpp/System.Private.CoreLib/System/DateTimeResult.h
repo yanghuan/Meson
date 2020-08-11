@@ -12,8 +12,8 @@ namespace System::Private::CoreLib::System::Globalization {
 FORWARD(Calendar)
 } // namespace System::Private::CoreLib::System::Globalization
 namespace System::Private::CoreLib::System {
-enum class ParseFailureKind;
-enum class ParseFlags;
+enum class ParseFailureKind : int32_t;
+enum class ParseFlags : int32_t;
 FORWARD(Object)
 FORWARD(String)
 namespace DateTimeResultNamespace {

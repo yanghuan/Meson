@@ -17,13 +17,13 @@ FORWARD(String)
 FORWARD(Type)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Reflection {
-enum class BindingFlags;
-enum class CallingConventions;
-enum class FieldAttributes;
-enum class ImageFileMachine;
-enum class MethodAttributes;
-enum class PortableExecutableKinds;
-enum class TypeAttributes;
+enum class BindingFlags : int32_t;
+enum class CallingConventions : int32_t;
+enum class FieldAttributes : int32_t;
+enum class ImageFileMachine : int32_t;
+enum class MethodAttributes : int32_t;
+enum class PortableExecutableKinds : int32_t;
+enum class TypeAttributes : int32_t;
 FORWARD(Assembly)
 FORWARD(Binder)
 FORWARD(ConstructorInfo)
@@ -52,11 +52,11 @@ FORWARD(IEnumerable, T)
 FORWARD(IList, T)
 } // namespace System::Private::CoreLib::System::Collections::Generic
 namespace System::Private::CoreLib::System::Runtime::InteropServices {
-enum class CallingConvention;
-enum class CharSet;
+enum class CallingConvention : int32_t;
+enum class CharSet : int32_t;
 } // namespace System::Private::CoreLib::System::Runtime::InteropServices
 namespace System::Private::CoreLib::System::Reflection::Emit {
-enum class PackingSize;
+enum class PackingSize : int32_t;
 FORWARD(AssemblyBuilder)
 FORWARD(CustomAttributeBuilder)
 FORWARD(EnumBuilder)

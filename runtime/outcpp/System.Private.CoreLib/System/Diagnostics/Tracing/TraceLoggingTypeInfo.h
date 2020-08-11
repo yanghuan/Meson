@@ -12,11 +12,11 @@ FORWARD(Dictionary, TKey, TValue)
 FORWARD(List, T)
 } // namespace System::Private::CoreLib::System::Collections::Generic
 namespace System::Private::CoreLib::System::Diagnostics::Tracing {
-enum class EventFieldFormat;
+enum class EventFieldFormat : int32_t;
 enum class EventKeywords : int64_t;
-enum class EventLevel;
-enum class EventOpcode;
-enum class EventTags;
+enum class EventLevel : int32_t;
+enum class EventOpcode : int32_t;
+enum class EventTags : int32_t;
 FORWARDS(PropertyValue)
 FORWARD(TraceLoggingDataCollector)
 FORWARD(TraceLoggingMetadataCollector)

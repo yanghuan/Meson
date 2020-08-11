@@ -23,7 +23,7 @@ FORWARD(DynamicMethod)
 FORWARD(DynamicScope)
 namespace DynamicResolverNamespace {
 CLASS(DynamicResolver) : public Resolver::in {
-  public: enum class SecurityControlFlags {
+  public: enum class SecurityControlFlags : int32_t {
     Default = 0,
     SkipVisibilityChecks = 1,
     RestrictedSkipVisibilityChecks = 2,

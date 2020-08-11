@@ -7,8 +7,8 @@ namespace System::Private::CoreLib::System {
 FORWARDS(Int16)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Runtime::InteropServices {
-enum class CharSet;
-enum class LayoutKind;
+enum class CharSet : int32_t;
+enum class LayoutKind : int32_t;
 namespace StructLayoutAttributeNamespace {
 CLASS(StructLayoutAttribute) : public Attribute::in {
   public: LayoutKind get_Value() { return Value; }

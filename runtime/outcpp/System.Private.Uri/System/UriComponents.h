@@ -1,7 +1,9 @@
 #pragma once
 
+#include <cstdint>
+
 namespace System::Private::Uri::System {
-enum class UriComponents {
+enum class UriComponents : int32_t {
   Scheme = 1,
   UserInfo = 2,
   Host = 4,

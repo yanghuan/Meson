@@ -11,7 +11,7 @@ FORWARDS(Byte)
 FORWARD(String)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Reflection {
-enum class ParameterAttributes;
+enum class ParameterAttributes : int32_t;
 FORWARD(ConstructorInfo)
 } // namespace System::Private::CoreLib::System::Reflection
 namespace System::Private::CoreLib::System::Reflection::Emit {

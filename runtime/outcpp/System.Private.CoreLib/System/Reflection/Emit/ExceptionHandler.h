@@ -9,7 +9,7 @@ FORWARD(IEquatable, T)
 FORWARD(Object)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Reflection {
-enum class ExceptionHandlingClauseOptions;
+enum class ExceptionHandlingClauseOptions : int32_t;
 } // namespace System::Private::CoreLib::System::Reflection
 namespace System::Private::CoreLib::System::Reflection::Emit {
 namespace ExceptionHandlerNamespace {

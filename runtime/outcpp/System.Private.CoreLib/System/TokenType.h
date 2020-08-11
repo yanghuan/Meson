@@ -1,7 +1,9 @@
 #pragma once
 
+#include <cstdint>
+
 namespace System::Private::CoreLib::System {
-enum class TokenType {
+enum class TokenType : int32_t {
   NumberToken = 1,
   YearNumberToken = 2,
   Am = 3,

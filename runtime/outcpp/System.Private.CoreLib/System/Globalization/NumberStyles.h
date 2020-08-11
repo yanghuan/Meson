@@ -1,7 +1,9 @@
 #pragma once
 
+#include <cstdint>
+
 namespace System::Private::CoreLib::System::Globalization {
-enum class NumberStyles {
+enum class NumberStyles : int32_t {
   None = 0,
   AllowLeadingWhite = 1,
   AllowTrailingWhite = 2,

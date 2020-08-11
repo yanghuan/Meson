@@ -45,11 +45,11 @@ FORWARD_(Task, T1, T2)
 FORWARDS_(ValueTask, T1, T2)
 } // namespace System::Private::CoreLib::System::Threading::Tasks
 namespace System::Private::CoreLib::System::IO {
-enum class FileAccess;
-enum class FileMode;
-enum class FileOptions;
-enum class FileShare;
-enum class SeekOrigin;
+enum class FileAccess : int32_t;
+enum class FileMode : int32_t;
+enum class FileOptions : int32_t;
+enum class FileShare : int32_t;
+enum class SeekOrigin : int32_t;
 namespace FileStreamNamespace {
 using namespace ::System::Private::CoreLib::Microsoft::Win32::SafeHandles;
 using namespace Buffers;

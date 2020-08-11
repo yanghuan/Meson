@@ -9,7 +9,7 @@ FORWARDS(Int32)
 FORWARD(String)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::Uri::System {
-enum class UriComponents;
+enum class UriComponents : int32_t;
 namespace IriHelperNamespace {
 using namespace ::System::Private::CoreLib::System;
 class IriHelper {

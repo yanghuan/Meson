@@ -10,7 +10,7 @@ namespace System::Private::CoreLib::Microsoft::Win32::SafeHandles {
 FORWARD(SafeWaitHandle)
 } // namespace System::Private::CoreLib::Microsoft::Win32::SafeHandles
 namespace System::Private::CoreLib::System::Threading {
-enum class EventResetMode;
+enum class EventResetMode : int32_t;
 namespace EventWaitHandleNamespace {
 using namespace ::System::Private::CoreLib::Microsoft::Win32::SafeHandles;
 CLASS(EventWaitHandle) : public WaitHandle::in {

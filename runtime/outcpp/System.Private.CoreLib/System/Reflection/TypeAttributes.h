@@ -1,7 +1,9 @@
 #pragma once
 
+#include <cstdint>
+
 namespace System::Private::CoreLib::System::Reflection {
-enum class TypeAttributes {
+enum class TypeAttributes : int32_t {
   VisibilityMask = 7,
   NotPublic = 0,
   Public = 1,

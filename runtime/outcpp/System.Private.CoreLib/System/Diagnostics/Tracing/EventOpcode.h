@@ -1,7 +1,9 @@
 #pragma once
 
+#include <cstdint>
+
 namespace System::Private::CoreLib::System::Diagnostics::Tracing {
-enum class EventOpcode {
+enum class EventOpcode : int32_t {
   Info = 0,
   Start = 1,
   Stop = 2,

@@ -1,7 +1,9 @@
 #pragma once
 
+#include <cstdint>
+
 namespace System::Private::CoreLib::System::Reflection {
-enum class MetadataTokenType {
+enum class MetadataTokenType : int32_t {
   Module = 0,
   TypeRef = 16777216,
   TypeDef = 33554432,

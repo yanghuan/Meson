@@ -1,7 +1,9 @@
 #pragma once
 
+#include <cstdint>
+
 namespace System::Private::CoreLib::System::Runtime::Versioning {
-enum class SxSRequirements {
+enum class SxSRequirements : int32_t {
   None = 0,
   AppDomainID = 1,
   ProcessID = 2,

@@ -19,7 +19,7 @@ namespace System::Private::CoreLib::System::Collections::Generic {
 FORWARD(IList, T)
 } // namespace System::Private::CoreLib::System::Collections::Generic
 namespace System::Private::CoreLib::System::Reflection {
-enum class ParameterAttributes;
+enum class ParameterAttributes : int32_t;
 FORWARD(CustomAttributeData)
 FORWARD(MemberInfo)
 FORWARD(MethodBase)

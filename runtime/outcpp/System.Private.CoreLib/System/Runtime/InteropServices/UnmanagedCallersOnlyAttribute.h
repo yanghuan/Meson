@@ -6,7 +6,7 @@ namespace System::Private::CoreLib::System {
 FORWARD(String)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Runtime::InteropServices {
-enum class CallingConvention;
+enum class CallingConvention : int32_t;
 namespace UnmanagedCallersOnlyAttributeNamespace {
 CLASS(UnmanagedCallersOnlyAttribute) : public Attribute::in {
   public: void ctor();

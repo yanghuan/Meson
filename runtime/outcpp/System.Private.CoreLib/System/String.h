@@ -13,13 +13,13 @@ FORWARD(IEnumerable, T)
 FORWARDS(ValueListBuilder, T)
 } // namespace System::Private::CoreLib::System::Collections::Generic
 namespace System::Private::CoreLib::System::Text {
-enum class NormalizationForm;
-enum class TrimType;
+enum class NormalizationForm : int32_t;
+enum class TrimType : int32_t;
 FORWARD(Encoding)
 FORWARDS(StringRuneEnumerator)
 } // namespace System::Private::CoreLib::System::Text
 namespace System::Private::CoreLib::System::Globalization {
-enum class CompareOptions;
+enum class CompareOptions : int32_t;
 FORWARD(CompareInfo)
 FORWARD(CultureInfo)
 } // namespace System::Private::CoreLib::System::Globalization
@@ -27,9 +27,9 @@ namespace System::Private::CoreLib::System::Buffers {
 FORWARD(SpanAction, T, TArg)
 } // namespace System::Private::CoreLib::System::Buffers
 namespace System::Private::CoreLib::System {
-enum class StringComparison;
-enum class StringSplitOptions;
-enum class TypeCode;
+enum class StringComparison : int32_t;
+enum class StringSplitOptions : int32_t;
+enum class TypeCode : int32_t;
 FORWARD_(Array, T1, T2)
 FORWARDS(Boolean)
 FORWARDS(Byte)

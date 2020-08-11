@@ -1,7 +1,9 @@
 #pragma once
 
+#include <cstdint>
+
 namespace System::Private::Uri::System {
-enum class ParsingError {
+enum class ParsingError : int32_t {
   None = 0,
   BadFormat = 1,
   BadScheme = 2,

@@ -1,7 +1,9 @@
 #pragma once
 
+#include <cstdint>
+
 namespace System::Private::CoreLib::System::Globalization {
-enum class CalendarDataType {
+enum class CalendarDataType : int32_t {
   Uninitialized = 0,
   NativeName = 1,
   MonthDay = 2,

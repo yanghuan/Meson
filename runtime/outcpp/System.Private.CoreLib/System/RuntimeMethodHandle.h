@@ -15,16 +15,16 @@ FORWARDS(QCallTypeHandle)
 FORWARDS(StringHandleOnStack)
 } // namespace System::Private::CoreLib::System::Runtime::CompilerServices
 namespace System::Private::CoreLib::System::Threading {
-enum class StackCrawlMark;
+enum class StackCrawlMark : int32_t;
 } // namespace System::Private::CoreLib::System::Threading
 namespace System::Private::CoreLib::System::Reflection {
-enum class MethodAttributes;
-enum class MethodImplAttributes;
+enum class MethodAttributes : int32_t;
+enum class MethodImplAttributes : int32_t;
 FORWARD(LoaderAllocator)
 FORWARD(RuntimeMethodBody)
 } // namespace System::Private::CoreLib::System::Reflection
 namespace System::Private::CoreLib::System {
-enum class TypeNameFormatFlags;
+enum class TypeNameFormatFlags : int32_t;
 FORWARD_(Array, T1, T2)
 FORWARDS(Boolean)
 FORWARDS(Int32)

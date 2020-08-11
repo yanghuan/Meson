@@ -1,7 +1,9 @@
 #pragma once
 
+#include <cstdint>
+
 namespace System::Private::CoreLib::System::Diagnostics::Tracing {
-enum class EventCommand {
+enum class EventCommand : int32_t {
   Update = 0,
   SendManifest = -1,
   Enable = -2,

@@ -1,7 +1,9 @@
 #pragma once
 
+#include <cstdint>
+
 namespace System::Private::CoreLib::System::Reflection::Emit {
-enum class PackingSize {
+enum class PackingSize : int32_t {
   Unspecified = 0,
   Size1 = 1,
   Size2 = 2,

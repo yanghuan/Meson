@@ -17,7 +17,7 @@ FORWARDS(IntPtr)
 FORWARD(String)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Diagnostics::Tracing {
-enum class EventPipeSerializationFormat;
+enum class EventPipeSerializationFormat : int32_t;
 FORWARDS(EventPipeEventInstanceData)
 FORWARDS(EventPipeProviderConfiguration)
 FORWARDS(EventPipeSessionInfo)

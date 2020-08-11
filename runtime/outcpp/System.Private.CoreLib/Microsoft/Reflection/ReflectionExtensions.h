@@ -3,7 +3,7 @@
 #include <rt/GCObject.h>
 
 namespace System::Private::CoreLib::System {
-enum class TypeCode;
+enum class TypeCode : int32_t;
 FORWARDS(Boolean)
 FORWARD(Type)
 } // namespace System::Private::CoreLib::System

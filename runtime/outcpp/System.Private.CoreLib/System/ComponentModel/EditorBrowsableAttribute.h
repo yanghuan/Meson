@@ -8,7 +8,7 @@ FORWARDS(Int32)
 FORWARD(Object)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::ComponentModel {
-enum class EditorBrowsableState;
+enum class EditorBrowsableState : int32_t;
 namespace EditorBrowsableAttributeNamespace {
 CLASS(EditorBrowsableAttribute) : public Attribute::in {
   public: EditorBrowsableState get_State() { return State; }

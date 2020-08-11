@@ -19,7 +19,7 @@ FORWARDS(UInt32)
 FORWARD(Version)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::IO {
-enum class FileAccess;
+enum class FileAccess : int32_t;
 FORWARD(FileStream)
 FORWARD(Stream)
 } // namespace System::Private::CoreLib::System::IO
@@ -39,7 +39,7 @@ FORWARD(SerializationInfo)
 FORWARDS(StreamingContext)
 } // namespace System::Private::CoreLib::System::Runtime::Serialization
 namespace System::Private::CoreLib::System::Threading {
-enum class StackCrawlMark;
+enum class StackCrawlMark : int32_t;
 } // namespace System::Private::CoreLib::System::Threading
 namespace System::Private::CoreLib::System::Runtime::Loader {
 FORWARD(AssemblyLoadContext)
@@ -48,10 +48,10 @@ namespace System::Private::CoreLib::System::Globalization {
 FORWARD(CultureInfo)
 } // namespace System::Private::CoreLib::System::Globalization
 namespace System::Private::CoreLib::System::Configuration::Assemblies {
-enum class AssemblyHashAlgorithm;
+enum class AssemblyHashAlgorithm : int32_t;
 } // namespace System::Private::CoreLib::System::Configuration::Assemblies
 namespace System::Private::CoreLib::System::Reflection {
-enum class AssemblyNameFlags;
+enum class AssemblyNameFlags : int32_t;
 FORWARD(AssemblyName)
 FORWARD(CustomAttributeData)
 FORWARD(ManifestResourceInfo)

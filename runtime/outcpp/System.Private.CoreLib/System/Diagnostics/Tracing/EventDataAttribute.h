@@ -7,9 +7,9 @@ FORWARD(String)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Diagnostics::Tracing {
 enum class EventKeywords : int64_t;
-enum class EventLevel;
-enum class EventOpcode;
-enum class EventTags;
+enum class EventLevel : int32_t;
+enum class EventOpcode : int32_t;
+enum class EventTags : int32_t;
 namespace EventDataAttributeNamespace {
 CLASS(EventDataAttribute) : public Attribute::in {
   public: String get_Name() { return Name; }

@@ -1,7 +1,9 @@
 #pragma once
 
+#include <cstdint>
+
 namespace System::Private::CoreLib::System {
-enum class DTSubStringType {
+enum class DTSubStringType : int32_t {
   Unknown = 0,
   Invalid = 1,
   Number = 2,

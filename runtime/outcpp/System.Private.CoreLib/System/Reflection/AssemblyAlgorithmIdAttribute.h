@@ -4,7 +4,7 @@
 #include <System.Private.CoreLib/System/UInt32.h>
 
 namespace System::Private::CoreLib::System::Configuration::Assemblies {
-enum class AssemblyHashAlgorithm;
+enum class AssemblyHashAlgorithm : int32_t;
 } // namespace System::Private::CoreLib::System::Configuration::Assemblies
 namespace System::Private::CoreLib::System::Reflection {
 namespace AssemblyAlgorithmIdAttributeNamespace {

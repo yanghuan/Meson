@@ -12,7 +12,7 @@ FORWARDS(IntPtr)
 FORWARD(String)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Runtime::InteropServices::ComTypes {
-enum class TYPEKIND;
+enum class TYPEKIND : int32_t;
 FORWARD(ITypeComp)
 FORWARD(ITypeInfo)
 namespace ITypeLibNamespace {

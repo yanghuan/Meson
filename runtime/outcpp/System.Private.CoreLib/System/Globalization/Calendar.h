@@ -5,7 +5,7 @@
 #include <System.Private.CoreLib/System/Object.h>
 
 namespace System::Private::CoreLib::System {
-enum class DayOfWeek;
+enum class DayOfWeek : int32_t;
 FORWARD_(Array, T1, T2)
 FORWARDS(DateTime)
 FORWARDS(Double)
@@ -13,9 +13,9 @@ FORWARD(ICloneable)
 FORWARDS(Int64)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Globalization {
-enum class CalendarAlgorithmType;
+enum class CalendarAlgorithmType : int32_t;
 enum class CalendarId : uint16_t;
-enum class CalendarWeekRule;
+enum class CalendarWeekRule : int32_t;
 namespace CalendarNamespace {
 CLASS(Calendar) : public Object::in {
   public: using interface = rt::TypeList<ICloneable>;

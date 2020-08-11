@@ -7,8 +7,8 @@ namespace System::Private::CoreLib::System {
 FORWARD(String)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Runtime::InteropServices {
-enum class CallingConvention;
-enum class CharSet;
+enum class CallingConvention : int32_t;
+enum class CharSet : int32_t;
 namespace DllImportAttributeNamespace {
 CLASS(DllImportAttribute) : public Attribute::in {
   public: String get_Value() { return Value; }

@@ -8,8 +8,8 @@ FORWARD(Exception)
 FORWARDS(Int32)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Threading::Tasks {
-enum class TaskCreationOptions;
-enum class TaskStatus;
+enum class TaskCreationOptions : int32_t;
+enum class TaskStatus : int32_t;
 FORWARD_(Task, T1, T2)
 namespace SystemThreadingTasks_TaskDebugViewNamespace {
 CLASS(SystemThreadingTasks_TaskDebugView) : public Object::in {

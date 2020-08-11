@@ -6,7 +6,7 @@ namespace System::Private::CoreLib::System {
 FORWARD(String)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Reflection {
-enum class ResourceLocation;
+enum class ResourceLocation : int32_t;
 FORWARD(Assembly)
 namespace ManifestResourceInfoNamespace {
 CLASS(ManifestResourceInfo) : public Object::in {

@@ -1,7 +1,9 @@
 #pragma once
 
+#include <cstdint>
+
 namespace System::Private::CoreLib::System::Threading {
-enum class StackCrawlMark {
+enum class StackCrawlMark : int32_t {
   LookForMe = 0,
   LookForMyCaller = 1,
   LookForMyCallersCaller = 2,

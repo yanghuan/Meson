@@ -12,12 +12,12 @@
 #include <System.Private.CoreLib/System/ValueType.h>
 
 namespace System::Private::CoreLib::System::Reflection {
-enum class BindingFlags;
-enum class CallingConventions;
-enum class GenericParameterAttributes;
-enum class MemberTypes;
-enum class MethodAttributes;
-enum class TypeAttributes;
+enum class BindingFlags : int32_t;
+enum class CallingConventions : int32_t;
+enum class GenericParameterAttributes : int32_t;
+enum class MemberTypes : int32_t;
+enum class MethodAttributes : int32_t;
+enum class TypeAttributes : int32_t;
 FORWARD(Assembly)
 FORWARD(Binder)
 FORWARD(ConstructorInfo)
@@ -47,15 +47,15 @@ namespace System::Private::CoreLib::System::Runtime::InteropServices {
 FORWARD(StructLayoutAttribute)
 } // namespace System::Private::CoreLib::System::Runtime::InteropServices
 namespace System::Private::CoreLib::System::Threading {
-enum class StackCrawlMark;
+enum class StackCrawlMark : int32_t;
 } // namespace System::Private::CoreLib::System::Threading
 namespace System::Private::CoreLib::System::Globalization {
 FORWARD(CultureInfo)
 } // namespace System::Private::CoreLib::System::Globalization
 namespace System::Private::CoreLib::System {
-enum class TypeCode;
-enum class TypeNameFormatFlags;
-enum class TypeNameKind;
+enum class TypeCode : int32_t;
+enum class TypeNameFormatFlags : int32_t;
+enum class TypeNameKind : int32_t;
 FORWARD_(Array, T1, T2)
 FORWARDS(Byte)
 FORWARDS(Char)
@@ -80,13 +80,13 @@ using namespace Threading;
 using Collections::Generic::IList;
 CLASS(RuntimeType) : public TypeInfo::in {
   public: using interface = rt::TypeList<ICloneable>;
-  public: enum class MemberListType {
+  public: enum class MemberListType : int32_t {
     All = 0,
     CaseSensitive = 1,
     CaseInsensitive = 2,
     HandleToInfo = 3,
   };
-  private: enum class DispatchWrapperType {
+  private: enum class DispatchWrapperType : int32_t {
     Unknown = 1,
     Dispatch = 2,
     Error = 8,
@@ -109,7 +109,7 @@ CLASS(RuntimeType) : public TypeInfo::in {
     private: Int32 _capacity;
   };
   public: CLASS(RuntimeTypeCache) : public Object::in {
-    public: enum class CacheType {
+    public: enum class CacheType : int32_t {
       Method = 0,
       Constructor = 1,
       Field = 2,

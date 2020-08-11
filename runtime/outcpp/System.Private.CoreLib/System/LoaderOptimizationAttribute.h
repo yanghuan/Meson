@@ -4,7 +4,7 @@
 #include <System.Private.CoreLib/System/Byte.h>
 
 namespace System::Private::CoreLib::System {
-enum class LoaderOptimization;
+enum class LoaderOptimization : int32_t;
 namespace LoaderOptimizationAttributeNamespace {
 CLASS(LoaderOptimizationAttribute) : public Attribute::in {
   public: LoaderOptimization get_Value();

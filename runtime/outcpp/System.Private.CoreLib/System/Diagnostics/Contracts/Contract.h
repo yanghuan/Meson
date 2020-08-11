@@ -13,7 +13,7 @@ namespace System::Private::CoreLib::System::Collections::Generic {
 FORWARD(IEnumerable, T)
 } // namespace System::Private::CoreLib::System::Collections::Generic
 namespace System::Private::CoreLib::System::Diagnostics::Contracts {
-enum class ContractFailureKind;
+enum class ContractFailureKind : int32_t;
 namespace ContractNamespace {
 using namespace Collections::Generic;
 class Contract {

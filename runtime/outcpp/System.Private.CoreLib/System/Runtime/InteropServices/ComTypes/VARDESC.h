@@ -10,7 +10,7 @@ namespace System::Private::CoreLib::System {
 FORWARD(String)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Runtime::InteropServices::ComTypes {
-enum class VARKIND;
+enum class VARKIND : int32_t;
 namespace VARDESCNamespace {
 struct VARDESC : public valueType<VARDESC> {
   public: struct DESCUNION : public valueType<DESCUNION> {

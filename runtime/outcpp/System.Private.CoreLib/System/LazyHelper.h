@@ -3,13 +3,13 @@
 #include <System.Private.CoreLib/System/Object.h>
 
 namespace System::Private::CoreLib::System::Threading {
-enum class LazyThreadSafetyMode;
+enum class LazyThreadSafetyMode : int32_t;
 } // namespace System::Private::CoreLib::System::Threading
 namespace System::Private::CoreLib::System::Runtime::ExceptionServices {
 FORWARD(ExceptionDispatchInfo)
 } // namespace System::Private::CoreLib::System::Runtime::ExceptionServices
 namespace System::Private::CoreLib::System {
-enum class LazyState;
+enum class LazyState : int32_t;
 FORWARDS(Boolean)
 FORWARD(Exception)
 FORWARDS_(Nullable, T1, T2)

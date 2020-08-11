@@ -13,7 +13,7 @@ FORWARDS(TimeSpan)
 FORWARDS(UInt16)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Threading {
-enum class LockRecursionPolicy;
+enum class LockRecursionPolicy : int32_t;
 FORWARD(EventWaitHandle)
 FORWARD(ReaderWriterCount)
 namespace ReaderWriterLockSlimNamespace {
@@ -25,7 +25,7 @@ CLASS(ReaderWriterLockSlim) : public Object::in {
     WriteWaiterSignaled = 2,
     UpgradeableReadWaiterSignaled = 4,
   };
-  private: enum class EnterSpinLockReason {
+  private: enum class EnterSpinLockReason : int32_t {
     EnterAnyRead = 0,
     ExitAnyRead = 1,
     EnterWrite = 2,
@@ -35,7 +35,7 @@ CLASS(ReaderWriterLockSlim) : public Object::in {
     OperationMask = 7,
     Wait = 8,
   };
-  private: enum class EnterLockType {
+  private: enum class EnterLockType : int32_t {
     Read = 0,
     UpgradeableRead = 1,
     Write = 2,

@@ -28,8 +28,8 @@ FORWARD_(Task, T1, T2)
 FORWARDS_(ValueTask, T1, T2)
 } // namespace System::Private::CoreLib::System::Threading::Tasks
 namespace System::Private::CoreLib::System::IO {
-enum class FileAccess;
-enum class SeekOrigin;
+enum class FileAccess : int32_t;
+enum class SeekOrigin : int32_t;
 namespace UnmanagedMemoryStreamNamespace {
 using namespace Buffers;
 using namespace Runtime::InteropServices;

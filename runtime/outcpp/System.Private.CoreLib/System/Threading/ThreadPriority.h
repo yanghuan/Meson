@@ -1,7 +1,9 @@
 #pragma once
 
+#include <cstdint>
+
 namespace System::Private::CoreLib::System::Threading {
-enum class ThreadPriority {
+enum class ThreadPriority : int32_t {
   Lowest = 0,
   BelowNormal = 1,
   Normal = 2,

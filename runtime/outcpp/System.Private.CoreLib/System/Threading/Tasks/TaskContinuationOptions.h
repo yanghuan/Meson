@@ -1,7 +1,9 @@
 #pragma once
 
+#include <cstdint>
+
 namespace System::Private::CoreLib::System::Threading::Tasks {
-enum class TaskContinuationOptions {
+enum class TaskContinuationOptions : int32_t {
   None = 0,
   PreferFairness = 1,
   LongRunning = 2,

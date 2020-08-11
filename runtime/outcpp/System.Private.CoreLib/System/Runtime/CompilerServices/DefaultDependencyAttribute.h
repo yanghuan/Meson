@@ -3,7 +3,7 @@
 #include <System.Private.CoreLib/System/Attribute.h>
 
 namespace System::Private::CoreLib::System::Runtime::CompilerServices {
-enum class LoadHint;
+enum class LoadHint : int32_t;
 namespace DefaultDependencyAttributeNamespace {
 CLASS(DefaultDependencyAttribute) : public Attribute::in {
   public: LoadHint get_LoadHint() { return LoadHint; }

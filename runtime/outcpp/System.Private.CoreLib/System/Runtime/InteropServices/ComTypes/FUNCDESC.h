@@ -7,9 +7,9 @@
 #include <System.Private.CoreLib/System/ValueType.h>
 
 namespace System::Private::CoreLib::System::Runtime::InteropServices::ComTypes {
-enum class CALLCONV;
-enum class FUNCKIND;
-enum class INVOKEKIND;
+enum class CALLCONV : int32_t;
+enum class FUNCKIND : int32_t;
+enum class INVOKEKIND : int32_t;
 namespace FUNCDESCNamespace {
 struct FUNCDESC : public valueType<FUNCDESC> {
   public: Int32 memid;

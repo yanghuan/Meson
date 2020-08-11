@@ -9,8 +9,8 @@ FORWARDS(Byte)
 FORWARD(String)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Reflection {
-enum class EventAttributes;
-enum class MethodSemanticsAttributes;
+enum class EventAttributes : int32_t;
+enum class MethodSemanticsAttributes : int32_t;
 FORWARD(ConstructorInfo)
 } // namespace System::Private::CoreLib::System::Reflection
 namespace System::Private::CoreLib::System::Reflection::Emit {

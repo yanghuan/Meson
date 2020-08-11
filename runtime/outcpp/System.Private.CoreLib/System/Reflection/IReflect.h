@@ -11,7 +11,7 @@ namespace System::Private::CoreLib::System::Globalization {
 FORWARD(CultureInfo)
 } // namespace System::Private::CoreLib::System::Globalization
 namespace System::Private::CoreLib::System::Reflection {
-enum class BindingFlags;
+enum class BindingFlags : int32_t;
 FORWARD(Binder)
 FORWARD(FieldInfo)
 FORWARD(MemberInfo)

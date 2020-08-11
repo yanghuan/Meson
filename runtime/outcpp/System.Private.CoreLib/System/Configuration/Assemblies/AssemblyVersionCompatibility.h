@@ -1,7 +1,9 @@
 #pragma once
 
+#include <cstdint>
+
 namespace System::Private::CoreLib::System::Configuration::Assemblies {
-enum class AssemblyVersionCompatibility {
+enum class AssemblyVersionCompatibility : int32_t {
   SameMachine = 1,
   SameProcess = 2,
   SameDomain = 3,

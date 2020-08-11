@@ -18,8 +18,8 @@ namespace System::Private::CoreLib::System::Globalization {
 FORWARD(CultureInfo)
 } // namespace System::Private::CoreLib::System::Globalization
 namespace System::Private::CoreLib::System::Reflection {
-enum class BindingFlags;
-enum class FieldAttributes;
+enum class BindingFlags : int32_t;
+enum class FieldAttributes : int32_t;
 FORWARD(Binder)
 FORWARD(RuntimeModule)
 namespace MdFieldInfoNamespace {

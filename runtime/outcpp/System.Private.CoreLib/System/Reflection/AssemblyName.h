@@ -23,15 +23,15 @@ namespace System::Private::CoreLib::System::Globalization {
 FORWARD(CultureInfo)
 } // namespace System::Private::CoreLib::System::Globalization
 namespace System::Private::CoreLib::System::Configuration::Assemblies {
-enum class AssemblyHashAlgorithm;
-enum class AssemblyVersionCompatibility;
+enum class AssemblyHashAlgorithm : int32_t;
+enum class AssemblyVersionCompatibility : int32_t;
 } // namespace System::Private::CoreLib::System::Configuration::Assemblies
 namespace System::Private::CoreLib::System::Reflection {
-enum class AssemblyContentType;
-enum class AssemblyNameFlags;
-enum class ImageFileMachine;
-enum class PortableExecutableKinds;
-enum class ProcessorArchitecture;
+enum class AssemblyContentType : int32_t;
+enum class AssemblyNameFlags : int32_t;
+enum class ImageFileMachine : int32_t;
+enum class PortableExecutableKinds : int32_t;
+enum class ProcessorArchitecture : int32_t;
 FORWARD(StrongNameKeyPair)
 namespace AssemblyNameNamespace {
 using namespace Configuration::Assemblies;

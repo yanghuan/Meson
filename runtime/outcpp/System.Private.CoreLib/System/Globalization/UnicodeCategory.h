@@ -1,7 +1,9 @@
 #pragma once
 
+#include <cstdint>
+
 namespace System::Private::CoreLib::System::Globalization {
-enum class UnicodeCategory {
+enum class UnicodeCategory : int32_t {
   UppercaseLetter = 0,
   LowercaseLetter = 1,
   TitlecaseLetter = 2,

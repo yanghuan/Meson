@@ -20,7 +20,7 @@ namespace TypeNameBuilderNamespace {
 using namespace Collections::Generic;
 using namespace Text;
 CLASS(TypeNameBuilder) : public Object::in {
-  public: enum class Format {
+  public: enum class Format : int32_t {
     ToString = 0,
     FullName = 1,
     AssemblyQualifiedName = 2,

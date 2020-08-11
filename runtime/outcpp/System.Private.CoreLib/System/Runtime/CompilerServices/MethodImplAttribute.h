@@ -6,8 +6,8 @@ namespace System::Private::CoreLib::System {
 FORWARDS(Int16)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Runtime::CompilerServices {
-enum class MethodCodeType;
-enum class MethodImplOptions;
+enum class MethodCodeType : int32_t;
+enum class MethodImplOptions : int32_t;
 namespace MethodImplAttributeNamespace {
 CLASS(MethodImplAttribute) : public Attribute::in {
   public: MethodImplOptions get_Value() { return Value; }

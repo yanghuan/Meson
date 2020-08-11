@@ -7,7 +7,7 @@
 
 namespace System::Private::CoreLib::System::Runtime::InteropServices::ComTypes {
 enum class LIBFLAGS : int16_t;
-enum class SYSKIND;
+enum class SYSKIND : int32_t;
 namespace TYPELIBATTRNamespace {
 struct TYPELIBATTR : public valueType<TYPELIBATTR> {
   public: Guid guid;

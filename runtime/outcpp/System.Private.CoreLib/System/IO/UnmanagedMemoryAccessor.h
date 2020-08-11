@@ -23,7 +23,7 @@ namespace System::Private::CoreLib::System::Runtime::InteropServices {
 FORWARD(SafeBuffer)
 } // namespace System::Private::CoreLib::System::Runtime::InteropServices
 namespace System::Private::CoreLib::System::IO {
-enum class FileAccess;
+enum class FileAccess : int32_t;
 namespace UnmanagedMemoryAccessorNamespace {
 using namespace Runtime::InteropServices;
 CLASS(UnmanagedMemoryAccessor) : public Object::in {

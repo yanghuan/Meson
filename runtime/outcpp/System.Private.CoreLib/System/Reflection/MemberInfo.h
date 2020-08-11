@@ -14,7 +14,7 @@ FORWARD(IEnumerable, T)
 FORWARD(IList, T)
 } // namespace System::Private::CoreLib::System::Collections::Generic
 namespace System::Private::CoreLib::System::Reflection {
-enum class MemberTypes;
+enum class MemberTypes : int32_t;
 FORWARD(CustomAttributeData)
 FORWARD(ICustomAttributeProvider)
 FORWARD(Module)

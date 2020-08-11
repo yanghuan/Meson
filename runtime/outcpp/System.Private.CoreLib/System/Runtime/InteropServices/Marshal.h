@@ -43,7 +43,7 @@ namespace System::Private::CoreLib::System::Security {
 FORWARD(SecureString)
 } // namespace System::Private::CoreLib::System::Security
 namespace System::Private::CoreLib::System::Runtime::InteropServices {
-enum class CustomQueryInterfaceMode;
+enum class CustomQueryInterfaceMode : int32_t;
 namespace MarshalNamespace {
 using namespace CompilerServices;
 using namespace ComTypes;

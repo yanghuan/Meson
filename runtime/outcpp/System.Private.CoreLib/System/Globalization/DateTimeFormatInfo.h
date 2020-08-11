@@ -5,8 +5,8 @@
 #include <System.Private.CoreLib/System/Object.h>
 
 namespace System::Private::CoreLib::System {
-enum class DayOfWeek;
-enum class TokenType;
+enum class DayOfWeek : int32_t;
+enum class TokenType : int32_t;
 FORWARDS(__DTString)
 FORWARD_(Array, T1, T2)
 FORWARDS(Char)
@@ -18,10 +18,10 @@ FORWARD(Type)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Globalization {
 enum class CalendarId : uint16_t;
-enum class CalendarWeekRule;
-enum class DateTimeFormatFlags;
-enum class DateTimeStyles;
-enum class MonthNameStyles;
+enum class CalendarWeekRule : int32_t;
+enum class DateTimeFormatFlags : int32_t;
+enum class DateTimeStyles : int32_t;
+enum class MonthNameStyles : int32_t;
 FORWARD(Calendar)
 FORWARD(CompareInfo)
 FORWARD(CultureData)

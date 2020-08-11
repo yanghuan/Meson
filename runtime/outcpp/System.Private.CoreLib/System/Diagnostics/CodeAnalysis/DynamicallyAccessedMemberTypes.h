@@ -1,7 +1,9 @@
 #pragma once
 
+#include <cstdint>
+
 namespace System::Private::CoreLib::System::Diagnostics::CodeAnalysis {
-enum class DynamicallyAccessedMemberTypes {
+enum class DynamicallyAccessedMemberTypes : int32_t {
   None = 0,
   DefaultConstructor = 1,
   PublicConstructors = 3,

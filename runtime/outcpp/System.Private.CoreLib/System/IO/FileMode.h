@@ -1,7 +1,9 @@
 #pragma once
 
+#include <cstdint>
+
 namespace System::Private::CoreLib::System::IO {
-enum class FileMode {
+enum class FileMode : int32_t {
   CreateNew = 1,
   Create = 2,
   Open = 3,

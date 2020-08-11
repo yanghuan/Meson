@@ -1,7 +1,9 @@
 #pragma once
 
+#include <cstdint>
+
 namespace System::Private::CoreLib::System {
-enum class TypeNameFormatFlags {
+enum class TypeNameFormatFlags : int32_t {
   FormatBasic = 0,
   FormatNamespace = 1,
   FormatFullInst = 2,

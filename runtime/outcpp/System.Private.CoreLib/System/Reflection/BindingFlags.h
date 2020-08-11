@@ -1,7 +1,9 @@
 #pragma once
 
+#include <cstdint>
+
 namespace System::Private::CoreLib::System::Reflection {
-enum class BindingFlags {
+enum class BindingFlags : int32_t {
   Default = 0,
   IgnoreCase = 1,
   DeclaredOnly = 2,

@@ -3,7 +3,7 @@
 #include <System.Private.CoreLib/System/Object.h>
 
 namespace System::Private::CoreLib::System::Threading {
-enum class LazyThreadSafetyMode;
+enum class LazyThreadSafetyMode : int32_t;
 } // namespace System::Private::CoreLib::System::Threading
 namespace System::Private::CoreLib::System {
 FORWARDS(Boolean)

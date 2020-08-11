@@ -11,9 +11,9 @@ FORWARDS(IntPtr)
 FORWARD(String)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Runtime::InteropServices::ComTypes {
-enum class IMPLTYPEFLAGS;
-enum class INVOKEKIND;
-enum class TYPEKIND;
+enum class IMPLTYPEFLAGS : int32_t;
+enum class INVOKEKIND : int32_t;
+enum class TYPEKIND : int32_t;
 FORWARDS(DISPPARAMS)
 FORWARD(ITypeComp)
 FORWARD(ITypeInfo)

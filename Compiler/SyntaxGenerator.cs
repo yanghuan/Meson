@@ -20,7 +20,7 @@ namespace Meson.Compiler {
     private readonly Dictionary<IModule, CSharpDecompiler> decompilers_ = new Dictionary<IModule, CSharpDecompiler>();
     private readonly Dictionary<ITypeDefinition, RefMultiGenericTypeInfo> multiGenericTypes_ = new Dictionary<ITypeDefinition, RefMultiGenericTypeInfo>();
     private readonly Dictionary<ISymbol, SymbolNameSyntax> memberNames_ = new Dictionary<ISymbol, SymbolNameSyntax>();
-    private readonly Dictionary<ITypeDefinition, string> sameNameTypes_ = new Dictionary<ITypeDefinition, string>(TypeDefinitionEqualityComparer.Default);
+    private Dictionary<string, HashSet<ITypeDefinition>> namespaceTypes_;
     private static readonly DecompilerSettings decompilerSettings_ = new DecompilerSettings(LanguageVersion.Latest);
 
     public SyntaxGenerator(Options options) {
@@ -51,21 +51,36 @@ namespace Meson.Compiler {
       return node.Members.OfType<MethodDeclaration>().FirstOrDefault();
     }
 
-    private static bool IsSameTypeCanMeet(List<ITypeDefinition> types) {
-      if (types.All(i => i.Accessibility != Accessibility.Public)) {
-        var moduleCount = types.Select(i => i.ParentModule.Name).Distinct().Count();
-        if (moduleCount == types.Count) {
-          return false;
-        }
-      }
-
-      return true;
-    }
-
     private IEnumerable<CompilationUnitTransform> GetCompilationUnits() {
       var modules = Options.Assemnlys.SelectMany(GetModules).Distinct();
+      CheckSameNameTypes(modules);
       var assemblyTransforms = modules.Select(i => new AssemblyTransform(this, i)).ToList();
       return assemblyTransforms.SelectMany(i => i.GetCompilationUnits());
+    }
+
+    private void CheckSameNameTypes(IEnumerable<IModule> modules) {
+      var types = modules.SelectMany(i => i.TopLevelTypeDefinitions.Where(i => !i.Name.StartsWith('<')));
+      namespaceTypes_ = types.GroupBy(i => i.GetFullNamespace()).ToDictionary(i => i.Key, i => new HashSet<ITypeDefinition>(i, TypeDefinitionEqualityComparer.Default));
+    }
+
+    internal bool TryGetReferenceUsing(ITypeDefinition reference, ITypeDefinition definition, out string usingNamespace, HashSet<ITypeDefinition> types) {
+      if (!definition.IsNamespaceContain(reference)) {
+        usingNamespace = reference.GetFullNamespace(true, definition);
+        AddImportTypes(definition, usingNamespace, types);
+        return true;
+      }
+      usingNamespace = null;
+      return false;
+    }
+
+    private void AddImportTypes(ITypeDefinition definition, string usingNamespace, HashSet<ITypeDefinition> set) {
+      if (usingNamespace.StartsWith(Tokens.TwoColon)) {
+        string ns = usingNamespace.Substring(Tokens.TwoColon.Length);
+        var types = namespaceTypes_.GetOrDefault(ns);
+        if (types != null) {
+          set.UnionWith(types);
+        }
+      }
     }
 
     public void AddMultiGenericType(ITypeDefinition type, List<ITypeDefinition> types) {

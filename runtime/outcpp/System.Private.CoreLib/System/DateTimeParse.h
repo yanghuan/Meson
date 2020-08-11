@@ -3,7 +3,7 @@
 #include <System.Private.CoreLib/System/MulticastDelegate.h>
 
 namespace System::Private::CoreLib::System::Globalization {
-enum class DateTimeStyles;
+enum class DateTimeStyles : int32_t;
 FORWARD(Calendar)
 FORWARD(DateTimeFormatInfo)
 } // namespace System::Private::CoreLib::System::Globalization
@@ -34,7 +34,7 @@ namespace DateTimeParseNamespace {
 using namespace Globalization;
 using namespace Text;
 class DateTimeParse {
-  public: enum class DTT {
+  public: enum class DTT : int32_t {
     End = 0,
     NumEnd = 1,
     NumAmpm = 2,
@@ -57,12 +57,12 @@ class DateTimeParse {
     NumLocalTimeMark = 19,
     Max = 20,
   };
-  public: enum class TM {
+  public: enum class TM : int32_t {
     NotSet = -1,
     AM = 0,
     PM = 1,
   };
-  public: enum class DS {
+  public: enum class DS : int32_t {
     BEGIN = 0,
     N = 1,
     NN = 2,

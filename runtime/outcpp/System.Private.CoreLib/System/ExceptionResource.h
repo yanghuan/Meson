@@ -1,7 +1,9 @@
 #pragma once
 
+#include <cstdint>
+
 namespace System::Private::CoreLib::System {
-enum class ExceptionResource {
+enum class ExceptionResource : int32_t {
   ArgumentOutOfRange_Index = 0,
   ArgumentOutOfRange_IndexCount = 1,
   ArgumentOutOfRange_IndexCountBuffer = 2,

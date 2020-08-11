@@ -20,7 +20,7 @@ namespace WaitHandleNamespace {
 using namespace ::System::Private::CoreLib::Microsoft::Win32::SafeHandles;
 CLASS(WaitHandle) : public MarshalByRefObject::in {
   public: using interface = rt::TypeList<IDisposable>;
-  public: enum class OpenExistingResult {
+  public: enum class OpenExistingResult : int32_t {
     Success = 0,
     NameNotFound = 1,
     PathNotFound = 2,

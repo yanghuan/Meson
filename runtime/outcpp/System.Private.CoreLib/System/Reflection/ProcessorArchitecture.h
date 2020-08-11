@@ -1,7 +1,9 @@
 #pragma once
 
+#include <cstdint>
+
 namespace System::Private::CoreLib::System::Reflection {
-enum class ProcessorArchitecture {
+enum class ProcessorArchitecture : int32_t {
   None = 0,
   MSIL = 1,
   X86 = 2,

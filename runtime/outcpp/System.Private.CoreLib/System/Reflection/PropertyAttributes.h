@@ -1,7 +1,9 @@
 #pragma once
 
+#include <cstdint>
+
 namespace System::Private::CoreLib::System::Reflection {
-enum class PropertyAttributes {
+enum class PropertyAttributes : int32_t {
   None = 0,
   SpecialName = 512,
   RTSpecialName = 1024,

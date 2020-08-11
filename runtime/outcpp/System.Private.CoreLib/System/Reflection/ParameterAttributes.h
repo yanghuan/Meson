@@ -1,7 +1,9 @@
 #pragma once
 
+#include <cstdint>
+
 namespace System::Private::CoreLib::System::Reflection {
-enum class ParameterAttributes {
+enum class ParameterAttributes : int32_t {
   None = 0,
   In = 1,
   Out = 2,

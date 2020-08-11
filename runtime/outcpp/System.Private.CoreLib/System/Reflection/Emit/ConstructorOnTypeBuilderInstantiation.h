@@ -3,11 +3,11 @@
 #include <System.Private.CoreLib/System/Reflection/ConstructorInfo.h>
 
 namespace System::Private::CoreLib::System::Reflection {
-enum class BindingFlags;
-enum class CallingConventions;
-enum class MemberTypes;
-enum class MethodAttributes;
-enum class MethodImplAttributes;
+enum class BindingFlags : int32_t;
+enum class CallingConventions : int32_t;
+enum class MemberTypes : int32_t;
+enum class MethodAttributes : int32_t;
+enum class MethodImplAttributes : int32_t;
 FORWARD(Binder)
 FORWARD(Module)
 FORWARD(ParameterInfo)

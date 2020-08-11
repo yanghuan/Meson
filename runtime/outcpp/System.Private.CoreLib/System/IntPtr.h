@@ -8,7 +8,7 @@ FORWARD(SerializationInfo)
 FORWARDS(StreamingContext)
 } // namespace System::Private::CoreLib::System::Runtime::Serialization
 namespace System::Private::CoreLib::System::Globalization {
-enum class NumberStyles;
+enum class NumberStyles : int32_t;
 } // namespace System::Private::CoreLib::System::Globalization
 namespace System::Private::CoreLib::System {
 FORWARDS(Boolean)

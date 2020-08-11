@@ -8,7 +8,7 @@ FORWARD(Exception)
 FORWARD(String)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Diagnostics::Contracts {
-enum class ContractFailureKind;
+enum class ContractFailureKind : int32_t;
 namespace ContractFailedEventArgsNamespace {
 CLASS(ContractFailedEventArgs) : public EventArgs::in {
   public: String get_Message();

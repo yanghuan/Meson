@@ -4,7 +4,7 @@
 #include <System.Private.CoreLib/System/ValueType.h>
 
 namespace System::Private::CoreLib::System::Globalization {
-enum class TimeSpanStyles;
+enum class TimeSpanStyles : int32_t;
 } // namespace System::Private::CoreLib::System::Globalization
 namespace System::Private::CoreLib::System {
 FORWARD_(Array, T1, T2)

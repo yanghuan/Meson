@@ -1,7 +1,9 @@
 #pragma once
 
+#include <cstdint>
+
 namespace System::Private::CoreLib::System::Globalization {
-enum class CalendarAlgorithmType {
+enum class CalendarAlgorithmType : int32_t {
   Unknown = 0,
   SolarCalendar = 1,
   LunarCalendar = 2,

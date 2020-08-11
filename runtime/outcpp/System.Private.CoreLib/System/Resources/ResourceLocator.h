@@ -8,7 +8,7 @@ FORWARDS(Boolean)
 FORWARD(Object)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Resources {
-enum class ResourceTypeCode;
+enum class ResourceTypeCode : int32_t;
 namespace ResourceLocatorNamespace {
 struct ResourceLocator : public valueType<ResourceLocator> {
   public: Int32 get_DataPosition();

@@ -4,7 +4,7 @@
 #include <System.Private.CoreLib/System/EventArgs.h>
 
 namespace System::Console::System {
-enum class ConsoleSpecialKey;
+enum class ConsoleSpecialKey : int32_t;
 namespace ConsoleCancelEventArgsNamespace {
 using namespace ::System::Private::CoreLib::System;
 CLASS(ConsoleCancelEventArgs) : public EventArgs::in {

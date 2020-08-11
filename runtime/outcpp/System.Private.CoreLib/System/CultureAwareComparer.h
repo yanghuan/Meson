@@ -8,7 +8,7 @@ FORWARD(SerializationInfo)
 FORWARDS(StreamingContext)
 } // namespace System::Private::CoreLib::System::Runtime::Serialization
 namespace System::Private::CoreLib::System::Globalization {
-enum class CompareOptions;
+enum class CompareOptions : int32_t;
 FORWARD(CompareInfo)
 FORWARD(CultureInfo)
 } // namespace System::Private::CoreLib::System::Globalization

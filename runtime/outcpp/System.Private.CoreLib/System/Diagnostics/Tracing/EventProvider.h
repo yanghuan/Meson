@@ -26,10 +26,10 @@ FORWARD(IDictionary, TKey, TValue)
 FORWARD(List, T)
 } // namespace System::Private::CoreLib::System::Collections::Generic
 namespace System::Private::CoreLib::System::Diagnostics::Tracing {
-enum class ControllerCommand;
+enum class ControllerCommand : int32_t;
 enum class EventKeywords : int64_t;
-enum class EventLevel;
-enum class EventProviderType;
+enum class EventLevel : int32_t;
+enum class EventProviderType : int32_t;
 FORWARDS(EventDescriptor)
 FORWARD(EventSource)
 FORWARD(IEventProvider)
@@ -37,7 +37,7 @@ namespace EventProviderNamespace {
 using namespace Collections::Generic;
 CLASS(EventProvider) : public Object::in {
   public: using interface = rt::TypeList<IDisposable>;
-  public: enum class WriteEventErrorCode {
+  public: enum class WriteEventErrorCode : int32_t {
     NoError = 0,
     NoFreeBuffers = 1,
     EventTooBig = 2,

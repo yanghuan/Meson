@@ -11,11 +11,11 @@ FORWARD(IComparer, T)
 FORWARD(IEqualityComparer, T)
 } // namespace System::Private::CoreLib::System::Collections::Generic
 namespace System::Private::CoreLib::System::Globalization {
-enum class CompareOptions;
+enum class CompareOptions : int32_t;
 FORWARD(CultureInfo)
 } // namespace System::Private::CoreLib::System::Globalization
 namespace System::Private::CoreLib::System {
-enum class StringComparison;
+enum class StringComparison : int32_t;
 FORWARDS(Boolean)
 FORWARD(CultureAwareComparer)
 FORWARDS(Int32)

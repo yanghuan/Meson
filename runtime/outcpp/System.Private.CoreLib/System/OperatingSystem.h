@@ -8,7 +8,7 @@ FORWARD(SerializationInfo)
 FORWARDS(StreamingContext)
 } // namespace System::Private::CoreLib::System::Runtime::Serialization
 namespace System::Private::CoreLib::System {
-enum class PlatformID;
+enum class PlatformID : int32_t;
 FORWARD(ICloneable)
 FORWARD(String)
 FORWARD(Version)

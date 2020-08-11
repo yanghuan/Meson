@@ -9,13 +9,13 @@ FORWARDS(Int32)
 FORWARD(RuntimeType)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Reflection {
-enum class BindingFlags;
+enum class BindingFlags : int32_t;
 FORWARDS(MetadataImport)
 FORWARD(MethodInfo)
 FORWARD(RuntimeMethodInfo)
 namespace AssociatesNamespace {
 class Associates {
-  public: enum class Attributes {
+  public: enum class Attributes : int32_t {
     ComposedOfAllVirtualMethods = 1,
     ComposedOfAllPrivateMethods = 2,
     ComposedOfNoPublicMembers = 4,

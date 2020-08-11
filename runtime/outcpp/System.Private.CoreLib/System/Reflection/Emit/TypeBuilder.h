@@ -7,18 +7,18 @@
 #include <System.Private.CoreLib/System/Reflection/TypeInfo.h>
 
 namespace System::Private::CoreLib::System::Reflection {
-enum class BindingFlags;
-enum class CallingConventions;
-enum class EventAttributes;
-enum class FieldAttributes;
-enum class GenericParameterAttributes;
-enum class MemberTypes;
-enum class MethodAttributes;
-enum class MethodImplAttributes;
-enum class MethodSemanticsAttributes;
-enum class ParameterAttributes;
-enum class PropertyAttributes;
-enum class TypeAttributes;
+enum class BindingFlags : int32_t;
+enum class CallingConventions : int32_t;
+enum class EventAttributes : int32_t;
+enum class FieldAttributes : int32_t;
+enum class GenericParameterAttributes : int32_t;
+enum class MemberTypes : int32_t;
+enum class MethodAttributes : int32_t;
+enum class MethodImplAttributes : int32_t;
+enum class MethodSemanticsAttributes : int32_t;
+enum class ParameterAttributes : int32_t;
+enum class PropertyAttributes : int32_t;
+enum class TypeAttributes : int32_t;
 FORWARD(Assembly)
 FORWARD(Binder)
 FORWARD(ConstructorInfo)
@@ -49,14 +49,14 @@ namespace System::Private::CoreLib::System::Globalization {
 FORWARD(CultureInfo)
 } // namespace System::Private::CoreLib::System::Globalization
 namespace System::Private::CoreLib::System::Runtime::InteropServices {
-enum class CallingConvention;
-enum class CharSet;
+enum class CallingConvention : int32_t;
+enum class CharSet : int32_t;
 } // namespace System::Private::CoreLib::System::Runtime::InteropServices
 namespace System::Private::CoreLib::System::Collections::Generic {
 FORWARD(List, T)
 } // namespace System::Private::CoreLib::System::Collections::Generic
 namespace System::Private::CoreLib::System::Reflection::Emit {
-enum class PackingSize;
+enum class PackingSize : int32_t;
 FORWARD(ConstructorBuilder)
 FORWARD(CustomAttributeBuilder)
 FORWARD(EventBuilder)

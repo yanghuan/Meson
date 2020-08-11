@@ -1,7 +1,9 @@
 #pragma once
 
+#include <cstdint>
+
 namespace System::Private::Uri::System {
-enum class GenericUriParserOptions {
+enum class GenericUriParserOptions : int32_t {
   Default = 0,
   GenericAuthority = 1,
   AllowEmptyAuthority = 2,

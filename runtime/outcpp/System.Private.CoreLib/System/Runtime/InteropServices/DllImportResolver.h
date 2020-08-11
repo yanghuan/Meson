@@ -14,7 +14,7 @@ namespace System::Private::CoreLib::System::Reflection {
 FORWARD(Assembly)
 } // namespace System::Private::CoreLib::System::Reflection
 namespace System::Private::CoreLib::System::Runtime::InteropServices {
-enum class DllImportSearchPath;
+enum class DllImportSearchPath : int32_t;
 namespace DllImportResolverNamespace {
 using namespace Reflection;
 CLASS(DllImportResolver) : public MulticastDelegate::in {

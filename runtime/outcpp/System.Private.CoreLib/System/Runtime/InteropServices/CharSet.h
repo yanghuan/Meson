@@ -1,7 +1,9 @@
 #pragma once
 
+#include <cstdint>
+
 namespace System::Private::CoreLib::System::Runtime::InteropServices {
-enum class CharSet {
+enum class CharSet : int32_t {
   None = 1,
   Ansi = 2,
   Unicode = 3,

@@ -12,7 +12,7 @@ FORWARD(Object)
 namespace System::Private::CoreLib::System::Runtime::CompilerServices {
 namespace CastHelpersNamespace {
 class CastHelpers {
-  private: enum class CastResult {
+  private: enum class CastResult : int32_t {
     CannotCast = 0,
     CanCast = 1,
     MaybeCast = 2,

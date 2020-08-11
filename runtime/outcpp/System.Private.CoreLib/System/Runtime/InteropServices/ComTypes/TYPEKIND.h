@@ -1,7 +1,9 @@
 #pragma once
 
+#include <cstdint>
+
 namespace System::Private::CoreLib::System::Runtime::InteropServices::ComTypes {
-enum class TYPEKIND {
+enum class TYPEKIND : int32_t {
   TKIND_ENUM = 0,
   TKIND_RECORD = 1,
   TKIND_MODULE = 2,

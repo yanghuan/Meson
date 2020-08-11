@@ -23,10 +23,10 @@ namespace System::Private::CoreLib::System::IO {
 FORWARD(Stream)
 } // namespace System::Private::CoreLib::System::IO
 namespace System::Private::CoreLib::System::Buffers {
-enum class OperationStatus;
+enum class OperationStatus : int32_t;
 } // namespace System::Private::CoreLib::System::Buffers
 namespace System::Private::CoreLib::System::Text {
-enum class NormalizationForm;
+enum class NormalizationForm : int32_t;
 FORWARD(CodePageDataItem)
 FORWARD(DecoderFallback)
 FORWARD(DecoderFallbackBuffer)

@@ -8,7 +8,7 @@ FORWARDS(Int32)
 FORWARD(Object)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Runtime::Serialization {
-enum class StreamingContextStates;
+enum class StreamingContextStates : int32_t;
 namespace StreamingContextNamespace {
 struct StreamingContext : public valueType<StreamingContext> {
   public: StreamingContextStates get_State();

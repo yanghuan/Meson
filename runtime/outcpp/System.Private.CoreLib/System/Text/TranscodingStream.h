@@ -25,7 +25,7 @@ namespace System::Private::CoreLib::System::Threading {
 FORWARDS(CancellationToken)
 } // namespace System::Private::CoreLib::System::Threading
 namespace System::Private::CoreLib::System::IO {
-enum class SeekOrigin;
+enum class SeekOrigin : int32_t;
 } // namespace System::Private::CoreLib::System::IO
 namespace System::Private::CoreLib::System::Text {
 FORWARD(Decoder)

@@ -1,7 +1,9 @@
 #pragma once
 
+#include <cstdint>
+
 namespace System::Private::CoreLib::System {
-enum class ExceptionArgument {
+enum class ExceptionArgument : int32_t {
   obj = 0,
   dictionary = 1,
   array = 2,

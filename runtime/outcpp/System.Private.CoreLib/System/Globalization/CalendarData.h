@@ -20,7 +20,7 @@ namespace System::Private::CoreLib::System::Text {
 FORWARD(StringBuilder)
 } // namespace System::Private::CoreLib::System::Text
 namespace System::Private::CoreLib::System::Globalization {
-enum class CalendarDataType;
+enum class CalendarDataType : int32_t;
 enum class CalendarId : uint16_t;
 namespace CalendarDataNamespace {
 using namespace Collections::Generic;

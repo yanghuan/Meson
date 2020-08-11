@@ -35,7 +35,7 @@ using namespace Runtime::CompilerServices;
 using namespace Runtime::Serialization;
 CLASS(Exception) : public Object::in {
   public: using interface = rt::TypeList<ISerializable>;
-  public: enum class ExceptionMessageKind {
+  public: enum class ExceptionMessageKind : int32_t {
     ThreadAbort = 1,
     ThreadInterrupted = 2,
     OutOfMemory = 3,

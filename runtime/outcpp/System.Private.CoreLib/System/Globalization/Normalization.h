@@ -7,7 +7,7 @@ FORWARDS(Boolean)
 FORWARD(String)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Text {
-enum class NormalizationForm;
+enum class NormalizationForm : int32_t;
 } // namespace System::Private::CoreLib::System::Text
 namespace System::Private::CoreLib::System::Globalization {
 namespace NormalizationNamespace {

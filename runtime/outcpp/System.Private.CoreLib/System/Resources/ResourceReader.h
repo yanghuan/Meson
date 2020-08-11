@@ -31,7 +31,7 @@ namespace System::Private::CoreLib::System::Reflection {
 FORWARD(MethodInfo)
 } // namespace System::Private::CoreLib::System::Reflection
 namespace System::Private::CoreLib::System::Resources {
-enum class ResourceTypeCode;
+enum class ResourceTypeCode : int32_t;
 FORWARD(IResourceReader)
 FORWARDS(ResourceLocator)
 namespace ResourceReaderNamespace {

@@ -6,7 +6,7 @@ namespace System::Private::CoreLib::System {
 FORWARD(String)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Resources {
-enum class UltimateResourceFallbackLocation;
+enum class UltimateResourceFallbackLocation : int32_t;
 namespace NeutralResourcesLanguageAttributeNamespace {
 CLASS(NeutralResourcesLanguageAttribute) : public Attribute::in {
   public: String get_CultureName() { return CultureName; }

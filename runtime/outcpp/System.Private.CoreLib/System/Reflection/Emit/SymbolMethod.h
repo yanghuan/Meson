@@ -4,10 +4,10 @@
 #include <System.Private.CoreLib/System/Reflection/MethodInfo.h>
 
 namespace System::Private::CoreLib::System::Reflection {
-enum class BindingFlags;
-enum class CallingConventions;
-enum class MethodAttributes;
-enum class MethodImplAttributes;
+enum class BindingFlags : int32_t;
+enum class CallingConventions : int32_t;
+enum class MethodAttributes : int32_t;
+enum class MethodImplAttributes : int32_t;
 FORWARD(Binder)
 FORWARD(ICustomAttributeProvider)
 FORWARD(Module)

@@ -28,11 +28,11 @@ FORWARD(CultureInfo)
 } // namespace System::Private::CoreLib::System::Globalization
 namespace System::Private::CoreLib::System::Diagnostics::Tracing {
 enum class EventChannel : uint8_t;
-enum class EventChannelType;
-enum class EventLevel;
-enum class EventManifestOptions;
-enum class EventOpcode;
-enum class EventTask;
+enum class EventChannelType : int32_t;
+enum class EventLevel : int32_t;
+enum class EventManifestOptions : int32_t;
+enum class EventOpcode : int32_t;
+enum class EventTask : int32_t;
 FORWARD(EventAttribute)
 FORWARD(EventChannelAttribute)
 namespace ManifestBuilderNamespace {

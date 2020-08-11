@@ -8,7 +8,7 @@ FORWARD(String)
 FORWARD(Type)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Reflection {
-enum class ExceptionHandlingClauseOptions;
+enum class ExceptionHandlingClauseOptions : int32_t;
 FORWARD(RuntimeMethodBody)
 namespace RuntimeExceptionHandlingClauseNamespace {
 CLASS(RuntimeExceptionHandlingClause) : public ExceptionHandlingClause::in {

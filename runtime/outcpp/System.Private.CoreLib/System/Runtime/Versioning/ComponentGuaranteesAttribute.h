@@ -3,7 +3,7 @@
 #include <System.Private.CoreLib/System/Attribute.h>
 
 namespace System::Private::CoreLib::System::Runtime::Versioning {
-enum class ComponentGuaranteesOptions;
+enum class ComponentGuaranteesOptions : int32_t;
 namespace ComponentGuaranteesAttributeNamespace {
 CLASS(ComponentGuaranteesAttribute) : public Attribute::in {
   public: ComponentGuaranteesOptions get_Guarantees() { return Guarantees; }

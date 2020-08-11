@@ -16,8 +16,8 @@ namespace System::Private::CoreLib::System::Collections::Generic {
 FORWARD(IList, T)
 } // namespace System::Private::CoreLib::System::Collections::Generic
 namespace System::Private::CoreLib::System::Threading::Tasks {
-enum class TaskContinuationOptions;
-enum class TaskCreationOptions;
+enum class TaskContinuationOptions : int32_t;
+enum class TaskCreationOptions : int32_t;
 FORWARD(ITaskCompletionAction)
 FORWARD_(Task, T1, T2)
 FORWARD(TaskScheduler)

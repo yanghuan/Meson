@@ -1,7 +1,9 @@
 #pragma once
 
+#include <cstdint>
+
 namespace System::Private::CoreLib::System {
-enum class TypeCode {
+enum class TypeCode : int32_t {
   Empty = 0,
   Object = 1,
   DBNull = 2,
