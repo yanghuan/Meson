@@ -28,6 +28,7 @@ String Interop::Kernel32::GetMessage(Int32 errorCode) {
 String Interop::Kernel32::GetMessage(Int32 errorCode, IntPtr moduleHandle) {
   Int32 num = 12800;
   if (moduleHandle != IntPtr::Zero) {
+    num |= 2048;
   }
   Char default[256] = {};
   Span<Char> span = default;

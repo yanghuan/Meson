@@ -1,20 +1,26 @@
 #include "Error-dep.h"
 
+#include <System.Console/System/SR-dep.h>
+#include <System.Private.CoreLib/System/NotSupportedException-dep.h>
+#include <System.Private.CoreLib/System/ObjectDisposedException-dep.h>
+
 namespace System::Console::System::IO::ErrorNamespace {
+using namespace ::System::Private::CoreLib::System;
+
 Exception Error::GetFileNotOpen() {
-  return nullptr;
+  return rt::newobj<ObjectDisposedException>(nullptr, SR::get_ObjectDisposed_FileClosed());
 }
 
 Exception Error::GetReadNotSupported() {
-  return nullptr;
+  return rt::newobj<NotSupportedException>(SR::get_NotSupported_UnreadableStream());
 }
 
 Exception Error::GetSeekNotSupported() {
-  return nullptr;
+  return rt::newobj<NotSupportedException>(SR::get_NotSupported_UnseekableStream());
 }
 
 Exception Error::GetWriteNotSupported() {
-  return nullptr;
+  return rt::newobj<NotSupportedException>(SR::get_NotSupported_UnwritableStream());
 }
 
 } // namespace System::Console::System::IO::ErrorNamespace

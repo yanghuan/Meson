@@ -1,8 +1,15 @@
 #include "SafeHandleZeroOrMinusOneIsInvalid-dep.h"
 
+#include <System.Private.CoreLib/System/IntPtr-dep.h>
+
 namespace System::Private::CoreLib::Microsoft::Win32::SafeHandles::SafeHandleZeroOrMinusOneIsInvalidNamespace {
+using namespace System;
+
 Boolean SafeHandleZeroOrMinusOneIsInvalid___::get_IsInvalid() {
-  return Boolean();
+  if (!(handle == IntPtr::Zero)) {
+    return handle == IntPtr(-1);
+  }
+  return true;
 }
 
 void SafeHandleZeroOrMinusOneIsInvalid___::ctor(Boolean ownsHandle) {

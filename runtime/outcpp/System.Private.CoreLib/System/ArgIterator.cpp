@@ -1,5 +1,10 @@
 #include "ArgIterator-dep.h"
 
+#include <System.Private.CoreLib/System/ArgumentNullException-dep.h>
+#include <System.Private.CoreLib/System/NotSupportedException-dep.h>
+#include <System.Private.CoreLib/System/SR-dep.h>
+#include <System.Private.CoreLib/System/Type-dep.h>
+
 namespace System::Private::CoreLib::System::ArgIteratorNamespace {
 ArgIterator::ArgIterator(RuntimeArgumentHandle arglist) {
 }
@@ -8,26 +13,36 @@ ArgIterator::ArgIterator(RuntimeArgumentHandle arglist, void* ptr) {
 }
 
 TypedReference ArgIterator::GetNextArg() {
-  return TypedReference();
+  TypedReference result = TypedReference();
+  FCallGetNextArg(&result);
+  return result;
 }
 
 TypedReference ArgIterator::GetNextArg(RuntimeTypeHandle rth) {
-  return TypedReference();
+  if (sigPtr != IntPtr::Zero) {
+    return GetNextArg();
+  }
+  if (ArgPtr == IntPtr::Zero) {
+    rt::throw_exception<ArgumentNullException>();
+  }
+  TypedReference result = TypedReference();
+  InternalGetNextArg(&result, rth.GetRuntimeType());
+  return result;
 }
 
 void ArgIterator::End() {
 }
 
 RuntimeTypeHandle ArgIterator::GetNextArgType() {
-  return RuntimeTypeHandle();
+  return RuntimeTypeHandle(Type::in::GetTypeFromHandleUnsafe((IntPtr)_GetNextArgType()));
 }
 
 Int32 ArgIterator::GetHashCode() {
-  return Int32();
+  return ValueType::in::GetHashCodeOfPtr(ArgCookie);
 }
 
 Boolean ArgIterator::Equals(Object o) {
-  return Boolean();
+  rt::throw_exception<NotSupportedException>(SR::get_NotSupported_NYI());
 }
 
 } // namespace System::Private::CoreLib::System::ArgIteratorNamespace

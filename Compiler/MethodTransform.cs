@@ -132,18 +132,11 @@ namespace Meson.Compiler {
       return IdentifierSyntax.As.Generic(type).Invation(expression);
     }
 
+    private static readonly string[] assignmentOperators_ = new string[] { "=", "+=", "-=", "*=", "/=", "%=", "<<=", ">>=", "&=", "|=", "^=" };
+
     private static string GetAssignmentOperator(AssignmentOperatorType operatorToken) {
-      switch (operatorToken) {
-        case AssignmentOperatorType.Assign:
-          return Tokens.Equals;
-
-        case AssignmentOperatorType.Add:
-          return Tokens.PlusEquals;
-
-        case AssignmentOperatorType.Subtract:
-          return Tokens.SubEquals;
-      }
-      throw new NotImplementedException();
+      int index = operatorToken - AssignmentOperatorType.Assign;
+      return assignmentOperators_[index];
     }
 
     public SyntaxNode VisitAssignmentExpression(AssignmentExpression assignmentExpression) {
@@ -1037,7 +1030,7 @@ namespace Meson.Compiler {
     }
 
     public SyntaxNode VisitOperatorDeclaration(OperatorDeclaration operatorDeclaration) {
-      throw new NotImplementedException();
+      return BuildMethodDeclaration(operatorDeclaration.Body);
     }
 
     public SyntaxNode VisitParameterDeclaration(ParameterDeclaration parameterDeclaration) {

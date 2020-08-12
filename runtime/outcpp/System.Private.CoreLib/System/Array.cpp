@@ -200,34 +200,127 @@ void Array___<>::SorterObjectArray::InsertionSort(Int32 lo, Int32 hi) {
 }
 
 Array___<>::SorterGenericArray::SorterGenericArray(Array<> keys, Array<> items, IComparer comparer) {
+  this->keys = keys;
+  this->items = items;
+  this->comparer = comparer;
 }
 
 void Array___<>::SorterGenericArray::SwapIfGreater(Int32 a, Int32 b) {
+  if (a != b && comparer->Compare(keys->GetValue(a), keys->GetValue(b)) > 0) {
+    Object value = keys->GetValue(a);
+    keys->SetValue(keys->GetValue(b), a);
+    keys->SetValue(value, b);
+    if (items != nullptr) {
+      Object value2 = items->GetValue(a);
+      items->SetValue(items->GetValue(b), a);
+      items->SetValue(value2, b);
+    }
+  }
 }
 
 void Array___<>::SorterGenericArray::Swap(Int32 i, Int32 j) {
+  Object value = keys->GetValue(i);
+  keys->SetValue(keys->GetValue(j), i);
+  keys->SetValue(value, j);
+  if (items != nullptr) {
+    Object value2 = items->GetValue(i);
+    items->SetValue(items->GetValue(j), i);
+    items->SetValue(value2, j);
+  }
 }
 
 void Array___<>::SorterGenericArray::Sort(Int32 left, Int32 length) {
+  IntrospectiveSort(left, length);
 }
 
 void Array___<>::SorterGenericArray::IntrospectiveSort(Int32 left, Int32 length) {
+  if (length >= 2) {
+    try{
+      IntroSort(left, length + left - 1, 2 * (BitOperations::Log2((UInt32)length) + 1));
+    } catch (IndexOutOfRangeException) {
+    } catch (Exception e) {
+    }
+  }
 }
 
 void Array___<>::SorterGenericArray::IntroSort(Int32 lo, Int32 hi, Int32 depthLimit) {
+  while (true) {
+    if (hi <= lo) {
+      return;
+    }
+    Int32 num = hi - lo + 1;
+    if (num <= 16) {
+      switch (num.get()) {
+        case 2:
+          SwapIfGreater(lo, hi);
+          break;
+        case 3:
+          SwapIfGreater(lo, hi - 1);
+          SwapIfGreater(lo, hi);
+          SwapIfGreater(hi - 1, hi);
+          break;
+        default:
+          InsertionSort(lo, hi);
+          break;
+      }
+      return;
+    }
+    if (depthLimit == 0) {
+      break;
+    }
+    depthLimit--;
+    Int32 num2 = PickPivotAndPartition(lo, hi);
+    IntroSort(num2 + 1, hi, depthLimit);
+    hi = num2 - 1;
+  }
+  Heapsort(lo, hi);
 }
 
 Int32 Array___<>::SorterGenericArray::PickPivotAndPartition(Int32 lo, Int32 hi) {
-  return Int32();
+  Int32 num = lo + (hi - lo) / 2;
+  SwapIfGreater(lo, num);
+  SwapIfGreater(lo, hi);
+  SwapIfGreater(num, hi);
+  Object value = keys->GetValue(num);
+  Swap(num, hi - 1);
+  Int32 num2 = lo;
+  Int32 num3 = hi - 1;
+  while (num2 < num3) {
+    while (comparer->Compare(keys->GetValue(++num2), value) < 0) {
+    }
+    while (comparer->Compare(value, keys->GetValue(--num3)) < 0) {
+    }
+    if (num2 >= num3) {
+      break;
+    }
+    Swap(num2, num3);
+  }
+  if (num2 != hi - 1) {
+    Swap(num2, hi - 1);
+  }
+  return num2;
 }
 
 void Array___<>::SorterGenericArray::Heapsort(Int32 lo, Int32 hi) {
+  Int32 num = hi - lo + 1;
+  for (Int32 num2 = num / 2; num2 >= 1; num2--) {
+    DownHeap(num2, num, lo);
+  }
+  for (Int32 num3 = num; num3 > 1; num3--) {
+    Swap(lo, lo + num3 - 1);
+    DownHeap(1, num3 - 1, lo);
+  }
 }
 
 void Array___<>::SorterGenericArray::DownHeap(Int32 i, Int32 n, Int32 lo) {
+  Object value = keys->GetValue(lo + i - 1);
 }
 
 void Array___<>::SorterGenericArray::InsertionSort(Int32 lo, Int32 hi) {
+  for (Int32 i = lo; i < hi; i++) {
+    Int32 num = i;
+    Object value = keys->GetValue(i + 1);
+  }
 }
 
 Int32 Array___<>::get_Length() {

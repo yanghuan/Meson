@@ -1,56 +1,76 @@
 #include "SyncTextReader-dep.h"
 
 #include <System.Console/System/IO/SyncTextReader-dep.h>
+#include <System.Console/System/SR-dep.h>
+#include <System.Private.CoreLib/System/ArgumentException-dep.h>
+#include <System.Private.CoreLib/System/ArgumentNullException-dep.h>
+#include <System.Private.CoreLib/System/ArgumentOutOfRangeException-dep.h>
 
 namespace System::Console::System::IO::SyncTextReaderNamespace {
+using namespace ::System::Private::CoreLib::System;
+
 SyncTextReader SyncTextReader___::GetSynchronizedTextReader(TextReader reader) {
-  return nullptr;
 }
 
 void SyncTextReader___::ctor(TextReader t) {
+  _in = t;
 }
 
 void SyncTextReader___::Dispose(Boolean disposing) {
+  if (disposing) {
+  }
 }
 
 Int32 SyncTextReader___::Peek() {
-  return Int32();
 }
 
 Int32 SyncTextReader___::Read() {
-  return Int32();
 }
 
 Int32 SyncTextReader___::Read(Array<Char> buffer, Int32 index, Int32 count) {
-  return Int32();
 }
 
 Int32 SyncTextReader___::ReadBlock(Array<Char> buffer, Int32 index, Int32 count) {
-  return Int32();
 }
 
 String SyncTextReader___::ReadLine() {
-  return nullptr;
 }
 
 String SyncTextReader___::ReadToEnd() {
-  return nullptr;
 }
 
 Task<String> SyncTextReader___::ReadLineAsync() {
-  return nullptr;
+  return Task::in::FromResult(ReadLine());
 }
 
 Task<String> SyncTextReader___::ReadToEndAsync() {
-  return nullptr;
+  return Task::in::FromResult(ReadToEnd());
 }
 
 Task<Int32> SyncTextReader___::ReadBlockAsync(Array<Char> buffer, Int32 index, Int32 count) {
-  return nullptr;
+  if (buffer == nullptr) {
+    rt::throw_exception<ArgumentNullException>("buffer", SR::get_ArgumentNull_Buffer());
+  }
+  if (index < 0 || count < 0) {
+    rt::throw_exception<ArgumentOutOfRangeException>((index < 0) ? "index" : "count", SR::get_ArgumentOutOfRange_NeedNonNegNum());
+  }
+  if (buffer->get_Length() - index < count) {
+    rt::throw_exception<ArgumentException>(SR::get_Argument_InvalidOffLen());
+  }
+  return Task::in::FromResult(ReadBlock(buffer, index, count));
 }
 
 Task<Int32> SyncTextReader___::ReadAsync(Array<Char> buffer, Int32 index, Int32 count) {
-  return nullptr;
+  if (buffer == nullptr) {
+    rt::throw_exception<ArgumentNullException>("buffer", SR::get_ArgumentNull_Buffer());
+  }
+  if (index < 0 || count < 0) {
+    rt::throw_exception<ArgumentOutOfRangeException>((index < 0) ? "index" : "count", SR::get_ArgumentOutOfRange_NeedNonNegNum());
+  }
+  if (buffer->get_Length() - index < count) {
+    rt::throw_exception<ArgumentException>(SR::get_Argument_InvalidOffLen());
+  }
+  return Task::in::FromResult(Read(buffer, index, count));
 }
 
 } // namespace System::Console::System::IO::SyncTextReaderNamespace

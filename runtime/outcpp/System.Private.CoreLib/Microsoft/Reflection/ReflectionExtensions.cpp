@@ -2,39 +2,39 @@
 
 namespace System::Private::CoreLib::Microsoft::Reflection::ReflectionExtensionsNamespace {
 Boolean ReflectionExtensions::IsEnum(Type type) {
-  return Boolean();
+  return type->get_IsEnum();
 }
 
 Boolean ReflectionExtensions::IsAbstract(Type type) {
-  return Boolean();
+  return type->get_IsAbstract();
 }
 
 Boolean ReflectionExtensions::IsSealed(Type type) {
-  return Boolean();
+  return type->get_IsSealed();
 }
 
 Boolean ReflectionExtensions::IsValueType(Type type) {
-  return Boolean();
+  return type->get_IsValueType();
 }
 
 Boolean ReflectionExtensions::IsGenericType(Type type) {
-  return Boolean();
+  return type->get_IsGenericType();
 }
 
 Type ReflectionExtensions::BaseType(Type type) {
-  return nullptr;
+  return type->get_BaseType();
 }
 
 Assembly ReflectionExtensions::Assembly(Type type) {
-  return nullptr;
+  return type->get_Assembly();
 }
 
 TypeCode ReflectionExtensions::GetTypeCode(Type type) {
-  return TypeCode::String;
+  return Type::in::GetTypeCode(type);
 }
 
 Boolean ReflectionExtensions::ReflectionOnly(::System::Private::CoreLib::System::Reflection::Assembly assm) {
-  return Boolean();
+  return assm->get_ReflectionOnly();
 }
 
 } // namespace System::Private::CoreLib::Microsoft::Reflection::ReflectionExtensionsNamespace
