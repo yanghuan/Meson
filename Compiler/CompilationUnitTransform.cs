@@ -54,7 +54,7 @@ namespace Meson.Compiler {
         if (root_.Kind != TypeKind.Interface) {
           CompilationUnit.AddReferencesIncludes(root_.Name, info.SrcIncludes.OrderBy(i => i));
           CompilationUnit.AddSrcReferencesIncludes(srcReferences_.Select(i => i.GetReferenceIncludeString(true)).OrderBy(i => i));
-          srcUsingsSyntax.AddRange(srcReferences_.Where(i => !root_.IsNamespaceContain(i)).Select(i => i.GetFullNamespace(true, root_)).Distinct().OrderBy(i => i).Select(i => new UsingNamespaceOrTypeSyntax(i)));
+          srcUsingsSyntax.AddRange(srcReferences_.Where(i => !root_.IsNamespaceContain(i)).Select(i => i.GetFullNamespace(true, root_, true)).Distinct().OrderBy(i => i).Select(i => new UsingNamespaceOrTypeSyntax(i)));
         }
         CheckRefactorNames(headUsingsSyntax, srcUsingsSyntax, info.ImportTypes);
       }

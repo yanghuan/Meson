@@ -38,17 +38,12 @@ void TestObject() {
 }
 
 int main() {
-  auto f = []<class T>(Int32 t){
+  uint32_t aa = 11;
+  int32_t bb = static_cast<int32_t>(aa);
 
-  };
-
-
-  Int32 a  = 10;
-  UInt32 b = (UInt32)a;
-  int64_t c = 10;
-  void* p = (void*)(c);
-  f.operator()<Int32>(a);
-
+  UInt32 a  = 10;
+  Int32 b = (Int32)a;
+  Int32 c = (Int32)a;
   return 0;
 }
 

@@ -10,7 +10,7 @@
 #include <System.Private.CoreLib/System/ThrowHelper-dep.h>
 
 namespace System::Private::CoreLib::System::Int32Namespace {
-using namespace Globalization;
+using namespace System::Globalization;
 Int32 Int32::CompareTo(Object value) {
   if (value == nullptr) {
     return 1;

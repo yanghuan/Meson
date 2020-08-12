@@ -79,8 +79,13 @@ namespace Meson.Compiler {
     private void Visit(IMethod methodSymbol) {
       if (methodSymbol.HasBody) {
         methodSymbols_.Push(methodSymbol);
-        var methodDeclaration = IsMethodExport(methodSymbol) ? Generator.GetMethodDeclaration(methodSymbol) : null;
-        var node = (MethodDefinitionSyntax)VisitMethodDeclaration(methodDeclaration);
+        MethodDefinitionSyntax node;
+        var declaration = IsMethodExport(methodSymbol) ? Generator.GetMethodDeclaration(methodSymbol) : null;
+        if (declaration != null) {
+          node = declaration.Accept<MethodDefinitionSyntax>(this);
+        } else {
+          node = BuildMethodDeclaration(null);
+        }
         methodSymbols_.Pop();
         if (node != null) {
           if (node.IsInline) {
@@ -238,7 +243,7 @@ namespace Meson.Compiler {
     }
 
     public SyntaxNode VisitCheckedExpression(CheckedExpression checkedExpression) {
-      throw new NotImplementedException();
+      return checkedExpression.Expression.AcceptExpression(this);
     }
 
     public SyntaxNode VisitConditionalExpression(ConditionalExpression conditionalExpression) {
@@ -393,7 +398,7 @@ namespace Meson.Compiler {
         }
         return;
       }
-      
+
       var methods = symbol.DeclaringTypeDefinition.Methods.Where(i => i != symbol.MemberDefinition && i.Name == symbol.Name && i.Accessibility != Accessibility.Public);
       var method = methods.FirstOrDefault(i => IsParameterTypeSame(i.Parameters, invocationExpression.Arguments));
       if (method != null) {
@@ -603,7 +608,7 @@ namespace Meson.Compiler {
         case UnaryOperatorType.SuppressNullableWarning:
           return string.Empty;
       }
-      
+
       throw new NotImplementedException();
     }
 
@@ -869,7 +874,7 @@ namespace Meson.Compiler {
       var parameters = method.Parameters.Select(GetParameterSyntax);
       var retuenType = GetTypeName(method.ReturnType);
       var body = localFunctionDeclarationStatement.Body.Accept<BlockSyntax>(this);
-      var lambdaExpressionSyntax = new LambdaExpressionSyntax(parameters, retuenType, body) { 
+      var lambdaExpressionSyntax = new LambdaExpressionSyntax(parameters, retuenType, body) {
         TypeParameters = method.GetTemplateSyntax()?.Arguments,
       };
       var declaration = new VariableDeclarationStatementSyntax(IdentifierSyntax.Auto, name, lambdaExpressionSyntax);
@@ -895,11 +900,11 @@ namespace Meson.Compiler {
     }
 
     public SyntaxNode VisitAccessor(Accessor accessor) {
-      throw new NotImplementedException();
+      return BuildMethodDeclaration(accessor.Body);
     }
 
     public SyntaxNode VisitConstructorDeclaration(ConstructorDeclaration constructorDeclaration) {
-      throw new NotImplementedException();
+      return BuildMethodDeclaration(constructorDeclaration.Body);
     }
 
     public SyntaxNode VisitConstructorInitializer(ConstructorInitializer constructorInitializer) {
@@ -998,7 +1003,7 @@ namespace Meson.Compiler {
       }
     }
 
-    public SyntaxNode VisitMethodDeclaration(MethodDeclaration methodDeclaration) {
+    private MethodDefinitionSyntax BuildMethodDeclaration(BlockStatement body) {
       var method = MethodSymbol;
       var parameters = method.Parameters.Select(i => GetParameterSyntax(i, method)).ToList();
       var declaringType = GetDeclaringType(method.DeclaringTypeDefinition);
@@ -1018,8 +1023,8 @@ namespace Meson.Compiler {
         Body = new BlockSyntax(),
       };
       PushFunction(node);
-      if (methodDeclaration != null) {
-        var block = methodDeclaration.Body.Accept<BlockSyntax>(this);
+      if (body != null) {
+        var block = body.Accept<BlockSyntax>(this);
         node.AddStatements(block.Statements);
       } else if (method.AccessorOwner is IProperty property) {
         if (property.IsPropertyField()) {
@@ -1038,6 +1043,10 @@ namespace Meson.Compiler {
       }
       PopFunction();
       return node;
+    }
+
+    public SyntaxNode VisitMethodDeclaration(MethodDeclaration methodDeclaration) {
+      return BuildMethodDeclaration(methodDeclaration.Body);
     }
 
     public SyntaxNode VisitOperatorDeclaration(OperatorDeclaration operatorDeclaration) {

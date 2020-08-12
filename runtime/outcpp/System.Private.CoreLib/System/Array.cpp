@@ -36,9 +36,9 @@
 #include <System.Private.CoreLib/System/UIntPtr-dep.h>
 
 namespace System::Private::CoreLib::System::ArrayNamespace {
-using namespace ::System::Private::CoreLib::Internal::Runtime::CompilerServices;
-using namespace Collections;
-using namespace Runtime::CompilerServices;
+using namespace Internal::Runtime::CompilerServices;
+using namespace System::Collections;
+using namespace System::Runtime::CompilerServices;
 Array___<>::SorterObjectArray::SorterObjectArray(Array<Object> keys, Array<Object> items, IComparer comparer) {
 }
 
@@ -102,42 +102,47 @@ void Array___<>::SorterGenericArray::InsertionSort(Int32 lo, Int32 hi) {
 }
 
 Int32 Array___<>::get_Length() {
-  return Int32();
+  return (Int32)Unsafe::As<RawArrayData>((Array<>)this)->Length;
 }
 
 Int64 Array___<>::get_LongLength() {
-  return Int64();
+  return Unsafe::As<RawArrayData>((Array<>)this)->Length;
 }
 
 Int32 Array___<>::get_Rank() {
-  return Int32();
+  Int32 multiDimensionalArrayRank = RuntimeHelpers::GetMultiDimensionalArrayRank((Array<>)this);
+  if (multiDimensionalArrayRank == 0) {
+    return 1;
+  }
+  return multiDimensionalArrayRank;
 }
 
 Int32 Array___<>::get_CountOfICollection() {
-  return Int32();
+  return get_Length();
 }
 
 Object Array___<>::get_SyncRoot() {
-  return nullptr;
+  return (Array<>)this;
 }
 
 Boolean Array___<>::get_IsReadOnly() {
-  return Boolean();
+  return false;
 }
 
 Boolean Array___<>::get_IsFixedSize() {
-  return Boolean();
+  return true;
 }
 
 Boolean Array___<>::get_IsSynchronized() {
-  return Boolean();
+  return false;
 }
 
 Object Array___<>::get_ItemOfIList(Int32 index) {
-  return nullptr;
+  return GetValue(index);
 }
 
 void Array___<>::set_ItemOfIList(Int32 index, Object value) {
+  SetValue(value, index);
 }
 
 Array<> Array___<>::CreateInstance(Type elementType, Int32 length) {

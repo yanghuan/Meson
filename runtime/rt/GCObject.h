@@ -483,6 +483,16 @@ namespace rt {
 
   template <class T>
   static constexpr bool AlwaysTrue = true;
+  
+  template <class To, class From>
+  constexpr bool IsImplicitPrimitive() {
+    constexpr TypeCode codeOfFrom = CodeOf<From>;
+    constexpr TypeCode codeOfTo = CodeOf<To>;
+    if constexpr ((codeOfTo >= TypeCode::Int64 && codeOfTo <= TypeCode::Double) && (codeOfFrom >= TypeCode::SByte && codeOfFrom <= TypeCode::UInt32)) {
+      return true;
+    }
+    return false;
+  }
 
   template <class T, class Base>
   struct ValueType : public Base {
@@ -607,11 +617,11 @@ namespace rt {
       return static_cast<const T*>(this)->get();
     }
 
-    template <class R, class T1 = T> requires(CodeOf<T1> == TypeCode::Int32 && CodeOf<R> == TypeCode::Int64)
+    template <class R, class T1 = T> requires(IsImplicitPrimitive<R, T1>())
     operator R() {
       return static_cast<T*>(this)->get();
     }
-
+    
     template <class R, class T1 = T> requires(IsPrimitive<R> && IsPrimitive<T1>)
     explicit operator R() const {
       return static_cast<std::remove_reference_t<decltype(R().get())>>(static_cast<const T*>(this)->get());

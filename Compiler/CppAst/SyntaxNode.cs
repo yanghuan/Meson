@@ -5,11 +5,13 @@ using System.Text;
 namespace Meson.Compiler.CppAst {
   class SyntaxNode {
     internal virtual void Render(CppRenderer renderer) {
-      throw new NotSupportedException($"{this.GetType().Name} is not override");
+      throw new NotSupportedException($"{GetType().Name} is not override");
     }
 
     public static readonly string[] TempIdentifiers = {
-      "default", "extern", "ref", "out", "byte", "uint", "lock", "fixed",  "internal",
+      "default", "extern", "ref", "out", "byte", 
+      "uint",  "sbyte", "ushort", "ulong", "lock", 
+      "fixed",  "internal",
     };
   }
 

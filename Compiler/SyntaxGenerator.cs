@@ -45,10 +45,10 @@ namespace Meson.Compiler {
       return decompiler;
     }
 
-    public MethodDeclaration GetMethodDeclaration(IMethod method) {
+    public EntityDeclaration GetMethodDeclaration(IMethod method) {
       var decompiler = GetDecompiler(method.ParentModule);
       var node = decompiler.Decompile(method.MetadataToken);
-      return node.Members.OfType<MethodDeclaration>().FirstOrDefault();
+      return node.Members.OfType<EntityDeclaration>().FirstOrDefault();
     }
 
     private IEnumerable<CompilationUnitTransform> GetCompilationUnits() {
