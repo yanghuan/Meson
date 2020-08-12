@@ -13,7 +13,7 @@ namespace System::Private::CoreLib::System::Diagnostics::Tracing {
 FORWARD(EventSource)
 namespace EventCounterNamespace {
 CLASS(EventCounter) : public DiagnosticCounter::in {
-  public: void ctor(String name, EventSource eventSource);
+  public: void ctor(String name, Tracing::EventSource eventSource);
   public: void WriteMetric(Single value);
   public: void WriteMetric(Double value);
   public: String ToString();

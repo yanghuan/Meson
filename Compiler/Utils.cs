@@ -605,6 +605,34 @@ namespace Meson.Compiler {
       return type.ParentModule == other.ParentModule && type.Namespace == other.Namespace;
     }
 
+    public static IEnumerable<ITypeDefinition> GetBaseTypeDefinitionsWithoutInterface(this ITypeDefinition type) {
+      return type.GetAllBaseTypeDefinitions().Where(i => i.Kind != TypeKind.Interface);
+    }
+
+    public static IEnumerable<IMember> GetAllMembers(this ITypeDefinition type) {
+      return type.GetBaseTypeDefinitionsWithoutInterface().SelectMany(i => {
+        List<IMember> members = new List<IMember>();
+        foreach (var p in i.Properties) {
+          if (p.CanGet) {
+            members.Add(p.Getter);
+          }
+          if (p.CanSet) {
+            members.Add(p.Setter);
+          }
+        }
+        members.AddRange(i.Methods);
+        members.AddRange(i.Fields);
+        return members;
+      });
+    }
+
+    public static string GetMemberName(this IMember member) {
+      if (member.SymbolKind == SymbolKind.Field) {
+        return ((IField)member).GetFieldName();
+      }
+      return member.Name;
+    }
+
     public static StringBuilder GetShortName(this IType type, StringBuilder sb, bool isFirst) {
       if (type.DeclaringType != null) {
         type.DeclaringType.GetShortName(sb, false);
