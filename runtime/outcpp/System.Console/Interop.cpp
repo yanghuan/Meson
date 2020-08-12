@@ -1,24 +1,63 @@
 #include "Interop-dep.h"
 
+#include <System.Console/Interop-dep.h>
+#include <System.Private.CoreLib/System/Runtime/InteropServices/Marshal-dep.h>
+#include <System.Private.CoreLib/System/Span-dep.h>
+
 namespace System::Console::InteropNamespace {
+using namespace ::System::Private::CoreLib::System;
+using namespace ::System::Private::CoreLib::System::Runtime::InteropServices;
+
 Int32 Interop::Kernel32::GetLeadByteRanges(Int32 codePage, Array<Byte> leadByteRanges) {
-  return Int32();
+  Int32 num = 0;
+  CPINFOEXW cPINFOEXW;
+  if (GetCPInfoExW((UInt32)codePage, 0u, &cPINFOEXW) != 0) {
+    for (Int32 i = 0; i < 10 && leadByteRanges[i] != 0; i += 2) {
+      leadByteRanges[i] = cPINFOEXW.LeadByte[i];
+      leadByteRanges[i + 1] = cPINFOEXW.LeadByte[i + 1];
+      num++;
+    }
+  }
+  return num;
 }
 
 String Interop::Kernel32::GetMessage(Int32 errorCode) {
-  return nullptr;
+  return GetMessage(errorCode, IntPtr::Zero);
 }
 
 String Interop::Kernel32::GetMessage(Int32 errorCode, IntPtr moduleHandle) {
-  return nullptr;
+  Int32 num = 12800;
+  if (moduleHandle != IntPtr::Zero) {
+  }
+  Char default[256] = {};
+  Span<Char> span = default;
+  {
+    Char* lpBuffer = span;
+    Int32 num2 = FormatMessage(num, moduleHandle, (UInt32)errorCode, 0, lpBuffer, span.get_Length(), IntPtr::Zero);
+    if (num2 > 0) {
+      return GetAndTrimString(span.Slice(0, num2));
+    }
+  }
+  if (Marshal::GetLastWin32Error() == 122) {
+    IntPtr intPtr = IntPtr();
+    try{
+    } finally: {
+      Marshal::FreeHGlobal(intPtr);
+    }
+  }
 }
 
 String Interop::Kernel32::GetAndTrimString(Span<Char> buffer) {
-  return nullptr;
+  Int32 num = buffer.get_Length();
+  while (num > 0 && buffer[num - 1] <= 32) {
+    num--;
+  }
+  return buffer.Slice(0, num).ToString();
 }
 
 Boolean Interop::Kernel32::IsGetConsoleModeCallSuccessful(IntPtr handle) {
-  return Boolean();
+  Int32 mode;
+  return GetConsoleMode(handle, mode);
 }
 
 } // namespace System::Console::InteropNamespace

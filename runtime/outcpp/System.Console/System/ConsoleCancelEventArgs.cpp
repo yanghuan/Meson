@@ -2,10 +2,11 @@
 
 namespace System::Console::System::ConsoleCancelEventArgsNamespace {
 ConsoleSpecialKey ConsoleCancelEventArgs___::get_SpecialKey() {
-  return ConsoleSpecialKey::ControlBreak;
+  return _type;
 }
 
 void ConsoleCancelEventArgs___::ctor(ConsoleSpecialKey type) {
+  _type = type;
 }
 
 } // namespace System::Console::System::ConsoleCancelEventArgsNamespace

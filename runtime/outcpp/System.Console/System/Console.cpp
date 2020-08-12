@@ -1,246 +1,318 @@
 #include "Console-dep.h"
 
+#include <System.Console/System/ConsoleCancelEventArgs-dep.h>
+#include <System.Console/System/ConsoleCancelEventHandler-dep.h>
+#include <System.Console/System/ConsolePal-dep.h>
+#include <System.Console/System/IO/SyncTextReader-dep.h>
+#include <System.Console/System/SR-dep.h>
+#include <System.Console/System/Text/EncodingExtensions-dep.h>
+#include <System.Private.CoreLib/System/ArgumentNullException-dep.h>
+#include <System.Private.CoreLib/System/ArgumentOutOfRangeException-dep.h>
+#include <System.Private.CoreLib/System/InvalidOperationException-dep.h>
+#include <System.Private.CoreLib/System/IO/StreamWriter-dep.h>
+#include <System.Private.CoreLib/System/Runtime/CompilerServices/StrongBox-dep.h>
+#include <System.Private.CoreLib/System/Threading/Volatile-dep.h>
+
 namespace System::Console::System::ConsoleNamespace {
+using namespace ::System::Private::CoreLib::System;
+using namespace ::System::Private::CoreLib::System::IO;
+using namespace ::System::Private::CoreLib::System::Runtime::CompilerServices;
+using namespace ::System::Private::CoreLib::System::Threading;
+using namespace System::IO;
+using namespace System::Text;
+
 TextReader Console::get_In() {
-  return nullptr;
 }
 
 Encoding Console::get_InputEncoding() {
-  return nullptr;
+  Encoding encoding = Volatile::Read(s_inputEncoding);
+  if (encoding == nullptr) {
+  }
+  return encoding;
 }
 
 void Console::set_InputEncoding(Encoding value) {
+  CheckNonNull(value, "value");
 }
 
 Encoding Console::get_OutputEncoding() {
-  return nullptr;
+  Encoding encoding = Volatile::Read(s_outputEncoding);
+  if (encoding == nullptr) {
+  }
+  return encoding;
 }
 
 void Console::set_OutputEncoding(Encoding value) {
+  CheckNonNull(value, "value");
 }
 
 Boolean Console::get_KeyAvailable() {
-  return Boolean();
+  if (get_IsInputRedirected()) {
+    rt::throw_exception<InvalidOperationException>(SR::get_InvalidOperation_ConsoleKeyAvailableOnFile());
+  }
+  return ConsolePal::get_KeyAvailable();
 }
 
 TextWriter Console::get_Out() {
-  return nullptr;
 }
 
 TextWriter Console::get_Error() {
-  return nullptr;
 }
 
 Boolean Console::get_IsInputRedirected() {
-  return Boolean();
 }
 
 Boolean Console::get_IsOutputRedirected() {
-  return Boolean();
 }
 
 Boolean Console::get_IsErrorRedirected() {
-  return Boolean();
 }
 
 Int32 Console::get_CursorSize() {
-  return Int32();
+  return ConsolePal::get_CursorSize();
 }
 
 void Console::set_CursorSize(Int32 value) {
+  ConsolePal::set_CursorSize = value;
 }
 
 Boolean Console::get_NumberLock() {
-  return Boolean();
+  return ConsolePal::get_NumberLock();
 }
 
 Boolean Console::get_CapsLock() {
-  return Boolean();
+  return ConsolePal::get_CapsLock();
 }
 
 ConsoleColor Console::get_BackgroundColor() {
-  return ConsoleColor::White;
+  return ConsolePal::get_BackgroundColor();
 }
 
 void Console::set_BackgroundColor(ConsoleColor value) {
+  ConsolePal::set_BackgroundColor = value;
 }
 
 ConsoleColor Console::get_ForegroundColor() {
-  return ConsoleColor::White;
+  return ConsolePal::get_ForegroundColor();
 }
 
 void Console::set_ForegroundColor(ConsoleColor value) {
+  ConsolePal::set_ForegroundColor = value;
 }
 
 Int32 Console::get_BufferWidth() {
-  return Int32();
+  return ConsolePal::get_BufferWidth();
 }
 
 void Console::set_BufferWidth(Int32 value) {
+  ConsolePal::set_BufferWidth = value;
 }
 
 Int32 Console::get_BufferHeight() {
-  return Int32();
+  return ConsolePal::get_BufferHeight();
 }
 
 void Console::set_BufferHeight(Int32 value) {
+  ConsolePal::set_BufferHeight = value;
 }
 
 Int32 Console::get_WindowLeft() {
-  return Int32();
+  return ConsolePal::get_WindowLeft();
 }
 
 void Console::set_WindowLeft(Int32 value) {
+  ConsolePal::set_WindowLeft = value;
 }
 
 Int32 Console::get_WindowTop() {
-  return Int32();
+  return ConsolePal::get_WindowTop();
 }
 
 void Console::set_WindowTop(Int32 value) {
+  ConsolePal::set_WindowTop = value;
 }
 
 Int32 Console::get_WindowWidth() {
-  return Int32();
+  return ConsolePal::get_WindowWidth();
 }
 
 void Console::set_WindowWidth(Int32 value) {
+  ConsolePal::set_WindowWidth = value;
 }
 
 Int32 Console::get_WindowHeight() {
-  return Int32();
+  return ConsolePal::get_WindowHeight();
 }
 
 void Console::set_WindowHeight(Int32 value) {
+  ConsolePal::set_WindowHeight = value;
 }
 
 Int32 Console::get_LargestWindowWidth() {
-  return Int32();
+  return ConsolePal::get_LargestWindowWidth();
 }
 
 Int32 Console::get_LargestWindowHeight() {
-  return Int32();
+  return ConsolePal::get_LargestWindowHeight();
 }
 
 Boolean Console::get_CursorVisible() {
-  return Boolean();
+  return ConsolePal::get_CursorVisible();
 }
 
 void Console::set_CursorVisible(Boolean value) {
+  ConsolePal::set_CursorVisible = value;
 }
 
 Int32 Console::get_CursorLeft() {
-  return Int32();
+  return ConsolePal::get_CursorLeft();
 }
 
 void Console::set_CursorLeft(Int32 value) {
+  SetCursorPosition(value, get_CursorTop());
 }
 
 Int32 Console::get_CursorTop() {
-  return Int32();
+  return ConsolePal::get_CursorTop();
 }
 
 void Console::set_CursorTop(Int32 value) {
+  SetCursorPosition(get_CursorLeft(), value);
 }
 
 String Console::get_Title() {
-  return nullptr;
+  return ConsolePal::get_Title();
 }
 
 void Console::set_Title(String value) {
 }
 
 Boolean Console::get_TreatControlCAsInput() {
-  return Boolean();
+  return ConsolePal::get_TreatControlCAsInput();
 }
 
 void Console::set_TreatControlCAsInput(Boolean value) {
+  ConsolePal::set_TreatControlCAsInput = value;
 }
 
 ConsoleKeyInfo Console::ReadKey() {
-  return ConsoleKeyInfo();
+  return ConsolePal::ReadKey(false);
 }
 
 ConsoleKeyInfo Console::ReadKey(Boolean intercept) {
-  return ConsoleKeyInfo();
+  return ConsolePal::ReadKey(intercept);
 }
 
 TextWriter Console::CreateOutputWriter(Stream outputStream) {
-  return nullptr;
+  return TextWriter::in::Synchronized((outputStream == Stream::in::Null) ? StreamWriter::in::Null : rt::newobj<StreamWriter>(outputStream, EncodingExtensions::RemovePreamble(get_OutputEncoding()), 256, true));
 }
 
 void Console::ResetColor() {
+  ConsolePal::ResetColor();
 }
 
 void Console::SetBufferSize(Int32 width, Int32 height) {
+  ConsolePal::SetBufferSize(width, height);
 }
 
 void Console::SetWindowPosition(Int32 left, Int32 top) {
+  ConsolePal::SetWindowPosition(left, top);
 }
 
 void Console::SetWindowSize(Int32 width, Int32 height) {
+  ConsolePal::SetWindowSize(width, height);
 }
 
 void Console::Beep() {
+  ConsolePal::Beep();
 }
 
 void Console::Beep(Int32 frequency, Int32 duration) {
+  ConsolePal::Beep(frequency, duration);
 }
 
 void Console::MoveBufferArea(Int32 sourceLeft, Int32 sourceTop, Int32 sourceWidth, Int32 sourceHeight, Int32 targetLeft, Int32 targetTop) {
+  ConsolePal::MoveBufferArea(sourceLeft, sourceTop, sourceWidth, sourceHeight, targetLeft, targetTop, 32, ConsoleColor::Black, get_BackgroundColor());
 }
 
 void Console::MoveBufferArea(Int32 sourceLeft, Int32 sourceTop, Int32 sourceWidth, Int32 sourceHeight, Int32 targetLeft, Int32 targetTop, Char sourceChar, ConsoleColor sourceForeColor, ConsoleColor sourceBackColor) {
+  ConsolePal::MoveBufferArea(sourceLeft, sourceTop, sourceWidth, sourceHeight, targetLeft, targetTop, sourceChar, sourceForeColor, sourceBackColor);
 }
 
 void Console::Clear() {
+  ConsolePal::Clear();
 }
 
 void Console::SetCursorPosition(Int32 left, Int32 top) {
+  if (left < 0 || left >= 32767) {
+    rt::throw_exception<ArgumentOutOfRangeException>("left", left, SR::get_ArgumentOutOfRange_ConsoleBufferBoundaries());
+  }
+  if (top < 0 || top >= 32767) {
+    rt::throw_exception<ArgumentOutOfRangeException>("top", top, SR::get_ArgumentOutOfRange_ConsoleBufferBoundaries());
+  }
+  ConsolePal::SetCursorPosition(left, top);
 }
 
 Stream Console::OpenStandardInput() {
-  return nullptr;
+  return ConsolePal::OpenStandardInput();
 }
 
 Stream Console::OpenStandardInput(Int32 bufferSize) {
-  return nullptr;
+  if (bufferSize < 0) {
+    rt::throw_exception<ArgumentOutOfRangeException>("bufferSize", SR::get_ArgumentOutOfRange_NeedNonNegNum());
+  }
+  return OpenStandardInput();
 }
 
 Stream Console::OpenStandardOutput() {
-  return nullptr;
+  return ConsolePal::OpenStandardOutput();
 }
 
 Stream Console::OpenStandardOutput(Int32 bufferSize) {
-  return nullptr;
+  if (bufferSize < 0) {
+    rt::throw_exception<ArgumentOutOfRangeException>("bufferSize", SR::get_ArgumentOutOfRange_NeedNonNegNum());
+  }
+  return OpenStandardOutput();
 }
 
 Stream Console::OpenStandardError() {
-  return nullptr;
+  return ConsolePal::OpenStandardError();
 }
 
 Stream Console::OpenStandardError(Int32 bufferSize) {
-  return nullptr;
+  if (bufferSize < 0) {
+    rt::throw_exception<ArgumentOutOfRangeException>("bufferSize", SR::get_ArgumentOutOfRange_NeedNonNegNum());
+  }
+  return OpenStandardError();
 }
 
 void Console::SetIn(TextReader newIn) {
+  CheckNonNull(newIn, "newIn");
+  newIn = SyncTextReader::in::GetSynchronizedTextReader(newIn);
 }
 
 void Console::SetOut(TextWriter newOut) {
+  CheckNonNull(newOut, "newOut");
+  newOut = TextWriter::in::Synchronized(newOut);
 }
 
 void Console::SetError(TextWriter newError) {
+  CheckNonNull(newError, "newError");
+  newError = TextWriter::in::Synchronized(newError);
 }
 
 void Console::CheckNonNull(Object obj, String paramName) {
+  if (obj == nullptr) {
+    rt::throw_exception<ArgumentNullException>(paramName);
+  }
 }
 
 Int32 Console::Read() {
-  return Int32();
+  return get_In()->Read();
 }
 
 String Console::ReadLine() {
-  return nullptr;
+  return get_In()->ReadLine();
 }
 
 void Console::WriteLine() {
@@ -320,61 +392,89 @@ void Console::WriteLine(String format, Array<Object> arg) {
 }
 
 void Console::Write(String format, Object arg0) {
+  get_Out()->Write(format, arg0);
 }
 
 void Console::Write(String format, Object arg0, Object arg1) {
+  get_Out()->Write(format, arg0, arg1);
 }
 
 void Console::Write(String format, Object arg0, Object arg1, Object arg2) {
+  get_Out()->Write(format, arg0, arg1, arg2);
 }
 
 void Console::Write(String format, Array<Object> arg) {
+  if (arg == nullptr) {
+    get_Out()->Write(format, nullptr, nullptr);
+  } else {
+    get_Out()->Write(format, arg);
+  }
 }
 
 void Console::Write(Boolean value) {
+  get_Out()->Write(value);
 }
 
 void Console::Write(Char value) {
+  get_Out()->Write(value);
 }
 
 void Console::Write(Array<Char> buffer) {
+  get_Out()->Write(buffer);
 }
 
 void Console::Write(Array<Char> buffer, Int32 index, Int32 count) {
+  get_Out()->Write(buffer, index, count);
 }
 
 void Console::Write(Double value) {
+  get_Out()->Write(value);
 }
 
 void Console::Write(Decimal value) {
+  get_Out()->Write(value);
 }
 
 void Console::Write(Single value) {
+  get_Out()->Write(value);
 }
 
 void Console::Write(Int32 value) {
+  get_Out()->Write(value);
 }
 
 void Console::Write(UInt32 value) {
+  get_Out()->Write(value);
 }
 
 void Console::Write(Int64 value) {
+  get_Out()->Write(value);
 }
 
 void Console::Write(UInt64 value) {
+  get_Out()->Write(value);
 }
 
 void Console::Write(Object value) {
+  get_Out()->Write(value);
 }
 
 void Console::Write(String value) {
+  get_Out()->Write(value);
 }
 
 Boolean Console::HandleBreakEvent(ConsoleSpecialKey controlKey) {
-  return Boolean();
+  ConsoleCancelEventHandler consoleCancelEventHandler = s_cancelCallbacks;
+  if (consoleCancelEventHandler == nullptr) {
+    return false;
+  }
+  ConsoleCancelEventArgs consoleCancelEventArgs = rt::newobj<ConsoleCancelEventArgs>(controlKey);
+  consoleCancelEventHandler(nullptr, consoleCancelEventArgs);
+  return consoleCancelEventArgs->get_Cancel();
 }
 
 void Console::ctor_static() {
+  s_syncObject = rt::newobj<Object>();
 }
 
 } // namespace System::Console::System::ConsoleNamespace

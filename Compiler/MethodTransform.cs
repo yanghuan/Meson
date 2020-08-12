@@ -14,17 +14,6 @@ using Meson.Compiler.CppAst;
 
 namespace Meson.Compiler {
   internal sealed class MethodTransform : IAstVisitor<SyntaxNode> {
-    private static readonly HashSet<string> exportFunctions_ = new HashSet<string>() {
-      "Test.Program.Main",
-      "System.Console.WriteLine",
-    };
-
-    private static readonly HashSet<string> exportTypes_ = new HashSet<string>() {
-      "System.Int32",
-      "System.Array",
-      "System.Array.SorterObjectArray"
-    };
-
     private readonly TypeDefinitionTransform typeDefinition_;
     private readonly ClassSyntax classNode_;
     private readonly Stack<IMethod> methodSymbols_ = new Stack<IMethod>();
@@ -81,7 +70,7 @@ namespace Meson.Compiler {
       if (methodSymbol.HasBody) {
         methodSymbols_.Push(methodSymbol);
         MethodDefinitionSyntax node;
-        var declaration = IsMethodExport(methodSymbol) ? Generator.GetMethodDeclaration(methodSymbol) : null;
+        var declaration = Generator.GetMethodDeclaration(methodSymbol);
         if (declaration != null) {
           node = declaration.Accept<MethodDefinitionSyntax>(this);
         } else {
@@ -100,16 +89,6 @@ namespace Meson.Compiler {
           }
         }
       }
-    }
-
-    private bool IsMethodExport(IMethod method) {
-      if (exportFunctions_.Contains(method.FullName)) {
-        return true;
-      }
-      if (exportTypes_.Contains(method.DeclaringType.FullName)) {
-        return true;
-      }
-      return false;
     }
 
     private void InsetMainFuntion(IMethod methodSymbol, MethodDefinitionSyntax method) {
@@ -1048,8 +1027,6 @@ namespace Meson.Compiler {
         } else {
           InsertDefaultReturnValue(node, method, returnType);
         }
-      } else if (!IsMethodExport(method)) {
-        InsertDefaultReturnValue(node, method, returnType);
       }
       PopFunction();
       return node;

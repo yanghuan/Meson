@@ -349,18 +349,6 @@ namespace Meson.Compiler {
       return false;
     }
 
-    private static bool IsArrayInnerSpecialField(IField field, ITypeDefinition typeDefinition, out ExpressionSyntax typeName) {
-      /*
-      if (typeDefinition.DeclaringTypeDefinition?.IsArrayType() == true && !field.IsStatic && field.Type.Kind == TypeKind.Array) {
-        ArrayType arrayType = (ArrayType)field.Type;
-        Contract.Assert(arrayType.ElementType.GetDefinition().IsObjectType());
-        typeName = new GenericIdentifierSyntax(arrayType.DirectBaseTypes.First().Name);
-        return true;
-      }*/
-      typeName = null;
-      return false;
-    }
-
     private static bool IsFieldExport(IField field) {
       if (field.IsConst) {
         if (field.Type.IsString()) {
@@ -422,7 +410,6 @@ namespace Meson.Compiler {
           statements.Add(getValueConst);
           node.Statements.Insert(1, statements);
         }
-      } else if (IsArrayInnerSpecialField(field, typeDefinition, out typeName)) {
       } else {
         typeName = GetFieldTypeName(field, typeDefinition);
       }
