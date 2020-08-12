@@ -16,6 +16,7 @@ namespace Meson.Compiler {
     private readonly List<ITypeDefinition> types_;
     private readonly TypeDefinitionTransform parentTransform_;
     private readonly Dictionary<ITypeDefinition, ITypeDefinition> nestedCycleTypes_ = new Dictionary<ITypeDefinition, ITypeDefinition>();
+    private readonly Dictionary<ITypeDefinition, List<IMember>> typeMemberCaches_ = new Dictionary<ITypeDefinition, List<IMember>>();
 
     public TypeDefinitionTransform(CompilationUnitTransform compilationUnit, BlockSyntax parent, IEnumerable<ITypeDefinition> types, TypeDefinitionTransform parentTransform = null) {
       CompilationUnit = compilationUnit;
@@ -131,13 +132,12 @@ namespace Meson.Compiler {
     }
 
     private ExpressionSyntax GetInterfaceType(ITypeDefinition definition, IType type) {
-      var typeExpression = CompilationUnit.GetTypeName(new TypeNameArgs() {
+      return CompilationUnit.GetTypeName(new TypeNameArgs() {
         Type = type,
         Definition = definition,
         IsInHead = true,
         IsForward = true,
       });
-      return typeExpression;
     }
 
     private void AddInterfaces(ITypeDefinition type, ClassSyntax node, IEnumerable<IType> interfaces) {
@@ -315,8 +315,18 @@ namespace Meson.Compiler {
       return new ParameterSyntax(type, name);
     }
 
-    public static void CheckParameterTypeConflict(ref ExpressionSyntax type, IParameter parameter, IMethod method, ITypeDefinition typeDefinition) {
-      foreach (var m in typeDefinition.GetAllMembers()) {
+    public List<IMember> GetTypeMembersFromCache(ITypeDefinition typeDefinition) {
+      var members = typeMemberCaches_.GetOrDefault(typeDefinition);
+      if (members == null) {
+        members = typeDefinition.GetAllMembers().ToList();
+        typeMemberCaches_.Add(typeDefinition, members);
+      }
+      return members;
+    }
+
+    public void CheckParameterTypeConflict(ref ExpressionSyntax type, IParameter parameter, IMethod method, ITypeDefinition typeDefinition) {
+      var members = GetTypeMembersFromCache(typeDefinition);
+      foreach (var m in members) {
         if (m.Equals(method)) {
           break;
         }

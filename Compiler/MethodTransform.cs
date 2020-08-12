@@ -930,8 +930,9 @@ namespace Meson.Compiler {
       throw new NotImplementedException();
     }
 
-    public static void CheckParameterTypeConflict(ref ExpressionSyntax type, IParameter parameter, ITypeDefinition typeDefinition) {
-      foreach (var m in typeDefinition.GetAllMembers()) {
+    private void CheckParameterTypeConflict(ref ExpressionSyntax type, IParameter parameter, ITypeDefinition typeDefinition) {
+      var members = typeDefinition_.GetTypeMembersFromCache(typeDefinition);
+      foreach (var m in members) {
         if (parameter.Type.Name == m.GetMemberName()) {
           type = type.WithFullName(parameter.Type, typeDefinition);
           break;
