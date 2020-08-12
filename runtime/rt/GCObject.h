@@ -703,6 +703,11 @@ inline auto operator *(const T& a, const T1& b) {
   return b * a;
 }
 
+template <class T> requires(std::is_enum_v<T>) 
+inline auto operator |=(T& a, const T& b) { 
+  return a = a | b;
+}
+
 #if defined(_MSC_VER)
   #pragma warning(disable:4674)
 #endif
