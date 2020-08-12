@@ -496,13 +496,6 @@ namespace rt {
 
   template <class T, class Base>
   struct ValueType : public Base {
-    /*  
-    T operator =(const T& other) noexcept {
-      auto p = static_cast<T*>(this);
-      p->get() = other.get();
-      return *p;
-    }*/
-
     template <class T1 = T> requires(IsArithmetic<T1>) 
     T operator +=(const T& other) {
       auto p = static_cast<T*>(this);

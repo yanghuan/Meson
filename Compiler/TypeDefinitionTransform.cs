@@ -350,12 +350,13 @@ namespace Meson.Compiler {
     }
 
     private static bool IsArrayInnerSpecialField(IField field, ITypeDefinition typeDefinition, out ExpressionSyntax typeName) {
+      /*
       if (typeDefinition.DeclaringTypeDefinition?.IsArrayType() == true && !field.IsStatic && field.Type.Kind == TypeKind.Array) {
         ArrayType arrayType = (ArrayType)field.Type;
         Contract.Assert(arrayType.ElementType.GetDefinition().IsObjectType());
         typeName = new GenericIdentifierSyntax(arrayType.DirectBaseTypes.First().Name);
         return true;
-      }
+      }*/
       typeName = null;
       return false;
     }
@@ -401,7 +402,7 @@ namespace Meson.Compiler {
           underlyingTypeConstructor.AddInitializationList(fieldName, IdentifierSyntax.Value);
           statements.Add(underlyingTypeConstructor);
 
-          var getValue = new MethodDefinitionSyntax("get", Array.Empty<ParameterSyntax>(), new RefExpressionSyntax(typeName)) {
+          var getValue = new MethodDefinitionSyntax(IdentifierSyntax.Get, Array.Empty<ParameterSyntax>(), new RefExpressionSyntax(typeName)) {
             AccessibilityToken = accessibilityToken,
             IsConstexpr = true,
             IsNoexcept = true,
@@ -410,7 +411,7 @@ namespace Meson.Compiler {
           getValue.Body.Add(fieldName.Return());
           statements.Add(getValue);
 
-          var getValueConst = new MethodDefinitionSyntax("get", Array.Empty<ParameterSyntax>(), typeName) {
+          var getValueConst = new MethodDefinitionSyntax(IdentifierSyntax.Get, Array.Empty<ParameterSyntax>(), typeName) {
             AccessibilityToken = accessibilityToken,
             IsConstexpr = true,
             IsNoexcept = true,

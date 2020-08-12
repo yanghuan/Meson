@@ -17,6 +17,7 @@
 #include <System.Private.CoreLib/System/Int16-dep.h>
 #include <System.Private.CoreLib/System/IntPtr-dep.h>
 #include <System.Private.CoreLib/System/MemoryExtensions-dep.h>
+#include <System.Private.CoreLib/System/Numerics/BitOperations-dep.h>
 #include <System.Private.CoreLib/System/RankException-dep.h>
 #include <System.Private.CoreLib/System/Runtime/CompilerServices/MethodTable-dep.h>
 #include <System.Private.CoreLib/System/Runtime/CompilerServices/RawArrayData-dep.h>
@@ -38,36 +39,164 @@
 namespace System::Private::CoreLib::System::ArrayNamespace {
 using namespace Internal::Runtime::CompilerServices;
 using namespace System::Collections;
+using namespace System::Numerics;
 using namespace System::Runtime::CompilerServices;
+
 Array___<>::SorterObjectArray::SorterObjectArray(Array<Object> keys, Array<Object> items, IComparer comparer) {
+  this->keys = keys;
+  this->items = items;
+  this->comparer = comparer;
 }
 
 void Array___<>::SorterObjectArray::SwapIfGreater(Int32 a, Int32 b) {
+  if (a != b && comparer->Compare(keys[a], keys[b]) > 0) {
+    Object obj = keys[a];
+    keys[a] = keys[b];
+    keys[b] = obj;
+    if (items != nullptr) {
+      Object obj2 = items[a];
+      items[a] = items[b];
+      items[b] = obj2;
+    }
+  }
 }
 
 void Array___<>::SorterObjectArray::Swap(Int32 i, Int32 j) {
+  Object obj = keys[i];
+  keys[i] = keys[j];
+  keys[j] = obj;
+  if (items != nullptr) {
+    Object obj2 = items[i];
+    items[i] = items[j];
+    items[j] = obj2;
+  }
 }
 
 void Array___<>::SorterObjectArray::Sort(Int32 left, Int32 length) {
+  IntrospectiveSort(left, length);
 }
 
 void Array___<>::SorterObjectArray::IntrospectiveSort(Int32 left, Int32 length) {
+  if (length >= 2) {
+    try{
+      IntroSort(left, length + left - 1, 2 * (BitOperations::Log2((UInt32)length) + 1));
+    } catch (IndexOutOfRangeException) {
+    } catch (Exception e) {
+    }
+  }
 }
 
 void Array___<>::SorterObjectArray::IntroSort(Int32 lo, Int32 hi, Int32 depthLimit) {
+  while (true) {
+    if (hi <= lo) {
+      return;
+    }
+    Int32 num = hi - lo + 1;
+    if (num <= 16) {
+      switch (num.get()) {
+        case 2:
+          SwapIfGreater(lo, hi);
+          break;
+        case 3:
+          SwapIfGreater(lo, hi - 1);
+          SwapIfGreater(lo, hi);
+          SwapIfGreater(hi - 1, hi);
+          break;
+        default:
+          InsertionSort(lo, hi);
+          break;
+      }
+      return;
+    }
+    if (depthLimit == 0) {
+      break;
+    }
+    depthLimit--;
+    Int32 num2 = PickPivotAndPartition(lo, hi);
+    IntroSort(num2 + 1, hi, depthLimit);
+    hi = num2 - 1;
+  }
+  Heapsort(lo, hi);
 }
 
 Int32 Array___<>::SorterObjectArray::PickPivotAndPartition(Int32 lo, Int32 hi) {
-  return Int32();
+  Int32 num = lo + (hi - lo) / 2;
+  SwapIfGreater(lo, num);
+  SwapIfGreater(lo, hi);
+  SwapIfGreater(num, hi);
+  Object obj = keys[num];
+  Swap(num, hi - 1);
+  Int32 num2 = lo;
+  Int32 num3 = hi - 1;
+  while (num2 < num3) {
+    while (comparer->Compare(keys[++num2], obj) < 0) {
+    }
+    while (comparer->Compare(obj, keys[--num3]) < 0) {
+    }
+    if (num2 >= num3) {
+      break;
+    }
+    Swap(num2, num3);
+  }
+  if (num2 != hi - 1) {
+    Swap(num2, hi - 1);
+  }
+  return num2;
 }
 
 void Array___<>::SorterObjectArray::Heapsort(Int32 lo, Int32 hi) {
+  Int32 num = hi - lo + 1;
+  for (Int32 num2 = num / 2; num2 >= 1; num2--) {
+    DownHeap(num2, num, lo);
+  }
+  for (Int32 num3 = num; num3 > 1; num3--) {
+    Swap(lo, lo + num3 - 1);
+    DownHeap(1, num3 - 1, lo);
+  }
 }
 
 void Array___<>::SorterObjectArray::DownHeap(Int32 i, Int32 n, Int32 lo) {
+  Object obj = keys[lo + i - 1];
+  Array<Object> array = items;
+  Object obj2 = (array != nullptr) ? array[lo + i - 1] : nullptr;
+  while (i <= n / 2) {
+    Int32 num = 2 * i;
+    if (num < n && comparer->Compare(keys[lo + num - 1], keys[lo + num]) < 0) {
+      num++;
+    }
+    if (comparer->Compare(obj, keys[lo + num - 1]) >= 0) {
+      break;
+    }
+    keys[lo + i - 1] = keys[lo + num - 1];
+    if (items != nullptr) {
+      items[lo + i - 1] = items[lo + num - 1];
+    }
+    i = num;
+  }
+  keys[lo + i - 1] = obj;
+  if (items != nullptr) {
+    items[lo + i - 1] = obj2;
+  }
 }
 
 void Array___<>::SorterObjectArray::InsertionSort(Int32 lo, Int32 hi) {
+  for (Int32 i = lo; i < hi; i++) {
+    Int32 num = i;
+    Object obj = keys[i + 1];
+    Array<Object> array = items;
+    Object obj2 = (array != nullptr) ? array[i + 1] : nullptr;
+    while (num >= lo && comparer->Compare(obj, keys[num]) < 0) {
+      keys[num + 1] = keys[num];
+      if (items != nullptr) {
+        items[num + 1] = items[num];
+      }
+      num--;
+    }
+    keys[num + 1] = obj;
+    if (items != nullptr) {
+      items[num + 1] = obj2;
+    }
+  }
 }
 
 Array___<>::SorterGenericArray::SorterGenericArray(Array<> keys, Array<> items, IComparer comparer) {

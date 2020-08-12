@@ -66,8 +66,8 @@ CLASS_(Array) : public Object::in {
     private: void DownHeap(Int32 i, Int32 n, Int32 lo);
     private: void InsertionSort(Int32 lo, Int32 hi);
     public: explicit SorterObjectArray() {}
-    private: Array<> keys;
-    private: Array<> items;
+    private: Array<Object> keys;
+    private: Array<Object> items;
     private: IComparer comparer;
   };
   private: struct SorterGenericArray : public valueType<SorterGenericArray> {

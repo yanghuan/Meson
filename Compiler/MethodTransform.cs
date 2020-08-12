@@ -21,7 +21,8 @@ namespace Meson.Compiler {
 
     private static readonly HashSet<string> exportTypes_ = new HashSet<string>() {
       "System.Int32",
-      "System.Array"
+      "System.Array",
+      "System.Array.SorterObjectArray"
     };
 
     private readonly TypeDefinitionTransform typeDefinition_;
@@ -486,7 +487,12 @@ namespace Meson.Compiler {
           symbol = typeSymbol.Members.First(i => i.Name == memberReferenceExpression.MemberName);
         }
       }
-      return BuildMemberAccessExpression(target, symbol, memberReferenceExpression, memberReferenceExpression.TypeArguments);
+      bool isPointer = false;
+      if (memberReferenceExpression.Target is ThisReferenceExpression) {
+        isPointer = true;
+        target = IdentifierSyntax.This;
+      }
+      return BuildMemberAccessExpression(target, symbol, memberReferenceExpression, memberReferenceExpression.TypeArguments, isPointer);
     }
 
     public SyntaxNode VisitNamedArgumentExpression(NamedArgumentExpression namedArgumentExpression) {
@@ -806,6 +812,10 @@ namespace Meson.Compiler {
 
     public SyntaxNode VisitSwitchStatement(SwitchStatement switchStatement) {
       var expression = switchStatement.Expression.AcceptExpression(this);
+      var type = switchStatement.Expression.GetResolveResult().Type;
+      if (type.Kind != TypeKind.Enum) {
+        expression = expression.Dot(IdentifierSyntax.Get).Invation();
+      }
       var switchSections = switchStatement.SwitchSections.Select(i => i.Accept<SwitchSectionSyntax>(this));
       return new SwitchStatementSyntax(expression, switchSections);
     }

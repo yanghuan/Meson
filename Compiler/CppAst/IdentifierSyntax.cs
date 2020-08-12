@@ -25,6 +25,7 @@ namespace Meson.Compiler.CppAst {
     public static readonly IdentifierSyntax NewArray = "rt::newarr";
     public static readonly IdentifierSyntax Out = "out";
     public static readonly IdentifierSyntax Value = "value";
+    public static readonly IdentifierSyntax Get = "get";
     public static readonly IdentifierSyntax This = "this";
     public static readonly IdentifierSyntax Auto = "auto";
     public static readonly IdentifierSyntax Interface = "interface";

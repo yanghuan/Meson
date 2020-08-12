@@ -810,8 +810,10 @@ namespace Meson.Compiler {
       WriteSpace();
       Write(Tokens.OpenParentheses);
       node.Type.Render(this);
-      WriteSpace();
-      node.Name.Render(this);
+      if (node.Name != null) {
+        WriteSpace();
+        node.Name.Render(this);
+      }
       Write(Tokens.CloseParentheses);
       WriteSpace();
       WriteBlock(node);
