@@ -29,9 +29,9 @@ FORWARD(ReadOnlySpanAction, T, TArg)
 namespace System::Private::CoreLib::System::IO {
 enum class SeekOrigin : int32_t;
 namespace MemoryStreamNamespace {
-using namespace Buffers;
-using namespace Threading;
-using namespace Threading::Tasks;
+using namespace System::Buffers;
+using namespace System::Threading;
+using namespace System::Threading::Tasks;
 CLASS(MemoryStream) : public Stream::in {
   public: Boolean get_CanRead();
   public: Boolean get_CanSeek();

@@ -21,7 +21,7 @@ namespace System::Private::CoreLib::System::Collections::Concurrent {
 FORWARD(ConcurrentQueueSegment, T)
 FORWARD(IProducerConsumerCollection, T)
 namespace ConcurrentQueueNamespace {
-using namespace Generic;
+using namespace System::Collections::Generic;
 template <class T>
 using IEnumerable = Generic::IEnumerable<T>;
 using IEnumerable_ = Collections::IEnumerable;

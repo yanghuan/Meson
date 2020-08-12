@@ -18,7 +18,7 @@ FORWARDS(ReadOnlySpan, T)
 FORWARDS(Span, T)
 FORWARD(String)
 namespace VersionNamespace {
-using namespace Text;
+using namespace System::Text;
 CLASS(Version) : public Object::in {
   public: using interface = rt::TypeList<ICloneable, IComparable<>, IComparable<Version>, IEquatable<Version>, ISpanFormattable>;
   public: Int32 get_Major();

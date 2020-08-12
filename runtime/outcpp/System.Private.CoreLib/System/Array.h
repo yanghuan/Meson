@@ -34,10 +34,10 @@ FORWARD(Predicate, T)
 FORWARDS(Span, T)
 FORWARD(Type)
 namespace ArrayNamespace {
-using namespace Collections;
-using namespace Collections::Generic;
-using namespace Collections::ObjectModel;
-using namespace Reflection;
+using namespace System::Collections;
+using namespace System::Collections::Generic;
+using namespace System::Collections::ObjectModel;
+using namespace System::Reflection;
 using IList = Collections::IList;
 using ICollection = Collections::ICollection;
 using IEnumerable = Collections::IEnumerable;

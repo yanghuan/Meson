@@ -12,7 +12,7 @@ FORWARDS(StreamingContext)
 } // namespace System::Private::CoreLib::System::Runtime::Serialization
 namespace System::Private::CoreLib::System::Reflection {
 namespace TargetInvocationExceptionNamespace {
-using namespace Runtime::Serialization;
+using namespace System::Runtime::Serialization;
 CLASS(TargetInvocationException) : public ApplicationException::in {
   public: void ctor(Exception inner);
   public: void ctor(String message, Exception inner);

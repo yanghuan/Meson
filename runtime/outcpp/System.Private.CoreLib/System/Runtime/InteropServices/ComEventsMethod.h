@@ -14,7 +14,7 @@ FORWARD(List, T)
 } // namespace System::Private::CoreLib::System::Collections::Generic
 namespace System::Private::CoreLib::System::Runtime::InteropServices {
 namespace ComEventsMethodNamespace {
-using namespace Collections::Generic;
+using namespace System::Collections::Generic;
 CLASS(ComEventsMethod) : public Object::in {
   public: CLASS(DelegateWrapper) : public Object::in {
     public: Delegate get_Delegate() { return Delegate; }

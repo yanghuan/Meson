@@ -41,7 +41,7 @@ FORWARD(ParameterBuilder)
 FORWARD(SignatureHelper)
 FORWARD(TypeBuilder)
 namespace MethodBuilderNamespace {
-using namespace Globalization;
+using namespace System::Globalization;
 CLASS(MethodBuilder) : public MethodInfo::in {
   public: Int32 get_ExceptionHandlerCount();
   public: String get_Name();

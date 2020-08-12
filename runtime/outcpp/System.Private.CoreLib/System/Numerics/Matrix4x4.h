@@ -20,7 +20,7 @@ FORWARDS(Matrix3x2)
 FORWARDS(Plane)
 FORWARDS(Quaternion)
 namespace Matrix4x4Namespace {
-using namespace Runtime::Intrinsics;
+using namespace System::Runtime::Intrinsics;
 struct Matrix4x4 : public valueType<Matrix4x4> {
   public: using interface = rt::TypeList<IEquatable<Matrix4x4>>;
   private: struct CanonicalBasis : public valueType<CanonicalBasis> {

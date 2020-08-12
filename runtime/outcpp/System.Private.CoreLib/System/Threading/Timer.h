@@ -20,7 +20,7 @@ FORWARD(TimerCallback)
 FORWARD(TimerHolder)
 FORWARD(WaitHandle)
 namespace TimerNamespace {
-using namespace Tasks;
+using namespace System::Threading::Tasks;
 CLASS(Timer) : public MarshalByRefObject::in {
   public: using interface = rt::TypeList<IDisposable, IAsyncDisposable>;
   public: static Int64 get_ActiveCount();

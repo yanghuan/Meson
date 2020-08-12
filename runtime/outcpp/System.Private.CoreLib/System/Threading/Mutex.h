@@ -11,7 +11,7 @@ FORWARD(SafeWaitHandle)
 } // namespace System::Private::CoreLib::Microsoft::Win32::SafeHandles
 namespace System::Private::CoreLib::System::Threading {
 namespace MutexNamespace {
-using namespace ::System::Private::CoreLib::Microsoft::Win32::SafeHandles;
+using namespace Microsoft::Win32::SafeHandles;
 CLASS(Mutex) : public WaitHandle::in {
   public: void ctor(Boolean initiallyOwned, String name, Boolean& createdNew);
   public: void ctor(Boolean initiallyOwned, String name);

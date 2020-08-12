@@ -11,8 +11,8 @@ namespace System::Private::CoreLib::System {
 FORWARD(Exception)
 FORWARD(String)
 namespace OperationCanceledExceptionNamespace {
-using namespace Runtime::Serialization;
-using namespace Threading;
+using namespace System::Runtime::Serialization;
+using namespace System::Threading;
 CLASS(OperationCanceledException) : public SystemException::in {
   public: CancellationToken get_CancellationToken();
   private: void set_CancellationToken(CancellationToken value);

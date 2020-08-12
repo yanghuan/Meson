@@ -32,9 +32,9 @@ FORWARD(Decoder)
 FORWARD(Encoder)
 FORWARD(Encoding)
 namespace TranscodingStreamNamespace {
-using namespace IO;
-using namespace Threading;
-using namespace Threading::Tasks;
+using namespace System::IO;
+using namespace System::Threading;
+using namespace System::Threading::Tasks;
 CLASS(TranscodingStream) : public Stream::in {
   public: Boolean get_CanRead();
   public: Boolean get_CanSeek();

@@ -16,7 +16,7 @@ FORWARD(ITypeInfo)
 namespace System::Private::CoreLib::System::Runtime::InteropServices {
 enum class InvokeFlags : int16_t;
 namespace IDispatchNamespace {
-using namespace ComTypes;
+using namespace System::Runtime::InteropServices::ComTypes;
 CLASS(IDispatch) : public Object::in {
   public: Int32 GetTypeInfoCount();
   public: ITypeInfo GetTypeInfo(Int32 iTInfo, Int32 lcid);

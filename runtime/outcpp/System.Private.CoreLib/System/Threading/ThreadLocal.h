@@ -17,7 +17,7 @@ FORWARD(List, T)
 } // namespace System::Private::CoreLib::System::Collections::Generic
 namespace System::Private::CoreLib::System::Threading {
 namespace ThreadLocalNamespace {
-using namespace Collections::Generic;
+using namespace System::Collections::Generic;
 CLASS(ThreadLocal, T) : public Object::in {
   public: using interface = rt::TypeList<IDisposable>;
   private: FORWARDN(LinkedSlot)

@@ -12,7 +12,7 @@ FORWARD(SafeWaitHandle)
 } // namespace System::Private::CoreLib::Microsoft::Win32::SafeHandles
 namespace System::Private::CoreLib::System::Threading {
 namespace SemaphoreNamespace {
-using namespace ::System::Private::CoreLib::Microsoft::Win32::SafeHandles;
+using namespace Microsoft::Win32::SafeHandles;
 CLASS(Semaphore) : public WaitHandle::in {
   public: void ctor(Int32 initialCount, Int32 maximumCount);
   public: void ctor(Int32 initialCount, Int32 maximumCount, String name);

@@ -11,7 +11,7 @@ FORWARDS(Single)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Numerics {
 namespace VectorMathNamespace {
-using namespace Runtime::Intrinsics;
+using namespace System::Runtime::Intrinsics;
 class VectorMath {
   public: static Vector128<Single> Lerp(Vector128<Single> a, Vector128<Single> b, Vector128<Single> t);
   public: static Boolean Equal(Vector128<Single> vector1, Vector128<Single> vector2);

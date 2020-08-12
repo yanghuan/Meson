@@ -25,10 +25,10 @@ enum class UltimateResourceFallbackLocation : int32_t;
 FORWARD(IResourceGroveler)
 FORWARD(ResourceSet)
 namespace ManifestBasedResourceGrovelerNamespace {
-using namespace Collections::Generic;
-using namespace Globalization;
-using namespace IO;
-using namespace Reflection;
+using namespace System::Collections::Generic;
+using namespace System::Globalization;
+using namespace System::IO;
+using namespace System::Reflection;
 CLASS(ManifestBasedResourceGroveler) : public Object::in {
   public: using interface = rt::TypeList<IResourceGroveler>;
   private: static Assembly InternalGetSatelliteAssembly(Assembly mainAssembly, CultureInfo culture, Version version);

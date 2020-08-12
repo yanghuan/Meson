@@ -15,8 +15,8 @@ FORWARD(SafeRegistryHandle)
 } // namespace System::Private::CoreLib::Internal::Win32::SafeHandles
 namespace System::Private::CoreLib::Internal::Win32 {
 namespace RegistryKeyNamespace {
-using namespace ::System::Private::CoreLib::System;
-using namespace SafeHandles;
+using namespace Internal::Win32::SafeHandles;
+using namespace System;
 CLASS(RegistryKey) : public Object::in {
   public: using interface = rt::TypeList<IDisposable>;
   private: void ctor(SafeRegistryHandle hkey);

@@ -23,8 +23,8 @@ FORWARD(CustomAttributeData)
 FORWARD(ICustomAttributeProvider)
 FORWARD(MemberInfo)
 namespace ParameterInfoNamespace {
-using namespace Collections::Generic;
-using namespace Runtime::Serialization;
+using namespace System::Collections::Generic;
+using namespace System::Runtime::Serialization;
 CLASS(ParameterInfo) : public Object::in {
   public: using interface = rt::TypeList<ICustomAttributeProvider, IObjectReference>;
   public: ParameterAttributes get_Attributes();

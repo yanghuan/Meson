@@ -46,12 +46,12 @@ FORWARD(RuntimeType)
 FORWARD(String)
 FORWARD(Type)
 namespace RuntimeTypeHandleNamespace {
-using namespace Reflection;
-using namespace Runtime::CompilerServices;
-using namespace Runtime::InteropServices;
-using namespace Runtime::Loader;
-using namespace Runtime::Serialization;
-using namespace Threading;
+using namespace System::Reflection;
+using namespace System::Runtime::CompilerServices;
+using namespace System::Runtime::InteropServices;
+using namespace System::Runtime::Loader;
+using namespace System::Runtime::Serialization;
+using namespace System::Threading;
 struct RuntimeTypeHandle : public valueType<RuntimeTypeHandle> {
   public: using interface = rt::TypeList<ISerializable>;
   public: struct IntroducedMethodEnumerator : public valueType<IntroducedMethodEnumerator> {

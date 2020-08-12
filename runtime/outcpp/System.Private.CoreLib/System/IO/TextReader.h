@@ -21,8 +21,8 @@ FORWARDS(CancellationToken)
 } // namespace System::Private::CoreLib::System::Threading
 namespace System::Private::CoreLib::System::IO {
 namespace TextReaderNamespace {
-using namespace Threading;
-using namespace Threading::Tasks;
+using namespace System::Threading;
+using namespace System::Threading::Tasks;
 CLASS(TextReader) : public MarshalByRefObject::in {
   public: using interface = rt::TypeList<IDisposable>;
   private: FRIENDN(NullTextReader)

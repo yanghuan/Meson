@@ -19,7 +19,7 @@ enum class EventFieldTags : int32_t;
 enum class TraceLoggingDataType : int32_t;
 FORWARD(FieldMetadata)
 namespace TraceLoggingMetadataCollectorNamespace {
-using namespace Collections::Generic;
+using namespace System::Collections::Generic;
 CLASS(TraceLoggingMetadataCollector) : public Object::in {
   private: CLASS(Impl) : public Object::in {
     public: void AddScalar(Int32 size);

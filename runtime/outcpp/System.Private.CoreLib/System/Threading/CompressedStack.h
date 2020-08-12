@@ -10,7 +10,7 @@ FORWARDS(StreamingContext)
 namespace System::Private::CoreLib::System::Threading {
 FORWARD_(ContextCallback, T1, T2)
 namespace CompressedStackNamespace {
-using namespace Runtime::Serialization;
+using namespace System::Runtime::Serialization;
 CLASS(CompressedStack) : public Object::in {
   public: using interface = rt::TypeList<ISerializable>;
   private: void ctor();

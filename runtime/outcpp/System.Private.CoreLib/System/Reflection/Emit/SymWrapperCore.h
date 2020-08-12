@@ -23,7 +23,7 @@ FORWARDS(UInt32)
 namespace System::Private::CoreLib::System::Reflection::Emit {
 FORWARD(PunkSafeHandle)
 namespace SymWrapperCoreNamespace {
-using namespace Diagnostics::SymbolStore;
+using namespace System::Diagnostics::SymbolStore;
 CLASS(SymWrapperCore) : public Object::in {
   private: CLASS(SymDocumentWriter) : public Object::in {
     public: using interface = rt::TypeList<ISymbolDocumentWriter>;

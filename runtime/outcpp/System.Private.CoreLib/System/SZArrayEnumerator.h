@@ -11,7 +11,7 @@ FORWARD_(Array, T1, T2)
 FORWARDS(Boolean)
 FORWARD(ICloneable)
 namespace SZArrayEnumeratorNamespace {
-using namespace Collections;
+using namespace System::Collections;
 CLASS(SZArrayEnumerator) : public Object::in {
   public: using interface = rt::TypeList<IEnumerator, ICloneable>;
   public: Object get_Current();

@@ -9,7 +9,7 @@ namespace System::Private::CoreLib::System {
 FORWARDS(Boolean)
 FORWARD(String)
 namespace StringNormalizationExtensionsNamespace {
-using namespace Text;
+using namespace System::Text;
 class StringNormalizationExtensions {
   public: static Boolean IsNormalized(String strInput);
   public: static Boolean IsNormalized(String strInput, NormalizationForm normalizationForm);

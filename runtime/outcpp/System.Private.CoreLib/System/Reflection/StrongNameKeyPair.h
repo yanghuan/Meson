@@ -18,8 +18,8 @@ FORWARD(FileStream)
 } // namespace System::Private::CoreLib::System::IO
 namespace System::Private::CoreLib::System::Reflection {
 namespace StrongNameKeyPairNamespace {
-using namespace IO;
-using namespace Runtime::Serialization;
+using namespace System::IO;
+using namespace System::Runtime::Serialization;
 CLASS(StrongNameKeyPair) : public Object::in {
   public: using interface = rt::TypeList<IDeserializationCallback, ISerializable>;
   public: Array<Byte> get_PublicKey();

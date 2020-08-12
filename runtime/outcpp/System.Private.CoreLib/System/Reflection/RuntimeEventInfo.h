@@ -25,7 +25,7 @@ FORWARD(Module)
 FORWARD(RuntimeMethodInfo)
 FORWARD(RuntimeModule)
 namespace RuntimeEventInfoNamespace {
-using namespace Collections::Generic;
+using namespace System::Collections::Generic;
 CLASS(RuntimeEventInfo) : public EventInfo::in {
   public: BindingFlags get_BindingFlags();
   public: MemberTypes get_MemberType();

@@ -38,7 +38,7 @@ FORWARD(ILGenerator)
 FORWARD(InternalModuleBuilder)
 FORWARD(ParameterBuilder)
 namespace DynamicMethodNamespace {
-using namespace Globalization;
+using namespace System::Globalization;
 CLASS(DynamicMethod) : public MethodInfo::in {
   public: CLASS(RTDynamicMethod) : public MethodInfo::in {
     public: String get_Name();

@@ -8,7 +8,7 @@ FORWARDS(CancellationToken)
 namespace System::Private::CoreLib::System::Collections::Generic {
 FORWARD(IAsyncEnumerator, T)
 namespace IAsyncEnumerableNamespace {
-using namespace Threading;
+using namespace System::Threading;
 CLASS(IAsyncEnumerable, T) : public Object::in {
   public: IAsyncEnumerator<T> GetAsyncEnumerator(CancellationToken cancellationToken);
   public: static constexpr rt::TypeCode code = rt::TypeCode::Interface;

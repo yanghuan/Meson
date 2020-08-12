@@ -15,9 +15,9 @@ FORWARDS(Int32)
 namespace System::Private::CoreLib::System::Threading::Tasks {
 FORWARD(IProducerConsumerQueue, T)
 namespace MultiProducerMultiConsumerQueueNamespace {
-using namespace Collections;
-using namespace Collections::Concurrent;
-using namespace Collections::Generic;
+using namespace System::Collections;
+using namespace System::Collections::Concurrent;
+using namespace System::Collections::Generic;
 template <class T>
 using IEnumerable = Collections::Generic::IEnumerable<T>;
 using IEnumerable_ = Collections::IEnumerable;

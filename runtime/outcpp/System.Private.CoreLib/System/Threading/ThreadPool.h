@@ -28,8 +28,8 @@ FORWARD(WaitCallback)
 FORWARD(WaitHandle)
 FORWARD(WaitOrTimerCallback)
 namespace ThreadPoolNamespace {
-using namespace Collections::Generic;
-using namespace Runtime::InteropServices;
+using namespace System::Collections::Generic;
+using namespace System::Runtime::InteropServices;
 class ThreadPool {
   public: static Int32 get_ThreadCount();
   public: static Int64 get_CompletedWorkItemCount();

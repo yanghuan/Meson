@@ -15,7 +15,7 @@ FORWARD(Object)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Collections::Generic {
 namespace EnumEqualityComparerNamespace {
-using namespace Runtime::Serialization;
+using namespace System::Runtime::Serialization;
 CLASS(EnumEqualityComparer, T) : public EqualityComparer<T>::in {
   public: using interface = rt::TypeList<ISerializable>;
   public: Boolean Equals(T x, T y);

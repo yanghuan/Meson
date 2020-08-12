@@ -9,7 +9,7 @@ FORWARD(ISerializable)
 namespace System::Private::CoreLib::System {
 FORWARDS(Boolean)
 namespace WeakReferenceNamespace {
-using namespace Runtime::Serialization;
+using namespace System::Runtime::Serialization;
 CLASS_FORWARD(WeakReference, T1, T2)
 CLASS_(WeakReference) : public Object::in {
   public: using interface = rt::TypeList<ISerializable>;

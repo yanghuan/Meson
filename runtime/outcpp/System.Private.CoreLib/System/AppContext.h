@@ -17,8 +17,8 @@ FORWARD(Object)
 FORWARD(String)
 FORWARD(UnhandledExceptionEventHandler)
 namespace AppContextNamespace {
-using namespace Collections::Generic;
-using namespace Runtime::ExceptionServices;
+using namespace System::Collections::Generic;
+using namespace System::Runtime::ExceptionServices;
 class AppContext {
   public: static String get_BaseDirectory();
   public: static String get_TargetFrameworkName();

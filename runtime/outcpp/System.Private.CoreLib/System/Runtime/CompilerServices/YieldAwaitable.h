@@ -16,7 +16,7 @@ FORWARD(ICriticalNotifyCompletion)
 FORWARD(INotifyCompletion)
 FORWARD(IStateMachineBoxAwareAwaiter)
 namespace YieldAwaitableNamespace {
-using namespace Threading;
+using namespace System::Threading;
 struct YieldAwaitable : public valueType<YieldAwaitable> {
   public: struct YieldAwaiter : public valueType<YieldAwaiter> {
     public: using interface = rt::TypeList<ICriticalNotifyCompletion, INotifyCompletion, IStateMachineBoxAwareAwaiter>;

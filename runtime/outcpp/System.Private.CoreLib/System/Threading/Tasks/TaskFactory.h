@@ -21,7 +21,7 @@ enum class TaskCreationOptions : int32_t;
 FORWARD(ITaskCompletionAction)
 FORWARD(TaskScheduler)
 namespace TaskFactoryNamespace {
-using namespace Collections::Generic;
+using namespace System::Collections::Generic;
 CLASS_FORWARD(TaskFactory, T1, T2)
 CLASS_(TaskFactory) : public Object::in {
   CLASS_FORWARD(CompleteOnCountdownPromise, T1, T2)

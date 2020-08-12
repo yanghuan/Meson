@@ -7,7 +7,7 @@ FORWARDS_(ValueTask, T1, T2)
 } // namespace System::Private::CoreLib::System::Threading::Tasks
 namespace System::Private::CoreLib::System {
 namespace IAsyncDisposableNamespace {
-using namespace Threading::Tasks;
+using namespace System::Threading::Tasks;
 CLASS(IAsyncDisposable) : public Object::in {
   public: ValueTask<> DisposeAsync();
   public: static constexpr rt::TypeCode code = rt::TypeCode::Interface;

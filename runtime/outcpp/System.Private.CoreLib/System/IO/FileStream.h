@@ -51,11 +51,11 @@ enum class FileOptions : int32_t;
 enum class FileShare : int32_t;
 enum class SeekOrigin : int32_t;
 namespace FileStreamNamespace {
-using namespace ::System::Private::CoreLib::Microsoft::Win32::SafeHandles;
-using namespace Buffers;
-using namespace Runtime::CompilerServices;
-using namespace Threading;
-using namespace Threading::Tasks;
+using namespace Microsoft::Win32::SafeHandles;
+using namespace System::Buffers;
+using namespace System::Runtime::CompilerServices;
+using namespace System::Threading;
+using namespace System::Threading::Tasks;
 CLASS(FileStream) : public Stream::in {
   private: CLASS(FileStreamCompletionSource) : public TaskCompletionSource<Int32>::in {
     public: NativeOverlapped* get_Overlapped();

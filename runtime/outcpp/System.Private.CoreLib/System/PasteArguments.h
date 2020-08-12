@@ -12,8 +12,8 @@ namespace System::Private::CoreLib::System {
 FORWARDS(Boolean)
 FORWARD(String)
 namespace PasteArgumentsNamespace {
-using namespace Collections::Generic;
-using namespace Text;
+using namespace System::Collections::Generic;
+using namespace System::Text;
 class PasteArguments {
   public: static void AppendArgument(StringBuilder stringBuilder, String argument);
   private: static Boolean ContainsNoWhitespaceOrQuotes(String s);

@@ -18,8 +18,8 @@ FORWARDS(Int32)
 FORWARD(Object)
 FORWARD(String)
 namespace CultureAwareComparerNamespace {
-using namespace Globalization;
-using namespace Runtime::Serialization;
+using namespace System::Globalization;
+using namespace System::Runtime::Serialization;
 CLASS(CultureAwareComparer) : public StringComparer::in {
   public: using interface = rt::TypeList<ISerializable>;
   public: void ctor(CultureInfo culture, CompareOptions options);

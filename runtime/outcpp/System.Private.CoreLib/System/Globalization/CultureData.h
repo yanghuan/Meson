@@ -25,7 +25,7 @@ FORWARD(CalendarData)
 FORWARD(CultureInfo)
 FORWARD(NumberFormatInfo)
 namespace CultureDataNamespace {
-using namespace Collections::Generic;
+using namespace System::Collections::Generic;
 CLASS(CultureData) : public Object::in {
   private: enum class LocaleStringData : uint32_t {
     LocalizedDisplayName = 2,

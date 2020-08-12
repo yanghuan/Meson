@@ -20,7 +20,7 @@ FORWARD(StringBuilder)
 namespace System::Private::CoreLib::System::Globalization {
 FORWARD(DateTimeFormatInfo)
 namespace TimeSpanFormatNamespace {
-using namespace Text;
+using namespace System::Text;
 class TimeSpanFormat {
   private: enum class StandardFormat : int32_t {
     C = 0,

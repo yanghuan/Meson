@@ -7,7 +7,7 @@ FORWARD(SynchronizationContext)
 } // namespace System::Private::CoreLib::System::Threading
 namespace System::Private::CoreLib::System {
 namespace ProgressStaticsNamespace {
-using namespace Threading;
+using namespace System::Threading;
 class ProgressStatics {
   private: static void ctor_static();
   public: static SynchronizationContext DefaultContext;

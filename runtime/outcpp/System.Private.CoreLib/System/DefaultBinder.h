@@ -21,8 +21,8 @@ FORWARD_(Array, T1, T2)
 FORWARD(String)
 FORWARD(Type)
 namespace DefaultBinderNamespace {
-using namespace Globalization;
-using namespace Reflection;
+using namespace System::Globalization;
+using namespace System::Reflection;
 CLASS(DefaultBinder) : public Binder::in {
   private: enum class Primitives : int32_t {
     Boolean = 8,

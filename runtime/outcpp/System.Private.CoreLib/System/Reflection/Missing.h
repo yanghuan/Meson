@@ -7,7 +7,7 @@ FORWARD(ISerializable)
 } // namespace System::Private::CoreLib::System::Runtime::Serialization
 namespace System::Private::CoreLib::System::Reflection {
 namespace MissingNamespace {
-using namespace Runtime::Serialization;
+using namespace System::Runtime::Serialization;
 CLASS(Missing) : public Object::in {
   public: using interface = rt::TypeList<ISerializable>;
   private: void ctor();

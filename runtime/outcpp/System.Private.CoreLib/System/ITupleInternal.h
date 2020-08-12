@@ -15,9 +15,9 @@ namespace System::Private::CoreLib::System {
 FORWARDS(Int32)
 FORWARD(String)
 namespace ITupleInternalNamespace {
-using namespace Collections;
-using namespace Runtime::CompilerServices;
-using namespace Text;
+using namespace System::Collections;
+using namespace System::Runtime::CompilerServices;
+using namespace System::Text;
 CLASS(ITupleInternal) : public Object::in {
   public: using interface = rt::TypeList<ITuple>;
   public: String ToString(StringBuilder sb);

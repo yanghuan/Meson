@@ -16,7 +16,7 @@ FORWARDS(StreamingContext)
 namespace System::Private::CoreLib::System::Threading::Tasks {
 FORWARD_(Task, T1, T2)
 namespace TaskCanceledExceptionNamespace {
-using namespace Runtime::Serialization;
+using namespace System::Runtime::Serialization;
 CLASS(TaskCanceledException) : public OperationCanceledException::in {
   public: Task<> get_Task();
   public: void ctor();

@@ -16,8 +16,8 @@ FORWARDS(Int32)
 FORWARD(Object)
 FORWARD(String)
 namespace SRNamespace {
-using namespace Collections::Generic;
-using namespace Resources;
+using namespace System::Collections::Generic;
+using namespace System::Resources;
 class SR {
   public: static ResourceManager get_ResourceManager();
   public: static String get_Acc_CreateAbstEx();

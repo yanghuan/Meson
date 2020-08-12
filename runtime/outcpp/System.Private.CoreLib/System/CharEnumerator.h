@@ -16,8 +16,8 @@ FORWARD(ICloneable)
 FORWARD(IDisposable)
 FORWARD(String)
 namespace CharEnumeratorNamespace {
-using namespace Collections;
-using namespace Collections::Generic;
+using namespace System::Collections;
+using namespace System::Collections::Generic;
 using IEnumerator = Collections::IEnumerator;
 template <class T>
 using IEnumerator_ = Collections::Generic::IEnumerator<T>;

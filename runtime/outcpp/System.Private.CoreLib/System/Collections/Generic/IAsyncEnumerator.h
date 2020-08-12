@@ -11,7 +11,7 @@ FORWARDS_(ValueTask, T1, T2)
 } // namespace System::Private::CoreLib::System::Threading::Tasks
 namespace System::Private::CoreLib::System::Collections::Generic {
 namespace IAsyncEnumeratorNamespace {
-using namespace Threading::Tasks;
+using namespace System::Threading::Tasks;
 CLASS(IAsyncEnumerator, T) : public Object::in {
   public: using interface = rt::TypeList<IAsyncDisposable>;
   public: T get_Current();

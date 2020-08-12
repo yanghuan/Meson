@@ -67,10 +67,10 @@ FORWARD(MethodBuilder)
 FORWARD(ModuleBuilder)
 FORWARD(PropertyBuilder)
 namespace TypeBuilderNamespace {
-using namespace Collections::Generic;
-using namespace Globalization;
-using namespace Runtime::CompilerServices;
-using namespace Runtime::InteropServices;
+using namespace System::Collections::Generic;
+using namespace System::Globalization;
+using namespace System::Runtime::CompilerServices;
+using namespace System::Runtime::InteropServices;
 CLASS(TypeBuilder) : public TypeInfo::in {
   private: CLASS(CustAttr) : public Object::in {
     public: void ctor(ConstructorInfo con, Array<Byte> binaryAttribute);

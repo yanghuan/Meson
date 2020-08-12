@@ -8,7 +8,7 @@ FORWARDS(IntPtr)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::Microsoft::Win32::SafeHandles {
 namespace SafeWaitHandleNamespace {
-using namespace ::System::Private::CoreLib::System;
+using namespace System;
 CLASS(SafeWaitHandle) : public SafeHandleZeroOrMinusOneIsInvalid::in {
   private: void ctor();
   public: void ctor(IntPtr existingHandle, Boolean ownsHandle);

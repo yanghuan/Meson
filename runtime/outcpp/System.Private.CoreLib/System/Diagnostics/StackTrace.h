@@ -20,8 +20,8 @@ namespace System::Private::CoreLib::System::Diagnostics {
 FORWARD(StackFrame)
 FORWARD(StackFrameHelper)
 namespace StackTraceNamespace {
-using namespace Reflection;
-using namespace Text;
+using namespace System::Reflection;
+using namespace System::Text;
 CLASS(StackTrace) : public Object::in {
   public: enum class TraceFormat : int32_t {
     Normal = 0,

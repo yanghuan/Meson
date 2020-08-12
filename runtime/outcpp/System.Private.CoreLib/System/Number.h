@@ -30,8 +30,8 @@ FORWARDS(ReadOnlySpan, T)
 FORWARDS(Single)
 FORWARD(String)
 namespace NumberNamespace {
-using namespace Globalization;
-using namespace Text;
+using namespace System::Globalization;
+using namespace System::Text;
 class Number {
   public: enum class NumberBufferKind : uint8_t {
     Unknown = 0,

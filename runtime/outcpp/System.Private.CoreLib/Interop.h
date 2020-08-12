@@ -59,16 +59,16 @@ FORWARD(SpanFunc, TSpan, T1, T2, T3, TResult)
 } // namespace System::Private::CoreLib::System::Buffers
 namespace System::Private::CoreLib {
 namespace InteropNamespace {
-using namespace ::System::Private::CoreLib::Internal::Win32::SafeHandles;
-using namespace ::System::Private::CoreLib::Microsoft::Win32::SafeHandles;
-using namespace ::System::Private::CoreLib::System;
-using namespace ::System::Private::CoreLib::System::Buffers;
-using namespace ::System::Private::CoreLib::System::Diagnostics::Tracing;
-using namespace ::System::Private::CoreLib::System::Globalization;
-using namespace ::System::Private::CoreLib::System::IO;
-using namespace ::System::Private::CoreLib::System::Runtime::InteropServices;
-using namespace ::System::Private::CoreLib::System::Text;
-using namespace ::System::Private::CoreLib::System::Threading;
+using namespace Internal::Win32::SafeHandles;
+using namespace Microsoft::Win32::SafeHandles;
+using namespace System;
+using namespace System::Buffers;
+using namespace System::Diagnostics::Tracing;
+using namespace System::Globalization;
+using namespace System::IO;
+using namespace System::Runtime::InteropServices;
+using namespace System::Text;
+using namespace System::Threading;
 class Interop {
   public: enum class BOOL : int32_t {
     FALSE = 0,

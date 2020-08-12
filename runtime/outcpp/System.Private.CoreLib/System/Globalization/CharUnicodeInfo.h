@@ -24,8 +24,8 @@ namespace System::Private::CoreLib::System::Globalization {
 enum class StrongBidiCategory : int32_t;
 enum class UnicodeCategory : int32_t;
 namespace CharUnicodeInfoNamespace {
-using namespace Text;
-using namespace Text::Unicode;
+using namespace System::Text;
+using namespace System::Text::Unicode;
 class CharUnicodeInfo {
   private: static ReadOnlySpan<Byte> get_CategoryCasingLevel1Index();
   private: static ReadOnlySpan<Byte> get_CategoryCasingLevel2Index();

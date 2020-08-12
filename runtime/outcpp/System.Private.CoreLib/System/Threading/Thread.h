@@ -51,11 +51,11 @@ FORWARDS(ThreadHandle)
 FORWARD(ThreadLocal, T)
 FORWARD(ThreadStart)
 namespace ThreadNamespace {
-using namespace Collections::Generic;
-using namespace Globalization;
-using namespace Runtime::ConstrainedExecution;
-using namespace Runtime::Serialization;
-using namespace Security::Principal;
+using namespace System::Collections::Generic;
+using namespace System::Globalization;
+using namespace System::Runtime::ConstrainedExecution;
+using namespace System::Runtime::Serialization;
+using namespace System::Security::Principal;
 CLASS(Thread) : public CriticalFinalizerObject::in {
   private: class LocalDataStore {
     public: static LocalDataStoreSlot AllocateSlot();

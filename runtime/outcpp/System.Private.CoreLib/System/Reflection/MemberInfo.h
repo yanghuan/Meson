@@ -19,7 +19,7 @@ FORWARD(CustomAttributeData)
 FORWARD(ICustomAttributeProvider)
 FORWARD(Module)
 namespace MemberInfoNamespace {
-using namespace Collections::Generic;
+using namespace System::Collections::Generic;
 CLASS(MemberInfo) : public Object::in {
   public: using interface = rt::TypeList<ICustomAttributeProvider>;
   public: MemberTypes get_MemberType();

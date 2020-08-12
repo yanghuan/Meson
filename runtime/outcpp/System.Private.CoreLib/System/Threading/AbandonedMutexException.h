@@ -15,7 +15,7 @@ namespace System::Private::CoreLib::System::Threading {
 FORWARD(Mutex)
 FORWARD(WaitHandle)
 namespace AbandonedMutexExceptionNamespace {
-using namespace Runtime::Serialization;
+using namespace System::Runtime::Serialization;
 CLASS(AbandonedMutexException) : public SystemException::in {
   public: Mutex get_Mutex();
   public: Int32 get_MutexIndex();

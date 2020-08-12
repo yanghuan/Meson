@@ -34,9 +34,9 @@ FORWARDS(RuntimeTypeHandle)
 FORWARD(String)
 FORWARDS(UInt32)
 namespace ModuleHandleNamespace {
-using namespace Reflection;
-using namespace Reflection::Emit;
-using namespace Runtime::CompilerServices;
+using namespace System::Reflection;
+using namespace System::Reflection::Emit;
+using namespace System::Runtime::CompilerServices;
 struct ModuleHandle : public valueType<ModuleHandle> {
   public: Int32 get_MDStreamVersion();
   private: static ModuleHandle GetEmptyMH();

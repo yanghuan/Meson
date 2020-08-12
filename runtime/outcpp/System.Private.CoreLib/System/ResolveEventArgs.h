@@ -8,7 +8,7 @@ FORWARD(Assembly)
 namespace System::Private::CoreLib::System {
 FORWARD(String)
 namespace ResolveEventArgsNamespace {
-using namespace Reflection;
+using namespace System::Reflection;
 CLASS(ResolveEventArgs) : public EventArgs::in {
   public: String get_Name() { return Name; }
   public: Assembly get_RequestingAssembly() { return RequestingAssembly; }

@@ -21,8 +21,8 @@ FORWARDS(Boolean)
 FORWARD(IDisposable)
 FORWARD(Object)
 namespace ArraySegmentNamespace {
-using namespace Collections;
-using namespace Collections::Generic;
+using namespace System::Collections;
+using namespace System::Collections::Generic;
 template <class T>
 using IList = Collections::Generic::IList<T>;
 template <class T>

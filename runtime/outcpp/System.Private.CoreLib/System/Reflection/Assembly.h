@@ -57,14 +57,14 @@ FORWARD(Module)
 FORWARD(RuntimeAssembly)
 FORWARD(TypeInfo)
 namespace AssemblyNamespace {
-using namespace Collections::Generic;
-using namespace Configuration::Assemblies;
-using namespace Globalization;
-using namespace IO;
-using namespace Runtime::CompilerServices;
-using namespace Runtime::Serialization;
-using namespace Security;
-using namespace Threading;
+using namespace System::Collections::Generic;
+using namespace System::Configuration::Assemblies;
+using namespace System::Globalization;
+using namespace System::IO;
+using namespace System::Runtime::CompilerServices;
+using namespace System::Runtime::Serialization;
+using namespace System::Security;
+using namespace System::Threading;
 CLASS(Assembly) : public Object::in {
   public: using interface = rt::TypeList<ICustomAttributeProvider, ISerializable>;
   public: IEnumerable<TypeInfo> get_DefinedTypes();

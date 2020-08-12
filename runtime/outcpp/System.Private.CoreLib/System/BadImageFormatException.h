@@ -11,7 +11,7 @@ FORWARD(Exception)
 FORWARDS(Int32)
 FORWARD(String)
 namespace BadImageFormatExceptionNamespace {
-using namespace Runtime::Serialization;
+using namespace System::Runtime::Serialization;
 CLASS(BadImageFormatException) : public SystemException::in {
   public: String get_Message();
   public: String get_FileName();

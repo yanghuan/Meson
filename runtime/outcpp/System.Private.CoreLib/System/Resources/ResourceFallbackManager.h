@@ -15,9 +15,9 @@ FORWARD(IEnumerable)
 } // namespace System::Private::CoreLib::System::Collections
 namespace System::Private::CoreLib::System::Resources {
 namespace ResourceFallbackManagerNamespace {
-using namespace Collections;
-using namespace Collections::Generic;
-using namespace Globalization;
+using namespace System::Collections;
+using namespace System::Collections::Generic;
+using namespace System::Globalization;
 template <class T>
 using IEnumerable = Collections::Generic::IEnumerable<T>;
 using IEnumerable_ = Collections::IEnumerable;

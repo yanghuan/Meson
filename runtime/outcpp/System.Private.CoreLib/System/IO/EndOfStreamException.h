@@ -12,7 +12,7 @@ FORWARDS(StreamingContext)
 } // namespace System::Private::CoreLib::System::Runtime::Serialization
 namespace System::Private::CoreLib::System::IO {
 namespace EndOfStreamExceptionNamespace {
-using namespace Runtime::Serialization;
+using namespace System::Runtime::Serialization;
 CLASS(EndOfStreamException) : public IOException::in {
   public: void ctor();
   public: void ctor(String message);

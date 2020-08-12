@@ -20,7 +20,7 @@ FORWARD(IEnumerable, T)
 } // namespace System::Private::CoreLib::System::Collections::Generic
 namespace System::Private::CoreLib::System::Runtime::InteropServices {
 namespace MemoryMarshalNamespace {
-using namespace Collections::Generic;
+using namespace System::Collections::Generic;
 class MemoryMarshal {
   public: template <class T>
   static T& GetArrayDataReference(Array<T> array);

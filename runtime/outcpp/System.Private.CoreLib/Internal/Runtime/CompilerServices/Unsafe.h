@@ -13,7 +13,7 @@ FORWARDS(UIntPtr)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::Internal::Runtime::CompilerServices {
 namespace UnsafeNamespace {
-using namespace ::System::Private::CoreLib::System;
+using namespace System;
 class Unsafe {
   public: template <class T>
   static void* AsPointer(T& value);

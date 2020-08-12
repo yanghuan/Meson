@@ -23,9 +23,9 @@ FORWARD(OrdinalCaseSensitiveComparer)
 FORWARD(OrdinalIgnoreCaseComparer)
 FORWARD(String)
 namespace StringComparerNamespace {
-using namespace Collections;
-using namespace Collections::Generic;
-using namespace Globalization;
+using namespace System::Collections;
+using namespace System::Collections::Generic;
+using namespace System::Globalization;
 using IComparer = Collections::IComparer;
 using IEqualityComparer = Collections::IEqualityComparer;
 template <class T>

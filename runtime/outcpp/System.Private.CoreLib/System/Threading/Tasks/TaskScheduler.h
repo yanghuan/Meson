@@ -18,8 +18,8 @@ namespace System::Private::CoreLib::System::Threading::Tasks {
 FORWARD_(Task, T1, T2)
 FORWARD(UnobservedTaskExceptionEventArgs)
 namespace TaskSchedulerNamespace {
-using namespace Collections::Generic;
-using namespace Runtime::CompilerServices;
+using namespace System::Collections::Generic;
+using namespace System::Runtime::CompilerServices;
 CLASS(TaskScheduler) : public Object::in {
   public: CLASS(SystemThreadingTasks_TaskSchedulerDebugView) : public Object::in {
     public: Int32 get_Id();

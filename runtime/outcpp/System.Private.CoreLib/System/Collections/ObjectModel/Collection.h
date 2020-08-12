@@ -22,7 +22,7 @@ FORWARDS(Int32)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Collections::ObjectModel {
 namespace CollectionNamespace {
-using namespace Generic;
+using namespace System::Collections::Generic;
 template <class T>
 using IList = Generic::IList<T>;
 template <class T>

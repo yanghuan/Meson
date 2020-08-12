@@ -44,9 +44,9 @@ FORWARDS(ParameterModifier)
 FORWARD(PropertyInfo)
 FORWARD(TypeFilter)
 namespace SignatureTypeNamespace {
-using namespace Collections::Generic;
-using namespace Globalization;
-using namespace Runtime::InteropServices;
+using namespace System::Collections::Generic;
+using namespace System::Globalization;
+using namespace System::Runtime::InteropServices;
 CLASS(SignatureType) : public Type::in {
   public: Boolean get_IsSignatureType();
   public: Boolean get_IsTypeDefinition();

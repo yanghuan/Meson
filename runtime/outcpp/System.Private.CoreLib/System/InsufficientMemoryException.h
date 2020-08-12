@@ -10,7 +10,7 @@ namespace System::Private::CoreLib::System {
 FORWARD(Exception)
 FORWARD(String)
 namespace InsufficientMemoryExceptionNamespace {
-using namespace Runtime::Serialization;
+using namespace System::Runtime::Serialization;
 CLASS(InsufficientMemoryException) : public OutOfMemoryException::in {
   public: void ctor();
   public: void ctor(String message);

@@ -12,7 +12,7 @@ FORWARDS(StreamingContext)
 } // namespace System::Private::CoreLib::System::Runtime::Serialization
 namespace System::Private::CoreLib::System::Runtime::InteropServices {
 namespace SafeArrayTypeMismatchExceptionNamespace {
-using namespace Serialization;
+using namespace System::Runtime::Serialization;
 CLASS(SafeArrayTypeMismatchException) : public SystemException::in {
   public: void ctor();
   public: void ctor(String message);

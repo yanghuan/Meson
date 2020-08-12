@@ -16,7 +16,7 @@ namespace System::Private::CoreLib::System::Globalization {
 enum class HebrewNumberParsingState : int32_t;
 FORWARDS(HebrewNumberParsingContext)
 namespace HebrewNumberNamespace {
-using namespace Text;
+using namespace System::Text;
 class HebrewNumber {
   private: enum class HebrewToken : int16_t {
     Invalid = -1,

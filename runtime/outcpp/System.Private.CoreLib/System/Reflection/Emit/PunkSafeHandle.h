@@ -12,7 +12,7 @@ FORWARD(Object)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Reflection::Emit {
 namespace PunkSafeHandleNamespace {
-using namespace Runtime::InteropServices;
+using namespace System::Runtime::InteropServices;
 CLASS(PunkSafeHandle) : public SafeHandle::in {
   private: CLASS(DRelease) : public MulticastDelegate::in {
     public: void ctor(Object object, IntPtr method);

@@ -18,8 +18,8 @@ FORWARD(Thread)
 namespace System::Private::CoreLib::System::Runtime::CompilerServices {
 FORWARD(IAsyncStateMachineBox)
 namespace AsyncTaskMethodBuilderNamespace {
-using namespace Threading;
-using namespace Threading::Tasks;
+using namespace System::Threading;
+using namespace System::Threading::Tasks;
 template <class T1 = void, class T2 = void>
 struct AsyncTaskMethodBuilder {
 };

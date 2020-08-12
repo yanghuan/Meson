@@ -17,7 +17,7 @@ FORWARDS(ReadOnlyMemory, T)
 FORWARDS(Span, T)
 FORWARD(String)
 namespace MemoryNamespace {
-using namespace Buffers;
+using namespace System::Buffers;
 template <class T>
 struct Memory : public valueType<Memory<T>> {
   public: using interface = rt::TypeList<IEquatable<Memory<T>>>;

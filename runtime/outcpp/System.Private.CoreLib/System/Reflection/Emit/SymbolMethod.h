@@ -28,7 +28,7 @@ namespace System::Private::CoreLib::System::Reflection::Emit {
 FORWARD(ModuleBuilder)
 FORWARD(SignatureHelper)
 namespace SymbolMethodNamespace {
-using namespace Globalization;
+using namespace System::Globalization;
 CLASS(SymbolMethod) : public MethodInfo::in {
   public: Module get_Module();
   public: Type get_ReflectedType();

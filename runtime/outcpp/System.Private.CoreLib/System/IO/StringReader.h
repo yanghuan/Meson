@@ -20,8 +20,8 @@ FORWARDS(CancellationToken)
 } // namespace System::Private::CoreLib::System::Threading
 namespace System::Private::CoreLib::System::IO {
 namespace StringReaderNamespace {
-using namespace Threading;
-using namespace Threading::Tasks;
+using namespace System::Threading;
+using namespace System::Threading::Tasks;
 CLASS(StringReader) : public TextReader::in {
   public: void ctor(String s);
   public: void Close();

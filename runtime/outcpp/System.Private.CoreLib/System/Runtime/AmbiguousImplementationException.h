@@ -11,7 +11,7 @@ FORWARDS(StreamingContext)
 } // namespace System::Private::CoreLib::System::Runtime::Serialization
 namespace System::Private::CoreLib::System::Runtime {
 namespace AmbiguousImplementationExceptionNamespace {
-using namespace Serialization;
+using namespace System::Runtime::Serialization;
 CLASS(AmbiguousImplementationException) : public Exception::in {
   public: void ctor();
   public: void ctor(String message);

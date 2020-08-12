@@ -4,7 +4,7 @@
 
 namespace System::Private::CoreLib::Microsoft::CodeAnalysis {
 namespace EmbeddedAttributeNamespace {
-using namespace ::System::Private::CoreLib::System;
+using namespace System;
 CLASS(EmbeddedAttribute) : public Attribute::in {
   public: void ctor();
 };

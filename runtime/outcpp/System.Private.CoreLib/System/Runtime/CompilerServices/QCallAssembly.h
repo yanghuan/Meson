@@ -8,7 +8,7 @@ FORWARD(RuntimeAssembly)
 } // namespace System::Private::CoreLib::System::Reflection
 namespace System::Private::CoreLib::System::Runtime::CompilerServices {
 namespace QCallAssemblyNamespace {
-using namespace Reflection;
+using namespace System::Reflection;
 struct QCallAssembly : public valueType<QCallAssembly> {
   public: explicit QCallAssembly(RuntimeAssembly& assembly);
   public: explicit QCallAssembly() {}

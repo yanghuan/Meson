@@ -15,7 +15,7 @@ FORWARD(ParameterizedThreadStart)
 namespace System::Private::CoreLib::System::Threading::Tasks {
 FORWARD_(Task, T1, T2)
 namespace ThreadPoolTaskSchedulerNamespace {
-using namespace Collections::Generic;
+using namespace System::Collections::Generic;
 CLASS(ThreadPoolTaskScheduler) : public TaskScheduler::in {
   public: void ctor();
   public: void QueueTask(Task<> task);

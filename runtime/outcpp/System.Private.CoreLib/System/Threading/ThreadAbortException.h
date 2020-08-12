@@ -11,7 +11,7 @@ FORWARDS(StreamingContext)
 } // namespace System::Private::CoreLib::System::Runtime::Serialization
 namespace System::Private::CoreLib::System::Threading {
 namespace ThreadAbortExceptionNamespace {
-using namespace Runtime::Serialization;
+using namespace System::Runtime::Serialization;
 CLASS(ThreadAbortException) : public SystemException::in {
   public: Object get_ExceptionState();
   public: void ctor();

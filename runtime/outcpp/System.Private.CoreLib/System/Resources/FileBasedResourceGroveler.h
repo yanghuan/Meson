@@ -17,8 +17,8 @@ namespace System::Private::CoreLib::System::Resources {
 FORWARD(IResourceGroveler)
 FORWARD(ResourceSet)
 namespace FileBasedResourceGrovelerNamespace {
-using namespace Collections::Generic;
-using namespace Globalization;
+using namespace System::Collections::Generic;
+using namespace System::Globalization;
 CLASS(FileBasedResourceGroveler) : public Object::in {
   public: using interface = rt::TypeList<IResourceGroveler>;
   public: void ctor(ResourceManager::in::ResourceManagerMediator mediator);

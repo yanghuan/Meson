@@ -16,7 +16,7 @@ FORWARDS(PropertyValue)
 FORWARD(TraceLoggingDataCollector)
 FORWARD(TraceLoggingMetadataCollector)
 namespace NullableTypeInfoNamespace {
-using namespace Collections::Generic;
+using namespace System::Collections::Generic;
 CLASS(NullableTypeInfo) : public TraceLoggingTypeInfo::in {
   public: void ctor(Type type, List<Type> recursionCheck);
   public: void WriteMetadata(TraceLoggingMetadataCollector collector, String name, EventFieldFormat format);

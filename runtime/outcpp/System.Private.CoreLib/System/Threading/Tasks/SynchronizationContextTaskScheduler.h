@@ -16,7 +16,7 @@ FORWARD(SynchronizationContext)
 namespace System::Private::CoreLib::System::Threading::Tasks {
 FORWARD_(Task, T1, T2)
 namespace SynchronizationContextTaskSchedulerNamespace {
-using namespace Collections::Generic;
+using namespace System::Collections::Generic;
 CLASS(SynchronizationContextTaskScheduler) : public TaskScheduler::in {
   public: Int32 get_MaximumConcurrencyLevel();
   public: void ctor();

@@ -20,7 +20,7 @@ FORWARD(MemberInfo)
 FORWARD(MethodInfo)
 FORWARD(PropertyInfo)
 namespace TypeInfoNamespace {
-using namespace Collections::Generic;
+using namespace System::Collections::Generic;
 CLASS(TypeInfo) : public Type::in {
   public: using interface = rt::TypeList<IReflectableType>;
   public: Array<Type> get_GenericTypeParameters();

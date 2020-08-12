@@ -176,18 +176,22 @@ namespace Meson.Compiler {
       }
     }
 
-    public static string GetFullNamespace(this ITypeDefinition reference, bool hasGlobal = false, ITypeDefinition definition = null) {
+    public static string GetFullNamespace(this ITypeDefinition reference, bool hasGlobal = false, ITypeDefinition definition = null, bool isForUsing= false) {
       if (definition != null && definition.ParentModule.AssemblyName == reference.ParentModule.AssemblyName) {
-        foreach (string i in definition.Namespace.GetAllNamespaces(".")) {
-          if (reference.Namespace.StartsWith(i)) {
-            string name;
-            if (reference.Namespace == i) {
-              int pos = reference.Namespace.LastIndexOf('.');
-              name = pos != -1 ? reference.Namespace.Substring(pos + 1).ReplaceDot() : reference.Namespace.ReplaceDot();
-            } else {
-              name = reference.Namespace.Substring(i.Length + 1).ReplaceDot();
+        if (isForUsing) {
+          return reference.Namespace.ReplaceDot();
+        } else {
+          foreach (string item in definition.Namespace.GetAllNamespaces(".")) {
+            if (reference.Namespace.StartsWith(item)) {
+              string name;
+              if (reference.Namespace == item) {
+                int pos = reference.Namespace.LastIndexOf('.');
+                name = pos != -1 ? reference.Namespace.Substring(pos + 1).ReplaceDot() : reference.Namespace.ReplaceDot();
+              } else {
+                name = reference.Namespace.Substring(item.Length + 1).ReplaceDot();
+              }
+              return name;
             }
-            return name;
           }
         }
       }

@@ -40,10 +40,10 @@ FORWARD(String)
 FORWARD(Type)
 FORWARDS(UInt32)
 namespace RuntimeMethodHandleNamespace {
-using namespace Reflection;
-using namespace Runtime::CompilerServices;
-using namespace Runtime::Serialization;
-using namespace Threading;
+using namespace System::Reflection;
+using namespace System::Runtime::CompilerServices;
+using namespace System::Runtime::Serialization;
+using namespace System::Threading;
 struct RuntimeMethodHandle : public valueType<RuntimeMethodHandle> {
   public: using interface = rt::TypeList<ISerializable>;
   public: IntPtr get_Value();

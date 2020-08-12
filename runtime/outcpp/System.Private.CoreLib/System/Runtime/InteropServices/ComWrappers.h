@@ -20,8 +20,8 @@ enum class ComWrappersScenario : int32_t;
 enum class CreateComInterfaceFlags : int32_t;
 enum class CreateObjectFlags : int32_t;
 namespace ComWrappersNamespace {
-using namespace Collections;
-using namespace CompilerServices;
+using namespace System::Collections;
+using namespace System::Runtime::CompilerServices;
 CLASS(ComWrappers) : public Object::in {
   public: struct ComInterfaceEntry : public valueType<ComInterfaceEntry> {
     public: Guid IID;

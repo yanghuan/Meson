@@ -17,8 +17,8 @@ FORWARD_(Array, T1, T2)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Runtime::InteropServices::CustomMarshalers {
 namespace EnumeratorViewOfEnumVariantNamespace {
-using namespace Collections;
-using namespace ComTypes;
+using namespace System::Collections;
+using namespace System::Runtime::InteropServices::ComTypes;
 CLASS(EnumeratorViewOfEnumVariant) : public Object::in {
   public: using interface = rt::TypeList<ICustomAdapter, IEnumerator>;
   public: Object get_Current();

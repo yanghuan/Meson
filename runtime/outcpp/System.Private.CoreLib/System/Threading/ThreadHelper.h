@@ -12,7 +12,7 @@ namespace System::Private::CoreLib::System::Threading {
 FORWARD_(ContextCallback, T1, T2)
 FORWARD(ExecutionContext)
 namespace ThreadHelperNamespace {
-using namespace Globalization;
+using namespace System::Globalization;
 CLASS(ThreadHelper) : public Object::in {
   public: void ctor(Delegate start);
   public: void SetExecutionContextHelper(ExecutionContext ec);

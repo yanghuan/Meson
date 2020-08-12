@@ -31,8 +31,8 @@ FORWARD(ParameterInfo)
 FORWARD(RuntimeMethodInfo)
 FORWARD(RuntimeModule)
 namespace RuntimePropertyInfoNamespace {
-using namespace Collections::Generic;
-using namespace Globalization;
+using namespace System::Collections::Generic;
+using namespace System::Globalization;
 CLASS(RuntimePropertyInfo) : public PropertyInfo::in {
   public: Signature get_Signature();
   public: BindingFlags get_BindingFlags();

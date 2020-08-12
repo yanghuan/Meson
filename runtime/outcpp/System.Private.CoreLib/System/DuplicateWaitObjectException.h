@@ -10,7 +10,7 @@ namespace System::Private::CoreLib::System {
 FORWARD(Exception)
 FORWARD(String)
 namespace DuplicateWaitObjectExceptionNamespace {
-using namespace Runtime::Serialization;
+using namespace System::Runtime::Serialization;
 CLASS(DuplicateWaitObjectException) : public ArgumentException::in {
   public: void ctor();
   public: void ctor(String parameterName);

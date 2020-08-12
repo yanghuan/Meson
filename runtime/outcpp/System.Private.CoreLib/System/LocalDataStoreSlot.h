@@ -7,7 +7,7 @@ FORWARD(ThreadLocal, T)
 } // namespace System::Private::CoreLib::System::Threading
 namespace System::Private::CoreLib::System {
 namespace LocalDataStoreSlotNamespace {
-using namespace Threading;
+using namespace System::Threading;
 CLASS(LocalDataStoreSlot) : public Object::in {
   public: ThreadLocal<Object> get_Data() { return Data; }
   private: void set_Data(ThreadLocal<Object> value) { Data = value; }

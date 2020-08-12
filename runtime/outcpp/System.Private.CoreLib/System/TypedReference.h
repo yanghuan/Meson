@@ -17,7 +17,7 @@ FORWARD(RuntimeType)
 FORWARDS(RuntimeTypeHandle)
 FORWARD(Type)
 namespace TypedReferenceNamespace {
-using namespace Reflection;
+using namespace System::Reflection;
 struct TypedReference : public valueType<TypedReference> {
   public: Boolean get_IsNull();
   public: static TypedReference MakeTypedReference(Object target, Array<FieldInfo> flds);

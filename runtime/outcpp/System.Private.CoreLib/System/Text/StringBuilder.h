@@ -36,8 +36,8 @@ FORWARD(IEnumerable, T)
 } // namespace System::Private::CoreLib::System::Collections::Generic
 namespace System::Private::CoreLib::System::Text {
 namespace StringBuilderNamespace {
-using namespace Collections::Generic;
-using namespace Runtime::Serialization;
+using namespace System::Collections::Generic;
+using namespace System::Runtime::Serialization;
 CLASS(StringBuilder) : public Object::in {
   public: using interface = rt::TypeList<ISerializable>;
   public: struct ChunkEnumerator : public valueType<ChunkEnumerator> {

@@ -20,7 +20,7 @@ FORWARDS(ReadOnlySpan, T)
 FORWARDS(Span, T)
 FORWARD(String)
 namespace Int32Namespace {
-using namespace Globalization;
+using namespace System::Globalization;
 struct Int32 : public valueType<Int32> {
   public: using interface = rt::TypeList<IComparable<>, IConvertible, IFormattable, IComparable<Int32>, IEquatable<Int32>, ISpanFormattable>;
   public: constexpr Int32() noexcept : m_value(0) {}

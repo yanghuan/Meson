@@ -10,7 +10,7 @@ namespace System::Private::CoreLib::System {
 FORWARD(Exception)
 FORWARD(String)
 namespace TypeInitializationExceptionNamespace {
-using namespace Runtime::Serialization;
+using namespace System::Runtime::Serialization;
 CLASS(TypeInitializationException) : public SystemException::in {
   public: String get_TypeName();
   private: void ctor();

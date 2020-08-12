@@ -22,8 +22,8 @@ FORWARD(String)
 FORWARDS(UInt32)
 FORWARDS(UInt64)
 namespace UIntPtrNamespace {
-using namespace Globalization;
-using namespace Runtime::Serialization;
+using namespace System::Globalization;
+using namespace System::Runtime::Serialization;
 struct UIntPtr : public valueType<UIntPtr> {
   public: using interface = rt::TypeList<IEquatable<UIntPtr>, IComparable<>, IComparable<UIntPtr>, IFormattable, ISerializable>;
   public: static Int32 get_Size();

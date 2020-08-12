@@ -9,7 +9,7 @@ FORWARD(String)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::Internal::IO {
 namespace FileNamespace {
-using namespace ::System::Private::CoreLib::System;
+using namespace System;
 class File {
   public: static Boolean Exists(String path);
   public: static Boolean InternalExists(String fullPath);

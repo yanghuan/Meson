@@ -28,8 +28,8 @@ FORWARD(Binder)
 FORWARD(MethodBody)
 FORWARD(ParameterInfo)
 namespace MethodBaseNamespace {
-using namespace Globalization;
-using namespace Text;
+using namespace System::Globalization;
+using namespace System::Text;
 CLASS(MethodBase) : public MemberInfo::in {
   public: MethodAttributes get_Attributes();
   public: MethodImplAttributes get_MethodImplementationFlags();

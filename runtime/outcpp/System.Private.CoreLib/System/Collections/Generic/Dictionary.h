@@ -36,7 +36,7 @@ FORWARD(IEqualityComparer, T)
 FORWARD(IReadOnlyCollection, T)
 FORWARD(IReadOnlyDictionary, TKey, TValue)
 namespace DictionaryNamespace {
-using namespace Runtime::Serialization;
+using namespace System::Runtime::Serialization;
 template <class TKey, class TValue>
 using IDictionary = Generic::IDictionary<TKey, TValue>;
 template <class T>

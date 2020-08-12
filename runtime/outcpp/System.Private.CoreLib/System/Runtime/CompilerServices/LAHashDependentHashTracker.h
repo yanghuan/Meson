@@ -6,7 +6,7 @@
 
 namespace System::Private::CoreLib::System::Runtime::CompilerServices {
 namespace LAHashDependentHashTrackerNamespace {
-using namespace InteropServices;
+using namespace System::Runtime::InteropServices;
 CLASS(LAHashDependentHashTracker) : public Object::in {
   protected: void Finalize();
   public: void ctor();

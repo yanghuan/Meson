@@ -16,8 +16,8 @@ FORWARD(ConcurrentQueue, T)
 namespace System::Private::CoreLib::System::Threading {
 FORWARD(ThreadPoolWorkQueueThreadLocals)
 namespace ThreadPoolWorkQueueNamespace {
-using namespace ::System::Private::CoreLib::Internal;
-using namespace Collections::Concurrent;
+using namespace Internal;
+using namespace System::Collections::Concurrent;
 CLASS(ThreadPoolWorkQueue) : public Object::in {
   public: CLASS(WorkStealingQueue) : public Object::in {
     public: Boolean get_CanSteal();

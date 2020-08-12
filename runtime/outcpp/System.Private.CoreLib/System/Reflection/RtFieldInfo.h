@@ -26,7 +26,7 @@ enum class INVOCATION_FLAGS : uint32_t;
 FORWARD(Binder)
 FORWARD(RuntimeModule)
 namespace RtFieldInfoNamespace {
-using namespace Globalization;
+using namespace System::Globalization;
 CLASS(RtFieldInfo) : public RuntimeFieldInfo::in {
   public: using interface = rt::TypeList<IRuntimeFieldInfo>;
   public: INVOCATION_FLAGS get_InvocationFlags();

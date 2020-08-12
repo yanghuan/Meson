@@ -15,8 +15,8 @@ FORWARD(String)
 namespace System::Private::CoreLib::System::Resources {
 FORWARD(ResourceSet)
 namespace IResourceGrovelerNamespace {
-using namespace Collections::Generic;
-using namespace Globalization;
+using namespace System::Collections::Generic;
+using namespace System::Globalization;
 CLASS(IResourceGroveler) : public Object::in {
   public: ResourceSet GrovelForResourceSet(CultureInfo culture, Dictionary<String, ResourceSet> localResourceSets, Boolean tryParents, Boolean createIfNotExists);
   public: static constexpr rt::TypeCode code = rt::TypeCode::Interface;

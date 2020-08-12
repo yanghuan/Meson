@@ -21,9 +21,9 @@ namespace System::Private::CoreLib::System::Resources {
 FORWARDS(ResourceLocator)
 FORWARD(ResourceReader)
 namespace RuntimeResourceSetNamespace {
-using namespace Collections;
-using namespace Collections::Generic;
-using namespace IO;
+using namespace System::Collections;
+using namespace System::Collections::Generic;
+using namespace System::IO;
 using IEnumerable = Collections::IEnumerable;
 CLASS(RuntimeResourceSet) : public ResourceSet::in {
   public: using interface = rt::TypeList<IEnumerable>;

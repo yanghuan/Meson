@@ -11,7 +11,7 @@ FORWARD(Exception)
 FORWARDS(Int32)
 FORWARD(String)
 namespace InvalidCastExceptionNamespace {
-using namespace Runtime::Serialization;
+using namespace System::Runtime::Serialization;
 CLASS(InvalidCastException) : public SystemException::in {
   public: void ctor();
   public: void ctor(String message);

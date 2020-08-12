@@ -22,7 +22,7 @@ FORWARDS(ReadOnlySpan, T)
 FORWARDS(Span, T)
 FORWARD(String)
 namespace UInt16Namespace {
-using namespace Globalization;
+using namespace System::Globalization;
 struct UInt16 : public valueType<UInt16> {
   public: using interface = rt::TypeList<IComparable<>, IConvertible, IFormattable, IComparable<UInt16>, IEquatable<UInt16>, ISpanFormattable>;
   public: constexpr UInt16() noexcept : m_value(0) {}

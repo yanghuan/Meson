@@ -15,8 +15,8 @@ FORWARD(CultureInfo)
 } // namespace System::Private::CoreLib::System::Globalization
 namespace System::Private::CoreLib::Microsoft::Win32 {
 namespace OAVariantLibNamespace {
-using namespace ::System::Private::CoreLib::System;
-using namespace ::System::Private::CoreLib::System::Globalization;
+using namespace System;
+using namespace System::Globalization;
 class OAVariantLib {
   public: static Variant ChangeType(Variant source, Type targetClass, Int16 options, CultureInfo culture);
   private: static Int32 GetCVTypeFromClass(Type ctype);

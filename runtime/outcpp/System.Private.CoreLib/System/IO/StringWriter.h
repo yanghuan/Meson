@@ -25,9 +25,9 @@ FORWARDS(CancellationToken)
 } // namespace System::Private::CoreLib::System::Threading
 namespace System::Private::CoreLib::System::IO {
 namespace StringWriterNamespace {
-using namespace Text;
-using namespace Threading;
-using namespace Threading::Tasks;
+using namespace System::Text;
+using namespace System::Threading;
+using namespace System::Threading::Tasks;
 CLASS(StringWriter) : public TextWriter::in {
   public: Encoding get_Encoding();
   public: void ctor();

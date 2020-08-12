@@ -11,7 +11,7 @@ FORWARD_(Func, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15,
 FORWARD(LazyHelper)
 FORWARDS_(Nullable, T1, T2)
 namespace LazyNamespace {
-using namespace Threading;
+using namespace System::Threading;
 CLASS_FORWARD(Lazy, T1, T2, T3)
 CLASS_(Lazy, T) : public Object::in {
   public: T get_ValueForDebugDisplay();

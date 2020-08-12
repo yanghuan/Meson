@@ -32,7 +32,7 @@ FORWARD(ModuleBuilder)
 FORWARD(SignatureHelper)
 FORWARD(TypeBuilder)
 namespace PropertyBuilderNamespace {
-using namespace Globalization;
+using namespace System::Globalization;
 CLASS(PropertyBuilder) : public PropertyInfo::in {
   public: PropertyToken get_PropertyToken();
   public: Module get_Module();

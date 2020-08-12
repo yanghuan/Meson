@@ -16,8 +16,8 @@ FORWARDS(Int32)
 FORWARD(IValueTupleInternal)
 FORWARD(Object)
 namespace ValueTupleNamespace {
-using namespace Collections;
-using namespace Runtime::CompilerServices;
+using namespace System::Collections;
+using namespace System::Runtime::CompilerServices;
 template <class T1 = void, class T2 = void, class T3 = void, class T4 = void, class T5 = void, class T6 = void, class T7 = void, class T8 = void, class T9 = void>
 struct ValueTuple {
 };

@@ -18,8 +18,8 @@ FORWARDS(IntPtr)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Runtime::InteropServices::CustomMarshalers {
 namespace EnumVariantViewOfEnumeratorNamespace {
-using namespace Collections;
-using namespace ComTypes;
+using namespace System::Collections;
+using namespace System::Runtime::InteropServices::ComTypes;
 CLASS(EnumVariantViewOfEnumerator) : public Object::in {
   public: using interface = rt::TypeList<IEnumVARIANT, ICustomAdapter>;
   public: IEnumerator get_Enumerator() { return Enumerator; }

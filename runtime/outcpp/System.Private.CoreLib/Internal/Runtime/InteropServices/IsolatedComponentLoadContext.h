@@ -15,9 +15,9 @@ FORWARD(AssemblyDependencyResolver)
 } // namespace System::Private::CoreLib::System::Runtime::Loader
 namespace System::Private::CoreLib::Internal::Runtime::InteropServices {
 namespace IsolatedComponentLoadContextNamespace {
-using namespace ::System::Private::CoreLib::System;
-using namespace ::System::Private::CoreLib::System::Reflection;
-using namespace ::System::Private::CoreLib::System::Runtime::Loader;
+using namespace System;
+using namespace System::Reflection;
+using namespace System::Runtime::Loader;
 CLASS(IsolatedComponentLoadContext) : public AssemblyLoadContext::in {
   public: void ctor(String componentAssemblyPath);
   protected: Assembly Load(AssemblyName assemblyName);

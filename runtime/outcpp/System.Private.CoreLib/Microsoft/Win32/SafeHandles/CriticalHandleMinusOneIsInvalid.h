@@ -7,8 +7,8 @@ FORWARDS(Boolean)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::Microsoft::Win32::SafeHandles {
 namespace CriticalHandleMinusOneIsInvalidNamespace {
-using namespace ::System::Private::CoreLib::System;
-using namespace ::System::Private::CoreLib::System::Runtime::InteropServices;
+using namespace System;
+using namespace System::Runtime::InteropServices;
 CLASS(CriticalHandleMinusOneIsInvalid) : public CriticalHandle::in {
   public: Boolean get_IsInvalid();
   protected: void ctor();

@@ -19,8 +19,8 @@ FORWARDS(UInt32)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::CodeDom::Compiler {
 namespace IndentedTextWriterNamespace {
-using namespace IO;
-using namespace Text;
+using namespace System::IO;
+using namespace System::Text;
 CLASS(IndentedTextWriter) : public TextWriter::in {
   public: Encoding get_Encoding();
   public: String get_NewLine();

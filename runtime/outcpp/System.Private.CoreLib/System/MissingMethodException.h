@@ -10,7 +10,7 @@ namespace System::Private::CoreLib::System {
 FORWARD(Exception)
 FORWARD(String)
 namespace MissingMethodExceptionNamespace {
-using namespace Runtime::Serialization;
+using namespace System::Runtime::Serialization;
 CLASS(MissingMethodException) : public MissingMemberException::in {
   public: String get_Message();
   public: void ctor();

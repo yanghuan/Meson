@@ -21,7 +21,7 @@ enum class OperationStatus : int32_t;
 namespace System::Private::CoreLib::System::Text::Unicode {
 enum class GraphemeClusterBreakType : int32_t;
 namespace TextSegmentationUtilityNamespace {
-using namespace Buffers;
+using namespace System::Buffers;
 class TextSegmentationUtility {
   private: CLASS(DecodeFirstRune, T) : public MulticastDelegate::in {
     public: void ctor(Object object, IntPtr method);

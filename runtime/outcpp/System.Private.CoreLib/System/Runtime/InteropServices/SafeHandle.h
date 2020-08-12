@@ -10,7 +10,7 @@ FORWARD(IDisposable)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Runtime::InteropServices {
 namespace SafeHandleNamespace {
-using namespace ConstrainedExecution;
+using namespace System::Runtime::ConstrainedExecution;
 CLASS(SafeHandle) : public CriticalFinalizerObject::in {
   public: using interface = rt::TypeList<IDisposable>;
   public: Boolean get_IsClosed();

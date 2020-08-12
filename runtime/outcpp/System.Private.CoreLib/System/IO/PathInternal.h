@@ -15,7 +15,7 @@ FORWARDS(ValueStringBuilder)
 } // namespace System::Private::CoreLib::System::Text
 namespace System::Private::CoreLib::System::IO {
 namespace PathInternalNamespace {
-using namespace Text;
+using namespace System::Text;
 class PathInternal {
   public: static Boolean StartsWithDirectorySeparator(ReadOnlySpan<Char> path);
   public: static Boolean IsRoot(ReadOnlySpan<Char> path);

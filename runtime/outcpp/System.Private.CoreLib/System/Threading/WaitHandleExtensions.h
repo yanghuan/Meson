@@ -8,7 +8,7 @@ FORWARD(SafeWaitHandle)
 namespace System::Private::CoreLib::System::Threading {
 FORWARD(WaitHandle)
 namespace WaitHandleExtensionsNamespace {
-using namespace ::System::Private::CoreLib::Microsoft::Win32::SafeHandles;
+using namespace Microsoft::Win32::SafeHandles;
 class WaitHandleExtensions {
   public: static SafeWaitHandle GetSafeWaitHandle(WaitHandle waitHandle);
   public: static void SetSafeWaitHandle(WaitHandle waitHandle, SafeWaitHandle value);

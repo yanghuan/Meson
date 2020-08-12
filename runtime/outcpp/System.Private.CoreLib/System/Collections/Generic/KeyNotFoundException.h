@@ -12,7 +12,7 @@ FORWARDS(StreamingContext)
 } // namespace System::Private::CoreLib::System::Runtime::Serialization
 namespace System::Private::CoreLib::System::Collections::Generic {
 namespace KeyNotFoundExceptionNamespace {
-using namespace Runtime::Serialization;
+using namespace System::Runtime::Serialization;
 CLASS(KeyNotFoundException) : public SystemException::in {
   public: void ctor();
   public: void ctor(String message);

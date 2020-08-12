@@ -13,7 +13,7 @@ FORWARDS(Int32)
 FORWARD(String)
 FORWARD(Version)
 namespace ApplicationIdNamespace {
-using namespace Text;
+using namespace System::Text;
 CLASS(ApplicationId) : public Object::in {
   public: String get_Culture() { return Culture; }
   public: String get_Name() { return Name; }

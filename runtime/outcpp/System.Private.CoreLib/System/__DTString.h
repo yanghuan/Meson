@@ -16,7 +16,7 @@ FORWARD_(Array, T1, T2)
 FORWARDS(DTSubString)
 FORWARD(String)
 namespace __DTStringNamespace {
-using namespace Globalization;
+using namespace System::Globalization;
 struct __DTString : public valueType<__DTString> {
   public: Int32 get_Length();
   public: CompareInfo get_CompareInfo();

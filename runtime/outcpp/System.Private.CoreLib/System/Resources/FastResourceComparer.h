@@ -19,8 +19,8 @@ FORWARD(String)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Resources {
 namespace FastResourceComparerNamespace {
-using namespace Collections;
-using namespace Collections::Generic;
+using namespace System::Collections;
+using namespace System::Collections::Generic;
 using IComparer = Collections::IComparer;
 using IEqualityComparer = Collections::IEqualityComparer;
 template <class T>

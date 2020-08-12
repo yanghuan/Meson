@@ -10,7 +10,7 @@ FORWARDS(Span, T)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Runtime::InteropServices {
 namespace CollectionsMarshalNamespace {
-using namespace Collections::Generic;
+using namespace System::Collections::Generic;
 class CollectionsMarshal {
   public: template <class T>
   static Span<T> AsSpan(List<T> list);

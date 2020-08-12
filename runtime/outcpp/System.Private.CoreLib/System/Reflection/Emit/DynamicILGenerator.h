@@ -35,8 +35,8 @@ FORWARD(LocalBuilder)
 FORWARDS(OpCode)
 FORWARD(SignatureHelper)
 namespace DynamicILGeneratorNamespace {
-using namespace Diagnostics::SymbolStore;
-using namespace Runtime::InteropServices;
+using namespace System::Diagnostics::SymbolStore;
+using namespace System::Runtime::InteropServices;
 CLASS(DynamicILGenerator) : public ILGenerator::in {
   public: void ctor(DynamicMethod method, Array<Byte> methodSignature, Int32 size);
   public: void GetCallableMethod(RuntimeModule module, DynamicMethod dm);

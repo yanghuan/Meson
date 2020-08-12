@@ -11,7 +11,7 @@ FORWARDS(Int32)
 FORWARD(Object)
 FORWARD(RuntimeType)
 namespace __ComObjectNamespace {
-using namespace Collections;
+using namespace System::Collections;
 CLASS(__ComObject) : public MarshalByRefObject::in {
   protected: void ctor();
   public: Object GetData(Object key);

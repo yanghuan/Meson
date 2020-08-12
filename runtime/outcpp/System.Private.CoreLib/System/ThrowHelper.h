@@ -20,7 +20,7 @@ FORWARD(Object)
 FORWARD(String)
 FORWARD(Type)
 namespace ThrowHelperNamespace {
-using namespace Collections::Generic;
+using namespace System::Collections::Generic;
 class ThrowHelper {
   public: static void ThrowArrayTypeMismatchException();
   public: static void ThrowInvalidTypeWithPointersNotSupported(Type targetType);

@@ -33,8 +33,8 @@ namespace System::Private::CoreLib::System::IO {
 enum class SeekOrigin : int32_t;
 FORWARD(Stream)
 namespace BinaryWriterNamespace {
-using namespace Text;
-using namespace Threading::Tasks;
+using namespace System::Text;
+using namespace System::Threading::Tasks;
 CLASS(BinaryWriter) : public Object::in {
   public: using interface = rt::TypeList<IDisposable, IAsyncDisposable>;
   public: Stream get_BaseStream();

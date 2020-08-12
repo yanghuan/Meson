@@ -11,7 +11,7 @@ FORWARDS(Boolean)
 FORWARDS(Int32)
 FORWARD(Object)
 namespace HashCodeNamespace {
-using namespace Collections::Generic;
+using namespace System::Collections::Generic;
 struct HashCode : public valueType<HashCode> {
   private: static UInt32 GenerateGlobalSeed();
   public: template <class T1>

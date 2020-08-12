@@ -33,8 +33,8 @@ FORWARDS(Span, T)
 FORWARD(String)
 FORWARDS(TimeSpan)
 namespace DateTimeOffsetNamespace {
-using namespace Globalization;
-using namespace Runtime::Serialization;
+using namespace System::Globalization;
+using namespace System::Runtime::Serialization;
 struct DateTimeOffset : public valueType<DateTimeOffset> {
   public: using interface = rt::TypeList<IComparable<>, IFormattable, IComparable<DateTimeOffset>, IEquatable<DateTimeOffset>, ISerializable, IDeserializationCallback, ISpanFormattable>;
   public: static DateTimeOffset get_Now();

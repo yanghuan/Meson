@@ -23,7 +23,7 @@ namespace System::Private::CoreLib::System::Reflection::Emit {
 FORWARD(ModuleBuilder)
 FORWARDS(TypeToken)
 namespace SignatureHelperNamespace {
-using namespace Runtime::InteropServices;
+using namespace System::Runtime::InteropServices;
 CLASS(SignatureHelper) : public Object::in {
   public: Int32 get_ArgumentCount();
   public: static SignatureHelper GetMethodSigHelper(Module mod, Type returnType, Array<Type> parameterTypes);

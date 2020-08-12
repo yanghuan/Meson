@@ -28,7 +28,7 @@ namespace ConsolePalNamespace {
 using namespace ::System::Private::CoreLib::System;
 using namespace ::System::Private::CoreLib::System::IO;
 using namespace ::System::Private::CoreLib::System::Text;
-using namespace IO;
+using namespace System::IO;
 class ConsolePal {
   public: enum class ControlKeyState : int32_t {
     RightAltPressed = 1,

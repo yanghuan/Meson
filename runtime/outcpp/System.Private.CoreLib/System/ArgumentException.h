@@ -10,7 +10,7 @@ namespace System::Private::CoreLib::System {
 FORWARD(Exception)
 FORWARD(String)
 namespace ArgumentExceptionNamespace {
-using namespace Runtime::Serialization;
+using namespace System::Runtime::Serialization;
 CLASS(ArgumentException) : public SystemException::in {
   public: String get_Message();
   public: String get_ParamName();

@@ -35,10 +35,10 @@ enum class ResourceTypeCode : int32_t;
 FORWARD(IResourceReader)
 FORWARDS(ResourceLocator)
 namespace ResourceReaderNamespace {
-using namespace Collections;
-using namespace Collections::Generic;
-using namespace IO;
-using namespace Reflection;
+using namespace System::Collections;
+using namespace System::Collections::Generic;
+using namespace System::IO;
+using namespace System::Reflection;
 using IEnumerable = Collections::IEnumerable;
 using IEnumerator = Collections::IEnumerator;
 CLASS(ResourceReader) : public Object::in {

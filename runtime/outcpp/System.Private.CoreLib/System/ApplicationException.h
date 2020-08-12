@@ -9,7 +9,7 @@ FORWARDS(StreamingContext)
 namespace System::Private::CoreLib::System {
 FORWARD(String)
 namespace ApplicationExceptionNamespace {
-using namespace Runtime::Serialization;
+using namespace System::Runtime::Serialization;
 CLASS(ApplicationException) : public Exception::in {
   public: void ctor();
   public: void ctor(String message);

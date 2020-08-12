@@ -13,7 +13,7 @@ FORWARD_(Task, T1, T2)
 namespace System::Private::CoreLib::System::Runtime::CompilerServices {
 FORWARD(IAsyncStateMachine)
 namespace AsyncMethodBuilderCoreNamespace {
-using namespace Threading::Tasks;
+using namespace System::Threading::Tasks;
 class AsyncMethodBuilderCore {
   private: CLASS(ContinuationWrapper) : public Object::in {
     public: void ctor(Action<> continuation, Action<Action<>, Task<>> invokeAction, Task<> innerTask);

@@ -17,7 +17,7 @@ FORWARDS_(ValueTask, T1, T2)
 namespace System::Private::CoreLib::System::Threading {
 FORWARDS(CancellationToken)
 namespace CancellationTokenRegistrationNamespace {
-using namespace Tasks;
+using namespace System::Threading::Tasks;
 struct CancellationTokenRegistration : public valueType<CancellationTokenRegistration> {
   public: using interface = rt::TypeList<IEquatable<CancellationTokenRegistration>, IDisposable, IAsyncDisposable>;
   public: CancellationToken get_Token();

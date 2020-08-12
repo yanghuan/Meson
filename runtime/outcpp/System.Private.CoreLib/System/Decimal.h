@@ -36,8 +36,8 @@ FORWARDS(Span, T)
 FORWARD(String)
 FORWARDS(UInt16)
 namespace DecimalNamespace {
-using namespace Globalization;
-using namespace Runtime::Serialization;
+using namespace System::Globalization;
+using namespace System::Runtime::Serialization;
 struct Decimal : public valueType<Decimal> {
   public: using interface = rt::TypeList<IFormattable, IComparable<>, IConvertible, IComparable<Decimal>, IEquatable<Decimal>, IDeserializationCallback, ISpanFormattable>;
   private: struct DecCalc : public valueType<DecCalc> {

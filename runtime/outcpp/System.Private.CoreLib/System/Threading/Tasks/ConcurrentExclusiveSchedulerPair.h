@@ -22,7 +22,7 @@ namespace System::Private::CoreLib::System::Threading::Tasks {
 enum class TaskCreationOptions : int32_t;
 FORWARD(IProducerConsumerQueue, T)
 namespace ConcurrentExclusiveSchedulerPairNamespace {
-using namespace Collections::Generic;
+using namespace System::Collections::Generic;
 CLASS(ConcurrentExclusiveSchedulerPair) : public Object::in {
   private: enum class ProcessingMode : uint8_t {
     NotCurrentlyProcessing = 0,

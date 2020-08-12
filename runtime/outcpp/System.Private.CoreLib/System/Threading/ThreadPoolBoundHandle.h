@@ -15,7 +15,7 @@ FORWARDS(NativeOverlapped)
 FORWARD(PreAllocatedOverlapped)
 FORWARD(ThreadPoolBoundHandleOverlapped)
 namespace ThreadPoolBoundHandleNamespace {
-using namespace Runtime::InteropServices;
+using namespace System::Runtime::InteropServices;
 CLASS(ThreadPoolBoundHandle) : public Object::in {
   public: using interface = rt::TypeList<IDisposable>;
   public: SafeHandle get_Handle();

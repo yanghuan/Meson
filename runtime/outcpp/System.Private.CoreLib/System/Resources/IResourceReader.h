@@ -11,7 +11,7 @@ FORWARD(IDisposable)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Resources {
 namespace IResourceReaderNamespace {
-using namespace Collections;
+using namespace System::Collections;
 CLASS(IResourceReader) : public Object::in {
   public: using interface = rt::TypeList<IEnumerable, IDisposable>;
   public: void Close();

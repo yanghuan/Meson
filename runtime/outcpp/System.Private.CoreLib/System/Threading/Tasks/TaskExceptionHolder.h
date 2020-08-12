@@ -19,9 +19,9 @@ FORWARD(List, T)
 namespace System::Private::CoreLib::System::Threading::Tasks {
 FORWARD_(Task, T1, T2)
 namespace TaskExceptionHolderNamespace {
-using namespace Collections::Generic;
-using namespace Collections::ObjectModel;
-using namespace Runtime::ExceptionServices;
+using namespace System::Collections::Generic;
+using namespace System::Collections::ObjectModel;
+using namespace System::Runtime::ExceptionServices;
 CLASS(TaskExceptionHolder) : public Object::in {
   public: Boolean get_ContainsFaultList();
   public: void ctor(Task<> task);

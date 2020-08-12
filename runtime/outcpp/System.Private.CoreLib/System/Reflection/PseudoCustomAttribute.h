@@ -22,8 +22,8 @@ FORWARD(RuntimeMethodInfo)
 FORWARD(RuntimeModule)
 FORWARD(RuntimeParameterInfo)
 namespace PseudoCustomAttributeNamespace {
-using namespace Collections::Generic;
-using namespace Runtime::InteropServices;
+using namespace System::Collections::Generic;
+using namespace System::Runtime::InteropServices;
 class PseudoCustomAttribute {
   private: static Dictionary<RuntimeType, RuntimeType> CreatePseudoCustomAttributeDictionary();
   public: static void GetCustomAttributes(RuntimeType type, RuntimeType caType, RuntimeType::in::ListBuilder<Attribute>& pcas);

@@ -10,8 +10,8 @@ FORWARD(SafeFileHandle)
 } // namespace System::Private::CoreLib::Microsoft::Win32::SafeHandles
 namespace System::Private::CoreLib::Internal {
 namespace ConsoleNamespace {
-using namespace ::System::Private::CoreLib::Microsoft::Win32::SafeHandles;
-using namespace ::System::Private::CoreLib::System;
+using namespace Microsoft::Win32::SafeHandles;
+using namespace System;
 class Console {
   public: static void Write(String s);
   public: static void WriteLine(String s);

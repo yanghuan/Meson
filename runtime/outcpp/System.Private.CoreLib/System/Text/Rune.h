@@ -26,8 +26,8 @@ enum class OperationStatus : int32_t;
 } // namespace System::Private::CoreLib::System::Buffers
 namespace System::Private::CoreLib::System::Text {
 namespace RuneNamespace {
-using namespace Buffers;
-using namespace Globalization;
+using namespace System::Buffers;
+using namespace System::Globalization;
 struct Rune : public valueType<Rune> {
   public: using interface = rt::TypeList<IComparable<Rune>, IEquatable<Rune>>;
   private: static ReadOnlySpan<Byte> get_AsciiCharInfo();

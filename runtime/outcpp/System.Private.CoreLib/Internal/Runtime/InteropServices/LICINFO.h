@@ -6,7 +6,7 @@
 
 namespace System::Private::CoreLib::Internal::Runtime::InteropServices {
 namespace LICINFONamespace {
-using namespace ::System::Private::CoreLib::System;
+using namespace System;
 struct LICINFO : public valueType<LICINFO> {
   public: Int32 cbLicInfo;
   public: Boolean fRuntimeKeyAvail;

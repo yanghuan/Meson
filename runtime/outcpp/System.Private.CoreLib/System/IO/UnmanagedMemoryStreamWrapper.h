@@ -26,8 +26,8 @@ enum class SeekOrigin : int32_t;
 FORWARD(Stream)
 FORWARD(UnmanagedMemoryStream)
 namespace UnmanagedMemoryStreamWrapperNamespace {
-using namespace Threading;
-using namespace Threading::Tasks;
+using namespace System::Threading;
+using namespace System::Threading::Tasks;
 CLASS(UnmanagedMemoryStreamWrapper) : public MemoryStream::in {
   public: Boolean get_CanRead();
   public: Boolean get_CanSeek();

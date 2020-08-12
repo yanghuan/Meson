@@ -19,8 +19,8 @@ FORWARD(Stream)
 namespace System::Private::CoreLib::System::Resources {
 FORWARD(IResourceReader)
 namespace ResourceSetNamespace {
-using namespace Collections;
-using namespace IO;
+using namespace System::Collections;
+using namespace System::IO;
 CLASS(ResourceSet) : public Object::in {
   public: using interface = rt::TypeList<IDisposable, IEnumerable>;
   protected: void ctor();

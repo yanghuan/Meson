@@ -72,11 +72,11 @@ FORWARDS(RuntimeTypeHandle)
 FORWARD(String)
 FORWARD(Type)
 namespace RuntimeTypeNamespace {
-using namespace Collections::Generic;
-using namespace Globalization;
-using namespace Reflection;
-using namespace Runtime::InteropServices;
-using namespace Threading;
+using namespace System::Collections::Generic;
+using namespace System::Globalization;
+using namespace System::Reflection;
+using namespace System::Runtime::InteropServices;
+using namespace System::Threading;
 CLASS(RuntimeType) : public TypeInfo::in {
   public: using interface = rt::TypeList<ICloneable>;
   public: enum class MemberListType : int32_t {

@@ -8,7 +8,7 @@ enum class AssemblyHashAlgorithm : int32_t;
 } // namespace System::Private::CoreLib::System::Configuration::Assemblies
 namespace System::Private::CoreLib::System::Reflection {
 namespace AssemblyAlgorithmIdAttributeNamespace {
-using namespace Configuration::Assemblies;
+using namespace System::Configuration::Assemblies;
 CLASS(AssemblyAlgorithmIdAttribute) : public Attribute::in {
   public: UInt32 get_AlgorithmId() { return AlgorithmId; }
   public: void ctor(AssemblyHashAlgorithm algorithmId);

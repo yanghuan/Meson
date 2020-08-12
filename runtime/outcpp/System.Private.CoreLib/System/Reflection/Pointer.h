@@ -11,7 +11,7 @@ FORWARD(Type)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Reflection {
 namespace PointerNamespace {
-using namespace Runtime::Serialization;
+using namespace System::Runtime::Serialization;
 CLASS(Pointer) : public Object::in {
   public: using interface = rt::TypeList<ISerializable>;
   private: void ctor(void* ptr, Type ptrType);

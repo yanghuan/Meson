@@ -23,8 +23,8 @@ namespace System::Private::CoreLib::System::Globalization {
 enum class CalendarDataType : int32_t;
 enum class CalendarId : uint16_t;
 namespace CalendarDataNamespace {
-using namespace Collections::Generic;
-using namespace Text;
+using namespace System::Collections::Generic;
+using namespace System::Text;
 CLASS(CalendarData) : public Object::in {
   private: struct IcuEnumCalendarsData : public valueType<IcuEnumCalendarsData> {
     public: List<String> Results;

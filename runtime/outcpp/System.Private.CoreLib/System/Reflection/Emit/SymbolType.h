@@ -35,7 +35,7 @@ FORWARD(CultureInfo)
 namespace System::Private::CoreLib::System::Reflection::Emit {
 enum class TypeKind : int32_t;
 namespace SymbolTypeNamespace {
-using namespace Globalization;
+using namespace System::Globalization;
 CLASS(SymbolType) : public TypeInfo::in {
   public: Boolean get_IsTypeDefinition();
   public: Boolean get_IsSZArray();

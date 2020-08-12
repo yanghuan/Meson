@@ -20,8 +20,8 @@ enum class EventTags : int32_t;
 FORWARD(NameInfo)
 FORWARD(TraceLoggingTypeInfo)
 namespace TraceLoggingEventTypesNamespace {
-using namespace Collections::Generic;
-using namespace Reflection;
+using namespace System::Collections::Generic;
+using namespace System::Reflection;
 CLASS(TraceLoggingEventTypes) : public Object::in {
   public: String get_Name();
   public: EventTags get_Tags();

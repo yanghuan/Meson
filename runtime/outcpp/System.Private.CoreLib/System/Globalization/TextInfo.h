@@ -23,8 +23,8 @@ namespace System::Private::CoreLib::System::Globalization {
 enum class UnicodeCategory : int32_t;
 FORWARD(CultureData)
 namespace TextInfoNamespace {
-using namespace Runtime::Serialization;
-using namespace Text;
+using namespace System::Runtime::Serialization;
+using namespace System::Text;
 CLASS(TextInfo) : public Object::in {
   public: using interface = rt::TypeList<ICloneable, IDeserializationCallback>;
   private: enum class Tristate : uint8_t {

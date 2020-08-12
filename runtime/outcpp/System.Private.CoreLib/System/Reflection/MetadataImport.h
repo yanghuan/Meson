@@ -29,7 +29,7 @@ FORWARDS(ConstArray)
 FORWARDS(MetadataEnumResult)
 FORWARDS(MetadataToken)
 namespace MetadataImportNamespace {
-using namespace Runtime::InteropServices;
+using namespace System::Runtime::InteropServices;
 struct MetadataImport : public valueType<MetadataImport> {
   public: Int32 GetHashCode();
   public: Boolean Equals(Object obj);

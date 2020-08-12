@@ -32,7 +32,7 @@ FORWARD(Module)
 FORWARDS(ParameterModifier)
 FORWARD(PropertyInfo)
 namespace TypeDelegatorNamespace {
-using namespace Globalization;
+using namespace System::Globalization;
 CLASS(TypeDelegator) : public TypeInfo::in {
   public: Guid get_GUID();
   public: Int32 get_MetadataToken();

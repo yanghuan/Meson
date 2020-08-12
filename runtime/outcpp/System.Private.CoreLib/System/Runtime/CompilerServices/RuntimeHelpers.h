@@ -35,7 +35,7 @@ FORWARDS(MethodTable)
 FORWARDS(QCallTypeHandle)
 FORWARDS(TailCallTls)
 namespace RuntimeHelpersNamespace {
-using namespace Reflection;
+using namespace System::Reflection;
 class RuntimeHelpers {
   public: CLASS(TryCode) : public MulticastDelegate::in {
     public: void ctor(Object object, IntPtr method);

@@ -21,7 +21,7 @@ FORWARDS(PropertyValue)
 FORWARD(TraceLoggingDataCollector)
 FORWARD(TraceLoggingMetadataCollector)
 namespace TraceLoggingTypeInfoNamespace {
-using namespace Collections::Generic;
+using namespace System::Collections::Generic;
 CLASS(TraceLoggingTypeInfo) : public Object::in {
   public: String get_Name();
   public: EventLevel get_Level();

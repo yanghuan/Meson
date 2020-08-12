@@ -12,7 +12,7 @@ FORWARDS(Boolean)
 FORWARDS(Int32)
 FORWARD(String)
 namespace OrdinalCaseSensitiveComparerNamespace {
-using namespace Runtime::Serialization;
+using namespace System::Runtime::Serialization;
 CLASS(OrdinalCaseSensitiveComparer) : public OrdinalComparer::in {
   public: using interface = rt::TypeList<ISerializable>;
   public: void ctor();

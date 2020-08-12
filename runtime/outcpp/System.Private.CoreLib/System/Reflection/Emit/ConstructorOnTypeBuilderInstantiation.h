@@ -27,7 +27,7 @@ FORWARD(CultureInfo)
 namespace System::Private::CoreLib::System::Reflection::Emit {
 FORWARD(TypeBuilderInstantiation)
 namespace ConstructorOnTypeBuilderInstantiationNamespace {
-using namespace Globalization;
+using namespace System::Globalization;
 CLASS(ConstructorOnTypeBuilderInstantiation) : public ConstructorInfo::in {
   public: MemberTypes get_MemberType();
   public: String get_Name();

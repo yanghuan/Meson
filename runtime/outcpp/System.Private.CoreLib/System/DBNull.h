@@ -13,7 +13,7 @@ FORWARD(IConvertible)
 FORWARD(IFormatProvider)
 FORWARD(String)
 namespace DBNullNamespace {
-using namespace Runtime::Serialization;
+using namespace System::Runtime::Serialization;
 CLASS(DBNull) : public Object::in {
   public: using interface = rt::TypeList<ISerializable, IConvertible>;
   private: void ctor();

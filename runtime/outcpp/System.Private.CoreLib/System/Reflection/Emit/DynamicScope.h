@@ -18,7 +18,7 @@ namespace System::Private::CoreLib::System::Reflection::Emit {
 FORWARD(DynamicMethod)
 FORWARD(VarArgMethod)
 namespace DynamicScopeNamespace {
-using namespace Collections::Generic;
+using namespace System::Collections::Generic;
 CLASS(DynamicScope) : public Object::in {
   public: Object get_Item(Int32 token);
   public: Int32 GetTokenFor(VarArgMethod varArgMethod);

@@ -7,7 +7,7 @@ FORWARD(IEnumerator)
 } // namespace System::Private::CoreLib::System::Collections
 namespace System::Private::CoreLib::System::Runtime::InteropServices::ComTypes {
 namespace IEnumerableNamespace {
-using namespace Collections;
+using namespace System::Collections;
 CLASS(IEnumerable) : public Object::in {
   public: IEnumerator GetEnumerator();
   public: static constexpr rt::TypeCode code = rt::TypeCode::Interface;

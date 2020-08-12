@@ -11,7 +11,7 @@ namespace System::Private::CoreLib::System {
 FORWARD(Exception)
 FORWARD(String)
 namespace MissingFieldExceptionNamespace {
-using namespace Runtime::Serialization;
+using namespace System::Runtime::Serialization;
 CLASS(MissingFieldException) : public MissingMemberException::in {
   public: using interface = rt::TypeList<ISerializable>;
   public: String get_Message();

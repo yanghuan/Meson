@@ -26,10 +26,10 @@ enum class UltimateResourceFallbackLocation : int32_t;
 FORWARD(IResourceGroveler)
 FORWARD(ResourceSet)
 namespace ResourceManagerNamespace {
-using namespace Collections::Generic;
-using namespace Globalization;
-using namespace IO;
-using namespace Reflection;
+using namespace System::Collections::Generic;
+using namespace System::Globalization;
+using namespace System::IO;
+using namespace System::Reflection;
 CLASS(ResourceManager) : public Object::in {
   public: CLASS(CultureNameResourceSetPair) : public Object::in {
     public: void ctor();

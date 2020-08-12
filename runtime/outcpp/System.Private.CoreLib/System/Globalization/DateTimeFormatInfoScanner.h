@@ -16,7 +16,7 @@ namespace System::Private::CoreLib::System::Globalization {
 enum class FORMATFLAGS : int32_t;
 FORWARD(DateTimeFormatInfo)
 namespace DateTimeFormatInfoScannerNamespace {
-using namespace Collections::Generic;
+using namespace System::Collections::Generic;
 CLASS(DateTimeFormatInfoScanner) : public Object::in {
   private: enum class FoundDatePattern : int32_t {
     None = 0,

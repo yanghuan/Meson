@@ -38,8 +38,8 @@ FORWARDS(OpCode)
 FORWARD(ScopeTree)
 FORWARD(SignatureHelper)
 namespace ILGeneratorNamespace {
-using namespace Diagnostics::SymbolStore;
-using namespace Runtime::InteropServices;
+using namespace System::Diagnostics::SymbolStore;
+using namespace System::Runtime::InteropServices;
 CLASS(ILGenerator) : public Object::in {
   public: Int32 get_CurrExcStackCount();
   public: Array<__ExceptionInfo> get_CurrExcStack();

@@ -39,7 +39,7 @@ namespace System::Private::CoreLib::System::Reflection::Emit {
 FORWARD(CustomAttributeBuilder)
 FORWARD(TypeBuilder)
 namespace GenericTypeParameterBuilderNamespace {
-using namespace Globalization;
+using namespace System::Globalization;
 CLASS(GenericTypeParameterBuilder) : public TypeInfo::in {
   public: Type get_DeclaringType();
   public: Type get_ReflectedType();

@@ -14,7 +14,7 @@ FORWARD(IConfiguredTaskAwaiter)
 FORWARD(ICriticalNotifyCompletion)
 FORWARD(INotifyCompletion)
 namespace ConfiguredTaskAwaitableNamespace {
-using namespace Threading::Tasks;
+using namespace System::Threading::Tasks;
 template <class T1 = void, class T2 = void>
 struct ConfiguredTaskAwaitable {
 };

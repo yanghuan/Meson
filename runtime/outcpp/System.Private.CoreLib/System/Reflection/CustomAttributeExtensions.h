@@ -16,7 +16,7 @@ FORWARD(MemberInfo)
 FORWARD(Module)
 FORWARD(ParameterInfo)
 namespace CustomAttributeExtensionsNamespace {
-using namespace Collections::Generic;
+using namespace System::Collections::Generic;
 class CustomAttributeExtensions {
   public: static Attribute GetCustomAttribute(Assembly element, Type attributeType);
   public: static Attribute GetCustomAttribute(Module element, Type attributeType);

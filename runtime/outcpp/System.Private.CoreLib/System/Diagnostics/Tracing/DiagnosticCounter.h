@@ -15,7 +15,7 @@ namespace System::Private::CoreLib::System::Diagnostics::Tracing {
 FORWARD(CounterGroup)
 FORWARD(EventSource)
 namespace DiagnosticCounterNamespace {
-using namespace Collections::Generic;
+using namespace System::Collections::Generic;
 CLASS(DiagnosticCounter) : public Object::in {
   public: using interface = rt::TypeList<IDisposable>;
   public: String get_DisplayName();

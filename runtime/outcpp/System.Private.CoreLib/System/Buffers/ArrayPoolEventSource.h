@@ -7,7 +7,7 @@ FORWARDS(Int32)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Buffers {
 namespace ArrayPoolEventSourceNamespace {
-using namespace Diagnostics::Tracing;
+using namespace System::Diagnostics::Tracing;
 CLASS(ArrayPoolEventSource) : public EventSource::in {
   public: enum class BufferAllocatedReason : int32_t {
     Pooled = 0,

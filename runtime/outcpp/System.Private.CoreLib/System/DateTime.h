@@ -35,8 +35,8 @@ FORWARDS(Span, T)
 FORWARD(String)
 FORWARDS(TimeSpan)
 namespace DateTimeNamespace {
-using namespace Globalization;
-using namespace Runtime::Serialization;
+using namespace System::Globalization;
+using namespace System::Runtime::Serialization;
 struct DateTime : public valueType<DateTime> {
   public: using interface = rt::TypeList<IComparable<>, IFormattable, IConvertible, IComparable<DateTime>, IEquatable<DateTime>, ISerializable, ISpanFormattable>;
   private: struct FullSystemTime : public valueType<FullSystemTime> {

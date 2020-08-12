@@ -13,7 +13,7 @@ FORWARDS(Byte)
 FORWARD(Exception)
 FORWARD(String)
 namespace MissingMemberExceptionNamespace {
-using namespace Runtime::Serialization;
+using namespace System::Runtime::Serialization;
 CLASS(MissingMemberException) : public MemberAccessException::in {
   public: using interface = rt::TypeList<ISerializable>;
   public: String get_Message();

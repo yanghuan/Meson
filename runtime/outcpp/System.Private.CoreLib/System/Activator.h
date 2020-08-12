@@ -22,10 +22,10 @@ FORWARD(Object)
 FORWARD(String)
 FORWARD(Type)
 namespace ActivatorNamespace {
-using namespace Globalization;
-using namespace Reflection;
-using namespace Runtime::Remoting;
-using namespace Threading;
+using namespace System::Globalization;
+using namespace System::Reflection;
+using namespace System::Runtime::Remoting;
+using namespace System::Threading;
 class Activator {
   public: static Object CreateInstance(Type type, BindingFlags bindingAttr, Binder binder, Array<Object> args, CultureInfo culture);
   public: static Object CreateInstance(Type type, Array<Object> args);

@@ -10,7 +10,7 @@ FORWARD_(Array, T1, T2)
 FORWARDS(Boolean)
 FORWARDS(Int32)
 namespace SZArrayHelperNamespace {
-using namespace Collections::Generic;
+using namespace System::Collections::Generic;
 CLASS(SZArrayHelper) : public Object::in {
   public: template <class T>
   IEnumerator<T> GetEnumerator();

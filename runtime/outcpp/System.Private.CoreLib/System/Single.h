@@ -23,7 +23,7 @@ FORWARDS(Span, T)
 FORWARD(String)
 FORWARDS(UInt32)
 namespace SingleNamespace {
-using namespace Globalization;
+using namespace System::Globalization;
 struct Single : public valueType<Single> {
   public: using interface = rt::TypeList<IComparable<>, IConvertible, IFormattable, IComparable<Single>, IEquatable<Single>, ISpanFormattable>;
   public: constexpr Single() noexcept : m_value(0) {}

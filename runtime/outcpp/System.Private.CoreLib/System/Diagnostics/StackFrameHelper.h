@@ -22,8 +22,8 @@ FORWARD(Thread)
 } // namespace System::Private::CoreLib::System::Threading
 namespace System::Private::CoreLib::System::Diagnostics {
 namespace StackFrameHelperNamespace {
-using namespace Reflection;
-using namespace Threading;
+using namespace System::Reflection;
+using namespace System::Threading;
 CLASS(StackFrameHelper) : public Object::in {
   private: CLASS(GetSourceLineInfoDelegate) : public MulticastDelegate::in {
     public: void ctor(Object object, IntPtr method);

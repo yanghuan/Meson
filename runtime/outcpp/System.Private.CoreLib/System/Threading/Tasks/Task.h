@@ -39,8 +39,8 @@ FORWARD_(TaskFactory, T1, T2)
 FORWARD(TaskScheduler)
 FORWARDS(VoidTaskResult)
 namespace TaskNamespace {
-using namespace Collections::Generic;
-using namespace Runtime::CompilerServices;
+using namespace System::Collections::Generic;
+using namespace System::Runtime::CompilerServices;
 CLASS_FORWARD(Task, T1, T2)
 CLASS_(Task) : public Object::in {
   public: using interface = rt::TypeList<IAsyncResult, IDisposable>;

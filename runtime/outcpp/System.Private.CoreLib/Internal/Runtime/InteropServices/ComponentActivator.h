@@ -17,8 +17,8 @@ FORWARD(Dictionary, TKey, TValue)
 namespace System::Private::CoreLib::Internal::Runtime::InteropServices {
 FORWARD(IsolatedComponentLoadContext)
 namespace ComponentActivatorNamespace {
-using namespace ::System::Private::CoreLib::System;
-using namespace ::System::Private::CoreLib::System::Collections::Generic;
+using namespace System;
+using namespace System::Collections::Generic;
 class ComponentActivator {
   public: CLASS(ComponentEntryPoint) : public MulticastDelegate::in {
     public: void ctor(Object object, IntPtr method);

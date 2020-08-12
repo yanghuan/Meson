@@ -17,7 +17,7 @@ FORWARD(EventProvider)
 FORWARD(TraceLoggingEventHandleTable)
 FORWARD(TraceLoggingEventTypes)
 namespace NameInfoNamespace {
-using namespace Collections::Generic;
+using namespace System::Collections::Generic;
 CLASS(NameInfo) : public ConcurrentSetItem<KeyValuePair<String, EventTags>, NameInfo>::in {
   public: static void ReserveEventIDsBelow(Int32 eventId);
   public: void ctor(String name, EventTags tags, Int32 typeMetadataSize);

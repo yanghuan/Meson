@@ -11,7 +11,7 @@ FORWARDS(StreamingContext)
 } // namespace System::Private::CoreLib::System::Runtime::Serialization
 namespace System::Private::CoreLib::System::Runtime::CompilerServices {
 namespace RuntimeWrappedExceptionNamespace {
-using namespace Serialization;
+using namespace System::Runtime::Serialization;
 CLASS(RuntimeWrappedException) : public Exception::in {
   public: Object get_WrappedException();
   public: void ctor(Object thrownObject);

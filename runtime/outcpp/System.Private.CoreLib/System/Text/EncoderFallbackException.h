@@ -15,7 +15,7 @@ FORWARDS(StreamingContext)
 } // namespace System::Private::CoreLib::System::Runtime::Serialization
 namespace System::Private::CoreLib::System::Text {
 namespace EncoderFallbackExceptionNamespace {
-using namespace Runtime::Serialization;
+using namespace System::Runtime::Serialization;
 CLASS(EncoderFallbackException) : public ArgumentException::in {
   public: Char get_CharUnknown();
   public: Char get_CharUnknownHigh();

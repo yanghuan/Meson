@@ -10,7 +10,7 @@ namespace System::Private::CoreLib::System {
 FORWARD(Exception)
 FORWARD(String)
 namespace MethodAccessExceptionNamespace {
-using namespace Runtime::Serialization;
+using namespace System::Runtime::Serialization;
 CLASS(MethodAccessException) : public MemberAccessException::in {
   public: void ctor();
   public: void ctor(String message);

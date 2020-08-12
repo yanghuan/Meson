@@ -22,7 +22,7 @@ FORWARD(EventSource)
 FORWARD(EventSourceCreatedEventArgs)
 FORWARD(EventWrittenEventArgs)
 namespace EventListenerNamespace {
-using namespace Collections::Generic;
+using namespace System::Collections::Generic;
 CLASS(EventListener) : public Object::in {
   public: using interface = rt::TypeList<IDisposable>;
   public: static Object get_EventListenersLock();

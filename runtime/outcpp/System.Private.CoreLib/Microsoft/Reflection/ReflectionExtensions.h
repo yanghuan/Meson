@@ -12,8 +12,8 @@ FORWARD(Assembly)
 } // namespace System::Private::CoreLib::System::Reflection
 namespace System::Private::CoreLib::Microsoft::Reflection {
 namespace ReflectionExtensionsNamespace {
-using namespace ::System::Private::CoreLib::System;
-using namespace ::System::Private::CoreLib::System::Reflection;
+using namespace System;
+using namespace System::Reflection;
 class ReflectionExtensions {
   public: static Boolean IsEnum(Type type);
   public: static Boolean IsAbstract(Type type);

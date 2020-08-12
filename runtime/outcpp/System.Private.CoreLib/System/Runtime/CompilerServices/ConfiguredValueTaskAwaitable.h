@@ -12,7 +12,7 @@ FORWARD(ICriticalNotifyCompletion)
 FORWARD(INotifyCompletion)
 FORWARD(IStateMachineBoxAwareAwaiter)
 namespace ConfiguredValueTaskAwaitableNamespace {
-using namespace Threading::Tasks;
+using namespace System::Threading::Tasks;
 template <class T1 = void, class T2 = void>
 struct ConfiguredValueTaskAwaitable {
 };

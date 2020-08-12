@@ -12,7 +12,7 @@ FORWARD_(Array, T1, T2)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Reflection::Emit {
 namespace REDocumentNamespace {
-using namespace Diagnostics::SymbolStore;
+using namespace System::Diagnostics::SymbolStore;
 CLASS(REDocument) : public Object::in {
   public: void ctor(ISymbolDocumentWriter document);
   public: void AddLineNumberInfo(ISymbolDocumentWriter document, Int32 iOffset, Int32 iStartLine, Int32 iStartColumn, Int32 iEndLine, Int32 iEndColumn);

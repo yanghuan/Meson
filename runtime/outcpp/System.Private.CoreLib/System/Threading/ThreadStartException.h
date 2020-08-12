@@ -11,7 +11,7 @@ FORWARDS(StreamingContext)
 } // namespace System::Private::CoreLib::System::Runtime::Serialization
 namespace System::Private::CoreLib::System::Threading {
 namespace ThreadStartExceptionNamespace {
-using namespace Runtime::Serialization;
+using namespace System::Runtime::Serialization;
 CLASS(ThreadStartException) : public SystemException::in {
   public: void ctor();
   public: void ctor(Exception reason);

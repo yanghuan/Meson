@@ -29,10 +29,10 @@ FORWARD(String)
 FORWARD(Type)
 FORWARDS(UInt32)
 namespace ExceptionNamespace {
-using namespace Collections;
-using namespace Reflection;
-using namespace Runtime::CompilerServices;
-using namespace Runtime::Serialization;
+using namespace System::Collections;
+using namespace System::Reflection;
+using namespace System::Runtime::CompilerServices;
+using namespace System::Runtime::Serialization;
 CLASS(Exception) : public Object::in {
   public: using interface = rt::TypeList<ISerializable>;
   public: enum class ExceptionMessageKind : int32_t {

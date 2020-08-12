@@ -29,7 +29,7 @@ FORWARD(IEqualityComparer)
 FORWARD(IHashCodeProvider)
 FORWARD(KeyValuePairs)
 namespace HashtableNamespace {
-using namespace Runtime::Serialization;
+using namespace System::Runtime::Serialization;
 CLASS(Hashtable) : public Object::in {
   public: using interface = rt::TypeList<IDictionary, ICollection, IEnumerable, ISerializable, IDeserializationCallback, ICloneable>;
   private: struct bucket : public valueType<bucket> {

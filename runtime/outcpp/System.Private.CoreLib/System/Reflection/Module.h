@@ -38,8 +38,8 @@ FORWARD(MethodInfo)
 FORWARDS(ParameterModifier)
 FORWARD(TypeFilter)
 namespace ModuleNamespace {
-using namespace Collections::Generic;
-using namespace Runtime::Serialization;
+using namespace System::Collections::Generic;
+using namespace System::Runtime::Serialization;
 CLASS(Module) : public Object::in {
   public: using interface = rt::TypeList<ICustomAttributeProvider, ISerializable>;
   public: Assembly get_Assembly();

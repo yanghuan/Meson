@@ -38,8 +38,8 @@ FORWARD(Hashtable)
 } // namespace System::Private::CoreLib::System::Collections
 namespace System::Private::CoreLib::System::Reflection::Emit {
 namespace TypeBuilderInstantiationNamespace {
-using namespace Collections;
-using namespace Globalization;
+using namespace System::Collections;
+using namespace System::Globalization;
 CLASS(TypeBuilderInstantiation) : public TypeInfo::in {
   public: Type get_DeclaringType();
   public: Type get_ReflectedType();

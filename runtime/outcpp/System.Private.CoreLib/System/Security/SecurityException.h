@@ -18,8 +18,8 @@ FORWARDS(StreamingContext)
 } // namespace System::Private::CoreLib::System::Runtime::Serialization
 namespace System::Private::CoreLib::System::Security {
 namespace SecurityExceptionNamespace {
-using namespace Reflection;
-using namespace Runtime::Serialization;
+using namespace System::Reflection;
+using namespace System::Runtime::Serialization;
 CLASS(SecurityException) : public SystemException::in {
   public: Object get_Demanded() { return Demanded; }
   public: void set_Demanded(Object value) { Demanded = value; }

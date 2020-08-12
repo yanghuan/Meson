@@ -44,9 +44,9 @@ FORWARD(Module)
 FORWARD(ParameterInfo)
 FORWARD(RuntimeModule)
 namespace RuntimeMethodInfoNamespace {
-using namespace Collections::Generic;
-using namespace Globalization;
-using namespace Threading;
+using namespace System::Collections::Generic;
+using namespace System::Globalization;
+using namespace System::Threading;
 CLASS(RuntimeMethodInfo) : public MethodInfo::in {
   public: using interface = rt::TypeList<IRuntimeMethodInfo>;
   public: INVOCATION_FLAGS get_InvocationFlags();

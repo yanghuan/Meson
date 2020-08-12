@@ -32,7 +32,7 @@ FORWARD(Type)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Diagnostics::Tracing {
 namespace PropertyValueNamespace {
-using namespace Reflection;
+using namespace System::Reflection;
 struct PropertyValue : public valueType<PropertyValue> {
   private: CLASS(TypeHelper) : public Object::in {
     public: Func<PropertyValue, PropertyValue> GetPropertyGetter(PropertyInfo property);

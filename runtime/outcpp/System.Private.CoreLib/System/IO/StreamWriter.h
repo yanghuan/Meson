@@ -28,9 +28,9 @@ FORWARDS(CancellationToken)
 namespace System::Private::CoreLib::System::IO {
 FORWARD(Stream)
 namespace StreamWriterNamespace {
-using namespace Text;
-using namespace Threading;
-using namespace Threading::Tasks;
+using namespace System::Text;
+using namespace System::Threading;
+using namespace System::Threading::Tasks;
 CLASS(StreamWriter) : public TextWriter::in {
   private: static Encoding get_UTF8NoBOM();
   public: Boolean get_AutoFlush();

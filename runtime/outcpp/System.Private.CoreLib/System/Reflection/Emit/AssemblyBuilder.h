@@ -49,11 +49,11 @@ FORWARD(InternalAssemblyBuilder)
 FORWARD(InternalModuleBuilder)
 FORWARD(ModuleBuilder)
 namespace AssemblyBuilderNamespace {
-using namespace Collections::Generic;
-using namespace Globalization;
-using namespace IO;
-using namespace Runtime::CompilerServices;
-using namespace Threading;
+using namespace System::Collections::Generic;
+using namespace System::Globalization;
+using namespace System::IO;
+using namespace System::Runtime::CompilerServices;
+using namespace System::Threading;
 CLASS(AssemblyBuilder) : public Assembly::in {
   public: Object get_SyncRoot();
   public: InternalAssemblyBuilder get_InternalAssembly();

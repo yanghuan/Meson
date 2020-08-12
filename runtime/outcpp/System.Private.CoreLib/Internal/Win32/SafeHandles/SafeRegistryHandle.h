@@ -8,8 +8,8 @@ FORWARDS(IntPtr)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::Internal::Win32::SafeHandles {
 namespace SafeRegistryHandleNamespace {
-using namespace ::System::Private::CoreLib::Microsoft::Win32::SafeHandles;
-using namespace ::System::Private::CoreLib::System;
+using namespace Microsoft::Win32::SafeHandles;
+using namespace System;
 CLASS(SafeRegistryHandle) : public SafeHandleZeroOrMinusOneIsInvalid::in {
   public: void ctor();
   public: void ctor(IntPtr preexistingHandle, Boolean ownsHandle);

@@ -8,7 +8,7 @@ FORWARD(WaitHandle)
 namespace System::Private::CoreLib::System {
 FORWARDS(Boolean)
 namespace IAsyncResultNamespace {
-using namespace Threading;
+using namespace System::Threading;
 CLASS(IAsyncResult) : public Object::in {
   public: Boolean get_IsCompleted();
   public: WaitHandle get_AsyncWaitHandle();

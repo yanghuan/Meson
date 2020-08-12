@@ -41,11 +41,11 @@ FORWARD(AsyncLocal, T)
 } // namespace System::Private::CoreLib::System::Threading
 namespace System::Private::CoreLib::System::Runtime::Loader {
 namespace AssemblyLoadContextNamespace {
-using namespace Collections::Generic;
-using namespace CompilerServices;
-using namespace IO;
-using namespace Reflection;
-using namespace Threading;
+using namespace System::Collections::Generic;
+using namespace System::IO;
+using namespace System::Reflection;
+using namespace System::Runtime::CompilerServices;
+using namespace System::Threading;
 CLASS(AssemblyLoadContext) : public Object::in {
   private: enum class InternalState : int32_t {
     Alive = 0,

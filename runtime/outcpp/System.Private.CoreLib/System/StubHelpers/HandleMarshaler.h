@@ -11,7 +11,7 @@ FORWARDS(IntPtr)
 namespace System::Private::CoreLib::System::StubHelpers {
 FORWARD(CleanupWorkListElement)
 namespace HandleMarshalerNamespace {
-using namespace Runtime::InteropServices;
+using namespace System::Runtime::InteropServices;
 CLASS(HandleMarshaler) : public Object::in {
   public: static IntPtr ConvertSafeHandleToNative(SafeHandle handle, CleanupWorkListElement& cleanupWorkList);
   public: static void ThrowSafeHandleFieldChanged();

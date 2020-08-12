@@ -23,9 +23,9 @@ FORWARD(IClassFactory2)
 FORWARD(LicenseInteropProxy)
 FORWARDS(LICINFO)
 namespace ComActivatorNamespace {
-using namespace ::System::Private::CoreLib::System;
-using namespace ::System::Private::CoreLib::System::Collections::Generic;
-using namespace ::System::Private::CoreLib::System::Runtime::Loader;
+using namespace System;
+using namespace System::Collections::Generic;
+using namespace System::Runtime::Loader;
 class ComActivator {
   private: CLASS(BasicClassFactory) : public Object::in {
     public: using interface = rt::TypeList<IClassFactory>;

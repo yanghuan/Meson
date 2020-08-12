@@ -45,9 +45,9 @@ FORWARD(RuntimeType)
 FORWARDS(RuntimeTypeHandle)
 FORWARD(String)
 namespace TypeNamespace {
-using namespace Globalization;
-using namespace Reflection;
-using namespace Runtime::InteropServices;
+using namespace System::Globalization;
+using namespace System::Reflection;
+using namespace System::Runtime::InteropServices;
 CLASS(Type) : public MemberInfo::in {
   public: using interface = rt::TypeList<IReflect>;
   public: Boolean get_IsInterface();

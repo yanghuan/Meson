@@ -18,8 +18,8 @@ FORWARD(Object)
 FORWARD(String)
 FORWARD(Type)
 namespace MulticastDelegateNamespace {
-using namespace Reflection;
-using namespace Runtime::Serialization;
+using namespace System::Reflection;
+using namespace System::Runtime::Serialization;
 CLASS(MulticastDelegate) : public Delegate::in {
   protected: void ctor(Object target, String method);
   protected: void ctor(Type target, String method);

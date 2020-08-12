@@ -18,7 +18,7 @@ enum class EventTags : int32_t;
 FORWARD(EventDataAttribute)
 FORWARD(PropertyAnalysis)
 namespace TypeAnalysisNamespace {
-using namespace Collections::Generic;
+using namespace System::Collections::Generic;
 CLASS(TypeAnalysis) : public Object::in {
   public: void ctor(Type dataType, EventDataAttribute eventAttrib, List<Type> recursionCheck);
   public: Array<PropertyAnalysis> properties;

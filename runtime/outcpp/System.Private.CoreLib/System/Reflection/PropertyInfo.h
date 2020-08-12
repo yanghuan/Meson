@@ -20,7 +20,7 @@ FORWARD(Binder)
 FORWARD(MethodInfo)
 FORWARD(ParameterInfo)
 namespace PropertyInfoNamespace {
-using namespace Globalization;
+using namespace System::Globalization;
 CLASS(PropertyInfo) : public MemberInfo::in {
   public: MemberTypes get_MemberType();
   public: Type get_PropertyType();

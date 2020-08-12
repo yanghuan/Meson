@@ -25,8 +25,8 @@ FORWARDS(ReadOnlySpan, T)
 FORWARDS(Span, T)
 FORWARD(String)
 namespace MemoryExtensionsNamespace {
-using namespace Globalization;
-using namespace Text;
+using namespace System::Globalization;
+using namespace System::Text;
 class MemoryExtensions {
   public: template <class T>
   static Span<T> AsSpan(Array<T> array, Int32 start);

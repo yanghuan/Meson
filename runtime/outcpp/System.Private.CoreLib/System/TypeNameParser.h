@@ -24,9 +24,9 @@ FORWARD(SafeTypeNameParserHandle)
 FORWARD(String)
 FORWARD(Type)
 namespace TypeNameParserNamespace {
-using namespace Reflection;
-using namespace Runtime::CompilerServices;
-using namespace Threading;
+using namespace System::Reflection;
+using namespace System::Runtime::CompilerServices;
+using namespace System::Threading;
 CLASS(TypeNameParser) : public Object::in {
   public: using interface = rt::TypeList<IDisposable>;
   private: static void _CreateTypeNameParser(String typeName, ObjectHandleOnStack retHandle, Boolean throwOnError);

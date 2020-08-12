@@ -23,7 +23,7 @@ FORWARDS(Span, T)
 FORWARD(String)
 FORWARDS(UInt64)
 namespace DoubleNamespace {
-using namespace Globalization;
+using namespace System::Globalization;
 struct Double : public valueType<Double> {
   public: using interface = rt::TypeList<IComparable<>, IConvertible, IFormattable, IComparable<Double>, IEquatable<Double>, ISpanFormattable>;
   public: constexpr Double() noexcept : m_value(0) {}

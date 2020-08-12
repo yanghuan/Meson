@@ -16,7 +16,7 @@ FORWARDS(Int32)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Collections::Concurrent {
 namespace IProducerConsumerCollectionNamespace {
-using namespace Generic;
+using namespace System::Collections::Generic;
 template <class T>
 using IEnumerable = Generic::IEnumerable<T>;
 using IEnumerable_ = Collections::IEnumerable;

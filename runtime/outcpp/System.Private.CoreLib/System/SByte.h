@@ -22,7 +22,7 @@ FORWARDS(ReadOnlySpan, T)
 FORWARDS(Span, T)
 FORWARD(String)
 namespace SByteNamespace {
-using namespace Globalization;
+using namespace System::Globalization;
 struct SByte : public valueType<SByte> {
   public: using interface = rt::TypeList<IComparable<>, IConvertible, IFormattable, IComparable<SByte>, IEquatable<SByte>, ISpanFormattable>;
   public: constexpr SByte() noexcept : m_value(0) {}

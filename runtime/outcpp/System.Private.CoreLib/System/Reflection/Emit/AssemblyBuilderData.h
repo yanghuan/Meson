@@ -17,7 +17,7 @@ FORWARD(InternalAssemblyBuilder)
 FORWARD(ModuleBuilder)
 FORWARD(TypeBuilder)
 namespace AssemblyBuilderDataNamespace {
-using namespace Collections::Generic;
+using namespace System::Collections::Generic;
 CLASS(AssemblyBuilderData) : public Object::in {
   public: void ctor(InternalAssemblyBuilder assembly, AssemblyBuilderAccess access);
   public: void CheckTypeNameConflict(String strTypeName, TypeBuilder enclosingType);

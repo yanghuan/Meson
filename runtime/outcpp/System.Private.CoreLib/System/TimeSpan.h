@@ -22,7 +22,7 @@ FORWARDS(ReadOnlySpan, T)
 FORWARDS(Span, T)
 FORWARD(String)
 namespace TimeSpanNamespace {
-using namespace Globalization;
+using namespace System::Globalization;
 struct TimeSpan : public valueType<TimeSpan> {
   public: using interface = rt::TypeList<IComparable<>, IComparable<TimeSpan>, IEquatable<TimeSpan>, IFormattable, ISpanFormattable>;
   public: Int64 get_Ticks();

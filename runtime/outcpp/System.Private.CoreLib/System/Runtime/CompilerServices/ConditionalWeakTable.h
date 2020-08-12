@@ -25,8 +25,8 @@ FORWARDS(IntPtr)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Runtime::CompilerServices {
 namespace ConditionalWeakTableNamespace {
-using namespace Collections;
-using namespace Collections::Generic;
+using namespace System::Collections;
+using namespace System::Collections::Generic;
 template <class T>
 using IEnumerable = Collections::Generic::IEnumerable<T>;
 using IEnumerable_ = Collections::IEnumerable;

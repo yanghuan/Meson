@@ -23,10 +23,10 @@ FORWARD_(Func, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15,
 FORWARDS(Int32)
 FORWARD(String)
 namespace AggregateExceptionNamespace {
-using namespace Collections::Generic;
-using namespace Collections::ObjectModel;
-using namespace Runtime::ExceptionServices;
-using namespace Runtime::Serialization;
+using namespace System::Collections::Generic;
+using namespace System::Collections::ObjectModel;
+using namespace System::Runtime::ExceptionServices;
+using namespace System::Runtime::Serialization;
 CLASS(AggregateException) : public Exception::in {
   public: ReadOnlyCollection<Exception> get_InnerExceptions();
   public: String get_Message();

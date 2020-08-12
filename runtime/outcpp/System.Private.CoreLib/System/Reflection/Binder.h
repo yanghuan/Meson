@@ -17,7 +17,7 @@ FORWARD(MethodBase)
 FORWARDS(ParameterModifier)
 FORWARD(PropertyInfo)
 namespace BinderNamespace {
-using namespace Globalization;
+using namespace System::Globalization;
 CLASS(Binder) : public Object::in {
   protected: void ctor();
   public: FieldInfo BindToField(BindingFlags bindingAttr, Array<FieldInfo> match, Object value, CultureInfo culture);

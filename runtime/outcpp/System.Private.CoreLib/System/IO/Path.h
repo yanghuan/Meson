@@ -18,7 +18,7 @@ FORWARDS(ValueStringBuilder)
 } // namespace System::Private::CoreLib::System::Text
 namespace System::Private::CoreLib::System::IO {
 namespace PathNamespace {
-using namespace Text;
+using namespace System::Text;
 class Path {
   private: static ReadOnlySpan<Byte> get_Base32Char();
   public: static StringComparison get_StringComparison();

@@ -7,7 +7,7 @@ FORWARDS(Boolean)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::Microsoft::Win32::SafeHandles {
 namespace SafeFindHandleNamespace {
-using namespace ::System::Private::CoreLib::System;
+using namespace System;
 CLASS(SafeFindHandle) : public SafeHandleZeroOrMinusOneIsInvalid::in {
   public: void ctor();
   protected: Boolean ReleaseHandle();

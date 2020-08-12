@@ -8,7 +8,7 @@ FORWARDS(Guid)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::Internal::Runtime::InteropServices {
 namespace IClassFactoryNamespace {
-using namespace ::System::Private::CoreLib::System;
+using namespace System;
 CLASS(IClassFactory) : public Object::in {
   public: void CreateInstance(Object pUnkOuter, Guid& riid, Object& ppvObject);
   public: void LockServer(Boolean fLock);

@@ -31,8 +31,8 @@ FORWARDS(ReadOnlySpan, T)
 FORWARD(String)
 FORWARDS(TimeSpan)
 namespace DateTimeParseNamespace {
-using namespace Globalization;
-using namespace Text;
+using namespace System::Globalization;
+using namespace System::Text;
 class DateTimeParse {
   public: enum class DTT : int32_t {
     End = 0,

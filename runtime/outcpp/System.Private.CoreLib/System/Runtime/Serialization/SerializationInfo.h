@@ -32,8 +32,8 @@ FORWARDS(DeserializationToken)
 FORWARD(IFormatterConverter)
 FORWARD(SerializationInfoEnumerator)
 namespace SerializationInfoNamespace {
-using namespace Collections::Generic;
-using namespace Threading;
+using namespace System::Collections::Generic;
+using namespace System::Threading;
 CLASS(SerializationInfo) : public Object::in {
   public: static AsyncLocal<Boolean> get_AsyncDeserializationInProgress() { return AsyncDeserializationInProgress; }
   public: static Boolean get_DeserializationInProgress();

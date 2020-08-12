@@ -16,8 +16,8 @@ FORWARDS(Int32)
 FORWARD(String)
 FORWARDS(TimeSpan)
 namespace CurrentSystemTimeZoneNamespace {
-using namespace Collections;
-using namespace Globalization;
+using namespace System::Collections;
+using namespace System::Globalization;
 CLASS(CurrentSystemTimeZone) : public TimeZone::in {
   public: String get_StandardName();
   public: String get_DaylightName();

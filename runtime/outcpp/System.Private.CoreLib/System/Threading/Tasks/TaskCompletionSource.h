@@ -16,7 +16,7 @@ namespace System::Private::CoreLib::System::Threading::Tasks {
 enum class TaskCreationOptions : int32_t;
 FORWARD_(Task, T1, T2)
 namespace TaskCompletionSourceNamespace {
-using namespace Collections::Generic;
+using namespace System::Collections::Generic;
 CLASS(TaskCompletionSource, TResult) : public Object::in {
   public: Task<TResult> get_Task();
   public: void ctor();

@@ -19,8 +19,8 @@ FORWARDS(CancellationToken)
 FORWARD(ManualResetEvent)
 FORWARD(WaitHandle)
 namespace SemaphoreSlimNamespace {
-using namespace Runtime::CompilerServices;
-using namespace Tasks;
+using namespace System::Runtime::CompilerServices;
+using namespace System::Threading::Tasks;
 CLASS(SemaphoreSlim) : public Object::in {
   public: using interface = rt::TypeList<IDisposable>;
   private: CLASS(TaskNode) : public Task<Boolean>::in {

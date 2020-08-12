@@ -19,7 +19,7 @@ FORWARD(MethodInfo)
 FORWARD(PropertyInfo)
 FORWARD(TypeInfo)
 namespace RuntimeReflectionExtensionsNamespace {
-using namespace Collections::Generic;
+using namespace System::Collections::Generic;
 class RuntimeReflectionExtensions {
   public: static IEnumerable<FieldInfo> GetRuntimeFields(Type type);
   public: static IEnumerable<MethodInfo> GetRuntimeMethods(Type type);

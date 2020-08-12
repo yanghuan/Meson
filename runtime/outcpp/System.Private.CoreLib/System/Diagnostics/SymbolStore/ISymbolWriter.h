@@ -17,7 +17,7 @@ enum class SymAddressKind : int32_t;
 FORWARD(ISymbolDocumentWriter)
 FORWARDS(SymbolToken)
 namespace ISymbolWriterNamespace {
-using namespace Reflection;
+using namespace System::Reflection;
 CLASS(ISymbolWriter) : public Object::in {
   public: ISymbolDocumentWriter DefineDocument(String url, Guid language, Guid languageVendor, Guid documentType);
   public: void OpenMethod(SymbolToken method);

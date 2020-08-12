@@ -13,7 +13,7 @@ FORWARDS(StreamingContext)
 } // namespace System::Private::CoreLib::System::Runtime::Serialization
 namespace System::Private::CoreLib::System::Runtime::InteropServices {
 namespace ExternalExceptionNamespace {
-using namespace Serialization;
+using namespace System::Runtime::Serialization;
 CLASS(ExternalException) : public SystemException::in {
   public: Int32 get_ErrorCode();
   public: void ctor();

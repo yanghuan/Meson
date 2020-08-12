@@ -22,8 +22,8 @@ FORWARDS(TimeSpan)
 FORWARDS(UInt32)
 FORWARDS(UInt64)
 namespace DateTimeFormatNamespace {
-using namespace Globalization;
-using namespace Text;
+using namespace System::Globalization;
+using namespace System::Text;
 class DateTimeFormat {
   public: static void FormatDigits(StringBuilder outputBuffer, Int32 value, Int32 len);
   public: static void FormatDigits(StringBuilder outputBuffer, Int32 value, Int32 len, Boolean overrideLengthLimit);

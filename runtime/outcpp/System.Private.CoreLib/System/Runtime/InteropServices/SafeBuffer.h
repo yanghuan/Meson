@@ -14,7 +14,7 @@ FORWARDS(UInt64)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Runtime::InteropServices {
 namespace SafeBufferNamespace {
-using namespace ::System::Private::CoreLib::Microsoft::Win32::SafeHandles;
+using namespace Microsoft::Win32::SafeHandles;
 CLASS(SafeBuffer) : public SafeHandleZeroOrMinusOneIsInvalid::in {
   private: static UIntPtr get_Uninitialized();
   public: UInt64 get_ByteLength();

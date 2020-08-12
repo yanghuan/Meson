@@ -11,8 +11,8 @@ FORWARD(SafeHandle)
 namespace System::Private::CoreLib::System::Threading {
 FORWARD(WaitHandle)
 namespace RegisteredWaitHandleSafeNamespace {
-using namespace Runtime::ConstrainedExecution;
-using namespace Runtime::InteropServices;
+using namespace System::Runtime::ConstrainedExecution;
+using namespace System::Runtime::InteropServices;
 CLASS(RegisteredWaitHandleSafe) : public CriticalFinalizerObject::in {
   private: static IntPtr get_InvalidHandle();
   public: IntPtr GetHandle();

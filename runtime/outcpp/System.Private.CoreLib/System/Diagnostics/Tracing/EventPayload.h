@@ -21,8 +21,8 @@ FORWARD(IEnumerable)
 } // namespace System::Private::CoreLib::System::Collections
 namespace System::Private::CoreLib::System::Diagnostics::Tracing {
 namespace EventPayloadNamespace {
-using namespace Collections;
-using namespace Collections::Generic;
+using namespace System::Collections;
+using namespace System::Collections::Generic;
 template <class TKey, class TValue>
 using IDictionary = Collections::Generic::IDictionary<TKey, TValue>;
 template <class T>

@@ -10,7 +10,7 @@ namespace System::Private::CoreLib::System {
 FORWARD(Exception)
 FORWARD(String)
 namespace TypeUnloadedExceptionNamespace {
-using namespace Runtime::Serialization;
+using namespace System::Runtime::Serialization;
 CLASS(TypeUnloadedException) : public SystemException::in {
   public: void ctor();
   public: void ctor(String message);

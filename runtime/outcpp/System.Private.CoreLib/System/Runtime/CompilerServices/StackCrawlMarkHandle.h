@@ -7,7 +7,7 @@ enum class StackCrawlMark : int32_t;
 } // namespace System::Private::CoreLib::System::Threading
 namespace System::Private::CoreLib::System::Runtime::CompilerServices {
 namespace StackCrawlMarkHandleNamespace {
-using namespace Threading;
+using namespace System::Threading;
 struct StackCrawlMarkHandle : public valueType<StackCrawlMarkHandle> {
   public: explicit StackCrawlMarkHandle(StackCrawlMark& stackMark);
   public: explicit StackCrawlMarkHandle() {}

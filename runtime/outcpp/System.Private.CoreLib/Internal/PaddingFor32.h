@@ -4,7 +4,7 @@
 
 namespace System::Private::CoreLib::Internal {
 namespace PaddingFor32Namespace {
-using namespace ::System::Private::CoreLib::System;
+using namespace System;
 struct PaddingFor32 : public valueType<PaddingFor32> {
 };
 } // namespace PaddingFor32Namespace

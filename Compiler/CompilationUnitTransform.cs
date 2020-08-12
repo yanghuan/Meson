@@ -6,6 +6,14 @@ using ICSharpCode.Decompiler.TypeSystem;
 using Meson.Compiler.CppAst;
 
 namespace Meson.Compiler {
+  internal sealed class ReferencePackage {
+    public HashSet<string> HeadIncludes = new HashSet<string>();
+    public HashSet<string> HeadUsings = new HashSet<string>();
+    public HashSet<string> SrcIncludes = new HashSet<string>();
+    public Dictionary<ITypeDefinition, StatementSyntax> Forwards = new Dictionary<ITypeDefinition, StatementSyntax>();
+    public HashSet<ITypeDefinition> ImportTypes = new HashSet<ITypeDefinition>(TypeDefinitionEqualityComparer.Default);
+  }
+
   internal sealed class CompilationUnitTransform {
     public AssemblyTransform AssemblyTransform { get; }
     public SyntaxGenerator Generator => AssemblyTransform.Generator;
@@ -15,8 +23,6 @@ namespace Meson.Compiler {
     private readonly ITypeDefinition root_;
     private readonly Dictionary<ISymbol, NestedCycleRefTypeNameSyntax> nestedCycleRefNames_ = new Dictionary<ISymbol, NestedCycleRefTypeNameSyntax>();
     private readonly Dictionary<ITypeDefinition, SymbolNameSyntax> typeBaseNames_ = new Dictionary<ITypeDefinition, SymbolNameSyntax>(TypeDefinitionEqualityComparer.Default);
-    //private readonly Dictionary<string, HashSet<ITypeDefinition>> sameBaseNames_ = new Dictionary<string, HashSet<ITypeDefinition>>();
-    //private readonly HashSet<ITypeDefinition> importTypes_ = new HashSet<ITypeDefinition>(TypeDefinitionEqualityComparer.Default);
 
     public CompilationUnitTransform(AssemblyTransform assemblyTransform, List<ITypeDefinition> types) {
       AssemblyTransform = assemblyTransform;
@@ -39,18 +45,18 @@ namespace Meson.Compiler {
         rootNamespace.AddRange(classNamespace.Statements);
         CompilationUnit.AddEnumHeadInclude();
       } else {
-        var (headIncludes, headUsings, srcIncludes, forwards, importTypes) = FillHeadReferences();
-        CompilationUnit.AddHeadIncludes(headIncludes.OrderBy(i => i));
-        headUsingsSyntax.AddRange(headUsings.OrderBy(i => i).Select(i => new UsingNamespaceOrTypeSyntax(i)));
-        AddForwards(rootNamespace, forwards, headUsingsSyntax);
+        var info = FillHeadReferences();
+        CompilationUnit.AddHeadIncludes(info.HeadIncludes.OrderBy(i => i));
+        headUsingsSyntax.AddRange(info.HeadUsings.OrderBy(i => i).Select(i => new UsingNamespaceOrTypeSyntax(i)));
+        AddForwards(rootNamespace, info.Forwards, headUsingsSyntax);
         rootNamespace.Add(classNamespace);
         AddTypeUsingDeclaration(rootNamespace, classNamespace, typeDefinition, types);
         if (root_.Kind != TypeKind.Interface) {
-          CompilationUnit.AddReferencesIncludes(root_.Name, srcIncludes.OrderBy(i => i));
+          CompilationUnit.AddReferencesIncludes(root_.Name, info.SrcIncludes.OrderBy(i => i));
           CompilationUnit.AddSrcReferencesIncludes(srcReferences_.Select(i => i.GetReferenceIncludeString(true)).OrderBy(i => i));
           srcUsingsSyntax.AddRange(srcReferences_.Where(i => !root_.IsNamespaceContain(i)).Select(i => i.GetFullNamespace(true, root_)).Distinct().OrderBy(i => i).Select(i => new UsingNamespaceOrTypeSyntax(i)));
         }
-        CheckRefactorNames(headUsingsSyntax, srcUsingsSyntax, importTypes);
+        CheckRefactorNames(headUsingsSyntax, srcUsingsSyntax, info.ImportTypes);
       }
       CompilationUnit.AddNamespaceClose();
     }
@@ -65,27 +71,23 @@ namespace Meson.Compiler {
       }
     }
 
-    private (HashSet<string>, HashSet<string>, HashSet<string>, Dictionary<ITypeDefinition, StatementSyntax>, HashSet<ITypeDefinition>) FillHeadReferences() {
-      HashSet<ITypeDefinition> importTypes = new HashSet<ITypeDefinition>(TypeDefinitionEqualityComparer.Default);
-      FillCurrentImportTypes(importTypes);
-      var headIncludes = new HashSet<string>();
-      var headUsings = new HashSet<string>();
-      var srcIncludes = new HashSet<string>();
-      var forwards = new Dictionary<ITypeDefinition, StatementSyntax>();
+    private ReferencePackage FillHeadReferences() {
+      var info = new ReferencePackage();
+      FillCurrentImportTypes(info.ImportTypes);
       foreach (var (reference, isForward) in headReferences_) {
         if (isForward) {
           var forward = GetForwardMacroSyntax(reference, out var forwardType);
-          forwards[forwardType] = forward;
-          srcIncludes.Add(reference.GetReferenceIncludeString(true));
+          info.Forwards[forwardType] = forward;
+          info.SrcIncludes.Add(reference.GetReferenceIncludeString(true));
         } else {
-          headIncludes.Add(reference.GetReferenceIncludeString());
-          srcIncludes.Add(reference.GetReferenceIncludeString(true));
+          info.HeadIncludes.Add(reference.GetReferenceIncludeString());
+          info.SrcIncludes.Add(reference.GetReferenceIncludeString(true));
         }
-        if(Generator.TryGetReferenceUsing(reference, root_, out string usingNamespace, importTypes)) {
-          headUsings.Add(usingNamespace);
+        if(Generator.TryGetReferenceUsing(reference, root_, info, out string usingNamespace)) {
+          info.HeadUsings.Add(usingNamespace);
         }
       }
-      return (headIncludes, headUsings, srcIncludes, forwards, importTypes);
+      return info;
     }
 
     private void AddTypeUsingDeclaration(NamespaceSyntax rootNamespace, NamespaceSyntax classNamespace, TypeDefinitionTransform typeDefinition, IEnumerable<ITypeDefinition> types) {
@@ -109,7 +111,7 @@ namespace Meson.Compiler {
       var usingDeclaration = new UsingDeclarationSyntax(name, type) { Template = template };
       rootNamespace.Add(usingDeclaration);
       if (root_.KnownTypeCode == KnownTypeCode.ValueType) {
-        ClassSyntax valueType = new ClassSyntax(root_.Name.FirstCharLow(), true) { Template = TemplateSyntax.T };
+        var valueType = new ClassSyntax(root_.Name.FirstCharLow(), true) { Template = TemplateSyntax.T };
         var baseType = IdentifierSyntax.Meson.TwoColon(root_.Name).Generic(IdentifierSyntax.T, name.WithIn());
         valueType.Bases.Add(new BaseSyntax(baseType));
         rootNamespace.Add(valueType);
@@ -251,10 +253,8 @@ namespace Meson.Compiler {
 
       var expression = typeBaseNames_.GetOrDefault(typeDefinition);
       if (expression == null) {
-        string name = type.Name;
-        expression = new SymbolNameSyntax(name);
+        expression = new SymbolNameSyntax(type.Name);
         typeBaseNames_.Add(typeDefinition, expression);
-        //sameBaseNames_.TryAdd(name, typeDefinition, TypeDefinitionEqualityComparer.Default);
       }
       return expression;
     }
@@ -367,40 +367,7 @@ namespace Meson.Compiler {
           }
         }
       }
-
-#if false
-      foreach (var set in sameBaseNames_.Values) {
-        if (set.Count > 1) {
-          set.RemoveWhere(Generator.IsVoidGenericType);
-          if (set.Count > 0) {
-            var types = set.ToList();
-            types.Sort((x, y) => {
-              if (x.TypeParameterCount > 0 && y.TypeParameterCount == 0) {
-                return -1;
-              }
-              return x.FullName.CompareTo(y.FullName);
-            });
-            int index = 0;
-            foreach (var type in types) {
-              var name = typeBaseNames_[type];
-              if (index == 0) {
-                headUsingsSyntax.Add(GetUsingDeclarationSyntax(name.NameExpression, type, root_));
-              } else {
-                IdentifierSyntax newName = type.Name + index;
-                headUsingsSyntax.Add(GetUsingDeclarationSyntax(newName, type, root_));
-                name.Update(newName);
-              }
-              ++index;
-            }
-          }
-        } else {
-          var type = set.First();
-          var types = groups.GetOrDefault(type.Name);
-        }
-      }
-#endif
     }
-   
   }
 
   internal struct TypeNameArgs {

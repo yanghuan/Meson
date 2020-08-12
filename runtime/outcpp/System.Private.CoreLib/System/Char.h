@@ -21,7 +21,7 @@ FORWARDS(ReadOnlySpan, T)
 FORWARD(String)
 FORWARDS(UInt32)
 namespace CharNamespace {
-using namespace Globalization;
+using namespace System::Globalization;
 struct Char : public valueType<Char> {
   public: using interface = rt::TypeList<IComparable<>, IComparable<Char>, IEquatable<Char>, IConvertible>;
   public: constexpr Char() noexcept : m_value(0) {}

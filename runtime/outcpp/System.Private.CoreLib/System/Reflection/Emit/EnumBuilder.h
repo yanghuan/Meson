@@ -40,7 +40,7 @@ FORWARD(ModuleBuilder)
 FORWARD(TypeBuilder)
 FORWARDS(TypeToken)
 namespace EnumBuilderNamespace {
-using namespace Globalization;
+using namespace System::Globalization;
 CLASS(EnumBuilder) : public TypeInfo::in {
   public: TypeToken get_TypeToken();
   public: FieldBuilder get_UnderlyingField();

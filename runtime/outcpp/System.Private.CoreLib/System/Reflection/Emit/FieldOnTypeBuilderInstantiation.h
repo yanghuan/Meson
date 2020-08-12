@@ -25,7 +25,7 @@ FORWARD(CultureInfo)
 namespace System::Private::CoreLib::System::Reflection::Emit {
 FORWARD(TypeBuilderInstantiation)
 namespace FieldOnTypeBuilderInstantiationNamespace {
-using namespace Globalization;
+using namespace System::Globalization;
 CLASS(FieldOnTypeBuilderInstantiation) : public FieldInfo::in {
   public: FieldInfo get_FieldInfo();
   public: MemberTypes get_MemberType();

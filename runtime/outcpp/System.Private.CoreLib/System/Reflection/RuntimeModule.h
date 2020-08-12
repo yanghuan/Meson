@@ -44,9 +44,9 @@ FORWARD(MethodInfo)
 FORWARDS(ParameterModifier)
 FORWARD(RuntimeAssembly)
 namespace RuntimeModuleNamespace {
-using namespace Collections::Generic;
-using namespace Runtime::CompilerServices;
-using namespace Runtime::Serialization;
+using namespace System::Collections::Generic;
+using namespace System::Runtime::CompilerServices;
+using namespace System::Runtime::Serialization;
 CLASS(RuntimeModule) : public Module::in {
   public: Int32 get_MDStreamVersion();
   public: RuntimeType get_RuntimeType();

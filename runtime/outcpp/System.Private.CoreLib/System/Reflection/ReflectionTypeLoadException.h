@@ -16,7 +16,7 @@ FORWARD(Type)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Reflection {
 namespace ReflectionTypeLoadExceptionNamespace {
-using namespace Runtime::Serialization;
+using namespace System::Runtime::Serialization;
 CLASS(ReflectionTypeLoadException) : public SystemException::in {
   public: using interface = rt::TypeList<ISerializable>;
   public: Array<Type> get_Types() { return Types; }

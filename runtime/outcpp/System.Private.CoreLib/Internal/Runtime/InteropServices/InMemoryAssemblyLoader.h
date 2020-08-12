@@ -7,7 +7,7 @@ FORWARDS(IntPtr)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::Internal::Runtime::InteropServices {
 namespace InMemoryAssemblyLoaderNamespace {
-using namespace ::System::Private::CoreLib::System;
+using namespace System;
 class InMemoryAssemblyLoader {
   public: static void LoadInMemoryAssembly(IntPtr moduleHandle, IntPtr assemblyPath);
 };

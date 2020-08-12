@@ -25,8 +25,8 @@ FORWARD(RuntimeType)
 FORWARD(String)
 FORWARD(Type)
 namespace DelegateNamespace {
-using namespace Reflection;
-using namespace Runtime::Serialization;
+using namespace System::Reflection;
+using namespace System::Runtime::Serialization;
 CLASS(Delegate) : public Object::in {
   public: using interface = rt::TypeList<ICloneable, ISerializable>;
   public: Object get_Target();

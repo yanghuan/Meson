@@ -12,7 +12,7 @@ FORWARDS(StreamingContext)
 } // namespace System::Private::CoreLib::System::Runtime::Serialization
 namespace System::Private::CoreLib::System::Threading {
 namespace WaitHandleCannotBeOpenedExceptionNamespace {
-using namespace Runtime::Serialization;
+using namespace System::Runtime::Serialization;
 CLASS(WaitHandleCannotBeOpenedException) : public ApplicationException::in {
   public: void ctor();
   public: void ctor(String message);

@@ -29,7 +29,7 @@ FORWARD(Encoding)
 namespace System::Private::CoreLib::System::IO {
 FORWARD(Stream)
 namespace BinaryReaderNamespace {
-using namespace Text;
+using namespace System::Text;
 CLASS(BinaryReader) : public Object::in {
   public: using interface = rt::TypeList<IDisposable>;
   public: Stream get_BaseStream();

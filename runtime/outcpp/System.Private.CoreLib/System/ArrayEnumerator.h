@@ -11,7 +11,7 @@ namespace System::Private::CoreLib::System {
 FORWARD_(Array, T1, T2)
 FORWARD(ICloneable)
 namespace ArrayEnumeratorNamespace {
-using namespace Collections;
+using namespace System::Collections;
 CLASS(ArrayEnumerator) : public Object::in {
   public: using interface = rt::TypeList<IEnumerator, ICloneable>;
   public: Object get_Current();

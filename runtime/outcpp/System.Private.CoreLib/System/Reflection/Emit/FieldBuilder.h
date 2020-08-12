@@ -27,7 +27,7 @@ namespace System::Private::CoreLib::System::Reflection::Emit {
 FORWARD(CustomAttributeBuilder)
 FORWARD(TypeBuilder)
 namespace FieldBuilderNamespace {
-using namespace Globalization;
+using namespace System::Globalization;
 CLASS(FieldBuilder) : public FieldInfo::in {
   public: Int32 get_MetadataTokenInternal();
   public: Module get_Module();

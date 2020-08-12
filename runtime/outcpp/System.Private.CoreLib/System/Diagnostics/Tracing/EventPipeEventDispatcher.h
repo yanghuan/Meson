@@ -21,8 +21,8 @@ enum class EventLevel : int32_t;
 FORWARD(EventListener)
 FORWARD(EventPipeWaitHandle)
 namespace EventPipeEventDispatcherNamespace {
-using namespace Collections::Generic;
-using namespace Threading::Tasks;
+using namespace System::Collections::Generic;
+using namespace System::Threading::Tasks;
 CLASS(EventPipeEventDispatcher) : public Object::in {
   public: CLASS(EventListenerSubscription) : public Object::in {
     public: EventKeywords get_MatchAnyKeywords() { return MatchAnyKeywords; }

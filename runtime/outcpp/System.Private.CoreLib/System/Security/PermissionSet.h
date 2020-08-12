@@ -27,9 +27,9 @@ FORWARD(ISecurityEncodable)
 FORWARD(IStackWalk)
 FORWARD(SecurityElement)
 namespace PermissionSetNamespace {
-using namespace Collections;
-using namespace Permissions;
-using namespace Runtime::Serialization;
+using namespace System::Collections;
+using namespace System::Runtime::Serialization;
+using namespace System::Security::Permissions;
 CLASS(PermissionSet) : public Object::in {
   public: using interface = rt::TypeList<ICollection, IEnumerable, IDeserializationCallback, ISecurityEncodable, IStackWalk>;
   public: Int32 get_Count();

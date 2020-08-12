@@ -16,7 +16,7 @@ namespace System::Private::CoreLib::System::Text {
 FORWARD(CodePageDataItem)
 FORWARD(EncodingInfo)
 namespace EncodingTableNamespace {
-using namespace Collections;
+using namespace System::Collections;
 class EncodingTable {
   public: static Int32 GetCodePageFromName(String name);
   private: static Int32 InternalGetCodePageFromName(String name);

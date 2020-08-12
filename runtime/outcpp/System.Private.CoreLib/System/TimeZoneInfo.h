@@ -43,12 +43,12 @@ FORWARDS(Int64)
 FORWARDS_(Nullable, T1, T2)
 FORWARD(String)
 namespace TimeZoneInfoNamespace {
-using namespace ::System::Private::CoreLib::Internal::Win32;
-using namespace Collections::Generic;
-using namespace Collections::ObjectModel;
-using namespace Globalization;
-using namespace Runtime::Serialization;
-using namespace Text;
+using namespace Internal::Win32;
+using namespace System::Collections::Generic;
+using namespace System::Collections::ObjectModel;
+using namespace System::Globalization;
+using namespace System::Runtime::Serialization;
+using namespace System::Text;
 CLASS(TimeZoneInfo) : public Object::in {
   public: using interface = rt::TypeList<IEquatable<TimeZoneInfo>, ISerializable, IDeserializationCallback>;
   private: enum class TimeZoneInfoResult : int32_t {

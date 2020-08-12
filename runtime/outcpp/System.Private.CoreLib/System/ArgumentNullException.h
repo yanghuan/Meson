@@ -10,7 +10,7 @@ namespace System::Private::CoreLib::System {
 FORWARD(Exception)
 FORWARD(String)
 namespace ArgumentNullExceptionNamespace {
-using namespace Runtime::Serialization;
+using namespace System::Runtime::Serialization;
 CLASS(ArgumentNullException) : public ArgumentException::in {
   public: void ctor();
   public: void ctor(String paramName);

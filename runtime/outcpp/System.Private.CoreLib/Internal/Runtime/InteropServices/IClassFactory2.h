@@ -12,7 +12,7 @@ namespace System::Private::CoreLib::Internal::Runtime::InteropServices {
 FORWARD(IClassFactory)
 FORWARDS(LICINFO)
 namespace IClassFactory2Namespace {
-using namespace ::System::Private::CoreLib::System;
+using namespace System;
 CLASS(IClassFactory2) : public Object::in {
   public: using interface = rt::TypeList<IClassFactory>;
   public: void CreateInstance(Object pUnkOuter, Guid& riid, Object& ppvObject);

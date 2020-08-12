@@ -32,10 +32,10 @@ FORWARD(CultureInfo)
 FORWARD(SortKey)
 FORWARD(SortVersion)
 namespace CompareInfoNamespace {
-using namespace Collections::Generic;
-using namespace Reflection;
-using namespace Runtime::Serialization;
-using namespace Text;
+using namespace System::Collections::Generic;
+using namespace System::Reflection;
+using namespace System::Runtime::Serialization;
+using namespace System::Text;
 CLASS(CompareInfo) : public Object::in {
   public: using interface = rt::TypeList<IDeserializationCallback>;
   private: class SortHandleCache {

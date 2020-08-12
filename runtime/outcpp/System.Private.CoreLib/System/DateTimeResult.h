@@ -17,7 +17,7 @@ enum class ParseFlags : int32_t;
 FORWARD(Object)
 FORWARD(String)
 namespace DateTimeResultNamespace {
-using namespace Globalization;
+using namespace System::Globalization;
 struct DateTimeResult : public valueType<DateTimeResult> {
   public: void Init(ReadOnlySpan<Char> originalDateTimeString);
   public: void SetDate(Int32 year, Int32 month, Int32 day);

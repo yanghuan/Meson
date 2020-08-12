@@ -11,8 +11,8 @@ FORWARD(IAsyncEnumerator, T)
 namespace System::Private::CoreLib::System::Runtime::CompilerServices {
 FORWARDS_(ConfiguredValueTaskAwaitable, T1, T2)
 namespace ConfiguredCancelableAsyncEnumerableNamespace {
-using namespace Collections::Generic;
-using namespace Threading;
+using namespace System::Collections::Generic;
+using namespace System::Threading;
 template <class T>
 struct ConfiguredCancelableAsyncEnumerable : public valueType<ConfiguredCancelableAsyncEnumerable<T>> {
   public: struct Enumerator : public valueType<Enumerator> {

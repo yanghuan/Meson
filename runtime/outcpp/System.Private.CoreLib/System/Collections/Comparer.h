@@ -17,8 +17,8 @@ FORWARDS(Int32)
 namespace System::Private::CoreLib::System::Collections {
 FORWARD(IComparer)
 namespace ComparerNamespace {
-using namespace Globalization;
-using namespace Runtime::Serialization;
+using namespace System::Globalization;
+using namespace System::Runtime::Serialization;
 CLASS(Comparer) : public Object::in {
   public: using interface = rt::TypeList<IComparer, ISerializable>;
   public: void ctor(CultureInfo culture);

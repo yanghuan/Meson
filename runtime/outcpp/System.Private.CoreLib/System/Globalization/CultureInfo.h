@@ -28,8 +28,8 @@ FORWARD(DateTimeFormatInfo)
 FORWARD(NumberFormatInfo)
 FORWARD(TextInfo)
 namespace CultureInfoNamespace {
-using namespace Collections::Generic;
-using namespace Threading;
+using namespace System::Collections::Generic;
+using namespace System::Threading;
 CLASS(CultureInfo) : public Object::in {
   public: using interface = rt::TypeList<IFormatProvider, ICloneable>;
   public: static CultureInfo get_CurrentCulture();

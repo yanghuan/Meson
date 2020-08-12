@@ -13,7 +13,7 @@ FORWARDS(StreamingContext)
 } // namespace System::Private::CoreLib::System::Runtime::Serialization
 namespace System::Private::CoreLib::System::Security::Cryptography {
 namespace CryptographicExceptionNamespace {
-using namespace Runtime::Serialization;
+using namespace System::Runtime::Serialization;
 CLASS(CryptographicException) : public SystemException::in {
   public: void ctor();
   public: void ctor(Int32 hr);

@@ -43,10 +43,10 @@ FORWARD(ExceptionDispatchInfo)
 namespace System::Private::CoreLib::System::IO {
 enum class SeekOrigin : int32_t;
 namespace StreamNamespace {
-using namespace Buffers;
-using namespace Runtime::ExceptionServices;
-using namespace Threading;
-using namespace Threading::Tasks;
+using namespace System::Buffers;
+using namespace System::Runtime::ExceptionServices;
+using namespace System::Threading;
+using namespace System::Threading::Tasks;
 CLASS(Stream) : public MarshalByRefObject::in {
   public: using interface = rt::TypeList<IDisposable, IAsyncDisposable>;
   private: struct ReadWriteParameters : public valueType<ReadWriteParameters> {

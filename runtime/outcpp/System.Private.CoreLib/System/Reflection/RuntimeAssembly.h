@@ -62,14 +62,14 @@ FORWARD(ModuleResolveEventHandler)
 FORWARD(RuntimeModule)
 FORWARD(TypeInfo)
 namespace RuntimeAssemblyNamespace {
-using namespace Collections::Generic;
-using namespace Configuration::Assemblies;
-using namespace Globalization;
-using namespace IO;
-using namespace Runtime::CompilerServices;
-using namespace Runtime::Loader;
-using namespace Runtime::Serialization;
-using namespace Threading;
+using namespace System::Collections::Generic;
+using namespace System::Configuration::Assemblies;
+using namespace System::Globalization;
+using namespace System::IO;
+using namespace System::Runtime::CompilerServices;
+using namespace System::Runtime::Loader;
+using namespace System::Runtime::Serialization;
+using namespace System::Threading;
 CLASS(RuntimeAssembly) : public Assembly::in {
   private: CLASS(ManifestResourceStream) : public UnmanagedMemoryStream::in {
     public: void ctor(RuntimeAssembly manifestAssembly, Byte* pointer, Int64 length, Int64 capacity, FileAccess access);

@@ -14,8 +14,8 @@ FORWARD_(IComparable, T1, T2)
 FORWARDS(Int32)
 FORWARD(ITupleInternal)
 namespace TupleNamespace {
-using namespace Collections;
-using namespace Runtime::CompilerServices;
+using namespace System::Collections;
+using namespace System::Runtime::CompilerServices;
 CLASS_FORWARD(Tuple, T1, T2, T3, T4, T5, T6, T7, T8, T9)
 CLASS_(Tuple) {
 };

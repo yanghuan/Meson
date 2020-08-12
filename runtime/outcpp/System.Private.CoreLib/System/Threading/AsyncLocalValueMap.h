@@ -15,7 +15,7 @@ namespace System::Private::CoreLib::System::Threading {
 FORWARD(IAsyncLocal)
 FORWARD(IAsyncLocalValueMap)
 namespace AsyncLocalValueMapNamespace {
-using namespace Collections::Generic;
+using namespace System::Collections::Generic;
 class AsyncLocalValueMap {
   private: CLASS(EmptyAsyncLocalValueMap) : public Object::in {
     public: using interface = rt::TypeList<IAsyncLocalValueMap>;

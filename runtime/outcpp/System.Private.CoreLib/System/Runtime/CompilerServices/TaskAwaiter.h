@@ -13,7 +13,7 @@ FORWARD(ICriticalNotifyCompletion)
 FORWARD(INotifyCompletion)
 FORWARD(ITaskAwaiter)
 namespace TaskAwaiterNamespace {
-using namespace Threading::Tasks;
+using namespace System::Threading::Tasks;
 template <class T1 = void, class T2 = void>
 struct TaskAwaiter {
 };

@@ -14,7 +14,7 @@ FORWARDS(IntPtr)
 FORWARD(RuntimeType)
 FORWARD(String)
 namespace ResolverNamespace {
-using namespace Reflection;
+using namespace System::Reflection;
 CLASS(Resolver) : public Object::in {
   public: struct CORINFO_EH_CLAUSE : public valueType<CORINFO_EH_CLAUSE> {
     public: Int32 Flags;

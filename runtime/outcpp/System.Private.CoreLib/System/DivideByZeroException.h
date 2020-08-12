@@ -10,7 +10,7 @@ namespace System::Private::CoreLib::System {
 FORWARD(Exception)
 FORWARD(String)
 namespace DivideByZeroExceptionNamespace {
-using namespace Runtime::Serialization;
+using namespace System::Runtime::Serialization;
 CLASS(DivideByZeroException) : public ArithmeticException::in {
   public: void ctor();
   public: void ctor(String message);

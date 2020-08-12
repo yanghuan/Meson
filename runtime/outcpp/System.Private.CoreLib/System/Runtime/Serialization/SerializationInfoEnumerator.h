@@ -15,7 +15,7 @@ FORWARD(Type)
 namespace System::Private::CoreLib::System::Runtime::Serialization {
 FORWARDS(SerializationEntry)
 namespace SerializationInfoEnumeratorNamespace {
-using namespace Collections;
+using namespace System::Collections;
 CLASS(SerializationInfoEnumerator) : public Object::in {
   public: using interface = rt::TypeList<IEnumerator>;
   private: Object get_CurrentOfIEnumerator();

@@ -11,8 +11,8 @@ FORWARD(ModuleBuilder)
 } // namespace System::Private::CoreLib::System::Reflection::Emit
 namespace System::Private::CoreLib::System::Runtime::CompilerServices {
 namespace QCallModuleNamespace {
-using namespace Reflection;
-using namespace Reflection::Emit;
+using namespace System::Reflection;
+using namespace System::Reflection::Emit;
 struct QCallModule : public valueType<QCallModule> {
   public: explicit QCallModule(RuntimeModule& module);
   public: explicit QCallModule(ModuleBuilder& module);

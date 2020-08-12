@@ -15,7 +15,7 @@ FORWARD(IEnumerable, T)
 namespace System::Private::CoreLib::System::Diagnostics::Contracts {
 enum class ContractFailureKind : int32_t;
 namespace ContractNamespace {
-using namespace Collections::Generic;
+using namespace System::Collections::Generic;
 class Contract {
   public: static void Assume(Boolean condition);
   public: static void Assume(Boolean condition, String userMessage);

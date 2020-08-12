@@ -18,8 +18,8 @@ FORWARDS(CancellationToken)
 } // namespace System::Private::CoreLib::System::Threading
 namespace System::Private::CoreLib::System::Threading::Tasks {
 namespace TaskAsyncEnumerableExtensionsNamespace {
-using namespace Collections::Generic;
-using namespace Runtime::CompilerServices;
+using namespace System::Collections::Generic;
+using namespace System::Runtime::CompilerServices;
 class TaskAsyncEnumerableExtensions {
   public: static ConfiguredAsyncDisposable ConfigureAwait(IAsyncDisposable source, Boolean continueOnCapturedContext);
   public: template <class T>

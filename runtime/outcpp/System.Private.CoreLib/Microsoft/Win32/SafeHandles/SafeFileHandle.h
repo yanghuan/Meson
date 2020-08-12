@@ -12,8 +12,8 @@ FORWARDS(IntPtr)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::Microsoft::Win32::SafeHandles {
 namespace SafeFileHandleNamespace {
-using namespace ::System::Private::CoreLib::System;
-using namespace ::System::Private::CoreLib::System::Threading;
+using namespace System;
+using namespace System::Threading;
 CLASS(SafeFileHandle) : public SafeHandleZeroOrMinusOneIsInvalid::in {
   public: Nullable<Boolean> get_IsAsync();
   public: void set_IsAsync(Nullable<Boolean> value);

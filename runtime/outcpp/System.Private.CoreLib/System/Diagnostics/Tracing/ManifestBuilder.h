@@ -36,10 +36,10 @@ enum class EventTask : int32_t;
 FORWARD(EventAttribute)
 FORWARD(EventChannelAttribute)
 namespace ManifestBuilderNamespace {
-using namespace Collections::Generic;
-using namespace Globalization;
-using namespace Resources;
-using namespace Text;
+using namespace System::Collections::Generic;
+using namespace System::Globalization;
+using namespace System::Resources;
+using namespace System::Text;
 CLASS(ManifestBuilder) : public Object::in {
   private: CLASS(ChannelInfo) : public Object::in {
     public: void ctor();

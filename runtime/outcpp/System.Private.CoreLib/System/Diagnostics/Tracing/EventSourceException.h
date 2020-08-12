@@ -11,7 +11,7 @@ FORWARDS(StreamingContext)
 } // namespace System::Private::CoreLib::System::Runtime::Serialization
 namespace System::Private::CoreLib::System::Diagnostics::Tracing {
 namespace EventSourceExceptionNamespace {
-using namespace Runtime::Serialization;
+using namespace System::Runtime::Serialization;
 CLASS(EventSourceException) : public Exception::in {
   public: void ctor();
   public: void ctor(String message);

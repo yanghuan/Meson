@@ -22,7 +22,7 @@ namespace System::Private::CoreLib::System::Threading::Tasks {
 FORWARD_(Task, T1, T2)
 FORWARD(TaskScheduler)
 namespace AwaitTaskContinuationNamespace {
-using namespace Runtime::CompilerServices;
+using namespace System::Runtime::CompilerServices;
 CLASS(AwaitTaskContinuation) : public TaskContinuation::in {
   public: using interface = rt::TypeList<IThreadPoolWorkItem>;
   public: static Boolean get_IsValidLocationForInlining();

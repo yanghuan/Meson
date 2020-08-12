@@ -14,7 +14,7 @@ FORWARD(Object)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Collections::Generic {
 namespace EnumComparerNamespace {
-using namespace Runtime::Serialization;
+using namespace System::Runtime::Serialization;
 template <class T>
 using Comparer = Generic::Comparer<T>;
 CLASS(EnumComparer, T) : public Comparer<T>::in {

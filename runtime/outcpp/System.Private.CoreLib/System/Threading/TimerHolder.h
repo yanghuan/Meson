@@ -12,7 +12,7 @@ namespace System::Private::CoreLib::System::Threading {
 FORWARD(TimerQueueTimer)
 FORWARD(WaitHandle)
 namespace TimerHolderNamespace {
-using namespace Tasks;
+using namespace System::Threading::Tasks;
 CLASS(TimerHolder) : public Object::in {
   public: void ctor(TimerQueueTimer timer);
   protected: void Finalize();

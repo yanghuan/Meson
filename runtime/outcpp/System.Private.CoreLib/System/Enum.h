@@ -33,8 +33,8 @@ FORWARDS(UInt16)
 FORWARDS(UInt32)
 FORWARDS(UInt64)
 namespace EnumNamespace {
-using namespace Reflection;
-using namespace Runtime::CompilerServices;
+using namespace System::Reflection;
+using namespace System::Runtime::CompilerServices;
 CLASS(Enum) : public ValueType::in {
   public: using interface = rt::TypeList<IComparable<>, IFormattable, IConvertible>;
   private: CLASS(EnumInfo) : public Object::in {

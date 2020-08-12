@@ -21,8 +21,8 @@ FORWARDS(Int64)
 FORWARD(Object)
 FORWARD(String)
 namespace IntPtrNamespace {
-using namespace Globalization;
-using namespace Runtime::Serialization;
+using namespace System::Globalization;
+using namespace System::Runtime::Serialization;
 struct IntPtr : public valueType<IntPtr> {
   public: using interface = rt::TypeList<IEquatable<IntPtr>, IComparable<>, IComparable<IntPtr>, IFormattable, ISerializable>;
   public: static Int32 get_Size();

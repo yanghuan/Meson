@@ -21,7 +21,7 @@ FORWARDS(ReadOnlySpan, T)
 FORWARDS(Span, T)
 FORWARD(String)
 namespace Int64Namespace {
-using namespace Globalization;
+using namespace System::Globalization;
 struct Int64 : public valueType<Int64> {
   public: using interface = rt::TypeList<IComparable<>, IConvertible, IFormattable, IComparable<Int64>, IEquatable<Int64>, ISpanFormattable>;
   public: constexpr Int64() noexcept : m_value(0) {}

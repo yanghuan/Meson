@@ -17,8 +17,8 @@ FORWARD(List, T)
 } // namespace System::Private::CoreLib::System::Collections::Generic
 namespace System::Private::CoreLib::System::Reflection::Emit {
 namespace TypeNameBuilderNamespace {
-using namespace Collections::Generic;
-using namespace Text;
+using namespace System::Collections::Generic;
+using namespace System::Text;
 CLASS(TypeNameBuilder) : public Object::in {
   public: enum class Format : int32_t {
     ToString = 0,

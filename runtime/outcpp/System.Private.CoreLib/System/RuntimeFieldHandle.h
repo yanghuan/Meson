@@ -23,8 +23,8 @@ FORWARD(RuntimeType)
 FORWARD(String)
 FORWARDS(UInt32)
 namespace RuntimeFieldHandleNamespace {
-using namespace Reflection;
-using namespace Runtime::Serialization;
+using namespace System::Reflection;
+using namespace System::Runtime::Serialization;
 struct RuntimeFieldHandle : public valueType<RuntimeFieldHandle> {
   public: using interface = rt::TypeList<ISerializable>;
   public: IntPtr get_Value();

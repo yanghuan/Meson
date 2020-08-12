@@ -25,7 +25,7 @@ FORWARD(TimerCallback)
 FORWARD(TimerQueueTimer)
 FORWARD(WaitHandle)
 namespace CancellationTokenSourceNamespace {
-using namespace Tasks;
+using namespace System::Threading::Tasks;
 CLASS(CancellationTokenSource) : public Object::in {
   public: using interface = rt::TypeList<IDisposable>;
   public: FORWARDN(CallbackPartition)

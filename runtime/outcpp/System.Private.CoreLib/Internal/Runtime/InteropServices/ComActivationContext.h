@@ -9,7 +9,7 @@ FORWARD(String)
 namespace System::Private::CoreLib::Internal::Runtime::InteropServices {
 FORWARDS(ComActivationContextInternal)
 namespace ComActivationContextNamespace {
-using namespace ::System::Private::CoreLib::System;
+using namespace System;
 struct ComActivationContext : public valueType<ComActivationContext> {
   public: static ComActivationContext Create(ComActivationContextInternal& cxtInt);
   public: Guid ClassId;

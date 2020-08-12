@@ -14,8 +14,8 @@ FORWARD(Dictionary, TKey, TValue)
 } // namespace System::Private::CoreLib::System::Collections::Generic
 namespace System::Private::CoreLib::System::Runtime::Loader {
 namespace AssemblyDependencyResolverNamespace {
-using namespace Collections::Generic;
-using namespace Reflection;
+using namespace System::Collections::Generic;
+using namespace System::Reflection;
 CLASS(AssemblyDependencyResolver) : public Object::in {
   public: void ctor(String componentAssemblyPath);
   public: String ResolveAssemblyToPath(AssemblyName assemblyName);

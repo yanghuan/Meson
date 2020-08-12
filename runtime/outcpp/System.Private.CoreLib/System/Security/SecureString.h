@@ -15,7 +15,7 @@ FORWARDS(UInt64)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Security {
 namespace SecureStringNamespace {
-using namespace Runtime::InteropServices;
+using namespace System::Runtime::InteropServices;
 CLASS(SecureString) : public Object::in {
   public: using interface = rt::TypeList<IDisposable>;
   private: CLASS(UnmanagedBuffer) : public SafeBuffer::in {

@@ -15,7 +15,7 @@ FORWARDS(StreamingContext)
 } // namespace System::Private::CoreLib::System::Runtime::Serialization
 namespace System::Private::CoreLib::System::Text {
 namespace DecoderFallbackExceptionNamespace {
-using namespace Runtime::Serialization;
+using namespace System::Runtime::Serialization;
 CLASS(DecoderFallbackException) : public ArgumentException::in {
   public: Array<Byte> get_BytesUnknown();
   public: Int32 get_Index();

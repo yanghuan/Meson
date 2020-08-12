@@ -15,8 +15,8 @@ namespace System::Private::CoreLib::System {
 FORWARD(Exception)
 FORWARD(String)
 namespace TypeLoadExceptionNamespace {
-using namespace Runtime::CompilerServices;
-using namespace Runtime::Serialization;
+using namespace System::Runtime::CompilerServices;
+using namespace System::Runtime::Serialization;
 CLASS(TypeLoadException) : public SystemException::in {
   public: using interface = rt::TypeList<ISerializable>;
   public: String get_Message();

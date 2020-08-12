@@ -11,7 +11,7 @@ FORWARD(Exception)
 FORWARD(Object)
 FORWARD(String)
 namespace ArgumentOutOfRangeExceptionNamespace {
-using namespace Runtime::Serialization;
+using namespace System::Runtime::Serialization;
 CLASS(ArgumentOutOfRangeException) : public ArgumentException::in {
   public: String get_Message();
   public: Object get_ActualValue();

@@ -18,8 +18,8 @@ FORWARD(IAsyncStateMachineBox)
 } // namespace System::Private::CoreLib::System::Runtime::CompilerServices
 namespace System::Private::CoreLib::System::Threading::Tasks {
 namespace TplEventSourceNamespace {
-using namespace Diagnostics::Tracing;
-using namespace Runtime::CompilerServices;
+using namespace System::Diagnostics::Tracing;
+using namespace System::Runtime::CompilerServices;
 CLASS(TplEventSource) : public EventSource::in {
   public: enum class TaskWaitBehavior : int32_t {
     Synchronous = 1,

@@ -15,7 +15,7 @@ namespace System::Private::CoreLib::System::Reflection {
 FORWARD(ExceptionHandlingClause)
 FORWARD(LocalVariableInfo)
 namespace MethodBodyNamespace {
-using namespace Collections::Generic;
+using namespace System::Collections::Generic;
 CLASS(MethodBody) : public Object::in {
   public: Int32 get_LocalSignatureMetadataToken();
   public: IList<LocalVariableInfo> get_LocalVariables();

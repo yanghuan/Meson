@@ -6,7 +6,7 @@ namespace System::Private::CoreLib::System {
 FORWARDS(Boolean)
 FORWARDS(IntPtr)
 namespace SafeTypeNameParserHandleNamespace {
-using namespace ::System::Private::CoreLib::Microsoft::Win32::SafeHandles;
+using namespace Microsoft::Win32::SafeHandles;
 CLASS(SafeTypeNameParserHandle) : public SafeHandleZeroOrMinusOneIsInvalid::in {
   private: static void _ReleaseTypeNameParser(IntPtr pTypeNameParser);
   public: void ctor();

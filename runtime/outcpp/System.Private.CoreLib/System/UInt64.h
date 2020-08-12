@@ -21,7 +21,7 @@ FORWARDS(ReadOnlySpan, T)
 FORWARDS(Span, T)
 FORWARD(String)
 namespace UInt64Namespace {
-using namespace Globalization;
+using namespace System::Globalization;
 struct UInt64 : public valueType<UInt64> {
   public: using interface = rt::TypeList<IComparable<>, IConvertible, IFormattable, IComparable<UInt64>, IEquatable<UInt64>, ISpanFormattable>;
   public: constexpr UInt64() noexcept : m_value(0) {}

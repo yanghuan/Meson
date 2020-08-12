@@ -22,7 +22,7 @@ namespace System::Private::CoreLib::System::Globalization {
 enum class TimeSpanStyles : int32_t;
 FORWARD(DateTimeFormatInfo)
 namespace TimeSpanParseNamespace {
-using namespace Text;
+using namespace System::Text;
 class TimeSpanParse {
   private: enum class TimeSpanStandardStyles : uint8_t {
     None = 0,

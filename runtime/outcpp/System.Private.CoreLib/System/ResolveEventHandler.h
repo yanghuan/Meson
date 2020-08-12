@@ -12,7 +12,7 @@ FORWARDS(IntPtr)
 FORWARD(Object)
 FORWARD(ResolveEventArgs)
 namespace ResolveEventHandlerNamespace {
-using namespace Reflection;
+using namespace System::Reflection;
 CLASS(ResolveEventHandler) : public MulticastDelegate::in {
   public: void ctor(Object object, IntPtr method);
   public: Assembly Invoke(Object sender, ResolveEventArgs args);

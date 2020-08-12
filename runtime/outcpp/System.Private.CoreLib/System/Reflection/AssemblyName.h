@@ -34,9 +34,9 @@ enum class PortableExecutableKinds : int32_t;
 enum class ProcessorArchitecture : int32_t;
 FORWARD(StrongNameKeyPair)
 namespace AssemblyNameNamespace {
-using namespace Configuration::Assemblies;
-using namespace Globalization;
-using namespace Runtime::Serialization;
+using namespace System::Configuration::Assemblies;
+using namespace System::Globalization;
+using namespace System::Runtime::Serialization;
 CLASS(AssemblyName) : public Object::in {
   public: using interface = rt::TypeList<ICloneable, IDeserializationCallback, ISerializable>;
   public: String get_Name();

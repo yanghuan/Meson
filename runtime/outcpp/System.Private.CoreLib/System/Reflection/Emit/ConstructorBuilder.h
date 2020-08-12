@@ -34,7 +34,7 @@ FORWARD(ModuleBuilder)
 FORWARD(ParameterBuilder)
 FORWARD(TypeBuilder)
 namespace ConstructorBuilderNamespace {
-using namespace Globalization;
+using namespace System::Globalization;
 CLASS(ConstructorBuilder) : public ConstructorInfo::in {
   public: Int32 get_MetadataTokenInternal();
   public: Module get_Module();

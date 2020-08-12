@@ -23,7 +23,7 @@ enum class FieldAttributes : int32_t;
 FORWARD(Binder)
 FORWARD(RuntimeModule)
 namespace MdFieldInfoNamespace {
-using namespace Globalization;
+using namespace System::Globalization;
 CLASS(MdFieldInfo) : public RuntimeFieldInfo::in {
   public: String get_Name();
   public: Int32 get_MetadataToken();

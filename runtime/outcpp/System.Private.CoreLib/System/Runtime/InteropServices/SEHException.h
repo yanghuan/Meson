@@ -13,7 +13,7 @@ FORWARDS(StreamingContext)
 } // namespace System::Private::CoreLib::System::Runtime::Serialization
 namespace System::Private::CoreLib::System::Runtime::InteropServices {
 namespace SEHExceptionNamespace {
-using namespace Serialization;
+using namespace System::Runtime::Serialization;
 CLASS(SEHException) : public ExternalException::in {
   public: void ctor();
   public: void ctor(String message);

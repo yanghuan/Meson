@@ -24,8 +24,8 @@ enum class EventFieldFormat : int32_t;
 enum class TraceLoggingDataType : int32_t;
 FORWARD(TraceLoggingTypeInfo)
 namespace StaticsNamespace {
-using namespace Collections::Generic;
-using namespace Reflection;
+using namespace System::Collections::Generic;
+using namespace System::Reflection;
 class Statics {
   public: static Array<Byte> MetadataForString(String name, Int32 prefixSize, Int32 suffixSize, Int32 additionalSize);
   public: static void EncodeTags(Int32 tags, Int32& pos, Array<Byte> metadata);

@@ -16,7 +16,7 @@ FORWARD(Assembly)
 namespace System::Private::CoreLib::System::Runtime::InteropServices {
 enum class DllImportSearchPath : int32_t;
 namespace DllImportResolverNamespace {
-using namespace Reflection;
+using namespace System::Reflection;
 CLASS(DllImportResolver) : public MulticastDelegate::in {
   public: void ctor(Object object, IntPtr method);
   public: IntPtr Invoke(String libraryName, Assembly assembly, Nullable<DllImportSearchPath> searchPath);

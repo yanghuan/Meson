@@ -12,7 +12,7 @@ FORWARD(String)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Globalization {
 namespace TextElementEnumeratorNamespace {
-using namespace Collections;
+using namespace System::Collections;
 CLASS(TextElementEnumerator) : public Object::in {
   public: using interface = rt::TypeList<IEnumerator>;
   public: Object get_Current();

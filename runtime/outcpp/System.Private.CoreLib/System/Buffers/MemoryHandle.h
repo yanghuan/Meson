@@ -9,7 +9,7 @@ FORWARD(IDisposable)
 namespace System::Private::CoreLib::System::Buffers {
 FORWARD(IPinnable)
 namespace MemoryHandleNamespace {
-using namespace Runtime::InteropServices;
+using namespace System::Runtime::InteropServices;
 struct MemoryHandle : public valueType<MemoryHandle> {
   public: using interface = rt::TypeList<IDisposable>;
   public: void* get_Pointer();

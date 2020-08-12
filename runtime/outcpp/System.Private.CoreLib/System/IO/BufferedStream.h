@@ -28,8 +28,8 @@ FORWARDS_(ValueTask, T1, T2)
 namespace System::Private::CoreLib::System::IO {
 enum class SeekOrigin : int32_t;
 namespace BufferedStreamNamespace {
-using namespace Threading;
-using namespace Threading::Tasks;
+using namespace System::Threading;
+using namespace System::Threading::Tasks;
 CLASS(BufferedStream) : public Stream::in {
   public: Stream get_UnderlyingStream();
   public: Int32 get_BufferSize();

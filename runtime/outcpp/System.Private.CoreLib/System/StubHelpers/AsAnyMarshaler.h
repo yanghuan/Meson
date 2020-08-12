@@ -16,7 +16,7 @@ FORWARD(StringBuilder)
 namespace System::Private::CoreLib::System::StubHelpers {
 FORWARD(CleanupWorkListElement)
 namespace AsAnyMarshalerNamespace {
-using namespace Text;
+using namespace System::Text;
 struct AsAnyMarshaler : public valueType<AsAnyMarshaler> {
   private: enum class BackPropAction : int32_t {
     None = 0,

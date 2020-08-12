@@ -22,8 +22,8 @@ FORWARDS(UInt32)
 FORWARDS(UInt64)
 FORWARDS(UIntPtr)
 namespace SpanHelpersNamespace {
-using namespace Numerics;
-using namespace Runtime::Intrinsics;
+using namespace System::Numerics;
+using namespace System::Runtime::Intrinsics;
 class SpanHelpers {
   public: template <class T, class TComparer>
   struct ComparerComparable : public valueType<ComparerComparable<T, TComparer>> {

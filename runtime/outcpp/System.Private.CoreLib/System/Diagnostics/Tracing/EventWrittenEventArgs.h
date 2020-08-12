@@ -24,7 +24,7 @@ enum class EventTags : int32_t;
 enum class EventTask : int32_t;
 FORWARD(EventSource)
 namespace EventWrittenEventArgsNamespace {
-using namespace Collections::ObjectModel;
+using namespace System::Collections::ObjectModel;
 CLASS(EventWrittenEventArgs) : public EventArgs::in {
   public: String get_EventName();
   public: void set_EventName(String value);

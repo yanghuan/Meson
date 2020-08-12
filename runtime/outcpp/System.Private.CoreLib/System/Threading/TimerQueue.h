@@ -14,7 +14,7 @@ FORWARDS(IntPtr)
 namespace System::Private::CoreLib::System::Threading {
 FORWARD(TimerQueueTimer)
 namespace TimerQueueNamespace {
-using namespace ::System::Private::CoreLib::Microsoft::Win32::SafeHandles;
+using namespace Microsoft::Win32::SafeHandles;
 CLASS(TimerQueue) : public Object::in {
   private: CLASS(AppDomainTimerSafeHandle) : public SafeHandleZeroOrMinusOneIsInvalid::in {
     public: void ctor();

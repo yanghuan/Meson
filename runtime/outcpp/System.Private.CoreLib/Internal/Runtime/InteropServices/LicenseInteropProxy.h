@@ -14,8 +14,8 @@ FORWARD(MethodInfo)
 } // namespace System::Private::CoreLib::System::Reflection
 namespace System::Private::CoreLib::Internal::Runtime::InteropServices {
 namespace LicenseInteropProxyNamespace {
-using namespace ::System::Private::CoreLib::System;
-using namespace ::System::Private::CoreLib::System::Reflection;
+using namespace System;
+using namespace System::Reflection;
 CLASS(LicenseInteropProxy) : public Object::in {
   public: void ctor();
   public: static Object Create();

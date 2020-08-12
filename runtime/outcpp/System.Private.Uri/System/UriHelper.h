@@ -25,7 +25,7 @@ FORWARD(UriParser)
 namespace UriHelperNamespace {
 using namespace ::System::Private::CoreLib::System;
 using namespace ::System::Private::CoreLib::System::Text;
-using namespace Text;
+using namespace System::Text;
 using ValueStringBuilder = Text::ValueStringBuilder;
 class UriHelper {
   public: static ReadOnlySpan<Boolean> get_UnreservedReservedTable();

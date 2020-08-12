@@ -12,8 +12,8 @@ namespace System::Private::CoreLib::System {
 FORWARDS(Int32)
 FORWARD(String)
 namespace IValueTupleInternalNamespace {
-using namespace Collections;
-using namespace Runtime::CompilerServices;
+using namespace System::Collections;
+using namespace System::Runtime::CompilerServices;
 CLASS(IValueTupleInternal) : public Object::in {
   public: using interface = rt::TypeList<ITuple>;
   public: Int32 GetHashCode(IEqualityComparer comparer);

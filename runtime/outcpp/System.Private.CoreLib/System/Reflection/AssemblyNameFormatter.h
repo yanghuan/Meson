@@ -19,8 +19,8 @@ namespace System::Private::CoreLib::System::Reflection {
 enum class AssemblyContentType : int32_t;
 enum class AssemblyNameFlags : int32_t;
 namespace AssemblyNameFormatterNamespace {
-using namespace Collections::Generic;
-using namespace Text;
+using namespace System::Collections::Generic;
+using namespace System::Text;
 class AssemblyNameFormatter {
   public: static String ComputeDisplayName(String name, Version version, String cultureName, Array<Byte> pkt, AssemblyNameFlags flags, AssemblyContentType contentType);
   private: static void AppendQuoted(StringBuilder sb, String s);

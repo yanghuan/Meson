@@ -24,7 +24,7 @@ FORWARD(Encoder)
 FORWARD(EncoderFallback)
 FORWARDS(Rune)
 namespace UTF8EncodingNamespace {
-using namespace Buffers;
+using namespace System::Buffers;
 CLASS(UTF8Encoding) : public Encoding::in {
   public: FRIENDN(UTF8EncodingSealed)
   public: static ReadOnlySpan<Byte> get_PreambleSpan();

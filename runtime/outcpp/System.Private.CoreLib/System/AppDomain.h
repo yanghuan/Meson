@@ -39,12 +39,12 @@ FORWARD(ResolveEventHandler)
 FORWARD(String)
 FORWARDS(TimeSpan)
 namespace AppDomainNamespace {
-using namespace Configuration::Assemblies;
-using namespace Globalization;
-using namespace Reflection;
-using namespace Runtime::Remoting;
-using namespace Security;
-using namespace Security::Principal;
+using namespace System::Configuration::Assemblies;
+using namespace System::Globalization;
+using namespace System::Reflection;
+using namespace System::Runtime::Remoting;
+using namespace System::Security;
+using namespace System::Security::Principal;
 CLASS(AppDomain) : public MarshalByRefObject::in {
   public: static AppDomain get_CurrentDomain();
   public: String get_BaseDirectory();

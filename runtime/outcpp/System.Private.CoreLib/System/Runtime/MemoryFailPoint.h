@@ -12,7 +12,7 @@ FORWARDS(UIntPtr)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Runtime {
 namespace MemoryFailPointNamespace {
-using namespace ConstrainedExecution;
+using namespace System::Runtime::ConstrainedExecution;
 CLASS(MemoryFailPoint) : public CriticalFinalizerObject::in {
   public: using interface = rt::TypeList<IDisposable>;
   private: static Int64 get_LastKnownFreeAddressSpace();

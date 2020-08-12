@@ -45,10 +45,10 @@ FORWARDS(ReadOnlySpan, T)
 FORWARDS(SByte)
 FORWARDS(UInt32)
 namespace StringNamespace {
-using namespace Buffers;
-using namespace Collections;
-using namespace Collections::Generic;
-using namespace Globalization;
+using namespace System::Buffers;
+using namespace System::Collections;
+using namespace System::Collections::Generic;
+using namespace System::Globalization;
 using namespace System::Text;
 using IEnumerable = Collections::IEnumerable;
 template <class T>

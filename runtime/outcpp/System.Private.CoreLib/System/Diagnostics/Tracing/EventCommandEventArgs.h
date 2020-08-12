@@ -19,7 +19,7 @@ FORWARD(EventDispatcher)
 FORWARD(EventListener)
 FORWARD(EventSource)
 namespace EventCommandEventArgsNamespace {
-using namespace Collections::Generic;
+using namespace System::Collections::Generic;
 CLASS(EventCommandEventArgs) : public EventArgs::in {
   public: EventCommand get_Command() { return Command; }
   public: void set_Command(EventCommand value) { Command = value; }

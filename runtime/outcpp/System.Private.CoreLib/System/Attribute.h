@@ -21,8 +21,8 @@ FORWARDS(Boolean)
 FORWARDS(Int32)
 FORWARD(Type)
 namespace AttributeNamespace {
-using namespace Collections::Generic;
-using namespace Reflection;
+using namespace System::Collections::Generic;
+using namespace System::Reflection;
 CLASS(Attribute) : public Object::in {
   public: Object get_TypeId();
   private: static Array<Attribute> InternalGetCustomAttributes(PropertyInfo element, Type type, Boolean inherit);

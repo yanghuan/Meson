@@ -18,7 +18,7 @@ enum class BindingFlags : int32_t;
 enum class MemberTypes : int32_t;
 FORWARD(Binder)
 namespace ConstructorInfoNamespace {
-using namespace Globalization;
+using namespace System::Globalization;
 CLASS(ConstructorInfo) : public MethodBase::in {
   public: MemberTypes get_MemberType();
   public: Type GetReturnType();

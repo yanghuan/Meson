@@ -15,7 +15,7 @@ FORWARDS(StreamingContext)
 namespace System::Private::CoreLib::System::Collections::Generic {
 FORWARD(IEqualityComparer, T)
 namespace NonRandomizedStringEqualityComparerNamespace {
-using namespace Runtime::Serialization;
+using namespace System::Runtime::Serialization;
 template <class T>
 using IEqualityComparer = Generic::IEqualityComparer<T>;
 CLASS(NonRandomizedStringEqualityComparer) : public EqualityComparer<String>::in {

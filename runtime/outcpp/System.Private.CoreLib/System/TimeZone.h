@@ -12,7 +12,7 @@ FORWARDS(Int32)
 FORWARD(String)
 FORWARDS(TimeSpan)
 namespace TimeZoneNamespace {
-using namespace Globalization;
+using namespace System::Globalization;
 CLASS(TimeZone) : public Object::in {
   private: static Object get_InternalSyncObject();
   public: static TimeZone get_CurrentTimeZone();

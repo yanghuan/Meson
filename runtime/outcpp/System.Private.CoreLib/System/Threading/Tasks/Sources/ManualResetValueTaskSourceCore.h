@@ -19,7 +19,7 @@ namespace System::Private::CoreLib::System::Threading::Tasks::Sources {
 enum class ValueTaskSourceOnCompletedFlags : int32_t;
 enum class ValueTaskSourceStatus : int32_t;
 namespace ManualResetValueTaskSourceCoreNamespace {
-using namespace Runtime::ExceptionServices;
+using namespace System::Runtime::ExceptionServices;
 template <class TResult>
 struct ManualResetValueTaskSourceCore : public valueType<ManualResetValueTaskSourceCore<TResult>> {
   public: Boolean get_RunContinuationsAsynchronously() { return RunContinuationsAsynchronously; }

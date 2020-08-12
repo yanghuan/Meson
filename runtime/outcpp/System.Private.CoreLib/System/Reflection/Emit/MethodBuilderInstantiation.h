@@ -26,7 +26,7 @@ FORWARD(CultureInfo)
 } // namespace System::Private::CoreLib::System::Globalization
 namespace System::Private::CoreLib::System::Reflection::Emit {
 namespace MethodBuilderInstantiationNamespace {
-using namespace Globalization;
+using namespace System::Globalization;
 CLASS(MethodBuilderInstantiation) : public MethodInfo::in {
   public: MemberTypes get_MemberType();
   public: String get_Name();

@@ -25,7 +25,7 @@ FORWARD(EncoderFallback)
 FORWARD(EncoderNLS)
 FORWARDS(Rune)
 namespace ASCIIEncodingNamespace {
-using namespace Buffers;
+using namespace System::Buffers;
 CLASS(ASCIIEncoding) : public Encoding::in {
   public: FRIENDN(ASCIIEncodingSealed)
   public: Boolean get_IsSingleByte();

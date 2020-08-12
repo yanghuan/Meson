@@ -12,7 +12,7 @@ FORWARDS(StreamingContext)
 } // namespace System::Private::CoreLib::System::Runtime::Serialization
 namespace System::Private::CoreLib::System::Resources {
 namespace MissingSatelliteAssemblyExceptionNamespace {
-using namespace Runtime::Serialization;
+using namespace System::Runtime::Serialization;
 CLASS(MissingSatelliteAssemblyException) : public SystemException::in {
   public: String get_CultureName();
   public: void ctor();

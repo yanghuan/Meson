@@ -38,9 +38,9 @@ FORWARD(EncodingInfo)
 FORWARD(EncodingProvider)
 FORWARDS(Rune)
 namespace EncodingNamespace {
-using namespace Buffers;
-using namespace IO;
-using namespace Runtime::Serialization;
+using namespace System::Buffers;
+using namespace System::IO;
+using namespace System::Runtime::Serialization;
 CLASS(Encoding) : public Object::in {
   public: using interface = rt::TypeList<ICloneable>;
   public: CLASS(DefaultEncoder) : public Encoder::in {

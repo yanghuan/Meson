@@ -1026,13 +1026,17 @@ namespace Meson.Compiler {
       if (methodDeclaration != null) {
         var block = methodDeclaration.Body.Accept<BlockSyntax>(this);
         node.AddStatements(block.Statements);
-      } else if (method.AccessorOwner is IProperty property && property.IsPropertyField()) {
-        node.IsInline = true;
-        var fieldName = typeDefinition_.GetPropertyFieldName(method.DeclaringTypeDefinition, property);
-        if (method.AccessorKind == MethodSemanticsAttributes.Getter) {
-          node.Body.Add(new ReturnStatementSyntax(fieldName));
+      } else if (method.AccessorOwner is IProperty property) {
+        if (property.IsPropertyField()) {
+          node.IsInline = true;
+          var fieldName = typeDefinition_.GetPropertyFieldName(method.DeclaringTypeDefinition, property);
+          if (method.AccessorKind == MethodSemanticsAttributes.Getter) {
+            node.Body.Add(new ReturnStatementSyntax(fieldName));
+          } else {
+            node.Body.Add(new BinaryExpressionSyntax(fieldName, Tokens.Equals, IdentifierSyntax.Value));
+          }
         } else {
-          node.Body.Add(new BinaryExpressionSyntax(fieldName, Tokens.Equals, IdentifierSyntax.Value));
+          InsertDefaultReturnValue(node, method, returnType);
         }
       } else if (!IsMethodExport(method)) {
         InsertDefaultReturnValue(node, method, returnType);

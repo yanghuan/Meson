@@ -10,7 +10,7 @@ namespace System::Private::CoreLib::System {
 FORWARD(Exception)
 FORWARD(String)
 namespace ObjectDisposedExceptionNamespace {
-using namespace Runtime::Serialization;
+using namespace System::Runtime::Serialization;
 CLASS(ObjectDisposedException) : public InvalidOperationException::in {
   public: String get_Message();
   public: String get_ObjectName();

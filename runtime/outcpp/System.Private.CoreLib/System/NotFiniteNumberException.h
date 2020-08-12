@@ -11,7 +11,7 @@ namespace System::Private::CoreLib::System {
 FORWARD(Exception)
 FORWARD(String)
 namespace NotFiniteNumberExceptionNamespace {
-using namespace Runtime::Serialization;
+using namespace System::Runtime::Serialization;
 CLASS(NotFiniteNumberException) : public ArithmeticException::in {
   public: Double get_OffendingNumber();
   public: void ctor();

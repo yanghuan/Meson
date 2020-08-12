@@ -12,7 +12,7 @@ FORWARDS(StreamingContext)
 } // namespace System::Private::CoreLib::System::Runtime::Serialization
 namespace System::Private::CoreLib::System::Runtime::InteropServices {
 namespace InvalidComObjectExceptionNamespace {
-using namespace Serialization;
+using namespace System::Runtime::Serialization;
 CLASS(InvalidComObjectException) : public SystemException::in {
   public: void ctor();
   public: void ctor(String message);

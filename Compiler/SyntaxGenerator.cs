@@ -63,10 +63,10 @@ namespace Meson.Compiler {
       namespaceTypes_ = types.GroupBy(i => i.GetFullNamespace()).ToDictionary(i => i.Key, i => new HashSet<ITypeDefinition>(i, TypeDefinitionEqualityComparer.Default));
     }
 
-    internal bool TryGetReferenceUsing(ITypeDefinition reference, ITypeDefinition definition, out string usingNamespace, HashSet<ITypeDefinition> types) {
+    internal bool TryGetReferenceUsing(ITypeDefinition reference, ITypeDefinition definition, ReferencePackage info, out string usingNamespace) {
       if (!definition.IsNamespaceContain(reference)) {
-        usingNamespace = reference.GetFullNamespace(true, definition);
-        AddImportTypes(definition, usingNamespace, types);
+        usingNamespace = reference.GetFullNamespace(true, definition, true);
+        AddImportTypes(definition, usingNamespace, info.ImportTypes);
         return true;
       }
       usingNamespace = null;
@@ -77,19 +77,19 @@ namespace Meson.Compiler {
       return namespaceTypes_.GetOrDefault(ns);
     }
 
-    private void AddImportTypes(ITypeDefinition definition, string usingNamespace, HashSet<ITypeDefinition> set) {
+    private void AddImportTypes(ITypeDefinition definition, string usingNamespace, HashSet<ITypeDefinition> importTypes) {
       if (usingNamespace.StartsWith(Tokens.TwoColon)) {
         string ns = usingNamespace.Substring(Tokens.TwoColon.Length);
         var types = GetTypesInNamespace(ns);
         if (types != null) {
-          set.UnionWith(types);
+          importTypes.UnionWith(types);
         }
       } else {
         foreach (string i in definition.GetFullNamespace().GetAllNamespaces(Tokens.TwoColon)) {
           string ns = i + Tokens.TwoColon + usingNamespace;
           var types = GetTypesInNamespace(ns);
           if (types != null) {
-            set.UnionWith(types);
+            importTypes.UnionWith(types);
           }
         }
       }

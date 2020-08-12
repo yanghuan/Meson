@@ -23,9 +23,9 @@ FORWARD(OperatingSystem)
 FORWARD(String)
 FORWARD(Version)
 namespace EnvironmentNamespace {
-using namespace ::System::Private::CoreLib::Internal::Win32;
-using namespace Collections;
-using namespace Text;
+using namespace Internal::Win32;
+using namespace System::Collections;
+using namespace System::Text;
 class Environment {
   public: enum class SpecialFolder : int32_t {
     ApplicationData = 26,

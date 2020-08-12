@@ -21,7 +21,7 @@ enum class FieldAttributes : int32_t;
 enum class MemberTypes : int32_t;
 FORWARD(Binder)
 namespace FieldInfoNamespace {
-using namespace Globalization;
+using namespace System::Globalization;
 CLASS(FieldInfo) : public MemberInfo::in {
   public: MemberTypes get_MemberType();
   public: FieldAttributes get_Attributes();

@@ -13,7 +13,7 @@ FORWARDS(StreamingContext)
 } // namespace System::Private::CoreLib::System::Runtime::Serialization
 namespace System::Private::CoreLib::System::IO {
 namespace FileNotFoundExceptionNamespace {
-using namespace Runtime::Serialization;
+using namespace System::Runtime::Serialization;
 CLASS(FileNotFoundException) : public IOException::in {
   public: String get_Message();
   public: String get_FileName() { return FileName; }

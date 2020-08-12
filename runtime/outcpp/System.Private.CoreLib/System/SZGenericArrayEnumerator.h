@@ -14,8 +14,8 @@ FORWARD_(Array, T1, T2)
 FORWARDS(Boolean)
 FORWARD(IDisposable)
 namespace SZGenericArrayEnumeratorNamespace {
-using namespace Collections;
-using namespace Collections::Generic;
+using namespace System::Collections;
+using namespace System::Collections::Generic;
 template <class T>
 using IEnumerator = Collections::Generic::IEnumerator<T>;
 using IEnumerator_ = Collections::IEnumerator;

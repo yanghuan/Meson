@@ -45,10 +45,10 @@ FORWARD(SecureString)
 namespace System::Private::CoreLib::System::Runtime::InteropServices {
 enum class CustomQueryInterfaceMode : int32_t;
 namespace MarshalNamespace {
-using namespace CompilerServices;
-using namespace ComTypes;
-using namespace Reflection;
-using namespace Security;
+using namespace System::Reflection;
+using namespace System::Runtime::CompilerServices;
+using namespace System::Runtime::InteropServices::ComTypes;
+using namespace System::Security;
 class Marshal {
   public: static Int32 SizeOfHelper(Type t, Boolean throwIfNotMarshalable);
   public: static IntPtr OffsetOf(Type t, String fieldName);

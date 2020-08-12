@@ -72,10 +72,10 @@ FORWARDS(StringToken)
 FORWARD(TypeBuilder)
 FORWARDS(TypeToken)
 namespace ModuleBuilderNamespace {
-using namespace Collections::Generic;
-using namespace Diagnostics::SymbolStore;
-using namespace Runtime::CompilerServices;
-using namespace Runtime::InteropServices;
+using namespace System::Collections::Generic;
+using namespace System::Diagnostics::SymbolStore;
+using namespace System::Runtime::CompilerServices;
+using namespace System::Runtime::InteropServices;
 CLASS(ModuleBuilder) : public Module::in {
   public: AssemblyBuilder get_ContainingAssemblyBuilder();
   public: Object get_SyncRoot();
