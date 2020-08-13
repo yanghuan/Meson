@@ -649,6 +649,15 @@ namespace rt {
   template <class T, size_t N>
   struct FixedBuffer {
     T v[N];
+
+    constexpr T& operator [](int32_t index) {
+      return v[index];
+    }
+
+    template <class Size> 
+    constexpr T& operator [](const Size& index) {
+      return v[index.get()];
+    }
   };
 
   template <class T, class V>
@@ -706,6 +715,18 @@ inline auto operator *(const T& a, const T1& b) {
 template <class T> requires(std::is_enum_v<T>) 
 inline auto operator |=(T& a, const T& b) { 
   return a = a | b;
+}
+
+template <class T> requires(std::is_enum_v<T>) 
+inline constexpr bool operator ==(const T& a, int32_t b) { 
+  static_assert(b == 0);
+  return a == b;
+}
+
+template <class T> requires(std::is_enum_v<T>) 
+inline constexpr bool operator !=(const T& a, int32_t b) { 
+  static_assert(b == 0);
+  return a != b;
 }
 
 #if defined(_MSC_VER)
