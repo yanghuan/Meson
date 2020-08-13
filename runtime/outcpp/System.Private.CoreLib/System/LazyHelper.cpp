@@ -85,7 +85,7 @@ LazyThreadSafetyMode LazyHelper___::GetModeFromIsThreadSafe(Boolean isThreadSafe
   return LazyThreadSafetyMode::ExecutionAndPublication;
 }
 
-void LazyHelper___::ctor_static() {
+void LazyHelper___::cctor() {
   NoneViaConstructor = rt::newobj<LazyHelper>(LazyState::NoneViaConstructor);
   NoneViaFactory = rt::newobj<LazyHelper>(LazyState::NoneViaFactory);
   PublicationOnlyViaConstructor = rt::newobj<LazyHelper>(LazyState::PublicationOnlyViaConstructor);

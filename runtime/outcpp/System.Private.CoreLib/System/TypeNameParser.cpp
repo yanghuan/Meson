@@ -154,7 +154,7 @@ String TypeNameParser___::GetAssemblyName() {
   return s;
 }
 
-void TypeNameParser___::ctor_static() {
+void TypeNameParser___::cctor() {
   SPECIAL_CHARS = rt::newarr<Array<Char>>(7);
 }
 

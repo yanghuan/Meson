@@ -4330,7 +4330,7 @@ String SR::Format(IFormatProvider provider, String resourceFormat, Object p1, Ob
   return String::in::Format(provider, resourceFormat, p1, p2);
 }
 
-void SR::ctor_static() {
+void SR::cctor() {
   _lock = rt::newobj<Object>();
 }
 

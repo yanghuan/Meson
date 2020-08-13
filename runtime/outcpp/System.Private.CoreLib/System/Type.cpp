@@ -934,7 +934,7 @@ Boolean Type___::FilterNameImpl(MemberInfo m, Object filterCriteria, StringCompa
   return MemoryExtensions::Equals(MemoryExtensions, span, readOnlySpan, comparison);
 }
 
-void Type___::ctor_static() {
+void Type___::cctor() {
   Delimiter = 46;
   EmptyTypes = Array<>::in::Empty<Type>();
   Missing = Missing::in::Value;

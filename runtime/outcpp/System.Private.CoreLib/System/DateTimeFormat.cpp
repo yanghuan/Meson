@@ -606,7 +606,7 @@ Array<String> DateTimeFormat::GetAllDateTimes(DateTime dateTime, DateTimeFormatI
   return list->ToArray();
 }
 
-void DateTimeFormat::ctor_static() {
+void DateTimeFormat::cctor() {
   allStandardFormats = rt::newarr<Array<Char>>(19);
   InvariantFormatInfo = CultureInfo::in::get_InvariantCulture()->set_DateTimeFormat;
   InvariantAbbreviatedMonthNames = InvariantFormatInfo->set_AbbreviatedMonthNames;

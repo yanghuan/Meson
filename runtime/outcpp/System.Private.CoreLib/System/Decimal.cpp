@@ -608,7 +608,7 @@ UInt32 Decimal::DecCalc::DecDivMod1E9(DecCalc& value) {
   return (UInt32)(Int32)num3 - (value.ulo = (UInt32)(num3 / 1000000000)) * 1000000000;
 }
 
-void Decimal::DecCalc::ctor_static() {
+void Decimal::DecCalc::cctor() {
   s_powers10 = rt::newarr<Array<UInt32>>(10);
   s_ulongPowers10 = rt::newarr<Array<UInt64>>(19);
   s_doublePowers10 = rt::newarr<Array<Double>>(81);
@@ -1284,7 +1284,7 @@ UInt32 Decimal::DecDivMod1E9(Decimal& value) {
   return DecCalc::DecDivMod1E9(AsMutable(value));
 }
 
-void Decimal::ctor_static() {
+void Decimal::cctor() {
   Zero = 0;
   One = 1;
   MinusOne = -1;

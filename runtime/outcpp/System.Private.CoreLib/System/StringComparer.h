@@ -50,7 +50,7 @@ CLASS(StringComparer) : public Object::in {
   public: Boolean Equals(String x, String y);
   public: Int32 GetHashCode(String obj);
   protected: void ctor();
-  private: static void ctor_static();
+  private: static void cctor();
   private: static CultureAwareComparer s_invariantCulture;
   private: static CultureAwareComparer s_invariantCultureIgnoreCase;
   private: static OrdinalCaseSensitiveComparer s_ordinal;

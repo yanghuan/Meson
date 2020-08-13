@@ -6,7 +6,7 @@ namespace System::Private::CoreLib::System {
 namespace EventArgsNamespace {
 CLASS(EventArgs) : public Object::in {
   public: void ctor();
-  private: static void ctor_static();
+  private: static void cctor();
   public: static EventArgs Empty;
 };
 } // namespace EventArgsNamespace

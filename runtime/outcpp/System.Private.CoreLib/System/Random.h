@@ -23,7 +23,7 @@ CLASS(Random) : public Object::in {
   public: Double NextDouble();
   public: void NextBytes(Array<Byte> buffer);
   public: void NextBytes(Span<Byte> buffer);
-  private: static void ctor_static();
+  private: static void cctor();
   private: Int32 _inext;
   private: Int32 _inextp;
   private: Array<Int32> _seedArray;

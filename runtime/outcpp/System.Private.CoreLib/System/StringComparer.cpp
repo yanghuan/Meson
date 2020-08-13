@@ -126,7 +126,7 @@ Int32 StringComparer___::GetHashCode(Object obj) {
 void StringComparer___::ctor() {
 }
 
-void StringComparer___::ctor_static() {
+void StringComparer___::cctor() {
   s_invariantCulture = rt::newobj<CultureAwareComparer>(CultureInfo::in::get_InvariantCulture(), CompareOptions::None);
   s_invariantCultureIgnoreCase = rt::newobj<CultureAwareComparer>(CultureInfo::in::get_InvariantCulture(), CompareOptions::IgnoreCase);
   s_ordinal = rt::newobj<OrdinalCaseSensitiveComparer>();

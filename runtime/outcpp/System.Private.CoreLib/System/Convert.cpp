@@ -2227,7 +2227,7 @@ Int32 Convert::FromBase64_ComputeResultLength(Char* inputPtr, Int32 inputLength)
   return num / 4 * 3 + num2;
 }
 
-void Convert::ctor_static() {
+void Convert::cctor() {
   ConvertTypes = rt::newarr<Array<Type>>(19);
 }
 

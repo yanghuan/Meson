@@ -194,7 +194,7 @@ class DateTimeParse {
   private: static Boolean ParseFormatR(ReadOnlySpan<Char> source, ParsingInfo& parseInfo, DateTimeResult& result);
   private: static Boolean ParseFormatO(ReadOnlySpan<Char> source, DateTimeResult& result);
   private: static Exception GetDateTimeParseException(DateTimeResult& result);
-  private: static void ctor_static();
+  private: static void cctor();
   private: static MatchNumberDelegate s_hebrewNumberParser;
   private: static Array<Array<DS>> s_dateParsingStates;
 };

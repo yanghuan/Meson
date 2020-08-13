@@ -1469,7 +1469,7 @@ Boolean RuntimeType___::IsAssignableFrom(Type c) {
 RuntimeType RuntimeType___::GetBaseType() {
 }
 
-void RuntimeType___::ctor_static() {
+void RuntimeType___::cctor() {
 }
 
 } // namespace System::Private::CoreLib::System::RuntimeTypeNamespace

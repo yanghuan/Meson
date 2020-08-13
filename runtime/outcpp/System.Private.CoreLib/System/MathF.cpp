@@ -183,7 +183,7 @@ Single MathF::Truncate(Single x) {
   return x;
 }
 
-void MathF::ctor_static() {
+void MathF::cctor() {
   roundPower10Single = rt::newarr<Array<Single>>(7);
 }
 

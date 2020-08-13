@@ -624,8 +624,9 @@ namespace Meson.Compiler {
         case KnownTypeCode.SpanOfT:
         case KnownTypeCode.ReadOnlySpanOfT: {
             var method = new MethodDefinitionSyntax(type.Name, new ParameterSyntax(IdentifierSyntax.T, "(&array)[N]").ArrayOf()) { 
-              Template = new TemplateSyntax(new TemplateTypenameSyntax("int N")),
+              Template = new TemplateSyntax(new TemplateTypenameSyntax("N") { ClassToken = "int" }),
               AccessibilityToken = Accessibility.Public.ToTokenString(),
+              Body = new BlockSyntax() { IsSingleLine = true },
             };
             method.AddInitializationList(type.Name, "array", "N");
             node.Add(method);

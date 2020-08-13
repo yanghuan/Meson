@@ -207,7 +207,7 @@ namespace Meson.Compiler.CppAst {
   }
 
   sealed class TemplateTypenameSyntax : SyntaxNode {
-    public string ClassToken => Tokens.Class;
+    public string ClassToken { get; set; } = Tokens.Class;
     public IdentifierSyntax Name { get; }
     public string EqualsToken => Tokens.Equals;
     public IdentifierSyntax Value { get; set; }

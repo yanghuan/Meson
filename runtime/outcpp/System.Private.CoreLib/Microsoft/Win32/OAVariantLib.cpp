@@ -31,7 +31,7 @@ Int32 OAVariantLib::GetCVTypeFromClass(Type ctype) {
   return num;
 }
 
-void OAVariantLib::ctor_static() {
+void OAVariantLib::cctor() {
   ClassTypes = rt::newarr<Array<Type>>(23);
 }
 

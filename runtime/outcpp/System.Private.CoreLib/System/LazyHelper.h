@@ -28,7 +28,7 @@ CLASS(LazyHelper) : public Object::in {
   public: template <class T>
   static T CreateViaDefaultConstructor();
   public: static LazyThreadSafetyMode GetModeFromIsThreadSafe(Boolean isThreadSafe);
-  private: static void ctor_static();
+  private: static void cctor();
   public: static LazyHelper NoneViaConstructor;
   public: static LazyHelper NoneViaFactory;
   public: static LazyHelper PublicationOnlyViaConstructor;

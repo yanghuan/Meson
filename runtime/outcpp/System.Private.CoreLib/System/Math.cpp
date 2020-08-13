@@ -647,7 +647,7 @@ Double Math::Truncate(Double d) {
   return d;
 }
 
-void Math::ctor_static() {
+void Math::cctor() {
   roundPower10Double = rt::newarr<Array<Double>>(16);
 }
 

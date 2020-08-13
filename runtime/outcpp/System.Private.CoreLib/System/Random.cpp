@@ -106,7 +106,7 @@ void Random___::NextBytes(Span<Byte> buffer) {
   }
 }
 
-void Random___::ctor_static() {
+void Random___::cctor() {
   s_globalRandom = rt::newobj<Random>(GenerateGlobalSeed());
 }
 

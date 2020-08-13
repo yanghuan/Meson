@@ -551,7 +551,7 @@ Boolean DateTimeOffset::op_GreaterThanOrEqual(DateTimeOffset left, DateTimeOffse
   return left.get_UtcDateTime() >= right.get_UtcDateTime();
 }
 
-void DateTimeOffset::ctor_static() {
+void DateTimeOffset::cctor() {
   MinValue = DateTimeOffset(0, TimeSpan::Zero);
   MaxValue = DateTimeOffset(3155378975999999999, TimeSpan::Zero);
   UnixEpoch = DateTimeOffset(621355968000000000, TimeSpan::Zero);

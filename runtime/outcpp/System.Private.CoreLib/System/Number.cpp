@@ -536,7 +536,7 @@ UInt32* Number::BigInteger::GetBlocksPointer() {
 UInt32 Number::BigInteger::DivRem32(UInt32 value, UInt32& remainder) {
 }
 
-void Number::BigInteger::ctor_static() {
+void Number::BigInteger::cctor() {
   s_Pow10UInt32Table = rt::newarr<Array<UInt32>>(8);
   s_Pow10BigNumTableIndices = rt::newarr<Array<Int32>>(8);
   s_Pow10BigNumTable = rt::newarr<Array<UInt32>>(233);
@@ -673,7 +673,7 @@ Boolean Number::Grisu3::TryRoundWeedShortest(Span<Byte> buffer, Int32 length, UI
   return false;
 }
 
-void Number::Grisu3::ctor_static() {
+void Number::Grisu3::cctor() {
   s_CachedPowersBinaryExponent = rt::newarr<Array<Int16>>(87);
   s_CachedPowersDecimalExponent = rt::newarr<Array<Int16>>(87);
   s_CachedPowersSignificand = rt::newarr<Array<UInt64>>(87);
@@ -694,7 +694,7 @@ Number::FloatingPointInfo::FloatingPointInfo(UInt16 denormalMantissaBits, UInt16
   ZeroBits = 0;
 }
 
-void Number::FloatingPointInfo::ctor_static() {
+void Number::FloatingPointInfo::cctor() {
   Double = FloatingPointInfo(52, 11, 1023, 1023, 9218868437227405312);
   Single = FloatingPointInfo(23, 8, 127, 127, 2139095040);
 }
@@ -2649,7 +2649,7 @@ Single Number::NumberToSingle(NumberBuffer& number) {
   return 0 - num;
 }
 
-void Number::ctor_static() {
+void Number::cctor() {
   s_singleDigitStringCache = rt::newarr<Array<String>>(10);
   s_posCurrencyFormats = rt::newarr<Array<String>>(4);
   s_negCurrencyFormats = rt::newarr<Array<String>>(17);

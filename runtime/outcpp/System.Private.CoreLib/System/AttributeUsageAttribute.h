@@ -14,7 +14,7 @@ CLASS(AttributeUsageAttribute) : public Attribute::in {
   public: void set_Inherited(Boolean value);
   public: void ctor(AttributeTargets validOn);
   public: void ctor(AttributeTargets validOn, Boolean allowMultiple, Boolean inherited);
-  private: static void ctor_static();
+  private: static void cctor();
   private: AttributeTargets _attributeTarget;
   private: Boolean _allowMultiple;
   private: Boolean _inherited;

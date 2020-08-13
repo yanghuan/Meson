@@ -254,7 +254,7 @@ void TimeZoneInfo___::AdjustmentRule___::ctor(SerializationInfo info, StreamingC
   }
 }
 
-void TimeZoneInfo___::AdjustmentRule___::ctor_static() {
+void TimeZoneInfo___::AdjustmentRule___::cctor() {
   DaylightDeltaAdjustment = TimeSpan::FromHours(24);
   MaxDaylightDelta = TimeSpan::FromHours(12);
 }
@@ -1715,7 +1715,7 @@ TimeZoneInfo::in::TimeZoneInfoResult TimeZoneInfo___::TryGetTimeZoneFromLocalMac
   e = nullptr;
 }
 
-void TimeZoneInfo___::ctor_static() {
+void TimeZoneInfo___::cctor() {
   s_utcTimeZone = CreateCustomTimeZone("UTC", TimeSpan::Zero, "(UTC) Coordinated Universal Time", "Coordinated Universal Time");
   s_cachedData = rt::newobj<CachedData>();
   s_maxDateOnly = DateTime(9999, 12, 31);

@@ -473,7 +473,7 @@ Boolean Console::HandleBreakEvent(ConsoleSpecialKey controlKey) {
   return consoleCancelEventArgs->get_Cancel();
 }
 
-void Console::ctor_static() {
+void Console::cctor() {
   s_syncObject = rt::newobj<Object>();
 }
 

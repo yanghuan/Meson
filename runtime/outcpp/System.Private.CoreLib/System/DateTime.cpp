@@ -948,7 +948,7 @@ DateTime DateTime::CreateDateTimeFromSystemTime(FullSystemTime& time) {
   num += time.hundredNanoSecond;
 }
 
-void DateTime::ctor_static() {
+void DateTime::cctor() {
   s_daysToMonth365 = rt::newarr<Array<Int32>>(13);
   s_daysToMonth366 = rt::newarr<Array<Int32>>(13);
   MinValue = DateTime(0, DateTimeKind::Unspecified);

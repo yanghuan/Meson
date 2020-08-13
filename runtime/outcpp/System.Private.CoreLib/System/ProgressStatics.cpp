@@ -5,7 +5,7 @@
 namespace System::Private::CoreLib::System::ProgressStaticsNamespace {
 using namespace System::Threading;
 
-void ProgressStatics::ctor_static() {
+void ProgressStatics::cctor() {
   DefaultContext = rt::newobj<SynchronizationContext>();
 }
 

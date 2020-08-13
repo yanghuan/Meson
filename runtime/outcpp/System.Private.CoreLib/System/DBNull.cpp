@@ -29,7 +29,7 @@ TypeCode DBNull___::GetTypeCode() {
   return TypeCode::DBNull;
 }
 
-void DBNull___::ctor_static() {
+void DBNull___::cctor() {
   Value = rt::newobj<DBNull>();
 }
 

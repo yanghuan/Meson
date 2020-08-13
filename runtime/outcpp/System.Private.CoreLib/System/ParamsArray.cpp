@@ -52,7 +52,7 @@ Object ParamsArray::GetAtSlow(Int32 index) {
   }
 }
 
-void ParamsArray::ctor_static() {
+void ParamsArray::cctor() {
   s_oneArgArray = rt::newarr<Array<Object>>(1);
   s_twoArgArray = rt::newarr<Array<Object>>(2);
   s_threeArgArray = rt::newarr<Array<Object>>(3);

@@ -404,7 +404,7 @@ Int32 Matrix3x2::GetHashCode() {
   return M11.GetHashCode() + M12.GetHashCode() + M21.GetHashCode() + M22.GetHashCode() + M31.GetHashCode() + M32.GetHashCode();
 }
 
-void Matrix3x2::ctor_static() {
+void Matrix3x2::cctor() {
   _identity = Matrix3x2(1, 0, 0, 1, 0, 0);
 }
 

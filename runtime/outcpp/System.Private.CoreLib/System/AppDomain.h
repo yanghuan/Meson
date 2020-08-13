@@ -109,7 +109,7 @@ CLASS(AppDomain) : public MarshalByRefObject::in {
   public: Object CreateInstanceFromAndUnwrap(String assemblyFile, String typeName, Boolean ignoreCase, BindingFlags bindingAttr, Binder binder, Array<Object> args, CultureInfo culture, Array<Object> activationAttributes);
   public: Object CreateInstanceFromAndUnwrap(String assemblyFile, String typeName, Array<Object> activationAttributes);
   public: IPrincipal GetThreadPrincipal();
-  private: static void ctor_static();
+  private: static void cctor();
   private: static AppDomain s_domain;
   private: Object _forLock;
   private: IPrincipal _defaultPrincipal;

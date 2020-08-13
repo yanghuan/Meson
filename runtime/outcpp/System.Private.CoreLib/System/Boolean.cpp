@@ -162,7 +162,7 @@ TypeCode Boolean::GetTypeCode() {
   return TypeCode::Boolean;
 }
 
-void Boolean::ctor_static() {
+void Boolean::cctor() {
   TrueString = "True";
   FalseString = "False";
 }

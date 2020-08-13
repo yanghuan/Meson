@@ -367,7 +367,7 @@ Single BitConverter::Int32BitsToSingle(Int32 value) {
   return *(Single*)(&value);
 }
 
-void BitConverter::ctor_static() {
+void BitConverter::cctor() {
   IsLittleEndian = true;
 }
 

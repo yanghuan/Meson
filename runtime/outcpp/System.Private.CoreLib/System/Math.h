@@ -119,7 +119,7 @@ class Math {
   public: static Double Truncate(Double d);
   private: template <class T>
   static void ThrowMinMaxException(T min, T max);
-  private: static void ctor_static();
+  private: static void cctor();
   public: static constexpr Double E = 2.718281828459045;
   public: static constexpr Double PI = 3.141592653589793;
   private: static Array<Double> roundPower10Double;

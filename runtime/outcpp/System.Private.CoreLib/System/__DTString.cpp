@@ -306,7 +306,7 @@ void __DTString::ConsumeSubString(DTSubString sub) {
   }
 }
 
-void __DTString::ctor_static() {
+void __DTString::cctor() {
   WhiteSpaceChecks = rt::newarr<Array<Char>>(2);
 }
 

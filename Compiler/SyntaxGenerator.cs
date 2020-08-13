@@ -150,8 +150,7 @@ namespace Meson.Compiler {
               break;
             }
           case SymbolKind.Constructor: {
-              var ctor = (IMethod)symbol;
-              symbolName = ctor.IsStatic ? "ctor_static" : "ctor";
+              symbolName = symbol.Name.TrimStart('.');
               break;
             }
           case SymbolKind.Operator: {

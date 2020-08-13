@@ -8,7 +8,7 @@ namespace EmptyNamespace {
 CLASS(Empty) : public Object::in {
   private: void ctor();
   public: String ToString();
-  private: static void ctor_static();
+  private: static void cctor();
   public: static Empty Value;
 };
 } // namespace EmptyNamespace

@@ -46,7 +46,7 @@ CLASS(TypeNameParser) : public Object::in {
   private: Array<SafeTypeNameParserHandle> GetTypeArguments();
   private: Array<Int32> GetModifiers();
   private: String GetAssemblyName();
-  private: static void ctor_static();
+  private: static void cctor();
   private: SafeTypeNameParserHandle m_NativeParser;
   private: static Array<Char> SPECIAL_CHARS;
 };

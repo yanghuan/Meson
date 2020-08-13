@@ -103,7 +103,7 @@ CLASS(TimeZoneInfo) : public Object::in {
     private: static void ValidateAdjustmentRule(DateTime dateStart, DateTime dateEnd, TimeSpan daylightDelta, TransitionTime daylightTransitionStart, TransitionTime daylightTransitionEnd, Boolean noDaylightTransitions);
     private: static void AdjustDaylightDeltaToExpectedRange(TimeSpan& daylightDelta, TimeSpan& baseUtcOffsetDelta);
     private: void ctor(SerializationInfo info, StreamingContext context);
-    private: static void ctor_static();
+    private: static void cctor();
     private: static TimeSpan DaylightDeltaAdjustment;
     private: static TimeSpan MaxDaylightDelta;
     private: DateTime _dateStart;
@@ -255,7 +255,7 @@ CLASS(TimeZoneInfo) : public Object::in {
   private: static String TryGetLocalizedNameByNativeResource(String filePath, Int32 resource);
   private: static void GetLocalizedNamesByRegistryKey(RegistryKey key, String& displayName, String& standardName, String& daylightName);
   private: static TimeZoneInfoResult TryGetTimeZoneFromLocalMachine(String id, TimeZoneInfo& value, Exception& e);
-  private: static void ctor_static();
+  private: static void cctor();
   private: String _id;
   private: String _displayName;
   private: String _standardDisplayName;

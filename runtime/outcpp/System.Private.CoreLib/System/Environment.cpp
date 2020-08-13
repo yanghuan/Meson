@@ -63,7 +63,7 @@ Boolean Environment::WindowsVersion::GetIsWindows8OrAbove() {
   return Interop::Kernel32::VerifyVersionInfoW(lpVersionInfo, 51u, conditionMask);
 }
 
-void Environment::WindowsVersion::ctor_static() {
+void Environment::WindowsVersion::cctor() {
   IsWindows8OrAbove = GetIsWindows8OrAbove();
 }
 
@@ -668,7 +668,7 @@ IDictionary Environment::GetEnvironmentVariables() {
   }
 }
 
-void Environment::ctor_static() {
+void Environment::cctor() {
   ProcessorCount = GetProcessorCount();
 }
 

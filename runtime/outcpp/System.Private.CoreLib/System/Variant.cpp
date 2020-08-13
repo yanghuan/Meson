@@ -403,7 +403,7 @@ void Variant::MarshalHelperCastVariant(Object pValue, Int32 vt, Variant& v) {
   v = variant;
 }
 
-void Variant::ctor_static() {
+void Variant::cctor() {
   ClassTypes = rt::newarr<Array<Type>>(23);
   Empty = Variant();
   Missing = Variant(22, Type::in::Missing, 0);

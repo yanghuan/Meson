@@ -246,7 +246,7 @@ CLASS(Type) : public MemberInfo::in {
   public: Boolean ImplementInterface(Type ifaceType);
   private: static Boolean FilterAttributeImpl(MemberInfo m, Object filterCriteria);
   private: static Boolean FilterNameImpl(MemberInfo m, Object filterCriteria, StringComparison comparison);
-  private: static void ctor_static();
+  private: static void cctor();
   private: static Binder s_defaultBinder;
   public: static Char Delimiter;
   public: static Array<Type> EmptyTypes;

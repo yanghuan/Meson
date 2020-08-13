@@ -51,7 +51,7 @@ CLASS_(Array) : public Object::in {
   public: using interface = rt::TypeList<ICloneable, IList, ICollection, IEnumerable, IStructuralComparable, IStructuralEquatable>;
   private: template <class T>
   class EmptyArray {
-    private: static void ctor_static();
+    private: static void cctor();
     public: static Array<T> Value;
   };
   private: struct SorterObjectArray : public valueType<SorterObjectArray> {

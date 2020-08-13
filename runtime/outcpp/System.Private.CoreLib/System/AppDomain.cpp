@@ -329,7 +329,7 @@ IPrincipal AppDomain___::GetThreadPrincipal() {
   return principal;
 }
 
-void AppDomain___::ctor_static() {
+void AppDomain___::cctor() {
   s_domain = rt::newobj<AppDomain>();
 }
 

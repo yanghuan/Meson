@@ -701,7 +701,7 @@ Interop::Kernel32::CONSOLE_SCREEN_BUFFER_INFO ConsolePal::GetBufferInfo(Boolean 
   }
 }
 
-void ConsolePal::ctor_static() {
+void ConsolePal::cctor() {
   s_readKeySyncObject = rt::newobj<Object>();
 }
 

@@ -1259,7 +1259,7 @@ Exception DateTimeParse::GetDateTimeParseException(DateTimeResult& result) {
   }
 }
 
-void DateTimeParse::ctor_static() {
+void DateTimeParse::cctor() {
   s_hebrewNumberParser = MatchHebrewDigits;
   s_dateParsingStates = rt::newarr<Array<Array<DS>>>(20);
 }

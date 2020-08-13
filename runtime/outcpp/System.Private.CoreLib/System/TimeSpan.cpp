@@ -458,7 +458,7 @@ Boolean TimeSpan::op_GreaterThanOrEqual(TimeSpan t1, TimeSpan t2) {
   return t1._ticks >= t2._ticks;
 }
 
-void TimeSpan::ctor_static() {
+void TimeSpan::cctor() {
   Zero = TimeSpan(0);
   MaxValue = TimeSpan(Int64::MaxValue);
   MinValue = TimeSpan(Int64::MinValue);

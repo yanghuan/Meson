@@ -75,7 +75,7 @@ struct ArraySegment : public valueType<ArraySegment<T>> {
   public: static Boolean op_Inequality(ArraySegment<T> a, ArraySegment<T> b);
   public: static ArraySegment<T> op_Implicit(Array<T> array);
   private: void ThrowInvalidOperationIfDefault();
-  private: static void ctor_static();
+  private: static void cctor();
   public: explicit ArraySegment() {}
   private: static ArraySegment<T> Empty;
   private: Array<T> _array;

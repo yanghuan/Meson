@@ -372,7 +372,7 @@ CLASS(RuntimeType) : public TypeInfo::in {
   public: Boolean IsAssignableFrom(TypeInfo typeInfo);
   public: Boolean IsAssignableFrom(Type c);
   private: RuntimeType GetBaseType();
-  private: static void ctor_static();
+  private: static void cctor();
   private: Object m_keepalive;
   private: IntPtr m_cache;
   public: IntPtr m_handle;

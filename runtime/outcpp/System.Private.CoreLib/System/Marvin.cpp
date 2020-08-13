@@ -101,7 +101,7 @@ Int32 Marvin::ComputeHash32OrdinalIgnoreCaseSlow(Char& data, Int32 count, UInt32
   return result;
 }
 
-void Marvin::ctor_static() {
+void Marvin::cctor() {
   DefaultSeed = GenerateSeed();
 }
 

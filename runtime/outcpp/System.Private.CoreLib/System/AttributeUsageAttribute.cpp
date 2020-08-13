@@ -34,7 +34,7 @@ void AttributeUsageAttribute___::ctor(AttributeTargets validOn, Boolean allowMul
   _inherited = inherited;
 }
 
-void AttributeUsageAttribute___::ctor_static() {
+void AttributeUsageAttribute___::cctor() {
   Default = rt::newobj<AttributeUsageAttribute>(AttributeTargets::All);
 }
 

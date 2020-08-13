@@ -195,7 +195,7 @@ MetadataImport ModuleHandle::GetMetadataImport(RuntimeModule module) {
   return MetadataImport(_GetMetadataImport(module->GetNativeHandle()), module);
 }
 
-void ModuleHandle::ctor_static() {
+void ModuleHandle::cctor() {
   EmptyHandle = GetEmptyMH();
 }
 

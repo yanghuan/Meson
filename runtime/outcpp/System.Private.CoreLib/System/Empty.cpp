@@ -10,7 +10,7 @@ String Empty___::ToString() {
   return String::in::Empty;
 }
 
-void Empty___::ctor_static() {
+void Empty___::cctor() {
   Value = rt::newobj<Empty>();
 }
 

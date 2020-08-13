@@ -103,7 +103,7 @@ struct TimeSpan : public valueType<TimeSpan> {
   public: static Boolean op_LessThanOrEqual(TimeSpan t1, TimeSpan t2);
   public: static Boolean op_GreaterThan(TimeSpan t1, TimeSpan t2);
   public: static Boolean op_GreaterThanOrEqual(TimeSpan t1, TimeSpan t2);
-  private: static void ctor_static();
+  private: static void cctor();
   public: explicit TimeSpan() {}
   public: static constexpr Int64 TicksPerMillisecond = 10000;
   public: static constexpr Int64 TicksPerSecond = 10000000;

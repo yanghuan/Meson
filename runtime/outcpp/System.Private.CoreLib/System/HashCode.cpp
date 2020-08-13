@@ -94,7 +94,7 @@ Boolean HashCode::Equals(Object obj) {
   rt::throw_exception<NotSupportedException>(SR::get_HashCode_EqualityNotSupported());
 }
 
-void HashCode::ctor_static() {
+void HashCode::cctor() {
   s_seed = GenerateGlobalSeed();
 }
 

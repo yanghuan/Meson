@@ -22,7 +22,7 @@ CLASS(DBNull) : public Object::in {
   public: String ToString();
   public: String ToString(IFormatProvider provider);
   public: TypeCode GetTypeCode();
-  private: static void ctor_static();
+  private: static void cctor();
   public: static DBNull Value;
 };
 } // namespace DBNullNamespace

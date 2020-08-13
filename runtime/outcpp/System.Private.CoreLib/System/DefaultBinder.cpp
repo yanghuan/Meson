@@ -502,7 +502,7 @@ Boolean DefaultBinder___::CanChangePrimitive(Type source, Type target) {
 void DefaultBinder___::ctor() {
 }
 
-void DefaultBinder___::ctor_static() {
+void DefaultBinder___::cctor() {
   s_primitiveConversions = rt::newarr<Array<Primitives>>(19);
 }
 

@@ -76,7 +76,7 @@ struct ModuleHandle : public valueType<ModuleHandle> {
   public: static Int32 GetMDStreamVersion(RuntimeModule module);
   private: static IntPtr _GetMetadataImport(RuntimeModule module);
   public: static MetadataImport GetMetadataImport(RuntimeModule module);
-  private: static void ctor_static();
+  private: static void cctor();
   public: explicit ModuleHandle() {}
   public: static ModuleHandle EmptyHandle;
   private: RuntimeModule m_ptr;
