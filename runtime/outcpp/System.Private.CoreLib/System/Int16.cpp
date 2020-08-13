@@ -1,94 +1,142 @@
 #include "Int16-dep.h"
 
+#include <System.Private.CoreLib/System/ArgumentException-dep.h>
+#include <System.Private.CoreLib/System/ExceptionArgument.h>
+#include <System.Private.CoreLib/System/Globalization/NumberFormatInfo-dep.h>
+#include <System.Private.CoreLib/System/Globalization/NumberStyles.h>
 #include <System.Private.CoreLib/System/Int16-dep.h>
+#include <System.Private.CoreLib/System/Number-dep.h>
+#include <System.Private.CoreLib/System/SR-dep.h>
+#include <System.Private.CoreLib/System/ThrowHelper-dep.h>
+#include <System.Private.CoreLib/System/TypeCode.h>
+#include <System.Private.CoreLib/System/UInt32-dep.h>
 
 namespace System::Private::CoreLib::System::Int16Namespace {
+using namespace System::Globalization;
+
 Int32 Int16::CompareTo(Object value) {
-  return Int32();
+  if (value == nullptr) {
+    return 1;
+  }
+  if (rt::is<Int16>(value)) {
+    return *this - (Int16)value;
+  }
+  rt::throw_exception<ArgumentException>(SR::get_Arg_MustBeInt16());
 }
 
 Int32 Int16::CompareTo(Int16 value) {
-  return Int32();
+  return *this - value;
 }
 
 Boolean Int16::Equals(Object obj) {
-  return Boolean();
+  if (!rt::is<Int16>(obj)) {
+    return false;
+  }
+  return *this == (Int16)obj;
 }
 
 Boolean Int16::Equals(Int16 obj) {
-  return Boolean();
+  return *this == obj;
 }
 
 Int32 Int16::GetHashCode() {
-  return Int32();
+  return *this;
 }
 
 String Int16::ToString() {
-  return nullptr;
+  return Number::Int32ToDecStr(*this);
 }
 
 String Int16::ToString(IFormatProvider provider) {
-  return nullptr;
+  return Number::FormatInt32(*this, 0, nullptr, provider);
 }
 
 String Int16::ToString(String format) {
-  return nullptr;
+  return ToString(format, nullptr);
 }
 
 String Int16::ToString(String format, IFormatProvider provider) {
-  return nullptr;
+  return Number::FormatInt32(*this, 65535, format, provider);
 }
 
 Boolean Int16::TryFormat(Span<Char> destination, Int32& charsWritten, ReadOnlySpan<Char> format, IFormatProvider provider) {
-  return Boolean();
+  return Number::TryFormatInt32(*this, 65535, format, provider, destination, charsWritten);
 }
 
 Int16 Int16::Parse(String s) {
-  return Int16();
+  if (s == nullptr) {
+    ThrowHelper::ThrowArgumentNullException(ExceptionArgument::s);
+  }
+  return Parse((ReadOnlySpan<Char>)s, NumberStyles::Integer, NumberFormatInfo::in::get_CurrentInfo());
 }
 
 Int16 Int16::Parse(String s, NumberStyles style) {
-  return Int16();
+  NumberFormatInfo::in::ValidateParseStyleInteger(style);
+  if (s == nullptr) {
+    ThrowHelper::ThrowArgumentNullException(ExceptionArgument::s);
+  }
+  return Parse((ReadOnlySpan<Char>)s, style, NumberFormatInfo::in::get_CurrentInfo());
 }
 
 Int16 Int16::Parse(String s, IFormatProvider provider) {
-  return Int16();
+  if (s == nullptr) {
+    ThrowHelper::ThrowArgumentNullException(ExceptionArgument::s);
+  }
+  return Parse((ReadOnlySpan<Char>)s, NumberStyles::Integer, NumberFormatInfo::in::GetInstance(provider));
 }
 
 Int16 Int16::Parse(String s, NumberStyles style, IFormatProvider provider) {
-  return Int16();
+  NumberFormatInfo::in::ValidateParseStyleInteger(style);
+  if (s == nullptr) {
+    ThrowHelper::ThrowArgumentNullException(ExceptionArgument::s);
+  }
+  return Parse((ReadOnlySpan<Char>)s, style, NumberFormatInfo::in::GetInstance(provider));
 }
 
 Int16 Int16::Parse(ReadOnlySpan<Char> s, NumberStyles style, IFormatProvider provider) {
-  return Int16();
+  NumberFormatInfo::in::ValidateParseStyleInteger(style);
+  return Parse(s, style, NumberFormatInfo::in::GetInstance(provider));
 }
 
 Int16 Int16::Parse(ReadOnlySpan<Char> s, NumberStyles style, NumberFormatInfo info) {
-  return Int16();
+  Int32 result;
+  Number::ParsingStatus parsingStatus = Number::TryParseInt32(s, style, info, result);
+  if (parsingStatus != 0) {
+    Number::ThrowOverflowOrFormatException(parsingStatus, TypeCode::Int16);
+  }
 }
 
 Boolean Int16::TryParse(String s, Int16& result) {
-  return Boolean();
+  if (s == nullptr) {
+    result = 0;
+    return false;
+  }
+  return TryParse((ReadOnlySpan<Char>)s, NumberStyles::Integer, NumberFormatInfo::in::get_CurrentInfo(), result);
 }
 
 Boolean Int16::TryParse(ReadOnlySpan<Char> s, Int16& result) {
-  return Boolean();
+  return TryParse(s, NumberStyles::Integer, NumberFormatInfo::in::get_CurrentInfo(), result);
 }
 
 Boolean Int16::TryParse(String s, NumberStyles style, IFormatProvider provider, Int16& result) {
-  return Boolean();
+  NumberFormatInfo::in::ValidateParseStyleInteger(style);
+  if (s == nullptr) {
+    result = 0;
+    return false;
+  }
+  return TryParse((ReadOnlySpan<Char>)s, style, NumberFormatInfo::in::GetInstance(provider), result);
 }
 
 Boolean Int16::TryParse(ReadOnlySpan<Char> s, NumberStyles style, IFormatProvider provider, Int16& result) {
-  return Boolean();
+  NumberFormatInfo::in::ValidateParseStyleInteger(style);
+  return TryParse(s, style, NumberFormatInfo::in::GetInstance(provider), result);
 }
 
 Boolean Int16::TryParse(ReadOnlySpan<Char> s, NumberStyles style, NumberFormatInfo info, Int16& result) {
-  return Boolean();
 }
 
 TypeCode Int16::GetTypeCode() {
-  return TypeCode::String;
+  return TypeCode::Int16;
 }
 
 } // namespace System::Private::CoreLib::System::Int16Namespace

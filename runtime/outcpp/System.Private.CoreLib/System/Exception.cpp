@@ -1,132 +1,239 @@
 #include "Exception-dep.h"
 
+#include <System.Private.CoreLib/System/ArgumentException-dep.h>
+#include <System.Private.CoreLib/System/ArgumentNullException-dep.h>
+#include <System.Private.CoreLib/System/Collections/EmptyReadOnlyDictionaryInternal-dep.h>
+#include <System.Private.CoreLib/System/Collections/ListDictionaryInternal-dep.h>
+#include <System.Private.CoreLib/System/Diagnostics/StackFrame-dep.h>
+#include <System.Private.CoreLib/System/Diagnostics/StackTrace-dep.h>
 #include <System.Private.CoreLib/System/Exception-dep.h>
+#include <System.Private.CoreLib/System/Reflection/Emit/ModuleBuilder-dep.h>
+#include <System.Private.CoreLib/System/Reflection/Module-dep.h>
+#include <System.Private.CoreLib/System/Reflection/RuntimeModule-dep.h>
+#include <System.Private.CoreLib/System/Runtime/CompilerServices/StringHandleOnStack-dep.h>
+#include <System.Private.CoreLib/System/RuntimeType-dep.h>
+#include <System.Private.CoreLib/System/SR-dep.h>
+#include <System.Private.CoreLib/System/Text/StringBuilder-dep.h>
+#include <System.Private.CoreLib/System/ThrowHelper-dep.h>
 
 namespace System::Private::CoreLib::System::ExceptionNamespace {
+using namespace System::Collections;
+using namespace System::Diagnostics;
+using namespace System::Reflection;
+using namespace System::Reflection::Emit;
+using namespace System::Runtime::CompilerServices;
+using namespace System::Text;
+
 Exception___::DispatchState::DispatchState(Array<Byte> stackTrace, Array<Object> dynamicMethods, String remoteStackTrace, UIntPtr ipForWatsonBuckets, Array<Byte> watsonBuckets) {
+  StackTrace = stackTrace;
+  DynamicMethods = dynamicMethods;
+  RemoteStackTrace = remoteStackTrace;
+  IpForWatsonBuckets = ipForWatsonBuckets;
+  WatsonBuckets = watsonBuckets;
 }
 
 MethodBase Exception___::get_TargetSite() {
-  return nullptr;
+  if (_exceptionMethod != nullptr) {
+    return _exceptionMethod;
+  }
+  if (_stackTrace == nullptr) {
+    return nullptr;
+  }
+  _exceptionMethod = GetExceptionMethodFromStackTrace();
+  return _exceptionMethod;
 }
 
 String Exception___::get_StackTrace() {
-  return nullptr;
+  String stackTraceString = _stackTraceString;
+  String remoteStackTraceString = _remoteStackTraceString;
+  if (stackTraceString != nullptr) {
+    return remoteStackTraceString + stackTraceString;
+  }
+  if (_stackTrace == nullptr) {
+    return remoteStackTraceString;
+  }
+  return remoteStackTraceString + GetStackTrace((Exception)this);
 }
 
 String Exception___::get_SerializationRemoteStackTraceString() {
-  return nullptr;
+  return _remoteStackTraceString;
 }
 
 Object Exception___::get_SerializationWatsonBuckets() {
-  return nullptr;
+  return _watsonBuckets;
 }
 
 String Exception___::get_SerializationStackTraceString() {
-  return nullptr;
+  String text = _stackTraceString;
+  if (text == nullptr && _stackTrace != nullptr) {
+    text = GetStackTrace((Exception)this);
+  }
+  return text;
 }
 
 String Exception___::get_Message() {
-  return nullptr;
 }
 
 IDictionary Exception___::get_Data() {
-  return nullptr;
 }
 
 Exception Exception___::get_InnerException() {
-  return nullptr;
+  return _innerException;
 }
 
 String Exception___::get_HelpLink() {
-  return nullptr;
+  return _helpURL;
 }
 
 void Exception___::set_HelpLink(String value) {
+  _helpURL = value;
 }
 
 String Exception___::get_Source() {
-  return nullptr;
 }
 
 void Exception___::set_Source(String value) {
+  _source = value;
 }
 
 Int32 Exception___::get_HResult() {
-  return Int32();
+  return _HResult;
 }
 
 void Exception___::set_HResult(Int32 value) {
+  _HResult = value;
 }
 
 IDictionary Exception___::CreateDataContainer() {
-  return nullptr;
+  if (IsImmutableAgileException((Exception)this)) {
+    return rt::newobj<EmptyReadOnlyDictionaryInternal>();
+  }
+  return rt::newobj<ListDictionaryInternal>();
 }
 
 MethodBase Exception___::GetExceptionMethodFromStackTrace() {
-  return nullptr;
+  IRuntimeMethodInfo methodFromStackTrace = GetMethodFromStackTrace(_stackTrace);
+  if (methodFromStackTrace == nullptr) {
+    return nullptr;
+  }
+  return RuntimeType::in::GetMethodBase(methodFromStackTrace);
 }
 
 String Exception___::GetStackTrace(Exception e) {
-  return nullptr;
+  return rt::newobj<StackTrace>(e, true)->ToString(StackTrace::in::TraceFormat::Normal);
 }
 
 String Exception___::CreateSourceName() {
+  StackTrace stackTrace = rt::newobj<StackTrace>((Exception)this, false);
+  if (stackTrace->get_FrameCount() > 0) {
+    StackFrame frame = stackTrace->GetFrame(0);
+    MethodBase method = frame->GetMethod();
+    Module module = method->get_Module();
+    RuntimeModule runtimeModule = rt::as<RuntimeModule>(module);
+    if ((Object)runtimeModule == nullptr) {
+      ModuleBuilder moduleBuilder = rt::as<ModuleBuilder>(module);
+      if ((Object)moduleBuilder == nullptr) {
+        rt::throw_exception<ArgumentException>(SR::get_Argument_MustBeRuntimeReflectionObject());
+      }
+      runtimeModule = moduleBuilder->get_InternalModule();
+    }
+    return runtimeModule->GetRuntimeAssembly()->GetSimpleName();
+  }
   return nullptr;
 }
 
 void Exception___::OnDeserialized(StreamingContext context) {
+  _stackTrace = nullptr;
+  _ipForWatsonBuckets = UIntPtr::Zero;
 }
 
 void Exception___::InternalPreserveStackTrace() {
+  _ = get_Source();
+  String stackTrace = get_StackTrace();
+  if (!String::in::IsNullOrEmpty(stackTrace)) {
+    _remoteStackTraceString = stackTrace + "
+";
+  }
+  _stackTrace = nullptr;
+  _stackTraceString = nullptr;
 }
 
 void Exception___::RestoreDispatchState(DispatchState& dispatchState) {
+  if (!IsImmutableAgileException((Exception)this)) {
+  }
 }
 
 String Exception___::GetMessageFromNativeResources(ExceptionMessageKind kind) {
-  return nullptr;
+  String s = nullptr;
+  GetMessageFromNativeResources(kind, StringHandleOnStack(s));
+  return s;
 }
 
 Exception::in::DispatchState Exception___::CaptureDispatchState() {
-  return Exception::in::DispatchState();
 }
 
 void Exception___::SetCurrentStackTrace() {
+  if (!IsImmutableAgileException((Exception)this)) {
+    if (_stackTrace != nullptr || _stackTraceString != nullptr || _remoteStackTraceString != nullptr) {
+      ThrowHelper::ThrowInvalidOperationException();
+    }
+    StringBuilder stringBuilder = rt::newobj<StringBuilder>(256);
+    rt::newobj<StackTrace>(true)->ToString(StackTrace::in::TraceFormat::TrailingNewLine, stringBuilder);
+    stringBuilder->AppendLine(SR::get_Exception_EndStackTraceFromPreviousThrow());
+    _remoteStackTraceString = stringBuilder->ToString();
+  }
 }
 
 void Exception___::ctor() {
+  _xcode = -532462766;
 }
 
 void Exception___::ctor(String message) {
+  _message = message;
 }
 
 void Exception___::ctor(String message, Exception innerException) {
+  _message = message;
+  _innerException = innerException;
 }
 
 void Exception___::ctor(SerializationInfo info, StreamingContext context) {
+  _xcode = -532462766;
 }
 
 String Exception___::GetClassName() {
-  return nullptr;
+  return GetType()->ToString();
 }
 
 Exception Exception___::GetBaseException() {
-  return nullptr;
+  Exception innerException = get_InnerException();
+  Exception result = (Exception)this;
+  while (innerException != nullptr) {
+    result = innerException;
+    innerException = innerException->get_InnerException();
+  }
+  return result;
 }
 
 void Exception___::GetObjectData(SerializationInfo info, StreamingContext context) {
+  if (info == nullptr) {
+    rt::throw_exception<ArgumentNullException>("info");
+  }
+  if (_source == nullptr) {
+    _source = get_Source();
+  }
 }
 
 String Exception___::ToString() {
-  return nullptr;
+  String className = GetClassName();
+  String message = get_Message();
 }
 
 Type Exception___::GetType() {
-  return nullptr;
 }
 
 void Exception___::RestoreRemoteStackTrace(SerializationInfo info, StreamingContext context) {
+  _remoteStackTraceString = info->GetString("RemoteStackTraceString");
 }
 
 } // namespace System::Private::CoreLib::System::ExceptionNamespace

@@ -372,7 +372,7 @@ namespace Meson.Compiler {
         if (!field.IsStatic) {
           var statements = new StatementListSyntax();
           string accessibilityToken = Accessibility.Public.ToTokenString();
-          var defaultConstructor = new MethodDefinitionSyntax(node.Name, Array.Empty<ParameterSyntax>()) {
+          var defaultConstructor = new MethodDefinitionSyntax(node.Name) {
             AccessibilityToken = accessibilityToken,
             Body = BlockSyntax.EmptyBlock,
             IsConstexpr = true,
@@ -390,7 +390,7 @@ namespace Meson.Compiler {
           underlyingTypeConstructor.AddInitializationList(fieldName, IdentifierSyntax.Value);
           statements.Add(underlyingTypeConstructor);
 
-          var getValue = new MethodDefinitionSyntax(IdentifierSyntax.Get, Array.Empty<ParameterSyntax>(), new RefExpressionSyntax(typeName)) {
+          var getValue = new MethodDefinitionSyntax(IdentifierSyntax.Get, null, new RefExpressionSyntax(typeName)) {
             AccessibilityToken = accessibilityToken,
             IsConstexpr = true,
             IsNoexcept = true,
@@ -399,7 +399,7 @@ namespace Meson.Compiler {
           getValue.Body.Add(fieldName.Return());
           statements.Add(getValue);
 
-          var getValueConst = new MethodDefinitionSyntax(IdentifierSyntax.Get, Array.Empty<ParameterSyntax>(), typeName) {
+          var getValueConst = new MethodDefinitionSyntax(IdentifierSyntax.Get, null, typeName) {
             AccessibilityToken = accessibilityToken,
             IsConstexpr = true,
             IsNoexcept = true,
@@ -596,10 +596,11 @@ namespace Meson.Compiler {
       VisitPropertys(type, node);
       VisitMethods(type, node);
       VisitFields(type, node);
-      AddTypeCode(type, node);
+      AddTypeExtra(type, node);
     }
 
-    private void AddTypeCode(ITypeDefinition type, ClassSyntax node) {
+    private void AddTypeExtra(ITypeDefinition type, ClassSyntax node) {
+      const string code = nameof(code);
       switch (type.KnownTypeCode) {
         case KnownTypeCode.Boolean:
         case KnownTypeCode.Char:
@@ -614,15 +615,25 @@ namespace Meson.Compiler {
         case KnownTypeCode.Single:
         case KnownTypeCode.Double:
         case KnownTypeCode.String: {
-            node.Add(new FieldDefinitionSyntax(IdentifierSyntax.TypeCode, "code", true, Accessibility.Public.ToTokenString()) {
+            node.Add(new FieldDefinitionSyntax(IdentifierSyntax.TypeCode, code, true, Accessibility.Public.ToTokenString()) {
               IsConstexpr = true,
               ConstantValue = IdentifierSyntax.TypeCode.TwoColon(type.Name),
             });
             break;
           }
+        case KnownTypeCode.SpanOfT:
+        case KnownTypeCode.ReadOnlySpanOfT: {
+            var method = new MethodDefinitionSyntax(type.Name, new ParameterSyntax(IdentifierSyntax.T, "(&array)[N]").ArrayOf()) { 
+              Template = new TemplateSyntax(new TemplateTypenameSyntax("int N")),
+              AccessibilityToken = Accessibility.Public.ToTokenString(),
+            };
+            method.AddInitializationList(type.Name, "array", "N");
+            node.Add(method);
+            break;
+          }
         default: {
             if (type.Kind == TypeKind.Interface) {
-              node.Add(new FieldDefinitionSyntax(IdentifierSyntax.TypeCode, "code", true, Accessibility.Public.ToTokenString()) {
+              node.Add(new FieldDefinitionSyntax(IdentifierSyntax.TypeCode, code, true, Accessibility.Public.ToTokenString()) {
                 IsConstexpr = true,
                 ConstantValue = IdentifierSyntax.TypeCode.TwoColon(TypeKind.Interface.ToString()),
               });

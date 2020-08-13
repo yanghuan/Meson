@@ -50,6 +50,8 @@ struct Span : public valueType<Span<T>> {
   public: explicit Span() {}
   public: ByReference<T> _pointer;
   private: Int32 _length;
+  public: template <class int N>
+  Span(T (&array)[N]) : Span(array, N);
 };
 } // namespace SpanNamespace
 template <class T>

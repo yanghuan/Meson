@@ -2,7 +2,7 @@
 
 namespace System::Private::CoreLib::System::RuntimeArgumentHandleNamespace {
 IntPtr RuntimeArgumentHandle::get_Value() {
-  return IntPtr();
+  return m_ptr;
 }
 
 } // namespace System::Private::CoreLib::System::RuntimeArgumentHandleNamespace

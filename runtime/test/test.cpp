@@ -9,7 +9,6 @@
 #include <System.Private.CoreLib/System/UInt64-dep.h>
 #include <System.Private.CoreLib/System/String-dep.h>
 
-
 #include <cstdio>
 #include <limits>
 #include <cmath>
@@ -37,13 +36,18 @@ void TestObject() {
   Int32 i = (Int32)o;
 }
 
-int main() {
-  uint32_t aa = 11;
-  int32_t bb = static_cast<int32_t>(aa);
+void TestTry() {
+  try {
+    String a = "dddd";
+    throw a.get(); 
+  } catch (Object::in* o) {
+    Object i(o);
+    std::printf("get exception\n");
+  }
+}
 
-  UInt32 a  = 10;
-  Int32 b = (Int32)a;
-  Int32 c = (Int32)a;
+int main() {
+  TestTry();
   return 0;
 }
 

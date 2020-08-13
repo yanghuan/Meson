@@ -8,14 +8,15 @@ RuntimeMethodHandleInternal RuntimeMethodHandleInternal::get_EmptyHandle() {
 }
 
 IntPtr RuntimeMethodHandleInternal::get_Value() {
-  return IntPtr();
+  return m_handle;
 }
 
 Boolean RuntimeMethodHandleInternal::IsNullHandle() {
-  return Boolean();
+  return m_handle == IntPtr::Zero;
 }
 
 RuntimeMethodHandleInternal::RuntimeMethodHandleInternal(IntPtr value) {
+  m_handle = value;
 }
 
 } // namespace System::Private::CoreLib::System::RuntimeMethodHandleInternalNamespace

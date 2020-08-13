@@ -1,595 +1,1726 @@
 #include "TimeZoneInfo-dep.h"
 
+#include <System.Private.CoreLib/Interop-dep.h>
+#include <System.Private.CoreLib/System/ArgumentException-dep.h>
+#include <System.Private.CoreLib/System/ArgumentNullException-dep.h>
+#include <System.Private.CoreLib/System/ArgumentOutOfRangeException-dep.h>
+#include <System.Private.CoreLib/System/Byte-dep.h>
+#include <System.Private.CoreLib/System/Char-dep.h>
+#include <System.Private.CoreLib/System/Collections/Generic/List-dep.h>
+#include <System.Private.CoreLib/System/DateTimeKind.h>
+#include <System.Private.CoreLib/System/Environment-dep.h>
+#include <System.Private.CoreLib/System/Globalization/CultureInfo-dep.h>
+#include <System.Private.CoreLib/System/Globalization/DateTimeFormatInfo-dep.h>
+#include <System.Private.CoreLib/System/Globalization/DateTimeStyles.h>
+#include <System.Private.CoreLib/System/Globalization/DaylightTimeStruct-dep.h>
+#include <System.Private.CoreLib/System/Globalization/NumberStyles.h>
+#include <System.Private.CoreLib/System/Int64-dep.h>
+#include <System.Private.CoreLib/System/IntPtr-dep.h>
+#include <System.Private.CoreLib/System/InvalidCastException-dep.h>
+#include <System.Private.CoreLib/System/InvalidTimeZoneException-dep.h>
+#include <System.Private.CoreLib/System/IO/Path-dep.h>
+#include <System.Private.CoreLib/System/Nullable-dep.h>
+#include <System.Private.CoreLib/System/Runtime/Serialization/SerializationException-dep.h>
+#include <System.Private.CoreLib/System/Span-dep.h>
+#include <System.Private.CoreLib/System/SR-dep.h>
+#include <System.Private.CoreLib/System/StringComparer-dep.h>
+#include <System.Private.CoreLib/System/StringComparison.h>
+#include <System.Private.CoreLib/System/Text/ValueStringBuilder-dep.h>
 #include <System.Private.CoreLib/System/TimeZoneInfo-dep.h>
+#include <System.Private.CoreLib/System/TimeZoneInfoOptions.h>
+#include <System.Private.CoreLib/System/TimeZoneNotFoundException-dep.h>
+#include <System.Private.CoreLib/System/UInt32-dep.h>
 
 namespace System::Private::CoreLib::System::TimeZoneInfoNamespace {
+using namespace System::Collections::Generic;
+using namespace System::Globalization;
+using namespace System::IO;
+using namespace System::Runtime::Serialization;
+using namespace System::Text;
+
 DateTime TimeZoneInfo___::TransitionTime::get_TimeOfDay() {
-  return DateTime();
+  return _timeOfDay;
 }
 
 Int32 TimeZoneInfo___::TransitionTime::get_Month() {
-  return Int32();
+  return _month;
 }
 
 Int32 TimeZoneInfo___::TransitionTime::get_Week() {
-  return Int32();
+  return _week;
 }
 
 Int32 TimeZoneInfo___::TransitionTime::get_Day() {
-  return Int32();
+  return _day;
 }
 
 DayOfWeek TimeZoneInfo___::TransitionTime::get_DayOfWeek() {
-  return DayOfWeek::Saturday;
+  return _dayOfWeek;
 }
 
 Boolean TimeZoneInfo___::TransitionTime::get_IsFixedDateRule() {
-  return Boolean();
+  return _isFixedDateRule;
 }
 
 Boolean TimeZoneInfo___::TransitionTime::Equals(Object obj) {
-  return Boolean();
+  if (rt::is<TransitionTime>(obj)) {
+    return Equals((TransitionTime)obj);
+  }
+  return false;
 }
 
 Boolean TimeZoneInfo___::TransitionTime::op_Equality(TransitionTime t1, TransitionTime t2) {
-  return Boolean();
+  return t1.Equals(t2);
 }
 
 Boolean TimeZoneInfo___::TransitionTime::op_Inequality(TransitionTime t1, TransitionTime t2) {
-  return Boolean();
+  return !t1.Equals(t2);
 }
 
 Boolean TimeZoneInfo___::TransitionTime::Equals(TransitionTime other) {
-  return Boolean();
+  if (_isFixedDateRule == other._isFixedDateRule && _timeOfDay == other._timeOfDay && _month == other._month) {
+    if (!other._isFixedDateRule) {
+      if (_week == other._week) {
+        return _dayOfWeek == other._dayOfWeek;
+      }
+      return false;
+    }
+    return _day == other._day;
+  }
+  return false;
 }
 
 Int32 TimeZoneInfo___::TransitionTime::GetHashCode() {
-  return Int32();
 }
 
 TimeZoneInfo___::TransitionTime::TransitionTime(DateTime timeOfDay, Int32 month, Int32 week, Int32 day, DayOfWeek dayOfWeek, Boolean isFixedDateRule) {
+  ValidateTransitionTime(timeOfDay, month, week, day, dayOfWeek);
+  _timeOfDay = timeOfDay;
+  _month = (Byte)month;
+  _week = (Byte)week;
+  _day = (Byte)day;
+  _dayOfWeek = dayOfWeek;
+  _isFixedDateRule = isFixedDateRule;
 }
 
 TimeZoneInfo::in::TransitionTime TimeZoneInfo___::TransitionTime::CreateFixedDateRule(DateTime timeOfDay, Int32 month, Int32 day) {
-  return TimeZoneInfo::in::TransitionTime();
+  return TransitionTime(timeOfDay, month, 1, day, DayOfWeek::Sunday, true);
 }
 
 TimeZoneInfo::in::TransitionTime TimeZoneInfo___::TransitionTime::CreateFloatingDateRule(DateTime timeOfDay, Int32 month, Int32 week, DayOfWeek dayOfWeek) {
-  return TimeZoneInfo::in::TransitionTime();
+  return TransitionTime(timeOfDay, month, week, 1, dayOfWeek, false);
 }
 
 void TimeZoneInfo___::TransitionTime::ValidateTransitionTime(DateTime timeOfDay, Int32 month, Int32 week, Int32 day, DayOfWeek dayOfWeek) {
+  if (timeOfDay.get_Kind() != 0) {
+    rt::throw_exception<ArgumentException>(SR::get_Argument_DateTimeKindMustBeUnspecified(), "timeOfDay");
+  }
+  if (month < 1 || month > 12) {
+    rt::throw_exception<ArgumentOutOfRangeException>("month", SR::get_ArgumentOutOfRange_MonthParam());
+  }
+  if (day < 1 || day > 31) {
+    rt::throw_exception<ArgumentOutOfRangeException>("day", SR::get_ArgumentOutOfRange_DayParam());
+  }
+  if (week < 1 || week > 5) {
+    rt::throw_exception<ArgumentOutOfRangeException>("week", SR::get_ArgumentOutOfRange_Week());
+  }
+  if (dayOfWeek < DayOfWeek::Sunday || dayOfWeek > DayOfWeek::Saturday) {
+    rt::throw_exception<ArgumentOutOfRangeException>("dayOfWeek", SR::get_ArgumentOutOfRange_DayOfWeek());
+  }
 }
 
 TimeZoneInfo___::TransitionTime::TransitionTime(SerializationInfo info, StreamingContext context) {
+  if (info == nullptr) {
+    rt::throw_exception<ArgumentNullException>("info");
+  }
 }
 
 DateTime TimeZoneInfo___::AdjustmentRule___::get_DateStart() {
-  return DateTime();
+  return _dateStart;
 }
 
 DateTime TimeZoneInfo___::AdjustmentRule___::get_DateEnd() {
-  return DateTime();
+  return _dateEnd;
 }
 
 TimeSpan TimeZoneInfo___::AdjustmentRule___::get_DaylightDelta() {
-  return TimeSpan();
+  return _daylightDelta;
 }
 
 TimeZoneInfo::in::TransitionTime TimeZoneInfo___::AdjustmentRule___::get_DaylightTransitionStart() {
-  return TimeZoneInfo::in::TransitionTime();
+  return _daylightTransitionStart;
 }
 
 TimeZoneInfo::in::TransitionTime TimeZoneInfo___::AdjustmentRule___::get_DaylightTransitionEnd() {
-  return TimeZoneInfo::in::TransitionTime();
+  return _daylightTransitionEnd;
 }
 
 TimeSpan TimeZoneInfo___::AdjustmentRule___::get_BaseUtcOffsetDelta() {
-  return TimeSpan();
+  return _baseUtcOffsetDelta;
 }
 
 Boolean TimeZoneInfo___::AdjustmentRule___::get_NoDaylightTransitions() {
-  return Boolean();
+  return _noDaylightTransitions;
 }
 
 Boolean TimeZoneInfo___::AdjustmentRule___::get_HasDaylightSaving() {
-  return Boolean();
+  if (!(get_DaylightDelta() != TimeSpan::Zero) && (!(get_DaylightTransitionStart() != TransitionTime()) || !(get_DaylightTransitionStart().get_TimeOfDay() != DateTime::MinValue))) {
+    if (get_DaylightTransitionEnd() != TransitionTime()) {
+      return get_DaylightTransitionEnd().get_TimeOfDay() != DateTime::MinValue.AddMilliseconds(1);
+    }
+    return false;
+  }
+  return true;
 }
 
 Boolean TimeZoneInfo___::AdjustmentRule___::Equals(AdjustmentRule other) {
-  return Boolean();
+  if (other != nullptr && _dateStart == other->_dateStart && _dateEnd == other->_dateEnd && _daylightDelta == other->_daylightDelta && _baseUtcOffsetDelta == other->_baseUtcOffsetDelta && _daylightTransitionEnd.Equals(other->_daylightTransitionEnd)) {
+    return _daylightTransitionStart.Equals(other->_daylightTransitionStart);
+  }
+  return false;
 }
 
 Int32 TimeZoneInfo___::AdjustmentRule___::GetHashCode() {
-  return Int32();
+  return _dateStart.GetHashCode();
 }
 
 void TimeZoneInfo___::AdjustmentRule___::ctor(DateTime dateStart, DateTime dateEnd, TimeSpan daylightDelta, TransitionTime daylightTransitionStart, TransitionTime daylightTransitionEnd, TimeSpan baseUtcOffsetDelta, Boolean noDaylightTransitions) {
+  ValidateAdjustmentRule(dateStart, dateEnd, daylightDelta, daylightTransitionStart, daylightTransitionEnd, noDaylightTransitions);
+  _dateStart = dateStart;
+  _dateEnd = dateEnd;
+  _daylightDelta = daylightDelta;
+  _daylightTransitionStart = daylightTransitionStart;
+  _daylightTransitionEnd = daylightTransitionEnd;
+  _baseUtcOffsetDelta = baseUtcOffsetDelta;
+  _noDaylightTransitions = noDaylightTransitions;
 }
 
 TimeZoneInfo::in::AdjustmentRule TimeZoneInfo___::AdjustmentRule___::CreateAdjustmentRule(DateTime dateStart, DateTime dateEnd, TimeSpan daylightDelta, TransitionTime daylightTransitionStart, TransitionTime daylightTransitionEnd) {
-  return nullptr;
+  return rt::newobj<AdjustmentRule>(dateStart, dateEnd, daylightDelta, daylightTransitionStart, daylightTransitionEnd, TimeSpan::Zero, false);
 }
 
 TimeZoneInfo::in::AdjustmentRule TimeZoneInfo___::AdjustmentRule___::CreateAdjustmentRule(DateTime dateStart, DateTime dateEnd, TimeSpan daylightDelta, TransitionTime daylightTransitionStart, TransitionTime daylightTransitionEnd, TimeSpan baseUtcOffsetDelta, Boolean noDaylightTransitions) {
-  return nullptr;
+  AdjustDaylightDeltaToExpectedRange(daylightDelta, baseUtcOffsetDelta);
+  return rt::newobj<AdjustmentRule>(dateStart, dateEnd, daylightDelta, daylightTransitionStart, daylightTransitionEnd, baseUtcOffsetDelta, noDaylightTransitions);
 }
 
 Boolean TimeZoneInfo___::AdjustmentRule___::IsStartDateMarkerForBeginningOfYear() {
-  return Boolean();
+  if (!get_NoDaylightTransitions() && get_DaylightTransitionStart().get_Month() == 1 && get_DaylightTransitionStart().get_Day() == 1 && get_DaylightTransitionStart().get_TimeOfDay().get_TimeOfDay().get_Ticks() < 10000000) {
+    return _dateStart.get_Year() == _dateEnd.get_Year();
+  }
+  return false;
 }
 
 Boolean TimeZoneInfo___::AdjustmentRule___::IsEndDateMarkerForEndOfYear() {
-  return Boolean();
+  if (!get_NoDaylightTransitions() && get_DaylightTransitionEnd().get_Month() == 1 && get_DaylightTransitionEnd().get_Day() == 1 && get_DaylightTransitionEnd().get_TimeOfDay().get_TimeOfDay().get_Ticks() < 10000000) {
+    return _dateStart.get_Year() == _dateEnd.get_Year();
+  }
+  return false;
 }
 
 void TimeZoneInfo___::AdjustmentRule___::ValidateAdjustmentRule(DateTime dateStart, DateTime dateEnd, TimeSpan daylightDelta, TransitionTime daylightTransitionStart, TransitionTime daylightTransitionEnd, Boolean noDaylightTransitions) {
+  if (dateStart.get_Kind() != 0 && dateStart.get_Kind() != DateTimeKind::Utc) {
+    rt::throw_exception<ArgumentException>(SR::get_Argument_DateTimeKindMustBeUnspecifiedOrUtc(), "dateStart");
+  }
+  if (dateEnd.get_Kind() != 0 && dateEnd.get_Kind() != DateTimeKind::Utc) {
+    rt::throw_exception<ArgumentException>(SR::get_Argument_DateTimeKindMustBeUnspecifiedOrUtc(), "dateEnd");
+  }
+  if (daylightTransitionStart.Equals(daylightTransitionEnd) && !noDaylightTransitions) {
+    rt::throw_exception<ArgumentException>(SR::get_Argument_TransitionTimesAreIdentical(), "daylightTransitionEnd");
+  }
+  if (dateStart > dateEnd) {
+    rt::throw_exception<ArgumentException>(SR::get_Argument_OutOfOrderDateTimes(), "dateStart");
+  }
+  if (daylightDelta.get_TotalHours() < -23 || daylightDelta.get_TotalHours() > 14) {
+    rt::throw_exception<ArgumentOutOfRangeException>("daylightDelta", daylightDelta, SR::get_ArgumentOutOfRange_UtcOffset());
+  }
+  if (daylightDelta.get_Ticks() % 600000000 != 0) {
+    rt::throw_exception<ArgumentException>(SR::get_Argument_TimeSpanHasSeconds(), "daylightDelta");
+  }
+  if (dateStart != DateTime::MinValue && dateStart.get_Kind() == DateTimeKind::Unspecified && dateStart.get_TimeOfDay() != TimeSpan::Zero) {
+    rt::throw_exception<ArgumentException>(SR::get_Argument_DateTimeHasTimeOfDay(), "dateStart");
+  }
+  if (dateEnd != DateTime::MaxValue && dateEnd.get_Kind() == DateTimeKind::Unspecified && dateEnd.get_TimeOfDay() != TimeSpan::Zero) {
+    rt::throw_exception<ArgumentException>(SR::get_Argument_DateTimeHasTimeOfDay(), "dateEnd");
+  }
 }
 
 void TimeZoneInfo___::AdjustmentRule___::AdjustDaylightDeltaToExpectedRange(TimeSpan& daylightDelta, TimeSpan& baseUtcOffsetDelta) {
 }
 
 void TimeZoneInfo___::AdjustmentRule___::ctor(SerializationInfo info, StreamingContext context) {
+  if (info == nullptr) {
+    rt::throw_exception<ArgumentNullException>("info");
+  }
 }
 
 void TimeZoneInfo___::AdjustmentRule___::ctor_static() {
+  DaylightDeltaAdjustment = TimeSpan::FromHours(24);
+  MaxDaylightDelta = TimeSpan::FromHours(12);
 }
 
 void TimeZoneInfo___::OffsetAndRule___::ctor(Int32 year, TimeSpan offset, AdjustmentRule rule) {
+  Year = year;
+  Offset = offset;
+  Rule = rule;
 }
 
 TimeZoneInfo TimeZoneInfo___::CachedData___::get_Local() {
-  return nullptr;
 }
 
 TimeZoneInfo TimeZoneInfo___::CachedData___::CreateLocal() {
-  return nullptr;
 }
 
 DateTimeKind TimeZoneInfo___::CachedData___::GetCorrespondingKind(TimeZoneInfo timeZone) {
-  return DateTimeKind::Local;
+  if (timeZone != s_utcTimeZone) {
+    if (timeZone != _localTimeZone) {
+      return DateTimeKind::Unspecified;
+    }
+    return DateTimeKind::Local;
+  }
+  return DateTimeKind::Utc;
 }
 
 TimeZoneInfo TimeZoneInfo___::CachedData___::GetCurrentOneYearLocal() {
-  return nullptr;
+  Interop::Kernel32::TIME_ZONE_INFORMATION lpTimeZoneInformation;
+  UInt32 timeZoneInformation = Interop::Kernel32::GetTimeZoneInformation(lpTimeZoneInformation);
+  if (timeZoneInformation != UInt32::MaxValue) {
+    return GetLocalTimeZoneFromWin32Data(lpTimeZoneInformation, false);
+  }
+  return CreateCustomTimeZone("Local", TimeSpan::Zero, "Local", "Local");
 }
 
 TimeZoneInfo::in::OffsetAndRule TimeZoneInfo___::CachedData___::GetOneYearLocalFromUtc(Int32 year) {
-  return nullptr;
+  OffsetAndRule offsetAndRule = _oneYearLocalFromUtc;
+  if (offsetAndRule == nullptr || offsetAndRule->Year != year) {
+    TimeZoneInfo currentOneYearLocal = GetCurrentOneYearLocal();
+    Array<AdjustmentRule> adjustmentRules = currentOneYearLocal->_adjustmentRules;
+    AdjustmentRule rule = (adjustmentRules != nullptr) ? adjustmentRules[0] : nullptr;
+    offsetAndRule = (_oneYearLocalFromUtc = rt::newobj<OffsetAndRule>(year, currentOneYearLocal->get_BaseUtcOffset(), rule));
+  }
+  return offsetAndRule;
 }
 
 void TimeZoneInfo___::CachedData___::ctor() {
 }
 
 String TimeZoneInfo___::StringSerializer::GetSerializedString(TimeZoneInfo zone) {
-  return nullptr;
+  Char default[64] = {};
+  Span<Char> initialBuffer = default;
+  ValueStringBuilder serializedText = ValueStringBuilder(initialBuffer);
+  SerializeSubstitute(zone->get_Id(), serializedText);
+  serializedText.Append(59);
+  serializedText.AppendSpanFormattable(zone->get_BaseUtcOffset().get_TotalMinutes(), nullptr, CultureInfo::in::get_InvariantCulture());
+  serializedText.Append(59);
+  SerializeSubstitute(zone->get_DisplayName(), serializedText);
+  serializedText.Append(59);
+  SerializeSubstitute(zone->get_StandardName(), serializedText);
+  serializedText.Append(59);
+  SerializeSubstitute(zone->get_DaylightName(), serializedText);
+  serializedText.Append(59);
+  Array<AdjustmentRule> adjustmentRules = zone->GetAdjustmentRules();
+  Array<AdjustmentRule> array = adjustmentRules;
 }
 
 TimeZoneInfo TimeZoneInfo___::StringSerializer::GetDeserializedTimeZoneInfo(String source) {
-  return nullptr;
+  StringSerializer stringSerializer = StringSerializer(source);
+  String nextStringValue = stringSerializer.GetNextStringValue();
+  TimeSpan nextTimeSpanValue = stringSerializer.GetNextTimeSpanValue();
+  String nextStringValue2 = stringSerializer.GetNextStringValue();
+  String nextStringValue3 = stringSerializer.GetNextStringValue();
+  String nextStringValue4 = stringSerializer.GetNextStringValue();
+  Array<AdjustmentRule> nextAdjustmentRuleArrayValue = stringSerializer.GetNextAdjustmentRuleArrayValue();
+  try{
+    return rt::newobj<TimeZoneInfo>(nextStringValue, nextTimeSpanValue, nextStringValue2, nextStringValue3, nextStringValue4, nextAdjustmentRuleArrayValue, false);
+  } catch (ArgumentException innerException) {
+  } catch (InvalidTimeZoneException innerException2) {
+  }
 }
 
 TimeZoneInfo___::StringSerializer::StringSerializer(String str) {
+  _serializedText = str;
+  _currentTokenStartIndex = 0;
+  _state = State::StartOfToken;
 }
 
 void TimeZoneInfo___::StringSerializer::SerializeSubstitute(String text, ValueStringBuilder& serializedText) {
 }
 
 void TimeZoneInfo___::StringSerializer::SerializeTransitionTime(TransitionTime time, ValueStringBuilder& serializedText) {
+  serializedText.Append(91);
+  serializedText.Append(time.get_IsFixedDateRule() ? 49 : 48);
+  serializedText.Append(59);
+  serializedText.AppendSpanFormattable(time.get_TimeOfDay(), "HH:mm:ss.FFF", DateTimeFormatInfo::in::get_InvariantInfo());
+  serializedText.Append(59);
+  serializedText.AppendSpanFormattable(time.get_Month(), nullptr, CultureInfo::in::get_InvariantCulture());
+  serializedText.Append(59);
+  if (time.get_IsFixedDateRule()) {
+    serializedText.AppendSpanFormattable(time.get_Day(), nullptr, CultureInfo::in::get_InvariantCulture());
+    serializedText.Append(59);
+  } else {
+    serializedText.AppendSpanFormattable(time.get_Week(), nullptr, CultureInfo::in::get_InvariantCulture());
+    serializedText.Append(59);
+    serializedText.AppendSpanFormattable((Int32)time.get_DayOfWeek(), nullptr, CultureInfo::in::get_InvariantCulture());
+    serializedText.Append(59);
+  }
+  serializedText.Append(93);
 }
 
 void TimeZoneInfo___::StringSerializer::VerifyIsEscapableCharacter(Char c) {
+  if (c != 92 && c != 59 && c != 91 && c != 93) {
+    rt::throw_exception<SerializationException>(SR::Format(SR::get_Serialization_InvalidEscapeSequence(), c));
+  }
 }
 
 void TimeZoneInfo___::StringSerializer::SkipVersionNextDataFields(Int32 depth) {
+  if (_currentTokenStartIndex < 0 || _currentTokenStartIndex >= _serializedText->get_Length()) {
+    rt::throw_exception<SerializationException>(SR::get_Serialization_InvalidData());
+  }
+  State state = State::NotEscaped;
+  for (Int32 i = _currentTokenStartIndex; i < _serializedText->get_Length(); i++) {
+    switch (state) {
+      case State::Escaped:
+        VerifyIsEscapableCharacter(_serializedText[i]);
+        state = State::NotEscaped;
+        break;
+      case State::NotEscaped:
+        switch (_serializedText[i].get()) {
+          case 92:
+            state = State::Escaped;
+            break;
+          case 91:
+            depth++;
+            break;
+          case 93:
+            depth--;
+            if (depth == 0) {
+              _currentTokenStartIndex = i + 1;
+              if (_currentTokenStartIndex >= _serializedText->get_Length()) {
+                _state = State::EndOfLine;
+              } else {
+                _state = State::StartOfToken;
+              }
+              return;
+            }
+            break;
+          case 0:
+            rt::throw_exception<SerializationException>(SR::get_Serialization_InvalidData());
+        }
+        break;
+    }
+  }
+  rt::throw_exception<SerializationException>(SR::get_Serialization_InvalidData());
 }
 
 String TimeZoneInfo___::StringSerializer::GetNextStringValue() {
-  return nullptr;
+  if (_state == State::EndOfLine) {
+    rt::throw_exception<SerializationException>(SR::get_Serialization_InvalidData());
+  }
+  if (_currentTokenStartIndex < 0 || _currentTokenStartIndex >= _serializedText->get_Length()) {
+    rt::throw_exception<SerializationException>(SR::get_Serialization_InvalidData());
+  }
+  State state = State::NotEscaped;
+  Char default[64] = {};
+  Span<Char> initialBuffer = default;
+  ValueStringBuilder valueStringBuilder = ValueStringBuilder(initialBuffer);
+  for (Int32 i = _currentTokenStartIndex; i < _serializedText->get_Length(); i++) {
+    switch (state) {
+      case State::Escaped:
+        VerifyIsEscapableCharacter(_serializedText[i]);
+        valueStringBuilder.Append(_serializedText[i]);
+        state = State::NotEscaped;
+        break;
+      case State::NotEscaped:
+        switch (_serializedText[i].get()) {
+          case 92:
+            state = State::Escaped;
+            break;
+          case 91:
+            rt::throw_exception<SerializationException>(SR::get_Serialization_InvalidData());
+          case 93:
+            rt::throw_exception<SerializationException>(SR::get_Serialization_InvalidData());
+          case 59:
+            _currentTokenStartIndex = i + 1;
+            if (_currentTokenStartIndex >= _serializedText->get_Length()) {
+              _state = State::EndOfLine;
+            } else {
+              _state = State::StartOfToken;
+            }
+            return valueStringBuilder.ToString();
+          case 0:
+            rt::throw_exception<SerializationException>(SR::get_Serialization_InvalidData());
+          default:
+            valueStringBuilder.Append(_serializedText[i]);
+            break;
+        }
+        break;
+    }
+  }
+  if (state == State::Escaped) {
+    rt::throw_exception<SerializationException>(SR::Format(SR::get_Serialization_InvalidEscapeSequence(), String::in::Empty));
+  }
+  rt::throw_exception<SerializationException>(SR::get_Serialization_InvalidData());
 }
 
 DateTime TimeZoneInfo___::StringSerializer::GetNextDateTimeValue(String format) {
-  return DateTime();
+  String nextStringValue = GetNextStringValue();
 }
 
 TimeSpan TimeZoneInfo___::StringSerializer::GetNextTimeSpanValue() {
-  return TimeSpan();
+  Int32 nextInt32Value = GetNextInt32Value();
+  try{
+    return TimeSpan(0, nextInt32Value, 0);
+  } catch (ArgumentOutOfRangeException innerException) {
+  }
 }
 
 Int32 TimeZoneInfo___::StringSerializer::GetNextInt32Value() {
-  return Int32();
+  String nextStringValue = GetNextStringValue();
 }
 
 Array<TimeZoneInfo::in::AdjustmentRule> TimeZoneInfo___::StringSerializer::GetNextAdjustmentRuleArrayValue() {
-  return Array<TimeZoneInfo::in::AdjustmentRule>();
+  List<AdjustmentRule> list = rt::newobj<List<AdjustmentRule>>(1);
+  Int32 num = 0;
+  for (AdjustmentRule nextAdjustmentRuleValue = GetNextAdjustmentRuleValue(); nextAdjustmentRuleValue != nullptr; nextAdjustmentRuleValue = GetNextAdjustmentRuleValue()) {
+    list->Add(nextAdjustmentRuleValue);
+    num++;
+  }
+  if (_state == State::EndOfLine) {
+    rt::throw_exception<SerializationException>(SR::get_Serialization_InvalidData());
+  }
+  if (_currentTokenStartIndex < 0 || _currentTokenStartIndex >= _serializedText->get_Length()) {
+    rt::throw_exception<SerializationException>(SR::get_Serialization_InvalidData());
+  }
+  if (num == 0) {
+    return nullptr;
+  }
+  return list->ToArray();
 }
 
 TimeZoneInfo::in::AdjustmentRule TimeZoneInfo___::StringSerializer::GetNextAdjustmentRuleValue() {
-  return nullptr;
+  if (_state == State::EndOfLine) {
+    return nullptr;
+  }
+  if (_currentTokenStartIndex < 0 || _currentTokenStartIndex >= _serializedText->get_Length()) {
+    rt::throw_exception<SerializationException>(SR::get_Serialization_InvalidData());
+  }
+  if (_serializedText[_currentTokenStartIndex] == 59) {
+    return nullptr;
+  }
+  if (_serializedText[_currentTokenStartIndex] != 91) {
+    rt::throw_exception<SerializationException>(SR::get_Serialization_InvalidData());
+  }
+  _currentTokenStartIndex++;
+  DateTime nextDateTimeValue = GetNextDateTimeValue("MM:dd:yyyy");
+  DateTime nextDateTimeValue2 = GetNextDateTimeValue("MM:dd:yyyy");
+  TimeSpan nextTimeSpanValue = GetNextTimeSpanValue();
+  TransitionTime nextTransitionTimeValue = GetNextTransitionTimeValue();
+  TransitionTime nextTransitionTimeValue2 = GetNextTransitionTimeValue();
+  TimeSpan baseUtcOffsetDelta = TimeSpan::Zero;
+  Int32 num = 0;
+  if (_state == State::EndOfLine || _currentTokenStartIndex >= _serializedText->get_Length()) {
+    rt::throw_exception<SerializationException>(SR::get_Serialization_InvalidData());
+  }
+  if ((_serializedText[_currentTokenStartIndex] >= 48 && _serializedText[_currentTokenStartIndex] <= 57) || _serializedText[_currentTokenStartIndex] == 45 || _serializedText[_currentTokenStartIndex] == 43) {
+    baseUtcOffsetDelta = GetNextTimeSpanValue();
+  }
+  if (_serializedText[_currentTokenStartIndex] >= 48 && _serializedText[_currentTokenStartIndex] <= 49) {
+    num = GetNextInt32Value();
+  }
+  if (_state == State::EndOfLine || _currentTokenStartIndex >= _serializedText->get_Length()) {
+    rt::throw_exception<SerializationException>(SR::get_Serialization_InvalidData());
+  }
+  if (_serializedText[_currentTokenStartIndex] != 93) {
+    SkipVersionNextDataFields(1);
+  } else {
+    _currentTokenStartIndex++;
+  }
+  AdjustmentRule result;
+  try{
+    result = AdjustmentRule::in::CreateAdjustmentRule(nextDateTimeValue, nextDateTimeValue2, nextTimeSpanValue, nextTransitionTimeValue, nextTransitionTimeValue2, baseUtcOffsetDelta, num > 0);
+  } catch (ArgumentException innerException) {
+  }
+  if (_currentTokenStartIndex >= _serializedText->get_Length()) {
+    _state = State::EndOfLine;
+  } else {
+    _state = State::StartOfToken;
+  }
+  return result;
 }
 
 TimeZoneInfo::in::TransitionTime TimeZoneInfo___::StringSerializer::GetNextTransitionTimeValue() {
-  return TimeZoneInfo::in::TransitionTime();
+  if (_state == State::EndOfLine || (_currentTokenStartIndex < _serializedText->get_Length() && _serializedText[_currentTokenStartIndex] == 93)) {
+    rt::throw_exception<SerializationException>(SR::get_Serialization_InvalidData());
+  }
+  if (_currentTokenStartIndex < 0 || _currentTokenStartIndex >= _serializedText->get_Length()) {
+    rt::throw_exception<SerializationException>(SR::get_Serialization_InvalidData());
+  }
+  if (_serializedText[_currentTokenStartIndex] != 91) {
+    rt::throw_exception<SerializationException>(SR::get_Serialization_InvalidData());
+  }
+  _currentTokenStartIndex++;
+  Int32 nextInt32Value = GetNextInt32Value();
+  if (nextInt32Value != 0 && nextInt32Value != 1) {
+    rt::throw_exception<SerializationException>(SR::get_Serialization_InvalidData());
+  }
+  DateTime nextDateTimeValue = GetNextDateTimeValue("HH:mm:ss.FFF");
+  nextDateTimeValue = DateTime(1, 1, 1, nextDateTimeValue.get_Hour(), nextDateTimeValue.get_Minute(), nextDateTimeValue.get_Second(), nextDateTimeValue.get_Millisecond());
+  Int32 nextInt32Value2 = GetNextInt32Value();
+  TransitionTime result;
+  if (nextInt32Value == 1) {
+    Int32 nextInt32Value3 = GetNextInt32Value();
+    try{
+      result = TransitionTime::CreateFixedDateRule(nextDateTimeValue, nextInt32Value2, nextInt32Value3);
+    } catch (ArgumentException innerException) {
+    }
+  } else {
+    Int32 nextInt32Value4 = GetNextInt32Value();
+    Int32 nextInt32Value5 = GetNextInt32Value();
+    try{
+      result = TransitionTime::CreateFloatingDateRule(nextDateTimeValue, nextInt32Value2, nextInt32Value4, (DayOfWeek)nextInt32Value5);
+    } catch (ArgumentException innerException2) {
+    }
+  }
+  if (_state == State::EndOfLine || _currentTokenStartIndex >= _serializedText->get_Length()) {
+    rt::throw_exception<SerializationException>(SR::get_Serialization_InvalidData());
+  }
+  if (_serializedText[_currentTokenStartIndex] != 93) {
+    SkipVersionNextDataFields(1);
+  } else {
+    _currentTokenStartIndex++;
+  }
+  Boolean flag = false;
+  if (_currentTokenStartIndex < _serializedText->get_Length() && _serializedText[_currentTokenStartIndex] == 59) {
+    _currentTokenStartIndex++;
+    flag = true;
+  }
+  if (!flag) {
+    rt::throw_exception<SerializationException>(SR::get_Serialization_InvalidData());
+  }
+  if (_currentTokenStartIndex >= _serializedText->get_Length()) {
+    _state = State::EndOfLine;
+  } else {
+    _state = State::StartOfToken;
+  }
+  return result;
 }
 
 String TimeZoneInfo___::get_Id() {
-  return nullptr;
+  return _id;
 }
 
 String TimeZoneInfo___::get_DisplayName() {
-  return nullptr;
 }
 
 String TimeZoneInfo___::get_StandardName() {
-  return nullptr;
 }
 
 String TimeZoneInfo___::get_DaylightName() {
-  return nullptr;
 }
 
 TimeSpan TimeZoneInfo___::get_BaseUtcOffset() {
-  return TimeSpan();
+  return _baseUtcOffset;
 }
 
 Boolean TimeZoneInfo___::get_SupportsDaylightSavingTime() {
-  return Boolean();
+  return _supportsDaylightSavingTime;
 }
 
 TimeZoneInfo TimeZoneInfo___::get_Local() {
-  return nullptr;
+  return s_cachedData->get_Local();
 }
 
 TimeZoneInfo TimeZoneInfo___::get_Utc() {
-  return nullptr;
+  return s_utcTimeZone;
 }
 
 Array<TimeSpan> TimeZoneInfo___::GetAmbiguousTimeOffsets(DateTimeOffset dateTimeOffset) {
-  return Array<TimeSpan>();
+  if (!get_SupportsDaylightSavingTime()) {
+    rt::throw_exception<ArgumentException>(SR::get_Argument_DateTimeOffsetIsNotAmbiguous(), "dateTimeOffset");
+  }
+  DateTime dateTime = ConvertTime(dateTimeOffset, (TimeZoneInfo)this).get_DateTime();
+  Boolean flag = false;
+  Nullable<Int32> ruleIndex;
+  AdjustmentRule adjustmentRuleForAmbiguousOffsets = GetAdjustmentRuleForAmbiguousOffsets(dateTime, ruleIndex);
+  if (adjustmentRuleForAmbiguousOffsets != nullptr && adjustmentRuleForAmbiguousOffsets->get_HasDaylightSaving()) {
+    DaylightTimeStruct daylightTime = GetDaylightTime(dateTime.get_Year(), adjustmentRuleForAmbiguousOffsets, ruleIndex);
+    flag = GetIsAmbiguousTime(dateTime, adjustmentRuleForAmbiguousOffsets, daylightTime);
+  }
+  if (!flag) {
+    rt::throw_exception<ArgumentException>(SR::get_Argument_DateTimeOffsetIsNotAmbiguous(), "dateTimeOffset");
+  }
+  Array<TimeSpan> array = rt::newarr<Array<TimeSpan>>(2);
+  TimeSpan timeSpan = _baseUtcOffset + adjustmentRuleForAmbiguousOffsets->get_BaseUtcOffsetDelta();
+  if (adjustmentRuleForAmbiguousOffsets->get_DaylightDelta() > TimeSpan::Zero) {
+    array[0] = timeSpan;
+    array[1] = timeSpan + adjustmentRuleForAmbiguousOffsets->get_DaylightDelta();
+  } else {
+    array[0] = timeSpan + adjustmentRuleForAmbiguousOffsets->get_DaylightDelta();
+    array[1] = timeSpan;
+  }
+  return array;
 }
 
 Array<TimeSpan> TimeZoneInfo___::GetAmbiguousTimeOffsets(DateTime dateTime) {
-  return Array<TimeSpan>();
+  if (!get_SupportsDaylightSavingTime()) {
+    rt::throw_exception<ArgumentException>(SR::get_Argument_DateTimeIsNotAmbiguous(), "dateTime");
+  }
+  DateTime dateTime2;
+  if (dateTime.get_Kind() == DateTimeKind::Local) {
+    CachedData cachedData = s_cachedData;
+    dateTime2 = ConvertTime(dateTime, cachedData->get_Local(), (TimeZoneInfo)this, TimeZoneInfoOptions::None, cachedData);
+  } else if (dateTime.get_Kind() == DateTimeKind::Utc) {
+    CachedData cachedData2 = s_cachedData;
+    dateTime2 = ConvertTime(dateTime, s_utcTimeZone, (TimeZoneInfo)this, TimeZoneInfoOptions::None, cachedData2);
+  } else {
+    dateTime2 = dateTime;
+  }
+
+  Boolean flag = false;
+  Nullable<Int32> ruleIndex;
+  AdjustmentRule adjustmentRuleForAmbiguousOffsets = GetAdjustmentRuleForAmbiguousOffsets(dateTime2, ruleIndex);
+  if (adjustmentRuleForAmbiguousOffsets != nullptr && adjustmentRuleForAmbiguousOffsets->get_HasDaylightSaving()) {
+    DaylightTimeStruct daylightTime = GetDaylightTime(dateTime2.get_Year(), adjustmentRuleForAmbiguousOffsets, ruleIndex);
+    flag = GetIsAmbiguousTime(dateTime2, adjustmentRuleForAmbiguousOffsets, daylightTime);
+  }
+  if (!flag) {
+    rt::throw_exception<ArgumentException>(SR::get_Argument_DateTimeIsNotAmbiguous(), "dateTime");
+  }
+  Array<TimeSpan> array = rt::newarr<Array<TimeSpan>>(2);
+  TimeSpan timeSpan = _baseUtcOffset + adjustmentRuleForAmbiguousOffsets->get_BaseUtcOffsetDelta();
+  if (adjustmentRuleForAmbiguousOffsets->get_DaylightDelta() > TimeSpan::Zero) {
+    array[0] = timeSpan;
+    array[1] = timeSpan + adjustmentRuleForAmbiguousOffsets->get_DaylightDelta();
+  } else {
+    array[0] = timeSpan + adjustmentRuleForAmbiguousOffsets->get_DaylightDelta();
+    array[1] = timeSpan;
+  }
+  return array;
 }
 
 TimeZoneInfo::in::AdjustmentRule TimeZoneInfo___::GetAdjustmentRuleForAmbiguousOffsets(DateTime adjustedTime, Nullable<Int32>& ruleIndex) {
-  return nullptr;
+  AdjustmentRule adjustmentRuleForTime = GetAdjustmentRuleForTime(adjustedTime, ruleIndex);
+  if (adjustmentRuleForTime != nullptr && adjustmentRuleForTime->get_NoDaylightTransitions() && !adjustmentRuleForTime->get_HasDaylightSaving()) {
+    return GetPreviousAdjustmentRule(adjustmentRuleForTime, ruleIndex);
+  }
+  return adjustmentRuleForTime;
 }
 
 TimeZoneInfo::in::AdjustmentRule TimeZoneInfo___::GetPreviousAdjustmentRule(AdjustmentRule rule, Nullable<Int32> ruleIndex) {
-  return nullptr;
+  if (ruleIndex.get_HasValue() && 0 < ruleIndex.GetValueOrDefault() && ruleIndex.GetValueOrDefault() < _adjustmentRules->get_Length()) {
+    return _adjustmentRules[ruleIndex.GetValueOrDefault() - 1];
+  }
+  AdjustmentRule result = rule;
+  for (Int32 i = 1; i < _adjustmentRules->get_Length(); i++) {
+    if (rule == _adjustmentRules[i]) {
+      result = _adjustmentRules[i - 1];
+      break;
+    }
+  }
+  return result;
 }
 
 TimeSpan TimeZoneInfo___::GetUtcOffset(DateTimeOffset dateTimeOffset) {
-  return TimeSpan();
+  return GetUtcOffsetFromUtc(dateTimeOffset.get_UtcDateTime(), (TimeZoneInfo)this);
 }
 
 TimeSpan TimeZoneInfo___::GetUtcOffset(DateTime dateTime) {
-  return TimeSpan();
+  return GetUtcOffset(dateTime, TimeZoneInfoOptions::NoThrowOnInvalidTime, s_cachedData);
 }
 
 TimeSpan TimeZoneInfo___::GetLocalUtcOffset(DateTime dateTime, TimeZoneInfoOptions flags) {
-  return TimeSpan();
+  CachedData cachedData = s_cachedData;
+  return cachedData->get_Local()->GetUtcOffset(dateTime, flags, cachedData);
 }
 
 TimeSpan TimeZoneInfo___::GetUtcOffset(DateTime dateTime, TimeZoneInfoOptions flags) {
-  return TimeSpan();
+  return GetUtcOffset(dateTime, flags, s_cachedData);
 }
 
 TimeSpan TimeZoneInfo___::GetUtcOffset(DateTime dateTime, TimeZoneInfoOptions flags, CachedData cachedData) {
-  return TimeSpan();
+  if (dateTime.get_Kind() == DateTimeKind::Local) {
+    if (cachedData->GetCorrespondingKind((TimeZoneInfo)this) != DateTimeKind::Local) {
+      DateTime time = ConvertTime(dateTime, cachedData->get_Local(), s_utcTimeZone, flags);
+      return GetUtcOffsetFromUtc(time, (TimeZoneInfo)this);
+    }
+  } else if (dateTime.get_Kind() == DateTimeKind::Utc) {
+    if (cachedData->GetCorrespondingKind((TimeZoneInfo)this) == DateTimeKind::Utc) {
+      return _baseUtcOffset;
+    }
+    return GetUtcOffsetFromUtc(dateTime, (TimeZoneInfo)this);
+  }
+
+  return GetUtcOffset(dateTime, (TimeZoneInfo)this);
 }
 
 Boolean TimeZoneInfo___::IsAmbiguousTime(DateTimeOffset dateTimeOffset) {
-  return Boolean();
+  if (!_supportsDaylightSavingTime) {
+    return false;
+  }
+  return IsAmbiguousTime(ConvertTime(dateTimeOffset, (TimeZoneInfo)this).get_DateTime());
 }
 
 Boolean TimeZoneInfo___::IsAmbiguousTime(DateTime dateTime) {
-  return Boolean();
+  return IsAmbiguousTime(dateTime, TimeZoneInfoOptions::NoThrowOnInvalidTime);
 }
 
 Boolean TimeZoneInfo___::IsAmbiguousTime(DateTime dateTime, TimeZoneInfoOptions flags) {
-  return Boolean();
+  if (!_supportsDaylightSavingTime) {
+    return false;
+  }
+  CachedData cachedData = s_cachedData;
+  DateTime dateTime2 = (dateTime.get_Kind() == DateTimeKind::Local) ? ConvertTime(dateTime, cachedData->get_Local(), (TimeZoneInfo)this, flags, cachedData) : ((dateTime.get_Kind() == DateTimeKind::Utc) ? ConvertTime(dateTime, s_utcTimeZone, (TimeZoneInfo)this, flags, cachedData) : dateTime);
+  Nullable<Int32> ruleIndex;
+  AdjustmentRule adjustmentRuleForTime = GetAdjustmentRuleForTime(dateTime2, ruleIndex);
+  if (adjustmentRuleForTime != nullptr && adjustmentRuleForTime->get_HasDaylightSaving()) {
+    DaylightTimeStruct daylightTime = GetDaylightTime(dateTime2.get_Year(), adjustmentRuleForTime, ruleIndex);
+    return GetIsAmbiguousTime(dateTime2, adjustmentRuleForTime, daylightTime);
+  }
+  return false;
 }
 
 Boolean TimeZoneInfo___::IsDaylightSavingTime(DateTimeOffset dateTimeOffset) {
-  return Boolean();
 }
 
 Boolean TimeZoneInfo___::IsDaylightSavingTime(DateTime dateTime) {
-  return Boolean();
+  return IsDaylightSavingTime(dateTime, TimeZoneInfoOptions::NoThrowOnInvalidTime, s_cachedData);
 }
 
 Boolean TimeZoneInfo___::IsDaylightSavingTime(DateTime dateTime, TimeZoneInfoOptions flags) {
-  return Boolean();
+  return IsDaylightSavingTime(dateTime, flags, s_cachedData);
 }
 
 Boolean TimeZoneInfo___::IsDaylightSavingTime(DateTime dateTime, TimeZoneInfoOptions flags, CachedData cachedData) {
-  return Boolean();
+  if (!_supportsDaylightSavingTime || _adjustmentRules == nullptr) {
+    return false;
+  }
+  DateTime dateTime2;
+  if (dateTime.get_Kind() == DateTimeKind::Local) {
+    dateTime2 = ConvertTime(dateTime, cachedData->get_Local(), (TimeZoneInfo)this, flags, cachedData);
+  } else {
+    if (dateTime.get_Kind() == DateTimeKind::Utc) {
+      if (cachedData->GetCorrespondingKind((TimeZoneInfo)this) == DateTimeKind::Utc) {
+        return false;
+      }
+    }
+    dateTime2 = dateTime;
+  }
+  Nullable<Int32> ruleIndex;
+  AdjustmentRule adjustmentRuleForTime = GetAdjustmentRuleForTime(dateTime2, ruleIndex);
+  if (adjustmentRuleForTime != nullptr && adjustmentRuleForTime->get_HasDaylightSaving()) {
+    DaylightTimeStruct daylightTime = GetDaylightTime(dateTime2.get_Year(), adjustmentRuleForTime, ruleIndex);
+    return GetIsDaylightSavings(dateTime2, adjustmentRuleForTime, daylightTime);
+  }
+  return false;
 }
 
 Boolean TimeZoneInfo___::IsInvalidTime(DateTime dateTime) {
-  return Boolean();
+  Boolean result = false;
+  if (dateTime.get_Kind() == DateTimeKind::Unspecified || (dateTime.get_Kind() == DateTimeKind::Local && s_cachedData->GetCorrespondingKind((TimeZoneInfo)this) == DateTimeKind::Local)) {
+    Nullable<Int32> ruleIndex;
+    AdjustmentRule adjustmentRuleForTime = GetAdjustmentRuleForTime(dateTime, ruleIndex);
+    if (adjustmentRuleForTime != nullptr && adjustmentRuleForTime->get_HasDaylightSaving()) {
+      DaylightTimeStruct daylightTime = GetDaylightTime(dateTime.get_Year(), adjustmentRuleForTime, ruleIndex);
+      result = GetIsInvalidTime(dateTime, adjustmentRuleForTime, daylightTime);
+    } else {
+      result = false;
+    }
+  }
+  return result;
 }
 
 void TimeZoneInfo___::ClearCachedData() {
+  s_cachedData = rt::newobj<CachedData>();
 }
 
 DateTimeOffset TimeZoneInfo___::ConvertTimeBySystemTimeZoneId(DateTimeOffset dateTimeOffset, String destinationTimeZoneId) {
-  return DateTimeOffset();
+  return ConvertTime(dateTimeOffset, FindSystemTimeZoneById(destinationTimeZoneId));
 }
 
 DateTime TimeZoneInfo___::ConvertTimeBySystemTimeZoneId(DateTime dateTime, String destinationTimeZoneId) {
-  return DateTime();
+  return ConvertTime(dateTime, FindSystemTimeZoneById(destinationTimeZoneId));
 }
 
 DateTime TimeZoneInfo___::ConvertTimeBySystemTimeZoneId(DateTime dateTime, String sourceTimeZoneId, String destinationTimeZoneId) {
-  return DateTime();
+  if (dateTime.get_Kind() == DateTimeKind::Local && String::in::Equals(sourceTimeZoneId, get_Local()->get_Id(), StringComparison::OrdinalIgnoreCase)) {
+    CachedData cachedData = s_cachedData;
+    return ConvertTime(dateTime, cachedData->get_Local(), FindSystemTimeZoneById(destinationTimeZoneId), TimeZoneInfoOptions::None, cachedData);
+  }
+  if (dateTime.get_Kind() == DateTimeKind::Utc && String::in::Equals(sourceTimeZoneId, get_Utc()->get_Id(), StringComparison::OrdinalIgnoreCase)) {
+    return ConvertTime(dateTime, s_utcTimeZone, FindSystemTimeZoneById(destinationTimeZoneId), TimeZoneInfoOptions::None, s_cachedData);
+  }
+  return ConvertTime(dateTime, FindSystemTimeZoneById(sourceTimeZoneId), FindSystemTimeZoneById(destinationTimeZoneId));
 }
 
 DateTimeOffset TimeZoneInfo___::ConvertTime(DateTimeOffset dateTimeOffset, TimeZoneInfo destinationTimeZone) {
-  return DateTimeOffset();
+  if (destinationTimeZone == nullptr) {
+    rt::throw_exception<ArgumentNullException>("destinationTimeZone");
+  }
+  DateTime utcDateTime = dateTimeOffset.get_UtcDateTime();
+  TimeSpan utcOffsetFromUtc = GetUtcOffsetFromUtc(utcDateTime, destinationTimeZone);
+  Int64 num = utcDateTime.get_Ticks() + utcOffsetFromUtc.get_Ticks();
+  if (num <= DateTimeOffset::MaxValue.get_Ticks()) {
+    if (num >= DateTimeOffset::MinValue.get_Ticks()) {
+      return DateTimeOffset(num, utcOffsetFromUtc);
+    }
+    return DateTimeOffset::MinValue;
+  }
+  return DateTimeOffset::MaxValue;
 }
 
 DateTime TimeZoneInfo___::ConvertTime(DateTime dateTime, TimeZoneInfo destinationTimeZone) {
-  return DateTime();
+  if (destinationTimeZone == nullptr) {
+    rt::throw_exception<ArgumentNullException>("destinationTimeZone");
+  }
+  if (dateTime.get_Ticks() == 0) {
+    ClearCachedData();
+  }
+  CachedData cachedData = s_cachedData;
+  TimeZoneInfo sourceTimeZone = (dateTime.get_Kind() == DateTimeKind::Utc) ? s_utcTimeZone : cachedData->get_Local();
+  return ConvertTime(dateTime, sourceTimeZone, destinationTimeZone, TimeZoneInfoOptions::None, cachedData);
 }
 
 DateTime TimeZoneInfo___::ConvertTime(DateTime dateTime, TimeZoneInfo sourceTimeZone, TimeZoneInfo destinationTimeZone) {
-  return DateTime();
+  return ConvertTime(dateTime, sourceTimeZone, destinationTimeZone, TimeZoneInfoOptions::None, s_cachedData);
 }
 
 DateTime TimeZoneInfo___::ConvertTime(DateTime dateTime, TimeZoneInfo sourceTimeZone, TimeZoneInfo destinationTimeZone, TimeZoneInfoOptions flags) {
-  return DateTime();
+  return ConvertTime(dateTime, sourceTimeZone, destinationTimeZone, flags, s_cachedData);
 }
 
 DateTime TimeZoneInfo___::ConvertTime(DateTime dateTime, TimeZoneInfo sourceTimeZone, TimeZoneInfo destinationTimeZone, TimeZoneInfoOptions flags, CachedData cachedData) {
-  return DateTime();
+  if (sourceTimeZone == nullptr) {
+    rt::throw_exception<ArgumentNullException>("sourceTimeZone");
+  }
+  if (destinationTimeZone == nullptr) {
+    rt::throw_exception<ArgumentNullException>("destinationTimeZone");
+  }
+  DateTimeKind correspondingKind = cachedData->GetCorrespondingKind(sourceTimeZone);
 }
 
 DateTime TimeZoneInfo___::ConvertTimeFromUtc(DateTime dateTime, TimeZoneInfo destinationTimeZone) {
-  return DateTime();
+  return ConvertTime(dateTime, s_utcTimeZone, destinationTimeZone, TimeZoneInfoOptions::None, s_cachedData);
 }
 
 DateTime TimeZoneInfo___::ConvertTimeToUtc(DateTime dateTime) {
-  return DateTime();
+  if (dateTime.get_Kind() == DateTimeKind::Utc) {
+    return dateTime;
+  }
+  CachedData cachedData = s_cachedData;
+  return ConvertTime(dateTime, cachedData->get_Local(), s_utcTimeZone, TimeZoneInfoOptions::None, cachedData);
 }
 
 DateTime TimeZoneInfo___::ConvertTimeToUtc(DateTime dateTime, TimeZoneInfoOptions flags) {
-  return DateTime();
+  if (dateTime.get_Kind() == DateTimeKind::Utc) {
+    return dateTime;
+  }
+  CachedData cachedData = s_cachedData;
+  return ConvertTime(dateTime, cachedData->get_Local(), s_utcTimeZone, flags, cachedData);
 }
 
 DateTime TimeZoneInfo___::ConvertTimeToUtc(DateTime dateTime, TimeZoneInfo sourceTimeZone) {
-  return DateTime();
+  return ConvertTime(dateTime, sourceTimeZone, s_utcTimeZone, TimeZoneInfoOptions::None, s_cachedData);
 }
 
 Boolean TimeZoneInfo___::Equals(TimeZoneInfo other) {
-  return Boolean();
+  if (other != nullptr && String::in::Equals(_id, other->_id, StringComparison::OrdinalIgnoreCase)) {
+    return HasSameRules(other);
+  }
+  return false;
 }
 
 Boolean TimeZoneInfo___::Equals(Object obj) {
-  return Boolean();
+  return Equals(rt::as<TimeZoneInfo>(obj));
 }
 
 TimeZoneInfo TimeZoneInfo___::FromSerializedString(String source) {
-  return nullptr;
+  if (source == nullptr) {
+    rt::throw_exception<ArgumentNullException>("source");
+  }
+  if (source->get_Length() == 0) {
+    rt::throw_exception<ArgumentException>(SR::Format(SR::get_Argument_InvalidSerializedString(), source), "source");
+  }
+  return StringSerializer::GetDeserializedTimeZoneInfo(source);
 }
 
 Int32 TimeZoneInfo___::GetHashCode() {
-  return Int32();
+  return StringComparer::in::get_OrdinalIgnoreCase()->GetHashCode(_id);
 }
 
 ReadOnlyCollection<TimeZoneInfo> TimeZoneInfo___::GetSystemTimeZones() {
-  return nullptr;
+  CachedData cachedData = s_cachedData;
 }
 
 Boolean TimeZoneInfo___::HasSameRules(TimeZoneInfo other) {
-  return Boolean();
+  if (other == nullptr) {
+    rt::throw_exception<ArgumentNullException>("other");
+  }
+  if (_baseUtcOffset != other->_baseUtcOffset || _supportsDaylightSavingTime != other->_supportsDaylightSavingTime) {
+    return false;
+  }
+  Array<AdjustmentRule> adjustmentRules = _adjustmentRules;
+  Array<AdjustmentRule> adjustmentRules2 = other->_adjustmentRules;
+  Boolean flag = (adjustmentRules == nullptr && adjustmentRules2 == nullptr) || (adjustmentRules != nullptr && adjustmentRules2 != nullptr);
+  if (!flag) {
+    return false;
+  }
+  if (adjustmentRules != nullptr) {
+    if (adjustmentRules->get_Length() != adjustmentRules2->get_Length()) {
+      return false;
+    }
+    for (Int32 i = 0; i < adjustmentRules->get_Length(); i++) {
+      if (!adjustmentRules[i]->Equals(adjustmentRules2[i])) {
+        return false;
+      }
+    }
+  }
+  return flag;
 }
 
 String TimeZoneInfo___::ToSerializedString() {
-  return nullptr;
+  return StringSerializer::GetSerializedString((TimeZoneInfo)this);
 }
 
 String TimeZoneInfo___::ToString() {
-  return nullptr;
+  return get_DisplayName();
 }
 
 void TimeZoneInfo___::ctor(String id, TimeSpan baseUtcOffset, String displayName, String standardDisplayName, String daylightDisplayName, Array<AdjustmentRule> adjustmentRules, Boolean disableDaylightSavingTime) {
 }
 
 TimeZoneInfo TimeZoneInfo___::CreateCustomTimeZone(String id, TimeSpan baseUtcOffset, String displayName, String standardDisplayName) {
-  return nullptr;
+  return rt::newobj<TimeZoneInfo>(id, baseUtcOffset, displayName, standardDisplayName, standardDisplayName, nullptr, false);
 }
 
 TimeZoneInfo TimeZoneInfo___::CreateCustomTimeZone(String id, TimeSpan baseUtcOffset, String displayName, String standardDisplayName, String daylightDisplayName, Array<AdjustmentRule> adjustmentRules) {
-  return nullptr;
+  return CreateCustomTimeZone(id, baseUtcOffset, displayName, standardDisplayName, daylightDisplayName, adjustmentRules, false);
 }
 
 TimeZoneInfo TimeZoneInfo___::CreateCustomTimeZone(String id, TimeSpan baseUtcOffset, String displayName, String standardDisplayName, String daylightDisplayName, Array<AdjustmentRule> adjustmentRules, Boolean disableDaylightSavingTime) {
-  return nullptr;
+  if (!disableDaylightSavingTime && adjustmentRules != nullptr && adjustmentRules->get_Length() != 0) {
+    adjustmentRules = (Array<AdjustmentRule>)adjustmentRules->Clone();
+  }
+  return rt::newobj<TimeZoneInfo>(id, baseUtcOffset, displayName, standardDisplayName, daylightDisplayName, adjustmentRules, disableDaylightSavingTime);
 }
 
 void TimeZoneInfo___::ctor(SerializationInfo info, StreamingContext context) {
+  if (info == nullptr) {
+    rt::throw_exception<ArgumentNullException>("info");
+  }
 }
 
 TimeZoneInfo::in::AdjustmentRule TimeZoneInfo___::GetAdjustmentRuleForTime(DateTime dateTime, Nullable<Int32>& ruleIndex) {
-  return nullptr;
+  return GetAdjustmentRuleForTime(dateTime, false, ruleIndex);
 }
 
 TimeZoneInfo::in::AdjustmentRule TimeZoneInfo___::GetAdjustmentRuleForTime(DateTime dateTime, Boolean dateTimeisUtc, Nullable<Int32>& ruleIndex) {
+  if (_adjustmentRules == nullptr || _adjustmentRules->get_Length() == 0) {
+    ruleIndex = nullptr;
+    return nullptr;
+  }
+  DateTime dateOnly = dateTimeisUtc ? (dateTime + get_BaseUtcOffset()).get_Date() : dateTime.get_Date();
+  Int32 num = 0;
+  Int32 num2 = _adjustmentRules->get_Length() - 1;
+  while (num <= num2) {
+    Int32 num3 = num + (num2 - num >> 1);
+    AdjustmentRule adjustmentRule = _adjustmentRules[num3];
+    AdjustmentRule previousRule = (num3 > 0) ? _adjustmentRules[num3 - 1] : adjustmentRule;
+    Int32 num4 = CompareAdjustmentRuleToDateTime(adjustmentRule, previousRule, dateTime, dateOnly, dateTimeisUtc);
+    if (num4 == 0) {
+      ruleIndex = num3;
+      return adjustmentRule;
+    }
+    if (num4 < 0) {
+      num = num3 + 1;
+    } else {
+      num2 = num3 - 1;
+    }
+  }
+  ruleIndex = nullptr;
   return nullptr;
 }
 
 Int32 TimeZoneInfo___::CompareAdjustmentRuleToDateTime(AdjustmentRule rule, AdjustmentRule previousRule, DateTime dateTime, DateTime dateOnly, Boolean dateTimeisUtc) {
-  return Int32();
+  Boolean flag;
+  if (rule->get_DateStart().get_Kind() == DateTimeKind::Utc) {
+    DateTime t = dateTimeisUtc ? dateTime : ConvertToUtc(dateTime, previousRule->get_DaylightDelta(), previousRule->get_BaseUtcOffsetDelta());
+    flag = (t >= rule->get_DateStart());
+  } else {
+    flag = (dateOnly >= rule->get_DateStart());
+  }
+  if (!flag) {
+    return 1;
+  }
+  Boolean flag2;
+  if (rule->get_DateEnd().get_Kind() == DateTimeKind::Utc) {
+    DateTime t2 = dateTimeisUtc ? dateTime : ConvertToUtc(dateTime, rule->get_DaylightDelta(), rule->get_BaseUtcOffsetDelta());
+    flag2 = (t2 <= rule->get_DateEnd());
+  } else {
+    flag2 = (dateOnly <= rule->get_DateEnd());
+  }
+  if (!flag2) {
+    return -1;
+  }
+  return 0;
 }
 
 DateTime TimeZoneInfo___::ConvertToUtc(DateTime dateTime, TimeSpan daylightDelta, TimeSpan baseUtcOffsetDelta) {
-  return DateTime();
+  return ConvertToFromUtc(dateTime, daylightDelta, baseUtcOffsetDelta, true);
 }
 
 DateTime TimeZoneInfo___::ConvertFromUtc(DateTime dateTime, TimeSpan daylightDelta, TimeSpan baseUtcOffsetDelta) {
-  return DateTime();
+  return ConvertToFromUtc(dateTime, daylightDelta, baseUtcOffsetDelta, false);
 }
 
 DateTime TimeZoneInfo___::ConvertToFromUtc(DateTime dateTime, TimeSpan daylightDelta, TimeSpan baseUtcOffsetDelta, Boolean convertToUtc) {
-  return DateTime();
+  TimeSpan timeSpan = get_BaseUtcOffset() + daylightDelta + baseUtcOffsetDelta;
+  if (convertToUtc) {
+    timeSpan = timeSpan.Negate();
+  }
+  Int64 num = dateTime.get_Ticks() + timeSpan.get_Ticks();
+  if (num <= DateTime::MaxValue.get_Ticks()) {
+    if (num >= DateTime::MinValue.get_Ticks()) {
+      return DateTime(num);
+    }
+    return DateTime::MinValue;
+  }
+  return DateTime::MaxValue;
 }
 
 DateTime TimeZoneInfo___::ConvertUtcToTimeZone(Int64 ticks, TimeZoneInfo destinationTimeZone, Boolean& isAmbiguousLocalDst) {
-  return DateTime();
+  DateTime time = (ticks > DateTime::MaxValue.get_Ticks()) ? DateTime::MaxValue : ((ticks < DateTime::MinValue.get_Ticks()) ? DateTime::MinValue : DateTime(ticks));
+  ticks += GetUtcOffsetFromUtc(time, destinationTimeZone, isAmbiguousLocalDst).get_Ticks();
+  if (ticks <= DateTime::MaxValue.get_Ticks()) {
+    if (ticks >= DateTime::MinValue.get_Ticks()) {
+      return DateTime(ticks);
+    }
+    return DateTime::MinValue;
+  }
+  return DateTime::MaxValue;
 }
 
 DaylightTimeStruct TimeZoneInfo___::GetDaylightTime(Int32 year, AdjustmentRule rule, Nullable<Int32> ruleIndex) {
-  return DaylightTimeStruct();
+  TimeSpan daylightDelta = rule->get_DaylightDelta();
+  DateTime start;
+  DateTime end;
+  if (rule->get_NoDaylightTransitions()) {
+    AdjustmentRule previousAdjustmentRule = GetPreviousAdjustmentRule(rule, ruleIndex);
+    start = ConvertFromUtc(rule->get_DateStart(), previousAdjustmentRule->get_DaylightDelta(), previousAdjustmentRule->get_BaseUtcOffsetDelta());
+    end = ConvertFromUtc(rule->get_DateEnd(), rule->get_DaylightDelta(), rule->get_BaseUtcOffsetDelta());
+  } else {
+    start = TransitionTimeToDateTime(year, rule->get_DaylightTransitionStart());
+    end = TransitionTimeToDateTime(year, rule->get_DaylightTransitionEnd());
+  }
+  return DaylightTimeStruct(start, end, daylightDelta);
 }
 
 Boolean TimeZoneInfo___::GetIsDaylightSavings(DateTime time, AdjustmentRule rule, DaylightTimeStruct daylightTime) {
-  return Boolean();
+  if (rule == nullptr) {
+    return false;
+  }
+  DateTime startTime;
+  DateTime endTime;
+  if (time.get_Kind() == DateTimeKind::Local) {
+    startTime = (rule->IsStartDateMarkerForBeginningOfYear() ? DateTime(daylightTime.Start.get_Year(), 1, 1, 0, 0, 0) : (daylightTime.Start + daylightTime.Delta));
+    endTime = (rule->IsEndDateMarkerForEndOfYear() ? DateTime(daylightTime.End.get_Year() + 1, 1, 1, 0, 0, 0).AddTicks(-1) : daylightTime.End);
+  } else {
+    Boolean flag = rule->get_DaylightDelta() > TimeSpan::Zero;
+    startTime = (rule->IsStartDateMarkerForBeginningOfYear() ? DateTime(daylightTime.Start.get_Year(), 1, 1, 0, 0, 0) : (daylightTime.Start + (flag ? rule->get_DaylightDelta() : TimeSpan::Zero)));
+  }
+  Boolean flag2 = CheckIsDst(startTime, time, endTime, false, rule);
+  if (flag2 && time.get_Kind() == DateTimeKind::Local && GetIsAmbiguousTime(time, rule, daylightTime)) {
+    flag2 = time.IsAmbiguousDaylightSavingTime();
+  }
+  return flag2;
 }
 
 TimeSpan TimeZoneInfo___::GetDaylightSavingsStartOffsetFromUtc(TimeSpan baseUtcOffset, AdjustmentRule rule, Nullable<Int32> ruleIndex) {
-  return TimeSpan();
+  if (rule->get_NoDaylightTransitions()) {
+    AdjustmentRule previousAdjustmentRule = GetPreviousAdjustmentRule(rule, ruleIndex);
+    return baseUtcOffset + previousAdjustmentRule->get_BaseUtcOffsetDelta() + previousAdjustmentRule->get_DaylightDelta();
+  }
+  return baseUtcOffset + rule->get_BaseUtcOffsetDelta();
 }
 
 TimeSpan TimeZoneInfo___::GetDaylightSavingsEndOffsetFromUtc(TimeSpan baseUtcOffset, AdjustmentRule rule) {
-  return TimeSpan();
+  return baseUtcOffset + rule->get_BaseUtcOffsetDelta() + rule->get_DaylightDelta();
 }
 
 Boolean TimeZoneInfo___::GetIsDaylightSavingsFromUtc(DateTime time, Int32 year, TimeSpan utc, AdjustmentRule rule, Nullable<Int32> ruleIndex, Boolean& isAmbiguousLocalDst, TimeZoneInfo zone) {
-  return Boolean();
+  isAmbiguousLocalDst = false;
+  if (rule == nullptr) {
+    return false;
+  }
+  DaylightTimeStruct daylightTime = zone->GetDaylightTime(year, rule, ruleIndex);
+  Boolean ignoreYearAdjustment = false;
+  TimeSpan daylightSavingsStartOffsetFromUtc = zone->GetDaylightSavingsStartOffsetFromUtc(utc, rule, ruleIndex);
+  DateTime dateTime;
+  if (rule->IsStartDateMarkerForBeginningOfYear() && daylightTime.Start.get_Year() > DateTime::MinValue.get_Year()) {
+    Nullable<Int32> ruleIndex2;
+    AdjustmentRule adjustmentRuleForTime = zone->GetAdjustmentRuleForTime(DateTime(daylightTime.Start.get_Year() - 1, 12, 31), ruleIndex2);
+    if (adjustmentRuleForTime != nullptr && adjustmentRuleForTime->IsEndDateMarkerForEndOfYear()) {
+      DaylightTimeStruct daylightTime2 = zone->GetDaylightTime(daylightTime.Start.get_Year() - 1, adjustmentRuleForTime, ruleIndex2);
+      dateTime = daylightTime2.Start - utc - adjustmentRuleForTime->get_BaseUtcOffsetDelta();
+      ignoreYearAdjustment = true;
+    } else {
+      dateTime = DateTime(daylightTime.Start.get_Year(), 1, 1, 0, 0, 0) - daylightSavingsStartOffsetFromUtc;
+    }
+  } else {
+    dateTime = daylightTime.Start - daylightSavingsStartOffsetFromUtc;
+  }
+  TimeSpan daylightSavingsEndOffsetFromUtc = zone->GetDaylightSavingsEndOffsetFromUtc(utc, rule);
+  DateTime dateTime2;
+  if (rule->IsEndDateMarkerForEndOfYear() && daylightTime.End.get_Year() < DateTime::MaxValue.get_Year()) {
+    Nullable<Int32> ruleIndex3;
+    AdjustmentRule adjustmentRuleForTime2 = zone->GetAdjustmentRuleForTime(DateTime(daylightTime.End.get_Year() + 1, 1, 1), ruleIndex3);
+    if (adjustmentRuleForTime2 != nullptr && adjustmentRuleForTime2->IsStartDateMarkerForBeginningOfYear()) {
+      if (adjustmentRuleForTime2->IsEndDateMarkerForEndOfYear()) {
+        dateTime2 = DateTime(daylightTime.End.get_Year() + 1, 12, 31) - utc - adjustmentRuleForTime2->get_BaseUtcOffsetDelta() - adjustmentRuleForTime2->get_DaylightDelta();
+      } else {
+        DaylightTimeStruct daylightTime3 = zone->GetDaylightTime(daylightTime.End.get_Year() + 1, adjustmentRuleForTime2, ruleIndex3);
+        dateTime2 = daylightTime3.End - utc - adjustmentRuleForTime2->get_BaseUtcOffsetDelta() - adjustmentRuleForTime2->get_DaylightDelta();
+      }
+      ignoreYearAdjustment = true;
+    } else {
+      dateTime2 = DateTime(daylightTime.End.get_Year() + 1, 1, 1, 0, 0, 0).AddTicks(-1) - daylightSavingsEndOffsetFromUtc;
+    }
+  } else {
+    dateTime2 = daylightTime.End - daylightSavingsEndOffsetFromUtc;
+  }
+  DateTime t;
+  DateTime t2;
+  if (daylightTime.Delta.get_Ticks() > 0) {
+    t = dateTime2 - daylightTime.Delta;
+    t2 = dateTime2;
+  } else {
+    t = dateTime;
+    t2 = dateTime - daylightTime.Delta;
+  }
+  Boolean flag = CheckIsDst(dateTime, time, dateTime2, ignoreYearAdjustment, rule);
+  if (flag) {
+    isAmbiguousLocalDst = (time >= t && time < t2);
+    if (!isAmbiguousLocalDst && t.get_Year() != t2.get_Year()) {
+      try{
+        DateTime t3 = t.AddYears(1);
+        DateTime t4 = t2.AddYears(1);
+        isAmbiguousLocalDst = (time >= t3 && time < t4);
+      } catch (ArgumentOutOfRangeException) {
+      }
+      if (!isAmbiguousLocalDst) {
+        try{
+          DateTime t3 = t.AddYears(-1);
+          DateTime t4 = t2.AddYears(-1);
+          isAmbiguousLocalDst = (time >= t3 && time < t4);
+          return flag;
+        } catch (ArgumentOutOfRangeException) {
+        }
+      }
+    }
+  }
+  return flag;
 }
 
 Boolean TimeZoneInfo___::CheckIsDst(DateTime startTime, DateTime time, DateTime endTime, Boolean ignoreYearAdjustment, AdjustmentRule rule) {
-  return Boolean();
+  if (!ignoreYearAdjustment && !rule->get_NoDaylightTransitions()) {
+    Int32 year = startTime.get_Year();
+    Int32 year2 = endTime.get_Year();
+    if (year != year2) {
+      endTime = endTime.AddYears(year - year2);
+    }
+    Int32 year3 = time.get_Year();
+    if (year != year3) {
+      time = time.AddYears(year - year3);
+    }
+  }
+  if (startTime > endTime) {
+    if (!(time < endTime)) {
+      return time >= startTime;
+    }
+    return true;
+  }
+  if (rule->get_NoDaylightTransitions()) {
+    if (time >= startTime) {
+      return time <= endTime;
+    }
+    return false;
+  }
+  if (time >= startTime) {
+    return time < endTime;
+  }
+  return false;
 }
 
 Boolean TimeZoneInfo___::GetIsAmbiguousTime(DateTime time, AdjustmentRule rule, DaylightTimeStruct daylightTime) {
-  return Boolean();
+  Boolean result = false;
+  if (rule == nullptr || rule->get_DaylightDelta() == TimeSpan::Zero) {
+    return result;
+  }
+  DateTime t;
+  DateTime t2;
+  if (rule->get_DaylightDelta() > TimeSpan::Zero) {
+    if (rule->IsEndDateMarkerForEndOfYear()) {
+      return false;
+    }
+    t = daylightTime.End;
+    t2 = daylightTime.End - rule->get_DaylightDelta();
+  } else {
+    if (rule->IsStartDateMarkerForBeginningOfYear()) {
+      return false;
+    }
+    t = daylightTime.Start;
+    t2 = daylightTime.Start + rule->get_DaylightDelta();
+  }
+  result = (time >= t2 && time < t);
+  if (!result && t.get_Year() != t2.get_Year()) {
+    try{
+      DateTime t3 = t.AddYears(1);
+      DateTime t4 = t2.AddYears(1);
+      result = (time >= t4 && time < t3);
+    } catch (ArgumentOutOfRangeException) {
+    }
+    if (!result) {
+      try{
+        DateTime t3 = t.AddYears(-1);
+        DateTime t4 = t2.AddYears(-1);
+        result = (time >= t4 && time < t3);
+        return result;
+      } catch (ArgumentOutOfRangeException) {
+      }
+    }
+  }
+  return result;
 }
 
 Boolean TimeZoneInfo___::GetIsInvalidTime(DateTime time, AdjustmentRule rule, DaylightTimeStruct daylightTime) {
-  return Boolean();
+  Boolean result = false;
+  if (rule == nullptr || rule->get_DaylightDelta() == TimeSpan::Zero) {
+    return result;
+  }
+  DateTime t;
+  DateTime t2;
+  if (rule->get_DaylightDelta() < TimeSpan::Zero) {
+    if (rule->IsEndDateMarkerForEndOfYear()) {
+      return false;
+    }
+    t = daylightTime.End;
+    t2 = daylightTime.End - rule->get_DaylightDelta();
+  } else {
+    if (rule->IsStartDateMarkerForBeginningOfYear()) {
+      return false;
+    }
+    t = daylightTime.Start;
+    t2 = daylightTime.Start + rule->get_DaylightDelta();
+  }
+  result = (time >= t && time < t2);
+  if (!result && t.get_Year() != t2.get_Year()) {
+    try{
+      DateTime t3 = t.AddYears(1);
+      DateTime t4 = t2.AddYears(1);
+      result = (time >= t3 && time < t4);
+    } catch (ArgumentOutOfRangeException) {
+    }
+    if (!result) {
+      try{
+        DateTime t3 = t.AddYears(-1);
+        DateTime t4 = t2.AddYears(-1);
+        result = (time >= t3 && time < t4);
+        return result;
+      } catch (ArgumentOutOfRangeException) {
+      }
+    }
+  }
+  return result;
 }
 
 TimeSpan TimeZoneInfo___::GetUtcOffset(DateTime time, TimeZoneInfo zone) {
-  return TimeSpan();
+  TimeSpan baseUtcOffset = zone->get_BaseUtcOffset();
+  Nullable<Int32> ruleIndex;
+  AdjustmentRule adjustmentRuleForTime = zone->GetAdjustmentRuleForTime(time, ruleIndex);
+  if (adjustmentRuleForTime != nullptr) {
+    baseUtcOffset += adjustmentRuleForTime->get_BaseUtcOffsetDelta();
+    if (adjustmentRuleForTime->get_HasDaylightSaving()) {
+      DaylightTimeStruct daylightTime = zone->GetDaylightTime(time.get_Year(), adjustmentRuleForTime, ruleIndex);
+      Boolean isDaylightSavings = GetIsDaylightSavings(time, adjustmentRuleForTime, daylightTime);
+      baseUtcOffset += (isDaylightSavings ? adjustmentRuleForTime->get_DaylightDelta() : TimeSpan::Zero);
+    }
+  }
+  return baseUtcOffset;
 }
 
 TimeSpan TimeZoneInfo___::GetUtcOffsetFromUtc(DateTime time, TimeZoneInfo zone) {
-  return TimeSpan();
+  Boolean isDaylightSavings;
+  return GetUtcOffsetFromUtc(time, zone, isDaylightSavings);
 }
 
 TimeSpan TimeZoneInfo___::GetUtcOffsetFromUtc(DateTime time, TimeZoneInfo zone, Boolean& isDaylightSavings) {
-  return TimeSpan();
+  Boolean isAmbiguousLocalDst;
+  return GetUtcOffsetFromUtc(time, zone, isDaylightSavings, isAmbiguousLocalDst);
 }
 
 TimeSpan TimeZoneInfo___::GetUtcOffsetFromUtc(DateTime time, TimeZoneInfo zone, Boolean& isDaylightSavings, Boolean& isAmbiguousLocalDst) {
-  return TimeSpan();
+  isDaylightSavings = false;
+  isAmbiguousLocalDst = false;
+  TimeSpan baseUtcOffset = zone->get_BaseUtcOffset();
+  AdjustmentRule adjustmentRuleForTime;
+  Nullable<Int32> ruleIndex;
+  Int32 year;
+  if (time > s_maxDateOnly) {
+    adjustmentRuleForTime = zone->GetAdjustmentRuleForTime(DateTime::MaxValue, ruleIndex);
+    year = 9999;
+  } else if (time < s_minDateOnly) {
+    adjustmentRuleForTime = zone->GetAdjustmentRuleForTime(DateTime::MinValue, ruleIndex);
+    year = 1;
+  } else {
+    adjustmentRuleForTime = zone->GetAdjustmentRuleForTime(time, true, ruleIndex);
+    year = (time + baseUtcOffset).get_Year();
+  }
+
+  if (adjustmentRuleForTime != nullptr) {
+    baseUtcOffset += adjustmentRuleForTime->get_BaseUtcOffsetDelta();
+    if (adjustmentRuleForTime->get_HasDaylightSaving()) {
+      isDaylightSavings = GetIsDaylightSavingsFromUtc(time, year, zone->_baseUtcOffset, adjustmentRuleForTime, ruleIndex, isAmbiguousLocalDst, zone);
+      baseUtcOffset += (isDaylightSavings ? adjustmentRuleForTime->get_DaylightDelta() : TimeSpan::Zero);
+    }
+  }
+  return baseUtcOffset;
 }
 
 DateTime TimeZoneInfo___::TransitionTimeToDateTime(Int32 year, TransitionTime transitionTime) {
-  return DateTime();
+  TimeSpan timeOfDay = transitionTime.get_TimeOfDay().get_TimeOfDay();
+  DateTime result;
+  if (transitionTime.get_IsFixedDateRule()) {
+    Int32 num = transitionTime.get_Day();
+    if (num > 28) {
+      Int32 num2 = DateTime::DaysInMonth(year, transitionTime.get_Month());
+      if (num > num2) {
+        num = num2;
+      }
+    }
+    result = DateTime(year, transitionTime.get_Month(), num) + timeOfDay;
+  } else if (transitionTime.get_Week() <= 4) {
+    result = DateTime(year, transitionTime.get_Month(), 1) + timeOfDay;
+    Int32 dayOfWeek = (Int32)result.get_DayOfWeek();
+    Int32 num3 = (Int32)(transitionTime.get_DayOfWeek() - dayOfWeek);
+    if (num3 < 0) {
+      num3 += 7;
+    }
+    num3 += 7 * (transitionTime.get_Week() - 1);
+    if (num3 > 0) {
+      result = result.AddDays(num3);
+    }
+  } else {
+    Int32 day = DateTime::DaysInMonth(year, transitionTime.get_Month());
+    result = DateTime(year, transitionTime.get_Month(), day) + timeOfDay;
+    Int32 dayOfWeek2 = (Int32)result.get_DayOfWeek();
+    Int32 num4 = (Int32)(dayOfWeek2 - transitionTime.get_DayOfWeek());
+    if (num4 < 0) {
+      num4 += 7;
+    }
+    if (num4 > 0) {
+    }
+  }
+
+  return result;
 }
 
 TimeZoneInfo::in::TimeZoneInfoResult TimeZoneInfo___::TryGetTimeZone(String id, Boolean dstDisabled, TimeZoneInfo& value, Exception& e, CachedData cachedData, Boolean alwaysFallbackToLocalMachine) {
-  return TimeZoneInfo::in::TimeZoneInfoResult::SecurityException;
+  TimeZoneInfoResult result = TimeZoneInfoResult::Success;
+  e = nullptr;
 }
 
 TimeZoneInfo::in::TimeZoneInfoResult TimeZoneInfo___::TryGetTimeZoneFromLocalMachine(String id, Boolean dstDisabled, TimeZoneInfo& value, Exception& e, CachedData cachedData) {
-  return TimeZoneInfo::in::TimeZoneInfoResult::SecurityException;
+  TimeZoneInfo value2;
+  TimeZoneInfoResult timeZoneInfoResult = TryGetTimeZoneFromLocalMachine(id, value2, e);
+  if (timeZoneInfoResult == TimeZoneInfoResult::Success) {
+    if (cachedData->_systemTimeZones == nullptr) {
+      cachedData->_systemTimeZones = rt::newobj<Dictionary<String, TimeZoneInfo>>(StringComparer::in::get_OrdinalIgnoreCase());
+    }
+    if (!id->Equals("UTC", StringComparison::OrdinalIgnoreCase)) {
+      cachedData->_systemTimeZones->Add(id, value2);
+    }
+    if (dstDisabled && value2->_supportsDaylightSavingTime) {
+      value = CreateCustomTimeZone(value2->_id, value2->_baseUtcOffset, value2->_displayName, value2->_standardDisplayName);
+    } else {
+      value = rt::newobj<TimeZoneInfo>(value2->_id, value2->_baseUtcOffset, value2->_displayName, value2->_standardDisplayName, value2->_daylightDisplayName, value2->_adjustmentRules, false);
+    }
+  } else {
+    value = nullptr;
+  }
+  return timeZoneInfoResult;
 }
 
 void TimeZoneInfo___::ValidateTimeZoneInfo(String id, TimeSpan baseUtcOffset, Array<AdjustmentRule> adjustmentRules, Boolean& adjustmentRulesSupportDst) {
+  if (id == nullptr) {
+    rt::throw_exception<ArgumentNullException>("id");
+  }
+  if (id->get_Length() == 0) {
+    rt::throw_exception<ArgumentException>(SR::Format(SR::get_Argument_InvalidId(), id), "id");
+  }
+  if (UtcOffsetOutOfRange(baseUtcOffset)) {
+    rt::throw_exception<ArgumentOutOfRangeException>("baseUtcOffset", SR::get_ArgumentOutOfRange_UtcOffset());
+  }
+  if (baseUtcOffset.get_Ticks() % 600000000 != 0) {
+    rt::throw_exception<ArgumentException>(SR::get_Argument_TimeSpanHasSeconds(), "baseUtcOffset");
+  }
+  adjustmentRulesSupportDst = false;
+  if (adjustmentRules == nullptr || adjustmentRules->get_Length() == 0) {
+    return;
+  }
+  adjustmentRulesSupportDst = true;
+  AdjustmentRule adjustmentRule = nullptr;
+  AdjustmentRule adjustmentRule2 = nullptr;
+  for (Int32 i = 0; i < adjustmentRules->get_Length(); i++) {
+    adjustmentRule = adjustmentRule2;
+    adjustmentRule2 = adjustmentRules[i];
+    if (adjustmentRule2 == nullptr) {
+      rt::throw_exception<InvalidTimeZoneException>(SR::get_Argument_AdjustmentRulesNoNulls());
+    }
+    if (!IsValidAdjustmentRuleOffest(baseUtcOffset, adjustmentRule2)) {
+      rt::throw_exception<InvalidTimeZoneException>(SR::get_ArgumentOutOfRange_UtcOffsetAndDaylightDelta());
+    }
+    if (adjustmentRule != nullptr && adjustmentRule2->get_DateStart() <= adjustmentRule->get_DateEnd()) {
+      rt::throw_exception<InvalidTimeZoneException>(SR::get_Argument_AdjustmentRulesOutOfOrder());
+    }
+  }
 }
 
 Boolean TimeZoneInfo___::UtcOffsetOutOfRange(TimeSpan offset) {
-  return Boolean();
+  if (!(offset < MinOffset)) {
+    return offset > MaxOffset;
+  }
+  return true;
 }
 
 TimeSpan TimeZoneInfo___::GetUtcOffset(TimeSpan baseUtcOffset, AdjustmentRule adjustmentRule) {
-  return TimeSpan();
+  return baseUtcOffset + adjustmentRule->get_BaseUtcOffsetDelta() + (adjustmentRule->get_HasDaylightSaving() ? adjustmentRule->get_DaylightDelta() : TimeSpan::Zero);
 }
 
 Boolean TimeZoneInfo___::IsValidAdjustmentRuleOffest(TimeSpan baseUtcOffset, AdjustmentRule adjustmentRule) {
-  return Boolean();
+  TimeSpan utcOffset = GetUtcOffset(baseUtcOffset, adjustmentRule);
+  return !UtcOffsetOutOfRange(utcOffset);
 }
 
 Array<TimeZoneInfo::in::AdjustmentRule> TimeZoneInfo___::GetAdjustmentRules() {
-  return Array<TimeZoneInfo::in::AdjustmentRule>();
+  if (_adjustmentRules == nullptr) {
+    return Array<>::in::Empty<AdjustmentRule>();
+  }
+  return (Array<AdjustmentRule>)_adjustmentRules->Clone();
 }
 
 void TimeZoneInfo___::PopulateAllSystemTimeZones(CachedData cachedData) {
 }
 
 void TimeZoneInfo___::ctor(Interop::Kernel32::TIME_ZONE_INFORMATION& zone, Boolean dstDisabled) {
+  String standardName = zone.GetStandardName();
+  if (standardName->get_Length() == 0) {
+    _id = "Local";
+  } else {
+    _id = standardName;
+  }
 }
 
 Boolean TimeZoneInfo___::CheckDaylightSavingTimeNotSupported(Interop::Kernel32::TIME_ZONE_INFORMATION& timeZone) {
-  return Boolean();
+  return timeZone.DaylightDate.Equals(timeZone.StandardDate);
 }
 
 TimeZoneInfo::in::AdjustmentRule TimeZoneInfo___::CreateAdjustmentRuleFromTimeZoneInformation(Interop::Kernel32::REG_TZI_FORMAT& timeZoneInformation, DateTime startDate, DateTime endDate, Int32 defaultBaseUtcOffset) {
-  return nullptr;
+  if (timeZoneInformation.StandardDate.Month == 0) {
+    if (timeZoneInformation.Bias == defaultBaseUtcOffset) {
+      return nullptr;
+    }
+    return AdjustmentRule::in::CreateAdjustmentRule(startDate, endDate, TimeSpan::Zero, TransitionTime::CreateFixedDateRule(DateTime::MinValue, 1, 1), TransitionTime::CreateFixedDateRule(DateTime::MinValue.AddMilliseconds(1), 1, 1), TimeSpan(0, defaultBaseUtcOffset - timeZoneInformation.Bias, 0), false);
+  }
 }
 
 String TimeZoneInfo___::FindIdFromTimeZoneInformation(Interop::Kernel32::TIME_ZONE_INFORMATION& timeZone, Boolean& dstDisabled) {
-  return nullptr;
+  dstDisabled = false;
 }
 
 TimeZoneInfo TimeZoneInfo___::GetLocalTimeZone(CachedData cachedData) {
-  return nullptr;
+  Interop::Kernel32::TIME_DYNAMIC_ZONE_INFORMATION pTimeZoneInformation;
+  UInt32 dynamicTimeZoneInformation = Interop::Kernel32::GetDynamicTimeZoneInformation(pTimeZoneInformation);
+  if (dynamicTimeZoneInformation == UInt32::MaxValue) {
+    return CreateCustomTimeZone("Local", TimeSpan::Zero, "Local", "Local");
+  }
+  String timeZoneKeyName = pTimeZoneInformation.GetTimeZoneKeyName();
 }
 
 TimeZoneInfo TimeZoneInfo___::GetLocalTimeZoneFromWin32Data(Interop::Kernel32::TIME_ZONE_INFORMATION& timeZoneInformation, Boolean dstDisabled) {
-  return nullptr;
+  try{
+    return rt::newobj<TimeZoneInfo>(timeZoneInformation, dstDisabled);
+  } catch (ArgumentException) {
+  } catch (InvalidTimeZoneException) {
+  }
+  if (!dstDisabled) {
+    try{
+      return rt::newobj<TimeZoneInfo>(timeZoneInformation, true);
+    } catch (ArgumentException) {
+    } catch (InvalidTimeZoneException) {
+    }
+  }
+  return CreateCustomTimeZone("Local", TimeSpan::Zero, "Local", "Local");
 }
 
 TimeZoneInfo TimeZoneInfo___::FindSystemTimeZoneById(String id) {
-  return nullptr;
+  if (String::in::Equals(id, "UTC", StringComparison::OrdinalIgnoreCase)) {
+    return get_Utc();
+  }
+  if (id == nullptr) {
+    rt::throw_exception<ArgumentNullException>("id");
+  }
+  if (id->get_Length() == 0 || id->get_Length() > 255 || id->Contains(0)) {
+    rt::throw_exception<TimeZoneNotFoundException>(SR::Format(SR::get_TimeZoneNotFound_MissingData(), id));
+  }
+  CachedData cachedData = s_cachedData;
+  TimeZoneInfoResult timeZoneInfoResult;
+  TimeZoneInfo value;
+  Exception e;
 }
 
 TimeSpan TimeZoneInfo___::GetDateTimeNowUtcOffsetFromUtc(DateTime time, Boolean& isAmbiguousLocalDst) {
-  return TimeSpan();
+  isAmbiguousLocalDst = false;
+  Int32 year = time.get_Year();
+  OffsetAndRule oneYearLocalFromUtc = s_cachedData->GetOneYearLocalFromUtc(year);
+  TimeSpan offset = oneYearLocalFromUtc->Offset;
+  if (oneYearLocalFromUtc->Rule != nullptr) {
+    offset += oneYearLocalFromUtc->Rule->get_BaseUtcOffsetDelta();
+    if (oneYearLocalFromUtc->Rule->get_HasDaylightSaving()) {
+      Boolean isDaylightSavingsFromUtc = GetIsDaylightSavingsFromUtc(time, year, oneYearLocalFromUtc->Offset, oneYearLocalFromUtc->Rule, nullptr, isAmbiguousLocalDst, get_Local());
+      offset += (isDaylightSavingsFromUtc ? oneYearLocalFromUtc->Rule->get_DaylightDelta() : TimeSpan::Zero);
+    }
+  }
+  return offset;
 }
 
 Boolean TimeZoneInfo___::TransitionTimeFromTimeZoneInformation(Interop::Kernel32::REG_TZI_FORMAT& timeZoneInformation, TransitionTime& transitionTime, Boolean readStartDate) {
-  return Boolean();
+  if (timeZoneInformation.StandardDate.Month == 0) {
+    transitionTime = TransitionTime();
+    return false;
+  }
+  if (readStartDate) {
+    if (timeZoneInformation.DaylightDate.Year == 0) {
+      transitionTime = TransitionTime::CreateFloatingDateRule(DateTime(1, 1, 1, timeZoneInformation.DaylightDate.Hour, timeZoneInformation.DaylightDate.Minute, timeZoneInformation.DaylightDate.Second, timeZoneInformation.DaylightDate.Milliseconds), timeZoneInformation.DaylightDate.Month, timeZoneInformation.DaylightDate.Day, (DayOfWeek)timeZoneInformation.DaylightDate.DayOfWeek);
+    } else {
+      transitionTime = TransitionTime::CreateFixedDateRule(DateTime(1, 1, 1, timeZoneInformation.DaylightDate.Hour, timeZoneInformation.DaylightDate.Minute, timeZoneInformation.DaylightDate.Second, timeZoneInformation.DaylightDate.Milliseconds), timeZoneInformation.DaylightDate.Month, timeZoneInformation.DaylightDate.Day);
+    }
+  } else if (timeZoneInformation.StandardDate.Year == 0) {
+    transitionTime = TransitionTime::CreateFloatingDateRule(DateTime(1, 1, 1, timeZoneInformation.StandardDate.Hour, timeZoneInformation.StandardDate.Minute, timeZoneInformation.StandardDate.Second, timeZoneInformation.StandardDate.Milliseconds), timeZoneInformation.StandardDate.Month, timeZoneInformation.StandardDate.Day, (DayOfWeek)timeZoneInformation.StandardDate.DayOfWeek);
+  } else {
+    transitionTime = TransitionTime::CreateFixedDateRule(DateTime(1, 1, 1, timeZoneInformation.StandardDate.Hour, timeZoneInformation.StandardDate.Minute, timeZoneInformation.StandardDate.Second, timeZoneInformation.StandardDate.Milliseconds), timeZoneInformation.StandardDate.Month, timeZoneInformation.StandardDate.Day);
+  }
+
+  return true;
 }
 
 Boolean TimeZoneInfo___::TryCreateAdjustmentRules(String id, Interop::Kernel32::REG_TZI_FORMAT& defaultTimeZoneInformation, Array<AdjustmentRule>& rules, Exception& e, Int32 defaultBaseUtcOffset) {
-  return Boolean();
+  rules = nullptr;
+  e = nullptr;
+  try{
+  } catch (InvalidCastException ex) {
+  } catch (ArgumentOutOfRangeException ex3) {
+  } catch (ArgumentException ex5) {
+  }
+  return true;
 }
 
 Boolean TimeZoneInfo___::TryGetTimeZoneEntryFromRegistry(RegistryKey key, String name, Interop::Kernel32::REG_TZI_FORMAT& dtzi) {
-  return Boolean();
+  Array<Byte> array = rt::as<Array<Byte>>(key->GetValue(name, nullptr));
+  if (array == nullptr || array->get_Length() != sizeof(Interop::Kernel32::REG_TZI_FORMAT)) {
+    dtzi = Interop::Kernel32::REG_TZI_FORMAT();
+    return false;
+  }
+  {
+    Byte* ptr = &array[0];
+    dtzi = *(Interop::Kernel32::REG_TZI_FORMAT*)ptr;
+  }
+  return true;
 }
 
 Boolean TimeZoneInfo___::TryCompareStandardDate(Interop::Kernel32::TIME_ZONE_INFORMATION& timeZone, Interop::Kernel32::REG_TZI_FORMAT& registryTimeZoneInfo) {
-  return Boolean();
+  if (timeZone.Bias == registryTimeZoneInfo.Bias && timeZone.StandardBias == registryTimeZoneInfo.StandardBias) {
+    return timeZone.StandardDate.Equals(registryTimeZoneInfo.StandardDate);
+  }
+  return false;
 }
 
 Boolean TimeZoneInfo___::TryCompareTimeZoneInformationToRegistry(Interop::Kernel32::TIME_ZONE_INFORMATION& timeZone, String id, Boolean& dstDisabled) {
-  return Boolean();
+  dstDisabled = false;
 }
 
 String TimeZoneInfo___::TryGetLocalizedNameByMuiNativeResource(String resource) {
-  return nullptr;
+  if (String::in::IsNullOrEmpty(resource)) {
+    return String::in::Empty;
+  }
+  Array<String> array = resource->Split(44);
+  if (array->get_Length() != 2) {
+    return String::in::Empty;
+  }
+  String systemDirectory = Environment::get_SystemDirectory();
+  String path = array[0]->TrimStart(64);
+  String pcwszFilePath;
+  try{
+    pcwszFilePath = Path::Combine(systemDirectory, path);
+  } catch (ArgumentException) {
+  }
 }
 
 String TimeZoneInfo___::TryGetLocalizedNameByNativeResource(String filePath, Int32 resource) {
-  return nullptr;
+  IntPtr intPtr = IntPtr::Zero;
+  try{
+    intPtr = Interop::Kernel32::LoadLibraryEx(filePath, IntPtr::Zero, 2);
+    if (intPtr != IntPtr::Zero) {
+      Char default[500] = {};
+      Char* ptr = default;
+      Int32 num = Interop::User32::LoadString(intPtr, (UInt32)resource, ptr, 500);
+      if (num != 0) {
+        return rt::newobj<String>(ptr, 0, num);
+      }
+    }
+  } finally: {
+    if (intPtr != IntPtr::Zero) {
+      Interop::Kernel32::FreeLibrary(intPtr);
+    }
+  }
+  return String::in::Empty;
 }
 
 void TimeZoneInfo___::GetLocalizedNamesByRegistryKey(RegistryKey key, String& displayName, String& standardName, String& daylightName) {
+  displayName = String::in::Empty;
+  standardName = String::in::Empty;
+  daylightName = String::in::Empty;
+  String text = rt::as<String>(key->GetValue("MUI_Display", String::in::Empty));
+  String text2 = rt::as<String>(key->GetValue("MUI_Std", String::in::Empty));
+  String text3 = rt::as<String>(key->GetValue("MUI_Dlt", String::in::Empty));
+  if (!String::in::IsNullOrEmpty(text)) {
+    displayName = TryGetLocalizedNameByMuiNativeResource(text);
+  }
+  if (!String::in::IsNullOrEmpty(text2)) {
+    standardName = TryGetLocalizedNameByMuiNativeResource(text2);
+  }
+  if (!String::in::IsNullOrEmpty(text3)) {
+    daylightName = TryGetLocalizedNameByMuiNativeResource(text3);
+  }
+  if (String::in::IsNullOrEmpty(displayName)) {
+    displayName = (rt::as<String>(key->GetValue("Display", String::in::Empty)));
+  }
+  if (String::in::IsNullOrEmpty(standardName)) {
+    standardName = (rt::as<String>(key->GetValue("Std", String::in::Empty)));
+  }
+  if (String::in::IsNullOrEmpty(daylightName)) {
+    daylightName = (rt::as<String>(key->GetValue("Dlt", String::in::Empty)));
+  }
 }
 
 TimeZoneInfo::in::TimeZoneInfoResult TimeZoneInfo___::TryGetTimeZoneFromLocalMachine(String id, TimeZoneInfo& value, Exception& e) {
-  return TimeZoneInfo::in::TimeZoneInfoResult::SecurityException;
+  e = nullptr;
 }
 
 void TimeZoneInfo___::ctor_static() {
+  s_utcTimeZone = CreateCustomTimeZone("UTC", TimeSpan::Zero, "(UTC) Coordinated Universal Time", "Coordinated Universal Time");
+  s_cachedData = rt::newobj<CachedData>();
+  s_maxDateOnly = DateTime(9999, 12, 31);
+  s_minDateOnly = DateTime(1, 1, 2);
+  MaxOffset = TimeSpan::FromHours(14);
 }
 
 } // namespace System::Private::CoreLib::System::TimeZoneInfoNamespace

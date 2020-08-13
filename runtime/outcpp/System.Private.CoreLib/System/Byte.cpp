@@ -1,94 +1,148 @@
 #include "Byte-dep.h"
 
+#include <System.Private.CoreLib/System/ArgumentException-dep.h>
 #include <System.Private.CoreLib/System/Byte-dep.h>
+#include <System.Private.CoreLib/System/Char-dep.h>
+#include <System.Private.CoreLib/System/ExceptionArgument.h>
+#include <System.Private.CoreLib/System/Globalization/NumberFormatInfo-dep.h>
+#include <System.Private.CoreLib/System/Globalization/NumberStyles.h>
+#include <System.Private.CoreLib/System/Number-dep.h>
+#include <System.Private.CoreLib/System/ReadOnlySpan-dep.h>
+#include <System.Private.CoreLib/System/SR-dep.h>
+#include <System.Private.CoreLib/System/ThrowHelper-dep.h>
+#include <System.Private.CoreLib/System/TypeCode.h>
+#include <System.Private.CoreLib/System/UInt32-dep.h>
 
 namespace System::Private::CoreLib::System::ByteNamespace {
+using namespace System::Globalization;
+
 Int32 Byte::CompareTo(Object value) {
-  return Int32();
+  if (value == nullptr) {
+    return 1;
+  }
+  if (!rt::is<Byte>(value)) {
+    rt::throw_exception<ArgumentException>(SR::get_Arg_MustBeByte());
+  }
+  return *this - (Byte)value;
 }
 
 Int32 Byte::CompareTo(Byte value) {
-  return Int32();
+  return *this - value;
 }
 
 Boolean Byte::Equals(Object obj) {
-  return Boolean();
+  if (!rt::is<Byte>(obj)) {
+    return false;
+  }
+  return *this == (Byte)obj;
 }
 
 Boolean Byte::Equals(Byte obj) {
-  return Boolean();
+  return *this == obj;
 }
 
 Int32 Byte::GetHashCode() {
-  return Int32();
+  return *this;
 }
 
 Byte Byte::Parse(String s) {
-  return Byte();
+  if (s == nullptr) {
+    ThrowHelper::ThrowArgumentNullException(ExceptionArgument::s);
+  }
+  return Parse((ReadOnlySpan<Char>)s, NumberStyles::Integer, NumberFormatInfo::in::get_CurrentInfo());
 }
 
 Byte Byte::Parse(String s, NumberStyles style) {
-  return Byte();
+  NumberFormatInfo::in::ValidateParseStyleInteger(style);
+  if (s == nullptr) {
+    ThrowHelper::ThrowArgumentNullException(ExceptionArgument::s);
+  }
+  return Parse((ReadOnlySpan<Char>)s, style, NumberFormatInfo::in::get_CurrentInfo());
 }
 
 Byte Byte::Parse(String s, IFormatProvider provider) {
-  return Byte();
+  if (s == nullptr) {
+    ThrowHelper::ThrowArgumentNullException(ExceptionArgument::s);
+  }
+  return Parse((ReadOnlySpan<Char>)s, NumberStyles::Integer, NumberFormatInfo::in::GetInstance(provider));
 }
 
 Byte Byte::Parse(String s, NumberStyles style, IFormatProvider provider) {
-  return Byte();
+  NumberFormatInfo::in::ValidateParseStyleInteger(style);
+  if (s == nullptr) {
+    ThrowHelper::ThrowArgumentNullException(ExceptionArgument::s);
+  }
+  return Parse((ReadOnlySpan<Char>)s, style, NumberFormatInfo::in::GetInstance(provider));
 }
 
 Byte Byte::Parse(ReadOnlySpan<Char> s, NumberStyles style, IFormatProvider provider) {
-  return Byte();
+  NumberFormatInfo::in::ValidateParseStyleInteger(style);
+  return Parse(s, style, NumberFormatInfo::in::GetInstance(provider));
 }
 
 Byte Byte::Parse(ReadOnlySpan<Char> s, NumberStyles style, NumberFormatInfo info) {
-  return Byte();
+  UInt32 result;
+  Number::ParsingStatus parsingStatus = Number::TryParseUInt32(s, style, info, result);
+  if (parsingStatus != 0) {
+    Number::ThrowOverflowOrFormatException(parsingStatus, TypeCode::Byte);
+  }
+  if (result > 255) {
+    Number::ThrowOverflowException(TypeCode::Byte);
+  }
+  return (Byte)result;
 }
 
 Boolean Byte::TryParse(String s, Byte& result) {
-  return Boolean();
+  if (s == nullptr) {
+    result = 0;
+    return false;
+  }
+  return TryParse((ReadOnlySpan<Char>)s, NumberStyles::Integer, NumberFormatInfo::in::get_CurrentInfo(), result);
 }
 
 Boolean Byte::TryParse(ReadOnlySpan<Char> s, Byte& result) {
-  return Boolean();
+  return TryParse(s, NumberStyles::Integer, NumberFormatInfo::in::get_CurrentInfo(), result);
 }
 
 Boolean Byte::TryParse(String s, NumberStyles style, IFormatProvider provider, Byte& result) {
-  return Boolean();
+  NumberFormatInfo::in::ValidateParseStyleInteger(style);
+  if (s == nullptr) {
+    result = 0;
+    return false;
+  }
+  return TryParse((ReadOnlySpan<Char>)s, style, NumberFormatInfo::in::GetInstance(provider), result);
 }
 
 Boolean Byte::TryParse(ReadOnlySpan<Char> s, NumberStyles style, IFormatProvider provider, Byte& result) {
-  return Boolean();
+  NumberFormatInfo::in::ValidateParseStyleInteger(style);
+  return TryParse(s, style, NumberFormatInfo::in::GetInstance(provider), result);
 }
 
 Boolean Byte::TryParse(ReadOnlySpan<Char> s, NumberStyles style, NumberFormatInfo info, Byte& result) {
-  return Boolean();
 }
 
 String Byte::ToString() {
-  return nullptr;
+  return Number::UInt32ToDecStr(*this);
 }
 
 String Byte::ToString(String format) {
-  return nullptr;
+  return Number::FormatUInt32(*this, format, nullptr);
 }
 
 String Byte::ToString(IFormatProvider provider) {
-  return nullptr;
+  return Number::UInt32ToDecStr(*this);
 }
 
 String Byte::ToString(String format, IFormatProvider provider) {
-  return nullptr;
+  return Number::FormatUInt32(*this, format, provider);
 }
 
 Boolean Byte::TryFormat(Span<Char> destination, Int32& charsWritten, ReadOnlySpan<Char> format, IFormatProvider provider) {
-  return Boolean();
+  return Number::TryFormatUInt32(*this, format, provider, destination, charsWritten);
 }
 
 TypeCode Byte::GetTypeCode() {
-  return TypeCode::String;
+  return TypeCode::Byte;
 }
 
 } // namespace System::Private::CoreLib::System::ByteNamespace

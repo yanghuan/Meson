@@ -6,7 +6,6 @@
 #include <System.Private.CoreLib/System/ArgumentOutOfRangeException-dep.h>
 #include <System.Private.CoreLib/System/Byte-dep.h>
 #include <System.Private.CoreLib/System/Int32-dep.h>
-#include <System.Private.CoreLib/System/Int64-dep.h>
 #include <System.Private.CoreLib/System/IntPtr-dep.h>
 
 namespace System::Console::System::Text::DecoderDBCSNamespace {
@@ -68,7 +67,7 @@ Int32 DecoderDBCS___::ConvertWithLeftOverByte(Byte* bytes, Int32 count, Char* ch
   }
   Int32 num2 = OSEncoding::in::MultiByteToWideChar(_encoding->get_CodePage(), ptr, num + 1, chars, charCount);
   if (count - num > 0) {
-    num2 += OSEncoding::in::MultiByteToWideChar(_encoding->get_CodePage(), bytes + num, count - num, (Char*)(Int64)((chars == nullptr) ? ((IntPtr)(void*)nullptr) : ((IntPtr)(chars + num2))), (chars != nullptr) ? (charCount - num2) : 0);
+    num2 += OSEncoding::in::MultiByteToWideChar(_encoding->get_CodePage(), bytes + num, count - num, (Char*)(int)((chars == nullptr) ? ((IntPtr)(?)0) : ((IntPtr)(int)(chars + num2))), (chars != nullptr) ? (charCount - num2) : 0);
   }
   return num2;
 }
@@ -181,15 +180,15 @@ void DecoderDBCS___::Convert(Array<Byte> bytes, Int32 byteIndex, Int32 byteCount
     bytesUsed = 0;
     charsUsed = 0;
     completed = false;
-  } else {
+    return;
+  }
+  {
+    Char* ptr2 = &chars[0];
     {
-      Char* ptr2 = &chars[0];
-      {
-        Byte* ptr = bytes;
-        Byte b;
-        Byte* bytes2 = (ptr == nullptr) ? (&b) : (ptr + byteIndex);
-        Convert(bytes2, byteCount, ptr2 + charIndex, charCount, flush, bytesUsed, charsUsed, completed);
-      }
+      Byte* ptr = bytes;
+      Byte b;
+      Byte* bytes2 = (ptr == nullptr) ? (&b) : (ptr + byteIndex);
+      Convert(bytes2, byteCount, ptr2 + charIndex, charCount, flush, bytesUsed, charsUsed, completed);
     }
   }
 }

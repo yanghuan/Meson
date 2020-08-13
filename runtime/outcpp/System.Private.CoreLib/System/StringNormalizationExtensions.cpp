@@ -1,20 +1,31 @@
 #include "StringNormalizationExtensions-dep.h"
 
+#include <System.Private.CoreLib/System/ArgumentNullException-dep.h>
+#include <System.Private.CoreLib/System/Text/NormalizationForm.h>
+
 namespace System::Private::CoreLib::System::StringNormalizationExtensionsNamespace {
+using namespace System::Text;
+
 Boolean StringNormalizationExtensions::IsNormalized(String strInput) {
-  return Boolean();
+  return IsNormalized(strInput, NormalizationForm::FormC);
 }
 
 Boolean StringNormalizationExtensions::IsNormalized(String strInput, NormalizationForm normalizationForm) {
-  return Boolean();
+  if (strInput == nullptr) {
+    rt::throw_exception<ArgumentNullException>("strInput");
+  }
+  return strInput->IsNormalized(normalizationForm);
 }
 
 String StringNormalizationExtensions::Normalize(String strInput) {
-  return nullptr;
+  return Normalize(strInput, NormalizationForm::FormC);
 }
 
 String StringNormalizationExtensions::Normalize(String strInput, NormalizationForm normalizationForm) {
-  return nullptr;
+  if (strInput == nullptr) {
+    rt::throw_exception<ArgumentNullException>("strInput");
+  }
+  return strInput->Normalize(normalizationForm);
 }
 
 } // namespace System::Private::CoreLib::System::StringNormalizationExtensionsNamespace

@@ -1,281 +1,531 @@
 #include "Char-dep.h"
 
+#include <System.Private.CoreLib/System/ArgumentException-dep.h>
+#include <System.Private.CoreLib/System/ArgumentNullException-dep.h>
+#include <System.Private.CoreLib/System/ArgumentOutOfRangeException-dep.h>
 #include <System.Private.CoreLib/System/Char-dep.h>
+#include <System.Private.CoreLib/System/FormatException-dep.h>
+#include <System.Private.CoreLib/System/Globalization/CharUnicodeInfo-dep.h>
+#include <System.Private.CoreLib/System/Globalization/TextInfo-dep.h>
+#include <System.Private.CoreLib/System/SR-dep.h>
+#include <System.Private.CoreLib/System/Text/Rune-dep.h>
+#include <System.Private.CoreLib/System/Text/UnicodeUtility-dep.h>
+#include <System.Private.CoreLib/System/UInt32-dep.h>
 
 namespace System::Private::CoreLib::System::CharNamespace {
+using namespace System::Globalization;
+using namespace System::Text;
+
 ReadOnlySpan<Byte> Char::get_Latin1CharInfo() {
-  return ReadOnlySpan<Byte>();
+  return rt::newarr<Array<Byte>>(256);
 }
 
 Boolean Char::IsLatin1(Char ch) {
-  return Boolean();
+  return (UInt32)ch < (UInt32)get_Latin1CharInfo().get_Length();
 }
 
 Boolean Char::IsAscii(Char ch) {
-  return Boolean();
+  return (UInt32)ch <= 127u;
 }
 
 UnicodeCategory Char::GetLatin1UnicodeCategory(Char ch) {
-  return UnicodeCategory::OtherNotAssigned;
 }
 
 Int32 Char::GetHashCode() {
-  return Int32();
 }
 
 Boolean Char::Equals(Object obj) {
-  return Boolean();
+  if (!rt::is<Char>(obj)) {
+    return false;
+  }
+  return *this == (Char)obj;
 }
 
 Boolean Char::Equals(Char obj) {
-  return Boolean();
+  return *this == obj;
 }
 
 Int32 Char::CompareTo(Object value) {
-  return Int32();
+  if (value == nullptr) {
+    return 1;
+  }
+  if (!rt::is<Char>(value)) {
+    rt::throw_exception<ArgumentException>(SR::get_Arg_MustBeChar());
+  }
+  return *this - (Char)value;
 }
 
 Int32 Char::CompareTo(Char value) {
-  return Int32();
+  return *this - value;
 }
 
 String Char::ToString() {
-  return nullptr;
+  return ToString(*this);
 }
 
 String Char::ToString(IFormatProvider provider) {
-  return nullptr;
+  return ToString(*this);
 }
 
 String Char::ToString(Char c) {
-  return nullptr;
+  return String::in::CreateFromChar(c);
 }
 
 Char Char::Parse(String s) {
-  return Char();
+  if (s == nullptr) {
+    rt::throw_exception<ArgumentNullException>("s");
+  }
+  if (s->get_Length() != 1) {
+    rt::throw_exception<FormatException>(SR::get_Format_NeedSingleChar());
+  }
+  return s[0];
 }
 
 Boolean Char::TryParse(String s, Char& result) {
-  return Boolean();
+  result = 0;
+  if (s == nullptr) {
+    return false;
+  }
+  if (s->get_Length() != 1) {
+    return false;
+  }
+  result = s[0];
+  return true;
 }
 
 Boolean Char::IsDigit(Char c) {
-  return Boolean();
+  if (IsLatin1(c)) {
+    return IsInRange(c, 48, 57);
+  }
+  return CharUnicodeInfo::GetUnicodeCategory(c) == UnicodeCategory::DecimalDigitNumber;
 }
 
 Boolean Char::IsInRange(Char c, Char min, Char max) {
-  return Boolean();
+  return (UInt32)(c - min) <= (UInt32)(max - min);
 }
 
 Boolean Char::IsInRange(UnicodeCategory c, UnicodeCategory min, UnicodeCategory max) {
-  return Boolean();
+  return (UInt32)(c - min) <= (UInt32)(max - min);
 }
 
 Boolean Char::CheckLetter(UnicodeCategory uc) {
-  return Boolean();
+  return IsInRange(uc, UnicodeCategory::UppercaseLetter, UnicodeCategory::OtherLetter);
 }
 
 Boolean Char::IsLetter(Char c) {
-  return Boolean();
+  if (IsLatin1(c)) {
+  }
+  return CheckLetter(CharUnicodeInfo::GetUnicodeCategory(c));
 }
 
 Boolean Char::IsWhiteSpaceLatin1(Char c) {
-  return Boolean();
 }
 
 Boolean Char::IsWhiteSpace(Char c) {
-  return Boolean();
+  if (IsLatin1(c)) {
+    return IsWhiteSpaceLatin1(c);
+  }
+  return CharUnicodeInfo::GetIsWhiteSpace(c);
 }
 
 Boolean Char::IsUpper(Char c) {
-  return Boolean();
+  if (IsLatin1(c)) {
+  }
+  return CharUnicodeInfo::GetUnicodeCategory(c) == UnicodeCategory::UppercaseLetter;
 }
 
 Boolean Char::IsLower(Char c) {
-  return Boolean();
+  if (IsLatin1(c)) {
+  }
+  return CharUnicodeInfo::GetUnicodeCategory(c) == UnicodeCategory::LowercaseLetter;
 }
 
 Boolean Char::CheckPunctuation(UnicodeCategory uc) {
-  return Boolean();
+  return IsInRange(uc, UnicodeCategory::ConnectorPunctuation, UnicodeCategory::OtherPunctuation);
 }
 
 Boolean Char::IsPunctuation(Char c) {
-  return Boolean();
+  if (IsLatin1(c)) {
+    return CheckPunctuation(GetLatin1UnicodeCategory(c));
+  }
+  return CheckPunctuation(CharUnicodeInfo::GetUnicodeCategory(c));
 }
 
 Boolean Char::CheckLetterOrDigit(UnicodeCategory uc) {
-  return Boolean();
+  if (!CheckLetter(uc)) {
+    return uc == UnicodeCategory::DecimalDigitNumber;
+  }
+  return true;
 }
 
 Boolean Char::IsLetterOrDigit(Char c) {
-  return Boolean();
+  if (IsLatin1(c)) {
+    return CheckLetterOrDigit(GetLatin1UnicodeCategory(c));
+  }
+  return CheckLetterOrDigit(CharUnicodeInfo::GetUnicodeCategory(c));
 }
 
 Char Char::ToUpper(Char c, CultureInfo culture) {
-  return Char();
+  if (culture == nullptr) {
+    rt::throw_exception<ArgumentNullException>("culture");
+  }
+  return culture->get_TextInfo()->ToUpper(c);
 }
 
 Char Char::ToUpper(Char c) {
-  return Char();
+  return CultureInfo::in::get_CurrentCulture()->get_TextInfo()->ToUpper(c);
 }
 
 Char Char::ToUpperInvariant(Char c) {
-  return Char();
+  return TextInfo::in::ToUpperInvariant(c);
 }
 
 Char Char::ToLower(Char c, CultureInfo culture) {
-  return Char();
+  if (culture == nullptr) {
+    rt::throw_exception<ArgumentNullException>("culture");
+  }
+  return culture->get_TextInfo()->ToLower(c);
 }
 
 Char Char::ToLower(Char c) {
-  return Char();
+  return CultureInfo::in::get_CurrentCulture()->get_TextInfo()->ToLower(c);
 }
 
 Char Char::ToLowerInvariant(Char c) {
-  return Char();
+  return TextInfo::in::ToLowerInvariant(c);
 }
 
 TypeCode Char::GetTypeCode() {
-  return TypeCode::String;
+  return TypeCode::Char;
 }
 
 Boolean Char::IsControl(Char c) {
-  return Boolean();
 }
 
 Boolean Char::IsControl(String s, Int32 index) {
-  return Boolean();
+  if (s == nullptr) {
+    rt::throw_exception<ArgumentNullException>("s");
+  }
+  if ((UInt32)index >= (UInt32)s->get_Length()) {
+    rt::throw_exception<ArgumentOutOfRangeException>("index");
+  }
+  return IsControl(s[index]);
 }
 
 Boolean Char::IsDigit(String s, Int32 index) {
-  return Boolean();
+  if (s == nullptr) {
+    rt::throw_exception<ArgumentNullException>("s");
+  }
+  if ((UInt32)index >= (UInt32)s->get_Length()) {
+    rt::throw_exception<ArgumentOutOfRangeException>("index");
+  }
+  Char c = s[index];
+  if (IsLatin1(c)) {
+    return IsInRange(c, 48, 57);
+  }
+  return CharUnicodeInfo::GetUnicodeCategory(s, index) == UnicodeCategory::DecimalDigitNumber;
 }
 
 Boolean Char::IsLetter(String s, Int32 index) {
-  return Boolean();
+  if (s == nullptr) {
+    rt::throw_exception<ArgumentNullException>("s");
+  }
+  if ((UInt32)index >= (UInt32)s->get_Length()) {
+    rt::throw_exception<ArgumentOutOfRangeException>("index");
+  }
+  Char c = s[index];
+  if (IsLatin1(c)) {
+  }
+  return CheckLetter(CharUnicodeInfo::GetUnicodeCategory(s, index));
 }
 
 Boolean Char::IsLetterOrDigit(String s, Int32 index) {
-  return Boolean();
+  if (s == nullptr) {
+    rt::throw_exception<ArgumentNullException>("s");
+  }
+  if ((UInt32)index >= (UInt32)s->get_Length()) {
+    rt::throw_exception<ArgumentOutOfRangeException>("index");
+  }
+  Char ch = s[index];
+  if (IsLatin1(ch)) {
+    return CheckLetterOrDigit(GetLatin1UnicodeCategory(ch));
+  }
+  return CheckLetterOrDigit(CharUnicodeInfo::GetUnicodeCategory(s, index));
 }
 
 Boolean Char::IsLower(String s, Int32 index) {
-  return Boolean();
+  if (s == nullptr) {
+    rt::throw_exception<ArgumentNullException>("s");
+  }
+  if ((UInt32)index >= (UInt32)s->get_Length()) {
+    rt::throw_exception<ArgumentOutOfRangeException>("index");
+  }
+  Char c = s[index];
+  if (IsLatin1(c)) {
+  }
+  return CharUnicodeInfo::GetUnicodeCategory(s, index) == UnicodeCategory::LowercaseLetter;
 }
 
 Boolean Char::CheckNumber(UnicodeCategory uc) {
-  return Boolean();
+  return IsInRange(uc, UnicodeCategory::DecimalDigitNumber, UnicodeCategory::OtherNumber);
 }
 
 Boolean Char::IsNumber(Char c) {
-  return Boolean();
+  if (IsLatin1(c)) {
+    if (IsAscii(c)) {
+      return IsInRange(c, 48, 57);
+    }
+    return CheckNumber(GetLatin1UnicodeCategory(c));
+  }
+  return CheckNumber(CharUnicodeInfo::GetUnicodeCategory(c));
 }
 
 Boolean Char::IsNumber(String s, Int32 index) {
-  return Boolean();
+  if (s == nullptr) {
+    rt::throw_exception<ArgumentNullException>("s");
+  }
+  if ((UInt32)index >= (UInt32)s->get_Length()) {
+    rt::throw_exception<ArgumentOutOfRangeException>("index");
+  }
+  Char c = s[index];
+  if (IsLatin1(c)) {
+    if (IsAscii(c)) {
+      return IsInRange(c, 48, 57);
+    }
+    return CheckNumber(GetLatin1UnicodeCategory(c));
+  }
+  return CheckNumber(CharUnicodeInfo::GetUnicodeCategory(s, index));
 }
 
 Boolean Char::IsPunctuation(String s, Int32 index) {
-  return Boolean();
+  if (s == nullptr) {
+    rt::throw_exception<ArgumentNullException>("s");
+  }
+  if ((UInt32)index >= (UInt32)s->get_Length()) {
+    rt::throw_exception<ArgumentOutOfRangeException>("index");
+  }
+  Char ch = s[index];
+  if (IsLatin1(ch)) {
+    return CheckPunctuation(GetLatin1UnicodeCategory(ch));
+  }
+  return CheckPunctuation(CharUnicodeInfo::GetUnicodeCategory(s, index));
 }
 
 Boolean Char::CheckSeparator(UnicodeCategory uc) {
-  return Boolean();
+  return IsInRange(uc, UnicodeCategory::SpaceSeparator, UnicodeCategory::ParagraphSeparator);
 }
 
 Boolean Char::IsSeparatorLatin1(Char c) {
-  return Boolean();
+  if (c != 32) {
+    return c == 160;
+  }
+  return true;
 }
 
 Boolean Char::IsSeparator(Char c) {
-  return Boolean();
+  if (IsLatin1(c)) {
+    return IsSeparatorLatin1(c);
+  }
+  return CheckSeparator(CharUnicodeInfo::GetUnicodeCategory(c));
 }
 
 Boolean Char::IsSeparator(String s, Int32 index) {
-  return Boolean();
+  if (s == nullptr) {
+    rt::throw_exception<ArgumentNullException>("s");
+  }
+  if ((UInt32)index >= (UInt32)s->get_Length()) {
+    rt::throw_exception<ArgumentOutOfRangeException>("index");
+  }
+  Char c = s[index];
+  if (IsLatin1(c)) {
+    return IsSeparatorLatin1(c);
+  }
+  return CheckSeparator(CharUnicodeInfo::GetUnicodeCategory(s, index));
 }
 
 Boolean Char::IsSurrogate(Char c) {
-  return Boolean();
+  return IsInRange(c, 55296, 57343);
 }
 
 Boolean Char::IsSurrogate(String s, Int32 index) {
-  return Boolean();
+  if (s == nullptr) {
+    rt::throw_exception<ArgumentNullException>("s");
+  }
+  if ((UInt32)index >= (UInt32)s->get_Length()) {
+    rt::throw_exception<ArgumentOutOfRangeException>("index");
+  }
+  return IsSurrogate(s[index]);
 }
 
 Boolean Char::CheckSymbol(UnicodeCategory uc) {
-  return Boolean();
+  return IsInRange(uc, UnicodeCategory::MathSymbol, UnicodeCategory::OtherSymbol);
 }
 
 Boolean Char::IsSymbol(Char c) {
-  return Boolean();
+  if (IsLatin1(c)) {
+    return CheckSymbol(GetLatin1UnicodeCategory(c));
+  }
+  return CheckSymbol(CharUnicodeInfo::GetUnicodeCategory(c));
 }
 
 Boolean Char::IsSymbol(String s, Int32 index) {
-  return Boolean();
+  if (s == nullptr) {
+    rt::throw_exception<ArgumentNullException>("s");
+  }
+  if ((UInt32)index >= (UInt32)s->get_Length()) {
+    rt::throw_exception<ArgumentOutOfRangeException>("index");
+  }
+  Char ch = s[index];
+  if (IsLatin1(ch)) {
+    return CheckSymbol(GetLatin1UnicodeCategory(ch));
+  }
+  return CheckSymbol(CharUnicodeInfo::GetUnicodeCategory(s, index));
 }
 
 Boolean Char::IsUpper(String s, Int32 index) {
-  return Boolean();
+  if (s == nullptr) {
+    rt::throw_exception<ArgumentNullException>("s");
+  }
+  if ((UInt32)index >= (UInt32)s->get_Length()) {
+    rt::throw_exception<ArgumentOutOfRangeException>("index");
+  }
+  Char c = s[index];
+  if (IsLatin1(c)) {
+  }
+  return CharUnicodeInfo::GetUnicodeCategory(s, index) == UnicodeCategory::UppercaseLetter;
 }
 
 Boolean Char::IsWhiteSpace(String s, Int32 index) {
-  return Boolean();
+  if (s == nullptr) {
+    rt::throw_exception<ArgumentNullException>("s");
+  }
+  if ((UInt32)index >= (UInt32)s->get_Length()) {
+    rt::throw_exception<ArgumentOutOfRangeException>("index");
+  }
+  return IsWhiteSpace(s[index]);
 }
 
 UnicodeCategory Char::GetUnicodeCategory(Char c) {
-  return UnicodeCategory::OtherNotAssigned;
+  if (IsLatin1(c)) {
+    return GetLatin1UnicodeCategory(c);
+  }
+  return CharUnicodeInfo::GetUnicodeCategory((Int32)c);
 }
 
 UnicodeCategory Char::GetUnicodeCategory(String s, Int32 index) {
-  return UnicodeCategory::OtherNotAssigned;
+  if (s == nullptr) {
+    rt::throw_exception<ArgumentNullException>("s");
+  }
+  if ((UInt32)index >= (UInt32)s->get_Length()) {
+    rt::throw_exception<ArgumentOutOfRangeException>("index");
+  }
+  if (IsLatin1(s[index])) {
+    return GetLatin1UnicodeCategory(s[index]);
+  }
+  return CharUnicodeInfo::GetUnicodeCategoryInternal(s, index);
 }
 
 Double Char::GetNumericValue(Char c) {
-  return Double();
+  return CharUnicodeInfo::GetNumericValue(c);
 }
 
 Double Char::GetNumericValue(String s, Int32 index) {
-  return Double();
+  if (s == nullptr) {
+    rt::throw_exception<ArgumentNullException>("s");
+  }
+  if ((UInt32)index >= (UInt32)s->get_Length()) {
+    rt::throw_exception<ArgumentOutOfRangeException>("index");
+  }
+  return CharUnicodeInfo::GetNumericValue(s, index);
 }
 
 Boolean Char::IsHighSurrogate(Char c) {
-  return Boolean();
+  return IsInRange(c, 55296, 56319);
 }
 
 Boolean Char::IsHighSurrogate(String s, Int32 index) {
-  return Boolean();
+  if (s == nullptr) {
+    rt::throw_exception<ArgumentNullException>("s");
+  }
+  if (index < 0 || index >= s->get_Length()) {
+    rt::throw_exception<ArgumentOutOfRangeException>("index");
+  }
+  return IsHighSurrogate(s[index]);
 }
 
 Boolean Char::IsLowSurrogate(Char c) {
-  return Boolean();
+  return IsInRange(c, 56320, 57343);
 }
 
 Boolean Char::IsLowSurrogate(String s, Int32 index) {
-  return Boolean();
+  if (s == nullptr) {
+    rt::throw_exception<ArgumentNullException>("s");
+  }
+  if (index < 0 || index >= s->get_Length()) {
+    rt::throw_exception<ArgumentOutOfRangeException>("index");
+  }
+  return IsLowSurrogate(s[index]);
 }
 
 Boolean Char::IsSurrogatePair(String s, Int32 index) {
-  return Boolean();
+  if (s == nullptr) {
+    rt::throw_exception<ArgumentNullException>("s");
+  }
+  if (index < 0 || index >= s->get_Length()) {
+    rt::throw_exception<ArgumentOutOfRangeException>("index");
+  }
+  if (index + 1 < s->get_Length()) {
+    return IsSurrogatePair(s[index], s[index + 1]);
+  }
+  return false;
 }
 
 Boolean Char::IsSurrogatePair(Char highSurrogate, Char lowSurrogate) {
-  return Boolean();
+  UInt32 num = (UInt32)(highSurrogate - 55296);
+  UInt32 num2 = (UInt32)(lowSurrogate - 56320);
 }
 
 String Char::ConvertFromUtf32(Int32 utf32) {
-  return nullptr;
+  if (!UnicodeUtility::IsValidUnicodeScalar((UInt32)utf32)) {
+    rt::throw_exception<ArgumentOutOfRangeException>("utf32", SR::get_ArgumentOutOfRange_InvalidUTF32());
+  }
+  return Rune::UnsafeCreate((UInt32)utf32).ToString();
 }
 
 Int32 Char::ConvertToUtf32(Char highSurrogate, Char lowSurrogate) {
-  return Int32();
+  UInt32 num = (UInt32)(highSurrogate - 55296);
+  UInt32 num2 = (UInt32)(lowSurrogate - 56320);
 }
 
 void Char::ConvertToUtf32_ThrowInvalidArgs(UInt32 highSurrogateOffset) {
+  if (highSurrogateOffset > 1023) {
+    rt::throw_exception<ArgumentOutOfRangeException>("highSurrogate", SR::get_ArgumentOutOfRange_InvalidHighSurrogate());
+  }
+  rt::throw_exception<ArgumentOutOfRangeException>("lowSurrogate", SR::get_ArgumentOutOfRange_InvalidLowSurrogate());
 }
 
 Int32 Char::ConvertToUtf32(String s, Int32 index) {
-  return Int32();
+  if (s == nullptr) {
+    rt::throw_exception<ArgumentNullException>("s");
+  }
+  if (index < 0 || index >= s->get_Length()) {
+    rt::throw_exception<ArgumentOutOfRangeException>("index", SR::get_ArgumentOutOfRange_Index());
+  }
+  Int32 num = s[index] - 55296;
+  if (num >= 0 && num <= 2047) {
+    if (num <= 1023) {
+      if (index < s->get_Length() - 1) {
+        Int32 num2 = s[index + 1] - 56320;
+        if (num2 >= 0 && num2 <= 1023) {
+          return num * 1024 + num2 + 65536;
+        }
+        rt::throw_exception<ArgumentException>(SR::Format(SR::get_Argument_InvalidHighSurrogate(), index), "s");
+      }
+      rt::throw_exception<ArgumentException>(SR::Format(SR::get_Argument_InvalidHighSurrogate(), index), "s");
+    }
+    rt::throw_exception<ArgumentException>(SR::Format(SR::get_Argument_InvalidLowSurrogate(), index), "s");
+  }
+  return s[index];
 }
 
 } // namespace System::Private::CoreLib::System::CharNamespace

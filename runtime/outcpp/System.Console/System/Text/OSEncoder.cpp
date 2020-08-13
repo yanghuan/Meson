@@ -4,7 +4,6 @@
 #include <System.Console/System/Text/OSEncoding-dep.h>
 #include <System.Private.CoreLib/System/ArgumentNullException-dep.h>
 #include <System.Private.CoreLib/System/ArgumentOutOfRangeException-dep.h>
-#include <System.Private.CoreLib/System/Int64-dep.h>
 #include <System.Private.CoreLib/System/IntPtr-dep.h>
 
 namespace System::Console::System::Text::OSEncoderNamespace {
@@ -51,7 +50,7 @@ Int32 OSEncoder___::ConvertWithLeftOverChar(Char* chars, Int32 count, Byte* byte
   }
   Int32 num2 = OSEncoding::in::WideCharToMultiByte(_encoding->get_CodePage(), ptr, num + 1, bytes, byteCount);
   if (count - num > 0) {
-    num2 += OSEncoding::in::WideCharToMultiByte(_encoding->get_CodePage(), chars + num, count - num, (Byte*)(Int64)((bytes == nullptr) ? ((IntPtr)(void*)nullptr) : ((IntPtr)(bytes + num2))), (bytes != nullptr) ? (byteCount - num2) : 0);
+    num2 += OSEncoding::in::WideCharToMultiByte(_encoding->get_CodePage(), chars + num, count - num, (Byte*)(int)((bytes == nullptr) ? ((IntPtr)(?)0) : ((IntPtr)(int)(bytes + num2))), (bytes != nullptr) ? (byteCount - num2) : 0);
   }
   return num2;
 }
@@ -160,15 +159,15 @@ void OSEncoder___::Convert(Array<Char> chars, Int32 charIndex, Int32 charCount, 
     bytesUsed = 0;
     charsUsed = 0;
     completed = false;
-  } else {
+    return;
+  }
+  {
+    Char* ptr = chars;
     {
-      Char* ptr = chars;
-      {
-        Byte* ptr2 = &bytes[0];
-        Char c;
-        Char* chars2 = (ptr == nullptr) ? (&c) : (ptr + charIndex);
-        Convert(chars2, charCount, ptr2 + byteIndex, byteCount, flush, charsUsed, bytesUsed, completed);
-      }
+      Byte* ptr2 = &bytes[0];
+      Char c;
+      Char* chars2 = (ptr == nullptr) ? (&c) : (ptr + charIndex);
+      Convert(chars2, charCount, ptr2 + byteIndex, byteCount, flush, charsUsed, bytesUsed, completed);
     }
   }
 }

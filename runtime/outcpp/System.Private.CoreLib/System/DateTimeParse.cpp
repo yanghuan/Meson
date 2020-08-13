@@ -1,343 +1,1267 @@
 #include "DateTimeParse-dep.h"
 
+#include <System.Private.CoreLib/System/ArgumentNullException-dep.h>
+#include <System.Private.CoreLib/System/ArgumentOutOfRangeException-dep.h>
+#include <System.Private.CoreLib/System/DateTimeKind.h>
+#include <System.Private.CoreLib/System/DateTimeParse-dep.h>
+#include <System.Private.CoreLib/System/DateTimeResult-dep.h>
+#include <System.Private.CoreLib/System/DayOfWeek.h>
+#include <System.Private.CoreLib/System/DTSubString-dep.h>
+#include <System.Private.CoreLib/System/DTSubStringType.h>
+#include <System.Private.CoreLib/System/FormatException-dep.h>
+#include <System.Private.CoreLib/System/Globalization/CalendarId.h>
+#include <System.Private.CoreLib/System/Globalization/CompareOptions.h>
+#include <System.Private.CoreLib/System/Globalization/GregorianCalendar-dep.h>
+#include <System.Private.CoreLib/System/Globalization/HebrewNumber-dep.h>
+#include <System.Private.CoreLib/System/Globalization/HebrewNumberParsingContext-dep.h>
+#include <System.Private.CoreLib/System/Globalization/HebrewNumberParsingState.h>
+#include <System.Private.CoreLib/System/Globalization/TimeSpanParse-dep.h>
+#include <System.Private.CoreLib/System/Int64-dep.h>
+#include <System.Private.CoreLib/System/LocalAppContextSwitches-dep.h>
+#include <System.Private.CoreLib/System/ParseFailureKind.h>
+#include <System.Private.CoreLib/System/ParseFlags.h>
+#include <System.Private.CoreLib/System/SR-dep.h>
+#include <System.Private.CoreLib/System/StringComparison.h>
+#include <System.Private.CoreLib/System/TimeZoneInfo-dep.h>
+#include <System.Private.CoreLib/System/TimeZoneInfoOptions.h>
+#include <System.Private.CoreLib/System/TokenType.h>
+#include <System.Private.CoreLib/System/UInt32-dep.h>
+
 namespace System::Private::CoreLib::System::DateTimeParseNamespace {
+using namespace System::Globalization;
+
 DateTime DateTimeParse::ParseExact(ReadOnlySpan<Char> s, ReadOnlySpan<Char> format, DateTimeFormatInfo dtfi, DateTimeStyles style) {
-  return DateTime();
+  DateTimeResult result = DateTimeResult();
+  result.Init(s);
+  if (TryParseExact(s, format, dtfi, style, result)) {
+    return result.parsedDate;
+  }
+  rt::throw_exception(GetDateTimeParseException(result));
 }
 
 DateTime DateTimeParse::ParseExact(ReadOnlySpan<Char> s, ReadOnlySpan<Char> format, DateTimeFormatInfo dtfi, DateTimeStyles style, TimeSpan& offset) {
-  return DateTime();
+  DateTimeResult result = DateTimeResult();
+  result.Init(s);
+  result.flags |= ParseFlags::CaptureOffset;
+  if (TryParseExact(s, format, dtfi, style, result)) {
+    offset = result.timeZoneOffset;
+    return result.parsedDate;
+  }
+  rt::throw_exception(GetDateTimeParseException(result));
 }
 
 Boolean DateTimeParse::TryParseExact(ReadOnlySpan<Char> s, ReadOnlySpan<Char> format, DateTimeFormatInfo dtfi, DateTimeStyles style, DateTime& result) {
-  return Boolean();
+  DateTimeResult result2 = DateTimeResult();
+  result2.Init(s);
+  if (TryParseExact(s, format, dtfi, style, result2)) {
+    result = result2.parsedDate;
+    return true;
+  }
+  result = DateTime::MinValue;
+  return false;
 }
 
 Boolean DateTimeParse::TryParseExact(ReadOnlySpan<Char> s, ReadOnlySpan<Char> format, DateTimeFormatInfo dtfi, DateTimeStyles style, DateTime& result, TimeSpan& offset) {
-  return Boolean();
+  DateTimeResult result2 = DateTimeResult();
+  result2.Init(s);
+  result2.flags |= ParseFlags::CaptureOffset;
+  if (TryParseExact(s, format, dtfi, style, result2)) {
+    result = result2.parsedDate;
+    offset = result2.timeZoneOffset;
+    return true;
+  }
+  result = DateTime::MinValue;
+  offset = TimeSpan::Zero;
+  return false;
 }
 
 Boolean DateTimeParse::TryParseExact(ReadOnlySpan<Char> s, ReadOnlySpan<Char> format, DateTimeFormatInfo dtfi, DateTimeStyles style, DateTimeResult& result) {
-  return Boolean();
+  if (s.get_Length() == 0) {
+    result.SetFailure(ParseFailureKind::FormatWithParameter, "Format_BadDateTime");
+    return false;
+  }
+  if (format.get_Length() == 0) {
+    result.SetBadFormatSpecifierFailure();
+    return false;
+  }
+  return DoStrictParse(s, format, style, dtfi, result);
 }
 
 DateTime DateTimeParse::ParseExactMultiple(ReadOnlySpan<Char> s, Array<String> formats, DateTimeFormatInfo dtfi, DateTimeStyles style) {
-  return DateTime();
+  DateTimeResult result = DateTimeResult();
+  result.Init(s);
+  if (TryParseExactMultiple(s, formats, dtfi, style, result)) {
+    return result.parsedDate;
+  }
+  rt::throw_exception(GetDateTimeParseException(result));
 }
 
 DateTime DateTimeParse::ParseExactMultiple(ReadOnlySpan<Char> s, Array<String> formats, DateTimeFormatInfo dtfi, DateTimeStyles style, TimeSpan& offset) {
-  return DateTime();
+  DateTimeResult result = DateTimeResult();
+  result.Init(s);
+  result.flags |= ParseFlags::CaptureOffset;
+  if (TryParseExactMultiple(s, formats, dtfi, style, result)) {
+    offset = result.timeZoneOffset;
+    return result.parsedDate;
+  }
+  rt::throw_exception(GetDateTimeParseException(result));
 }
 
 Boolean DateTimeParse::TryParseExactMultiple(ReadOnlySpan<Char> s, Array<String> formats, DateTimeFormatInfo dtfi, DateTimeStyles style, DateTime& result, TimeSpan& offset) {
-  return Boolean();
+  DateTimeResult result2 = DateTimeResult();
+  result2.Init(s);
+  result2.flags |= ParseFlags::CaptureOffset;
+  if (TryParseExactMultiple(s, formats, dtfi, style, result2)) {
+    result = result2.parsedDate;
+    offset = result2.timeZoneOffset;
+    return true;
+  }
+  result = DateTime::MinValue;
+  offset = TimeSpan::Zero;
+  return false;
 }
 
 Boolean DateTimeParse::TryParseExactMultiple(ReadOnlySpan<Char> s, Array<String> formats, DateTimeFormatInfo dtfi, DateTimeStyles style, DateTime& result) {
-  return Boolean();
+  DateTimeResult result2 = DateTimeResult();
+  result2.Init(s);
+  if (TryParseExactMultiple(s, formats, dtfi, style, result2)) {
+    result = result2.parsedDate;
+    return true;
+  }
+  result = DateTime::MinValue;
+  return false;
 }
 
 Boolean DateTimeParse::TryParseExactMultiple(ReadOnlySpan<Char> s, Array<String> formats, DateTimeFormatInfo dtfi, DateTimeStyles style, DateTimeResult& result) {
-  return Boolean();
+  if (formats == nullptr) {
+    result.SetFailure(ParseFailureKind::ArgumentNull, "ArgumentNull_String", nullptr, "formats");
+    return false;
+  }
+  if (s.get_Length() == 0) {
+    result.SetFailure(ParseFailureKind::FormatWithParameter, "Format_BadDateTime");
+    return false;
+  }
+  if (formats->get_Length() == 0) {
+    result.SetFailure(ParseFailureKind::Format, "Format_NoFormatSpecifier");
+    return false;
+  }
+  for (Int32 i = 0; i < formats->get_Length(); i++) {
+    if (formats[i] == nullptr || formats[i]->get_Length() == 0) {
+      result.SetBadFormatSpecifierFailure();
+      return false;
+    }
+    DateTimeResult result2 = DateTimeResult();
+    result2.Init(s);
+    result2.flags = result.flags;
+    if (TryParseExact(s, formats[i], dtfi, style, result2)) {
+      result.parsedDate = result2.parsedDate;
+      result.timeZoneOffset = result2.timeZoneOffset;
+      return true;
+    }
+  }
+  result.SetBadDateTimeFailure();
+  return false;
 }
 
 Boolean DateTimeParse::MatchWord(__DTString& str, String target) {
-  return Boolean();
+  if (target->get_Length() > str.Value.get_Length() - str.Index) {
+    return false;
+  }
+  if (str.get_CompareInfo()->Compare(str.Value.Slice(str.Index, target->get_Length()), target, CompareOptions::IgnoreCase) != 0) {
+    return false;
+  }
+  Int32 num = str.Index + target->get_Length();
+  if (num < str.Value.get_Length()) {
+    Char c = str.Value[num];
+    if (Char::IsLetter(c)) {
+      return false;
+    }
+  }
+  str.Index = num;
+  if (str.Index < str.get_Length()) {
+    str.m_current = str.Value[str.Index];
+  }
+  return true;
 }
 
 Boolean DateTimeParse::GetTimeZoneName(__DTString& str) {
-  return Boolean();
+  if (MatchWord(str, "GMT")) {
+    return true;
+  }
+  if (MatchWord(str, "Z")) {
+    return true;
+  }
+  return false;
 }
 
 Boolean DateTimeParse::IsDigit(Char ch) {
-  return Boolean();
+  return (UInt32)(ch - 48) <= 9u;
 }
 
 Boolean DateTimeParse::ParseFraction(__DTString& str, Double& result) {
-  return Boolean();
+  result = 0;
+  Double num = 0.1;
+  Int32 num2 = 0;
+  Char current;
+  while (str.GetNext() && IsDigit(current = str.m_current)) {
+    result += (Double)(current - 48) * num;
+    num *= 0.1;
+    num2++;
+  }
+  return num2 > 0;
 }
 
 Boolean DateTimeParse::ParseTimeZone(__DTString& str, TimeSpan& result) {
-  return Boolean();
+  Int32 num = 0;
+  DTSubString subString = str.GetSubString();
+  if (subString.length != 1) {
+    return false;
+  }
+  Char c = subString[0];
+  if (c != 43 && c != 45) {
+    return false;
+  }
+  str.ConsumeSubString(subString);
+  subString = str.GetSubString();
+  if (subString.type != DTSubStringType::Number) {
+    return false;
+  }
+  Int32 value = subString.value;
+  Int32 hours;
+  switch (subString.length.get()) {
+    case 1:
+    case 2:
+      hours = value;
+      str.ConsumeSubString(subString);
+      subString = str.GetSubString();
+      if (subString.length == 1 && subString[0] == 58) {
+        str.ConsumeSubString(subString);
+        subString = str.GetSubString();
+        if (subString.type != DTSubStringType::Number || subString.length < 1 || subString.length > 2) {
+          return false;
+        }
+        num = subString.value;
+        str.ConsumeSubString(subString);
+      }
+      break;
+    case 3:
+    case 4:
+      hours = value / 100;
+      num = value % 100;
+      str.ConsumeSubString(subString);
+      break;
+    default:
+      return false;
+  }
+  if (num < 0 || num >= 60) {
+    return false;
+  }
+  result = TimeSpan(hours, num, 0);
+  if (c == 45) {
+    result = result.Negate();
+  }
+  return true;
 }
 
 Boolean DateTimeParse::HandleTimeZone(__DTString& str, DateTimeResult& result) {
-  return Boolean();
+  if (str.Index < str.get_Length() - 1) {
+    Char c = str.Value[str.Index];
+    Int32 num = 0;
+    while (Char::IsWhiteSpace(c) && str.Index + num < str.get_Length() - 1) {
+      num++;
+      c = str.Value[str.Index + num];
+    }
+    if (c == 43 || c == 45) {
+      str.Index += num;
+    }
+  }
+  return true;
 }
 
 Boolean DateTimeParse::Lex(DS dps, __DTString& str, DateTimeToken& dtok, DateTimeRawInfo& raw, DateTimeResult& result, DateTimeFormatInfo& dtfi, DateTimeStyles styles) {
-  return Boolean();
+  dtok.dtt = DTT::Unk;
 }
 
 Boolean DateTimeParse::VerifyValidPunctuation(__DTString& str) {
-  return Boolean();
+  switch (str.Value[str.Index].get()) {
+    case 35:
+      {
+        Boolean flag = false;
+        Boolean flag2 = false;
+        for (Int32 j = 0; j < str.get_Length(); j++) {
+          Char c = str.Value[j];
+          switch (c.get()) {
+            case 35:
+              if (flag) {
+                if (flag2) {
+                  return false;
+                }
+                flag2 = true;
+              } else {
+                flag = true;
+              }
+              break;
+            case 0:
+              if (!flag2) {
+                return false;
+              }
+              break;
+            default:
+              if (!Char::IsWhiteSpace(c) && (!flag || flag2)) {
+                return false;
+              }
+              break;
+          }
+        }
+        if (!flag2) {
+          return false;
+        }
+        str.GetNext();
+        return true;
+      }case 0:
+      {
+        for (Int32 i = str.Index; i < str.get_Length(); i++) {
+          if (str.Value[i] != 0) {
+            return false;
+          }
+        }
+        str.Index = str.get_Length();
+        return true;
+      }default:
+      return false;
+  }
 }
 
 Boolean DateTimeParse::GetYearMonthDayOrder(String datePattern, Int32& order) {
-  return Boolean();
+  Int32 num = -1;
+  Int32 num2 = -1;
+  Int32 num3 = -1;
+  Int32 num4 = 0;
+  Boolean flag = false;
+  for (Int32 i = 0; i < datePattern->get_Length() && num4 < 3; i++) {
+    Char c = datePattern[i];
+  }
+  if (num == 0 && num2 == 1 && num3 == 2) {
+    order = 0;
+    return true;
+  }
+  if (num2 == 0 && num3 == 1 && num == 2) {
+    order = 1;
+    return true;
+  }
+  if (num3 == 0 && num2 == 1 && num == 2) {
+    order = 2;
+    return true;
+  }
+  if (num == 0 && num3 == 1 && num2 == 2) {
+    order = 3;
+    return true;
+  }
+  order = -1;
+  return false;
 }
 
 Boolean DateTimeParse::GetYearMonthOrder(String pattern, Int32& order) {
-  return Boolean();
+  Int32 num = -1;
+  Int32 num2 = -1;
+  Int32 num3 = 0;
+  Boolean flag = false;
+  for (Int32 i = 0; i < pattern->get_Length() && num3 < 2; i++) {
+    Char c = pattern[i];
+  }
+  if (num == 0 && num2 == 1) {
+    order = 4;
+    return true;
+  }
+  if (num2 == 0 && num == 1) {
+    order = 5;
+    return true;
+  }
+  order = -1;
+  return false;
 }
 
 Boolean DateTimeParse::GetMonthDayOrder(String pattern, Int32& order) {
-  return Boolean();
+  Int32 num = -1;
+  Int32 num2 = -1;
+  Int32 num3 = 0;
+  Boolean flag = false;
+  for (Int32 i = 0; i < pattern->get_Length() && num3 < 2; i++) {
+    Char c = pattern[i];
+  }
+  if (num == 0 && num2 == 1) {
+    order = 6;
+    return true;
+  }
+  if (num2 == 0 && num == 1) {
+    order = 7;
+    return true;
+  }
+  order = -1;
+  return false;
 }
 
 Boolean DateTimeParse::TryAdjustYear(DateTimeResult& result, Int32 year, Int32& adjustedYear) {
-  return Boolean();
+  if (year < 100) {
+    try{
+      year = result.calendar->ToFourDigitYear(year);
+    } catch (ArgumentOutOfRangeException) {
+    }
+  }
+  adjustedYear = year;
+  return true;
 }
 
 Boolean DateTimeParse::SetDateYMD(DateTimeResult& result, Int32 year, Int32 month, Int32 day) {
-  return Boolean();
+  if (result.calendar->IsValidDay(year, month, day, result.era)) {
+    result.SetDate(year, month, day);
+    return true;
+  }
+  return false;
 }
 
 Boolean DateTimeParse::SetDateMDY(DateTimeResult& result, Int32 month, Int32 day, Int32 year) {
-  return Boolean();
+  return SetDateYMD(result, year, month, day);
 }
 
 Boolean DateTimeParse::SetDateDMY(DateTimeResult& result, Int32 day, Int32 month, Int32 year) {
-  return Boolean();
+  return SetDateYMD(result, year, month, day);
 }
 
 Boolean DateTimeParse::SetDateYDM(DateTimeResult& result, Int32 year, Int32 day, Int32 month) {
-  return Boolean();
+  return SetDateYMD(result, year, month, day);
 }
 
 void DateTimeParse::GetDefaultYear(DateTimeResult& result, DateTimeStyles& styles) {
+  result.Year = result.calendar->GetYear(GetDateTimeNow(result, styles));
+  result.flags |= ParseFlags::YearDefault;
 }
 
 Boolean DateTimeParse::GetDayOfNN(DateTimeResult& result, DateTimeStyles& styles, DateTimeRawInfo& raw, DateTimeFormatInfo dtfi) {
-  return Boolean();
 }
 
 Boolean DateTimeParse::GetDayOfNNN(DateTimeResult& result, DateTimeRawInfo& raw, DateTimeFormatInfo dtfi) {
-  return Boolean();
 }
 
 Boolean DateTimeParse::GetDayOfMN(DateTimeResult& result, DateTimeStyles& styles, DateTimeRawInfo& raw, DateTimeFormatInfo dtfi) {
-  return Boolean();
 }
 
 Boolean DateTimeParse::GetHebrewDayOfNM(DateTimeResult& result, DateTimeRawInfo& raw, DateTimeFormatInfo dtfi) {
-  return Boolean();
 }
 
 Boolean DateTimeParse::GetDayOfNM(DateTimeResult& result, DateTimeStyles& styles, DateTimeRawInfo& raw, DateTimeFormatInfo dtfi) {
-  return Boolean();
 }
 
 Boolean DateTimeParse::GetDayOfMNN(DateTimeResult& result, DateTimeRawInfo& raw, DateTimeFormatInfo dtfi) {
-  return Boolean();
 }
 
 Boolean DateTimeParse::GetDayOfYNN(DateTimeResult& result, DateTimeRawInfo& raw, DateTimeFormatInfo dtfi) {
-  return Boolean();
 }
 
 Boolean DateTimeParse::GetDayOfNNY(DateTimeResult& result, DateTimeRawInfo& raw, DateTimeFormatInfo dtfi) {
-  return Boolean();
 }
 
 Boolean DateTimeParse::GetDayOfYMN(DateTimeResult& result, DateTimeRawInfo& raw) {
-  return Boolean();
 }
 
 Boolean DateTimeParse::GetDayOfYN(DateTimeResult& result, DateTimeRawInfo& raw) {
-  return Boolean();
 }
 
 Boolean DateTimeParse::GetDayOfYM(DateTimeResult& result, DateTimeRawInfo& raw) {
-  return Boolean();
 }
 
 void DateTimeParse::AdjustTimeMark(DateTimeFormatInfo dtfi, DateTimeRawInfo& raw) {
+  if (raw.timeMark == TM::NotSet && dtfi->get_AMDesignator() != nullptr && dtfi->get_PMDesignator() != nullptr) {
+    if (dtfi->get_AMDesignator()->get_Length() == 0 && dtfi->get_PMDesignator()->get_Length() != 0) {
+      raw.timeMark = TM::AM;
+    }
+    if (dtfi->get_PMDesignator()->get_Length() == 0 && dtfi->get_AMDesignator()->get_Length() != 0) {
+      raw.timeMark = TM::PM;
+    }
+  }
 }
 
 Boolean DateTimeParse::AdjustHour(Int32& hour, TM timeMark) {
-  return Boolean();
+  switch (timeMark) {
+    case TM::AM:
+      if (hour < 0 || hour > 12) {
+        return false;
+      }
+      hour = ((hour != 12) ? hour : 0);
+      break;
+    default:
+      if (hour < 0 || hour > 23) {
+        return false;
+      }
+      if (hour < 12) {
+        hour += 12;
+      }
+      break;
+    case TM::NotSet:
+      break;
+  }
+  return true;
 }
 
 Boolean DateTimeParse::GetTimeOfN(DateTimeResult& result, DateTimeRawInfo& raw) {
-  return Boolean();
 }
 
 Boolean DateTimeParse::GetTimeOfNN(DateTimeResult& result, DateTimeRawInfo& raw) {
-  return Boolean();
 }
 
 Boolean DateTimeParse::GetTimeOfNNN(DateTimeResult& result, DateTimeRawInfo& raw) {
-  return Boolean();
 }
 
 Boolean DateTimeParse::GetDateOfDSN(DateTimeResult& result, DateTimeRawInfo& raw) {
-  return Boolean();
+  if (raw.numCount != 1 || result.Day != -1) {
+    result.SetBadDateTimeFailure();
+    return false;
+  }
+  result.Day = raw.GetNumber(0);
+  return true;
 }
 
 Boolean DateTimeParse::GetDateOfNDS(DateTimeResult& result, DateTimeRawInfo& raw) {
-  return Boolean();
+  if (result.Month == -1) {
+    result.SetBadDateTimeFailure();
+    return false;
+  }
+  if (result.Year != -1) {
+    result.SetBadDateTimeFailure();
+    return false;
+  }
+  if (!TryAdjustYear(result, raw.GetNumber(0), result.Year)) {
+    result.SetBadDateTimeFailure();
+    return false;
+  }
+  result.Day = 1;
+  return true;
 }
 
 Boolean DateTimeParse::GetDateOfNNDS(DateTimeResult& result, DateTimeRawInfo& raw, DateTimeFormatInfo dtfi) {
-  return Boolean();
 }
 
 Boolean DateTimeParse::ProcessDateTimeSuffix(DateTimeResult& result, DateTimeRawInfo& raw, DateTimeToken& dtok) {
-  return Boolean();
 }
 
 Boolean DateTimeParse::ProcessHebrewTerminalState(DS dps, DateTimeResult& result, DateTimeStyles& styles, DateTimeRawInfo& raw, DateTimeFormatInfo dtfi) {
-  return Boolean();
+  switch (dps) {
+    case DS::DX_MNN:
+      raw.year = raw.GetNumber(1);
+      if (!dtfi->YearMonthAdjustment(raw.year, raw.month, true)) {
+        result.SetFailure(ParseFailureKind::FormatBadDateTimeCalendar, "Format_BadDateTimeCalendar");
+        return false;
+      }
+      if (!GetDayOfMNN(result, raw, dtfi)) {
+        return false;
+      }
+      break;
+    case DS::DX_YMN:
+      if (!dtfi->YearMonthAdjustment(raw.year, raw.month, true)) {
+        result.SetFailure(ParseFailureKind::FormatBadDateTimeCalendar, "Format_BadDateTimeCalendar");
+        return false;
+      }
+      if (!GetDayOfYMN(result, raw)) {
+        return false;
+      }
+      break;
+    case DS::DX_NNY:
+      if (raw.year < 1000) {
+        raw.year += 5000;
+      }
+      if (!GetDayOfNNY(result, raw, dtfi)) {
+        return false;
+      }
+      if (!dtfi->YearMonthAdjustment(result.Year, raw.month, true)) {
+        result.SetFailure(ParseFailureKind::FormatBadDateTimeCalendar, "Format_BadDateTimeCalendar");
+        return false;
+      }
+      break;
+    case DS::DX_MN:
+    case DS::DX_NM:
+      GetDefaultYear(result, styles);
+      if (!dtfi->YearMonthAdjustment(result.Year, raw.month, true)) {
+        result.SetFailure(ParseFailureKind::FormatBadDateTimeCalendar, "Format_BadDateTimeCalendar");
+        return false;
+      }
+      if (!GetHebrewDayOfNM(result, raw, dtfi)) {
+        return false;
+      }
+      break;
+    case DS::DX_YM:
+      if (!dtfi->YearMonthAdjustment(raw.year, raw.month, true)) {
+        result.SetFailure(ParseFailureKind::FormatBadDateTimeCalendar, "Format_BadDateTimeCalendar");
+        return false;
+      }
+      if (!GetDayOfYM(result, raw)) {
+        return false;
+      }
+      break;
+    case DS::TX_N:
+      if (!GetTimeOfN(result, raw)) {
+        return false;
+      }
+      break;
+    case DS::TX_NN:
+      if (!GetTimeOfNN(result, raw)) {
+        return false;
+      }
+      break;
+    case DS::TX_NNN:
+      if (!GetTimeOfNNN(result, raw)) {
+        return false;
+      }
+      break;
+    default:
+      result.SetBadDateTimeFailure();
+      return false;
+  }
+  if (dps > DS::ERROR) {
+    raw.numCount = 0;
+  }
+  return true;
 }
 
 Boolean DateTimeParse::ProcessTerminalState(DS dps, DateTimeResult& result, DateTimeStyles& styles, DateTimeRawInfo& raw, DateTimeFormatInfo dtfi) {
-  return Boolean();
+  Boolean flag = true;
+  switch (dps) {
+    case DS::DX_NN:
+      flag = GetDayOfNN(result, styles, raw, dtfi);
+      break;
+    case DS::DX_NNN:
+      flag = GetDayOfNNN(result, raw, dtfi);
+      break;
+    case DS::DX_MN:
+      flag = GetDayOfMN(result, styles, raw, dtfi);
+      break;
+    case DS::DX_NM:
+      flag = GetDayOfNM(result, styles, raw, dtfi);
+      break;
+    case DS::DX_MNN:
+      flag = GetDayOfMNN(result, raw, dtfi);
+      break;
+    case DS::DX_DS:
+      flag = true;
+      break;
+    case DS::DX_YNN:
+      flag = GetDayOfYNN(result, raw, dtfi);
+      break;
+    case DS::DX_NNY:
+      flag = GetDayOfNNY(result, raw, dtfi);
+      break;
+    case DS::DX_YMN:
+      flag = GetDayOfYMN(result, raw);
+      break;
+    case DS::DX_YN:
+      flag = GetDayOfYN(result, raw);
+      break;
+    case DS::DX_YM:
+      flag = GetDayOfYM(result, raw);
+      break;
+    case DS::TX_N:
+      flag = GetTimeOfN(result, raw);
+      break;
+    case DS::TX_NN:
+      flag = GetTimeOfNN(result, raw);
+      break;
+    case DS::TX_NNN:
+      flag = GetTimeOfNNN(result, raw);
+      break;
+    case DS::TX_TS:
+      flag = true;
+      break;
+    case DS::DX_DSN:
+      flag = GetDateOfDSN(result, raw);
+      break;
+    case DS::DX_NDS:
+      flag = GetDateOfNDS(result, raw);
+      break;
+    case DS::DX_NNDS:
+      flag = GetDateOfNNDS(result, raw, dtfi);
+      break;
+  }
+  if (!flag) {
+    return false;
+  }
+  if (dps > DS::ERROR) {
+    raw.numCount = 0;
+  }
+  return true;
 }
 
 DateTime DateTimeParse::Parse(ReadOnlySpan<Char> s, DateTimeFormatInfo dtfi, DateTimeStyles styles) {
-  return DateTime();
+  DateTimeResult result = DateTimeResult();
+  result.Init(s);
+  if (TryParse(s, dtfi, styles, result)) {
+    return result.parsedDate;
+  }
+  rt::throw_exception(GetDateTimeParseException(result));
 }
 
 DateTime DateTimeParse::Parse(ReadOnlySpan<Char> s, DateTimeFormatInfo dtfi, DateTimeStyles styles, TimeSpan& offset) {
-  return DateTime();
+  DateTimeResult result = DateTimeResult();
+  result.Init(s);
+  result.flags |= ParseFlags::CaptureOffset;
+  if (TryParse(s, dtfi, styles, result)) {
+    offset = result.timeZoneOffset;
+    return result.parsedDate;
+  }
+  rt::throw_exception(GetDateTimeParseException(result));
 }
 
 Boolean DateTimeParse::TryParse(ReadOnlySpan<Char> s, DateTimeFormatInfo dtfi, DateTimeStyles styles, DateTime& result) {
-  return Boolean();
+  DateTimeResult result2 = DateTimeResult();
+  result2.Init(s);
+  if (TryParse(s, dtfi, styles, result2)) {
+    result = result2.parsedDate;
+    return true;
+  }
+  result = DateTime::MinValue;
+  return false;
 }
 
 Boolean DateTimeParse::TryParse(ReadOnlySpan<Char> s, DateTimeFormatInfo dtfi, DateTimeStyles styles, DateTime& result, TimeSpan& offset) {
-  return Boolean();
+  DateTimeResult result2 = DateTimeResult();
+  result2.Init(s);
+  result2.flags |= ParseFlags::CaptureOffset;
+  if (TryParse(s, dtfi, styles, result2)) {
+    result = result2.parsedDate;
+    offset = result2.timeZoneOffset;
+    return true;
+  }
+  result = DateTime::MinValue;
+  offset = TimeSpan::Zero;
+  return false;
 }
 
 Boolean DateTimeParse::TryParse(ReadOnlySpan<Char> s, DateTimeFormatInfo dtfi, DateTimeStyles styles, DateTimeResult& result) {
-  return Boolean();
+  if (s.get_Length() == 0) {
+    result.SetFailure(ParseFailureKind::FormatWithParameter, "Format_BadDateTime");
+    return false;
+  }
+  DS dS = DS::BEGIN;
+  Boolean flag = false;
+  DateTimeToken dtok = DateTimeToken();
+  dtok.suffix = TokenType::SEP_Unk;
+  DateTimeRawInfo raw = DateTimeRawInfo();
+  Int32 default[3] = {};
+  Int32* numberBuffer = default;
+  raw.Init(numberBuffer);
+  raw.hasSameDateAndTimeSeparators = dtfi->get_DateSeparator()->Equals(dtfi->get_TimeSeparator(), StringComparison::Ordinal);
+  result.calendar = dtfi->set_Calendar;
+  result.era = 0;
+  __DTString str = __DTString(s, dtfi);
+  str.GetNext();
 }
 
 Boolean DateTimeParse::DetermineTimeZoneAdjustments(DateTimeResult& result, DateTimeStyles styles, Boolean bTimeOnly) {
-  return Boolean();
 }
 
 Boolean DateTimeParse::DateTimeOffsetTimeZonePostProcessing(DateTimeResult& result, DateTimeStyles styles) {
-  return Boolean();
 }
 
 Boolean DateTimeParse::AdjustTimeZoneToUniversal(DateTimeResult& result) {
-  return Boolean();
+  Int64 ticks = result.parsedDate.get_Ticks();
+  ticks -= result.timeZoneOffset.get_Ticks();
+  if (ticks < 0) {
+    ticks += 864000000000;
+  }
+  if (ticks < 0 || ticks > 3155378975999999999) {
+    result.SetFailure(ParseFailureKind::FormatWithOriginalDateTime, "Format_DateOutOfRange");
+    return false;
+  }
+  result.parsedDate = DateTime(ticks, DateTimeKind::Utc);
+  return true;
 }
 
 Boolean DateTimeParse::AdjustTimeZoneToLocal(DateTimeResult& result, Boolean bTimeOnly) {
-  return Boolean();
+  Int64 ticks = result.parsedDate.get_Ticks();
+  TimeZoneInfo local = TimeZoneInfo::in::get_Local();
+  Boolean isAmbiguousLocalDst = false;
+  if (ticks < 864000000000) {
+    ticks -= result.timeZoneOffset.get_Ticks();
+    ticks += local->GetUtcOffset(bTimeOnly ? DateTime::get_Now() : result.parsedDate, TimeZoneInfoOptions::NoThrowOnInvalidTime).get_Ticks();
+    if (ticks < 0) {
+      ticks += 864000000000;
+    }
+  } else {
+    ticks -= result.timeZoneOffset.get_Ticks();
+    if (ticks < 0 || ticks > 3155378975999999999) {
+      ticks += local->GetUtcOffset(result.parsedDate, TimeZoneInfoOptions::NoThrowOnInvalidTime).get_Ticks();
+    } else {
+      DateTime time = DateTime(ticks, DateTimeKind::Utc);
+    }
+  }
+  if (ticks < 0 || ticks > 3155378975999999999) {
+    result.parsedDate = DateTime::MinValue;
+    result.SetFailure(ParseFailureKind::FormatWithOriginalDateTime, "Format_DateOutOfRange");
+    return false;
+  }
+  result.parsedDate = DateTime(ticks, DateTimeKind::Local, isAmbiguousLocalDst);
+  return true;
 }
 
 Boolean DateTimeParse::ParseISO8601(DateTimeRawInfo& raw, __DTString& str, DateTimeStyles styles, DateTimeResult& result) {
-  return Boolean();
+  if (raw.year >= 0 && raw.GetNumber(0) >= 0) {
+    raw.GetNumber(1);
+    _ = 0;
+  }
+  str.Index--;
+  Int32 result2 = 0;
+  Double result3 = 0;
+  str.SkipWhiteSpaces();
 }
 
 Boolean DateTimeParse::MatchHebrewDigits(__DTString& str, Int32 digitLen, Int32& number) {
-  return Boolean();
+  number = 0;
+  HebrewNumberParsingContext context = HebrewNumberParsingContext(0);
+  HebrewNumberParsingState hebrewNumberParsingState = HebrewNumberParsingState::ContinueParsing;
+  while (hebrewNumberParsingState == HebrewNumberParsingState::ContinueParsing && str.GetNext()) {
+    hebrewNumberParsingState = HebrewNumber::ParseByChar(str.GetChar(), context);
+  }
+  if (hebrewNumberParsingState == HebrewNumberParsingState::FoundEndOfHebrewNumber) {
+    number = context.result;
+    return true;
+  }
+  return false;
 }
 
 Boolean DateTimeParse::ParseDigits(__DTString& str, Int32 digitLen, Int32& result) {
-  return Boolean();
+  if (digitLen == 1) {
+    return ParseDigits(str, 1, 2, result);
+  }
+  return ParseDigits(str, digitLen, digitLen, result);
 }
 
 Boolean DateTimeParse::ParseDigits(__DTString& str, Int32 minDigitLen, Int32 maxDigitLen, Int32& result) {
-  return Boolean();
+  Int32 num = 0;
+  Int32 index = str.Index;
+  Int32 i;
+  for (i = 0; i < maxDigitLen; i++) {
+    if (!str.GetNextDigit()) {
+      str.Index--;
+      break;
+    }
+    num = num * 10 + str.GetDigit();
+  }
+  result = num;
+  if (i < minDigitLen) {
+    str.Index = index;
+    return false;
+  }
+  return true;
 }
 
 Boolean DateTimeParse::ParseFractionExact(__DTString& str, Int32 maxDigitLen, Double& result) {
-  return Boolean();
+  if (!str.GetNextDigit()) {
+    str.Index--;
+    return false;
+  }
+  result = str.GetDigit();
+  Int32 i;
+  for (i = 1; i < maxDigitLen; i++) {
+    if (!str.GetNextDigit()) {
+      str.Index--;
+      break;
+    }
+    result = result * 10 + (Double)str.GetDigit();
+  }
+  result /= TimeSpanParse::Pow10(i);
+  return i == maxDigitLen;
 }
 
 Boolean DateTimeParse::ParseSign(__DTString& str, Boolean& result) {
-  return Boolean();
+  if (!str.GetNext()) {
+    return false;
+  }
+  switch (str.GetChar().get()) {
+    case 43:
+      result = true;
+      return true;
+    case 45:
+      result = false;
+      return true;
+    default:
+      return false;
+  }
 }
 
 Boolean DateTimeParse::ParseTimeZoneOffset(__DTString& str, Int32 len, TimeSpan& result) {
-  return Boolean();
+  Boolean result2 = true;
+  Int32 result3 = 0;
+  Int32 result4;
+  if ((UInt32)(len - 1) <= 1u) {
+    if (!ParseSign(str, result2)) {
+      return false;
+    }
+    if (!ParseDigits(str, len, result4)) {
+      return false;
+    }
+  } else {
+    if (!ParseSign(str, result2)) {
+      return false;
+    }
+    if (!ParseDigits(str, 1, result4)) {
+      return false;
+    }
+    if (str.Match(":")) {
+      if (!ParseDigits(str, 2, result3)) {
+        return false;
+      }
+    } else {
+      str.Index--;
+      if (!ParseDigits(str, 2, result3)) {
+        return false;
+      }
+    }
+  }
+  if (result3 < 0 || result3 >= 60) {
+    return false;
+  }
+  result = TimeSpan(result4, result3, 0);
+  if (!result2) {
+    result = result.Negate();
+  }
+  return true;
 }
 
 Boolean DateTimeParse::MatchAbbreviatedMonthName(__DTString& str, DateTimeFormatInfo dtfi, Int32& result) {
-  return Boolean();
+  Int32 maxMatchStrLen = 0;
+  result = -1;
+  if (str.GetNext()) {
+    Int32 num = (dtfi->GetMonthName(13)->get_Length() == 0) ? 12 : 13;
+    for (Int32 i = 1; i <= num; i++) {
+      String abbreviatedMonthName = dtfi->GetAbbreviatedMonthName(i);
+      Int32 matchLength = abbreviatedMonthName->get_Length();
+      if ((dtfi->get_HasSpacesInMonthNames() ? str.MatchSpecifiedWords(abbreviatedMonthName, false, matchLength) : str.MatchSpecifiedWord(abbreviatedMonthName)) && matchLength > maxMatchStrLen) {
+        maxMatchStrLen = matchLength;
+        result = i;
+      }
+    }
+  }
+  if (result > 0) {
+    str.Index += maxMatchStrLen - 1;
+    return true;
+  }
+  return false;
 }
 
 Boolean DateTimeParse::MatchMonthName(__DTString& str, DateTimeFormatInfo dtfi, Int32& result) {
-  return Boolean();
+  Int32 maxMatchStrLen = 0;
+  result = -1;
+  if (str.GetNext()) {
+    Int32 num = (dtfi->GetMonthName(13)->get_Length() == 0) ? 12 : 13;
+    for (Int32 i = 1; i <= num; i++) {
+      String monthName = dtfi->GetMonthName(i);
+      Int32 matchLength = monthName->get_Length();
+      if ((dtfi->get_HasSpacesInMonthNames() ? str.MatchSpecifiedWords(monthName, false, matchLength) : str.MatchSpecifiedWord(monthName)) && matchLength > maxMatchStrLen) {
+        maxMatchStrLen = matchLength;
+        result = i;
+      }
+    }
+  }
+  if (result > 0) {
+    str.Index += maxMatchStrLen - 1;
+    return true;
+  }
+  return false;
 }
 
 Boolean DateTimeParse::MatchAbbreviatedDayName(__DTString& str, DateTimeFormatInfo dtfi, Int32& result) {
-  return Boolean();
+  Int32 num = 0;
+  result = -1;
+  if (str.GetNext()) {
+    for (DayOfWeek dayOfWeek = DayOfWeek::Sunday; dayOfWeek <= DayOfWeek::Saturday; dayOfWeek++) {
+      String abbreviatedDayName = dtfi->GetAbbreviatedDayName(dayOfWeek);
+      Int32 matchLength = abbreviatedDayName->get_Length();
+      if ((dtfi->get_HasSpacesInDayNames() ? str.MatchSpecifiedWords(abbreviatedDayName, false, matchLength) : str.MatchSpecifiedWord(abbreviatedDayName)) && matchLength > num) {
+        num = matchLength;
+        result = (Int32)dayOfWeek;
+      }
+    }
+  }
+  if (result >= 0) {
+    str.Index += num - 1;
+    return true;
+  }
+  return false;
 }
 
 Boolean DateTimeParse::MatchDayName(__DTString& str, DateTimeFormatInfo dtfi, Int32& result) {
-  return Boolean();
+  Int32 num = 0;
+  result = -1;
+  if (str.GetNext()) {
+    for (DayOfWeek dayOfWeek = DayOfWeek::Sunday; dayOfWeek <= DayOfWeek::Saturday; dayOfWeek++) {
+      String dayName = dtfi->GetDayName(dayOfWeek);
+      Int32 matchLength = dayName->get_Length();
+      if ((dtfi->get_HasSpacesInDayNames() ? str.MatchSpecifiedWords(dayName, false, matchLength) : str.MatchSpecifiedWord(dayName)) && matchLength > num) {
+        num = matchLength;
+        result = (Int32)dayOfWeek;
+      }
+    }
+  }
+  if (result >= 0) {
+    str.Index += num - 1;
+    return true;
+  }
+  return false;
 }
 
 Boolean DateTimeParse::MatchEraName(__DTString& str, DateTimeFormatInfo dtfi, Int32& result) {
-  return Boolean();
+  if (str.GetNext()) {
+    Array<Int32> eras = dtfi->get_Calendar()->get_Eras();
+    if (eras != nullptr) {
+      for (Int32 i = 0; i < eras->get_Length(); i++) {
+        String eraName = dtfi->GetEraName(eras[i]);
+        if (str.MatchSpecifiedWord(eraName)) {
+          str.Index += eraName->get_Length() - 1;
+          result = eras[i];
+          return true;
+        }
+        eraName = dtfi->GetAbbreviatedEraName(eras[i]);
+        if (str.MatchSpecifiedWord(eraName)) {
+          str.Index += eraName->get_Length() - 1;
+          result = eras[i];
+          return true;
+        }
+      }
+    }
+  }
+  return false;
 }
 
 Boolean DateTimeParse::MatchTimeMark(__DTString& str, DateTimeFormatInfo dtfi, TM& result) {
-  return Boolean();
+  result = TM::NotSet;
+  if (dtfi->get_AMDesignator()->get_Length() == 0) {
+    result = TM::AM;
+  }
+  if (dtfi->get_PMDesignator()->get_Length() == 0) {
+    result = TM::PM;
+  }
+  if (str.GetNext()) {
+    String aMDesignator = dtfi->get_AMDesignator();
+    if (aMDesignator->get_Length() > 0 && str.MatchSpecifiedWord(aMDesignator)) {
+      str.Index += aMDesignator->get_Length() - 1;
+      result = TM::AM;
+      return true;
+    }
+    aMDesignator = dtfi->set_PMDesignator;
+    if (aMDesignator->get_Length() > 0 && str.MatchSpecifiedWord(aMDesignator)) {
+      str.Index += aMDesignator->get_Length() - 1;
+      result = TM::PM;
+      return true;
+    }
+    str.Index--;
+  }
+  if (result != TM::NotSet) {
+    return true;
+  }
+  return false;
 }
 
 Boolean DateTimeParse::MatchAbbreviatedTimeMark(__DTString& str, DateTimeFormatInfo dtfi, TM& result) {
-  return Boolean();
+  if (str.GetNext()) {
+    String aMDesignator = dtfi->get_AMDesignator();
+    if (aMDesignator->get_Length() > 0 && str.GetChar() == aMDesignator[0]) {
+      result = TM::AM;
+      return true;
+    }
+    String pMDesignator = dtfi->get_PMDesignator();
+    if (pMDesignator->get_Length() > 0 && str.GetChar() == pMDesignator[0]) {
+      result = TM::PM;
+      return true;
+    }
+  }
+  return false;
 }
 
 Boolean DateTimeParse::CheckNewValue(Int32& currentValue, Int32 newValue, Char patternChar, DateTimeResult& result) {
-  return Boolean();
+  if (currentValue == -1) {
+    currentValue = newValue;
+    return true;
+  }
+  if (newValue != currentValue) {
+    result.SetFailure(ParseFailureKind::FormatWithParameter, "Format_RepeatDateTimePattern", patternChar);
+    return false;
+  }
+  return true;
 }
 
 DateTime DateTimeParse::GetDateTimeNow(DateTimeResult& result, DateTimeStyles& styles) {
-  return DateTime();
 }
 
 Boolean DateTimeParse::CheckDefaultDateTime(DateTimeResult& result, Calendar& cal, DateTimeStyles styles) {
-  return Boolean();
 }
 
 String DateTimeParse::ExpandPredefinedFormat(ReadOnlySpan<Char> format, DateTimeFormatInfo& dtfi, ParsingInfo& parseInfo, DateTimeResult& result) {
-  return nullptr;
 }
 
 Boolean DateTimeParse::ParseJapaneseEraStart(__DTString& str, DateTimeFormatInfo dtfi) {
-  return Boolean();
+  if (LocalAppContextSwitches::get_EnforceLegacyJapaneseDateParsing() || dtfi->get_Calendar()->get_ID() != CalendarId::JAPAN || !str.GetNext()) {
+    return false;
+  }
+  if (str.m_current != "元"[0]) {
+    str.Index--;
+    return false;
+  }
+  return true;
 }
 
 void DateTimeParse::ConfigureFormatR(DateTimeFormatInfo& dtfi, ParsingInfo& parseInfo, DateTimeResult& result) {
+  parseInfo.calendar = GregorianCalendar::in::GetDefaultInstance();
+  dtfi = DateTimeFormatInfo::in::get_InvariantInfo();
 }
 
 void DateTimeParse::ConfigureFormatOS(DateTimeFormatInfo& dtfi, ParsingInfo& parseInfo) {
+  parseInfo.calendar = GregorianCalendar::in::GetDefaultInstance();
+  dtfi = DateTimeFormatInfo::in::get_InvariantInfo();
 }
 
 Boolean DateTimeParse::ParseByFormat(__DTString& str, __DTString& format, ParsingInfo& parseInfo, DateTimeFormatInfo dtfi, DateTimeResult& result) {
-  return Boolean();
+  Int32 result2 = 0;
+  Int32 result3 = 0;
+  Int32 result4 = 0;
+  Int32 result5 = 0;
+  Int32 result6 = 0;
+  Int32 result7 = 0;
+  Int32 result8 = 0;
+  Double result9 = 0;
+  TM result10 = TM::AM;
+  Char char = format.GetChar();
 }
 
 Boolean DateTimeParse::TryParseQuoteString(ReadOnlySpan<Char> format, Int32 pos, StringBuilder result, Int32& returnValue) {
-  return Boolean();
+  returnValue = 0;
+  Int32 length = format.get_Length();
+  Int32 num = pos;
+  Char c = format[pos++];
+  Boolean flag = false;
+  while (pos < length) {
+    Char c2 = format[pos++];
+    if (c2 == c) {
+      flag = true;
+      break;
+    }
+    if (c2 == 92) {
+      if (pos >= length) {
+        return false;
+      }
+      result->Append(format[pos++]);
+    } else {
+      result->Append(c2);
+    }
+  }
+  if (!flag) {
+    return false;
+  }
+  returnValue = pos - num;
+  return true;
 }
 
 Boolean DateTimeParse::DoStrictParse(ReadOnlySpan<Char> s, ReadOnlySpan<Char> formatParam, DateTimeStyles styles, DateTimeFormatInfo dtfi, DateTimeResult& result) {
-  return Boolean();
+  ParsingInfo parseInfo = ParsingInfo();
+  parseInfo.Init();
+  parseInfo.calendar = dtfi->set_Calendar;
 }
 
 Boolean DateTimeParse::ParseFormatR(ReadOnlySpan<Char> source, ParsingInfo& parseInfo, DateTimeResult& result) {
-  return Boolean();
+  if (source.get_Length() != 29) {
+    result.SetBadDateTimeFailure();
+    return false;
+  }
+  UInt32 num = source[0];
+  UInt32 num2 = source[1];
+  UInt32 num3 = source[2];
+  UInt32 num4 = source[3];
 }
 
 Boolean DateTimeParse::ParseFormatO(ReadOnlySpan<Char> source, DateTimeResult& result) {
-  return Boolean();
+  if ((UInt32)source.get_Length() < 27u || source[4] != 45 || source[7] != 45 || source[10] != 84 || source[13] != 58 || source[16] != 58 || source[19] != 46) {
+    result.SetBadDateTimeFailure();
+    return false;
+  }
+  UInt32 num = (UInt32)(source[0] - 48);
+  UInt32 num2 = (UInt32)(source[1] - 48);
+  UInt32 num3 = (UInt32)(source[2] - 48);
+  UInt32 num4 = (UInt32)(source[3] - 48);
+  if (num > 9 || num2 > 9 || num3 > 9 || num4 > 9) {
+    result.SetBadDateTimeFailure();
+    return false;
+  }
+  Int32 year = (Int32)(num * 1000 + num2 * 100 + num3 * 10 + num4);
+  UInt32 num5 = (UInt32)(source[5] - 48);
+  UInt32 num6 = (UInt32)(source[6] - 48);
+  if (num5 > 9 || num6 > 9) {
+    result.SetBadDateTimeFailure();
+    return false;
+  }
+  Int32 month = (Int32)(num5 * 10 + num6);
+  UInt32 num7 = (UInt32)(source[8] - 48);
+  UInt32 num8 = (UInt32)(source[9] - 48);
+  if (num7 > 9 || num8 > 9) {
+    result.SetBadDateTimeFailure();
+    return false;
+  }
+  Int32 day = (Int32)(num7 * 10 + num8);
+  UInt32 num9 = (UInt32)(source[11] - 48);
+  UInt32 num10 = (UInt32)(source[12] - 48);
+  if (num9 > 9 || num10 > 9) {
+    result.SetBadDateTimeFailure();
+    return false;
+  }
+  Int32 hour = (Int32)(num9 * 10 + num10);
+  UInt32 num11 = (UInt32)(source[14] - 48);
+  UInt32 num12 = (UInt32)(source[15] - 48);
+  if (num11 > 9 || num12 > 9) {
+    result.SetBadDateTimeFailure();
+    return false;
+  }
+  Int32 minute = (Int32)(num11 * 10 + num12);
+  UInt32 num13 = (UInt32)(source[17] - 48);
+  UInt32 num14 = (UInt32)(source[18] - 48);
+  if (num13 > 9 || num14 > 9) {
+    result.SetBadDateTimeFailure();
+    return false;
+  }
+  Int32 second = (Int32)(num13 * 10 + num14);
+  UInt32 num15 = (UInt32)(source[20] - 48);
+  UInt32 num16 = (UInt32)(source[21] - 48);
+  UInt32 num17 = (UInt32)(source[22] - 48);
+  UInt32 num18 = (UInt32)(source[23] - 48);
+  UInt32 num19 = (UInt32)(source[24] - 48);
+  UInt32 num20 = (UInt32)(source[25] - 48);
+  UInt32 num21 = (UInt32)(source[26] - 48);
+  if (num15 > 9 || num16 > 9 || num17 > 9 || num18 > 9 || num19 > 9 || num20 > 9 || num21 > 9) {
+    result.SetBadDateTimeFailure();
+    return false;
+  }
+  Double num22 = (Double)(num15 * 1000000 + num16 * 100000 + num17 * 10000 + num18 * 1000 + num19 * 100 + num20 * 10 + num21) / 10000000;
 }
 
 Exception DateTimeParse::GetDateTimeParseException(DateTimeResult& result) {
-  return nullptr;
+  switch (result.failure) {
+    case ParseFailureKind::ArgumentNull:
+      return rt::newobj<ArgumentNullException>(result.failureArgumentName, SR::GetResourceString(result.failureMessageID));
+    case ParseFailureKind::Format:
+      return rt::newobj<FormatException>(SR::GetResourceString(result.failureMessageID));
+    case ParseFailureKind::FormatWithParameter:
+      return rt::newobj<FormatException>(SR::Format(SR::GetResourceString(result.failureMessageID), result.failureMessageFormatArgument));
+    case ParseFailureKind::FormatBadDateTimeCalendar:
+      return rt::newobj<FormatException>(SR::Format(SR::GetResourceString(result.failureMessageID), rt::newobj<String>(result.originalDateTimeString), result.calendar));
+    case ParseFailureKind::FormatWithOriginalDateTime:
+      return rt::newobj<FormatException>(SR::Format(SR::GetResourceString(result.failureMessageID), rt::newobj<String>(result.originalDateTimeString)));
+    case ParseFailureKind::FormatWithFormatSpecifier:
+      return rt::newobj<FormatException>(SR::Format(SR::GetResourceString(result.failureMessageID), rt::newobj<String>(result.failedFormatSpecifier)));
+    case ParseFailureKind::FormatWithOriginalDateTimeAndParameter:
+      return rt::newobj<FormatException>(SR::Format(SR::GetResourceString(result.failureMessageID), rt::newobj<String>(result.originalDateTimeString), result.failureMessageFormatArgument));
+    default:
+      return nullptr;
+  }
 }
 
 void DateTimeParse::ctor_static() {
+  s_hebrewNumberParser = MatchHebrewDigits;
+  s_dateParsingStates = rt::newarr<Array<Array<DS>>>(20);
 }
 
 } // namespace System::Private::CoreLib::System::DateTimeParseNamespace

@@ -377,8 +377,12 @@ namespace Meson.Compiler {
 
     public static IEnumerable<IType> GetTypeArguments(this IType type) {
       if (type.TypeArguments.Count > 0) {
-        var parameterizedType = (ParameterizedType)type;
-        var genericType = parameterizedType.GenericType.Original();
+        IType genericType;
+        if (type is ParameterizedType parameterizedType) {
+          genericType = parameterizedType.GenericType.Original();
+        } else {
+          genericType = type;
+        }
         int skipCount = genericType.TypeParameters.Count(i => i.Owner != genericType);
         return type.TypeArguments.Skip(skipCount);
       }

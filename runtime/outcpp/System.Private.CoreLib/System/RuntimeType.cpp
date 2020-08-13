@@ -1,705 +1,1472 @@
 #include "RuntimeType-dep.h"
 
+#include <System.Private.CoreLib/Internal/Runtime/CompilerServices/Unsafe-dep.h>
+#include <System.Private.CoreLib/Interop-dep.h>
+#include <System.Private.CoreLib/System/ArgumentException-dep.h>
+#include <System.Private.CoreLib/System/ArgumentNullException-dep.h>
+#include <System.Private.CoreLib/System/Convert-dep.h>
+#include <System.Private.CoreLib/System/DefaultBinder-dep.h>
+#include <System.Private.CoreLib/System/Enum-dep.h>
+#include <System.Private.CoreLib/System/GC-dep.h>
+#include <System.Private.CoreLib/System/Globalization/CultureInfo-dep.h>
+#include <System.Private.CoreLib/System/IndexOutOfRangeException-dep.h>
+#include <System.Private.CoreLib/System/InvalidOperationException-dep.h>
+#include <System.Private.CoreLib/System/IRuntimeMethodInfo.h>
+#include <System.Private.CoreLib/System/MdUtf8String-dep.h>
+#include <System.Private.CoreLib/System/MissingMethodException-dep.h>
+#include <System.Private.CoreLib/System/ModuleHandle-dep.h>
+#include <System.Private.CoreLib/System/NotSupportedException-dep.h>
+#include <System.Private.CoreLib/System/ReadOnlySpan-dep.h>
+#include <System.Private.CoreLib/System/Reflection/AmbiguousMatchException-dep.h>
+#include <System.Private.CoreLib/System/Reflection/Assembly-dep.h>
+#include <System.Private.CoreLib/System/Reflection/BindingFlags.h>
+#include <System.Private.CoreLib/System/Reflection/ConstructorInfo-dep.h>
+#include <System.Private.CoreLib/System/Reflection/CorElementType.h>
+#include <System.Private.CoreLib/System/Reflection/CustomAttribute-dep.h>
+#include <System.Private.CoreLib/System/Reflection/CustomAttributeData-dep.h>
+#include <System.Private.CoreLib/System/Reflection/Emit/TypeBuilder-dep.h>
+#include <System.Private.CoreLib/System/Reflection/Emit/TypeBuilderInstantiation-dep.h>
+#include <System.Private.CoreLib/System/Reflection/LoaderAllocator-dep.h>
+#include <System.Private.CoreLib/System/Reflection/ParameterInfo-dep.h>
+#include <System.Private.CoreLib/System/Reflection/PseudoCustomAttribute-dep.h>
+#include <System.Private.CoreLib/System/Reflection/SignatureConstructedGenericType-dep.h>
+#include <System.Private.CoreLib/System/Runtime/CompilerServices/QCallTypeHandle-dep.h>
+#include <System.Private.CoreLib/System/Runtime/CompilerServices/RuntimeHelpers-dep.h>
+#include <System.Private.CoreLib/System/Runtime/InteropServices/BStrWrapper-dep.h>
+#include <System.Private.CoreLib/System/Runtime/InteropServices/CurrencyWrapper-dep.h>
+#include <System.Private.CoreLib/System/Runtime/InteropServices/DispatchWrapper-dep.h>
+#include <System.Private.CoreLib/System/Runtime/InteropServices/ErrorWrapper-dep.h>
+#include <System.Private.CoreLib/System/Runtime/InteropServices/GCHandle-dep.h>
+#include <System.Private.CoreLib/System/Runtime/InteropServices/GCHandleType.h>
+#include <System.Private.CoreLib/System/Runtime/InteropServices/UnknownWrapper-dep.h>
+#include <System.Private.CoreLib/System/RuntimeFieldHandle-dep.h>
+#include <System.Private.CoreLib/System/RuntimeMethodHandle-dep.h>
 #include <System.Private.CoreLib/System/RuntimeType-dep.h>
+#include <System.Private.CoreLib/System/RuntimeTypeHandle-dep.h>
+#include <System.Private.CoreLib/System/SR-dep.h>
+#include <System.Private.CoreLib/System/StringComparison.h>
+#include <System.Private.CoreLib/System/Threading/Interlocked-dep.h>
+#include <System.Private.CoreLib/System/Threading/Monitor-dep.h>
+#include <System.Private.CoreLib/System/Type-dep.h>
+#include <System.Private.CoreLib/System/TypeLoadException-dep.h>
+#include <System.Private.CoreLib/System/UInt64-dep.h>
 
 namespace System::Private::CoreLib::System::RuntimeTypeNamespace {
+using namespace Internal::Runtime::CompilerServices;
+using namespace System::Globalization;
+using namespace System::Reflection;
+using namespace System::Reflection::Emit;
+using namespace System::Runtime::CompilerServices;
+using namespace System::Runtime::InteropServices;
+using namespace System::Threading;
+
 RuntimeType___::RuntimeTypeCache___::Filter::Filter(Byte* pUtf8Name, Int32 cUtf8Name, MemberListType listType) {
+  m_name = MdUtf8String(pUtf8Name, cUtf8Name);
+  m_listType = listType;
+  m_nameHash = 0u;
+  if (RequiresStringComparison()) {
+    m_nameHash = m_name.HashCaseInsensitive();
+  }
 }
 
 Boolean RuntimeType___::RuntimeTypeCache___::Filter::Match(MdUtf8String name) {
-  return Boolean();
+  Boolean result = true;
+  if (m_listType == MemberListType::CaseSensitive) {
+    result = m_name.Equals(name);
+  } else if (m_listType == MemberListType::CaseInsensitive) {
+    result = m_name.EqualsCaseInsensitive(name);
+  }
+
+  return result;
 }
 
 Boolean RuntimeType___::RuntimeTypeCache___::Filter::RequiresStringComparison() {
-  return Boolean();
+  if (m_listType != MemberListType::CaseSensitive) {
+    return m_listType == MemberListType::CaseInsensitive;
+  }
+  return true;
 }
 
 Boolean RuntimeType___::RuntimeTypeCache___::Filter::CaseSensitive() {
-  return Boolean();
+  return m_listType == MemberListType::CaseSensitive;
 }
 
 UInt32 RuntimeType___::RuntimeTypeCache___::Filter::GetHashToMatch() {
-  return UInt32();
+  return m_nameHash;
 }
 
 Object RuntimeType___::RuntimeTypeCache___::get_GenericCache() {
-  return nullptr;
+  return m_genericCache;
 }
 
 void RuntimeType___::RuntimeTypeCache___::set_GenericCache(Object value) {
+  m_genericCache = value;
 }
 
 Boolean RuntimeType___::RuntimeTypeCache___::get_DomainInitialized() {
-  return Boolean();
+  return m_bIsDomainInitialized;
 }
 
 void RuntimeType___::RuntimeTypeCache___::set_DomainInitialized(Boolean value) {
+  m_bIsDomainInitialized = value;
 }
 
 TypeCode RuntimeType___::RuntimeTypeCache___::get_TypeCode() {
-  return TypeCode::String;
+  return m_typeCode;
 }
 
 void RuntimeType___::RuntimeTypeCache___::set_TypeCode(TypeCode value) {
+  m_typeCode = value;
 }
 
 Boolean RuntimeType___::RuntimeTypeCache___::get_IsGlobal() {
-  return Boolean();
+  return m_isGlobal;
 }
 
 void RuntimeType___::RuntimeTypeCache___::ctor(RuntimeType runtimeType) {
+  m_typeCode = TypeCode::Empty;
+  m_runtimeType = runtimeType;
+  m_isGlobal = (RuntimeTypeHandle::GetModule(runtimeType)->get_RuntimeType() == runtimeType);
 }
 
 String RuntimeType___::RuntimeTypeCache___::ConstructName(String& name, TypeNameFormatFlags formatFlags) {
-  return nullptr;
 }
 
 String RuntimeType___::RuntimeTypeCache___::GetName(TypeNameKind kind) {
-  return nullptr;
+  switch (kind) {
+    case TypeNameKind::Name:
+      return ConstructName(m_name, TypeNameFormatFlags::FormatBasic);
+    case TypeNameKind::FullName:
+      if (!m_runtimeType->GetRootElementType()->get_IsGenericTypeDefinition() && m_runtimeType->get_ContainsGenericParameters()) {
+        return nullptr;
+      }
+      return ConstructName(m_fullname, (TypeNameFormatFlags)3);
+    case TypeNameKind::ToString:
+      return ConstructName(m_toString, TypeNameFormatFlags::FormatNamespace);
+    default:
+      rt::throw_exception<InvalidOperationException>();
+  }
 }
 
 String RuntimeType___::RuntimeTypeCache___::GetNameSpace() {
-  return nullptr;
+  if (m_namespace == nullptr) {
+    Type runtimeType = m_runtimeType;
+    runtimeType = runtimeType->GetRootElementType();
+    while (runtimeType->get_IsNested()) {
+      runtimeType = runtimeType->get_DeclaringType();
+    }
+    m_namespace = RuntimeTypeHandle::GetMetadataImport((RuntimeType)runtimeType).GetNamespace(runtimeType->get_MetadataToken()).ToString();
+  }
+  return m_namespace;
 }
 
 RuntimeType RuntimeType___::RuntimeTypeCache___::GetEnclosingType() {
-  return nullptr;
+  if (m_enclosingType == nullptr) {
+    RuntimeType declaringType = RuntimeTypeHandle::GetDeclaringType(GetRuntimeType());
+  }
 }
 
 RuntimeType RuntimeType___::RuntimeTypeCache___::GetRuntimeType() {
-  return nullptr;
+  return m_runtimeType;
 }
 
 void RuntimeType___::RuntimeTypeCache___::InvalidateCachedNestedType() {
+  m_nestedClassesCache = nullptr;
 }
 
 String RuntimeType___::RuntimeTypeCache___::GetDefaultMemberName() {
-  return nullptr;
+  if (m_defaultMemberName == nullptr) {
+    CustomAttributeData customAttributeData = nullptr;
+  }
+  return m_defaultMemberName;
 }
 
 Array<Object> RuntimeType___::RuntimeTypeCache___::GetEmptyArray() {
-  return Array<Object>();
 }
 
 MethodInfo RuntimeType___::RuntimeTypeCache___::GetGenericMethodInfo(RuntimeMethodHandleInternal genericMethod) {
-  return nullptr;
+  LoaderAllocator loaderAllocator = RuntimeMethodHandle::GetLoaderAllocator(genericMethod);
+  RuntimeMethodInfo runtimeMethodInfo = rt::newobj<RuntimeMethodInfo>(genericMethod, RuntimeMethodHandle::GetDeclaringType(genericMethod), (RuntimeTypeCache)this, RuntimeMethodHandle::GetAttributes(genericMethod), (BindingFlags)(-1), loaderAllocator);
+  RuntimeMethodInfo runtimeMethodInfo2 = (loaderAllocator == nullptr) ? s_methodInstantiations[runtimeMethodInfo] : loaderAllocator->m_methodInstantiations[runtimeMethodInfo];
+  if (runtimeMethodInfo2 != nullptr) {
+    return runtimeMethodInfo2;
+  }
+  if (s_methodInstantiationsLock == nullptr) {
+    Interlocked::CompareExchange(s_methodInstantiationsLock, rt::newobj<Object>(), nullptr);
+  }
+  Boolean lockTaken = false;
+  try{
+    Monitor::Enter(s_methodInstantiationsLock, lockTaken);
+    if (loaderAllocator != nullptr) {
+      runtimeMethodInfo2 = loaderAllocator->m_methodInstantiations[runtimeMethodInfo];
+      if (runtimeMethodInfo2 != nullptr) {
+        return runtimeMethodInfo2;
+      }
+      loaderAllocator->m_methodInstantiations[runtimeMethodInfo] = runtimeMethodInfo;
+      return runtimeMethodInfo;
+    }
+    runtimeMethodInfo2 = s_methodInstantiations[runtimeMethodInfo];
+    if (runtimeMethodInfo2 != nullptr) {
+      return runtimeMethodInfo2;
+    }
+    s_methodInstantiations[runtimeMethodInfo] = runtimeMethodInfo;
+    return runtimeMethodInfo;
+  } finally: {
+    if (lockTaken) {
+      Monitor::Exit(s_methodInstantiationsLock);
+    }
+  }
 }
 
 Array<RuntimeMethodInfo> RuntimeType___::RuntimeTypeCache___::GetMethodList(MemberListType listType, String name) {
-  return Array<RuntimeMethodInfo>();
+  return GetMemberList(m_methodInfoCache, listType, name, CacheType::Method);
 }
 
 Array<RuntimeConstructorInfo> RuntimeType___::RuntimeTypeCache___::GetConstructorList(MemberListType listType, String name) {
-  return Array<RuntimeConstructorInfo>();
+  return GetMemberList(m_constructorInfoCache, listType, name, CacheType::Constructor);
 }
 
 Array<RuntimePropertyInfo> RuntimeType___::RuntimeTypeCache___::GetPropertyList(MemberListType listType, String name) {
-  return Array<RuntimePropertyInfo>();
+  return GetMemberList(m_propertyInfoCache, listType, name, CacheType::Property);
 }
 
 Array<RuntimeEventInfo> RuntimeType___::RuntimeTypeCache___::GetEventList(MemberListType listType, String name) {
-  return Array<RuntimeEventInfo>();
+  return GetMemberList(m_eventInfoCache, listType, name, CacheType::Event);
 }
 
 Array<RuntimeFieldInfo> RuntimeType___::RuntimeTypeCache___::GetFieldList(MemberListType listType, String name) {
-  return Array<RuntimeFieldInfo>();
+  return GetMemberList(m_fieldInfoCache, listType, name, CacheType::Field);
 }
 
 Array<RuntimeType> RuntimeType___::RuntimeTypeCache___::GetInterfaceList(MemberListType listType, String name) {
-  return Array<RuntimeType>();
+  return GetMemberList(m_interfaceCache, listType, name, CacheType::Interface);
 }
 
 Array<RuntimeType> RuntimeType___::RuntimeTypeCache___::GetNestedTypeList(MemberListType listType, String name) {
-  return Array<RuntimeType>();
+  return GetMemberList(m_nestedClassesCache, listType, name, CacheType::NestedType);
 }
 
 MethodBase RuntimeType___::RuntimeTypeCache___::GetMethod(RuntimeType declaringType, RuntimeMethodHandleInternal method) {
-  return nullptr;
+  GetMemberCache(m_methodInfoCache);
+  return m_methodInfoCache->AddMethod(declaringType, method, CacheType::Method);
 }
 
 MethodBase RuntimeType___::RuntimeTypeCache___::GetConstructor(RuntimeType declaringType, RuntimeMethodHandleInternal constructor) {
-  return nullptr;
+  GetMemberCache(m_constructorInfoCache);
+  return m_constructorInfoCache->AddMethod(declaringType, constructor, CacheType::Constructor);
 }
 
 FieldInfo RuntimeType___::RuntimeTypeCache___::GetField(RuntimeFieldHandleInternal field) {
-  return nullptr;
+  GetMemberCache(m_fieldInfoCache);
+  return m_fieldInfoCache->AddField(field);
 }
 
 void RuntimeType___::ActivatorCache___::ctor(RuntimeMethodHandleInternal rmh) {
+  _hCtorMethodHandle = rmh;
 }
 
 void RuntimeType___::ActivatorCache___::Initialize() {
+  if (!_hCtorMethodHandle.IsNullHandle()) {
+    _ctorAttributes = RuntimeMethodHandle::GetAttributes(_hCtorMethodHandle);
+  }
+  _isFullyInitialized = true;
 }
 
 void RuntimeType___::ActivatorCache___::EnsureInitialized() {
+  if (!_isFullyInitialized) {
+    Initialize();
+  }
 }
 
 Object RuntimeType___::get_GenericCache() {
-  return nullptr;
 }
 
 void RuntimeType___::set_GenericCache(Object value) {
+  get_Cache()->set_GenericCache = value;
 }
 
 Boolean RuntimeType___::get_DomainInitialized() {
-  return Boolean();
+  return get_Cache()->get_DomainInitialized();
 }
 
 void RuntimeType___::set_DomainInitialized(Boolean value) {
+  get_Cache()->set_DomainInitialized = value;
 }
 
 RuntimeType::in::RuntimeTypeCache RuntimeType___::get_CacheIfExists() {
+  if (m_cache != IntPtr::Zero) {
+    Object value = GCHandle::InternalGet(m_cache);
+    return Unsafe::As<RuntimeTypeCache>(value);
+  }
   return nullptr;
 }
 
 RuntimeType::in::RuntimeTypeCache RuntimeType___::get_Cache() {
-  return nullptr;
+  if (m_cache != IntPtr::Zero) {
+    Object obj = GCHandle::InternalGet(m_cache);
+    if (obj != nullptr) {
+      return Unsafe::As<RuntimeTypeCache>(obj);
+    }
+  }
+  return InitializeCache();
 }
 
 Boolean RuntimeType___::get_IsCollectible() {
-  return Boolean();
+  RuntimeType type = (RuntimeType)this;
+  return RuntimeTypeHandle::IsCollectible(QCallTypeHandle(type)) != Interop::BOOL::FALSE;
 }
 
 MethodBase RuntimeType___::get_DeclaringMethod() {
-  return nullptr;
+  if (!get_IsGenericParameter()) {
+    rt::throw_exception<InvalidOperationException>(SR::get_Arg_NotGenericParameter());
+  }
+  IRuntimeMethodInfo declaringMethod = RuntimeTypeHandle::GetDeclaringMethod((RuntimeType)this);
+  if (declaringMethod == nullptr) {
+    return nullptr;
+  }
+  return GetMethodBase(RuntimeMethodHandle::GetDeclaringType(declaringMethod), declaringMethod);
 }
 
 String RuntimeType___::get_FullName() {
-  return nullptr;
+  return GetCachedName(TypeNameKind::FullName);
 }
 
 String RuntimeType___::get_AssemblyQualifiedName() {
-  return nullptr;
+  String fullName = get_FullName();
+  if (fullName == nullptr) {
+    return nullptr;
+  }
+  return Assembly::in::CreateQualifiedName(get_Assembly()->get_FullName(), fullName);
 }
 
 String RuntimeType___::get_Namespace() {
-  return nullptr;
+  String nameSpace = get_Cache()->GetNameSpace();
+  if (String::in::IsNullOrEmpty(nameSpace)) {
+    return nullptr;
+  }
+  return nameSpace;
 }
 
 Guid RuntimeType___::get_GUID() {
-  return Guid();
+  Guid result = Guid();
+  GetGUID(result);
+  return result;
 }
 
 GenericParameterAttributes RuntimeType___::get_GenericParameterAttributes() {
-  return GenericParameterAttributes::DefaultConstructorConstraint;
+  if (!get_IsGenericParameter()) {
+    rt::throw_exception<InvalidOperationException>(SR::get_Arg_NotGenericParameter());
+  }
 }
 
 Boolean RuntimeType___::get_IsSZArray() {
-  return Boolean();
+  return RuntimeTypeHandle::IsSZArray((RuntimeType)this);
 }
 
 Int32 RuntimeType___::get_GenericParameterPosition() {
-  return Int32();
+  if (!get_IsGenericParameter()) {
+    rt::throw_exception<InvalidOperationException>(SR::get_Arg_NotGenericParameter());
+  }
+  return RuntimeTypeHandle((RuntimeType)this).GetGenericVariableIndex();
 }
 
 Boolean RuntimeType___::get_ContainsGenericParameters() {
-  return Boolean();
+  return GetRootElementType()->GetTypeHandleInternal().ContainsGenericVariables();
 }
 
 StructLayoutAttribute RuntimeType___::get_StructLayoutAttribute() {
-  return nullptr;
+  return PseudoCustomAttribute::GetStructLayoutCustomAttribute((RuntimeType)this);
 }
 
 String RuntimeType___::get_Name() {
-  return nullptr;
+  return GetCachedName(TypeNameKind::Name);
 }
 
 Type RuntimeType___::get_DeclaringType() {
-  return nullptr;
+  return get_Cache()->GetEnclosingType();
 }
 
 OleAutBinder RuntimeType___::get_ForwardCallBinder() {
-  return nullptr;
 }
 
 Assembly RuntimeType___::get_Assembly() {
-  return nullptr;
+  return RuntimeTypeHandle::GetAssembly((RuntimeType)this);
 }
 
 Type RuntimeType___::get_BaseType() {
-  return nullptr;
+  return GetBaseType();
 }
 
 Boolean RuntimeType___::get_IsByRefLike() {
-  return Boolean();
+  return RuntimeTypeHandle::IsByRefLike((RuntimeType)this);
 }
 
 Boolean RuntimeType___::get_IsConstructedGenericType() {
-  return Boolean();
+  if (get_IsGenericType()) {
+    return !get_IsGenericTypeDefinition();
+  }
+  return false;
 }
 
 Boolean RuntimeType___::get_IsGenericType() {
-  return Boolean();
+  return RuntimeTypeHandle::HasInstantiation((RuntimeType)this);
 }
 
 Boolean RuntimeType___::get_IsGenericTypeDefinition() {
-  return Boolean();
+  return RuntimeTypeHandle::IsGenericTypeDefinition((RuntimeType)this);
 }
 
 Boolean RuntimeType___::get_IsGenericParameter() {
-  return Boolean();
+  return RuntimeTypeHandle::IsGenericVariable((RuntimeType)this);
 }
 
 Boolean RuntimeType___::get_IsTypeDefinition() {
-  return Boolean();
+  return RuntimeTypeHandle::IsTypeDefinition((RuntimeType)this);
 }
 
 Boolean RuntimeType___::get_IsSecurityCritical() {
-  return Boolean();
+  return true;
 }
 
 Boolean RuntimeType___::get_IsSecuritySafeCritical() {
-  return Boolean();
+  return false;
 }
 
 Boolean RuntimeType___::get_IsSecurityTransparent() {
-  return Boolean();
+  return false;
 }
 
 MemberTypes RuntimeType___::get_MemberType() {
-  return MemberTypes::All;
 }
 
 Int32 RuntimeType___::get_MetadataToken() {
-  return Int32();
+  return RuntimeTypeHandle::GetToken((RuntimeType)this);
 }
 
 Module RuntimeType___::get_Module() {
-  return nullptr;
+  return GetRuntimeModule();
 }
 
 Type RuntimeType___::get_ReflectedType() {
-  return nullptr;
+  return get_DeclaringType();
 }
 
 RuntimeTypeHandle RuntimeType___::get_TypeHandle() {
-  return RuntimeTypeHandle();
+  return RuntimeTypeHandle((RuntimeType)this);
 }
 
 Type RuntimeType___::get_UnderlyingSystemType() {
-  return nullptr;
+  return (RuntimeType)this;
 }
 
 RuntimeType RuntimeType___::GetType(String typeName, Boolean throwOnError, Boolean ignoreCase, StackCrawlMark& stackMark) {
-  return nullptr;
+  if (typeName == nullptr) {
+    rt::throw_exception<ArgumentNullException>("typeName");
+  }
+  return RuntimeTypeHandle::GetTypeByName(typeName, throwOnError, ignoreCase, stackMark);
 }
 
 MethodBase RuntimeType___::GetMethodBase(RuntimeModule scope, Int32 typeMetadataToken) {
-  return nullptr;
+  return GetMethodBase(ModuleHandle::ResolveMethodHandleInternal(scope, typeMetadataToken));
 }
 
 MethodBase RuntimeType___::GetMethodBase(IRuntimeMethodInfo methodHandle) {
-  return nullptr;
+  return GetMethodBase(nullptr, methodHandle);
 }
 
 MethodBase RuntimeType___::GetMethodBase(RuntimeType reflectedType, IRuntimeMethodInfo methodHandle) {
-  return nullptr;
+  MethodBase methodBase = GetMethodBase(reflectedType, methodHandle->get_Value());
+  GC::KeepAlive(methodHandle);
+  return methodBase;
 }
 
 MethodBase RuntimeType___::GetMethodBase(RuntimeType reflectedType, RuntimeMethodHandleInternal methodHandle) {
-  return nullptr;
+  if (RuntimeMethodHandle::IsDynamicMethod(methodHandle)) {
+  }
+  RuntimeType runtimeType = RuntimeMethodHandle::GetDeclaringType(methodHandle);
+  Array<RuntimeType> array = nullptr;
+  if ((Object)reflectedType == nullptr) {
+    reflectedType = runtimeType;
+  }
+  if (reflectedType != runtimeType && !reflectedType->IsSubclassOf(runtimeType)) {
+    if (reflectedType->get_IsArray()) {
+    } else if (runtimeType->get_IsGenericType()) {
+      RuntimeType right = (RuntimeType)runtimeType->GetGenericTypeDefinition();
+      RuntimeType runtimeType2 = reflectedType;
+      while (runtimeType2 != nullptr) {
+        RuntimeType runtimeType3 = runtimeType2;
+        if (runtimeType3->get_IsGenericType() && !runtimeType2->get_IsGenericTypeDefinition()) {
+          runtimeType3 = (RuntimeType)runtimeType3->GetGenericTypeDefinition();
+        }
+        if (runtimeType3 == right) {
+          break;
+        }
+        runtimeType2 = runtimeType2->GetBaseType();
+      }
+      if (runtimeType2 == nullptr) {
+        rt::throw_exception<ArgumentException>(SR::Format(SR::get_Argument_ResolveMethodHandle(), reflectedType, runtimeType));
+      }
+      runtimeType = runtimeType2;
+      if (!RuntimeMethodHandle::IsGenericMethodDefinition(methodHandle)) {
+        array = RuntimeMethodHandle::GetMethodInstantiationInternal(methodHandle);
+      }
+      methodHandle = RuntimeMethodHandle::GetMethodFromCanonical(methodHandle, runtimeType);
+    } else if (!runtimeType->IsAssignableFrom(reflectedType)) {
+      rt::throw_exception<ArgumentException>(String::in::Format(CultureInfo::in::get_CurrentCulture(), SR::get_Argument_ResolveMethodHandle(), reflectedType->ToString(), runtimeType->ToString()));
+    }
+
+
+  }
+  methodHandle = RuntimeMethodHandle::GetStubIfNeeded(methodHandle, runtimeType, array);
+  MethodBase result = RuntimeMethodHandle::IsConstructor(methodHandle) ? reflectedType->get_Cache()->GetConstructor(runtimeType, methodHandle) : ((!RuntimeMethodHandle::HasMethodInstantiation(methodHandle) || RuntimeMethodHandle::IsGenericMethodDefinition(methodHandle)) ? reflectedType->get_Cache()->GetMethod(runtimeType, methodHandle) : reflectedType->get_Cache()->GetGenericMethodInfo(methodHandle));
+  GC::KeepAlive(array);
+  return result;
 }
 
 FieldInfo RuntimeType___::GetFieldInfo(IRuntimeFieldInfo fieldHandle) {
-  return nullptr;
+  return GetFieldInfo(RuntimeFieldHandle::GetApproxDeclaringType(fieldHandle), fieldHandle);
 }
 
 FieldInfo RuntimeType___::GetFieldInfo(RuntimeType reflectedType, IRuntimeFieldInfo field) {
-  return nullptr;
+  RuntimeFieldHandleInternal value = field->get_Value();
+  if (reflectedType == nullptr) {
+    reflectedType = RuntimeFieldHandle::GetApproxDeclaringType(value);
+  } else {
+    RuntimeType approxDeclaringType = RuntimeFieldHandle::GetApproxDeclaringType(value);
+    if (reflectedType != approxDeclaringType && (!RuntimeFieldHandle::AcquiresContextFromThis(value) || !RuntimeTypeHandle::CompareCanonicalHandles(approxDeclaringType, reflectedType))) {
+      rt::throw_exception<ArgumentException>(SR::Format(SR::get_Argument_ResolveFieldHandle(), reflectedType, approxDeclaringType));
+    }
+  }
+  FieldInfo field2 = reflectedType->get_Cache()->GetField(value);
+  GC::KeepAlive(field);
+  return field2;
 }
 
 PropertyInfo RuntimeType___::GetPropertyInfo(RuntimeType reflectedType, Int32 tkProperty) {
-  return nullptr;
+  Array<RuntimePropertyInfo> propertyList = reflectedType->get_Cache()->GetPropertyList(MemberListType::All, nullptr);
 }
 
 void RuntimeType___::ThrowIfTypeNeverValidGenericArgument(RuntimeType type) {
 }
 
 void RuntimeType___::SanityCheckGenericArguments(Array<RuntimeType> genericArguments, Array<RuntimeType> genericParamters) {
+  if (genericArguments == nullptr) {
+    rt::throw_exception<ArgumentNullException>();
+  }
+  for (Int32 i = 0; i < genericArguments->get_Length(); i++) {
+    if (genericArguments[i] == nullptr) {
+      rt::throw_exception<ArgumentNullException>();
+    }
+    ThrowIfTypeNeverValidGenericArgument(genericArguments[i]);
+  }
+  if (genericArguments->get_Length() != genericParamters->get_Length()) {
+    rt::throw_exception<ArgumentException>(SR::Format(SR::get_Argument_NotEnoughGenArguments(), genericArguments->get_Length(), genericParamters->get_Length()));
+  }
 }
 
 void RuntimeType___::ValidateGenericArguments(MemberInfo definition, Array<RuntimeType> genericArguments, Exception e) {
+  Array<RuntimeType> typeContext = nullptr;
+  Array<RuntimeType> methodContext = nullptr;
+  Array<RuntimeType> genericArgumentsInternal;
+  if (rt::is<Type>(definition)) {
+    RuntimeType runtimeType = (RuntimeType)definition;
+    genericArgumentsInternal = runtimeType->GetGenericArgumentsInternal();
+    typeContext = genericArguments;
+  } else {
+    RuntimeMethodInfo runtimeMethodInfo = (RuntimeMethodInfo)definition;
+    genericArgumentsInternal = runtimeMethodInfo->GetGenericArgumentsInternal();
+    methodContext = genericArguments;
+    RuntimeType runtimeType2 = (RuntimeType)runtimeMethodInfo->get_DeclaringType();
+    if (runtimeType2 != nullptr) {
+      typeContext = runtimeType2->GetTypeHandleInternal().GetInstantiationInternal();
+    }
+  }
+  for (Int32 i = 0; i < genericArguments->get_Length(); i++) {
+    Type type = genericArguments[i];
+    Type type2 = genericArgumentsInternal[i];
+    if (!RuntimeTypeHandle::SatisfiesConstraints(type2->GetTypeHandleInternal().GetTypeChecked(), typeContext, methodContext, type->GetTypeHandleInternal().GetTypeChecked())) {
+      rt::throw_exception<ArgumentException>(SR::Format(SR::get_Argument_GenConstraintViolation(), rt::newarr<Array<Object>>(4, i.ToString(), type, definition, type2)), e);
+    }
+  }
 }
 
 void RuntimeType___::SplitName(String fullname, String& name, String& ns) {
+  name = nullptr;
+  ns = nullptr;
+  if (fullname == nullptr) {
+    return;
+  }
+  Int32 num = fullname->LastIndexOf(".", StringComparison::Ordinal);
+  if (num != -1) {
+    ns = fullname->Substring(0, num);
+    Int32 num2 = fullname->get_Length() - ns->get_Length() - 1;
+    if (num2 != 0) {
+      name = fullname->Substring(num + 1, num2);
+    } else {
+      name = "";
+    }
+  } else {
+    name = fullname;
+  }
 }
 
 BindingFlags RuntimeType___::FilterPreCalculate(Boolean isPublic, Boolean isInherited, Boolean isStatic) {
-  return BindingFlags::DoNotWrapExceptions;
+  BindingFlags bindingFlags = isPublic ? BindingFlags::Public : BindingFlags::NonPublic;
+  if (isInherited) {
+    bindingFlags |= BindingFlags::DeclaredOnly;
+    if (isStatic) {
+    }
+  }
+  if (isStatic) {
+  }
 }
 
 void RuntimeType___::FilterHelper(BindingFlags bindingFlags, String& name, Boolean allowPrefixLookup, Boolean& prefixLookup, Boolean& ignoreCase, MemberListType& listType) {
+  prefixLookup = false;
+  ignoreCase = false;
+  if (name != nullptr) {
+  } else {
+    listType = MemberListType::All;
+  }
 }
 
 void RuntimeType___::FilterHelper(BindingFlags bindingFlags, String& name, Boolean& ignoreCase, MemberListType& listType) {
 }
 
 Boolean RuntimeType___::FilterApplyPrefixLookup(MemberInfo memberInfo, String name, Boolean ignoreCase) {
-  return Boolean();
+  if (ignoreCase) {
+    if (!memberInfo->get_Name()->StartsWith(name, StringComparison::OrdinalIgnoreCase)) {
+      return false;
+    }
+  } else if (!memberInfo->get_Name()->StartsWith(name, StringComparison::Ordinal)) {
+    return false;
+  }
+
+  return true;
 }
 
 Boolean RuntimeType___::FilterApplyBase(MemberInfo memberInfo, BindingFlags bindingFlags, Boolean isPublic, Boolean isNonProtectedInternal, Boolean isStatic, String name, Boolean prefixLookup) {
-  return Boolean();
 }
 
 Boolean RuntimeType___::FilterApplyType(Type type, BindingFlags bindingFlags, String name, Boolean prefixLookup, String ns) {
-  return Boolean();
+  Boolean isPublic = type->get_IsNestedPublic() || type->get_IsPublic();
+  if (!FilterApplyBase(type, bindingFlags, isPublic, type->get_IsNestedAssembly(), false, name, prefixLookup)) {
+    return false;
+  }
+  if (ns != nullptr && ns != type->get_Namespace()) {
+    return false;
+  }
+  return true;
 }
 
 Boolean RuntimeType___::FilterApplyMethodInfo(RuntimeMethodInfo method, BindingFlags bindingFlags, CallingConventions callConv, Array<Type> argumentTypes) {
-  return Boolean();
+  return FilterApplyMethodBase(method, method->get_BindingFlags(), bindingFlags, callConv, argumentTypes);
 }
 
 Boolean RuntimeType___::FilterApplyConstructorInfo(RuntimeConstructorInfo constructor, BindingFlags bindingFlags, CallingConventions callConv, Array<Type> argumentTypes) {
-  return Boolean();
+  return FilterApplyMethodBase(constructor, constructor->get_BindingFlags(), bindingFlags, callConv, argumentTypes);
 }
 
 Boolean RuntimeType___::FilterApplyMethodBase(MethodBase methodBase, BindingFlags methodFlags, BindingFlags bindingFlags, CallingConventions callConv, Array<Type> argumentTypes) {
-  return Boolean();
+  bindingFlags ^= BindingFlags::DeclaredOnly;
 }
 
 void RuntimeType___::ctor() {
+  rt::throw_exception<NotSupportedException>();
 }
 
 Boolean RuntimeType___::CacheEquals(Object o) {
-  return Boolean();
+  RuntimeType runtimeType = rt::as<RuntimeType>(o);
+  if ((Object)runtimeType != nullptr) {
+    return runtimeType->m_handle == m_handle;
+  }
+  return false;
 }
 
 RuntimeType::in::RuntimeTypeCache RuntimeType___::InitializeCache() {
-  return nullptr;
+  if (m_cache == IntPtr::Zero) {
+    RuntimeTypeHandle runtimeTypeHandle = RuntimeTypeHandle((RuntimeType)this);
+    IntPtr gCHandle = runtimeTypeHandle.GetGCHandle(GCHandleType::WeakTrackResurrection);
+    IntPtr value = Interlocked::CompareExchange(m_cache, gCHandle, IntPtr::Zero);
+    if (value != IntPtr::Zero) {
+      runtimeTypeHandle.FreeGCHandle(gCHandle);
+    }
+  }
+  RuntimeTypeCache runtimeTypeCache = (RuntimeTypeCache)GCHandle::InternalGet(m_cache);
+  if (runtimeTypeCache == nullptr) {
+    runtimeTypeCache = rt::newobj<RuntimeTypeCache>((RuntimeType)this);
+    RuntimeTypeCache runtimeTypeCache2 = (RuntimeTypeCache)GCHandle::InternalCompareExchange(m_cache, runtimeTypeCache, nullptr);
+    if (runtimeTypeCache2 != nullptr) {
+      runtimeTypeCache = runtimeTypeCache2;
+    }
+  }
+  return runtimeTypeCache;
 }
 
 String RuntimeType___::GetDefaultMemberName() {
-  return nullptr;
+  return get_Cache()->GetDefaultMemberName();
 }
 
 RuntimeType::in::ListBuilder<MethodInfo> RuntimeType___::GetMethodCandidates(String name, Int32 genericParameterCount, BindingFlags bindingAttr, CallingConventions callConv, Array<Type> types, Boolean allowPrefixLookup) {
-  return RuntimeType::in::ListBuilder<MethodInfo>();
 }
 
 RuntimeType::in::ListBuilder<ConstructorInfo> RuntimeType___::GetConstructorCandidates(String name, BindingFlags bindingAttr, CallingConventions callConv, Array<Type> types, Boolean allowPrefixLookup) {
-  return RuntimeType::in::ListBuilder<ConstructorInfo>();
 }
 
 RuntimeType::in::ListBuilder<PropertyInfo> RuntimeType___::GetPropertyCandidates(String name, BindingFlags bindingAttr, Array<Type> types, Boolean allowPrefixLookup) {
-  return RuntimeType::in::ListBuilder<PropertyInfo>();
 }
 
 RuntimeType::in::ListBuilder<EventInfo> RuntimeType___::GetEventCandidates(String name, BindingFlags bindingAttr, Boolean allowPrefixLookup) {
-  return RuntimeType::in::ListBuilder<EventInfo>();
 }
 
 RuntimeType::in::ListBuilder<FieldInfo> RuntimeType___::GetFieldCandidates(String name, BindingFlags bindingAttr, Boolean allowPrefixLookup) {
-  return RuntimeType::in::ListBuilder<FieldInfo>();
 }
 
 RuntimeType::in::ListBuilder<Type> RuntimeType___::GetNestedTypeCandidates(String fullname, BindingFlags bindingAttr, Boolean allowPrefixLookup) {
-  return RuntimeType::in::ListBuilder<Type>();
+  bindingAttr &= ~BindingFlags::Static;
 }
 
 Array<MethodInfo> RuntimeType___::GetMethods(BindingFlags bindingAttr) {
-  return Array<MethodInfo>();
+  return GetMethodCandidates(nullptr, -1, bindingAttr, CallingConventions::Any, nullptr, false).ToArray();
 }
 
 Array<ConstructorInfo> RuntimeType___::GetConstructors(BindingFlags bindingAttr) {
-  return Array<ConstructorInfo>();
+  return GetConstructorCandidates(nullptr, bindingAttr, CallingConventions::Any, nullptr, false).ToArray();
 }
 
 Array<PropertyInfo> RuntimeType___::GetProperties(BindingFlags bindingAttr) {
-  return Array<PropertyInfo>();
+  return GetPropertyCandidates(nullptr, bindingAttr, nullptr, false).ToArray();
 }
 
 Array<EventInfo> RuntimeType___::GetEvents(BindingFlags bindingAttr) {
-  return Array<EventInfo>();
+  return GetEventCandidates(nullptr, bindingAttr, false).ToArray();
 }
 
 Array<FieldInfo> RuntimeType___::GetFields(BindingFlags bindingAttr) {
-  return Array<FieldInfo>();
+  return GetFieldCandidates(nullptr, bindingAttr, false).ToArray();
 }
 
 Array<Type> RuntimeType___::GetInterfaces() {
-  return Array<Type>();
+  Array<RuntimeType> interfaceList = get_Cache()->GetInterfaceList(MemberListType::All, nullptr);
+  Array<Type> array = interfaceList;
+  return ReadOnlySpan<Type>(array).ToArray();
 }
 
 Array<Type> RuntimeType___::GetNestedTypes(BindingFlags bindingAttr) {
-  return Array<Type>();
+  return GetNestedTypeCandidates(nullptr, bindingAttr, false).ToArray();
 }
 
 Array<MemberInfo> RuntimeType___::GetMembers(BindingFlags bindingAttr) {
-  return Array<MemberInfo>();
+  ListBuilder<MethodInfo> methodCandidates = GetMethodCandidates(nullptr, -1, bindingAttr, CallingConventions::Any, nullptr, false);
+  ListBuilder<ConstructorInfo> constructorCandidates = GetConstructorCandidates(nullptr, bindingAttr, CallingConventions::Any, nullptr, false);
+  ListBuilder<PropertyInfo> propertyCandidates = GetPropertyCandidates(nullptr, bindingAttr, nullptr, false);
+  ListBuilder<EventInfo> eventCandidates = GetEventCandidates(nullptr, bindingAttr, false);
+  ListBuilder<FieldInfo> fieldCandidates = GetFieldCandidates(nullptr, bindingAttr, false);
+  ListBuilder<Type> nestedTypeCandidates = GetNestedTypeCandidates(nullptr, bindingAttr, false);
+  Array<MemberInfo> array = rt::newarr<Array<MemberInfo>>(methodCandidates.get_Count() + constructorCandidates.get_Count() + propertyCandidates.get_Count() + eventCandidates.get_Count() + fieldCandidates.get_Count() + nestedTypeCandidates.get_Count());
+  Int32 num = 0;
+  Array<Object> array2 = array;
+  methodCandidates.CopyTo(array2, num);
+  num += methodCandidates.get_Count();
+  array2 = array;
+  constructorCandidates.CopyTo(array2, num);
+  num += constructorCandidates.get_Count();
+  array2 = array;
+  propertyCandidates.CopyTo(array2, num);
+  num += propertyCandidates.get_Count();
+  array2 = array;
+  eventCandidates.CopyTo(array2, num);
+  num += eventCandidates.get_Count();
+  array2 = array;
+  fieldCandidates.CopyTo(array2, num);
+  num += fieldCandidates.get_Count();
+  array2 = array;
+  nestedTypeCandidates.CopyTo(array2, num);
+  num += nestedTypeCandidates.get_Count();
+  return array;
 }
 
 InterfaceMapping RuntimeType___::GetInterfaceMap(Type ifaceType) {
-  return InterfaceMapping();
+  if (get_IsGenericParameter()) {
+    rt::throw_exception<InvalidOperationException>(SR::get_Arg_GenericParameter());
+  }
+  if ((Object)ifaceType == nullptr) {
+    rt::throw_exception<ArgumentNullException>("ifaceType");
+  }
+  RuntimeType runtimeType = rt::as<RuntimeType>(ifaceType);
+  if (runtimeType == nullptr) {
+    rt::throw_exception<ArgumentException>(SR::get_Argument_MustBeRuntimeType(), "ifaceType");
+  }
+  RuntimeTypeHandle typeHandleInternal = runtimeType->GetTypeHandleInternal();
+  GetTypeHandleInternal().VerifyInterfaceIsImplemented(typeHandleInternal);
+  if (get_IsSZArray() && ifaceType->get_IsGenericType()) {
+    rt::throw_exception<ArgumentException>(SR::get_Argument_ArrayGetInterfaceMap());
+  }
+  Int32 numVirtuals = RuntimeTypeHandle::GetNumVirtuals(runtimeType);
+  InterfaceMapping result;
+  result.InterfaceType = ifaceType;
+  result.TargetType = (RuntimeType)this;
+  result.InterfaceMethods = rt::newarr<Array<MethodInfo>>(numVirtuals);
+  result.TargetMethods = rt::newarr<Array<MethodInfo>>(numVirtuals);
+  for (Int32 i = 0; i < numVirtuals; i++) {
+    RuntimeMethodHandleInternal methodAt = RuntimeTypeHandle::GetMethodAt(runtimeType, i);
+    MethodBase methodBase = GetMethodBase(runtimeType, methodAt);
+    result.InterfaceMethods[i] = (MethodInfo)methodBase;
+    RuntimeMethodHandleInternal interfaceMethodImplementation = GetTypeHandleInternal().GetInterfaceMethodImplementation(typeHandleInternal, methodAt);
+    if (!interfaceMethodImplementation.IsNullHandle()) {
+      RuntimeType runtimeType2 = RuntimeMethodHandle::GetDeclaringType(interfaceMethodImplementation);
+      if (!runtimeType2->get_IsInterface()) {
+        runtimeType2 = (RuntimeType)this;
+      }
+      MethodBase methodBase2 = GetMethodBase(runtimeType2, interfaceMethodImplementation);
+      result.TargetMethods[i] = (MethodInfo)methodBase2;
+    }
+  }
+  return result;
 }
 
 MethodInfo RuntimeType___::GetMethodImpl(String name, BindingFlags bindingAttr, Binder binder, CallingConventions callConv, Array<Type> types, Array<ParameterModifier> modifiers) {
-  return nullptr;
+  return GetMethodImplCommon(name, -1, bindingAttr, binder, callConv, types, modifiers);
 }
 
 MethodInfo RuntimeType___::GetMethodImpl(String name, Int32 genericParameterCount, BindingFlags bindingAttr, Binder binder, CallingConventions callConv, Array<Type> types, Array<ParameterModifier> modifiers) {
-  return nullptr;
+  return GetMethodImplCommon(name, genericParameterCount, bindingAttr, binder, callConv, types, modifiers);
 }
 
 MethodInfo RuntimeType___::GetMethodImplCommon(String name, Int32 genericParameterCount, BindingFlags bindingAttr, Binder binder, CallingConventions callConv, Array<Type> types, Array<ParameterModifier> modifiers) {
-  return nullptr;
+  ListBuilder<MethodInfo> methodCandidates = GetMethodCandidates(name, genericParameterCount, bindingAttr, callConv, types, false);
+  if (methodCandidates.get_Count() == 0) {
+    return nullptr;
+  }
+  Array<MethodBase> match;
+  if (types == nullptr || types->get_Length() == 0) {
+    MethodInfo methodInfo = methodCandidates[0];
+    if (methodCandidates.get_Count() == 1) {
+      return methodInfo;
+    }
+    if (types == nullptr) {
+      for (Int32 i = 1; i < methodCandidates.get_Count(); i++) {
+        MethodInfo m = methodCandidates[i];
+        if (!DefaultBinder::in::CompareMethodSig(m, methodInfo)) {
+          rt::throw_exception<AmbiguousMatchException>(SR::get_Arg_AmbiguousMatchException());
+        }
+      }
+      match = methodCandidates.ToArray();
+      return rt::as<MethodInfo>(DefaultBinder::in::FindMostDerivedNewSlotMeth(match, methodCandidates.get_Count()));
+    }
+  }
+  if (binder == nullptr) {
+    binder = Type::in::get_DefaultBinder();
+  }
+  Binder binder2 = binder;
+  match = methodCandidates.ToArray();
+  return rt::as<MethodInfo>(binder2->SelectMethod(bindingAttr, match, types, modifiers));
 }
 
 ConstructorInfo RuntimeType___::GetConstructorImpl(BindingFlags bindingAttr, Binder binder, CallingConventions callConvention, Array<Type> types, Array<ParameterModifier> modifiers) {
-  return nullptr;
+  ListBuilder<ConstructorInfo> constructorCandidates = GetConstructorCandidates(nullptr, bindingAttr, CallingConventions::Any, types, false);
+  if (constructorCandidates.get_Count() == 0) {
+    return nullptr;
+  }
+  if (types->get_Length() == 0 && constructorCandidates.get_Count() == 1) {
+    ConstructorInfo constructorInfo = constructorCandidates[0];
+    Array<ParameterInfo> parametersNoCopy = constructorInfo->GetParametersNoCopy();
+    if (parametersNoCopy == nullptr || parametersNoCopy->get_Length() == 0) {
+      return constructorInfo;
+    }
+  }
+  Array<MethodBase> match;
 }
 
 PropertyInfo RuntimeType___::GetPropertyImpl(String name, BindingFlags bindingAttr, Binder binder, Type returnType, Array<Type> types, Array<ParameterModifier> modifiers) {
-  return nullptr;
+  if (name == nullptr) {
+    rt::throw_exception<ArgumentNullException>("name");
+  }
+  ListBuilder<PropertyInfo> propertyCandidates = GetPropertyCandidates(name, bindingAttr, types, false);
+  if (propertyCandidates.get_Count() == 0) {
+    return nullptr;
+  }
+  if (types == nullptr || types->get_Length() == 0) {
+    if (propertyCandidates.get_Count() == 1) {
+      PropertyInfo propertyInfo = propertyCandidates[0];
+      if ((Object)returnType != nullptr && !returnType->IsEquivalentTo(propertyInfo->get_PropertyType())) {
+        return nullptr;
+      }
+      return propertyInfo;
+    }
+    if ((Object)returnType == nullptr) {
+      rt::throw_exception<AmbiguousMatchException>(SR::get_Arg_AmbiguousMatchException());
+    }
+  }
 }
 
 EventInfo RuntimeType___::GetEvent(String name, BindingFlags bindingAttr) {
-  return nullptr;
+  if (name == nullptr) {
+    rt::throw_exception<ArgumentNullException>("name");
+  }
 }
 
 FieldInfo RuntimeType___::GetField(String name, BindingFlags bindingAttr) {
-  return nullptr;
+  if (name == nullptr) {
+    rt::throw_exception<ArgumentNullException>();
+  }
 }
 
 Type RuntimeType___::GetInterface(String fullname, Boolean ignoreCase) {
-  return nullptr;
+  if (fullname == nullptr) {
+    rt::throw_exception<ArgumentNullException>("fullname");
+  }
 }
 
 Type RuntimeType___::GetNestedType(String fullname, BindingFlags bindingAttr) {
-  return nullptr;
+  if (fullname == nullptr) {
+    rt::throw_exception<ArgumentNullException>("fullname");
+  }
+  bindingAttr &= ~BindingFlags::Static;
 }
 
 Array<MemberInfo> RuntimeType___::GetMember(String name, MemberTypes type, BindingFlags bindingAttr) {
-  return Array<MemberInfo>();
+  if (name == nullptr) {
+    rt::throw_exception<ArgumentNullException>("name");
+  }
+  ListBuilder<MethodInfo> listBuilder = ListBuilder<T>();
+  ListBuilder<ConstructorInfo> listBuilder2 = ListBuilder<T>();
+  ListBuilder<PropertyInfo> listBuilder3 = ListBuilder<T>();
+  ListBuilder<EventInfo> listBuilder4 = ListBuilder<T>();
+  ListBuilder<FieldInfo> listBuilder5 = ListBuilder<T>();
+  ListBuilder<Type> listBuilder6 = ListBuilder<T>();
+  Int32 num = 0;
 }
 
 Boolean RuntimeType___::IsSubclassOf(Type type) {
-  return Boolean();
+  if ((Object)type == nullptr) {
+    rt::throw_exception<ArgumentNullException>("type");
+  }
+  RuntimeType runtimeType = rt::as<RuntimeType>(type);
+  if (runtimeType == nullptr) {
+    return false;
+  }
+  RuntimeType baseType = GetBaseType();
+  while (baseType != nullptr) {
+    if (baseType == runtimeType) {
+      return true;
+    }
+    baseType = baseType->GetBaseType();
+  }
+  if (runtimeType == ObjectType && runtimeType != (RuntimeType)this) {
+    return true;
+  }
+  return false;
 }
 
 Boolean RuntimeType___::IsEquivalentTo(Type other) {
-  return Boolean();
+  RuntimeType runtimeType = rt::as<RuntimeType>(other);
+  if ((Object)runtimeType == nullptr) {
+    return false;
+  }
+  if (runtimeType == (RuntimeType)this) {
+    return true;
+  }
+  return RuntimeTypeHandle::IsEquivalentTo((RuntimeType)this, runtimeType);
 }
 
 Boolean RuntimeType___::IsDelegate() {
-  return Boolean();
 }
 
 Array<Object> RuntimeType___::GetEmptyArray() {
-  return Array<Object>();
+  return get_Cache()->GetEmptyArray();
 }
 
 Array<RuntimeType> RuntimeType___::GetGenericArgumentsInternal() {
-  return Array<RuntimeType>();
+  return GetRootElementType()->GetTypeHandleInternal().GetInstantiationInternal();
 }
 
 Array<Type> RuntimeType___::GetGenericArguments() {
-  return Array<Type>();
+  Array<Type> instantiationPublic = GetRootElementType()->GetTypeHandleInternal().GetInstantiationPublic();
 }
 
 Type RuntimeType___::MakeGenericType(Array<Type> instantiation) {
-  return nullptr;
+  if (instantiation == nullptr) {
+    rt::throw_exception<ArgumentNullException>("instantiation");
+  }
+  Array<RuntimeType> array = rt::newarr<Array<RuntimeType>>(instantiation->get_Length());
+  if (!get_IsGenericTypeDefinition()) {
+    rt::throw_exception<InvalidOperationException>(SR::Format(SR::get_Arg_NotGenericTypeDefinition(), (RuntimeType)this));
+  }
+  if (GetGenericArguments()->get_Length() != instantiation->get_Length()) {
+    rt::throw_exception<ArgumentException>(SR::get_Argument_GenericArgsCount(), "instantiation");
+  }
+  Boolean flag = false;
+  Boolean flag2 = false;
+  for (Int32 i = 0; i < instantiation->get_Length(); i++) {
+    Type type = instantiation[i];
+    if (type == nullptr) {
+      rt::throw_exception<ArgumentNullException>();
+    }
+    RuntimeType runtimeType = rt::as<RuntimeType>(type);
+    if (runtimeType == nullptr) {
+      flag2 = true;
+      if (type->get_IsSignatureType()) {
+        flag = true;
+      }
+    }
+    array[i] = runtimeType;
+  }
+  if (flag2) {
+    if (flag) {
+      return rt::newobj<SignatureConstructedGenericType>((RuntimeType)this, instantiation);
+    }
+    return TypeBuilderInstantiation::in::MakeGenericType((RuntimeType)this, (Array<Type>)instantiation->Clone());
+  }
+  Array<RuntimeType> genericArgumentsInternal = GetGenericArgumentsInternal();
+  SanityCheckGenericArguments(array, genericArgumentsInternal);
+  try{
+    RuntimeTypeHandle runtimeTypeHandle = RuntimeTypeHandle((RuntimeType)this);
+    Array<Type> inst = array;
+    return runtimeTypeHandle.Instantiate(inst);
+  } catch (TypeLoadException e) {
+  }
 }
 
 Array<Type> RuntimeType___::GetGenericParameterConstraints() {
-  return Array<Type>();
+  if (!get_IsGenericParameter()) {
+    rt::throw_exception<InvalidOperationException>(SR::get_Arg_NotGenericParameter());
+  }
+  Array<Type> constraints = RuntimeTypeHandle((RuntimeType)this).GetConstraints();
 }
 
 Boolean RuntimeType___::HasSameMetadataDefinitionAs(MemberInfo other) {
-  return Boolean();
+  return HasSameMetadataDefinitionAsCore<RuntimeType>(other);
 }
 
 Type RuntimeType___::MakePointerType() {
-  return nullptr;
+  return RuntimeTypeHandle((RuntimeType)this).MakePointer();
 }
 
 Type RuntimeType___::MakeByRefType() {
-  return nullptr;
+  return RuntimeTypeHandle((RuntimeType)this).MakeByRef();
 }
 
 Type RuntimeType___::MakeArrayType() {
-  return nullptr;
+  return RuntimeTypeHandle((RuntimeType)this).MakeSZArray();
 }
 
 Type RuntimeType___::MakeArrayType(Int32 rank) {
-  return nullptr;
+  if (rank <= 0) {
+    rt::throw_exception<IndexOutOfRangeException>();
+  }
+  return RuntimeTypeHandle((RuntimeType)this).MakeArray(rank);
 }
 
 Object RuntimeType___::CheckValue(Object value, Binder binder, CultureInfo culture, BindingFlags invokeAttr) {
-  return nullptr;
+  if (IsInstanceOfType(value)) {
+    Type type = value->GetType();
+    if ((Object)type != (RuntimeType)this && RuntimeTypeHandle::IsValueType((RuntimeType)this)) {
+      return AllocateValueType((RuntimeType)this, value, true);
+    }
+    return value;
+  }
 }
 
 Object RuntimeType___::TryChangeType(Object value, Binder binder, CultureInfo culture, Boolean needsSpecialCast) {
-  return nullptr;
+  if (binder != nullptr && binder != Type::in::get_DefaultBinder()) {
+    value = binder->ChangeType(value, (RuntimeType)this, culture);
+    if (IsInstanceOfType(value)) {
+      return value;
+    }
+  }
+  rt::throw_exception<ArgumentException>(SR::Format(SR::get_Arg_ObjObjEx(), value->GetType(), (RuntimeType)this));
 }
 
 Object RuntimeType___::InvokeMember(String name, BindingFlags bindingFlags, Binder binder, Object target, Array<Object> providedArgs, Array<ParameterModifier> modifiers, CultureInfo culture, Array<String> namedParams) {
-  return nullptr;
+  if (get_IsGenericParameter()) {
+    rt::throw_exception<InvalidOperationException>(SR::get_Arg_GenericParameter());
+  }
 }
 
 String RuntimeType___::ToString() {
-  return nullptr;
+  return GetCachedName(TypeNameKind::ToString);
 }
 
 String RuntimeType___::GetCachedName(TypeNameKind kind) {
-  return nullptr;
+  return get_Cache()->GetName(kind);
 }
 
 void RuntimeType___::CreateInstanceCheckThis() {
+  if (get_ContainsGenericParameters()) {
+    rt::throw_exception<ArgumentException>(SR::Format(SR::get_Acc_CreateGenericEx(), (RuntimeType)this));
+  }
+  Type rootElementType = GetRootElementType();
 }
 
 Object RuntimeType___::CreateInstanceImpl(BindingFlags bindingAttr, Binder binder, Array<Object> args, CultureInfo culture) {
-  return nullptr;
+  CreateInstanceCheckThis();
+  if (args == nullptr) {
+    args = Array<>::in::Empty<Object>();
+  }
+  if (binder == nullptr) {
+    binder = Type::in::get_DefaultBinder();
+  }
 }
 
 Object RuntimeType___::CreateInstanceDefaultCtorSlow(Boolean publicOnly, Boolean wrapExceptions, Boolean fillCache) {
-  return nullptr;
+  RuntimeMethodHandleInternal ctor = RuntimeMethodHandleInternal();
+  Boolean canBeCached = false;
+  Boolean hasNoDefaultCtor = false;
+  Object result = RuntimeTypeHandle::CreateInstance((RuntimeType)this, publicOnly, wrapExceptions, canBeCached, ctor, hasNoDefaultCtor);
+  if (hasNoDefaultCtor) {
+    rt::throw_exception<MissingMethodException>(SR::Format(SR::get_Arg_NoDefCTor(), (RuntimeType)this));
+  }
+  if (canBeCached && fillCache) {
+    get_GenericCache() = rt::newobj<ActivatorCache>(ctor);
+  }
+  return result;
 }
 
 Object RuntimeType___::CreateInstanceDefaultCtor(Boolean publicOnly, Boolean skipCheckThis, Boolean fillCache, Boolean wrapExceptions) {
-  return nullptr;
+  ActivatorCache activatorCache = rt::as<ActivatorCache>(get_GenericCache());
+  if (activatorCache != nullptr) {
+    activatorCache->EnsureInitialized();
+  }
+  if (!skipCheckThis) {
+    CreateInstanceCheckThis();
+  }
+  return CreateInstanceDefaultCtorSlow(publicOnly, wrapExceptions, fillCache);
 }
 
 void RuntimeType___::InvalidateCachedNestedType() {
+  get_Cache()->InvalidateCachedNestedType();
 }
 
 Boolean RuntimeType___::IsGenericCOMObjectImpl() {
-  return Boolean();
+  return RuntimeTypeHandle::IsComObject((RuntimeType)this, true);
 }
 
 Object RuntimeType___::CreateEnum(RuntimeType enumType, Int64 value) {
-  return nullptr;
+  return _CreateEnum(enumType, value);
 }
 
 Object RuntimeType___::ForwardCallToInvokeMember(String memberName, BindingFlags flags, Object target, Array<Object> aArgs, Array<Boolean> aArgsIsByRef, Array<Int32> aArgsWrapperTypes, Array<Type> aArgsTypes, Type retType) {
-  return nullptr;
+  Int32 num = aArgs->get_Length();
+  Array<ParameterModifier> array = nullptr;
+  if (num > 0) {
+    ParameterModifier parameterModifier = ParameterModifier(num);
+    for (Int32 i = 0; i < num; i++) {
+      parameterModifier[i] = aArgsIsByRef[i];
+    }
+    array = rt::newarr<Array<ParameterModifier>>(1);
+    if (aArgsWrapperTypes != nullptr) {
+      WrapArgsForInvokeCall(aArgs, aArgsWrapperTypes);
+    }
+  }
+  flags |= BindingFlags::DoNotWrapExceptions;
+  Object obj = InvokeMember(memberName, flags, nullptr, target, aArgs, array, nullptr, nullptr);
+  for (Int32 j = 0; j < num; j++) {
+    if (array[0][j] && aArgs[j] != nullptr) {
+      Type type = aArgsTypes[j];
+      if ((Object)type != aArgs[j]->GetType()) {
+        aArgs[j] = get_ForwardCallBinder()->ChangeType(aArgs[j], type, nullptr);
+      }
+    }
+  }
+  if (obj != nullptr && (Object)retType != obj->GetType()) {
+    obj = get_ForwardCallBinder()->ChangeType(obj, retType, nullptr);
+  }
+  return obj;
 }
 
 void RuntimeType___::WrapArgsForInvokeCall(Array<Object> aArgs, Array<Int32> aArgsWrapperTypes) {
+  Int32 num = aArgs->get_Length();
+  for (Int32 i = 0; i < num; i++) {
+    if (aArgsWrapperTypes[i] == 0) {
+    }
+    if (((DispatchWrapperType)aArgsWrapperTypes[i])->HasFlag(DispatchWrapperType::SafeArray)) {
+      Type type = nullptr;
+      Boolean flag = false;
+    } else {
+      switch (aArgsWrapperTypes[i].get()) {
+        case 1:
+          aArgs[i] = rt::newobj<UnknownWrapper>(aArgs[i]);
+          break;
+        case 2:
+          aArgs[i] = rt::newobj<DispatchWrapper>(aArgs[i]);
+          break;
+        case 8:
+          aArgs[i] = rt::newobj<ErrorWrapper>(aArgs[i]);
+          break;
+        case 16:
+          aArgs[i] = rt::newobj<CurrencyWrapper>(aArgs[i]);
+          break;
+        case 32:
+          aArgs[i] = rt::newobj<BStrWrapper>((String)aArgs[i]);
+          break;
+      }
+    }
+  }
 }
 
 Object RuntimeType___::Clone() {
-  return nullptr;
+  return (RuntimeType)this;
 }
 
 Boolean RuntimeType___::Equals(Object obj) {
-  return Boolean();
+  return obj == (RuntimeType)this;
 }
 
 Int32 RuntimeType___::GetArrayRank() {
-  return Int32();
+  if (!IsArrayImpl()) {
+    rt::throw_exception<ArgumentException>(SR::get_Argument_HasToBeArrayClass());
+  }
+  return RuntimeTypeHandle::GetArrayRank((RuntimeType)this);
 }
 
 TypeAttributes RuntimeType___::GetAttributeFlagsImpl() {
-  return TypeAttributes::ReservedMask;
+  return RuntimeTypeHandle::GetAttributes((RuntimeType)this);
 }
 
 Array<Object> RuntimeType___::GetCustomAttributes(Boolean inherit) {
-  return Array<Object>();
+  return CustomAttribute::GetCustomAttributes((RuntimeType)this, ObjectType, inherit);
 }
 
 Array<Object> RuntimeType___::GetCustomAttributes(Type attributeType, Boolean inherit) {
-  return Array<Object>();
+  if ((Object)attributeType == nullptr) {
+    rt::throw_exception<ArgumentNullException>("attributeType");
+  }
+  RuntimeType runtimeType = rt::as<RuntimeType>(attributeType->get_UnderlyingSystemType());
+  if (runtimeType == nullptr) {
+    rt::throw_exception<ArgumentException>(SR::get_Arg_MustBeType(), "attributeType");
+  }
+  return CustomAttribute::GetCustomAttributes((RuntimeType)this, runtimeType, inherit);
 }
 
 IList<CustomAttributeData> RuntimeType___::GetCustomAttributesData() {
-  return nullptr;
+  return CustomAttributeData::in::GetCustomAttributesInternal((RuntimeType)this);
 }
 
 Array<MemberInfo> RuntimeType___::GetDefaultMembers() {
-  return Array<MemberInfo>();
+  Array<MemberInfo> array = nullptr;
+  String defaultMemberName = GetDefaultMemberName();
+  if (defaultMemberName != nullptr) {
+    array = GetMember(defaultMemberName);
+  }
 }
 
 Type RuntimeType___::GetElementType() {
-  return nullptr;
+  return RuntimeTypeHandle::GetElementType((RuntimeType)this);
 }
 
 String RuntimeType___::GetEnumName(Object value) {
-  return nullptr;
+  if (value == nullptr) {
+    rt::throw_exception<ArgumentNullException>("value");
+  }
+  Type type = value->GetType();
+  if (!type->get_IsEnum() && !Type::in::IsIntegerType(type)) {
+    rt::throw_exception<ArgumentException>(SR::get_Arg_MustBeEnumBaseTypeOrEnum(), "value");
+  }
+  UInt64 ulValue = Enum::in::ToUInt64(value);
+  return Enum::in::GetEnumName((RuntimeType)this, ulValue);
 }
 
 Array<String> RuntimeType___::GetEnumNames() {
-  return Array<String>();
+  if (!get_IsEnum()) {
+    rt::throw_exception<ArgumentException>(SR::get_Arg_MustBeEnum(), "enumType");
+  }
+  Array<String> array = Enum::in::InternalGetNames((RuntimeType)this);
+  return ReadOnlySpan<String>(array).ToArray();
 }
 
 Array<> RuntimeType___::GetEnumValues() {
-  return nullptr;
+  if (!get_IsEnum()) {
+    rt::throw_exception<ArgumentException>(SR::get_Arg_MustBeEnum(), "enumType");
+  }
+  Array<UInt64> array = Enum::in::InternalGetValues((RuntimeType)this);
+  Array<> array2 = Array<>::in::CreateInstance((RuntimeType)this, array->get_Length());
+  for (Int32 i = 0; i < array->get_Length(); i++) {
+    Object value = Enum::in::ToObject((RuntimeType)this, array[i]);
+    array2->SetValue(value, i);
+  }
+  return array2;
 }
 
 Type RuntimeType___::GetEnumUnderlyingType() {
-  return nullptr;
+  if (!get_IsEnum()) {
+    rt::throw_exception<ArgumentException>(SR::get_Arg_MustBeEnum(), "enumType");
+  }
+  return Enum::in::InternalGetUnderlyingType((RuntimeType)this);
 }
 
 Type RuntimeType___::GetGenericTypeDefinition() {
-  return nullptr;
+  if (!get_IsGenericType()) {
+    rt::throw_exception<InvalidOperationException>(SR::get_InvalidOperation_NotGenericType());
+  }
+  return RuntimeTypeHandle::GetGenericTypeDefinition((RuntimeType)this);
 }
 
 Int32 RuntimeType___::GetHashCode() {
-  return Int32();
+  return RuntimeHelpers::GetHashCode((RuntimeType)this);
 }
 
 RuntimeModule RuntimeType___::GetRuntimeModule() {
-  return nullptr;
+  return RuntimeTypeHandle::GetModule((RuntimeType)this);
 }
 
 TypeCode RuntimeType___::GetTypeCodeImpl() {
-  return TypeCode::String;
+  TypeCode typeCode = get_Cache()->get_TypeCode();
+  if (typeCode != 0) {
+    return typeCode;
+  }
+  switch (RuntimeTypeHandle::GetCorElementType((RuntimeType)this)) {
+    case CorElementType::ELEMENT_TYPE_BOOLEAN:
+      typeCode = TypeCode::Boolean;
+      break;
+    case CorElementType::ELEMENT_TYPE_CHAR:
+      typeCode = TypeCode::Char;
+      break;
+    case CorElementType::ELEMENT_TYPE_I1:
+      typeCode = TypeCode::SByte;
+      break;
+    case CorElementType::ELEMENT_TYPE_U1:
+      typeCode = TypeCode::Byte;
+      break;
+    case CorElementType::ELEMENT_TYPE_I2:
+      typeCode = TypeCode::Int16;
+      break;
+    case CorElementType::ELEMENT_TYPE_U2:
+      typeCode = TypeCode::UInt16;
+      break;
+    case CorElementType::ELEMENT_TYPE_I4:
+      typeCode = TypeCode::Int32;
+      break;
+    case CorElementType::ELEMENT_TYPE_U4:
+      typeCode = TypeCode::UInt32;
+      break;
+    case CorElementType::ELEMENT_TYPE_I8:
+      typeCode = TypeCode::Int64;
+      break;
+    case CorElementType::ELEMENT_TYPE_U8:
+      typeCode = TypeCode::UInt64;
+      break;
+    case CorElementType::ELEMENT_TYPE_R4:
+      typeCode = TypeCode::Single;
+      break;
+    case CorElementType::ELEMENT_TYPE_R8:
+      typeCode = TypeCode::Double;
+      break;
+    case CorElementType::ELEMENT_TYPE_VALUETYPE:
+      typeCode = ((!((RuntimeType)this == Convert::ConvertTypes[15])) ? ((!((RuntimeType)this == Convert::ConvertTypes[16])) ? ((!get_IsEnum()) ? TypeCode::Object : Type::in::GetTypeCode(Enum::in::GetUnderlyingType((RuntimeType)this))) : TypeCode::DateTime) : TypeCode::Decimal);
+      break;
+    default:
+      typeCode = ((!((RuntimeType)this == Convert::ConvertTypes[2])) ? ((!((RuntimeType)this == Convert::ConvertTypes[18])) ? TypeCode::Object : TypeCode::String) : TypeCode::DBNull);
+      break;
+  }
+  get_Cache()->set_TypeCode = typeCode;
+  return typeCode;
 }
 
 Boolean RuntimeType___::HasElementTypeImpl() {
-  return Boolean();
+  return RuntimeTypeHandle::HasElementType((RuntimeType)this);
 }
 
 Boolean RuntimeType___::IsArrayImpl() {
-  return Boolean();
+  return RuntimeTypeHandle::IsArray((RuntimeType)this);
 }
 
 Boolean RuntimeType___::IsContextfulImpl() {
-  return Boolean();
+  return false;
 }
 
 Boolean RuntimeType___::IsDefined(Type attributeType, Boolean inherit) {
-  return Boolean();
+  if ((Object)attributeType == nullptr) {
+    rt::throw_exception<ArgumentNullException>("attributeType");
+  }
+  RuntimeType runtimeType = rt::as<RuntimeType>(attributeType->get_UnderlyingSystemType());
+  if (runtimeType == nullptr) {
+    rt::throw_exception<ArgumentException>(SR::get_Arg_MustBeType(), "attributeType");
+  }
+  return CustomAttribute::IsDefined((RuntimeType)this, runtimeType, inherit);
 }
 
 Boolean RuntimeType___::IsEnumDefined(Object value) {
-  return Boolean();
+  if (value == nullptr) {
+    rt::throw_exception<ArgumentNullException>("value");
+  }
+  if (!get_IsEnum()) {
+    rt::throw_exception<ArgumentException>(SR::get_Arg_MustBeEnum(), "enumType");
+  }
+  RuntimeType runtimeType = (RuntimeType)value->GetType();
+  if (runtimeType->get_IsEnum()) {
+    if (!runtimeType->IsEquivalentTo((RuntimeType)this)) {
+      rt::throw_exception<ArgumentException>(SR::Format(SR::get_Arg_EnumAndObjectMustBeSameType(), runtimeType, (RuntimeType)this));
+    }
+    runtimeType = (RuntimeType)runtimeType->GetEnumUnderlyingType();
+  }
+  if (runtimeType == StringType) {
+    Array<String> array = Enum::in::InternalGetNames((RuntimeType)this);
+    Array<Object> array2 = array;
+    return Array<>::in::IndexOf(array2, value) >= 0;
+  }
+  if (Type::in::IsIntegerType(runtimeType)) {
+    RuntimeType runtimeType2 = Enum::in::InternalGetUnderlyingType((RuntimeType)this);
+    if (runtimeType2 != runtimeType) {
+      rt::throw_exception<ArgumentException>(SR::Format(SR::get_Arg_EnumUnderlyingTypeAndObjectMustBeSameType(), runtimeType, runtimeType2));
+    }
+    Array<UInt64> array3 = Enum::in::InternalGetValues((RuntimeType)this);
+    UInt64 value2 = Enum::in::ToUInt64(value);
+    return Array<>::in::BinarySearch(array3, value2) >= 0;
+  }
+  rt::throw_exception<InvalidOperationException>(SR::get_InvalidOperation_UnknownEnumType());
 }
 
 Boolean RuntimeType___::IsValueTypeImpl() {
-  return Boolean();
 }
 
 Boolean RuntimeType___::IsByRefImpl() {
-  return Boolean();
+  return RuntimeTypeHandle::IsByRef((RuntimeType)this);
 }
 
 Boolean RuntimeType___::IsPrimitiveImpl() {
-  return Boolean();
+  return RuntimeTypeHandle::IsPrimitive((RuntimeType)this);
 }
 
 Boolean RuntimeType___::IsPointerImpl() {
-  return Boolean();
+  return RuntimeTypeHandle::IsPointer((RuntimeType)this);
 }
 
 Boolean RuntimeType___::IsCOMObjectImpl() {
-  return Boolean();
+  return RuntimeTypeHandle::IsComObject((RuntimeType)this, false);
 }
 
 Boolean RuntimeType___::IsInstanceOfType(Object o) {
-  return Boolean();
+  return RuntimeTypeHandle::IsInstanceOfType((RuntimeType)this, o);
 }
 
 Boolean RuntimeType___::IsAssignableFrom(TypeInfo typeInfo) {
-  return Boolean();
+  if (typeInfo == nullptr) {
+    return false;
+  }
+  return IsAssignableFrom(typeInfo->AsType());
 }
 
 Boolean RuntimeType___::IsAssignableFrom(Type c) {
-  return Boolean();
+  if ((Object)c == nullptr) {
+    return false;
+  }
+  if ((Object)c == (RuntimeType)this) {
+    return true;
+  }
+  RuntimeType runtimeType = rt::as<RuntimeType>(c->get_UnderlyingSystemType());
+  if ((Object)runtimeType != nullptr) {
+    return RuntimeTypeHandle::CanCastTo(runtimeType, (RuntimeType)this);
+  }
+  if (rt::is<TypeBuilder>(c)) {
+    if (c->IsSubclassOf((RuntimeType)this)) {
+      return true;
+    }
+  }
+  return false;
 }
 
 RuntimeType RuntimeType___::GetBaseType() {
-  return nullptr;
 }
 
 void RuntimeType___::ctor_static() {

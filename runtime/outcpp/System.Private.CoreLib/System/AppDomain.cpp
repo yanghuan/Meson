@@ -1,14 +1,41 @@
 #include "AppDomain-dep.h"
 
+#include <System.Private.CoreLib/Interop-dep.h>
+#include <System.Private.CoreLib/System/Activator-dep.h>
+#include <System.Private.CoreLib/System/AppContext-dep.h>
 #include <System.Private.CoreLib/System/AppDomain-dep.h>
+#include <System.Private.CoreLib/System/ArgumentException-dep.h>
+#include <System.Private.CoreLib/System/ArgumentNullException-dep.h>
+#include <System.Private.CoreLib/System/CannotUnloadAppDomainException-dep.h>
+#include <System.Private.CoreLib/System/Environment-dep.h>
+#include <System.Private.CoreLib/System/GC-dep.h>
+#include <System.Private.CoreLib/System/GCMemoryInfo-dep.h>
+#include <System.Private.CoreLib/System/IO/Path-dep.h>
+#include <System.Private.CoreLib/System/MissingMethodException-dep.h>
+#include <System.Private.CoreLib/System/Object-dep.h>
+#include <System.Private.CoreLib/System/PlatformNotSupportedException-dep.h>
+#include <System.Private.CoreLib/System/Reflection/Assembly-dep.h>
+#include <System.Private.CoreLib/System/Reflection/BindingFlags.h>
+#include <System.Private.CoreLib/System/Reflection/MethodInfo-dep.h>
+#include <System.Private.CoreLib/System/Runtime/Loader/AssemblyLoadContext-dep.h>
+#include <System.Private.CoreLib/System/Security/Permissions/PermissionState.h>
+#include <System.Private.CoreLib/System/Security/Principal/PrincipalPolicy.h>
+#include <System.Private.CoreLib/System/SR-dep.h>
+#include <System.Private.CoreLib/System/Type-dep.h>
 
 namespace System::Private::CoreLib::System::AppDomainNamespace {
+using namespace System::IO;
+using namespace System::Reflection;
+using namespace System::Runtime::Loader;
+using namespace System::Security::Permissions;
+using namespace System::Security::Principal;
+
 AppDomain AppDomain___::get_CurrentDomain() {
-  return nullptr;
+  return s_domain;
 }
 
 String AppDomain___::get_BaseDirectory() {
-  return nullptr;
+  return AppContext::get_BaseDirectory();
 }
 
 String AppDomain___::get_RelativeSearchPath() {
@@ -16,11 +43,11 @@ String AppDomain___::get_RelativeSearchPath() {
 }
 
 AppDomainSetup AppDomain___::get_SetupInformation() {
-  return nullptr;
+  return rt::newobj<AppDomainSetup>();
 }
 
 PermissionSet AppDomain___::get_PermissionSet() {
-  return nullptr;
+  return rt::newobj<PermissionSet>(PermissionState::Unrestricted);
 }
 
 String AppDomain___::get_DynamicDirectory() {
@@ -28,138 +55,174 @@ String AppDomain___::get_DynamicDirectory() {
 }
 
 String AppDomain___::get_FriendlyName() {
-  return nullptr;
+  Assembly entryAssembly = Assembly::in::GetEntryAssembly();
+  if (!(entryAssembly != nullptr)) {
+    return "DefaultDomain";
+  }
+  return entryAssembly->GetName()->get_Name();
 }
 
 Int32 AppDomain___::get_Id() {
-  return Int32();
+  return 1;
 }
 
 Boolean AppDomain___::get_IsFullyTrusted() {
-  return Boolean();
+  return true;
 }
 
 Boolean AppDomain___::get_IsHomogenous() {
-  return Boolean();
+  return true;
 }
 
 Boolean AppDomain___::get_MonitoringIsEnabled() {
-  return Boolean();
+  return true;
 }
 
 void AppDomain___::set_MonitoringIsEnabled(Boolean value) {
+  if (!value) {
+    rt::throw_exception<ArgumentException>(SR::get_Arg_MustBeTrue());
+  }
 }
 
 Int64 AppDomain___::get_MonitoringSurvivedMemorySize() {
-  return Int64();
+  return get_MonitoringSurvivedProcessMemorySize();
 }
 
 Int64 AppDomain___::get_MonitoringSurvivedProcessMemorySize() {
-  return Int64();
+  GCMemoryInfo gCMemoryInfo = GC::GetGCMemoryInfo();
+  return gCMemoryInfo.get_HeapSizeBytes() - gCMemoryInfo.get_FragmentedBytes();
 }
 
 Int64 AppDomain___::get_MonitoringTotalAllocatedMemorySize() {
-  return Int64();
+  return GC::GetTotalAllocatedBytes();
 }
 
 Boolean AppDomain___::get_ShadowCopyFiles() {
-  return Boolean();
+  return false;
 }
 
 TimeSpan AppDomain___::get_MonitoringTotalProcessorTime() {
-  return TimeSpan();
 }
 
 void AppDomain___::ctor() {
+  _forLock = rt::newobj<Object>();
+  _principalPolicy = PrincipalPolicy::NoPrincipal;
 }
 
 void AppDomain___::SetDynamicBase(String path) {
 }
 
 String AppDomain___::ApplyPolicy(String assemblyName) {
-  return nullptr;
+  if (assemblyName == nullptr) {
+    rt::throw_exception<ArgumentNullException>("assemblyName");
+  }
+  if (assemblyName->get_Length() == 0 || assemblyName[0] == 0) {
+    rt::throw_exception<ArgumentException>(SR::get_Argument_StringZeroLength(), "assemblyName");
+  }
+  return assemblyName;
 }
 
 AppDomain AppDomain___::CreateDomain(String friendlyName) {
-  return nullptr;
+  if (friendlyName == nullptr) {
+    rt::throw_exception<ArgumentNullException>("friendlyName");
+  }
+  rt::throw_exception<PlatformNotSupportedException>(SR::get_PlatformNotSupported_AppDomains());
 }
 
 Int32 AppDomain___::ExecuteAssembly(String assemblyFile) {
-  return Int32();
+  return ExecuteAssembly(assemblyFile, nullptr);
 }
 
 Int32 AppDomain___::ExecuteAssembly(String assemblyFile, Array<String> args) {
-  return Int32();
+  if (assemblyFile == nullptr) {
+    rt::throw_exception<ArgumentNullException>("assemblyFile");
+  }
+  String fullPath = Path::GetFullPath(assemblyFile);
+  Assembly assembly = Assembly::in::LoadFile(fullPath);
+  return ExecuteAssembly(assembly, args);
 }
 
 Int32 AppDomain___::ExecuteAssembly(String assemblyFile, Array<String> args, Array<Byte> hashValue, AssemblyHashAlgorithm hashAlgorithm) {
-  return Int32();
+  rt::throw_exception<PlatformNotSupportedException>(SR::get_PlatformNotSupported_CAS());
 }
 
 Int32 AppDomain___::ExecuteAssembly(Assembly assembly, Array<String> args) {
-  return Int32();
+  MethodInfo entryPoint = assembly->get_EntryPoint();
+  if (entryPoint == nullptr) {
+    rt::throw_exception<MissingMethodException>(SR::get_Arg_EntryPointNotFoundException());
+  }
+  Object obj = entryPoint->Invoke(nullptr, BindingFlags::DoNotWrapExceptions, nullptr, (entryPoint->GetParameters()->get_Length() == 0) ? nullptr : rt::newarr<Array<Object>>(1), nullptr);
+  if (obj == nullptr) {
+    return 0;
+  }
+  return (Int32)obj;
 }
 
 Int32 AppDomain___::ExecuteAssemblyByName(AssemblyName assemblyName, Array<String> args) {
-  return Int32();
+  return ExecuteAssembly(Assembly::in::Load(assemblyName), args);
 }
 
 Int32 AppDomain___::ExecuteAssemblyByName(String assemblyName) {
-  return Int32();
+  return ExecuteAssemblyByName(assemblyName, rt::newarr<Array<String>>(1, (Array<String>)nullptr));
 }
 
 Int32 AppDomain___::ExecuteAssemblyByName(String assemblyName, Array<String> args) {
-  return Int32();
+  return ExecuteAssembly(Assembly::in::Load(assemblyName), args);
 }
 
 Object AppDomain___::GetData(String name) {
-  return nullptr;
+  return AppContext::GetData(name);
 }
 
 void AppDomain___::SetData(String name, Object data) {
+  AppContext::SetData(name, data);
 }
 
 Nullable<Boolean> AppDomain___::IsCompatibilitySwitchSet(String value) {
-  return Nullable<Boolean>();
 }
 
 Boolean AppDomain___::IsDefaultAppDomain() {
-  return Boolean();
+  return true;
 }
 
 Boolean AppDomain___::IsFinalizingForUnload() {
-  return Boolean();
+  return false;
 }
 
 String AppDomain___::ToString() {
-  return nullptr;
+  return SR::get_AppDomain_Name() + get_FriendlyName() + "
+" + SR::get_AppDomain_NoContextPolicies();
 }
 
 void AppDomain___::Unload(AppDomain domain) {
+  if (domain == nullptr) {
+    rt::throw_exception<ArgumentNullException>("domain");
+  }
+  rt::throw_exception<CannotUnloadAppDomainException>(SR::get_Arg_PlatformNotSupported());
 }
 
 Assembly AppDomain___::Load(Array<Byte> rawAssembly) {
-  return nullptr;
+  return Assembly::in::Load(rawAssembly);
 }
 
 Assembly AppDomain___::Load(Array<Byte> rawAssembly, Array<Byte> rawSymbolStore) {
-  return nullptr;
+  return Assembly::in::Load(rawAssembly, rawSymbolStore);
 }
 
 Assembly AppDomain___::Load(AssemblyName assemblyRef) {
-  return nullptr;
+  return Assembly::in::Load(assemblyRef);
 }
 
 Assembly AppDomain___::Load(String assemblyString) {
-  return nullptr;
+  return Assembly::in::Load(assemblyString);
 }
 
 Array<Assembly> AppDomain___::ReflectionOnlyGetAssemblies() {
-  return Array<Assembly>();
+  return Array<>::in::Empty<Assembly>();
 }
 
 Int32 AppDomain___::GetCurrentThreadId() {
-  return Int32();
+  return Environment::get_CurrentManagedThreadId();
 }
 
 void AppDomain___::AppendPrivatePath(String path) {
@@ -181,68 +244,93 @@ void AppDomain___::SetShadowCopyPath(String path) {
 }
 
 Array<Assembly> AppDomain___::GetAssemblies() {
-  return Array<Assembly>();
+  return AssemblyLoadContext::in::GetLoadedAssemblies();
 }
 
 void AppDomain___::SetPrincipalPolicy(PrincipalPolicy policy) {
+  _principalPolicy = policy;
 }
 
 void AppDomain___::SetThreadPrincipal(IPrincipal principal) {
+  if (principal == nullptr) {
+    rt::throw_exception<ArgumentNullException>("principal");
+  }
 }
 
 ObjectHandle AppDomain___::CreateInstance(String assemblyName, String typeName) {
-  return nullptr;
+  if (assemblyName == nullptr) {
+    rt::throw_exception<ArgumentNullException>("assemblyName");
+  }
+  return Activator::CreateInstance(assemblyName, typeName);
 }
 
 ObjectHandle AppDomain___::CreateInstance(String assemblyName, String typeName, Boolean ignoreCase, BindingFlags bindingAttr, Binder binder, Array<Object> args, CultureInfo culture, Array<Object> activationAttributes) {
-  return nullptr;
+  if (assemblyName == nullptr) {
+    rt::throw_exception<ArgumentNullException>("assemblyName");
+  }
+  return Activator::CreateInstance(assemblyName, typeName, ignoreCase, bindingAttr, binder, args, culture, activationAttributes);
 }
 
 ObjectHandle AppDomain___::CreateInstance(String assemblyName, String typeName, Array<Object> activationAttributes) {
-  return nullptr;
+  if (assemblyName == nullptr) {
+    rt::throw_exception<ArgumentNullException>("assemblyName");
+  }
+  return Activator::CreateInstance(assemblyName, typeName, activationAttributes);
 }
 
 Object AppDomain___::CreateInstanceAndUnwrap(String assemblyName, String typeName) {
-  return nullptr;
 }
 
 Object AppDomain___::CreateInstanceAndUnwrap(String assemblyName, String typeName, Boolean ignoreCase, BindingFlags bindingAttr, Binder binder, Array<Object> args, CultureInfo culture, Array<Object> activationAttributes) {
-  return nullptr;
 }
 
 Object AppDomain___::CreateInstanceAndUnwrap(String assemblyName, String typeName, Array<Object> activationAttributes) {
-  return nullptr;
 }
 
 ObjectHandle AppDomain___::CreateInstanceFrom(String assemblyFile, String typeName) {
-  return nullptr;
+  return Activator::CreateInstanceFrom(assemblyFile, typeName);
 }
 
 ObjectHandle AppDomain___::CreateInstanceFrom(String assemblyFile, String typeName, Boolean ignoreCase, BindingFlags bindingAttr, Binder binder, Array<Object> args, CultureInfo culture, Array<Object> activationAttributes) {
-  return nullptr;
+  return Activator::CreateInstanceFrom(assemblyFile, typeName, ignoreCase, bindingAttr, binder, args, culture, activationAttributes);
 }
 
 ObjectHandle AppDomain___::CreateInstanceFrom(String assemblyFile, String typeName, Array<Object> activationAttributes) {
-  return nullptr;
+  return Activator::CreateInstanceFrom(assemblyFile, typeName, activationAttributes);
 }
 
 Object AppDomain___::CreateInstanceFromAndUnwrap(String assemblyFile, String typeName) {
-  return nullptr;
 }
 
 Object AppDomain___::CreateInstanceFromAndUnwrap(String assemblyFile, String typeName, Boolean ignoreCase, BindingFlags bindingAttr, Binder binder, Array<Object> args, CultureInfo culture, Array<Object> activationAttributes) {
-  return nullptr;
 }
 
 Object AppDomain___::CreateInstanceFromAndUnwrap(String assemblyFile, String typeName, Array<Object> activationAttributes) {
-  return nullptr;
 }
 
 IPrincipal AppDomain___::GetThreadPrincipal() {
-  return nullptr;
+  IPrincipal principal = _defaultPrincipal;
+  if (principal == nullptr) {
+    switch (_principalPolicy) {
+      case PrincipalPolicy::UnauthenticatedPrincipal:
+        if (s_getUnauthenticatedPrincipal == nullptr) {
+          Type type2 = Type::in::GetType("System.Security.Principal.GenericPrincipal, System.Security.Claims", true);
+        }
+        principal = s_getUnauthenticatedPrincipal();
+        break;
+      case PrincipalPolicy::WindowsPrincipal:
+        if (s_getWindowsPrincipal == nullptr) {
+          Type type = Type::in::GetType("System.Security.Principal.WindowsPrincipal, System.Security.Principal.Windows", true);
+        }
+        principal = s_getWindowsPrincipal();
+        break;
+    }
+  }
+  return principal;
 }
 
 void AppDomain___::ctor_static() {
+  s_domain = rt::newobj<AppDomain>();
 }
 
 } // namespace System::Private::CoreLib::System::AppDomainNamespace

@@ -510,6 +510,13 @@ namespace rt {
       return *p;
     }
 
+    template <class T1 = T> requires(IsArithmetic<T1>) 
+    T operator |=(const T& other) {
+      auto p = static_cast<T*>(this);
+      p->get() |= other.get();
+      return *p;
+    }
+
     template <class T1 = T> requires(IsPrimitive<T1>) 
     bool operator ==(const T& other) const noexcept {
       return static_cast<const T*>(this)->get() == other.get();
@@ -714,7 +721,7 @@ inline auto operator *(const T& a, const T1& b) {
 
 template <class T> requires(std::is_enum_v<T>) 
 inline auto operator |=(T& a, const T& b) { 
-  return a = a | b;
+  return a = (T)((int)a | (int)b);
 }
 
 template <class T> requires(std::is_enum_v<T>) 

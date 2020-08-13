@@ -1,18 +1,51 @@
 #include "Type-dep.h"
 
+#include <System.Private.CoreLib/System/ArgumentException-dep.h>
+#include <System.Private.CoreLib/System/ArgumentNullException-dep.h>
+#include <System.Private.CoreLib/System/Char-dep.h>
+#include <System.Private.CoreLib/System/DefaultBinder-dep.h>
+#include <System.Private.CoreLib/System/Enum-dep.h>
+#include <System.Private.CoreLib/System/InvalidOperationException-dep.h>
+#include <System.Private.CoreLib/System/MemoryExtensions-dep.h>
+#include <System.Private.CoreLib/System/NotImplemented-dep.h>
+#include <System.Private.CoreLib/System/NotSupportedException-dep.h>
+#include <System.Private.CoreLib/System/Object-dep.h>
+#include <System.Private.CoreLib/System/PlatformNotSupportedException-dep.h>
+#include <System.Private.CoreLib/System/ReadOnlySpan-dep.h>
+#include <System.Private.CoreLib/System/Reflection/BindingFlags.h>
+#include <System.Private.CoreLib/System/Reflection/CallingConventions.h>
+#include <System.Private.CoreLib/System/Reflection/FieldAttributes.h>
+#include <System.Private.CoreLib/System/Reflection/InvalidFilterCriteriaException-dep.h>
+#include <System.Private.CoreLib/System/Reflection/MethodAttributes.h>
+#include <System.Private.CoreLib/System/Reflection/Missing-dep.h>
+#include <System.Private.CoreLib/System/Reflection/SignatureConstructedGenericType-dep.h>
+#include <System.Private.CoreLib/System/Reflection/SignatureGenericMethodParameterType-dep.h>
+#include <System.Private.CoreLib/System/RuntimeType-dep.h>
+#include <System.Private.CoreLib/System/RuntimeTypeHandle-dep.h>
+#include <System.Private.CoreLib/System/SR-dep.h>
+#include <System.Private.CoreLib/System/Threading/Interlocked-dep.h>
+#include <System.Private.CoreLib/System/Threading/StackCrawlMark.h>
 #include <System.Private.CoreLib/System/Type-dep.h>
+#include <System.Private.CoreLib/System/TypeNameParser-dep.h>
+#include <System.Private.CoreLib/System/UInt64-dep.h>
 
 namespace System::Private::CoreLib::System::TypeNamespace {
+using namespace System::Reflection;
+using namespace System::Threading;
+
 Boolean Type___::get_IsInterface() {
-  return Boolean();
+  RuntimeType runtimeType = rt::as<RuntimeType>((Type)this);
+  if ((Object)runtimeType != nullptr) {
+    return RuntimeTypeHandle::IsInterface(runtimeType);
+  }
 }
 
 MemberTypes Type___::get_MemberType() {
-  return MemberTypes::All;
+  return MemberTypes::TypeInfo;
 }
 
 Boolean Type___::get_IsNested() {
-  return Boolean();
+  return get_DeclaringType() != nullptr;
 }
 
 Type Type___::get_DeclaringType() {
@@ -28,620 +61,884 @@ Type Type___::get_ReflectedType() {
 }
 
 Boolean Type___::get_IsTypeDefinition() {
-  return Boolean();
+  rt::throw_exception(NotImplemented::get_ByDesign());
 }
 
 Boolean Type___::get_IsArray() {
-  return Boolean();
+  return IsArrayImpl();
 }
 
 Boolean Type___::get_IsByRef() {
-  return Boolean();
+  return IsByRefImpl();
 }
 
 Boolean Type___::get_IsPointer() {
-  return Boolean();
+  return IsPointerImpl();
 }
 
 Boolean Type___::get_IsConstructedGenericType() {
-  return Boolean();
+  rt::throw_exception(NotImplemented::get_ByDesign());
 }
 
 Boolean Type___::get_IsGenericParameter() {
-  return Boolean();
+  return false;
 }
 
 Boolean Type___::get_IsGenericTypeParameter() {
-  return Boolean();
+  if (get_IsGenericParameter()) {
+    return (Object)get_DeclaringMethod() == nullptr;
+  }
+  return false;
 }
 
 Boolean Type___::get_IsGenericMethodParameter() {
-  return Boolean();
+  if (get_IsGenericParameter()) {
+    return get_DeclaringMethod() != nullptr;
+  }
+  return false;
 }
 
 Boolean Type___::get_IsGenericType() {
-  return Boolean();
+  return false;
 }
 
 Boolean Type___::get_IsGenericTypeDefinition() {
-  return Boolean();
+  return false;
 }
 
 Boolean Type___::get_IsSZArray() {
-  return Boolean();
+  rt::throw_exception(NotImplemented::get_ByDesign());
 }
 
 Boolean Type___::get_IsVariableBoundArray() {
-  return Boolean();
+  if (get_IsArray()) {
+    return !get_IsSZArray();
+  }
+  return false;
 }
 
 Boolean Type___::get_IsByRefLike() {
-  return Boolean();
+  rt::throw_exception<NotSupportedException>(SR::get_NotSupported_SubclassOverride());
 }
 
 Boolean Type___::get_HasElementType() {
-  return Boolean();
+  return HasElementTypeImpl();
 }
 
 Array<Type> Type___::get_GenericTypeArguments() {
-  return Array<Type>();
+  if (!get_IsGenericType() || get_IsGenericTypeDefinition()) {
+    return Array<>::in::Empty<Type>();
+  }
+  return GetGenericArguments();
 }
 
 Int32 Type___::get_GenericParameterPosition() {
-  return Int32();
+  rt::throw_exception<InvalidOperationException>(SR::get_Arg_NotGenericParameter());
 }
 
 GenericParameterAttributes Type___::get_GenericParameterAttributes() {
-  return GenericParameterAttributes::DefaultConstructorConstraint;
+  rt::throw_exception<NotSupportedException>();
 }
 
 TypeAttributes Type___::get_Attributes() {
-  return TypeAttributes::ReservedMask;
+  return GetAttributeFlagsImpl();
 }
 
 Boolean Type___::get_IsAbstract() {
-  return Boolean();
 }
 
 Boolean Type___::get_IsImport() {
-  return Boolean();
 }
 
 Boolean Type___::get_IsSealed() {
-  return Boolean();
 }
 
 Boolean Type___::get_IsSpecialName() {
-  return Boolean();
 }
 
 Boolean Type___::get_IsClass() {
-  return Boolean();
 }
 
 Boolean Type___::get_IsNestedAssembly() {
-  return Boolean();
 }
 
 Boolean Type___::get_IsNestedFamANDAssem() {
-  return Boolean();
 }
 
 Boolean Type___::get_IsNestedFamily() {
-  return Boolean();
 }
 
 Boolean Type___::get_IsNestedFamORAssem() {
-  return Boolean();
 }
 
 Boolean Type___::get_IsNestedPrivate() {
-  return Boolean();
 }
 
 Boolean Type___::get_IsNestedPublic() {
-  return Boolean();
 }
 
 Boolean Type___::get_IsNotPublic() {
-  return Boolean();
 }
 
 Boolean Type___::get_IsPublic() {
-  return Boolean();
 }
 
 Boolean Type___::get_IsAutoLayout() {
-  return Boolean();
 }
 
 Boolean Type___::get_IsExplicitLayout() {
-  return Boolean();
 }
 
 Boolean Type___::get_IsLayoutSequential() {
-  return Boolean();
 }
 
 Boolean Type___::get_IsAnsiClass() {
-  return Boolean();
 }
 
 Boolean Type___::get_IsAutoClass() {
-  return Boolean();
 }
 
 Boolean Type___::get_IsUnicodeClass() {
-  return Boolean();
 }
 
 Boolean Type___::get_IsCOMObject() {
-  return Boolean();
+  return IsCOMObjectImpl();
 }
 
 Boolean Type___::get_IsContextful() {
-  return Boolean();
+  return IsContextfulImpl();
 }
 
 Boolean Type___::get_IsEnum() {
-  return Boolean();
 }
 
 Boolean Type___::get_IsMarshalByRef() {
-  return Boolean();
+  return IsMarshalByRefImpl();
 }
 
 Boolean Type___::get_IsPrimitive() {
-  return Boolean();
+  return IsPrimitiveImpl();
 }
 
 Boolean Type___::get_IsValueType() {
-  return Boolean();
+  return IsValueTypeImpl();
 }
 
 Boolean Type___::get_IsSignatureType() {
-  return Boolean();
+  return false;
 }
 
 Boolean Type___::get_IsSecurityCritical() {
-  return Boolean();
+  rt::throw_exception(NotImplemented::get_ByDesign());
 }
 
 Boolean Type___::get_IsSecuritySafeCritical() {
-  return Boolean();
+  rt::throw_exception(NotImplemented::get_ByDesign());
 }
 
 Boolean Type___::get_IsSecurityTransparent() {
-  return Boolean();
+  rt::throw_exception(NotImplemented::get_ByDesign());
 }
 
 StructLayoutAttribute Type___::get_StructLayoutAttribute() {
-  return nullptr;
+  rt::throw_exception<NotSupportedException>();
 }
 
 ConstructorInfo Type___::get_TypeInitializer() {
-  return nullptr;
 }
 
 RuntimeTypeHandle Type___::get_TypeHandle() {
-  return RuntimeTypeHandle();
+  rt::throw_exception<NotSupportedException>();
 }
 
 Binder Type___::get_DefaultBinder() {
-  return nullptr;
+  if (s_defaultBinder == nullptr) {
+    DefaultBinder value = rt::newobj<DefaultBinder>();
+    Interlocked::CompareExchange(s_defaultBinder, value, nullptr);
+  }
+  return s_defaultBinder;
 }
 
 Boolean Type___::get_IsSerializable() {
-  return Boolean();
 }
 
 Boolean Type___::get_ContainsGenericParameters() {
-  return Boolean();
+  if (get_HasElementType()) {
+    return GetRootElementType()->get_ContainsGenericParameters();
+  }
+  if (get_IsGenericParameter()) {
+    return true;
+  }
+  if (!get_IsGenericType()) {
+    return false;
+  }
+  Array<Type> genericArguments = GetGenericArguments();
+  for (Int32 i = 0; i < genericArguments->get_Length(); i++) {
+    if (genericArguments[i]->get_ContainsGenericParameters()) {
+      return true;
+    }
+  }
+  return false;
 }
 
 Boolean Type___::get_IsVisible() {
-  return Boolean();
+  RuntimeType runtimeType = rt::as<RuntimeType>((Type)this);
+  if ((Object)runtimeType != nullptr) {
+    return RuntimeTypeHandle::IsVisible(runtimeType);
+  }
+  if (get_IsGenericParameter()) {
+    return true;
+  }
+  if (get_HasElementType()) {
+    return GetElementType()->get_IsVisible();
+  }
+  Type type = (Type)this;
+  while (type->get_IsNested()) {
+    if (!type->get_IsNestedPublic()) {
+      return false;
+    }
+    type = type->get_DeclaringType();
+  }
+  if (!type->get_IsPublic()) {
+    return false;
+  }
+  if (get_IsGenericType() && !get_IsGenericTypeDefinition()) {
+    Array<Type> genericArguments = GetGenericArguments();
+  }
+  return true;
 }
 
 Type Type___::GetType(String typeName, Boolean throwOnError, Boolean ignoreCase) {
-  return nullptr;
+  StackCrawlMark stackMark = StackCrawlMark::LookForMyCaller;
+  return RuntimeType::in::GetType(typeName, throwOnError, ignoreCase, stackMark);
 }
 
 Type Type___::GetType(String typeName, Boolean throwOnError) {
-  return nullptr;
+  StackCrawlMark stackMark = StackCrawlMark::LookForMyCaller;
+  return RuntimeType::in::GetType(typeName, throwOnError, false, stackMark);
 }
 
 Type Type___::GetType(String typeName) {
-  return nullptr;
+  StackCrawlMark stackMark = StackCrawlMark::LookForMyCaller;
+  return RuntimeType::in::GetType(typeName, false, false, stackMark);
 }
 
 Type Type___::GetType(String typeName, Func<AssemblyName, Assembly> assemblyResolver, Func<Assembly, String, Boolean, Type> typeResolver) {
-  return nullptr;
+  StackCrawlMark stackMark = StackCrawlMark::LookForMyCaller;
+  return TypeNameParser::in::GetType(typeName, assemblyResolver, typeResolver, false, false, stackMark);
 }
 
 Type Type___::GetType(String typeName, Func<AssemblyName, Assembly> assemblyResolver, Func<Assembly, String, Boolean, Type> typeResolver, Boolean throwOnError) {
-  return nullptr;
+  StackCrawlMark stackMark = StackCrawlMark::LookForMyCaller;
+  return TypeNameParser::in::GetType(typeName, assemblyResolver, typeResolver, throwOnError, false, stackMark);
 }
 
 Type Type___::GetType(String typeName, Func<AssemblyName, Assembly> assemblyResolver, Func<Assembly, String, Boolean, Type> typeResolver, Boolean throwOnError, Boolean ignoreCase) {
-  return nullptr;
+  StackCrawlMark stackMark = StackCrawlMark::LookForMyCaller;
+  return TypeNameParser::in::GetType(typeName, assemblyResolver, typeResolver, throwOnError, ignoreCase, stackMark);
 }
 
 Type Type___::GetTypeFromProgID(String progID, String server, Boolean throwOnError) {
-  return nullptr;
+  return RuntimeType::in::GetTypeFromProgIDImpl(progID, server, throwOnError);
 }
 
 Type Type___::GetTypeFromCLSID(Guid clsid, String server, Boolean throwOnError) {
-  return nullptr;
+  return RuntimeType::in::GetTypeFromCLSIDImpl(clsid, server, throwOnError);
 }
 
 RuntimeTypeHandle Type___::GetTypeHandleInternal() {
-  return RuntimeTypeHandle();
+  return get_TypeHandle();
 }
 
 Boolean Type___::IsRuntimeImplemented() {
-  return Boolean();
+  return rt::is<RuntimeType>((Type)this);
 }
 
 void Type___::ctor() {
 }
 
 Type Type___::GetType() {
-  return nullptr;
 }
 
 Int32 Type___::GetArrayRank() {
-  return Int32();
+  rt::throw_exception<NotSupportedException>(SR::get_NotSupported_SubclassOverride());
 }
 
 Type Type___::GetGenericTypeDefinition() {
-  return nullptr;
+  rt::throw_exception<NotSupportedException>(SR::get_NotSupported_SubclassOverride());
 }
 
 Array<Type> Type___::GetGenericArguments() {
-  return Array<Type>();
+  rt::throw_exception<NotSupportedException>(SR::get_NotSupported_SubclassOverride());
 }
 
 Array<Type> Type___::GetGenericParameterConstraints() {
-  return Array<Type>();
+  if (!get_IsGenericParameter()) {
+    rt::throw_exception<InvalidOperationException>(SR::get_Arg_NotGenericParameter());
+  }
+  rt::throw_exception<InvalidOperationException>();
 }
 
 Boolean Type___::IsContextfulImpl() {
-  return Boolean();
+  return false;
 }
 
 Boolean Type___::IsMarshalByRefImpl() {
-  return Boolean();
+  return false;
 }
 
 Boolean Type___::IsValueTypeImpl() {
-  return Boolean();
 }
 
 ConstructorInfo Type___::GetConstructor(Array<Type> types) {
-  return nullptr;
 }
 
 ConstructorInfo Type___::GetConstructor(BindingFlags bindingAttr, Binder binder, Array<Type> types, Array<ParameterModifier> modifiers) {
-  return nullptr;
+  return GetConstructor(bindingAttr, binder, CallingConventions::Any, types, modifiers);
 }
 
 ConstructorInfo Type___::GetConstructor(BindingFlags bindingAttr, Binder binder, CallingConventions callConvention, Array<Type> types, Array<ParameterModifier> modifiers) {
-  return nullptr;
+  if (types == nullptr) {
+    rt::throw_exception<ArgumentNullException>("types");
+  }
+  for (Int32 i = 0; i < types->get_Length(); i++) {
+    if (types[i] == nullptr) {
+      rt::throw_exception<ArgumentNullException>("types");
+    }
+  }
+  return GetConstructorImpl(bindingAttr, binder, callConvention, types, modifiers);
 }
 
 Array<ConstructorInfo> Type___::GetConstructors() {
-  return Array<ConstructorInfo>();
 }
 
 EventInfo Type___::GetEvent(String name) {
-  return nullptr;
 }
 
 Array<EventInfo> Type___::GetEvents() {
-  return Array<EventInfo>();
 }
 
 FieldInfo Type___::GetField(String name) {
-  return nullptr;
 }
 
 Array<FieldInfo> Type___::GetFields() {
-  return Array<FieldInfo>();
 }
 
 Array<MemberInfo> Type___::GetMember(String name) {
-  return Array<MemberInfo>();
 }
 
 Array<MemberInfo> Type___::GetMember(String name, BindingFlags bindingAttr) {
-  return Array<MemberInfo>();
+  return GetMember(name, MemberTypes::All, bindingAttr);
 }
 
 Array<MemberInfo> Type___::GetMember(String name, MemberTypes type, BindingFlags bindingAttr) {
-  return Array<MemberInfo>();
+  rt::throw_exception<NotSupportedException>(SR::get_NotSupported_SubclassOverride());
 }
 
 Array<MemberInfo> Type___::GetMembers() {
-  return Array<MemberInfo>();
 }
 
 MethodInfo Type___::GetMethod(String name) {
-  return nullptr;
 }
 
 MethodInfo Type___::GetMethod(String name, BindingFlags bindingAttr) {
-  return nullptr;
+  if (name == nullptr) {
+    rt::throw_exception<ArgumentNullException>("name");
+  }
+  return GetMethodImpl(name, bindingAttr, nullptr, CallingConventions::Any, nullptr, nullptr);
 }
 
 MethodInfo Type___::GetMethod(String name, Array<Type> types) {
-  return nullptr;
+  return GetMethod(name, types, nullptr);
 }
 
 MethodInfo Type___::GetMethod(String name, Array<Type> types, Array<ParameterModifier> modifiers) {
-  return nullptr;
 }
 
 MethodInfo Type___::GetMethod(String name, BindingFlags bindingAttr, Binder binder, Array<Type> types, Array<ParameterModifier> modifiers) {
-  return nullptr;
+  return GetMethod(name, bindingAttr, binder, CallingConventions::Any, types, modifiers);
 }
 
 MethodInfo Type___::GetMethod(String name, BindingFlags bindingAttr, Binder binder, CallingConventions callConvention, Array<Type> types, Array<ParameterModifier> modifiers) {
-  return nullptr;
+  if (name == nullptr) {
+    rt::throw_exception<ArgumentNullException>("name");
+  }
+  if (types == nullptr) {
+    rt::throw_exception<ArgumentNullException>("types");
+  }
+  for (Int32 i = 0; i < types->get_Length(); i++) {
+    if (types[i] == nullptr) {
+      rt::throw_exception<ArgumentNullException>("types");
+    }
+  }
+  return GetMethodImpl(name, bindingAttr, binder, callConvention, types, modifiers);
 }
 
 MethodInfo Type___::GetMethod(String name, Int32 genericParameterCount, Array<Type> types) {
-  return nullptr;
+  return GetMethod(name, genericParameterCount, types, nullptr);
 }
 
 MethodInfo Type___::GetMethod(String name, Int32 genericParameterCount, Array<Type> types, Array<ParameterModifier> modifiers) {
-  return nullptr;
 }
 
 MethodInfo Type___::GetMethod(String name, Int32 genericParameterCount, BindingFlags bindingAttr, Binder binder, Array<Type> types, Array<ParameterModifier> modifiers) {
-  return nullptr;
+  return GetMethod(name, genericParameterCount, bindingAttr, binder, CallingConventions::Any, types, modifiers);
 }
 
 MethodInfo Type___::GetMethod(String name, Int32 genericParameterCount, BindingFlags bindingAttr, Binder binder, CallingConventions callConvention, Array<Type> types, Array<ParameterModifier> modifiers) {
-  return nullptr;
+  if (name == nullptr) {
+    rt::throw_exception<ArgumentNullException>("name");
+  }
+  if (genericParameterCount < 0) {
+    rt::throw_exception<ArgumentException>(SR::get_ArgumentOutOfRange_NeedNonNegNum(), "genericParameterCount");
+  }
+  if (types == nullptr) {
+    rt::throw_exception<ArgumentNullException>("types");
+  }
+  for (Int32 i = 0; i < types->get_Length(); i++) {
+    if (types[i] == nullptr) {
+      rt::throw_exception<ArgumentNullException>("types");
+    }
+  }
+  return GetMethodImpl(name, genericParameterCount, bindingAttr, binder, callConvention, types, modifiers);
 }
 
 MethodInfo Type___::GetMethodImpl(String name, Int32 genericParameterCount, BindingFlags bindingAttr, Binder binder, CallingConventions callConvention, Array<Type> types, Array<ParameterModifier> modifiers) {
-  return nullptr;
+  rt::throw_exception<NotSupportedException>();
 }
 
 Array<MethodInfo> Type___::GetMethods() {
-  return Array<MethodInfo>();
 }
 
 Type Type___::GetNestedType(String name) {
-  return nullptr;
 }
 
 Array<Type> Type___::GetNestedTypes() {
-  return Array<Type>();
 }
 
 PropertyInfo Type___::GetProperty(String name) {
-  return nullptr;
 }
 
 PropertyInfo Type___::GetProperty(String name, BindingFlags bindingAttr) {
-  return nullptr;
+  if (name == nullptr) {
+    rt::throw_exception<ArgumentNullException>("name");
+  }
+  return GetPropertyImpl(name, bindingAttr, nullptr, nullptr, nullptr, nullptr);
 }
 
 PropertyInfo Type___::GetProperty(String name, Type returnType) {
-  return nullptr;
+  if (name == nullptr) {
+    rt::throw_exception<ArgumentNullException>("name");
+  }
 }
 
 PropertyInfo Type___::GetProperty(String name, Array<Type> types) {
-  return nullptr;
+  return GetProperty(name, nullptr, types);
 }
 
 PropertyInfo Type___::GetProperty(String name, Type returnType, Array<Type> types) {
-  return nullptr;
+  return GetProperty(name, returnType, types, nullptr);
 }
 
 PropertyInfo Type___::GetProperty(String name, Type returnType, Array<Type> types, Array<ParameterModifier> modifiers) {
-  return nullptr;
 }
 
 PropertyInfo Type___::GetProperty(String name, BindingFlags bindingAttr, Binder binder, Type returnType, Array<Type> types, Array<ParameterModifier> modifiers) {
-  return nullptr;
+  if (name == nullptr) {
+    rt::throw_exception<ArgumentNullException>("name");
+  }
+  if (types == nullptr) {
+    rt::throw_exception<ArgumentNullException>("types");
+  }
+  return GetPropertyImpl(name, bindingAttr, binder, returnType, types, modifiers);
 }
 
 Array<PropertyInfo> Type___::GetProperties() {
-  return Array<PropertyInfo>();
 }
 
 Array<MemberInfo> Type___::GetDefaultMembers() {
-  return Array<MemberInfo>();
+  rt::throw_exception(NotImplemented::get_ByDesign());
 }
 
 RuntimeTypeHandle Type___::GetTypeHandle(Object o) {
-  return RuntimeTypeHandle();
+  if (o == nullptr) {
+    rt::throw_exception<ArgumentNullException>(nullptr, SR::get_Arg_InvalidHandle());
+  }
+  Type type = o->GetType();
+  return type->get_TypeHandle();
 }
 
 Array<Type> Type___::GetTypeArray(Array<Object> args) {
-  return Array<Type>();
+  if (args == nullptr) {
+    rt::throw_exception<ArgumentNullException>("args");
+  }
+  Array<Type> array = rt::newarr<Array<Type>>(args->get_Length());
+  for (Int32 i = 0; i < array->get_Length(); i++) {
+    if (args[i] == nullptr) {
+      rt::throw_exception<ArgumentException>(SR::get_ArgumentNull_ArrayValue(), "args");
+    }
+    array[i] = args[i]->GetType();
+  }
+  return array;
 }
 
 TypeCode Type___::GetTypeCode(Type type) {
-  return TypeCode::String;
+  if (type == nullptr) {
+    return TypeCode::Empty;
+  }
+  return type->GetTypeCodeImpl();
 }
 
 TypeCode Type___::GetTypeCodeImpl() {
-  return TypeCode::String;
+  Type underlyingSystemType = get_UnderlyingSystemType();
+  if ((Type)this != underlyingSystemType && underlyingSystemType != nullptr) {
+    return GetTypeCode(underlyingSystemType);
+  }
+  return TypeCode::Object;
 }
 
 Type Type___::GetTypeFromCLSID(Guid clsid) {
-  return nullptr;
+  return GetTypeFromCLSID(clsid, nullptr, false);
 }
 
 Type Type___::GetTypeFromCLSID(Guid clsid, Boolean throwOnError) {
-  return nullptr;
+  return GetTypeFromCLSID(clsid, nullptr, throwOnError);
 }
 
 Type Type___::GetTypeFromCLSID(Guid clsid, String server) {
-  return nullptr;
+  return GetTypeFromCLSID(clsid, server, false);
 }
 
 Type Type___::GetTypeFromProgID(String progID) {
-  return nullptr;
+  return GetTypeFromProgID(progID, nullptr, false);
 }
 
 Type Type___::GetTypeFromProgID(String progID, Boolean throwOnError) {
-  return nullptr;
+  return GetTypeFromProgID(progID, nullptr, throwOnError);
 }
 
 Type Type___::GetTypeFromProgID(String progID, String server) {
-  return nullptr;
+  return GetTypeFromProgID(progID, server, false);
 }
 
 Object Type___::InvokeMember(String name, BindingFlags invokeAttr, Binder binder, Object target, Array<Object> args) {
-  return nullptr;
+  return InvokeMember(name, invokeAttr, binder, target, args, nullptr, nullptr, nullptr);
 }
 
 Object Type___::InvokeMember(String name, BindingFlags invokeAttr, Binder binder, Object target, Array<Object> args, CultureInfo culture) {
-  return nullptr;
+  return InvokeMember(name, invokeAttr, binder, target, args, nullptr, culture, nullptr);
 }
 
 Type Type___::GetInterface(String name) {
-  return nullptr;
+  return GetInterface(name, false);
 }
 
 InterfaceMapping Type___::GetInterfaceMap(Type interfaceType) {
-  return InterfaceMapping();
+  rt::throw_exception<NotSupportedException>(SR::get_NotSupported_SubclassOverride());
 }
 
 Boolean Type___::IsInstanceOfType(Object o) {
-  return Boolean();
+  if (o != nullptr) {
+    return IsAssignableFrom(o->GetType());
+  }
+  return false;
 }
 
 Boolean Type___::IsEquivalentTo(Type other) {
-  return Boolean();
+  return (Type)this == other;
 }
 
 Type Type___::GetEnumUnderlyingType() {
-  return nullptr;
+  if (!get_IsEnum()) {
+    rt::throw_exception<ArgumentException>(SR::get_Arg_MustBeEnum(), "enumType");
+  }
 }
 
 Array<> Type___::GetEnumValues() {
-  return nullptr;
+  if (!get_IsEnum()) {
+    rt::throw_exception<ArgumentException>(SR::get_Arg_MustBeEnum(), "enumType");
+  }
+  rt::throw_exception(NotImplemented::get_ByDesign());
 }
 
 Type Type___::MakeArrayType() {
-  return nullptr;
+  rt::throw_exception<NotSupportedException>();
 }
 
 Type Type___::MakeArrayType(Int32 rank) {
-  return nullptr;
+  rt::throw_exception<NotSupportedException>();
 }
 
 Type Type___::MakeByRefType() {
-  return nullptr;
+  rt::throw_exception<NotSupportedException>();
 }
 
 Type Type___::MakeGenericType(Array<Type> typeArguments) {
-  return nullptr;
+  rt::throw_exception<NotSupportedException>(SR::get_NotSupported_SubclassOverride());
 }
 
 Type Type___::MakePointerType() {
-  return nullptr;
+  rt::throw_exception<NotSupportedException>();
 }
 
 Type Type___::MakeGenericSignatureType(Type genericTypeDefinition, Array<Type> typeArguments) {
-  return nullptr;
+  return rt::newobj<SignatureConstructedGenericType>(genericTypeDefinition, typeArguments);
 }
 
 Type Type___::MakeGenericMethodParameter(Int32 position) {
-  return nullptr;
+  if (position < 0) {
+    rt::throw_exception<ArgumentException>(SR::get_ArgumentOutOfRange_NeedNonNegNum(), "position");
+  }
+  return rt::newobj<SignatureGenericMethodParameterType>(position);
 }
 
 String Type___::FormatTypeName() {
-  return nullptr;
+  Type rootElementType = GetRootElementType();
 }
 
 String Type___::ToString() {
-  return nullptr;
+  return "Type: " + get_Name();
 }
 
 Boolean Type___::Equals(Object o) {
-  return Boolean();
+  if (o != nullptr) {
+    return Equals(rt::as<Type>(o));
+  }
+  return false;
 }
 
 Int32 Type___::GetHashCode() {
-  return Int32();
+  Type underlyingSystemType = get_UnderlyingSystemType();
+  if ((Object)underlyingSystemType != (Type)this) {
+    return underlyingSystemType->GetHashCode();
+  }
 }
 
 Boolean Type___::Equals(Type o) {
-  return Boolean();
+  if (!(o == nullptr)) {
+    return (Object)get_UnderlyingSystemType() == o->get_UnderlyingSystemType();
+  }
+  return false;
 }
 
 Type Type___::ReflectionOnlyGetType(String typeName, Boolean throwIfNotFound, Boolean ignoreCase) {
-  return nullptr;
+  rt::throw_exception<PlatformNotSupportedException>(SR::get_PlatformNotSupported_ReflectionOnly());
 }
 
 Boolean Type___::IsEnumDefined(Object value) {
-  return Boolean();
+  if (value == nullptr) {
+    rt::throw_exception<ArgumentNullException>("value");
+  }
+  if (!get_IsEnum()) {
+    rt::throw_exception<ArgumentException>(SR::get_Arg_MustBeEnum(), "value");
+  }
+  Type type = value->GetType();
+  if (type->get_IsEnum()) {
+    if (!type->IsEquivalentTo((Type)this)) {
+      rt::throw_exception<ArgumentException>(SR::Format(SR::get_Arg_EnumAndObjectMustBeSameType(), type, (Type)this));
+    }
+    type = type->GetEnumUnderlyingType();
+  }
 }
 
 String Type___::GetEnumName(Object value) {
+  if (value == nullptr) {
+    rt::throw_exception<ArgumentNullException>("value");
+  }
+  if (!get_IsEnum()) {
+    rt::throw_exception<ArgumentException>(SR::get_Arg_MustBeEnum(), "value");
+  }
+  Type type = value->GetType();
+  if (!type->get_IsEnum() && !IsIntegerType(type)) {
+    rt::throw_exception<ArgumentException>(SR::get_Arg_MustBeEnumBaseTypeOrEnum(), "value");
+  }
+  Array<> enumRawConstantValues = GetEnumRawConstantValues();
+  Int32 num = BinarySearch(enumRawConstantValues, value);
+  if (num >= 0) {
+    Array<String> enumNames = GetEnumNames();
+    return enumNames[num];
+  }
   return nullptr;
 }
 
 Array<String> Type___::GetEnumNames() {
-  return Array<String>();
+  if (!get_IsEnum()) {
+    rt::throw_exception<ArgumentException>(SR::get_Arg_MustBeEnum(), "enumType");
+  }
 }
 
 Array<> Type___::GetEnumRawConstantValues() {
-  return nullptr;
 }
 
 void Type___::GetEnumData(Array<String>& enumNames, Array<>& enumValues) {
 }
 
 Int32 Type___::BinarySearch(Array<> array, Object value) {
-  return Int32();
+  Array<UInt64> array2 = rt::newarr<Array<UInt64>>(array->get_Length());
+  for (Int32 i = 0; i < array->get_Length(); i++) {
+    array2[i] = Enum::in::ToUInt64(array->GetValue(i));
+  }
+  UInt64 value2 = Enum::in::ToUInt64(value);
+  return Array<>::in::BinarySearch(array2, value2);
 }
 
 Boolean Type___::IsIntegerType(Type t) {
-  return Boolean();
 }
 
 Type Type___::GetRootElementType() {
-  return nullptr;
+  Type type = (Type)this;
+  while (type->get_HasElementType()) {
+    type = type->GetElementType();
+  }
+  return type;
 }
 
 Array<Type> Type___::FindInterfaces(TypeFilter filter, Object filterCriteria) {
-  return Array<Type>();
+  if (filter == nullptr) {
+    rt::throw_exception<ArgumentNullException>("filter");
+  }
+  Array<Type> interfaces = GetInterfaces();
+  Int32 num = 0;
+  for (Int32 i = 0; i < interfaces->get_Length(); i++) {
+    if (!filter(interfaces[i], filterCriteria)) {
+      interfaces[i] = nullptr;
+    } else {
+      num++;
+    }
+  }
+  if (num == interfaces->get_Length()) {
+    return interfaces;
+  }
+  Array<Type> array = rt::newarr<Array<Type>>(num);
+  num = 0;
+  for (Int32 j = 0; j < interfaces->get_Length(); j++) {
+    if (interfaces[j] != nullptr) {
+      array[num++] = interfaces[j];
+    }
+  }
+  return array;
 }
 
 Array<MemberInfo> Type___::FindMembers(MemberTypes memberType, BindingFlags bindingAttr, MemberFilter filter, Object filterCriteria) {
-  return Array<MemberInfo>();
+  Array<MethodInfo> array = nullptr;
+  Array<ConstructorInfo> array2 = nullptr;
+  Array<FieldInfo> array3 = nullptr;
+  Array<PropertyInfo> array4 = nullptr;
+  Array<EventInfo> array5 = nullptr;
+  Array<Type> array6 = nullptr;
+  Int32 num = 0;
 }
 
 Boolean Type___::IsSubclassOf(Type c) {
-  return Boolean();
+  Type type = (Type)this;
+  if (type == c) {
+    return false;
+  }
+  while (type != nullptr) {
+    if (type == c) {
+      return true;
+    }
+    type = type->get_BaseType();
+  }
+  return false;
 }
 
 Boolean Type___::IsAssignableFrom(Type c) {
-  return Boolean();
+  if (c == nullptr) {
+    return false;
+  }
+  if ((Type)this == c) {
+    return true;
+  }
+  Type underlyingSystemType = get_UnderlyingSystemType();
+  if ((Object)underlyingSystemType != nullptr && underlyingSystemType->IsRuntimeImplemented()) {
+    return underlyingSystemType->IsAssignableFrom(c);
+  }
+  if (c->IsSubclassOf((Type)this)) {
+    return true;
+  }
+  if (get_IsInterface()) {
+    return c->ImplementInterface((Type)this);
+  }
+  if (get_IsGenericParameter()) {
+    Array<Type> genericParameterConstraints = GetGenericParameterConstraints();
+    for (Int32 i = 0; i < genericParameterConstraints->get_Length(); i++) {
+      if (!genericParameterConstraints[i]->IsAssignableFrom(c)) {
+        return false;
+      }
+    }
+    return true;
+  }
+  return false;
 }
 
 Boolean Type___::ImplementInterface(Type ifaceType) {
-  return Boolean();
+  Type type = (Type)this;
+  while (type != nullptr) {
+    Array<Type> interfaces = type->GetInterfaces();
+    if (interfaces != nullptr) {
+      for (Int32 i = 0; i < interfaces->get_Length(); i++) {
+        if (interfaces[i] == ifaceType || (interfaces[i] != nullptr && interfaces[i]->ImplementInterface(ifaceType))) {
+          return true;
+        }
+      }
+    }
+    type = type->get_BaseType();
+  }
+  return false;
 }
 
 Boolean Type___::FilterAttributeImpl(MemberInfo m, Object filterCriteria) {
-  return Boolean();
+  if (filterCriteria == nullptr) {
+    rt::throw_exception<InvalidFilterCriteriaException>(SR::get_InvalidFilterCriteriaException_CritInt());
+  }
+  switch (m->get_MemberType()) {
+    case MemberTypes::Constructor:
+    case MemberTypes::Method:
+      {
+        MethodAttributes methodAttributes;
+        try{
+          Int32 num2 = (Int32)filterCriteria;
+          methodAttributes = (MethodAttributes)num2;
+        } catch (...) {
+        }
+        MethodAttributes methodAttributes2 = (m->get_MemberType() != MemberTypes::Method) ? ((ConstructorInfo)m)->get_Attributes() : ((MethodInfo)m)->get_Attributes();
+      }case MemberTypes::Field:
+      {
+        FieldAttributes fieldAttributes;
+        try{
+          Int32 num = (Int32)filterCriteria;
+          fieldAttributes = (FieldAttributes)num;
+        } catch (...) {
+        }
+        FieldAttributes attributes = ((FieldInfo)m)->get_Attributes();
+      }default:
+      return false;
+  }
 }
 
 Boolean Type___::FilterNameImpl(MemberInfo m, Object filterCriteria, StringComparison comparison) {
-  return Boolean();
+  String text = rt::as<String>(filterCriteria);
+  if (text == nullptr) {
+    rt::throw_exception<InvalidFilterCriteriaException>(SR::get_InvalidFilterCriteriaException_CritString());
+  }
+  ReadOnlySpan<Char> readOnlySpan = MemoryExtensions::Trim(MemoryExtensions::AsSpan(text));
+  ReadOnlySpan<Char> span = m->get_Name();
+  if (m->get_MemberType() == MemberTypes::NestedType) {
+    span = span.Slice(MemoryExtensions::LastIndexOf(span, 43) + 1);
+  }
+  if (readOnlySpan.get_Length() > 0 && readOnlySpan[readOnlySpan.get_Length() - 1] == 42) {
+    readOnlySpan = readOnlySpan.Slice(0, readOnlySpan.get_Length() - 1);
+    return MemoryExtensions::StartsWith(span, readOnlySpan, comparison);
+  }
+  return MemoryExtensions::Equals(MemoryExtensions, span, readOnlySpan, comparison);
 }
 
 void Type___::ctor_static() {
+  Delimiter = 46;
+  EmptyTypes = Array<>::in::Empty<Type>();
+  Missing = Missing::in::Value;
+  FilterAttribute = rt::newobj<MemberFilter>(&FilterAttributeImpl);
 }
 
 } // namespace System::Private::CoreLib::System::TypeNamespace

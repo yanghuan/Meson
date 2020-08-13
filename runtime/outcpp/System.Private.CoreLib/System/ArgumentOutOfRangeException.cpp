@@ -2,11 +2,10 @@
 
 namespace System::Private::CoreLib::System::ArgumentOutOfRangeExceptionNamespace {
 String ArgumentOutOfRangeException___::get_Message() {
-  return nullptr;
 }
 
 Object ArgumentOutOfRangeException___::get_ActualValue() {
-  return nullptr;
+  return _actualValue;
 }
 
 void ArgumentOutOfRangeException___::ctor() {
@@ -22,6 +21,7 @@ void ArgumentOutOfRangeException___::ctor(String message, Exception innerExcepti
 }
 
 void ArgumentOutOfRangeException___::ctor(String paramName, Object actualValue, String message) {
+  _actualValue = actualValue;
 }
 
 void ArgumentOutOfRangeException___::ctor(SerializationInfo info, StreamingContext context) {

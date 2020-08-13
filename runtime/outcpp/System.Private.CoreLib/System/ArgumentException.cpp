@@ -2,11 +2,11 @@
 
 namespace System::Private::CoreLib::System::ArgumentExceptionNamespace {
 String ArgumentException___::get_Message() {
-  return nullptr;
+  SetMessageField();
 }
 
 String ArgumentException___::get_ParamName() {
-  return nullptr;
+  return _paramName;
 }
 
 void ArgumentException___::ctor() {
@@ -19,12 +19,15 @@ void ArgumentException___::ctor(String message, Exception innerException) {
 }
 
 void ArgumentException___::ctor(String message, String paramName, Exception innerException) {
+  _paramName = paramName;
 }
 
 void ArgumentException___::ctor(String message, String paramName) {
+  _paramName = paramName;
 }
 
 void ArgumentException___::ctor(SerializationInfo info, StreamingContext context) {
+  _paramName = info->GetString("ParamName");
 }
 
 void ArgumentException___::GetObjectData(SerializationInfo info, StreamingContext context) {

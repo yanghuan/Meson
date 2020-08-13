@@ -5,7 +5,9 @@ void SafeTypeNameParserHandle___::ctor() {
 }
 
 Boolean SafeTypeNameParserHandle___::ReleaseHandle() {
-  return Boolean();
+  _ReleaseTypeNameParser(handle);
+  handle = IntPtr::Zero;
+  return true;
 }
 
 } // namespace System::Private::CoreLib::System::SafeTypeNameParserHandleNamespace

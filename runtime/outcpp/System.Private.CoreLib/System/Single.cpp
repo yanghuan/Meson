@@ -1,154 +1,247 @@
 #include "Single-dep.h"
 
+#include <System.Private.CoreLib/Internal/Runtime/CompilerServices/Unsafe-dep.h>
+#include <System.Private.CoreLib/System/ArgumentException-dep.h>
+#include <System.Private.CoreLib/System/BitConverter-dep.h>
+#include <System.Private.CoreLib/System/ExceptionArgument.h>
+#include <System.Private.CoreLib/System/Globalization/NumberFormatInfo-dep.h>
+#include <System.Private.CoreLib/System/Globalization/NumberStyles.h>
+#include <System.Private.CoreLib/System/Int32-dep.h>
+#include <System.Private.CoreLib/System/Number-dep.h>
 #include <System.Private.CoreLib/System/Single-dep.h>
+#include <System.Private.CoreLib/System/SR-dep.h>
+#include <System.Private.CoreLib/System/ThrowHelper-dep.h>
 
 namespace System::Private::CoreLib::System::SingleNamespace {
+using namespace Internal::Runtime::CompilerServices;
+using namespace System::Globalization;
+
 Boolean Single::IsFinite(Single f) {
-  return Boolean();
+  Int32 num = BitConverter::SingleToInt32Bits(f);
 }
 
 Boolean Single::IsInfinity(Single f) {
-  return Boolean();
+  Int32 num = BitConverter::SingleToInt32Bits(f);
 }
 
 Boolean Single::IsNaN(Single f) {
-  return Boolean();
+  return f != f;
 }
 
 Boolean Single::IsNegative(Single f) {
-  return Boolean();
+  return BitConverter::SingleToInt32Bits(f) < 0;
 }
 
 Boolean Single::IsNegativeInfinity(Single f) {
-  return Boolean();
+  return f == Single::NegativeInfinity;
 }
 
 Boolean Single::IsNormal(Single f) {
-  return Boolean();
+  Int32 num = BitConverter::SingleToInt32Bits(f);
+  num &= Int32::MaxValue;
+  if (num < 2139095040 && num != 0) {
+  }
+  return false;
 }
 
 Boolean Single::IsPositiveInfinity(Single f) {
-  return Boolean();
+  return f == Single::PositiveInfinity;
 }
 
 Boolean Single::IsSubnormal(Single f) {
-  return Boolean();
+  Int32 num = BitConverter::SingleToInt32Bits(f);
+  num &= Int32::MaxValue;
+  if (num < 2139095040 && num != 0) {
+  }
+  return false;
 }
 
 Int32 Single::ExtractExponentFromBits(UInt32 bits) {
-  return Int32();
 }
 
 UInt32 Single::ExtractSignificandFromBits(UInt32 bits) {
-  return UInt32();
 }
 
 Int32 Single::CompareTo(Object value) {
-  return Int32();
+  if (value == nullptr) {
+    return 1;
+  }
+  if (rt::is<Single>(value)) {
+    Single num = (Single)value;
+    if (*this < num) {
+      return -1;
+    }
+    if (*this > num) {
+      return 1;
+    }
+    if (*this == num) {
+      return 0;
+    }
+    if (IsNaN(*this)) {
+      if (!IsNaN(num)) {
+        return -1;
+      }
+      return 0;
+    }
+    return 1;
+  }
+  rt::throw_exception<ArgumentException>(SR::get_Arg_MustBeSingle());
 }
 
 Int32 Single::CompareTo(Single value) {
-  return Int32();
+  if (*this < value) {
+    return -1;
+  }
+  if (*this > value) {
+    return 1;
+  }
+  if (*this == value) {
+    return 0;
+  }
+  if (IsNaN(*this)) {
+    if (!IsNaN(value)) {
+      return -1;
+    }
+    return 0;
+  }
+  return 1;
 }
 
 Boolean Single::op_Equality(Single left, Single right) {
-  return Boolean();
+  return left == right;
 }
 
 Boolean Single::op_Inequality(Single left, Single right) {
-  return Boolean();
+  return left != right;
 }
 
 Boolean Single::op_LessThan(Single left, Single right) {
-  return Boolean();
+  return left < right;
 }
 
 Boolean Single::op_GreaterThan(Single left, Single right) {
-  return Boolean();
+  return left > right;
 }
 
 Boolean Single::op_LessThanOrEqual(Single left, Single right) {
-  return Boolean();
+  return left <= right;
 }
 
 Boolean Single::op_GreaterThanOrEqual(Single left, Single right) {
-  return Boolean();
+  return left >= right;
 }
 
 Boolean Single::Equals(Object obj) {
-  return Boolean();
+  if (!rt::is<Single>(obj)) {
+    return false;
+  }
+  Single num = (Single)obj;
+  if (num == *this) {
+    return true;
+  }
+  if (IsNaN(num)) {
+    return IsNaN(*this);
+  }
+  return false;
 }
 
 Boolean Single::Equals(Single obj) {
-  return Boolean();
+  if (obj == *this) {
+    return true;
+  }
+  if (IsNaN(obj)) {
+    return IsNaN(*this);
+  }
+  return false;
 }
 
 Int32 Single::GetHashCode() {
-  return Int32();
+  Int32 num = Unsafe::As<Single, Int32>(Unsafe::AsRef(m_value));
 }
 
 String Single::ToString() {
-  return nullptr;
+  return Number::FormatSingle(*this, nullptr, NumberFormatInfo::in::get_CurrentInfo());
 }
 
 String Single::ToString(IFormatProvider provider) {
-  return nullptr;
+  return Number::FormatSingle(*this, nullptr, NumberFormatInfo::in::GetInstance(provider));
 }
 
 String Single::ToString(String format) {
-  return nullptr;
+  return Number::FormatSingle(*this, format, NumberFormatInfo::in::get_CurrentInfo());
 }
 
 String Single::ToString(String format, IFormatProvider provider) {
-  return nullptr;
+  return Number::FormatSingle(*this, format, NumberFormatInfo::in::GetInstance(provider));
 }
 
 Boolean Single::TryFormat(Span<Char> destination, Int32& charsWritten, ReadOnlySpan<Char> format, IFormatProvider provider) {
-  return Boolean();
+  return Number::TryFormatSingle(*this, format, NumberFormatInfo::in::GetInstance(provider), destination, charsWritten);
 }
 
 Single Single::Parse(String s) {
-  return Single();
+  if (s == nullptr) {
+    ThrowHelper::ThrowArgumentNullException(ExceptionArgument::s);
+  }
 }
 
 Single Single::Parse(String s, NumberStyles style) {
-  return Single();
+  NumberFormatInfo::in::ValidateParseStyleFloatingPoint(style);
+  if (s == nullptr) {
+    ThrowHelper::ThrowArgumentNullException(ExceptionArgument::s);
+  }
+  return Number::ParseSingle(s, style, NumberFormatInfo::in::get_CurrentInfo());
 }
 
 Single Single::Parse(String s, IFormatProvider provider) {
-  return Single();
+  if (s == nullptr) {
+    ThrowHelper::ThrowArgumentNullException(ExceptionArgument::s);
+  }
 }
 
 Single Single::Parse(String s, NumberStyles style, IFormatProvider provider) {
-  return Single();
+  NumberFormatInfo::in::ValidateParseStyleFloatingPoint(style);
+  if (s == nullptr) {
+    ThrowHelper::ThrowArgumentNullException(ExceptionArgument::s);
+  }
+  return Number::ParseSingle(s, style, NumberFormatInfo::in::GetInstance(provider));
 }
 
 Single Single::Parse(ReadOnlySpan<Char> s, NumberStyles style, IFormatProvider provider) {
-  return Single();
+  NumberFormatInfo::in::ValidateParseStyleFloatingPoint(style);
+  return Number::ParseSingle(s, style, NumberFormatInfo::in::GetInstance(provider));
 }
 
 Boolean Single::TryParse(String s, Single& result) {
-  return Boolean();
+  if (s == nullptr) {
+    result = 0;
+    return false;
+  }
 }
 
 Boolean Single::TryParse(ReadOnlySpan<Char> s, Single& result) {
-  return Boolean();
 }
 
 Boolean Single::TryParse(String s, NumberStyles style, IFormatProvider provider, Single& result) {
-  return Boolean();
+  NumberFormatInfo::in::ValidateParseStyleFloatingPoint(style);
+  if (s == nullptr) {
+    result = 0;
+    return false;
+  }
+  return TryParse((ReadOnlySpan<Char>)s, style, NumberFormatInfo::in::GetInstance(provider), result);
 }
 
 Boolean Single::TryParse(ReadOnlySpan<Char> s, NumberStyles style, IFormatProvider provider, Single& result) {
-  return Boolean();
+  NumberFormatInfo::in::ValidateParseStyleFloatingPoint(style);
+  return TryParse(s, style, NumberFormatInfo::in::GetInstance(provider), result);
 }
 
 Boolean Single::TryParse(ReadOnlySpan<Char> s, NumberStyles style, NumberFormatInfo info, Single& result) {
-  return Boolean();
+  return Number::TryParseSingle(s, style, info, result);
 }
 
 TypeCode Single::GetTypeCode() {
-  return TypeCode::String;
+  return TypeCode::Single;
 }
 
 } // namespace System::Private::CoreLib::System::SingleNamespace

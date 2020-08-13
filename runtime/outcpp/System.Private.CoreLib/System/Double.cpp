@@ -1,154 +1,247 @@
 #include "Double-dep.h"
 
+#include <System.Private.CoreLib/Internal/Runtime/CompilerServices/Unsafe-dep.h>
+#include <System.Private.CoreLib/System/ArgumentException-dep.h>
+#include <System.Private.CoreLib/System/BitConverter-dep.h>
 #include <System.Private.CoreLib/System/Double-dep.h>
+#include <System.Private.CoreLib/System/ExceptionArgument.h>
+#include <System.Private.CoreLib/System/Globalization/NumberFormatInfo-dep.h>
+#include <System.Private.CoreLib/System/Globalization/NumberStyles.h>
+#include <System.Private.CoreLib/System/Int64-dep.h>
+#include <System.Private.CoreLib/System/Number-dep.h>
+#include <System.Private.CoreLib/System/SR-dep.h>
+#include <System.Private.CoreLib/System/ThrowHelper-dep.h>
 
 namespace System::Private::CoreLib::System::DoubleNamespace {
+using namespace Internal::Runtime::CompilerServices;
+using namespace System::Globalization;
+
 Boolean Double::IsFinite(Double d) {
-  return Boolean();
+  Int64 num = BitConverter::DoubleToInt64Bits(d);
 }
 
 Boolean Double::IsInfinity(Double d) {
-  return Boolean();
+  Int64 num = BitConverter::DoubleToInt64Bits(d);
 }
 
 Boolean Double::IsNaN(Double d) {
-  return Boolean();
+  return d != d;
 }
 
 Boolean Double::IsNegative(Double d) {
-  return Boolean();
+  return BitConverter::DoubleToInt64Bits(d) < 0;
 }
 
 Boolean Double::IsNegativeInfinity(Double d) {
-  return Boolean();
+  return d == Double::NegativeInfinity;
 }
 
 Boolean Double::IsNormal(Double d) {
-  return Boolean();
+  Int64 num = BitConverter::DoubleToInt64Bits(d);
+  num &= Int64::MaxValue;
+  if (num < 9218868437227405312 && num != 0) {
+  }
+  return false;
 }
 
 Boolean Double::IsPositiveInfinity(Double d) {
-  return Boolean();
+  return d == Double::PositiveInfinity;
 }
 
 Boolean Double::IsSubnormal(Double d) {
-  return Boolean();
+  Int64 num = BitConverter::DoubleToInt64Bits(d);
+  num &= Int64::MaxValue;
+  if (num < 9218868437227405312 && num != 0) {
+  }
+  return false;
 }
 
 Int32 Double::ExtractExponentFromBits(UInt64 bits) {
-  return Int32();
 }
 
 UInt64 Double::ExtractSignificandFromBits(UInt64 bits) {
-  return UInt64();
 }
 
 Int32 Double::CompareTo(Object value) {
-  return Int32();
+  if (value == nullptr) {
+    return 1;
+  }
+  if (rt::is<Double>(value)) {
+    Double num = (Double)value;
+    if (*this < num) {
+      return -1;
+    }
+    if (*this > num) {
+      return 1;
+    }
+    if (*this == num) {
+      return 0;
+    }
+    if (IsNaN(*this)) {
+      if (!IsNaN(num)) {
+        return -1;
+      }
+      return 0;
+    }
+    return 1;
+  }
+  rt::throw_exception<ArgumentException>(SR::get_Arg_MustBeDouble());
 }
 
 Int32 Double::CompareTo(Double value) {
-  return Int32();
+  if (*this < value) {
+    return -1;
+  }
+  if (*this > value) {
+    return 1;
+  }
+  if (*this == value) {
+    return 0;
+  }
+  if (IsNaN(*this)) {
+    if (!IsNaN(value)) {
+      return -1;
+    }
+    return 0;
+  }
+  return 1;
 }
 
 Boolean Double::Equals(Object obj) {
-  return Boolean();
+  if (!rt::is<Double>(obj)) {
+    return false;
+  }
+  Double num = (Double)obj;
+  if (num == *this) {
+    return true;
+  }
+  if (IsNaN(num)) {
+    return IsNaN(*this);
+  }
+  return false;
 }
 
 Boolean Double::op_Equality(Double left, Double right) {
-  return Boolean();
+  return left == right;
 }
 
 Boolean Double::op_Inequality(Double left, Double right) {
-  return Boolean();
+  return left != right;
 }
 
 Boolean Double::op_LessThan(Double left, Double right) {
-  return Boolean();
+  return left < right;
 }
 
 Boolean Double::op_GreaterThan(Double left, Double right) {
-  return Boolean();
+  return left > right;
 }
 
 Boolean Double::op_LessThanOrEqual(Double left, Double right) {
-  return Boolean();
+  return left <= right;
 }
 
 Boolean Double::op_GreaterThanOrEqual(Double left, Double right) {
-  return Boolean();
+  return left >= right;
 }
 
 Boolean Double::Equals(Double obj) {
-  return Boolean();
+  if (obj == *this) {
+    return true;
+  }
+  if (IsNaN(obj)) {
+    return IsNaN(*this);
+  }
+  return false;
 }
 
 Int32 Double::GetHashCode() {
-  return Int32();
+  Int64 num = Unsafe::As<Double, Int64>(Unsafe::AsRef(m_value));
 }
 
 String Double::ToString() {
-  return nullptr;
+  return Number::FormatDouble(*this, nullptr, NumberFormatInfo::in::get_CurrentInfo());
 }
 
 String Double::ToString(String format) {
-  return nullptr;
+  return Number::FormatDouble(*this, format, NumberFormatInfo::in::get_CurrentInfo());
 }
 
 String Double::ToString(IFormatProvider provider) {
-  return nullptr;
+  return Number::FormatDouble(*this, nullptr, NumberFormatInfo::in::GetInstance(provider));
 }
 
 String Double::ToString(String format, IFormatProvider provider) {
-  return nullptr;
+  return Number::FormatDouble(*this, format, NumberFormatInfo::in::GetInstance(provider));
 }
 
 Boolean Double::TryFormat(Span<Char> destination, Int32& charsWritten, ReadOnlySpan<Char> format, IFormatProvider provider) {
-  return Boolean();
+  return Number::TryFormatDouble(*this, format, NumberFormatInfo::in::GetInstance(provider), destination, charsWritten);
 }
 
 Double Double::Parse(String s) {
-  return Double();
+  if (s == nullptr) {
+    ThrowHelper::ThrowArgumentNullException(ExceptionArgument::s);
+  }
 }
 
 Double Double::Parse(String s, NumberStyles style) {
-  return Double();
+  NumberFormatInfo::in::ValidateParseStyleFloatingPoint(style);
+  if (s == nullptr) {
+    ThrowHelper::ThrowArgumentNullException(ExceptionArgument::s);
+  }
+  return Number::ParseDouble(s, style, NumberFormatInfo::in::get_CurrentInfo());
 }
 
 Double Double::Parse(String s, IFormatProvider provider) {
-  return Double();
+  if (s == nullptr) {
+    ThrowHelper::ThrowArgumentNullException(ExceptionArgument::s);
+  }
 }
 
 Double Double::Parse(String s, NumberStyles style, IFormatProvider provider) {
-  return Double();
+  NumberFormatInfo::in::ValidateParseStyleFloatingPoint(style);
+  if (s == nullptr) {
+    ThrowHelper::ThrowArgumentNullException(ExceptionArgument::s);
+  }
+  return Number::ParseDouble(s, style, NumberFormatInfo::in::GetInstance(provider));
 }
 
 Double Double::Parse(ReadOnlySpan<Char> s, NumberStyles style, IFormatProvider provider) {
-  return Double();
+  NumberFormatInfo::in::ValidateParseStyleFloatingPoint(style);
+  return Number::ParseDouble(s, style, NumberFormatInfo::in::GetInstance(provider));
 }
 
 Boolean Double::TryParse(String s, Double& result) {
-  return Boolean();
+  if (s == nullptr) {
+    result = 0;
+    return false;
+  }
 }
 
 Boolean Double::TryParse(ReadOnlySpan<Char> s, Double& result) {
-  return Boolean();
 }
 
 Boolean Double::TryParse(String s, NumberStyles style, IFormatProvider provider, Double& result) {
-  return Boolean();
+  NumberFormatInfo::in::ValidateParseStyleFloatingPoint(style);
+  if (s == nullptr) {
+    result = 0;
+    return false;
+  }
+  return TryParse((ReadOnlySpan<Char>)s, style, NumberFormatInfo::in::GetInstance(provider), result);
 }
 
 Boolean Double::TryParse(ReadOnlySpan<Char> s, NumberStyles style, IFormatProvider provider, Double& result) {
-  return Boolean();
+  NumberFormatInfo::in::ValidateParseStyleFloatingPoint(style);
+  return TryParse(s, style, NumberFormatInfo::in::GetInstance(provider), result);
 }
 
 Boolean Double::TryParse(ReadOnlySpan<Char> s, NumberStyles style, NumberFormatInfo info, Double& result) {
-  return Boolean();
+  return Number::TryParseDouble(s, style, info, result);
 }
 
 TypeCode Double::GetTypeCode() {
-  return TypeCode::String;
+  return TypeCode::Double;
 }
 
 } // namespace System::Private::CoreLib::System::DoubleNamespace

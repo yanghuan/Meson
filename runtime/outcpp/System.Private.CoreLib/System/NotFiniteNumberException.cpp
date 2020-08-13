@@ -2,28 +2,34 @@
 
 namespace System::Private::CoreLib::System::NotFiniteNumberExceptionNamespace {
 Double NotFiniteNumberException___::get_OffendingNumber() {
-  return Double();
+  return _offendingNumber;
 }
 
 void NotFiniteNumberException___::ctor() {
+  _offendingNumber = 0;
 }
 
 void NotFiniteNumberException___::ctor(Double offendingNumber) {
+  _offendingNumber = offendingNumber;
 }
 
 void NotFiniteNumberException___::ctor(String message) {
+  _offendingNumber = 0;
 }
 
 void NotFiniteNumberException___::ctor(String message, Double offendingNumber) {
+  _offendingNumber = offendingNumber;
 }
 
 void NotFiniteNumberException___::ctor(String message, Exception innerException) {
 }
 
 void NotFiniteNumberException___::ctor(String message, Double offendingNumber, Exception innerException) {
+  _offendingNumber = offendingNumber;
 }
 
 void NotFiniteNumberException___::ctor(SerializationInfo info, StreamingContext context) {
+  _offendingNumber = info->GetDouble("OffendingNumber");
 }
 
 void NotFiniteNumberException___::GetObjectData(SerializationInfo info, StreamingContext context) {

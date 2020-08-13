@@ -1,4275 +1,4337 @@
 #include "SR-dep.h"
 
+#include <System.Private.CoreLib/System/Boolean-dep.h>
+#include <System.Private.CoreLib/System/Collections/Generic/List-dep.h>
+#include <System.Private.CoreLib/System/Environment-dep.h>
+#include <System.Private.CoreLib/System/Resources/MissingManifestResourceException-dep.h>
+#include <System.Private.CoreLib/System/Threading/Monitor-dep.h>
+
 namespace System::Private::CoreLib::System::SRNamespace {
+using namespace System::Collections::Generic;
+using namespace System::Resources;
+using namespace System::Threading;
+
 ResourceManager SR::get_ResourceManager() {
-  return nullptr;
 }
 
 String SR::get_Acc_CreateAbstEx() {
-  return nullptr;
+  return GetResourceString("Acc_CreateAbstEx");
 }
 
 String SR::get_Acc_CreateArgIterator() {
-  return nullptr;
+  return GetResourceString("Acc_CreateArgIterator");
 }
 
 String SR::get_Acc_CreateGenericEx() {
-  return nullptr;
+  return GetResourceString("Acc_CreateGenericEx");
 }
 
 String SR::get_Acc_CreateInterfaceEx() {
-  return nullptr;
+  return GetResourceString("Acc_CreateInterfaceEx");
 }
 
 String SR::get_Acc_CreateVoid() {
-  return nullptr;
+  return GetResourceString("Acc_CreateVoid");
 }
 
 String SR::get_Acc_NotClassInit() {
-  return nullptr;
+  return GetResourceString("Acc_NotClassInit");
 }
 
 String SR::get_Acc_ReadOnly() {
-  return nullptr;
+  return GetResourceString("Acc_ReadOnly");
 }
 
 String SR::get_Access_Void() {
-  return nullptr;
+  return GetResourceString("Access_Void");
 }
 
 String SR::get_AggregateException_ctor_DefaultMessage() {
-  return nullptr;
+  return GetResourceString("AggregateException_ctor_DefaultMessage");
 }
 
 String SR::get_AggregateException_ctor_InnerExceptionNull() {
-  return nullptr;
+  return GetResourceString("AggregateException_ctor_InnerExceptionNull");
 }
 
 String SR::get_AggregateException_DeserializationFailure() {
-  return nullptr;
+  return GetResourceString("AggregateException_DeserializationFailure");
 }
 
 String SR::get_AggregateException_InnerException() {
-  return nullptr;
+  return GetResourceString("AggregateException_InnerException");
 }
 
 String SR::get_AppDomain_Name() {
-  return nullptr;
+  return GetResourceString("AppDomain_Name");
 }
 
 String SR::get_AppDomain_NoContextPolicies() {
-  return nullptr;
+  return GetResourceString("AppDomain_NoContextPolicies");
 }
 
 String SR::get_AppDomain_Policy_PrincipalTwice() {
-  return nullptr;
+  return GetResourceString("AppDomain_Policy_PrincipalTwice");
 }
 
 String SR::get_AmbiguousImplementationException_NullMessage() {
-  return nullptr;
+  return GetResourceString("AmbiguousImplementationException_NullMessage");
 }
 
 String SR::get_Arg_AccessException() {
-  return nullptr;
+  return GetResourceString("Arg_AccessException");
 }
 
 String SR::get_Arg_AccessViolationException() {
-  return nullptr;
+  return GetResourceString("Arg_AccessViolationException");
 }
 
 String SR::get_Arg_AmbiguousMatchException() {
-  return nullptr;
+  return GetResourceString("Arg_AmbiguousMatchException");
 }
 
 String SR::get_Arg_ApplicationException() {
-  return nullptr;
+  return GetResourceString("Arg_ApplicationException");
 }
 
 String SR::get_Arg_ArgumentException() {
-  return nullptr;
+  return GetResourceString("Arg_ArgumentException");
 }
 
 String SR::get_Arg_ArgumentOutOfRangeException() {
-  return nullptr;
+  return GetResourceString("Arg_ArgumentOutOfRangeException");
 }
 
 String SR::get_Arg_ArithmeticException() {
-  return nullptr;
+  return GetResourceString("Arg_ArithmeticException");
 }
 
 String SR::get_Arg_ArrayLengthsDiffer() {
-  return nullptr;
+  return GetResourceString("Arg_ArrayLengthsDiffer");
 }
 
 String SR::get_Arg_ArrayPlusOffTooSmall() {
-  return nullptr;
+  return GetResourceString("Arg_ArrayPlusOffTooSmall");
 }
 
 String SR::get_Arg_ArrayTypeMismatchException() {
-  return nullptr;
+  return GetResourceString("Arg_ArrayTypeMismatchException");
 }
 
 String SR::get_Arg_ArrayZeroError() {
-  return nullptr;
+  return GetResourceString("Arg_ArrayZeroError");
 }
 
 String SR::get_Arg_BadDecimal() {
-  return nullptr;
+  return GetResourceString("Arg_BadDecimal");
 }
 
 String SR::get_Arg_BadImageFormatException() {
-  return nullptr;
+  return GetResourceString("Arg_BadImageFormatException");
 }
 
 String SR::get_Arg_BadLiteralFormat() {
-  return nullptr;
+  return GetResourceString("Arg_BadLiteralFormat");
 }
 
 String SR::get_Arg_BogusIComparer() {
-  return nullptr;
+  return GetResourceString("Arg_BogusIComparer");
 }
 
 String SR::get_Arg_BufferTooSmall() {
-  return nullptr;
+  return GetResourceString("Arg_BufferTooSmall");
 }
 
 String SR::get_Arg_CannotBeNaN() {
-  return nullptr;
+  return GetResourceString("Arg_CannotBeNaN");
 }
 
 String SR::get_Arg_CannotHaveNegativeValue() {
-  return nullptr;
+  return GetResourceString("Arg_CannotHaveNegativeValue");
 }
 
 String SR::get_Arg_CannotMixComparisonInfrastructure() {
-  return nullptr;
+  return GetResourceString("Arg_CannotMixComparisonInfrastructure");
 }
 
 String SR::get_Arg_CannotUnloadAppDomainException() {
-  return nullptr;
+  return GetResourceString("Arg_CannotUnloadAppDomainException");
 }
 
 String SR::get_Arg_CATypeResolutionFailed() {
-  return nullptr;
+  return GetResourceString("Arg_CATypeResolutionFailed");
 }
 
 String SR::get_Arg_COMAccess() {
-  return nullptr;
+  return GetResourceString("Arg_COMAccess");
 }
 
 String SR::get_Arg_COMException() {
-  return nullptr;
+  return GetResourceString("Arg_COMException");
 }
 
 String SR::get_Arg_COMPropSetPut() {
-  return nullptr;
+  return GetResourceString("Arg_COMPropSetPut");
 }
 
 String SR::get_Arg_CreatInstAccess() {
-  return nullptr;
+  return GetResourceString("Arg_CreatInstAccess");
 }
 
 String SR::get_Arg_CryptographyException() {
-  return nullptr;
+  return GetResourceString("Arg_CryptographyException");
 }
 
 String SR::get_Arg_CustomAttributeFormatException() {
-  return nullptr;
+  return GetResourceString("Arg_CustomAttributeFormatException");
 }
 
 String SR::get_Arg_DataMisalignedException() {
-  return nullptr;
+  return GetResourceString("Arg_DataMisalignedException");
 }
 
 String SR::get_Arg_DateTimeRange() {
-  return nullptr;
+  return GetResourceString("Arg_DateTimeRange");
 }
 
 String SR::get_Arg_DecBitCtor() {
-  return nullptr;
+  return GetResourceString("Arg_DecBitCtor");
 }
 
 String SR::get_Arg_DirectoryNotFoundException() {
-  return nullptr;
+  return GetResourceString("Arg_DirectoryNotFoundException");
 }
 
 String SR::get_Arg_DivideByZero() {
-  return nullptr;
+  return GetResourceString("Arg_DivideByZero");
 }
 
 String SR::get_Arg_DlgtNullInst() {
-  return nullptr;
+  return GetResourceString("Arg_DlgtNullInst");
 }
 
 String SR::get_Arg_DlgtTargMeth() {
-  return nullptr;
+  return GetResourceString("Arg_DlgtTargMeth");
 }
 
 String SR::get_Arg_DlgtTypeMis() {
-  return nullptr;
+  return GetResourceString("Arg_DlgtTypeMis");
 }
 
 String SR::get_Arg_DllNotFoundException() {
-  return nullptr;
+  return GetResourceString("Arg_DllNotFoundException");
 }
 
 String SR::get_Arg_DuplicateWaitObjectException() {
-  return nullptr;
+  return GetResourceString("Arg_DuplicateWaitObjectException");
 }
 
 String SR::get_Arg_EHClauseNotClause() {
-  return nullptr;
+  return GetResourceString("Arg_EHClauseNotClause");
 }
 
 String SR::get_Arg_EHClauseNotFilter() {
-  return nullptr;
+  return GetResourceString("Arg_EHClauseNotFilter");
 }
 
 String SR::get_Arg_EmptyArray() {
-  return nullptr;
+  return GetResourceString("Arg_EmptyArray");
 }
 
 String SR::get_Arg_EndOfStreamException() {
-  return nullptr;
+  return GetResourceString("Arg_EndOfStreamException");
 }
 
 String SR::get_Arg_EntryPointNotFoundException() {
-  return nullptr;
+  return GetResourceString("Arg_EntryPointNotFoundException");
 }
 
 String SR::get_Arg_EnumAndObjectMustBeSameType() {
-  return nullptr;
+  return GetResourceString("Arg_EnumAndObjectMustBeSameType");
 }
 
 String SR::get_Arg_EnumFormatUnderlyingTypeAndObjectMustBeSameType() {
-  return nullptr;
+  return GetResourceString("Arg_EnumFormatUnderlyingTypeAndObjectMustBeSameType");
 }
 
 String SR::get_Arg_EnumIllegalVal() {
-  return nullptr;
+  return GetResourceString("Arg_EnumIllegalVal");
 }
 
 String SR::get_Arg_EnumLitValueNotFound() {
-  return nullptr;
+  return GetResourceString("Arg_EnumLitValueNotFound");
 }
 
 String SR::get_Arg_EnumUnderlyingTypeAndObjectMustBeSameType() {
-  return nullptr;
+  return GetResourceString("Arg_EnumUnderlyingTypeAndObjectMustBeSameType");
 }
 
 String SR::get_Arg_EnumValueNotFound() {
-  return nullptr;
+  return GetResourceString("Arg_EnumValueNotFound");
 }
 
 String SR::get_Arg_ExecutionEngineException() {
-  return nullptr;
+  return GetResourceString("Arg_ExecutionEngineException");
 }
 
 String SR::get_Arg_ExternalException() {
-  return nullptr;
+  return GetResourceString("Arg_ExternalException");
 }
 
 String SR::get_Arg_FieldAccessException() {
-  return nullptr;
+  return GetResourceString("Arg_FieldAccessException");
 }
 
 String SR::get_Arg_FieldDeclTarget() {
-  return nullptr;
+  return GetResourceString("Arg_FieldDeclTarget");
 }
 
 String SR::get_Arg_FldGetArgErr() {
-  return nullptr;
+  return GetResourceString("Arg_FldGetArgErr");
 }
 
 String SR::get_Arg_FldGetPropSet() {
-  return nullptr;
+  return GetResourceString("Arg_FldGetPropSet");
 }
 
 String SR::get_Arg_FldSetArgErr() {
-  return nullptr;
+  return GetResourceString("Arg_FldSetArgErr");
 }
 
 String SR::get_Arg_FldSetGet() {
-  return nullptr;
+  return GetResourceString("Arg_FldSetGet");
 }
 
 String SR::get_Arg_FldSetInvoke() {
-  return nullptr;
+  return GetResourceString("Arg_FldSetInvoke");
 }
 
 String SR::get_Arg_FldSetPropGet() {
-  return nullptr;
+  return GetResourceString("Arg_FldSetPropGet");
 }
 
 String SR::get_Arg_FormatException() {
-  return nullptr;
+  return GetResourceString("Arg_FormatException");
 }
 
 String SR::get_Arg_GenericParameter() {
-  return nullptr;
+  return GetResourceString("Arg_GenericParameter");
 }
 
 String SR::get_Arg_GetMethNotFnd() {
-  return nullptr;
+  return GetResourceString("Arg_GetMethNotFnd");
 }
 
 String SR::get_Arg_GuidArrayCtor() {
-  return nullptr;
+  return GetResourceString("Arg_GuidArrayCtor");
 }
 
 String SR::get_Arg_HandleNotAsync() {
-  return nullptr;
+  return GetResourceString("Arg_HandleNotAsync");
 }
 
 String SR::get_Arg_HandleNotSync() {
-  return nullptr;
+  return GetResourceString("Arg_HandleNotSync");
 }
 
 String SR::get_Arg_HexStyleNotSupported() {
-  return nullptr;
+  return GetResourceString("Arg_HexStyleNotSupported");
 }
 
 String SR::get_Arg_HTCapacityOverflow() {
-  return nullptr;
+  return GetResourceString("Arg_HTCapacityOverflow");
 }
 
 String SR::get_Arg_IndexMustBeInt() {
-  return nullptr;
+  return GetResourceString("Arg_IndexMustBeInt");
 }
 
 String SR::get_Arg_IndexOutOfRangeException() {
-  return nullptr;
+  return GetResourceString("Arg_IndexOutOfRangeException");
 }
 
 String SR::get_Arg_InsufficientExecutionStackException() {
-  return nullptr;
+  return GetResourceString("Arg_InsufficientExecutionStackException");
 }
 
 String SR::get_Arg_InvalidANSIString() {
-  return nullptr;
+  return GetResourceString("Arg_InvalidANSIString");
 }
 
 String SR::get_Arg_InvalidBase() {
-  return nullptr;
+  return GetResourceString("Arg_InvalidBase");
 }
 
 String SR::get_Arg_InvalidCastException() {
-  return nullptr;
+  return GetResourceString("Arg_InvalidCastException");
 }
 
 String SR::get_Arg_InvalidComObjectException() {
-  return nullptr;
+  return GetResourceString("Arg_InvalidComObjectException");
 }
 
 String SR::get_Arg_InvalidFilterCriteriaException() {
-  return nullptr;
+  return GetResourceString("Arg_InvalidFilterCriteriaException");
 }
 
 String SR::get_Arg_InvalidHandle() {
-  return nullptr;
+  return GetResourceString("Arg_InvalidHandle");
 }
 
 String SR::get_Arg_InvalidHexStyle() {
-  return nullptr;
+  return GetResourceString("Arg_InvalidHexStyle");
 }
 
 String SR::get_Arg_InvalidNeutralResourcesLanguage_Asm_Culture() {
-  return nullptr;
+  return GetResourceString("Arg_InvalidNeutralResourcesLanguage_Asm_Culture");
 }
 
 String SR::get_Arg_InvalidNeutralResourcesLanguage_FallbackLoc() {
-  return nullptr;
+  return GetResourceString("Arg_InvalidNeutralResourcesLanguage_FallbackLoc");
 }
 
 String SR::get_Arg_InvalidSatelliteContract_Asm_Ver() {
-  return nullptr;
+  return GetResourceString("Arg_InvalidSatelliteContract_Asm_Ver");
 }
 
 String SR::get_Arg_InvalidOleVariantTypeException() {
-  return nullptr;
+  return GetResourceString("Arg_InvalidOleVariantTypeException");
 }
 
 String SR::get_Arg_InvalidOperationException() {
-  return nullptr;
+  return GetResourceString("Arg_InvalidOperationException");
 }
 
 String SR::get_Arg_InvalidTypeInRetType() {
-  return nullptr;
+  return GetResourceString("Arg_InvalidTypeInRetType");
 }
 
 String SR::get_Arg_InvalidTypeInSignature() {
-  return nullptr;
+  return GetResourceString("Arg_InvalidTypeInSignature");
 }
 
 String SR::get_Arg_IOException() {
-  return nullptr;
+  return GetResourceString("Arg_IOException");
 }
 
 String SR::get_Arg_KeyNotFound() {
-  return nullptr;
+  return GetResourceString("Arg_KeyNotFound");
 }
 
 String SR::get_Arg_KeyNotFoundWithKey() {
-  return nullptr;
+  return GetResourceString("Arg_KeyNotFoundWithKey");
 }
 
 String SR::get_Arg_LongerThanDestArray() {
-  return nullptr;
+  return GetResourceString("Arg_LongerThanDestArray");
 }
 
 String SR::get_Arg_LongerThanSrcArray() {
-  return nullptr;
+  return GetResourceString("Arg_LongerThanSrcArray");
 }
 
 String SR::get_Arg_LongerThanSrcString() {
-  return nullptr;
+  return GetResourceString("Arg_LongerThanSrcString");
 }
 
 String SR::get_Arg_LowerBoundsMustMatch() {
-  return nullptr;
+  return GetResourceString("Arg_LowerBoundsMustMatch");
 }
 
 String SR::get_Arg_MarshalAsAnyRestriction() {
-  return nullptr;
+  return GetResourceString("Arg_MarshalAsAnyRestriction");
 }
 
 String SR::get_Arg_MarshalDirectiveException() {
-  return nullptr;
+  return GetResourceString("Arg_MarshalDirectiveException");
 }
 
 String SR::get_Arg_MethodAccessException() {
-  return nullptr;
+  return GetResourceString("Arg_MethodAccessException");
 }
 
 String SR::get_Arg_MissingFieldException() {
-  return nullptr;
+  return GetResourceString("Arg_MissingFieldException");
 }
 
 String SR::get_Arg_MissingManifestResourceException() {
-  return nullptr;
+  return GetResourceString("Arg_MissingManifestResourceException");
 }
 
 String SR::get_Arg_MissingMemberException() {
-  return nullptr;
+  return GetResourceString("Arg_MissingMemberException");
 }
 
 String SR::get_Arg_MissingMethodException() {
-  return nullptr;
+  return GetResourceString("Arg_MissingMethodException");
 }
 
 String SR::get_Arg_MulticastNotSupportedException() {
-  return nullptr;
+  return GetResourceString("Arg_MulticastNotSupportedException");
 }
 
 String SR::get_Arg_MustBeBoolean() {
-  return nullptr;
+  return GetResourceString("Arg_MustBeBoolean");
 }
 
 String SR::get_Arg_MustBeByte() {
-  return nullptr;
+  return GetResourceString("Arg_MustBeByte");
 }
 
 String SR::get_Arg_MustBeChar() {
-  return nullptr;
+  return GetResourceString("Arg_MustBeChar");
 }
 
 String SR::get_Arg_MustBeDateTime() {
-  return nullptr;
+  return GetResourceString("Arg_MustBeDateTime");
 }
 
 String SR::get_Arg_MustBeDateTimeOffset() {
-  return nullptr;
+  return GetResourceString("Arg_MustBeDateTimeOffset");
 }
 
 String SR::get_Arg_MustBeDecimal() {
-  return nullptr;
+  return GetResourceString("Arg_MustBeDecimal");
 }
 
 String SR::get_Arg_MustBeDelegate() {
-  return nullptr;
+  return GetResourceString("Arg_MustBeDelegate");
 }
 
 String SR::get_Arg_MustBeDouble() {
-  return nullptr;
+  return GetResourceString("Arg_MustBeDouble");
 }
 
 String SR::get_Arg_MustBeEnum() {
-  return nullptr;
+  return GetResourceString("Arg_MustBeEnum");
 }
 
 String SR::get_Arg_MustBeEnumBaseTypeOrEnum() {
-  return nullptr;
+  return GetResourceString("Arg_MustBeEnumBaseTypeOrEnum");
 }
 
 String SR::get_Arg_MustBeGuid() {
-  return nullptr;
+  return GetResourceString("Arg_MustBeGuid");
 }
 
 String SR::get_Arg_MustBeInt16() {
-  return nullptr;
+  return GetResourceString("Arg_MustBeInt16");
 }
 
 String SR::get_Arg_MustBeInt32() {
-  return nullptr;
+  return GetResourceString("Arg_MustBeInt32");
 }
 
 String SR::get_Arg_MustBeInt64() {
-  return nullptr;
+  return GetResourceString("Arg_MustBeInt64");
 }
 
 String SR::get_Arg_MustBeIntPtr() {
-  return nullptr;
+  return GetResourceString("Arg_MustBeIntPtr");
 }
 
 String SR::get_Arg_MustBePointer() {
-  return nullptr;
+  return GetResourceString("Arg_MustBePointer");
 }
 
 String SR::get_Arg_MustBePrimArray() {
-  return nullptr;
+  return GetResourceString("Arg_MustBePrimArray");
 }
 
 String SR::get_Arg_MustBeRuntimeAssembly() {
-  return nullptr;
+  return GetResourceString("Arg_MustBeRuntimeAssembly");
 }
 
 String SR::get_Arg_MustBeSByte() {
-  return nullptr;
+  return GetResourceString("Arg_MustBeSByte");
 }
 
 String SR::get_Arg_MustBeSingle() {
-  return nullptr;
+  return GetResourceString("Arg_MustBeSingle");
 }
 
 String SR::get_Arg_MustBeString() {
-  return nullptr;
+  return GetResourceString("Arg_MustBeString");
 }
 
 String SR::get_Arg_MustBeTimeSpan() {
-  return nullptr;
+  return GetResourceString("Arg_MustBeTimeSpan");
 }
 
 String SR::get_Arg_MustBeType() {
-  return nullptr;
+  return GetResourceString("Arg_MustBeType");
 }
 
 String SR::get_Arg_MustBeTrue() {
-  return nullptr;
+  return GetResourceString("Arg_MustBeTrue");
 }
 
 String SR::get_Arg_MustBeUInt16() {
-  return nullptr;
+  return GetResourceString("Arg_MustBeUInt16");
 }
 
 String SR::get_Arg_MustBeUInt32() {
-  return nullptr;
+  return GetResourceString("Arg_MustBeUInt32");
 }
 
 String SR::get_Arg_MustBeUInt64() {
-  return nullptr;
+  return GetResourceString("Arg_MustBeUInt64");
 }
 
 String SR::get_Arg_MustBeUIntPtr() {
-  return nullptr;
+  return GetResourceString("Arg_MustBeUIntPtr");
 }
 
 String SR::get_Arg_MustBeVersion() {
-  return nullptr;
+  return GetResourceString("Arg_MustBeVersion");
 }
 
 String SR::get_Arg_MustContainEnumInfo() {
-  return nullptr;
+  return GetResourceString("Arg_MustContainEnumInfo");
 }
 
 String SR::get_Arg_NamedParamNull() {
-  return nullptr;
+  return GetResourceString("Arg_NamedParamNull");
 }
 
 String SR::get_Arg_NamedParamTooBig() {
-  return nullptr;
+  return GetResourceString("Arg_NamedParamTooBig");
 }
 
 String SR::get_Arg_NDirectBadObject() {
-  return nullptr;
+  return GetResourceString("Arg_NDirectBadObject");
 }
 
 String SR::get_Arg_Need1DArray() {
-  return nullptr;
+  return GetResourceString("Arg_Need1DArray");
 }
 
 String SR::get_Arg_Need2DArray() {
-  return nullptr;
+  return GetResourceString("Arg_Need2DArray");
 }
 
 String SR::get_Arg_Need3DArray() {
-  return nullptr;
+  return GetResourceString("Arg_Need3DArray");
 }
 
 String SR::get_Arg_NeedAtLeast1Rank() {
-  return nullptr;
+  return GetResourceString("Arg_NeedAtLeast1Rank");
 }
 
 String SR::get_Arg_NegativeArgCount() {
-  return nullptr;
+  return GetResourceString("Arg_NegativeArgCount");
 }
 
 String SR::get_Arg_NoAccessSpec() {
-  return nullptr;
+  return GetResourceString("Arg_NoAccessSpec");
 }
 
 String SR::get_Arg_NoDefCTor() {
-  return nullptr;
+  return GetResourceString("Arg_NoDefCTor");
 }
 
 String SR::get_Arg_NonZeroLowerBound() {
-  return nullptr;
+  return GetResourceString("Arg_NonZeroLowerBound");
 }
 
 String SR::get_Arg_NoStaticVirtual() {
-  return nullptr;
+  return GetResourceString("Arg_NoStaticVirtual");
 }
 
 String SR::get_Arg_NotFiniteNumberException() {
-  return nullptr;
+  return GetResourceString("Arg_NotFiniteNumberException");
 }
 
 String SR::get_Arg_NotGenericMethodDefinition() {
-  return nullptr;
+  return GetResourceString("Arg_NotGenericMethodDefinition");
 }
 
 String SR::get_Arg_NotGenericParameter() {
-  return nullptr;
+  return GetResourceString("Arg_NotGenericParameter");
 }
 
 String SR::get_Arg_NotGenericTypeDefinition() {
-  return nullptr;
+  return GetResourceString("Arg_NotGenericTypeDefinition");
 }
 
 String SR::get_Arg_NotImplementedException() {
-  return nullptr;
+  return GetResourceString("Arg_NotImplementedException");
 }
 
 String SR::get_Arg_NotSupportedException() {
-  return nullptr;
+  return GetResourceString("Arg_NotSupportedException");
 }
 
 String SR::get_Arg_NullReferenceException() {
-  return nullptr;
+  return GetResourceString("Arg_NullReferenceException");
 }
 
 String SR::get_Arg_ObjObjEx() {
-  return nullptr;
+  return GetResourceString("Arg_ObjObjEx");
 }
 
 String SR::get_Arg_OleAutDateInvalid() {
-  return nullptr;
+  return GetResourceString("Arg_OleAutDateInvalid");
 }
 
 String SR::get_Arg_OleAutDateScale() {
-  return nullptr;
+  return GetResourceString("Arg_OleAutDateScale");
 }
 
 String SR::get_Arg_OverflowException() {
-  return nullptr;
+  return GetResourceString("Arg_OverflowException");
 }
 
 String SR::get_Arg_ParamName_Name() {
-  return nullptr;
+  return GetResourceString("Arg_ParamName_Name");
 }
 
 String SR::get_Arg_ParmArraySize() {
-  return nullptr;
+  return GetResourceString("Arg_ParmArraySize");
 }
 
 String SR::get_Arg_ParmCnt() {
-  return nullptr;
+  return GetResourceString("Arg_ParmCnt");
 }
 
 String SR::get_Arg_PathEmpty() {
-  return nullptr;
+  return GetResourceString("Arg_PathEmpty");
 }
 
 String SR::get_Arg_PlatformNotSupported() {
-  return nullptr;
+  return GetResourceString("Arg_PlatformNotSupported");
 }
 
 String SR::get_Arg_PropSetGet() {
-  return nullptr;
+  return GetResourceString("Arg_PropSetGet");
 }
 
 String SR::get_Arg_PropSetInvoke() {
-  return nullptr;
+  return GetResourceString("Arg_PropSetInvoke");
 }
 
 String SR::get_Arg_RankException() {
-  return nullptr;
+  return GetResourceString("Arg_RankException");
 }
 
 String SR::get_Arg_RankIndices() {
-  return nullptr;
+  return GetResourceString("Arg_RankIndices");
 }
 
 String SR::get_Arg_RankMultiDimNotSupported() {
-  return nullptr;
+  return GetResourceString("Arg_RankMultiDimNotSupported");
 }
 
 String SR::get_Arg_RanksAndBounds() {
-  return nullptr;
+  return GetResourceString("Arg_RanksAndBounds");
 }
 
 String SR::get_Arg_RegGetOverflowBug() {
-  return nullptr;
+  return GetResourceString("Arg_RegGetOverflowBug");
 }
 
 String SR::get_Arg_RegKeyNotFound() {
-  return nullptr;
+  return GetResourceString("Arg_RegKeyNotFound");
 }
 
 String SR::get_Arg_RegSubKeyValueAbsent() {
-  return nullptr;
+  return GetResourceString("Arg_RegSubKeyValueAbsent");
 }
 
 String SR::get_Arg_RegValStrLenBug() {
-  return nullptr;
+  return GetResourceString("Arg_RegValStrLenBug");
 }
 
 String SR::get_Arg_ResMgrNotResSet() {
-  return nullptr;
+  return GetResourceString("Arg_ResMgrNotResSet");
 }
 
 String SR::get_Arg_ResourceFileUnsupportedVersion() {
-  return nullptr;
+  return GetResourceString("Arg_ResourceFileUnsupportedVersion");
 }
 
 String SR::get_Arg_ResourceNameNotExist() {
-  return nullptr;
+  return GetResourceString("Arg_ResourceNameNotExist");
 }
 
 String SR::get_Arg_SafeArrayRankMismatchException() {
-  return nullptr;
+  return GetResourceString("Arg_SafeArrayRankMismatchException");
 }
 
 String SR::get_Arg_SafeArrayTypeMismatchException() {
-  return nullptr;
+  return GetResourceString("Arg_SafeArrayTypeMismatchException");
 }
 
 String SR::get_Arg_SecurityException() {
-  return nullptr;
+  return GetResourceString("Arg_SecurityException");
 }
 
 String SR::get_SerializationException() {
-  return nullptr;
+  return GetResourceString("SerializationException");
 }
 
 String SR::get_Arg_SetMethNotFnd() {
-  return nullptr;
+  return GetResourceString("Arg_SetMethNotFnd");
 }
 
 String SR::get_Arg_StackOverflowException() {
-  return nullptr;
+  return GetResourceString("Arg_StackOverflowException");
 }
 
 String SR::get_Arg_SurrogatesNotAllowedAsSingleChar() {
-  return nullptr;
+  return GetResourceString("Arg_SurrogatesNotAllowedAsSingleChar");
 }
 
 String SR::get_Arg_SynchronizationLockException() {
-  return nullptr;
+  return GetResourceString("Arg_SynchronizationLockException");
 }
 
 String SR::get_Arg_SystemException() {
-  return nullptr;
+  return GetResourceString("Arg_SystemException");
 }
 
 String SR::get_Arg_TargetInvocationException() {
-  return nullptr;
+  return GetResourceString("Arg_TargetInvocationException");
 }
 
 String SR::get_Arg_TargetParameterCountException() {
-  return nullptr;
+  return GetResourceString("Arg_TargetParameterCountException");
 }
 
 String SR::get_Arg_ThreadStartException() {
-  return nullptr;
+  return GetResourceString("Arg_ThreadStartException");
 }
 
 String SR::get_Arg_ThreadStateException() {
-  return nullptr;
+  return GetResourceString("Arg_ThreadStateException");
 }
 
 String SR::get_Arg_TimeoutException() {
-  return nullptr;
+  return GetResourceString("Arg_TimeoutException");
 }
 
 String SR::get_Arg_TypeAccessException() {
-  return nullptr;
+  return GetResourceString("Arg_TypeAccessException");
 }
 
 String SR::get_Arg_TypedReference_Null() {
-  return nullptr;
+  return GetResourceString("Arg_TypedReference_Null");
 }
 
 String SR::get_Arg_TypeLoadException() {
-  return nullptr;
+  return GetResourceString("Arg_TypeLoadException");
 }
 
 String SR::get_Arg_TypeLoadNullStr() {
-  return nullptr;
+  return GetResourceString("Arg_TypeLoadNullStr");
 }
 
 String SR::get_Arg_TypeRefPrimitve() {
-  return nullptr;
+  return GetResourceString("Arg_TypeRefPrimitve");
 }
 
 String SR::get_Arg_TypeUnloadedException() {
-  return nullptr;
+  return GetResourceString("Arg_TypeUnloadedException");
 }
 
 String SR::get_Arg_UnauthorizedAccessException() {
-  return nullptr;
+  return GetResourceString("Arg_UnauthorizedAccessException");
 }
 
 String SR::get_Arg_UnboundGenField() {
-  return nullptr;
+  return GetResourceString("Arg_UnboundGenField");
 }
 
 String SR::get_Arg_UnboundGenParam() {
-  return nullptr;
+  return GetResourceString("Arg_UnboundGenParam");
 }
 
 String SR::get_Arg_UnknownTypeCode() {
-  return nullptr;
+  return GetResourceString("Arg_UnknownTypeCode");
 }
 
 String SR::get_Arg_VarMissNull() {
-  return nullptr;
+  return GetResourceString("Arg_VarMissNull");
 }
 
 String SR::get_Arg_VersionString() {
-  return nullptr;
+  return GetResourceString("Arg_VersionString");
 }
 
 String SR::get_Arg_WrongAsyncResult() {
-  return nullptr;
+  return GetResourceString("Arg_WrongAsyncResult");
 }
 
 String SR::get_Arg_WrongType() {
-  return nullptr;
+  return GetResourceString("Arg_WrongType");
 }
 
 String SR::get_Argument_AbsolutePathRequired() {
-  return nullptr;
+  return GetResourceString("Argument_AbsolutePathRequired");
 }
 
 String SR::get_Argument_AddingDuplicate() {
-  return nullptr;
+  return GetResourceString("Argument_AddingDuplicate");
 }
 
 String SR::get_Argument_AddingDuplicate__() {
-  return nullptr;
+  return GetResourceString("Argument_AddingDuplicate__");
 }
 
 String SR::get_Argument_AddingDuplicateWithKey() {
-  return nullptr;
+  return GetResourceString("Argument_AddingDuplicateWithKey");
 }
 
 String SR::get_Argument_AdjustmentRulesNoNulls() {
-  return nullptr;
+  return GetResourceString("Argument_AdjustmentRulesNoNulls");
 }
 
 String SR::get_Argument_AdjustmentRulesOutOfOrder() {
-  return nullptr;
+  return GetResourceString("Argument_AdjustmentRulesOutOfOrder");
 }
 
 String SR::get_Argument_AlreadyBoundOrSyncHandle() {
-  return nullptr;
+  return GetResourceString("Argument_AlreadyBoundOrSyncHandle");
 }
 
 String SR::get_Argument_ArrayGetInterfaceMap() {
-  return nullptr;
+  return GetResourceString("Argument_ArrayGetInterfaceMap");
 }
 
 String SR::get_Argument_ArraysInvalid() {
-  return nullptr;
+  return GetResourceString("Argument_ArraysInvalid");
 }
 
 String SR::get_Argument_AttributeNamesMustBeUnique() {
-  return nullptr;
+  return GetResourceString("Argument_AttributeNamesMustBeUnique");
 }
 
 String SR::get_Argument_BadConstructor() {
-  return nullptr;
+  return GetResourceString("Argument_BadConstructor");
 }
 
 String SR::get_Argument_BadConstructorCallConv() {
-  return nullptr;
+  return GetResourceString("Argument_BadConstructorCallConv");
 }
 
 String SR::get_Argument_BadExceptionCodeGen() {
-  return nullptr;
+  return GetResourceString("Argument_BadExceptionCodeGen");
 }
 
 String SR::get_Argument_BadFieldForConstructorBuilder() {
-  return nullptr;
+  return GetResourceString("Argument_BadFieldForConstructorBuilder");
 }
 
 String SR::get_Argument_BadFieldSig() {
-  return nullptr;
+  return GetResourceString("Argument_BadFieldSig");
 }
 
 String SR::get_Argument_BadFieldType() {
-  return nullptr;
+  return GetResourceString("Argument_BadFieldType");
 }
 
 String SR::get_Argument_BadFormatSpecifier() {
-  return nullptr;
+  return GetResourceString("Argument_BadFormatSpecifier");
 }
 
 String SR::get_Argument_BadImageFormatExceptionResolve() {
-  return nullptr;
+  return GetResourceString("Argument_BadImageFormatExceptionResolve");
 }
 
 String SR::get_Argument_BadLabel() {
-  return nullptr;
+  return GetResourceString("Argument_BadLabel");
 }
 
 String SR::get_Argument_BadLabelContent() {
-  return nullptr;
+  return GetResourceString("Argument_BadLabelContent");
 }
 
 String SR::get_Argument_BadNestedTypeFlags() {
-  return nullptr;
+  return GetResourceString("Argument_BadNestedTypeFlags");
 }
 
 String SR::get_Argument_BadParameterCountsForConstructor() {
-  return nullptr;
+  return GetResourceString("Argument_BadParameterCountsForConstructor");
 }
 
 String SR::get_Argument_BadParameterTypeForCAB() {
-  return nullptr;
+  return GetResourceString("Argument_BadParameterTypeForCAB");
 }
 
 String SR::get_Argument_BadPropertyForConstructorBuilder() {
-  return nullptr;
+  return GetResourceString("Argument_BadPropertyForConstructorBuilder");
 }
 
 String SR::get_Argument_BadSigFormat() {
-  return nullptr;
+  return GetResourceString("Argument_BadSigFormat");
 }
 
 String SR::get_Argument_BadSizeForData() {
-  return nullptr;
+  return GetResourceString("Argument_BadSizeForData");
 }
 
 String SR::get_Argument_BadTypeAttrInvalidLayout() {
-  return nullptr;
+  return GetResourceString("Argument_BadTypeAttrInvalidLayout");
 }
 
 String SR::get_Argument_BadTypeAttrNestedVisibilityOnNonNestedType() {
-  return nullptr;
+  return GetResourceString("Argument_BadTypeAttrNestedVisibilityOnNonNestedType");
 }
 
 String SR::get_Argument_BadTypeAttrNonNestedVisibilityNestedType() {
-  return nullptr;
+  return GetResourceString("Argument_BadTypeAttrNonNestedVisibilityNestedType");
 }
 
 String SR::get_Argument_BadTypeAttrReservedBitsSet() {
-  return nullptr;
+  return GetResourceString("Argument_BadTypeAttrReservedBitsSet");
 }
 
 String SR::get_Argument_BadTypeInCustomAttribute() {
-  return nullptr;
+  return GetResourceString("Argument_BadTypeInCustomAttribute");
 }
 
 String SR::get_Argument_CannotGetTypeTokenForByRef() {
-  return nullptr;
+  return GetResourceString("Argument_CannotGetTypeTokenForByRef");
 }
 
 String SR::get_Argument_CannotSetParentToInterface() {
-  return nullptr;
+  return GetResourceString("Argument_CannotSetParentToInterface");
 }
 
 String SR::get_Argument_CodepageNotSupported() {
-  return nullptr;
+  return GetResourceString("Argument_CodepageNotSupported");
 }
 
 String SR::get_Argument_CompareOptionOrdinal() {
-  return nullptr;
+  return GetResourceString("Argument_CompareOptionOrdinal");
 }
 
 String SR::get_Argument_ConflictingDateTimeRoundtripStyles() {
-  return nullptr;
+  return GetResourceString("Argument_ConflictingDateTimeRoundtripStyles");
 }
 
 String SR::get_Argument_ConflictingDateTimeStyles() {
-  return nullptr;
+  return GetResourceString("Argument_ConflictingDateTimeStyles");
 }
 
 String SR::get_Argument_ConstantDoesntMatch() {
-  return nullptr;
+  return GetResourceString("Argument_ConstantDoesntMatch");
 }
 
 String SR::get_Argument_ConstantNotSupported() {
-  return nullptr;
+  return GetResourceString("Argument_ConstantNotSupported");
 }
 
 String SR::get_Argument_ConstantNull() {
-  return nullptr;
+  return GetResourceString("Argument_ConstantNull");
 }
 
 String SR::get_Argument_ConstructorNeedGenericDeclaringType() {
-  return nullptr;
+  return GetResourceString("Argument_ConstructorNeedGenericDeclaringType");
 }
 
 String SR::get_Argument_ConversionOverflow() {
-  return nullptr;
+  return GetResourceString("Argument_ConversionOverflow");
 }
 
 String SR::get_Argument_ConvertMismatch() {
-  return nullptr;
+  return GetResourceString("Argument_ConvertMismatch");
 }
 
 String SR::get_Argument_CultureIetfNotSupported() {
-  return nullptr;
+  return GetResourceString("Argument_CultureIetfNotSupported");
 }
 
 String SR::get_Argument_CultureInvalidIdentifier() {
-  return nullptr;
+  return GetResourceString("Argument_CultureInvalidIdentifier");
 }
 
 String SR::get_Argument_CultureIsNeutral() {
-  return nullptr;
+  return GetResourceString("Argument_CultureIsNeutral");
 }
 
 String SR::get_Argument_CultureNotSupported() {
-  return nullptr;
+  return GetResourceString("Argument_CultureNotSupported");
 }
 
 String SR::get_Argument_CustomAssemblyLoadContextRequestedNameMismatch() {
-  return nullptr;
+  return GetResourceString("Argument_CustomAssemblyLoadContextRequestedNameMismatch");
 }
 
 String SR::get_Argument_CustomCultureCannotBePassedByNumber() {
-  return nullptr;
+  return GetResourceString("Argument_CustomCultureCannotBePassedByNumber");
 }
 
 String SR::get_Argument_DateTimeBadBinaryData() {
-  return nullptr;
+  return GetResourceString("Argument_DateTimeBadBinaryData");
 }
 
 String SR::get_Argument_DateTimeHasTicks() {
-  return nullptr;
+  return GetResourceString("Argument_DateTimeHasTicks");
 }
 
 String SR::get_Argument_DateTimeHasTimeOfDay() {
-  return nullptr;
+  return GetResourceString("Argument_DateTimeHasTimeOfDay");
 }
 
 String SR::get_Argument_DateTimeIsInvalid() {
-  return nullptr;
+  return GetResourceString("Argument_DateTimeIsInvalid");
 }
 
 String SR::get_Argument_DateTimeIsNotAmbiguous() {
-  return nullptr;
+  return GetResourceString("Argument_DateTimeIsNotAmbiguous");
 }
 
 String SR::get_Argument_DateTimeKindMustBeUnspecified() {
-  return nullptr;
+  return GetResourceString("Argument_DateTimeKindMustBeUnspecified");
 }
 
 String SR::get_Argument_DateTimeKindMustBeUnspecifiedOrUtc() {
-  return nullptr;
+  return GetResourceString("Argument_DateTimeKindMustBeUnspecifiedOrUtc");
 }
 
 String SR::get_Argument_DateTimeOffsetInvalidDateTimeStyles() {
-  return nullptr;
+  return GetResourceString("Argument_DateTimeOffsetInvalidDateTimeStyles");
 }
 
 String SR::get_Argument_DateTimeOffsetIsNotAmbiguous() {
-  return nullptr;
+  return GetResourceString("Argument_DateTimeOffsetIsNotAmbiguous");
 }
 
 String SR::get_Argument_DestinationTooShort() {
-  return nullptr;
+  return GetResourceString("Argument_DestinationTooShort");
 }
 
 String SR::get_Argument_DuplicateTypeName() {
-  return nullptr;
+  return GetResourceString("Argument_DuplicateTypeName");
 }
 
 String SR::get_Argument_EmitWriteLineType() {
-  return nullptr;
+  return GetResourceString("Argument_EmitWriteLineType");
 }
 
 String SR::get_Argument_EmptyDecString() {
-  return nullptr;
+  return GetResourceString("Argument_EmptyDecString");
 }
 
 String SR::get_Argument_EmptyName() {
-  return nullptr;
+  return GetResourceString("Argument_EmptyName");
 }
 
 String SR::get_Argument_EmptyPath() {
-  return nullptr;
+  return GetResourceString("Argument_EmptyPath");
 }
 
 String SR::get_Argument_EmptyWaithandleArray() {
-  return nullptr;
+  return GetResourceString("Argument_EmptyWaithandleArray");
 }
 
 String SR::get_Argument_EncoderFallbackNotEmpty() {
-  return nullptr;
+  return GetResourceString("Argument_EncoderFallbackNotEmpty");
 }
 
 String SR::get_Argument_EncodingConversionOverflowBytes() {
-  return nullptr;
+  return GetResourceString("Argument_EncodingConversionOverflowBytes");
 }
 
 String SR::get_Argument_EncodingConversionOverflowChars() {
-  return nullptr;
+  return GetResourceString("Argument_EncodingConversionOverflowChars");
 }
 
 String SR::get_Argument_EncodingNotSupported() {
-  return nullptr;
+  return GetResourceString("Argument_EncodingNotSupported");
 }
 
 String SR::get_Argument_EnumTypeDoesNotMatch() {
-  return nullptr;
+  return GetResourceString("Argument_EnumTypeDoesNotMatch");
 }
 
 String SR::get_Argument_FallbackBufferNotEmpty() {
-  return nullptr;
+  return GetResourceString("Argument_FallbackBufferNotEmpty");
 }
 
 String SR::get_Argument_FieldDeclaringTypeGeneric() {
-  return nullptr;
+  return GetResourceString("Argument_FieldDeclaringTypeGeneric");
 }
 
 String SR::get_Argument_FieldNeedGenericDeclaringType() {
-  return nullptr;
+  return GetResourceString("Argument_FieldNeedGenericDeclaringType");
 }
 
 String SR::get_Argument_GenConstraintViolation() {
-  return nullptr;
+  return GetResourceString("Argument_GenConstraintViolation");
 }
 
 String SR::get_Argument_GenericArgsCount() {
-  return nullptr;
+  return GetResourceString("Argument_GenericArgsCount");
 }
 
 String SR::get_Argument_GenericsInvalid() {
-  return nullptr;
+  return GetResourceString("Argument_GenericsInvalid");
 }
 
 String SR::get_Argument_GlobalFunctionHasToBeStatic() {
-  return nullptr;
+  return GetResourceString("Argument_GlobalFunctionHasToBeStatic");
 }
 
 String SR::get_Argument_HasToBeArrayClass() {
-  return nullptr;
+  return GetResourceString("Argument_HasToBeArrayClass");
 }
 
 String SR::get_Argument_IdnBadBidi() {
-  return nullptr;
+  return GetResourceString("Argument_IdnBadBidi");
 }
 
 String SR::get_Argument_IdnBadLabelSize() {
-  return nullptr;
+  return GetResourceString("Argument_IdnBadLabelSize");
 }
 
 String SR::get_Argument_IdnBadNameSize() {
-  return nullptr;
+  return GetResourceString("Argument_IdnBadNameSize");
 }
 
 String SR::get_Argument_IdnBadPunycode() {
-  return nullptr;
+  return GetResourceString("Argument_IdnBadPunycode");
 }
 
 String SR::get_Argument_IdnBadStd3() {
-  return nullptr;
+  return GetResourceString("Argument_IdnBadStd3");
 }
 
 String SR::get_Argument_IdnIllegalName() {
-  return nullptr;
+  return GetResourceString("Argument_IdnIllegalName");
 }
 
 String SR::get_Argument_IllegalEnvVarName() {
-  return nullptr;
+  return GetResourceString("Argument_IllegalEnvVarName");
 }
 
 String SR::get_Argument_IllegalName() {
-  return nullptr;
+  return GetResourceString("Argument_IllegalName");
 }
 
 String SR::get_Argument_ImplementIComparable() {
-  return nullptr;
+  return GetResourceString("Argument_ImplementIComparable");
 }
 
 String SR::get_Argument_InvalidAppendMode() {
-  return nullptr;
+  return GetResourceString("Argument_InvalidAppendMode");
 }
 
 String SR::get_Argument_InvalidArgumentForComparison() {
-  return nullptr;
+  return GetResourceString("Argument_InvalidArgumentForComparison");
 }
 
 String SR::get_Argument_InvalidArrayLength() {
-  return nullptr;
+  return GetResourceString("Argument_InvalidArrayLength");
 }
 
 String SR::get_Argument_InvalidArrayType() {
-  return nullptr;
+  return GetResourceString("Argument_InvalidArrayType");
 }
 
 String SR::get_Argument_InvalidCalendar() {
-  return nullptr;
+  return GetResourceString("Argument_InvalidCalendar");
 }
 
 String SR::get_Argument_InvalidCharSequence() {
-  return nullptr;
+  return GetResourceString("Argument_InvalidCharSequence");
 }
 
 String SR::get_Argument_InvalidCharSequenceNoIndex() {
-  return nullptr;
+  return GetResourceString("Argument_InvalidCharSequenceNoIndex");
 }
 
 String SR::get_Argument_InvalidCodePageBytesIndex() {
-  return nullptr;
+  return GetResourceString("Argument_InvalidCodePageBytesIndex");
 }
 
 String SR::get_Argument_InvalidCodePageConversionIndex() {
-  return nullptr;
+  return GetResourceString("Argument_InvalidCodePageConversionIndex");
 }
 
 String SR::get_Argument_InvalidConstructorDeclaringType() {
-  return nullptr;
+  return GetResourceString("Argument_InvalidConstructorDeclaringType");
 }
 
 String SR::get_Argument_InvalidConstructorInfo() {
-  return nullptr;
+  return GetResourceString("Argument_InvalidConstructorInfo");
 }
 
 String SR::get_Argument_InvalidCultureName() {
-  return nullptr;
+  return GetResourceString("Argument_InvalidCultureName");
 }
 
 String SR::get_Argument_InvalidPredefinedCultureName() {
-  return nullptr;
+  return GetResourceString("Argument_InvalidPredefinedCultureName");
 }
 
 String SR::get_Argument_InvalidDateTimeKind() {
-  return nullptr;
+  return GetResourceString("Argument_InvalidDateTimeKind");
 }
 
 String SR::get_Argument_InvalidDateTimeStyles() {
-  return nullptr;
+  return GetResourceString("Argument_InvalidDateTimeStyles");
 }
 
 String SR::get_Argument_InvalidDigitSubstitution() {
-  return nullptr;
+  return GetResourceString("Argument_InvalidDigitSubstitution");
 }
 
 String SR::get_Argument_InvalidElementName() {
-  return nullptr;
+  return GetResourceString("Argument_InvalidElementName");
 }
 
 String SR::get_Argument_InvalidElementTag() {
-  return nullptr;
+  return GetResourceString("Argument_InvalidElementTag");
 }
 
 String SR::get_Argument_InvalidElementText() {
-  return nullptr;
+  return GetResourceString("Argument_InvalidElementText");
 }
 
 String SR::get_Argument_InvalidElementValue() {
-  return nullptr;
+  return GetResourceString("Argument_InvalidElementValue");
 }
 
 String SR::get_Argument_InvalidEnum() {
-  return nullptr;
+  return GetResourceString("Argument_InvalidEnum");
 }
 
 String SR::get_Argument_InvalidEnumValue() {
-  return nullptr;
+  return GetResourceString("Argument_InvalidEnumValue");
 }
 
 String SR::get_Argument_InvalidFieldDeclaringType() {
-  return nullptr;
+  return GetResourceString("Argument_InvalidFieldDeclaringType");
 }
 
 String SR::get_Argument_InvalidFileModeAndAccessCombo() {
-  return nullptr;
+  return GetResourceString("Argument_InvalidFileModeAndAccessCombo");
 }
 
 String SR::get_Argument_InvalidFlag() {
-  return nullptr;
+  return GetResourceString("Argument_InvalidFlag");
 }
 
 String SR::get_Argument_InvalidGenericInstArray() {
-  return nullptr;
+  return GetResourceString("Argument_InvalidGenericInstArray");
 }
 
 String SR::get_Argument_InvalidGroupSize() {
-  return nullptr;
+  return GetResourceString("Argument_InvalidGroupSize");
 }
 
 String SR::get_Argument_InvalidHandle() {
-  return nullptr;
+  return GetResourceString("Argument_InvalidHandle");
 }
 
 String SR::get_Argument_InvalidHighSurrogate() {
-  return nullptr;
+  return GetResourceString("Argument_InvalidHighSurrogate");
 }
 
 String SR::get_Argument_InvalidId() {
-  return nullptr;
+  return GetResourceString("Argument_InvalidId");
 }
 
 String SR::get_Argument_InvalidKindOfTypeForCA() {
-  return nullptr;
+  return GetResourceString("Argument_InvalidKindOfTypeForCA");
 }
 
 String SR::get_Argument_InvalidLabel() {
-  return nullptr;
+  return GetResourceString("Argument_InvalidLabel");
 }
 
 String SR::get_Argument_InvalidLowSurrogate() {
-  return nullptr;
+  return GetResourceString("Argument_InvalidLowSurrogate");
 }
 
 String SR::get_Argument_InvalidMemberForNamedArgument() {
-  return nullptr;
+  return GetResourceString("Argument_InvalidMemberForNamedArgument");
 }
 
 String SR::get_Argument_InvalidMethodDeclaringType() {
-  return nullptr;
+  return GetResourceString("Argument_InvalidMethodDeclaringType");
 }
 
 String SR::get_Argument_InvalidName() {
-  return nullptr;
+  return GetResourceString("Argument_InvalidName");
 }
 
 String SR::get_Argument_InvalidNativeDigitCount() {
-  return nullptr;
+  return GetResourceString("Argument_InvalidNativeDigitCount");
 }
 
 String SR::get_Argument_InvalidNativeDigitValue() {
-  return nullptr;
+  return GetResourceString("Argument_InvalidNativeDigitValue");
 }
 
 String SR::get_Argument_InvalidNeutralRegionName() {
-  return nullptr;
+  return GetResourceString("Argument_InvalidNeutralRegionName");
 }
 
 String SR::get_Argument_InvalidNormalizationForm() {
-  return nullptr;
+  return GetResourceString("Argument_InvalidNormalizationForm");
 }
 
 String SR::get_Argument_InvalidNumberStyles() {
-  return nullptr;
+  return GetResourceString("Argument_InvalidNumberStyles");
 }
 
 String SR::get_Argument_InvalidOffLen() {
-  return nullptr;
+  return GetResourceString("Argument_InvalidOffLen");
 }
 
 String SR::get_Argument_InvalidOpCodeOnDynamicMethod() {
-  return nullptr;
+  return GetResourceString("Argument_InvalidOpCodeOnDynamicMethod");
 }
 
 String SR::get_Argument_InvalidParameterInfo() {
-  return nullptr;
+  return GetResourceString("Argument_InvalidParameterInfo");
 }
 
 String SR::get_Argument_InvalidParamInfo() {
-  return nullptr;
+  return GetResourceString("Argument_InvalidParamInfo");
 }
 
 String SR::get_Argument_InvalidPathChars() {
-  return nullptr;
+  return GetResourceString("Argument_InvalidPathChars");
 }
 
 String SR::get_Argument_InvalidResourceCultureName() {
-  return nullptr;
+  return GetResourceString("Argument_InvalidResourceCultureName");
 }
 
 String SR::get_Argument_InvalidSafeBufferOffLen() {
-  return nullptr;
+  return GetResourceString("Argument_InvalidSafeBufferOffLen");
 }
 
 String SR::get_Argument_InvalidSeekOrigin() {
-  return nullptr;
+  return GetResourceString("Argument_InvalidSeekOrigin");
 }
 
 String SR::get_Argument_InvalidSerializedString() {
-  return nullptr;
+  return GetResourceString("Argument_InvalidSerializedString");
 }
 
 String SR::get_Argument_InvalidStartupHookSignature() {
-  return nullptr;
+  return GetResourceString("Argument_InvalidStartupHookSignature");
 }
 
 String SR::get_Argument_InvalidTimeSpanStyles() {
-  return nullptr;
+  return GetResourceString("Argument_InvalidTimeSpanStyles");
 }
 
 String SR::get_Argument_InvalidToken() {
-  return nullptr;
+  return GetResourceString("Argument_InvalidToken");
 }
 
 String SR::get_Argument_InvalidTypeForCA() {
-  return nullptr;
+  return GetResourceString("Argument_InvalidTypeForCA");
 }
 
 String SR::get_Argument_InvalidTypeForDynamicMethod() {
-  return nullptr;
+  return GetResourceString("Argument_InvalidTypeForDynamicMethod");
 }
 
 String SR::get_Argument_InvalidTypeName() {
-  return nullptr;
+  return GetResourceString("Argument_InvalidTypeName");
 }
 
 String SR::get_Argument_InvalidTypeWithPointersNotSupported() {
-  return nullptr;
+  return GetResourceString("Argument_InvalidTypeWithPointersNotSupported");
 }
 
 String SR::get_Argument_InvalidUnity() {
-  return nullptr;
+  return GetResourceString("Argument_InvalidUnity");
 }
 
 String SR::get_Argument_LargeInteger() {
-  return nullptr;
+  return GetResourceString("Argument_LargeInteger");
 }
 
 String SR::get_Argument_LongEnvVarValue() {
-  return nullptr;
+  return GetResourceString("Argument_LongEnvVarValue");
 }
 
 String SR::get_Argument_MethodDeclaringTypeGeneric() {
-  return nullptr;
+  return GetResourceString("Argument_MethodDeclaringTypeGeneric");
 }
 
 String SR::get_Argument_MethodDeclaringTypeGenericLcg() {
-  return nullptr;
+  return GetResourceString("Argument_MethodDeclaringTypeGenericLcg");
 }
 
 String SR::get_Argument_MethodNeedGenericDeclaringType() {
-  return nullptr;
+  return GetResourceString("Argument_MethodNeedGenericDeclaringType");
 }
 
 String SR::get_Argument_MinMaxValue() {
-  return nullptr;
+  return GetResourceString("Argument_MinMaxValue");
 }
 
 String SR::get_Argument_MismatchedArrays() {
-  return nullptr;
+  return GetResourceString("Argument_MismatchedArrays");
 }
 
 String SR::get_Argument_MissingDefaultConstructor() {
-  return nullptr;
+  return GetResourceString("Argument_MissingDefaultConstructor");
 }
 
 String SR::get_Argument_MustBeFalse() {
-  return nullptr;
+  return GetResourceString("Argument_MustBeFalse");
 }
 
 String SR::get_Argument_MustBeRuntimeAssembly() {
-  return nullptr;
+  return GetResourceString("Argument_MustBeRuntimeAssembly");
 }
 
 String SR::get_Argument_MustBeRuntimeFieldInfo() {
-  return nullptr;
+  return GetResourceString("Argument_MustBeRuntimeFieldInfo");
 }
 
 String SR::get_Argument_MustBeRuntimeMethodInfo() {
-  return nullptr;
+  return GetResourceString("Argument_MustBeRuntimeMethodInfo");
 }
 
 String SR::get_Argument_MustBeRuntimeReflectionObject() {
-  return nullptr;
+  return GetResourceString("Argument_MustBeRuntimeReflectionObject");
 }
 
 String SR::get_Argument_MustBeRuntimeType() {
-  return nullptr;
+  return GetResourceString("Argument_MustBeRuntimeType");
 }
 
 String SR::get_Argument_MustBeTypeBuilder() {
-  return nullptr;
+  return GetResourceString("Argument_MustBeTypeBuilder");
 }
 
 String SR::get_Argument_MustHaveAttributeBaseClass() {
-  return nullptr;
+  return GetResourceString("Argument_MustHaveAttributeBaseClass");
 }
 
 String SR::get_Argument_NativeOverlappedAlreadyFree() {
-  return nullptr;
+  return GetResourceString("Argument_NativeOverlappedAlreadyFree");
 }
 
 String SR::get_Argument_NativeOverlappedWrongBoundHandle() {
-  return nullptr;
+  return GetResourceString("Argument_NativeOverlappedWrongBoundHandle");
 }
 
 String SR::get_Argument_NeedGenericMethodDefinition() {
-  return nullptr;
+  return GetResourceString("Argument_NeedGenericMethodDefinition");
 }
 
 String SR::get_Argument_NeedNonGenericType() {
-  return nullptr;
+  return GetResourceString("Argument_NeedNonGenericType");
 }
 
 String SR::get_Argument_NeedStructWithNoRefs() {
-  return nullptr;
+  return GetResourceString("Argument_NeedStructWithNoRefs");
 }
 
 String SR::get_Argument_NeverValidGenericArgument() {
-  return nullptr;
+  return GetResourceString("Argument_NeverValidGenericArgument");
 }
 
 String SR::get_Argument_NoEra() {
-  return nullptr;
+  return GetResourceString("Argument_NoEra");
 }
 
 String SR::get_Argument_NoRegionInvariantCulture() {
-  return nullptr;
+  return GetResourceString("Argument_NoRegionInvariantCulture");
 }
 
 String SR::get_Argument_NotAWritableProperty() {
-  return nullptr;
+  return GetResourceString("Argument_NotAWritableProperty");
 }
 
 String SR::get_Argument_NotEnoughBytesToRead() {
-  return nullptr;
+  return GetResourceString("Argument_NotEnoughBytesToRead");
 }
 
 String SR::get_Argument_NotEnoughBytesToWrite() {
-  return nullptr;
+  return GetResourceString("Argument_NotEnoughBytesToWrite");
 }
 
 String SR::get_Argument_NotEnoughGenArguments() {
-  return nullptr;
+  return GetResourceString("Argument_NotEnoughGenArguments");
 }
 
 String SR::get_Argument_NotExceptionType() {
-  return nullptr;
+  return GetResourceString("Argument_NotExceptionType");
 }
 
 String SR::get_Argument_NotInExceptionBlock() {
-  return nullptr;
+  return GetResourceString("Argument_NotInExceptionBlock");
 }
 
 String SR::get_Argument_NotMethodCallOpcode() {
-  return nullptr;
+  return GetResourceString("Argument_NotMethodCallOpcode");
 }
 
 String SR::get_Argument_NotSerializable() {
-  return nullptr;
+  return GetResourceString("Argument_NotSerializable");
 }
 
 String SR::get_Argument_ObjNotComObject() {
-  return nullptr;
+  return GetResourceString("Argument_ObjNotComObject");
 }
 
 String SR::get_Argument_OffsetAndCapacityOutOfBounds() {
-  return nullptr;
+  return GetResourceString("Argument_OffsetAndCapacityOutOfBounds");
 }
 
 String SR::get_Argument_OffsetLocalMismatch() {
-  return nullptr;
+  return GetResourceString("Argument_OffsetLocalMismatch");
 }
 
 String SR::get_Argument_OffsetOfFieldNotFound() {
-  return nullptr;
+  return GetResourceString("Argument_OffsetOfFieldNotFound");
 }
 
 String SR::get_Argument_OffsetOutOfRange() {
-  return nullptr;
+  return GetResourceString("Argument_OffsetOutOfRange");
 }
 
 String SR::get_Argument_OffsetPrecision() {
-  return nullptr;
+  return GetResourceString("Argument_OffsetPrecision");
 }
 
 String SR::get_Argument_OffsetUtcMismatch() {
-  return nullptr;
+  return GetResourceString("Argument_OffsetUtcMismatch");
 }
 
 String SR::get_Argument_OneOfCulturesNotSupported() {
-  return nullptr;
+  return GetResourceString("Argument_OneOfCulturesNotSupported");
 }
 
 String SR::get_Argument_OnlyMscorlib() {
-  return nullptr;
+  return GetResourceString("Argument_OnlyMscorlib");
 }
 
 String SR::get_Argument_OutOfOrderDateTimes() {
-  return nullptr;
+  return GetResourceString("Argument_OutOfOrderDateTimes");
 }
 
 String SR::get_Argument_PathEmpty() {
-  return nullptr;
+  return GetResourceString("Argument_PathEmpty");
 }
 
 String SR::get_Argument_PreAllocatedAlreadyAllocated() {
-  return nullptr;
+  return GetResourceString("Argument_PreAllocatedAlreadyAllocated");
 }
 
 String SR::get_Argument_RecursiveFallback() {
-  return nullptr;
+  return GetResourceString("Argument_RecursiveFallback");
 }
 
 String SR::get_Argument_RecursiveFallbackBytes() {
-  return nullptr;
+  return GetResourceString("Argument_RecursiveFallbackBytes");
 }
 
 String SR::get_Argument_RedefinedLabel() {
-  return nullptr;
+  return GetResourceString("Argument_RedefinedLabel");
 }
 
 String SR::get_Argument_ResolveField() {
-  return nullptr;
+  return GetResourceString("Argument_ResolveField");
 }
 
 String SR::get_Argument_ResolveFieldHandle() {
-  return nullptr;
+  return GetResourceString("Argument_ResolveFieldHandle");
 }
 
 String SR::get_Argument_ResolveMember() {
-  return nullptr;
+  return GetResourceString("Argument_ResolveMember");
 }
 
 String SR::get_Argument_ResolveMethod() {
-  return nullptr;
+  return GetResourceString("Argument_ResolveMethod");
 }
 
 String SR::get_Argument_ResolveMethodHandle() {
-  return nullptr;
+  return GetResourceString("Argument_ResolveMethodHandle");
 }
 
 String SR::get_Argument_ResolveModuleType() {
-  return nullptr;
+  return GetResourceString("Argument_ResolveModuleType");
 }
 
 String SR::get_Argument_ResolveString() {
-  return nullptr;
+  return GetResourceString("Argument_ResolveString");
 }
 
 String SR::get_Argument_ResolveType() {
-  return nullptr;
+  return GetResourceString("Argument_ResolveType");
 }
 
 String SR::get_Argument_ResultCalendarRange() {
-  return nullptr;
+  return GetResourceString("Argument_ResultCalendarRange");
 }
 
 String SR::get_Argument_SemaphoreInitialMaximum() {
-  return nullptr;
+  return GetResourceString("Argument_SemaphoreInitialMaximum");
 }
 
 String SR::get_Argument_ShouldNotSpecifyExceptionType() {
-  return nullptr;
+  return GetResourceString("Argument_ShouldNotSpecifyExceptionType");
 }
 
 String SR::get_Argument_ShouldOnlySetVisibilityFlags() {
-  return nullptr;
+  return GetResourceString("Argument_ShouldOnlySetVisibilityFlags");
 }
 
 String SR::get_Argument_SigIsFinalized() {
-  return nullptr;
+  return GetResourceString("Argument_SigIsFinalized");
 }
 
 String SR::get_Argument_StreamNotReadable() {
-  return nullptr;
+  return GetResourceString("Argument_StreamNotReadable");
 }
 
 String SR::get_Argument_StreamNotWritable() {
-  return nullptr;
+  return GetResourceString("Argument_StreamNotWritable");
 }
 
 String SR::get_Argument_StringFirstCharIsZero() {
-  return nullptr;
+  return GetResourceString("Argument_StringFirstCharIsZero");
 }
 
 String SR::get_Argument_StringZeroLength() {
-  return nullptr;
+  return GetResourceString("Argument_StringZeroLength");
 }
 
 String SR::get_Argument_TimeSpanHasSeconds() {
-  return nullptr;
+  return GetResourceString("Argument_TimeSpanHasSeconds");
 }
 
 String SR::get_Argument_ToExclusiveLessThanFromExclusive() {
-  return nullptr;
+  return GetResourceString("Argument_ToExclusiveLessThanFromExclusive");
 }
 
 String SR::get_Argument_TooManyFinallyClause() {
-  return nullptr;
+  return GetResourceString("Argument_TooManyFinallyClause");
 }
 
 String SR::get_Argument_TransitionTimesAreIdentical() {
-  return nullptr;
+  return GetResourceString("Argument_TransitionTimesAreIdentical");
 }
 
 String SR::get_Argument_TypedReferenceInvalidField() {
-  return nullptr;
+  return GetResourceString("Argument_TypedReferenceInvalidField");
 }
 
 String SR::get_Argument_TypeMustNotBeComImport() {
-  return nullptr;
+  return GetResourceString("Argument_TypeMustNotBeComImport");
 }
 
 String SR::get_Argument_TypeNameTooLong() {
-  return nullptr;
+  return GetResourceString("Argument_TypeNameTooLong");
 }
 
 String SR::get_Argument_TypeNotComObject() {
-  return nullptr;
+  return GetResourceString("Argument_TypeNotComObject");
 }
 
 String SR::get_Argument_TypeNotValid() {
-  return nullptr;
+  return GetResourceString("Argument_TypeNotValid");
 }
 
 String SR::get_Argument_UnclosedExceptionBlock() {
-  return nullptr;
+  return GetResourceString("Argument_UnclosedExceptionBlock");
 }
 
 String SR::get_Argument_UnknownUnmanagedCallConv() {
-  return nullptr;
+  return GetResourceString("Argument_UnknownUnmanagedCallConv");
 }
 
 String SR::get_Argument_UnmanagedMemAccessorWrapAround() {
-  return nullptr;
+  return GetResourceString("Argument_UnmanagedMemAccessorWrapAround");
 }
 
 String SR::get_Argument_UnmatchedMethodForLocal() {
-  return nullptr;
+  return GetResourceString("Argument_UnmatchedMethodForLocal");
 }
 
 String SR::get_Argument_UnmatchingSymScope() {
-  return nullptr;
+  return GetResourceString("Argument_UnmatchingSymScope");
 }
 
 String SR::get_Argument_UTCOutOfRange() {
-  return nullptr;
+  return GetResourceString("Argument_UTCOutOfRange");
 }
 
 String SR::get_ArgumentException_BadMethodImplBody() {
-  return nullptr;
+  return GetResourceString("ArgumentException_BadMethodImplBody");
 }
 
 String SR::get_ArgumentException_BufferNotFromPool() {
-  return nullptr;
+  return GetResourceString("ArgumentException_BufferNotFromPool");
 }
 
 String SR::get_ArgumentException_OtherNotArrayOfCorrectLength() {
-  return nullptr;
+  return GetResourceString("ArgumentException_OtherNotArrayOfCorrectLength");
 }
 
 String SR::get_ArgumentException_NotIsomorphic() {
-  return nullptr;
+  return GetResourceString("ArgumentException_NotIsomorphic");
 }
 
 String SR::get_ArgumentException_TupleIncorrectType() {
-  return nullptr;
+  return GetResourceString("ArgumentException_TupleIncorrectType");
 }
 
 String SR::get_ArgumentException_TupleLastArgumentNotATuple() {
-  return nullptr;
+  return GetResourceString("ArgumentException_TupleLastArgumentNotATuple");
 }
 
 String SR::get_ArgumentException_ValueTupleIncorrectType() {
-  return nullptr;
+  return GetResourceString("ArgumentException_ValueTupleIncorrectType");
 }
 
 String SR::get_ArgumentException_ValueTupleLastArgumentNotAValueTuple() {
-  return nullptr;
+  return GetResourceString("ArgumentException_ValueTupleLastArgumentNotAValueTuple");
 }
 
 String SR::get_ArgumentNull_Array() {
-  return nullptr;
+  return GetResourceString("ArgumentNull_Array");
 }
 
 String SR::get_ArgumentNull_ArrayElement() {
-  return nullptr;
+  return GetResourceString("ArgumentNull_ArrayElement");
 }
 
 String SR::get_ArgumentNull_ArrayValue() {
-  return nullptr;
+  return GetResourceString("ArgumentNull_ArrayValue");
 }
 
 String SR::get_ArgumentNull_Assembly() {
-  return nullptr;
+  return GetResourceString("ArgumentNull_Assembly");
 }
 
 String SR::get_ArgumentNull_AssemblyNameName() {
-  return nullptr;
+  return GetResourceString("ArgumentNull_AssemblyNameName");
 }
 
 String SR::get_ArgumentNull_Buffer() {
-  return nullptr;
+  return GetResourceString("ArgumentNull_Buffer");
 }
 
 String SR::get_ArgumentNull_Child() {
-  return nullptr;
+  return GetResourceString("ArgumentNull_Child");
 }
 
 String SR::get_ArgumentNull_Collection() {
-  return nullptr;
+  return GetResourceString("ArgumentNull_Collection");
 }
 
 String SR::get_ArgumentNull_Dictionary() {
-  return nullptr;
+  return GetResourceString("ArgumentNull_Dictionary");
 }
 
 String SR::get_ArgumentNull_Generic() {
-  return nullptr;
+  return GetResourceString("ArgumentNull_Generic");
 }
 
 String SR::get_ArgumentNull_Key() {
-  return nullptr;
+  return GetResourceString("ArgumentNull_Key");
 }
 
 String SR::get_ArgumentNull_Path() {
-  return nullptr;
+  return GetResourceString("ArgumentNull_Path");
 }
 
 String SR::get_ArgumentNull_SafeHandle() {
-  return nullptr;
+  return GetResourceString("ArgumentNull_SafeHandle");
 }
 
 String SR::get_ArgumentNull_Stream() {
-  return nullptr;
+  return GetResourceString("ArgumentNull_Stream");
 }
 
 String SR::get_ArgumentNull_String() {
-  return nullptr;
+  return GetResourceString("ArgumentNull_String");
 }
 
 String SR::get_ArgumentNull_Type() {
-  return nullptr;
+  return GetResourceString("ArgumentNull_Type");
 }
 
 String SR::get_ArgumentNull_Waithandles() {
-  return nullptr;
+  return GetResourceString("ArgumentNull_Waithandles");
 }
 
 String SR::get_ArgumentOutOfRange_ActualValue() {
-  return nullptr;
+  return GetResourceString("ArgumentOutOfRange_ActualValue");
 }
 
 String SR::get_ArgumentOutOfRange_AddValue() {
-  return nullptr;
+  return GetResourceString("ArgumentOutOfRange_AddValue");
 }
 
 String SR::get_ArgumentOutOfRange_ArrayLB() {
-  return nullptr;
+  return GetResourceString("ArgumentOutOfRange_ArrayLB");
 }
 
 String SR::get_ArgumentOutOfRange_BadHourMinuteSecond() {
-  return nullptr;
+  return GetResourceString("ArgumentOutOfRange_BadHourMinuteSecond");
 }
 
 String SR::get_ArgumentOutOfRange_BadYearMonthDay() {
-  return nullptr;
+  return GetResourceString("ArgumentOutOfRange_BadYearMonthDay");
 }
 
 String SR::get_ArgumentOutOfRange_BiggerThanCollection() {
-  return nullptr;
+  return GetResourceString("ArgumentOutOfRange_BiggerThanCollection");
 }
 
 String SR::get_ArgumentOutOfRange_BinaryReaderFillBuffer() {
-  return nullptr;
+  return GetResourceString("ArgumentOutOfRange_BinaryReaderFillBuffer");
 }
 
 String SR::get_ArgumentOutOfRange_Bounds_Lower_Upper() {
-  return nullptr;
+  return GetResourceString("ArgumentOutOfRange_Bounds_Lower_Upper");
 }
 
 String SR::get_ArgumentOutOfRange_CalendarRange() {
-  return nullptr;
+  return GetResourceString("ArgumentOutOfRange_CalendarRange");
 }
 
 String SR::get_ArgumentOutOfRange_Capacity() {
-  return nullptr;
+  return GetResourceString("ArgumentOutOfRange_Capacity");
 }
 
 String SR::get_ArgumentOutOfRange_Count() {
-  return nullptr;
+  return GetResourceString("ArgumentOutOfRange_Count");
 }
 
 String SR::get_ArgumentOutOfRange_DateArithmetic() {
-  return nullptr;
+  return GetResourceString("ArgumentOutOfRange_DateArithmetic");
 }
 
 String SR::get_ArgumentOutOfRange_DateTimeBadMonths() {
-  return nullptr;
+  return GetResourceString("ArgumentOutOfRange_DateTimeBadMonths");
 }
 
 String SR::get_ArgumentOutOfRange_DateTimeBadTicks() {
-  return nullptr;
+  return GetResourceString("ArgumentOutOfRange_DateTimeBadTicks");
 }
 
 String SR::get_ArgumentOutOfRange_DateTimeBadYears() {
-  return nullptr;
+  return GetResourceString("ArgumentOutOfRange_DateTimeBadYears");
 }
 
 String SR::get_ArgumentOutOfRange_Day() {
-  return nullptr;
+  return GetResourceString("ArgumentOutOfRange_Day");
 }
 
 String SR::get_ArgumentOutOfRange_DayOfWeek() {
-  return nullptr;
+  return GetResourceString("ArgumentOutOfRange_DayOfWeek");
 }
 
 String SR::get_ArgumentOutOfRange_DayParam() {
-  return nullptr;
+  return GetResourceString("ArgumentOutOfRange_DayParam");
 }
 
 String SR::get_ArgumentOutOfRange_DecimalRound() {
-  return nullptr;
+  return GetResourceString("ArgumentOutOfRange_DecimalRound");
 }
 
 String SR::get_ArgumentOutOfRange_DecimalScale() {
-  return nullptr;
+  return GetResourceString("ArgumentOutOfRange_DecimalScale");
 }
 
 String SR::get_ArgumentOutOfRange_EndIndexStartIndex() {
-  return nullptr;
+  return GetResourceString("ArgumentOutOfRange_EndIndexStartIndex");
 }
 
 String SR::get_ArgumentOutOfRange_Enum() {
-  return nullptr;
+  return GetResourceString("ArgumentOutOfRange_Enum");
 }
 
 String SR::get_ArgumentOutOfRange_Era() {
-  return nullptr;
+  return GetResourceString("ArgumentOutOfRange_Era");
 }
 
 String SR::get_ArgumentOutOfRange_FileLengthTooBig() {
-  return nullptr;
+  return GetResourceString("ArgumentOutOfRange_FileLengthTooBig");
 }
 
 String SR::get_ArgumentOutOfRange_FileTimeInvalid() {
-  return nullptr;
+  return GetResourceString("ArgumentOutOfRange_FileTimeInvalid");
 }
 
 String SR::get_ArgumentOutOfRange_GenericPositive() {
-  return nullptr;
+  return GetResourceString("ArgumentOutOfRange_GenericPositive");
 }
 
 String SR::get_ArgumentOutOfRange_GetByteCountOverflow() {
-  return nullptr;
+  return GetResourceString("ArgumentOutOfRange_GetByteCountOverflow");
 }
 
 String SR::get_ArgumentOutOfRange_GetCharCountOverflow() {
-  return nullptr;
+  return GetResourceString("ArgumentOutOfRange_GetCharCountOverflow");
 }
 
 String SR::get_ArgumentOutOfRange_HashtableLoadFactor() {
-  return nullptr;
+  return GetResourceString("ArgumentOutOfRange_HashtableLoadFactor");
 }
 
 String SR::get_ArgumentOutOfRange_HugeArrayNotSupported() {
-  return nullptr;
+  return GetResourceString("ArgumentOutOfRange_HugeArrayNotSupported");
 }
 
 String SR::get_ArgumentOutOfRange_Index() {
-  return nullptr;
+  return GetResourceString("ArgumentOutOfRange_Index");
 }
 
 String SR::get_ArgumentOutOfRange_IndexCount() {
-  return nullptr;
+  return GetResourceString("ArgumentOutOfRange_IndexCount");
 }
 
 String SR::get_ArgumentOutOfRange_IndexCountBuffer() {
-  return nullptr;
+  return GetResourceString("ArgumentOutOfRange_IndexCountBuffer");
 }
 
 String SR::get_ArgumentOutOfRange_IndexLength() {
-  return nullptr;
+  return GetResourceString("ArgumentOutOfRange_IndexLength");
 }
 
 String SR::get_ArgumentOutOfRange_IndexString() {
-  return nullptr;
+  return GetResourceString("ArgumentOutOfRange_IndexString");
 }
 
 String SR::get_ArgumentOutOfRange_InvalidEraValue() {
-  return nullptr;
+  return GetResourceString("ArgumentOutOfRange_InvalidEraValue");
 }
 
 String SR::get_ArgumentOutOfRange_InvalidHighSurrogate() {
-  return nullptr;
+  return GetResourceString("ArgumentOutOfRange_InvalidHighSurrogate");
 }
 
 String SR::get_ArgumentOutOfRange_InvalidLowSurrogate() {
-  return nullptr;
+  return GetResourceString("ArgumentOutOfRange_InvalidLowSurrogate");
 }
 
 String SR::get_ArgumentOutOfRange_InvalidUTF32() {
-  return nullptr;
+  return GetResourceString("ArgumentOutOfRange_InvalidUTF32");
 }
 
 String SR::get_ArgumentOutOfRange_Length() {
-  return nullptr;
+  return GetResourceString("ArgumentOutOfRange_Length");
 }
 
 String SR::get_ArgumentOutOfRange_LengthGreaterThanCapacity() {
-  return nullptr;
+  return GetResourceString("ArgumentOutOfRange_LengthGreaterThanCapacity");
 }
 
 String SR::get_ArgumentOutOfRange_LengthTooLarge() {
-  return nullptr;
+  return GetResourceString("ArgumentOutOfRange_LengthTooLarge");
 }
 
 String SR::get_ArgumentOutOfRange_LessEqualToIntegerMaxVal() {
-  return nullptr;
+  return GetResourceString("ArgumentOutOfRange_LessEqualToIntegerMaxVal");
 }
 
 String SR::get_ArgumentOutOfRange_ListInsert() {
-  return nullptr;
+  return GetResourceString("ArgumentOutOfRange_ListInsert");
 }
 
 String SR::get_ArgumentOutOfRange_Month() {
-  return nullptr;
+  return GetResourceString("ArgumentOutOfRange_Month");
 }
 
 String SR::get_ArgumentOutOfRange_MonthParam() {
-  return nullptr;
+  return GetResourceString("ArgumentOutOfRange_MonthParam");
 }
 
 String SR::get_ArgumentOutOfRange_MustBeNonNegInt32() {
-  return nullptr;
+  return GetResourceString("ArgumentOutOfRange_MustBeNonNegInt32");
 }
 
 String SR::get_ArgumentOutOfRange_MustBeNonNegNum() {
-  return nullptr;
+  return GetResourceString("ArgumentOutOfRange_MustBeNonNegNum");
 }
 
 String SR::get_ArgumentOutOfRange_MustBePositive() {
-  return nullptr;
+  return GetResourceString("ArgumentOutOfRange_MustBePositive");
 }
 
 String SR::get_ArgumentOutOfRange_NeedNonNegNum() {
-  return nullptr;
+  return GetResourceString("ArgumentOutOfRange_NeedNonNegNum");
 }
 
 String SR::get_ArgumentOutOfRange_NeedNonNegOrNegative1() {
-  return nullptr;
+  return GetResourceString("ArgumentOutOfRange_NeedNonNegOrNegative1");
 }
 
 String SR::get_ArgumentOutOfRange_NeedPosNum() {
-  return nullptr;
+  return GetResourceString("ArgumentOutOfRange_NeedPosNum");
 }
 
 String SR::get_ArgumentOutOfRange_NeedValidId() {
-  return nullptr;
+  return GetResourceString("ArgumentOutOfRange_NeedValidId");
 }
 
 String SR::get_ArgumentOutOfRange_NegativeCapacity() {
-  return nullptr;
+  return GetResourceString("ArgumentOutOfRange_NegativeCapacity");
 }
 
 String SR::get_ArgumentOutOfRange_NegativeCount() {
-  return nullptr;
+  return GetResourceString("ArgumentOutOfRange_NegativeCount");
 }
 
 String SR::get_ArgumentOutOfRange_NegativeLength() {
-  return nullptr;
+  return GetResourceString("ArgumentOutOfRange_NegativeLength");
 }
 
 String SR::get_ArgumentOutOfRange_OffsetLength() {
-  return nullptr;
+  return GetResourceString("ArgumentOutOfRange_OffsetLength");
 }
 
 String SR::get_ArgumentOutOfRange_OffsetOut() {
-  return nullptr;
+  return GetResourceString("ArgumentOutOfRange_OffsetOut");
 }
 
 String SR::get_ArgumentOutOfRange_ParamSequence() {
-  return nullptr;
+  return GetResourceString("ArgumentOutOfRange_ParamSequence");
 }
 
 String SR::get_ArgumentOutOfRange_PartialWCHAR() {
-  return nullptr;
+  return GetResourceString("ArgumentOutOfRange_PartialWCHAR");
 }
 
 String SR::get_ArgumentOutOfRange_PeriodTooLarge() {
-  return nullptr;
+  return GetResourceString("ArgumentOutOfRange_PeriodTooLarge");
 }
 
 String SR::get_ArgumentOutOfRange_PositionLessThanCapacityRequired() {
-  return nullptr;
+  return GetResourceString("ArgumentOutOfRange_PositionLessThanCapacityRequired");
 }
 
 String SR::get_ArgumentOutOfRange_Range() {
-  return nullptr;
+  return GetResourceString("ArgumentOutOfRange_Range");
 }
 
 String SR::get_ArgumentOutOfRange_RoundingDigits() {
-  return nullptr;
+  return GetResourceString("ArgumentOutOfRange_RoundingDigits");
 }
 
 String SR::get_ArgumentOutOfRange_SmallCapacity() {
-  return nullptr;
+  return GetResourceString("ArgumentOutOfRange_SmallCapacity");
 }
 
 String SR::get_ArgumentOutOfRange_SmallMaxCapacity() {
-  return nullptr;
+  return GetResourceString("ArgumentOutOfRange_SmallMaxCapacity");
 }
 
 String SR::get_ArgumentOutOfRange_StartIndex() {
-  return nullptr;
+  return GetResourceString("ArgumentOutOfRange_StartIndex");
 }
 
 String SR::get_ArgumentOutOfRange_StartIndexLargerThanLength() {
-  return nullptr;
+  return GetResourceString("ArgumentOutOfRange_StartIndexLargerThanLength");
 }
 
 String SR::get_ArgumentOutOfRange_StartIndexLessThanLength() {
-  return nullptr;
+  return GetResourceString("ArgumentOutOfRange_StartIndexLessThanLength");
 }
 
 String SR::get_ArgumentOutOfRange_StreamLength() {
-  return nullptr;
+  return GetResourceString("ArgumentOutOfRange_StreamLength");
 }
 
 String SR::get_ArgumentOutOfRange_TimeoutTooLarge() {
-  return nullptr;
+  return GetResourceString("ArgumentOutOfRange_TimeoutTooLarge");
 }
 
 String SR::get_ArgumentOutOfRange_UIntPtrMax() {
-  return nullptr;
+  return GetResourceString("ArgumentOutOfRange_UIntPtrMax");
 }
 
 String SR::get_ArgumentOutOfRange_UnmanagedMemStreamLength() {
-  return nullptr;
+  return GetResourceString("ArgumentOutOfRange_UnmanagedMemStreamLength");
 }
 
 String SR::get_ArgumentOutOfRange_UnmanagedMemStreamWrapAround() {
-  return nullptr;
+  return GetResourceString("ArgumentOutOfRange_UnmanagedMemStreamWrapAround");
 }
 
 String SR::get_ArgumentOutOfRange_UtcOffset() {
-  return nullptr;
+  return GetResourceString("ArgumentOutOfRange_UtcOffset");
 }
 
 String SR::get_ArgumentOutOfRange_UtcOffsetAndDaylightDelta() {
-  return nullptr;
+  return GetResourceString("ArgumentOutOfRange_UtcOffsetAndDaylightDelta");
 }
 
 String SR::get_ArgumentOutOfRange_Version() {
-  return nullptr;
+  return GetResourceString("ArgumentOutOfRange_Version");
 }
 
 String SR::get_ArgumentOutOfRange_Week() {
-  return nullptr;
+  return GetResourceString("ArgumentOutOfRange_Week");
 }
 
 String SR::get_ArgumentOutOfRange_Year() {
-  return nullptr;
+  return GetResourceString("ArgumentOutOfRange_Year");
 }
 
 String SR::get_Arithmetic_NaN() {
-  return nullptr;
+  return GetResourceString("Arithmetic_NaN");
 }
 
 String SR::get_ArrayTypeMismatch_ConstrainedCopy() {
-  return nullptr;
+  return GetResourceString("ArrayTypeMismatch_ConstrainedCopy");
 }
 
 String SR::get_AssemblyLoadContext_Unload_CannotUnloadIfNotCollectible() {
-  return nullptr;
+  return GetResourceString("AssemblyLoadContext_Unload_CannotUnloadIfNotCollectible");
 }
 
 String SR::get_AssemblyLoadContext_Verify_NotUnloading() {
-  return nullptr;
+  return GetResourceString("AssemblyLoadContext_Verify_NotUnloading");
 }
 
 String SR::get_AssertionFailed() {
-  return nullptr;
+  return GetResourceString("AssertionFailed");
 }
 
 String SR::get_AssertionFailed_Cnd() {
-  return nullptr;
+  return GetResourceString("AssertionFailed_Cnd");
 }
 
 String SR::get_AssumptionFailed() {
-  return nullptr;
+  return GetResourceString("AssumptionFailed");
 }
 
 String SR::get_AssumptionFailed_Cnd() {
-  return nullptr;
+  return GetResourceString("AssumptionFailed_Cnd");
 }
 
 String SR::get_AsyncMethodBuilder_InstanceNotInitialized() {
-  return nullptr;
+  return GetResourceString("AsyncMethodBuilder_InstanceNotInitialized");
 }
 
 String SR::get_BadImageFormat_BadILFormat() {
-  return nullptr;
+  return GetResourceString("BadImageFormat_BadILFormat");
 }
 
 String SR::get_BadImageFormat_InvalidType() {
-  return nullptr;
+  return GetResourceString("BadImageFormat_InvalidType");
 }
 
 String SR::get_BadImageFormat_NegativeStringLength() {
-  return nullptr;
+  return GetResourceString("BadImageFormat_NegativeStringLength");
 }
 
 String SR::get_BadImageFormat_ParameterSignatureMismatch() {
-  return nullptr;
+  return GetResourceString("BadImageFormat_ParameterSignatureMismatch");
 }
 
 String SR::get_BadImageFormat_ResType_SerBlobMismatch() {
-  return nullptr;
+  return GetResourceString("BadImageFormat_ResType_SerBlobMismatch");
 }
 
 String SR::get_BadImageFormat_ResourceDataLengthInvalid() {
-  return nullptr;
+  return GetResourceString("BadImageFormat_ResourceDataLengthInvalid");
 }
 
 String SR::get_BadImageFormat_ResourceNameCorrupted() {
-  return nullptr;
+  return GetResourceString("BadImageFormat_ResourceNameCorrupted");
 }
 
 String SR::get_BadImageFormat_ResourceNameCorrupted_NameIndex() {
-  return nullptr;
+  return GetResourceString("BadImageFormat_ResourceNameCorrupted_NameIndex");
 }
 
 String SR::get_BadImageFormat_ResourcesDataInvalidOffset() {
-  return nullptr;
+  return GetResourceString("BadImageFormat_ResourcesDataInvalidOffset");
 }
 
 String SR::get_BadImageFormat_ResourcesHeaderCorrupted() {
-  return nullptr;
+  return GetResourceString("BadImageFormat_ResourcesHeaderCorrupted");
 }
 
 String SR::get_BadImageFormat_ResourcesIndexTooLong() {
-  return nullptr;
+  return GetResourceString("BadImageFormat_ResourcesIndexTooLong");
 }
 
 String SR::get_BadImageFormat_ResourcesNameInvalidOffset() {
-  return nullptr;
+  return GetResourceString("BadImageFormat_ResourcesNameInvalidOffset");
 }
 
 String SR::get_BadImageFormat_ResourcesNameTooLong() {
-  return nullptr;
+  return GetResourceString("BadImageFormat_ResourcesNameTooLong");
 }
 
 String SR::get_BadImageFormat_TypeMismatch() {
-  return nullptr;
+  return GetResourceString("BadImageFormat_TypeMismatch");
 }
 
 String SR::get_CancellationToken_CreateLinkedToken_TokensIsEmpty() {
-  return nullptr;
+  return GetResourceString("CancellationToken_CreateLinkedToken_TokensIsEmpty");
 }
 
 String SR::get_CancellationTokenSource_Disposed() {
-  return nullptr;
+  return GetResourceString("CancellationTokenSource_Disposed");
 }
 
 String SR::get_ConcurrentCollection_SyncRoot_NotSupported() {
-  return nullptr;
+  return GetResourceString("ConcurrentCollection_SyncRoot_NotSupported");
 }
 
 String SR::get_EventSource_AbstractMustNotDeclareEventMethods() {
-  return nullptr;
+  return GetResourceString("EventSource_AbstractMustNotDeclareEventMethods");
 }
 
 String SR::get_EventSource_AbstractMustNotDeclareKTOC() {
-  return nullptr;
+  return GetResourceString("EventSource_AbstractMustNotDeclareKTOC");
 }
 
 String SR::get_EventSource_AddScalarOutOfRange() {
-  return nullptr;
+  return GetResourceString("EventSource_AddScalarOutOfRange");
 }
 
 String SR::get_EventSource_BadHexDigit() {
-  return nullptr;
+  return GetResourceString("EventSource_BadHexDigit");
 }
 
 String SR::get_EventSource_ChannelTypeDoesNotMatchEventChannelValue() {
-  return nullptr;
+  return GetResourceString("EventSource_ChannelTypeDoesNotMatchEventChannelValue");
 }
 
 String SR::get_EventSource_DataDescriptorsOutOfRange() {
-  return nullptr;
+  return GetResourceString("EventSource_DataDescriptorsOutOfRange");
 }
 
 String SR::get_EventSource_DuplicateStringKey() {
-  return nullptr;
+  return GetResourceString("EventSource_DuplicateStringKey");
 }
 
 String SR::get_EventSource_EnumKindMismatch() {
-  return nullptr;
+  return GetResourceString("EventSource_EnumKindMismatch");
 }
 
 String SR::get_EventSource_EvenHexDigits() {
-  return nullptr;
+  return GetResourceString("EventSource_EvenHexDigits");
 }
 
 String SR::get_EventSource_EventChannelOutOfRange() {
-  return nullptr;
+  return GetResourceString("EventSource_EventChannelOutOfRange");
 }
 
 String SR::get_EventSource_EventIdReused() {
-  return nullptr;
+  return GetResourceString("EventSource_EventIdReused");
 }
 
 String SR::get_EventSource_EventMustHaveTaskIfNonDefaultOpcode() {
-  return nullptr;
+  return GetResourceString("EventSource_EventMustHaveTaskIfNonDefaultOpcode");
 }
 
 String SR::get_EventSource_EventMustNotBeExplicitImplementation() {
-  return nullptr;
+  return GetResourceString("EventSource_EventMustNotBeExplicitImplementation");
 }
 
 String SR::get_EventSource_EventNameReused() {
-  return nullptr;
+  return GetResourceString("EventSource_EventNameReused");
 }
 
 String SR::get_EventSource_EventParametersMismatch() {
-  return nullptr;
+  return GetResourceString("EventSource_EventParametersMismatch");
 }
 
 String SR::get_EventSource_EventSourceGuidInUse() {
-  return nullptr;
+  return GetResourceString("EventSource_EventSourceGuidInUse");
 }
 
 String SR::get_EventSource_EventTooBig() {
-  return nullptr;
+  return GetResourceString("EventSource_EventTooBig");
 }
 
 String SR::get_EventSource_EventWithAdminChannelMustHaveMessage() {
-  return nullptr;
+  return GetResourceString("EventSource_EventWithAdminChannelMustHaveMessage");
 }
 
 String SR::get_EventSource_IllegalKeywordsValue() {
-  return nullptr;
+  return GetResourceString("EventSource_IllegalKeywordsValue");
 }
 
 String SR::get_EventSource_IllegalOpcodeValue() {
-  return nullptr;
+  return GetResourceString("EventSource_IllegalOpcodeValue");
 }
 
 String SR::get_EventSource_IllegalTaskValue() {
-  return nullptr;
+  return GetResourceString("EventSource_IllegalTaskValue");
 }
 
 String SR::get_EventSource_IllegalValue() {
-  return nullptr;
+  return GetResourceString("EventSource_IllegalValue");
 }
 
 String SR::get_EventSource_IncorrentlyAuthoredTypeInfo() {
-  return nullptr;
+  return GetResourceString("EventSource_IncorrentlyAuthoredTypeInfo");
 }
 
 String SR::get_EventSource_InvalidCommand() {
-  return nullptr;
+  return GetResourceString("EventSource_InvalidCommand");
 }
 
 String SR::get_EventSource_InvalidEventFormat() {
-  return nullptr;
+  return GetResourceString("EventSource_InvalidEventFormat");
 }
 
 String SR::get_EventSource_KeywordCollision() {
-  return nullptr;
+  return GetResourceString("EventSource_KeywordCollision");
 }
 
 String SR::get_EventSource_KeywordNeedPowerOfTwo() {
-  return nullptr;
+  return GetResourceString("EventSource_KeywordNeedPowerOfTwo");
 }
 
 String SR::get_EventSource_ListenerCreatedInsideCallback() {
-  return nullptr;
+  return GetResourceString("EventSource_ListenerCreatedInsideCallback");
 }
 
 String SR::get_EventSource_ListenerNotFound() {
-  return nullptr;
+  return GetResourceString("EventSource_ListenerNotFound");
 }
 
 String SR::get_EventSource_ListenerWriteFailure() {
-  return nullptr;
+  return GetResourceString("EventSource_ListenerWriteFailure");
 }
 
 String SR::get_EventSource_MaxChannelExceeded() {
-  return nullptr;
+  return GetResourceString("EventSource_MaxChannelExceeded");
 }
 
 String SR::get_EventSource_MismatchIdToWriteEvent() {
-  return nullptr;
+  return GetResourceString("EventSource_MismatchIdToWriteEvent");
 }
 
 String SR::get_EventSource_NeedGuid() {
-  return nullptr;
+  return GetResourceString("EventSource_NeedGuid");
 }
 
 String SR::get_EventSource_NeedName() {
-  return nullptr;
+  return GetResourceString("EventSource_NeedName");
 }
 
 String SR::get_EventSource_NeedPositiveId() {
-  return nullptr;
+  return GetResourceString("EventSource_NeedPositiveId");
 }
 
 String SR::get_EventSource_NoFreeBuffers() {
-  return nullptr;
+  return GetResourceString("EventSource_NoFreeBuffers");
 }
 
 String SR::get_EventSource_NonCompliantTypeError() {
-  return nullptr;
+  return GetResourceString("EventSource_NonCompliantTypeError");
 }
 
 String SR::get_EventSource_NoRelatedActivityId() {
-  return nullptr;
+  return GetResourceString("EventSource_NoRelatedActivityId");
 }
 
 String SR::get_EventSource_NotSupportedArrayOfBinary() {
-  return nullptr;
+  return GetResourceString("EventSource_NotSupportedArrayOfBinary");
 }
 
 String SR::get_EventSource_NotSupportedArrayOfNil() {
-  return nullptr;
+  return GetResourceString("EventSource_NotSupportedArrayOfNil");
 }
 
 String SR::get_EventSource_NotSupportedArrayOfNullTerminatedString() {
-  return nullptr;
+  return GetResourceString("EventSource_NotSupportedArrayOfNullTerminatedString");
 }
 
 String SR::get_EventSource_NotSupportedNestedArraysEnums() {
-  return nullptr;
+  return GetResourceString("EventSource_NotSupportedNestedArraysEnums");
 }
 
 String SR::get_EventSource_NullInput() {
-  return nullptr;
+  return GetResourceString("EventSource_NullInput");
 }
 
 String SR::get_EventSource_OpcodeCollision() {
-  return nullptr;
+  return GetResourceString("EventSource_OpcodeCollision");
 }
 
 String SR::get_EventSource_PinArrayOutOfRange() {
-  return nullptr;
+  return GetResourceString("EventSource_PinArrayOutOfRange");
 }
 
 String SR::get_EventSource_RecursiveTypeDefinition() {
-  return nullptr;
+  return GetResourceString("EventSource_RecursiveTypeDefinition");
 }
 
 String SR::get_EventSource_StopsFollowStarts() {
-  return nullptr;
+  return GetResourceString("EventSource_StopsFollowStarts");
 }
 
 String SR::get_EventSource_TaskCollision() {
-  return nullptr;
+  return GetResourceString("EventSource_TaskCollision");
 }
 
 String SR::get_EventSource_TaskOpcodePairReused() {
-  return nullptr;
+  return GetResourceString("EventSource_TaskOpcodePairReused");
 }
 
 String SR::get_EventSource_TooManyArgs() {
-  return nullptr;
+  return GetResourceString("EventSource_TooManyArgs");
 }
 
 String SR::get_EventSource_TooManyFields() {
-  return nullptr;
+  return GetResourceString("EventSource_TooManyFields");
 }
 
 String SR::get_EventSource_ToString() {
-  return nullptr;
+  return GetResourceString("EventSource_ToString");
 }
 
 String SR::get_EventSource_TraitEven() {
-  return nullptr;
+  return GetResourceString("EventSource_TraitEven");
 }
 
 String SR::get_EventSource_TypeMustBeSealedOrAbstract() {
-  return nullptr;
+  return GetResourceString("EventSource_TypeMustBeSealedOrAbstract");
 }
 
 String SR::get_EventSource_TypeMustDeriveFromEventSource() {
-  return nullptr;
+  return GetResourceString("EventSource_TypeMustDeriveFromEventSource");
 }
 
 String SR::get_EventSource_UndefinedChannel() {
-  return nullptr;
+  return GetResourceString("EventSource_UndefinedChannel");
 }
 
 String SR::get_EventSource_UndefinedKeyword() {
-  return nullptr;
+  return GetResourceString("EventSource_UndefinedKeyword");
 }
 
 String SR::get_EventSource_UndefinedOpcode() {
-  return nullptr;
+  return GetResourceString("EventSource_UndefinedOpcode");
 }
 
 String SR::get_EventSource_UnknownEtwTrait() {
-  return nullptr;
+  return GetResourceString("EventSource_UnknownEtwTrait");
 }
 
 String SR::get_EventSource_UnsupportedEventTypeInManifest() {
-  return nullptr;
+  return GetResourceString("EventSource_UnsupportedEventTypeInManifest");
 }
 
 String SR::get_EventSource_UnsupportedMessageProperty() {
-  return nullptr;
+  return GetResourceString("EventSource_UnsupportedMessageProperty");
 }
 
 String SR::get_EventSource_VarArgsParameterMismatch() {
-  return nullptr;
+  return GetResourceString("EventSource_VarArgsParameterMismatch");
 }
 
 String SR::get_Exception_EndOfInnerExceptionStack() {
-  return nullptr;
+  return GetResourceString("Exception_EndOfInnerExceptionStack");
 }
 
 String SR::get_Exception_EndStackTraceFromPreviousThrow() {
-  return nullptr;
+  return GetResourceString("Exception_EndStackTraceFromPreviousThrow");
 }
 
 String SR::get_Exception_WasThrown() {
-  return nullptr;
+  return GetResourceString("Exception_WasThrown");
 }
 
 String SR::get_ExecutionContext_ExceptionInAsyncLocalNotification() {
-  return nullptr;
+  return GetResourceString("ExecutionContext_ExceptionInAsyncLocalNotification");
 }
 
 String SR::get_FileNotFound_ResolveAssembly() {
-  return nullptr;
+  return GetResourceString("FileNotFound_ResolveAssembly");
 }
 
 String SR::get_Format_AttributeUsage() {
-  return nullptr;
+  return GetResourceString("Format_AttributeUsage");
 }
 
 String SR::get_Format_Bad7BitInt() {
-  return nullptr;
+  return GetResourceString("Format_Bad7BitInt");
 }
 
 String SR::get_Format_BadBase64Char() {
-  return nullptr;
+  return GetResourceString("Format_BadBase64Char");
 }
 
 String SR::get_Format_BadBoolean() {
-  return nullptr;
+  return GetResourceString("Format_BadBoolean");
 }
 
 String SR::get_Format_BadFormatSpecifier() {
-  return nullptr;
+  return GetResourceString("Format_BadFormatSpecifier");
 }
 
 String SR::get_Format_NoFormatSpecifier() {
-  return nullptr;
+  return GetResourceString("Format_NoFormatSpecifier");
 }
 
 String SR::get_Format_BadQuote() {
-  return nullptr;
+  return GetResourceString("Format_BadQuote");
 }
 
 String SR::get_Format_BadTimeSpan() {
-  return nullptr;
+  return GetResourceString("Format_BadTimeSpan");
 }
 
 String SR::get_Format_EmptyInputString() {
-  return nullptr;
+  return GetResourceString("Format_EmptyInputString");
 }
 
 String SR::get_Format_ExtraJunkAtEnd() {
-  return nullptr;
+  return GetResourceString("Format_ExtraJunkAtEnd");
 }
 
 String SR::get_Format_GuidUnrecognized() {
-  return nullptr;
+  return GetResourceString("Format_GuidUnrecognized");
 }
 
 String SR::get_Format_IndexOutOfRange() {
-  return nullptr;
+  return GetResourceString("Format_IndexOutOfRange");
 }
 
 String SR::get_Format_InvalidEnumFormatSpecification() {
-  return nullptr;
+  return GetResourceString("Format_InvalidEnumFormatSpecification");
 }
 
 String SR::get_Format_InvalidGuidFormatSpecification() {
-  return nullptr;
+  return GetResourceString("Format_InvalidGuidFormatSpecification");
 }
 
 String SR::get_Format_InvalidString() {
-  return nullptr;
+  return GetResourceString("Format_InvalidString");
 }
 
 String SR::get_Format_NeedSingleChar() {
-  return nullptr;
+  return GetResourceString("Format_NeedSingleChar");
 }
 
 String SR::get_Format_NoParsibleDigits() {
-  return nullptr;
+  return GetResourceString("Format_NoParsibleDigits");
 }
 
 String SR::get_Format_StringZeroLength() {
-  return nullptr;
+  return GetResourceString("Format_StringZeroLength");
 }
 
 String SR::get_IndexOutOfRange_ArrayRankIndex() {
-  return nullptr;
+  return GetResourceString("IndexOutOfRange_ArrayRankIndex");
 }
 
 String SR::get_IndexOutOfRange_UMSPosition() {
-  return nullptr;
+  return GetResourceString("IndexOutOfRange_UMSPosition");
 }
 
 String SR::get_InsufficientMemory_MemFailPoint() {
-  return nullptr;
+  return GetResourceString("InsufficientMemory_MemFailPoint");
 }
 
 String SR::get_InsufficientMemory_MemFailPoint_TooBig() {
-  return nullptr;
+  return GetResourceString("InsufficientMemory_MemFailPoint_TooBig");
 }
 
 String SR::get_InsufficientMemory_MemFailPoint_VAFrag() {
-  return nullptr;
+  return GetResourceString("InsufficientMemory_MemFailPoint_VAFrag");
 }
 
 String SR::get_Interop_COM_TypeMismatch() {
-  return nullptr;
+  return GetResourceString("Interop_COM_TypeMismatch");
 }
 
 String SR::get_Interop_Marshal_Unmappable_Char() {
-  return nullptr;
+  return GetResourceString("Interop_Marshal_Unmappable_Char");
 }
 
 String SR::get_Interop_Marshal_SafeHandle_InvalidOperation() {
-  return nullptr;
+  return GetResourceString("Interop_Marshal_SafeHandle_InvalidOperation");
 }
 
 String SR::get_Interop_Marshal_CannotCreateSafeHandleField() {
-  return nullptr;
+  return GetResourceString("Interop_Marshal_CannotCreateSafeHandleField");
 }
 
 String SR::get_Interop_Marshal_CannotCreateCriticalHandleField() {
-  return nullptr;
+  return GetResourceString("Interop_Marshal_CannotCreateCriticalHandleField");
 }
 
 String SR::get_InvalidCast_CannotCastNullToValueType() {
-  return nullptr;
+  return GetResourceString("InvalidCast_CannotCastNullToValueType");
 }
 
 String SR::get_InvalidCast_CannotCoerceByRefVariant() {
-  return nullptr;
+  return GetResourceString("InvalidCast_CannotCoerceByRefVariant");
 }
 
 String SR::get_InvalidCast_DBNull() {
-  return nullptr;
+  return GetResourceString("InvalidCast_DBNull");
 }
 
 String SR::get_InvalidCast_Empty() {
-  return nullptr;
+  return GetResourceString("InvalidCast_Empty");
 }
 
 String SR::get_InvalidCast_FromDBNull() {
-  return nullptr;
+  return GetResourceString("InvalidCast_FromDBNull");
 }
 
 String SR::get_InvalidCast_FromTo() {
-  return nullptr;
+  return GetResourceString("InvalidCast_FromTo");
 }
 
 String SR::get_InvalidCast_IConvertible() {
-  return nullptr;
+  return GetResourceString("InvalidCast_IConvertible");
 }
 
 String SR::get_InvalidOperation_AsyncFlowCtrlCtxMismatch() {
-  return nullptr;
+  return GetResourceString("InvalidOperation_AsyncFlowCtrlCtxMismatch");
 }
 
 String SR::get_InvalidOperation_AsyncIOInProgress() {
-  return nullptr;
+  return GetResourceString("InvalidOperation_AsyncIOInProgress");
 }
 
 String SR::get_InvalidOperation_BadEmptyMethodBody() {
-  return nullptr;
+  return GetResourceString("InvalidOperation_BadEmptyMethodBody");
 }
 
 String SR::get_InvalidOperation_BadILGeneratorUsage() {
-  return nullptr;
+  return GetResourceString("InvalidOperation_BadILGeneratorUsage");
 }
 
 String SR::get_InvalidOperation_BadInstructionOrIndexOutOfBound() {
-  return nullptr;
+  return GetResourceString("InvalidOperation_BadInstructionOrIndexOutOfBound");
 }
 
 String SR::get_InvalidOperation_BadInterfaceNotAbstract() {
-  return nullptr;
+  return GetResourceString("InvalidOperation_BadInterfaceNotAbstract");
 }
 
 String SR::get_InvalidOperation_BadMethodBody() {
-  return nullptr;
+  return GetResourceString("InvalidOperation_BadMethodBody");
 }
 
 String SR::get_InvalidOperation_BadTypeAttributesNotAbstract() {
-  return nullptr;
+  return GetResourceString("InvalidOperation_BadTypeAttributesNotAbstract");
 }
 
 String SR::get_InvalidOperation_CalledTwice() {
-  return nullptr;
+  return GetResourceString("InvalidOperation_CalledTwice");
 }
 
 String SR::get_InvalidOperation_CannotImportGlobalFromDifferentModule() {
-  return nullptr;
+  return GetResourceString("InvalidOperation_CannotImportGlobalFromDifferentModule");
 }
 
 String SR::get_InvalidOperation_CannotRegisterSecondResolver() {
-  return nullptr;
+  return GetResourceString("InvalidOperation_CannotRegisterSecondResolver");
 }
 
 String SR::get_InvalidOperation_CannotRestoreUnsupressedFlow() {
-  return nullptr;
+  return GetResourceString("InvalidOperation_CannotRestoreUnsupressedFlow");
 }
 
 String SR::get_InvalidOperation_CannotSupressFlowMultipleTimes() {
-  return nullptr;
+  return GetResourceString("InvalidOperation_CannotSupressFlowMultipleTimes");
 }
 
 String SR::get_InvalidOperation_CannotUseAFCMultiple() {
-  return nullptr;
+  return GetResourceString("InvalidOperation_CannotUseAFCMultiple");
 }
 
 String SR::get_InvalidOperation_CannotUseAFCOtherThread() {
-  return nullptr;
+  return GetResourceString("InvalidOperation_CannotUseAFCOtherThread");
 }
 
 String SR::get_InvalidOperation_CollectionCorrupted() {
-  return nullptr;
+  return GetResourceString("InvalidOperation_CollectionCorrupted");
 }
 
 String SR::get_InvalidOperation_ComputerName() {
-  return nullptr;
+  return GetResourceString("InvalidOperation_ComputerName");
 }
 
 String SR::get_InvalidOperation_ConcurrentOperationsNotSupported() {
-  return nullptr;
+  return GetResourceString("InvalidOperation_ConcurrentOperationsNotSupported");
 }
 
 String SR::get_InvalidOperation_ConstructorNotAllowedOnInterface() {
-  return nullptr;
+  return GetResourceString("InvalidOperation_ConstructorNotAllowedOnInterface");
 }
 
 String SR::get_InvalidOperation_DateTimeParsing() {
-  return nullptr;
+  return GetResourceString("InvalidOperation_DateTimeParsing");
 }
 
 String SR::get_InvalidOperation_DefaultConstructorILGen() {
-  return nullptr;
+  return GetResourceString("InvalidOperation_DefaultConstructorILGen");
 }
 
 String SR::get_InvalidOperation_EndReadCalledMultiple() {
-  return nullptr;
+  return GetResourceString("InvalidOperation_EndReadCalledMultiple");
 }
 
 String SR::get_InvalidOperation_EndWriteCalledMultiple() {
-  return nullptr;
+  return GetResourceString("InvalidOperation_EndWriteCalledMultiple");
 }
 
 String SR::get_InvalidOperation_EnumEnded() {
-  return nullptr;
+  return GetResourceString("InvalidOperation_EnumEnded");
 }
 
 String SR::get_InvalidOperation_EnumFailedVersion() {
-  return nullptr;
+  return GetResourceString("InvalidOperation_EnumFailedVersion");
 }
 
 String SR::get_InvalidOperation_EnumNotStarted() {
-  return nullptr;
+  return GetResourceString("InvalidOperation_EnumNotStarted");
 }
 
 String SR::get_InvalidOperation_EnumOpCantHappen() {
-  return nullptr;
+  return GetResourceString("InvalidOperation_EnumOpCantHappen");
 }
 
 String SR::get_InvalidOperation_EventInfoNotAvailable() {
-  return nullptr;
+  return GetResourceString("InvalidOperation_EventInfoNotAvailable");
 }
 
 String SR::get_InvalidOperation_GenericParametersAlreadySet() {
-  return nullptr;
+  return GetResourceString("InvalidOperation_GenericParametersAlreadySet");
 }
 
 String SR::get_InvalidOperation_GetVersion() {
-  return nullptr;
+  return GetResourceString("InvalidOperation_GetVersion");
 }
 
 String SR::get_InvalidOperation_GlobalsHaveBeenCreated() {
-  return nullptr;
+  return GetResourceString("InvalidOperation_GlobalsHaveBeenCreated");
 }
 
 String SR::get_InvalidOperation_HandleIsNotInitialized() {
-  return nullptr;
+  return GetResourceString("InvalidOperation_HandleIsNotInitialized");
 }
 
 String SR::get_InvalidOperation_HandleIsNotPinned() {
-  return nullptr;
+  return GetResourceString("InvalidOperation_HandleIsNotPinned");
 }
 
 String SR::get_InvalidOperation_HashInsertFailed() {
-  return nullptr;
+  return GetResourceString("InvalidOperation_HashInsertFailed");
 }
 
 String SR::get_InvalidOperation_IComparerFailed() {
-  return nullptr;
+  return GetResourceString("InvalidOperation_IComparerFailed");
 }
 
 String SR::get_InvalidOperation_MethodBaked() {
-  return nullptr;
+  return GetResourceString("InvalidOperation_MethodBaked");
 }
 
 String SR::get_InvalidOperation_MethodBuilderBaked() {
-  return nullptr;
+  return GetResourceString("InvalidOperation_MethodBuilderBaked");
 }
 
 String SR::get_InvalidOperation_MethodHasBody() {
-  return nullptr;
+  return GetResourceString("InvalidOperation_MethodHasBody");
 }
 
 String SR::get_InvalidOperation_MustCallInitialize() {
-  return nullptr;
+  return GetResourceString("InvalidOperation_MustCallInitialize");
 }
 
 String SR::get_InvalidOperation_NativeOverlappedReused() {
-  return nullptr;
+  return GetResourceString("InvalidOperation_NativeOverlappedReused");
 }
 
 String SR::get_InvalidOperation_NoMultiModuleAssembly() {
-  return nullptr;
+  return GetResourceString("InvalidOperation_NoMultiModuleAssembly");
 }
 
 String SR::get_InvalidOperation_NoPublicAddMethod() {
-  return nullptr;
+  return GetResourceString("InvalidOperation_NoPublicAddMethod");
 }
 
 String SR::get_InvalidOperation_NoPublicRemoveMethod() {
-  return nullptr;
+  return GetResourceString("InvalidOperation_NoPublicRemoveMethod");
 }
 
 String SR::get_InvalidOperation_NotADebugModule() {
-  return nullptr;
+  return GetResourceString("InvalidOperation_NotADebugModule");
 }
 
 String SR::get_InvalidOperation_NotAllowedInDynamicMethod() {
-  return nullptr;
+  return GetResourceString("InvalidOperation_NotAllowedInDynamicMethod");
 }
 
 String SR::get_InvalidOperation_NotAVarArgCallingConvention() {
-  return nullptr;
+  return GetResourceString("InvalidOperation_NotAVarArgCallingConvention");
 }
 
 String SR::get_InvalidOperation_NotGenericType() {
-  return nullptr;
+  return GetResourceString("InvalidOperation_NotGenericType");
 }
 
 String SR::get_InvalidOperation_NotWithConcurrentGC() {
-  return nullptr;
+  return GetResourceString("InvalidOperation_NotWithConcurrentGC");
 }
 
 String SR::get_InvalidOperation_NoUnderlyingTypeOnEnum() {
-  return nullptr;
+  return GetResourceString("InvalidOperation_NoUnderlyingTypeOnEnum");
 }
 
 String SR::get_InvalidOperation_NoValue() {
-  return nullptr;
+  return GetResourceString("InvalidOperation_NoValue");
 }
 
 String SR::get_InvalidOperation_NullArray() {
-  return nullptr;
+  return GetResourceString("InvalidOperation_NullArray");
 }
 
 String SR::get_InvalidOperation_NullContext() {
-  return nullptr;
+  return GetResourceString("InvalidOperation_NullContext");
 }
 
 String SR::get_InvalidOperation_NullModuleHandle() {
-  return nullptr;
+  return GetResourceString("InvalidOperation_NullModuleHandle");
 }
 
 String SR::get_InvalidOperation_OpenLocalVariableScope() {
-  return nullptr;
+  return GetResourceString("InvalidOperation_OpenLocalVariableScope");
 }
 
 String SR::get_InvalidOperation_Overlapped_Pack() {
-  return nullptr;
+  return GetResourceString("InvalidOperation_Overlapped_Pack");
 }
 
 String SR::get_InvalidOperation_PropertyInfoNotAvailable() {
-  return nullptr;
+  return GetResourceString("InvalidOperation_PropertyInfoNotAvailable");
 }
 
 String SR::get_InvalidOperation_ReadOnly() {
-  return nullptr;
+  return GetResourceString("InvalidOperation_ReadOnly");
 }
 
 String SR::get_InvalidOperation_ResMgrBadResSet_Type() {
-  return nullptr;
+  return GetResourceString("InvalidOperation_ResMgrBadResSet_Type");
 }
 
 String SR::get_InvalidOperation_ResourceNotStream_Name() {
-  return nullptr;
+  return GetResourceString("InvalidOperation_ResourceNotStream_Name");
 }
 
 String SR::get_InvalidOperation_ResourceNotString_Name() {
-  return nullptr;
+  return GetResourceString("InvalidOperation_ResourceNotString_Name");
 }
 
 String SR::get_InvalidOperation_ResourceNotString_Type() {
-  return nullptr;
+  return GetResourceString("InvalidOperation_ResourceNotString_Type");
 }
 
 String SR::get_InvalidOperation_SetLatencyModeNoGC() {
-  return nullptr;
+  return GetResourceString("InvalidOperation_SetLatencyModeNoGC");
 }
 
 String SR::get_InvalidOperation_ShouldNotHaveMethodBody() {
-  return nullptr;
+  return GetResourceString("InvalidOperation_ShouldNotHaveMethodBody");
 }
 
 String SR::get_InvalidOperation_ThreadWrongThreadStart() {
-  return nullptr;
+  return GetResourceString("InvalidOperation_ThreadWrongThreadStart");
 }
 
 String SR::get_InvalidOperation_TimeoutsNotSupported() {
-  return nullptr;
+  return GetResourceString("InvalidOperation_TimeoutsNotSupported");
 }
 
 String SR::get_InvalidOperation_TimerAlreadyClosed() {
-  return nullptr;
+  return GetResourceString("InvalidOperation_TimerAlreadyClosed");
 }
 
 String SR::get_InvalidOperation_TypeHasBeenCreated() {
-  return nullptr;
+  return GetResourceString("InvalidOperation_TypeHasBeenCreated");
 }
 
 String SR::get_InvalidOperation_TypeNotCreated() {
-  return nullptr;
+  return GetResourceString("InvalidOperation_TypeNotCreated");
 }
 
 String SR::get_InvalidOperation_UnderlyingArrayListChanged() {
-  return nullptr;
+  return GetResourceString("InvalidOperation_UnderlyingArrayListChanged");
 }
 
 String SR::get_InvalidOperation_UnknownEnumType() {
-  return nullptr;
+  return GetResourceString("InvalidOperation_UnknownEnumType");
 }
 
 String SR::get_InvalidOperation_WriteOnce() {
-  return nullptr;
+  return GetResourceString("InvalidOperation_WriteOnce");
 }
 
 String SR::get_InvalidOperation_WrongAsyncResultOrEndCalledMultiple() {
-  return nullptr;
+  return GetResourceString("InvalidOperation_WrongAsyncResultOrEndCalledMultiple");
 }
 
 String SR::get_InvalidOperation_WrongAsyncResultOrEndReadCalledMultiple() {
-  return nullptr;
+  return GetResourceString("InvalidOperation_WrongAsyncResultOrEndReadCalledMultiple");
 }
 
 String SR::get_InvalidOperation_WrongAsyncResultOrEndWriteCalledMultiple() {
-  return nullptr;
+  return GetResourceString("InvalidOperation_WrongAsyncResultOrEndWriteCalledMultiple");
 }
 
 String SR::get_InvalidProgram_Default() {
-  return nullptr;
+  return GetResourceString("InvalidProgram_Default");
 }
 
 String SR::get_InvalidTimeZone_InvalidRegistryData() {
-  return nullptr;
+  return GetResourceString("InvalidTimeZone_InvalidRegistryData");
 }
 
 String SR::get_InvariantFailed() {
-  return nullptr;
+  return GetResourceString("InvariantFailed");
 }
 
 String SR::get_InvariantFailed_Cnd() {
-  return nullptr;
+  return GetResourceString("InvariantFailed_Cnd");
 }
 
 String SR::get_IO_EOF_ReadBeyondEOF() {
-  return nullptr;
+  return GetResourceString("IO_EOF_ReadBeyondEOF");
 }
 
 String SR::get_IO_FileLoad() {
-  return nullptr;
+  return GetResourceString("IO_FileLoad");
 }
 
 String SR::get_IO_FileName_Name() {
-  return nullptr;
+  return GetResourceString("IO_FileName_Name");
 }
 
 String SR::get_IO_FileNotFound() {
-  return nullptr;
+  return GetResourceString("IO_FileNotFound");
 }
 
 String SR::get_IO_FileNotFound_FileName() {
-  return nullptr;
+  return GetResourceString("IO_FileNotFound_FileName");
 }
 
 String SR::get_IO_AlreadyExists_Name() {
-  return nullptr;
+  return GetResourceString("IO_AlreadyExists_Name");
 }
 
 String SR::get_IO_BindHandleFailed() {
-  return nullptr;
+  return GetResourceString("IO_BindHandleFailed");
 }
 
 String SR::get_IO_FileExists_Name() {
-  return nullptr;
+  return GetResourceString("IO_FileExists_Name");
 }
 
 String SR::get_IO_FileStreamHandlePosition() {
-  return nullptr;
+  return GetResourceString("IO_FileStreamHandlePosition");
 }
 
 String SR::get_IO_FileTooLongOrHandleNotSync() {
-  return nullptr;
+  return GetResourceString("IO_FileTooLongOrHandleNotSync");
 }
 
 String SR::get_IO_FixedCapacity() {
-  return nullptr;
+  return GetResourceString("IO_FixedCapacity");
 }
 
 String SR::get_IO_InvalidStringLen_Len() {
-  return nullptr;
+  return GetResourceString("IO_InvalidStringLen_Len");
 }
 
 String SR::get_IO_SeekAppendOverwrite() {
-  return nullptr;
+  return GetResourceString("IO_SeekAppendOverwrite");
 }
 
 String SR::get_IO_SeekBeforeBegin() {
-  return nullptr;
+  return GetResourceString("IO_SeekBeforeBegin");
 }
 
 String SR::get_IO_SetLengthAppendTruncate() {
-  return nullptr;
+  return GetResourceString("IO_SetLengthAppendTruncate");
 }
 
 String SR::get_IO_SharingViolation_File() {
-  return nullptr;
+  return GetResourceString("IO_SharingViolation_File");
 }
 
 String SR::get_IO_SharingViolation_NoFileName() {
-  return nullptr;
+  return GetResourceString("IO_SharingViolation_NoFileName");
 }
 
 String SR::get_IO_StreamTooLong() {
-  return nullptr;
+  return GetResourceString("IO_StreamTooLong");
 }
 
 String SR::get_IO_PathNotFound_NoPathName() {
-  return nullptr;
+  return GetResourceString("IO_PathNotFound_NoPathName");
 }
 
 String SR::get_IO_PathNotFound_Path() {
-  return nullptr;
+  return GetResourceString("IO_PathNotFound_Path");
 }
 
 String SR::get_IO_PathTooLong() {
-  return nullptr;
+  return GetResourceString("IO_PathTooLong");
 }
 
 String SR::get_IO_PathTooLong_Path() {
-  return nullptr;
+  return GetResourceString("IO_PathTooLong_Path");
 }
 
 String SR::get_IO_UnknownFileName() {
-  return nullptr;
+  return GetResourceString("IO_UnknownFileName");
 }
 
 String SR::get_Lazy_CreateValue_NoParameterlessCtorForT() {
-  return nullptr;
+  return GetResourceString("Lazy_CreateValue_NoParameterlessCtorForT");
 }
 
 String SR::get_Lazy_ctor_ModeInvalid() {
-  return nullptr;
+  return GetResourceString("Lazy_ctor_ModeInvalid");
 }
 
 String SR::get_Lazy_StaticInit_InvalidOperation() {
-  return nullptr;
+  return GetResourceString("Lazy_StaticInit_InvalidOperation");
 }
 
 String SR::get_Lazy_ToString_ValueNotCreated() {
-  return nullptr;
+  return GetResourceString("Lazy_ToString_ValueNotCreated");
 }
 
 String SR::get_Lazy_Value_RecursiveCallsToValue() {
-  return nullptr;
+  return GetResourceString("Lazy_Value_RecursiveCallsToValue");
 }
 
 String SR::get_ManualResetEventSlim_ctor_SpinCountOutOfRange() {
-  return nullptr;
+  return GetResourceString("ManualResetEventSlim_ctor_SpinCountOutOfRange");
 }
 
 String SR::get_ManualResetEventSlim_ctor_TooManyWaiters() {
-  return nullptr;
+  return GetResourceString("ManualResetEventSlim_ctor_TooManyWaiters");
 }
 
 String SR::get_ManualResetEventSlim_Disposed() {
-  return nullptr;
+  return GetResourceString("ManualResetEventSlim_Disposed");
 }
 
 String SR::get_Marshaler_StringTooLong() {
-  return nullptr;
+  return GetResourceString("Marshaler_StringTooLong");
 }
 
 String SR::get_MissingConstructor_Name() {
-  return nullptr;
+  return GetResourceString("MissingConstructor_Name");
 }
 
 String SR::get_MissingField() {
-  return nullptr;
+  return GetResourceString("MissingField");
 }
 
 String SR::get_MissingField_Name() {
-  return nullptr;
+  return GetResourceString("MissingField_Name");
 }
 
 String SR::get_MissingManifestResource_MultipleBlobs() {
-  return nullptr;
+  return GetResourceString("MissingManifestResource_MultipleBlobs");
 }
 
 String SR::get_MissingManifestResource_NoNeutralAsm() {
-  return nullptr;
+  return GetResourceString("MissingManifestResource_NoNeutralAsm");
 }
 
 String SR::get_MissingManifestResource_NoNeutralDisk() {
-  return nullptr;
+  return GetResourceString("MissingManifestResource_NoNeutralDisk");
 }
 
 String SR::get_MissingMember() {
-  return nullptr;
+  return GetResourceString("MissingMember");
 }
 
 String SR::get_MissingMember_Name() {
-  return nullptr;
+  return GetResourceString("MissingMember_Name");
 }
 
 String SR::get_MissingMemberNestErr() {
-  return nullptr;
+  return GetResourceString("MissingMemberNestErr");
 }
 
 String SR::get_MissingMemberTypeRef() {
-  return nullptr;
+  return GetResourceString("MissingMemberTypeRef");
 }
 
 String SR::get_MissingMethod_Name() {
-  return nullptr;
+  return GetResourceString("MissingMethod_Name");
 }
 
 String SR::get_MissingSatelliteAssembly_Culture_Name() {
-  return nullptr;
+  return GetResourceString("MissingSatelliteAssembly_Culture_Name");
 }
 
 String SR::get_MissingSatelliteAssembly_Default() {
-  return nullptr;
+  return GetResourceString("MissingSatelliteAssembly_Default");
 }
 
 String SR::get_Multicast_Combine() {
-  return nullptr;
+  return GetResourceString("Multicast_Combine");
 }
 
 String SR::get_MustUseCCRewrite() {
-  return nullptr;
+  return GetResourceString("MustUseCCRewrite");
 }
 
 String SR::get_NotSupported_AbstractNonCLS() {
-  return nullptr;
+  return GetResourceString("NotSupported_AbstractNonCLS");
 }
 
 String SR::get_NotSupported_ActivAttr() {
-  return nullptr;
+  return GetResourceString("NotSupported_ActivAttr");
 }
 
 String SR::get_NotSupported_AssemblyLoadFromHash() {
-  return nullptr;
+  return GetResourceString("NotSupported_AssemblyLoadFromHash");
 }
 
 String SR::get_NotSupported_ByRefToByRefLikeReturn() {
-  return nullptr;
+  return GetResourceString("NotSupported_ByRefToByRefLikeReturn");
 }
 
 String SR::get_NotSupported_ByRefToVoidReturn() {
-  return nullptr;
+  return GetResourceString("NotSupported_ByRefToVoidReturn");
 }
 
 String SR::get_NotSupported_CallToVarArg() {
-  return nullptr;
+  return GetResourceString("NotSupported_CallToVarArg");
 }
 
 String SR::get_NotSupported_CannotCallEqualsOnSpan() {
-  return nullptr;
+  return GetResourceString("NotSupported_CannotCallEqualsOnSpan");
 }
 
 String SR::get_NotSupported_CannotCallGetHashCodeOnSpan() {
-  return nullptr;
+  return GetResourceString("NotSupported_CannotCallGetHashCodeOnSpan");
 }
 
 String SR::get_NotSupported_ChangeType() {
-  return nullptr;
+  return GetResourceString("NotSupported_ChangeType");
 }
 
 String SR::get_NotSupported_CreateInstanceWithTypeBuilder() {
-  return nullptr;
+  return GetResourceString("NotSupported_CreateInstanceWithTypeBuilder");
 }
 
 String SR::get_NotSupported_DBNullSerial() {
-  return nullptr;
+  return GetResourceString("NotSupported_DBNullSerial");
 }
 
 String SR::get_NotSupported_DynamicAssembly() {
-  return nullptr;
+  return GetResourceString("NotSupported_DynamicAssembly");
 }
 
 String SR::get_NotSupported_DynamicMethodFlags() {
-  return nullptr;
+  return GetResourceString("NotSupported_DynamicMethodFlags");
 }
 
 String SR::get_NotSupported_DynamicModule() {
-  return nullptr;
+  return GetResourceString("NotSupported_DynamicModule");
 }
 
 String SR::get_NotSupported_FileStreamOnNonFiles() {
-  return nullptr;
+  return GetResourceString("NotSupported_FileStreamOnNonFiles");
 }
 
 String SR::get_NotSupported_FixedSizeCollection() {
-  return nullptr;
+  return GetResourceString("NotSupported_FixedSizeCollection");
 }
 
 String SR::get_InvalidOperation_SpanOverlappedOperation() {
-  return nullptr;
+  return GetResourceString("InvalidOperation_SpanOverlappedOperation");
 }
 
 String SR::get_NotSupported_IllegalOneByteBranch() {
-  return nullptr;
+  return GetResourceString("NotSupported_IllegalOneByteBranch");
 }
 
 String SR::get_NotSupported_KeyCollectionSet() {
-  return nullptr;
+  return GetResourceString("NotSupported_KeyCollectionSet");
 }
 
 String SR::get_NotSupported_MaxWaitHandles() {
-  return nullptr;
+  return GetResourceString("NotSupported_MaxWaitHandles");
 }
 
 String SR::get_NotSupported_MemStreamNotExpandable() {
-  return nullptr;
+  return GetResourceString("NotSupported_MemStreamNotExpandable");
 }
 
 String SR::get_NotSupported_MustBeModuleBuilder() {
-  return nullptr;
+  return GetResourceString("NotSupported_MustBeModuleBuilder");
 }
 
 String SR::get_NotSupported_NoCodepageData() {
-  return nullptr;
+  return GetResourceString("NotSupported_NoCodepageData");
 }
 
 String SR::get_InvalidOperation_FunctionMissingUnmanagedCallersOnly() {
-  return nullptr;
+  return GetResourceString("InvalidOperation_FunctionMissingUnmanagedCallersOnly");
 }
 
 String SR::get_NotSupported_NonReflectedType() {
-  return nullptr;
+  return GetResourceString("NotSupported_NonReflectedType");
 }
 
 String SR::get_NotSupported_NoParentDefaultConstructor() {
-  return nullptr;
+  return GetResourceString("NotSupported_NoParentDefaultConstructor");
 }
 
 String SR::get_NotSupported_NoTypeInfo() {
-  return nullptr;
+  return GetResourceString("NotSupported_NoTypeInfo");
 }
 
 String SR::get_NotSupported_NYI() {
-  return nullptr;
+  return GetResourceString("NotSupported_NYI");
 }
 
 String SR::get_NotSupported_ObsoleteResourcesFile() {
-  return nullptr;
+  return GetResourceString("NotSupported_ObsoleteResourcesFile");
 }
 
 String SR::get_NotSupported_OutputStreamUsingTypeBuilder() {
-  return nullptr;
+  return GetResourceString("NotSupported_OutputStreamUsingTypeBuilder");
 }
 
 String SR::get_NotSupported_RangeCollection() {
-  return nullptr;
+  return GetResourceString("NotSupported_RangeCollection");
 }
 
 String SR::get_NotSupported_Reading() {
-  return nullptr;
+  return GetResourceString("NotSupported_Reading");
 }
 
 String SR::get_NotSupported_ReadOnlyCollection() {
-  return nullptr;
+  return GetResourceString("NotSupported_ReadOnlyCollection");
 }
 
 String SR::get_NotSupported_ResourceObjectSerialization() {
-  return nullptr;
+  return GetResourceString("NotSupported_ResourceObjectSerialization");
 }
 
 String SR::get_NotSupported_StringComparison() {
-  return nullptr;
+  return GetResourceString("NotSupported_StringComparison");
 }
 
 String SR::get_NotSupported_SubclassOverride() {
-  return nullptr;
+  return GetResourceString("NotSupported_SubclassOverride");
 }
 
 String SR::get_NotSupported_SymbolMethod() {
-  return nullptr;
+  return GetResourceString("NotSupported_SymbolMethod");
 }
 
 String SR::get_NotSupported_Type() {
-  return nullptr;
+  return GetResourceString("NotSupported_Type");
 }
 
 String SR::get_NotSupported_TypeNotYetCreated() {
-  return nullptr;
+  return GetResourceString("NotSupported_TypeNotYetCreated");
 }
 
 String SR::get_NotSupported_UmsSafeBuffer() {
-  return nullptr;
+  return GetResourceString("NotSupported_UmsSafeBuffer");
 }
 
 String SR::get_NotSupported_UnitySerHolder() {
-  return nullptr;
+  return GetResourceString("NotSupported_UnitySerHolder");
 }
 
 String SR::get_NotSupported_UnknownTypeCode() {
-  return nullptr;
+  return GetResourceString("NotSupported_UnknownTypeCode");
 }
 
 String SR::get_NotSupported_UnreadableStream() {
-  return nullptr;
+  return GetResourceString("NotSupported_UnreadableStream");
 }
 
 String SR::get_NotSupported_UnseekableStream() {
-  return nullptr;
+  return GetResourceString("NotSupported_UnseekableStream");
 }
 
 String SR::get_NotSupported_UnwritableStream() {
-  return nullptr;
+  return GetResourceString("NotSupported_UnwritableStream");
 }
 
 String SR::get_NotSupported_ValueCollectionSet() {
-  return nullptr;
+  return GetResourceString("NotSupported_ValueCollectionSet");
 }
 
 String SR::get_NotSupported_Writing() {
-  return nullptr;
+  return GetResourceString("NotSupported_Writing");
 }
 
 String SR::get_NotSupported_WrongResourceReader_Type() {
-  return nullptr;
+  return GetResourceString("NotSupported_WrongResourceReader_Type");
 }
 
 String SR::get_ObjectDisposed_FileClosed() {
-  return nullptr;
+  return GetResourceString("ObjectDisposed_FileClosed");
 }
 
 String SR::get_ObjectDisposed_Generic() {
-  return nullptr;
+  return GetResourceString("ObjectDisposed_Generic");
 }
 
 String SR::get_ObjectDisposed_ObjectName_Name() {
-  return nullptr;
+  return GetResourceString("ObjectDisposed_ObjectName_Name");
 }
 
 String SR::get_ObjectDisposed_WriterClosed() {
-  return nullptr;
+  return GetResourceString("ObjectDisposed_WriterClosed");
 }
 
 String SR::get_ObjectDisposed_ReaderClosed() {
-  return nullptr;
+  return GetResourceString("ObjectDisposed_ReaderClosed");
 }
 
 String SR::get_ObjectDisposed_ResourceSet() {
-  return nullptr;
+  return GetResourceString("ObjectDisposed_ResourceSet");
 }
 
 String SR::get_ObjectDisposed_StreamClosed() {
-  return nullptr;
+  return GetResourceString("ObjectDisposed_StreamClosed");
 }
 
 String SR::get_ObjectDisposed_ViewAccessorClosed() {
-  return nullptr;
+  return GetResourceString("ObjectDisposed_ViewAccessorClosed");
 }
 
 String SR::get_ObjectDisposed_SafeHandleClosed() {
-  return nullptr;
+  return GetResourceString("ObjectDisposed_SafeHandleClosed");
 }
 
 String SR::get_OperationCanceled() {
-  return nullptr;
+  return GetResourceString("OperationCanceled");
 }
 
 String SR::get_Overflow_Byte() {
-  return nullptr;
+  return GetResourceString("Overflow_Byte");
 }
 
 String SR::get_Overflow_Char() {
-  return nullptr;
+  return GetResourceString("Overflow_Char");
 }
 
 String SR::get_Overflow_Currency() {
-  return nullptr;
+  return GetResourceString("Overflow_Currency");
 }
 
 String SR::get_Overflow_Decimal() {
-  return nullptr;
+  return GetResourceString("Overflow_Decimal");
 }
 
 String SR::get_Overflow_Duration() {
-  return nullptr;
+  return GetResourceString("Overflow_Duration");
 }
 
 String SR::get_Overflow_Int16() {
-  return nullptr;
+  return GetResourceString("Overflow_Int16");
 }
 
 String SR::get_Overflow_Int32() {
-  return nullptr;
+  return GetResourceString("Overflow_Int32");
 }
 
 String SR::get_Overflow_Int64() {
-  return nullptr;
+  return GetResourceString("Overflow_Int64");
 }
 
 String SR::get_Overflow_NegateTwosCompNum() {
-  return nullptr;
+  return GetResourceString("Overflow_NegateTwosCompNum");
 }
 
 String SR::get_Overflow_NegativeUnsigned() {
-  return nullptr;
+  return GetResourceString("Overflow_NegativeUnsigned");
 }
 
 String SR::get_Overflow_SByte() {
-  return nullptr;
+  return GetResourceString("Overflow_SByte");
 }
 
 String SR::get_Overflow_TimeSpanElementTooLarge() {
-  return nullptr;
+  return GetResourceString("Overflow_TimeSpanElementTooLarge");
 }
 
 String SR::get_Overflow_TimeSpanTooLong() {
-  return nullptr;
+  return GetResourceString("Overflow_TimeSpanTooLong");
 }
 
 String SR::get_Overflow_UInt16() {
-  return nullptr;
+  return GetResourceString("Overflow_UInt16");
 }
 
 String SR::get_Overflow_UInt32() {
-  return nullptr;
+  return GetResourceString("Overflow_UInt32");
 }
 
 String SR::get_Overflow_UInt64() {
-  return nullptr;
+  return GetResourceString("Overflow_UInt64");
 }
 
 String SR::get_PlatformNotSupported_ReflectionOnly() {
-  return nullptr;
+  return GetResourceString("PlatformNotSupported_ReflectionOnly");
 }
 
 String SR::get_PlatformNotSupported_Remoting() {
-  return nullptr;
+  return GetResourceString("PlatformNotSupported_Remoting");
 }
 
 String SR::get_PlatformNotSupported_SecureBinarySerialization() {
-  return nullptr;
+  return GetResourceString("PlatformNotSupported_SecureBinarySerialization");
 }
 
 String SR::get_PlatformNotSupported_StrongNameSigning() {
-  return nullptr;
+  return GetResourceString("PlatformNotSupported_StrongNameSigning");
 }
 
 String SR::get_PlatformNotSupported_ITypeInfo() {
-  return nullptr;
+  return GetResourceString("PlatformNotSupported_ITypeInfo");
 }
 
 String SR::get_PlatformNotSupported_IExpando() {
-  return nullptr;
+  return GetResourceString("PlatformNotSupported_IExpando");
 }
 
 String SR::get_PlatformNotSupported_AppDomains() {
-  return nullptr;
+  return GetResourceString("PlatformNotSupported_AppDomains");
 }
 
 String SR::get_PlatformNotSupported_CAS() {
-  return nullptr;
+  return GetResourceString("PlatformNotSupported_CAS");
 }
 
 String SR::get_PlatformNotSupported_Principal() {
-  return nullptr;
+  return GetResourceString("PlatformNotSupported_Principal");
 }
 
 String SR::get_PlatformNotSupported_ThreadAbort() {
-  return nullptr;
+  return GetResourceString("PlatformNotSupported_ThreadAbort");
 }
 
 String SR::get_PlatformNotSupported_ThreadSuspend() {
-  return nullptr;
+  return GetResourceString("PlatformNotSupported_ThreadSuspend");
 }
 
 String SR::get_PostconditionFailed() {
-  return nullptr;
+  return GetResourceString("PostconditionFailed");
 }
 
 String SR::get_PostconditionFailed_Cnd() {
-  return nullptr;
+  return GetResourceString("PostconditionFailed_Cnd");
 }
 
 String SR::get_PostconditionOnExceptionFailed() {
-  return nullptr;
+  return GetResourceString("PostconditionOnExceptionFailed");
 }
 
 String SR::get_PostconditionOnExceptionFailed_Cnd() {
-  return nullptr;
+  return GetResourceString("PostconditionOnExceptionFailed_Cnd");
 }
 
 String SR::get_PreconditionFailed() {
-  return nullptr;
+  return GetResourceString("PreconditionFailed");
 }
 
 String SR::get_PreconditionFailed_Cnd() {
-  return nullptr;
+  return GetResourceString("PreconditionFailed_Cnd");
 }
 
 String SR::get_Rank_MultiDimNotSupported() {
-  return nullptr;
+  return GetResourceString("Rank_MultiDimNotSupported");
 }
 
 String SR::get_Rank_MustMatch() {
-  return nullptr;
+  return GetResourceString("Rank_MustMatch");
 }
 
 String SR::get_ResourceReaderIsClosed() {
-  return nullptr;
+  return GetResourceString("ResourceReaderIsClosed");
 }
 
 String SR::get_Resources_StreamNotValid() {
-  return nullptr;
+  return GetResourceString("Resources_StreamNotValid");
 }
 
 String SR::get_RFLCT_AmbigCust() {
-  return nullptr;
+  return GetResourceString("RFLCT_AmbigCust");
 }
 
 String SR::get_RFLCT_Ambiguous() {
-  return nullptr;
+  return GetResourceString("RFLCT_Ambiguous");
 }
 
 String SR::get_InvalidFilterCriteriaException_CritInt() {
-  return nullptr;
+  return GetResourceString("InvalidFilterCriteriaException_CritInt");
 }
 
 String SR::get_InvalidFilterCriteriaException_CritString() {
-  return nullptr;
+  return GetResourceString("InvalidFilterCriteriaException_CritString");
 }
 
 String SR::get_RFLCT_InvalidFieldFail() {
-  return nullptr;
+  return GetResourceString("RFLCT_InvalidFieldFail");
 }
 
 String SR::get_RFLCT_InvalidPropFail() {
-  return nullptr;
+  return GetResourceString("RFLCT_InvalidPropFail");
 }
 
 String SR::get_RFLCT_Targ_ITargMismatch() {
-  return nullptr;
+  return GetResourceString("RFLCT_Targ_ITargMismatch");
 }
 
 String SR::get_RFLCT_Targ_StatFldReqTarg() {
-  return nullptr;
+  return GetResourceString("RFLCT_Targ_StatFldReqTarg");
 }
 
 String SR::get_RFLCT_Targ_StatMethReqTarg() {
-  return nullptr;
+  return GetResourceString("RFLCT_Targ_StatMethReqTarg");
 }
 
 String SR::get_RuntimeWrappedException() {
-  return nullptr;
+  return GetResourceString("RuntimeWrappedException");
 }
 
 String SR::get_Security_CannotReadRegistryData() {
-  return nullptr;
+  return GetResourceString("Security_CannotReadRegistryData");
 }
 
 String SR::get_Security_RegistryPermission() {
-  return nullptr;
+  return GetResourceString("Security_RegistryPermission");
 }
 
 String SR::get_SemaphoreSlim_ctor_InitialCountWrong() {
-  return nullptr;
+  return GetResourceString("SemaphoreSlim_ctor_InitialCountWrong");
 }
 
 String SR::get_SemaphoreSlim_ctor_MaxCountWrong() {
-  return nullptr;
+  return GetResourceString("SemaphoreSlim_ctor_MaxCountWrong");
 }
 
 String SR::get_SemaphoreSlim_Disposed() {
-  return nullptr;
+  return GetResourceString("SemaphoreSlim_Disposed");
 }
 
 String SR::get_SemaphoreSlim_Release_CountWrong() {
-  return nullptr;
+  return GetResourceString("SemaphoreSlim_Release_CountWrong");
 }
 
 String SR::get_SemaphoreSlim_Wait_TimeoutWrong() {
-  return nullptr;
+  return GetResourceString("SemaphoreSlim_Wait_TimeoutWrong");
 }
 
 String SR::get_Serialization_BadParameterInfo() {
-  return nullptr;
+  return GetResourceString("Serialization_BadParameterInfo");
 }
 
 String SR::get_Serialization_CorruptField() {
-  return nullptr;
+  return GetResourceString("Serialization_CorruptField");
 }
 
 String SR::get_Serialization_DateTimeTicksOutOfRange() {
-  return nullptr;
+  return GetResourceString("Serialization_DateTimeTicksOutOfRange");
 }
 
 String SR::get_Serialization_DelegatesNotSupported() {
-  return nullptr;
+  return GetResourceString("Serialization_DelegatesNotSupported");
 }
 
 String SR::get_Serialization_InsufficientState() {
-  return nullptr;
+  return GetResourceString("Serialization_InsufficientState");
 }
 
 String SR::get_Serialization_InvalidData() {
-  return nullptr;
+  return GetResourceString("Serialization_InvalidData");
 }
 
 String SR::get_Serialization_InvalidEscapeSequence() {
-  return nullptr;
+  return GetResourceString("Serialization_InvalidEscapeSequence");
 }
 
 String SR::get_Serialization_InvalidOnDeser() {
-  return nullptr;
+  return GetResourceString("Serialization_InvalidOnDeser");
 }
 
 String SR::get_Serialization_InvalidType() {
-  return nullptr;
+  return GetResourceString("Serialization_InvalidType");
 }
 
 String SR::get_Serialization_KeyValueDifferentSizes() {
-  return nullptr;
+  return GetResourceString("Serialization_KeyValueDifferentSizes");
 }
 
 String SR::get_Serialization_MissingDateTimeData() {
-  return nullptr;
+  return GetResourceString("Serialization_MissingDateTimeData");
 }
 
 String SR::get_Serialization_MissingKeys() {
-  return nullptr;
+  return GetResourceString("Serialization_MissingKeys");
 }
 
 String SR::get_Serialization_MissingValues() {
-  return nullptr;
+  return GetResourceString("Serialization_MissingValues");
 }
 
 String SR::get_Serialization_NoParameterInfo() {
-  return nullptr;
+  return GetResourceString("Serialization_NoParameterInfo");
 }
 
 String SR::get_Serialization_NotFound() {
-  return nullptr;
+  return GetResourceString("Serialization_NotFound");
 }
 
 String SR::get_Serialization_NullKey() {
-  return nullptr;
+  return GetResourceString("Serialization_NullKey");
 }
 
 String SR::get_Serialization_OptionalFieldVersionValue() {
-  return nullptr;
+  return GetResourceString("Serialization_OptionalFieldVersionValue");
 }
 
 String SR::get_Serialization_SameNameTwice() {
-  return nullptr;
+  return GetResourceString("Serialization_SameNameTwice");
 }
 
 String SR::get_Serialization_StringBuilderCapacity() {
-  return nullptr;
+  return GetResourceString("Serialization_StringBuilderCapacity");
 }
 
 String SR::get_Serialization_StringBuilderMaxCapacity() {
-  return nullptr;
+  return GetResourceString("Serialization_StringBuilderMaxCapacity");
 }
 
 String SR::get_SpinLock_Exit_SynchronizationLockException() {
-  return nullptr;
+  return GetResourceString("SpinLock_Exit_SynchronizationLockException");
 }
 
 String SR::get_SpinLock_IsHeldByCurrentThread() {
-  return nullptr;
+  return GetResourceString("SpinLock_IsHeldByCurrentThread");
 }
 
 String SR::get_SpinLock_TryEnter_ArgumentOutOfRange() {
-  return nullptr;
+  return GetResourceString("SpinLock_TryEnter_ArgumentOutOfRange");
 }
 
 String SR::get_SpinLock_TryEnter_LockRecursionException() {
-  return nullptr;
+  return GetResourceString("SpinLock_TryEnter_LockRecursionException");
 }
 
 String SR::get_SpinLock_TryReliableEnter_ArgumentException() {
-  return nullptr;
+  return GetResourceString("SpinLock_TryReliableEnter_ArgumentException");
 }
 
 String SR::get_SpinWait_SpinUntil_ArgumentNull() {
-  return nullptr;
+  return GetResourceString("SpinWait_SpinUntil_ArgumentNull");
 }
 
 String SR::get_SpinWait_SpinUntil_TimeoutWrong() {
-  return nullptr;
+  return GetResourceString("SpinWait_SpinUntil_TimeoutWrong");
 }
 
 String SR::get_StackTrace_InFileLineNumber() {
-  return nullptr;
+  return GetResourceString("StackTrace_InFileLineNumber");
 }
 
 String SR::get_Task_ContinueWith_ESandLR() {
-  return nullptr;
+  return GetResourceString("Task_ContinueWith_ESandLR");
 }
 
 String SR::get_Task_ContinueWith_NotOnAnything() {
-  return nullptr;
+  return GetResourceString("Task_ContinueWith_NotOnAnything");
 }
 
 String SR::get_Task_Delay_InvalidDelay() {
-  return nullptr;
+  return GetResourceString("Task_Delay_InvalidDelay");
 }
 
 String SR::get_Task_Delay_InvalidMillisecondsDelay() {
-  return nullptr;
+  return GetResourceString("Task_Delay_InvalidMillisecondsDelay");
 }
 
 String SR::get_Task_Dispose_NotCompleted() {
-  return nullptr;
+  return GetResourceString("Task_Dispose_NotCompleted");
 }
 
 String SR::get_Task_FromAsync_LongRunning() {
-  return nullptr;
+  return GetResourceString("Task_FromAsync_LongRunning");
 }
 
 String SR::get_Task_FromAsync_PreferFairness() {
-  return nullptr;
+  return GetResourceString("Task_FromAsync_PreferFairness");
 }
 
 String SR::get_Task_MultiTaskContinuation_EmptyTaskList() {
-  return nullptr;
+  return GetResourceString("Task_MultiTaskContinuation_EmptyTaskList");
 }
 
 String SR::get_Task_MultiTaskContinuation_FireOptions() {
-  return nullptr;
+  return GetResourceString("Task_MultiTaskContinuation_FireOptions");
 }
 
 String SR::get_Task_MultiTaskContinuation_NullTask() {
-  return nullptr;
+  return GetResourceString("Task_MultiTaskContinuation_NullTask");
 }
 
 String SR::get_Task_RunSynchronously_AlreadyStarted() {
-  return nullptr;
+  return GetResourceString("Task_RunSynchronously_AlreadyStarted");
 }
 
 String SR::get_Task_RunSynchronously_Continuation() {
-  return nullptr;
+  return GetResourceString("Task_RunSynchronously_Continuation");
 }
 
 String SR::get_Task_RunSynchronously_Promise() {
-  return nullptr;
+  return GetResourceString("Task_RunSynchronously_Promise");
 }
 
 String SR::get_Task_RunSynchronously_TaskCompleted() {
-  return nullptr;
+  return GetResourceString("Task_RunSynchronously_TaskCompleted");
 }
 
 String SR::get_Task_Start_AlreadyStarted() {
-  return nullptr;
+  return GetResourceString("Task_Start_AlreadyStarted");
 }
 
 String SR::get_Task_Start_ContinuationTask() {
-  return nullptr;
+  return GetResourceString("Task_Start_ContinuationTask");
 }
 
 String SR::get_Task_Start_Promise() {
-  return nullptr;
+  return GetResourceString("Task_Start_Promise");
 }
 
 String SR::get_Task_Start_TaskCompleted() {
-  return nullptr;
+  return GetResourceString("Task_Start_TaskCompleted");
 }
 
 String SR::get_Task_ThrowIfDisposed() {
-  return nullptr;
+  return GetResourceString("Task_ThrowIfDisposed");
 }
 
 String SR::get_Task_WaitMulti_NullTask() {
-  return nullptr;
+  return GetResourceString("Task_WaitMulti_NullTask");
 }
 
 String SR::get_TaskCanceledException_ctor_DefaultMessage() {
-  return nullptr;
+  return GetResourceString("TaskCanceledException_ctor_DefaultMessage");
 }
 
 String SR::get_TaskCompletionSourceT_TrySetException_NoExceptions() {
-  return nullptr;
+  return GetResourceString("TaskCompletionSourceT_TrySetException_NoExceptions");
 }
 
 String SR::get_TaskCompletionSourceT_TrySetException_NullException() {
-  return nullptr;
+  return GetResourceString("TaskCompletionSourceT_TrySetException_NullException");
 }
 
 String SR::get_TaskExceptionHolder_UnhandledException() {
-  return nullptr;
+  return GetResourceString("TaskExceptionHolder_UnhandledException");
 }
 
 String SR::get_TaskExceptionHolder_UnknownExceptionType() {
-  return nullptr;
+  return GetResourceString("TaskExceptionHolder_UnknownExceptionType");
 }
 
 String SR::get_TaskScheduler_ExecuteTask_WrongTaskScheduler() {
-  return nullptr;
+  return GetResourceString("TaskScheduler_ExecuteTask_WrongTaskScheduler");
 }
 
 String SR::get_TaskScheduler_FromCurrentSynchronizationContext_NoCurrent() {
-  return nullptr;
+  return GetResourceString("TaskScheduler_FromCurrentSynchronizationContext_NoCurrent");
 }
 
 String SR::get_TaskScheduler_InconsistentStateAfterTryExecuteTaskInline() {
-  return nullptr;
+  return GetResourceString("TaskScheduler_InconsistentStateAfterTryExecuteTaskInline");
 }
 
 String SR::get_TaskSchedulerException_ctor_DefaultMessage() {
-  return nullptr;
+  return GetResourceString("TaskSchedulerException_ctor_DefaultMessage");
 }
 
 String SR::get_TaskT_DebuggerNoResult() {
-  return nullptr;
+  return GetResourceString("TaskT_DebuggerNoResult");
 }
 
 String SR::get_TaskT_TransitionToFinal_AlreadyCompleted() {
-  return nullptr;
+  return GetResourceString("TaskT_TransitionToFinal_AlreadyCompleted");
 }
 
 String SR::get_Thread_ApartmentState_ChangeFailed() {
-  return nullptr;
+  return GetResourceString("Thread_ApartmentState_ChangeFailed");
 }
 
 String SR::get_Thread_GetSetCompressedStack_NotSupported() {
-  return nullptr;
+  return GetResourceString("Thread_GetSetCompressedStack_NotSupported");
 }
 
 String SR::get_Thread_Operation_RequiresCurrentThread() {
-  return nullptr;
+  return GetResourceString("Thread_Operation_RequiresCurrentThread");
 }
 
 String SR::get_Threading_AbandonedMutexException() {
-  return nullptr;
+  return GetResourceString("Threading_AbandonedMutexException");
 }
 
 String SR::get_Threading_WaitHandleCannotBeOpenedException() {
-  return nullptr;
+  return GetResourceString("Threading_WaitHandleCannotBeOpenedException");
 }
 
 String SR::get_Threading_WaitHandleCannotBeOpenedException_InvalidHandle() {
-  return nullptr;
+  return GetResourceString("Threading_WaitHandleCannotBeOpenedException_InvalidHandle");
 }
 
 String SR::get_Threading_WaitHandleTooManyPosts() {
-  return nullptr;
+  return GetResourceString("Threading_WaitHandleTooManyPosts");
 }
 
 String SR::get_Threading_SemaphoreFullException() {
-  return nullptr;
+  return GetResourceString("Threading_SemaphoreFullException");
 }
 
 String SR::get_ThreadLocal_Disposed() {
-  return nullptr;
+  return GetResourceString("ThreadLocal_Disposed");
 }
 
 String SR::get_ThreadLocal_Value_RecursiveCallsToValue() {
-  return nullptr;
+  return GetResourceString("ThreadLocal_Value_RecursiveCallsToValue");
 }
 
 String SR::get_ThreadLocal_ValuesNotAvailable() {
-  return nullptr;
+  return GetResourceString("ThreadLocal_ValuesNotAvailable");
 }
 
 String SR::get_TimeZoneNotFound_MissingData() {
-  return nullptr;
+  return GetResourceString("TimeZoneNotFound_MissingData");
 }
 
 String SR::get_TypeInitialization_Default() {
-  return nullptr;
+  return GetResourceString("TypeInitialization_Default");
 }
 
 String SR::get_TypeInitialization_Type() {
-  return nullptr;
+  return GetResourceString("TypeInitialization_Type");
 }
 
 String SR::get_TypeLoad_ResolveNestedType() {
-  return nullptr;
+  return GetResourceString("TypeLoad_ResolveNestedType");
 }
 
 String SR::get_TypeLoad_ResolveType() {
-  return nullptr;
+  return GetResourceString("TypeLoad_ResolveType");
 }
 
 String SR::get_TypeLoad_ResolveTypeFromAssembly() {
-  return nullptr;
+  return GetResourceString("TypeLoad_ResolveTypeFromAssembly");
 }
 
 String SR::get_UnauthorizedAccess_IODenied_NoPathName() {
-  return nullptr;
+  return GetResourceString("UnauthorizedAccess_IODenied_NoPathName");
 }
 
 String SR::get_UnauthorizedAccess_IODenied_Path() {
-  return nullptr;
+  return GetResourceString("UnauthorizedAccess_IODenied_Path");
 }
 
 String SR::get_UnauthorizedAccess_MemStreamBuffer() {
-  return nullptr;
+  return GetResourceString("UnauthorizedAccess_MemStreamBuffer");
 }
 
 String SR::get_UnauthorizedAccess_RegistryKeyGeneric_Key() {
-  return nullptr;
+  return GetResourceString("UnauthorizedAccess_RegistryKeyGeneric_Key");
 }
 
 String SR::get_UnknownError_Num() {
-  return nullptr;
+  return GetResourceString("UnknownError_Num");
 }
 
 String SR::get_Verification_Exception() {
-  return nullptr;
+  return GetResourceString("Verification_Exception");
 }
 
 String SR::get_Word_At() {
-  return nullptr;
+  return GetResourceString("Word_At");
 }
 
 String SR::get_DebugAssertBanner() {
-  return nullptr;
+  return GetResourceString("DebugAssertBanner");
 }
 
 String SR::get_DebugAssertLongMessage() {
-  return nullptr;
+  return GetResourceString("DebugAssertLongMessage");
 }
 
 String SR::get_DebugAssertShortMessage() {
-  return nullptr;
+  return GetResourceString("DebugAssertShortMessage");
 }
 
 String SR::get_LockRecursionException_ReadAfterWriteNotAllowed() {
-  return nullptr;
+  return GetResourceString("LockRecursionException_ReadAfterWriteNotAllowed");
 }
 
 String SR::get_LockRecursionException_RecursiveReadNotAllowed() {
-  return nullptr;
+  return GetResourceString("LockRecursionException_RecursiveReadNotAllowed");
 }
 
 String SR::get_LockRecursionException_RecursiveWriteNotAllowed() {
-  return nullptr;
+  return GetResourceString("LockRecursionException_RecursiveWriteNotAllowed");
 }
 
 String SR::get_LockRecursionException_RecursiveUpgradeNotAllowed() {
-  return nullptr;
+  return GetResourceString("LockRecursionException_RecursiveUpgradeNotAllowed");
 }
 
 String SR::get_LockRecursionException_WriteAfterReadNotAllowed() {
-  return nullptr;
+  return GetResourceString("LockRecursionException_WriteAfterReadNotAllowed");
 }
 
 String SR::get_SynchronizationLockException_MisMatchedUpgrade() {
-  return nullptr;
+  return GetResourceString("SynchronizationLockException_MisMatchedUpgrade");
 }
 
 String SR::get_SynchronizationLockException_MisMatchedRead() {
-  return nullptr;
+  return GetResourceString("SynchronizationLockException_MisMatchedRead");
 }
 
 String SR::get_SynchronizationLockException_IncorrectDispose() {
-  return nullptr;
+  return GetResourceString("SynchronizationLockException_IncorrectDispose");
 }
 
 String SR::get_LockRecursionException_UpgradeAfterReadNotAllowed() {
-  return nullptr;
+  return GetResourceString("LockRecursionException_UpgradeAfterReadNotAllowed");
 }
 
 String SR::get_LockRecursionException_UpgradeAfterWriteNotAllowed() {
-  return nullptr;
+  return GetResourceString("LockRecursionException_UpgradeAfterWriteNotAllowed");
 }
 
 String SR::get_SynchronizationLockException_MisMatchedWrite() {
-  return nullptr;
+  return GetResourceString("SynchronizationLockException_MisMatchedWrite");
 }
 
 String SR::get_NotSupported_SignatureType() {
-  return nullptr;
+  return GetResourceString("NotSupported_SignatureType");
 }
 
 String SR::get_HashCode_HashCodeNotSupported() {
-  return nullptr;
+  return GetResourceString("HashCode_HashCodeNotSupported");
 }
 
 String SR::get_HashCode_EqualityNotSupported() {
-  return nullptr;
+  return GetResourceString("HashCode_EqualityNotSupported");
 }
 
 String SR::get_Arg_TypeNotSupported() {
-  return nullptr;
+  return GetResourceString("Arg_TypeNotSupported");
 }
 
 String SR::get_IO_InvalidReadLength() {
-  return nullptr;
+  return GetResourceString("IO_InvalidReadLength");
 }
 
 String SR::get_Arg_BasePathNotFullyQualified() {
-  return nullptr;
+  return GetResourceString("Arg_BasePathNotFullyQualified");
 }
 
 String SR::get_Arg_ElementsInSourceIsGreaterThanDestination() {
-  return nullptr;
+  return GetResourceString("Arg_ElementsInSourceIsGreaterThanDestination");
 }
 
 String SR::get_Arg_NullArgumentNullRef() {
-  return nullptr;
+  return GetResourceString("Arg_NullArgumentNullRef");
 }
 
 String SR::get_Argument_OverlapAlignmentMismatch() {
-  return nullptr;
+  return GetResourceString("Argument_OverlapAlignmentMismatch");
 }
 
 String SR::get_Arg_InsufficientNumberOfElements() {
-  return nullptr;
+  return GetResourceString("Arg_InsufficientNumberOfElements");
 }
 
 String SR::get_Arg_MustBeNullTerminatedString() {
-  return nullptr;
+  return GetResourceString("Arg_MustBeNullTerminatedString");
 }
 
 String SR::get_ArgumentOutOfRange_Week_ISO() {
-  return nullptr;
+  return GetResourceString("ArgumentOutOfRange_Week_ISO");
 }
 
 String SR::get_Argument_BadPInvokeMethod() {
-  return nullptr;
+  return GetResourceString("Argument_BadPInvokeMethod");
 }
 
 String SR::get_Argument_BadPInvokeOnInterface() {
-  return nullptr;
+  return GetResourceString("Argument_BadPInvokeOnInterface");
 }
 
 String SR::get_Argument_MethodRedefined() {
-  return nullptr;
+  return GetResourceString("Argument_MethodRedefined");
 }
 
 String SR::get_Argument_CannotExtractScalar() {
-  return nullptr;
+  return GetResourceString("Argument_CannotExtractScalar");
 }
 
 String SR::get_Argument_CannotParsePrecision() {
-  return nullptr;
+  return GetResourceString("Argument_CannotParsePrecision");
 }
 
 String SR::get_Argument_GWithPrecisionNotSupported() {
-  return nullptr;
+  return GetResourceString("Argument_GWithPrecisionNotSupported");
 }
 
 String SR::get_Argument_PrecisionTooLarge() {
-  return nullptr;
+  return GetResourceString("Argument_PrecisionTooLarge");
 }
 
 String SR::get_AssemblyDependencyResolver_FailedToLoadHostpolicy() {
-  return nullptr;
+  return GetResourceString("AssemblyDependencyResolver_FailedToLoadHostpolicy");
 }
 
 String SR::get_AssemblyDependencyResolver_FailedToResolveDependencies() {
-  return nullptr;
+  return GetResourceString("AssemblyDependencyResolver_FailedToResolveDependencies");
 }
 
 String SR::get_Arg_EnumNotCloneable() {
-  return nullptr;
+  return GetResourceString("Arg_EnumNotCloneable");
 }
 
 String SR::get_InvalidOp_InvalidNewEnumVariant() {
-  return nullptr;
+  return GetResourceString("InvalidOp_InvalidNewEnumVariant");
 }
 
 String SR::get_Argument_StructArrayTooLarge() {
-  return nullptr;
+  return GetResourceString("Argument_StructArrayTooLarge");
 }
 
 String SR::get_IndexOutOfRange_ArrayWithOffset() {
-  return nullptr;
+  return GetResourceString("IndexOutOfRange_ArrayWithOffset");
 }
 
 String SR::get_Serialization_DangerousDeserialization() {
-  return nullptr;
+  return GetResourceString("Serialization_DangerousDeserialization");
 }
 
 String SR::get_Serialization_DangerousDeserialization_Switch() {
-  return nullptr;
+  return GetResourceString("Serialization_DangerousDeserialization_Switch");
 }
 
 String SR::get_Argument_InvalidStartupHookSimpleAssemblyName() {
-  return nullptr;
+  return GetResourceString("Argument_InvalidStartupHookSimpleAssemblyName");
 }
 
 String SR::get_Argument_StartupHookAssemblyLoadFailed() {
-  return nullptr;
+  return GetResourceString("Argument_StartupHookAssemblyLoadFailed");
 }
 
 String SR::get_InvalidOperation_NonStaticComRegFunction() {
-  return nullptr;
+  return GetResourceString("InvalidOperation_NonStaticComRegFunction");
 }
 
 String SR::get_InvalidOperation_NonStaticComUnRegFunction() {
-  return nullptr;
+  return GetResourceString("InvalidOperation_NonStaticComUnRegFunction");
 }
 
 String SR::get_InvalidOperation_InvalidComRegFunctionSig() {
-  return nullptr;
+  return GetResourceString("InvalidOperation_InvalidComRegFunctionSig");
 }
 
 String SR::get_InvalidOperation_InvalidComUnRegFunctionSig() {
-  return nullptr;
+  return GetResourceString("InvalidOperation_InvalidComUnRegFunctionSig");
 }
 
 String SR::get_InvalidOperation_MultipleComRegFunctions() {
-  return nullptr;
+  return GetResourceString("InvalidOperation_MultipleComRegFunctions");
 }
 
 String SR::get_InvalidOperation_MultipleComUnRegFunctions() {
-  return nullptr;
+  return GetResourceString("InvalidOperation_MultipleComUnRegFunctions");
 }
 
 String SR::get_InvalidOperation_ResetGlobalComWrappersInstance() {
-  return nullptr;
+  return GetResourceString("InvalidOperation_ResetGlobalComWrappersInstance");
 }
 
 String SR::get_Argument_SpansMustHaveSameLength() {
-  return nullptr;
+  return GetResourceString("Argument_SpansMustHaveSameLength");
 }
 
 String SR::get_NotSupported_CannotWriteToBufferedStreamIfReadBufferCannotBeFlushed() {
-  return nullptr;
+  return GetResourceString("NotSupported_CannotWriteToBufferedStreamIfReadBufferCannotBeFlushed");
 }
 
 String SR::get_GenericInvalidData() {
-  return nullptr;
+  return GetResourceString("GenericInvalidData");
 }
 
 String SR::get_Argument_ResourceScopeWrongDirection() {
-  return nullptr;
+  return GetResourceString("Argument_ResourceScopeWrongDirection");
 }
 
 String SR::get_ArgumentNull_TypeRequiredByResourceScope() {
-  return nullptr;
+  return GetResourceString("ArgumentNull_TypeRequiredByResourceScope");
 }
 
 String SR::get_Argument_BadResourceScopeTypeBits() {
-  return nullptr;
+  return GetResourceString("Argument_BadResourceScopeTypeBits");
 }
 
 String SR::get_Argument_BadResourceScopeVisibilityBits() {
-  return nullptr;
+  return GetResourceString("Argument_BadResourceScopeVisibilityBits");
 }
 
 String SR::get_net_emptystringcall() {
-  return nullptr;
+  return GetResourceString("net_emptystringcall");
 }
 
 String SR::get_Argument_EmptyApplicationName() {
-  return nullptr;
+  return GetResourceString("Argument_EmptyApplicationName");
 }
 
 String SR::get_Argument_FrameworkNameInvalid() {
-  return nullptr;
+  return GetResourceString("Argument_FrameworkNameInvalid");
 }
 
 String SR::get_Argument_FrameworkNameInvalidVersion() {
-  return nullptr;
+  return GetResourceString("Argument_FrameworkNameInvalidVersion");
 }
 
 String SR::get_Argument_FrameworkNameMissingVersion() {
-  return nullptr;
+  return GetResourceString("Argument_FrameworkNameMissingVersion");
 }
 
 String SR::get_Argument_FrameworkNameTooShort() {
-  return nullptr;
+  return GetResourceString("Argument_FrameworkNameTooShort");
 }
 
 String SR::get_Arg_SwitchExpressionException() {
-  return nullptr;
+  return GetResourceString("Arg_SwitchExpressionException");
 }
 
 String SR::get_Arg_ContextMarshalException() {
-  return nullptr;
+  return GetResourceString("Arg_ContextMarshalException");
 }
 
 String SR::get_Arg_AppDomainUnloadedException() {
-  return nullptr;
+  return GetResourceString("Arg_AppDomainUnloadedException");
 }
 
 String SR::get_SwitchExpressionException_UnmatchedValue() {
-  return nullptr;
+  return GetResourceString("SwitchExpressionException_UnmatchedValue");
 }
 
 String SR::GetResourceString(String resourceKey) {
-  return nullptr;
+  return GetResourceString(resourceKey, String::in::Empty);
 }
 
 String SR::InternalGetResourceString(String key) {
-  return nullptr;
+  if (key->get_Length() == 0) {
+    return key;
+  }
+  Boolean lockTaken = false;
+  try{
+    Monitor::Enter(_lock, lockTaken);
+    if (_currentlyLoading != nullptr && _currentlyLoading->get_Count() > 0 && _currentlyLoading->LastIndexOf(key) != -1) {
+      if (_infinitelyRecursingCount > 0) {
+        return key;
+      }
+      _infinitelyRecursingCount++;
+      String message = "Infinite recursion during resource lookup within System.Private.CoreLib.  This may be a bug in System.Private.CoreLib, or potentially in certain extensibility points such as assembly resolve events or CultureInfo names.  Resource name: " + key;
+      Environment::FailFast(message);
+    }
+    if (_currentlyLoading == nullptr) {
+      _currentlyLoading = rt::newobj<List<String>>();
+    }
+    if (!_resourceManagerInited) {
+    }
+    _currentlyLoading->Add(key);
+    String string = get_ResourceManager()->GetString(key, nullptr);
+    _currentlyLoading->RemoveAt(_currentlyLoading->get_Count() - 1);
+  } catch (...) {
+  } finally: {
+    if (lockTaken) {
+      Monitor::Exit(_lock);
+    }
+  }
 }
 
 Boolean SR::UsingResourceKeys() {
-  return Boolean();
+  return false;
 }
 
 String SR::GetResourceString(String resourceKey, String defaultString) {
-  return nullptr;
+  if (UsingResourceKeys()) {
+  }
+  String text = nullptr;
+  try{
+    text = InternalGetResourceString(resourceKey);
+  } catch (MissingManifestResourceException) {
+  }
+  if (defaultString != nullptr && resourceKey->Equals(text)) {
+    return defaultString;
+  }
+  return text;
 }
 
 String SR::Format(String resourceFormat, Object p1) {
-  return nullptr;
+  if (UsingResourceKeys()) {
+  }
+  return String::in::Format(resourceFormat, p1);
 }
 
 String SR::Format(String resourceFormat, Object p1, Object p2) {
-  return nullptr;
+  if (UsingResourceKeys()) {
+  }
+  return String::in::Format(resourceFormat, p1, p2);
 }
 
 String SR::Format(String resourceFormat, Object p1, Object p2, Object p3) {
-  return nullptr;
+  if (UsingResourceKeys()) {
+  }
+  return String::in::Format(resourceFormat, p1, p2, p3);
 }
 
 String SR::Format(String resourceFormat, Array<Object> args) {
-  return nullptr;
+  if (args != nullptr) {
+    if (UsingResourceKeys()) {
+    }
+    return String::in::Format(resourceFormat, rt::newarr<Array<Object>>(1, args));
+  }
+  return resourceFormat;
 }
 
 String SR::Format(IFormatProvider provider, String resourceFormat, Object p1) {
-  return nullptr;
+  if (UsingResourceKeys()) {
+  }
+  return String::in::Format(provider, resourceFormat, p1);
 }
 
 String SR::Format(IFormatProvider provider, String resourceFormat, Object p1, Object p2) {
-  return nullptr;
+  if (UsingResourceKeys()) {
+  }
+  return String::in::Format(provider, resourceFormat, p1, p2);
 }
 
 void SR::ctor_static() {
+  _lock = rt::newobj<Object>();
 }
 
 } // namespace System::Private::CoreLib::System::SRNamespace

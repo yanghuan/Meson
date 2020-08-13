@@ -2,35 +2,43 @@
 
 namespace System::Private::CoreLib::System::LocalAppContextSwitchesNamespace {
 Boolean LocalAppContextSwitches::get_EnforceJapaneseEraYearRanges() {
-  return Boolean();
+  return GetCachedSwitchValue("Switch.System.Globalization.EnforceJapaneseEraYearRanges", s_enforceJapaneseEraYearRanges);
 }
 
 Boolean LocalAppContextSwitches::get_FormatJapaneseFirstYearAsANumber() {
-  return Boolean();
+  return GetCachedSwitchValue("Switch.System.Globalization.FormatJapaneseFirstYearAsANumber", s_formatJapaneseFirstYearAsANumber);
 }
 
 Boolean LocalAppContextSwitches::get_EnforceLegacyJapaneseDateParsing() {
-  return Boolean();
+  return GetCachedSwitchValue("Switch.System.Globalization.EnforceLegacyJapaneseDateParsing", s_enforceLegacyJapaneseDateParsing);
 }
 
 Boolean LocalAppContextSwitches::get_PreserveEventListnerObjectIdentity() {
-  return Boolean();
+  return GetCachedSwitchValue("Switch.System.Diagnostics.EventSource.PreserveEventListnerObjectIdentity", s_preserveEventListnerObjectIdentity);
 }
 
 Boolean LocalAppContextSwitches::get_SerializationGuard() {
-  return Boolean();
+  return GetCachedSwitchValue("Switch.System.Runtime.Serialization.SerializationGuard", s_serializationGuard);
 }
 
 Boolean LocalAppContextSwitches::GetCachedSwitchValue(String switchName, Int32& cachedSwitchValue) {
-  return Boolean();
+  if (cachedSwitchValue < 0) {
+    return false;
+  }
+  if (cachedSwitchValue > 0) {
+    return true;
+  }
+  return GetCachedSwitchValueInternal(switchName, cachedSwitchValue);
 }
 
 Boolean LocalAppContextSwitches::GetCachedSwitchValueInternal(String switchName, Int32& cachedSwitchValue) {
-  return Boolean();
 }
 
 Boolean LocalAppContextSwitches::GetSwitchDefaultValue(String switchName) {
-  return Boolean();
+  if (switchName == "Switch.System.Runtime.Serialization.SerializationGuard") {
+    return true;
+  }
+  return false;
 }
 
 } // namespace System::Private::CoreLib::System::LocalAppContextSwitchesNamespace

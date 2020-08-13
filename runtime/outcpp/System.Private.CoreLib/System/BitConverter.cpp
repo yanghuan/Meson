@@ -1,195 +1,374 @@
 #include "BitConverter-dep.h"
 
+#include <System.Private.CoreLib/Internal/Runtime/CompilerServices/Unsafe-dep.h>
+#include <System.Private.CoreLib/System/ArgumentOutOfRangeException-dep.h>
+#include <System.Private.CoreLib/System/ExceptionArgument.h>
+#include <System.Private.CoreLib/System/ExceptionResource.h>
+#include <System.Private.CoreLib/System/Runtime/InteropServices/MemoryMarshal-dep.h>
+#include <System.Private.CoreLib/System/Runtime/Intrinsics/Vector128-dep.h>
+#include <System.Private.CoreLib/System/Runtime/Intrinsics/X86/Sse2-dep.h>
+#include <System.Private.CoreLib/System/SR-dep.h>
+#include <System.Private.CoreLib/System/ThrowHelper-dep.h>
+
 namespace System::Private::CoreLib::System::BitConverterNamespace {
+using namespace Internal::Runtime::CompilerServices;
+using namespace System::Runtime::InteropServices;
+using namespace System::Runtime::Intrinsics;
+using namespace System::Runtime::Intrinsics::X86;
+
 Array<Byte> BitConverter::GetBytes(Boolean value) {
-  return Array<Byte>();
+  return rt::newarr<Array<Byte>>(1);
 }
 
 Boolean BitConverter::TryWriteBytes(Span<Byte> destination, Boolean value) {
-  return Boolean();
+  if (destination.get_Length() < 1) {
+    return false;
+  }
+  Unsafe::WriteUnaligned(MemoryMarshal::GetReference(destination), (Byte)(value ? 1 : 0));
+  return true;
 }
 
 Array<Byte> BitConverter::GetBytes(Char value) {
-  return Array<Byte>();
+  Array<Byte> array = rt::newarr<Array<Byte>>(2);
+  Unsafe::As<Byte, Char>(array[0]) = value;
+  return array;
 }
 
 Boolean BitConverter::TryWriteBytes(Span<Byte> destination, Char value) {
-  return Boolean();
+  if (destination.get_Length() < 2) {
+    return false;
+  }
+  Unsafe::WriteUnaligned(MemoryMarshal::GetReference(destination), value);
+  return true;
 }
 
 Array<Byte> BitConverter::GetBytes(Int16 value) {
-  return Array<Byte>();
+  Array<Byte> array = rt::newarr<Array<Byte>>(2);
+  Unsafe::As<Byte, Int16>(array[0]) = value;
+  return array;
 }
 
 Boolean BitConverter::TryWriteBytes(Span<Byte> destination, Int16 value) {
-  return Boolean();
+  if (destination.get_Length() < 2) {
+    return false;
+  }
+  Unsafe::WriteUnaligned(MemoryMarshal::GetReference(destination), value);
+  return true;
 }
 
 Array<Byte> BitConverter::GetBytes(Int32 value) {
-  return Array<Byte>();
+  Array<Byte> array = rt::newarr<Array<Byte>>(4);
+  Unsafe::As<Byte, Int32>(array[0]) = value;
+  return array;
 }
 
 Boolean BitConverter::TryWriteBytes(Span<Byte> destination, Int32 value) {
-  return Boolean();
+  if (destination.get_Length() < 4) {
+    return false;
+  }
+  Unsafe::WriteUnaligned(MemoryMarshal::GetReference(destination), value);
+  return true;
 }
 
 Array<Byte> BitConverter::GetBytes(Int64 value) {
-  return Array<Byte>();
+  Array<Byte> array = rt::newarr<Array<Byte>>(8);
+  Unsafe::As<Byte, Int64>(array[0]) = value;
+  return array;
 }
 
 Boolean BitConverter::TryWriteBytes(Span<Byte> destination, Int64 value) {
-  return Boolean();
+  if (destination.get_Length() < 8) {
+    return false;
+  }
+  Unsafe::WriteUnaligned(MemoryMarshal::GetReference(destination), value);
+  return true;
 }
 
 Array<Byte> BitConverter::GetBytes(UInt16 value) {
-  return Array<Byte>();
+  Array<Byte> array = rt::newarr<Array<Byte>>(2);
+  Unsafe::As<Byte, UInt16>(array[0]) = value;
+  return array;
 }
 
 Boolean BitConverter::TryWriteBytes(Span<Byte> destination, UInt16 value) {
-  return Boolean();
+  if (destination.get_Length() < 2) {
+    return false;
+  }
+  Unsafe::WriteUnaligned(MemoryMarshal::GetReference(destination), value);
+  return true;
 }
 
 Array<Byte> BitConverter::GetBytes(UInt32 value) {
-  return Array<Byte>();
+  Array<Byte> array = rt::newarr<Array<Byte>>(4);
+  Unsafe::As<Byte, UInt32>(array[0]) = value;
+  return array;
 }
 
 Boolean BitConverter::TryWriteBytes(Span<Byte> destination, UInt32 value) {
-  return Boolean();
+  if (destination.get_Length() < 4) {
+    return false;
+  }
+  Unsafe::WriteUnaligned(MemoryMarshal::GetReference(destination), value);
+  return true;
 }
 
 Array<Byte> BitConverter::GetBytes(UInt64 value) {
-  return Array<Byte>();
+  Array<Byte> array = rt::newarr<Array<Byte>>(8);
+  Unsafe::As<Byte, UInt64>(array[0]) = value;
+  return array;
 }
 
 Boolean BitConverter::TryWriteBytes(Span<Byte> destination, UInt64 value) {
-  return Boolean();
+  if (destination.get_Length() < 8) {
+    return false;
+  }
+  Unsafe::WriteUnaligned(MemoryMarshal::GetReference(destination), value);
+  return true;
 }
 
 Array<Byte> BitConverter::GetBytes(Single value) {
-  return Array<Byte>();
+  Array<Byte> array = rt::newarr<Array<Byte>>(4);
+  Unsafe::As<Byte, Single>(array[0]) = value;
+  return array;
 }
 
 Boolean BitConverter::TryWriteBytes(Span<Byte> destination, Single value) {
-  return Boolean();
+  if (destination.get_Length() < 4) {
+    return false;
+  }
+  Unsafe::WriteUnaligned(MemoryMarshal::GetReference(destination), value);
+  return true;
 }
 
 Array<Byte> BitConverter::GetBytes(Double value) {
-  return Array<Byte>();
+  Array<Byte> array = rt::newarr<Array<Byte>>(8);
+  Unsafe::As<Byte, Double>(array[0]) = value;
+  return array;
 }
 
 Boolean BitConverter::TryWriteBytes(Span<Byte> destination, Double value) {
-  return Boolean();
+  if (destination.get_Length() < 8) {
+    return false;
+  }
+  Unsafe::WriteUnaligned(MemoryMarshal::GetReference(destination), value);
+  return true;
 }
 
 Char BitConverter::ToChar(Array<Byte> value, Int32 startIndex) {
-  return Char();
+  return (Char)ToInt16(value, startIndex);
 }
 
 Char BitConverter::ToChar(ReadOnlySpan<Byte> value) {
-  return Char();
+  if (value.get_Length() < 2) {
+    ThrowHelper::ThrowArgumentOutOfRangeException(ExceptionArgument::value);
+  }
+  return Unsafe::ReadUnaligned<Char>(MemoryMarshal::GetReference(value));
 }
 
 Int16 BitConverter::ToInt16(Array<Byte> value, Int32 startIndex) {
-  return Int16();
+  if (value == nullptr) {
+    ThrowHelper::ThrowArgumentNullException(ExceptionArgument::value);
+  }
+  if ((UInt32)startIndex >= (UInt32)value->get_Length()) {
+    ThrowHelper::ThrowArgumentOutOfRangeException(ExceptionArgument::startIndex, ExceptionResource::ArgumentOutOfRange_Index);
+  }
+  if (startIndex > value->get_Length() - 2) {
+    ThrowHelper::ThrowArgumentException(ExceptionResource::Arg_ArrayPlusOffTooSmall, ExceptionArgument::value);
+  }
+  return Unsafe::ReadUnaligned<Int16>(value[startIndex]);
 }
 
 Int16 BitConverter::ToInt16(ReadOnlySpan<Byte> value) {
-  return Int16();
+  if (value.get_Length() < 2) {
+    ThrowHelper::ThrowArgumentOutOfRangeException(ExceptionArgument::value);
+  }
+  return Unsafe::ReadUnaligned<Int16>(MemoryMarshal::GetReference(value));
 }
 
 Int32 BitConverter::ToInt32(Array<Byte> value, Int32 startIndex) {
-  return Int32();
+  if (value == nullptr) {
+    ThrowHelper::ThrowArgumentNullException(ExceptionArgument::value);
+  }
+  if ((UInt32)startIndex >= (UInt32)value->get_Length()) {
+    ThrowHelper::ThrowArgumentOutOfRangeException(ExceptionArgument::startIndex, ExceptionResource::ArgumentOutOfRange_Index);
+  }
+  if (startIndex > value->get_Length() - 4) {
+    ThrowHelper::ThrowArgumentException(ExceptionResource::Arg_ArrayPlusOffTooSmall, ExceptionArgument::value);
+  }
+  return Unsafe::ReadUnaligned<Int32>(value[startIndex]);
 }
 
 Int32 BitConverter::ToInt32(ReadOnlySpan<Byte> value) {
-  return Int32();
+  if (value.get_Length() < 4) {
+    ThrowHelper::ThrowArgumentOutOfRangeException(ExceptionArgument::value);
+  }
+  return Unsafe::ReadUnaligned<Int32>(MemoryMarshal::GetReference(value));
 }
 
 Int64 BitConverter::ToInt64(Array<Byte> value, Int32 startIndex) {
-  return Int64();
+  if (value == nullptr) {
+    ThrowHelper::ThrowArgumentNullException(ExceptionArgument::value);
+  }
+  if ((UInt32)startIndex >= (UInt32)value->get_Length()) {
+    ThrowHelper::ThrowArgumentOutOfRangeException(ExceptionArgument::startIndex, ExceptionResource::ArgumentOutOfRange_Index);
+  }
+  if (startIndex > value->get_Length() - 8) {
+    ThrowHelper::ThrowArgumentException(ExceptionResource::Arg_ArrayPlusOffTooSmall, ExceptionArgument::value);
+  }
+  return Unsafe::ReadUnaligned<Int64>(value[startIndex]);
 }
 
 Int64 BitConverter::ToInt64(ReadOnlySpan<Byte> value) {
-  return Int64();
+  if (value.get_Length() < 8) {
+    ThrowHelper::ThrowArgumentOutOfRangeException(ExceptionArgument::value);
+  }
+  return Unsafe::ReadUnaligned<Int64>(MemoryMarshal::GetReference(value));
 }
 
 UInt16 BitConverter::ToUInt16(Array<Byte> value, Int32 startIndex) {
-  return UInt16();
+  return (UInt16)ToInt16(value, startIndex);
 }
 
 UInt16 BitConverter::ToUInt16(ReadOnlySpan<Byte> value) {
-  return UInt16();
+  if (value.get_Length() < 2) {
+    ThrowHelper::ThrowArgumentOutOfRangeException(ExceptionArgument::value);
+  }
+  return Unsafe::ReadUnaligned<UInt16>(MemoryMarshal::GetReference(value));
 }
 
 UInt32 BitConverter::ToUInt32(Array<Byte> value, Int32 startIndex) {
-  return UInt32();
+  return (UInt32)ToInt32(value, startIndex);
 }
 
 UInt32 BitConverter::ToUInt32(ReadOnlySpan<Byte> value) {
-  return UInt32();
+  if (value.get_Length() < 4) {
+    ThrowHelper::ThrowArgumentOutOfRangeException(ExceptionArgument::value);
+  }
+  return Unsafe::ReadUnaligned<UInt32>(MemoryMarshal::GetReference(value));
 }
 
 UInt64 BitConverter::ToUInt64(Array<Byte> value, Int32 startIndex) {
-  return UInt64();
+  return (UInt64)ToInt64(value, startIndex);
 }
 
 UInt64 BitConverter::ToUInt64(ReadOnlySpan<Byte> value) {
-  return UInt64();
+  if (value.get_Length() < 8) {
+    ThrowHelper::ThrowArgumentOutOfRangeException(ExceptionArgument::value);
+  }
+  return Unsafe::ReadUnaligned<UInt64>(MemoryMarshal::GetReference(value));
 }
 
 Single BitConverter::ToSingle(Array<Byte> value, Int32 startIndex) {
-  return Single();
+  return Int32BitsToSingle(ToInt32(value, startIndex));
 }
 
 Single BitConverter::ToSingle(ReadOnlySpan<Byte> value) {
-  return Single();
+  if (value.get_Length() < 4) {
+    ThrowHelper::ThrowArgumentOutOfRangeException(ExceptionArgument::value);
+  }
+  return Unsafe::ReadUnaligned<Single>(MemoryMarshal::GetReference(value));
 }
 
 Double BitConverter::ToDouble(Array<Byte> value, Int32 startIndex) {
-  return Double();
+  return Int64BitsToDouble(ToInt64(value, startIndex));
 }
 
 Double BitConverter::ToDouble(ReadOnlySpan<Byte> value) {
-  return Double();
+  if (value.get_Length() < 8) {
+    ThrowHelper::ThrowArgumentOutOfRangeException(ExceptionArgument::value);
+  }
+  return Unsafe::ReadUnaligned<Double>(MemoryMarshal::GetReference(value));
 }
 
 String BitConverter::ToString(Array<Byte> value, Int32 startIndex, Int32 length) {
-  return nullptr;
+  if (value == nullptr) {
+    ThrowHelper::ThrowArgumentNullException(ExceptionArgument::value);
+  }
+  if (startIndex < 0 || (startIndex >= value->get_Length() && startIndex > 0)) {
+    ThrowHelper::ThrowArgumentOutOfRangeException(ExceptionArgument::startIndex, ExceptionResource::ArgumentOutOfRange_Index);
+  }
+  if (length < 0) {
+    rt::throw_exception<ArgumentOutOfRangeException>("length", SR::get_ArgumentOutOfRange_GenericPositive());
+  }
+  if (startIndex > value->get_Length() - length) {
+    ThrowHelper::ThrowArgumentException(ExceptionResource::Arg_ArrayPlusOffTooSmall, ExceptionArgument::value);
+  }
+  if (length == 0) {
+    return String::in::Empty;
+  }
+  if (length > 715827882) {
+    rt::throw_exception<ArgumentOutOfRangeException>("length", SR::Format(SR::get_ArgumentOutOfRange_LengthTooLarge(), 715827882));
+  }
 }
 
 String BitConverter::ToString(Array<Byte> value) {
-  return nullptr;
+  if (value == nullptr) {
+    ThrowHelper::ThrowArgumentNullException(ExceptionArgument::value);
+  }
+  return ToString(value, 0, value->get_Length());
 }
 
 String BitConverter::ToString(Array<Byte> value, Int32 startIndex) {
-  return nullptr;
+  if (value == nullptr) {
+    ThrowHelper::ThrowArgumentNullException(ExceptionArgument::value);
+  }
+  return ToString(value, startIndex, value->get_Length() - startIndex);
 }
 
 Boolean BitConverter::ToBoolean(Array<Byte> value, Int32 startIndex) {
-  return Boolean();
+  if (value == nullptr) {
+    ThrowHelper::ThrowArgumentNullException(ExceptionArgument::value);
+  }
+  if (startIndex < 0) {
+    ThrowHelper::ThrowArgumentOutOfRangeException(ExceptionArgument::startIndex, ExceptionResource::ArgumentOutOfRange_Index);
+  }
+  if (startIndex > value->get_Length() - 1) {
+    ThrowHelper::ThrowArgumentOutOfRangeException(ExceptionArgument::startIndex, ExceptionResource::ArgumentOutOfRange_Index);
+  }
+  return value[startIndex] != 0;
 }
 
 Boolean BitConverter::ToBoolean(ReadOnlySpan<Byte> value) {
-  return Boolean();
+  if (value.get_Length() < 1) {
+    ThrowHelper::ThrowArgumentOutOfRangeException(ExceptionArgument::value);
+  }
+  return Unsafe::ReadUnaligned<Byte>(MemoryMarshal::GetReference(value)) != 0;
 }
 
 Int64 BitConverter::DoubleToInt64Bits(Double value) {
-  return Int64();
+  if (Sse2::in::X64::in::get_IsSupported()) {
+    Vector128<Int64> value2 = Vector128::AsInt64(Vector128::CreateScalarUnsafe(value));
+    return Sse2::in::X64::in::ConvertToInt64(value2);
+  }
+  return *(Int64*)(&value);
 }
 
 Double BitConverter::Int64BitsToDouble(Int64 value) {
-  return Double();
+  if (Sse2::in::X64::in::get_IsSupported()) {
+    Vector128<Double> vector = Vector128::AsDouble(Vector128::CreateScalarUnsafe(value));
+    return Vector128::ToScalar(vector);
+  }
+  return *(Double*)(&value);
 }
 
 Int32 BitConverter::SingleToInt32Bits(Single value) {
-  return Int32();
+  if (Sse2::in::get_IsSupported()) {
+    Vector128<Int32> value2 = Vector128::AsInt32(Vector128::CreateScalarUnsafe(value));
+    return Sse2::in::ConvertToInt32(value2);
+  }
+  return *(Int32*)(&value);
 }
 
 Single BitConverter::Int32BitsToSingle(Int32 value) {
-  return Single();
+  if (Sse2::in::get_IsSupported()) {
+    Vector128<Single> vector = Vector128::AsSingle(Vector128::CreateScalarUnsafe(value));
+    return Vector128::ToScalar(vector);
+  }
+  return *(Single*)(&value);
 }
 
 void BitConverter::ctor_static() {
+  IsLittleEndian = true;
 }
 
 } // namespace System::Private::CoreLib::System::BitConverterNamespace

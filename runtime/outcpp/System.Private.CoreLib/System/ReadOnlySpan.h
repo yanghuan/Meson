@@ -47,6 +47,8 @@ struct ReadOnlySpan : public valueType<ReadOnlySpan<T>> {
   public: explicit ReadOnlySpan() {}
   public: ByReference<T> _pointer;
   private: Int32 _length;
+  public: template <class int N>
+  ReadOnlySpan(T (&array)[N]) : ReadOnlySpan(array, N);
 };
 } // namespace ReadOnlySpanNamespace
 template <class T>

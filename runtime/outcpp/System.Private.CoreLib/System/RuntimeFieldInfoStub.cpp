@@ -2,7 +2,7 @@
 
 namespace System::Private::CoreLib::System::RuntimeFieldInfoStubNamespace {
 RuntimeFieldHandleInternal RuntimeFieldInfoStub___::get_ValueOfIRuntimeFieldInfo() {
-  return RuntimeFieldHandleInternal();
+  return m_fieldHandle;
 }
 
 void RuntimeFieldInfoStub___::ctor() {

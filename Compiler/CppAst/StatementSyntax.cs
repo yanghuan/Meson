@@ -351,15 +351,22 @@ namespace Meson.Compiler.CppAst {
     public BlockSyntax Body { get; set; }
     public int TotalTempCount { get; set; }
 
-    public MethodDefinitionSyntax(IdentifierSyntax name, IEnumerable<ParameterSyntax> parameters, ExpressionSyntax retuenType = null) {
+    public MethodDefinitionSyntax(IdentifierSyntax name, IEnumerable<ParameterSyntax> parameters = null, ExpressionSyntax retuenType = null) {
       Name = name;
-      Parameters.AddRange(parameters);
+      if (parameters != null) {
+        Parameters.AddRange(parameters);
+      }
       RetuenType = retuenType;
     }
 
     public void AddInitializationList(IdentifierSyntax name, ExpressionSyntax value) {
       InitializationList ??= new List<InvationExpressionSyntax>();
       InitializationList.Add(name.Invation(value));
+    }
+
+    public void AddInitializationList(IdentifierSyntax name, params ExpressionSyntax[] values) {
+      InitializationList ??= new List<InvationExpressionSyntax>();
+      InitializationList.Add(name.Invation(values));
     }
 
     public void AddStatement(StatementSyntax statement) {

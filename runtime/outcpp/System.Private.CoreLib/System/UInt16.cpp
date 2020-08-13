@@ -1,94 +1,146 @@
 #include "UInt16-dep.h"
 
+#include <System.Private.CoreLib/System/ArgumentException-dep.h>
+#include <System.Private.CoreLib/System/ExceptionArgument.h>
+#include <System.Private.CoreLib/System/Globalization/NumberFormatInfo-dep.h>
+#include <System.Private.CoreLib/System/Globalization/NumberStyles.h>
+#include <System.Private.CoreLib/System/Number-dep.h>
+#include <System.Private.CoreLib/System/SR-dep.h>
+#include <System.Private.CoreLib/System/ThrowHelper-dep.h>
+#include <System.Private.CoreLib/System/TypeCode.h>
 #include <System.Private.CoreLib/System/UInt16-dep.h>
+#include <System.Private.CoreLib/System/UInt32-dep.h>
 
 namespace System::Private::CoreLib::System::UInt16Namespace {
+using namespace System::Globalization;
+
 Int32 UInt16::CompareTo(Object value) {
-  return Int32();
+  if (value == nullptr) {
+    return 1;
+  }
+  if (rt::is<UInt16>(value)) {
+    return *this - (UInt16)value;
+  }
+  rt::throw_exception<ArgumentException>(SR::get_Arg_MustBeUInt16());
 }
 
 Int32 UInt16::CompareTo(UInt16 value) {
-  return Int32();
+  return *this - value;
 }
 
 Boolean UInt16::Equals(Object obj) {
-  return Boolean();
+  if (!rt::is<UInt16>(obj)) {
+    return false;
+  }
+  return *this == (UInt16)obj;
 }
 
 Boolean UInt16::Equals(UInt16 obj) {
-  return Boolean();
+  return *this == obj;
 }
 
 Int32 UInt16::GetHashCode() {
-  return Int32();
+  return *this;
 }
 
 String UInt16::ToString() {
-  return nullptr;
+  return Number::UInt32ToDecStr(*this);
 }
 
 String UInt16::ToString(IFormatProvider provider) {
-  return nullptr;
+  return Number::UInt32ToDecStr(*this);
 }
 
 String UInt16::ToString(String format) {
-  return nullptr;
+  return Number::FormatUInt32(*this, format, nullptr);
 }
 
 String UInt16::ToString(String format, IFormatProvider provider) {
-  return nullptr;
+  return Number::FormatUInt32(*this, format, provider);
 }
 
 Boolean UInt16::TryFormat(Span<Char> destination, Int32& charsWritten, ReadOnlySpan<Char> format, IFormatProvider provider) {
-  return Boolean();
+  return Number::TryFormatUInt32(*this, format, provider, destination, charsWritten);
 }
 
 UInt16 UInt16::Parse(String s) {
-  return UInt16();
+  if (s == nullptr) {
+    ThrowHelper::ThrowArgumentNullException(ExceptionArgument::s);
+  }
+  return Parse((ReadOnlySpan<Char>)s, NumberStyles::Integer, NumberFormatInfo::in::get_CurrentInfo());
 }
 
 UInt16 UInt16::Parse(String s, NumberStyles style) {
-  return UInt16();
+  NumberFormatInfo::in::ValidateParseStyleInteger(style);
+  if (s == nullptr) {
+    ThrowHelper::ThrowArgumentNullException(ExceptionArgument::s);
+  }
+  return Parse((ReadOnlySpan<Char>)s, style, NumberFormatInfo::in::get_CurrentInfo());
 }
 
 UInt16 UInt16::Parse(String s, IFormatProvider provider) {
-  return UInt16();
+  if (s == nullptr) {
+    ThrowHelper::ThrowArgumentNullException(ExceptionArgument::s);
+  }
+  return Parse((ReadOnlySpan<Char>)s, NumberStyles::Integer, NumberFormatInfo::in::GetInstance(provider));
 }
 
 UInt16 UInt16::Parse(String s, NumberStyles style, IFormatProvider provider) {
-  return UInt16();
+  NumberFormatInfo::in::ValidateParseStyleInteger(style);
+  if (s == nullptr) {
+    ThrowHelper::ThrowArgumentNullException(ExceptionArgument::s);
+  }
+  return Parse((ReadOnlySpan<Char>)s, style, NumberFormatInfo::in::GetInstance(provider));
 }
 
 UInt16 UInt16::Parse(ReadOnlySpan<Char> s, NumberStyles style, IFormatProvider provider) {
-  return UInt16();
+  NumberFormatInfo::in::ValidateParseStyleInteger(style);
+  return Parse(s, style, NumberFormatInfo::in::GetInstance(provider));
 }
 
 UInt16 UInt16::Parse(ReadOnlySpan<Char> s, NumberStyles style, NumberFormatInfo info) {
-  return UInt16();
+  UInt32 result;
+  Number::ParsingStatus parsingStatus = Number::TryParseUInt32(s, style, info, result);
+  if (parsingStatus != 0) {
+    Number::ThrowOverflowOrFormatException(parsingStatus, TypeCode::UInt16);
+  }
+  if (result > 65535) {
+    Number::ThrowOverflowException(TypeCode::UInt16);
+  }
+  return (UInt16)result;
 }
 
 Boolean UInt16::TryParse(String s, UInt16& result) {
-  return Boolean();
+  if (s == nullptr) {
+    result = 0;
+    return false;
+  }
+  return TryParse((ReadOnlySpan<Char>)s, NumberStyles::Integer, NumberFormatInfo::in::get_CurrentInfo(), result);
 }
 
 Boolean UInt16::TryParse(ReadOnlySpan<Char> s, UInt16& result) {
-  return Boolean();
+  return TryParse(s, NumberStyles::Integer, NumberFormatInfo::in::get_CurrentInfo(), result);
 }
 
 Boolean UInt16::TryParse(String s, NumberStyles style, IFormatProvider provider, UInt16& result) {
-  return Boolean();
+  NumberFormatInfo::in::ValidateParseStyleInteger(style);
+  if (s == nullptr) {
+    result = 0;
+    return false;
+  }
+  return TryParse((ReadOnlySpan<Char>)s, style, NumberFormatInfo::in::GetInstance(provider), result);
 }
 
 Boolean UInt16::TryParse(ReadOnlySpan<Char> s, NumberStyles style, IFormatProvider provider, UInt16& result) {
-  return Boolean();
+  NumberFormatInfo::in::ValidateParseStyleInteger(style);
+  return TryParse(s, style, NumberFormatInfo::in::GetInstance(provider), result);
 }
 
 Boolean UInt16::TryParse(ReadOnlySpan<Char> s, NumberStyles style, NumberFormatInfo info, UInt16& result) {
-  return Boolean();
 }
 
 TypeCode UInt16::GetTypeCode() {
-  return TypeCode::String;
+  return TypeCode::UInt16;
 }
 
 } // namespace System::Private::CoreLib::System::UInt16Namespace

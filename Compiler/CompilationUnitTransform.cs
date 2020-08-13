@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.Contracts;
 using System.Linq;
 
 using ICSharpCode.Decompiler.TypeSystem;
@@ -288,6 +289,12 @@ namespace Meson.Compiler {
             var elementType = GetTypeName(args.With(byReference.ElementType, true));
             return new RefExpressionSyntax(elementType);
           }
+        case TypeKind.NInt: {
+            return IdentifierSyntax.NInt;
+          }
+        case TypeKind.NUInt: {
+            return IdentifierSyntax.NUInt;
+          }
       }
 
       if (args.IsInHead) {
@@ -386,6 +393,7 @@ namespace Meson.Compiler {
         return type_;
       }
       set {
+        Contract.Assert(value != null);
         type_ = value.Original();
       }
     }

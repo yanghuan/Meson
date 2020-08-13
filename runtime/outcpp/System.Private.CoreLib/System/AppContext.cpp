@@ -1,36 +1,82 @@
 #include "AppContext-dep.h"
 
+#include <System.Private.CoreLib/System/ArgumentException-dep.h>
+#include <System.Private.CoreLib/System/ArgumentNullException-dep.h>
+#include <System.Private.CoreLib/System/Collections/Generic/Dictionary-dep.h>
+#include <System.Private.CoreLib/System/Runtime/Loader/AssemblyLoadContext-dep.h>
+#include <System.Private.CoreLib/System/SR-dep.h>
+#include <System.Private.CoreLib/System/Threading/Interlocked-dep.h>
+
 namespace System::Private::CoreLib::System::AppContextNamespace {
+using namespace System::Collections::Generic;
+using namespace System::Runtime::Loader;
+using namespace System::Threading;
+
 String AppContext::get_BaseDirectory() {
-  return nullptr;
 }
 
 String AppContext::get_TargetFrameworkName() {
-  return nullptr;
 }
 
 Object AppContext::GetData(String name) {
-  return nullptr;
+  if (name == nullptr) {
+    rt::throw_exception<ArgumentNullException>("name");
+  }
+  if (s_dataStore == nullptr) {
+    return nullptr;
+  }
 }
 
 void AppContext::SetData(String name, Object data) {
+  if (name == nullptr) {
+    rt::throw_exception<ArgumentNullException>("name");
+  }
+  if (s_dataStore == nullptr) {
+    Interlocked::CompareExchange(s_dataStore, rt::newobj<Dictionary<String, Object>>(), nullptr);
+  }
 }
 
 void AppContext::OnProcessExit() {
+  AssemblyLoadContext::in::OnProcessExit();
 }
 
 Boolean AppContext::TryGetSwitch(String switchName, Boolean& isEnabled) {
-  return Boolean();
+  if (switchName == nullptr) {
+    rt::throw_exception<ArgumentNullException>("switchName");
+  }
+  if (switchName->get_Length() == 0) {
+    rt::throw_exception<ArgumentException>(SR::get_Argument_EmptyName(), "switchName");
+  }
+  if (s_switches != nullptr) {
+  }
+  String text = rt::as<String>(GetData(switchName));
+  if (text != nullptr && Boolean::TryParse(text, isEnabled)) {
+    return true;
+  }
+  isEnabled = false;
+  return false;
 }
 
 void AppContext::SetSwitch(String switchName, Boolean isEnabled) {
+  if (switchName == nullptr) {
+    rt::throw_exception<ArgumentNullException>("switchName");
+  }
+  if (switchName->get_Length() == 0) {
+    rt::throw_exception<ArgumentException>(SR::get_Argument_EmptyName(), "switchName");
+  }
+  if (s_switches == nullptr) {
+    Interlocked::CompareExchange(s_switches, rt::newobj<Dictionary<String, Boolean>>(), nullptr);
+  }
 }
 
 void AppContext::Setup(Char** pNames, Char** pValues, Int32 count) {
+  s_dataStore = rt::newobj<Dictionary<String, Object>>(count);
+  for (Int32 i = 0; i < count; i++) {
+    s_dataStore->Add(rt::newobj<String>(pNames[i]), rt::newobj<String>(pValues[i]));
+  }
 }
 
 String AppContext::GetBaseDirectoryCore() {
-  return nullptr;
 }
 
 } // namespace System::Private::CoreLib::System::AppContextNamespace

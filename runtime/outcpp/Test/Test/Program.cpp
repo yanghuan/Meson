@@ -6,8 +6,12 @@
 namespace Test::Test::ProgramNamespace {
 using namespace ::System::Console::System;
 
+void Program___::F(String s, Array<Object> args) {
+}
+
 void Program___::Main(Array<String> args) {
   Console::WriteLine(args);
+  F("aaa", rt::newarr<Array<Object>>(4, 1, 2, 3, 4));
 }
 
 void Program___::ctor() {

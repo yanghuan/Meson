@@ -2,7 +2,7 @@
 
 namespace System::Private::CoreLib::System::WeakReferenceNamespace {
 Boolean WeakReference___<>::get_TrackResurrection() {
-  return Boolean();
+  return IsTrackResurrection();
 }
 
 } // namespace System::Private::CoreLib::System::WeakReferenceNamespace

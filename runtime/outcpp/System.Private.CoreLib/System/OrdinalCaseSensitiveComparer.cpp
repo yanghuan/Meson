@@ -1,19 +1,25 @@
 #include "OrdinalCaseSensitiveComparer-dep.h"
 
+#include <System.Private.CoreLib/System/ExceptionArgument.h>
+#include <System.Private.CoreLib/System/ThrowHelper-dep.h>
+
 namespace System::Private::CoreLib::System::OrdinalCaseSensitiveComparerNamespace {
 void OrdinalCaseSensitiveComparer___::ctor() {
 }
 
 Int32 OrdinalCaseSensitiveComparer___::Compare(String x, String y) {
-  return Int32();
+  return String::in::CompareOrdinal(x, y);
 }
 
 Boolean OrdinalCaseSensitiveComparer___::Equals(String x, String y) {
-  return Boolean();
+  return String::in::Equals(x, y);
 }
 
 Int32 OrdinalCaseSensitiveComparer___::GetHashCode(String obj) {
-  return Int32();
+  if (obj == nullptr) {
+    ThrowHelper::ThrowArgumentNullException(ExceptionArgument::obj);
+  }
+  return obj->GetHashCode();
 }
 
 void OrdinalCaseSensitiveComparer___::GetObjectData(SerializationInfo info, StreamingContext context) {

@@ -7,6 +7,7 @@ using System.Reflection;
 using System.Text;
 
 using ICSharpCode.Decompiler.CSharp;
+using ICSharpCode.Decompiler.CSharp.Resolver;
 using ICSharpCode.Decompiler.CSharp.Syntax;
 using ICSharpCode.Decompiler.CSharp.Syntax.PatternMatching;
 using ICSharpCode.Decompiler.TypeSystem;
@@ -286,22 +287,32 @@ namespace Meson.Compiler {
     }
 
     private List<ExpressionSyntax> BuildArguments(IMethod symbol, ICollection<Expression> argumentExpressions) {
+      Contract.Assert(symbol != null);
       List<ExpressionSyntax> arguments = new List<ExpressionSyntax>();
       int i = 0;
       foreach (var argument in argumentExpressions) {
         var parameter = symbol.Parameters[i];
-        var resolveResult = argument.GetResolveResult();
-        var expression = argument.AcceptExpression(this);
-        CheckArrayConflict(symbol, parameter, i, resolveResult.Type, ref expression);
-        if (argument is NamedArgumentExpression namedArgument) {
-          string name = namedArgument.Name;
-          int index = symbol.Parameters.IndexOf(i => i.Name == name);
-          if (index == -1) {
-            throw new InvalidOperationException();
-          }
-          arguments.AddAt(index, expression);
+        if (parameter.IsParams) {
+          var typeName = GetTypeName(parameter.Type);
+          var expressions = argumentExpressions.Skip(i).Select(i => i.AcceptExpression(this)).ToArray();
+          var invation = IdentifierSyntax.NewArray.Generic(typeName).Invation(expressions.Length.ToString());
+          invation.Arguments.AddRange(expressions);
+          arguments.Add(invation);
+          break;
         } else {
-          arguments.Add(expression);
+          var resolveResult = argument.GetResolveResult();
+          var expression = argument.AcceptExpression(this);
+          CheckArrayConflict(symbol, parameter, i, resolveResult.Type, ref expression);
+          if (argument is NamedArgumentExpression namedArgument) {
+            string name = namedArgument.Name;
+            int index = symbol.Parameters.IndexOf(i => i.Name == name);
+            if (index == -1) {
+              throw new InvalidOperationException();
+            }
+            arguments.AddAt(index, expression);
+          } else {
+            arguments.Add(expression);
+          }
         }
         ++i;
       }
@@ -416,8 +427,9 @@ namespace Meson.Compiler {
             switch (symbol.SymbolKind) {
               case SymbolKind.Property: {
                   var property = (IProperty)symbol;
-                  bool isGetter = !(node.Parent is AssignmentExpression);
+                  bool isGetter = (property.Getter != null && property.Setter == null) || !(node.Parent is AssignmentExpression);
                   member = isGetter ? property.Getter : property.Setter;
+                  Contract.Assert(member != null);
                   name = GetMemberName(member);
                   if (isGetter) {
                     name = name.Invation();
@@ -480,9 +492,20 @@ namespace Meson.Compiler {
     }
 
     private ExpressionSyntax BuildObjectCreateExpression(ObjectCreateExpression objectCreateExpression, out List<ExpressionSyntax> arguments, out IMethod method) {
-      method = (IMethod)objectCreateExpression.GetSymbol();
       var typeName = objectCreateExpression.Type.AcceptExpression(this);
-      arguments = BuildArguments(method, objectCreateExpression.Arguments);
+      method = (IMethod)objectCreateExpression.GetSymbol();
+      if (method != null) {
+        arguments = BuildArguments(method, objectCreateExpression.Arguments);
+      } else {
+        var typeDefinition = (ITypeDefinition)objectCreateExpression.Type.GetSymbol();
+        Contract.Assert(typeDefinition.Kind == TypeKind.Delegate);
+        method = typeDefinition.GetMethods().First();
+        Contract.Assert(objectCreateExpression.Arguments.Count == 1);
+        var rs = (MethodGroupResolveResult)objectCreateExpression.Arguments.First().GetResolveResult();
+        var argument = (IMethod)rs.MethodsGroupedByDeclaringType.First().First();
+        var name = GetMemberName(argument);
+        arguments = new List<ExpressionSyntax>() { name.Address() };
+      }
       return typeName;
     }
 
@@ -513,6 +536,10 @@ namespace Meson.Compiler {
     public SyntaxNode VisitPointerReferenceExpression(PointerReferenceExpression pointerReferenceExpression) {
       var target = pointerReferenceExpression.Target.AcceptExpression(this);
       var symbol = pointerReferenceExpression.GetSymbol();
+      if (symbol == null) {
+        var s = pointerReferenceExpression.MemberNameToken.GetSymbol();
+        var rs = pointerReferenceExpression.MemberNameToken.GetResolveResult();
+      }
       return BuildMemberAccessExpression(target, symbol, pointerReferenceExpression, pointerReferenceExpression.TypeArguments, true);
     }
 
@@ -821,7 +848,7 @@ namespace Meson.Compiler {
     }
 
     public SyntaxNode VisitCatchClause(CatchClause catchClause) {
-      var type = catchClause.Type.AcceptExpression(this);
+      var type = !catchClause.Type.IsNull ? catchClause.Type.AcceptExpression(this) : IdentifierSyntax.VariableArguments;
       var name = catchClause.VariableNameToken.Accept<IdentifierSyntax>(this);
       return new CatchClauseSyntax(type, name);
     }
@@ -852,13 +879,12 @@ namespace Meson.Compiler {
 
     public SyntaxNode VisitLocalFunctionDeclarationStatement(LocalFunctionDeclarationStatement localFunctionDeclarationStatement) {
       var method = (IMethod)localFunctionDeclarationStatement.GetSymbol();
-      var name = localFunctionDeclarationStatement.NameToken.Accept<IdentifierSyntax>(this);
+      Contract.Assert(method != null);
+      var name = method.Name;
       var parameters = method.Parameters.Select(GetParameterSyntax);
       var retuenType = GetTypeName(method.ReturnType);
-      var body = localFunctionDeclarationStatement.Body.Accept<BlockSyntax>(this);
-      var lambdaExpressionSyntax = new LambdaExpressionSyntax(parameters, retuenType, body) {
-        TypeParameters = method.GetTemplateSyntax()?.Arguments,
-      };
+      var body = localFunctionDeclarationStatement.Declaration.Body.Accept<BlockSyntax>(this);
+      var lambdaExpressionSyntax = new LambdaExpressionSyntax(parameters, retuenType, body) { TypeParameters = method.GetTemplateSyntax()?.Arguments };
       var declaration = new VariableDeclarationStatementSyntax(IdentifierSyntax.Auto, name, lambdaExpressionSyntax);
       if (method.IsStatic) {
         Function.Body.Statements.Insert(0, declaration);
@@ -894,7 +920,7 @@ namespace Meson.Compiler {
     }
 
     public SyntaxNode VisitDestructorDeclaration(DestructorDeclaration destructorDeclaration) {
-      throw new NotImplementedException();
+      return BuildMethodDeclaration(destructorDeclaration.Body);
     }
 
     public SyntaxNode VisitEnumMemberDeclaration(EnumMemberDeclaration enumMemberDeclaration) {
@@ -1087,23 +1113,11 @@ namespace Meson.Compiler {
     }
 
     public SyntaxNode VisitPrimitiveType(PrimitiveType primitiveType) {
-      var type = (ITypeDefinition)primitiveType.GetSymbol();
+      var type = primitiveType.GetResolveResult().Type;
       return GetTypeName(type);
     }
 
     public SyntaxNode VisitComment(Comment comment) {
-      throw new NotImplementedException();
-    }
-
-    public SyntaxNode VisitWhitespace(WhitespaceNode whitespaceNode) {
-      throw new NotImplementedException();
-    }
-
-    public SyntaxNode VisitText(TextNode textNode) {
-      throw new NotImplementedException();
-    }
-
-    public SyntaxNode VisitNewLine(NewLineNode newLineNode) {
       throw new NotImplementedException();
     }
 
@@ -1149,6 +1163,10 @@ namespace Meson.Compiler {
 
     public SyntaxNode VisitPatternPlaceholder(AstNode placeholder, Pattern pattern) {
       throw new NotImplementedException();
+    }
+
+    public SyntaxNode VisitFunctionPointerType(FunctionPointerType functionPointerType) {
+      throw new System.NotImplementedException();
     }
   }
 }
