@@ -22,6 +22,7 @@
 #include <System.Private.CoreLib/System/MemoryExtensions-dep.h>
 #include <System.Private.CoreLib/System/OutOfMemoryException-dep.h>
 #include <System.Private.CoreLib/System/PasteArguments-dep.h>
+#include <System.Private.CoreLib/System/PlatformID.h>
 #include <System.Private.CoreLib/System/ReadOnlySpan-dep.h>
 #include <System.Private.CoreLib/System/Runtime/InteropServices/Marshal-dep.h>
 #include <System.Private.CoreLib/System/Runtime/InteropServices/MemoryMarshal-dep.h>
@@ -216,6 +217,9 @@ void Environment::set_CurrentDirectoryCore(String value) {
 }
 
 Int32 Environment::get_SystemPageSize() {
+  Interop::Kernel32::SYSTEM_INFO lpSystemInfo;
+  Interop::Kernel32::GetSystemInfo(lpSystemInfo);
+  return lpSystemInfo.dwPageSize;
 }
 
 Boolean Environment::get_Is64BitOperatingSystemWhen32BitProcess() {
@@ -572,6 +576,11 @@ String Environment::GetFolderPathCore(SpecialFolder folder, SpecialFolderOption 
 
 String Environment::GetKnownFolderPath(String folderGuid, SpecialFolderOption option) {
   Guid rfid = Guid(folderGuid);
+  String ppszPath;
+  if (Interop::Shell32::SHGetKnownFolderPath(rfid, (UInt32)option, IntPtr::Zero, ppszPath) != 0) {
+    return String::in::Empty;
+  }
+  return ppszPath;
 }
 
 Array<String> Environment::GetLogicalDrives() {
@@ -594,6 +603,15 @@ String Environment::ExpandEnvironmentVariablesCore(String name) {
 }
 
 OperatingSystem Environment::GetOSVersion() {
+  Interop::NtDll::RTL_OSVERSIONINFOEX osvi;
+  if (Interop::NtDll::RtlGetVersionEx(osvi) != 0) {
+    rt::throw_exception<InvalidOperationException>(SR::get_InvalidOperation_GetVersion());
+  }
+  Version version = rt::newobj<Version>((Int32)osvi.dwMajorVersion, (Int32)osvi.dwMinorVersion, (Int32)osvi.dwBuildNumber, 0);
+  if (*osvi.szCSDVersion == 0) {
+    return rt::newobj<OperatingSystem>(PlatformID::Win32NT, version);
+  }
+  return rt::newobj<OperatingSystem>(PlatformID::Win32NT, version, rt::newobj<String>(osvi.szCSDVersion));
 }
 
 String Environment::GetEnvironmentVariableCore(String variable) {

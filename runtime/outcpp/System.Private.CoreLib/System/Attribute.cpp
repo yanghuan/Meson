@@ -243,6 +243,17 @@ Array<Type> Attribute___::GetIndexParameterTypes(PropertyInfo element) {
 void Attribute___::AddAttributesToList(List<Attribute> attributeList, Array<Attribute> attributes, Dictionary<Type, AttributeUsageAttribute> types) {
   for (Int32 i = 0; i < attributes->get_Length(); i++) {
     Type type = attributes[i]->GetType();
+    AttributeUsageAttribute value;
+    types->TryGetValue(type, value);
+    if (value == nullptr) {
+      value = (types[type] = InternalGetAttributeUsage(type));
+      if (value->get_Inherited()) {
+        attributeList->Add(attributes[i]);
+      }
+    } else if (value->get_Inherited() && value->get_AllowMultiple()) {
+      attributeList->Add(attributes[i]);
+    }
+
   }
 }
 

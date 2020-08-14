@@ -1,11 +1,17 @@
 #include "SR-dep.h"
 
+#include <System.Console/FxResources/System/Console/SR-dep.h>
 #include <System.Private.CoreLib/System/Resources/MissingManifestResourceException-dep.h>
 
 namespace System::Console::System::SRNamespace {
 using namespace ::System::Private::CoreLib::System::Resources;
+using namespace FxResources::System::Console;
 
 ResourceManager SR::get_ResourceManager() {
+  auto default = s_resourceManager;
+  if (default != nullptr) default = (s_resourceManager = rt::newobj<ResourceManager>(rt::typeof<SR>()));
+
+  return default;
 }
 
 String SR::get_ArgumentOutOfRange_ConsoleWindowBufferSize() {

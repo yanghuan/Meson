@@ -97,6 +97,16 @@ Int64 Barrier___::AddParticipants(Int32 participantCount) {
   Boolean sense;
   while (true) {
     Int32 currentTotalCount = _currentTotalCount;
+    Int32 current;
+    Int32 total;
+    GetCurrentTotal(currentTotalCount, current, total, sense);
+    if (participantCount + total > 32767) {
+      rt::throw_exception<ArgumentOutOfRangeException>("participantCount", SR::get_Barrier_AddParticipants_Overflow_ArgumentOutOfRange());
+    }
+    if (SetCurrentTotal(currentTotalCount, current, total + participantCount, sense)) {
+      break;
+    }
+    spinWait.SpinOnce(-1);
   }
   Int64 currentPhaseNumber = get_CurrentPhaseNumber();
   num = ((sense != (currentPhaseNumber % 2 == 0)) ? (currentPhaseNumber + 1) : currentPhaseNumber);
@@ -131,6 +141,27 @@ void Barrier___::RemoveParticipants(Int32 participantCount) {
   SpinWait spinWait = SpinWait();
   while (true) {
     Int32 currentTotalCount = _currentTotalCount;
+    Int32 current;
+    Int32 total;
+    Boolean sense;
+    GetCurrentTotal(currentTotalCount, current, total, sense);
+    if (total < participantCount) {
+      rt::throw_exception<ArgumentOutOfRangeException>("participantCount", SR::get_Barrier_RemoveParticipants_ArgumentOutOfRange());
+    }
+    if (total - participantCount < current) {
+      rt::throw_exception<InvalidOperationException>(SR::get_Barrier_RemoveParticipants_InvalidOperation());
+    }
+    Int32 num = total - participantCount;
+    if (num > 0 && current == num) {
+      if (SetCurrentTotal(currentTotalCount, 0, total - participantCount, !sense)) {
+        FinishPhase(sense);
+        break;
+      }
+    } else if (SetCurrentTotal(currentTotalCount, current, total - participantCount, sense)) {
+      break;
+    }
+
+    spinWait.SpinOnce(-1);
   }
 }
 
@@ -208,6 +239,18 @@ Boolean Barrier___::SignalAndWait(Int32 millisecondsTimeout, CancellationToken c
     spinWait.Reset();
     while (true) {
       Int32 currentTotalCount = _currentTotalCount;
+      Boolean sense2;
+      GetCurrentTotal(currentTotalCount, current, total, sense2);
+      if (currentPhaseNumber < get_CurrentPhaseNumber() || sense != sense2) {
+        break;
+      }
+      if (SetCurrentTotal(currentTotalCount, current - 1, total, sense)) {
+        if (flag) {
+          rt::throw_exception<OperationCanceledException>(SR::get_Common_OperationCanceled(), cancellationToken);
+        }
+        return false;
+      }
+      spinWait.SpinOnce(-1);
     }
     WaitCurrentPhase(currentPhaseEvent, currentPhaseNumber);
   }

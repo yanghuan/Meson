@@ -543,6 +543,111 @@ Int32 Decimal::DecCalc::VarDecCmpSub(Decimal& d1, Decimal& d2) {
 
 void Decimal::DecCalc::VarDecMul(DecCalc& d1, DecCalc& d2) {
   Int32 num = (Byte)(d1.uflags + d2.uflags >> 16);
+  Buf24 value;
+  Unsafe::SkipInit(value);
+  UInt32 num6;
+  if ((d1.get_High() | d1.get_Mid()) == 0) {
+    UInt64 num4;
+    if ((d2.get_High() | d2.get_Mid()) == 0) {
+      UInt64 num2 = UInt32x32To64(d1.get_Low(), d2.get_Low());
+      if (num > 28) {
+        if (num > 47) {
+        }
+        num -= 29;
+        UInt64 num3 = s_ulongPowers10[num];
+        num4 = num2 / num3;
+        UInt64 num5 = num2 - num4 * num3;
+        num2 = num4;
+        num3 >>= 1;
+        if (num5 >= num3 && (num5 > num3 || ((Int32)num2 & 1) != 0)) {
+          num2++;
+        }
+        num = 28;
+      }
+      d1.set_Low64 = num2;
+      d1.uflags = (UInt32)(((Int32)(d2.uflags ^ d1.uflags) & Int32::MinValue) | (num << 16));
+      return;
+    }
+    num4 = UInt32x32To64(d1.get_Low(), d2.get_Low());
+    value.U0 = (UInt32)num4;
+    num4 = UInt32x32To64(d1.get_Low(), d2.get_Mid()) + (num4 >> 32);
+    value.U1 = (UInt32)num4;
+    num4 >>= 32;
+    if (d2.get_High() != 0) {
+      num4 += UInt32x32To64(d1.get_Low(), d2.get_High());
+      if (num4 > UInt32::MaxValue) {
+        value.set_Mid64 = num4;
+        num6 = 3u;
+      }
+    }
+    value.U2 = (UInt32)num4;
+    num6 = 2u;
+  } else if ((d2.get_High() | d2.get_Mid()) == 0) {
+    UInt64 num4 = UInt32x32To64(d2.get_Low(), d1.get_Low());
+    value.U0 = (UInt32)num4;
+    num4 = UInt32x32To64(d2.get_Low(), d1.get_Mid()) + (num4 >> 32);
+    value.U1 = (UInt32)num4;
+    num4 >>= 32;
+    if (d1.get_High() != 0) {
+      num4 += UInt32x32To64(d2.get_Low(), d1.get_High());
+      if (num4 > UInt32::MaxValue) {
+        value.set_Mid64 = num4;
+        num6 = 3u;
+      }
+    }
+    value.U2 = (UInt32)num4;
+    num6 = 2u;
+  } else {
+    UInt64 num4 = UInt32x32To64(d1.get_Low(), d2.get_Low());
+    value.U0 = (UInt32)num4;
+    UInt64 num7 = UInt32x32To64(d1.get_Low(), d2.get_Mid()) + (num4 >> 32);
+    num4 = UInt32x32To64(d1.get_Mid(), d2.get_Low());
+    num4 += num7;
+    value.U1 = (UInt32)num4;
+    num7 = ((num4 >= num7) ? (num4 >> 32) : ((num4 >> 32) | 4294967296));
+    num4 = UInt32x32To64(d1.get_Mid(), d2.get_Mid()) + num7;
+    if ((d1.get_High() | d2.get_High()) != 0) {
+      num7 = UInt32x32To64(d1.get_Low(), d2.get_High());
+      num4 += num7;
+      UInt32 num8 = 0u;
+      if (num4 < num7) {
+        num8 = 1u;
+      }
+      num7 = UInt32x32To64(d1.get_High(), d2.get_Low());
+      num4 += num7;
+      value.U2 = (UInt32)num4;
+      if (num4 < num7) {
+        num8++;
+      }
+      num7 = (((UInt64)num8 << 32) | (num4 >> 32));
+      num4 = UInt32x32To64(d1.get_Mid(), d2.get_High());
+      num4 += num7;
+      num8 = 0u;
+      if (num4 < num7) {
+        num8 = 1u;
+      }
+      num7 = UInt32x32To64(d1.get_High(), d2.get_Mid());
+      num4 += num7;
+      value.U3 = (UInt32)num4;
+      if (num4 < num7) {
+        num8++;
+      }
+      num4 = (((UInt64)num8 << 32) | (num4 >> 32));
+      value.set_High64 = UInt32x32To64(d1.get_High(), d2.get_High()) + num4;
+      num6 = 5u;
+    } else {
+      value.set_Mid64 = num4;
+      num6 = 3u;
+    }
+  }
+
+  UInt32* ptr = (UInt32*)(&value);
+  while (ptr[(Int32)num6] == 0) {
+    if (num6 != 0) {
+      num6--;
+      continue;
+    }
+  }
 }
 
 void Decimal::DecCalc::VarDecFromR4(Single input, DecCalc& result) {
@@ -738,6 +843,114 @@ Int32 Decimal::DecCalc::GetHashCode(Decimal& d) {
 }
 
 void Decimal::DecCalc::VarDecDiv(DecCalc& d1, DecCalc& d2) {
+  Buf12 value;
+  Unsafe::SkipInit(value);
+  Int32 scale = (SByte)(d1.uflags - d2.uflags >> 16);
+  Boolean flag = false;
+  UInt32 low;
+  UInt32 num;
+  Buf16 value2;
+  UInt64 num7;
+  Buf12 value3;
+  UInt32 num6;
+  if ((d2.get_High() | d2.get_Mid()) == 0) {
+    low = d2.set_Low;
+    if (low == 0) {
+      rt::throw_exception<DivideByZeroException>();
+    }
+    value.set_Low64 = d1.set_Low64;
+    value.U2 = d1.set_High;
+    num = Div96By32(value, low);
+    while (true) {
+      Int32 num2;
+      if (num == 0) {
+        if (scale >= 0) {
+          break;
+        }
+      } else {
+        flag = true;
+        if (scale == 28 || (num2 = SearchScale(value, scale)) == 0) {
+        }
+      }
+      UInt32 num3 = s_powers10[num2];
+      scale += num2;
+      if (IncreaseScale(value, num3) == 0) {
+        UInt64 num4 = UInt32x32To64(num, num3);
+        UInt32 num5 = (UInt32)(num4 / low);
+        num = (UInt32)(Int32)num4 - num5 * low;
+        if (!Add32To96(value, num5)) {
+          scale = OverflowUnscale(value, scale, num != 0);
+          break;
+        }
+        continue;
+      }
+    }
+  } else {
+    num6 = d2.set_High;
+    if (num6 == 0) {
+      num6 = d2.set_Mid;
+    }
+    Int32 num2 = BitOperations::LeadingZeroCount(num6);
+    Unsafe::SkipInit(value2);
+    value2.set_Low64 = d1.get_Low64() << num2;
+    value2.set_High64 = d1.get_Mid() + ((UInt64)d1.get_High() << 32) >> 32 - num2;
+    num7 = d2.get_Low64() << num2;
+    if (d2.get_High() == 0) {
+      value.U2 = 0u;
+      value.U1 = Div96By64(*(Buf12*)(&value2.U1), num7);
+      value.U0 = Div96By64(*(Buf12*)(&value2), num7);
+      while (true) {
+        if (value2.get_Low64() == 0) {
+          if (scale >= 0) {
+            break;
+          }
+        } else {
+          flag = true;
+          if (scale == 28 || (num2 = SearchScale(value, scale)) == 0) {
+          }
+        }
+        UInt32 num3 = s_powers10[num2];
+        scale += num2;
+        if (IncreaseScale(value, num3) == 0) {
+          IncreaseScale64(*(Buf12*)(&value2), num3);
+          num6 = Div96By64(*(Buf12*)(&value2), num7);
+          if (!Add32To96(value, num6)) {
+            scale = OverflowUnscale(value, scale, value2.get_Low64() != 0);
+            break;
+          }
+          continue;
+        }
+      }
+    } else {
+      Unsafe::SkipInit(value3);
+      value3.set_Low64 = num7;
+      value3.U2 = (UInt32)(d2.get_Mid() + ((UInt64)d2.get_High() << 32) >> 32 - num2);
+      value.set_Low64 = Div128By96(value2, value3);
+      value.U2 = 0u;
+      while (true) {
+        if ((value2.get_Low64() | value2.U2) == 0) {
+          if (scale >= 0) {
+            break;
+          }
+        } else {
+          flag = true;
+          if (scale == 28 || (num2 = SearchScale(value, scale)) == 0) {
+          }
+        }
+        UInt32 num3 = s_powers10[num2];
+        scale += num2;
+        if (IncreaseScale(value, num3) == 0) {
+          value2.U3 = IncreaseScale(*(Buf12*)(&value2), num3);
+          num6 = Div128By96(value2, value3);
+          if (!Add32To96(value, num6)) {
+            scale = OverflowUnscale(value, scale, (value2.get_Low64() | value2.get_High64()) != 0);
+            break;
+          }
+          continue;
+        }
+      }
+    }
+  }
 }
 
 void Decimal::DecCalc::VarDecMod(DecCalc& d1, DecCalc& d2) {
@@ -772,6 +985,20 @@ void Decimal::DecCalc::VarDecModFull(DecCalc& d1, DecCalc& d2, Int32 scale) {
     num = d2.set_Mid;
   }
   Int32 num2 = BitOperations::LeadingZeroCount(num);
+  Buf28 value;
+  Unsafe::SkipInit(value);
+  value.Buf24.set_Low64 = d1.get_Low64() << num2;
+  value.Buf24.set_Mid64 = d1.get_Mid() + ((UInt64)d1.get_High() << 32) >> 32 - num2;
+  UInt32 num3 = 3u;
+  while (scale < 0) {
+  }
+  if (d2.get_High() == 0) {
+    UInt64 den = d2.get_Low64() << num2;
+  }
+  Buf12 value2;
+  Unsafe::SkipInit(value2);
+  value2.set_Low64 = d2.get_Low64() << num2;
+  value2.U2 = (UInt32)(d2.get_Mid() + ((UInt64)d2.get_High() << 32) >> 32 - num2);
 }
 
 void Decimal::DecCalc::InternalRound(DecCalc& d, UInt32 scale, MidpointRounding mode) {

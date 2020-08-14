@@ -488,6 +488,16 @@ Boolean Enum___::TryParseRareEnum(RuntimeType enumType, String originalValueStri
     } catch (...) {
     }
   }
+  UInt64 result2;
+  if (TryParseByName(enumType, originalValueString, value, ignoreCase, throwOnFailure, result2)) {
+    try{
+      result = ToObject(enumType, result2);
+      return true;
+    } catch (...) {
+    }
+  }
+  result = nullptr;
+  return false;
 }
 
 Boolean Enum___::TryParseByName(RuntimeType enumType, String originalValueString, ReadOnlySpan<Char> value, Boolean ignoreCase, Boolean throwOnFailure, UInt64& result) {

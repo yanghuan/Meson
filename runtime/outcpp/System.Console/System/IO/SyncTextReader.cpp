@@ -24,58 +24,51 @@ void SyncTextReader___::Dispose(Boolean disposing) {
   if (disposing) {
     {
       rt::lock((SyncTextReader)this);
-      {
-        _in->Dispose();
-      }}
+      _in->Dispose();
+    }
   }
 }
 
 Int32 SyncTextReader___::Peek() {
   {
     rt::lock((SyncTextReader)this);
-    {
-      return _in->Peek();
-    }}
+    return _in->Peek();
+  }
 }
 
 Int32 SyncTextReader___::Read() {
   {
     rt::lock((SyncTextReader)this);
-    {
-      return _in->Read();
-    }}
+    return _in->Read();
+  }
 }
 
 Int32 SyncTextReader___::Read(Array<Char> buffer, Int32 index, Int32 count) {
   {
     rt::lock((SyncTextReader)this);
-    {
-      return _in->Read(buffer, index, count);
-    }}
+    return _in->Read(buffer, index, count);
+  }
 }
 
 Int32 SyncTextReader___::ReadBlock(Array<Char> buffer, Int32 index, Int32 count) {
   {
     rt::lock((SyncTextReader)this);
-    {
-      return _in->ReadBlock(buffer, index, count);
-    }}
+    return _in->ReadBlock(buffer, index, count);
+  }
 }
 
 String SyncTextReader___::ReadLine() {
   {
     rt::lock((SyncTextReader)this);
-    {
-      return _in->ReadLine();
-    }}
+    return _in->ReadLine();
+  }
 }
 
 String SyncTextReader___::ReadToEnd() {
   {
     rt::lock((SyncTextReader)this);
-    {
-      return _in->ReadToEnd();
-    }}
+    return _in->ReadToEnd();
+  }
 }
 
 Task<String> SyncTextReader___::ReadLineAsync() {

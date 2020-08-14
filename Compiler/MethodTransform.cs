@@ -282,7 +282,7 @@ namespace Meson.Compiler {
         }
       }
       var stringTypeName = GetTypeName(Generator.StringTypeDefinition);
-      return stringTypeName.WithIn().TwoColon("Format").Invation(new ExpressionSyntax[] { sb.ToString() }.Concat(expressions));
+      return stringTypeName.WithIn().TwoColon("Format").Invation(new ExpressionSyntax[] { new StringLiteralExpressionSyntax(sb.ToString()) }.Concat(expressions));
     }
 
     private void CheckArrayConflict(IMethod symbol, IParameter parameter, int index, IType type, ref ExpressionSyntax expression) {
@@ -541,7 +541,10 @@ namespace Meson.Compiler {
     }
 
     public SyntaxNode VisitOutVarDeclarationExpression(OutVarDeclarationExpression outVarDeclarationExpression) {
-      throw new NotImplementedException();
+      var typeName = outVarDeclarationExpression.Type.AcceptExpression(this);
+      var variable = outVarDeclarationExpression.Variable.Accept<VariableInitializerSyntax>(this);
+      Block.Add(new VariableDeclarationStatementSyntax(typeName, variable.Name));
+      return variable.Name;
     }
 
     public SyntaxNode VisitParenthesizedExpression(ParenthesizedExpression parenthesizedExpression) {
@@ -605,7 +608,8 @@ namespace Meson.Compiler {
     }
 
     public SyntaxNode VisitTypeOfExpression(TypeOfExpression typeOfExpression) {
-      throw new NotImplementedException();
+      var typeName = typeOfExpression.Type.AcceptExpression(this);
+      return IdentifierSyntax.Typeof.Generic(typeName).Invation();
     }
 
     public SyntaxNode VisitTypeReferenceExpression(TypeReferenceExpression typeReferenceExpression) {

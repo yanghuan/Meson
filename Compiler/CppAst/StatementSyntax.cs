@@ -590,7 +590,7 @@ namespace Meson.Compiler.CppAst {
       Variables.AddRange(variables);
     }
 
-    public VariableDeclarationStatementSyntax(ExpressionSyntax type, IdentifierSyntax name, ExpressionSyntax value) {
+    public VariableDeclarationStatementSyntax(ExpressionSyntax type, IdentifierSyntax name, ExpressionSyntax value = null) {
       Type = type;
       Variables.Add(new VariableInitializerSyntax(name, value));
     }

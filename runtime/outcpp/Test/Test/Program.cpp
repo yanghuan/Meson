@@ -11,7 +11,7 @@ using namespace ::System::Private::CoreLib::System;
 void Program___::Main(Array<String> args) {
   Console::WriteLine(args);
   Int32 num = args->get_Length();
-  Console::WriteLine(String::in::Format(dddd{0:x}ddd, num));
+  Console::WriteLine(String::in::Format("dddd{0:x}ddd", num));
   {
     rt::lock(args);
     num = 2;

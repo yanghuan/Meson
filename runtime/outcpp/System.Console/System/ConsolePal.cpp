@@ -86,6 +86,9 @@ Int32 ConsolePal::WindowsConsoleStream___::ReadFileNative(IntPtr hFile, Array<By
     if (useFileAPIs) {
       flag = (Interop::Kernel32::ReadFile(hFile, ptr + offset, count, bytesRead, IntPtr::Zero) != 0);
     } else {
+      Int32 lpNumberOfCharsRead;
+      flag = Interop::Kernel32::ReadConsole(hFile, ptr + offset, count / 2, lpNumberOfCharsRead, IntPtr::Zero);
+      bytesRead = lpNumberOfCharsRead * 2;
     }
   }
   if (flag) {
@@ -105,6 +108,9 @@ Int32 ConsolePal::WindowsConsoleStream___::WriteFileNative(IntPtr hFile, Array<B
   Boolean flag;
   {
     Byte* ptr = &bytes[0];
+    Int32 _;
+    Int32 _;
+    flag = ((!useFileAPIs) ? Interop::Kernel32::WriteConsole(hFile, ptr + offset, count / 2, _, IntPtr::Zero) : (Interop::Kernel32::WriteFile(hFile, ptr + offset, count, _, IntPtr::Zero) != 0));
   }
   if (flag) {
     return 0;
@@ -278,18 +284,44 @@ void ConsolePal::set_ForegroundColor(ConsoleColor value) {
 }
 
 Int32 ConsolePal::get_CursorSize() {
+  Interop::Kernel32::CONSOLE_CURSOR_INFO cci;
+  if (!Interop::Kernel32::GetConsoleCursorInfo(get_OutputHandle(), cci)) {
+    rt::throw_exception(Win32Marshal::GetExceptionForWin32Error(Marshal::GetLastWin32Error()));
+  }
+  return cci.dwSize;
 }
 
 void ConsolePal::set_CursorSize(Int32 value) {
   if (value < 1 || value > 100) {
     rt::throw_exception<ArgumentOutOfRangeException>("value", value, SR::get_ArgumentOutOfRange_CursorSize());
   }
+  Interop::Kernel32::CONSOLE_CURSOR_INFO cci;
+  if (!Interop::Kernel32::GetConsoleCursorInfo(get_OutputHandle(), cci)) {
+    rt::throw_exception(Win32Marshal::GetExceptionForWin32Error(Marshal::GetLastWin32Error()));
+  }
+  cci.dwSize = value;
+  if (!Interop::Kernel32::SetConsoleCursorInfo(get_OutputHandle(), cci)) {
+    rt::throw_exception(Win32Marshal::GetExceptionForWin32Error(Marshal::GetLastWin32Error()));
+  }
 }
 
 Boolean ConsolePal::get_CursorVisible() {
+  Interop::Kernel32::CONSOLE_CURSOR_INFO cci;
+  if (!Interop::Kernel32::GetConsoleCursorInfo(get_OutputHandle(), cci)) {
+    rt::throw_exception(Win32Marshal::GetExceptionForWin32Error(Marshal::GetLastWin32Error()));
+  }
+  return cci.bVisible;
 }
 
 void ConsolePal::set_CursorVisible(Boolean value) {
+  Interop::Kernel32::CONSOLE_CURSOR_INFO cci;
+  if (!Interop::Kernel32::GetConsoleCursorInfo(get_OutputHandle(), cci)) {
+    rt::throw_exception(Win32Marshal::GetExceptionForWin32Error(Marshal::GetLastWin32Error()));
+  }
+  cci.bVisible = value;
+  if (!Interop::Kernel32::SetConsoleCursorInfo(get_OutputHandle(), cci)) {
+    rt::throw_exception(Win32Marshal::GetExceptionForWin32Error(Marshal::GetLastWin32Error()));
+  }
 }
 
 Int32 ConsolePal::get_CursorLeft() {
@@ -504,50 +536,49 @@ ConsoleKeyInfo ConsolePal::ReadKey(Boolean intercept) {
   Interop::InputRecord buffer;
   {
     rt::lock(s_readKeySyncObject);
-    {
-      if (_cachedInputRecord.eventType == 1) {
-        buffer = _cachedInputRecord;
-        if (_cachedInputRecord.keyEvent.repeatCount == 0) {
-          _cachedInputRecord.eventType = -1;
-        } else {
-          _cachedInputRecord.keyEvent.repeatCount--;
-        }
+    if (_cachedInputRecord.eventType == 1) {
+      buffer = _cachedInputRecord;
+      if (_cachedInputRecord.keyEvent.repeatCount == 0) {
+        _cachedInputRecord.eventType = -1;
       } else {
-        while (true) {
-          if (!Interop::Kernel32::ReadConsoleInput(get_InputHandle(), buffer, 1, numEventsRead) || numEventsRead == 0) {
-            rt::throw_exception<InvalidOperationException>(SR::get_InvalidOperation_ConsoleReadKeyOnFile());
-          }
-          Int16 virtualKeyCode = buffer.keyEvent.virtualKeyCode;
-          if ((!IsKeyDownEvent(buffer) && virtualKeyCode != 18) || (buffer.keyEvent.uChar == 0 && IsModKey(buffer))) {
-            continue;
-          }
-          ConsoleKey consoleKey = (ConsoleKey)virtualKeyCode;
-          if (!IsAltKeyDown(buffer)) {
-            break;
-          }
-          if (consoleKey < ConsoleKey::NumPad0 || consoleKey > ConsoleKey::NumPad9) {
-            switch (consoleKey) {
-              case ConsoleKey::Clear:
-              case ConsoleKey::PageUp:
-              case ConsoleKey::PageDown:
-              case ConsoleKey::End:
-              case ConsoleKey::Home:
-              case ConsoleKey::LeftArrow:
-              case ConsoleKey::UpArrow:
-              case ConsoleKey::RightArrow:
-              case ConsoleKey::DownArrow:
-              case ConsoleKey::Insert:
-                continue;
-            }
-            break;
-          }
+        _cachedInputRecord.keyEvent.repeatCount--;
+      }
+    } else {
+      while (true) {
+        if (!Interop::Kernel32::ReadConsoleInput(get_InputHandle(), buffer, 1, numEventsRead) || numEventsRead == 0) {
+          rt::throw_exception<InvalidOperationException>(SR::get_InvalidOperation_ConsoleReadKeyOnFile());
         }
-        if (buffer.keyEvent.repeatCount > 1) {
-          buffer.keyEvent.repeatCount--;
-          _cachedInputRecord = buffer;
+        Int16 virtualKeyCode = buffer.keyEvent.virtualKeyCode;
+        if ((!IsKeyDownEvent(buffer) && virtualKeyCode != 18) || (buffer.keyEvent.uChar == 0 && IsModKey(buffer))) {
+          continue;
+        }
+        ConsoleKey consoleKey = (ConsoleKey)virtualKeyCode;
+        if (!IsAltKeyDown(buffer)) {
+          break;
+        }
+        if (consoleKey < ConsoleKey::NumPad0 || consoleKey > ConsoleKey::NumPad9) {
+          switch (consoleKey) {
+            case ConsoleKey::Clear:
+            case ConsoleKey::PageUp:
+            case ConsoleKey::PageDown:
+            case ConsoleKey::End:
+            case ConsoleKey::Home:
+            case ConsoleKey::LeftArrow:
+            case ConsoleKey::UpArrow:
+            case ConsoleKey::RightArrow:
+            case ConsoleKey::DownArrow:
+            case ConsoleKey::Insert:
+              continue;
+          }
+          break;
         }
       }
-    }}
+      if (buffer.keyEvent.repeatCount > 1) {
+        buffer.keyEvent.repeatCount--;
+        _cachedInputRecord = buffer;
+      }
+    }
+  }
   ControlKeyState controlKeyState = (ControlKeyState)buffer.keyEvent.controlKeyState;
   Boolean shift = (controlKeyState & ControlKeyState::ShiftPressed) != 0;
   Boolean alt = (controlKeyState & (ControlKeyState::RightAltPressed | ControlKeyState::LeftAltPressed)) != 0;
@@ -561,6 +592,11 @@ ConsoleKeyInfo ConsolePal::ReadKey(Boolean intercept) {
 
 void ConsolePal::ResetColor() {
   if (!_haveReadDefaultColors) {
+    Boolean succeeded;
+    GetBufferInfo(false, succeeded);
+    if (!succeeded) {
+      return;
+    }
   }
   Interop::Kernel32::SetConsoleTextAttribute(get_OutputHandle(), _defaultColors);
 }
@@ -633,6 +669,13 @@ void ConsolePal::MoveBufferArea(Int32 sourceLeft, Int32 sourceTop, Int32 sourceW
   Int16 wColorAttribute = (Int16)color;
   for (Int32 i = sourceTop; i < sourceTop + sourceHeight; i++) {
     cOORD.Y = (Int16)i;
+    Int32 pNumCharsWritten;
+    if (!Interop::Kernel32::FillConsoleOutputCharacter(get_OutputHandle(), sourceChar, sourceWidth, cOORD, pNumCharsWritten)) {
+      rt::throw_exception(Win32Marshal::GetExceptionForWin32Error(Marshal::GetLastWin32Error()));
+    }
+    if (!Interop::Kernel32::FillConsoleOutputAttribute(get_OutputHandle(), wColorAttribute, sourceWidth, cOORD, pNumCharsWritten)) {
+      rt::throw_exception(Win32Marshal::GetExceptionForWin32Error(Marshal::GetLastWin32Error()));
+    }
   }
   Interop::Kernel32::SMALL_RECT writeRegion = Interop::Kernel32::SMALL_RECT();
   writeRegion.Left = (Int16)targetLeft;
@@ -801,6 +844,20 @@ Interop::Kernel32::CONSOLE_SCREEN_BUFFER_INFO ConsolePal::GetBufferInfo(Boolean 
     }
     return Interop::Kernel32::CONSOLE_SCREEN_BUFFER_INFO();
   }
+  Interop::Kernel32::CONSOLE_SCREEN_BUFFER_INFO lpConsoleScreenBufferInfo;
+  if (!Interop::Kernel32::GetConsoleScreenBufferInfo(outputHandle, lpConsoleScreenBufferInfo) && !Interop::Kernel32::GetConsoleScreenBufferInfo(get_ErrorHandle(), lpConsoleScreenBufferInfo) && !Interop::Kernel32::GetConsoleScreenBufferInfo(get_InputHandle(), lpConsoleScreenBufferInfo)) {
+    Int32 lastWin32Error = Marshal::GetLastWin32Error();
+    if (lastWin32Error == 6 && !throwOnNoConsole) {
+      return Interop::Kernel32::CONSOLE_SCREEN_BUFFER_INFO();
+    }
+    rt::throw_exception(Win32Marshal::GetExceptionForWin32Error(lastWin32Error));
+  }
+  if (!_haveReadDefaultColors) {
+    _defaultColors = (Byte)(lpConsoleScreenBufferInfo.wAttributes & 255);
+    _haveReadDefaultColors = true;
+  }
+  succeeded = true;
+  return lpConsoleScreenBufferInfo;
 }
 
 void ConsolePal::cctor() {
