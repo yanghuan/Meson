@@ -19,7 +19,7 @@ class AsyncTaskCache {
   public: template <class TResult>
   static Task<TResult> CreateCacheableTask(TResult result);
   private: static Array<Task<Int32>> CreateInt32Tasks();
-  private: static void ctor_static();
+  private: static void cctor();
   public: static Task<Boolean> s_trueTask;
   public: static Task<Boolean> s_falseTask;
   public: static Array<Task<Int32>> s_int32Tasks;

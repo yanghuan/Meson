@@ -1,20 +1,23 @@
 #include "DecoderExceptionFallback-dep.h"
 
+#include <System.Private.CoreLib/System/Text/DecoderExceptionFallback-dep.h>
+#include <System.Private.CoreLib/System/Text/DecoderExceptionFallbackBuffer-dep.h>
+
 namespace System::Private::CoreLib::System::Text::DecoderExceptionFallbackNamespace {
 Int32 DecoderExceptionFallback___::get_MaxCharCount() {
-  return Int32();
+  return 0;
 }
 
 DecoderFallbackBuffer DecoderExceptionFallback___::CreateFallbackBuffer() {
-  return nullptr;
+  return rt::newobj<DecoderExceptionFallbackBuffer>();
 }
 
 Boolean DecoderExceptionFallback___::Equals(Object value) {
-  return Boolean();
+  return rt::is<DecoderExceptionFallback>(value);
 }
 
 Int32 DecoderExceptionFallback___::GetHashCode() {
-  return Int32();
+  return 879;
 }
 
 void DecoderExceptionFallback___::ctor() {

@@ -50,7 +50,7 @@ CLASS(GregorianCalendar) : public Calendar::in {
   public: DateTime ToDateTime(Int32 year, Int32 month, Int32 day, Int32 hour, Int32 minute, Int32 second, Int32 millisecond, Int32 era);
   public: Boolean TryToDateTime(Int32 year, Int32 month, Int32 day, Int32 hour, Int32 minute, Int32 second, Int32 millisecond, Int32 era, DateTime& result);
   public: Int32 ToFourDigitYear(Int32 year);
-  private: static void ctor_static();
+  private: static void cctor();
   public: static constexpr Int32 ADEra = 1;
   private: GregorianCalendarTypes _type;
   private: static Array<Int32> DaysToMonth365;

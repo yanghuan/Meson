@@ -1,99 +1,139 @@
 #include "ParameterInfo-dep.h"
 
+#include <System.Private.CoreLib/System/ArgumentNullException-dep.h>
+#include <System.Private.CoreLib/System/NotImplemented-dep.h>
+#include <System.Private.CoreLib/System/Reflection/MemberTypes.h>
+#include <System.Private.CoreLib/System/Reflection/MethodBase-dep.h>
+#include <System.Private.CoreLib/System/Reflection/MethodInfo-dep.h>
+#include <System.Private.CoreLib/System/Reflection/ParameterInfo-dep.h>
+#include <System.Private.CoreLib/System/Reflection/PropertyInfo-dep.h>
+#include <System.Private.CoreLib/System/Runtime/Serialization/SerializationException-dep.h>
+#include <System.Private.CoreLib/System/SR-dep.h>
+
 namespace System::Private::CoreLib::System::Reflection::ParameterInfoNamespace {
+using namespace System::Runtime::Serialization;
+
 ParameterAttributes ParameterInfo___::get_Attributes() {
-  return ParameterAttributes::ReservedMask;
+  return AttrsImpl;
 }
 
 MemberInfo ParameterInfo___::get_Member() {
-  return nullptr;
+  return MemberImpl;
 }
 
 String ParameterInfo___::get_Name() {
-  return nullptr;
+  return NameImpl;
 }
 
 Type ParameterInfo___::get_ParameterType() {
-  return nullptr;
+  return ClassImpl;
 }
 
 Int32 ParameterInfo___::get_Position() {
-  return Int32();
+  return PositionImpl;
 }
 
 Boolean ParameterInfo___::get_IsIn() {
-  return Boolean();
 }
 
 Boolean ParameterInfo___::get_IsLcid() {
-  return Boolean();
 }
 
 Boolean ParameterInfo___::get_IsOptional() {
-  return Boolean();
 }
 
 Boolean ParameterInfo___::get_IsOut() {
-  return Boolean();
 }
 
 Boolean ParameterInfo___::get_IsRetval() {
-  return Boolean();
 }
 
 Object ParameterInfo___::get_DefaultValue() {
-  return nullptr;
+  rt::throw_exception(NotImplemented::get_ByDesign());
 }
 
 Object ParameterInfo___::get_RawDefaultValue() {
-  return nullptr;
+  rt::throw_exception(NotImplemented::get_ByDesign());
 }
 
 Boolean ParameterInfo___::get_HasDefaultValue() {
-  return Boolean();
+  rt::throw_exception(NotImplemented::get_ByDesign());
 }
 
 IEnumerable<CustomAttributeData> ParameterInfo___::get_CustomAttributes() {
-  return nullptr;
+  return GetCustomAttributesData();
 }
 
 Int32 ParameterInfo___::get_MetadataToken() {
-  return Int32();
+  return 134217728;
 }
 
 void ParameterInfo___::ctor() {
 }
 
 Boolean ParameterInfo___::IsDefined(Type attributeType, Boolean inherit) {
-  return Boolean();
+  if (attributeType == nullptr) {
+    rt::throw_exception<ArgumentNullException>("attributeType");
+  }
+  return false;
 }
 
 IList<CustomAttributeData> ParameterInfo___::GetCustomAttributesData() {
-  return nullptr;
+  rt::throw_exception(NotImplemented::get_ByDesign());
 }
 
 Array<Object> ParameterInfo___::GetCustomAttributes(Boolean inherit) {
-  return Array<Object>();
+  return Array<>::in::Empty<Object>();
 }
 
 Array<Object> ParameterInfo___::GetCustomAttributes(Type attributeType, Boolean inherit) {
-  return Array<Object>();
+  if (attributeType == nullptr) {
+    rt::throw_exception<ArgumentNullException>("attributeType");
+  }
+  return Array<>::in::Empty<Object>();
 }
 
 Array<Type> ParameterInfo___::GetOptionalCustomModifiers() {
-  return Array<Type>();
+  return Array<>::in::Empty<Type>();
 }
 
 Array<Type> ParameterInfo___::GetRequiredCustomModifiers() {
-  return Array<Type>();
+  return Array<>::in::Empty<Type>();
 }
 
 Object ParameterInfo___::GetRealObject(StreamingContext context) {
-  return nullptr;
+  if (MemberImpl == nullptr) {
+    rt::throw_exception<SerializationException>(SR::get_Serialization_InsufficientState());
+  }
+  switch (MemberImpl->get_MemberType()) {
+    case MemberTypes::Constructor:
+    case MemberTypes::Method:
+      {
+        if (PositionImpl == -1) {
+          if (MemberImpl->get_MemberType() == MemberTypes::Method) {
+            return ((MethodInfo)MemberImpl)->get_ReturnParameter();
+          }
+          rt::throw_exception<SerializationException>(SR::get_Serialization_BadParameterInfo());
+        }
+        Array<ParameterInfo> indexParameters = ((MethodBase)MemberImpl)->GetParametersNoCopy();
+        if (indexParameters != nullptr && PositionImpl < indexParameters->get_Length()) {
+          return indexParameters[PositionImpl];
+        }
+        rt::throw_exception<SerializationException>(SR::get_Serialization_BadParameterInfo());
+      }case MemberTypes::Property:
+      {
+        Array<ParameterInfo> indexParameters = ((PropertyInfo)MemberImpl)->GetIndexParameters();
+        if (indexParameters != nullptr && PositionImpl > -1 && PositionImpl < indexParameters->get_Length()) {
+          return indexParameters[PositionImpl];
+        }
+        rt::throw_exception<SerializationException>(SR::get_Serialization_BadParameterInfo());
+      }default:
+      rt::throw_exception<SerializationException>(SR::get_Serialization_NoParameterInfo());
+  }
 }
 
 String ParameterInfo___::ToString() {
-  return nullptr;
+  return get_ParameterType()->FormatTypeName() + " " + get_Name();
 }
 
 } // namespace System::Private::CoreLib::System::Reflection::ParameterInfoNamespace

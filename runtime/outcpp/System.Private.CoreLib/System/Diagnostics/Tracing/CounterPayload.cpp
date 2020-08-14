@@ -2,11 +2,10 @@
 
 namespace System::Private::CoreLib::System::Diagnostics::Tracing::CounterPayloadNamespace {
 IEnumerable<KeyValuePair<String, Object>> CounterPayload___::get_ForEnumeration() {
-  return nullptr;
 }
 
 IEnumerator<KeyValuePair<String, Object>> CounterPayload___::GetEnumerator() {
-  return nullptr;
+  return get_ForEnumeration()->GetEnumerator();
 }
 
 void CounterPayload___::ctor() {

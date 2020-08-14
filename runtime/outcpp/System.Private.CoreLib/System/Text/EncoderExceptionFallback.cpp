@@ -1,23 +1,26 @@
 #include "EncoderExceptionFallback-dep.h"
 
+#include <System.Private.CoreLib/System/Text/EncoderExceptionFallback-dep.h>
+#include <System.Private.CoreLib/System/Text/EncoderExceptionFallbackBuffer-dep.h>
+
 namespace System::Private::CoreLib::System::Text::EncoderExceptionFallbackNamespace {
 Int32 EncoderExceptionFallback___::get_MaxCharCount() {
-  return Int32();
+  return 0;
 }
 
 void EncoderExceptionFallback___::ctor() {
 }
 
 EncoderFallbackBuffer EncoderExceptionFallback___::CreateFallbackBuffer() {
-  return nullptr;
+  return rt::newobj<EncoderExceptionFallbackBuffer>();
 }
 
 Boolean EncoderExceptionFallback___::Equals(Object value) {
-  return Boolean();
+  return rt::is<EncoderExceptionFallback>(value);
 }
 
 Int32 EncoderExceptionFallback___::GetHashCode() {
-  return Int32();
+  return 654;
 }
 
 } // namespace System::Private::CoreLib::System::Text::EncoderExceptionFallbackNamespace

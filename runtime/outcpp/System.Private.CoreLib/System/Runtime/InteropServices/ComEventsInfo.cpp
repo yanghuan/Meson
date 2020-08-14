@@ -1,32 +1,41 @@
 #include "ComEventsInfo-dep.h"
 
 #include <System.Private.CoreLib/System/Runtime/InteropServices/ComEventsInfo-dep.h>
+#include <System.Private.CoreLib/System/Runtime/InteropServices/ComEventsSink-dep.h>
 
 namespace System::Private::CoreLib::System::Runtime::InteropServices::ComEventsInfoNamespace {
 void ComEventsInfo___::ctor(Object rcw) {
+  _rcw = rcw;
 }
 
 void ComEventsInfo___::Finalize() {
+  _sinks = ComEventsSink::in::RemoveAll(_sinks);
 }
 
 ComEventsInfo ComEventsInfo___::Find(Object rcw) {
-  return nullptr;
 }
 
 ComEventsInfo ComEventsInfo___::FromObject(Object rcw) {
-  return nullptr;
+  ComEventsInfo comEventsInfo = Find(rcw);
+  if (comEventsInfo == nullptr) {
+    comEventsInfo = rt::newobj<ComEventsInfo>(rcw);
+  }
+  return comEventsInfo;
 }
 
 ComEventsSink ComEventsInfo___::FindSink(Guid& iid) {
-  return nullptr;
+  return ComEventsSink::in::Find(_sinks, iid);
 }
 
 ComEventsSink ComEventsInfo___::AddSink(Guid& iid) {
-  return nullptr;
+  ComEventsSink sink = rt::newobj<ComEventsSink>(_rcw, iid);
+  _sinks = ComEventsSink::in::Add(_sinks, sink);
+  return _sinks;
 }
 
 ComEventsSink ComEventsInfo___::RemoveSink(ComEventsSink sink) {
-  return nullptr;
+  _sinks = ComEventsSink::in::Remove(_sinks, sink);
+  return _sinks;
 }
 
 } // namespace System::Private::CoreLib::System::Runtime::InteropServices::ComEventsInfoNamespace

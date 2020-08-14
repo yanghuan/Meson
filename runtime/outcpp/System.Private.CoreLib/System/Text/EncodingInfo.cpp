@@ -1,19 +1,28 @@
 #include "EncodingInfo-dep.h"
 
+#include <System.Private.CoreLib/System/Text/EncodingInfo-dep.h>
+
 namespace System::Private::CoreLib::System::Text::EncodingInfoNamespace {
 void EncodingInfo___::ctor(Int32 codePage, String name, String displayName) {
+  CodePage = codePage;
+  Name = name;
+  DisplayName = displayName;
 }
 
 Encoding EncodingInfo___::GetEncoding() {
-  return nullptr;
+  return Encoding::in::GetEncoding(CodePage);
 }
 
 Boolean EncodingInfo___::Equals(Object value) {
-  return Boolean();
+  EncodingInfo encodingInfo = rt::as<EncodingInfo>(value);
+  if (encodingInfo != nullptr) {
+    return CodePage == encodingInfo->get_CodePage();
+  }
+  return false;
 }
 
 Int32 EncodingInfo___::GetHashCode() {
-  return Int32();
+  return CodePage;
 }
 
 } // namespace System::Private::CoreLib::System::Text::EncodingInfoNamespace

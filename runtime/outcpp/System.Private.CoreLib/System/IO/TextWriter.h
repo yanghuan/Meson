@@ -106,7 +106,7 @@ CLASS(TextWriter) : public MarshalByRefObject::in {
   public: Task<> WriteLineAsync();
   public: Task<> FlushAsync();
   public: static TextWriter Synchronized(TextWriter writer);
-  private: static void ctor_static();
+  private: static void cctor();
   public: static TextWriter Null;
   private: static Array<Char> s_coreNewLine;
   protected: Array<Char> CoreNewLine;

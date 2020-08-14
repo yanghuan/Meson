@@ -160,7 +160,7 @@ CLASS(TwoTaskWhenAnyPromise, TTask) : public Task<TTask>::in {
 };
 CLASS_(Task, TResult) : public Task<>::in {
   public: class TaskWhenAnyCast {
-    private: static void ctor_static();
+    private: static void cctor();
     public: static Func<Task<Task<>>, Task<TResult>> Value;
   };
   private: String get_DebuggerDisplayResultDescription();

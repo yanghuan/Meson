@@ -21,7 +21,7 @@ CLASS(ExpandoToDispatchExMarshaler) : public Object::in {
   public: Int32 GetNativeDataSize();
   public: IntPtr MarshalManagedToNative(Object ManagedObj);
   public: Object MarshalNativeToManaged(IntPtr pNativeData);
-  private: static void ctor_static();
+  private: static void cctor();
   private: static ExpandoToDispatchExMarshaler s_ExpandoToDispatchExMarshaler;
 };
 } // namespace ExpandoToDispatchExMarshalerNamespace

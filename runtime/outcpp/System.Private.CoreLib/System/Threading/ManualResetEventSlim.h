@@ -45,7 +45,7 @@ CLASS(ManualResetEventSlim) : public Object::in {
   private: void UpdateStateAtomically(Int32 newBits, Int32 updateBitsMask);
   private: static Int32 ExtractStatePortionAndShiftRight(Int32 state, Int32 mask, Int32 rightBitShiftCount);
   private: static Int32 ExtractStatePortion(Int32 state, Int32 mask);
-  private: static void ctor_static();
+  private: static void cctor();
   private: Object m_lock;
   private: ManualResetEvent m_eventObj;
   private: Int32 m_combinedState;

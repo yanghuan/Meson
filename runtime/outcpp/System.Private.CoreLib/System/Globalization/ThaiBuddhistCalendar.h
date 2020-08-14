@@ -43,7 +43,7 @@ CLASS(ThaiBuddhistCalendar) : public Calendar::in {
   public: Boolean IsLeapMonth(Int32 year, Int32 month, Int32 era);
   public: DateTime ToDateTime(Int32 year, Int32 month, Int32 day, Int32 hour, Int32 minute, Int32 second, Int32 millisecond, Int32 era);
   public: Int32 ToFourDigitYear(Int32 year);
-  private: static void ctor_static();
+  private: static void cctor();
   private: static Array<EraInfo> s_thaiBuddhistEraInfo;
   public: static constexpr Int32 ThaiBuddhistEra = 1;
   private: GregorianCalendarHelper _helper;

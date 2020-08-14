@@ -1,75 +1,79 @@
 #include "SignatureHasElementType-dep.h"
 
+#include <System.Private.CoreLib/System/InvalidOperationException-dep.h>
+#include <System.Private.CoreLib/System/SR-dep.h>
+
 namespace System::Private::CoreLib::System::Reflection::SignatureHasElementTypeNamespace {
 Boolean SignatureHasElementType___::get_IsTypeDefinition() {
-  return Boolean();
+  return false;
 }
 
 Boolean SignatureHasElementType___::get_IsGenericTypeDefinition() {
-  return Boolean();
+  return false;
 }
 
 Boolean SignatureHasElementType___::get_IsByRefLike() {
-  return Boolean();
+  return false;
 }
 
 Boolean SignatureHasElementType___::get_IsConstructedGenericType() {
-  return Boolean();
+  return false;
 }
 
 Boolean SignatureHasElementType___::get_IsGenericParameter() {
-  return Boolean();
+  return false;
 }
 
 Boolean SignatureHasElementType___::get_IsGenericTypeParameter() {
-  return Boolean();
+  return false;
 }
 
 Boolean SignatureHasElementType___::get_IsGenericMethodParameter() {
-  return Boolean();
+  return false;
 }
 
 Boolean SignatureHasElementType___::get_ContainsGenericParameters() {
-  return Boolean();
+  return _elementType->get_ContainsGenericParameters();
 }
 
 SignatureType SignatureHasElementType___::get_ElementType() {
-  return nullptr;
+  return _elementType;
 }
 
 Array<Type> SignatureHasElementType___::get_GenericTypeArguments() {
-  return Array<Type>();
+  return Array<>::in::Empty<Type>();
 }
 
 Int32 SignatureHasElementType___::get_GenericParameterPosition() {
-  return Int32();
+  rt::throw_exception<InvalidOperationException>(SR::get_Arg_NotGenericParameter());
 }
 
 String SignatureHasElementType___::get_Name() {
-  return nullptr;
+  return _elementType->get_Name() + get_Suffix();
 }
 
 String SignatureHasElementType___::get_Namespace() {
-  return nullptr;
+  return _elementType->get_Namespace();
 }
 
 void SignatureHasElementType___::ctor(SignatureType elementType) {
+  _elementType = elementType;
 }
 
 Boolean SignatureHasElementType___::HasElementTypeImpl() {
-  return Boolean();
+  return true;
 }
 
 Type SignatureHasElementType___::GetGenericTypeDefinition() {
-  return nullptr;
+  rt::throw_exception<InvalidOperationException>(SR::get_InvalidOperation_NotGenericType());
 }
 
 Array<Type> SignatureHasElementType___::GetGenericArguments() {
-  return Array<Type>();
+  return Array<>::in::Empty<Type>();
 }
 
 String SignatureHasElementType___::ToString() {
-  return nullptr;
+  return _elementType->ToString() + get_Suffix();
 }
 
 } // namespace System::Private::CoreLib::System::Reflection::SignatureHasElementTypeNamespace

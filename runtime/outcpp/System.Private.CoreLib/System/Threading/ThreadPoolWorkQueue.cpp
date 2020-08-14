@@ -1,89 +1,312 @@
 #include "ThreadPoolWorkQueue-dep.h"
 
+#include <System.Private.CoreLib/Internal/Runtime/CompilerServices/Unsafe-dep.h>
+#include <System.Private.CoreLib/System/Collections/Concurrent/ConcurrentQueue-dep.h>
+#include <System.Private.CoreLib/System/Diagnostics/Tracing/EventKeywords.h>
+#include <System.Private.CoreLib/System/Diagnostics/Tracing/EventLevel.h>
+#include <System.Private.CoreLib/System/Diagnostics/Tracing/FrameworkEventSource-dep.h>
+#include <System.Private.CoreLib/System/Environment-dep.h>
+#include <System.Private.CoreLib/System/Math-dep.h>
+#include <System.Private.CoreLib/System/Threading/ExecutionContext-dep.h>
+#include <System.Private.CoreLib/System/Threading/Interlocked-dep.h>
+#include <System.Private.CoreLib/System/Threading/IThreadPoolWorkItem.h>
+#include <System.Private.CoreLib/System/Threading/SpinLock-dep.h>
+#include <System.Private.CoreLib/System/Threading/Tasks/Task-dep.h>
+#include <System.Private.CoreLib/System/Threading/Thread-dep.h>
+#include <System.Private.CoreLib/System/Threading/ThreadPool-dep.h>
 #include <System.Private.CoreLib/System/Threading/ThreadPoolWorkQueue-dep.h>
 
 namespace System::Private::CoreLib::System::Threading::ThreadPoolWorkQueueNamespace {
+using namespace Internal::Runtime::CompilerServices;
+using namespace System::Collections::Concurrent;
+using namespace System::Diagnostics::Tracing;
+using namespace System::Threading::Tasks;
+
 Boolean ThreadPoolWorkQueue___::WorkStealingQueue___::get_CanSteal() {
-  return Boolean();
+  return m_headIndex < m_tailIndex;
 }
 
 Int32 ThreadPoolWorkQueue___::WorkStealingQueue___::get_Count() {
-  return Int32();
+  Boolean lockTaken = false;
+  try{
+    m_foreignLock.Enter(lockTaken);
+    return Math::Max(0, m_tailIndex - m_headIndex);
+  } finally: {
+    if (lockTaken) {
+      m_foreignLock.Exit(false);
+    }
+  }
 }
 
 void ThreadPoolWorkQueue___::WorkStealingQueue___::LocalPush(Object obj) {
+  Int32 num = m_tailIndex;
+  if (num == Int32::MaxValue) {
+    Boolean lockTaken = false;
+    try{
+      m_foreignLock.Enter(lockTaken);
+      if (m_tailIndex == Int32::MaxValue) {
+        m_headIndex &= m_mask;
+        num = (m_tailIndex &= m_mask);
+      }
+    } finally: {
+      if (lockTaken) {
+        m_foreignLock.Exit(true);
+      }
+    }
+  }
+  if (num < m_headIndex + m_mask) {
+  }
+  Boolean lockTaken2 = false;
+  try{
+    m_foreignLock.Enter(lockTaken2);
+    Int32 headIndex = m_headIndex;
+    Int32 num2 = m_tailIndex - m_headIndex;
+    if (num2 >= m_mask) {
+      Array<Object> array = rt::newarr<Array<Object>>(m_array->get_Length() << 1);
+      for (Int32 i = 0; i < m_array->get_Length(); i++) {
+      }
+      m_array = array;
+      m_headIndex = 0;
+      num = (m_tailIndex = num2);
+    }
+  } finally: {
+    if (lockTaken2) {
+      m_foreignLock.Exit(false);
+    }
+  }
 }
 
 Boolean ThreadPoolWorkQueue___::WorkStealingQueue___::LocalFindAndPop(Object obj) {
-  return Boolean();
 }
 
 Object ThreadPoolWorkQueue___::WorkStealingQueue___::LocalPop() {
-  return nullptr;
+  if (m_headIndex >= m_tailIndex) {
+    return nullptr;
+  }
+  return LocalPopCore();
 }
 
 Object ThreadPoolWorkQueue___::WorkStealingQueue___::LocalPopCore() {
-  return nullptr;
+  Int32 num;
+  Object obj;
+  while (true) {
+    Int32 tailIndex = m_tailIndex;
+    if (m_headIndex >= tailIndex) {
+      return nullptr;
+    }
+    tailIndex--;
+    Interlocked::Exchange(m_tailIndex, tailIndex);
+    if (m_headIndex <= tailIndex) {
+    }
+    Boolean lockTaken = false;
+    try{
+      m_foreignLock.Enter(lockTaken);
+      if (m_headIndex <= tailIndex) {
+      }
+      m_tailIndex = tailIndex + 1;
+      return nullptr;
+    } finally: {
+      if (lockTaken) {
+        m_foreignLock.Exit(false);
+      }
+    }
+  }
+  m_array[num] = nullptr;
+  return obj;
 }
 
 Object ThreadPoolWorkQueue___::WorkStealingQueue___::TrySteal(Boolean& missedSteal) {
+  while (get_CanSteal()) {
+    Boolean lockTaken = false;
+    try{
+      m_foreignLock.TryEnter(lockTaken);
+      if (lockTaken) {
+        Int32 headIndex = m_headIndex;
+        Interlocked::Exchange(m_headIndex, headIndex + 1);
+        if (headIndex < m_tailIndex) {
+        }
+        m_headIndex = headIndex;
+      }
+    } finally: {
+      if (lockTaken) {
+        m_foreignLock.Exit(false);
+      }
+    }
+    missedSteal = true;
+    break;
+  }
   return nullptr;
 }
 
 void ThreadPoolWorkQueue___::WorkStealingQueue___::ctor() {
+  m_array = rt::newarr<Array<Object>>(32);
+  m_mask = 31;
+  m_foreignLock = SpinLock(false);
 }
 
 Array<ThreadPoolWorkQueue::in::WorkStealingQueue> ThreadPoolWorkQueue___::WorkStealingQueueList::get_Queues() {
-  return Array<ThreadPoolWorkQueue::in::WorkStealingQueue>();
+  return _queues;
 }
 
 void ThreadPoolWorkQueue___::WorkStealingQueueList::Add(WorkStealingQueue queue) {
+  Array<WorkStealingQueue> queues;
+  Array<WorkStealingQueue> array;
 }
 
 void ThreadPoolWorkQueue___::WorkStealingQueueList::Remove(WorkStealingQueue queue) {
+  Array<WorkStealingQueue> queues;
+  Array<WorkStealingQueue> array;
 }
 
-void ThreadPoolWorkQueue___::WorkStealingQueueList::ctor_static() {
+void ThreadPoolWorkQueue___::WorkStealingQueueList::cctor() {
+  _queues = rt::newarr<Array<WorkStealingQueue>>(0);
 }
 
 Int64 ThreadPoolWorkQueue___::get_LocalCount() {
-  return Int64();
+  Int64 num = 0;
+  Array<WorkStealingQueue> queues = WorkStealingQueueList::get_Queues();
 }
 
 Int64 ThreadPoolWorkQueue___::get_GlobalCount() {
-  return Int64();
+  return workItems->get_Count();
 }
 
 void ThreadPoolWorkQueue___::ctor() {
+  workItems = rt::newobj<ConcurrentQueue<Object>>();
 }
 
 ThreadPoolWorkQueueThreadLocals ThreadPoolWorkQueue___::GetOrCreateThreadLocals() {
-  return nullptr;
 }
 
 ThreadPoolWorkQueueThreadLocals ThreadPoolWorkQueue___::CreateThreadLocals() {
-  return nullptr;
+  return ThreadPoolWorkQueueThreadLocals::in::threadLocals = rt::newobj<ThreadPoolWorkQueueThreadLocals>((ThreadPoolWorkQueue)this);
 }
 
 void ThreadPoolWorkQueue___::EnsureThreadRequested() {
+  Int32 num = numOutstandingThreadRequests;
+  while (num < Environment::get_ProcessorCount()) {
+    Int32 num2 = Interlocked::CompareExchange(numOutstandingThreadRequests, num + 1, num);
+    if (num2 == num) {
+      ThreadPool::RequestWorkerThread();
+      break;
+    }
+    num = num2;
+  }
 }
 
 void ThreadPoolWorkQueue___::MarkThreadRequestSatisfied() {
+  Int32 num = numOutstandingThreadRequests;
+  while (num > 0) {
+    Int32 num2 = Interlocked::CompareExchange(numOutstandingThreadRequests, num - 1, num);
+    if (num2 != num) {
+      num = num2;
+    }
+    break;
+  }
 }
 
 void ThreadPoolWorkQueue___::Enqueue(Object callback, Boolean forceGlobal) {
+  if (loggingEnabled) {
+    FrameworkEventSource::in::Log->ThreadPoolEnqueueWorkObject(callback);
+  }
+  ThreadPoolWorkQueueThreadLocals threadPoolWorkQueueThreadLocals = nullptr;
+  if (!forceGlobal) {
+    threadPoolWorkQueueThreadLocals = ThreadPoolWorkQueueThreadLocals::in::threadLocals;
+  }
+  if (threadPoolWorkQueueThreadLocals != nullptr) {
+    threadPoolWorkQueueThreadLocals->workStealingQueue->LocalPush(callback);
+  } else {
+    workItems->Enqueue(callback);
+  }
+  EnsureThreadRequested();
 }
 
 Boolean ThreadPoolWorkQueue___::LocalFindAndPop(Object callback) {
-  return Boolean();
 }
 
 Object ThreadPoolWorkQueue___::Dequeue(ThreadPoolWorkQueueThreadLocals tl, Boolean& missedSteal) {
-  return nullptr;
+  WorkStealingQueue workStealingQueue = tl->workStealingQueue;
+  Object result;
+  if ((result = workStealingQueue->LocalPop()) == nullptr && !workItems->TryDequeue(result)) {
+    Array<WorkStealingQueue> queues = WorkStealingQueueList::get_Queues();
+    Int32 num = queues->get_Length();
+    Int32 num2 = num - 1;
+    Int32 num3 = tl->random.Next(num);
+    while (num > 0) {
+      num3 = ((num3 < num2) ? (num3 + 1) : 0);
+      WorkStealingQueue workStealingQueue2 = queues[num3];
+      if (workStealingQueue2 != workStealingQueue && workStealingQueue2->get_CanSteal()) {
+        result = workStealingQueue2->TrySteal(missedSteal);
+        if (result != nullptr) {
+          break;
+        }
+      }
+      num--;
+    }
+  }
+  return result;
 }
 
 Boolean ThreadPoolWorkQueue___::Dispatch() {
-  return Boolean();
+  ThreadPoolWorkQueue s_workQueue = ThreadPool::s_workQueue;
+  Int32 tickCount = Environment::get_TickCount();
+  s_workQueue->MarkThreadRequestSatisfied();
+  s_workQueue->loggingEnabled = FrameworkEventSource::in::Log->IsEnabled(EventLevel::Verbose, (EventKeywords)18);
+  Boolean flag = true;
+  try{
+    ThreadPoolWorkQueue threadPoolWorkQueue = s_workQueue;
+    ThreadPoolWorkQueueThreadLocals orCreateThreadLocals = threadPoolWorkQueue->GetOrCreateThreadLocals();
+    Thread currentThread = orCreateThreadLocals->currentThread;
+    currentThread->_executionContext = nullptr;
+    currentThread->_synchronizationContext = nullptr;
+    while (ThreadPool::KeepDispatching(tickCount)) {
+      Boolean missedSteal = false;
+      Object obj = threadPoolWorkQueue->Dequeue(orCreateThreadLocals, missedSteal);
+      if (obj == nullptr) {
+        flag = missedSteal;
+        return true;
+      }
+      if (threadPoolWorkQueue->loggingEnabled) {
+        FrameworkEventSource::in::Log->ThreadPoolDequeueWorkObject(obj);
+      }
+      threadPoolWorkQueue->EnsureThreadRequested();
+      if (ThreadPool::EnableWorkerTracking) {
+        Boolean flag2 = false;
+        try{
+          ThreadPool::ReportThreadStatus(true);
+          flag2 = true;
+          Task task = rt::as<Task>(obj);
+          if (task != nullptr) {
+            task->ExecuteFromThreadPool(currentThread);
+          } else {
+            Unsafe::As<IThreadPoolWorkItem>(obj)->Execute();
+          }
+        } finally: {
+          if (flag2) {
+            ThreadPool::ReportThreadStatus(false);
+          }
+        }
+      } else {
+        Task task2 = rt::as<Task>(obj);
+        if (task2 != nullptr) {
+          task2->ExecuteFromThreadPool(currentThread);
+        } else {
+          Unsafe::As<IThreadPoolWorkItem>(obj)->Execute();
+        }
+      }
+      currentThread->ResetThreadPoolThread();
+      obj = nullptr;
+      ExecutionContext::in::ResetThreadPoolThread(currentThread);
+      if (!ThreadPool::NotifyWorkItemComplete()) {
+        return false;
+      }
+    }
+    return true;
+  } finally: {
+    if (flag) {
+      s_workQueue->EnsureThreadRequested();
+    }
+  }
 }
 
 } // namespace System::Private::CoreLib::System::Threading::ThreadPoolWorkQueueNamespace

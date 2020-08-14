@@ -2,11 +2,11 @@
 
 namespace System::Private::CoreLib::System::StubHelpers::DateMarshalerNamespace {
 Double DateMarshaler::ConvertToNative(DateTime managedDate) {
-  return Double();
+  return managedDate.ToOADate();
 }
 
 Int64 DateMarshaler::ConvertToManaged(Double nativeDate) {
-  return Int64();
+  return DateTime::DoubleDateToTicks(nativeDate);
 }
 
 } // namespace System::Private::CoreLib::System::StubHelpers::DateMarshalerNamespace

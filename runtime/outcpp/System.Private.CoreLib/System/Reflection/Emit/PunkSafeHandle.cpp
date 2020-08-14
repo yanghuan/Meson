@@ -1,15 +1,18 @@
 #include "PunkSafeHandle-dep.h"
 
+#include <System.Private.CoreLib/System/Reflection/Emit/PunkSafeHandle-dep.h>
+
 namespace System::Private::CoreLib::System::Reflection::Emit::PunkSafeHandleNamespace {
 Boolean PunkSafeHandle___::get_IsInvalid() {
-  return Boolean();
+  return handle == (IntPtr)0;
 }
 
 Boolean PunkSafeHandle___::ReleaseHandle() {
-  return Boolean();
+  m_Release(handle);
+  return true;
 }
 
-void PunkSafeHandle___::ctor_static() {
+void PunkSafeHandle___::cctor() {
 }
 
 } // namespace System::Private::CoreLib::System::Reflection::Emit::PunkSafeHandleNamespace

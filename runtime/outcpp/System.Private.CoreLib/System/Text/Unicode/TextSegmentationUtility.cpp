@@ -2,10 +2,11 @@
 
 namespace System::Private::CoreLib::System::Text::Unicode::TextSegmentationUtilityNamespace {
 Int32 TextSegmentationUtility::GetLengthOfFirstUtf16ExtendedGraphemeCluster(ReadOnlySpan<Char> input) {
-  return Int32();
+  return GetLengthOfFirstExtendedGraphemeCluster(input, _utf16Decoder);
 }
 
-void TextSegmentationUtility::ctor_static() {
+void TextSegmentationUtility::cctor() {
+  _utf16Decoder = Rune::DecodeFromUtf16;
 }
 
 } // namespace System::Private::CoreLib::System::Text::Unicode::TextSegmentationUtilityNamespace

@@ -24,7 +24,7 @@ CLASS(EqualityComparer, T) : public Object::in {
   public: Boolean Equals(T x, T y);
   public: Int32 GetHashCode(T obj);
   protected: void ctor();
-  private: static void ctor_static();
+  private: static void cctor();
   private: static EqualityComparer<T> Default;
 };
 } // namespace EqualityComparerNamespace

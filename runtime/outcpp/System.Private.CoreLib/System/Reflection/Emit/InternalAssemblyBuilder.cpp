@@ -1,55 +1,65 @@
 #include "InternalAssemblyBuilder-dep.h"
 
+#include <System.Private.CoreLib/System/NotSupportedException-dep.h>
+#include <System.Private.CoreLib/System/Reflection/Assembly-dep.h>
+#include <System.Private.CoreLib/System/Reflection/Emit/InternalAssemblyBuilder-dep.h>
+#include <System.Private.CoreLib/System/SR-dep.h>
+
 namespace System::Private::CoreLib::System::Reflection::Emit::InternalAssemblyBuilderNamespace {
 String InternalAssemblyBuilder___::get_Location() {
-  return nullptr;
+  rt::throw_exception<NotSupportedException>(SR::get_NotSupported_DynamicAssembly());
 }
 
 String InternalAssemblyBuilder___::get_CodeBase() {
-  return nullptr;
+  rt::throw_exception<NotSupportedException>(SR::get_NotSupported_DynamicAssembly());
 }
 
 String InternalAssemblyBuilder___::get_ImageRuntimeVersion() {
-  return nullptr;
+  return Assembly::in::GetExecutingAssembly()->get_ImageRuntimeVersion();
 }
 
 void InternalAssemblyBuilder___::ctor() {
 }
 
 Boolean InternalAssemblyBuilder___::Equals(Object obj) {
-  return Boolean();
+  if (obj == nullptr) {
+    return false;
+  }
+  if (rt::is<InternalAssemblyBuilder>(obj)) {
+    return (InternalAssemblyBuilder)this == obj;
+  }
+  return obj->Equals((InternalAssemblyBuilder)this);
 }
 
 Int32 InternalAssemblyBuilder___::GetHashCode() {
-  return Int32();
 }
 
 Array<String> InternalAssemblyBuilder___::GetManifestResourceNames() {
-  return Array<String>();
+  rt::throw_exception<NotSupportedException>(SR::get_NotSupported_DynamicAssembly());
 }
 
 FileStream InternalAssemblyBuilder___::GetFile(String name) {
-  return nullptr;
+  rt::throw_exception<NotSupportedException>(SR::get_NotSupported_DynamicAssembly());
 }
 
 Array<FileStream> InternalAssemblyBuilder___::GetFiles(Boolean getResourceModules) {
-  return Array<FileStream>();
+  rt::throw_exception<NotSupportedException>(SR::get_NotSupported_DynamicAssembly());
 }
 
 Stream InternalAssemblyBuilder___::GetManifestResourceStream(Type type, String name) {
-  return nullptr;
+  rt::throw_exception<NotSupportedException>(SR::get_NotSupported_DynamicAssembly());
 }
 
 Stream InternalAssemblyBuilder___::GetManifestResourceStream(String name) {
-  return nullptr;
+  rt::throw_exception<NotSupportedException>(SR::get_NotSupported_DynamicAssembly());
 }
 
 ManifestResourceInfo InternalAssemblyBuilder___::GetManifestResourceInfo(String resourceName) {
-  return nullptr;
+  rt::throw_exception<NotSupportedException>(SR::get_NotSupported_DynamicAssembly());
 }
 
 Array<Type> InternalAssemblyBuilder___::GetExportedTypes() {
-  return Array<Type>();
+  rt::throw_exception<NotSupportedException>(SR::get_NotSupported_DynamicAssembly());
 }
 
 } // namespace System::Private::CoreLib::System::Reflection::Emit::InternalAssemblyBuilderNamespace

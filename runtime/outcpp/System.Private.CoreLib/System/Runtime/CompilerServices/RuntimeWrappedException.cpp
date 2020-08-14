@@ -2,7 +2,7 @@
 
 namespace System::Private::CoreLib::System::Runtime::CompilerServices::RuntimeWrappedExceptionNamespace {
 Object RuntimeWrappedException___::get_WrappedException() {
-  return nullptr;
+  return _wrappedException;
 }
 
 void RuntimeWrappedException___::ctor(Object thrownObject) {

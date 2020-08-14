@@ -1,25 +1,37 @@
 #include "StringRuneEnumerator-dep.h"
 
 #include <System.Private.CoreLib/System/Text/StringRuneEnumerator-dep.h>
+#include <System.Private.CoreLib/System/UInt32-dep.h>
 
 namespace System::Private::CoreLib::System::Text::StringRuneEnumeratorNamespace {
 Rune StringRuneEnumerator::get_Current() {
-  return Rune();
+  return _current;
 }
 
 Object StringRuneEnumerator::get_CurrentOfIEnumerator() {
-  return nullptr;
+  return _current;
 }
 
 StringRuneEnumerator::StringRuneEnumerator(String value) {
+  _string = value;
+  _current = Rune();
+  _nextIndex = 0;
 }
 
 StringRuneEnumerator StringRuneEnumerator::GetEnumerator() {
-  return StringRuneEnumerator();
+  return *this;
 }
 
 Boolean StringRuneEnumerator::MoveNext() {
-  return Boolean();
+  if ((UInt32)_nextIndex >= _string->get_Length()) {
+    _current = Rune();
+    return false;
+  }
+  if (!Rune::TryGetRuneAt(_string, _nextIndex, _current)) {
+    _current = Rune::get_ReplacementChar();
+  }
+  _nextIndex += _current.get_Utf16SequenceLength();
+  return true;
 }
 
 } // namespace System::Private::CoreLib::System::Text::StringRuneEnumeratorNamespace

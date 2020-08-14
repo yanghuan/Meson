@@ -48,7 +48,7 @@ CLASS(TplEventSource) : public EventSource::in {
   public: void IncompleteAsyncMethod(IAsyncStateMachineBox stateMachineBox);
   private: void IncompleteAsyncMethod(String stateMachineDescription);
   public: static Guid CreateGuidForTaskID(Int32 taskID);
-  private: static void ctor_static();
+  private: static void cctor();
   public: Boolean TasksSetActivityIds;
   public: Boolean Debug;
   private: Boolean DebugActivityId;

@@ -1,126 +1,201 @@
 #include "ConcurrentExclusiveSchedulerPair-dep.h"
 
+#include <System.Private.CoreLib/System/Environment-dep.h>
 #include <System.Private.CoreLib/System/Threading/Tasks/ConcurrentExclusiveSchedulerPair-dep.h>
+#include <System.Private.CoreLib/System/Threading/Tasks/IProducerConsumerQueue.h>
+#include <System.Private.CoreLib/System/Threading/Tasks/MultiProducerMultiConsumerQueue-dep.h>
+#include <System.Private.CoreLib/System/Threading/Tasks/SingleProducerSingleConsumerQueue-dep.h>
+#include <System.Private.CoreLib/System/Threading/Thread-dep.h>
+#include <System.Private.CoreLib/System/Threading/ThreadLocal-dep.h>
+#include <System.Private.CoreLib/System/Threading/Volatile-dep.h>
+#include <System.Private.CoreLib/System/Tuple-dep.h>
 
 namespace System::Private::CoreLib::System::Threading::Tasks::ConcurrentExclusiveSchedulerPairNamespace {
 void ConcurrentExclusiveSchedulerPair___::CompletionState___::ctor() {
 }
 
 void ConcurrentExclusiveSchedulerPair___::SchedulerWorkItem___::ctor(ConcurrentExclusiveSchedulerPair pair) {
+  _pair = pair;
 }
 
 Int32 ConcurrentExclusiveSchedulerPair___::ConcurrentExclusiveTaskScheduler___::DebugView___::get_MaximumConcurrencyLevel() {
-  return Int32();
+  return m_taskScheduler->m_maxConcurrencyLevel;
 }
 
 IEnumerable<Task<>> ConcurrentExclusiveSchedulerPair___::ConcurrentExclusiveTaskScheduler___::DebugView___::get_ScheduledTasks() {
-  return nullptr;
+  return m_taskScheduler->m_tasks;
 }
 
 ConcurrentExclusiveSchedulerPair ConcurrentExclusiveSchedulerPair___::ConcurrentExclusiveTaskScheduler___::DebugView___::get_SchedulerPair() {
-  return nullptr;
+  return m_taskScheduler->m_pair;
 }
 
 void ConcurrentExclusiveSchedulerPair___::ConcurrentExclusiveTaskScheduler___::DebugView___::ctor(ConcurrentExclusiveTaskScheduler scheduler) {
+  m_taskScheduler = scheduler;
 }
 
 Int32 ConcurrentExclusiveSchedulerPair___::ConcurrentExclusiveTaskScheduler___::get_MaximumConcurrencyLevel() {
-  return Int32();
+  return m_maxConcurrencyLevel;
 }
 
 Int32 ConcurrentExclusiveSchedulerPair___::ConcurrentExclusiveTaskScheduler___::get_CountForDebugger() {
-  return Int32();
+  return m_tasks->get_Count();
 }
 
 void ConcurrentExclusiveSchedulerPair___::ConcurrentExclusiveTaskScheduler___::ctor(ConcurrentExclusiveSchedulerPair pair, Int32 maxConcurrencyLevel, ProcessingMode processingMode) {
+  m_pair = pair;
+  m_maxConcurrencyLevel = maxConcurrencyLevel;
+  m_processingMode = processingMode;
+  IProducerConsumerQueue<Task> tasks;
+  if (processingMode != ProcessingMode::ProcessingExclusiveTask) {
+    IProducerConsumerQueue<Task> producerConsumerQueue = rt::newobj<MultiProducerMultiConsumerQueue<Task>>();
+    tasks = producerConsumerQueue;
+  } else {
+    IProducerConsumerQueue<Task> producerConsumerQueue = rt::newobj<SingleProducerSingleConsumerQueue<Task>>();
+    tasks = producerConsumerQueue;
+  }
+  m_tasks = tasks;
 }
 
 void ConcurrentExclusiveSchedulerPair___::ConcurrentExclusiveTaskScheduler___::QueueTask(Task<> task) {
 }
 
 void ConcurrentExclusiveSchedulerPair___::ConcurrentExclusiveTaskScheduler___::ExecuteTask(Task<> task) {
+  TryExecuteTask(task);
 }
 
 Boolean ConcurrentExclusiveSchedulerPair___::ConcurrentExclusiveTaskScheduler___::TryExecuteTaskInline(Task<> task, Boolean taskWasPreviouslyQueued) {
-  return Boolean();
+  if (!taskWasPreviouslyQueued && m_pair->get_CompletionRequested()) {
+    return false;
+  }
+  Boolean flag = m_pair->m_underlyingTaskScheduler == TaskScheduler::in::get_Default();
+  if (flag && taskWasPreviouslyQueued && !Thread::in::get_CurrentThread()->get_IsThreadPoolThread()) {
+    return false;
+  }
+  if (m_pair->m_threadProcessingMode->get_Value() == m_processingMode) {
+    if (!flag || taskWasPreviouslyQueued) {
+      return TryExecuteTaskInlineOnTargetScheduler(task);
+    }
+    return TryExecuteTask(task);
+  }
+  return false;
 }
 
 Boolean ConcurrentExclusiveSchedulerPair___::ConcurrentExclusiveTaskScheduler___::TryExecuteTaskInlineOnTargetScheduler(Task<> task) {
-  return Boolean();
+  Task<Boolean> task2 = rt::newobj<Task<Boolean>>(s_tryExecuteTaskShim, Tuple::Create((ConcurrentExclusiveTaskScheduler)this, task));
+  try{
+    task2->RunSynchronously(m_pair->m_underlyingTaskScheduler);
+    return task2->get_Result();
+  } catch (...) {
+  } finally: {
+    task2->Dispose();
+  }
 }
 
 Boolean ConcurrentExclusiveSchedulerPair___::ConcurrentExclusiveTaskScheduler___::TryExecuteTaskShim(Object state) {
-  return Boolean();
+  Tuple<ConcurrentExclusiveTaskScheduler, Task> tuple = (Tuple<ConcurrentExclusiveTaskScheduler, Task>)state;
+  return tuple->get_Item1()->TryExecuteTask(tuple->get_Item2());
 }
 
 IEnumerable<Task<>> ConcurrentExclusiveSchedulerPair___::ConcurrentExclusiveTaskScheduler___::GetScheduledTasks() {
-  return nullptr;
+  return m_tasks;
 }
 
-void ConcurrentExclusiveSchedulerPair___::ConcurrentExclusiveTaskScheduler___::ctor_static() {
+void ConcurrentExclusiveSchedulerPair___::ConcurrentExclusiveTaskScheduler___::cctor() {
+  s_tryExecuteTaskShim = TryExecuteTaskShim;
 }
 
 ConcurrentExclusiveSchedulerPair::in::ProcessingMode ConcurrentExclusiveSchedulerPair___::DebugView___::get_Mode() {
-  return ConcurrentExclusiveSchedulerPair::in::ProcessingMode::Completed;
+  return m_pair->get_ModeForDebugger();
 }
 
 IEnumerable<Task<>> ConcurrentExclusiveSchedulerPair___::DebugView___::get_ScheduledExclusive() {
-  return nullptr;
+  return m_pair->m_exclusiveTaskScheduler->m_tasks;
 }
 
 IEnumerable<Task<>> ConcurrentExclusiveSchedulerPair___::DebugView___::get_ScheduledConcurrent() {
-  return nullptr;
+  return m_pair->m_concurrentTaskScheduler->m_tasks;
 }
 
 Int32 ConcurrentExclusiveSchedulerPair___::DebugView___::get_CurrentlyExecutingTaskCount() {
-  return Int32();
+  if (m_pair->m_processingCount != -1) {
+    return m_pair->m_processingCount;
+  }
+  return 1;
 }
 
 TaskScheduler ConcurrentExclusiveSchedulerPair___::DebugView___::get_TargetScheduler() {
-  return nullptr;
+  return m_pair->m_underlyingTaskScheduler;
 }
 
 void ConcurrentExclusiveSchedulerPair___::DebugView___::ctor(ConcurrentExclusiveSchedulerPair pair) {
+  m_pair = pair;
 }
 
 Int32 ConcurrentExclusiveSchedulerPair___::get_DefaultMaxConcurrencyLevel() {
-  return Int32();
+  return Environment::get_ProcessorCount();
 }
 
 Object ConcurrentExclusiveSchedulerPair___::get_ValueLock() {
-  return nullptr;
+  return m_threadProcessingMode;
 }
 
 Task<> ConcurrentExclusiveSchedulerPair___::get_Completion() {
-  return nullptr;
+  return EnsureCompletionStateInitialized();
 }
 
 Boolean ConcurrentExclusiveSchedulerPair___::get_CompletionRequested() {
-  return Boolean();
+  if (m_completionState != nullptr) {
+    return Volatile::Read(m_completionState->m_completionRequested);
+  }
+  return false;
 }
 
 Boolean ConcurrentExclusiveSchedulerPair___::get_ReadyToComplete() {
-  return Boolean();
+  if (!get_CompletionRequested() || m_processingCount != 0) {
+    return false;
+  }
+  CompletionState completionState = EnsureCompletionStateInitialized();
+  if (completionState->m_exceptions == nullptr || completionState->m_exceptions->get_Count() <= 0) {
+    if (m_concurrentTaskScheduler->m_tasks->get_IsEmpty()) {
+      return m_exclusiveTaskScheduler->m_tasks->get_IsEmpty();
+    }
+    return false;
+  }
+  return true;
 }
 
 TaskScheduler ConcurrentExclusiveSchedulerPair___::get_ConcurrentScheduler() {
-  return nullptr;
+  return m_concurrentTaskScheduler;
 }
 
 TaskScheduler ConcurrentExclusiveSchedulerPair___::get_ExclusiveScheduler() {
-  return nullptr;
+  return m_exclusiveTaskScheduler;
 }
 
 Int32 ConcurrentExclusiveSchedulerPair___::get_ConcurrentTaskCountForDebugger() {
-  return Int32();
+  return m_concurrentTaskScheduler->m_tasks->get_Count();
 }
 
 Int32 ConcurrentExclusiveSchedulerPair___::get_ExclusiveTaskCountForDebugger() {
-  return Int32();
+  return m_exclusiveTaskScheduler->m_tasks->get_Count();
 }
 
 ConcurrentExclusiveSchedulerPair::in::ProcessingMode ConcurrentExclusiveSchedulerPair___::get_ModeForDebugger() {
-  return ConcurrentExclusiveSchedulerPair::in::ProcessingMode::Completed;
+  if (m_completionState != nullptr && m_completionState->get_IsCompleted()) {
+    return ProcessingMode::Completed;
+  }
+  ProcessingMode processingMode = ProcessingMode::NotCurrentlyProcessing;
+  if (m_processingCount == -1) {
+    processingMode |= ProcessingMode::ProcessingExclusiveTask;
+  }
+  if (m_processingCount >= 1) {
+    processingMode |= ProcessingMode::ProcessingConcurrentTasks;
+  }
+  if (get_CompletionRequested()) {
+    processingMode |= ProcessingMode::Completing;
+  }
+  return processingMode;
 }
 
 void ConcurrentExclusiveSchedulerPair___::ctor() {
@@ -133,42 +208,106 @@ void ConcurrentExclusiveSchedulerPair___::ctor(TaskScheduler taskScheduler, Int3
 }
 
 void ConcurrentExclusiveSchedulerPair___::ctor(TaskScheduler taskScheduler, Int32 maxConcurrencyLevel, Int32 maxItemsPerTask) {
+  m_threadProcessingMode = rt::newobj<ThreadLocal<ProcessingMode>>();
 }
 
 void ConcurrentExclusiveSchedulerPair___::Complete() {
 }
 
 ConcurrentExclusiveSchedulerPair::in::CompletionState ConcurrentExclusiveSchedulerPair___::EnsureCompletionStateInitialized() {
-  return nullptr;
 }
 
 void ConcurrentExclusiveSchedulerPair___::RequestCompletion() {
+  EnsureCompletionStateInitialized()->m_completionRequested = true;
 }
 
 void ConcurrentExclusiveSchedulerPair___::CleanupStateIfCompletingAndQuiesced() {
+  if (get_ReadyToComplete()) {
+    CompleteTaskAsync();
+  }
 }
 
 void ConcurrentExclusiveSchedulerPair___::CompleteTaskAsync() {
+  CompletionState completionState = EnsureCompletionStateInitialized();
+  if (!completionState->m_completionQueued) {
+    completionState->m_completionQueued = true;
+  }
 }
 
 void ConcurrentExclusiveSchedulerPair___::FaultWithTask(Task<> faultedTask) {
+  CompletionState completionState = EnsureCompletionStateInitialized();
+  CompletionState completionState2 = completionState;
+  if (completionState2->m_exceptions == nullptr) {
+    completionState2->m_exceptions = rt::newobj<List<Exception>>();
+  }
+  completionState->m_exceptions->AddRange(faultedTask->get_Exception()->get_InnerExceptions());
+  RequestCompletion();
 }
 
 void ConcurrentExclusiveSchedulerPair___::ProcessAsyncIfNecessary(Boolean fairly) {
+  if (m_processingCount < 0) {
+    return;
+  }
+  Boolean flag = !m_exclusiveTaskScheduler->m_tasks->get_IsEmpty();
+  Task task = nullptr;
+  if (m_processingCount == 0 && flag) {
+    m_processingCount = -1;
+    if (!TryQueueThreadPoolWorkItem(fairly)) {
+      try{
+      } catch (Exception exception) {
+      }
+    }
+  } else {
+    Int32 count = m_concurrentTaskScheduler->m_tasks->get_Count();
+    if (count > 0 && !flag && m_processingCount < m_maxConcurrencyLevel) {
+      for (Int32 i = 0; i < count; i++) {
+        if (m_processingCount >= m_maxConcurrencyLevel) {
+          break;
+        }
+        m_processingCount++;
+        if (TryQueueThreadPoolWorkItem(fairly)) {
+        }
+        try{
+        } catch (Exception exception2) {
+        }
+      }
+    }
+  }
+  CleanupStateIfCompletingAndQuiesced();
 }
 
 Boolean ConcurrentExclusiveSchedulerPair___::TryQueueThreadPoolWorkItem(Boolean fairly) {
-  return Boolean();
+  if (TaskScheduler::in::get_Default() == m_underlyingTaskScheduler) {
+  }
+  return false;
 }
 
 void ConcurrentExclusiveSchedulerPair___::ProcessExclusiveTasks() {
+  try{
+    m_threadProcessingMode->set_Value = ProcessingMode::ProcessingExclusiveTask;
+    for (Int32 i = 0; i < m_maxItemsPerTask; i++) {
+    }
+  } finally: {
+    m_threadProcessingMode->set_Value = ProcessingMode::NotCurrentlyProcessing;
+  }
 }
 
 void ConcurrentExclusiveSchedulerPair___::ProcessConcurrentTasks() {
+  try{
+    m_threadProcessingMode->set_Value = ProcessingMode::ProcessingConcurrentTasks;
+    for (Int32 i = 0; i < m_maxItemsPerTask; i++) {
+    }
+  } finally: {
+    m_threadProcessingMode->set_Value = ProcessingMode::NotCurrentlyProcessing;
+  }
 }
 
 TaskCreationOptions ConcurrentExclusiveSchedulerPair___::GetCreationOptionsForTask(Boolean isReplacementReplica) {
-  return TaskCreationOptions::RunContinuationsAsynchronously;
+  TaskCreationOptions taskCreationOptions = TaskCreationOptions::DenyChildAttach;
+  if (isReplacementReplica) {
+    taskCreationOptions |= TaskCreationOptions::PreferFairness;
+  }
+  return taskCreationOptions;
 }
 
 } // namespace System::Private::CoreLib::System::Threading::Tasks::ConcurrentExclusiveSchedulerPairNamespace

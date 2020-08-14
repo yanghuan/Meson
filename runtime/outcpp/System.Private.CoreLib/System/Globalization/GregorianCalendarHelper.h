@@ -47,7 +47,7 @@ CLASS(GregorianCalendarHelper) : public Object::in {
   public: DateTime ToDateTime(Int32 year, Int32 month, Int32 day, Int32 hour, Int32 minute, Int32 second, Int32 millisecond, Int32 era);
   public: Int32 GetWeekOfYear(DateTime time, CalendarWeekRule rule, DayOfWeek firstDayOfWeek);
   public: Int32 ToFourDigitYear(Int32 year, Int32 twoDigitYearMax);
-  private: static void ctor_static();
+  private: static void cctor();
   public: static Array<Int32> DaysToMonth365;
   public: static Array<Int32> DaysToMonth366;
   public: Int32 m_maxYear;

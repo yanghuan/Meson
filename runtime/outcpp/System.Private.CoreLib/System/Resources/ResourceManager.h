@@ -83,7 +83,7 @@ CLASS(ResourceManager) : public Object::in {
   private: Object GetObject(String name, CultureInfo culture, Boolean wrapUnmanagedMemStream);
   public: UnmanagedMemoryStream GetStream(String name);
   public: UnmanagedMemoryStream GetStream(String name, CultureInfo culture);
-  private: static void ctor_static();
+  private: static void cctor();
   protected: String BaseNameField;
   protected: Assembly MainAssembly;
   private: Dictionary<String, ResourceSet> _resourceSets;

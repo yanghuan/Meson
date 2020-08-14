@@ -93,7 +93,7 @@ CLASS(SerializationInfo) : public Object::in {
   public: Decimal GetDecimal(String name);
   public: DateTime GetDateTime(String name);
   public: String GetString(String name);
-  private: static void ctor_static();
+  private: static void cctor();
   private: Array<String> _names;
   private: Array<Object> _values;
   private: Array<Type> _types;

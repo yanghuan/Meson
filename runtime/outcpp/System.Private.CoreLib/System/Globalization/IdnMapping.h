@@ -52,7 +52,7 @@ CLASS(IdnMapping) : public Object::in {
   private: String NlsGetUnicodeCore(String asciiString, Char* ascii, Int32 count);
   private: String NlsGetUnicodeCore(String asciiString, Char* ascii, Int32 count, UInt32 flags, Char* output, Int32 outputLength);
   private: static void ThrowForZeroLength(Boolean unicode);
-  private: static void ctor_static();
+  private: static void cctor();
   private: Boolean _allowUnassigned;
   private: Boolean _useStd3AsciiRules;
   private: static Array<Char> s_dotSeparators;

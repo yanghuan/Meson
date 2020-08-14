@@ -1,8 +1,28 @@
 #include "DynamicMethod-dep.h"
 
+#include <System.Private.CoreLib/System/ArgumentException-dep.h>
+#include <System.Private.CoreLib/System/ArgumentNullException-dep.h>
+#include <System.Private.CoreLib/System/ArgumentOutOfRangeException-dep.h>
+#include <System.Private.CoreLib/System/Byte-dep.h>
+#include <System.Private.CoreLib/System/Int32-dep.h>
+#include <System.Private.CoreLib/System/InvalidOperationException-dep.h>
+#include <System.Private.CoreLib/System/IRuntimeMethodInfo.h>
+#include <System.Private.CoreLib/System/MulticastDelegate-dep.h>
+#include <System.Private.CoreLib/System/Reflection/Emit/DynamicILGenerator-dep.h>
+#include <System.Private.CoreLib/System/Reflection/Emit/DynamicMethod-dep.h>
+#include <System.Private.CoreLib/System/Reflection/Emit/EmptyCAHolder-dep.h>
+#include <System.Private.CoreLib/System/Reflection/Emit/SignatureHelper-dep.h>
+#include <System.Private.CoreLib/System/Reflection/MethodBase-dep.h>
+#include <System.Private.CoreLib/System/Reflection/RuntimeParameterInfo-dep.h>
+#include <System.Private.CoreLib/System/RuntimeType-dep.h>
+#include <System.Private.CoreLib/System/SR-dep.h>
+#include <System.Private.CoreLib/System/Text/ValueStringBuilder-dep.h>
+
 namespace System::Private::CoreLib::System::Reflection::Emit::DynamicMethodNamespace {
+using namespace System::Text;
+
 String DynamicMethod___::RTDynamicMethod___::get_Name() {
-  return nullptr;
+  return m_name;
 }
 
 Type DynamicMethod___::RTDynamicMethod___::get_DeclaringType() {
@@ -14,141 +34,172 @@ Type DynamicMethod___::RTDynamicMethod___::get_ReflectedType() {
 }
 
 Module DynamicMethod___::RTDynamicMethod___::get_Module() {
-  return nullptr;
+  return m_owner->m_module;
 }
 
 RuntimeMethodHandle DynamicMethod___::RTDynamicMethod___::get_MethodHandle() {
-  return RuntimeMethodHandle();
+  rt::throw_exception<InvalidOperationException>(SR::get_InvalidOperation_NotAllowedInDynamicMethod());
 }
 
 MethodAttributes DynamicMethod___::RTDynamicMethod___::get_Attributes() {
-  return MethodAttributes::ReservedMask;
+  return m_attributes;
 }
 
 CallingConventions DynamicMethod___::RTDynamicMethod___::get_CallingConvention() {
-  return CallingConventions::ExplicitThis;
+  return m_callingConvention;
 }
 
 Boolean DynamicMethod___::RTDynamicMethod___::get_IsSecurityCritical() {
-  return Boolean();
+  return m_owner->get_IsSecurityCritical();
 }
 
 Boolean DynamicMethod___::RTDynamicMethod___::get_IsSecuritySafeCritical() {
-  return Boolean();
+  return m_owner->get_IsSecuritySafeCritical();
 }
 
 Boolean DynamicMethod___::RTDynamicMethod___::get_IsSecurityTransparent() {
-  return Boolean();
+  return m_owner->get_IsSecurityTransparent();
 }
 
 Type DynamicMethod___::RTDynamicMethod___::get_ReturnType() {
-  return nullptr;
+  return m_owner->m_returnType;
 }
 
 ParameterInfo DynamicMethod___::RTDynamicMethod___::get_ReturnParameter() {
-  return nullptr;
+  return rt::newobj<RuntimeParameterInfo>((RTDynamicMethod)this, nullptr, m_owner->m_returnType, -1);
 }
 
 ICustomAttributeProvider DynamicMethod___::RTDynamicMethod___::get_ReturnTypeCustomAttributes() {
-  return nullptr;
+  return rt::newobj<EmptyCAHolder>();
 }
 
 void DynamicMethod___::RTDynamicMethod___::ctor(DynamicMethod owner, String name, MethodAttributes attributes, CallingConventions callingConvention) {
+  m_owner = owner;
+  m_name = name;
+  m_attributes = attributes;
+  m_callingConvention = callingConvention;
 }
 
 String DynamicMethod___::RTDynamicMethod___::ToString() {
-  return nullptr;
+  ValueStringBuilder sbParamList = ValueStringBuilder(100);
+  sbParamList.Append(get_ReturnType()->FormatTypeName());
+  sbParamList.Append(32);
+  sbParamList.Append(get_Name());
+  sbParamList.Append(40);
+  MethodBase::in::AppendParameters(sbParamList, GetParameterTypes(), get_CallingConvention());
+  sbParamList.Append(41);
+  return sbParamList.ToString();
 }
 
 MethodInfo DynamicMethod___::RTDynamicMethod___::GetBaseDefinition() {
-  return nullptr;
+  return (RTDynamicMethod)this;
 }
 
 Array<ParameterInfo> DynamicMethod___::RTDynamicMethod___::GetParameters() {
-  return Array<ParameterInfo>();
+  Array<ParameterInfo> array = LoadParameters();
+  Array<ParameterInfo> array2 = array;
+  Array<ParameterInfo> array3 = rt::newarr<Array<ParameterInfo>>(array2->get_Length());
+  Array<>::in::Copy(array2, array3, array2->get_Length());
+  return array3;
 }
 
 MethodImplAttributes DynamicMethod___::RTDynamicMethod___::GetMethodImplementationFlags() {
-  return MethodImplAttributes::MaxMethodImplVal;
+  return MethodImplAttributes::NoInlining;
 }
 
 Object DynamicMethod___::RTDynamicMethod___::Invoke(Object obj, BindingFlags invokeAttr, Binder binder, Array<Object> parameters, CultureInfo culture) {
-  return nullptr;
+  rt::throw_exception<ArgumentException>(SR::get_Argument_MustBeRuntimeMethodInfo(), "this");
 }
 
 Array<Object> DynamicMethod___::RTDynamicMethod___::GetCustomAttributes(Type attributeType, Boolean inherit) {
-  return Array<Object>();
+  if (attributeType == nullptr) {
+    rt::throw_exception<ArgumentNullException>("attributeType");
+  }
 }
 
 Array<Object> DynamicMethod___::RTDynamicMethod___::GetCustomAttributes(Boolean inherit) {
-  return Array<Object>();
+  return rt::newarr<Array<Object>>(1);
 }
 
 Boolean DynamicMethod___::RTDynamicMethod___::IsDefined(Type attributeType, Boolean inherit) {
-  return Boolean();
+  if (attributeType == nullptr) {
+    rt::throw_exception<ArgumentNullException>("attributeType");
+  }
 }
 
 Array<RuntimeParameterInfo> DynamicMethod___::RTDynamicMethod___::LoadParameters() {
-  return Array<RuntimeParameterInfo>();
+  if (m_parameters == nullptr) {
+    Array<Type> parameterTypes = m_owner->m_parameterTypes;
+    Array<Type> array = parameterTypes;
+    Array<RuntimeParameterInfo> array2 = rt::newarr<Array<RuntimeParameterInfo>>(array->get_Length());
+    for (Int32 i = 0; i < array->get_Length(); i++) {
+      array2[i] = rt::newobj<RuntimeParameterInfo>((RTDynamicMethod)this, nullptr, array[i], i);
+    }
+    if (m_parameters == nullptr) {
+      m_parameters = array2;
+    }
+  }
+  return m_parameters;
 }
 
 String DynamicMethod___::get_Name() {
-  return nullptr;
+  return m_dynMethod->get_Name();
 }
 
 Type DynamicMethod___::get_DeclaringType() {
-  return nullptr;
+  return m_dynMethod->get_DeclaringType();
 }
 
 Type DynamicMethod___::get_ReflectedType() {
-  return nullptr;
+  return m_dynMethod->get_ReflectedType();
 }
 
 Module DynamicMethod___::get_Module() {
-  return nullptr;
+  return m_dynMethod->get_Module();
 }
 
 RuntimeMethodHandle DynamicMethod___::get_MethodHandle() {
-  return RuntimeMethodHandle();
+  rt::throw_exception<InvalidOperationException>(SR::get_InvalidOperation_NotAllowedInDynamicMethod());
 }
 
 MethodAttributes DynamicMethod___::get_Attributes() {
-  return MethodAttributes::ReservedMask;
+  return m_dynMethod->get_Attributes();
 }
 
 CallingConventions DynamicMethod___::get_CallingConvention() {
-  return CallingConventions::ExplicitThis;
+  return m_dynMethod->get_CallingConvention();
 }
 
 Boolean DynamicMethod___::get_IsSecurityCritical() {
-  return Boolean();
+  return true;
 }
 
 Boolean DynamicMethod___::get_IsSecuritySafeCritical() {
-  return Boolean();
+  return false;
 }
 
 Boolean DynamicMethod___::get_IsSecurityTransparent() {
-  return Boolean();
+  return false;
 }
 
 Type DynamicMethod___::get_ReturnType() {
-  return nullptr;
+  return m_dynMethod->get_ReturnType();
 }
 
 ParameterInfo DynamicMethod___::get_ReturnParameter() {
-  return nullptr;
+  return m_dynMethod->get_ReturnParameter();
 }
 
 ICustomAttributeProvider DynamicMethod___::get_ReturnTypeCustomAttributes() {
-  return nullptr;
+  return m_dynMethod->get_ReturnTypeCustomAttributes();
 }
 
 Boolean DynamicMethod___::get_InitLocals() {
-  return Boolean();
+  return m_fInitLocals;
 }
 
 void DynamicMethod___::set_InitLocals(Boolean value) {
+  m_fInitLocals = value;
 }
 
 void DynamicMethod___::ctor(String name, Type returnType, Array<Type> parameterTypes) {
@@ -158,98 +209,169 @@ void DynamicMethod___::ctor(String name, Type returnType, Array<Type> parameterT
 }
 
 void DynamicMethod___::ctor(String name, Type returnType, Array<Type> parameterTypes, Module m) {
+  if (m == nullptr) {
+    rt::throw_exception<ArgumentNullException>("m");
+  }
 }
 
 void DynamicMethod___::ctor(String name, Type returnType, Array<Type> parameterTypes, Module m, Boolean skipVisibility) {
+  if (m == nullptr) {
+    rt::throw_exception<ArgumentNullException>("m");
+  }
 }
 
 void DynamicMethod___::ctor(String name, MethodAttributes attributes, CallingConventions callingConvention, Type returnType, Array<Type> parameterTypes, Module m, Boolean skipVisibility) {
+  if (m == nullptr) {
+    rt::throw_exception<ArgumentNullException>("m");
+  }
+  Init(name, attributes, callingConvention, returnType, parameterTypes, nullptr, m, skipVisibility, false);
 }
 
 void DynamicMethod___::ctor(String name, Type returnType, Array<Type> parameterTypes, Type owner) {
+  if (owner == nullptr) {
+    rt::throw_exception<ArgumentNullException>("owner");
+  }
 }
 
 void DynamicMethod___::ctor(String name, Type returnType, Array<Type> parameterTypes, Type owner, Boolean skipVisibility) {
+  if (owner == nullptr) {
+    rt::throw_exception<ArgumentNullException>("owner");
+  }
 }
 
 void DynamicMethod___::ctor(String name, MethodAttributes attributes, CallingConventions callingConvention, Type returnType, Array<Type> parameterTypes, Type owner, Boolean skipVisibility) {
+  if (owner == nullptr) {
+    rt::throw_exception<ArgumentNullException>("owner");
+  }
+  Init(name, attributes, callingConvention, returnType, parameterTypes, owner, nullptr, skipVisibility, false);
 }
 
 void DynamicMethod___::CheckConsistency(MethodAttributes attributes, CallingConventions callingConvention) {
 }
 
 RuntimeModule DynamicMethod___::GetDynamicMethodsModule() {
-  return nullptr;
+  if (s_anonymouslyHostedDynamicMethodsModule != nullptr) {
+    return s_anonymouslyHostedDynamicMethodsModule;
+  }
 }
 
 void DynamicMethod___::Init(String name, MethodAttributes attributes, CallingConventions callingConvention, Type returnType, Array<Type> signature, Type owner, Module m, Boolean skipVisibility, Boolean transparentMethod) {
+  CheckConsistency(attributes, callingConvention);
+  if (signature != nullptr) {
+    m_parameterTypes = rt::newarr<Array<RuntimeType>>(signature->get_Length());
+    for (Int32 i = 0; i < signature->get_Length(); i++) {
+      if (signature[i] == nullptr) {
+        rt::throw_exception<ArgumentException>(SR::get_Arg_InvalidTypeInSignature());
+      }
+      m_parameterTypes[i] = (rt::as<RuntimeType>(signature[i]->get_UnderlyingSystemType()));
+    }
+  } else {
+    m_parameterTypes = Array<>::in::Empty<RuntimeType>();
+  }
 }
 
 Delegate DynamicMethod___::CreateDelegate(Type delegateType) {
-  return nullptr;
+  if (m_restrictedSkipVisibility) {
+    GetMethodDescriptor();
+    IRuntimeMethodInfo methodHandle = m_methodHandle;
+  }
+  MulticastDelegate multicastDelegate = (MulticastDelegate)Delegate::in::CreateDelegateNoSecurityCheck(delegateType, nullptr, GetMethodDescriptor());
+  multicastDelegate->StoreDynamicMethod(GetMethodInfo());
+  return multicastDelegate;
 }
 
 Delegate DynamicMethod___::CreateDelegate(Type delegateType, Object target) {
-  return nullptr;
+  if (m_restrictedSkipVisibility) {
+    GetMethodDescriptor();
+    IRuntimeMethodInfo methodHandle = m_methodHandle;
+  }
+  MulticastDelegate multicastDelegate = (MulticastDelegate)Delegate::in::CreateDelegateNoSecurityCheck(delegateType, target, GetMethodDescriptor());
+  multicastDelegate->StoreDynamicMethod(GetMethodInfo());
+  return multicastDelegate;
 }
 
 RuntimeMethodHandle DynamicMethod___::GetMethodDescriptor() {
-  return RuntimeMethodHandle();
+  if (m_methodHandle == nullptr) {
+  }
+  return RuntimeMethodHandle(m_methodHandle);
 }
 
 String DynamicMethod___::ToString() {
-  return nullptr;
+  return m_dynMethod->ToString();
 }
 
 MethodInfo DynamicMethod___::GetBaseDefinition() {
-  return nullptr;
+  return (DynamicMethod)this;
 }
 
 Array<ParameterInfo> DynamicMethod___::GetParameters() {
-  return Array<ParameterInfo>();
+  return m_dynMethod->GetParameters();
 }
 
 MethodImplAttributes DynamicMethod___::GetMethodImplementationFlags() {
-  return MethodImplAttributes::MaxMethodImplVal;
+  return m_dynMethod->GetMethodImplementationFlags();
 }
 
 Object DynamicMethod___::Invoke(Object obj, BindingFlags invokeAttr, Binder binder, Array<Object> parameters, CultureInfo culture) {
-  return nullptr;
 }
 
 Array<Object> DynamicMethod___::GetCustomAttributes(Type attributeType, Boolean inherit) {
-  return Array<Object>();
+  return m_dynMethod->GetCustomAttributes(attributeType, inherit);
 }
 
 Array<Object> DynamicMethod___::GetCustomAttributes(Boolean inherit) {
-  return Array<Object>();
+  return m_dynMethod->GetCustomAttributes(inherit);
 }
 
 Boolean DynamicMethod___::IsDefined(Type attributeType, Boolean inherit) {
-  return Boolean();
+  return m_dynMethod->IsDefined(attributeType, inherit);
 }
 
 ParameterBuilder DynamicMethod___::DefineParameter(Int32 position, ParameterAttributes attributes, String parameterName) {
+  if (position < 0 || position > m_parameterTypes->get_Length()) {
+    rt::throw_exception<ArgumentOutOfRangeException>(SR::get_ArgumentOutOfRange_ParamSequence());
+  }
+  position--;
+  if (position >= 0) {
+    Array<RuntimeParameterInfo> array = m_dynMethod->LoadParameters();
+    array[position]->SetName(parameterName);
+    array[position]->SetAttributes(attributes);
+  }
   return nullptr;
 }
 
 DynamicILInfo DynamicMethod___::GetDynamicILInfo() {
-  return nullptr;
+  if (m_DynamicILInfo == nullptr) {
+    CallingConventions callingConvention = get_CallingConvention();
+    Type returnType = get_ReturnType();
+    Array<Type> parameterTypes = m_parameterTypes;
+    Array<Byte> signature = SignatureHelper::in::GetMethodSigHelper(nullptr, callingConvention, returnType, nullptr, nullptr, parameterTypes, nullptr, nullptr)->GetSignature(true);
+    m_DynamicILInfo = rt::newobj<DynamicILInfo>((DynamicMethod)this, signature);
+  }
+  return m_DynamicILInfo;
 }
 
 ILGenerator DynamicMethod___::GetILGenerator() {
-  return nullptr;
+  return GetILGenerator(64);
 }
 
 ILGenerator DynamicMethod___::GetILGenerator(Int32 streamSize) {
-  return nullptr;
+  if (m_ilGenerator == nullptr) {
+    CallingConventions callingConvention = get_CallingConvention();
+    Type returnType = get_ReturnType();
+    Array<Type> parameterTypes = m_parameterTypes;
+    Array<Byte> signature = SignatureHelper::in::GetMethodSigHelper(nullptr, callingConvention, returnType, nullptr, nullptr, parameterTypes, nullptr, nullptr)->GetSignature(true);
+    m_ilGenerator = rt::newobj<DynamicILGenerator>((DynamicMethod)this, signature, streamSize);
+  }
+  return m_ilGenerator;
 }
 
 MethodInfo DynamicMethod___::GetMethodInfo() {
-  return nullptr;
+  return m_dynMethod;
 }
 
-void DynamicMethod___::ctor_static() {
+void DynamicMethod___::cctor() {
+  s_anonymouslyHostedDynamicMethodsModuleLock = rt::newobj<Object>();
 }
 
 } // namespace System::Private::CoreLib::System::Reflection::Emit::DynamicMethodNamespace

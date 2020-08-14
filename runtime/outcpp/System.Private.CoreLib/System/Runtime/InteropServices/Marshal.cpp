@@ -1,24 +1,56 @@
 #include "Marshal-dep.h"
 
+#include <System.Private.CoreLib/Internal/Runtime/CompilerServices/Unsafe-dep.h>
+#include <System.Private.CoreLib/Interop-dep.h>
+#include <System.Private.CoreLib/System/__ComObject-dep.h>
+#include <System.Private.CoreLib/System/ArgumentException-dep.h>
+#include <System.Private.CoreLib/System/ArgumentNullException-dep.h>
+#include <System.Private.CoreLib/System/ArgumentOutOfRangeException-dep.h>
+#include <System.Private.CoreLib/System/Buffer-dep.h>
+#include <System.Private.CoreLib/System/Char-dep.h>
+#include <System.Private.CoreLib/System/GC-dep.h>
+#include <System.Private.CoreLib/System/IRuntimeMethodInfo.h>
+#include <System.Private.CoreLib/System/NullReferenceException-dep.h>
+#include <System.Private.CoreLib/System/Object-dep.h>
+#include <System.Private.CoreLib/System/OutOfMemoryException-dep.h>
+#include <System.Private.CoreLib/System/Reflection/BindingFlags.h>
+#include <System.Private.CoreLib/System/Reflection/CustomAttributeExtensions-dep.h>
+#include <System.Private.CoreLib/System/Reflection/FieldInfo-dep.h>
+#include <System.Private.CoreLib/System/Reflection/RuntimeMethodInfo-dep.h>
+#include <System.Private.CoreLib/System/Reflection/RuntimeModule-dep.h>
+#include <System.Private.CoreLib/System/Runtime/CompilerServices/QCallModule-dep.h>
+#include <System.Private.CoreLib/System/Runtime/CompilerServices/RuntimeHelpers-dep.h>
+#include <System.Private.CoreLib/System/Runtime/InteropServices/ProgIdAttribute-dep.h>
+#include <System.Private.CoreLib/System/RuntimeType-dep.h>
+#include <System.Private.CoreLib/System/SByte-dep.h>
+#include <System.Private.CoreLib/System/SR-dep.h>
+#include <System.Private.CoreLib/System/Text/Encoding-dep.h>
+#include <System.Private.CoreLib/System/UInt32-dep.h>
+#include <System.Private.CoreLib/System/UInt64-dep.h>
+#include <System.Private.CoreLib/System/UIntPtr-dep.h>
+
 namespace System::Private::CoreLib::System::Runtime::InteropServices::MarshalNamespace {
+using namespace Internal::Runtime::CompilerServices;
+using namespace System::Reflection;
+using namespace System::Runtime::CompilerServices;
+using namespace System::Text;
+
 IntPtr Marshal::OffsetOf(Type t, String fieldName) {
-  return IntPtr();
+  if ((Object)t == nullptr) {
+    rt::throw_exception<ArgumentNullException>("t");
+  }
 }
 
 Byte Marshal::ReadByte(Object ptr, Int32 ofs) {
-  return Byte();
 }
 
 Int16 Marshal::ReadInt16(Object ptr, Int32 ofs) {
-  return Int16();
 }
 
 Int32 Marshal::ReadInt32(Object ptr, Int32 ofs) {
-  return Int32();
 }
 
 Int64 Marshal::ReadInt64(Object ptr, Int32 ofs) {
-  return Int64();
 }
 
 void Marshal::WriteByte(Object ptr, Int32 ofs, Byte val) {
@@ -34,428 +66,878 @@ void Marshal::WriteInt64(Object ptr, Int32 ofs, Int64 val) {
 }
 
 void Marshal::PrelinkCore(MethodInfo m) {
+  RuntimeMethodInfo runtimeMethodInfo = rt::as<RuntimeMethodInfo>(m);
+  if ((Object)runtimeMethodInfo == nullptr) {
+    rt::throw_exception<ArgumentException>(SR::get_Argument_MustBeRuntimeMethodInfo(), "m");
+  }
+  InternalPrelink(((IRuntimeMethodInfo)runtimeMethodInfo)->get_Value());
+  GC::KeepAlive(runtimeMethodInfo);
 }
 
 Object Marshal::PtrToStructureHelper(IntPtr ptr, Type structureType) {
-  return nullptr;
+  RuntimeType runtimeType = (RuntimeType)structureType;
+  Object obj = runtimeType->CreateInstanceDefaultCtor(false, false, false, true);
+  PtrToStructureHelper(ptr, obj, true);
+  return obj;
 }
 
 IntPtr Marshal::GetHINSTANCE(Module m) {
-  return IntPtr();
+  if ((Object)m == nullptr) {
+    rt::throw_exception<ArgumentNullException>("m");
+  }
+  RuntimeModule module = rt::as<RuntimeModule>(m);
+  if ((Object)module != nullptr) {
+    return GetHINSTANCE(QCallModule(module));
+  }
+  return (IntPtr)(-1);
 }
 
 IntPtr Marshal::AllocHGlobal(IntPtr cb) {
-  return IntPtr();
+  UIntPtr uBytes = UIntPtr((UInt64)cb.ToInt64());
+  IntPtr intPtr = Interop::Kernel32::LocalAlloc(0u, uBytes);
+  if (intPtr == IntPtr::Zero) {
+    rt::throw_exception<OutOfMemoryException>();
+  }
+  return intPtr;
 }
 
 void Marshal::FreeHGlobal(IntPtr hglobal) {
+  if (!IsNullOrWin32Atom(hglobal) && IntPtr::Zero != Interop::Kernel32::LocalFree(hglobal)) {
+    ThrowExceptionForHR(GetHRForLastWin32Error());
+  }
 }
 
 IntPtr Marshal::ReAllocHGlobal(IntPtr pv, IntPtr cb) {
-  return IntPtr();
+  IntPtr intPtr = Interop::Kernel32::LocalReAlloc(pv, cb, 2u);
+  if (intPtr == IntPtr::Zero) {
+    rt::throw_exception<OutOfMemoryException>();
+  }
+  return intPtr;
 }
 
 String Marshal::GetTypeInfoName(ITypeInfo typeInfo) {
-  return nullptr;
+  if (typeInfo == nullptr) {
+    rt::throw_exception<ArgumentNullException>("typeInfo");
+  }
 }
 
 Type Marshal::GetTypeFromCLSID(Guid clsid) {
-  return nullptr;
+  return RuntimeType::in::GetTypeFromCLSIDImpl(clsid, nullptr, false);
 }
 
 IntPtr Marshal::GetIUnknownForObject(Object o) {
-  return IntPtr();
+  if (o == nullptr) {
+    rt::throw_exception<ArgumentNullException>("o");
+  }
+  return GetIUnknownForObjectNative(o, false);
 }
 
 IntPtr Marshal::GetIDispatchForObject(Object o) {
-  return IntPtr();
+  if (o == nullptr) {
+    rt::throw_exception<ArgumentNullException>("o");
+  }
+  return GetIDispatchForObjectNative(o, false);
 }
 
 IntPtr Marshal::GetComInterfaceForObject(Object o, Type T) {
-  return IntPtr();
+  if (o == nullptr) {
+    rt::throw_exception<ArgumentNullException>("o");
+  }
+  if ((Object)T == nullptr) {
+    rt::throw_exception<ArgumentNullException>("T");
+  }
+  return GetComInterfaceForObjectNative(o, T, false, true);
 }
 
 IntPtr Marshal::GetComInterfaceForObject(Object o, Type T, CustomQueryInterfaceMode mode) {
-  return IntPtr();
+  if (o == nullptr) {
+    rt::throw_exception<ArgumentNullException>("o");
+  }
+  if ((Object)T == nullptr) {
+    rt::throw_exception<ArgumentNullException>("T");
+  }
+  Boolean fEnableCustomizedQueryInterface = (mode == CustomQueryInterfaceMode::Allow) ? true : false;
+  return GetComInterfaceForObjectNative(o, T, false, fEnableCustomizedQueryInterface);
 }
 
 Object Marshal::GetObjectForIUnknown(IntPtr pUnk) {
-  return nullptr;
+  if (pUnk == IntPtr::Zero) {
+    rt::throw_exception<ArgumentNullException>("pUnk");
+  }
+  return GetObjectForIUnknownNative(pUnk);
 }
 
 Object Marshal::GetUniqueObjectForIUnknown(IntPtr unknown) {
-  return nullptr;
+  if (unknown == IntPtr::Zero) {
+    rt::throw_exception<ArgumentNullException>("unknown");
+  }
+  return GetUniqueObjectForIUnknownNative(unknown);
 }
 
 IntPtr Marshal::AllocCoTaskMem(Int32 cb) {
-  return IntPtr();
+  IntPtr intPtr = Interop::Ole32::CoTaskMemAlloc(UIntPtr((UInt32)cb));
+  if (intPtr == IntPtr::Zero) {
+    rt::throw_exception<OutOfMemoryException>();
+  }
+  return intPtr;
 }
 
 void Marshal::FreeCoTaskMem(IntPtr ptr) {
+  if (!IsNullOrWin32Atom(ptr)) {
+    Interop::Ole32::CoTaskMemFree(ptr);
+  }
 }
 
 IntPtr Marshal::ReAllocCoTaskMem(IntPtr pv, Int32 cb) {
-  return IntPtr();
+  IntPtr intPtr = Interop::Ole32::CoTaskMemRealloc(pv, UIntPtr((UInt32)cb));
+  if (intPtr == IntPtr::Zero && cb != 0) {
+    rt::throw_exception<OutOfMemoryException>();
+  }
+  return intPtr;
 }
 
 IntPtr Marshal::AllocBSTR(Int32 length) {
-  return IntPtr();
+  IntPtr intPtr = Interop::OleAut32::SysAllocStringLen(nullptr, length);
+  if (intPtr == IntPtr::Zero) {
+    rt::throw_exception<OutOfMemoryException>();
+  }
+  return intPtr;
 }
 
 void Marshal::FreeBSTR(IntPtr ptr) {
+  if (!IsNullOrWin32Atom(ptr)) {
+    Interop::OleAut32::SysFreeString(ptr);
+  }
 }
 
 IntPtr Marshal::StringToBSTR(String s) {
-  return IntPtr();
+  if (s == nullptr) {
+    return IntPtr::Zero;
+  }
+  IntPtr intPtr = Interop::OleAut32::SysAllocStringLen(s, s->get_Length());
+  if (intPtr == IntPtr::Zero) {
+    rt::throw_exception<OutOfMemoryException>();
+  }
+  return intPtr;
 }
 
 String Marshal::PtrToStringBSTR(IntPtr ptr) {
-  return nullptr;
+  if (ptr == IntPtr::Zero) {
+    rt::throw_exception<ArgumentNullException>("ptr");
+  }
+  return PtrToStringUni(ptr, (Int32)(SysStringByteLen(ptr) / 2u));
 }
 
 Int32 Marshal::ReleaseComObject(Object o) {
-  return Int32();
+  if (o == nullptr) {
+    rt::throw_exception<NullReferenceException>();
+  }
+  __ComObject _ComObject = rt::as<__ComObject>(o);
+  if (_ComObject == nullptr) {
+    rt::throw_exception<ArgumentException>(SR::get_Argument_ObjNotComObject(), "o");
+  }
+  return _ComObject->ReleaseSelf();
 }
 
 Int32 Marshal::FinalReleaseComObject(Object o) {
-  return Int32();
+  if (o == nullptr) {
+    rt::throw_exception<ArgumentNullException>("o");
+  }
+  __ComObject _ComObject = rt::as<__ComObject>(o);
+  if (_ComObject == nullptr) {
+    rt::throw_exception<ArgumentException>(SR::get_Argument_ObjNotComObject(), "o");
+  }
+  _ComObject->FinalReleaseSelf();
+  return 0;
 }
 
 Object Marshal::GetComObjectData(Object obj, Object key) {
-  return nullptr;
+  if (obj == nullptr) {
+    rt::throw_exception<ArgumentNullException>("obj");
+  }
+  if (key == nullptr) {
+    rt::throw_exception<ArgumentNullException>("key");
+  }
+  __ComObject _ComObject = rt::as<__ComObject>(obj);
+  if (_ComObject == nullptr) {
+    rt::throw_exception<ArgumentException>(SR::get_Argument_ObjNotComObject(), "obj");
+  }
+  return _ComObject->GetData(key);
 }
 
 Boolean Marshal::SetComObjectData(Object obj, Object key, Object data) {
-  return Boolean();
+  if (obj == nullptr) {
+    rt::throw_exception<ArgumentNullException>("obj");
+  }
+  if (key == nullptr) {
+    rt::throw_exception<ArgumentNullException>("key");
+  }
+  __ComObject _ComObject = rt::as<__ComObject>(obj);
+  if (_ComObject == nullptr) {
+    rt::throw_exception<ArgumentException>(SR::get_Argument_ObjNotComObject(), "obj");
+  }
+  return _ComObject->SetData(key, data);
 }
 
 Object Marshal::CreateWrapperOfType(Object o, Type t) {
-  return nullptr;
+  if ((Object)t == nullptr) {
+    rt::throw_exception<ArgumentNullException>("t");
+  }
+  if (!t->get_IsCOMObject()) {
+    rt::throw_exception<ArgumentException>(SR::get_Argument_TypeNotComObject(), "t");
+  }
+  if (t->get_IsGenericType()) {
+    rt::throw_exception<ArgumentException>(SR::get_Argument_NeedNonGenericType(), "t");
+  }
+  if (o == nullptr) {
+    return nullptr;
+  }
+  if (!o->GetType()->get_IsCOMObject()) {
+    rt::throw_exception<ArgumentException>(SR::get_Argument_ObjNotComObject(), "o");
+  }
+  if (o->GetType() == t) {
+    return o;
+  }
+  Object obj = GetComObjectData(o, t);
+  if (obj == nullptr) {
+    obj = InternalCreateWrapperOfType(o, t);
+    if (!SetComObjectData(o, t, obj)) {
+      obj = GetComObjectData(o, t);
+    }
+  }
+  return obj;
 }
 
 Object Marshal::BindToMoniker(String monikerName) {
-  return nullptr;
 }
 
 IntPtr Marshal::AllocHGlobal(Int32 cb) {
-  return IntPtr();
+  return AllocHGlobal((IntPtr)cb);
 }
 
 String Marshal::PtrToStringAnsi(IntPtr ptr) {
-  return nullptr;
+  if (IsNullOrWin32Atom(ptr)) {
+    return nullptr;
+  }
+  return rt::newobj<String>((SByte*)(void*)ptr);
 }
 
 String Marshal::PtrToStringAnsi(IntPtr ptr, Int32 len) {
-  return nullptr;
+  if (ptr == IntPtr::Zero) {
+    rt::throw_exception<ArgumentNullException>("ptr");
+  }
+  if (len < 0) {
+    rt::throw_exception<ArgumentOutOfRangeException>("len", len, SR::get_ArgumentOutOfRange_NeedNonNegNum());
+  }
+  return rt::newobj<String>((SByte*)(void*)ptr, 0, len);
 }
 
 String Marshal::PtrToStringUni(IntPtr ptr) {
-  return nullptr;
+  if (IsNullOrWin32Atom(ptr)) {
+    return nullptr;
+  }
+  return rt::newobj<String>((Char*)(void*)ptr);
 }
 
 String Marshal::PtrToStringUni(IntPtr ptr, Int32 len) {
-  return nullptr;
+  if (ptr == IntPtr::Zero) {
+    rt::throw_exception<ArgumentNullException>("ptr");
+  }
+  if (len < 0) {
+    rt::throw_exception<ArgumentOutOfRangeException>("len", len, SR::get_ArgumentOutOfRange_NeedNonNegNum());
+  }
+  return rt::newobj<String>((Char*)(void*)ptr, 0, len);
 }
 
 String Marshal::PtrToStringUTF8(IntPtr ptr) {
-  return nullptr;
+  if (IsNullOrWin32Atom(ptr)) {
+    return nullptr;
+  }
+  Int32 byteLength = String::in::strlen((Byte*)(void*)ptr);
+  return String::in::CreateStringFromEncoding((Byte*)(void*)ptr, byteLength, Encoding::in::get_UTF8());
 }
 
 String Marshal::PtrToStringUTF8(IntPtr ptr, Int32 byteLen) {
-  return nullptr;
+  if (ptr == IntPtr::Zero) {
+    rt::throw_exception<ArgumentNullException>("ptr");
+  }
+  if (byteLen < 0) {
+    rt::throw_exception<ArgumentOutOfRangeException>("byteLen", byteLen, SR::get_ArgumentOutOfRange_NeedNonNegNum());
+  }
+  return String::in::CreateStringFromEncoding((Byte*)(void*)ptr, byteLen, Encoding::in::get_UTF8());
 }
 
 Int32 Marshal::SizeOf(Object structure) {
-  return Int32();
+  if (structure == nullptr) {
+    rt::throw_exception<ArgumentNullException>("structure");
+  }
+  return SizeOfHelper(structure->GetType(), true);
 }
 
 Int32 Marshal::SizeOf(Type t) {
-  return Int32();
+  if ((Object)t == nullptr) {
+    rt::throw_exception<ArgumentNullException>("t");
+  }
+  if (!t->IsRuntimeImplemented()) {
+    rt::throw_exception<ArgumentException>(SR::get_Argument_MustBeRuntimeType(), "t");
+  }
+  if (t->get_IsGenericType()) {
+    rt::throw_exception<ArgumentException>(SR::get_Argument_NeedNonGenericType(), "t");
+  }
+  return SizeOfHelper(t, true);
 }
 
 IntPtr Marshal::UnsafeAddrOfPinnedArrayElement(Array<> arr, Int32 index) {
-  return IntPtr();
+  if (arr == nullptr) {
+    rt::throw_exception<ArgumentNullException>("arr");
+  }
+  void* ptr = Unsafe::AsPointer(RuntimeHelpers::GetRawArrayData(arr));
+  return (IntPtr)(void*)((Byte*)ptr + (unsigned int)((int)(UInt32)index * (int)RuntimeHelpers::GetElementSize(arr)));
 }
 
 void Marshal::Copy(Array<Int32> source, Int32 startIndex, IntPtr destination, Int32 length) {
+  CopyToNative(source, startIndex, destination, length);
 }
 
 void Marshal::Copy(Array<Char> source, Int32 startIndex, IntPtr destination, Int32 length) {
+  CopyToNative(source, startIndex, destination, length);
 }
 
 void Marshal::Copy(Array<Int16> source, Int32 startIndex, IntPtr destination, Int32 length) {
+  CopyToNative(source, startIndex, destination, length);
 }
 
 void Marshal::Copy(Array<Int64> source, Int32 startIndex, IntPtr destination, Int32 length) {
+  CopyToNative(source, startIndex, destination, length);
 }
 
 void Marshal::Copy(Array<Single> source, Int32 startIndex, IntPtr destination, Int32 length) {
+  CopyToNative(source, startIndex, destination, length);
 }
 
 void Marshal::Copy(Array<Double> source, Int32 startIndex, IntPtr destination, Int32 length) {
+  CopyToNative(source, startIndex, destination, length);
 }
 
 void Marshal::Copy(Array<Byte> source, Int32 startIndex, IntPtr destination, Int32 length) {
+  CopyToNative(source, startIndex, destination, length);
 }
 
 void Marshal::Copy(Array<IntPtr> source, Int32 startIndex, IntPtr destination, Int32 length) {
+  CopyToNative(source, startIndex, destination, length);
 }
 
 void Marshal::Copy(IntPtr source, Array<Int32> destination, Int32 startIndex, Int32 length) {
+  CopyToManaged(source, destination, startIndex, length);
 }
 
 void Marshal::Copy(IntPtr source, Array<Char> destination, Int32 startIndex, Int32 length) {
+  CopyToManaged(source, destination, startIndex, length);
 }
 
 void Marshal::Copy(IntPtr source, Array<Int16> destination, Int32 startIndex, Int32 length) {
+  CopyToManaged(source, destination, startIndex, length);
 }
 
 void Marshal::Copy(IntPtr source, Array<Int64> destination, Int32 startIndex, Int32 length) {
+  CopyToManaged(source, destination, startIndex, length);
 }
 
 void Marshal::Copy(IntPtr source, Array<Single> destination, Int32 startIndex, Int32 length) {
+  CopyToManaged(source, destination, startIndex, length);
 }
 
 void Marshal::Copy(IntPtr source, Array<Double> destination, Int32 startIndex, Int32 length) {
+  CopyToManaged(source, destination, startIndex, length);
 }
 
 void Marshal::Copy(IntPtr source, Array<Byte> destination, Int32 startIndex, Int32 length) {
+  CopyToManaged(source, destination, startIndex, length);
 }
 
 void Marshal::Copy(IntPtr source, Array<IntPtr> destination, Int32 startIndex, Int32 length) {
+  CopyToManaged(source, destination, startIndex, length);
 }
 
 Byte Marshal::ReadByte(IntPtr ptr, Int32 ofs) {
-  return Byte();
+  try{
+    Byte* ptr2 = (Byte*)(void*)ptr + ofs;
+    return *ptr2;
+  } catch (NullReferenceException) {
+  }
 }
 
 Byte Marshal::ReadByte(IntPtr ptr) {
-  return Byte();
+  return ReadByte(ptr, 0);
 }
 
 Int16 Marshal::ReadInt16(IntPtr ptr, Int32 ofs) {
-  return Int16();
+  try{
+    Byte* ptr2 = (Byte*)(void*)ptr + ofs;
+  } catch (NullReferenceException) {
+  }
 }
 
 Int16 Marshal::ReadInt16(IntPtr ptr) {
-  return Int16();
+  return ReadInt16(ptr, 0);
 }
 
 Int32 Marshal::ReadInt32(IntPtr ptr, Int32 ofs) {
-  return Int32();
+  try{
+    Byte* ptr2 = (Byte*)(void*)ptr + ofs;
+  } catch (NullReferenceException) {
+  }
 }
 
 Int32 Marshal::ReadInt32(IntPtr ptr) {
-  return Int32();
+  return ReadInt32(ptr, 0);
 }
 
 IntPtr Marshal::ReadIntPtr(Object ptr, Int32 ofs) {
-  return IntPtr();
+  return (IntPtr)ReadInt64(ptr, ofs);
 }
 
 IntPtr Marshal::ReadIntPtr(IntPtr ptr, Int32 ofs) {
-  return IntPtr();
+  return (IntPtr)ReadInt64(ptr, ofs);
 }
 
 IntPtr Marshal::ReadIntPtr(IntPtr ptr) {
-  return IntPtr();
+  return ReadIntPtr(ptr, 0);
 }
 
 Int64 Marshal::ReadInt64(IntPtr ptr, Int32 ofs) {
-  return Int64();
+  try{
+    Byte* ptr2 = (Byte*)(void*)ptr + ofs;
+  } catch (NullReferenceException) {
+  }
 }
 
 Int64 Marshal::ReadInt64(IntPtr ptr) {
-  return Int64();
+  return ReadInt64(ptr, 0);
 }
 
 void Marshal::WriteByte(IntPtr ptr, Int32 ofs, Byte val) {
+  try{
+    Byte* ptr2 = (Byte*)(void*)ptr + ofs;
+    *ptr2 = val;
+  } catch (NullReferenceException) {
+  }
 }
 
 void Marshal::WriteByte(IntPtr ptr, Byte val) {
+  WriteByte(ptr, 0, val);
 }
 
 void Marshal::WriteInt16(IntPtr ptr, Int32 ofs, Int16 val) {
+  try{
+    Byte* ptr2 = (Byte*)(void*)ptr + ofs;
+  } catch (NullReferenceException) {
+  }
 }
 
 void Marshal::WriteInt16(IntPtr ptr, Int16 val) {
+  WriteInt16(ptr, 0, val);
 }
 
 void Marshal::WriteInt16(IntPtr ptr, Int32 ofs, Char val) {
+  WriteInt16(ptr, ofs, (Int16)val);
 }
 
 void Marshal::WriteInt16(Object ptr, Int32 ofs, Char val) {
+  WriteInt16(ptr, ofs, (Int16)val);
 }
 
 void Marshal::WriteInt16(IntPtr ptr, Char val) {
+  WriteInt16(ptr, 0, (Int16)val);
 }
 
 void Marshal::WriteInt32(IntPtr ptr, Int32 ofs, Int32 val) {
+  try{
+    Byte* ptr2 = (Byte*)(void*)ptr + ofs;
+  } catch (NullReferenceException) {
+  }
 }
 
 void Marshal::WriteInt32(IntPtr ptr, Int32 val) {
+  WriteInt32(ptr, 0, val);
 }
 
 void Marshal::WriteIntPtr(IntPtr ptr, Int32 ofs, IntPtr val) {
+  WriteInt64(ptr, ofs, (Int64)val);
 }
 
 void Marshal::WriteIntPtr(Object ptr, Int32 ofs, IntPtr val) {
+  WriteInt64(ptr, ofs, (Int64)val);
 }
 
 void Marshal::WriteIntPtr(IntPtr ptr, IntPtr val) {
+  WriteIntPtr(ptr, 0, val);
 }
 
 void Marshal::WriteInt64(IntPtr ptr, Int32 ofs, Int64 val) {
+  try{
+    Byte* ptr2 = (Byte*)(void*)ptr + ofs;
+  } catch (NullReferenceException) {
+  }
 }
 
 void Marshal::WriteInt64(IntPtr ptr, Int64 val) {
+  WriteInt64(ptr, 0, val);
 }
 
 void Marshal::Prelink(MethodInfo m) {
+  if ((Object)m == nullptr) {
+    rt::throw_exception<ArgumentNullException>("m");
+  }
+  PrelinkCore(m);
 }
 
 void Marshal::PrelinkAll(Type c) {
+  if ((Object)c == nullptr) {
+    rt::throw_exception<ArgumentNullException>("c");
+  }
+  Array<MethodInfo> methods = c->GetMethods();
+  for (Int32 i = 0; i < methods->get_Length(); i++) {
+    Prelink(methods[i]);
+  }
 }
 
 Object Marshal::PtrToStructure(IntPtr ptr, Type structureType) {
-  return nullptr;
+  if (ptr == IntPtr::Zero) {
+    return nullptr;
+  }
+  if ((Object)structureType == nullptr) {
+    rt::throw_exception<ArgumentNullException>("structureType");
+  }
+  if (structureType->get_IsGenericType()) {
+    rt::throw_exception<ArgumentException>(SR::get_Argument_NeedNonGenericType(), "structureType");
+  }
+  if (!structureType->IsRuntimeImplemented()) {
+    rt::throw_exception<ArgumentException>(SR::get_Argument_MustBeRuntimeType(), "structureType");
+  }
+  return PtrToStructureHelper(ptr, structureType);
 }
 
 void Marshal::PtrToStructure(IntPtr ptr, Object structure) {
+  PtrToStructureHelper(ptr, structure, false);
 }
 
 Exception Marshal::GetExceptionForHR(Int32 errorCode) {
-  return nullptr;
+  return GetExceptionForHR(errorCode, IntPtr::Zero);
 }
 
 Exception Marshal::GetExceptionForHR(Int32 errorCode, IntPtr errorInfo) {
-  return nullptr;
+  if (errorCode >= 0) {
+    return nullptr;
+  }
+  return GetExceptionForHRInternal(errorCode, errorInfo);
 }
 
 void Marshal::ThrowExceptionForHR(Int32 errorCode) {
+  if (errorCode < 0) {
+    rt::throw_exception(GetExceptionForHR(errorCode, IntPtr::Zero));
+  }
 }
 
 void Marshal::ThrowExceptionForHR(Int32 errorCode, IntPtr errorInfo) {
+  if (errorCode < 0) {
+    rt::throw_exception(GetExceptionForHR(errorCode, errorInfo));
+  }
 }
 
 IntPtr Marshal::SecureStringToBSTR(SecureString s) {
-  return IntPtr();
+  if (s == nullptr) {
+    rt::throw_exception<ArgumentNullException>("s");
+  }
+  return s->MarshalToBSTR();
 }
 
 IntPtr Marshal::SecureStringToCoTaskMemAnsi(SecureString s) {
-  return IntPtr();
+  if (s == nullptr) {
+    rt::throw_exception<ArgumentNullException>("s");
+  }
+  return s->MarshalToString(false, false);
 }
 
 IntPtr Marshal::SecureStringToCoTaskMemUnicode(SecureString s) {
-  return IntPtr();
+  if (s == nullptr) {
+    rt::throw_exception<ArgumentNullException>("s");
+  }
+  return s->MarshalToString(false, true);
 }
 
 IntPtr Marshal::SecureStringToGlobalAllocAnsi(SecureString s) {
-  return IntPtr();
+  if (s == nullptr) {
+    rt::throw_exception<ArgumentNullException>("s");
+  }
+  return s->MarshalToString(true, false);
 }
 
 IntPtr Marshal::SecureStringToGlobalAllocUnicode(SecureString s) {
-  return IntPtr();
+  if (s == nullptr) {
+    rt::throw_exception<ArgumentNullException>("s");
+  }
+  return s->MarshalToString(true, true);
 }
 
 IntPtr Marshal::StringToHGlobalAnsi(String s) {
-  return IntPtr();
+  if (s == nullptr) {
+    return IntPtr::Zero;
+  }
+  Int64 num = (Int64)(s->get_Length() + 1) * (Int64)SystemMaxDBCSCharSize;
+  Int32 num2 = (Int32)num;
+  if (num2 != num) {
+    rt::throw_exception<ArgumentOutOfRangeException>("s");
+  }
+  IntPtr intPtr = AllocHGlobal((IntPtr)num2);
+  StringToAnsiString(s, (Byte*)(void*)intPtr, num2);
+  return intPtr;
 }
 
 IntPtr Marshal::StringToHGlobalUni(String s) {
-  return IntPtr();
+  if (s == nullptr) {
+    return IntPtr::Zero;
+  }
+  Int32 num = (s->get_Length() + 1) * 2;
+  if (num < s->get_Length()) {
+    rt::throw_exception<ArgumentOutOfRangeException>("s");
+  }
+  IntPtr intPtr = AllocHGlobal((IntPtr)num);
+  {
+    Char* ptr = s;
+    Char* smem = ptr;
+    String::in::wstrcpy((Char*)(void*)intPtr, smem, s->get_Length() + 1);
+  }
+  return intPtr;
 }
 
 IntPtr Marshal::StringToCoTaskMemUni(String s) {
-  return IntPtr();
+  if (s == nullptr) {
+    return IntPtr::Zero;
+  }
+  Int32 num = (s->get_Length() + 1) * 2;
+  if (num < s->get_Length()) {
+    rt::throw_exception<ArgumentOutOfRangeException>("s");
+  }
+  IntPtr intPtr = AllocCoTaskMem(num);
+  {
+    Char* ptr = s;
+    Char* smem = ptr;
+    String::in::wstrcpy((Char*)(void*)intPtr, smem, s->get_Length() + 1);
+  }
+  return intPtr;
 }
 
 IntPtr Marshal::StringToCoTaskMemUTF8(String s) {
-  return IntPtr();
+  if (s == nullptr) {
+    return IntPtr::Zero;
+  }
+  Int32 maxByteCount = Encoding::in::get_UTF8()->GetMaxByteCount(s->get_Length());
+  IntPtr intPtr = AllocCoTaskMem(maxByteCount + 1);
+  Byte* ptr = (Byte*)(void*)intPtr;
+  Int32 bytes;
+  {
+    Char* ptr2 = s;
+    Char* chars = ptr2;
+    bytes = Encoding::in::get_UTF8()->GetBytes(chars, s->get_Length(), ptr, maxByteCount);
+  }
+  ptr[bytes] = 0;
+  return intPtr;
 }
 
 IntPtr Marshal::StringToCoTaskMemAnsi(String s) {
-  return IntPtr();
+  if (s == nullptr) {
+    return IntPtr::Zero;
+  }
+  Int64 num = (Int64)(s->get_Length() + 1) * (Int64)SystemMaxDBCSCharSize;
+  Int32 num2 = (Int32)num;
+  if (num2 != num) {
+    rt::throw_exception<ArgumentOutOfRangeException>("s");
+  }
+  IntPtr intPtr = AllocCoTaskMem(num2);
+  StringToAnsiString(s, (Byte*)(void*)intPtr, num2);
+  return intPtr;
 }
 
 Guid Marshal::GenerateGuidForType(Type type) {
-  return Guid();
+  if ((Object)type == nullptr) {
+    rt::throw_exception<ArgumentNullException>("type");
+  }
+  if (!type->IsRuntimeImplemented()) {
+    rt::throw_exception<ArgumentException>(SR::get_Argument_MustBeRuntimeType(), "type");
+  }
+  return type->get_GUID();
 }
 
 String Marshal::GenerateProgIdForType(Type type) {
-  return nullptr;
+  if ((Object)type == nullptr) {
+    rt::throw_exception<ArgumentNullException>("type");
+  }
+  if (type->get_IsImport()) {
+    rt::throw_exception<ArgumentException>(SR::get_Argument_TypeMustNotBeComImport(), "type");
+  }
+  if (type->get_IsGenericType()) {
+    rt::throw_exception<ArgumentException>(SR::get_Argument_NeedNonGenericType(), "type");
+  }
+  ProgIdAttribute customAttribute = CustomAttributeExtensions::GetCustomAttribute(type);
+  if (customAttribute != nullptr) {
+  }
+  return type->get_FullName();
 }
 
 Delegate Marshal::GetDelegateForFunctionPointer(IntPtr ptr, Type t) {
-  return nullptr;
+  if (ptr == IntPtr::Zero) {
+    rt::throw_exception<ArgumentNullException>("ptr");
+  }
+  if ((Object)t == nullptr) {
+    rt::throw_exception<ArgumentNullException>("t");
+  }
+  if (!t->IsRuntimeImplemented()) {
+    rt::throw_exception<ArgumentException>(SR::get_Argument_MustBeRuntimeType(), "t");
+  }
+  if (t->get_IsGenericType()) {
+    rt::throw_exception<ArgumentException>(SR::get_Argument_NeedNonGenericType(), "t");
+  }
+  Type baseType = t->get_BaseType();
 }
 
 IntPtr Marshal::GetFunctionPointerForDelegate(Delegate d) {
-  return IntPtr();
+  if ((Object)d == nullptr) {
+    rt::throw_exception<ArgumentNullException>("d");
+  }
+  return GetFunctionPointerForDelegateInternal(d);
 }
 
 Int32 Marshal::GetHRForLastWin32Error() {
-  return Int32();
+  Int32 lastWin32Error = GetLastWin32Error();
 }
 
 void Marshal::ZeroFreeBSTR(IntPtr s) {
+  if (!(s == IntPtr::Zero)) {
+    Buffer::ZeroMemory((Byte*)(void*)s, SysStringByteLen(s));
+    FreeBSTR(s);
+  }
 }
 
 void Marshal::ZeroFreeCoTaskMemAnsi(IntPtr s) {
+  ZeroFreeCoTaskMemUTF8(s);
 }
 
 void Marshal::ZeroFreeCoTaskMemUnicode(IntPtr s) {
+  if (!(s == IntPtr::Zero)) {
+    Buffer::ZeroMemory((Byte*)(void*)s, (unsigned int)String::in::wcslen((Char*)(void*)s) * (?)2u);
+    FreeCoTaskMem(s);
+  }
 }
 
 void Marshal::ZeroFreeCoTaskMemUTF8(IntPtr s) {
+  if (!(s == IntPtr::Zero)) {
+    Buffer::ZeroMemory((Byte*)(void*)s, (unsigned int)String::in::strlen((Byte*)(void*)s));
+    FreeCoTaskMem(s);
+  }
 }
 
 void Marshal::ZeroFreeGlobalAllocAnsi(IntPtr s) {
+  if (!(s == IntPtr::Zero)) {
+    Buffer::ZeroMemory((Byte*)(void*)s, (unsigned int)String::in::strlen((Byte*)(void*)s));
+    FreeHGlobal(s);
+  }
 }
 
 void Marshal::ZeroFreeGlobalAllocUnicode(IntPtr s) {
+  if (!(s == IntPtr::Zero)) {
+    Buffer::ZeroMemory((Byte*)(void*)s, (unsigned int)String::in::wcslen((Char*)(void*)s) * (?)2u);
+    FreeHGlobal(s);
+  }
 }
 
 UInt32 Marshal::SysStringByteLen(IntPtr s) {
-  return UInt32();
+  return *(UInt32*)((Byte*)(void*)s - 4);
 }
 
 String Marshal::PtrToStringAuto(IntPtr ptr, Int32 len) {
-  return nullptr;
+  return PtrToStringUni(ptr, len);
 }
 
 String Marshal::PtrToStringAuto(IntPtr ptr) {
-  return nullptr;
+  return PtrToStringUni(ptr);
 }
 
 IntPtr Marshal::StringToHGlobalAuto(String s) {
-  return IntPtr();
+  return StringToHGlobalUni(s);
 }
 
 IntPtr Marshal::StringToCoTaskMemAuto(String s) {
-  return IntPtr();
+  return StringToCoTaskMemUni(s);
 }
 
 Int32 Marshal::GetSystemMaxDBCSCharSize() {
-  return Int32();
+  Interop::Kernel32::CPINFO cPINFO = Interop::Kernel32::CPINFO();
+  if (Interop::Kernel32::GetCPInfo(0u, &cPINFO) == Interop::BOOL::FALSE) {
+    return 2;
+  }
+  return cPINFO.MaxCharSize;
 }
 
 Boolean Marshal::IsNullOrWin32Atom(IntPtr ptr) {
-  return Boolean();
+  Int64 num = (Int64)ptr;
 }
 
 Int32 Marshal::StringToAnsiString(String s, Byte* buffer, Int32 bufferLength, Boolean bestFit, Boolean throwOnUnmappableChar) {
-  return Int32();
+  UInt32 dwFlags = (!bestFit) ? 1024u : 0u;
+  UInt32 num = 0u;
+  Int32 num2;
+  {
+    Char* ptr = s;
+    Char* lpWideCharStr = ptr;
+    num2 = Interop::Kernel32::WideCharToMultiByte(0u, dwFlags, lpWideCharStr, s->get_Length(), buffer, bufferLength, IntPtr::Zero, throwOnUnmappableChar ? IntPtr(&num) : IntPtr::Zero);
+  }
+  if (num != 0) {
+    rt::throw_exception<ArgumentException>(SR::get_Interop_Marshal_Unmappable_Char());
+  }
+  buffer[num2] = 0;
+  return num2;
 }
 
 Int32 Marshal::GetAnsiStringByteCount(ReadOnlySpan<Char> chars) {
-  return Int32();
+  Int32 num;
+  if (chars.get_Length() == 0) {
+    num = 0;
+  } else {
+    {
+      Char* lpWideCharStr = chars;
+      num = Interop::Kernel32::WideCharToMultiByte(0u, 1024u, lpWideCharStr, chars.get_Length(), nullptr, 0, IntPtr::Zero, IntPtr::Zero);
+      if (num <= 0) {
+        rt::throw_exception<ArgumentException>();
+      }
+    }
+  }
+  return num + 1;
 }
 
 void Marshal::GetAnsiStringBytes(ReadOnlySpan<Char> chars, Span<Byte> bytes) {
+  Int32 num;
+  if (chars.get_Length() == 0) {
+    num = 0;
+  } else {
+    {
+      Char* lpWideCharStr = chars;
+      {
+        Byte* lpMultiByteStr = bytes;
+        num = Interop::Kernel32::WideCharToMultiByte(0u, 1024u, lpWideCharStr, chars.get_Length(), lpMultiByteStr, bytes.get_Length(), IntPtr::Zero, IntPtr::Zero);
+        if (num <= 0) {
+          rt::throw_exception<ArgumentException>();
+        }
+      }
+    }
+  }
+  bytes[num] = 0;
 }
 
-void Marshal::ctor_static() {
+void Marshal::cctor() {
+  IID_IUnknown = Guid(0, 0, 0, 192, 0, 0, 0, 0, 0, 0, 70);
+  SystemDefaultCharSize = 2;
+  SystemMaxDBCSCharSize = GetSystemMaxDBCSCharSize();
 }
 
 } // namespace System::Private::CoreLib::System::Runtime::InteropServices::MarshalNamespace

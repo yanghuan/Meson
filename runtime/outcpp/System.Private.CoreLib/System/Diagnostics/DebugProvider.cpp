@@ -1,23 +1,53 @@
 #include "DebugProvider-dep.h"
 
+#include <System.Private.CoreLib/System/Diagnostics/Debug-dep.h>
+#include <System.Private.CoreLib/System/Diagnostics/Debugger-dep.h>
+#include <System.Private.CoreLib/System/Diagnostics/DebugProvider-dep.h>
+#include <System.Private.CoreLib/System/Diagnostics/StackTrace-dep.h>
+#include <System.Private.CoreLib/System/Environment-dep.h>
+#include <System.Private.CoreLib/System/SR-dep.h>
+
 namespace System::Private::CoreLib::System::Diagnostics::DebugProviderNamespace {
 void DebugProvider___::DebugAssertException___::ctor(String message, String detailMessage, String stackTrace) {
 }
 
 String DebugProvider___::DebugAssertException___::Terminate(String s) {
-  return nullptr;
+  if (s == nullptr) {
+    return s;
+  }
+  s = s->Trim();
+  if (s->get_Length() > 0) {
+    s += "
+";
+  }
+  return s;
 }
 
 void DebugProvider___::Fail(String message, String detailMessage) {
+  String stackTrace;
+  try{
+    stackTrace = rt::newobj<StackTrace>(0, true)->ToString(StackTrace::in::TraceFormat::Normal);
+  } catch (...) {
+  }
+  WriteAssert(stackTrace, message, detailMessage);
+  FailCore(stackTrace, message, detailMessage, "Assertion failed.");
 }
 
 void DebugProvider___::WriteAssert(String stackTrace, String message, String detailMessage) {
+  WriteLine(SR::get_DebugAssertBanner() + "
+" + SR::get_DebugAssertShortMessage() + "
+" + message + "
+" + SR::get_DebugAssertLongMessage() + "
+" + detailMessage + "
+" + stackTrace);
 }
 
 void DebugProvider___::Write(String message) {
 }
 
 void DebugProvider___::WriteLine(String message) {
+  Write(message + "
+");
 }
 
 void DebugProvider___::OnIndentLevelChanged(Int32 indentLevel) {
@@ -27,22 +57,50 @@ void DebugProvider___::OnIndentSizeChanged(Int32 indentSize) {
 }
 
 String DebugProvider___::GetIndentString() {
-  return nullptr;
+  Int32 num = Debug::get_IndentSize() * Debug::get_IndentLevel();
+  String indentString = _indentString;
+  if (indentString != nullptr && indentString->get_Length() == num) {
+    return _indentString;
+  }
+  return _indentString = rt::newobj<String>(32, num);
 }
 
 void DebugProvider___::FailCore(String stackTrace, String message, String detailMessage, String errorSource) {
+  if (s_FailCore != nullptr) {
+    s_FailCore(stackTrace, message, detailMessage, errorSource);
+    return;
+  }
+  if (Debugger::get_IsAttached()) {
+    Debugger::Break();
+    return;
+  }
+  DebugAssertException ex = rt::newobj<DebugAssertException>(message, detailMessage, stackTrace);
+  Environment::FailFast(ex->get_Message(), ex, errorSource);
 }
 
 void DebugProvider___::WriteCore(String message) {
+  if (s_WriteCore != nullptr) {
+    s_WriteCore(message);
+    return;
+  }
 }
 
 void DebugProvider___::WriteToDebugger(String message) {
+  if (Debugger::IsLogging()) {
+    Debugger::Log(0, nullptr, message);
+  } else {
+  }
 }
 
 void DebugProvider___::ctor() {
+  _needIndent = true;
 }
 
-void DebugProvider___::ctor_static() {
+void DebugProvider___::cctor() {
+  s_lock = rt::newobj<Object>();
+  s_FailCore = nullptr;
+  s_WriteCore = nullptr;
+  s_ForLock = rt::newobj<Object>();
 }
 
 } // namespace System::Private::CoreLib::System::Diagnostics::DebugProviderNamespace

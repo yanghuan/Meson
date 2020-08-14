@@ -1,28 +1,33 @@
 #include "Error-dep.h"
 
+#include <System.Private.CoreLib/System/IO/EndOfStreamException-dep.h>
+#include <System.Private.CoreLib/System/NotSupportedException-dep.h>
+#include <System.Private.CoreLib/System/ObjectDisposedException-dep.h>
+#include <System.Private.CoreLib/System/SR-dep.h>
+
 namespace System::Private::CoreLib::System::IO::ErrorNamespace {
 Exception Error::GetStreamIsClosed() {
-  return nullptr;
+  return rt::newobj<ObjectDisposedException>(nullptr, SR::get_ObjectDisposed_StreamClosed());
 }
 
 Exception Error::GetEndOfFile() {
-  return nullptr;
+  return rt::newobj<EndOfStreamException>(SR::get_IO_EOF_ReadBeyondEOF());
 }
 
 Exception Error::GetFileNotOpen() {
-  return nullptr;
+  return rt::newobj<ObjectDisposedException>(nullptr, SR::get_ObjectDisposed_FileClosed());
 }
 
 Exception Error::GetReadNotSupported() {
-  return nullptr;
+  return rt::newobj<NotSupportedException>(SR::get_NotSupported_UnreadableStream());
 }
 
 Exception Error::GetSeekNotSupported() {
-  return nullptr;
+  return rt::newobj<NotSupportedException>(SR::get_NotSupported_UnseekableStream());
 }
 
 Exception Error::GetWriteNotSupported() {
-  return nullptr;
+  return rt::newobj<NotSupportedException>(SR::get_NotSupported_UnwritableStream());
 }
 
 } // namespace System::Private::CoreLib::System::IO::ErrorNamespace

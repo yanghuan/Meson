@@ -1,87 +1,300 @@
 #include "CastHelpers-dep.h"
 
+#include <System.Private.CoreLib/Internal/Runtime/CompilerServices/Unsafe-dep.h>
+#include <System.Private.CoreLib/System/ArrayTypeMismatchException-dep.h>
 #include <System.Private.CoreLib/System/Runtime/CompilerServices/CastHelpers-dep.h>
+#include <System.Private.CoreLib/System/Runtime/CompilerServices/MethodTable-dep.h>
+#include <System.Private.CoreLib/System/Runtime/CompilerServices/RuntimeHelpers-dep.h>
+#include <System.Private.CoreLib/System/Runtime/InteropServices/MemoryMarshal-dep.h>
+#include <System.Private.CoreLib/System/Threading/Interlocked-dep.h>
+#include <System.Private.CoreLib/System/Threading/Volatile-dep.h>
+#include <System.Private.CoreLib/System/UInt32-dep.h>
+#include <System.Private.CoreLib/System/UInt64-dep.h>
+#include <System.Private.CoreLib/System/UIntPtr-dep.h>
 
 namespace System::Private::CoreLib::System::Runtime::CompilerServices::CastHelpersNamespace {
-Int32 CastHelpers::KeyToBucket(Int32& tableData, UIntPtr source, UIntPtr target) {
-  return Int32();
+using namespace Internal::Runtime::CompilerServices;
+using namespace System::Runtime::InteropServices;
+using namespace System::Threading;
+
+Int32 CastHelpers::KeyToBucket(Int32& tableData, unsigned int source, unsigned int target) {
+  Int32 num = HashShift(tableData);
 }
 
 Int32& CastHelpers::TableData(Array<Int32> table) {
-  return Int32();
+  return MemoryMarshal::GetArrayDataReference(table);
 }
 
 CastHelpers::CastCacheEntry& CastHelpers::Element(Int32& tableData, Int32 index) {
-  return CastHelpers::CastCacheEntry();
+  return Unsafe::Add(Unsafe::As<Int32, CastCacheEntry>(tableData), index + 1);
 }
 
 Int32 CastHelpers::HashShift(Int32& tableData) {
-  return Int32();
+  return tableData;
 }
 
 Int32 CastHelpers::TableMask(Int32& tableData) {
-  return Int32();
+  return Unsafe::Add(tableData, 1);
 }
 
-CastHelpers::CastResult CastHelpers::TryGet(UIntPtr source, UIntPtr target) {
-  return CastHelpers::CastResult::MaybeCast;
+CastHelpers::CastResult CastHelpers::TryGet(unsigned int source, unsigned int target) {
+  Int32& tableData = TableData(s_table);
+  Int32 num = KeyToBucket(tableData, source, target);
+  Int32 num2 = 0;
+  while (num2 < 8) {
+    CastCacheEntry& reference = Element(tableData, num);
+    Int32 num3 = Volatile::Read(reference._version);
+    unsigned int source2 = reference._source;
+    num3 &= -2;
+    if (source2 == source) {
+      unsigned int targetAndResult = reference._targetAndResult;
+      targetAndResult ^= target;
+      if (targetAndResult <= 1) {
+        Interlocked::ReadMemoryBarrier();
+        if (num3 != reference._version) {
+          break;
+        }
+        return (CastResult)(UInt32)(UIntPtr)targetAndResult;
+      }
+    }
+    if (num3 == 0) {
+      break;
+    }
+    num2++;
+  }
+  return CastResult::MaybeCast;
 }
 
 Object CastHelpers::IsInstanceOfAny(void* toTypeHnd, Object obj) {
-  return nullptr;
+  if (obj != nullptr) {
+    void* methodTable = RuntimeHelpers::GetMethodTable(obj);
+    if (methodTable != toTypeHnd) {
+      CastResult castResult = TryGet((UIntPtr)methodTable, (UIntPtr)toTypeHnd);
+      if (castResult != CastResult::CanCast) {
+        if (castResult != 0) {
+          return IsInstanceOfAny_NoCacheLookup(toTypeHnd, obj);
+        }
+        obj = nullptr;
+      }
+    }
+  }
+  return obj;
 }
 
 Object CastHelpers::IsInstanceOfInterface(void* toTypeHnd, Object obj) {
-  return nullptr;
+  MethodTable* methodTable;
+  if (obj != nullptr) {
+    methodTable = RuntimeHelpers::GetMethodTable(obj);
+    unsigned int num = methodTable->InterfaceCount;
+    if (num == 0) {
+    }
+    MethodTable* interfaceMap = methodTable->InterfaceMap;
+    unsigned int num2 = 0u;
+    while (interfaceMap[num2 + 0] != toTypeHnd) {
+      if (--num != 0) {
+        if (interfaceMap[num2 + 1] == toTypeHnd) {
+          break;
+        }
+        if (--num != 0) {
+          if (interfaceMap[num2 + 2] == toTypeHnd) {
+            break;
+          }
+          if (--num != 0) {
+            if (interfaceMap[num2 + 3] == toTypeHnd) {
+              break;
+            }
+            if (--num != 0) {
+              num2 += 4;
+            }
+          }
+        }
+      }
+    }
+  }
 }
 
 Object CastHelpers::IsInstanceOfClass(void* toTypeHnd, Object obj) {
-  return nullptr;
+  if (obj == nullptr || RuntimeHelpers::GetMethodTable(obj) == toTypeHnd) {
+    return obj;
+  }
+  MethodTable* parentMethodTable = RuntimeHelpers::GetMethodTable(obj)->ParentMethodTable;
+  while (true) {
+    if (parentMethodTable != toTypeHnd) {
+      if (parentMethodTable != nullptr) {
+        parentMethodTable = parentMethodTable->ParentMethodTable;
+        if (parentMethodTable == toTypeHnd) {
+        }
+        if (parentMethodTable != nullptr) {
+          parentMethodTable = parentMethodTable->ParentMethodTable;
+          if (parentMethodTable == toTypeHnd) {
+          }
+          if (parentMethodTable != nullptr) {
+            parentMethodTable = parentMethodTable->ParentMethodTable;
+            if (parentMethodTable == toTypeHnd) {
+            }
+            if (parentMethodTable != nullptr) {
+              parentMethodTable = parentMethodTable->ParentMethodTable;
+            }
+          }
+        }
+      }
+      if (RuntimeHelpers::GetMethodTable(obj)->get_HasTypeEquivalence()) {
+        break;
+      }
+      obj = nullptr;
+    }
+  }
+  return IsInstance_Helper(toTypeHnd, obj);
 }
 
 Object CastHelpers::IsInstance_Helper(void* toTypeHnd, Object obj) {
-  return nullptr;
+  switch (TryGet((UIntPtr)(void*)RuntimeHelpers::GetMethodTable(obj), (UIntPtr)toTypeHnd)) {
+    case CastResult::CanCast:
+      return obj;
+    case CastResult::CannotCast:
+      return nullptr;
+    default:
+      return IsInstanceOfAny_NoCacheLookup(toTypeHnd, obj);
+  }
 }
 
 Object CastHelpers::ChkCastAny(void* toTypeHnd, Object obj) {
-  return nullptr;
+  if (obj != nullptr) {
+    void* methodTable = RuntimeHelpers::GetMethodTable(obj);
+    if (methodTable != toTypeHnd) {
+      CastResult castResult = TryGet((UIntPtr)methodTable, (UIntPtr)toTypeHnd);
+      if (castResult != CastResult::CanCast) {
+        return ChkCastAny_NoCacheLookup(toTypeHnd, obj);
+      }
+    }
+  }
+  return obj;
 }
 
 Object CastHelpers::ChkCast_Helper(void* toTypeHnd, Object obj) {
-  return nullptr;
+  CastResult castResult = TryGet((UIntPtr)(void*)RuntimeHelpers::GetMethodTable(obj), (UIntPtr)toTypeHnd);
+  if (castResult == CastResult::CanCast) {
+    return obj;
+  }
+  return ChkCastAny_NoCacheLookup(toTypeHnd, obj);
 }
 
 Object CastHelpers::ChkCastInterface(void* toTypeHnd, Object obj) {
-  return nullptr;
+  if (obj != nullptr) {
+    MethodTable* methodTable = RuntimeHelpers::GetMethodTable(obj);
+    unsigned int num = methodTable->InterfaceCount;
+    if (num == 0) {
+    }
+    MethodTable* interfaceMap = methodTable->InterfaceMap;
+    unsigned int num2 = 0u;
+    while (interfaceMap[num2 + 0] != toTypeHnd) {
+      if (--num != 0) {
+        if (interfaceMap[num2 + 1] == toTypeHnd) {
+          break;
+        }
+        if (--num != 0) {
+          if (interfaceMap[num2 + 2] == toTypeHnd) {
+            break;
+          }
+          if (--num != 0) {
+            if (interfaceMap[num2 + 3] == toTypeHnd) {
+              break;
+            }
+            if (--num != 0) {
+              num2 += 4;
+            }
+          }
+        }
+      }
+    }
+  }
+  return obj;
 }
 
 Object CastHelpers::ChkCastClass(void* toTypeHnd, Object obj) {
-  return nullptr;
+  if (obj == nullptr || RuntimeHelpers::GetMethodTable(obj) == toTypeHnd) {
+    return obj;
+  }
+  return ChkCastClassSpecial(toTypeHnd, obj);
 }
 
 Object CastHelpers::ChkCastClassSpecial(void* toTypeHnd, Object obj) {
-  return nullptr;
+  MethodTable* ptr = RuntimeHelpers::GetMethodTable(obj);
+  while (true) {
+    ptr = ptr->ParentMethodTable;
+    if (ptr != toTypeHnd) {
+      if (ptr == nullptr) {
+        break;
+      }
+      ptr = ptr->ParentMethodTable;
+      if (ptr != toTypeHnd) {
+        if (ptr == nullptr) {
+          break;
+        }
+        ptr = ptr->ParentMethodTable;
+        if (ptr != toTypeHnd) {
+          if (ptr == nullptr) {
+            break;
+          }
+          ptr = ptr->ParentMethodTable;
+          if (ptr != toTypeHnd) {
+            if (ptr == nullptr) {
+              break;
+            }
+          }
+        }
+      }
+    }
+    return obj;
+  }
+  return ChkCast_Helper(toTypeHnd, obj);
 }
 
 Byte& CastHelpers::Unbox(void* toTypeHnd, Object obj) {
-  return Byte();
+  if (RuntimeHelpers::GetMethodTable(obj) == toTypeHnd) {
+    return RuntimeHelpers::GetRawData(obj);
+  }
+  return Unbox_Helper(toTypeHnd, obj);
 }
 
 Object& CastHelpers::ThrowArrayMismatchException() {
-  return Object();
+  rt::throw_exception<ArrayTypeMismatchException>();
 }
 
 Object& CastHelpers::LdelemaRef(Array<> array, Int32 index, void* type) {
-  return Object();
+  Object& value = Unsafe::As<Array<ArrayElement>>(array)[index].Value;
+  void* elementType = RuntimeHelpers::GetMethodTable(array)->ElementType;
+  if (elementType == type) {
+    return value;
+  }
+  return ThrowArrayMismatchException();
 }
 
 void CastHelpers::StelemRef(Array<> array, Int32 index, Object obj) {
+  Object& value = Unsafe::As<Array<ArrayElement>>(array)[index].Value;
+  void* elementType = RuntimeHelpers::GetMethodTable(array)->ElementType;
+  if (obj != nullptr) {
+  } else {
+    value = nullptr;
+  }
 }
 
 void CastHelpers::StelemRef_Helper(Object& element, void* elementType, Object obj) {
+  CastResult castResult = TryGet((UIntPtr)(void*)RuntimeHelpers::GetMethodTable(obj), (UIntPtr)elementType);
+  if (castResult == CastResult::CanCast) {
+    WriteBarrier(element, obj);
+  } else {
+    StelemRef_Helper_NoCacheLookup(element, elementType, obj);
+  }
 }
 
 void CastHelpers::StelemRef_Helper_NoCacheLookup(Object& element, void* elementType, Object obj) {
+  obj = IsInstanceOfAny_NoCacheLookup(elementType, obj);
+  if (obj != nullptr) {
+    WriteBarrier(element, obj);
+    return;
+  }
+  rt::throw_exception<ArrayTypeMismatchException>();
 }
 
 } // namespace System::Private::CoreLib::System::Runtime::CompilerServices::CastHelpersNamespace

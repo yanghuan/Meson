@@ -28,7 +28,7 @@ CLASS(TimerQueueTimer) : public Object::in {
   public: void Fire(Boolean isThreadPool);
   public: void SignalNoCallbacksRunning();
   public: void CallCallback(Boolean isThreadPool);
-  private: static void ctor_static();
+  private: static void cctor();
   private: TimerQueue _associatedTimerQueue;
   public: TimerQueueTimer _next;
   public: TimerQueueTimer _prev;

@@ -21,7 +21,7 @@ CLASS(ReferenceEqualityComparer) : public Object::in {
   private: void ctor();
   public: Boolean Equals(Object x, Object y);
   public: Int32 GetHashCode(Object obj);
-  private: static void ctor_static();
+  private: static void cctor();
   private: static ReferenceEqualityComparer Instance;
 };
 } // namespace ReferenceEqualityComparerNamespace

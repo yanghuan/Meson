@@ -26,7 +26,7 @@ CLASS(NonRandomizedStringEqualityComparer) : public EqualityComparer<String>::in
   public: Boolean Equals(String x, String y);
   public: Int32 GetHashCode(String obj);
   public: void GetObjectData(SerializationInfo info, StreamingContext context);
-  private: static void ctor_static();
+  private: static void cctor();
   private: static IEqualityComparer<String> Default;
 };
 } // namespace NonRandomizedStringEqualityComparerNamespace

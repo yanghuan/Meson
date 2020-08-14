@@ -63,7 +63,7 @@ CLASS(HebrewCalendar) : public Calendar::in {
   private: static DateTime HebrewToGregorian(Int32 hebrewYear, Int32 hebrewMonth, Int32 hebrewDay, Int32 hour, Int32 minute, Int32 second, Int32 millisecond);
   public: DateTime ToDateTime(Int32 year, Int32 month, Int32 day, Int32 hour, Int32 minute, Int32 second, Int32 millisecond, Int32 era);
   public: Int32 ToFourDigitYear(Int32 year);
-  private: static void ctor_static();
+  private: static void cctor();
   public: static Int32 HebrewEra;
   private: static DateTime s_calendarMinValue;
   private: static DateTime s_calendarMaxValue;

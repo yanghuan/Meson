@@ -16,7 +16,7 @@ CLASS(_ThreadPoolWaitOrTimerCallback) : public Object::in {
   private: static void WaitOrTimerCallback_Context_f(Object state);
   private: static void WaitOrTimerCallback_Context(Object state, Boolean timedOut);
   public: static void PerformWaitOrTimerCallback(_ThreadPoolWaitOrTimerCallback helper, Boolean timedOut);
-  private: static void ctor_static();
+  private: static void cctor();
   private: WaitOrTimerCallback _waitOrTimerCallback;
   private: ExecutionContext _executionContext;
   private: Object _state;

@@ -1,5 +1,7 @@
 #include "NonRandomizedStringEqualityComparer-dep.h"
 
+#include <System.Private.CoreLib/System/Collections/Generic/NonRandomizedStringEqualityComparer-dep.h>
+
 namespace System::Private::CoreLib::System::Collections::Generic::NonRandomizedStringEqualityComparerNamespace {
 void NonRandomizedStringEqualityComparer___::ctor() {
 }
@@ -8,17 +10,17 @@ void NonRandomizedStringEqualityComparer___::ctor(SerializationInfo information,
 }
 
 Boolean NonRandomizedStringEqualityComparer___::Equals(String x, String y) {
-  return Boolean();
+  return String::in::Equals(x, y);
 }
 
 Int32 NonRandomizedStringEqualityComparer___::GetHashCode(String obj) {
-  return Int32();
 }
 
 void NonRandomizedStringEqualityComparer___::GetObjectData(SerializationInfo info, StreamingContext context) {
 }
 
-void NonRandomizedStringEqualityComparer___::ctor_static() {
+void NonRandomizedStringEqualityComparer___::cctor() {
+  Default = rt::newobj<NonRandomizedStringEqualityComparer>();
 }
 
 } // namespace System::Private::CoreLib::System::Collections::Generic::NonRandomizedStringEqualityComparerNamespace

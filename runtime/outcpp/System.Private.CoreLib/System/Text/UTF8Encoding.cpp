@@ -1,190 +1,350 @@
 #include "UTF8Encoding-dep.h"
 
+#include <System.Private.CoreLib/System/ArgumentOutOfRangeException-dep.h>
+#include <System.Private.CoreLib/System/Char-dep.h>
+#include <System.Private.CoreLib/System/ExceptionArgument.h>
+#include <System.Private.CoreLib/System/ExceptionResource.h>
+#include <System.Private.CoreLib/System/Int32-dep.h>
+#include <System.Private.CoreLib/System/Int64-dep.h>
+#include <System.Private.CoreLib/System/Runtime/InteropServices/MemoryMarshal-dep.h>
+#include <System.Private.CoreLib/System/Span-dep.h>
+#include <System.Private.CoreLib/System/SR-dep.h>
+#include <System.Private.CoreLib/System/Text/DecoderFallback-dep.h>
+#include <System.Private.CoreLib/System/Text/DecoderReplacementFallback-dep.h>
+#include <System.Private.CoreLib/System/Text/EncoderFallback-dep.h>
+#include <System.Private.CoreLib/System/Text/EncoderNLS-dep.h>
+#include <System.Private.CoreLib/System/Text/EncoderReplacementFallback-dep.h>
+#include <System.Private.CoreLib/System/Text/Unicode/Utf16Utility-dep.h>
+#include <System.Private.CoreLib/System/Text/Unicode/Utf8Utility-dep.h>
+#include <System.Private.CoreLib/System/Text/UTF8Encoding-dep.h>
+#include <System.Private.CoreLib/System/ThrowHelper-dep.h>
+#include <System.Private.CoreLib/System/UInt64-dep.h>
+
 namespace System::Private::CoreLib::System::Text::UTF8EncodingNamespace {
+using namespace System::Runtime::InteropServices;
+using namespace System::Text::Unicode;
+
 ReadOnlySpan<Byte> UTF8EncodingSealed___::get_Preamble() {
-  return ReadOnlySpan<Byte>();
+  if (!_emitUTF8Identifier) {
+    return ReadOnlySpan<T>();
+  }
+  return get_PreambleSpan();
 }
 
 void UTF8EncodingSealed___::ctor(Boolean encoderShouldEmitUTF8Identifier) {
 }
 
 Object UTF8EncodingSealed___::Clone() {
-  return nullptr;
+  return rt::newobj<UTF8Encoding>(_emitUTF8Identifier);
 }
 
 Array<Byte> UTF8EncodingSealed___::GetBytes(String s) {
-  return Array<Byte>();
+  if (s != nullptr && s->get_Length() <= 32) {
+    return GetBytesForSmallInput(s);
+  }
 }
 
 Array<Byte> UTF8EncodingSealed___::GetBytesForSmallInput(String s) {
-  return Array<Byte>();
+  Byte default[96] = {};
+  Byte* ptr = default;
+  Int32 length = s->get_Length();
+  Int32 bytesCommon;
+  {
+    Char* ptr2 = s;
+    Char* pChars = ptr2;
+    bytesCommon = GetBytesCommon(pChars, length, ptr, 96);
+  }
+  return Span<Byte>(*ptr, bytesCommon).ToArray();
 }
 
 String UTF8EncodingSealed___::GetString(Array<Byte> bytes) {
-  return nullptr;
+  if (bytes != nullptr && bytes->get_Length() <= 32) {
+    return GetStringForSmallInput(bytes);
+  }
 }
 
 String UTF8EncodingSealed___::GetStringForSmallInput(Array<Byte> bytes) {
-  return nullptr;
+  Char default[32] = {};
+  Char* ptr = default;
+  Int32 byteCount = bytes->get_Length();
+  Int32 charsCommon;
+  {
+    Byte* pBytes = bytes;
+    charsCommon = GetCharsCommon(pBytes, byteCount, ptr, 32);
+  }
+  return rt::newobj<String>(ReadOnlySpan<Char>(*ptr, charsCommon));
 }
 
 ReadOnlySpan<Byte> UTF8Encoding___::get_PreambleSpan() {
-  return ReadOnlySpan<Byte>();
+  return rt::newarr<Array<Byte>>(3);
 }
 
 ReadOnlySpan<Byte> UTF8Encoding___::get_Preamble() {
-  return ReadOnlySpan<Byte>();
 }
 
 void UTF8Encoding___::ctor() {
 }
 
 void UTF8Encoding___::ctor(Boolean encoderShouldEmitUTF8Identifier) {
+  _emitUTF8Identifier = encoderShouldEmitUTF8Identifier;
 }
 
 void UTF8Encoding___::ctor(Boolean encoderShouldEmitUTF8Identifier, Boolean throwOnInvalidBytes) {
+  _isThrowException = throwOnInvalidBytes;
+  if (_isThrowException) {
+    SetDefaultFallbacks();
+  }
 }
 
 void UTF8Encoding___::SetDefaultFallbacks() {
+  if (_isThrowException) {
+    encoderFallback = EncoderFallback::in::get_ExceptionFallback();
+    decoderFallback = DecoderFallback::in::get_ExceptionFallback();
+  } else {
+    encoderFallback = rt::newobj<EncoderReplacementFallback>("�");
+    decoderFallback = rt::newobj<DecoderReplacementFallback>("�");
+  }
 }
 
 Int32 UTF8Encoding___::GetByteCount(Array<Char> chars, Int32 index, Int32 count) {
-  return Int32();
+  if (chars == nullptr) {
+    ThrowHelper::ThrowArgumentNullException(ExceptionArgument::chars, ExceptionResource::ArgumentNull_Array);
+  }
 }
 
 Int32 UTF8Encoding___::GetByteCount(String chars) {
-  return Int32();
+  if (chars == nullptr) {
+    ThrowHelper::ThrowArgumentNullException(ExceptionArgument::chars);
+  }
+  {
+    Char* ptr = chars;
+    Char* pChars = ptr;
+    return GetByteCountCommon(pChars, chars->get_Length());
+  }
 }
 
 Int32 UTF8Encoding___::GetByteCount(Char* chars, Int32 count) {
-  return Int32();
+  if (chars == nullptr) {
+    ThrowHelper::ThrowArgumentNullException(ExceptionArgument::chars);
+  }
+  if (count < 0) {
+    ThrowHelper::ThrowArgumentOutOfRangeException(ExceptionArgument::count, ExceptionResource::ArgumentOutOfRange_NeedNonNegNum);
+  }
+  return GetByteCountCommon(chars, count);
 }
 
 Int32 UTF8Encoding___::GetByteCount(ReadOnlySpan<Char> chars) {
-  return Int32();
+  {
+    Char* pChars = &MemoryMarshal::GetReference(chars);
+    return GetByteCountCommon(pChars, chars.get_Length());
+  }
 }
 
 Int32 UTF8Encoding___::GetByteCountCommon(Char* pChars, Int32 charCount) {
-  return Int32();
+  Int32 charsConsumed;
+  Int32 num = GetByteCountFast(pChars, charCount, nullptr, charsConsumed);
+  if (charsConsumed != charCount) {
+    num += GetByteCountWithFallback(pChars, charCount, charsConsumed);
+    if (num < 0) {
+      Encoding::in::ThrowConversionOverflow();
+    }
+  }
+  return num;
 }
 
 Int32 UTF8Encoding___::GetByteCountFast(Char* pChars, Int32 charsLength, EncoderFallback fallback, Int32& charsConsumed) {
-  return Int32();
+  Int64 utf8CodeUnitCountAdjustment;
+  Int32 scalarCountAdjustment;
+  Char* pointerToFirstInvalidChar = Utf16Utility::GetPointerToFirstInvalidChar(pChars, charsLength, utf8CodeUnitCountAdjustment, scalarCountAdjustment);
+  Int64 num = (charsConsumed = (Int32)(pointerToFirstInvalidChar - pChars)) + utf8CodeUnitCountAdjustment;
+  if ((UInt64)num > 2147483647) {
+    Encoding::in::ThrowConversionOverflow();
+  }
+  return (Int32)num;
 }
 
 Int32 UTF8Encoding___::GetBytes(String s, Int32 charIndex, Int32 charCount, Array<Byte> bytes, Int32 byteIndex) {
-  return Int32();
+  if (s == nullptr || bytes == nullptr) {
+    ThrowHelper::ThrowArgumentNullException((s == nullptr) ? ExceptionArgument::s : ExceptionArgument::bytes, ExceptionResource::ArgumentNull_Array);
+  }
 }
 
 Int32 UTF8Encoding___::GetBytes(Array<Char> chars, Int32 charIndex, Int32 charCount, Array<Byte> bytes, Int32 byteIndex) {
-  return Int32();
+  if (chars == nullptr || bytes == nullptr) {
+    ThrowHelper::ThrowArgumentNullException((chars == nullptr) ? ExceptionArgument::chars : ExceptionArgument::bytes, ExceptionResource::ArgumentNull_Array);
+  }
 }
 
 Int32 UTF8Encoding___::GetBytes(Char* chars, Int32 charCount, Byte* bytes, Int32 byteCount) {
-  return Int32();
+  if (chars == nullptr || bytes == nullptr) {
+    ThrowHelper::ThrowArgumentNullException((chars == nullptr) ? ExceptionArgument::chars : ExceptionArgument::bytes, ExceptionResource::ArgumentNull_Array);
+  }
 }
 
 Int32 UTF8Encoding___::GetBytes(ReadOnlySpan<Char> chars, Span<Byte> bytes) {
-  return Int32();
+  {
+    Char* pChars = &MemoryMarshal::GetReference(chars);
+    {
+      Byte* pBytes = &MemoryMarshal::GetReference(bytes);
+      return GetBytesCommon(pChars, chars.get_Length(), pBytes, bytes.get_Length());
+    }
+  }
 }
 
 Int32 UTF8Encoding___::GetBytesCommon(Char* pChars, Int32 charCount, Byte* pBytes, Int32 byteCount) {
-  return Int32();
+  Int32 charsConsumed;
+  Int32 bytesFast = GetBytesFast(pChars, charCount, pBytes, byteCount, charsConsumed);
+  if (charsConsumed == charCount) {
+    return bytesFast;
+  }
+  return GetBytesWithFallback(pChars, charCount, pBytes, byteCount, charsConsumed, bytesFast);
 }
 
 Int32 UTF8Encoding___::GetBytesFast(Char* pChars, Int32 charsLength, Byte* pBytes, Int32 bytesLength, Int32& charsConsumed) {
-  return Int32();
 }
 
 Int32 UTF8Encoding___::GetCharCount(Array<Byte> bytes, Int32 index, Int32 count) {
-  return Int32();
+  if (bytes == nullptr) {
+    ThrowHelper::ThrowArgumentNullException(ExceptionArgument::bytes, ExceptionResource::ArgumentNull_Array);
+  }
 }
 
 Int32 UTF8Encoding___::GetCharCount(Byte* bytes, Int32 count) {
-  return Int32();
+  if (bytes == nullptr) {
+    ThrowHelper::ThrowArgumentNullException(ExceptionArgument::bytes, ExceptionResource::ArgumentNull_Array);
+  }
+  if (count < 0) {
+    ThrowHelper::ThrowArgumentOutOfRangeException(ExceptionArgument::count, ExceptionResource::ArgumentOutOfRange_NeedNonNegNum);
+  }
+  return GetCharCountCommon(bytes, count);
 }
 
 Int32 UTF8Encoding___::GetCharCount(ReadOnlySpan<Byte> bytes) {
-  return Int32();
+  {
+    Byte* pBytes = &MemoryMarshal::GetReference(bytes);
+    return GetCharCountCommon(pBytes, bytes.get_Length());
+  }
 }
 
 Int32 UTF8Encoding___::GetChars(Array<Byte> bytes, Int32 byteIndex, Int32 byteCount, Array<Char> chars, Int32 charIndex) {
-  return Int32();
+  if (bytes == nullptr || chars == nullptr) {
+    ThrowHelper::ThrowArgumentNullException((bytes == nullptr) ? ExceptionArgument::bytes : ExceptionArgument::chars, ExceptionResource::ArgumentNull_Array);
+  }
 }
 
 Int32 UTF8Encoding___::GetChars(Byte* bytes, Int32 byteCount, Char* chars, Int32 charCount) {
-  return Int32();
+  if (bytes == nullptr || chars == nullptr) {
+    ThrowHelper::ThrowArgumentNullException((bytes == nullptr) ? ExceptionArgument::bytes : ExceptionArgument::chars, ExceptionResource::ArgumentNull_Array);
+  }
 }
 
 Int32 UTF8Encoding___::GetChars(ReadOnlySpan<Byte> bytes, Span<Char> chars) {
-  return Int32();
+  {
+    Byte* pBytes = &MemoryMarshal::GetReference(bytes);
+    {
+      Char* pChars = &MemoryMarshal::GetReference(chars);
+      return GetCharsCommon(pBytes, bytes.get_Length(), pChars, chars.get_Length());
+    }
+  }
 }
 
 Int32 UTF8Encoding___::GetCharsCommon(Byte* pBytes, Int32 byteCount, Char* pChars, Int32 charCount) {
-  return Int32();
+  Int32 bytesConsumed;
+  Int32 charsFast = GetCharsFast(pBytes, byteCount, pChars, charCount, bytesConsumed);
+  if (bytesConsumed == byteCount) {
+    return charsFast;
+  }
+  return GetCharsWithFallback(pBytes, byteCount, pChars, charCount, bytesConsumed, charsFast);
 }
 
 Int32 UTF8Encoding___::GetCharsFast(Byte* pBytes, Int32 bytesLength, Char* pChars, Int32 charsLength, Int32& bytesConsumed) {
-  return Int32();
 }
 
 Int32 UTF8Encoding___::GetCharsWithFallback(ReadOnlySpan<Byte> bytes, Int32 originalBytesLength, Span<Char> chars, Int32 originalCharsLength, DecoderNLS decoder) {
-  return Int32();
 }
 
 String UTF8Encoding___::GetString(Array<Byte> bytes, Int32 index, Int32 count) {
-  return nullptr;
+  if (bytes == nullptr) {
+    ThrowHelper::ThrowArgumentNullException(ExceptionArgument::bytes, ExceptionResource::ArgumentNull_Array);
+  }
 }
 
 Int32 UTF8Encoding___::GetCharCountCommon(Byte* pBytes, Int32 byteCount) {
-  return Int32();
+  Int32 bytesConsumed;
+  Int32 num = GetCharCountFast(pBytes, byteCount, nullptr, bytesConsumed);
+  if (bytesConsumed != byteCount) {
+    num += GetCharCountWithFallback(pBytes, byteCount, bytesConsumed);
+    if (num < 0) {
+      Encoding::in::ThrowConversionOverflow();
+    }
+  }
+  return num;
 }
 
 Int32 UTF8Encoding___::GetCharCountFast(Byte* pBytes, Int32 bytesLength, DecoderFallback fallback, Int32& bytesConsumed) {
-  return Int32();
+  Int32 utf16CodeUnitCountAdjustment;
+  Int32 scalarCountAdjustment;
+  Byte* pointerToFirstInvalidByte = Utf8Utility::GetPointerToFirstInvalidByte(pBytes, bytesLength, utf16CodeUnitCountAdjustment, scalarCountAdjustment);
+  return (bytesConsumed = (Int32)(pointerToFirstInvalidByte - pBytes)) + utf16CodeUnitCountAdjustment;
 }
 
 Decoder UTF8Encoding___::GetDecoder() {
-  return nullptr;
+  return rt::newobj<DecoderNLS>((UTF8Encoding)this);
 }
 
 Encoder UTF8Encoding___::GetEncoder() {
-  return nullptr;
+  return rt::newobj<EncoderNLS>((UTF8Encoding)this);
 }
 
 Boolean UTF8Encoding___::TryGetByteCount(Rune value, Int32& byteCount) {
-  return Boolean();
+  byteCount = value.get_Utf8SequenceLength();
+  return true;
 }
 
 OperationStatus UTF8Encoding___::EncodeRune(Rune value, Span<Byte> bytes, Int32& bytesWritten) {
-  return OperationStatus::InvalidData;
+  if (!value.TryEncodeToUtf8(bytes, bytesWritten)) {
+    return OperationStatus::DestinationTooSmall;
+  }
+  return OperationStatus::Done;
 }
 
 OperationStatus UTF8Encoding___::DecodeFirstRune(ReadOnlySpan<Byte> bytes, Rune& value, Int32& bytesConsumed) {
-  return OperationStatus::InvalidData;
+  return Rune::DecodeFromUtf8(bytes, value, bytesConsumed);
 }
 
 Int32 UTF8Encoding___::GetMaxByteCount(Int32 charCount) {
-  return Int32();
+  if (charCount < 0) {
+    rt::throw_exception<ArgumentOutOfRangeException>("charCount", SR::get_ArgumentOutOfRange_NeedNonNegNum());
+  }
+  Int64 num = (Int64)charCount + 1;
 }
 
 Int32 UTF8Encoding___::GetMaxCharCount(Int32 byteCount) {
-  return Int32();
+  if (byteCount < 0) {
+    rt::throw_exception<ArgumentOutOfRangeException>("byteCount", SR::get_ArgumentOutOfRange_NeedNonNegNum());
+  }
+  Int64 num = (Int64)byteCount + 1;
 }
 
 Array<Byte> UTF8Encoding___::GetPreamble() {
-  return Array<Byte>();
+  if (_emitUTF8Identifier) {
+    return rt::newarr<Array<Byte>>(3);
+  }
+  return Array<>::in::Empty<Byte>();
 }
 
 Boolean UTF8Encoding___::Equals(Object value) {
-  return Boolean();
+  UTF8Encoding uTF8Encoding = rt::as<UTF8Encoding>(value);
+  if (uTF8Encoding != nullptr) {
+  }
+  return false;
 }
 
 Int32 UTF8Encoding___::GetHashCode() {
-  return Int32();
 }
 
-void UTF8Encoding___::ctor_static() {
+void UTF8Encoding___::cctor() {
+  s_default = rt::newobj<UTF8EncodingSealed>(true);
 }
 
 } // namespace System::Private::CoreLib::System::Text::UTF8EncodingNamespace

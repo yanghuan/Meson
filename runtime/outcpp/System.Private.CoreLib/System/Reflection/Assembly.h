@@ -148,7 +148,7 @@ CLASS(Assembly) : public Object::in {
   public: static Assembly ReflectionOnlyLoad(Array<Byte> rawAssembly);
   public: static Assembly ReflectionOnlyLoad(String assemblyString);
   public: static Assembly ReflectionOnlyLoadFrom(String assemblyFile);
-  private: static void ctor_static();
+  private: static void cctor();
   private: static Dictionary<String, Assembly> s_loadfile;
   private: static List<String> s_loadFromAssemblyList;
   private: static Boolean s_loadFromHandlerSet;

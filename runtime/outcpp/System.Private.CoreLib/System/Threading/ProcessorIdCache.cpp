@@ -1,20 +1,45 @@
 #include "ProcessorIdCache-dep.h"
 
+#include <System.Private.CoreLib/System/Diagnostics/Stopwatch-dep.h>
+#include <System.Private.CoreLib/System/Double-dep.h>
+#include <System.Private.CoreLib/System/Environment-dep.h>
+#include <System.Private.CoreLib/System/Int64-dep.h>
+#include <System.Private.CoreLib/System/Math-dep.h>
+#include <System.Private.CoreLib/System/Threading/Thread-dep.h>
+
 namespace System::Private::CoreLib::System::Threading::ProcessorIdCacheNamespace {
+using namespace System::Diagnostics;
+
 Int32 ProcessorIdCache::RefreshCurrentProcessorId() {
-  return Int32();
+  Int32 num = Thread::in::GetCurrentProcessorNumber();
+  if (num < 0) {
+    num = Environment::get_CurrentManagedThreadId();
+  }
 }
 
 Int32 ProcessorIdCache::GetCurrentProcessorId() {
-  return Int32();
+  Int32 num = t_currentProcessorIdCache--;
 }
 
 Boolean ProcessorIdCache::ProcessorNumberSpeedCheck() {
-  return Boolean();
+  Double num = Double::MaxValue;
+  Double num2 = Double::MaxValue;
+  UninlinedThreadStatic();
+  if (Thread::in::GetCurrentProcessorNumber() < 0) {
+    s_processorIdRefreshRate = 65535;
+    return false;
+  }
+  Int64 num3 = Stopwatch::in::Frequency / 1000000 + 1;
+  for (Int32 i = 0; i < 10; i++) {
+    Int32 num4 = 8;
+    Int64 timestamp;
+  }
+  s_processorIdRefreshRate = Math::Min((Int32)(num * 5 / num2), 5000);
+  return s_processorIdRefreshRate <= 5;
 }
 
 Int32 ProcessorIdCache::UninlinedThreadStatic() {
-  return Int32();
+  return t_currentProcessorIdCache;
 }
 
 } // namespace System::Private::CoreLib::System::Threading::ProcessorIdCacheNamespace

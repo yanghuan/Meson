@@ -22,7 +22,7 @@ CLASS(TraceLoggingDataCollector) : public Object::in {
   public: void AddScalar(Boolean value);
   public: void AddNullTerminatedString(String value);
   public: void AddArray(PropertyValue value, Int32 elementSize);
-  private: static void ctor_static();
+  private: static void cctor();
   public: static TraceLoggingDataCollector Instance;
 };
 } // namespace TraceLoggingDataCollectorNamespace

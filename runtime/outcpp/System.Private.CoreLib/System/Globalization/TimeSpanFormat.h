@@ -52,7 +52,7 @@ class TimeSpanFormat {
   private: static void WriteTwoDigits(UInt32 value, Span<Char> buffer);
   private: static void WriteDigits(UInt32 value, Span<Char> buffer);
   private: static StringBuilder FormatCustomized(TimeSpan value, ReadOnlySpan<Char> format, DateTimeFormatInfo dtfi, StringBuilder result);
-  private: static void ctor_static();
+  private: static void cctor();
   public: static FormatLiterals PositiveInvariantFormatLiterals;
   public: static FormatLiterals NegativeInvariantFormatLiterals;
 };

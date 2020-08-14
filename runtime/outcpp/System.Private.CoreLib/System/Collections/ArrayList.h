@@ -108,7 +108,7 @@ CLASS(ArrayList) : public Object::in {
     public: Object Clone();
     public: Boolean MoveNext();
     public: void Reset();
-    private: static void ctor_static();
+    private: static void cctor();
     private: ArrayList _list;
     private: Int32 _index;
     private: Int32 _version;

@@ -2,34 +2,42 @@
 
 namespace System::Private::CoreLib::System::Reflection::SignatureArrayTypeNamespace {
 Boolean SignatureArrayType___::get_IsSZArray() {
-  return Boolean();
+  return !_isMultiDim;
 }
 
 Boolean SignatureArrayType___::get_IsVariableBoundArray() {
-  return Boolean();
+  return _isMultiDim;
 }
 
 String SignatureArrayType___::get_Suffix() {
-  return nullptr;
+  if (!_isMultiDim) {
+    return "[]";
+  }
+  if (_rank == 1) {
+    return "[*]";
+  }
+  return "[" + rt::newobj<String>(44, _rank - 1) + "]";
 }
 
 void SignatureArrayType___::ctor(SignatureType elementType, Int32 rank, Boolean isMultiDim) {
+  _rank = rank;
+  _isMultiDim = isMultiDim;
 }
 
 Boolean SignatureArrayType___::IsArrayImpl() {
-  return Boolean();
+  return true;
 }
 
 Boolean SignatureArrayType___::IsByRefImpl() {
-  return Boolean();
+  return false;
 }
 
 Boolean SignatureArrayType___::IsPointerImpl() {
-  return Boolean();
+  return false;
 }
 
 Int32 SignatureArrayType___::GetArrayRank() {
-  return Int32();
+  return _rank;
 }
 
 } // namespace System::Private::CoreLib::System::Reflection::SignatureArrayTypeNamespace

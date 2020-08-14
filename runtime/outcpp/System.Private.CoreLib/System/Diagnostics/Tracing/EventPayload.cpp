@@ -1,66 +1,86 @@
 #include "EventPayload-dep.h"
 
+#include <System.Private.CoreLib/System/ArgumentNullException-dep.h>
+#include <System.Private.CoreLib/System/Int32-dep.h>
+#include <System.Private.CoreLib/System/NotSupportedException-dep.h>
+
 namespace System::Private::CoreLib::System::Diagnostics::Tracing::EventPayloadNamespace {
 ICollection<String> EventPayload___::get_Keys() {
-  return nullptr;
+  return m_names;
 }
 
 ICollection<Object> EventPayload___::get_Values() {
-  return nullptr;
+  return m_values;
 }
 
 Object EventPayload___::get_Item(String key) {
-  return nullptr;
+  if (key == nullptr) {
+    rt::throw_exception<ArgumentNullException>("key");
+  }
+  Int32 num = 0;
 }
 
 void EventPayload___::set_Item(String key, Object value) {
+  rt::throw_exception<NotSupportedException>();
 }
 
 Int32 EventPayload___::get_Count() {
-  return Int32();
+  return m_names->get_Count();
 }
 
 Boolean EventPayload___::get_IsReadOnly() {
-  return Boolean();
+  return true;
 }
 
 void EventPayload___::ctor(List<String> payloadNames, List<Object> payloadValues) {
+  m_names = payloadNames;
+  m_values = payloadValues;
 }
 
 void EventPayload___::Add(String key, Object value) {
+  rt::throw_exception<NotSupportedException>();
 }
 
 void EventPayload___::Add(KeyValuePair<String, Object> payloadEntry) {
+  rt::throw_exception<NotSupportedException>();
 }
 
 void EventPayload___::Clear() {
+  rt::throw_exception<NotSupportedException>();
 }
 
 Boolean EventPayload___::Contains(KeyValuePair<String, Object> entry) {
-  return Boolean();
+  return ContainsKey(entry.get_Key());
 }
 
 Boolean EventPayload___::ContainsKey(String key) {
-  return Boolean();
+  if (key == nullptr) {
+    rt::throw_exception<ArgumentNullException>("key");
+  }
 }
 
 IEnumerator<KeyValuePair<String, Object>> EventPayload___::GetEnumerator() {
-  return nullptr;
+  for (Int32 i = 0; i < get_Keys()->get_Count(); i++) {
+  }
 }
 
 void EventPayload___::CopyTo(Array<KeyValuePair<String, Object>> payloadEntries, Int32 count) {
+  rt::throw_exception<NotSupportedException>();
 }
 
 Boolean EventPayload___::Remove(String key) {
-  return Boolean();
+  rt::throw_exception<NotSupportedException>();
 }
 
 Boolean EventPayload___::Remove(KeyValuePair<String, Object> entry) {
-  return Boolean();
+  rt::throw_exception<NotSupportedException>();
 }
 
 Boolean EventPayload___::TryGetValue(String key, Object& value) {
-  return Boolean();
+  if (key == nullptr) {
+    rt::throw_exception<ArgumentNullException>("key");
+  }
+  Int32 num = 0;
 }
 
 } // namespace System::Private::CoreLib::System::Diagnostics::Tracing::EventPayloadNamespace

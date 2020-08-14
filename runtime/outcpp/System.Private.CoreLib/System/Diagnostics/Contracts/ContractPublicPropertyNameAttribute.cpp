@@ -2,10 +2,11 @@
 
 namespace System::Private::CoreLib::System::Diagnostics::Contracts::ContractPublicPropertyNameAttributeNamespace {
 String ContractPublicPropertyNameAttribute___::get_Name() {
-  return nullptr;
+  return _publicName;
 }
 
 void ContractPublicPropertyNameAttribute___::ctor(String name) {
+  _publicName = name;
 }
 
 } // namespace System::Private::CoreLib::System::Diagnostics::Contracts::ContractPublicPropertyNameAttributeNamespace

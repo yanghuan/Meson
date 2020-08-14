@@ -1,73 +1,64 @@
 #include "ScalarTypeInfo-dep.h"
 
+#include <System.Private.CoreLib/System/Diagnostics/Tracing/ScalarTypeInfo-dep.h>
+
 namespace System::Private::CoreLib::System::Diagnostics::Tracing::ScalarTypeInfoNamespace {
 void ScalarTypeInfo___::ctor(Type type, Func<EventFieldFormat, TraceLoggingDataType, TraceLoggingDataType> formatFunc, TraceLoggingDataType nativeFormat) {
+  this->formatFunc = formatFunc;
+  this->nativeFormat = nativeFormat;
 }
 
 void ScalarTypeInfo___::WriteMetadata(TraceLoggingMetadataCollector collector, String name, EventFieldFormat format) {
+  collector->AddScalar(name, formatFunc(format, nativeFormat));
 }
 
 void ScalarTypeInfo___::WriteData(TraceLoggingDataCollector collector, PropertyValue value) {
+  collector->AddScalar(value);
 }
 
 TraceLoggingTypeInfo ScalarTypeInfo___::Boolean() {
-  return nullptr;
 }
 
 TraceLoggingTypeInfo ScalarTypeInfo___::Byte() {
-  return nullptr;
 }
 
 TraceLoggingTypeInfo ScalarTypeInfo___::SByte() {
-  return nullptr;
 }
 
 TraceLoggingTypeInfo ScalarTypeInfo___::Char() {
-  return nullptr;
 }
 
 TraceLoggingTypeInfo ScalarTypeInfo___::Int16() {
-  return nullptr;
 }
 
 TraceLoggingTypeInfo ScalarTypeInfo___::UInt16() {
-  return nullptr;
 }
 
 TraceLoggingTypeInfo ScalarTypeInfo___::Int32() {
-  return nullptr;
 }
 
 TraceLoggingTypeInfo ScalarTypeInfo___::UInt32() {
-  return nullptr;
 }
 
 TraceLoggingTypeInfo ScalarTypeInfo___::Int64() {
-  return nullptr;
 }
 
 TraceLoggingTypeInfo ScalarTypeInfo___::UInt64() {
-  return nullptr;
 }
 
 TraceLoggingTypeInfo ScalarTypeInfo___::IntPtr() {
-  return nullptr;
 }
 
 TraceLoggingTypeInfo ScalarTypeInfo___::UIntPtr() {
-  return nullptr;
 }
 
 TraceLoggingTypeInfo ScalarTypeInfo___::Single() {
-  return nullptr;
 }
 
 TraceLoggingTypeInfo ScalarTypeInfo___::Double() {
-  return nullptr;
 }
 
 TraceLoggingTypeInfo ScalarTypeInfo___::Guid() {
-  return nullptr;
 }
 
 } // namespace System::Private::CoreLib::System::Diagnostics::Tracing::ScalarTypeInfoNamespace

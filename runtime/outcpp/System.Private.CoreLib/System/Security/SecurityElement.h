@@ -47,7 +47,7 @@ CLASS(SecurityElement) : public Object::in {
   public: SecurityElement SearchForChildByTag(String tag);
   public: String SearchForTextOfTag(String tag);
   public: static SecurityElement FromString(String xml);
-  private: static void ctor_static();
+  private: static void cctor();
   public: String _tag;
   public: String _text;
   private: ArrayList _children;

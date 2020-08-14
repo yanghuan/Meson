@@ -129,7 +129,7 @@ CLASS(AssemblyLoadContext) : public Object::in {
   private: static RuntimeAssembly InvokeResolveEvent(ResolveEventHandler eventHandler, RuntimeAssembly assembly, String name);
   private: Assembly ResolveSatelliteAssembly(AssemblyName assemblyName);
   public: IntPtr GetResolvedUnmanagedDll(Assembly assembly, String unmanagedDllName);
-  private: static void ctor_static();
+  private: static void cctor();
   private: static Dictionary<Int64, WeakReference<AssemblyLoadContext>> s_allContexts;
   private: static Int64 s_nextId;
   private: Object _unloadLock;

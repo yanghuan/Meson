@@ -38,7 +38,7 @@ CLASS(TimerQueue) : public Object::in {
   private: void LinkTimer(TimerQueueTimer timer);
   private: void UnlinkTimer(TimerQueueTimer timer);
   public: void DeleteTimer(TimerQueueTimer timer);
-  private: static void ctor_static();
+  private: static void cctor();
   private: Int32 _id;
   private: AppDomainTimerSafeHandle m_appDomainTimer;
   private: static Array<TimerQueue> Instances;

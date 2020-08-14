@@ -50,7 +50,7 @@ CLASS(ActivityTracker) : public Object::in {
   private: static String NormalizeActivityName(String providerName, String activityName, Int32 task);
   private: void ActivityChanging(AsyncLocalValueChangedArgs<ActivityInfo> args);
   public: void ctor();
-  private: static void ctor_static();
+  private: static void cctor();
   private: AsyncLocal<ActivityInfo> m_current;
   private: Boolean m_checkedForEnable;
   private: static ActivityTracker s_activityTrackerInstance;

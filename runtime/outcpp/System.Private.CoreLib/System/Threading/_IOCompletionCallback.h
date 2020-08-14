@@ -13,7 +13,7 @@ CLASS(_IOCompletionCallback) : public Object::in {
   public: void ctor(IOCompletionCallback ioCompletionCallback, ExecutionContext executionContext);
   public: static void IOCompletionCallback_Context(Object state);
   public: static void PerformIOCompletionCallback(UInt32 errorCode, UInt32 numBytes, NativeOverlapped* pNativeOverlapped);
-  private: static void ctor_static();
+  private: static void cctor();
   private: IOCompletionCallback _ioCompletionCallback;
   private: ExecutionContext _executionContext;
   private: UInt32 _errorCode;

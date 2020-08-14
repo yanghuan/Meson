@@ -85,7 +85,7 @@ class Utf8Formatter {
   private: static Boolean TryFormatUInt64N(UInt64 value, Byte precision, Span<Byte> destination, Boolean insertNegationSign, Int32& bytesWritten);
   private: static Boolean TryFormatUInt64X(UInt64 value, Byte precision, Boolean useLower, Span<Byte> destination, Int32& bytesWritten);
   public: static Boolean TryFormat(TimeSpan value, Span<Byte> destination, Int32& bytesWritten, StandardFormat format);
-  private: static void ctor_static();
+  private: static void cctor();
   private: static Array<UInt32> s_dayAbbreviations;
   private: static Array<UInt32> s_dayAbbreviationsLowercase;
   private: static Array<UInt32> s_monthAbbreviations;

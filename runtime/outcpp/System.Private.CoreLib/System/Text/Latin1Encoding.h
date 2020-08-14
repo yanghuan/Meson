@@ -25,7 +25,7 @@ CLASS(Latin1Encoding) : public EncodingNLS::in {
   public: Int32 GetMaxCharCount(Int32 byteCount);
   public: Boolean IsAlwaysNormalized(NormalizationForm form);
   public: Array<Char> GetBestFitUnicodeToBytesData();
-  private: static void ctor_static();
+  private: static void cctor();
   public: static Latin1Encoding s_default;
   private: static Array<Char> arrayCharBestFit;
 };

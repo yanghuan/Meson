@@ -1,85 +1,87 @@
 #include "MetadataToken-dep.h"
 
+#include <System.Private.CoreLib/System/Globalization/CultureInfo-dep.h>
 #include <System.Private.CoreLib/System/Reflection/MetadataToken-dep.h>
 
 namespace System::Private::CoreLib::System::Reflection::MetadataTokenNamespace {
+using namespace System::Globalization;
+
 Boolean MetadataToken::get_IsGlobalTypeDefToken() {
-  return Boolean();
+  return Value == 33554433;
 }
 
 MetadataTokenType MetadataToken::get_TokenType() {
-  return MetadataTokenType::Invalid;
 }
 
 Boolean MetadataToken::get_IsTypeRef() {
-  return Boolean();
+  return get_TokenType() == MetadataTokenType::TypeRef;
 }
 
 Boolean MetadataToken::get_IsTypeDef() {
-  return Boolean();
+  return get_TokenType() == MetadataTokenType::TypeDef;
 }
 
 Boolean MetadataToken::get_IsFieldDef() {
-  return Boolean();
+  return get_TokenType() == MetadataTokenType::FieldDef;
 }
 
 Boolean MetadataToken::get_IsMethodDef() {
-  return Boolean();
+  return get_TokenType() == MetadataTokenType::MethodDef;
 }
 
 Boolean MetadataToken::get_IsMemberRef() {
-  return Boolean();
+  return get_TokenType() == MetadataTokenType::MemberRef;
 }
 
 Boolean MetadataToken::get_IsEvent() {
-  return Boolean();
+  return get_TokenType() == MetadataTokenType::Event;
 }
 
 Boolean MetadataToken::get_IsProperty() {
-  return Boolean();
+  return get_TokenType() == MetadataTokenType::Property;
 }
 
 Boolean MetadataToken::get_IsParamDef() {
-  return Boolean();
+  return get_TokenType() == MetadataTokenType::ParamDef;
 }
 
 Boolean MetadataToken::get_IsTypeSpec() {
-  return Boolean();
+  return get_TokenType() == MetadataTokenType::TypeSpec;
 }
 
 Boolean MetadataToken::get_IsMethodSpec() {
-  return Boolean();
+  return get_TokenType() == MetadataTokenType::MethodSpec;
 }
 
 Boolean MetadataToken::get_IsString() {
-  return Boolean();
+  return get_TokenType() == MetadataTokenType::String;
 }
 
 Boolean MetadataToken::get_IsSignature() {
-  return Boolean();
+  return get_TokenType() == MetadataTokenType::Signature;
 }
 
 Boolean MetadataToken::get_IsGenericPar() {
-  return Boolean();
+  return get_TokenType() == MetadataTokenType::GenericPar;
 }
 
 Int32 MetadataToken::op_Implicit(MetadataToken token) {
-  return Int32();
+  return token.Value;
 }
 
 MetadataToken MetadataToken::op_Implicit(Int32 token) {
-  return MetadataToken();
+  return MetadataToken(token);
 }
 
 Boolean MetadataToken::IsNullToken(Int32 token) {
-  return Boolean();
 }
 
 MetadataToken::MetadataToken(Int32 token) {
+  Value = token;
 }
 
 String MetadataToken::ToString() {
-  return nullptr;
+  return String::in::Format(CultureInfo::in::get_InvariantCulture(), "0x{0:x8}", Value);
 }
 
 } // namespace System::Private::CoreLib::System::Reflection::MetadataTokenNamespace

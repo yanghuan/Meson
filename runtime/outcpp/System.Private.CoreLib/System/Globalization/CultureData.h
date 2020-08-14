@@ -265,7 +265,7 @@ CLASS(CultureData) : public Object::in {
   private: Boolean InitCultureDataCore();
   public: static CultureData GetCurrentRegionData();
   public: void ctor();
-  private: static void ctor_static();
+  private: static void cctor();
   private: String _sRealName;
   private: String _sWindowsName;
   private: String _sName;

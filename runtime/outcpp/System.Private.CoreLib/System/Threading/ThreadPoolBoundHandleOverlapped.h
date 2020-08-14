@@ -16,7 +16,7 @@ namespace ThreadPoolBoundHandleOverlappedNamespace {
 CLASS(ThreadPoolBoundHandleOverlapped) : public Overlapped::in {
   public: void ctor(IOCompletionCallback callback, Object state, Object pinData, PreAllocatedOverlapped preAllocated);
   private: static void CompletionCallback(UInt32 errorCode, UInt32 numBytes, NativeOverlapped* nativeOverlapped);
-  private: static void ctor_static();
+  private: static void cctor();
   private: static IOCompletionCallback s_completionCallback;
   private: IOCompletionCallback _userCallback;
   public: Object _userState;

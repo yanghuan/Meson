@@ -1,23 +1,46 @@
 #include "StreamReader-dep.h"
 
+#include <System.Private.CoreLib/System/ArgumentException-dep.h>
+#include <System.Private.CoreLib/System/ArgumentNullException-dep.h>
+#include <System.Private.CoreLib/System/ArgumentOutOfRangeException-dep.h>
+#include <System.Private.CoreLib/System/Buffer-dep.h>
+#include <System.Private.CoreLib/System/Byte-dep.h>
+#include <System.Private.CoreLib/System/InvalidOperationException-dep.h>
+#include <System.Private.CoreLib/System/IO/FileAccess.h>
+#include <System.Private.CoreLib/System/IO/FileMode.h>
+#include <System.Private.CoreLib/System/IO/FileOptions.h>
+#include <System.Private.CoreLib/System/IO/FileShare.h>
+#include <System.Private.CoreLib/System/IO/FileStream-dep.h>
+#include <System.Private.CoreLib/System/IO/StreamReader-dep.h>
+#include <System.Private.CoreLib/System/ObjectDisposedException-dep.h>
+#include <System.Private.CoreLib/System/ReadOnlySpan-dep.h>
+#include <System.Private.CoreLib/System/Span-dep.h>
+#include <System.Private.CoreLib/System/SR-dep.h>
+#include <System.Private.CoreLib/System/Text/StringBuilder-dep.h>
+#include <System.Private.CoreLib/System/Text/UTF32Encoding-dep.h>
+#include <System.Private.CoreLib/System/Threading/Tasks/Task-dep.h>
+
 namespace System::Private::CoreLib::System::IO::StreamReaderNamespace {
+using namespace System::Text;
+using namespace System::Threading::Tasks;
+
 Encoding NullStreamReader___::get_CurrentEncoding() {
-  return nullptr;
+  return Encoding::in::get_Unicode();
 }
 
 void NullStreamReader___::Dispose(Boolean disposing) {
 }
 
 Int32 NullStreamReader___::Peek() {
-  return Int32();
+  return -1;
 }
 
 Int32 NullStreamReader___::Read() {
-  return Int32();
+  return -1;
 }
 
 Int32 NullStreamReader___::Read(Array<Char> buffer, Int32 index, Int32 count) {
-  return Int32();
+  return 0;
 }
 
 String NullStreamReader___::ReadLine() {
@@ -25,35 +48,46 @@ String NullStreamReader___::ReadLine() {
 }
 
 String NullStreamReader___::ReadToEnd() {
-  return nullptr;
+  return String::in::Empty;
 }
 
 Int32 NullStreamReader___::ReadBuffer() {
-  return Int32();
+  return 0;
 }
 
 void NullStreamReader___::ctor() {
 }
 
 Encoding StreamReader___::get_CurrentEncoding() {
-  return nullptr;
+  return _encoding;
 }
 
 Stream StreamReader___::get_BaseStream() {
-  return nullptr;
+  return _stream;
 }
 
 Boolean StreamReader___::get_EndOfStream() {
-  return Boolean();
+  ThrowIfDisposed();
+  CheckAsyncTaskInProgress();
+  if (_charPos < _charLen) {
+    return false;
+  }
+  Int32 num = ReadBuffer();
+  return num == 0;
 }
 
 void StreamReader___::CheckAsyncTaskInProgress() {
+  if (!_asyncReadTask->get_IsCompleted()) {
+    ThrowAsyncIOInProgress();
+  }
 }
 
 void StreamReader___::ThrowAsyncIOInProgress() {
+  rt::throw_exception<InvalidOperationException>(SR::get_InvalidOperation_AsyncIOInProgress());
 }
 
 void StreamReader___::ctor() {
+  _asyncReadTask = Task::in::get_CompletedTask();
 }
 
 void StreamReader___::ctor(Stream stream) {
@@ -72,6 +106,7 @@ void StreamReader___::ctor(Stream stream, Encoding encoding, Boolean detectEncod
 }
 
 void StreamReader___::ctor(Stream stream, Encoding encoding, Boolean detectEncodingFromByteOrderMarks, Int32 bufferSize, Boolean leaveOpen) {
+  _asyncReadTask = Task::in::get_CompletedTask();
 }
 
 void StreamReader___::ctor(String path) {
@@ -90,116 +125,356 @@ void StreamReader___::ctor(String path, Encoding encoding, Boolean detectEncodin
 }
 
 Stream StreamReader___::ValidateArgsAndOpenPath(String path, Encoding encoding, Int32 bufferSize) {
-  return nullptr;
+  if (path == nullptr) {
+    rt::throw_exception<ArgumentNullException>("path");
+  }
+  if (encoding == nullptr) {
+    rt::throw_exception<ArgumentNullException>("encoding");
+  }
+  if (path->get_Length() == 0) {
+    rt::throw_exception<ArgumentException>(SR::get_Argument_EmptyPath());
+  }
+  if (bufferSize <= 0) {
+    rt::throw_exception<ArgumentOutOfRangeException>("bufferSize", SR::get_ArgumentOutOfRange_NeedPosNum());
+  }
+  return rt::newobj<FileStream>(path, FileMode::Open, FileAccess::Read, FileShare::Read, 4096, FileOptions::SequentialScan);
 }
 
 void StreamReader___::Close() {
+  Dispose(true);
 }
 
 void StreamReader___::Dispose(Boolean disposing) {
+  if (_disposed) {
+    return;
+  }
+  _disposed = true;
+  if (!_closable) {
+    return;
+  }
+  try{
+    if (disposing) {
+      _stream->Close();
+    }
+  } finally: {
+    _charPos = 0;
+    _charLen = 0;
+  }
 }
 
 void StreamReader___::DiscardBufferedData() {
+  CheckAsyncTaskInProgress();
+  _byteLen = 0;
+  _charLen = 0;
+  _charPos = 0;
+  if (_encoding != nullptr) {
+    _decoder = _encoding->GetDecoder();
+  }
+  _isBlocked = false;
 }
 
 Int32 StreamReader___::Peek() {
-  return Int32();
+  ThrowIfDisposed();
+  CheckAsyncTaskInProgress();
+  if (_charPos == _charLen && (_isBlocked || ReadBuffer() == 0)) {
+    return -1;
+  }
+  return _charBuffer[_charPos];
 }
 
 Int32 StreamReader___::Read() {
-  return Int32();
+  ThrowIfDisposed();
+  CheckAsyncTaskInProgress();
+  if (_charPos == _charLen && ReadBuffer() == 0) {
+    return -1;
+  }
+  Int32 result = _charBuffer[_charPos];
+  _charPos++;
+  return result;
 }
 
 Int32 StreamReader___::Read(Array<Char> buffer, Int32 index, Int32 count) {
-  return Int32();
+  if (buffer == nullptr) {
+    rt::throw_exception<ArgumentNullException>("buffer", SR::get_ArgumentNull_Buffer());
+  }
+  if (index < 0 || count < 0) {
+    rt::throw_exception<ArgumentOutOfRangeException>((index < 0) ? "index" : "count", SR::get_ArgumentOutOfRange_NeedNonNegNum());
+  }
+  if (buffer->get_Length() - index < count) {
+    rt::throw_exception<ArgumentException>(SR::get_Argument_InvalidOffLen());
+  }
+  return ReadSpan(Span<Char>(buffer, index, count));
 }
 
 Int32 StreamReader___::Read(Span<Char> buffer) {
-  return Int32();
 }
 
 Int32 StreamReader___::ReadSpan(Span<Char> buffer) {
-  return Int32();
+  ThrowIfDisposed();
+  CheckAsyncTaskInProgress();
+  Int32 num = 0;
+  Boolean readToUserBuffer = false;
+  Int32 num2 = buffer.get_Length();
+  while (num2 > 0) {
+    Int32 num3 = _charLen - _charPos;
+    if (num3 == 0) {
+      num3 = ReadBuffer(buffer.Slice(num), readToUserBuffer);
+    }
+    if (num3 == 0) {
+      break;
+    }
+    if (num3 > num2) {
+      num3 = num2;
+    }
+    if (!readToUserBuffer) {
+      Span<Char>(_charBuffer, _charPos, num3).CopyTo(buffer.Slice(num));
+      _charPos += num3;
+    }
+    num += num3;
+    num2 -= num3;
+    if (_isBlocked) {
+      break;
+    }
+  }
+  return num;
 }
 
 String StreamReader___::ReadToEnd() {
-  return nullptr;
+  ThrowIfDisposed();
+  CheckAsyncTaskInProgress();
+  StringBuilder stringBuilder = rt::newobj<StringBuilder>(_charLen - _charPos);
 }
 
 Int32 StreamReader___::ReadBlock(Array<Char> buffer, Int32 index, Int32 count) {
-  return Int32();
+  if (buffer == nullptr) {
+    rt::throw_exception<ArgumentNullException>("buffer", SR::get_ArgumentNull_Buffer());
+  }
+  if (index < 0 || count < 0) {
+    rt::throw_exception<ArgumentOutOfRangeException>((index < 0) ? "index" : "count", SR::get_ArgumentOutOfRange_NeedNonNegNum());
+  }
+  if (buffer->get_Length() - index < count) {
+    rt::throw_exception<ArgumentException>(SR::get_Argument_InvalidOffLen());
+  }
+  ThrowIfDisposed();
+  CheckAsyncTaskInProgress();
 }
 
 Int32 StreamReader___::ReadBlock(Span<Char> buffer) {
-  return Int32();
 }
 
 void StreamReader___::CompressBuffer(Int32 n) {
+  Buffer::BlockCopy(_byteBuffer, n, _byteBuffer, 0, _byteLen - n);
+  _byteLen -= n;
 }
 
 void StreamReader___::DetectEncoding() {
+  if (_byteLen < 2) {
+    return;
+  }
+  _detectEncoding = false;
+  Boolean flag = false;
+  if (_byteBuffer[0] == 254 && _byteBuffer[1] == Byte::MaxValue) {
+    _encoding = Encoding::in::get_BigEndianUnicode();
+    CompressBuffer(2);
+    flag = true;
+  } else if (_byteBuffer[0] == Byte::MaxValue && _byteBuffer[1] == 254) {
+    if (_byteLen < 4 || _byteBuffer[2] != 0 || _byteBuffer[3] != 0) {
+      _encoding = Encoding::in::get_Unicode();
+      CompressBuffer(2);
+      flag = true;
+    } else {
+      _encoding = Encoding::in::get_UTF32();
+      CompressBuffer(4);
+      flag = true;
+    }
+  } else if (_byteLen >= 3 && _byteBuffer[0] == 239 && _byteBuffer[1] == 187 && _byteBuffer[2] == 191) {
+    _encoding = Encoding::in::get_UTF8();
+    CompressBuffer(3);
+    flag = true;
+  } else if (_byteLen >= 4 && _byteBuffer[0] == 0 && _byteBuffer[1] == 0 && _byteBuffer[2] == 254 && _byteBuffer[3] == Byte::MaxValue) {
+    _encoding = rt::newobj<UTF32Encoding>(true, true);
+    CompressBuffer(4);
+    flag = true;
+  } else if (_byteLen == 2) {
+    _detectEncoding = true;
+  }
+
+
+
+
+  if (flag) {
+    _decoder = _encoding->GetDecoder();
+    Int32 maxCharCount = _encoding->GetMaxCharCount(_byteBuffer->get_Length());
+    if (maxCharCount > _maxCharsPerBuffer) {
+      _charBuffer = rt::newarr<Array<Char>>(maxCharCount);
+    }
+    _maxCharsPerBuffer = maxCharCount;
+  }
 }
 
 Boolean StreamReader___::IsPreamble() {
-  return Boolean();
+  if (!_checkPreamble) {
+    return _checkPreamble;
+  }
+  ReadOnlySpan<Byte> preamble = _encoding->get_Preamble();
+  Int32 num = (_byteLen >= preamble.get_Length()) ? (preamble.get_Length() - _bytePos) : (_byteLen - _bytePos);
+  Int32 num2 = 0;
+  while (num2 < num) {
+    if (_byteBuffer[_bytePos] != preamble[_bytePos]) {
+      _bytePos = 0;
+      _checkPreamble = false;
+      break;
+    }
+    num2++;
+    _bytePos++;
+  }
+  if (_checkPreamble && _bytePos == preamble.get_Length()) {
+    CompressBuffer(preamble.get_Length());
+    _bytePos = 0;
+    _checkPreamble = false;
+    _detectEncoding = false;
+  }
+  return _checkPreamble;
 }
 
 Int32 StreamReader___::ReadBuffer() {
-  return Int32();
+  _charLen = 0;
+  _charPos = 0;
+  if (!_checkPreamble) {
+    _byteLen = 0;
+  }
 }
 
 Int32 StreamReader___::ReadBuffer(Span<Char> userBuffer, Boolean& readToUserBuffer) {
-  return Int32();
+  _charLen = 0;
+  _charPos = 0;
+  if (!_checkPreamble) {
+    _byteLen = 0;
+  }
+  Int32 num = 0;
+  readToUserBuffer = (userBuffer.get_Length() >= _maxCharsPerBuffer);
 }
 
 String StreamReader___::ReadLine() {
-  return nullptr;
+  ThrowIfDisposed();
+  CheckAsyncTaskInProgress();
+  if (_charPos == _charLen && ReadBuffer() == 0) {
+    return nullptr;
+  }
+  StringBuilder stringBuilder = nullptr;
 }
 
 Task<String> StreamReader___::ReadLineAsync() {
-  return nullptr;
 }
 
 Task<String> StreamReader___::ReadLineAsyncInternal() {
-  return nullptr;
+  Boolean flag = _charPos == _charLen;
+  Boolean flag2 = flag;
+  if (flag2) {
+  }
+  if (flag2) {
+    return nullptr;
+  }
+  StringBuilder sb = nullptr;
 }
 
 Task<String> StreamReader___::ReadToEndAsync() {
-  return nullptr;
 }
 
 Task<String> StreamReader___::ReadToEndAsyncInternal() {
-  return nullptr;
+  StringBuilder sb = rt::newobj<StringBuilder>(_charLen - _charPos);
 }
 
 Task<Int32> StreamReader___::ReadAsync(Array<Char> buffer, Int32 index, Int32 count) {
-  return nullptr;
+  if (buffer == nullptr) {
+    rt::throw_exception<ArgumentNullException>("buffer", SR::get_ArgumentNull_Buffer());
+  }
+  if (index < 0 || count < 0) {
+    rt::throw_exception<ArgumentOutOfRangeException>((index < 0) ? "index" : "count", SR::get_ArgumentOutOfRange_NeedNonNegNum());
+  }
+  if (buffer->get_Length() - index < count) {
+    rt::throw_exception<ArgumentException>(SR::get_Argument_InvalidOffLen());
+  }
 }
 
 ValueTask<Int32> StreamReader___::ReadAsync(Memory<Char> buffer, CancellationToken cancellationToken) {
-  return ValueTask<Int32>();
 }
 
 ValueTask<Int32> StreamReader___::ReadAsyncInternal(Memory<Char> buffer, CancellationToken cancellationToken) {
-  return ValueTask<Int32>();
+  Boolean flag = _charPos == _charLen;
+  Boolean flag2 = flag;
+  if (flag2) {
+  }
+  if (flag2) {
+    return 0;
+  }
+  Int32 charsRead = 0;
+  Boolean readToUserBuffer = false;
+  Array<Byte> tmpByteBuffer = _byteBuffer;
+  Stream tmpStream = _stream;
+  Int32 count = buffer.get_Length();
+  while (count > 0) {
+    Int32 i = _charLen - _charPos;
+    if (i == 0) {
+      _charLen = 0;
+      _charPos = 0;
+      if (!_checkPreamble) {
+        _byteLen = 0;
+      }
+      readToUserBuffer = (count >= _maxCharsPerBuffer);
+    }
+    if (i > count) {
+      i = count;
+    }
+    if (!readToUserBuffer) {
+      Span<Char>(_charBuffer, _charPos, i).CopyTo(buffer.get_Span().Slice(charsRead));
+      _charPos += i;
+    }
+    charsRead += i;
+    count -= i;
+    if (_isBlocked) {
+      break;
+    }
+  }
+  return charsRead;
 }
 
 Task<Int32> StreamReader___::ReadBlockAsync(Array<Char> buffer, Int32 index, Int32 count) {
-  return nullptr;
+  if (buffer == nullptr) {
+    rt::throw_exception<ArgumentNullException>("buffer", SR::get_ArgumentNull_Buffer());
+  }
+  if (index < 0 || count < 0) {
+    rt::throw_exception<ArgumentOutOfRangeException>((index < 0) ? "index" : "count", SR::get_ArgumentOutOfRange_NeedNonNegNum());
+  }
+  if (buffer->get_Length() - index < count) {
+    rt::throw_exception<ArgumentException>(SR::get_Argument_InvalidOffLen());
+  }
 }
 
 ValueTask<Int32> StreamReader___::ReadBlockAsync(Memory<Char> buffer, CancellationToken cancellationToken) {
-  return ValueTask<Int32>();
 }
 
 ValueTask<Int32> StreamReader___::ReadBufferAsync(CancellationToken cancellationToken) {
-  return ValueTask<Int32>();
+  _charLen = 0;
+  _charPos = 0;
+  Array<Byte> tmpByteBuffer = _byteBuffer;
+  Stream tmpStream = _stream;
+  if (!_checkPreamble) {
+    _byteLen = 0;
+  }
 }
 
 void StreamReader___::ThrowIfDisposed() {
+  auto ThrowObjectDisposedException = []() -> void {
+    rt::throw_exception<ObjectDisposedException>(GetType()->get_Name(), SR::get_ObjectDisposed_ReaderClosed());
+  };
+  if (_disposed) {
+    ThrowObjectDisposedException();
+  }
 }
 
-void StreamReader___::ctor_static() {
+void StreamReader___::cctor() {
+  Null = rt::newobj<NullStreamReader>();
 }
 
 } // namespace System::Private::CoreLib::System::IO::StreamReaderNamespace

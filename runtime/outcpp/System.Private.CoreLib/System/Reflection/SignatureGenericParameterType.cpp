@@ -1,36 +1,40 @@
 #include "SignatureGenericParameterType-dep.h"
 
+#include <System.Private.CoreLib/System/ArgumentException-dep.h>
+#include <System.Private.CoreLib/System/InvalidOperationException-dep.h>
+#include <System.Private.CoreLib/System/SR-dep.h>
+
 namespace System::Private::CoreLib::System::Reflection::SignatureGenericParameterTypeNamespace {
 Boolean SignatureGenericParameterType___::get_IsTypeDefinition() {
-  return Boolean();
+  return false;
 }
 
 Boolean SignatureGenericParameterType___::get_IsGenericTypeDefinition() {
-  return Boolean();
+  return false;
 }
 
 Boolean SignatureGenericParameterType___::get_IsByRefLike() {
-  return Boolean();
+  return false;
 }
 
 Boolean SignatureGenericParameterType___::get_IsSZArray() {
-  return Boolean();
+  return false;
 }
 
 Boolean SignatureGenericParameterType___::get_IsVariableBoundArray() {
-  return Boolean();
+  return false;
 }
 
 Boolean SignatureGenericParameterType___::get_IsConstructedGenericType() {
-  return Boolean();
+  return false;
 }
 
 Boolean SignatureGenericParameterType___::get_IsGenericParameter() {
-  return Boolean();
+  return true;
 }
 
 Boolean SignatureGenericParameterType___::get_ContainsGenericParameters() {
-  return Boolean();
+  return true;
 }
 
 SignatureType SignatureGenericParameterType___::get_ElementType() {
@@ -38,11 +42,11 @@ SignatureType SignatureGenericParameterType___::get_ElementType() {
 }
 
 Array<Type> SignatureGenericParameterType___::get_GenericTypeArguments() {
-  return Array<Type>();
+  return Array<>::in::Empty<Type>();
 }
 
 Int32 SignatureGenericParameterType___::get_GenericParameterPosition() {
-  return Int32();
+  return _position;
 }
 
 String SignatureGenericParameterType___::get_Namespace() {
@@ -50,38 +54,39 @@ String SignatureGenericParameterType___::get_Namespace() {
 }
 
 void SignatureGenericParameterType___::ctor(Int32 position) {
+  _position = position;
 }
 
 Boolean SignatureGenericParameterType___::HasElementTypeImpl() {
-  return Boolean();
+  return false;
 }
 
 Boolean SignatureGenericParameterType___::IsArrayImpl() {
-  return Boolean();
+  return false;
 }
 
 Boolean SignatureGenericParameterType___::IsByRefImpl() {
-  return Boolean();
+  return false;
 }
 
 Boolean SignatureGenericParameterType___::IsPointerImpl() {
-  return Boolean();
+  return false;
 }
 
 Int32 SignatureGenericParameterType___::GetArrayRank() {
-  return Int32();
+  rt::throw_exception<ArgumentException>(SR::get_Argument_HasToBeArrayClass());
 }
 
 Type SignatureGenericParameterType___::GetGenericTypeDefinition() {
-  return nullptr;
+  rt::throw_exception<InvalidOperationException>(SR::get_InvalidOperation_NotGenericType());
 }
 
 Array<Type> SignatureGenericParameterType___::GetGenericArguments() {
-  return Array<Type>();
+  return Array<>::in::Empty<Type>();
 }
 
 String SignatureGenericParameterType___::ToString() {
-  return nullptr;
+  return get_Name();
 }
 
 } // namespace System::Private::CoreLib::System::Reflection::SignatureGenericParameterTypeNamespace

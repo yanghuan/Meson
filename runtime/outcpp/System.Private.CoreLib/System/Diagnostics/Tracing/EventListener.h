@@ -26,7 +26,7 @@ using namespace System::Collections::Generic;
 CLASS(EventListener) : public Object::in {
   public: using interface = rt::TypeList<IDisposable>;
   public: static Object get_EventListenersLock();
-  private: static void ctor_static();
+  private: static void cctor();
   public: void ctor();
   public: void Dispose();
   public: void EnableEvents(EventSource eventSource, EventLevel level);

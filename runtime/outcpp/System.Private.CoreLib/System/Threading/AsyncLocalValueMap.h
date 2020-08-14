@@ -69,7 +69,7 @@ class AsyncLocalValueMap {
   public: static IAsyncLocalValueMap get_Empty() { return Empty; }
   public: static Boolean IsEmpty(IAsyncLocalValueMap asyncLocalValueMap);
   public: static IAsyncLocalValueMap Create(IAsyncLocal key, Object value, Boolean treatNullValueAsNonexistent);
-  private: static void ctor_static();
+  private: static void cctor();
   private: static IAsyncLocalValueMap Empty;
 };
 } // namespace AsyncLocalValueMapNamespace

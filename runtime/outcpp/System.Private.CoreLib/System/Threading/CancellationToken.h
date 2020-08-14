@@ -33,7 +33,7 @@ struct CancellationToken : public valueType<CancellationToken> {
   public: static Boolean op_Inequality(CancellationToken left, CancellationToken right);
   public: void ThrowIfCancellationRequested();
   private: void ThrowOperationCanceledException();
-  private: static void ctor_static();
+  private: static void cctor();
   public: explicit CancellationToken() {}
   private: CancellationTokenSource _source;
   private: static Action<Object> s_actionToActionObjShunt;

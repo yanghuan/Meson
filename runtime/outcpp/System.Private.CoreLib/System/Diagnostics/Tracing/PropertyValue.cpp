@@ -1,31 +1,40 @@
 #include "PropertyValue-dep.h"
 
 #include <System.Private.CoreLib/System/Diagnostics/Tracing/PropertyValue-dep.h>
+#include <System.Private.CoreLib/System/Enum-dep.h>
+#include <System.Private.CoreLib/System/Reflection/IntrospectionExtensions-dep.h>
 
 namespace System::Private::CoreLib::System::Diagnostics::Tracing::PropertyValueNamespace {
+using namespace System::Reflection;
+
 Delegate PropertyValue::TypeHelper___::GetGetMethod(PropertyInfo property, Type propertyType) {
-  return nullptr;
 }
 
 void PropertyValue::TypeHelper___::ctor() {
 }
 
 Object PropertyValue::get_ReferenceValue() {
-  return nullptr;
+  return _reference;
 }
 
 PropertyValue::Scalar PropertyValue::get_ScalarValue() {
-  return PropertyValue::Scalar();
+  return _scalar;
 }
 
 Int32 PropertyValue::get_ScalarLength() {
-  return Int32();
+  return _scalarLength;
 }
 
 PropertyValue::PropertyValue(Object value) {
+  _reference = value;
+  _scalar = Scalar();
+  _scalarLength = 0;
 }
 
 PropertyValue::PropertyValue(Scalar scalar, Int32 scalarLength) {
+  _reference = nullptr;
+  _scalar = scalar;
+  _scalarLength = scalarLength;
 }
 
 PropertyValue::PropertyValue(Boolean value) {
@@ -86,19 +95,24 @@ PropertyValue::PropertyValue(Decimal value) {
 }
 
 Func<Object, PropertyValue> PropertyValue::GetFactory(Type type) {
-  return nullptr;
 }
 
 Func<PropertyValue, PropertyValue> PropertyValue::GetPropertyGetter(PropertyInfo property) {
-  return nullptr;
+  if (IntrospectionExtensions::GetTypeInfo(property->get_DeclaringType())->get_IsValueType()) {
+    return GetBoxedValueTypePropertyGetter(property);
+  }
+  return GetReferenceTypePropertyGetter(property);
 }
 
 Func<PropertyValue, PropertyValue> PropertyValue::GetBoxedValueTypePropertyGetter(PropertyInfo property) {
-  return nullptr;
+  Type type = property->get_PropertyType();
+  if (IntrospectionExtensions::GetTypeInfo(type)->get_IsEnum()) {
+    type = Enum::in::GetUnderlyingType(type);
+  }
+  Func<Object, PropertyValue> factory = GetFactory(type);
 }
 
 Func<PropertyValue, PropertyValue> PropertyValue::GetReferenceTypePropertyGetter(PropertyInfo property) {
-  return nullptr;
 }
 
 } // namespace System::Private::CoreLib::System::Diagnostics::Tracing::PropertyValueNamespace

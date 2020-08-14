@@ -2,6 +2,7 @@
 
 namespace System::Private::CoreLib::System::Runtime::ExceptionServices::FirstChanceExceptionEventArgsNamespace {
 void FirstChanceExceptionEventArgs___::ctor(System::Exception exception) {
+  Exception = exception;
 }
 
 } // namespace System::Private::CoreLib::System::Runtime::ExceptionServices::FirstChanceExceptionEventArgsNamespace

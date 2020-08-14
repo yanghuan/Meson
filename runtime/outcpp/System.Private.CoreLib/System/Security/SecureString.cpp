@@ -1,39 +1,103 @@
 #include "SecureString-dep.h"
 
+#include <System.Private.CoreLib/Interop-dep.h>
+#include <System.Private.CoreLib/System/ArgumentOutOfRangeException-dep.h>
+#include <System.Private.CoreLib/System/Buffer-dep.h>
+#include <System.Private.CoreLib/System/Byte-dep.h>
+#include <System.Private.CoreLib/System/InvalidOperationException-dep.h>
+#include <System.Private.CoreLib/System/Math-dep.h>
+#include <System.Private.CoreLib/System/ObjectDisposedException-dep.h>
+#include <System.Private.CoreLib/System/Runtime/InteropServices/Marshal-dep.h>
+#include <System.Private.CoreLib/System/Security/Cryptography/CryptographicException-dep.h>
 #include <System.Private.CoreLib/System/Security/SecureString-dep.h>
+#include <System.Private.CoreLib/System/Span-dep.h>
+#include <System.Private.CoreLib/System/SR-dep.h>
+#include <System.Private.CoreLib/System/Threading/Volatile-dep.h>
+#include <System.Private.CoreLib/System/UInt32-dep.h>
+#include <System.Private.CoreLib/System/UInt64-dep.h>
 
 namespace System::Private::CoreLib::System::Security::SecureStringNamespace {
+using namespace System::Runtime::InteropServices;
+using namespace System::Security::Cryptography;
+using namespace System::Threading;
+
 void SecureString___::UnmanagedBuffer___::ctor() {
 }
 
 SecureString::in::UnmanagedBuffer SecureString___::UnmanagedBuffer___::Allocate(Int32 byteLength) {
-  return nullptr;
+  UnmanagedBuffer unmanagedBuffer = rt::newobj<UnmanagedBuffer>();
+  unmanagedBuffer->SetHandle(Marshal::AllocHGlobal(byteLength));
+  unmanagedBuffer->Initialize((UInt64)byteLength);
+  unmanagedBuffer->_byteLength = byteLength;
+  return unmanagedBuffer;
 }
 
 void SecureString___::UnmanagedBuffer___::Copy(UnmanagedBuffer source, UnmanagedBuffer destination, UInt64 bytesLength) {
+  if (bytesLength == 0) {
+    return;
+  }
+  Byte* pointer = nullptr;
+  Byte* pointer2 = nullptr;
+  try{
+    source->AcquirePointer(pointer);
+    destination->AcquirePointer(pointer2);
+    Buffer::MemoryCopy(pointer, pointer2, destination->get_ByteLength(), bytesLength);
+  } finally: {
+    if (pointer2 != nullptr) {
+      destination->ReleasePointer();
+    }
+    if (pointer != nullptr) {
+      source->ReleasePointer();
+    }
+  }
 }
 
 Boolean SecureString___::UnmanagedBuffer___::ReleaseHandle() {
-  return Boolean();
+  Span<Byte>((void*)handle, _byteLength).Clear();
+  Marshal::FreeHGlobal(handle);
+  return true;
 }
 
 Int32 SecureString___::get_Length() {
-  return Int32();
+  EnsureNotDisposed();
+  return Volatile::Read(_decryptedLength);
 }
 
 void SecureString___::ctor() {
+  _methodLock = rt::newobj<Object>();
 }
 
 void SecureString___::ctor(Char* value, Int32 length) {
+  _methodLock = rt::newobj<Object>();
 }
 
 void SecureString___::Initialize(ReadOnlySpan<Char> value) {
+  _buffer = UnmanagedBuffer::in::Allocate(GetAlignedByteSize(value.get_Length()));
+  _decryptedLength = value.get_Length();
+  SafeBuffer bufferToRelease = nullptr;
+  try{
+    Span<Char> destination = AcquireSpan(bufferToRelease);
+    value.CopyTo(destination);
+  } finally: {
+    ProtectMemory();
+  }
 }
 
 void SecureString___::ctor(SecureString str) {
+  _methodLock = rt::newobj<Object>();
 }
 
 void SecureString___::EnsureCapacity(Int32 capacity) {
+  if (capacity > 65536) {
+    rt::throw_exception<ArgumentOutOfRangeException>("capacity", SR::get_ArgumentOutOfRange_Capacity());
+  }
+  if ((UInt32)(capacity * 2) > _buffer->get_ByteLength()) {
+    UnmanagedBuffer buffer = _buffer;
+    UnmanagedBuffer unmanagedBuffer = UnmanagedBuffer::in::Allocate(GetAlignedByteSize(capacity));
+    UnmanagedBuffer::in::Copy(buffer, unmanagedBuffer, (UInt32)(_decryptedLength * 2));
+    _buffer = unmanagedBuffer;
+    buffer->Dispose();
+  }
 }
 
 void SecureString___::AppendChar(Char c) {
@@ -43,7 +107,6 @@ void SecureString___::Clear() {
 }
 
 SecureString SecureString___::Copy() {
-  return nullptr;
 }
 
 void SecureString___::Dispose() {
@@ -53,10 +116,13 @@ void SecureString___::InsertAt(Int32 index, Char c) {
 }
 
 Boolean SecureString___::IsReadOnly() {
-  return Boolean();
+  EnsureNotDisposed();
+  return Volatile::Read(_readOnly);
 }
 
 void SecureString___::MakeReadOnly() {
+  EnsureNotDisposed();
+  Volatile::Write(_readOnly, true);
 }
 
 void SecureString___::RemoveAt(Int32 index) {
@@ -66,31 +132,48 @@ void SecureString___::SetAt(Int32 index, Char c) {
 }
 
 Span<Char> SecureString___::AcquireSpan(SafeBuffer& bufferToRelease) {
-  return Span<Char>();
+  SafeBuffer buffer = _buffer;
+  Boolean success = false;
+  buffer->DangerousAddRef(success);
+  bufferToRelease = buffer;
+  return Span<Char>((void*)buffer->DangerousGetHandle(), (Int32)(buffer->get_ByteLength() / 2));
 }
 
 void SecureString___::EnsureNotReadOnly() {
+  if (_readOnly) {
+    rt::throw_exception<InvalidOperationException>(SR::get_InvalidOperation_ReadOnly());
+  }
 }
 
 void SecureString___::EnsureNotDisposed() {
+  if (_buffer == nullptr) {
+    rt::throw_exception<ObjectDisposedException>(GetType()->get_Name());
+  }
 }
 
 IntPtr SecureString___::MarshalToBSTR() {
-  return IntPtr();
 }
 
 IntPtr SecureString___::MarshalToString(Boolean globalAlloc, Boolean unicode) {
-  return IntPtr();
 }
 
 Int32 SecureString___::GetAlignedByteSize(Int32 length) {
-  return Int32();
+  Int32 num = Math::Max(length, 1) * 2;
+  return (num + 15) / 16 * 16;
 }
 
 void SecureString___::ProtectMemory() {
+  if (_decryptedLength != 0 && !_encrypted && !Interop::Crypt32::CryptProtectMemory(_buffer, (UInt32)_buffer->get_ByteLength(), 0u)) {
+    rt::throw_exception<CryptographicException>(Marshal::GetLastWin32Error());
+  }
+  _encrypted = true;
 }
 
 void SecureString___::UnprotectMemory() {
+  if (_decryptedLength != 0 && _encrypted && !Interop::Crypt32::CryptUnprotectMemory(_buffer, (UInt32)_buffer->get_ByteLength(), 0u)) {
+    rt::throw_exception<CryptographicException>(Marshal::GetLastWin32Error());
+  }
+  _encrypted = false;
 }
 
 } // namespace System::Private::CoreLib::System::Security::SecureStringNamespace

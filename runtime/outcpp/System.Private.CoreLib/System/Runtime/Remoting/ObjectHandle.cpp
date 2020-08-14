@@ -2,10 +2,11 @@
 
 namespace System::Private::CoreLib::System::Runtime::Remoting::ObjectHandleNamespace {
 void ObjectHandle___::ctor(Object o) {
+  _wrappedObject = o;
 }
 
 Object ObjectHandle___::Unwrap() {
-  return nullptr;
+  return _wrappedObject;
 }
 
 } // namespace System::Private::CoreLib::System::Runtime::Remoting::ObjectHandleNamespace

@@ -21,7 +21,7 @@ CLASS(EnumeratorToEnumVariantMarshaler) : public Object::in {
   public: Int32 GetNativeDataSize();
   public: IntPtr MarshalManagedToNative(Object ManagedObj);
   public: Object MarshalNativeToManaged(IntPtr pNativeData);
-  private: static void ctor_static();
+  private: static void cctor();
   private: static EnumeratorToEnumVariantMarshaler s_enumeratorToEnumVariantMarshaler;
 };
 } // namespace EnumeratorToEnumVariantMarshalerNamespace

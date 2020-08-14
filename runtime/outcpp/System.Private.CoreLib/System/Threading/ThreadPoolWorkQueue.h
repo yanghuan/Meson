@@ -38,7 +38,7 @@ CLASS(ThreadPoolWorkQueue) : public Object::in {
     public: static Array<WorkStealingQueue> get_Queues();
     public: static void Add(WorkStealingQueue queue);
     public: static void Remove(WorkStealingQueue queue);
-    private: static void ctor_static();
+    private: static void cctor();
     private: static Array<WorkStealingQueue> _queues;
   };
   public: Int64 get_LocalCount();

@@ -1,99 +1,110 @@
 #include "ConstructorOnTypeBuilderInstantiation-dep.h"
 
+#include <System.Private.CoreLib/System/InvalidOperationException-dep.h>
+#include <System.Private.CoreLib/System/NotSupportedException-dep.h>
+#include <System.Private.CoreLib/System/Reflection/Emit/ConstructorBuilder-dep.h>
+#include <System.Private.CoreLib/System/Reflection/Emit/ConstructorOnTypeBuilderInstantiation-dep.h>
+
 namespace System::Private::CoreLib::System::Reflection::Emit::ConstructorOnTypeBuilderInstantiationNamespace {
 MemberTypes ConstructorOnTypeBuilderInstantiation___::get_MemberType() {
-  return MemberTypes::All;
+  return m_ctor->get_MemberType();
 }
 
 String ConstructorOnTypeBuilderInstantiation___::get_Name() {
-  return nullptr;
+  return m_ctor->get_Name();
 }
 
 Type ConstructorOnTypeBuilderInstantiation___::get_DeclaringType() {
-  return nullptr;
+  return m_type;
 }
 
 Type ConstructorOnTypeBuilderInstantiation___::get_ReflectedType() {
-  return nullptr;
+  return m_type;
 }
 
 Int32 ConstructorOnTypeBuilderInstantiation___::get_MetadataTokenInternal() {
-  return Int32();
+  ConstructorBuilder constructorBuilder = rt::as<ConstructorBuilder>(m_ctor);
+  if (constructorBuilder != nullptr) {
+    return constructorBuilder->get_MetadataTokenInternal();
+  }
+  return m_ctor->get_MetadataToken();
 }
 
 Module ConstructorOnTypeBuilderInstantiation___::get_Module() {
-  return nullptr;
+  return m_ctor->get_Module();
 }
 
 RuntimeMethodHandle ConstructorOnTypeBuilderInstantiation___::get_MethodHandle() {
-  return RuntimeMethodHandle();
+  return m_ctor->get_MethodHandle();
 }
 
 MethodAttributes ConstructorOnTypeBuilderInstantiation___::get_Attributes() {
-  return MethodAttributes::ReservedMask;
+  return m_ctor->get_Attributes();
 }
 
 CallingConventions ConstructorOnTypeBuilderInstantiation___::get_CallingConvention() {
-  return CallingConventions::ExplicitThis;
+  return m_ctor->get_CallingConvention();
 }
 
 Boolean ConstructorOnTypeBuilderInstantiation___::get_IsGenericMethodDefinition() {
-  return Boolean();
+  return false;
 }
 
 Boolean ConstructorOnTypeBuilderInstantiation___::get_ContainsGenericParameters() {
-  return Boolean();
+  return false;
 }
 
 Boolean ConstructorOnTypeBuilderInstantiation___::get_IsGenericMethod() {
-  return Boolean();
+  return false;
 }
 
 ConstructorInfo ConstructorOnTypeBuilderInstantiation___::GetConstructor(ConstructorInfo Constructor, TypeBuilderInstantiation type) {
-  return nullptr;
+  return rt::newobj<ConstructorOnTypeBuilderInstantiation>(Constructor, type);
 }
 
 void ConstructorOnTypeBuilderInstantiation___::ctor(ConstructorInfo constructor, TypeBuilderInstantiation type) {
+  m_ctor = constructor;
+  m_type = type;
 }
 
 Array<Type> ConstructorOnTypeBuilderInstantiation___::GetParameterTypes() {
-  return Array<Type>();
+  return m_ctor->GetParameterTypes();
 }
 
 Type ConstructorOnTypeBuilderInstantiation___::GetReturnType() {
-  return nullptr;
+  return m_type;
 }
 
 Array<Object> ConstructorOnTypeBuilderInstantiation___::GetCustomAttributes(Boolean inherit) {
-  return Array<Object>();
+  return m_ctor->GetCustomAttributes(inherit);
 }
 
 Array<Object> ConstructorOnTypeBuilderInstantiation___::GetCustomAttributes(Type attributeType, Boolean inherit) {
-  return Array<Object>();
+  return m_ctor->GetCustomAttributes(attributeType, inherit);
 }
 
 Boolean ConstructorOnTypeBuilderInstantiation___::IsDefined(Type attributeType, Boolean inherit) {
-  return Boolean();
+  return m_ctor->IsDefined(attributeType, inherit);
 }
 
 Array<ParameterInfo> ConstructorOnTypeBuilderInstantiation___::GetParameters() {
-  return Array<ParameterInfo>();
+  return m_ctor->GetParameters();
 }
 
 MethodImplAttributes ConstructorOnTypeBuilderInstantiation___::GetMethodImplementationFlags() {
-  return MethodImplAttributes::MaxMethodImplVal;
+  return m_ctor->GetMethodImplementationFlags();
 }
 
 Object ConstructorOnTypeBuilderInstantiation___::Invoke(Object obj, BindingFlags invokeAttr, Binder binder, Array<Object> parameters, CultureInfo culture) {
-  return nullptr;
+  rt::throw_exception<NotSupportedException>();
 }
 
 Array<Type> ConstructorOnTypeBuilderInstantiation___::GetGenericArguments() {
-  return Array<Type>();
+  return m_ctor->GetGenericArguments();
 }
 
 Object ConstructorOnTypeBuilderInstantiation___::Invoke(BindingFlags invokeAttr, Binder binder, Array<Object> parameters, CultureInfo culture) {
-  return nullptr;
+  rt::throw_exception<InvalidOperationException>();
 }
 
 } // namespace System::Private::CoreLib::System::Reflection::Emit::ConstructorOnTypeBuilderInstantiationNamespace

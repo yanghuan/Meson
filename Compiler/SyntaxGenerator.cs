@@ -125,6 +125,7 @@ namespace Meson.Compiler {
     }
 
     public IdentifierSyntax GetMemberName(ISymbol symbol) {
+      Contract.Assert(symbol != null);
       var name = memberNames_.GetOrDefault(symbol);
       if (name == null) {
         string symbolName = symbol.Name;
@@ -151,9 +152,6 @@ namespace Meson.Compiler {
             }
           case SymbolKind.Constructor: {
               symbolName = symbol.Name.TrimStart('.');
-              break;
-            }
-          case SymbolKind.Operator: {
               break;
             }
           case SymbolKind.Parameter: {

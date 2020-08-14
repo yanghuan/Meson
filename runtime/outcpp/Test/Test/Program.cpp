@@ -6,12 +6,18 @@
 namespace Test::Test::ProgramNamespace {
 using namespace ::System::Console::System;
 
-void Program___::F(String s, Array<Object> args) {
+Int32 Program___::get_A() {
+  return a;
+}
+
+void Program___::set_A(Int32 value) {
+  a = value;
 }
 
 void Program___::Main(Array<String> args) {
   Console::WriteLine(args);
-  F("aaa", rt::newarr<Array<Object>>(4, 1, 2, 3, 4));
+  get_A() = args->get_Length();
+  Int32 num = get_A();
 }
 
 void Program___::ctor() {

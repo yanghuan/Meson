@@ -1,7 +1,6 @@
 #pragma once
 
 #include <System.Private.CoreLib/Microsoft/Win32/SafeHandles/SafeHandleZeroOrMinusOneIsInvalid.h>
-#include <System.Private.CoreLib/System/UIntPtr.h>
 
 namespace System::Private::CoreLib::System {
 FORWARD_(Array, T1, T2)
@@ -16,7 +15,7 @@ namespace System::Private::CoreLib::System::Runtime::InteropServices {
 namespace SafeBufferNamespace {
 using namespace Microsoft::Win32::SafeHandles;
 CLASS(SafeBuffer) : public SafeHandleZeroOrMinusOneIsInvalid::in {
-  private: static UIntPtr get_Uninitialized();
+  private: static unsigned int get_Uninitialized();
   public: UInt64 get_ByteLength();
   protected: void ctor(Boolean ownsHandle);
   public: void Initialize(UInt64 numBytes);
@@ -33,14 +32,14 @@ CLASS(SafeBuffer) : public SafeHandleZeroOrMinusOneIsInvalid::in {
   void Write(UInt64 byteOffset, T value);
   public: template <class T>
   void WriteArray(UInt64 byteOffset, Array<T> array, Int32 index, Int32 count);
-  private: void SpaceCheck(Byte* ptr, UIntPtr sizeInBytes);
+  private: void SpaceCheck(Byte* ptr, unsigned int sizeInBytes);
   private: static void NotEnoughRoom();
   private: static InvalidOperationException NotInitialized();
   public: template <class T>
   static UInt32 AlignedSizeOf();
   public: template <class T>
   static UInt32 SizeOf();
-  private: UIntPtr _numBytes;
+  private: unsigned int _numBytes;
 };
 } // namespace SafeBufferNamespace
 using SafeBuffer = SafeBufferNamespace::SafeBuffer;

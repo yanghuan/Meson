@@ -21,7 +21,7 @@ CLASS(Comparer, T) : public Object::in {
   public: static Comparer<T> Create(Comparison<T> comparison);
   public: Int32 Compare(T x, T y);
   protected: void ctor();
-  private: static void ctor_static();
+  private: static void cctor();
   private: static Comparer<T> Default;
 };
 } // namespace ComparerNamespace

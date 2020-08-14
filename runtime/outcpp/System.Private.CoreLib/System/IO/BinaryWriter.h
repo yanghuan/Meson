@@ -70,7 +70,7 @@ CLASS(BinaryWriter) : public Object::in {
   public: void Write(ReadOnlySpan<Char> chars);
   public: void Write7BitEncodedInt(Int32 value);
   public: void Write7BitEncodedInt64(Int64 value);
-  private: static void ctor_static();
+  private: static void cctor();
   public: static BinaryWriter Null;
   protected: Stream OutStream;
   private: Array<Byte> _buffer;

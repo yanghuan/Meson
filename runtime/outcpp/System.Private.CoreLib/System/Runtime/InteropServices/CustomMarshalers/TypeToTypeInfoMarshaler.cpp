@@ -1,8 +1,12 @@
 #include "TypeToTypeInfoMarshaler-dep.h"
 
+#include <System.Private.CoreLib/System/PlatformNotSupportedException-dep.h>
+#include <System.Private.CoreLib/System/Runtime/InteropServices/CustomMarshalers/TypeToTypeInfoMarshaler-dep.h>
+#include <System.Private.CoreLib/System/SR-dep.h>
+
 namespace System::Private::CoreLib::System::Runtime::InteropServices::CustomMarshalers::TypeToTypeInfoMarshalerNamespace {
 ICustomMarshaler TypeToTypeInfoMarshaler___::GetInstance(String cookie) {
-  return nullptr;
+  return s_typeToTypeInfoMarshaler;
 }
 
 void TypeToTypeInfoMarshaler___::ctor() {
@@ -15,18 +19,19 @@ void TypeToTypeInfoMarshaler___::CleanUpNativeData(IntPtr pNativeData) {
 }
 
 Int32 TypeToTypeInfoMarshaler___::GetNativeDataSize() {
-  return Int32();
+  return -1;
 }
 
 IntPtr TypeToTypeInfoMarshaler___::MarshalManagedToNative(Object ManagedObj) {
-  return IntPtr();
+  rt::throw_exception<PlatformNotSupportedException>(SR::get_PlatformNotSupported_ITypeInfo());
 }
 
 Object TypeToTypeInfoMarshaler___::MarshalNativeToManaged(IntPtr pNativeData) {
-  return nullptr;
+  rt::throw_exception<PlatformNotSupportedException>(SR::get_PlatformNotSupported_ITypeInfo());
 }
 
-void TypeToTypeInfoMarshaler___::ctor_static() {
+void TypeToTypeInfoMarshaler___::cctor() {
+  s_typeToTypeInfoMarshaler = rt::newobj<TypeToTypeInfoMarshaler>();
 }
 
 } // namespace System::Private::CoreLib::System::Runtime::InteropServices::CustomMarshalers::TypeToTypeInfoMarshalerNamespace

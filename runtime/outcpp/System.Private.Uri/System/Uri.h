@@ -259,7 +259,7 @@ CLASS(Uri) : public Object::in {
   public: Boolean IsBaseOf(Uri uri);
   public: Boolean IsBaseOfHelper(Uri uriLink);
   private: void CreateThisFromUri(Uri otherUri);
-  private: static void ctor_static();
+  private: static void cctor();
   public: static String UriSchemeFile;
   public: static String UriSchemeFtp;
   public: static String UriSchemeGopher;

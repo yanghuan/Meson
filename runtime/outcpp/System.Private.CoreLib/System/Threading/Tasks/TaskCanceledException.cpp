@@ -2,7 +2,7 @@
 
 namespace System::Private::CoreLib::System::Threading::Tasks::TaskCanceledExceptionNamespace {
 Task<> TaskCanceledException___::get_Task() {
-  return nullptr;
+  return _canceledTask;
 }
 
 void TaskCanceledException___::ctor() {
@@ -18,6 +18,7 @@ void TaskCanceledException___::ctor(String message, Exception innerException, Ca
 }
 
 void TaskCanceledException___::ctor(Task<> task) {
+  _canceledTask = task;
 }
 
 void TaskCanceledException___::ctor(SerializationInfo info, StreamingContext context) {

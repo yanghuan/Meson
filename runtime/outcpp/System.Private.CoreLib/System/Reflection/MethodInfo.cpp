@@ -1,61 +1,70 @@
 #include "MethodInfo-dep.h"
 
+#include <System.Private.CoreLib/System/NotImplemented-dep.h>
+#include <System.Private.CoreLib/System/NotSupportedException-dep.h>
 #include <System.Private.CoreLib/System/Reflection/MethodInfo-dep.h>
+#include <System.Private.CoreLib/System/SR-dep.h>
 
 namespace System::Private::CoreLib::System::Reflection::MethodInfoNamespace {
 MemberTypes MethodInfo___::get_MemberType() {
-  return MemberTypes::All;
+  return MemberTypes::Method;
 }
 
 ParameterInfo MethodInfo___::get_ReturnParameter() {
-  return nullptr;
+  rt::throw_exception(NotImplemented::get_ByDesign());
 }
 
 Type MethodInfo___::get_ReturnType() {
-  return nullptr;
+  rt::throw_exception(NotImplemented::get_ByDesign());
 }
 
 Int32 MethodInfo___::get_GenericParameterCount() {
-  return Int32();
+  return GetGenericArguments()->get_Length();
 }
 
 void MethodInfo___::ctor() {
 }
 
 Array<Type> MethodInfo___::GetGenericArguments() {
-  return Array<Type>();
+  rt::throw_exception<NotSupportedException>(SR::get_NotSupported_SubclassOverride());
 }
 
 MethodInfo MethodInfo___::GetGenericMethodDefinition() {
-  return nullptr;
+  rt::throw_exception<NotSupportedException>(SR::get_NotSupported_SubclassOverride());
 }
 
 MethodInfo MethodInfo___::MakeGenericMethod(Array<Type> typeArguments) {
-  return nullptr;
+  rt::throw_exception<NotSupportedException>(SR::get_NotSupported_SubclassOverride());
 }
 
 Delegate MethodInfo___::CreateDelegate(Type delegateType) {
-  return nullptr;
+  rt::throw_exception<NotSupportedException>(SR::get_NotSupported_SubclassOverride());
 }
 
 Delegate MethodInfo___::CreateDelegate(Type delegateType, Object target) {
-  return nullptr;
+  rt::throw_exception<NotSupportedException>(SR::get_NotSupported_SubclassOverride());
 }
 
 Boolean MethodInfo___::Equals(Object obj) {
-  return Boolean();
 }
 
 Int32 MethodInfo___::GetHashCode() {
-  return Int32();
 }
 
 Boolean MethodInfo___::op_Equality(MethodInfo left, MethodInfo right) {
-  return Boolean();
+  if ((Object)right == nullptr) {
+    if ((Object)left != nullptr) {
+      return false;
+    }
+    return true;
+  }
+  if ((Object)left == right) {
+    return true;
+  }
 }
 
 Boolean MethodInfo___::op_Inequality(MethodInfo left, MethodInfo right) {
-  return Boolean();
+  return !(left == right);
 }
 
 } // namespace System::Private::CoreLib::System::Reflection::MethodInfoNamespace

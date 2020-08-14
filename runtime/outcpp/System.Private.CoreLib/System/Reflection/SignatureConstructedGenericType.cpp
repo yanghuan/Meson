@@ -1,44 +1,59 @@
 #include "SignatureConstructedGenericType-dep.h"
 
+#include <System.Private.CoreLib/System/ArgumentException-dep.h>
+#include <System.Private.CoreLib/System/ArgumentNullException-dep.h>
+#include <System.Private.CoreLib/System/Int32-dep.h>
+#include <System.Private.CoreLib/System/InvalidOperationException-dep.h>
+#include <System.Private.CoreLib/System/Object-dep.h>
+#include <System.Private.CoreLib/System/SR-dep.h>
+#include <System.Private.CoreLib/System/Text/StringBuilder-dep.h>
+
 namespace System::Private::CoreLib::System::Reflection::SignatureConstructedGenericTypeNamespace {
+using namespace System::Text;
+
 Boolean SignatureConstructedGenericType___::get_IsTypeDefinition() {
-  return Boolean();
+  return false;
 }
 
 Boolean SignatureConstructedGenericType___::get_IsGenericTypeDefinition() {
-  return Boolean();
+  return false;
 }
 
 Boolean SignatureConstructedGenericType___::get_IsByRefLike() {
-  return Boolean();
+  return _genericTypeDefinition->get_IsByRefLike();
 }
 
 Boolean SignatureConstructedGenericType___::get_IsSZArray() {
-  return Boolean();
+  return false;
 }
 
 Boolean SignatureConstructedGenericType___::get_IsVariableBoundArray() {
-  return Boolean();
+  return false;
 }
 
 Boolean SignatureConstructedGenericType___::get_IsConstructedGenericType() {
-  return Boolean();
+  return true;
 }
 
 Boolean SignatureConstructedGenericType___::get_IsGenericParameter() {
-  return Boolean();
+  return false;
 }
 
 Boolean SignatureConstructedGenericType___::get_IsGenericTypeParameter() {
-  return Boolean();
+  return false;
 }
 
 Boolean SignatureConstructedGenericType___::get_IsGenericMethodParameter() {
-  return Boolean();
+  return false;
 }
 
 Boolean SignatureConstructedGenericType___::get_ContainsGenericParameters() {
-  return Boolean();
+  for (Int32 i = 0; i < _genericTypeArguments->get_Length(); i++) {
+    if (_genericTypeArguments[i]->get_ContainsGenericParameters()) {
+      return true;
+    }
+  }
+  return false;
 }
 
 SignatureType SignatureConstructedGenericType___::get_ElementType() {
@@ -46,54 +61,78 @@ SignatureType SignatureConstructedGenericType___::get_ElementType() {
 }
 
 Array<Type> SignatureConstructedGenericType___::get_GenericTypeArguments() {
-  return Array<Type>();
+  return (Array<Type>)_genericTypeArguments->Clone();
 }
 
 Int32 SignatureConstructedGenericType___::get_GenericParameterPosition() {
-  return Int32();
+  rt::throw_exception<InvalidOperationException>(SR::get_Arg_NotGenericParameter());
 }
 
 String SignatureConstructedGenericType___::get_Name() {
-  return nullptr;
+  return _genericTypeDefinition->get_Name();
 }
 
 String SignatureConstructedGenericType___::get_Namespace() {
-  return nullptr;
+  return _genericTypeDefinition->get_Namespace();
 }
 
 void SignatureConstructedGenericType___::ctor(Type genericTypeDefinition, Array<Type> typeArguments) {
+  if ((Object)genericTypeDefinition == nullptr) {
+    rt::throw_exception<ArgumentNullException>("genericTypeDefinition");
+  }
+  if (typeArguments == nullptr) {
+    rt::throw_exception<ArgumentNullException>("typeArguments");
+  }
+  typeArguments = (Array<Type>)typeArguments->Clone();
+  for (Int32 i = 0; i < typeArguments->get_Length(); i++) {
+    if ((Object)typeArguments[i] == nullptr) {
+      rt::throw_exception<ArgumentNullException>("typeArguments");
+    }
+  }
+  _genericTypeDefinition = genericTypeDefinition;
+  _genericTypeArguments = typeArguments;
 }
 
 Boolean SignatureConstructedGenericType___::HasElementTypeImpl() {
-  return Boolean();
+  return false;
 }
 
 Boolean SignatureConstructedGenericType___::IsArrayImpl() {
-  return Boolean();
+  return false;
 }
 
 Boolean SignatureConstructedGenericType___::IsByRefImpl() {
-  return Boolean();
+  return false;
 }
 
 Boolean SignatureConstructedGenericType___::IsPointerImpl() {
-  return Boolean();
+  return false;
 }
 
 Int32 SignatureConstructedGenericType___::GetArrayRank() {
-  return Int32();
+  rt::throw_exception<ArgumentException>(SR::get_Argument_HasToBeArrayClass());
 }
 
 Type SignatureConstructedGenericType___::GetGenericTypeDefinition() {
-  return nullptr;
+  return _genericTypeDefinition;
 }
 
 Array<Type> SignatureConstructedGenericType___::GetGenericArguments() {
-  return Array<Type>();
+  return get_GenericTypeArguments();
 }
 
 String SignatureConstructedGenericType___::ToString() {
-  return nullptr;
+  StringBuilder stringBuilder = rt::newobj<StringBuilder>();
+  stringBuilder->Append(_genericTypeDefinition->ToString());
+  stringBuilder->Append(91);
+  for (Int32 i = 0; i < _genericTypeArguments->get_Length(); i++) {
+    if (i != 0) {
+      stringBuilder->Append(44);
+    }
+    stringBuilder->Append(_genericTypeArguments[i]->ToString());
+  }
+  stringBuilder->Append(93);
+  return stringBuilder->ToString();
 }
 
 } // namespace System::Private::CoreLib::System::Reflection::SignatureConstructedGenericTypeNamespace

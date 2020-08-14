@@ -1,40 +1,46 @@
 #include "GenericTypeParameterBuilder-dep.h"
 
+#include <System.Private.CoreLib/System/InvalidOperationException-dep.h>
+#include <System.Private.CoreLib/System/NotSupportedException-dep.h>
+#include <System.Private.CoreLib/System/Reflection/Emit/GenericTypeParameterBuilder-dep.h>
+#include <System.Private.CoreLib/System/Reflection/Emit/SymbolType-dep.h>
+#include <System.Private.CoreLib/System/SR-dep.h>
+
 namespace System::Private::CoreLib::System::Reflection::Emit::GenericTypeParameterBuilderNamespace {
 Type GenericTypeParameterBuilder___::get_DeclaringType() {
-  return nullptr;
+  return m_type->get_DeclaringType();
 }
 
 Type GenericTypeParameterBuilder___::get_ReflectedType() {
-  return nullptr;
+  return m_type->get_ReflectedType();
 }
 
 String GenericTypeParameterBuilder___::get_Name() {
-  return nullptr;
+  return m_type->get_Name();
 }
 
 Module GenericTypeParameterBuilder___::get_Module() {
-  return nullptr;
+  return m_type->get_Module();
 }
 
 Boolean GenericTypeParameterBuilder___::get_IsByRefLike() {
-  return Boolean();
+  return false;
 }
 
 Int32 GenericTypeParameterBuilder___::get_MetadataTokenInternal() {
-  return Int32();
+  return m_type->get_MetadataTokenInternal();
 }
 
 Guid GenericTypeParameterBuilder___::get_GUID() {
-  return Guid();
+  rt::throw_exception<NotSupportedException>();
 }
 
 Assembly GenericTypeParameterBuilder___::get_Assembly() {
-  return nullptr;
+  return m_type->get_Assembly();
 }
 
 RuntimeTypeHandle GenericTypeParameterBuilder___::get_TypeHandle() {
-  return RuntimeTypeHandle();
+  rt::throw_exception<NotSupportedException>();
 }
 
 String GenericTypeParameterBuilder___::get_FullName() {
@@ -50,245 +56,261 @@ String GenericTypeParameterBuilder___::get_AssemblyQualifiedName() {
 }
 
 Type GenericTypeParameterBuilder___::get_BaseType() {
-  return nullptr;
+  return m_type->get_BaseType();
 }
 
 Boolean GenericTypeParameterBuilder___::get_IsTypeDefinition() {
-  return Boolean();
+  return false;
 }
 
 Boolean GenericTypeParameterBuilder___::get_IsSZArray() {
-  return Boolean();
+  return false;
 }
 
 Type GenericTypeParameterBuilder___::get_UnderlyingSystemType() {
-  return nullptr;
+  return (GenericTypeParameterBuilder)this;
 }
 
 Boolean GenericTypeParameterBuilder___::get_IsGenericTypeDefinition() {
-  return Boolean();
+  return false;
 }
 
 Boolean GenericTypeParameterBuilder___::get_IsGenericType() {
-  return Boolean();
+  return false;
 }
 
 Boolean GenericTypeParameterBuilder___::get_IsGenericParameter() {
-  return Boolean();
+  return true;
 }
 
 Boolean GenericTypeParameterBuilder___::get_IsConstructedGenericType() {
-  return Boolean();
+  return false;
 }
 
 Int32 GenericTypeParameterBuilder___::get_GenericParameterPosition() {
-  return Int32();
+  return m_type->get_GenericParameterPosition();
 }
 
 Boolean GenericTypeParameterBuilder___::get_ContainsGenericParameters() {
-  return Boolean();
+  return m_type->get_ContainsGenericParameters();
 }
 
 GenericParameterAttributes GenericTypeParameterBuilder___::get_GenericParameterAttributes() {
-  return GenericParameterAttributes::DefaultConstructorConstraint;
+  return m_type->get_GenericParameterAttributes();
 }
 
 MethodBase GenericTypeParameterBuilder___::get_DeclaringMethod() {
-  return nullptr;
+  return m_type->get_DeclaringMethod();
 }
 
 Boolean GenericTypeParameterBuilder___::IsAssignableFrom(TypeInfo typeInfo) {
-  return Boolean();
+  if (typeInfo == nullptr) {
+    return false;
+  }
+  return IsAssignableFrom(typeInfo->AsType());
 }
 
 void GenericTypeParameterBuilder___::ctor(TypeBuilder type) {
+  m_type = type;
 }
 
 String GenericTypeParameterBuilder___::ToString() {
-  return nullptr;
+  return m_type->get_Name();
 }
 
 Boolean GenericTypeParameterBuilder___::Equals(Object o) {
-  return Boolean();
+  GenericTypeParameterBuilder genericTypeParameterBuilder = rt::as<GenericTypeParameterBuilder>(o);
+  if (genericTypeParameterBuilder == nullptr) {
+    return false;
+  }
+  return (Object)genericTypeParameterBuilder->m_type == m_type;
 }
 
 Int32 GenericTypeParameterBuilder___::GetHashCode() {
-  return Int32();
+  return m_type->GetHashCode();
 }
 
 Type GenericTypeParameterBuilder___::MakePointerType() {
-  return nullptr;
+  return SymbolType::in::FormCompoundType("*", (GenericTypeParameterBuilder)this, 0);
 }
 
 Type GenericTypeParameterBuilder___::MakeByRefType() {
-  return nullptr;
+  return SymbolType::in::FormCompoundType("&", (GenericTypeParameterBuilder)this, 0);
 }
 
 Type GenericTypeParameterBuilder___::MakeArrayType() {
-  return nullptr;
+  return SymbolType::in::FormCompoundType("[]", (GenericTypeParameterBuilder)this, 0);
 }
 
 Type GenericTypeParameterBuilder___::MakeArrayType(Int32 rank) {
-  return nullptr;
+  String rankString = TypeInfo::in::GetRankString(rank);
+  return rt::as<SymbolType>(SymbolType::in::FormCompoundType(rankString, (GenericTypeParameterBuilder)this, 0));
 }
 
 Object GenericTypeParameterBuilder___::InvokeMember(String name, BindingFlags invokeAttr, Binder binder, Object target, Array<Object> args, Array<ParameterModifier> modifiers, CultureInfo culture, Array<String> namedParameters) {
-  return nullptr;
+  rt::throw_exception<NotSupportedException>();
 }
 
 ConstructorInfo GenericTypeParameterBuilder___::GetConstructorImpl(BindingFlags bindingAttr, Binder binder, CallingConventions callConvention, Array<Type> types, Array<ParameterModifier> modifiers) {
-  return nullptr;
+  rt::throw_exception<NotSupportedException>();
 }
 
 Array<ConstructorInfo> GenericTypeParameterBuilder___::GetConstructors(BindingFlags bindingAttr) {
-  return Array<ConstructorInfo>();
+  rt::throw_exception<NotSupportedException>();
 }
 
 MethodInfo GenericTypeParameterBuilder___::GetMethodImpl(String name, BindingFlags bindingAttr, Binder binder, CallingConventions callConvention, Array<Type> types, Array<ParameterModifier> modifiers) {
-  return nullptr;
+  rt::throw_exception<NotSupportedException>();
 }
 
 Array<MethodInfo> GenericTypeParameterBuilder___::GetMethods(BindingFlags bindingAttr) {
-  return Array<MethodInfo>();
+  rt::throw_exception<NotSupportedException>();
 }
 
 FieldInfo GenericTypeParameterBuilder___::GetField(String name, BindingFlags bindingAttr) {
-  return nullptr;
+  rt::throw_exception<NotSupportedException>();
 }
 
 Array<FieldInfo> GenericTypeParameterBuilder___::GetFields(BindingFlags bindingAttr) {
-  return Array<FieldInfo>();
+  rt::throw_exception<NotSupportedException>();
 }
 
 Type GenericTypeParameterBuilder___::GetInterface(String name, Boolean ignoreCase) {
-  return nullptr;
+  rt::throw_exception<NotSupportedException>();
 }
 
 Array<Type> GenericTypeParameterBuilder___::GetInterfaces() {
-  return Array<Type>();
+  rt::throw_exception<NotSupportedException>();
 }
 
 EventInfo GenericTypeParameterBuilder___::GetEvent(String name, BindingFlags bindingAttr) {
-  return nullptr;
+  rt::throw_exception<NotSupportedException>();
 }
 
 Array<EventInfo> GenericTypeParameterBuilder___::GetEvents() {
-  return Array<EventInfo>();
+  rt::throw_exception<NotSupportedException>();
 }
 
 PropertyInfo GenericTypeParameterBuilder___::GetPropertyImpl(String name, BindingFlags bindingAttr, Binder binder, Type returnType, Array<Type> types, Array<ParameterModifier> modifiers) {
-  return nullptr;
+  rt::throw_exception<NotSupportedException>();
 }
 
 Array<PropertyInfo> GenericTypeParameterBuilder___::GetProperties(BindingFlags bindingAttr) {
-  return Array<PropertyInfo>();
+  rt::throw_exception<NotSupportedException>();
 }
 
 Array<Type> GenericTypeParameterBuilder___::GetNestedTypes(BindingFlags bindingAttr) {
-  return Array<Type>();
+  rt::throw_exception<NotSupportedException>();
 }
 
 Type GenericTypeParameterBuilder___::GetNestedType(String name, BindingFlags bindingAttr) {
-  return nullptr;
+  rt::throw_exception<NotSupportedException>();
 }
 
 Array<MemberInfo> GenericTypeParameterBuilder___::GetMember(String name, MemberTypes type, BindingFlags bindingAttr) {
-  return Array<MemberInfo>();
+  rt::throw_exception<NotSupportedException>();
 }
 
 InterfaceMapping GenericTypeParameterBuilder___::GetInterfaceMap(Type interfaceType) {
-  return InterfaceMapping();
+  rt::throw_exception<NotSupportedException>();
 }
 
 Array<EventInfo> GenericTypeParameterBuilder___::GetEvents(BindingFlags bindingAttr) {
-  return Array<EventInfo>();
+  rt::throw_exception<NotSupportedException>();
 }
 
 Array<MemberInfo> GenericTypeParameterBuilder___::GetMembers(BindingFlags bindingAttr) {
-  return Array<MemberInfo>();
+  rt::throw_exception<NotSupportedException>();
 }
 
 TypeAttributes GenericTypeParameterBuilder___::GetAttributeFlagsImpl() {
-  return TypeAttributes::ReservedMask;
+  return TypeAttributes::Public;
 }
 
 Boolean GenericTypeParameterBuilder___::IsArrayImpl() {
-  return Boolean();
+  return false;
 }
 
 Boolean GenericTypeParameterBuilder___::IsByRefImpl() {
-  return Boolean();
+  return false;
 }
 
 Boolean GenericTypeParameterBuilder___::IsPointerImpl() {
-  return Boolean();
+  return false;
 }
 
 Boolean GenericTypeParameterBuilder___::IsPrimitiveImpl() {
-  return Boolean();
+  return false;
 }
 
 Boolean GenericTypeParameterBuilder___::IsCOMObjectImpl() {
-  return Boolean();
+  return false;
 }
 
 Type GenericTypeParameterBuilder___::GetElementType() {
-  return nullptr;
+  rt::throw_exception<NotSupportedException>();
 }
 
 Boolean GenericTypeParameterBuilder___::HasElementTypeImpl() {
-  return Boolean();
+  return false;
 }
 
 Array<Type> GenericTypeParameterBuilder___::GetGenericArguments() {
-  return Array<Type>();
+  rt::throw_exception<InvalidOperationException>();
 }
 
 Type GenericTypeParameterBuilder___::GetGenericTypeDefinition() {
-  return nullptr;
+  rt::throw_exception<InvalidOperationException>();
 }
 
 Type GenericTypeParameterBuilder___::MakeGenericType(Array<Type> typeArguments) {
-  return nullptr;
+  rt::throw_exception<InvalidOperationException>(SR::Format(SR::get_Arg_NotGenericTypeDefinition(), (GenericTypeParameterBuilder)this));
 }
 
 Boolean GenericTypeParameterBuilder___::IsValueTypeImpl() {
-  return Boolean();
+  return false;
 }
 
 Boolean GenericTypeParameterBuilder___::IsAssignableFrom(Type c) {
-  return Boolean();
+  rt::throw_exception<NotSupportedException>();
 }
 
 Boolean GenericTypeParameterBuilder___::IsSubclassOf(Type c) {
-  return Boolean();
+  rt::throw_exception<NotSupportedException>();
 }
 
 Array<Object> GenericTypeParameterBuilder___::GetCustomAttributes(Boolean inherit) {
-  return Array<Object>();
+  rt::throw_exception<NotSupportedException>();
 }
 
 Array<Object> GenericTypeParameterBuilder___::GetCustomAttributes(Type attributeType, Boolean inherit) {
-  return Array<Object>();
+  rt::throw_exception<NotSupportedException>();
 }
 
 Boolean GenericTypeParameterBuilder___::IsDefined(Type attributeType, Boolean inherit) {
-  return Boolean();
+  rt::throw_exception<NotSupportedException>();
 }
 
 void GenericTypeParameterBuilder___::SetCustomAttribute(ConstructorInfo con, Array<Byte> binaryAttribute) {
+  m_type->SetGenParamCustomAttribute(con, binaryAttribute);
 }
 
 void GenericTypeParameterBuilder___::SetCustomAttribute(CustomAttributeBuilder customBuilder) {
+  m_type->SetGenParamCustomAttribute(customBuilder);
 }
 
 void GenericTypeParameterBuilder___::SetBaseTypeConstraint(Type baseTypeConstraint) {
+  m_type->CheckContext(rt::newarr<Array<Type>>(1, baseTypeConstraint));
+  m_type->SetParent(baseTypeConstraint);
 }
 
 void GenericTypeParameterBuilder___::SetInterfaceConstraints(Array<Type> interfaceConstraints) {
+  m_type->CheckContext(rt::newarr<Array<Type>>(1, interfaceConstraints));
+  m_type->SetInterfaces(rt::newarr<Array<Type>>(1, interfaceConstraints));
 }
 
 void GenericTypeParameterBuilder___::SetGenericParameterAttributes(GenericParameterAttributes genericParameterAttributes) {
+  m_type->SetGenParamAttributes(genericParameterAttributes);
 }
 
 } // namespace System::Private::CoreLib::System::Reflection::Emit::GenericTypeParameterBuilderNamespace

@@ -27,7 +27,7 @@ CLASS(FrameworkEventSource) : public EventSource::in {
   public: void ThreadTransferSendObj(Object id, Int32 kind, String info, Boolean multiDequeues, Int32 intInfo1, Int32 intInfo2);
   public: void ThreadTransferReceive(Int64 id, Int32 kind, String info);
   public: void ThreadTransferReceiveObj(Object id, Int32 kind, String info);
-  private: static void ctor_static();
+  private: static void cctor();
   public: static FrameworkEventSource Log;
 };
 } // namespace FrameworkEventSourceNamespace

@@ -65,7 +65,7 @@ CLASS(WaitHandle) : public MarshalByRefObject::in {
   public: static Boolean SignalAndWait(WaitHandle toSignal, WaitHandle toWaitOn);
   public: static Boolean SignalAndWait(WaitHandle toSignal, WaitHandle toWaitOn, TimeSpan timeout, Boolean exitContext);
   public: static Boolean SignalAndWait(WaitHandle toSignal, WaitHandle toWaitOn, Int32 millisecondsTimeout, Boolean exitContext);
-  private: static void ctor_static();
+  private: static void cctor();
   public: static constexpr Int32 MaxWaitHandles = 64;
   protected: static IntPtr InvalidHandle;
   private: SafeWaitHandle _waitHandle;

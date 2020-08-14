@@ -2,15 +2,25 @@
 
 namespace System::Private::CoreLib::System::Runtime::CompilerServices::RuntimeFeatureNamespace {
 Boolean RuntimeFeature::get_IsDynamicCodeSupported() {
-  return Boolean();
+  return true;
 }
 
 Boolean RuntimeFeature::get_IsDynamicCodeCompiled() {
-  return Boolean();
+  return true;
 }
 
 Boolean RuntimeFeature::IsSupported(String feature) {
-  return Boolean();
+  switch (feature.get()) {
+    case "PortablePdb":
+    case "DefaultImplementationsOfInterfaces":
+      return true;
+    case "IsDynamicCodeSupported":
+      return get_IsDynamicCodeSupported();
+    case "IsDynamicCodeCompiled":
+      return get_IsDynamicCodeCompiled();
+    default:
+      return false;
+  }
 }
 
 } // namespace System::Private::CoreLib::System::Runtime::CompilerServices::RuntimeFeatureNamespace

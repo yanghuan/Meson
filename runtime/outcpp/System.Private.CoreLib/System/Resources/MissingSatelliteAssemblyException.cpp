@@ -2,7 +2,7 @@
 
 namespace System::Private::CoreLib::System::Resources::MissingSatelliteAssemblyExceptionNamespace {
 String MissingSatelliteAssemblyException___::get_CultureName() {
-  return nullptr;
+  return _cultureName;
 }
 
 void MissingSatelliteAssemblyException___::ctor() {

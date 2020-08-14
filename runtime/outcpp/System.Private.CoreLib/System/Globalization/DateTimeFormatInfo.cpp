@@ -1,501 +1,1224 @@
 #include "DateTimeFormatInfo-dep.h"
 
+#include <System.Private.CoreLib/System/ArgumentException-dep.h>
+#include <System.Private.CoreLib/System/ArgumentNullException-dep.h>
+#include <System.Private.CoreLib/System/ArgumentOutOfRangeException-dep.h>
+#include <System.Private.CoreLib/System/Boolean-dep.h>
+#include <System.Private.CoreLib/System/Char-dep.h>
+#include <System.Private.CoreLib/System/Collections/Generic/List-dep.h>
+#include <System.Private.CoreLib/System/DateTimeFormat-dep.h>
+#include <System.Private.CoreLib/System/Globalization/CompareOptions.h>
+#include <System.Private.CoreLib/System/Globalization/DateTimeFormatFlags.h>
 #include <System.Private.CoreLib/System/Globalization/DateTimeFormatInfo-dep.h>
+#include <System.Private.CoreLib/System/Globalization/DateTimeFormatInfoScanner-dep.h>
+#include <System.Private.CoreLib/System/Globalization/HebrewNumber-dep.h>
+#include <System.Private.CoreLib/System/Globalization/HebrewNumberParsingContext-dep.h>
+#include <System.Private.CoreLib/System/Globalization/HebrewNumberParsingState.h>
+#include <System.Private.CoreLib/System/Globalization/JapaneseCalendar-dep.h>
+#include <System.Private.CoreLib/System/Globalization/TaiwanCalendar-dep.h>
+#include <System.Private.CoreLib/System/InvalidOperationException-dep.h>
+#include <System.Private.CoreLib/System/LocalAppContextSwitches-dep.h>
+#include <System.Private.CoreLib/System/MemoryExtensions-dep.h>
+#include <System.Private.CoreLib/System/ReadOnlySpan-dep.h>
+#include <System.Private.CoreLib/System/SR-dep.h>
 
 namespace System::Private::CoreLib::System::Globalization::DateTimeFormatInfoNamespace {
+using namespace System::Collections::Generic;
+
 void DateTimeFormatInfo___::TokenHashValue___::ctor(String tokenString, TokenType tokenType, Int32 tokenValue) {
+  this->tokenString = tokenString;
+  this->tokenType = tokenType;
+  this->tokenValue = tokenValue;
 }
 
 String DateTimeFormatInfo___::get_CultureName() {
-  return nullptr;
 }
 
 CultureInfo DateTimeFormatInfo___::get_Culture() {
-  return nullptr;
 }
 
 String DateTimeFormatInfo___::get_LanguageName() {
-  return nullptr;
 }
 
 DateTimeFormatInfo DateTimeFormatInfo___::get_InvariantInfo() {
-  return nullptr;
+  if (s_invariantInfo == nullptr) {
+    DateTimeFormatInfo dateTimeFormatInfo = rt::newobj<DateTimeFormatInfo>();
+    dateTimeFormatInfo->get_Calendar()->SetReadOnlyState(true);
+    dateTimeFormatInfo->_isReadOnly = true;
+    s_invariantInfo = dateTimeFormatInfo;
+  }
+  return s_invariantInfo;
 }
 
 DateTimeFormatInfo DateTimeFormatInfo___::get_CurrentInfo() {
-  return nullptr;
+  CultureInfo currentCulture = CultureInfo::in::get_CurrentCulture();
+  if (!currentCulture->_isInherited) {
+    DateTimeFormatInfo dateTimeInfo = currentCulture->_dateTimeInfo;
+    if (dateTimeInfo != nullptr) {
+      return dateTimeInfo;
+    }
+  }
 }
 
 String DateTimeFormatInfo___::get_AMDesignator() {
-  return nullptr;
+  if (amDesignator == nullptr) {
+    amDesignator = _cultureData->get_AMDesignator();
+  }
+  return amDesignator;
 }
 
 void DateTimeFormatInfo___::set_AMDesignator(String value) {
+  if (get_IsReadOnly()) {
+    rt::throw_exception<InvalidOperationException>(SR::get_InvalidOperation_ReadOnly());
+  }
+  if (value == nullptr) {
+    rt::throw_exception<ArgumentNullException>("value");
+  }
+  ClearTokenHashTable();
+  amDesignator = value;
 }
 
 Calendar DateTimeFormatInfo___::get_Calendar() {
-  return nullptr;
+  return calendar;
 }
 
 void DateTimeFormatInfo___::set_Calendar(Calendar value) {
+  if (get_IsReadOnly()) {
+    rt::throw_exception<InvalidOperationException>(SR::get_InvalidOperation_ReadOnly());
+  }
+  if (value == nullptr) {
+    rt::throw_exception<ArgumentNullException>("value");
+  }
+  if (value == calendar) {
+    return;
+  }
+  for (Int32 i = 0; i < get_OptionalCalendars()->get_Length(); i++) {
+    if (get_OptionalCalendars()[i] == value->get_ID()) {
+      if (calendar != nullptr) {
+        m_eraNames = nullptr;
+        m_abbrevEraNames = nullptr;
+        m_abbrevEnglishEraNames = nullptr;
+        monthDayPattern = nullptr;
+        dayNames = nullptr;
+        abbreviatedDayNames = nullptr;
+        m_superShortDayNames = nullptr;
+        monthNames = nullptr;
+        abbreviatedMonthNames = nullptr;
+        genitiveMonthNames = nullptr;
+        m_genitiveAbbreviatedMonthNames = nullptr;
+        leapYearMonthNames = nullptr;
+        formatFlags = DateTimeFormatFlags::NotInitialized;
+        allShortDatePatterns = nullptr;
+        allLongDatePatterns = nullptr;
+        allYearMonthPatterns = nullptr;
+        dateTimeOffsetPattern = nullptr;
+        longDatePattern = nullptr;
+        shortDatePattern = nullptr;
+        yearMonthPattern = nullptr;
+        fullDateTimePattern = nullptr;
+        generalShortTimePattern = nullptr;
+        generalLongTimePattern = nullptr;
+        dateSeparator = nullptr;
+        ClearTokenHashTable();
+      }
+      calendar = value;
+      InitializeOverridableProperties(_cultureData, calendar->get_ID());
+      return;
+    }
+  }
+  rt::throw_exception<ArgumentOutOfRangeException>("value", value, SR::get_Argument_InvalidCalendar());
 }
 
 Array<CalendarId> DateTimeFormatInfo___::get_OptionalCalendars() {
-  return Array<CalendarId>();
 }
 
 Array<String> DateTimeFormatInfo___::get_EraNames() {
-  return Array<String>();
 }
 
 Array<String> DateTimeFormatInfo___::get_AbbreviatedEraNames() {
-  return Array<String>();
 }
 
 Array<String> DateTimeFormatInfo___::get_AbbreviatedEnglishEraNames() {
-  return Array<String>();
+  if (m_abbrevEnglishEraNames == nullptr) {
+    m_abbrevEnglishEraNames = _cultureData->AbbreviatedEnglishEraNames(get_Calendar()->get_ID());
+  }
+  return m_abbrevEnglishEraNames;
 }
 
 String DateTimeFormatInfo___::get_DateSeparator() {
-  return nullptr;
+  if (dateSeparator == nullptr) {
+    dateSeparator = _cultureData->DateSeparator(get_Calendar()->get_ID());
+  }
+  return dateSeparator;
 }
 
 void DateTimeFormatInfo___::set_DateSeparator(String value) {
+  if (get_IsReadOnly()) {
+    rt::throw_exception<InvalidOperationException>(SR::get_InvalidOperation_ReadOnly());
+  }
+  if (value == nullptr) {
+    rt::throw_exception<ArgumentNullException>("value");
+  }
+  ClearTokenHashTable();
+  dateSeparator = value;
 }
 
 DayOfWeek DateTimeFormatInfo___::get_FirstDayOfWeek() {
-  return DayOfWeek::Saturday;
+  if (firstDayOfWeek == -1) {
+    firstDayOfWeek = _cultureData->get_FirstDayOfWeek();
+  }
+  return (DayOfWeek)firstDayOfWeek;
 }
 
 void DateTimeFormatInfo___::set_FirstDayOfWeek(DayOfWeek value) {
+  if (get_IsReadOnly()) {
+    rt::throw_exception<InvalidOperationException>(SR::get_InvalidOperation_ReadOnly());
+  }
+  if (value < DayOfWeek::Sunday || value > DayOfWeek::Saturday) {
+    rt::throw_exception<ArgumentOutOfRangeException>("value", value, SR::Format(SR::get_ArgumentOutOfRange_Range(), DayOfWeek::Sunday, DayOfWeek::Saturday));
+  }
+  firstDayOfWeek = (Int32)value;
 }
 
 CalendarWeekRule DateTimeFormatInfo___::get_CalendarWeekRule() {
-  return CalendarWeekRule::FirstFourDayWeek;
+  if (calendarWeekRule == -1) {
+    calendarWeekRule = _cultureData->get_CalendarWeekRule();
+  }
+  return (CalendarWeekRule)calendarWeekRule;
 }
 
 void DateTimeFormatInfo___::set_CalendarWeekRule(CalendarWeekRule value) {
+  if (get_IsReadOnly()) {
+    rt::throw_exception<InvalidOperationException>(SR::get_InvalidOperation_ReadOnly());
+  }
+  if (value < CalendarWeekRule::FirstDay || value > CalendarWeekRule::FirstFourDayWeek) {
+    rt::throw_exception<ArgumentOutOfRangeException>("value", value, SR::Format(SR::get_ArgumentOutOfRange_Range(), CalendarWeekRule::FirstDay, CalendarWeekRule::FirstFourDayWeek));
+  }
+  calendarWeekRule = (Int32)value;
 }
 
 String DateTimeFormatInfo___::get_FullDateTimePattern() {
-  return nullptr;
 }
 
 void DateTimeFormatInfo___::set_FullDateTimePattern(String value) {
+  if (get_IsReadOnly()) {
+    rt::throw_exception<InvalidOperationException>(SR::get_InvalidOperation_ReadOnly());
+  }
+  if (value == nullptr) {
+    rt::throw_exception<ArgumentNullException>("value");
+  }
+  fullDateTimePattern = value;
 }
 
 String DateTimeFormatInfo___::get_LongDatePattern() {
-  return nullptr;
 }
 
 void DateTimeFormatInfo___::set_LongDatePattern(String value) {
+  if (get_IsReadOnly()) {
+    rt::throw_exception<InvalidOperationException>(SR::get_InvalidOperation_ReadOnly());
+  }
+  if (value == nullptr) {
+    rt::throw_exception<ArgumentNullException>("value");
+  }
+  longDatePattern = value;
+  OnLongDatePatternChanged();
 }
 
 String DateTimeFormatInfo___::get_LongTimePattern() {
-  return nullptr;
 }
 
 void DateTimeFormatInfo___::set_LongTimePattern(String value) {
+  if (get_IsReadOnly()) {
+    rt::throw_exception<InvalidOperationException>(SR::get_InvalidOperation_ReadOnly());
+  }
+  if (value == nullptr) {
+    rt::throw_exception<ArgumentNullException>("value");
+  }
+  longTimePattern = value;
+  OnLongTimePatternChanged();
 }
 
 String DateTimeFormatInfo___::get_MonthDayPattern() {
-  return nullptr;
+  if (monthDayPattern == nullptr) {
+    monthDayPattern = _cultureData->MonthDay(get_Calendar()->get_ID());
+  }
+  return monthDayPattern;
 }
 
 void DateTimeFormatInfo___::set_MonthDayPattern(String value) {
+  if (get_IsReadOnly()) {
+    rt::throw_exception<InvalidOperationException>(SR::get_InvalidOperation_ReadOnly());
+  }
+  if (value == nullptr) {
+    rt::throw_exception<ArgumentNullException>("value");
+  }
+  monthDayPattern = value;
 }
 
 String DateTimeFormatInfo___::get_PMDesignator() {
-  return nullptr;
+  if (pmDesignator == nullptr) {
+    pmDesignator = _cultureData->get_PMDesignator();
+  }
+  return pmDesignator;
 }
 
 void DateTimeFormatInfo___::set_PMDesignator(String value) {
+  if (get_IsReadOnly()) {
+    rt::throw_exception<InvalidOperationException>(SR::get_InvalidOperation_ReadOnly());
+  }
+  if (value == nullptr) {
+    rt::throw_exception<ArgumentNullException>("value");
+  }
+  ClearTokenHashTable();
+  pmDesignator = value;
 }
 
 String DateTimeFormatInfo___::get_RFC1123Pattern() {
-  return nullptr;
+  return "ddd, dd MMM yyyy HH':'mm':'ss 'GMT'";
 }
 
 String DateTimeFormatInfo___::get_ShortDatePattern() {
-  return nullptr;
 }
 
 void DateTimeFormatInfo___::set_ShortDatePattern(String value) {
+  if (get_IsReadOnly()) {
+    rt::throw_exception<InvalidOperationException>(SR::get_InvalidOperation_ReadOnly());
+  }
+  if (value == nullptr) {
+    rt::throw_exception<ArgumentNullException>("value");
+  }
+  shortDatePattern = value;
+  OnShortDatePatternChanged();
 }
 
 String DateTimeFormatInfo___::get_ShortTimePattern() {
-  return nullptr;
 }
 
 void DateTimeFormatInfo___::set_ShortTimePattern(String value) {
+  if (get_IsReadOnly()) {
+    rt::throw_exception<InvalidOperationException>(SR::get_InvalidOperation_ReadOnly());
+  }
+  if (value == nullptr) {
+    rt::throw_exception<ArgumentNullException>("value");
+  }
+  shortTimePattern = value;
+  OnShortTimePatternChanged();
 }
 
 String DateTimeFormatInfo___::get_SortableDateTimePattern() {
-  return nullptr;
+  return "yyyy'-'MM'-'dd'T'HH':'mm':'ss";
 }
 
 String DateTimeFormatInfo___::get_GeneralShortTimePattern() {
-  return nullptr;
 }
 
 String DateTimeFormatInfo___::get_GeneralLongTimePattern() {
-  return nullptr;
 }
 
 String DateTimeFormatInfo___::get_DateTimeOffsetPattern() {
-  return nullptr;
+  if (dateTimeOffsetPattern == nullptr) {
+    Boolean flag = false;
+    Boolean flag2 = false;
+    Char c = 39;
+    Int32 num = 0;
+    while (!flag && num < get_LongTimePattern()->get_Length()) {
+      switch (get_LongTimePattern()[num].get()) {
+        case 122:
+          flag = !flag2;
+          break;
+        case 34:
+        case 39:
+          if (flag2 && c == get_LongTimePattern()[num]) {
+            flag2 = false;
+          } else if (!flag2) {
+            c = get_LongTimePattern()[num];
+            flag2 = true;
+          }
+
+          break;
+        case 37:
+        case 92:
+          num++;
+          break;
+      }
+      num++;
+    }
+    dateTimeOffsetPattern = (flag ? (get_ShortDatePattern() + " " + get_LongTimePattern()) : (get_ShortDatePattern() + " " + get_LongTimePattern() + " zzz"));
+  }
+  return dateTimeOffsetPattern;
 }
 
 String DateTimeFormatInfo___::get_TimeSeparator() {
-  return nullptr;
+  if (timeSeparator == nullptr) {
+    timeSeparator = _cultureData->get_TimeSeparator();
+  }
+  return timeSeparator;
 }
 
 void DateTimeFormatInfo___::set_TimeSeparator(String value) {
+  if (get_IsReadOnly()) {
+    rt::throw_exception<InvalidOperationException>(SR::get_InvalidOperation_ReadOnly());
+  }
+  if (value == nullptr) {
+    rt::throw_exception<ArgumentNullException>("value");
+  }
+  ClearTokenHashTable();
+  timeSeparator = value;
 }
 
 String DateTimeFormatInfo___::get_UniversalSortableDateTimePattern() {
-  return nullptr;
+  return "yyyy'-'MM'-'dd HH':'mm':'ss'Z'";
 }
 
 String DateTimeFormatInfo___::get_YearMonthPattern() {
-  return nullptr;
 }
 
 void DateTimeFormatInfo___::set_YearMonthPattern(String value) {
+  if (get_IsReadOnly()) {
+    rt::throw_exception<InvalidOperationException>(SR::get_InvalidOperation_ReadOnly());
+  }
+  if (value == nullptr) {
+    rt::throw_exception<ArgumentNullException>("value");
+  }
+  yearMonthPattern = value;
+  OnYearMonthPatternChanged();
 }
 
 Array<String> DateTimeFormatInfo___::get_AbbreviatedDayNames() {
-  return Array<String>();
+  return (Array<String>)InternalGetAbbreviatedDayOfWeekNames()->Clone();
 }
 
 void DateTimeFormatInfo___::set_AbbreviatedDayNames(Array<String> value) {
+  if (get_IsReadOnly()) {
+    rt::throw_exception<InvalidOperationException>(SR::get_InvalidOperation_ReadOnly());
+  }
+  if (value == nullptr) {
+    rt::throw_exception<ArgumentNullException>("value");
+  }
+  if (value->get_Length() != 7) {
+    rt::throw_exception<ArgumentException>(SR::Format(SR::get_Argument_InvalidArrayLength(), 7), "value");
+  }
+  CheckNullValue(value, value->get_Length());
+  ClearTokenHashTable();
+  abbreviatedDayNames = value;
 }
 
 Array<String> DateTimeFormatInfo___::get_ShortestDayNames() {
-  return Array<String>();
+  return (Array<String>)InternalGetSuperShortDayNames()->Clone();
 }
 
 void DateTimeFormatInfo___::set_ShortestDayNames(Array<String> value) {
+  if (get_IsReadOnly()) {
+    rt::throw_exception<InvalidOperationException>(SR::get_InvalidOperation_ReadOnly());
+  }
+  if (value == nullptr) {
+    rt::throw_exception<ArgumentNullException>("value");
+  }
+  if (value->get_Length() != 7) {
+    rt::throw_exception<ArgumentException>(SR::Format(SR::get_Argument_InvalidArrayLength(), 7), "value");
+  }
+  CheckNullValue(value, value->get_Length());
+  m_superShortDayNames = value;
 }
 
 Array<String> DateTimeFormatInfo___::get_DayNames() {
-  return Array<String>();
+  return (Array<String>)InternalGetDayOfWeekNames()->Clone();
 }
 
 void DateTimeFormatInfo___::set_DayNames(Array<String> value) {
+  if (get_IsReadOnly()) {
+    rt::throw_exception<InvalidOperationException>(SR::get_InvalidOperation_ReadOnly());
+  }
+  if (value == nullptr) {
+    rt::throw_exception<ArgumentNullException>("value");
+  }
+  if (value->get_Length() != 7) {
+    rt::throw_exception<ArgumentException>(SR::Format(SR::get_Argument_InvalidArrayLength(), 7), "value");
+  }
+  CheckNullValue(value, value->get_Length());
+  ClearTokenHashTable();
+  dayNames = value;
 }
 
 Array<String> DateTimeFormatInfo___::get_AbbreviatedMonthNames() {
-  return Array<String>();
+  return (Array<String>)InternalGetAbbreviatedMonthNames()->Clone();
 }
 
 void DateTimeFormatInfo___::set_AbbreviatedMonthNames(Array<String> value) {
+  if (get_IsReadOnly()) {
+    rt::throw_exception<InvalidOperationException>(SR::get_InvalidOperation_ReadOnly());
+  }
+  if (value == nullptr) {
+    rt::throw_exception<ArgumentNullException>("value");
+  }
+  if (value->get_Length() != 13) {
+    rt::throw_exception<ArgumentException>(SR::Format(SR::get_Argument_InvalidArrayLength(), 13), "value");
+  }
+  CheckNullValue(value, value->get_Length() - 1);
+  ClearTokenHashTable();
+  abbreviatedMonthNames = value;
 }
 
 Array<String> DateTimeFormatInfo___::get_MonthNames() {
-  return Array<String>();
+  return (Array<String>)InternalGetMonthNames()->Clone();
 }
 
 void DateTimeFormatInfo___::set_MonthNames(Array<String> value) {
+  if (get_IsReadOnly()) {
+    rt::throw_exception<InvalidOperationException>(SR::get_InvalidOperation_ReadOnly());
+  }
+  if (value == nullptr) {
+    rt::throw_exception<ArgumentNullException>("value");
+  }
+  if (value->get_Length() != 13) {
+    rt::throw_exception<ArgumentException>(SR::Format(SR::get_Argument_InvalidArrayLength(), 13), "value");
+  }
+  CheckNullValue(value, value->get_Length() - 1);
+  monthNames = value;
+  ClearTokenHashTable();
 }
 
 Boolean DateTimeFormatInfo___::get_HasSpacesInMonthNames() {
-  return Boolean();
 }
 
 Boolean DateTimeFormatInfo___::get_HasSpacesInDayNames() {
-  return Boolean();
 }
 
 Array<String> DateTimeFormatInfo___::get_AllYearMonthPatterns() {
-  return Array<String>();
+  return GetMergedPatterns(get_UnclonedYearMonthPatterns(), get_YearMonthPattern());
 }
 
 Array<String> DateTimeFormatInfo___::get_AllShortDatePatterns() {
-  return Array<String>();
+  return GetMergedPatterns(get_UnclonedShortDatePatterns(), get_ShortDatePattern());
 }
 
 Array<String> DateTimeFormatInfo___::get_AllShortTimePatterns() {
-  return Array<String>();
+  return GetMergedPatterns(get_UnclonedShortTimePatterns(), get_ShortTimePattern());
 }
 
 Array<String> DateTimeFormatInfo___::get_AllLongDatePatterns() {
-  return Array<String>();
+  return GetMergedPatterns(get_UnclonedLongDatePatterns(), get_LongDatePattern());
 }
 
 Array<String> DateTimeFormatInfo___::get_AllLongTimePatterns() {
-  return Array<String>();
+  return GetMergedPatterns(get_UnclonedLongTimePatterns(), get_LongTimePattern());
 }
 
 Array<String> DateTimeFormatInfo___::get_UnclonedYearMonthPatterns() {
-  return Array<String>();
+  if (allYearMonthPatterns == nullptr) {
+    allYearMonthPatterns = _cultureData->YearMonths(get_Calendar()->get_ID());
+  }
+  return allYearMonthPatterns;
 }
 
 Array<String> DateTimeFormatInfo___::get_UnclonedShortDatePatterns() {
-  return Array<String>();
+  if (allShortDatePatterns == nullptr) {
+    allShortDatePatterns = _cultureData->ShortDates(get_Calendar()->get_ID());
+  }
+  return allShortDatePatterns;
 }
 
 Array<String> DateTimeFormatInfo___::get_UnclonedLongDatePatterns() {
-  return Array<String>();
+  if (allLongDatePatterns == nullptr) {
+    allLongDatePatterns = _cultureData->LongDates(get_Calendar()->get_ID());
+  }
+  return allLongDatePatterns;
 }
 
 Array<String> DateTimeFormatInfo___::get_UnclonedShortTimePatterns() {
-  return Array<String>();
+  if (allShortTimePatterns == nullptr) {
+    allShortTimePatterns = _cultureData->get_ShortTimes();
+  }
+  return allShortTimePatterns;
 }
 
 Array<String> DateTimeFormatInfo___::get_UnclonedLongTimePatterns() {
-  return Array<String>();
+  if (allLongTimePatterns == nullptr) {
+    allLongTimePatterns = _cultureData->get_LongTimes();
+  }
+  return allLongTimePatterns;
 }
 
 Boolean DateTimeFormatInfo___::get_IsReadOnly() {
-  return Boolean();
+  return _isReadOnly;
 }
 
 String DateTimeFormatInfo___::get_NativeCalendarName() {
-  return nullptr;
+  return _cultureData->CalendarName(get_Calendar()->get_ID());
 }
 
 Array<String> DateTimeFormatInfo___::get_AbbreviatedMonthGenitiveNames() {
-  return Array<String>();
+  return (Array<String>)InternalGetGenitiveMonthNames(true)->Clone();
 }
 
 void DateTimeFormatInfo___::set_AbbreviatedMonthGenitiveNames(Array<String> value) {
+  if (get_IsReadOnly()) {
+    rt::throw_exception<InvalidOperationException>(SR::get_InvalidOperation_ReadOnly());
+  }
+  if (value == nullptr) {
+    rt::throw_exception<ArgumentNullException>("value");
+  }
+  if (value->get_Length() != 13) {
+    rt::throw_exception<ArgumentException>(SR::Format(SR::get_Argument_InvalidArrayLength(), 13), "value");
+  }
+  CheckNullValue(value, value->get_Length() - 1);
+  ClearTokenHashTable();
+  m_genitiveAbbreviatedMonthNames = value;
 }
 
 Array<String> DateTimeFormatInfo___::get_MonthGenitiveNames() {
-  return Array<String>();
+  return (Array<String>)InternalGetGenitiveMonthNames(false)->Clone();
 }
 
 void DateTimeFormatInfo___::set_MonthGenitiveNames(Array<String> value) {
+  if (get_IsReadOnly()) {
+    rt::throw_exception<InvalidOperationException>(SR::get_InvalidOperation_ReadOnly());
+  }
+  if (value == nullptr) {
+    rt::throw_exception<ArgumentNullException>("value");
+  }
+  if (value->get_Length() != 13) {
+    rt::throw_exception<ArgumentException>(SR::Format(SR::get_Argument_InvalidArrayLength(), 13), "value");
+  }
+  CheckNullValue(value, value->get_Length() - 1);
+  genitiveMonthNames = value;
+  ClearTokenHashTable();
 }
 
 String DateTimeFormatInfo___::get_DecimalSeparator() {
-  return nullptr;
 }
 
 String DateTimeFormatInfo___::get_FullTimeSpanPositivePattern() {
-  return nullptr;
 }
 
 String DateTimeFormatInfo___::get_FullTimeSpanNegativePattern() {
-  return nullptr;
 }
 
 CompareInfo DateTimeFormatInfo___::get_CompareInfo() {
-  return nullptr;
 }
 
 DateTimeFormatFlags DateTimeFormatInfo___::get_FormatFlags() {
-  return DateTimeFormatFlags::NotInitialized;
+  if (formatFlags == DateTimeFormatFlags::NotInitialized) {
+    return InitializeFormatFlags();
+  }
+  return formatFlags;
 }
 
 Boolean DateTimeFormatInfo___::get_HasForceTwoDigitYears() {
-  return Boolean();
+  CalendarId iD = calendar->get_ID();
+  if (iD - 3 <= CalendarId::GREGORIAN) {
+    return true;
+  }
+  return false;
 }
 
 Boolean DateTimeFormatInfo___::get_HasYearMonthAdjustment() {
-  return Boolean();
 }
 
 Array<String> DateTimeFormatInfo___::InternalGetAbbreviatedDayOfWeekNames() {
-  return Array<String>();
 }
 
 Array<String> DateTimeFormatInfo___::InternalGetAbbreviatedDayOfWeekNamesCore() {
-  return Array<String>();
+  abbreviatedDayNames = _cultureData->AbbreviatedDayNames(get_Calendar()->get_ID());
+  return abbreviatedDayNames;
 }
 
 Array<String> DateTimeFormatInfo___::InternalGetSuperShortDayNames() {
-  return Array<String>();
 }
 
 Array<String> DateTimeFormatInfo___::InternalGetSuperShortDayNamesCore() {
-  return Array<String>();
+  m_superShortDayNames = _cultureData->SuperShortDayNames(get_Calendar()->get_ID());
+  return m_superShortDayNames;
 }
 
 Array<String> DateTimeFormatInfo___::InternalGetDayOfWeekNames() {
-  return Array<String>();
 }
 
 Array<String> DateTimeFormatInfo___::InternalGetDayOfWeekNamesCore() {
-  return Array<String>();
+  dayNames = _cultureData->DayNames(get_Calendar()->get_ID());
+  return dayNames;
 }
 
 Array<String> DateTimeFormatInfo___::InternalGetAbbreviatedMonthNames() {
-  return Array<String>();
 }
 
 Array<String> DateTimeFormatInfo___::InternalGetAbbreviatedMonthNamesCore() {
-  return Array<String>();
+  abbreviatedMonthNames = _cultureData->AbbreviatedMonthNames(get_Calendar()->get_ID());
+  return abbreviatedMonthNames;
 }
 
 Array<String> DateTimeFormatInfo___::InternalGetMonthNames() {
-  return Array<String>();
 }
 
 Array<String> DateTimeFormatInfo___::internalGetMonthNamesCore() {
-  return Array<String>();
+  monthNames = _cultureData->MonthNames(get_Calendar()->get_ID());
+  return monthNames;
 }
 
 void DateTimeFormatInfo___::ctor() {
 }
 
 void DateTimeFormatInfo___::ctor(CultureData cultureData, Calendar cal) {
+  firstDayOfWeek = -1;
+  calendarWeekRule = -1;
+  formatFlags = DateTimeFormatFlags::NotInitialized;
 }
 
 void DateTimeFormatInfo___::InitializeOverridableProperties(CultureData cultureData, CalendarId calendarId) {
+  if (firstDayOfWeek == -1) {
+    firstDayOfWeek = cultureData->get_FirstDayOfWeek();
+  }
+  if (calendarWeekRule == -1) {
+    calendarWeekRule = cultureData->get_CalendarWeekRule();
+  }
+  if (amDesignator == nullptr) {
+    amDesignator = cultureData->get_AMDesignator();
+  }
+  if (pmDesignator == nullptr) {
+    pmDesignator = cultureData->get_PMDesignator();
+  }
+  if (timeSeparator == nullptr) {
+    timeSeparator = cultureData->get_TimeSeparator();
+  }
+  if (dateSeparator == nullptr) {
+    dateSeparator = cultureData->DateSeparator(calendarId);
+  }
+  allLongTimePatterns = _cultureData->get_LongTimes();
+  allShortTimePatterns = _cultureData->get_ShortTimes();
+  allLongDatePatterns = cultureData->LongDates(calendarId);
+  allShortDatePatterns = cultureData->ShortDates(calendarId);
+  allYearMonthPatterns = cultureData->YearMonths(calendarId);
 }
 
 DateTimeFormatInfo DateTimeFormatInfo___::GetInstance(IFormatProvider provider) {
-  return nullptr;
+  if (provider != nullptr) {
+    CultureInfo cultureInfo = rt::as<CultureInfo>(provider);
+    if (cultureInfo == nullptr || cultureInfo->_isInherited) {
+      DateTimeFormatInfo dateTimeFormatInfo = rt::as<DateTimeFormatInfo>(provider);
+      if (dateTimeFormatInfo == nullptr) {
+      }
+      return dateTimeFormatInfo;
+    }
+    return cultureInfo->get_DateTimeFormat();
+  }
+  return get_CurrentInfo();
 }
 
 Object DateTimeFormatInfo___::GetFormat(Type formatType) {
-  return nullptr;
 }
 
 Object DateTimeFormatInfo___::Clone() {
-  return nullptr;
+  DateTimeFormatInfo dateTimeFormatInfo = (DateTimeFormatInfo)MemberwiseClone();
+  dateTimeFormatInfo->calendar = (Calendar)get_Calendar()->Clone();
+  dateTimeFormatInfo->_isReadOnly = false;
+  return dateTimeFormatInfo;
 }
 
 Int32 DateTimeFormatInfo___::GetEra(String eraName) {
-  return Int32();
+  if (eraName == nullptr) {
+    rt::throw_exception<ArgumentNullException>("eraName");
+  }
+  if (eraName->get_Length() == 0) {
+    return -1;
+  }
+  for (Int32 i = 0; i < get_EraNames()->get_Length(); i++) {
+    if (m_eraNames[i]->get_Length() > 0 && get_Culture()->get_CompareInfo()->Compare(eraName, m_eraNames[i], CompareOptions::IgnoreCase) == 0) {
+      return i + 1;
+    }
+  }
+  for (Int32 j = 0; j < get_AbbreviatedEraNames()->get_Length(); j++) {
+    if (get_Culture()->get_CompareInfo()->Compare(eraName, m_abbrevEraNames[j], CompareOptions::IgnoreCase) == 0) {
+      return j + 1;
+    }
+  }
+  for (Int32 k = 0; k < get_AbbreviatedEnglishEraNames()->get_Length(); k++) {
+    if (CompareInfo::in::Invariant->Compare(eraName, m_abbrevEnglishEraNames[k], CompareOptions::IgnoreCase) == 0) {
+      return k + 1;
+    }
+  }
+  return -1;
 }
 
 String DateTimeFormatInfo___::GetEraName(Int32 era) {
-  return nullptr;
+  if (era == 0) {
+    era = get_Calendar()->get_CurrentEraValue();
+  }
+  if (--era < get_EraNames()->get_Length() && era >= 0) {
+    return m_eraNames[era];
+  }
+  rt::throw_exception<ArgumentOutOfRangeException>("era", era, SR::get_ArgumentOutOfRange_InvalidEraValue());
 }
 
 String DateTimeFormatInfo___::GetAbbreviatedEraName(Int32 era) {
-  return nullptr;
+  if (get_AbbreviatedEraNames()->get_Length() == 0) {
+    return GetEraName(era);
+  }
+  if (era == 0) {
+    era = get_Calendar()->get_CurrentEraValue();
+  }
+  if (--era < m_abbrevEraNames->get_Length() && era >= 0) {
+    return m_abbrevEraNames[era];
+  }
+  rt::throw_exception<ArgumentOutOfRangeException>("era", era, SR::get_ArgumentOutOfRange_InvalidEraValue());
 }
 
 void DateTimeFormatInfo___::OnLongDatePatternChanged() {
+  ClearTokenHashTable();
+  fullDateTimePattern = nullptr;
 }
 
 void DateTimeFormatInfo___::OnLongTimePatternChanged() {
+  ClearTokenHashTable();
+  fullDateTimePattern = nullptr;
+  generalLongTimePattern = nullptr;
+  dateTimeOffsetPattern = nullptr;
 }
 
 void DateTimeFormatInfo___::OnShortDatePatternChanged() {
+  ClearTokenHashTable();
+  generalLongTimePattern = nullptr;
+  generalShortTimePattern = nullptr;
+  dateTimeOffsetPattern = nullptr;
 }
 
 void DateTimeFormatInfo___::OnShortTimePatternChanged() {
+  ClearTokenHashTable();
+  generalShortTimePattern = nullptr;
 }
 
 void DateTimeFormatInfo___::OnYearMonthPatternChanged() {
+  ClearTokenHashTable();
 }
 
 void DateTimeFormatInfo___::CheckNullValue(Array<String> values, Int32 length) {
+  for (Int32 i = 0; i < length; i++) {
+    if (values[i] == nullptr) {
+      rt::throw_exception<ArgumentNullException>("value", SR::get_ArgumentNull_ArrayValue());
+    }
+  }
 }
 
 String DateTimeFormatInfo___::InternalGetMonthName(Int32 month, MonthNameStyles style, Boolean abbreviated) {
-  return nullptr;
+  Array<String> array;
+  switch (style) {
+    case MonthNameStyles::Genitive:
+      array = InternalGetGenitiveMonthNames(abbreviated);
+      break;
+    case MonthNameStyles::LeapYear:
+      array = InternalGetLeapYearMonthNames();
+      break;
+    default:
+      array = (abbreviated ? InternalGetAbbreviatedMonthNames() : InternalGetMonthNames());
+      break;
+  }
+  Array<String> array2 = array;
+  if (month < 1 || month > array2->get_Length()) {
+    rt::throw_exception<ArgumentOutOfRangeException>("month", month, SR::Format(SR::get_ArgumentOutOfRange_Range(), 1, array2->get_Length()));
+  }
+  return array2[month - 1];
 }
 
 Array<String> DateTimeFormatInfo___::InternalGetGenitiveMonthNames(Boolean abbreviated) {
-  return Array<String>();
+  if (abbreviated) {
+    if (m_genitiveAbbreviatedMonthNames == nullptr) {
+      m_genitiveAbbreviatedMonthNames = _cultureData->AbbreviatedGenitiveMonthNames(get_Calendar()->get_ID());
+    }
+    return m_genitiveAbbreviatedMonthNames;
+  }
+  if (genitiveMonthNames == nullptr) {
+    genitiveMonthNames = _cultureData->GenitiveMonthNames(get_Calendar()->get_ID());
+  }
+  return genitiveMonthNames;
 }
 
 Array<String> DateTimeFormatInfo___::InternalGetLeapYearMonthNames() {
-  return Array<String>();
+  if (leapYearMonthNames == nullptr) {
+    leapYearMonthNames = _cultureData->LeapYearMonthNames(get_Calendar()->get_ID());
+  }
+  return leapYearMonthNames;
 }
 
 String DateTimeFormatInfo___::GetAbbreviatedDayName(DayOfWeek dayofweek) {
-  return nullptr;
+  if (dayofweek < DayOfWeek::Sunday || dayofweek > DayOfWeek::Saturday) {
+    rt::throw_exception<ArgumentOutOfRangeException>("dayofweek", dayofweek, SR::Format(SR::get_ArgumentOutOfRange_Range(), DayOfWeek::Sunday, DayOfWeek::Saturday));
+  }
+  return InternalGetAbbreviatedDayOfWeekNames()[(Int32)dayofweek];
 }
 
 String DateTimeFormatInfo___::GetShortestDayName(DayOfWeek dayOfWeek) {
-  return nullptr;
+  if (dayOfWeek < DayOfWeek::Sunday || dayOfWeek > DayOfWeek::Saturday) {
+    rt::throw_exception<ArgumentOutOfRangeException>("dayOfWeek", dayOfWeek, SR::Format(SR::get_ArgumentOutOfRange_Range(), DayOfWeek::Sunday, DayOfWeek::Saturday));
+  }
+  return InternalGetSuperShortDayNames()[(Int32)dayOfWeek];
 }
 
 Array<String> DateTimeFormatInfo___::GetCombinedPatterns(Array<String> patterns1, Array<String> patterns2, String connectString) {
-  return Array<String>();
+  Array<String> array = rt::newarr<Array<String>>(patterns1->get_Length() * patterns2->get_Length());
+  Int32 num = 0;
+  for (Int32 i = 0; i < patterns1->get_Length(); i++) {
+    for (Int32 j = 0; j < patterns2->get_Length(); j++) {
+      array[num++] = patterns1[i] + connectString + patterns2[j];
+    }
+  }
+  return array;
 }
 
 Array<String> DateTimeFormatInfo___::GetAllDateTimePatterns() {
-  return Array<String>();
+  List<String> list = rt::newobj<List<String>>(132);
+  for (Int32 i = 0; i < DateTimeFormat::allStandardFormats->get_Length(); i++) {
+    Array<String> allDateTimePatterns = GetAllDateTimePatterns(DateTimeFormat::allStandardFormats[i]);
+    for (Int32 j = 0; j < allDateTimePatterns->get_Length(); j++) {
+      list->Add(allDateTimePatterns[j]);
+    }
+  }
+  return list->ToArray();
 }
 
 Array<String> DateTimeFormatInfo___::GetAllDateTimePatterns(Char format) {
-  return Array<String>();
+  switch (format.get()) {
+    case 100:
+      return get_AllShortDatePatterns();
+    case 68:
+      return get_AllLongDatePatterns();
+    case 102:
+      return GetCombinedPatterns(get_AllLongDatePatterns(), get_AllShortTimePatterns(), " ");
+    case 70:
+    case 85:
+      return GetCombinedPatterns(get_AllLongDatePatterns(), get_AllLongTimePatterns(), " ");
+    case 103:
+      return GetCombinedPatterns(get_AllShortDatePatterns(), get_AllShortTimePatterns(), " ");
+    case 71:
+      return GetCombinedPatterns(get_AllShortDatePatterns(), get_AllLongTimePatterns(), " ");
+    case 77:
+    case 109:
+      return rt::newarr<Array<String>>(1);
+    case 79:
+    case 111:
+      return rt::newarr<Array<String>>(1);
+    case 82:
+    case 114:
+      return rt::newarr<Array<String>>(1);
+    case 115:
+      return rt::newarr<Array<String>>(1);
+    case 116:
+      return get_AllShortTimePatterns();
+    case 84:
+      return get_AllLongTimePatterns();
+    case 117:
+      return rt::newarr<Array<String>>(1);
+    case 89:
+    case 121:
+      return get_AllYearMonthPatterns();
+    default:
+      rt::throw_exception<ArgumentException>(SR::Format(SR::get_Format_BadFormatSpecifier(), format), "format");
+  }
 }
 
 String DateTimeFormatInfo___::GetDayName(DayOfWeek dayofweek) {
-  return nullptr;
+  if (dayofweek < DayOfWeek::Sunday || dayofweek > DayOfWeek::Saturday) {
+    rt::throw_exception<ArgumentOutOfRangeException>("dayofweek", dayofweek, SR::Format(SR::get_ArgumentOutOfRange_Range(), DayOfWeek::Sunday, DayOfWeek::Saturday));
+  }
+  return InternalGetDayOfWeekNames()[(Int32)dayofweek];
 }
 
 String DateTimeFormatInfo___::GetAbbreviatedMonthName(Int32 month) {
-  return nullptr;
+  if (month < 1 || month > 13) {
+    rt::throw_exception<ArgumentOutOfRangeException>("month", month, SR::Format(SR::get_ArgumentOutOfRange_Range(), 1, 13));
+  }
+  return InternalGetAbbreviatedMonthNames()[month - 1];
 }
 
 String DateTimeFormatInfo___::GetMonthName(Int32 month) {
-  return nullptr;
+  if (month < 1 || month > 13) {
+    rt::throw_exception<ArgumentOutOfRangeException>("month", month, SR::Format(SR::get_ArgumentOutOfRange_Range(), 1, 13));
+  }
+  return InternalGetMonthNames()[month - 1];
 }
 
 Array<String> DateTimeFormatInfo___::GetMergedPatterns(Array<String> patterns, String defaultPattern) {
-  return Array<String>();
+  if (defaultPattern == patterns[0]) {
+    return (Array<String>)patterns->Clone();
+  }
+  Int32 i;
+  for (i = 0; i < patterns->get_Length() && !(defaultPattern == patterns[i]); i++) {
+  }
+  Array<String> array;
+  if (i < patterns->get_Length()) {
+    array = (Array<String>)patterns->Clone();
+    array[i] = array[0];
+  } else {
+    array = rt::newarr<Array<String>>(patterns->get_Length() + 1);
+    Array<>::in::Copy(patterns, 0, array, 1, patterns->get_Length());
+  }
+  array[0] = defaultPattern;
+  return array;
 }
 
 DateTimeFormatInfo DateTimeFormatInfo___::ReadOnly(DateTimeFormatInfo dtfi) {
-  return nullptr;
+  if (dtfi == nullptr) {
+    rt::throw_exception<ArgumentNullException>("dtfi");
+  }
+  if (dtfi->get_IsReadOnly()) {
+    return dtfi;
+  }
+  DateTimeFormatInfo dateTimeFormatInfo = (DateTimeFormatInfo)dtfi->MemberwiseClone();
+  dateTimeFormatInfo->calendar = Calendar::in::ReadOnly(dtfi->get_Calendar());
+  dateTimeFormatInfo->_isReadOnly = true;
+  return dateTimeFormatInfo;
 }
 
 void DateTimeFormatInfo___::SetAllDateTimePatterns(Array<String> patterns, Char format) {
+  if (get_IsReadOnly()) {
+    rt::throw_exception<InvalidOperationException>(SR::get_InvalidOperation_ReadOnly());
+  }
+  if (patterns == nullptr) {
+    rt::throw_exception<ArgumentNullException>("patterns");
+  }
+  if (patterns->get_Length() == 0) {
+    rt::throw_exception<ArgumentException>(SR::get_Arg_ArrayZeroError(), "patterns");
+  }
+  for (Int32 i = 0; i < patterns->get_Length(); i++) {
+    if (patterns[i] == nullptr) {
+      rt::throw_exception<ArgumentNullException>("patterns[" + i + "]", SR::get_ArgumentNull_ArrayValue());
+    }
+  }
+  switch (format.get()) {
+    case 100:
+      allShortDatePatterns = patterns;
+      shortDatePattern = allShortDatePatterns[0];
+      OnShortDatePatternChanged();
+      break;
+    case 68:
+      allLongDatePatterns = patterns;
+      longDatePattern = allLongDatePatterns[0];
+      OnLongDatePatternChanged();
+      break;
+    case 116:
+      allShortTimePatterns = patterns;
+      shortTimePattern = allShortTimePatterns[0];
+      OnShortTimePatternChanged();
+      break;
+    case 84:
+      allLongTimePatterns = patterns;
+      longTimePattern = allLongTimePatterns[0];
+      OnLongTimePatternChanged();
+      break;
+    case 89:
+    case 121:
+      allYearMonthPatterns = patterns;
+      yearMonthPattern = allYearMonthPatterns[0];
+      OnYearMonthPatternChanged();
+      break;
+    default:
+      rt::throw_exception<ArgumentException>(SR::Format(SR::get_Format_BadFormatSpecifier(), format), "format");
+  }
 }
 
 void DateTimeFormatInfo___::ValidateStyles(DateTimeStyles style, String parameterName) {
 }
 
 DateTimeFormatFlags DateTimeFormatInfo___::InitializeFormatFlags() {
-  return DateTimeFormatFlags::NotInitialized;
 }
 
 Boolean DateTimeFormatInfo___::YearMonthAdjustment(Int32& year, Int32& month, Boolean parsedMonthName) {
-  return Boolean();
 }
 
 DateTimeFormatInfo DateTimeFormatInfo___::GetJapaneseCalendarDTFI() {
-  return nullptr;
+  DateTimeFormatInfo dateTimeFormat = s_jajpDTFI;
+  if (dateTimeFormat == nullptr) {
+    dateTimeFormat = rt::newobj<CultureInfo>("ja-JP", false)->set_DateTimeFormat;
+    dateTimeFormat->set_Calendar = JapaneseCalendar::in::GetDefaultInstance();
+    s_jajpDTFI = dateTimeFormat;
+  }
+  return dateTimeFormat;
 }
 
 DateTimeFormatInfo DateTimeFormatInfo___::GetTaiwanCalendarDTFI() {
-  return nullptr;
+  DateTimeFormatInfo dateTimeFormat = s_zhtwDTFI;
+  if (dateTimeFormat == nullptr) {
+    dateTimeFormat = rt::newobj<CultureInfo>("zh-TW", false)->set_DateTimeFormat;
+    dateTimeFormat->set_Calendar = TaiwanCalendar::in::GetDefaultInstance();
+    s_zhtwDTFI = dateTimeFormat;
+  }
+  return dateTimeFormat;
 }
 
 void DateTimeFormatInfo___::ClearTokenHashTable() {
+  _dtfiTokenHash = nullptr;
+  formatFlags = DateTimeFormatFlags::NotInitialized;
 }
 
 Array<DateTimeFormatInfo::in::TokenHashValue> DateTimeFormatInfo___::CreateTokenHashTable() {
-  return Array<DateTimeFormatInfo::in::TokenHashValue>();
+  Array<TokenHashValue> array = _dtfiTokenHash;
+  if (array == nullptr) {
+    array = rt::newarr<Array<TokenHashValue>>(199);
+    Boolean flag = get_LanguageName()->Equals("ko");
+    String b = get_TimeSeparator()->Trim();
+    if ("," != b) {
+      InsertHash(array, ",", TokenType::IgnorableSymbol, 0);
+    }
+    if ("." != b) {
+      InsertHash(array, ".", TokenType::IgnorableSymbol, 0);
+    }
+    if ("시" != b && "時" != b && "时" != b) {
+      InsertHash(array, get_TimeSeparator(), TokenType::SEP_Time, 0);
+    }
+    InsertHash(array, get_AMDesignator(), (TokenType)1027, 0);
+    InsertHash(array, get_PMDesignator(), (TokenType)1284, 1);
+    if (get_LanguageName()->Equals("sq")) {
+      InsertHash(array, "." + get_AMDesignator(), (TokenType)1027, 0);
+      InsertHash(array, "." + get_PMDesignator(), (TokenType)1284, 1);
+    }
+    InsertHash(array, "年", TokenType::SEP_YearSuff, 0);
+    InsertHash(array, "년", TokenType::SEP_YearSuff, 0);
+    InsertHash(array, "月", TokenType::SEP_MonthSuff, 0);
+    InsertHash(array, "월", TokenType::SEP_MonthSuff, 0);
+    InsertHash(array, "日", TokenType::SEP_DaySuff, 0);
+    InsertHash(array, "일", TokenType::SEP_DaySuff, 0);
+    InsertHash(array, "時", TokenType::SEP_HourSuff, 0);
+    InsertHash(array, "时", TokenType::SEP_HourSuff, 0);
+    InsertHash(array, "分", TokenType::SEP_MinuteSuff, 0);
+    InsertHash(array, "秒", TokenType::SEP_SecondSuff, 0);
+    if (!LocalAppContextSwitches::get_EnforceLegacyJapaneseDateParsing() && get_Calendar()->get_ID() == CalendarId::JAPAN) {
+      InsertHash(array, "元", TokenType::YearNumberToken, 1);
+      InsertHash(array, "(", TokenType::IgnorableSymbol, 0);
+      InsertHash(array, ")", TokenType::IgnorableSymbol, 0);
+    }
+    if (flag) {
+      InsertHash(array, "시", TokenType::SEP_HourSuff, 0);
+      InsertHash(array, "분", TokenType::SEP_MinuteSuff, 0);
+      InsertHash(array, "초", TokenType::SEP_SecondSuff, 0);
+    }
+    if (get_LanguageName()->Equals("ky")) {
+      InsertHash(array, "-", TokenType::IgnorableSymbol, 0);
+    } else {
+      InsertHash(array, "-", TokenType::SEP_DateOrOffset, 0);
+    }
+    DateTimeFormatInfoScanner dateTimeFormatInfoScanner = rt::newobj<DateTimeFormatInfoScanner>();
+    Array<String> dateWordsOfDTFI = dateTimeFormatInfoScanner->GetDateWordsOfDTFI((DateTimeFormatInfo)this);
+    _ = get_FormatFlags();
+    Boolean flag2 = false;
+    if (dateWordsOfDTFI != nullptr) {
+      for (Int32 i = 0; i < dateWordsOfDTFI->get_Length(); i++) {
+        switch (dateWordsOfDTFI[i][0].get()) {
+          case 57344:
+            {
+              ReadOnlySpan<Char> monthPostfix = MemoryExtensions::AsSpan(dateWordsOfDTFI[i], 1);
+              AddMonthNames(array, monthPostfix);
+              break;
+            }case 57345:
+            {
+              String text = dateWordsOfDTFI[i]->Substring(1);
+              InsertHash(array, text, TokenType::IgnorableSymbol, 0);
+              if (get_DateSeparator()->Trim(rt::newarr<Array<Char>>(1, nullptr))->Equals(text)) {
+                flag2 = true;
+              }
+              break;
+            }default:
+            InsertHash(array, dateWordsOfDTFI[i], TokenType::DateWordToken, 0);
+            if (get_LanguageName()->Equals("eu")) {
+              InsertHash(array, "." + dateWordsOfDTFI[i], TokenType::DateWordToken, 0);
+            }
+            break;
+        }
+      }
+    }
+    if (!flag2) {
+      InsertHash(array, get_DateSeparator(), TokenType::SEP_Date, 0);
+    }
+    AddMonthNames(array);
+    for (Int32 j = 1; j <= 13; j++) {
+      InsertHash(array, GetAbbreviatedMonthName(j), TokenType::MonthToken, j);
+    }
+  }
+  return array;
 }
 
 void DateTimeFormatInfo___::AddMonthNames(Array<TokenHashValue> temp, ReadOnlySpan<Char> monthPostfix) {
+  for (Int32 i = 1; i <= 13; i++) {
+    String monthName = GetMonthName(i);
+    if (monthName->get_Length() > 0) {
+      if (!monthPostfix.get_IsEmpty()) {
+        InsertHash(temp, monthName + monthPostfix, TokenType::MonthToken, i);
+      } else {
+        InsertHash(temp, monthName, TokenType::MonthToken, i);
+      }
+    }
+    monthName = GetAbbreviatedMonthName(i);
+    InsertHash(temp, monthName, TokenType::MonthToken, i);
+  }
 }
 
 Boolean DateTimeFormatInfo___::TryParseHebrewNumber(__DTString& str, Boolean& badFormat, Int32& number) {
-  return Boolean();
+  number = -1;
+  badFormat = false;
+  Int32 index = str.Index;
+  if (!HebrewNumber::IsDigit(str.Value[index])) {
+    return false;
+  }
+  HebrewNumberParsingContext context = HebrewNumberParsingContext(0);
+  HebrewNumberParsingState hebrewNumberParsingState;
 }
 
 Boolean DateTimeFormatInfo___::IsHebrewChar(Char ch) {
-  return Boolean();
+  if (ch >= 1424) {
+    return ch <= 1535;
+  }
+  return false;
 }
 
 Boolean DateTimeFormatInfo___::IsAllowedJapaneseTokenFollowedByNonSpaceLetter(String tokenString, Char nextCh) {
-  return Boolean();
+  if (!LocalAppContextSwitches::get_EnforceLegacyJapaneseDateParsing() && get_Calendar()->get_ID() == CalendarId::JAPAN && (nextCh == "元"[0] || (tokenString == "元" && nextCh == "年"[0]))) {
+    return true;
+  }
+  return false;
 }
 
 Boolean DateTimeFormatInfo___::Tokenize(TokenType TokenMask, TokenType& tokenType, Int32& tokenValue, __DTString& str) {
-  return Boolean();
+  tokenType = TokenType::UnknownToken;
+  tokenValue = 0;
+  Char c = str.m_current;
+  Boolean flag = Char::IsLetter(c);
+  if (flag) {
+    c = get_Culture()->get_TextInfo()->ToLower(c);
+  }
+  Int32 num = (Int32)c % 199;
+  Int32 num2 = 1 + (Int32)c % 197;
+  Int32 num3 = str.get_Length() - str.Index;
+  Int32 num4 = 0;
 }
 
 void DateTimeFormatInfo___::InsertAtCurrentHashNode(Array<TokenHashValue> hashTable, String str, Char ch, TokenType tokenType, Int32 tokenValue, Int32 pos, Int32 hashcode, Int32 hashProbe) {
+  TokenHashValue tokenHashValue = hashTable[hashcode];
+  hashTable[hashcode] = rt::newobj<TokenHashValue>(str, tokenType, tokenValue);
+  while (++pos < 199) {
+    hashcode += hashProbe;
+    if (hashcode >= 199) {
+      hashcode -= 199;
+    }
+    TokenHashValue tokenHashValue2 = hashTable[hashcode];
+    if (tokenHashValue2 == nullptr || get_Culture()->get_TextInfo()->ToLower(tokenHashValue2->tokenString[0]) == ch) {
+      hashTable[hashcode] = tokenHashValue;
+      if (tokenHashValue2 == nullptr) {
+        break;
+      }
+      tokenHashValue = tokenHashValue2;
+    }
+  }
 }
 
 void DateTimeFormatInfo___::InsertHash(Array<TokenHashValue> hashTable, String str, TokenType tokenType, Int32 tokenValue) {
+  if (String::in::IsNullOrEmpty(str)) {
+    return;
+  }
+  Int32 num = 0;
 }
 
 Boolean DateTimeFormatInfo___::CompareStringIgnoreCaseOptimized(String string1, Int32 offset1, Int32 length1, String string2, Int32 offset2, Int32 length2) {
-  return Boolean();
+  if (length1 == 1 && length2 == 1 && string1[offset1] == string2[offset2]) {
+    return true;
+  }
+  return get_Culture()->get_CompareInfo()->Compare(string1, offset1, length1, string2, offset2, length2, CompareOptions::IgnoreCase) == 0;
 }
 
 } // namespace System::Private::CoreLib::System::Globalization::DateTimeFormatInfoNamespace

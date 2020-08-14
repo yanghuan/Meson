@@ -1,81 +1,87 @@
 #include "TypeInfo-dep.h"
 
+#include <System.Private.CoreLib/System/IndexOutOfRangeException-dep.h>
+#include <System.Private.CoreLib/System/Reflection/BindingFlags.h>
 #include <System.Private.CoreLib/System/Reflection/TypeInfo-dep.h>
 
 namespace System::Private::CoreLib::System::Reflection::TypeInfoNamespace {
 Array<Type> TypeInfo___::get_GenericTypeParameters() {
-  return Array<Type>();
+  if (!get_IsGenericTypeDefinition()) {
+    return Type::in::EmptyTypes;
+  }
+  return GetGenericArguments();
 }
 
 IEnumerable<ConstructorInfo> TypeInfo___::get_DeclaredConstructors() {
-  return nullptr;
 }
 
 IEnumerable<EventInfo> TypeInfo___::get_DeclaredEvents() {
-  return nullptr;
 }
 
 IEnumerable<FieldInfo> TypeInfo___::get_DeclaredFields() {
-  return nullptr;
 }
 
 IEnumerable<MemberInfo> TypeInfo___::get_DeclaredMembers() {
-  return nullptr;
 }
 
 IEnumerable<MethodInfo> TypeInfo___::get_DeclaredMethods() {
-  return nullptr;
 }
 
 IEnumerable<TypeInfo> TypeInfo___::get_DeclaredNestedTypes() {
-  return nullptr;
 }
 
 IEnumerable<PropertyInfo> TypeInfo___::get_DeclaredProperties() {
-  return nullptr;
 }
 
 IEnumerable<Type> TypeInfo___::get_ImplementedInterfaces() {
-  return nullptr;
+  return GetInterfaces();
 }
 
 void TypeInfo___::ctor() {
 }
 
 Type TypeInfo___::AsType() {
-  return nullptr;
+  return (TypeInfo)this;
 }
 
 EventInfo TypeInfo___::GetDeclaredEvent(String name) {
-  return nullptr;
 }
 
 FieldInfo TypeInfo___::GetDeclaredField(String name) {
-  return nullptr;
 }
 
 MethodInfo TypeInfo___::GetDeclaredMethod(String name) {
-  return nullptr;
 }
 
 TypeInfo TypeInfo___::GetDeclaredNestedType(String name) {
-  return nullptr;
 }
 
 PropertyInfo TypeInfo___::GetDeclaredProperty(String name) {
-  return nullptr;
 }
 
 IEnumerable<MethodInfo> TypeInfo___::GetDeclaredMethods(String name) {
-  return nullptr;
 }
 
 Boolean TypeInfo___::IsAssignableFrom(TypeInfo typeInfo) {
-  return Boolean();
+  if (typeInfo == nullptr) {
+    return false;
+  }
+  if ((TypeInfo)this == typeInfo) {
+    return true;
+  }
+  if (typeInfo->IsSubclassOf((TypeInfo)this)) {
+    return true;
+  }
 }
 
 String TypeInfo___::GetRankString(Int32 rank) {
-  return nullptr;
+  if (rank <= 0) {
+    rt::throw_exception<IndexOutOfRangeException>();
+  }
+  if (rank != 1) {
+    return "[" + rt::newobj<String>(44, rank - 1) + "]";
+  }
+  return "[*]";
 }
 
 } // namespace System::Private::CoreLib::System::Reflection::TypeInfoNamespace

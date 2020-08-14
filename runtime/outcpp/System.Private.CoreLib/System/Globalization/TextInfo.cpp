@@ -1,184 +1,395 @@
 #include "TextInfo-dep.h"
 
+#include <System.Private.CoreLib/Interop-dep.h>
+#include <System.Private.CoreLib/System/ArgumentNullException-dep.h>
+#include <System.Private.CoreLib/System/Byte-dep.h>
+#include <System.Private.CoreLib/System/Globalization/CompareInfo-dep.h>
+#include <System.Private.CoreLib/System/Globalization/CompareOptions.h>
+#include <System.Private.CoreLib/System/Globalization/CultureInfo-dep.h>
+#include <System.Private.CoreLib/System/Globalization/GlobalizationMode-dep.h>
 #include <System.Private.CoreLib/System/Globalization/TextInfo-dep.h>
+#include <System.Private.CoreLib/System/Globalization/UnicodeCategory.h>
+#include <System.Private.CoreLib/System/IntPtr-dep.h>
+#include <System.Private.CoreLib/System/InvalidOperationException-dep.h>
+#include <System.Private.CoreLib/System/MemoryExtensions-dep.h>
+#include <System.Private.CoreLib/System/Runtime/InteropServices/MemoryMarshal-dep.h>
+#include <System.Private.CoreLib/System/SR-dep.h>
+#include <System.Private.CoreLib/System/StringComparison.h>
+#include <System.Private.CoreLib/System/Text/StringBuilder-dep.h>
+#include <System.Private.CoreLib/System/Text/UnicodeUtility-dep.h>
+#include <System.Private.CoreLib/System/UInt32-dep.h>
 
 namespace System::Private::CoreLib::System::Globalization::TextInfoNamespace {
+using namespace System::Runtime::InteropServices;
+using namespace System::Text;
+
 Int32 TextInfo___::get_ANSICodePage() {
-  return Int32();
+  return _cultureData->get_ANSICodePage();
 }
 
 Int32 TextInfo___::get_OEMCodePage() {
-  return Int32();
+  return _cultureData->get_OEMCodePage();
 }
 
 Int32 TextInfo___::get_MacCodePage() {
-  return Int32();
+  return _cultureData->get_MacCodePage();
 }
 
 Int32 TextInfo___::get_EBCDICCodePage() {
-  return Int32();
+  return _cultureData->get_EBCDICCodePage();
 }
 
 Int32 TextInfo___::get_LCID() {
-  return Int32();
+  return CultureInfo::in::GetCultureInfo(_textInfoName)->get_LCID();
 }
 
 String TextInfo___::get_CultureName() {
-  return nullptr;
+  return _textInfoName;
 }
 
 Boolean TextInfo___::get_IsReadOnly() {
-  return Boolean();
+  return _isReadOnly;
 }
 
 String TextInfo___::get_ListSeparator() {
-  return nullptr;
 }
 
 void TextInfo___::set_ListSeparator(String value) {
+  if (value == nullptr) {
+    rt::throw_exception<ArgumentNullException>("value");
+  }
+  VerifyWritable();
+  _listSeparator = value;
 }
 
 Boolean TextInfo___::get_IsAsciiCasingSameAsInvariant() {
-  return Boolean();
+  if (_isAsciiCasingSameAsInvariant == Tristate::NotInitialized) {
+    PopulateIsAsciiCasingSameAsInvariant();
+  }
+  return _isAsciiCasingSameAsInvariant == Tristate::True;
 }
 
 Boolean TextInfo___::get_IsRightToLeft() {
-  return Boolean();
+  return _cultureData->get_IsRightToLeft();
 }
 
 Boolean TextInfo___::get_IsInvariant() {
-  return Boolean();
+  return _cultureName->get_Length() == 0;
 }
 
 void TextInfo___::ctor(CultureData cultureData) {
+  _cultureData = cultureData;
+  _cultureName = _cultureData->get_CultureName();
+  _textInfoName = _cultureData->get_TextInfoName();
+  if (GlobalizationMode::get_UseNls()) {
+    _sortHandle = CompareInfo::in::NlsGetSortHandle(_textInfoName);
+  }
 }
 
 void TextInfo___::ctor(CultureData cultureData, Boolean readOnly) {
+  SetReadOnlyState(readOnly);
 }
 
 Object TextInfo___::Clone() {
-  return nullptr;
+  Object obj = MemberwiseClone();
+  ((TextInfo)obj)->SetReadOnlyState(false);
+  return obj;
 }
 
 TextInfo TextInfo___::ReadOnly(TextInfo textInfo) {
-  return nullptr;
+  if (textInfo == nullptr) {
+    rt::throw_exception<ArgumentNullException>("textInfo");
+  }
+  if (textInfo->get_IsReadOnly()) {
+    return textInfo;
+  }
+  TextInfo textInfo2 = (TextInfo)textInfo->MemberwiseClone();
+  textInfo2->SetReadOnlyState(true);
+  return textInfo2;
 }
 
 void TextInfo___::VerifyWritable() {
+  if (_isReadOnly) {
+    rt::throw_exception<InvalidOperationException>(SR::get_InvalidOperation_ReadOnly());
+  }
 }
 
 void TextInfo___::SetReadOnlyState(Boolean readOnly) {
+  _isReadOnly = readOnly;
 }
 
 Char TextInfo___::ToLower(Char c) {
-  return Char();
+  if (GlobalizationMode::get_Invariant() || (UnicodeUtility::IsAsciiCodePoint(c) && get_IsAsciiCasingSameAsInvariant())) {
+    return ToLowerAsciiInvariant(c);
+  }
+  return ChangeCase(c, false);
 }
 
 Char TextInfo___::ToLowerInvariant(Char c) {
-  return Char();
+  if (GlobalizationMode::get_Invariant() || UnicodeUtility::IsAsciiCodePoint(c)) {
+    return ToLowerAsciiInvariant(c);
+  }
+  return Invariant->ChangeCase(c, false);
 }
 
 String TextInfo___::ToLower(String str) {
-  return nullptr;
+  if (str == nullptr) {
+    rt::throw_exception<ArgumentNullException>("str");
+  }
+  if (GlobalizationMode::get_Invariant()) {
+    return ToLowerAsciiInvariant(str);
+  }
+  return ChangeCaseCommon<ToLowerConversion>(str);
 }
 
 Char TextInfo___::ChangeCase(Char c, Boolean toUpper) {
-  return Char();
+  Char result = 0;
+  ChangeCaseCore(&c, 1, &result, 1, toUpper);
+  return result;
 }
 
 void TextInfo___::ChangeCaseToLower(ReadOnlySpan<Char> source, Span<Char> destination) {
+  ChangeCaseCommon<ToLowerConversion>(MemoryMarshal::GetReference(source), MemoryMarshal::GetReference(destination), source.get_Length());
 }
 
 void TextInfo___::ChangeCaseToUpper(ReadOnlySpan<Char> source, Span<Char> destination) {
+  ChangeCaseCommon<ToUpperConversion>(MemoryMarshal::GetReference(source), MemoryMarshal::GetReference(destination), source.get_Length());
 }
 
 String TextInfo___::ToLowerAsciiInvariant(String s) {
-  return nullptr;
+  if (s->get_Length() == 0) {
+    return String::in::Empty;
+  }
+  {
+    Char* ptr = s;
+    Char* ptr2 = ptr;
+    Int32 i;
+    for (i = 0; i < s->get_Length() && (UInt32)(ptr2[i] - 65) > 25u; i++) {
+    }
+    if (i >= s->get_Length()) {
+      return s;
+    }
+    String text = String::in::FastAllocateString(s->get_Length());
+    {
+      Char* ptr3 = text;
+      Char* ptr4 = ptr3;
+      for (Int32 j = 0; j < i; j++) {
+        ptr4[j] = ptr2[j];
+      }
+    }
+    return text;
+  }
 }
 
 void TextInfo___::ToLowerAsciiInvariant(ReadOnlySpan<Char> source, Span<Char> destination) {
+  for (Int32 i = 0; i < source.get_Length(); i++) {
+    destination[i] = ToLowerAsciiInvariant(source[i]);
+  }
 }
 
 String TextInfo___::ToUpperAsciiInvariant(String s) {
-  return nullptr;
+  if (s->get_Length() == 0) {
+    return String::in::Empty;
+  }
+  {
+    Char* ptr = s;
+    Char* ptr2 = ptr;
+    Int32 i;
+    for (i = 0; i < s->get_Length() && (UInt32)(ptr2[i] - 97) > 25u; i++) {
+    }
+    if (i >= s->get_Length()) {
+      return s;
+    }
+    String text = String::in::FastAllocateString(s->get_Length());
+    {
+      Char* ptr3 = text;
+      Char* ptr4 = ptr3;
+      for (Int32 j = 0; j < i; j++) {
+        ptr4[j] = ptr2[j];
+      }
+    }
+    return text;
+  }
 }
 
 void TextInfo___::ToUpperAsciiInvariant(ReadOnlySpan<Char> source, Span<Char> destination) {
+  for (Int32 i = 0; i < source.get_Length(); i++) {
+    destination[i] = ToUpperAsciiInvariant(source[i]);
+  }
 }
 
 Char TextInfo___::ToLowerAsciiInvariant(Char c) {
-  return Char();
+  if (UnicodeUtility::IsInRangeInclusive(c, 65u, 90u)) {
+  }
+  return c;
 }
 
 Char TextInfo___::ToUpper(Char c) {
-  return Char();
+  if (GlobalizationMode::get_Invariant() || (UnicodeUtility::IsAsciiCodePoint(c) && get_IsAsciiCasingSameAsInvariant())) {
+    return ToUpperAsciiInvariant(c);
+  }
+  return ChangeCase(c, true);
 }
 
 Char TextInfo___::ToUpperInvariant(Char c) {
-  return Char();
+  if (GlobalizationMode::get_Invariant() || UnicodeUtility::IsAsciiCodePoint(c)) {
+    return ToUpperAsciiInvariant(c);
+  }
+  return Invariant->ChangeCase(c, true);
 }
 
 String TextInfo___::ToUpper(String str) {
-  return nullptr;
+  if (str == nullptr) {
+    rt::throw_exception<ArgumentNullException>("str");
+  }
+  if (GlobalizationMode::get_Invariant()) {
+    return ToUpperAsciiInvariant(str);
+  }
+  return ChangeCaseCommon<ToUpperConversion>(str);
 }
 
 Char TextInfo___::ToUpperAsciiInvariant(Char c) {
-  return Char();
+  if (UnicodeUtility::IsInRangeInclusive(c, 97u, 122u)) {
+  }
+  return c;
 }
 
 void TextInfo___::PopulateIsAsciiCasingSameAsInvariant() {
+  Boolean flag = CultureInfo::in::GetCultureInfo(_textInfoName)->get_CompareInfo()->Compare("abcdefghijklmnopqrstuvwxyz", "ABCDEFGHIJKLMNOPQRSTUVWXYZ", CompareOptions::IgnoreCase) == 0;
+  _isAsciiCasingSameAsInvariant = ((!flag) ? Tristate::False : Tristate::True);
 }
 
 Boolean TextInfo___::Equals(Object obj) {
-  return Boolean();
+  TextInfo textInfo = rt::as<TextInfo>(obj);
+  if (textInfo != nullptr) {
+    return get_CultureName()->Equals(textInfo->get_CultureName());
+  }
+  return false;
 }
 
 Int32 TextInfo___::GetHashCode() {
-  return Int32();
+  return get_CultureName()->GetHashCode();
 }
 
 String TextInfo___::ToString() {
-  return nullptr;
+  return "TextInfo - " + _cultureData->get_CultureName();
 }
 
 String TextInfo___::ToTitleCase(String str) {
-  return nullptr;
+  if (str == nullptr) {
+    rt::throw_exception<ArgumentNullException>("str");
+  }
+  if (str->get_Length() == 0) {
+    return str;
+  }
+  StringBuilder result = rt::newobj<StringBuilder>();
+  String text = nullptr;
+  Boolean flag = get_CultureName()->StartsWith("nl-", StringComparison::OrdinalIgnoreCase);
+  Int32 num;
+  for (num = 0; num < str->get_Length(); num++) {
+  }
+  return result->ToString();
 }
 
 Int32 TextInfo___::AddNonLetter(StringBuilder& result, String& input, Int32 inputIndex, Int32 charLen) {
-  return Int32();
+  if (charLen == 2) {
+    result->Append(input[inputIndex++]);
+    result->Append(input[inputIndex]);
+  } else {
+    result->Append(input[inputIndex]);
+  }
+  return inputIndex;
 }
 
 Int32 TextInfo___::AddTitlecaseLetter(StringBuilder& result, String& input, Int32 inputIndex, Int32 charLen) {
-  return Int32();
+  if (charLen == 2) {
+    ReadOnlySpan<Char> readOnlySpan = MemoryExtensions::AsSpan(input, inputIndex, 2);
+    if (GlobalizationMode::get_Invariant()) {
+      result->Append(readOnlySpan);
+    } else {
+      Char default[2] = {};
+      Span<Char> span = default;
+      ChangeCaseToUpper(readOnlySpan, span);
+      result->Append(span);
+    }
+    inputIndex++;
+  } else {
+    switch (input[inputIndex].get()) {
+      case 452:
+      case 453:
+      case 454:
+        result->Append(453);
+        break;
+      case 455:
+      case 456:
+      case 457:
+        result->Append(456);
+        break;
+      case 458:
+      case 459:
+      case 460:
+        result->Append(459);
+        break;
+      case 497:
+      case 498:
+      case 499:
+        result->Append(498);
+        break;
+      default:
+        result->Append(ToUpper(input[inputIndex]));
+        break;
+    }
+  }
+  return inputIndex;
 }
 
 void TextInfo___::ChangeCaseCore(Char* src, Int32 srcLen, Char* dstBuffer, Int32 dstBufferCapacity, Boolean bToUpper) {
+  if (GlobalizationMode::get_UseNls()) {
+    NlsChangeCase(src, srcLen, dstBuffer, dstBufferCapacity, bToUpper);
+  } else {
+    IcuChangeCase(src, srcLen, dstBuffer, dstBufferCapacity, bToUpper);
+  }
 }
 
 Boolean TextInfo___::IsWordSeparator(UnicodeCategory category) {
-  return Boolean();
 }
 
 Boolean TextInfo___::IsLetterCategory(UnicodeCategory uc) {
-  return Boolean();
+  if (uc != 0 && uc != UnicodeCategory::LowercaseLetter && uc != UnicodeCategory::TitlecaseLetter && uc != UnicodeCategory::ModifierLetter) {
+    return uc == UnicodeCategory::OtherLetter;
+  }
+  return true;
 }
 
 Boolean TextInfo___::NeedsTurkishCasing(String localeName) {
-  return Boolean();
+  return CultureInfo::in::GetCultureInfo(localeName)->get_CompareInfo()->Compare("ı", "I", CompareOptions::IgnoreCase) == 0;
 }
 
 void TextInfo___::IcuChangeCase(Char* src, Int32 srcLen, Char* dstBuffer, Int32 dstBufferCapacity, Boolean bToUpper) {
+  if (get_IsInvariant()) {
+    Interop::Globalization::ChangeCaseInvariant(src, srcLen, dstBuffer, dstBufferCapacity, bToUpper);
+    return;
+  }
+  if (_needsTurkishCasing == Tristate::NotInitialized) {
+    _needsTurkishCasing = ((!NeedsTurkishCasing(_textInfoName)) ? Tristate::False : Tristate::True);
+  }
+  if (_needsTurkishCasing == Tristate::True) {
+    Interop::Globalization::ChangeCaseTurkish(src, srcLen, dstBuffer, dstBufferCapacity, bToUpper);
+  } else {
+    Interop::Globalization::ChangeCase(src, srcLen, dstBuffer, dstBufferCapacity, bToUpper);
+  }
 }
 
 void TextInfo___::NlsChangeCase(Char* pSource, Int32 pSourceLen, Char* pResult, Int32 pResultLen, Boolean toUpper) {
+  UInt32 num = (!IsInvariantLocale(_textInfoName)) ? 16777216u : 0u;
 }
 
 Boolean TextInfo___::IsInvariantLocale(String localeName) {
-  return Boolean();
+  return localeName == "";
 }
 
-void TextInfo___::ctor_static() {
+void TextInfo___::cctor() {
+  Invariant = rt::newobj<TextInfo>(CultureData::in::get_Invariant(), true);
 }
 
 } // namespace System::Private::CoreLib::System::Globalization::TextInfoNamespace

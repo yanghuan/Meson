@@ -1,20 +1,31 @@
 #include "SignatureType-dep.h"
 
+#include <System.Private.CoreLib/System/IndexOutOfRangeException-dep.h>
+#include <System.Private.CoreLib/System/NotSupportedException-dep.h>
+#include <System.Private.CoreLib/System/Reflection/SignatureArrayType-dep.h>
+#include <System.Private.CoreLib/System/Reflection/SignatureByRefType-dep.h>
+#include <System.Private.CoreLib/System/Reflection/SignaturePointerType-dep.h>
+#include <System.Private.CoreLib/System/Reflection/SignatureType-dep.h>
+#include <System.Private.CoreLib/System/SR-dep.h>
+
 namespace System::Private::CoreLib::System::Reflection::SignatureTypeNamespace {
 Boolean SignatureType___::get_IsSignatureType() {
-  return Boolean();
+  return true;
 }
 
 Boolean SignatureType___::get_IsGenericType() {
-  return Boolean();
+  if (!get_IsGenericTypeDefinition()) {
+    return get_IsConstructedGenericType();
+  }
+  return true;
 }
 
 MemberTypes SignatureType___::get_MemberType() {
-  return MemberTypes::All;
+  return MemberTypes::TypeInfo;
 }
 
 Type SignatureType___::get_UnderlyingSystemType() {
-  return nullptr;
+  return (SignatureType)this;
 }
 
 String SignatureType___::get_FullName() {
@@ -26,279 +37,282 @@ String SignatureType___::get_AssemblyQualifiedName() {
 }
 
 Assembly SignatureType___::get_Assembly() {
-  return nullptr;
+  rt::throw_exception<NotSupportedException>(SR::get_NotSupported_SignatureType());
 }
 
 Module SignatureType___::get_Module() {
-  return nullptr;
+  rt::throw_exception<NotSupportedException>(SR::get_NotSupported_SignatureType());
 }
 
 Type SignatureType___::get_ReflectedType() {
-  return nullptr;
+  rt::throw_exception<NotSupportedException>(SR::get_NotSupported_SignatureType());
 }
 
 Type SignatureType___::get_BaseType() {
-  return nullptr;
+  rt::throw_exception<NotSupportedException>(SR::get_NotSupported_SignatureType());
 }
 
 Int32 SignatureType___::get_MetadataToken() {
-  return Int32();
+  rt::throw_exception<NotSupportedException>(SR::get_NotSupported_SignatureType());
 }
 
 Type SignatureType___::get_DeclaringType() {
-  return nullptr;
+  rt::throw_exception<NotSupportedException>(SR::get_NotSupported_SignatureType());
 }
 
 MethodBase SignatureType___::get_DeclaringMethod() {
-  return nullptr;
+  rt::throw_exception<NotSupportedException>(SR::get_NotSupported_SignatureType());
 }
 
 GenericParameterAttributes SignatureType___::get_GenericParameterAttributes() {
-  return GenericParameterAttributes::DefaultConstructorConstraint;
+  rt::throw_exception<NotSupportedException>(SR::get_NotSupported_SignatureType());
 }
 
 Guid SignatureType___::get_GUID() {
-  return Guid();
+  rt::throw_exception<NotSupportedException>(SR::get_NotSupported_SignatureType());
 }
 
 IEnumerable<CustomAttributeData> SignatureType___::get_CustomAttributes() {
-  return nullptr;
+  rt::throw_exception<NotSupportedException>(SR::get_NotSupported_SignatureType());
 }
 
 Boolean SignatureType___::get_IsEnum() {
-  return Boolean();
+  rt::throw_exception<NotSupportedException>(SR::get_NotSupported_SignatureType());
 }
 
 Boolean SignatureType___::get_IsSecurityCritical() {
-  return Boolean();
+  rt::throw_exception<NotSupportedException>(SR::get_NotSupported_SignatureType());
 }
 
 Boolean SignatureType___::get_IsSecuritySafeCritical() {
-  return Boolean();
+  rt::throw_exception<NotSupportedException>(SR::get_NotSupported_SignatureType());
 }
 
 Boolean SignatureType___::get_IsSecurityTransparent() {
-  return Boolean();
+  rt::throw_exception<NotSupportedException>(SR::get_NotSupported_SignatureType());
 }
 
 Boolean SignatureType___::get_IsSerializable() {
-  return Boolean();
+  rt::throw_exception<NotSupportedException>(SR::get_NotSupported_SignatureType());
 }
 
 StructLayoutAttribute SignatureType___::get_StructLayoutAttribute() {
-  return nullptr;
+  rt::throw_exception<NotSupportedException>(SR::get_NotSupported_SignatureType());
 }
 
 RuntimeTypeHandle SignatureType___::get_TypeHandle() {
-  return RuntimeTypeHandle();
+  rt::throw_exception<NotSupportedException>(SR::get_NotSupported_SignatureType());
 }
 
 Type SignatureType___::MakeArrayType() {
-  return nullptr;
+  return rt::newobj<SignatureArrayType>((SignatureType)this, 1, false);
 }
 
 Type SignatureType___::MakeArrayType(Int32 rank) {
-  return nullptr;
+  if (rank <= 0) {
+    rt::throw_exception<IndexOutOfRangeException>();
+  }
+  return rt::newobj<SignatureArrayType>((SignatureType)this, rank, true);
 }
 
 Type SignatureType___::MakeByRefType() {
-  return nullptr;
+  return rt::newobj<SignatureByRefType>((SignatureType)this);
 }
 
 Type SignatureType___::MakePointerType() {
-  return nullptr;
+  return rt::newobj<SignaturePointerType>((SignatureType)this);
 }
 
 Type SignatureType___::MakeGenericType(Array<Type> typeArguments) {
-  return nullptr;
+  rt::throw_exception<NotSupportedException>(SR::get_NotSupported_SignatureType());
 }
 
 Type SignatureType___::GetElementType() {
-  return nullptr;
+  return get_ElementType();
 }
 
 Array<Type> SignatureType___::GetInterfaces() {
-  return Array<Type>();
+  rt::throw_exception<NotSupportedException>(SR::get_NotSupported_SignatureType());
 }
 
 Boolean SignatureType___::IsAssignableFrom(Type c) {
-  return Boolean();
+  rt::throw_exception<NotSupportedException>(SR::get_NotSupported_SignatureType());
 }
 
 Boolean SignatureType___::HasSameMetadataDefinitionAs(MemberInfo other) {
-  return Boolean();
+  rt::throw_exception<NotSupportedException>(SR::get_NotSupported_SignatureType());
 }
 
 Array<Type> SignatureType___::GetGenericParameterConstraints() {
-  return Array<Type>();
+  rt::throw_exception<NotSupportedException>(SR::get_NotSupported_SignatureType());
 }
 
 Boolean SignatureType___::IsEnumDefined(Object value) {
-  return Boolean();
+  rt::throw_exception<NotSupportedException>(SR::get_NotSupported_SignatureType());
 }
 
 String SignatureType___::GetEnumName(Object value) {
-  return nullptr;
+  rt::throw_exception<NotSupportedException>(SR::get_NotSupported_SignatureType());
 }
 
 Array<String> SignatureType___::GetEnumNames() {
-  return Array<String>();
+  rt::throw_exception<NotSupportedException>(SR::get_NotSupported_SignatureType());
 }
 
 Type SignatureType___::GetEnumUnderlyingType() {
-  return nullptr;
+  rt::throw_exception<NotSupportedException>(SR::get_NotSupported_SignatureType());
 }
 
 Array<> SignatureType___::GetEnumValues() {
-  return nullptr;
+  rt::throw_exception<NotSupportedException>(SR::get_NotSupported_SignatureType());
 }
 
 TypeCode SignatureType___::GetTypeCodeImpl() {
-  return TypeCode::String;
+  rt::throw_exception<NotSupportedException>(SR::get_NotSupported_SignatureType());
 }
 
 TypeAttributes SignatureType___::GetAttributeFlagsImpl() {
-  return TypeAttributes::ReservedMask;
+  rt::throw_exception<NotSupportedException>(SR::get_NotSupported_SignatureType());
 }
 
 Array<ConstructorInfo> SignatureType___::GetConstructors(BindingFlags bindingAttr) {
-  return Array<ConstructorInfo>();
+  rt::throw_exception<NotSupportedException>(SR::get_NotSupported_SignatureType());
 }
 
 EventInfo SignatureType___::GetEvent(String name, BindingFlags bindingAttr) {
-  return nullptr;
+  rt::throw_exception<NotSupportedException>(SR::get_NotSupported_SignatureType());
 }
 
 Array<EventInfo> SignatureType___::GetEvents(BindingFlags bindingAttr) {
-  return Array<EventInfo>();
+  rt::throw_exception<NotSupportedException>(SR::get_NotSupported_SignatureType());
 }
 
 FieldInfo SignatureType___::GetField(String name, BindingFlags bindingAttr) {
-  return nullptr;
+  rt::throw_exception<NotSupportedException>(SR::get_NotSupported_SignatureType());
 }
 
 Array<FieldInfo> SignatureType___::GetFields(BindingFlags bindingAttr) {
-  return Array<FieldInfo>();
+  rt::throw_exception<NotSupportedException>(SR::get_NotSupported_SignatureType());
 }
 
 Array<MemberInfo> SignatureType___::GetMembers(BindingFlags bindingAttr) {
-  return Array<MemberInfo>();
+  rt::throw_exception<NotSupportedException>(SR::get_NotSupported_SignatureType());
 }
 
 Array<MethodInfo> SignatureType___::GetMethods(BindingFlags bindingAttr) {
-  return Array<MethodInfo>();
+  rt::throw_exception<NotSupportedException>(SR::get_NotSupported_SignatureType());
 }
 
 Type SignatureType___::GetNestedType(String name, BindingFlags bindingAttr) {
-  return nullptr;
+  rt::throw_exception<NotSupportedException>(SR::get_NotSupported_SignatureType());
 }
 
 Array<Type> SignatureType___::GetNestedTypes(BindingFlags bindingAttr) {
-  return Array<Type>();
+  rt::throw_exception<NotSupportedException>(SR::get_NotSupported_SignatureType());
 }
 
 Array<PropertyInfo> SignatureType___::GetProperties(BindingFlags bindingAttr) {
-  return Array<PropertyInfo>();
+  rt::throw_exception<NotSupportedException>(SR::get_NotSupported_SignatureType());
 }
 
 Object SignatureType___::InvokeMember(String name, BindingFlags invokeAttr, Binder binder, Object target, Array<Object> args, Array<ParameterModifier> modifiers, CultureInfo culture, Array<String> namedParameters) {
-  return nullptr;
+  rt::throw_exception<NotSupportedException>(SR::get_NotSupported_SignatureType());
 }
 
 MethodInfo SignatureType___::GetMethodImpl(String name, BindingFlags bindingAttr, Binder binder, CallingConventions callConvention, Array<Type> types, Array<ParameterModifier> modifiers) {
-  return nullptr;
+  rt::throw_exception<NotSupportedException>(SR::get_NotSupported_SignatureType());
 }
 
 MethodInfo SignatureType___::GetMethodImpl(String name, Int32 genericParameterCount, BindingFlags bindingAttr, Binder binder, CallingConventions callConvention, Array<Type> types, Array<ParameterModifier> modifiers) {
-  return nullptr;
+  rt::throw_exception<NotSupportedException>(SR::get_NotSupported_SignatureType());
 }
 
 PropertyInfo SignatureType___::GetPropertyImpl(String name, BindingFlags bindingAttr, Binder binder, Type returnType, Array<Type> types, Array<ParameterModifier> modifiers) {
-  return nullptr;
+  rt::throw_exception<NotSupportedException>(SR::get_NotSupported_SignatureType());
 }
 
 Array<MemberInfo> SignatureType___::FindMembers(MemberTypes memberType, BindingFlags bindingAttr, MemberFilter filter, Object filterCriteria) {
-  return Array<MemberInfo>();
+  rt::throw_exception<NotSupportedException>(SR::get_NotSupported_SignatureType());
 }
 
 Array<MemberInfo> SignatureType___::GetMember(String name, BindingFlags bindingAttr) {
-  return Array<MemberInfo>();
+  rt::throw_exception<NotSupportedException>(SR::get_NotSupported_SignatureType());
 }
 
 Array<MemberInfo> SignatureType___::GetMember(String name, MemberTypes type, BindingFlags bindingAttr) {
-  return Array<MemberInfo>();
+  rt::throw_exception<NotSupportedException>(SR::get_NotSupported_SignatureType());
 }
 
 Array<MemberInfo> SignatureType___::GetDefaultMembers() {
-  return Array<MemberInfo>();
+  rt::throw_exception<NotSupportedException>(SR::get_NotSupported_SignatureType());
 }
 
 Array<EventInfo> SignatureType___::GetEvents() {
-  return Array<EventInfo>();
+  rt::throw_exception<NotSupportedException>(SR::get_NotSupported_SignatureType());
 }
 
 Array<Object> SignatureType___::GetCustomAttributes(Boolean inherit) {
-  return Array<Object>();
+  rt::throw_exception<NotSupportedException>(SR::get_NotSupported_SignatureType());
 }
 
 Array<Object> SignatureType___::GetCustomAttributes(Type attributeType, Boolean inherit) {
-  return Array<Object>();
+  rt::throw_exception<NotSupportedException>(SR::get_NotSupported_SignatureType());
 }
 
 Boolean SignatureType___::IsDefined(Type attributeType, Boolean inherit) {
-  return Boolean();
+  rt::throw_exception<NotSupportedException>(SR::get_NotSupported_SignatureType());
 }
 
 IList<CustomAttributeData> SignatureType___::GetCustomAttributesData() {
-  return nullptr;
+  rt::throw_exception<NotSupportedException>(SR::get_NotSupported_SignatureType());
 }
 
 Type SignatureType___::GetInterface(String name, Boolean ignoreCase) {
-  return nullptr;
+  rt::throw_exception<NotSupportedException>(SR::get_NotSupported_SignatureType());
 }
 
 ConstructorInfo SignatureType___::GetConstructorImpl(BindingFlags bindingAttr, Binder binder, CallingConventions callConvention, Array<Type> types, Array<ParameterModifier> modifiers) {
-  return nullptr;
+  rt::throw_exception<NotSupportedException>(SR::get_NotSupported_SignatureType());
 }
 
 Boolean SignatureType___::IsCOMObjectImpl() {
-  return Boolean();
+  rt::throw_exception<NotSupportedException>(SR::get_NotSupported_SignatureType());
 }
 
 Boolean SignatureType___::IsPrimitiveImpl() {
-  return Boolean();
+  rt::throw_exception<NotSupportedException>(SR::get_NotSupported_SignatureType());
 }
 
 Array<Type> SignatureType___::FindInterfaces(TypeFilter filter, Object filterCriteria) {
-  return Array<Type>();
+  rt::throw_exception<NotSupportedException>(SR::get_NotSupported_SignatureType());
 }
 
 InterfaceMapping SignatureType___::GetInterfaceMap(Type interfaceType) {
-  return InterfaceMapping();
+  rt::throw_exception<NotSupportedException>(SR::get_NotSupported_SignatureType());
 }
 
 Boolean SignatureType___::IsContextfulImpl() {
-  return Boolean();
+  rt::throw_exception<NotSupportedException>(SR::get_NotSupported_SignatureType());
 }
 
 Boolean SignatureType___::IsEquivalentTo(Type other) {
-  return Boolean();
+  rt::throw_exception<NotSupportedException>(SR::get_NotSupported_SignatureType());
 }
 
 Boolean SignatureType___::IsInstanceOfType(Object o) {
-  return Boolean();
+  rt::throw_exception<NotSupportedException>(SR::get_NotSupported_SignatureType());
 }
 
 Boolean SignatureType___::IsMarshalByRefImpl() {
-  return Boolean();
+  rt::throw_exception<NotSupportedException>(SR::get_NotSupported_SignatureType());
 }
 
 Boolean SignatureType___::IsSubclassOf(Type c) {
-  return Boolean();
+  rt::throw_exception<NotSupportedException>(SR::get_NotSupported_SignatureType());
 }
 
 Boolean SignatureType___::IsValueTypeImpl() {
-  return Boolean();
+  rt::throw_exception<NotSupportedException>(SR::get_NotSupported_SignatureType());
 }
 
 void SignatureType___::ctor() {

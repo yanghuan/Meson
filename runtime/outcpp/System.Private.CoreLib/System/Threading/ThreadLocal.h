@@ -66,7 +66,7 @@ CLASS(ThreadLocal, T) : public Object::in {
   private: List<T> GetValuesAsList();
   private: static void GrowTable(Array<LinkedSlotVolatile>& table, Int32 minLength);
   private: static Int32 GetNewTableSize(Int32 minSize);
-  private: static void ctor_static();
+  private: static void cctor();
   private: Func<T> _valueFactory;
   private: static Array<LinkedSlotVolatile> ts_slotArray;
   private: static FinalizationHelper ts_finalizationHelper;

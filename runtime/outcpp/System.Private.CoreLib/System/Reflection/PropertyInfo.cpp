@@ -1,81 +1,91 @@
 #include "PropertyInfo-dep.h"
 
+#include <System.Private.CoreLib/System/NotImplemented-dep.h>
+#include <System.Private.CoreLib/System/Reflection/BindingFlags.h>
+
 namespace System::Private::CoreLib::System::Reflection::PropertyInfoNamespace {
 MemberTypes PropertyInfo___::get_MemberType() {
-  return MemberTypes::All;
+  return MemberTypes::Property;
 }
 
 Boolean PropertyInfo___::get_IsSpecialName() {
-  return Boolean();
 }
 
 MethodInfo PropertyInfo___::get_GetMethod() {
-  return nullptr;
+  return GetGetMethod(true);
 }
 
 MethodInfo PropertyInfo___::get_SetMethod() {
-  return nullptr;
+  return GetSetMethod(true);
 }
 
 void PropertyInfo___::ctor() {
 }
 
 Array<MethodInfo> PropertyInfo___::GetAccessors() {
-  return Array<MethodInfo>();
+  return GetAccessors(false);
 }
 
 MethodInfo PropertyInfo___::GetGetMethod() {
-  return nullptr;
+  return GetGetMethod(false);
 }
 
 MethodInfo PropertyInfo___::GetSetMethod() {
-  return nullptr;
+  return GetSetMethod(false);
 }
 
 Array<Type> PropertyInfo___::GetOptionalCustomModifiers() {
-  return Array<Type>();
+  return Array<>::in::Empty<Type>();
 }
 
 Array<Type> PropertyInfo___::GetRequiredCustomModifiers() {
-  return Array<Type>();
+  return Array<>::in::Empty<Type>();
 }
 
 Object PropertyInfo___::GetValue(Object obj) {
-  return nullptr;
+  return GetValue(obj, nullptr);
 }
 
 Object PropertyInfo___::GetValue(Object obj, Array<Object> index) {
-  return nullptr;
+  return GetValue(obj, BindingFlags::Default, nullptr, index, nullptr);
 }
 
 Object PropertyInfo___::GetConstantValue() {
-  return nullptr;
+  rt::throw_exception(NotImplemented::get_ByDesign());
 }
 
 Object PropertyInfo___::GetRawConstantValue() {
-  return nullptr;
+  rt::throw_exception(NotImplemented::get_ByDesign());
 }
 
 void PropertyInfo___::SetValue(Object obj, Object value) {
+  SetValue(obj, value, nullptr);
 }
 
 void PropertyInfo___::SetValue(Object obj, Object value, Array<Object> index) {
+  SetValue(obj, value, BindingFlags::Default, nullptr, index, nullptr);
 }
 
 Boolean PropertyInfo___::Equals(Object obj) {
-  return Boolean();
 }
 
 Int32 PropertyInfo___::GetHashCode() {
-  return Int32();
 }
 
 Boolean PropertyInfo___::op_Equality(PropertyInfo left, PropertyInfo right) {
-  return Boolean();
+  if ((Object)right == nullptr) {
+    if ((Object)left != nullptr) {
+      return false;
+    }
+    return true;
+  }
+  if ((Object)left == right) {
+    return true;
+  }
 }
 
 Boolean PropertyInfo___::op_Inequality(PropertyInfo left, PropertyInfo right) {
-  return Boolean();
+  return !(left == right);
 }
 
 } // namespace System::Private::CoreLib::System::Reflection::PropertyInfoNamespace

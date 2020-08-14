@@ -1,140 +1,230 @@
 #include "CharUnicodeInfo-dep.h"
 
+#include <System.Private.CoreLib/Internal/Runtime/CompilerServices/Unsafe-dep.h>
+#include <System.Private.CoreLib/System/BitConverter-dep.h>
+#include <System.Private.CoreLib/System/Buffers/Binary/BinaryPrimitives-dep.h>
+#include <System.Private.CoreLib/System/ExceptionArgument.h>
+#include <System.Private.CoreLib/System/Runtime/InteropServices/MemoryMarshal-dep.h>
+#include <System.Private.CoreLib/System/SByte-dep.h>
+#include <System.Private.CoreLib/System/Text/UnicodeUtility-dep.h>
+#include <System.Private.CoreLib/System/ThrowHelper-dep.h>
+#include <System.Private.CoreLib/System/UInt32-dep.h>
+#include <System.Private.CoreLib/System/UInt64-dep.h>
+
 namespace System::Private::CoreLib::System::Globalization::CharUnicodeInfoNamespace {
+using namespace Internal::Runtime::CompilerServices;
+using namespace System::Buffers::Binary;
+using namespace System::Runtime::InteropServices;
+using namespace System::Text;
+
 ReadOnlySpan<Byte> CharUnicodeInfo::get_CategoryCasingLevel1Index() {
-  return ReadOnlySpan<Byte>();
+  return rt::newarr<Array<Byte>>(2176);
 }
 
 ReadOnlySpan<Byte> CharUnicodeInfo::get_CategoryCasingLevel2Index() {
-  return ReadOnlySpan<Byte>();
+  return rt::newarr<Array<Byte>>(6272);
 }
 
 ReadOnlySpan<Byte> CharUnicodeInfo::get_CategoryCasingLevel3Index() {
-  return ReadOnlySpan<Byte>();
+  return rt::newarr<Array<Byte>>(11184);
 }
 
 ReadOnlySpan<Byte> CharUnicodeInfo::get_CategoriesValues() {
-  return ReadOnlySpan<Byte>();
+  return rt::newarr<Array<Byte>>(56);
 }
 
 ReadOnlySpan<Byte> CharUnicodeInfo::get_NumericGraphemeLevel1Index() {
-  return ReadOnlySpan<Byte>();
+  return rt::newarr<Array<Byte>>(2176);
 }
 
 ReadOnlySpan<Byte> CharUnicodeInfo::get_NumericGraphemeLevel2Index() {
-  return ReadOnlySpan<Byte>();
+  return rt::newarr<Array<Byte>>(4928);
 }
 
 ReadOnlySpan<Byte> CharUnicodeInfo::get_NumericGraphemeLevel3Index() {
-  return ReadOnlySpan<Byte>();
+  return rt::newarr<Array<Byte>>(6096);
 }
 
 ReadOnlySpan<Byte> CharUnicodeInfo::get_DigitValues() {
-  return ReadOnlySpan<Byte>();
+  return rt::newarr<Array<Byte>>(177);
 }
 
 ReadOnlySpan<Byte> CharUnicodeInfo::get_NumericValues() {
-  return ReadOnlySpan<Byte>();
+  return rt::newarr<Array<Byte>>(1416);
 }
 
 ReadOnlySpan<Byte> CharUnicodeInfo::get_GraphemeSegmentationValues() {
-  return ReadOnlySpan<Byte>();
+  return rt::newarr<Array<Byte>>(177);
 }
 
 StrongBidiCategory CharUnicodeInfo::GetBidiCategory(String s, Int32 index) {
-  return StrongBidiCategory::StrongRightToLeft;
+  if (s == nullptr) {
+    ThrowHelper::ThrowArgumentNullException(ExceptionArgument::s);
+  }
+  if ((UInt32)index >= (UInt32)s->get_Length()) {
+    ThrowHelper::ThrowArgumentOutOfRangeException(ExceptionArgument::index);
+  }
+  return GetBidiCategoryNoBoundsChecks((UInt32)GetCodePointFromString(s, index));
 }
 
 StrongBidiCategory CharUnicodeInfo::GetBidiCategory(StringBuilder s, Int32 index) {
-  return StrongBidiCategory::StrongRightToLeft;
+  Int32 num = s[index];
+  if (index < s->get_Length() - 1) {
+    Int32 num2 = num - 55296;
+    if ((UInt32)num2 <= 1023u) {
+      Int32 num3 = s[index + 1] - 56320;
+      if ((UInt32)num3 <= 1023u) {
+        num = (num2 << 10) + num3 + 65536;
+      }
+    }
+  }
+  return GetBidiCategoryNoBoundsChecks((UInt32)num);
 }
 
 StrongBidiCategory CharUnicodeInfo::GetBidiCategoryNoBoundsChecks(UInt32 codePoint) {
-  return StrongBidiCategory::StrongRightToLeft;
+  unsigned int categoryCasingTableOffsetNoBoundsChecks = GetCategoryCasingTableOffsetNoBoundsChecks(codePoint);
 }
 
 Int32 CharUnicodeInfo::GetDecimalDigitValue(Char ch) {
-  return Int32();
+  return GetDecimalDigitValueInternalNoBoundsCheck(ch);
 }
 
 Int32 CharUnicodeInfo::GetDecimalDigitValue(String s, Int32 index) {
-  return Int32();
+  if (s == nullptr) {
+    ThrowHelper::ThrowArgumentNullException(ExceptionArgument::s);
+  }
+  if ((UInt32)index >= (UInt32)s->get_Length()) {
+    ThrowHelper::ThrowArgumentOutOfRangeException(ExceptionArgument::index);
+  }
+  return GetDecimalDigitValueInternalNoBoundsCheck((UInt32)GetCodePointFromString(s, index));
 }
 
 Int32 CharUnicodeInfo::GetDecimalDigitValueInternalNoBoundsCheck(UInt32 codePoint) {
-  return Int32();
+  unsigned int numericGraphemeTableOffsetNoBoundsChecks = GetNumericGraphemeTableOffsetNoBoundsChecks(codePoint);
+  UInt32 num = Unsafe::AddByteOffset(MemoryMarshal::GetReference(get_DigitValues()), numericGraphemeTableOffsetNoBoundsChecks);
+  return (Int32)((num >> 4) - 1);
 }
 
 Int32 CharUnicodeInfo::GetDigitValue(Char ch) {
-  return Int32();
+  return GetDigitValueInternalNoBoundsCheck(ch);
 }
 
 Int32 CharUnicodeInfo::GetDigitValue(String s, Int32 index) {
-  return Int32();
+  if (s == nullptr) {
+    ThrowHelper::ThrowArgumentNullException(ExceptionArgument::s);
+  }
+  if ((UInt32)index >= (UInt32)s->get_Length()) {
+    ThrowHelper::ThrowArgumentOutOfRangeException(ExceptionArgument::index);
+  }
+  return GetDigitValueInternalNoBoundsCheck((UInt32)GetCodePointFromString(s, index));
 }
 
 Int32 CharUnicodeInfo::GetDigitValueInternalNoBoundsCheck(UInt32 codePoint) {
-  return Int32();
+  unsigned int numericGraphemeTableOffsetNoBoundsChecks = GetNumericGraphemeTableOffsetNoBoundsChecks(codePoint);
+  Int32 num = Unsafe::AddByteOffset(MemoryMarshal::GetReference(get_DigitValues()), numericGraphemeTableOffsetNoBoundsChecks);
 }
 
 GraphemeClusterBreakType CharUnicodeInfo::GetGraphemeClusterBreakType(Rune rune) {
-  return GraphemeClusterBreakType::Extended_Pictograph;
+  unsigned int numericGraphemeTableOffsetNoBoundsChecks = GetNumericGraphemeTableOffsetNoBoundsChecks((UInt32)rune.get_Value());
+  return (GraphemeClusterBreakType)Unsafe::AddByteOffset(MemoryMarshal::GetReference(get_GraphemeSegmentationValues()), numericGraphemeTableOffsetNoBoundsChecks);
 }
 
 Boolean CharUnicodeInfo::GetIsWhiteSpace(Char ch) {
-  return Boolean();
+  unsigned int categoryCasingTableOffsetNoBoundsChecks = GetCategoryCasingTableOffsetNoBoundsChecks(ch);
+  return (SByte)Unsafe::AddByteOffset(MemoryMarshal::GetReference(get_CategoriesValues()), categoryCasingTableOffsetNoBoundsChecks) < 0;
 }
 
 Double CharUnicodeInfo::GetNumericValue(Char ch) {
-  return Double();
+  return GetNumericValueNoBoundsCheck(ch);
 }
 
 Double CharUnicodeInfo::GetNumericValue(Int32 codePoint) {
-  return Double();
+  if (!UnicodeUtility::IsValidCodePoint((UInt32)codePoint)) {
+    ThrowHelper::ThrowArgumentOutOfRangeException(ExceptionArgument::codePoint);
+  }
+  return GetNumericValueNoBoundsCheck((UInt32)codePoint);
 }
 
 Double CharUnicodeInfo::GetNumericValue(String s, Int32 index) {
-  return Double();
+  if (s == nullptr) {
+    ThrowHelper::ThrowArgumentNullException(ExceptionArgument::s);
+  }
+  if ((UInt32)index >= (UInt32)s->get_Length()) {
+    ThrowHelper::ThrowArgumentOutOfRangeException(ExceptionArgument::index);
+  }
+  return GetNumericValueNoBoundsCheck((UInt32)GetCodePointFromString(s, index));
 }
 
 Double CharUnicodeInfo::GetNumericValueNoBoundsCheck(UInt32 codePoint) {
-  return Double();
+  unsigned int numericGraphemeTableOffsetNoBoundsChecks = GetNumericGraphemeTableOffsetNoBoundsChecks(codePoint);
+  Byte& source = Unsafe::AddByteOffset(MemoryMarshal::GetReference(get_NumericValues()), numericGraphemeTableOffsetNoBoundsChecks * 8);
+  if (BitConverter::IsLittleEndian) {
+    return Unsafe::ReadUnaligned<Double>(source);
+  }
+  UInt64 value = Unsafe::ReadUnaligned<UInt64>(source);
+  value = BinaryPrimitives::ReverseEndianness(value);
+  return Unsafe::As<UInt64, Double>(value);
 }
 
 UnicodeCategory CharUnicodeInfo::GetUnicodeCategory(Char ch) {
-  return UnicodeCategory::OtherNotAssigned;
+  return GetUnicodeCategoryNoBoundsChecks(ch);
 }
 
 UnicodeCategory CharUnicodeInfo::GetUnicodeCategory(Int32 codePoint) {
-  return UnicodeCategory::OtherNotAssigned;
+  if (!UnicodeUtility::IsValidCodePoint((UInt32)codePoint)) {
+    ThrowHelper::ThrowArgumentOutOfRangeException(ExceptionArgument::codePoint);
+  }
+  return GetUnicodeCategoryNoBoundsChecks((UInt32)codePoint);
 }
 
 UnicodeCategory CharUnicodeInfo::GetUnicodeCategory(String s, Int32 index) {
-  return UnicodeCategory::OtherNotAssigned;
+  if (s == nullptr) {
+    ThrowHelper::ThrowArgumentNullException(ExceptionArgument::s);
+  }
+  if ((UInt32)index >= (UInt32)s->get_Length()) {
+    ThrowHelper::ThrowArgumentOutOfRangeException(ExceptionArgument::index);
+  }
+  return GetUnicodeCategoryInternal(s, index);
 }
 
 UnicodeCategory CharUnicodeInfo::GetUnicodeCategoryInternal(String value, Int32 index) {
-  return UnicodeCategory::OtherNotAssigned;
+  return GetUnicodeCategoryNoBoundsChecks((UInt32)GetCodePointFromString(value, index));
 }
 
 UnicodeCategory CharUnicodeInfo::GetUnicodeCategoryInternal(String str, Int32 index, Int32& charLength) {
-  return UnicodeCategory::OtherNotAssigned;
+  UInt32 codePointFromString = (UInt32)GetCodePointFromString(str, index);
+  charLength = ((codePointFromString < 65536) ? 1 : 2);
+  return GetUnicodeCategoryNoBoundsChecks(codePointFromString);
 }
 
 UnicodeCategory CharUnicodeInfo::GetUnicodeCategoryNoBoundsChecks(UInt32 codePoint) {
-  return UnicodeCategory::OtherNotAssigned;
+  unsigned int categoryCasingTableOffsetNoBoundsChecks = GetCategoryCasingTableOffsetNoBoundsChecks(codePoint);
 }
 
 Int32 CharUnicodeInfo::GetCodePointFromString(String s, Int32 index) {
-  return Int32();
+  Int32 num = 0;
+  if ((UInt32)index < (UInt32)s->get_Length()) {
+    num = s[index];
+    Int32 num2 = num - 55296;
+    if ((UInt32)num2 <= 1023u) {
+      index++;
+      if ((UInt32)index < (UInt32)s->get_Length()) {
+        Int32 num3 = s[index] - 56320;
+        if ((UInt32)num3 <= 1023u) {
+          num = (num2 << 10) + num3 + 65536;
+        }
+      }
+    }
+  }
+  return num;
 }
 
-UIntPtr CharUnicodeInfo::GetCategoryCasingTableOffsetNoBoundsChecks(UInt32 codePoint) {
-  return UIntPtr();
+unsigned int CharUnicodeInfo::GetCategoryCasingTableOffsetNoBoundsChecks(UInt32 codePoint) {
+  UInt32 num = Unsafe::AddByteOffset(MemoryMarshal::GetReference(get_CategoryCasingLevel1Index()), codePoint >> 9);
 }
 
-UIntPtr CharUnicodeInfo::GetNumericGraphemeTableOffsetNoBoundsChecks(UInt32 codePoint) {
-  return UIntPtr();
+unsigned int CharUnicodeInfo::GetNumericGraphemeTableOffsetNoBoundsChecks(UInt32 codePoint) {
+  UInt32 num = Unsafe::AddByteOffset(MemoryMarshal::GetReference(get_NumericGraphemeLevel1Index()), codePoint >> 9);
 }
 
 } // namespace System::Private::CoreLib::System::Globalization::CharUnicodeInfoNamespace

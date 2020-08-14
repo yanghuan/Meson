@@ -1,27 +1,34 @@
 #include "MethodToken-dep.h"
 
+#include <System.Private.CoreLib/System/Reflection/Emit/MethodToken-dep.h>
+
 namespace System::Private::CoreLib::System::Reflection::Emit::MethodTokenNamespace {
 MethodToken::MethodToken(Int32 methodToken) {
+  Token = methodToken;
 }
 
 Int32 MethodToken::GetHashCode() {
-  return Int32();
+  return Token;
 }
 
 Boolean MethodToken::Equals(Object obj) {
-  return Boolean();
+  if (rt::is<MethodToken>(obj)) {
+    MethodToken obj2 = (MethodToken)obj;
+    return Equals(obj2);
+  }
+  return false;
 }
 
 Boolean MethodToken::Equals(MethodToken obj) {
-  return Boolean();
+  return obj.get_Token() == Token;
 }
 
 Boolean MethodToken::op_Equality(MethodToken a, MethodToken b) {
-  return Boolean();
+  return a.Equals(b);
 }
 
 Boolean MethodToken::op_Inequality(MethodToken a, MethodToken b) {
-  return Boolean();
+  return !(a == b);
 }
 
 } // namespace System::Private::CoreLib::System::Reflection::Emit::MethodTokenNamespace

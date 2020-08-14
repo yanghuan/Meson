@@ -14,7 +14,7 @@ void SEHException___::ctor(SerializationInfo info, StreamingContext context) {
 }
 
 Boolean SEHException___::CanResume() {
-  return Boolean();
+  return false;
 }
 
 } // namespace System::Private::CoreLib::System::Runtime::InteropServices::SEHExceptionNamespace

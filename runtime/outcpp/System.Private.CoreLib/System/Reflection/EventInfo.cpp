@@ -1,77 +1,99 @@
 #include "EventInfo-dep.h"
 
+#include <System.Private.CoreLib/System/InvalidOperationException-dep.h>
+#include <System.Private.CoreLib/System/NotImplemented-dep.h>
+#include <System.Private.CoreLib/System/Reflection/ParameterInfo-dep.h>
+#include <System.Private.CoreLib/System/SR-dep.h>
+#include <System.Private.CoreLib/System/Type-dep.h>
+
 namespace System::Private::CoreLib::System::Reflection::EventInfoNamespace {
 MemberTypes EventInfo___::get_MemberType() {
-  return MemberTypes::All;
+  return MemberTypes::Event;
 }
 
 Boolean EventInfo___::get_IsSpecialName() {
-  return Boolean();
 }
 
 MethodInfo EventInfo___::get_AddMethod() {
-  return nullptr;
+  return GetAddMethod(true);
 }
 
 MethodInfo EventInfo___::get_RemoveMethod() {
-  return nullptr;
+  return GetRemoveMethod(true);
 }
 
 MethodInfo EventInfo___::get_RaiseMethod() {
-  return nullptr;
+  return GetRaiseMethod(true);
 }
 
 Boolean EventInfo___::get_IsMulticast() {
-  return Boolean();
+  Type eventHandlerType = get_EventHandlerType();
 }
 
 Type EventInfo___::get_EventHandlerType() {
-  return nullptr;
+  MethodInfo addMethod = GetAddMethod(true);
+  Array<ParameterInfo> parametersNoCopy = addMethod->GetParametersNoCopy();
 }
 
 void EventInfo___::ctor() {
 }
 
 Array<MethodInfo> EventInfo___::GetOtherMethods() {
-  return Array<MethodInfo>();
+  return GetOtherMethods(false);
 }
 
 Array<MethodInfo> EventInfo___::GetOtherMethods(Boolean nonPublic) {
-  return Array<MethodInfo>();
+  rt::throw_exception(NotImplemented::get_ByDesign());
 }
 
 MethodInfo EventInfo___::GetAddMethod() {
-  return nullptr;
+  return GetAddMethod(false);
 }
 
 MethodInfo EventInfo___::GetRemoveMethod() {
-  return nullptr;
+  return GetRemoveMethod(false);
 }
 
 MethodInfo EventInfo___::GetRaiseMethod() {
-  return nullptr;
+  return GetRaiseMethod(false);
 }
 
 void EventInfo___::AddEventHandler(Object target, Delegate handler) {
+  MethodInfo addMethod = GetAddMethod(false);
+  if (addMethod == nullptr) {
+    rt::throw_exception<InvalidOperationException>(SR::get_InvalidOperation_NoPublicAddMethod());
+  }
+  addMethod->Invoke(target, rt::newarr<Array<Object>>(1));
 }
 
 void EventInfo___::RemoveEventHandler(Object target, Delegate handler) {
+  MethodInfo removeMethod = GetRemoveMethod(false);
+  if (removeMethod == nullptr) {
+    rt::throw_exception<InvalidOperationException>(SR::get_InvalidOperation_NoPublicRemoveMethod());
+  }
+  removeMethod->Invoke(target, rt::newarr<Array<Object>>(1));
 }
 
 Boolean EventInfo___::Equals(Object obj) {
-  return Boolean();
 }
 
 Int32 EventInfo___::GetHashCode() {
-  return Int32();
 }
 
 Boolean EventInfo___::op_Equality(EventInfo left, EventInfo right) {
-  return Boolean();
+  if ((Object)right == nullptr) {
+    if ((Object)left != nullptr) {
+      return false;
+    }
+    return true;
+  }
+  if ((Object)left == right) {
+    return true;
+  }
 }
 
 Boolean EventInfo___::op_Inequality(EventInfo left, EventInfo right) {
-  return Boolean();
+  return !(left == right);
 }
 
 } // namespace System::Private::CoreLib::System::Reflection::EventInfoNamespace

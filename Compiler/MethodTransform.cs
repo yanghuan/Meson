@@ -1,10 +1,9 @@
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.Design;
 using System.Diagnostics.Contracts;
 using System.Linq;
-using System.Net.NetworkInformation;
 using System.Reflection;
-using System.Text;
 
 using ICSharpCode.Decompiler.CSharp;
 using ICSharpCode.Decompiler.CSharp.Resolver;
@@ -136,7 +135,7 @@ namespace Meson.Compiler {
     private static readonly string[] assignmentOperators_ = new string[] { "=", "+=", "-=", "*=", "/=", "%=", "<<=", ">>=", "&=", "|=", "^=" };
 
     private static string GetAssignmentOperator(AssignmentOperatorType operatorToken) {
-      int index = operatorToken - AssignmentOperatorType.Assign;
+      int index = (int)operatorToken;
       return assignmentOperators_[index];
     }
 
@@ -242,6 +241,10 @@ namespace Meson.Compiler {
       return directionExpression.Expression.AcceptExpression(this);
     }
 
+    private static bool IsGetIdentifier(IdentifierExpression identifierExpression) {
+      return true;
+    }
+
     public SyntaxNode VisitIdentifierExpression(IdentifierExpression identifierExpression) {
       var symbol = identifierExpression.GetSymbol();
       if (symbol != null) {
@@ -249,7 +252,21 @@ namespace Meson.Compiler {
           case SymbolKind.Property: {
               var property = (IProperty)symbol;
               if (!property.IsPropertyField()) {
-                return GetMemberName(property.Getter).Invation();
+                IMethod method;
+                if (property.Getter != null) {
+                  if (property.Setter == null) {
+                    method = property.Getter;
+                  } else {
+                    method = IsGetIdentifier(identifierExpression) ? property.Getter : property.Setter;
+                  }
+                } else {
+                  if (property.Setter != null) {
+                    method = property.Setter;
+                  } else {
+                    method = IsGetIdentifier(identifierExpression) ? property.Getter : property.Setter;
+                  }
+                }
+                return GetMemberName(method).Invation();
               }
               break;
             }
@@ -317,19 +334,17 @@ namespace Meson.Compiler {
         ++i;
       }
 
-      i = 0;
-      foreach (var argument in arguments) {
+      for (int j = 0; j < arguments.Count; ++j) {
+        var argument = arguments[j];
         if (argument == null) {
-          var defaultValue = GetDefaultParameterValue(symbol.Parameters[i]);
-          arguments[i] = defaultValue;
+          var defaultValue = GetDefaultParameterValue(symbol.Parameters[j]);
+          arguments[j] = defaultValue;
         }
-        ++i;
       }
       return arguments;
     }
 
     private ExpressionSyntax GetDefaultParameterValue(IParameter parameter) {
-      Contract.Assert(parameter.HasConstantValueInSignature);
       var constValue = parameter.GetConstantValue();
       ExpressionSyntax defaultValue;
       if (constValue == null) {
@@ -493,9 +508,18 @@ namespace Meson.Compiler {
 
     private ExpressionSyntax BuildObjectCreateExpression(ObjectCreateExpression objectCreateExpression, out List<ExpressionSyntax> arguments, out IMethod method) {
       var typeName = objectCreateExpression.Type.AcceptExpression(this);
-      method = (IMethod)objectCreateExpression.GetSymbol();
-      if (method != null) {
-        arguments = BuildArguments(method, objectCreateExpression.Arguments);
+      var symbol = objectCreateExpression.GetSymbol();
+      if (symbol != null) {
+        if (symbol is IMethod m) {
+          method = m;
+          arguments = BuildArguments(method, objectCreateExpression.Arguments);
+        } else if (symbol is ITypeDefinition typeDefinition) {
+          Contract.Assert(typeDefinition.Kind == TypeKind.Struct);
+          method = typeDefinition.Methods.First();
+          arguments = BuildArguments(method, objectCreateExpression.Arguments);
+        } else {
+          throw new NotImplementedException();
+        }
       } else {
         var typeDefinition = (ITypeDefinition)objectCreateExpression.Type.GetSymbol();
         Contract.Assert(typeDefinition.Kind == TypeKind.Delegate);
@@ -533,13 +557,18 @@ namespace Meson.Compiler {
       return expression.Parenthesized();
     }
 
+    private ISymbol GetPointerTargetMember(PointerReferenceExpression pointerReferenceExpression) {
+      var target = pointerReferenceExpression.Target.UnParenthesized();
+      var targetType = target.GetResolveResult().Type;
+      Contract.Assert(targetType.Kind == TypeKind.Pointer);
+      var definition = targetType.GetReferenceTypeDefinition();
+      var symbol = definition.Members.Single(i => i.Name == pointerReferenceExpression.MemberName);
+      return symbol;
+    }
+
     public SyntaxNode VisitPointerReferenceExpression(PointerReferenceExpression pointerReferenceExpression) {
       var target = pointerReferenceExpression.Target.AcceptExpression(this);
-      var symbol = pointerReferenceExpression.GetSymbol();
-      if (symbol == null) {
-        var s = pointerReferenceExpression.MemberNameToken.GetSymbol();
-        var rs = pointerReferenceExpression.MemberNameToken.GetResolveResult();
-      }
+      var symbol = pointerReferenceExpression.GetSymbol() ?? GetPointerTargetMember(pointerReferenceExpression);
       return BuildMemberAccessExpression(target, symbol, pointerReferenceExpression, pointerReferenceExpression.TypeArguments, true);
     }
 
@@ -831,7 +860,7 @@ namespace Meson.Compiler {
     }
 
     public SyntaxNode VisitThrowStatement(ThrowStatement throwStatement) {
-      if (throwStatement.Expression is ObjectCreateExpression objectCreateExpression) {
+      if (throwStatement.Expression is ObjectCreateExpression objectCreateExpression && objectCreateExpression.Initializer.IsNull) {
         var typeName = BuildObjectCreateExpression(objectCreateExpression, out var arguments);
         return (StatementSyntax)IdentifierSyntax.Throw.Generic(typeName).Invation(arguments);
       }

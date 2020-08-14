@@ -217,7 +217,7 @@ CLASS(Encoding) : public Object::in {
   public: Int32 GetCharsWithFallback(Byte* pOriginalBytes, Int32 originalByteCount, Char* pOriginalChars, Int32 originalCharCount, Int32 bytesConsumedSoFar, Int32 charsWrittenSoFar);
   public: Int32 GetCharsWithFallback(Byte* pOriginalBytes, Int32 originalByteCount, Char* pOriginalChars, Int32 originalCharCount, Int32 bytesConsumedSoFar, Int32 charsWrittenSoFar, DecoderNLS decoder);
   public: Int32 GetCharsWithFallback(ReadOnlySpan<Byte> bytes, Int32 originalBytesLength, Span<Char> chars, Int32 originalCharsLength, DecoderNLS decoder);
-  private: static void ctor_static();
+  private: static void cctor();
   private: static Object/*UTF8Encoding.UTF8EncodingSealed*/ s_defaultEncoding;
   public: Int32 _codePage;
   public: CodePageDataItem _dataItem;

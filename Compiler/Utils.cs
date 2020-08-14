@@ -316,7 +316,7 @@ namespace Meson.Compiler {
       return type.Kind != TypeKind.Struct && type.Kind != TypeKind.Enum;
     }
 
-    private static ITypeDefinition GetReferenceTypeDefinition(this IType type) {
+    public static ITypeDefinition GetReferenceTypeDefinition(this IType type) {
       var definition = type.GetDefinition();
       if (definition == null && type is TypeWithElementType t) {
         definition = t.ElementType.GetReferenceTypeDefinition();
@@ -779,6 +779,13 @@ namespace Meson.Compiler {
 
     public static StatementSyntax AcceptStatement(this AstNode node, MethodTransform transform) {
       return (StatementSyntax)node.AcceptVisitor(transform);
+    }
+
+    public static Expression UnParenthesized(this Expression node) {
+      if (node is ParenthesizedExpression parenthesizedExpression) {
+        return parenthesizedExpression.Expression.UnParenthesized();
+      }
+      return node;
     }
 
     public static IType GetBaseType(this IType type) {

@@ -1,31 +1,33 @@
 #include "MethodBody-dep.h"
 
+#include <System.Private.CoreLib/System/ArgumentNullException-dep.h>
+
 namespace System::Private::CoreLib::System::Reflection::MethodBodyNamespace {
 Int32 MethodBody___::get_LocalSignatureMetadataToken() {
-  return Int32();
+  return 0;
 }
 
 IList<LocalVariableInfo> MethodBody___::get_LocalVariables() {
-  return nullptr;
+  rt::throw_exception<ArgumentNullException>("array");
 }
 
 Int32 MethodBody___::get_MaxStackSize() {
-  return Int32();
+  return 0;
 }
 
 Boolean MethodBody___::get_InitLocals() {
-  return Boolean();
+  return false;
 }
 
 IList<ExceptionHandlingClause> MethodBody___::get_ExceptionHandlingClauses() {
-  return nullptr;
+  rt::throw_exception<ArgumentNullException>("array");
 }
 
 void MethodBody___::ctor() {
 }
 
 Array<Byte> MethodBody___::GetILAsByteArray() {
-  return Array<Byte>();
+  return nullptr;
 }
 
 } // namespace System::Private::CoreLib::System::Reflection::MethodBodyNamespace

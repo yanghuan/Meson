@@ -48,7 +48,7 @@ CLASS(TextReader) : public MarshalByRefObject::in {
   public: ValueTask<Int32> ReadBlockAsync(Memory<Char> buffer, CancellationToken cancellationToken);
   public: ValueTask<Int32> ReadBlockAsyncInternal(Memory<Char> buffer, CancellationToken cancellationToken);
   public: static TextReader Synchronized(TextReader reader);
-  private: static void ctor_static();
+  private: static void cctor();
   public: static TextReader Null;
 };
 CLASS(NullTextReader) : public TextReader::in {

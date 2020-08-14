@@ -704,7 +704,7 @@ namespace rt {
 
   template <class Ex, class... Args>
   [[noreturn]] void throw_exception(Args&&... args) {
-    //throw_exception(newobj<Ex>(std::forward<Args>(args)...));
+    throw_exception(newobj<Ex>(std::forward<Args>(args)...));
   }
 
   template <class A, class Size>

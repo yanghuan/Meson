@@ -24,7 +24,6 @@ FORWARDS(RuntimeTypeHandle)
 FORWARD(Type)
 FORWARDS(UInt16)
 FORWARDS(UInt32)
-FORWARDS(UIntPtr)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Reflection {
 enum class CorElementType : uint8_t;
@@ -76,7 +75,7 @@ class RuntimeHelpers {
   public: template <class T>
   static Int32 EnumCompareTo(T x, T y);
   public: static Byte& GetRawData(Object obj);
-  public: static UIntPtr GetRawObjectDataSize(Object obj);
+  public: static unsigned int GetRawObjectDataSize(Object obj);
   public: static Byte& GetRawArrayData(Array<> array);
   public: static UInt16 GetElementSize(Array<> array);
   public: static Int32& GetMultiDimensionalArrayBounds(Array<> array);

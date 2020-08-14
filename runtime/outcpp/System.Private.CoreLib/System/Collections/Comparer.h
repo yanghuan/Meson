@@ -25,7 +25,7 @@ CLASS(Comparer) : public Object::in {
   private: void ctor(SerializationInfo info, StreamingContext context);
   public: void GetObjectData(SerializationInfo info, StreamingContext context);
   public: Int32 Compare(Object a, Object b);
-  private: static void ctor_static();
+  private: static void cctor();
   private: CompareInfo _compareInfo;
   public: static Comparer Default;
   public: static Comparer DefaultInvariant;

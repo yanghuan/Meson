@@ -1,51 +1,66 @@
 #include "MemberInfo-dep.h"
 
+#include <System.Private.CoreLib/System/InvalidOperationException-dep.h>
+#include <System.Private.CoreLib/System/NotImplemented-dep.h>
+#include <System.Private.CoreLib/System/NotImplementedException-dep.h>
+#include <System.Private.CoreLib/System/Reflection/MemberInfo-dep.h>
+
 namespace System::Private::CoreLib::System::Reflection::MemberInfoNamespace {
 Module MemberInfo___::get_Module() {
-  return nullptr;
+  Type type = rt::as<Type>((MemberInfo)this);
+  if ((Object)type != nullptr) {
+    return type->get_Module();
+  }
+  rt::throw_exception(NotImplemented::get_ByDesign());
 }
 
 IEnumerable<CustomAttributeData> MemberInfo___::get_CustomAttributes() {
-  return nullptr;
+  return GetCustomAttributesData();
 }
 
 Boolean MemberInfo___::get_IsCollectible() {
-  return Boolean();
+  return true;
 }
 
 Int32 MemberInfo___::get_MetadataToken() {
-  return Int32();
+  rt::throw_exception<InvalidOperationException>();
 }
 
 Boolean MemberInfo___::CacheEquals(Object o) {
-  return Boolean();
+  rt::throw_exception<NotImplementedException>();
 }
 
 void MemberInfo___::ctor() {
 }
 
 Boolean MemberInfo___::HasSameMetadataDefinitionAs(MemberInfo other) {
-  return Boolean();
+  rt::throw_exception(NotImplemented::get_ByDesign());
 }
 
 IList<CustomAttributeData> MemberInfo___::GetCustomAttributesData() {
-  return nullptr;
+  rt::throw_exception(NotImplemented::get_ByDesign());
 }
 
 Boolean MemberInfo___::Equals(Object obj) {
-  return Boolean();
 }
 
 Int32 MemberInfo___::GetHashCode() {
-  return Int32();
 }
 
 Boolean MemberInfo___::op_Equality(MemberInfo left, MemberInfo right) {
-  return Boolean();
+  if ((Object)right == nullptr) {
+    if ((Object)left != nullptr) {
+      return false;
+    }
+    return true;
+  }
+  if ((Object)left == right) {
+    return true;
+  }
 }
 
 Boolean MemberInfo___::op_Inequality(MemberInfo left, MemberInfo right) {
-  return Boolean();
+  return !(left == right);
 }
 
 } // namespace System::Private::CoreLib::System::Reflection::MemberInfoNamespace

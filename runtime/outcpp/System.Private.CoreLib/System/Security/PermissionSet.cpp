@@ -1,22 +1,24 @@
 #include "PermissionSet-dep.h"
 
+#include <System.Private.CoreLib/System/PlatformNotSupportedException-dep.h>
 #include <System.Private.CoreLib/System/Security/PermissionSet-dep.h>
+#include <System.Private.CoreLib/System/SR-dep.h>
 
 namespace System::Private::CoreLib::System::Security::PermissionSetNamespace {
 Int32 PermissionSet___::get_Count() {
-  return Int32();
+  return 0;
 }
 
 Boolean PermissionSet___::get_IsReadOnly() {
-  return Boolean();
+  return false;
 }
 
 Boolean PermissionSet___::get_IsSynchronized() {
-  return Boolean();
+  return false;
 }
 
 Object PermissionSet___::get_SyncRoot() {
-  return nullptr;
+  return (PermissionSet)this;
 }
 
 void PermissionSet___::ctor(PermissionState state) {
@@ -26,7 +28,7 @@ void PermissionSet___::ctor(PermissionSet permSet) {
 }
 
 IPermission PermissionSet___::AddPermission(IPermission perm) {
-  return nullptr;
+  return AddPermissionImpl(perm);
 }
 
 IPermission PermissionSet___::AddPermissionImpl(IPermission perm) {
@@ -37,15 +39,15 @@ void PermissionSet___::Assert() {
 }
 
 Boolean PermissionSet___::ContainsNonCodeAccessPermissions() {
-  return Boolean();
+  return false;
 }
 
 Array<Byte> PermissionSet___::ConvertPermissionSet(String inFormat, Array<Byte> inData, String outFormat) {
-  return Array<Byte>();
+  rt::throw_exception<PlatformNotSupportedException>(SR::get_PlatformNotSupported_CAS());
 }
 
 PermissionSet PermissionSet___::Copy() {
-  return nullptr;
+  return rt::newobj<PermissionSet>((PermissionSet)this);
 }
 
 void PermissionSet___::CopyTo(Array<> array, Int32 index) {
@@ -55,29 +57,28 @@ void PermissionSet___::Demand() {
 }
 
 void PermissionSet___::Deny() {
+  rt::throw_exception<PlatformNotSupportedException>(SR::get_PlatformNotSupported_CAS());
 }
 
 Boolean PermissionSet___::Equals(Object o) {
-  return Boolean();
 }
 
 void PermissionSet___::FromXml(SecurityElement et) {
 }
 
 IEnumerator PermissionSet___::GetEnumerator() {
-  return nullptr;
+  return GetEnumeratorImpl();
 }
 
 IEnumerator PermissionSet___::GetEnumeratorImpl() {
-  return nullptr;
+  return Array<>::in::Empty<Object>()->GetEnumerator();
 }
 
 Int32 PermissionSet___::GetHashCode() {
-  return Int32();
 }
 
 IPermission PermissionSet___::GetPermission(Type permClass) {
-  return nullptr;
+  return GetPermissionImpl(permClass);
 }
 
 IPermission PermissionSet___::GetPermissionImpl(Type permClass) {
@@ -89,22 +90,23 @@ PermissionSet PermissionSet___::Intersect(PermissionSet other) {
 }
 
 Boolean PermissionSet___::IsEmpty() {
-  return Boolean();
+  return false;
 }
 
 Boolean PermissionSet___::IsSubsetOf(PermissionSet target) {
-  return Boolean();
+  return false;
 }
 
 Boolean PermissionSet___::IsUnrestricted() {
-  return Boolean();
+  return false;
 }
 
 void PermissionSet___::PermitOnly() {
+  rt::throw_exception<PlatformNotSupportedException>(SR::get_PlatformNotSupported_CAS());
 }
 
 IPermission PermissionSet___::RemovePermission(Type permClass) {
-  return nullptr;
+  return RemovePermissionImpl(permClass);
 }
 
 IPermission PermissionSet___::RemovePermissionImpl(Type permClass) {
@@ -115,7 +117,7 @@ void PermissionSet___::RevertAssert() {
 }
 
 IPermission PermissionSet___::SetPermission(IPermission perm) {
-  return nullptr;
+  return SetPermissionImpl(perm);
 }
 
 IPermission PermissionSet___::SetPermissionImpl(IPermission perm) {
@@ -123,7 +125,6 @@ IPermission PermissionSet___::SetPermissionImpl(IPermission perm) {
 }
 
 String PermissionSet___::ToString() {
-  return nullptr;
 }
 
 SecurityElement PermissionSet___::ToXml() {

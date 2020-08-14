@@ -6,18 +6,22 @@ Type LocalVariableInfo___::get_LocalType() {
 }
 
 Int32 LocalVariableInfo___::get_LocalIndex() {
-  return Int32();
+  return 0;
 }
 
 Boolean LocalVariableInfo___::get_IsPinned() {
-  return Boolean();
+  return false;
 }
 
 void LocalVariableInfo___::ctor() {
 }
 
 String LocalVariableInfo___::ToString() {
-  return nullptr;
+  String text = get_LocalType()->ToString() + " (" + get_LocalIndex() + ")";
+  if (get_IsPinned()) {
+    text += " (pinned)";
+  }
+  return text;
 }
 
 } // namespace System::Private::CoreLib::System::Reflection::LocalVariableInfoNamespace

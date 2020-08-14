@@ -56,7 +56,7 @@ CLASS(RuntimeParameterInfo) : public ParameterInfo::in {
   public: Array<Object> GetCustomAttributes(Type attributeType, Boolean inherit);
   public: Boolean IsDefined(Type attributeType, Boolean inherit);
   public: IList<CustomAttributeData> GetCustomAttributesData();
-  private: static void ctor_static();
+  private: static void cctor();
   private: static Type s_DecimalConstantAttributeType;
   private: static Type s_CustomConstantAttributeType;
   private: Int32 m_tkParamDef;

@@ -2,11 +2,17 @@
 
 namespace System::Private::CoreLib::System::Reflection::MetadataEnumResultNamespace {
 Int32 MetadataEnumResult::get_Length() {
-  return Int32();
+  return length;
 }
 
 Int32 MetadataEnumResult::get_Item(Int32 index) {
-  return Int32();
+  if (largeResult != nullptr) {
+    return largeResult[index];
+  }
+  {
+    Int32* ptr = smallResult;
+    return ptr[index];
+  }
 }
 
 } // namespace System::Private::CoreLib::System::Reflection::MetadataEnumResultNamespace

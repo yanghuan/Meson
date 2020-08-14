@@ -158,7 +158,7 @@ CLASS(Stream) : public MarshalByRefObject::in {
   public: IAsyncResult BlockingBeginWrite(Array<Byte> buffer, Int32 offset, Int32 count, AsyncCallback callback, Object state);
   public: static void BlockingEndWrite(IAsyncResult asyncResult);
   protected: void ctor();
-  private: static void ctor_static();
+  private: static void cctor();
   public: static Stream Null;
   private: SemaphoreSlim _asyncActiveSemaphore;
 };
@@ -215,7 +215,7 @@ CLASS(NullStream) : public Stream::in {
   public: void WriteByte(Byte value);
   public: Int64 Seek(Int64 offset, SeekOrigin origin);
   public: void SetLength(Int64 length);
-  private: static void ctor_static();
+  private: static void cctor();
   private: static Task<Int32> s_zeroTask;
 };
 CLASS(SyncStream) : public Stream::in {

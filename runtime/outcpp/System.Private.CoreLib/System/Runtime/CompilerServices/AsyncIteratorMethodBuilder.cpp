@@ -4,7 +4,7 @@
 
 namespace System::Private::CoreLib::System::Runtime::CompilerServices::AsyncIteratorMethodBuilderNamespace {
 Object AsyncIteratorMethodBuilder::get_ObjectIdForDebugger() {
-  return nullptr;
+  return _methodBuilder.get_ObjectIdForDebugger();
 }
 
 AsyncIteratorMethodBuilder AsyncIteratorMethodBuilder::Create() {
@@ -12,6 +12,7 @@ AsyncIteratorMethodBuilder AsyncIteratorMethodBuilder::Create() {
 }
 
 void AsyncIteratorMethodBuilder::Complete() {
+  _methodBuilder.SetResult();
 }
 
 } // namespace System::Private::CoreLib::System::Runtime::CompilerServices::AsyncIteratorMethodBuilderNamespace

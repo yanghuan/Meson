@@ -27,7 +27,7 @@ struct YieldAwaitable : public valueType<YieldAwaitable> {
     private: static Action<> OutputCorrelationEtwEvent(Action<> continuation);
     private: static void RunAction(Object state);
     public: void GetResult();
-    private: static void ctor_static();
+    private: static void cctor();
     private: static WaitCallback s_waitCallbackRunAction;
     private: static SendOrPostCallback s_sendOrPostCallbackRunAction;
   };

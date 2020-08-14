@@ -59,7 +59,7 @@ CLASS(ConcurrentExclusiveSchedulerPair) : public Object::in {
     private: Boolean TryExecuteTaskInlineOnTargetScheduler(Task<> task);
     private: static Boolean TryExecuteTaskShim(Object state);
     protected: IEnumerable<Task<>> GetScheduledTasks();
-    private: static void ctor_static();
+    private: static void cctor();
     private: static Func<Object, Boolean> s_tryExecuteTaskShim;
     private: ConcurrentExclusiveSchedulerPair m_pair;
     private: Int32 m_maxConcurrencyLevel;

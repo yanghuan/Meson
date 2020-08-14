@@ -41,7 +41,7 @@ CLASS(EventPipeEventDispatcher) : public Object::in {
   private: void StopDispatchTask();
   private: void DispatchEventsToEventListeners();
   private: DateTime TimeStampToDateTime(Int64 timeStamp);
-  private: static void ctor_static();
+  private: static void cctor();
   public: static EventPipeEventDispatcher Instance;
   private: IntPtr m_RuntimeProviderID;
   private: UInt64 m_sessionID;

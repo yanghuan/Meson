@@ -2,14 +2,16 @@
 
 namespace System::Private::CoreLib::System::Diagnostics::Tracing::EventDataAttributeNamespace {
 EventLevel EventDataAttribute___::get_Level() {
-  return EventLevel::Verbose;
+  return level;
 }
 
 EventOpcode EventDataAttribute___::get_Opcode() {
-  return EventOpcode::Receive;
+  return opcode;
 }
 
 void EventDataAttribute___::ctor() {
+  level = (EventLevel)(-1);
+  opcode = (EventOpcode)(-1);
 }
 
 } // namespace System::Private::CoreLib::System::Diagnostics::Tracing::EventDataAttributeNamespace

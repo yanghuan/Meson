@@ -1,39 +1,65 @@
 #include "RuntimeExceptionHandlingClause-dep.h"
 
+#include <System.Private.CoreLib/System/Globalization/CultureInfo-dep.h>
+#include <System.Private.CoreLib/System/InvalidOperationException-dep.h>
+#include <System.Private.CoreLib/System/Object-dep.h>
+#include <System.Private.CoreLib/System/Reflection/MetadataToken-dep.h>
+#include <System.Private.CoreLib/System/Reflection/Module-dep.h>
+#include <System.Private.CoreLib/System/SR-dep.h>
+
 namespace System::Private::CoreLib::System::Reflection::RuntimeExceptionHandlingClauseNamespace {
+using namespace System::Globalization;
+
 ExceptionHandlingClauseOptions RuntimeExceptionHandlingClause___::get_Flags() {
-  return ExceptionHandlingClauseOptions::Fault;
+  return _flags;
 }
 
 Int32 RuntimeExceptionHandlingClause___::get_TryOffset() {
-  return Int32();
+  return _tryOffset;
 }
 
 Int32 RuntimeExceptionHandlingClause___::get_TryLength() {
-  return Int32();
+  return _tryLength;
 }
 
 Int32 RuntimeExceptionHandlingClause___::get_HandlerOffset() {
-  return Int32();
+  return _handlerOffset;
 }
 
 Int32 RuntimeExceptionHandlingClause___::get_HandlerLength() {
-  return Int32();
+  return _handlerLength;
 }
 
 Int32 RuntimeExceptionHandlingClause___::get_FilterOffset() {
-  return Int32();
+  if (_flags != ExceptionHandlingClauseOptions::Filter) {
+    rt::throw_exception<InvalidOperationException>(SR::get_Arg_EHClauseNotFilter());
+  }
+  return _filterOffset;
 }
 
 Type RuntimeExceptionHandlingClause___::get_CatchType() {
-  return nullptr;
+  if (_flags != 0) {
+    rt::throw_exception<InvalidOperationException>(SR::get_Arg_EHClauseNotClause());
+  }
+  Type result = nullptr;
+  if (!MetadataToken::IsNullToken(_catchMetadataToken)) {
+    Type declaringType = _methodBody->_methodBase->get_DeclaringType();
+    Module module = (declaringType == nullptr) ? _methodBody->_methodBase->get_Module() : declaringType->get_Module();
+  }
+  return result;
 }
 
 void RuntimeExceptionHandlingClause___::ctor() {
 }
 
 String RuntimeExceptionHandlingClause___::ToString() {
-  return nullptr;
+  if (get_Flags() == ExceptionHandlingClauseOptions::Clause) {
+    return String::in::Format(CultureInfo::in::get_CurrentUICulture(), "Flags={0}, TryOffset={1}, TryLength={2}, HandlerOffset={3}, HandlerLength={4}, CatchType={5}", rt::newarr<Array<Object>>(6, get_Flags(), get_TryOffset(), get_TryLength(), get_HandlerOffset(), get_HandlerLength(), get_CatchType()));
+  }
+  if (get_Flags() == ExceptionHandlingClauseOptions::Filter) {
+    return String::in::Format(CultureInfo::in::get_CurrentUICulture(), "Flags={0}, TryOffset={1}, TryLength={2}, HandlerOffset={3}, HandlerLength={4}, FilterOffset={5}", rt::newarr<Array<Object>>(6, get_Flags(), get_TryOffset(), get_TryLength(), get_HandlerOffset(), get_HandlerLength(), get_FilterOffset()));
+  }
+  return String::in::Format(CultureInfo::in::get_CurrentUICulture(), "Flags={0}, TryOffset={1}, TryLength={2}, HandlerOffset={3}, HandlerLength={4}", rt::newarr<Array<Object>>(5, get_Flags(), get_TryOffset(), get_TryLength(), get_HandlerOffset(), get_HandlerLength()));
 }
 
 } // namespace System::Private::CoreLib::System::Reflection::RuntimeExceptionHandlingClauseNamespace

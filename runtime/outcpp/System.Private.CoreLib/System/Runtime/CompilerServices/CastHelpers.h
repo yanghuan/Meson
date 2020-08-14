@@ -1,7 +1,6 @@
 #pragma once
 
 #include <System.Private.CoreLib/System/Int32.h>
-#include <System.Private.CoreLib/System/UIntPtr.h>
 #include <System.Private.CoreLib/System/ValueType.h>
 
 namespace System::Private::CoreLib::System {
@@ -19,18 +18,18 @@ class CastHelpers {
   };
   private: struct CastCacheEntry : public valueType<CastCacheEntry> {
     public: Int32 _version;
-    public: UIntPtr _source;
-    public: UIntPtr _targetAndResult;
+    public: unsigned int _source;
+    public: unsigned int _targetAndResult;
   };
   public: struct ArrayElement : public valueType<ArrayElement> {
     public: Object Value;
   };
-  private: static Int32 KeyToBucket(Int32& tableData, UIntPtr source, UIntPtr target);
+  private: static Int32 KeyToBucket(Int32& tableData, unsigned int source, unsigned int target);
   private: static Int32& TableData(Array<Int32> table);
   private: static CastCacheEntry& Element(Int32& tableData, Int32 index);
   private: static Int32 HashShift(Int32& tableData);
   private: static Int32 TableMask(Int32& tableData);
-  private: static CastResult TryGet(UIntPtr source, UIntPtr target);
+  private: static CastResult TryGet(unsigned int source, unsigned int target);
   private: static Object IsInstanceOfAny_NoCacheLookup(void* toTypeHnd, Object obj);
   private: static Object ChkCastAny_NoCacheLookup(void* toTypeHnd, Object obj);
   private: static Byte& Unbox_Helper(void* toTypeHnd, Object obj);

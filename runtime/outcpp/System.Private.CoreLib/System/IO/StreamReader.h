@@ -77,7 +77,7 @@ CLASS(StreamReader) : public TextReader::in {
   public: ValueTask<Int32> ReadBlockAsync(Memory<Char> buffer, CancellationToken cancellationToken);
   private: ValueTask<Int32> ReadBufferAsync(CancellationToken cancellationToken);
   private: void ThrowIfDisposed();
-  private: static void ctor_static();
+  private: static void cctor();
   public: static StreamReader Null;
   private: Stream _stream;
   private: Encoding _encoding;

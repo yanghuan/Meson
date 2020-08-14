@@ -23,7 +23,7 @@ CLASS(EncodingProvider) : public Object::in {
   public: static Encoding GetEncodingFromProvider(String encodingName);
   public: static Encoding GetEncodingFromProvider(Int32 codepage, EncoderFallback enc, DecoderFallback dec);
   public: static Encoding GetEncodingFromProvider(String encodingName, EncoderFallback enc, DecoderFallback dec);
-  private: static void ctor_static();
+  private: static void cctor();
   private: static Object s_InternalSyncObject;
   private: static Array<EncodingProvider> s_providers;
 };

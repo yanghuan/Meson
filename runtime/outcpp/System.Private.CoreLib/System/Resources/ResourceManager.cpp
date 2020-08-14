@@ -1,175 +1,354 @@
 #include "ResourceManager-dep.h"
 
+#include <System.Private.CoreLib/System/ArgumentException-dep.h>
+#include <System.Private.CoreLib/System/ArgumentNullException-dep.h>
+#include <System.Private.CoreLib/System/Char-dep.h>
+#include <System.Private.CoreLib/System/Collections/Generic/Dictionary-dep.h>
+#include <System.Private.CoreLib/System/Int32-dep.h>
+#include <System.Private.CoreLib/System/InvalidOperationException-dep.h>
+#include <System.Private.CoreLib/System/IO/Stream-dep.h>
+#include <System.Private.CoreLib/System/IO/UnmanagedMemoryStream-dep.h>
+#include <System.Private.CoreLib/System/IO/UnmanagedMemoryStreamWrapper-dep.h>
+#include <System.Private.CoreLib/System/Reflection/AssemblyName-dep.h>
+#include <System.Private.CoreLib/System/Resources/FileBasedResourceGroveler-dep.h>
+#include <System.Private.CoreLib/System/Resources/ManifestBasedResourceGroveler-dep.h>
+#include <System.Private.CoreLib/System/Resources/ResourceFallbackManager-dep.h>
 #include <System.Private.CoreLib/System/Resources/ResourceManager-dep.h>
+#include <System.Private.CoreLib/System/SR-dep.h>
+#include <System.Private.CoreLib/System/StringComparison.h>
 
 namespace System::Private::CoreLib::System::Resources::ResourceManagerNamespace {
+using namespace System::Collections::Generic;
+using namespace System::IO;
+using namespace System::Reflection;
+
 void ResourceManager___::CultureNameResourceSetPair___::ctor() {
 }
 
 String ResourceManager___::ResourceManagerMediator___::get_ModuleDir() {
-  return nullptr;
+  return _rm->_moduleDir;
 }
 
 Type ResourceManager___::ResourceManagerMediator___::get_LocationInfo() {
-  return nullptr;
+  return _rm->_locationInfo;
 }
 
 Type ResourceManager___::ResourceManagerMediator___::get_UserResourceSet() {
-  return nullptr;
+  return _rm->_userResourceSet;
 }
 
 String ResourceManager___::ResourceManagerMediator___::get_BaseNameField() {
-  return nullptr;
+  return _rm->BaseNameField;
 }
 
 CultureInfo ResourceManager___::ResourceManagerMediator___::get_NeutralResourcesCulture() {
-  return nullptr;
+  return _rm->_neutralResourcesCulture;
 }
 
 Boolean ResourceManager___::ResourceManagerMediator___::get_LookedForSatelliteContractVersion() {
-  return Boolean();
+  return _rm->_lookedForSatelliteContractVersion;
 }
 
 void ResourceManager___::ResourceManagerMediator___::set_LookedForSatelliteContractVersion(Boolean value) {
+  _rm->_lookedForSatelliteContractVersion = value;
 }
 
 Version ResourceManager___::ResourceManagerMediator___::get_SatelliteContractVersion() {
-  return nullptr;
+  return _rm->_satelliteContractVersion;
 }
 
 void ResourceManager___::ResourceManagerMediator___::set_SatelliteContractVersion(Version value) {
+  _rm->_satelliteContractVersion = value;
 }
 
 UltimateResourceFallbackLocation ResourceManager___::ResourceManagerMediator___::get_FallbackLoc() {
-  return UltimateResourceFallbackLocation::Satellite;
+  return _rm->get_FallbackLocation();
 }
 
 Assembly ResourceManager___::ResourceManagerMediator___::get_MainAssembly() {
-  return nullptr;
+  return _rm->MainAssembly;
 }
 
 String ResourceManager___::ResourceManagerMediator___::get_BaseName() {
-  return nullptr;
+  return _rm->get_BaseName();
 }
 
 void ResourceManager___::ResourceManagerMediator___::ctor(ResourceManager rm) {
+  if (rm == nullptr) {
+    rt::throw_exception<ArgumentNullException>("rm");
+  }
+  _rm = rm;
 }
 
 String ResourceManager___::ResourceManagerMediator___::GetResourceFileName(CultureInfo culture) {
-  return nullptr;
+  return _rm->GetResourceFileName(culture);
 }
 
 Version ResourceManager___::ResourceManagerMediator___::ObtainSatelliteContractVersion(Assembly a) {
-  return nullptr;
+  return GetSatelliteContractVersion(a);
 }
 
 String ResourceManager___::get_BaseName() {
-  return nullptr;
+  return BaseNameField;
 }
 
 Boolean ResourceManager___::get_IgnoreCase() {
-  return Boolean();
+  return _ignoreCase;
 }
 
 void ResourceManager___::set_IgnoreCase(Boolean value) {
+  _ignoreCase = value;
 }
 
 Type ResourceManager___::get_ResourceSetType() {
-  return nullptr;
 }
 
 UltimateResourceFallbackLocation ResourceManager___::get_FallbackLocation() {
-  return UltimateResourceFallbackLocation::Satellite;
+  return _fallbackLoc;
 }
 
 void ResourceManager___::set_FallbackLocation(UltimateResourceFallbackLocation value) {
+  _fallbackLoc = value;
 }
 
 void ResourceManager___::ctor() {
+  _lastUsedResourceCache = rt::newobj<CultureNameResourceSetPair>();
+  ResourceManagerMediator mediator = rt::newobj<ResourceManagerMediator>((ResourceManager)this);
+  _resourceGroveler = rt::newobj<ManifestBasedResourceGroveler>(mediator);
+  BaseNameField = String::in::Empty;
 }
 
 void ResourceManager___::ctor(String baseName, String resourceDir, Type userResourceSet) {
+  if (baseName == nullptr) {
+    rt::throw_exception<ArgumentNullException>("baseName");
+  }
+  if (resourceDir == nullptr) {
+    rt::throw_exception<ArgumentNullException>("resourceDir");
+  }
+  BaseNameField = baseName;
+  _moduleDir = resourceDir;
+  _userResourceSet = userResourceSet;
+  _resourceSets = rt::newobj<Dictionary<String, ResourceSet>>();
+  _lastUsedResourceCache = rt::newobj<CultureNameResourceSetPair>();
+  _useManifest = false;
+  ResourceManagerMediator mediator = rt::newobj<ResourceManagerMediator>((ResourceManager)this);
+  _resourceGroveler = rt::newobj<FileBasedResourceGroveler>(mediator);
 }
 
 void ResourceManager___::ctor(String baseName, Assembly assembly) {
+  if (baseName == nullptr) {
+    rt::throw_exception<ArgumentNullException>("baseName");
+  }
+  if (nullptr == assembly) {
+    rt::throw_exception<ArgumentNullException>("assembly");
+  }
+  if (!assembly->IsRuntimeImplemented()) {
+    rt::throw_exception<ArgumentException>(SR::get_Argument_MustBeRuntimeAssembly());
+  }
+  MainAssembly = assembly;
+  BaseNameField = baseName;
+  CommonAssemblyInit();
 }
 
 void ResourceManager___::ctor(String baseName, Assembly assembly, Type usingResourceSet) {
+  if (baseName == nullptr) {
+    rt::throw_exception<ArgumentNullException>("baseName");
+  }
+  if (nullptr == assembly) {
+    rt::throw_exception<ArgumentNullException>("assembly");
+  }
+  if (!assembly->IsRuntimeImplemented()) {
+    rt::throw_exception<ArgumentException>(SR::get_Argument_MustBeRuntimeAssembly());
+  }
+  MainAssembly = assembly;
+  BaseNameField = baseName;
+  if (usingResourceSet != nullptr && usingResourceSet != s_minResourceSet && !usingResourceSet->IsSubclassOf(s_minResourceSet)) {
+    rt::throw_exception<ArgumentException>(SR::get_Arg_ResMgrNotResSet(), "usingResourceSet");
+  }
+  _userResourceSet = usingResourceSet;
+  CommonAssemblyInit();
 }
 
 void ResourceManager___::ctor(Type resourceSource) {
+  if (nullptr == resourceSource) {
+    rt::throw_exception<ArgumentNullException>("resourceSource");
+  }
+  if (!resourceSource->IsRuntimeImplemented()) {
+    rt::throw_exception<ArgumentException>(SR::get_Argument_MustBeRuntimeType());
+  }
+  _locationInfo = resourceSource;
+  MainAssembly = _locationInfo->get_Assembly();
+  BaseNameField = resourceSource->get_Name();
+  CommonAssemblyInit();
 }
 
 void ResourceManager___::CommonAssemblyInit() {
+  _useManifest = true;
+  _resourceSets = rt::newobj<Dictionary<String, ResourceSet>>();
+  _lastUsedResourceCache = rt::newobj<CultureNameResourceSetPair>();
+  ResourceManagerMediator mediator = rt::newobj<ResourceManagerMediator>((ResourceManager)this);
+  _resourceGroveler = rt::newobj<ManifestBasedResourceGroveler>(mediator);
+  _neutralResourcesCulture = ManifestBasedResourceGroveler::in::GetNeutralResourcesLanguage(MainAssembly, _fallbackLoc);
 }
 
 void ResourceManager___::ReleaseAllResources() {
+  Dictionary<String, ResourceSet> resourceSets = _resourceSets;
+  _resourceSets = rt::newobj<Dictionary<String, ResourceSet>>();
+  _lastUsedResourceCache = rt::newobj<CultureNameResourceSetPair>();
 }
 
 ResourceManager ResourceManager___::CreateFileBasedResourceManager(String baseName, String resourceDir, Type usingResourceSet) {
-  return nullptr;
+  return rt::newobj<ResourceManager>(baseName, resourceDir, usingResourceSet);
 }
 
 String ResourceManager___::GetResourceFileName(CultureInfo culture) {
-  return nullptr;
+  if (culture->get_HasInvariantCultureName()) {
+    return BaseNameField + ".resources";
+  }
+  CultureInfo::in::VerifyCultureName(culture->get_Name(), true);
+  return BaseNameField + "." + culture->get_Name() + ".resources";
 }
 
 ResourceSet ResourceManager___::GetFirstResourceSet(CultureInfo culture) {
+  if (_neutralResourcesCulture != nullptr && culture->get_Name() == _neutralResourcesCulture->get_Name()) {
+    culture = CultureInfo::in::get_InvariantCulture();
+  }
+  if (_lastUsedResourceCache != nullptr) {
+  }
+  Dictionary<String, ResourceSet> resourceSets = _resourceSets;
+  ResourceSet value = nullptr;
+  if (resourceSets != nullptr) {
+  }
+  if (value != nullptr) {
+    if (_lastUsedResourceCache != nullptr) {
+    }
+    return value;
+  }
   return nullptr;
 }
 
 ResourceSet ResourceManager___::GetResourceSet(CultureInfo culture, Boolean createIfNotExists, Boolean tryParents) {
-  return nullptr;
+  if (culture == nullptr) {
+    rt::throw_exception<ArgumentNullException>("culture");
+  }
+  Dictionary<String, ResourceSet> resourceSets = _resourceSets;
+  if (resourceSets != nullptr) {
+  }
+  if (_useManifest && culture->get_HasInvariantCultureName()) {
+    String resourceFileName = GetResourceFileName(culture);
+    Stream manifestResourceStream = MainAssembly->GetManifestResourceStream(_locationInfo, resourceFileName);
+    if (createIfNotExists && manifestResourceStream != nullptr) {
+      ResourceSet value = ((ManifestBasedResourceGroveler)_resourceGroveler)->CreateResourceSet(manifestResourceStream, MainAssembly);
+      AddResourceSet(resourceSets, culture->get_Name(), value);
+      return value;
+    }
+  }
+  return InternalGetResourceSet(culture, createIfNotExists, tryParents);
 }
 
 ResourceSet ResourceManager___::InternalGetResourceSet(CultureInfo culture, Boolean createIfNotExists, Boolean tryParents) {
-  return nullptr;
+  Dictionary<String, ResourceSet> resourceSets = _resourceSets;
+  ResourceSet value = nullptr;
+  CultureInfo cultureInfo = nullptr;
 }
 
 void ResourceManager___::AddResourceSet(Dictionary<String, ResourceSet> localResourceSets, String cultureName, ResourceSet& rs) {
 }
 
 Version ResourceManager___::GetSatelliteContractVersion(Assembly a) {
-  return nullptr;
+  if (a == nullptr) {
+    rt::throw_exception<ArgumentNullException>("a", SR::get_ArgumentNull_Assembly());
+  }
 }
 
 CultureInfo ResourceManager___::GetNeutralResourcesLanguage(Assembly a) {
-  return nullptr;
+  UltimateResourceFallbackLocation fallbackLocation;
+  return ManifestBasedResourceGroveler::in::GetNeutralResourcesLanguage(a, fallbackLocation);
 }
 
 Boolean ResourceManager___::IsDefaultType(String asmTypeName, String typeName) {
-  return Boolean();
+  Int32 num = asmTypeName->IndexOf(44);
+  if (((num == -1) ? asmTypeName->get_Length() : num) != typeName->get_Length()) {
+    return false;
+  }
+  if (String::in::Compare(asmTypeName, 0, typeName, 0, typeName->get_Length(), StringComparison::Ordinal) != 0) {
+    return false;
+  }
+  if (num == -1) {
+    return true;
+  }
+  while (Char::IsWhiteSpace(asmTypeName[++num])) {
+  }
+  AssemblyName assemblyName = rt::newobj<AssemblyName>(asmTypeName->Substring(num));
+  return String::in::Equals(assemblyName->get_Name(), "mscorlib", StringComparison::OrdinalIgnoreCase);
 }
 
 String ResourceManager___::GetString(String name) {
-  return nullptr;
+  return GetString(name, nullptr);
 }
 
 String ResourceManager___::GetString(String name, CultureInfo culture) {
-  return nullptr;
+  if (name == nullptr) {
+    rt::throw_exception<ArgumentNullException>("name");
+  }
+  if (culture == nullptr) {
+    culture = CultureInfo::in::set_CurrentUICulture;
+  }
+  ResourceSet resourceSet = GetFirstResourceSet(culture);
+  if (resourceSet != nullptr) {
+    String string = resourceSet->GetString(name, _ignoreCase);
+    if (string != nullptr) {
+      return string;
+    }
+  }
+  ResourceFallbackManager resourceFallbackManager = rt::newobj<ResourceFallbackManager>(culture, _neutralResourcesCulture, true);
 }
 
 Object ResourceManager___::GetObject(String name) {
-  return nullptr;
+  return GetObject(name, nullptr, true);
 }
 
 Object ResourceManager___::GetObject(String name, CultureInfo culture) {
-  return nullptr;
+  return GetObject(name, culture, true);
 }
 
 Object ResourceManager___::GetObject(String name, CultureInfo culture, Boolean wrapUnmanagedMemStream) {
-  return nullptr;
+  if (name == nullptr) {
+    rt::throw_exception<ArgumentNullException>("name");
+  }
+  if (culture == nullptr) {
+    culture = CultureInfo::in::set_CurrentUICulture;
+  }
+  ResourceSet resourceSet = GetFirstResourceSet(culture);
+  if (resourceSet != nullptr) {
+    Object object = resourceSet->GetObject(name, _ignoreCase);
+    if (object != nullptr) {
+      UnmanagedMemoryStream unmanagedMemoryStream = rt::as<UnmanagedMemoryStream>(object);
+      if (unmanagedMemoryStream != nullptr && wrapUnmanagedMemStream) {
+        return rt::newobj<UnmanagedMemoryStreamWrapper>(unmanagedMemoryStream);
+      }
+      return object;
+    }
+  }
+  ResourceFallbackManager resourceFallbackManager = rt::newobj<ResourceFallbackManager>(culture, _neutralResourcesCulture, true);
 }
 
 UnmanagedMemoryStream ResourceManager___::GetStream(String name) {
-  return nullptr;
+  return GetStream(name, nullptr);
 }
 
 UnmanagedMemoryStream ResourceManager___::GetStream(String name, CultureInfo culture) {
-  return nullptr;
+  Object object = GetObject(name, culture, false);
+  UnmanagedMemoryStream unmanagedMemoryStream = rt::as<UnmanagedMemoryStream>(object);
+  if (unmanagedMemoryStream == nullptr && object != nullptr) {
+    rt::throw_exception<InvalidOperationException>(SR::Format(SR::get_InvalidOperation_ResourceNotStream_Name(), name));
+  }
+  return unmanagedMemoryStream;
 }
 
-void ResourceManager___::ctor_static() {
+void ResourceManager___::cctor() {
+  MagicNumber = -1091581234;
+  HeaderVersionNumber = 1;
 }
 
 } // namespace System::Private::CoreLib::System::Resources::ResourceManagerNamespace

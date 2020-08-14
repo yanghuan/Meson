@@ -1,156 +1,199 @@
 #include "MethodBase-dep.h"
 
+#include <System.Private.CoreLib/System/ArgumentException-dep.h>
+#include <System.Private.CoreLib/System/DBNull-dep.h>
+#include <System.Private.CoreLib/System/Int32-dep.h>
+#include <System.Private.CoreLib/System/InvalidOperationException-dep.h>
+#include <System.Private.CoreLib/System/NotImplemented-dep.h>
+#include <System.Private.CoreLib/System/NotSupportedException-dep.h>
+#include <System.Private.CoreLib/System/Reflection/ConstructorInfo-dep.h>
 #include <System.Private.CoreLib/System/Reflection/MethodBase-dep.h>
+#include <System.Private.CoreLib/System/Reflection/RuntimeMethodInfo-dep.h>
+#include <System.Private.CoreLib/System/RuntimeType-dep.h>
+#include <System.Private.CoreLib/System/SR-dep.h>
+#include <System.Private.CoreLib/System/String-dep.h>
+#include <System.Private.CoreLib/System/Threading/StackCrawlMark.h>
+#include <System.Private.CoreLib/System/Type-dep.h>
 
 namespace System::Private::CoreLib::System::Reflection::MethodBaseNamespace {
+using namespace System::Threading;
+
 MethodImplAttributes MethodBase___::get_MethodImplementationFlags() {
-  return MethodImplAttributes::MaxMethodImplVal;
+  return GetMethodImplementationFlags();
 }
 
 CallingConventions MethodBase___::get_CallingConvention() {
-  return CallingConventions::ExplicitThis;
+  return CallingConventions::Standard;
 }
 
 Boolean MethodBase___::get_IsAbstract() {
-  return Boolean();
 }
 
 Boolean MethodBase___::get_IsConstructor() {
-  return Boolean();
+  if (rt::is<ConstructorInfo>((MethodBase)this) && !get_IsStatic()) {
+  }
+  return false;
 }
 
 Boolean MethodBase___::get_IsFinal() {
-  return Boolean();
 }
 
 Boolean MethodBase___::get_IsHideBySig() {
-  return Boolean();
 }
 
 Boolean MethodBase___::get_IsSpecialName() {
-  return Boolean();
 }
 
 Boolean MethodBase___::get_IsStatic() {
-  return Boolean();
 }
 
 Boolean MethodBase___::get_IsVirtual() {
-  return Boolean();
 }
 
 Boolean MethodBase___::get_IsAssembly() {
-  return Boolean();
 }
 
 Boolean MethodBase___::get_IsFamily() {
-  return Boolean();
 }
 
 Boolean MethodBase___::get_IsFamilyAndAssembly() {
-  return Boolean();
 }
 
 Boolean MethodBase___::get_IsFamilyOrAssembly() {
-  return Boolean();
 }
 
 Boolean MethodBase___::get_IsPrivate() {
-  return Boolean();
 }
 
 Boolean MethodBase___::get_IsPublic() {
-  return Boolean();
 }
 
 Boolean MethodBase___::get_IsConstructedGenericMethod() {
-  return Boolean();
+  if (get_IsGenericMethod()) {
+    return !get_IsGenericMethodDefinition();
+  }
+  return false;
 }
 
 Boolean MethodBase___::get_IsGenericMethod() {
-  return Boolean();
+  return false;
 }
 
 Boolean MethodBase___::get_IsGenericMethodDefinition() {
-  return Boolean();
+  return false;
 }
 
 Boolean MethodBase___::get_ContainsGenericParameters() {
-  return Boolean();
+  return false;
 }
 
 Boolean MethodBase___::get_IsSecurityCritical() {
-  return Boolean();
+  rt::throw_exception(NotImplemented::get_ByDesign());
 }
 
 Boolean MethodBase___::get_IsSecuritySafeCritical() {
-  return Boolean();
+  rt::throw_exception(NotImplemented::get_ByDesign());
 }
 
 Boolean MethodBase___::get_IsSecurityTransparent() {
-  return Boolean();
+  rt::throw_exception(NotImplemented::get_ByDesign());
 }
 
 MethodBase MethodBase___::GetMethodFromHandle(RuntimeMethodHandle handle) {
-  return nullptr;
+  if (handle.IsNullHandle()) {
+    rt::throw_exception<ArgumentException>(SR::get_Argument_InvalidHandle());
+  }
+  MethodBase methodBase = RuntimeType::in::GetMethodBase(handle.GetMethodInfo());
 }
 
 MethodBase MethodBase___::GetMethodFromHandle(RuntimeMethodHandle handle, RuntimeTypeHandle declaringType) {
-  return nullptr;
+  if (handle.IsNullHandle()) {
+    rt::throw_exception<ArgumentException>(SR::get_Argument_InvalidHandle());
+  }
+  return RuntimeType::in::GetMethodBase(declaringType.GetRuntimeType(), handle.GetMethodInfo());
 }
 
 MethodBase MethodBase___::GetCurrentMethod() {
-  return nullptr;
+  StackCrawlMark stackMark = StackCrawlMark::LookForMyCaller;
+  return RuntimeMethodInfo::in::InternalGetCurrentMethod(stackMark);
 }
 
 IntPtr MethodBase___::GetMethodDesc() {
-  return IntPtr();
+  return get_MethodHandle().get_Value();
 }
 
 Array<ParameterInfo> MethodBase___::GetParametersNoCopy() {
-  return Array<ParameterInfo>();
+  return GetParameters();
 }
 
 Array<Type> MethodBase___::GetParameterTypes() {
-  return Array<Type>();
+  Array<ParameterInfo> parametersNoCopy = GetParametersNoCopy();
+  Array<Type> array = rt::newarr<Array<Type>>(parametersNoCopy->get_Length());
+  for (Int32 i = 0; i < parametersNoCopy->get_Length(); i++) {
+    array[i] = parametersNoCopy[i]->get_ParameterType();
+  }
+  return array;
 }
 
 Array<Object> MethodBase___::CheckArguments(Array<Object> parameters, Binder binder, BindingFlags invokeAttr, CultureInfo culture, Signature sig) {
-  return Array<Object>();
+  Array<Object> array = rt::newarr<Array<Object>>(parameters->get_Length());
+  Array<ParameterInfo> array2 = nullptr;
+  for (Int32 i = 0; i < parameters->get_Length(); i++) {
+    Object obj = parameters[i];
+    RuntimeType runtimeType = sig->get_Arguments()[i];
+    if (obj == Type::in::Missing) {
+      if (array2 == nullptr) {
+        array2 = GetParametersNoCopy();
+      }
+      if (array2[i]->get_DefaultValue() == DBNull::in::Value) {
+        rt::throw_exception<ArgumentException>(SR::get_Arg_VarMissNull(), "parameters");
+      }
+      obj = array2[i]->get_DefaultValue();
+    }
+    array[i] = runtimeType->CheckValue(obj, binder, culture, invokeAttr);
+  }
+  return array;
 }
 
 void MethodBase___::ctor() {
 }
 
 MethodBody MethodBase___::GetMethodBody() {
-  return nullptr;
+  rt::throw_exception<InvalidOperationException>();
 }
 
 Array<Type> MethodBase___::GetGenericArguments() {
-  return Array<Type>();
+  rt::throw_exception<NotSupportedException>(SR::get_NotSupported_SubclassOverride());
 }
 
 Object MethodBase___::Invoke(Object obj, Array<Object> parameters) {
-  return nullptr;
+  return Invoke(obj, BindingFlags::Default, nullptr, parameters, nullptr);
 }
 
 Boolean MethodBase___::Equals(Object obj) {
-  return Boolean();
 }
 
 Int32 MethodBase___::GetHashCode() {
-  return Int32();
 }
 
 Boolean MethodBase___::op_Equality(MethodBase left, MethodBase right) {
-  return Boolean();
+  if ((Object)right == nullptr) {
+    if ((Object)left != nullptr) {
+      return false;
+    }
+    return true;
+  }
+  if ((Object)left == right) {
+    return true;
+  }
 }
 
 Boolean MethodBase___::op_Inequality(MethodBase left, MethodBase right) {
-  return Boolean();
+  return !(left == right);
 }
 
 void MethodBase___::AppendParameters(ValueStringBuilder& sbParamList, Array<Type> parameterTypes, CallingConventions callingConvention) {
+  String s = "";
 }
 
 } // namespace System::Private::CoreLib::System::Reflection::MethodBaseNamespace

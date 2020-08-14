@@ -2,15 +2,15 @@
 
 namespace System::Private::CoreLib::System::Reflection::RuntimeLocalVariableInfoNamespace {
 Type RuntimeLocalVariableInfo___::get_LocalType() {
-  return nullptr;
+  return _type;
 }
 
 Int32 RuntimeLocalVariableInfo___::get_LocalIndex() {
-  return Int32();
+  return _localIndex;
 }
 
 Boolean RuntimeLocalVariableInfo___::get_IsPinned() {
-  return Boolean();
+  return _isPinned;
 }
 
 void RuntimeLocalVariableInfo___::ctor() {

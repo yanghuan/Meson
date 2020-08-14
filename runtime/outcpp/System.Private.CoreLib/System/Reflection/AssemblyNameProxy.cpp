@@ -2,7 +2,7 @@
 
 namespace System::Private::CoreLib::System::Reflection::AssemblyNameProxyNamespace {
 AssemblyName AssemblyNameProxy___::GetAssemblyName(String assemblyFile) {
-  return nullptr;
+  return AssemblyName::in::GetAssemblyName(assemblyFile);
 }
 
 void AssemblyNameProxy___::ctor() {

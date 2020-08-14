@@ -1,70 +1,86 @@
 #include "ChineseLunisolarCalendar-dep.h"
 
+#include <System.Private.CoreLib/System/ArgumentOutOfRangeException-dep.h>
+#include <System.Private.CoreLib/System/SR-dep.h>
+
 namespace System::Private::CoreLib::System::Globalization::ChineseLunisolarCalendarNamespace {
 DateTime ChineseLunisolarCalendar___::get_MinSupportedDateTime() {
-  return DateTime();
+  return s_minDate;
 }
 
 DateTime ChineseLunisolarCalendar___::get_MaxSupportedDateTime() {
-  return DateTime();
+  return s_maxDate;
 }
 
 Int32 ChineseLunisolarCalendar___::get_DaysInYearBeforeMinSupportedYear() {
-  return Int32();
+  return 384;
 }
 
 Int32 ChineseLunisolarCalendar___::get_MinCalendarYear() {
-  return Int32();
+  return 1901;
 }
 
 Int32 ChineseLunisolarCalendar___::get_MaxCalendarYear() {
-  return Int32();
+  return 2100;
 }
 
 DateTime ChineseLunisolarCalendar___::get_MinDate() {
-  return DateTime();
+  return s_minDate;
 }
 
 DateTime ChineseLunisolarCalendar___::get_MaxDate() {
-  return DateTime();
+  return s_maxDate;
 }
 
 Array<EraInfo> ChineseLunisolarCalendar___::get_CalEraInfo() {
-  return Array<EraInfo>();
+  return nullptr;
 }
 
 CalendarId ChineseLunisolarCalendar___::get_ID() {
-  return CalendarId::LAST_CALENDAR;
+  return CalendarId::CHINESELUNISOLAR;
 }
 
 CalendarId ChineseLunisolarCalendar___::get_BaseCalendarID() {
-  return CalendarId::LAST_CALENDAR;
+  return CalendarId::GREGORIAN;
 }
 
 Array<Int32> ChineseLunisolarCalendar___::get_Eras() {
-  return Array<Int32>();
+  return rt::newarr<Array<Int32>>(1);
 }
 
 Int32 ChineseLunisolarCalendar___::GetYearInfo(Int32 lunarYear, Int32 index) {
-  return Int32();
+  if (lunarYear < 1901 || lunarYear > 2100) {
+    rt::throw_exception<ArgumentOutOfRangeException>("year", lunarYear, SR::Format(SR::get_ArgumentOutOfRange_Range(), 1901, 2100));
+  }
+  return s_yinfo[lunarYear - 1901, index];
 }
 
 Int32 ChineseLunisolarCalendar___::GetYear(Int32 year, DateTime time) {
-  return Int32();
+  return year;
 }
 
 Int32 ChineseLunisolarCalendar___::GetGregorianYear(Int32 year, Int32 era) {
-  return Int32();
+  if (era != 0 && era != 1) {
+    rt::throw_exception<ArgumentOutOfRangeException>("era", era, SR::get_ArgumentOutOfRange_InvalidEraValue());
+  }
+  if (year < 1901 || year > 2100) {
+    rt::throw_exception<ArgumentOutOfRangeException>("year", year, SR::Format(SR::get_ArgumentOutOfRange_Range(), 1901, 2100));
+  }
+  return year;
 }
 
 void ChineseLunisolarCalendar___::ctor() {
 }
 
 Int32 ChineseLunisolarCalendar___::GetEra(DateTime time) {
-  return Int32();
+  CheckTicksRange(time.get_Ticks());
+  return 1;
 }
 
-void ChineseLunisolarCalendar___::ctor_static() {
+void ChineseLunisolarCalendar___::cctor() {
+  s_minDate = DateTime(1901, 2, 19);
+  s_maxDate = DateTime(DateTime(2101, 1, 28, 23, 59, 59, 999).get_Ticks() + 9999);
+  s_yinfo = rt::newarr<Array<Int32>>(200);
 }
 
 } // namespace System::Private::CoreLib::System::Globalization::ChineseLunisolarCalendarNamespace

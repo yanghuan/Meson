@@ -63,7 +63,7 @@ CLASS(ASCIIEncoding) : public Encoding::in {
   public: Int32 GetMaxCharCount(Int32 byteCount);
   public: Decoder GetDecoder();
   public: Encoder GetEncoder();
-  private: static void ctor_static();
+  private: static void cctor();
   public: static ASCIIEncodingSealed s_default;
 };
 CLASS(ASCIIEncodingSealed) : public ASCIIEncoding::in {

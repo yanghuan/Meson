@@ -5,6 +5,7 @@ void NullTypeInfo___::ctor() {
 }
 
 void NullTypeInfo___::WriteMetadata(TraceLoggingMetadataCollector collector, String name, EventFieldFormat format) {
+  collector->AddGroup(name);
 }
 
 void NullTypeInfo___::WriteData(TraceLoggingDataCollector collector, PropertyValue value) {

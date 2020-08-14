@@ -86,7 +86,7 @@ CLASS(FileStream) : public Stream::in {
     public: void GetResult();
     public: void OnCompleted(Action<> continuation);
     public: void UnsafeOnCompleted(Action<> continuation);
-    private: static void ctor_static();
+    private: static void cctor();
     private: static Action<> s_sentinel;
     public: static IOCompletionCallback s_callback;
     public: FileStream _fileStream;
@@ -198,7 +198,7 @@ CLASS(FileStream) : public Stream::in {
   private: static Boolean GetDefaultIsAsync(SafeFileHandle handle);
   private: static Nullable<Boolean> IsHandleSynchronous(SafeFileHandle fileHandle, Boolean ignoreInvalid);
   private: static void VerifyHandleIsSync(SafeFileHandle handle);
-  private: static void ctor_static();
+  private: static void cctor();
   private: Array<Byte> _buffer;
   private: Int32 _bufferLength;
   private: SafeFileHandle _fileHandle;

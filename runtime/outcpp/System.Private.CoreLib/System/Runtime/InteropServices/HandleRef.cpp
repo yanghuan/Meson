@@ -2,22 +2,24 @@
 
 namespace System::Private::CoreLib::System::Runtime::InteropServices::HandleRefNamespace {
 Object HandleRef::get_Wrapper() {
-  return nullptr;
+  return _wrapper;
 }
 
 IntPtr HandleRef::get_Handle() {
-  return IntPtr();
+  return _handle;
 }
 
 HandleRef::HandleRef(Object wrapper, IntPtr handle) {
+  _wrapper = wrapper;
+  _handle = handle;
 }
 
 IntPtr HandleRef::op_Explicit(HandleRef value) {
-  return IntPtr();
+  return value._handle;
 }
 
 IntPtr HandleRef::ToIntPtr(HandleRef value) {
-  return IntPtr();
+  return value._handle;
 }
 
 } // namespace System::Private::CoreLib::System::Runtime::InteropServices::HandleRefNamespace

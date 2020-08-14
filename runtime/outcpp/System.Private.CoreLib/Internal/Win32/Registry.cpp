@@ -1,7 +1,14 @@
 #include "Registry-dep.h"
 
+#include <System.Private.CoreLib/Internal/Win32/RegistryKey-dep.h>
+#include <System.Private.CoreLib/System/IntPtr-dep.h>
+
 namespace System::Private::CoreLib::Internal::Win32::RegistryNamespace {
-void Registry::ctor_static() {
+using namespace System;
+
+void Registry::cctor() {
+  CurrentUser = RegistryKey::in::OpenBaseKey((IntPtr)(-2147483647));
+  LocalMachine = RegistryKey::in::OpenBaseKey((IntPtr)(-2147483646));
 }
 
 } // namespace System::Private::CoreLib::Internal::Win32::RegistryNamespace

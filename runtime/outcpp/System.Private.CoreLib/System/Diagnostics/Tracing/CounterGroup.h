@@ -36,7 +36,7 @@ CLASS(CounterGroup) : public Object::in {
   private: void ResetCounters();
   private: void OnTimer();
   private: static void PollForValues();
-  private: static void ctor_static();
+  private: static void cctor();
   private: EventSource _eventSource;
   private: List<DiagnosticCounter> _counters;
   private: static Object s_counterGroupLock;

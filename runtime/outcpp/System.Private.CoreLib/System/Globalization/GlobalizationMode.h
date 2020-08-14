@@ -23,7 +23,7 @@ class GlobalizationMode {
   private: static IntPtr LoadLibrary(String library, Boolean failOnLoadFailure);
   private: static Boolean LoadIcu();
   private: static void LoadAppLocalIcuCore(ReadOnlySpan<Char> version, ReadOnlySpan<Char> suffix);
-  private: static void ctor_static();
+  private: static void cctor();
   private: static Boolean Invariant;
   private: static Boolean UseNls;
 };

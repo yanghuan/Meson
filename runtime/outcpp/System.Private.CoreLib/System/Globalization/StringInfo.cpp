@@ -1,65 +1,123 @@
 #include "StringInfo-dep.h"
 
+#include <System.Private.CoreLib/System/Char-dep.h>
+#include <System.Private.CoreLib/System/Collections/Generic/List-dep.h>
+#include <System.Private.CoreLib/System/ExceptionArgument.h>
+#include <System.Private.CoreLib/System/Globalization/StringInfo-dep.h>
+#include <System.Private.CoreLib/System/MemoryExtensions-dep.h>
+#include <System.Private.CoreLib/System/ReadOnlySpan-dep.h>
+#include <System.Private.CoreLib/System/Span-dep.h>
+#include <System.Private.CoreLib/System/Text/Unicode/TextSegmentationUtility-dep.h>
+#include <System.Private.CoreLib/System/ThrowHelper-dep.h>
+#include <System.Private.CoreLib/System/UInt32-dep.h>
+
 namespace System::Private::CoreLib::System::Globalization::StringInfoNamespace {
+using namespace System::Collections::Generic;
+using namespace System::Text::Unicode;
+
 Array<Int32> StringInfo___::get_Indexes() {
-  return Array<Int32>();
+  if (_indexes == nullptr && get_String()->get_Length() > 0) {
+    _indexes = ParseCombiningCharacters(get_String());
+  }
+  return _indexes;
 }
 
 String StringInfo___::get_String() {
-  return nullptr;
+  return _str;
 }
 
 void StringInfo___::set_String(String value) {
 }
 
 Int32 StringInfo___::get_LengthInTextElements() {
-  return Int32();
+  Array<Int32> indexes = get_Indexes();
+  if (indexes == nullptr) {
+    return 0;
+  }
+  return indexes->get_Length();
 }
 
 void StringInfo___::ctor() {
 }
 
 void StringInfo___::ctor(String value) {
+  get_String() = value;
 }
 
 Boolean StringInfo___::Equals(Object value) {
-  return Boolean();
+  StringInfo stringInfo = rt::as<StringInfo>(value);
+  if (stringInfo != nullptr) {
+    return _str->Equals(stringInfo->_str);
+  }
+  return false;
 }
 
 Int32 StringInfo___::GetHashCode() {
-  return Int32();
+  return _str->GetHashCode();
 }
 
 String StringInfo___::SubstringByTextElements(Int32 startingTextElement) {
-  return nullptr;
+  Array<Int32> indexes = get_Indexes();
+  return SubstringByTextElements(startingTextElement, ((indexes != nullptr) ? indexes->get_Length() : 0) - startingTextElement);
 }
 
 String StringInfo___::SubstringByTextElements(Int32 startingTextElement, Int32 lengthInTextElements) {
-  return nullptr;
 }
 
 String StringInfo___::GetNextTextElement(String str) {
-  return nullptr;
+  return GetNextTextElement(str, 0);
 }
 
 String StringInfo___::GetNextTextElement(String str, Int32 index) {
-  return nullptr;
+  if (str == nullptr) {
+    ThrowHelper::ThrowArgumentNullException(ExceptionArgument::str);
+  }
+  if ((UInt32)index > (UInt32)str->get_Length()) {
+    ThrowHelper::ThrowArgumentOutOfRange_IndexException();
+  }
+  return str->Substring(index, TextSegmentationUtility::GetLengthOfFirstUtf16ExtendedGraphemeCluster(MemoryExtensions::AsSpan(str, index)));
 }
 
 TextElementEnumerator StringInfo___::GetTextElementEnumerator(String str) {
-  return nullptr;
+  return GetTextElementEnumerator(str, 0);
 }
 
 TextElementEnumerator StringInfo___::GetTextElementEnumerator(String str, Int32 index) {
-  return nullptr;
+  if (str == nullptr) {
+    ThrowHelper::ThrowArgumentNullException(ExceptionArgument::str);
+  }
+  if ((UInt32)index > (UInt32)str->get_Length()) {
+    ThrowHelper::ThrowArgumentOutOfRange_IndexException();
+  }
+  return rt::newobj<TextElementEnumerator>(str, index);
 }
 
 Array<Int32> StringInfo___::ParseCombiningCharacters(String str) {
-  return Array<Int32>();
+  if (str == nullptr) {
+    ThrowHelper::ThrowArgumentNullException(ExceptionArgument::str);
+  }
+  if (str->get_Length() > 256) {
+    return ParseCombiningCharactersForLargeString(str);
+  }
+  Int32 default[str->get_Length()] = {};
+  Span<Int32> span = default;
+  Int32 length = 0;
+  ReadOnlySpan<Char> input = str;
+  while (!input.get_IsEmpty()) {
+    span[length++] = str->get_Length() - input.get_Length();
+    input = input.Slice(TextSegmentationUtility::GetLengthOfFirstUtf16ExtendedGraphemeCluster(input));
+  }
+  return span.Slice(0, length).ToArray();
 }
 
 Array<Int32> StringInfo___::ParseCombiningCharactersForLargeString(String str) {
-  return Array<Int32>();
+  List<Int32> list = rt::newobj<List<Int32>>();
+  ReadOnlySpan<Char> input = str;
+  while (!input.get_IsEmpty()) {
+    list->Add(str->get_Length() - input.get_Length());
+    input = input.Slice(TextSegmentationUtility::GetLengthOfFirstUtf16ExtendedGraphemeCluster(input));
+  }
+  return list->ToArray();
 }
 
 } // namespace System::Private::CoreLib::System::Globalization::StringInfoNamespace

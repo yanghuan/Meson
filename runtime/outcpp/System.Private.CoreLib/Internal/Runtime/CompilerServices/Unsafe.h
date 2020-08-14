@@ -9,7 +9,6 @@ FORWARDS(Int32)
 FORWARDS(IntPtr)
 FORWARD(Object)
 FORWARDS(UInt32)
-FORWARDS(UIntPtr)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::Internal::Runtime::CompilerServices {
 namespace UnsafeNamespace {
@@ -30,7 +29,7 @@ class Unsafe {
   public: template <class T>
   static void* Add(void* source, Int32 elementOffset);
   public: template <class T>
-  static T& AddByteOffset(T& source, UIntPtr byteOffset);
+  static T& AddByteOffset(T& source, unsigned int byteOffset);
   public: template <class T>
   static Boolean AreSame(T& left, T& right);
   public: template <class T>

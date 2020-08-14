@@ -11,7 +11,6 @@ FORWARDS(Int32)
 FORWARDS(ReadOnlySpan, T)
 FORWARD(String)
 FORWARDS(UInt32)
-FORWARDS(UIntPtr)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Text {
 FORWARDS(Rune)
@@ -59,8 +58,8 @@ class CharUnicodeInfo {
   public: static UnicodeCategory GetUnicodeCategoryInternal(String str, Int32 index, Int32& charLength);
   private: static UnicodeCategory GetUnicodeCategoryNoBoundsChecks(UInt32 codePoint);
   private: static Int32 GetCodePointFromString(String s, Int32 index);
-  private: static UIntPtr GetCategoryCasingTableOffsetNoBoundsChecks(UInt32 codePoint);
-  private: static UIntPtr GetNumericGraphemeTableOffsetNoBoundsChecks(UInt32 codePoint);
+  private: static unsigned int GetCategoryCasingTableOffsetNoBoundsChecks(UInt32 codePoint);
+  private: static unsigned int GetNumericGraphemeTableOffsetNoBoundsChecks(UInt32 codePoint);
 };
 } // namespace CharUnicodeInfoNamespace
 using CharUnicodeInfo = CharUnicodeInfoNamespace::CharUnicodeInfo;

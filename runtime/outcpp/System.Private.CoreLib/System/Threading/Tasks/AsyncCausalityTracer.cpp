@@ -2,7 +2,7 @@
 
 namespace System::Private::CoreLib::System::Threading::Tasks::AsyncCausalityTracerNamespace {
 Boolean AsyncCausalityTracer::get_LoggingOn() {
-  return Boolean();
+  return false;
 }
 
 } // namespace System::Private::CoreLib::System::Threading::Tasks::AsyncCausalityTracerNamespace

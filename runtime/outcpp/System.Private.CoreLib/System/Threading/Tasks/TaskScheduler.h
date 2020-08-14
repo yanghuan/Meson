@@ -46,7 +46,7 @@ CLASS(TaskScheduler) : public Object::in {
   public: static void PublishUnobservedTaskException(Object sender, UnobservedTaskExceptionEventArgs ueea);
   public: Array<Task<>> GetScheduledTasksForDebugger();
   public: static Array<TaskScheduler> GetTaskSchedulersForDebugger();
-  private: static void ctor_static();
+  private: static void cctor();
   private: static ConditionalWeakTable<TaskScheduler, Object> s_activeTaskSchedulers;
   private: static TaskScheduler s_defaultTaskScheduler;
   public: static Int32 s_taskSchedulerIdCounter;

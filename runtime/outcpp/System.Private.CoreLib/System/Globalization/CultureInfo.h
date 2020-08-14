@@ -106,7 +106,7 @@ CLASS(CultureInfo) : public Object::in {
   private: static CultureInfo NlsGetPredefinedCultureInfo(String name);
   public: static CultureInfo GetUserDefaultCulture();
   private: static CultureInfo GetUserDefaultUICulture();
-  private: static void ctor_static();
+  private: static void cctor();
   private: Boolean _isReadOnly;
   private: CompareInfo _compareInfo;
   private: TextInfo _textInfo;

@@ -59,7 +59,7 @@ CLASS(EastAsianLunisolarCalendar) : public Calendar::in {
   public: Boolean InternalIsLeapYear(Int32 year);
   public: Boolean IsLeapYear(Int32 year, Int32 era);
   public: Int32 ToFourDigitYear(Int32 year);
-  private: static void ctor_static();
+  private: static void cctor();
   private: static Array<Int32> s_daysToMonth365;
   private: static Array<Int32> s_daysToMonth366;
 };

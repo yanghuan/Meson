@@ -1,189 +1,302 @@
 #include "RuntimeMethodInfo-dep.h"
 
+#include <System.Private.CoreLib/Interop-dep.h>
+#include <System.Private.CoreLib/System/ArgumentException-dep.h>
+#include <System.Private.CoreLib/System/ArgumentNullException-dep.h>
+#include <System.Private.CoreLib/System/DelegateBindingFlags.h>
+#include <System.Private.CoreLib/System/InvalidOperationException-dep.h>
+#include <System.Private.CoreLib/System/Reflection/CustomAttribute-dep.h>
+#include <System.Private.CoreLib/System/Reflection/Emit/MethodBuilderInstantiation-dep.h>
+#include <System.Private.CoreLib/System/Reflection/MethodBase-dep.h>
+#include <System.Private.CoreLib/System/Reflection/RuntimeMethodBody-dep.h>
 #include <System.Private.CoreLib/System/Reflection/RuntimeMethodInfo-dep.h>
+#include <System.Private.CoreLib/System/RuntimeMethodHandle-dep.h>
+#include <System.Private.CoreLib/System/Security/VerificationException-dep.h>
+#include <System.Private.CoreLib/System/SR-dep.h>
+#include <System.Private.CoreLib/System/Text/ValueStringBuilder-dep.h>
+#include <System.Private.CoreLib/System/TypeNameFormatFlags.h>
+#include <System.Private.CoreLib/System/ValueType-dep.h>
 
 namespace System::Private::CoreLib::System::Reflection::RuntimeMethodInfoNamespace {
+using namespace System::Reflection::Emit;
+using namespace System::Security;
+using namespace System::Text;
+
 INVOCATION_FLAGS RuntimeMethodInfo___::get_InvocationFlags() {
-  return INVOCATION_FLAGS::INVOCATION_FLAGS_CONSTRUCTOR_INVOKE;
 }
 
 RuntimeMethodHandleInternal RuntimeMethodInfo___::get_ValueOfIRuntimeMethodInfo() {
-  return RuntimeMethodHandleInternal();
+  return RuntimeMethodHandleInternal(m_handle);
 }
 
 RuntimeType RuntimeMethodInfo___::get_ReflectedTypeInternal() {
-  return nullptr;
+  return m_reflectedTypeCache->GetRuntimeType();
 }
 
 Signature RuntimeMethodInfo___::get_Signature() {
-  return nullptr;
 }
 
 BindingFlags RuntimeMethodInfo___::get_BindingFlags() {
-  return BindingFlags::DoNotWrapExceptions;
+  return m_bindingFlags;
 }
 
 Int32 RuntimeMethodInfo___::get_GenericParameterCount() {
-  return Int32();
+  return RuntimeMethodHandle::GetGenericParameterCount((RuntimeMethodInfo)this);
 }
 
 String RuntimeMethodInfo___::get_Name() {
-  return nullptr;
 }
 
 Type RuntimeMethodInfo___::get_DeclaringType() {
-  return nullptr;
+  if (m_reflectedTypeCache->get_IsGlobal()) {
+    return nullptr;
+  }
+  return m_declaringType;
 }
 
 Type RuntimeMethodInfo___::get_ReflectedType() {
-  return nullptr;
+  if (m_reflectedTypeCache->get_IsGlobal()) {
+    return nullptr;
+  }
+  return m_reflectedTypeCache->GetRuntimeType();
 }
 
 MemberTypes RuntimeMethodInfo___::get_MemberType() {
-  return MemberTypes::All;
+  return MemberTypes::Method;
 }
 
 Int32 RuntimeMethodInfo___::get_MetadataToken() {
-  return Int32();
+  return RuntimeMethodHandle::GetMethodDef((RuntimeMethodInfo)this);
 }
 
 Module RuntimeMethodInfo___::get_Module() {
-  return nullptr;
+  return GetRuntimeModule();
 }
 
 Boolean RuntimeMethodInfo___::get_IsSecurityCritical() {
-  return Boolean();
+  return true;
 }
 
 Boolean RuntimeMethodInfo___::get_IsSecuritySafeCritical() {
-  return Boolean();
+  return false;
 }
 
 Boolean RuntimeMethodInfo___::get_IsSecurityTransparent() {
-  return Boolean();
+  return false;
 }
 
 RuntimeMethodHandle RuntimeMethodInfo___::get_MethodHandle() {
-  return RuntimeMethodHandle();
+  return RuntimeMethodHandle((RuntimeMethodInfo)this);
 }
 
 MethodAttributes RuntimeMethodInfo___::get_Attributes() {
-  return MethodAttributes::ReservedMask;
+  return m_methodAttributes;
 }
 
 CallingConventions RuntimeMethodInfo___::get_CallingConvention() {
-  return CallingConventions::ExplicitThis;
+  return get_Signature()->get_CallingConvention();
 }
 
 Type RuntimeMethodInfo___::get_ReturnType() {
-  return nullptr;
+  return get_Signature()->get_ReturnType();
 }
 
 ICustomAttributeProvider RuntimeMethodInfo___::get_ReturnTypeCustomAttributes() {
-  return nullptr;
+  return get_ReturnParameter();
 }
 
 ParameterInfo RuntimeMethodInfo___::get_ReturnParameter() {
-  return nullptr;
+  return FetchReturnParameter();
 }
 
 Boolean RuntimeMethodInfo___::get_IsCollectible() {
-  return Boolean();
+  return RuntimeMethodHandle::GetIsCollectible(RuntimeMethodHandleInternal(m_handle)) != Interop::BOOL::FALSE;
 }
 
 Boolean RuntimeMethodInfo___::get_IsGenericMethod() {
-  return Boolean();
+  return RuntimeMethodHandle::HasMethodInstantiation((RuntimeMethodInfo)this);
 }
 
 Boolean RuntimeMethodInfo___::get_IsGenericMethodDefinition() {
-  return Boolean();
+  return RuntimeMethodHandle::IsGenericMethodDefinition((RuntimeMethodInfo)this);
 }
 
 Boolean RuntimeMethodInfo___::get_ContainsGenericParameters() {
-  return Boolean();
+  if (get_DeclaringType() != nullptr && get_DeclaringType()->get_ContainsGenericParameters()) {
+    return true;
+  }
+  if (!get_IsGenericMethod()) {
+    return false;
+  }
+  Array<Type> genericArguments = GetGenericArguments();
+  for (Int32 i = 0; i < genericArguments->get_Length(); i++) {
+    if (genericArguments[i]->get_ContainsGenericParameters()) {
+      return true;
+    }
+  }
+  return false;
 }
 
 Boolean RuntimeMethodInfo___::IsDisallowedByRefType(Type type) {
-  return Boolean();
+  if (!type->get_IsByRef()) {
+    return false;
+  }
+  Type elementType = type->GetElementType();
+  if (!elementType->get_IsByRefLike()) {
+  }
+  return true;
 }
 
 void RuntimeMethodInfo___::ctor(RuntimeMethodHandleInternal handle, RuntimeType declaringType, RuntimeType::in::RuntimeTypeCache reflectedTypeCache, MethodAttributes methodAttributes, BindingFlags bindingFlags, Object keepalive) {
+  m_bindingFlags = bindingFlags;
+  m_declaringType = declaringType;
+  m_keepalive = keepalive;
+  m_handle = handle.get_Value();
+  m_reflectedTypeCache = reflectedTypeCache;
+  m_methodAttributes = methodAttributes;
 }
 
 Array<ParameterInfo> RuntimeMethodInfo___::FetchNonReturnParameters() {
-  return Array<ParameterInfo>();
 }
 
 ParameterInfo RuntimeMethodInfo___::FetchReturnParameter() {
-  return nullptr;
 }
 
 Boolean RuntimeMethodInfo___::CacheEquals(Object o) {
-  return Boolean();
+  RuntimeMethodInfo runtimeMethodInfo = rt::as<RuntimeMethodInfo>(o);
+  if ((Object)runtimeMethodInfo != nullptr) {
+    return runtimeMethodInfo->m_handle == m_handle;
+  }
+  return false;
 }
 
 RuntimeMethodInfo RuntimeMethodInfo___::GetParentDefinition() {
-  return nullptr;
 }
 
 RuntimeType RuntimeMethodInfo___::GetDeclaringTypeInternal() {
-  return nullptr;
+  return m_declaringType;
 }
 
 String RuntimeMethodInfo___::ToString() {
-  return nullptr;
+  if (m_toString == nullptr) {
+    ValueStringBuilder sbParamList = ValueStringBuilder(100);
+    sbParamList.Append(get_ReturnType()->FormatTypeName());
+    sbParamList.Append(32);
+    sbParamList.Append(get_Name());
+    if (get_IsGenericMethod()) {
+      sbParamList.Append(RuntimeMethodHandle::ConstructInstantiation((RuntimeMethodInfo)this, TypeNameFormatFlags::FormatBasic));
+    }
+    sbParamList.Append(40);
+    MethodBase::in::AppendParameters(sbParamList, GetParameterTypes(), get_CallingConvention());
+    sbParamList.Append(41);
+    m_toString = sbParamList.ToString();
+  }
+  return m_toString;
 }
 
 Int32 RuntimeMethodInfo___::GetHashCode() {
-  return Int32();
+  if (get_IsGenericMethod()) {
+    return ValueType::in::GetHashCodeOfPtr(m_handle);
+  }
 }
 
 Boolean RuntimeMethodInfo___::Equals(Object obj) {
-  return Boolean();
+  if (!get_IsGenericMethod()) {
+    return obj == (RuntimeMethodInfo)this;
+  }
+  RuntimeMethodInfo runtimeMethodInfo = rt::as<RuntimeMethodInfo>(obj);
+  if (runtimeMethodInfo == nullptr || !runtimeMethodInfo->get_IsGenericMethod()) {
+    return false;
+  }
+  IRuntimeMethodInfo runtimeMethodInfo2 = RuntimeMethodHandle::StripMethodInstantiation((RuntimeMethodInfo)this);
+  IRuntimeMethodInfo runtimeMethodInfo3 = RuntimeMethodHandle::StripMethodInstantiation(runtimeMethodInfo);
+  if (runtimeMethodInfo2->get_Value().get_Value() != runtimeMethodInfo3->get_Value().get_Value()) {
+    return false;
+  }
+  Array<Type> genericArguments = GetGenericArguments();
+  Array<Type> genericArguments2 = runtimeMethodInfo->GetGenericArguments();
+  if (genericArguments->get_Length() != genericArguments2->get_Length()) {
+    return false;
+  }
+  for (Int32 i = 0; i < genericArguments->get_Length(); i++) {
+    if (genericArguments[i] != genericArguments2[i]) {
+      return false;
+    }
+  }
+  if (get_DeclaringType() != runtimeMethodInfo->get_DeclaringType()) {
+    return false;
+  }
+  if (get_ReflectedType() != runtimeMethodInfo->get_ReflectedType()) {
+    return false;
+  }
+  return true;
 }
 
 Array<Object> RuntimeMethodInfo___::GetCustomAttributes(Boolean inherit) {
-  return Array<Object>();
 }
 
 Array<Object> RuntimeMethodInfo___::GetCustomAttributes(Type attributeType, Boolean inherit) {
-  return Array<Object>();
+  if (attributeType == nullptr) {
+    rt::throw_exception<ArgumentNullException>("attributeType");
+  }
+  RuntimeType runtimeType = rt::as<RuntimeType>(attributeType->get_UnderlyingSystemType());
+  if (runtimeType == nullptr) {
+    rt::throw_exception<ArgumentException>(SR::get_Arg_MustBeType(), "attributeType");
+  }
+  return CustomAttribute::GetCustomAttributes((RuntimeMethodInfo)this, runtimeType, inherit);
 }
 
 Boolean RuntimeMethodInfo___::IsDefined(Type attributeType, Boolean inherit) {
-  return Boolean();
+  if (attributeType == nullptr) {
+    rt::throw_exception<ArgumentNullException>("attributeType");
+  }
+  RuntimeType runtimeType = rt::as<RuntimeType>(attributeType->get_UnderlyingSystemType());
+  if (runtimeType == nullptr) {
+    rt::throw_exception<ArgumentException>(SR::get_Arg_MustBeType(), "attributeType");
+  }
+  return CustomAttribute::IsDefined((RuntimeMethodInfo)this, runtimeType, inherit);
 }
 
 IList<CustomAttributeData> RuntimeMethodInfo___::GetCustomAttributesData() {
-  return nullptr;
+  return CustomAttributeData::in::GetCustomAttributesInternal((RuntimeMethodInfo)this);
 }
 
 Boolean RuntimeMethodInfo___::HasSameMetadataDefinitionAs(MemberInfo other) {
-  return Boolean();
+  return HasSameMetadataDefinitionAsCore<RuntimeMethodInfo>(other);
 }
 
 RuntimeType RuntimeMethodInfo___::GetRuntimeType() {
-  return nullptr;
+  return m_declaringType;
 }
 
 RuntimeModule RuntimeMethodInfo___::GetRuntimeModule() {
-  return nullptr;
+  return m_declaringType->GetRuntimeModule();
 }
 
 Array<ParameterInfo> RuntimeMethodInfo___::GetParametersNoCopy() {
-  return Array<ParameterInfo>();
+  return FetchNonReturnParameters();
 }
 
 Array<ParameterInfo> RuntimeMethodInfo___::GetParameters() {
-  return Array<ParameterInfo>();
+  Array<ParameterInfo> array = FetchNonReturnParameters();
+  if (array->get_Length() == 0) {
+    return array;
+  }
+  Array<ParameterInfo> array2 = rt::newarr<Array<ParameterInfo>>(array->get_Length());
+  Array<>::in::Copy(array, array2, array->get_Length());
+  return array2;
 }
 
 MethodImplAttributes RuntimeMethodInfo___::GetMethodImplementationFlags() {
-  return MethodImplAttributes::MaxMethodImplVal;
+  return RuntimeMethodHandle::GetImplAttributes((RuntimeMethodInfo)this);
 }
 
 MethodBody RuntimeMethodInfo___::GetMethodBody() {
-  return nullptr;
+  RuntimeMethodBody methodBody = RuntimeMethodHandle::GetMethodBody((RuntimeMethodInfo)this, get_ReflectedTypeInternal());
+  if (methodBody != nullptr) {
+    methodBody->_methodBase = (RuntimeMethodInfo)this;
+  }
+  return methodBody;
 }
 
 void RuntimeMethodInfo___::CheckConsistency(Object target) {
@@ -193,47 +306,98 @@ void RuntimeMethodInfo___::ThrowNoInvokeException() {
 }
 
 Object RuntimeMethodInfo___::Invoke(Object obj, BindingFlags invokeAttr, Binder binder, Array<Object> parameters, CultureInfo culture) {
-  return nullptr;
+  Array<Object> array = InvokeArgumentsCheck(obj, invokeAttr, binder, parameters, culture);
 }
 
 Array<Object> RuntimeMethodInfo___::InvokeArgumentsCheck(Object obj, BindingFlags invokeAttr, Binder binder, Array<Object> parameters, CultureInfo culture) {
-  return Array<Object>();
+  Signature signature = get_Signature();
+  Int32 num = signature->get_Arguments()->get_Length();
+  Int32 num2 = (parameters != nullptr) ? parameters->get_Length() : 0;
+  INVOCATION_FLAGS invocationFlags = get_InvocationFlags();
 }
 
 MethodInfo RuntimeMethodInfo___::GetBaseDefinition() {
-  return nullptr;
 }
 
 Delegate RuntimeMethodInfo___::CreateDelegate(Type delegateType) {
-  return nullptr;
+  return CreateDelegateInternal(delegateType, nullptr, (DelegateBindingFlags)68);
 }
 
 Delegate RuntimeMethodInfo___::CreateDelegate(Type delegateType, Object target) {
-  return nullptr;
+  return CreateDelegateInternal(delegateType, target, DelegateBindingFlags::RelaxedSignature);
 }
 
 Delegate RuntimeMethodInfo___::CreateDelegateInternal(Type delegateType, Object firstArgument, DelegateBindingFlags bindingFlags) {
-  return nullptr;
+  if (delegateType == nullptr) {
+    rt::throw_exception<ArgumentNullException>("delegateType");
+  }
+  RuntimeType runtimeType = rt::as<RuntimeType>(delegateType);
+  if (runtimeType == nullptr) {
+    rt::throw_exception<ArgumentException>(SR::get_Argument_MustBeRuntimeType(), "delegateType");
+  }
+  if (!runtimeType->IsDelegate()) {
+    rt::throw_exception<ArgumentException>(SR::get_Arg_MustBeDelegate(), "delegateType");
+  }
+  Delegate delegate = Delegate::in::CreateDelegateInternal(runtimeType, (RuntimeMethodInfo)this, firstArgument, bindingFlags);
+  if ((Object)delegate == nullptr) {
+    rt::throw_exception<ArgumentException>(SR::get_Arg_DlgtTargMeth());
+  }
+  return delegate;
 }
 
 MethodInfo RuntimeMethodInfo___::MakeGenericMethod(Array<Type> methodInstantiation) {
-  return nullptr;
+  if (methodInstantiation == nullptr) {
+    rt::throw_exception<ArgumentNullException>("methodInstantiation");
+  }
+  Array<RuntimeType> array = rt::newarr<Array<RuntimeType>>(methodInstantiation->get_Length());
+  if (!get_IsGenericMethodDefinition()) {
+    rt::throw_exception<InvalidOperationException>(SR::Format(SR::get_Arg_NotGenericMethodDefinition(), (RuntimeMethodInfo)this));
+  }
+  for (Int32 i = 0; i < methodInstantiation->get_Length(); i++) {
+    Type type = methodInstantiation[i];
+    if (type == nullptr) {
+      rt::throw_exception<ArgumentNullException>();
+    }
+    RuntimeType runtimeType = rt::as<RuntimeType>(type);
+    if (runtimeType == nullptr) {
+      Array<Type> array2 = rt::newarr<Array<Type>>(methodInstantiation->get_Length());
+      for (Int32 j = 0; j < methodInstantiation->get_Length(); j++) {
+        array2[j] = methodInstantiation[j];
+      }
+      methodInstantiation = array2;
+      return MethodBuilderInstantiation::in::MakeGenericMethod((RuntimeMethodInfo)this, methodInstantiation);
+    }
+    array[i] = runtimeType;
+  }
+  Array<RuntimeType> genericArgumentsInternal = GetGenericArgumentsInternal();
+  RuntimeType::in::SanityCheckGenericArguments(array, genericArgumentsInternal);
+  MethodInfo methodInfo = nullptr;
+  try{
+    return rt::as<MethodInfo>(RuntimeType::in::GetMethodBase(get_ReflectedTypeInternal(), RuntimeMethodHandle::GetStubIfNeeded(RuntimeMethodHandleInternal(m_handle), m_declaringType, array)));
+  } catch (VerificationException e) {
+  }
 }
 
 Array<RuntimeType> RuntimeMethodInfo___::GetGenericArgumentsInternal() {
-  return Array<RuntimeType>();
+  return RuntimeMethodHandle::GetMethodInstantiationInternal((RuntimeMethodInfo)this);
 }
 
 Array<Type> RuntimeMethodInfo___::GetGenericArguments() {
-  return Array<Type>();
 }
 
 MethodInfo RuntimeMethodInfo___::GetGenericMethodDefinition() {
-  return nullptr;
+  if (!get_IsGenericMethod()) {
+    rt::throw_exception<InvalidOperationException>();
+  }
+  return rt::as<MethodInfo>(RuntimeType::in::GetMethodBase(m_declaringType, RuntimeMethodHandle::StripMethodInstantiation((RuntimeMethodInfo)this)));
 }
 
 MethodBase RuntimeMethodInfo___::InternalGetCurrentMethod(StackCrawlMark& stackMark) {
-  return nullptr;
+  IRuntimeMethodInfo currentMethod = RuntimeMethodHandle::GetCurrentMethod(stackMark);
+  if (currentMethod == nullptr) {
+    return nullptr;
+  }
+  return RuntimeType::in::GetMethodBase(currentMethod);
 }
 
 } // namespace System::Private::CoreLib::System::Reflection::RuntimeMethodInfoNamespace

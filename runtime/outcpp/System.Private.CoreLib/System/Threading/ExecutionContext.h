@@ -48,7 +48,7 @@ CLASS(ExecutionContext) : public Object::in {
   public: static void SetLocalValue(IAsyncLocal local, Object newValue, Boolean needChangeNotifications);
   public: ExecutionContext CreateCopy();
   public: void Dispose();
-  private: static void ctor_static();
+  private: static void cctor();
   public: static ExecutionContext Default;
   public: static ExecutionContext DefaultFlowSuppressed;
   private: IAsyncLocalValueMap m_localValues;

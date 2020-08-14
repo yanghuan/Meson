@@ -1,119 +1,132 @@
 #include "FieldInfo-dep.h"
 
+#include <System.Private.CoreLib/System/ArgumentException-dep.h>
+#include <System.Private.CoreLib/System/NotImplemented-dep.h>
+#include <System.Private.CoreLib/System/NotSupportedException-dep.h>
+#include <System.Private.CoreLib/System/Reflection/BindingFlags.h>
 #include <System.Private.CoreLib/System/Reflection/FieldInfo-dep.h>
+#include <System.Private.CoreLib/System/RuntimeType-dep.h>
+#include <System.Private.CoreLib/System/SR-dep.h>
 
 namespace System::Private::CoreLib::System::Reflection::FieldInfoNamespace {
 MemberTypes FieldInfo___::get_MemberType() {
-  return MemberTypes::All;
+  return MemberTypes::Field;
 }
 
 Boolean FieldInfo___::get_IsInitOnly() {
-  return Boolean();
 }
 
 Boolean FieldInfo___::get_IsLiteral() {
-  return Boolean();
 }
 
 Boolean FieldInfo___::get_IsNotSerialized() {
-  return Boolean();
 }
 
 Boolean FieldInfo___::get_IsPinvokeImpl() {
-  return Boolean();
 }
 
 Boolean FieldInfo___::get_IsSpecialName() {
-  return Boolean();
 }
 
 Boolean FieldInfo___::get_IsStatic() {
-  return Boolean();
 }
 
 Boolean FieldInfo___::get_IsAssembly() {
-  return Boolean();
 }
 
 Boolean FieldInfo___::get_IsFamily() {
-  return Boolean();
 }
 
 Boolean FieldInfo___::get_IsFamilyAndAssembly() {
-  return Boolean();
 }
 
 Boolean FieldInfo___::get_IsFamilyOrAssembly() {
-  return Boolean();
 }
 
 Boolean FieldInfo___::get_IsPrivate() {
-  return Boolean();
 }
 
 Boolean FieldInfo___::get_IsPublic() {
-  return Boolean();
 }
 
 Boolean FieldInfo___::get_IsSecurityCritical() {
-  return Boolean();
+  return true;
 }
 
 Boolean FieldInfo___::get_IsSecuritySafeCritical() {
-  return Boolean();
+  return false;
 }
 
 Boolean FieldInfo___::get_IsSecurityTransparent() {
-  return Boolean();
+  return false;
 }
 
 FieldInfo FieldInfo___::GetFieldFromHandle(RuntimeFieldHandle handle) {
-  return nullptr;
+  if (handle.IsNullHandle()) {
+    rt::throw_exception<ArgumentException>(SR::get_Argument_InvalidHandle(), "handle");
+  }
+  FieldInfo fieldInfo = RuntimeType::in::GetFieldInfo(handle.GetRuntimeFieldInfo());
+  Type declaringType = fieldInfo->get_DeclaringType();
+  if (declaringType != nullptr && declaringType->get_IsGenericType()) {
+    rt::throw_exception<ArgumentException>(SR::Format(SR::get_Argument_FieldDeclaringTypeGeneric(), fieldInfo->get_Name(), declaringType->GetGenericTypeDefinition()));
+  }
+  return fieldInfo;
 }
 
 FieldInfo FieldInfo___::GetFieldFromHandle(RuntimeFieldHandle handle, RuntimeTypeHandle declaringType) {
-  return nullptr;
+  if (handle.IsNullHandle()) {
+    rt::throw_exception<ArgumentException>(SR::get_Argument_InvalidHandle());
+  }
+  return RuntimeType::in::GetFieldInfo(declaringType.GetRuntimeType(), handle.GetRuntimeFieldInfo());
 }
 
 void FieldInfo___::ctor() {
 }
 
 Boolean FieldInfo___::Equals(Object obj) {
-  return Boolean();
 }
 
 Int32 FieldInfo___::GetHashCode() {
-  return Int32();
 }
 
 Boolean FieldInfo___::op_Equality(FieldInfo left, FieldInfo right) {
-  return Boolean();
+  if ((Object)right == nullptr) {
+    if ((Object)left != nullptr) {
+      return false;
+    }
+    return true;
+  }
+  if ((Object)left == right) {
+    return true;
+  }
 }
 
 Boolean FieldInfo___::op_Inequality(FieldInfo left, FieldInfo right) {
-  return Boolean();
+  return !(left == right);
 }
 
 void FieldInfo___::SetValue(Object obj, Object value) {
+  SetValue(obj, value, BindingFlags::Default, Type::in::get_DefaultBinder(), nullptr);
 }
 
 void FieldInfo___::SetValueDirect(TypedReference obj, Object value) {
+  rt::throw_exception<NotSupportedException>(SR::get_NotSupported_AbstractNonCLS());
 }
 
 Object FieldInfo___::GetValueDirect(TypedReference obj) {
-  return nullptr;
+  rt::throw_exception<NotSupportedException>(SR::get_NotSupported_AbstractNonCLS());
 }
 
 Object FieldInfo___::GetRawConstantValue() {
-  return nullptr;
+  rt::throw_exception<NotSupportedException>(SR::get_NotSupported_AbstractNonCLS());
 }
 
 Array<Type> FieldInfo___::GetOptionalCustomModifiers() {
-  return Array<Type>();
+  rt::throw_exception(NotImplemented::get_ByDesign());
 }
 
 Array<Type> FieldInfo___::GetRequiredCustomModifiers() {
-  return Array<Type>();
+  rt::throw_exception(NotImplemented::get_ByDesign());
 }
 
 } // namespace System::Private::CoreLib::System::Reflection::FieldInfoNamespace

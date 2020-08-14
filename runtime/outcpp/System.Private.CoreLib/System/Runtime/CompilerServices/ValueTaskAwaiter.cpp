@@ -2,7 +2,7 @@
 
 namespace System::Private::CoreLib::System::Runtime::CompilerServices::ValueTaskAwaiterNamespace {
 Boolean ValueTaskAwaiter<>::get_IsCompleted() {
-  return Boolean();
+  return _value.get_IsCompleted();
 }
 
 } // namespace System::Private::CoreLib::System::Runtime::CompilerServices::ValueTaskAwaiterNamespace

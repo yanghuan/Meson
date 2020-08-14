@@ -2,10 +2,12 @@
 
 namespace System::Private::CoreLib::System::Reflection::CustomAttributeCtorParameterNamespace {
 CustomAttributeEncodedArgument CustomAttributeCtorParameter::get_CustomAttributeEncodedArgument() {
-  return CustomAttributeEncodedArgument();
+  return m_encodedArgument;
 }
 
 CustomAttributeCtorParameter::CustomAttributeCtorParameter(CustomAttributeType type) {
+  m_type = type;
+  m_encodedArgument = CustomAttributeEncodedArgument();
 }
 
 } // namespace System::Private::CoreLib::System::Reflection::CustomAttributeCtorParameterNamespace

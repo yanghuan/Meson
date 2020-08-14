@@ -29,7 +29,7 @@ class ComponentActivator {
   private: static String MarshalToString(IntPtr arg, String argName);
   public: static Int32 LoadAssemblyAndGetFunctionPointer(IntPtr assemblyPathNative, IntPtr typeNameNative, IntPtr methodNameNative, IntPtr delegateTypeNative, IntPtr reserved, IntPtr functionHandle);
   private: static IsolatedComponentLoadContext GetIsolatedComponentLoadContext(String assemblyPath);
-  private: static void ctor_static();
+  private: static void cctor();
   private: static Dictionary<String, IsolatedComponentLoadContext> s_assemblyLoadContexts;
   private: static Dictionary<IntPtr, Delegate> s_delegates;
 };

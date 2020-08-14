@@ -53,7 +53,7 @@ CLASS(UnicodeEncoding) : public Encoding::in {
   public: Int32 GetMaxCharCount(Int32 byteCount);
   public: Boolean Equals(Object value);
   public: Int32 GetHashCode();
-  private: static void ctor_static();
+  private: static void cctor();
   public: static UnicodeEncoding s_bigEndianDefault;
   public: static UnicodeEncoding s_littleEndianDefault;
   private: Boolean isThrowException;

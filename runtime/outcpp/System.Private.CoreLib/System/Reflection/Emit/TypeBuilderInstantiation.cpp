@@ -1,84 +1,109 @@
 #include "TypeBuilderInstantiation-dep.h"
 
+#include <System.Private.CoreLib/System/ArgumentNullException-dep.h>
+#include <System.Private.CoreLib/System/Collections/Hashtable-dep.h>
+#include <System.Private.CoreLib/System/IndexOutOfRangeException-dep.h>
+#include <System.Private.CoreLib/System/InvalidOperationException-dep.h>
+#include <System.Private.CoreLib/System/NotSupportedException-dep.h>
+#include <System.Private.CoreLib/System/Reflection/Emit/GenericTypeParameterBuilder-dep.h>
+#include <System.Private.CoreLib/System/Reflection/Emit/SymbolType-dep.h>
+#include <System.Private.CoreLib/System/Reflection/Emit/TypeBuilderInstantiation-dep.h>
+#include <System.Private.CoreLib/System/Reflection/Emit/TypeNameBuilder-dep.h>
+#include <System.Private.CoreLib/System/SR-dep.h>
+
 namespace System::Private::CoreLib::System::Reflection::Emit::TypeBuilderInstantiationNamespace {
+using namespace System::Collections;
+
 Type TypeBuilderInstantiation___::get_DeclaringType() {
-  return nullptr;
+  return m_type->get_DeclaringType();
 }
 
 Type TypeBuilderInstantiation___::get_ReflectedType() {
-  return nullptr;
+  return m_type->get_ReflectedType();
 }
 
 String TypeBuilderInstantiation___::get_Name() {
-  return nullptr;
+  return m_type->get_Name();
 }
 
 Module TypeBuilderInstantiation___::get_Module() {
-  return nullptr;
+  return m_type->get_Module();
 }
 
 Guid TypeBuilderInstantiation___::get_GUID() {
-  return Guid();
+  rt::throw_exception<NotSupportedException>();
 }
 
 Assembly TypeBuilderInstantiation___::get_Assembly() {
-  return nullptr;
+  return m_type->get_Assembly();
 }
 
 RuntimeTypeHandle TypeBuilderInstantiation___::get_TypeHandle() {
-  return RuntimeTypeHandle();
+  rt::throw_exception<NotSupportedException>();
 }
 
 String TypeBuilderInstantiation___::get_FullName() {
-  return nullptr;
 }
 
 String TypeBuilderInstantiation___::get_Namespace() {
-  return nullptr;
+  return m_type->get_Namespace();
 }
 
 String TypeBuilderInstantiation___::get_AssemblyQualifiedName() {
-  return nullptr;
+  return TypeNameBuilder::in::ToString((TypeBuilderInstantiation)this, TypeNameBuilder::in::Format::AssemblyQualifiedName);
 }
 
 Type TypeBuilderInstantiation___::get_BaseType() {
-  return nullptr;
+  Type baseType = m_type->get_BaseType();
+  if (baseType == nullptr) {
+    return nullptr;
+  }
+  TypeBuilderInstantiation typeBuilderInstantiation = rt::as<TypeBuilderInstantiation>(baseType);
+  if (typeBuilderInstantiation == nullptr) {
+    return baseType;
+  }
+  return typeBuilderInstantiation->Substitute(GetGenericArguments());
 }
 
 Boolean TypeBuilderInstantiation___::get_IsTypeDefinition() {
-  return Boolean();
+  return false;
 }
 
 Boolean TypeBuilderInstantiation___::get_IsSZArray() {
-  return Boolean();
+  return false;
 }
 
 Type TypeBuilderInstantiation___::get_UnderlyingSystemType() {
-  return nullptr;
+  return (TypeBuilderInstantiation)this;
 }
 
 Boolean TypeBuilderInstantiation___::get_IsGenericTypeDefinition() {
-  return Boolean();
+  return false;
 }
 
 Boolean TypeBuilderInstantiation___::get_IsGenericType() {
-  return Boolean();
+  return true;
 }
 
 Boolean TypeBuilderInstantiation___::get_IsConstructedGenericType() {
-  return Boolean();
+  return true;
 }
 
 Boolean TypeBuilderInstantiation___::get_IsGenericParameter() {
-  return Boolean();
+  return false;
 }
 
 Int32 TypeBuilderInstantiation___::get_GenericParameterPosition() {
-  return Int32();
+  rt::throw_exception<InvalidOperationException>();
 }
 
 Boolean TypeBuilderInstantiation___::get_ContainsGenericParameters() {
-  return Boolean();
+  for (Int32 i = 0; i < m_inst->get_Length(); i++) {
+    if (m_inst[i]->get_ContainsGenericParameters()) {
+      return true;
+    }
+  }
+  return false;
 }
 
 MethodBase TypeBuilderInstantiation___::get_DeclaringMethod() {
@@ -86,182 +111,211 @@ MethodBase TypeBuilderInstantiation___::get_DeclaringMethod() {
 }
 
 Boolean TypeBuilderInstantiation___::IsAssignableFrom(TypeInfo typeInfo) {
-  return Boolean();
+  if (typeInfo == nullptr) {
+    return false;
+  }
+  return IsAssignableFrom(typeInfo->AsType());
 }
 
 Type TypeBuilderInstantiation___::MakeGenericType(Type type, Array<Type> typeArguments) {
-  return nullptr;
+  if (!type->get_IsGenericTypeDefinition()) {
+    rt::throw_exception<InvalidOperationException>();
+  }
+  if (typeArguments == nullptr) {
+    rt::throw_exception<ArgumentNullException>("typeArguments");
+  }
 }
 
 void TypeBuilderInstantiation___::ctor(Type type, Array<Type> inst) {
+  m_type = type;
+  m_inst = inst;
+  m_hashtable = rt::newobj<Hashtable>();
 }
 
 String TypeBuilderInstantiation___::ToString() {
-  return nullptr;
+  return TypeNameBuilder::in::ToString((TypeBuilderInstantiation)this, TypeNameBuilder::in::Format::ToString);
 }
 
 Type TypeBuilderInstantiation___::MakePointerType() {
-  return nullptr;
+  return SymbolType::in::FormCompoundType("*", (TypeBuilderInstantiation)this, 0);
 }
 
 Type TypeBuilderInstantiation___::MakeByRefType() {
-  return nullptr;
+  return SymbolType::in::FormCompoundType("&", (TypeBuilderInstantiation)this, 0);
 }
 
 Type TypeBuilderInstantiation___::MakeArrayType() {
-  return nullptr;
+  return SymbolType::in::FormCompoundType("[]", (TypeBuilderInstantiation)this, 0);
 }
 
 Type TypeBuilderInstantiation___::MakeArrayType(Int32 rank) {
-  return nullptr;
+  if (rank <= 0) {
+    rt::throw_exception<IndexOutOfRangeException>();
+  }
+  String format = (rank == 1) ? "[]" : ("[" + rt::newobj<String>(44, rank - 1) + "]");
+  return SymbolType::in::FormCompoundType(format, (TypeBuilderInstantiation)this, 0);
 }
 
 Object TypeBuilderInstantiation___::InvokeMember(String name, BindingFlags invokeAttr, Binder binder, Object target, Array<Object> args, Array<ParameterModifier> modifiers, CultureInfo culture, Array<String> namedParameters) {
-  return nullptr;
+  rt::throw_exception<NotSupportedException>();
 }
 
 Type TypeBuilderInstantiation___::Substitute(Array<Type> substitutes) {
-  return nullptr;
+  Array<Type> genericArguments = GetGenericArguments();
+  Array<Type> array = rt::newarr<Array<Type>>(genericArguments->get_Length());
+  for (Int32 i = 0; i < array->get_Length(); i++) {
+    Type type = genericArguments[i];
+    TypeBuilderInstantiation typeBuilderInstantiation = rt::as<TypeBuilderInstantiation>(type);
+    if ((Object)typeBuilderInstantiation != nullptr) {
+      array[i] = typeBuilderInstantiation->Substitute(substitutes);
+    } else if (rt::is<GenericTypeParameterBuilder>(type)) {
+      array[i] = substitutes[type->get_GenericParameterPosition()];
+    } else {
+      array[i] = type;
+    }
+
+  }
+  return GetGenericTypeDefinition()->MakeGenericType(rt::newarr<Array<Type>>(1, array));
 }
 
 ConstructorInfo TypeBuilderInstantiation___::GetConstructorImpl(BindingFlags bindingAttr, Binder binder, CallingConventions callConvention, Array<Type> types, Array<ParameterModifier> modifiers) {
-  return nullptr;
+  rt::throw_exception<NotSupportedException>();
 }
 
 Array<ConstructorInfo> TypeBuilderInstantiation___::GetConstructors(BindingFlags bindingAttr) {
-  return Array<ConstructorInfo>();
+  rt::throw_exception<NotSupportedException>();
 }
 
 MethodInfo TypeBuilderInstantiation___::GetMethodImpl(String name, BindingFlags bindingAttr, Binder binder, CallingConventions callConvention, Array<Type> types, Array<ParameterModifier> modifiers) {
-  return nullptr;
+  rt::throw_exception<NotSupportedException>();
 }
 
 Array<MethodInfo> TypeBuilderInstantiation___::GetMethods(BindingFlags bindingAttr) {
-  return Array<MethodInfo>();
+  rt::throw_exception<NotSupportedException>();
 }
 
 FieldInfo TypeBuilderInstantiation___::GetField(String name, BindingFlags bindingAttr) {
-  return nullptr;
+  rt::throw_exception<NotSupportedException>();
 }
 
 Array<FieldInfo> TypeBuilderInstantiation___::GetFields(BindingFlags bindingAttr) {
-  return Array<FieldInfo>();
+  rt::throw_exception<NotSupportedException>();
 }
 
 Type TypeBuilderInstantiation___::GetInterface(String name, Boolean ignoreCase) {
-  return nullptr;
+  rt::throw_exception<NotSupportedException>();
 }
 
 Array<Type> TypeBuilderInstantiation___::GetInterfaces() {
-  return Array<Type>();
+  rt::throw_exception<NotSupportedException>();
 }
 
 EventInfo TypeBuilderInstantiation___::GetEvent(String name, BindingFlags bindingAttr) {
-  return nullptr;
+  rt::throw_exception<NotSupportedException>();
 }
 
 Array<EventInfo> TypeBuilderInstantiation___::GetEvents() {
-  return Array<EventInfo>();
+  rt::throw_exception<NotSupportedException>();
 }
 
 PropertyInfo TypeBuilderInstantiation___::GetPropertyImpl(String name, BindingFlags bindingAttr, Binder binder, Type returnType, Array<Type> types, Array<ParameterModifier> modifiers) {
-  return nullptr;
+  rt::throw_exception<NotSupportedException>();
 }
 
 Array<PropertyInfo> TypeBuilderInstantiation___::GetProperties(BindingFlags bindingAttr) {
-  return Array<PropertyInfo>();
+  rt::throw_exception<NotSupportedException>();
 }
 
 Array<Type> TypeBuilderInstantiation___::GetNestedTypes(BindingFlags bindingAttr) {
-  return Array<Type>();
+  rt::throw_exception<NotSupportedException>();
 }
 
 Type TypeBuilderInstantiation___::GetNestedType(String name, BindingFlags bindingAttr) {
-  return nullptr;
+  rt::throw_exception<NotSupportedException>();
 }
 
 Array<MemberInfo> TypeBuilderInstantiation___::GetMember(String name, MemberTypes type, BindingFlags bindingAttr) {
-  return Array<MemberInfo>();
+  rt::throw_exception<NotSupportedException>();
 }
 
 InterfaceMapping TypeBuilderInstantiation___::GetInterfaceMap(Type interfaceType) {
-  return InterfaceMapping();
+  rt::throw_exception<NotSupportedException>();
 }
 
 Array<EventInfo> TypeBuilderInstantiation___::GetEvents(BindingFlags bindingAttr) {
-  return Array<EventInfo>();
+  rt::throw_exception<NotSupportedException>();
 }
 
 Array<MemberInfo> TypeBuilderInstantiation___::GetMembers(BindingFlags bindingAttr) {
-  return Array<MemberInfo>();
+  rt::throw_exception<NotSupportedException>();
 }
 
 TypeAttributes TypeBuilderInstantiation___::GetAttributeFlagsImpl() {
-  return TypeAttributes::ReservedMask;
+  return m_type->get_Attributes();
 }
 
 Boolean TypeBuilderInstantiation___::IsArrayImpl() {
-  return Boolean();
+  return false;
 }
 
 Boolean TypeBuilderInstantiation___::IsByRefImpl() {
-  return Boolean();
+  return false;
 }
 
 Boolean TypeBuilderInstantiation___::IsPointerImpl() {
-  return Boolean();
+  return false;
 }
 
 Boolean TypeBuilderInstantiation___::IsPrimitiveImpl() {
-  return Boolean();
+  return false;
 }
 
 Boolean TypeBuilderInstantiation___::IsCOMObjectImpl() {
-  return Boolean();
+  return false;
 }
 
 Type TypeBuilderInstantiation___::GetElementType() {
-  return nullptr;
+  rt::throw_exception<NotSupportedException>();
 }
 
 Boolean TypeBuilderInstantiation___::HasElementTypeImpl() {
-  return Boolean();
+  return false;
 }
 
 Array<Type> TypeBuilderInstantiation___::GetGenericArguments() {
-  return Array<Type>();
+  return m_inst;
 }
 
 Boolean TypeBuilderInstantiation___::IsValueTypeImpl() {
-  return Boolean();
+  return m_type->get_IsValueType();
 }
 
 Type TypeBuilderInstantiation___::GetGenericTypeDefinition() {
-  return nullptr;
+  return m_type;
 }
 
 Type TypeBuilderInstantiation___::MakeGenericType(Array<Type> inst) {
-  return nullptr;
+  rt::throw_exception<InvalidOperationException>(SR::Format(SR::get_Arg_NotGenericTypeDefinition(), (TypeBuilderInstantiation)this));
 }
 
 Boolean TypeBuilderInstantiation___::IsAssignableFrom(Type c) {
-  return Boolean();
+  rt::throw_exception<NotSupportedException>();
 }
 
 Boolean TypeBuilderInstantiation___::IsSubclassOf(Type c) {
-  return Boolean();
+  rt::throw_exception<NotSupportedException>();
 }
 
 Array<Object> TypeBuilderInstantiation___::GetCustomAttributes(Boolean inherit) {
-  return Array<Object>();
+  rt::throw_exception<NotSupportedException>();
 }
 
 Array<Object> TypeBuilderInstantiation___::GetCustomAttributes(Type attributeType, Boolean inherit) {
-  return Array<Object>();
+  rt::throw_exception<NotSupportedException>();
 }
 
 Boolean TypeBuilderInstantiation___::IsDefined(Type attributeType, Boolean inherit) {
-  return Boolean();
+  rt::throw_exception<NotSupportedException>();
 }
 
 } // namespace System::Private::CoreLib::System::Reflection::Emit::TypeBuilderInstantiationNamespace

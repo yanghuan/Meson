@@ -40,7 +40,7 @@ CLASS(FastResourceComparer) : public Object::in {
   public: static Int32 CompareOrdinal(Array<Byte> bytes, Int32 aCharLength, String b);
   public: static Int32 CompareOrdinal(Byte* a, Int32 byteLen, String b);
   public: void ctor();
-  private: static void ctor_static();
+  private: static void cctor();
   public: static FastResourceComparer Default;
 };
 } // namespace FastResourceComparerNamespace

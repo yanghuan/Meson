@@ -2,17 +2,22 @@
 
 namespace System::Private::CoreLib::System::Diagnostics::Tracing::EventAttributeNamespace {
 EventOpcode EventAttribute___::get_Opcode() {
-  return EventOpcode::Receive;
+  return m_opcode;
 }
 
 void EventAttribute___::set_Opcode(EventOpcode value) {
+  m_opcode = value;
+  m_opcodeSet = true;
 }
 
 Boolean EventAttribute___::get_IsOpcodeSet() {
-  return Boolean();
+  return m_opcodeSet;
 }
 
 void EventAttribute___::ctor(Int32 eventId) {
+  EventId = eventId;
+  Level = EventLevel::Informational;
+  m_opcodeSet = false;
 }
 
 } // namespace System::Private::CoreLib::System::Diagnostics::Tracing::EventAttributeNamespace

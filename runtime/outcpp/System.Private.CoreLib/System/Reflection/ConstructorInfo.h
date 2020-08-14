@@ -29,7 +29,7 @@ CLASS(ConstructorInfo) : public MethodBase::in {
   public: Int32 GetHashCode();
   public: static Boolean op_Equality(ConstructorInfo left, ConstructorInfo right);
   public: static Boolean op_Inequality(ConstructorInfo left, ConstructorInfo right);
-  private: static void ctor_static();
+  private: static void cctor();
   public: static String ConstructorName;
   public: static String TypeConstructorName;
 };

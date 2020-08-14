@@ -1,31 +1,33 @@
 #include "RuntimeMethodBody-dep.h"
 
+#include <System.Private.CoreLib/System/Array-dep.h>
+
 namespace System::Private::CoreLib::System::Reflection::RuntimeMethodBodyNamespace {
 Int32 RuntimeMethodBody___::get_LocalSignatureMetadataToken() {
-  return Int32();
+  return _localSignatureMetadataToken;
 }
 
 IList<LocalVariableInfo> RuntimeMethodBody___::get_LocalVariables() {
-  return nullptr;
+  return Array<>::in::AsReadOnly(_localVariables);
 }
 
 Int32 RuntimeMethodBody___::get_MaxStackSize() {
-  return Int32();
+  return _maxStackSize;
 }
 
 Boolean RuntimeMethodBody___::get_InitLocals() {
-  return Boolean();
+  return _initLocals;
 }
 
 IList<ExceptionHandlingClause> RuntimeMethodBody___::get_ExceptionHandlingClauses() {
-  return nullptr;
+  return Array<>::in::AsReadOnly(_exceptionHandlingClauses);
 }
 
 void RuntimeMethodBody___::ctor() {
 }
 
 Array<Byte> RuntimeMethodBody___::GetILAsByteArray() {
-  return Array<Byte>();
+  return _IL;
 }
 
 } // namespace System::Private::CoreLib::System::Reflection::RuntimeMethodBodyNamespace

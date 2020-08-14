@@ -63,7 +63,7 @@ class CalendricalCalculationsHelper {
   public: static Double AsSeason(Double longitude);
   private: static Double EstimatePrior(Double longitude, Double time);
   public: static Int64 PersianNewYearOnOrBefore(Int64 numberOfDays);
-  private: static void ctor_static();
+  private: static void cctor();
   private: static Int64 s_startOf1810;
   private: static Int64 s_startOf1900Century;
   private: static Array<Double> s_coefficients1900to1987;

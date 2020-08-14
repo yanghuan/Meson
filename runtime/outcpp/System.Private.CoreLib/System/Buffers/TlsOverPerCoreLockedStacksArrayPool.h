@@ -46,7 +46,7 @@ CLASS(TlsOverPerCoreLockedStacksArrayPool, T) : public ArrayPool<T>::in {
   private: static Boolean Gen2GcCallbackFunc(Object target);
   private: static MemoryPressure GetMemoryPressure();
   private: static Boolean GetTrimBuffers();
-  private: static void ctor_static();
+  private: static void cctor();
   private: Array<Int32> _bucketArraySizes;
   private: Array<PerCoreLockedStacks> _buckets;
   private: static Array<Array<T>> t_tlsBuckets;

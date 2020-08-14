@@ -50,7 +50,7 @@ CLASS(UriParser) : public Object::in {
   public: Boolean InternalIsBaseOf(Uri thisBaseUri, Uri uriLink);
   public: String InternalGetComponents(Uri thisUri, UriComponents uriComponents, UriFormat uriFormat);
   public: Boolean InternalIsWellFormedOriginalString(Uri thisUri);
-  private: static void ctor_static();
+  private: static void cctor();
   public: static UriParser HttpUri;
   public: static UriParser HttpsUri;
   public: static UriParser WsUri;

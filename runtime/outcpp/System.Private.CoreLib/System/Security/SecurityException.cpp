@@ -20,7 +20,6 @@ void SecurityException___::ctor(SerializationInfo info, StreamingContext context
 }
 
 String SecurityException___::ToString() {
-  return nullptr;
 }
 
 void SecurityException___::GetObjectData(SerializationInfo info, StreamingContext context) {

@@ -1,8 +1,11 @@
 #include "ExternalException-dep.h"
 
+#include <System.Private.CoreLib/System/Globalization/CultureInfo-dep.h>
+
 namespace System::Private::CoreLib::System::Runtime::InteropServices::ExternalExceptionNamespace {
+using namespace System::Globalization;
+
 Int32 ExternalException___::get_ErrorCode() {
-  return Int32();
 }
 
 void ExternalException___::ctor() {
@@ -21,7 +24,8 @@ void ExternalException___::ctor(SerializationInfo info, StreamingContext context
 }
 
 String ExternalException___::ToString() {
-  return nullptr;
+  String message = get_Message();
+  String str = GetType()->ToString();
 }
 
 } // namespace System::Private::CoreLib::System::Runtime::InteropServices::ExternalExceptionNamespace

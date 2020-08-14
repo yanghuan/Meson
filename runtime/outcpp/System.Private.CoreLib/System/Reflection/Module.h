@@ -91,7 +91,7 @@ CLASS(Module) : public Object::in {
   public: static Boolean op_Inequality(Module left, Module right);
   public: String ToString();
   private: static Boolean FilterTypeNameImpl(Type cls, Object filterCriteria, StringComparison comparison);
-  private: static void ctor_static();
+  private: static void cctor();
   public: static TypeFilter FilterTypeName;
   public: static TypeFilter FilterTypeNameIgnoreCase;
 };

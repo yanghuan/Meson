@@ -1,73 +1,65 @@
 #include "ScalarArrayTypeInfo-dep.h"
 
+#include <System.Private.CoreLib/System/Diagnostics/Tracing/ScalarArrayTypeInfo-dep.h>
+
 namespace System::Private::CoreLib::System::Diagnostics::Tracing::ScalarArrayTypeInfoNamespace {
 void ScalarArrayTypeInfo___::ctor(Type type, Func<EventFieldFormat, TraceLoggingDataType, TraceLoggingDataType> formatFunc, TraceLoggingDataType nativeFormat, System::Int32 elementSize) {
+  this->formatFunc = formatFunc;
+  this->nativeFormat = nativeFormat;
+  this->elementSize = elementSize;
 }
 
 void ScalarArrayTypeInfo___::WriteMetadata(TraceLoggingMetadataCollector collector, String name, EventFieldFormat format) {
+  collector->AddArray(name, formatFunc(format, nativeFormat));
 }
 
 void ScalarArrayTypeInfo___::WriteData(TraceLoggingDataCollector collector, PropertyValue value) {
+  collector->AddArray(value, elementSize);
 }
 
 TraceLoggingTypeInfo ScalarArrayTypeInfo___::Boolean() {
-  return nullptr;
 }
 
 TraceLoggingTypeInfo ScalarArrayTypeInfo___::Byte() {
-  return nullptr;
 }
 
 TraceLoggingTypeInfo ScalarArrayTypeInfo___::SByte() {
-  return nullptr;
 }
 
 TraceLoggingTypeInfo ScalarArrayTypeInfo___::Char() {
-  return nullptr;
 }
 
 TraceLoggingTypeInfo ScalarArrayTypeInfo___::Int16() {
-  return nullptr;
 }
 
 TraceLoggingTypeInfo ScalarArrayTypeInfo___::UInt16() {
-  return nullptr;
 }
 
 TraceLoggingTypeInfo ScalarArrayTypeInfo___::Int32() {
-  return nullptr;
 }
 
 TraceLoggingTypeInfo ScalarArrayTypeInfo___::UInt32() {
-  return nullptr;
 }
 
 TraceLoggingTypeInfo ScalarArrayTypeInfo___::Int64() {
-  return nullptr;
 }
 
 TraceLoggingTypeInfo ScalarArrayTypeInfo___::UInt64() {
-  return nullptr;
 }
 
 TraceLoggingTypeInfo ScalarArrayTypeInfo___::IntPtr() {
-  return nullptr;
 }
 
 TraceLoggingTypeInfo ScalarArrayTypeInfo___::UIntPtr() {
-  return nullptr;
 }
 
 TraceLoggingTypeInfo ScalarArrayTypeInfo___::Single() {
-  return nullptr;
 }
 
 TraceLoggingTypeInfo ScalarArrayTypeInfo___::Double() {
-  return nullptr;
 }
 
 TraceLoggingTypeInfo ScalarArrayTypeInfo___::Guid() {
-  return nullptr;
 }
 
 } // namespace System::Private::CoreLib::System::Diagnostics::Tracing::ScalarArrayTypeInfoNamespace

@@ -24,7 +24,7 @@ struct ValueTask<> : public valueType<ValueTask<>> {
   public: using interface = rt::TypeList<IEquatable<ValueTask<>>>;
   private: CLASS(ValueTaskSourceAsTask) : public Task<>::in {
     public: void ctor(IValueTaskSource<> source, Int16 token);
-    private: static void ctor_static();
+    private: static void cctor();
     private: static Action<Object> s_completionAction;
     private: IValueTaskSource<> _source;
     private: Int16 _token;
@@ -44,7 +44,7 @@ struct ValueTask<TResult> : public valueType<ValueTask<TResult>> {
   public: using interface = rt::TypeList<IEquatable<ValueTask<TResult>>>;
   private: CLASS(ValueTaskSourceAsTask) : public Task<TResult>::in {
     public: void ctor(IValueTaskSource<TResult> source, Int16 token);
-    private: static void ctor_static();
+    private: static void cctor();
     private: static Action<Object> s_completionAction;
     private: IValueTaskSource<TResult> _source;
     private: Int16 _token;

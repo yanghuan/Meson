@@ -11,7 +11,7 @@ using namespace System::Runtime::Serialization;
 CLASS(Missing) : public Object::in {
   public: using interface = rt::TypeList<ISerializable>;
   private: void ctor();
-  private: static void ctor_static();
+  private: static void cctor();
   public: static Missing Value;
 };
 } // namespace MissingNamespace

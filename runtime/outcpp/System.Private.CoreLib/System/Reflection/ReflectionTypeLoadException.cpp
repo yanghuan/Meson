@@ -2,7 +2,7 @@
 
 namespace System::Private::CoreLib::System::Reflection::ReflectionTypeLoadExceptionNamespace {
 String ReflectionTypeLoadException___::get_Message() {
-  return nullptr;
+  return CreateString(true);
 }
 
 void ReflectionTypeLoadException___::ctor(Array<Type> classes, Array<Exception> exceptions) {
@@ -12,17 +12,17 @@ void ReflectionTypeLoadException___::ctor(Array<Type> classes, Array<Exception> 
 }
 
 void ReflectionTypeLoadException___::ctor(SerializationInfo info, StreamingContext context) {
+  Types = Type::in::EmptyTypes;
 }
 
 void ReflectionTypeLoadException___::GetObjectData(SerializationInfo info, StreamingContext context) {
 }
 
 String ReflectionTypeLoadException___::ToString() {
-  return nullptr;
+  return CreateString(false);
 }
 
 String ReflectionTypeLoadException___::CreateString(Boolean isMessage) {
-  return nullptr;
 }
 
 } // namespace System::Private::CoreLib::System::Reflection::ReflectionTypeLoadExceptionNamespace

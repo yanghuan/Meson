@@ -39,7 +39,7 @@ struct AsyncTaskMethodBuilder<TResult> : public valueType<AsyncTaskMethodBuilder
     public: void MoveNext();
     private: void MoveNext(Thread threadPoolThread);
     public: void ctor();
-    private: static void ctor_static();
+    private: static void cctor();
     private: static ContextCallback<> s_callback;
     private: Action<> _moveNextAction;
     public: TStateMachine StateMachine;

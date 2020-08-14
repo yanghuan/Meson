@@ -2,19 +2,22 @@
 
 namespace System::Private::CoreLib::System::Collections::Generic::ByteEqualityComparerNamespace {
 Boolean ByteEqualityComparer___::Equals(Byte x, Byte y) {
-  return Boolean();
+  return x == y;
 }
 
 Int32 ByteEqualityComparer___::GetHashCode(Byte b) {
-  return Int32();
+  return b.GetHashCode();
 }
 
 Boolean ByteEqualityComparer___::Equals(Object obj) {
-  return Boolean();
+  if (obj != nullptr) {
+    return GetType() == obj->GetType();
+  }
+  return false;
 }
 
 Int32 ByteEqualityComparer___::GetHashCode() {
-  return Int32();
+  return GetType()->GetHashCode();
 }
 
 void ByteEqualityComparer___::ctor() {

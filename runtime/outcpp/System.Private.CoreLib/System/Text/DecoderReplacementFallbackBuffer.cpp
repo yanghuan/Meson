@@ -2,29 +2,59 @@
 
 namespace System::Private::CoreLib::System::Text::DecoderReplacementFallbackBufferNamespace {
 Int32 DecoderReplacementFallbackBuffer___::get_Remaining() {
-  return Int32();
+  if (_fallbackCount >= 0) {
+    return _fallbackCount;
+  }
+  return 0;
 }
 
 void DecoderReplacementFallbackBuffer___::ctor(DecoderReplacementFallback fallback) {
+  _fallbackCount = -1;
+  _fallbackIndex = -1;
 }
 
 Boolean DecoderReplacementFallbackBuffer___::Fallback(Array<Byte> bytesUnknown, Int32 index) {
-  return Boolean();
+  if (_fallbackCount >= 1) {
+    ThrowLastBytesRecursive(bytesUnknown);
+  }
+  if (_strDefault->get_Length() == 0) {
+    return false;
+  }
+  _fallbackCount = _strDefault->get_Length();
+  _fallbackIndex = -1;
+  return true;
 }
 
 Char DecoderReplacementFallbackBuffer___::GetNextChar() {
-  return Char();
+  _fallbackCount--;
+  _fallbackIndex++;
+  if (_fallbackCount < 0) {
+    return 0;
+  }
+  if (_fallbackCount == Int32::MaxValue) {
+    _fallbackCount = -1;
+    return 0;
+  }
+  return _strDefault[_fallbackIndex];
 }
 
 Boolean DecoderReplacementFallbackBuffer___::MovePrevious() {
-  return Boolean();
+  if (_fallbackCount >= -1 && _fallbackIndex >= 0) {
+    _fallbackIndex--;
+    _fallbackCount++;
+    return true;
+  }
+  return false;
 }
 
 void DecoderReplacementFallbackBuffer___::Reset() {
+  _fallbackCount = -1;
+  _fallbackIndex = -1;
+  byteStart = nullptr;
 }
 
 Int32 DecoderReplacementFallbackBuffer___::InternalFallback(Array<Byte> bytes, Byte* pBytes) {
-  return Int32();
+  return _strDefault->get_Length();
 }
 
 } // namespace System::Private::CoreLib::System::Text::DecoderReplacementFallbackBufferNamespace

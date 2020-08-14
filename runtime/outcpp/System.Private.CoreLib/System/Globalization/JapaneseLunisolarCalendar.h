@@ -30,7 +30,7 @@ CLASS(JapaneseLunisolarCalendar) : public EastAsianLunisolarCalendar::in {
   private: static Array<EraInfo> TrimEras(Array<EraInfo> baseEras);
   public: void ctor();
   public: Int32 GetEra(DateTime time);
-  private: static void ctor_static();
+  private: static void cctor();
   public: static constexpr Int32 JapaneseEra = 1;
   private: GregorianCalendarHelper _helper;
   private: static DateTime s_minDate;

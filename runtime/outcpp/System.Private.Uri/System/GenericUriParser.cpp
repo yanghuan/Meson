@@ -5,7 +5,6 @@ void GenericUriParser___::ctor(GenericUriParserOptions options) {
 }
 
 UriSyntaxFlags GenericUriParser___::MapGenericParserOptions(GenericUriParserOptions options) {
-  return UriSyntaxFlags::AllowIriParsing;
 }
 
 } // namespace System::Private::Uri::System::GenericUriParserNamespace

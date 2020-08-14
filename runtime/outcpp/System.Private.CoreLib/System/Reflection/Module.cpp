@@ -1,200 +1,245 @@
 #include "Module-dep.h"
 
+#include <System.Private.CoreLib/System/ArgumentNullException-dep.h>
+#include <System.Private.CoreLib/System/NotImplemented-dep.h>
+#include <System.Private.CoreLib/System/Reflection/BindingFlags.h>
+#include <System.Private.CoreLib/System/Reflection/InvalidFilterCriteriaException-dep.h>
+#include <System.Private.CoreLib/System/SR-dep.h>
+
 namespace System::Private::CoreLib::System::Reflection::ModuleNamespace {
 Assembly Module___::get_Assembly() {
-  return nullptr;
+  rt::throw_exception(NotImplemented::get_ByDesign());
 }
 
 String Module___::get_FullyQualifiedName() {
-  return nullptr;
+  rt::throw_exception(NotImplemented::get_ByDesign());
 }
 
 String Module___::get_Name() {
-  return nullptr;
+  rt::throw_exception(NotImplemented::get_ByDesign());
 }
 
 Int32 Module___::get_MDStreamVersion() {
-  return Int32();
+  rt::throw_exception(NotImplemented::get_ByDesign());
 }
 
 Guid Module___::get_ModuleVersionId() {
-  return Guid();
+  rt::throw_exception(NotImplemented::get_ByDesign());
 }
 
 String Module___::get_ScopeName() {
-  return nullptr;
+  rt::throw_exception(NotImplemented::get_ByDesign());
 }
 
 ModuleHandle Module___::get_ModuleHandle() {
-  return ModuleHandle();
+  return GetModuleHandleImpl();
 }
 
 IEnumerable<CustomAttributeData> Module___::get_CustomAttributes() {
-  return nullptr;
+  return GetCustomAttributesData();
 }
 
 Int32 Module___::get_MetadataToken() {
-  return Int32();
+  rt::throw_exception(NotImplemented::get_ByDesign());
 }
 
 void Module___::ctor() {
 }
 
 ModuleHandle Module___::GetModuleHandleImpl() {
-  return ModuleHandle();
+  return ModuleHandle::EmptyHandle;
 }
 
 void Module___::GetPEKind(PortableExecutableKinds& peKind, ImageFileMachine& machine) {
+  rt::throw_exception(NotImplemented::get_ByDesign());
 }
 
 Boolean Module___::IsResource() {
-  return Boolean();
+  rt::throw_exception(NotImplemented::get_ByDesign());
 }
 
 Boolean Module___::IsDefined(Type attributeType, Boolean inherit) {
-  return Boolean();
+  rt::throw_exception(NotImplemented::get_ByDesign());
 }
 
 IList<CustomAttributeData> Module___::GetCustomAttributesData() {
-  return nullptr;
+  rt::throw_exception(NotImplemented::get_ByDesign());
 }
 
 Array<Object> Module___::GetCustomAttributes(Boolean inherit) {
-  return Array<Object>();
+  rt::throw_exception(NotImplemented::get_ByDesign());
 }
 
 Array<Object> Module___::GetCustomAttributes(Type attributeType, Boolean inherit) {
-  return Array<Object>();
+  rt::throw_exception(NotImplemented::get_ByDesign());
 }
 
 MethodInfo Module___::GetMethod(String name) {
-  return nullptr;
+  if (name == nullptr) {
+    rt::throw_exception<ArgumentNullException>("name");
+  }
 }
 
 MethodInfo Module___::GetMethod(String name, Array<Type> types) {
-  return nullptr;
 }
 
 MethodInfo Module___::GetMethod(String name, BindingFlags bindingAttr, Binder binder, CallingConventions callConvention, Array<Type> types, Array<ParameterModifier> modifiers) {
-  return nullptr;
+  if (name == nullptr) {
+    rt::throw_exception<ArgumentNullException>("name");
+  }
+  if (types == nullptr) {
+    rt::throw_exception<ArgumentNullException>("types");
+  }
+  for (Int32 i = 0; i < types->get_Length(); i++) {
+    if (types[i] == nullptr) {
+      rt::throw_exception<ArgumentNullException>("types");
+    }
+  }
+  return GetMethodImpl(name, bindingAttr, binder, callConvention, types, modifiers);
 }
 
 MethodInfo Module___::GetMethodImpl(String name, BindingFlags bindingAttr, Binder binder, CallingConventions callConvention, Array<Type> types, Array<ParameterModifier> modifiers) {
-  return nullptr;
+  rt::throw_exception(NotImplemented::get_ByDesign());
 }
 
 Array<MethodInfo> Module___::GetMethods() {
-  return Array<MethodInfo>();
 }
 
 Array<MethodInfo> Module___::GetMethods(BindingFlags bindingFlags) {
-  return Array<MethodInfo>();
+  rt::throw_exception(NotImplemented::get_ByDesign());
 }
 
 FieldInfo Module___::GetField(String name) {
-  return nullptr;
 }
 
 FieldInfo Module___::GetField(String name, BindingFlags bindingAttr) {
-  return nullptr;
+  rt::throw_exception(NotImplemented::get_ByDesign());
 }
 
 Array<FieldInfo> Module___::GetFields() {
-  return Array<FieldInfo>();
 }
 
 Array<FieldInfo> Module___::GetFields(BindingFlags bindingFlags) {
-  return Array<FieldInfo>();
+  rt::throw_exception(NotImplemented::get_ByDesign());
 }
 
 Array<Type> Module___::GetTypes() {
-  return Array<Type>();
+  rt::throw_exception(NotImplemented::get_ByDesign());
 }
 
 Type Module___::GetType(String className) {
-  return nullptr;
+  return GetType(className, false, false);
 }
 
 Type Module___::GetType(String className, Boolean ignoreCase) {
-  return nullptr;
+  return GetType(className, false, ignoreCase);
 }
 
 Type Module___::GetType(String className, Boolean throwOnError, Boolean ignoreCase) {
-  return nullptr;
+  rt::throw_exception(NotImplemented::get_ByDesign());
 }
 
 Array<Type> Module___::FindTypes(TypeFilter filter, Object filterCriteria) {
-  return Array<Type>();
+  Array<Type> types = GetTypes();
+  Int32 num = 0;
+  for (Int32 i = 0; i < types->get_Length(); i++) {
+    if (filter != nullptr && !filter(types[i], filterCriteria)) {
+      types[i] = nullptr;
+    } else {
+      num++;
+    }
+  }
+  if (num == types->get_Length()) {
+    return types;
+  }
+  Array<Type> array = rt::newarr<Array<Type>>(num);
+  num = 0;
+  for (Int32 j = 0; j < types->get_Length(); j++) {
+    if (types[j] != nullptr) {
+      array[num++] = types[j];
+    }
+  }
+  return array;
 }
 
 FieldInfo Module___::ResolveField(Int32 metadataToken) {
-  return nullptr;
+  return ResolveField(metadataToken, nullptr, nullptr);
 }
 
 FieldInfo Module___::ResolveField(Int32 metadataToken, Array<Type> genericTypeArguments, Array<Type> genericMethodArguments) {
-  return nullptr;
+  rt::throw_exception(NotImplemented::get_ByDesign());
 }
 
 MemberInfo Module___::ResolveMember(Int32 metadataToken) {
-  return nullptr;
+  return ResolveMember(metadataToken, nullptr, nullptr);
 }
 
 MemberInfo Module___::ResolveMember(Int32 metadataToken, Array<Type> genericTypeArguments, Array<Type> genericMethodArguments) {
-  return nullptr;
+  rt::throw_exception(NotImplemented::get_ByDesign());
 }
 
 MethodBase Module___::ResolveMethod(Int32 metadataToken) {
-  return nullptr;
+  return ResolveMethod(metadataToken, nullptr, nullptr);
 }
 
 MethodBase Module___::ResolveMethod(Int32 metadataToken, Array<Type> genericTypeArguments, Array<Type> genericMethodArguments) {
-  return nullptr;
+  rt::throw_exception(NotImplemented::get_ByDesign());
 }
 
 Array<Byte> Module___::ResolveSignature(Int32 metadataToken) {
-  return Array<Byte>();
+  rt::throw_exception(NotImplemented::get_ByDesign());
 }
 
 String Module___::ResolveString(Int32 metadataToken) {
-  return nullptr;
+  rt::throw_exception(NotImplemented::get_ByDesign());
 }
 
 Type Module___::ResolveType(Int32 metadataToken) {
-  return nullptr;
+  return ResolveType(metadataToken, nullptr, nullptr);
 }
 
 Type Module___::ResolveType(Int32 metadataToken, Array<Type> genericTypeArguments, Array<Type> genericMethodArguments) {
-  return nullptr;
+  rt::throw_exception(NotImplemented::get_ByDesign());
 }
 
 void Module___::GetObjectData(SerializationInfo info, StreamingContext context) {
+  rt::throw_exception(NotImplemented::get_ByDesign());
 }
 
 Boolean Module___::Equals(Object o) {
-  return Boolean();
 }
 
 Int32 Module___::GetHashCode() {
-  return Int32();
 }
 
 Boolean Module___::op_Equality(Module left, Module right) {
-  return Boolean();
+  if ((Object)right == nullptr) {
+    if ((Object)left != nullptr) {
+      return false;
+    }
+    return true;
+  }
+  if ((Object)left == right) {
+    return true;
+  }
 }
 
 Boolean Module___::op_Inequality(Module left, Module right) {
-  return Boolean();
+  return !(left == right);
 }
 
 String Module___::ToString() {
-  return nullptr;
+  return get_ScopeName();
 }
 
 Boolean Module___::FilterTypeNameImpl(Type cls, Object filterCriteria, StringComparison comparison) {
-  return Boolean();
+  String text = rt::as<String>(filterCriteria);
+  if (text == nullptr) {
+    rt::throw_exception<InvalidFilterCriteriaException>(SR::get_InvalidFilterCriteriaException_CritString());
+  }
 }
 
-void Module___::ctor_static() {
+void Module___::cctor() {
 }
 
 } // namespace System::Private::CoreLib::System::Reflection::ModuleNamespace

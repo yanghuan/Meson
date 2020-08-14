@@ -20,7 +20,7 @@ CLASS(ArrayPoolEventSource) : public EventSource::in {
   public: void BufferReturned(Int32 bufferId, Int32 bufferSize, Int32 poolId);
   public: void BufferTrimmed(Int32 bufferId, Int32 bufferSize, Int32 poolId);
   public: void BufferTrimPoll(Int32 milliseconds, Int32 pressure);
-  private: static void ctor_static();
+  private: static void cctor();
   public: static ArrayPoolEventSource Log;
 };
 } // namespace ArrayPoolEventSourceNamespace

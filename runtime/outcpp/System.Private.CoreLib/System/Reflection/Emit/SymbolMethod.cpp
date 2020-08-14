@@ -1,87 +1,93 @@
 #include "SymbolMethod-dep.h"
 
+#include <System.Private.CoreLib/System/NotSupportedException-dep.h>
+#include <System.Private.CoreLib/System/Reflection/Emit/EmptyCAHolder-dep.h>
+#include <System.Private.CoreLib/System/Reflection/Emit/SymbolMethod-dep.h>
+#include <System.Private.CoreLib/System/SR-dep.h>
+
 namespace System::Private::CoreLib::System::Reflection::Emit::SymbolMethodNamespace {
 Module SymbolMethod___::get_Module() {
-  return nullptr;
+  return m_module;
 }
 
 Type SymbolMethod___::get_ReflectedType() {
-  return nullptr;
+  return m_containingType;
 }
 
 String SymbolMethod___::get_Name() {
-  return nullptr;
+  return m_name;
 }
 
 Type SymbolMethod___::get_DeclaringType() {
-  return nullptr;
+  return m_containingType;
 }
 
 MethodAttributes SymbolMethod___::get_Attributes() {
-  return MethodAttributes::ReservedMask;
+  rt::throw_exception<NotSupportedException>(SR::get_NotSupported_SymbolMethod());
 }
 
 CallingConventions SymbolMethod___::get_CallingConvention() {
-  return CallingConventions::ExplicitThis;
+  return m_callingConvention;
 }
 
 RuntimeMethodHandle SymbolMethod___::get_MethodHandle() {
-  return RuntimeMethodHandle();
+  rt::throw_exception<NotSupportedException>(SR::get_NotSupported_SymbolMethod());
 }
 
 Type SymbolMethod___::get_ReturnType() {
-  return nullptr;
+  return m_returnType;
 }
 
 ICustomAttributeProvider SymbolMethod___::get_ReturnTypeCustomAttributes() {
-  return nullptr;
+  return rt::newobj<EmptyCAHolder>();
 }
 
 void SymbolMethod___::ctor(ModuleBuilder mod, MethodToken token, Type arrayClass, String methodName, CallingConventions callingConvention, Type returnType, Array<Type> parameterTypes) {
+  m_mdMethod = token;
 }
 
 Array<Type> SymbolMethod___::GetParameterTypes() {
-  return Array<Type>();
+  return m_parameterTypes;
 }
 
 MethodToken SymbolMethod___::GetToken(ModuleBuilder mod) {
-  return MethodToken();
+  return mod->GetArrayMethodToken(m_containingType, m_name, m_callingConvention, m_returnType, m_parameterTypes);
 }
 
 Array<ParameterInfo> SymbolMethod___::GetParameters() {
-  return Array<ParameterInfo>();
+  rt::throw_exception<NotSupportedException>(SR::get_NotSupported_SymbolMethod());
 }
 
 MethodImplAttributes SymbolMethod___::GetMethodImplementationFlags() {
-  return MethodImplAttributes::MaxMethodImplVal;
+  rt::throw_exception<NotSupportedException>(SR::get_NotSupported_SymbolMethod());
 }
 
 Object SymbolMethod___::Invoke(Object obj, BindingFlags invokeAttr, Binder binder, Array<Object> parameters, CultureInfo culture) {
-  return nullptr;
+  rt::throw_exception<NotSupportedException>(SR::get_NotSupported_SymbolMethod());
 }
 
 MethodInfo SymbolMethod___::GetBaseDefinition() {
-  return nullptr;
+  return (SymbolMethod)this;
 }
 
 Array<Object> SymbolMethod___::GetCustomAttributes(Boolean inherit) {
-  return Array<Object>();
+  rt::throw_exception<NotSupportedException>(SR::get_NotSupported_SymbolMethod());
 }
 
 Array<Object> SymbolMethod___::GetCustomAttributes(Type attributeType, Boolean inherit) {
-  return Array<Object>();
+  rt::throw_exception<NotSupportedException>(SR::get_NotSupported_SymbolMethod());
 }
 
 Boolean SymbolMethod___::IsDefined(Type attributeType, Boolean inherit) {
-  return Boolean();
+  rt::throw_exception<NotSupportedException>(SR::get_NotSupported_SymbolMethod());
 }
 
 Module SymbolMethod___::GetModule() {
-  return nullptr;
+  return m_module;
 }
 
 MethodToken SymbolMethod___::GetToken() {
-  return MethodToken();
+  return m_mdMethod;
 }
 
 } // namespace System::Private::CoreLib::System::Reflection::Emit::SymbolMethodNamespace

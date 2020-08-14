@@ -164,7 +164,7 @@ CLASS(NativeRuntimeEventSource) : public EventSource::in {
   private: void AppDomainAssemblyResolveHandlerInvoked(UInt16 ClrInstanceID, String AssemblyName, String HandlerName, String ResultAssemblyName, String ResultAssemblyPath);
   private: void AssemblyLoadFromResolveHandlerInvoked(UInt16 ClrInstanceID, String AssemblyName, Boolean IsTrackedLoad, String RequestingAssemblyPath, String ComputedRequestedAssemblyPath);
   private: void KnownPathProbed(UInt16 ClrInstanceID, String FilePath, UInt16 Source, Int32 Result);
-  private: static void ctor_static();
+  private: static void cctor();
   public: static NativeRuntimeEventSource Log;
 };
 } // namespace NativeRuntimeEventSourceNamespace

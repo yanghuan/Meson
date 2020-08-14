@@ -59,7 +59,7 @@ class ComActivator {
   private: static Boolean IsLoggingEnabled();
   private: static Type FindClassType(Guid clsid, String assemblyPath, String assemblyName, String typeName);
   private: static AssemblyLoadContext GetALC(String assemblyPath);
-  private: static void ctor_static();
+  private: static void cctor();
   private: static Dictionary<String, AssemblyLoadContext> s_assemblyLoadContexts;
 };
 } // namespace ComActivatorNamespace

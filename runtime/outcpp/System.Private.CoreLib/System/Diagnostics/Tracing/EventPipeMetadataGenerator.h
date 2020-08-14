@@ -30,7 +30,7 @@ CLASS(EventPipeMetadataGenerator) : public Object::in {
   public: static void WriteToBuffer(Byte* buffer, UInt32 bufferLength, UInt32& offset, Byte* src, UInt32 srcLength);
   public: template <class T>
   static void WriteToBuffer(Byte* buffer, UInt32 bufferLength, UInt32& offset, T value);
-  private: static void ctor_static();
+  private: static void cctor();
   public: static EventPipeMetadataGenerator Instance;
 };
 } // namespace EventPipeMetadataGeneratorNamespace

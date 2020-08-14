@@ -81,7 +81,7 @@ CLASS(CancellationTokenSource) : public Object::in {
   public: static CancellationTokenSource CreateLinkedTokenSource(Array<CancellationToken> tokens);
   public: void WaitForCallbackToComplete(Int64 id);
   public: ValueTask<> WaitForCallbackToCompleteAsync(Int64 id);
-  private: static void ctor_static();
+  private: static void cctor();
   public: static CancellationTokenSource s_canceledSource;
   public: static CancellationTokenSource s_neverCanceledSource;
   private: static TimerCallback s_timerCallback;
@@ -109,7 +109,7 @@ CLASS(Linked2CancellationTokenSource) : public CancellationTokenSource::in {
 CLASS(LinkedNCancellationTokenSource) : public CancellationTokenSource::in {
   public: void ctor(Array<CancellationToken> tokens);
   protected: void Dispose(Boolean disposing);
-  private: static void ctor_static();
+  private: static void cctor();
   public: static Action<Object> s_linkedTokenCancelDelegate;
   private: Array<CancellationTokenRegistration> _linkingRegistrations;
 };

@@ -4,22 +4,22 @@
 
 namespace System::Private::CoreLib::System::Diagnostics::Tracing::SessionMaskNamespace {
 SessionMask SessionMask::get_All() {
-  return SessionMask();
+  return SessionMask(15u);
 }
 
 SessionMask::SessionMask(UInt32 mask) {
 }
 
 UInt64 SessionMask::ToEventKeywords() {
-  return UInt64();
+  return (UInt64)m_mask << 44;
 }
 
 SessionMask SessionMask::FromEventKeywords(UInt64 m) {
-  return SessionMask();
+  return SessionMask((UInt32)(m >> 44));
 }
 
 UInt32 SessionMask::op_Explicit(SessionMask m) {
-  return UInt32();
+  return m.m_mask;
 }
 
 } // namespace System::Private::CoreLib::System::Diagnostics::Tracing::SessionMaskNamespace

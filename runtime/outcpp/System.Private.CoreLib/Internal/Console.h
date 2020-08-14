@@ -16,7 +16,7 @@ class Console {
   public: static void Write(String s);
   public: static void WriteLine(String s);
   public: static void WriteLine();
-  private: static void ctor_static();
+  private: static void cctor();
   private: static SafeFileHandle _outputHandle;
 };
 } // namespace ConsoleNamespace

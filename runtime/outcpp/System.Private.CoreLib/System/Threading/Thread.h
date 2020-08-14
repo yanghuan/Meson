@@ -195,7 +195,7 @@ CLASS(Thread) : public CriticalFinalizerObject::in {
   public: static void VolatileWrite(UInt64& address, UInt64 value);
   public: static void VolatileWrite(UIntPtr& address, UIntPtr value);
   private: static Exception GetApartmentStateChangeFailedException();
-  private: static void ctor_static();
+  private: static void cctor();
   public: ExecutionContext _executionContext;
   public: SynchronizationContext _synchronizationContext;
   private: String _name;

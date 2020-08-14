@@ -74,7 +74,7 @@ CLASS(CalendarData) : public Object::in {
   private: static Boolean GetCalendarMonthInfo(String localeName, CalendarId calendar, UInt32 calType, Array<String>& outputStrings);
   private: static Interop::BOOL EnumCalendarsCallback(Char* lpCalendarInfoString, UInt32 calendar, IntPtr reserved, void* lParam);
   private: static String GetUserDefaultLocaleName();
-  private: static void ctor_static();
+  private: static void cctor();
   public: String sNativeName;
   public: Array<String> saShortDates;
   public: Array<String> saYearMonths;

@@ -1,79 +1,138 @@
 #include "TaskScheduler-dep.h"
 
+#include <System.Private.CoreLib/System/Collections/Generic/List-dep.h>
+#include <System.Private.CoreLib/System/Diagnostics/Debugger-dep.h>
+#include <System.Private.CoreLib/System/InvalidOperationException-dep.h>
+#include <System.Private.CoreLib/System/Runtime/CompilerServices/ConditionalWeakTable-dep.h>
+#include <System.Private.CoreLib/System/Runtime/CompilerServices/RuntimeHelpers-dep.h>
+#include <System.Private.CoreLib/System/SR-dep.h>
+#include <System.Private.CoreLib/System/Threading/Interlocked-dep.h>
+#include <System.Private.CoreLib/System/Threading/Tasks/SynchronizationContextTaskScheduler-dep.h>
 #include <System.Private.CoreLib/System/Threading/Tasks/TaskScheduler-dep.h>
+#include <System.Private.CoreLib/System/Threading/Tasks/ThreadPoolTaskScheduler-dep.h>
+#include <System.Private.CoreLib/System/Threading/Tasks/TplEventSource-dep.h>
 
 namespace System::Private::CoreLib::System::Threading::Tasks::TaskSchedulerNamespace {
+using namespace System::Collections::Generic;
+using namespace System::Diagnostics;
+using namespace System::Runtime::CompilerServices;
+
 Int32 TaskScheduler___::SystemThreadingTasks_TaskSchedulerDebugView___::get_Id() {
-  return Int32();
+  return m_taskScheduler->get_Id();
 }
 
 IEnumerable<Task<>> TaskScheduler___::SystemThreadingTasks_TaskSchedulerDebugView___::get_ScheduledTasks() {
-  return nullptr;
+  return m_taskScheduler->GetScheduledTasks();
 }
 
 void TaskScheduler___::SystemThreadingTasks_TaskSchedulerDebugView___::ctor(TaskScheduler scheduler) {
+  m_taskScheduler = scheduler;
 }
 
 Int32 TaskScheduler___::get_MaximumConcurrencyLevel() {
-  return Int32();
+  return Int32::MaxValue;
 }
 
 TaskScheduler TaskScheduler___::get_Default() {
-  return nullptr;
+  return s_defaultTaskScheduler;
 }
 
 TaskScheduler TaskScheduler___::get_Current() {
-  return nullptr;
 }
 
 TaskScheduler TaskScheduler___::get_InternalCurrent() {
-  return nullptr;
+  Task internalCurrent = Task::in::get_InternalCurrent();
 }
 
 Int32 TaskScheduler___::get_Id() {
-  return Int32();
+  if (m_taskSchedulerId == 0) {
+    Int32 num;
+  }
+  return m_taskSchedulerId;
 }
 
 Boolean TaskScheduler___::TryRunInline(Task<> task, Boolean taskWasPreviouslyQueued) {
-  return Boolean();
+  TaskScheduler executingTaskScheduler = task->get_ExecutingTaskScheduler();
+  if (executingTaskScheduler != (TaskScheduler)this && executingTaskScheduler != nullptr) {
+    return executingTaskScheduler->TryRunInline(task, taskWasPreviouslyQueued);
+  }
+  if (executingTaskScheduler == nullptr || (Object)task->m_action == nullptr || task->get_IsDelegateInvoked() || task->get_IsCanceled() || !RuntimeHelpers::TryEnsureSufficientExecutionStack()) {
+    return false;
+  }
+  if (TplEventSource::in::Log->IsEnabled()) {
+    task->FireTaskScheduledIfNeeded((TaskScheduler)this);
+  }
+  Boolean flag = TryExecuteTaskInline(task, taskWasPreviouslyQueued);
+  if (flag && !task->get_IsDelegateInvoked() && !task->get_IsCanceled()) {
+    rt::throw_exception<InvalidOperationException>(SR::get_TaskScheduler_InconsistentStateAfterTryExecuteTaskInline());
+  }
+  return flag;
 }
 
 Boolean TaskScheduler___::TryDequeue(Task<> task) {
-  return Boolean();
+  return false;
 }
 
 void TaskScheduler___::NotifyWorkItemProgress() {
 }
 
 void TaskScheduler___::InternalQueueTask(Task<> task) {
+  if (TplEventSource::in::Log->IsEnabled()) {
+    task->FireTaskScheduledIfNeeded((TaskScheduler)this);
+  }
+  QueueTask(task);
 }
 
 void TaskScheduler___::ctor() {
+  if (Debugger::get_IsAttached()) {
+    AddToActiveTaskSchedulers();
+  }
 }
 
 void TaskScheduler___::AddToActiveTaskSchedulers() {
+  ConditionalWeakTable<TaskScheduler, Object> conditionalWeakTable = s_activeTaskSchedulers;
+  if (conditionalWeakTable == nullptr) {
+    Interlocked::CompareExchange(s_activeTaskSchedulers, rt::newobj<ConditionalWeakTable<TaskScheduler, Object>>(), nullptr);
+    conditionalWeakTable = s_activeTaskSchedulers;
+  }
+  conditionalWeakTable->Add((TaskScheduler)this, nullptr);
 }
 
 TaskScheduler TaskScheduler___::FromCurrentSynchronizationContext() {
-  return nullptr;
+  return rt::newobj<SynchronizationContextTaskScheduler>();
 }
 
 Boolean TaskScheduler___::TryExecuteTask(Task<> task) {
-  return Boolean();
+  if (task->get_ExecutingTaskScheduler() != (TaskScheduler)this) {
+    rt::throw_exception<InvalidOperationException>(SR::get_TaskScheduler_ExecuteTask_WrongTaskScheduler());
+  }
+  return task->ExecuteEntry();
 }
 
 void TaskScheduler___::PublishUnobservedTaskException(Object sender, UnobservedTaskExceptionEventArgs ueea) {
 }
 
 Array<Task<>> TaskScheduler___::GetScheduledTasksForDebugger() {
-  return Array<Task<>>();
+  IEnumerable<Task> scheduledTasks = GetScheduledTasks();
+  if (scheduledTasks == nullptr) {
+    return nullptr;
+  }
+  Array<Task> array = rt::as<Array<Task>>(scheduledTasks);
+  if (array == nullptr) {
+    array = rt::newobj<List<Task>>(scheduledTasks)->ToArray();
+  }
+  Array<Task> array2 = array;
 }
 
 Array<TaskScheduler> TaskScheduler___::GetTaskSchedulersForDebugger() {
-  return Array<TaskScheduler>();
+  if (s_activeTaskSchedulers == nullptr) {
+    return rt::newarr<Array<TaskScheduler>>(1);
+  }
+  List<TaskScheduler> list = rt::newobj<List<TaskScheduler>>();
 }
 
-void TaskScheduler___::ctor_static() {
+void TaskScheduler___::cctor() {
+  s_defaultTaskScheduler = rt::newobj<ThreadPoolTaskScheduler>();
 }
 
 } // namespace System::Private::CoreLib::System::Threading::Tasks::TaskSchedulerNamespace

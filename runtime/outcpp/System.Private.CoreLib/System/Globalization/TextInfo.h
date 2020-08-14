@@ -89,7 +89,7 @@ CLASS(TextInfo) : public Object::in {
   public: void IcuChangeCase(Char* src, Int32 srcLen, Char* dstBuffer, Int32 dstBufferCapacity, Boolean bToUpper);
   private: void NlsChangeCase(Char* pSource, Int32 pSourceLen, Char* pResult, Int32 pResultLen, Boolean toUpper);
   private: static Boolean IsInvariantLocale(String localeName);
-  private: static void ctor_static();
+  private: static void cctor();
   private: String _listSeparator;
   private: Boolean _isReadOnly;
   private: String _cultureName;
