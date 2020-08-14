@@ -35,6 +35,7 @@ Int32 TraceLoggingMetadataCollector___::Impl___::Encode(Array<Byte> metadata) {
 
 void TraceLoggingMetadataCollector___::Impl___::ctor() {
   fields = rt::newobj<List<FieldMetadata>>();
+  Object::ctor();
 }
 
 Int32 TraceLoggingMetadataCollector___::get_ScratchSize() {
@@ -55,10 +56,15 @@ Boolean TraceLoggingMetadataCollector___::get_BeginningBufferedArray() {
 
 void TraceLoggingMetadataCollector___::ctor() {
   bufferedArrayFieldCount = Int32::MinValue;
+  Object::ctor();
+  impl = rt::newobj<Impl>();
 }
 
 void TraceLoggingMetadataCollector___::ctor(TraceLoggingMetadataCollector other, FieldMetadata group) {
   bufferedArrayFieldCount = Int32::MinValue;
+  Object::ctor();
+  impl = other->impl;
+  currentGroup = group;
 }
 
 TraceLoggingMetadataCollector TraceLoggingMetadataCollector___::AddGroup(String name) {

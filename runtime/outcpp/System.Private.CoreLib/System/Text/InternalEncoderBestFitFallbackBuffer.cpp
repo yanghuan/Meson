@@ -24,6 +24,18 @@ Int32 InternalEncoderBestFitFallbackBuffer___::get_Remaining() {
 
 void InternalEncoderBestFitFallbackBuffer___::ctor(InternalEncoderBestFitFallback fallback) {
   _iCount = -1;
+  EncoderFallbackBuffer::ctor();
+  _oFallback = fallback;
+  if (_oFallback->_arrayBestFit != nullptr) {
+    return;
+  }
+  {
+    rt::lock(get_InternalSyncObject());
+    InternalEncoderBestFitFallback oFallback = _oFallback;
+    if (oFallback->_arrayBestFit == nullptr) {
+      oFallback->_arrayBestFit = fallback->_encoding->GetBestFitUnicodeToBytesData();
+    }
+  }
 }
 
 Boolean InternalEncoderBestFitFallbackBuffer___::Fallback(Char charUnknown, Int32 index) {

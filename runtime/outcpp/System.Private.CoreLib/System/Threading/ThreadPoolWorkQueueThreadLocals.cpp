@@ -6,6 +6,11 @@
 namespace System::Private::CoreLib::System::Threading::ThreadPoolWorkQueueThreadLocalsNamespace {
 void ThreadPoolWorkQueueThreadLocals___::ctor(ThreadPoolWorkQueue tpq) {
   random = FastRandom(Thread::in::get_CurrentThread()->get_ManagedThreadId());
+  Object::ctor();
+  workQueue = tpq;
+  workStealingQueue = rt::newobj<ThreadPoolWorkQueue::in::WorkStealingQueue>();
+  ThreadPoolWorkQueue::in::WorkStealingQueueList::Add(workStealingQueue);
+  currentThread = Thread::in::get_CurrentThread();
 }
 
 void ThreadPoolWorkQueueThreadLocals___::Finalize() {

@@ -6,6 +6,7 @@
 #include <System.Private.CoreLib/System/BitConverter-dep.h>
 #include <System.Private.CoreLib/System/Buffers/Binary/BinaryPrimitives-dep.h>
 #include <System.Private.CoreLib/System/Byte-dep.h>
+#include <System.Private.CoreLib/System/Exception-dep.h>
 #include <System.Private.CoreLib/System/Int16-dep.h>
 #include <System.Private.CoreLib/System/InvalidOperationException-dep.h>
 #include <System.Private.CoreLib/System/Math-dep.h>
@@ -21,6 +22,7 @@
 #include <System.Private.CoreLib/System/Reflection/Emit/ScopeAction.h>
 #include <System.Private.CoreLib/System/Reflection/Emit/ScopeTree-dep.h>
 #include <System.Private.CoreLib/System/Reflection/Emit/StackBehaviour.h>
+#include <System.Private.CoreLib/System/Reflection/Emit/SymbolMethod-dep.h>
 #include <System.Private.CoreLib/System/Reflection/Emit/TypeBuilder-dep.h>
 #include <System.Private.CoreLib/System/Reflection/FieldAttributes.h>
 #include <System.Private.CoreLib/System/SR-dep.h>
@@ -309,6 +311,22 @@ void ILGenerator___::EmitCalli(OpCode opcode, CallingConventions callingConventi
   SignatureHelper memberRefSignature = GetMemberRefSignature(callingConvention, returnType, parameterTypes, optionalParameterTypes);
   EnsureCapacity(7);
   Emit(OpCodes::in::Calli);
+  if (returnType != rt::typeof<void>()) {
+    num++;
+  }
+  if (parameterTypes != nullptr) {
+    num -= parameterTypes->get_Length();
+  }
+  if (optionalParameterTypes != nullptr) {
+    num -= optionalParameterTypes->get_Length();
+  }
+  if ((callingConvention & CallingConventions::HasThis) == CallingConventions::HasThis) {
+    num--;
+  }
+  num--;
+  UpdateStackSize(OpCodes::in::Calli, num);
+  RecordTokenFixup();
+  PutInteger4(moduleBuilder->GetSignatureToken(memberRefSignature).get_Token());
 }
 
 void ILGenerator___::EmitCalli(OpCode opcode, CallingConvention unmanagedCallConv, Type returnType, Array<Type> parameterTypes) {
@@ -324,6 +342,18 @@ void ILGenerator___::EmitCalli(OpCode opcode, CallingConvention unmanagedCallCon
       methodSigHelper->AddArgument(parameterTypes[i]);
     }
   }
+  if (returnType != rt::typeof<void>()) {
+    num++;
+  }
+  if (parameterTypes != nullptr) {
+    num -= num2;
+  }
+  num--;
+  UpdateStackSize(OpCodes::in::Calli, num);
+  EnsureCapacity(7);
+  Emit(OpCodes::in::Calli);
+  RecordTokenFixup();
+  PutInteger4(moduleBuilder->GetSignatureToken(methodSigHelper).get_Token());
 }
 
 void ILGenerator___::EmitCall(OpCode opcode, MethodInfo methodInfo, Array<Type> optionalParameterTypes) {
@@ -337,6 +367,22 @@ void ILGenerator___::EmitCall(OpCode opcode, MethodInfo methodInfo, Array<Type> 
   Int32 methodToken = GetMethodToken(methodInfo, optionalParameterTypes, false);
   EnsureCapacity(7);
   InternalEmit(opcode);
+  if (methodInfo->get_ReturnType() != rt::typeof<void>()) {
+    num++;
+  }
+  Array<Type> parameterTypes = methodInfo->GetParameterTypes();
+  if (parameterTypes != nullptr) {
+    num -= parameterTypes->get_Length();
+  }
+  if (!rt::is<SymbolMethod>(methodInfo) && !methodInfo->get_IsStatic() && !opcode.Equals(OpCodes::in::Newobj)) {
+    num--;
+  }
+  if (optionalParameterTypes != nullptr) {
+    num -= optionalParameterTypes->get_Length();
+  }
+  UpdateStackSize(opcode, num);
+  RecordTokenFixup();
+  PutInteger4(methodToken);
 }
 
 void ILGenerator___::Emit(OpCode opcode, SignatureHelper signature) {
@@ -653,6 +699,15 @@ void ILGenerator___::ThrowException(Type excType) {
   if (excType == nullptr) {
     rt::throw_exception<ArgumentNullException>("excType");
   }
+  if (!excType->IsSubclassOf(rt::typeof<Exception>()) && excType != rt::typeof<Exception>()) {
+    rt::throw_exception<ArgumentException>(SR::get_Argument_NotExceptionType());
+  }
+  ConstructorInfo constructor = excType->GetConstructor(Type::in::EmptyTypes);
+  if (constructor == nullptr) {
+    rt::throw_exception<ArgumentException>(SR::get_Argument_MissingDefaultConstructor());
+  }
+  Emit(OpCodes::in::Newobj, constructor);
+  Emit(OpCodes::in::Throw);
 }
 
 Type ILGenerator___::GetConsoleType() {

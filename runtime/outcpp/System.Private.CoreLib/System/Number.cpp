@@ -300,11 +300,33 @@ UInt32 Number::BigInteger::HeuristicDivide(BigInteger& dividend, BigInteger& div
     Int32 num4 = 0;
     UInt64 num5 = 0;
     UInt64 num6 = 0;
+    do {
+      UInt64 num7 = (UInt64)((Int64)divisor._blocks[num4] * (Int64)num3) + num6;
+      num6 = num7 >> 32;
+      UInt64 num8 = (UInt64)((Int64)dividend._blocks[num4] - (Int64)(UInt32)num7) - num5;
+      num5 = ((num8 >> 32) & 1);
+      dividend._blocks[num4] = (UInt32)num8;
+      num4++;
+    } while (num4 < num)
+    while (num > 0 && dividend._blocks[num - 1] == 0) {
+      num--;
+    }
+    dividend._length = num;
   }
   if (Compare(dividend, divisor) >= 0) {
     num3++;
     Int32 num9 = 0;
     UInt64 num10 = 0;
+    do {
+      UInt64 num11 = (UInt64)((Int64)dividend._blocks[num9] - (Int64)divisor._blocks[num9]) - num10;
+      num10 = ((num11 >> 32) & 1);
+      dividend._blocks[num9] = (UInt32)num11;
+      num9++;
+    } while (num9 < num)
+    while (num > 0 && dividend._blocks[num - 1] == 0) {
+      num--;
+    }
+    dividend._length = num;
   }
   return num3;
 }
@@ -367,6 +389,14 @@ void Number::BigInteger::Multiply(BigInteger& lhs, BigInteger& rhs, BigInteger& 
       Int32 num4 = 0;
       Int32 num5 = num3;
       UInt64 num6 = 0;
+      do {
+        UInt64 num7 = (UInt64)(result._blocks[num5] + (Int64)reference2._blocks[num2] * (Int64)reference._blocks[num4]) + num6;
+        num6 = num7 >> 32;
+        result._blocks[num5] = (UInt32)num7;
+        num5++;
+        num4++;
+      } while (num4 < length)
+      result._blocks[num5] = (UInt32)num6;
     }
     num2++;
     num3++;
@@ -387,6 +417,28 @@ void Number::BigInteger::Pow2(UInt32 exponent, BigInteger& result) {
 }
 
 void Number::BigInteger::Pow10(UInt32 exponent, BigInteger& result) {
+  BigInteger result2;
+  SetUInt32(result2, s_Pow10UInt32Table[exponent & 7]);
+  BigInteger& reference = result2;
+  BigInteger result3;
+  SetZero(result3);
+  BigInteger& reference2 = result3;
+  exponent >>= 3;
+  UInt32 num = 0u;
+  while (exponent != 0) {
+    if ((exponent & 1) != 0) {
+      {
+        UInt32* ptr = &s_Pow10BigNumTable[s_Pow10BigNumTableIndices[num]];
+        Multiply(reference, *(BigInteger*)ptr, reference2);
+      }
+      BigInteger& reference3 = reference2;
+      reference2 = reference;
+      reference = reference3;
+    }
+    num++;
+    exponent >>= 1;
+  }
+  SetValue(result, reference);
 }
 
 UInt32 Number::BigInteger::AddDivisor(BigInteger& lhs, Int32 lhsStartIndex, BigInteger& rhs) {
@@ -483,6 +535,9 @@ void Number::BigInteger::Multiply(UInt32 value) {
 }
 
 void Number::BigInteger::Multiply(BigInteger& value) {
+  BigInteger result;
+  SetValue(result, *this);
+  Multiply(result, value, *this);
 }
 
 void Number::BigInteger::Multiply10() {
@@ -505,6 +560,13 @@ void Number::BigInteger::Multiply10() {
 
 void Number::BigInteger::MultiplyPow10(UInt32 exponent) {
   if (!IsZero()) {
+    BigInteger result;
+    Pow10(exponent, result);
+    if (result._length == 1) {
+      Multiply(*result._blocks);
+    } else {
+      Multiply(result);
+    }
   }
 }
 
@@ -608,6 +670,11 @@ Boolean Number::Grisu3::TryRunDouble(Double value, Int32 requestedDigits, Number
   Int32 length;
   Int32 decimalExponent;
   if (requestedDigits == -1) {
+    DiyFp mMinus;
+    DiyFp mPlus;
+    diyFp = DiyFp::CreateAndGetBoundaries(value2, mMinus, mPlus);
+    DiyFp w = diyFp.Normalize();
+    flag = TryRunShortest(mMinus, w, mPlus, number.Digits, length, decimalExponent);
   } else {
     diyFp = DiyFp(value2);
     DiyFp w2 = diyFp.Normalize();
@@ -628,6 +695,11 @@ Boolean Number::Grisu3::TryRunSingle(Single value, Int32 requestedDigits, Number
   Int32 length;
   Int32 decimalExponent;
   if (requestedDigits == -1) {
+    DiyFp mMinus;
+    DiyFp mPlus;
+    diyFp = DiyFp::CreateAndGetBoundaries(value2, mMinus, mPlus);
+    DiyFp w = diyFp.Normalize();
+    flag = TryRunShortest(mMinus, w, mPlus, number.Digits, length, decimalExponent);
   } else {
     diyFp = DiyFp(value2);
     DiyFp w2 = diyFp.Normalize();
@@ -838,6 +910,10 @@ UInt32 Number::Dragon4(UInt64 mantissa, Int32 exponent, UInt32 mantissaHighBitId
   Boolean flag = mantissa % 2 == 0;
   Boolean flag2 = false;
   if (cutoffNumber == -1) {
+    BigInteger result6;
+    BigInteger::Add(result, *ptr, result6);
+    Int32 num3 = BigInteger::Compare(result6, result2);
+    flag2 = (flag ? (num3 >= 0) : (num3 > 0));
   } else {
     flag2 = (BigInteger::Compare(result, result2) >= 0);
   }
@@ -872,6 +948,28 @@ UInt32 Number::Dragon4(UInt64 mantissa, Int32 exponent, UInt32 mantissaHighBitId
   if (cutoffNumber == -1) {
     while (true) {
       num7 = BigInteger::HeuristicDivide(result, result2);
+      BigInteger result7;
+      BigInteger::Add(result, *ptr, result7);
+      Int32 num8 = BigInteger::Compare(result, result3);
+      Int32 num9 = BigInteger::Compare(result7, result2);
+      if (flag) {
+        flag3 = (num8 <= 0);
+        flag4 = (num9 >= 0);
+      } else {
+        flag3 = (num8 < 0);
+        flag4 = (num9 > 0);
+      }
+      if (flag3 || flag4 || num2 == num4) {
+        break;
+      }
+      buffer[num] = (Byte)(48 + num7);
+      num++;
+      result.Multiply10();
+      result3.Multiply10();
+      if (ptr != &result3) {
+        BigInteger::Multiply(result3, 2u, *ptr);
+      }
+      num2--;
     }
   } else {
     if (num2 < num4) {
@@ -989,6 +1087,10 @@ String Number::FormatDouble(Double value, String format, NumberFormatInfo info) 
   Char default[32] = {};
   Span<Char> initialBuffer = default;
   ValueStringBuilder sb = ValueStringBuilder(initialBuffer);
+  auto extern = FormatDouble(sb, value, format, info);
+  if (extern != nullptr) extern = sb.ToString();
+
+  return extern;
 }
 
 Boolean Number::TryFormatDouble(Double value, ReadOnlySpan<Char> format, NumberFormatInfo info, Span<Char> destination, Int32& charsWritten) {
@@ -1098,6 +1200,10 @@ String Number::FormatSingle(Single value, String format, NumberFormatInfo info) 
   Char default[32] = {};
   Span<Char> initialBuffer = default;
   ValueStringBuilder sb = ValueStringBuilder(initialBuffer);
+  auto extern = FormatSingle(sb, value, format, info);
+  if (extern != nullptr) extern = sb.ToString();
+
+  return extern;
 }
 
 Boolean Number::TryFormatSingle(Single value, ReadOnlySpan<Char> format, NumberFormatInfo info, Span<Char> destination, Int32& charsWritten) {
@@ -1534,12 +1640,18 @@ void Number::UInt32ToNumber(UInt32 value, NumberBuffer& number) {
 
 Byte* Number::UInt32ToDecChars(Byte* bufferEnd, UInt32 value, Int32 digits) {
   while (--digits >= 0 || value != 0) {
+    UInt32 result;
+    value = Math::DivRem(value, 10u, result);
+    *(--bufferEnd) = (Byte)(result + 48);
   }
   return bufferEnd;
 }
 
 Char* Number::UInt32ToDecChars(Char* bufferEnd, UInt32 value, Int32 digits) {
   while (--digits >= 0 || value != 0) {
+    UInt32 result;
+    value = Math::DivRem(value, 10u, result);
+    *(--bufferEnd) = (Char)(result + 48);
   }
   return bufferEnd;
 }
@@ -1554,6 +1666,11 @@ String Number::UInt32ToDecStr(UInt32 value) {
     Char* ptr = text;
     Char* ptr2 = ptr;
     Char* ptr3 = ptr2 + num;
+    do {
+      UInt32 result;
+      value = Math::DivRem(value, 10u, result);
+      *(--ptr3) = (Char)(result + 48);
+    } while (value != 0)
   }
   return text;
 }
@@ -1584,6 +1701,11 @@ Boolean Number::TryUInt32ToDecStr(UInt32 value, Int32 digits, Span<Char> destina
     Char* ptr = &MemoryMarshal::GetReference(destination);
     Char* ptr2 = ptr + num;
     if (digits <= 1) {
+      do {
+        UInt32 result;
+        value = Math::DivRem(value, 10u, result);
+        *(--ptr2) = (Char)(result + 48);
+      } while (value != 0)
     } else {
       ptr2 = UInt32ToDecChars(ptr2, value, digits);
     }
@@ -2105,6 +2227,9 @@ void Number::FormatFixed(ValueStringBuilder& sb, NumberBuffer& number, Int32 nMa
         ptr += num7;
       }
     } else {
+      do {
+        sb.Append((Char)((*ptr != 0) ? (*(ptr++)) : 48));
+      } while (--num > 0)
     }
   } else {
     sb.Append(48);
@@ -2161,6 +2286,9 @@ void Number::FormatGeneral(ValueStringBuilder& sb, NumberBuffer& number, Int32 n
   }
   Byte* digitsPointer = number.GetDigitsPointer();
   if (i > 0) {
+    do {
+      sb.Append((Char)((*digitsPointer != 0) ? (*(digitsPointer++)) : 48));
+    } while (--i > 0)
   } else {
     sb.Append(48);
   }
@@ -2427,6 +2555,68 @@ UInt64 Number::NumberToFloatingPointBitsSlow(NumberBuffer& number, FloatingPoint
   UInt32 digitsCount = (UInt32)number.DigitsCount;
   UInt32 num2 = positiveExponent - integerDigitsPresent;
   UInt32 lastIndex = digitsCount;
+  BigInteger result;
+  AccumulateDecimalDigitsIntoBigInteger(number, 0u, integerDigitsPresent, result);
+  if (num2 != 0) {
+    if (num2 > info.get_OverflowDecimalExponent()) {
+      return info.get_InfinityBits();
+    }
+    result.MultiplyPow10(num2);
+  }
+  UInt32 num3 = BigInteger::CountSignificantBits(result);
+  if (num3 >= num || fractionalDigitsPresent == 0) {
+    return ConvertBigIntegerToFloatingPointBits(result, info, num3, fractionalDigitsPresent != 0);
+  }
+  UInt32 num4 = fractionalDigitsPresent;
+  if (number.Scale < 0) {
+  }
+  if (num3 == 0 && num4 - (Int32)digitsCount > info.get_OverflowDecimalExponent()) {
+    return info.get_ZeroBits();
+  }
+  BigInteger result2;
+  AccumulateDecimalDigitsIntoBigInteger(number, integerDigitsPresent, lastIndex, result2);
+  if (result2.IsZero()) {
+    return ConvertBigIntegerToFloatingPointBits(result, info, num3, fractionalDigitsPresent != 0);
+  }
+  BigInteger result3;
+  BigInteger::Pow10(num4, result3);
+  UInt32 num5 = BigInteger::CountSignificantBits(result2);
+  UInt32 num6 = BigInteger::CountSignificantBits(result3);
+  UInt32 num7 = 0u;
+  if (num6 > num5) {
+    num7 = num6 - num5;
+  }
+  if (num7 != 0) {
+    result2.ShiftLeft(num7);
+  }
+  UInt32 num8 = num - num3;
+  UInt32 num9 = num8;
+  if (num3 != 0) {
+    if (num7 > num9) {
+      return ConvertBigIntegerToFloatingPointBits(result, info, num3, fractionalDigitsPresent != 0);
+    }
+    num9 -= num7;
+  }
+  UInt32 num10 = num7;
+  if (BigInteger::Compare(result2, result3) < 0) {
+    num10++;
+  }
+  result2.ShiftLeft(num9);
+  BigInteger quo;
+  BigInteger rem;
+  BigInteger::DivRem(result2, result3, quo, rem);
+  UInt64 num11 = quo.ToUInt64();
+  Boolean flag = !number.HasNonZeroTail && rem.IsZero();
+  UInt32 num12 = BigInteger::CountSignificantBits(num11);
+  if (num12 > num8) {
+    Int32 num13 = (Int32)(num12 - num8);
+    flag = (flag && ((Int64)num11 & ((1 << num13) - 1)) == 0);
+    num11 >>= num13;
+  }
+  UInt64 num14 = result.ToUInt64();
+  UInt64 initialMantissa = (num14 << (Int32)num8) + num11;
+  Int32 initialExponent = (Int32)((num3 != 0) ? (num3 - 2) : (0 - num10 - 1));
+  return AssembleFloatingPointBits(info, initialMantissa, initialExponent, flag);
 }
 
 UInt64 Number::RightShiftWithRounding(UInt64 value, Int32 shift, Boolean hasZeroTail) {
@@ -2675,6 +2865,19 @@ Boolean Number::TryParseNumber(Char*& str, Char* strEnd, NumberStyles styles, Nu
 
       if (IsDigit(c)) {
         Int32 num5 = 0;
+        do {
+          num5 = num5 * 10 + (c - 48);
+          c = ((++ptr < strEnd) ? (*ptr) : 0);
+          if (num5 > 1000) {
+            num5 = 9999;
+            while (IsDigit(c)) {
+              c = ((++ptr < strEnd) ? (*ptr) : 0);
+            }
+          }
+        } while (IsDigit(c))
+        if (flag2) {
+        }
+        number.Scale += num5;
       } else {
         ptr = ptr3;
         c = ((ptr < strEnd) ? (*ptr) : 0);
@@ -3016,9 +3219,19 @@ Boolean Number::TryNumberToDecimal(NumberBuffer& number, Decimal& value) {
 }
 
 Double Number::ParseDouble(ReadOnlySpan<Char> value, NumberStyles styles, NumberFormatInfo info) {
+  Double result;
+  if (!TryParseDouble(value, styles, info, result)) {
+    ThrowOverflowOrFormatException(ParsingStatus::Failed);
+  }
+  return result;
 }
 
 Single Number::ParseSingle(ReadOnlySpan<Char> value, NumberStyles styles, NumberFormatInfo info) {
+  Single result;
+  if (!TryParseSingle(value, styles, info, result)) {
+    ThrowOverflowOrFormatException(ParsingStatus::Failed);
+  }
+  return result;
 }
 
 Number::ParsingStatus Number::TryParseDecimal(ReadOnlySpan<Char> value, NumberStyles styles, NumberFormatInfo info, Decimal& result) {

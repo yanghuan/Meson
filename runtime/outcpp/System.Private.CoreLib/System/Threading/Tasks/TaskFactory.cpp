@@ -10,6 +10,10 @@ Boolean TaskFactory___<>::CompleteOnCountdownPromise___<>::get_InvokeMayRunArbit
 }
 
 Boolean TaskFactory___<>::CompleteOnCountdownPromise___<>::get_ShouldNotifyDebuggerOfWaitCompletion() {
+  if (Task::get_ShouldNotifyDebuggerOfWaitCompletion()) {
+    return Task::in::AnyTaskRequiresNotifyDebuggerOfWaitCompletion(_tasks);
+  }
+  return false;
 }
 
 Boolean TaskFactory___<>::CompleteOnInvokePromise___::get_InvokeMayRunArbitraryCode() {
@@ -50,6 +54,10 @@ void TaskFactory___<>::CompleteOnInvokePromise___::Invoke(Task<> completingTask)
 }
 
 TaskScheduler TaskFactory___<>::get_DefaultScheduler() {
+  auto default = m_defaultScheduler;
+  if (default != nullptr) default = TaskScheduler::in::get_Current();
+
+  return default;
 }
 
 CancellationToken TaskFactory___<>::get_CancellationToken() {

@@ -736,6 +736,19 @@ namespace Meson.Compiler {
       WriteNewLine();
     }
 
+    internal void Render(DoWhileStatementSyntax node) {
+      Write(Tokens.Do);
+      WriteSpace();
+      node.EmbeddedStatement.Render(this);
+      WriteSpace();
+      Write(Tokens.While);
+      WriteSpace();
+      Write(Tokens.OpenParentheses);
+      node.Condition.Render(this);
+      Write(Tokens.CloseParentheses);
+      WriteNewLine();
+    }
+
     internal void Render(BinaryExpressionSyntax node) {
       node.Left.Render(this);
       WriteSpace();

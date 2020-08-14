@@ -196,6 +196,15 @@ Int32 SpanHelpers::IndexOf(Byte& searchSpace, Byte value, Int32 length) {
         num2 = GetByteVector256SpanLength(num, length);
         if (num2 > num) {
           Vector256<Byte> left2 = Vector256::Create(value);
+          do {
+            Vector256<Byte> right2 = LoadVector256(searchSpace, num);
+            Int32 num4 = Avx2::in::MoveMask(Avx2::in::CompareEqual(left2, right2));
+            if (num4 == 0) {
+              num += (UIntPtr)Vector256<Byte>::get_Count();
+              continue;
+            }
+            return (Int32)(num + (UInt32)BitOperations::TrailingZeroCount(num4));
+          } while (num2 > num)
         }
         num2 = GetByteVector128SpanLength(num, length);
         if (num2 > num) {
@@ -422,6 +431,15 @@ Int32 SpanHelpers::IndexOfAny(Byte& searchSpace, Byte value0, Byte value1, Int32
         if (num2 > num) {
           Vector256<Byte> left = Vector256::Create(value0);
           Vector256<Byte> left2 = Vector256::Create(value1);
+          do {
+            Vector256<Byte> right = LoadVector256(searchSpace, num);
+            Int32 num4 = Avx2::in::MoveMask(Avx2::in::Or(Avx2::in::CompareEqual(left, right), Avx2::in::CompareEqual(left2, right)));
+            if (num4 == 0) {
+              num += (UIntPtr)Vector256<Byte>::get_Count();
+              continue;
+            }
+            return (Int32)(num + (UInt32)BitOperations::TrailingZeroCount(num4));
+          } while (num2 > num)
         }
         num2 = GetByteVector128SpanLength(num, length);
         if (num2 > num) {
@@ -555,6 +573,18 @@ Int32 SpanHelpers::IndexOfAny(Byte& searchSpace, Byte value0, Byte value1, Byte 
           Vector256<Byte> left = Vector256::Create(value0);
           Vector256<Byte> left2 = Vector256::Create(value1);
           Vector256<Byte> left3 = Vector256::Create(value2);
+          do {
+            Vector256<Byte> right = LoadVector256(searchSpace, num);
+            Vector256<Byte> left4 = Avx2::in::CompareEqual(left, right);
+            Vector256<Byte> right2 = Avx2::in::CompareEqual(left2, right);
+            Vector256<Byte> right3 = Avx2::in::CompareEqual(left3, right);
+            Int32 num4 = Avx2::in::MoveMask(Avx2::in::Or(Avx2::in::Or(left4, right2), right3));
+            if (num4 == 0) {
+              num += (UIntPtr)Vector256<Byte>::get_Count();
+              continue;
+            }
+            return (Int32)(num + (UInt32)BitOperations::TrailingZeroCount(num4));
+          } while (num2 > num)
         }
         num2 = GetByteVector128SpanLength(num, length);
         if (num2 > num) {
@@ -1201,6 +1231,16 @@ Int32 SpanHelpers::IndexOf(Char& searchSpace, Char value, Int32 length) {
         num2 = GetCharVector256SpanLength(num, length);
         if (num2 > 0) {
           Vector256<UInt16> left2 = Vector256::Create(value);
+          do {
+            Vector256<UInt16> right2 = LoadVector256(searchSpace, num);
+            Int32 num4 = Avx2::in::MoveMask(Vector256::AsByte(Avx2::in::CompareEqual(left2, right2)));
+            if (num4 == 0) {
+              num += Vector256<UInt16>::get_Count();
+              num2 -= Vector256<UInt16>::get_Count();
+              continue;
+            }
+            return (Int32)(num + (UInt32)BitOperations::TrailingZeroCount(num4) / 2u);
+          } while (num2 > 0)
         }
         num2 = GetCharVector128SpanLength(num, length);
         if (num2 > 0) {
@@ -1222,6 +1262,16 @@ Int32 SpanHelpers::IndexOf(Char& searchSpace, Char value, Int32 length) {
         num2 = GetCharVector128SpanLength(num, length);
         if (num2 > 0) {
           Vector128<UInt16> left4 = Vector128::Create(value);
+          do {
+            Vector128<UInt16> right4 = LoadVector128(searchSpace, num);
+            Int32 num6 = Sse2::in::MoveMask(Vector128::AsByte(Sse2::in::CompareEqual(left4, right4)));
+            if (num6 == 0) {
+              num += Vector128<UInt16>::get_Count();
+              num2 -= Vector128<UInt16>::get_Count();
+              continue;
+            }
+            return (Int32)(num + (UInt32)BitOperations::TrailingZeroCount(num6) / 2u);
+          } while (num2 > 0)
         }
         if (num < length) {
           num2 = length - num;
@@ -1232,6 +1282,15 @@ Int32 SpanHelpers::IndexOf(Char& searchSpace, Char value, Int32 length) {
       num2 = GetCharVectorSpanLength(num, length);
       if (num2 > 0) {
         Vector<UInt16> left5 = Vector<UInt16>(value);
+        do {
+          Vector<UInt16> vector = Vector::Equals(left5, LoadVector(searchSpace, num));
+          if (Vector<UInt16>::get_Zero().Equals(vector)) {
+            num += Vector<UInt16>::get_Count();
+            num2 -= Vector<UInt16>::get_Count();
+            continue;
+          }
+          return (Int32)(num + LocateFirstFoundChar(vector));
+        } while (num2 > 0)
       }
       if (num < length) {
         num2 = length - num;

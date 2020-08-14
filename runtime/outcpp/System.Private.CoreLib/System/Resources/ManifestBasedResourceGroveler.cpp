@@ -4,6 +4,7 @@
 #include <System.Private.CoreLib/System/ArgumentException-dep.h>
 #include <System.Private.CoreLib/System/BadImageFormatException-dep.h>
 #include <System.Private.CoreLib/System/Byte-dep.h>
+#include <System.Private.CoreLib/System/Environment-dep.h>
 #include <System.Private.CoreLib/System/Int32-dep.h>
 #include <System.Private.CoreLib/System/Int64-dep.h>
 #include <System.Private.CoreLib/System/IO/BinaryReader-dep.h>
@@ -17,6 +18,7 @@
 #include <System.Private.CoreLib/System/Reflection/RuntimeAssembly-dep.h>
 #include <System.Private.CoreLib/System/Resources/FastResourceComparer-dep.h>
 #include <System.Private.CoreLib/System/Resources/IResourceReader.h>
+#include <System.Private.CoreLib/System/Resources/MissingManifestResourceException-dep.h>
 #include <System.Private.CoreLib/System/Resources/MissingSatelliteAssemblyException-dep.h>
 #include <System.Private.CoreLib/System/Resources/NeutralResourcesLanguageAttribute-dep.h>
 #include <System.Private.CoreLib/System/Resources/ResourceLocator-dep.h>
@@ -55,6 +57,11 @@ ResourceSet ManifestBasedResourceGroveler___::GrovelForResourceSet(CultureInfo c
   }
   String resourceFileName = _mediator->GetResourceFileName(cultureInfo);
   if (assembly != nullptr) {
+    {
+      rt::lock(localResourceSets);
+      localResourceSets->TryGetValue(culture->get_Name(), value);
+    }
+    stream = GetManifestResourceStream(assembly, resourceFileName);
   }
   if (createIfNotExists && stream != nullptr && value == nullptr) {
     value = CreateResourceSet(stream, assembly);
@@ -147,6 +154,10 @@ ResourceSet ManifestBasedResourceGroveler___::CreateResourceSet(Stream store, As
 }
 
 Stream ManifestBasedResourceGroveler___::GetManifestResourceStream(Assembly satellite, String fileName) {
+  auto default = satellite->GetManifestResourceStream(_mediator->get_LocationInfo(), fileName);
+  if (default != nullptr) default = CaseInsensitiveManifestResourceStreamLookup(satellite, fileName);
+
+  return default;
 }
 
 Stream ManifestBasedResourceGroveler___::CaseInsensitiveManifestResourceStreamLookup(Assembly satellite, String name) {
@@ -215,6 +226,15 @@ String ManifestBasedResourceGroveler___::GetManifestResourceNamesList(Assembly a
 }
 
 void ManifestBasedResourceGroveler___::HandleResourceStreamMissing(String fileName) {
+  if (_mediator->get_MainAssembly() == rt::typeof<Object>()->get_Assembly() && _mediator->get_BaseName()->Equals("System.Private.CoreLib")) {
+    Environment::FailFast("System.Private.CoreLib.resources couldn't be found!  Large parts of the BCL won't work!");
+  }
+  String str = String::in::Empty;
+  if (_mediator->get_LocationInfo() != nullptr && _mediator->get_LocationInfo()->get_Namespace() != nullptr) {
+    str = _mediator->get_LocationInfo()->get_Namespace() + Type::in::Delimiter;
+  }
+  str += fileName;
+  rt::throw_exception<MissingManifestResourceException>(SR::Format(SR::get_MissingManifestResource_NoNeutralAsm(), str, _mediator->get_MainAssembly()->GetName()->get_Name(), GetManifestResourceNamesList(_mediator->get_MainAssembly())));
 }
 
 } // namespace System::Private::CoreLib::System::Resources::ManifestBasedResourceGrovelerNamespace

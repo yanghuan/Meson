@@ -12,6 +12,7 @@
 #include <System.Private.CoreLib/System/Globalization/CultureInfo-dep.h>
 #include <System.Private.CoreLib/System/Globalization/DateTimeFormatInfo-dep.h>
 #include <System.Private.CoreLib/System/Globalization/DateTimeStyles.h>
+#include <System.Private.CoreLib/System/Math-dep.h>
 #include <System.Private.CoreLib/System/OverflowException-dep.h>
 #include <System.Private.CoreLib/System/Runtime/Serialization/SerializationException-dep.h>
 #include <System.Private.CoreLib/System/Runtime/Serialization/SerializationInfoEnumerator-dep.h>
@@ -41,6 +42,24 @@ DateTime::FullSystemTime::FullSystemTime(Int32 year, Int32 month, DayOfWeek dayO
 
 DateTime::FullSystemTime::FullSystemTime(Int64 ticks) {
   DateTime dateTime = DateTime(ticks);
+  Int32 year;
+  Int32 month;
+  Int32 day;
+  dateTime.GetDate(year, month, day);
+  Int32 hour;
+  Int32 minute;
+  Int32 second;
+  Int32 millisecond;
+  dateTime.GetTime(hour, minute, second, millisecond);
+  systemTime.Year = (UInt16)year;
+  systemTime.Month = (UInt16)month;
+  systemTime.DayOfWeek = (UInt16)dateTime.get_DayOfWeek();
+  systemTime.Day = (UInt16)day;
+  systemTime.Hour = (UInt16)hour;
+  systemTime.Minute = (UInt16)minute;
+  systemTime.Second = (UInt16)second;
+  systemTime.Milliseconds = (UInt16)millisecond;
+  hundredNanoSecond = 0;
 }
 
 Int64 DateTime::get_InternalTicks() {
@@ -361,6 +380,26 @@ DateTime DateTime::AddMonths(Int32 months) {
   if (months < -120000 || months > 120000) {
     rt::throw_exception<ArgumentOutOfRangeException>("months", SR::get_ArgumentOutOfRange_DateTimeBadMonths());
   }
+  Int32 year;
+  Int32 month;
+  Int32 day;
+  GetDate(year, month, day);
+  Int32 num = month - 1 + months;
+  if (num >= 0) {
+    month = num % 12 + 1;
+    year += num / 12;
+  } else {
+    month = 12 + (num + 1) % 12;
+    year += (num - 11) / 12;
+  }
+  if (year < 1 || year > 9999) {
+    rt::throw_exception<ArgumentOutOfRangeException>("months", SR::get_ArgumentOutOfRange_DateArithmetic());
+  }
+  Int32 num2 = DaysInMonth(year, month);
+  if (day > num2) {
+    day = num2;
+  }
+  return DateTime((UInt64)(DateToTicks(year, month, day) + get_InternalTicks() % 864000000000) | get_InternalKind());
 }
 
 DateTime DateTime::AddSeconds(Double value) {
@@ -480,6 +519,8 @@ DateTime DateTime::FromBinary(Int64 dateData) {
       ticks = TimeZoneInfo::in::GetLocalUtcOffset(MaxValue, TimeZoneInfoOptions::NoThrowOnInvalidTime).get_Ticks();
     } else {
       DateTime time = DateTime(num, DateTimeKind::Utc);
+      Boolean _;
+      ticks = TimeZoneInfo::in::GetUtcOffsetFromUtc(time, TimeZoneInfo::in::get_Local(), _, isAmbiguousLocalDst).get_Ticks();
     }
 
     num += ticks;
@@ -606,13 +647,35 @@ void DateTime::GetDate(Int32& year, Int32& month, Int32& day) {
 
 void DateTime::GetTime(Int32& hour, Int32& minute, Int32& second) {
   Int64 a = get_InternalTicks() / 10000000;
+  Int64 result;
+  a = Math::DivRem(a, 60, result);
+  second = (Int32)result;
+  a = Math::DivRem(a, 60, result);
+  minute = (Int32)result;
+  hour = (Int32)(a % 24);
 }
 
 void DateTime::GetTime(Int32& hour, Int32& minute, Int32& second, Int32& millisecond) {
   Int64 a = get_InternalTicks() / 10000;
+  Int64 result;
+  a = Math::DivRem(a, 1000, result);
+  millisecond = (Int32)result;
+  a = Math::DivRem(a, 60, result);
+  second = (Int32)result;
+  a = Math::DivRem(a, 60, result);
+  minute = (Int32)result;
+  hour = (Int32)(a % 24);
 }
 
 void DateTime::GetTimePrecise(Int32& hour, Int32& minute, Int32& second, Int32& tick) {
+  Int64 result;
+  Int64 a = Math::DivRem(get_InternalTicks(), 10000000, result);
+  tick = (Int32)result;
+  a = Math::DivRem(a, 60, result);
+  second = (Int32)result;
+  a = Math::DivRem(a, 60, result);
+  minute = (Int32)result;
+  hour = (Int32)(a % 24);
 }
 
 Int32 DateTime::GetHashCode() {

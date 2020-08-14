@@ -1,7 +1,10 @@
 #include "TraceLoggingTypeInfo-dep.h"
 
+#include <System.Private.CoreLib/System/ArgumentNullException-dep.h>
 #include <System.Private.CoreLib/System/Collections/Generic/Dictionary-dep.h>
+#include <System.Private.CoreLib/System/Diagnostics/Tracing/Statics-dep.h>
 #include <System.Private.CoreLib/System/Diagnostics/Tracing/TraceLoggingTypeInfo-dep.h>
+#include <System.Private.CoreLib/System/Int32-dep.h>
 
 namespace System::Private::CoreLib::System::Diagnostics::Tracing::TraceLoggingTypeInfoNamespace {
 using namespace System::Collections::Generic;
@@ -37,11 +40,33 @@ Func<Object, PropertyValue> TraceLoggingTypeInfo___::get_PropertyValueFactory() 
 void TraceLoggingTypeInfo___::ctor(Type dataType) {
   level = (EventLevel)(-1);
   opcode = (EventOpcode)(-1);
+  Object::ctor();
+  if (dataType == nullptr) {
+    rt::throw_exception<ArgumentNullException>("dataType");
+  }
+  name = dataType->get_Name();
+  this->dataType = dataType;
+  propertyValueFactory = PropertyValue::GetFactory(dataType);
 }
 
 void TraceLoggingTypeInfo___::ctor(Type dataType, String name, EventLevel level, EventOpcode opcode, EventKeywords keywords, EventTags tags) {
   this->level = (EventLevel)(-1);
   this->opcode = (EventOpcode)(-1);
+  Object::ctor();
+  if (dataType == nullptr) {
+    rt::throw_exception<ArgumentNullException>("dataType");
+  }
+  if (name == nullptr) {
+    rt::throw_exception<ArgumentNullException>("name");
+  }
+  Statics::CheckName(name);
+  this->name = name;
+  this->keywords = keywords;
+  this->level = level;
+  this->opcode = opcode;
+  this->tags = tags;
+  this->dataType = dataType;
+  propertyValueFactory = PropertyValue::GetFactory(dataType);
 }
 
 Object TraceLoggingTypeInfo___::GetData(Object value) {
@@ -49,6 +74,20 @@ Object TraceLoggingTypeInfo___::GetData(Object value) {
 }
 
 TraceLoggingTypeInfo TraceLoggingTypeInfo___::GetInstance(Type type, List<Type> recursionCheck) {
+  auto default = threadCache;
+  if (default != nullptr) default = (threadCache = rt::newobj<Dictionary<Type, TraceLoggingTypeInfo>>());
+
+  Dictionary<Type, TraceLoggingTypeInfo> dictionary = default;
+  TraceLoggingTypeInfo value;
+  if (!dictionary->TryGetValue(type, value)) {
+    if (recursionCheck == nullptr) {
+      recursionCheck = rt::newobj<List<Type>>();
+    }
+    Int32 count = recursionCheck->get_Count();
+    value = (dictionary[type] = Statics::CreateDefaultTypeInfo(type, recursionCheck));
+    recursionCheck->RemoveRange(count, recursionCheck->get_Count() - count);
+  }
+  return value;
 }
 
 } // namespace System::Private::CoreLib::System::Diagnostics::Tracing::TraceLoggingTypeInfoNamespace

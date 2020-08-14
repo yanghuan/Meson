@@ -46,6 +46,9 @@ StandardFormat StandardFormat::op_Implicit(Char symbol) {
 }
 
 StandardFormat StandardFormat::Parse(ReadOnlySpan<Char> format) {
+  StandardFormat standardFormat;
+  ParseHelper(format, standardFormat, true);
+  return standardFormat;
 }
 
 StandardFormat StandardFormat::Parse(String format) {

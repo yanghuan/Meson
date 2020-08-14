@@ -32,6 +32,7 @@
 #include <System.Private.Uri/System/Uri-dep.h>
 #include <System.Private.Uri/System/UriComponents.h>
 #include <System.Private.Uri/System/UriFormat.h>
+#include <System.Private.Uri/System/UriFormatException-dep.h>
 #include <System.Private.Uri/System/UriHelper-dep.h>
 #include <System.Private.Uri/System/UriKind.h>
 #include <System.Private.Uri/System/UriSyntaxFlags.h>
@@ -119,6 +120,10 @@ String Uri___::get_AbsolutePath() {
 String Uri___::get_PrivateAbsolutePath() {
   MoreInfo moreInfo = EnsureUriInfo()->get_MoreInfo();
   MoreInfo moreInfo2 = moreInfo;
+  auto default = moreInfo2->Path;
+  if (default != nullptr) default = (moreInfo2->Path = GetParts(UriComponents::Path | UriComponents::KeepDelimiter, UriFormat::UriEscaped));
+
+  return default;
 }
 
 String Uri___::get_AbsoluteUri() {
@@ -127,6 +132,10 @@ String Uri___::get_AbsoluteUri() {
   }
   MoreInfo moreInfo = EnsureUriInfo()->get_MoreInfo();
   MoreInfo moreInfo2 = moreInfo;
+  auto default = moreInfo2->AbsoluteUri;
+  if (default != nullptr) default = (moreInfo2->AbsoluteUri = GetParts(UriComponents::AbsoluteUri, UriFormat::UriEscaped));
+
+  return default;
 }
 
 String Uri___::get_LocalPath() {
@@ -268,6 +277,10 @@ String Uri___::get_Query() {
   }
   MoreInfo moreInfo = EnsureUriInfo()->get_MoreInfo();
   MoreInfo moreInfo2 = moreInfo;
+  auto default = moreInfo2->Query;
+  if (default != nullptr) default = (moreInfo2->Query = GetParts(UriComponents::Query | UriComponents::KeepDelimiter, UriFormat::UriEscaped));
+
+  return default;
 }
 
 String Uri___::get_Fragment() {
@@ -276,6 +289,10 @@ String Uri___::get_Fragment() {
   }
   MoreInfo moreInfo = EnsureUriInfo()->get_MoreInfo();
   MoreInfo moreInfo2 = moreInfo;
+  auto default = moreInfo2->Fragment;
+  if (default != nullptr) default = (moreInfo2->Fragment = GetParts(UriComponents::Fragment | UriComponents::KeepDelimiter, UriFormat::UriEscaped));
+
+  return default;
 }
 
 String Uri___::get_Scheme() {
@@ -286,6 +303,10 @@ String Uri___::get_Scheme() {
 }
 
 String Uri___::get_OriginalString() {
+  auto default = _originalUnicodeString;
+  if (default != nullptr) default = _string;
+
+  return default;
 }
 
 String Uri___::get_DnsSafeHost() {
@@ -329,6 +350,10 @@ void Uri___::InterlockedSetFlags(Flags flags) {
   if (_syntax->get_IsSimple()) {
     Interlocked::Or(Unsafe::As<Flags, UInt64>(_flags), (UInt64)flags);
     return;
+  }
+  {
+    rt::lock(_info);
+    _flags |= flags;
   }
 }
 
@@ -447,6 +472,11 @@ void Uri___::CreateUri(Uri baseUri, String relativeUri, Boolean dontEscape) {
     }
   } else {
     dontEscape = false;
+    UriFormatException parsingError;
+    relativeUri = baseUri->get_Syntax()->InternalResolve(baseUri, (Uri)this, parsingError);
+    if (parsingError != nullptr) {
+      rt::throw_exception(parsingError);
+    }
   }
   _flags = Flags::Zero;
   _info = nullptr;
@@ -475,6 +505,11 @@ void Uri___::ctor(Uri baseUri, Uri relativeUri) {
     }
   } else {
     userEscaped = false;
+    UriFormatException parsingError;
+    newUriString = baseUri->get_Syntax()->InternalResolve(baseUri, (Uri)this, parsingError);
+    if (parsingError != nullptr) {
+      rt::throw_exception(parsingError);
+    }
   }
   _flags = Flags::Zero;
   _info = nullptr;
@@ -740,6 +775,14 @@ Int32 Uri___::GetHashCode() {
   }
   MoreInfo moreInfo = EnsureUriInfo()->get_MoreInfo();
   MoreInfo moreInfo2 = moreInfo;
+  auto default = moreInfo2->RemoteUrl;
+  if (default != nullptr) default = (moreInfo2->RemoteUrl = GetParts(UriComponents::HttpRequestUrl, UriFormat::SafeUnescaped));
+
+  String text = default;
+  if (get_IsUncOrDosPath()) {
+    return text->GetHashCode(StringComparison::OrdinalIgnoreCase);
+  }
+  return text->GetHashCode();
 }
 
 String Uri___::ToString() {
@@ -851,6 +894,16 @@ Boolean Uri___::Equals(Object comparand) {
   MoreInfo moreInfo = _info->get_MoreInfo();
   MoreInfo moreInfo2 = result->_info->get_MoreInfo();
   MoreInfo moreInfo3 = moreInfo;
+  auto default = moreInfo3->RemoteUrl;
+  if (default != nullptr) default = (moreInfo3->RemoteUrl = GetParts(UriComponents::HttpRequestUrl, UriFormat::SafeUnescaped));
+
+  String a = default;
+  moreInfo3 = moreInfo2;
+  auto extern = moreInfo3->RemoteUrl;
+  if (extern != nullptr) extern = (moreInfo3->RemoteUrl = result->GetParts(UriComponents::HttpRequestUrl, UriFormat::SafeUnescaped));
+
+  String b = extern;
+  return String::in::Equals(a, b, get_IsUncOrDosPath() ? StringComparison::OrdinalIgnoreCase : StringComparison::Ordinal);
 }
 
 Uri Uri___::MakeRelativeUri(Uri uri) {
@@ -1142,6 +1195,15 @@ void Uri___::CreateUriInfo(Flags cF) {
 
 void Uri___::CreateHostString() {
   if (!_syntax->get_IsSimple()) {
+    {
+      rt::lock(_info);
+      if (NotAny(Flags::ErrorOrParsingRecursion)) {
+        _flags |= Flags::ErrorOrParsingRecursion;
+        GetHostViaCustomSyntax();
+        _flags &= ~Flags::ErrorOrParsingRecursion;
+        return;
+      }
+    }
   }
   Flags flags = _flags;
   String text = CreateHostStringHelper(_string, _info->Offset.Host, _info->Offset.Path, flags, _info->ScopeId);
@@ -2099,6 +2161,8 @@ Uri::in::Check Uri___::CheckCanonical(Char* str, Int32& idx, Int32 end, Char del
         check |= Check::FoundNonAscii;
         if (Char::IsHighSurrogate(c)) {
           if (i + 1 < end) {
+            Boolean _;
+            flag3 = IriHelper::CheckIriUnicodeRange(c, str[i + 1], _, true);
           }
         } else {
           flag3 = IriHelper::CheckIriUnicodeRange(c, true);
@@ -2613,6 +2677,19 @@ void Uri___::CreateThis(String uri, Boolean dontEscape, UriKind uriKind) {
   if (uriKind < UriKind::RelativeOrAbsolute || uriKind > UriKind::Relative) {
     rt::throw_exception<ArgumentException>(SR::Format(SR::get_net_uri_InvalidUriKind(), uriKind));
   }
+  auto default = uri;
+  if (default != nullptr) default = String::in::Empty;
+
+  _string = (default);
+  if (dontEscape) {
+    _flags |= Flags::UserEscaped;
+  }
+  ParsingError err = ParseScheme(_string, _flags, _syntax);
+  UriFormatException e;
+  InitializeUri(err, uriKind, e);
+  if (e != nullptr) {
+    rt::throw_exception(e);
+  }
 }
 
 void Uri___::InitializeUri(ParsingError err, UriKind uriKind, UriFormatException& e) {
@@ -2739,6 +2816,16 @@ Boolean Uri___::TryCreate(String uriString, UriKind uriKind, Uri& result) {
 }
 
 Boolean Uri___::TryCreate(Uri baseUri, String relativeUri, Uri& result) {
+  Uri result2;
+  if (TryCreate(relativeUri, UriKind::RelativeOrAbsolute, result2)) {
+    if (!result2->get_IsAbsoluteUri()) {
+      return TryCreate(baseUri, result2, result);
+    }
+    result = result2;
+    return true;
+  }
+  result = nullptr;
+  return false;
 }
 
 Boolean Uri___::TryCreate(Uri baseUri, Uri relativeUri, Uri& result) {
@@ -2820,6 +2907,11 @@ Boolean Uri___::IsWellFormedOriginalString() {
 }
 
 Boolean Uri___::IsWellFormedUriString(String uriString, UriKind uriKind) {
+  Uri result;
+  if (!TryCreate(uriString, uriKind, result)) {
+    return false;
+  }
+  return result->IsWellFormedOriginalString();
 }
 
 Boolean Uri___::InternalIsWellFormedOriginalString() {

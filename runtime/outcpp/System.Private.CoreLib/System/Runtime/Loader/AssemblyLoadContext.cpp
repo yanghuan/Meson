@@ -72,6 +72,10 @@ String AssemblyLoadContext___::get_Name() {
 IEnumerable<AssemblyLoadContext> AssemblyLoadContext___::get_All() {
   _ = get_Default();
   List<WeakReference<AssemblyLoadContext>> list = nullptr;
+  {
+    rt::lock(s_allContexts);
+    list = rt::newobj<List<WeakReference<AssemblyLoadContext>>>(s_allContexts->get_Values());
+  }
 }
 
 AssemblyLoadContext AssemblyLoadContext___::get_CurrentContextualReflectionContext() {
@@ -98,6 +102,13 @@ Assembly AssemblyLoadContext___::InternalLoad(ReadOnlySpan<Byte> arrAssembly, Re
 Assembly AssemblyLoadContext___::LoadFromInMemoryModule(IntPtr moduleHandle) {
   if (moduleHandle == IntPtr::Zero) {
     rt::throw_exception<ArgumentNullException>("moduleHandle");
+  }
+  {
+    rt::lock(_unloadLock);
+    VerifyIsAlive();
+    RuntimeAssembly o = nullptr;
+    LoadFromInMemoryModuleInternal(_nativeAssemblyLoadContext, moduleHandle, ObjectHandleOnStack::Create(o));
+    return o;
   }
 }
 
@@ -185,6 +196,11 @@ void AssemblyLoadContext___::ctor(Boolean representsTPALoadContext, Boolean isCo
   GCHandle value = GCHandle::Alloc((AssemblyLoadContext)this, get_IsCollectible() ? GCHandleType::WeakTrackResurrection : GCHandleType::Normal);
   IntPtr ptrAssemblyLoadContext = GCHandle::ToIntPtr(value);
   _nativeAssemblyLoadContext = InitializeAssemblyLoadContext(ptrAssemblyLoadContext, representsTPALoadContext, isCollectible);
+  {
+    rt::lock(s_allContexts);
+    _id = s_nextId++;
+    s_allContexts->Add(_id, rt::newobj<WeakReference<AssemblyLoadContext>>((AssemblyLoadContext)this, true));
+  }
 }
 
 void AssemblyLoadContext___::Finalize() {
@@ -198,6 +214,17 @@ void AssemblyLoadContext___::RaiseUnloadEvent() {
 
 void AssemblyLoadContext___::InitiateUnload() {
   RaiseUnloadEvent();
+  {
+    rt::lock(_unloadLock);
+    GCHandle value = GCHandle::Alloc((AssemblyLoadContext)this, GCHandleType::Normal);
+    IntPtr ptrAssemblyLoadContextStrong = GCHandle::ToIntPtr(value);
+    PrepareForAssemblyLoadContextRelease(_nativeAssemblyLoadContext, ptrAssemblyLoadContextStrong);
+    _state = InternalState::Unloading;
+  }
+  {
+    rt::lock(s_allContexts);
+    s_allContexts->Remove(_id);
+  }
 }
 
 String AssemblyLoadContext___::ToString() {
@@ -230,6 +257,11 @@ Assembly AssemblyLoadContext___::LoadFromAssemblyPath(String assemblyPath) {
   if (PathInternal::IsPartiallyQualified(assemblyPath)) {
     rt::throw_exception<ArgumentException>(SR::Format(SR::get_Argument_AbsolutePathRequired(), assemblyPath), "assemblyPath");
   }
+  {
+    rt::lock(_unloadLock);
+    VerifyIsAlive();
+    return InternalLoadFromPath(assemblyPath, nullptr);
+  }
 }
 
 Assembly AssemblyLoadContext___::LoadFromNativeImagePath(String nativeImagePath, String assemblyPath) {
@@ -241,6 +273,11 @@ Assembly AssemblyLoadContext___::LoadFromNativeImagePath(String nativeImagePath,
   }
   if (assemblyPath != nullptr && PathInternal::IsPartiallyQualified(assemblyPath)) {
     rt::throw_exception<ArgumentException>(SR::Format(SR::get_Argument_AbsolutePathRequired(), assemblyPath), "assemblyPath");
+  }
+  {
+    rt::lock(_unloadLock);
+    VerifyIsAlive();
+    return InternalLoadFromPath(assemblyPath, nativeImagePath);
   }
 }
 
@@ -263,6 +300,11 @@ Assembly AssemblyLoadContext___::LoadFromStream(Stream assembly, Stream assembly
     Int32 num2 = (Int32)assemblySymbols->get_Length();
     array2 = rt::newarr<Array<Byte>>(num2);
     assemblySymbols->Read(array2, 0, num2);
+  }
+  {
+    rt::lock(_unloadLock);
+    VerifyIsAlive();
+    return InternalLoad(array, array2);
   }
 }
 
@@ -292,6 +334,9 @@ void AssemblyLoadContext___::Unload() {
 }
 
 void AssemblyLoadContext___::OnProcessExit() {
+  {
+    rt::lock(s_allContexts);
+  }
 }
 
 void AssemblyLoadContext___::VerifyIsAlive() {

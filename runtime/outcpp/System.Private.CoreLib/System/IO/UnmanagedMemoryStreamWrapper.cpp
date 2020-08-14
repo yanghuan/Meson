@@ -51,6 +51,7 @@ void UnmanagedMemoryStreamWrapper___::Dispose(Boolean disposing) {
       _unmanagedStream->Dispose();
     }
   } finally: {
+    MemoryStream::Dispose(disposing);
   }
 }
 
@@ -110,6 +111,7 @@ void UnmanagedMemoryStreamWrapper___::WriteTo(Stream stream) {
 }
 
 void UnmanagedMemoryStreamWrapper___::SetLength(Int64 value) {
+  MemoryStream::SetLength(value);
 }
 
 Task<> UnmanagedMemoryStreamWrapper___::CopyToAsync(Stream destination, Int32 bufferSize, CancellationToken cancellationToken) {

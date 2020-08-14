@@ -7,6 +7,7 @@
 
 namespace System::Private::CoreLib::System::Threading::Tasks::ThreadPoolTaskSchedulerNamespace {
 void ThreadPoolTaskScheduler___::ctor() {
+  _ = TaskScheduler::get_Id();
 }
 
 void ThreadPoolTaskScheduler___::QueueTask(Task<> task) {

@@ -70,6 +70,7 @@ String SymbolType___::get_Namespace() {
 }
 
 Type SymbolType___::get_BaseType() {
+  return rt::typeof<Array<>>();
 }
 
 Boolean SymbolType___::get_IsConstructedGenericType() {
@@ -180,6 +181,10 @@ Type SymbolType___::FormCompoundType(String format, Type baseType, Int32 curInde
 
 void SymbolType___::ctor(TypeKind typeKind) {
   m_isSzArray = true;
+  TypeInfo::ctor();
+  m_typeKind = typeKind;
+  m_iaLowerBound = rt::newarr<Array<Int32>>(4);
+  m_iaUpperBound = rt::newarr<Array<Int32>>(4);
 }
 
 void SymbolType___::SetElementType(Type baseType) {
@@ -227,6 +232,10 @@ Type SymbolType___::MakeArrayType(Int32 rank) {
 }
 
 Int32 SymbolType___::GetArrayRank() {
+  if (!Type::get_IsArray()) {
+    rt::throw_exception<NotSupportedException>(SR::get_NotSupported_SubclassOverride());
+  }
+  return m_cRank;
 }
 
 Object SymbolType___::InvokeMember(String name, BindingFlags invokeAttr, Binder binder, Object target, Array<Object> args, Array<ParameterModifier> modifiers, CultureInfo culture, Array<String> namedParameters) {

@@ -39,6 +39,25 @@ Boolean ProcessorIdCache::ProcessorNumberSpeedCheck() {
   for (Int32 i = 0; i < 10; i++) {
     Int32 num4 = 8;
     Int64 timestamp;
+    do {
+      num4 *= 2;
+      timestamp = Stopwatch::in::GetTimestamp();
+      for (Int32 j = 0; j < num4; j++) {
+        Thread::in::GetCurrentProcessorNumber();
+      }
+      timestamp = Stopwatch::in::GetTimestamp() - timestamp;
+    } while (timestamp < num3)
+    num = Math::Min(num, (Double)timestamp / (Double)num4);
+    num4 /= 4;
+    do {
+      num4 *= 2;
+      timestamp = Stopwatch::in::GetTimestamp();
+      for (Int32 k = 0; k < num4; k++) {
+        UninlinedThreadStatic();
+      }
+      timestamp = Stopwatch::in::GetTimestamp() - timestamp;
+    } while (timestamp < num3)
+    num2 = Math::Min(num2, (Double)timestamp / (Double)num4);
   }
   s_processorIdRefreshRate = Math::Min((Int32)(num * 5 / num2), 5000);
   return s_processorIdRefreshRate <= 5;

@@ -278,9 +278,19 @@ OperationStatus Rune::DecodeLastFromUtf8(ReadOnlySpan<Byte> source, Rune& value,
 }
 
 Int32 Rune::EncodeToUtf16(Span<Char> destination) {
+  Int32 charsWritten;
+  if (!TryEncodeToUtf16(destination, charsWritten)) {
+    ThrowHelper::ThrowArgumentException_DestinationTooShort();
+  }
+  return charsWritten;
 }
 
 Int32 Rune::EncodeToUtf8(Span<Byte> destination) {
+  Int32 bytesWritten;
+  if (!TryEncodeToUtf8(destination, bytesWritten)) {
+    ThrowHelper::ThrowArgumentException_DestinationTooShort();
+  }
+  return bytesWritten;
 }
 
 Boolean Rune::Equals(Object obj) {
@@ -365,6 +375,10 @@ String Rune::ToString() {
   if (get_IsBmp()) {
     return String::in::CreateFromChar((Char)_value);
   }
+  Char highSurrogateCodePoint;
+  Char lowSurrogateCodePoint;
+  UnicodeUtility::GetUtf16SurrogatesFromSupplementaryPlaneScalar(_value, highSurrogateCodePoint, lowSurrogateCodePoint);
+  return String::in::CreateFromChar(highSurrogateCodePoint, lowSurrogateCodePoint);
 }
 
 Boolean Rune::TryCreate(Char ch, Rune& result) {

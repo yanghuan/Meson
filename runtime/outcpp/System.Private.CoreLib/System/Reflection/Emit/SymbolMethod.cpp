@@ -2,6 +2,7 @@
 
 #include <System.Private.CoreLib/System/NotSupportedException-dep.h>
 #include <System.Private.CoreLib/System/Reflection/Emit/EmptyCAHolder-dep.h>
+#include <System.Private.CoreLib/System/Reflection/Emit/SignatureHelper-dep.h>
 #include <System.Private.CoreLib/System/Reflection/Emit/SymbolMethod-dep.h>
 #include <System.Private.CoreLib/System/SR-dep.h>
 
@@ -44,6 +45,21 @@ ICustomAttributeProvider SymbolMethod___::get_ReturnTypeCustomAttributes() {
 
 void SymbolMethod___::ctor(ModuleBuilder mod, MethodToken token, Type arrayClass, String methodName, CallingConventions callingConvention, Type returnType, Array<Type> parameterTypes) {
   m_mdMethod = token;
+  auto default = returnType;
+  if (default != nullptr) default = rt::typeof<void>();
+
+  m_returnType = (default);
+  if (parameterTypes != nullptr) {
+    m_parameterTypes = rt::newarr<Array<Type>>(parameterTypes->get_Length());
+    Array<>::in::Copy(parameterTypes, m_parameterTypes, parameterTypes->get_Length());
+  } else {
+    m_parameterTypes = Array<>::in::Empty<Type>();
+  }
+  m_module = mod;
+  m_containingType = arrayClass;
+  m_name = methodName;
+  m_callingConvention = callingConvention;
+  m_signature = SignatureHelper::in::GetMethodSigHelper(mod, callingConvention, returnType, nullptr, nullptr, parameterTypes, nullptr, nullptr);
 }
 
 Array<Type> SymbolMethod___::GetParameterTypes() {

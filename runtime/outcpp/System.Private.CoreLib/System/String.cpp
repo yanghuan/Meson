@@ -190,6 +190,11 @@ Int32 String___::Compare(String strA, String strB, StringComparison comparisonTy
 }
 
 Int32 String___::Compare(String strA, String strB, CultureInfo culture, CompareOptions options) {
+  auto default = culture;
+  if (default != nullptr) default = CultureInfo::in::get_CurrentCulture();
+
+  CultureInfo cultureInfo = default;
+  return cultureInfo->get_CompareInfo()->Compare(strA, strB, options);
 }
 
 Int32 String___::Compare(String strA, String strB, Boolean ignoreCase, CultureInfo culture) {
@@ -220,6 +225,19 @@ Int32 String___::Compare(String strA, Int32 indexA, String strB, Int32 indexB, I
 }
 
 Int32 String___::Compare(String strA, Int32 indexA, String strB, Int32 indexB, Int32 length, CultureInfo culture, CompareOptions options) {
+  auto default = culture;
+  if (default != nullptr) default = CultureInfo::in::get_CurrentCulture();
+
+  CultureInfo cultureInfo = default;
+  Int32 num = length;
+  Int32 num2 = length;
+  if (strA != nullptr) {
+    num = Math::Min(num, strA->get_Length() - indexA);
+  }
+  if (strB != nullptr) {
+    num2 = Math::Min(num2, strB->get_Length() - indexB);
+  }
+  return cultureInfo->get_CompareInfo()->Compare(strA, indexA, num, strB, indexB, num2, options);
 }
 
 Int32 String___::Compare(String strA, Int32 indexA, String strB, Int32 indexB, Int32 length, StringComparison comparisonType) {
@@ -374,6 +392,11 @@ Boolean String___::EndsWith(String value, Boolean ignoreCase, CultureInfo cultur
   if ((Object)(String)this == value) {
     return true;
   }
+  auto default = culture;
+  if (default != nullptr) default = CultureInfo::in::get_CurrentCulture();
+
+  CultureInfo cultureInfo = default;
+  return cultureInfo->get_CompareInfo()->IsSuffix((String)this, value, ignoreCase ? CompareOptions::IgnoreCase : CompareOptions::None);
 }
 
 Boolean String___::EndsWith(Char value) {
@@ -604,6 +627,11 @@ Boolean String___::StartsWith(String value, Boolean ignoreCase, CultureInfo cult
   if ((Object)(String)this == value) {
     return true;
   }
+  auto default = culture;
+  if (default != nullptr) default = CultureInfo::in::get_CurrentCulture();
+
+  CultureInfo cultureInfo = default;
+  return cultureInfo->get_CompareInfo()->IsPrefix((String)this, value, ignoreCase ? CompareOptions::IgnoreCase : CompareOptions::None);
 }
 
 Boolean String___::StartsWith(Char value) {
@@ -781,6 +809,12 @@ String String___::Ctor(Char c, Int32 count) {
       UInt32* ptr2 = (UInt32*)ptr;
       if (count >= 4) {
         count -= 4;
+        do {
+          *ptr2 = num;
+          ptr2[1] = num;
+          ptr2 += 2;
+          count -= 4;
+        } while (count >= 0)
       }
       if ((count & 2) != 0) {
         *ptr2 = num;
@@ -1517,6 +1551,13 @@ String String___::ReplaceCore(String oldValue, String newValue, CompareInfo ci, 
   if (oldValue->get_Length() == 0) {
     rt::throw_exception<ArgumentException>(SR::get_Argument_StringZeroLength(), "oldValue");
   }
+  auto default = ci;
+  if (default != nullptr) default = CultureInfo::in::get_CurrentCulture()->get_CompareInfo();
+
+  auto extern = ReplaceCore((String)this, MemoryExtensions::AsSpan(oldValue), MemoryExtensions::AsSpan(newValue), default, options);
+  if (extern != nullptr) extern = (String)this;
+
+  return extern;
 }
 
 String String___::ReplaceCore(ReadOnlySpan<Char> searchSpace, ReadOnlySpan<Char> oldValue, ReadOnlySpan<Char> newValue, CompareInfo compareInfo, CompareOptions options) {
@@ -1563,6 +1604,15 @@ String String___::Replace(Char oldChar, Char newChar) {
   if (Vector::get_IsHardwareAccelerated() && num2 >= Vector<UInt16>::get_Count()) {
     Vector<UInt16> right = Vector<UInt16>(oldChar);
     Vector<UInt16> left = Vector<UInt16>(newChar);
+    do {
+      Vector<UInt16> vector = Unsafe::ReadUnaligned<Vector<UInt16>>(Unsafe::As<UInt16, Byte>(reference));
+      Vector<UInt16> condition = Vector::Equals(vector, right);
+      Vector<UInt16> value = Vector::ConditionalSelect(condition, left, vector);
+      Unsafe::WriteUnaligned(Unsafe::As<UInt16, Byte>(reference2), value);
+      reference = Unsafe::Add(reference, Vector<UInt16>::get_Count());
+      reference2 = Unsafe::Add(reference2, Vector<UInt16>::get_Count());
+      num2 -= Vector<UInt16>::get_Count();
+    } while (num2 >= Vector<UInt16>::get_Count())
   }
   while (num2 > 0) {
     UInt16 num4 = reference;
@@ -1680,9 +1730,17 @@ Array<String> String___::SplitInternal(ReadOnlySpan<Char> separators, Int32 coun
 }
 
 Array<String> String___::Split(String separator, StringSplitOptions options) {
+  auto default = separator;
+  if (default != nullptr) default = Empty;
+
+  return SplitInternal(default, nullptr, Int32::MaxValue, options);
 }
 
 Array<String> String___::Split(String separator, Int32 count, StringSplitOptions options) {
+  auto default = separator;
+  if (default != nullptr) default = Empty;
+
+  return SplitInternal(default, nullptr, count, options);
 }
 
 Array<String> String___::Split(Array<String> separator, StringSplitOptions options) {
@@ -1909,6 +1967,11 @@ String String___::ToLower() {
 }
 
 String String___::ToLower(CultureInfo culture) {
+  auto default = culture;
+  if (default != nullptr) default = CultureInfo::in::get_CurrentCulture();
+
+  CultureInfo cultureInfo = default;
+  return cultureInfo->get_TextInfo()->ToLower((String)this);
 }
 
 String String___::ToLowerInvariant() {
@@ -1920,6 +1983,11 @@ String String___::ToUpper() {
 }
 
 String String___::ToUpper(CultureInfo culture) {
+  auto default = culture;
+  if (default != nullptr) default = CultureInfo::in::get_CurrentCulture();
+
+  CultureInfo cultureInfo = default;
+  return cultureInfo->get_TextInfo()->ToUpper((String)this);
 }
 
 String String___::ToUpperInvariant() {

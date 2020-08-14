@@ -34,6 +34,16 @@ void UTF32Encoding___::UTF32Decoder___::Reset() {
 }
 
 ReadOnlySpan<Byte> UTF32Encoding___::get_Preamble() {
+  if (!(GetType() != rt::typeof<UTF32Encoding>())) {
+    if (_emitUTF32ByteOrderMark) {
+      if (_bigEndian) {
+        return rt::newarr<Array<Byte>>(4);
+      }
+      return rt::newarr<Array<Byte>>(4);
+    }
+    return ReadOnlySpan<T>();
+  }
+  return ReadOnlySpan<Byte>(GetPreamble());
 }
 
 void UTF32Encoding___::ctor() {
@@ -598,6 +608,14 @@ Int32 UTF32Encoding___::GetMaxByteCount(Int32 charCount) {
     rt::throw_exception<ArgumentOutOfRangeException>("charCount", SR::get_ArgumentOutOfRange_NeedNonNegNum());
   }
   Int64 num = (Int64)charCount + 1;
+  if (Encoding::get_EncoderFallback()->get_MaxCharCount() > 1) {
+    num *= Encoding::get_EncoderFallback()->get_MaxCharCount();
+  }
+  num *= 4;
+  if (num > Int32::MaxValue) {
+    rt::throw_exception<ArgumentOutOfRangeException>("charCount", SR::get_ArgumentOutOfRange_GetByteCountOverflow());
+  }
+  return (Int32)num;
 }
 
 Int32 UTF32Encoding___::GetMaxCharCount(Int32 byteCount) {
@@ -605,6 +623,14 @@ Int32 UTF32Encoding___::GetMaxCharCount(Int32 byteCount) {
     rt::throw_exception<ArgumentOutOfRangeException>("byteCount", SR::get_ArgumentOutOfRange_NeedNonNegNum());
   }
   Int32 num = byteCount / 2 + 2;
+  if (Encoding::get_DecoderFallback()->get_MaxCharCount() > 2) {
+    num *= Encoding::get_DecoderFallback()->get_MaxCharCount();
+    num /= 2;
+  }
+  if (num > Int32::MaxValue) {
+    rt::throw_exception<ArgumentOutOfRangeException>("byteCount", SR::get_ArgumentOutOfRange_GetCharCountOverflow());
+  }
+  return num;
 }
 
 Array<Byte> UTF32Encoding___::GetPreamble() {
@@ -620,11 +646,16 @@ Array<Byte> UTF32Encoding___::GetPreamble() {
 Boolean UTF32Encoding___::Equals(Object value) {
   UTF32Encoding uTF32Encoding = rt::as<UTF32Encoding>(value);
   if (uTF32Encoding != nullptr) {
+    if (_emitUTF32ByteOrderMark == uTF32Encoding->_emitUTF32ByteOrderMark && _bigEndian == uTF32Encoding->_bigEndian && Encoding::get_EncoderFallback()->Equals(uTF32Encoding->get_EncoderFallback())) {
+      return Encoding::get_DecoderFallback()->Equals(uTF32Encoding->get_DecoderFallback());
+    }
+    return false;
   }
   return false;
 }
 
 Int32 UTF32Encoding___::GetHashCode() {
+  return Encoding::get_EncoderFallback()->GetHashCode() + Encoding::get_DecoderFallback()->GetHashCode() + get_CodePage() + (_emitUTF32ByteOrderMark ? 4 : 0) + (_bigEndian ? 8 : 0);
 }
 
 void UTF32Encoding___::cctor() {

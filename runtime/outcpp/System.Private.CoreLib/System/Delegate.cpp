@@ -356,6 +356,11 @@ Delegate Delegate___::Remove(Delegate source, Delegate value) {
 
 Delegate Delegate___::RemoveAll(Delegate source, Delegate value) {
   Delegate delegate;
+  do {
+    delegate = source;
+    source = Remove(source, value);
+  } while (delegate != source)
+  return delegate;
 }
 
 Boolean Delegate___::op_Equality(Delegate d1, Delegate d2) {

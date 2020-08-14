@@ -2,6 +2,7 @@
 
 #include <System.Private.CoreLib/Microsoft/Reflection/ReflectionExtensions-dep.h>
 #include <System.Private.CoreLib/System/ArgumentException-dep.h>
+#include <System.Private.CoreLib/System/Byte-dep.h>
 #include <System.Private.CoreLib/System/Char-dep.h>
 #include <System.Private.CoreLib/System/Collections/Generic/Dictionary-dep.h>
 #include <System.Private.CoreLib/System/Collections/Generic/KeyValuePair-dep.h>
@@ -9,12 +10,17 @@
 #include <System.Private.CoreLib/System/Diagnostics/Tracing/EventChannel.h>
 #include <System.Private.CoreLib/System/Diagnostics/Tracing/EventKeywords.h>
 #include <System.Private.CoreLib/System/Diagnostics/Tracing/ManifestBuilder-dep.h>
+#include <System.Private.CoreLib/System/Enum-dep.h>
 #include <System.Private.CoreLib/System/Globalization/CultureInfo-dep.h>
+#include <System.Private.CoreLib/System/Int32-dep.h>
+#include <System.Private.CoreLib/System/Int64-dep.h>
+#include <System.Private.CoreLib/System/IntPtr-dep.h>
 #include <System.Private.CoreLib/System/Reflection/BindingFlags.h>
 #include <System.Private.CoreLib/System/Reflection/FieldInfo-dep.h>
 #include <System.Private.CoreLib/System/SR-dep.h>
 #include <System.Private.CoreLib/System/StringComparison.h>
 #include <System.Private.CoreLib/System/Text/Encoding-dep.h>
+#include <System.Private.CoreLib/System/Text/StringBuilder-dep.h>
 #include <System.Private.CoreLib/System/TypeCode.h>
 
 namespace System::Private::CoreLib::System::Diagnostics::Tracing::ManifestBuilderNamespace {
@@ -33,12 +39,37 @@ IList<String> ManifestBuilder___::get_Errors() {
 
 void ManifestBuilder___::ctor(String providerName, Guid providerGuid, String dllName, ResourceManager resources, EventManifestOptions flags) {
   nextChannelKeywordBit = 9223372036854775808;
+  Object::ctor();
+  this->providerName = providerName;
+  this->flags = flags;
+  this->resources = resources;
+  sb = rt::newobj<StringBuilder>();
+  events = rt::newobj<StringBuilder>();
+  templates = rt::newobj<StringBuilder>();
+  opcodeTab = rt::newobj<Dictionary<Int32, String>>();
+  stringTab = rt::newobj<Dictionary<String, String>>();
+  errors = rt::newobj<List<String>>();
+  perEventByteArrayArgIndices = rt::newobj<Dictionary<String, List<Int32>>>();
+  sb->AppendLine("<instrumentationManifest xmlns="http://schemas.microsoft.com/win/2004/08/events">");
+  sb->AppendLine(" <instrumentation xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:win="http://manifests.microsoft.com/win/2004/08/windows/events">");
+  sb->AppendLine("  <events xmlns="http://schemas.microsoft.com/win/2004/08/events">");
+  sb->Append("<provider name="")->Append(providerName)->Append("" guid="{")->Append(providerGuid.ToString())->Append(125);
+  if (dllName != nullptr) {
+    sb->Append("" resourceFileName="")->Append(dllName)->Append("" messageFileName="")->Append(dllName);
+  }
+  String value = providerName->Replace("-", "")->Replace(46, 95);
+  sb->Append("" symbol="")->Append(value);
+  sb->AppendLine("">");
 }
 
 void ManifestBuilder___::AddOpcode(String name, Int32 value) {
   if ((flags & EventManifestOptions::Strict) != 0) {
     if (value <= 10 || value >= 239) {
       ManifestError(SR::Format(SR::get_EventSource_IllegalOpcodeValue(), name, value));
+    }
+    String value2;
+    if (opcodeTab->TryGetValue(value, value2) && !name->Equals(value2, StringComparison::Ordinal)) {
+      ManifestError(SR::Format(SR::get_EventSource_OpcodeCollision(), name, value2, value));
     }
   }
   opcodeTab[value] = name;
@@ -48,6 +79,10 @@ void ManifestBuilder___::AddTask(String name, Int32 value) {
   if ((flags & EventManifestOptions::Strict) != 0) {
     if (value <= 0 || value >= 65535) {
       ManifestError(SR::Format(SR::get_EventSource_IllegalTaskValue(), name, value));
+    }
+    String value2;
+    if (taskTab != nullptr && taskTab->TryGetValue(value, value2) && !name->Equals(value2, StringComparison::Ordinal)) {
+      ManifestError(SR::Format(SR::get_EventSource_TaskCollision(), name, value2, value));
     }
   }
   if (taskTab == nullptr) {
@@ -63,6 +98,10 @@ void ManifestBuilder___::AddKeyword(String name, UInt64 value) {
   if ((flags & EventManifestOptions::Strict) != 0) {
     if (value >= 17592186044416 && !name->StartsWith("Session", StringComparison::Ordinal)) {
       ManifestError(SR::Format(SR::get_EventSource_IllegalKeywordsValue(), name, "0x" + value.ToString("x", CultureInfo::in::get_CurrentCulture())));
+    }
+    String value2;
+    if (keywordTab != nullptr && keywordTab->TryGetValue(value, value2) && !name->Equals(value2, StringComparison::Ordinal)) {
+      ManifestError(SR::Format(SR::get_EventSource_KeywordCollision(), name, value2, "0x" + value.ToString("x", CultureInfo::in::get_CurrentCulture())));
     }
   }
   if (keywordTab == nullptr) {
@@ -130,6 +169,29 @@ void ManifestBuilder___::AddEventParameter(Type type, String name) {
   if (numParams == 0) {
     templates->Append("  <template tid="")->Append(eventName)->AppendLine("Args">");
   }
+  if (type == rt::typeof<Array<Byte>>()) {
+    if (byteArrArgIndices == nullptr) {
+      byteArrArgIndices = rt::newobj<List<Int32>>(4);
+    }
+    byteArrArgIndices->Add(numParams);
+    numParams++;
+    templates->Append("   <data name="")->Append(name)->AppendLine("Size" inType="win:UInt32"/>");
+  }
+  numParams++;
+  templates->Append("   <data name="")->Append(name)->Append("" inType="")->Append(GetTypeName(type))->Append(""");
+  if ((type->get_IsArray() || type->get_IsPointer()) && type->GetElementType() == rt::typeof<Byte>()) {
+    templates->Append(" length="")->Append(name)->Append("Size"");
+  }
+  if (ReflectionExtensions::IsEnum(type) && Enum::in::GetUnderlyingType(type) != rt::typeof<UInt64>() && Enum::in::GetUnderlyingType(type) != rt::typeof<Int64>()) {
+    templates->Append(" map="")->Append(type->get_Name())->Append(""");
+    if (mapsTab == nullptr) {
+      mapsTab = rt::newobj<Dictionary<String, Type>>();
+    }
+    if (!mapsTab->ContainsKey(type->get_Name())) {
+      mapsTab->Add(type->get_Name(), type);
+    }
+  }
+  templates->AppendLine("/>");
 }
 
 void ManifestBuilder___::EndEvent() {
@@ -141,6 +203,14 @@ void ManifestBuilder___::EndEvent() {
   if (byteArrArgIndices != nullptr) {
     perEventByteArrayArgIndices[eventName] = byteArrArgIndices;
   }
+  String value;
+  if (stringTab->TryGetValue("event_" + eventName, value)) {
+    value = TranslateToManifestConvention(value, eventName);
+    stringTab["event_" + eventName] = value;
+  }
+  eventName = nullptr;
+  numParams = 0;
+  byteArrArgIndices = nullptr;
 }
 
 UInt64 ManifestBuilder___::GetChannelKeyword(EventChannel channel, UInt64 channelKeyword) {
@@ -151,6 +221,16 @@ UInt64 ManifestBuilder___::GetChannelKeyword(EventChannel channel, UInt64 channe
   if (channelTab->get_Count() == 8) {
     ManifestError(SR::get_EventSource_MaxChannelExceeded());
   }
+  ChannelInfo value;
+  if (!channelTab->TryGetValue((Int32)channel, value)) {
+    if (channelKeyword != 0) {
+      channelKeyword = nextChannelKeywordBit;
+      nextChannelKeywordBit >>= 1;
+    }
+  } else {
+    channelKeyword = value->Keywords;
+  }
+  return channelKeyword;
 }
 
 Array<Byte> ManifestBuilder___::CreateManifest() {
@@ -200,6 +280,12 @@ void ManifestBuilder___::WriteMessageAttrib(StringBuilder stringBuilder, String 
   }
   if (value != nullptr) {
     stringBuilder->Append(" message="$(string.")->Append(text)->Append(")"");
+    String value2;
+    if (stringTab->TryGetValue(text, value2) && !value2->Equals(value)) {
+      ManifestError(SR::Format(SR::get_EventSource_DuplicateStringKey(), text), true);
+    } else {
+      stringTab[text] = value;
+    }
   }
 }
 
@@ -234,6 +320,30 @@ String ManifestBuilder___::GetLevelName(EventLevel level) {
 }
 
 String ManifestBuilder___::GetChannelName(EventChannel channel, String eventName, String eventMessage) {
+  ChannelInfo value;
+  if (channelTab == nullptr || !channelTab->TryGetValue((Int32)channel, value)) {
+    if ((Int32)channel < 16) {
+      ManifestError(SR::Format(SR::get_EventSource_UndefinedChannel(), channel, eventName));
+    }
+    if (channelTab == nullptr) {
+      channelTab = rt::newobj<Dictionary<Int32, ChannelInfo>>(4);
+    }
+    String text = channel->ToString();
+    if (19 < (Int32)channel) {
+      text = "Channel" + text;
+    }
+    AddChannel(text, (Int32)channel, GetDefaultChannelAttribute(channel));
+    if (!channelTab->TryGetValue((Int32)channel, value)) {
+      ManifestError(SR::Format(SR::get_EventSource_UndefinedChannel(), channel, eventName));
+    }
+  }
+  if (resources != nullptr && eventMessage == nullptr) {
+    eventMessage = resources->GetString("event_" + eventName, CultureInfo::in::get_InvariantCulture());
+  }
+  if (value->Attribs->get_EventChannelType() == EventChannelType::Admin && eventMessage == nullptr) {
+    ManifestError(SR::Format(SR::get_EventSource_EventWithAdminChannelMustHaveMessage(), eventName, value->Name));
+  }
+  return value->Name;
 }
 
 String ManifestBuilder___::GetTaskName(EventTask task, String eventName) {
@@ -243,6 +353,11 @@ String ManifestBuilder___::GetTaskName(EventTask task, String eventName) {
   if (taskTab == nullptr) {
     taskTab = rt::newobj<Dictionary<Int32, String>>();
   }
+  String value;
+  if (!taskTab->TryGetValue((Int32)task, value)) {
+    return taskTab[(Int32)task] = eventName;
+  }
+  return value;
 }
 
 String ManifestBuilder___::GetOpcodeName(EventOpcode opcode, String eventName) {
@@ -271,6 +386,12 @@ String ManifestBuilder___::GetOpcodeName(EventOpcode opcode, String eventName) {
       return "win:Receive";
     default:
       {
+        String value;
+        if (opcodeTab == nullptr || !opcodeTab->TryGetValue((Int32)opcode, value)) {
+          ManifestError(SR::Format(SR::get_EventSource_UndefinedOpcode(), opcode, eventName), true);
+          return nullptr;
+        }
+        return value;
       }}
 }
 
@@ -301,6 +422,47 @@ String ManifestBuilder___::GetTypeName(Type type) {
     Array<FieldInfo> fields = type->GetFields(BindingFlags::Instance | BindingFlags::Public | BindingFlags::NonPublic);
     String typeName = GetTypeName(fields[0]->get_FieldType());
     return typeName->Replace("win:Int", "win:UInt");
+  }
+  switch (ReflectionExtensions::GetTypeCode(type)) {
+    case TypeCode::Boolean:
+      return "win:Boolean";
+    case TypeCode::Byte:
+      return "win:UInt8";
+    case TypeCode::Char:
+    case TypeCode::UInt16:
+      return "win:UInt16";
+    case TypeCode::UInt32:
+      return "win:UInt32";
+    case TypeCode::UInt64:
+      return "win:UInt64";
+    case TypeCode::SByte:
+      return "win:Int8";
+    case TypeCode::Int16:
+      return "win:Int16";
+    case TypeCode::Int32:
+      return "win:Int32";
+    case TypeCode::Int64:
+      return "win:Int64";
+    case TypeCode::String:
+      return "win:UnicodeString";
+    case TypeCode::Single:
+      return "win:Float";
+    case TypeCode::Double:
+      return "win:Double";
+    case TypeCode::DateTime:
+      return "win:FILETIME";
+    default:
+      if (type == rt::typeof<Guid>()) {
+        return "win:GUID";
+      }
+      if (type == rt::typeof<IntPtr>()) {
+        return "win:Pointer";
+      }
+      if ((type->get_IsArray() || type->get_IsPointer()) && type->GetElementType() == rt::typeof<Byte>()) {
+        return "win:Binary";
+      }
+      ManifestError(SR::Format(SR::get_EventSource_UnsupportedEventTypeInManifest(), type->get_Name()), true);
+      return String::in::Empty;
   }
 }
 
@@ -369,6 +531,10 @@ String ManifestBuilder___::TranslateToManifestConvention(String eventMessage, St
 }
 
 Int32 ManifestBuilder___::TranslateIndexToManifestConvention(Int32 idx, String evtName) {
+  List<Int32> value;
+  if (perEventByteArrayArgIndices->TryGetValue(evtName, value)) {
+  }
+  return idx + 1;
 }
 
 void ManifestBuilder___::cctor() {

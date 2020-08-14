@@ -119,6 +119,13 @@ Boolean Byte::TryParse(ReadOnlySpan<Char> s, NumberStyles style, IFormatProvider
 }
 
 Boolean Byte::TryParse(ReadOnlySpan<Char> s, NumberStyles style, NumberFormatInfo info, Byte& result) {
+  UInt32 result2;
+  if (Number::TryParseUInt32(s, style, info, result2) != 0 || result2 > 255) {
+    result = 0;
+    return false;
+  }
+  result = (Byte)result2;
+  return true;
 }
 
 String Byte::ToString() {

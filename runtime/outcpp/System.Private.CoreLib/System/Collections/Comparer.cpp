@@ -22,6 +22,7 @@ void Comparer___::ctor(SerializationInfo info, StreamingContext context) {
   if (info == nullptr) {
     rt::throw_exception<ArgumentNullException>("info");
   }
+  _compareInfo = (CompareInfo)info->GetValue("CompareInfo", rt::typeof<CompareInfo>());
 }
 
 void Comparer___::GetObjectData(SerializationInfo info, StreamingContext context) {

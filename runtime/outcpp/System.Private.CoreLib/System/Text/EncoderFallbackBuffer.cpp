@@ -120,12 +120,26 @@ Int32 EncoderFallbackBuffer___::DrainRemainingDataForGetByteCount() {
     if (rune.get_Value() == 0) {
       break;
     }
+    Int32 byteCount;
+    if (!encoding->TryGetByteCount(nextRune, byteCount)) {
+      ThrowLastCharRecursive(nextRune.get_Value());
+    }
+    num += byteCount;
+    if (num < 0) {
+      InternalReset();
+      Encoding::in::ThrowConversionOverflow();
+    }
   }
   return num;
 }
 
 Rune EncoderFallbackBuffer___::GetNextRune() {
   Char nextChar = GetNextChar();
+  Rune result;
+  if (Rune::TryCreate(nextChar, result) || Rune::TryCreate(nextChar, GetNextChar(), result)) {
+    return result;
+  }
+  rt::throw_exception<ArgumentException>(SR::get_Argument_InvalidCharSequenceNoIndex());
 }
 
 Boolean EncoderFallbackBuffer___::InternalFallback(Char ch, Char*& chars) {

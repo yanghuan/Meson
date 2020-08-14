@@ -39,6 +39,10 @@ void WaitHandle___::set_Handle(IntPtr value) {
 }
 
 SafeWaitHandle WaitHandle___::get_SafeWaitHandle() {
+  auto default = _waitHandle;
+  if (default != nullptr) default = (_waitHandle = rt::newobj<SafeWaitHandle>(InvalidHandle, false));
+
+  return default;
 }
 
 void WaitHandle___::set_SafeWaitHandle(SafeWaitHandle value) {
@@ -94,6 +98,24 @@ Boolean WaitHandle___::WaitOne(Int32 millisecondsTimeout) {
 }
 
 Boolean WaitHandle___::WaitOneNoCheck(Int32 millisecondsTimeout) {
+  auto default = _waitHandle;
+  if (default != nullptr) default = rt::throw_exception(rt::newobj<ObjectDisposedException>(nullptr, SR::get_ObjectDisposed_Generic()));
+
+  SafeWaitHandle safeWaitHandle = default;
+  Boolean success = false;
+  try{
+    safeWaitHandle->DangerousAddRef(success);
+    SynchronizationContext current = SynchronizationContext::in::get_Current();
+    Int32 num = (current == nullptr || !current->IsWaitNotificationRequired()) ? WaitOneCore(safeWaitHandle->DangerousGetHandle(), millisecondsTimeout) : current->Wait(rt::newarr<Array<IntPtr>>(1), false, millisecondsTimeout);
+    if (num == 128) {
+      rt::throw_exception<AbandonedMutexException>();
+    }
+    return num != 258;
+  } finally: {
+    if (success) {
+      safeWaitHandle->DangerousRelease();
+    }
+  }
 }
 
 Array<SafeWaitHandle> WaitHandle___::RentSafeWaitHandleArray(Int32 capacity) {
@@ -119,6 +141,15 @@ void WaitHandle___::ObtainSafeWaitHandles(ReadOnlySpan<WaitHandle> waitHandles, 
       if (waitHandle == nullptr) {
         rt::throw_exception<ArgumentNullException>("waitHandles[" + i + "]", SR::get_ArgumentNull_ArrayElement());
       }
+      auto default = waitHandle->_waitHandle;
+      if (default != nullptr) default = rt::throw_exception(rt::newobj<ObjectDisposedException>(nullptr, SR::get_ObjectDisposed_Generic()));
+
+      SafeWaitHandle safeWaitHandle2 = default;
+      safeWaitHandle = safeWaitHandle2;
+      success = false;
+      safeWaitHandle2->DangerousAddRef(success);
+      safeWaitHandles[i] = safeWaitHandle2;
+      unsafeWaitHandles[i] = safeWaitHandle2->DangerousGetHandle();
     }
   } catch (...) {
   }

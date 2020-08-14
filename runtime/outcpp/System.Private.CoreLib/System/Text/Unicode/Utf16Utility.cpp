@@ -5,9 +5,11 @@
 #include <System.Private.CoreLib/System/Int32-dep.h>
 #include <System.Private.CoreLib/System/Int64-dep.h>
 #include <System.Private.CoreLib/System/IntPtr-dep.h>
+#include <System.Private.CoreLib/System/Numerics/BitOperations-dep.h>
 #include <System.Private.CoreLib/System/Numerics/Vector-dep.h>
 #include <System.Private.CoreLib/System/Runtime/Intrinsics/Vector128-dep.h>
 #include <System.Private.CoreLib/System/Runtime/Intrinsics/X86/Sse2-dep.h>
+#include <System.Private.CoreLib/System/Runtime/Intrinsics/X86/Sse41-dep.h>
 #include <System.Private.CoreLib/System/Text/ASCIIUtility-dep.h>
 #include <System.Private.CoreLib/System/UInt16-dep.h>
 #include <System.Private.CoreLib/System/UIntPtr-dep.h>
@@ -88,6 +90,38 @@ Char* Utf16Utility::GetPointerToFirstInvalidChar(Char* pInputBuffer, Int32 input
       Vector128<UInt16> right = Vector128::Create((?)43008);
       Vector128<Int16> right2 = Vector128::Create((?)(-30720));
       Vector128<UInt16> zero = Vector128<UInt16>::get_Zero();
+      do {
+        Vector128<UInt16> vector2 = Sse2::in::LoadVector128((UInt16*)pInputBuffer);
+        Vector128<UInt16> left = (!Sse41::in::get_IsSupported()) ? Sse2::in::AndNot(Vector128::AsUInt16(Sse2::in::CompareGreaterThan(Vector128::AsInt16(vector), Vector128::AsInt16(vector2))), vector) : Sse41::in::Min(vector2, vector);
+        Vector128<UInt16> right3 = Sse2::in::Subtract(zero, Sse2::in::ShiftRightLogical(vector2, 11));
+        UInt32 value = (UInt32)Sse2::in::MoveMask(Vector128::AsByte(Sse2::in::Or(left, right3)));
+        UInt32 num4 = (UInt32)BitOperations::PopCount(value);
+        vector2 = Sse2::in::Add(vector2, right);
+        value = (UInt32)Sse2::in::MoveMask(Vector128::AsByte(Sse2::in::CompareLessThan(Vector128::AsInt16(vector2), right2)));
+        if (value != 0) {
+          UInt32 num5 = (UInt32)Sse2::in::MoveMask(Vector128::AsByte(Sse2::in::ShiftRightLogical(vector2, 3)));
+          UInt32 num6 = num5 & value;
+          UInt32 num7 = (num5 ^ 21845) & value;
+          num7 <<= 2;
+          if ((UInt16)num7 != num6) {
+            break;
+          }
+          if (num7 > 65535) {
+            num7 = (UInt16)num7;
+            num4 -= 2;
+            pInputBuffer--;
+            inputLength++;
+          }
+          UIntPtr num8 = (UInt32)BitOperations::PopCount(num7);
+          num3 -= (Int32)num8;
+          _ = IntPtr::get_Size();
+          num2 -= (Int64)num8;
+          num2 -= (Int64)num8;
+        }
+        num2 += num4;
+        pInputBuffer += Vector128<UInt16>::get_Count();
+        inputLength -= Vector128<UInt16>::get_Count();
+      } while (inputLength >= Vector128<UInt16>::get_Count())
     }
   } else if (Vector::get_IsHardwareAccelerated() && inputLength >= Vector<UInt16>::get_Count()) {
     Vector<UInt16> right4 = Vector<UInt16>(128);

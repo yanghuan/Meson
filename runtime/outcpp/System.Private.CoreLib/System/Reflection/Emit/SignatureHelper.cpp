@@ -20,6 +20,7 @@
 #include <System.Private.CoreLib/System/RuntimeType-dep.h>
 #include <System.Private.CoreLib/System/RuntimeTypeHandle-dep.h>
 #include <System.Private.CoreLib/System/SR-dep.h>
+#include <System.Private.CoreLib/System/String-dep.h>
 #include <System.Private.CoreLib/System/Text/StringBuilder-dep.h>
 
 namespace System::Private::CoreLib::System::Reflection::Emit::SignatureHelperNamespace {
@@ -53,6 +54,7 @@ SignatureHelper SignatureHelper___::GetMethodSigHelper(Module scope, CallingConv
 
 SignatureHelper SignatureHelper___::GetMethodSigHelper(Module scope, CallingConventions callingConvention, Int32 cGenericParam, Type returnType, Array<Type> requiredReturnTypeCustomModifiers, Array<Type> optionalReturnTypeCustomModifiers, Array<Type> parameterTypes, Array<Array<Type>> requiredParameterTypeCustomModifiers, Array<Array<Type>> optionalParameterTypeCustomModifiers) {
   if (returnType == nullptr) {
+    returnType = rt::typeof<void>();
   }
   MdSigCallingConvention mdSigCallingConvention = MdSigCallingConvention::Default;
   if ((callingConvention & CallingConventions::VarArgs) == CallingConventions::VarArgs) {
@@ -71,6 +73,7 @@ SignatureHelper SignatureHelper___::GetMethodSigHelper(Module scope, CallingConv
 
 SignatureHelper SignatureHelper___::GetMethodSigHelper(Module mod, CallingConvention unmanagedCallConv, Type returnType) {
   if ((Object)returnType == nullptr) {
+    returnType = rt::typeof<void>();
   }
   MdSigCallingConvention callingConvention;
   switch (unmanagedCallConv) {
@@ -123,6 +126,7 @@ SignatureHelper SignatureHelper___::GetPropertySigHelper(Module mod, Type return
 
 SignatureHelper SignatureHelper___::GetPropertySigHelper(Module mod, CallingConventions callingConvention, Type returnType, Array<Type> requiredReturnTypeCustomModifiers, Array<Type> optionalReturnTypeCustomModifiers, Array<Type> parameterTypes, Array<Array<Type>> requiredParameterTypeCustomModifiers, Array<Array<Type>> optionalParameterTypeCustomModifiers) {
   if (returnType == nullptr) {
+    returnType = rt::typeof<void>();
   }
   MdSigCallingConvention mdSigCallingConvention = MdSigCallingConvention::Property;
   if ((callingConvention & CallingConventions::HasThis) == CallingConventions::HasThis) {
@@ -280,6 +284,12 @@ void SignatureHelper___::AddOneArgTypeHelperWorker(Type clsArgument, Boolean las
   if (rt::is<RuntimeType>(clsArgument)) {
     corElementType = RuntimeTypeHandle::GetCorElementType((RuntimeType)clsArgument);
     if (corElementType == CorElementType::ELEMENT_TYPE_CLASS) {
+      if (clsArgument == rt::typeof<Object>()) {
+        corElementType = CorElementType::ELEMENT_TYPE_OBJECT;
+      } else if (clsArgument == rt::typeof<String>()) {
+        corElementType = CorElementType::ELEMENT_TYPE_STRING;
+      }
+
     }
   }
   if (IsSimpleType(corElementType)) {

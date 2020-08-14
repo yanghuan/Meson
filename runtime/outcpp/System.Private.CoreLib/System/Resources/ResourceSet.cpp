@@ -31,6 +31,11 @@ void ResourceSet___::ctor(Stream stream) {
 }
 
 void ResourceSet___::ctor(IResourceReader reader) {
+  auto default = reader;
+  if (default != nullptr) default = rt::throw_exception(rt::newobj<ArgumentNullException>("reader"));
+
+  Reader = (default);
+  ReadResources();
 }
 
 void ResourceSet___::Close() {
@@ -52,6 +57,7 @@ void ResourceSet___::Dispose() {
 }
 
 Type ResourceSet___::GetDefaultReader() {
+  return rt::typeof<ResourceReader>();
 }
 
 Type ResourceSet___::GetDefaultWriter() {

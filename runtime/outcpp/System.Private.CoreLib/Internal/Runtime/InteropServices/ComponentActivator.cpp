@@ -38,6 +38,16 @@ Int32 ComponentActivator::LoadAssemblyAndGetFunctionPointer(IntPtr assemblyPathN
 }
 
 IsolatedComponentLoadContext ComponentActivator::GetIsolatedComponentLoadContext(String assemblyPath) {
+  {
+    rt::lock(s_assemblyLoadContexts);
+    IsolatedComponentLoadContext value;
+    if (!s_assemblyLoadContexts->TryGetValue(assemblyPath, value)) {
+      value = rt::newobj<IsolatedComponentLoadContext>(assemblyPath);
+      s_assemblyLoadContexts->Add(assemblyPath, value);
+      return value;
+    }
+    return value;
+  }
 }
 
 void ComponentActivator::cctor() {

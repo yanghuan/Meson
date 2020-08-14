@@ -1,9 +1,13 @@
 #include "EventPipeConfiguration-dep.h"
 
+#include <System.Private.CoreLib/System/ArgumentNullException-dep.h>
 #include <System.Private.CoreLib/System/ArgumentOutOfRangeException-dep.h>
+#include <System.Private.CoreLib/System/Collections/Generic/List-dep.h>
 #include <System.Private.CoreLib/System/TimeSpan-dep.h>
 
 namespace System::Private::CoreLib::System::Diagnostics::Tracing::EventPipeConfigurationNamespace {
+using namespace System::Collections::Generic;
+
 String EventPipeConfiguration___::get_OutputFile() {
   return m_outputFile;
 }
@@ -22,6 +26,17 @@ Array<EventPipeProviderConfiguration> EventPipeConfiguration___::get_Providers()
 
 void EventPipeConfiguration___::ctor(String outputFile, EventPipeSerializationFormat format, UInt32 circularBufferSizeInMB) {
   m_minTimeBetweenSamples = TimeSpan::FromMilliseconds(1);
+  Object::ctor();
+  if (String::in::IsNullOrEmpty(outputFile)) {
+    rt::throw_exception<ArgumentNullException>("outputFile");
+  }
+  if (circularBufferSizeInMB == 0) {
+    rt::throw_exception<ArgumentOutOfRangeException>("circularBufferSizeInMB");
+  }
+  m_outputFile = outputFile;
+  m_format = format;
+  m_circularBufferSizeInMB = circularBufferSizeInMB;
+  m_providers = rt::newobj<List<EventPipeProviderConfiguration>>();
 }
 
 void EventPipeConfiguration___::EnableProvider(String providerName, UInt64 keywords, UInt32 loggingLevel) {

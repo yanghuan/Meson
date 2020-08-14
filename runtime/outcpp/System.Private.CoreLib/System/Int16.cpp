@@ -137,6 +137,13 @@ Boolean Int16::TryParse(ReadOnlySpan<Char> s, NumberStyles style, IFormatProvide
 }
 
 Boolean Int16::TryParse(ReadOnlySpan<Char> s, NumberStyles style, NumberFormatInfo info, Int16& result) {
+  Int32 result2;
+  if (Number::TryParseInt32(s, style, info, result2) != 0 || (UInt32)(result2 - -32768 - ((Int32)(style & NumberStyles::AllowHexSpecifier) << 6)) > 65535u) {
+    result = 0;
+    return false;
+  }
+  result = (Int16)result2;
+  return true;
 }
 
 TypeCode Int16::GetTypeCode() {

@@ -21,6 +21,13 @@ Object TimeZone___::get_InternalSyncObject() {
 TimeZone TimeZone___::get_CurrentTimeZone() {
   TimeZone timeZone = currentTimeZone;
   if (timeZone == nullptr) {
+    {
+      rt::lock(get_InternalSyncObject());
+      if (currentTimeZone == nullptr) {
+        currentTimeZone = rt::newobj<CurrentSystemTimeZone>();
+      }
+      return currentTimeZone;
+    }
   }
   return timeZone;
 }
@@ -30,6 +37,10 @@ void TimeZone___::ctor() {
 
 void TimeZone___::ResetTimeZone() {
   if (currentTimeZone != nullptr) {
+    {
+      rt::lock(get_InternalSyncObject());
+      currentTimeZone = nullptr;
+    }
   }
 }
 

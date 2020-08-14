@@ -8,6 +8,7 @@ void InvalidFilterCriteriaException___::ctor(String message) {
 }
 
 void InvalidFilterCriteriaException___::ctor(String message, Exception inner) {
+  Exception::set_HResult = -2146232831;
 }
 
 void InvalidFilterCriteriaException___::ctor(SerializationInfo info, StreamingContext context) {

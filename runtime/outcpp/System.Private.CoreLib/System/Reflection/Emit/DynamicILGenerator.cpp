@@ -5,13 +5,16 @@
 #include <System.Private.CoreLib/System/InvalidOperationException-dep.h>
 #include <System.Private.CoreLib/System/ModuleHandle-dep.h>
 #include <System.Private.CoreLib/System/NotSupportedException-dep.h>
+#include <System.Private.CoreLib/System/Reflection/Emit/__ExceptionInfo-dep.h>
 #include <System.Private.CoreLib/System/Reflection/Emit/DynamicILGenerator-dep.h>
 #include <System.Private.CoreLib/System/Reflection/Emit/DynamicResolver-dep.h>
 #include <System.Private.CoreLib/System/Reflection/Emit/DynamicScope-dep.h>
+#include <System.Private.CoreLib/System/Reflection/Emit/Label-dep.h>
 #include <System.Private.CoreLib/System/Reflection/Emit/MethodBuilder-dep.h>
 #include <System.Private.CoreLib/System/Reflection/Emit/OpCodes-dep.h>
 #include <System.Private.CoreLib/System/Reflection/Emit/SignatureHelper-dep.h>
 #include <System.Private.CoreLib/System/Reflection/Emit/StackBehaviour.h>
+#include <System.Private.CoreLib/System/Reflection/Emit/SymbolMethod-dep.h>
 #include <System.Private.CoreLib/System/Reflection/Emit/VarArgMethod-dep.h>
 #include <System.Private.CoreLib/System/Reflection/ParameterInfo-dep.h>
 #include <System.Private.CoreLib/System/Reflection/RuntimeConstructorInfo-dep.h>
@@ -66,6 +69,17 @@ void DynamicILGenerator___::Emit(OpCode opcode, MethodInfo meth) {
   }
   EnsureCapacity(7);
   InternalEmit(opcode);
+  if (opcode.get_StackBehaviourPush() == StackBehaviour::Varpush && meth->get_ReturnType() != rt::typeof<void>()) {
+    num++;
+  }
+  if (opcode.get_StackBehaviourPop() == StackBehaviour::Varpop) {
+    num -= meth->GetParametersNoCopy()->get_Length();
+  }
+  if (!meth->get_IsStatic() && !opcode.Equals(OpCodes::in::Newobj) && !opcode.Equals(OpCodes::in::Ldtoken) && !opcode.Equals(OpCodes::in::Ldftn)) {
+    num--;
+  }
+  UpdateStackSize(opcode, num);
+  PutInteger4(num2);
 }
 
 void DynamicILGenerator___::Emit(OpCode opcode, ConstructorInfo con) {
@@ -130,6 +144,22 @@ void DynamicILGenerator___::EmitCalli(OpCode opcode, CallingConventions callingC
   SignatureHelper memberRefSignature = GetMemberRefSignature(callingConvention, returnType, parameterTypes, optionalParameterTypes);
   EnsureCapacity(7);
   Emit(OpCodes::in::Calli);
+  if (returnType != rt::typeof<void>()) {
+    num++;
+  }
+  if (parameterTypes != nullptr) {
+    num -= parameterTypes->get_Length();
+  }
+  if (optionalParameterTypes != nullptr) {
+    num -= optionalParameterTypes->get_Length();
+  }
+  if ((callingConvention & CallingConventions::HasThis) == CallingConventions::HasThis) {
+    num--;
+  }
+  num--;
+  UpdateStackSize(OpCodes::in::Calli, num);
+  Int32 tokenForSig = GetTokenForSig(memberRefSignature->GetSignature(true));
+  PutInteger4(tokenForSig);
 }
 
 void DynamicILGenerator___::EmitCalli(OpCode opcode, CallingConvention unmanagedCallConv, Type returnType, Array<Type> parameterTypes) {
@@ -144,6 +174,18 @@ void DynamicILGenerator___::EmitCalli(OpCode opcode, CallingConvention unmanaged
       methodSigHelper->AddArgument(parameterTypes[i]);
     }
   }
+  if (returnType != rt::typeof<void>()) {
+    num++;
+  }
+  if (parameterTypes != nullptr) {
+    num -= num2;
+  }
+  num--;
+  UpdateStackSize(OpCodes::in::Calli, num);
+  EnsureCapacity(7);
+  Emit(OpCodes::in::Calli);
+  Int32 tokenForSig = GetTokenForSig(methodSigHelper->GetSignature(true));
+  PutInteger4(tokenForSig);
 }
 
 void DynamicILGenerator___::EmitCall(OpCode opcode, MethodInfo methodInfo, Array<Type> optionalParameterTypes) {
@@ -163,6 +205,18 @@ void DynamicILGenerator___::EmitCall(OpCode opcode, MethodInfo methodInfo, Array
   Int32 memberRefToken = GetMemberRefToken(methodInfo, optionalParameterTypes);
   EnsureCapacity(7);
   InternalEmit(opcode);
+  if (methodInfo->get_ReturnType() != rt::typeof<void>()) {
+    num++;
+  }
+  num -= methodInfo->GetParameterTypes()->get_Length();
+  if (!rt::is<SymbolMethod>(methodInfo) && !methodInfo->get_IsStatic() && !opcode.Equals(OpCodes::in::Newobj)) {
+    num--;
+  }
+  if (optionalParameterTypes != nullptr) {
+    num -= optionalParameterTypes->get_Length();
+  }
+  UpdateStackSize(opcode, num);
+  PutInteger4(memberRefToken);
 }
 
 void DynamicILGenerator___::Emit(OpCode opcode, SignatureHelper signature) {
@@ -182,9 +236,41 @@ void DynamicILGenerator___::Emit(OpCode opcode, SignatureHelper signature) {
 }
 
 void DynamicILGenerator___::BeginExceptFilterBlock() {
+  if (ILGenerator::get_CurrExcStackCount() == 0) {
+    rt::throw_exception<NotSupportedException>(SR::get_Argument_NotInExceptionBlock());
+  }
+  __ExceptionInfo _ExceptionInfo = ILGenerator::get_CurrExcStack()[ILGenerator::get_CurrExcStackCount() - 1];
+  Label endLabel = _ExceptionInfo->GetEndLabel();
+  Emit(OpCodes::in::Leave, endLabel);
+  UpdateStackSize(OpCodes::in::Nop, 1);
+  _ExceptionInfo->MarkFilterAddr(get_ILOffset());
 }
 
 void DynamicILGenerator___::BeginCatchBlock(Type exceptionType) {
+  if (ILGenerator::get_CurrExcStackCount() == 0) {
+    rt::throw_exception<NotSupportedException>(SR::get_Argument_NotInExceptionBlock());
+  }
+  __ExceptionInfo _ExceptionInfo = ILGenerator::get_CurrExcStack()[ILGenerator::get_CurrExcStackCount() - 1];
+  RuntimeType runtimeType = rt::as<RuntimeType>(exceptionType);
+  if (_ExceptionInfo->GetCurrentState() == 1) {
+    if (exceptionType != nullptr) {
+      rt::throw_exception<ArgumentException>(SR::get_Argument_ShouldNotSpecifyExceptionType());
+    }
+    Emit(OpCodes::in::Endfilter);
+    _ExceptionInfo->MarkCatchAddr(get_ILOffset(), nullptr);
+    return;
+  }
+  if (exceptionType == nullptr) {
+    rt::throw_exception<ArgumentNullException>("exceptionType");
+  }
+  if (runtimeType == nullptr) {
+    rt::throw_exception<ArgumentException>(SR::get_Argument_MustBeRuntimeType());
+  }
+  Label endLabel = _ExceptionInfo->GetEndLabel();
+  Emit(OpCodes::in::Leave, endLabel);
+  UpdateStackSize(OpCodes::in::Nop, 1);
+  _ExceptionInfo->MarkCatchAddr(get_ILOffset(), exceptionType);
+  _ExceptionInfo->m_filterAddr[_ExceptionInfo->m_currentCatch - 1] = GetTokenFor(runtimeType);
 }
 
 void DynamicILGenerator___::UsingNamespace(String ns) {

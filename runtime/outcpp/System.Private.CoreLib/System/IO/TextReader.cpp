@@ -180,6 +180,10 @@ String TextReader___::ReadToEnd() {
 Int32 TextReader___::ReadBlock(Array<Char> buffer, Int32 index, Int32 count) {
   Int32 num = 0;
   Int32 num2;
+  do {
+    num += (num2 = Read(buffer, index + num, count - num));
+  } while (num2 > 0 && num < count)
+  return num;
 }
 
 Int32 TextReader___::ReadBlock(Span<Char> buffer) {
@@ -272,6 +276,9 @@ ValueTask<Int32> TextReader___::ReadBlockAsync(Memory<Char> buffer, Cancellation
 ValueTask<Int32> TextReader___::ReadBlockAsyncInternal(Memory<Char> buffer, CancellationToken cancellationToken) {
   Int32 i = 0;
   Int32 num;
+  do {
+  } while (num > 0 && i < buffer.get_Length())
+  return i;
 }
 
 TextReader TextReader___::Synchronized(TextReader reader) {

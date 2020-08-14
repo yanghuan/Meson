@@ -1,6 +1,7 @@
 #include "Mutex-dep.h"
 
 #include <System.Private.CoreLib/Interop-dep.h>
+#include <System.Private.CoreLib/System/ApplicationException-dep.h>
 #include <System.Private.CoreLib/System/ArgumentException-dep.h>
 #include <System.Private.CoreLib/System/ArgumentNullException-dep.h>
 #include <System.Private.CoreLib/System/Int32-dep.h>
@@ -22,15 +23,22 @@ void Mutex___::ctor(Boolean initiallyOwned, String name, Boolean& createdNew) {
 }
 
 void Mutex___::ctor(Boolean initiallyOwned, String name) {
+  Boolean _;
+  CreateMutexCore(initiallyOwned, name, _);
 }
 
 void Mutex___::ctor(Boolean initiallyOwned) {
+  Boolean _;
+  CreateMutexCore(initiallyOwned, nullptr, _);
 }
 
 void Mutex___::ctor() {
+  Boolean _;
+  CreateMutexCore(false, nullptr, _);
 }
 
 void Mutex___::ctor(SafeWaitHandle handle) {
+  WaitHandle::set_SafeWaitHandle = handle;
 }
 
 Mutex Mutex___::OpenExisting(String name) {
@@ -63,6 +71,7 @@ void Mutex___::CreateMutexCore(Boolean initiallyOwned, String name, Boolean& cre
     rt::throw_exception(Win32Marshal::GetExceptionForWin32Error(lastWin32Error, name));
   }
   createdNew = (lastWin32Error != 183);
+  WaitHandle::set_SafeWaitHandle = safeWaitHandle;
 }
 
 WaitHandle::in::OpenExistingResult Mutex___::OpenExistingWorker(String name, Mutex& result) {
@@ -92,6 +101,9 @@ WaitHandle::in::OpenExistingResult Mutex___::OpenExistingWorker(String name, Mut
 }
 
 void Mutex___::ReleaseMutex() {
+  if (!Interop::Kernel32::ReleaseMutex(WaitHandle::get_SafeWaitHandle())) {
+    rt::throw_exception<ApplicationException>(SR::get_Arg_SynchronizationLockException());
+  }
 }
 
 } // namespace System::Private::CoreLib::System::Threading::MutexNamespace

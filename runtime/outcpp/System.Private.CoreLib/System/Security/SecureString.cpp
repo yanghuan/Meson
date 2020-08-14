@@ -1,12 +1,15 @@
 #include "SecureString-dep.h"
 
 #include <System.Private.CoreLib/Interop-dep.h>
+#include <System.Private.CoreLib/System/ArgumentNullException-dep.h>
 #include <System.Private.CoreLib/System/ArgumentOutOfRangeException-dep.h>
 #include <System.Private.CoreLib/System/Buffer-dep.h>
 #include <System.Private.CoreLib/System/Byte-dep.h>
+#include <System.Private.CoreLib/System/Char-dep.h>
 #include <System.Private.CoreLib/System/InvalidOperationException-dep.h>
 #include <System.Private.CoreLib/System/Math-dep.h>
 #include <System.Private.CoreLib/System/ObjectDisposedException-dep.h>
+#include <System.Private.CoreLib/System/ReadOnlySpan-dep.h>
 #include <System.Private.CoreLib/System/Runtime/InteropServices/Marshal-dep.h>
 #include <System.Private.CoreLib/System/Security/Cryptography/CryptographicException-dep.h>
 #include <System.Private.CoreLib/System/Security/SecureString-dep.h>
@@ -65,10 +68,23 @@ Int32 SecureString___::get_Length() {
 
 void SecureString___::ctor() {
   _methodLock = rt::newobj<Object>();
+  Object::ctor();
+  Initialize(ReadOnlySpan<Char>::get_Empty());
 }
 
 void SecureString___::ctor(Char* value, Int32 length) {
   _methodLock = rt::newobj<Object>();
+  Object::ctor();
+  if (value == nullptr) {
+    rt::throw_exception<ArgumentNullException>("value");
+  }
+  if (length < 0) {
+    rt::throw_exception<ArgumentOutOfRangeException>("length", SR::get_ArgumentOutOfRange_NeedNonNegNum());
+  }
+  if (length > 65536) {
+    rt::throw_exception<ArgumentOutOfRangeException>("length", SR::get_ArgumentOutOfRange_Length());
+  }
+  Initialize(ReadOnlySpan<Char>(value, length));
 }
 
 void SecureString___::Initialize(ReadOnlySpan<Char> value) {
@@ -85,6 +101,11 @@ void SecureString___::Initialize(ReadOnlySpan<Char> value) {
 
 void SecureString___::ctor(SecureString str) {
   _methodLock = rt::newobj<Object>();
+  Object::ctor();
+  _buffer = UnmanagedBuffer::in::Allocate((Int32)str->_buffer->get_ByteLength());
+  UnmanagedBuffer::in::Copy(str->_buffer, _buffer, str->_buffer->get_ByteLength());
+  _decryptedLength = str->_decryptedLength;
+  _encrypted = str->_encrypted;
 }
 
 void SecureString___::EnsureCapacity(Int32 capacity) {
@@ -101,18 +122,74 @@ void SecureString___::EnsureCapacity(Int32 capacity) {
 }
 
 void SecureString___::AppendChar(Char c) {
+  {
+    rt::lock(_methodLock);
+    EnsureNotDisposed();
+    EnsureNotReadOnly();
+    SafeBuffer bufferToRelease = nullptr;
+    try{
+      UnprotectMemory();
+      EnsureCapacity(_decryptedLength + 1);
+      AcquireSpan(bufferToRelease)[_decryptedLength] = c;
+      _decryptedLength++;
+    } finally: {
+      ProtectMemory();
+    }
+  }
 }
 
 void SecureString___::Clear() {
+  {
+    rt::lock(_methodLock);
+    EnsureNotDisposed();
+    EnsureNotReadOnly();
+    _decryptedLength = 0;
+    SafeBuffer bufferToRelease = nullptr;
+    try{
+      AcquireSpan(bufferToRelease).Clear();
+    } finally: {
+    }
+  }
 }
 
 SecureString SecureString___::Copy() {
+  {
+    rt::lock(_methodLock);
+    EnsureNotDisposed();
+    return rt::newobj<SecureString>((SecureString)this);
+  }
 }
 
 void SecureString___::Dispose() {
+  {
+    rt::lock(_methodLock);
+    if (_buffer != nullptr) {
+      _buffer->Dispose();
+      _buffer = nullptr;
+    }
+  }
 }
 
 void SecureString___::InsertAt(Int32 index, Char c) {
+  {
+    rt::lock(_methodLock);
+    if (index < 0 || index > _decryptedLength) {
+      rt::throw_exception<ArgumentOutOfRangeException>("index", SR::get_ArgumentOutOfRange_IndexString());
+    }
+    EnsureNotDisposed();
+    EnsureNotReadOnly();
+    SafeBuffer bufferToRelease = nullptr;
+    try{
+      UnprotectMemory();
+      EnsureCapacity(_decryptedLength + 1);
+      Span<Char> span = AcquireSpan(bufferToRelease);
+      span.Slice(index, _decryptedLength - index).CopyTo(span.Slice(index + 1));
+      span[index] = c;
+      _decryptedLength++;
+    } finally: {
+      ProtectMemory();
+    }
+  }
 }
 
 Boolean SecureString___::IsReadOnly() {
@@ -126,9 +203,41 @@ void SecureString___::MakeReadOnly() {
 }
 
 void SecureString___::RemoveAt(Int32 index) {
+  {
+    rt::lock(_methodLock);
+    if (index < 0 || index >= _decryptedLength) {
+      rt::throw_exception<ArgumentOutOfRangeException>("index", SR::get_ArgumentOutOfRange_IndexString());
+    }
+    EnsureNotDisposed();
+    EnsureNotReadOnly();
+    SafeBuffer bufferToRelease = nullptr;
+    try{
+      UnprotectMemory();
+      Span<Char> span = AcquireSpan(bufferToRelease);
+      span.Slice(index + 1, _decryptedLength - (index + 1)).CopyTo(span.Slice(index));
+      _decryptedLength--;
+    } finally: {
+      ProtectMemory();
+    }
+  }
 }
 
 void SecureString___::SetAt(Int32 index, Char c) {
+  {
+    rt::lock(_methodLock);
+    if (index < 0 || index >= _decryptedLength) {
+      rt::throw_exception<ArgumentOutOfRangeException>("index", SR::get_ArgumentOutOfRange_IndexString());
+    }
+    EnsureNotDisposed();
+    EnsureNotReadOnly();
+    SafeBuffer bufferToRelease = nullptr;
+    try{
+      UnprotectMemory();
+      AcquireSpan(bufferToRelease)[index] = c;
+    } finally: {
+      ProtectMemory();
+    }
+  }
 }
 
 Span<Char> SecureString___::AcquireSpan(SafeBuffer& bufferToRelease) {
@@ -152,9 +261,65 @@ void SecureString___::EnsureNotDisposed() {
 }
 
 IntPtr SecureString___::MarshalToBSTR() {
+  {
+    rt::lock(_methodLock);
+    EnsureNotDisposed();
+    UnprotectMemory();
+    SafeBuffer bufferToRelease = nullptr;
+    IntPtr intPtr = IntPtr::Zero;
+    Int32 length = 0;
+    try{
+      Span<Char> span = AcquireSpan(bufferToRelease);
+      length = _decryptedLength;
+      intPtr = Marshal::AllocBSTR(length);
+      span.Slice(0, length).CopyTo(Span<Char>((void*)intPtr, length));
+      IntPtr result = intPtr;
+      intPtr = IntPtr::Zero;
+      return result;
+    } finally: {
+      if (intPtr != IntPtr::Zero) {
+        Span<Char>((void*)intPtr, length).Clear();
+        Marshal::FreeBSTR(intPtr);
+      }
+      ProtectMemory();
+    }
+  }
 }
 
 IntPtr SecureString___::MarshalToString(Boolean globalAlloc, Boolean unicode) {
+  {
+    rt::lock(_methodLock);
+    EnsureNotDisposed();
+    UnprotectMemory();
+    SafeBuffer bufferToRelease = nullptr;
+    IntPtr intPtr = IntPtr::Zero;
+    Int32 num = 0;
+    try{
+      Span<Char> span = AcquireSpan(bufferToRelease).Slice(0, _decryptedLength);
+      num = ((!unicode) ? Marshal::GetAnsiStringByteCount(span) : ((span.get_Length() + 1) * 2));
+      intPtr = ((!globalAlloc) ? Marshal::AllocCoTaskMem(num) : Marshal::AllocHGlobal(num));
+      if (unicode) {
+        Span<Char> destination = Span<Char>((void*)intPtr, num / 2);
+        span.CopyTo(destination);
+        destination[destination.get_Length() - 1] = 0;
+      } else {
+        Marshal::GetAnsiStringBytes(span, Span<Byte>((void*)intPtr, num));
+      }
+      IntPtr result = intPtr;
+      intPtr = IntPtr::Zero;
+      return result;
+    } finally: {
+      if (intPtr != IntPtr::Zero) {
+        Span<Byte>((void*)intPtr, num).Clear();
+        if (globalAlloc) {
+          Marshal::FreeHGlobal(intPtr);
+        } else {
+          Marshal::FreeCoTaskMem(intPtr);
+        }
+      }
+      ProtectMemory();
+    }
+  }
 }
 
 Int32 SecureString___::GetAlignedByteSize(Int32 length) {

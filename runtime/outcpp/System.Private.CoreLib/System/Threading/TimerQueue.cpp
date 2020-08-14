@@ -3,6 +3,7 @@
 #include <System.Private.CoreLib/Interop-dep.h>
 #include <System.Private.CoreLib/System/Environment-dep.h>
 #include <System.Private.CoreLib/System/Math-dep.h>
+#include <System.Private.CoreLib/System/Threading/ThreadPool-dep.h>
 #include <System.Private.CoreLib/System/Threading/TimerQueue-dep.h>
 #include <System.Private.CoreLib/System/Threading/TimerQueueTimer-dep.h>
 #include <System.Private.CoreLib/System/UInt64-dep.h>
@@ -26,6 +27,8 @@ Int64 TimerQueue___::get_TickCount64() {
 
 void TimerQueue___::ctor(Int32 id) {
   _currentAbsoluteThreshold = get_TickCount64() + 333;
+  Object::ctor();
+  _id = id;
 }
 
 Boolean TimerQueue___::SetTimer(UInt32 actualDuration) {
@@ -71,6 +74,68 @@ Boolean TimerQueue___::EnsureTimerFiresBy(UInt32 requestedDuration) {
 
 void TimerQueue___::FireNextTimers() {
   TimerQueueTimer timerQueueTimer = nullptr;
+  {
+    rt::lock((TimerQueue)this);
+    _isTimerScheduled = false;
+    Boolean flag = false;
+    UInt32 num = UInt32::MaxValue;
+    Int64 tickCount = get_TickCount64();
+    TimerQueueTimer timerQueueTimer2 = _shortTimers;
+    for (Int32 i = 0; i < 2; i++) {
+      while (timerQueueTimer2 != nullptr) {
+        TimerQueueTimer next = timerQueueTimer2->_next;
+        Int64 num2 = tickCount - timerQueueTimer2->_startTicks;
+        Int64 num3 = timerQueueTimer2->_dueTime - num2;
+        if (num3 <= 0) {
+          if (timerQueueTimer2->_period != UInt32::MaxValue) {
+            timerQueueTimer2->_startTicks = tickCount;
+            Int64 num4 = num2 - timerQueueTimer2->_dueTime;
+            timerQueueTimer2->_dueTime = ((num4 >= timerQueueTimer2->_period) ? 1u : (timerQueueTimer2->_period - (UInt32)(Int32)num4));
+            if (timerQueueTimer2->_dueTime < num) {
+              flag = true;
+              num = timerQueueTimer2->_dueTime;
+            }
+            Boolean flag2 = tickCount + timerQueueTimer2->_dueTime - _currentAbsoluteThreshold <= 0;
+            if (timerQueueTimer2->_short != flag2) {
+              MoveTimerToCorrectList(timerQueueTimer2, flag2);
+            }
+          } else {
+            DeleteTimer(timerQueueTimer2);
+          }
+          if (timerQueueTimer == nullptr) {
+            timerQueueTimer = timerQueueTimer2;
+          } else {
+            ThreadPool::UnsafeQueueUserWorkItemInternal(timerQueueTimer2, false);
+          }
+        } else {
+          if (num3 < num) {
+            flag = true;
+            num = (UInt32)num3;
+          }
+          if (!timerQueueTimer2->_short && num3 <= 333) {
+            MoveTimerToCorrectList(timerQueueTimer2, true);
+          }
+        }
+        timerQueueTimer2 = next;
+      }
+      if (i != 0) {
+        continue;
+      }
+      Int64 num5 = _currentAbsoluteThreshold - tickCount;
+      if (num5 > 0) {
+        if (_shortTimers == nullptr && _longTimers != nullptr) {
+          num = (UInt32)((Int32)num5 + 1);
+          flag = true;
+        }
+        break;
+      }
+      timerQueueTimer2 = _longTimers;
+      _currentAbsoluteThreshold = tickCount + 333;
+    }
+    if (flag) {
+      EnsureTimerFiresBy(num);
+    }
+  }
 }
 
 Boolean TimerQueue___::UpdateTimer(TimerQueueTimer timer, UInt32 dueTime, UInt32 period) {

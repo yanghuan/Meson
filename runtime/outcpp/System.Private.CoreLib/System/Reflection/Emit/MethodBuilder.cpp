@@ -11,15 +11,20 @@
 #include <System.Private.CoreLib/System/Reflection/Emit/__ExceptionInfo-dep.h>
 #include <System.Private.CoreLib/System/Reflection/Emit/EmptyCAHolder-dep.h>
 #include <System.Private.CoreLib/System/Reflection/Emit/ExceptionHandler-dep.h>
+#include <System.Private.CoreLib/System/Reflection/Emit/LocalSymInfo-dep.h>
 #include <System.Private.CoreLib/System/Reflection/Emit/MethodBuilder-dep.h>
 #include <System.Private.CoreLib/System/Reflection/Emit/MethodBuilderInstantiation-dep.h>
+#include <System.Private.CoreLib/System/Reflection/MethodImplAttributes.h>
+#include <System.Private.CoreLib/System/Runtime/CompilerServices/MethodImplAttribute-dep.h>
 #include <System.Private.CoreLib/System/Runtime/CompilerServices/QCallModule-dep.h>
+#include <System.Private.CoreLib/System/Runtime/InteropServices/DllImportAttribute-dep.h>
 #include <System.Private.CoreLib/System/SR-dep.h>
 #include <System.Private.CoreLib/System/Text/StringBuilder-dep.h>
 
 namespace System::Private::CoreLib::System::Reflection::Emit::MethodBuilderNamespace {
 using namespace System::Diagnostics::SymbolStore;
 using namespace System::Runtime::CompilerServices;
+using namespace System::Runtime::InteropServices;
 using namespace System::Text;
 
 Int32 MethodBuilder___::get_ExceptionHandlerCount() {
@@ -136,6 +141,34 @@ void MethodBuilder___::ctor(String name, MethodAttributes attributes, CallingCon
   m_strName = name;
   m_module = mod;
   m_containingType = type;
+  auto default = returnType;
+  if (default != nullptr) default = rt::typeof<void>();
+
+  m_returnType = (default);
+  if ((attributes & MethodAttributes::Static) == 0) {
+    callingConvention |= CallingConventions::HasThis;
+  } else if ((attributes & MethodAttributes::Virtual) != 0) {
+    rt::throw_exception<ArgumentException>(SR::get_Arg_NoStaticVirtual());
+  }
+
+  m_callingConvention = callingConvention;
+  if (parameterTypes != nullptr) {
+    m_parameterTypes = rt::newarr<Array<Type>>(parameterTypes->get_Length());
+    Array<>::in::Copy(parameterTypes, m_parameterTypes, parameterTypes->get_Length());
+  } else {
+    m_parameterTypes = nullptr;
+  }
+  m_returnTypeRequiredCustomModifiers = returnTypeRequiredCustomModifiers;
+  m_returnTypeOptionalCustomModifiers = returnTypeOptionalCustomModifiers;
+  m_parameterTypeRequiredCustomModifiers = parameterTypeRequiredCustomModifiers;
+  m_parameterTypeOptionalCustomModifiers = parameterTypeOptionalCustomModifiers;
+  m_iAttributes = attributes;
+  m_bIsBaked = false;
+  m_fInitLocals = true;
+  m_localSymInfo = rt::newobj<LocalSymInfo>();
+  m_ubBody = nullptr;
+  m_ilGenerator = nullptr;
+  m_dwMethodImplFlags = MethodImplAttributes::IL;
 }
 
 void MethodBuilder___::CheckContext(Array<Array<Type>> typess) {
@@ -223,6 +256,10 @@ void MethodBuilder___::ReleaseBakedStructures() {
 }
 
 Array<Type> MethodBuilder___::GetParameterTypes() {
+  auto default = m_parameterTypes;
+  if (default != nullptr) default = (m_parameterTypes = Array<>::in::Empty<Type>());
+
+  return default;
 }
 
 Type MethodBuilder___::GetMethodBaseReturnType(MethodBase method) {
@@ -371,6 +408,10 @@ MethodInfo MethodBuilder___::GetGenericMethodDefinition() {
 
 Array<Type> MethodBuilder___::GetGenericArguments() {
   Array<Type> inst = m_inst;
+  auto default = inst;
+  if (default != nullptr) default = Array<>::in::Empty<Type>();
+
+  return default;
 }
 
 MethodInfo MethodBuilder___::MakeGenericMethod(Array<Type> typeArguments) {
@@ -415,6 +456,22 @@ MethodToken MethodBuilder___::GetToken() {
   }
   MethodBuilder methodBuilder = nullptr;
   MethodToken result = MethodToken(0);
+  {
+    rt::lock(m_containingType->m_listMethods);
+    if (m_tkMethod.get_Token() != 0) {
+      return m_tkMethod;
+    }
+    Int32 i;
+    for (i = m_containingType->m_lastTokenizedMethod + 1; i < m_containingType->m_listMethods->get_Count(); i++) {
+      methodBuilder = m_containingType->m_listMethods[i];
+      result = methodBuilder->GetTokenNoLock();
+      if (methodBuilder == (MethodBuilder)this) {
+        break;
+      }
+    }
+    m_containingType->m_lastTokenizedMethod = i;
+    return result;
+  }
 }
 
 MethodToken MethodBuilder___::GetTokenNoLock() {
@@ -486,11 +543,19 @@ void MethodBuilder___::SetImplementationFlags(MethodImplAttributes attributes) {
 ILGenerator MethodBuilder___::GetILGenerator() {
   ThrowIfGeneric();
   ThrowIfShouldNotHaveBody();
+  auto default = m_ilGenerator;
+  if (default != nullptr) default = (m_ilGenerator = rt::newobj<ILGenerator>((MethodBuilder)this));
+
+  return default;
 }
 
 ILGenerator MethodBuilder___::GetILGenerator(Int32 size) {
   ThrowIfGeneric();
   ThrowIfShouldNotHaveBody();
+  auto default = m_ilGenerator;
+  if (default != nullptr) default = (m_ilGenerator = rt::newobj<ILGenerator>((MethodBuilder)this, size));
+
+  return default;
 }
 
 void MethodBuilder___::ThrowIfShouldNotHaveBody() {
@@ -530,10 +595,21 @@ void MethodBuilder___::SetCustomAttribute(CustomAttributeBuilder customBuilder) 
 
 Boolean MethodBuilder___::IsKnownCA(ConstructorInfo con) {
   Type declaringType = con->get_DeclaringType();
+  if (!(declaringType == rt::typeof<MethodImplAttribute>())) {
+    return declaringType == rt::typeof<DllImportAttribute>();
+  }
+  return true;
 }
 
 void MethodBuilder___::ParseCA(ConstructorInfo con) {
   Type declaringType = con->get_DeclaringType();
+  if (declaringType == rt::typeof<MethodImplAttribute>()) {
+    m_canBeRuntimeImpl = true;
+  } else if (declaringType == rt::typeof<DllImportAttribute>()) {
+    m_canBeRuntimeImpl = true;
+    m_isDllImport = true;
+  }
+
 }
 
 } // namespace System::Private::CoreLib::System::Reflection::Emit::MethodBuilderNamespace

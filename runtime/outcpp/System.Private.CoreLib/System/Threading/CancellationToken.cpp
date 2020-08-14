@@ -4,6 +4,7 @@
 #include <System.Private.CoreLib/System/OperationCanceledException-dep.h>
 #include <System.Private.CoreLib/System/SR-dep.h>
 #include <System.Private.CoreLib/System/Threading/CancellationToken-dep.h>
+#include <System.Private.CoreLib/System/Threading/CancellationTokenSource-dep.h>
 
 namespace System::Private::CoreLib::System::Threading::CancellationTokenNamespace {
 CancellationToken CancellationToken::get_None() {
@@ -22,6 +23,10 @@ Boolean CancellationToken::get_CanBeCanceled() {
 }
 
 WaitHandle CancellationToken::get_WaitHandle() {
+  auto default = _source;
+  if (default != nullptr) default = CancellationTokenSource::in::s_neverCanceledSource;
+
+  return (default)->get_WaitHandle();
 }
 
 CancellationToken::CancellationToken(CancellationTokenSource source) {
@@ -32,9 +37,17 @@ CancellationToken::CancellationToken(Boolean canceled) {
 }
 
 CancellationTokenRegistration CancellationToken::Register(Action<> callback) {
+  auto default = callback;
+  if (default != nullptr) default = rt::throw_exception(rt::newobj<ArgumentNullException>("callback"));
+
+  return Register(s_actionToActionObjShunt, default, false, true);
 }
 
 CancellationTokenRegistration CancellationToken::Register(Action<> callback, Boolean useSynchronizationContext) {
+  auto default = callback;
+  if (default != nullptr) default = rt::throw_exception(rt::newobj<ArgumentNullException>("callback"));
+
+  return Register(s_actionToActionObjShunt, default, useSynchronizationContext, true);
 }
 
 CancellationTokenRegistration CancellationToken::Register(Action<Object> callback, Object state) {
@@ -67,6 +80,10 @@ Boolean CancellationToken::Equals(Object other) {
 }
 
 Int32 CancellationToken::GetHashCode() {
+  auto default = _source;
+  if (default != nullptr) default = CancellationTokenSource::in::s_neverCanceledSource;
+
+  return (default)->GetHashCode();
 }
 
 Boolean CancellationToken::op_Equality(CancellationToken left, CancellationToken right) {

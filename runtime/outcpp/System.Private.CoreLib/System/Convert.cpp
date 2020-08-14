@@ -2210,6 +2210,33 @@ Boolean Convert::TryFromBase64Chars(ReadOnlySpan<Char> chars, Span<Byte> bytes, 
       }
       continue;
     }
+    Int32 consumed2;
+    Int32 charsWritten;
+    CopyToTempBufferWithoutWhiteSpace(chars, span, consumed2, charsWritten);
+    if ((charsWritten & 3) != 0) {
+      bytesWritten = 0;
+      return false;
+    }
+    span = span.Slice(0, charsWritten);
+    Int32 _;
+    Int32 written2;
+    if (!TryDecodeFromUtf16(span, bytes, _, written2)) {
+      bytesWritten = 0;
+      return false;
+    }
+    bytesWritten += written2;
+    chars = chars.Slice(consumed2);
+    bytes = bytes.Slice(written2);
+    if (written2 % 3 == 0) {
+      continue;
+    }
+    for (Int32 j = 0; j < chars.get_Length(); j++) {
+      if (!Convert::IsSpace(chars[j])) {
+        bytesWritten = 0;
+        return false;
+      }
+    }
+    return true;
   }
   return true;
 }
@@ -2268,6 +2295,11 @@ Array<Byte> Convert::FromBase64CharPtr(Char* inputPtr, Int32 inputLength) {
   }
   Int32 num2 = FromBase64_ComputeResultLength(inputPtr, inputLength);
   Array<Byte> array = rt::newarr<Array<Byte>>(num2);
+  Int32 _;
+  if (!TryFromBase64Chars(ReadOnlySpan<Char>(inputPtr, inputLength), array, _)) {
+    rt::throw_exception<FormatException>(SR::get_Format_BadBase64Char());
+  }
+  return array;
 }
 
 Int32 Convert::FromBase64_ComputeResultLength(Char* inputPtr, Int32 inputLength) {
@@ -2336,6 +2368,9 @@ Int32 Convert::FromBase64_ComputeResultLength(Char* inputPtr, Int32 inputLength)
 
 void Convert::cctor() {
   ConvertTypes = rt::newarr<Array<Type>>(19);
+  EnumType = rt::typeof<Enum>();
+  base64Table = rt::newarr<Array<Char>>(65);
+  DBNull = DBNull::in::Value;
 }
 
 } // namespace System::Private::CoreLib::System::ConvertNamespace

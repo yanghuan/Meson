@@ -12,6 +12,7 @@ using namespace System::Text;
 void TypeNameBuilder___::ctor() {
   _str = rt::newobj<StringBuilder>();
   _stack = rt::newobj<List<Int32>>();
+  Object::ctor();
 }
 
 void TypeNameBuilder___::OpenGenericArguments() {

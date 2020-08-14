@@ -8,6 +8,7 @@
 #include <System.Private.CoreLib/System/Collections/Generic/List-dep.h>
 #include <System.Private.CoreLib/System/DateTimeFormat-dep.h>
 #include <System.Private.CoreLib/System/Globalization/CompareOptions.h>
+#include <System.Private.CoreLib/System/Globalization/CultureData-dep.h>
 #include <System.Private.CoreLib/System/Globalization/DateTimeFormatFlags.h>
 #include <System.Private.CoreLib/System/Globalization/DateTimeFormatInfo-dep.h>
 #include <System.Private.CoreLib/System/Globalization/DateTimeFormatInfoScanner-dep.h>
@@ -15,12 +16,14 @@
 #include <System.Private.CoreLib/System/Globalization/HebrewNumberParsingContext-dep.h>
 #include <System.Private.CoreLib/System/Globalization/HebrewNumberParsingState.h>
 #include <System.Private.CoreLib/System/Globalization/JapaneseCalendar-dep.h>
+#include <System.Private.CoreLib/System/Globalization/NumberFormatInfo-dep.h>
 #include <System.Private.CoreLib/System/Globalization/TaiwanCalendar-dep.h>
 #include <System.Private.CoreLib/System/InvalidOperationException-dep.h>
 #include <System.Private.CoreLib/System/LocalAppContextSwitches-dep.h>
 #include <System.Private.CoreLib/System/MemoryExtensions-dep.h>
 #include <System.Private.CoreLib/System/ReadOnlySpan-dep.h>
 #include <System.Private.CoreLib/System/SR-dep.h>
+#include <System.Private.CoreLib/System/UInt32-dep.h>
 
 namespace System::Private::CoreLib::System::Globalization::DateTimeFormatInfoNamespace {
 using namespace System::Collections::Generic;
@@ -32,12 +35,24 @@ void DateTimeFormatInfo___::TokenHashValue___::ctor(String tokenString, TokenTyp
 }
 
 String DateTimeFormatInfo___::get_CultureName() {
+  auto default = _name;
+  if (default != nullptr) default = (_name = _cultureData->get_CultureName());
+
+  return default;
 }
 
 CultureInfo DateTimeFormatInfo___::get_Culture() {
+  auto default = _cultureInfo;
+  if (default != nullptr) default = (_cultureInfo = CultureInfo::in::GetCultureInfo(get_CultureName()));
+
+  return default;
 }
 
 String DateTimeFormatInfo___::get_LanguageName() {
+  auto default = _langName;
+  if (default != nullptr) default = (_langName = _cultureData->get_TwoLetterISOLanguageName());
+
+  return default;
 }
 
 DateTimeFormatInfo DateTimeFormatInfo___::get_InvariantInfo() {
@@ -58,6 +73,7 @@ DateTimeFormatInfo DateTimeFormatInfo___::get_CurrentInfo() {
       return dateTimeInfo;
     }
   }
+  return (DateTimeFormatInfo)currentCulture->GetFormat(rt::typeof<DateTimeFormatInfo>());
 }
 
 String DateTimeFormatInfo___::get_AMDesignator() {
@@ -130,12 +146,24 @@ void DateTimeFormatInfo___::set_Calendar(Calendar value) {
 }
 
 Array<CalendarId> DateTimeFormatInfo___::get_OptionalCalendars() {
+  auto default = optionalCalendars;
+  if (default != nullptr) default = (optionalCalendars = _cultureData->get_CalendarIds());
+
+  return default;
 }
 
 Array<String> DateTimeFormatInfo___::get_EraNames() {
+  auto default = m_eraNames;
+  if (default != nullptr) default = (m_eraNames = _cultureData->EraNames(get_Calendar()->get_ID()));
+
+  return default;
 }
 
 Array<String> DateTimeFormatInfo___::get_AbbreviatedEraNames() {
+  auto default = m_abbrevEraNames;
+  if (default != nullptr) default = (m_abbrevEraNames = _cultureData->AbbrevEraNames(get_Calendar()->get_ID()));
+
+  return default;
 }
 
 Array<String> DateTimeFormatInfo___::get_AbbreviatedEnglishEraNames() {
@@ -198,6 +226,10 @@ void DateTimeFormatInfo___::set_CalendarWeekRule(CalendarWeekRule value) {
 }
 
 String DateTimeFormatInfo___::get_FullDateTimePattern() {
+  auto default = fullDateTimePattern;
+  if (default != nullptr) default = (fullDateTimePattern = get_LongDatePattern() + " " + get_LongTimePattern());
+
+  return default;
 }
 
 void DateTimeFormatInfo___::set_FullDateTimePattern(String value) {
@@ -211,6 +243,10 @@ void DateTimeFormatInfo___::set_FullDateTimePattern(String value) {
 }
 
 String DateTimeFormatInfo___::get_LongDatePattern() {
+  auto default = longDatePattern;
+  if (default != nullptr) default = (longDatePattern = get_UnclonedLongDatePatterns()[0]);
+
+  return default;
 }
 
 void DateTimeFormatInfo___::set_LongDatePattern(String value) {
@@ -225,6 +261,10 @@ void DateTimeFormatInfo___::set_LongDatePattern(String value) {
 }
 
 String DateTimeFormatInfo___::get_LongTimePattern() {
+  auto default = longTimePattern;
+  if (default != nullptr) default = (longTimePattern = get_UnclonedLongTimePatterns()[0]);
+
+  return default;
 }
 
 void DateTimeFormatInfo___::set_LongTimePattern(String value) {
@@ -278,6 +318,10 @@ String DateTimeFormatInfo___::get_RFC1123Pattern() {
 }
 
 String DateTimeFormatInfo___::get_ShortDatePattern() {
+  auto default = shortDatePattern;
+  if (default != nullptr) default = (shortDatePattern = get_UnclonedShortDatePatterns()[0]);
+
+  return default;
 }
 
 void DateTimeFormatInfo___::set_ShortDatePattern(String value) {
@@ -292,6 +336,10 @@ void DateTimeFormatInfo___::set_ShortDatePattern(String value) {
 }
 
 String DateTimeFormatInfo___::get_ShortTimePattern() {
+  auto default = shortTimePattern;
+  if (default != nullptr) default = (shortTimePattern = get_UnclonedShortTimePatterns()[0]);
+
+  return default;
 }
 
 void DateTimeFormatInfo___::set_ShortTimePattern(String value) {
@@ -310,9 +358,17 @@ String DateTimeFormatInfo___::get_SortableDateTimePattern() {
 }
 
 String DateTimeFormatInfo___::get_GeneralShortTimePattern() {
+  auto default = generalShortTimePattern;
+  if (default != nullptr) default = (generalShortTimePattern = get_ShortDatePattern() + " " + get_ShortTimePattern());
+
+  return default;
 }
 
 String DateTimeFormatInfo___::get_GeneralLongTimePattern() {
+  auto default = generalLongTimePattern;
+  if (default != nullptr) default = (generalLongTimePattern = get_ShortDatePattern() + " " + get_LongTimePattern());
+
+  return default;
 }
 
 String DateTimeFormatInfo___::get_DateTimeOffsetPattern() {
@@ -371,6 +427,10 @@ String DateTimeFormatInfo___::get_UniversalSortableDateTimePattern() {
 }
 
 String DateTimeFormatInfo___::get_YearMonthPattern() {
+  auto default = yearMonthPattern;
+  if (default != nullptr) default = (yearMonthPattern = get_UnclonedYearMonthPatterns()[0]);
+
+  return default;
 }
 
 void DateTimeFormatInfo___::set_YearMonthPattern(String value) {
@@ -588,15 +648,31 @@ void DateTimeFormatInfo___::set_MonthGenitiveNames(Array<String> value) {
 }
 
 String DateTimeFormatInfo___::get_DecimalSeparator() {
+  auto default = _decimalSeparator;
+  if (default != nullptr) default = (_decimalSeparator = rt::newobj<NumberFormatInfo>(_cultureData->get_UseUserOverride() ? CultureData::in::GetCultureData(_cultureData->get_CultureName(), false) : _cultureData)->set_NumberDecimalSeparator);
+
+  return default;
 }
 
 String DateTimeFormatInfo___::get_FullTimeSpanPositivePattern() {
+  auto default = _fullTimeSpanPositivePattern;
+  if (default != nullptr) default = (_fullTimeSpanPositivePattern = "d':'h':'mm':'ss'" + get_DecimalSeparator() + "'FFFFFFF");
+
+  return default;
 }
 
 String DateTimeFormatInfo___::get_FullTimeSpanNegativePattern() {
+  auto default = _fullTimeSpanNegativePattern;
+  if (default != nullptr) default = (_fullTimeSpanNegativePattern = "'-'" + get_FullTimeSpanPositivePattern());
+
+  return default;
 }
 
 CompareInfo DateTimeFormatInfo___::get_CompareInfo() {
+  auto default = _compareInfo;
+  if (default != nullptr) default = (_compareInfo = CompareInfo::in::GetCompareInfo(_cultureData->get_SortName()));
+
+  return default;
 }
 
 DateTimeFormatFlags DateTimeFormatInfo___::get_FormatFlags() {
@@ -619,6 +695,10 @@ Boolean DateTimeFormatInfo___::get_HasYearMonthAdjustment() {
 }
 
 Array<String> DateTimeFormatInfo___::InternalGetAbbreviatedDayOfWeekNames() {
+  auto default = abbreviatedDayNames;
+  if (default != nullptr) default = InternalGetAbbreviatedDayOfWeekNamesCore();
+
+  return default;
 }
 
 Array<String> DateTimeFormatInfo___::InternalGetAbbreviatedDayOfWeekNamesCore() {
@@ -627,6 +707,10 @@ Array<String> DateTimeFormatInfo___::InternalGetAbbreviatedDayOfWeekNamesCore() 
 }
 
 Array<String> DateTimeFormatInfo___::InternalGetSuperShortDayNames() {
+  auto default = m_superShortDayNames;
+  if (default != nullptr) default = InternalGetSuperShortDayNamesCore();
+
+  return default;
 }
 
 Array<String> DateTimeFormatInfo___::InternalGetSuperShortDayNamesCore() {
@@ -635,6 +719,10 @@ Array<String> DateTimeFormatInfo___::InternalGetSuperShortDayNamesCore() {
 }
 
 Array<String> DateTimeFormatInfo___::InternalGetDayOfWeekNames() {
+  auto default = dayNames;
+  if (default != nullptr) default = InternalGetDayOfWeekNamesCore();
+
+  return default;
 }
 
 Array<String> DateTimeFormatInfo___::InternalGetDayOfWeekNamesCore() {
@@ -643,6 +731,10 @@ Array<String> DateTimeFormatInfo___::InternalGetDayOfWeekNamesCore() {
 }
 
 Array<String> DateTimeFormatInfo___::InternalGetAbbreviatedMonthNames() {
+  auto default = abbreviatedMonthNames;
+  if (default != nullptr) default = InternalGetAbbreviatedMonthNamesCore();
+
+  return default;
 }
 
 Array<String> DateTimeFormatInfo___::InternalGetAbbreviatedMonthNamesCore() {
@@ -651,6 +743,10 @@ Array<String> DateTimeFormatInfo___::InternalGetAbbreviatedMonthNamesCore() {
 }
 
 Array<String> DateTimeFormatInfo___::InternalGetMonthNames() {
+  auto default = monthNames;
+  if (default != nullptr) default = internalGetMonthNamesCore();
+
+  return default;
 }
 
 Array<String> DateTimeFormatInfo___::internalGetMonthNamesCore() {
@@ -665,6 +761,9 @@ void DateTimeFormatInfo___::ctor(CultureData cultureData, Calendar cal) {
   firstDayOfWeek = -1;
   calendarWeekRule = -1;
   formatFlags = DateTimeFormatFlags::NotInitialized;
+  Object::ctor();
+  _cultureData = cultureData;
+  get_Calendar() = cal;
 }
 
 void DateTimeFormatInfo___::InitializeOverridableProperties(CultureData cultureData, CalendarId calendarId) {
@@ -699,6 +798,11 @@ DateTimeFormatInfo DateTimeFormatInfo___::GetInstance(IFormatProvider provider) 
     if (cultureInfo == nullptr || cultureInfo->_isInherited) {
       DateTimeFormatInfo dateTimeFormatInfo = rt::as<DateTimeFormatInfo>(provider);
       if (dateTimeFormatInfo == nullptr) {
+        DateTimeFormatInfo dateTimeFormatInfo2 = rt::as<DateTimeFormatInfo>(provider->GetFormat(rt::typeof<DateTimeFormatInfo>()));
+        if (dateTimeFormatInfo2 == nullptr) {
+          return get_CurrentInfo();
+        }
+        return dateTimeFormatInfo2;
       }
       return dateTimeFormatInfo;
     }
@@ -708,6 +812,10 @@ DateTimeFormatInfo DateTimeFormatInfo___::GetInstance(IFormatProvider provider) 
 }
 
 Object DateTimeFormatInfo___::GetFormat(Type formatType) {
+  if (!(formatType == rt::typeof<DateTimeFormatInfo>())) {
+    return nullptr;
+  }
+  return (DateTimeFormatInfo)this;
 }
 
 Object DateTimeFormatInfo___::Clone() {
@@ -1191,6 +1299,14 @@ Array<DateTimeFormatInfo::in::TokenHashValue> DateTimeFormatInfo___::CreateToken
         String str2 = "(" + GetAbbreviatedDayName((DayOfWeek)num) + ")";
         InsertHash(array, str2, TokenType::DayOfWeekToken, num);
       }
+      if (get_Calendar()->GetType() != rt::typeof<JapaneseCalendar>()) {
+        DateTimeFormatInfo japaneseCalendarDTFI = GetJapaneseCalendarDTFI();
+        for (Int32 num2 = 1; num2 <= japaneseCalendarDTFI->get_Calendar()->get_Eras()->get_Length(); num2++) {
+          InsertHash(array, japaneseCalendarDTFI->GetEraName(num2), TokenType::JapaneseEraToken, num2);
+          InsertHash(array, japaneseCalendarDTFI->GetAbbreviatedEraName(num2), TokenType::JapaneseEraToken, num2);
+          InsertHash(array, japaneseCalendarDTFI->get_AbbreviatedEnglishEraNames()[num2 - 1], TokenType::JapaneseEraToken, num2);
+        }
+      }
     } else if (get_CultureName()->Equals("zh-TW")) {
       DateTimeFormatInfo taiwanCalendarDTFI = GetTaiwanCalendarDTFI();
       for (Int32 num3 = 1; num3 <= taiwanCalendarDTFI->get_Calendar()->get_Eras()->get_Length(); num3++) {
@@ -1251,6 +1367,18 @@ Boolean DateTimeFormatInfo___::TryParseHebrewNumber(__DTString& str, Boolean& ba
   }
   HebrewNumberParsingContext context = HebrewNumberParsingContext(0);
   HebrewNumberParsingState hebrewNumberParsingState;
+  do {
+    hebrewNumberParsingState = HebrewNumber::ParseByChar(str.Value[index++], context);
+    if ((UInt32)hebrewNumberParsingState <= 1u) {
+      return false;
+    }
+  } while (index < str.Value.get_Length() && hebrewNumberParsingState != HebrewNumberParsingState::FoundEndOfHebrewNumber)
+  if (hebrewNumberParsingState != HebrewNumberParsingState::FoundEndOfHebrewNumber) {
+    return false;
+  }
+  str.Advance(index - str.Index);
+  number = context.result;
+  return true;
 }
 
 Boolean DateTimeFormatInfo___::IsHebrewChar(Char ch) {
@@ -1274,11 +1402,64 @@ Boolean DateTimeFormatInfo___::Tokenize(TokenType TokenMask, TokenType& tokenTyp
   Boolean flag = Char::IsLetter(c);
   if (flag) {
     c = get_Culture()->get_TextInfo()->ToLower(c);
+    Boolean badFormat;
+    if (IsHebrewChar(c) && TokenMask == TokenType::RegularTokenMask && TryParseHebrewNumber(str, badFormat, tokenValue)) {
+      if (badFormat) {
+        tokenType = TokenType::UnknownToken;
+        return false;
+      }
+      tokenType = TokenType::HebrewNumber;
+      return true;
+    }
   }
   Int32 num = (Int32)c % 199;
   Int32 num2 = 1 + (Int32)c % 197;
   Int32 num3 = str.get_Length() - str.Index;
   Int32 num4 = 0;
+  auto default = _dtfiTokenHash;
+  if (default != nullptr) default = CreateTokenHashTable();
+
+  Array<TokenHashValue> array = default;
+  do {
+    TokenHashValue tokenHashValue = array[num];
+    if (tokenHashValue == nullptr) {
+      break;
+    }
+    if ((tokenHashValue->tokenType & TokenMask) > (TokenType)0 && tokenHashValue->tokenString->get_Length() <= num3) {
+      Boolean flag2 = true;
+      if (flag) {
+        Int32 num5 = str.Index + tokenHashValue->tokenString->get_Length();
+        if (num5 > str.get_Length()) {
+          flag2 = false;
+        } else if (num5 < str.get_Length()) {
+          Char c2 = str.Value[num5];
+          flag2 = (!Char::IsLetter(c2) || IsAllowedJapaneseTokenFollowedByNonSpaceLetter(tokenHashValue->tokenString, c2));
+        }
+
+      }
+      if (flag2 && ((tokenHashValue->tokenString->get_Length() == 1 && str.Value[str.Index] == tokenHashValue->tokenString[0]) || get_Culture()->get_CompareInfo()->Compare(str.Value.Slice(str.Index, tokenHashValue->tokenString->get_Length()), tokenHashValue->tokenString, CompareOptions::IgnoreCase) == 0)) {
+        tokenType = (tokenHashValue->tokenType & TokenMask);
+        tokenValue = tokenHashValue->tokenValue;
+        str.Advance(tokenHashValue->tokenString->get_Length());
+        return true;
+      }
+      if ((tokenHashValue->tokenType == TokenType::MonthToken && get_HasSpacesInMonthNames()) || (tokenHashValue->tokenType == TokenType::DayOfWeekToken && get_HasSpacesInDayNames())) {
+        Int32 matchLength = 0;
+        if (str.MatchSpecifiedWords(tokenHashValue->tokenString, true, matchLength)) {
+          tokenType = (tokenHashValue->tokenType & TokenMask);
+          tokenValue = tokenHashValue->tokenValue;
+          str.Advance(matchLength);
+          return true;
+        }
+      }
+    }
+    num4++;
+    num += num2;
+    if (num >= 199) {
+      num -= 199;
+    }
+  } while (num4 < 199)
+  return false;
 }
 
 void DateTimeFormatInfo___::InsertAtCurrentHashNode(Array<TokenHashValue> hashTable, String str, Char ch, TokenType tokenType, Int32 tokenValue, Int32 pos, Int32 hashcode, Int32 hashProbe) {

@@ -4,7 +4,9 @@
 #include <System.Private.CoreLib/System/ArgumentException-dep.h>
 #include <System.Private.CoreLib/System/ArgumentOutOfRangeException-dep.h>
 #include <System.Private.CoreLib/System/Char-dep.h>
+#include <System.Private.CoreLib/System/Collections/Generic/List-dep.h>
 #include <System.Private.CoreLib/System/Comparison-dep.h>
+#include <System.Private.CoreLib/System/Globalization/CalendarData-dep.h>
 #include <System.Private.CoreLib/System/Globalization/CalendarDataType.h>
 #include <System.Private.CoreLib/System/Globalization/CultureInfo-dep.h>
 #include <System.Private.CoreLib/System/Globalization/GlobalizationMode-dep.h>
@@ -21,6 +23,7 @@
 #include <System.Private.CoreLib/System/UnauthorizedAccessException-dep.h>
 
 namespace System::Private::CoreLib::System::Globalization::JapaneseCalendarNamespace {
+using namespace System::Collections::Generic;
 using namespace System::IO;
 using namespace System::Security;
 
@@ -72,6 +75,10 @@ Array<EraInfo> JapaneseCalendar___::GetEraInfo() {
 }
 
 Calendar JapaneseCalendar___::GetDefaultInstance() {
+  auto default = s_defaultInstance;
+  if (default != nullptr) default = (s_defaultInstance = rt::newobj<JapaneseCalendar>());
+
+  return default;
 }
 
 void JapaneseCalendar___::ctor() {
@@ -195,6 +202,32 @@ Array<EraInfo> JapaneseCalendar___::IcuGetJapaneseEras() {
   if (GlobalizationMode::get_Invariant()) {
     return nullptr;
   }
+  Array<String> calendarData;
+  if (!CalendarData::in::EnumCalendarInfo("ja-JP", CalendarId::JAPAN, CalendarDataType::EraNames, calendarData)) {
+    return nullptr;
+  }
+  Array<String> calendarData2;
+  if (!CalendarData::in::EnumCalendarInfo("en", CalendarId::JAPAN, CalendarDataType::AbbrevEraNames, calendarData2)) {
+    return nullptr;
+  }
+  List<EraInfo> list = rt::newobj<List<EraInfo>>();
+  Int32 num = 9999;
+  Int32 latestJapaneseEra = Interop::Globalization::GetLatestJapaneseEra();
+  for (Int32 num2 = latestJapaneseEra; num2 >= 0; num2--) {
+    DateTime dateTime;
+    if (!GetJapaneseEraStartDate(num2, dateTime)) {
+      return nullptr;
+    }
+    if (dateTime < s_calendarMinValue) {
+      break;
+    }
+    list->Add(rt::newobj<EraInfo>(num2, dateTime.get_Year(), dateTime.get_Month(), dateTime.get_Day(), dateTime.get_Year() - 1, 1, num - dateTime.get_Year() + 1, calendarData[num2], GetAbbreviatedEraName(calendarData, num2), calendarData2[num2]));
+    num = dateTime.get_Year();
+  }
+  for (Int32 i = 0; i < list->get_Count(); i++) {
+    list[i]->era = list->get_Count() - i;
+  }
+  return list->ToArray();
 }
 
 String JapaneseCalendar___::GetAbbreviatedEraName(Array<String> eraNames, Int32 eraIndex) {
@@ -249,6 +282,20 @@ EraInfo JapaneseCalendar___::GetEraFromValue(String value, String data) {
     return nullptr;
   }
   ReadOnlySpan<Char> readOnlySpan = MemoryExtensions::AsSpan(value);
+  Int32 result;
+  Int32 result2;
+  Int32 result3;
+  if (!Int32::TryParse(readOnlySpan.Slice(0, 4), NumberStyles::None, NumberFormatInfo::in::get_InvariantInfo(), result) || !Int32::TryParse(readOnlySpan.Slice(5, 2), NumberStyles::None, NumberFormatInfo::in::get_InvariantInfo(), result2) || !Int32::TryParse(readOnlySpan.Slice(8, 2), NumberStyles::None, NumberFormatInfo::in::get_InvariantInfo(), result3)) {
+    return nullptr;
+  }
+  Array<String> array = data->Split(95);
+  if (array->get_Length() != 4) {
+    return nullptr;
+  }
+  if (array[0]->get_Length() == 0 || array[1]->get_Length() == 0 || array[2]->get_Length() == 0 || array[3]->get_Length() == 0) {
+    return nullptr;
+  }
+  return rt::newobj<EraInfo>(0, result, result2, result3, result - 1, 1, 0, array[0], array[1], array[3]);
 }
 
 void JapaneseCalendar___::cctor() {

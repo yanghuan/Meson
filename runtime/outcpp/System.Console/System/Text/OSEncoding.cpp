@@ -10,7 +10,6 @@
 #include <System.Private.CoreLib/System/ArgumentOutOfRangeException-dep.h>
 #include <System.Private.CoreLib/System/Int64-dep.h>
 #include <System.Private.CoreLib/System/IntPtr-dep.h>
-#include <System.Private.CoreLib/System/Object-dep.h>
 #include <System.Private.CoreLib/System/UInt32-dep.h>
 
 namespace System::Console::System::Text::OSEncodingNamespace {
@@ -217,7 +216,7 @@ Decoder OSEncoding___::GetDecoder() {
     case 51949:
       return rt::newobj<DecoderDBCS>((OSEncoding)this);
     default:
-      return Object->GetDecoder();
+      return Encoding::GetDecoder();
   }
 }
 

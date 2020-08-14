@@ -1,17 +1,53 @@
 #include "DefaultValueAttribute-dep.h"
 
+#include <System.Private.CoreLib/System/Boolean-dep.h>
 #include <System.Private.CoreLib/System/ComponentModel/DefaultValueAttribute-dep.h>
+#include <System.Private.CoreLib/System/Convert-dep.h>
+#include <System.Private.CoreLib/System/Enum-dep.h>
+#include <System.Private.CoreLib/System/Func-dep.h>
+#include <System.Private.CoreLib/System/Globalization/CultureInfo-dep.h>
+#include <System.Private.CoreLib/System/Reflection/MethodInfo-dep.h>
+#include <System.Private.CoreLib/System/TimeSpan-dep.h>
 
 namespace System::Private::CoreLib::System::ComponentModel::DefaultValueAttributeNamespace {
+using namespace System::Globalization;
+using namespace System::Reflection;
+
 Object DefaultValueAttribute___::get_Value() {
   return _value;
 }
 
 void DefaultValueAttribute___::ctor(Type type, String value) {
+  auto TryConvertFromInvariantString = [](Type typeToConvert, String stringValue, Object& conversionResult) -> Boolean {
+    conversionResult = nullptr;
+    if (s_convertFromInvariantString == nullptr) {
+    }
+    Func<Type, String, Object> func = rt::as<Func<Type, String, Object>>(s_convertFromInvariantString);
+    if (func == nullptr) {
+      return false;
+    }
+    try{
+      conversionResult = func(typeToConvert, stringValue);
+    } catch (...) {
+    }
+    return true;
+  };
   if (type == nullptr) {
     return;
   }
   try{
+    Object conversionResult2;
+    if (TryConvertFromInvariantString(type, value, conversionResult2)) {
+      _value = conversionResult2;
+    } else if (type->IsSubclassOf(rt::typeof<Enum>()) && value != nullptr) {
+      _value = Enum::in::Parse(type, value, true);
+    } else if (type == rt::typeof<TimeSpan>() && value != nullptr) {
+      _value = TimeSpan::Parse(value);
+    } else {
+      _value = Convert::ChangeType(value, type, CultureInfo::in::get_InvariantCulture());
+    }
+
+
   } catch (...) {
   }
 }
@@ -87,6 +123,7 @@ Boolean DefaultValueAttribute___::Equals(Object obj) {
 }
 
 Int32 DefaultValueAttribute___::GetHashCode() {
+  return Attribute::GetHashCode();
 }
 
 void DefaultValueAttribute___::SetValue(Object value) {

@@ -4,10 +4,12 @@
 #include <System.Private.CoreLib/System/ArgumentException-dep.h>
 #include <System.Private.CoreLib/System/Char-dep.h>
 #include <System.Private.CoreLib/System/Collections/Generic/IDictionary.h>
+#include <System.Private.CoreLib/System/Convert-dep.h>
 #include <System.Private.CoreLib/System/DateTime-dep.h>
 #include <System.Private.CoreLib/System/Decimal-dep.h>
 #include <System.Private.CoreLib/System/Diagnostics/Tracing/ControllerCommand.h>
 #include <System.Private.CoreLib/System/Diagnostics/Tracing/EtwEventProvider-dep.h>
+#include <System.Private.CoreLib/System/Diagnostics/Tracing/EventListener-dep.h>
 #include <System.Private.CoreLib/System/Diagnostics/Tracing/EventPipeEventProvider-dep.h>
 #include <System.Private.CoreLib/System/Diagnostics/Tracing/EventProvider-dep.h>
 #include <System.Private.CoreLib/System/Diagnostics/Tracing/IEventProvider.h>
@@ -84,6 +86,18 @@ void EventProvider___::Dispose(Boolean disposing) {
   }
   m_enabled = false;
   Int64 num = 0;
+  {
+    rt::lock(EventListener::in::get_EventListenersLock());
+    if (m_disposed) {
+      return;
+    }
+    num = m_regHandle;
+    m_regHandle = 0;
+    m_disposed = true;
+  }
+  if (num != 0) {
+    EventUnregister(num);
+  }
 }
 
 void EventProvider___::Finalize() {
@@ -402,6 +416,14 @@ Object EventProvider___::EncodeObject(Object& data, EventData*& dataDescriptor, 
     if (rt::is<Enum>(data)) {
       try{
         Type underlyingType = Enum::in::GetUnderlyingType(data->GetType());
+        if (underlyingType == rt::typeof<UInt64>()) {
+          data = (UInt64)data;
+        } else if (underlyingType == rt::typeof<Int64>()) {
+          data = (Int64)data;
+        } else {
+          data = (Int32)Convert::ToInt64(data);
+        }
+
       } catch (...) {
       }
       continue;
@@ -410,6 +432,10 @@ Object EventProvider___::EncodeObject(Object& data, EventData*& dataDescriptor, 
   totalEventSize += dataDescriptor->Size;
   dataDescriptor++;
   dataBuffer += 16;
+  auto default = ((Object)text);
+  if (default != nullptr) default = ((Object)array);
+
+  return default;
 }
 
 Boolean EventProvider___::WriteEvent(EventDescriptor& eventDescriptor, IntPtr eventHandle, Guid* activityID, Guid* childActivityID, Array<Object> eventPayload) {

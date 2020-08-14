@@ -567,6 +567,20 @@ namespace Meson.Compiler.CppAst {
     }
   }
 
+  sealed class DoWhileStatementSyntax : StatementSyntax {
+    public ExpressionSyntax Condition { get; }
+    public StatementSyntax EmbeddedStatement { get; }
+
+    public DoWhileStatementSyntax(StatementSyntax embeddedStatement, ExpressionSyntax condition) {
+      EmbeddedStatement = embeddedStatement;
+      Condition = condition;
+    }
+
+    internal override void Render(CppRenderer renderer) {
+      renderer.Render(this);
+    }
+  }
+
   sealed class VariableInitializerSyntax : SyntaxNode {
     public IdentifierSyntax Name { get; }
     public ExpressionSyntax Initializer { get; }

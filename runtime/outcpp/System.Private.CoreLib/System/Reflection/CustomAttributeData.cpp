@@ -1,10 +1,17 @@
 #include "CustomAttributeData-dep.h"
 
+#include <System.Private.CoreLib/System/ArgumentException-dep.h>
 #include <System.Private.CoreLib/System/ArgumentNullException-dep.h>
 #include <System.Private.CoreLib/System/Array-dep.h>
+#include <System.Private.CoreLib/System/Boolean-dep.h>
+#include <System.Private.CoreLib/System/Byte-dep.h>
+#include <System.Private.CoreLib/System/Char-dep.h>
 #include <System.Private.CoreLib/System/Collections/Generic/List-dep.h>
+#include <System.Private.CoreLib/System/Double-dep.h>
 #include <System.Private.CoreLib/System/Enum-dep.h>
+#include <System.Private.CoreLib/System/Int16-dep.h>
 #include <System.Private.CoreLib/System/Int32-dep.h>
+#include <System.Private.CoreLib/System/Int64-dep.h>
 #include <System.Private.CoreLib/System/Reflection/BindingFlags.h>
 #include <System.Private.CoreLib/System/Reflection/CustomAttributeCtorParameter-dep.h>
 #include <System.Private.CoreLib/System/Reflection/CustomAttributeData-dep.h>
@@ -12,13 +19,21 @@
 #include <System.Private.CoreLib/System/Reflection/CustomAttributeNamedParameter-dep.h>
 #include <System.Private.CoreLib/System/Reflection/CustomAttributeRecord-dep.h>
 #include <System.Private.CoreLib/System/Reflection/FieldInfo-dep.h>
+#include <System.Private.CoreLib/System/Reflection/MetadataEnumResult-dep.h>
 #include <System.Private.CoreLib/System/Reflection/MetadataImport-dep.h>
 #include <System.Private.CoreLib/System/Reflection/PropertyInfo-dep.h>
+#include <System.Private.CoreLib/System/Reflection/PseudoCustomAttribute-dep.h>
 #include <System.Private.CoreLib/System/Runtime/CompilerServices/TypeForwardedToAttribute-dep.h>
 #include <System.Private.CoreLib/System/Runtime/InteropServices/DllImportAttribute-dep.h>
 #include <System.Private.CoreLib/System/Runtime/InteropServices/FieldOffsetAttribute-dep.h>
 #include <System.Private.CoreLib/System/Runtime/InteropServices/MarshalAsAttribute-dep.h>
+#include <System.Private.CoreLib/System/SByte-dep.h>
+#include <System.Private.CoreLib/System/Single-dep.h>
+#include <System.Private.CoreLib/System/SR-dep.h>
 #include <System.Private.CoreLib/System/String-dep.h>
+#include <System.Private.CoreLib/System/UInt16-dep.h>
+#include <System.Private.CoreLib/System/UInt32-dep.h>
+#include <System.Private.CoreLib/System/UInt64-dep.h>
 
 namespace System::Private::CoreLib::System::Reflection::CustomAttributeDataNamespace {
 using namespace System::Collections::Generic;
@@ -99,14 +114,23 @@ IList<CustomAttributeData> CustomAttributeData___::GetCustomAttributes(Parameter
 
 IList<CustomAttributeData> CustomAttributeData___::GetCustomAttributesInternal(RuntimeType target) {
   IList<CustomAttributeData> customAttributes = GetCustomAttributes(target->GetRuntimeModule(), target->get_MetadataToken());
+  RuntimeType::in::ListBuilder<T> pcas;
+  PseudoCustomAttribute::GetCustomAttributes(target, (RuntimeType)rt::typeof<Object>(), pcas);
+  return GetCombinedList(customAttributes, pcas);
 }
 
 IList<CustomAttributeData> CustomAttributeData___::GetCustomAttributesInternal(RuntimeFieldInfo target) {
   IList<CustomAttributeData> customAttributes = GetCustomAttributes(target->GetRuntimeModule(), target->get_MetadataToken());
+  RuntimeType::in::ListBuilder<T> pcas;
+  PseudoCustomAttribute::GetCustomAttributes(target, (RuntimeType)rt::typeof<Object>(), pcas);
+  return GetCombinedList(customAttributes, pcas);
 }
 
 IList<CustomAttributeData> CustomAttributeData___::GetCustomAttributesInternal(RuntimeMethodInfo target) {
   IList<CustomAttributeData> customAttributes = GetCustomAttributes(target->GetRuntimeModule(), target->get_MetadataToken());
+  RuntimeType::in::ListBuilder<T> pcas;
+  PseudoCustomAttribute::GetCustomAttributes(target, (RuntimeType)rt::typeof<Object>(), pcas);
+  return GetCombinedList(customAttributes, pcas);
 }
 
 IList<CustomAttributeData> CustomAttributeData___::GetCustomAttributesInternal(RuntimeConstructorInfo target) {
@@ -134,6 +158,9 @@ IList<CustomAttributeData> CustomAttributeData___::GetCustomAttributesInternal(R
 
 IList<CustomAttributeData> CustomAttributeData___::GetCustomAttributesInternal(RuntimeParameterInfo target) {
   IList<CustomAttributeData> customAttributes = GetCustomAttributes(target->GetRuntimeModule(), target->get_MetadataToken());
+  RuntimeType::in::ListBuilder<T> pcas;
+  PseudoCustomAttribute::GetCustomAttributes(target, (RuntimeType)rt::typeof<Object>(), pcas);
+  return GetCombinedList(customAttributes, pcas);
 }
 
 IList<CustomAttributeData> CustomAttributeData___::GetCombinedList(IList<CustomAttributeData> customAttributes, RuntimeType::in::ListBuilder<Attribute>& pseudoAttributes) {
@@ -149,6 +176,70 @@ IList<CustomAttributeData> CustomAttributeData___::GetCombinedList(IList<CustomA
 }
 
 CustomAttributeEncoding CustomAttributeData___::TypeToCustomAttributeEncoding(RuntimeType type) {
+  if (type == rt::typeof<Int32>()) {
+    return CustomAttributeEncoding::Int32;
+  }
+  if (type->get_IsEnum()) {
+    return CustomAttributeEncoding::Enum;
+  }
+  if (type == rt::typeof<String>()) {
+    return CustomAttributeEncoding::String;
+  }
+  if (type == rt::typeof<Type>()) {
+    return CustomAttributeEncoding::Type;
+  }
+  if (type == rt::typeof<Object>()) {
+    return CustomAttributeEncoding::Object;
+  }
+  if (type->get_IsArray()) {
+    return CustomAttributeEncoding::Array;
+  }
+  if (type == rt::typeof<Char>()) {
+    return CustomAttributeEncoding::Char;
+  }
+  if (type == rt::typeof<Boolean>()) {
+    return CustomAttributeEncoding::Boolean;
+  }
+  if (type == rt::typeof<Byte>()) {
+    return CustomAttributeEncoding::Byte;
+  }
+  if (type == rt::typeof<SByte>()) {
+    return CustomAttributeEncoding::SByte;
+  }
+  if (type == rt::typeof<Int16>()) {
+    return CustomAttributeEncoding::Int16;
+  }
+  if (type == rt::typeof<UInt16>()) {
+    return CustomAttributeEncoding::UInt16;
+  }
+  if (type == rt::typeof<UInt32>()) {
+    return CustomAttributeEncoding::UInt32;
+  }
+  if (type == rt::typeof<Int64>()) {
+    return CustomAttributeEncoding::Int64;
+  }
+  if (type == rt::typeof<UInt64>()) {
+    return CustomAttributeEncoding::UInt64;
+  }
+  if (type == rt::typeof<Single>()) {
+    return CustomAttributeEncoding::Float;
+  }
+  if (type == rt::typeof<Double>()) {
+    return CustomAttributeEncoding::Double;
+  }
+  if (type == rt::typeof<Enum>()) {
+    return CustomAttributeEncoding::Object;
+  }
+  if (type->get_IsClass()) {
+    return CustomAttributeEncoding::Object;
+  }
+  if (type->get_IsInterface()) {
+    return CustomAttributeEncoding::Object;
+  }
+  if (type->get_IsValueType()) {
+    return CustomAttributeEncoding::Undefined;
+  }
+  rt::throw_exception<ArgumentException>(SR::get_Argument_InvalidKindOfTypeForCA(), "type");
 }
 
 CustomAttributeType CustomAttributeData___::InitCustomAttributeType(RuntimeType parameterType) {
@@ -178,6 +269,16 @@ IList<CustomAttributeData> CustomAttributeData___::GetCustomAttributes(RuntimeMo
 
 Array<CustomAttributeRecord> CustomAttributeData___::GetCustomAttributeRecords(RuntimeModule module, Int32 targetToken) {
   MetadataImport metadataImport = module->get_MetadataImport();
+  MetadataEnumResult result;
+  metadataImport.EnumCustomAttributes(targetToken, result);
+  if (result.get_Length() == 0) {
+    return Array<>::in::Empty<CustomAttributeRecord>();
+  }
+  Array<CustomAttributeRecord> array = rt::newarr<Array<CustomAttributeRecord>>(result.get_Length());
+  for (Int32 i = 0; i < array->get_Length(); i++) {
+    metadataImport.GetCustomAttributeProps(result[i], array[i].tkCtor.Value, array[i].blob);
+  }
+  return array;
 }
 
 CustomAttributeTypedArgument CustomAttributeData___::Filter(IList<CustomAttributeData> attrs, Type caType, Int32 parameter) {
@@ -240,15 +341,66 @@ void CustomAttributeData___::ctor(Attribute attribute) {
 }
 
 void CustomAttributeData___::Init(DllImportAttribute dllImport) {
+  Type typeFromHandle = rt::typeof<DllImportAttribute>();
+  m_ctor = typeFromHandle->GetConstructors(BindingFlags::Instance | BindingFlags::Public)[0];
+  m_typedCtorArgs = Array<>::in::AsReadOnly(rt::newarr<Array<CustomAttributeTypedArgument>>(1));
+  m_namedArgs = Array<>::in::AsReadOnly(rt::newarr<Array<CustomAttributeNamedArgument>>(8));
 }
 
 void CustomAttributeData___::Init(FieldOffsetAttribute fieldOffset) {
+  m_ctor = rt::typeof<FieldOffsetAttribute>()->GetConstructors(BindingFlags::Instance | BindingFlags::Public)[0];
+  m_typedCtorArgs = Array<>::in::AsReadOnly(rt::newarr<Array<CustomAttributeTypedArgument>>(1));
+  m_namedArgs = Array<>::in::AsReadOnly(Array<>::in::Empty<CustomAttributeNamedArgument>());
 }
 
 void CustomAttributeData___::Init(MarshalAsAttribute marshalAs) {
+  Type typeFromHandle = rt::typeof<MarshalAsAttribute>();
+  m_ctor = typeFromHandle->GetConstructors(BindingFlags::Instance | BindingFlags::Public)[0];
+  m_typedCtorArgs = Array<>::in::AsReadOnly(rt::newarr<Array<CustomAttributeTypedArgument>>(1));
+  Int32 num = 3;
+  if (marshalAs->MarshalType != nullptr) {
+    num++;
+  }
+  if (marshalAs->MarshalTypeRef != nullptr) {
+    num++;
+  }
+  if (marshalAs->MarshalCookie != nullptr) {
+    num++;
+  }
+  num++;
+  num++;
+  if (marshalAs->SafeArrayUserDefinedSubType != nullptr) {
+    num++;
+  }
+  Array<CustomAttributeNamedArgument> array = rt::newarr<Array<CustomAttributeNamedArgument>>(num);
+  num = 0;
+  array[num++] = CustomAttributeNamedArgument(typeFromHandle->GetField("ArraySubType"), marshalAs->ArraySubType);
+  array[num++] = CustomAttributeNamedArgument(typeFromHandle->GetField("SizeParamIndex"), marshalAs->SizeParamIndex);
+  array[num++] = CustomAttributeNamedArgument(typeFromHandle->GetField("SizeConst"), marshalAs->SizeConst);
+  array[num++] = CustomAttributeNamedArgument(typeFromHandle->GetField("IidParameterIndex"), marshalAs->IidParameterIndex);
+  array[num++] = CustomAttributeNamedArgument(typeFromHandle->GetField("SafeArraySubType"), marshalAs->SafeArraySubType);
+  if (marshalAs->MarshalType != nullptr) {
+    array[num++] = CustomAttributeNamedArgument(typeFromHandle->GetField("MarshalType"), marshalAs->MarshalType);
+  }
+  if (marshalAs->MarshalTypeRef != nullptr) {
+    array[num++] = CustomAttributeNamedArgument(typeFromHandle->GetField("MarshalTypeRef"), marshalAs->MarshalTypeRef);
+  }
+  if (marshalAs->MarshalCookie != nullptr) {
+    array[num++] = CustomAttributeNamedArgument(typeFromHandle->GetField("MarshalCookie"), marshalAs->MarshalCookie);
+  }
+  if (marshalAs->SafeArrayUserDefinedSubType != nullptr) {
+    array[num++] = CustomAttributeNamedArgument(typeFromHandle->GetField("SafeArrayUserDefinedSubType"), marshalAs->SafeArrayUserDefinedSubType);
+  }
+  m_namedArgs = Array<>::in::AsReadOnly(array);
 }
 
 void CustomAttributeData___::Init(TypeForwardedToAttribute forwardedTo) {
+  Type typeFromHandle = rt::typeof<TypeForwardedToAttribute>();
+  Array<Type> types = rt::newarr<Array<Type>>(1);
+  m_ctor = typeFromHandle->GetConstructor(BindingFlags::Instance | BindingFlags::Public, nullptr, types, nullptr);
+  m_typedCtorArgs = Array<>::in::AsReadOnly(rt::newarr<Array<CustomAttributeTypedArgument>>(1));
+  Array<CustomAttributeNamedArgument> array = Array<>::in::Empty<CustomAttributeNamedArgument>();
+  m_namedArgs = Array<>::in::AsReadOnly(array);
 }
 
 void CustomAttributeData___::Init(Object pca) {
@@ -266,9 +418,11 @@ String CustomAttributeData___::ToString() {
   for (Int32 j = 0; j < get_NamedArguments()->get_Count(); j++) {
     text2 += String::in::Format((j == 0 && text->get_Length() == 0) ? "{0}" : ", {0}", get_NamedArguments()[j]);
   }
+  return String::in::Format("[{0}({1}{2})]", get_Constructor()->get_DeclaringType()->get_FullName(), text, text2);
 }
 
 Int32 CustomAttributeData___::GetHashCode() {
+  return Object::GetHashCode();
 }
 
 Boolean CustomAttributeData___::Equals(Object obj) {

@@ -1,12 +1,16 @@
 #include "StringInfo-dep.h"
 
+#include <System.Private.CoreLib/System/ArgumentNullException-dep.h>
+#include <System.Private.CoreLib/System/ArgumentOutOfRangeException-dep.h>
 #include <System.Private.CoreLib/System/Char-dep.h>
 #include <System.Private.CoreLib/System/Collections/Generic/List-dep.h>
 #include <System.Private.CoreLib/System/ExceptionArgument.h>
 #include <System.Private.CoreLib/System/Globalization/StringInfo-dep.h>
+#include <System.Private.CoreLib/System/Index-dep.h>
 #include <System.Private.CoreLib/System/MemoryExtensions-dep.h>
 #include <System.Private.CoreLib/System/ReadOnlySpan-dep.h>
 #include <System.Private.CoreLib/System/Span-dep.h>
+#include <System.Private.CoreLib/System/SR-dep.h>
 #include <System.Private.CoreLib/System/Text/Unicode/TextSegmentationUtility-dep.h>
 #include <System.Private.CoreLib/System/ThrowHelper-dep.h>
 #include <System.Private.CoreLib/System/UInt32-dep.h>
@@ -27,6 +31,11 @@ String StringInfo___::get_String() {
 }
 
 void StringInfo___::set_String(String value) {
+  auto default = value;
+  if (default != nullptr) default = rt::throw_exception(rt::newobj<ArgumentNullException>("value"));
+
+  _str = (default);
+  _indexes = nullptr;
 }
 
 Int32 StringInfo___::get_LengthInTextElements() {
@@ -62,6 +71,17 @@ String StringInfo___::SubstringByTextElements(Int32 startingTextElement) {
 }
 
 String StringInfo___::SubstringByTextElements(Int32 startingTextElement, Int32 lengthInTextElements) {
+  auto default = get_Indexes();
+  if (default != nullptr) default = Array<>::in::Empty<Int32>();
+
+  Array<Int32> array = default;
+  if ((UInt32)startingTextElement >= (UInt32)array->get_Length()) {
+    rt::throw_exception<ArgumentOutOfRangeException>("startingTextElement", startingTextElement, SR::get_Arg_ArgumentOutOfRangeException());
+  }
+  if ((UInt32)lengthInTextElements > (UInt32)(array->get_Length() - startingTextElement)) {
+    rt::throw_exception<ArgumentOutOfRangeException>("lengthInTextElements", lengthInTextElements, SR::get_Arg_ArgumentOutOfRangeException());
+  }
+  Int32 value = array[startingTextElement];
 }
 
 String StringInfo___::GetNextTextElement(String str) {

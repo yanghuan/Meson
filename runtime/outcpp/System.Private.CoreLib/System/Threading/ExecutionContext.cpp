@@ -59,6 +59,18 @@ ExecutionContext ExecutionContext___::ShallowClone(Boolean isFlowSuppressed) {
 
 AsyncFlowControl ExecutionContext___::SuppressFlow() {
   Thread currentThread = Thread::in::get_CurrentThread();
+  auto default = currentThread->_executionContext;
+  if (default != nullptr) default = Default;
+
+  ExecutionContext executionContext = default;
+  if (executionContext->m_isFlowSuppressed) {
+    rt::throw_exception<InvalidOperationException>(SR::get_InvalidOperation_CannotSupressFlowMultipleTimes());
+  }
+  executionContext = executionContext->ShallowClone(true);
+  AsyncFlowControl result = AsyncFlowControl();
+  currentThread->_executionContext = executionContext;
+  result.Initialize(currentThread);
+  return result;
 }
 
 void ExecutionContext___::RestoreFlow() {
@@ -158,6 +170,9 @@ Object ExecutionContext___::GetLocalValue(IAsyncLocal local) {
   if (executionContext == nullptr) {
     return nullptr;
   }
+  Object value;
+  executionContext->m_localValues->TryGetValue(local, value);
+  return value;
 }
 
 void ExecutionContext___::SetLocalValue(IAsyncLocal local, Object newValue, Boolean needChangeNotifications) {

@@ -7,12 +7,21 @@
 #include <System.Private.CoreLib/System/Threading/Tasks/AwaitTaskContinuation-dep.h>
 #include <System.Private.CoreLib/System/Threading/Tasks/InternalTaskOptions.h>
 #include <System.Private.CoreLib/System/Threading/Tasks/TaskCreationOptions.h>
+#include <System.Private.CoreLib/System/Threading/Tasks/TaskScheduler-dep.h>
 #include <System.Private.CoreLib/System/Threading/Tasks/TplEventSource-dep.h>
 #include <System.Private.CoreLib/System/Threading/ThreadPool-dep.h>
 
 namespace System::Private::CoreLib::System::Threading::Tasks::AwaitTaskContinuationNamespace {
 Boolean AwaitTaskContinuation___::get_IsValidLocationForInlining() {
   SynchronizationContext current = SynchronizationContext::in::get_Current();
+  if (current != nullptr && current->GetType() != rt::typeof<SynchronizationContext>()) {
+    return false;
+  }
+  TaskScheduler internalCurrent = TaskScheduler::in::get_InternalCurrent();
+  if (internalCurrent != nullptr) {
+    return internalCurrent == TaskScheduler::in::get_Default();
+  }
+  return true;
 }
 
 void AwaitTaskContinuation___::ctor(Action<> action, Boolean flowExecutionContext) {
@@ -34,6 +43,10 @@ void AwaitTaskContinuation___::Run(Task<> task, Boolean canInlineContinuationTas
   TplEventSource log = TplEventSource::in::Log;
   if (log->IsEnabled()) {
     m_continuationId = Task::in::NewId();
+    auto default = task->get_ExecutingTaskScheduler();
+    if (default != nullptr) default = TaskScheduler::in::get_Default();
+
+    log->AwaitTaskContinuationScheduled((default)->get_Id(), task->get_Id(), m_continuationId);
   }
   ThreadPool::UnsafeQueueUserWorkItemInternal((AwaitTaskContinuation)this, true);
 }
@@ -109,6 +122,10 @@ void AwaitTaskContinuation___::UnsafeScheduleAction(Action<> action, Task<> task
   TplEventSource log = TplEventSource::in::Log;
   if (log->IsEnabled() && task != nullptr) {
     awaitTaskContinuation->m_continuationId = Task::in::NewId();
+    auto default = task->get_ExecutingTaskScheduler();
+    if (default != nullptr) default = TaskScheduler::in::get_Default();
+
+    log->AwaitTaskContinuationScheduled((default)->get_Id(), task->get_Id(), awaitTaskContinuation->m_continuationId);
   }
   ThreadPool::UnsafeQueueUserWorkItemInternal(awaitTaskContinuation, true);
 }

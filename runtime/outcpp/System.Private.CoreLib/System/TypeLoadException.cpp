@@ -1,5 +1,6 @@
 #include "TypeLoadException-dep.h"
 
+#include <System.Private.CoreLib/System/Exception-dep.h>
 #include <System.Private.CoreLib/System/Runtime/CompilerServices/StringHandleOnStack-dep.h>
 #include <System.Private.CoreLib/System/SR-dep.h>
 
@@ -12,9 +13,19 @@ String TypeLoadException___::get_Message() {
 }
 
 String TypeLoadException___::get_TypeName() {
+  auto default = _className;
+  if (default != nullptr) default = String::in::Empty;
+
+  return default;
 }
 
 void TypeLoadException___::ctor(String className, String assemblyName, String messageArg, Int32 resourceId) {
+  Exception::set_HResult = -2146233054;
+  _className = className;
+  _assemblyName = assemblyName;
+  _messageArg = messageArg;
+  _resourceId = resourceId;
+  SetMessageField();
 }
 
 void TypeLoadException___::SetMessageField() {
@@ -37,12 +48,15 @@ void TypeLoadException___::SetMessageField() {
 }
 
 void TypeLoadException___::ctor() {
+  Exception::set_HResult = -2146233054;
 }
 
 void TypeLoadException___::ctor(String message) {
+  Exception::set_HResult = -2146233054;
 }
 
 void TypeLoadException___::ctor(String message, Exception inner) {
+  Exception::set_HResult = -2146233054;
 }
 
 void TypeLoadException___::ctor(SerializationInfo info, StreamingContext context) {
@@ -53,6 +67,11 @@ void TypeLoadException___::ctor(SerializationInfo info, StreamingContext context
 }
 
 void TypeLoadException___::GetObjectData(SerializationInfo info, StreamingContext context) {
+  Exception::GetObjectData(info, context);
+  info->AddValue("TypeLoadClassName", _className, rt::typeof<String>());
+  info->AddValue("TypeLoadAssemblyName", _assemblyName, rt::typeof<String>());
+  info->AddValue("TypeLoadMessageArg", _messageArg, rt::typeof<String>());
+  info->AddValue("TypeLoadResourceID", _resourceId);
 }
 
 } // namespace System::Private::CoreLib::System::TypeLoadExceptionNamespace

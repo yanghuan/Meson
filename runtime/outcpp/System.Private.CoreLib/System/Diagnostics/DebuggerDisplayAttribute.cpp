@@ -16,6 +16,12 @@ void DebuggerDisplayAttribute___::set_Target(System::Type value) {
 }
 
 void DebuggerDisplayAttribute___::ctor(String value) {
+  auto default = value;
+  if (default != nullptr) default = "";
+
+  Value = (default);
+  Name = "";
+  Type = "";
 }
 
 } // namespace System::Private::CoreLib::System::Diagnostics::DebuggerDisplayAttributeNamespace

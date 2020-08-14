@@ -3,13 +3,16 @@
 #include <System.Private.CoreLib/System/ArgumentOutOfRangeException-dep.h>
 #include <System.Private.CoreLib/System/GC-dep.h>
 #include <System.Private.CoreLib/System/Int64-dep.h>
+#include <System.Private.CoreLib/System/Math-dep.h>
 #include <System.Private.CoreLib/System/ObjectDisposedException-dep.h>
 #include <System.Private.CoreLib/System/OperationCanceledException-dep.h>
 #include <System.Private.CoreLib/System/Runtime/CompilerServices/StrongBox-dep.h>
 #include <System.Private.CoreLib/System/SR-dep.h>
 #include <System.Private.CoreLib/System/Threading/CancellationToken-dep.h>
 #include <System.Private.CoreLib/System/Threading/CancellationTokenRegistration-dep.h>
+#include <System.Private.CoreLib/System/Threading/ManualResetEvent-dep.h>
 #include <System.Private.CoreLib/System/Threading/Monitor-dep.h>
+#include <System.Private.CoreLib/System/Threading/SemaphoreFullException-dep.h>
 #include <System.Private.CoreLib/System/Threading/SemaphoreSlim-dep.h>
 #include <System.Private.CoreLib/System/Threading/SpinWait-dep.h>
 #include <System.Private.CoreLib/System/Threading/Tasks/TaskCreationOptions.h>
@@ -32,6 +35,13 @@ WaitHandle SemaphoreSlim___::get_AvailableWaitHandle() {
   if (m_waitHandle != nullptr) {
     return m_waitHandle;
   }
+  {
+    rt::lock(m_lockObjAndDisposed);
+    if (m_waitHandle == nullptr) {
+      m_waitHandle = rt::newobj<ManualResetEvent>(m_currentCount != 0);
+    }
+  }
+  return m_waitHandle;
 }
 
 void SemaphoreSlim___::ctor(Int32 initialCount) {
@@ -198,6 +208,21 @@ Task<Boolean> SemaphoreSlim___::WaitAsync(Int32 millisecondsTimeout, Cancellatio
   if (cancellationToken.get_IsCancellationRequested()) {
     return Task::in::FromCanceled<Boolean>(cancellationToken);
   }
+  {
+    rt::lock(m_lockObjAndDisposed);
+    if (m_currentCount > 0) {
+      m_currentCount--;
+      if (m_waitHandle != nullptr && m_currentCount == 0) {
+        m_waitHandle->Reset();
+      }
+      return s_trueTask;
+    }
+    if (millisecondsTimeout == 0) {
+      return s_falseTask;
+    }
+    TaskNode taskNode = CreateAndAddAsyncWaiter();
+    return (millisecondsTimeout == -1 && !cancellationToken.get_CanBeCanceled()) ? taskNode : WaitUntilCountOrTimeoutAsync(taskNode, millisecondsTimeout, cancellationToken);
+  }
 }
 
 SemaphoreSlim::in::TaskNode SemaphoreSlim___::CreateAndAddAsyncWaiter() {
@@ -236,6 +261,13 @@ Task<Boolean> SemaphoreSlim___::WaitUntilCountOrTimeoutAsync(TaskNode asyncWaite
   } else {
     Task task = rt::newobj<Task>(nullptr, TaskCreationOptions::RunContinuationsAsynchronously, true);
   }
+  {
+    rt::lock(m_lockObjAndDisposed);
+    if (RemoveAsyncWaiter(asyncWaiter)) {
+      cancellationToken.ThrowIfCancellationRequested();
+      return false;
+    }
+  }
 }
 
 Int32 SemaphoreSlim___::Release() {
@@ -246,6 +278,48 @@ Int32 SemaphoreSlim___::Release(Int32 releaseCount) {
   CheckDispose();
   if (releaseCount < 1) {
     rt::throw_exception<ArgumentOutOfRangeException>("releaseCount", releaseCount, SR::get_SemaphoreSlim_Release_CountWrong());
+  }
+  {
+    rt::lock(m_lockObjAndDisposed);
+    Int32 currentCount = m_currentCount;
+    Int32 num = currentCount;
+    if (m_maxCount - currentCount < releaseCount) {
+      rt::throw_exception<SemaphoreFullException>();
+    }
+    currentCount += releaseCount;
+    Int32 waitCount = m_waitCount;
+    Int32 num2 = Math::Min(currentCount, waitCount) - m_countOfWaitersPulsedToWake;
+    if (num2 > 0) {
+      if (num2 > releaseCount) {
+        num2 = releaseCount;
+      }
+      m_countOfWaitersPulsedToWake += num2;
+      for (Int32 i = 0; i < num2; i++) {
+        Monitor::Pulse(m_lockObjAndDisposed);
+      }
+    }
+    if (m_asyncHead != nullptr) {
+      Int32 num3 = currentCount - waitCount;
+      while (num3 > 0 && m_asyncHead != nullptr) {
+        currentCount--;
+        num3--;
+        TaskNode asyncHead = m_asyncHead;
+        RemoveAsyncWaiter(asyncHead);
+        asyncHead->TrySetResult(true);
+      }
+    }
+    m_currentCount = currentCount;
+    if (m_waitHandle != nullptr) {
+      if (num == 0) {
+        if (currentCount > 0) {
+          m_waitHandle->Set();
+          return num;
+        }
+        return num;
+      }
+      return num;
+    }
+    return num;
   }
 }
 
@@ -269,6 +343,10 @@ void SemaphoreSlim___::Dispose(Boolean disposing) {
 
 void SemaphoreSlim___::CancellationTokenCanceledEventHandler(Object obj) {
   SemaphoreSlim semaphoreSlim = (SemaphoreSlim)obj;
+  {
+    rt::lock(semaphoreSlim->m_lockObjAndDisposed);
+    Monitor::PulseAll(semaphoreSlim->m_lockObjAndDisposed);
+  }
 }
 
 void SemaphoreSlim___::CheckDispose() {

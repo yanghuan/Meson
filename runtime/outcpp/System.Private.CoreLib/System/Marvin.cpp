@@ -54,6 +54,16 @@ Int32 Marvin::ComputeHash32(Byte& data, UInt32 count, UInt32 p0, UInt32 p1) {
     }
   } else {
     UInt32 num2 = count / 8u;
+    do {
+      p0 += Unsafe::ReadUnaligned<UInt32>(data);
+      UInt32 num3 = Unsafe::ReadUnaligned<UInt32>(Unsafe::AddByteOffset(data, 4u));
+      Block(p0, p1);
+      p0 += num3;
+      Block(p0, p1);
+      data = Unsafe::AddByteOffset(data, 8u);
+    } while (--num2 != 0)
+    if ((count & 4) == 0) {
+    }
   }
   p0 += Unsafe::ReadUnaligned<UInt32>(data);
   Block(p0, p1);

@@ -11,6 +11,7 @@
 #include <System.Private.CoreLib/System/IO/Error-dep.h>
 #include <System.Private.CoreLib/System/IO/FileAccess.h>
 #include <System.Private.CoreLib/System/IO/IOException-dep.h>
+#include <System.Private.CoreLib/System/IO/UnmanagedMemoryStream-dep.h>
 #include <System.Private.CoreLib/System/Math-dep.h>
 #include <System.Private.CoreLib/System/NotSupportedException-dep.h>
 #include <System.Private.CoreLib/System/ReadOnlySpan-dep.h>
@@ -184,11 +185,48 @@ void UnmanagedMemoryStream___::Initialize(Byte* pointer, Int64 length, Int64 cap
 }
 
 void UnmanagedMemoryStream___::CopyTo(ReadOnlySpanAction<Byte, Object> callback, Object state, Int32 bufferSize) {
+  if (GetType() != rt::typeof<UnmanagedMemoryStream>()) {
+    Stream::CopyTo(callback, state, bufferSize);
+    return;
+  }
+  if (callback == nullptr) {
+    rt::throw_exception<ArgumentNullException>("callback");
+  }
+  EnsureNotClosed();
+  EnsureReadable();
+  Int64 num = Interlocked::Read(_position);
+  Int64 num2 = Interlocked::Read(_length);
+  Int64 num3 = num2 - num;
+  if (num3 <= 0) {
+    return;
+  }
+  Int32 num4 = (Int32)num3;
+  if (num4 < 0) {
+    return;
+  }
+  if (_buffer != nullptr) {
+    Byte* pointer = nullptr;
+    try{
+      _buffer->AcquirePointer(pointer);
+      ReadOnlySpan<Byte> span = ReadOnlySpan<Byte>(pointer + num + _offset, num4);
+      Interlocked::Exchange(_position, num + num3);
+      callback(span, state);
+    } finally: {
+      if (pointer != nullptr) {
+        _buffer->ReleasePointer();
+      }
+    }
+  } else {
+    ReadOnlySpan<Byte> span2 = ReadOnlySpan<Byte>(_mem + num, num4);
+    Interlocked::Exchange(_position, num + num3);
+    callback(span2, state);
+  }
 }
 
 void UnmanagedMemoryStream___::Dispose(Boolean disposing) {
   _isOpen = false;
   _mem = nullptr;
+  Stream::Dispose(disposing);
 }
 
 void UnmanagedMemoryStream___::EnsureNotClosed() {
@@ -241,6 +279,10 @@ Int32 UnmanagedMemoryStream___::Read(Array<Byte> buffer, Int32 offset, Int32 cou
 }
 
 Int32 UnmanagedMemoryStream___::Read(Span<Byte> buffer) {
+  if (GetType() == rt::typeof<UnmanagedMemoryStream>()) {
+    return ReadCore(buffer);
+  }
+  return Stream::Read(buffer);
 }
 
 Int32 UnmanagedMemoryStream___::ReadCore(Span<Byte> buffer) {
@@ -405,6 +447,11 @@ void UnmanagedMemoryStream___::Write(Array<Byte> buffer, Int32 offset, Int32 cou
 }
 
 void UnmanagedMemoryStream___::Write(ReadOnlySpan<Byte> buffer) {
+  if (GetType() == rt::typeof<UnmanagedMemoryStream>()) {
+    WriteCore(buffer);
+  } else {
+    Stream::Write(buffer);
+  }
 }
 
 void UnmanagedMemoryStream___::WriteCore(ReadOnlySpan<Byte> buffer) {
@@ -478,6 +525,13 @@ ValueTask<> UnmanagedMemoryStream___::WriteAsync(ReadOnlyMemory<Byte> buffer, Ca
     return ValueTask(Task::in::FromCanceled(cancellationToken));
   }
   try{
+    ArraySegment<Byte> segment;
+    if (MemoryMarshal::TryGetArray(buffer, segment)) {
+      Write(segment.get_Array(), segment.get_Offset(), segment.get_Count());
+    } else {
+      Write(buffer.get_Span());
+    }
+    return ValueTask();
   } catch (Exception exception) {
   }
 }

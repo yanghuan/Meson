@@ -2,8 +2,12 @@
 
 #include <System.Private.CoreLib/System/ArgumentException-dep.h>
 #include <System.Private.CoreLib/System/ArgumentNullException-dep.h>
+#include <System.Private.CoreLib/System/Byte-dep.h>
 #include <System.Private.CoreLib/System/NotSupportedException-dep.h>
+#include <System.Private.CoreLib/System/Nullable-dep.h>
+#include <System.Private.CoreLib/System/Reflection/Emit/FieldToken-dep.h>
 #include <System.Private.CoreLib/System/Reflection/Emit/ModuleBuilder-dep.h>
+#include <System.Private.CoreLib/System/Reflection/Emit/SignatureHelper-dep.h>
 #include <System.Private.CoreLib/System/Runtime/CompilerServices/QCallModule-dep.h>
 #include <System.Private.CoreLib/System/SR-dep.h>
 
@@ -61,6 +65,20 @@ void FieldBuilder___::ctor(TypeBuilder typeBuilder, String fieldName, Type type,
   if (type == nullptr) {
     rt::throw_exception<ArgumentNullException>("type");
   }
+  if (type == rt::typeof<void>()) {
+    rt::throw_exception<ArgumentException>(SR::get_Argument_BadFieldType());
+  }
+  m_fieldName = fieldName;
+  m_typeBuilder = typeBuilder;
+  m_fieldType = type;
+  m_Attributes = (attributes & ~(FieldAttributes::RTSpecialName | FieldAttributes::HasFieldMarshal | FieldAttributes::HasDefault | FieldAttributes::HasFieldRVA));
+  SignatureHelper fieldSigHelper = SignatureHelper::in::GetFieldSigHelper(m_typeBuilder->get_Module());
+  fieldSigHelper->AddArgument(type, requiredCustomModifiers, optionalCustomModifiers);
+  Int32 length;
+  Array<Byte> signature = fieldSigHelper->InternalGetSignature(length);
+  ModuleBuilder module = m_typeBuilder->GetModuleBuilder();
+  m_fieldTok = TypeBuilder::in::DefineField(QCallModule(module), typeBuilder->get_TypeToken().get_Token(), fieldName, signature, length, m_Attributes);
+  m_tkField = FieldToken(m_fieldTok, type);
 }
 
 void FieldBuilder___::SetData(Array<Byte> data, Int32 size) {
@@ -100,6 +118,10 @@ void FieldBuilder___::SetOffset(Int32 iOffset) {
 
 void FieldBuilder___::SetConstant(Object defaultValue) {
   m_typeBuilder->ThrowIfCreated();
+  if (defaultValue == nullptr && m_fieldType->get_IsValueType() && (!m_fieldType->get_IsGenericType() || !(m_fieldType->GetGenericTypeDefinition() == rt::typeof<Nullable<T>>()))) {
+    rt::throw_exception<ArgumentException>(SR::get_Argument_ConstantNull());
+  }
+  TypeBuilder::in::SetConstantValue(m_typeBuilder->GetModuleBuilder(), GetToken().get_Token(), m_fieldType, defaultValue);
 }
 
 void FieldBuilder___::SetCustomAttribute(ConstructorInfo con, Array<Byte> binaryAttribute) {

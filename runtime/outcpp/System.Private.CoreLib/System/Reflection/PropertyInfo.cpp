@@ -68,9 +68,11 @@ void PropertyInfo___::SetValue(Object obj, Object value, Array<Object> index) {
 }
 
 Boolean PropertyInfo___::Equals(Object obj) {
+  return MemberInfo::Equals(obj);
 }
 
 Int32 PropertyInfo___::GetHashCode() {
+  return MemberInfo::GetHashCode();
 }
 
 Boolean PropertyInfo___::op_Equality(PropertyInfo left, PropertyInfo right) {

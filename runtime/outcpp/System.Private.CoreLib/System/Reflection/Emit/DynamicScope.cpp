@@ -93,6 +93,7 @@ Int32 DynamicScope___::GetTokenFor(Array<Byte> signature) {
 
 void DynamicScope___::ctor() {
   m_tokens = rt::newobj<List<Object>>();
+  Object::ctor();
 }
 
 } // namespace System::Private::CoreLib::System::Reflection::Emit::DynamicScopeNamespace

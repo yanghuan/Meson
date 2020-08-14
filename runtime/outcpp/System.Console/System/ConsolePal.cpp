@@ -21,7 +21,6 @@
 #include <System.Private.CoreLib/System/Int16-dep.h>
 #include <System.Private.CoreLib/System/InvalidOperationException-dep.h>
 #include <System.Private.CoreLib/System/IO/IOException-dep.h>
-#include <System.Private.CoreLib/System/IO/Stream-dep.h>
 #include <System.Private.CoreLib/System/IO/StreamReader-dep.h>
 #include <System.Private.CoreLib/System/Runtime/InteropServices/Marshal-dep.h>
 #include <System.Private.CoreLib/System/Span-dep.h>
@@ -44,7 +43,7 @@ void ConsolePal::WindowsConsoleStream___::ctor(IntPtr handle, FileAccess access,
 
 void ConsolePal::WindowsConsoleStream___::Dispose(Boolean disposing) {
   _handle = IntPtr::Zero;
-  Stream->Dispose(disposing);
+  ConsoleStream::Dispose(disposing);
 }
 
 Int32 ConsolePal::WindowsConsoleStream___::Read(Array<Byte> buffer, Int32 offset, Int32 count) {
@@ -69,7 +68,7 @@ void ConsolePal::WindowsConsoleStream___::Flush() {
   if (_handle == IntPtr::Zero) {
     rt::throw_exception(Error::GetFileNotOpen());
   }
-  Stream->Flush();
+  ConsoleStream::Flush();
 }
 
 Int32 ConsolePal::WindowsConsoleStream___::ReadFileNative(IntPtr hFile, Array<Byte> bytes, Int32 offset, Int32 count, Boolean isPipe, Int32& bytesRead, Boolean useFileAPIs) {

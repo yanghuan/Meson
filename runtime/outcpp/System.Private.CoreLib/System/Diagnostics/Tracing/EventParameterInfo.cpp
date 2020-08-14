@@ -6,7 +6,19 @@
 #include <System.Private.CoreLib/System/Diagnostics/Tracing/InvokeTypeInfo-dep.h>
 #include <System.Private.CoreLib/System/Diagnostics/Tracing/PropertyAnalysis-dep.h>
 #include <System.Private.CoreLib/System/Diagnostics/Tracing/ScalarArrayTypeInfo-dep.h>
+#include <System.Private.CoreLib/System/Diagnostics/Tracing/ScalarTypeInfo-dep.h>
+#include <System.Private.CoreLib/System/Double-dep.h>
+#include <System.Private.CoreLib/System/Guid-dep.h>
+#include <System.Private.CoreLib/System/Int16-dep.h>
+#include <System.Private.CoreLib/System/Int32-dep.h>
+#include <System.Private.CoreLib/System/Int64-dep.h>
+#include <System.Private.CoreLib/System/IntPtr-dep.h>
+#include <System.Private.CoreLib/System/SByte-dep.h>
+#include <System.Private.CoreLib/System/Single-dep.h>
 #include <System.Private.CoreLib/System/TypeCode.h>
+#include <System.Private.CoreLib/System/UInt16-dep.h>
+#include <System.Private.CoreLib/System/UInt64-dep.h>
+#include <System.Private.CoreLib/System/UIntPtr-dep.h>
 
 namespace System::Private::CoreLib::System::Diagnostics::Tracing::EventParameterInfoNamespace {
 void EventParameterInfo::SetInfo(String name, Type type, TraceLoggingTypeInfo typeInfo) {
@@ -81,6 +93,17 @@ Boolean EventParameterInfo::GenerateMetadataV2(Byte* pMetadataBlob, UInt32& offs
 }
 
 Boolean EventParameterInfo::GenerateMetadataForNamedTypeV2(String name, TraceLoggingTypeInfo typeInfo, Byte* pMetadataBlob, UInt32& offset, UInt32 blobSize) {
+  UInt32 size;
+  if (!GetMetadataLengthForNamedTypeV2(name, typeInfo, size)) {
+    return false;
+  }
+  EventPipeMetadataGenerator::in::WriteToBuffer(pMetadataBlob, blobSize, offset, size);
+  {
+    Char* ptr = name;
+    Char* src = ptr;
+    EventPipeMetadataGenerator::in::WriteToBuffer(pMetadataBlob, blobSize, offset, (Byte*)src, (UInt32)((name->get_Length() + 1) * 2));
+  }
+  return GenerateMetadataForTypeV2(typeInfo, pMetadataBlob, offset, blobSize);
 }
 
 Boolean EventParameterInfo::GenerateMetadataForTypeV2(TraceLoggingTypeInfo typeInfo, Byte* pMetadataBlob, UInt32& offset, UInt32 blobSize) {
@@ -105,6 +128,12 @@ Boolean EventParameterInfo::GenerateMetadataForTypeV2(TraceLoggingTypeInfo typeI
         if (!scalarArrayTypeInfo->get_DataType()->get_HasElementType()) {
           return false;
         }
+        TraceLoggingTypeInfo typeInfo2;
+        if (!GetTypeInfoFromType(scalarArrayTypeInfo->get_DataType()->GetElementType(), typeInfo2)) {
+          return false;
+        }
+        EventPipeMetadataGenerator::in::WriteToBuffer(pMetadataBlob, blobSize, offset, 19);
+        GenerateMetadataForTypeV2(typeInfo2, pMetadataBlob, offset, blobSize);
       } else {
         TypeCode typeCodeExtended = GetTypeCodeExtended(typeInfo->get_DataType());
         if (typeCodeExtended == TypeCode::Object) {
@@ -118,6 +147,68 @@ Boolean EventParameterInfo::GenerateMetadataForTypeV2(TraceLoggingTypeInfo typeI
 }
 
 Boolean EventParameterInfo::GetTypeInfoFromType(Type type, TraceLoggingTypeInfo& typeInfo) {
+  if (type == rt::typeof<Boolean>()) {
+    typeInfo = ScalarTypeInfo::in::Boolean();
+    return true;
+  }
+  if (type == rt::typeof<Byte>()) {
+    typeInfo = ScalarTypeInfo::in::Byte();
+    return true;
+  }
+  if (type == rt::typeof<SByte>()) {
+    typeInfo = ScalarTypeInfo::in::SByte();
+    return true;
+  }
+  if (type == rt::typeof<Char>()) {
+    typeInfo = ScalarTypeInfo::in::Char();
+    return true;
+  }
+  if (type == rt::typeof<Int16>()) {
+    typeInfo = ScalarTypeInfo::in::Int16();
+    return true;
+  }
+  if (type == rt::typeof<UInt16>()) {
+    typeInfo = ScalarTypeInfo::in::UInt16();
+    return true;
+  }
+  if (type == rt::typeof<Int32>()) {
+    typeInfo = ScalarTypeInfo::in::Int32();
+    return true;
+  }
+  if (type == rt::typeof<UInt32>()) {
+    typeInfo = ScalarTypeInfo::in::UInt32();
+    return true;
+  }
+  if (type == rt::typeof<Int64>()) {
+    typeInfo = ScalarTypeInfo::in::Int64();
+    return true;
+  }
+  if (type == rt::typeof<UInt64>()) {
+    typeInfo = ScalarTypeInfo::in::UInt64();
+    return true;
+  }
+  if (type == rt::typeof<IntPtr>()) {
+    typeInfo = ScalarTypeInfo::in::IntPtr();
+    return true;
+  }
+  if (type == rt::typeof<UIntPtr>()) {
+    typeInfo = ScalarTypeInfo::in::UIntPtr();
+    return true;
+  }
+  if (type == rt::typeof<Single>()) {
+    typeInfo = ScalarTypeInfo::in::Single();
+    return true;
+  }
+  if (type == rt::typeof<Double>()) {
+    typeInfo = ScalarTypeInfo::in::Double();
+    return true;
+  }
+  if (type == rt::typeof<Guid>()) {
+    typeInfo = ScalarTypeInfo::in::Guid();
+    return true;
+  }
+  typeInfo = nullptr;
+  return false;
 }
 
 Boolean EventParameterInfo::GetMetadataLength(UInt32& size) {
@@ -155,6 +246,18 @@ UInt32 EventParameterInfo::GetMetadataLengthForProperty(PropertyAnalysis propert
 }
 
 TypeCode EventParameterInfo::GetTypeCodeExtended(Type parameterType) {
+  if (parameterType == rt::typeof<Guid>()) {
+    return (TypeCode)17;
+  }
+  if (parameterType == rt::typeof<IntPtr>()) {
+    _ = IntPtr::get_Size();
+    return TypeCode::Int64;
+  }
+  if (parameterType == rt::typeof<UIntPtr>()) {
+    _ = UIntPtr::get_Size();
+    return TypeCode::UInt64;
+  }
+  return Type::in::GetTypeCode(parameterType);
 }
 
 Boolean EventParameterInfo::GetMetadataLengthV2(UInt32& size) {
@@ -177,9 +280,24 @@ Boolean EventParameterInfo::GetMetadataLengthForTypeV2(TraceLoggingTypeInfo type
     EnumerableTypeInfo enumerableTypeInfo = rt::as<EnumerableTypeInfo>(typeInfo);
     if (enumerableTypeInfo != nullptr) {
       size += 4u;
+      UInt32 size3;
+      if (!GetMetadataLengthForTypeV2(enumerableTypeInfo->get_ElementInfo(), size3)) {
+        return false;
+      }
+      size += size3;
     } else {
       ScalarArrayTypeInfo scalarArrayTypeInfo = rt::as<ScalarArrayTypeInfo>(typeInfo);
       if (scalarArrayTypeInfo != nullptr) {
+        TraceLoggingTypeInfo typeInfo2;
+        if (!scalarArrayTypeInfo->get_DataType()->get_HasElementType() || !GetTypeInfoFromType(scalarArrayTypeInfo->get_DataType()->GetElementType(), typeInfo2)) {
+          return false;
+        }
+        size += 4u;
+        UInt32 size4;
+        if (!GetMetadataLengthForTypeV2(typeInfo2, size4)) {
+          return false;
+        }
+        size += size4;
       } else {
         size += 4u;
       }
@@ -190,6 +308,12 @@ Boolean EventParameterInfo::GetMetadataLengthForTypeV2(TraceLoggingTypeInfo type
 
 Boolean EventParameterInfo::GetMetadataLengthForNamedTypeV2(String name, TraceLoggingTypeInfo typeInfo, UInt32& size) {
   size = (UInt32)(4 + (name->get_Length() + 1) * 2);
+  UInt32 size2;
+  if (!GetMetadataLengthForTypeV2(typeInfo, size2)) {
+    return false;
+  }
+  size += size2;
+  return true;
 }
 
 } // namespace System::Private::CoreLib::System::Diagnostics::Tracing::EventParameterInfoNamespace

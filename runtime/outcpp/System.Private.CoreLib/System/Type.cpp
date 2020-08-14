@@ -2,11 +2,15 @@
 
 #include <System.Private.CoreLib/System/ArgumentException-dep.h>
 #include <System.Private.CoreLib/System/ArgumentNullException-dep.h>
+#include <System.Private.CoreLib/System/Byte-dep.h>
 #include <System.Private.CoreLib/System/Char-dep.h>
 #include <System.Private.CoreLib/System/Collections/Generic/Comparer-dep.h>
 #include <System.Private.CoreLib/System/Collections/IComparer.h>
 #include <System.Private.CoreLib/System/DefaultBinder-dep.h>
+#include <System.Private.CoreLib/System/Delegate-dep.h>
 #include <System.Private.CoreLib/System/Enum-dep.h>
+#include <System.Private.CoreLib/System/Int16-dep.h>
+#include <System.Private.CoreLib/System/Int64-dep.h>
 #include <System.Private.CoreLib/System/InvalidOperationException-dep.h>
 #include <System.Private.CoreLib/System/MemoryExtensions-dep.h>
 #include <System.Private.CoreLib/System/NotImplemented-dep.h>
@@ -25,12 +29,17 @@
 #include <System.Private.CoreLib/System/Reflection/TypeAttributes.h>
 #include <System.Private.CoreLib/System/RuntimeType-dep.h>
 #include <System.Private.CoreLib/System/RuntimeTypeHandle-dep.h>
+#include <System.Private.CoreLib/System/SByte-dep.h>
 #include <System.Private.CoreLib/System/SR-dep.h>
 #include <System.Private.CoreLib/System/Threading/Interlocked-dep.h>
 #include <System.Private.CoreLib/System/Threading/StackCrawlMark.h>
 #include <System.Private.CoreLib/System/Type-dep.h>
+#include <System.Private.CoreLib/System/TypedReference-dep.h>
 #include <System.Private.CoreLib/System/TypeNameParser-dep.h>
+#include <System.Private.CoreLib/System/UInt16-dep.h>
+#include <System.Private.CoreLib/System/UInt32-dep.h>
 #include <System.Private.CoreLib/System/UInt64-dep.h>
+#include <System.Private.CoreLib/System/ValueType-dep.h>
 
 namespace System::Private::CoreLib::System::TypeNamespace {
 using namespace System::Collections;
@@ -238,6 +247,7 @@ Boolean Type___::get_IsContextful() {
 }
 
 Boolean Type___::get_IsEnum() {
+  return IsSubclassOf(rt::typeof<Enum>());
 }
 
 Boolean Type___::get_IsMarshalByRef() {
@@ -294,6 +304,12 @@ Boolean Type___::get_IsSerializable() {
   }
   Type type = get_UnderlyingSystemType();
   if (type->IsRuntimeImplemented()) {
+    do {
+      if (type == rt::typeof<Delegate>() || type == rt::typeof<Enum>()) {
+        return true;
+      }
+      type = type->get_BaseType();
+    } while (type != nullptr)
   }
   return false;
 }
@@ -394,6 +410,7 @@ void Type___::ctor() {
 }
 
 Type Type___::GetType() {
+  return Object::GetType();
 }
 
 Int32 Type___::GetArrayRank() {
@@ -424,6 +441,7 @@ Boolean Type___::IsMarshalByRefImpl() {
 }
 
 Boolean Type___::IsValueTypeImpl() {
+  return IsSubclassOf(rt::typeof<ValueType>());
 }
 
 ConstructorInfo Type___::GetConstructor(Array<Type> types) {
@@ -753,6 +771,10 @@ Type Type___::MakeGenericMethodParameter(Int32 position) {
 
 String Type___::FormatTypeName() {
   Type rootElementType = GetRootElementType();
+  if (rootElementType->get_IsPrimitive() || rootElementType->get_IsNested() || rootElementType == rt::typeof<void>() || rootElementType == rt::typeof<TypedReference>()) {
+    return get_Name();
+  }
+  return ToString();
 }
 
 String Type___::ToString() {
@@ -771,6 +793,7 @@ Int32 Type___::GetHashCode() {
   if ((Object)underlyingSystemType != (Type)this) {
     return underlyingSystemType->GetHashCode();
   }
+  return MemberInfo::GetHashCode();
 }
 
 Boolean Type___::Equals(Type o) {
@@ -798,6 +821,23 @@ Boolean Type___::IsEnumDefined(Object value) {
     }
     type = type->GetEnumUnderlyingType();
   }
+  if (type == rt::typeof<String>()) {
+    Array<String> enumNames = GetEnumNames();
+    Array<Object> array = enumNames;
+    if (Array<>::in::IndexOf(array, value) >= 0) {
+      return true;
+    }
+    return false;
+  }
+  if (IsIntegerType(type)) {
+    Type enumUnderlyingType = GetEnumUnderlyingType();
+    if (enumUnderlyingType->GetTypeCodeImpl() != type->GetTypeCodeImpl()) {
+      rt::throw_exception<ArgumentException>(SR::Format(SR::get_Arg_EnumUnderlyingTypeAndObjectMustBeSameType(), type, enumUnderlyingType));
+    }
+    Array<> enumRawConstantValues = GetEnumRawConstantValues();
+    return BinarySearch(enumRawConstantValues, value) >= 0;
+  }
+  rt::throw_exception<InvalidOperationException>(SR::get_InvalidOperation_UnknownEnumType());
 }
 
 String Type___::GetEnumName(Object value) {
@@ -824,9 +864,17 @@ Array<String> Type___::GetEnumNames() {
   if (!get_IsEnum()) {
     rt::throw_exception<ArgumentException>(SR::get_Arg_MustBeEnum(), "enumType");
   }
+  Array<String> enumNames;
+  Array<> _;
+  GetEnumData(enumNames, _);
+  return enumNames;
 }
 
 Array<> Type___::GetEnumRawConstantValues() {
+  Array<String> _;
+  Array<> enumValues;
+  GetEnumData(_, enumValues);
+  return enumValues;
 }
 
 void Type___::GetEnumData(Array<String>& enumNames, Array<>& enumValues) {
@@ -871,6 +919,10 @@ Int32 Type___::BinarySearch(Array<> array, Object value) {
 }
 
 Boolean Type___::IsIntegerType(Type t) {
+  if (!(t == rt::typeof<Int32>()) && !(t == rt::typeof<Int16>()) && !(t == rt::typeof<UInt16>()) && !(t == rt::typeof<Byte>()) && !(t == rt::typeof<SByte>()) && !(t == rt::typeof<UInt32>()) && !(t == rt::typeof<Int64>()) && !(t == rt::typeof<UInt64>()) && !(t == rt::typeof<Char>())) {
+    return t == rt::typeof<Boolean>();
+  }
+  return true;
 }
 
 Type Type___::GetRootElementType() {

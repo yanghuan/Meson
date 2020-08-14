@@ -3,12 +3,14 @@
 #include <System.Private.CoreLib/System/ArgumentException-dep.h>
 #include <System.Private.CoreLib/System/ArgumentNullException-dep.h>
 #include <System.Private.CoreLib/System/ArgumentOutOfRangeException-dep.h>
+#include <System.Private.CoreLib/System/ArraySegment-dep.h>
 #include <System.Private.CoreLib/System/Buffers/ArrayPool-dep.h>
 #include <System.Private.CoreLib/System/Exception-dep.h>
 #include <System.Private.CoreLib/System/GC-dep.h>
 #include <System.Private.CoreLib/System/Globalization/CultureInfo-dep.h>
 #include <System.Private.CoreLib/System/IFormattable.h>
 #include <System.Private.CoreLib/System/IO/TextWriter-dep.h>
+#include <System.Private.CoreLib/System/Runtime/InteropServices/MemoryMarshal-dep.h>
 #include <System.Private.CoreLib/System/Span-dep.h>
 #include <System.Private.CoreLib/System/SR-dep.h>
 #include <System.Private.CoreLib/System/Tuple-dep.h>
@@ -16,6 +18,7 @@
 namespace System::Private::CoreLib::System::IO::TextWriterNamespace {
 using namespace System::Buffers;
 using namespace System::Globalization;
+using namespace System::Runtime::InteropServices;
 
 Encoding NullTextWriter___::get_Encoding() {
   return Encoding::in::get_Unicode();
@@ -333,12 +336,16 @@ void TextWriter___::ctor() {
   CoreNewLine = s_coreNewLine;
   CoreNewLineStr = "
 ";
+  MarshalByRefObject::ctor();
+  _internalFormatProvider = nullptr;
 }
 
 void TextWriter___::ctor(IFormatProvider formatProvider) {
   CoreNewLine = s_coreNewLine;
   CoreNewLineStr = "
 ";
+  MarshalByRefObject::ctor();
+  _internalFormatProvider = formatProvider;
 }
 
 void TextWriter___::Close() {
@@ -623,6 +630,10 @@ Task<> TextWriter___::WriteAsync(Array<Char> buffer, Int32 index, Int32 count) {
 
 Task<> TextWriter___::WriteAsync(ReadOnlyMemory<Char> buffer, CancellationToken cancellationToken) {
   if (!cancellationToken.get_IsCancellationRequested()) {
+    ArraySegment<Char> segment;
+    if (!MemoryMarshal::TryGetArray(buffer, segment)) {
+    }
+    return WriteAsync(segment.get_Array(), segment.get_Offset(), segment.get_Count());
   }
   return Task::in::FromCanceled(cancellationToken);
 }
@@ -664,6 +675,10 @@ Task<> TextWriter___::WriteLineAsync(Array<Char> buffer, Int32 index, Int32 coun
 
 Task<> TextWriter___::WriteLineAsync(ReadOnlyMemory<Char> buffer, CancellationToken cancellationToken) {
   if (!cancellationToken.get_IsCancellationRequested()) {
+    ArraySegment<Char> segment;
+    if (!MemoryMarshal::TryGetArray(buffer, segment)) {
+    }
+    return WriteLineAsync(segment.get_Array(), segment.get_Offset(), segment.get_Count());
   }
   return Task::in::FromCanceled(cancellationToken);
 }

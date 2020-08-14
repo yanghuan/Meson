@@ -1,5 +1,6 @@
 #include "MissingMethodException-dep.h"
 
+#include <System.Private.CoreLib/System/Exception-dep.h>
 #include <System.Private.CoreLib/System/SR-dep.h>
 
 namespace System::Private::CoreLib::System::MissingMethodExceptionNamespace {
@@ -7,15 +8,19 @@ String MissingMethodException___::get_Message() {
   if (ClassName != nullptr) {
     return SR::Format(SR::get_MissingMethod_Name(), ClassName + "." + MemberName + ((Signature != nullptr) ? (" " + MissingMemberException::in::FormatSignature(Signature)) : String::in::Empty));
   }
+  return MissingMemberException::get_Message();
 }
 
 void MissingMethodException___::ctor() {
+  Exception::set_HResult = -2146233069;
 }
 
 void MissingMethodException___::ctor(String message) {
+  Exception::set_HResult = -2146233069;
 }
 
 void MissingMethodException___::ctor(String message, Exception inner) {
+  Exception::set_HResult = -2146233069;
 }
 
 void MissingMethodException___::ctor(String className, String methodName) {

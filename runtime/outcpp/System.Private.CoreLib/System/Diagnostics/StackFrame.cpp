@@ -137,6 +137,14 @@ String StackFrame___::ToString() {
       stringBuilder->Append(_nativeOffset);
     }
     stringBuilder->Append(" in file:line:column ");
+    auto default = _fileName;
+    if (default != nullptr) default = "<filename unknown>";
+
+    stringBuilder->Append(default);
+    stringBuilder->Append(58);
+    stringBuilder->Append(_lineNumber);
+    stringBuilder->Append(58);
+    stringBuilder->Append(_columnNumber);
   } else {
     stringBuilder->Append("<null>");
   }

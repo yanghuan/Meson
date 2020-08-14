@@ -221,6 +221,12 @@ UInt32 Decimal::DecCalc::Div96By64(Buf12& bufNum, UInt64 den) {
     low = bufNum.set_Low64;
     low -= den << 32;
     num = 0u;
+    do {
+      num--;
+      low += den;
+    } while (low >= den)
+    bufNum.set_Low64 = low;
+    return num;
   }
   UInt64 high = bufNum.get_High64();
   if (high < num3) {
@@ -231,6 +237,10 @@ UInt32 Decimal::DecCalc::Div96By64(Buf12& bufNum, UInt64 den) {
   UInt64 num4 = UInt32x32To64(num, (UInt32)den);
   low -= num4;
   if (low > ~num4) {
+    do {
+      num--;
+      low += den;
+    } while (low >= den)
   }
   bufNum.set_Low64 = low;
   return num;
@@ -525,6 +535,18 @@ Int32 Decimal::DecCalc::VarDecCmpSub(Decimal& d1, Decimal& d2) {
     num2 >>= 16;
     if (num2 < 0) {
     }
+    do {
+      UInt32 b = (num2 >= 9) ? 1000000000u : s_powers10[num2];
+      UInt64 num9 = UInt32x32To64((UInt32)num3, b);
+      UInt64 num10 = UInt32x32To64((UInt32)(num3 >> 32), b) + (num9 >> 32);
+      num3 = (UInt32)num9 + (num10 << 32);
+      num10 >>= 32;
+      num10 += UInt32x32To64(num4, b);
+      if (num10 > UInt32::MaxValue) {
+        return num;
+      }
+      num4 = (UInt32)num10;
+    } while ((num2 -= 9) > 0)
   }
   UInt32 num11 = num4 - num6;
   if (num11 != 0) {
@@ -975,7 +997,55 @@ void Decimal::DecCalc::VarDecMod(DecCalc& d1, DecCalc& d2) {
     }
     Int32 num2 = (SByte)(d1.uflags - d2.uflags >> 16);
     if (num2 > 0) {
+      do {
+        UInt32 num3 = (num2 >= 9) ? 1000000000u : s_powers10[num2];
+        UInt64 num4 = UInt32x32To64(d2.get_Low(), num3);
+        d2.set_Low = (UInt32)num4;
+        num4 >>= 32;
+        num4 += (d2.get_Mid() + ((UInt64)d2.get_High() << 32)) * num3;
+        d2.set_Mid = (UInt32)num4;
+        d2.set_High = (UInt32)(num4 >> 32);
+      } while ((num2 -= 9) > 0)
+      num2 = 0;
     }
+    do {
+      if (num2 < 0) {
+        d1.uflags = d2.uflags;
+        Buf12 value;
+        Unsafe::SkipInit(value);
+        value.set_Low64 = d1.set_Low64;
+        value.U2 = d1.set_High;
+        UInt32 num6;
+        do {
+          Int32 num5 = SearchScale(value, 28 + num2);
+          if (num5 == 0) {
+            break;
+          }
+          num6 = ((num5 >= 9) ? 1000000000u : s_powers10[num5]);
+          num2 += num5;
+          UInt64 num7 = UInt32x32To64(value.U0, num6);
+          value.U0 = (UInt32)num7;
+          num7 >>= 32;
+          value.set_High64 = num7 + value.get_High64() * num6;
+        } while (num6 == 1000000000 && num2 < 0)
+        d1.set_Low64 = value.set_Low64;
+        d1.set_High = value.U2;
+      }
+      if (d1.get_High() == 0) {
+        d1.set_Low64 %= d2.set_Low64;
+        break;
+      }
+      if ((d2.get_High() | d2.get_Mid()) == 0) {
+        UInt32 low = d2.get_Low();
+        UInt64 num8 = ((UInt64)d1.get_High() << 32) | d1.get_Mid();
+        num8 = ((num8 % low << 32) | d1.get_Low());
+        d1.set_Low64 = num8 % low;
+        d1.set_High = 0u;
+        continue;
+      }
+      VarDecModFull(d1, d2, num2);
+      break;
+    } while (num2 < 0)
   }
 }
 

@@ -3,6 +3,7 @@
 #include <System.Private.CoreLib/System/ArgumentException-dep.h>
 #include <System.Private.CoreLib/System/ArgumentNullException-dep.h>
 #include <System.Private.CoreLib/System/Collections/Generic/List-dep.h>
+#include <System.Private.CoreLib/System/Diagnostics/DebuggableAttribute-dep.h>
 #include <System.Private.CoreLib/System/Diagnostics/SymbolStore/ISymbolWriter.h>
 #include <System.Private.CoreLib/System/Int32-dep.h>
 #include <System.Private.CoreLib/System/IntPtr-dep.h>
@@ -10,12 +11,14 @@
 #include <System.Private.CoreLib/System/Reflection/Emit/AssemblyBuilder-dep.h>
 #include <System.Private.CoreLib/System/Reflection/Emit/AssemblyBuilderData-dep.h>
 #include <System.Private.CoreLib/System/Reflection/Emit/SymWrapperCore-dep.h>
+#include <System.Private.CoreLib/System/Reflection/Emit/TypeBuilder-dep.h>
 #include <System.Private.CoreLib/System/Runtime/CompilerServices/ObjectHandleOnStack-dep.h>
 #include <System.Private.CoreLib/System/Runtime/CompilerServices/StackCrawlMarkHandle-dep.h>
 #include <System.Private.CoreLib/System/SR-dep.h>
 
 namespace System::Private::CoreLib::System::Reflection::Emit::AssemblyBuilderNamespace {
 using namespace System::Collections::Generic;
+using namespace System::Diagnostics;
 using namespace System::Diagnostics::SymbolStore;
 using namespace System::Runtime::CompilerServices;
 
@@ -72,6 +75,13 @@ Boolean AssemblyBuilder___::get_IsCollectible() {
 }
 
 ModuleBuilder AssemblyBuilder___::GetModuleBuilder(InternalModuleBuilder module) {
+  {
+    rt::lock(get_SyncRoot());
+    if (_manifestModuleBuilder->get_InternalModule() == module) {
+      return _manifestModuleBuilder;
+    }
+    rt::throw_exception<ArgumentException>(nullptr, "module");
+  }
 }
 
 RuntimeAssembly AssemblyBuilder___::GetNativeHandle() {
@@ -118,6 +128,10 @@ AssemblyBuilder AssemblyBuilder___::DefineDynamicAssembly(AssemblyName name, Ass
 }
 
 AssemblyBuilder AssemblyBuilder___::InternalDefineDynamicAssembly(AssemblyName name, AssemblyBuilderAccess access, StackCrawlMark& stackMark, IEnumerable<CustomAttributeBuilder> unsafeAssemblyAttributes) {
+  {
+    rt::lock(s_assemblyBuilderLock);
+    return rt::newobj<AssemblyBuilder>(name, access, stackMark, unsafeAssemblyAttributes);
+  }
 }
 
 ModuleBuilder AssemblyBuilder___::DefineDynamicModule(String name) {
@@ -129,6 +143,10 @@ ModuleBuilder AssemblyBuilder___::DefineDynamicModule(String name, Boolean emitS
 }
 
 ModuleBuilder AssemblyBuilder___::DefineDynamicModuleInternal(String name, Boolean emitSymbolInfo) {
+  {
+    rt::lock(get_SyncRoot());
+    return DefineDynamicModuleInternalNoLock(name, emitSymbolInfo);
+  }
 }
 
 ModuleBuilder AssemblyBuilder___::DefineDynamicModuleInternalNoLock(String name, Boolean emitSymbolInfo) {
@@ -256,6 +274,10 @@ Assembly AssemblyBuilder___::GetSatelliteAssembly(CultureInfo culture, Version v
 }
 
 ModuleBuilder AssemblyBuilder___::GetDynamicModule(String name) {
+  {
+    rt::lock(get_SyncRoot());
+    return GetDynamicModuleNoLock(name);
+  }
 }
 
 ModuleBuilder AssemblyBuilder___::GetDynamicModuleNoLock(String name) {
@@ -281,14 +303,23 @@ void AssemblyBuilder___::SetCustomAttribute(ConstructorInfo con, Array<Byte> bin
   if (binaryAttribute == nullptr) {
     rt::throw_exception<ArgumentNullException>("binaryAttribute");
   }
+  {
+    rt::lock(get_SyncRoot());
+    SetCustomAttributeNoLock(con, binaryAttribute);
+  }
 }
 
 void AssemblyBuilder___::SetCustomAttributeNoLock(ConstructorInfo con, Array<Byte> binaryAttribute) {
+  TypeBuilder::in::DefineCustomAttribute(_manifestModuleBuilder, 536870913, _manifestModuleBuilder->GetConstructorToken(con).get_Token(), binaryAttribute, false, rt::typeof<DebuggableAttribute>() == con->get_DeclaringType());
 }
 
 void AssemblyBuilder___::SetCustomAttribute(CustomAttributeBuilder customBuilder) {
   if (customBuilder == nullptr) {
     rt::throw_exception<ArgumentNullException>("customBuilder");
+  }
+  {
+    rt::lock(get_SyncRoot());
+    SetCustomAttributeNoLock(customBuilder);
   }
 }
 

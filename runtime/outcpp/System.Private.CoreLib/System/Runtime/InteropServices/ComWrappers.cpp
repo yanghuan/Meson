@@ -1,5 +1,6 @@
 #include "ComWrappers-dep.h"
 
+#include <System.Private.CoreLib/System/ArgumentException-dep.h>
 #include <System.Private.CoreLib/System/ArgumentNullException-dep.h>
 #include <System.Private.CoreLib/System/InvalidOperationException-dep.h>
 #include <System.Private.CoreLib/System/Runtime/CompilerServices/ObjectHandleOnStack-dep.h>
@@ -13,6 +14,11 @@ using namespace System::Runtime::CompilerServices;
 using namespace System::Threading;
 
 IntPtr ComWrappers___::GetOrCreateComInterfaceForObject(Object instance, CreateComInterfaceFlags flags) {
+  IntPtr retValue;
+  if (!TryGetOrCreateComInterfaceForObjectInternal((ComWrappers)this, instance, flags, retValue)) {
+    rt::throw_exception<ArgumentException>(nullptr, "instance");
+  }
+  return retValue;
 }
 
 Boolean ComWrappers___::TryGetOrCreateComInterfaceForObjectInternal(ComWrappers impl, Object instance, CreateComInterfaceFlags flags, IntPtr& retValue) {
@@ -43,6 +49,11 @@ void* ComWrappers___::CallComputeVtables(ComWrappersScenario scenario, ComWrappe
 }
 
 Object ComWrappers___::GetOrCreateObjectForComInstance(IntPtr externalComObject, CreateObjectFlags flags) {
+  Object retValue;
+  if (!TryGetOrCreateObjectForComInstanceInternal((ComWrappers)this, externalComObject, flags, nullptr, retValue)) {
+    rt::throw_exception<ArgumentNullException>("externalComObject");
+  }
+  return retValue;
 }
 
 Object ComWrappers___::CallCreateObject(ComWrappersScenario scenario, ComWrappers comWrappersImpl, IntPtr externalComObject, CreateObjectFlags flags) {
@@ -64,6 +75,11 @@ Object ComWrappers___::GetOrRegisterObjectForComInstance(IntPtr externalComObjec
   if (wrapper == nullptr) {
     rt::throw_exception<ArgumentNullException>("externalComObject");
   }
+  Object retValue;
+  if (!TryGetOrCreateObjectForComInstanceInternal((ComWrappers)this, externalComObject, flags, wrapper, retValue)) {
+    rt::throw_exception<ArgumentNullException>("externalComObject");
+  }
+  return retValue;
 }
 
 Boolean ComWrappers___::TryGetOrCreateObjectForComInstanceInternal(ComWrappers impl, IntPtr externalComObject, CreateObjectFlags flags, Object wrapperMaybe, Object& retValue) {
@@ -76,6 +92,10 @@ Boolean ComWrappers___::TryGetOrCreateObjectForComInstanceInternal(ComWrappers i
 }
 
 void ComWrappers___::CallReleaseObjects(ComWrappers comWrappersImpl, IEnumerable objects) {
+  auto default = comWrappersImpl;
+  if (default != nullptr) default = s_globalInstanceForTrackerSupport;
+
+  (default)->ReleaseObjects(objects);
 }
 
 void ComWrappers___::RegisterForTrackerSupport(ComWrappers instance) {

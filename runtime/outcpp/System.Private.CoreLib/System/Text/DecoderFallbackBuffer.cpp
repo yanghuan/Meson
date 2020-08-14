@@ -112,6 +112,11 @@ Boolean DecoderFallbackBuffer___::TryInternalFallbackGetChars(ReadOnlySpan<Byte>
 
 Rune DecoderFallbackBuffer___::GetNextRune() {
   Char nextChar = GetNextChar();
+  Rune result;
+  if (!Rune::TryCreate(nextChar, result) && !Rune::TryCreate(nextChar, GetNextChar(), result)) {
+    rt::throw_exception<ArgumentException>(SR::get_Argument_InvalidCharSequenceNoIndex());
+  }
+  return result;
 }
 
 Int32 DecoderFallbackBuffer___::DrainRemainingDataForGetCharCount() {
@@ -139,6 +144,14 @@ Boolean DecoderFallbackBuffer___::TryDrainRemainingDataForGetChars(Span<Char> ch
     if (rune.get_Value() == 0) {
       break;
     }
+    Int32 charsWritten2;
+    if (nextRune.TryEncodeToUtf16(chars, charsWritten2)) {
+      chars = chars.Slice(charsWritten2);
+      continue;
+    }
+    InternalReset();
+    charsWritten = 0;
+    return false;
   }
   charsWritten = length - chars.get_Length();
   return true;

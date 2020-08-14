@@ -137,6 +137,13 @@ Boolean UInt16::TryParse(ReadOnlySpan<Char> s, NumberStyles style, IFormatProvid
 }
 
 Boolean UInt16::TryParse(ReadOnlySpan<Char> s, NumberStyles style, NumberFormatInfo info, UInt16& result) {
+  UInt32 result2;
+  if (Number::TryParseUInt32(s, style, info, result2) != 0 || result2 > 65535) {
+    result = 0;
+    return false;
+  }
+  result = (UInt16)result2;
+  return true;
 }
 
 TypeCode UInt16::GetTypeCode() {

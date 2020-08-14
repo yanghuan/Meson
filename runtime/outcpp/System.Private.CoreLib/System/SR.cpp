@@ -3,15 +3,27 @@
 #include <System.Private.CoreLib/System/Boolean-dep.h>
 #include <System.Private.CoreLib/System/Collections/Generic/List-dep.h>
 #include <System.Private.CoreLib/System/Environment-dep.h>
+#include <System.Private.CoreLib/System/IO/BinaryReader-dep.h>
+#include <System.Private.CoreLib/System/Private/CoreLib/Strings-dep.h>
 #include <System.Private.CoreLib/System/Resources/MissingManifestResourceException-dep.h>
+#include <System.Private.CoreLib/System/Resources/ResourceReader-dep.h>
+#include <System.Private.CoreLib/System/Resources/RuntimeResourceSet-dep.h>
+#include <System.Private.CoreLib/System/Runtime/CompilerServices/RuntimeHelpers-dep.h>
 #include <System.Private.CoreLib/System/Threading/Monitor-dep.h>
 
 namespace System::Private::CoreLib::System::SRNamespace {
 using namespace System::Collections::Generic;
+using namespace System::IO;
+using namespace System::Private::CoreLib;
 using namespace System::Resources;
+using namespace System::Runtime::CompilerServices;
 using namespace System::Threading;
 
 ResourceManager SR::get_ResourceManager() {
+  auto default = s_resourceManager;
+  if (default != nullptr) default = (s_resourceManager = rt::newobj<ResourceManager>(rt::typeof<Strings>()));
+
+  return default;
 }
 
 String SR::get_Acc_CreateAbstEx() {
@@ -4261,10 +4273,19 @@ String SR::InternalGetResourceString(String key) {
       _currentlyLoading = rt::newobj<List<String>>();
     }
     if (!_resourceManagerInited) {
+      RuntimeHelpers::RunClassConstructor(rt::typeof<ResourceManager>()->get_TypeHandle());
+      RuntimeHelpers::RunClassConstructor(rt::typeof<ResourceReader>()->get_TypeHandle());
+      RuntimeHelpers::RunClassConstructor(rt::typeof<RuntimeResourceSet>()->get_TypeHandle());
+      RuntimeHelpers::RunClassConstructor(rt::typeof<BinaryReader>()->get_TypeHandle());
+      _resourceManagerInited = true;
     }
     _currentlyLoading->Add(key);
     String string = get_ResourceManager()->GetString(key, nullptr);
     _currentlyLoading->RemoveAt(_currentlyLoading->get_Count() - 1);
+    auto default = string;
+    if (default != nullptr) default = key;
+
+    return default;
   } catch (...) {
   } finally: {
     if (lockTaken) {

@@ -5,9 +5,11 @@
 #include <System.Private.CoreLib/System/ModuleHandle-dep.h>
 #include <System.Private.CoreLib/System/Object-dep.h>
 #include <System.Private.CoreLib/System/Reflection/Associates-dep.h>
+#include <System.Private.CoreLib/System/Reflection/MetadataEnumResult-dep.h>
 #include <System.Private.CoreLib/System/Reflection/MetadataToken-dep.h>
 #include <System.Private.CoreLib/System/Reflection/MetadataTokenType.h>
 #include <System.Private.CoreLib/System/Reflection/MethodAttributes.h>
+#include <System.Private.CoreLib/System/Reflection/MethodSemanticsAttributes.h>
 #include <System.Private.CoreLib/System/Reflection/TypeAttributes.h>
 #include <System.Private.CoreLib/System/RuntimeMethodHandle-dep.h>
 #include <System.Private.CoreLib/System/RuntimeMethodHandleInternal-dep.h>
@@ -56,6 +58,10 @@ RuntimeMethodInfo Associates::AssignAssociates(Int32 tkMethod, RuntimeType decla
     }
   }
   RuntimeMethodInfo runtimeMethodInfo = rt::as<RuntimeMethodInfo>(RuntimeType::in::GetMethodBase(reflectedType, runtimeMethodHandleInternal));
+  auto default = runtimeMethodInfo;
+  if (default != nullptr) default = (rt::as<RuntimeMethodInfo>(reflectedType->get_Module()->ResolveMethod(tkMethod, nullptr, nullptr)));
+
+  return default;
 }
 
 void Associates::AssignAssociates(MetadataImport scope, Int32 mdPropEvent, RuntimeType declaringType, RuntimeType reflectedType, RuntimeMethodInfo& addOn, RuntimeMethodInfo& removeOn, RuntimeMethodInfo& fireOn, RuntimeMethodInfo& getter, RuntimeMethodInfo& setter, Array<MethodInfo>& other, Boolean& composedOfAllPrivateMethods, BindingFlags& bindingFlags) {
@@ -66,6 +72,61 @@ void Associates::AssignAssociates(MetadataImport scope, Int32 mdPropEvent, Runti
   }
   Boolean isInherited = declaringType != reflectedType;
   List<MethodInfo> list = nullptr;
+  MetadataEnumResult result;
+  scope.Enum(MetadataTokenType::MethodDef, mdPropEvent, result);
+  Int32 num = result.get_Length() / 2;
+  for (Int32 i = 0; i < num; i++) {
+    Int32 tkMethod = result[i * 2];
+    MethodSemanticsAttributes methodSemanticsAttributes = (MethodSemanticsAttributes)result[i * 2 + 1];
+    RuntimeMethodInfo runtimeMethodInfo = AssignAssociates(tkMethod, declaringType, reflectedType);
+    if (runtimeMethodInfo == nullptr) {
+      continue;
+    }
+    MethodAttributes attributes2 = runtimeMethodInfo->get_Attributes();
+    Boolean flag = (attributes2 & MethodAttributes::MemberAccessMask) == MethodAttributes::Private;
+    Boolean flag2 = (attributes2 & MethodAttributes::Virtual) != 0;
+    MethodAttributes methodAttributes = attributes2 & MethodAttributes::MemberAccessMask;
+    Boolean flag3 = methodAttributes == MethodAttributes::Public;
+    Boolean flag4 = (attributes2 & MethodAttributes::Static) != 0;
+    if (flag3) {
+      attributes &= ~Attributes::ComposedOfNoPublicMembers;
+      attributes &= ~Attributes::ComposedOfAllPrivateMethods;
+    } else if (!flag) {
+      attributes &= ~Attributes::ComposedOfAllPrivateMethods;
+    }
+
+    if (flag4) {
+      attributes &= ~Attributes::ComposedOfNoStaticMembers;
+    }
+    if (!flag2) {
+      attributes &= ~Attributes::ComposedOfAllVirtualMethods;
+    }
+    switch (methodSemanticsAttributes) {
+      case MethodSemanticsAttributes::Setter:
+        setter = runtimeMethodInfo;
+        continue;
+      case MethodSemanticsAttributes::Getter:
+        getter = runtimeMethodInfo;
+        continue;
+      case MethodSemanticsAttributes::Fire:
+        fireOn = runtimeMethodInfo;
+        continue;
+      case MethodSemanticsAttributes::AddOn:
+        addOn = runtimeMethodInfo;
+        continue;
+      case MethodSemanticsAttributes::RemoveOn:
+        removeOn = runtimeMethodInfo;
+        continue;
+    }
+    if (list == nullptr) {
+      list = rt::newobj<List<MethodInfo>>(num);
+    }
+    list->Add(runtimeMethodInfo);
+  }
+  Boolean isPublic = (attributes & Attributes::ComposedOfNoPublicMembers) == 0;
+  Boolean isStatic = (attributes & Attributes::ComposedOfNoStaticMembers) == 0;
+  bindingFlags = RuntimeType::in::FilterPreCalculate(isPublic, isInherited, isStatic);
+  composedOfAllPrivateMethods = ((attributes & Attributes::ComposedOfAllPrivateMethods) != 0);
 }
 
 } // namespace System::Private::CoreLib::System::Reflection::AssociatesNamespace

@@ -15,6 +15,7 @@
 #include <System.Private.CoreLib/System/StubHelpers/StubHelpers-dep.h>
 #include <System.Private.CoreLib/System/Type-dep.h>
 #include <System.Private.CoreLib/System/TypeCode.h>
+#include <System.Private.CoreLib/System/UIntPtr-dep.h>
 
 namespace System::Private::CoreLib::System::StubHelpers::AsAnyMarshalerNamespace {
 using namespace System::Runtime::InteropServices;

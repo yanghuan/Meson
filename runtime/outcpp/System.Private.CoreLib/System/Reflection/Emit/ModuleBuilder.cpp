@@ -20,12 +20,14 @@
 #include <System.Private.CoreLib/System/Reflection/Emit/MethodOnTypeBuilderInstantiation-dep.h>
 #include <System.Private.CoreLib/System/Reflection/Emit/ModuleBuilder-dep.h>
 #include <System.Private.CoreLib/System/Reflection/Emit/ModuleBuilderData-dep.h>
+#include <System.Private.CoreLib/System/Reflection/Emit/PackingSize.h>
 #include <System.Private.CoreLib/System/Reflection/Emit/SignatureHelper-dep.h>
 #include <System.Private.CoreLib/System/Reflection/Emit/SymbolMethod-dep.h>
 #include <System.Private.CoreLib/System/Reflection/Emit/SymbolType-dep.h>
 #include <System.Private.CoreLib/System/Reflection/MethodInfo-dep.h>
 #include <System.Private.CoreLib/System/Reflection/ParameterInfo-dep.h>
 #include <System.Private.CoreLib/System/Reflection/RuntimeModule-dep.h>
+#include <System.Private.CoreLib/System/Reflection/TypeAttributes.h>
 #include <System.Private.CoreLib/System/SR-dep.h>
 
 namespace System::Private::CoreLib::System::Reflection::Emit::ModuleBuilderNamespace {
@@ -101,6 +103,10 @@ void ModuleBuilder___::AddType(String name, Type type) {
 }
 
 void ModuleBuilder___::CheckTypeNameConflict(String strTypeName, Type enclosingType) {
+  Type value;
+  if (_typeBuilderDict->TryGetValue(strTypeName, value) && (Object)value->get_DeclaringType() == enclosingType) {
+    rt::throw_exception<ArgumentException>(SR::get_Argument_DuplicateTypeName());
+  }
 }
 
 Type ModuleBuilder___::GetType(String strFormat, Type baseType) {
@@ -340,6 +346,10 @@ IList<CustomAttributeData> ModuleBuilder___::GetCustomAttributesData() {
 }
 
 Array<Type> ModuleBuilder___::GetTypes() {
+  {
+    rt::lock(get_SyncRoot());
+    return GetTypesNoLock();
+  }
 }
 
 Array<Type> ModuleBuilder___::GetTypesNoLock() {
@@ -356,6 +366,10 @@ Type ModuleBuilder___::GetType(String className, Boolean ignoreCase) {
 }
 
 Type ModuleBuilder___::GetType(String className, Boolean throwOnError, Boolean ignoreCase) {
+  {
+    rt::lock(get_SyncRoot());
+    return GetTypeNoLock(className, throwOnError, ignoreCase);
+  }
 }
 
 Type ModuleBuilder___::GetTypeNoLock(String className, Boolean throwOnError, Boolean ignoreCase) {
@@ -468,21 +482,46 @@ MethodInfo ModuleBuilder___::GetMethodImpl(String name, BindingFlags bindingAttr
 }
 
 TypeBuilder ModuleBuilder___::DefineType(String name) {
+  {
+    rt::lock(get_SyncRoot());
+    return DefineTypeNoLock(name, TypeAttributes::NotPublic, nullptr, nullptr, PackingSize::Unspecified, 0);
+  }
 }
 
 TypeBuilder ModuleBuilder___::DefineType(String name, TypeAttributes attr) {
+  {
+    rt::lock(get_SyncRoot());
+    return DefineTypeNoLock(name, attr, nullptr, nullptr, PackingSize::Unspecified, 0);
+  }
 }
 
 TypeBuilder ModuleBuilder___::DefineType(String name, TypeAttributes attr, Type parent) {
+  {
+    rt::lock(get_SyncRoot());
+    CheckContext(rt::newarr<Array<Type>>(1, parent));
+    return DefineTypeNoLock(name, attr, parent, nullptr, PackingSize::Unspecified, 0);
+  }
 }
 
 TypeBuilder ModuleBuilder___::DefineType(String name, TypeAttributes attr, Type parent, Int32 typesize) {
+  {
+    rt::lock(get_SyncRoot());
+    return DefineTypeNoLock(name, attr, parent, nullptr, PackingSize::Unspecified, typesize);
+  }
 }
 
 TypeBuilder ModuleBuilder___::DefineType(String name, TypeAttributes attr, Type parent, PackingSize packingSize, Int32 typesize) {
+  {
+    rt::lock(get_SyncRoot());
+    return DefineTypeNoLock(name, attr, parent, nullptr, packingSize, typesize);
+  }
 }
 
 TypeBuilder ModuleBuilder___::DefineType(String name, TypeAttributes attr, Type parent, Array<Type> interfaces) {
+  {
+    rt::lock(get_SyncRoot());
+    return DefineTypeNoLock(name, attr, parent, interfaces, PackingSize::Unspecified, 0);
+  }
 }
 
 TypeBuilder ModuleBuilder___::DefineTypeNoLock(String name, TypeAttributes attr, Type parent, Array<Type> interfaces, PackingSize packingSize, Int32 typesize) {
@@ -490,6 +529,10 @@ TypeBuilder ModuleBuilder___::DefineTypeNoLock(String name, TypeAttributes attr,
 }
 
 TypeBuilder ModuleBuilder___::DefineType(String name, TypeAttributes attr, Type parent, PackingSize packsize) {
+  {
+    rt::lock(get_SyncRoot());
+    return DefineTypeNoLock(name, attr, parent, packsize);
+  }
 }
 
 TypeBuilder ModuleBuilder___::DefineTypeNoLock(String name, TypeAttributes attr, Type parent, PackingSize packsize) {
@@ -498,6 +541,12 @@ TypeBuilder ModuleBuilder___::DefineTypeNoLock(String name, TypeAttributes attr,
 
 EnumBuilder ModuleBuilder___::DefineEnum(String name, TypeAttributes visibility, Type underlyingType) {
   CheckContext(rt::newarr<Array<Type>>(1, underlyingType));
+  {
+    rt::lock(get_SyncRoot());
+    EnumBuilder enumBuilder = DefineEnumNoLock(name, visibility, underlyingType);
+    _typeBuilderDict[name] = enumBuilder;
+    return enumBuilder;
+  }
 }
 
 EnumBuilder ModuleBuilder___::DefineEnumNoLock(String name, TypeAttributes visibility, Type underlyingType) {
@@ -509,6 +558,15 @@ MethodBuilder ModuleBuilder___::DefinePInvokeMethod(String name, String dllName,
 }
 
 MethodBuilder ModuleBuilder___::DefinePInvokeMethod(String name, String dllName, String entryName, MethodAttributes attributes, CallingConventions callingConvention, Type returnType, Array<Type> parameterTypes, CallingConvention nativeCallConv, CharSet nativeCharSet) {
+  {
+    rt::lock(get_SyncRoot());
+    if ((attributes & MethodAttributes::Static) == 0) {
+      rt::throw_exception<ArgumentException>(SR::get_Argument_GlobalFunctionHasToBeStatic());
+    }
+    CheckContext(rt::newarr<Array<Type>>(1, returnType));
+    CheckContext(rt::newarr<Array<Type>>(1, parameterTypes));
+    return _moduleData->_globalTypeBuilder->DefinePInvokeMethod(name, dllName, entryName, attributes, callingConvention, returnType, parameterTypes, nativeCallConv, nativeCharSet);
+  }
 }
 
 MethodBuilder ModuleBuilder___::DefineGlobalMethod(String name, MethodAttributes attributes, Type returnType, Array<Type> parameterTypes) {
@@ -520,6 +578,10 @@ MethodBuilder ModuleBuilder___::DefineGlobalMethod(String name, MethodAttributes
 }
 
 MethodBuilder ModuleBuilder___::DefineGlobalMethod(String name, MethodAttributes attributes, CallingConventions callingConvention, Type returnType, Array<Type> requiredReturnTypeCustomModifiers, Array<Type> optionalReturnTypeCustomModifiers, Array<Type> parameterTypes, Array<Array<Type>> requiredParameterTypeCustomModifiers, Array<Array<Type>> optionalParameterTypeCustomModifiers) {
+  {
+    rt::lock(get_SyncRoot());
+    return DefineGlobalMethodNoLock(name, attributes, callingConvention, returnType, requiredReturnTypeCustomModifiers, optionalReturnTypeCustomModifiers, parameterTypes, requiredParameterTypeCustomModifiers, optionalParameterTypeCustomModifiers);
+  }
 }
 
 MethodBuilder ModuleBuilder___::DefineGlobalMethodNoLock(String name, MethodAttributes attributes, CallingConventions callingConvention, Type returnType, Array<Type> requiredReturnTypeCustomModifiers, Array<Type> optionalReturnTypeCustomModifiers, Array<Type> parameterTypes, Array<Array<Type>> requiredParameterTypeCustomModifiers, Array<Array<Type>> optionalParameterTypeCustomModifiers) {
@@ -543,6 +605,10 @@ MethodBuilder ModuleBuilder___::DefineGlobalMethodNoLock(String name, MethodAttr
 }
 
 void ModuleBuilder___::CreateGlobalFunctions() {
+  {
+    rt::lock(get_SyncRoot());
+    CreateGlobalFunctionsNoLock();
+  }
 }
 
 void ModuleBuilder___::CreateGlobalFunctionsNoLock() {
@@ -554,6 +620,10 @@ void ModuleBuilder___::CreateGlobalFunctionsNoLock() {
 }
 
 FieldBuilder ModuleBuilder___::DefineInitializedData(String name, Array<Byte> data, FieldAttributes attributes) {
+  {
+    rt::lock(get_SyncRoot());
+    return DefineInitializedDataNoLock(name, data, attributes);
+  }
 }
 
 FieldBuilder ModuleBuilder___::DefineInitializedDataNoLock(String name, Array<Byte> data, FieldAttributes attributes) {
@@ -564,6 +634,10 @@ FieldBuilder ModuleBuilder___::DefineInitializedDataNoLock(String name, Array<By
 }
 
 FieldBuilder ModuleBuilder___::DefineUninitializedData(String name, Int32 size, FieldAttributes attributes) {
+  {
+    rt::lock(get_SyncRoot());
+    return DefineUninitializedDataNoLock(name, size, attributes);
+  }
 }
 
 FieldBuilder ModuleBuilder___::DefineUninitializedDataNoLock(String name, Int32 size, FieldAttributes attributes) {
@@ -578,6 +652,10 @@ TypeToken ModuleBuilder___::GetTypeTokenInternal(Type type) {
 }
 
 TypeToken ModuleBuilder___::GetTypeTokenInternal(Type type, Boolean getGenericDefinition) {
+  {
+    rt::lock(get_SyncRoot());
+    return GetTypeTokenWorkerNoLock(type, getGenericDefinition);
+  }
 }
 
 TypeToken ModuleBuilder___::GetTypeToken(Type type) {
@@ -627,9 +705,17 @@ TypeToken ModuleBuilder___::GetTypeToken(String name) {
 }
 
 MethodToken ModuleBuilder___::GetMethodToken(MethodInfo method) {
+  {
+    rt::lock(get_SyncRoot());
+    return GetMethodTokenNoLock(method, true);
+  }
 }
 
 MethodToken ModuleBuilder___::GetMethodTokenInternal(MethodInfo method) {
+  {
+    rt::lock(get_SyncRoot());
+    return GetMethodTokenNoLock(method, false);
+  }
 }
 
 MethodToken ModuleBuilder___::GetMethodTokenNoLock(MethodInfo method, Boolean getGenericTypeDefinition) {
@@ -726,6 +812,10 @@ Int32 ModuleBuilder___::GetMethodTokenInternal(MethodBase method, IEnumerable<Ty
 }
 
 MethodToken ModuleBuilder___::GetArrayMethodToken(Type arrayClass, String methodName, CallingConventions callingConvention, Type returnType, Array<Type> parameterTypes) {
+  {
+    rt::lock(get_SyncRoot());
+    return GetArrayMethodTokenNoLock(arrayClass, methodName, callingConvention, returnType, parameterTypes);
+  }
 }
 
 MethodToken ModuleBuilder___::GetArrayMethodTokenNoLock(Type arrayClass, String methodName, CallingConventions callingConvention, Type returnType, Array<Type> parameterTypes) {
@@ -763,6 +853,10 @@ MethodToken ModuleBuilder___::GetConstructorToken(ConstructorInfo con) {
 }
 
 FieldToken ModuleBuilder___::GetFieldToken(FieldInfo field) {
+  {
+    rt::lock(get_SyncRoot());
+    return GetFieldTokenNoLock(field);
+  }
 }
 
 FieldToken ModuleBuilder___::GetFieldTokenNoLock(FieldInfo field) {
@@ -875,6 +969,10 @@ ISymbolWriter ModuleBuilder___::GetSymWriter() {
 ISymbolDocumentWriter ModuleBuilder___::DefineDocument(String url, Guid language, Guid languageVendor, Guid documentType) {
   if (url == nullptr) {
     rt::throw_exception<ArgumentNullException>("url");
+  }
+  {
+    rt::lock(get_SyncRoot());
+    return DefineDocumentNoLock(url, language, languageVendor, documentType);
   }
 }
 

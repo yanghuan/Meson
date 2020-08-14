@@ -1,6 +1,7 @@
 #include "RegisteredWaitHandleSafe-dep.h"
 
 #include <System.Private.CoreLib/System/Threading/Interlocked-dep.h>
+#include <System.Private.CoreLib/System/Threading/Thread-dep.h>
 
 namespace System::Private::CoreLib::System::Threading::RegisteredWaitHandleSafeNamespace {
 IntPtr RegisteredWaitHandleSafe___::get_InvalidHandle() {
@@ -25,6 +26,19 @@ void RegisteredWaitHandleSafe___::SetWaitObject(WaitHandle waitObject) {
 Boolean RegisteredWaitHandleSafe___::Unregister(WaitHandle waitObject) {
   Boolean flag = false;
   Boolean flag2 = false;
+  do {
+    if (Interlocked::CompareExchange(m_lock, 1, 0) == 0) {
+      flag2 = true;
+      try{
+        if (ValidHandle()) {
+        }
+      } finally: {
+        m_lock = 0;
+      }
+    }
+    Thread::in::SpinWait(1);
+  } while (!flag2)
+  return flag;
 }
 
 Boolean RegisteredWaitHandleSafe___::ValidHandle() {
@@ -55,6 +69,7 @@ void RegisteredWaitHandleSafe___::Finalize() {
 
 void RegisteredWaitHandleSafe___::ctor() {
   registeredWaitHandle = get_InvalidHandle();
+  CriticalFinalizerObject::ctor();
 }
 
 } // namespace System::Private::CoreLib::System::Threading::RegisteredWaitHandleSafeNamespace

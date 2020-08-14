@@ -412,12 +412,24 @@ void IListWrapper___::TrimToSize() {
 }
 
 Int32 SyncArrayList___::get_Capacity() {
+  {
+    rt::lock(_root);
+    return _list->get_Capacity();
+  }
 }
 
 void SyncArrayList___::set_Capacity(Int32 value) {
+  {
+    rt::lock(_root);
+    _list->set_Capacity = value;
+  }
 }
 
 Int32 SyncArrayList___::get_Count() {
+  {
+    rt::lock(_root);
+    return _list->get_Count();
+  }
 }
 
 Boolean SyncArrayList___::get_IsReadOnly() {
@@ -433,9 +445,17 @@ Boolean SyncArrayList___::get_IsSynchronized() {
 }
 
 Object SyncArrayList___::get_Item(Int32 index) {
+  {
+    rt::lock(_root);
+    return _list[index];
+  }
 }
 
 void SyncArrayList___::set_Item(Int32 index, Object value) {
+  {
+    rt::lock(_root);
+    _list[index] = value;
+  }
 }
 
 Object SyncArrayList___::get_SyncRoot() {
@@ -448,105 +468,241 @@ void SyncArrayList___::ctor(ArrayList list) {
 }
 
 Int32 SyncArrayList___::Add(Object value) {
+  {
+    rt::lock(_root);
+    return _list->Add(value);
+  }
 }
 
 void SyncArrayList___::AddRange(ICollection c) {
+  {
+    rt::lock(_root);
+    _list->AddRange(c);
+  }
 }
 
 Int32 SyncArrayList___::BinarySearch(Object value) {
+  {
+    rt::lock(_root);
+    return _list->BinarySearch(value);
+  }
 }
 
 Int32 SyncArrayList___::BinarySearch(Object value, IComparer comparer) {
+  {
+    rt::lock(_root);
+    return _list->BinarySearch(value, comparer);
+  }
 }
 
 Int32 SyncArrayList___::BinarySearch(Int32 index, Int32 count, Object value, IComparer comparer) {
+  {
+    rt::lock(_root);
+    return _list->BinarySearch(index, count, value, comparer);
+  }
 }
 
 void SyncArrayList___::Clear() {
+  {
+    rt::lock(_root);
+    _list->Clear();
+  }
 }
 
 Object SyncArrayList___::Clone() {
+  {
+    rt::lock(_root);
+    return rt::newobj<SyncArrayList>((ArrayList)_list->Clone());
+  }
 }
 
 Boolean SyncArrayList___::Contains(Object item) {
+  {
+    rt::lock(_root);
+    return _list->Contains(item);
+  }
 }
 
 void SyncArrayList___::CopyTo(Array<> array) {
+  {
+    rt::lock(_root);
+    _list->CopyTo(array);
+  }
 }
 
 void SyncArrayList___::CopyTo(Array<> array, Int32 index) {
+  {
+    rt::lock(_root);
+    _list->CopyTo(array, index);
+  }
 }
 
 void SyncArrayList___::CopyTo(Int32 index, Array<> array, Int32 arrayIndex, Int32 count) {
+  {
+    rt::lock(_root);
+    _list->CopyTo(index, array, arrayIndex, count);
+  }
 }
 
 IEnumerator SyncArrayList___::GetEnumerator() {
+  {
+    rt::lock(_root);
+    return _list->GetEnumerator();
+  }
 }
 
 IEnumerator SyncArrayList___::GetEnumerator(Int32 index, Int32 count) {
+  {
+    rt::lock(_root);
+    return _list->GetEnumerator(index, count);
+  }
 }
 
 Int32 SyncArrayList___::IndexOf(Object value) {
+  {
+    rt::lock(_root);
+    return _list->IndexOf(value);
+  }
 }
 
 Int32 SyncArrayList___::IndexOf(Object value, Int32 startIndex) {
+  {
+    rt::lock(_root);
+    return _list->IndexOf(value, startIndex);
+  }
 }
 
 Int32 SyncArrayList___::IndexOf(Object value, Int32 startIndex, Int32 count) {
+  {
+    rt::lock(_root);
+    return _list->IndexOf(value, startIndex, count);
+  }
 }
 
 void SyncArrayList___::Insert(Int32 index, Object value) {
+  {
+    rt::lock(_root);
+    _list->Insert(index, value);
+  }
 }
 
 void SyncArrayList___::InsertRange(Int32 index, ICollection c) {
+  {
+    rt::lock(_root);
+    _list->InsertRange(index, c);
+  }
 }
 
 Int32 SyncArrayList___::LastIndexOf(Object value) {
+  {
+    rt::lock(_root);
+    return _list->LastIndexOf(value);
+  }
 }
 
 Int32 SyncArrayList___::LastIndexOf(Object value, Int32 startIndex) {
+  {
+    rt::lock(_root);
+    return _list->LastIndexOf(value, startIndex);
+  }
 }
 
 Int32 SyncArrayList___::LastIndexOf(Object value, Int32 startIndex, Int32 count) {
+  {
+    rt::lock(_root);
+    return _list->LastIndexOf(value, startIndex, count);
+  }
 }
 
 void SyncArrayList___::Remove(Object value) {
+  {
+    rt::lock(_root);
+    _list->Remove(value);
+  }
 }
 
 void SyncArrayList___::RemoveAt(Int32 index) {
+  {
+    rt::lock(_root);
+    _list->RemoveAt(index);
+  }
 }
 
 void SyncArrayList___::RemoveRange(Int32 index, Int32 count) {
+  {
+    rt::lock(_root);
+    _list->RemoveRange(index, count);
+  }
 }
 
 void SyncArrayList___::Reverse(Int32 index, Int32 count) {
+  {
+    rt::lock(_root);
+    _list->Reverse(index, count);
+  }
 }
 
 void SyncArrayList___::SetRange(Int32 index, ICollection c) {
+  {
+    rt::lock(_root);
+    _list->SetRange(index, c);
+  }
 }
 
 ArrayList SyncArrayList___::GetRange(Int32 index, Int32 count) {
+  {
+    rt::lock(_root);
+    return _list->GetRange(index, count);
+  }
 }
 
 void SyncArrayList___::Sort() {
+  {
+    rt::lock(_root);
+    _list->Sort();
+  }
 }
 
 void SyncArrayList___::Sort(IComparer comparer) {
+  {
+    rt::lock(_root);
+    _list->Sort(comparer);
+  }
 }
 
 void SyncArrayList___::Sort(Int32 index, Int32 count, IComparer comparer) {
+  {
+    rt::lock(_root);
+    _list->Sort(index, count, comparer);
+  }
 }
 
 Array<Object> SyncArrayList___::ToArray() {
+  {
+    rt::lock(_root);
+    return _list->ToArray();
+  }
 }
 
 Array<> SyncArrayList___::ToArray(Type type) {
+  {
+    rt::lock(_root);
+    return _list->ToArray(type);
+  }
 }
 
 void SyncArrayList___::TrimToSize() {
+  {
+    rt::lock(_root);
+    _list->TrimToSize();
+  }
 }
 
 Int32 ArrayList___::SyncIList___::get_Count() {
+  {
+    rt::lock(_root);
+    return _list->get_Count();
+  }
 }
 
 Boolean ArrayList___::SyncIList___::get_IsReadOnly() {
@@ -562,9 +718,17 @@ Boolean ArrayList___::SyncIList___::get_IsSynchronized() {
 }
 
 Object ArrayList___::SyncIList___::get_Item(Int32 index) {
+  {
+    rt::lock(_root);
+    return _list[index];
+  }
 }
 
 void ArrayList___::SyncIList___::set_Item(Int32 index, Object value) {
+  {
+    rt::lock(_root);
+    _list[index] = value;
+  }
 }
 
 Object ArrayList___::SyncIList___::get_SyncRoot() {
@@ -577,30 +741,66 @@ void ArrayList___::SyncIList___::ctor(IList list) {
 }
 
 Int32 ArrayList___::SyncIList___::Add(Object value) {
+  {
+    rt::lock(_root);
+    return _list->Add(value);
+  }
 }
 
 void ArrayList___::SyncIList___::Clear() {
+  {
+    rt::lock(_root);
+    _list->Clear();
+  }
 }
 
 Boolean ArrayList___::SyncIList___::Contains(Object item) {
+  {
+    rt::lock(_root);
+    return _list->Contains(item);
+  }
 }
 
 void ArrayList___::SyncIList___::CopyTo(Array<> array, Int32 index) {
+  {
+    rt::lock(_root);
+    _list->CopyTo(array, index);
+  }
 }
 
 IEnumerator ArrayList___::SyncIList___::GetEnumerator() {
+  {
+    rt::lock(_root);
+    return _list->GetEnumerator();
+  }
 }
 
 Int32 ArrayList___::SyncIList___::IndexOf(Object value) {
+  {
+    rt::lock(_root);
+    return _list->IndexOf(value);
+  }
 }
 
 void ArrayList___::SyncIList___::Insert(Int32 index, Object value) {
+  {
+    rt::lock(_root);
+    _list->Insert(index, value);
+  }
 }
 
 void ArrayList___::SyncIList___::Remove(Object value) {
+  {
+    rt::lock(_root);
+    _list->Remove(value);
+  }
 }
 
 void ArrayList___::SyncIList___::RemoveAt(Int32 index) {
+  {
+    rt::lock(_root);
+    _list->RemoveAt(index);
+  }
 }
 
 Int32 ArrayList___::FixedSizeList___::get_Count() {
@@ -1500,6 +1700,8 @@ void ArrayList___::ArrayListEnumeratorSimple___::ctor(ArrayList list) {
   _list = list;
   _index = -1;
   _version = list->_version;
+  _isArrayList = (list->GetType() == rt::typeof<ArrayList>());
+  _currentElement = s_dummyObject;
 }
 
 Object ArrayList___::ArrayListEnumeratorSimple___::Clone() {

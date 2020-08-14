@@ -119,6 +119,11 @@ String UriHelper::EscapeString(String stringToEscape, Boolean checkExistingEscap
 }
 
 Array<Char> UriHelper::EscapeString(ReadOnlySpan<Char> stringToEscape, Array<Char> dest, Int32& destPos, Boolean checkExistingEscaped, Char forceEscape1, Char forceEscape2) {
+  auto EnsureCapacity = [](Array<Char> dest, Int32 destSize, Int32 requiredSize) -> void {
+    if (dest == nullptr || dest->get_Length() - destSize < requiredSize) {
+      Array<>::in::Resize(dest, destSize + requiredSize + 120);
+    }
+  };
   ReadOnlySpan<Boolean> readOnlySpan = Span<T>();
   if ((forceEscape1 | forceEscape2) == 0) {
     readOnlySpan = get_UnreservedReservedTable();
@@ -155,6 +160,10 @@ Array<Char> UriHelper::EscapeString(ReadOnlySpan<Char> stringToEscape, Array<Cha
   vsb.Append(stringToEscape.Slice(0, i));
   EscapeStringToBuilder(stringToEscape.Slice(i), vsb, readOnlySpan, checkExistingEscaped);
   EnsureCapacity(dest, destPos, vsb.get_Length());
+  Int32 charsWritten;
+  vsb.TryCopyTo(MemoryExtensions::AsSpan(dest, destPos), charsWritten);
+  destPos += charsWritten;
+  return dest;
 }
 
 void UriHelper::EscapeStringToBuilder(ReadOnlySpan<Char> stringToEscape, ValueStringBuilder& vsb, ReadOnlySpan<Boolean> noEscape, Boolean checkExistingEscaped) {
@@ -165,6 +174,9 @@ void UriHelper::EscapeStringToBuilder(ReadOnlySpan<Char> stringToEscape, ValueSt
   while (spanRuneEnumerator.MoveNext()) {
     Rune current = spanRuneEnumerator.get_Current();
     if (!current.get_IsAscii()) {
+      Int32 bytesWritten;
+      current.TryEncodeToUtf8(destination, bytesWritten);
+      Span<Byte> span2 = destination.Slice(0, bytesWritten);
     }
     Byte b = (Byte)current.get_Value();
     if (noEscape[b]) {
@@ -234,6 +246,8 @@ void UriHelper::UnescapeString(Char* pStr, Int32 start, Int32 end, ValueStringBu
     }
     return;
   }
+  do {
+  } while (i != end)
 }
 
 void UriHelper::MatchUTF8Sequence(ValueStringBuilder& dest, Span<Char> unescapedChars, Int32 charCount, Array<Byte> bytes, Int32 byteCount, Boolean isQuery, Boolean iriParsing) {

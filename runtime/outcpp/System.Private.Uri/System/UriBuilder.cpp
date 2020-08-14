@@ -1,12 +1,14 @@
 #include "UriBuilder-dep.h"
 
 #include <System.Private.CoreLib/System/ArgumentException-dep.h>
+#include <System.Private.CoreLib/System/ArgumentNullException-dep.h>
 #include <System.Private.CoreLib/System/ArgumentOutOfRangeException-dep.h>
 #include <System.Private.CoreLib/System/Exception-dep.h>
 #include <System.Private.CoreLib/System/Int32-dep.h>
 #include <System.Private.Uri/System/SR-dep.h>
 #include <System.Private.Uri/System/Uri-dep.h>
 #include <System.Private.Uri/System/UriFormatException-dep.h>
+#include <System.Private.Uri/System/UriKind.h>
 #include <System.Private.Uri/System/UriParser-dep.h>
 #include <System.Private.Uri/System/UriSyntaxFlags.h>
 
@@ -170,6 +172,7 @@ void UriBuilder___::ctor() {
   _scheme = "http";
   _schemeDelimiter = Uri::in::SchemeDelimiter;
   _username = String::in::Empty;
+  Object::ctor();
 }
 
 void UriBuilder___::ctor(String uri) {
@@ -183,6 +186,14 @@ void UriBuilder___::ctor(String uri) {
   _scheme = "http";
   _schemeDelimiter = Uri::in::SchemeDelimiter;
   _username = String::in::Empty;
+  Object::ctor();
+  Uri uri2 = rt::newobj<Uri>(uri, UriKind::RelativeOrAbsolute);
+  if (uri2->get_IsAbsoluteUri()) {
+    Init(uri2);
+    return;
+  }
+  uri = Uri::in::UriSchemeHttp + Uri::in::SchemeDelimiter + uri;
+  Init(rt::newobj<Uri>(uri));
 }
 
 void UriBuilder___::ctor(Uri uri) {
@@ -196,6 +207,11 @@ void UriBuilder___::ctor(Uri uri) {
   _scheme = "http";
   _schemeDelimiter = Uri::in::SchemeDelimiter;
   _username = String::in::Empty;
+  Object::ctor();
+  if ((Object)uri == nullptr) {
+    rt::throw_exception<ArgumentNullException>("uri");
+  }
+  Init(uri);
 }
 
 void UriBuilder___::Init(Uri uri) {
@@ -230,6 +246,9 @@ void UriBuilder___::ctor(String schemeName, String hostName) {
   _scheme = "http";
   _schemeDelimiter = Uri::in::SchemeDelimiter;
   _username = String::in::Empty;
+  Object::ctor();
+  get_Scheme() = schemeName;
+  get_Host() = hostName;
 }
 
 void UriBuilder___::ctor(String scheme, String host, Int32 portNumber) {

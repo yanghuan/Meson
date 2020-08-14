@@ -96,9 +96,11 @@ void FieldInfo___::ctor() {
 }
 
 Boolean FieldInfo___::Equals(Object obj) {
+  return MemberInfo::Equals(obj);
 }
 
 Int32 FieldInfo___::GetHashCode() {
+  return MemberInfo::GetHashCode();
 }
 
 Boolean FieldInfo___::op_Equality(FieldInfo left, FieldInfo right) {

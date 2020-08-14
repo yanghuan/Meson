@@ -1,16 +1,22 @@
 #include "DuplicateWaitObjectException-dep.h"
 
+#include <System.Private.CoreLib/System/Exception-dep.h>
+
 namespace System::Private::CoreLib::System::DuplicateWaitObjectExceptionNamespace {
 void DuplicateWaitObjectException___::ctor() {
+  Exception::set_HResult = -2146233047;
 }
 
 void DuplicateWaitObjectException___::ctor(String parameterName) {
+  Exception::set_HResult = -2146233047;
 }
 
 void DuplicateWaitObjectException___::ctor(String parameterName, String message) {
+  Exception::set_HResult = -2146233047;
 }
 
 void DuplicateWaitObjectException___::ctor(String message, Exception innerException) {
+  Exception::set_HResult = -2146233047;
 }
 
 void DuplicateWaitObjectException___::ctor(SerializationInfo info, StreamingContext context) {

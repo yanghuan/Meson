@@ -14,6 +14,7 @@
 #include <System.Private.CoreLib/System/Diagnostics/Tracing/NativeRuntimeEventSource-dep.h>
 #include <System.Private.CoreLib/System/Double-dep.h>
 #include <System.Private.CoreLib/System/Int32-dep.h>
+#include <System.Private.CoreLib/System/IntPtr-dep.h>
 #include <System.Private.CoreLib/System/ReadOnlySpan-dep.h>
 #include <System.Private.CoreLib/System/Threading/CancellationToken-dep.h>
 #include <System.Private.CoreLib/System/Threading/EventWaitHandle-dep.h>
@@ -37,10 +38,18 @@ void EventPipeEventDispatcher___::ctor() {
   m_dispatchTaskWaitHandle = rt::newobj<EventPipeWaitHandle>();
   m_dispatchControlLock = rt::newobj<Object>();
   m_subscriptions = rt::newobj<Dictionary<EventListener, EventListenerSubscription>>();
+  Object::ctor();
+  m_RuntimeProviderID = EventPipeInternal::GetProvider("Microsoft-Windows-DotNETRuntime");
+  m_dispatchTaskWaitHandle->set_SafeWaitHandle = rt::newobj<SafeWaitHandle>(IntPtr::Zero, false);
 }
 
 void EventPipeEventDispatcher___::SendCommand(EventListener eventListener, EventCommand command, Boolean enable, EventLevel level, EventKeywords matchAnyKeywords) {
   if (command == EventCommand::Update && enable) {
+    {
+      rt::lock(m_dispatchControlLock);
+      m_subscriptions[eventListener] = rt::newobj<EventListenerSubscription>(matchAnyKeywords, level);
+      CommitDispatchConfiguration();
+    }
   } else if (command == EventCommand::Update && !enable) {
     RemoveEventListener(eventListener);
   }
@@ -48,6 +57,13 @@ void EventPipeEventDispatcher___::SendCommand(EventListener eventListener, Event
 }
 
 void EventPipeEventDispatcher___::RemoveEventListener(EventListener listener) {
+  {
+    rt::lock(m_dispatchControlLock);
+    if (m_subscriptions->ContainsKey(listener)) {
+      m_subscriptions->Remove(listener);
+    }
+    CommitDispatchConfiguration();
+  }
 }
 
 void EventPipeEventDispatcher___::CommitDispatchConfiguration() {

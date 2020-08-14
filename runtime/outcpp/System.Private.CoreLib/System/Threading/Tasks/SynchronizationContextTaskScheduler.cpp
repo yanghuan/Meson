@@ -1,5 +1,7 @@
 #include "SynchronizationContextTaskScheduler-dep.h"
 
+#include <System.Private.CoreLib/System/InvalidOperationException-dep.h>
+#include <System.Private.CoreLib/System/SR-dep.h>
 #include <System.Private.CoreLib/System/Threading/SynchronizationContext-dep.h>
 
 namespace System::Private::CoreLib::System::Threading::Tasks::SynchronizationContextTaskSchedulerNamespace {
@@ -8,6 +10,10 @@ Int32 SynchronizationContextTaskScheduler___::get_MaximumConcurrencyLevel() {
 }
 
 void SynchronizationContextTaskScheduler___::ctor() {
+  auto default = SynchronizationContext::in::get_Current();
+  if (default != nullptr) default = rt::throw_exception(rt::newobj<InvalidOperationException>(SR::get_TaskScheduler_FromCurrentSynchronizationContext_NoCurrent()));
+
+  m_synchronizationContext = (default);
 }
 
 void SynchronizationContextTaskScheduler___::QueueTask(Task<> task) {

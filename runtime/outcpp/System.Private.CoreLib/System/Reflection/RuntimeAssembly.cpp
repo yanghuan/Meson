@@ -9,6 +9,7 @@
 #include <System.Private.CoreLib/System/GC-dep.h>
 #include <System.Private.CoreLib/System/Int32-dep.h>
 #include <System.Private.CoreLib/System/IO/FileMode.h>
+#include <System.Private.CoreLib/System/IO/FileNotFoundException-dep.h>
 #include <System.Private.CoreLib/System/IO/FileShare.h>
 #include <System.Private.CoreLib/System/IRuntimeMethodInfo.h>
 #include <System.Private.CoreLib/System/NotSupportedException-dep.h>
@@ -16,7 +17,10 @@
 #include <System.Private.CoreLib/System/Reflection/AssemblyNameFlags.h>
 #include <System.Private.CoreLib/System/Reflection/BindingFlags.h>
 #include <System.Private.CoreLib/System/Reflection/CustomAttribute-dep.h>
+#include <System.Private.CoreLib/System/Reflection/ImageFileMachine.h>
+#include <System.Private.CoreLib/System/Reflection/MetadataEnumResult-dep.h>
 #include <System.Private.CoreLib/System/Reflection/MetadataTokenType.h>
+#include <System.Private.CoreLib/System/Reflection/PortableExecutableKinds.h>
 #include <System.Private.CoreLib/System/Reflection/ResourceLocation.h>
 #include <System.Private.CoreLib/System/Reflection/RuntimeAssembly-dep.h>
 #include <System.Private.CoreLib/System/Reflection/RuntimeModule-dep.h>
@@ -147,6 +151,10 @@ AssemblyName RuntimeAssembly___::GetName(Boolean copiedName) {
   AssemblyName assemblyName = rt::newobj<AssemblyName>(GetSimpleName(), GetPublicKey(), nullptr, GetVersion(), GetLocale(), GetHashAlgorithm(), AssemblyVersionCompatibility::SameMachine, codeBase, GetFlags() | AssemblyNameFlags::PublicKey, nullptr);
   Module manifestModule = get_ManifestModule();
   if (manifestModule->get_MDStreamVersion() > 65536) {
+    PortableExecutableKinds peKind;
+    ImageFileMachine machine;
+    manifestModule->GetPEKind(peKind, machine);
+    assemblyName->SetProcArchIndex(peKind, machine);
   }
   return assemblyName;
 }
@@ -192,6 +200,7 @@ void RuntimeAssembly___::GetObjectData(SerializationInfo info, StreamingContext 
 }
 
 Array<Object> RuntimeAssembly___::GetCustomAttributes(Boolean inherit) {
+  return CustomAttribute::GetCustomAttributes((RuntimeAssembly)this, rt::as<RuntimeType>(rt::typeof<Object>()));
 }
 
 Array<Object> RuntimeAssembly___::GetCustomAttributes(Type attributeType, Boolean inherit) {
@@ -279,6 +288,12 @@ ManifestResourceInfo RuntimeAssembly___::GetManifestResourceInfo(String resource
 
 Version RuntimeAssembly___::GetVersion() {
   RuntimeAssembly assembly = (RuntimeAssembly)this;
+  Int32 majVer;
+  Int32 minVer;
+  Int32 buildNum;
+  Int32 revNum;
+  GetVersion(QCallAssembly(assembly), majVer, minVer, buildNum, revNum);
+  return rt::newobj<Version>(majVer, minVer, buildNum, revNum);
 }
 
 CultureInfo RuntimeAssembly___::GetLocale() {
@@ -330,6 +345,21 @@ Assembly RuntimeAssembly___::InternalGetSatelliteAssembly(CultureInfo culture, V
   AssemblyName assemblyName = rt::newobj<AssemblyName>();
   assemblyName->SetPublicKey(GetPublicKey());
   assemblyName->set_Flags = (GetFlags() | AssemblyNameFlags::PublicKey);
+  auto default = version;
+  if (default != nullptr) default = GetVersion();
+
+  assemblyName->set_Version = (default);
+  assemblyName->set_CultureInfo = culture;
+  assemblyName->set_Name = GetSimpleName() + ".resources";
+  StackCrawlMark stackMark = StackCrawlMark::LookForMe;
+  RuntimeAssembly runtimeAssembly = InternalLoad(assemblyName, (RuntimeAssembly)this, stackMark, throwOnFileNotFound);
+  if (runtimeAssembly == (RuntimeAssembly)this) {
+    runtimeAssembly = nullptr;
+  }
+  if (runtimeAssembly == nullptr && throwOnFileNotFound) {
+    rt::throw_exception<FileNotFoundException>(SR::Format(culture, SR::get_IO_FileNotFound_FileName(), assemblyName->get_Name()));
+  }
+  return runtimeAssembly;
 }
 
 Array<RuntimeModule> RuntimeAssembly___::GetModulesInternal(Boolean loadIfNotFound, Boolean getResourceModules) {
@@ -350,6 +380,10 @@ Array<Module> RuntimeAssembly___::GetLoadedModules(Boolean getResourceModules) {
 Array<Type> RuntimeAssembly___::GetForwardedTypes() {
   List<Type> list = rt::newobj<List<Type>>();
   List<Exception> list2 = rt::newobj<List<Exception>>();
+  MetadataEnumResult result;
+  GetManifestModule(GetNativeHandle())->get_MetadataImport().Enum(MetadataTokenType::ExportedType, 0, result);
+  RuntimeAssembly assembly = (RuntimeAssembly)this;
+  QCallAssembly assembly2 = QCallAssembly(assembly);
 }
 
 void RuntimeAssembly___::AddPublicNestedTypes(Type type, List<Type> types, List<Exception> exceptions) {

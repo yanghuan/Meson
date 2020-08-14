@@ -5,11 +5,15 @@
 #include <System.Private.CoreLib/System/Collections/Generic/List-dep.h>
 #include <System.Private.CoreLib/System/DBNull-dep.h>
 #include <System.Private.CoreLib/System/InvalidOperationException-dep.h>
+#include <System.Private.CoreLib/System/MdUtf8String-dep.h>
 #include <System.Private.CoreLib/System/Reflection/Associates-dep.h>
+#include <System.Private.CoreLib/System/Reflection/ConstArray-dep.h>
 #include <System.Private.CoreLib/System/Reflection/CustomAttribute-dep.h>
 #include <System.Private.CoreLib/System/Reflection/MdConstant-dep.h>
 #include <System.Private.CoreLib/System/Reflection/MetadataImport-dep.h>
 #include <System.Private.CoreLib/System/Reflection/MethodBase-dep.h>
+#include <System.Private.CoreLib/System/Reflection/PropertyAttributes.h>
+#include <System.Private.CoreLib/System/Reflection/RuntimeMethodInfo-dep.h>
 #include <System.Private.CoreLib/System/Reflection/RuntimeParameterInfo-dep.h>
 #include <System.Private.CoreLib/System/Reflection/RuntimePropertyInfo-dep.h>
 #include <System.Private.CoreLib/System/RuntimeTypeHandle-dep.h>
@@ -22,6 +26,11 @@ using namespace System::Text;
 
 Signature RuntimePropertyInfo___::get_Signature() {
   if (m_signature == nullptr) {
+    void* _;
+    PropertyAttributes _;
+    ConstArray signature;
+    GetRuntimeModule()->get_MetadataImport().GetPropertyProps(m_token, _, _, signature);
+    m_signature = rt::newobj<Signature>(signature.get_Signature().ToPointer(), signature.get_Length(), m_declaringType);
   }
   return m_signature;
 }
@@ -35,6 +44,10 @@ MemberTypes RuntimePropertyInfo___::get_MemberType() {
 }
 
 String RuntimePropertyInfo___::get_Name() {
+  auto default = m_name;
+  if (default != nullptr) default = (m_name = MdUtf8String(m_utf8name).ToString());
+
+  return default;
 }
 
 Type RuntimePropertyInfo___::get_DeclaringType() {
@@ -82,6 +95,12 @@ void RuntimePropertyInfo___::ctor(Int32 tkProperty, RuntimeType declaredType, Ru
   m_token = tkProperty;
   m_reflectedTypeCache = reflectedTypeCache;
   m_declaringType = declaredType;
+  ConstArray _;
+  metadataImport.GetPropertyProps(tkProperty, m_utf8name, m_flags, _);
+  RuntimeMethodInfo _;
+  RuntimeMethodInfo _;
+  RuntimeMethodInfo _;
+  Associates::AssignAssociates(metadataImport, tkProperty, declaredType, reflectedTypeCache->GetRuntimeType(), _, _, _, m_getterMethod, m_setterMethod, m_otherMethod, isPrivate, m_bindingFlags);
 }
 
 Boolean RuntimePropertyInfo___::CacheEquals(Object o) {
@@ -112,6 +131,7 @@ String RuntimePropertyInfo___::ToString() {
 }
 
 Array<Object> RuntimePropertyInfo___::GetCustomAttributes(Boolean inherit) {
+  return CustomAttribute::GetCustomAttributes((RuntimePropertyInfo)this, rt::as<RuntimeType>(rt::typeof<Object>()));
 }
 
 Array<Object> RuntimePropertyInfo___::GetCustomAttributes(Type attributeType, Boolean inherit) {

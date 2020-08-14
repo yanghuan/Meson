@@ -2,12 +2,15 @@
 
 namespace System::Private::CoreLib::System::SystemExceptionNamespace {
 void SystemException___::ctor() {
+  Exception::set_HResult = -2146233087;
 }
 
 void SystemException___::ctor(String message) {
+  Exception::set_HResult = -2146233087;
 }
 
 void SystemException___::ctor(String message, Exception innerException) {
+  Exception::set_HResult = -2146233087;
 }
 
 void SystemException___::ctor(SerializationInfo info, StreamingContext context) {

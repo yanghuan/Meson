@@ -46,9 +46,11 @@ Delegate MethodInfo___::CreateDelegate(Type delegateType, Object target) {
 }
 
 Boolean MethodInfo___::Equals(Object obj) {
+  return MethodBase::Equals(obj);
 }
 
 Int32 MethodInfo___::GetHashCode() {
+  return MethodBase::GetHashCode();
 }
 
 Boolean MethodInfo___::op_Equality(MethodInfo left, MethodInfo right) {

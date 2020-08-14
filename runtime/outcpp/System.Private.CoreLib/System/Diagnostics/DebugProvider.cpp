@@ -1,11 +1,13 @@
 #include "DebugProvider-dep.h"
 
+#include <System.Private.CoreLib/Interop-dep.h>
 #include <System.Private.CoreLib/System/Diagnostics/Debug-dep.h>
 #include <System.Private.CoreLib/System/Diagnostics/Debugger-dep.h>
 #include <System.Private.CoreLib/System/Diagnostics/DebugProvider-dep.h>
 #include <System.Private.CoreLib/System/Diagnostics/StackTrace-dep.h>
 #include <System.Private.CoreLib/System/Environment-dep.h>
 #include <System.Private.CoreLib/System/SR-dep.h>
+#include <System.Private.CoreLib/System/StringComparison.h>
 
 namespace System::Private::CoreLib::System::Diagnostics::DebugProviderNamespace {
 void DebugProvider___::DebugAssertException___::ctor(String message, String detailMessage, String stackTrace) {
@@ -43,6 +45,22 @@ void DebugProvider___::WriteAssert(String stackTrace, String message, String det
 }
 
 void DebugProvider___::Write(String message) {
+  {
+    rt::lock(s_lock);
+    if (message == nullptr) {
+      WriteCore(String::in::Empty);
+      return;
+    }
+    if (_needIndent) {
+      message = GetIndentString() + message;
+      _needIndent = false;
+    }
+    WriteCore(message);
+    if (message->EndsWith("
+", StringComparison::Ordinal)) {
+      _needIndent = true;
+    }
+  }
 }
 
 void DebugProvider___::WriteLine(String message) {
@@ -83,17 +101,34 @@ void DebugProvider___::WriteCore(String message) {
     s_WriteCore(message);
     return;
   }
+  {
+    rt::lock(s_ForLock);
+    if (message->get_Length() <= 4091) {
+      WriteToDebugger(message);
+      return;
+    }
+    Int32 i;
+    for (i = 0; i < message->get_Length() - 4091; i += 4091) {
+      WriteToDebugger(message->Substring(i, 4091));
+    }
+    WriteToDebugger(message->Substring(i));
+  }
 }
 
 void DebugProvider___::WriteToDebugger(String message) {
   if (Debugger::IsLogging()) {
     Debugger::Log(0, nullptr, message);
   } else {
+    auto default = message;
+    if (default != nullptr) default = String::in::Empty;
+
+    Interop::Kernel32::OutputDebugString(default);
   }
 }
 
 void DebugProvider___::ctor() {
   _needIndent = true;
+  Object::ctor();
 }
 
 void DebugProvider___::cctor() {

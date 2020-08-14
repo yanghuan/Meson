@@ -358,6 +358,16 @@ UIntPtr ASCIIUtility::NarrowUtf16ToAscii(Char* pUtf16Buffer, Byte* pAsciiBuffer,
       }
       Vector<UInt16> right = Vector<UInt16>(127);
       UIntPtr num6 = elementCount - 2 * num5;
+      do {
+        Vector<UInt16> vector = Unsafe::ReadUnaligned<Vector<UInt16>>(pUtf16Buffer + num);
+        Vector<UInt16> vector2 = Unsafe::ReadUnaligned<Vector<UInt16>>(pUtf16Buffer + num + Vector<UInt16>::get_Count());
+        if (Vector::GreaterThanAny(Vector::BitwiseOr(vector, vector2), right)) {
+          break;
+        }
+        Vector<Byte> value = Vector::Narrow(vector, vector2);
+        Unsafe::WriteUnaligned(pAsciiBuffer + num, value);
+        num += num5;
+      } while (num <= num6)
     }
   }
 
@@ -417,6 +427,18 @@ UIntPtr ASCIIUtility::WidenAsciiToUtf16(Byte* pAsciiBuffer, Char* pUtf16Buffer, 
     UInt32 num2 = (UInt32)Unsafe::SizeOf<Vector<Byte>>();
     if (elementCount >= num2) {
       UIntPtr num3 = elementCount - num2;
+      do {
+        Vector<SByte> vector = Unsafe::ReadUnaligned<Vector<SByte>>(pAsciiBuffer + num);
+        if (Vector::LessThanAny(vector, Vector<SByte>::get_Zero())) {
+          break;
+        }
+        Vector<UInt16> low;
+        Vector<UInt16> high;
+        Vector::Widen(Vector::AsVectorByte(vector), low, high);
+        Unsafe::WriteUnaligned(pUtf16Buffer + num, low);
+        Unsafe::WriteUnaligned(pUtf16Buffer + num + Vector<UInt16>::get_Count(), high);
+        num += num2;
+      } while (num <= num3)
     }
   }
 
@@ -451,6 +473,25 @@ UIntPtr ASCIIUtility::WidenAsciiToUtf16_Sse2(Byte* pAsciiBuffer, Char* pUtf16Buf
   Sse2::in::Store((Byte*)pUtf16Buffer, source);
   UIntPtr num4 = (num >> 1) - (((UIntPtr)(UIntPtr)(void*)pUtf16Buffer >> 1) & (num2 >> 1));
   UIntPtr num5 = elementCount - num;
+  do {
+    vector = Sse2::in::LoadVector128(pAsciiBuffer + num4);
+    num3 = (UInt32)Sse2::in::MoveMask(vector);
+    if (num3 == 0) {
+      Byte* ptr = (Byte*)(pUtf16Buffer + num4);
+      Sse2::in::StoreAligned(ptr, Sse2::in::UnpackLow(vector, zero));
+      ptr += num;
+      Sse2::in::StoreAligned(ptr, Sse2::in::UnpackHigh(vector, zero));
+      num4 += num;
+      continue;
+    }
+    if ((Byte)num3 == 0) {
+      source = Sse2::in::UnpackLow(vector, zero);
+      Sse2::in::StoreAligned((Byte*)(pUtf16Buffer + num4), source);
+      num4 += num / 2u;
+    }
+    break;
+  } while (num4 <= num5)
+  return num4;
 }
 
 void ASCIIUtility::WidenFourAsciiBytesToUtf16AndWriteToBuffer(Char& outputBuffer, UInt32 value) {

@@ -2,6 +2,7 @@
 
 #include <System.Private.CoreLib/System/ArgumentException-dep.h>
 #include <System.Private.CoreLib/System/ArgumentNullException-dep.h>
+#include <System.Private.CoreLib/System/ArraySegment-dep.h>
 #include <System.Private.CoreLib/System/Buffers/ArrayPool-dep.h>
 #include <System.Private.CoreLib/System/Exception-dep.h>
 #include <System.Private.CoreLib/System/GC-dep.h>
@@ -14,6 +15,7 @@
 #include <System.Private.CoreLib/System/NotSupportedException-dep.h>
 #include <System.Private.CoreLib/System/ReadOnlySpan-dep.h>
 #include <System.Private.CoreLib/System/Runtime/ExceptionServices/ExceptionDispatchInfo-dep.h>
+#include <System.Private.CoreLib/System/Runtime/InteropServices/MemoryMarshal-dep.h>
 #include <System.Private.CoreLib/System/SR-dep.h>
 #include <System.Private.CoreLib/System/Threading/ExecutionContext-dep.h>
 #include <System.Private.CoreLib/System/Threading/Tasks/TaskScheduler-dep.h>
@@ -22,6 +24,7 @@
 namespace System::Private::CoreLib::System::IO::StreamNamespace {
 using namespace System::Buffers;
 using namespace System::Runtime::ExceptionServices;
+using namespace System::Runtime::InteropServices;
 using namespace System::Threading;
 using namespace System::Threading::Tasks;
 
@@ -360,12 +363,24 @@ Boolean SyncStream___::get_CanTimeout() {
 }
 
 Int64 SyncStream___::get_Length() {
+  {
+    rt::lock(_stream);
+    return _stream->get_Length();
+  }
 }
 
 Int64 SyncStream___::get_Position() {
+  {
+    rt::lock(_stream);
+    return _stream->get_Position();
+  }
 }
 
 void SyncStream___::set_Position(Int64 value) {
+  {
+    rt::lock(_stream);
+    _stream->set_Position = value;
+  }
 }
 
 Int32 SyncStream___::get_ReadTimeout() {
@@ -392,58 +407,132 @@ void SyncStream___::ctor(Stream stream) {
 }
 
 void SyncStream___::Close() {
+  {
+    rt::lock(_stream);
+    try{
+      _stream->Close();
+    } finally: {
+      Stream::Dispose(true);
+    }
+  }
 }
 
 void SyncStream___::Dispose(Boolean disposing) {
+  {
+    rt::lock(_stream);
+    try{
+      if (disposing) {
+        ((IDisposable)_stream)->Dispose();
+      }
+    } finally: {
+      Stream::Dispose(disposing);
+    }
+  }
 }
 
 ValueTask<> SyncStream___::DisposeAsync() {
+  {
+    rt::lock(_stream);
+    return _stream->DisposeAsync();
+  }
 }
 
 void SyncStream___::Flush() {
+  {
+    rt::lock(_stream);
+    _stream->Flush();
+  }
 }
 
 Int32 SyncStream___::Read(Array<Byte> bytes, Int32 offset, Int32 count) {
+  {
+    rt::lock(_stream);
+    return _stream->Read(bytes, offset, count);
+  }
 }
 
 Int32 SyncStream___::Read(Span<Byte> buffer) {
+  {
+    rt::lock(_stream);
+    return _stream->Read(buffer);
+  }
 }
 
 Int32 SyncStream___::ReadByte() {
+  {
+    rt::lock(_stream);
+    return _stream->ReadByte();
+  }
 }
 
 IAsyncResult SyncStream___::BeginRead(Array<Byte> buffer, Int32 offset, Int32 count, AsyncCallback callback, Object state) {
   Boolean flag = _stream->HasOverriddenBeginEndRead();
+  {
+    rt::lock(_stream);
+    return flag ? _stream->BeginRead(buffer, offset, count, callback, state) : _stream->BeginReadInternal(buffer, offset, count, callback, state, true, true);
+  }
 }
 
 Int32 SyncStream___::EndRead(IAsyncResult asyncResult) {
   if (asyncResult == nullptr) {
     rt::throw_exception<ArgumentNullException>("asyncResult");
   }
+  {
+    rt::lock(_stream);
+    return _stream->EndRead(asyncResult);
+  }
 }
 
 Int64 SyncStream___::Seek(Int64 offset, SeekOrigin origin) {
+  {
+    rt::lock(_stream);
+    return _stream->Seek(offset, origin);
+  }
 }
 
 void SyncStream___::SetLength(Int64 length) {
+  {
+    rt::lock(_stream);
+    _stream->SetLength(length);
+  }
 }
 
 void SyncStream___::Write(Array<Byte> bytes, Int32 offset, Int32 count) {
+  {
+    rt::lock(_stream);
+    _stream->Write(bytes, offset, count);
+  }
 }
 
 void SyncStream___::Write(ReadOnlySpan<Byte> buffer) {
+  {
+    rt::lock(_stream);
+    _stream->Write(buffer);
+  }
 }
 
 void SyncStream___::WriteByte(Byte b) {
+  {
+    rt::lock(_stream);
+    _stream->WriteByte(b);
+  }
 }
 
 IAsyncResult SyncStream___::BeginWrite(Array<Byte> buffer, Int32 offset, Int32 count, AsyncCallback callback, Object state) {
   Boolean flag = _stream->HasOverriddenBeginEndWrite();
+  {
+    rt::lock(_stream);
+    return flag ? _stream->BeginWrite(buffer, offset, count, callback, state) : _stream->BeginWriteInternal(buffer, offset, count, callback, state, true, true);
+  }
 }
 
 void SyncStream___::EndWrite(IAsyncResult asyncResult) {
   if (asyncResult == nullptr) {
     rt::throw_exception<ArgumentNullException>("asyncResult");
+  }
+  {
+    rt::lock(_stream);
+    _stream->EndWrite(asyncResult);
   }
 }
 
@@ -629,6 +718,18 @@ Task<Int32> Stream___::ReadAsync(Array<Byte> buffer, Int32 offset, Int32 count, 
 }
 
 ValueTask<Int32> Stream___::ReadAsync(Memory<Byte> buffer, CancellationToken cancellationToken) {
+  auto FinishReadAsync = [](Task<Int32> readTask, Array<Byte> localBuffer, Memory<Byte> localDestination) -> ValueTask<Int32> {
+    try{
+    } finally: {
+      ArrayPool<Byte>::in::get_Shared()->Return(localBuffer);
+    }
+  };
+  ArraySegment<Byte> segment;
+  if (MemoryMarshal::TryGetArray(buffer, segment)) {
+    return ValueTask<Int32>(ReadAsync(segment.get_Array(), segment.get_Offset(), segment.get_Count(), cancellationToken));
+  }
+  Array<Byte> array = ArrayPool<Byte>::in::get_Shared()->Rent(buffer.get_Length());
+  return FinishReadAsync(ReadAsync(array, 0, buffer.get_Length(), cancellationToken), array, buffer);
 }
 
 Task<Int32> Stream___::BeginEndReadAsync(Array<Byte> buffer, Int32 offset, Int32 count) {
@@ -704,6 +805,13 @@ Task<> Stream___::WriteAsync(Array<Byte> buffer, Int32 offset, Int32 count, Canc
 }
 
 ValueTask<> Stream___::WriteAsync(ReadOnlyMemory<Byte> buffer, CancellationToken cancellationToken) {
+  ArraySegment<Byte> segment;
+  if (MemoryMarshal::TryGetArray(buffer, segment)) {
+    return ValueTask(WriteAsync(segment.get_Array(), segment.get_Offset(), segment.get_Count(), cancellationToken));
+  }
+  Array<Byte> array = ArrayPool<Byte>::in::get_Shared()->Rent(buffer.get_Length());
+  buffer.get_Span().CopyTo(array);
+  return ValueTask(FinishWriteAsync(WriteAsync(array, 0, buffer.get_Length(), cancellationToken), array));
 }
 
 Task<> Stream___::FinishWriteAsync(Task<> writeTask, Array<Byte> localBuffer) {

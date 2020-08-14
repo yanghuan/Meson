@@ -14,6 +14,7 @@
 #include <System.Private.CoreLib/System/Resources/ManifestBasedResourceGroveler-dep.h>
 #include <System.Private.CoreLib/System/Resources/ResourceFallbackManager-dep.h>
 #include <System.Private.CoreLib/System/Resources/ResourceManager-dep.h>
+#include <System.Private.CoreLib/System/Resources/RuntimeResourceSet-dep.h>
 #include <System.Private.CoreLib/System/SR-dep.h>
 #include <System.Private.CoreLib/System/StringComparison.h>
 
@@ -101,6 +102,10 @@ void ResourceManager___::set_IgnoreCase(Boolean value) {
 }
 
 Type ResourceManager___::get_ResourceSetType() {
+  auto default = _userResourceSet;
+  if (default != nullptr) default = rt::typeof<RuntimeResourceSet>();
+
+  return default;
 }
 
 UltimateResourceFallbackLocation ResourceManager___::get_FallbackLocation() {
@@ -195,6 +200,9 @@ void ResourceManager___::ReleaseAllResources() {
   Dictionary<String, ResourceSet> resourceSets = _resourceSets;
   _resourceSets = rt::newobj<Dictionary<String, ResourceSet>>();
   _lastUsedResourceCache = rt::newobj<CultureNameResourceSetPair>();
+  {
+    rt::lock(resourceSets);
+  }
 }
 
 ResourceManager ResourceManager___::CreateFileBasedResourceManager(String baseName, String resourceDir, Type usingResourceSet) {
@@ -214,13 +222,29 @@ ResourceSet ResourceManager___::GetFirstResourceSet(CultureInfo culture) {
     culture = CultureInfo::in::get_InvariantCulture();
   }
   if (_lastUsedResourceCache != nullptr) {
+    {
+      rt::lock(_lastUsedResourceCache);
+      if (culture->get_Name() == _lastUsedResourceCache->lastCultureName) {
+        return _lastUsedResourceCache->lastResourceSet;
+      }
+    }
   }
   Dictionary<String, ResourceSet> resourceSets = _resourceSets;
   ResourceSet value = nullptr;
   if (resourceSets != nullptr) {
+    {
+      rt::lock(resourceSets);
+      resourceSets->TryGetValue(culture->get_Name(), value);
+    }
   }
   if (value != nullptr) {
     if (_lastUsedResourceCache != nullptr) {
+      {
+        rt::lock(_lastUsedResourceCache);
+        _lastUsedResourceCache->lastCultureName = culture->get_Name();
+        _lastUsedResourceCache->lastResourceSet = value;
+        return value;
+      }
     }
     return value;
   }
@@ -233,6 +257,13 @@ ResourceSet ResourceManager___::GetResourceSet(CultureInfo culture, Boolean crea
   }
   Dictionary<String, ResourceSet> resourceSets = _resourceSets;
   if (resourceSets != nullptr) {
+    {
+      rt::lock(resourceSets);
+      ResourceSet value;
+      if (resourceSets->TryGetValue(culture->get_Name(), value)) {
+        return value;
+      }
+    }
   }
   if (_useManifest && culture->get_HasInvariantCultureName()) {
     String resourceFileName = GetResourceFileName(culture);
@@ -250,9 +281,30 @@ ResourceSet ResourceManager___::InternalGetResourceSet(CultureInfo culture, Bool
   Dictionary<String, ResourceSet> resourceSets = _resourceSets;
   ResourceSet value = nullptr;
   CultureInfo cultureInfo = nullptr;
+  {
+    rt::lock(resourceSets);
+    if (resourceSets->TryGetValue(culture->get_Name(), value)) {
+      return value;
+    }
+  }
+  ResourceFallbackManager resourceFallbackManager = rt::newobj<ResourceFallbackManager>(culture, _neutralResourcesCulture, tryParents);
 }
 
 void ResourceManager___::AddResourceSet(Dictionary<String, ResourceSet> localResourceSets, String cultureName, ResourceSet& rs) {
+  {
+    rt::lock(localResourceSets);
+    ResourceSet value;
+    if (localResourceSets->TryGetValue(cultureName, value)) {
+      if (value != rs) {
+        if (!localResourceSets->ContainsValue(rs)) {
+          rs->Dispose();
+        }
+        rs = value;
+      }
+    } else {
+      localResourceSets->Add(cultureName, rs);
+    }
+  }
 }
 
 Version ResourceManager___::GetSatelliteContractVersion(Assembly a) {
@@ -349,6 +401,7 @@ UnmanagedMemoryStream ResourceManager___::GetStream(String name, CultureInfo cul
 void ResourceManager___::cctor() {
   MagicNumber = -1091581234;
   HeaderVersionNumber = 1;
+  s_minResourceSet = rt::typeof<ResourceSet>();
 }
 
 } // namespace System::Private::CoreLib::System::Resources::ResourceManagerNamespace

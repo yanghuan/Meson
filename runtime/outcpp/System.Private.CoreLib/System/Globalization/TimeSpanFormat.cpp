@@ -8,6 +8,7 @@
 #include <System.Private.CoreLib/System/Globalization/TimeSpanParse-dep.h>
 #include <System.Private.CoreLib/System/Int32-dep.h>
 #include <System.Private.CoreLib/System/Int64-dep.h>
+#include <System.Private.CoreLib/System/Math-dep.h>
 #include <System.Private.CoreLib/System/Runtime/InteropServices/MemoryMarshal-dep.h>
 #include <System.Private.CoreLib/System/SR-dep.h>
 #include <System.Private.CoreLib/System/Text/StringBuilder-dep.h>
@@ -210,6 +211,9 @@ Boolean TimeSpanFormat::TryFormat(TimeSpan value, Span<Char> destination, Int32&
 String TimeSpanFormat::FormatC(TimeSpan value) {
   Char default[26] = {};
   Span<Char> destination = default;
+  Int32 charsWritten;
+  TryFormatStandard(value, StandardFormat::C, nullptr, destination, charsWritten);
+  return rt::newobj<String>(destination.Slice(0, charsWritten));
 }
 
 String TimeSpanFormat::FormatG(TimeSpan value, DateTimeFormatInfo dtfi, StandardFormat format) {
@@ -218,6 +222,9 @@ String TimeSpanFormat::FormatG(TimeSpan value, DateTimeFormatInfo dtfi, Standard
   Char default[num] = {};
   Span<Char> span = (num >= 128) ? ((Span<Char>)rt::newarr<Array<Char>>(num)) : default;
   Span<Char> destination = span;
+  Int32 charsWritten;
+  TryFormatStandard(value, format, decimalSeparator, destination, charsWritten);
+  return rt::newobj<String>(destination.Slice(0, charsWritten));
 }
 
 Boolean TimeSpanFormat::TryFormatStandard(TimeSpan value, StandardFormat format, String decimalSeparator, Span<Char> destination, Int32& charsWritten) {
@@ -228,6 +235,9 @@ Boolean TimeSpanFormat::TryFormatStandard(TimeSpan value, StandardFormat format,
   if (num2 < 0) {
     num = 9;
   }
+  UInt64 result;
+  num3 = Math::DivRem((UInt64)num2, 10000000, result);
+  valueWithoutTrailingZeros = (UInt32)result;
 }
 
 void TimeSpanFormat::WriteTwoDigits(UInt32 value, Span<Char> buffer) {

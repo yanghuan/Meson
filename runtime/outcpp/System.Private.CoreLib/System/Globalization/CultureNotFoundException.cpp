@@ -24,6 +24,16 @@ String CultureNotFoundException___::get_FormattedInvalidCultureId() {
 }
 
 String CultureNotFoundException___::get_Message() {
+  String message = ArgumentException::get_Message();
+  if (_invalidCultureId.get_HasValue() || _invalidCultureName != nullptr) {
+    String text = SR::Format(SR::get_Argument_CultureInvalidIdentifier(), get_FormattedInvalidCultureId());
+    if (message == nullptr) {
+      return text;
+    }
+    return message + "
+" + text;
+  }
+  return message;
 }
 
 void CultureNotFoundException___::ctor() {
@@ -55,9 +65,14 @@ void CultureNotFoundException___::ctor(String paramName, Int32 invalidCultureId,
 }
 
 void CultureNotFoundException___::ctor(SerializationInfo info, StreamingContext context) {
+  _invalidCultureId = (Nullable<Int32>)info->GetValue("InvalidCultureId", rt::typeof<Nullable<Int32>>());
+  _invalidCultureName = (String)info->GetValue("InvalidCultureName", rt::typeof<String>());
 }
 
 void CultureNotFoundException___::GetObjectData(SerializationInfo info, StreamingContext context) {
+  ArgumentException::GetObjectData(info, context);
+  info->AddValue("InvalidCultureId", _invalidCultureId, rt::typeof<Nullable<Int32>>());
+  info->AddValue("InvalidCultureName", _invalidCultureName, rt::typeof<String>());
 }
 
 } // namespace System::Private::CoreLib::System::Globalization::CultureNotFoundExceptionNamespace

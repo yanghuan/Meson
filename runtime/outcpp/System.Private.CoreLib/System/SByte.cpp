@@ -137,6 +137,13 @@ Boolean SByte::TryParse(ReadOnlySpan<Char> s, NumberStyles style, IFormatProvide
 }
 
 Boolean SByte::TryParse(ReadOnlySpan<Char> s, NumberStyles style, NumberFormatInfo info, SByte& result) {
+  Int32 result2;
+  if (Number::TryParseInt32(s, style, info, result2) != 0 || (UInt32)(result2 - -128 - ((Int32)(style & NumberStyles::AllowHexSpecifier) >> 2)) > 255u) {
+    result = 0;
+    return false;
+  }
+  result = (SByte)result2;
+  return true;
 }
 
 TypeCode SByte::GetTypeCode() {

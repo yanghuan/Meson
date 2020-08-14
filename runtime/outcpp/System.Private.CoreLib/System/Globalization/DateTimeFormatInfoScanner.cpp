@@ -149,6 +149,10 @@ void DateTimeFormatInfoScanner___::ScanDateWord(String pattern) {
         break;
       case 121:
         {
+          Int32 _;
+          num = ScanRepeatChar(pattern, 121, num, _);
+          _ymdFlags |= FoundDatePattern::FoundYearPatternFlag;
+          break;
         }case 100:
         num = ScanRepeatChar(pattern, 100, num, count);
         if (count <= 2) {
@@ -287,6 +291,7 @@ Boolean DateTimeFormatInfoScanner___::ArrayElementsBeginWithDigit(Array<String> 
 
 void DateTimeFormatInfoScanner___::ctor() {
   m_dateWords = rt::newobj<List<String>>();
+  Object::ctor();
 }
 
 } // namespace System::Private::CoreLib::System::Globalization::DateTimeFormatInfoScannerNamespace

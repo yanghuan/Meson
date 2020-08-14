@@ -29,19 +29,40 @@ Dictionary<String, LocalDataStoreSlot> Thread___::LocalDataStore::EnsureNameToSl
     return dictionary;
   }
   dictionary = rt::newobj<Dictionary<String, LocalDataStoreSlot>>();
+  auto default = Interlocked::CompareExchange(s_nameToSlotMap, dictionary, nullptr);
+  if (default != nullptr) default = dictionary;
+
+  return default;
 }
 
 LocalDataStoreSlot Thread___::LocalDataStore::AllocateNamedSlot(String name) {
   LocalDataStoreSlot localDataStoreSlot = AllocateSlot();
   Dictionary<String, LocalDataStoreSlot> dictionary = EnsureNameToSlotMap();
+  {
+    rt::lock(dictionary);
+    dictionary->Add(name, localDataStoreSlot);
+    return localDataStoreSlot;
+  }
 }
 
 LocalDataStoreSlot Thread___::LocalDataStore::GetNamedSlot(String name) {
   Dictionary<String, LocalDataStoreSlot> dictionary = EnsureNameToSlotMap();
+  {
+    rt::lock(dictionary);
+    LocalDataStoreSlot value;
+    if (!dictionary->TryGetValue(name, value)) {
+      value = (dictionary[name] = AllocateSlot());
+    }
+    return value;
+  }
 }
 
 void Thread___::LocalDataStore::FreeNamedSlot(String name) {
   Dictionary<String, LocalDataStoreSlot> dictionary = EnsureNameToSlotMap();
+  {
+    rt::lock(dictionary);
+    dictionary->Remove(name);
+  }
 }
 
 ThreadLocal<Object> Thread___::LocalDataStore::GetThreadLocal(LocalDataStoreSlot slot) {
@@ -131,6 +152,10 @@ void Thread___::set_CurrentPrincipal(IPrincipal value) {
 }
 
 Thread Thread___::get_CurrentThread() {
+  auto default = t_currentThread;
+  if (default != nullptr) default = InitializeCurrentThread();
+
+  return default;
 }
 
 ExecutionContext Thread___::get_ExecutionContext() {
@@ -142,6 +167,14 @@ String Thread___::get_Name() {
 }
 
 void Thread___::set_Name(String value) {
+  {
+    rt::lock((Thread)this);
+    if (_name != nullptr) {
+      rt::throw_exception<InvalidOperationException>(SR::get_InvalidOperation_WriteOnce());
+    }
+    _name = value;
+    ThreadNameChanged(value);
+  }
 }
 
 ApartmentState Thread___::get_ApartmentState() {

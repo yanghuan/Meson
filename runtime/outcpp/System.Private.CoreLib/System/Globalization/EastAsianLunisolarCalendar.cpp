@@ -27,6 +27,11 @@ void EastAsianLunisolarCalendar___::set_TwoDigitYearMax(Int32 value) {
 
 Int32 EastAsianLunisolarCalendar___::GetSexagenaryYear(DateTime time) {
   CheckTicksRange(time.get_Ticks());
+  Int32 year;
+  Int32 _;
+  Int32 _;
+  TimeToLunar(time, year, _, _);
+  return (year - 4) % 60 + 1;
 }
 
 Int32 EastAsianLunisolarCalendar___::GetCelestialStem(Int32 sexagenaryYear) {
@@ -149,6 +154,13 @@ DateTime EastAsianLunisolarCalendar___::ToDateTime(Int32 year, Int32 month, Int3
   if (day < 1 || day > num) {
     rt::throw_exception<ArgumentOutOfRangeException>("day", day, SR::Format(SR::get_ArgumentOutOfRange_Day(), num, month));
   }
+  Int32 solarYear;
+  Int32 solarMonth;
+  Int32 solarDay;
+  if (!LunarToGregorian(year, month, day, solarYear, solarMonth, solarDay)) {
+    rt::throw_exception<ArgumentOutOfRangeException>(nullptr, SR::get_ArgumentOutOfRange_BadYearMonthDay());
+  }
+  return DateTime(solarYear, solarMonth, solarDay, hour, minute, second, millisecond);
 }
 
 void EastAsianLunisolarCalendar___::GregorianToLunar(Int32 solarYear, Int32 solarMonth, Int32 solarDate, Int32& lunarYear, Int32& lunarMonth, Int32& lunarDate) {
@@ -223,6 +235,16 @@ Boolean EastAsianLunisolarCalendar___::LunarToGregorian(Int32 lunarYear, Int32 l
 }
 
 DateTime EastAsianLunisolarCalendar___::LunarToTime(DateTime time, Int32 year, Int32 month, Int32 day) {
+  Int32 solarYear;
+  Int32 solarMonth;
+  Int32 solarDay;
+  LunarToGregorian(year, month, day, solarYear, solarMonth, solarDay);
+  Int32 hour;
+  Int32 minute;
+  Int32 second;
+  Int32 millisecond;
+  time.GetTime(hour, minute, second, millisecond);
+  return GregorianCalendar::in::GetDefaultInstance()->ToDateTime(solarYear, solarMonth, solarDay, hour, minute, second, millisecond);
 }
 
 void EastAsianLunisolarCalendar___::TimeToLunar(DateTime time, Int32& year, Int32& month, Int32& day) {
@@ -238,18 +260,75 @@ DateTime EastAsianLunisolarCalendar___::AddMonths(DateTime time, Int32 months) {
     rt::throw_exception<ArgumentOutOfRangeException>("months", months, SR::Format(SR::get_ArgumentOutOfRange_Range(), -120000, 120000));
   }
   CheckTicksRange(time.get_Ticks());
+  Int32 year;
+  Int32 month;
+  Int32 day;
+  TimeToLunar(time, year, month, day);
+  Int32 num = month + months;
+  if (num > 0) {
+    Int32 num2 = InternalIsLeapYear(year) ? 13 : 12;
+    while (num - num2 > 0) {
+      num -= num2;
+      year++;
+      num2 = (InternalIsLeapYear(year) ? 13 : 12);
+    }
+    month = num;
+  } else {
+    while (num <= 0) {
+      Int32 num3 = InternalIsLeapYear(year - 1) ? 13 : 12;
+      num += num3;
+      year--;
+    }
+    month = num;
+  }
+  Int32 num4 = InternalGetDaysInMonth(year, month);
+  if (day > num4) {
+    day = num4;
+  }
+  DateTime result = LunarToTime(time, year, month, day);
+  Calendar::in::CheckAddResult(result.get_Ticks(), get_MinSupportedDateTime(), get_MaxSupportedDateTime());
+  return result;
 }
 
 DateTime EastAsianLunisolarCalendar___::AddYears(DateTime time, Int32 years) {
   CheckTicksRange(time.get_Ticks());
+  Int32 year;
+  Int32 month;
+  Int32 day;
+  TimeToLunar(time, year, month, day);
+  year += years;
+  if (month == 13 && !InternalIsLeapYear(year)) {
+    month = 12;
+    day = InternalGetDaysInMonth(year, month);
+  }
+  Int32 num = InternalGetDaysInMonth(year, month);
+  if (day > num) {
+    day = num;
+  }
+  DateTime result = LunarToTime(time, year, month, day);
+  Calendar::in::CheckAddResult(result.get_Ticks(), get_MinSupportedDateTime(), get_MaxSupportedDateTime());
+  return result;
 }
 
 Int32 EastAsianLunisolarCalendar___::GetDayOfYear(DateTime time) {
   CheckTicksRange(time.get_Ticks());
+  Int32 year;
+  Int32 month;
+  Int32 day;
+  TimeToLunar(time, year, month, day);
+  for (Int32 i = 1; i < month; i++) {
+    day += InternalGetDaysInMonth(year, i);
+  }
+  return day;
 }
 
 Int32 EastAsianLunisolarCalendar___::GetDayOfMonth(DateTime time) {
   CheckTicksRange(time.get_Ticks());
+  Int32 _;
+  Int32 _;
+  Int32 day;
+  TimeToLunar(time, _, _, day);
+  return day;
 }
 
 Int32 EastAsianLunisolarCalendar___::GetDaysInYear(Int32 year, Int32 era) {
@@ -264,10 +343,20 @@ Int32 EastAsianLunisolarCalendar___::GetDaysInYear(Int32 year, Int32 era) {
 
 Int32 EastAsianLunisolarCalendar___::GetMonth(DateTime time) {
   CheckTicksRange(time.get_Ticks());
+  Int32 _;
+  Int32 month;
+  Int32 _;
+  TimeToLunar(time, _, month, _);
+  return month;
 }
 
 Int32 EastAsianLunisolarCalendar___::GetYear(DateTime time) {
   CheckTicksRange(time.get_Ticks());
+  Int32 year;
+  Int32 _;
+  Int32 _;
+  TimeToLunar(time, year, _, _);
+  return GetYear(year, time);
 }
 
 DayOfWeek EastAsianLunisolarCalendar___::GetDayOfWeek(DateTime time) {
@@ -327,6 +416,9 @@ Int32 EastAsianLunisolarCalendar___::ToFourDigitYear(Int32 year) {
   if (year < 0) {
     rt::throw_exception<ArgumentOutOfRangeException>("year", year, SR::get_ArgumentOutOfRange_NeedNonNegNum());
   }
+  year = Calendar::ToFourDigitYear(year);
+  CheckYearRange(year, 0);
+  return year;
 }
 
 void EastAsianLunisolarCalendar___::cctor() {

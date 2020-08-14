@@ -2,6 +2,7 @@
 
 #include <System.Private.CoreLib/Internal/Runtime/CompilerServices/Unsafe-dep.h>
 #include <System.Private.CoreLib/System/Runtime/InteropServices/MemoryMarshal-dep.h>
+#include <System.Private.CoreLib/System/Text/Rune-dep.h>
 #include <System.Private.CoreLib/System/Text/Unicode/Utf8Utility-dep.h>
 #include <System.Private.CoreLib/System/UInt32-dep.h>
 
@@ -76,6 +77,13 @@ OperationStatus Utf8::ToUtf16(ReadOnlySpan<Byte> source, Span<Char> destination,
         destination[0] = 65533;
         destination = destination.Slice(1);
         source = source.Slice((Int32)(pInputBufferRemaining - (Byte*)Unsafe::AsPointer(MemoryMarshal::GetReference(source))));
+        Rune _;
+        Int32 bytesConsumed;
+        Rune::DecodeFromUtf8(source, _, bytesConsumed);
+        source = source.Slice(bytesConsumed);
+        operationStatus = OperationStatus::Done;
+        pInputBufferRemaining = (Byte*)Unsafe::AsPointer(MemoryMarshal::GetReference(source));
+        pOutputBufferRemaining = (Char*)Unsafe::AsPointer(MemoryMarshal::GetReference(destination));
       }
       bytesRead = (Int32)(pInputBufferRemaining - ptr);
       charsWritten = (Int32)(pOutputBufferRemaining - ptr2);

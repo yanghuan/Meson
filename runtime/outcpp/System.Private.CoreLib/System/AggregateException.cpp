@@ -5,12 +5,17 @@
 #include <System.Private.CoreLib/System/ArgumentNullException-dep.h>
 #include <System.Private.CoreLib/System/Array-dep.h>
 #include <System.Private.CoreLib/System/Collections/Generic/List-dep.h>
+#include <System.Private.CoreLib/System/Globalization/CultureInfo-dep.h>
+#include <System.Private.CoreLib/System/Int32-dep.h>
+#include <System.Private.CoreLib/System/Runtime/Serialization/SerializationException-dep.h>
 #include <System.Private.CoreLib/System/SR-dep.h>
 #include <System.Private.CoreLib/System/Text/StringBuilder-dep.h>
 #include <System.Private.CoreLib/System/Text/StringBuilderCache-dep.h>
 
 namespace System::Private::CoreLib::System::AggregateExceptionNamespace {
 using namespace System::Collections::Generic;
+using namespace System::Globalization;
+using namespace System::Runtime::Serialization;
 using namespace System::Text;
 
 ReadOnlyCollection<Exception> AggregateException___::get_InnerExceptions() {
@@ -19,8 +24,18 @@ ReadOnlyCollection<Exception> AggregateException___::get_InnerExceptions() {
 
 String AggregateException___::get_Message() {
   if (m_innerExceptions->get_Count() == 0) {
+    return Exception::get_Message();
   }
   StringBuilder stringBuilder = StringBuilderCache::Acquire();
+  stringBuilder->Append(Exception::get_Message());
+  stringBuilder->Append(32);
+  for (Int32 i = 0; i < m_innerExceptions->get_Count(); i++) {
+    stringBuilder->Append(40);
+    stringBuilder->Append(m_innerExceptions[i]->get_Message());
+    stringBuilder->Append(") ");
+  }
+  stringBuilder->get_Length()--;
+  return StringBuilderCache::GetStringAndRelease(stringBuilder);
 }
 
 Int32 AggregateException___::get_InnerExceptionCount() {
@@ -95,9 +110,18 @@ void AggregateException___::ctor(SerializationInfo info, StreamingContext contex
   if (info == nullptr) {
     rt::throw_exception<ArgumentNullException>("info");
   }
+  Array<Exception> array = rt::as<Array<Exception>>(info->GetValue("InnerExceptions", rt::typeof<Array<Exception>>()));
+  if (array == nullptr) {
+    rt::throw_exception<SerializationException>(SR::get_AggregateException_DeserializationFailure());
+  }
+  m_innerExceptions = rt::newobj<ReadOnlyCollection<Exception>>(array);
 }
 
 void AggregateException___::GetObjectData(SerializationInfo info, StreamingContext context) {
+  Exception::GetObjectData(info, context);
+  Array<Exception> array = rt::newarr<Array<Exception>>(m_innerExceptions->get_Count());
+  m_innerExceptions->CopyTo(array, 0);
+  info->AddValue("InnerExceptions", array, rt::typeof<Array<Exception>>());
 }
 
 Exception AggregateException___::GetBaseException() {
@@ -146,10 +170,23 @@ AggregateException AggregateException___::Flatten() {
       }
     }
   }
+  return rt::newobj<AggregateException>((GetType() == rt::typeof<AggregateException>()) ? Exception::get_Message() : get_Message(), list);
 }
 
 String AggregateException___::ToString() {
   StringBuilder stringBuilder = rt::newobj<StringBuilder>();
+  stringBuilder->Append(Exception::ToString());
+  for (Int32 i = 0; i < m_innerExceptions->get_Count(); i++) {
+    if (m_innerExceptions[i] != Exception::get_InnerException()) {
+      stringBuilder->Append("
+ ---> ");
+      stringBuilder->AppendFormat(CultureInfo::in::get_InvariantCulture(), SR::get_AggregateException_InnerException(), i);
+      stringBuilder->Append(m_innerExceptions[i]->ToString());
+      stringBuilder->Append("<---");
+      stringBuilder->AppendLine();
+    }
+  }
+  return stringBuilder->ToString();
 }
 
 } // namespace System::Private::CoreLib::System::AggregateExceptionNamespace

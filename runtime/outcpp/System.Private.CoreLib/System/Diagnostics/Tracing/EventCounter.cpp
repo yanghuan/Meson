@@ -1,7 +1,12 @@
 #include "EventCounter-dep.h"
 
+#include <System.Private.CoreLib/System/Diagnostics/Tracing/CounterPayload-dep.h>
+#include <System.Private.CoreLib/System/Diagnostics/Tracing/CounterPayloadType-dep.h>
+#include <System.Private.CoreLib/System/Diagnostics/Tracing/EventCounter-dep.h>
+#include <System.Private.CoreLib/System/Diagnostics/Tracing/EventSourceOptions-dep.h>
 #include <System.Private.CoreLib/System/Double-dep.h>
 #include <System.Private.CoreLib/System/Int32-dep.h>
+#include <System.Private.CoreLib/System/Math-dep.h>
 #include <System.Private.CoreLib/System/Threading/Interlocked-dep.h>
 #include <System.Private.CoreLib/System/Threading/Volatile-dep.h>
 
@@ -26,7 +31,9 @@ void EventCounter___::WriteMetric(Double value) {
 String EventCounter___::ToString() {
   Int32 num = Volatile::Read(_count);
   if (num != 0) {
+    return String::in::Format("EventCounter '{0}' Count {1} Mean {2}", DiagnosticCounter::get_Name(), num, (_sum / (Double)num).ToString("n3"));
   }
+  return "EventCounter '" + DiagnosticCounter::get_Name() + "' Count 0";
 }
 
 void EventCounter___::OnMetricWritten(Double value) {
@@ -42,9 +49,47 @@ void EventCounter___::OnMetricWritten(Double value) {
 }
 
 void EventCounter___::WritePayload(Single intervalSec, Int32 pollingIntervalMillisec) {
+  {
+    rt::lock((EventCounter)this);
+    Flush();
+    CounterPayload counterPayload = rt::newobj<CounterPayload>();
+    counterPayload->set_Count = _count;
+    counterPayload->set_IntervalSec = intervalSec;
+    if (0 < _count) {
+      counterPayload->set_Mean = _sum / (Double)_count;
+      counterPayload->set_StandardDeviation = Math::Sqrt(_sumSquared / (Double)_count - _sum * _sum / (Double)_count / (Double)_count);
+    } else {
+      counterPayload->set_Mean = 0;
+      counterPayload->set_StandardDeviation = 0;
+    }
+    counterPayload->set_Min = _min;
+    counterPayload->set_Max = _max;
+    counterPayload->set_Series = String::in::Format("Interval={0}", pollingIntervalMillisec);
+    counterPayload->set_CounterType = "Mean";
+    counterPayload->set_Metadata = GetMetadataString();
+    auto default = DiagnosticCounter::get_DisplayName();
+    if (default != nullptr) default = "";
+
+    counterPayload->set_DisplayName = (default);
+    auto extern = DiagnosticCounter::get_DisplayUnits();
+    if (extern != nullptr) extern = "";
+
+    counterPayload->set_DisplayUnits = (extern);
+    counterPayload->set_Name = DiagnosticCounter::get_Name();
+    ResetStatistics();
+    DiagnosticCounter::get_EventSource()->Write("EventCounters", EventSourceOptions(), rt::newobj<CounterPayloadType>(counterPayload));
+  }
 }
 
 void EventCounter___::ResetStatistics() {
+  {
+    rt::lock((EventCounter)this);
+    _count = 0;
+    _sum = 0;
+    _sumSquared = 0;
+    _min = Double::PositiveInfinity;
+    _max = Double::NegativeInfinity;
+  }
 }
 
 void EventCounter___::InitializeBuffer() {
@@ -57,6 +102,18 @@ void EventCounter___::InitializeBuffer() {
 void EventCounter___::Enqueue(Double value) {
   Int32 num = _bufferedValuesIndex;
   Double num2;
+  do {
+    num2 = Interlocked::CompareExchange(_bufferedValues[num], value, Double::NegativeInfinity);
+    num++;
+    if (_bufferedValues->get_Length() <= num) {
+      {
+        rt::lock((EventCounter)this);
+        Flush();
+      }
+      num = 0;
+    }
+  } while (num2 != Double::NegativeInfinity)
+  _bufferedValuesIndex = num;
 }
 
 void EventCounter___::Flush() {

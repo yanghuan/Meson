@@ -11,6 +11,7 @@
 #include <System.Private.CoreLib/System/MemoryExtensions-dep.h>
 #include <System.Private.CoreLib/System/NotSupportedException-dep.h>
 #include <System.Private.CoreLib/System/ObjectDisposedException-dep.h>
+#include <System.Private.CoreLib/System/Range-dep.h>
 #include <System.Private.CoreLib/System/ReadOnlyMemory-dep.h>
 #include <System.Private.CoreLib/System/ReadOnlySpan-dep.h>
 #include <System.Private.CoreLib/System/Runtime/InteropServices/MemoryMarshal-dep.h>
@@ -268,6 +269,13 @@ void TranscodingStream___::Write(ReadOnlySpan<Byte> buffer) {
   Array<Byte> array2 = ArrayPool<Byte>::in::get_Shared()->Rent(minimumLength);
   try{
     Boolean completed;
+    do {
+      Int32 bytesUsed;
+      Int32 charsUsed;
+      _thisDecoder->Convert(buffer, array, false, bytesUsed, charsUsed, completed);
+      ReadOnlySpan<Byte> readOnlySpan = buffer;
+      buffer = readOnlySpan[Range(bytesUsed, readOnlySpan.get_Length())];
+    } while (!completed)
   } finally: {
     ArrayPool<Char>::in::get_Shared()->Return(array);
     ArrayPool<Byte>::in::get_Shared()->Return(array2);
@@ -288,6 +296,22 @@ ValueTask<> TranscodingStream___::WriteAsync(ReadOnlyMemory<Byte> buffer, Cancel
     Array<Byte> scratchBytes = ArrayPool<Byte>::in::get_Shared()->Rent(minimumLength);
     try{
       Boolean decoderFinished;
+      do {
+        Int32 bytesUsed;
+        Int32 charsUsed;
+        _thisDecoder->Convert(remainingOuterEncodedBytes.get_Span(), scratchChars, false, bytesUsed, charsUsed, decoderFinished);
+        ReadOnlyMemory<Byte> readOnlyMemory = remainingOuterEncodedBytes;
+        remainingOuterEncodedBytes = readOnlyMemory[Range(bytesUsed, readOnlyMemory.get_Length())];
+        ArraySegment<Char> decodedChars = ArraySegment<Char>(scratchChars, 0, charsUsed);
+        Boolean encoderFinished;
+        do {
+          Int32 charsUsed2;
+          Int32 bytesUsed2;
+          _innerEncoder->Convert(decodedChars, scratchBytes, false, charsUsed2, bytesUsed2, encoderFinished);
+          ArraySegment<Char> arraySegment = decodedChars;
+          decodedChars = arraySegment[Range(charsUsed2, arraySegment.get_Count())];
+        } while (!encoderFinished)
+      } while (!decoderFinished)
     } finally: {
       ArrayPool<Char>::in::get_Shared()->Return(scratchChars);
       ArrayPool<Byte>::in::get_Shared()->Return(scratchBytes);

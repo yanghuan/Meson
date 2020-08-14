@@ -43,6 +43,7 @@ void Linked1CancellationTokenSource___::ctor(CancellationToken token1) {
 void Linked1CancellationTokenSource___::Dispose(Boolean disposing) {
   if (disposing && !_disposed) {
     _reg1.Dispose();
+    CancellationTokenSource::Dispose(disposing);
   }
 }
 
@@ -55,6 +56,7 @@ void Linked2CancellationTokenSource___::Dispose(Boolean disposing) {
   if (disposing && !_disposed) {
     _reg1.Dispose();
     _reg2.Dispose();
+    CancellationTokenSource::Dispose(disposing);
   }
 }
 
@@ -78,6 +80,7 @@ void LinkedNCancellationTokenSource___::Dispose(Boolean disposing) {
       linkingRegistrations[i].Dispose();
     }
   }
+  CancellationTokenSource::Dispose(disposing);
 }
 
 void LinkedNCancellationTokenSource___::cctor() {
@@ -86,6 +89,8 @@ void LinkedNCancellationTokenSource___::cctor() {
 void CancellationTokenSource___::CallbackPartition___::ctor(CancellationTokenSource source) {
   Lock = SpinLock(false);
   NextAvailableId = 1;
+  Object::ctor();
+  Source = source;
 }
 
 Boolean CancellationTokenSource___::CallbackPartition___::Unregister(Int64 id, CallbackNode node) {
@@ -162,14 +167,27 @@ Int64 CancellationTokenSource___::get_ExecutingCallback() {
 
 void CancellationTokenSource___::ctor() {
   _threadIDExecutingCallbacks = -1;
+  Object::ctor();
+  _state = 1;
 }
 
 void CancellationTokenSource___::ctor(TimeSpan delay) {
   _threadIDExecutingCallbacks = -1;
+  Object::ctor();
+  Int64 num = (Int64)delay.get_TotalMilliseconds();
+  if (num < -1 || num > Int32::MaxValue) {
+    rt::throw_exception<ArgumentOutOfRangeException>("delay");
+  }
+  InitializeWithTimer((Int32)num);
 }
 
 void CancellationTokenSource___::ctor(Int32 millisecondsDelay) {
   _threadIDExecutingCallbacks = -1;
+  Object::ctor();
+  if (millisecondsDelay < -1) {
+    rt::throw_exception<ArgumentOutOfRangeException>("millisecondsDelay");
+  }
+  InitializeWithTimer(millisecondsDelay);
 }
 
 void CancellationTokenSource___::InitializeWithTimer(Int32 millisecondsDelay) {
@@ -263,11 +281,19 @@ CancellationTokenRegistration CancellationTokenSource___::InternalRegister(Actio
     Array<CallbackPartition> array = _callbackPartitions;
     if (array == nullptr) {
       array = rt::newarr<Array<CallbackPartition>>(s_numPartitions);
+      auto default = Interlocked::CompareExchange(_callbackPartitions, array, nullptr);
+      if (default != nullptr) default = array;
+
+      array = (default);
     }
     Int32 num = Environment::get_CurrentManagedThreadId() & s_numPartitionsMask;
     CallbackPartition callbackPartition = array[num];
     if (callbackPartition == nullptr) {
       callbackPartition = rt::newobj<CallbackPartition>((CancellationTokenSource)this);
+      auto default = Interlocked::CompareExchange(array[num], callbackPartition, nullptr);
+      if (default != nullptr) default = callbackPartition;
+
+      callbackPartition = (default);
     }
     Boolean lockTaken = false;
     callbackPartition->Lock.Enter(lockTaken);

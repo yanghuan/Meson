@@ -63,6 +63,9 @@ String WebUtility::UrlDecoder::GetString() {
 
 Char WebUtility::HtmlEntities::Lookup(ReadOnlySpan<Char> entity) {
   if (entity.get_Length() <= 8) {
+    Char value;
+    s_lookupTable->TryGetValue(ToUInt64Key(entity), value);
+    return value;
   }
   return 0;
 }
@@ -165,6 +168,10 @@ void WebUtility::HtmlEncode(ReadOnlySpan<Char> input, ValueStringBuilder& output
     if (num >= 0) {
       output.Append("&#");
       Span<Char> destination = output.AppendSpan(10);
+      Int32 charsWritten;
+      num.TryFormat(destination, charsWritten);
+      output.set_Length -= 10 - charsWritten;
+      output.Append(59);
     } else {
       output.Append(c);
     }
@@ -231,6 +238,11 @@ void WebUtility::HtmlDecode(ReadOnlySpan<Char> input, ValueStringBuilder& output
             if (result <= 65535) {
               output.Append((Char)result);
             } else {
+              Char leadingSurrogate;
+              Char trailingSurrogate;
+              ConvertSmpToUtf16(result, leadingSurrogate, trailingSurrogate);
+              output.Append(leadingSurrogate);
+              output.Append(trailingSurrogate);
             }
             i = num2;
             continue;

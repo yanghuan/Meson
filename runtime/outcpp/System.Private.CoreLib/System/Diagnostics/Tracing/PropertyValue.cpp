@@ -1,5 +1,6 @@
 #include "PropertyValue-dep.h"
 
+#include <System.Private.CoreLib/System/Activator-dep.h>
 #include <System.Private.CoreLib/System/Diagnostics/Tracing/PropertyValue-dep.h>
 #include <System.Private.CoreLib/System/Enum-dep.h>
 #include <System.Private.CoreLib/System/Reflection/IntrospectionExtensions-dep.h>
@@ -8,6 +9,7 @@ namespace System::Private::CoreLib::System::Diagnostics::Tracing::PropertyValueN
 using namespace System::Reflection;
 
 Delegate PropertyValue::TypeHelper___::GetGetMethod(PropertyInfo property, Type propertyType) {
+  return property->get_GetMethod()->CreateDelegate(rt::typeof<Func<T, TResult>>()->MakeGenericType(rt::newarr<Array<Type>>(2, property->get_DeclaringType(), propertyType)));
 }
 
 void PropertyValue::TypeHelper___::ctor() {
@@ -95,6 +97,44 @@ PropertyValue::PropertyValue(Decimal value) {
 }
 
 Func<Object, PropertyValue> PropertyValue::GetFactory(Type type) {
+  if (type == rt::typeof<Boolean>()) {
+  }
+  if (type == rt::typeof<Byte>()) {
+  }
+  if (type == rt::typeof<SByte>()) {
+  }
+  if (type == rt::typeof<Char>()) {
+  }
+  if (type == rt::typeof<Int16>()) {
+  }
+  if (type == rt::typeof<UInt16>()) {
+  }
+  if (type == rt::typeof<Int32>()) {
+  }
+  if (type == rt::typeof<UInt32>()) {
+  }
+  if (type == rt::typeof<Int64>()) {
+  }
+  if (type == rt::typeof<UInt64>()) {
+  }
+  if (type == rt::typeof<IntPtr>()) {
+  }
+  if (type == rt::typeof<UIntPtr>()) {
+  }
+  if (type == rt::typeof<Single>()) {
+  }
+  if (type == rt::typeof<Double>()) {
+  }
+  if (type == rt::typeof<Guid>()) {
+  }
+  if (type == rt::typeof<DateTime>()) {
+  }
+  if (type == rt::typeof<DateTimeOffset>()) {
+  }
+  if (type == rt::typeof<TimeSpan>()) {
+  }
+  if (type == rt::typeof<Decimal>()) {
+  }
 }
 
 Func<PropertyValue, PropertyValue> PropertyValue::GetPropertyGetter(PropertyInfo property) {
@@ -113,6 +153,8 @@ Func<PropertyValue, PropertyValue> PropertyValue::GetBoxedValueTypePropertyGette
 }
 
 Func<PropertyValue, PropertyValue> PropertyValue::GetReferenceTypePropertyGetter(PropertyInfo property) {
+  TypeHelper typeHelper = (TypeHelper)Activator::CreateInstance(rt::typeof<ReferenceTypeHelper<TContainer>>()->MakeGenericType(rt::newarr<Array<Type>>(1, property->get_DeclaringType())));
+  return typeHelper->GetPropertyGetter(property);
 }
 
 } // namespace System::Private::CoreLib::System::Diagnostics::Tracing::PropertyValueNamespace

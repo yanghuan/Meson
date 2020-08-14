@@ -1,12 +1,16 @@
 #include "ConcurrentExclusiveSchedulerPair-dep.h"
 
+#include <System.Private.CoreLib/System/ArgumentNullException-dep.h>
+#include <System.Private.CoreLib/System/ArgumentOutOfRangeException-dep.h>
 #include <System.Private.CoreLib/System/Environment-dep.h>
+#include <System.Private.CoreLib/System/InvalidOperationException-dep.h>
 #include <System.Private.CoreLib/System/Threading/Tasks/ConcurrentExclusiveSchedulerPair-dep.h>
 #include <System.Private.CoreLib/System/Threading/Tasks/IProducerConsumerQueue.h>
 #include <System.Private.CoreLib/System/Threading/Tasks/MultiProducerMultiConsumerQueue-dep.h>
 #include <System.Private.CoreLib/System/Threading/Tasks/SingleProducerSingleConsumerQueue-dep.h>
 #include <System.Private.CoreLib/System/Threading/Thread-dep.h>
 #include <System.Private.CoreLib/System/Threading/ThreadLocal-dep.h>
+#include <System.Private.CoreLib/System/Threading/ThreadPool-dep.h>
 #include <System.Private.CoreLib/System/Threading/Volatile-dep.h>
 #include <System.Private.CoreLib/System/Tuple-dep.h>
 
@@ -58,6 +62,14 @@ void ConcurrentExclusiveSchedulerPair___::ConcurrentExclusiveTaskScheduler___::c
 }
 
 void ConcurrentExclusiveSchedulerPair___::ConcurrentExclusiveTaskScheduler___::QueueTask(Task<> task) {
+  {
+    rt::lock(m_pair->get_ValueLock());
+    if (m_pair->get_CompletionRequested()) {
+      rt::throw_exception<InvalidOperationException>(GetType()->ToString());
+    }
+    m_tasks->Enqueue(task);
+    m_pair->ProcessAsyncIfNecessary();
+  }
 }
 
 void ConcurrentExclusiveSchedulerPair___::ConcurrentExclusiveTaskScheduler___::ExecuteTask(Task<> task) {
@@ -209,9 +221,41 @@ void ConcurrentExclusiveSchedulerPair___::ctor(TaskScheduler taskScheduler, Int3
 
 void ConcurrentExclusiveSchedulerPair___::ctor(TaskScheduler taskScheduler, Int32 maxConcurrencyLevel, Int32 maxItemsPerTask) {
   m_threadProcessingMode = rt::newobj<ThreadLocal<ProcessingMode>>();
+  Object::ctor();
+  if (taskScheduler == nullptr) {
+    rt::throw_exception<ArgumentNullException>("taskScheduler");
+  }
+  if (maxConcurrencyLevel == 0 || maxConcurrencyLevel < -1) {
+    rt::throw_exception<ArgumentOutOfRangeException>("maxConcurrencyLevel");
+  }
+  if (maxItemsPerTask == 0 || maxItemsPerTask < -1) {
+    rt::throw_exception<ArgumentOutOfRangeException>("maxItemsPerTask");
+  }
+  m_underlyingTaskScheduler = taskScheduler;
+  m_maxConcurrencyLevel = maxConcurrencyLevel;
+  m_maxItemsPerTask = maxItemsPerTask;
+  Int32 maximumConcurrencyLevel = taskScheduler->get_MaximumConcurrencyLevel();
+  if (maximumConcurrencyLevel > 0 && maximumConcurrencyLevel < m_maxConcurrencyLevel) {
+    m_maxConcurrencyLevel = maximumConcurrencyLevel;
+  }
+  if (m_maxConcurrencyLevel == -1) {
+    m_maxConcurrencyLevel = Int32::MaxValue;
+  }
+  if (m_maxItemsPerTask == -1) {
+    m_maxItemsPerTask = Int32::MaxValue;
+  }
+  m_exclusiveTaskScheduler = rt::newobj<ConcurrentExclusiveTaskScheduler>((ConcurrentExclusiveSchedulerPair)this, 1, ProcessingMode::ProcessingExclusiveTask);
+  m_concurrentTaskScheduler = rt::newobj<ConcurrentExclusiveTaskScheduler>((ConcurrentExclusiveSchedulerPair)this, m_maxConcurrencyLevel, ProcessingMode::ProcessingConcurrentTasks);
 }
 
 void ConcurrentExclusiveSchedulerPair___::Complete() {
+  {
+    rt::lock(get_ValueLock());
+    if (!get_CompletionRequested()) {
+      RequestCompletion();
+      CleanupStateIfCompletingAndQuiesced();
+    }
+  }
 }
 
 ConcurrentExclusiveSchedulerPair::in::CompletionState ConcurrentExclusiveSchedulerPair___::EnsureCompletionStateInitialized() {
@@ -279,6 +323,12 @@ void ConcurrentExclusiveSchedulerPair___::ProcessAsyncIfNecessary(Boolean fairly
 
 Boolean ConcurrentExclusiveSchedulerPair___::TryQueueThreadPoolWorkItem(Boolean fairly) {
   if (TaskScheduler::in::get_Default() == m_underlyingTaskScheduler) {
+    auto default = m_threadPoolWorkItem;
+    if (default != nullptr) default = (m_threadPoolWorkItem = rt::newobj<SchedulerWorkItem>((ConcurrentExclusiveSchedulerPair)this));
+
+    IThreadPoolWorkItem callBack = default;
+    ThreadPool::UnsafeQueueUserWorkItemInternal(callBack, !fairly);
+    return true;
   }
   return false;
 }
@@ -287,9 +337,21 @@ void ConcurrentExclusiveSchedulerPair___::ProcessExclusiveTasks() {
   try{
     m_threadProcessingMode->set_Value = ProcessingMode::ProcessingExclusiveTask;
     for (Int32 i = 0; i < m_maxItemsPerTask; i++) {
+      Task result;
+      if (!m_exclusiveTaskScheduler->m_tasks->TryDequeue(result)) {
+        break;
+      }
+      if (!result->get_IsFaulted()) {
+        m_exclusiveTaskScheduler->ExecuteTask(result);
+      }
     }
   } finally: {
     m_threadProcessingMode->set_Value = ProcessingMode::NotCurrentlyProcessing;
+    {
+      rt::lock(get_ValueLock());
+      m_processingCount = 0;
+      ProcessAsyncIfNecessary(true);
+    }
   }
 }
 
@@ -297,9 +359,26 @@ void ConcurrentExclusiveSchedulerPair___::ProcessConcurrentTasks() {
   try{
     m_threadProcessingMode->set_Value = ProcessingMode::ProcessingConcurrentTasks;
     for (Int32 i = 0; i < m_maxItemsPerTask; i++) {
+      Task result;
+      if (!m_concurrentTaskScheduler->m_tasks->TryDequeue(result)) {
+        break;
+      }
+      if (!result->get_IsFaulted()) {
+        m_concurrentTaskScheduler->ExecuteTask(result);
+      }
+      if (!m_exclusiveTaskScheduler->m_tasks->get_IsEmpty()) {
+        break;
+      }
     }
   } finally: {
     m_threadProcessingMode->set_Value = ProcessingMode::NotCurrentlyProcessing;
+    {
+      rt::lock(get_ValueLock());
+      if (m_processingCount > 0) {
+        m_processingCount--;
+      }
+      ProcessAsyncIfNecessary(true);
+    }
   }
 }
 

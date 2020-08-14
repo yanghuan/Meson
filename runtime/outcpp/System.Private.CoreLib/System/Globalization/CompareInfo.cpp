@@ -17,10 +17,13 @@
 #include <System.Private.CoreLib/System/Globalization/CultureData-dep.h>
 #include <System.Private.CoreLib/System/Globalization/CultureInfo-dep.h>
 #include <System.Private.CoreLib/System/Globalization/GlobalizationMode-dep.h>
+#include <System.Private.CoreLib/System/Globalization/UnicodeCategory.h>
 #include <System.Private.CoreLib/System/Guid-dep.h>
 #include <System.Private.CoreLib/System/Marvin-dep.h>
 #include <System.Private.CoreLib/System/Math-dep.h>
 #include <System.Private.CoreLib/System/MemoryExtensions-dep.h>
+#include <System.Private.CoreLib/System/OutOfMemoryException-dep.h>
+#include <System.Private.CoreLib/System/Runtime/InteropServices/ExternalException-dep.h>
 #include <System.Private.CoreLib/System/Runtime/InteropServices/Marshal-dep.h>
 #include <System.Private.CoreLib/System/Runtime/InteropServices/MemoryMarshal-dep.h>
 #include <System.Private.CoreLib/System/Span-dep.h>
@@ -39,6 +42,25 @@ using namespace System::Runtime::InteropServices;
 using namespace System::Text::Unicode;
 
 IntPtr CompareInfo___::SortHandleCache::GetCachedSortHandle(String sortName) {
+  {
+    rt::lock(s_sortNameToSortHandleCache);
+    IntPtr value;
+    if (!s_sortNameToSortHandleCache->TryGetValue(sortName, value)) {
+      switch (Interop::Globalization::GetSortHandle(sortName, value)) {
+        case Interop::Globalization::ResultCode::OutOfMemory:
+          rt::throw_exception<OutOfMemoryException>();
+        default:
+          rt::throw_exception<ExternalException>(SR::get_Arg_ExternalException());
+        case Interop::Globalization::ResultCode::Success:
+          break;
+      }
+      try{
+        s_sortNameToSortHandleCache->Add(sortName, value);
+      } catch (...) {
+      }
+    }
+    return value;
+  }
 }
 
 void CompareInfo___::SortHandleCache::cctor() {
@@ -80,6 +102,10 @@ CompareInfo CompareInfo___::GetCompareInfo(Int32 culture, Assembly assembly) {
   if (assembly == nullptr) {
     rt::throw_exception<ArgumentNullException>("assembly");
   }
+  if (assembly != rt::typeof<Object>()->get_Module()->get_Assembly()) {
+    rt::throw_exception<ArgumentException>(SR::get_Argument_OnlyMscorlib(), "assembly");
+  }
+  return GetCompareInfo(culture);
 }
 
 CompareInfo CompareInfo___::GetCompareInfo(String name, Assembly assembly) {
@@ -89,6 +115,10 @@ CompareInfo CompareInfo___::GetCompareInfo(String name, Assembly assembly) {
   if (assembly == nullptr) {
     rt::throw_exception<ArgumentNullException>("assembly");
   }
+  if (assembly != rt::typeof<Object>()->get_Module()->get_Assembly()) {
+    rt::throw_exception<ArgumentException>(SR::get_Argument_OnlyMscorlib(), "assembly");
+  }
+  return GetCompareInfo(name);
 }
 
 CompareInfo CompareInfo___::GetCompareInfo(Int32 culture) {
@@ -506,6 +536,19 @@ Int32 CompareInfo___::IndexOf(String source, Char value, Int32 startIndex, Int32
   if (source == nullptr) {
     ThrowHelper::ThrowArgumentNullException(ExceptionArgument::source);
   }
+  ReadOnlySpan<Char> slice;
+  if (!source->TryGetSpan(startIndex, count, slice)) {
+    if ((UInt32)startIndex > (UInt32)source->get_Length()) {
+      ThrowHelper::ThrowArgumentOutOfRangeException(ExceptionArgument::startIndex, ExceptionResource::ArgumentOutOfRange_Index);
+    } else {
+      ThrowHelper::ThrowArgumentOutOfRangeException(ExceptionArgument::count, ExceptionResource::ArgumentOutOfRange_Count);
+    }
+  }
+  Int32 num = IndexOf(slice, MemoryMarshal::CreateReadOnlySpan(value, 1), options);
+  if (num >= 0) {
+    num += startIndex;
+  }
+  return num;
 }
 
 Int32 CompareInfo___::IndexOf(String source, String value, Int32 startIndex, Int32 count, CompareOptions options) {
@@ -515,6 +558,19 @@ Int32 CompareInfo___::IndexOf(String source, String value, Int32 startIndex, Int
   if (value == nullptr) {
     ThrowHelper::ThrowArgumentNullException(ExceptionArgument::value);
   }
+  ReadOnlySpan<Char> slice;
+  if (!source->TryGetSpan(startIndex, count, slice)) {
+    if ((UInt32)startIndex > (UInt32)source->get_Length()) {
+      ThrowHelper::ThrowArgumentOutOfRangeException(ExceptionArgument::startIndex, ExceptionResource::ArgumentOutOfRange_Index);
+    } else {
+      ThrowHelper::ThrowArgumentOutOfRangeException(ExceptionArgument::count, ExceptionResource::ArgumentOutOfRange_Count);
+    }
+  }
+  Int32 num = IndexOf(slice, value, options);
+  if (num >= 0) {
+    num += startIndex;
+  }
+  return num;
 }
 
 Int32 CompareInfo___::IndexOf(ReadOnlySpan<Char> source, ReadOnlySpan<Char> value, CompareOptions options) {
@@ -663,6 +719,15 @@ Int32 CompareInfo___::LastIndexOf(String source, Char value, Int32 startIndex, I
     break;
   }
   startIndex = startIndex - count + 1;
+  ReadOnlySpan<Char> slice;
+  if (!source->TryGetSpan(startIndex, count, slice)) {
+    ThrowHelper::ThrowCountArgumentOutOfRange_ArgumentOutOfRange_Count();
+  }
+  Int32 num = LastIndexOf(slice, MemoryMarshal::CreateReadOnlySpan(value, 1), options);
+  if (num >= 0) {
+    num += startIndex;
+  }
+  return num;
 }
 
 Int32 CompareInfo___::LastIndexOf(String source, String value, Int32 startIndex, Int32 count, CompareOptions options) {
@@ -688,6 +753,15 @@ Int32 CompareInfo___::LastIndexOf(String source, String value, Int32 startIndex,
     break;
   }
   startIndex = startIndex - count + 1;
+  ReadOnlySpan<Char> slice;
+  if (!source->TryGetSpan(startIndex, count, slice)) {
+    ThrowHelper::ThrowCountArgumentOutOfRange_ArgumentOutOfRange_Count();
+  }
+  Int32 num = LastIndexOf(slice, value, options);
+  if (num >= 0) {
+    num += startIndex;
+  }
+  return num;
 }
 
 Int32 CompareInfo___::LastIndexOf(ReadOnlySpan<Char> source, ReadOnlySpan<Char> value, CompareOptions options) {
@@ -1351,6 +1425,19 @@ Int32 CompareInfo___::IcuGetSortKeyLength(ReadOnlySpan<Char> source, CompareOpti
 }
 
 Boolean CompareInfo___::IcuIsSortable(ReadOnlySpan<Char> text) {
+  do {
+    Rune result;
+    Int32 charsConsumed;
+    if (Rune::DecodeFromUtf16(text, result, charsConsumed) != 0) {
+      return false;
+    }
+    UnicodeCategory unicodeCategory = Rune::GetUnicodeCategory(result);
+    if (unicodeCategory == UnicodeCategory::PrivateUse || unicodeCategory == UnicodeCategory::OtherNotAssigned) {
+      return false;
+    }
+    text = text.Slice(charsConsumed);
+  } while (!text.get_IsEmpty())
+  return true;
 }
 
 Int32 CompareInfo___::IcuGetHashCodeOfString(ReadOnlySpan<Char> source, CompareOptions options) {

@@ -3,6 +3,7 @@
 #include <System.Private.CoreLib/System/ArgumentException-dep.h>
 #include <System.Private.CoreLib/System/ArgumentNullException-dep.h>
 #include <System.Private.CoreLib/System/ArgumentOutOfRangeException-dep.h>
+#include <System.Private.CoreLib/System/IO/StringWriter-dep.h>
 #include <System.Private.CoreLib/System/ObjectDisposedException-dep.h>
 #include <System.Private.CoreLib/System/SR-dep.h>
 #include <System.Private.CoreLib/System/Text/UnicodeEncoding-dep.h>
@@ -40,6 +41,7 @@ void StringWriter___::Close() {
 
 void StringWriter___::Dispose(Boolean disposing) {
   _isOpen = false;
+  TextWriter::Dispose(disposing);
 }
 
 StringBuilder StringWriter___::GetStringBuilder() {
@@ -73,6 +75,14 @@ void StringWriter___::Write(Array<Char> buffer, Int32 index, Int32 count) {
 }
 
 void StringWriter___::Write(ReadOnlySpan<Char> buffer) {
+  if (GetType() != rt::typeof<StringWriter>()) {
+    TextWriter::Write(buffer);
+    return;
+  }
+  if (!_isOpen) {
+    rt::throw_exception<ObjectDisposedException>(nullptr, SR::get_ObjectDisposed_WriterClosed());
+  }
+  _sb->Append(buffer);
 }
 
 void StringWriter___::Write(String value) {
@@ -85,12 +95,38 @@ void StringWriter___::Write(String value) {
 }
 
 void StringWriter___::Write(StringBuilder value) {
+  if (GetType() != rt::typeof<StringWriter>()) {
+    TextWriter::Write(value);
+    return;
+  }
+  if (!_isOpen) {
+    rt::throw_exception<ObjectDisposedException>(nullptr, SR::get_ObjectDisposed_WriterClosed());
+  }
+  _sb->Append(value);
 }
 
 void StringWriter___::WriteLine(ReadOnlySpan<Char> buffer) {
+  if (GetType() != rt::typeof<StringWriter>()) {
+    TextWriter::WriteLine(buffer);
+    return;
+  }
+  if (!_isOpen) {
+    rt::throw_exception<ObjectDisposedException>(nullptr, SR::get_ObjectDisposed_WriterClosed());
+  }
+  _sb->Append(buffer);
+  WriteLine();
 }
 
 void StringWriter___::WriteLine(StringBuilder value) {
+  if (GetType() != rt::typeof<StringWriter>()) {
+    TextWriter::WriteLine(value);
+    return;
+  }
+  if (!_isOpen) {
+    rt::throw_exception<ObjectDisposedException>(nullptr, SR::get_ObjectDisposed_WriterClosed());
+  }
+  _sb->Append(value);
+  WriteLine();
 }
 
 Task<> StringWriter___::WriteAsync(Char value) {
@@ -117,6 +153,17 @@ Task<> StringWriter___::WriteAsync(ReadOnlyMemory<Char> buffer, CancellationToke
 }
 
 Task<> StringWriter___::WriteAsync(StringBuilder value, CancellationToken cancellationToken) {
+  if (GetType() != rt::typeof<StringWriter>()) {
+    return TextWriter::WriteAsync(value, cancellationToken);
+  }
+  if (cancellationToken.get_IsCancellationRequested()) {
+    return Task::in::FromCanceled(cancellationToken);
+  }
+  if (!_isOpen) {
+    rt::throw_exception<ObjectDisposedException>(nullptr, SR::get_ObjectDisposed_WriterClosed());
+  }
+  _sb->Append(value);
+  return Task::in::get_CompletedTask();
 }
 
 Task<> StringWriter___::WriteLineAsync(Char value) {
@@ -130,6 +177,18 @@ Task<> StringWriter___::WriteLineAsync(String value) {
 }
 
 Task<> StringWriter___::WriteLineAsync(StringBuilder value, CancellationToken cancellationToken) {
+  if (GetType() != rt::typeof<StringWriter>()) {
+    return TextWriter::WriteLineAsync(value, cancellationToken);
+  }
+  if (cancellationToken.get_IsCancellationRequested()) {
+    return Task::in::FromCanceled(cancellationToken);
+  }
+  if (!_isOpen) {
+    rt::throw_exception<ObjectDisposedException>(nullptr, SR::get_ObjectDisposed_WriterClosed());
+  }
+  _sb->Append(value);
+  WriteLine();
+  return Task::in::get_CompletedTask();
 }
 
 Task<> StringWriter___::WriteLineAsync(Array<Char> buffer, Int32 index, Int32 count) {

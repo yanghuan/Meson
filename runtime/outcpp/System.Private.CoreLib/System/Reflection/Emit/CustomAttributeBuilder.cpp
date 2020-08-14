@@ -4,17 +4,24 @@
 #include <System.Private.CoreLib/System/ArgumentNullException-dep.h>
 #include <System.Private.CoreLib/System/Buffers/Binary/BinaryPrimitives-dep.h>
 #include <System.Private.CoreLib/System/Byte-dep.h>
+#include <System.Private.CoreLib/System/Char-dep.h>
+#include <System.Private.CoreLib/System/Convert-dep.h>
+#include <System.Private.CoreLib/System/Diagnostics/DebuggableAttribute-dep.h>
+#include <System.Private.CoreLib/System/Double-dep.h>
 #include <System.Private.CoreLib/System/Enum-dep.h>
 #include <System.Private.CoreLib/System/Int16-dep.h>
 #include <System.Private.CoreLib/System/Int32-dep.h>
 #include <System.Private.CoreLib/System/Int64-dep.h>
+#include <System.Private.CoreLib/System/IntPtr-dep.h>
 #include <System.Private.CoreLib/System/IO/BinaryWriter-dep.h>
 #include <System.Private.CoreLib/System/IO/MemoryStream-dep.h>
 #include <System.Private.CoreLib/System/Reflection/CallingConventions.h>
 #include <System.Private.CoreLib/System/Reflection/Emit/TypeBuilder-dep.h>
 #include <System.Private.CoreLib/System/Reflection/Emit/TypeBuilderInstantiation-dep.h>
+#include <System.Private.CoreLib/System/Reflection/Emit/TypeNameBuilder-dep.h>
 #include <System.Private.CoreLib/System/Reflection/MethodAttributes.h>
 #include <System.Private.CoreLib/System/SByte-dep.h>
+#include <System.Private.CoreLib/System/Single-dep.h>
 #include <System.Private.CoreLib/System/SR-dep.h>
 #include <System.Private.CoreLib/System/String-dep.h>
 #include <System.Private.CoreLib/System/Text/Encoding-dep.h>
@@ -23,9 +30,11 @@
 #include <System.Private.CoreLib/System/UInt16-dep.h>
 #include <System.Private.CoreLib/System/UInt32-dep.h>
 #include <System.Private.CoreLib/System/UInt64-dep.h>
+#include <System.Private.CoreLib/System/UIntPtr-dep.h>
 
 namespace System::Private::CoreLib::System::Reflection::Emit::CustomAttributeBuilderNamespace {
 using namespace System::Buffers::Binary;
+using namespace System::Diagnostics;
 using namespace System::IO;
 using namespace System::Text;
 
@@ -154,13 +163,96 @@ void CustomAttributeBuilder___::ctor(ConstructorInfo con, Array<Object> construc
 
 Boolean CustomAttributeBuilder___::ValidateType(Type t) {
   if (t->get_IsPrimitive()) {
+    if (t != rt::typeof<IntPtr>()) {
+      return t != rt::typeof<UIntPtr>();
+    }
+    return false;
   }
+  if (t == rt::typeof<String>() || t == rt::typeof<Type>()) {
+    return true;
+  }
+  if (t->get_IsEnum()) {
+    TypeCode typeCode = Type::in::GetTypeCode(Enum::in::GetUnderlyingType(t));
+    if ((UInt32)(typeCode - 5) <= 7u) {
+      return true;
+    }
+    return false;
+  }
+  if (t->get_IsArray()) {
+    if (t->GetArrayRank() != 1) {
+      return false;
+    }
+    return ValidateType(t->GetElementType());
+  }
+  return t == rt::typeof<Object>();
 }
 
 void CustomAttributeBuilder___::VerifyTypeAndPassedObjectType(Type type, Type passedType, String paramName) {
+  if (type != rt::typeof<Object>() && Type::in::GetTypeCode(passedType) != Type::in::GetTypeCode(type)) {
+    rt::throw_exception<ArgumentException>(SR::get_Argument_ConstantDoesntMatch());
+  }
+  if (passedType == rt::typeof<IntPtr>() || passedType == rt::typeof<UIntPtr>()) {
+    rt::throw_exception<ArgumentException>(SR::Format(SR::get_Argument_BadParameterTypeForCAB(), passedType), paramName);
+  }
 }
 
 void CustomAttributeBuilder___::EmitType(BinaryWriter writer, Type type) {
+  if (type->get_IsPrimitive()) {
+    switch (Type::in::GetTypeCode(type)) {
+      case TypeCode::SByte:
+        writer->Write((?)4);
+        break;
+      case TypeCode::Byte:
+        writer->Write((?)5);
+        break;
+      case TypeCode::Char:
+        writer->Write((?)3);
+        break;
+      case TypeCode::Boolean:
+        writer->Write((?)2);
+        break;
+      case TypeCode::Int16:
+        writer->Write((?)6);
+        break;
+      case TypeCode::UInt16:
+        writer->Write((?)7);
+        break;
+      case TypeCode::Int32:
+        writer->Write((?)8);
+        break;
+      case TypeCode::UInt32:
+        writer->Write((?)9);
+        break;
+      case TypeCode::Int64:
+        writer->Write((?)10);
+        break;
+      case TypeCode::UInt64:
+        writer->Write((?)11);
+        break;
+      case TypeCode::Single:
+        writer->Write((?)12);
+        break;
+      case TypeCode::Double:
+        writer->Write((?)13);
+        break;
+    }
+  } else if (type->get_IsEnum()) {
+    writer->Write((?)85);
+    EmitString(writer, type->get_AssemblyQualifiedName());
+  } else if (type == rt::typeof<String>()) {
+    writer->Write((?)14);
+  } else if (type == rt::typeof<Type>()) {
+    writer->Write((?)80);
+  } else if (type->get_IsArray()) {
+    writer->Write((?)29);
+    EmitType(writer, type->GetElementType());
+  } else {
+    writer->Write((?)81);
+  }
+
+
+
+
 }
 
 void CustomAttributeBuilder___::EmitString(BinaryWriter writer, String str) {
@@ -207,6 +299,94 @@ void CustomAttributeBuilder___::EmitValue(BinaryWriter writer, Type type, Object
     }
     return;
   }
+  if (type == rt::typeof<String>()) {
+    if (value == nullptr) {
+      writer->Write(Byte::MaxValue);
+    } else {
+      EmitString(writer, (String)value);
+    }
+    return;
+  }
+  if (type == rt::typeof<Type>()) {
+    if (value == nullptr) {
+      writer->Write(Byte::MaxValue);
+      return;
+    }
+    String text = TypeNameBuilder::in::ToString((Type)value, TypeNameBuilder::in::Format::AssemblyQualifiedName);
+    if (text == nullptr) {
+      rt::throw_exception<ArgumentException>(SR::Format(SR::get_Argument_InvalidTypeForCA(), value->GetType()));
+    }
+    EmitString(writer, text);
+    return;
+  }
+  if (type->get_IsArray()) {
+    if (value == nullptr) {
+      writer->Write(UInt32::MaxValue);
+      return;
+    }
+    Array<> array = (Array<>)value;
+    Type elementType = type->GetElementType();
+    writer->Write(array->get_Length());
+    for (Int32 i = 0; i < array->get_Length(); i++) {
+      EmitValue(writer, elementType, array->GetValue(i));
+    }
+    return;
+  }
+  if (type->get_IsPrimitive()) {
+    switch (Type::in::GetTypeCode(type)) {
+      case TypeCode::SByte:
+        writer->Write((SByte)value);
+        break;
+      case TypeCode::Byte:
+        writer->Write((Byte)value);
+        break;
+      case TypeCode::Char:
+        writer->Write(Convert::ToUInt16((Char)value));
+        break;
+      case TypeCode::Boolean:
+        writer->Write((Byte)(((Boolean)value) ? 1u : 0u));
+        break;
+      case TypeCode::Int16:
+        writer->Write((Int16)value);
+        break;
+      case TypeCode::UInt16:
+        writer->Write((UInt16)value);
+        break;
+      case TypeCode::Int32:
+        writer->Write((Int32)value);
+        break;
+      case TypeCode::UInt32:
+        writer->Write((UInt32)value);
+        break;
+      case TypeCode::Int64:
+        writer->Write((Int64)value);
+        break;
+      case TypeCode::UInt64:
+        writer->Write((UInt64)value);
+        break;
+      case TypeCode::Single:
+        writer->Write((Single)value);
+        break;
+      case TypeCode::Double:
+        writer->Write((Double)value);
+        break;
+    }
+    return;
+  }
+  if (type == rt::typeof<Object>()) {
+    Type type2 = (value == nullptr) ? rt::typeof<String>() : (rt::is<Type>(value) ? rt::typeof<Type>() : value->GetType());
+    if (type2 == rt::typeof<Object>()) {
+      rt::throw_exception<ArgumentException>(SR::Format(SR::get_Argument_BadParameterTypeForCAB(), type2));
+    }
+    EmitType(writer, type2);
+    EmitValue(writer, type2, value);
+    return;
+  }
+  String p = "null";
+  if (value != nullptr) {
+    p = value->GetType()->ToString();
+  }
+  rt::throw_exception<ArgumentException>(SR::Format(SR::get_Argument_BadParameterTypeForCAB(), p));
 }
 
 void CustomAttributeBuilder___::CreateCustomAttribute(ModuleBuilder mod, Int32 tkOwner) {
@@ -214,6 +394,7 @@ void CustomAttributeBuilder___::CreateCustomAttribute(ModuleBuilder mod, Int32 t
 }
 
 void CustomAttributeBuilder___::CreateCustomAttribute(ModuleBuilder mod, Int32 tkOwner, Int32 tkAttrib, Boolean toDisk) {
+  TypeBuilder::in::DefineCustomAttribute(mod, tkOwner, tkAttrib, m_blob, toDisk, rt::typeof<DebuggableAttribute>() == m_con->get_DeclaringType());
 }
 
 } // namespace System::Private::CoreLib::System::Reflection::Emit::CustomAttributeBuilderNamespace

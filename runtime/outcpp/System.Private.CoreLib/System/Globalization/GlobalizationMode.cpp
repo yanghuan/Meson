@@ -6,9 +6,14 @@
 #include <System.Private.CoreLib/System/Environment-dep.h>
 #include <System.Private.CoreLib/System/Int32-dep.h>
 #include <System.Private.CoreLib/System/MemoryExtensions-dep.h>
+#include <System.Private.CoreLib/System/Object-dep.h>
 #include <System.Private.CoreLib/System/ReadOnlySpan-dep.h>
+#include <System.Private.CoreLib/System/Runtime/InteropServices/DllImportSearchPath.h>
+#include <System.Private.CoreLib/System/Runtime/InteropServices/NativeLibrary-dep.h>
 
 namespace System::Private::CoreLib::System::Globalization::GlobalizationModeNamespace {
+using namespace System::Runtime::InteropServices;
+
 Boolean GlobalizationMode::get_Invariant() {
   return <Invariant>k__BackingField;
 }
@@ -26,6 +31,14 @@ Boolean GlobalizationMode::TryGetAppLocalIcuSwitchValue(String& value) {
 }
 
 Boolean GlobalizationMode::GetSwitchValue(String switchName, String envVariable) {
+  Boolean isEnabled;
+  if (!AppContext::TryGetSwitch(switchName, isEnabled)) {
+    String environmentVariable = Environment::GetEnvironmentVariable(envVariable);
+    if (environmentVariable != nullptr) {
+      return Boolean::IsTrueStringIgnoreCase(environmentVariable) || environmentVariable->Equals("1");
+    }
+  }
+  return isEnabled;
 }
 
 Boolean GlobalizationMode::TryGetStringValue(String switchName, String envVariable, String& value) {
@@ -65,9 +78,20 @@ String GlobalizationMode::CreateLibraryName(ReadOnlySpan<Char> baseName, ReadOnl
 }
 
 IntPtr GlobalizationMode::LoadLibrary(String library, Boolean failOnLoadFailure) {
+  IntPtr handle;
+  if (!NativeLibrary::TryLoad(library, rt::typeof<Object>()->get_Assembly(), DllImportSearchPath::ApplicationDirectory, handle) && failOnLoadFailure) {
+    Environment::FailFast("Failed to load app-local ICU: " + library);
+  }
+  return handle;
 }
 
 Boolean GlobalizationMode::LoadIcu() {
+  String value;
+  if (!TryGetAppLocalIcuSwitchValue(value)) {
+    return Interop::Globalization::LoadICU() != 0;
+  }
+  LoadAppLocalIcu(value);
+  return true;
 }
 
 void GlobalizationMode::LoadAppLocalIcuCore(ReadOnlySpan<Char> version, ReadOnlySpan<Char> suffix) {

@@ -3,6 +3,7 @@
 #include <System.Private.CoreLib/System/ArgumentException-dep.h>
 #include <System.Private.CoreLib/System/ArgumentOutOfRangeException-dep.h>
 #include <System.Private.CoreLib/System/Globalization/CultureInfo-dep.h>
+#include <System.Private.CoreLib/System/Globalization/GregorianCalendar-dep.h>
 #include <System.Private.CoreLib/System/Globalization/HebrewCalendar-dep.h>
 #include <System.Private.CoreLib/System/InvalidOperationException-dep.h>
 #include <System.Private.CoreLib/System/SR-dep.h>
@@ -140,6 +141,41 @@ Int32 HebrewCalendar___::GetLunarMonthDay(Int32 gregorianYear, DateBuffer lunarD
 
 Int32 HebrewCalendar___::GetDatePart(Int64 ticks, Int32 part) {
   CheckTicksRange(ticks);
+  Int32 year;
+  Int32 month;
+  Int32 day;
+  DateTime(ticks).GetDate(year, month, day);
+  DateBuffer dateBuffer = rt::newobj<DateBuffer>();
+  dateBuffer->year = year + 3760;
+  Int32 num = GetLunarMonthDay(year, dateBuffer);
+  DateBuffer dateBuffer2 = rt::newobj<DateBuffer>();
+  dateBuffer2->year = dateBuffer->year;
+  dateBuffer2->month = dateBuffer->month;
+  dateBuffer2->day = dateBuffer->day;
+  Int64 absoluteDate = GregorianCalendar::in::GetAbsoluteDate(year, month, day);
+  if (month == 1 && day == 1) {
+    return GetResult(dateBuffer2, part);
+  }
+  Int64 num2 = absoluteDate - GregorianCalendar::in::GetAbsoluteDate(year, 1, 1);
+  if (num2 + dateBuffer->day <= get_LunarMonthLen()[num * 14 + dateBuffer->month]) {
+    dateBuffer2->day += (Int32)num2;
+    return GetResult(dateBuffer2, part);
+  }
+  dateBuffer2->month++;
+  dateBuffer2->day = 1;
+  num2 -= get_LunarMonthLen()[num * 14 + dateBuffer->month] - dateBuffer->day;
+  if (num2 > 1) {
+    while (num2 > get_LunarMonthLen()[num * 14 + dateBuffer2->month]) {
+      num2 -= get_LunarMonthLen()[num * 14 + dateBuffer2->month++];
+      if (dateBuffer2->month > 13 || get_LunarMonthLen()[num * 14 + dateBuffer2->month] == 0) {
+        dateBuffer2->year++;
+        num = get_HebrewTable()[(year + 1 - 1583) * 2 + 1];
+        dateBuffer2->month = 1;
+      }
+    }
+    dateBuffer2->day += (Int32)(num2 - 1);
+  }
+  return GetResult(dateBuffer2, part);
 }
 
 DateTime HebrewCalendar___::AddMonths(DateTime time, Int32 months) {
@@ -324,6 +360,7 @@ Int32 HebrewCalendar___::ToFourDigitYear(Int32 year) {
     rt::throw_exception<ArgumentOutOfRangeException>("year", year, SR::get_ArgumentOutOfRange_NeedNonNegNum());
   }
   if (year < 100) {
+    return Calendar::ToFourDigitYear(year);
   }
   if (year > 5999 || year < 5343) {
     rt::throw_exception<ArgumentOutOfRangeException>("year", year, SR::Format(SR::get_ArgumentOutOfRange_Range(), 5343, 5999));

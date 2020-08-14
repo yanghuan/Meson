@@ -14,6 +14,8 @@ Int32 EncoderReplacementFallbackBuffer___::get_Remaining() {
 void EncoderReplacementFallbackBuffer___::ctor(EncoderReplacementFallback fallback) {
   _fallbackCount = -1;
   _fallbackIndex = -1;
+  EncoderFallbackBuffer::ctor();
+  _strDefault = fallback->get_DefaultString() + fallback->get_DefaultString();
 }
 
 Boolean EncoderReplacementFallbackBuffer___::Fallback(Char charUnknown, Int32 index) {

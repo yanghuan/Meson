@@ -3,11 +3,14 @@
 #include <System.Private.CoreLib/System/ArgumentException-dep.h>
 #include <System.Private.CoreLib/System/ArgumentNullException-dep.h>
 #include <System.Private.CoreLib/System/ArgumentOutOfRangeException-dep.h>
+#include <System.Private.CoreLib/System/Buffers/OperationStatus.h>
 #include <System.Private.CoreLib/System/Runtime/InteropServices/MemoryMarshal-dep.h>
 #include <System.Private.CoreLib/System/SR-dep.h>
 #include <System.Private.CoreLib/System/Text/EncoderNLS-dep.h>
+#include <System.Private.CoreLib/System/Text/Rune-dep.h>
 
 namespace System::Private::CoreLib::System::Text::EncoderNLSNamespace {
+using namespace System::Buffers;
 using namespace System::Runtime::InteropServices;
 
 Encoding EncoderNLS___::get_Encoding() {
@@ -170,6 +173,18 @@ Int32 EncoderNLS___::DrainLeftoverDataForGetByteCount(ReadOnlySpan<Char> chars, 
   } else {
     c = chars[0];
   }
+  Rune result;
+  if (Rune::TryCreate(_charLeftOver, c, result)) {
+    charsConsumed = 1;
+    Int32 byteCount;
+    if (_encoding->TryGetByteCount(result, byteCount)) {
+      return byteCount;
+    }
+    Boolean flag = Encoder::get_FallbackBuffer()->Fallback(_charLeftOver, c, -1);
+  } else {
+    Boolean flag = Encoder::get_FallbackBuffer()->Fallback(_charLeftOver, -1);
+  }
+  return _fallbackBuffer->DrainRemainingDataForGetByteCount();
 }
 
 Boolean EncoderNLS___::TryDrainLeftoverDataForGetBytes(ReadOnlySpan<Char> chars, Span<Byte> bytes, Int32& charsConsumed, Int32& bytesWritten) {
@@ -188,6 +203,22 @@ Boolean EncoderNLS___::TryDrainLeftoverDataForGetBytes(ReadOnlySpan<Char> chars,
     }
     Char charLeftOver = _charLeftOver;
     _charLeftOver = 0;
+    Rune result;
+    if (Rune::TryCreate(charLeftOver, c, result)) {
+      charsConsumed = 1;
+      switch (_encoding->EncodeRune(result, bytes, bytesWritten)) {
+        case OperationStatus::Done:
+          return true;
+        case OperationStatus::DestinationTooSmall:
+          _encoding->ThrowBytesOverflow((EncoderNLS)this, true);
+          break;
+        case OperationStatus::InvalidData:
+          Encoder::get_FallbackBuffer()->Fallback(charLeftOver, c, -1);
+          break;
+      }
+    } else {
+      Encoder::get_FallbackBuffer()->Fallback(charLeftOver, -1);
+    }
   }
   if (_fallbackBuffer != nullptr && _fallbackBuffer->get_Remaining() > 0) {
     return _fallbackBuffer->TryDrainRemainingDataForGetBytes(bytes, bytesWritten);

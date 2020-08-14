@@ -7,6 +7,9 @@
 #include <System.Private.CoreLib/System/Diagnostics/Tracing/CounterGroup-dep.h>
 #include <System.Private.CoreLib/System/Diagnostics/Tracing/DiagnosticCounter-dep.h>
 #include <System.Private.CoreLib/System/Diagnostics/Tracing/EventCommand.h>
+#include <System.Private.CoreLib/System/Diagnostics/Tracing/EventListener-dep.h>
+#include <System.Private.CoreLib/System/Single-dep.h>
+#include <System.Private.CoreLib/System/String-dep.h>
 #include <System.Private.CoreLib/System/Threading/AutoResetEvent-dep.h>
 #include <System.Private.CoreLib/System/Threading/ExecutionContext-dep.h>
 #include <System.Private.CoreLib/System/Threading/Thread-dep.h>
@@ -25,9 +28,17 @@ void CounterGroup___::ctor(EventSource eventSource) {
 }
 
 void CounterGroup___::Add(DiagnosticCounter eventCounter) {
+  {
+    rt::lock(s_counterGroupLock);
+    _counters->Add(eventCounter);
+  }
 }
 
 void CounterGroup___::Remove(DiagnosticCounter eventCounter) {
+  {
+    rt::lock(s_counterGroupLock);
+    _counters->Remove(eventCounter);
+  }
 }
 
 void CounterGroup___::RegisterCommandCallback() {
@@ -35,7 +46,19 @@ void CounterGroup___::RegisterCommandCallback() {
 
 void CounterGroup___::OnEventSourceCommand(Object sender, EventCommandEventArgs e) {
   if (e->get_Command() == EventCommand::Enable || e->get_Command() == EventCommand::Update) {
+    String value;
+    Single result;
+    if (e->get_Arguments()->TryGetValue("EventCounterIntervalSec", value) && Single::TryParse(value, result)) {
+      {
+        rt::lock(s_counterGroupLock);
+        EnableTimer(result);
+      }
+    }
   } else if (e->get_Command() == EventCommand::Disable) {
+    {
+      rt::lock(s_counterGroupLock);
+      DisableTimer();
+    }
   }
 
 }
@@ -52,6 +75,18 @@ void CounterGroup___::EnsureEventSourceIndexAvailable(Int32 eventSourceIndex) {
 }
 
 CounterGroup CounterGroup___::GetCounterGroup(EventSource eventSource) {
+  {
+    rt::lock(s_counterGroupLock);
+    Int32 num = EventListener::in::EventSourceIndex(eventSource);
+    EnsureEventSourceIndexAvailable(num);
+    WeakReference<CounterGroup> weakReference = s_counterGroups[num];
+    CounterGroup target;
+    if (weakReference == nullptr || !weakReference->TryGetTarget(target)) {
+      target = rt::newobj<CounterGroup>(eventSource);
+      s_counterGroups[num] = rt::newobj<WeakReference<CounterGroup>>(target);
+    }
+    return target;
+  }
 }
 
 void CounterGroup___::EnableTimer(Single pollingIntervalInSeconds) {
@@ -94,6 +129,9 @@ void CounterGroup___::DisableTimer() {
 }
 
 void CounterGroup___::ResetCounters() {
+  {
+    rt::lock(s_counterGroupLock);
+  }
 }
 
 void CounterGroup___::OnTimer() {
@@ -108,6 +146,13 @@ void CounterGroup___::PollForValues() {
   AutoResetEvent autoResetEvent = nullptr;
   while (true) {
     Int32 num = Int32::MaxValue;
+    {
+      rt::lock(s_counterGroupLock);
+      autoResetEvent = s_pollingThreadSleepEvent;
+    }
+    if (num == Int32::MaxValue) {
+      num = -1;
+    }
   }
 }
 

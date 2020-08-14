@@ -61,6 +61,7 @@ void PermissionSet___::Deny() {
 }
 
 Boolean PermissionSet___::Equals(Object o) {
+  return Object::Equals(o);
 }
 
 void PermissionSet___::FromXml(SecurityElement et) {
@@ -75,6 +76,7 @@ IEnumerator PermissionSet___::GetEnumeratorImpl() {
 }
 
 Int32 PermissionSet___::GetHashCode() {
+  return Object::GetHashCode();
 }
 
 IPermission PermissionSet___::GetPermission(Type permClass) {
@@ -125,6 +127,7 @@ IPermission PermissionSet___::SetPermissionImpl(IPermission perm) {
 }
 
 String PermissionSet___::ToString() {
+  return Object::ToString();
 }
 
 SecurityElement PermissionSet___::ToXml() {

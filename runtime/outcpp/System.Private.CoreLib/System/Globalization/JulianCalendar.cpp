@@ -39,6 +39,8 @@ void JulianCalendar___::set_TwoDigitYearMax(Int32 value) {
 
 void JulianCalendar___::ctor() {
   MaxYear = 9999;
+  Calendar::ctor();
+  _twoDigitYearMax = 2029;
 }
 
 void JulianCalendar___::CheckEraRange(Int32 era) {
@@ -225,6 +227,7 @@ Int32 JulianCalendar___::ToFourDigitYear(Int32 year) {
   if (year > MaxYear) {
     rt::throw_exception<ArgumentOutOfRangeException>("year", year, SR::Format(SR::get_ArgumentOutOfRange_Bounds_Lower_Upper(), 1, MaxYear));
   }
+  return Calendar::ToFourDigitYear(year);
 }
 
 void JulianCalendar___::cctor() {

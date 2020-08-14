@@ -1,7 +1,7 @@
 #include "ReaderWriterLock-dep.h"
 
 #include <System.Private.CoreLib/System/Environment-dep.h>
-#include <System.Private.CoreLib/System/Object-dep.h>
+#include <System.Private.CoreLib/System/Exception-dep.h>
 #include <System.Private.CoreLib/System/OverflowException-dep.h>
 #include <System.Private.CoreLib/System/Threading/AutoResetEvent-dep.h>
 #include <System.Private.CoreLib/System/Threading/Interlocked-dep.h>
@@ -18,7 +18,7 @@ using namespace ::System::Private::CoreLib::System;
 using namespace ::System::Private::CoreLib::System::Threading;
 
 void ReaderWriterLock___::ReaderWriterLockApplicationException___::ctor(Int32 errorHResult, String message) {
-  Object->set_HResult = errorHResult;
+  Exception::set_HResult = errorHResult;
 }
 
 void ReaderWriterLock___::ReaderWriterLockApplicationException___::ctor(SerializationInfo info, StreamingContext context) {
@@ -117,6 +117,8 @@ Int32 ReaderWriterLock___::get_WriterSeqNum() {
 void ReaderWriterLock___::ctor() {
   _writerID = -1;
   _writerSeqNum = 1;
+  CriticalFinalizerObject::ctor();
+  _lockID = Interlocked::Increment(s_mostRecentLockID);
 }
 
 Boolean ReaderWriterLock___::AnyWritersSince(Int32 seqNum) {
@@ -145,6 +147,73 @@ void ReaderWriterLock___::AcquireReaderLock(Int32 millisecondsTimeout) {
     }
     Int32 num = 0;
     Int32 num2 = _state;
+    do {
+      Int32 num3 = num2;
+      if (num3 < 1023 || ((num3 & 1024) != 0 && (num3 & 4096) == 0 && (num3 & 1023) + ((num3 & 8380416) >> 13) <= 1021)) {
+        num2 = Interlocked::CompareExchange(_state, num3 + 1, num3);
+        if (num2 == num3) {
+          break;
+        }
+        continue;
+      }
+      if ((num3 & 1023) == 1023 || (num3 & 8380416) == 8380416 || (num3 & 3072) == 1024) {
+        Int32 millisecondsTimeout2 = 100;
+        if ((num3 & 1023) == 1023 || (num3 & 8380416) == 8380416) {
+          millisecondsTimeout2 = 1000;
+        }
+        Thread::in::Sleep(millisecondsTimeout2);
+        num = 0;
+        num2 = _state;
+        continue;
+      }
+      num++;
+      if ((num3 & 3072) == 3072) {
+        if (num > DefaultSpinCount) {
+          Thread::in::Sleep(1);
+          num = 0;
+        }
+        num2 = _state;
+        continue;
+      }
+      if (num <= DefaultSpinCount) {
+        num2 = _state;
+        continue;
+      }
+      num2 = Interlocked::CompareExchange(_state, num3 + 8192, num3);
+      if (num2 != num3) {
+        continue;
+      }
+      Int32 num4 = -8192;
+      ManualResetEventSlim manualResetEventSlim = nullptr;
+      Boolean flag = false;
+      try{
+        manualResetEventSlim = GetOrCreateReaderEvent();
+        flag = manualResetEventSlim->Wait(millisecondsTimeout);
+        if (flag) {
+          num4++;
+        }
+      } finally: {
+        num3 = Interlocked::Add(_state, num4) - num4;
+        if (!flag && (num3 & 1024) != 0 && (num3 & 8380416) == 8192) {
+          if (manualResetEventSlim == nullptr) {
+            manualResetEventSlim = _readerEvent;
+          }
+          manualResetEventSlim->Wait();
+          manualResetEventSlim->Reset();
+          Interlocked::Add(_state, -1023);
+          orCreateCurrent->_readerLevel++;
+          ReleaseReaderLock();
+        }
+      }
+      if (!flag) {
+        rt::throw_exception(GetTimeoutException());
+      }
+      if ((num3 & 8380416) == 8192) {
+        manualResetEventSlim->Reset();
+        Interlocked::Add(_state, -1024);
+      }
+      break;
+    } while (YieldProcessor())
   }
   orCreateCurrent->_readerLevel++;
 }
@@ -168,6 +237,75 @@ void ReaderWriterLock___::AcquireWriterLock(Int32 millisecondsTimeout) {
     }
     Int32 num = 0;
     Int32 num2 = _state;
+    do {
+      Int32 num3 = num2;
+      if (num3 == 0 || num3 == 3072) {
+        num2 = Interlocked::CompareExchange(_state, num3 + 4096, num3);
+        if (num2 == num3) {
+          break;
+        }
+        continue;
+      }
+      if ((num3 & -8388608) == -8388608) {
+        Thread::in::Sleep(1000);
+        num = 0;
+        num2 = _state;
+        continue;
+      }
+      num++;
+      if ((num3 & 3072) == 3072) {
+        if (num > DefaultSpinCount) {
+          Thread::in::Sleep(1);
+          num = 0;
+        }
+        num2 = _state;
+        continue;
+      }
+      if (num <= DefaultSpinCount) {
+        num2 = _state;
+        continue;
+      }
+      num2 = Interlocked::CompareExchange(_state, num3 + 8388608, num3);
+      if (num2 != num3) {
+        continue;
+      }
+      Int32 num4 = -8388608;
+      AutoResetEvent autoResetEvent = nullptr;
+      Boolean flag = false;
+      try{
+        autoResetEvent = GetOrCreateWriterEvent();
+        flag = autoResetEvent->WaitOne(millisecondsTimeout);
+        if (flag) {
+          num4 += 2048;
+        }
+      } finally: {
+        num3 = Interlocked::Add(_state, num4) - num4;
+        if (!flag && (num3 & 2048) != 0 && (num3 & -8388608) == 8388608) {
+          if (autoResetEvent == nullptr) {
+            autoResetEvent = _writerEvent;
+          }
+          while (true) {
+            num3 = _state;
+            if ((num3 & 2048) != 0 && (num3 & -8388608) == 0) {
+              if (autoResetEvent->WaitOne(10)) {
+                num4 = 2048;
+                num3 = Interlocked::Add(_state, num4) - num4;
+                _writerID = currentThreadID;
+                _writerLevel = 1;
+                ReleaseWriterLock();
+                break;
+              }
+              continue;
+            }
+            break;
+          }
+        }
+      }
+      if (flag) {
+        break;
+      }
+      rt::throw_exception(GetTimeoutException());
+    } while (YieldProcessor())
   }
   _writerID = currentThreadID;
   _writerLevel = 1;
@@ -197,6 +335,51 @@ void ReaderWriterLock___::ReleaseReaderLock() {
   Boolean flag;
   Boolean flag2;
   Int32 num2;
+  do {
+    flag = false;
+    flag2 = false;
+    num2 = num;
+    Int32 num3 = -1;
+    if ((num2 & 2047) == 1) {
+      flag = true;
+      if ((num2 & -8388608) != 0) {
+        autoResetEvent = TryGetOrCreateWriterEvent();
+        if (autoResetEvent == nullptr) {
+          Thread::in::Sleep(100);
+          num = _state;
+          num2 = 0;
+          continue;
+        }
+        num3 += 2048;
+      } else if ((num2 & 8380416) != 0) {
+        manualResetEventSlim = TryGetOrCreateReaderEvent();
+        if (manualResetEventSlim == nullptr) {
+          Thread::in::Sleep(100);
+          num = _state;
+          num2 = 0;
+          continue;
+        }
+        num3 += 1024;
+      } else if (num2 == 1 && (_readerEvent != nullptr || _writerEvent != nullptr)) {
+        flag2 = true;
+        num3 += 3072;
+      }
+
+
+    }
+    num = Interlocked::CompareExchange(_state, num2 + num3, num2);
+  } while (num != num2)
+  if (flag) {
+    if ((num2 & -8388608) != 0) {
+      autoResetEvent->Set();
+    } else if ((num2 & 8380416) != 0) {
+      manualResetEventSlim->Set();
+    } else if (flag2) {
+      ReleaseEvents();
+    }
+
+
+  }
 }
 
 void ReaderWriterLock___::ReleaseWriterLock() {
@@ -213,6 +396,45 @@ void ReaderWriterLock___::ReleaseWriterLock() {
   Int32 num = _state;
   Boolean flag;
   Int32 num2;
+  do {
+    flag = false;
+    num2 = num;
+    Int32 num3 = -4096;
+    if ((num2 & 8380416) != 0) {
+      manualResetEventSlim = TryGetOrCreateReaderEvent();
+      if (manualResetEventSlim == nullptr) {
+        Thread::in::Sleep(100);
+        num = _state;
+        num2 = 0;
+        continue;
+      }
+      num3 += 1024;
+    } else if ((num2 & -8388608) != 0) {
+      autoResetEvent = TryGetOrCreateWriterEvent();
+      if (autoResetEvent == nullptr) {
+        Thread::in::Sleep(100);
+        num = _state;
+        num2 = 0;
+        continue;
+      }
+      num3 += 2048;
+    } else if (num2 == 4096 && (_readerEvent != nullptr || _writerEvent != nullptr)) {
+      flag = true;
+      num3 += 3072;
+    }
+
+
+    num = Interlocked::CompareExchange(_state, num2 + num3, num2);
+  } while (num != num2)
+  if ((num2 & 8380416) != 0) {
+    manualResetEventSlim->Set();
+  } else if ((num2 & -8388608) != 0) {
+    autoResetEvent->Set();
+  } else if (flag) {
+    ReleaseEvents();
+  }
+
+
 }
 
 LockCookie ReaderWriterLock___::UpgradeToWriterLock(Int32 millisecondsTimeout) {
@@ -279,6 +501,25 @@ void ReaderWriterLock___::DowngradeFromWriterLock(LockCookie& lockCookie) {
     ManualResetEventSlim manualResetEventSlim = nullptr;
     Int32 num = _state;
     Int32 num2;
+    do {
+      num2 = num;
+      Int32 num3 = -4095;
+      if ((num2 & 8380416) != 0) {
+        manualResetEventSlim = TryGetOrCreateReaderEvent();
+        if (manualResetEventSlim == nullptr) {
+          Thread::in::Sleep(100);
+          num = _state;
+          num2 = 0;
+          continue;
+        }
+        num3 += 1024;
+      }
+      num = Interlocked::CompareExchange(_state, num2 + num3, num2);
+    } while (num != num2)
+    if ((num2 & 8380416) != 0) {
+      manualResetEventSlim->Set();
+    }
+    orCreateCurrent->_readerLevel = lockCookie._readerLevel;
   } else if ((flags & (LockCookieFlags::OwnedNone | LockCookieFlags::OwnedWriter)) != 0) {
     if (writerLevel > 0) {
       _writerLevel = writerLevel;

@@ -281,6 +281,11 @@ void CastHelpers::StelemRef(Array<> array, Int32 index, Object obj) {
   Object& value = Unsafe::As<Array<ArrayElement>>(array)[index].Value;
   void* elementType = RuntimeHelpers::GetMethodTable(array)->ElementType;
   if (obj != nullptr) {
+    if (elementType == RuntimeHelpers::GetMethodTable(obj) || array->GetType() == rt::typeof<Array<Object>>()) {
+      WriteBarrier(value, obj);
+    } else {
+      StelemRef_Helper(value, elementType, obj);
+    }
   } else {
     value = nullptr;
   }

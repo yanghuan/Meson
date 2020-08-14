@@ -5,11 +5,16 @@
 #include <System.Private.CoreLib/System/ModuleHandle-dep.h>
 #include <System.Private.CoreLib/System/Reflection/Emit/DynamicILInfo-dep.h>
 #include <System.Private.CoreLib/System/Reflection/Emit/DynamicResolver-dep.h>
+#include <System.Private.CoreLib/System/Reflection/Emit/SignatureHelper-dep.h>
 #include <System.Private.CoreLib/System/Span-dep.h>
 #include <System.Private.CoreLib/System/SR-dep.h>
 
 namespace System::Private::CoreLib::System::Reflection::Emit::DynamicILInfoNamespace {
 Array<Byte> DynamicILInfo___::get_LocalSignature() {
+  auto default = m_localSignature;
+  if (default != nullptr) default = (m_localSignature = SignatureHelper::in::GetLocalVarSigHelper()->InternalGetSignatureArray());
+
+  return default;
 }
 
 Array<Byte> DynamicILInfo___::get_Exceptions() {

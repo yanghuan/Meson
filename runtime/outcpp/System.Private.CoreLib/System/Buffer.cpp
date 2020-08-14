@@ -38,7 +38,17 @@ void Buffer::_BulkMoveWithWriteBarrier(Byte& destination, Byte& source, UIntPtr 
     return;
   }
   if ((UIntPtr)(IntPtr)Unsafe::ByteOffset(source, destination) >= byteCount) {
+    do {
+      byteCount -= 16384;
+      __BulkMoveWithWriteBarrier(destination, source, 16384u);
+      destination = Unsafe::AddByteOffset(destination, 16384u);
+      source = Unsafe::AddByteOffset(source, 16384u);
+    } while (byteCount > 16384)
   } else {
+    do {
+      byteCount -= 16384;
+      __BulkMoveWithWriteBarrier(Unsafe::AddByteOffset(destination, byteCount), Unsafe::AddByteOffset(source, byteCount), 16384u);
+    } while (byteCount > 16384)
   }
   __BulkMoveWithWriteBarrier(destination, source, byteCount);
 }
@@ -64,6 +74,38 @@ void Buffer::BlockCopy(Array<> src, Int32 srcOffset, Array<> dst, Int32 dstOffse
     rt::throw_exception<ArgumentNullException>("dst");
   }
   UIntPtr num = (UIntPtr)src->get_LongLength();
+  if (src->GetType() != rt::typeof<Array<Byte>>()) {
+    if (!RuntimeHelpers::IsPrimitiveType(src->GetCorElementTypeOfElementType())) {
+      rt::throw_exception<ArgumentException>(SR::get_Arg_MustBePrimArray(), "src");
+    }
+    num *= RuntimeHelpers::GetElementSize(src);
+  }
+  UIntPtr num2 = num;
+  if (src != dst) {
+    num2 = (UIntPtr)dst->get_LongLength();
+    if (dst->GetType() != rt::typeof<Array<Byte>>()) {
+      if (!RuntimeHelpers::IsPrimitiveType(dst->GetCorElementTypeOfElementType())) {
+        rt::throw_exception<ArgumentException>(SR::get_Arg_MustBePrimArray(), "dst");
+      }
+      num2 *= RuntimeHelpers::GetElementSize(dst);
+    }
+  }
+  if (srcOffset < 0) {
+    rt::throw_exception<ArgumentOutOfRangeException>("srcOffset", SR::get_ArgumentOutOfRange_MustBeNonNegInt32());
+  }
+  if (dstOffset < 0) {
+    rt::throw_exception<ArgumentOutOfRangeException>("dstOffset", SR::get_ArgumentOutOfRange_MustBeNonNegInt32());
+  }
+  if (count < 0) {
+    rt::throw_exception<ArgumentOutOfRangeException>("count", SR::get_ArgumentOutOfRange_MustBeNonNegInt32());
+  }
+  UIntPtr num3 = (UIntPtr)count;
+  UIntPtr num4 = (UIntPtr)srcOffset;
+  UIntPtr num5 = (UIntPtr)dstOffset;
+  if (num < num4 + num3 || num2 < num5 + num3) {
+    rt::throw_exception<ArgumentException>(SR::get_Argument_InvalidOffLen());
+  }
+  Memmove(Unsafe::AddByteOffset(RuntimeHelpers::GetRawArrayData(dst), num5), Unsafe::AddByteOffset(RuntimeHelpers::GetRawArrayData(src), num4), num3);
 }
 
 Int32 Buffer::ByteLength(Array<> array) {
@@ -118,6 +160,17 @@ void Buffer::Memmove(Byte* dest, Byte* src, UIntPtr len) {
         if (len > 2048) {
         }
         UIntPtr num = len >> 6;
+        do {
+          *(Block64*)dest = *(Block64*)src;
+          dest += 64;
+          src += 64;
+          num--;
+        } while (num != 0)
+        len %= (?)64u;
+        if (len <= 16) {
+          *(Block16*)(ptr2 - 16) = *(Block16*)(ptr - 16);
+          return;
+        }
       }
       *(Block16*)dest = *(Block16*)src;
       if (len > 32) {
@@ -155,6 +208,17 @@ void Buffer::Memmove(Byte& dest, Byte& src, UIntPtr len) {
         if (len > 2048) {
         }
         UIntPtr num = len >> 6;
+        do {
+          Unsafe::As<Byte, Block64>(dest) = Unsafe::As<Byte, Block64>(src);
+          dest = Unsafe::Add(dest, 64);
+          src = Unsafe::Add(src, 64);
+          num--;
+        } while (num != 0)
+        len %= (?)64u;
+        if (len <= 16) {
+          Unsafe::As<Byte, Block16>(Unsafe::Add(source2, -16)) = Unsafe::As<Byte, Block16>(Unsafe::Add(source, -16));
+          return;
+        }
       }
       Unsafe::As<Byte, Block16>(dest) = Unsafe::As<Byte, Block16>(src);
       if (len > 32) {

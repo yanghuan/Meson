@@ -1,13 +1,18 @@
 #include "ArrayTypeMismatchException-dep.h"
 
+#include <System.Private.CoreLib/System/Exception-dep.h>
+
 namespace System::Private::CoreLib::System::ArrayTypeMismatchExceptionNamespace {
 void ArrayTypeMismatchException___::ctor() {
+  Exception::set_HResult = -2146233085;
 }
 
 void ArrayTypeMismatchException___::ctor(String message) {
+  Exception::set_HResult = -2146233085;
 }
 
 void ArrayTypeMismatchException___::ctor(String message, Exception innerException) {
+  Exception::set_HResult = -2146233085;
 }
 
 void ArrayTypeMismatchException___::ctor(SerializationInfo info, StreamingContext context) {

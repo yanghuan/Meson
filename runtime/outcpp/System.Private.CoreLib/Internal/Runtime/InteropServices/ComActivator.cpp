@@ -1,6 +1,7 @@
 #include "ComActivator-dep.h"
 
 #include <System.Private.CoreLib/Internal/Runtime/InteropServices/ComActivator-dep.h>
+#include <System.Private.CoreLib/Internal/Runtime/InteropServices/IsolatedComponentLoadContext-dep.h>
 #include <System.Private.CoreLib/Internal/Runtime/InteropServices/LicenseInteropProxy-dep.h>
 #include <System.Private.CoreLib/System/Activator-dep.h>
 #include <System.Private.CoreLib/System/ArgumentException-dep.h>
@@ -8,11 +9,13 @@
 #include <System.Private.CoreLib/System/Exception-dep.h>
 #include <System.Private.CoreLib/System/IntPtr-dep.h>
 #include <System.Private.CoreLib/System/IO/Path-dep.h>
+#include <System.Private.CoreLib/System/NotSupportedException-dep.h>
 #include <System.Private.CoreLib/System/Reflection/Assembly-dep.h>
 #include <System.Private.CoreLib/System/Reflection/AssemblyName-dep.h>
 #include <System.Private.CoreLib/System/Reflection/BindingFlags.h>
 #include <System.Private.CoreLib/System/Reflection/MethodInfo-dep.h>
 #include <System.Private.CoreLib/System/Runtime/InteropServices/COMException-dep.h>
+#include <System.Private.CoreLib/System/Runtime/InteropServices/CustomQueryInterfaceMode.h>
 #include <System.Private.CoreLib/System/Runtime/InteropServices/Marshal-dep.h>
 #include <System.Private.CoreLib/System/Runtime/Loader/AssemblyLoadContext-dep.h>
 #include <System.Private.CoreLib/System/String-dep.h>
@@ -33,6 +36,7 @@ void ComActivator::BasicClassFactory___::ctor(Guid clsid, Type classType) {
 
 Type ComActivator::BasicClassFactory___::GetValidatedInterfaceType(Type classType, Guid& riid, Object outer) {
   if (riid == Marshal::IID_IUnknown) {
+    return rt::typeof<Object>();
   }
   if (outer != nullptr) {
     rt::throw_exception<COMException>(String::in::Empty, -2147221232);
@@ -41,6 +45,10 @@ Type ComActivator::BasicClassFactory___::GetValidatedInterfaceType(Type classTyp
 }
 
 void ComActivator::BasicClassFactory___::ValidateObjectIsMarshallableAsInterface(Object obj, Type interfaceType) {
+  if (!(interfaceType == rt::typeof<Object>())) {
+    IntPtr comInterfaceForObject = Marshal::GetComInterfaceForObject(obj, interfaceType, CustomQueryInterfaceMode::Ignore);
+    Marshal::Release(comInterfaceForObject);
+  }
 }
 
 Object ComActivator::BasicClassFactory___::CreateAggregatedObject(Object pUnkOuter, Object comObject) {
@@ -67,6 +75,9 @@ void ComActivator::BasicClassFactory___::LockServer(Boolean fLock) {
 
 void ComActivator::LicenseClassFactory___::ctor(Guid clsid, Type classType) {
   _licenseProxy = rt::newobj<LicenseInteropProxy>();
+  Object::ctor();
+  _classId = clsid;
+  _classType = classType;
 }
 
 void ComActivator::LicenseClassFactory___::CreateInstance(Object pUnkOuter, Guid& riid, Object& ppvObject) {
@@ -77,6 +88,12 @@ void ComActivator::LicenseClassFactory___::LockServer(Boolean fLock) {
 }
 
 void ComActivator::LicenseClassFactory___::GetLicInfo(LICINFO& licInfo) {
+  Boolean runtimeKeyAvail;
+  Boolean licVerified;
+  _licenseProxy->GetLicInfo(_classType, runtimeKeyAvail, licVerified);
+  licInfo.cbLicInfo = 12;
+  licInfo.fRuntimeKeyAvail = runtimeKeyAvail;
+  licInfo.fLicVerified = licVerified;
 }
 
 void ComActivator::LicenseClassFactory___::RequestLicKey(Int32 dwReserved, String& pBstrKey) {
@@ -97,6 +114,17 @@ void ComActivator::LicenseClassFactory___::CreateInstanceInner(Object pUnkOuter,
 }
 
 Object ComActivator::GetClassFactoryForType(ComActivationContext cxt) {
+  if (cxt.InterfaceId != rt::typeof<IClassFactory>()->get_GUID() && cxt.InterfaceId != rt::typeof<IClassFactory2>()->get_GUID()) {
+    rt::throw_exception<NotSupportedException>();
+  }
+  if (!Path::IsPathRooted(cxt.AssemblyPath)) {
+    rt::throw_exception<ArgumentException>(nullptr, "cxt");
+  }
+  Type type = FindClassType(cxt.ClassId, cxt.AssemblyPath, cxt.AssemblyName, cxt.TypeName);
+  if (LicenseInteropProxy::in::HasLicense(type)) {
+    return rt::newobj<LicenseClassFactory>(cxt.ClassId, type);
+  }
+  return rt::newobj<BasicClassFactory>(cxt.ClassId, type);
 }
 
 void ComActivator::ClassRegistrationScenarioForType(ComActivationContext cxt, Boolean register_) {
@@ -180,6 +208,16 @@ Type ComActivator::FindClassType(Guid clsid, String assemblyPath, String assembl
 }
 
 AssemblyLoadContext ComActivator::GetALC(String assemblyPath) {
+  {
+    rt::lock(s_assemblyLoadContexts);
+    AssemblyLoadContext value;
+    if (!s_assemblyLoadContexts->TryGetValue(assemblyPath, value)) {
+      value = rt::newobj<IsolatedComponentLoadContext>(assemblyPath);
+      s_assemblyLoadContexts->Add(assemblyPath, value);
+      return value;
+    }
+    return value;
+  }
 }
 
 void ComActivator::cctor() {

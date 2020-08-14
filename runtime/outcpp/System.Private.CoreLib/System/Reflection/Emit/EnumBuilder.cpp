@@ -1,8 +1,10 @@
 #include "EnumBuilder-dep.h"
 
 #include <System.Private.CoreLib/System/ArgumentException-dep.h>
+#include <System.Private.CoreLib/System/Enum-dep.h>
 #include <System.Private.CoreLib/System/NotSupportedException-dep.h>
 #include <System.Private.CoreLib/System/Reflection/Emit/EnumBuilder-dep.h>
+#include <System.Private.CoreLib/System/Reflection/Emit/PackingSize.h>
 #include <System.Private.CoreLib/System/Reflection/Emit/SymbolType-dep.h>
 #include <System.Private.CoreLib/System/Reflection/Emit/TypeBuilder-dep.h>
 #include <System.Private.CoreLib/System/Reflection/FieldAttributes.h>
@@ -262,6 +264,8 @@ void EnumBuilder___::ctor(String name, Type underlyingType, TypeAttributes visib
   if ((visibility & ~TypeAttributes::VisibilityMask) != 0) {
     rt::throw_exception<ArgumentException>(SR::get_Argument_ShouldOnlySetVisibilityFlags(), "name");
   }
+  m_typeBuilder = rt::newobj<TypeBuilder>(name, visibility | TypeAttributes::Sealed, rt::typeof<Enum>(), nullptr, module, PackingSize::Unspecified, 0, nullptr);
+  m_underlyingField = m_typeBuilder->DefineField("value__", underlyingType, FieldAttributes::FamANDAssem | FieldAttributes::Family | FieldAttributes::SpecialName | FieldAttributes::RTSpecialName);
 }
 
 } // namespace System::Private::CoreLib::System::Reflection::Emit::EnumBuilderNamespace

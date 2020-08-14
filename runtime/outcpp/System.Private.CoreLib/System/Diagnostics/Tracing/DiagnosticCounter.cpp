@@ -37,6 +37,15 @@ void DiagnosticCounter___::set_DisplayUnits(String value) {
 void DiagnosticCounter___::ctor(String name, Tracing::EventSource eventSource) {
   _displayName = "";
   _displayUnits = "";
+  Object::ctor();
+  if (name == nullptr) {
+    rt::throw_exception<ArgumentNullException>("Name");
+  }
+  if (eventSource == nullptr) {
+    rt::throw_exception<ArgumentNullException>("EventSource");
+  }
+  Name = name;
+  EventSource = eventSource;
 }
 
 void DiagnosticCounter___::Publish() {
@@ -52,6 +61,13 @@ void DiagnosticCounter___::Dispose() {
 }
 
 void DiagnosticCounter___::AddMetadata(String key, String value) {
+  {
+    rt::lock((DiagnosticCounter)this);
+    if (_metadata == nullptr) {
+      _metadata = rt::newobj<Dictionary<String, String>>();
+    }
+    _metadata->Add(key, value);
+  }
 }
 
 void DiagnosticCounter___::ReportOutOfBandMessage(String message) {
@@ -69,6 +85,11 @@ String DiagnosticCounter___::GetMetadataString() {
     return current.get_Key() + ":" + current.get_Value();
   }
   StringBuilder stringBuilder = rt::newobj<StringBuilder>()->Append(current.get_Key())->Append(58)->Append(current.get_Value());
+  do {
+    current = enumerator.get_Current();
+    stringBuilder->Append(44)->Append(current.get_Key())->Append(58)->Append(current.get_Value());
+  } while (enumerator.MoveNext())
+  return stringBuilder->ToString();
 }
 
 } // namespace System::Private::CoreLib::System::Diagnostics::Tracing::DiagnosticCounterNamespace

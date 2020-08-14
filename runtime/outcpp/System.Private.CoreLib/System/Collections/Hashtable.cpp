@@ -10,10 +10,16 @@
 #include <System.Private.CoreLib/System/Int64-dep.h>
 #include <System.Private.CoreLib/System/InvalidOperationException-dep.h>
 #include <System.Private.CoreLib/System/PlatformNotSupportedException-dep.h>
+#include <System.Private.CoreLib/System/Runtime/Serialization/SerializationException-dep.h>
+#include <System.Private.CoreLib/System/Runtime/Serialization/SerializationInfoEnumerator-dep.h>
 #include <System.Private.CoreLib/System/SR-dep.h>
+#include <System.Private.CoreLib/System/Threading/SpinWait-dep.h>
 #include <System.Private.CoreLib/System/UInt32-dep.h>
 
 namespace System::Private::CoreLib::System::Collections::HashtableNamespace {
+using namespace System::Runtime::Serialization;
+using namespace System::Threading;
+
 Boolean Hashtable___::KeyCollection___::get_IsSynchronized() {
   return _hashtable->get_IsSynchronized();
 }
@@ -107,6 +113,10 @@ Object SyncHashtable___::get_Item(Object key) {
 }
 
 void SyncHashtable___::set_Item(Object key, Object value) {
+  {
+    rt::lock(_table->get_SyncRoot());
+    _table[key] = value;
+  }
 }
 
 Object SyncHashtable___::get_SyncRoot() {
@@ -114,9 +124,17 @@ Object SyncHashtable___::get_SyncRoot() {
 }
 
 ICollection SyncHashtable___::get_Keys() {
+  {
+    rt::lock(_table->get_SyncRoot());
+    return _table->get_Keys();
+  }
 }
 
 ICollection SyncHashtable___::get_Values() {
+  {
+    rt::lock(_table->get_SyncRoot());
+    return _table->get_Values();
+  }
 }
 
 void SyncHashtable___::ctor(Hashtable table) {
@@ -128,9 +146,17 @@ void SyncHashtable___::GetObjectData(SerializationInfo info, StreamingContext co
 }
 
 void SyncHashtable___::Add(Object key, Object value) {
+  {
+    rt::lock(_table->get_SyncRoot());
+    _table->Add(key, value);
+  }
 }
 
 void SyncHashtable___::Clear() {
+  {
+    rt::lock(_table->get_SyncRoot());
+    _table->Clear();
+  }
 }
 
 Boolean SyncHashtable___::Contains(Object key) {
@@ -145,12 +171,24 @@ Boolean SyncHashtable___::ContainsKey(Object key) {
 }
 
 Boolean SyncHashtable___::ContainsValue(Object key) {
+  {
+    rt::lock(_table->get_SyncRoot());
+    return _table->ContainsValue(key);
+  }
 }
 
 void SyncHashtable___::CopyTo(Array<> array, Int32 arrayIndex) {
+  {
+    rt::lock(_table->get_SyncRoot());
+    _table->CopyTo(array, arrayIndex);
+  }
 }
 
 Object SyncHashtable___::Clone() {
+  {
+    rt::lock(_table->get_SyncRoot());
+    return Synchronized((Hashtable)_table->Clone());
+  }
 }
 
 IDictionaryEnumerator SyncHashtable___::GetEnumerator() {
@@ -158,6 +196,10 @@ IDictionaryEnumerator SyncHashtable___::GetEnumerator() {
 }
 
 void SyncHashtable___::Remove(Object key) {
+  {
+    rt::lock(_table->get_SyncRoot());
+    _table->Remove(key);
+  }
 }
 
 void SyncHashtable___::OnDeserialization(Object sender) {
@@ -313,6 +355,25 @@ Object Hashtable___::get_Item(Object key) {
   Int32 num2 = 0;
   Int32 num3 = (Int32)(seed % (UInt32)buckets->get_Length());
   bucket bucket;
+  do {
+    SpinWait spinWait = SpinWait();
+    while (true) {
+      Int32 version = _version;
+      bucket = buckets[num3];
+      if (!_isWriterInProgress && version == _version) {
+        break;
+      }
+      spinWait.SpinOnce();
+    }
+    if (bucket.key == nullptr) {
+      return nullptr;
+    }
+    if ((bucket.hash_coll & Int32::MaxValue) == num && KeyEquals(bucket.key, key)) {
+      return bucket.val;
+    }
+    num3 = (Int32)((num3 + incr) % (Int64)(UInt32)buckets->get_Length());
+  } while (bucket.hash_coll < 0 && ++num2 < buckets->get_Length())
+  return nullptr;
 }
 
 void Hashtable___::set_Item(Object key, Object value) {
@@ -332,9 +393,17 @@ Boolean Hashtable___::get_IsSynchronized() {
 }
 
 ICollection Hashtable___::get_Keys() {
+  auto default = _keys;
+  if (default != nullptr) default = (_keys = rt::newobj<KeyCollection>((Hashtable)this));
+
+  return default;
 }
 
 ICollection Hashtable___::get_Values() {
+  auto default = _values;
+  if (default != nullptr) default = (_values = rt::newobj<ValueCollection>((Hashtable)this));
+
+  return default;
 }
 
 Object Hashtable___::get_SyncRoot() {
@@ -487,6 +556,17 @@ Boolean Hashtable___::ContainsKey(Object key) {
   Int32 num2 = 0;
   Int32 num3 = (Int32)(seed % (UInt32)buckets->get_Length());
   bucket bucket;
+  do {
+    bucket = buckets[num3];
+    if (bucket.key == nullptr) {
+      return false;
+    }
+    if ((bucket.hash_coll & Int32::MaxValue) == num && KeyEquals(bucket.key, key)) {
+      return true;
+    }
+    num3 = (Int32)((num3 + incr) % (Int64)(UInt32)buckets->get_Length());
+  } while (bucket.hash_coll < 0 && ++num2 < buckets->get_Length())
+  return false;
 }
 
 Boolean Hashtable___::ContainsValue(Object value) {
@@ -642,6 +722,50 @@ void Hashtable___::Insert(Object key, Object nvalue, Boolean add) {
   Int32 num2 = 0;
   Int32 num3 = -1;
   Int32 num4 = (Int32)(seed % (UInt32)_buckets->get_Length());
+  do {
+    if (num3 == -1 && _buckets[num4].key == _buckets && _buckets[num4].hash_coll < 0) {
+      num3 = num4;
+    }
+    if (_buckets[num4].key == nullptr || (_buckets[num4].key == _buckets && (_buckets[num4].hash_coll & 2147483648u) == 0)) {
+      if (num3 != -1) {
+        num4 = num3;
+      }
+      _isWriterInProgress = true;
+      _buckets[num4].val = nvalue;
+      _buckets[num4].key = key;
+      _buckets[num4].hash_coll |= (Int32)num;
+      _count++;
+      UpdateVersion();
+      _isWriterInProgress = false;
+      return;
+    }
+    if ((_buckets[num4].hash_coll & Int32::MaxValue) == num && KeyEquals(_buckets[num4].key, key)) {
+      if (add) {
+        rt::throw_exception<ArgumentException>(SR::Format(SR::get_Argument_AddingDuplicate__(), _buckets[num4].key, key));
+      }
+      _isWriterInProgress = true;
+      _buckets[num4].val = nvalue;
+      UpdateVersion();
+      _isWriterInProgress = false;
+      return;
+    }
+    if (num3 == -1 && _buckets[num4].hash_coll >= 0) {
+      _buckets[num4].hash_coll |= Int32::MinValue;
+      _occupancy++;
+    }
+    num4 = (Int32)((num4 + incr) % (Int64)(UInt32)_buckets->get_Length());
+  } while (++num2 < _buckets->get_Length())
+  if (num3 != -1) {
+    _isWriterInProgress = true;
+    _buckets[num3].val = nvalue;
+    _buckets[num3].key = key;
+    _buckets[num3].hash_coll |= (Int32)num;
+    _count++;
+    UpdateVersion();
+    _isWriterInProgress = false;
+    return;
+  }
+  rt::throw_exception<InvalidOperationException>(SR::get_InvalidOperation_HashInsertFailed());
 }
 
 void Hashtable___::putEntry(Array<bucket> newBuckets, Object key, Object nvalue, Int32 hashcode) {
@@ -669,6 +793,24 @@ void Hashtable___::Remove(Object key) {
   Int32 num2 = 0;
   Int32 num3 = (Int32)(seed % (UInt32)_buckets->get_Length());
   bucket bucket;
+  do {
+    bucket = _buckets[num3];
+    if ((bucket.hash_coll & Int32::MaxValue) == num && KeyEquals(bucket.key, key)) {
+      _isWriterInProgress = true;
+      _buckets[num3].hash_coll &= Int32::MinValue;
+      if (_buckets[num3].hash_coll != 0) {
+        _buckets[num3].key = _buckets;
+      } else {
+        _buckets[num3].key = nullptr;
+      }
+      _buckets[num3].val = nullptr;
+      _count--;
+      UpdateVersion();
+      _isWriterInProgress = false;
+      break;
+    }
+    num3 = (Int32)((num3 + incr) % (Int64)(UInt32)_buckets->get_Length());
+  } while (bucket.hash_coll < 0 && ++num2 < _buckets->get_Length())
 }
 
 Hashtable Hashtable___::Synchronized(Hashtable table) {
@@ -682,12 +824,98 @@ void Hashtable___::GetObjectData(SerializationInfo info, StreamingContext contex
   if (info == nullptr) {
     rt::throw_exception<ArgumentNullException>("info");
   }
+  {
+    rt::lock(get_SyncRoot());
+    Int32 version = _version;
+    info->AddValue("LoadFactor", _loadFactor);
+    info->AddValue("Version", _version);
+    IEqualityComparer keycomparer = _keycomparer;
+    if (keycomparer == nullptr) {
+      info->AddValue("Comparer", nullptr, rt::typeof<IComparer>());
+      info->AddValue("HashCodeProvider", nullptr, rt::typeof<IHashCodeProvider>());
+    } else if (rt::is<CompatibleComparer>(keycomparer)) {
+      CompatibleComparer compatibleComparer = rt::as<CompatibleComparer>(keycomparer);
+      info->AddValue("Comparer", compatibleComparer->get_Comparer(), rt::typeof<IComparer>());
+      info->AddValue("HashCodeProvider", compatibleComparer->get_HashCodeProvider(), rt::typeof<IHashCodeProvider>());
+    } else {
+      info->AddValue("KeyComparer", keycomparer, rt::typeof<IEqualityComparer>());
+    }
+
+    info->AddValue("HashSize", _buckets->get_Length());
+    Array<Object> array = rt::newarr<Array<Object>>(_count);
+    Array<Object> array2 = rt::newarr<Array<Object>>(_count);
+    CopyKeys(array, 0);
+    CopyValues(array2, 0);
+    info->AddValue("Keys", array, rt::typeof<Array<Object>>());
+    info->AddValue("Values", array2, rt::typeof<Array<Object>>());
+    if (_version != version) {
+      rt::throw_exception<InvalidOperationException>(SR::get_InvalidOperation_EnumFailedVersion());
+    }
+  }
 }
 
 void Hashtable___::OnDeserialization(Object sender) {
   if (_buckets != nullptr) {
     return;
   }
+  SerializationInfo value;
+  HashHelpers::get_SerializationInfoTable()->TryGetValue((Hashtable)this, value);
+  if (value == nullptr) {
+    rt::throw_exception<SerializationException>(SR::get_Serialization_InvalidOnDeser());
+  }
+  Int32 num = 0;
+  IComparer comparer = nullptr;
+  IHashCodeProvider hashCodeProvider = nullptr;
+  Array<Object> array = nullptr;
+  Array<Object> array2 = nullptr;
+  SerializationInfoEnumerator enumerator = value->GetEnumerator();
+  while (enumerator->MoveNext()) {
+    switch (enumerator->get_Name().get()) {
+      case "LoadFactor":
+        _loadFactor = value->GetSingle("LoadFactor");
+        break;
+      case "HashSize":
+        num = value->GetInt32("HashSize");
+        break;
+      case "KeyComparer":
+        _keycomparer = (IEqualityComparer)value->GetValue("KeyComparer", rt::typeof<IEqualityComparer>());
+        break;
+      case "Comparer":
+        comparer = (IComparer)value->GetValue("Comparer", rt::typeof<IComparer>());
+        break;
+      case "HashCodeProvider":
+        hashCodeProvider = (IHashCodeProvider)value->GetValue("HashCodeProvider", rt::typeof<IHashCodeProvider>());
+        break;
+      case "Keys":
+        array = (Array<Object>)value->GetValue("Keys", rt::typeof<Array<Object>>());
+        break;
+      case "Values":
+        array2 = (Array<Object>)value->GetValue("Values", rt::typeof<Array<Object>>());
+        break;
+    }
+  }
+  _loadsize = (Int32)(_loadFactor * (Single)num);
+  if (_keycomparer == nullptr && (comparer != nullptr || hashCodeProvider != nullptr)) {
+    _keycomparer = rt::newobj<CompatibleComparer>(hashCodeProvider, comparer);
+  }
+  _buckets = rt::newarr<Array<bucket>>(num);
+  if (array == nullptr) {
+    rt::throw_exception<SerializationException>(SR::get_Serialization_MissingKeys());
+  }
+  if (array2 == nullptr) {
+    rt::throw_exception<SerializationException>(SR::get_Serialization_MissingValues());
+  }
+  if (array->get_Length() != array2->get_Length()) {
+    rt::throw_exception<SerializationException>(SR::get_Serialization_KeyValueDifferentSizes());
+  }
+  for (Int32 i = 0; i < array->get_Length(); i++) {
+    if (array[i] == nullptr) {
+      rt::throw_exception<SerializationException>(SR::get_Serialization_NullKey());
+    }
+    Insert(array[i], array2[i], true);
+  }
+  _version = value->GetInt32("Version");
+  HashHelpers::get_SerializationInfoTable()->Remove((Hashtable)this);
 }
 
 } // namespace System::Private::CoreLib::System::Collections::HashtableNamespace

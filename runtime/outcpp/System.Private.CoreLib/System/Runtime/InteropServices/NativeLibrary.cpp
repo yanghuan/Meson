@@ -111,6 +111,11 @@ IntPtr NativeLibrary::LoadLibraryCallbackStub(String libraryName, Assembly assem
   if (s_nativeDllResolveMap == nullptr) {
     return IntPtr::Zero;
   }
+  DllImportResolver value;
+  if (!s_nativeDllResolveMap->TryGetValue(assembly, value)) {
+    return IntPtr::Zero;
+  }
+  return value(libraryName, assembly, hasDllImportSearchPathFlags ? Nullable<DllImportSearchPath>((DllImportSearchPath)dllImportSearchPathFlags) : nullptr);
 }
 
 } // namespace System::Private::CoreLib::System::Runtime::InteropServices::NativeLibraryNamespace

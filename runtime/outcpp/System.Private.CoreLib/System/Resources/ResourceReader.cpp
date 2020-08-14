@@ -6,8 +6,11 @@
 #include <System.Private.CoreLib/System/BadImageFormatException-dep.h>
 #include <System.Private.CoreLib/System/Char-dep.h>
 #include <System.Private.CoreLib/System/DateTime-dep.h>
+#include <System.Private.CoreLib/System/Decimal-dep.h>
+#include <System.Private.CoreLib/System/Double-dep.h>
 #include <System.Private.CoreLib/System/FormatException-dep.h>
 #include <System.Private.CoreLib/System/IndexOutOfRangeException-dep.h>
+#include <System.Private.CoreLib/System/Int16-dep.h>
 #include <System.Private.CoreLib/System/Int32-dep.h>
 #include <System.Private.CoreLib/System/Int64-dep.h>
 #include <System.Private.CoreLib/System/InvalidOperationException-dep.h>
@@ -24,14 +27,20 @@
 #include <System.Private.CoreLib/System/IO/UnmanagedMemoryStream-dep.h>
 #include <System.Private.CoreLib/System/NotSupportedException-dep.h>
 #include <System.Private.CoreLib/System/Resources/FastResourceComparer-dep.h>
+#include <System.Private.CoreLib/System/Resources/ResourceLocator-dep.h>
 #include <System.Private.CoreLib/System/Resources/ResourceManager-dep.h>
 #include <System.Private.CoreLib/System/Resources/ResourceReader-dep.h>
 #include <System.Private.CoreLib/System/Resources/ResourceTypeCode.h>
+#include <System.Private.CoreLib/System/SByte-dep.h>
+#include <System.Private.CoreLib/System/Single-dep.h>
 #include <System.Private.CoreLib/System/SR-dep.h>
 #include <System.Private.CoreLib/System/String-dep.h>
 #include <System.Private.CoreLib/System/Text/Encoding-dep.h>
 #include <System.Private.CoreLib/System/TimeSpan-dep.h>
 #include <System.Private.CoreLib/System/Type-dep.h>
+#include <System.Private.CoreLib/System/UInt16-dep.h>
+#include <System.Private.CoreLib/System/UInt32-dep.h>
+#include <System.Private.CoreLib/System/UInt64-dep.h>
 
 namespace System::Private::CoreLib::System::Resources::ResourceReaderNamespace {
 using namespace System::IO;
@@ -70,6 +79,21 @@ DictionaryEntry ResourceReader___::ResourceEnumerator___::get_Entry() {
   }
   Object obj = nullptr;
   String key;
+  {
+    rt::lock(_reader);
+    {
+      rt::lock(_reader->_resCache);
+      key = _reader->AllocateStringForNameIndex(_currentName, _dataPosition);
+      ResourceLocator value;
+      if (_reader->_resCache->TryGetValue(key, value)) {
+        obj = value.set_Value;
+      }
+      if (obj == nullptr) {
+        obj = ((_dataPosition != -1) ? _reader->LoadObject(_dataPosition) : _reader->GetValueForNameIndex(_currentName));
+      }
+    }
+  }
+  return DictionaryEntry(key, obj);
 }
 
 Object ResourceReader___::ResourceEnumerator___::get_Value() {
@@ -151,6 +175,38 @@ void ResourceReader___::GetResourceData(String resourceName, String& resourceTyp
   Int32 num = FindPosForResource(resourceName);
   if (num == -1) {
     rt::throw_exception<ArgumentException>(SR::Format(SR::get_Arg_ResourceNameNotExist(), resourceName));
+  }
+  {
+    rt::lock((ResourceReader)this);
+    for (Int32 i = 0; i < _numResources; i++) {
+      _store->get_BaseStream()->set_Position = _nameSectionOffset + GetNamePosition(i);
+      Int32 num2 = _store->Read7BitEncodedInt();
+      if (num2 < 0) {
+        rt::throw_exception<FormatException>(SR::Format(SR::get_BadImageFormat_ResourcesNameInvalidOffset(), num2));
+      }
+      _store->get_BaseStream()->set_Position += num2;
+      Int32 num3 = _store->ReadInt32();
+      if (num3 < 0 || num3 >= _store->get_BaseStream()->get_Length() - _dataSectionOffset) {
+        rt::throw_exception<FormatException>(SR::Format(SR::get_BadImageFormat_ResourcesDataInvalidOffset(), num3));
+      }
+      array[i] = num3;
+    }
+    Array<>::in::Sort(array);
+    Int32 num4 = Array<>::in::BinarySearch(array, num);
+    Int64 num5 = (num4 < _numResources - 1) ? (array[num4 + 1] + _dataSectionOffset) : _store->get_BaseStream()->get_Length();
+    Int32 num6 = (Int32)(num5 - (num + _dataSectionOffset));
+    _store->get_BaseStream()->set_Position = _dataSectionOffset + num;
+    ResourceTypeCode resourceTypeCode = (ResourceTypeCode)_store->Read7BitEncodedInt();
+    if (resourceTypeCode < ResourceTypeCode::Null || (Int32)resourceTypeCode >= 64 + _typeTable->get_Length()) {
+      rt::throw_exception<BadImageFormatException>(SR::get_BadImageFormat_InvalidType());
+    }
+    resourceType = TypeNameFromTypeCode(resourceTypeCode);
+    num6 -= (Int32)(_store->get_BaseStream()->get_Position() - (_dataSectionOffset + num));
+    Array<Byte> array2 = _store->ReadBytes(num6);
+    if (array2->get_Length() != num6) {
+      rt::throw_exception<FormatException>(SR::get_BadImageFormat_ResourceNameCorrupted());
+    }
+    resourceData = array2;
   }
 }
 
@@ -271,6 +327,20 @@ Int32 ResourceReader___::FindPosForResource(String name) {
     for (i = num3; i < _numResources - 1 && GetNameHash(i + 1) == num; i++) {
     }
   }
+  {
+    rt::lock((ResourceReader)this);
+    for (Int32 j = num2; j <= i; j++) {
+      _store->get_BaseStream()->Seek(_nameSectionOffset + GetNamePosition(j), SeekOrigin::Begin);
+      if (CompareStringEqualsName(name)) {
+        Int32 num5 = _store->ReadInt32();
+        if (num5 < 0 || num5 >= _store->get_BaseStream()->get_Length() - _dataSectionOffset) {
+          rt::throw_exception<FormatException>(SR::Format(SR::get_BadImageFormat_ResourcesDataInvalidOffset(), num5));
+        }
+        return num5;
+      }
+    }
+  }
+  return -1;
 }
 
 Boolean ResourceReader___::CompareStringEqualsName(String name) {
@@ -302,10 +372,60 @@ String ResourceReader___::AllocateStringForNameIndex(Int32 index, Int32& dataOff
   Int64 num = GetNamePosition(index);
   Int32 num2;
   Array<Byte> array;
+  {
+    rt::lock((ResourceReader)this);
+    _store->get_BaseStream()->Seek(num + _nameSectionOffset, SeekOrigin::Begin);
+    num2 = _store->Read7BitEncodedInt();
+    if (num2 < 0) {
+      rt::throw_exception<BadImageFormatException>(SR::get_BadImageFormat_NegativeStringLength());
+    }
+    if (_ums != nullptr) {
+      if (_ums->get_Position() > _ums->get_Length() - num2) {
+        rt::throw_exception<BadImageFormatException>(SR::Format(SR::get_BadImageFormat_ResourcesIndexTooLong(), index));
+      }
+      String text = nullptr;
+      Char* positionPointer = (Char*)_ums->get_PositionPointer();
+      text = rt::newobj<String>(positionPointer, 0, num2 / 2);
+      _ums->set_Position += num2;
+      dataOffset = _store->ReadInt32();
+      if (dataOffset < 0 || dataOffset >= _store->get_BaseStream()->get_Length() - _dataSectionOffset) {
+        rt::throw_exception<FormatException>(SR::Format(SR::get_BadImageFormat_ResourcesDataInvalidOffset(), dataOffset));
+      }
+      return text;
+    }
+    array = rt::newarr<Array<Byte>>(num2);
+    Int32 num3 = num2;
+    while (num3 > 0) {
+      Int32 num4 = _store->Read(array, num2 - num3, num3);
+      if (num4 == 0) {
+        rt::throw_exception<EndOfStreamException>(SR::Format(SR::get_BadImageFormat_ResourceNameCorrupted_NameIndex(), index));
+      }
+      num3 -= num4;
+    }
+    dataOffset = _store->ReadInt32();
+    if (dataOffset < 0 || dataOffset >= _store->get_BaseStream()->get_Length() - _dataSectionOffset) {
+      rt::throw_exception<FormatException>(SR::Format(SR::get_BadImageFormat_ResourcesDataInvalidOffset(), dataOffset));
+    }
+  }
+  return Encoding::in::get_Unicode()->GetString(array, 0, num2);
 }
 
 Object ResourceReader___::GetValueForNameIndex(Int32 index) {
   Int64 num = GetNamePosition(index);
+  {
+    rt::lock((ResourceReader)this);
+    _store->get_BaseStream()->Seek(num + _nameSectionOffset, SeekOrigin::Begin);
+    SkipString();
+    Int32 num2 = _store->ReadInt32();
+    if (num2 < 0 || num2 >= _store->get_BaseStream()->get_Length() - _dataSectionOffset) {
+      rt::throw_exception<FormatException>(SR::Format(SR::get_BadImageFormat_ResourcesDataInvalidOffset(), num2));
+    }
+    if (_version == 1) {
+      return LoadObjectV1(num2);
+    }
+    ResourceTypeCode typeCode;
+    return LoadObjectV2(num2, typeCode);
+  }
 }
 
 String ResourceReader___::LoadString(Int32 pos) {
@@ -316,6 +436,10 @@ String ResourceReader___::LoadString(Int32 pos) {
     if (num == -1) {
       return nullptr;
     }
+    if (FindType(num) != rt::typeof<String>()) {
+      rt::throw_exception<InvalidOperationException>(SR::Format(SR::get_InvalidOperation_ResourceNotString_Type(), FindType(num)->get_FullName()));
+    }
+    result = _store->ReadString();
   } else {
     ResourceTypeCode resourceTypeCode = (ResourceTypeCode)num;
     if (resourceTypeCode != ResourceTypeCode::String && resourceTypeCode != 0) {
@@ -360,6 +484,53 @@ Object ResourceReader___::_LoadObjectV1(Int32 pos) {
     return nullptr;
   }
   Type left = FindType(num);
+  if (left == rt::typeof<String>()) {
+    return _store->ReadString();
+  }
+  if (left == rt::typeof<Int32>()) {
+    return _store->ReadInt32();
+  }
+  if (left == rt::typeof<Byte>()) {
+    return _store->ReadByte();
+  }
+  if (left == rt::typeof<SByte>()) {
+    return _store->ReadSByte();
+  }
+  if (left == rt::typeof<Int16>()) {
+    return _store->ReadInt16();
+  }
+  if (left == rt::typeof<Int64>()) {
+    return _store->ReadInt64();
+  }
+  if (left == rt::typeof<UInt16>()) {
+    return _store->ReadUInt16();
+  }
+  if (left == rt::typeof<UInt32>()) {
+    return _store->ReadUInt32();
+  }
+  if (left == rt::typeof<UInt64>()) {
+    return _store->ReadUInt64();
+  }
+  if (left == rt::typeof<Single>()) {
+    return _store->ReadSingle();
+  }
+  if (left == rt::typeof<Double>()) {
+    return _store->ReadDouble();
+  }
+  if (left == rt::typeof<DateTime>()) {
+    return DateTime(_store->ReadInt64());
+  }
+  if (left == rt::typeof<TimeSpan>()) {
+    return TimeSpan(_store->ReadInt64());
+  }
+  if (left == rt::typeof<Decimal>()) {
+    Array<Int32> array = rt::newarr<Array<Int32>>(4);
+    for (Int32 i = 0; i < array->get_Length(); i++) {
+      array[i] = _store->ReadInt32();
+    }
+    return Decimal(array);
+  }
+  return DeserializeObject(num);
 }
 
 Object ResourceReader___::LoadObjectV2(Int32 pos, ResourceTypeCode& typeCode) {

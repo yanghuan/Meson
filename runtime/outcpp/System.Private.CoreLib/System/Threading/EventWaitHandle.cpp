@@ -49,6 +49,7 @@ Boolean EventWaitHandle___::TryOpenExisting(String name, EventWaitHandle& result
 }
 
 void EventWaitHandle___::ctor(SafeWaitHandle handle) {
+  WaitHandle::set_SafeWaitHandle = handle;
 }
 
 void EventWaitHandle___::CreateEventCore(Boolean initialState, EventResetMode mode, String name, Boolean& createdNew) {
@@ -66,6 +67,7 @@ void EventWaitHandle___::CreateEventCore(Boolean initialState, EventResetMode mo
     rt::throw_exception(Win32Marshal::GetExceptionForWin32Error(lastWin32Error, name));
   }
   createdNew = (lastWin32Error != 183);
+  WaitHandle::set_SafeWaitHandle = safeWaitHandle;
 }
 
 WaitHandle::in::OpenExistingResult EventWaitHandle___::OpenExistingWorker(String name, EventWaitHandle& result) {
@@ -97,9 +99,19 @@ WaitHandle::in::OpenExistingResult EventWaitHandle___::OpenExistingWorker(String
 }
 
 Boolean EventWaitHandle___::Reset() {
+  Boolean flag = Interop::Kernel32::ResetEvent(WaitHandle::get_SafeWaitHandle());
+  if (!flag) {
+    rt::throw_exception(Win32Marshal::GetExceptionForLastWin32Error());
+  }
+  return flag;
 }
 
 Boolean EventWaitHandle___::Set() {
+  Boolean flag = Interop::Kernel32::SetEvent(WaitHandle::get_SafeWaitHandle());
+  if (!flag) {
+    rt::throw_exception(Win32Marshal::GetExceptionForLastWin32Error());
+  }
+  return flag;
 }
 
 Boolean EventWaitHandle___::Set(SafeWaitHandle waitHandle) {

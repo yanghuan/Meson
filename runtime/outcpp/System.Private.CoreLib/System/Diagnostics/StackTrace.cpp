@@ -4,6 +4,7 @@
 #include <System.Private.CoreLib/System/ArgumentOutOfRangeException-dep.h>
 #include <System.Private.CoreLib/System/Diagnostics/StackFrame-dep.h>
 #include <System.Private.CoreLib/System/Diagnostics/StackTrace-dep.h>
+#include <System.Private.CoreLib/System/Diagnostics/StackTraceHiddenAttribute-dep.h>
 #include <System.Private.CoreLib/System/Reflection/BindingFlags.h>
 #include <System.Private.CoreLib/System/Reflection/MethodBase-dep.h>
 #include <System.Private.CoreLib/System/Reflection/MethodImplAttributes.h>
@@ -175,6 +176,14 @@ Boolean StackTrace___::ShowInStackTrace(MethodBase mb) {
   if ((mb->get_MethodImplementationFlags() & MethodImplAttributes::AggressiveInlining) != 0) {
     return false;
   }
+  if (mb->IsDefined(rt::typeof<StackTraceHiddenAttribute>(), false)) {
+    return false;
+  }
+  Type declaringType = mb->get_DeclaringType();
+  if (declaringType != nullptr && declaringType->IsDefined(rt::typeof<StackTraceHiddenAttribute>(), false)) {
+    return false;
+  }
+  return true;
 }
 
 Boolean StackTrace___::TryResolveStateMachineMethod(MethodBase& method, Type& declaringType) {

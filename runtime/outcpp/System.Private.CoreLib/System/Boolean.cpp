@@ -3,6 +3,7 @@
 #include <System.Private.CoreLib/System/ArgumentException-dep.h>
 #include <System.Private.CoreLib/System/ArgumentNullException-dep.h>
 #include <System.Private.CoreLib/System/Boolean-dep.h>
+#include <System.Private.CoreLib/System/FormatException-dep.h>
 #include <System.Private.CoreLib/System/MemoryExtensions-dep.h>
 #include <System.Private.CoreLib/System/SR-dep.h>
 #include <System.Private.CoreLib/System/UInt32-dep.h>
@@ -115,6 +116,11 @@ Boolean Boolean::Parse(String value) {
 }
 
 Boolean Boolean::Parse(ReadOnlySpan<Char> value) {
+  Boolean result;
+  if (!TryParse(value, result)) {
+    rt::throw_exception<FormatException>(SR::Format(SR::get_Format_BadBoolean(), rt::newobj<String>(value)));
+  }
+  return result;
 }
 
 Boolean Boolean::TryParse(String value, Boolean& result) {

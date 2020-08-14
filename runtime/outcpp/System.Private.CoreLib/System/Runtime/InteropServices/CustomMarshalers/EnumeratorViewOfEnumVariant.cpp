@@ -11,6 +11,10 @@ Object EnumeratorViewOfEnumVariant___::get_Current() {
 
 void EnumeratorViewOfEnumVariant___::ctor(IEnumVARIANT enumVariantObject) {
   _nextArray = rt::newarr<Array<Object>>(1);
+  Object::ctor();
+  _enumVariantObject = enumVariantObject;
+  _fetchedLastObject = false;
+  _current = nullptr;
 }
 
 Boolean EnumeratorViewOfEnumVariant___::MoveNext() {

@@ -2,7 +2,10 @@
 
 #include <System.Private.CoreLib/System/ArgumentException-dep.h>
 #include <System.Private.CoreLib/System/ArgumentNullException-dep.h>
+#include <System.Private.CoreLib/System/Diagnostics/Contracts/Contract-dep.h>
 #include <System.Private.CoreLib/System/Diagnostics/Contracts/ContractFailureKind.h>
+#include <System.Private.CoreLib/System/Diagnostics/StackTrace-dep.h>
+#include <System.Private.CoreLib/System/Object-dep.h>
 #include <System.Private.CoreLib/System/Reflection/Assembly-dep.h>
 #include <System.Private.CoreLib/System/Runtime/CompilerServices/ContractHelper-dep.h>
 #include <System.Private.CoreLib/System/SR-dep.h>
@@ -93,6 +96,16 @@ void Contract::EndContractBlock() {
 }
 
 void Contract::AssertMustUseRewriter(ContractFailureKind kind, String contractKind) {
+  Assembly assembly = rt::typeof<Contract>()->get_Assembly();
+  StackTrace stackTrace = rt::newobj<StackTrace>();
+  Assembly assembly2 = nullptr;
+  for (Int32 i = 0; i < stackTrace->get_FrameCount(); i++) {
+  }
+  if ((Object)assembly2 == nullptr) {
+    assembly2 = assembly;
+  }
+  String name = assembly2->GetName()->get_Name();
+  ContractHelper::TriggerFailure(kind, SR::Format(SR::get_MustUseCCRewrite(), contractKind, name), nullptr, nullptr, nullptr);
 }
 
 void Contract::ReportFailure(ContractFailureKind failureKind, String userMessage, String conditionText, Exception innerException) {

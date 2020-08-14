@@ -53,10 +53,16 @@ void ComEventsMethod___::DelegateWrapper___::PreProcessSignature() {
 }
 
 Boolean ComEventsMethod___::get_Empty() {
+  {
+    rt::lock(_delegateWrappers);
+    return _delegateWrappers->get_Count() == 0;
+  }
 }
 
 void ComEventsMethod___::ctor(Int32 dispid) {
   _delegateWrappers = rt::newobj<List<DelegateWrapper>>();
+  Object::ctor();
+  _dispid = dispid;
 }
 
 ComEventsMethod ComEventsMethod___::Find(ComEventsMethod methods, Int32 dispid) {
@@ -86,13 +92,40 @@ ComEventsMethod ComEventsMethod___::Remove(ComEventsMethod methods, ComEventsMet
 }
 
 void ComEventsMethod___::AddDelegate(Delegate d, Boolean wrapArgs) {
+  {
+    rt::lock(_delegateWrappers);
+  }
 }
 
 void ComEventsMethod___::RemoveDelegate(Delegate d, Boolean wrapArgs) {
+  {
+    rt::lock(_delegateWrappers);
+    Int32 num = -1;
+    DelegateWrapper delegateWrapper = nullptr;
+    for (Int32 i = 0; i < _delegateWrappers->get_Count(); i++) {
+      DelegateWrapper delegateWrapper2 = _delegateWrappers[i];
+      if (delegateWrapper2->get_Delegate()->GetType() == d->GetType() && delegateWrapper2->get_WrapArgs() == wrapArgs) {
+        num = i;
+        delegateWrapper = delegateWrapper2;
+        break;
+      }
+    }
+    if (num >= 0) {
+      Delegate delegate = Delegate::in::Remove(delegateWrapper->get_Delegate(), d);
+      if ((Object)delegate != nullptr) {
+        delegateWrapper->set_Delegate = delegate;
+      } else {
+        _delegateWrappers->RemoveAt(num);
+      }
+    }
+  }
 }
 
 Object ComEventsMethod___::Invoke(Array<Object> args) {
   Object result = nullptr;
+  {
+    rt::lock(_delegateWrappers);
+  }
 }
 
 } // namespace System::Private::CoreLib::System::Runtime::InteropServices::ComEventsMethodNamespace

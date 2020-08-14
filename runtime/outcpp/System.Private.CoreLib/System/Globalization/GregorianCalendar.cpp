@@ -1,6 +1,7 @@
 #include "GregorianCalendar-dep.h"
 
 #include <System.Private.CoreLib/System/ArgumentOutOfRangeException-dep.h>
+#include <System.Private.CoreLib/System/Globalization/GregorianCalendar-dep.h>
 #include <System.Private.CoreLib/System/SR-dep.h>
 
 namespace System::Private::CoreLib::System::Globalization::GregorianCalendarNamespace {
@@ -52,6 +53,10 @@ void GregorianCalendar___::set_TwoDigitYearMax(Int32 value) {
 }
 
 Calendar GregorianCalendar___::GetDefaultInstance() {
+  auto default = s_defaultInstance;
+  if (default != nullptr) default = (s_defaultInstance = rt::newobj<GregorianCalendar>());
+
+  return default;
 }
 
 void GregorianCalendar___::ctor() {
@@ -83,6 +88,26 @@ DateTime GregorianCalendar___::AddMonths(DateTime time, Int32 months) {
   if (months < -120000 || months > 120000) {
     rt::throw_exception<ArgumentOutOfRangeException>("months", months, SR::Format(SR::get_ArgumentOutOfRange_Range(), -120000, 120000));
   }
+  Int32 year;
+  Int32 month;
+  Int32 day;
+  time.GetDate(year, month, day);
+  Int32 num = month - 1 + months;
+  if (num >= 0) {
+    month = num % 12 + 1;
+    year += num / 12;
+  } else {
+    month = 12 + (num + 1) % 12;
+    year += (num - 11) / 12;
+  }
+  Array<Int32> array = (year % 4 == 0 && (year % 100 != 0 || year % 400 == 0)) ? DaysToMonth366 : DaysToMonth365;
+  Int32 num2 = array[month] - array[month - 1];
+  if (day > num2) {
+    day = num2;
+  }
+  Int64 ticks = DateToTicks(year, month, day) + time.get_Ticks() % 864000000000;
+  Calendar::in::CheckAddResult(ticks, get_MinSupportedDateTime(), get_MaxSupportedDateTime());
+  return DateTime(ticks);
 }
 
 DateTime GregorianCalendar___::AddYears(DateTime time, Int32 years) {
@@ -245,6 +270,7 @@ Int32 GregorianCalendar___::ToFourDigitYear(Int32 year) {
   if (year > 9999) {
     rt::throw_exception<ArgumentOutOfRangeException>("year", year, SR::Format(SR::get_ArgumentOutOfRange_Range(), 1, 9999));
   }
+  return Calendar::ToFourDigitYear(year);
 }
 
 void GregorianCalendar___::cctor() {

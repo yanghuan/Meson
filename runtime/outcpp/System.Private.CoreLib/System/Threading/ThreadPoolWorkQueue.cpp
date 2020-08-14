@@ -198,6 +198,7 @@ void ThreadPoolWorkQueue___::WorkStealingQueue___::ctor() {
   m_array = rt::newarr<Array<Object>>(32);
   m_mask = 31;
   m_foreignLock = SpinLock(false);
+  Object::ctor();
 }
 
 Array<ThreadPoolWorkQueue::in::WorkStealingQueue> ThreadPoolWorkQueue___::WorkStealingQueueList::get_Queues() {
@@ -207,11 +208,37 @@ Array<ThreadPoolWorkQueue::in::WorkStealingQueue> ThreadPoolWorkQueue___::WorkSt
 void ThreadPoolWorkQueue___::WorkStealingQueueList::Add(WorkStealingQueue queue) {
   Array<WorkStealingQueue> queues;
   Array<WorkStealingQueue> array;
+  do {
+    queues = _queues;
+    array = rt::newarr<Array<WorkStealingQueue>>(queues->get_Length() + 1);
+    Array<>::in::Copy(queues, array, queues->get_Length());
+  } while (Interlocked::CompareExchange(_queues, array, queues) != queues)
 }
 
 void ThreadPoolWorkQueue___::WorkStealingQueueList::Remove(WorkStealingQueue queue) {
   Array<WorkStealingQueue> queues;
   Array<WorkStealingQueue> array;
+  do {
+    queues = _queues;
+    if (queues->get_Length() == 0) {
+      break;
+    }
+    Int32 num = Array<>::in::IndexOf(queues, queue);
+    if (num == -1) {
+      break;
+    }
+    array = rt::newarr<Array<WorkStealingQueue>>(queues->get_Length() - 1);
+    if (num == 0) {
+      Array<>::in::Copy(queues, 1, array, 0, array->get_Length());
+      continue;
+    }
+    if (num == queues->get_Length() - 1) {
+      Array<>::in::Copy(queues, array, array->get_Length());
+      continue;
+    }
+    Array<>::in::Copy(queues, array, num);
+    Array<>::in::Copy(queues, num + 1, array, num, array->get_Length() - num);
+  } while (Interlocked::CompareExchange(_queues, array, queues) != queues)
 }
 
 void ThreadPoolWorkQueue___::WorkStealingQueueList::cctor() {
@@ -229,9 +256,15 @@ Int64 ThreadPoolWorkQueue___::get_GlobalCount() {
 
 void ThreadPoolWorkQueue___::ctor() {
   workItems = rt::newobj<ConcurrentQueue<Object>>();
+  Object::ctor();
+  loggingEnabled = FrameworkEventSource::in::Log->IsEnabled(EventLevel::Verbose, (EventKeywords)18);
 }
 
 ThreadPoolWorkQueueThreadLocals ThreadPoolWorkQueue___::GetOrCreateThreadLocals() {
+  auto default = ThreadPoolWorkQueueThreadLocals::in::threadLocals;
+  if (default != nullptr) default = CreateThreadLocals();
+
+  return default;
 }
 
 ThreadPoolWorkQueueThreadLocals ThreadPoolWorkQueue___::CreateThreadLocals() {

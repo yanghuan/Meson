@@ -118,6 +118,7 @@ Int32 UTF7Encoding___::DecoderUTF7FallbackBuffer___::InternalFallback(Array<Byte
 
 void UTF7Encoding___::DecoderUTF7FallbackBuffer___::ctor() {
   iCount = -1;
+  DecoderFallbackBuffer::ctor();
 }
 
 void UTF7Encoding___::ctor() {
@@ -163,11 +164,16 @@ void UTF7Encoding___::SetDefaultFallbacks() {
 Boolean UTF7Encoding___::Equals(Object value) {
   UTF7Encoding uTF7Encoding = rt::as<UTF7Encoding>(value);
   if (uTF7Encoding != nullptr) {
+    if (_allowOptionals == uTF7Encoding->_allowOptionals && Encoding::get_EncoderFallback()->Equals(uTF7Encoding->get_EncoderFallback())) {
+      return Encoding::get_DecoderFallback()->Equals(uTF7Encoding->get_DecoderFallback());
+    }
+    return false;
   }
   return false;
 }
 
 Int32 UTF7Encoding___::GetHashCode() {
+  return get_CodePage() + Encoding::get_EncoderFallback()->GetHashCode() + Encoding::get_DecoderFallback()->GetHashCode();
 }
 
 Int32 UTF7Encoding___::GetByteCount(Array<Char> chars, Int32 index, Int32 count) {

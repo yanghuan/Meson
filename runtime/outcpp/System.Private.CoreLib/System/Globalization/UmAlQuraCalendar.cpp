@@ -4,8 +4,10 @@
 #include <System.Private.CoreLib/System/DateTime-dep.h>
 #include <System.Private.CoreLib/System/Double-dep.h>
 #include <System.Private.CoreLib/System/Globalization/CultureInfo-dep.h>
+#include <System.Private.CoreLib/System/Globalization/GregorianCalendar-dep.h>
 #include <System.Private.CoreLib/System/Globalization/UmAlQuraCalendar-dep.h>
 #include <System.Private.CoreLib/System/Int16-dep.h>
+#include <System.Private.CoreLib/System/InvalidOperationException-dep.h>
 #include <System.Private.CoreLib/System/SR-dep.h>
 #include <System.Private.CoreLib/System/TimeSpan-dep.h>
 
@@ -83,6 +85,11 @@ void UmAlQuraCalendar___::ConvertHijriToGregorian(Int32 HijriYear, Int32 HijriMo
 }
 
 Int64 UmAlQuraCalendar___::GetAbsoluteDateUmAlQura(Int32 year, Int32 month, Int32 day) {
+  Int32 yg;
+  Int32 mg;
+  Int32 dg;
+  ConvertHijriToGregorian(year, month, day, yg, mg, dg);
+  return GregorianCalendar::in::GetAbsoluteDate(yg, mg, dg);
 }
 
 void UmAlQuraCalendar___::CheckTicksRange(Int64 ticks) {
@@ -139,6 +146,22 @@ void UmAlQuraCalendar___::ConvertGregorianToHijri(DateTime time, Int32& HijriYea
 Int32 UmAlQuraCalendar___::GetDatePart(DateTime time, Int32 part) {
   Int64 ticks = time.get_Ticks();
   CheckTicksRange(ticks);
+  Int32 HijriYear;
+  Int32 HijriMonth;
+  Int32 HijriDay;
+  ConvertGregorianToHijri(time, HijriYear, HijriMonth, HijriDay);
+  switch (part.get()) {
+    case 0:
+      return HijriYear;
+    case 2:
+      return HijriMonth;
+    case 3:
+      return HijriDay;
+    case 1:
+      return (Int32)(GetAbsoluteDateUmAlQura(HijriYear, HijriMonth, HijriDay) - GetAbsoluteDateUmAlQura(HijriYear, 1, 1) + 1);
+    default:
+      rt::throw_exception<InvalidOperationException>(SR::get_InvalidOperation_DateTimeParsing());
+  }
 }
 
 DateTime UmAlQuraCalendar___::AddMonths(DateTime time, Int32 months) {
@@ -273,6 +296,7 @@ Int32 UmAlQuraCalendar___::ToFourDigitYear(Int32 year) {
     rt::throw_exception<ArgumentOutOfRangeException>("year", year, SR::get_ArgumentOutOfRange_NeedNonNegNum());
   }
   if (year < 100) {
+    return Calendar::ToFourDigitYear(year);
   }
   if (year < 1318 || year > 1500) {
     rt::throw_exception<ArgumentOutOfRangeException>("year", year, SR::Format(SR::get_ArgumentOutOfRange_Range(), 1318, 1500));

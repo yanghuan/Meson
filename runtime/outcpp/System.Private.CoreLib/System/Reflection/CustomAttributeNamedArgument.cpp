@@ -58,14 +58,22 @@ CustomAttributeNamedArgument::CustomAttributeNamedArgument(MemberInfo memberInfo
 }
 
 CustomAttributeNamedArgument::CustomAttributeNamedArgument(MemberInfo memberInfo, CustomAttributeTypedArgument typedArgument) {
+  auto default = memberInfo;
+  if (default != nullptr) default = rt::throw_exception(rt::newobj<ArgumentNullException>("memberInfo"));
+
+  m_memberInfo = (default);
+  m_value = typedArgument;
 }
 
 String CustomAttributeNamedArgument::ToString() {
   if (m_memberInfo == nullptr) {
+    return ValueType::ToString();
   }
+  return String::in::Format("{0} = {1}", get_MemberInfo()->get_Name(), get_TypedValue().ToString(get_ArgumentType() != rt::typeof<Object>()));
 }
 
 Int32 CustomAttributeNamedArgument::GetHashCode() {
+  return ValueType::GetHashCode();
 }
 
 Boolean CustomAttributeNamedArgument::Equals(Object obj) {

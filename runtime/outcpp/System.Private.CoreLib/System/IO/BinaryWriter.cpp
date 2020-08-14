@@ -69,6 +69,15 @@ void BinaryWriter___::Dispose() {
 
 ValueTask<> BinaryWriter___::DisposeAsync() {
   try{
+    if (GetType() == rt::typeof<BinaryWriter>()) {
+      if (_leaveOpen) {
+        return ValueTask(OutStream->FlushAsync());
+      }
+      OutStream->Close();
+    } else {
+      Dispose();
+    }
+    return ValueTask();
   } catch (Exception exception) {
   }
 }
@@ -246,6 +255,17 @@ void BinaryWriter___::Write(String value) {
 }
 
 void BinaryWriter___::Write(ReadOnlySpan<Byte> buffer) {
+  if (GetType() == rt::typeof<BinaryWriter>()) {
+    OutStream->Write(buffer);
+    return;
+  }
+  Array<Byte> array = ArrayPool<Byte>::in::get_Shared()->Rent(buffer.get_Length());
+  try{
+    buffer.CopyTo(array);
+    Write(array, 0, buffer.get_Length());
+  } finally: {
+    ArrayPool<Byte>::in::get_Shared()->Return(array);
+  }
 }
 
 void BinaryWriter___::Write(ReadOnlySpan<Char> chars) {

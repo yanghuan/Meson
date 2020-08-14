@@ -16,6 +16,11 @@ Boolean AsyncTaskCache::GetPoolAsyncValueTasksSwitch() {
 }
 
 Int32 AsyncTaskCache::GetPoolAsyncValueTasksLimitValue() {
+  Int32 result;
+  if (!Int32::TryParse(Environment::GetEnvironmentVariable("DOTNET_SYSTEM_THREADING_POOLASYNCVALUETASKSLIMIT"), result) || result <= 0) {
+    return Environment::get_ProcessorCount() * 4;
+  }
+  return result;
 }
 
 Array<Task<Int32>> AsyncTaskCache::CreateInt32Tasks() {

@@ -14,6 +14,12 @@ using Meson.Compiler.CppAst;
 
 namespace Meson.Compiler {
   internal sealed class MethodTransform : IAstVisitor<SyntaxNode> {
+    private enum MemberAccessKind {
+      None,
+      Pointer,
+      Base,
+    }
+
     private readonly TypeDefinitionTransform typeDefinition_;
     private readonly ClassSyntax classNode_;
     private readonly Stack<IMethod> methodSymbols_ = new Stack<IMethod>();
@@ -132,10 +138,10 @@ namespace Meson.Compiler {
       return IdentifierSyntax.As.Generic(type).Invation(expression);
     }
 
-    private static readonly string[] assignmentOperators_ = new string[] { 
-      "=", "+=", "-=", "*=", "/=", 
-      "%=", "<<=", ">>=", "&=", "|=", 
-      "^=" 
+    private static readonly string[] assignmentOperators_ = new string[] {
+      "=", "+=", "-=", "*=", "/=",
+      "%=", "<<=", ">>=", "&=", "|=",
+      "^="
     };
 
     private static string GetAssignmentOperator(AssignmentOperatorType operatorToken) {
@@ -151,15 +157,15 @@ namespace Meson.Compiler {
     }
 
     public SyntaxNode VisitBaseReferenceExpression(BaseReferenceExpression baseReferenceExpression) {
-      var baseType = baseReferenceExpression.GetResolveResult().Type.GetDefinition().DirectBaseTypes.First();
+      var baseType = baseReferenceExpression.GetResolveResult().Type;
       return GetTypeName(baseType);
     }
 
-    private static readonly string[] binaryOperatorTokens_ = new string[] { 
-      null, "&", "|", "&&", "||", 
-      "^", ">", ">=", "==", "!=", 
-      "<", "<=", "+", "-", "*", 
-      "/", "%", "<<", ">>", null, 
+    private static readonly string[] binaryOperatorTokens_ = new string[] {
+      null, "&", "|", "&&", "||",
+      "^", ">", ">=", "==", "!=",
+      "<", "<=", "+", "-", "*",
+      "/", "%", "<<", ">>", null,
       null,
     };
 
@@ -427,10 +433,11 @@ namespace Meson.Compiler {
       throw new NotImplementedException();
     }
 
-    private MemberAccessExpressionSyntax BuildMemberAccessExpression(ExpressionSyntax target, ISymbol symbol, AstNode node, IReadOnlyCollection<AstType> typeArguments, bool isPointer = false) {
+    private MemberAccessExpressionSyntax BuildMemberAccessExpression(ExpressionSyntax target, ISymbol symbol, AstNode node, IReadOnlyCollection<AstType> typeArguments, MemberAccessKind kind = MemberAccessKind.None) {
       switch (symbol.SymbolKind) {
         case SymbolKind.Field:
         case SymbolKind.Property:
+        case SymbolKind.Constructor:
         case SymbolKind.Method: {
             var member = (IEntity)symbol;
             ExpressionSyntax name;
@@ -459,14 +466,16 @@ namespace Meson.Compiler {
                   break;
                 }
             }
+            if (kind == MemberAccessKind.Base) {
+              return target.TwoColon(name);
+            }
             if (member.IsStatic) {
               if (member.DeclaringTypeDefinition.IsRefType()) {
                 target = target.WithIn();
               }
               return target.TwoColon(name);
-            } else {
-              return (isPointer || member.DeclaringTypeDefinition.IsRefType()) ? target.Arrow(name) : target.Dot(name);
             }
+            return (kind == MemberAccessKind.Pointer || member.DeclaringTypeDefinition.IsRefType()) ? target.Arrow(name) : target.Dot(name);
           }
       }
       throw new NotImplementedException();
@@ -481,12 +490,16 @@ namespace Meson.Compiler {
           symbol = typeSymbol.Members.First(i => i.Name == memberReferenceExpression.MemberName);
         }
       }
-      bool isPointer = false;
+      MemberAccessKind kind;
       if (memberReferenceExpression.Target is ThisReferenceExpression) {
-        isPointer = true;
+        kind = MemberAccessKind.Pointer;
         target = IdentifierSyntax.This;
+      } else if (memberReferenceExpression.Target is BaseReferenceExpression) {
+        kind = MemberAccessKind.Base;
+      } else {
+        kind = MemberAccessKind.None;
       }
-      return BuildMemberAccessExpression(target, symbol, memberReferenceExpression, memberReferenceExpression.TypeArguments, isPointer);
+      return BuildMemberAccessExpression(target, symbol, memberReferenceExpression, memberReferenceExpression.TypeArguments, kind);
     }
 
     public SyntaxNode VisitNamedArgumentExpression(NamedArgumentExpression namedArgumentExpression) {
@@ -567,7 +580,7 @@ namespace Meson.Compiler {
     public SyntaxNode VisitPointerReferenceExpression(PointerReferenceExpression pointerReferenceExpression) {
       var target = pointerReferenceExpression.Target.AcceptExpression(this);
       var symbol = pointerReferenceExpression.GetSymbol() ?? GetPointerTargetMember(pointerReferenceExpression);
-      return BuildMemberAccessExpression(target, symbol, pointerReferenceExpression, pointerReferenceExpression.TypeArguments, true);
+      return BuildMemberAccessExpression(target, symbol, pointerReferenceExpression, pointerReferenceExpression.TypeArguments, MemberAccessKind.Pointer);
     }
 
     public SyntaxNode VisitPrimitiveExpression(PrimitiveExpression primitiveExpression) {
@@ -763,7 +776,9 @@ namespace Meson.Compiler {
     }
 
     public SyntaxNode VisitDoWhileStatement(DoWhileStatement doWhileStatement) {
-      throw new NotImplementedException();
+      var embeddedStatement = doWhileStatement.EmbeddedStatement.AcceptStatement(this);
+      var condition = doWhileStatement.Condition.AcceptExpression(this);
+      return new DoWhileStatementSyntax(embeddedStatement, condition);
     }
 
     public SyntaxNode VisitEmptyStatement(EmptyStatement emptyStatement) {
@@ -1142,7 +1157,7 @@ namespace Meson.Compiler {
 
     public SyntaxNode VisitComposedType(ComposedType composedType) {
       var type = composedType.GetResolveResult().Type;
-       return GetTypeName(type);
+      return GetTypeName(type);
     }
 
     public SyntaxNode VisitArraySpecifier(ArraySpecifier arraySpecifier) {

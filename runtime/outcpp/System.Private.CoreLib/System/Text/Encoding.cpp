@@ -400,10 +400,29 @@ void Encoding___::ctor() {
 
 void Encoding___::ctor(Int32 codePage) {
   _isReadOnly = true;
+  Object::ctor();
+  if (codePage < 0) {
+    rt::throw_exception<ArgumentOutOfRangeException>("codePage");
+  }
+  _codePage = codePage;
+  SetDefaultFallbacks();
 }
 
 void Encoding___::ctor(Int32 codePage, EncoderFallback encoderFallback, DecoderFallback decoderFallback) {
   _isReadOnly = true;
+  Object::ctor();
+  if (codePage < 0) {
+    rt::throw_exception<ArgumentOutOfRangeException>("codePage");
+  }
+  _codePage = codePage;
+  auto default = encoderFallback;
+  if (default != nullptr) default = rt::newobj<InternalEncoderBestFitFallback>((Encoding)this);
+
+  this->encoderFallback = (default);
+  auto extern = decoderFallback;
+  if (extern != nullptr) extern = rt::newobj<InternalDecoderBestFitFallback>((Encoding)this);
+
+  this->decoderFallback = (extern);
 }
 
 void Encoding___::SetDefaultFallbacks() {
@@ -482,9 +501,17 @@ Encoding Encoding___::GetEncoding(Int32 codepage, EncoderFallback encoderFallbac
 }
 
 Encoding Encoding___::GetEncoding(String name) {
+  auto default = EncodingProvider::in::GetEncodingFromProvider(name);
+  if (default != nullptr) default = GetEncoding(EncodingTable::GetCodePageFromName(name));
+
+  return default;
 }
 
 Encoding Encoding___::GetEncoding(String name, EncoderFallback encoderFallback, DecoderFallback decoderFallback) {
+  auto default = EncodingProvider::in::GetEncodingFromProvider(name, encoderFallback, decoderFallback);
+  if (default != nullptr) default = GetEncoding(EncodingTable::GetCodePageFromName(name), encoderFallback, decoderFallback);
+
+  return default;
 }
 
 Array<EncodingInfo> Encoding___::GetEncodings() {
@@ -847,6 +874,21 @@ Int32 Encoding___::GetByteCountWithFallback(Char* pCharsOriginal, Int32 original
 
 Int32 Encoding___::GetByteCountWithFallback(Char* pOriginalChars, Int32 originalCharCount, Int32 charsConsumedSoFar, EncoderNLS encoder) {
   ReadOnlySpan<Char> readOnlySpan = ReadOnlySpan<Char>(pOriginalChars, originalCharCount).Slice(charsConsumedSoFar);
+  Int32 charsConsumed;
+  Int32 num = encoder->DrainLeftoverDataForGetByteCount(readOnlySpan, charsConsumed);
+  readOnlySpan = readOnlySpan.Slice(charsConsumed);
+  num += GetByteCountFast((Char*)Unsafe::AsPointer(MemoryMarshal::GetReference(readOnlySpan)), readOnlySpan.get_Length(), encoder->get_Fallback(), charsConsumed);
+  if (num < 0) {
+    ThrowConversionOverflow();
+  }
+  readOnlySpan = readOnlySpan.Slice(charsConsumed);
+  if (!readOnlySpan.get_IsEmpty()) {
+    num += GetByteCountWithFallback(readOnlySpan, originalCharCount, encoder);
+    if (num < 0) {
+      ThrowConversionOverflow();
+    }
+  }
+  return num;
 }
 
 Int32 Encoding___::GetByteCountWithFallback(ReadOnlySpan<Char> chars, Int32 originalCharsLength, EncoderNLS encoder) {
@@ -929,6 +971,41 @@ Int32 Encoding___::GetBytesWithFallback(ReadOnlySpan<Char> chars, Int32 original
     {
       Byte* ptr = &MemoryMarshal::GetReference(bytes);
       EncoderFallbackBuffer encoderFallbackBuffer = EncoderFallbackBuffer::in::CreateAndInitialize((Encoding)this, encoder, originalCharsLength);
+      do {
+        Rune result;
+        Int32 charsConsumed;
+        OperationStatus operationStatus = Rune::DecodeFromUtf16(chars, result, charsConsumed);
+        if (operationStatus != OperationStatus::NeedMoreData) {
+          Int32 _;
+          if (operationStatus != OperationStatus::InvalidData && EncodeRune(result, bytes, _) == OperationStatus::DestinationTooSmall) {
+            break;
+          }
+        } else if (encoder != nullptr && !encoder->get_MustFlush()) {
+          encoder->_charLeftOver = chars[0];
+          chars = ReadOnlySpan<Char>::get_Empty();
+          break;
+        }
+
+        Int32 bytesWritten2;
+        Boolean flag = encoderFallbackBuffer->TryInternalFallbackGetBytes(chars, bytes, charsConsumed, bytesWritten2);
+        chars = chars.Slice(charsConsumed);
+        bytes = bytes.Slice(bytesWritten2);
+        if (!flag) {
+          break;
+        }
+        if (!chars.get_IsEmpty()) {
+          bytesWritten2 = GetBytesFast((Char*)Unsafe::AsPointer(MemoryMarshal::GetReference(chars)), chars.get_Length(), (Byte*)Unsafe::AsPointer(MemoryMarshal::GetReference(bytes)), bytes.get_Length(), charsConsumed);
+          chars = chars.Slice(charsConsumed);
+          bytes = bytes.Slice(bytesWritten2);
+        }
+      } while (!chars.get_IsEmpty())
+      if (!chars.get_IsEmpty() || encoderFallbackBuffer->get_Remaining() > 0) {
+        ThrowBytesOverflow(encoder, bytes.get_Length() == originalBytesLength);
+      }
+      if (encoder != nullptr) {
+        encoder->_charsUsed = originalCharsLength - chars.get_Length();
+      }
+      return originalBytesLength - bytes.get_Length();
     }
   }
 }
@@ -1056,6 +1133,39 @@ Int32 Encoding___::GetCharsWithFallback(ReadOnlySpan<Byte> bytes, Int32 original
     {
       Char* ptr = &MemoryMarshal::GetReference(chars);
       DecoderFallbackBuffer decoderFallbackBuffer = DecoderFallbackBuffer::in::CreateAndInitialize((Encoding)this, decoder, originalBytesLength);
+      do {
+        Rune value;
+        Int32 bytesConsumed;
+        OperationStatus operationStatus = DecodeFirstRune(bytes, value, bytesConsumed);
+        if (operationStatus != OperationStatus::NeedMoreData) {
+          if (operationStatus != OperationStatus::InvalidData) {
+            break;
+          }
+        } else if (decoder != nullptr && !decoder->get_MustFlush()) {
+          decoder->SetLeftoverData(bytes);
+          bytes = ReadOnlySpan<Byte>::get_Empty();
+          break;
+        }
+
+        Int32 charsWritten;
+        if (!decoderFallbackBuffer->TryInternalFallbackGetChars(bytes, bytesConsumed, chars, charsWritten)) {
+          break;
+        }
+        bytes = bytes.Slice(bytesConsumed);
+        chars = chars.Slice(charsWritten);
+        if (!bytes.get_IsEmpty()) {
+          charsWritten = GetCharsFast((Byte*)Unsafe::AsPointer(MemoryMarshal::GetReference(bytes)), bytes.get_Length(), (Char*)Unsafe::AsPointer(MemoryMarshal::GetReference(chars)), chars.get_Length(), bytesConsumed);
+          bytes = bytes.Slice(bytesConsumed);
+          chars = chars.Slice(charsWritten);
+        }
+      } while (!bytes.get_IsEmpty())
+      if (!bytes.get_IsEmpty()) {
+        ThrowCharsOverflow(decoder, chars.get_Length() == originalCharsLength);
+      }
+      if (decoder != nullptr) {
+        decoder->_bytesUsed = originalBytesLength - bytes.get_Length();
+      }
+      return originalCharsLength - chars.get_Length();
     }
   }
 }

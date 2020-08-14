@@ -2,7 +2,10 @@
 
 #include <System.Private.CoreLib/System/GC-dep.h>
 #include <System.Private.CoreLib/System/Int32-dep.h>
+#include <System.Private.CoreLib/System/ObjectDisposedException-dep.h>
+#include <System.Private.CoreLib/System/Runtime/InteropServices/Marshal-dep.h>
 #include <System.Private.CoreLib/System/Runtime/InteropServices/SafeHandle-dep.h>
+#include <System.Private.CoreLib/System/SR-dep.h>
 #include <System.Private.CoreLib/System/Threading/Interlocked-dep.h>
 
 namespace System::Private::CoreLib::System::Runtime::InteropServices::SafeHandleNamespace {
@@ -57,6 +60,14 @@ void SafeHandle___::SetHandleAsInvalid() {
 void SafeHandle___::DangerousAddRef(Boolean& success) {
   Int32 state;
   Int32 value;
+  do {
+    state = _state;
+    if ((state & 1) != 0) {
+      rt::throw_exception<ObjectDisposedException>("SafeHandle", SR::get_ObjectDisposed_SafeHandleClosed());
+    }
+    value = state + 4;
+  } while (Interlocked::CompareExchange(_state, value, state) != state)
+  success = true;
 }
 
 void SafeHandle___::DangerousRelease() {
@@ -67,6 +78,28 @@ void SafeHandle___::InternalRelease(Boolean disposeOrFinalizeOperation) {
   Boolean flag = false;
   Int32 state;
   Int32 num;
+  do {
+    state = _state;
+    if (disposeOrFinalizeOperation && (state & 2) != 0) {
+      return;
+    }
+    if ((state & -4) == 0) {
+      rt::throw_exception<ObjectDisposedException>("SafeHandle", SR::get_ObjectDisposed_SafeHandleClosed());
+    }
+    flag = ((state & -3) == 4 && _ownsHandle && !get_IsInvalid());
+    num = state - 4;
+    if ((state & -4) == 4) {
+      num |= 1;
+    }
+    if (disposeOrFinalizeOperation) {
+      num |= 2;
+    }
+  } while (Interlocked::CompareExchange(_state, num, state) != state)
+  if (flag) {
+    Int32 lastWin32Error = Marshal::GetLastWin32Error();
+    ReleaseHandle();
+    Marshal::SetLastWin32Error(lastWin32Error);
+  }
 }
 
 } // namespace System::Private::CoreLib::System::Runtime::InteropServices::SafeHandleNamespace

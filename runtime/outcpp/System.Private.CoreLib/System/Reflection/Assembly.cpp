@@ -313,12 +313,18 @@ void Assembly___::GetObjectData(SerializationInfo info, StreamingContext context
 }
 
 String Assembly___::ToString() {
+  auto default = get_FullName();
+  if (default != nullptr) default = Object::ToString();
+
+  return default;
 }
 
 Boolean Assembly___::Equals(Object o) {
+  return Object::Equals(o);
 }
 
 Int32 Assembly___::GetHashCode() {
+  return Object::GetHashCode();
 }
 
 Boolean Assembly___::op_Equality(Assembly left, Assembly right) {
@@ -383,6 +389,17 @@ Assembly Assembly___::LoadFile(String path) {
     rt::throw_exception<ArgumentException>(SR::Format(SR::get_Argument_AbsolutePathRequired(), path), "path");
   }
   String fullPath = Path::GetFullPath(path);
+  {
+    rt::lock(s_loadfile);
+    Assembly value;
+    if (s_loadfile->TryGetValue(fullPath, value)) {
+      return value;
+    }
+    AssemblyLoadContext assemblyLoadContext = rt::newobj<IndividualAssemblyLoadContext>(String::in::Format("Assembly.LoadFile({0})", fullPath));
+    value = assemblyLoadContext->LoadFromAssemblyPath(fullPath);
+    s_loadfile->Add(fullPath, value);
+    return value;
+  }
 }
 
 Assembly Assembly___::LoadFromResolveHandler(Object sender, ResolveEventArgs args) {
@@ -397,6 +414,24 @@ Assembly Assembly___::LoadFromResolveHandler(Object sender, ResolveEventArgs arg
   if (String::in::IsNullOrEmpty(fullPath)) {
     return nullptr;
   }
+  {
+    rt::lock(s_loadFromAssemblyList);
+    if (!s_loadFromAssemblyList->Contains(fullPath)) {
+      if (AssemblyLoadContext::in::IsTracingEnabled()) {
+        AssemblyLoadContext::in::TraceAssemblyLoadFromResolveHandlerInvoked(args->get_Name(), false, fullPath, nullptr);
+      }
+      return nullptr;
+    }
+  }
+  AssemblyName assemblyName = rt::newobj<AssemblyName>(args->get_Name());
+  String text = Path::Combine(Path::GetDirectoryName(fullPath), assemblyName->get_Name() + ".dll");
+  if (AssemblyLoadContext::in::IsTracingEnabled()) {
+    AssemblyLoadContext::in::TraceAssemblyLoadFromResolveHandlerInvoked(args->get_Name(), true, fullPath, text);
+  }
+  try{
+    return LoadFrom(text);
+  } catch (FileNotFoundException) {
+  }
 }
 
 Assembly Assembly___::LoadFrom(String assemblyFile) {
@@ -405,7 +440,19 @@ Assembly Assembly___::LoadFrom(String assemblyFile) {
   }
   String fullPath = Path::GetFullPath(assemblyFile);
   if (!s_loadFromHandlerSet) {
+    {
+      rt::lock(s_loadFromAssemblyList);
+      if (!s_loadFromHandlerSet) {
+      }
+    }
   }
+  {
+    rt::lock(s_loadFromAssemblyList);
+    if (!s_loadFromAssemblyList->Contains(fullPath)) {
+      s_loadFromAssemblyList->Add(fullPath);
+    }
+  }
+  return AssemblyLoadContext::in::get_Default()->LoadFromAssemblyPath(fullPath);
 }
 
 Assembly Assembly___::LoadFrom(String assemblyFile, Array<Byte> hashValue, AssemblyHashAlgorithm hashAlgorithm) {

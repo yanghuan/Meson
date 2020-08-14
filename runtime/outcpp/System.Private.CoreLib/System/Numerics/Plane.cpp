@@ -66,6 +66,13 @@ Plane Plane::Normalize(Plane value) {
 }
 
 Plane Plane::Transform(Plane plane, Matrix4x4 matrix) {
+  Matrix4x4 result;
+  Matrix4x4::Invert(matrix, result);
+  Single x = plane.Normal.X;
+  Single y = plane.Normal.Y;
+  Single z = plane.Normal.Z;
+  Single d = plane.D;
+  return Plane(x * result.M11 + y * result.M12 + z * result.M13 + d * result.M14, x * result.M21 + y * result.M22 + z * result.M23 + d * result.M24, x * result.M31 + y * result.M32 + z * result.M33 + d * result.M34, x * result.M41 + y * result.M42 + z * result.M43 + d * result.M44);
 }
 
 Plane Plane::Transform(Plane plane, Quaternion rotation) {

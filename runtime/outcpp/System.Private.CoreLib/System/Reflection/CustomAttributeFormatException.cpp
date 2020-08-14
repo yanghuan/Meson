@@ -8,6 +8,7 @@ void CustomAttributeFormatException___::ctor(String message) {
 }
 
 void CustomAttributeFormatException___::ctor(String message, Exception inner) {
+  Exception::set_HResult = -2146232827;
 }
 
 void CustomAttributeFormatException___::ctor(SerializationInfo info, StreamingContext context) {

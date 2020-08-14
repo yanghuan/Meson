@@ -122,6 +122,10 @@ void DataCollector::EnsureBuffer(Int32 additionalSize) {
 
 void DataCollector::GrowBuffer(Int32 required) {
   Int32 num = (buffer == nullptr) ? 64 : buffer->get_Length();
+  do {
+    num *= 2;
+  } while (num < required)
+  Array<>::in::Resize(buffer, num);
 }
 
 void DataCollector::PinArray(Object value, Int32 size) {

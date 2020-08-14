@@ -4,12 +4,15 @@
 #include <System.Private.CoreLib/System/ArgumentException-dep.h>
 #include <System.Private.CoreLib/System/ArgumentNullException-dep.h>
 #include <System.Private.CoreLib/System/ArgumentOutOfRangeException-dep.h>
+#include <System.Private.CoreLib/System/Buffer-dep.h>
 #include <System.Private.CoreLib/System/FormatException-dep.h>
 #include <System.Private.CoreLib/System/GC-dep.h>
 #include <System.Private.CoreLib/System/ICustomFormatter.h>
+#include <System.Private.CoreLib/System/IndexOutOfRangeException-dep.h>
 #include <System.Private.CoreLib/System/Int32-dep.h>
 #include <System.Private.CoreLib/System/Int64-dep.h>
 #include <System.Private.CoreLib/System/Math-dep.h>
+#include <System.Private.CoreLib/System/MemoryExtensions-dep.h>
 #include <System.Private.CoreLib/System/OutOfMemoryException-dep.h>
 #include <System.Private.CoreLib/System/ParamsArray-dep.h>
 #include <System.Private.CoreLib/System/Runtime/InteropServices/MemoryMarshal-dep.h>
@@ -154,10 +157,33 @@ void StringBuilder___::set_Length(Int32 value) {
 
 Char StringBuilder___::get_Chars(Int32 index) {
   StringBuilder stringBuilder = (StringBuilder)this;
+  do {
+    Int32 num = index - stringBuilder->m_ChunkOffset;
+    if (num >= 0) {
+      if (num >= stringBuilder->m_ChunkLength) {
+        rt::throw_exception<IndexOutOfRangeException>();
+      }
+      return stringBuilder->m_ChunkChars[num];
+    }
+    stringBuilder = stringBuilder->m_ChunkPrevious;
+  } while (stringBuilder != nullptr)
+  rt::throw_exception<IndexOutOfRangeException>();
 }
 
 void StringBuilder___::set_Chars(Int32 index, Char value) {
   StringBuilder stringBuilder = (StringBuilder)this;
+  do {
+    Int32 num = index - stringBuilder->m_ChunkOffset;
+    if (num >= 0) {
+      if (num >= stringBuilder->m_ChunkLength) {
+        rt::throw_exception<ArgumentOutOfRangeException>("index", SR::get_ArgumentOutOfRange_Index());
+      }
+      stringBuilder->m_ChunkChars[num] = value;
+      return;
+    }
+    stringBuilder = stringBuilder->m_ChunkPrevious;
+  } while (stringBuilder != nullptr)
+  rt::throw_exception<ArgumentOutOfRangeException>("index", SR::get_ArgumentOutOfRange_Index());
 }
 
 Span<Char> StringBuilder___::get_RemainingCurrentChunk() {
@@ -222,6 +248,21 @@ void StringBuilder___::InternalCopy(IntPtr dest, Int32 len) {
   Boolean flag = true;
   Byte* ptr = (Byte*)dest.ToPointer();
   StringBuilder stringBuilder = FindChunkForByte(len);
+  do {
+    Int32 num = stringBuilder->m_ChunkOffset * 2;
+    Int32 len2 = stringBuilder->m_ChunkLength * 2;
+    {
+      Char* ptr2 = &stringBuilder->m_ChunkChars[0];
+      Byte* src = (Byte*)ptr2;
+      if (flag) {
+        flag = false;
+        Buffer::Memcpy(ptr + num, src, len - num);
+      } else {
+        Buffer::Memcpy(ptr + num, src, len2);
+      }
+    }
+    stringBuilder = stringBuilder->m_ChunkPrevious;
+  } while (stringBuilder != nullptr)
 }
 
 StringBuilder StringBuilder___::FindChunkForByte(Int32 byteIndex) {
@@ -354,6 +395,22 @@ String StringBuilder___::ToString() {
   {
     Char* ptr = text;
     Char* ptr2 = ptr;
+    do {
+      if (stringBuilder->m_ChunkLength > 0) {
+        Array<Char> chunkChars = stringBuilder->m_ChunkChars;
+        Int32 chunkOffset = stringBuilder->m_ChunkOffset;
+        Int32 chunkLength = stringBuilder->m_ChunkLength;
+        if ((UInt32)(chunkLength + chunkOffset) > (UInt32)text->get_Length() || (UInt32)chunkLength > (UInt32)chunkChars->get_Length()) {
+          rt::throw_exception<ArgumentOutOfRangeException>("chunkLength", SR::get_ArgumentOutOfRange_Index());
+        }
+        {
+          Char* smem = &chunkChars[0];
+          String::in::wstrcpy(ptr2 + chunkOffset, smem, chunkLength);
+        }
+      }
+      stringBuilder = stringBuilder->m_ChunkPrevious;
+    } while (stringBuilder != nullptr)
+    return text;
   }
 }
 
@@ -629,6 +686,18 @@ StringBuilder StringBuilder___::Insert(Int32 index, String value, Int32 count) {
   if (num > get_MaxCapacity() - get_Length()) {
     rt::throw_exception<OutOfMemoryException>();
   }
+  StringBuilder chunk;
+  Int32 indexInChunk;
+  MakeRoom(index, (Int32)num, chunk, indexInChunk, false);
+  {
+    Char* ptr = value;
+    Char* value2 = ptr;
+    while (count > 0) {
+      ReplaceInPlaceAtChunk(chunk, indexInChunk, value2, value->get_Length());
+      count--;
+    }
+    return (StringBuilder)this;
+  }
 }
 
 StringBuilder StringBuilder___::Remove(Int32 startIndex, Int32 length) {
@@ -646,6 +715,9 @@ StringBuilder StringBuilder___::Remove(Int32 startIndex, Int32 length) {
     return (StringBuilder)this;
   }
   if (length > 0) {
+    StringBuilder _;
+    Int32 _;
+    Remove(startIndex, length, _, _);
   }
   return (StringBuilder)this;
 }
@@ -950,6 +1022,7 @@ StringBuilder StringBuilder___::AppendFormatHelper(IFormatProvider provider, Str
   Char c = 0;
   ICustomFormatter customFormatter = nullptr;
   if (provider != nullptr) {
+    customFormatter = (ICustomFormatter)provider->GetFormat(rt::typeof<ICustomFormatter>());
   }
   while (true) {
     if (num < length) {
@@ -993,6 +1066,31 @@ Boolean StringBuilder___::Equals(StringBuilder sb) {
   Int32 num = stringBuilder->m_ChunkLength;
   StringBuilder stringBuilder2 = sb;
   Int32 num2 = stringBuilder2->m_ChunkLength;
+  do {
+    num--;
+    num2--;
+    while (num < 0) {
+      stringBuilder = stringBuilder->m_ChunkPrevious;
+      if (stringBuilder == nullptr) {
+        break;
+      }
+      num = stringBuilder->m_ChunkLength + num;
+    }
+    while (num2 < 0) {
+      stringBuilder2 = stringBuilder2->m_ChunkPrevious;
+      if (stringBuilder2 == nullptr) {
+        break;
+      }
+      num2 = stringBuilder2->m_ChunkLength + num2;
+    }
+    if (num < 0) {
+      return num2 < 0;
+    }
+    if (num2 < 0) {
+      return false;
+    }
+  } while (stringBuilder->m_ChunkChars[num] == stringBuilder2->m_ChunkChars[num2])
+  return false;
 }
 
 Boolean StringBuilder___::Equals(ReadOnlySpan<Char> span) {
@@ -1001,6 +1099,16 @@ Boolean StringBuilder___::Equals(ReadOnlySpan<Char> span) {
   }
   StringBuilder stringBuilder = (StringBuilder)this;
   Int32 num = 0;
+  do {
+    Int32 chunkLength = stringBuilder->m_ChunkLength;
+    num += chunkLength;
+    ReadOnlySpan<Char> span2 = ReadOnlySpan<Char>(stringBuilder->m_ChunkChars, 0, chunkLength);
+    if (!MemoryExtensions::EqualsOrdinal(span2, span.Slice(span.get_Length() - num, chunkLength))) {
+      return false;
+    }
+    stringBuilder = stringBuilder->m_ChunkPrevious;
+  } while (stringBuilder != nullptr)
+  return true;
 }
 
 StringBuilder StringBuilder___::Replace(String oldValue, String newValue, Int32 startIndex, Int32 count) {
@@ -1115,6 +1223,10 @@ void StringBuilder___::Insert(Int32 index, Char* value, Int32 valueCount) {
     rt::throw_exception<ArgumentOutOfRangeException>("index", SR::get_ArgumentOutOfRange_Index());
   }
   if (valueCount > 0) {
+    StringBuilder chunk;
+    Int32 indexInChunk;
+    MakeRoom(index, valueCount, chunk, indexInChunk, false);
+    ReplaceInPlaceAtChunk(chunk, indexInChunk, value, valueCount);
   }
 }
 

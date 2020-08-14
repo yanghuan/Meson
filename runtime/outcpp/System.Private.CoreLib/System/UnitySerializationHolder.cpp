@@ -5,9 +5,15 @@
 #include <System.Private.CoreLib/System/DBNull-dep.h>
 #include <System.Private.CoreLib/System/NotSupportedException-dep.h>
 #include <System.Private.CoreLib/System/SR-dep.h>
+#include <System.Private.CoreLib/System/String-dep.h>
+#include <System.Private.CoreLib/System/UnitySerializationHolder-dep.h>
 
 namespace System::Private::CoreLib::System::UnitySerializationHolderNamespace {
 void UnitySerializationHolder___::GetUnitySerializationInfo(SerializationInfo info, Int32 unityType) {
+  info->SetType(rt::typeof<UnitySerializationHolder>());
+  info->AddValue("Data", nullptr, rt::typeof<String>());
+  info->AddValue("UnityType", unityType);
+  info->AddValue("AssemblyName", String::in::Empty);
 }
 
 void UnitySerializationHolder___::ctor(SerializationInfo info, StreamingContext context) {
@@ -24,6 +30,10 @@ void UnitySerializationHolder___::GetObjectData(SerializationInfo info, Streamin
 
 Object UnitySerializationHolder___::GetRealObject(StreamingContext context) {
   if (_unityType != 2) {
+    auto default = _data;
+    if (default != nullptr) default = "UnityType";
+
+    rt::throw_exception<ArgumentException>(SR::Format(SR::get_Argument_InvalidUnity(), default));
   }
   return DBNull::in::Value;
 }

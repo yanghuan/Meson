@@ -1,12 +1,17 @@
 #include "RuntimeConstructorInfo-dep.h"
 
+#include <System.Private.CoreLib/System/ArgIterator-dep.h>
 #include <System.Private.CoreLib/System/ArgumentException-dep.h>
 #include <System.Private.CoreLib/System/ArgumentNullException-dep.h>
+#include <System.Private.CoreLib/System/Delegate-dep.h>
 #include <System.Private.CoreLib/System/MemberAccessException-dep.h>
+#include <System.Private.CoreLib/System/NotSupportedException-dep.h>
+#include <System.Private.CoreLib/System/Reflection/CallingConventions.h>
 #include <System.Private.CoreLib/System/Reflection/CustomAttribute-dep.h>
 #include <System.Private.CoreLib/System/Reflection/MethodBase-dep.h>
 #include <System.Private.CoreLib/System/Reflection/RuntimeConstructorInfo-dep.h>
 #include <System.Private.CoreLib/System/Reflection/RuntimeMethodBody-dep.h>
+#include <System.Private.CoreLib/System/Reflection/RuntimeParameterInfo-dep.h>
 #include <System.Private.CoreLib/System/Reflection/TargetException-dep.h>
 #include <System.Private.CoreLib/System/Reflection/TargetParameterCountException-dep.h>
 #include <System.Private.CoreLib/System/RuntimeMethodHandle-dep.h>
@@ -22,6 +27,20 @@ INVOCATION_FLAGS RuntimeConstructorInfo___::get_InvocationFlags() {
   if ((m_invocationFlags & INVOCATION_FLAGS::INVOCATION_FLAGS_INITIALIZED) == 0) {
     INVOCATION_FLAGS iNVOCATION_FLAGS = INVOCATION_FLAGS::INVOCATION_FLAGS_IS_CTOR;
     Type declaringType = get_DeclaringType();
+    if (declaringType == rt::typeof<void>() || (declaringType != nullptr && declaringType->get_ContainsGenericParameters()) || (get_CallingConvention() & CallingConventions::VarArgs) == CallingConventions::VarArgs) {
+      iNVOCATION_FLAGS |= INVOCATION_FLAGS::INVOCATION_FLAGS_NO_INVOKE;
+    } else if (MethodBase::get_IsStatic() || (declaringType != nullptr && declaringType->get_IsAbstract())) {
+      iNVOCATION_FLAGS |= INVOCATION_FLAGS::INVOCATION_FLAGS_NO_CTOR_INVOKE;
+    } else {
+      if (declaringType != nullptr && declaringType->get_IsByRefLike()) {
+        iNVOCATION_FLAGS |= INVOCATION_FLAGS::INVOCATION_FLAGS_CONTAINS_STACK_POINTERS;
+      }
+      if (rt::typeof<Delegate>()->IsAssignableFrom(get_DeclaringType())) {
+        iNVOCATION_FLAGS |= INVOCATION_FLAGS::INVOCATION_FLAGS_IS_DELEGATE_CTOR;
+      }
+    }
+
+    m_invocationFlags = (iNVOCATION_FLAGS | INVOCATION_FLAGS::INVOCATION_FLAGS_INITIALIZED);
   }
   return m_invocationFlags;
 }
@@ -31,6 +50,10 @@ RuntimeMethodHandleInternal RuntimeConstructorInfo___::get_ValueOfIRuntimeMethod
 }
 
 Signature RuntimeConstructorInfo___::get_Signature() {
+  auto default = m_signature;
+  if (default != nullptr) default = (m_signature = rt::newobj<Signature>((RuntimeConstructorInfo)this, m_declaringType));
+
+  return default;
 }
 
 RuntimeType RuntimeConstructorInfo___::get_ReflectedTypeInternal() {
@@ -119,6 +142,12 @@ Boolean RuntimeConstructorInfo___::CacheEquals(Object o) {
 }
 
 void RuntimeConstructorInfo___::CheckConsistency(Object target) {
+  if ((target != nullptr || !MethodBase::get_IsStatic()) && !m_declaringType->IsInstanceOfType(target)) {
+    if (target == nullptr) {
+      rt::throw_exception<TargetException>(SR::get_RFLCT_Targ_StatMethReqTarg());
+    }
+    rt::throw_exception<TargetException>(SR::get_RFLCT_Targ_ITargMismatch());
+  }
 }
 
 String RuntimeConstructorInfo___::ToString() {
@@ -135,6 +164,7 @@ String RuntimeConstructorInfo___::ToString() {
 }
 
 Array<Object> RuntimeConstructorInfo___::GetCustomAttributes(Boolean inherit) {
+  return CustomAttribute::GetCustomAttributes((RuntimeConstructorInfo)this, rt::as<RuntimeType>(rt::typeof<Object>()));
 }
 
 Array<Object> RuntimeConstructorInfo___::GetCustomAttributes(Type attributeType, Boolean inherit) {
@@ -180,6 +210,10 @@ Type RuntimeConstructorInfo___::GetReturnType() {
 }
 
 Array<ParameterInfo> RuntimeConstructorInfo___::GetParametersNoCopy() {
+  auto default = m_parameters;
+  if (default != nullptr) default = (m_parameters = RuntimeParameterInfo::in::GetParameters((RuntimeConstructorInfo)this, (RuntimeConstructorInfo)this, get_Signature()));
+
+  return default;
 }
 
 Array<ParameterInfo> RuntimeConstructorInfo___::GetParameters() {
@@ -205,6 +239,18 @@ void RuntimeConstructorInfo___::CheckCanCreateInstance(Type declaringType, Boole
   }
   if (declaringType->get_IsAbstract()) {
     rt::throw_exception<MemberAccessException>(SR::Format(SR::get_Acc_CreateAbstEx(), declaringType));
+  }
+  if (declaringType->GetRootElementType() == rt::typeof<ArgIterator>()) {
+    rt::throw_exception<NotSupportedException>();
+  }
+  if (isVarArg) {
+    rt::throw_exception<NotSupportedException>();
+  }
+  if (declaringType->get_ContainsGenericParameters()) {
+    rt::throw_exception<MemberAccessException>(SR::Format(SR::get_Acc_CreateGenericEx(), declaringType));
+  }
+  if (declaringType == rt::typeof<void>()) {
+    rt::throw_exception<MemberAccessException>(SR::get_Access_Void());
   }
 }
 

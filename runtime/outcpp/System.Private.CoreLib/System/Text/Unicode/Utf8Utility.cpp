@@ -4,9 +4,12 @@
 #include <System.Private.CoreLib/System/BitConverter-dep.h>
 #include <System.Private.CoreLib/System/Buffers/Binary/BinaryPrimitives-dep.h>
 #include <System.Private.CoreLib/System/Byte-dep.h>
+#include <System.Private.CoreLib/System/Int16-dep.h>
 #include <System.Private.CoreLib/System/Int32-dep.h>
 #include <System.Private.CoreLib/System/Math-dep.h>
 #include <System.Private.CoreLib/System/Numerics/BitOperations-dep.h>
+#include <System.Private.CoreLib/System/Runtime/Intrinsics/Vector128-dep.h>
+#include <System.Private.CoreLib/System/Runtime/Intrinsics/X86/Sse41-dep.h>
 #include <System.Private.CoreLib/System/SByte-dep.h>
 #include <System.Private.CoreLib/System/Text/ASCIIUtility-dep.h>
 #include <System.Private.CoreLib/System/Text/UnicodeUtility-dep.h>
@@ -17,6 +20,8 @@ namespace System::Private::CoreLib::System::Text::Unicode::Utf8UtilityNamespace 
 using namespace Internal::Runtime::CompilerServices;
 using namespace System::Buffers::Binary;
 using namespace System::Numerics;
+using namespace System::Runtime::Intrinsics;
+using namespace System::Runtime::Intrinsics::X86;
 
 UInt32 Utf8Utility::ExtractCharFromFirstThreeByteSequence(UInt32 value) {
   if (BitConverter::IsLittleEndian) {
@@ -391,6 +396,14 @@ OperationStatus Utf8Utility::TranscodeToUtf8(Char* pInputBuffer, Int32 inputLeng
   if (inputLength < 2) {
   }
   Char* ptr = pInputBuffer + (UInt32)inputLength - 2;
+  Vector128<Int16> value;
+  Unsafe::SkipInit(value);
+  if (Sse41::in::X64::in::get_IsSupported()) {
+    value = Vector128::Create((?)(-128));
+  }
+  UInt32 num2;
+  while (true) {
+  }
 }
 
 Byte* Utf8Utility::GetPointerToFirstInvalidByte(Byte* pInputBuffer, Int32 inputLength, Int32& utf16CodeUnitCountAdjustment, Int32& scalarCountAdjustment) {

@@ -39,6 +39,10 @@ Dictionary<String, String> CultureData___::get_RegionNames() {
 }
 
 CultureData CultureData___::get_Invariant() {
+  auto default = s_Invariant;
+  if (default != nullptr) default = (s_Invariant = CreateCultureWithInvariantData());
+
+  return default;
 }
 
 String CultureData___::get_CultureName() {
@@ -54,9 +58,17 @@ Boolean CultureData___::get_UseUserOverride() {
 }
 
 String CultureData___::get_Name() {
+  auto default = _sName;
+  if (default != nullptr) default = String::in::Empty;
+
+  return default;
 }
 
 String CultureData___::get_ParentName() {
+  auto default = _sParent;
+  if (default != nullptr) default = (_sParent = GetLocaleInfoCore(_sRealName, LocaleStringData::ParentName));
+
+  return default;
 }
 
 String CultureData___::get_DisplayName() {
@@ -127,12 +139,24 @@ String CultureData___::get_SpecificCultureName() {
 }
 
 String CultureData___::get_TwoLetterISOLanguageName() {
+  auto default = _sISO639Language;
+  if (default != nullptr) default = (_sISO639Language = GetLocaleInfoCore(LocaleStringData::Iso639LanguageTwoLetterName));
+
+  return default;
 }
 
 String CultureData___::get_ThreeLetterISOLanguageName() {
+  auto default = _sISO639Language2;
+  if (default != nullptr) default = (_sISO639Language2 = GetLocaleInfoCore(LocaleStringData::Iso639LanguageThreeLetterName));
+
+  return default;
 }
 
 String CultureData___::get_ThreeLetterWindowsLanguageName() {
+  auto default = _sAbbrevLang;
+  if (default != nullptr) default = (_sAbbrevLang = (GlobalizationMode::get_UseNls() ? NlsGetThreeLetterWindowsLanguageName(_sRealName) : IcuGetThreeLetterWindowsLanguageName(_sRealName)));
+
+  return default;
 }
 
 String CultureData___::get_LocalizedLanguageName() {
@@ -148,12 +172,24 @@ String CultureData___::get_LocalizedLanguageName() {
 }
 
 String CultureData___::get_EnglishLanguageName() {
+  auto default = _sEnglishLanguage;
+  if (default != nullptr) default = (_sEnglishLanguage = GetLocaleInfoCore(LocaleStringData::EnglishLanguageName));
+
+  return default;
 }
 
 String CultureData___::get_NativeLanguageName() {
+  auto default = _sNativeLanguage;
+  if (default != nullptr) default = (_sNativeLanguage = GetLocaleInfoCore(LocaleStringData::NativeLanguageName));
+
+  return default;
 }
 
 String CultureData___::get_RegionName() {
+  auto default = _sRegionName;
+  if (default != nullptr) default = (_sRegionName = GetLocaleInfoCore(LocaleStringData::Iso3166CountryName));
+
+  return default;
 }
 
 Int32 CultureData___::get_GeoId() {
@@ -179,15 +215,31 @@ String CultureData___::get_LocalizedCountryName() {
 }
 
 String CultureData___::get_EnglishCountryName() {
+  auto default = _sEnglishCountry;
+  if (default != nullptr) default = (_sEnglishCountry = GetLocaleInfoCore(LocaleStringData::EnglishCountryName));
+
+  return default;
 }
 
 String CultureData___::get_NativeCountryName() {
+  auto default = _sNativeCountry;
+  if (default != nullptr) default = (_sNativeCountry = GetLocaleInfoCore(LocaleStringData::NativeCountryName));
+
+  return default;
 }
 
 String CultureData___::get_TwoLetterISOCountryName() {
+  auto default = _sISO3166CountryName;
+  if (default != nullptr) default = (_sISO3166CountryName = GetLocaleInfoCore(LocaleStringData::Iso3166CountryName));
+
+  return default;
 }
 
 String CultureData___::get_ThreeLetterISOCountryName() {
+  auto default = _sISO3166CountryName2;
+  if (default != nullptr) default = (_sISO3166CountryName2 = GetLocaleInfoCore(LocaleStringData::Iso3166CountryName2));
+
+  return default;
 }
 
 Int32 CultureData___::get_KeyboardLayoutId() {
@@ -202,18 +254,38 @@ Int32 CultureData___::get_KeyboardLayoutId() {
 }
 
 String CultureData___::get_SCONSOLEFALLBACKNAME() {
+  auto default = _sConsoleFallbackName;
+  if (default != nullptr) default = (_sConsoleFallbackName = (GlobalizationMode::get_UseNls() ? NlsGetConsoleFallbackName(_sRealName) : IcuGetConsoleFallbackName(_sRealName)));
+
+  return default;
 }
 
 Array<Int32> CultureData___::get_NumberGroupSizes() {
+  auto default = _waGrouping;
+  if (default != nullptr) default = (_waGrouping = GetLocaleInfoCore(LocaleGroupingData::Digit));
+
+  return default;
 }
 
 String CultureData___::get_NaNSymbol() {
+  auto default = _sNaN;
+  if (default != nullptr) default = (_sNaN = GetLocaleInfoCore(LocaleStringData::NaNSymbol));
+
+  return default;
 }
 
 String CultureData___::get_PositiveInfinitySymbol() {
+  auto default = _sPositiveInfinity;
+  if (default != nullptr) default = (_sPositiveInfinity = GetLocaleInfoCore(LocaleStringData::PositiveInfinitySymbol));
+
+  return default;
 }
 
 String CultureData___::get_NegativeInfinitySymbol() {
+  auto default = _sNegativeInfinity;
+  if (default != nullptr) default = (_sNegativeInfinity = GetLocaleInfoCore(LocaleStringData::NegativeInfinitySymbol));
+
+  return default;
 }
 
 Int32 CultureData___::get_PercentNegativePattern() {
@@ -231,24 +303,52 @@ Int32 CultureData___::get_PercentPositivePattern() {
 }
 
 String CultureData___::get_PercentSymbol() {
+  auto default = _sPercent;
+  if (default != nullptr) default = (_sPercent = GetLocaleInfoCore(LocaleStringData::PercentSymbol));
+
+  return default;
 }
 
 String CultureData___::get_PerMilleSymbol() {
+  auto default = _sPerMille;
+  if (default != nullptr) default = (_sPerMille = GetLocaleInfoCore(LocaleStringData::PerMilleSymbol));
+
+  return default;
 }
 
 String CultureData___::get_CurrencySymbol() {
+  auto default = _sCurrency;
+  if (default != nullptr) default = (_sCurrency = GetLocaleInfoCore(LocaleStringData::MonetarySymbol));
+
+  return default;
 }
 
 String CultureData___::get_ISOCurrencySymbol() {
+  auto default = _sIntlMonetarySymbol;
+  if (default != nullptr) default = (_sIntlMonetarySymbol = GetLocaleInfoCore(LocaleStringData::Iso4217MonetarySymbol));
+
+  return default;
 }
 
 String CultureData___::get_CurrencyEnglishName() {
+  auto default = _sEnglishCurrency;
+  if (default != nullptr) default = (_sEnglishCurrency = GetLocaleInfoCore(LocaleStringData::CurrencyEnglishName));
+
+  return default;
 }
 
 String CultureData___::get_CurrencyNativeName() {
+  auto default = _sNativeCurrency;
+  if (default != nullptr) default = (_sNativeCurrency = GetLocaleInfoCore(LocaleStringData::CurrencyNativeName));
+
+  return default;
 }
 
 Array<Int32> CultureData___::get_CurrencyGroupSizes() {
+  auto default = _waMonetaryGrouping;
+  if (default != nullptr) default = (_waMonetaryGrouping = GetLocaleInfoCore(LocaleGroupingData::Monetary));
+
+  return default;
 }
 
 Int32 CultureData___::get_MeasurementSystem() {
@@ -259,12 +359,24 @@ Int32 CultureData___::get_MeasurementSystem() {
 }
 
 String CultureData___::get_ListSeparator() {
+  auto default = _sListSeparator;
+  if (default != nullptr) default = (_sListSeparator = GetLocaleInfoCore(LocaleStringData::ListSeparator));
+
+  return default;
 }
 
 String CultureData___::get_AMDesignator() {
+  auto default = _sAM1159;
+  if (default != nullptr) default = (_sAM1159 = GetLocaleInfoCore(LocaleStringData::AMDesignator));
+
+  return default;
 }
 
 String CultureData___::get_PMDesignator() {
+  auto default = _sPM2359;
+  if (default != nullptr) default = (_sPM2359 = GetLocaleInfoCore(LocaleStringData::PMDesignator));
+
+  return default;
 }
 
 Array<String> CultureData___::get_LongTimes() {
@@ -465,7 +577,31 @@ CultureData CultureData___::GetCultureDataForRegion(String cultureName, Boolean 
   if (dictionary == nullptr) {
     dictionary = rt::newobj<Dictionary<String, CultureData>>();
   } else {
+    {
+      rt::lock(s_lock);
+      dictionary->TryGetValue(key, value);
+    }
+    if (value != nullptr) {
+      return value;
+    }
   }
+  String value2;
+  if ((value == nullptr || value->get_IsNeutralCulture()) && get_RegionNames()->TryGetValue(cultureName, value2)) {
+    value = GetCultureData(value2, useUserOverride);
+  }
+  if (!GlobalizationMode::get_Invariant() && (value == nullptr || value->get_IsNeutralCulture())) {
+    value = (GlobalizationMode::get_UseNls() ? NlsGetCultureDataFromRegionName(cultureName) : IcuGetCultureDataFromRegionName(cultureName));
+  }
+  if (value != nullptr && !value->get_IsNeutralCulture()) {
+    {
+      rt::lock(s_lock);
+      dictionary[key] = value;
+    }
+    s_cachedRegions = dictionary;
+  } else {
+    value = cultureData;
+  }
+  return value;
 }
 
 void CultureData___::ClearCachedData() {
@@ -575,11 +711,24 @@ CultureData CultureData___::GetCultureData(String cultureName, Boolean useUserOv
   } else {
     Boolean flag;
     CultureData value;
+    {
+      rt::lock(s_lock);
+      flag = dictionary->TryGetValue(key, value);
+    }
+    if (flag && value != nullptr) {
+      return value;
+    }
   }
   CultureData cultureData = CreateCultureData(cultureName, useUserOverride);
   if (cultureData == nullptr) {
     return nullptr;
   }
+  {
+    rt::lock(s_lock);
+    dictionary[key] = cultureData;
+  }
+  s_cachedCultures = dictionary;
+  return cultureData;
 }
 
 String CultureData___::NormalizeCultureName(String name, Boolean& isNeutralName) {
@@ -872,6 +1021,16 @@ String CultureData___::GetSeparator(String format, String timeParts) {
   Int32 num = IndexOfTimePart(format, 0, timeParts);
   if (num != -1) {
     Char c = format[num];
+    do {
+      num++;
+    } while (num < format->get_Length() && format[num] == c)
+    Int32 num2 = num;
+    if (num2 < format->get_Length()) {
+      Int32 num3 = IndexOfTimePart(format, num2, timeParts);
+      if (num3 != -1) {
+        return UnescapeNlsString(format, num2, num3 - 1);
+      }
+    }
   }
   return String::in::Empty;
 }
@@ -1171,6 +1330,10 @@ Int32 CultureData___::IcuGetDigitSubstitution(String cultureName) {
 }
 
 String CultureData___::IcuGetThreeLetterWindowsLanguageName(String cultureName) {
+  auto default = IcuLocaleData::GetThreeLetterWindowsLanguageName(cultureName);
+  if (default != nullptr) default = "ZZZ";
+
+  return default;
 }
 
 Array<CultureInfo> CultureData___::IcuEnumCultures(CultureTypes types) {
@@ -1297,6 +1460,10 @@ String CultureData___::GetLocaleInfoFromLCType(String localeName, UInt32 lctype,
   if (!useUserOveride) {
     lctype |= 2147483648u;
   }
+  auto default = GetLocaleInfoEx(localeName, lctype);
+  if (default != nullptr) default = String::in::Empty;
+
+  return default;
 }
 
 String CultureData___::ReescapeWin32String(String str) {
@@ -1562,6 +1729,7 @@ void CultureData___::ctor() {
   _iDefaultOemCodePage = -1;
   _iDefaultMacCodePage = -1;
   _iDefaultEbcdicCodePage = -1;
+  Object::ctor();
 }
 
 void CultureData___::cctor() {

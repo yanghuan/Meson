@@ -75,6 +75,26 @@ void StartupHookProvider::CallStartupHook(StartupHookNameOrPath startupHook) {
   Type type = assembly->GetType("StartupHook", true);
   MethodInfo method = type->GetMethod("Initialize", BindingFlags::Static | BindingFlags::Public | BindingFlags::NonPublic, nullptr, Type::in::EmptyTypes, nullptr);
   Boolean flag = false;
+  if (method == nullptr) {
+    try{
+      method = type->GetMethod("Initialize", BindingFlags::Instance | BindingFlags::Static | BindingFlags::Public | BindingFlags::NonPublic);
+    } catch (AmbiguousMatchException) {
+    }
+    if (!(method != nullptr)) {
+      rt::throw_exception<MissingMethodException>("StartupHook", "Initialize");
+    }
+    flag = true;
+  } else if (method->get_ReturnType() != rt::typeof<void>()) {
+    flag = true;
+  }
+
+  if (flag) {
+    auto default = startupHook.Path;
+    if (default != nullptr) default = startupHook.AssemblyName->ToString();
+
+    rt::throw_exception<ArgumentException>(SR::Format(SR::get_Argument_InvalidStartupHookSignature(), "StartupHook" + Type::in::Delimiter + "Initialize", default));
+  }
+  method->Invoke(nullptr, nullptr);
 }
 
 } // namespace System::Private::CoreLib::System::StartupHookProviderNamespace

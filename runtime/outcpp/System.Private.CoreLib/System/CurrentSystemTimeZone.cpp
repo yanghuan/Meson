@@ -23,6 +23,11 @@ String CurrentSystemTimeZone___::get_DaylightName() {
 
 void CurrentSystemTimeZone___::ctor() {
   m_CachedDaylightChanges = rt::newobj<Hashtable>();
+  TimeZone::ctor();
+  TimeZoneInfo local = TimeZoneInfo::in::get_Local();
+  m_ticksOffset = local->get_BaseUtcOffset().get_Ticks();
+  m_standardName = local->get_StandardName();
+  m_daylightName = local->get_DaylightName();
 }
 
 Int64 CurrentSystemTimeZone___::GetUtcOffsetFromUniversalTime(DateTime time, Boolean& isAmbiguousLocalDst) {
@@ -96,6 +101,12 @@ DaylightTime CurrentSystemTimeZone___::GetCachedDaylightChanges(Int32 year) {
   Object key = year;
   if (!m_CachedDaylightChanges->Contains(key)) {
     DaylightTime value = CreateDaylightChanges(year);
+    {
+      rt::lock(m_CachedDaylightChanges);
+      if (!m_CachedDaylightChanges->Contains(key)) {
+        m_CachedDaylightChanges->Add(key, value);
+      }
+    }
   }
   return (DaylightTime)m_CachedDaylightChanges[key];
 }

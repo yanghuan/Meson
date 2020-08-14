@@ -1,10 +1,13 @@
 #include "CryptographicException-dep.h"
 
+#include <System.Private.CoreLib/System/Exception-dep.h>
+
 namespace System::Private::CoreLib::System::Security::Cryptography::CryptographicExceptionNamespace {
 void CryptographicException___::ctor() {
 }
 
 void CryptographicException___::ctor(Int32 hr) {
+  Exception::set_HResult = hr;
 }
 
 void CryptographicException___::ctor(String message) {

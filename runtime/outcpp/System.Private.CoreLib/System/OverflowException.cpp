@@ -1,13 +1,18 @@
 #include "OverflowException-dep.h"
 
+#include <System.Private.CoreLib/System/Exception-dep.h>
+
 namespace System::Private::CoreLib::System::OverflowExceptionNamespace {
 void OverflowException___::ctor() {
+  Exception::set_HResult = -2146233066;
 }
 
 void OverflowException___::ctor(String message) {
+  Exception::set_HResult = -2146233066;
 }
 
 void OverflowException___::ctor(String message, Exception innerException) {
+  Exception::set_HResult = -2146233066;
 }
 
 void OverflowException___::ctor(SerializationInfo info, StreamingContext context) {

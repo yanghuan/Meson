@@ -8,12 +8,14 @@
 #include <System.Private.CoreLib/System/DateTimeKind.h>
 #include <System.Private.CoreLib/System/DateTimeOffset-dep.h>
 #include <System.Private.CoreLib/System/DayOfWeek.h>
+#include <System.Private.CoreLib/System/Int16-dep.h>
 #include <System.Private.CoreLib/System/Int64-dep.h>
 #include <System.Private.CoreLib/System/Number-dep.h>
 #include <System.Private.CoreLib/System/Span-dep.h>
 #include <System.Private.CoreLib/System/ThrowHelper-dep.h>
 #include <System.Private.CoreLib/System/TimeSpan-dep.h>
 #include <System.Private.CoreLib/System/UInt16-dep.h>
+#include <System.Private.CoreLib/System/UInt32-dep.h>
 #include <System.Private.CoreLib/System/UInt64-dep.h>
 
 namespace System::Private::CoreLib::System::Buffers::Text::Utf8ParserNamespace {
@@ -41,6 +43,62 @@ Boolean Utf8Parser::TimeSpanSplitter::TrySplitTimeSpan(ReadOnlySpan<Byte> source
       return false;
     }
   }
+  Int32 bytesConsumed2;
+  if (!TryParseUInt32D(source.Slice(i), V1, bytesConsumed2)) {
+    bytesConsumed = 0;
+    return false;
+  }
+  i += bytesConsumed2;
+  ComponentParseResult componentParseResult = ParseComponent(source, periodUsedToSeparateDay, i, V2);
+  switch (componentParseResult) {
+    case ComponentParseResult::ParseFailure:
+      bytesConsumed = 0;
+      return false;
+    case ComponentParseResult::NoMoreData:
+      bytesConsumed = i;
+      return true;
+    default:
+      Separators |= (UInt32)componentParseResult << 24;
+      componentParseResult = ParseComponent(source, false, i, V3);
+      switch (componentParseResult) {
+        case ComponentParseResult::ParseFailure:
+          bytesConsumed = 0;
+          return false;
+        case ComponentParseResult::NoMoreData:
+          bytesConsumed = i;
+          return true;
+        default:
+          Separators |= (UInt32)componentParseResult << 16;
+          componentParseResult = ParseComponent(source, false, i, V4);
+          switch (componentParseResult) {
+            case ComponentParseResult::ParseFailure:
+              bytesConsumed = 0;
+              return false;
+            case ComponentParseResult::NoMoreData:
+              bytesConsumed = i;
+              return true;
+            default:
+              Separators |= (UInt32)componentParseResult << 8;
+              componentParseResult = ParseComponent(source, false, i, V5);
+              switch (componentParseResult) {
+                case ComponentParseResult::ParseFailure:
+                  bytesConsumed = 0;
+                  return false;
+                case ComponentParseResult::NoMoreData:
+                  bytesConsumed = i;
+                  return true;
+                default:
+                  Separators |= (UInt32)componentParseResult;
+                  if (i != source.get_Length() && (source[i] == 46 || source[i] == 58)) {
+                    bytesConsumed = 0;
+                    return false;
+                  }
+                  bytesConsumed = i;
+                  return true;
+              }
+          }
+      }
+  }
 }
 
 Utf8Parser::ComponentParseResult Utf8Parser::TimeSpanSplitter::ParseComponent(ReadOnlySpan<Byte> source, Boolean neverParseAsFraction, Int32& srcIndex, UInt32& value) {
@@ -51,9 +109,26 @@ Utf8Parser::ComponentParseResult Utf8Parser::TimeSpanSplitter::ParseComponent(Re
   Byte b = source[srcIndex];
   if (b == 58 || (b == 46 && neverParseAsFraction)) {
     srcIndex++;
+    Int32 bytesConsumed;
+    if (!TryParseUInt32D(source.Slice(srcIndex), value, bytesConsumed)) {
+      value = 0u;
+      return ComponentParseResult::ParseFailure;
+    }
+    srcIndex += bytesConsumed;
+    if (b != 58) {
+      return ComponentParseResult::Period;
+    }
+    return ComponentParseResult::Colon;
   }
   if (b == 46) {
     srcIndex++;
+    Int32 bytesConsumed2;
+    if (!TryParseTimeSpanFraction(source.Slice(srcIndex), value, bytesConsumed2)) {
+      value = 0u;
+      return ComponentParseResult::ParseFailure;
+    }
+    srcIndex += bytesConsumed2;
+    return ComponentParseResult::Period;
   }
   value = 0u;
   return ComponentParseResult::NoMoreData;
@@ -85,10 +160,43 @@ Boolean Utf8Parser::TryParse(ReadOnlySpan<Byte> source, DateTime& value, Int32& 
   switch (standardFormat.get()) {
     case 82:
       {
+        DateTimeOffset dateTimeOffset;
+        if (!TryParseDateTimeOffsetR(source, 0u, dateTimeOffset, bytesConsumed)) {
+          value = DateTime();
+          return false;
+        }
+        value = dateTimeOffset.get_DateTime();
+        return true;
       }case 108:
       {
+        DateTimeOffset dateTimeOffset2;
+        if (!TryParseDateTimeOffsetR(source, 32u, dateTimeOffset2, bytesConsumed)) {
+          value = DateTime();
+          return false;
+        }
+        value = dateTimeOffset2.get_DateTime();
+        return true;
       }case 79:
       {
+        DateTimeOffset value2;
+        DateTimeKind kind;
+        if (!TryParseDateTimeOffsetO(source, value2, bytesConsumed, kind)) {
+          value = DateTime();
+          bytesConsumed = 0;
+          return false;
+        }
+        switch (kind) {
+          case DateTimeKind::Local:
+            value = value2.get_LocalDateTime();
+            break;
+          case DateTimeKind::Utc:
+            value = value2.get_UtcDateTime();
+            break;
+          default:
+            value = value2.get_DateTime();
+            break;
+        }
+        return true;
       }case 0:
     case 71:
       {
@@ -126,6 +234,53 @@ Boolean Utf8Parser::TryParseDateTimeOffsetDefault(ReadOnlySpan<Byte> source, Dat
     value = DateTimeOffset();
     return false;
   }
+  DateTime value2;
+  DateTimeOffset _;
+  Int32 _;
+  if (!TryParseDateTimeG(source, value2, _, _)) {
+    bytesConsumed = 0;
+    value = DateTimeOffset();
+    return false;
+  }
+  if (source[19] != 32) {
+    bytesConsumed = 0;
+    value = DateTimeOffset();
+    return false;
+  }
+  Byte b = source[20];
+  if (b != 43 && b != 45) {
+    bytesConsumed = 0;
+    value = DateTimeOffset();
+    return false;
+  }
+  UInt32 num = (UInt32)(source[21] - 48);
+  UInt32 num2 = (UInt32)(source[22] - 48);
+  if (num > 9 || num2 > 9) {
+    bytesConsumed = 0;
+    value = DateTimeOffset();
+    return false;
+  }
+  Int32 offsetHours = (Int32)(num * 10 + num2);
+  if (source[23] != 58) {
+    bytesConsumed = 0;
+    value = DateTimeOffset();
+    return false;
+  }
+  UInt32 num3 = (UInt32)(source[24] - 48);
+  UInt32 num4 = (UInt32)(source[25] - 48);
+  if (num3 > 9 || num4 > 9) {
+    bytesConsumed = 0;
+    value = DateTimeOffset();
+    return false;
+  }
+  Int32 offsetMinutes = (Int32)(num3 * 10 + num4);
+  if (!TryCreateDateTimeOffset(value2, b == 45, offsetHours, offsetMinutes, value)) {
+    bytesConsumed = 0;
+    value = DateTimeOffset();
+    return false;
+  }
+  bytesConsumed = 26;
+  return true;
 }
 
 Boolean Utf8Parser::TryParseDateTimeG(ReadOnlySpan<Byte> source, DateTime& value, DateTimeOffset& valueAsOffset, Int32& bytesConsumed) {
@@ -256,9 +411,29 @@ Boolean Utf8Parser::TryCreateDateTimeOffset(DateTime dateTime, Boolean offsetNeg
 }
 
 Boolean Utf8Parser::TryCreateDateTimeOffset(Int32 year, Int32 month, Int32 day, Int32 hour, Int32 minute, Int32 second, Int32 fraction, Boolean offsetNegative, Int32 offsetHours, Int32 offsetMinutes, DateTimeOffset& value) {
+  DateTime value2;
+  if (!TryCreateDateTime(year, month, day, hour, minute, second, fraction, DateTimeKind::Unspecified, value2)) {
+    value = DateTimeOffset();
+    return false;
+  }
+  if (!TryCreateDateTimeOffset(value2, offsetNegative, offsetHours, offsetMinutes, value)) {
+    value = DateTimeOffset();
+    return false;
+  }
+  return true;
 }
 
 Boolean Utf8Parser::TryCreateDateTimeOffsetInterpretingDataAsLocalTime(Int32 year, Int32 month, Int32 day, Int32 hour, Int32 minute, Int32 second, Int32 fraction, DateTimeOffset& value) {
+  DateTime value2;
+  if (!TryCreateDateTime(year, month, day, hour, minute, second, fraction, DateTimeKind::Local, value2)) {
+    value = DateTimeOffset();
+    return false;
+  }
+  try{
+    value = DateTimeOffset(value2);
+  } catch (ArgumentOutOfRangeException) {
+  }
+  return true;
 }
 
 Boolean Utf8Parser::TryCreateDateTime(Int32 year, Int32 month, Int32 day, Int32 hour, Int32 minute, Int32 second, Int32 fraction, DateTimeKind kind, DateTime& value) {
@@ -671,6 +846,23 @@ Boolean Utf8Parser::TryParse(ReadOnlySpan<Byte> source, Decimal& value, Int32& b
   Byte default[31] = {};
   Byte* digits = default;
   Number::NumberBuffer number = Number::NumberBuffer(Number::NumberBufferKind::Decimal, digits, 31);
+  Boolean textUsedExponentNotation;
+  if (!TryParseNumber(source, number, bytesConsumed, options, textUsedExponentNotation)) {
+    value = Decimal();
+    return false;
+  }
+  if (!textUsedExponentNotation && (standardFormat == 69 || standardFormat == 101)) {
+    value = Decimal();
+    bytesConsumed = 0;
+    return false;
+  }
+  value = Decimal();
+  if (!Number::TryNumberToDecimal(number, value)) {
+    value = Decimal();
+    bytesConsumed = 0;
+    return false;
+  }
+  return true;
 }
 
 Boolean Utf8Parser::TryParse(ReadOnlySpan<Byte> source, Single& value, Int32& bytesConsumed, Char standardFormat) {
@@ -712,6 +904,15 @@ Boolean Utf8Parser::TryParseNormalAsFloatingPoint(ReadOnlySpan<Byte> source, Num
     default:
       return ParserHelpers::TryParseThrowFormatException(bytesConsumed);
   }
+  Boolean textUsedExponentNotation;
+  if (!TryParseNumber(source, number, bytesConsumed, options, textUsedExponentNotation)) {
+    return false;
+  }
+  if (!textUsedExponentNotation && (standardFormat == 69 || standardFormat == 101)) {
+    bytesConsumed = 0;
+    return false;
+  }
+  return true;
 }
 
 Boolean Utf8Parser::TryParse(ReadOnlySpan<Byte> source, Guid& value, Int32& bytesConsumed, Char standardFormat) {
@@ -740,6 +941,40 @@ Boolean Utf8Parser::TryParseGuidN(ReadOnlySpan<Byte> text, Guid& value, Int32& b
     bytesConsumed = 0;
     return false;
   }
+  UInt32 value2;
+  Int32 bytesConsumed2;
+  if (!TryParseUInt32X(text.Slice(0, 8), value2, bytesConsumed2) || bytesConsumed2 != 8) {
+    value = Guid();
+    bytesConsumed = 0;
+    return false;
+  }
+  UInt16 value3;
+  if (!TryParseUInt16X(text.Slice(8, 4), value3, bytesConsumed2) || bytesConsumed2 != 4) {
+    value = Guid();
+    bytesConsumed = 0;
+    return false;
+  }
+  UInt16 value4;
+  if (!TryParseUInt16X(text.Slice(12, 4), value4, bytesConsumed2) || bytesConsumed2 != 4) {
+    value = Guid();
+    bytesConsumed = 0;
+    return false;
+  }
+  UInt16 value5;
+  if (!TryParseUInt16X(text.Slice(16, 4), value5, bytesConsumed2) || bytesConsumed2 != 4) {
+    value = Guid();
+    bytesConsumed = 0;
+    return false;
+  }
+  UInt64 value6;
+  if (!TryParseUInt64X(text.Slice(20), value6, bytesConsumed2) || bytesConsumed2 != 12) {
+    value = Guid();
+    bytesConsumed = 0;
+    return false;
+  }
+  bytesConsumed = 32;
+  value = Guid((Int32)value2, (Int16)value3, (Int16)value4, (Byte)(value5 >> 8), (Byte)value5, (Byte)(value6 >> 40), (Byte)(value6 >> 32), (Byte)(value6 >> 24), (Byte)(value6 >> 16), (Byte)(value6 >> 8), (Byte)value6);
+  return true;
 }
 
 Boolean Utf8Parser::TryParseGuidCore(ReadOnlySpan<Byte> source, Guid& value, Int32& bytesConsumed, Int32 ends) {
@@ -758,6 +993,94 @@ Boolean Utf8Parser::TryParseGuidCore(ReadOnlySpan<Byte> source, Guid& value, Int
     source = source.Slice(1);
     ends >>= 8;
   }
+  UInt32 value2;
+  Int32 bytesConsumed2;
+  if (!TryParseUInt32X(source, value2, bytesConsumed2)) {
+    value = Guid();
+    bytesConsumed = 0;
+    return false;
+  }
+  if (bytesConsumed2 != 8) {
+    value = Guid();
+    bytesConsumed = 0;
+    return false;
+  }
+  if (source[bytesConsumed2] != 45) {
+    value = Guid();
+    bytesConsumed = 0;
+    return false;
+  }
+  source = source.Slice(9);
+  UInt16 value3;
+  if (!TryParseUInt16X(source, value3, bytesConsumed2)) {
+    value = Guid();
+    bytesConsumed = 0;
+    return false;
+  }
+  if (bytesConsumed2 != 4) {
+    value = Guid();
+    bytesConsumed = 0;
+    return false;
+  }
+  if (source[bytesConsumed2] != 45) {
+    value = Guid();
+    bytesConsumed = 0;
+    return false;
+  }
+  source = source.Slice(5);
+  UInt16 value4;
+  if (!TryParseUInt16X(source, value4, bytesConsumed2)) {
+    value = Guid();
+    bytesConsumed = 0;
+    return false;
+  }
+  if (bytesConsumed2 != 4) {
+    value = Guid();
+    bytesConsumed = 0;
+    return false;
+  }
+  if (source[bytesConsumed2] != 45) {
+    value = Guid();
+    bytesConsumed = 0;
+    return false;
+  }
+  source = source.Slice(5);
+  UInt16 value5;
+  if (!TryParseUInt16X(source, value5, bytesConsumed2)) {
+    value = Guid();
+    bytesConsumed = 0;
+    return false;
+  }
+  if (bytesConsumed2 != 4) {
+    value = Guid();
+    bytesConsumed = 0;
+    return false;
+  }
+  if (source[bytesConsumed2] != 45) {
+    value = Guid();
+    bytesConsumed = 0;
+    return false;
+  }
+  source = source.Slice(5);
+  UInt64 value6;
+  if (!TryParseUInt64X(source, value6, bytesConsumed2)) {
+    value = Guid();
+    bytesConsumed = 0;
+    return false;
+  }
+  if (bytesConsumed2 != 12) {
+    value = Guid();
+    bytesConsumed = 0;
+    return false;
+  }
+  if (ends != 0 && source[bytesConsumed2] != (Byte)ends) {
+    value = Guid();
+    bytesConsumed = 0;
+    return false;
+  }
+  bytesConsumed = num;
+  value = Guid((Int32)value2, (Int16)value3, (Int16)value4, (Byte)(value5 >> 8), (Byte)value5, (Byte)(value6 >> 40), (Byte)(value6 >> 32), (Byte)(value6 >> 24), (Byte)(value6 >> 16), (Byte)(value6 >> 8), (Byte)value6);
+  return true;
 }
 
 Boolean Utf8Parser::TryParse(ReadOnlySpan<Byte> source, SByte& value, Int32& bytesConsumed, Char standardFormat) {
@@ -1910,6 +2233,74 @@ Boolean Utf8Parser::TryParseTimeSpanBigG(ReadOnlySpan<Byte> source, TimeSpan& va
       return false;
     }
   }
+  UInt32 value2;
+  Int32 bytesConsumed2;
+  if (!TryParseUInt32D(source.Slice(i), value2, bytesConsumed2)) {
+    value = TimeSpan();
+    bytesConsumed = 0;
+    return false;
+  }
+  i += bytesConsumed2;
+  if (i == source.get_Length() || source[i++] != 58) {
+    value = TimeSpan();
+    bytesConsumed = 0;
+    return false;
+  }
+  UInt32 value3;
+  if (!TryParseUInt32D(source.Slice(i), value3, bytesConsumed2)) {
+    value = TimeSpan();
+    bytesConsumed = 0;
+    return false;
+  }
+  i += bytesConsumed2;
+  if (i == source.get_Length() || source[i++] != 58) {
+    value = TimeSpan();
+    bytesConsumed = 0;
+    return false;
+  }
+  UInt32 value4;
+  if (!TryParseUInt32D(source.Slice(i), value4, bytesConsumed2)) {
+    value = TimeSpan();
+    bytesConsumed = 0;
+    return false;
+  }
+  i += bytesConsumed2;
+  if (i == source.get_Length() || source[i++] != 58) {
+    value = TimeSpan();
+    bytesConsumed = 0;
+    return false;
+  }
+  UInt32 value5;
+  if (!TryParseUInt32D(source.Slice(i), value5, bytesConsumed2)) {
+    value = TimeSpan();
+    bytesConsumed = 0;
+    return false;
+  }
+  i += bytesConsumed2;
+  if (i == source.get_Length() || source[i++] != 46) {
+    value = TimeSpan();
+    bytesConsumed = 0;
+    return false;
+  }
+  UInt32 value6;
+  if (!TryParseTimeSpanFraction(source.Slice(i), value6, bytesConsumed2)) {
+    value = TimeSpan();
+    bytesConsumed = 0;
+    return false;
+  }
+  i += bytesConsumed2;
+  if (!TryCreateTimeSpan(isNegative, value2, value3, value4, value5, value6, value)) {
+    value = TimeSpan();
+    bytesConsumed = 0;
+    return false;
+  }
+  if (i != source.get_Length() && (source[i] == 46 || source[i] == 58)) {
+    value = TimeSpan();
+    bytesConsumed = 0;
+    return false;
+  }
+  bytesConsumed = i;
+  return true;
 }
 
 Boolean Utf8Parser::TryParseTimeSpanC(ReadOnlySpan<Byte> source, TimeSpan& value, Int32& bytesConsumed) {

@@ -1,5 +1,6 @@
 #include "OpCode-dep.h"
 
+#include <System.Private.CoreLib/System/Enum-dep.h>
 #include <System.Private.CoreLib/System/Reflection/Emit/OpCode-dep.h>
 #include <System.Private.CoreLib/System/Reflection/Emit/OpCodeValues.h>
 #include <System.Private.CoreLib/System/Threading/Volatile-dep.h>
@@ -56,6 +57,9 @@ String OpCode::get_Name() {
   if (text != nullptr) {
     return text;
   }
+  text = Enum::in::GetName(rt::typeof<OpCodeValues>(), opCodeValues)->ToLowerInvariant()->Replace(95, 46);
+  Volatile::Write(array[num], text);
+  return text;
 }
 
 OpCode::OpCode(OpCodeValues value, Int32 flags) {

@@ -1,27 +1,41 @@
 #include "CustomAttribute-dep.h"
 
 #include <System.Private.CoreLib/Interop-dep.h>
+#include <System.Private.CoreLib/System/AttributeTargets.h>
 #include <System.Private.CoreLib/System/AttributeUsageAttribute-dep.h>
 #include <System.Private.CoreLib/System/Byte-dep.h>
+#include <System.Private.CoreLib/System/Exception-dep.h>
+#include <System.Private.CoreLib/System/FormatException-dep.h>
 #include <System.Private.CoreLib/System/GC-dep.h>
 #include <System.Private.CoreLib/System/Int32-dep.h>
 #include <System.Private.CoreLib/System/IntPtr-dep.h>
+#include <System.Private.CoreLib/System/IRuntimeMethodInfo.h>
 #include <System.Private.CoreLib/System/ModuleHandle-dep.h>
+#include <System.Private.CoreLib/System/Reflection/BindingFlags.h>
 #include <System.Private.CoreLib/System/Reflection/ConstArray-dep.h>
 #include <System.Private.CoreLib/System/Reflection/CustomAttributeData-dep.h>
+#include <System.Private.CoreLib/System/Reflection/CustomAttributeFormatException-dep.h>
 #include <System.Private.CoreLib/System/Reflection/CustomAttributeRecord-dep.h>
+#include <System.Private.CoreLib/System/Reflection/FieldInfo-dep.h>
 #include <System.Private.CoreLib/System/Reflection/MetadataImport-dep.h>
+#include <System.Private.CoreLib/System/Reflection/MethodInfo-dep.h>
+#include <System.Private.CoreLib/System/Reflection/PropertyInfo-dep.h>
 #include <System.Private.CoreLib/System/Reflection/PseudoCustomAttribute-dep.h>
 #include <System.Private.CoreLib/System/Reflection/RuntimeModule-dep.h>
 #include <System.Private.CoreLib/System/Reflection/TypeAttributes.h>
 #include <System.Private.CoreLib/System/Runtime/CompilerServices/QCallModule-dep.h>
 #include <System.Private.CoreLib/System/Runtime/CompilerServices/QCallTypeHandle-dep.h>
+#include <System.Private.CoreLib/System/Runtime/InteropServices/Marshal-dep.h>
 #include <System.Private.CoreLib/System/RuntimeMethodHandle-dep.h>
 #include <System.Private.CoreLib/System/RuntimeMethodHandleInternal-dep.h>
 #include <System.Private.CoreLib/System/RuntimeTypeHandle-dep.h>
+#include <System.Private.CoreLib/System/SR-dep.h>
+#include <System.Private.CoreLib/System/String-dep.h>
+#include <System.Private.CoreLib/System/Type-dep.h>
 
 namespace System::Private::CoreLib::System::Reflection::CustomAttributeNamespace {
 using namespace System::Runtime::CompilerServices;
+using namespace System::Runtime::InteropServices;
 
 Boolean CustomAttribute::IsDefined(RuntimeType type, RuntimeType caType, Boolean inherit) {
   if (type->GetElementType() != nullptr) {
@@ -110,12 +124,62 @@ Array<Object> CustomAttribute::GetCustomAttributes(RuntimeType type, RuntimeType
   if (type->get_IsGenericType() && !type->get_IsGenericTypeDefinition()) {
     type = (rt::as<RuntimeType>(type->GetGenericTypeDefinition()));
   }
+  RuntimeType::in::ListBuilder<T> pcas;
+  PseudoCustomAttribute::GetCustomAttributes(type, caType, pcas);
+  if (!inherit || (caType->get_IsSealed() && !GetAttributeUsage(caType)->get_Inherited())) {
+    Array<Object> customAttributes = GetCustomAttributes(type->GetRuntimeModule(), type->get_MetadataToken(), pcas.get_Count(), caType);
+    if (pcas.get_Count() > 0) {
+      pcas.CopyTo(customAttributes, customAttributes->get_Length() - pcas.get_Count());
+    }
+    return customAttributes;
+  }
+  RuntimeType::in::ListBuilder<T> attributes = RuntimeType::in::ListBuilder<T>();
+  Boolean mustBeInheritable = false;
+  RuntimeType elementType = (caType->get_IsValueType() || caType->get_ContainsGenericParameters()) ? ((RuntimeType)rt::typeof<Object>()) : caType;
+  for (Int32 i = 0; i < pcas.get_Count(); i++) {
+    attributes.Add(pcas[i]);
+  }
+  while (type != (RuntimeType)rt::typeof<Object>() && type != nullptr) {
+    AddCustomAttributes(attributes, type->GetRuntimeModule(), type->get_MetadataToken(), caType, mustBeInheritable, attributes);
+    mustBeInheritable = true;
+    type = (rt::as<RuntimeType>(type->get_BaseType()));
+  }
+  Array<Object> array = CreateAttributeArrayHelper(elementType, attributes.get_Count());
+  for (Int32 j = 0; j < attributes.get_Count(); j++) {
+    array[j] = attributes[j];
+  }
+  return array;
 }
 
 Array<Object> CustomAttribute::GetCustomAttributes(RuntimeMethodInfo method, RuntimeType caType, Boolean inherit) {
   if (method->get_IsGenericMethod() && !method->get_IsGenericMethodDefinition()) {
     method = (rt::as<RuntimeMethodInfo>(method->GetGenericMethodDefinition()));
   }
+  RuntimeType::in::ListBuilder<T> pcas;
+  PseudoCustomAttribute::GetCustomAttributes(method, caType, pcas);
+  if (!inherit || (caType->get_IsSealed() && !GetAttributeUsage(caType)->get_Inherited())) {
+    Array<Object> customAttributes = GetCustomAttributes(method->GetRuntimeModule(), method->get_MetadataToken(), pcas.get_Count(), caType);
+    if (pcas.get_Count() > 0) {
+      pcas.CopyTo(customAttributes, customAttributes->get_Length() - pcas.get_Count());
+    }
+    return customAttributes;
+  }
+  RuntimeType::in::ListBuilder<T> attributes = RuntimeType::in::ListBuilder<T>();
+  Boolean mustBeInheritable = false;
+  RuntimeType elementType = (caType->get_IsValueType() || caType->get_ContainsGenericParameters()) ? ((RuntimeType)rt::typeof<Object>()) : caType;
+  for (Int32 i = 0; i < pcas.get_Count(); i++) {
+    attributes.Add(pcas[i]);
+  }
+  while (method != nullptr) {
+    AddCustomAttributes(attributes, method->GetRuntimeModule(), method->get_MetadataToken(), caType, mustBeInheritable, attributes);
+    mustBeInheritable = true;
+    method = method->GetParentDefinition();
+  }
+  Array<Object> array = CreateAttributeArrayHelper(elementType, attributes.get_Count());
+  for (Int32 j = 0; j < attributes.get_Count(); j++) {
+    array[j] = attributes[j];
+  }
+  return array;
 }
 
 Array<Object> CustomAttribute::GetCustomAttributes(RuntimeConstructorInfo ctor, RuntimeType caType) {
@@ -131,9 +195,23 @@ Array<Object> CustomAttribute::GetCustomAttributes(RuntimeEventInfo e, RuntimeTy
 }
 
 Array<Object> CustomAttribute::GetCustomAttributes(RuntimeFieldInfo field, RuntimeType caType) {
+  RuntimeType::in::ListBuilder<T> pcas;
+  PseudoCustomAttribute::GetCustomAttributes(field, caType, pcas);
+  Array<Object> customAttributes = GetCustomAttributes(field->GetRuntimeModule(), field->get_MetadataToken(), pcas.get_Count(), caType);
+  if (pcas.get_Count() > 0) {
+    pcas.CopyTo(customAttributes, customAttributes->get_Length() - pcas.get_Count());
+  }
+  return customAttributes;
 }
 
 Array<Object> CustomAttribute::GetCustomAttributes(RuntimeParameterInfo parameter, RuntimeType caType) {
+  RuntimeType::in::ListBuilder<T> pcas;
+  PseudoCustomAttribute::GetCustomAttributes(parameter, caType, pcas);
+  Array<Object> customAttributes = GetCustomAttributes(parameter->GetRuntimeModule(), parameter->get_MetadataToken(), pcas.get_Count(), caType);
+  if (pcas.get_Count() > 0) {
+    pcas.CopyTo(customAttributes, customAttributes->get_Length() - pcas.get_Count());
+  }
+  return customAttributes;
 }
 
 Array<Object> CustomAttribute::GetCustomAttributes(RuntimeAssembly assembly, RuntimeType caType) {
@@ -155,6 +233,12 @@ Boolean CustomAttribute::IsCustomAttributeDefined(RuntimeModule decoratedModule,
     MetadataImport scope = decoratedModule->get_MetadataImport();
     RuntimeType::in::ListBuilder<T> derivedAttributes = RuntimeType::in::ListBuilder<T>();
     for (Int32 i = 0; i < customAttributeRecords->get_Length(); i++) {
+      RuntimeType _;
+      IRuntimeMethodInfo _;
+      Boolean _;
+      if (FilterCustomAttributeRecord(customAttributeRecords[i].tkCtor, scope, decoratedModule, decoratedMetadataToken, attributeFilterType, mustBeInheritable, derivedAttributes, _, _, _)) {
+        return true;
+      }
     }
   } else {
     for (Int32 j = 0; j < customAttributeRecords->get_Length(); j++) {
@@ -169,6 +253,12 @@ Boolean CustomAttribute::IsCustomAttributeDefined(RuntimeModule decoratedModule,
 Array<Object> CustomAttribute::GetCustomAttributes(RuntimeModule decoratedModule, Int32 decoratedMetadataToken, Int32 pcaCount, RuntimeType attributeFilterType) {
   RuntimeType::in::ListBuilder<T> attributes = RuntimeType::in::ListBuilder<T>();
   AddCustomAttributes(attributes, decoratedModule, decoratedMetadataToken, attributeFilterType, false, RuntimeType::in::ListBuilder<T>());
+  RuntimeType elementType = (attributeFilterType == nullptr || attributeFilterType->get_IsValueType() || attributeFilterType->get_ContainsGenericParameters()) ? ((RuntimeType)rt::typeof<Object>()) : attributeFilterType;
+  Array<Object> array = CreateAttributeArrayHelper(elementType, attributes.get_Count() + pcaCount);
+  for (Int32 i = 0; i < attributes.get_Count(); i++) {
+    array[i] = attributes[i];
+  }
+  return array;
 }
 
 void CustomAttribute::AddCustomAttributes(RuntimeType::in::ListBuilder<Object>& attributes, RuntimeModule decoratedModule, Int32 decoratedMetadataToken, RuntimeType attributeFilterType, Boolean mustBeInheritable, RuntimeType::in::ListBuilder<Object> derivedAttributes) {
@@ -181,6 +271,63 @@ void CustomAttribute::AddCustomAttributes(RuntimeType::in::ListBuilder<Object>& 
     CustomAttributeRecord& reference = customAttributeRecords[i];
     IntPtr blob = reference.blob.get_Signature();
     IntPtr intPtr = (IntPtr)(void*)((Byte*)(void*)blob + reference.blob.get_Length());
+    RuntimeType attributeType;
+    IRuntimeMethodInfo ctorWithParameters;
+    Boolean isVarArg;
+    if (!FilterCustomAttributeRecord(reference.tkCtor, scope, decoratedModule, decoratedMetadataToken, attributeFilterType, mustBeInheritable, derivedAttributes, attributeType, ctorWithParameters, isVarArg)) {
+      continue;
+    }
+    RuntimeConstructorInfo::in::CheckCanCreateInstance(attributeType, isVarArg);
+    Object obj;
+    Int32 namedArgs;
+    if (ctorWithParameters != nullptr) {
+      obj = CreateCaObject(decoratedModule, attributeType, ctorWithParameters, blob, intPtr, namedArgs);
+    } else {
+      obj = attributeType->CreateInstanceDefaultCtor(false, true, true, false);
+      if ((Int32)((Byte*)(void*)intPtr - (Byte*)(void*)blob) == 0) {
+        namedArgs = 0;
+      } else {
+        if (Marshal::ReadInt16(blob) != 1) {
+          rt::throw_exception<CustomAttributeFormatException>();
+        }
+        blob = (IntPtr)(void*)((Byte*)(void*)blob + 2);
+        namedArgs = Marshal::ReadInt16(blob);
+        blob = (IntPtr)(void*)((Byte*)(void*)blob + 2);
+      }
+    }
+    for (Int32 j = 0; j < namedArgs; j++) {
+      String name;
+      Boolean isProperty;
+      RuntimeType type;
+      Object value;
+      GetPropertyOrFieldData(decoratedModule, blob, intPtr, name, isProperty, type, value);
+      try{
+        if (isProperty) {
+          if ((Object)type == nullptr && value != nullptr) {
+            type = (RuntimeType)value->GetType();
+            if (type == Type_RuntimeType) {
+              type = Type_Type;
+            }
+          }
+          PropertyInfo propertyInfo = ((Object)type == nullptr) ? attributeType->GetProperty(name) : attributeType->GetProperty(name, type, Type::in::EmptyTypes);
+          if (propertyInfo == nullptr) {
+            rt::throw_exception<CustomAttributeFormatException>(SR::Format(SR::get_RFLCT_InvalidPropFail(), name));
+          }
+          MethodInfo setMethod = propertyInfo->GetSetMethod(true);
+          if (setMethod->get_IsPublic()) {
+            setMethod->Invoke(obj, BindingFlags::Default, nullptr, rt::newarr<Array<Object>>(1), nullptr);
+          }
+        } else {
+          FieldInfo field = attributeType->GetField(name);
+          field->SetValue(obj, value, BindingFlags::Default, Type::in::get_DefaultBinder(), nullptr);
+        }
+      } catch (Exception inner) {
+      }
+    }
+    if (blob != intPtr) {
+      rt::throw_exception<CustomAttributeFormatException>();
+    }
+    attributes.Add(obj);
   }
 }
 
@@ -260,10 +407,27 @@ AttributeUsageAttribute CustomAttribute::GetAttributeUsage(RuntimeType decorated
   for (Int32 i = 0; i < customAttributeRecords->get_Length(); i++) {
     CustomAttributeRecord& reference = customAttributeRecords[i];
     RuntimeType runtimeType = rt::as<RuntimeType>(runtimeModule->ResolveType(metadataImport.GetParentToken(reference.tkCtor), nullptr, nullptr));
+    if (!(runtimeType != (RuntimeType)rt::typeof<AttributeUsageAttribute>())) {
+      if (attributeUsageAttribute != nullptr) {
+        rt::throw_exception<FormatException>(SR::Format(SR::get_Format_AttributeUsage(), runtimeType));
+      }
+      AttributeTargets targets;
+      Boolean inherited;
+      Boolean allowMultiple;
+      ParseAttributeUsageAttribute(reference.blob, targets, inherited, allowMultiple);
+      attributeUsageAttribute = rt::newobj<AttributeUsageAttribute>(targets, allowMultiple, inherited);
+    }
   }
+  auto default = attributeUsageAttribute;
+  if (default != nullptr) default = AttributeUsageAttribute::in::Default;
+
+  return default;
 }
 
 void CustomAttribute::ParseAttributeUsageAttribute(ConstArray ca, AttributeTargets& targets, Boolean& inherited, Boolean& allowMultiple) {
+  Int32 targets2;
+  _ParseAttributeUsageAttribute(ca.get_Signature(), ca.get_Length(), targets2, inherited, allowMultiple);
+  targets = (AttributeTargets)targets2;
 }
 
 Object CustomAttribute::CreateCaObject(RuntimeModule module, RuntimeType type, IRuntimeMethodInfo ctor, IntPtr& blob, IntPtr blobEnd, Int32& namedArgs) {
@@ -290,6 +454,8 @@ Array<Object> CustomAttribute::CreateAttributeArrayHelper(RuntimeType elementTyp
 }
 
 void CustomAttribute::cctor() {
+  Type_RuntimeType = (RuntimeType)rt::typeof<RuntimeType>();
+  Type_Type = (RuntimeType)rt::typeof<Type>();
 }
 
 } // namespace System::Private::CoreLib::System::Reflection::CustomAttributeNamespace

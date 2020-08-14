@@ -3,11 +3,18 @@
 #include <System.Private.CoreLib/System/ArgumentException-dep.h>
 #include <System.Private.CoreLib/System/ArgumentNullException-dep.h>
 #include <System.Private.CoreLib/System/ArgumentOutOfRangeException-dep.h>
+#include <System.Private.CoreLib/System/IO/StringReader-dep.h>
+#include <System.Private.CoreLib/System/MemoryExtensions-dep.h>
 #include <System.Private.CoreLib/System/ObjectDisposedException-dep.h>
 #include <System.Private.CoreLib/System/SR-dep.h>
 
 namespace System::Private::CoreLib::System::IO::StringReaderNamespace {
 void StringReader___::ctor(String s) {
+  auto default = s;
+  if (default != nullptr) default = rt::throw_exception(rt::newobj<ArgumentNullException>("s"));
+
+  _s = (default);
+  _length = s->get_Length();
 }
 
 void StringReader___::Close() {
@@ -18,6 +25,7 @@ void StringReader___::Dispose(Boolean disposing) {
   _s = nullptr;
   _pos = 0;
   _length = 0;
+  TextReader::Dispose(disposing);
 }
 
 Int32 StringReader___::Peek() {
@@ -68,6 +76,21 @@ Int32 StringReader___::Read(Array<Char> buffer, Int32 index, Int32 count) {
 }
 
 Int32 StringReader___::Read(Span<Char> buffer) {
+  if (GetType() != rt::typeof<StringReader>()) {
+    return TextReader::Read(buffer);
+  }
+  if (_s == nullptr) {
+    rt::throw_exception<ObjectDisposedException>(nullptr, SR::get_ObjectDisposed_ReaderClosed());
+  }
+  Int32 num = _length - _pos;
+  if (num > 0) {
+    if (num > buffer.get_Length()) {
+      num = buffer.get_Length();
+    }
+    MemoryExtensions::AsSpan(_s, _pos, num).CopyTo(buffer);
+    _pos += num;
+  }
+  return num;
 }
 
 Int32 StringReader___::ReadBlock(Span<Char> buffer) {

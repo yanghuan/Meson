@@ -32,6 +32,7 @@ Boolean InternalAssemblyBuilder___::Equals(Object obj) {
 }
 
 Int32 InternalAssemblyBuilder___::GetHashCode() {
+  return Assembly::GetHashCode();
 }
 
 Array<String> InternalAssemblyBuilder___::GetManifestResourceNames() {

@@ -1,6 +1,7 @@
 #include "EncodingProvider-dep.h"
 
 #include <System.Private.CoreLib/System/ArgumentNullException-dep.h>
+#include <System.Private.CoreLib/System/Array-dep.h>
 #include <System.Private.CoreLib/System/Text/EncodingProvider-dep.h>
 
 namespace System::Private::CoreLib::System::Text::EncodingProviderNamespace {
@@ -30,6 +31,16 @@ Encoding EncodingProvider___::GetEncoding(Int32 codepage, EncoderFallback encode
 void EncodingProvider___::AddProvider(EncodingProvider provider) {
   if (provider == nullptr) {
     rt::throw_exception<ArgumentNullException>("provider");
+  }
+  {
+    rt::lock(s_InternalSyncObject);
+    if (s_providers == nullptr) {
+      s_providers = rt::newarr<Array<EncodingProvider>>(1);
+    } else if (Array<>::in::IndexOf(s_providers, provider) < 0) {
+      Array<EncodingProvider> array = rt::newarr<Array<EncodingProvider>>(s_providers->get_Length() + 1);
+      Array<>::in::Copy(s_providers, array, s_providers->get_Length());
+    }
+
   }
 }
 

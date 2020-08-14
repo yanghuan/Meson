@@ -21,6 +21,7 @@
 #include <System.Private.CoreLib/System/IO/Path-dep.h>
 #include <System.Private.CoreLib/System/Nullable-dep.h>
 #include <System.Private.CoreLib/System/Runtime/Serialization/SerializationException-dep.h>
+#include <System.Private.CoreLib/System/Security/SecurityException-dep.h>
 #include <System.Private.CoreLib/System/Span-dep.h>
 #include <System.Private.CoreLib/System/SR-dep.h>
 #include <System.Private.CoreLib/System/StringComparer-dep.h>
@@ -36,6 +37,7 @@ using namespace System::Collections::Generic;
 using namespace System::Globalization;
 using namespace System::IO;
 using namespace System::Runtime::Serialization;
+using namespace System::Security;
 using namespace System::Text;
 
 DateTime TimeZoneInfo___::TransitionTime::get_TimeOfDay() {
@@ -128,12 +130,25 @@ void TimeZoneInfo___::TransitionTime::ValidateTransitionTime(DateTime timeOfDay,
   if (dayOfWeek < DayOfWeek::Sunday || dayOfWeek > DayOfWeek::Saturday) {
     rt::throw_exception<ArgumentOutOfRangeException>("dayOfWeek", SR::get_ArgumentOutOfRange_DayOfWeek());
   }
+  Int32 year;
+  Int32 month2;
+  Int32 day2;
+  timeOfDay.GetDate(year, month2, day2);
+  if (year != 1 || month2 != 1 || day2 != 1 || timeOfDay.get_Ticks() % 10000 != 0) {
+    rt::throw_exception<ArgumentException>(SR::get_Argument_DateTimeHasTicks(), "timeOfDay");
+  }
 }
 
 TimeZoneInfo___::TransitionTime::TransitionTime(SerializationInfo info, StreamingContext context) {
   if (info == nullptr) {
     rt::throw_exception<ArgumentNullException>("info");
   }
+  _timeOfDay = (DateTime)info->GetValue("TimeOfDay", rt::typeof<DateTime>());
+  _month = (Byte)info->GetValue("Month", rt::typeof<Byte>());
+  _week = (Byte)info->GetValue("Week", rt::typeof<Byte>());
+  _day = (Byte)info->GetValue("Day", rt::typeof<Byte>());
+  _dayOfWeek = (DayOfWeek)info->GetValue("DayOfWeek", rt::typeof<DayOfWeek>());
+  _isFixedDateRule = (Boolean)info->GetValue("IsFixedDateRule", rt::typeof<Boolean>());
 }
 
 DateTime TimeZoneInfo___::AdjustmentRule___::get_DateStart() {
@@ -253,6 +268,19 @@ void TimeZoneInfo___::AdjustmentRule___::ctor(SerializationInfo info, StreamingC
   if (info == nullptr) {
     rt::throw_exception<ArgumentNullException>("info");
   }
+  _dateStart = (DateTime)info->GetValue("DateStart", rt::typeof<DateTime>());
+  _dateEnd = (DateTime)info->GetValue("DateEnd", rt::typeof<DateTime>());
+  _daylightDelta = (TimeSpan)info->GetValue("DaylightDelta", rt::typeof<TimeSpan>());
+  _daylightTransitionStart = (TransitionTime)info->GetValue("DaylightTransitionStart", rt::typeof<TransitionTime>());
+  _daylightTransitionEnd = (TransitionTime)info->GetValue("DaylightTransitionEnd", rt::typeof<TransitionTime>());
+  Object valueNoThrow = info->GetValueNoThrow("BaseUtcOffsetDelta", rt::typeof<TimeSpan>());
+  if (valueNoThrow != nullptr) {
+    _baseUtcOffsetDelta = (TimeSpan)valueNoThrow;
+  }
+  valueNoThrow = info->GetValueNoThrow("NoDaylightTransitions", rt::typeof<Boolean>());
+  if (valueNoThrow != nullptr) {
+    _noDaylightTransitions = (Boolean)valueNoThrow;
+  }
 }
 
 void TimeZoneInfo___::AdjustmentRule___::cctor() {
@@ -267,9 +295,22 @@ void TimeZoneInfo___::OffsetAndRule___::ctor(Int32 year, TimeSpan offset, Adjust
 }
 
 TimeZoneInfo TimeZoneInfo___::CachedData___::get_Local() {
+  auto default = _localTimeZone;
+  if (default != nullptr) default = CreateLocal();
+
+  return default;
 }
 
 TimeZoneInfo TimeZoneInfo___::CachedData___::CreateLocal() {
+  {
+    rt::lock((CachedData)this);
+    TimeZoneInfo timeZoneInfo = _localTimeZone;
+    if (timeZoneInfo == nullptr) {
+      timeZoneInfo = GetLocalTimeZone((CachedData)this);
+      timeZoneInfo = (_localTimeZone = rt::newobj<TimeZoneInfo>(timeZoneInfo->_id, timeZoneInfo->_baseUtcOffset, timeZoneInfo->_displayName, timeZoneInfo->_standardDisplayName, timeZoneInfo->_daylightDisplayName, timeZoneInfo->_adjustmentRules, false));
+    }
+    return timeZoneInfo;
+  }
 }
 
 DateTimeKind TimeZoneInfo___::CachedData___::GetCorrespondingKind(TimeZoneInfo timeZone) {
@@ -465,6 +506,11 @@ String TimeZoneInfo___::StringSerializer::GetNextStringValue() {
 
 DateTime TimeZoneInfo___::StringSerializer::GetNextDateTimeValue(String format) {
   String nextStringValue = GetNextStringValue();
+  DateTime result;
+  if (!DateTime::TryParseExact(nextStringValue, format, DateTimeFormatInfo::in::get_InvariantInfo(), DateTimeStyles::None, result)) {
+    rt::throw_exception<SerializationException>(SR::get_Serialization_InvalidData());
+  }
+  return result;
 }
 
 TimeSpan TimeZoneInfo___::StringSerializer::GetNextTimeSpanValue() {
@@ -477,6 +523,11 @@ TimeSpan TimeZoneInfo___::StringSerializer::GetNextTimeSpanValue() {
 
 Int32 TimeZoneInfo___::StringSerializer::GetNextInt32Value() {
   String nextStringValue = GetNextStringValue();
+  Int32 result;
+  if (!Int32::TryParse(nextStringValue, NumberStyles::AllowLeadingSign, CultureInfo::in::get_InvariantCulture(), result)) {
+    rt::throw_exception<SerializationException>(SR::get_Serialization_InvalidData());
+  }
+  return result;
 }
 
 Array<TimeZoneInfo::in::AdjustmentRule> TimeZoneInfo___::StringSerializer::GetNextAdjustmentRuleArrayValue() {
@@ -611,12 +662,24 @@ String TimeZoneInfo___::get_Id() {
 }
 
 String TimeZoneInfo___::get_DisplayName() {
+  auto default = _displayName;
+  if (default != nullptr) default = String::in::Empty;
+
+  return default;
 }
 
 String TimeZoneInfo___::get_StandardName() {
+  auto default = _standardDisplayName;
+  if (default != nullptr) default = String::in::Empty;
+
+  return default;
 }
 
 String TimeZoneInfo___::get_DaylightName() {
+  auto default = _daylightDisplayName;
+  if (default != nullptr) default = String::in::Empty;
+
+  return default;
 }
 
 TimeSpan TimeZoneInfo___::get_BaseUtcOffset() {
@@ -781,6 +844,9 @@ Boolean TimeZoneInfo___::IsAmbiguousTime(DateTime dateTime, TimeZoneInfoOptions 
 }
 
 Boolean TimeZoneInfo___::IsDaylightSavingTime(DateTimeOffset dateTimeOffset) {
+  Boolean isDaylightSavings;
+  GetUtcOffsetFromUtc(dateTimeOffset.get_UtcDateTime(), (TimeZoneInfo)this, isDaylightSavings);
+  return isDaylightSavings;
 }
 
 Boolean TimeZoneInfo___::IsDaylightSavingTime(DateTime dateTime) {
@@ -803,6 +869,9 @@ Boolean TimeZoneInfo___::IsDaylightSavingTime(DateTime dateTime, TimeZoneInfoOpt
       if (cachedData->GetCorrespondingKind((TimeZoneInfo)this) == DateTimeKind::Utc) {
         return false;
       }
+      Boolean isDaylightSavings;
+      GetUtcOffsetFromUtc(dateTime, (TimeZoneInfo)this, isDaylightSavings);
+      return isDaylightSavings;
     }
     dateTime2 = dateTime;
   }
@@ -979,6 +1048,15 @@ Int32 TimeZoneInfo___::GetHashCode() {
 
 ReadOnlyCollection<TimeZoneInfo> TimeZoneInfo___::GetSystemTimeZones() {
   CachedData cachedData = s_cachedData;
+  {
+    rt::lock(cachedData);
+    if (cachedData->_readOnlySystemTimeZones == nullptr) {
+      PopulateAllSystemTimeZones(cachedData);
+      cachedData->_allSystemTimeZonesRead = true;
+      List<TimeZoneInfo> list = (cachedData->_systemTimeZones == nullptr) ? rt::newobj<List<TimeZoneInfo>>() : rt::newobj<List<TimeZoneInfo>>(cachedData->_systemTimeZones->get_Values());
+    }
+  }
+  return cachedData->_readOnlySystemTimeZones;
 }
 
 Boolean TimeZoneInfo___::HasSameRules(TimeZoneInfo other) {
@@ -1016,6 +1094,15 @@ String TimeZoneInfo___::ToString() {
 }
 
 void TimeZoneInfo___::ctor(String id, TimeSpan baseUtcOffset, String displayName, String standardDisplayName, String daylightDisplayName, Array<AdjustmentRule> adjustmentRules, Boolean disableDaylightSavingTime) {
+  Boolean adjustmentRulesSupportDst;
+  ValidateTimeZoneInfo(id, baseUtcOffset, adjustmentRules, adjustmentRulesSupportDst);
+  _id = id;
+  _baseUtcOffset = baseUtcOffset;
+  _displayName = displayName;
+  _standardDisplayName = standardDisplayName;
+  _daylightDisplayName = (disableDaylightSavingTime ? nullptr : daylightDisplayName);
+  _supportsDaylightSavingTime = (adjustmentRulesSupportDst && !disableDaylightSavingTime);
+  _adjustmentRules = adjustmentRules;
 }
 
 TimeZoneInfo TimeZoneInfo___::CreateCustomTimeZone(String id, TimeSpan baseUtcOffset, String displayName, String standardDisplayName) {
@@ -1037,6 +1124,13 @@ void TimeZoneInfo___::ctor(SerializationInfo info, StreamingContext context) {
   if (info == nullptr) {
     rt::throw_exception<ArgumentNullException>("info");
   }
+  _id = (String)info->GetValue("Id", rt::typeof<String>());
+  _displayName = (String)info->GetValue("DisplayName", rt::typeof<String>());
+  _standardDisplayName = (String)info->GetValue("StandardName", rt::typeof<String>());
+  _daylightDisplayName = (String)info->GetValue("DaylightName", rt::typeof<String>());
+  _baseUtcOffset = (TimeSpan)info->GetValue("BaseUtcOffset", rt::typeof<TimeSpan>());
+  _adjustmentRules = (Array<AdjustmentRule>)info->GetValue("AdjustmentRules", rt::typeof<Array<AdjustmentRule>>());
+  _supportsDaylightSavingTime = (Boolean)info->GetValue("SupportsDaylightSavingTime", rt::typeof<Boolean>());
 }
 
 TimeZoneInfo::in::AdjustmentRule TimeZoneInfo___::GetAdjustmentRuleForTime(DateTime dateTime, Nullable<Int32>& ruleIndex) {
@@ -1456,6 +1550,22 @@ DateTime TimeZoneInfo___::TransitionTimeToDateTime(Int32 year, TransitionTime tr
 TimeZoneInfo::in::TimeZoneInfoResult TimeZoneInfo___::TryGetTimeZone(String id, Boolean dstDisabled, TimeZoneInfo& value, Exception& e, CachedData cachedData, Boolean alwaysFallbackToLocalMachine) {
   TimeZoneInfoResult result = TimeZoneInfoResult::Success;
   e = nullptr;
+  TimeZoneInfo value2;
+  if (cachedData->_systemTimeZones != nullptr && cachedData->_systemTimeZones->TryGetValue(id, value2)) {
+    if (dstDisabled && value2->_supportsDaylightSavingTime) {
+      value = CreateCustomTimeZone(value2->_id, value2->_baseUtcOffset, value2->_displayName, value2->_standardDisplayName);
+    } else {
+      value = rt::newobj<TimeZoneInfo>(value2->_id, value2->_baseUtcOffset, value2->_displayName, value2->_standardDisplayName, value2->_daylightDisplayName, value2->_adjustmentRules, false);
+    }
+    return result;
+  }
+  if (!cachedData->_allSystemTimeZonesRead || alwaysFallbackToLocalMachine) {
+    result = TryGetTimeZoneFromLocalMachine(id, dstDisabled, value, e, cachedData);
+  } else {
+    result = TimeZoneInfoResult::TimeZoneNotFoundException;
+    value = nullptr;
+  }
+  return result;
 }
 
 TimeZoneInfo::in::TimeZoneInfoResult TimeZoneInfo___::TryGetTimeZoneFromLocalMachine(String id, Boolean dstDisabled, TimeZoneInfo& value, Exception& e, CachedData cachedData) {
@@ -1560,6 +1670,17 @@ TimeZoneInfo::in::AdjustmentRule TimeZoneInfo___::CreateAdjustmentRuleFromTimeZo
     }
     return AdjustmentRule::in::CreateAdjustmentRule(startDate, endDate, TimeSpan::Zero, TransitionTime::CreateFixedDateRule(DateTime::MinValue, 1, 1), TransitionTime::CreateFixedDateRule(DateTime::MinValue.AddMilliseconds(1), 1, 1), TimeSpan(0, defaultBaseUtcOffset - timeZoneInformation.Bias, 0), false);
   }
+  TransitionTime transitionTime;
+  if (!TransitionTimeFromTimeZoneInformation(timeZoneInformation, transitionTime, true)) {
+    return nullptr;
+  }
+  TransitionTime transitionTime2;
+  if (!TransitionTimeFromTimeZoneInformation(timeZoneInformation, transitionTime2, false)) {
+    return nullptr;
+  }
+  if (transitionTime.Equals(transitionTime2)) {
+    return nullptr;
+  }
 }
 
 String TimeZoneInfo___::FindIdFromTimeZoneInformation(Interop::Kernel32::TIME_ZONE_INFORMATION& timeZone, Boolean& dstDisabled) {
@@ -1573,6 +1694,19 @@ TimeZoneInfo TimeZoneInfo___::GetLocalTimeZone(CachedData cachedData) {
     return CreateCustomTimeZone("Local", TimeSpan::Zero, "Local", "Local");
   }
   String timeZoneKeyName = pTimeZoneInformation.GetTimeZoneKeyName();
+  TimeZoneInfo value;
+  Exception e;
+  if (timeZoneKeyName->get_Length() != 0 && TryGetTimeZone(timeZoneKeyName, pTimeZoneInformation.DynamicDaylightTimeDisabled != 0, value, e, cachedData) == TimeZoneInfoResult::Success) {
+    return value;
+  }
+  Interop::Kernel32::TIME_ZONE_INFORMATION timeZone = Interop::Kernel32::TIME_ZONE_INFORMATION(pTimeZoneInformation);
+  Boolean dstDisabled;
+  String text = FindIdFromTimeZoneInformation(timeZone, dstDisabled);
+  TimeZoneInfo value2;
+  if (text != nullptr && TryGetTimeZone(text, dstDisabled, value2, e, cachedData) == TimeZoneInfoResult::Success) {
+    return value2;
+  }
+  return GetLocalTimeZoneFromWin32Data(timeZone, dstDisabled);
 }
 
 TimeZoneInfo TimeZoneInfo___::GetLocalTimeZoneFromWin32Data(Interop::Kernel32::TIME_ZONE_INFORMATION& timeZoneInformation, Boolean dstDisabled) {
@@ -1605,6 +1739,20 @@ TimeZoneInfo TimeZoneInfo___::FindSystemTimeZoneById(String id) {
   TimeZoneInfoResult timeZoneInfoResult;
   TimeZoneInfo value;
   Exception e;
+  {
+    rt::lock(cachedData);
+    timeZoneInfoResult = TryGetTimeZone(id, false, value, e, cachedData);
+  }
+  switch (timeZoneInfoResult) {
+    case TimeZoneInfoResult::Success:
+      return value;
+    case TimeZoneInfoResult::InvalidTimeZoneException:
+      rt::throw_exception<InvalidTimeZoneException>(SR::Format(SR::get_InvalidTimeZone_InvalidRegistryData(), id), e);
+    case TimeZoneInfoResult::SecurityException:
+      rt::throw_exception<SecurityException>(SR::Format(SR::get_Security_CannotReadRegistryData(), id), e);
+    default:
+      rt::throw_exception<TimeZoneNotFoundException>(SR::Format(SR::get_TimeZoneNotFound_MissingData(), id), e);
+  }
 }
 
 TimeSpan TimeZoneInfo___::GetDateTimeNowUtcOffsetFromUtc(DateTime time, Boolean& isAmbiguousLocalDst) {
@@ -1691,6 +1839,10 @@ String TimeZoneInfo___::TryGetLocalizedNameByMuiNativeResource(String resource) 
   try{
     pcwszFilePath = Path::Combine(systemDirectory, path);
   } catch (ArgumentException) {
+  }
+  Int32 result;
+  if (!Int32::TryParse(array[1], NumberStyles::Integer, CultureInfo::in::get_InvariantCulture(), result)) {
+    return String::in::Empty;
   }
 }
 

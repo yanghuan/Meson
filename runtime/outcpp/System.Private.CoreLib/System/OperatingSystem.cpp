@@ -12,6 +12,10 @@ PlatformID OperatingSystem___::get_Platform() {
 }
 
 String OperatingSystem___::get_ServicePack() {
+  auto default = _servicePack;
+  if (default != nullptr) default = String::in::Empty;
+
+  return default;
 }
 
 Version OperatingSystem___::get_Version() {

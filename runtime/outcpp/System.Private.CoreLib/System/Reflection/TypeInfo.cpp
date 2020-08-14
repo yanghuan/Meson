@@ -1,6 +1,7 @@
 #include "TypeInfo-dep.h"
 
 #include <System.Private.CoreLib/System/IndexOutOfRangeException-dep.h>
+#include <System.Private.CoreLib/System/Int32-dep.h>
 #include <System.Private.CoreLib/System/Reflection/BindingFlags.h>
 #include <System.Private.CoreLib/System/Reflection/TypeInfo-dep.h>
 
@@ -84,6 +85,19 @@ Boolean TypeInfo___::IsAssignableFrom(TypeInfo typeInfo) {
   if (typeInfo->IsSubclassOf((TypeInfo)this)) {
     return true;
   }
+  if (Type::get_IsInterface()) {
+    return typeInfo->ImplementInterface((TypeInfo)this);
+  }
+  if (get_IsGenericParameter()) {
+    Array<Type> genericParameterConstraints = GetGenericParameterConstraints();
+    for (Int32 i = 0; i < genericParameterConstraints->get_Length(); i++) {
+      if (!genericParameterConstraints[i]->IsAssignableFrom(typeInfo)) {
+        return false;
+      }
+    }
+    return true;
+  }
+  return false;
 }
 
 String TypeInfo___::GetRankString(Int32 rank) {

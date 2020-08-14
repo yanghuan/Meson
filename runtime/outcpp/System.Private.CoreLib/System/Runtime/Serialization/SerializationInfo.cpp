@@ -1,5 +1,6 @@
 #include "SerializationInfo-dep.h"
 
+#include <System.Private.CoreLib/System/AppContext-dep.h>
 #include <System.Private.CoreLib/System/ArgumentException-dep.h>
 #include <System.Private.CoreLib/System/ArgumentNullException-dep.h>
 #include <System.Private.CoreLib/System/ArgumentOutOfRangeException-dep.h>
@@ -71,6 +72,12 @@ void SerializationInfo___::ThrowIfDeserializationInProgress(String switchSuffix,
     rt::throw_exception<ArgumentException>(SR::get_Argument_EmptyName(), "switchSuffix");
   }
   if (cachedValue == 0) {
+    Boolean isEnabled;
+    if (AppContext::TryGetSwitch("Switch.System.Runtime.Serialization.SerializationGuard." + switchSuffix, isEnabled) && isEnabled) {
+      cachedValue = 1;
+    } else {
+      cachedValue = -1;
+    }
   }
   if (cachedValue != 1) {
     if (cachedValue != -1) {
@@ -87,6 +94,14 @@ DeserializationToken SerializationInfo___::StartDeserialization() {
     StackCrawlMark stackMark = StackCrawlMark::LookForMe;
     DeserializationTracker threadDeserializationTracker = Thread::in::GetThreadDeserializationTracker(stackMark);
     if (!threadDeserializationTracker->get_DeserializationInProgress()) {
+      {
+        rt::lock(threadDeserializationTracker);
+        if (!threadDeserializationTracker->get_DeserializationInProgress()) {
+          AsyncDeserializationInProgress->set_Value = true;
+          threadDeserializationTracker->set_DeserializationInProgress = true;
+          return DeserializationToken(threadDeserializationTracker);
+        }
+      }
     }
   }
   return DeserializationToken(nullptr);
@@ -157,51 +172,66 @@ void SerializationInfo___::AddValue(String name, Object value, Type type) {
 
 void SerializationInfo___::AddValue(String name, Object value) {
   if (value == nullptr) {
+    AddValue(name, value, rt::typeof<Object>());
   } else {
     AddValue(name, value, value->GetType());
   }
 }
 
 void SerializationInfo___::AddValue(String name, Boolean value) {
+  AddValue(name, value, rt::typeof<Boolean>());
 }
 
 void SerializationInfo___::AddValue(String name, Char value) {
+  AddValue(name, value, rt::typeof<Char>());
 }
 
 void SerializationInfo___::AddValue(String name, SByte value) {
+  AddValue(name, value, rt::typeof<SByte>());
 }
 
 void SerializationInfo___::AddValue(String name, Byte value) {
+  AddValue(name, value, rt::typeof<Byte>());
 }
 
 void SerializationInfo___::AddValue(String name, Int16 value) {
+  AddValue(name, value, rt::typeof<Int16>());
 }
 
 void SerializationInfo___::AddValue(String name, UInt16 value) {
+  AddValue(name, value, rt::typeof<UInt16>());
 }
 
 void SerializationInfo___::AddValue(String name, Int32 value) {
+  AddValue(name, value, rt::typeof<Int32>());
 }
 
 void SerializationInfo___::AddValue(String name, UInt32 value) {
+  AddValue(name, value, rt::typeof<UInt32>());
 }
 
 void SerializationInfo___::AddValue(String name, Int64 value) {
+  AddValue(name, value, rt::typeof<Int64>());
 }
 
 void SerializationInfo___::AddValue(String name, UInt64 value) {
+  AddValue(name, value, rt::typeof<UInt64>());
 }
 
 void SerializationInfo___::AddValue(String name, Single value) {
+  AddValue(name, value, rt::typeof<Single>());
 }
 
 void SerializationInfo___::AddValue(String name, Double value) {
+  AddValue(name, value, rt::typeof<Double>());
 }
 
 void SerializationInfo___::AddValue(String name, Decimal value) {
+  AddValue(name, value, rt::typeof<Decimal>());
 }
 
 void SerializationInfo___::AddValue(String name, DateTime value) {
+  AddValue(name, value, rt::typeof<DateTime>());
 }
 
 void SerializationInfo___::AddValueInternal(String name, Object value, Type type) {
@@ -232,6 +262,11 @@ Int32 SerializationInfo___::FindElement(String name) {
   if (name == nullptr) {
     rt::throw_exception<ArgumentNullException>("name");
   }
+  Int32 value;
+  if (_nameToIndex->TryGetValue(name, value)) {
+    return value;
+  }
+  return -1;
 }
 
 Object SerializationInfo___::GetElement(String name, Type& foundType) {
@@ -283,76 +318,136 @@ Object SerializationInfo___::GetValueNoThrow(String name, Type type) {
 Boolean SerializationInfo___::GetBoolean(String name) {
   Type foundType;
   Object element = GetElement(name, foundType);
+  if ((Object)foundType != rt::typeof<Boolean>()) {
+    return _converter->ToBoolean(element);
+  }
+  return (Boolean)element;
 }
 
 Char SerializationInfo___::GetChar(String name) {
   Type foundType;
   Object element = GetElement(name, foundType);
+  if ((Object)foundType != rt::typeof<Char>()) {
+    return _converter->ToChar(element);
+  }
+  return (Char)element;
 }
 
 SByte SerializationInfo___::GetSByte(String name) {
   Type foundType;
   Object element = GetElement(name, foundType);
+  if ((Object)foundType != rt::typeof<SByte>()) {
+    return _converter->ToSByte(element);
+  }
+  return (SByte)element;
 }
 
 Byte SerializationInfo___::GetByte(String name) {
   Type foundType;
   Object element = GetElement(name, foundType);
+  if ((Object)foundType != rt::typeof<Byte>()) {
+    return _converter->ToByte(element);
+  }
+  return (Byte)element;
 }
 
 Int16 SerializationInfo___::GetInt16(String name) {
   Type foundType;
   Object element = GetElement(name, foundType);
+  if ((Object)foundType != rt::typeof<Int16>()) {
+    return _converter->ToInt16(element);
+  }
+  return (Int16)element;
 }
 
 UInt16 SerializationInfo___::GetUInt16(String name) {
   Type foundType;
   Object element = GetElement(name, foundType);
+  if ((Object)foundType != rt::typeof<UInt16>()) {
+    return _converter->ToUInt16(element);
+  }
+  return (UInt16)element;
 }
 
 Int32 SerializationInfo___::GetInt32(String name) {
   Type foundType;
   Object element = GetElement(name, foundType);
+  if ((Object)foundType != rt::typeof<Int32>()) {
+    return _converter->ToInt32(element);
+  }
+  return (Int32)element;
 }
 
 UInt32 SerializationInfo___::GetUInt32(String name) {
   Type foundType;
   Object element = GetElement(name, foundType);
+  if ((Object)foundType != rt::typeof<UInt32>()) {
+    return _converter->ToUInt32(element);
+  }
+  return (UInt32)element;
 }
 
 Int64 SerializationInfo___::GetInt64(String name) {
   Type foundType;
   Object element = GetElement(name, foundType);
+  if ((Object)foundType != rt::typeof<Int64>()) {
+    return _converter->ToInt64(element);
+  }
+  return (Int64)element;
 }
 
 UInt64 SerializationInfo___::GetUInt64(String name) {
   Type foundType;
   Object element = GetElement(name, foundType);
+  if ((Object)foundType != rt::typeof<UInt64>()) {
+    return _converter->ToUInt64(element);
+  }
+  return (UInt64)element;
 }
 
 Single SerializationInfo___::GetSingle(String name) {
   Type foundType;
   Object element = GetElement(name, foundType);
+  if ((Object)foundType != rt::typeof<Single>()) {
+    return _converter->ToSingle(element);
+  }
+  return (Single)element;
 }
 
 Double SerializationInfo___::GetDouble(String name) {
   Type foundType;
   Object element = GetElement(name, foundType);
+  if ((Object)foundType != rt::typeof<Double>()) {
+    return _converter->ToDouble(element);
+  }
+  return (Double)element;
 }
 
 Decimal SerializationInfo___::GetDecimal(String name) {
   Type foundType;
   Object element = GetElement(name, foundType);
+  if ((Object)foundType != rt::typeof<Decimal>()) {
+    return _converter->ToDecimal(element);
+  }
+  return (Decimal)element;
 }
 
 DateTime SerializationInfo___::GetDateTime(String name) {
   Type foundType;
   Object element = GetElement(name, foundType);
+  if ((Object)foundType != rt::typeof<DateTime>()) {
+    return _converter->ToDateTime(element);
+  }
+  return (DateTime)element;
 }
 
 String SerializationInfo___::GetString(String name) {
   Type foundType;
   Object element = GetElement(name, foundType);
+  if ((Object)foundType != rt::typeof<String>() && element != nullptr) {
+    return _converter->ToString(element);
+  }
+  return (String)element;
 }
 
 void SerializationInfo___::cctor() {

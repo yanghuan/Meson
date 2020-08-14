@@ -5,6 +5,7 @@
 #include <System.Private.CoreLib/System/ArgumentOutOfRangeException-dep.h>
 #include <System.Private.CoreLib/System/Byte-dep.h>
 #include <System.Private.CoreLib/System/Int64-dep.h>
+#include <System.Private.CoreLib/System/Math-dep.h>
 #include <System.Private.CoreLib/System/Random-dep.h>
 #include <System.Private.CoreLib/System/SR-dep.h>
 
@@ -14,6 +15,37 @@ void Random___::ctor() {
 
 void Random___::ctor(Int32 Seed) {
   _seedArray = rt::newarr<Array<Int32>>(56);
+  Object::ctor();
+  Int32 num = 0;
+  Int32 num2 = (Seed == Int32::MinValue) ? Int32::MaxValue : Math::Abs(Seed);
+  Int32 num3 = 161803398 - num2;
+  _seedArray[55] = num3;
+  Int32 num4 = 1;
+  for (Int32 i = 1; i < 55; i++) {
+    if ((num += 21) >= 55) {
+      num -= 55;
+    }
+    _seedArray[num] = num4;
+    num4 = num3 - num4;
+    if (num4 < 0) {
+      num4 += Int32::MaxValue;
+    }
+    num3 = _seedArray[num];
+  }
+  for (Int32 j = 1; j < 5; j++) {
+    for (Int32 k = 1; k < 56; k++) {
+      Int32 num5 = k + 30;
+      if (num5 >= 55) {
+        num5 -= 55;
+      }
+      _seedArray[k] -= _seedArray[1 + num5];
+      if (_seedArray[k] < 0) {
+        _seedArray[k] += Int32::MaxValue;
+      }
+    }
+  }
+  _inext = 0;
+  _inextp = 21;
 }
 
 Double Random___::Sample() {
@@ -46,6 +78,11 @@ Int32 Random___::GenerateSeed() {
   Random random = t_threadRandom;
   if (random == nullptr) {
     Int32 seed;
+    {
+      rt::lock(s_globalRandom);
+      seed = s_globalRandom->Next();
+    }
+    random = (t_threadRandom = rt::newobj<Random>(seed));
   }
   return random->Next();
 }

@@ -10,6 +10,8 @@ Int32 InternalDecoderBestFitFallback___::get_MaxCharCount() {
 
 void InternalDecoderBestFitFallback___::ctor(Encoding encoding) {
   _cReplacement = 63;
+  DecoderFallback::ctor();
+  _encoding = encoding;
 }
 
 DecoderFallbackBuffer InternalDecoderBestFitFallback___::CreateFallbackBuffer() {

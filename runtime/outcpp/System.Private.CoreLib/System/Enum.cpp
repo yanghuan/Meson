@@ -8,6 +8,7 @@
 #include <System.Private.CoreLib/System/Convert-dep.h>
 #include <System.Private.CoreLib/System/Double-dep.h>
 #include <System.Private.CoreLib/System/Enum-dep.h>
+#include <System.Private.CoreLib/System/FlagsAttribute-dep.h>
 #include <System.Private.CoreLib/System/FormatException-dep.h>
 #include <System.Private.CoreLib/System/Globalization/CultureInfo-dep.h>
 #include <System.Private.CoreLib/System/Globalization/NumberStyles.h>
@@ -47,6 +48,8 @@ Enum::in::EnumInfo Enum___::GetEnumInfo(RuntimeType enumType, Boolean getNames) 
     Array<String> o2 = nullptr;
     RuntimeTypeHandle rth = enumType->GetTypeHandleInternal();
     GetEnumValuesAndNames(QCallTypeHandle(rth), ObjectHandleOnStack::Create(o), ObjectHandleOnStack::Create(o2), getNames ? Interop::BOOL::TRUE : Interop::BOOL::FALSE);
+    Boolean hasFlagsAttribute = enumType->IsDefined(rt::typeof<FlagsAttribute>(), false);
+    enumInfo = (EnumInfo)(enumType->set_GenericCache = rt::newobj<EnumInfo>(hasFlagsAttribute, o, o2));
   }
   return enumInfo;
 }

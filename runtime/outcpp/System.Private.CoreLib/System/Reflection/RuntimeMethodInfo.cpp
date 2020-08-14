@@ -5,6 +5,7 @@
 #include <System.Private.CoreLib/System/ArgumentNullException-dep.h>
 #include <System.Private.CoreLib/System/DelegateBindingFlags.h>
 #include <System.Private.CoreLib/System/InvalidOperationException-dep.h>
+#include <System.Private.CoreLib/System/MemberAccessException-dep.h>
 #include <System.Private.CoreLib/System/NotSupportedException-dep.h>
 #include <System.Private.CoreLib/System/Reflection/CallingConventions.h>
 #include <System.Private.CoreLib/System/Reflection/CustomAttribute-dep.h>
@@ -12,9 +13,11 @@
 #include <System.Private.CoreLib/System/Reflection/MethodBase-dep.h>
 #include <System.Private.CoreLib/System/Reflection/RuntimeMethodBody-dep.h>
 #include <System.Private.CoreLib/System/Reflection/RuntimeMethodInfo-dep.h>
+#include <System.Private.CoreLib/System/Reflection/RuntimeParameterInfo-dep.h>
 #include <System.Private.CoreLib/System/Reflection/TargetException-dep.h>
 #include <System.Private.CoreLib/System/Reflection/TargetParameterCountException-dep.h>
 #include <System.Private.CoreLib/System/RuntimeMethodHandle-dep.h>
+#include <System.Private.CoreLib/System/RuntimeTypeHandle-dep.h>
 #include <System.Private.CoreLib/System/Security/VerificationException-dep.h>
 #include <System.Private.CoreLib/System/SR-dep.h>
 #include <System.Private.CoreLib/System/Text/ValueStringBuilder-dep.h>
@@ -51,6 +54,10 @@ RuntimeType RuntimeMethodInfo___::get_ReflectedTypeInternal() {
 }
 
 Signature RuntimeMethodInfo___::get_Signature() {
+  auto default = m_signature;
+  if (default != nullptr) default = (m_signature = rt::newobj<Signature>((RuntimeMethodInfo)this, m_declaringType));
+
+  return default;
 }
 
 BindingFlags RuntimeMethodInfo___::get_BindingFlags() {
@@ -62,6 +69,10 @@ Int32 RuntimeMethodInfo___::get_GenericParameterCount() {
 }
 
 String RuntimeMethodInfo___::get_Name() {
+  auto default = m_name;
+  if (default != nullptr) default = (m_name = RuntimeMethodHandle::GetName((RuntimeMethodInfo)this));
+
+  return default;
 }
 
 Type RuntimeMethodInfo___::get_DeclaringType() {
@@ -160,6 +171,7 @@ Boolean RuntimeMethodInfo___::IsDisallowedByRefType(Type type) {
   }
   Type elementType = type->GetElementType();
   if (!elementType->get_IsByRefLike()) {
+    return elementType == rt::typeof<void>();
   }
   return true;
 }
@@ -174,9 +186,17 @@ void RuntimeMethodInfo___::ctor(RuntimeMethodHandleInternal handle, RuntimeType 
 }
 
 Array<ParameterInfo> RuntimeMethodInfo___::FetchNonReturnParameters() {
+  auto default = m_parameters;
+  if (default != nullptr) default = (m_parameters = RuntimeParameterInfo::in::GetParameters((RuntimeMethodInfo)this, (RuntimeMethodInfo)this, get_Signature()));
+
+  return default;
 }
 
 ParameterInfo RuntimeMethodInfo___::FetchReturnParameter() {
+  auto default = m_returnParameter;
+  if (default != nullptr) default = (m_returnParameter = RuntimeParameterInfo::in::GetReturnParameter((RuntimeMethodInfo)this, (RuntimeMethodInfo)this, get_Signature()));
+
+  return default;
 }
 
 Boolean RuntimeMethodInfo___::CacheEquals(Object o) {
@@ -188,6 +208,18 @@ Boolean RuntimeMethodInfo___::CacheEquals(Object o) {
 }
 
 RuntimeMethodInfo RuntimeMethodInfo___::GetParentDefinition() {
+  if (!MethodBase::get_IsVirtual() || m_declaringType->get_IsInterface()) {
+    return nullptr;
+  }
+  RuntimeType runtimeType = (RuntimeType)m_declaringType->get_BaseType();
+  if (runtimeType == nullptr) {
+    return nullptr;
+  }
+  Int32 slot = RuntimeMethodHandle::GetSlot((RuntimeMethodInfo)this);
+  if (RuntimeTypeHandle::GetNumVirtuals(runtimeType) <= slot) {
+    return nullptr;
+  }
+  return (RuntimeMethodInfo)RuntimeType::in::GetMethodBase(runtimeType, RuntimeTypeHandle::GetMethodAt(runtimeType, slot));
 }
 
 RuntimeType RuntimeMethodInfo___::GetDeclaringTypeInternal() {
@@ -215,6 +247,7 @@ Int32 RuntimeMethodInfo___::GetHashCode() {
   if (get_IsGenericMethod()) {
     return ValueType::in::GetHashCodeOfPtr(m_handle);
   }
+  return MethodInfo::GetHashCode();
 }
 
 Boolean RuntimeMethodInfo___::Equals(Object obj) {
@@ -250,6 +283,7 @@ Boolean RuntimeMethodInfo___::Equals(Object obj) {
 }
 
 Array<Object> RuntimeMethodInfo___::GetCustomAttributes(Boolean inherit) {
+  return CustomAttribute::GetCustomAttributes((RuntimeMethodInfo)this, rt::as<RuntimeType>(rt::typeof<Object>()), inherit);
 }
 
 Array<Object> RuntimeMethodInfo___::GetCustomAttributes(Type attributeType, Boolean inherit) {
@@ -335,6 +369,19 @@ void RuntimeMethodInfo___::ThrowNoInvokeException() {
   if (get_DeclaringType()->get_ContainsGenericParameters() || get_ContainsGenericParameters()) {
     rt::throw_exception<InvalidOperationException>(SR::get_Arg_UnboundGenParam());
   }
+  if (MethodBase::get_IsAbstract()) {
+    rt::throw_exception<MemberAccessException>();
+  }
+  if (get_ReturnType()->get_IsByRef()) {
+    Type elementType = get_ReturnType()->GetElementType();
+    if (elementType->get_IsByRefLike()) {
+      rt::throw_exception<NotSupportedException>(SR::get_NotSupported_ByRefToByRefLikeReturn());
+    }
+    if (elementType == rt::typeof<void>()) {
+      rt::throw_exception<NotSupportedException>(SR::get_NotSupported_ByRefToVoidReturn());
+    }
+  }
+  rt::throw_exception<TargetException>();
 }
 
 Object RuntimeMethodInfo___::Invoke(Object obj, BindingFlags invokeAttr, Binder binder, Array<Object> parameters, CultureInfo culture) {
@@ -369,6 +416,23 @@ Array<Object> RuntimeMethodInfo___::InvokeArgumentsCheck(Object obj, BindingFlag
 }
 
 MethodInfo RuntimeMethodInfo___::GetBaseDefinition() {
+  if (!MethodBase::get_IsVirtual() || MethodBase::get_IsStatic() || m_declaringType == nullptr || m_declaringType->get_IsInterface()) {
+    return (RuntimeMethodInfo)this;
+  }
+  Int32 slot = RuntimeMethodHandle::GetSlot((RuntimeMethodInfo)this);
+  RuntimeType runtimeType = (RuntimeType)get_DeclaringType();
+  RuntimeType reflectedType = runtimeType;
+  RuntimeMethodHandleInternal methodHandle = RuntimeMethodHandleInternal();
+  do {
+    Int32 numVirtuals = RuntimeTypeHandle::GetNumVirtuals(runtimeType);
+    if (numVirtuals <= slot) {
+      break;
+    }
+    methodHandle = RuntimeTypeHandle::GetMethodAt(runtimeType, slot);
+    reflectedType = runtimeType;
+    runtimeType = (RuntimeType)runtimeType->get_BaseType();
+  } while (runtimeType != nullptr)
+  return (MethodInfo)RuntimeType::in::GetMethodBase(reflectedType, methodHandle);
 }
 
 Delegate RuntimeMethodInfo___::CreateDelegate(Type delegateType) {
@@ -435,6 +499,10 @@ Array<RuntimeType> RuntimeMethodInfo___::GetGenericArgumentsInternal() {
 }
 
 Array<Type> RuntimeMethodInfo___::GetGenericArguments() {
+  auto default = RuntimeMethodHandle::GetMethodInstantiationPublic((RuntimeMethodInfo)this);
+  if (default != nullptr) default = Array<>::in::Empty<Type>();
+
+  return default;
 }
 
 MethodInfo RuntimeMethodInfo___::GetGenericMethodDefinition() {

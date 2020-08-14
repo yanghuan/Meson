@@ -1,8 +1,11 @@
 #include "PunkSafeHandle-dep.h"
 
 #include <System.Private.CoreLib/System/Reflection/Emit/PunkSafeHandle-dep.h>
+#include <System.Private.CoreLib/System/Runtime/InteropServices/Marshal-dep.h>
 
 namespace System::Private::CoreLib::System::Reflection::Emit::PunkSafeHandleNamespace {
+using namespace System::Runtime::InteropServices;
+
 Boolean PunkSafeHandle___::get_IsInvalid() {
   return handle == (IntPtr)0;
 }
@@ -13,6 +16,8 @@ Boolean PunkSafeHandle___::ReleaseHandle() {
 }
 
 void PunkSafeHandle___::cctor() {
+  m_Release = (DRelease)Marshal::GetDelegateForFunctionPointer(nGetDReleaseTarget(), rt::typeof<DRelease>());
+  m_Release((IntPtr)0);
 }
 
 } // namespace System::Private::CoreLib::System::Reflection::Emit::PunkSafeHandleNamespace

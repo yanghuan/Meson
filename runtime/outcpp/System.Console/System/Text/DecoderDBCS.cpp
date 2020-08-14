@@ -1,5 +1,6 @@
 #include "DecoderDBCS-dep.h"
 
+#include <System.Console/Interop-dep.h>
 #include <System.Console/System/SR-dep.h>
 #include <System.Console/System/Text/OSEncoding-dep.h>
 #include <System.Private.CoreLib/System/ArgumentNullException-dep.h>
@@ -7,13 +8,16 @@
 #include <System.Private.CoreLib/System/Byte-dep.h>
 #include <System.Private.CoreLib/System/Int32-dep.h>
 #include <System.Private.CoreLib/System/IntPtr-dep.h>
-#include <System.Private.CoreLib/System/Object-dep.h>
 
 namespace System::Console::System::Text::DecoderDBCSNamespace {
 using namespace ::System::Private::CoreLib::System;
 
 void DecoderDBCS___::ctor(Encoding encoding) {
   _leadByteRanges = rt::newarr<Array<Byte>>(10);
+  Decoder::ctor();
+  _encoding = encoding;
+  _rangesCount = Interop::Kernel32::GetLeadByteRanges(_encoding->get_CodePage(), _leadByteRanges);
+  Reset();
 }
 
 Boolean DecoderDBCS___::IsLeadByte(Byte b) {

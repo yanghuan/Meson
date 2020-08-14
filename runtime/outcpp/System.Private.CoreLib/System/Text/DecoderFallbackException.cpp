@@ -1,5 +1,7 @@
 #include "DecoderFallbackException-dep.h"
 
+#include <System.Private.CoreLib/System/Exception-dep.h>
+
 namespace System::Private::CoreLib::System::Text::DecoderFallbackExceptionNamespace {
 Array<Byte> DecoderFallbackException___::get_BytesUnknown() {
   return _bytesUnknown;
@@ -10,12 +12,15 @@ Int32 DecoderFallbackException___::get_Index() {
 }
 
 void DecoderFallbackException___::ctor() {
+  Exception::set_HResult = -2147024809;
 }
 
 void DecoderFallbackException___::ctor(String message) {
+  Exception::set_HResult = -2147024809;
 }
 
 void DecoderFallbackException___::ctor(String message, Exception innerException) {
+  Exception::set_HResult = -2147024809;
 }
 
 void DecoderFallbackException___::ctor(String message, Array<Byte> bytesUnknown, Int32 index) {

@@ -3,13 +3,20 @@
 #include <System.Private.CoreLib/System/ArgumentException-dep.h>
 #include <System.Private.CoreLib/System/ArgumentNullException-dep.h>
 #include <System.Private.CoreLib/System/Buffer-dep.h>
+#include <System.Private.CoreLib/System/Char-dep.h>
 #include <System.Private.CoreLib/System/Collections/Generic/List-dep.h>
+#include <System.Private.CoreLib/System/DateTime-dep.h>
+#include <System.Private.CoreLib/System/Enum-dep.h>
+#include <System.Private.CoreLib/System/Int64-dep.h>
 #include <System.Private.CoreLib/System/InvalidOperationException-dep.h>
 #include <System.Private.CoreLib/System/NotSupportedException-dep.h>
 #include <System.Private.CoreLib/System/Nullable-dep.h>
+#include <System.Private.CoreLib/System/Reflection/CorElementType.h>
 #include <System.Private.CoreLib/System/Reflection/CustomAttribute-dep.h>
 #include <System.Private.CoreLib/System/Reflection/Emit/AssemblyBuilder-dep.h>
+#include <System.Private.CoreLib/System/Reflection/Emit/AssemblyBuilderAccess.h>
 #include <System.Private.CoreLib/System/Reflection/Emit/ConstructorOnTypeBuilderInstantiation-dep.h>
+#include <System.Private.CoreLib/System/Reflection/Emit/EnumBuilder-dep.h>
 #include <System.Private.CoreLib/System/Reflection/Emit/EventToken-dep.h>
 #include <System.Private.CoreLib/System/Reflection/Emit/FieldOnTypeBuilderInstantiation-dep.h>
 #include <System.Private.CoreLib/System/Reflection/Emit/ILGenerator-dep.h>
@@ -23,10 +30,13 @@
 #include <System.Private.CoreLib/System/Reflection/Emit/TypeBuilder-dep.h>
 #include <System.Private.CoreLib/System/Reflection/Emit/TypeBuilderInstantiation-dep.h>
 #include <System.Private.CoreLib/System/Reflection/Emit/TypeNameBuilder-dep.h>
+#include <System.Private.CoreLib/System/Runtime/CompilerServices/RuntimeHelpers-dep.h>
 #include <System.Private.CoreLib/System/SR-dep.h>
+#include <System.Private.CoreLib/System/ValueType-dep.h>
 
 namespace System::Private::CoreLib::System::Reflection::Emit::TypeBuilderNamespace {
 using namespace System::Collections::Generic;
+using namespace System::Runtime::CompilerServices;
 
 void TypeBuilder___::CustAttr___::ctor(ConstructorInfo con, Array<Byte> binaryAttribute) {
   if ((Object)con == nullptr) {
@@ -102,6 +112,10 @@ RuntimeTypeHandle TypeBuilder___::get_TypeHandle() {
 }
 
 String TypeBuilder___::get_FullName() {
+  auto default = m_strFullQualName;
+  if (default != nullptr) default = (m_strFullQualName = TypeNameBuilder::in::ToString((TypeBuilder)this, TypeNameBuilder::in::Format::FullName));
+
+  return default;
 }
 
 String TypeBuilder___::get_Namespace() {
@@ -303,6 +317,58 @@ void TypeBuilder___::SetConstantValue(ModuleBuilder module, Int32 tk, Type destT
     if (destType->get_IsByRef()) {
       destType = destType->GetElementType();
     }
+    auto default = Nullable::GetUnderlyingType(destType);
+    if (default != nullptr) default = destType;
+
+    destType = (default);
+    if (destType->get_IsEnum()) {
+      EnumBuilder enumBuilder = rt::as<EnumBuilder>(destType);
+      Type type2;
+      if ((Object)enumBuilder != nullptr) {
+        type2 = enumBuilder->GetEnumUnderlyingType();
+        if (type != enumBuilder->m_typeBuilder->m_bakedRuntimeType && type != type2) {
+          rt::throw_exception<ArgumentException>(SR::get_Argument_ConstantDoesntMatch());
+        }
+      } else {
+        TypeBuilder typeBuilder = rt::as<TypeBuilder>(destType);
+        if ((Object)typeBuilder != nullptr) {
+          type2 = typeBuilder->m_enumUnderlyingType;
+          if (type2 == nullptr || (type != typeBuilder->get_UnderlyingSystemType() && type != type2)) {
+            rt::throw_exception<ArgumentException>(SR::get_Argument_ConstantDoesntMatch());
+          }
+        } else {
+          type2 = Enum::in::GetUnderlyingType(destType);
+          if (type != destType && type != type2) {
+            rt::throw_exception<ArgumentException>(SR::get_Argument_ConstantDoesntMatch());
+          }
+        }
+      }
+      type = type2;
+    } else if (!destType->IsAssignableFrom(type)) {
+      rt::throw_exception<ArgumentException>(SR::get_Argument_ConstantDoesntMatch());
+    }
+
+    CorElementType corElementType = RuntimeTypeHandle::GetCorElementType((RuntimeType)type);
+    if (corElementType - 2 <= CorElementType::ELEMENT_TYPE_U8) {
+      {
+        Byte* pValue = &RuntimeHelpers::GetRawData(value);
+        SetConstantValue(QCallModule(module), tk, (Int32)corElementType, pValue);
+      }
+      return;
+    }
+    if (type == rt::typeof<String>()) {
+      {
+        Char* ptr = (String)value;
+        Char* pValue2 = ptr;
+        SetConstantValue(QCallModule(module), tk, 14, pValue2);
+      }
+      return;
+    }
+    if (!(type == rt::typeof<DateTime>())) {
+      rt::throw_exception<ArgumentException>(SR::Format(SR::get_Argument_ConstantNotSupported(), type));
+    }
+    Int64 ticks = ((DateTime)value).get_Ticks();
+    SetConstantValue(QCallModule(module), tk, 10, &ticks);
   } else {
     SetConstantValue(QCallModule(module), tk, 18, nullptr);
   }
@@ -414,6 +480,8 @@ FieldBuilder TypeBuilder___::DefineDataHelper(String name, Array<Byte> data, Int
   TypeBuilder typeBuilder = rt::as<TypeBuilder>(type);
   if (typeBuilder == nullptr) {
     TypeAttributes attr = TypeAttributes::Public | TypeAttributes::ExplicitLayout | TypeAttributes::Sealed;
+    typeBuilder = m_module->DefineType(text, attr, rt::typeof<ValueType>(), PackingSize::Size1, size);
+    typeBuilder->CreateType();
   }
   FieldBuilder fieldBuilder = DefineField(name, typeBuilder, attributes | FieldAttributes::Static);
   fieldBuilder->SetData(data, size);
@@ -457,10 +525,18 @@ void TypeBuilder___::SetGenParamAttributes(GenericParameterAttributes genericPar
 
 void TypeBuilder___::SetGenParamCustomAttribute(ConstructorInfo con, Array<Byte> binaryAttribute) {
   CustAttr genParamCustomAttributeNoLock = rt::newobj<CustAttr>(con, binaryAttribute);
+  {
+    rt::lock(get_SyncRoot());
+    SetGenParamCustomAttributeNoLock(genParamCustomAttributeNoLock);
+  }
 }
 
 void TypeBuilder___::SetGenParamCustomAttribute(CustomAttributeBuilder customBuilder) {
   CustAttr genParamCustomAttributeNoLock = rt::newobj<CustAttr>(customBuilder);
+  {
+    rt::lock(get_SyncRoot());
+    SetGenParamCustomAttributeNoLock(genParamCustomAttributeNoLock);
+  }
 }
 
 void TypeBuilder___::SetGenParamCustomAttributeNoLock(CustAttr ca) {
@@ -628,6 +704,19 @@ Boolean TypeBuilder___::IsAssignableFrom(Type c) {
   if (typeBuilder->IsSubclassOf((TypeBuilder)this)) {
     return true;
   }
+  if (!Type::get_IsInterface()) {
+    return false;
+  }
+  Array<Type> interfaces = typeBuilder->GetInterfaces();
+  for (Int32 i = 0; i < interfaces->get_Length(); i++) {
+    if (IsTypeEqual(interfaces[i], (TypeBuilder)this)) {
+      return true;
+    }
+    if (interfaces[i]->IsSubclassOf((TypeBuilder)this)) {
+      return true;
+    }
+  }
+  return false;
 }
 
 TypeAttributes TypeBuilder___::GetAttributeFlagsImpl() {
@@ -701,6 +790,7 @@ Array<Object> TypeBuilder___::GetCustomAttributes(Boolean inherit) {
   if (!IsCreated()) {
     rt::throw_exception<NotSupportedException>(SR::get_NotSupported_TypeNotYetCreated());
   }
+  return CustomAttribute::GetCustomAttributes(m_bakedRuntimeType, rt::as<RuntimeType>(rt::typeof<Object>()), inherit);
 }
 
 Array<Object> TypeBuilder___::GetCustomAttributes(Type attributeType, Boolean inherit) {
@@ -768,6 +858,10 @@ Type TypeBuilder___::MakeGenericType(Array<Type> typeArguments) {
 
 Array<Type> TypeBuilder___::GetGenericArguments() {
   Array<Type> inst = m_inst;
+  auto default = inst;
+  if (default != nullptr) default = Array<>::in::Empty<Type>();
+
+  return default;
 }
 
 Type TypeBuilder___::GetGenericTypeDefinition() {
@@ -781,6 +875,10 @@ Type TypeBuilder___::GetGenericTypeDefinition() {
 }
 
 void TypeBuilder___::DefineMethodOverride(MethodInfo methodInfoBody, MethodInfo methodInfoDeclaration) {
+  {
+    rt::lock(get_SyncRoot());
+    DefineMethodOverrideNoLock(methodInfoBody, methodInfoDeclaration);
+  }
 }
 
 void TypeBuilder___::DefineMethodOverrideNoLock(MethodInfo methodInfoBody, MethodInfo methodInfoDeclaration) {
@@ -817,6 +915,10 @@ MethodBuilder TypeBuilder___::DefineMethod(String name, MethodAttributes attribu
 }
 
 MethodBuilder TypeBuilder___::DefineMethod(String name, MethodAttributes attributes, CallingConventions callingConvention, Type returnType, Array<Type> returnTypeRequiredCustomModifiers, Array<Type> returnTypeOptionalCustomModifiers, Array<Type> parameterTypes, Array<Array<Type>> parameterTypeRequiredCustomModifiers, Array<Array<Type>> parameterTypeOptionalCustomModifiers) {
+  {
+    rt::lock(get_SyncRoot());
+    return DefineMethodNoLock(name, attributes, callingConvention, returnType, returnTypeRequiredCustomModifiers, returnTypeOptionalCustomModifiers, parameterTypes, parameterTypeRequiredCustomModifiers, parameterTypeOptionalCustomModifiers);
+  }
 }
 
 MethodBuilder TypeBuilder___::DefineMethodNoLock(String name, MethodAttributes attributes, CallingConventions callingConvention, Type returnType, Array<Type> returnTypeRequiredCustomModifiers, Array<Type> returnTypeOptionalCustomModifiers, Array<Type> parameterTypes, Array<Array<Type>> parameterTypeRequiredCustomModifiers, Array<Array<Type>> parameterTypeOptionalCustomModifiers) {
@@ -864,9 +966,86 @@ MethodBuilder TypeBuilder___::DefinePInvokeMethodHelper(String name, String dllN
   CheckContext(rt::newarr<Array<Array<Type>>>(3, returnTypeRequiredCustomModifiers, returnTypeOptionalCustomModifiers, parameterTypes));
   CheckContext(rt::newarr<Array<Array<Type>>>(1, parameterTypeRequiredCustomModifiers));
   CheckContext(rt::newarr<Array<Array<Type>>>(1, parameterTypeOptionalCustomModifiers));
+  {
+    rt::lock(get_SyncRoot());
+    if (name == nullptr) {
+      rt::throw_exception<ArgumentNullException>("name");
+    }
+    if (name->get_Length() == 0) {
+      rt::throw_exception<ArgumentException>(SR::get_Argument_EmptyName(), "name");
+    }
+    if (dllName == nullptr) {
+      rt::throw_exception<ArgumentNullException>("dllName");
+    }
+    if (dllName->get_Length() == 0) {
+      rt::throw_exception<ArgumentException>(SR::get_Argument_EmptyName(), "dllName");
+    }
+    if (importName == nullptr) {
+      rt::throw_exception<ArgumentNullException>("importName");
+    }
+    if (importName->get_Length() == 0) {
+      rt::throw_exception<ArgumentException>(SR::get_Argument_EmptyName(), "importName");
+    }
+    if ((attributes & MethodAttributes::Abstract) != 0) {
+      rt::throw_exception<ArgumentException>(SR::get_Argument_BadPInvokeMethod());
+    }
+    if ((m_iAttr & TypeAttributes::ClassSemanticsMask) == TypeAttributes::ClassSemanticsMask) {
+      rt::throw_exception<ArgumentException>(SR::get_Argument_BadPInvokeOnInterface());
+    }
+    ThrowIfCreated();
+    attributes |= MethodAttributes::PinvokeImpl;
+    MethodBuilder methodBuilder = rt::newobj<MethodBuilder>(name, attributes, callingConvention, returnType, returnTypeRequiredCustomModifiers, returnTypeOptionalCustomModifiers, parameterTypes, parameterTypeRequiredCustomModifiers, parameterTypeOptionalCustomModifiers, m_module, (TypeBuilder)this);
+    Int32 _;
+    methodBuilder->GetMethodSignature()->InternalGetSignature(_);
+    if (m_listMethods->Contains(methodBuilder)) {
+      rt::throw_exception<ArgumentException>(SR::get_Argument_MethodRedefined());
+    }
+    m_listMethods->Add(methodBuilder);
+    MethodToken token = methodBuilder->GetToken();
+    Int32 num = 0;
+    switch (nativeCallConv) {
+      case CallingConvention::Winapi:
+        num = 256;
+        break;
+      case CallingConvention::Cdecl:
+        num = 512;
+        break;
+      case CallingConvention::StdCall:
+        num = 768;
+        break;
+      case CallingConvention::ThisCall:
+        num = 1024;
+        break;
+      case CallingConvention::FastCall:
+        num = 1280;
+        break;
+    }
+    switch (nativeCharSet) {
+      case CharSet::None:
+        num |= 0;
+        break;
+      case CharSet::Ansi:
+        num |= 2;
+        break;
+      case CharSet::Unicode:
+        num |= 4;
+        break;
+      case CharSet::Auto:
+        num |= 6;
+        break;
+    }
+    ModuleBuilder module = m_module;
+    SetPInvokeData(QCallModule(module), dllName, importName, token.get_Token(), num);
+    methodBuilder->SetToken(token);
+    return methodBuilder;
+  }
 }
 
 ConstructorBuilder TypeBuilder___::DefineTypeInitializer() {
+  {
+    rt::lock(get_SyncRoot());
+    return DefineTypeInitializerNoLock();
+  }
 }
 
 ConstructorBuilder TypeBuilder___::DefineTypeInitializerNoLock() {
@@ -877,6 +1056,10 @@ ConstructorBuilder TypeBuilder___::DefineTypeInitializerNoLock() {
 ConstructorBuilder TypeBuilder___::DefineDefaultConstructor(MethodAttributes attributes) {
   if ((m_iAttr & TypeAttributes::ClassSemanticsMask) == TypeAttributes::ClassSemanticsMask) {
     rt::throw_exception<InvalidOperationException>(SR::get_InvalidOperation_ConstructorNotAllowedOnInterface());
+  }
+  {
+    rt::lock(get_SyncRoot());
+    return DefineDefaultConstructorNoLock(attributes);
   }
 }
 
@@ -917,6 +1100,10 @@ ConstructorBuilder TypeBuilder___::DefineConstructor(MethodAttributes attributes
   if ((m_iAttr & TypeAttributes::ClassSemanticsMask) == TypeAttributes::ClassSemanticsMask && (attributes & MethodAttributes::Static) != MethodAttributes::Static) {
     rt::throw_exception<InvalidOperationException>(SR::get_InvalidOperation_ConstructorNotAllowedOnInterface());
   }
+  {
+    rt::lock(get_SyncRoot());
+    return DefineConstructorNoLock(attributes, callingConvention, parameterTypes, requiredCustomModifiers, optionalCustomModifiers);
+  }
 }
 
 ConstructorBuilder TypeBuilder___::DefineConstructorNoLock(MethodAttributes attributes, CallingConventions callingConvention, Array<Type> parameterTypes, Array<Array<Type>> requiredCustomModifiers, Array<Array<Type>> optionalCustomModifiers) {
@@ -932,24 +1119,54 @@ ConstructorBuilder TypeBuilder___::DefineConstructorNoLock(MethodAttributes attr
 }
 
 TypeBuilder TypeBuilder___::DefineNestedType(String name) {
+  {
+    rt::lock(get_SyncRoot());
+    return DefineNestedTypeNoLock(name, TypeAttributes::NestedPrivate, nullptr, nullptr, PackingSize::Unspecified, 0);
+  }
 }
 
 TypeBuilder TypeBuilder___::DefineNestedType(String name, TypeAttributes attr, Type parent, Array<Type> interfaces) {
+  {
+    rt::lock(get_SyncRoot());
+    CheckContext(rt::newarr<Array<Type>>(1, parent));
+    CheckContext(rt::newarr<Array<Type>>(1, interfaces));
+    return DefineNestedTypeNoLock(name, attr, parent, interfaces, PackingSize::Unspecified, 0);
+  }
 }
 
 TypeBuilder TypeBuilder___::DefineNestedType(String name, TypeAttributes attr, Type parent) {
+  {
+    rt::lock(get_SyncRoot());
+    return DefineNestedTypeNoLock(name, attr, parent, nullptr, PackingSize::Unspecified, 0);
+  }
 }
 
 TypeBuilder TypeBuilder___::DefineNestedType(String name, TypeAttributes attr) {
+  {
+    rt::lock(get_SyncRoot());
+    return DefineNestedTypeNoLock(name, attr, nullptr, nullptr, PackingSize::Unspecified, 0);
+  }
 }
 
 TypeBuilder TypeBuilder___::DefineNestedType(String name, TypeAttributes attr, Type parent, Int32 typeSize) {
+  {
+    rt::lock(get_SyncRoot());
+    return DefineNestedTypeNoLock(name, attr, parent, nullptr, PackingSize::Unspecified, typeSize);
+  }
 }
 
 TypeBuilder TypeBuilder___::DefineNestedType(String name, TypeAttributes attr, Type parent, PackingSize packSize) {
+  {
+    rt::lock(get_SyncRoot());
+    return DefineNestedTypeNoLock(name, attr, parent, nullptr, packSize, 0);
+  }
 }
 
 TypeBuilder TypeBuilder___::DefineNestedType(String name, TypeAttributes attr, Type parent, PackingSize packSize, Int32 typeSize) {
+  {
+    rt::lock(get_SyncRoot());
+    return DefineNestedTypeNoLock(name, attr, parent, nullptr, packSize, typeSize);
+  }
 }
 
 TypeBuilder TypeBuilder___::DefineNestedTypeNoLock(String name, TypeAttributes attr, Type parent, Array<Type> interfaces, PackingSize packSize, Int32 typeSize) {
@@ -961,6 +1178,10 @@ FieldBuilder TypeBuilder___::DefineField(String fieldName, Type type, FieldAttri
 }
 
 FieldBuilder TypeBuilder___::DefineField(String fieldName, Type type, Array<Type> requiredCustomModifiers, Array<Type> optionalCustomModifiers, FieldAttributes attributes) {
+  {
+    rt::lock(get_SyncRoot());
+    return DefineFieldNoLock(fieldName, type, requiredCustomModifiers, optionalCustomModifiers, attributes);
+  }
 }
 
 FieldBuilder TypeBuilder___::DefineFieldNoLock(String fieldName, Type type, Array<Type> requiredCustomModifiers, Array<Type> optionalCustomModifiers, FieldAttributes attributes) {
@@ -974,6 +1195,10 @@ FieldBuilder TypeBuilder___::DefineFieldNoLock(String fieldName, Type type, Arra
 }
 
 FieldBuilder TypeBuilder___::DefineInitializedData(String name, Array<Byte> data, FieldAttributes attributes) {
+  {
+    rt::lock(get_SyncRoot());
+    return DefineInitializedDataNoLock(name, data, attributes);
+  }
 }
 
 FieldBuilder TypeBuilder___::DefineInitializedDataNoLock(String name, Array<Byte> data, FieldAttributes attributes) {
@@ -984,6 +1209,10 @@ FieldBuilder TypeBuilder___::DefineInitializedDataNoLock(String name, Array<Byte
 }
 
 FieldBuilder TypeBuilder___::DefineUninitializedData(String name, Int32 size, FieldAttributes attributes) {
+  {
+    rt::lock(get_SyncRoot());
+    return DefineUninitializedDataNoLock(name, size, attributes);
+  }
 }
 
 FieldBuilder TypeBuilder___::DefineUninitializedDataNoLock(String name, Int32 size, FieldAttributes attributes) {
@@ -1003,6 +1232,10 @@ PropertyBuilder TypeBuilder___::DefineProperty(String name, PropertyAttributes a
 }
 
 PropertyBuilder TypeBuilder___::DefineProperty(String name, PropertyAttributes attributes, CallingConventions callingConvention, Type returnType, Array<Type> returnTypeRequiredCustomModifiers, Array<Type> returnTypeOptionalCustomModifiers, Array<Type> parameterTypes, Array<Array<Type>> parameterTypeRequiredCustomModifiers, Array<Array<Type>> parameterTypeOptionalCustomModifiers) {
+  {
+    rt::lock(get_SyncRoot());
+    return DefinePropertyNoLock(name, attributes, callingConvention, returnType, returnTypeRequiredCustomModifiers, returnTypeOptionalCustomModifiers, parameterTypes, parameterTypeRequiredCustomModifiers, parameterTypeOptionalCustomModifiers);
+  }
 }
 
 PropertyBuilder TypeBuilder___::DefinePropertyNoLock(String name, PropertyAttributes attributes, CallingConventions callingConvention, Type returnType, Array<Type> returnTypeRequiredCustomModifiers, Array<Type> returnTypeOptionalCustomModifiers, Array<Type> parameterTypes, Array<Array<Type>> parameterTypeRequiredCustomModifiers, Array<Array<Type>> parameterTypeOptionalCustomModifiers) {
@@ -1025,6 +1258,10 @@ PropertyBuilder TypeBuilder___::DefinePropertyNoLock(String name, PropertyAttrib
 }
 
 EventBuilder TypeBuilder___::DefineEvent(String name, EventAttributes attributes, Type eventtype) {
+  {
+    rt::lock(get_SyncRoot());
+    return DefineEventNoLock(name, attributes, eventtype);
+  }
 }
 
 EventBuilder TypeBuilder___::DefineEventNoLock(String name, EventAttributes attributes, Type eventtype) {
@@ -1045,9 +1282,17 @@ EventBuilder TypeBuilder___::DefineEventNoLock(String name, EventAttributes attr
 }
 
 TypeInfo TypeBuilder___::CreateTypeInfo() {
+  {
+    rt::lock(get_SyncRoot());
+    return CreateTypeNoLock();
+  }
 }
 
 Type TypeBuilder___::CreateType() {
+  {
+    rt::lock(get_SyncRoot());
+    return CreateTypeNoLock();
+  }
 }
 
 void TypeBuilder___::CheckContext(Array<Array<Type>> typess) {
@@ -1097,6 +1342,58 @@ TypeInfo TypeBuilder___::CreateTypeNoLock() {
   if (m_inst != nullptr) {
     Array<GenericTypeParameterBuilder> inst = m_inst;
   }
+  if (!m_isHiddenGlobalType && m_constructorCount == 0 && (m_iAttr & TypeAttributes::ClassSemanticsMask) == 0 && !Type::get_IsValueType() && (m_iAttr & (TypeAttributes::Abstract | TypeAttributes::Sealed)) != (TypeAttributes::Abstract | TypeAttributes::Sealed)) {
+    DefineDefaultConstructor(MethodAttributes::Public);
+  }
+  Int32 count = m_listMethods->get_Count();
+  for (Int32 l = 0; l < count; l++) {
+    MethodBuilder methodBuilder = m_listMethods[l];
+    if (methodBuilder->get_IsGenericMethodDefinition()) {
+      methodBuilder->GetToken();
+    }
+    MethodAttributes attributes = methodBuilder->get_Attributes();
+    if ((methodBuilder->GetMethodImplementationFlags() & (MethodImplAttributes)135) != 0 || (attributes & MethodAttributes::PinvokeImpl) != 0) {
+      continue;
+    }
+    Int32 signatureLength;
+    Array<Byte> localSignature = methodBuilder->GetLocalSignature(signatureLength);
+    if ((attributes & MethodAttributes::Abstract) != 0 && (m_iAttr & TypeAttributes::Abstract) == 0) {
+      rt::throw_exception<InvalidOperationException>(SR::get_InvalidOperation_BadTypeAttributesNotAbstract());
+    }
+    Array<Byte> body = methodBuilder->GetBody();
+    if ((attributes & MethodAttributes::Abstract) != 0) {
+      if (body != nullptr) {
+        rt::throw_exception<InvalidOperationException>(SR::Format(SR::get_InvalidOperation_BadMethodBody(), methodBuilder->get_Name()));
+      }
+    } else if (body == nullptr || body->get_Length() == 0) {
+      if (methodBuilder->m_ilGenerator != nullptr) {
+        methodBuilder->CreateMethodBodyHelper(methodBuilder->GetILGenerator());
+      }
+      body = methodBuilder->GetBody();
+      if ((body == nullptr || body->get_Length() == 0) && !methodBuilder->m_canBeRuntimeImpl) {
+        rt::throw_exception<InvalidOperationException>(SR::Format(SR::get_InvalidOperation_BadEmptyMethodBody(), methodBuilder->get_Name()));
+      }
+    }
+
+    Int32 maxStack = methodBuilder->GetMaxStack();
+    Array<ExceptionHandler> exceptionHandlers = methodBuilder->GetExceptionHandlers();
+    Array<Int32> tokenFixups = methodBuilder->GetTokenFixups();
+    SetMethodIL(QCallModule(module), methodBuilder->GetToken().get_Token(), methodBuilder->get_InitLocals(), body, (body != nullptr) ? body->get_Length() : 0, localSignature, signatureLength, maxStack, exceptionHandlers, (exceptionHandlers != nullptr) ? exceptionHandlers->get_Length() : 0, tokenFixups, (tokenFixups != nullptr) ? tokenFixups->get_Length() : 0);
+    if (m_module->get_ContainingAssemblyBuilder()->_assemblyData->_access == AssemblyBuilderAccess::Run) {
+      methodBuilder->ReleaseBakedStructures();
+    }
+  }
+  m_hasBeenCreated = true;
+  RuntimeType o = nullptr;
+  TermCreateClass(QCallModule(module), m_tdType.get_Token(), ObjectHandleOnStack::Create(o));
+  if (!m_isHiddenGlobalType) {
+    m_bakedRuntimeType = o;
+    if (m_DeclaringType != nullptr && m_DeclaringType->m_bakedRuntimeType != nullptr) {
+      m_DeclaringType->m_bakedRuntimeType->InvalidateCachedNestedType();
+    }
+    return o;
+  }
+  return nullptr;
 }
 
 void TypeBuilder___::SetParent(Type parent) {
@@ -1108,6 +1405,7 @@ void TypeBuilder___::SetParent(Type parent) {
     }
     m_typeParent = parent;
   } else if ((m_iAttr & TypeAttributes::ClassSemanticsMask) != TypeAttributes::ClassSemanticsMask) {
+    m_typeParent = rt::typeof<Object>();
   } else {
     if ((m_iAttr & TypeAttributes::Abstract) == 0) {
       rt::throw_exception<InvalidOperationException>(SR::get_InvalidOperation_BadInterfaceNotAbstract());

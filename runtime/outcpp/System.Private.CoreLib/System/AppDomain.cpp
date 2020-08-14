@@ -22,6 +22,7 @@
 #include <System.Private.CoreLib/System/Security/Permissions/PermissionState.h>
 #include <System.Private.CoreLib/System/Security/Principal/PrincipalPolicy.h>
 #include <System.Private.CoreLib/System/SR-dep.h>
+#include <System.Private.CoreLib/System/SystemException-dep.h>
 #include <System.Private.CoreLib/System/Threading/Volatile-dep.h>
 #include <System.Private.CoreLib/System/Type-dep.h>
 
@@ -105,11 +106,20 @@ Boolean AppDomain___::get_ShadowCopyFiles() {
 }
 
 TimeSpan AppDomain___::get_MonitoringTotalProcessorTime() {
+  Int64 _;
+  Int64 _;
+  Int64 _;
+  Int64 user;
+  if (!Interop::Kernel32::GetProcessTimes(Interop::Kernel32::GetCurrentProcess(), _, _, _, user)) {
+    return TimeSpan::Zero;
+  }
+  return TimeSpan(user);
 }
 
 void AppDomain___::ctor() {
   _forLock = rt::newobj<Object>();
   _principalPolicy = PrincipalPolicy::NoPrincipal;
+  MarshalByRefObject::ctor();
 }
 
 void AppDomain___::SetDynamicBase(String path) {
@@ -182,6 +192,11 @@ void AppDomain___::SetData(String name, Object data) {
 }
 
 Nullable<Boolean> AppDomain___::IsCompatibilitySwitchSet(String value) {
+  Boolean isEnabled;
+  if (!AppContext::TryGetSwitch(value, isEnabled)) {
+    return nullptr;
+  }
+  return isEnabled;
 }
 
 Boolean AppDomain___::IsDefaultAppDomain() {
@@ -257,6 +272,13 @@ void AppDomain___::SetPrincipalPolicy(PrincipalPolicy policy) {
 void AppDomain___::SetThreadPrincipal(IPrincipal principal) {
   if (principal == nullptr) {
     rt::throw_exception<ArgumentNullException>("principal");
+  }
+  {
+    rt::lock(_forLock);
+    if (_defaultPrincipal != nullptr) {
+      rt::throw_exception<SystemException>(SR::get_AppDomain_Policy_PrincipalTwice());
+    }
+    _defaultPrincipal = principal;
   }
 }
 

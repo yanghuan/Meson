@@ -10,20 +10,28 @@
 #include <System.Private.CoreLib/System/IRuntimeMethodInfo.h>
 #include <System.Private.CoreLib/System/MulticastDelegate-dep.h>
 #include <System.Private.CoreLib/System/NotSupportedException-dep.h>
+#include <System.Private.CoreLib/System/Reflection/AssemblyName-dep.h>
+#include <System.Private.CoreLib/System/Reflection/Emit/AssemblyBuilder-dep.h>
+#include <System.Private.CoreLib/System/Reflection/Emit/AssemblyBuilderAccess.h>
 #include <System.Private.CoreLib/System/Reflection/Emit/DynamicILGenerator-dep.h>
 #include <System.Private.CoreLib/System/Reflection/Emit/DynamicMethod-dep.h>
 #include <System.Private.CoreLib/System/Reflection/Emit/EmptyCAHolder-dep.h>
+#include <System.Private.CoreLib/System/Reflection/Emit/InternalModuleBuilder-dep.h>
 #include <System.Private.CoreLib/System/Reflection/Emit/SignatureHelper-dep.h>
 #include <System.Private.CoreLib/System/Reflection/MethodBase-dep.h>
 #include <System.Private.CoreLib/System/Reflection/RuntimeParameterInfo-dep.h>
 #include <System.Private.CoreLib/System/Reflection/TargetParameterCountException-dep.h>
+#include <System.Private.CoreLib/System/Runtime/CompilerServices/MethodImplAttribute-dep.h>
 #include <System.Private.CoreLib/System/RuntimeType-dep.h>
 #include <System.Private.CoreLib/System/Signature-dep.h>
 #include <System.Private.CoreLib/System/SR-dep.h>
 #include <System.Private.CoreLib/System/Text/ValueStringBuilder-dep.h>
+#include <System.Private.CoreLib/System/Threading/StackCrawlMark.h>
 
 namespace System::Private::CoreLib::System::Reflection::Emit::DynamicMethodNamespace {
+using namespace System::Runtime::CompilerServices;
 using namespace System::Text;
+using namespace System::Threading;
 
 String DynamicMethod___::RTDynamicMethod___::get_Name() {
   return m_name;
@@ -119,6 +127,10 @@ Array<Object> DynamicMethod___::RTDynamicMethod___::GetCustomAttributes(Type att
   if (attributeType == nullptr) {
     rt::throw_exception<ArgumentNullException>("attributeType");
   }
+  if (attributeType->IsAssignableFrom(rt::typeof<MethodImplAttribute>())) {
+    return rt::newarr<Array<Object>>(1);
+  }
+  return Array<>::in::Empty<Object>();
 }
 
 Array<Object> DynamicMethod___::RTDynamicMethod___::GetCustomAttributes(Boolean inherit) {
@@ -129,6 +141,10 @@ Boolean DynamicMethod___::RTDynamicMethod___::IsDefined(Type attributeType, Bool
   if (attributeType == nullptr) {
     rt::throw_exception<ArgumentNullException>("attributeType");
   }
+  if (attributeType->IsAssignableFrom(rt::typeof<MethodImplAttribute>())) {
+    return true;
+  }
+  return false;
 }
 
 Array<RuntimeParameterInfo> DynamicMethod___::RTDynamicMethod___::LoadParameters() {
@@ -275,6 +291,17 @@ RuntimeModule DynamicMethod___::GetDynamicMethodsModule() {
   if (s_anonymouslyHostedDynamicMethodsModule != nullptr) {
     return s_anonymouslyHostedDynamicMethodsModule;
   }
+  {
+    rt::lock(s_anonymouslyHostedDynamicMethodsModuleLock);
+    if (s_anonymouslyHostedDynamicMethodsModule != nullptr) {
+      return s_anonymouslyHostedDynamicMethodsModule;
+    }
+    AssemblyName name = rt::newobj<AssemblyName>("Anonymously Hosted DynamicMethods Assembly");
+    StackCrawlMark stackMark = StackCrawlMark::LookForMe;
+    AssemblyBuilder assemblyBuilder = AssemblyBuilder::in::InternalDefineDynamicAssembly(name, AssemblyBuilderAccess::Run, stackMark, nullptr);
+    s_anonymouslyHostedDynamicMethodsModule = (InternalModuleBuilder)assemblyBuilder->get_ManifestModule();
+  }
+  return s_anonymouslyHostedDynamicMethodsModule;
 }
 
 void DynamicMethod___::Init(String name, MethodAttributes attributes, CallingConventions callingConvention, Type returnType, Array<Type> signature, Type owner, Module m, Boolean skipVisibility, Boolean transparentMethod) {
@@ -286,10 +313,47 @@ void DynamicMethod___::Init(String name, MethodAttributes attributes, CallingCon
         rt::throw_exception<ArgumentException>(SR::get_Arg_InvalidTypeInSignature());
       }
       m_parameterTypes[i] = (rt::as<RuntimeType>(signature[i]->get_UnderlyingSystemType()));
+      if (m_parameterTypes[i] == nullptr || m_parameterTypes[i] == rt::typeof<void>()) {
+        rt::throw_exception<ArgumentException>(SR::get_Arg_InvalidTypeInSignature());
+      }
     }
   } else {
     m_parameterTypes = Array<>::in::Empty<RuntimeType>();
   }
+  m_returnType = ((returnType == nullptr) ? ((RuntimeType)rt::typeof<void>()) : (rt::as<RuntimeType>(returnType->get_UnderlyingSystemType())));
+  if (m_returnType == nullptr) {
+    rt::throw_exception<NotSupportedException>(SR::get_Arg_InvalidTypeInRetType());
+  }
+  if (transparentMethod) {
+    m_module = GetDynamicMethodsModule();
+    if (skipVisibility) {
+      m_restrictedSkipVisibility = true;
+    }
+  } else {
+    if (m != nullptr) {
+      m_module = m->get_ModuleHandle().GetRuntimeModule();
+    } else {
+      RuntimeType runtimeType = nullptr;
+      if (owner != nullptr) {
+        runtimeType = (rt::as<RuntimeType>(owner->get_UnderlyingSystemType()));
+      }
+      if (runtimeType != nullptr) {
+        if (runtimeType->get_HasElementType() || runtimeType->get_ContainsGenericParameters() || runtimeType->get_IsGenericParameter() || runtimeType->get_IsInterface()) {
+          rt::throw_exception<ArgumentException>(SR::get_Argument_InvalidTypeForDynamicMethod());
+        }
+        m_typeOwner = runtimeType;
+        m_module = runtimeType->GetRuntimeModule();
+      }
+    }
+    m_skipVisibility = skipVisibility;
+  }
+  m_ilGenerator = nullptr;
+  m_fInitLocals = true;
+  m_methodHandle = nullptr;
+  if (name == nullptr) {
+    rt::throw_exception<ArgumentNullException>("name");
+  }
+  m_dynMethod = rt::newobj<RTDynamicMethod>((DynamicMethod)this, name, attributes, callingConvention);
 }
 
 Delegate DynamicMethod___::CreateDelegate(Type delegateType) {
@@ -314,6 +378,19 @@ Delegate DynamicMethod___::CreateDelegate(Type delegateType, Object target) {
 
 RuntimeMethodHandle DynamicMethod___::GetMethodDescriptor() {
   if (m_methodHandle == nullptr) {
+    {
+      rt::lock((DynamicMethod)this);
+      if (m_methodHandle == nullptr) {
+        if (m_DynamicILInfo != nullptr) {
+          m_DynamicILInfo->GetCallableMethod(m_module, (DynamicMethod)this);
+        } else {
+          if (m_ilGenerator == nullptr || m_ilGenerator->get_ILOffset() == 0) {
+            rt::throw_exception<InvalidOperationException>(SR::Format(SR::get_InvalidOperation_BadEmptyMethodBody(), get_Name()));
+          }
+          m_ilGenerator->GetCallableMethod(m_module, (DynamicMethod)this);
+        }
+      }
+    }
   }
   return RuntimeMethodHandle(m_methodHandle);
 }

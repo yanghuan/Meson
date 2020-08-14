@@ -1,6 +1,7 @@
 #include "InternalModuleBuilder-dep.h"
 
 #include <System.Private.CoreLib/System/Reflection/Emit/InternalModuleBuilder-dep.h>
+#include <System.Private.CoreLib/System/Reflection/Module-dep.h>
 
 namespace System::Private::CoreLib::System::Reflection::Emit::InternalModuleBuilderNamespace {
 void InternalModuleBuilder___::ctor() {
@@ -17,6 +18,7 @@ Boolean InternalModuleBuilder___::Equals(Object obj) {
 }
 
 Int32 InternalModuleBuilder___::GetHashCode() {
+  return Module::GetHashCode();
 }
 
 } // namespace System::Private::CoreLib::System::Reflection::Emit::InternalModuleBuilderNamespace

@@ -135,6 +135,17 @@ void SpinLock::ContinueTryEnter(Int32 millisecondsTimeout, Boolean& lockTaken) {
   if (num > Environment::get_ProcessorCount()) {
     spinWait.set_Count = 10;
   }
+  do {
+    spinWait.SpinOnce(40);
+    owner = _owner;
+    if ((owner & 1) == 0) {
+      Int32 value = ((owner & 2147483646) == 0) ? (owner | 1) : ((owner - 2) | 1);
+      if (CompareExchange(_owner, value, owner, lockTaken) == owner) {
+        return;
+      }
+    }
+  } while (spinWait.get_Count() % 10 != 0 || millisecondsTimeout == -1 || TimeoutHelper::UpdateTimeOut(startTime, millisecondsTimeout) > 0)
+  DecrementWaiters();
 }
 
 void SpinLock::DecrementWaiters() {

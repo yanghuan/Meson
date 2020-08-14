@@ -1,7 +1,22 @@
 #include "ComparerHelpers-dep.h"
 
+#include <System.Private.CoreLib/System/Byte-dep.h>
+#include <System.Private.CoreLib/System/Collections/Generic/ByteEqualityComparer-dep.h>
+#include <System.Private.CoreLib/System/Collections/Generic/EnumComparer-dep.h>
+#include <System.Private.CoreLib/System/Collections/Generic/EnumEqualityComparer-dep.h>
+#include <System.Private.CoreLib/System/Collections/Generic/GenericComparer-dep.h>
+#include <System.Private.CoreLib/System/Collections/Generic/GenericEqualityComparer-dep.h>
+#include <System.Private.CoreLib/System/Collections/Generic/NullableComparer-dep.h>
+#include <System.Private.CoreLib/System/Collections/Generic/NullableEqualityComparer-dep.h>
+#include <System.Private.CoreLib/System/Collections/Generic/ObjectComparer-dep.h>
+#include <System.Private.CoreLib/System/Collections/Generic/ObjectEqualityComparer-dep.h>
 #include <System.Private.CoreLib/System/Enum-dep.h>
+#include <System.Private.CoreLib/System/IComparable.h>
+#include <System.Private.CoreLib/System/IEquatable.h>
+#include <System.Private.CoreLib/System/Int32-dep.h>
+#include <System.Private.CoreLib/System/Nullable-dep.h>
 #include <System.Private.CoreLib/System/RuntimeType-dep.h>
+#include <System.Private.CoreLib/System/RuntimeTypeHandle-dep.h>
 #include <System.Private.CoreLib/System/TypeCode.h>
 #include <System.Private.CoreLib/System/UInt32-dep.h>
 
@@ -9,15 +24,35 @@ namespace System::Private::CoreLib::System::Collections::Generic::ComparerHelper
 Object ComparerHelpers::CreateDefaultComparer(Type type) {
   Object obj = nullptr;
   RuntimeType runtimeType = (RuntimeType)type;
+  if (rt::typeof<IComparable<T>>()->MakeGenericType(rt::newarr<Array<Type>>(1, type))->IsAssignableFrom(type)) {
+    obj = RuntimeTypeHandle::CreateInstanceForAnotherGenericParameter((RuntimeType)rt::typeof<GenericComparer<Int32>>(), runtimeType);
+  } else if (type->get_IsGenericType()) {
+    if (type->GetGenericTypeDefinition() == rt::typeof<Nullable<T>>()) {
+      obj = TryCreateNullableComparer(runtimeType);
+    }
+  } else if (type->get_IsEnum()) {
+    obj = TryCreateEnumComparer(runtimeType);
+  }
+
+
+  auto default = obj;
+  if (default != nullptr) default = RuntimeTypeHandle::CreateInstanceForAnotherGenericParameter((RuntimeType)rt::typeof<ObjectComparer<Object>>(), runtimeType);
+
+  return default;
 }
 
 Object ComparerHelpers::TryCreateNullableComparer(RuntimeType nullableType) {
   RuntimeType runtimeType = (RuntimeType)nullableType->GetGenericArguments()[0];
+  if (rt::typeof<IComparable<T>>()->MakeGenericType(rt::newarr<Array<Type>>(1, runtimeType))->IsAssignableFrom(runtimeType)) {
+    return RuntimeTypeHandle::CreateInstanceForAnotherGenericParameter((RuntimeType)rt::typeof<NullableComparer<Int32>>(), runtimeType);
+  }
+  return nullptr;
 }
 
 Object ComparerHelpers::TryCreateEnumComparer(RuntimeType enumType) {
   TypeCode typeCode = Type::in::GetTypeCode(Enum::in::GetUnderlyingType(enumType));
   if ((UInt32)(typeCode - 5) <= 7u) {
+    return RuntimeTypeHandle::CreateInstanceForAnotherGenericParameter((RuntimeType)rt::typeof<EnumComparer<T>>(), enumType);
   }
   return nullptr;
 }
@@ -25,15 +60,38 @@ Object ComparerHelpers::TryCreateEnumComparer(RuntimeType enumType) {
 Object ComparerHelpers::CreateDefaultEqualityComparer(Type type) {
   Object obj = nullptr;
   RuntimeType runtimeType = (RuntimeType)type;
+  if (type == rt::typeof<Byte>()) {
+    obj = rt::newobj<ByteEqualityComparer>();
+  } else if (rt::typeof<IEquatable<T>>()->MakeGenericType(rt::newarr<Array<Type>>(1, type))->IsAssignableFrom(type)) {
+    obj = RuntimeTypeHandle::CreateInstanceForAnotherGenericParameter((RuntimeType)rt::typeof<GenericEqualityComparer<Int32>>(), runtimeType);
+  } else if (type->get_IsGenericType()) {
+    if (type->GetGenericTypeDefinition() == rt::typeof<Nullable<T>>()) {
+      obj = TryCreateNullableEqualityComparer(runtimeType);
+    }
+  } else if (type->get_IsEnum()) {
+    obj = TryCreateEnumEqualityComparer(runtimeType);
+  }
+
+
+
+  auto default = obj;
+  if (default != nullptr) default = RuntimeTypeHandle::CreateInstanceForAnotherGenericParameter((RuntimeType)rt::typeof<ObjectEqualityComparer<Object>>(), runtimeType);
+
+  return default;
 }
 
 Object ComparerHelpers::TryCreateNullableEqualityComparer(RuntimeType nullableType) {
   RuntimeType runtimeType = (RuntimeType)nullableType->GetGenericArguments()[0];
+  if (rt::typeof<IEquatable<T>>()->MakeGenericType(rt::newarr<Array<Type>>(1, runtimeType))->IsAssignableFrom(runtimeType)) {
+    return RuntimeTypeHandle::CreateInstanceForAnotherGenericParameter((RuntimeType)rt::typeof<NullableEqualityComparer<Int32>>(), runtimeType);
+  }
+  return nullptr;
 }
 
 Object ComparerHelpers::TryCreateEnumEqualityComparer(RuntimeType enumType) {
   TypeCode typeCode = Type::in::GetTypeCode(Enum::in::GetUnderlyingType(enumType));
   if ((UInt32)(typeCode - 5) <= 7u) {
+    return RuntimeTypeHandle::CreateInstanceForAnotherGenericParameter((RuntimeType)rt::typeof<EnumEqualityComparer<T>>(), enumType);
   }
   return nullptr;
 }

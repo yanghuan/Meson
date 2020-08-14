@@ -1,9 +1,16 @@
 #include "NameInfo-dep.h"
 
+#include <System.Private.CoreLib/System/Byte-dep.h>
+#include <System.Private.CoreLib/System/Diagnostics/Tracing/EventKeywords.h>
+#include <System.Private.CoreLib/System/Diagnostics/Tracing/EventLevel.h>
+#include <System.Private.CoreLib/System/Diagnostics/Tracing/EventOpcode.h>
+#include <System.Private.CoreLib/System/Diagnostics/Tracing/EventPipeMetadataGenerator-dep.h>
 #include <System.Private.CoreLib/System/Diagnostics/Tracing/NameInfo-dep.h>
 #include <System.Private.CoreLib/System/Diagnostics/Tracing/Statics-dep.h>
+#include <System.Private.CoreLib/System/Math-dep.h>
 #include <System.Private.CoreLib/System/StringComparer-dep.h>
 #include <System.Private.CoreLib/System/Threading/Interlocked-dep.h>
+#include <System.Private.CoreLib/System/UInt32-dep.h>
 
 namespace System::Private::CoreLib::System::Diagnostics::Tracing::NameInfoNamespace {
 using namespace System::Threading;
@@ -11,6 +18,11 @@ using namespace System::Threading;
 void NameInfo___::ReserveEventIDsBelow(Int32 eventId) {
   Int32 num;
   Int32 val;
+  do {
+    num = lastIdentity;
+    val = (lastIdentity & -16777216) + eventId;
+    val = Math::Max(val, num);
+  } while (Interlocked::CompareExchange(lastIdentity, val, num) != num)
 }
 
 void NameInfo___::ctor(String name, EventTags tags, Int32 typeMetadataSize) {
@@ -43,6 +55,20 @@ Int32 NameInfo___::Compare(String otherName, EventTags otherTags) {
 IntPtr NameInfo___::GetOrCreateEventHandle(EventProvider provider, TraceLoggingEventHandleTable eventHandleTable, EventDescriptor descriptor, TraceLoggingEventTypes eventTypes) {
   IntPtr result;
   if ((result = eventHandleTable[descriptor.get_EventId()]) == IntPtr::Zero) {
+    {
+      rt::lock(eventHandleTable);
+      if (!((result = eventHandleTable[descriptor.get_EventId()]) == IntPtr::Zero)) {
+        return result;
+      }
+      Array<Byte> array = EventPipeMetadataGenerator::in::Instance->GenerateEventMetadata(descriptor.get_EventId(), name, (EventKeywords)descriptor.get_Keywords(), (EventLevel)descriptor.get_Level(), descriptor.get_Version(), (EventOpcode)descriptor.get_Opcode(), eventTypes);
+      UInt32 metadataLength = (UInt32)((array != nullptr) ? array->get_Length() : 0);
+      {
+        Byte* pMetadata = array;
+        result = provider->m_eventProvider->DefineEventHandle((UInt32)descriptor.get_EventId(), name, descriptor.get_Keywords(), descriptor.get_Version(), descriptor.get_Level(), pMetadata, metadataLength);
+      }
+      eventHandleTable->SetEventHandle(descriptor.get_EventId(), result);
+      return result;
+    }
   }
   return result;
 }

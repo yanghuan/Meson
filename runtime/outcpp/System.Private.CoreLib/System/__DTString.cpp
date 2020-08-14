@@ -4,6 +4,7 @@
 #include <System.Private.CoreLib/System/DTSubStringType.h>
 #include <System.Private.CoreLib/System/Globalization/CompareOptions.h>
 #include <System.Private.CoreLib/System/Globalization/DateTimeFormatFlags.h>
+#include <System.Private.CoreLib/System/MemoryExtensions-dep.h>
 #include <System.Private.CoreLib/System/Span-dep.h>
 
 namespace System::Private::CoreLib::System::__DTStringNamespace {
@@ -86,10 +87,28 @@ void __DTString::GetRegularToken(TokenType& tokenType, Int32& tokenValue, DateTi
         Char current = m_current;
         Index = index;
         m_current = Value[Index];
+        TokenType tokenType2;
+        Int32 tokenValue2;
+        if (dtfi->Tokenize(TokenType::RegularTokenMask, tokenType2, tokenValue2, *this)) {
+          tokenType = tokenType2;
+          tokenValue = tokenValue2;
+        } else {
+          Index = index2;
+          m_current = current;
+        }
       }
       break;
     }
     if (Char::IsWhiteSpace(m_current)) {
+      do {
+        if (++Index < get_Length()) {
+          m_current = Value[Index];
+          continue;
+        }
+        tokenType = TokenType::EndOfString;
+        return;
+      } while (Char::IsWhiteSpace(m_current))
+      continue;
     }
     dtfi->Tokenize(TokenType::RegularTokenMask, tokenType, tokenValue, *this);
     break;
@@ -104,6 +123,12 @@ TokenType __DTString::GetSeparatorToken(DateTimeFormatInfo dtfi, Int32& indexBef
   }
   TokenType tokenType;
   if (!DateTimeParse::IsDigit(m_current)) {
+    Int32 _;
+    if (!dtfi->Tokenize(TokenType::SeparatorTokenMask, tokenType, _, *this)) {
+      tokenType = TokenType::SEP_Space;
+      return tokenType;
+    }
+    return tokenType;
   }
   tokenType = TokenType::SEP_Space;
   return tokenType;
@@ -125,6 +150,37 @@ Boolean __DTString::MatchSpecifiedWords(String target, Boolean checkWordBoundary
     Int32 num4 = target->IndexOfAny(WhiteSpaceChecks, num2);
     if (num4 == -1) {
       return false;
+    }
+    do {
+      Int32 num5 = num4 - num2;
+      if (num3 >= Value.get_Length() - num5) {
+        return false;
+      }
+      if (num5 == 0) {
+        matchLength--;
+      } else {
+        if (!Char::IsWhiteSpace(Value[num3 + num5])) {
+          return false;
+        }
+        if (m_info->CompareOptionIgnoreCase(Value.Slice(num3, num5), MemoryExtensions::AsSpan(target, num2, num5)) != 0) {
+          return false;
+        }
+        num3 = num3 + num5 + 1;
+      }
+      num2 = num4 + 1;
+      while (num3 < Value.get_Length() && Char::IsWhiteSpace(Value[num3])) {
+        num3++;
+        matchLength++;
+      }
+    } while ((num4 = target->IndexOfAny(WhiteSpaceChecks, num2)) >= 0)
+    if (num2 < target->get_Length()) {
+      Int32 num6 = target->get_Length() - num2;
+      if (num3 > Value.get_Length() - num6) {
+        return false;
+      }
+      if (m_info->CompareOptionIgnoreCase(Value.Slice(num3, num6), MemoryExtensions::AsSpan(target, num2, num6)) != 0) {
+        return false;
+      }
     }
   }
   if (checkWordBoundary) {

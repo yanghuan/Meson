@@ -5,6 +5,7 @@
 #include <System.Private.CoreLib/System/ArgumentException-dep.h>
 #include <System.Private.CoreLib/System/ArgumentNullException-dep.h>
 #include <System.Private.CoreLib/System/ArgumentOutOfRangeException-dep.h>
+#include <System.Private.CoreLib/System/ArraySegment-dep.h>
 #include <System.Private.CoreLib/System/Buffer-dep.h>
 #include <System.Private.CoreLib/System/Buffers/ArrayPool-dep.h>
 #include <System.Private.CoreLib/System/Exception-dep.h>
@@ -13,8 +14,10 @@
 #include <System.Private.CoreLib/System/IO/FileAccess.h>
 #include <System.Private.CoreLib/System/IO/FileStream-dep.h>
 #include <System.Private.CoreLib/System/IO/IOException-dep.h>
+#include <System.Private.CoreLib/System/IO/Path-dep.h>
 #include <System.Private.CoreLib/System/IO/PathInternal-dep.h>
 #include <System.Private.CoreLib/System/IO/SeekOrigin.h>
+#include <System.Private.CoreLib/System/IO/StreamHelpers-dep.h>
 #include <System.Private.CoreLib/System/IO/Win32Marshal-dep.h>
 #include <System.Private.CoreLib/System/Math-dep.h>
 #include <System.Private.CoreLib/System/MemoryExtensions-dep.h>
@@ -24,6 +27,7 @@
 #include <System.Private.CoreLib/System/ReadOnlySpan-dep.h>
 #include <System.Private.CoreLib/System/Runtime/InteropServices/Marshal-dep.h>
 #include <System.Private.CoreLib/System/Runtime/InteropServices/MemoryMarshal-dep.h>
+#include <System.Private.CoreLib/System/Runtime/Serialization/SerializationInfo-dep.h>
 #include <System.Private.CoreLib/System/Span-dep.h>
 #include <System.Private.CoreLib/System/SR-dep.h>
 #include <System.Private.CoreLib/System/Threading/Interlocked-dep.h>
@@ -38,6 +42,7 @@
 namespace System::Private::CoreLib::System::IO::FileStreamNamespace {
 using namespace System::Buffers;
 using namespace System::Runtime::InteropServices;
+using namespace System::Runtime::Serialization;
 using namespace System::Threading;
 using namespace System::Threading::Tasks;
 
@@ -126,6 +131,11 @@ void FileStream___::FileStreamCompletionSource___::Cancel(Object state) {
 }
 
 FileStream::in::FileStreamCompletionSource FileStream___::FileStreamCompletionSource___::Create(FileStream stream, Int32 numBufferedBytesRead, ReadOnlyMemory<Byte> memory) {
+  ArraySegment<Byte> segment;
+  if (!MemoryMarshal::TryGetArray(memory, segment) || segment.get_Array() != stream->_buffer) {
+    return rt::newobj<MemoryFileStreamCompletionSource>(stream, numBufferedBytesRead, memory);
+  }
+  return rt::newobj<FileStreamCompletionSource>(stream, numBufferedBytesRead, segment.get_Array());
 }
 
 Object FileStream___::AsyncCopyToAwaitable___::get_CancellationLock() {
@@ -182,6 +192,7 @@ void FileStream___::MemoryFileStreamCompletionSource___::ctor(FileStream stream,
 
 void FileStream___::MemoryFileStreamCompletionSource___::ReleaseNativeResource() {
   _handle.Dispose();
+  FileStreamCompletionSource::ReleaseNativeResource();
 }
 
 IntPtr FileStream___::get_Handle() {
@@ -209,6 +220,10 @@ SafeFileHandle FileStream___::get_SafeFileHandle() {
 }
 
 String FileStream___::get_Name() {
+  auto default = _path;
+  if (default != nullptr) default = SR::get_IO_UnknownFileName();
+
+  return default;
 }
 
 Boolean FileStream___::get_IsAsync() {
@@ -266,6 +281,15 @@ void FileStream___::ctor(IntPtr handle, FileAccess access, Boolean ownsHandle, I
 
 void FileStream___::ctor(IntPtr handle, FileAccess access, Boolean ownsHandle, Int32 bufferSize, Boolean isAsync) {
   _activeBufferOperation = Task::in::get_CompletedTask();
+  Stream::ctor();
+  SafeFileHandle safeFileHandle = rt::newobj<SafeFileHandle>(handle, ownsHandle);
+  try{
+    ValidateAndInitFromHandle(safeFileHandle, access, bufferSize, isAsync);
+  } catch (...) {
+  }
+  _access = access;
+  _useAsyncIO = isAsync;
+  _fileHandle = safeFileHandle;
 }
 
 void FileStream___::ctor(SafeFileHandle handle, FileAccess access) {
@@ -297,6 +321,11 @@ void FileStream___::ValidateAndInitFromHandle(SafeFileHandle handle, FileAccess 
 
 void FileStream___::ctor(SafeFileHandle handle, FileAccess access, Int32 bufferSize, Boolean isAsync) {
   _activeBufferOperation = Task::in::get_CompletedTask();
+  Stream::ctor();
+  ValidateAndInitFromHandle(handle, access, bufferSize, isAsync);
+  _access = access;
+  _useAsyncIO = isAsync;
+  _fileHandle = handle;
 }
 
 void FileStream___::ctor(String path, FileMode mode) {
@@ -316,6 +345,53 @@ void FileStream___::ctor(String path, FileMode mode, FileAccess access, FileShar
 
 void FileStream___::ctor(String path, FileMode mode, FileAccess access, FileShare share, Int32 bufferSize, FileOptions options) {
   _activeBufferOperation = Task::in::get_CompletedTask();
+  Stream::ctor();
+  if (path == nullptr) {
+    rt::throw_exception<ArgumentNullException>("path", SR::get_ArgumentNull_Path());
+  }
+  if (path->get_Length() == 0) {
+    rt::throw_exception<ArgumentException>(SR::get_Argument_EmptyPath(), "path");
+  }
+  FileShare fileShare = share & ~FileShare::Inheritable;
+  String text = nullptr;
+  if (mode < FileMode::CreateNew || mode > FileMode::Append) {
+    text = "mode";
+  } else if (access < FileAccess::Read || access > FileAccess::ReadWrite) {
+    text = "access";
+  } else if ((fileShare < FileShare::None) || fileShare > (FileShare::Read | FileShare::Write | FileShare::Delete)) {
+    text = "share";
+  }
+
+
+  if (text != nullptr) {
+    rt::throw_exception<ArgumentOutOfRangeException>(text, SR::get_ArgumentOutOfRange_Enum());
+  }
+  if (options != 0 && (options & (FileOptions)67092479) != 0) {
+    rt::throw_exception<ArgumentOutOfRangeException>("options", SR::get_ArgumentOutOfRange_Enum());
+  }
+  if (bufferSize <= 0) {
+    rt::throw_exception<ArgumentOutOfRangeException>("bufferSize", SR::get_ArgumentOutOfRange_NeedPosNum());
+  }
+  if ((access & FileAccess::Write) == 0 && (mode == FileMode::Truncate || mode == FileMode::CreateNew || mode == FileMode::Create || mode == FileMode::Append)) {
+    rt::throw_exception<ArgumentException>(SR::Format(SR::get_Argument_InvalidFileModeAndAccessCombo(), mode, access), "access");
+  }
+  if ((access & FileAccess::Read) != 0 && mode == FileMode::Append) {
+    rt::throw_exception<ArgumentException>(SR::get_Argument_InvalidAppendMode(), "access");
+  }
+  String text2 = _path = Path::GetFullPath(path);
+  _access = access;
+  _bufferLength = bufferSize;
+  if ((options & FileOptions::Asynchronous) != 0) {
+    _useAsyncIO = true;
+  }
+  if ((access & FileAccess::Write) == FileAccess::Write) {
+    SerializationInfo::in::ThrowIfDeserializationInProgress("AllowFileWrites", s_cachedSerializationSwitch);
+  }
+  _fileHandle = OpenHandle(mode, share, options);
+  try{
+    Init(mode, share, path);
+  } catch (...) {
+  }
 }
 
 void FileStream___::Lock(Int64 position, Int64 length) {
@@ -339,6 +415,10 @@ void FileStream___::Unlock(Int64 position, Int64 length) {
 }
 
 Task<> FileStream___::FlushAsync(CancellationToken cancellationToken) {
+  if (GetType() != rt::typeof<FileStream>()) {
+    return Stream::FlushAsync(cancellationToken);
+  }
+  return FlushAsyncInternal(cancellationToken);
 }
 
 Int32 FileStream___::Read(Array<Byte> array, Int32 offset, Int32 count) {
@@ -350,6 +430,13 @@ Int32 FileStream___::Read(Array<Byte> array, Int32 offset, Int32 count) {
 }
 
 Int32 FileStream___::Read(Span<Byte> buffer) {
+  if (GetType() == rt::typeof<FileStream>() && !_useAsyncIO) {
+    if (_fileHandle->get_IsClosed()) {
+      rt::throw_exception(Error::GetFileNotOpen());
+    }
+    return ReadSpan(buffer);
+  }
+  return Stream::Read(buffer);
 }
 
 Task<Int32> FileStream___::ReadAsync(Array<Byte> buffer, Int32 offset, Int32 count, CancellationToken cancellationToken) {
@@ -365,9 +452,44 @@ Task<Int32> FileStream___::ReadAsync(Array<Byte> buffer, Int32 offset, Int32 cou
   if (buffer->get_Length() - offset < count) {
     rt::throw_exception<ArgumentException>(SR::get_Argument_InvalidOffLen());
   }
+  if (GetType() != rt::typeof<FileStream>()) {
+    return Stream::ReadAsync(buffer, offset, count, cancellationToken);
+  }
+  if (cancellationToken.get_IsCancellationRequested()) {
+    return Task::in::FromCanceled<Int32>(cancellationToken);
+  }
+  if (get_IsClosed()) {
+    rt::throw_exception(Error::GetFileNotOpen());
+  }
+  if (!_useAsyncIO) {
+    return (Task<Int32>)BeginReadInternal(buffer, offset, count, nullptr, nullptr, true, false);
+  }
+  return ReadAsyncTask(buffer, offset, count, cancellationToken);
 }
 
 ValueTask<Int32> FileStream___::ReadAsync(Memory<Byte> buffer, CancellationToken cancellationToken) {
+  if (GetType() != rt::typeof<FileStream>()) {
+    return Stream::ReadAsync(buffer, cancellationToken);
+  }
+  if (cancellationToken.get_IsCancellationRequested()) {
+    return ValueTask<Int32>(Task::in::FromCanceled<Int32>(cancellationToken));
+  }
+  if (get_IsClosed()) {
+    rt::throw_exception(Error::GetFileNotOpen());
+  }
+  if (!_useAsyncIO) {
+    ArraySegment<Byte> segment;
+    if (!MemoryMarshal::TryGetArray(buffer, segment)) {
+      return Stream::ReadAsync(buffer, cancellationToken);
+    }
+    return ValueTask<Int32>((Task<Int32>)BeginReadInternal(segment.get_Array(), segment.get_Offset(), segment.get_Count(), nullptr, nullptr, true, false));
+  }
+  Int32 synchronousResult;
+  Task<Int32> task = ReadAsyncInternal(buffer, cancellationToken, synchronousResult);
+  if (task == nullptr) {
+    return ValueTask<Int32>(synchronousResult);
+  }
+  return ValueTask<Int32>(task);
 }
 
 Task<Int32> FileStream___::ReadAsyncTask(Array<Byte> array, Int32 offset, Int32 count, CancellationToken cancellationToken) {
@@ -392,6 +514,14 @@ void FileStream___::Write(Array<Byte> array, Int32 offset, Int32 count) {
 }
 
 void FileStream___::Write(ReadOnlySpan<Byte> buffer) {
+  if (GetType() == rt::typeof<FileStream>() && !_useAsyncIO) {
+    if (_fileHandle->get_IsClosed()) {
+      rt::throw_exception(Error::GetFileNotOpen());
+    }
+    WriteSpan(buffer);
+  } else {
+    Stream::Write(buffer);
+  }
 }
 
 Task<> FileStream___::WriteAsync(Array<Byte> buffer, Int32 offset, Int32 count, CancellationToken cancellationToken) {
@@ -407,9 +537,39 @@ Task<> FileStream___::WriteAsync(Array<Byte> buffer, Int32 offset, Int32 count, 
   if (buffer->get_Length() - offset < count) {
     rt::throw_exception<ArgumentException>(SR::get_Argument_InvalidOffLen());
   }
+  if (GetType() != rt::typeof<FileStream>()) {
+    return Stream::WriteAsync(buffer, offset, count, cancellationToken);
+  }
+  if (cancellationToken.get_IsCancellationRequested()) {
+    return Task::in::FromCanceled(cancellationToken);
+  }
+  if (get_IsClosed()) {
+    rt::throw_exception(Error::GetFileNotOpen());
+  }
+  if (!_useAsyncIO) {
+    return (Task)BeginWriteInternal(buffer, offset, count, nullptr, nullptr, true, false);
+  }
+  return WriteAsyncInternal(ReadOnlyMemory<Byte>(buffer, offset, count), cancellationToken).AsTask();
 }
 
 ValueTask<> FileStream___::WriteAsync(ReadOnlyMemory<Byte> buffer, CancellationToken cancellationToken) {
+  if (GetType() != rt::typeof<FileStream>()) {
+    return Stream::WriteAsync(buffer, cancellationToken);
+  }
+  if (cancellationToken.get_IsCancellationRequested()) {
+    return ValueTask(Task::in::FromCanceled<Int32>(cancellationToken));
+  }
+  if (get_IsClosed()) {
+    rt::throw_exception(Error::GetFileNotOpen());
+  }
+  if (!_useAsyncIO) {
+    ArraySegment<Byte> segment;
+    if (!MemoryMarshal::TryGetArray(buffer, segment)) {
+      return Stream::WriteAsync(buffer, cancellationToken);
+    }
+    return ValueTask((Task)BeginWriteInternal(segment.get_Array(), segment.get_Offset(), segment.get_Count(), nullptr, nullptr, true, false));
+  }
+  return WriteAsyncInternal(buffer, cancellationToken);
 }
 
 void FileStream___::Flush() {
@@ -583,6 +743,7 @@ IAsyncResult FileStream___::BeginRead(Array<Byte> array, Int32 offset, Int32 num
     rt::throw_exception<NotSupportedException>(SR::get_NotSupported_UnreadableStream());
   }
   if (!get_IsAsync()) {
+    return Stream::BeginRead(array, offset, numBytes, callback, state);
   }
   return TaskToApm::Begin(ReadAsyncTask(array, offset, numBytes, CancellationToken::get_None()), callback, state);
 }
@@ -607,6 +768,7 @@ IAsyncResult FileStream___::BeginWrite(Array<Byte> array, Int32 offset, Int32 nu
     rt::throw_exception<NotSupportedException>(SR::get_NotSupported_UnwritableStream());
   }
   if (!get_IsAsync()) {
+    return Stream::BeginWrite(array, offset, numBytes, callback, state);
   }
   return TaskToApm::Begin(WriteAsyncInternal(ReadOnlyMemory<Byte>(array, offset, numBytes), CancellationToken::get_None()).AsTask(), callback, state);
 }
@@ -616,6 +778,7 @@ Int32 FileStream___::EndRead(IAsyncResult asyncResult) {
     rt::throw_exception<ArgumentNullException>("asyncResult");
   }
   if (!get_IsAsync()) {
+    return Stream::EndRead(asyncResult);
   }
   return TaskToApm::End<Int32>(asyncResult);
 }
@@ -625,6 +788,7 @@ void FileStream___::EndWrite(IAsyncResult asyncResult) {
     rt::throw_exception<ArgumentNullException>("asyncResult");
   }
   if (!get_IsAsync()) {
+    Stream::EndWrite(asyncResult);
   } else {
     TaskToApm::End(asyncResult);
   }
@@ -722,6 +886,10 @@ void FileStream___::Dispose(Boolean disposing) {
 }
 
 ValueTask<> FileStream___::DisposeAsync() {
+  if (!(GetType() == rt::typeof<FileStream>())) {
+    return Stream::DisposeAsync();
+  }
+  return DisposeAsyncCore();
 }
 
 ValueTask<> FileStream___::DisposeAsyncCore() {
@@ -926,6 +1094,15 @@ Int64 FileStream___::Seek(Int64 offset, SeekOrigin origin) {
 }
 
 Int64 FileStream___::SeekCore(SafeFileHandle fileHandle, Int64 offset, SeekOrigin origin, Boolean closeInvalidHandle) {
+  Int64 lpNewFilePointer;
+  if (!Interop::Kernel32::SetFilePointerEx(fileHandle, offset, lpNewFilePointer, (UInt32)origin)) {
+    if (closeInvalidHandle) {
+      rt::throw_exception(Win32Marshal::GetExceptionForWin32Error(GetLastWin32ErrorAndDisposeHandleIfInvalid(), _path));
+    }
+    rt::throw_exception(Win32Marshal::GetExceptionForLastWin32Error(_path));
+  }
+  _filePosition = lpNewFilePointer;
+  return lpNewFilePointer;
 }
 
 void FileStream___::WriteSpan(ReadOnlySpan<Byte> source) {
@@ -1179,6 +1356,17 @@ Int32 FileStream___::GetLastWin32ErrorAndDisposeHandleIfInvalid() {
 }
 
 Task<> FileStream___::CopyToAsync(Stream destination, Int32 bufferSize, CancellationToken cancellationToken) {
+  if (!_useAsyncIO || GetType() != rt::typeof<FileStream>()) {
+    return Stream::CopyToAsync(destination, bufferSize, cancellationToken);
+  }
+  StreamHelpers::ValidateCopyToArgs((FileStream)this, destination, bufferSize);
+  if (cancellationToken.get_IsCancellationRequested()) {
+    return Task::in::FromCanceled<Int32>(cancellationToken);
+  }
+  if (_fileHandle->get_IsClosed()) {
+    rt::throw_exception(Error::GetFileNotOpen());
+  }
+  return AsyncModeCopyToAsync(destination, bufferSize, cancellationToken);
 }
 
 Task<> FileStream___::AsyncModeCopyToAsync(Stream destination, Int32 bufferSize, CancellationToken cancellationToken) {
@@ -1210,8 +1398,29 @@ Task<> FileStream___::AsyncModeCopyToAsync(Stream destination, Int32 bufferSize,
           readAwaitable->_nativeOverlapped->OffsetLow = (Int32)readAwaitable->_position;
           readAwaitable->_nativeOverlapped->OffsetHigh = (Int32)(readAwaitable->_position >> 32);
         }
+        Int32 errorCode;
+        if (ReadFileNative(_fileHandle, copyBuffer, readAwaitable->_nativeOverlapped, errorCode) < 0) {
+          switch (errorCode.get()) {
+            case 38:
+            case 109:
+              readAwaitable->MarkCompleted();
+              break;
+            default:
+              rt::throw_exception(Win32Marshal::GetExceptionForWin32Error(errorCode, _path));
+            case 997:
+              break;
+          }
+        }
       } finally: {
         NativeOverlapped* nativeOverlapped;
+        {
+          rt::lock(readAwaitable->get_CancellationLock());
+          nativeOverlapped = readAwaitable->_nativeOverlapped;
+          readAwaitable->_nativeOverlapped = nullptr;
+        }
+        if (nativeOverlapped != nullptr) {
+          _fileHandle->get_ThreadPoolBinding()->FreeNativeOverlapped(nativeOverlapped);
+        }
       }
     }
   } finally: {
@@ -1286,6 +1495,10 @@ SafeFileHandle FileStream___::CreateFileOpenHandle(FileMode mode, FileShare shar
 }
 
 Boolean FileStream___::GetDefaultIsAsync(SafeFileHandle handle) {
+  auto default = handle->get_IsAsync();
+  if (default != nullptr) default = (!IsHandleSynchronous(handle, true)).GetValueOrDefault();
+
+  return default;
 }
 
 Nullable<Boolean> FileStream___::IsHandleSynchronous(SafeFileHandle fileHandle, Boolean ignoreInvalid) {
@@ -1308,6 +1521,13 @@ Nullable<Boolean> FileStream___::IsHandleSynchronous(SafeFileHandle fileHandle, 
 }
 
 void FileStream___::VerifyHandleIsSync(SafeFileHandle handle) {
+  auto default = IsHandleSynchronous(handle, false);
+  if (default != nullptr) default = true;
+
+  if (!handle->get_IsAsync().get_HasValue() || (default)) {
+    return;
+  }
+  rt::throw_exception<ArgumentException>(SR::get_Arg_HandleNotSync(), "handle");
 }
 
 void FileStream___::cctor() {

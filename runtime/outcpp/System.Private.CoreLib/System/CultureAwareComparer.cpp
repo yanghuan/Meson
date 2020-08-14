@@ -2,6 +2,7 @@
 
 #include <System.Private.CoreLib/System/ArgumentException-dep.h>
 #include <System.Private.CoreLib/System/ArgumentNullException-dep.h>
+#include <System.Private.CoreLib/System/Boolean-dep.h>
 #include <System.Private.CoreLib/System/CultureAwareComparer-dep.h>
 #include <System.Private.CoreLib/System/Object-dep.h>
 #include <System.Private.CoreLib/System/SR-dep.h>
@@ -19,6 +20,13 @@ void CultureAwareComparer___::ctor(CompareInfo compareInfo, CompareOptions optio
 }
 
 void CultureAwareComparer___::ctor(SerializationInfo info, StreamingContext context) {
+  _compareInfo = (CompareInfo)info->GetValue("_compareInfo", rt::typeof<CompareInfo>());
+  Boolean boolean = info->GetBoolean("_ignoreCase");
+  Object valueNoThrow = info->GetValueNoThrow("_options", rt::typeof<CompareOptions>());
+  if (valueNoThrow != nullptr) {
+    _options = (CompareOptions)valueNoThrow;
+  }
+  _options |= (CompareOptions)(boolean ? 1 : 0);
 }
 
 Int32 CultureAwareComparer___::Compare(String x, String y) {

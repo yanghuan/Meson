@@ -2,10 +2,12 @@
 
 #include <System.Private.CoreLib/System/__ComObject-dep.h>
 #include <System.Private.CoreLib/System/Activator-dep.h>
+#include <System.Private.CoreLib/System/Collections/Hashtable-dep.h>
 #include <System.Private.CoreLib/System/Reflection/BindingFlags.h>
 #include <System.Private.CoreLib/System/Runtime/InteropServices/Marshal-dep.h>
 
 namespace System::Private::CoreLib::System::__ComObjectNamespace {
+using namespace System::Collections;
 using namespace System::Reflection;
 using namespace System::Runtime::InteropServices;
 
@@ -14,13 +16,37 @@ void __ComObject___::ctor() {
 
 Object __ComObject___::GetData(Object key) {
   Object result = nullptr;
+  {
+    rt::lock((__ComObject)this);
+    if (m_ObjectToDataMap != nullptr) {
+      return m_ObjectToDataMap[key];
+    }
+    return result;
+  }
 }
 
 Boolean __ComObject___::SetData(Object key, Object data) {
   Boolean result = false;
+  {
+    rt::lock((__ComObject)this);
+    if (m_ObjectToDataMap == nullptr) {
+      m_ObjectToDataMap = rt::newobj<Hashtable>();
+    }
+    if (m_ObjectToDataMap[key] == nullptr) {
+      m_ObjectToDataMap[key] = data;
+      return true;
+    }
+    return result;
+  }
 }
 
 void __ComObject___::ReleaseAllData() {
+  {
+    rt::lock((__ComObject)this);
+    if (m_ObjectToDataMap == nullptr) {
+      return;
+    }
+  }
 }
 
 Object __ComObject___::GetEventProvider(RuntimeType t) {

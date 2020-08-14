@@ -3,21 +3,27 @@
 #include <System.Private.CoreLib/Internal/Runtime/CompilerServices/Unsafe-dep.h>
 #include <System.Private.CoreLib/Interop-dep.h>
 #include <System.Private.CoreLib/System/Activator-dep.h>
+#include <System.Private.CoreLib/System/ArgIterator-dep.h>
 #include <System.Private.CoreLib/System/ArgumentException-dep.h>
 #include <System.Private.CoreLib/System/ArgumentNullException-dep.h>
+#include <System.Private.CoreLib/System/Collections/Generic/IList.h>
 #include <System.Private.CoreLib/System/Convert-dep.h>
+#include <System.Private.CoreLib/System/CtorDelegate-dep.h>
 #include <System.Private.CoreLib/System/DefaultBinder-dep.h>
 #include <System.Private.CoreLib/System/Empty-dep.h>
 #include <System.Private.CoreLib/System/Enum-dep.h>
 #include <System.Private.CoreLib/System/GC-dep.h>
 #include <System.Private.CoreLib/System/Globalization/CultureInfo-dep.h>
+#include <System.Private.CoreLib/System/IConvertible.h>
 #include <System.Private.CoreLib/System/IndexOutOfRangeException-dep.h>
+#include <System.Private.CoreLib/System/InvalidCastException-dep.h>
 #include <System.Private.CoreLib/System/InvalidOperationException-dep.h>
 #include <System.Private.CoreLib/System/IRuntimeMethodInfo.h>
 #include <System.Private.CoreLib/System/MdUtf8String-dep.h>
 #include <System.Private.CoreLib/System/MissingFieldException-dep.h>
 #include <System.Private.CoreLib/System/MissingMethodException-dep.h>
 #include <System.Private.CoreLib/System/ModuleHandle-dep.h>
+#include <System.Private.CoreLib/System/MulticastDelegate-dep.h>
 #include <System.Private.CoreLib/System/NotSupportedException-dep.h>
 #include <System.Private.CoreLib/System/ReadOnlySpan-dep.h>
 #include <System.Private.CoreLib/System/Reflection/AmbiguousMatchException-dep.h>
@@ -27,10 +33,12 @@
 #include <System.Private.CoreLib/System/Reflection/CorElementType.h>
 #include <System.Private.CoreLib/System/Reflection/CustomAttribute-dep.h>
 #include <System.Private.CoreLib/System/Reflection/CustomAttributeData-dep.h>
+#include <System.Private.CoreLib/System/Reflection/DefaultMemberAttribute-dep.h>
 #include <System.Private.CoreLib/System/Reflection/Emit/TypeBuilder-dep.h>
 #include <System.Private.CoreLib/System/Reflection/Emit/TypeBuilderInstantiation-dep.h>
 #include <System.Private.CoreLib/System/Reflection/LoaderAllocator-dep.h>
 #include <System.Private.CoreLib/System/Reflection/ParameterInfo-dep.h>
+#include <System.Private.CoreLib/System/Reflection/Pointer-dep.h>
 #include <System.Private.CoreLib/System/Reflection/PseudoCustomAttribute-dep.h>
 #include <System.Private.CoreLib/System/Reflection/SignatureConstructedGenericType-dep.h>
 #include <System.Private.CoreLib/System/Reflection/SignatureTypeExtensions-dep.h>
@@ -52,11 +60,13 @@
 #include <System.Private.CoreLib/System/Threading/Interlocked-dep.h>
 #include <System.Private.CoreLib/System/Threading/Monitor-dep.h>
 #include <System.Private.CoreLib/System/Type-dep.h>
+#include <System.Private.CoreLib/System/TypedReference-dep.h>
 #include <System.Private.CoreLib/System/TypeLoadException-dep.h>
 #include <System.Private.CoreLib/System/UInt64-dep.h>
 
 namespace System::Private::CoreLib::System::RuntimeTypeNamespace {
 using namespace Internal::Runtime::CompilerServices;
+using namespace System::Collections::Generic;
 using namespace System::Globalization;
 using namespace System::Reflection;
 using namespace System::Reflection::Emit;
@@ -134,6 +144,10 @@ void RuntimeType___::RuntimeTypeCache___::ctor(RuntimeType runtimeType) {
 }
 
 String RuntimeType___::RuntimeTypeCache___::ConstructName(String& name, TypeNameFormatFlags formatFlags) {
+  auto default = name;
+  if (default != nullptr) default = (name = RuntimeTypeHandle(m_runtimeType).ConstructName(formatFlags));
+
+  return default;
 }
 
 String RuntimeType___::RuntimeTypeCache___::GetName(TypeNameKind kind) {
@@ -167,7 +181,15 @@ String RuntimeType___::RuntimeTypeCache___::GetNameSpace() {
 RuntimeType RuntimeType___::RuntimeTypeCache___::GetEnclosingType() {
   if (m_enclosingType == nullptr) {
     RuntimeType declaringType = RuntimeTypeHandle::GetDeclaringType(GetRuntimeType());
+    auto default = declaringType;
+    if (default != nullptr) default = ((RuntimeType)rt::typeof<void>());
+
+    m_enclosingType = (default);
   }
+  if (!(m_enclosingType == rt::typeof<void>())) {
+    return m_enclosingType;
+  }
+  return nullptr;
 }
 
 RuntimeType RuntimeType___::RuntimeTypeCache___::GetRuntimeType() {
@@ -181,11 +203,31 @@ void RuntimeType___::RuntimeTypeCache___::InvalidateCachedNestedType() {
 String RuntimeType___::RuntimeTypeCache___::GetDefaultMemberName() {
   if (m_defaultMemberName == nullptr) {
     CustomAttributeData customAttributeData = nullptr;
+    Type typeFromHandle = rt::typeof<DefaultMemberAttribute>();
+    RuntimeType runtimeType = m_runtimeType;
+    while (runtimeType != nullptr) {
+      IList<CustomAttributeData> customAttributes = CustomAttributeData::in::GetCustomAttributes(runtimeType);
+      for (Int32 i = 0; i < customAttributes->get_Count(); i++) {
+        if ((Object)customAttributes[i]->get_Constructor()->get_DeclaringType() == typeFromHandle) {
+          customAttributeData = customAttributes[i];
+          break;
+        }
+      }
+      if (customAttributeData != nullptr) {
+        m_defaultMemberName = (rt::as<String>(customAttributeData->get_ConstructorArguments()[0].get_Value()));
+        break;
+      }
+      runtimeType = runtimeType->GetBaseType();
+    }
   }
   return m_defaultMemberName;
 }
 
 Array<Object> RuntimeType___::RuntimeTypeCache___::GetEmptyArray() {
+  auto default = _emptyArray;
+  if (default != nullptr) default = (_emptyArray = (Array<Object>)Array<>::in::CreateInstance(m_runtimeType, 0));
+
+  return default;
 }
 
 MethodInfo RuntimeType___::RuntimeTypeCache___::GetGenericMethodInfo(RuntimeMethodHandleInternal genericMethod) {
@@ -272,6 +314,11 @@ void RuntimeType___::ActivatorCache___::ctor(RuntimeMethodHandleInternal rmh) {
 void RuntimeType___::ActivatorCache___::Initialize() {
   if (!_hCtorMethodHandle.IsNullHandle()) {
     _ctorAttributes = RuntimeMethodHandle::GetAttributes(_hCtorMethodHandle);
+    auto default = s_delegateCtorInfo;
+    if (default != nullptr) default = (s_delegateCtorInfo = rt::typeof<CtorDelegate>()->GetConstructor(rt::newarr<Array<Type>>(2)));
+
+    ConstructorInfo constructorInfo = default;
+    _ctor = (CtorDelegate)constructorInfo->Invoke(rt::newarr<Array<Object>>(2));
   }
   _isFullyInitialized = true;
 }
@@ -361,6 +408,9 @@ GenericParameterAttributes RuntimeType___::get_GenericParameterAttributes() {
   if (!get_IsGenericParameter()) {
     rt::throw_exception<InvalidOperationException>(SR::get_Arg_NotGenericParameter());
   }
+  GenericParameterAttributes attributes;
+  RuntimeTypeHandle::GetMetadataImport((RuntimeType)this).GetGenericParamProps(get_MetadataToken(), attributes);
+  return attributes;
 }
 
 Boolean RuntimeType___::get_IsSZArray() {
@@ -391,6 +441,10 @@ Type RuntimeType___::get_DeclaringType() {
 }
 
 OleAutBinder RuntimeType___::get_ForwardCallBinder() {
+  auto default = s_ForwardCallBinder;
+  if (default != nullptr) default = (s_ForwardCallBinder = rt::newobj<OleAutBinder>());
+
+  return default;
 }
 
 Assembly RuntimeType___::get_Assembly() {
@@ -441,6 +495,10 @@ Boolean RuntimeType___::get_IsSecurityTransparent() {
 }
 
 MemberTypes RuntimeType___::get_MemberType() {
+  if (!Type::get_IsPublic() && !Type::get_IsNotPublic()) {
+    return MemberTypes::NestedType;
+  }
+  return MemberTypes::TypeInfo;
 }
 
 Int32 RuntimeType___::get_MetadataToken() {
@@ -562,6 +620,9 @@ PropertyInfo RuntimeType___::GetPropertyInfo(RuntimeType reflectedType, Int32 tk
 }
 
 void RuntimeType___::ThrowIfTypeNeverValidGenericArgument(RuntimeType type) {
+  if (type->get_IsPointer() || type->get_IsByRef() || type == rt::typeof<void>()) {
+    rt::throw_exception<ArgumentException>(SR::Format(SR::get_Argument_NeverValidGenericArgument(), type));
+  }
 }
 
 void RuntimeType___::SanityCheckGenericArguments(Array<RuntimeType> genericArguments, Array<RuntimeType> genericParamters) {
@@ -659,6 +720,8 @@ void RuntimeType___::FilterHelper(BindingFlags bindingFlags, String& name, Boole
 }
 
 void RuntimeType___::FilterHelper(BindingFlags bindingFlags, String& name, Boolean& ignoreCase, MemberListType& listType) {
+  Boolean _;
+  FilterHelper(bindingFlags, name, false, _, ignoreCase, listType);
 }
 
 Boolean RuntimeType___::FilterApplyPrefixLookup(MemberInfo memberInfo, String name, Boolean ignoreCase) {
@@ -821,22 +884,64 @@ String RuntimeType___::GetDefaultMemberName() {
 }
 
 RuntimeType::in::ListBuilder<MethodInfo> RuntimeType___::GetMethodCandidates(String name, Int32 genericParameterCount, BindingFlags bindingAttr, CallingConventions callConv, Array<Type> types, Boolean allowPrefixLookup) {
+  Boolean prefixLookup;
+  Boolean ignoreCase;
+  MemberListType listType;
+  FilterHelper(bindingAttr, name, allowPrefixLookup, prefixLookup, ignoreCase, listType);
+  Array<RuntimeMethodInfo> methodList = get_Cache()->GetMethodList(listType, name);
+  ListBuilder<MethodInfo> result = ListBuilder<MethodInfo>(methodList->get_Length());
 }
 
 RuntimeType::in::ListBuilder<ConstructorInfo> RuntimeType___::GetConstructorCandidates(String name, BindingFlags bindingAttr, CallingConventions callConv, Array<Type> types, Boolean allowPrefixLookup) {
+  Boolean prefixLookup;
+  Boolean ignoreCase;
+  MemberListType listType;
+  FilterHelper(bindingAttr, name, allowPrefixLookup, prefixLookup, ignoreCase, listType);
+  Array<RuntimeConstructorInfo> constructorList = get_Cache()->GetConstructorList(listType, name);
+  ListBuilder<ConstructorInfo> result = ListBuilder<ConstructorInfo>(constructorList->get_Length());
 }
 
 RuntimeType::in::ListBuilder<PropertyInfo> RuntimeType___::GetPropertyCandidates(String name, BindingFlags bindingAttr, Array<Type> types, Boolean allowPrefixLookup) {
+  Boolean prefixLookup;
+  Boolean ignoreCase;
+  MemberListType listType;
+  FilterHelper(bindingAttr, name, allowPrefixLookup, prefixLookup, ignoreCase, listType);
+  Array<RuntimePropertyInfo> propertyList = get_Cache()->GetPropertyList(listType, name);
+  bindingAttr ^= BindingFlags::DeclaredOnly;
+  ListBuilder<PropertyInfo> result = ListBuilder<PropertyInfo>(propertyList->get_Length());
 }
 
 RuntimeType::in::ListBuilder<EventInfo> RuntimeType___::GetEventCandidates(String name, BindingFlags bindingAttr, Boolean allowPrefixLookup) {
+  Boolean prefixLookup;
+  Boolean ignoreCase;
+  MemberListType listType;
+  FilterHelper(bindingAttr, name, allowPrefixLookup, prefixLookup, ignoreCase, listType);
+  Array<RuntimeEventInfo> eventList = get_Cache()->GetEventList(listType, name);
+  bindingAttr ^= BindingFlags::DeclaredOnly;
+  ListBuilder<EventInfo> result = ListBuilder<EventInfo>(eventList->get_Length());
 }
 
 RuntimeType::in::ListBuilder<FieldInfo> RuntimeType___::GetFieldCandidates(String name, BindingFlags bindingAttr, Boolean allowPrefixLookup) {
+  Boolean prefixLookup;
+  Boolean ignoreCase;
+  MemberListType listType;
+  FilterHelper(bindingAttr, name, allowPrefixLookup, prefixLookup, ignoreCase, listType);
+  Array<RuntimeFieldInfo> fieldList = get_Cache()->GetFieldList(listType, name);
+  bindingAttr ^= BindingFlags::DeclaredOnly;
+  ListBuilder<FieldInfo> result = ListBuilder<FieldInfo>(fieldList->get_Length());
 }
 
 RuntimeType::in::ListBuilder<Type> RuntimeType___::GetNestedTypeCandidates(String fullname, BindingFlags bindingAttr, Boolean allowPrefixLookup) {
   bindingAttr &= ~BindingFlags::Static;
+  String name;
+  String ns;
+  SplitName(fullname, name, ns);
+  Boolean prefixLookup;
+  Boolean _;
+  MemberListType listType;
+  FilterHelper(bindingAttr, name, allowPrefixLookup, prefixLookup, _, listType);
+  Array<RuntimeType> nestedTypeList = get_Cache()->GetNestedTypeList(listType, name);
+  ListBuilder<Type> result = ListBuilder<Type>(nestedTypeList->get_Length());
 }
 
 Array<MethodInfo> RuntimeType___::GetMethods(BindingFlags bindingAttr) {
@@ -1034,12 +1139,25 @@ EventInfo RuntimeType___::GetEvent(String name, BindingFlags bindingAttr) {
   if (name == nullptr) {
     rt::throw_exception<ArgumentNullException>("name");
   }
+  Boolean _;
+  MemberListType listType;
+  FilterHelper(bindingAttr, name, _, listType);
+  Array<RuntimeEventInfo> eventList = get_Cache()->GetEventList(listType, name);
+  EventInfo eventInfo = nullptr;
+  bindingAttr ^= BindingFlags::DeclaredOnly;
 }
 
 FieldInfo RuntimeType___::GetField(String name, BindingFlags bindingAttr) {
   if (name == nullptr) {
     rt::throw_exception<ArgumentNullException>();
   }
+  Boolean _;
+  MemberListType listType;
+  FilterHelper(bindingAttr, name, _, listType);
+  Array<RuntimeFieldInfo> fieldList = get_Cache()->GetFieldList(listType, name);
+  FieldInfo fieldInfo = nullptr;
+  bindingAttr ^= BindingFlags::DeclaredOnly;
+  Boolean flag = false;
 }
 
 Type RuntimeType___::GetInterface(String fullname, Boolean ignoreCase) {
@@ -1051,6 +1169,14 @@ Type RuntimeType___::GetInterface(String fullname, Boolean ignoreCase) {
   if (ignoreCase) {
     bindingFlags |= BindingFlags::IgnoreCase;
   }
+  String name;
+  String ns;
+  SplitName(fullname, name, ns);
+  Boolean _;
+  MemberListType listType;
+  FilterHelper(bindingFlags, name, _, listType);
+  Array<RuntimeType> interfaceList = get_Cache()->GetInterfaceList(listType, name);
+  RuntimeType runtimeType = nullptr;
 }
 
 Type RuntimeType___::GetNestedType(String fullname, BindingFlags bindingAttr) {
@@ -1058,6 +1184,14 @@ Type RuntimeType___::GetNestedType(String fullname, BindingFlags bindingAttr) {
     rt::throw_exception<ArgumentNullException>("fullname");
   }
   bindingAttr &= ~BindingFlags::Static;
+  String name;
+  String ns;
+  SplitName(fullname, name, ns);
+  Boolean _;
+  MemberListType listType;
+  FilterHelper(bindingAttr, name, _, listType);
+  Array<RuntimeType> nestedTypeList = get_Cache()->GetNestedTypeList(listType, name);
+  RuntimeType runtimeType = nullptr;
 }
 
 Array<MemberInfo> RuntimeType___::GetMember(String name, MemberTypes type, BindingFlags bindingAttr) {
@@ -1176,6 +1310,7 @@ Boolean RuntimeType___::IsEquivalentTo(Type other) {
 }
 
 Boolean RuntimeType___::IsDelegate() {
+  return GetBaseType() == rt::typeof<MulticastDelegate>();
 }
 
 Array<Object> RuntimeType___::GetEmptyArray() {
@@ -1188,6 +1323,10 @@ Array<RuntimeType> RuntimeType___::GetGenericArgumentsInternal() {
 
 Array<Type> RuntimeType___::GetGenericArguments() {
   Array<Type> instantiationPublic = GetRootElementType()->GetTypeHandleInternal().GetInstantiationPublic();
+  auto default = instantiationPublic;
+  if (default != nullptr) default = Array<>::in::Empty<Type>();
+
+  return default;
 }
 
 Type RuntimeType___::MakeGenericType(Array<Type> instantiation) {
@@ -1238,6 +1377,10 @@ Array<Type> RuntimeType___::GetGenericParameterConstraints() {
     rt::throw_exception<InvalidOperationException>(SR::get_Arg_NotGenericParameter());
   }
   Array<Type> constraints = RuntimeTypeHandle((RuntimeType)this).GetConstraints();
+  auto default = constraints;
+  if (default != nullptr) default = Array<>::in::Empty<Type>();
+
+  return default;
 }
 
 Boolean RuntimeType___::HasSameMetadataDefinitionAs(MemberInfo other) {
@@ -1271,6 +1414,34 @@ Object RuntimeType___::CheckValue(Object value, Binder binder, CultureInfo cultu
     }
     return value;
   }
+  if (Type::get_IsByRef()) {
+    RuntimeType elementType = RuntimeTypeHandle::GetElementType((RuntimeType)this);
+    if (elementType->IsInstanceOfType(value) || value == nullptr) {
+      return AllocateValueType(elementType, value, false);
+    }
+  } else {
+    if (value == nullptr) {
+      return value;
+    }
+    if ((RuntimeType)this == s_typedRef) {
+      return value;
+    }
+  }
+  Boolean flag = Type::get_IsPointer() || get_IsEnum() || Type::get_IsPrimitive();
+  if (flag) {
+    Pointer pointer = rt::as<Pointer>(value);
+    RuntimeType valueType = (pointer == nullptr) ? ((RuntimeType)value->GetType()) : ((RuntimeType)pointer->GetPointerType());
+    if (CanValueSpecialCast(valueType, (RuntimeType)this)) {
+      if (pointer != nullptr) {
+        return pointer->GetPointerValue();
+      }
+      return value;
+    }
+  }
+  if ((invokeAttr & BindingFlags::ExactBinding) == BindingFlags::ExactBinding) {
+    rt::throw_exception<ArgumentException>(SR::Format(SR::get_Arg_ObjObjEx(), value->GetType(), (RuntimeType)this));
+  }
+  return TryChangeType(value, binder, culture, flag);
 }
 
 Object RuntimeType___::TryChangeType(Object value, Binder binder, CultureInfo culture, Boolean needsSpecialCast) {
@@ -1278,6 +1449,25 @@ Object RuntimeType___::TryChangeType(Object value, Binder binder, CultureInfo cu
     value = binder->ChangeType(value, (RuntimeType)this, culture);
     if (IsInstanceOfType(value)) {
       return value;
+    }
+    if (Type::get_IsByRef()) {
+      RuntimeType elementType = RuntimeTypeHandle::GetElementType((RuntimeType)this);
+      if (elementType->IsInstanceOfType(value) || value == nullptr) {
+        return AllocateValueType(elementType, value, false);
+      }
+    } else if (value == nullptr) {
+      return value;
+    }
+
+    if (needsSpecialCast) {
+      Pointer pointer = rt::as<Pointer>(value);
+      RuntimeType valueType = (pointer == nullptr) ? ((RuntimeType)value->GetType()) : ((RuntimeType)pointer->GetPointerType());
+      if (CanValueSpecialCast(valueType, (RuntimeType)this)) {
+        if (pointer != nullptr) {
+          return pointer->GetPointerValue();
+        }
+        return value;
+      }
     }
   }
   rt::throw_exception<ArgumentException>(SR::Format(SR::get_Arg_ObjObjEx(), value->GetType(), (RuntimeType)this));
@@ -1349,6 +1539,10 @@ Object RuntimeType___::InvokeMember(String name, BindingFlags bindingFlags, Bind
     rt::throw_exception<ArgumentNullException>("name");
   }
   if (name->get_Length() == 0 || name->Equals("[DISPID=0]")) {
+    auto default = GetDefaultMemberName();
+    if (default != nullptr) default = "ToString";
+
+    name = (default);
   }
   Boolean flag2 = (bindingFlags & BindingFlags::GetField) != 0;
   Boolean flag3 = (bindingFlags & BindingFlags::SetField) != 0;
@@ -1380,6 +1574,35 @@ Object RuntimeType___::InvokeMember(String name, BindingFlags bindingFlags, Bind
     }
 
     if (fieldInfo != nullptr) {
+      if (fieldInfo->get_FieldType()->get_IsArray() || (Object)fieldInfo->get_FieldType() == rt::typeof<Array<>>()) {
+        Int32 num2 = ((bindingFlags & BindingFlags::GetField) == 0) ? (num - 1) : num;
+        if (num2 > 0) {
+          Array<Int32> array2 = rt::newarr<Array<Int32>>(num2);
+          for (Int32 i = 0; i < num2; i++) {
+            try{
+              array2[i] = ((IConvertible)providedArgs[i])->ToInt32(nullptr);
+            } catch (InvalidCastException) {
+            }
+          }
+          Array<> array3 = (Array<>)fieldInfo->GetValue(target);
+          if ((bindingFlags & BindingFlags::GetField) != 0) {
+            return array3->GetValue(rt::newarr<Array<Int32>>(1, array2));
+          }
+          array3->SetValue(providedArgs[num2], rt::newarr<Array<Int32>>(1, array2));
+          return nullptr;
+        }
+      }
+      if (flag2) {
+        if (num != 0) {
+          rt::throw_exception<ArgumentException>(SR::get_Arg_FldGetArgErr(), "bindingFlags");
+        }
+        return fieldInfo->GetValue(target);
+      }
+      if (num != 1) {
+        rt::throw_exception<ArgumentException>(SR::get_Arg_FldSetArgErr(), "bindingFlags");
+      }
+      fieldInfo->SetValue(target, providedArgs[0], bindingFlags, binder, culture);
+      return nullptr;
     }
     if ((bindingFlags & (BindingFlags)16773888) == 0) {
       rt::throw_exception<MissingFieldException>(get_FullName(), name);
@@ -1469,6 +1692,12 @@ void RuntimeType___::CreateInstanceCheckThis() {
     rt::throw_exception<ArgumentException>(SR::Format(SR::get_Acc_CreateGenericEx(), (RuntimeType)this));
   }
   Type rootElementType = GetRootElementType();
+  if ((Object)rootElementType == rt::typeof<ArgIterator>()) {
+    rt::throw_exception<NotSupportedException>(SR::get_Acc_CreateArgIterator());
+  }
+  if ((Object)rootElementType == rt::typeof<void>()) {
+    rt::throw_exception<NotSupportedException>(SR::get_Acc_CreateVoid());
+  }
 }
 
 Object RuntimeType___::CreateInstanceImpl(BindingFlags bindingAttr, Binder binder, Array<Object> args, CultureInfo culture) {
@@ -1482,6 +1711,48 @@ Object RuntimeType___::CreateInstanceImpl(BindingFlags bindingAttr, Binder binde
   Boolean publicOnly = (bindingAttr & BindingFlags::NonPublic) == 0;
   Boolean wrapExceptions = (bindingAttr & BindingFlags::DoNotWrapExceptions) == 0;
   Object result;
+  if (args->get_Length() == 0 && (bindingAttr & BindingFlags::Public) != 0 && (bindingAttr & BindingFlags::Instance) != 0 && (IsGenericCOMObjectImpl() || Type::get_IsValueType())) {
+    result = CreateInstanceDefaultCtor(publicOnly, false, true, wrapExceptions);
+  } else {
+    Array<ConstructorInfo> constructors = GetConstructors(bindingAttr);
+    List<MethodBase> list = rt::newobj<List<MethodBase>>(constructors->get_Length());
+    Array<Type> array = rt::newarr<Array<Type>>(args->get_Length());
+    for (Int32 i = 0; i < args->get_Length(); i++) {
+      if (args[i] != nullptr) {
+        array[i] = args[i]->GetType();
+      }
+    }
+    for (Int32 j = 0; j < constructors->get_Length(); j++) {
+      if (FilterApplyConstructorInfo((RuntimeConstructorInfo)constructors[j], bindingAttr, CallingConventions::Any, array)) {
+        list->Add(constructors[j]);
+      }
+    }
+    if (list->get_Count() == 0) {
+      rt::throw_exception<MissingMethodException>(SR::Format(SR::get_MissingConstructor_Name(), get_FullName()));
+    }
+    Array<MethodBase> match = list->ToArray();
+    Object state = nullptr;
+    MethodBase methodBase;
+    try{
+      methodBase = binder->BindToMethod(bindingAttr, match, args, nullptr, culture, nullptr, state);
+    } catch (MissingMethodException) {
+    }
+    if ((Object)methodBase == nullptr) {
+      rt::throw_exception<MissingMethodException>(SR::Format(SR::get_MissingConstructor_Name(), get_FullName()));
+    }
+    if (methodBase->GetParametersNoCopy()->get_Length() == 0) {
+      if (args->get_Length() != 0) {
+        rt::throw_exception<NotSupportedException>(SR::get_NotSupported_CallToVarArg());
+      }
+      result = Activator::CreateInstance((RuntimeType)this, true, wrapExceptions);
+    } else {
+      result = ((ConstructorInfo)methodBase)->Invoke(bindingAttr, binder, args, culture);
+      if (state != nullptr) {
+        binder->ReorderArgumentArray(args, state);
+      }
+    }
+  }
+  return result;
 }
 
 Object RuntimeType___::CreateInstanceDefaultCtorSlow(Boolean publicOnly, Boolean wrapExceptions, Boolean fillCache) {
@@ -1571,6 +1842,36 @@ void RuntimeType___::WrapArgsForInvokeCall(Array<Object> aArgs, Array<Int32> aAr
     if (((DispatchWrapperType)aArgsWrapperTypes[i])->HasFlag(DispatchWrapperType::SafeArray)) {
       Type type = nullptr;
       Boolean flag = false;
+      switch (aArgsWrapperTypes[i] & -65537.get()) {
+        case 1:
+          type = rt::typeof<UnknownWrapper>();
+          break;
+        case 2:
+          type = rt::typeof<DispatchWrapper>();
+          break;
+        case 8:
+          type = rt::typeof<ErrorWrapper>();
+          break;
+        case 16:
+          type = rt::typeof<CurrencyWrapper>();
+          break;
+        case 32:
+          type = rt::typeof<BStrWrapper>();
+          flag = true;
+          break;
+      }
+      Array<> array = (Array<>)aArgs[i];
+      Int32 length = array->get_Length();
+      Array<Object> array2 = (Array<Object>)Array<>::in::CreateInstance(type, length);
+      ConstructorInfo constructorInfo = (!flag) ? type->GetConstructor(rt::newarr<Array<Type>>(1)) : type->GetConstructor(rt::newarr<Array<Type>>(1));
+      for (Int32 j = 0; j < length; j++) {
+        if (flag) {
+          array2[j] = constructorInfo->Invoke(rt::newarr<Array<Object>>(1));
+        } else {
+          array2[j] = constructorInfo->Invoke(rt::newarr<Array<Object>>(1));
+        }
+      }
+      aArgs[i] = array2;
     } else {
       switch (aArgsWrapperTypes[i].get()) {
         case 1:
@@ -1637,6 +1938,10 @@ Array<MemberInfo> RuntimeType___::GetDefaultMembers() {
   if (defaultMemberName != nullptr) {
     array = GetMember(defaultMemberName);
   }
+  auto default = array;
+  if (default != nullptr) default = Array<>::in::Empty<MemberInfo>();
+
+  return default;
 }
 
 Type RuntimeType___::GetElementType() {
@@ -1806,6 +2111,10 @@ Boolean RuntimeType___::IsEnumDefined(Object value) {
 }
 
 Boolean RuntimeType___::IsValueTypeImpl() {
+  if ((RuntimeType)this == rt::typeof<ValueType>() || (RuntimeType)this == rt::typeof<Enum>()) {
+    return false;
+  }
+  return IsSubclassOf(rt::typeof<ValueType>());
 }
 
 Boolean RuntimeType___::IsByRefImpl() {
@@ -1850,14 +2159,58 @@ Boolean RuntimeType___::IsAssignableFrom(Type c) {
     if (c->IsSubclassOf((RuntimeType)this)) {
       return true;
     }
+    if (Type::get_IsInterface()) {
+      return c->ImplementInterface((RuntimeType)this);
+    }
+    if (get_IsGenericParameter()) {
+      Array<Type> genericParameterConstraints = GetGenericParameterConstraints();
+      for (Int32 i = 0; i < genericParameterConstraints->get_Length(); i++) {
+        if (!genericParameterConstraints[i]->IsAssignableFrom(c)) {
+          return false;
+        }
+      }
+      return true;
+    }
   }
   return false;
 }
 
 RuntimeType RuntimeType___::GetBaseType() {
+  if (Type::get_IsInterface()) {
+    return nullptr;
+  }
+  if (RuntimeTypeHandle::IsGenericVariable((RuntimeType)this)) {
+    Array<Type> genericParameterConstraints = GetGenericParameterConstraints();
+    RuntimeType runtimeType = ObjectType;
+    for (Int32 i = 0; i < genericParameterConstraints->get_Length(); i++) {
+      RuntimeType runtimeType2 = (RuntimeType)genericParameterConstraints[i];
+      if (runtimeType2->get_IsInterface()) {
+        continue;
+      }
+      if (runtimeType2->get_IsGenericParameter()) {
+        GenericParameterAttributes genericParameterAttributes = runtimeType2->get_GenericParameterAttributes() & GenericParameterAttributes::SpecialConstraintMask;
+        if ((genericParameterAttributes & GenericParameterAttributes::ReferenceTypeConstraint) == 0 && (genericParameterAttributes & GenericParameterAttributes::NotNullableValueTypeConstraint) == 0) {
+          continue;
+        }
+      }
+      runtimeType = runtimeType2;
+    }
+    if (runtimeType == ObjectType) {
+      GenericParameterAttributes genericParameterAttributes2 = get_GenericParameterAttributes() & GenericParameterAttributes::SpecialConstraintMask;
+      if ((genericParameterAttributes2 & GenericParameterAttributes::NotNullableValueTypeConstraint) != 0) {
+        runtimeType = ValueType;
+      }
+    }
+    return runtimeType;
+  }
+  return RuntimeTypeHandle::GetBaseType((RuntimeType)this);
 }
 
 void RuntimeType___::cctor() {
+  ValueType = (RuntimeType)rt::typeof<ValueType>();
+  ObjectType = (RuntimeType)rt::typeof<Object>();
+  StringType = (RuntimeType)rt::typeof<String>();
+  s_typedRef = (RuntimeType)rt::typeof<TypedReference>();
 }
 
 } // namespace System::Private::CoreLib::System::RuntimeTypeNamespace

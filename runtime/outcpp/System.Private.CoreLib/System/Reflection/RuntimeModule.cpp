@@ -32,6 +32,10 @@ Int32 RuntimeModule___::get_MDStreamVersion() {
 }
 
 RuntimeType RuntimeModule___::get_RuntimeType() {
+  auto default = m_runtimeType;
+  if (default != nullptr) default = (m_runtimeType = ModuleHandle::GetModuleType((RuntimeModule)this));
+
+  return default;
 }
 
 MetadataImport RuntimeModule___::get_MetadataImport() {
@@ -43,6 +47,9 @@ String RuntimeModule___::get_FullyQualifiedName() {
 }
 
 Guid RuntimeModule___::get_ModuleVersionId() {
+  Guid mvid;
+  get_MetadataImport().GetScopeProps(mvid);
+  return mvid;
 }
 
 Int32 RuntimeModule___::get_MetadataToken() {
@@ -282,6 +289,7 @@ Boolean RuntimeModule___::IsTransientInternal() {
 }
 
 Array<Object> RuntimeModule___::GetCustomAttributes(Boolean inherit) {
+  return CustomAttribute::GetCustomAttributes((RuntimeModule)this, rt::as<RuntimeType>(rt::typeof<Object>()));
 }
 
 Array<Object> RuntimeModule___::GetCustomAttributes(Type attributeType, Boolean inherit) {

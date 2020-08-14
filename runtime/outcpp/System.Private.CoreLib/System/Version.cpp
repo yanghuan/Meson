@@ -312,6 +312,32 @@ Version Version___::ParseVersion(ReadOnlySpan<Char> input, Boolean throwOnFailur
       }
     }
   }
+  Int32 parsedComponent;
+  if (!TryParseComponent(input.Slice(0, num), "input", throwOnFailure, parsedComponent)) {
+    return nullptr;
+  }
+  Int32 parsedComponent2;
+  if (num3 != -1) {
+    if (!TryParseComponent(input.Slice(num + 1, num3 - num - 1), "input", throwOnFailure, parsedComponent2)) {
+      return nullptr;
+    }
+    Int32 parsedComponent3;
+    if (num2 != -1) {
+      Int32 parsedComponent4;
+      if (!TryParseComponent(input.Slice(num3 + 1, num2 - num3 - 1), "build", throwOnFailure, parsedComponent3) || !TryParseComponent(input.Slice(num2 + 1), "revision", throwOnFailure, parsedComponent4)) {
+        return nullptr;
+      }
+      return rt::newobj<Version>(parsedComponent, parsedComponent2, parsedComponent3, parsedComponent4);
+    }
+    if (!TryParseComponent(input.Slice(num3 + 1), "build", throwOnFailure, parsedComponent3)) {
+      return nullptr;
+    }
+    return rt::newobj<Version>(parsedComponent, parsedComponent2, parsedComponent3);
+  }
+  if (!TryParseComponent(input.Slice(num + 1), "input", throwOnFailure, parsedComponent2)) {
+    return nullptr;
+  }
+  return rt::newobj<Version>(parsedComponent, parsedComponent2);
 }
 
 Boolean Version___::TryParseComponent(ReadOnlySpan<Char> component, String componentName, Boolean throwOnFailure, Int32& parsedComponent) {

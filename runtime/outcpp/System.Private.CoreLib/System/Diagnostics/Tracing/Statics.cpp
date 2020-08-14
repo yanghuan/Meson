@@ -1,19 +1,54 @@
 #include "Statics-dep.h"
 
 #include <System.Private.CoreLib/Microsoft/Reflection/ReflectionExtensions-dep.h>
+#include <System.Private.CoreLib/System/ArgumentException-dep.h>
 #include <System.Private.CoreLib/System/ArgumentOutOfRangeException-dep.h>
 #include <System.Private.CoreLib/System/Boolean-dep.h>
+#include <System.Private.CoreLib/System/Char-dep.h>
+#include <System.Private.CoreLib/System/Collections/Generic/KeyValuePair-dep.h>
+#include <System.Private.CoreLib/System/DateTime-dep.h>
+#include <System.Private.CoreLib/System/DateTimeOffset-dep.h>
+#include <System.Private.CoreLib/System/Decimal-dep.h>
+#include <System.Private.CoreLib/System/Diagnostics/Tracing/ArrayTypeInfo-dep.h>
+#include <System.Private.CoreLib/System/Diagnostics/Tracing/DateTimeOffsetTypeInfo-dep.h>
+#include <System.Private.CoreLib/System/Diagnostics/Tracing/DateTimeTypeInfo-dep.h>
+#include <System.Private.CoreLib/System/Diagnostics/Tracing/DecimalTypeInfo-dep.h>
+#include <System.Private.CoreLib/System/Diagnostics/Tracing/EmptyStruct-dep.h>
+#include <System.Private.CoreLib/System/Diagnostics/Tracing/EnumerableTypeInfo-dep.h>
 #include <System.Private.CoreLib/System/Diagnostics/Tracing/EventDataAttribute-dep.h>
+#include <System.Private.CoreLib/System/Diagnostics/Tracing/InvokeTypeInfo-dep.h>
+#include <System.Private.CoreLib/System/Diagnostics/Tracing/NullableTypeInfo-dep.h>
+#include <System.Private.CoreLib/System/Diagnostics/Tracing/NullTypeInfo-dep.h>
+#include <System.Private.CoreLib/System/Diagnostics/Tracing/ScalarArrayTypeInfo-dep.h>
+#include <System.Private.CoreLib/System/Diagnostics/Tracing/ScalarTypeInfo-dep.h>
+#include <System.Private.CoreLib/System/Diagnostics/Tracing/StringTypeInfo-dep.h>
+#include <System.Private.CoreLib/System/Diagnostics/Tracing/TimeSpanTypeInfo-dep.h>
+#include <System.Private.CoreLib/System/Diagnostics/Tracing/TypeAnalysis-dep.h>
+#include <System.Private.CoreLib/System/Double-dep.h>
+#include <System.Private.CoreLib/System/Enum-dep.h>
+#include <System.Private.CoreLib/System/Guid-dep.h>
+#include <System.Private.CoreLib/System/Int16-dep.h>
+#include <System.Private.CoreLib/System/Int64-dep.h>
 #include <System.Private.CoreLib/System/IntPtr-dep.h>
 #include <System.Private.CoreLib/System/NotSupportedException-dep.h>
+#include <System.Private.CoreLib/System/Nullable-dep.h>
 #include <System.Private.CoreLib/System/Object-dep.h>
+#include <System.Private.CoreLib/System/Reflection/TypeFilter-dep.h>
 #include <System.Private.CoreLib/System/Runtime/CompilerServices/CompilerGeneratedAttribute-dep.h>
+#include <System.Private.CoreLib/System/SByte-dep.h>
+#include <System.Private.CoreLib/System/Single-dep.h>
 #include <System.Private.CoreLib/System/SR-dep.h>
 #include <System.Private.CoreLib/System/Text/Encoding-dep.h>
+#include <System.Private.CoreLib/System/TimeSpan-dep.h>
 #include <System.Private.CoreLib/System/UInt16-dep.h>
+#include <System.Private.CoreLib/System/UInt32-dep.h>
+#include <System.Private.CoreLib/System/UInt64-dep.h>
+#include <System.Private.CoreLib/System/UIntPtr-dep.h>
 
 namespace System::Private::CoreLib::System::Diagnostics::Tracing::StaticsNamespace {
 using namespace Microsoft::Reflection;
+using namespace System::Collections::Generic;
+using namespace System::Reflection;
 using namespace System::Runtime::CompilerServices;
 using namespace System::Text;
 
@@ -31,6 +66,16 @@ Array<Byte> Statics::MetadataForString(String name, Int32 prefixSize, Int32 suff
 void Statics::EncodeTags(Int32 tags, Int32& pos, Array<Byte> metadata) {
   Int32 num = tags & 268435455;
   Boolean flag;
+  do {
+    Byte b = (Byte)((num >> 21) & 127);
+    flag = ((num & 2097151) != 0);
+    b = (Byte)(b | (Byte)(flag ? 128 : 0));
+    num <<= 7;
+    if (metadata != nullptr) {
+      metadata[pos] = b;
+    }
+    pos++;
+  } while (flag)
 }
 
 Byte Statics::Combine(Int32 settingValue, Byte defaultValue) {
@@ -156,6 +201,13 @@ Array<Type> Statics::GetGenericArguments(Type type) {
 
 Type Statics::FindEnumerableElementType(Type type) {
   Type type2 = nullptr;
+  if (IsGenericMatch(type, rt::typeof<IEnumerable<T>>())) {
+    type2 = GetGenericArguments(type)[0];
+  } else {
+    Array<Type> array = type->FindInterfaces(rt::newobj<TypeFilter>(&IsGenericMatch), rt::typeof<IEnumerable<T>>());
+    Array<Type> array2 = array;
+  }
+  return type2;
 }
 
 Boolean Statics::IsGenericMatch(Type type, Object openType) {
@@ -171,6 +223,133 @@ TraceLoggingTypeInfo Statics::CreateDefaultTypeInfo(Type dataType, List<Type> re
   }
   recursionCheck->Add(dataType);
   EventDataAttribute customAttribute = GetCustomAttribute<EventDataAttribute>(dataType);
+  if (customAttribute != nullptr || GetCustomAttribute<CompilerGeneratedAttribute>(dataType) != nullptr || IsGenericMatch(dataType, rt::typeof<KeyValuePair<TKey, TValue>>())) {
+    TypeAnalysis typeAnalysis = rt::newobj<TypeAnalysis>(dataType, customAttribute, recursionCheck);
+    return rt::newobj<InvokeTypeInfo>(dataType, typeAnalysis);
+  }
+  if (dataType->get_IsArray()) {
+    Type elementType = dataType->GetElementType();
+    if (elementType == rt::typeof<Boolean>()) {
+      return ScalarArrayTypeInfo::in::Boolean();
+    }
+    if (elementType == rt::typeof<Byte>()) {
+      return ScalarArrayTypeInfo::in::Byte();
+    }
+    if (elementType == rt::typeof<SByte>()) {
+      return ScalarArrayTypeInfo::in::SByte();
+    }
+    if (elementType == rt::typeof<Int16>()) {
+      return ScalarArrayTypeInfo::in::Int16();
+    }
+    if (elementType == rt::typeof<UInt16>()) {
+      return ScalarArrayTypeInfo::in::UInt16();
+    }
+    if (elementType == rt::typeof<Int32>()) {
+      return ScalarArrayTypeInfo::in::Int32();
+    }
+    if (elementType == rt::typeof<UInt32>()) {
+      return ScalarArrayTypeInfo::in::UInt32();
+    }
+    if (elementType == rt::typeof<Int64>()) {
+      return ScalarArrayTypeInfo::in::Int64();
+    }
+    if (elementType == rt::typeof<UInt64>()) {
+      return ScalarArrayTypeInfo::in::UInt64();
+    }
+    if (elementType == rt::typeof<Char>()) {
+      return ScalarArrayTypeInfo::in::Char();
+    }
+    if (elementType == rt::typeof<Double>()) {
+      return ScalarArrayTypeInfo::in::Double();
+    }
+    if (elementType == rt::typeof<Single>()) {
+      return ScalarArrayTypeInfo::in::Single();
+    }
+    if (elementType == rt::typeof<IntPtr>()) {
+      return ScalarArrayTypeInfo::in::IntPtr();
+    }
+    if (elementType == rt::typeof<UIntPtr>()) {
+      return ScalarArrayTypeInfo::in::UIntPtr();
+    }
+    if (elementType == rt::typeof<Guid>()) {
+      return ScalarArrayTypeInfo::in::Guid();
+    }
+    return rt::newobj<ArrayTypeInfo>(dataType, TraceLoggingTypeInfo::in::GetInstance(elementType, recursionCheck));
+  }
+  if (IsEnum(dataType)) {
+    dataType = Enum::in::GetUnderlyingType(dataType);
+  }
+  if (dataType == rt::typeof<String>()) {
+    return rt::newobj<StringTypeInfo>();
+  }
+  if (dataType == rt::typeof<Boolean>()) {
+    return ScalarTypeInfo::in::Boolean();
+  }
+  if (dataType == rt::typeof<Byte>()) {
+    return ScalarTypeInfo::in::Byte();
+  }
+  if (dataType == rt::typeof<SByte>()) {
+    return ScalarTypeInfo::in::SByte();
+  }
+  if (dataType == rt::typeof<Int16>()) {
+    return ScalarTypeInfo::in::Int16();
+  }
+  if (dataType == rt::typeof<UInt16>()) {
+    return ScalarTypeInfo::in::UInt16();
+  }
+  if (dataType == rt::typeof<Int32>()) {
+    return ScalarTypeInfo::in::Int32();
+  }
+  if (dataType == rt::typeof<UInt32>()) {
+    return ScalarTypeInfo::in::UInt32();
+  }
+  if (dataType == rt::typeof<Int64>()) {
+    return ScalarTypeInfo::in::Int64();
+  }
+  if (dataType == rt::typeof<UInt64>()) {
+    return ScalarTypeInfo::in::UInt64();
+  }
+  if (dataType == rt::typeof<Char>()) {
+    return ScalarTypeInfo::in::Char();
+  }
+  if (dataType == rt::typeof<Double>()) {
+    return ScalarTypeInfo::in::Double();
+  }
+  if (dataType == rt::typeof<Single>()) {
+    return ScalarTypeInfo::in::Single();
+  }
+  if (dataType == rt::typeof<DateTime>()) {
+    return rt::newobj<DateTimeTypeInfo>();
+  }
+  if (dataType == rt::typeof<Decimal>()) {
+    return rt::newobj<DecimalTypeInfo>();
+  }
+  if (dataType == rt::typeof<IntPtr>()) {
+    return ScalarTypeInfo::in::IntPtr();
+  }
+  if (dataType == rt::typeof<UIntPtr>()) {
+    return ScalarTypeInfo::in::UIntPtr();
+  }
+  if (dataType == rt::typeof<Guid>()) {
+    return ScalarTypeInfo::in::Guid();
+  }
+  if (dataType == rt::typeof<TimeSpan>()) {
+    return rt::newobj<TimeSpanTypeInfo>();
+  }
+  if (dataType == rt::typeof<DateTimeOffset>()) {
+    return rt::newobj<DateTimeOffsetTypeInfo>();
+  }
+  if (dataType == rt::typeof<EmptyStruct>()) {
+    return rt::newobj<NullTypeInfo>();
+  }
+  if (IsGenericMatch(dataType, rt::typeof<Nullable<T>>())) {
+    return rt::newobj<NullableTypeInfo>(dataType, recursionCheck);
+  }
+  Type type = FindEnumerableElementType(dataType);
+  if (type != nullptr) {
+    return rt::newobj<EnumerableTypeInfo>(dataType, TraceLoggingTypeInfo::in::GetInstance(type, recursionCheck));
+  }
+  rt::throw_exception<ArgumentException>(SR::Format(SR::get_EventSource_NonCompliantTypeError(), dataType->get_Name()));
 }
 
 void Statics::cctor() {

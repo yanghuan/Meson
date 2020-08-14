@@ -270,6 +270,30 @@ Boolean Guid::TryParseExactD(ReadOnlySpan<Char> guidString, GuidResult& result) 
     return false;
   }
   Guid& parsedGuid = result._parsedGuid;
+  UInt32 result2;
+  if (TryParseHex(guidString.Slice(0, 8), Unsafe::As<Int32, UInt32>(parsedGuid._a)) && TryParseHex(guidString.Slice(9, 4), result2)) {
+    parsedGuid._b = (Int16)result2;
+    if (TryParseHex(guidString.Slice(14, 4), result2)) {
+      parsedGuid._c = (Int16)result2;
+      if (TryParseHex(guidString.Slice(19, 4), result2)) {
+        parsedGuid._d = (Byte)(result2 >> 8);
+        parsedGuid._e = (Byte)result2;
+        if (TryParseHex(guidString.Slice(24, 4), result2)) {
+          parsedGuid._f = (Byte)(result2 >> 8);
+          parsedGuid._g = (Byte)result2;
+          if (UInt32::TryParse(guidString.Slice(28, 8), NumberStyles::AllowHexSpecifier, nullptr, result2)) {
+            parsedGuid._h = (Byte)(result2 >> 24);
+            parsedGuid._i = (Byte)(result2 >> 16);
+            parsedGuid._j = (Byte)(result2 >> 8);
+            parsedGuid._k = (Byte)result2;
+            return true;
+          }
+        }
+      }
+    }
+  }
+  result.SetFailure(false, "Format_GuidInvalidChar");
+  return false;
 }
 
 Boolean Guid::TryParseExactN(ReadOnlySpan<Char> guidString, GuidResult& result) {
@@ -278,6 +302,26 @@ Boolean Guid::TryParseExactN(ReadOnlySpan<Char> guidString, GuidResult& result) 
     return false;
   }
   Guid& parsedGuid = result._parsedGuid;
+  UInt32 result2;
+  if (UInt32::TryParse(guidString.Slice(0, 8), NumberStyles::AllowHexSpecifier, nullptr, Unsafe::As<Int32, UInt32>(parsedGuid._a)) && UInt32::TryParse(guidString.Slice(8, 8), NumberStyles::AllowHexSpecifier, nullptr, result2)) {
+    parsedGuid._b = (Int16)(result2 >> 16);
+    parsedGuid._c = (Int16)result2;
+    if (UInt32::TryParse(guidString.Slice(16, 8), NumberStyles::AllowHexSpecifier, nullptr, result2)) {
+      parsedGuid._d = (Byte)(result2 >> 24);
+      parsedGuid._e = (Byte)(result2 >> 16);
+      parsedGuid._f = (Byte)(result2 >> 8);
+      parsedGuid._g = (Byte)result2;
+      if (UInt32::TryParse(guidString.Slice(24, 8), NumberStyles::AllowHexSpecifier, nullptr, result2)) {
+        parsedGuid._h = (Byte)(result2 >> 24);
+        parsedGuid._i = (Byte)(result2 >> 16);
+        parsedGuid._j = (Byte)(result2 >> 8);
+        parsedGuid._k = (Byte)result2;
+        return true;
+      }
+    }
+  }
+  result.SetFailure(false, "Format_GuidInvalidChar");
+  return false;
 }
 
 Boolean Guid::TryParseExactP(ReadOnlySpan<Char> guidString, GuidResult& result) {
@@ -361,6 +405,12 @@ Boolean Guid::TryParseExactX(ReadOnlySpan<Char> guidString, GuidResult& result) 
         return false;
       }
     }
+    UInt32 result2;
+    if (!TryParseHex(guidString.Slice(num, num2), result2, overflow) || overflow || result2 > 255) {
+      result.SetFailure(overflow, overflow ? "Overflow_UInt32" : ((result2 > 255) ? "Overflow_Byte" : "Format_GuidInvalidChar"));
+      return false;
+    }
+    Unsafe::Add(result._parsedGuid._d, i) = (Byte)result2;
   }
   if (num + num2 + 1 >= guidString.get_Length() || guidString[num + num2 + 1] != 125) {
     result.SetFailure(false, "Format_GuidEndBrace");

@@ -4,10 +4,12 @@
 #include <System.Private.CoreLib/System/ArgumentNullException-dep.h>
 #include <System.Private.CoreLib/System/Collections/Generic/List-dep.h>
 #include <System.Private.CoreLib/System/InvalidOperationException-dep.h>
+#include <System.Private.CoreLib/System/MdUtf8String-dep.h>
 #include <System.Private.CoreLib/System/Reflection/Associates-dep.h>
 #include <System.Private.CoreLib/System/Reflection/CustomAttribute-dep.h>
 #include <System.Private.CoreLib/System/Reflection/MetadataImport-dep.h>
 #include <System.Private.CoreLib/System/Reflection/RuntimeEventInfo-dep.h>
+#include <System.Private.CoreLib/System/Reflection/RuntimeMethodInfo-dep.h>
 #include <System.Private.CoreLib/System/RuntimeTypeHandle-dep.h>
 #include <System.Private.CoreLib/System/SR-dep.h>
 
@@ -23,6 +25,10 @@ MemberTypes RuntimeEventInfo___::get_MemberType() {
 }
 
 String RuntimeEventInfo___::get_Name() {
+  auto default = m_name;
+  if (default != nullptr) default = (m_name = MdUtf8String(m_utf8name).ToString());
+
+  return default;
 }
 
 Type RuntimeEventInfo___::get_DeclaringType() {
@@ -56,6 +62,9 @@ void RuntimeEventInfo___::ctor(Int32 tkEvent, RuntimeType declaredType, RuntimeT
   m_declaringType = declaredType;
   RuntimeType runtimeType = reflectedTypeCache->GetRuntimeType();
   metadataImport.GetEventProps(tkEvent, m_utf8name, m_flags);
+  RuntimeMethodInfo _;
+  RuntimeMethodInfo _;
+  Associates::AssignAssociates(metadataImport, tkEvent, declaredType, runtimeType, m_addMethod, m_removeMethod, m_raiseMethod, _, _, m_otherMethod, isPrivate, m_bindingFlags);
 }
 
 Boolean RuntimeEventInfo___::CacheEquals(Object o) {
@@ -74,6 +83,7 @@ String RuntimeEventInfo___::ToString() {
 }
 
 Array<Object> RuntimeEventInfo___::GetCustomAttributes(Boolean inherit) {
+  return CustomAttribute::GetCustomAttributes((RuntimeEventInfo)this, rt::as<RuntimeType>(rt::typeof<Object>()));
 }
 
 Array<Object> RuntimeEventInfo___::GetCustomAttributes(Type attributeType, Boolean inherit) {

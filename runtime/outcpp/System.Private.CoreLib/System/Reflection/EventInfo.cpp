@@ -1,6 +1,9 @@
 #include "EventInfo-dep.h"
 
+#include <System.Private.CoreLib/System/Delegate-dep.h>
+#include <System.Private.CoreLib/System/Int32-dep.h>
 #include <System.Private.CoreLib/System/InvalidOperationException-dep.h>
+#include <System.Private.CoreLib/System/MulticastDelegate-dep.h>
 #include <System.Private.CoreLib/System/NotImplemented-dep.h>
 #include <System.Private.CoreLib/System/Reflection/ParameterInfo-dep.h>
 #include <System.Private.CoreLib/System/SR-dep.h>
@@ -29,11 +32,21 @@ MethodInfo EventInfo___::get_RaiseMethod() {
 
 Boolean EventInfo___::get_IsMulticast() {
   Type eventHandlerType = get_EventHandlerType();
+  Type typeFromHandle = rt::typeof<MulticastDelegate>();
+  return typeFromHandle->IsAssignableFrom(eventHandlerType);
 }
 
 Type EventInfo___::get_EventHandlerType() {
   MethodInfo addMethod = GetAddMethod(true);
   Array<ParameterInfo> parametersNoCopy = addMethod->GetParametersNoCopy();
+  Type typeFromHandle = rt::typeof<Delegate>();
+  for (Int32 i = 0; i < parametersNoCopy->get_Length(); i++) {
+    Type parameterType = parametersNoCopy[i]->get_ParameterType();
+    if (parameterType->IsSubclassOf(typeFromHandle)) {
+      return parameterType;
+    }
+  }
+  return nullptr;
 }
 
 void EventInfo___::ctor() {
@@ -76,9 +89,11 @@ void EventInfo___::RemoveEventHandler(Object target, Delegate handler) {
 }
 
 Boolean EventInfo___::Equals(Object obj) {
+  return MemberInfo::Equals(obj);
 }
 
 Int32 EventInfo___::GetHashCode() {
+  return MemberInfo::GetHashCode();
 }
 
 Boolean EventInfo___::op_Equality(EventInfo left, EventInfo right) {

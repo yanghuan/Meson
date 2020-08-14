@@ -11,6 +11,7 @@
 #include <System.Private.CoreLib/System/Char-dep.h>
 #include <System.Private.CoreLib/System/Collections/Hashtable-dep.h>
 #include <System.Private.CoreLib/System/Diagnostics/StackTrace-dep.h>
+#include <System.Private.CoreLib/System/Enum-dep.h>
 #include <System.Private.CoreLib/System/Environment-dep.h>
 #include <System.Private.CoreLib/System/Func-dep.h>
 #include <System.Private.CoreLib/System/Guid-dep.h>
@@ -345,6 +346,13 @@ String Environment::GetFolderPath(SpecialFolder folder) {
 }
 
 String Environment::GetFolderPath(SpecialFolder folder, SpecialFolderOption option) {
+  if (!Enum::in::IsDefined(rt::typeof<SpecialFolder>(), folder)) {
+    rt::throw_exception<ArgumentOutOfRangeException>("folder", folder, SR::Format(SR::get_Arg_EnumIllegalVal(), folder));
+  }
+  if (option != 0 && !Enum::in::IsDefined(rt::typeof<SpecialFolderOption>(), option)) {
+    rt::throw_exception<ArgumentOutOfRangeException>("option", option, SR::Format(SR::get_Arg_EnumIllegalVal(), option));
+  }
+  return GetFolderPathCore(folder, option);
 }
 
 Boolean Environment::ValidateAndConvertRegistryTarget(EnvironmentVariableTarget target) {

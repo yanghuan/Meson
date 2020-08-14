@@ -3,11 +3,13 @@
 #include <System.Private.CoreLib/Internal/Runtime/CompilerServices/Unsafe-dep.h>
 #include <System.Private.CoreLib/System/ArgumentException-dep.h>
 #include <System.Private.CoreLib/System/ArgumentOutOfRangeException-dep.h>
+#include <System.Private.CoreLib/System/Array-dep.h>
 #include <System.Private.CoreLib/System/IntPtr-dep.h>
 #include <System.Private.CoreLib/System/Runtime/CompilerServices/RuntimeHelpers-dep.h>
 #include <System.Private.CoreLib/System/Runtime/InteropServices/GCHandle-dep.h>
 #include <System.Private.CoreLib/System/Runtime/InteropServices/Marshal-dep.h>
 #include <System.Private.CoreLib/System/SR-dep.h>
+#include <System.Private.CoreLib/System/String-dep.h>
 #include <System.Private.CoreLib/System/Threading/Interlocked-dep.h>
 #include <System.Private.CoreLib/System/ThrowHelper-dep.h>
 
@@ -89,6 +91,10 @@ IntPtr GCHandle::AddrOfPinnedObject() {
     return (IntPtr)0;
   }
   if (RuntimeHelpers::ObjectHasComponentSize(obj)) {
+    if (obj->GetType() == rt::typeof<String>()) {
+      return (IntPtr)Unsafe::AsPointer(Unsafe::As<String>(obj)->GetRawStringData());
+    }
+    return (IntPtr)Unsafe::AsPointer(RuntimeHelpers::GetRawArrayData(Unsafe::As<Array<>>(obj)));
   }
   return (IntPtr)Unsafe::AsPointer(RuntimeHelpers::GetRawData(obj));
 }

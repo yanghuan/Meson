@@ -8,6 +8,15 @@
 #include <System.Private.CoreLib/System/Threading/Interlocked-dep.h>
 #include <System.Private.CoreLib/System/Type-dep.h>
 #include <System.Private.CoreLib/System/UInt64-dep.h>
+#include <System.Private.Uri/System/FileStyleUriParser-dep.h>
+#include <System.Private.Uri/System/FtpStyleUriParser-dep.h>
+#include <System.Private.Uri/System/GenericUriParser-dep.h>
+#include <System.Private.Uri/System/GopherStyleUriParser-dep.h>
+#include <System.Private.Uri/System/HttpStyleUriParser-dep.h>
+#include <System.Private.Uri/System/LdapStyleUriParser-dep.h>
+#include <System.Private.Uri/System/NetPipeStyleUriParser-dep.h>
+#include <System.Private.Uri/System/NetTcpStyleUriParser-dep.h>
+#include <System.Private.Uri/System/NewsStyleUriParser-dep.h>
 #include <System.Private.Uri/System/SR-dep.h>
 #include <System.Private.Uri/System/UriParser-dep.h>
 
@@ -157,6 +166,24 @@ void UriParser___::FetchSyntax(UriParser syntax, String lwrCaseSchemeName, Int32
   if (syntax->get_SchemeName()->get_Length() != 0) {
     rt::throw_exception<InvalidOperationException>(SR::Format(SR::get_net_uri_NeedFreshParser(), syntax->get_SchemeName()));
   }
+  {
+    rt::lock(s_table);
+    syntax->_flags &= ~UriSyntaxFlags::V1_UnknownUri;
+    UriParser uriParser = (UriParser)s_table[lwrCaseSchemeName];
+    if (uriParser != nullptr) {
+      rt::throw_exception<InvalidOperationException>(SR::Format(SR::get_net_uri_AlreadyRegistered(), uriParser->get_SchemeName()));
+    }
+    uriParser = (UriParser)s_tempTable[syntax->get_SchemeName()];
+    if (uriParser != nullptr) {
+      lwrCaseSchemeName = uriParser->_scheme;
+      s_tempTable->Remove(lwrCaseSchemeName);
+    }
+    syntax->OnRegister(lwrCaseSchemeName, defaultPort);
+    syntax->_scheme = lwrCaseSchemeName;
+    syntax->CheckSetIsSimpleFlag();
+    syntax->_port = defaultPort;
+    s_table[syntax->get_SchemeName()] = syntax;
+  }
 }
 
 UriParser UriParser___::FindOrFetchAsUnknownV1Syntax(String lwrCaseScheme) {
@@ -168,13 +195,29 @@ UriParser UriParser___::FindOrFetchAsUnknownV1Syntax(String lwrCaseScheme) {
   if (uriParser != nullptr) {
     return uriParser;
   }
+  {
+    rt::lock(s_table);
+    if (s_tempTable->get_Count() >= 512) {
+      s_tempTable = rt::newobj<Hashtable>(25);
+    }
+    uriParser = rt::newobj<BuiltInUriParser>(lwrCaseScheme, -1, UriSyntaxFlags::OptionalAuthority | UriSyntaxFlags::MayHaveUserInfo | UriSyntaxFlags::MayHavePort | UriSyntaxFlags::MayHavePath | UriSyntaxFlags::MayHaveQuery | UriSyntaxFlags::MayHaveFragment | UriSyntaxFlags::AllowEmptyHost | UriSyntaxFlags::AllowUncHost | UriSyntaxFlags::AllowDnsHost | UriSyntaxFlags::AllowIPv4Host | UriSyntaxFlags::AllowIPv6Host | UriSyntaxFlags::V1_UnknownUri | UriSyntaxFlags::AllowDOSPath | UriSyntaxFlags::PathIsRooted | UriSyntaxFlags::ConvertPathSlashes | UriSyntaxFlags::CompressPath | UriSyntaxFlags::AllowIdn | UriSyntaxFlags::AllowIriParsing);
+    s_tempTable[lwrCaseScheme] = uriParser;
+    return uriParser;
+  }
 }
 
 UriParser UriParser___::GetSyntax(String lwrCaseScheme) {
+  auto default = s_table[lwrCaseScheme];
+  if (default != nullptr) default = s_tempTable[lwrCaseScheme];
+
+  return (UriParser)(default);
 }
 
 void UriParser___::CheckSetIsSimpleFlag() {
   Type type = GetType();
+  if (type == rt::typeof<GenericUriParser>() || type == rt::typeof<HttpStyleUriParser>() || type == rt::typeof<FtpStyleUriParser>() || type == rt::typeof<FileStyleUriParser>() || type == rt::typeof<NewsStyleUriParser>() || type == rt::typeof<GopherStyleUriParser>() || type == rt::typeof<NetPipeStyleUriParser>() || type == rt::typeof<NetTcpStyleUriParser>() || type == rt::typeof<LdapStyleUriParser>()) {
+    _flags |= UriSyntaxFlags::SimpleUserSyntax;
+  }
 }
 
 UriParser UriParser___::InternalOnNewUri() {

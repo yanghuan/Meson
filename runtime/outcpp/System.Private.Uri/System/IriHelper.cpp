@@ -6,6 +6,7 @@
 #include <System.Private.CoreLib/System/Text/EncoderReplacementFallback-dep.h>
 #include <System.Private.CoreLib/System/Text/Encoding-dep.h>
 #include <System.Private.CoreLib/System/Text/Rune-dep.h>
+#include <System.Private.CoreLib/System/UInt32-dep.h>
 #include <System.Private.Uri/System/Text/ValueStringBuilder-dep.h>
 #include <System.Private.Uri/System/UriHelper-dep.h>
 
@@ -25,6 +26,19 @@ Boolean IriHelper::CheckIriUnicodeRange(Char unicode, Boolean isQuery) {
 }
 
 Boolean IriHelper::CheckIriUnicodeRange(Char highSurr, Char lowSurr, Boolean& isSurrogatePair, Boolean isQuery) {
+  Rune result;
+  if (Rune::TryCreate(highSurr, lowSurr, result)) {
+    isSurrogatePair = true;
+    if ((result.get_Value() & 65535) < 65534 && (UInt32)(result.get_Value() - 917504) >= 4096u) {
+      if (!isQuery) {
+        return result.get_Value() < 983040;
+      }
+      return true;
+    }
+    return false;
+  }
+  isSurrogatePair = false;
+  return false;
 }
 
 Boolean IriHelper::CheckIsReserved(Char ch, UriComponents component) {

@@ -11,6 +11,7 @@
 #include <System.Private.CoreLib/System/ExceptionArgument.h>
 #include <System.Private.CoreLib/System/Globalization/DateTimeFormatInfo-dep.h>
 #include <System.Private.CoreLib/System/Globalization/DateTimeStyles.h>
+#include <System.Private.CoreLib/System/Int16-dep.h>
 #include <System.Private.CoreLib/System/SR-dep.h>
 #include <System.Private.CoreLib/System/ThrowHelper-dep.h>
 #include <System.Private.CoreLib/System/TimeZoneInfo-dep.h>
@@ -262,6 +263,8 @@ DateTimeOffset::DateTimeOffset(SerializationInfo info, StreamingContext context)
   if (info == nullptr) {
     rt::throw_exception<ArgumentNullException>("info");
   }
+  _dateTime = (DateTime)info->GetValue("DateTime", rt::typeof<DateTime>());
+  _offsetMinutes = (Int16)info->GetValue("OffsetMinutes", rt::typeof<Int16>());
 }
 
 Int32 DateTimeOffset::GetHashCode() {

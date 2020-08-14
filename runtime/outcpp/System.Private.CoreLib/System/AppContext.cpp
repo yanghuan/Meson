@@ -13,6 +13,13 @@ using namespace System::Runtime::Loader;
 using namespace System::Threading;
 
 String AppContext::get_BaseDirectory() {
+  auto default = s_defaultBaseDirectory;
+  if (default != nullptr) default = (s_defaultBaseDirectory = GetBaseDirectoryCore());
+
+  auto extern = (rt::as<String>(GetData("APP_CONTEXT_BASE_DIRECTORY")));
+  if (extern != nullptr) extern = default;
+
+  return extern;
 }
 
 String AppContext::get_TargetFrameworkName() {
@@ -25,6 +32,12 @@ Object AppContext::GetData(String name) {
   if (s_dataStore == nullptr) {
     return nullptr;
   }
+  {
+    rt::lock(s_dataStore);
+    Object value;
+    s_dataStore->TryGetValue(name, value);
+    return value;
+  }
 }
 
 void AppContext::SetData(String name, Object data) {
@@ -33,6 +46,10 @@ void AppContext::SetData(String name, Object data) {
   }
   if (s_dataStore == nullptr) {
     Interlocked::CompareExchange(s_dataStore, rt::newobj<Dictionary<String, Object>>(), nullptr);
+  }
+  {
+    rt::lock(s_dataStore);
+    s_dataStore[name] = data;
   }
 }
 
@@ -48,6 +65,12 @@ Boolean AppContext::TryGetSwitch(String switchName, Boolean& isEnabled) {
     rt::throw_exception<ArgumentException>(SR::get_Argument_EmptyName(), "switchName");
   }
   if (s_switches != nullptr) {
+    {
+      rt::lock(s_switches);
+      if (s_switches->TryGetValue(switchName, isEnabled)) {
+        return true;
+      }
+    }
   }
   String text = rt::as<String>(GetData(switchName));
   if (text != nullptr && Boolean::TryParse(text, isEnabled)) {
@@ -66,6 +89,10 @@ void AppContext::SetSwitch(String switchName, Boolean isEnabled) {
   }
   if (s_switches == nullptr) {
     Interlocked::CompareExchange(s_switches, rt::newobj<Dictionary<String, Boolean>>(), nullptr);
+  }
+  {
+    rt::lock(s_switches);
+    s_switches[switchName] = isEnabled;
   }
 }
 

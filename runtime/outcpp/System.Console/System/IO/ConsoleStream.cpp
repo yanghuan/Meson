@@ -5,7 +5,6 @@
 #include <System.Private.CoreLib/System/ArgumentException-dep.h>
 #include <System.Private.CoreLib/System/ArgumentNullException-dep.h>
 #include <System.Private.CoreLib/System/ArgumentOutOfRangeException-dep.h>
-#include <System.Private.CoreLib/System/MarshalByRefObject-dep.h>
 
 namespace System::Console::System::IO::ConsoleStreamNamespace {
 using namespace ::System::Private::CoreLib::System;
@@ -42,7 +41,7 @@ void ConsoleStream___::ctor(FileAccess access) {
 void ConsoleStream___::Dispose(Boolean disposing) {
   _canRead = false;
   _canWrite = false;
-  MarshalByRefObject->Dispose(disposing);
+  Stream::Dispose(disposing);
 }
 
 void ConsoleStream___::Flush() {

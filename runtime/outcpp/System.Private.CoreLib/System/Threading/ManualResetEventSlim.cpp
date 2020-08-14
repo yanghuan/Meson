@@ -12,6 +12,7 @@
 #include <System.Private.CoreLib/System/Threading/Interlocked-dep.h>
 #include <System.Private.CoreLib/System/Threading/ManualResetEvent-dep.h>
 #include <System.Private.CoreLib/System/Threading/ManualResetEventSlim-dep.h>
+#include <System.Private.CoreLib/System/Threading/Monitor-dep.h>
 #include <System.Private.CoreLib/System/Threading/SpinWait-dep.h>
 #include <System.Private.CoreLib/System/Threading/TimeoutHelper-dep.h>
 #include <System.Private.CoreLib/System/UInt32-dep.h>
@@ -92,6 +93,12 @@ void ManualResetEventSlim___::LazyInitializeEvent() {
   if (isSet2 == isSet) {
     return;
   }
+  {
+    rt::lock(manualResetEvent);
+    if (m_eventObj == manualResetEvent) {
+      manualResetEvent->Set();
+    }
+  }
 }
 
 void ManualResetEventSlim___::Set() {
@@ -101,10 +108,20 @@ void ManualResetEventSlim___::Set() {
 void ManualResetEventSlim___::Set(Boolean duringCancellation) {
   get_IsSet() = true;
   if (get_Waiters() > 0) {
+    {
+      rt::lock(m_lock);
+      Monitor::PulseAll(m_lock);
+    }
   }
   ManualResetEvent eventObj = m_eventObj;
   if (eventObj == nullptr || duringCancellation) {
     return;
+  }
+  {
+    rt::lock(eventObj);
+    if (m_eventObj != nullptr) {
+      m_eventObj->Set();
+    }
   }
 }
 
@@ -192,6 +209,11 @@ void ManualResetEventSlim___::Dispose(Boolean disposing) {
   }
   ManualResetEvent eventObj = m_eventObj;
   if (eventObj != nullptr) {
+    {
+      rt::lock(eventObj);
+      eventObj->Dispose();
+      m_eventObj = nullptr;
+    }
   }
 }
 
@@ -203,6 +225,10 @@ void ManualResetEventSlim___::ThrowIfDisposed() {
 
 void ManualResetEventSlim___::CancellationTokenCallback(Object obj) {
   ManualResetEventSlim manualResetEventSlim = (ManualResetEventSlim)obj;
+  {
+    rt::lock(manualResetEventSlim->m_lock);
+    Monitor::PulseAll(manualResetEventSlim->m_lock);
+  }
 }
 
 void ManualResetEventSlim___::UpdateStateAtomically(Int32 newBits, Int32 updateBitsMask) {

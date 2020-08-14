@@ -3,6 +3,7 @@
 #include <System.Private.CoreLib/Interop-dep.h>
 #include <System.Private.CoreLib/System/ArgumentNullException-dep.h>
 #include <System.Private.CoreLib/System/Byte-dep.h>
+#include <System.Private.CoreLib/System/Globalization/CharUnicodeInfo-dep.h>
 #include <System.Private.CoreLib/System/Globalization/CompareInfo-dep.h>
 #include <System.Private.CoreLib/System/Globalization/CompareOptions.h>
 #include <System.Private.CoreLib/System/Globalization/CultureInfo-dep.h>
@@ -52,6 +53,10 @@ Boolean TextInfo___::get_IsReadOnly() {
 }
 
 String TextInfo___::get_ListSeparator() {
+  auto default = _listSeparator;
+  if (default != nullptr) default = (_listSeparator = _cultureData->get_ListSeparator());
+
+  return default;
 }
 
 void TextInfo___::set_ListSeparator(String value) {
@@ -297,6 +302,61 @@ String TextInfo___::ToTitleCase(String str) {
   Boolean flag = get_CultureName()->StartsWith("nl-", StringComparison::OrdinalIgnoreCase);
   Int32 num;
   for (num = 0; num < str->get_Length(); num++) {
+    Int32 charLength;
+    UnicodeCategory unicodeCategoryInternal = CharUnicodeInfo::GetUnicodeCategoryInternal(str, num, charLength);
+    if (Char::CheckLetter(unicodeCategoryInternal)) {
+      if (flag && num < str->get_Length() - 1 && (str[num] == 105 || str[num] == 73) && (str[num + 1] == 106 || str[num + 1] == 74)) {
+        result->Append("IJ");
+        num += 2;
+      } else {
+        num = AddTitlecaseLetter(result, str, num, charLength) + 1;
+      }
+      Int32 num2 = num;
+      Boolean flag2 = unicodeCategoryInternal == UnicodeCategory::LowercaseLetter;
+      while (num < str->get_Length()) {
+        unicodeCategoryInternal = CharUnicodeInfo::GetUnicodeCategoryInternal(str, num, charLength);
+        if (IsLetterCategory(unicodeCategoryInternal)) {
+          if (unicodeCategoryInternal == UnicodeCategory::LowercaseLetter) {
+            flag2 = true;
+          }
+          num += charLength;
+        } else if (str[num] == 39) {
+          num++;
+          if (flag2) {
+            if (text == nullptr) {
+              text = ToLower(str);
+            }
+            result->Append(text, num2, num - num2);
+          } else {
+            result->Append(str, num2, num - num2);
+          }
+          num2 = num;
+          flag2 = true;
+        } else {
+          if (IsWordSeparator(unicodeCategoryInternal)) {
+            break;
+          }
+          num += charLength;
+        }
+
+      }
+      Int32 num3 = num - num2;
+      if (num3 > 0) {
+        if (flag2) {
+          if (text == nullptr) {
+            text = ToLower(str);
+          }
+          result->Append(text, num2, num3);
+        } else {
+          result->Append(str, num2, num3);
+        }
+      }
+      if (num < str->get_Length()) {
+        num = AddNonLetter(result, str, num, charLength);
+      }
+    } else {
+      num = AddNonLetter(result, str, num, charLength);
+    }
   }
   return result->ToString();
 }

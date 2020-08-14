@@ -56,6 +56,9 @@ void ConstructorBuilder___::set_InitLocals(Boolean value) {
 void ConstructorBuilder___::ctor(String name, MethodAttributes attributes, CallingConventions callingConvention, Array<Type> parameterTypes, Array<Array<Type>> requiredCustomModifiers, Array<Array<Type>> optionalCustomModifiers, ModuleBuilder mod, TypeBuilder type) {
   m_methodBuilder = rt::newobj<MethodBuilder>(name, attributes, callingConvention, nullptr, nullptr, nullptr, parameterTypes, requiredCustomModifiers, optionalCustomModifiers, mod, type);
   type->m_listMethods->Add(m_methodBuilder);
+  Int32 _;
+  m_methodBuilder->GetMethodSignature()->InternalGetSignature(_);
+  m_methodBuilder->GetToken();
 }
 
 void ConstructorBuilder___::ctor(String name, MethodAttributes attributes, CallingConventions callingConvention, Array<Type> parameterTypes, ModuleBuilder mod, TypeBuilder type) {

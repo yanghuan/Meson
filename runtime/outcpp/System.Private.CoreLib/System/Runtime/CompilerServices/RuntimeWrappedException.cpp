@@ -6,12 +6,17 @@ Object RuntimeWrappedException___::get_WrappedException() {
 }
 
 void RuntimeWrappedException___::ctor(Object thrownObject) {
+  Exception::set_HResult = -2146233026;
+  _wrappedException = thrownObject;
 }
 
 void RuntimeWrappedException___::ctor(SerializationInfo info, StreamingContext context) {
+  _wrappedException = info->GetValue("WrappedException", rt::typeof<Object>());
 }
 
 void RuntimeWrappedException___::GetObjectData(SerializationInfo info, StreamingContext context) {
+  Exception::GetObjectData(info, context);
+  info->AddValue("WrappedException", _wrappedException, rt::typeof<Object>());
 }
 
 } // namespace System::Private::CoreLib::System::Runtime::CompilerServices::RuntimeWrappedExceptionNamespace

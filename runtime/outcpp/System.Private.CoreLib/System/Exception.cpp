@@ -11,6 +11,7 @@
 #include <System.Private.CoreLib/System/Reflection/Module-dep.h>
 #include <System.Private.CoreLib/System/Reflection/RuntimeModule-dep.h>
 #include <System.Private.CoreLib/System/Runtime/CompilerServices/StringHandleOnStack-dep.h>
+#include <System.Private.CoreLib/System/Runtime/Serialization/StreamingContextStates.h>
 #include <System.Private.CoreLib/System/RuntimeType-dep.h>
 #include <System.Private.CoreLib/System/SR-dep.h>
 #include <System.Private.CoreLib/System/Text/StringBuilder-dep.h>
@@ -22,6 +23,7 @@ using namespace System::Diagnostics;
 using namespace System::Reflection;
 using namespace System::Reflection::Emit;
 using namespace System::Runtime::CompilerServices;
+using namespace System::Runtime::Serialization;
 using namespace System::Text;
 
 Exception___::DispatchState::DispatchState(Array<Byte> stackTrace, Array<Object> dynamicMethods, String remoteStackTrace, UIntPtr ipForWatsonBuckets, Array<Byte> watsonBuckets) {
@@ -72,9 +74,17 @@ String Exception___::get_SerializationStackTraceString() {
 }
 
 String Exception___::get_Message() {
+  auto default = _message;
+  if (default != nullptr) default = SR::Format(SR::get_Exception_WasThrown(), GetClassName());
+
+  return default;
 }
 
 IDictionary Exception___::get_Data() {
+  auto default = _data;
+  if (default != nullptr) default = (_data = CreateDataContainer());
+
+  return default;
 }
 
 Exception Exception___::get_InnerException() {
@@ -90,6 +100,10 @@ void Exception___::set_HelpLink(String value) {
 }
 
 String Exception___::get_Source() {
+  auto default = _source;
+  if (default != nullptr) default = (_source = CreateSourceName());
+
+  return default;
 }
 
 void Exception___::set_Source(String value) {
@@ -170,6 +184,10 @@ String Exception___::GetMessageFromNativeResources(ExceptionMessageKind kind) {
 }
 
 Exception::in::DispatchState Exception___::CaptureDispatchState() {
+  Array<Byte> currentStackTrace;
+  Array<Object> dynamicMethodArray;
+  GetStackTracesDeepCopy((Exception)this, currentStackTrace, dynamicMethodArray);
+  return DispatchState(currentStackTrace, dynamicMethodArray, _remoteStackTraceString, _ipForWatsonBuckets, _watsonBuckets);
 }
 
 void Exception___::SetCurrentStackTrace() {
@@ -186,6 +204,8 @@ void Exception___::SetCurrentStackTrace() {
 
 void Exception___::ctor() {
   _xcode = -532462766;
+  Object::ctor();
+  _HResult = -2146233088;
 }
 
 void Exception___::ctor(String message) {
@@ -199,6 +219,18 @@ void Exception___::ctor(String message, Exception innerException) {
 
 void Exception___::ctor(SerializationInfo info, StreamingContext context) {
   _xcode = -532462766;
+  Object::ctor();
+  if (info == nullptr) {
+    rt::throw_exception<ArgumentNullException>("info");
+  }
+  _message = info->GetString("Message");
+  _data = (IDictionary)info->GetValueNoThrow("Data", rt::typeof<IDictionary>());
+  _innerException = (Exception)info->GetValue("InnerException", rt::typeof<Exception>());
+  _helpURL = info->GetString("HelpURL");
+  _stackTraceString = info->GetString("StackTraceString");
+  _HResult = info->GetInt32("HResult");
+  _source = info->GetString("Source");
+  RestoreRemoteStackTrace(info, context);
 }
 
 String Exception___::GetClassName() {
@@ -222,6 +254,18 @@ void Exception___::GetObjectData(SerializationInfo info, StreamingContext contex
   if (_source == nullptr) {
     _source = get_Source();
   }
+  info->AddValue("ClassName", GetClassName(), rt::typeof<String>());
+  info->AddValue("Message", _message, rt::typeof<String>());
+  info->AddValue("Data", _data, rt::typeof<IDictionary>());
+  info->AddValue("InnerException", _innerException, rt::typeof<Exception>());
+  info->AddValue("HelpURL", _helpURL, rt::typeof<String>());
+  info->AddValue("StackTraceString", get_SerializationStackTraceString(), rt::typeof<String>());
+  info->AddValue("RemoteStackTraceString", get_SerializationRemoteStackTraceString(), rt::typeof<String>());
+  info->AddValue("RemoteStackIndex", 0, rt::typeof<Int32>());
+  info->AddValue("ExceptionMethod", nullptr, rt::typeof<String>());
+  info->AddValue("HResult", _HResult);
+  info->AddValue("Source", _source, rt::typeof<String>());
+  info->AddValue("WatsonBuckets", get_SerializationWatsonBuckets(), rt::typeof<Array<Byte>>());
 }
 
 String Exception___::ToString() {
@@ -230,10 +274,16 @@ String Exception___::ToString() {
 }
 
 Type Exception___::GetType() {
+  return Object::GetType();
 }
 
 void Exception___::RestoreRemoteStackTrace(SerializationInfo info, StreamingContext context) {
   _remoteStackTraceString = info->GetString("RemoteStackTraceString");
+  _watsonBuckets = (Array<Byte>)info->GetValueNoThrow("WatsonBuckets", rt::typeof<Array<Byte>>());
+  if (context.get_State() == StreamingContextStates::CrossAppDomain) {
+    _remoteStackTraceString += _stackTraceString;
+    _stackTraceString = nullptr;
+  }
 }
 
 } // namespace System::Private::CoreLib::System::ExceptionNamespace

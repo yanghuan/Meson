@@ -1,6 +1,7 @@
 #include "SynchronizationContextAwaitTaskContinuation-dep.h"
 
 #include <System.Private.CoreLib/System/Threading/Tasks/SynchronizationContextAwaitTaskContinuation-dep.h>
+#include <System.Private.CoreLib/System/Threading/Tasks/TaskScheduler-dep.h>
 #include <System.Private.CoreLib/System/Threading/Tasks/TplEventSource-dep.h>
 
 namespace System::Private::CoreLib::System::Threading::Tasks::SynchronizationContextAwaitTaskContinuationNamespace {
@@ -16,6 +17,10 @@ void SynchronizationContextAwaitTaskContinuation___::Run(Task<> task, Boolean ca
   TplEventSource log = TplEventSource::in::Log;
   if (log->IsEnabled()) {
     m_continuationId = Task::in::NewId();
+    auto default = task->get_ExecutingTaskScheduler();
+    if (default != nullptr) default = TaskScheduler::in::get_Default();
+
+    log->AwaitTaskContinuationScheduled((default)->get_Id(), task->get_Id(), m_continuationId);
   }
   RunCallback(GetPostActionCallback(), (SynchronizationContextAwaitTaskContinuation)this, Task::in::t_currentTask);
 }

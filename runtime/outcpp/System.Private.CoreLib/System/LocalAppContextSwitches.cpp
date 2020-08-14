@@ -1,5 +1,7 @@
 #include "LocalAppContextSwitches-dep.h"
 
+#include <System.Private.CoreLib/System/AppContext-dep.h>
+
 namespace System::Private::CoreLib::System::LocalAppContextSwitchesNamespace {
 Boolean LocalAppContextSwitches::get_EnforceJapaneseEraYearRanges() {
   return GetCachedSwitchValue("Switch.System.Globalization.EnforceJapaneseEraYearRanges", s_enforceJapaneseEraYearRanges);
@@ -32,6 +34,16 @@ Boolean LocalAppContextSwitches::GetCachedSwitchValue(String switchName, Int32& 
 }
 
 Boolean LocalAppContextSwitches::GetCachedSwitchValueInternal(String switchName, Int32& cachedSwitchValue) {
+  Boolean isEnabled;
+  if (!AppContext::TryGetSwitch(switchName, isEnabled)) {
+    isEnabled = GetSwitchDefaultValue(switchName);
+  }
+  Boolean isEnabled2;
+  AppContext::TryGetSwitch("TestSwitch.LocalAppContext.DisableCaching", isEnabled2);
+  if (!isEnabled2) {
+    cachedSwitchValue = (isEnabled ? 1 : (-1));
+  }
+  return isEnabled;
 }
 
 Boolean LocalAppContextSwitches::GetSwitchDefaultValue(String switchName) {

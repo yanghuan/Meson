@@ -1,5 +1,6 @@
 #include "NonRandomizedStringEqualityComparer-dep.h"
 
+#include <System.Private.CoreLib/System/Collections/Generic/GenericEqualityComparer-dep.h>
 #include <System.Private.CoreLib/System/Collections/Generic/NonRandomizedStringEqualityComparer-dep.h>
 
 namespace System::Private::CoreLib::System::Collections::Generic::NonRandomizedStringEqualityComparerNamespace {
@@ -17,6 +18,7 @@ Int32 NonRandomizedStringEqualityComparer___::GetHashCode(String obj) {
 }
 
 void NonRandomizedStringEqualityComparer___::GetObjectData(SerializationInfo info, StreamingContext context) {
+  info->SetType(rt::typeof<GenericEqualityComparer<String>>());
 }
 
 void NonRandomizedStringEqualityComparer___::cctor() {

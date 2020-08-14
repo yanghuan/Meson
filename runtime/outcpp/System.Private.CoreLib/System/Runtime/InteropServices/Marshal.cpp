@@ -10,6 +10,7 @@
 #include <System.Private.CoreLib/System/Char-dep.h>
 #include <System.Private.CoreLib/System/GC-dep.h>
 #include <System.Private.CoreLib/System/IRuntimeMethodInfo.h>
+#include <System.Private.CoreLib/System/MulticastDelegate-dep.h>
 #include <System.Private.CoreLib/System/NullReferenceException-dep.h>
 #include <System.Private.CoreLib/System/Object-dep.h>
 #include <System.Private.CoreLib/System/OutOfMemoryException-dep.h>
@@ -21,6 +22,8 @@
 #include <System.Private.CoreLib/System/Reflection/RuntimeModule-dep.h>
 #include <System.Private.CoreLib/System/Runtime/CompilerServices/QCallModule-dep.h>
 #include <System.Private.CoreLib/System/Runtime/CompilerServices/RuntimeHelpers-dep.h>
+#include <System.Private.CoreLib/System/Runtime/InteropServices/ComTypes/IBindCtx.h>
+#include <System.Private.CoreLib/System/Runtime/InteropServices/ComTypes/IMoniker.h>
 #include <System.Private.CoreLib/System/Runtime/InteropServices/ProgIdAttribute-dep.h>
 #include <System.Private.CoreLib/System/RuntimeType-dep.h>
 #include <System.Private.CoreLib/System/SByte-dep.h>
@@ -34,6 +37,7 @@ namespace System::Private::CoreLib::System::Runtime::InteropServices::MarshalNam
 using namespace Internal::Runtime::CompilerServices;
 using namespace System::Reflection;
 using namespace System::Runtime::CompilerServices;
+using namespace System::Runtime::InteropServices::ComTypes;
 using namespace System::Text;
 
 IntPtr Marshal::OffsetOf(Type t, String fieldName) {
@@ -129,6 +133,12 @@ String Marshal::GetTypeInfoName(ITypeInfo typeInfo) {
   if (typeInfo == nullptr) {
     rt::throw_exception<ArgumentNullException>("typeInfo");
   }
+  String strName;
+  String _;
+  Int32 _;
+  String _;
+  typeInfo->GetDocumentation(-1, strName, _, _, _);
+  return strName;
 }
 
 Type Marshal::GetTypeFromCLSID(Guid clsid) {
@@ -319,6 +329,14 @@ Object Marshal::CreateWrapperOfType(Object o, Type t) {
 }
 
 Object Marshal::BindToMoniker(String monikerName) {
+  IBindCtx ppbc;
+  CreateBindCtx(0u, ppbc);
+  UInt32 _;
+  IMoniker ppmk;
+  MkParseDisplayName(ppbc, monikerName, _, ppmk);
+  Object ppvResult;
+  BindMoniker(ppmk, 0u, IID_IUnknown, ppvResult);
+  return ppvResult;
 }
 
 IntPtr Marshal::AllocHGlobal(Int32 cb) {
@@ -818,6 +836,10 @@ String Marshal::GenerateProgIdForType(Type type) {
   }
   ProgIdAttribute customAttribute = CustomAttributeExtensions::GetCustomAttribute(type);
   if (customAttribute != nullptr) {
+    auto default = customAttribute->get_Value();
+    if (default != nullptr) default = String::in::Empty;
+
+    return default;
   }
   return type->get_FullName();
 }
@@ -836,6 +858,10 @@ Delegate Marshal::GetDelegateForFunctionPointer(IntPtr ptr, Type t) {
     rt::throw_exception<ArgumentException>(SR::get_Argument_NeedNonGenericType(), "t");
   }
   Type baseType = t->get_BaseType();
+  if (baseType != rt::typeof<Delegate>() && baseType != rt::typeof<MulticastDelegate>()) {
+    rt::throw_exception<ArgumentException>(SR::get_Arg_MustBeDelegate(), "t");
+  }
+  return GetDelegateForFunctionPointerInternal(ptr, t);
 }
 
 IntPtr Marshal::GetFunctionPointerForDelegate(Delegate d) {

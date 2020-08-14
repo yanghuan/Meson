@@ -39,6 +39,10 @@ TaskScheduler TaskScheduler___::get_Default() {
 }
 
 TaskScheduler TaskScheduler___::get_Current() {
+  auto default = get_InternalCurrent();
+  if (default != nullptr) default = get_Default();
+
+  return default;
 }
 
 TaskScheduler TaskScheduler___::get_InternalCurrent() {
@@ -52,6 +56,10 @@ TaskScheduler TaskScheduler___::get_InternalCurrent() {
 Int32 TaskScheduler___::get_Id() {
   if (m_taskSchedulerId == 0) {
     Int32 num;
+    do {
+      num = Interlocked::Increment(s_taskSchedulerIdCounter);
+    } while (num == 0)
+    Interlocked::CompareExchange(m_taskSchedulerId, num, 0);
   }
   return m_taskSchedulerId;
 }

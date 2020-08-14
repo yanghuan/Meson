@@ -147,6 +147,7 @@ void BufferedStream___::Dispose(Boolean disposing) {
   } finally: {
     _stream = nullptr;
     _buffer = nullptr;
+    Stream::Dispose(disposing);
   }
 }
 
@@ -345,6 +346,12 @@ Task<Int32> BufferedStream___::ReadAsync(Array<Byte> buffer, Int32 offset, Int32
   if (task->get_IsCompletedSuccessfully()) {
     Boolean flag = true;
     try{
+      Exception error;
+      num = ReadFromBuffer(buffer, offset, count, error);
+      flag = (num == count || error != nullptr);
+      if (flag) {
+        return (error == nullptr) ? LastSyncCompletedReadTask(num) : Task::in::FromException<Int32>(error);
+      }
     } finally: {
       if (flag) {
         semaphoreSlim->Release();

@@ -5,16 +5,20 @@
 #include <System.Private.CoreLib/System/DBNull-dep.h>
 #include <System.Private.CoreLib/System/DefaultBinder-dep.h>
 #include <System.Private.CoreLib/System/Empty-dep.h>
+#include <System.Private.CoreLib/System/IntPtr-dep.h>
 #include <System.Private.CoreLib/System/MissingFieldException-dep.h>
 #include <System.Private.CoreLib/System/MissingMethodException-dep.h>
 #include <System.Private.CoreLib/System/NotSupportedException-dep.h>
+#include <System.Private.CoreLib/System/ParamArrayAttribute-dep.h>
 #include <System.Private.CoreLib/System/Reflection/AmbiguousMatchException-dep.h>
 #include <System.Private.CoreLib/System/Reflection/CallingConventions.h>
+#include <System.Private.CoreLib/System/Reflection/MethodInfo-dep.h>
 #include <System.Private.CoreLib/System/Reflection/ParameterInfo-dep.h>
 #include <System.Private.CoreLib/System/Reflection/SignatureType-dep.h>
 #include <System.Private.CoreLib/System/Reflection/SignatureTypeExtensions-dep.h>
 #include <System.Private.CoreLib/System/SR-dep.h>
 #include <System.Private.CoreLib/System/Type-dep.h>
+#include <System.Private.CoreLib/System/UIntPtr-dep.h>
 
 namespace System::Private::CoreLib::System::DefaultBinderNamespace {
 using namespace System::Reflection;
@@ -74,11 +78,22 @@ MethodBase DefaultBinder___::BindToMethod(BindingFlags bindingAttr, Array<Method
         continue;
       }
       if (parametersNoCopy2[j]->get_DefaultValue() == DBNull::in::Value) {
+        if (!parametersNoCopy2[j]->get_ParameterType()->get_IsArray() || !parametersNoCopy2[j]->IsDefined(rt::typeof<ParamArrayAttribute>(), true)) {
+          continue;
+        }
+        type = parametersNoCopy2[j]->get_ParameterType()->GetElementType();
       }
     } else if (parametersNoCopy2->get_Length() < args->get_Length()) {
       Int32 num2 = parametersNoCopy2->get_Length() - 1;
+      if (!parametersNoCopy2[num2]->get_ParameterType()->get_IsArray() || !parametersNoCopy2[num2]->IsDefined(rt::typeof<ParamArrayAttribute>(), true) || array2[i][num2] != num2) {
+        continue;
+      }
+      type = parametersNoCopy2[num2]->get_ParameterType()->GetElementType();
     } else {
       Int32 num3 = parametersNoCopy2->get_Length() - 1;
+      if (parametersNoCopy2[num3]->get_ParameterType()->get_IsArray() && parametersNoCopy2[num3]->IsDefined(rt::typeof<ParamArrayAttribute>(), true) && array2[i][num3] == num3 && !parametersNoCopy2[num3]->get_ParameterType()->IsAssignableFrom(array4[num3])) {
+        type = parametersNoCopy2[num3]->get_ParameterType()->GetElementType();
+      }
     }
 
     Int32 num4 = (type != nullptr) ? (parametersNoCopy2->get_Length() - 1) : args->get_Length();
@@ -87,6 +102,14 @@ MethodBase DefaultBinder___::BindToMethod(BindingFlags bindingAttr, Array<Method
       if (type2->get_IsByRef()) {
         type2 = type2->GetElementType();
       }
+      if (type2 == array4[array2[i][j]] || (flag && args[array2[i][j]] == Type::in::Missing) || args[array2[i][j]] == nullptr || type2 == rt::typeof<Object>()) {
+        continue;
+      }
+      if (type2->get_IsPrimitive()) {
+      } else if (!(array4[array2[i][j]] == nullptr) && !type2->IsAssignableFrom(array4[array2[i][j]]) && (!array4[array2[i][j]]->get_IsCOMObject() || !type2->IsInstanceOfType(args[array2[i][j]]))) {
+        break;
+      }
+
     }
     if (type != nullptr && j == parametersNoCopy2->get_Length() - 1) {
       for (; j < args->get_Length(); j++) {
@@ -219,6 +242,23 @@ FieldInfo DefaultBinder___::BindToField(BindingFlags bindingAttr, Array<FieldInf
     Type type = value->GetType();
     for (Int32 i = 0; i < array->get_Length(); i++) {
       Type fieldType = array[i]->get_FieldType();
+      if (fieldType == type) {
+        array[num++] = array[i];
+      } else if (value == Empty::in::Value && fieldType->get_IsClass()) {
+        array[num++] = array[i];
+      } else if (fieldType == rt::typeof<Object>()) {
+        array[num++] = array[i];
+      } else if (fieldType->get_IsPrimitive()) {
+        if (CanChangePrimitive(type, fieldType)) {
+          array[num++] = array[i];
+        }
+      } else if (fieldType->IsAssignableFrom(type)) {
+        array[num++] = array[i];
+      }
+
+
+
+
     }
     switch (num.get()) {
       case 0:
@@ -268,6 +308,29 @@ MethodBase DefaultBinder___::SelectMethod(BindingFlags bindingAttr, Array<Method
     Int32 j;
     for (j = 0; j < types->get_Length(); j++) {
       Type parameterType = parametersNoCopy[j]->get_ParameterType();
+      if (SignatureTypeExtensions::MatchesParameterTypeExactly(types[j], parametersNoCopy[j]) || parameterType == rt::typeof<Object>()) {
+        continue;
+      }
+      Type type = types[j];
+      SignatureType signatureType = rt::as<SignatureType>(type);
+      if ((Object)signatureType != nullptr) {
+        MethodInfo methodInfo = rt::as<MethodInfo>(array2[i]);
+        if ((Object)methodInfo == nullptr) {
+          break;
+        }
+        type = SignatureTypeExtensions::TryResolveAgainstGenericMethod(signatureType, methodInfo);
+        if (type == nullptr) {
+          break;
+        }
+      }
+      if (parameterType->get_IsPrimitive()) {
+        if (!type->get_UnderlyingSystemType()->IsRuntimeImplemented() || !CanChangePrimitive(type->get_UnderlyingSystemType(), parameterType->get_UnderlyingSystemType())) {
+          break;
+        }
+      } else if (!parameterType->IsAssignableFrom(type)) {
+        break;
+      }
+
     }
     if (j == types->get_Length()) {
       array2[num++] = array2[i];
@@ -322,6 +385,17 @@ PropertyInfo DefaultBinder___::SelectProperty(BindingFlags bindingAttr, Array<Pr
       }
       for (j = 0; j < num2; j++) {
         Type parameterType = indexParameters[j]->get_ParameterType();
+        if (parameterType == indexes[j] || parameterType == rt::typeof<Object>()) {
+          continue;
+        }
+        if (parameterType->get_IsPrimitive()) {
+          if (!indexes[j]->get_UnderlyingSystemType()->IsRuntimeImplemented() || !CanChangePrimitive(indexes[j]->get_UnderlyingSystemType(), parameterType->get_UnderlyingSystemType())) {
+            break;
+          }
+        } else if (!parameterType->IsAssignableFrom(indexes[j])) {
+          break;
+        }
+
       }
     }
     if (j != num2) {
@@ -631,6 +705,11 @@ Boolean DefaultBinder___::CompareMethodSig(MethodBase m1, MethodBase m2) {
 Int32 DefaultBinder___::GetHierarchyDepth(Type t) {
   Int32 num = 0;
   Type type = t;
+  do {
+    num++;
+    type = type->get_BaseType();
+  } while (type != nullptr)
+  return num;
 }
 
 MethodBase DefaultBinder___::FindMostDerivedNewSlotMeth(Array<MethodBase> match, Int32 cMatches) {
@@ -694,6 +773,12 @@ Boolean DefaultBinder___::CreateParamOrder(Array<Int32> paramOrder, Array<Parame
 }
 
 Boolean DefaultBinder___::CanChangePrimitive(Type source, Type target) {
+  if ((source == rt::typeof<IntPtr>() && target == rt::typeof<IntPtr>()) || (source == rt::typeof<UIntPtr>() && target == rt::typeof<UIntPtr>())) {
+    return true;
+  }
+  Primitives primitives = s_primitiveConversions[(Int32)Type::in::GetTypeCode(source)];
+  Primitives primitives2 = (Primitives)(1 << (Int32)Type::in::GetTypeCode(target));
+  return (primitives & primitives2) != 0;
 }
 
 void DefaultBinder___::ctor() {

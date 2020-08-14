@@ -1,5 +1,7 @@
 #include "OperationCanceledException-dep.h"
 
+#include <System.Private.CoreLib/System/Exception-dep.h>
+
 namespace System::Private::CoreLib::System::OperationCanceledExceptionNamespace {
 CancellationToken OperationCanceledException___::get_CancellationToken() {
   return _cancellationToken;
@@ -10,12 +12,15 @@ void OperationCanceledException___::set_CancellationToken(CancellationToken valu
 }
 
 void OperationCanceledException___::ctor() {
+  Exception::set_HResult = -2146233029;
 }
 
 void OperationCanceledException___::ctor(String message) {
+  Exception::set_HResult = -2146233029;
 }
 
 void OperationCanceledException___::ctor(String message, Exception innerException) {
+  Exception::set_HResult = -2146233029;
 }
 
 void OperationCanceledException___::ctor(CancellationToken token) {

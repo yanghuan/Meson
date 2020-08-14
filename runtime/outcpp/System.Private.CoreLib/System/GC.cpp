@@ -2,7 +2,9 @@
 
 #include <System.Private.CoreLib/System/ArgumentNullException-dep.h>
 #include <System.Private.CoreLib/System/ArgumentOutOfRangeException-dep.h>
+#include <System.Private.CoreLib/System/Double-dep.h>
 #include <System.Private.CoreLib/System/GCCollectionMode.h>
+#include <System.Private.CoreLib/System/Int64-dep.h>
 #include <System.Private.CoreLib/System/InvalidOperationException-dep.h>
 #include <System.Private.CoreLib/System/Single-dep.h>
 #include <System.Private.CoreLib/System/SR-dep.h>
@@ -13,6 +15,14 @@ Int32 GC::get_MaxGeneration() {
 }
 
 GCMemoryInfo GC::GetGCMemoryInfo() {
+  UInt64 highMemLoadThresholdBytes;
+  UInt64 totalAvailableMemoryBytes;
+  UInt64 lastRecordedMemLoadBytes;
+  UInt32 _;
+  UIntPtr lastRecordedHeapSizeBytes;
+  UIntPtr lastRecordedFragmentationBytes;
+  GetMemoryInfo(highMemLoadThresholdBytes, totalAvailableMemoryBytes, lastRecordedMemLoadBytes, _, lastRecordedHeapSizeBytes, lastRecordedFragmentationBytes);
+  return GCMemoryInfo((Int64)highMemLoadThresholdBytes, (Int64)lastRecordedMemLoadBytes, (Int64)totalAvailableMemoryBytes, (Int64)(UInt64)lastRecordedHeapSizeBytes, (Int64)(UInt64)lastRecordedFragmentationBytes);
 }
 
 void GC::AddMemoryPressure(Int64 bytesAllocated) {
@@ -114,6 +124,14 @@ Int64 GC::GetTotalMemory(Boolean forceFullCollection) {
   Int32 num = 20;
   Int64 num2 = totalMemory;
   Single num3;
+  do {
+    WaitForPendingFinalizers();
+    Collect();
+    totalMemory = num2;
+    num2 = GetTotalMemory();
+    num3 = (Single)(num2 - totalMemory) / (Single)totalMemory;
+  } while (num-- > 0 && (!(-0.05 < (Double)num3) || !((Double)num3 < 0.05)))
+  return num2;
 }
 
 void GC::RegisterForFullGCNotification(Int32 maxGenerationThreshold, Int32 largeObjectHeapThreshold) {

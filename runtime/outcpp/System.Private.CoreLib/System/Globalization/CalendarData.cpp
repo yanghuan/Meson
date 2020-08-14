@@ -24,6 +24,7 @@ using namespace System::Text;
 
 void CalendarData___::ctor() {
   iTwoDigitYearMax = 2029;
+  Object::ctor();
 }
 
 CalendarData CalendarData___::CreateInvariant() {
@@ -52,6 +53,73 @@ CalendarData CalendarData___::CreateInvariant() {
 
 void CalendarData___::ctor(String localeName, CalendarId calendarId, Boolean bUseUserOverrides) {
   iTwoDigitYearMax = 2029;
+  Object::ctor();
+  this->bUseUserOverrides = bUseUserOverrides;
+  if (!(GlobalizationMode::get_UseNls() ? NlsLoadCalendarDataFromSystem(localeName, calendarId) : IcuLoadCalendarDataFromSystem(localeName, calendarId))) {
+    if (sNativeName == nullptr) {
+      sNativeName = String::in::Empty;
+    }
+    if (saShortDates == nullptr) {
+      saShortDates = Invariant->saShortDates;
+    }
+    if (saYearMonths == nullptr) {
+      saYearMonths = Invariant->saYearMonths;
+    }
+    if (saLongDates == nullptr) {
+      saLongDates = Invariant->saLongDates;
+    }
+    if (sMonthDay == nullptr) {
+      sMonthDay = Invariant->sMonthDay;
+    }
+    if (saEraNames == nullptr) {
+      saEraNames = Invariant->saEraNames;
+    }
+    if (saAbbrevEraNames == nullptr) {
+      saAbbrevEraNames = Invariant->saAbbrevEraNames;
+    }
+    if (saAbbrevEnglishEraNames == nullptr) {
+      saAbbrevEnglishEraNames = Invariant->saAbbrevEnglishEraNames;
+    }
+    if (saDayNames == nullptr) {
+      saDayNames = Invariant->saDayNames;
+    }
+    if (saAbbrevDayNames == nullptr) {
+      saAbbrevDayNames = Invariant->saAbbrevDayNames;
+    }
+    if (saSuperShortDayNames == nullptr) {
+      saSuperShortDayNames = Invariant->saSuperShortDayNames;
+    }
+    if (saMonthNames == nullptr) {
+      saMonthNames = Invariant->saMonthNames;
+    }
+    if (saAbbrevMonthNames == nullptr) {
+      saAbbrevMonthNames = Invariant->saAbbrevMonthNames;
+    }
+  }
+  if (calendarId == CalendarId::TAIWAN) {
+    if (SystemSupportsTaiwaneseCalendar()) {
+      sNativeName = "中華民國曆";
+    } else {
+      sNativeName = String::in::Empty;
+    }
+  }
+  if (saMonthGenitiveNames == nullptr || saMonthGenitiveNames->get_Length() == 0 || String::in::IsNullOrEmpty(saMonthGenitiveNames[0])) {
+    saMonthGenitiveNames = saMonthNames;
+  }
+  if (saAbbrevMonthGenitiveNames == nullptr || saAbbrevMonthGenitiveNames->get_Length() == 0 || String::in::IsNullOrEmpty(saAbbrevMonthGenitiveNames[0])) {
+    saAbbrevMonthGenitiveNames = saAbbrevMonthNames;
+  }
+  if (saLeapYearMonthNames == nullptr || saLeapYearMonthNames->get_Length() == 0 || String::in::IsNullOrEmpty(saLeapYearMonthNames[0])) {
+    saLeapYearMonthNames = saMonthNames;
+  }
+  InitializeEraNames(localeName, calendarId);
+  InitializeAbbreviatedEraNames(localeName, calendarId);
+  if (calendarId == CalendarId::JAPAN) {
+    saAbbrevEnglishEraNames = JapaneseCalendar::in::EnglishEraNames();
+  } else {
+    saAbbrevEnglishEraNames = rt::newarr<Array<String>>(1);
+  }
+  iCurrentEra = saEraNames->get_Length();
 }
 
 void CalendarData___::InitializeEraNames(String localeName, CalendarId calendarId) {
@@ -274,6 +342,13 @@ void CalendarData___::FixDefaultShortDatePattern(List<String> shortDatePatterns)
   Int32 i;
   for (i = 0; i < text->get_Length(); i++) {
     if (text[i] == 39) {
+      do {
+        span[i] = text[i];
+        i++;
+      } while (i < text->get_Length() && text[i] != 39)
+      if (i >= text->get_Length()) {
+        return;
+      }
     } else if (text[i] == 121) {
       span[i] = 121;
       break;
@@ -469,6 +544,11 @@ Boolean CalendarData___::NlsLoadCalendarDataFromSystem(String localeName, Calend
 
 Int32 CalendarData___::NlsGetTwoDigitYearMax(CalendarId calendarId) {
   if (!GlobalizationMode::get_Invariant()) {
+    Int32 data;
+    if (!CallGetCalendarInfoEx(nullptr, calendarId, 48u, data)) {
+      return -1;
+    }
+    return data;
   }
   return Invariant->iTwoDigitYearMax;
 }
@@ -500,6 +580,15 @@ void CalendarData___::CheckSpecialCalendar(CalendarId& calendar, String& localeN
   switch (calendar) {
     case CalendarId::GREGORIAN_US:
       {
+        String data;
+        if (!CallGetCalendarInfoEx(localeName, calendar, 2u, data)) {
+          localeName = "fa-IR";
+          if (!CallGetCalendarInfoEx(localeName, calendar, 2u, data)) {
+            localeName = "en-US";
+            calendar = CalendarId::GREGORIAN;
+          }
+        }
+        break;
       }case CalendarId::TAIWAN:
       if (!NlsSystemSupportsTaiwaneseCalendar()) {
         calendar = CalendarId::GREGORIAN;

@@ -2,6 +2,7 @@
 
 #include <System.Private.CoreLib/Interop-dep.h>
 #include <System.Private.CoreLib/System/ArgumentOutOfRangeException-dep.h>
+#include <System.Private.CoreLib/System/Boolean-dep.h>
 #include <System.Private.CoreLib/System/Double-dep.h>
 #include <System.Private.CoreLib/System/Environment-dep.h>
 #include <System.Private.CoreLib/System/GC-dep.h>
@@ -55,6 +56,45 @@ void MemoryFailPoint___::ctor(Int32 sizeInMegabytes) {
   UInt64 num3 = (UInt64)(Math::Ceiling((Double)sizeInMegabytes / 16) * 16);
   num3 <<= 20;
   for (Int32 i = 0; i < 3; i++) {
+    UInt64 availPageFile;
+    UInt64 totalAddressSpaceFree;
+    if (!CheckForAvailableMemory(availPageFile, totalAddressSpaceFree)) {
+      return;
+    }
+    UInt64 memoryFailPointReservedMemory = get_MemoryFailPointReservedMemory();
+    UInt64 num4 = num2 + memoryFailPointReservedMemory;
+    Boolean flag = num4 < num2 || num4 < memoryFailPointReservedMemory;
+    Boolean flag2 = availPageFile < num3 + memoryFailPointReservedMemory + 16777216 || flag;
+    Boolean flag3 = totalAddressSpaceFree < num4 || flag;
+    Int64 num5 = Environment::get_TickCount();
+    if (num5 > get_LastTimeCheckingAddressSpace() + 10000 || num5 < get_LastTimeCheckingAddressSpace() || get_LastKnownFreeAddressSpace() < (Int64)num2) {
+      CheckForFreeAddressSpace(num2, false);
+    }
+    Boolean flag4 = (UInt64)get_LastKnownFreeAddressSpace() < num2;
+    if (!flag2 && !flag3 && !flag4) {
+      break;
+    }
+    switch (i.get()) {
+      case 0:
+        GC::Collect();
+        break;
+      case 1:
+        if (flag2) {
+          UIntPtr numBytes = UIntPtr(num2);
+          GrowPageFileIfNecessaryAndPossible(numBytes);
+        }
+        break;
+      case 2:
+        if (flag2 || flag3) {
+          InsufficientMemoryException ex = rt::newobj<InsufficientMemoryException>(SR::get_InsufficientMemory_MemFailPoint());
+          rt::throw_exception(ex);
+        }
+        if (flag4) {
+          InsufficientMemoryException ex2 = rt::newobj<InsufficientMemoryException>(SR::get_InsufficientMemory_MemFailPoint_VAFrag());
+          rt::throw_exception(ex2);
+        }
+        break;
+    }
   }
   AddToLastKnownFreeAddressSpace((Int64)(0 - num));
   if (get_LastKnownFreeAddressSpace() < 0) {
@@ -85,6 +125,9 @@ Int64 MemoryFailPoint___::AddMemoryFailPointReservation(Int64 size) {
 }
 
 UInt64 MemoryFailPoint___::GetTopOfMemory() {
+  Interop::Kernel32::SYSTEM_INFO lpSystemInfo;
+  Interop::Kernel32::GetSystemInfo(lpSystemInfo);
+  return (UInt64)(Int64)lpSystemInfo.lpMaximumApplicationAddress;
 }
 
 Boolean MemoryFailPoint___::CheckForAvailableMemory(UInt64& availPageFile, UInt64& totalAddressSpaceFree) {

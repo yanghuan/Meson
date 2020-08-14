@@ -5,6 +5,7 @@
 #include <System.Private.CoreLib/System/SR-dep.h>
 #include <System.Private.CoreLib/System/Text/EncoderFallbackBuffer-dep.h>
 #include <System.Private.CoreLib/System/Text/EncoderReplacementFallback-dep.h>
+#include <System.Private.CoreLib/System/Text/Encoding-dep.h>
 #include <System.Private.CoreLib/System/Text/Latin1Encoding-dep.h>
 
 namespace System::Private::CoreLib::System::Text::Latin1EncodingNamespace {
@@ -22,6 +23,7 @@ Int32 Latin1Encoding___::GetByteCount(Char* chars, Int32 charCount, EncoderNLS e
     c = encoder->_charLeftOver;
     encoderReplacementFallback = (rt::as<EncoderReplacementFallback>(encoder->get_Fallback()));
   } else {
+    encoderReplacementFallback = (rt::as<EncoderReplacementFallback>(Encoding::get_EncoderFallback()));
   }
   if (encoderReplacementFallback != nullptr && encoderReplacementFallback->get_MaxCharCount() == 1) {
     if (c > 0) {
@@ -51,6 +53,7 @@ Int32 Latin1Encoding___::GetBytes(Char* chars, Int32 charCount, Byte* bytes, Int
     c = encoder->_charLeftOver;
     encoderReplacementFallback = (rt::as<EncoderReplacementFallback>(encoder->get_Fallback()));
   } else {
+    encoderReplacementFallback = (rt::as<EncoderReplacementFallback>(Encoding::get_EncoderFallback()));
   }
   Char* ptr = chars + charCount;
   Byte* ptr2 = bytes;
@@ -135,6 +138,13 @@ Int32 Latin1Encoding___::GetMaxByteCount(Int32 charCount) {
     rt::throw_exception<ArgumentOutOfRangeException>("charCount", SR::get_ArgumentOutOfRange_NeedNonNegNum());
   }
   Int64 num = (Int64)charCount + 1;
+  if (Encoding::get_EncoderFallback()->get_MaxCharCount() > 1) {
+    num *= Encoding::get_EncoderFallback()->get_MaxCharCount();
+  }
+  if (num > Int32::MaxValue) {
+    rt::throw_exception<ArgumentOutOfRangeException>("charCount", SR::get_ArgumentOutOfRange_GetByteCountOverflow());
+  }
+  return (Int32)num;
 }
 
 Int32 Latin1Encoding___::GetMaxCharCount(Int32 byteCount) {
@@ -142,6 +152,13 @@ Int32 Latin1Encoding___::GetMaxCharCount(Int32 byteCount) {
     rt::throw_exception<ArgumentOutOfRangeException>("byteCount", SR::get_ArgumentOutOfRange_NeedNonNegNum());
   }
   Int64 num = byteCount;
+  if (Encoding::get_DecoderFallback()->get_MaxCharCount() > 1) {
+    num *= Encoding::get_DecoderFallback()->get_MaxCharCount();
+  }
+  if (num > Int32::MaxValue) {
+    rt::throw_exception<ArgumentOutOfRangeException>("byteCount", SR::get_ArgumentOutOfRange_GetCharCountOverflow());
+  }
+  return (Int32)num;
 }
 
 Boolean Latin1Encoding___::IsAlwaysNormalized(NormalizationForm form) {

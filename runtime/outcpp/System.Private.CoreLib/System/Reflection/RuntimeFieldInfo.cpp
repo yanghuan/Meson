@@ -64,6 +64,7 @@ String RuntimeFieldInfo___::ToString() {
 }
 
 Array<Object> RuntimeFieldInfo___::GetCustomAttributes(Boolean inherit) {
+  return CustomAttribute::GetCustomAttributes((RuntimeFieldInfo)this, rt::as<RuntimeType>(rt::typeof<Object>()));
 }
 
 Array<Object> RuntimeFieldInfo___::GetCustomAttributes(Type attributeType, Boolean inherit) {

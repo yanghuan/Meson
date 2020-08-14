@@ -37,6 +37,8 @@ Int32 OrdinalIgnoreCaseComparer___::GetHashCode(String obj) {
 }
 
 void OrdinalIgnoreCaseComparer___::GetObjectData(SerializationInfo info, StreamingContext context) {
+  info->SetType(rt::typeof<OrdinalComparer>());
+  info->AddValue("_ignoreCase", true);
 }
 
 } // namespace System::Private::CoreLib::System::OrdinalIgnoreCaseComparerNamespace

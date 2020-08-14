@@ -1,7 +1,7 @@
 #include "BadImageFormatException-dep.h"
 
+#include <System.Private.CoreLib/System/Exception-dep.h>
 #include <System.Private.CoreLib/System/IO/FileLoadException-dep.h>
-#include <System.Private.CoreLib/System/Object-dep.h>
 #include <System.Private.CoreLib/System/SR-dep.h>
 
 namespace System::Private::CoreLib::System::BadImageFormatExceptionNamespace {
@@ -21,30 +21,30 @@ String BadImageFormatException___::get_FusionLog() {
 }
 
 void BadImageFormatException___::ctor(String fileName, Int32 hResult) {
-  Object->set_HResult = hResult;
+  Exception::set_HResult = hResult;
   _fileName = fileName;
   SetMessageField();
 }
 
 void BadImageFormatException___::ctor() {
-  Object->set_HResult = -2147024885;
+  Exception::set_HResult = -2147024885;
 }
 
 void BadImageFormatException___::ctor(String message) {
-  Object->set_HResult = -2147024885;
+  Exception::set_HResult = -2147024885;
 }
 
 void BadImageFormatException___::ctor(String message, Exception inner) {
-  Object->set_HResult = -2147024885;
+  Exception::set_HResult = -2147024885;
 }
 
 void BadImageFormatException___::ctor(String message, String fileName) {
-  Object->set_HResult = -2147024885;
+  Exception::set_HResult = -2147024885;
   _fileName = fileName;
 }
 
 void BadImageFormatException___::ctor(String message, String fileName, Exception inner) {
-  Object->set_HResult = -2147024885;
+  Exception::set_HResult = -2147024885;
   _fileName = fileName;
 }
 
@@ -54,15 +54,17 @@ void BadImageFormatException___::ctor(SerializationInfo info, StreamingContext c
 }
 
 void BadImageFormatException___::GetObjectData(SerializationInfo info, StreamingContext context) {
-  Object->GetObjectData(info, context);
+  Exception::GetObjectData(info, context);
+  info->AddValue("BadImageFormat_FileName", _fileName, rt::typeof<String>());
+  info->AddValue("BadImageFormat_FusionLog", _fusionLog, rt::typeof<String>());
 }
 
 void BadImageFormatException___::SetMessageField() {
   if (_message == nullptr) {
-    if (_fileName == nullptr && Object->get_HResult() == -2146233088) {
+    if (_fileName == nullptr && Exception::get_HResult() == -2146233088) {
       _message = SR::get_Arg_BadImageFormatException();
     } else {
-      _message = FileLoadException::in::FormatFileLoadExceptionMessage(_fileName, Object->get_HResult());
+      _message = FileLoadException::in::FormatFileLoadExceptionMessage(_fileName, Exception::get_HResult());
     }
   }
 }
@@ -73,8 +75,8 @@ String BadImageFormatException___::ToString() {
     text = text + "
 " + SR::Format(SR::get_IO_FileName_Name(), _fileName);
   }
-  if (Object->get_InnerException() != nullptr) {
-    text = text + " ---> " + Object->get_InnerException()->ToString();
+  if (Exception::get_InnerException() != nullptr) {
+    text = text + " ---> " + Exception::get_InnerException()->ToString();
   }
   if (get_StackTrace() != nullptr) {
     text = text + "

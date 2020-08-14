@@ -2,22 +2,30 @@
 
 #include <System.Private.CoreLib/System/ArgumentException-dep.h>
 #include <System.Private.CoreLib/System/ArgumentNullException-dep.h>
+#include <System.Private.CoreLib/System/Array-dep.h>
+#include <System.Private.CoreLib/System/Boolean-dep.h>
 #include <System.Private.CoreLib/System/Byte-dep.h>
 #include <System.Private.CoreLib/System/Char-dep.h>
+#include <System.Private.CoreLib/System/Collections/Generic/IList.h>
 #include <System.Private.CoreLib/System/Double-dep.h>
 #include <System.Private.CoreLib/System/Enum-dep.h>
 #include <System.Private.CoreLib/System/Int16-dep.h>
 #include <System.Private.CoreLib/System/Int32-dep.h>
+#include <System.Private.CoreLib/System/Int64-dep.h>
 #include <System.Private.CoreLib/System/InvalidOperationException-dep.h>
+#include <System.Private.CoreLib/System/Reflection/CustomAttributeTypedArgument-dep.h>
 #include <System.Private.CoreLib/System/RuntimeTypeHandle-dep.h>
 #include <System.Private.CoreLib/System/SByte-dep.h>
 #include <System.Private.CoreLib/System/Single-dep.h>
 #include <System.Private.CoreLib/System/SR-dep.h>
+#include <System.Private.CoreLib/System/String-dep.h>
 #include <System.Private.CoreLib/System/UInt16-dep.h>
 #include <System.Private.CoreLib/System/UInt32-dep.h>
 #include <System.Private.CoreLib/System/UInt64-dep.h>
 
 namespace System::Private::CoreLib::System::Reflection::CustomAttributeTypedArgumentNamespace {
+using namespace System::Collections::Generic;
+
 Type CustomAttributeTypedArgument::get_ArgumentType() {
   return m_argumentType;
 }
@@ -27,6 +35,44 @@ Object CustomAttributeTypedArgument::get_Value() {
 }
 
 Type CustomAttributeTypedArgument::CustomAttributeEncodingToType(CustomAttributeEncoding encodedType) {
+  switch (encodedType) {
+    case CustomAttributeEncoding::Enum:
+      return rt::typeof<Enum>();
+    case CustomAttributeEncoding::Int32:
+      return rt::typeof<Int32>();
+    case CustomAttributeEncoding::String:
+      return rt::typeof<String>();
+    case CustomAttributeEncoding::Type:
+      return rt::typeof<Type>();
+    case CustomAttributeEncoding::Array:
+      return rt::typeof<Array<>>();
+    case CustomAttributeEncoding::Char:
+      return rt::typeof<Char>();
+    case CustomAttributeEncoding::Boolean:
+      return rt::typeof<Boolean>();
+    case CustomAttributeEncoding::SByte:
+      return rt::typeof<SByte>();
+    case CustomAttributeEncoding::Byte:
+      return rt::typeof<Byte>();
+    case CustomAttributeEncoding::Int16:
+      return rt::typeof<Int16>();
+    case CustomAttributeEncoding::UInt16:
+      return rt::typeof<UInt16>();
+    case CustomAttributeEncoding::UInt32:
+      return rt::typeof<UInt32>();
+    case CustomAttributeEncoding::Int64:
+      return rt::typeof<Int64>();
+    case CustomAttributeEncoding::UInt64:
+      return rt::typeof<UInt64>();
+    case CustomAttributeEncoding::Float:
+      return rt::typeof<Single>();
+    case CustomAttributeEncoding::Double:
+      return rt::typeof<Double>();
+    case CustomAttributeEncoding::Object:
+      return rt::typeof<Object>();
+    default:
+      rt::throw_exception<ArgumentException>(SR::Format(SR::get_Arg_EnumIllegalVal(), (Int32)encodedType), "encodedType");
+  }
 }
 
 Object CustomAttributeTypedArgument::EncodedValueToRawValue(Int64 val, CustomAttributeEncoding encodedType) {
@@ -77,6 +123,44 @@ Object CustomAttributeTypedArgument::CanonicalizeValue(Object value) {
 
 CustomAttributeTypedArgument::CustomAttributeTypedArgument(RuntimeModule scope, CustomAttributeEncodedArgument encodedArg) {
   CustomAttributeEncoding encodedType = encodedArg.get_CustomAttributeType().get_EncodedType();
+  switch (encodedType) {
+    case CustomAttributeEncoding::Undefined:
+      rt::throw_exception<ArgumentException>(nullptr, "encodedArg");
+    case CustomAttributeEncoding::Enum:
+      m_argumentType = ResolveType(scope, encodedArg.get_CustomAttributeType().get_EnumName());
+      m_value = EncodedValueToRawValue(encodedArg.get_PrimitiveValue(), encodedArg.get_CustomAttributeType().get_EncodedEnumType());
+      break;
+    case CustomAttributeEncoding::String:
+      m_argumentType = rt::typeof<String>();
+      m_value = encodedArg.get_StringValue();
+      break;
+    case CustomAttributeEncoding::Type:
+      m_argumentType = rt::typeof<Type>();
+      m_value = nullptr;
+      if (encodedArg.get_StringValue() != nullptr) {
+        m_value = ResolveType(scope, encodedArg.get_StringValue());
+      }
+      break;
+    case CustomAttributeEncoding::Array:
+      {
+        encodedType = encodedArg.get_CustomAttributeType().get_EncodedArrayType();
+        Type type = (encodedType != CustomAttributeEncoding::Enum) ? CustomAttributeEncodingToType(encodedType) : ResolveType(scope, encodedArg.get_CustomAttributeType().get_EnumName());
+        m_argumentType = type->MakeArrayType();
+        if (encodedArg.get_ArrayValue() == nullptr) {
+          m_value = nullptr;
+          break;
+        }
+        Array<CustomAttributeTypedArgument> array = rt::newarr<Array<CustomAttributeTypedArgument>>(encodedArg.get_ArrayValue()->get_Length());
+        for (Int32 i = 0; i < array->get_Length(); i++) {
+          array[i] = CustomAttributeTypedArgument(scope, encodedArg.get_ArrayValue()[i]);
+        }
+        m_value = Array<>::in::AsReadOnly(array);
+        break;
+      }default:
+      m_argumentType = CustomAttributeEncodingToType(encodedType);
+      m_value = EncodedValueToRawValue(encodedArg.get_PrimitiveValue(), encodedType);
+      break;
+  }
 }
 
 Boolean CustomAttributeTypedArgument::op_Equality(CustomAttributeTypedArgument left, CustomAttributeTypedArgument right) {
@@ -109,6 +193,7 @@ String CustomAttributeTypedArgument::ToString() {
 
 String CustomAttributeTypedArgument::ToString(Boolean typed) {
   if (m_argumentType == nullptr) {
+    return ValueType::ToString();
   }
   if (get_ArgumentType()->get_IsEnum()) {
     return String::in::Format(typed ? "{0}" : "({1}){0}", get_Value(), get_ArgumentType()->get_FullName());
@@ -116,9 +201,29 @@ String CustomAttributeTypedArgument::ToString(Boolean typed) {
   if (get_Value() == nullptr) {
     return String::in::Format(typed ? "null" : "({0})null", get_ArgumentType()->get_Name());
   }
+  if (get_ArgumentType() == rt::typeof<String>()) {
+    return String::in::Format(""{0}"", get_Value());
+  }
+  if (get_ArgumentType() == rt::typeof<Char>()) {
+    return String::in::Format("'{0}'", get_Value());
+  }
+  if (get_ArgumentType() == rt::typeof<Type>()) {
+    return String::in::Format("typeof({0})", ((Type)get_Value())->get_FullName());
+  }
+  if (get_ArgumentType()->get_IsArray()) {
+    IList<CustomAttributeTypedArgument> list = (IList<CustomAttributeTypedArgument>)get_Value();
+    Type elementType = get_ArgumentType()->GetElementType();
+    String str = String::in::Format("new {0}[{1}] {{ ", (elementType->get_IsEnum() ? elementType->get_FullName() : elementType->get_Name()), list->get_Count());
+    for (Int32 i = 0; i < list->get_Count(); i++) {
+      str += String::in::Format((i == 0) ? "{0}" : ", {0}", list[i].ToString(elementType != rt::typeof<Object>()));
+    }
+    return str + " }";
+  }
+  return String::in::Format(typed ? "{0}" : "({1}){0}", get_Value(), get_ArgumentType()->get_Name());
 }
 
 Int32 CustomAttributeTypedArgument::GetHashCode() {
+  return ValueType::GetHashCode();
 }
 
 Boolean CustomAttributeTypedArgument::Equals(Object obj) {

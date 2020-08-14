@@ -1,6 +1,7 @@
 #include "EncoderFallbackException-dep.h"
 
 #include <System.Private.CoreLib/System/ArgumentOutOfRangeException-dep.h>
+#include <System.Private.CoreLib/System/Exception-dep.h>
 #include <System.Private.CoreLib/System/SR-dep.h>
 
 namespace System::Private::CoreLib::System::Text::EncoderFallbackExceptionNamespace {
@@ -21,12 +22,15 @@ Int32 EncoderFallbackException___::get_Index() {
 }
 
 void EncoderFallbackException___::ctor() {
+  Exception::set_HResult = -2147024809;
 }
 
 void EncoderFallbackException___::ctor(String message) {
+  Exception::set_HResult = -2147024809;
 }
 
 void EncoderFallbackException___::ctor(String message, Exception innerException) {
+  Exception::set_HResult = -2147024809;
 }
 
 void EncoderFallbackException___::ctor(String message, Char charUnknown, Int32 index) {

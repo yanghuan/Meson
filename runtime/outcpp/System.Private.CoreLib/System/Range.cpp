@@ -46,6 +46,15 @@ String Range::ToString() {
     span[0] = 94;
     num = 1;
   }
+  Int32 charsWritten;
+  Boolean flag = ((UInt32)Start.get_Value()).TryFormat(span.Slice(num), charsWritten);
+  num += charsWritten;
+  span[num++] = 46;
+  span[num++] = 46;
+  if (End.get_IsFromEnd()) {
+    span[num++] = 94;
+  }
+  flag = ((UInt32)End.get_Value()).TryFormat(span.Slice(num), charsWritten);
 }
 
 Range Range::StartAt(Index start) {

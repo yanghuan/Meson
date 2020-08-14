@@ -15,7 +15,9 @@
 #include <System.Private.CoreLib/System/PlatformNotSupportedException-dep.h>
 #include <System.Private.CoreLib/System/Reflection/AssemblyName-dep.h>
 #include <System.Private.CoreLib/System/Reflection/AssemblyNameFlags.h>
+#include <System.Private.CoreLib/System/Reflection/AssemblyNameFormatter-dep.h>
 #include <System.Private.CoreLib/System/SR-dep.h>
+#include <System.Private.CoreLib/System/StringComparison.h>
 #include <System.Private.CoreLib/System/Text/Encoding-dep.h>
 
 namespace System::Private::CoreLib::System::Reflection::AssemblyNameNamespace {
@@ -137,6 +139,11 @@ String AssemblyName___::get_FullName() {
   if (get_Name() == nullptr) {
     return String::in::Empty;
   }
+  auto default = _publicKeyToken;
+  if (default != nullptr) default = ComputePublicKeyToken();
+
+  Array<Byte> pkt = default;
+  return AssemblyNameFormatter::ComputeDisplayName(get_Name(), get_Version(), get_CultureName(), pkt, get_Flags(), get_ContentType());
 }
 
 void AssemblyName___::ctor(String assemblyName) {
@@ -234,6 +241,10 @@ void AssemblyName___::SetPublicKey(Array<Byte> publicKey) {
 }
 
 Array<Byte> AssemblyName___::GetPublicKeyToken() {
+  auto default = _publicKeyToken;
+  if (default != nullptr) default = (_publicKeyToken = ComputePublicKeyToken());
+
+  return default;
 }
 
 void AssemblyName___::SetPublicKeyToken(Array<Byte> publicKeyToken) {
@@ -243,6 +254,7 @@ void AssemblyName___::SetPublicKeyToken(Array<Byte> publicKeyToken) {
 String AssemblyName___::ToString() {
   String fullName = get_FullName();
   if (fullName == nullptr) {
+    return Object::ToString();
   }
   return fullName;
 }
@@ -265,6 +277,15 @@ Boolean AssemblyName___::ReferenceMatchesDefinition(AssemblyName reference, Asse
   if (definition == nullptr) {
     rt::throw_exception<ArgumentNullException>("definition");
   }
+  auto default = reference->get_Name();
+  if (default != nullptr) default = String::in::Empty;
+
+  String text = default;
+  auto extern = definition->get_Name();
+  if (extern != nullptr) extern = String::in::Empty;
+
+  String value = extern;
+  return text->Equals(value, StringComparison::OrdinalIgnoreCase);
 }
 
 String AssemblyName___::EscapeCodeBase(String codebase) {

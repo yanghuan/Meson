@@ -124,6 +124,7 @@ NumberFormatInfo NumberFormatInfo___::get_CurrentInfo() {
       return numInfo;
     }
   }
+  return (NumberFormatInfo)currentCulture->GetFormat(rt::typeof<NumberFormatInfo>());
 }
 
 String NumberFormatInfo___::get_NaNSymbol() {
@@ -381,6 +382,7 @@ void NumberFormatInfo___::ctor() {
   _percentDecimalDigits = 2;
   _digitSubstitution = 1;
   _hasInvariantNumberSigns = true;
+  Object::ctor();
 }
 
 void NumberFormatInfo___::VerifyDecimalSeparator(String decSep, String propertyName) {
@@ -458,6 +460,11 @@ void NumberFormatInfo___::ctor(CultureData cultureData) {
   _percentDecimalDigits = 2;
   _digitSubstitution = 1;
   _hasInvariantNumberSigns = true;
+  Object::ctor();
+  if (cultureData != nullptr) {
+    cultureData->GetNFIValues((NumberFormatInfo)this);
+    UpdateHasInvariantNumberSigns();
+  }
 }
 
 void NumberFormatInfo___::VerifyWritable() {
@@ -470,7 +477,18 @@ NumberFormatInfo NumberFormatInfo___::GetInstance(IFormatProvider formatProvider
   auto GetProviderNonNull = [](IFormatProvider provider) -> NumberFormatInfo {
     CultureInfo cultureInfo = rt::as<CultureInfo>(provider);
     if (cultureInfo != nullptr && !cultureInfo->_isInherited) {
+      auto default = cultureInfo->_numInfo;
+      if (default != nullptr) default = cultureInfo->get_NumberFormat();
+
+      return default;
     }
+    auto default = (rt::as<NumberFormatInfo>(provider->GetFormat(rt::typeof<NumberFormatInfo>())));
+    if (default != nullptr) default = get_CurrentInfo();
+
+    auto extern = (rt::as<NumberFormatInfo>(provider));
+    if (extern != nullptr) extern = default;
+
+    return extern;
   };
   if (formatProvider != nullptr) {
     return GetProviderNonNull(formatProvider);
@@ -499,6 +517,10 @@ void NumberFormatInfo___::CheckGroupSize(String propName, Array<Int32> groupSize
 }
 
 Object NumberFormatInfo___::GetFormat(Type formatType) {
+  if (!(formatType == rt::typeof<NumberFormatInfo>())) {
+    return nullptr;
+  }
+  return (NumberFormatInfo)this;
 }
 
 NumberFormatInfo NumberFormatInfo___::ReadOnly(NumberFormatInfo nfi) {

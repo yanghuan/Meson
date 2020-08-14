@@ -1,5 +1,6 @@
 #include "DomainNameHelper-dep.h"
 
+#include <System.Private.CoreLib/System/ArgumentException-dep.h>
 #include <System.Private.CoreLib/System/Globalization/IdnMapping-dep.h>
 #include <System.Private.CoreLib/System/ReadOnlySpan-dep.h>
 #include <System.Private.Uri/System/UriHelper-dep.h>
@@ -155,6 +156,61 @@ String DomainNameHelper::UnicodeEquivalent(Char* hostname, Int32 start, Int32 en
   Boolean flag2 = false;
   Boolean flag3 = false;
   Boolean flag4 = false;
+  do {
+    flag = true;
+    flag2 = false;
+    flag3 = false;
+    flag4 = false;
+    for (num2 = num; num2 < length; num2++) {
+      Char c = text[num2];
+      if (!flag3) {
+        flag3 = true;
+        if (num2 + 3 < length && c == 120 && IsIdnAce(text, num2)) {
+          flag2 = true;
+        }
+      }
+      if (flag && c > 127) {
+        flag = false;
+        allAscii = false;
+      }
+      if (c == 46 || c == 12290 || c == 65294 || c == 65377) {
+        flag4 = true;
+        break;
+      }
+    }
+    if (!flag) {
+      String unicode = text->Substring(num, num2 - num);
+      try{
+        unicode = s_idnMapping->GetAscii(unicode);
+      } catch (ArgumentException) {
+      }
+      text2 += s_idnMapping->GetUnicode(unicode);
+      if (flag4) {
+        text2 += ".";
+      }
+    } else {
+      Boolean flag5 = false;
+      if (flag2) {
+        try{
+          text2 += s_idnMapping->GetUnicode(text, num, num2 - num);
+          if (flag4) {
+            text2 += ".";
+          }
+          flag5 = true;
+          atLeastOneValidIdn = true;
+        } catch (ArgumentException) {
+        }
+      }
+      if (!flag5) {
+        text2 += text->Substring(num, num2 - num)->ToLowerInvariant();
+        if (flag4) {
+          text2 += ".";
+        }
+      }
+    }
+    num = num2 + (flag4 ? 1 : 0);
+  } while (num < length)
+  return text2;
 }
 
 Boolean DomainNameHelper::IsASCIILetterOrDigit(Char character, Boolean& notCanonical) {

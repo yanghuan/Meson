@@ -1,6 +1,7 @@
 #include "ComEventsSink-dep.h"
 
 #include <System.Private.CoreLib/System/Runtime/InteropServices/ComEventsSink-dep.h>
+#include <System.Private.CoreLib/System/Runtime/InteropServices/ComTypes/IConnectionPoint.h>
 #include <System.Private.CoreLib/System/Runtime/InteropServices/ComTypes/IConnectionPointContainer.h>
 #include <System.Private.CoreLib/System/Runtime/InteropServices/Marshal-dep.h>
 #include <System.Private.CoreLib/System/Runtime/InteropServices/VarEnum.h>
@@ -79,6 +80,10 @@ Variant& ComEventsSink___::GetVariant(Variant& pSrc) {
 
 void ComEventsSink___::Advise(Object rcw) {
   IConnectionPointContainer connectionPointContainer = (IConnectionPointContainer)rcw;
+  IConnectionPoint ppCP;
+  connectionPointContainer->FindConnectionPoint(_iidSourceItf, ppCP);
+  ppCP->Advise((ComEventsSink)this, _cookie);
+  _connectionPoint = ppCP;
 }
 
 void ComEventsSink___::Unadvise() {

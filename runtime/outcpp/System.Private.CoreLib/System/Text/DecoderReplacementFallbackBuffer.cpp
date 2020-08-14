@@ -11,6 +11,8 @@ Int32 DecoderReplacementFallbackBuffer___::get_Remaining() {
 void DecoderReplacementFallbackBuffer___::ctor(DecoderReplacementFallback fallback) {
   _fallbackCount = -1;
   _fallbackIndex = -1;
+  DecoderFallbackBuffer::ctor();
+  _strDefault = fallback->get_DefaultString();
 }
 
 Boolean DecoderReplacementFallbackBuffer___::Fallback(Array<Byte> bytesUnknown, Int32 index) {

@@ -14,11 +14,13 @@
 #include <System.Private.CoreLib/System/IO/Error-dep.h>
 #include <System.Private.CoreLib/System/IO/IOException-dep.h>
 #include <System.Private.CoreLib/System/IO/MemoryStream-dep.h>
+#include <System.Private.CoreLib/System/Math-dep.h>
 #include <System.Private.CoreLib/System/ReadOnlySpan-dep.h>
 #include <System.Private.CoreLib/System/Span-dep.h>
 #include <System.Private.CoreLib/System/SR-dep.h>
 #include <System.Private.CoreLib/System/Text/DecoderNLS-dep.h>
 #include <System.Private.CoreLib/System/Text/StringBuilder-dep.h>
+#include <System.Private.CoreLib/System/Text/StringBuilderCache-dep.h>
 #include <System.Private.CoreLib/System/Text/UnicodeEncoding-dep.h>
 
 namespace System::Private::CoreLib::System::IO::BinaryReaderNamespace {
@@ -54,6 +56,8 @@ void BinaryReader___::ctor(Stream input, Encoding encoding, Boolean leaveOpen) {
   }
   _buffer = rt::newarr<Array<Byte>>(num);
   _2BytesPerChar = rt::is<UnicodeEncoding>(encoding);
+  _isMemoryStream = (_stream->GetType() == rt::typeof<MemoryStream>());
+  _leaveOpen = leaveOpen;
 }
 
 void BinaryReader___::Dispose(Boolean disposing) {
@@ -213,6 +217,23 @@ String BinaryReader___::ReadString() {
     _charBuffer = rt::newarr<Array<Char>>(_maxCharsSize);
   }
   StringBuilder stringBuilder = nullptr;
+  do {
+    Int32 count = (num2 - num > 128) ? 128 : (num2 - num);
+    Int32 num3 = _stream->Read(_charBytes, 0, count);
+    if (num3 == 0) {
+      rt::throw_exception(Error::GetEndOfFile());
+    }
+    Int32 chars = _decoder->GetChars(_charBytes, 0, num3, _charBuffer, 0);
+    if (num == 0 && num3 == num2) {
+      return rt::newobj<String>(_charBuffer, 0, chars);
+    }
+    if (stringBuilder == nullptr) {
+      stringBuilder = StringBuilderCache::Acquire(Math::Min(num2, 360));
+    }
+    stringBuilder->Append(_charBuffer, 0, chars);
+    num += num3;
+  } while (num < num2)
+  return StringBuilderCache::GetStringAndRelease(stringBuilder);
 }
 
 Int32 BinaryReader___::Read(Array<Char> buffer, Int32 index, Int32 count) {
@@ -329,6 +350,20 @@ Array<Byte> BinaryReader___::ReadBytes(Int32 count) {
   }
   Array<Byte> array = rt::newarr<Array<Byte>>(count);
   Int32 num = 0;
+  do {
+    Int32 num2 = _stream->Read(array, num, count);
+    if (num2 == 0) {
+      break;
+    }
+    num += num2;
+    count -= num2;
+  } while (count > 0)
+  if (num != array->get_Length()) {
+    Array<Byte> array2 = rt::newarr<Array<Byte>>(num);
+    Buffer::BlockCopy(array, 0, array2, 0, num);
+    array = array2;
+  }
+  return array;
 }
 
 ReadOnlySpan<Byte> BinaryReader___::InternalRead(Int32 numBytes) {
@@ -337,6 +372,14 @@ ReadOnlySpan<Byte> BinaryReader___::InternalRead(Int32 numBytes) {
   }
   ThrowIfDisposed();
   Int32 num = 0;
+  do {
+    Int32 num2 = _stream->Read(_buffer, num, numBytes - num);
+    if (num2 == 0) {
+      rt::throw_exception(Error::GetEndOfFile());
+    }
+    num += num2;
+  } while (num < numBytes)
+  return _buffer;
 }
 
 void BinaryReader___::FillBuffer(Int32 numBytes) {
@@ -354,6 +397,13 @@ void BinaryReader___::FillBuffer(Int32 numBytes) {
     _buffer[0] = (Byte)num2;
     return;
   }
+  do {
+    num2 = _stream->Read(_buffer, num, numBytes - num);
+    if (num2 == 0) {
+      rt::throw_exception(Error::GetEndOfFile());
+    }
+    num += num2;
+  } while (num < numBytes)
 }
 
 Int32 BinaryReader___::Read7BitEncodedInt() {

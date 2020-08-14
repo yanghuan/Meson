@@ -9,6 +9,7 @@
 #include <System.Private.CoreLib/System/Globalization/CalendarId.h>
 #include <System.Private.CoreLib/System/Globalization/CultureInfo-dep.h>
 #include <System.Private.CoreLib/System/Globalization/DateTimeFormatFlags.h>
+#include <System.Private.CoreLib/System/Globalization/GregorianCalendar-dep.h>
 #include <System.Private.CoreLib/System/Globalization/HebrewNumber-dep.h>
 #include <System.Private.CoreLib/System/Globalization/MonthNameStyles.h>
 #include <System.Private.CoreLib/System/Int64-dep.h>
@@ -40,6 +41,18 @@ void DateTimeFormat::FormatDigits(StringBuilder outputBuffer, Int32 value, Int32
   Char* ptr = default;
   Char* ptr2 = ptr + 16;
   Int32 num = value;
+  do {
+    *(--ptr2) = (Char)(num % 10 + 48);
+    num /= 10;
+  } while (num != 0 && ptr2 > ptr)
+  Int32 i;
+  for (i = (Int32)(ptr + 16 - ptr2); i < len; i++) {
+    if (ptr2 <= ptr) {
+      break;
+    }
+    *(--ptr2) = 48;
+  }
+  outputBuffer->Append(ptr2, i);
 }
 
 void DateTimeFormat::HebrewFormatDigits(StringBuilder outputBuffer, Int32 digits) {
@@ -427,6 +440,34 @@ String DateTimeFormat::GetRealFormat(ReadOnlySpan<Char> format, DateTimeFormatIn
 }
 
 String DateTimeFormat::ExpandPredefinedFormat(ReadOnlySpan<Char> format, DateTime& dateTime, DateTimeFormatInfo& dtfi, TimeSpan offset) {
+  switch (format[0].get()) {
+    case 79:
+    case 111:
+      dtfi = DateTimeFormatInfo::in::get_InvariantInfo();
+      break;
+    case 82:
+    case 114:
+    case 117:
+      if (offset.get_Ticks() != Int64::MinValue) {
+        dateTime -= offset;
+      }
+      dtfi = DateTimeFormatInfo::in::get_InvariantInfo();
+      break;
+    case 115:
+      dtfi = DateTimeFormatInfo::in::get_InvariantInfo();
+      break;
+    case 85:
+      if (offset.get_Ticks() != Int64::MinValue) {
+        rt::throw_exception<FormatException>(SR::get_Format_InvalidString());
+      }
+      dtfi = (DateTimeFormatInfo)dtfi->Clone();
+      if (dtfi->get_Calendar()->GetType() != rt::typeof<GregorianCalendar>()) {
+        dtfi->set_Calendar = GregorianCalendar::in::GetDefaultInstance();
+      }
+      dateTime = dateTime.ToUniversalTime();
+      break;
+  }
+  return GetRealFormat(format, dtfi);
 }
 
 String DateTimeFormat::Format(DateTime dateTime, String format, IFormatProvider provider) {
@@ -441,10 +482,16 @@ String DateTimeFormat::Format(DateTime dateTime, String format, IFormatProvider 
         {
           Char default[33] = {};
           Span<Char> destination = default;
+          Int32 charsWritten2;
+          TryFormatO(dateTime, offset, destination, charsWritten2);
+          return destination.Slice(0, charsWritten2).ToString();
         }case 82:
       case 114:
         {
           String text = String::in::FastAllocateString(29);
+          Int32 _;
+          TryFormatR(dateTime, offset, Span<Char>(text->GetRawStringData(), text->get_Length()), _);
+          return text;
         }}
   }
   DateTimeFormatInfo instance = DateTimeFormatInfo::in::GetInstance(provider);
@@ -527,6 +574,50 @@ Boolean DateTimeFormat::TryFormatO(DateTime dateTime, TimeSpan offset, Span<Char
   }
   charsWritten = num;
   _ = destination[26];
+  Int32 year;
+  Int32 month;
+  Int32 day;
+  dateTime.GetDate(year, month, day);
+  Int32 hour;
+  Int32 minute;
+  Int32 second;
+  Int32 tick;
+  dateTime.GetTimePrecise(hour, minute, second, tick);
+  WriteFourDecimalDigits((UInt32)year, destination);
+  destination[4] = 45;
+  WriteTwoDecimalDigits((UInt32)month, destination, 5);
+  destination[7] = 45;
+  WriteTwoDecimalDigits((UInt32)day, destination, 8);
+  destination[10] = 84;
+  WriteTwoDecimalDigits((UInt32)hour, destination, 11);
+  destination[13] = 58;
+  WriteTwoDecimalDigits((UInt32)minute, destination, 14);
+  destination[16] = 58;
+  WriteTwoDecimalDigits((UInt32)second, destination, 17);
+  destination[19] = 46;
+  WriteDigits((UInt32)tick, destination.Slice(20, 7));
+  switch (dateTimeKind) {
+    case DateTimeKind::Local:
+      {
+        Int32 num2 = (Int32)(offset.get_Ticks() / 600000000);
+        Char c;
+        if (num2 < 0) {
+          c = 45;
+        } else {
+          c = 43;
+        }
+        Int32 result;
+        Int32 value = Math::DivRem(num2, 60, result);
+        WriteTwoDecimalDigits((UInt32)result, destination, 31);
+        destination[30] = 58;
+        WriteTwoDecimalDigits((UInt32)value, destination, 28);
+        destination[27] = c;
+        break;
+      }case DateTimeKind::Utc:
+      destination[27] = 90;
+      break;
+  }
+  return true;
 }
 
 Boolean DateTimeFormat::TryFormatR(DateTime dateTime, TimeSpan offset, Span<Char> destination, Int32& charsWritten) {
@@ -537,6 +628,40 @@ Boolean DateTimeFormat::TryFormatR(DateTime dateTime, TimeSpan offset, Span<Char
   if (offset.get_Ticks() != Int64::MinValue) {
     dateTime -= offset;
   }
+  Int32 year;
+  Int32 month;
+  Int32 day;
+  dateTime.GetDate(year, month, day);
+  Int32 hour;
+  Int32 minute;
+  Int32 second;
+  dateTime.GetTime(hour, minute, second);
+  String text = InvariantAbbreviatedDayNames[(Int32)dateTime.get_DayOfWeek()];
+  String text2 = InvariantAbbreviatedMonthNames[month - 1];
+  destination[0] = text[0];
+  destination[1] = text[1];
+  destination[2] = text[2];
+  destination[3] = 44;
+  destination[4] = 32;
+  WriteTwoDecimalDigits((UInt32)day, destination, 5);
+  destination[7] = 32;
+  destination[8] = text2[0];
+  destination[9] = text2[1];
+  destination[10] = text2[2];
+  destination[11] = 32;
+  WriteFourDecimalDigits((UInt32)year, destination, 12);
+  destination[16] = 32;
+  WriteTwoDecimalDigits((UInt32)hour, destination, 17);
+  destination[19] = 58;
+  WriteTwoDecimalDigits((UInt32)minute, destination, 20);
+  destination[22] = 58;
+  WriteTwoDecimalDigits((UInt32)second, destination, 23);
+  destination[25] = 32;
+  destination[26] = 71;
+  destination[27] = 77;
+  destination[28] = 84;
+  charsWritten = 29;
+  return true;
 }
 
 void DateTimeFormat::WriteTwoDecimalDigits(UInt32 value, Span<Char> destination, Int32 offset) {

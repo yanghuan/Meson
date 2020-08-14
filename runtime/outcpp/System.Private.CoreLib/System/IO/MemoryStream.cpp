@@ -164,6 +164,7 @@ void MemoryStream___::Dispose(Boolean disposing) {
       _lastReadTask = nullptr;
     }
   } finally: {
+    Stream::Dispose(disposing);
   }
 }
 
@@ -283,6 +284,17 @@ Int32 MemoryStream___::Read(Array<Byte> buffer, Int32 offset, Int32 count) {
 }
 
 Int32 MemoryStream___::Read(Span<Byte> buffer) {
+  if (GetType() != rt::typeof<MemoryStream>()) {
+    return Stream::Read(buffer);
+  }
+  EnsureNotClosed();
+  Int32 num = Math::Min(_length - _position, buffer.get_Length());
+  if (num <= 0) {
+    return 0;
+  }
+  Span<Byte>(_buffer, _position, num).CopyTo(buffer);
+  _position += num;
+  return num;
 }
 
 Task<Int32> MemoryStream___::ReadAsync(Array<Byte> buffer, Int32 offset, Int32 count, CancellationToken cancellationToken) {
@@ -332,16 +344,63 @@ Int32 MemoryStream___::ReadByte() {
 
 void MemoryStream___::CopyTo(Stream destination, Int32 bufferSize) {
   StreamHelpers::ValidateCopyToArgs((MemoryStream)this, destination, bufferSize);
+  if (GetType() != rt::typeof<MemoryStream>()) {
+    Stream::CopyTo(destination, bufferSize);
+    return;
+  }
+  Int32 position = _position;
+  Int32 num = InternalEmulateRead(_length - position);
+  if (num > 0) {
+    destination->Write(_buffer, position, num);
+  }
 }
 
 Task<> MemoryStream___::CopyToAsync(Stream destination, Int32 bufferSize, CancellationToken cancellationToken) {
   StreamHelpers::ValidateCopyToArgs((MemoryStream)this, destination, bufferSize);
+  if (GetType() != rt::typeof<MemoryStream>()) {
+    return Stream::CopyToAsync(destination, bufferSize, cancellationToken);
+  }
+  if (cancellationToken.get_IsCancellationRequested()) {
+    return Task::in::FromCanceled(cancellationToken);
+  }
+  Int32 position = _position;
+  Int32 num = InternalEmulateRead(_length - _position);
+  if (num == 0) {
+    return Task::in::get_CompletedTask();
+  }
+  MemoryStream memoryStream = rt::as<MemoryStream>(destination);
+  if (memoryStream == nullptr) {
+    return destination->WriteAsync(_buffer, position, num, cancellationToken);
+  }
+  try{
+    memoryStream->Write(_buffer, position, num);
+    return Task::in::get_CompletedTask();
+  } catch (Exception exception) {
+  }
 }
 
 void MemoryStream___::CopyTo(ReadOnlySpanAction<Byte, Object> callback, Object state, Int32 bufferSize) {
+  if (GetType() != rt::typeof<MemoryStream>()) {
+    Stream::CopyTo(callback, state, bufferSize);
+    return;
+  }
+  StreamHelpers::ValidateCopyToArgs((MemoryStream)this, callback, bufferSize);
+  ReadOnlySpan<Byte> span = ReadOnlySpan<Byte>(_buffer, _position, _length - _position);
+  _position = _length;
+  callback(span, state);
 }
 
 Task<> MemoryStream___::CopyToAsync(Func<ReadOnlyMemory<Byte>, Object, CancellationToken, ValueTask<>> callback, Object state, Int32 bufferSize, CancellationToken cancellationToken) {
+  if (GetType() != rt::typeof<MemoryStream>()) {
+    return Stream::CopyToAsync(callback, state, bufferSize, cancellationToken);
+  }
+  StreamHelpers::ValidateCopyToArgs((MemoryStream)this, callback, bufferSize);
+  if (cancellationToken.get_IsCancellationRequested()) {
+    return Task::in::FromCanceled(cancellationToken);
+  }
+  ReadOnlyMemory<Byte> arg = ReadOnlyMemory<Byte>(_buffer, _position, _length - _position);
+  _position = _length;
+  return callback(arg, state, cancellationToken).AsTask();
 }
 
 Int64 MemoryStream___::Seek(Int64 offset, SeekOrigin loc) {
@@ -449,6 +508,28 @@ void MemoryStream___::Write(Array<Byte> buffer, Int32 offset, Int32 count) {
 }
 
 void MemoryStream___::Write(ReadOnlySpan<Byte> buffer) {
+  if (GetType() != rt::typeof<MemoryStream>()) {
+    Stream::Write(buffer);
+    return;
+  }
+  EnsureNotClosed();
+  EnsureWriteable();
+  Int32 num = _position + buffer.get_Length();
+  if (num < 0) {
+    rt::throw_exception<IOException>(SR::get_IO_StreamTooLong());
+  }
+  if (num > _length) {
+    Boolean flag = _position > _length;
+    if (num > _capacity && EnsureCapacity(num)) {
+      flag = false;
+    }
+    if (flag) {
+      Array<>::in::Clear(_buffer, _length, num - _length);
+    }
+    _length = num;
+  }
+  buffer.CopyTo(Span<Byte>(_buffer, _position, buffer.get_Length()));
+  _position = num;
 }
 
 Task<> MemoryStream___::WriteAsync(Array<Byte> buffer, Int32 offset, Int32 count, CancellationToken cancellationToken) {
@@ -480,6 +561,13 @@ ValueTask<> MemoryStream___::WriteAsync(ReadOnlyMemory<Byte> buffer, Cancellatio
     return ValueTask(Task::in::FromCanceled(cancellationToken));
   }
   try{
+    ArraySegment<Byte> segment;
+    if (MemoryMarshal::TryGetArray(buffer, segment)) {
+      Write(segment.get_Array(), segment.get_Offset(), segment.get_Count());
+    } else {
+      Write(buffer.get_Span());
+    }
+    return ValueTask();
   } catch (OperationCanceledException exception) {
   } catch (Exception exception2) {
   }

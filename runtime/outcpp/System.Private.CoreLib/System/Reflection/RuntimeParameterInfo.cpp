@@ -2,9 +2,16 @@
 
 #include <System.Private.CoreLib/System/ArgumentException-dep.h>
 #include <System.Private.CoreLib/System/ArgumentNullException-dep.h>
+#include <System.Private.CoreLib/System/BadImageFormatException-dep.h>
+#include <System.Private.CoreLib/System/DateTime-dep.h>
 #include <System.Private.CoreLib/System/DBNull-dep.h>
+#include <System.Private.CoreLib/System/Int64-dep.h>
 #include <System.Private.CoreLib/System/Object-dep.h>
 #include <System.Private.CoreLib/System/Reflection/CustomAttribute-dep.h>
+#include <System.Private.CoreLib/System/Reflection/CustomAttributeData-dep.h>
+#include <System.Private.CoreLib/System/Reflection/CustomAttributeTypedArgument-dep.h>
+#include <System.Private.CoreLib/System/Reflection/MdConstant-dep.h>
+#include <System.Private.CoreLib/System/Reflection/MetadataEnumResult-dep.h>
 #include <System.Private.CoreLib/System/Reflection/MetadataImport-dep.h>
 #include <System.Private.CoreLib/System/Reflection/MetadataToken-dep.h>
 #include <System.Private.CoreLib/System/Reflection/MethodBase-dep.h>
@@ -12,12 +19,17 @@
 #include <System.Private.CoreLib/System/Reflection/RuntimeConstructorInfo-dep.h>
 #include <System.Private.CoreLib/System/Reflection/RuntimeMethodInfo-dep.h>
 #include <System.Private.CoreLib/System/Reflection/RuntimeParameterInfo-dep.h>
+#include <System.Private.CoreLib/System/Runtime/CompilerServices/CustomConstantAttribute-dep.h>
+#include <System.Private.CoreLib/System/Runtime/CompilerServices/DateTimeConstantAttribute-dep.h>
+#include <System.Private.CoreLib/System/Runtime/CompilerServices/DecimalConstantAttribute-dep.h>
 #include <System.Private.CoreLib/System/RuntimeMethodHandle-dep.h>
 #include <System.Private.CoreLib/System/RuntimeType-dep.h>
 #include <System.Private.CoreLib/System/RuntimeTypeHandle-dep.h>
 #include <System.Private.CoreLib/System/SR-dep.h>
 
 namespace System::Private::CoreLib::System::Reflection::RuntimeParameterInfoNamespace {
+using namespace System::Runtime::CompilerServices;
+
 Type RuntimeParameterInfo___::get_ParameterType() {
   if (ClassImpl == nullptr) {
     RuntimeType runtimeType = (RuntimeType)(ClassImpl = ((PositionImpl != -1) ? m_signature->get_Arguments()[PositionImpl] : m_signature->get_ReturnType()));
@@ -61,6 +73,9 @@ Array<ParameterInfo> RuntimeParameterInfo___::GetParameters(IRuntimeMethodInfo m
 }
 
 ParameterInfo RuntimeParameterInfo___::GetReturnParameter(IRuntimeMethodInfo method, MemberInfo member, Signature sig) {
+  ParameterInfo returnParameter;
+  GetParameters(method, member, sig, returnParameter, true);
+  return returnParameter;
 }
 
 Array<ParameterInfo> RuntimeParameterInfo___::GetParameters(IRuntimeMethodInfo methodHandle, MemberInfo member, Signature sig, ParameterInfo& returnParameter, Boolean fetchReturnParameter) {
@@ -71,6 +86,31 @@ Array<ParameterInfo> RuntimeParameterInfo___::GetParameters(IRuntimeMethodInfo m
   Int32 num2 = 0;
   if (!MetadataToken::IsNullToken(methodDef)) {
     MetadataImport metadataImport = RuntimeTypeHandle::GetMetadataImport(RuntimeMethodHandle::GetDeclaringType(methodHandle));
+    MetadataEnumResult result;
+    metadataImport.EnumParams(methodDef, result);
+    num2 = result.get_Length();
+    if (num2 > num + 1) {
+      rt::throw_exception<BadImageFormatException>(SR::get_BadImageFormat_ParameterSignatureMismatch());
+    }
+    for (Int32 i = 0; i < num2; i++) {
+      Int32 num3 = result[i];
+      Int32 sequence;
+      ParameterAttributes attributes;
+      metadataImport.GetParamDefProps(num3, sequence, attributes);
+      sequence--;
+      if (fetchReturnParameter && sequence == -1) {
+        if (returnParameter != nullptr) {
+          rt::throw_exception<BadImageFormatException>(SR::get_BadImageFormat_ParameterSignatureMismatch());
+        }
+        returnParameter = rt::newobj<RuntimeParameterInfo>(sig, metadataImport, num3, sequence, attributes, member);
+      } else if (!fetchReturnParameter && sequence >= 0) {
+        if (sequence >= num) {
+          rt::throw_exception<BadImageFormatException>(SR::get_BadImageFormat_ParameterSignatureMismatch());
+        }
+        array[sequence] = rt::newobj<RuntimeParameterInfo>(sig, metadataImport, num3, sequence, attributes, member);
+      }
+
+    }
   }
   if (fetchReturnParameter) {
     if (returnParameter == nullptr) {
@@ -139,6 +179,10 @@ Object RuntimeParameterInfo___::GetDefaultValue(Boolean raw) {
     return nullptr;
   }
   Object obj = GetDefaultValueInternal(raw);
+  if (obj == DBNull::in::Value && ParameterInfo::get_IsOptional()) {
+    obj = Type::in::Missing;
+  }
+  return obj;
 }
 
 Object RuntimeParameterInfo___::GetDefaultValueInternal(Boolean raw) {
@@ -146,6 +190,40 @@ Object RuntimeParameterInfo___::GetDefaultValueInternal(Boolean raw) {
     return DBNull::in::Value;
   }
   Object obj = nullptr;
+  if (get_ParameterType() == rt::typeof<DateTime>()) {
+    if (raw) {
+      CustomAttributeTypedArgument customAttributeTypedArgument = CustomAttributeData::in::Filter(CustomAttributeData::in::GetCustomAttributes((RuntimeParameterInfo)this), rt::typeof<DateTimeConstantAttribute>(), 0);
+      if (customAttributeTypedArgument.get_ArgumentType() != nullptr) {
+        return DateTime((Int64)customAttributeTypedArgument.get_Value());
+      }
+    } else {
+      Array<Object> customAttributes = GetCustomAttributes(rt::typeof<DateTimeConstantAttribute>(), false);
+      if (customAttributes != nullptr && customAttributes->get_Length() != 0) {
+        return ((DateTimeConstantAttribute)customAttributes[0])->get_Value();
+      }
+    }
+  }
+  if (!MetadataToken::IsNullToken(m_tkParamDef)) {
+    obj = MdConstant::GetValue(m_scope, m_tkParamDef, get_ParameterType()->GetTypeHandleInternal(), raw);
+  }
+  if (obj == DBNull::in::Value) {
+    if (raw) {
+    } else {
+      Array<Object> customAttributes2 = GetCustomAttributes(s_CustomConstantAttributeType, false);
+      if (customAttributes2->get_Length() != 0) {
+        obj = ((CustomConstantAttribute)customAttributes2[0])->get_Value();
+      } else {
+        customAttributes2 = GetCustomAttributes(s_DecimalConstantAttributeType, false);
+        if (customAttributes2->get_Length() != 0) {
+          obj = ((DecimalConstantAttribute)customAttributes2[0])->get_Value();
+        }
+      }
+    }
+  }
+  if (obj == DBNull::in::Value) {
+    m_noDefaultValue = true;
+  }
+  return obj;
 }
 
 Decimal RuntimeParameterInfo___::GetRawDecimalConstant(CustomAttributeData attr) {
@@ -191,6 +269,7 @@ Array<Object> RuntimeParameterInfo___::GetCustomAttributes(Boolean inherit) {
   if (MetadataToken::IsNullToken(m_tkParamDef)) {
     return Array<>::in::Empty<Object>();
   }
+  return CustomAttribute::GetCustomAttributes((RuntimeParameterInfo)this, rt::as<RuntimeType>(rt::typeof<Object>()));
 }
 
 Array<Object> RuntimeParameterInfo___::GetCustomAttributes(Type attributeType, Boolean inherit) {
@@ -226,6 +305,8 @@ IList<CustomAttributeData> RuntimeParameterInfo___::GetCustomAttributesData() {
 }
 
 void RuntimeParameterInfo___::cctor() {
+  s_DecimalConstantAttributeType = rt::typeof<DecimalConstantAttribute>();
+  s_CustomConstantAttributeType = rt::typeof<CustomConstantAttribute>();
 }
 
 } // namespace System::Private::CoreLib::System::Reflection::RuntimeParameterInfoNamespace

@@ -95,6 +95,42 @@ Boolean Utf8Formatter::TryFormatDateTimeG(DateTime value, TimeSpan offset, Span<
   }
   bytesWritten = num;
   Byte b = destination[18];
+  Int32 year;
+  Int32 month;
+  Int32 day;
+  value.GetDate(year, month, day);
+  Int32 hour;
+  Int32 minute;
+  Int32 second;
+  value.GetTime(hour, minute, second);
+  FormattingHelpers::WriteTwoDecimalDigits((UInt32)month, destination);
+  destination[2] = 47;
+  FormattingHelpers::WriteTwoDecimalDigits((UInt32)day, destination, 3);
+  destination[5] = 47;
+  FormattingHelpers::WriteFourDecimalDigits((UInt32)year, destination, 6);
+  destination[10] = 32;
+  FormattingHelpers::WriteTwoDecimalDigits((UInt32)hour, destination, 11);
+  destination[13] = 58;
+  FormattingHelpers::WriteTwoDecimalDigits((UInt32)minute, destination, 14);
+  destination[16] = 58;
+  FormattingHelpers::WriteTwoDecimalDigits((UInt32)second, destination, 17);
+  if (offset != Utf8Constants::NullUtcOffset) {
+    Int32 num2 = (Int32)(offset.get_Ticks() / 600000000);
+    Byte b2;
+    if (num2 < 0) {
+      b2 = 45;
+    } else {
+      b2 = 43;
+    }
+    Int32 result;
+    Int32 value2 = Math::DivRem(num2, 60, result);
+    FormattingHelpers::WriteTwoDecimalDigits((UInt32)result, destination, 24);
+    destination[23] = 58;
+    FormattingHelpers::WriteTwoDecimalDigits((UInt32)value2, destination, 21);
+    destination[20] = b2;
+    destination[19] = 32;
+  }
+  return true;
 }
 
 Boolean Utf8Formatter::TryFormatDateTimeL(DateTime value, Span<Byte> destination, Int32& bytesWritten) {
@@ -102,6 +138,44 @@ Boolean Utf8Formatter::TryFormatDateTimeL(DateTime value, Span<Byte> destination
     bytesWritten = 0;
     return false;
   }
+  Int32 year;
+  Int32 month;
+  Int32 day;
+  value.GetDate(year, month, day);
+  Int32 hour;
+  Int32 minute;
+  Int32 second;
+  value.GetTime(hour, minute, second);
+  UInt32 num = s_dayAbbreviationsLowercase[(Int32)value.get_DayOfWeek()];
+  destination[0] = (Byte)num;
+  num >>= 8;
+  destination[1] = (Byte)num;
+  num >>= 8;
+  destination[2] = (Byte)num;
+  destination[3] = 44;
+  destination[4] = 32;
+  FormattingHelpers::WriteTwoDecimalDigits((UInt32)day, destination, 5);
+  destination[7] = 32;
+  UInt32 num2 = s_monthAbbreviationsLowercase[month - 1];
+  destination[8] = (Byte)num2;
+  num2 >>= 8;
+  destination[9] = (Byte)num2;
+  num2 >>= 8;
+  destination[10] = (Byte)num2;
+  destination[11] = 32;
+  FormattingHelpers::WriteFourDecimalDigits((UInt32)year, destination, 12);
+  destination[16] = 32;
+  FormattingHelpers::WriteTwoDecimalDigits((UInt32)hour, destination, 17);
+  destination[19] = 58;
+  FormattingHelpers::WriteTwoDecimalDigits((UInt32)minute, destination, 20);
+  destination[22] = 58;
+  FormattingHelpers::WriteTwoDecimalDigits((UInt32)second, destination, 23);
+  destination[25] = 32;
+  destination[26] = 103;
+  destination[27] = 109;
+  destination[28] = 116;
+  bytesWritten = 29;
+  return true;
 }
 
 Boolean Utf8Formatter::TryFormatDateTimeO(DateTime value, TimeSpan offset, Span<Byte> destination, Int32& bytesWritten) {
@@ -127,6 +201,50 @@ Boolean Utf8Formatter::TryFormatDateTimeO(DateTime value, TimeSpan offset, Span<
   }
   bytesWritten = num;
   _ = destination[26];
+  Int32 year;
+  Int32 month;
+  Int32 day;
+  value.GetDate(year, month, day);
+  Int32 hour;
+  Int32 minute;
+  Int32 second;
+  Int32 tick;
+  value.GetTimePrecise(hour, minute, second, tick);
+  FormattingHelpers::WriteFourDecimalDigits((UInt32)year, destination);
+  destination[4] = 45;
+  FormattingHelpers::WriteTwoDecimalDigits((UInt32)month, destination, 5);
+  destination[7] = 45;
+  FormattingHelpers::WriteTwoDecimalDigits((UInt32)day, destination, 8);
+  destination[10] = 84;
+  FormattingHelpers::WriteTwoDecimalDigits((UInt32)hour, destination, 11);
+  destination[13] = 58;
+  FormattingHelpers::WriteTwoDecimalDigits((UInt32)minute, destination, 14);
+  destination[16] = 58;
+  FormattingHelpers::WriteTwoDecimalDigits((UInt32)second, destination, 17);
+  destination[19] = 46;
+  FormattingHelpers::WriteDigits((UInt32)tick, destination.Slice(20, 7));
+  switch (dateTimeKind) {
+    case DateTimeKind::Local:
+      {
+        Int32 num2 = (Int32)(offset.get_Ticks() / 600000000);
+        Byte b;
+        if (num2 < 0) {
+          b = 45;
+        } else {
+          b = 43;
+        }
+        Int32 result;
+        Int32 value2 = Math::DivRem(num2, 60, result);
+        FormattingHelpers::WriteTwoDecimalDigits((UInt32)result, destination, 31);
+        destination[30] = 58;
+        FormattingHelpers::WriteTwoDecimalDigits((UInt32)value2, destination, 28);
+        destination[27] = b;
+        break;
+      }case DateTimeKind::Utc:
+      destination[27] = 90;
+      break;
+  }
+  return true;
 }
 
 Boolean Utf8Formatter::TryFormatDateTimeR(DateTime value, Span<Byte> destination, Int32& bytesWritten) {
@@ -134,6 +252,44 @@ Boolean Utf8Formatter::TryFormatDateTimeR(DateTime value, Span<Byte> destination
     bytesWritten = 0;
     return false;
   }
+  Int32 year;
+  Int32 month;
+  Int32 day;
+  value.GetDate(year, month, day);
+  Int32 hour;
+  Int32 minute;
+  Int32 second;
+  value.GetTime(hour, minute, second);
+  UInt32 num = s_dayAbbreviations[(Int32)value.get_DayOfWeek()];
+  destination[0] = (Byte)num;
+  num >>= 8;
+  destination[1] = (Byte)num;
+  num >>= 8;
+  destination[2] = (Byte)num;
+  destination[3] = 44;
+  destination[4] = 32;
+  FormattingHelpers::WriteTwoDecimalDigits((UInt32)day, destination, 5);
+  destination[7] = 32;
+  UInt32 num2 = s_monthAbbreviations[month - 1];
+  destination[8] = (Byte)num2;
+  num2 >>= 8;
+  destination[9] = (Byte)num2;
+  num2 >>= 8;
+  destination[10] = (Byte)num2;
+  destination[11] = 32;
+  FormattingHelpers::WriteFourDecimalDigits((UInt32)year, destination, 12);
+  destination[16] = 32;
+  FormattingHelpers::WriteTwoDecimalDigits((UInt32)hour, destination, 17);
+  destination[19] = 58;
+  FormattingHelpers::WriteTwoDecimalDigits((UInt32)minute, destination, 20);
+  destination[22] = 58;
+  FormattingHelpers::WriteTwoDecimalDigits((UInt32)second, destination, 23);
+  destination[25] = 32;
+  destination[26] = 71;
+  destination[27] = 77;
+  destination[28] = 84;
+  bytesWritten = 29;
+  return true;
 }
 
 Boolean Utf8Formatter::TryFormat(Decimal value, Span<Byte> destination, Int32& bytesWritten, StandardFormat format) {
@@ -661,6 +817,9 @@ Boolean Utf8Formatter::TryFormat(TimeSpan value, Span<Byte> destination, Int32& 
   UInt64 num2;
   if (ticks < 0) {
   }
+  UInt64 modulo;
+  num2 = FormattingHelpers::DivMod((UInt64)Math::Abs(value.get_Ticks()), 10000000, modulo);
+  valueWithoutTrailingZeros = (UInt32)modulo;
 }
 
 void Utf8Formatter::cctor() {

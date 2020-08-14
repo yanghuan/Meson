@@ -6,6 +6,7 @@ void MetadataException___::ctor(Int32 hr) {
 }
 
 String MetadataException___::ToString() {
+  return String::in::Format("MetadataException HResult = {0:x}.", m_hr);
 }
 
 } // namespace System::Private::CoreLib::System::Reflection::MetadataExceptionNamespace

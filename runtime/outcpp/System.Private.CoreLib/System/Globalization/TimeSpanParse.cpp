@@ -379,6 +379,19 @@ Boolean TimeSpanParse::StringParser::TryParse(ReadOnlySpan<Char> input, TimeSpan
       return false;
     }
   } else {
+    Int32 i;
+    if (!ParseInt(10675199, i, result)) {
+      return false;
+    }
+    time = i * 864000000000;
+    if (_ch == 46) {
+      NextChar();
+      Int64 time2;
+      if (!ParseTime(time2, result)) {
+        return false;
+      }
+      time += time2;
+    }
   }
   if (flag) {
   } else if (time < 0) {
@@ -417,6 +430,38 @@ Boolean TimeSpanParse::StringParser::ParseInt(Int32 max, Int32& i, TimeSpanResul
 
 Boolean TimeSpanParse::StringParser::ParseTime(Int64& time, TimeSpanResult& result) {
   time = 0;
+  Int32 i;
+  if (!ParseInt(23, i, result)) {
+    return false;
+  }
+  time = i * 36000000000;
+  if (_ch != 58) {
+    return result.SetBadTimeSpanFailure();
+  }
+  NextChar();
+  if (!ParseInt(59, i, result)) {
+    return false;
+  }
+  time += (Int64)i * 600000000;
+  if (_ch == 58) {
+    NextChar();
+    if (_ch != 46) {
+      if (!ParseInt(59, i, result)) {
+        return false;
+      }
+      time += (Int64)i * 10000000;
+    }
+    if (_ch == 46) {
+      NextChar();
+      Int32 num = 10000000;
+      while (num > 1 && _ch >= 48 && _ch <= 57) {
+        num /= 10;
+        time += (_ch - 48) * num;
+        NextChar();
+      }
+    }
+  }
+  return true;
 }
 
 void TimeSpanParse::StringParser::SkipBlanks() {
@@ -588,6 +633,14 @@ Boolean TimeSpanParse::ProcessTerminal_DHMSF(TimeSpanRawInfo& raw, TimeSpanStand
     }
   }
   if (flag4) {
+    Int64 result2;
+    if (!TryTimeToTicks(flag3, raw._numbers0, raw._numbers1, raw._numbers2, raw._numbers3, raw._numbers4, result2)) {
+      return result.SetOverflowFailure();
+    }
+    if (!flag3) {
+    }
+    result.parsedTimeSpan = TimeSpan(result2);
+    return true;
   }
   return result.SetBadTimeSpanFailure();
 }
@@ -796,6 +849,14 @@ Boolean TimeSpanParse::ProcessTerminal_HM(TimeSpanRawInfo& raw, TimeSpanStandard
   }
   if (flag4) {
     TimeSpanToken timeSpanToken = TimeSpanToken(0);
+    Int64 result2;
+    if (!TryTimeToTicks(flag3, timeSpanToken, raw._numbers0, raw._numbers1, timeSpanToken, timeSpanToken, result2)) {
+      return result.SetOverflowFailure();
+    }
+    if (!flag3) {
+    }
+    result.parsedTimeSpan = TimeSpan(result2);
+    return true;
   }
   return result.SetBadTimeSpanFailure();
 }
@@ -830,6 +891,14 @@ Boolean TimeSpanParse::ProcessTerminal_D(TimeSpanRawInfo& raw, TimeSpanStandardS
   }
   if (flag4) {
     TimeSpanToken timeSpanToken = TimeSpanToken(0);
+    Int64 result2;
+    if (!TryTimeToTicks(flag3, raw._numbers0, timeSpanToken, timeSpanToken, timeSpanToken, timeSpanToken, result2)) {
+      return result.SetOverflowFailure();
+    }
+    if (!flag3) {
+    }
+    result.parsedTimeSpan = TimeSpan(result2);
+    return true;
   }
   return result.SetBadTimeSpanFailure();
 }
@@ -912,6 +981,12 @@ Boolean TimeSpanParse::TryParseByFormat(ReadOnlySpan<Char> input, ReadOnlySpan<C
       case 100:
         {
           returnValue = DateTimeFormat::ParseRepeatPattern(format, i, c);
+          Int32 _;
+          if (returnValue > 8 || flag || !ParseExactDigits(tokenizer, (returnValue < 2) ? 1 : returnValue, (returnValue < 2) ? 8 : returnValue, _, result2)) {
+            return result.SetInvalidStringFailure();
+          }
+          flag = true;
+          break;
         }case 34:
       case 39:
         {
@@ -950,6 +1025,14 @@ Boolean TimeSpanParse::TryParseByFormat(ReadOnlySpan<Char> input, ReadOnlySpan<C
     return result.SetBadTimeSpanFailure();
   }
   Boolean flag6 = (styles & TimeSpanStyles::AssumeNegative) == 0;
+  Int64 result7;
+  if (TryTimeToTicks(flag6, TimeSpanToken(result2), TimeSpanToken(result3), TimeSpanToken(result4), TimeSpanToken(result5), TimeSpanToken(result6, zeroes), result7)) {
+    if (!flag6) {
+    }
+    result.parsedTimeSpan = TimeSpan(result7);
+    return true;
+  }
+  return result.SetOverflowFailure();
 }
 
 Boolean TimeSpanParse::ParseExactDigits(TimeSpanTokenizer& tokenizer, Int32 minDigitLength, Int32& result) {

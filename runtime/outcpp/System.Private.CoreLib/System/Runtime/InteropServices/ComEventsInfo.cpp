@@ -2,6 +2,7 @@
 
 #include <System.Private.CoreLib/System/Runtime/InteropServices/ComEventsInfo-dep.h>
 #include <System.Private.CoreLib/System/Runtime/InteropServices/ComEventsSink-dep.h>
+#include <System.Private.CoreLib/System/Runtime/InteropServices/Marshal-dep.h>
 
 namespace System::Private::CoreLib::System::Runtime::InteropServices::ComEventsInfoNamespace {
 void ComEventsInfo___::ctor(Object rcw) {
@@ -13,12 +14,14 @@ void ComEventsInfo___::Finalize() {
 }
 
 ComEventsInfo ComEventsInfo___::Find(Object rcw) {
+  return (ComEventsInfo)Marshal::GetComObjectData(rcw, rt::typeof<ComEventsInfo>());
 }
 
 ComEventsInfo ComEventsInfo___::FromObject(Object rcw) {
   ComEventsInfo comEventsInfo = Find(rcw);
   if (comEventsInfo == nullptr) {
     comEventsInfo = rt::newobj<ComEventsInfo>(rcw);
+    Marshal::SetComObjectData(rcw, rt::typeof<ComEventsInfo>(), comEventsInfo);
   }
   return comEventsInfo;
 }
