@@ -10,12 +10,13 @@ FORWARDS(Int32)
 FORWARD(InvalidOperationException)
 FORWARDS(UInt32)
 FORWARDS(UInt64)
+FORWARDS(UIntPtr)
 } // namespace System::Private::CoreLib::System
 namespace System::Private::CoreLib::System::Runtime::InteropServices {
 namespace SafeBufferNamespace {
 using namespace Microsoft::Win32::SafeHandles;
 CLASS(SafeBuffer) : public SafeHandleZeroOrMinusOneIsInvalid::in {
-  private: static unsigned int get_Uninitialized();
+  private: static UIntPtr get_Uninitialized();
   public: UInt64 get_ByteLength();
   protected: void ctor(Boolean ownsHandle);
   public: void Initialize(UInt64 numBytes);
@@ -32,14 +33,14 @@ CLASS(SafeBuffer) : public SafeHandleZeroOrMinusOneIsInvalid::in {
   void Write(UInt64 byteOffset, T value);
   public: template <class T>
   void WriteArray(UInt64 byteOffset, Array<T> array, Int32 index, Int32 count);
-  private: void SpaceCheck(Byte* ptr, unsigned int sizeInBytes);
+  private: void SpaceCheck(Byte* ptr, UIntPtr sizeInBytes);
   private: static void NotEnoughRoom();
   private: static InvalidOperationException NotInitialized();
   public: template <class T>
   static UInt32 AlignedSizeOf();
   public: template <class T>
   static UInt32 SizeOf();
-  private: unsigned int _numBytes;
+  private: UIntPtr _numBytes;
 };
 } // namespace SafeBufferNamespace
 using SafeBuffer = SafeBufferNamespace::SafeBuffer;

@@ -10,6 +10,7 @@
 #include <System.Private.CoreLib/System/Text/ASCIIUtility-dep.h>
 #include <System.Private.CoreLib/System/Text/UnicodeUtility-dep.h>
 #include <System.Private.CoreLib/System/UInt16-dep.h>
+#include <System.Private.CoreLib/System/UIntPtr-dep.h>
 
 namespace System::Private::CoreLib::System::Text::Unicode::Utf8UtilityNamespace {
 using namespace Internal::Runtime::CompilerServices;
@@ -178,7 +179,7 @@ void Utf8Utility::WriteFirstUtf16CharAsUtf8ThreeByteSequence(Byte& outputBuffer,
 }
 
 OperationStatus Utf8Utility::TranscodeToUtf16(Byte* pInputBuffer, Int32 inputLength, Char* pOutputBuffer, Int32 outputCharsRemaining, Byte*& pInputBufferRemaining, Char*& pOutputBufferRemaining) {
-  unsigned int num = ASCIIUtility::WidenAsciiToUtf16(pInputBuffer, pOutputBuffer, (UInt32)Math::Min(inputLength, outputCharsRemaining));
+  UIntPtr num = ASCIIUtility::WidenAsciiToUtf16(pInputBuffer, pOutputBuffer, (UInt32)Math::Min(inputLength, outputCharsRemaining));
   pInputBuffer += num;
   pOutputBuffer += num;
   if ((Int32)num == inputLength) {
@@ -196,7 +197,7 @@ OperationStatus Utf8Utility::TranscodeToUtf16(Byte* pInputBuffer, Int32 inputLen
 }
 
 OperationStatus Utf8Utility::TranscodeToUtf8(Char* pInputBuffer, Int32 inputLength, Byte* pOutputBuffer, Int32 outputBytesRemaining, Char*& pInputBufferRemaining, Byte*& pOutputBufferRemaining) {
-  unsigned int num = ASCIIUtility::NarrowUtf16ToAscii(pInputBuffer, pOutputBuffer, (UInt32)Math::Min(inputLength, outputBytesRemaining));
+  UIntPtr num = ASCIIUtility::NarrowUtf16ToAscii(pInputBuffer, pOutputBuffer, (UInt32)Math::Min(inputLength, outputBytesRemaining));
   pInputBuffer += num;
   pOutputBuffer += num;
   if ((Int32)num == inputLength) {
@@ -212,7 +213,7 @@ OperationStatus Utf8Utility::TranscodeToUtf8(Char* pInputBuffer, Int32 inputLeng
 }
 
 Byte* Utf8Utility::GetPointerToFirstInvalidByte(Byte* pInputBuffer, Int32 inputLength, Int32& utf16CodeUnitCountAdjustment, Int32& scalarCountAdjustment) {
-  unsigned int indexOfFirstNonAsciiByte = ASCIIUtility::GetIndexOfFirstNonAsciiByte(pInputBuffer, (UInt32)inputLength);
+  UIntPtr indexOfFirstNonAsciiByte = ASCIIUtility::GetIndexOfFirstNonAsciiByte(pInputBuffer, (UInt32)inputLength);
   pInputBuffer += indexOfFirstNonAsciiByte;
   inputLength -= (Int32)indexOfFirstNonAsciiByte;
   if (inputLength == 0) {
@@ -231,7 +232,7 @@ Byte* Utf8Utility::GetPointerToFirstInvalidByte(Byte* pInputBuffer, Int32 inputL
       }
     }
   }
-  unsigned int num7 = (UInt32)inputLength;
+  UIntPtr num7 = (UInt32)inputLength;
 }
 
 } // namespace System::Private::CoreLib::System::Text::Unicode::Utf8UtilityNamespace

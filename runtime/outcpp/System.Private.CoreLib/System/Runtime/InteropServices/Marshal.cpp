@@ -392,7 +392,7 @@ IntPtr Marshal::UnsafeAddrOfPinnedArrayElement(Array<> arr, Int32 index) {
     rt::throw_exception<ArgumentNullException>("arr");
   }
   void* ptr = Unsafe::AsPointer(RuntimeHelpers::GetRawArrayData(arr));
-  return (IntPtr)(void*)((Byte*)ptr + (unsigned int)((int)(UInt32)index * (int)RuntimeHelpers::GetElementSize(arr)));
+  return (IntPtr)(void*)((Byte*)ptr + (UIntPtr)((IntPtr)(UInt32)index * (IntPtr)RuntimeHelpers::GetElementSize(arr)));
 }
 
 void Marshal::Copy(Array<Int32> source, Int32 startIndex, IntPtr destination, Int32 length) {
@@ -825,28 +825,28 @@ void Marshal::ZeroFreeCoTaskMemAnsi(IntPtr s) {
 
 void Marshal::ZeroFreeCoTaskMemUnicode(IntPtr s) {
   if (!(s == IntPtr::Zero)) {
-    Buffer::ZeroMemory((Byte*)(void*)s, (unsigned int)String::in::wcslen((Char*)(void*)s) * (?)2u);
+    Buffer::ZeroMemory((Byte*)(void*)s, (UIntPtr)String::in::wcslen((Char*)(void*)s) * (?)2u);
     FreeCoTaskMem(s);
   }
 }
 
 void Marshal::ZeroFreeCoTaskMemUTF8(IntPtr s) {
   if (!(s == IntPtr::Zero)) {
-    Buffer::ZeroMemory((Byte*)(void*)s, (unsigned int)String::in::strlen((Byte*)(void*)s));
+    Buffer::ZeroMemory((Byte*)(void*)s, (UIntPtr)String::in::strlen((Byte*)(void*)s));
     FreeCoTaskMem(s);
   }
 }
 
 void Marshal::ZeroFreeGlobalAllocAnsi(IntPtr s) {
   if (!(s == IntPtr::Zero)) {
-    Buffer::ZeroMemory((Byte*)(void*)s, (unsigned int)String::in::strlen((Byte*)(void*)s));
+    Buffer::ZeroMemory((Byte*)(void*)s, (UIntPtr)String::in::strlen((Byte*)(void*)s));
     FreeHGlobal(s);
   }
 }
 
 void Marshal::ZeroFreeGlobalAllocUnicode(IntPtr s) {
   if (!(s == IntPtr::Zero)) {
-    Buffer::ZeroMemory((Byte*)(void*)s, (unsigned int)String::in::wcslen((Char*)(void*)s) * (?)2u);
+    Buffer::ZeroMemory((Byte*)(void*)s, (UIntPtr)String::in::wcslen((Char*)(void*)s) * (?)2u);
     FreeHGlobal(s);
   }
 }

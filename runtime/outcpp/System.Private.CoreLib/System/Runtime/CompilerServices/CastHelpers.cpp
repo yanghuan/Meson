@@ -10,14 +10,13 @@
 #include <System.Private.CoreLib/System/Threading/Volatile-dep.h>
 #include <System.Private.CoreLib/System/UInt32-dep.h>
 #include <System.Private.CoreLib/System/UInt64-dep.h>
-#include <System.Private.CoreLib/System/UIntPtr-dep.h>
 
 namespace System::Private::CoreLib::System::Runtime::CompilerServices::CastHelpersNamespace {
 using namespace Internal::Runtime::CompilerServices;
 using namespace System::Runtime::InteropServices;
 using namespace System::Threading;
 
-Int32 CastHelpers::KeyToBucket(Int32& tableData, unsigned int source, unsigned int target) {
+Int32 CastHelpers::KeyToBucket(Int32& tableData, UIntPtr source, UIntPtr target) {
   Int32 num = HashShift(tableData);
 }
 
@@ -37,17 +36,17 @@ Int32 CastHelpers::TableMask(Int32& tableData) {
   return Unsafe::Add(tableData, 1);
 }
 
-CastHelpers::CastResult CastHelpers::TryGet(unsigned int source, unsigned int target) {
+CastHelpers::CastResult CastHelpers::TryGet(UIntPtr source, UIntPtr target) {
   Int32& tableData = TableData(s_table);
   Int32 num = KeyToBucket(tableData, source, target);
   Int32 num2 = 0;
   while (num2 < 8) {
     CastCacheEntry& reference = Element(tableData, num);
     Int32 num3 = Volatile::Read(reference._version);
-    unsigned int source2 = reference._source;
+    UIntPtr source2 = reference._source;
     num3 &= -2;
     if (source2 == source) {
-      unsigned int targetAndResult = reference._targetAndResult;
+      UIntPtr targetAndResult = reference._targetAndResult;
       targetAndResult ^= target;
       if (targetAndResult <= 1) {
         Interlocked::ReadMemoryBarrier();
@@ -85,11 +84,11 @@ Object CastHelpers::IsInstanceOfInterface(void* toTypeHnd, Object obj) {
   MethodTable* methodTable;
   if (obj != nullptr) {
     methodTable = RuntimeHelpers::GetMethodTable(obj);
-    unsigned int num = methodTable->InterfaceCount;
+    UIntPtr num = methodTable->InterfaceCount;
     if (num == 0) {
     }
     MethodTable* interfaceMap = methodTable->InterfaceMap;
-    unsigned int num2 = 0u;
+    UIntPtr num2 = 0u;
     while (interfaceMap[num2 + 0] != toTypeHnd) {
       if (--num != 0) {
         if (interfaceMap[num2 + 1] == toTypeHnd) {
@@ -182,11 +181,11 @@ Object CastHelpers::ChkCast_Helper(void* toTypeHnd, Object obj) {
 Object CastHelpers::ChkCastInterface(void* toTypeHnd, Object obj) {
   if (obj != nullptr) {
     MethodTable* methodTable = RuntimeHelpers::GetMethodTable(obj);
-    unsigned int num = methodTable->InterfaceCount;
+    UIntPtr num = methodTable->InterfaceCount;
     if (num == 0) {
     }
     MethodTable* interfaceMap = methodTable->InterfaceMap;
-    unsigned int num2 = 0u;
+    UIntPtr num2 = 0u;
     while (interfaceMap[num2 + 0] != toTypeHnd) {
       if (--num != 0) {
         if (interfaceMap[num2 + 1] == toTypeHnd) {

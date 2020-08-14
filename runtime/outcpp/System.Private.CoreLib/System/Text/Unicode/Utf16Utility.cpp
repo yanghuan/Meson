@@ -10,6 +10,7 @@
 #include <System.Private.CoreLib/System/Runtime/Intrinsics/X86/Sse2-dep.h>
 #include <System.Private.CoreLib/System/Text/ASCIIUtility-dep.h>
 #include <System.Private.CoreLib/System/UInt16-dep.h>
+#include <System.Private.CoreLib/System/UIntPtr-dep.h>
 
 namespace System::Private::CoreLib::System::Text::Unicode::Utf16UtilityNamespace {
 using namespace Internal::Runtime::CompilerServices;
@@ -78,9 +79,9 @@ Char* Utf16Utility::GetPointerToFirstInvalidChar(Char* pInputBuffer, Int32 input
       Vector<UInt16> right7 = Vector::GreaterThanOrEqual(left2, right4);
       Vector<UInt16> right8 = Vector::GreaterThanOrEqual(left2, right6);
       Vector<UInt64> vector4 = (Vector<UInt64>)(Vector<UInt16>::get_Zero() - right7 - right8);
-      unsigned int num9 = 0u;
+      UIntPtr num9 = 0u;
       for (Int32 i = 0; i < Vector<UInt64>::get_Count(); i++) {
-        num9 += (unsigned int)(int)vector4[i];
+        num9 += (UIntPtr)(IntPtr)vector4[i];
       }
       UInt32 num10 = (UInt32)num9;
       _ = IntPtr::get_Size();
@@ -107,7 +108,7 @@ Char* Utf16Utility::GetPointerToFirstInvalidChar(Char* pInputBuffer, Int32 input
           inputLength++;
           num10 -= 2;
         }
-        int num13 = num11;
+        IntPtr num13 = num11;
         num3 -= (Int32)num13;
         num2 -= num13;
         num2 -= num13;

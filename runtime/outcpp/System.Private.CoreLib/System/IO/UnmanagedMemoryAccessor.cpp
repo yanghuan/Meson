@@ -14,6 +14,7 @@
 #include <System.Private.CoreLib/System/ObjectDisposedException-dep.h>
 #include <System.Private.CoreLib/System/SR-dep.h>
 #include <System.Private.CoreLib/System/UInt64-dep.h>
+#include <System.Private.CoreLib/System/UIntPtr-dep.h>
 
 namespace System::Private::CoreLib::System::IO::UnmanagedMemoryAccessorNamespace {
 using namespace Internal::Runtime::CompilerServices;
@@ -74,7 +75,7 @@ void UnmanagedMemoryAccessor___::Initialize(SafeBuffer buffer, Int64 offset, Int
   Byte* pointer = nullptr;
   try{
     buffer->AcquirePointer(pointer);
-    if ((unsigned int)((Int64)pointer + offset + capacity) < (unsigned int)pointer) {
+    if ((UIntPtr)((Int64)pointer + offset + capacity) < (UIntPtr)pointer) {
       rt::throw_exception<ArgumentException>(SR::get_Argument_UnmanagedMemAccessorWrapAround());
     }
   } finally: {

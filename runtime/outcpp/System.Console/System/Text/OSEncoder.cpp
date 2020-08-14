@@ -50,7 +50,7 @@ Int32 OSEncoder___::ConvertWithLeftOverChar(Char* chars, Int32 count, Byte* byte
   }
   Int32 num2 = OSEncoding::in::WideCharToMultiByte(_encoding->get_CodePage(), ptr, num + 1, bytes, byteCount);
   if (count - num > 0) {
-    num2 += OSEncoding::in::WideCharToMultiByte(_encoding->get_CodePage(), chars + num, count - num, (Byte*)(int)((bytes == nullptr) ? ((IntPtr)(?)0) : ((IntPtr)(int)(bytes + num2))), (bytes != nullptr) ? (byteCount - num2) : 0);
+    num2 += OSEncoding::in::WideCharToMultiByte(_encoding->get_CodePage(), chars + num, count - num, (Byte*)(IntPtr)((bytes == nullptr) ? ((IntPtr)(?)0) : ((IntPtr)(IntPtr)(bytes + num2))), (bytes != nullptr) ? (byteCount - num2) : 0);
   }
   return num2;
 }

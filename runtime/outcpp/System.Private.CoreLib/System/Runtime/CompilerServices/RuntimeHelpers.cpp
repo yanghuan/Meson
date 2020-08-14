@@ -47,18 +47,18 @@ Byte& RuntimeHelpers::GetRawData(Object obj) {
   return Unsafe::As<RawData>(obj)->Data;
 }
 
-unsigned int RuntimeHelpers::GetRawObjectDataSize(Object obj) {
+UIntPtr RuntimeHelpers::GetRawObjectDataSize(Object obj) {
   MethodTable* methodTable = GetMethodTable(obj);
-  unsigned int num = (unsigned int)methodTable->BaseSize - (unsigned int)(2 * sizeof(IntPtr));
+  UIntPtr num = (UIntPtr)methodTable->BaseSize - (UIntPtr)(2 * sizeof(IntPtr));
   if (methodTable->get_HasComponentSize()) {
-    num += (unsigned int)((int)Unsafe::As<RawArrayData>(obj)->Length * (int)methodTable->ComponentSize);
+    num += (UIntPtr)((IntPtr)Unsafe::As<RawArrayData>(obj)->Length * (IntPtr)methodTable->ComponentSize);
   }
   GC::KeepAlive(obj);
   return num;
 }
 
 Byte& RuntimeHelpers::GetRawArrayData(Array<> array) {
-  return Unsafe::AddByteOffset(Unsafe::As<RawData>(array)->Data, (unsigned int)GetMethodTable(array)->BaseSize - (unsigned int)(2 * sizeof(IntPtr)));
+  return Unsafe::AddByteOffset(Unsafe::As<RawData>(array)->Data, (UIntPtr)GetMethodTable(array)->BaseSize - (UIntPtr)(2 * sizeof(IntPtr)));
 }
 
 UInt16 RuntimeHelpers::GetElementSize(Array<> array) {

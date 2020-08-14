@@ -38,7 +38,7 @@ Int32 SpanHelpers::IndexOf(Byte& searchSpace, Int32 searchSpaceLength, Byte& val
     if (num2 <= 0) {
       break;
     }
-    if (SequenceEqual(Unsafe::Add(searchSpace, num3 + 1), second, (unsigned int)num)) {
+    if (SequenceEqual(Unsafe::Add(searchSpace, num3 + 1), second, (UIntPtr)num)) {
       return num3;
     }
     num2--;
@@ -80,8 +80,8 @@ Int32 SpanHelpers::LastIndexOfAny(Byte& searchSpace, Int32 searchSpaceLength, By
 }
 
 Boolean SpanHelpers::Contains(Byte& searchSpace, Byte value, Int32 length) {
-  unsigned int num = 0u;
-  unsigned int num2 = (UInt32)length;
+  UIntPtr num = 0u;
+  UIntPtr num2 = (UInt32)length;
   if (Vector::get_IsHardwareAccelerated() && length >= Vector<Byte>::get_Count() * 2) {
     num2 = UnalignedCountVector(searchSpace);
   }
@@ -114,8 +114,8 @@ Boolean SpanHelpers::Contains(Byte& searchSpace, Byte value, Int32 length) {
 }
 
 Int32 SpanHelpers::IndexOf(Byte& searchSpace, Byte value, Int32 length) {
-  unsigned int num = 0u;
-  unsigned int num2 = (UInt32)length;
+  UIntPtr num = 0u;
+  UIntPtr num2 = (UInt32)length;
   if (Avx2::in::get_IsSupported() || Sse2::in::get_IsSupported()) {
     if (length >= Vector128<Byte>::get_Count() * 2) {
       num2 = UnalignedCountVector128(searchSpace);
@@ -174,7 +174,7 @@ Int32 SpanHelpers::IndexOf(Byte& searchSpace, Byte value, Int32 length) {
       if (num < (UInt32)length) {
         num2 = GetByteVector128SpanLength(num, length);
         Vector128<Byte> left4 = Vector128::Create(value);
-        for (; num2 > num; num += (unsigned int)Vector128<Byte>::get_Count()) {
+        for (; num2 > num; num += (UIntPtr)Vector128<Byte>::get_Count()) {
           Vector128<Byte> right4 = LoadVector128(searchSpace, num);
           Int32 num6 = Sse2::in::MoveMask(Sse2::in::CompareEqual(left4, right4));
           if (num6 != 0) {
@@ -188,7 +188,7 @@ Int32 SpanHelpers::IndexOf(Byte& searchSpace, Byte value, Int32 length) {
     } else if (Vector::get_IsHardwareAccelerated() && num < (UInt32)length) {
       num2 = GetByteVectorSpanLength(num, length);
       Vector<Byte> left5 = Vector<Byte>(value);
-      for (; num2 > num; num += (unsigned int)Vector<Byte>::get_Count()) {
+      for (; num2 > num; num += (UIntPtr)Vector<Byte>::get_Count()) {
         Vector<Byte> vector = Vector::Equals(left5, LoadVector(searchSpace, num));
         if (!Vector<Byte>::get_Zero().Equals(vector)) {
           return (Int32)num + LocateFirstFoundByte(vector);
@@ -231,8 +231,8 @@ Int32 SpanHelpers::LastIndexOf(Byte& searchSpace, Int32 searchSpaceLength, Byte&
 }
 
 Int32 SpanHelpers::LastIndexOf(Byte& searchSpace, Byte value, Int32 length) {
-  unsigned int num = (UInt32)length;
-  unsigned int num2 = (UInt32)length;
+  UIntPtr num = (UInt32)length;
+  UIntPtr num2 = (UInt32)length;
   if (Vector::get_IsHardwareAccelerated() && length >= Vector<Byte>::get_Count() * 2) {
     num2 = UnalignedCountVectorFromEnd(searchSpace, length);
   }
@@ -287,8 +287,8 @@ Int32 SpanHelpers::LastIndexOf(Byte& searchSpace, Byte value, Int32 length) {
 }
 
 Int32 SpanHelpers::IndexOfAny(Byte& searchSpace, Byte value0, Byte value1, Int32 length) {
-  unsigned int num = 0u;
-  unsigned int num2 = (UInt32)length;
+  UIntPtr num = 0u;
+  UIntPtr num2 = (UInt32)length;
   if (Avx2::in::get_IsSupported() || Sse2::in::get_IsSupported()) {
     if (length >= Vector128<Byte>::get_Count() * 2) {
       num2 = UnalignedCountVector128(searchSpace);
@@ -369,7 +369,7 @@ Int32 SpanHelpers::IndexOfAny(Byte& searchSpace, Byte value0, Byte value1, Int32
           if (num5 != 0) {
             return (Int32)(num + (UInt32)BitOperations::TrailingZeroCount(num5));
           }
-          num += (unsigned int)Vector128<Byte>::get_Count();
+          num += (UIntPtr)Vector128<Byte>::get_Count();
         }
         if (num < (UInt32)length) {
           num2 = (UInt32)length - num;
@@ -380,7 +380,7 @@ Int32 SpanHelpers::IndexOfAny(Byte& searchSpace, Byte value0, Byte value1, Int32
         num2 = GetByteVector128SpanLength(num, length);
         Vector128<Byte> left5 = Vector128::Create(value0);
         Vector128<Byte> left6 = Vector128::Create(value1);
-        for (; num2 > num; num += (unsigned int)Vector128<Byte>::get_Count()) {
+        for (; num2 > num; num += (UIntPtr)Vector128<Byte>::get_Count()) {
           Vector128<Byte> right3 = LoadVector128(searchSpace, num);
           Int32 num6 = Sse2::in::MoveMask(Sse2::in::Or(Sse2::in::CompareEqual(left5, right3), Sse2::in::CompareEqual(left6, right3)));
           if (num6 != 0) {
@@ -395,7 +395,7 @@ Int32 SpanHelpers::IndexOfAny(Byte& searchSpace, Byte value0, Byte value1, Int32
       num2 = GetByteVectorSpanLength(num, length);
       Vector<Byte> right4 = Vector<Byte>(value0);
       Vector<Byte> right5 = Vector<Byte>(value1);
-      for (; num2 > num; num += (unsigned int)Vector<Byte>::get_Count()) {
+      for (; num2 > num; num += (UIntPtr)Vector<Byte>::get_Count()) {
         Vector<Byte> left7 = LoadVector(searchSpace, num);
         Vector<Byte> vector = Vector::BitwiseOr(Vector::Equals(left7, right4), Vector::Equals(left7, right5));
         if (!Vector<Byte>::get_Zero().Equals(vector)) {
@@ -414,8 +414,8 @@ Int32 SpanHelpers::IndexOfAny(Byte& searchSpace, Byte value0, Byte value1, Int32
 }
 
 Int32 SpanHelpers::IndexOfAny(Byte& searchSpace, Byte value0, Byte value1, Byte value2, Int32 length) {
-  unsigned int num = 0u;
-  unsigned int num2 = (UInt32)length;
+  UIntPtr num = 0u;
+  UIntPtr num2 = (UInt32)length;
   if (Avx2::in::get_IsSupported() || Sse2::in::get_IsSupported()) {
     if (length >= Vector128<Byte>::get_Count() * 2) {
       num2 = UnalignedCountVector128(searchSpace);
@@ -501,7 +501,7 @@ Int32 SpanHelpers::IndexOfAny(Byte& searchSpace, Byte value0, Byte value1, Byte 
           if (num5 != 0) {
             return (Int32)(num + (UInt32)BitOperations::TrailingZeroCount(num5));
           }
-          num += (unsigned int)Vector128<Byte>::get_Count();
+          num += (UIntPtr)Vector128<Byte>::get_Count();
         }
         if (num < (UInt32)length) {
           num2 = (UInt32)length - num;
@@ -513,7 +513,7 @@ Int32 SpanHelpers::IndexOfAny(Byte& searchSpace, Byte value0, Byte value1, Byte 
         Vector128<Byte> left9 = Vector128::Create(value0);
         Vector128<Byte> left10 = Vector128::Create(value1);
         Vector128<Byte> left11 = Vector128::Create(value2);
-        for (; num2 > num; num += (unsigned int)Vector128<Byte>::get_Count()) {
+        for (; num2 > num; num += (UIntPtr)Vector128<Byte>::get_Count()) {
           Vector128<Byte> right7 = LoadVector128(searchSpace, num);
           Vector128<Byte> left12 = Sse2::in::CompareEqual(left9, right7);
           Vector128<Byte> right8 = Sse2::in::CompareEqual(left10, right7);
@@ -532,7 +532,7 @@ Int32 SpanHelpers::IndexOfAny(Byte& searchSpace, Byte value0, Byte value1, Byte 
       Vector<Byte> right10 = Vector<Byte>(value0);
       Vector<Byte> right11 = Vector<Byte>(value1);
       Vector<Byte> right12 = Vector<Byte>(value2);
-      for (; num2 > num; num += (unsigned int)Vector<Byte>::get_Count()) {
+      for (; num2 > num; num += (UIntPtr)Vector<Byte>::get_Count()) {
         Vector<Byte> left13 = LoadVector(searchSpace, num);
         Vector<Byte> vector = Vector::BitwiseOr(Vector::BitwiseOr(Vector::Equals(left13, right10), Vector::Equals(left13, right11)), Vector::Equals(left13, right12));
         if (!Vector<Byte>::get_Zero().Equals(vector)) {
@@ -551,8 +551,8 @@ Int32 SpanHelpers::IndexOfAny(Byte& searchSpace, Byte value0, Byte value1, Byte 
 }
 
 Int32 SpanHelpers::LastIndexOfAny(Byte& searchSpace, Byte value0, Byte value1, Int32 length) {
-  unsigned int num = (UInt32)length;
-  unsigned int num2 = (UInt32)length;
+  UIntPtr num = (UInt32)length;
+  UIntPtr num2 = (UInt32)length;
   if (Vector::get_IsHardwareAccelerated() && length >= Vector<Byte>::get_Count() * 2) {
     num2 = UnalignedCountVectorFromEnd(searchSpace, length);
   }
@@ -620,8 +620,8 @@ Int32 SpanHelpers::LastIndexOfAny(Byte& searchSpace, Byte value0, Byte value1, I
 }
 
 Int32 SpanHelpers::LastIndexOfAny(Byte& searchSpace, Byte value0, Byte value1, Byte value2, Int32 length) {
-  unsigned int num = (UInt32)length;
-  unsigned int num2 = (UInt32)length;
+  UIntPtr num = (UInt32)length;
+  UIntPtr num2 = (UInt32)length;
   if (Vector::get_IsHardwareAccelerated() && length >= Vector<Byte>::get_Count() * 2) {
     num2 = UnalignedCountVectorFromEnd(searchSpace, length);
   }
@@ -688,27 +688,27 @@ Int32 SpanHelpers::LastIndexOfAny(Byte& searchSpace, Byte value0, Byte value1, B
   return (Int32)(num + 7);
 }
 
-Boolean SpanHelpers::SequenceEqual(Byte& first, Byte& second, unsigned int length) {
-  if (length < (unsigned int)sizeof(UIntPtr)) {
+Boolean SpanHelpers::SequenceEqual(Byte& first, Byte& second, UIntPtr length) {
+  if (length < (UIntPtr)sizeof(UIntPtr)) {
     if (length < 4) {
       UInt32 num = 0u;
     }
-    unsigned int offset = length - 4;
+    UIntPtr offset = length - 4;
     UInt32 num3 = LoadUInt(first) - LoadUInt(second);
     num3 |= LoadUInt(first, offset) - LoadUInt(second, offset);
     return num3 == 0;
   }
   if (Unsafe::AreSame(first, second)) {
   }
-  unsigned int num5;
-  unsigned int num7;
-  unsigned int num9;
+  UIntPtr num5;
+  UIntPtr num7;
+  UIntPtr num9;
   Vector256<Byte> value;
   Vector128<Byte> value2;
   if (Sse2::in::get_IsSupported()) {
-    if (Avx2::in::get_IsSupported() && length >= (unsigned int)Vector256<Byte>::get_Count()) {
-      unsigned int num4 = 0u;
-      num5 = length - (unsigned int)Vector256<Byte>::get_Count();
+    if (Avx2::in::get_IsSupported() && length >= (UIntPtr)Vector256<Byte>::get_Count()) {
+      UIntPtr num4 = 0u;
+      num5 = length - (UIntPtr)Vector256<Byte>::get_Count();
       if (num5 == 0) {
       }
       while (true) {
@@ -716,14 +716,14 @@ Boolean SpanHelpers::SequenceEqual(Byte& first, Byte& second, unsigned int lengt
         if (Avx2::in::MoveMask(value) != -1) {
           break;
         }
-        num4 += (unsigned int)Vector256<Byte>::get_Count();
+        num4 += (UIntPtr)Vector256<Byte>::get_Count();
         if (num5 > num4) {
         }
       }
     } else {
       if (length < 16) {
       }
-      unsigned int num6 = 0u;
+      UIntPtr num6 = 0u;
       num7 = length - 16;
       if (num7 == 0) {
       }
@@ -738,14 +738,14 @@ Boolean SpanHelpers::SequenceEqual(Byte& first, Byte& second, unsigned int lengt
       }
     }
   } else {
-    if (!Vector::get_IsHardwareAccelerated() || length < (unsigned int)Vector<Byte>::get_Count()) {
+    if (!Vector::get_IsHardwareAccelerated() || length < (UIntPtr)Vector<Byte>::get_Count()) {
     }
-    unsigned int num8 = 0u;
-    num9 = length - (unsigned int)Vector<Byte>::get_Count();
+    UIntPtr num8 = 0u;
+    num9 = length - (UIntPtr)Vector<Byte>::get_Count();
     if (num9 == 0) {
     }
     while (!(LoadVector(first, num8) != LoadVector(second, num8))) {
-      num8 += (unsigned int)Vector<Byte>::get_Count();
+      num8 += (UIntPtr)Vector<Byte>::get_Count();
       if (num9 > num8) {
       }
     }
@@ -766,24 +766,24 @@ Int32 SpanHelpers::LocateFirstFoundByte(Vector<Byte> match) {
 }
 
 Int32 SpanHelpers::SequenceCompareTo(Byte& first, Int32 firstLength, Byte& second, Int32 secondLength) {
-  unsigned int num;
+  UIntPtr num;
   UInt32 num6;
-  unsigned int num3;
-  unsigned int num2;
+  UIntPtr num3;
+  UIntPtr num2;
   if (!Unsafe::AreSame(first, second)) {
     num = (UInt32)(((UInt32)firstLength < (UInt32)secondLength) ? firstLength : secondLength);
     num2 = 0u;
     num3 = num;
     if (!Avx2::in::get_IsSupported()) {
       if (Sse2::in::get_IsSupported()) {
-        if (num3 >= (unsigned int)Vector128<Byte>::get_Count()) {
-          num3 -= (unsigned int)Vector128<Byte>::get_Count();
+        if (num3 >= (UIntPtr)Vector128<Byte>::get_Count()) {
+          num3 -= (UIntPtr)Vector128<Byte>::get_Count();
           while (true) {
             UInt32 num4;
             if (num3 > num2) {
               num4 = (UInt32)Sse2::in::MoveMask(Sse2::in::CompareEqual(LoadVector128(first, num2), LoadVector128(second, num2)));
               if (num4 == 65535) {
-                num2 += (unsigned int)Vector128<Byte>::get_Count();
+                num2 += (UIntPtr)Vector128<Byte>::get_Count();
               }
             } else {
               num2 = num3;
@@ -797,20 +797,20 @@ Int32 SpanHelpers::SequenceCompareTo(Byte& first, Int32 firstLength, Byte& secon
             return Unsafe::AddByteOffset(first, num2).CompareTo(Unsafe::AddByteOffset(second, num2));
           }
         }
-      } else if (Vector::get_IsHardwareAccelerated() && num3 > (unsigned int)Vector<Byte>::get_Count()) {
-        for (num3 -= (unsigned int)Vector<Byte>::get_Count(); num3 > num2 && !(LoadVector(first, num2) != LoadVector(second, num2)); num2 += (unsigned int)Vector<Byte>::get_Count()) {
+      } else if (Vector::get_IsHardwareAccelerated() && num3 > (UIntPtr)Vector<Byte>::get_Count()) {
+        for (num3 -= (UIntPtr)Vector<Byte>::get_Count(); num3 > num2 && !(LoadVector(first, num2) != LoadVector(second, num2)); num2 += (UIntPtr)Vector<Byte>::get_Count()) {
         }
       }
 
     }
-    if (num3 >= (unsigned int)Vector256<Byte>::get_Count()) {
-      num3 -= (unsigned int)Vector256<Byte>::get_Count();
+    if (num3 >= (UIntPtr)Vector256<Byte>::get_Count()) {
+      num3 -= (UIntPtr)Vector256<Byte>::get_Count();
       while (true) {
         UInt32 num5;
         if (num3 > num2) {
           num5 = (UInt32)Avx2::in::MoveMask(Avx2::in::CompareEqual(LoadVector256(first, num2), LoadVector256(second, num2)));
           if (num5 == UInt32::MaxValue) {
-            num2 += (unsigned int)Vector256<Byte>::get_Count();
+            num2 += (UIntPtr)Vector256<Byte>::get_Count();
           }
         } else {
           num2 = num3;
@@ -824,9 +824,9 @@ Int32 SpanHelpers::SequenceCompareTo(Byte& first, Int32 firstLength, Byte& secon
         return Unsafe::AddByteOffset(first, num2).CompareTo(Unsafe::AddByteOffset(second, num2));
       }
     } else {
-      if (num3 < (unsigned int)Vector128<Byte>::get_Count()) {
+      if (num3 < (UIntPtr)Vector128<Byte>::get_Count()) {
       }
-      num3 -= (unsigned int)Vector128<Byte>::get_Count();
+      num3 -= (UIntPtr)Vector128<Byte>::get_Count();
       if (num3 > num2) {
         num6 = (UInt32)Sse2::in::MoveMask(Sse2::in::CompareEqual(LoadVector128(first, num2), LoadVector128(second, num2)));
         if (num6 != 65535) {
@@ -869,46 +869,46 @@ UInt32 SpanHelpers::LoadUInt(Byte& start) {
   return Unsafe::ReadUnaligned<UInt32>(start);
 }
 
-UInt32 SpanHelpers::LoadUInt(Byte& start, unsigned int offset) {
+UInt32 SpanHelpers::LoadUInt(Byte& start, UIntPtr offset) {
   return Unsafe::ReadUnaligned<UInt32>(Unsafe::AddByteOffset(start, offset));
 }
 
-unsigned int SpanHelpers::LoadNUInt(Byte& start) {
+UIntPtr SpanHelpers::LoadNUInt(Byte& start) {
   return Unsafe::ReadUnaligned<UIntPtr>(start);
 }
 
-unsigned int SpanHelpers::LoadNUInt(Byte& start, unsigned int offset) {
+UIntPtr SpanHelpers::LoadNUInt(Byte& start, UIntPtr offset) {
   return Unsafe::ReadUnaligned<UIntPtr>(Unsafe::AddByteOffset(start, offset));
 }
 
-Vector<Byte> SpanHelpers::LoadVector(Byte& start, unsigned int offset) {
+Vector<Byte> SpanHelpers::LoadVector(Byte& start, UIntPtr offset) {
   return Unsafe::ReadUnaligned<Vector<Byte>>(Unsafe::AddByteOffset(start, offset));
 }
 
-Vector128<Byte> SpanHelpers::LoadVector128(Byte& start, unsigned int offset) {
+Vector128<Byte> SpanHelpers::LoadVector128(Byte& start, UIntPtr offset) {
   return Unsafe::ReadUnaligned<Vector128<Byte>>(Unsafe::AddByteOffset(start, offset));
 }
 
-Vector256<Byte> SpanHelpers::LoadVector256(Byte& start, unsigned int offset) {
+Vector256<Byte> SpanHelpers::LoadVector256(Byte& start, UIntPtr offset) {
   return Unsafe::ReadUnaligned<Vector256<Byte>>(Unsafe::AddByteOffset(start, offset));
 }
 
-unsigned int SpanHelpers::GetByteVectorSpanLength(unsigned int offset, Int32 length) {
+UIntPtr SpanHelpers::GetByteVectorSpanLength(UIntPtr offset, Int32 length) {
 }
 
-unsigned int SpanHelpers::GetByteVector128SpanLength(unsigned int offset, Int32 length) {
+UIntPtr SpanHelpers::GetByteVector128SpanLength(UIntPtr offset, Int32 length) {
 }
 
-unsigned int SpanHelpers::GetByteVector256SpanLength(unsigned int offset, Int32 length) {
+UIntPtr SpanHelpers::GetByteVector256SpanLength(UIntPtr offset, Int32 length) {
 }
 
-unsigned int SpanHelpers::UnalignedCountVector(Byte& searchSpace) {
+UIntPtr SpanHelpers::UnalignedCountVector(Byte& searchSpace) {
 }
 
-unsigned int SpanHelpers::UnalignedCountVector128(Byte& searchSpace) {
+UIntPtr SpanHelpers::UnalignedCountVector128(Byte& searchSpace) {
 }
 
-unsigned int SpanHelpers::UnalignedCountVectorFromEnd(Byte& searchSpace, Int32 length) {
+UIntPtr SpanHelpers::UnalignedCountVectorFromEnd(Byte& searchSpace, Int32 length) {
 }
 
 Int32 SpanHelpers::IndexOf(Char& searchSpace, Int32 searchSpaceLength, Char& value, Int32 valueLength) {
@@ -930,7 +930,7 @@ Int32 SpanHelpers::IndexOf(Char& searchSpace, Int32 searchSpaceLength, Char& val
     if (num2 <= 0) {
       break;
     }
-    if (SequenceEqual(Unsafe::As<Char, Byte>(Unsafe::Add(searchSpace, num3 + 1)), Unsafe::As<Char, Byte>(source), (unsigned int)(UInt32)num * (?)2u)) {
+    if (SequenceEqual(Unsafe::As<Char, Byte>(Unsafe::Add(searchSpace, num3 + 1)), Unsafe::As<Char, Byte>(source), (UIntPtr)(UInt32)num * (?)2u)) {
       return num3;
     }
     num2--;
@@ -942,26 +942,26 @@ Int32 SpanHelpers::IndexOf(Char& searchSpace, Int32 searchSpaceLength, Char& val
 Int32 SpanHelpers::SequenceCompareTo(Char& first, Int32 firstLength, Char& second, Int32 secondLength) {
   Int32 result = firstLength - secondLength;
   if (!Unsafe::AreSame(first, second)) {
-    unsigned int num = (UInt32)(((UInt32)firstLength < (UInt32)secondLength) ? firstLength : secondLength);
-    unsigned int num2 = 0u;
-    if (num >= (unsigned int)(sizeof(UIntPtr) / 2)) {
-      if (Vector::get_IsHardwareAccelerated() && num >= (unsigned int)Vector<UInt16>::get_Count()) {
-        unsigned int num3 = num - (unsigned int)Vector<UInt16>::get_Count();
-        while (!(Unsafe::ReadUnaligned<Vector<UInt16>>(Unsafe::As<Char, Byte>(Unsafe::Add(first, (int)num2))) != Unsafe::ReadUnaligned<Vector<UInt16>>(Unsafe::As<Char, Byte>(Unsafe::Add(second, (int)num2))))) {
-          num2 += (unsigned int)Vector<UInt16>::get_Count();
+    UIntPtr num = (UInt32)(((UInt32)firstLength < (UInt32)secondLength) ? firstLength : secondLength);
+    UIntPtr num2 = 0u;
+    if (num >= (UIntPtr)(sizeof(UIntPtr) / 2)) {
+      if (Vector::get_IsHardwareAccelerated() && num >= (UIntPtr)Vector<UInt16>::get_Count()) {
+        UIntPtr num3 = num - (UIntPtr)Vector<UInt16>::get_Count();
+        while (!(Unsafe::ReadUnaligned<Vector<UInt16>>(Unsafe::As<Char, Byte>(Unsafe::Add(first, (IntPtr)num2))) != Unsafe::ReadUnaligned<Vector<UInt16>>(Unsafe::As<Char, Byte>(Unsafe::Add(second, (IntPtr)num2))))) {
+          num2 += (UIntPtr)Vector<UInt16>::get_Count();
           if (num3 < num2) {
             break;
           }
         }
       }
-      for (; num >= (unsigned int)((int)num2 + (int)(sizeof(UIntPtr) / 2)) && Unsafe::ReadUnaligned<UIntPtr>(Unsafe::As<Char, Byte>(Unsafe::Add(first, (int)num2))) == Unsafe::ReadUnaligned<UIntPtr>(Unsafe::As<Char, Byte>(Unsafe::Add(second, (int)num2))); num2 += (unsigned int)(sizeof(UIntPtr) / 2)) {
+      for (; num >= (UIntPtr)((IntPtr)num2 + (IntPtr)(sizeof(UIntPtr) / 2)) && Unsafe::ReadUnaligned<UIntPtr>(Unsafe::As<Char, Byte>(Unsafe::Add(first, (IntPtr)num2))) == Unsafe::ReadUnaligned<UIntPtr>(Unsafe::As<Char, Byte>(Unsafe::Add(second, (IntPtr)num2))); num2 += (UIntPtr)(sizeof(UIntPtr) / 2)) {
       }
     }
-    if (num >= num2 + 2 && Unsafe::ReadUnaligned<Int32>(Unsafe::As<Char, Byte>(Unsafe::Add(first, (int)num2))) == Unsafe::ReadUnaligned<Int32>(Unsafe::As<Char, Byte>(Unsafe::Add(second, (int)num2)))) {
+    if (num >= num2 + 2 && Unsafe::ReadUnaligned<Int32>(Unsafe::As<Char, Byte>(Unsafe::Add(first, (IntPtr)num2))) == Unsafe::ReadUnaligned<Int32>(Unsafe::As<Char, Byte>(Unsafe::Add(second, (IntPtr)num2)))) {
       num2 += 2;
     }
     for (; num2 < num; num2++) {
-      Int32 num4 = Unsafe::Add(first, (int)num2).CompareTo(Unsafe::Add(second, (int)num2));
+      Int32 num4 = Unsafe::Add(first, (IntPtr)num2).CompareTo(Unsafe::Add(second, (IntPtr)num2));
       if (num4 != 0) {
         return num4;
       }
@@ -1000,8 +1000,8 @@ Boolean SpanHelpers::Contains(Char& searchSpace, Char value, Int32 length) {
 }
 
 Int32 SpanHelpers::IndexOf(Char& searchSpace, Char value, Int32 length) {
-  int num = 0;
-  int num2 = length;
+  IntPtr num = 0;
+  IntPtr num2 = length;
 }
 
 Int32 SpanHelpers::IndexOfAny(Char& searchSpace, Char value0, Char value1, Int32 length) {
@@ -1231,34 +1231,34 @@ Int32 SpanHelpers::LocateLastFoundChar(UInt64 match) {
   return BitOperations::Log2(match) >> 4;
 }
 
-Vector<UInt16> SpanHelpers::LoadVector(Char& start, int offset) {
+Vector<UInt16> SpanHelpers::LoadVector(Char& start, IntPtr offset) {
   return Unsafe::ReadUnaligned<Vector<UInt16>>(Unsafe::As<Char, Byte>(Unsafe::Add(start, offset)));
 }
 
-Vector128<UInt16> SpanHelpers::LoadVector128(Char& start, int offset) {
+Vector128<UInt16> SpanHelpers::LoadVector128(Char& start, IntPtr offset) {
   return Unsafe::ReadUnaligned<Vector128<UInt16>>(Unsafe::As<Char, Byte>(Unsafe::Add(start, offset)));
 }
 
-Vector256<UInt16> SpanHelpers::LoadVector256(Char& start, int offset) {
+Vector256<UInt16> SpanHelpers::LoadVector256(Char& start, IntPtr offset) {
   return Unsafe::ReadUnaligned<Vector256<UInt16>>(Unsafe::As<Char, Byte>(Unsafe::Add(start, offset)));
 }
 
-int SpanHelpers::GetCharVectorSpanLength(int offset, int length) {
+IntPtr SpanHelpers::GetCharVectorSpanLength(IntPtr offset, IntPtr length) {
 }
 
-int SpanHelpers::GetCharVector128SpanLength(int offset, int length) {
+IntPtr SpanHelpers::GetCharVector128SpanLength(IntPtr offset, IntPtr length) {
 }
 
-int SpanHelpers::GetCharVector256SpanLength(int offset, int length) {
+IntPtr SpanHelpers::GetCharVector256SpanLength(IntPtr offset, IntPtr length) {
 }
 
-int SpanHelpers::UnalignedCountVector(Char& searchSpace) {
+IntPtr SpanHelpers::UnalignedCountVector(Char& searchSpace) {
 }
 
-int SpanHelpers::UnalignedCountVector128(Char& searchSpace) {
+IntPtr SpanHelpers::UnalignedCountVector128(Char& searchSpace) {
 }
 
-void SpanHelpers::ClearWithoutReferences(Byte& b, unsigned int byteLength) {
+void SpanHelpers::ClearWithoutReferences(Byte& b, UIntPtr byteLength) {
   if (byteLength != 0) {
     if (byteLength <= 768) {
       Unsafe::InitBlockUnaligned(b, 0, (UInt32)byteLength);
@@ -1268,16 +1268,16 @@ void SpanHelpers::ClearWithoutReferences(Byte& b, unsigned int byteLength) {
   }
 }
 
-void SpanHelpers::ClearWithReferences(IntPtr& ip, unsigned int pointerSizeLength) {
+void SpanHelpers::ClearWithReferences(IntPtr& ip, UIntPtr pointerSizeLength) {
   while (pointerSizeLength >= 8) {
-    Unsafe::Add(Unsafe::Add(ip, (int)pointerSizeLength), -1) = IntPtr();
-    Unsafe::Add(Unsafe::Add(ip, (int)pointerSizeLength), -2) = IntPtr();
-    Unsafe::Add(Unsafe::Add(ip, (int)pointerSizeLength), -3) = IntPtr();
-    Unsafe::Add(Unsafe::Add(ip, (int)pointerSizeLength), -4) = IntPtr();
-    Unsafe::Add(Unsafe::Add(ip, (int)pointerSizeLength), -5) = IntPtr();
-    Unsafe::Add(Unsafe::Add(ip, (int)pointerSizeLength), -6) = IntPtr();
-    Unsafe::Add(Unsafe::Add(ip, (int)pointerSizeLength), -7) = IntPtr();
-    Unsafe::Add(Unsafe::Add(ip, (int)pointerSizeLength), -8) = IntPtr();
+    Unsafe::Add(Unsafe::Add(ip, (IntPtr)pointerSizeLength), -1) = IntPtr();
+    Unsafe::Add(Unsafe::Add(ip, (IntPtr)pointerSizeLength), -2) = IntPtr();
+    Unsafe::Add(Unsafe::Add(ip, (IntPtr)pointerSizeLength), -3) = IntPtr();
+    Unsafe::Add(Unsafe::Add(ip, (IntPtr)pointerSizeLength), -4) = IntPtr();
+    Unsafe::Add(Unsafe::Add(ip, (IntPtr)pointerSizeLength), -5) = IntPtr();
+    Unsafe::Add(Unsafe::Add(ip, (IntPtr)pointerSizeLength), -6) = IntPtr();
+    Unsafe::Add(Unsafe::Add(ip, (IntPtr)pointerSizeLength), -7) = IntPtr();
+    Unsafe::Add(Unsafe::Add(ip, (IntPtr)pointerSizeLength), -8) = IntPtr();
     pointerSizeLength -= 8;
   }
   if (pointerSizeLength < 4) {
@@ -1289,11 +1289,11 @@ void SpanHelpers::ClearWithReferences(IntPtr& ip, unsigned int pointerSizeLength
   } else {
     Unsafe::Add(ip, 2) = IntPtr();
     Unsafe::Add(ip, 3) = IntPtr();
-    Unsafe::Add(Unsafe::Add(ip, (int)pointerSizeLength), -3) = IntPtr();
-    Unsafe::Add(Unsafe::Add(ip, (int)pointerSizeLength), -2) = IntPtr();
+    Unsafe::Add(Unsafe::Add(ip, (IntPtr)pointerSizeLength), -3) = IntPtr();
+    Unsafe::Add(Unsafe::Add(ip, (IntPtr)pointerSizeLength), -2) = IntPtr();
   }
   Unsafe::Add(ip, 1) = IntPtr();
-  Unsafe::Add(Unsafe::Add(ip, (int)pointerSizeLength), -1) = IntPtr();
+  Unsafe::Add(Unsafe::Add(ip, (IntPtr)pointerSizeLength), -1) = IntPtr();
 }
 
 } // namespace System::Private::CoreLib::System::SpanHelpersNamespace

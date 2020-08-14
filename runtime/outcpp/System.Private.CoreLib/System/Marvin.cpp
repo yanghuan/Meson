@@ -10,6 +10,7 @@
 #include <System.Private.CoreLib/System/Span-dep.h>
 #include <System.Private.CoreLib/System/Text/Unicode/Utf16Utility-dep.h>
 #include <System.Private.CoreLib/System/UInt32-dep.h>
+#include <System.Private.CoreLib/System/UIntPtr-dep.h>
 
 namespace System::Private::CoreLib::System::MarvinNamespace {
 using namespace Internal::Runtime::CompilerServices;
@@ -62,7 +63,7 @@ UInt64 Marvin::GenerateSeed() {
 
 Int32 Marvin::ComputeHash32OrdinalIgnoreCase(Char& data, Int32 count, UInt32 p0, UInt32 p1) {
   UInt32 num = (UInt32)count;
-  unsigned int num2 = 0u;
+  UIntPtr num2 = 0u;
   while (true) {
     if (num >= 2) {
       UInt32 value = Unsafe::ReadUnaligned<UInt32>(Unsafe::As<Char, Byte>(Unsafe::AddByteOffset(data, num2)));

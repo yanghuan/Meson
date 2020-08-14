@@ -20,7 +20,7 @@ void SymWrapperCore___::SymWriter___::ctor() {
 }
 
 void SymWrapperCore___::SymWriter___::InternalSetUnderlyingWriter(IntPtr ppUnderlyingWriter) {
-  m_pWriter = (ISymUnmanagedWriter*)(int)(*(IntPtr*)(void*)ppUnderlyingWriter);
+  m_pWriter = (ISymUnmanagedWriter*)(IntPtr)(*(IntPtr*)(void*)ppUnderlyingWriter);
 }
 
 } // namespace System::Private::CoreLib::System::Reflection::Emit::SymWrapperCoreNamespace

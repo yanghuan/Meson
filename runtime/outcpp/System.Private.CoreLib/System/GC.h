@@ -69,7 +69,7 @@ class GC {
   private: static void _ReRegisterForFinalize(Object o);
   public: static void ReRegisterForFinalize(Object obj);
   public: static Int64 GetTotalMemory(Boolean forceFullCollection);
-  private: static IntPtr _RegisterFrozenSegment(IntPtr sectionAddress, int sectionSize);
+  private: static IntPtr _RegisterFrozenSegment(IntPtr sectionAddress, IntPtr sectionSize);
   private: static void _UnregisterFrozenSegment(IntPtr segmentHandle);
   public: static Int64 GetAllocatedBytesForCurrentThread();
   public: static Int64 GetTotalAllocatedBytes(Boolean precise);

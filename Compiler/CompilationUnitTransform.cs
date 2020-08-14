@@ -290,10 +290,12 @@ namespace Meson.Compiler {
             return new RefExpressionSyntax(elementType);
           }
         case TypeKind.NInt: {
-            return IdentifierSyntax.NInt;
+            args.Type = Generator.IntPtrTypeDefinition;
+            break;
           }
         case TypeKind.NUInt: {
-            return IdentifierSyntax.NUInt;
+            args.Type = Generator.UIntPtrTypeDefinition;
+            break;
           }
       }
 

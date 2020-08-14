@@ -22,6 +22,8 @@ namespace Meson.Compiler {
     private readonly Dictionary<ISymbol, SymbolNameSyntax> memberNames_ = new Dictionary<ISymbol, SymbolNameSyntax>();
     private Dictionary<string, HashSet<ITypeDefinition>> namespaceTypes_;
     private static readonly DecompilerSettings decompilerSettings_ = new DecompilerSettings(LanguageVersion.Latest);
+    public ITypeDefinition IntPtrTypeDefinition { get; private set; }
+    public ITypeDefinition UIntPtrTypeDefinition { get; private set; }
 
     public SyntaxGenerator(Options options) {
       Options = options;
@@ -58,8 +60,23 @@ namespace Meson.Compiler {
       return assemblyTransforms.SelectMany(i => i.GetCompilationUnits());
     }
 
+    private bool TopLevelTypeFilter(ITypeDefinition type) {
+      if (type.Name.StartsWith('<')) {
+        return false;
+      }
+      switch (type.KnownTypeCode) {
+        case KnownTypeCode.IntPtr:
+          IntPtrTypeDefinition = type;
+          break;
+        case KnownTypeCode.UIntPtr:
+          UIntPtrTypeDefinition = type;
+          break;
+      }
+      return true;
+    }
+
     private void CheckSameNameTypes(IEnumerable<IModule> modules) {
-      var types = modules.SelectMany(i => i.TopLevelTypeDefinitions.Where(i => !i.Name.StartsWith('<')));
+      var types = modules.SelectMany(i => i.TopLevelTypeDefinitions.Where(TopLevelTypeFilter));
       namespaceTypes_ = types.GroupBy(i => i.GetFullNamespace()).ToDictionary(i => i.Key, i => new HashSet<ITypeDefinition>(i, TypeDefinitionEqualityComparer.Default));
     }
 

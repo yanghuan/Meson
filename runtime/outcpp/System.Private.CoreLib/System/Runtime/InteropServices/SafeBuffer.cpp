@@ -4,10 +4,9 @@
 #include <System.Private.CoreLib/System/ArgumentOutOfRangeException-dep.h>
 #include <System.Private.CoreLib/System/IntPtr-dep.h>
 #include <System.Private.CoreLib/System/SR-dep.h>
-#include <System.Private.CoreLib/System/UIntPtr-dep.h>
 
 namespace System::Private::CoreLib::System::Runtime::InteropServices::SafeBufferNamespace {
-unsigned int SafeBuffer___::get_Uninitialized() {
+UIntPtr SafeBuffer___::get_Uninitialized() {
   return UIntPtr::get_MaxValue();
 }
 
@@ -28,7 +27,7 @@ void SafeBuffer___::Initialize(UInt64 numBytes) {
   if (numBytes >= get_Uninitialized()) {
     rt::throw_exception<ArgumentOutOfRangeException>("numBytes", SR::get_ArgumentOutOfRange_UIntPtrMax());
   }
-  _numBytes = (unsigned int)numBytes;
+  _numBytes = (UIntPtr)numBytes;
 }
 
 void SafeBuffer___::Initialize(UInt32 numElements, UInt32 sizeOfEachElement) {
@@ -52,7 +51,7 @@ void SafeBuffer___::ReleasePointer() {
   DangerousRelease();
 }
 
-void SafeBuffer___::SpaceCheck(Byte* ptr, unsigned int sizeInBytes) {
+void SafeBuffer___::SpaceCheck(Byte* ptr, UIntPtr sizeInBytes) {
   if (_numBytes < sizeInBytes) {
     NotEnoughRoom();
   }

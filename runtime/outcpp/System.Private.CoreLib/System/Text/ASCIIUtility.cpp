@@ -13,7 +13,6 @@
 #include <System.Private.CoreLib/System/Runtime/Intrinsics/X86/Sse41-dep.h>
 #include <System.Private.CoreLib/System/SByte-dep.h>
 #include <System.Private.CoreLib/System/UInt16-dep.h>
-#include <System.Private.CoreLib/System/UIntPtr-dep.h>
 
 namespace System::Private::CoreLib::System::Text::ASCIIUtilityNamespace {
 using namespace Internal::Runtime::CompilerServices;
@@ -33,14 +32,14 @@ Boolean ASCIIUtility::AllCharsInUInt64AreAscii(UInt64 value) {
 Boolean ASCIIUtility::FirstCharInUInt32IsAscii(UInt32 value) {
 }
 
-unsigned int ASCIIUtility::GetIndexOfFirstNonAsciiByte(Byte* pBuffer, unsigned int bufferLength) {
+UIntPtr ASCIIUtility::GetIndexOfFirstNonAsciiByte(Byte* pBuffer, UIntPtr bufferLength) {
   if (!Sse2::in::get_IsSupported()) {
     return GetIndexOfFirstNonAsciiByte_Default(pBuffer, bufferLength);
   }
   return GetIndexOfFirstNonAsciiByte_Sse2(pBuffer, bufferLength);
 }
 
-unsigned int ASCIIUtility::GetIndexOfFirstNonAsciiByte_Default(Byte* pBuffer, unsigned int bufferLength) {
+UIntPtr ASCIIUtility::GetIndexOfFirstNonAsciiByte_Default(Byte* pBuffer, UIntPtr bufferLength) {
   Byte* value = pBuffer;
   if (Vector::get_IsHardwareAccelerated() && bufferLength >= (UInt32)(2 * Vector<SByte>::get_Count())) {
     UInt32 count = (UInt32)Vector<SByte>::get_Count();
@@ -55,12 +54,12 @@ unsigned int ASCIIUtility::GetIndexOfFirstNonAsciiByte_Default(Byte* pBuffer, un
       UInt32 num2 = Unsafe::ReadUnaligned<UInt32>(pBuffer + 4);
     }
   }
-  return (unsigned int)((int)(unsigned int)(UIntPtr)(void*)pBuffer - (int)(unsigned int)(UIntPtr)(void*)value);
+  return (UIntPtr)((IntPtr)(UIntPtr)(UIntPtr)(void*)pBuffer - (IntPtr)(UIntPtr)(UIntPtr)(void*)value);
 }
 
-unsigned int ASCIIUtility::GetIndexOfFirstNonAsciiByte_Sse2(Byte* pBuffer, unsigned int bufferLength) {
+UIntPtr ASCIIUtility::GetIndexOfFirstNonAsciiByte_Sse2(Byte* pBuffer, UIntPtr bufferLength) {
   UInt32 num = (UInt32)Unsafe::SizeOf<Vector128<Byte>>();
-  unsigned int num2 = num - 1;
+  UIntPtr num2 = num - 1;
   Byte* value = pBuffer;
   UInt32 num3;
   if (bufferLength >= num) {
@@ -72,14 +71,14 @@ unsigned int ASCIIUtility::GetIndexOfFirstNonAsciiByte_Sse2(Byte* pBuffer, unsig
   }
 }
 
-unsigned int ASCIIUtility::GetIndexOfFirstNonAsciiChar(Char* pBuffer, unsigned int bufferLength) {
+UIntPtr ASCIIUtility::GetIndexOfFirstNonAsciiChar(Char* pBuffer, UIntPtr bufferLength) {
   if (!Sse2::in::get_IsSupported()) {
     return GetIndexOfFirstNonAsciiChar_Default(pBuffer, bufferLength);
   }
   return GetIndexOfFirstNonAsciiChar_Sse2(pBuffer, bufferLength);
 }
 
-unsigned int ASCIIUtility::GetIndexOfFirstNonAsciiChar_Default(Char* pBuffer, unsigned int bufferLength) {
+UIntPtr ASCIIUtility::GetIndexOfFirstNonAsciiChar_Default(Char* pBuffer, UIntPtr bufferLength) {
   Char* value = pBuffer;
   if (Vector::get_IsHardwareAccelerated() && bufferLength >= (UInt32)(2 * Vector<UInt16>::get_Count())) {
     UInt32 count = (UInt32)Vector<UInt16>::get_Count();
@@ -96,11 +95,11 @@ unsigned int ASCIIUtility::GetIndexOfFirstNonAsciiChar_Default(Char* pBuffer, un
       UInt32 num2 = Unsafe::ReadUnaligned<UInt32>(pBuffer + 2);
     }
   }
-  unsigned int num3 = (unsigned int)((int)(unsigned int)(UIntPtr)(void*)pBuffer - (int)(unsigned int)(UIntPtr)(void*)value);
+  UIntPtr num3 = (UIntPtr)((IntPtr)(UIntPtr)(UIntPtr)(void*)pBuffer - (IntPtr)(UIntPtr)(UIntPtr)(void*)value);
   return num3 / (?)2u;
 }
 
-unsigned int ASCIIUtility::GetIndexOfFirstNonAsciiChar_Sse2(Char* pBuffer, unsigned int bufferLength) {
+UIntPtr ASCIIUtility::GetIndexOfFirstNonAsciiChar_Sse2(Char* pBuffer, UIntPtr bufferLength) {
   if (bufferLength == 0) {
     return 0u;
   }
@@ -154,8 +153,8 @@ void ASCIIUtility::NarrowTwoUtf16CharsToAsciiAndWriteToBuffer(Byte& outputBuffer
   }
 }
 
-unsigned int ASCIIUtility::NarrowUtf16ToAscii(Char* pUtf16Buffer, Byte* pAsciiBuffer, unsigned int elementCount) {
-  unsigned int num = 0u;
+UIntPtr ASCIIUtility::NarrowUtf16ToAscii(Char* pUtf16Buffer, Byte* pAsciiBuffer, UIntPtr elementCount) {
+  UIntPtr num = 0u;
   UInt32 num2 = 0u;
   UInt32 num3 = 0u;
   UInt64 num4 = 0;
@@ -175,14 +174,14 @@ unsigned int ASCIIUtility::NarrowUtf16ToAscii(Char* pUtf16Buffer, Byte* pAsciiBu
       if (!AllCharsInUInt64AreAscii(num4)) {
       }
       Vector<UInt16> right = Vector<UInt16>(127);
-      unsigned int num6 = elementCount - 2 * num5;
+      UIntPtr num6 = elementCount - 2 * num5;
     }
   }
 
-  unsigned int num7 = elementCount - num;
+  UIntPtr num7 = elementCount - num;
   if (num7 < 4) {
   }
-  unsigned int num8 = num + num7 - 4;
+  UIntPtr num8 = num + num7 - 4;
   while (true) {
     _ = IntPtr::get_Size();
     num4 = Unsafe::ReadUnaligned<UInt64>(pUtf16Buffer + num);
@@ -196,16 +195,16 @@ unsigned int ASCIIUtility::NarrowUtf16ToAscii(Char* pUtf16Buffer, Byte* pAsciiBu
   }
 }
 
-unsigned int ASCIIUtility::NarrowUtf16ToAscii_Sse2(Char* pUtf16Buffer, Byte* pAsciiBuffer, unsigned int elementCount) {
+UIntPtr ASCIIUtility::NarrowUtf16ToAscii_Sse2(Char* pUtf16Buffer, Byte* pAsciiBuffer, UIntPtr elementCount) {
   UInt32 num = (UInt32)Unsafe::SizeOf<Vector128<Byte>>();
-  unsigned int num2 = num - 1;
+  UIntPtr num2 = num - 1;
   Vector128<Int16> right = Vector128::Create((?)(-128));
   Vector128<UInt16> right2 = Vector128::Create((?)32640);
   Vector128<Int16> vector = Sse2::in::LoadVector128((Int16*)pUtf16Buffer);
 }
 
-unsigned int ASCIIUtility::WidenAsciiToUtf16(Byte* pAsciiBuffer, Char* pUtf16Buffer, unsigned int elementCount) {
-  unsigned int num = 0u;
+UIntPtr ASCIIUtility::WidenAsciiToUtf16(Byte* pAsciiBuffer, Char* pUtf16Buffer, UIntPtr elementCount) {
+  UIntPtr num = 0u;
   if (Sse2::in::get_IsSupported()) {
     if (elementCount >= (UInt32)(2 * Unsafe::SizeOf<Vector128<Byte>>())) {
       num = WidenAsciiToUtf16_Sse2(pAsciiBuffer, pUtf16Buffer, elementCount);
@@ -213,14 +212,14 @@ unsigned int ASCIIUtility::WidenAsciiToUtf16(Byte* pAsciiBuffer, Char* pUtf16Buf
   } else if (Vector::get_IsHardwareAccelerated()) {
     UInt32 num2 = (UInt32)Unsafe::SizeOf<Vector<Byte>>();
     if (elementCount >= num2) {
-      unsigned int num3 = elementCount - num2;
+      UIntPtr num3 = elementCount - num2;
     }
   }
 
-  unsigned int num4 = elementCount - num;
+  UIntPtr num4 = elementCount - num;
   if (num4 < 4) {
   }
-  unsigned int num5 = num + num4 - 4;
+  UIntPtr num5 = num + num4 - 4;
   UInt32 num6;
   while (true) {
     num6 = Unsafe::ReadUnaligned<UInt32>(pAsciiBuffer + num);
@@ -234,9 +233,9 @@ unsigned int ASCIIUtility::WidenAsciiToUtf16(Byte* pAsciiBuffer, Char* pUtf16Buf
   }
 }
 
-unsigned int ASCIIUtility::WidenAsciiToUtf16_Sse2(Byte* pAsciiBuffer, Char* pUtf16Buffer, unsigned int elementCount) {
+UIntPtr ASCIIUtility::WidenAsciiToUtf16_Sse2(Byte* pAsciiBuffer, Char* pUtf16Buffer, UIntPtr elementCount) {
   UInt32 num = (UInt32)Unsafe::SizeOf<Vector128<Byte>>();
-  unsigned int num2 = num - 1;
+  UIntPtr num2 = num - 1;
   Vector128<Byte> vector = Sse2::in::LoadVector128(pAsciiBuffer);
   UInt32 num3 = (UInt32)Sse2::in::MoveMask(vector);
   if ((Byte)num3 != 0) {

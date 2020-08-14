@@ -53,7 +53,7 @@ GCHandle::GCHandle(Object value, GCHandleType type) {
     case GCHandleType::Normal:
       break;
   }
-  int num = InternalAlloc(value, type);
+  IntPtr num = InternalAlloc(value, type);
   if (type == GCHandleType::Pinned) {
     num |= 1;
   }

@@ -67,7 +67,7 @@ Int32 DecoderDBCS___::ConvertWithLeftOverByte(Byte* bytes, Int32 count, Char* ch
   }
   Int32 num2 = OSEncoding::in::MultiByteToWideChar(_encoding->get_CodePage(), ptr, num + 1, chars, charCount);
   if (count - num > 0) {
-    num2 += OSEncoding::in::MultiByteToWideChar(_encoding->get_CodePage(), bytes + num, count - num, (Char*)(int)((chars == nullptr) ? ((IntPtr)(?)0) : ((IntPtr)(int)(chars + num2))), (chars != nullptr) ? (charCount - num2) : 0);
+    num2 += OSEncoding::in::MultiByteToWideChar(_encoding->get_CodePage(), bytes + num, count - num, (Char*)(IntPtr)((chars == nullptr) ? ((IntPtr)(?)0) : ((IntPtr)(IntPtr)(chars + num2))), (chars != nullptr) ? (charCount - num2) : 0);
   }
   return num2;
 }

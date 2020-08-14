@@ -19,6 +19,7 @@
 #include <System.Private.CoreLib/System/SR-dep.h>
 #include <System.Private.CoreLib/System/Threading/Interlocked-dep.h>
 #include <System.Private.CoreLib/System/UInt64-dep.h>
+#include <System.Private.CoreLib/System/UIntPtr-dep.h>
 
 namespace System::Private::CoreLib::System::IO::UnmanagedMemoryStreamNamespace {
 using namespace System::Runtime::InteropServices;
@@ -163,7 +164,7 @@ void UnmanagedMemoryStream___::Initialize(Byte* pointer, Int64 length, Int64 cap
   if (length > capacity) {
     rt::throw_exception<ArgumentOutOfRangeException>("length", SR::get_ArgumentOutOfRange_LengthGreaterThanCapacity());
   }
-  if ((unsigned int)((Int64)pointer + capacity) < (unsigned int)pointer) {
+  if ((UIntPtr)((Int64)pointer + capacity) < (UIntPtr)pointer) {
     rt::throw_exception<ArgumentOutOfRangeException>("capacity", SR::get_ArgumentOutOfRange_UnmanagedMemStreamWrapAround());
   }
   if (access < FileAccess::Read || access > FileAccess::ReadWrite) {
@@ -377,7 +378,7 @@ void UnmanagedMemoryStream___::SetLength(Int64 value) {
   Int64 num = Interlocked::Read(_position);
   Int64 num2 = Interlocked::Read(_length);
   if (value > num2) {
-    Buffer::ZeroMemory(_mem + num2, (unsigned int)(value - num2));
+    Buffer::ZeroMemory(_mem + num2, (UIntPtr)(value - num2));
   }
   Interlocked::Exchange(_length, value);
   if (num > value) {
@@ -418,7 +419,7 @@ void UnmanagedMemoryStream___::WriteCore(ReadOnlySpan<Byte> buffer) {
   }
   if (_buffer == nullptr) {
     if (num > num2) {
-      Buffer::ZeroMemory(_mem + num2, (unsigned int)(num - num2));
+      Buffer::ZeroMemory(_mem + num2, (UIntPtr)(num - num2));
     }
     if (num3 > num2) {
       Interlocked::Exchange(_length, num3);
@@ -494,7 +495,7 @@ void UnmanagedMemoryStream___::WriteByte(Byte value) {
     }
     if (_buffer == nullptr) {
       if (num > num2) {
-        Buffer::ZeroMemory(_mem + num2, (unsigned int)(num - num2));
+        Buffer::ZeroMemory(_mem + num2, (UIntPtr)(num - num2));
       }
       Interlocked::Exchange(_length, num3);
     }
