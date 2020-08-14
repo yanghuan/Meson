@@ -159,6 +159,9 @@ TimeSpanParse::TimeSpanToken TimeSpanParse::TimeSpanTokenizer::GetNextToken() {
         break;
       }
       num = num * 10 + num4;
+      if ((num & 4026531840u) != 0) {
+        return TimeSpanToken(TTT::NumOverflow);
+      }
     }
     return TimeSpanToken(TTT::Num, num, num2, ReadOnlySpan<T>());
   }
@@ -394,6 +397,14 @@ Boolean TimeSpanParse::StringParser::ParseInt(Int32 max, Int32& i, TimeSpanResul
   i = 0;
   Int32 pos = _pos;
   while (_ch >= 48 && _ch <= 57) {
+    if ((i & 4026531840u) != 0) {
+      return result.SetOverflowFailure();
+    }
+    i = i * 10 + _ch - 48;
+    if (i < 0) {
+      return result.SetOverflowFailure();
+    }
+    NextChar();
   }
   if (pos == _pos) {
     return result.SetBadTimeSpanFailure();
@@ -552,18 +563,275 @@ Boolean TimeSpanParse::ProcessTerminal_DHMSF(TimeSpanRawInfo& raw, TimeSpanStand
   if (raw._sepCount != 6) {
     return result.SetBadTimeSpanFailure();
   }
+  Boolean flag = (style & TimeSpanStandardStyles::Invariant) != 0;
+  Boolean flag2 = (style & TimeSpanStandardStyles::Localized) != 0;
+  Boolean flag3 = false;
+  Boolean flag4 = false;
+  if (flag) {
+    if (raw.FullMatch(TimeSpanFormat::PositiveInvariantFormatLiterals)) {
+      flag4 = true;
+      flag3 = true;
+    }
+    if (!flag4 && raw.FullMatch(TimeSpanFormat::NegativeInvariantFormatLiterals)) {
+      flag4 = true;
+      flag3 = false;
+    }
+  }
+  if (flag2) {
+    if (!flag4 && raw.FullMatch(raw.get_PositiveLocalized())) {
+      flag4 = true;
+      flag3 = true;
+    }
+    if (!flag4 && raw.FullMatch(raw.get_NegativeLocalized())) {
+      flag4 = true;
+      flag3 = false;
+    }
+  }
+  if (flag4) {
+  }
+  return result.SetBadTimeSpanFailure();
 }
 
 Boolean TimeSpanParse::ProcessTerminal_HMS_F_D(TimeSpanRawInfo& raw, TimeSpanStandardStyles style, TimeSpanResult& result) {
+  if (raw._sepCount != 5 || (style & TimeSpanStandardStyles::RequireFull) != 0) {
+    return result.SetBadTimeSpanFailure();
+  }
+  Boolean flag = (style & TimeSpanStandardStyles::Invariant) != 0;
+  Boolean flag2 = (style & TimeSpanStandardStyles::Localized) != 0;
+  Int64 result2 = 0;
+  Boolean flag3 = false;
+  Boolean flag4 = false;
+  Boolean flag5 = false;
+  TimeSpanToken timeSpanToken = TimeSpanToken(0);
+  if (flag) {
+    if (raw.FullHMSFMatch(TimeSpanFormat::PositiveInvariantFormatLiterals)) {
+      flag3 = true;
+      flag4 = TryTimeToTicks(flag3, timeSpanToken, raw._numbers0, raw._numbers1, raw._numbers2, raw._numbers3, result2);
+      flag5 = (flag5 || !flag4);
+    }
+    if (!flag4 && raw.FullDHMSMatch(TimeSpanFormat::PositiveInvariantFormatLiterals)) {
+      flag3 = true;
+      flag4 = TryTimeToTicks(flag3, raw._numbers0, raw._numbers1, raw._numbers2, raw._numbers3, timeSpanToken, result2);
+      flag5 = (flag5 || !flag4);
+    }
+    if (!flag4 && raw.FullAppCompatMatch(TimeSpanFormat::PositiveInvariantFormatLiterals)) {
+      flag3 = true;
+      flag4 = TryTimeToTicks(flag3, raw._numbers0, raw._numbers1, raw._numbers2, timeSpanToken, raw._numbers3, result2);
+      flag5 = (flag5 || !flag4);
+    }
+    if (!flag4 && raw.FullHMSFMatch(TimeSpanFormat::NegativeInvariantFormatLiterals)) {
+      flag3 = false;
+      flag4 = TryTimeToTicks(flag3, timeSpanToken, raw._numbers0, raw._numbers1, raw._numbers2, raw._numbers3, result2);
+      flag5 = (flag5 || !flag4);
+    }
+    if (!flag4 && raw.FullDHMSMatch(TimeSpanFormat::NegativeInvariantFormatLiterals)) {
+      flag3 = false;
+      flag4 = TryTimeToTicks(flag3, raw._numbers0, raw._numbers1, raw._numbers2, raw._numbers3, timeSpanToken, result2);
+      flag5 = (flag5 || !flag4);
+    }
+    if (!flag4 && raw.FullAppCompatMatch(TimeSpanFormat::NegativeInvariantFormatLiterals)) {
+      flag3 = false;
+      flag4 = TryTimeToTicks(flag3, raw._numbers0, raw._numbers1, raw._numbers2, timeSpanToken, raw._numbers3, result2);
+      flag5 = (flag5 || !flag4);
+    }
+  }
+  if (flag2) {
+    if (!flag4 && raw.FullHMSFMatch(raw.get_PositiveLocalized())) {
+      flag3 = true;
+      flag4 = TryTimeToTicks(flag3, timeSpanToken, raw._numbers0, raw._numbers1, raw._numbers2, raw._numbers3, result2);
+      flag5 = (flag5 || !flag4);
+    }
+    if (!flag4 && raw.FullDHMSMatch(raw.get_PositiveLocalized())) {
+      flag3 = true;
+      flag4 = TryTimeToTicks(flag3, raw._numbers0, raw._numbers1, raw._numbers2, raw._numbers3, timeSpanToken, result2);
+      flag5 = (flag5 || !flag4);
+    }
+    if (!flag4 && raw.FullAppCompatMatch(raw.get_PositiveLocalized())) {
+      flag3 = true;
+      flag4 = TryTimeToTicks(flag3, raw._numbers0, raw._numbers1, raw._numbers2, timeSpanToken, raw._numbers3, result2);
+      flag5 = (flag5 || !flag4);
+    }
+    if (!flag4 && raw.FullHMSFMatch(raw.get_NegativeLocalized())) {
+      flag3 = false;
+      flag4 = TryTimeToTicks(flag3, timeSpanToken, raw._numbers0, raw._numbers1, raw._numbers2, raw._numbers3, result2);
+      flag5 = (flag5 || !flag4);
+    }
+    if (!flag4 && raw.FullDHMSMatch(raw.get_NegativeLocalized())) {
+      flag3 = false;
+      flag4 = TryTimeToTicks(flag3, raw._numbers0, raw._numbers1, raw._numbers2, raw._numbers3, timeSpanToken, result2);
+      flag5 = (flag5 || !flag4);
+    }
+    if (!flag4 && raw.FullAppCompatMatch(raw.get_NegativeLocalized())) {
+      flag3 = false;
+      flag4 = TryTimeToTicks(flag3, raw._numbers0, raw._numbers1, raw._numbers2, timeSpanToken, raw._numbers3, result2);
+      flag5 = (flag5 || !flag4);
+    }
+  }
+  if (flag4) {
+    if (!flag3) {
+    }
+    result.parsedTimeSpan = TimeSpan(result2);
+    return true;
+  }
+  if (!flag5) {
+    return result.SetBadTimeSpanFailure();
+  }
+  return result.SetOverflowFailure();
 }
 
 Boolean TimeSpanParse::ProcessTerminal_HM_S_D(TimeSpanRawInfo& raw, TimeSpanStandardStyles style, TimeSpanResult& result) {
+  if (raw._sepCount != 4 || (style & TimeSpanStandardStyles::RequireFull) != 0) {
+    return result.SetBadTimeSpanFailure();
+  }
+  Boolean flag = (style & TimeSpanStandardStyles::Invariant) != 0;
+  Boolean flag2 = (style & TimeSpanStandardStyles::Localized) != 0;
+  Boolean flag3 = false;
+  Boolean flag4 = false;
+  Boolean flag5 = false;
+  TimeSpanToken timeSpanToken = TimeSpanToken(0);
+  Int64 result2 = 0;
+  if (flag) {
+    if (raw.FullHMSMatch(TimeSpanFormat::PositiveInvariantFormatLiterals)) {
+      flag3 = true;
+      flag4 = TryTimeToTicks(flag3, timeSpanToken, raw._numbers0, raw._numbers1, raw._numbers2, timeSpanToken, result2);
+      flag5 = (flag5 || !flag4);
+    }
+    if (!flag4 && raw.FullDHMMatch(TimeSpanFormat::PositiveInvariantFormatLiterals)) {
+      flag3 = true;
+      flag4 = TryTimeToTicks(flag3, raw._numbers0, raw._numbers1, raw._numbers2, timeSpanToken, timeSpanToken, result2);
+      flag5 = (flag5 || !flag4);
+    }
+    if (!flag4 && raw.PartialAppCompatMatch(TimeSpanFormat::PositiveInvariantFormatLiterals)) {
+      flag3 = true;
+      flag4 = TryTimeToTicks(flag3, timeSpanToken, raw._numbers0, raw._numbers1, timeSpanToken, raw._numbers2, result2);
+      flag5 = (flag5 || !flag4);
+    }
+    if (!flag4 && raw.FullHMSMatch(TimeSpanFormat::NegativeInvariantFormatLiterals)) {
+      flag3 = false;
+      flag4 = TryTimeToTicks(flag3, timeSpanToken, raw._numbers0, raw._numbers1, raw._numbers2, timeSpanToken, result2);
+      flag5 = (flag5 || !flag4);
+    }
+    if (!flag4 && raw.FullDHMMatch(TimeSpanFormat::NegativeInvariantFormatLiterals)) {
+      flag3 = false;
+      flag4 = TryTimeToTicks(flag3, raw._numbers0, raw._numbers1, raw._numbers2, timeSpanToken, timeSpanToken, result2);
+      flag5 = (flag5 || !flag4);
+    }
+    if (!flag4 && raw.PartialAppCompatMatch(TimeSpanFormat::NegativeInvariantFormatLiterals)) {
+      flag3 = false;
+      flag4 = TryTimeToTicks(flag3, timeSpanToken, raw._numbers0, raw._numbers1, timeSpanToken, raw._numbers2, result2);
+      flag5 = (flag5 || !flag4);
+    }
+  }
+  if (flag2) {
+    if (!flag4 && raw.FullHMSMatch(raw.get_PositiveLocalized())) {
+      flag3 = true;
+      flag4 = TryTimeToTicks(flag3, timeSpanToken, raw._numbers0, raw._numbers1, raw._numbers2, timeSpanToken, result2);
+      flag5 = (flag5 || !flag4);
+    }
+    if (!flag4 && raw.FullDHMMatch(raw.get_PositiveLocalized())) {
+      flag3 = true;
+      flag4 = TryTimeToTicks(flag3, raw._numbers0, raw._numbers1, raw._numbers2, timeSpanToken, timeSpanToken, result2);
+      flag5 = (flag5 || !flag4);
+    }
+    if (!flag4 && raw.PartialAppCompatMatch(raw.get_PositiveLocalized())) {
+      flag3 = true;
+      flag4 = TryTimeToTicks(flag3, timeSpanToken, raw._numbers0, raw._numbers1, timeSpanToken, raw._numbers2, result2);
+      flag5 = (flag5 || !flag4);
+    }
+    if (!flag4 && raw.FullHMSMatch(raw.get_NegativeLocalized())) {
+      flag3 = false;
+      flag4 = TryTimeToTicks(flag3, timeSpanToken, raw._numbers0, raw._numbers1, raw._numbers2, timeSpanToken, result2);
+      flag5 = (flag5 || !flag4);
+    }
+    if (!flag4 && raw.FullDHMMatch(raw.get_NegativeLocalized())) {
+      flag3 = false;
+      flag4 = TryTimeToTicks(flag3, raw._numbers0, raw._numbers1, raw._numbers2, timeSpanToken, timeSpanToken, result2);
+      flag5 = (flag5 || !flag4);
+    }
+    if (!flag4 && raw.PartialAppCompatMatch(raw.get_NegativeLocalized())) {
+      flag3 = false;
+      flag4 = TryTimeToTicks(flag3, timeSpanToken, raw._numbers0, raw._numbers1, timeSpanToken, raw._numbers2, result2);
+      flag5 = (flag5 || !flag4);
+    }
+  }
+  if (flag4) {
+    if (!flag3) {
+    }
+    result.parsedTimeSpan = TimeSpan(result2);
+    return true;
+  }
+  if (!flag5) {
+    return result.SetBadTimeSpanFailure();
+  }
+  return result.SetOverflowFailure();
 }
 
 Boolean TimeSpanParse::ProcessTerminal_HM(TimeSpanRawInfo& raw, TimeSpanStandardStyles style, TimeSpanResult& result) {
+  if (raw._sepCount != 3 || (style & TimeSpanStandardStyles::RequireFull) != 0) {
+    return result.SetBadTimeSpanFailure();
+  }
+  Boolean flag = (style & TimeSpanStandardStyles::Invariant) != 0;
+  Boolean flag2 = (style & TimeSpanStandardStyles::Localized) != 0;
+  Boolean flag3 = false;
+  Boolean flag4 = false;
+  if (flag) {
+    if (raw.FullHMMatch(TimeSpanFormat::PositiveInvariantFormatLiterals)) {
+      flag4 = true;
+      flag3 = true;
+    }
+    if (!flag4 && raw.FullHMMatch(TimeSpanFormat::NegativeInvariantFormatLiterals)) {
+      flag4 = true;
+      flag3 = false;
+    }
+  }
+  if (flag2) {
+    if (!flag4 && raw.FullHMMatch(raw.get_PositiveLocalized())) {
+      flag4 = true;
+      flag3 = true;
+    }
+    if (!flag4 && raw.FullHMMatch(raw.get_NegativeLocalized())) {
+      flag4 = true;
+      flag3 = false;
+    }
+  }
+  if (flag4) {
+    TimeSpanToken timeSpanToken = TimeSpanToken(0);
+  }
+  return result.SetBadTimeSpanFailure();
 }
 
 Boolean TimeSpanParse::ProcessTerminal_D(TimeSpanRawInfo& raw, TimeSpanStandardStyles style, TimeSpanResult& result) {
+  if (raw._sepCount != 2 || (style & TimeSpanStandardStyles::RequireFull) != 0) {
+    return result.SetBadTimeSpanFailure();
+  }
+  Boolean flag = (style & TimeSpanStandardStyles::Invariant) != 0;
+  Boolean flag2 = (style & TimeSpanStandardStyles::Localized) != 0;
+  Boolean flag3 = false;
+  Boolean flag4 = false;
+  if (flag) {
+    if (raw.FullDMatch(TimeSpanFormat::PositiveInvariantFormatLiterals)) {
+      flag4 = true;
+      flag3 = true;
+    }
+    if (!flag4 && raw.FullDMatch(TimeSpanFormat::NegativeInvariantFormatLiterals)) {
+      flag4 = true;
+      flag3 = false;
+    }
+  }
+  if (flag2) {
+    if (!flag4 && raw.FullDMatch(raw.get_PositiveLocalized())) {
+      flag4 = true;
+      flag3 = true;
+    }
+    if (!flag4 && raw.FullDMatch(raw.get_NegativeLocalized())) {
+      flag4 = true;
+      flag3 = false;
+    }
+  }
+  if (flag4) {
+    TimeSpanToken timeSpanToken = TimeSpanToken(0);
+  }
+  return result.SetBadTimeSpanFailure();
 }
 
 Boolean TimeSpanParse::TryParseExactTimeSpan(ReadOnlySpan<Char> input, ReadOnlySpan<Char> format, IFormatProvider formatProvider, TimeSpanStyles styles, TimeSpanResult& result) {
@@ -571,6 +839,18 @@ Boolean TimeSpanParse::TryParseExactTimeSpan(ReadOnlySpan<Char> input, ReadOnlyS
     return result.SetBadFormatSpecifierFailure();
   }
   if (format.get_Length() == 1) {
+    switch (format[0].get()) {
+      case 84:
+      case 99:
+      case 116:
+        return TryParseTimeSpanConstant(input, result);
+      case 103:
+        return TryParseTimeSpan(input, TimeSpanStandardStyles::Localized, formatProvider, result);
+      case 71:
+        return TryParseTimeSpan(input, TimeSpanStandardStyles::Localized | TimeSpanStandardStyles::RequireFull, formatProvider, result);
+      default:
+        return result.SetBadFormatSpecifierFailure(format[0]);
+    }
   }
   return TryParseByFormat(input, format, styles, result);
 }
@@ -669,6 +949,7 @@ Boolean TimeSpanParse::TryParseByFormat(ReadOnlySpan<Char> input, ReadOnlySpan<C
   if (!tokenizer.get_EOL()) {
     return result.SetBadTimeSpanFailure();
   }
+  Boolean flag6 = (styles & TimeSpanStyles::AssumeNegative) == 0;
 }
 
 Boolean TimeSpanParse::ParseExactDigits(TimeSpanTokenizer& tokenizer, Int32 minDigitLength, Int32& result) {

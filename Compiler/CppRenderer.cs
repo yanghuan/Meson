@@ -874,5 +874,11 @@ namespace Meson.Compiler {
       WriteSemicolon();
       WriteNewLine();
     }
+
+    internal void Render(ContinueStatementSyntax node) {
+      Write(Tokens.Continue);
+      WriteSemicolon();
+      WriteNewLine();
+    }
   }
 }

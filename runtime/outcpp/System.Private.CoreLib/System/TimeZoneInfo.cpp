@@ -91,6 +91,7 @@ Boolean TimeZoneInfo___::TransitionTime::Equals(TransitionTime other) {
 }
 
 Int32 TimeZoneInfo___::TransitionTime::GetHashCode() {
+  return _month ^ (_week << 8);
 }
 
 TimeZoneInfo___::TransitionTime::TransitionTime(DateTime timeOfDay, Int32 month, Int32 week, Int32 day, DayOfWeek dayOfWeek, Boolean isFixedDateRule) {
@@ -896,6 +897,35 @@ DateTime TimeZoneInfo___::ConvertTime(DateTime dateTime, TimeZoneInfo sourceTime
     rt::throw_exception<ArgumentNullException>("destinationTimeZone");
   }
   DateTimeKind correspondingKind = cachedData->GetCorrespondingKind(sourceTimeZone);
+  if ((flags & TimeZoneInfoOptions::NoThrowOnInvalidTime) == 0 && dateTime.get_Kind() != 0 && dateTime.get_Kind() != correspondingKind) {
+    rt::throw_exception<ArgumentException>(SR::get_Argument_ConvertMismatch(), "sourceTimeZone");
+  }
+  Nullable<Int32> ruleIndex;
+  AdjustmentRule adjustmentRuleForTime = sourceTimeZone->GetAdjustmentRuleForTime(dateTime, ruleIndex);
+  TimeSpan baseUtcOffset = sourceTimeZone->get_BaseUtcOffset();
+  if (adjustmentRuleForTime != nullptr) {
+    baseUtcOffset += adjustmentRuleForTime->get_BaseUtcOffsetDelta();
+    if (adjustmentRuleForTime->get_HasDaylightSaving()) {
+      Boolean flag = false;
+      DaylightTimeStruct daylightTime = sourceTimeZone->GetDaylightTime(dateTime.get_Year(), adjustmentRuleForTime, ruleIndex);
+      if ((flags & TimeZoneInfoOptions::NoThrowOnInvalidTime) == 0 && GetIsInvalidTime(dateTime, adjustmentRuleForTime, daylightTime)) {
+        rt::throw_exception<ArgumentException>(SR::get_Argument_DateTimeIsInvalid(), "dateTime");
+      }
+      flag = GetIsDaylightSavings(dateTime, adjustmentRuleForTime, daylightTime);
+      baseUtcOffset += (flag ? adjustmentRuleForTime->get_DaylightDelta() : TimeSpan::Zero);
+    }
+  }
+  DateTimeKind correspondingKind2 = cachedData->GetCorrespondingKind(destinationTimeZone);
+  if (dateTime.get_Kind() != 0 && correspondingKind != 0 && correspondingKind == correspondingKind2) {
+    return dateTime;
+  }
+  Int64 ticks = dateTime.get_Ticks() - baseUtcOffset.get_Ticks();
+  Boolean isAmbiguousLocalDst;
+  DateTime dateTime2 = ConvertUtcToTimeZone(ticks, destinationTimeZone, isAmbiguousLocalDst);
+  if (correspondingKind2 == DateTimeKind::Local) {
+    return DateTime(dateTime2.get_Ticks(), DateTimeKind::Local, isAmbiguousLocalDst);
+  }
+  return DateTime(dateTime2.get_Ticks(), correspondingKind2);
 }
 
 DateTime TimeZoneInfo___::ConvertTimeFromUtc(DateTime dateTime, TimeZoneInfo destinationTimeZone) {

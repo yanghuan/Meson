@@ -132,7 +132,11 @@ namespace Meson.Compiler {
       return IdentifierSyntax.As.Generic(type).Invation(expression);
     }
 
-    private static readonly string[] assignmentOperators_ = new string[] { "=", "+=", "-=", "*=", "/=", "%=", "<<=", ">>=", "&=", "|=", "^=" };
+    private static readonly string[] assignmentOperators_ = new string[] { 
+      "=", "+=", "-=", "*=", "/=", 
+      "%=", "<<=", ">>=", "&=", "|=", 
+      "^=" 
+    };
 
     private static string GetAssignmentOperator(AssignmentOperatorType operatorToken) {
       int index = (int)operatorToken;
@@ -150,56 +154,20 @@ namespace Meson.Compiler {
       throw new NotImplementedException();
     }
 
+    private static readonly string[] binaryOperatorTokens_ = new string[] { 
+      null, "&", "|", "&&", "||", 
+      "^", ">", ">=", "==", "!=", 
+      "<", "<=", "+", "-", "*", 
+      "/", "%", "<<", ">>", null, 
+      null,
+    };
+
     public static string GetBinaryOperatorToken(BinaryOperatorType type) {
-      switch (type) {
-        case BinaryOperatorType.Equality:
-          return Tokens.EqualsEquals;
-
-        case BinaryOperatorType.InEquality:
-          return Tokens.NotEquals;
-
-        case BinaryOperatorType.LessThan:
-          return Tokens.Less;
-
-        case BinaryOperatorType.LessThanOrEqual:
-          return Tokens.LessEquals;
-
-        case BinaryOperatorType.GreaterThan:
-          return Tokens.Greater;
-
-        case BinaryOperatorType.GreaterThanOrEqual:
-          return Tokens.GreaterEquals;
-
-        case BinaryOperatorType.ConditionalAnd:
-          return Tokens.LogicAnd;
-
-        case BinaryOperatorType.ConditionalOr:
-          return Tokens.LogicOr;
-
-        case BinaryOperatorType.Add:
-          return Tokens.Plus;
-
-        case BinaryOperatorType.Subtract:
-          return Tokens.Sub;
-
-        case BinaryOperatorType.Multiply:
-          return Tokens.Asterisk;
-
-        case BinaryOperatorType.Divide:
-          return Tokens.Div;
-
-        case BinaryOperatorType.Modulus:
-          return Tokens.Mod;
-
-        case BinaryOperatorType.ShiftRight:
-          return Tokens.GreaterGreater;
-
-        case BinaryOperatorType.ShiftLeft:
-          return Tokens.LessLess;
-
-        default:
-          throw new NotImplementedException();
+      string token = binaryOperatorTokens_[(int)type];
+      if (token == null) {
+        throw new NotImplementedException();
       }
+      return token;
     }
 
     public SyntaxNode VisitBinaryOperatorExpression(BinaryOperatorExpression binaryOperatorExpression) {
@@ -752,7 +720,7 @@ namespace Meson.Compiler {
     }
 
     public SyntaxNode VisitBreakStatement(BreakStatement breakStatement) {
-      return BreakStatementSyntax.Ins;
+      return BreakStatementSyntax.Default;
     }
 
     public SyntaxNode VisitCheckedStatement(CheckedStatement checkedStatement) {
@@ -760,7 +728,7 @@ namespace Meson.Compiler {
     }
 
     public SyntaxNode VisitContinueStatement(ContinueStatement continueStatement) {
-      throw new NotImplementedException();
+      return ContinueStatementSyntax.Default;
     }
 
     public SyntaxNode VisitDoWhileStatement(DoWhileStatement doWhileStatement) {

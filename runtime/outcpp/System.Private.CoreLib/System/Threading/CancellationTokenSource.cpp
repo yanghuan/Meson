@@ -264,6 +264,40 @@ CancellationTokenRegistration CancellationTokenSource___::InternalRegister(Actio
     if (array == nullptr) {
       array = rt::newarr<Array<CallbackPartition>>(s_numPartitions);
     }
+    Int32 num = Environment::get_CurrentManagedThreadId() & s_numPartitionsMask;
+    CallbackPartition callbackPartition = array[num];
+    if (callbackPartition == nullptr) {
+      callbackPartition = rt::newobj<CallbackPartition>((CancellationTokenSource)this);
+    }
+    Boolean lockTaken = false;
+    callbackPartition->Lock.Enter(lockTaken);
+    Int64 id;
+    CallbackNode callbackNode;
+    try{
+      id = callbackPartition->NextAvailableId++;
+      callbackNode = callbackPartition->FreeNodeList;
+      if (callbackNode != nullptr) {
+        callbackPartition->FreeNodeList = callbackNode->Next;
+      } else {
+        callbackNode = rt::newobj<CallbackNode>(callbackPartition);
+      }
+      callbackNode->Id = id;
+      callbackNode->Callback = callback;
+      callbackNode->CallbackState = stateForCallback;
+      callbackNode->ExecutionContext = executionContext;
+      callbackNode->SynchronizationContext = syncContext;
+      callbackNode->Next = callbackPartition->Callbacks;
+      if (callbackNode->Next != nullptr) {
+        callbackNode->Next->Prev = callbackNode;
+      }
+      callbackPartition->Callbacks = callbackNode;
+    } finally: {
+      callbackPartition->Lock.Exit(false);
+    }
+    CancellationTokenRegistration result = CancellationTokenRegistration(id, callbackNode);
+    if (!get_IsCancellationRequested() || !callbackPartition->Unregister(id, callbackNode)) {
+      return result;
+    }
   }
   callback(stateForCallback);
   return CancellationTokenRegistration();

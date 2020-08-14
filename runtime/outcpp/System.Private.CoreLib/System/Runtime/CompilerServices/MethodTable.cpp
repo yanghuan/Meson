@@ -6,15 +6,19 @@
 
 namespace System::Private::CoreLib::System::Runtime::CompilerServices::MethodTableNamespace {
 Boolean MethodTable::get_HasComponentSize() {
+  return ((Int32)Flags & Int32::MinValue) != 0;
 }
 
 Boolean MethodTable::get_ContainsGCPointers() {
+  return (Flags & 16777216) != 0;
 }
 
 Boolean MethodTable::get_NonTrivialInterfaceCast() {
+  return (Flags & 1078460416) != 0;
 }
 
 Boolean MethodTable::get_HasTypeEquivalence() {
+  return (Flags & 16384) != 0;
 }
 
 Boolean MethodTable::get_IsMultiDimensionalArray() {

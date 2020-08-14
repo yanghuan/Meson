@@ -29,9 +29,11 @@ Boolean Char::IsAscii(Char ch) {
 }
 
 UnicodeCategory Char::GetLatin1UnicodeCategory(Char ch) {
+  return (UnicodeCategory)(get_Latin1CharInfo()[ch] & 31);
 }
 
 Int32 Char::GetHashCode() {
+  return (Int32)(*this | ((UInt32)*this << 16));
 }
 
 Boolean Char::Equals(Object obj) {
@@ -114,11 +116,13 @@ Boolean Char::CheckLetter(UnicodeCategory uc) {
 
 Boolean Char::IsLetter(Char c) {
   if (IsLatin1(c)) {
+    return (get_Latin1CharInfo()[c] & 96) != 0;
   }
   return CheckLetter(CharUnicodeInfo::GetUnicodeCategory(c));
 }
 
 Boolean Char::IsWhiteSpaceLatin1(Char c) {
+  return (get_Latin1CharInfo()[c] & 128) != 0;
 }
 
 Boolean Char::IsWhiteSpace(Char c) {
@@ -130,12 +134,14 @@ Boolean Char::IsWhiteSpace(Char c) {
 
 Boolean Char::IsUpper(Char c) {
   if (IsLatin1(c)) {
+    return (get_Latin1CharInfo()[c] & 64) != 0;
   }
   return CharUnicodeInfo::GetUnicodeCategory(c) == UnicodeCategory::UppercaseLetter;
 }
 
 Boolean Char::IsLower(Char c) {
   if (IsLatin1(c)) {
+    return (get_Latin1CharInfo()[c] & 32) != 0;
   }
   return CharUnicodeInfo::GetUnicodeCategory(c) == UnicodeCategory::LowercaseLetter;
 }
@@ -200,6 +206,7 @@ TypeCode Char::GetTypeCode() {
 }
 
 Boolean Char::IsControl(Char c) {
+  return (UInt32)((c + 1) & -129) <= 32u;
 }
 
 Boolean Char::IsControl(String s, Int32 index) {
@@ -235,6 +242,7 @@ Boolean Char::IsLetter(String s, Int32 index) {
   }
   Char c = s[index];
   if (IsLatin1(c)) {
+    return (get_Latin1CharInfo()[c] & 96) != 0;
   }
   return CheckLetter(CharUnicodeInfo::GetUnicodeCategory(s, index));
 }
@@ -262,6 +270,7 @@ Boolean Char::IsLower(String s, Int32 index) {
   }
   Char c = s[index];
   if (IsLatin1(c)) {
+    return (get_Latin1CharInfo()[c] & 32) != 0;
   }
   return CharUnicodeInfo::GetUnicodeCategory(s, index) == UnicodeCategory::LowercaseLetter;
 }
@@ -391,6 +400,7 @@ Boolean Char::IsUpper(String s, Int32 index) {
   }
   Char c = s[index];
   if (IsLatin1(c)) {
+    return (get_Latin1CharInfo()[c] & 64) != 0;
   }
   return CharUnicodeInfo::GetUnicodeCategory(s, index) == UnicodeCategory::UppercaseLetter;
 }
@@ -483,6 +493,7 @@ Boolean Char::IsSurrogatePair(String s, Int32 index) {
 Boolean Char::IsSurrogatePair(Char highSurrogate, Char lowSurrogate) {
   UInt32 num = (UInt32)(highSurrogate - 55296);
   UInt32 num2 = (UInt32)(lowSurrogate - 56320);
+  return (num | num2) <= 1023;
 }
 
 String Char::ConvertFromUtf32(Int32 utf32) {
@@ -495,6 +506,10 @@ String Char::ConvertFromUtf32(Int32 utf32) {
 Int32 Char::ConvertToUtf32(Char highSurrogate, Char lowSurrogate) {
   UInt32 num = (UInt32)(highSurrogate - 55296);
   UInt32 num2 = (UInt32)(lowSurrogate - 56320);
+  if ((num | num2) > 1023) {
+    ConvertToUtf32_ThrowInvalidArgs(num);
+  }
+  return (Int32)(num << 10) + (lowSurrogate - 56320) + 65536;
 }
 
 void Char::ConvertToUtf32_ThrowInvalidArgs(UInt32 highSurrogateOffset) {

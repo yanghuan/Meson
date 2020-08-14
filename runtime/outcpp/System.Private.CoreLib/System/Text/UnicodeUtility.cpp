@@ -18,6 +18,7 @@ Int32 UnicodeUtility::GetUtf16SequenceLength(UInt32 value) {
 
 void UnicodeUtility::GetUtf16SurrogatesFromSupplementaryPlaneScalar(UInt32 value, Char& highSurrogateCodePoint, Char& lowSurrogateCodePoint) {
   highSurrogateCodePoint = (Char)(value + 56557568 >> 10);
+  lowSurrogateCodePoint = (Char)((value & 1023) + 56320);
 }
 
 Int32 UnicodeUtility::GetUtf8SequenceLength(UInt32 value) {
@@ -58,6 +59,7 @@ Boolean UnicodeUtility::IsValidCodePoint(UInt32 codePoint) {
 }
 
 Boolean UnicodeUtility::IsValidUnicodeScalar(UInt32 value) {
+  return ((value - 1114112) ^ 55296) >= 4293855232u;
 }
 
 } // namespace System::Private::CoreLib::System::Text::UnicodeUtilityNamespace

@@ -11,6 +11,7 @@ Boolean MetadataToken::get_IsGlobalTypeDefToken() {
 }
 
 MetadataTokenType MetadataToken::get_TokenType() {
+  return (MetadataTokenType)(Value & 4278190080u);
 }
 
 Boolean MetadataToken::get_IsTypeRef() {
@@ -74,6 +75,7 @@ MetadataToken MetadataToken::op_Implicit(Int32 token) {
 }
 
 Boolean MetadataToken::IsNullToken(Int32 token) {
+  return (token & 16777215) == 0;
 }
 
 MetadataToken::MetadataToken(Int32 token) {

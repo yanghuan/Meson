@@ -242,6 +242,35 @@ OperationStatus Rune::DecodeLastFromUtf8(ReadOnlySpan<Byte> source, Rune& value,
       value = UnsafeCreate(num2);
       return OperationStatus::Done;
     }
+    if (((Byte)num2 & 64) != 0) {
+      return DecodeFromUtf8(source.Slice(num), value, bytesConsumed);
+    }
+    Int32 num3 = 3;
+    OperationStatus result2;
+    Rune result;
+    Int32 bytesConsumed2;
+    while (true) {
+      if (num3 > 0) {
+        num--;
+        if ((UInt32)num < (UInt32)source.get_Length()) {
+          if ((SByte)source[num] < -64) {
+            num3--;
+            continue;
+          }
+          source = source.Slice(num);
+          result2 = DecodeFromUtf8(source, result, bytesConsumed2);
+          if (bytesConsumed2 == source.get_Length()) {
+            break;
+          }
+        }
+      }
+      value = get_ReplacementChar();
+      bytesConsumed = 1;
+      return OperationStatus::InvalidData;
+    }
+    bytesConsumed = bytesConsumed2;
+    value = result;
+    return result2;
   }
   value = get_ReplacementChar();
   bytesConsumed = 0;
@@ -350,6 +379,12 @@ Boolean Rune::TryCreate(Char ch, Rune& result) {
 Boolean Rune::TryCreate(Char highSurrogate, Char lowSurrogate, Rune& result) {
   UInt32 num = (UInt32)(highSurrogate - 55296);
   UInt32 num2 = (UInt32)(lowSurrogate - 56320);
+  if ((num | num2) <= 1023) {
+    result = UnsafeCreate((UInt32)((Int32)(num << 10) + (lowSurrogate - 56320) + 65536));
+    return true;
+  }
+  result = Rune();
+  return false;
 }
 
 Boolean Rune::TryCreate(Int32 value, Rune& result) {
@@ -392,13 +427,25 @@ Boolean Rune::TryEncodeToUtf8(Span<Byte> destination, Int32& bytesWritten) {
     if (destination.get_Length() >= 2) {
       if (_value <= 2047) {
         destination[0] = (Byte)(_value + 12288 >> 6);
+        destination[1] = (Byte)((_value & 63) + 128);
+        bytesWritten = 2;
+        return true;
       }
       if (destination.get_Length() >= 3) {
         if (_value <= 65535) {
           destination[0] = (Byte)(_value + 917504 >> 12);
+          destination[1] = (Byte)(((_value & 4032) >> 6) + 128);
+          destination[2] = (Byte)((_value & 63) + 128);
+          bytesWritten = 3;
+          return true;
         }
         if (destination.get_Length() >= 4) {
           destination[0] = (Byte)(_value + 62914560 >> 18);
+          destination[1] = (Byte)(((_value & 258048) >> 12) + 128);
+          destination[2] = (Byte)(((_value & 4032) >> 6) + 128);
+          destination[3] = (Byte)((_value & 63) + 128);
+          bytesWritten = 4;
+          return true;
         }
       }
     }
@@ -434,6 +481,7 @@ Double Rune::GetNumericValue(Rune value) {
 
 UnicodeCategory Rune::GetUnicodeCategory(Rune value) {
   if (value.get_IsAscii()) {
+    return (UnicodeCategory)(get_AsciiCharInfo()[value.get_Value()] & 31);
   }
   return GetUnicodeCategoryNonAscii(value);
 }
@@ -470,6 +518,7 @@ Boolean Rune::IsCategorySymbol(UnicodeCategory category) {
 }
 
 Boolean Rune::IsControl(Rune value) {
+  return (UInt32)((Int32)(value._value + 1) & -129) <= 32u;
 }
 
 Boolean Rune::IsDigit(Rune value) {
@@ -481,12 +530,14 @@ Boolean Rune::IsDigit(Rune value) {
 
 Boolean Rune::IsLetter(Rune value) {
   if (value.get_IsAscii()) {
+    return (UInt32)((Int32)(value._value - 65) & -33) <= 25u;
   }
   return IsCategoryLetter(GetUnicodeCategoryNonAscii(value));
 }
 
 Boolean Rune::IsLetterOrDigit(Rune value) {
   if (value.get_IsAscii()) {
+    return (get_AsciiCharInfo()[value.get_Value()] & 64) != 0;
   }
   return IsCategoryLetterOrDecimalDigit(GetUnicodeCategoryNonAscii(value));
 }
@@ -526,6 +577,7 @@ Boolean Rune::IsUpper(Rune value) {
 
 Boolean Rune::IsWhiteSpace(Rune value) {
   if (value.get_IsAscii()) {
+    return (get_AsciiCharInfo()[value.get_Value()] & 128) != 0;
   }
   if (value.get_IsBmp()) {
     return CharUnicodeInfo::GetIsWhiteSpace((Char)value._value);

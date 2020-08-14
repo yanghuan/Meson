@@ -2,6 +2,7 @@
 
 #include <System.Private.CoreLib/Internal/Runtime/CompilerServices/Unsafe-dep.h>
 #include <System.Private.CoreLib/System/ArrayTypeMismatchException-dep.h>
+#include <System.Private.CoreLib/System/Int64-dep.h>
 #include <System.Private.CoreLib/System/Runtime/CompilerServices/CastHelpers-dep.h>
 #include <System.Private.CoreLib/System/Runtime/CompilerServices/MethodTable-dep.h>
 #include <System.Private.CoreLib/System/Runtime/CompilerServices/RuntimeHelpers-dep.h>
@@ -18,6 +19,8 @@ using namespace System::Threading;
 
 Int32 CastHelpers::KeyToBucket(Int32& tableData, UIntPtr source, UIntPtr target) {
   Int32 num = HashShift(tableData);
+  UInt64 num2 = (((UInt64)source << 32) | ((UInt64)source >> 32)) ^ target;
+  return (Int32)((UInt64)((Int64)num2 * -7046029254386353131) >> num);
 }
 
 Int32& CastHelpers::TableData(Array<Int32> table) {
@@ -60,6 +63,7 @@ CastHelpers::CastResult CastHelpers::TryGet(UIntPtr source, UIntPtr target) {
       break;
     }
     num2++;
+    num = ((num + num2) & TableMask(tableData));
   }
   return CastResult::MaybeCast;
 }
@@ -104,6 +108,7 @@ Object CastHelpers::IsInstanceOfInterface(void* toTypeHnd, Object obj) {
             }
             if (--num != 0) {
               num2 += 4;
+              continue;
             }
           }
         }
@@ -133,6 +138,7 @@ Object CastHelpers::IsInstanceOfClass(void* toTypeHnd, Object obj) {
             }
             if (parentMethodTable != nullptr) {
               parentMethodTable = parentMethodTable->ParentMethodTable;
+              continue;
             }
           }
         }
@@ -201,6 +207,7 @@ Object CastHelpers::ChkCastInterface(void* toTypeHnd, Object obj) {
             }
             if (--num != 0) {
               num2 += 4;
+              continue;
             }
           }
         }
@@ -240,6 +247,7 @@ Object CastHelpers::ChkCastClassSpecial(void* toTypeHnd, Object obj) {
             if (ptr == nullptr) {
               break;
             }
+            continue;
           }
         }
       }

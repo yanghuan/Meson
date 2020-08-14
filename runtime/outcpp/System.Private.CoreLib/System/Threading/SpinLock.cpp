@@ -9,6 +9,7 @@
 #include <System.Private.CoreLib/System/Threading/Interlocked-dep.h>
 #include <System.Private.CoreLib/System/Threading/LockRecursionException-dep.h>
 #include <System.Private.CoreLib/System/Threading/SpinWait-dep.h>
+#include <System.Private.CoreLib/System/Threading/SynchronizationLockException-dep.h>
 #include <System.Private.CoreLib/System/Threading/TimeoutHelper-dep.h>
 #include <System.Private.CoreLib/System/UInt32-dep.h>
 
@@ -39,15 +40,18 @@ Boolean SpinLock::get_IsHeld() {
   if (get_IsThreadOwnerTrackingEnabled()) {
     return _owner != 0;
   }
+  return (_owner & 1) != 0;
 }
 
 Boolean SpinLock::get_IsHeldByCurrentThread() {
   if (!get_IsThreadOwnerTrackingEnabled()) {
     rt::throw_exception<InvalidOperationException>(SR::get_SpinLock_IsHeldByCurrentThread());
   }
+  return (_owner & Int32::MaxValue) == Environment::get_CurrentManagedThreadId();
 }
 
 Boolean SpinLock::get_IsThreadOwnerTrackingEnabled() {
+  return (_owner & Int32::MinValue) == 0;
 }
 
 Int32 SpinLock::CompareExchange(Int32& location, Int32 value, Int32 comparand, Boolean& success) {
@@ -65,10 +69,21 @@ SpinLock::SpinLock(Boolean enableThreadOwnerTracking) {
 
 void SpinLock::Enter(Boolean& lockTaken) {
   Int32 owner = _owner;
+  if (lockTaken || (owner & -2147483647) != Int32::MinValue || CompareExchange(_owner, owner | 1, owner, lockTaken) != owner) {
+    ContinueTryEnter(-1, lockTaken);
+  }
 }
 
 void SpinLock::TryEnter(Boolean& lockTaken) {
   Int32 owner = _owner;
+  if (((owner & Int32::MinValue) == 0) | lockTaken) {
+    ContinueTryEnter(0, lockTaken);
+  } else if ((owner & 1) != 0) {
+    lockTaken = false;
+  } else {
+    CompareExchange(_owner, owner | 1, owner, lockTaken);
+  }
+
 }
 
 void SpinLock::TryEnter(TimeSpan timeout, Boolean& lockTaken) {
@@ -81,6 +96,9 @@ void SpinLock::TryEnter(TimeSpan timeout, Boolean& lockTaken) {
 
 void SpinLock::TryEnter(Int32 millisecondsTimeout, Boolean& lockTaken) {
   Int32 owner = _owner;
+  if (((millisecondsTimeout < -1) | lockTaken) || (owner & -2147483647) != Int32::MinValue || CompareExchange(_owner, owner | 1, owner, lockTaken) != owner) {
+    ContinueTryEnter(millisecondsTimeout, lockTaken);
+  }
 }
 
 void SpinLock::ContinueTryEnter(Int32 millisecondsTimeout, Boolean& lockTaken) {
@@ -101,12 +119,33 @@ void SpinLock::ContinueTryEnter(Int32 millisecondsTimeout, Boolean& lockTaken) {
   }
   Int32 num = Int32::MaxValue;
   Int32 owner = _owner;
+  if ((owner & 1) == 0) {
+    if (CompareExchange(_owner, owner | 1, owner, lockTaken) == owner || millisecondsTimeout == 0) {
+      return;
+    }
+  } else {
+    if (millisecondsTimeout == 0) {
+      return;
+    }
+    if ((owner & 2147483646) != 2147483646) {
+      num = (Interlocked::Add(_owner, 2) & 2147483646) >> 1;
+    }
+  }
+  SpinWait spinWait = SpinWait();
+  if (num > Environment::get_ProcessorCount()) {
+    spinWait.set_Count = 10;
+  }
 }
 
 void SpinLock::DecrementWaiters() {
   SpinWait spinWait = SpinWait();
   while (true) {
     Int32 owner = _owner;
+    if ((owner & 2147483646) != 0 && Interlocked::CompareExchange(_owner, owner - 2, owner) != owner) {
+      spinWait.SpinOnce();
+      continue;
+    }
+    break;
   }
 }
 
@@ -121,17 +160,53 @@ void SpinLock::ContinueTryEnterWithThreadTracking(Int32 millisecondsTimeout, UIn
     if (_owner == 0 && CompareExchange(_owner, currentManagedThreadId, 0, lockTaken) == 0) {
       break;
     }
+    switch (millisecondsTimeout.get()) {
+      case 0:
+        return;
+      case -1:
+        continue;
+    }
+    if (spinWait.get_NextSpinWillYield() && TimeoutHelper::UpdateTimeOut(startTime, millisecondsTimeout) <= 0) {
+      return;
+    }
   }
 }
 
 void SpinLock::Exit() {
+  if ((_owner & Int32::MinValue) == 0) {
+    ExitSlowPath(true);
+  } else {
+    Interlocked::Decrement(_owner);
+  }
 }
 
 void SpinLock::Exit(Boolean useMemoryBarrier) {
   Int32 owner = _owner;
+  if ((owner & Int32::MinValue) != 0 && !useMemoryBarrier) {
+    _owner = (owner & -2);
+  } else {
+    ExitSlowPath(useMemoryBarrier);
+  }
 }
 
 void SpinLock::ExitSlowPath(Boolean useMemoryBarrier) {
+  Boolean flag = (_owner & Int32::MinValue) == 0;
+  if (flag && !get_IsHeldByCurrentThread()) {
+    rt::throw_exception<SynchronizationLockException>(SR::get_SpinLock_Exit_SynchronizationLockException());
+  }
+  if (useMemoryBarrier) {
+    if (flag) {
+      Interlocked::Exchange(_owner, 0);
+    } else {
+      Interlocked::Decrement(_owner);
+    }
+  } else if (flag) {
+    _owner = 0;
+  } else {
+    Int32 owner = _owner;
+    _owner = (owner & -2);
+  }
+
 }
 
 } // namespace System::Private::CoreLib::System::Threading::SpinLockNamespace

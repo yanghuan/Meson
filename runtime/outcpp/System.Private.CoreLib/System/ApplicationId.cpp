@@ -93,6 +93,7 @@ Boolean ApplicationId___::Equals(Object o) {
 }
 
 Int32 ApplicationId___::GetHashCode() {
+  return Name->GetHashCode() ^ Version->GetHashCode();
 }
 
 } // namespace System::Private::CoreLib::System::ApplicationIdNamespace

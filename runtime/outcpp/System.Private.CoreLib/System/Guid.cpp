@@ -54,6 +54,16 @@ Guid::Guid(ReadOnlySpan<Byte> b) {
     return;
   }
   _k = b[15];
+  _a = ((b[3] << 24) | (b[2] << 16) | (b[1] << 8) | b[0]);
+  _b = (Int16)((b[5] << 8) | b[4]);
+  _c = (Int16)((b[7] << 8) | b[6]);
+  _d = b[8];
+  _e = b[9];
+  _f = b[10];
+  _g = b[11];
+  _h = b[12];
+  _i = b[13];
+  _j = b[14];
 }
 
 Guid::Guid(UInt32 a, UInt16 b, UInt16 c, Byte d, Byte e, Byte f, Byte g, Byte h, Byte i, Byte j, Byte k) {
@@ -162,6 +172,27 @@ Guid Guid::ParseExact(ReadOnlySpan<Char> input, ReadOnlySpan<Char> format) {
   input = MemoryExtensions::Trim(input);
   GuidResult result = GuidResult(GuidParseThrowStyle::AllButOverflow);
   Boolean flag;
+  switch ((UInt16)(format[0] | 32).get()) {
+    case 100:
+      flag = TryParseExactD(input, result);
+      break;
+    case 110:
+      flag = TryParseExactN(input, result);
+      break;
+    case 98:
+      flag = TryParseExactB(input, result);
+      break;
+    case 112:
+      flag = TryParseExactP(input, result);
+      break;
+    case 120:
+      flag = TryParseExactX(input, result);
+      break;
+    default:
+      rt::throw_exception<FormatException>(SR::get_Format_InvalidGuidFormatSpecification());
+  }
+  Boolean flag2 = flag;
+  return result._parsedGuid;
 }
 
 Boolean Guid::TryParseExact(String input, String format, Guid& result) {
@@ -180,6 +211,29 @@ Boolean Guid::TryParseExact(ReadOnlySpan<Char> input, ReadOnlySpan<Char> format,
   input = MemoryExtensions::Trim(input);
   GuidResult result2 = GuidResult(GuidParseThrowStyle::None);
   Boolean flag = false;
+  switch ((UInt16)(format[0] | 32).get()) {
+    case 100:
+      flag = TryParseExactD(input, result2);
+      break;
+    case 110:
+      flag = TryParseExactN(input, result2);
+      break;
+    case 98:
+      flag = TryParseExactB(input, result2);
+      break;
+    case 112:
+      flag = TryParseExactP(input, result2);
+      break;
+    case 120:
+      flag = TryParseExactX(input, result2);
+      break;
+  }
+  if (flag) {
+    result = result2._parsedGuid;
+    return true;
+  }
+  result = Guid();
+  return false;
 }
 
 Boolean Guid::TryParseGuid(ReadOnlySpan<Char> guidString, GuidResult& result) {
@@ -336,6 +390,9 @@ Boolean Guid::TryParseHex(ReadOnlySpan<Char> guidString, UInt32& result, Boolean
     if (guidString[0] == 43) {
       guidString = guidString.Slice(1);
     }
+    if ((UInt32)guidString.get_Length() > 1u && guidString[0] == 48 && (guidString[1] | 32) == 120) {
+      guidString = guidString.Slice(2);
+    }
   }
   Int32 i;
   for (i = 0; i < guidString.get_Length() && guidString[i] == 48; i++) {
@@ -387,6 +444,7 @@ ReadOnlySpan<Char> Guid::EatAllWhitespace(ReadOnlySpan<Char> str) {
 
 Boolean Guid::IsHexPrefix(ReadOnlySpan<Char> str, Int32 i) {
   if (i + 1 < str.get_Length() && str[i] == 48) {
+    return (str[i + 1] | 32) == 120;
   }
   return false;
 }
@@ -432,6 +490,7 @@ String Guid::ToString() {
 }
 
 Int32 Guid::GetHashCode() {
+  return _a ^ Unsafe::Add(_a, 1) ^ Unsafe::Add(_a, 2) ^ Unsafe::Add(_a, 3);
 }
 
 Boolean Guid::Equals(Object o) {

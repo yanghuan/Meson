@@ -1,6 +1,7 @@
 #include "__ComObject-dep.h"
 
 #include <System.Private.CoreLib/System/__ComObject-dep.h>
+#include <System.Private.CoreLib/System/Activator-dep.h>
 #include <System.Private.CoreLib/System/Reflection/BindingFlags.h>
 #include <System.Private.CoreLib/System/Runtime/InteropServices/Marshal-dep.h>
 
@@ -39,6 +40,10 @@ void __ComObject___::FinalReleaseSelf() {
 }
 
 Object __ComObject___::CreateEventProvider(RuntimeType t) {
+  Object obj = Activator::CreateInstance(t, BindingFlags::Instance | BindingFlags::Public | BindingFlags::NonPublic | BindingFlags::CreateInstance, nullptr, rt::newarr<Array<Object>>(1), nullptr);
+  if (!SetData(t, obj)) {
+  }
+  return obj;
 }
 
 } // namespace System::Private::CoreLib::System::__ComObjectNamespace

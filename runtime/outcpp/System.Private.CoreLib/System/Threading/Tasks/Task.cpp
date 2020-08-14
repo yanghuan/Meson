@@ -1,11 +1,13 @@
 #include "Task-dep.h"
 
+#include <System.Private.CoreLib/System/ExceptionResource.h>
 #include <System.Private.CoreLib/System/ObjectDisposedException-dep.h>
 #include <System.Private.CoreLib/System/Threading/Interlocked-dep.h>
 #include <System.Private.CoreLib/System/Threading/Tasks/AsyncCausalityTracer-dep.h>
 #include <System.Private.CoreLib/System/Threading/Tasks/Task-dep.h>
 #include <System.Private.CoreLib/System/Threading/TimerQueueTimer-dep.h>
 #include <System.Private.CoreLib/System/Threading/Volatile-dep.h>
+#include <System.Private.CoreLib/System/ThrowHelper-dep.h>
 
 namespace System::Private::CoreLib::System::Threading::Tasks::TaskNamespace {
 void DelayPromise___::ctor(Int32 millisecondsDelay) {
@@ -108,6 +110,7 @@ TaskCreationOptions Task___<>::get_Options() {
 }
 
 Boolean Task___<>::get_IsWaitNotificationEnabledOrNotRanToCompletion() {
+  return (m_stateFlags & 285212672) != 16777216;
 }
 
 Boolean Task___<>::get_ShouldNotifyDebuggerOfWaitCompletion() {
@@ -115,6 +118,7 @@ Boolean Task___<>::get_ShouldNotifyDebuggerOfWaitCompletion() {
 }
 
 Boolean Task___<>::get_IsWaitNotificationEnabled() {
+  return (m_stateFlags & 268435456) != 0;
 }
 
 Int32 Task___<>::get_Id() {
@@ -142,9 +146,32 @@ AggregateException Task___<>::get_Exception() {
 
 TaskStatus Task___<>::get_Status() {
   Int32 stateFlags = m_stateFlags;
+  if ((stateFlags & 2097152) != 0) {
+    return TaskStatus::Faulted;
+  }
+  if ((stateFlags & 4194304) != 0) {
+    return TaskStatus::Canceled;
+  }
+  if ((stateFlags & 16777216) != 0) {
+    return TaskStatus::RanToCompletion;
+  }
+  if ((stateFlags & 8388608) != 0) {
+    return TaskStatus::WaitingForChildrenToComplete;
+  }
+  if ((stateFlags & 131072) != 0) {
+    return TaskStatus::Running;
+  }
+  if ((stateFlags & 65536) != 0) {
+    return TaskStatus::WaitingToRun;
+  }
+  if ((stateFlags & 33554432) != 0) {
+    return TaskStatus::WaitingForActivation;
+  }
+  return TaskStatus::Created;
 }
 
 Boolean Task___<>::get_IsCanceled() {
+  return (m_stateFlags & 6291456) == 4194304;
 }
 
 Boolean Task___<>::get_IsCancellationRequested() {
@@ -162,6 +189,7 @@ CancellationToken Task___<>::get_CancellationToken() {
 }
 
 Boolean Task___<>::get_IsCancellationAcknowledged() {
+  return (m_stateFlags & 1048576) != 0;
 }
 
 Boolean Task___<>::get_IsCompleted() {
@@ -170,12 +198,18 @@ Boolean Task___<>::get_IsCompleted() {
 }
 
 Boolean Task___<>::get_IsCompletedSuccessfully() {
+  return (m_stateFlags & 23068672) == 16777216;
 }
 
 TaskCreationOptions Task___<>::get_CreationOptions() {
+  return get_Options() & (TaskCreationOptions)(-65281);
 }
 
 WaitHandle Task___<>::get_AsyncWaitHandleOfIAsyncResult() {
+  if ((m_stateFlags & 262144) != 0) {
+    ThrowHelper::ThrowObjectDisposedException(ExceptionResource::Task_ThrowIfDisposed);
+  }
+  return get_CompletedEvent()->get_WaitHandle();
 }
 
 Object Task___<>::get_AsyncState() {
@@ -218,9 +252,13 @@ Boolean Task___<>::get_ExceptionRecorded() {
 }
 
 Boolean Task___<>::get_IsFaulted() {
+  return (m_stateFlags & 2097152) != 0;
 }
 
 ExecutionContext Task___<>::get_CapturedContext() {
+  if ((m_stateFlags & 536870912) == 536870912) {
+    return nullptr;
+  }
 }
 
 void Task___<>::set_CapturedContext(ExecutionContext value) {
@@ -233,9 +271,11 @@ void Task___<>::set_CapturedContext(ExecutionContext value) {
 }
 
 Boolean Task___<>::get_IsExceptionObservedByParent() {
+  return (m_stateFlags & 524288) != 0;
 }
 
 Boolean Task___<>::get_IsDelegateInvoked() {
+  return (m_stateFlags & 131072) != 0;
 }
 
 } // namespace System::Private::CoreLib::System::Threading::Tasks::TaskNamespace

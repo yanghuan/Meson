@@ -17,6 +17,7 @@ Int32 FastResourceComparer___::GetHashCode(String key) {
 Int32 FastResourceComparer___::HashFunction(String key) {
   UInt32 num = 5381u;
   for (Int32 i = 0; i < key->get_Length(); i++) {
+    num = (((num << 5) + num) ^ key[i]);
   }
   return (Int32)num;
 }
@@ -64,6 +65,9 @@ Int32 FastResourceComparer___::CompareOrdinal(String a, Array<Byte> bytes, Int32
     Byte* ptr = bytes;
     Byte* ptr2 = ptr;
     while (num < num3 && num2 == 0) {
+      Int32 num4 = *ptr2 | (ptr2[1] << 8);
+      num2 = a[num++] - num4;
+      ptr2 += 2;
     }
   }
   if (num2 != 0) {
@@ -83,6 +87,8 @@ Int32 FastResourceComparer___::CompareOrdinal(Byte* a, Int32 byteLen, String b) 
     num3 = b->get_Length();
   }
   while (num2 < num3 && num == 0) {
+    Char c = (Char)(*(a++) | (*(a++) << 8));
+    num = c - b[num2++];
   }
   if (num != 0) {
     return num;

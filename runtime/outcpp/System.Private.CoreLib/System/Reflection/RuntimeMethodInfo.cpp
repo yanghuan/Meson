@@ -5,15 +5,20 @@
 #include <System.Private.CoreLib/System/ArgumentNullException-dep.h>
 #include <System.Private.CoreLib/System/DelegateBindingFlags.h>
 #include <System.Private.CoreLib/System/InvalidOperationException-dep.h>
+#include <System.Private.CoreLib/System/NotSupportedException-dep.h>
+#include <System.Private.CoreLib/System/Reflection/CallingConventions.h>
 #include <System.Private.CoreLib/System/Reflection/CustomAttribute-dep.h>
 #include <System.Private.CoreLib/System/Reflection/Emit/MethodBuilderInstantiation-dep.h>
 #include <System.Private.CoreLib/System/Reflection/MethodBase-dep.h>
 #include <System.Private.CoreLib/System/Reflection/RuntimeMethodBody-dep.h>
 #include <System.Private.CoreLib/System/Reflection/RuntimeMethodInfo-dep.h>
+#include <System.Private.CoreLib/System/Reflection/TargetException-dep.h>
+#include <System.Private.CoreLib/System/Reflection/TargetParameterCountException-dep.h>
 #include <System.Private.CoreLib/System/RuntimeMethodHandle-dep.h>
 #include <System.Private.CoreLib/System/Security/VerificationException-dep.h>
 #include <System.Private.CoreLib/System/SR-dep.h>
 #include <System.Private.CoreLib/System/Text/ValueStringBuilder-dep.h>
+#include <System.Private.CoreLib/System/Type-dep.h>
 #include <System.Private.CoreLib/System/TypeNameFormatFlags.h>
 #include <System.Private.CoreLib/System/ValueType-dep.h>
 
@@ -23,6 +28,18 @@ using namespace System::Security;
 using namespace System::Text;
 
 INVOCATION_FLAGS RuntimeMethodInfo___::get_InvocationFlags() {
+  if ((m_invocationFlags & INVOCATION_FLAGS::INVOCATION_FLAGS_INITIALIZED) == 0) {
+    INVOCATION_FLAGS iNVOCATION_FLAGS = INVOCATION_FLAGS::INVOCATION_FLAGS_UNKNOWN;
+    Type declaringType = get_DeclaringType();
+    if (get_ContainsGenericParameters() || IsDisallowedByRefType(get_ReturnType()) || (declaringType != nullptr && declaringType->get_ContainsGenericParameters()) || (get_CallingConvention() & CallingConventions::VarArgs) == CallingConventions::VarArgs) {
+      iNVOCATION_FLAGS = INVOCATION_FLAGS::INVOCATION_FLAGS_NO_INVOKE;
+    } else if ((declaringType != nullptr && declaringType->get_IsByRefLike()) || get_ReturnType()->get_IsByRefLike()) {
+      iNVOCATION_FLAGS |= INVOCATION_FLAGS::INVOCATION_FLAGS_CONTAINS_STACK_POINTERS;
+    }
+
+    m_invocationFlags = (iNVOCATION_FLAGS | INVOCATION_FLAGS::INVOCATION_FLAGS_INITIALIZED);
+  }
+  return m_invocationFlags;
 }
 
 RuntimeMethodHandleInternal RuntimeMethodInfo___::get_ValueOfIRuntimeMethodInfo() {
@@ -300,13 +317,37 @@ MethodBody RuntimeMethodInfo___::GetMethodBody() {
 }
 
 void RuntimeMethodInfo___::CheckConsistency(Object target) {
+  if ((m_methodAttributes & MethodAttributes::Static) != MethodAttributes::Static && !m_declaringType->IsInstanceOfType(target)) {
+    if (target == nullptr) {
+      rt::throw_exception<TargetException>(SR::get_RFLCT_Targ_StatMethReqTarg());
+    }
+    rt::throw_exception<TargetException>(SR::get_RFLCT_Targ_ITargMismatch());
+  }
 }
 
 void RuntimeMethodInfo___::ThrowNoInvokeException() {
+  if ((get_InvocationFlags() & INVOCATION_FLAGS::INVOCATION_FLAGS_CONTAINS_STACK_POINTERS) != 0) {
+    rt::throw_exception<NotSupportedException>();
+  }
+  if ((get_CallingConvention() & CallingConventions::VarArgs) == CallingConventions::VarArgs) {
+    rt::throw_exception<NotSupportedException>();
+  }
+  if (get_DeclaringType()->get_ContainsGenericParameters() || get_ContainsGenericParameters()) {
+    rt::throw_exception<InvalidOperationException>(SR::get_Arg_UnboundGenParam());
+  }
 }
 
 Object RuntimeMethodInfo___::Invoke(Object obj, BindingFlags invokeAttr, Binder binder, Array<Object> parameters, CultureInfo culture) {
   Array<Object> array = InvokeArgumentsCheck(obj, invokeAttr, binder, parameters, culture);
+  Boolean wrapExceptions = (invokeAttr & BindingFlags::DoNotWrapExceptions) == 0;
+  if (array == nullptr || array->get_Length() == 0) {
+    return RuntimeMethodHandle::InvokeMethod(obj, nullptr, get_Signature(), false, wrapExceptions);
+  }
+  Object result = RuntimeMethodHandle::InvokeMethod(obj, array, get_Signature(), false, wrapExceptions);
+  for (Int32 i = 0; i < array->get_Length(); i++) {
+    parameters[i] = array[i];
+  }
+  return result;
 }
 
 Array<Object> RuntimeMethodInfo___::InvokeArgumentsCheck(Object obj, BindingFlags invokeAttr, Binder binder, Array<Object> parameters, CultureInfo culture) {
@@ -314,6 +355,17 @@ Array<Object> RuntimeMethodInfo___::InvokeArgumentsCheck(Object obj, BindingFlag
   Int32 num = signature->get_Arguments()->get_Length();
   Int32 num2 = (parameters != nullptr) ? parameters->get_Length() : 0;
   INVOCATION_FLAGS invocationFlags = get_InvocationFlags();
+  if ((invocationFlags & (INVOCATION_FLAGS::INVOCATION_FLAGS_NO_INVOKE | INVOCATION_FLAGS::INVOCATION_FLAGS_CONTAINS_STACK_POINTERS)) != 0) {
+    ThrowNoInvokeException();
+  }
+  CheckConsistency(obj);
+  if (num != num2) {
+    rt::throw_exception<TargetParameterCountException>(SR::get_Arg_ParmCnt());
+  }
+  if (num2 != 0) {
+    return CheckArguments(parameters, binder, invokeAttr, culture, signature);
+  }
+  return nullptr;
 }
 
 MethodInfo RuntimeMethodInfo___::GetBaseDefinition() {

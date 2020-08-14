@@ -8,6 +8,7 @@
 #include <System.Private.CoreLib/System/SByte-dep.h>
 #include <System.Private.CoreLib/System/Text/UnicodeUtility-dep.h>
 #include <System.Private.CoreLib/System/ThrowHelper-dep.h>
+#include <System.Private.CoreLib/System/UInt16-dep.h>
 #include <System.Private.CoreLib/System/UInt32-dep.h>
 #include <System.Private.CoreLib/System/UInt64-dep.h>
 #include <System.Private.CoreLib/System/UIntPtr-dep.h>
@@ -84,6 +85,7 @@ StrongBidiCategory CharUnicodeInfo::GetBidiCategory(StringBuilder s, Int32 index
 
 StrongBidiCategory CharUnicodeInfo::GetBidiCategoryNoBoundsChecks(UInt32 codePoint) {
   UIntPtr categoryCasingTableOffsetNoBoundsChecks = GetCategoryCasingTableOffsetNoBoundsChecks(codePoint);
+  return (StrongBidiCategory)(Unsafe::AddByteOffset(MemoryMarshal::GetReference(get_CategoriesValues()), categoryCasingTableOffsetNoBoundsChecks) & 96);
 }
 
 Int32 CharUnicodeInfo::GetDecimalDigitValue(Char ch) {
@@ -123,6 +125,7 @@ Int32 CharUnicodeInfo::GetDigitValue(String s, Int32 index) {
 Int32 CharUnicodeInfo::GetDigitValueInternalNoBoundsCheck(UInt32 codePoint) {
   UIntPtr numericGraphemeTableOffsetNoBoundsChecks = GetNumericGraphemeTableOffsetNoBoundsChecks(codePoint);
   Int32 num = Unsafe::AddByteOffset(MemoryMarshal::GetReference(get_DigitValues()), numericGraphemeTableOffsetNoBoundsChecks);
+  return (num & 15) - 1;
 }
 
 GraphemeClusterBreakType CharUnicodeInfo::GetGraphemeClusterBreakType(Rune rune) {
@@ -200,6 +203,7 @@ UnicodeCategory CharUnicodeInfo::GetUnicodeCategoryInternal(String str, Int32 in
 
 UnicodeCategory CharUnicodeInfo::GetUnicodeCategoryNoBoundsChecks(UInt32 codePoint) {
   UIntPtr categoryCasingTableOffsetNoBoundsChecks = GetCategoryCasingTableOffsetNoBoundsChecks(codePoint);
+  return (UnicodeCategory)(Unsafe::AddByteOffset(MemoryMarshal::GetReference(get_CategoriesValues()), categoryCasingTableOffsetNoBoundsChecks) & 31);
 }
 
 Int32 CharUnicodeInfo::GetCodePointFromString(String s, Int32 index) {
@@ -222,10 +226,14 @@ Int32 CharUnicodeInfo::GetCodePointFromString(String s, Int32 index) {
 
 UIntPtr CharUnicodeInfo::GetCategoryCasingTableOffsetNoBoundsChecks(UInt32 codePoint) {
   UInt32 num = Unsafe::AddByteOffset(MemoryMarshal::GetReference(get_CategoryCasingLevel1Index()), codePoint >> 9);
+  Byte& source = Unsafe::AddByteOffset(MemoryMarshal::GetReference(get_CategoryCasingLevel2Index()), (num << 6) + ((codePoint >> 3) & 62));
+  return Unsafe::AddByteOffset<Byte>(MemoryMarshal::GetReference(get_CategoryCasingLevel3Index()), (UInt32)(((!BitConverter::IsLittleEndian) ? BinaryPrimitives::ReverseEndianness(Unsafe::ReadUnaligned<UInt16>(source)) : Unsafe::ReadUnaligned<UInt16>(source)) << 4) + (codePoint & 15));
 }
 
 UIntPtr CharUnicodeInfo::GetNumericGraphemeTableOffsetNoBoundsChecks(UInt32 codePoint) {
   UInt32 num = Unsafe::AddByteOffset(MemoryMarshal::GetReference(get_NumericGraphemeLevel1Index()), codePoint >> 9);
+  Byte& source = Unsafe::AddByteOffset(MemoryMarshal::GetReference(get_NumericGraphemeLevel2Index()), (num << 6) + ((codePoint >> 3) & 62));
+  return Unsafe::AddByteOffset<Byte>(MemoryMarshal::GetReference(get_NumericGraphemeLevel3Index()), (UInt32)(((!BitConverter::IsLittleEndian) ? BinaryPrimitives::ReverseEndianness(Unsafe::ReadUnaligned<UInt16>(source)) : Unsafe::ReadUnaligned<UInt16>(source)) << 4) + (codePoint & 15));
 }
 
 } // namespace System::Private::CoreLib::System::Globalization::CharUnicodeInfoNamespace

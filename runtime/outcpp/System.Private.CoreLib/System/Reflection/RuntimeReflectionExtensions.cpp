@@ -9,24 +9,28 @@ IEnumerable<FieldInfo> RuntimeReflectionExtensions::GetRuntimeFields(Type type) 
   if (type == nullptr) {
     rt::throw_exception<ArgumentNullException>("type");
   }
+  return type->GetFields(BindingFlags::Instance | BindingFlags::Static | BindingFlags::Public | BindingFlags::NonPublic);
 }
 
 IEnumerable<MethodInfo> RuntimeReflectionExtensions::GetRuntimeMethods(Type type) {
   if (type == nullptr) {
     rt::throw_exception<ArgumentNullException>("type");
   }
+  return type->GetMethods(BindingFlags::Instance | BindingFlags::Static | BindingFlags::Public | BindingFlags::NonPublic);
 }
 
 IEnumerable<PropertyInfo> RuntimeReflectionExtensions::GetRuntimeProperties(Type type) {
   if (type == nullptr) {
     rt::throw_exception<ArgumentNullException>("type");
   }
+  return type->GetProperties(BindingFlags::Instance | BindingFlags::Static | BindingFlags::Public | BindingFlags::NonPublic);
 }
 
 IEnumerable<EventInfo> RuntimeReflectionExtensions::GetRuntimeEvents(Type type) {
   if (type == nullptr) {
     rt::throw_exception<ArgumentNullException>("type");
   }
+  return type->GetEvents(BindingFlags::Instance | BindingFlags::Static | BindingFlags::Public | BindingFlags::NonPublic);
 }
 
 FieldInfo RuntimeReflectionExtensions::GetRuntimeField(Type type, String name) {

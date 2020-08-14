@@ -11,16 +11,19 @@
 #include <System.Private.CoreLib/System/IRuntimeMethodInfo.h>
 #include <System.Private.CoreLib/System/MemoryExtensions-dep.h>
 #include <System.Private.CoreLib/System/NotImplementedException-dep.h>
+#include <System.Private.CoreLib/System/Reflection/CallingConventions.h>
 #include <System.Private.CoreLib/System/Reflection/Emit/ConstructorBuilder-dep.h>
 #include <System.Private.CoreLib/System/Reflection/Emit/ConstructorOnTypeBuilderInstantiation-dep.h>
 #include <System.Private.CoreLib/System/Reflection/Emit/FieldOnTypeBuilderInstantiation-dep.h>
 #include <System.Private.CoreLib/System/Reflection/Emit/GenericTypeParameterBuilder-dep.h>
+#include <System.Private.CoreLib/System/Reflection/Emit/MethodBuilder-dep.h>
 #include <System.Private.CoreLib/System/Reflection/Emit/MethodOnTypeBuilderInstantiation-dep.h>
 #include <System.Private.CoreLib/System/Reflection/Emit/ModuleBuilder-dep.h>
 #include <System.Private.CoreLib/System/Reflection/Emit/ModuleBuilderData-dep.h>
 #include <System.Private.CoreLib/System/Reflection/Emit/SignatureHelper-dep.h>
 #include <System.Private.CoreLib/System/Reflection/Emit/SymbolMethod-dep.h>
 #include <System.Private.CoreLib/System/Reflection/Emit/SymbolType-dep.h>
+#include <System.Private.CoreLib/System/Reflection/MethodInfo-dep.h>
 #include <System.Private.CoreLib/System/Reflection/ParameterInfo-dep.h>
 #include <System.Private.CoreLib/System/Reflection/RuntimeModule-dep.h>
 #include <System.Private.CoreLib/System/SR-dep.h>
@@ -258,6 +261,47 @@ Int32 ModuleBuilder___::GetMemberRefToken(MethodBase method, IEnumerable<Type> o
     }
     cGenericParameters = method->GetGenericArguments()->get_Length();
   }
+  if (optionalParameterTypes != nullptr && (method->get_CallingConvention() & CallingConventions::VarArgs) == 0) {
+    rt::throw_exception<InvalidOperationException>(SR::get_InvalidOperation_NotAVarArgCallingConvention());
+  }
+  MethodInfo methodInfo = rt::as<MethodInfo>(method);
+  Array<Type> parameterTypes;
+  Type methodBaseReturnType;
+  if (method->get_DeclaringType()->get_IsGenericType()) {
+    MethodOnTypeBuilderInstantiation methodOnTypeBuilderInstantiation = rt::as<MethodOnTypeBuilderInstantiation>(method);
+    MethodBase methodBase;
+    if ((Object)methodOnTypeBuilderInstantiation != nullptr) {
+      methodBase = methodOnTypeBuilderInstantiation->m_method;
+    } else {
+      ConstructorOnTypeBuilderInstantiation constructorOnTypeBuilderInstantiation = rt::as<ConstructorOnTypeBuilderInstantiation>(method);
+      if ((Object)constructorOnTypeBuilderInstantiation != nullptr) {
+        methodBase = constructorOnTypeBuilderInstantiation->m_ctor;
+      } else if (rt::is<MethodBuilder>(method) || rt::is<ConstructorBuilder>(method)) {
+        methodBase = method;
+      } else if (method->get_IsGenericMethod()) {
+        methodBase = methodInfo->GetGenericMethodDefinition();
+      } else {
+      }
+
+
+    }
+    parameterTypes = methodBase->GetParameterTypes();
+    methodBaseReturnType = MethodBuilder::in::GetMethodBaseReturnType(methodBase);
+  } else {
+    parameterTypes = method->GetParameterTypes();
+    methodBaseReturnType = MethodBuilder::in::GetMethodBaseReturnType(method);
+  }
+  Int32 length;
+  Array<Byte> signature = GetMemberRefSignature(method->get_CallingConvention(), methodBaseReturnType, parameterTypes, optionalParameterTypes, cGenericParameters)->InternalGetSignature(length);
+  Int32 tr;
+  if (!method->get_DeclaringType()->get_IsGenericType()) {
+    tr = ((!method->get_Module()->Equals((ModuleBuilder)this)) ? GetTypeToken(method->get_DeclaringType()).get_Token() : ((!(methodInfo != nullptr)) ? GetConstructorToken(rt::as<ConstructorInfo>(method)).get_Token() : GetMethodToken(methodInfo).get_Token()));
+  } else {
+    Int32 length2;
+    Array<Byte> signature2 = SignatureHelper::in::GetTypeSigToken((ModuleBuilder)this, method->get_DeclaringType())->InternalGetSignature(length2);
+    tr = GetTokenFromTypeSpec(signature2, length2);
+  }
+  return GetMemberRefFromSignature(tr, method->get_Name(), signature, length);
 }
 
 SignatureHelper ModuleBuilder___::GetMemberRefSignature(CallingConventions call, Type returnType, Array<Type> parameterTypes, IEnumerable<Type> optionalParameterTypes, Int32 cGenericParameters) {
@@ -338,6 +382,7 @@ Type ModuleBuilder___::GetTypeNoLock(String className, Boolean throwOnError, Boo
     }
     if (num3 % 2 == 1) {
       num = num2 + 1;
+      continue;
     }
     text = className->Substring(0, num2);
     text2 = className->Substring(num2);
@@ -487,6 +532,14 @@ MethodBuilder ModuleBuilder___::DefineGlobalMethodNoLock(String name, MethodAttr
   if (name->get_Length() == 0) {
     rt::throw_exception<ArgumentException>(SR::get_Argument_EmptyName(), "name");
   }
+  if ((attributes & MethodAttributes::Static) == 0) {
+    rt::throw_exception<ArgumentException>(SR::get_Argument_GlobalFunctionHasToBeStatic());
+  }
+  CheckContext(rt::newarr<Array<Type>>(1, returnType));
+  CheckContext(rt::newarr<Array<Array<Type>>>(3, requiredReturnTypeCustomModifiers, optionalReturnTypeCustomModifiers, parameterTypes));
+  CheckContext(rt::newarr<Array<Array<Type>>>(1, requiredParameterTypeCustomModifiers));
+  CheckContext(rt::newarr<Array<Array<Type>>>(1, optionalParameterTypeCustomModifiers));
+  return _moduleData->_globalTypeBuilder->DefineMethod(name, attributes, callingConvention, returnType, requiredReturnTypeCustomModifiers, optionalReturnTypeCustomModifiers, parameterTypes, requiredParameterTypeCustomModifiers, optionalParameterTypeCustomModifiers);
 }
 
 void ModuleBuilder___::CreateGlobalFunctions() {
@@ -663,6 +716,13 @@ Int32 ModuleBuilder___::GetMethodTokenInternal(MethodBase method, IEnumerable<Ty
     ModuleBuilder module = (ModuleBuilder)this;
     return TypeBuilder::in::DefineMethodSpec(QCallModule(module), num, signature, length);
   }
+  if ((method->get_CallingConvention() & CallingConventions::VarArgs) == 0 && (method->get_DeclaringType() == nullptr || !method->get_DeclaringType()->get_IsGenericType())) {
+    if (methodInfo != nullptr) {
+      return GetMethodTokenInternal(methodInfo).get_Token();
+    }
+    return GetConstructorToken(rt::as<ConstructorInfo>(method)).get_Token();
+  }
+  return GetMemberRefToken(method, optionalParameterTypes);
 }
 
 MethodToken ModuleBuilder___::GetArrayMethodToken(Type arrayClass, String methodName, CallingConventions callingConvention, Type returnType, Array<Type> parameterTypes) {

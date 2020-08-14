@@ -34,6 +34,8 @@ void ConsoleStream___::set_Position(Int64 value) {
 }
 
 void ConsoleStream___::ctor(FileAccess access) {
+  _canRead = ((access & FileAccess::Read) == FileAccess::Read);
+  _canWrite = ((access & FileAccess::Write) == FileAccess::Write);
 }
 
 void ConsoleStream___::Dispose(Boolean disposing) {

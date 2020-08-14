@@ -10,11 +10,13 @@
 #include <System.Private.CoreLib/System/Text/Rune-dep.h>
 #include <System.Private.CoreLib/System/Text/SpanRuneEnumerator-dep.h>
 #include <System.Private.Uri/System/HexConverter-dep.h>
+#include <System.Private.Uri/System/Text/ValueStringBuilder-dep.h>
 #include <System.Private.Uri/System/Uri-dep.h>
 
 namespace System::Private::Uri::System::UriHelperNamespace {
 using namespace ::System::Private::CoreLib::System;
 using namespace ::System::Private::CoreLib::System::Text;
+using namespace System::Text;
 
 ReadOnlySpan<Boolean> UriHelper::get_UnreservedReservedTable() {
   return rt::newarr<Array<Boolean>>(128);
@@ -30,10 +32,46 @@ Boolean UriHelper::TestForSubPath(Char* selfPtr, Int32 selfLength, Char* otherPt
   for (; i < selfLength && i < otherLength; i++) {
     Char c = selfPtr[i];
     Char c2 = otherPtr[i];
+    switch (c.get()) {
+      case 35:
+      case 63:
+        return true;
+      case 47:
+        if (c2 != 47) {
+          return false;
+        }
+        if (!flag) {
+          return false;
+        }
+        flag = true;
+        continue;
+      default:
+        if (c2 == 63 || c2 == 35) {
+          break;
+        }
+        if (!ignoreCase) {
+          if (c != c2) {
+            flag = false;
+          }
+        } else if (Char::ToLowerInvariant(c) != Char::ToLowerInvariant(c2)) {
+          flag = false;
+        }
+
+        continue;
+    }
+    break;
   }
   for (; i < selfLength; i++) {
     Char c;
     if ((c = selfPtr[i]) != 63) {
+      switch (c.get()) {
+        case 35:
+          break;
+        case 47:
+          return false;
+        default:
+          continue;
+      }
     }
     return true;
   }
@@ -48,10 +86,75 @@ String UriHelper::EscapeString(String stringToEscape, Boolean checkExistingEscap
     return String::in::Empty;
   }
   ReadOnlySpan<Boolean> readOnlySpan = Span<T>();
+  if ((forceEscape1 | forceEscape2) == 0) {
+    readOnlySpan = unreserved;
+  } else {
+    Byte default[128] = {};
+    Span<Boolean> span = Span<Boolean>(default, 128);
+    Span<Boolean> span2 = span;
+    unreserved.CopyTo(span2);
+    span2[forceEscape1] = false;
+    span2[forceEscape2] = false;
+    readOnlySpan = span2;
+  }
+  Int32 i;
+  for (i = 0; i < stringToEscape->get_Length(); i++) {
+    Char index;
+    if ((index = stringToEscape[i]) > 127) {
+      break;
+    }
+    if (!readOnlySpan[index]) {
+      break;
+    }
+  }
+  if (i == stringToEscape->get_Length()) {
+    return stringToEscape;
+  }
+  Char default[256] = {};
+  Span<Char> initialBuffer = default;
+  ValueStringBuilder vsb = ValueStringBuilder(initialBuffer);
+  vsb.Append(MemoryExtensions::AsSpan(stringToEscape, 0, i));
+  EscapeStringToBuilder(MemoryExtensions::AsSpan(stringToEscape, i), vsb, readOnlySpan, checkExistingEscaped);
+  return vsb.ToString();
 }
 
 Array<Char> UriHelper::EscapeString(ReadOnlySpan<Char> stringToEscape, Array<Char> dest, Int32& destPos, Boolean checkExistingEscaped, Char forceEscape1, Char forceEscape2) {
   ReadOnlySpan<Boolean> readOnlySpan = Span<T>();
+  if ((forceEscape1 | forceEscape2) == 0) {
+    readOnlySpan = get_UnreservedReservedTable();
+  } else {
+    Byte default[128] = {};
+    Span<Boolean> span = Span<Boolean>(default, 128);
+    Span<Boolean> span2 = span;
+    get_UnreservedReservedTable().CopyTo(span2);
+    span2[forceEscape1] = false;
+    span2[forceEscape2] = false;
+    readOnlySpan = span2;
+  }
+  Int32 i;
+  for (i = 0; i < stringToEscape.get_Length(); i++) {
+    Char index;
+    if ((index = stringToEscape[i]) > 127) {
+      break;
+    }
+    if (!readOnlySpan[index]) {
+      break;
+    }
+  }
+  if (i == stringToEscape.get_Length()) {
+    if (dest != nullptr) {
+      EnsureCapacity(dest, destPos, stringToEscape.get_Length());
+      stringToEscape.CopyTo(MemoryExtensions::AsSpan(dest, destPos));
+      destPos += stringToEscape.get_Length();
+    }
+    return dest;
+  }
+  Char default[256] = {};
+  Span<Char> initialBuffer = default;
+  ValueStringBuilder vsb = ValueStringBuilder(initialBuffer);
+  vsb.Append(stringToEscape.Slice(0, i));
+  EscapeStringToBuilder(stringToEscape.Slice(i), vsb, readOnlySpan, checkExistingEscaped);
+  EnsureCapacity(dest, destPos, vsb.get_Length());
 }
 
 void UriHelper::EscapeStringToBuilder(ReadOnlySpan<Char> stringToEscape, ValueStringBuilder& vsb, ReadOnlySpan<Boolean> noEscape, Boolean checkExistingEscaped) {
@@ -66,6 +169,7 @@ void UriHelper::EscapeStringToBuilder(ReadOnlySpan<Char> stringToEscape, ValueSt
     Byte b = (Byte)current.get_Value();
     if (noEscape[b]) {
       vsb.Append((Char)b);
+      continue;
     }
     if (checkExistingEscaped && b == 37) {
       SpanRuneEnumerator spanRuneEnumerator2 = spanRuneEnumerator;
@@ -78,6 +182,7 @@ void UriHelper::EscapeStringToBuilder(ReadOnlySpan<Char> stringToEscape, ValueSt
             vsb.Append((Char)current2.get_Value());
             vsb.Append((Char)current3.get_Value());
             spanRuneEnumerator = spanRuneEnumerator2;
+            continue;
           }
         }
       }
@@ -121,6 +226,14 @@ void UriHelper::UnescapeString(Char* pStr, Int32 start, Int32 end, ValueStringBu
   Array<Byte> array = nullptr;
   Boolean flag = false;
   Int32 i = start;
+  Boolean flag2 = Uri::in::IriParsingStatic(syntax) && (unescapeMode & UnescapeMode::EscapeUnescape) == UnescapeMode::EscapeUnescape;
+  Array<Char> array2 = nullptr;
+  if ((unescapeMode & UnescapeMode::EscapeUnescape) == 0) {
+    while (start < end) {
+      dest.Append(pStr[start++]);
+    }
+    return;
+  }
 }
 
 void UriHelper::MatchUTF8Sequence(ValueStringBuilder& dest, Span<Char> unescapedChars, Int32 charCount, Array<Byte> bytes, Int32 byteCount, Boolean isQuery, Boolean iriParsing) {
@@ -148,10 +261,17 @@ void UriHelper::EscapeAsciiChar(Byte b, ValueStringBuilder& to) {
 Char UriHelper::DecodeHexChars(UInt32 first, UInt32 second) {
   first -= 48;
   if (first > 9) {
+    if ((UInt32)((first - 17) & -33) > 5) {
+    }
+    first = ((first + 48) | 32) - 97 + 10;
   }
   second -= 48;
   if (second > 9) {
+    if ((UInt32)((second - 17) & -33) > 5) {
+    }
+    second = ((second + 48) | 32) - 97 + 10;
   }
+  return (Char)((first << 4) | second);
 }
 
 Boolean UriHelper::IsNotSafeForUnescape(Char ch) {
@@ -179,12 +299,21 @@ Boolean UriHelper::IsLWS(Char ch) {
 }
 
 Boolean UriHelper::IsAsciiLetter(Char character) {
+  return ((UInt32)(character - 65) & -33) < 26;
 }
 
 Boolean UriHelper::IsAsciiLetterOrDigit(Char character) {
+  if (((UInt32)(character - 65) & -33) >= 26) {
+    return (UInt32)(character - 48) < 10u;
+  }
+  return true;
 }
 
 Boolean UriHelper::IsHexDigit(Char character) {
+  if (((UInt32)(character - 65) & -33) >= 6) {
+    return (UInt32)(character - 48) < 10u;
+  }
+  return true;
 }
 
 Boolean UriHelper::IsBidiControlCharacter(Char ch) {

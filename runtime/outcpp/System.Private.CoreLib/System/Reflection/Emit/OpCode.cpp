@@ -9,21 +9,27 @@ namespace System::Private::CoreLib::System::Reflection::Emit::OpCodeNamespace {
 using namespace System::Threading;
 
 OperandType OpCode::get_OperandType() {
+  return (OperandType)(m_flags & 31);
 }
 
 FlowControl OpCode::get_FlowControl() {
+  return (FlowControl)((m_flags >> 5) & 15);
 }
 
 OpCodeType OpCode::get_OpCodeType() {
+  return (OpCodeType)((m_flags >> 9) & 7);
 }
 
 StackBehaviour OpCode::get_StackBehaviourPop() {
+  return (StackBehaviour)((m_flags >> 12) & 31);
 }
 
 StackBehaviour OpCode::get_StackBehaviourPush() {
+  return (StackBehaviour)((m_flags >> 17) & 31);
 }
 
 Int32 OpCode::get_Size() {
+  return (m_flags >> 22) & 3;
 }
 
 Int16 OpCode::get_Value() {
@@ -58,6 +64,7 @@ OpCode::OpCode(OpCodeValues value, Int32 flags) {
 }
 
 Boolean OpCode::EndsUncondJmpBlk() {
+  return (m_flags & 16777216) != 0;
 }
 
 Int32 OpCode::StackChange() {

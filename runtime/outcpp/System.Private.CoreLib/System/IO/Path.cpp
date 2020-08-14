@@ -251,9 +251,11 @@ String Path::Combine(Array<String> paths) {
   valueStringBuilder.EnsureCapacity(num);
   for (Int32 j = num2; j < paths->get_Length(); j++) {
     if (paths[j]->get_Length() == 0) {
+      continue;
     }
     if (valueStringBuilder.get_Length() == 0) {
       valueStringBuilder.Append(paths[j]);
+      continue;
     }
     Char c2 = valueStringBuilder[valueStringBuilder.get_Length() - 1];
     if (!PathInternal::IsDirectorySeparator(c2)) {
@@ -497,6 +499,25 @@ void Path::Populate83FileNameFromRandomBytes(Byte* bytes, Int32 byteCount, Span<
   Byte b3 = bytes[2];
   Byte b4 = bytes[3];
   Byte b5 = bytes[4];
+  chars[11] = (Char)get_Base32Char()[bytes[7] & 31];
+  chars[0] = (Char)get_Base32Char()[b & 31];
+  chars[1] = (Char)get_Base32Char()[b2 & 31];
+  chars[2] = (Char)get_Base32Char()[b3 & 31];
+  chars[3] = (Char)get_Base32Char()[b4 & 31];
+  chars[4] = (Char)get_Base32Char()[b5 & 31];
+  chars[5] = (Char)get_Base32Char()[((b & 224) >> 5) | ((b4 & 96) >> 2)];
+  chars[6] = (Char)get_Base32Char()[((b2 & 224) >> 5) | ((b5 & 96) >> 2)];
+  b3 = (Byte)(b3 >> 5);
+  if ((b4 & 128) != 0) {
+    b3 = (Byte)(b3 | 8);
+  }
+  if ((b5 & 128) != 0) {
+    b3 = (Byte)(b3 | 16);
+  }
+  chars[7] = (Char)get_Base32Char()[b3];
+  chars[8] = 46;
+  chars[9] = (Char)get_Base32Char()[bytes[5] & 31];
+  chars[10] = (Char)get_Base32Char()[bytes[6] & 31];
 }
 
 String Path::GetRelativePath(String relativeTo, String path) {

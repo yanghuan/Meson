@@ -28,6 +28,13 @@ Boolean IriHelper::CheckIriUnicodeRange(Char highSurr, Char lowSurr, Boolean& is
 }
 
 Boolean IriHelper::CheckIsReserved(Char ch, UriComponents component) {
+  if ((UriComponents::AbsoluteUri & component) == 0) {
+    if (component == (UriComponents)0) {
+      return UriHelper::IsGenDelim(ch);
+    }
+    return false;
+  }
+  return ";/?:@&=+$,#[]!'()*"->Contains(ch);
 }
 
 String IriHelper::EscapeUnescapeIri(Char* pInput, Int32 start, Int32 end, UriComponents component) {
@@ -47,10 +54,12 @@ String IriHelper::EscapeUnescapeIri(Char* pInput, Int32 start, Int32 end, UriCom
           dest.Append(pInput[i++]);
           dest.Append(pInput[i++]);
           dest.Append(pInput[i]);
+          continue;
         }
         if (c <= 127) {
           dest.Append(c);
           i += 2;
+          continue;
         }
         Int32 num = i;
         Int32 byteCount = 1;
@@ -77,6 +86,7 @@ String IriHelper::EscapeUnescapeIri(Char* pInput, Int32 start, Int32 end, UriCom
         Int32 chars = encoding->GetChars(array, 0, byteCount, array2, 0);
         if (chars != 0) {
           UriHelper::MatchUTF8Sequence(dest, array2, chars, array, byteCount, component == UriComponents::Query, true);
+          continue;
         }
         for (Int32 j = num; j <= i; j++) {
           dest.Append(pInput[j]);

@@ -3,6 +3,7 @@
 #include <System.Private.CoreLib/System/ArgumentNullException-dep.h>
 #include <System.Private.CoreLib/System/NotImplemented-dep.h>
 #include <System.Private.CoreLib/System/Reflection/BindingFlags.h>
+#include <System.Private.CoreLib/System/Reflection/CallingConventions.h>
 #include <System.Private.CoreLib/System/Reflection/InvalidFilterCriteriaException-dep.h>
 #include <System.Private.CoreLib/System/SR-dep.h>
 
@@ -78,9 +79,11 @@ MethodInfo Module___::GetMethod(String name) {
   if (name == nullptr) {
     rt::throw_exception<ArgumentNullException>("name");
   }
+  return GetMethodImpl(name, BindingFlags::Instance | BindingFlags::Static | BindingFlags::Public, nullptr, CallingConventions::Any, nullptr, nullptr);
 }
 
 MethodInfo Module___::GetMethod(String name, Array<Type> types) {
+  return GetMethod(name, BindingFlags::Instance | BindingFlags::Static | BindingFlags::Public, nullptr, CallingConventions::Any, types, nullptr);
 }
 
 MethodInfo Module___::GetMethod(String name, BindingFlags bindingAttr, Binder binder, CallingConventions callConvention, Array<Type> types, Array<ParameterModifier> modifiers) {
@@ -103,6 +106,7 @@ MethodInfo Module___::GetMethodImpl(String name, BindingFlags bindingAttr, Binde
 }
 
 Array<MethodInfo> Module___::GetMethods() {
+  return GetMethods(BindingFlags::Instance | BindingFlags::Static | BindingFlags::Public);
 }
 
 Array<MethodInfo> Module___::GetMethods(BindingFlags bindingFlags) {
@@ -110,6 +114,7 @@ Array<MethodInfo> Module___::GetMethods(BindingFlags bindingFlags) {
 }
 
 FieldInfo Module___::GetField(String name) {
+  return GetField(name, BindingFlags::Instance | BindingFlags::Static | BindingFlags::Public);
 }
 
 FieldInfo Module___::GetField(String name, BindingFlags bindingAttr) {
@@ -117,6 +122,7 @@ FieldInfo Module___::GetField(String name, BindingFlags bindingAttr) {
 }
 
 Array<FieldInfo> Module___::GetFields() {
+  return GetFields(BindingFlags::Instance | BindingFlags::Static | BindingFlags::Public);
 }
 
 Array<FieldInfo> Module___::GetFields(BindingFlags bindingFlags) {

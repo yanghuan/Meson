@@ -30,6 +30,7 @@ void ConfiguredValueTaskAwaitable<>::ConfiguredValueTaskAwaiter::OnCompleted(Act
   if (task != nullptr) {
     task->ConfigureAwait(_value._continueOnCapturedContext).GetAwaiter().OnCompleted(continuation);
   } else if (obj != nullptr) {
+    Unsafe::As<IValueTaskSource>(obj)->OnCompleted(ValueTaskAwaiter::s_invokeActionDelegate, continuation, _value._token, (ValueTaskSourceOnCompletedFlags)(2 | (_value._continueOnCapturedContext ? 1 : 0)));
   } else {
     ValueTask::get_CompletedTask()->ConfigureAwait(_value._continueOnCapturedContext).GetAwaiter().OnCompleted(continuation);
   }

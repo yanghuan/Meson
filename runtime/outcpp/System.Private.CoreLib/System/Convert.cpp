@@ -32,6 +32,66 @@ ReadOnlySpan<SByte> Convert::get_DecodingMap() {
 Boolean Convert::TryDecodeFromUtf16(ReadOnlySpan<Char> utf16, Span<Byte> bytes, Int32& consumed, Int32& written) {
   Char& reference = MemoryMarshal::GetReference(utf16);
   Byte& reference2 = MemoryMarshal::GetReference(bytes);
+  Int32 num = utf16.get_Length() & -4;
+  Int32 length = bytes.get_Length();
+  Int32 num2 = 0;
+  Int32 num3 = 0;
+  if (utf16.get_Length() != 0) {
+    SByte& reference3 = MemoryMarshal::GetReference(get_DecodingMap());
+    Int32 num4 = (length < (num >> 2) * 3) ? (length / 3 * 4) : (num - 4);
+    while (true) {
+      if (num2 < num4) {
+        Int32 num5 = Decode(Unsafe::Add(reference, num2), reference3);
+        if (num5 >= 0) {
+          WriteThreeLowOrderBytes(Unsafe::Add(reference2, num3), num5);
+          num3 += 3;
+          num2 += 4;
+          continue;
+        }
+      } else if (num4 == num - 4 && num2 != num) {
+        Int32 num6 = Unsafe::Add(reference, num - 4);
+        Int32 num7 = Unsafe::Add(reference, num - 3);
+        Int32 num8 = Unsafe::Add(reference, num - 2);
+        Int32 num9 = Unsafe::Add(reference, num - 1);
+        if (((num6 | num7 | num8 | num9) & 4294967040u) == 0) {
+          num6 = Unsafe::Add(reference3, num6);
+          num7 = Unsafe::Add(reference3, num7);
+          num6 <<= 18;
+          num7 <<= 12;
+          num6 |= num7;
+          if (num9 != 61) {
+            num8 = Unsafe::Add(reference3, num8);
+            num9 = Unsafe::Add(reference3, num9);
+            num8 <<= 6;
+            num6 |= num9;
+            num6 |= num8;
+            if (num6 >= 0 && num3 <= length - 3) {
+              WriteThreeLowOrderBytes(Unsafe::Add(reference2, num3), num6);
+              num3 += 3;
+            }
+          } else if (num8 != 61) {
+            num8 = Unsafe::Add(reference3, num8);
+            num8 <<= 6;
+            num6 |= num8;
+            if (num6 >= 0 && num3 <= length - 2) {
+              Unsafe::Add(reference2, num3) = (Byte)(num6 >> 16);
+              Unsafe::Add(reference2, num3 + 1) = (Byte)(num6 >> 8);
+              num3 += 2;
+            }
+          } else if (num6 >= 0 && num3 <= length - 1) {
+            Unsafe::Add(reference2, num3) = (Byte)(num6 >> 16);
+            num3++;
+          }
+
+
+        }
+      }
+
+    }
+  }
+  consumed = num2;
+  written = num3;
+  return true;
 }
 
 Int32 Convert::Decode(Char& encodedChars, SByte& decodingMap) {
@@ -39,6 +99,19 @@ Int32 Convert::Decode(Char& encodedChars, SByte& decodingMap) {
   Int32 num2 = Unsafe::Add(encodedChars, 1);
   Int32 num3 = Unsafe::Add(encodedChars, 2);
   Int32 num4 = Unsafe::Add(encodedChars, 3);
+  if (((num | num2 | num3 | num4) & 4294967040u) != 0) {
+    return -1;
+  }
+  num = Unsafe::Add(decodingMap, num);
+  num2 = Unsafe::Add(decodingMap, num2);
+  num3 = Unsafe::Add(decodingMap, num3);
+  num4 = Unsafe::Add(decodingMap, num4);
+  num <<= 18;
+  num2 <<= 12;
+  num3 <<= 6;
+  num |= num4;
+  num2 |= num3;
+  return num | num2;
 }
 
 void Convert::WriteThreeLowOrderBytes(Byte& destination, Int32 value) {
@@ -965,10 +1038,18 @@ Int32 Convert::ToInt32(Double value) {
     if (value < 2147483647.5) {
       Int32 num = (Int32)value;
       Double num2 = value - (Double)num;
+      if (num2 > 0.5 || (num2 == 0.5 && (num & 1) != 0)) {
+        num++;
+      }
+      return num;
     }
   } else if (value >= -2147483648.5) {
     Int32 num3 = (Int32)value;
     Double num4 = value - (Double)num3;
+    if (num4 < -0.5 || (num4 == -0.5 && (num3 & 1) != 0)) {
+      num3--;
+    }
+    return num3;
   }
 
   rt::throw_exception<OverflowException>(SR::get_Overflow_Int32());
@@ -1073,6 +1154,10 @@ UInt32 Convert::ToUInt32(Double value) {
   if (value >= -0.5 && value < 4294967295.5) {
     UInt32 num = (UInt32)value;
     Double num2 = value - (Double)num;
+    if (num2 > 0.5 || (num2 == 0.5 && (num & 1) != 0)) {
+      num++;
+    }
+    return num;
   }
   rt::throw_exception<OverflowException>(SR::get_Overflow_UInt32());
 }
@@ -2032,11 +2117,32 @@ Int32 Convert::ConvertToBase64Array(Char* outChars, Byte* inData, Int32 offset, 
         }
         num4 += 4;
       }
+      outChars[num3] = ptr[(inData[i] & 252) >> 2];
+      outChars[num3 + 1] = ptr[((inData[i] & 3) << 4) | ((inData[i + 1] & 240) >> 4)];
+      outChars[num3 + 2] = ptr[((inData[i + 1] & 15) << 2) | ((inData[i + 2] & 192) >> 6)];
+      outChars[num3 + 3] = ptr[inData[i + 2] & 63];
+      num3 += 4;
     }
     i = num2;
     if (insertLineBreaks && num != 0 && num4 == 76) {
       outChars[num3++] = 13;
       outChars[num3++] = 10;
+    }
+    switch (num.get()) {
+      case 2:
+        outChars[num3] = ptr[(inData[i] & 252) >> 2];
+        outChars[num3 + 1] = ptr[((inData[i] & 3) << 4) | ((inData[i + 1] & 240) >> 4)];
+        outChars[num3 + 2] = ptr[(inData[i + 1] & 15) << 2];
+        outChars[num3 + 3] = ptr[64];
+        num3 += 4;
+        break;
+      case 1:
+        outChars[num3] = ptr[(inData[i] & 252) >> 2];
+        outChars[num3 + 1] = ptr[(inData[i] & 3) << 4];
+        outChars[num3 + 2] = ptr[64];
+        outChars[num3 + 3] = ptr[64];
+        num3 += 4;
+        break;
     }
   }
   return num3;
@@ -2102,6 +2208,7 @@ Boolean Convert::TryFromBase64Chars(ReadOnlySpan<Char> chars, Span<Byte> bytes, 
         bytesWritten = 0;
         return false;
       }
+      continue;
     }
   }
   return true;

@@ -8,6 +8,7 @@
 #include <System.Private.CoreLib/System/SR-dep.h>
 #include <System.Private.CoreLib/System/Threading/Interlocked-dep.h>
 #include <System.Private.CoreLib/System/Threading/Tasks/SynchronizationContextTaskScheduler-dep.h>
+#include <System.Private.CoreLib/System/Threading/Tasks/TaskCreationOptions.h>
 #include <System.Private.CoreLib/System/Threading/Tasks/TaskScheduler-dep.h>
 #include <System.Private.CoreLib/System/Threading/Tasks/ThreadPoolTaskScheduler-dep.h>
 #include <System.Private.CoreLib/System/Threading/Tasks/TplEventSource-dep.h>
@@ -42,6 +43,10 @@ TaskScheduler TaskScheduler___::get_Current() {
 
 TaskScheduler TaskScheduler___::get_InternalCurrent() {
   Task internalCurrent = Task::in::get_InternalCurrent();
+  if (internalCurrent == nullptr || (internalCurrent->get_CreationOptions() & TaskCreationOptions::HideScheduler) != 0) {
+    return nullptr;
+  }
+  return internalCurrent->get_ExecutingTaskScheduler();
 }
 
 Int32 TaskScheduler___::get_Id() {

@@ -3,6 +3,7 @@
 #include <System.Private.CoreLib/Internal/Runtime/CompilerServices/Unsafe-dep.h>
 #include <System.Private.CoreLib/Interop-dep.h>
 #include <System.Private.CoreLib/System/ArgumentException-dep.h>
+#include <System.Private.CoreLib/System/ArgumentOutOfRangeException-dep.h>
 #include <System.Private.CoreLib/System/Byte-dep.h>
 #include <System.Private.CoreLib/System/Char-dep.h>
 #include <System.Private.CoreLib/System/Exception-dep.h>
@@ -473,6 +474,19 @@ void CultureData___::ClearCachedData() {
 }
 
 Array<CultureInfo> CultureData___::GetCultures(CultureTypes types) {
+  if (types <= (CultureTypes)0 || (types & ~(CultureTypes::NeutralCultures | CultureTypes::SpecificCultures | CultureTypes::InstalledWin32Cultures | CultureTypes::UserCustomCulture | CultureTypes::ReplacementCultures | CultureTypes::WindowsOnlyCultures | CultureTypes::FrameworkCultures)) != 0) {
+    rt::throw_exception<ArgumentOutOfRangeException>("types", SR::Format(SR::get_ArgumentOutOfRange_Range(), CultureTypes::NeutralCultures, CultureTypes::FrameworkCultures));
+  }
+  if ((types & CultureTypes::WindowsOnlyCultures) != 0) {
+    types &= ~CultureTypes::WindowsOnlyCultures;
+  }
+  if (GlobalizationMode::get_Invariant()) {
+    return rt::newarr<Array<CultureInfo>>(1);
+  }
+  if (!GlobalizationMode::get_UseNls()) {
+    return IcuEnumCultures(types);
+  }
+  return NlsEnumCultures(types);
 }
 
 CultureData CultureData___::CreateCultureWithInvariantData() {
@@ -696,6 +710,7 @@ String CultureData___::StripSecondsFromPattern(String time) {
       i++;
     } else {
       if (flag) {
+        continue;
       }
       switch (time[i].get()) {
         case 115:
@@ -1159,6 +1174,35 @@ String CultureData___::IcuGetThreeLetterWindowsLanguageName(String cultureName) 
 }
 
 Array<CultureInfo> CultureData___::IcuEnumCultures(CultureTypes types) {
+  if ((types & (CultureTypes::NeutralCultures | CultureTypes::SpecificCultures)) == 0) {
+    return Array<>::in::Empty<CultureInfo>();
+  }
+  Int32 locales = Interop::Globalization::GetLocales(nullptr, 0);
+  if (locales <= 0) {
+    return Array<>::in::Empty<CultureInfo>();
+  }
+  Array<Char> array = rt::newarr<Array<Char>>(locales);
+  locales = Interop::Globalization::GetLocales(array, locales);
+  if (locales <= 0) {
+    return Array<>::in::Empty<CultureInfo>();
+  }
+  Boolean flag = (types & CultureTypes::NeutralCultures) != 0;
+  Boolean flag2 = (types & CultureTypes::SpecificCultures) != 0;
+  List<CultureInfo> list = rt::newobj<List<CultureInfo>>();
+  if (flag) {
+    list->Add(CultureInfo::in::get_InvariantCulture());
+  }
+  Int32 num;
+  for (Int32 i = 0; i < locales; i += num) {
+    num = array[i++];
+    if (i + num <= locales) {
+      CultureInfo cultureInfo = CultureInfo::in::GetCultureInfo(rt::newobj<String>(array, i, num));
+      if ((flag && cultureInfo->get_IsNeutralCulture()) || (flag2 && !cultureInfo->get_IsNeutralCulture())) {
+        list->Add(cultureInfo);
+      }
+    }
+  }
+  return list->ToArray();
 }
 
 String CultureData___::IcuGetConsoleFallbackName(String cultureName) {
@@ -1211,6 +1255,8 @@ String CultureData___::NlsGetTimeFormatString() {
 }
 
 Int32 CultureData___::NlsGetFirstDayOfWeek() {
+  Int32 localeInfoExInt = GetLocaleInfoExInt(_sWindowsName, (UInt32)(4108 | ((!get_UseUserOverride()) ? Int32::MinValue : 0)));
+  return ConvertFirstDayOfWeekMonToSun(localeInfoExInt);
 }
 
 Array<String> CultureData___::NlsGetTimeFormats() {
@@ -1268,6 +1314,7 @@ String CultureData___::ReescapeWin32String(String str) {
           }
           stringBuilder->Append("\'");
           i++;
+          continue;
         }
         flag = false;
       } else {
@@ -1278,6 +1325,7 @@ String CultureData___::ReescapeWin32String(String str) {
         stringBuilder = rt::newobj<StringBuilder>(str, 0, i, str->get_Length() * 2);
       }
       stringBuilder->Append("\\");
+      continue;
     }
 
   }
@@ -1412,6 +1460,29 @@ String CultureData___::NlsGetThreeLetterWindowsLanguageName(String cultureName) 
 
 Array<CultureInfo> CultureData___::NlsEnumCultures(CultureTypes types) {
   UInt32 num = 0u;
+  if ((types & (CultureTypes::InstalledWin32Cultures | CultureTypes::ReplacementCultures | CultureTypes::FrameworkCultures)) != 0) {
+    num |= 48;
+  }
+  if ((types & CultureTypes::NeutralCultures) != 0) {
+    num |= 16;
+  }
+  if ((types & CultureTypes::SpecificCultures) != 0) {
+    num |= 32;
+  }
+  if ((types & CultureTypes::UserCustomCulture) != 0) {
+    num |= 2;
+  }
+  if ((types & CultureTypes::ReplacementCultures) != 0) {
+    num |= 2;
+  }
+  EnumData value = EnumData();
+  value.strings = rt::newobj<List<String>>();
+  Interop::Kernel32::EnumSystemLocalesEx(EnumAllSystemLocalesProc, num, Unsafe::AsPointer(value), IntPtr::Zero);
+  Array<CultureInfo> array = rt::newarr<Array<CultureInfo>>(value.strings->get_Count());
+  for (Int32 i = 0; i < array->get_Length(); i++) {
+    array[i] = rt::newobj<CultureInfo>(value.strings[i]);
+  }
+  return array;
 }
 
 String CultureData___::NlsGetConsoleFallbackName(String cultureName) {

@@ -20,6 +20,7 @@ void BitHelper::MarkBit(Int32 bitPosition) {
 Boolean BitHelper::IsMarked(Int32 bitPosition) {
   Int32 num = bitPosition / 32;
   if ((UInt32)num < (UInt32)_span.get_Length()) {
+    return (_span[num] & (1 << bitPosition % 32)) != 0;
   }
   return false;
 }

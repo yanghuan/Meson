@@ -15,6 +15,7 @@
 #include <System.Private.CoreLib/System/Threading/Thread-dep.h>
 #include <System.Private.CoreLib/System/Threading/ThreadPool-dep.h>
 #include <System.Private.CoreLib/System/Threading/ThreadPoolWorkQueue-dep.h>
+#include <System.Private.CoreLib/System/Threading/Volatile-dep.h>
 
 namespace System::Private::CoreLib::System::Threading::ThreadPoolWorkQueueNamespace {
 using namespace Internal::Runtime::CompilerServices;
@@ -55,6 +56,9 @@ void ThreadPoolWorkQueue___::WorkStealingQueue___::LocalPush(Object obj) {
     }
   }
   if (num < m_headIndex + m_mask) {
+    Volatile::Write(m_array[num & m_mask], obj);
+    m_tailIndex = num + 1;
+    return;
   }
   Boolean lockTaken2 = false;
   try{
@@ -64,11 +68,15 @@ void ThreadPoolWorkQueue___::WorkStealingQueue___::LocalPush(Object obj) {
     if (num2 >= m_mask) {
       Array<Object> array = rt::newarr<Array<Object>>(m_array->get_Length() << 1);
       for (Int32 i = 0; i < m_array->get_Length(); i++) {
+        array[i] = m_array[(i + headIndex) & m_mask];
       }
       m_array = array;
       m_headIndex = 0;
       num = (m_tailIndex = num2);
+      m_mask = ((m_mask << 1) | 1);
     }
+    Volatile::Write(m_array[num & m_mask], obj);
+    m_tailIndex = num + 1;
   } finally: {
     if (lockTaken2) {
       m_foreignLock.Exit(false);
@@ -77,6 +85,34 @@ void ThreadPoolWorkQueue___::WorkStealingQueue___::LocalPush(Object obj) {
 }
 
 Boolean ThreadPoolWorkQueue___::WorkStealingQueue___::LocalFindAndPop(Object obj) {
+  if (m_array[(m_tailIndex - 1) & m_mask] == obj) {
+    Object obj2 = LocalPop();
+    return obj2 != nullptr;
+  }
+  for (Int32 num = m_tailIndex - 2; num >= m_headIndex; num--) {
+    if (m_array[num & m_mask] == obj) {
+      Boolean lockTaken = false;
+      try{
+        m_foreignLock.Enter(lockTaken);
+        if (m_array[num & m_mask] == nullptr) {
+          return false;
+        }
+        Volatile::Write(m_array[num & m_mask], nullptr);
+        if (num == m_tailIndex) {
+          m_tailIndex--;
+        } else if (num == m_headIndex) {
+          m_headIndex++;
+        }
+
+        return true;
+      } finally: {
+        if (lockTaken) {
+          m_foreignLock.Exit(false);
+        }
+      }
+    }
+  }
+  return false;
 }
 
 Object ThreadPoolWorkQueue___::WorkStealingQueue___::LocalPop() {
@@ -97,11 +133,24 @@ Object ThreadPoolWorkQueue___::WorkStealingQueue___::LocalPopCore() {
     tailIndex--;
     Interlocked::Exchange(m_tailIndex, tailIndex);
     if (m_headIndex <= tailIndex) {
+      num = (tailIndex & m_mask);
+      obj = Volatile::Read(m_array[num]);
+      if (obj != nullptr) {
+        break;
+      }
+      continue;
     }
     Boolean lockTaken = false;
     try{
       m_foreignLock.Enter(lockTaken);
       if (m_headIndex <= tailIndex) {
+        Int32 num2 = tailIndex & m_mask;
+        Object obj2 = Volatile::Read(m_array[num2]);
+        if (obj2 != nullptr) {
+          m_array[num2] = nullptr;
+          return obj2;
+        }
+        continue;
       }
       m_tailIndex = tailIndex + 1;
       return nullptr;
@@ -124,6 +173,13 @@ Object ThreadPoolWorkQueue___::WorkStealingQueue___::TrySteal(Boolean& missedSte
         Int32 headIndex = m_headIndex;
         Interlocked::Exchange(m_headIndex, headIndex + 1);
         if (headIndex < m_tailIndex) {
+          Int32 num = headIndex & m_mask;
+          Object obj = Volatile::Read(m_array[num]);
+          if (obj == nullptr) {
+            continue;
+          }
+          m_array[num] = nullptr;
+          return obj;
         }
         m_headIndex = headIndex;
       }
@@ -200,6 +256,7 @@ void ThreadPoolWorkQueue___::MarkThreadRequestSatisfied() {
     Int32 num2 = Interlocked::CompareExchange(numOutstandingThreadRequests, num - 1, num);
     if (num2 != num) {
       num = num2;
+      continue;
     }
     break;
   }

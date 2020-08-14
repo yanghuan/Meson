@@ -21,6 +21,10 @@ void SortVersion___::ctor(Int32 nlsVersion, Int32 effectiveId, Guid customVersio
   m_NlsVersion = nlsVersion;
   if (customVersion == Guid::Empty) {
     Byte h = (Byte)(effectiveId >> 24);
+    Byte i = (Byte)((effectiveId & 16711680) >> 16);
+    Byte j = (Byte)((effectiveId & 65280) >> 8);
+    Byte k = (Byte)(effectiveId & 255);
+    customVersion = Guid(0, 0, 0, 0, 0, 0, 0, h, i, j, k);
   }
   m_SortId = customVersion;
 }
@@ -44,6 +48,7 @@ Boolean SortVersion___::Equals(SortVersion other) {
 }
 
 Int32 SortVersion___::GetHashCode() {
+  return (m_NlsVersion * 7) | m_SortId.GetHashCode();
 }
 
 Boolean SortVersion___::op_Equality(SortVersion left, SortVersion right) {

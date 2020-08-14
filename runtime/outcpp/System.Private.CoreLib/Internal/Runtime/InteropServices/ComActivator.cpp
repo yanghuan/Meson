@@ -112,6 +112,8 @@ void ComActivator::ClassRegistrationScenarioForType(ComActivationContext cxt, Bo
   Type type3 = type2;
   Boolean flag = false;
   while (type3 != nullptr && !flag) {
+    Array<MethodInfo> methods = type3->GetMethods(BindingFlags::Instance | BindingFlags::Static | BindingFlags::Public | BindingFlags::NonPublic);
+    Array<MethodInfo> array = methods;
   }
 }
 

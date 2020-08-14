@@ -65,6 +65,16 @@ UInt16 ReaderWriterLockSlim___::SpinLock::get_EnterForEnterAnyWriteDeprioritized
 }
 
 Int32 ReaderWriterLockSlim___::SpinLock::GetEnterDeprioritizationStateChange(EnterSpinLockReason reason) {
+  switch (reason & EnterSpinLockReason::OperationMask) {
+    case EnterSpinLockReason::EnterAnyRead:
+      return 0;
+    case EnterSpinLockReason::ExitAnyRead:
+      return 1;
+    case EnterSpinLockReason::EnterWrite:
+      return 65536;
+    default:
+      return 65537;
+  }
 }
 
 Boolean ReaderWriterLockSlim___::SpinLock::IsEnterDeprioritized(EnterSpinLockReason reason) {
@@ -126,6 +136,7 @@ void ReaderWriterLockSlim___::SpinLock::Exit() {
 }
 
 Boolean ReaderWriterLockSlim___::get_HasNoWaiters() {
+  return (_waiterStates & WaiterStates::NoWaiters) != 0;
 }
 
 void ReaderWriterLockSlim___::set_HasNoWaiters(Boolean value) {
@@ -712,6 +723,14 @@ void ReaderWriterLockSlim___::ExitAndWakeUpAppropriateWaitersPreferringWriters()
     _spinLock.Exit();
     _waitUpgradeEvent->Set();
   } else if (numReaders == 0 && _numWriteWaiters != 0) {
+    WaiterStates waiterStates = _waiterStates & WaiterStates::WriteWaiterSignaled;
+    if (waiterStates == WaiterStates::None) {
+      _waiterStates |= WaiterStates::WriteWaiterSignaled;
+    }
+    _spinLock.Exit();
+    if (waiterStates == WaiterStates::None) {
+      _writeEvent->Set();
+    }
   } else {
     ExitAndWakeUpAppropriateReadWaiters();
   }
@@ -727,6 +746,11 @@ void ReaderWriterLockSlim___::ExitAndWakeUpAppropriateReadWaiters() {
   Boolean flag = _numReadWaiters != 0;
   Boolean flag2 = _numUpgradeWaiters != 0 && _upgradeLockOwnerId == -1;
   if (flag2) {
+    if ((_waiterStates & WaiterStates::UpgradeableReadWaiterSignaled) == 0) {
+      _waiterStates |= WaiterStates::UpgradeableReadWaiterSignaled;
+    } else {
+      flag2 = false;
+    }
   }
   _spinLock.Exit();
   if (flag) {
@@ -738,6 +762,7 @@ void ReaderWriterLockSlim___::ExitAndWakeUpAppropriateReadWaiters() {
 }
 
 Boolean ReaderWriterLockSlim___::IsWriterAcquired() {
+  return ((Int32)_owners & -1073741825) == 0;
 }
 
 void ReaderWriterLockSlim___::SetWriterAcquired() {
@@ -765,6 +790,7 @@ void ReaderWriterLockSlim___::ClearUpgraderWaiting() {
 }
 
 UInt32 ReaderWriterLockSlim___::GetNumReaders() {
+  return _owners & 268435455;
 }
 
 Boolean ReaderWriterLockSlim___::ShouldSpinForEnterAnyRead() {

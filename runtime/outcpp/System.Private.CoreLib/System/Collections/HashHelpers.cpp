@@ -1,6 +1,7 @@
 #include "HashHelpers-dep.h"
 
 #include <System.Private.CoreLib/System/ArgumentException-dep.h>
+#include <System.Private.CoreLib/System/Math-dep.h>
 #include <System.Private.CoreLib/System/SR-dep.h>
 #include <System.Private.CoreLib/System/Threading/Interlocked-dep.h>
 #include <System.Private.CoreLib/System/UInt32-dep.h>
@@ -16,6 +17,16 @@ ConditionalWeakTable<Object, SerializationInfo> HashHelpers::get_SerializationIn
 }
 
 Boolean HashHelpers::IsPrime(Int32 candidate) {
+  if ((candidate & 1) != 0) {
+    Int32 num = (Int32)Math::Sqrt(candidate);
+    for (Int32 i = 3; i <= num; i += 2) {
+      if (candidate % i == 0) {
+        return false;
+      }
+    }
+    return true;
+  }
+  return candidate == 2;
 }
 
 Int32 HashHelpers::GetPrime(Int32 min) {

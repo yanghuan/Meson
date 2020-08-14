@@ -36,6 +36,7 @@ Int16 Version___::get_MajorRevision() {
 }
 
 Int16 Version___::get_MinorRevision() {
+  return (Int16)(_Revision & 65535);
 }
 
 Int32 Version___::get_DefaultFormatFieldCount() {
@@ -181,6 +182,10 @@ Boolean Version___::Equals(Version obj) {
 
 Int32 Version___::GetHashCode() {
   Int32 num = 0;
+  num |= (_Major & 15) << 28;
+  num |= (_Minor & 255) << 20;
+  num |= (_Build & 255) << 12;
+  return num | (_Revision & 4095);
 }
 
 String Version___::ToString() {

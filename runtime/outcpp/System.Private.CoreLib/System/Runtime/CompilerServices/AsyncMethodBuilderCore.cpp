@@ -8,6 +8,7 @@
 #include <System.Private.CoreLib/System/Reflection/FieldInfo-dep.h>
 #include <System.Private.CoreLib/System/Runtime/CompilerServices/AsyncMethodBuilderCore-dep.h>
 #include <System.Private.CoreLib/System/Runtime/CompilerServices/IAsyncStateMachineBox.h>
+#include <System.Private.CoreLib/System/Text/StringBuilder-dep.h>
 #include <System.Private.CoreLib/System/Threading/Tasks/TplEventSource-dep.h>
 #include <System.Private.CoreLib/System/ThrowHelper-dep.h>
 #include <System.Private.CoreLib/System/Type-dep.h>
@@ -15,6 +16,7 @@
 namespace System::Private::CoreLib::System::Runtime::CompilerServices::AsyncMethodBuilderCoreNamespace {
 using namespace System::Diagnostics::Tracing;
 using namespace System::Reflection;
+using namespace System::Text;
 using namespace System::Threading::Tasks;
 
 void AsyncMethodBuilderCore::ContinuationWrapper___::ctor(Action<> continuation, Action<Action<>, Task<>> invokeAction, Task<> innerTask) {
@@ -42,6 +44,10 @@ void AsyncMethodBuilderCore::SetStateMachine(IAsyncStateMachine stateMachine, Ta
 
 String AsyncMethodBuilderCore::GetAsyncStateMachineDescription(IAsyncStateMachine stateMachine) {
   Type type = stateMachine->GetType();
+  Array<FieldInfo> fields = type->GetFields(BindingFlags::Instance | BindingFlags::Public | BindingFlags::NonPublic);
+  StringBuilder stringBuilder = rt::newobj<StringBuilder>();
+  stringBuilder->AppendLine(type->get_FullName());
+  Array<FieldInfo> array = fields;
 }
 
 Action<> AsyncMethodBuilderCore::CreateContinuationWrapper(Action<> continuation, Action<Action<>, Task<>> invokeAction, Task<> innerTask) {

@@ -2,10 +2,12 @@
 
 #include <System.Private.CoreLib/Internal/Runtime/CompilerServices/Unsafe-dep.h>
 #include <System.Private.CoreLib/Interop-dep.h>
+#include <System.Private.CoreLib/System/Activator-dep.h>
 #include <System.Private.CoreLib/System/ArgumentException-dep.h>
 #include <System.Private.CoreLib/System/ArgumentNullException-dep.h>
 #include <System.Private.CoreLib/System/Convert-dep.h>
 #include <System.Private.CoreLib/System/DefaultBinder-dep.h>
+#include <System.Private.CoreLib/System/Empty-dep.h>
 #include <System.Private.CoreLib/System/Enum-dep.h>
 #include <System.Private.CoreLib/System/GC-dep.h>
 #include <System.Private.CoreLib/System/Globalization/CultureInfo-dep.h>
@@ -13,6 +15,7 @@
 #include <System.Private.CoreLib/System/InvalidOperationException-dep.h>
 #include <System.Private.CoreLib/System/IRuntimeMethodInfo.h>
 #include <System.Private.CoreLib/System/MdUtf8String-dep.h>
+#include <System.Private.CoreLib/System/MissingFieldException-dep.h>
 #include <System.Private.CoreLib/System/MissingMethodException-dep.h>
 #include <System.Private.CoreLib/System/ModuleHandle-dep.h>
 #include <System.Private.CoreLib/System/NotSupportedException-dep.h>
@@ -30,6 +33,7 @@
 #include <System.Private.CoreLib/System/Reflection/ParameterInfo-dep.h>
 #include <System.Private.CoreLib/System/Reflection/PseudoCustomAttribute-dep.h>
 #include <System.Private.CoreLib/System/Reflection/SignatureConstructedGenericType-dep.h>
+#include <System.Private.CoreLib/System/Reflection/SignatureTypeExtensions-dep.h>
 #include <System.Private.CoreLib/System/Runtime/CompilerServices/QCallTypeHandle-dep.h>
 #include <System.Private.CoreLib/System/Runtime/CompilerServices/RuntimeHelpers-dep.h>
 #include <System.Private.CoreLib/System/Runtime/InteropServices/BStrWrapper-dep.h>
@@ -490,6 +494,17 @@ MethodBase RuntimeType___::GetMethodBase(RuntimeType reflectedType, RuntimeMetho
   }
   if (reflectedType != runtimeType && !reflectedType->IsSubclassOf(runtimeType)) {
     if (reflectedType->get_IsArray()) {
+      Array<MethodBase> array2 = rt::as<Array<MethodBase>>(reflectedType->GetMember(RuntimeMethodHandle::GetName(methodHandle), MemberTypes::Constructor | MemberTypes::Method, BindingFlags::Instance | BindingFlags::Public | BindingFlags::NonPublic));
+      Boolean flag = false;
+      for (Int32 i = 0; i < array2->get_Length(); i++) {
+        IRuntimeMethodInfo runtimeMethodInfo = (IRuntimeMethodInfo)array2[i];
+        if (runtimeMethodInfo->get_Value().get_Value() == methodHandle.get_Value()) {
+          flag = true;
+        }
+      }
+      if (!flag) {
+        rt::throw_exception<ArgumentException>(SR::Format(SR::get_Argument_ResolveMethodHandle(), reflectedType, runtimeType));
+      }
     } else if (runtimeType->get_IsGenericType()) {
       RuntimeType right = (RuntimeType)runtimeType->GetGenericTypeDefinition();
       RuntimeType runtimeType2 = reflectedType;
@@ -615,16 +630,29 @@ BindingFlags RuntimeType___::FilterPreCalculate(Boolean isPublic, Boolean isInhe
   if (isInherited) {
     bindingFlags |= BindingFlags::DeclaredOnly;
     if (isStatic) {
+      return bindingFlags | (BindingFlags::Static | BindingFlags::FlattenHierarchy);
     }
+    return bindingFlags | BindingFlags::Instance;
   }
   if (isStatic) {
+    return bindingFlags | BindingFlags::Static;
   }
+  return bindingFlags | BindingFlags::Instance;
 }
 
 void RuntimeType___::FilterHelper(BindingFlags bindingFlags, String& name, Boolean allowPrefixLookup, Boolean& prefixLookup, Boolean& ignoreCase, MemberListType& listType) {
   prefixLookup = false;
   ignoreCase = false;
   if (name != nullptr) {
+    if ((bindingFlags & BindingFlags::IgnoreCase) != 0) {
+      name = name->ToLowerInvariant();
+      ignoreCase = true;
+      listType = MemberListType::CaseInsensitive;
+    } else {
+      listType = MemberListType::CaseSensitive;
+    }
+    if (allowPrefixLookup && name->EndsWith("*", StringComparison::Ordinal)) {
+    }
   } else {
     listType = MemberListType::All;
   }
@@ -646,6 +674,44 @@ Boolean RuntimeType___::FilterApplyPrefixLookup(MemberInfo memberInfo, String na
 }
 
 Boolean RuntimeType___::FilterApplyBase(MemberInfo memberInfo, BindingFlags bindingFlags, Boolean isPublic, Boolean isNonProtectedInternal, Boolean isStatic, String name, Boolean prefixLookup) {
+  if (isPublic) {
+    if ((bindingFlags & BindingFlags::Public) == 0) {
+      return false;
+    }
+  } else if ((bindingFlags & BindingFlags::NonPublic) == 0) {
+    return false;
+  }
+
+  Boolean flag = (Object)memberInfo->get_DeclaringType() != memberInfo->get_ReflectedType();
+  if ((bindingFlags & BindingFlags::DeclaredOnly) != 0 && flag) {
+    return false;
+  }
+  if (memberInfo->get_MemberType() != MemberTypes::TypeInfo && memberInfo->get_MemberType() != MemberTypes::NestedType) {
+    if (isStatic) {
+      if ((bindingFlags & BindingFlags::FlattenHierarchy) == 0 && flag) {
+        return false;
+      }
+      if ((bindingFlags & BindingFlags::Static) == 0) {
+        return false;
+      }
+    } else if ((bindingFlags & BindingFlags::Instance) == 0) {
+      return false;
+    }
+
+  }
+  if (prefixLookup && !FilterApplyPrefixLookup(memberInfo, name, (bindingFlags & BindingFlags::IgnoreCase) != 0)) {
+    return false;
+  }
+  if ((bindingFlags & BindingFlags::DeclaredOnly) == 0 && flag && isNonProtectedInternal && (bindingFlags & BindingFlags::NonPublic) != 0 && !isStatic && (bindingFlags & BindingFlags::Instance) != 0) {
+    MethodInfo methodInfo = rt::as<MethodInfo>(memberInfo);
+    if (methodInfo == nullptr) {
+      return false;
+    }
+    if (!methodInfo->get_IsVirtual() && !methodInfo->get_IsAbstract()) {
+      return false;
+    }
+  }
+  return true;
 }
 
 Boolean RuntimeType___::FilterApplyType(Type type, BindingFlags bindingFlags, String name, Boolean prefixLookup, String ns) {
@@ -669,6 +735,53 @@ Boolean RuntimeType___::FilterApplyConstructorInfo(RuntimeConstructorInfo constr
 
 Boolean RuntimeType___::FilterApplyMethodBase(MethodBase methodBase, BindingFlags methodFlags, BindingFlags bindingFlags, CallingConventions callConv, Array<Type> argumentTypes) {
   bindingFlags ^= BindingFlags::DeclaredOnly;
+  if ((bindingFlags & methodFlags) != methodFlags) {
+    return false;
+  }
+  if ((callConv & CallingConventions::Any) == 0) {
+    if ((callConv & CallingConventions::VarArgs) != 0 && (methodBase->get_CallingConvention() & CallingConventions::VarArgs) == 0) {
+      return false;
+    }
+    if ((callConv & CallingConventions::Standard) != 0 && (methodBase->get_CallingConvention() & CallingConventions::Standard) == 0) {
+      return false;
+    }
+  }
+  if (argumentTypes != nullptr) {
+    Array<ParameterInfo> parametersNoCopy = methodBase->GetParametersNoCopy();
+    if (argumentTypes->get_Length() != parametersNoCopy->get_Length()) {
+      if ((bindingFlags & (BindingFlags::InvokeMethod | BindingFlags::CreateInstance | BindingFlags::GetProperty | BindingFlags::SetProperty)) == 0) {
+        return false;
+      }
+      Boolean flag = false;
+      if (argumentTypes->get_Length() > parametersNoCopy->get_Length()) {
+        if ((methodBase->get_CallingConvention() & CallingConventions::VarArgs) == 0) {
+          flag = true;
+        }
+      } else if ((bindingFlags & BindingFlags::OptionalParamBinding) == 0) {
+        flag = true;
+      } else if (!parametersNoCopy[argumentTypes->get_Length()]->get_IsOptional()) {
+        flag = true;
+      }
+
+
+      if (flag) {
+        if (parametersNoCopy->get_Length() == 0) {
+          return false;
+        }
+        if (argumentTypes->get_Length() < parametersNoCopy->get_Length() - 1) {
+          return false;
+        }
+      }
+    } else if ((bindingFlags & BindingFlags::ExactBinding) != 0 && (bindingFlags & BindingFlags::InvokeMethod) == 0) {
+      for (Int32 i = 0; i < parametersNoCopy->get_Length(); i++) {
+        if ((Object)argumentTypes[i] != nullptr && !SignatureTypeExtensions::MatchesParameterTypeExactly(argumentTypes[i], parametersNoCopy[i])) {
+          return false;
+        }
+      }
+    }
+
+  }
+  return true;
 }
 
 void RuntimeType___::ctor() {
@@ -876,6 +989,16 @@ ConstructorInfo RuntimeType___::GetConstructorImpl(BindingFlags bindingAttr, Bin
     }
   }
   Array<MethodBase> match;
+  if ((bindingAttr & BindingFlags::ExactBinding) != 0) {
+    match = constructorCandidates.ToArray();
+    return rt::as<ConstructorInfo>(DefaultBinder::in::ExactBinding(match, types, modifiers));
+  }
+  if (binder == nullptr) {
+    binder = Type::in::get_DefaultBinder();
+  }
+  Binder binder2 = binder;
+  match = constructorCandidates.ToArray();
+  return rt::as<ConstructorInfo>(binder2->SelectMethod(bindingAttr, match, types, modifiers));
 }
 
 PropertyInfo RuntimeType___::GetPropertyImpl(String name, BindingFlags bindingAttr, Binder binder, Type returnType, Array<Type> types, Array<ParameterModifier> modifiers) {
@@ -898,6 +1021,13 @@ PropertyInfo RuntimeType___::GetPropertyImpl(String name, BindingFlags bindingAt
       rt::throw_exception<AmbiguousMatchException>(SR::get_Arg_AmbiguousMatchException());
     }
   }
+  if ((bindingAttr & BindingFlags::ExactBinding) != 0) {
+    return DefaultBinder::in::ExactPropertyBinding(propertyCandidates.ToArray(), returnType, types, modifiers);
+  }
+  if (binder == nullptr) {
+    binder = Type::in::get_DefaultBinder();
+  }
+  return binder->SelectProperty(bindingAttr, propertyCandidates.ToArray(), returnType, types, modifiers);
 }
 
 EventInfo RuntimeType___::GetEvent(String name, BindingFlags bindingAttr) {
@@ -915,6 +1045,11 @@ FieldInfo RuntimeType___::GetField(String name, BindingFlags bindingAttr) {
 Type RuntimeType___::GetInterface(String fullname, Boolean ignoreCase) {
   if (fullname == nullptr) {
     rt::throw_exception<ArgumentNullException>("fullname");
+  }
+  BindingFlags bindingFlags = BindingFlags::Public | BindingFlags::NonPublic;
+  bindingFlags &= ~BindingFlags::Static;
+  if (ignoreCase) {
+    bindingFlags |= BindingFlags::IgnoreCase;
   }
 }
 
@@ -936,6 +1071,76 @@ Array<MemberInfo> RuntimeType___::GetMember(String name, MemberTypes type, Bindi
   ListBuilder<FieldInfo> listBuilder5 = ListBuilder<T>();
   ListBuilder<Type> listBuilder6 = ListBuilder<T>();
   Int32 num = 0;
+  if ((type & MemberTypes::Method) != 0) {
+    listBuilder = GetMethodCandidates(name, -1, bindingAttr, CallingConventions::Any, nullptr, true);
+    if (type == MemberTypes::Method) {
+      return listBuilder.ToArray();
+    }
+    num += listBuilder.get_Count();
+  }
+  if ((type & MemberTypes::Constructor) != 0) {
+    listBuilder2 = GetConstructorCandidates(name, bindingAttr, CallingConventions::Any, nullptr, true);
+    if (type == MemberTypes::Constructor) {
+      return listBuilder2.ToArray();
+    }
+    num += listBuilder2.get_Count();
+  }
+  if ((type & MemberTypes::Property) != 0) {
+    listBuilder3 = GetPropertyCandidates(name, bindingAttr, nullptr, true);
+    if (type == MemberTypes::Property) {
+      return listBuilder3.ToArray();
+    }
+    num += listBuilder3.get_Count();
+  }
+  if ((type & MemberTypes::Event) != 0) {
+    listBuilder4 = GetEventCandidates(name, bindingAttr, true);
+    if (type == MemberTypes::Event) {
+      return listBuilder4.ToArray();
+    }
+    num += listBuilder4.get_Count();
+  }
+  if ((type & MemberTypes::Field) != 0) {
+    listBuilder5 = GetFieldCandidates(name, bindingAttr, true);
+    if (type == MemberTypes::Field) {
+      return listBuilder5.ToArray();
+    }
+    num += listBuilder5.get_Count();
+  }
+  if ((type & (MemberTypes::TypeInfo | MemberTypes::NestedType)) != 0) {
+    listBuilder6 = GetNestedTypeCandidates(name, bindingAttr, true);
+    if (type == MemberTypes::NestedType || type == MemberTypes::TypeInfo) {
+      return listBuilder6.ToArray();
+    }
+    num += listBuilder6.get_Count();
+  }
+  Array<MemberInfo> array;
+  if (type != (MemberTypes::Constructor | MemberTypes::Method)) {
+    array = rt::newarr<Array<MemberInfo>>(num);
+  } else {
+    Array<MemberInfo> array2 = rt::newarr<Array<MethodBase>>(num);
+    array = array2;
+  }
+  Array<MemberInfo> array3 = array;
+  Int32 num2 = 0;
+  Array<Object> array4 = array3;
+  listBuilder.CopyTo(array4, num2);
+  num2 += listBuilder.get_Count();
+  array4 = array3;
+  listBuilder2.CopyTo(array4, num2);
+  num2 += listBuilder2.get_Count();
+  array4 = array3;
+  listBuilder3.CopyTo(array4, num2);
+  num2 += listBuilder3.get_Count();
+  array4 = array3;
+  listBuilder4.CopyTo(array4, num2);
+  num2 += listBuilder4.get_Count();
+  array4 = array3;
+  listBuilder5.CopyTo(array4, num2);
+  num2 += listBuilder5.get_Count();
+  array4 = array3;
+  listBuilder6.CopyTo(array4, num2);
+  num2 += listBuilder6.get_Count();
+  return array3;
 }
 
 Boolean RuntimeType___::IsSubclassOf(Type type) {
@@ -1082,6 +1287,173 @@ Object RuntimeType___::InvokeMember(String name, BindingFlags bindingFlags, Bind
   if (get_IsGenericParameter()) {
     rt::throw_exception<InvalidOperationException>(SR::get_Arg_GenericParameter());
   }
+  if ((bindingFlags & (BindingFlags::InvokeMethod | BindingFlags::CreateInstance | BindingFlags::GetField | BindingFlags::SetField | BindingFlags::GetProperty | BindingFlags::SetProperty | BindingFlags::PutDispProperty | BindingFlags::PutRefDispProperty)) == 0) {
+    rt::throw_exception<ArgumentException>(SR::get_Arg_NoAccessSpec(), "bindingFlags");
+  }
+  if ((bindingFlags & (BindingFlags)255) == 0) {
+    bindingFlags |= (BindingFlags::Instance | BindingFlags::Public);
+    if ((bindingFlags & BindingFlags::CreateInstance) == 0) {
+      bindingFlags |= BindingFlags::Static;
+    }
+  }
+  if (namedParams != nullptr) {
+    if (providedArgs != nullptr) {
+      if (namedParams->get_Length() > providedArgs->get_Length()) {
+        rt::throw_exception<ArgumentException>(SR::get_Arg_NamedParamTooBig(), "namedParams");
+      }
+    } else if (namedParams->get_Length() != 0) {
+      rt::throw_exception<ArgumentException>(SR::get_Arg_NamedParamTooBig(), "namedParams");
+    }
+
+  }
+  if (target != nullptr && target->GetType()->get_IsCOMObject()) {
+    if ((bindingFlags & (BindingFlags::InvokeMethod | BindingFlags::GetProperty | BindingFlags::SetProperty | BindingFlags::PutDispProperty | BindingFlags::PutRefDispProperty)) == 0) {
+      rt::throw_exception<ArgumentException>(SR::get_Arg_COMAccess(), "bindingFlags");
+    }
+    if ((bindingFlags & BindingFlags::GetProperty) != 0 && (bindingFlags & (BindingFlags::InvokeMethod | BindingFlags::GetProperty | BindingFlags::SetProperty | BindingFlags::PutDispProperty | BindingFlags::PutRefDispProperty) & ~(BindingFlags::InvokeMethod | BindingFlags::GetProperty)) != 0) {
+      rt::throw_exception<ArgumentException>(SR::get_Arg_PropSetGet(), "bindingFlags");
+    }
+    if ((bindingFlags & BindingFlags::InvokeMethod) != 0 && (bindingFlags & (BindingFlags::InvokeMethod | BindingFlags::GetProperty | BindingFlags::SetProperty | BindingFlags::PutDispProperty | BindingFlags::PutRefDispProperty) & ~(BindingFlags::InvokeMethod | BindingFlags::GetProperty)) != 0) {
+      rt::throw_exception<ArgumentException>(SR::get_Arg_PropSetInvoke(), "bindingFlags");
+    }
+    if ((bindingFlags & BindingFlags::SetProperty) != 0 && (bindingFlags & (BindingFlags::InvokeMethod | BindingFlags::GetProperty | BindingFlags::SetProperty | BindingFlags::PutDispProperty | BindingFlags::PutRefDispProperty) & ~BindingFlags::SetProperty) != 0) {
+      rt::throw_exception<ArgumentException>(SR::get_Arg_COMPropSetPut(), "bindingFlags");
+    }
+    if ((bindingFlags & BindingFlags::PutDispProperty) != 0 && (bindingFlags & (BindingFlags::InvokeMethod | BindingFlags::GetProperty | BindingFlags::SetProperty | BindingFlags::PutDispProperty | BindingFlags::PutRefDispProperty) & ~BindingFlags::PutDispProperty) != 0) {
+      rt::throw_exception<ArgumentException>(SR::get_Arg_COMPropSetPut(), "bindingFlags");
+    }
+    if ((bindingFlags & BindingFlags::PutRefDispProperty) != 0 && (bindingFlags & (BindingFlags::InvokeMethod | BindingFlags::GetProperty | BindingFlags::SetProperty | BindingFlags::PutDispProperty | BindingFlags::PutRefDispProperty) & ~BindingFlags::PutRefDispProperty) != 0) {
+      rt::throw_exception<ArgumentException>(SR::get_Arg_COMPropSetPut(), "bindingFlags");
+    }
+    if (name == nullptr) {
+      rt::throw_exception<ArgumentNullException>("name");
+    }
+  }
+  if (namedParams != nullptr && Array<>::in::IndexOf(namedParams, nullptr) != -1) {
+    rt::throw_exception<ArgumentException>(SR::get_Arg_NamedParamNull(), "namedParams");
+  }
+  Int32 num = (providedArgs != nullptr) ? providedArgs->get_Length() : 0;
+  if (binder == nullptr) {
+    binder = Type::in::get_DefaultBinder();
+  }
+  if ((bindingFlags & BindingFlags::CreateInstance) != 0) {
+    if ((bindingFlags & BindingFlags::CreateInstance) != 0 && (bindingFlags & (BindingFlags::InvokeMethod | BindingFlags::GetField | BindingFlags::SetField | BindingFlags::GetProperty | BindingFlags::SetProperty)) != 0) {
+      rt::throw_exception<ArgumentException>(SR::get_Arg_CreatInstAccess(), "bindingFlags");
+    }
+    return Activator::CreateInstance((RuntimeType)this, bindingFlags, binder, providedArgs, culture);
+  }
+  if ((bindingFlags & (BindingFlags::PutDispProperty | BindingFlags::PutRefDispProperty)) != 0) {
+    bindingFlags |= BindingFlags::SetProperty;
+  }
+  if (name == nullptr) {
+    rt::throw_exception<ArgumentNullException>("name");
+  }
+  if (name->get_Length() == 0 || name->Equals("[DISPID=0]")) {
+  }
+  Boolean flag2 = (bindingFlags & BindingFlags::GetField) != 0;
+  Boolean flag3 = (bindingFlags & BindingFlags::SetField) != 0;
+  if (flag2 || flag3) {
+    if (flag2) {
+      if (flag3) {
+        rt::throw_exception<ArgumentException>(SR::get_Arg_FldSetGet(), "bindingFlags");
+      }
+      if ((bindingFlags & BindingFlags::SetProperty) != 0) {
+        rt::throw_exception<ArgumentException>(SR::get_Arg_FldGetPropSet(), "bindingFlags");
+      }
+    } else {
+      if (providedArgs == nullptr) {
+        rt::throw_exception<ArgumentNullException>("providedArgs");
+      }
+      if ((bindingFlags & BindingFlags::GetProperty) != 0) {
+        rt::throw_exception<ArgumentException>(SR::get_Arg_FldSetPropGet(), "bindingFlags");
+      }
+      if ((bindingFlags & BindingFlags::InvokeMethod) != 0) {
+        rt::throw_exception<ArgumentException>(SR::get_Arg_FldSetInvoke(), "bindingFlags");
+      }
+    }
+    FieldInfo fieldInfo = nullptr;
+    Array<FieldInfo> array = rt::as<Array<FieldInfo>>(GetMember(name, MemberTypes::Field, bindingFlags));
+    if (array->get_Length() == 1) {
+      fieldInfo = array[0];
+    } else if (array->get_Length() != 0) {
+      fieldInfo = binder->BindToField(bindingFlags, array, flag2 ? Empty::in::Value : providedArgs[0], culture);
+    }
+
+    if (fieldInfo != nullptr) {
+    }
+    if ((bindingFlags & (BindingFlags)16773888) == 0) {
+      rt::throw_exception<MissingFieldException>(get_FullName(), name);
+    }
+  }
+  Boolean flag4 = (bindingFlags & BindingFlags::GetProperty) != 0;
+  Boolean flag5 = (bindingFlags & BindingFlags::SetProperty) != 0;
+  if (flag4 || flag5) {
+    if (flag4) {
+      if (flag5) {
+        rt::throw_exception<ArgumentException>(SR::get_Arg_PropSetGet(), "bindingFlags");
+      }
+    } else if ((bindingFlags & BindingFlags::InvokeMethod) != 0) {
+      rt::throw_exception<ArgumentException>(SR::get_Arg_PropSetInvoke(), "bindingFlags");
+    }
+
+  }
+  Array<MethodInfo> array4 = nullptr;
+  MethodInfo methodInfo = nullptr;
+  if ((bindingFlags & BindingFlags::InvokeMethod) != 0) {
+    Array<MethodInfo> array5 = rt::as<Array<MethodInfo>>(GetMember(name, MemberTypes::Method, bindingFlags));
+    List<MethodInfo> list = nullptr;
+  }
+  if ((methodInfo == nullptr && flag4) || flag5) {
+    Array<PropertyInfo> array6 = rt::as<Array<PropertyInfo>>(GetMember(name, MemberTypes::Property, bindingFlags));
+    List<MethodInfo> list2 = nullptr;
+    for (Int32 k = 0; k < array6->get_Length(); k++) {
+      MethodInfo methodInfo3 = nullptr;
+      methodInfo3 = ((!flag5) ? array6[k]->GetGetMethod(true) : array6[k]->GetSetMethod(true));
+      if (methodInfo3 == nullptr || !FilterApplyMethodInfo((RuntimeMethodInfo)methodInfo3, bindingFlags, CallingConventions::Any, rt::newarr<Array<Type>>(num))) {
+        continue;
+      }
+      if (methodInfo == nullptr) {
+        methodInfo = methodInfo3;
+        continue;
+      }
+      if (list2 == nullptr) {
+        list2 = rt::newobj<List<MethodInfo>>(array6->get_Length());
+      }
+      list2->Add(methodInfo3);
+    }
+    if (list2 != nullptr) {
+      array4 = list2->ToArray();
+    }
+  }
+  if (methodInfo != nullptr) {
+    if (array4 == nullptr && num == 0 && methodInfo->GetParametersNoCopy()->get_Length() == 0 && (bindingFlags & BindingFlags::OptionalParamBinding) == 0) {
+      return methodInfo->Invoke(target, bindingFlags, binder, providedArgs, culture);
+    }
+    if (array4 == nullptr) {
+      array4 = rt::newarr<Array<MethodInfo>>(1);
+    }
+    if (providedArgs == nullptr) {
+      providedArgs = Array<>::in::Empty<Object>();
+    }
+    Object state = nullptr;
+    MethodBase methodBase = nullptr;
+    try{
+      Binder binder2 = binder;
+      BindingFlags bindingAttr = bindingFlags;
+      Array<MethodBase> match = array4;
+      methodBase = binder2->BindToMethod(bindingAttr, match, providedArgs, modifiers, culture, namedParams, state);
+    } catch (MissingMethodException) {
+    }
+    if (methodBase == nullptr) {
+      rt::throw_exception<MissingMethodException>(get_FullName(), name);
+    }
+    Object result = ((MethodInfo)methodBase)->Invoke(target, bindingFlags, binder, providedArgs, culture);
+    if (state != nullptr) {
+      binder->ReorderArgumentArray(providedArgs, state);
+    }
+    return result;
+  }
+  rt::throw_exception<MissingMethodException>(get_FullName(), name);
 }
 
 String RuntimeType___::ToString() {
@@ -1107,6 +1479,9 @@ Object RuntimeType___::CreateInstanceImpl(BindingFlags bindingAttr, Binder binde
   if (binder == nullptr) {
     binder = Type::in::get_DefaultBinder();
   }
+  Boolean publicOnly = (bindingAttr & BindingFlags::NonPublic) == 0;
+  Boolean wrapExceptions = (bindingAttr & BindingFlags::DoNotWrapExceptions) == 0;
+  Object result;
 }
 
 Object RuntimeType___::CreateInstanceDefaultCtorSlow(Boolean publicOnly, Boolean wrapExceptions, Boolean fillCache) {
@@ -1127,6 +1502,18 @@ Object RuntimeType___::CreateInstanceDefaultCtor(Boolean publicOnly, Boolean ski
   ActivatorCache activatorCache = rt::as<ActivatorCache>(get_GenericCache());
   if (activatorCache != nullptr) {
     activatorCache->EnsureInitialized();
+    if (publicOnly && activatorCache->_ctor != nullptr && (activatorCache->_ctorAttributes & MethodAttributes::MemberAccessMask) != MethodAttributes::Public) {
+      rt::throw_exception<MissingMethodException>(SR::Format(SR::get_Arg_NoDefCTor(), (RuntimeType)this));
+    }
+    Object obj = RuntimeTypeHandle::Allocate((RuntimeType)this);
+    if (activatorCache->_ctor != nullptr) {
+      try{
+        activatorCache->_ctor(obj);
+        return obj;
+      } catch (Exception inner) {
+      }
+    }
+    return obj;
   }
   if (!skipCheckThis) {
     CreateInstanceCheckThis();
@@ -1179,6 +1566,7 @@ void RuntimeType___::WrapArgsForInvokeCall(Array<Object> aArgs, Array<Int32> aAr
   Int32 num = aArgs->get_Length();
   for (Int32 i = 0; i < num; i++) {
     if (aArgsWrapperTypes[i] == 0) {
+      continue;
     }
     if (((DispatchWrapperType)aArgsWrapperTypes[i])->HasFlag(DispatchWrapperType::SafeArray)) {
       Type type = nullptr;

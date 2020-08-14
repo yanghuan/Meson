@@ -155,6 +155,7 @@ void AsyncLocalValueMap::MultiElementAsyncLocalValueMap___::UnsafeStore(Int32 in
 IAsyncLocalValueMap AsyncLocalValueMap::MultiElementAsyncLocalValueMap___::Set(IAsyncLocal key, Object value, Boolean treatNullValueAsNonexistent) {
   for (Int32 i = 0; i < _keyValues->get_Length(); i++) {
     if (key != _keyValues[i].get_Key()) {
+      continue;
     }
     if (value != nullptr || !treatNullValueAsNonexistent) {
       MultiElementAsyncLocalValueMap multiElementAsyncLocalValueMap = rt::newobj<MultiElementAsyncLocalValueMap>(_keyValues->get_Length());

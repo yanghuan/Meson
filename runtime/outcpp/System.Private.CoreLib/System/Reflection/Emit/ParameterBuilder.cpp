@@ -4,6 +4,7 @@
 #include <System.Private.CoreLib/System/Reflection/Emit/ModuleBuilder-dep.h>
 #include <System.Private.CoreLib/System/Reflection/Emit/ParameterToken-dep.h>
 #include <System.Private.CoreLib/System/Reflection/Emit/TypeBuilder-dep.h>
+#include <System.Private.CoreLib/System/Reflection/ParameterAttributes.h>
 #include <System.Private.CoreLib/System/Runtime/CompilerServices/QCallModule-dep.h>
 
 namespace System::Private::CoreLib::System::Reflection::Emit::ParameterBuilderNamespace {
@@ -22,12 +23,15 @@ Int32 ParameterBuilder___::get_Attributes() {
 }
 
 Boolean ParameterBuilder___::get_IsIn() {
+  return (_attributes & ParameterAttributes::In) != 0;
 }
 
 Boolean ParameterBuilder___::get_IsOut() {
+  return (_attributes & ParameterAttributes::Out) != 0;
 }
 
 Boolean ParameterBuilder___::get_IsOptional() {
+  return (_attributes & ParameterAttributes::Optional) != 0;
 }
 
 void ParameterBuilder___::SetConstant(Object defaultValue) {

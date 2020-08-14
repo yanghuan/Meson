@@ -156,6 +156,7 @@ Boolean TimeSpan::Equals(TimeSpan t1, TimeSpan t2) {
 }
 
 Int32 TimeSpan::GetHashCode() {
+  return (Int32)_ticks ^ (Int32)(_ticks >> 32);
 }
 
 TimeSpan TimeSpan::FromHours(Double value) {

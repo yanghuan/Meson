@@ -10,6 +10,7 @@
 #include <System.Private.CoreLib/System/SByte-dep.h>
 #include <System.Private.CoreLib/System/SR-dep.h>
 #include <System.Private.CoreLib/System/StubHelpers/AsAnyMarshaler-dep.h>
+#include <System.Private.CoreLib/System/StubHelpers/CSTRMarshaler-dep.h>
 #include <System.Private.CoreLib/System/StubHelpers/MngdNativeArrayMarshaler-dep.h>
 #include <System.Private.CoreLib/System/StubHelpers/StubHelpers-dep.h>
 #include <System.Private.CoreLib/System/Type-dep.h>
@@ -19,18 +20,23 @@ namespace System::Private::CoreLib::System::StubHelpers::AsAnyMarshalerNamespace
 using namespace System::Runtime::InteropServices;
 
 Boolean AsAnyMarshaler::IsIn(Int32 dwFlags) {
+  return (dwFlags & 268435456) != 0;
 }
 
 Boolean AsAnyMarshaler::IsOut(Int32 dwFlags) {
+  return (dwFlags & 536870912) != 0;
 }
 
 Boolean AsAnyMarshaler::IsAnsi(Int32 dwFlags) {
+  return (dwFlags & 16711680) != 0;
 }
 
 Boolean AsAnyMarshaler::IsThrowOn(Int32 dwFlags) {
+  return (dwFlags & 65280) != 0;
 }
 
 Boolean AsAnyMarshaler::IsBestFit(Int32 dwFlags) {
+  return (dwFlags & 255) != 0;
 }
 
 AsAnyMarshaler::AsAnyMarshaler(IntPtr pvArrayMarshaler) {
@@ -48,6 +54,7 @@ IntPtr AsAnyMarshaler::ConvertArrayToNative(Object pManagedHome, Int32 dwFlags) 
 IntPtr AsAnyMarshaler::ConvertStringToNative(String pManagedHome, Int32 dwFlags) {
   IntPtr intPtr;
   if (IsAnsi(dwFlags)) {
+    intPtr = CSTRMarshaler::ConvertToNative(dwFlags & 65535, pManagedHome, IntPtr::Zero);
   } else {
     Int32 num = (pManagedHome->get_Length() + 1) * 2;
     intPtr = Marshal::AllocCoTaskMem(num);

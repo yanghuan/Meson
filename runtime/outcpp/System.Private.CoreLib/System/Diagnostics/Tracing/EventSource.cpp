@@ -12,11 +12,13 @@
 #include <System.Private.CoreLib/System/Diagnostics/Tracing/ActivityTracker-dep.h>
 #include <System.Private.CoreLib/System/Diagnostics/Tracing/DataCollector-dep.h>
 #include <System.Private.CoreLib/System/Diagnostics/Tracing/EmptyStruct-dep.h>
+#include <System.Private.CoreLib/System/Diagnostics/Tracing/EventAttribute-dep.h>
 #include <System.Private.CoreLib/System/Diagnostics/Tracing/EventChannel.h>
 #include <System.Private.CoreLib/System/Diagnostics/Tracing/EventCommand.h>
 #include <System.Private.CoreLib/System/Diagnostics/Tracing/EventListener-dep.h>
 #include <System.Private.CoreLib/System/Diagnostics/Tracing/EventManifestOptions.h>
 #include <System.Private.CoreLib/System/Diagnostics/Tracing/EventOpcode.h>
+#include <System.Private.CoreLib/System/Diagnostics/Tracing/EventPayload-dep.h>
 #include <System.Private.CoreLib/System/Diagnostics/Tracing/EventPipeInternal-dep.h>
 #include <System.Private.CoreLib/System/Diagnostics/Tracing/EventPipeMetadataGenerator-dep.h>
 #include <System.Private.CoreLib/System/Diagnostics/Tracing/EventSource-dep.h>
@@ -28,12 +30,20 @@
 #include <System.Private.CoreLib/System/Diagnostics/Tracing/ManifestBuilder-dep.h>
 #include <System.Private.CoreLib/System/Diagnostics/Tracing/ManifestEnvelope-dep.h>
 #include <System.Private.CoreLib/System/Diagnostics/Tracing/NameInfo-dep.h>
+#include <System.Private.CoreLib/System/Diagnostics/Tracing/SessionMask-dep.h>
 #include <System.Private.CoreLib/System/Diagnostics/Tracing/SimpleEventTypes-dep.h>
 #include <System.Private.CoreLib/System/Diagnostics/Tracing/Statics-dep.h>
+#include <System.Private.CoreLib/System/Diagnostics/Tracing/TraceLoggingDataCollector-dep.h>
 #include <System.Private.CoreLib/System/Diagnostics/Tracing/TraceLoggingEventHandleTable-dep.h>
+#include <System.Private.CoreLib/System/Diagnostics/Tracing/TraceLoggingTypeInfo-dep.h>
 #include <System.Private.CoreLib/System/GC-dep.h>
 #include <System.Private.CoreLib/System/Int64-dep.h>
+#include <System.Private.CoreLib/System/LocalAppContextSwitches-dep.h>
 #include <System.Private.CoreLib/System/Math-dep.h>
+#include <System.Private.CoreLib/System/Numerics/BitOperations-dep.h>
+#include <System.Private.CoreLib/System/Reflection/BindingFlags.h>
+#include <System.Private.CoreLib/System/Reflection/MethodInfo-dep.h>
+#include <System.Private.CoreLib/System/Resources/ResourceManager-dep.h>
 #include <System.Private.CoreLib/System/Runtime/CompilerServices/RuntimeHelpers-dep.h>
 #include <System.Private.CoreLib/System/Runtime/InteropServices/GCHandle-dep.h>
 #include <System.Private.CoreLib/System/SR-dep.h>
@@ -48,6 +58,9 @@ namespace System::Private::CoreLib::System::Diagnostics::Tracing::EventSourceNam
 using namespace Microsoft::Reflection;
 using namespace System::Collections::Generic;
 using namespace System::Collections::ObjectModel;
+using namespace System::Numerics;
+using namespace System::Reflection;
+using namespace System::Resources;
 using namespace System::Runtime::CompilerServices;
 using namespace System::Runtime::InteropServices;
 using namespace System::Text;
@@ -94,6 +107,10 @@ void EventSource___::Sha1ForNonSecretPurposes::Start() {
 }
 
 void EventSource___::Sha1ForNonSecretPurposes::Append(Byte input) {
+  w[pos / 4] = ((w[pos / 4] << 8) | input);
+  if (64 == ++pos) {
+    Drain();
+  }
 }
 
 void EventSource___::Sha1ForNonSecretPurposes::Append(ReadOnlySpan<Byte> input) {
@@ -124,6 +141,7 @@ void EventSource___::Sha1ForNonSecretPurposes::Finish(Array<Byte> output) {
 
 void EventSource___::Sha1ForNonSecretPurposes::Drain() {
   for (Int32 i = 16; i != 80; i++) {
+    w[i] = BitOperations::RotateLeft(w[i - 3] ^ w[i - 8] ^ w[i - 14] ^ w[i - 16], 1);
   }
   UInt32 num = w[80];
   UInt32 num2 = w[81];
@@ -131,12 +149,40 @@ void EventSource___::Sha1ForNonSecretPurposes::Drain() {
   UInt32 num4 = w[83];
   UInt32 num5 = w[84];
   for (Int32 j = 0; j != 20; j++) {
+    UInt32 num6 = (num2 & num3) | (~num2 & num4);
+    UInt32 num7 = BitOperations::RotateLeft(num, 5) + num6 + num5 + 1518500249 + w[j];
+    num5 = num4;
+    num4 = num3;
+    num3 = BitOperations::RotateLeft(num2, 30);
+    num2 = num;
+    num = num7;
   }
   for (Int32 k = 20; k != 40; k++) {
+    UInt32 num8 = num2 ^ num3 ^ num4;
+    UInt32 num9 = BitOperations::RotateLeft(num, 5) + num8 + num5 + 1859775393 + w[k];
+    num5 = num4;
+    num4 = num3;
+    num3 = BitOperations::RotateLeft(num2, 30);
+    num2 = num;
+    num = num9;
   }
   for (Int32 l = 40; l != 60; l++) {
+    UInt32 num10 = (num2 & num3) | (num2 & num4) | (num3 & num4);
+    UInt32 num11 = (UInt32)((Int32)(BitOperations::RotateLeft(num, 5) + num10 + num5) + -1894007588) + w[l];
+    num5 = num4;
+    num4 = num3;
+    num3 = BitOperations::RotateLeft(num2, 30);
+    num2 = num;
+    num = num11;
   }
   for (Int32 m = 60; m != 80; m++) {
+    UInt32 num12 = num2 ^ num3 ^ num4;
+    UInt32 num13 = (UInt32)((Int32)(BitOperations::RotateLeft(num, 5) + num12 + num5) + -899497514) + w[m];
+    num5 = num4;
+    num4 = num3;
+    num3 = BitOperations::RotateLeft(num2, 30);
+    num2 = num;
+    num = num13;
   }
   w[80] += num;
   w[81] += num2;
@@ -183,9 +229,11 @@ Boolean EventSource___::get_IsDisposed() {
 }
 
 Boolean EventSource___::get_ThrowOnEventWriteErrors() {
+  return (m_config & EventSourceSettings::ThrowOnEventWriteErrors) != 0;
 }
 
 Boolean EventSource___::get_SelfDescribingEvents() {
+  return (m_config & EventSourceSettings::EtwSelfDescribingEventFormat) != 0;
 }
 
 Boolean EventSource___::IsEnabled() {
@@ -687,6 +735,47 @@ void EventSource___::WriteEventWithRelatedActivityIdCore(Int32 eventId, Guid* re
     Guid* activityID = nullptr;
     Guid activityId = Guid::Empty;
     Guid relatedActivityId2 = Guid::Empty;
+    if (opcode != 0 && relatedActivityId == nullptr && (activityOptions & EventActivityOptions::Disable) == 0) {
+      switch (opcode) {
+        case EventOpcode::Start:
+          m_activityTracker->OnStart(m_name, m_eventData[eventId].Name, m_eventData[eventId].Descriptor.get_Task(), activityId, relatedActivityId2, m_eventData[eventId].ActivityOptions);
+          break;
+        case EventOpcode::Stop:
+          m_activityTracker->OnStop(m_name, m_eventData[eventId].Name, m_eventData[eventId].Descriptor.get_Task(), activityId);
+          break;
+      }
+      if (activityId != Guid::Empty) {
+        activityID = &activityId;
+      }
+      if (relatedActivityId2 != Guid::Empty) {
+        relatedActivityId = &relatedActivityId2;
+      }
+    }
+    if (m_eventData[eventId].EnabledForETW || m_eventData[eventId].EnabledForEventPipe) {
+      if (!get_SelfDescribingEvents()) {
+        if (!m_etwProvider->WriteEvent(m_eventData[eventId].Descriptor, m_eventData[eventId].EventHandle, activityID, relatedActivityId, eventDataCount, (IntPtr)(void*)data)) {
+          ThrowEventSourceException(m_eventData[eventId].Name);
+        }
+        if (!m_eventPipeProvider->WriteEvent(m_eventData[eventId].Descriptor, m_eventData[eventId].EventHandle, activityID, relatedActivityId, eventDataCount, (IntPtr)(void*)data)) {
+          ThrowEventSourceException(m_eventData[eventId].Name);
+        }
+      } else {
+        TraceLoggingEventTypes traceLoggingEventTypes = m_eventData[eventId].TraceLoggingEventTypes;
+        if (traceLoggingEventTypes == nullptr) {
+          traceLoggingEventTypes = rt::newobj<TraceLoggingEventTypes>(m_eventData[eventId].Name, m_eventData[eventId].Tags, m_eventData[eventId].Parameters);
+          Interlocked::CompareExchange(m_eventData[eventId].TraceLoggingEventTypes, traceLoggingEventTypes, nullptr);
+        }
+        EventSourceOptions eventSourceOptions = EventSourceOptions();
+        eventSourceOptions.set_Keywords = (EventKeywords)m_eventData[eventId].Descriptor.get_Keywords();
+        eventSourceOptions.set_Level = (EventLevel)m_eventData[eventId].Descriptor.get_Level();
+        eventSourceOptions.set_Opcode = (EventOpcode)m_eventData[eventId].Descriptor.get_Opcode();
+        EventSourceOptions options = eventSourceOptions;
+        WriteMultiMerge(m_eventData[eventId].Name, options, traceLoggingEventTypes, activityID, relatedActivityId, data);
+      }
+    }
+    if (m_Dispatchers != nullptr && m_eventData[eventId].EnabledForAnyListener) {
+      WriteToAllListeners(eventId, activityID, relatedActivityId, eventDataCount, data);
+    }
   } catch (Exception ex) {
   }
 }
@@ -792,6 +881,8 @@ Guid EventSource___::GenerateGuidFromName(String name) {
   sha1ForNonSecretPurposes.Append(array);
   Array<>::in::Resize(array, 16);
   sha1ForNonSecretPurposes.Finish(array);
+  array[7] = (Byte)((array[7] & 15) | 80);
+  return Guid(array);
 }
 
 Object EventSource___::DecodeObject(Int32 eventId, Int32 parameterId, EventData*& data) {
@@ -830,6 +921,52 @@ void EventSource___::WriteEventVarargs(Int32 eventId, Guid* childActivityID, Arr
     Guid relatedActivityId = Guid::Empty;
     EventOpcode opcode = (EventOpcode)m_eventData[eventId].Descriptor.get_Opcode();
     EventActivityOptions activityOptions = m_eventData[eventId].ActivityOptions;
+    if (childActivityID == nullptr && (activityOptions & EventActivityOptions::Disable) == 0) {
+      switch (opcode) {
+        case EventOpcode::Start:
+          m_activityTracker->OnStart(m_name, m_eventData[eventId].Name, m_eventData[eventId].Descriptor.get_Task(), activityId, relatedActivityId, m_eventData[eventId].ActivityOptions);
+          break;
+        case EventOpcode::Stop:
+          m_activityTracker->OnStop(m_name, m_eventData[eventId].Name, m_eventData[eventId].Descriptor.get_Task(), activityId);
+          break;
+      }
+      if (activityId != Guid::Empty) {
+        activityID = &activityId;
+      }
+      if (relatedActivityId != Guid::Empty) {
+        childActivityID = &relatedActivityId;
+      }
+    }
+    if (m_eventData[eventId].EnabledForETW || m_eventData[eventId].EnabledForEventPipe) {
+      if (!get_SelfDescribingEvents()) {
+        if (!m_etwProvider->WriteEvent(m_eventData[eventId].Descriptor, m_eventData[eventId].EventHandle, activityID, childActivityID, rt::newarr<Array<Object>>(1, args))) {
+          ThrowEventSourceException(m_eventData[eventId].Name);
+        }
+        if (!m_eventPipeProvider->WriteEvent(m_eventData[eventId].Descriptor, m_eventData[eventId].EventHandle, activityID, childActivityID, rt::newarr<Array<Object>>(1, args))) {
+          ThrowEventSourceException(m_eventData[eventId].Name);
+        }
+      } else {
+        TraceLoggingEventTypes traceLoggingEventTypes = m_eventData[eventId].TraceLoggingEventTypes;
+        if (traceLoggingEventTypes == nullptr) {
+          traceLoggingEventTypes = rt::newobj<TraceLoggingEventTypes>(m_eventData[eventId].Name, EventTags::None, m_eventData[eventId].Parameters);
+          Interlocked::CompareExchange(m_eventData[eventId].TraceLoggingEventTypes, traceLoggingEventTypes, nullptr);
+        }
+        EventSourceOptions eventSourceOptions = EventSourceOptions();
+        eventSourceOptions.set_Keywords = (EventKeywords)m_eventData[eventId].Descriptor.get_Keywords();
+        eventSourceOptions.set_Level = (EventLevel)m_eventData[eventId].Descriptor.get_Level();
+        eventSourceOptions.set_Opcode = (EventOpcode)m_eventData[eventId].Descriptor.get_Opcode();
+        EventSourceOptions options = eventSourceOptions;
+        WriteMultiMerge(m_eventData[eventId].Name, options, traceLoggingEventTypes, activityID, childActivityID, rt::newarr<Array<Object>>(1, args));
+      }
+    }
+    if (m_Dispatchers != nullptr && m_eventData[eventId].EnabledForAnyListener) {
+      if (LocalAppContextSwitches::get_PreserveEventListnerObjectIdentity()) {
+        WriteToAllListeners(eventId, nullptr, nullptr, activityID, childActivityID, rt::newarr<Array<Object>>(1, args));
+        return;
+      }
+      Array<Object> args2 = SerializeEventArgs(eventId, args);
+      WriteToAllListeners(eventId, nullptr, nullptr, activityID, childActivityID, rt::newarr<Array<Object>>(1, args2));
+    }
   } catch (Exception ex) {
   }
 }
@@ -917,6 +1054,39 @@ void EventSource___::DispatchToAllListeners(Int32 eventId, EventWrittenEventArgs
 void EventSource___::WriteEventString(String msgString) {
   Boolean flag = true;
   flag &= (m_etwProvider == nullptr);
+  if (flag & (m_eventPipeProvider == nullptr)) {
+    return;
+  }
+  EventLevel eventLevel = EventLevel::LogAlways;
+  Int64 keywords = -1;
+  if (get_SelfDescribingEvents()) {
+    EventSourceOptions eventSourceOptions = EventSourceOptions();
+    eventSourceOptions.set_Keywords = (EventKeywords)keywords;
+    eventSourceOptions.set_Level = eventLevel;
+    EventSourceOptions options = eventSourceOptions;
+  }
+  if (m_rawManifest == nullptr && m_outOfBandMessageCount == 1) {
+    ManifestBuilder manifestBuilder = rt::newobj<ManifestBuilder>(get_Name(), get_Guid(), get_Name(), nullptr, EventManifestOptions::None);
+    manifestBuilder->StartEvent("EventSourceMessage", rt::newobj<EventAttribute>(0));
+  }
+  {
+    Char* ptr = msgString;
+    Char* ptr2 = ptr;
+    EventDescriptor eventDescriptor = EventDescriptor(0, 0, 0, (Byte)eventLevel, 0, 0, keywords);
+    EventProvider::in::EventData eventData = EventProvider::in::EventData();
+    eventData.Ptr = (UInt64)ptr2;
+    eventData.Size = (UInt32)(2 * (msgString->get_Length() + 1));
+    eventData.Reserved = 0u;
+    if (m_etwProvider != nullptr) {
+      m_etwProvider->WriteEvent(eventDescriptor, IntPtr::Zero, nullptr, nullptr, 1, (IntPtr)(void*)(&eventData));
+    }
+    if (m_eventPipeProvider == nullptr) {
+      return;
+    }
+    if (m_writeEventStringEventHandle == IntPtr::Zero) {
+    }
+    m_eventPipeProvider->WriteEvent(eventDescriptor, m_writeEventStringEventHandle, nullptr, nullptr, 1, (IntPtr)(void*)(&eventData));
+  }
 }
 
 void EventSource___::WriteStringToAllListeners(String eventName, String msg) {
@@ -952,6 +1122,9 @@ Boolean EventSource___::IsEnabledByDefault(Int32 eventNum, Boolean enable, Event
     return false;
   }
   EventLevel level = (EventLevel)m_eventData[eventNum].Descriptor.get_Level();
+  EventKeywords eventKeywords = (EventKeywords)(m_eventData[eventNum].Descriptor.get_Keywords() & (Int64)(~SessionMask::get_All().ToEventKeywords()));
+  EventChannel channel = (EventChannel)m_eventData[eventNum].Descriptor.get_Channel();
+  return IsEnabledCommon(enable, currentLevel, currentMatchAnyKeyword, level, eventKeywords, channel);
 }
 
 Boolean EventSource___::IsEnabledCommon(Boolean enabled, EventLevel currentLevel, EventKeywords currentMatchAnyKeyword, EventLevel eventLevel, EventKeywords eventKeywords, EventChannel eventChannel) {
@@ -962,6 +1135,15 @@ Boolean EventSource___::IsEnabledCommon(Boolean enabled, EventLevel currentLevel
     return false;
   }
   if (currentMatchAnyKeyword != EventKeywords::None && eventKeywords != EventKeywords::None) {
+    if (eventChannel != 0 && m_channelData != nullptr && m_channelData->get_Length() > (Int32)eventChannel) {
+      EventKeywords eventKeywords2 = (EventKeywords)((Int64)m_channelData[(UInt32)eventChannel] | (Int64)eventKeywords);
+      if (eventKeywords2 != EventKeywords::None && (eventKeywords2 & currentMatchAnyKeyword) == EventKeywords::None) {
+        return false;
+      }
+    } else if ((eventKeywords & currentMatchAnyKeyword) == EventKeywords::None) {
+      return false;
+    }
+
   }
   return true;
 }
@@ -1174,6 +1356,16 @@ void EventSource___::SendManifest(Array<Byte> rawManifest) {
 }
 
 Attribute EventSource___::GetCustomAttributeHelper(MemberInfo member, Type attributeType, EventManifestOptions flags) {
+  if (!ReflectionExtensions::ReflectionOnly(member->get_Module()->get_Assembly()) && (flags & EventManifestOptions::AllowEventSourceOverride) == 0) {
+    Attribute result = nullptr;
+    Array<Object> customAttributes = member->GetCustomAttributes(attributeType, false);
+    Int32 num = 0;
+    if (num < customAttributes->get_Length()) {
+      Object obj = customAttributes[num];
+      result = (Attribute)obj;
+    }
+    return result;
+  }
 }
 
 Boolean EventSource___::AttributeTypeNamesMatch(Type attributeType, Type reflectedAttributeType) {
@@ -1198,6 +1390,34 @@ Array<Byte> EventSource___::CreateManifestAndDescriptors(Type eventSourceType, S
   Boolean flag = source == nullptr || !source->get_SelfDescribingEvents();
   Exception ex = nullptr;
   Array<Byte> result = nullptr;
+  if (ReflectionExtensions::IsAbstract(eventSourceType) && (flags & EventManifestOptions::Strict) == 0) {
+    return nullptr;
+  }
+  try{
+    Array<MethodInfo> methods = eventSourceType->GetMethods(BindingFlags::DeclaredOnly | BindingFlags::Instance | BindingFlags::Public | BindingFlags::NonPublic);
+    Int32 num = 1;
+    Array<EventMetadata> eventData = nullptr;
+    Dictionary<String, String> eventsByName = nullptr;
+    if (source != nullptr || (flags & EventManifestOptions::Strict) != 0) {
+      eventData = rt::newarr<Array<EventMetadata>>(methods->get_Length() + 1);
+      eventData[0].Name = "";
+    }
+    ResourceManager resources = nullptr;
+  } catch (Exception ex2) {
+  }
+  if ((flags & EventManifestOptions::Strict) != 0 && ((manifestBuilder != nullptr && manifestBuilder->get_Errors()->get_Count() > 0) || ex != nullptr)) {
+    String text4 = String::in::Empty;
+    if (manifestBuilder != nullptr && manifestBuilder->get_Errors()->get_Count() > 0) {
+      Boolean flag3 = true;
+    } else {
+      text4 = "Unexpected error: " + ex->get_Message();
+    }
+    rt::throw_exception<ArgumentException>(text4, ex);
+  }
+  if (!flag) {
+    return nullptr;
+  }
+  return result;
 }
 
 Boolean EventSource___::RemoveFirstArgIfRelatedActivityId(Array<ParameterInfo>& args) {
@@ -1214,6 +1434,14 @@ void EventSource___::AddEventDescriptor(Array<EventMetadata>& eventData, String 
     Array<>::in::Copy(eventData, array, eventData->get_Length());
     eventData = array;
   }
+  eventData[eventAttribute->get_EventId()].Descriptor = EventDescriptor(eventAttribute->get_EventId(), eventAttribute->get_Version(), (Byte)eventAttribute->get_Channel(), (Byte)eventAttribute->get_Level(), (Byte)eventAttribute->get_Opcode(), (Int32)eventAttribute->get_Task(), (Int64)eventAttribute->get_Keywords() | (Int64)SessionMask::get_All().ToEventKeywords());
+  eventData[eventAttribute->get_EventId()].Tags = eventAttribute->set_Tags;
+  eventData[eventAttribute->get_EventId()].Name = eventName;
+  eventData[eventAttribute->get_EventId()].Parameters = eventParameters;
+  eventData[eventAttribute->get_EventId()].Message = eventAttribute->set_Message;
+  eventData[eventAttribute->get_EventId()].ActivityOptions = eventAttribute->set_ActivityOptions;
+  eventData[eventAttribute->get_EventId()].HasRelatedActivityID = hasRelatedActivityID;
+  eventData[eventAttribute->get_EventId()].EventHandle = IntPtr::Zero;
 }
 
 void EventSource___::TrimEventDescriptors(Array<EventMetadata>& eventData) {
@@ -1247,6 +1475,9 @@ void EventSource___::DebugCheckEvent(Dictionary<String, String>& eventsByName, A
   for (Int32 i = 0; i < eventData->get_Length(); i++) {
     if (eventData[i].Name != nullptr && eventData[i].Descriptor.get_Task() == (Int32)eventAttribute->get_Task() && (EventOpcode)eventData[i].Descriptor.get_Opcode() == eventAttribute->get_Opcode()) {
       manifest->ManifestError(SR::Format(SR::get_EventSource_TaskOpcodePairReused(), rt::newarr<Array<Object>>(4, name, eventId, eventData[i].Name, i)));
+      if ((options & EventManifestOptions::Strict) == 0) {
+        break;
+      }
     }
   }
   if (eventAttribute->get_Opcode() != 0) {
@@ -1276,6 +1507,94 @@ Int32 EventSource___::GetHelperCallFirstArg(MethodInfo method) {
   Array<Byte> iLAsByteArray = method->GetMethodBody()->GetILAsByteArray();
   Int32 num = -1;
   for (Int32 i = 0; i < iLAsByteArray->get_Length(); i++) {
+    switch (iLAsByteArray[i].get()) {
+      case 14:
+      case 16:
+        i++;
+        continue;
+      case 21:
+      case 22:
+      case 23:
+      case 24:
+      case 25:
+      case 26:
+      case 27:
+      case 28:
+      case 29:
+      case 30:
+        if (i > 0 && iLAsByteArray[i - 1] == 2) {
+          num = iLAsByteArray[i] - 22;
+        }
+        continue;
+      case 31:
+        if (i > 0 && iLAsByteArray[i - 1] == 2) {
+          num = iLAsByteArray[i + 1];
+        }
+        i++;
+        continue;
+      case 32:
+        i += 4;
+        continue;
+      case 40:
+        i += 4;
+        if (num >= 0) {
+          for (Int32 j = i + 1; j < iLAsByteArray->get_Length(); j++) {
+            if (iLAsByteArray[j] == 42) {
+              return num;
+            }
+            if (iLAsByteArray[j] != 0) {
+              break;
+            }
+          }
+        }
+        num = -1;
+        continue;
+      case 44:
+      case 45:
+        num = -1;
+        i++;
+        continue;
+      case 57:
+      case 58:
+        num = -1;
+        i += 4;
+        continue;
+      case 140:
+      case 141:
+        i += 4;
+        continue;
+      case 254:
+        i++;
+        if (i < iLAsByteArray->get_Length() && iLAsByteArray[i] < 6) {
+          continue;
+        }
+        break;
+      case 0:
+      case 1:
+      case 2:
+      case 3:
+      case 4:
+      case 5:
+      case 6:
+      case 7:
+      case 8:
+      case 9:
+      case 10:
+      case 11:
+      case 12:
+      case 13:
+      case 20:
+      case 37:
+      case 103:
+      case 104:
+      case 105:
+      case 106:
+      case 109:
+      case 110:
+      case 162:
+        continue;
+    }
+    return -1;
   }
   return -1;
 }
@@ -1287,6 +1606,13 @@ void EventSource___::ReportOutOfBandMessage(String msg) {
 }
 
 EventSourceSettings EventSource___::ValidateSettings(EventSourceSettings settings) {
+  if ((settings & (EventSourceSettings::EtwManifestEventFormat | EventSourceSettings::EtwSelfDescribingEventFormat)) == (EventSourceSettings::EtwManifestEventFormat | EventSourceSettings::EtwSelfDescribingEventFormat)) {
+    rt::throw_exception<ArgumentException>(SR::get_EventSource_InvalidEventFormat(), "settings");
+  }
+  if ((settings & (EventSourceSettings::EtwManifestEventFormat | EventSourceSettings::EtwSelfDescribingEventFormat)) == 0) {
+    settings |= EventSourceSettings::EtwSelfDescribingEventFormat;
+  }
+  return settings;
 }
 
 void EventSource___::ctor(String eventSourceName) {
@@ -1316,11 +1642,20 @@ void EventSource___::Write(String eventName, EventSourceOptions options) {
 
 void EventSource___::WriteMultiMerge(String eventName, EventSourceOptions& options, TraceLoggingEventTypes eventTypes, Guid* activityID, Guid* childActivityID, Array<Object> values) {
   if (IsEnabled()) {
+    Byte level = ((options.valuesSet & 4) != 0) ? options.level : eventTypes->level;
+    EventKeywords keywords = ((options.valuesSet & 1) != 0) ? options.keywords : eventTypes->keywords;
+    if (IsEnabled((EventLevel)level, keywords)) {
+      WriteMultiMergeInner(eventName, options, eventTypes, activityID, childActivityID, rt::newarr<Array<Object>>(1, values));
+    }
   }
 }
 
 void EventSource___::WriteMultiMergeInner(String eventName, EventSourceOptions& options, TraceLoggingEventTypes eventTypes, Guid* activityID, Guid* childActivityID, Array<Object> values) {
   Int32 num = 0;
+  Byte level = ((options.valuesSet & 4) != 0) ? options.level : eventTypes->level;
+  Byte opcode = ((options.valuesSet & 8) != 0) ? options.opcode : eventTypes->opcode;
+  EventTags tags = ((options.valuesSet & 2) != 0) ? options.tags : eventTypes->get_Tags();
+  EventKeywords keywords = ((options.valuesSet & 1) != 0) ? options.keywords : eventTypes->keywords;
 }
 
 void EventSource___::WriteMultiMerge(String eventName, EventSourceOptions& options, TraceLoggingEventTypes eventTypes, Guid* activityID, Guid* childActivityID, EventData* data) {
@@ -1401,6 +1736,35 @@ void EventSource___::WriteImpl(String eventName, EventSourceOptions& options, Ob
                 EventOpcode opcode = (EventOpcode)descriptor.get_Opcode();
                 Guid activityId = Guid::Empty;
                 Guid relatedActivityId = Guid::Empty;
+                if (pActivityId == nullptr && pRelatedActivityId == nullptr && (options.get_ActivityOptions() & EventActivityOptions::Disable) == 0) {
+                  switch (opcode) {
+                    case EventOpcode::Start:
+                      m_activityTracker->OnStart(m_name, eventName, 0, activityId, relatedActivityId, options.get_ActivityOptions());
+                      break;
+                    case EventOpcode::Stop:
+                      m_activityTracker->OnStop(m_name, eventName, 0, activityId);
+                      break;
+                  }
+                  if (activityId != Guid::Empty) {
+                    pActivityId = &activityId;
+                  }
+                  if (relatedActivityId != Guid::Empty) {
+                    pRelatedActivityId = &relatedActivityId;
+                  }
+                }
+                try{
+                  DataCollector::ThreadInstance.Enable(scratch, eventTypes->scratchSize, ptr + 3, eventTypes->dataCount, ptr2, pinCount);
+                  TraceLoggingTypeInfo traceLoggingTypeInfo = eventTypes->typeInfos[0];
+                  traceLoggingTypeInfo->WriteData(TraceLoggingDataCollector::in::Instance, traceLoggingTypeInfo->get_PropertyValueFactory()(data));
+                  WriteEventRaw(eventName, descriptor, orCreateEventHandle, pActivityId, pRelatedActivityId, (Int32)(DataCollector::ThreadInstance.Finish() - ptr), (IntPtr)(void*)ptr);
+                  if (m_Dispatchers != nullptr) {
+                    EventPayload payload = (EventPayload)eventTypes->typeInfos[0]->GetData(data);
+                    WriteToAllListeners(eventName, descriptor, nameInfo->tags, pActivityId, pRelatedActivityId, payload);
+                  }
+                } catch (Exception ex) {
+                } finally: {
+                  WriteCleanup(ptr2, pinCount);
+                }
               }
             }
           }
@@ -1448,6 +1812,7 @@ void EventSource___::InitializeProviderMetadata() {
     List<Byte> list = rt::newobj<List<Byte>>(100);
     for (Int32 i = 0; i < m_traits->get_Length() - 1; i += 2) {
       if (!m_traits[i]->StartsWith("ETW_", StringComparison::Ordinal)) {
+        continue;
       }
       String text = m_traits[i]->Substring(4);
     }
@@ -1509,6 +1874,14 @@ Int32 EventSource___::HexDigit(Char c) {
 NameInfo EventSource___::UpdateDescriptor(String name, TraceLoggingEventTypes eventInfo, EventSourceOptions& options, EventDescriptor& descriptor) {
   NameInfo nameInfo = nullptr;
   Int32 traceloggingId = 0;
+  Byte level = ((options.valuesSet & 4) != 0) ? options.level : eventInfo->level;
+  Byte opcode = ((options.valuesSet & 8) != 0) ? options.opcode : eventInfo->opcode;
+  EventTags tags = ((options.valuesSet & 2) != 0) ? options.tags : eventInfo->get_Tags();
+  EventKeywords keywords = ((options.valuesSet & 1) != 0) ? options.keywords : eventInfo->keywords;
+  if (IsEnabled((EventLevel)level, keywords)) {
+  }
+  descriptor = EventDescriptor(traceloggingId, level, opcode, (Int64)keywords);
+  return nameInfo;
 }
 
 } // namespace System::Private::CoreLib::System::Diagnostics::Tracing::EventSourceNamespace

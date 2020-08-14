@@ -2,11 +2,14 @@
 
 #include <System.Private.CoreLib/System/AppContext-dep.h>
 #include <System.Private.CoreLib/System/ArgumentException-dep.h>
+#include <System.Private.CoreLib/System/Boolean-dep.h>
 #include <System.Private.CoreLib/System/Char-dep.h>
 #include <System.Private.CoreLib/System/Diagnostics/Tracing/RuntimeEventSource-dep.h>
 #include <System.Private.CoreLib/System/Exception-dep.h>
 #include <System.Private.CoreLib/System/Int32-dep.h>
 #include <System.Private.CoreLib/System/IO/Path-dep.h>
+#include <System.Private.CoreLib/System/MissingMethodException-dep.h>
+#include <System.Private.CoreLib/System/Reflection/AmbiguousMatchException-dep.h>
 #include <System.Private.CoreLib/System/Reflection/Assembly-dep.h>
 #include <System.Private.CoreLib/System/Reflection/BindingFlags.h>
 #include <System.Private.CoreLib/System/Reflection/MethodInfo-dep.h>
@@ -34,9 +37,11 @@ void StartupHookProvider::ProcessStartupHooks() {
   for (Int32 i = 0; i < array2->get_Length(); i++) {
     String text2 = array2[i];
     if (String::in::IsNullOrEmpty(text2)) {
+      continue;
     }
     if (Path::IsPathFullyQualified(text2)) {
       array3[i].Path = text2;
+      continue;
     }
     for (Int32 j = 0; j < array->get_Length(); j++) {
       if (text2->Contains(array[j])) {
@@ -68,6 +73,8 @@ void StartupHookProvider::CallStartupHook(StartupHookNameOrPath startupHook) {
   } catch (Exception innerException) {
   }
   Type type = assembly->GetType("StartupHook", true);
+  MethodInfo method = type->GetMethod("Initialize", BindingFlags::Static | BindingFlags::Public | BindingFlags::NonPublic, nullptr, Type::in::EmptyTypes, nullptr);
+  Boolean flag = false;
 }
 
 } // namespace System::Private::CoreLib::System::StartupHookProviderNamespace

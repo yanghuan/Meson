@@ -4,6 +4,10 @@
 #include <System.Private.CoreLib/System/Int32-dep.h>
 #include <System.Private.CoreLib/System/ModuleHandle-dep.h>
 #include <System.Private.CoreLib/System/Reflection/ConstArray-dep.h>
+#include <System.Private.CoreLib/System/Reflection/MetadataImport-dep.h>
+#include <System.Private.CoreLib/System/Reflection/MethodAttributes.h>
+#include <System.Private.CoreLib/System/Reflection/TypeAttributes.h>
+#include <System.Private.CoreLib/System/Runtime/InteropServices/CharSet.h>
 #include <System.Private.CoreLib/System/Runtime/InteropServices/LayoutKind.h>
 #include <System.Private.CoreLib/System/Type-dep.h>
 
@@ -50,6 +54,11 @@ Boolean PseudoCustomAttribute::IsDefined(RuntimeFieldInfo field, RuntimeType caT
 }
 
 DllImportAttribute PseudoCustomAttribute::GetDllImportCustomAttribute(RuntimeMethodInfo method) {
+  if ((method->get_Attributes() & MethodAttributes::PinvokeImpl) == 0) {
+    return nullptr;
+  }
+  MetadataImport metadataImport = ModuleHandle::GetMetadataImport(method->get_Module()->get_ModuleHandle().GetRuntimeModule());
+  Int32 metadataToken = method->get_MetadataToken();
 }
 
 MarshalAsAttribute PseudoCustomAttribute::GetMarshalAsCustomAttribute(RuntimeParameterInfo parameter) {
@@ -75,6 +84,29 @@ StructLayoutAttribute PseudoCustomAttribute::GetStructLayoutCustomAttribute(Runt
     return nullptr;
   }
   LayoutKind layoutKind = LayoutKind::Auto;
+  switch (type->get_Attributes() & TypeAttributes::LayoutMask) {
+    case TypeAttributes::ExplicitLayout:
+      layoutKind = LayoutKind::Explicit;
+      break;
+    case TypeAttributes::NotPublic:
+      layoutKind = LayoutKind::Auto;
+      break;
+    case TypeAttributes::SequentialLayout:
+      layoutKind = LayoutKind::Sequential;
+      break;
+  }
+  CharSet charSet = CharSet::None;
+  switch (type->get_Attributes() & TypeAttributes::StringFormatMask) {
+    case TypeAttributes::NotPublic:
+      charSet = CharSet::Ansi;
+      break;
+    case TypeAttributes::AutoClass:
+      charSet = CharSet::Auto;
+      break;
+    case TypeAttributes::UnicodeClass:
+      charSet = CharSet::Unicode;
+      break;
+  }
 }
 
 void PseudoCustomAttribute::cctor() {

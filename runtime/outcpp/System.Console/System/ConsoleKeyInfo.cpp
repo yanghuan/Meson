@@ -60,6 +60,7 @@ Boolean ConsoleKeyInfo::op_Inequality(ConsoleKeyInfo a, ConsoleKeyInfo b) {
 }
 
 Int32 ConsoleKeyInfo::GetHashCode() {
+  return _keyChar | ((Int32)_key << 16) | ((Int32)_mods << 24);
 }
 
 } // namespace System::Console::System::ConsoleKeyInfoNamespace

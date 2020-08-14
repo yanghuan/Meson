@@ -9,10 +9,12 @@
 #include <System.Private.CoreLib/System/HexConverter-dep.h>
 #include <System.Private.CoreLib/System/Int16-dep.h>
 #include <System.Private.CoreLib/System/Int32-dep.h>
+#include <System.Private.CoreLib/System/Int64-dep.h>
 #include <System.Private.CoreLib/System/IO/Path-dep.h>
 #include <System.Private.CoreLib/System/Math-dep.h>
 #include <System.Private.CoreLib/System/PlatformNotSupportedException-dep.h>
 #include <System.Private.CoreLib/System/Reflection/AssemblyName-dep.h>
+#include <System.Private.CoreLib/System/Reflection/AssemblyNameFlags.h>
 #include <System.Private.CoreLib/System/SR-dep.h>
 #include <System.Private.CoreLib/System/Text/Encoding-dep.h>
 
@@ -67,22 +69,44 @@ String AssemblyName___::get_EscapedCodeBase() {
 }
 
 ProcessorArchitecture AssemblyName___::get_ProcessorArchitecture() {
+  Int32 num = (Int32)(_flags & (AssemblyNameFlags)112) >> 4;
+  if (num > 5) {
+    num = 0;
+  }
+  return (ProcessorArchitecture)num;
 }
 
 void AssemblyName___::set_ProcessorArchitecture(ProcessorArchitecture value) {
+  Int32 num = (Int32)(value & (ProcessorArchitecture)7);
+  if (num <= 5) {
+    _flags = (AssemblyNameFlags)((Int64)_flags & 4294967055);
+    _flags |= (AssemblyNameFlags)(num << 4);
+  }
 }
 
 AssemblyContentType AssemblyName___::get_ContentType() {
+  Int32 num = (Int32)(_flags & (AssemblyNameFlags)3584) >> 9;
+  if (num > 1) {
+    num = 0;
+  }
+  return (AssemblyContentType)num;
 }
 
 void AssemblyName___::set_ContentType(AssemblyContentType value) {
+  Int32 num = (Int32)(value & (AssemblyContentType)7);
+  if (num <= 1) {
+    _flags = (AssemblyNameFlags)((Int64)_flags & 4294963711);
+    _flags |= (AssemblyNameFlags)(num << 9);
+  }
 }
 
 AssemblyNameFlags AssemblyName___::get_Flags() {
+  return _flags & (AssemblyNameFlags)(-3825);
 }
 
 void AssemblyName___::set_Flags(AssemblyNameFlags value) {
   _flags &= (AssemblyNameFlags)3824;
+  _flags |= (value & (AssemblyNameFlags)(-3825));
 }
 
 AssemblyHashAlgorithm AssemblyName___::get_HashAlgorithm() {
@@ -149,6 +173,36 @@ void AssemblyName___::SetProcArchIndex(PortableExecutableKinds pek, ImageFileMac
 }
 
 ProcessorArchitecture AssemblyName___::CalculateProcArchIndex(PortableExecutableKinds pek, ImageFileMachine ifm, AssemblyNameFlags flags) {
+  if ((flags & (AssemblyNameFlags)240) == (AssemblyNameFlags)112) {
+    return ProcessorArchitecture::None;
+  }
+  if ((pek & PortableExecutableKinds::PE32Plus) == PortableExecutableKinds::PE32Plus) {
+    switch (ifm) {
+      case ImageFileMachine::IA64:
+        return ProcessorArchitecture::IA64;
+      case ImageFileMachine::AMD64:
+        return ProcessorArchitecture::Amd64;
+      case ImageFileMachine::I386:
+        if ((pek & PortableExecutableKinds::ILOnly) == PortableExecutableKinds::ILOnly) {
+          return ProcessorArchitecture::MSIL;
+        }
+        break;
+    }
+  } else {
+    switch (ifm) {
+      case ImageFileMachine::I386:
+        if ((pek & PortableExecutableKinds::Required32Bit) == PortableExecutableKinds::Required32Bit) {
+          return ProcessorArchitecture::X86;
+        }
+        if ((pek & PortableExecutableKinds::ILOnly) == PortableExecutableKinds::ILOnly) {
+          return ProcessorArchitecture::MSIL;
+        }
+        return ProcessorArchitecture::X86;
+      case ImageFileMachine::ARM:
+        return ProcessorArchitecture::Arm;
+    }
+  }
+  return ProcessorArchitecture::None;
 }
 
 void AssemblyName___::ctor() {

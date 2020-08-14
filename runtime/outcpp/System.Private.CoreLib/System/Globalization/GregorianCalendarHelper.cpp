@@ -42,6 +42,7 @@ Int32 GregorianCalendarHelper___::GetYearOffset(Int32 year, Int32 era, Boolean t
   }
   for (Int32 i = 0; i < m_EraInfo->get_Length(); i++) {
     if (era != m_EraInfo[i]->era) {
+      continue;
     }
     if (year >= m_EraInfo[i]->minEraYear) {
       if (year <= m_EraInfo[i]->maxEraYear) {

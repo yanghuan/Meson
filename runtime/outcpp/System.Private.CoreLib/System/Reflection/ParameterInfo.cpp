@@ -34,18 +34,23 @@ Int32 ParameterInfo___::get_Position() {
 }
 
 Boolean ParameterInfo___::get_IsIn() {
+  return (get_Attributes() & ParameterAttributes::In) != 0;
 }
 
 Boolean ParameterInfo___::get_IsLcid() {
+  return (get_Attributes() & ParameterAttributes::Lcid) != 0;
 }
 
 Boolean ParameterInfo___::get_IsOptional() {
+  return (get_Attributes() & ParameterAttributes::Optional) != 0;
 }
 
 Boolean ParameterInfo___::get_IsOut() {
+  return (get_Attributes() & ParameterAttributes::Out) != 0;
 }
 
 Boolean ParameterInfo___::get_IsRetval() {
+  return (get_Attributes() & ParameterAttributes::Retval) != 0;
 }
 
 Object ParameterInfo___::get_DefaultValue() {

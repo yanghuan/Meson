@@ -195,6 +195,7 @@ Int32 DecoderNLS___::ConcatInto(ReadOnlySpan<Byte> srcLeft, ReadOnlySpan<Byte> s
       }
       dest[num++] = srcLeft[num2];
       num2++;
+      continue;
     }
     for (Int32 i = 0; i < srcRight.get_Length(); i++) {
       if ((UInt32)num >= (UInt32)dest.get_Length()) {

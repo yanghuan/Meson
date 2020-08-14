@@ -13,24 +13,31 @@ Array<Type> TypeInfo___::get_GenericTypeParameters() {
 }
 
 IEnumerable<ConstructorInfo> TypeInfo___::get_DeclaredConstructors() {
+  return GetConstructors(BindingFlags::DeclaredOnly | BindingFlags::Instance | BindingFlags::Static | BindingFlags::Public | BindingFlags::NonPublic);
 }
 
 IEnumerable<EventInfo> TypeInfo___::get_DeclaredEvents() {
+  return GetEvents(BindingFlags::DeclaredOnly | BindingFlags::Instance | BindingFlags::Static | BindingFlags::Public | BindingFlags::NonPublic);
 }
 
 IEnumerable<FieldInfo> TypeInfo___::get_DeclaredFields() {
+  return GetFields(BindingFlags::DeclaredOnly | BindingFlags::Instance | BindingFlags::Static | BindingFlags::Public | BindingFlags::NonPublic);
 }
 
 IEnumerable<MemberInfo> TypeInfo___::get_DeclaredMembers() {
+  return GetMembers(BindingFlags::DeclaredOnly | BindingFlags::Instance | BindingFlags::Static | BindingFlags::Public | BindingFlags::NonPublic);
 }
 
 IEnumerable<MethodInfo> TypeInfo___::get_DeclaredMethods() {
+  return GetMethods(BindingFlags::DeclaredOnly | BindingFlags::Instance | BindingFlags::Static | BindingFlags::Public | BindingFlags::NonPublic);
 }
 
 IEnumerable<TypeInfo> TypeInfo___::get_DeclaredNestedTypes() {
+  Array<Type> nestedTypes = GetNestedTypes(BindingFlags::DeclaredOnly | BindingFlags::Instance | BindingFlags::Static | BindingFlags::Public | BindingFlags::NonPublic);
 }
 
 IEnumerable<PropertyInfo> TypeInfo___::get_DeclaredProperties() {
+  return GetProperties(BindingFlags::DeclaredOnly | BindingFlags::Instance | BindingFlags::Static | BindingFlags::Public | BindingFlags::NonPublic);
 }
 
 IEnumerable<Type> TypeInfo___::get_ImplementedInterfaces() {
@@ -45,21 +52,26 @@ Type TypeInfo___::AsType() {
 }
 
 EventInfo TypeInfo___::GetDeclaredEvent(String name) {
+  return GetEvent(name, BindingFlags::DeclaredOnly | BindingFlags::Instance | BindingFlags::Static | BindingFlags::Public | BindingFlags::NonPublic);
 }
 
 FieldInfo TypeInfo___::GetDeclaredField(String name) {
+  return GetField(name, BindingFlags::DeclaredOnly | BindingFlags::Instance | BindingFlags::Static | BindingFlags::Public | BindingFlags::NonPublic);
 }
 
 MethodInfo TypeInfo___::GetDeclaredMethod(String name) {
+  return GetMethod(name, BindingFlags::DeclaredOnly | BindingFlags::Instance | BindingFlags::Static | BindingFlags::Public | BindingFlags::NonPublic);
 }
 
 TypeInfo TypeInfo___::GetDeclaredNestedType(String name) {
 }
 
 PropertyInfo TypeInfo___::GetDeclaredProperty(String name) {
+  return GetProperty(name, BindingFlags::DeclaredOnly | BindingFlags::Instance | BindingFlags::Static | BindingFlags::Public | BindingFlags::NonPublic);
 }
 
 IEnumerable<MethodInfo> TypeInfo___::GetDeclaredMethods(String name) {
+  Array<MethodInfo> methods = GetMethods(BindingFlags::DeclaredOnly | BindingFlags::Instance | BindingFlags::Static | BindingFlags::Public | BindingFlags::NonPublic);
 }
 
 Boolean TypeInfo___::IsAssignableFrom(TypeInfo typeInfo) {

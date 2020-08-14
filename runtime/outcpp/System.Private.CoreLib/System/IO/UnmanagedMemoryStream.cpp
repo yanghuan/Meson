@@ -27,6 +27,7 @@ using namespace System::Threading;
 
 Boolean UnmanagedMemoryStream___::get_CanRead() {
   if (_isOpen) {
+    return (_access & FileAccess::Read) != 0;
   }
   return false;
 }
@@ -37,6 +38,7 @@ Boolean UnmanagedMemoryStream___::get_CanSeek() {
 
 Boolean UnmanagedMemoryStream___::get_CanWrite() {
   if (_isOpen) {
+    return (_access & FileAccess::Write) != 0;
   }
   return false;
 }

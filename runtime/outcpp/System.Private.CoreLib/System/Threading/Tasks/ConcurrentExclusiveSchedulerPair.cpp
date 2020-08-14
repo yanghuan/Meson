@@ -266,6 +266,7 @@ void ConcurrentExclusiveSchedulerPair___::ProcessAsyncIfNecessary(Boolean fairly
         }
         m_processingCount++;
         if (TryQueueThreadPoolWorkItem(fairly)) {
+          continue;
         }
         try{
         } catch (Exception exception2) {

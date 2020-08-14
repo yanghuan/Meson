@@ -17,6 +17,16 @@ using namespace System::Runtime::InteropServices;
 void LicenseInteropProxy___::ctor() {
   Type type = Type::in::GetType("System.ComponentModel.LicenseManager, System.ComponentModel.TypeConverter", true);
   Type type2 = Type::in::GetType("System.ComponentModel.LicenseContext, System.ComponentModel.TypeConverter", true);
+  _setSavedLicenseKey = type2->GetMethod("SetSavedLicenseKey", BindingFlags::Instance | BindingFlags::Public);
+  _createWithContext = type->GetMethod("CreateWithContext", rt::newarr<Array<Type>>(2));
+  Type nestedType = type->GetNestedType("LicenseInteropHelper", BindingFlags::NonPublic);
+  _validateTypeAndReturnDetails = nestedType->GetMethod("ValidateAndRetrieveLicenseDetails", BindingFlags::Static | BindingFlags::Public);
+  _getCurrentContextInfo = nestedType->GetMethod("GetCurrentContextInfo", BindingFlags::Static | BindingFlags::Public);
+  Type nestedType2 = type->GetNestedType("CLRLicenseContext", BindingFlags::NonPublic);
+  _createDesignContext = nestedType2->GetMethod("CreateDesignContext", BindingFlags::Static | BindingFlags::Public);
+  _createRuntimeContext = nestedType2->GetMethod("CreateRuntimeContext", BindingFlags::Static | BindingFlags::Public);
+  _licInfoHelper = type->GetNestedType("LicInfoHelperLicenseContext", BindingFlags::NonPublic);
+  _licInfoHelperContains = _licInfoHelper->GetMethod("Contains", BindingFlags::Instance | BindingFlags::Public);
 }
 
 Object LicenseInteropProxy___::Create() {

@@ -16,15 +16,41 @@ Single MathF::Abs(Single x) {
 
 Single MathF::BitDecrement(Single x) {
   Int32 num = BitConverter::SingleToInt32Bits(x);
+  if ((num & 2139095040) >= 2139095040) {
+    if (num != 2139095040) {
+      return x;
+    }
+    return Single::MaxValue;
+  }
+  if (num == 0) {
+    return -1E-45;
+  }
+  num += ((num < 0) ? 1 : (-1));
+  return BitConverter::Int32BitsToSingle(num);
 }
 
 Single MathF::BitIncrement(Single x) {
   Int32 num = BitConverter::SingleToInt32Bits(x);
+  if ((num & 2139095040) >= 2139095040) {
+    if (num != -8388608) {
+      return x;
+    }
+    return Single::MinValue;
+  }
+  if (num == Int32::MinValue) {
+    return Single::Epsilon;
+  }
+  num += ((num >= 0) ? 1 : (-1));
+  return BitConverter::Int32BitsToSingle(num);
 }
 
 Single MathF::CopySign(Single x, Single y) {
   Int32 num = BitConverter::SingleToInt32Bits(x);
   Int32 num2 = BitConverter::SingleToInt32Bits(y);
+  if ((num ^ num2) < 0) {
+    return BitConverter::Int32BitsToSingle(num ^ Int32::MinValue);
+  }
+  return x;
 }
 
 Single MathF::IEEERemainder(Single x, Single y) {
@@ -126,6 +152,8 @@ Single MathF::Round(Single x) {
   UInt32 num3 = (UInt32)(1 << 150 - num2);
   UInt32 num4 = num3 - 1;
   num += num3 >> 1;
+  num = (((num & num4) != 0) ? (num & ~num4) : (num & ~num3));
+  return BitConverter::Int32BitsToSingle((Int32)num);
 }
 
 Single MathF::Round(Single x, Int32 digits) {

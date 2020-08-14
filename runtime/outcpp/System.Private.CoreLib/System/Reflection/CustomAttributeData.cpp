@@ -9,9 +9,11 @@
 #include <System.Private.CoreLib/System/Reflection/CustomAttributeCtorParameter-dep.h>
 #include <System.Private.CoreLib/System/Reflection/CustomAttributeData-dep.h>
 #include <System.Private.CoreLib/System/Reflection/CustomAttributeEncodedArgument-dep.h>
+#include <System.Private.CoreLib/System/Reflection/CustomAttributeNamedParameter-dep.h>
 #include <System.Private.CoreLib/System/Reflection/CustomAttributeRecord-dep.h>
 #include <System.Private.CoreLib/System/Reflection/FieldInfo-dep.h>
 #include <System.Private.CoreLib/System/Reflection/MetadataImport-dep.h>
+#include <System.Private.CoreLib/System/Reflection/PropertyInfo-dep.h>
 #include <System.Private.CoreLib/System/Runtime/CompilerServices/TypeForwardedToAttribute-dep.h>
 #include <System.Private.CoreLib/System/Runtime/InteropServices/DllImportAttribute-dep.h>
 #include <System.Private.CoreLib/System/Runtime/InteropServices/FieldOffsetAttribute-dep.h>
@@ -198,6 +200,19 @@ void CustomAttributeData___::ctor(RuntimeModule scope, MetadataToken caCtorToken
   for (Int32 i = 0; i < parametersNoCopy->get_Length(); i++) {
     m_ctorParams[i] = CustomAttributeCtorParameter(InitCustomAttributeType((RuntimeType)parametersNoCopy[i]->get_ParameterType()));
   }
+  Array<FieldInfo> fields = m_ctor->get_DeclaringType()->GetFields(BindingFlags::Instance | BindingFlags::Public | BindingFlags::NonPublic);
+  Array<PropertyInfo> properties = m_ctor->get_DeclaringType()->GetProperties(BindingFlags::Instance | BindingFlags::Public | BindingFlags::NonPublic);
+  m_namedParams = rt::newarr<Array<CustomAttributeNamedParameter>>(properties->get_Length() + fields->get_Length());
+  for (Int32 j = 0; j < fields->get_Length(); j++) {
+    m_namedParams[j] = CustomAttributeNamedParameter(fields[j]->get_Name(), CustomAttributeEncoding::Field, InitCustomAttributeType((RuntimeType)fields[j]->get_FieldType()));
+  }
+  for (Int32 k = 0; k < properties->get_Length(); k++) {
+    m_namedParams[k + fields->get_Length()] = CustomAttributeNamedParameter(properties[k]->get_Name(), CustomAttributeEncoding::Property, InitCustomAttributeType((RuntimeType)properties[k]->get_PropertyType()));
+  }
+  m_members = rt::newarr<Array<MemberInfo>>(fields->get_Length() + properties->get_Length());
+  fields->CopyTo(m_members, 0);
+  properties->CopyTo(m_members, fields->get_Length());
+  CustomAttributeEncodedArgument::ParseAttributeArguments(blob, m_ctorParams, m_namedParams, m_scope);
 }
 
 void CustomAttributeData___::ctor(Attribute attribute) {
@@ -237,6 +252,9 @@ void CustomAttributeData___::Init(TypeForwardedToAttribute forwardedTo) {
 }
 
 void CustomAttributeData___::Init(Object pca) {
+  m_ctor = pca->GetType()->GetConstructors(BindingFlags::Instance | BindingFlags::Public)[0];
+  m_typedCtorArgs = Array<>::in::AsReadOnly(Array<>::in::Empty<CustomAttributeTypedArgument>());
+  m_namedArgs = Array<>::in::AsReadOnly(Array<>::in::Empty<CustomAttributeNamedArgument>());
 }
 
 String CustomAttributeData___::ToString() {

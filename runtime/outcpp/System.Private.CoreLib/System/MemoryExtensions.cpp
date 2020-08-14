@@ -428,6 +428,7 @@ ReadOnlySpan<Char> MemoryExtensions::TrimStart(ReadOnlySpan<Char> span, ReadOnly
     while (num < trimChars.get_Length()) {
       if (span[i] != trimChars[num]) {
         num++;
+        continue;
       }
     }
     break;
@@ -445,6 +446,7 @@ ReadOnlySpan<Char> MemoryExtensions::TrimEnd(ReadOnlySpan<Char> span, ReadOnlySp
     while (num2 < trimChars.get_Length()) {
       if (span[num] != trimChars[num2]) {
         num2++;
+        continue;
       }
     }
     break;

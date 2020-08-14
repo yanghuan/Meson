@@ -22,6 +22,7 @@
 #include <System.Private.CoreLib/System/Reflection/Emit/ScopeTree-dep.h>
 #include <System.Private.CoreLib/System/Reflection/Emit/StackBehaviour.h>
 #include <System.Private.CoreLib/System/Reflection/Emit/TypeBuilder-dep.h>
+#include <System.Private.CoreLib/System/Reflection/FieldAttributes.h>
 #include <System.Private.CoreLib/System/SR-dep.h>
 #include <System.Private.CoreLib/System/UInt32-dep.h>
 
@@ -301,6 +302,13 @@ void ILGenerator___::Emit(OpCode opcode, MethodInfo meth) {
 
 void ILGenerator___::EmitCalli(OpCode opcode, CallingConventions callingConvention, Type returnType, Array<Type> parameterTypes, Array<Type> optionalParameterTypes) {
   Int32 num = 0;
+  if (optionalParameterTypes != nullptr && (callingConvention & CallingConventions::VarArgs) == 0) {
+    rt::throw_exception<InvalidOperationException>(SR::get_InvalidOperation_NotAVarArgCallingConvention());
+  }
+  ModuleBuilder moduleBuilder = (ModuleBuilder)m_methodBuilder->get_Module();
+  SignatureHelper memberRefSignature = GetMemberRefSignature(callingConvention, returnType, parameterTypes, optionalParameterTypes);
+  EnsureCapacity(7);
+  Emit(OpCodes::in::Calli);
 }
 
 void ILGenerator___::EmitCalli(OpCode opcode, CallingConvention unmanagedCallConv, Type returnType, Array<Type> parameterTypes) {
@@ -684,6 +692,23 @@ void ILGenerator___::EmitWriteLine(FieldInfo fld) {
   }
   MethodInfo method = GetConsoleType()->GetMethod("get_Out");
   Emit(OpCodes::in::Call, method);
+  if ((fld->get_Attributes() & FieldAttributes::Static) != 0) {
+    Emit(OpCodes::in::Ldsfld, fld);
+  } else {
+    Emit(OpCodes::in::Ldarg, (?)0);
+    Emit(OpCodes::in::Ldfld, fld);
+  }
+  Array<Type> array = rt::newarr<Array<Type>>(1);
+  Type fieldType = fld->get_FieldType();
+  if (rt::is<TypeBuilder>(fieldType) || rt::is<EnumBuilder>(fieldType)) {
+    rt::throw_exception<NotSupportedException>(SR::get_NotSupported_OutputStreamUsingTypeBuilder());
+  }
+  array[0] = fieldType;
+  MethodInfo method2 = method->get_ReturnType()->GetMethod("WriteLine", array);
+  if (method2 == nullptr) {
+    rt::throw_exception<ArgumentException>(SR::get_Argument_EmitWriteLineType(), "fld");
+  }
+  Emit(OpCodes::in::Callvirt, method2);
 }
 
 LocalBuilder ILGenerator___::DeclareLocal(Type localType) {

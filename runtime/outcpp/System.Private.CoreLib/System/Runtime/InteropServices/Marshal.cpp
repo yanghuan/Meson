@@ -16,6 +16,7 @@
 #include <System.Private.CoreLib/System/Reflection/BindingFlags.h>
 #include <System.Private.CoreLib/System/Reflection/CustomAttributeExtensions-dep.h>
 #include <System.Private.CoreLib/System/Reflection/FieldInfo-dep.h>
+#include <System.Private.CoreLib/System/Reflection/RtFieldInfo-dep.h>
 #include <System.Private.CoreLib/System/Reflection/RuntimeMethodInfo-dep.h>
 #include <System.Private.CoreLib/System/Reflection/RuntimeModule-dep.h>
 #include <System.Private.CoreLib/System/Runtime/CompilerServices/QCallModule-dep.h>
@@ -39,6 +40,15 @@ IntPtr Marshal::OffsetOf(Type t, String fieldName) {
   if ((Object)t == nullptr) {
     rt::throw_exception<ArgumentNullException>("t");
   }
+  FieldInfo field = t->GetField(fieldName, BindingFlags::Instance | BindingFlags::Public | BindingFlags::NonPublic);
+  if ((Object)field == nullptr) {
+    rt::throw_exception<ArgumentException>(SR::Format(SR::get_Argument_OffsetOfFieldNotFound(), t->get_FullName()), "fieldName");
+  }
+  RtFieldInfo rtFieldInfo = rt::as<RtFieldInfo>(field);
+  if ((Object)rtFieldInfo == nullptr) {
+    rt::throw_exception<ArgumentException>(SR::get_Argument_MustBeRuntimeFieldInfo(), "fieldName");
+  }
+  return OffsetOfHelper(rtFieldInfo);
 }
 
 Byte Marshal::ReadByte(Object ptr, Int32 ofs) {
@@ -474,6 +484,10 @@ Byte Marshal::ReadByte(IntPtr ptr) {
 Int16 Marshal::ReadInt16(IntPtr ptr, Int32 ofs) {
   try{
     Byte* ptr2 = (Byte*)(void*)ptr + ofs;
+    if (((Int32)ptr2 & 1) == 0) {
+      return *(Int16*)ptr2;
+    }
+    return Unsafe::ReadUnaligned<Int16>(ptr2);
   } catch (NullReferenceException) {
   }
 }
@@ -485,6 +499,10 @@ Int16 Marshal::ReadInt16(IntPtr ptr) {
 Int32 Marshal::ReadInt32(IntPtr ptr, Int32 ofs) {
   try{
     Byte* ptr2 = (Byte*)(void*)ptr + ofs;
+    if (((Int32)ptr2 & 3) == 0) {
+      return *(Int32*)ptr2;
+    }
+    return Unsafe::ReadUnaligned<Int32>(ptr2);
   } catch (NullReferenceException) {
   }
 }
@@ -508,6 +526,10 @@ IntPtr Marshal::ReadIntPtr(IntPtr ptr) {
 Int64 Marshal::ReadInt64(IntPtr ptr, Int32 ofs) {
   try{
     Byte* ptr2 = (Byte*)(void*)ptr + ofs;
+    if (((Int32)ptr2 & 7) == 0) {
+      return *(Int64*)ptr2;
+    }
+    return Unsafe::ReadUnaligned<Int64>(ptr2);
   } catch (NullReferenceException) {
   }
 }
@@ -531,6 +553,11 @@ void Marshal::WriteByte(IntPtr ptr, Byte val) {
 void Marshal::WriteInt16(IntPtr ptr, Int32 ofs, Int16 val) {
   try{
     Byte* ptr2 = (Byte*)(void*)ptr + ofs;
+    if (((Int32)ptr2 & 1) == 0) {
+      *(Int16*)ptr2 = val;
+    } else {
+      Unsafe::WriteUnaligned(ptr2, val);
+    }
   } catch (NullReferenceException) {
   }
 }
@@ -554,6 +581,11 @@ void Marshal::WriteInt16(IntPtr ptr, Char val) {
 void Marshal::WriteInt32(IntPtr ptr, Int32 ofs, Int32 val) {
   try{
     Byte* ptr2 = (Byte*)(void*)ptr + ofs;
+    if (((Int32)ptr2 & 3) == 0) {
+      *(Int32*)ptr2 = val;
+    } else {
+      Unsafe::WriteUnaligned(ptr2, val);
+    }
   } catch (NullReferenceException) {
   }
 }
@@ -577,6 +609,11 @@ void Marshal::WriteIntPtr(IntPtr ptr, IntPtr val) {
 void Marshal::WriteInt64(IntPtr ptr, Int32 ofs, Int64 val) {
   try{
     Byte* ptr2 = (Byte*)(void*)ptr + ofs;
+    if (((Int32)ptr2 & 7) == 0) {
+      *(Int64*)ptr2 = val;
+    } else {
+      Unsafe::WriteUnaligned(ptr2, val);
+    }
   } catch (NullReferenceException) {
   }
 }
@@ -810,6 +847,10 @@ IntPtr Marshal::GetFunctionPointerForDelegate(Delegate d) {
 
 Int32 Marshal::GetHRForLastWin32Error() {
   Int32 lastWin32Error = GetLastWin32Error();
+  if ((lastWin32Error & 2147483648u) == 2147483648u) {
+    return lastWin32Error;
+  }
+  return (lastWin32Error & 65535) | -2147024896;
 }
 
 void Marshal::ZeroFreeBSTR(IntPtr s) {
@@ -881,6 +922,7 @@ Int32 Marshal::GetSystemMaxDBCSCharSize() {
 
 Boolean Marshal::IsNullOrWin32Atom(IntPtr ptr) {
   Int64 num = (Int64)ptr;
+  return (num & -65536) == 0;
 }
 
 Int32 Marshal::StringToAnsiString(String s, Byte* buffer, Int32 bufferLength, Boolean bestFit, Boolean throwOnUnmappableChar) {

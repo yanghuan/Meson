@@ -255,6 +255,12 @@ String Enum___::InternalFlagsFormat(RuntimeType enumType, EnumInfo enumInfo, UIn
     if (num == 0 && num4 == 0) {
       break;
     }
+    if ((resultValue & num4) == num4) {
+      resultValue -= num4;
+      span[num3++] = num;
+      num2 = num2 + names[num]->get_Length();
+    }
+    num--;
   }
   if (resultValue != 0) {
     return nullptr;
@@ -383,6 +389,13 @@ Boolean Enum___::TryParse(Type enumType, String value, Boolean ignoreCase, Boole
 Boolean Enum___::TryParseInt32Enum(RuntimeType enumType, String originalValueString, ReadOnlySpan<Char> value, Int32 minInclusive, Int32 maxInclusive, Boolean ignoreCase, Boolean throwOnFailure, TypeCode type, Int32& result) {
   Number::ParsingStatus parsingStatus = Number::ParsingStatus::OK;
   if (StartsNumber(value[0])) {
+    parsingStatus = Number::TryParseInt32IntegerStyle(value, NumberStyles::AllowTrailingWhite | NumberStyles::AllowLeadingSign, CultureInfo::in::get_InvariantCulture()->get_NumberFormat(), result);
+    if (parsingStatus == Number::ParsingStatus::OK) {
+      if ((UInt32)(result - minInclusive) <= (UInt32)(maxInclusive - minInclusive)) {
+        return true;
+      }
+      parsingStatus = Number::ParsingStatus::Overflow;
+    }
   }
   UInt64 result2;
   if (parsingStatus == Number::ParsingStatus::Overflow) {
@@ -401,6 +414,13 @@ Boolean Enum___::TryParseInt32Enum(RuntimeType enumType, String originalValueStr
 Boolean Enum___::TryParseUInt32Enum(RuntimeType enumType, String originalValueString, ReadOnlySpan<Char> value, UInt32 maxInclusive, Boolean ignoreCase, Boolean throwOnFailure, TypeCode type, UInt32& result) {
   Number::ParsingStatus parsingStatus = Number::ParsingStatus::OK;
   if (StartsNumber(value[0])) {
+    parsingStatus = Number::TryParseUInt32IntegerStyle(value, NumberStyles::AllowTrailingWhite | NumberStyles::AllowLeadingSign, CultureInfo::in::get_InvariantCulture()->get_NumberFormat(), result);
+    if (parsingStatus == Number::ParsingStatus::OK) {
+      if (result <= maxInclusive) {
+        return true;
+      }
+      parsingStatus = Number::ParsingStatus::Overflow;
+    }
   }
   UInt64 result2;
   if (parsingStatus == Number::ParsingStatus::Overflow) {
@@ -419,6 +439,10 @@ Boolean Enum___::TryParseUInt32Enum(RuntimeType enumType, String originalValueSt
 Boolean Enum___::TryParseInt64Enum(RuntimeType enumType, String originalValueString, ReadOnlySpan<Char> value, Boolean ignoreCase, Boolean throwOnFailure, Int64& result) {
   Number::ParsingStatus parsingStatus = Number::ParsingStatus::OK;
   if (StartsNumber(value[0])) {
+    parsingStatus = Number::TryParseInt64IntegerStyle(value, NumberStyles::AllowTrailingWhite | NumberStyles::AllowLeadingSign, CultureInfo::in::get_InvariantCulture()->get_NumberFormat(), result);
+    if (parsingStatus == Number::ParsingStatus::OK) {
+      return true;
+    }
   }
   UInt64 result2;
   if (parsingStatus == Number::ParsingStatus::Overflow) {
@@ -437,6 +461,10 @@ Boolean Enum___::TryParseInt64Enum(RuntimeType enumType, String originalValueStr
 Boolean Enum___::TryParseUInt64Enum(RuntimeType enumType, String originalValueString, ReadOnlySpan<Char> value, Boolean ignoreCase, Boolean throwOnFailure, UInt64& result) {
   Number::ParsingStatus parsingStatus = Number::ParsingStatus::OK;
   if (StartsNumber(value[0])) {
+    parsingStatus = Number::TryParseUInt64IntegerStyle(value, NumberStyles::AllowTrailingWhite | NumberStyles::AllowLeadingSign, CultureInfo::in::get_InvariantCulture()->get_NumberFormat(), result);
+    if (parsingStatus == Number::ParsingStatus::OK) {
+      return true;
+    }
   }
   if (parsingStatus == Number::ParsingStatus::Overflow) {
     if (throwOnFailure) {

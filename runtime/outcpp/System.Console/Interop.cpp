@@ -42,6 +42,10 @@ String Interop::Kernel32::GetMessage(Int32 errorCode, IntPtr moduleHandle) {
   if (Marshal::GetLastWin32Error() == 122) {
     IntPtr intPtr = IntPtr();
     try{
+      Int32 num3 = FormatMessage(num | 256, moduleHandle, (UInt32)errorCode, 0, &intPtr, 0, IntPtr::Zero);
+      if (num3 > 0) {
+        return GetAndTrimString(Span<Char>((void*)intPtr, num3));
+      }
     } finally: {
       Marshal::FreeHGlobal(intPtr);
     }

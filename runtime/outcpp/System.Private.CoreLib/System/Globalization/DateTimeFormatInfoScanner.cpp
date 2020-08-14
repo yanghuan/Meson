@@ -19,6 +19,7 @@ Int32 DateTimeFormatInfoScanner___::SkipWhiteSpacesAndNonLetter(String pattern, 
       }
       c = pattern[currentIndex];
       if (c == 39) {
+        continue;
       }
     }
     if (Char::IsLetter(c) || c == 39 || c == 46) {
@@ -80,6 +81,33 @@ Int32 DateTimeFormatInfoScanner___::AddDateWords(String pattern, Int32 index, St
   StringBuilder stringBuilder = rt::newobj<StringBuilder>();
   while (index < pattern->get_Length()) {
     Char c = pattern[index];
+    switch (c.get()) {
+      case 39:
+        break;
+      case 92:
+        index++;
+        if (index < pattern->get_Length()) {
+          stringBuilder->Append(pattern[index]);
+          index++;
+        }
+        continue;
+      default:
+        if (Char::IsWhiteSpace(c)) {
+          AddDateWordOrPostfix(formatPostfix, stringBuilder->ToString());
+          if (formatPostfix != nullptr) {
+            formatPostfix = nullptr;
+          }
+          stringBuilder->set_Length = 0;
+          index++;
+        } else {
+          stringBuilder->Append(c);
+          index++;
+        }
+        continue;
+    }
+    AddDateWordOrPostfix(formatPostfix, stringBuilder->ToString());
+    index++;
+    break;
   }
   return index;
 }
@@ -188,6 +216,8 @@ FORMATFLAGS DateTimeFormatInfoScanner___::GetFormatFlagGenitiveMonth(Array<Strin
 
 FORMATFLAGS DateTimeFormatInfoScanner___::GetFormatFlagUseSpaceInMonthNames(Array<String> monthNames, Array<String> genitveMonthNames, Array<String> abbrevMonthNames, Array<String> genetiveAbbrevMonthNames) {
   FORMATFLAGS fORMATFLAGS = FORMATFLAGS::None;
+  fORMATFLAGS = (FORMATFLAGS)((Int32)fORMATFLAGS | ((ArrayElementsBeginWithDigit(monthNames) || ArrayElementsBeginWithDigit(genitveMonthNames) || ArrayElementsBeginWithDigit(abbrevMonthNames) || ArrayElementsBeginWithDigit(genetiveAbbrevMonthNames)) ? 32 : 0));
+  return (FORMATFLAGS)((Int32)fORMATFLAGS | ((ArrayElementsHaveSpace(monthNames) || ArrayElementsHaveSpace(genitveMonthNames) || ArrayElementsHaveSpace(abbrevMonthNames) || ArrayElementsHaveSpace(genetiveAbbrevMonthNames)) ? 4 : 0));
 }
 
 FORMATFLAGS DateTimeFormatInfoScanner___::GetFormatFlagUseSpaceInDayNames(Array<String> dayNames, Array<String> abbrevDayNames) {
@@ -233,6 +263,7 @@ Boolean DateTimeFormatInfoScanner___::ArrayElementsHaveSpace(Array<String> array
 Boolean DateTimeFormatInfoScanner___::ArrayElementsBeginWithDigit(Array<String> array) {
   for (Int32 i = 0; i < array->get_Length(); i++) {
     if (array[i]->get_Length() <= 0 || array[i][0] < 48 || array[i][0] > 57) {
+      continue;
     }
     Int32 j;
     for (j = 1; j < array[i]->get_Length() && array[i][j] >= 48 && array[i][j] <= 57; j++) {

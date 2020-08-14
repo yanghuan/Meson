@@ -1,16 +1,28 @@
 #include "CustomAttribute-dep.h"
 
+#include <System.Private.CoreLib/Interop-dep.h>
 #include <System.Private.CoreLib/System/AttributeUsageAttribute-dep.h>
 #include <System.Private.CoreLib/System/Byte-dep.h>
+#include <System.Private.CoreLib/System/GC-dep.h>
 #include <System.Private.CoreLib/System/Int32-dep.h>
 #include <System.Private.CoreLib/System/IntPtr-dep.h>
+#include <System.Private.CoreLib/System/ModuleHandle-dep.h>
+#include <System.Private.CoreLib/System/Reflection/ConstArray-dep.h>
 #include <System.Private.CoreLib/System/Reflection/CustomAttributeData-dep.h>
 #include <System.Private.CoreLib/System/Reflection/CustomAttributeRecord-dep.h>
 #include <System.Private.CoreLib/System/Reflection/MetadataImport-dep.h>
 #include <System.Private.CoreLib/System/Reflection/PseudoCustomAttribute-dep.h>
 #include <System.Private.CoreLib/System/Reflection/RuntimeModule-dep.h>
+#include <System.Private.CoreLib/System/Reflection/TypeAttributes.h>
+#include <System.Private.CoreLib/System/Runtime/CompilerServices/QCallModule-dep.h>
+#include <System.Private.CoreLib/System/Runtime/CompilerServices/QCallTypeHandle-dep.h>
+#include <System.Private.CoreLib/System/RuntimeMethodHandle-dep.h>
+#include <System.Private.CoreLib/System/RuntimeMethodHandleInternal-dep.h>
+#include <System.Private.CoreLib/System/RuntimeTypeHandle-dep.h>
 
 namespace System::Private::CoreLib::System::Reflection::CustomAttributeNamespace {
+using namespace System::Runtime::CompilerServices;
+
 Boolean CustomAttribute::IsDefined(RuntimeType type, RuntimeType caType, Boolean inherit) {
   if (type->GetElementType() != nullptr) {
     return false;
@@ -182,6 +194,40 @@ Boolean CustomAttribute::FilterCustomAttributeRecord(MetadataToken caCtorToken, 
   if (!AttributeUsageCheck(attributeType, mustBeInheritable, derivedAttributes)) {
     return false;
   }
+  if ((attributeType->get_Attributes() & TypeAttributes::WindowsRuntime) == TypeAttributes::WindowsRuntime) {
+    return false;
+  }
+  ConstArray methodSignature = scope.GetMethodSignature(caCtorToken);
+  isVarArg = ((methodSignature[0] & 5) != 0);
+  if (methodSignature[1] != 0) {
+    if (attributeType->get_IsGenericType()) {
+      ctorWithParameters = decoratedModule->ResolveMethod(caCtorToken, attributeType->get_GenericTypeArguments(), nullptr)->get_MethodHandle().GetMethodInfo();
+    } else {
+      ctorWithParameters = ModuleHandle::ResolveMethodHandleInternal(decoratedModule->GetNativeHandle(), caCtorToken);
+    }
+  }
+  MetadataToken token = MetadataToken();
+  if (decoratedToken.get_IsParamDef()) {
+    token = MetadataToken(scope.GetParentToken(decoratedToken));
+    token = MetadataToken(scope.GetParentToken(token));
+  } else if (decoratedToken.get_IsMethodDef() || decoratedToken.get_IsProperty() || decoratedToken.get_IsEvent() || decoratedToken.get_IsFieldDef()) {
+    token = MetadataToken(scope.GetParentToken(decoratedToken));
+  } else if (decoratedToken.get_IsTypeDef()) {
+    token = decoratedToken;
+  } else if (decoratedToken.get_IsGenericPar()) {
+    token = MetadataToken(scope.GetParentToken(decoratedToken));
+    if (token.get_IsMethodDef()) {
+      token = MetadataToken(scope.GetParentToken(token));
+    }
+  }
+
+
+
+  RuntimeTypeHandle rth = token.get_IsTypeDef() ? decoratedModule->get_ModuleHandle().ResolveTypeHandle(token) : RuntimeTypeHandle();
+  RuntimeTypeHandle rth2 = attributeType->get_TypeHandle();
+  Boolean result = RuntimeMethodHandle::IsCAVisibleFromDecoratedType(QCallTypeHandle(rth2), (ctorWithParameters != nullptr) ? ctorWithParameters->get_Value() : RuntimeMethodHandleInternal::get_EmptyHandle(), QCallTypeHandle(rth), QCallModule(decoratedModule)) != Interop::BOOL::FALSE;
+  GC::KeepAlive(ctorWithParameters);
+  return result;
 }
 
 Boolean CustomAttribute::AttributeUsageCheck(RuntimeType attributeType, Boolean mustBeInheritable, RuntimeType::in::ListBuilder<Object>& derivedAttributes) {

@@ -3,6 +3,7 @@
 #include <System.Private.CoreLib/System/DateTimeParse-dep.h>
 #include <System.Private.CoreLib/System/DTSubStringType.h>
 #include <System.Private.CoreLib/System/Globalization/CompareOptions.h>
+#include <System.Private.CoreLib/System/Globalization/DateTimeFormatFlags.h>
 #include <System.Private.CoreLib/System/Span-dep.h>
 
 namespace System::Private::CoreLib::System::__DTStringNamespace {
@@ -25,6 +26,7 @@ __DTString::__DTString(ReadOnlySpan<Char> str, DateTimeFormatInfo dtfi) {
   Value = str;
   m_current = 0;
   m_info = dtfi->get_CompareInfo();
+  m_checkDigitToken = ((dtfi->get_FormatFlags() & DateTimeFormatFlags::UseDigitPrefixInTokens) != 0);
 }
 
 Boolean __DTString::GetNext() {

@@ -6,6 +6,7 @@
 #include <System.Private.CoreLib/System/Diagnostics/StackTrace-dep.h>
 #include <System.Private.CoreLib/System/Reflection/BindingFlags.h>
 #include <System.Private.CoreLib/System/Reflection/MethodBase-dep.h>
+#include <System.Private.CoreLib/System/Reflection/MethodImplAttributes.h>
 #include <System.Private.CoreLib/System/Reflection/MethodInfo-dep.h>
 #include <System.Private.CoreLib/System/SR-dep.h>
 #include <System.Private.CoreLib/System/String-dep.h>
@@ -171,6 +172,9 @@ void StackTrace___::ToString(TraceFormat traceFormat, StringBuilder sb) {
 }
 
 Boolean StackTrace___::ShowInStackTrace(MethodBase mb) {
+  if ((mb->get_MethodImplementationFlags() & MethodImplAttributes::AggressiveInlining) != 0) {
+    return false;
+  }
 }
 
 Boolean StackTrace___::TryResolveStateMachineMethod(MethodBase& method, Type& declaringType) {
@@ -179,6 +183,11 @@ Boolean StackTrace___::TryResolveStateMachineMethod(MethodBase& method, Type& de
   if (declaringType2 == nullptr) {
     return false;
   }
+  Array<MethodInfo> methods = declaringType2->GetMethods(BindingFlags::DeclaredOnly | BindingFlags::Instance | BindingFlags::Static | BindingFlags::Public | BindingFlags::NonPublic);
+  if (methods == nullptr) {
+    return false;
+  }
+  Array<MethodInfo> array = methods;
 }
 
 } // namespace System::Private::CoreLib::System::Diagnostics::StackTraceNamespace

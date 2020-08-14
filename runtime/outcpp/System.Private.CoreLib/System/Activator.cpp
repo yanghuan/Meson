@@ -3,6 +3,7 @@
 #include <System.Private.CoreLib/System/ArgumentException-dep.h>
 #include <System.Private.CoreLib/System/ArgumentNullException-dep.h>
 #include <System.Private.CoreLib/System/NotSupportedException-dep.h>
+#include <System.Private.CoreLib/System/PlatformNotSupportedException-dep.h>
 #include <System.Private.CoreLib/System/Reflection/Assembly-dep.h>
 #include <System.Private.CoreLib/System/Reflection/AssemblyContentType.h>
 #include <System.Private.CoreLib/System/Reflection/AssemblyName-dep.h>
@@ -24,9 +25,11 @@ Object Activator::CreateInstance(Type type, BindingFlags bindingAttr, Binder bin
 }
 
 Object Activator::CreateInstance(Type type, Array<Object> args) {
+  return CreateInstance(type, BindingFlags::Instance | BindingFlags::Public | BindingFlags::CreateInstance, nullptr, args, nullptr, nullptr);
 }
 
 Object Activator::CreateInstance(Type type, Array<Object> args, Array<Object> activationAttributes) {
+  return CreateInstance(type, BindingFlags::Instance | BindingFlags::Public | BindingFlags::CreateInstance, nullptr, args, nullptr, activationAttributes);
 }
 
 Object Activator::CreateInstance(Type type) {
@@ -34,9 +37,11 @@ Object Activator::CreateInstance(Type type) {
 }
 
 ObjectHandle Activator::CreateInstanceFrom(String assemblyFile, String typeName) {
+  return CreateInstanceFrom(assemblyFile, typeName, false, BindingFlags::Instance | BindingFlags::Public | BindingFlags::CreateInstance, nullptr, nullptr, nullptr, nullptr);
 }
 
 ObjectHandle Activator::CreateInstanceFrom(String assemblyFile, String typeName, Array<Object> activationAttributes) {
+  return CreateInstanceFrom(assemblyFile, typeName, false, BindingFlags::Instance | BindingFlags::Public | BindingFlags::CreateInstance, nullptr, nullptr, nullptr, activationAttributes);
 }
 
 ObjectHandle Activator::CreateInstanceFrom(String assemblyFile, String typeName, Boolean ignoreCase, BindingFlags bindingAttr, Binder binder, Array<Object> args, CultureInfo culture, Array<Object> activationAttributes) {
@@ -56,10 +61,22 @@ Object Activator::CreateInstance(Type type, BindingFlags bindingAttr, Binder bin
   if (rt::is<TypeBuilder>(type)) {
     rt::throw_exception<NotSupportedException>(SR::get_NotSupported_CreateInstanceWithTypeBuilder());
   }
+  if ((bindingAttr & (BindingFlags)255) == 0) {
+    bindingAttr |= (BindingFlags::Instance | BindingFlags::Public | BindingFlags::CreateInstance);
+  }
+  if (activationAttributes != nullptr && activationAttributes->get_Length() != 0) {
+    rt::throw_exception<PlatformNotSupportedException>(SR::get_NotSupported_ActivAttr());
+  }
+  RuntimeType runtimeType = rt::as<RuntimeType>(type->get_UnderlyingSystemType());
+  if ((Object)runtimeType != nullptr) {
+    return runtimeType->CreateInstanceImpl(bindingAttr, binder, args, culture);
+  }
+  rt::throw_exception<ArgumentException>(SR::get_Arg_MustBeType(), "type");
 }
 
 ObjectHandle Activator::CreateInstance(String assemblyName, String typeName) {
   StackCrawlMark stackMark = StackCrawlMark::LookForMyCaller;
+  return CreateInstanceInternal(assemblyName, typeName, false, BindingFlags::Instance | BindingFlags::Public | BindingFlags::CreateInstance, nullptr, nullptr, nullptr, nullptr, stackMark);
 }
 
 ObjectHandle Activator::CreateInstance(String assemblyName, String typeName, Boolean ignoreCase, BindingFlags bindingAttr, Binder binder, Array<Object> args, CultureInfo culture, Array<Object> activationAttributes) {
@@ -69,6 +86,7 @@ ObjectHandle Activator::CreateInstance(String assemblyName, String typeName, Boo
 
 ObjectHandle Activator::CreateInstance(String assemblyName, String typeName, Array<Object> activationAttributes) {
   StackCrawlMark stackMark = StackCrawlMark::LookForMyCaller;
+  return CreateInstanceInternal(assemblyName, typeName, false, BindingFlags::Instance | BindingFlags::Public | BindingFlags::CreateInstance, nullptr, nullptr, nullptr, activationAttributes, stackMark);
 }
 
 Object Activator::CreateInstance(Type type, Boolean nonPublic) {

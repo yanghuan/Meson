@@ -3,6 +3,7 @@
 #include <System.Private.CoreLib/Internal/Runtime/CompilerServices/Unsafe-dep.h>
 #include <System.Private.CoreLib/System/ArgumentNullException-dep.h>
 #include <System.Private.CoreLib/System/ArgumentOutOfRangeException-dep.h>
+#include <System.Private.CoreLib/System/Collections/Hashtable-dep.h>
 #include <System.Private.CoreLib/System/InvalidOperationException-dep.h>
 #include <System.Private.CoreLib/System/Threading/Interlocked-dep.h>
 #include <System.Private.CoreLib/System/Type-dep.h>
@@ -13,6 +14,7 @@
 namespace System::Private::Uri::System::UriParserNamespace {
 using namespace ::System::Private::CoreLib::Internal::Runtime::CompilerServices;
 using namespace ::System::Private::CoreLib::System;
+using namespace ::System::Private::CoreLib::System::Collections;
 using namespace ::System::Private::CoreLib::System::Threading;
 
 void BuiltInUriParser___::ctor(String lwrCaseScheme, Int32 defaultPort, UriSyntaxFlags syntaxFlags) {
@@ -54,6 +56,10 @@ void UriParser___::InitializeAndValidate(Uri uri, UriFormatException& parsingErr
     rt::throw_exception<InvalidOperationException>(SR::Format(SR::get_net_uri_UserDrivenParsing(), uri->_syntax->GetType()));
   }
   UInt64 num = Interlocked::Or(Unsafe::As<Uri::in::Flags, UInt64>(uri->_flags), 4611686018427387904);
+  if ((num & 4611686018427387904) != 0) {
+    rt::throw_exception<InvalidOperationException>(SR::get_net_uri_InitializeCalledAlreadyOrTooLate());
+  }
+  parsingError = uri->ParseMinimal();
 }
 
 String UriParser___::Resolve(Uri baseUri, Uri relativeUri, UriFormatException& parsingError) {
@@ -78,6 +84,19 @@ Boolean UriParser___::IsBaseOf(Uri baseUri, Uri relativeUri) {
 }
 
 String UriParser___::GetComponents(Uri uri, UriComponents components, UriFormat format) {
+  if ((components & UriComponents::SerializationInfoString) != 0 && components != UriComponents::SerializationInfoString) {
+    rt::throw_exception<ArgumentOutOfRangeException>("components", components, SR::get_net_uri_NotJustSerialization());
+  }
+  if ((format & (UriFormat)(-4)) != 0) {
+    rt::throw_exception<ArgumentOutOfRangeException>("format");
+  }
+  if (uri->get_UserDrivenParsing()) {
+    rt::throw_exception<InvalidOperationException>(SR::Format(SR::get_net_uri_UserDrivenParsing(), GetType()));
+  }
+  if (!uri->get_IsAbsoluteUri()) {
+    rt::throw_exception<InvalidOperationException>(SR::get_net_uri_NotAbsolute());
+  }
+  return uri->GetComponentsHelper(components, format);
 }
 
 Boolean UriParser___::IsWellFormedOriginalString(Uri uri) {
@@ -126,6 +145,7 @@ Boolean UriParser___::IsAllSet(UriSyntaxFlags flags) {
 }
 
 Boolean UriParser___::IsFullMatch(UriSyntaxFlags flags, UriSyntaxFlags expected) {
+  return (_flags & flags) == expected;
 }
 
 void UriParser___::ctor(UriSyntaxFlags flags) {
@@ -189,6 +209,25 @@ Boolean UriParser___::InternalIsWellFormedOriginalString(Uri thisUri) {
 }
 
 void UriParser___::cctor() {
+  HttpUri = rt::newobj<BuiltInUriParser>("http", 80, UriSyntaxFlags::MustHaveAuthority | UriSyntaxFlags::MayHaveUserInfo | UriSyntaxFlags::MayHavePort | UriSyntaxFlags::MayHavePath | UriSyntaxFlags::MayHaveQuery | UriSyntaxFlags::MayHaveFragment | UriSyntaxFlags::AllowUncHost | UriSyntaxFlags::AllowDnsHost | UriSyntaxFlags::AllowIPv4Host | UriSyntaxFlags::AllowIPv6Host | UriSyntaxFlags::PathIsRooted | UriSyntaxFlags::ConvertPathSlashes | UriSyntaxFlags::CompressPath | UriSyntaxFlags::CanonicalizeAsFilePath | UriSyntaxFlags::AllowIdn | UriSyntaxFlags::AllowIriParsing);
+  HttpsUri = rt::newobj<BuiltInUriParser>("https", 443, HttpUri->_flags);
+  WsUri = rt::newobj<BuiltInUriParser>("ws", 80, UriSyntaxFlags::MustHaveAuthority | UriSyntaxFlags::MayHaveUserInfo | UriSyntaxFlags::MayHavePort | UriSyntaxFlags::MayHavePath | UriSyntaxFlags::MayHaveQuery | UriSyntaxFlags::MayHaveFragment | UriSyntaxFlags::AllowUncHost | UriSyntaxFlags::AllowDnsHost | UriSyntaxFlags::AllowIPv4Host | UriSyntaxFlags::AllowIPv6Host | UriSyntaxFlags::PathIsRooted | UriSyntaxFlags::ConvertPathSlashes | UriSyntaxFlags::CompressPath | UriSyntaxFlags::CanonicalizeAsFilePath | UriSyntaxFlags::AllowIdn | UriSyntaxFlags::AllowIriParsing);
+  WssUri = rt::newobj<BuiltInUriParser>("wss", 443, UriSyntaxFlags::MustHaveAuthority | UriSyntaxFlags::MayHaveUserInfo | UriSyntaxFlags::MayHavePort | UriSyntaxFlags::MayHavePath | UriSyntaxFlags::MayHaveQuery | UriSyntaxFlags::MayHaveFragment | UriSyntaxFlags::AllowUncHost | UriSyntaxFlags::AllowDnsHost | UriSyntaxFlags::AllowIPv4Host | UriSyntaxFlags::AllowIPv6Host | UriSyntaxFlags::PathIsRooted | UriSyntaxFlags::ConvertPathSlashes | UriSyntaxFlags::CompressPath | UriSyntaxFlags::CanonicalizeAsFilePath | UriSyntaxFlags::AllowIdn | UriSyntaxFlags::AllowIriParsing);
+  FtpUri = rt::newobj<BuiltInUriParser>("ftp", 21, UriSyntaxFlags::MustHaveAuthority | UriSyntaxFlags::MayHaveUserInfo | UriSyntaxFlags::MayHavePort | UriSyntaxFlags::MayHavePath | UriSyntaxFlags::MayHaveFragment | UriSyntaxFlags::AllowUncHost | UriSyntaxFlags::AllowDnsHost | UriSyntaxFlags::AllowIPv4Host | UriSyntaxFlags::AllowIPv6Host | UriSyntaxFlags::PathIsRooted | UriSyntaxFlags::ConvertPathSlashes | UriSyntaxFlags::CompressPath | UriSyntaxFlags::CanonicalizeAsFilePath | UriSyntaxFlags::AllowIdn | UriSyntaxFlags::AllowIriParsing);
+  FileUri = rt::newobj<BuiltInUriParser>("file", -1, UriSyntaxFlags::MustHaveAuthority | UriSyntaxFlags::MayHavePath | UriSyntaxFlags::MayHaveQuery | UriSyntaxFlags::MayHaveFragment | UriSyntaxFlags::AllowEmptyHost | UriSyntaxFlags::AllowUncHost | UriSyntaxFlags::AllowDnsHost | UriSyntaxFlags::AllowIPv4Host | UriSyntaxFlags::AllowIPv6Host | UriSyntaxFlags::FileLikeUri | UriSyntaxFlags::AllowDOSPath | UriSyntaxFlags::PathIsRooted | UriSyntaxFlags::ConvertPathSlashes | UriSyntaxFlags::CompressPath | UriSyntaxFlags::CanonicalizeAsFilePath | UriSyntaxFlags::UnEscapeDotsAndSlashes | UriSyntaxFlags::AllowIdn | UriSyntaxFlags::AllowIriParsing);
+  UnixFileUri = rt::newobj<BuiltInUriParser>("file", -1, UriSyntaxFlags::MustHaveAuthority | UriSyntaxFlags::MayHavePath | UriSyntaxFlags::MayHaveQuery | UriSyntaxFlags::MayHaveFragment | UriSyntaxFlags::AllowEmptyHost | UriSyntaxFlags::AllowUncHost | UriSyntaxFlags::AllowDnsHost | UriSyntaxFlags::AllowIPv4Host | UriSyntaxFlags::AllowIPv6Host | UriSyntaxFlags::FileLikeUri | UriSyntaxFlags::AllowDOSPath | UriSyntaxFlags::PathIsRooted | UriSyntaxFlags::CompressPath | UriSyntaxFlags::CanonicalizeAsFilePath | UriSyntaxFlags::UnEscapeDotsAndSlashes | UriSyntaxFlags::AllowIdn | UriSyntaxFlags::AllowIriParsing);
+  GopherUri = rt::newobj<BuiltInUriParser>("gopher", 70, UriSyntaxFlags::MustHaveAuthority | UriSyntaxFlags::MayHaveUserInfo | UriSyntaxFlags::MayHavePort | UriSyntaxFlags::MayHavePath | UriSyntaxFlags::MayHaveFragment | UriSyntaxFlags::AllowUncHost | UriSyntaxFlags::AllowDnsHost | UriSyntaxFlags::AllowIPv4Host | UriSyntaxFlags::AllowIPv6Host | UriSyntaxFlags::PathIsRooted | UriSyntaxFlags::AllowIdn | UriSyntaxFlags::AllowIriParsing);
+  NntpUri = rt::newobj<BuiltInUriParser>("nntp", 119, UriSyntaxFlags::MustHaveAuthority | UriSyntaxFlags::MayHaveUserInfo | UriSyntaxFlags::MayHavePort | UriSyntaxFlags::MayHavePath | UriSyntaxFlags::MayHaveFragment | UriSyntaxFlags::AllowUncHost | UriSyntaxFlags::AllowDnsHost | UriSyntaxFlags::AllowIPv4Host | UriSyntaxFlags::AllowIPv6Host | UriSyntaxFlags::PathIsRooted | UriSyntaxFlags::AllowIdn | UriSyntaxFlags::AllowIriParsing);
+  NewsUri = rt::newobj<BuiltInUriParser>("news", -1, UriSyntaxFlags::MayHavePath | UriSyntaxFlags::MayHaveFragment | UriSyntaxFlags::AllowIriParsing);
+  MailToUri = rt::newobj<BuiltInUriParser>("mailto", 25, UriSyntaxFlags::MayHaveUserInfo | UriSyntaxFlags::MayHavePort | UriSyntaxFlags::MayHavePath | UriSyntaxFlags::MayHaveQuery | UriSyntaxFlags::MayHaveFragment | UriSyntaxFlags::AllowEmptyHost | UriSyntaxFlags::AllowUncHost | UriSyntaxFlags::AllowDnsHost | UriSyntaxFlags::AllowIPv4Host | UriSyntaxFlags::AllowIPv6Host | UriSyntaxFlags::MailToLikeUri | UriSyntaxFlags::AllowIdn | UriSyntaxFlags::AllowIriParsing);
+  UuidUri = rt::newobj<BuiltInUriParser>("uuid", -1, NewsUri->_flags);
+  TelnetUri = rt::newobj<BuiltInUriParser>("telnet", 23, UriSyntaxFlags::MustHaveAuthority | UriSyntaxFlags::MayHaveUserInfo | UriSyntaxFlags::MayHavePort | UriSyntaxFlags::MayHavePath | UriSyntaxFlags::MayHaveFragment | UriSyntaxFlags::AllowUncHost | UriSyntaxFlags::AllowDnsHost | UriSyntaxFlags::AllowIPv4Host | UriSyntaxFlags::AllowIPv6Host | UriSyntaxFlags::PathIsRooted | UriSyntaxFlags::AllowIdn | UriSyntaxFlags::AllowIriParsing);
+  LdapUri = rt::newobj<BuiltInUriParser>("ldap", 389, UriSyntaxFlags::MustHaveAuthority | UriSyntaxFlags::MayHaveUserInfo | UriSyntaxFlags::MayHavePort | UriSyntaxFlags::MayHavePath | UriSyntaxFlags::MayHaveQuery | UriSyntaxFlags::MayHaveFragment | UriSyntaxFlags::AllowEmptyHost | UriSyntaxFlags::AllowUncHost | UriSyntaxFlags::AllowDnsHost | UriSyntaxFlags::AllowIPv4Host | UriSyntaxFlags::AllowIPv6Host | UriSyntaxFlags::PathIsRooted | UriSyntaxFlags::AllowIdn | UriSyntaxFlags::AllowIriParsing);
+  NetTcpUri = rt::newobj<BuiltInUriParser>("net.tcp", 808, UriSyntaxFlags::MustHaveAuthority | UriSyntaxFlags::MayHavePort | UriSyntaxFlags::MayHavePath | UriSyntaxFlags::MayHaveQuery | UriSyntaxFlags::MayHaveFragment | UriSyntaxFlags::AllowDnsHost | UriSyntaxFlags::AllowIPv4Host | UriSyntaxFlags::AllowIPv6Host | UriSyntaxFlags::PathIsRooted | UriSyntaxFlags::ConvertPathSlashes | UriSyntaxFlags::CompressPath | UriSyntaxFlags::CanonicalizeAsFilePath | UriSyntaxFlags::UnEscapeDotsAndSlashes | UriSyntaxFlags::AllowIdn | UriSyntaxFlags::AllowIriParsing);
+  NetPipeUri = rt::newobj<BuiltInUriParser>("net.pipe", -1, UriSyntaxFlags::MustHaveAuthority | UriSyntaxFlags::MayHavePath | UriSyntaxFlags::MayHaveQuery | UriSyntaxFlags::MayHaveFragment | UriSyntaxFlags::AllowDnsHost | UriSyntaxFlags::AllowIPv4Host | UriSyntaxFlags::AllowIPv6Host | UriSyntaxFlags::PathIsRooted | UriSyntaxFlags::ConvertPathSlashes | UriSyntaxFlags::CompressPath | UriSyntaxFlags::CanonicalizeAsFilePath | UriSyntaxFlags::UnEscapeDotsAndSlashes | UriSyntaxFlags::AllowIdn | UriSyntaxFlags::AllowIriParsing);
+  VsMacrosUri = rt::newobj<BuiltInUriParser>("vsmacros", -1, UriSyntaxFlags::MustHaveAuthority | UriSyntaxFlags::MayHavePath | UriSyntaxFlags::MayHaveFragment | UriSyntaxFlags::AllowEmptyHost | UriSyntaxFlags::AllowUncHost | UriSyntaxFlags::AllowDnsHost | UriSyntaxFlags::AllowIPv4Host | UriSyntaxFlags::AllowIPv6Host | UriSyntaxFlags::FileLikeUri | UriSyntaxFlags::AllowDOSPath | UriSyntaxFlags::ConvertPathSlashes | UriSyntaxFlags::CompressPath | UriSyntaxFlags::CanonicalizeAsFilePath | UriSyntaxFlags::UnEscapeDotsAndSlashes | UriSyntaxFlags::AllowIdn | UriSyntaxFlags::AllowIriParsing);
+  s_table = rt::newobj<Hashtable>(16);
+  s_tempTable = rt::newobj<Hashtable>(25);
 }
 
 } // namespace System::Private::Uri::System::UriParserNamespace

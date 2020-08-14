@@ -458,6 +458,26 @@ Boolean Utf8Formatter::TryFormatInt64(Int64 value, UInt64 mask, Span<Byte> desti
   if (format.get_IsDefault()) {
     return TryFormatInt64Default(value, destination, bytesWritten);
   }
+  switch (format.get_Symbol().get()) {
+    case 71:
+    case 103:
+      if (format.get_HasPrecision()) {
+        rt::throw_exception<NotSupportedException>(SR::get_Argument_GWithPrecisionNotSupported());
+      }
+      return TryFormatInt64D(value, format.get_Precision(), destination, bytesWritten);
+    case 68:
+    case 100:
+      return TryFormatInt64D(value, format.get_Precision(), destination, bytesWritten);
+    case 78:
+    case 110:
+      return TryFormatInt64N(value, format.get_Precision(), destination, bytesWritten);
+    case 120:
+      return TryFormatUInt64X((UInt64)value & mask, format.get_Precision(), true, destination, bytesWritten);
+    case 88:
+      return TryFormatUInt64X((UInt64)value & mask, format.get_Precision(), false, destination, bytesWritten);
+    default:
+      return FormattingHelpers::TryFormatThrowFormatException(bytesWritten);
+  }
 }
 
 Boolean Utf8Formatter::TryFormatInt64D(Int64 value, Byte precision, Span<Byte> destination, Int32& bytesWritten) {

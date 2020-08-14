@@ -107,6 +107,8 @@ MethodToken ConstructorBuilder___::GetToken() {
 }
 
 ParameterBuilder ConstructorBuilder___::DefineParameter(Int32 iSequence, ParameterAttributes attributes, String strParamName) {
+  attributes &= ~(ParameterAttributes::HasDefault | ParameterAttributes::HasFieldMarshal | ParameterAttributes::Reserved3 | ParameterAttributes::Reserved4);
+  return m_methodBuilder->DefineParameter(iSequence, attributes, strParamName);
 }
 
 ILGenerator ConstructorBuilder___::GetILGenerator() {

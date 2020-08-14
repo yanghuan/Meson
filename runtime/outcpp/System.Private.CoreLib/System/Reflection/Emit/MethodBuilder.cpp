@@ -470,6 +470,8 @@ ParameterBuilder MethodBuilder___::DefineParameter(Int32 position, ParameterAttr
   if (position > 0 && (m_parameterTypes == nullptr || position > m_parameterTypes->get_Length())) {
     rt::throw_exception<ArgumentOutOfRangeException>(SR::get_ArgumentOutOfRange_ParamSequence());
   }
+  attributes &= ~(ParameterAttributes::HasDefault | ParameterAttributes::HasFieldMarshal | ParameterAttributes::Reserved3 | ParameterAttributes::Reserved4);
+  return rt::newobj<ParameterBuilder>((MethodBuilder)this, position, attributes, strParamName);
 }
 
 void MethodBuilder___::SetImplementationFlags(MethodImplAttributes attributes) {
@@ -492,6 +494,9 @@ ILGenerator MethodBuilder___::GetILGenerator(Int32 size) {
 }
 
 void MethodBuilder___::ThrowIfShouldNotHaveBody() {
+  if ((m_dwMethodImplFlags & MethodImplAttributes::CodeTypeMask) != 0 || (m_dwMethodImplFlags & MethodImplAttributes::ManagedMask) != 0 || (m_iAttributes & MethodAttributes::PinvokeImpl) != 0 || m_isDllImport) {
+    rt::throw_exception<InvalidOperationException>(SR::get_InvalidOperation_ShouldNotHaveMethodBody());
+  }
 }
 
 Module MethodBuilder___::GetModule() {

@@ -2,15 +2,18 @@
 
 #include <System.Private.CoreLib/System/ArgumentException-dep.h>
 #include <System.Private.CoreLib/System/ArgumentNullException-dep.h>
+#include <System.Private.CoreLib/System/InvalidOperationException-dep.h>
 #include <System.Private.CoreLib/System/ModuleHandle-dep.h>
 #include <System.Private.CoreLib/System/NotSupportedException-dep.h>
 #include <System.Private.CoreLib/System/Reflection/Emit/DynamicILGenerator-dep.h>
 #include <System.Private.CoreLib/System/Reflection/Emit/DynamicResolver-dep.h>
 #include <System.Private.CoreLib/System/Reflection/Emit/DynamicScope-dep.h>
+#include <System.Private.CoreLib/System/Reflection/Emit/MethodBuilder-dep.h>
 #include <System.Private.CoreLib/System/Reflection/Emit/OpCodes-dep.h>
 #include <System.Private.CoreLib/System/Reflection/Emit/SignatureHelper-dep.h>
 #include <System.Private.CoreLib/System/Reflection/Emit/StackBehaviour.h>
 #include <System.Private.CoreLib/System/Reflection/Emit/VarArgMethod-dep.h>
+#include <System.Private.CoreLib/System/Reflection/ParameterInfo-dep.h>
 #include <System.Private.CoreLib/System/Reflection/RuntimeConstructorInfo-dep.h>
 #include <System.Private.CoreLib/System/Reflection/RuntimeFieldInfo-dep.h>
 #include <System.Private.CoreLib/System/Reflection/RuntimeMethodInfo-dep.h>
@@ -121,6 +124,12 @@ void DynamicILGenerator___::Emit(OpCode opcode, String str) {
 
 void DynamicILGenerator___::EmitCalli(OpCode opcode, CallingConventions callingConvention, Type returnType, Array<Type> parameterTypes, Array<Type> optionalParameterTypes) {
   Int32 num = 0;
+  if (optionalParameterTypes != nullptr && (callingConvention & CallingConventions::VarArgs) == 0) {
+    rt::throw_exception<InvalidOperationException>(SR::get_InvalidOperation_NotAVarArgCallingConvention());
+  }
+  SignatureHelper memberRefSignature = GetMemberRefSignature(callingConvention, returnType, parameterTypes, optionalParameterTypes);
+  EnsureCapacity(7);
+  Emit(OpCodes::in::Calli);
 }
 
 void DynamicILGenerator___::EmitCalli(OpCode opcode, CallingConvention unmanagedCallConv, Type returnType, Array<Type> parameterTypes) {
@@ -195,6 +204,29 @@ void DynamicILGenerator___::EndScope() {
 }
 
 Int32 DynamicILGenerator___::GetMemberRefToken(MethodBase methodInfo, Array<Type> optionalParameterTypes) {
+  if (optionalParameterTypes != nullptr && (methodInfo->get_CallingConvention() & CallingConventions::VarArgs) == 0) {
+    rt::throw_exception<InvalidOperationException>(SR::get_InvalidOperation_NotAVarArgCallingConvention());
+  }
+  RuntimeMethodInfo runtimeMethodInfo = rt::as<RuntimeMethodInfo>(methodInfo);
+  DynamicMethod dynamicMethod = rt::as<DynamicMethod>(methodInfo);
+  if (runtimeMethodInfo == nullptr && dynamicMethod == nullptr) {
+    rt::throw_exception<ArgumentException>(SR::get_Argument_MustBeRuntimeMethodInfo(), "methodInfo");
+  }
+  Array<ParameterInfo> parametersNoCopy = methodInfo->GetParametersNoCopy();
+  Array<Type> array;
+  if (parametersNoCopy != nullptr && parametersNoCopy->get_Length() != 0) {
+    array = rt::newarr<Array<Type>>(parametersNoCopy->get_Length());
+    for (Int32 i = 0; i < parametersNoCopy->get_Length(); i++) {
+      array[i] = parametersNoCopy[i]->get_ParameterType();
+    }
+  } else {
+    array = nullptr;
+  }
+  SignatureHelper memberRefSignature = GetMemberRefSignature(methodInfo->get_CallingConvention(), MethodBuilder::in::GetMethodBaseReturnType(methodInfo), array, optionalParameterTypes);
+  if (runtimeMethodInfo != nullptr) {
+    return GetTokenForVarArgMethod(runtimeMethodInfo, memberRefSignature);
+  }
+  return GetTokenForVarArgMethod(dynamicMethod, memberRefSignature);
 }
 
 SignatureHelper DynamicILGenerator___::GetMemberRefSignature(CallingConventions call, Type returnType, Array<Type> parameterTypes, Array<Type> optionalParameterTypes) {

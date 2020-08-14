@@ -3,6 +3,7 @@
 #include <System.Private.CoreLib/System/ArgumentException-dep.h>
 #include <System.Private.CoreLib/System/ArgumentNullException-dep.h>
 #include <System.Private.CoreLib/System/Buffer-dep.h>
+#include <System.Private.CoreLib/System/Buffers/Binary/BinaryPrimitives-dep.h>
 #include <System.Private.CoreLib/System/Byte-dep.h>
 #include <System.Private.CoreLib/System/Int16-dep.h>
 #include <System.Private.CoreLib/System/IntPtr-dep.h>
@@ -15,12 +16,14 @@
 #include <System.Private.CoreLib/System/Reflection/Emit/TypeBuilder-dep.h>
 #include <System.Private.CoreLib/System/Reflection/Emit/TypeToken-dep.h>
 #include <System.Private.CoreLib/System/Reflection/MdSigCallingConvention.h>
+#include <System.Private.CoreLib/System/Reflection/MetadataTokenType.h>
 #include <System.Private.CoreLib/System/RuntimeType-dep.h>
 #include <System.Private.CoreLib/System/RuntimeTypeHandle-dep.h>
 #include <System.Private.CoreLib/System/SR-dep.h>
 #include <System.Private.CoreLib/System/Text/StringBuilder-dep.h>
 
 namespace System::Private::CoreLib::System::Reflection::Emit::SignatureHelperNamespace {
+using namespace System::Buffers::Binary;
 using namespace System::Text;
 
 Int32 SignatureHelper___::get_ArgumentCount() {
@@ -52,6 +55,18 @@ SignatureHelper SignatureHelper___::GetMethodSigHelper(Module scope, CallingConv
   if (returnType == nullptr) {
   }
   MdSigCallingConvention mdSigCallingConvention = MdSigCallingConvention::Default;
+  if ((callingConvention & CallingConventions::VarArgs) == CallingConventions::VarArgs) {
+    mdSigCallingConvention = MdSigCallingConvention::Vararg;
+  }
+  if (cGenericParam > 0) {
+    mdSigCallingConvention |= MdSigCallingConvention::Generic;
+  }
+  if ((callingConvention & CallingConventions::HasThis) == CallingConventions::HasThis) {
+    mdSigCallingConvention |= MdSigCallingConvention::HasThis;
+  }
+  SignatureHelper signatureHelper = rt::newobj<SignatureHelper>(scope, mdSigCallingConvention, cGenericParam, returnType, requiredReturnTypeCustomModifiers, optionalReturnTypeCustomModifiers);
+  signatureHelper->AddArguments(parameterTypes, requiredParameterTypeCustomModifiers, optionalParameterTypeCustomModifiers);
+  return signatureHelper;
 }
 
 SignatureHelper SignatureHelper___::GetMethodSigHelper(Module mod, CallingConvention unmanagedCallConv, Type returnType) {
@@ -110,6 +125,12 @@ SignatureHelper SignatureHelper___::GetPropertySigHelper(Module mod, CallingConv
   if (returnType == nullptr) {
   }
   MdSigCallingConvention mdSigCallingConvention = MdSigCallingConvention::Property;
+  if ((callingConvention & CallingConventions::HasThis) == CallingConventions::HasThis) {
+    mdSigCallingConvention |= MdSigCallingConvention::HasThis;
+  }
+  SignatureHelper signatureHelper = rt::newobj<SignatureHelper>(mod, mdSigCallingConvention, returnType, requiredReturnTypeCustomModifiers, optionalReturnTypeCustomModifiers);
+  signatureHelper->AddArguments(parameterTypes, requiredParameterTypeCustomModifiers, optionalParameterTypeCustomModifiers);
+  return signatureHelper;
 }
 
 SignatureHelper SignatureHelper___::GetTypeSigToken(Module module, Type type) {
@@ -283,8 +304,14 @@ void SignatureHelper___::AddData(Int32 data) {
     return;
   }
   if (data <= 16383) {
+    BinaryPrimitives::WriteInt16BigEndian(MemoryExtensions::AsSpan(m_signature, m_currSig), (Int16)(data | 32768));
+    m_currSig += 2;
+    return;
   }
   if (data <= 536870911) {
+    BinaryPrimitives::WriteInt32BigEndian(MemoryExtensions::AsSpan(m_signature, m_currSig), (Int32)(data | 3221225472u));
+    m_currSig += 4;
+    return;
   }
   rt::throw_exception<ArgumentException>(SR::get_Argument_LargeInteger());
 }
@@ -297,6 +324,21 @@ void SignatureHelper___::AddElementType(CorElementType cvt) {
 }
 
 void SignatureHelper___::AddToken(Int32 token) {
+  Int32 num = token & 16777215;
+  MetadataTokenType metadataTokenType = (MetadataTokenType)(token & -16777216);
+  if (num > 67108863) {
+    rt::throw_exception<ArgumentException>(SR::get_Argument_LargeInteger());
+  }
+  num <<= 2;
+  switch (metadataTokenType) {
+    case MetadataTokenType::TypeRef:
+      num |= 1;
+      break;
+    case MetadataTokenType::TypeSpec:
+      num |= 2;
+      break;
+  }
+  AddData(num);
 }
 
 void SignatureHelper___::InternalAddTypeToken(TypeToken clsToken, CorElementType CorType) {
@@ -381,11 +423,18 @@ Array<Byte> SignatureHelper___::InternalGetSignatureArray() {
   Int32 dstOffset = 0;
   array[dstOffset++] = m_signature[0];
   if (argCount <= 127) {
+    array[dstOffset++] = (Byte)(argCount & 255);
   } else if (argCount <= 16383) {
+    array[dstOffset++] = (Byte)((argCount >> 8) | 128);
+    array[dstOffset++] = (Byte)(argCount & 255);
   } else {
     if (argCount > 536870911) {
       rt::throw_exception<ArgumentException>(SR::get_Argument_LargeInteger());
     }
+    array[dstOffset++] = (Byte)((argCount >> 24) | 192);
+    array[dstOffset++] = (Byte)((argCount >> 16) & 255);
+    array[dstOffset++] = (Byte)((argCount >> 8) & 255);
+    array[dstOffset++] = (Byte)(argCount & 255);
   }
 
   Buffer::BlockCopy(m_signature, 2, array, dstOffset, currSig - 2);

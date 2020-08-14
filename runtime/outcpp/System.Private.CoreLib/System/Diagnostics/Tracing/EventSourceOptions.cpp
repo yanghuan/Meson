@@ -22,6 +22,7 @@ void EventSourceOptions::set_Opcode(EventOpcode value) {
 }
 
 Boolean EventSourceOptions::get_IsOpcodeSet() {
+  return (valuesSet & 8) != 0;
 }
 
 EventKeywords EventSourceOptions::get_Keywords() {

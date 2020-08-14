@@ -1,13 +1,18 @@
 #include "CSTRMarshaler-dep.h"
 
 #include <System.Private.CoreLib/Interop-dep.h>
+#include <System.Private.CoreLib/System/ArgumentException-dep.h>
 #include <System.Private.CoreLib/System/Boolean-dep.h>
+#include <System.Private.CoreLib/System/Buffer-dep.h>
 #include <System.Private.CoreLib/System/Byte-dep.h>
+#include <System.Private.CoreLib/System/Char-dep.h>
 #include <System.Private.CoreLib/System/Exception-dep.h>
 #include <System.Private.CoreLib/System/OutOfMemoryException-dep.h>
 #include <System.Private.CoreLib/System/Runtime/InteropServices/Marshal-dep.h>
 #include <System.Private.CoreLib/System/SByte-dep.h>
 #include <System.Private.CoreLib/System/Span-dep.h>
+#include <System.Private.CoreLib/System/SR-dep.h>
+#include <System.Private.CoreLib/System/StubHelpers/AnsiCharMarshaler-dep.h>
 #include <System.Private.CoreLib/System/UInt32-dep.h>
 
 namespace System::Private::CoreLib::System::StubHelpers::CSTRMarshalerNamespace {
@@ -27,12 +32,19 @@ IntPtr CSTRMarshaler::ConvertToNative(Int32 flags, String strManaged, IntPtr pNa
       flag = true;
     }
     try{
+      num = Marshal::StringToAnsiString(strManaged, ptr, num, (flags & 255) != 0, flags >> 8 != 0);
     } catch (Exception) {
     }
   } else if (strManaged->get_Length() == 0) {
     num = 0;
     ptr = (Byte*)(void*)Marshal::AllocCoTaskMem(2);
   } else {
+    Array<Byte> array = AnsiCharMarshaler::DoAnsiConversion(strManaged, (flags & 255) != 0, flags >> 8 != 0, num);
+    ptr = (Byte*)(void*)Marshal::AllocCoTaskMem(num + 2);
+    {
+      Byte* src = &array[0];
+      Buffer::Memcpy(ptr, src, num);
+    }
   }
 
   ptr[num] = 0;
@@ -64,6 +76,21 @@ void CSTRMarshaler::ConvertFixedToNative(Int32 flags, String strManaged, IntPtr 
   }
   Byte* ptr = (Byte*)(void*)pNativeBuffer;
   Boolean flag = flags >> 8 != 0;
+  Boolean flag2 = (flags & 255) != 0;
+  UInt32 num2 = 0u;
+  Int32 num3;
+  {
+    Char* ptr2 = strManaged;
+    Char* lpWideCharStr = ptr2;
+    num3 = Interop::Kernel32::WideCharToMultiByte(0u, (!flag2) ? 1024u : 0u, lpWideCharStr, num, ptr, length, IntPtr::Zero, flag ? IntPtr(&num2) : IntPtr::Zero);
+  }
+  if (num2 != 0) {
+    rt::throw_exception<ArgumentException>(SR::get_Interop_Marshal_Unmappable_Char());
+  }
+  if (num3 == length) {
+    num3--;
+  }
+  ptr[num3] = 0;
 }
 
 String CSTRMarshaler::ConvertFixedToManaged(IntPtr cstr, Int32 length) {

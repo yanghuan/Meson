@@ -9,6 +9,7 @@ namespace System::Private::CoreLib::System::Runtime::InteropServices::SafeHandle
 using namespace System::Threading;
 
 Boolean SafeHandle___::get_IsClosed() {
+  return (_state & 1) == 1;
 }
 
 void SafeHandle___::ctor(IntPtr invalidHandleValue, Boolean ownsHandle) {

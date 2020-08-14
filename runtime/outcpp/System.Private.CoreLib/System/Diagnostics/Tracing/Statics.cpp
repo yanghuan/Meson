@@ -2,6 +2,7 @@
 
 #include <System.Private.CoreLib/Microsoft/Reflection/ReflectionExtensions-dep.h>
 #include <System.Private.CoreLib/System/ArgumentOutOfRangeException-dep.h>
+#include <System.Private.CoreLib/System/Boolean-dep.h>
 #include <System.Private.CoreLib/System/Diagnostics/Tracing/EventDataAttribute-dep.h>
 #include <System.Private.CoreLib/System/IntPtr-dep.h>
 #include <System.Private.CoreLib/System/NotSupportedException-dep.h>
@@ -28,6 +29,8 @@ Array<Byte> Statics::MetadataForString(String name, Int32 prefixSize, Int32 suff
 }
 
 void Statics::EncodeTags(Int32 tags, Int32& pos, Array<Byte> metadata) {
+  Int32 num = tags & 268435455;
+  Boolean flag;
 }
 
 Byte Statics::Combine(Int32 settingValue, Byte defaultValue) {
@@ -58,6 +61,7 @@ Boolean Statics::ShouldOverrideFieldName(String fieldName) {
 }
 
 TraceLoggingDataType Statics::MakeDataType(TraceLoggingDataType baseType, EventFieldFormat format) {
+  return (TraceLoggingDataType)((Int32)(baseType & (TraceLoggingDataType)31) | ((Int32)format << 8));
 }
 
 TraceLoggingDataType Statics::Format8(EventFieldFormat format, TraceLoggingDataType native) {

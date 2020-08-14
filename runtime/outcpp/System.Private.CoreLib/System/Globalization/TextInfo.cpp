@@ -176,6 +176,10 @@ String TextInfo___::ToLowerAsciiInvariant(String s) {
       for (Int32 j = 0; j < i; j++) {
         ptr4[j] = ptr2[j];
       }
+      ptr4[i] = (Char)(ptr2[i] | 32);
+      for (i++; i < s->get_Length(); i++) {
+        ptr4[i] = ToLowerAsciiInvariant(ptr2[i]);
+      }
     }
     return text;
   }
@@ -207,6 +211,10 @@ String TextInfo___::ToUpperAsciiInvariant(String s) {
       for (Int32 j = 0; j < i; j++) {
         ptr4[j] = ptr2[j];
       }
+      ptr4[i] = (Char)(ptr2[i] & -33);
+      for (i++; i < s->get_Length(); i++) {
+        ptr4[i] = ToUpperAsciiInvariant(ptr2[i]);
+      }
     }
     return text;
   }
@@ -220,6 +228,7 @@ void TextInfo___::ToUpperAsciiInvariant(ReadOnlySpan<Char> source, Span<Char> de
 
 Char TextInfo___::ToLowerAsciiInvariant(Char c) {
   if (UnicodeUtility::IsInRangeInclusive(c, 65u, 90u)) {
+    c = (Char)(Byte)(c | 32);
   }
   return c;
 }
@@ -250,6 +259,7 @@ String TextInfo___::ToUpper(String str) {
 
 Char TextInfo___::ToUpperAsciiInvariant(Char c) {
   if (UnicodeUtility::IsInRangeInclusive(c, 97u, 122u)) {
+    c = (Char)(c & 95);
   }
   return c;
 }
@@ -352,6 +362,7 @@ void TextInfo___::ChangeCaseCore(Char* src, Int32 srcLen, Char* dstBuffer, Int32
 }
 
 Boolean TextInfo___::IsWordSeparator(UnicodeCategory category) {
+  return (536672256 & (1 << (Int32)category)) != 0;
 }
 
 Boolean TextInfo___::IsLetterCategory(UnicodeCategory uc) {
@@ -382,6 +393,9 @@ void TextInfo___::IcuChangeCase(Char* src, Int32 srcLen, Char* dstBuffer, Int32 
 
 void TextInfo___::NlsChangeCase(Char* pSource, Int32 pSourceLen, Char* pResult, Int32 pResultLen, Boolean toUpper) {
   UInt32 num = (!IsInvariantLocale(_textInfoName)) ? 16777216u : 0u;
+  if (Interop::Kernel32::LCMapStringEx((_sortHandle != IntPtr::Zero) ? nullptr : _textInfoName, num | (UInt32)(toUpper ? 512 : 256), pSource, pSourceLen, pResult, pSourceLen, nullptr, nullptr, _sortHandle) == 0) {
+    rt::throw_exception<InvalidOperationException>(SR::get_InvalidOperation_ReadOnly());
+  }
 }
 
 Boolean TextInfo___::IsInvariantLocale(String localeName) {

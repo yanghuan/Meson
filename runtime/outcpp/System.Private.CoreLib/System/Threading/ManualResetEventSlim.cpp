@@ -6,6 +6,7 @@
 #include <System.Private.CoreLib/System/Int32-dep.h>
 #include <System.Private.CoreLib/System/Int64-dep.h>
 #include <System.Private.CoreLib/System/InvalidOperationException-dep.h>
+#include <System.Private.CoreLib/System/ObjectDisposedException-dep.h>
 #include <System.Private.CoreLib/System/SR-dep.h>
 #include <System.Private.CoreLib/System/Threading/CancellationToken-dep.h>
 #include <System.Private.CoreLib/System/Threading/Interlocked-dep.h>
@@ -37,6 +38,7 @@ Int32 ManualResetEventSlim___::get_SpinCount() {
 }
 
 void ManualResetEventSlim___::set_SpinCount(Int32 value) {
+  m_combinedState = ((m_combinedState & -1073217537) | (value << 19));
 }
 
 Int32 ManualResetEventSlim___::get_Waiters() {
@@ -181,9 +183,22 @@ void ManualResetEventSlim___::Dispose() {
 }
 
 void ManualResetEventSlim___::Dispose(Boolean disposing) {
+  if ((m_combinedState & 1073741824) != 0) {
+    return;
+  }
+  m_combinedState |= 1073741824;
+  if (!disposing) {
+    return;
+  }
+  ManualResetEvent eventObj = m_eventObj;
+  if (eventObj != nullptr) {
+  }
 }
 
 void ManualResetEventSlim___::ThrowIfDisposed() {
+  if ((m_combinedState & 1073741824) != 0) {
+    rt::throw_exception<ObjectDisposedException>(SR::get_ManualResetEventSlim_Disposed());
+  }
 }
 
 void ManualResetEventSlim___::CancellationTokenCallback(Object obj) {
@@ -194,13 +209,20 @@ void ManualResetEventSlim___::UpdateStateAtomically(Int32 newBits, Int32 updateB
   SpinWait spinWait = SpinWait();
   while (true) {
     Int32 combinedState = m_combinedState;
+    Int32 value = (combinedState & ~updateBitsMask) | newBits;
+    if (Interlocked::CompareExchange(m_combinedState, value, combinedState) == combinedState) {
+      break;
+    }
+    spinWait.SpinOnce(-1);
   }
 }
 
 Int32 ManualResetEventSlim___::ExtractStatePortionAndShiftRight(Int32 state, Int32 mask, Int32 rightBitShiftCount) {
+  return (Int32)((UInt32)(state & mask) >> rightBitShiftCount);
 }
 
 Int32 ManualResetEventSlim___::ExtractStatePortion(Int32 state, Int32 mask) {
+  return state & mask;
 }
 
 void ManualResetEventSlim___::cctor() {

@@ -128,6 +128,7 @@ ResourceSet ManifestBasedResourceGroveler___::CreateResourceSet(Stream store, As
       }
       Array<Object> args = rt::newarr<Array<Object>>(1);
       Type type2 = (!(_mediator->get_UserResourceSet() == nullptr)) ? _mediator->get_UserResourceSet() : Type::in::GetType(text2, true, false);
+      return (ResourceSet)Activator::CreateInstance(type2, BindingFlags::Instance | BindingFlags::Public | BindingFlags::NonPublic | BindingFlags::CreateInstance, nullptr, args, nullptr, nullptr);
     }
     store->set_Position = position;
   }

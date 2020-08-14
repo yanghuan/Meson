@@ -130,9 +130,11 @@ Boolean GCHandle::op_Inequality(GCHandle a, GCHandle b) {
 }
 
 IntPtr GCHandle::GetHandleValue(IntPtr handle) {
+  return IntPtr((IntPtr)handle & ~(?)1);
 }
 
 Boolean GCHandle::IsPinned(IntPtr handle) {
+  return ((IntPtr)handle & 1) != 0;
 }
 
 void GCHandle::ThrowIfInvalid(IntPtr handle) {

@@ -167,6 +167,7 @@ Span<Char> StringBuilder___::get_RemainingCurrentChunk() {
 Int32 StringBuilder___::GetReplaceBufferCapacity(Int32 requiredCapacity) {
   Int32 num = get_Capacity();
   if (num < requiredCapacity) {
+    num = ((requiredCapacity + 1) & -2);
   }
   return num;
 }
@@ -968,6 +969,7 @@ StringBuilder StringBuilder___::AppendFormatHelper(IFormatProvider provider, Str
       }
 
       Append(c);
+      continue;
     }
   }
   return (StringBuilder)this;
@@ -1193,6 +1195,7 @@ void StringBuilder___::ReplaceInPlaceAtChunk(StringBuilder& chunk, Int32& indexI
     count -= num;
     if (count != 0) {
       value += num;
+      continue;
     }
     break;
   }

@@ -111,6 +111,7 @@ Int32 String___::CompareOrdinalHelper(String strA, String strB) {
                   num -= 12;
                   ptr2 += 12;
                   ptr4 += 12;
+                  continue;
                 }
                 ptr2 += 4;
                 ptr4 += 4;
@@ -132,6 +133,7 @@ Int32 String___::CompareOrdinalHelper(String strA, String strB) {
               num -= 2;
               ptr2 += 2;
               ptr4 += 2;
+              continue;
             }
             return strA->get_Length() - strB->get_Length();
           }
@@ -540,8 +542,12 @@ Int32 String___::GetNonRandomizedHashCode() {
     Int32 num3 = get_Length();
     while (num3 > 2) {
       num3 -= 4;
+      num = ((BitOperations::RotateLeft(num, 5) + num) ^ *ptr2);
+      num2 = ((BitOperations::RotateLeft(num2, 5) + num2) ^ ptr2[1]);
+      ptr2 += 2;
     }
     if (num3 > 0) {
+      num2 = ((BitOperations::RotateLeft(num2, 5) + num2) ^ *ptr2);
     }
     return (Int32)(num + num2 * 1566083941);
   }
@@ -614,9 +620,11 @@ void String___::CheckStringComparison(StringComparison comparisonType) {
 }
 
 CompareOptions String___::GetCaseCompareOfComparisonCulture(StringComparison comparisonType) {
+  return (CompareOptions)(comparisonType & StringComparison::CurrentCultureIgnoreCase);
 }
 
 CompareOptions String___::GetCompareOptionsFromOrdinalStringComparison(StringComparison comparisonType) {
+  return (CompareOptions)(((Int32)comparisonType & (0 - comparisonType)) << 28);
 }
 
 String String___::Ctor(Array<Char> value) {
@@ -769,6 +777,18 @@ String String___::Ctor(Char c, Int32 count) {
   if (c != 0) {
     {
       Char* ptr = &text->_firstChar;
+      UInt32 num = ((UInt32)c << 16) | c;
+      UInt32* ptr2 = (UInt32*)ptr;
+      if (count >= 4) {
+        count -= 4;
+      }
+      if ((count & 2) != 0) {
+        *ptr2 = num;
+        ptr2++;
+      }
+      if ((count & 1) != 0) {
+        *(Char*)ptr2 = c;
+      }
     }
   }
   return text;
@@ -1358,6 +1378,7 @@ String String___::JoinCore(Char* separator, Int32 separatorLength, Array<String>
       num4 += length;
     }
     if (j >= num5 - 1) {
+      continue;
     }
     {
       Char* ptr = &text2->_firstChar;
@@ -1577,6 +1598,7 @@ String String___::Replace(String oldValue, String newValue) {
         if (num3 < oldValue->get_Length()) {
           if (ptr2[num3] == oldValue[num3]) {
             num3++;
+            continue;
           }
           num++;
           break;
@@ -1961,11 +1983,45 @@ String String___::TrimEnd(Array<Char> trimChars) {
 String String___::TrimWhiteSpaceHelper(TrimType trimType) {
   Int32 num = get_Length() - 1;
   Int32 i = 0;
+  if ((trimType & TrimType::Head) != 0) {
+    for (i = 0; i < get_Length() && Char::IsWhiteSpace((String)this[i]); i++) {
+    }
+  }
+  if ((trimType & TrimType::Tail) != 0) {
+    num = get_Length() - 1;
+    while (num >= i && Char::IsWhiteSpace((String)this[num])) {
+      num--;
+    }
+  }
+  return CreateTrimmedString(i, num);
 }
 
 String String___::TrimHelper(Char* trimChars, Int32 trimCharsLength, TrimType trimType) {
   Int32 num = get_Length() - 1;
   Int32 i = 0;
+  if ((trimType & TrimType::Head) != 0) {
+    for (i = 0; i < get_Length(); i++) {
+      Int32 num2 = 0;
+      Char c = (String)this[i];
+      for (num2 = 0; num2 < trimCharsLength && trimChars[num2] != c; num2++) {
+      }
+      if (num2 == trimCharsLength) {
+        break;
+      }
+    }
+  }
+  if ((trimType & TrimType::Tail) != 0) {
+    for (num = get_Length() - 1; num >= i; num--) {
+      Int32 num3 = 0;
+      Char c2 = (String)this[num];
+      for (num3 = 0; num3 < trimCharsLength && trimChars[num3] != c2; num3++) {
+      }
+      if (num3 == trimCharsLength) {
+        break;
+      }
+    }
+  }
+  return CreateTrimmedString(i, num);
 }
 
 String String___::CreateTrimmedString(Int32 start, Int32 end) {
@@ -2114,9 +2170,11 @@ Boolean String___::ArrayContains(Char searchChar, Array<Char> anyOf) {
 }
 
 Boolean String___::IsCharBitSet(UInt32* charMap, Byte value) {
+  return ((Int32)charMap[value & 7] & (1 << (value >> 3))) != 0;
 }
 
 void String___::SetCharBit(UInt32* charMap, Byte value) {
+  charMap[value & 7] |= (UInt32)(1 << (value >> 3));
 }
 
 Int32 String___::IndexOf(String value) {

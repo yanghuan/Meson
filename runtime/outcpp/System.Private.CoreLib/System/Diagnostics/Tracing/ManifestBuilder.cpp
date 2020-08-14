@@ -1,6 +1,7 @@
 #include "ManifestBuilder-dep.h"
 
 #include <System.Private.CoreLib/Microsoft/Reflection/ReflectionExtensions-dep.h>
+#include <System.Private.CoreLib/System/ArgumentException-dep.h>
 #include <System.Private.CoreLib/System/Char-dep.h>
 #include <System.Private.CoreLib/System/Collections/Generic/Dictionary-dep.h>
 #include <System.Private.CoreLib/System/Collections/Generic/KeyValuePair-dep.h>
@@ -35,12 +36,39 @@ void ManifestBuilder___::ctor(String providerName, Guid providerGuid, String dll
 }
 
 void ManifestBuilder___::AddOpcode(String name, Int32 value) {
+  if ((flags & EventManifestOptions::Strict) != 0) {
+    if (value <= 10 || value >= 239) {
+      ManifestError(SR::Format(SR::get_EventSource_IllegalOpcodeValue(), name, value));
+    }
+  }
+  opcodeTab[value] = name;
 }
 
 void ManifestBuilder___::AddTask(String name, Int32 value) {
+  if ((flags & EventManifestOptions::Strict) != 0) {
+    if (value <= 0 || value >= 65535) {
+      ManifestError(SR::Format(SR::get_EventSource_IllegalTaskValue(), name, value));
+    }
+  }
+  if (taskTab == nullptr) {
+    taskTab = rt::newobj<Dictionary<Int32, String>>();
+  }
+  taskTab[value] = name;
 }
 
 void ManifestBuilder___::AddKeyword(String name, UInt64 value) {
+  if ((value & (value - 1)) != 0) {
+    ManifestError(SR::Format(SR::get_EventSource_KeywordNeedPowerOfTwo(), "0x" + value.ToString("x", CultureInfo::in::get_CurrentCulture()), name), true);
+  }
+  if ((flags & EventManifestOptions::Strict) != 0) {
+    if (value >= 17592186044416 && !name->StartsWith("Session", StringComparison::Ordinal)) {
+      ManifestError(SR::Format(SR::get_EventSource_IllegalKeywordsValue(), name, "0x" + value.ToString("x", CultureInfo::in::get_CurrentCulture())));
+    }
+  }
+  if (keywordTab == nullptr) {
+    keywordTab = rt::newobj<Dictionary<UInt64, String>>();
+  }
+  keywordTab[value] = name;
 }
 
 void ManifestBuilder___::AddChannel(String name, Int32 value, EventChannelAttribute channelAttribute) {
@@ -131,6 +159,12 @@ Array<Byte> ManifestBuilder___::CreateManifest() {
 }
 
 void ManifestBuilder___::ManifestError(String msg, Boolean runtimeCritical) {
+  if ((flags & EventManifestOptions::Strict) != 0) {
+    errors->Add(msg);
+  } else if (runtimeCritical) {
+    rt::throw_exception<ArgumentException>(msg);
+  }
+
 }
 
 String ManifestBuilder___::CreateManifestString() {
@@ -244,12 +278,29 @@ String ManifestBuilder___::GetKeywords(UInt64 keywords, String eventName) {
   keywords &= 1152921504606846975;
   String text = "";
   for (UInt64 num = 1; num != 0; num <<= 1) {
+    if ((keywords & num) != 0) {
+      String value = nullptr;
+      if ((keywordTab == nullptr || !keywordTab->TryGetValue(num, value)) && num >= 281474976710656) {
+        value = String::in::Empty;
+      }
+      if (value == nullptr) {
+        ManifestError(SR::Format(SR::get_EventSource_UndefinedKeyword(), "0x" + num.ToString("x", CultureInfo::in::get_CurrentCulture()), eventName), true);
+        value = String::in::Empty;
+      }
+      if (text->get_Length() != 0 && value->get_Length() != 0) {
+        text += " ";
+      }
+      text += value;
+    }
   }
   return text;
 }
 
 String ManifestBuilder___::GetTypeName(Type type) {
   if (ReflectionExtensions::IsEnum(type)) {
+    Array<FieldInfo> fields = type->GetFields(BindingFlags::Instance | BindingFlags::Public | BindingFlags::NonPublic);
+    String typeName = GetTypeName(fields[0]->get_FieldType());
+    return typeName->Replace("win:Int", "win:UInt");
   }
 }
 

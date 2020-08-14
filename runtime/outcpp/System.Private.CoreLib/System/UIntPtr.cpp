@@ -50,6 +50,7 @@ Boolean UIntPtr::Equals(Object obj) {
 
 Int32 UIntPtr::GetHashCode() {
   UInt64 num = (UInt64)_value;
+  return (Int32)num ^ (Int32)(num >> 32);
 }
 
 UInt32 UIntPtr::ToUInt32() {

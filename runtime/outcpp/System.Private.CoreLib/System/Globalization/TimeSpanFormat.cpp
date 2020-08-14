@@ -1,18 +1,22 @@
 #include "TimeSpanFormat-dep.h"
 
 #include <System.Private.CoreLib/System/DateTimeFormat-dep.h>
+#include <System.Private.CoreLib/System/FormatException-dep.h>
 #include <System.Private.CoreLib/System/Globalization/CultureInfo-dep.h>
 #include <System.Private.CoreLib/System/Globalization/DateTimeFormatInfo-dep.h>
 #include <System.Private.CoreLib/System/Globalization/TimeSpanFormat-dep.h>
 #include <System.Private.CoreLib/System/Globalization/TimeSpanParse-dep.h>
 #include <System.Private.CoreLib/System/Int32-dep.h>
 #include <System.Private.CoreLib/System/Int64-dep.h>
+#include <System.Private.CoreLib/System/Runtime/InteropServices/MemoryMarshal-dep.h>
+#include <System.Private.CoreLib/System/SR-dep.h>
 #include <System.Private.CoreLib/System/Text/StringBuilder-dep.h>
 #include <System.Private.CoreLib/System/Text/StringBuilderCache-dep.h>
 #include <System.Private.CoreLib/System/UInt32-dep.h>
 #include <System.Private.CoreLib/System/UInt64-dep.h>
 
 namespace System::Private::CoreLib::System::Globalization::TimeSpanFormatNamespace {
+using namespace System::Runtime::InteropServices;
 using namespace System::Text;
 
 String TimeSpanFormat::FormatLiterals::get_Start() {
@@ -68,6 +72,61 @@ void TimeSpanFormat::FormatLiterals::Init(ReadOnlySpan<Char> format, Boolean use
   Char c = 39;
   Int32 num = 0;
   for (Int32 j = 0; j < format.get_Length(); j++) {
+    switch (format[j].get()) {
+      case 34:
+      case 39:
+        if (flag && c == format[j]) {
+          if (num < 0 || num > 5) {
+            return;
+          }
+          _literals[num] = stringBuilder->ToString();
+          stringBuilder->set_Length = 0;
+          flag = false;
+        } else if (!flag) {
+          c = format[j];
+          flag = true;
+        }
+
+        continue;
+      case 92:
+        if (!flag) {
+          j++;
+          continue;
+        }
+        break;
+      case 100:
+        if (!flag) {
+          num = 1;
+          dd++;
+        }
+        continue;
+      case 104:
+        if (!flag) {
+          num = 2;
+          hh++;
+        }
+        continue;
+      case 109:
+        if (!flag) {
+          num = 3;
+          mm++;
+        }
+        continue;
+      case 115:
+        if (!flag) {
+          num = 4;
+          ss++;
+        }
+        continue;
+      case 70:
+      case 102:
+        if (!flag) {
+          num = 5;
+          ff++;
+        }
+        continue;
+    }
+    stringBuilder->Append(format[j]);
   }
   AppCompatLiteral = get_MinuteSecondSep() + get_SecondFractionSep();
   if (useInvariantFieldLengths) {
@@ -102,6 +161,13 @@ String TimeSpanFormat::Format(TimeSpan value, String format, IFormatProvider for
   }
   if (format->get_Length() == 1) {
     Char c = format[0];
+    if (c == 99 || (c | 32) == 116) {
+      return FormatC(value);
+    }
+    if ((c | 32) == 103) {
+      return FormatG(value, DateTimeFormatInfo::in::GetInstance(formatProvider), (c == 71) ? StandardFormat::G : StandardFormat::g);
+    }
+    rt::throw_exception<FormatException>(SR::get_Format_InvalidString());
   }
   return StringBuilderCache::GetStringAndRelease(FormatCustomized(value, format, DateTimeFormatInfo::in::GetInstance(formatProvider)));
 }
@@ -112,6 +178,22 @@ Boolean TimeSpanFormat::TryFormat(TimeSpan value, Span<Char> destination, Int32&
   }
   if (format.get_Length() == 1) {
     Char c = format[0];
+    if (c == 99 || (c | 32) == 116) {
+      return TryFormatStandard(value, StandardFormat::C, nullptr, destination, charsWritten);
+    }
+    Int32 num;
+    switch (c.get()) {
+      default:
+        rt::throw_exception<FormatException>(SR::get_Format_InvalidString());
+      case 71:
+        num = 1;
+        break;
+      case 103:
+        num = 2;
+        break;
+    }
+    StandardFormat format2 = (StandardFormat)num;
+    return TryFormatStandard(value, format2, DateTimeFormatInfo::in::GetInstance(formatProvider)->get_DecimalSeparator(), destination, charsWritten);
   }
   StringBuilder stringBuilder = FormatCustomized(value, format, DateTimeFormatInfo::in::GetInstance(formatProvider));
   if (stringBuilder->get_Length() <= destination.get_Length()) {
@@ -182,6 +264,88 @@ StringBuilder TimeSpanFormat::FormatCustomized(TimeSpan value, ReadOnlySpan<Char
   Int32 num6;
   for (Int32 i = 0; i < format.get_Length(); i += num6) {
     Char c = format[i];
+    switch (c.get()) {
+      case 104:
+        num6 = DateTimeFormat::ParseRepeatPattern(format, i, c);
+        if (num6 <= 2) {
+          DateTimeFormat::FormatDigits(result, value2, num6);
+          continue;
+        }
+        break;
+      case 109:
+        num6 = DateTimeFormat::ParseRepeatPattern(format, i, c);
+        if (num6 <= 2) {
+          DateTimeFormat::FormatDigits(result, value3, num6);
+          continue;
+        }
+        break;
+      case 115:
+        num6 = DateTimeFormat::ParseRepeatPattern(format, i, c);
+        if (num6 <= 2) {
+          DateTimeFormat::FormatDigits(result, value4, num6);
+          continue;
+        }
+        break;
+      case 102:
+        num6 = DateTimeFormat::ParseRepeatPattern(format, i, c);
+        if (num6 <= 7) {
+          num4 = num3;
+          num4 /= TimeSpanParse::Pow10(7 - num6);
+          result->AppendSpanFormattable(num4, DateTimeFormat::fixedNumberFormats[num6 - 1], CultureInfo::in::get_InvariantCulture());
+          continue;
+        }
+        break;
+      case 70:
+        num6 = DateTimeFormat::ParseRepeatPattern(format, i, c);
+        if (num6 <= 7) {
+          num4 = num3;
+          num4 /= TimeSpanParse::Pow10(7 - num6);
+          Int32 num7 = num6;
+          while (num7 > 0 && num4 % 10 == 0) {
+            num4 /= 10;
+            num7--;
+          }
+          if (num7 > 0) {
+            result->AppendSpanFormattable(num4, DateTimeFormat::fixedNumberFormats[num7 - 1], CultureInfo::in::get_InvariantCulture());
+          }
+          continue;
+        }
+        break;
+      case 100:
+        num6 = DateTimeFormat::ParseRepeatPattern(format, i, c);
+        if (num6 <= 8) {
+          DateTimeFormat::FormatDigits(result, num, num6, true);
+          continue;
+        }
+        break;
+      case 34:
+      case 39:
+        num6 = DateTimeFormat::ParseQuoteString(format, i, result);
+        continue;
+      case 37:
+        {
+          Int32 num5 = DateTimeFormat::ParseNextChar(format, i);
+          if (num5 >= 0 && num5 != 37) {
+            Char reference = (Char)num5;
+            StringBuilder stringBuilder = FormatCustomized(value, MemoryMarshal::CreateReadOnlySpan(reference, 1), dtfi, result);
+            num6 = 2;
+            continue;
+          }
+          break;
+        }case 92:
+        {
+          Int32 num5 = DateTimeFormat::ParseNextChar(format, i);
+          if (num5 >= 0) {
+            result->Append((Char)num5);
+            num6 = 2;
+            continue;
+          }
+          break;
+        }}
+    if (flag) {
+      StringBuilderCache::Release(result);
+    }
+    rt::throw_exception<FormatException>(SR::get_Format_InvalidString());
   }
   return result;
 }

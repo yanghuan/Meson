@@ -111,6 +111,19 @@ Type TypeNameParser___::ResolveType(Assembly assembly, Array<String> names, Func
     }
   }
   if (type != nullptr) {
+    BindingFlags bindingFlags = BindingFlags::Public | BindingFlags::NonPublic;
+    if (ignoreCase) {
+      bindingFlags |= BindingFlags::IgnoreCase;
+    }
+    for (Int32 i = 1; i < names->get_Length(); i++) {
+      type = type->GetNestedType(names[i], bindingFlags);
+      if (type == nullptr) {
+        if (!throwOnError) {
+          break;
+        }
+        rt::throw_exception<TypeLoadException>(SR::Format(SR::get_TypeLoad_ResolveNestedType(), names[i], names[i - 1]));
+      }
+    }
   }
   return type;
 }

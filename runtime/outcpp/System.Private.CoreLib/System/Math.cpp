@@ -57,6 +57,8 @@ UInt64 Math::BigMul(UInt64 a, UInt64 b, UInt64& low) {
     UInt64 num6 = (UInt64)num2 * (UInt64)num4;
     UInt64 num7 = (UInt64)((Int64)num3 * (Int64)num4) + (num6 >> 32);
     UInt64 num8 = (UInt64)((Int64)num2 * (Int64)num5 + (UInt32)num7);
+    low = ((num8 << 32) | (UInt32)num6);
+    return (UInt64)((Int64)num3 * (Int64)num5 + (Int64)(num7 >> 32)) + (num8 >> 32);
   };
   if (Bmi2::in::X64::in::get_IsSupported()) {
     UInt64 num;
@@ -71,19 +73,46 @@ Int64 Math::BigMul(Int64 a, Int64 b, Int64& low) {
   UInt64 low2;
   UInt64 num = BigMul((UInt64)a, (UInt64)b, low2);
   low = (Int64)low2;
+  return (Int64)num - ((a >> 63) & b) - ((b >> 63) & a);
 }
 
 Double Math::BitDecrement(Double x) {
   Int64 num = BitConverter::DoubleToInt64Bits(x);
+  if (((num >> 32) & 2146435072) >= 2146435072) {
+    if (num != 9218868437227405312) {
+      return x;
+    }
+    return Double::MaxValue;
+  }
+  if (num == 0) {
+    return -5E-324;
+  }
+  num += ((num < 0) ? 1 : (-1));
+  return BitConverter::Int64BitsToDouble(num);
 }
 
 Double Math::BitIncrement(Double x) {
   Int64 num = BitConverter::DoubleToInt64Bits(x);
+  if (((num >> 32) & 2146435072) >= 2146435072) {
+    if (num != -4503599627370496) {
+      return x;
+    }
+    return Double::MinValue;
+  }
+  if (num == Int64::MinValue) {
+    return Double::Epsilon;
+  }
+  num += ((num >= 0) ? 1 : (-1));
+  return BitConverter::Int64BitsToDouble(num);
 }
 
 Double Math::CopySign(Double x, Double y) {
   Int64 num = BitConverter::DoubleToInt64Bits(x);
   Int64 num2 = BitConverter::DoubleToInt64Bits(y);
+  if ((num ^ num2) < 0) {
+    return BitConverter::Int64BitsToDouble(num ^ Int64::MinValue);
+  }
+  return x;
 }
 
 Int32 Math::DivRem(Int32 a, Int32 b, Int32& result) {
@@ -546,6 +575,8 @@ Double Math::Round(Double a) {
   UInt64 num3 = (UInt64)(1 << 1075 - num2);
   UInt64 num4 = num3 - 1;
   num += num3 >> 1;
+  num = (((num & num4) != 0) ? (num & ~num4) : (num & ~num3));
+  return BitConverter::Int64BitsToDouble((Int64)num);
 }
 
 Double Math::Round(Double value, Int32 digits) {

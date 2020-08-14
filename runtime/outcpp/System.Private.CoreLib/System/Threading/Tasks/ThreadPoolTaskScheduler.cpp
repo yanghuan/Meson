@@ -1,6 +1,8 @@
 #include "ThreadPoolTaskScheduler-dep.h"
 
+#include <System.Private.CoreLib/System/Boolean-dep.h>
 #include <System.Private.CoreLib/System/Threading/Tasks/TaskCreationOptions.h>
+#include <System.Private.CoreLib/System/Threading/Thread-dep.h>
 #include <System.Private.CoreLib/System/Threading/ThreadPool-dep.h>
 
 namespace System::Private::CoreLib::System::Threading::Tasks::ThreadPoolTaskSchedulerNamespace {
@@ -9,6 +11,14 @@ void ThreadPoolTaskScheduler___::ctor() {
 
 void ThreadPoolTaskScheduler___::QueueTask(Task<> task) {
   TaskCreationOptions options = task->get_Options();
+  if ((options & TaskCreationOptions::LongRunning) != 0) {
+    Thread thread = rt::newobj<Thread>(s_longRunningThreadWork);
+    thread->set_IsBackground = true;
+    thread->Start(task);
+  } else {
+    Boolean preferLocal = (options & TaskCreationOptions::PreferFairness) == 0;
+    ThreadPool::UnsafeQueueUserWorkItemInternal(task, preferLocal);
+  }
 }
 
 Boolean ThreadPoolTaskScheduler___::TryExecuteTaskInline(Task<> task, Boolean taskWasPreviouslyQueued) {

@@ -88,6 +88,8 @@ void UnmanagedMemoryAccessor___::Initialize(SafeBuffer buffer, Int64 offset, Int
   _capacity = capacity;
   _access = access;
   _isOpen = true;
+  _canRead = ((_access & FileAccess::Read) != 0);
+  _canWrite = ((_access & FileAccess::Write) != 0);
 }
 
 void UnmanagedMemoryAccessor___::Dispose(Boolean disposing) {
@@ -178,6 +180,12 @@ Decimal UnmanagedMemoryAccessor___::ReadDecimal(Int64 position) {
       _buffer->ReleasePointer();
     }
   }
+  if ((num & 2130771967) != 0 || (num & 16711680) > 1835008) {
+    rt::throw_exception<ArgumentException>(SR::get_Arg_BadDecimal());
+  }
+  Boolean isNegative = (num & Int32::MinValue) != 0;
+  Byte scale = (Byte)(num >> 16);
+  return Decimal(lo, mid, hi, isNegative, scale);
 }
 
 Single UnmanagedMemoryAccessor___::ReadSingle(Int64 position) {

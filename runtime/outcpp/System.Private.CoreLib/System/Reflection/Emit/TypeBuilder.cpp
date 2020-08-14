@@ -352,6 +352,50 @@ void TypeBuilder___::ctor(String fullname, TypeAttributes attr, Type parent, Arr
   m_DeclaringType = enclosingType;
   AssemblyBuilder containingAssemblyBuilder = m_module->get_ContainingAssemblyBuilder();
   containingAssemblyBuilder->_assemblyData->CheckTypeNameConflict(fullname, enclosingType);
+  if (enclosingType != nullptr && ((attr & TypeAttributes::VisibilityMask) == TypeAttributes::Public || (attr & TypeAttributes::VisibilityMask) == 0)) {
+    rt::throw_exception<ArgumentException>(SR::get_Argument_BadNestedTypeFlags(), "attr");
+  }
+  Array<Int32> array = nullptr;
+  if (interfaces != nullptr) {
+    for (Int32 i = 0; i < interfaces->get_Length(); i++) {
+      if (interfaces[i] == nullptr) {
+        rt::throw_exception<ArgumentNullException>("interfaces");
+      }
+    }
+    array = rt::newarr<Array<Int32>>(interfaces->get_Length() + 1);
+    for (Int32 i = 0; i < interfaces->get_Length(); i++) {
+      array[i] = m_module->GetTypeTokenInternal(interfaces[i]).get_Token();
+    }
+  }
+  Int32 num = fullname->LastIndexOf(46);
+  if (num == -1 || num == 0) {
+    m_strNameSpace = String::in::Empty;
+    m_strName = fullname;
+  } else {
+    m_strNameSpace = fullname->Substring(0, num);
+    m_strName = fullname->Substring(num + 1);
+  }
+  VerifyTypeAttributes(attr);
+  m_iAttr = attr;
+  SetParent(parent);
+  m_listMethods = rt::newobj<List<MethodBuilder>>();
+  m_lastTokenizedMethod = -1;
+  SetInterfaces(rt::newarr<Array<Type>>(1, interfaces));
+  Int32 tkParent = 0;
+  if (m_typeParent != nullptr) {
+    tkParent = m_module->GetTypeTokenInternal(m_typeParent).get_Token();
+  }
+  Int32 tkEnclosingType = 0;
+  if (enclosingType != nullptr) {
+    tkEnclosingType = enclosingType->m_tdType.get_Token();
+  }
+  m_tdType = TypeToken(DefineType(QCallModule(module), fullname, tkParent, m_iAttr, tkEnclosingType, array));
+  m_iPackingSize = iPackingSize;
+  m_iTypeSize = iTypeSize;
+  if (m_iPackingSize != 0 || m_iTypeSize != 0) {
+    SetClassLayout(QCallModule(module), m_tdType.get_Token(), m_iPackingSize, m_iTypeSize);
+  }
+  m_module->AddType(get_FullName(), (TypeBuilder)this);
 }
 
 FieldBuilder TypeBuilder___::DefineDataHelper(String name, Array<Byte> data, Int32 size, FieldAttributes attributes) {
@@ -369,10 +413,28 @@ FieldBuilder TypeBuilder___::DefineDataHelper(String name, Array<Byte> data, Int
   Type type = m_module->FindTypeBuilderWithName(text, false);
   TypeBuilder typeBuilder = rt::as<TypeBuilder>(type);
   if (typeBuilder == nullptr) {
+    TypeAttributes attr = TypeAttributes::Public | TypeAttributes::ExplicitLayout | TypeAttributes::Sealed;
   }
+  FieldBuilder fieldBuilder = DefineField(name, typeBuilder, attributes | FieldAttributes::Static);
+  fieldBuilder->SetData(data, size);
+  return fieldBuilder;
 }
 
 void TypeBuilder___::VerifyTypeAttributes(TypeAttributes attr) {
+  if (get_DeclaringType() == nullptr) {
+    if ((attr & TypeAttributes::VisibilityMask) != 0 && (attr & TypeAttributes::VisibilityMask) != TypeAttributes::Public) {
+      rt::throw_exception<ArgumentException>(SR::get_Argument_BadTypeAttrNestedVisibilityOnNonNestedType());
+    }
+  } else if ((attr & TypeAttributes::VisibilityMask) == 0 || (attr & TypeAttributes::VisibilityMask) == TypeAttributes::Public) {
+    rt::throw_exception<ArgumentException>(SR::get_Argument_BadTypeAttrNonNestedVisibilityNestedType());
+  }
+
+  if ((attr & TypeAttributes::LayoutMask) != 0 && (attr & TypeAttributes::LayoutMask) != TypeAttributes::SequentialLayout && (attr & TypeAttributes::LayoutMask) != TypeAttributes::ExplicitLayout) {
+    rt::throw_exception<ArgumentException>(SR::get_Argument_BadTypeAttrInvalidLayout());
+  }
+  if ((attr & TypeAttributes::ReservedMask) != 0) {
+    rt::throw_exception<ArgumentException>(SR::get_Argument_BadTypeAttrReservedBitsSet());
+  }
 }
 
 Boolean TypeBuilder___::IsCreated() {
@@ -589,6 +651,10 @@ Boolean TypeBuilder___::IsPrimitiveImpl() {
 }
 
 Boolean TypeBuilder___::IsCOMObjectImpl() {
+  if ((GetAttributeFlagsImpl() & TypeAttributes::Import) == 0) {
+    return false;
+  }
+  return true;
 }
 
 Type TypeBuilder___::GetElementType() {
@@ -774,6 +840,11 @@ MethodBuilder TypeBuilder___::DefineMethodNoLock(String name, MethodAttributes a
   }
   ThrowIfCreated();
   MethodBuilder methodBuilder = rt::newobj<MethodBuilder>(name, attributes, callingConvention, returnType, returnTypeRequiredCustomModifiers, returnTypeOptionalCustomModifiers, parameterTypes, parameterTypeRequiredCustomModifiers, parameterTypeOptionalCustomModifiers, m_module, (TypeBuilder)this);
+  if (!m_isHiddenGlobalType && (methodBuilder->get_Attributes() & MethodAttributes::SpecialName) != 0 && methodBuilder->get_Name()->Equals(ConstructorInfo::in::ConstructorName)) {
+    m_constructorCount++;
+  }
+  m_listMethods->Add(methodBuilder);
+  return methodBuilder;
 }
 
 MethodBuilder TypeBuilder___::DefinePInvokeMethod(String name, String dllName, MethodAttributes attributes, CallingConventions callingConvention, Type returnType, Array<Type> parameterTypes, CallingConvention nativeCallConv, CharSet nativeCharSet) {
@@ -800,9 +871,13 @@ ConstructorBuilder TypeBuilder___::DefineTypeInitializer() {
 
 ConstructorBuilder TypeBuilder___::DefineTypeInitializerNoLock() {
   ThrowIfCreated();
+  return rt::newobj<ConstructorBuilder>(ConstructorInfo::in::TypeConstructorName, MethodAttributes::Private | MethodAttributes::Static | MethodAttributes::SpecialName, CallingConventions::Standard, nullptr, m_module, (TypeBuilder)this);
 }
 
 ConstructorBuilder TypeBuilder___::DefineDefaultConstructor(MethodAttributes attributes) {
+  if ((m_iAttr & TypeAttributes::ClassSemanticsMask) == TypeAttributes::ClassSemanticsMask) {
+    rt::throw_exception<InvalidOperationException>(SR::get_InvalidOperation_ConstructorNotAllowedOnInterface());
+  }
 }
 
 ConstructorBuilder TypeBuilder___::DefineDefaultConstructorNoLock(MethodAttributes attributes) {
@@ -816,8 +891,10 @@ ConstructorBuilder TypeBuilder___::DefineDefaultConstructorNoLock(MethodAttribut
       rt::throw_exception<NotSupportedException>(SR::get_NotSupported_DynamicModule());
     }
     Type type2 = type->MakeGenericType(rt::newarr<Array<Type>>(1, m_typeParent->GetGenericArguments()));
+    constructorInfo = ((!rt::is<TypeBuilderInstantiation>(type2)) ? type2->GetConstructor(BindingFlags::Instance | BindingFlags::Public | BindingFlags::NonPublic, nullptr, Type::in::EmptyTypes, nullptr) : GetConstructor(type2, type->GetConstructor(BindingFlags::Instance | BindingFlags::Public | BindingFlags::NonPublic, nullptr, Type::in::EmptyTypes, nullptr)));
   }
   if (constructorInfo == nullptr) {
+    constructorInfo = m_typeParent->GetConstructor(BindingFlags::Instance | BindingFlags::Public | BindingFlags::NonPublic, nullptr, Type::in::EmptyTypes, nullptr);
   }
   if (constructorInfo == nullptr) {
     rt::throw_exception<NotSupportedException>(SR::get_NotSupported_NoParentDefaultConstructor());
@@ -837,6 +914,9 @@ ConstructorBuilder TypeBuilder___::DefineConstructor(MethodAttributes attributes
 }
 
 ConstructorBuilder TypeBuilder___::DefineConstructor(MethodAttributes attributes, CallingConventions callingConvention, Array<Type> parameterTypes, Array<Array<Type>> requiredCustomModifiers, Array<Array<Type>> optionalCustomModifiers) {
+  if ((m_iAttr & TypeAttributes::ClassSemanticsMask) == TypeAttributes::ClassSemanticsMask && (attributes & MethodAttributes::Static) != MethodAttributes::Static) {
+    rt::throw_exception<InvalidOperationException>(SR::get_InvalidOperation_ConstructorNotAllowedOnInterface());
+  }
 }
 
 ConstructorBuilder TypeBuilder___::DefineConstructorNoLock(MethodAttributes attributes, CallingConventions callingConvention, Array<Type> parameterTypes, Array<Array<Type>> requiredCustomModifiers, Array<Array<Type>> optionalCustomModifiers) {
@@ -844,6 +924,11 @@ ConstructorBuilder TypeBuilder___::DefineConstructorNoLock(MethodAttributes attr
   CheckContext(rt::newarr<Array<Array<Type>>>(1, requiredCustomModifiers));
   CheckContext(rt::newarr<Array<Array<Type>>>(1, optionalCustomModifiers));
   ThrowIfCreated();
+  String name = ((attributes & MethodAttributes::Static) != 0) ? ConstructorInfo::in::TypeConstructorName : ConstructorInfo::in::ConstructorName;
+  attributes |= MethodAttributes::SpecialName;
+  ConstructorBuilder result = rt::newobj<ConstructorBuilder>(name, attributes, callingConvention, parameterTypes, requiredCustomModifiers, optionalCustomModifiers, m_module, (TypeBuilder)this);
+  m_constructorCount++;
+  return result;
 }
 
 TypeBuilder TypeBuilder___::DefineNestedType(String name) {
@@ -882,6 +967,10 @@ FieldBuilder TypeBuilder___::DefineFieldNoLock(String fieldName, Type type, Arra
   ThrowIfCreated();
   CheckContext(rt::newarr<Array<Type>>(1, type));
   CheckContext(rt::newarr<Array<Type>>(1, requiredCustomModifiers));
+  if (m_enumUnderlyingType == nullptr && get_IsEnum() && (attributes & FieldAttributes::Static) == 0) {
+    m_enumUnderlyingType = type;
+  }
+  return rt::newobj<FieldBuilder>((TypeBuilder)this, fieldName, type, requiredCustomModifiers, optionalCustomModifiers, attributes);
 }
 
 FieldBuilder TypeBuilder___::DefineInitializedData(String name, Array<Byte> data, FieldAttributes attributes) {
@@ -1002,10 +1091,30 @@ TypeInfo TypeBuilder___::CreateTypeNoLock() {
     m_hasBeenCreated = true;
     return (TypeBuilder)this;
   }
+  if ((m_tdType.get_Token() & 16777215) != 0 && (num & 16777215) != 0) {
+    SetParentType(QCallModule(module), m_tdType.get_Token(), num);
+  }
+  if (m_inst != nullptr) {
+    Array<GenericTypeParameterBuilder> inst = m_inst;
+  }
 }
 
 void TypeBuilder___::SetParent(Type parent) {
   ThrowIfCreated();
+  if (parent != nullptr) {
+    CheckContext(rt::newarr<Array<Type>>(1, parent));
+    if (parent->get_IsInterface()) {
+      rt::throw_exception<ArgumentException>(SR::get_Argument_CannotSetParentToInterface());
+    }
+    m_typeParent = parent;
+  } else if ((m_iAttr & TypeAttributes::ClassSemanticsMask) != TypeAttributes::ClassSemanticsMask) {
+  } else {
+    if ((m_iAttr & TypeAttributes::Abstract) == 0) {
+      rt::throw_exception<InvalidOperationException>(SR::get_InvalidOperation_BadInterfaceNotAbstract());
+    }
+    m_typeParent = nullptr;
+  }
+
 }
 
 void TypeBuilder___::AddInterfaceImplementation(Type interfaceType) {

@@ -73,6 +73,7 @@ UInt64 WebUtility::HtmlEntities::ToUInt64Key(ReadOnlySpan<Char> entity) {
     if (entity[i] > 255) {
       return 0;
     }
+    num = ((num << 8) | entity[i]);
   }
   return num;
 }
@@ -147,6 +148,7 @@ void WebUtility::HtmlEncode(ReadOnlySpan<Char> input, ValueStringBuilder& output
           output.Append(c);
           break;
       }
+      continue;
     }
     Int32 num = -1;
     if (c >= 160 && c < 256) {
@@ -231,6 +233,7 @@ void WebUtility::HtmlDecode(ReadOnlySpan<Char> input, ValueStringBuilder& output
             } else {
             }
             i = num2;
+            continue;
           }
         } else {
           ReadOnlySpan<Char> readOnlySpan = span.Slice(0, num);
@@ -240,6 +243,7 @@ void WebUtility::HtmlDecode(ReadOnlySpan<Char> input, ValueStringBuilder& output
             output.Append(38);
             output.Append(readOnlySpan);
             output.Append(59);
+            continue;
           }
           c = c2;
         }
@@ -261,6 +265,7 @@ Int32 WebUtility::IndexOfHtmlEncodingChars(ReadOnlySpan<Char> input) {
         case 62:
           return i;
       }
+      continue;
     }
     if (c >= 160 && c < 256) {
       return i;
@@ -280,9 +285,11 @@ void WebUtility::GetEncodedBytes(Array<Byte> originalBytes, Int32 offset, Int32 
     Char c = (Char)b;
     if (IsUrlSafeChar(c)) {
       expandedBytes[num++] = b;
+      continue;
     }
     if (c == 32) {
       expandedBytes[num++] = 43;
+      continue;
     }
     expandedBytes[num++] = 37;
     expandedBytes[num++] = (Byte)HexConverter::ToCharUpper(b >> 4);
@@ -366,9 +373,19 @@ String WebUtility::UrlDecodeInternal(String value, Encoding encoding) {
           Int32 num = HexToInt(value[i + 1]);
           Int32 num2 = HexToInt(value[i + 2]);
           if (num >= 0 && num2 >= 0) {
+            Byte b = (Byte)((num << 4) | num2);
+            i += 2;
+            urlDecoder.AddByte(b);
+            flag = true;
+            continue;
           }
         }
         break;
+    }
+    if ((c & 65408) == 0) {
+      urlDecoder.AddByte((Byte)c);
+    } else {
+      urlDecoder.AddChar(c);
     }
   }
   if (!flag) {
@@ -398,6 +415,8 @@ Array<Byte> WebUtility::UrlDecodeInternal(Array<Byte> bytes, Int32 offset, Int32
           Int32 num3 = HexToInt((Char)bytes[num2 + 1]);
           Int32 num4 = HexToInt((Char)bytes[num2 + 2]);
           if (num3 >= 0 && num4 >= 0) {
+            b = (Byte)((num3 << 4) | num4);
+            i += 2;
           }
         }
         break;
@@ -451,6 +470,10 @@ Int32 WebUtility::HexToInt(Char h) {
 }
 
 Boolean WebUtility::IsUrlSafeChar(Char ch) {
+  if ((UInt32)(ch - 97) > 25u && (UInt32)(ch - 65) > 25u && ((UInt32)(ch - 32) > 25u || ((1 << ch - 32) & 67069698) == 0)) {
+    return ch == 95;
+  }
+  return true;
 }
 
 Boolean WebUtility::ValidateUrlEncodingParameters(Array<Byte> bytes, Int32 offset, Int32 count) {

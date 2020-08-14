@@ -12,6 +12,7 @@ MemberTypes EventInfo___::get_MemberType() {
 }
 
 Boolean EventInfo___::get_IsSpecialName() {
+  return (get_Attributes() & EventAttributes::SpecialName) != 0;
 }
 
 MethodInfo EventInfo___::get_AddMethod() {

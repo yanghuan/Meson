@@ -3,6 +3,7 @@
 #include <System.Private.CoreLib/System/ArgumentException-dep.h>
 #include <System.Private.CoreLib/System/ArgumentNullException-dep.h>
 #include <System.Private.CoreLib/System/NotSupportedException-dep.h>
+#include <System.Private.CoreLib/System/Reflection/MethodAttributes.h>
 #include <System.Private.CoreLib/System/Runtime/CompilerServices/QCallModule-dep.h>
 #include <System.Private.CoreLib/System/SR-dep.h>
 
@@ -142,12 +143,20 @@ MethodInfo PropertyBuilder___::GetGetMethod(Boolean nonPublic) {
   if (nonPublic || m_getMethod == nullptr) {
     return m_getMethod;
   }
+  if ((m_getMethod->get_Attributes() & MethodAttributes::Public) == MethodAttributes::Public) {
+    return m_getMethod;
+  }
+  return nullptr;
 }
 
 MethodInfo PropertyBuilder___::GetSetMethod(Boolean nonPublic) {
   if (nonPublic || m_setMethod == nullptr) {
     return m_setMethod;
   }
+  if ((m_setMethod->get_Attributes() & MethodAttributes::Public) == MethodAttributes::Public) {
+    return m_setMethod;
+  }
+  return nullptr;
 }
 
 Array<ParameterInfo> PropertyBuilder___::GetIndexParameters() {

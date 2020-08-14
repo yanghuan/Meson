@@ -122,6 +122,10 @@ Int32 EastAsianLunisolarCalendar___::CheckYearMonthRange(Int32 year, Int32 month
 Int32 EastAsianLunisolarCalendar___::InternalGetDaysInMonth(Int32 year, Int32 month) {
   Int32 num = 32768;
   num >>= month - 1;
+  if ((GetYearInfo(year, 3) & num) == 0) {
+    return 29;
+  }
+  return 30;
 }
 
 Int32 EastAsianLunisolarCalendar___::GetDaysInMonth(Int32 year, Int32 month, Int32 era) {
@@ -173,6 +177,15 @@ void EastAsianLunisolarCalendar___::GregorianToLunar(Int32 solarYear, Int32 sola
   num2 -= yearInfo2 - 1;
   Int32 num3 = 32768;
   Int32 yearInfo3 = GetYearInfo(lunarYear, 3);
+  Int32 num4 = ((yearInfo3 & num3) != 0) ? 30 : 29;
+  lunarMonth = 1;
+  while (num2 > num4) {
+    num2 -= num4;
+    lunarMonth++;
+    num3 >>= 1;
+    num4 = (((yearInfo3 & num3) != 0) ? 30 : 29);
+  }
+  lunarDate = num2;
 }
 
 Boolean EastAsianLunisolarCalendar___::LunarToGregorian(Int32 lunarYear, Int32 lunarMonth, Int32 lunarDate, Int32& solarYear, Int32& solarMonth, Int32& solarDay) {

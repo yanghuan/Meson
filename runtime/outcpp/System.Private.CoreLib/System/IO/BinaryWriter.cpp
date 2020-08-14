@@ -261,6 +261,7 @@ void BinaryWriter___::Write(ReadOnlySpan<Char> chars) {
 void BinaryWriter___::Write7BitEncodedInt(Int32 value) {
   UInt32 num;
   for (num = (UInt32)value; num > 127; num >>= 7) {
+    Write((Byte)(num | 4294967168u));
   }
   Write((Byte)num);
 }
@@ -268,6 +269,7 @@ void BinaryWriter___::Write7BitEncodedInt(Int32 value) {
 void BinaryWriter___::Write7BitEncodedInt64(Int64 value) {
   UInt64 num;
   for (num = (UInt64)value; num > 127; num >>= 7) {
+    Write((Byte)((Int32)num | -128));
   }
   Write((Byte)num);
 }

@@ -19,36 +19,56 @@ using namespace System::Runtime::Intrinsics;
 using namespace System::Runtime::Intrinsics::X86;
 
 Boolean Utf16Utility::AllCharsInUInt32AreAscii(UInt32 value) {
+  return ((Int32)value & -8323200) == 0;
 }
 
 Boolean Utf16Utility::AllCharsInUInt64AreAscii(UInt64 value) {
+  return ((Int64)value & -35747867511423104) == 0;
 }
 
 UInt32 Utf16Utility::ConvertAllAsciiCharsInUInt32ToLowercase(UInt32 value) {
   UInt32 num = value + 8388736 - 4259905;
   UInt32 num2 = value + 8388736 - 5963867;
+  UInt32 num3 = num ^ num2;
+  UInt32 num4 = (num3 & 8388736) >> 2;
+  return value ^ num4;
 }
 
 UInt32 Utf16Utility::ConvertAllAsciiCharsInUInt32ToUppercase(UInt32 value) {
   UInt32 num = value + 8388736 - 6357089;
   UInt32 num2 = value + 8388736 - 8061051;
+  UInt32 num3 = num ^ num2;
+  UInt32 num4 = (num3 & 8388736) >> 2;
+  return value ^ num4;
 }
 
 Boolean Utf16Utility::UInt32ContainsAnyLowercaseAsciiChar(UInt32 value) {
   UInt32 num = value + 8388736 - 6357089;
   UInt32 num2 = value + 8388736 - 8061051;
+  UInt32 num3 = num ^ num2;
+  return (num3 & 8388736) != 0;
 }
 
 Boolean Utf16Utility::UInt32ContainsAnyUppercaseAsciiChar(UInt32 value) {
   UInt32 num = value + 8388736 - 4259905;
   UInt32 num2 = value + 8388736 - 5963867;
+  UInt32 num3 = num ^ num2;
+  return (num3 & 8388736) != 0;
 }
 
 Boolean Utf16Utility::UInt32OrdinalIgnoreCaseAscii(UInt32 valueA, UInt32 valueB) {
+  UInt32 num = valueA ^ valueB;
+  UInt32 num2 = valueA + 16777472 - 4259905;
+  UInt32 num3 = (valueA | 2097184) + 8388736 - 8061051;
+  UInt32 num4 = num2 | num3;
+  return (((Int32)(num4 >> 2) | -2097185) & (Int32)num) == 0;
 }
 
 Boolean Utf16Utility::UInt64OrdinalIgnoreCaseAscii(UInt64 valueA, UInt64 valueB) {
   UInt64 num = valueA + 36029346783166592 - 18296152663326785;
+  UInt64 num2 = (valueA | 9007336695791648) + 72058693566333184 - 34621950424449147;
+  UInt64 num3 = (36029346783166592 & num & num2) >> 2;
+  return (valueA | num3) == (valueB | num3);
 }
 
 Char* Utf16Utility::GetPointerToFirstInvalidChar(Char* pInputBuffer, Int32 inputLength, Int64& utf8CodeUnitCountAdjustment, Int32& scalarCountAdjustment) {
@@ -101,6 +121,7 @@ Char* Utf16Utility::GetPointerToFirstInvalidChar(Char* pInputBuffer, Int32 input
           num11 = (UInt16)(num11 - right9[num12]);
           if (right9[num12] == vector5[num12 + 1]) {
             num12++;
+            continue;
           }
         }
         if (right9[Vector<UInt16>::get_Count() - 1] != 0) {
@@ -117,6 +138,7 @@ Char* Utf16Utility::GetPointerToFirstInvalidChar(Char* pInputBuffer, Int32 input
       pInputBuffer += Vector<UInt16>::get_Count();
       inputLength -= Vector<UInt16>::get_Count();
       if (inputLength >= Vector<UInt16>::get_Count()) {
+        continue;
       }
     }
   }

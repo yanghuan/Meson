@@ -3,6 +3,8 @@
 #include <System.Private.CoreLib/System/ArgumentException-dep.h>
 #include <System.Private.CoreLib/System/ArgumentNullException-dep.h>
 #include <System.Private.CoreLib/System/Char-dep.h>
+#include <System.Private.CoreLib/System/Collections/Generic/Comparer-dep.h>
+#include <System.Private.CoreLib/System/Collections/IComparer.h>
 #include <System.Private.CoreLib/System/DefaultBinder-dep.h>
 #include <System.Private.CoreLib/System/Enum-dep.h>
 #include <System.Private.CoreLib/System/InvalidOperationException-dep.h>
@@ -20,6 +22,7 @@
 #include <System.Private.CoreLib/System/Reflection/Missing-dep.h>
 #include <System.Private.CoreLib/System/Reflection/SignatureConstructedGenericType-dep.h>
 #include <System.Private.CoreLib/System/Reflection/SignatureGenericMethodParameterType-dep.h>
+#include <System.Private.CoreLib/System/Reflection/TypeAttributes.h>
 #include <System.Private.CoreLib/System/RuntimeType-dep.h>
 #include <System.Private.CoreLib/System/RuntimeTypeHandle-dep.h>
 #include <System.Private.CoreLib/System/SR-dep.h>
@@ -30,6 +33,8 @@
 #include <System.Private.CoreLib/System/UInt64-dep.h>
 
 namespace System::Private::CoreLib::System::TypeNamespace {
+using namespace System::Collections;
+using namespace System::Collections::Generic;
 using namespace System::Reflection;
 using namespace System::Threading;
 
@@ -38,6 +43,7 @@ Boolean Type___::get_IsInterface() {
   if ((Object)runtimeType != nullptr) {
     return RuntimeTypeHandle::IsInterface(runtimeType);
   }
+  return (GetAttributeFlagsImpl() & TypeAttributes::ClassSemanticsMask) == TypeAttributes::ClassSemanticsMask;
 }
 
 MemberTypes Type___::get_MemberType() {
@@ -145,60 +151,82 @@ TypeAttributes Type___::get_Attributes() {
 }
 
 Boolean Type___::get_IsAbstract() {
+  return (GetAttributeFlagsImpl() & TypeAttributes::Abstract) != 0;
 }
 
 Boolean Type___::get_IsImport() {
+  return (GetAttributeFlagsImpl() & TypeAttributes::Import) != 0;
 }
 
 Boolean Type___::get_IsSealed() {
+  return (GetAttributeFlagsImpl() & TypeAttributes::Sealed) != 0;
 }
 
 Boolean Type___::get_IsSpecialName() {
+  return (GetAttributeFlagsImpl() & TypeAttributes::SpecialName) != 0;
 }
 
 Boolean Type___::get_IsClass() {
+  if ((GetAttributeFlagsImpl() & TypeAttributes::ClassSemanticsMask) == 0) {
+    return !get_IsValueType();
+  }
+  return false;
 }
 
 Boolean Type___::get_IsNestedAssembly() {
+  return (GetAttributeFlagsImpl() & TypeAttributes::VisibilityMask) == TypeAttributes::NestedAssembly;
 }
 
 Boolean Type___::get_IsNestedFamANDAssem() {
+  return (GetAttributeFlagsImpl() & TypeAttributes::VisibilityMask) == TypeAttributes::NestedFamANDAssem;
 }
 
 Boolean Type___::get_IsNestedFamily() {
+  return (GetAttributeFlagsImpl() & TypeAttributes::VisibilityMask) == TypeAttributes::NestedFamily;
 }
 
 Boolean Type___::get_IsNestedFamORAssem() {
+  return (GetAttributeFlagsImpl() & TypeAttributes::VisibilityMask) == TypeAttributes::VisibilityMask;
 }
 
 Boolean Type___::get_IsNestedPrivate() {
+  return (GetAttributeFlagsImpl() & TypeAttributes::VisibilityMask) == TypeAttributes::NestedPrivate;
 }
 
 Boolean Type___::get_IsNestedPublic() {
+  return (GetAttributeFlagsImpl() & TypeAttributes::VisibilityMask) == TypeAttributes::NestedPublic;
 }
 
 Boolean Type___::get_IsNotPublic() {
+  return (GetAttributeFlagsImpl() & TypeAttributes::VisibilityMask) == 0;
 }
 
 Boolean Type___::get_IsPublic() {
+  return (GetAttributeFlagsImpl() & TypeAttributes::VisibilityMask) == TypeAttributes::Public;
 }
 
 Boolean Type___::get_IsAutoLayout() {
+  return (GetAttributeFlagsImpl() & TypeAttributes::LayoutMask) == 0;
 }
 
 Boolean Type___::get_IsExplicitLayout() {
+  return (GetAttributeFlagsImpl() & TypeAttributes::LayoutMask) == TypeAttributes::ExplicitLayout;
 }
 
 Boolean Type___::get_IsLayoutSequential() {
+  return (GetAttributeFlagsImpl() & TypeAttributes::LayoutMask) == TypeAttributes::SequentialLayout;
 }
 
 Boolean Type___::get_IsAnsiClass() {
+  return (GetAttributeFlagsImpl() & TypeAttributes::StringFormatMask) == 0;
 }
 
 Boolean Type___::get_IsAutoClass() {
+  return (GetAttributeFlagsImpl() & TypeAttributes::StringFormatMask) == TypeAttributes::AutoClass;
 }
 
 Boolean Type___::get_IsUnicodeClass() {
+  return (GetAttributeFlagsImpl() & TypeAttributes::StringFormatMask) == TypeAttributes::UnicodeClass;
 }
 
 Boolean Type___::get_IsCOMObject() {
@@ -245,6 +273,7 @@ StructLayoutAttribute Type___::get_StructLayoutAttribute() {
 }
 
 ConstructorInfo Type___::get_TypeInitializer() {
+  return GetConstructorImpl(BindingFlags::Static | BindingFlags::Public | BindingFlags::NonPublic, nullptr, CallingConventions::Any, EmptyTypes, nullptr);
 }
 
 RuntimeTypeHandle Type___::get_TypeHandle() {
@@ -260,6 +289,13 @@ Binder Type___::get_DefaultBinder() {
 }
 
 Boolean Type___::get_IsSerializable() {
+  if ((GetAttributeFlagsImpl() & TypeAttributes::Serializable) != 0) {
+    return true;
+  }
+  Type type = get_UnderlyingSystemType();
+  if (type->IsRuntimeImplemented()) {
+  }
+  return false;
 }
 
 Boolean Type___::get_ContainsGenericParameters() {
@@ -391,6 +427,7 @@ Boolean Type___::IsValueTypeImpl() {
 }
 
 ConstructorInfo Type___::GetConstructor(Array<Type> types) {
+  return GetConstructor(BindingFlags::Instance | BindingFlags::Public, nullptr, types, nullptr);
 }
 
 ConstructorInfo Type___::GetConstructor(BindingFlags bindingAttr, Binder binder, Array<Type> types, Array<ParameterModifier> modifiers) {
@@ -410,21 +447,27 @@ ConstructorInfo Type___::GetConstructor(BindingFlags bindingAttr, Binder binder,
 }
 
 Array<ConstructorInfo> Type___::GetConstructors() {
+  return GetConstructors(BindingFlags::Instance | BindingFlags::Public);
 }
 
 EventInfo Type___::GetEvent(String name) {
+  return GetEvent(name, BindingFlags::Instance | BindingFlags::Static | BindingFlags::Public);
 }
 
 Array<EventInfo> Type___::GetEvents() {
+  return GetEvents(BindingFlags::Instance | BindingFlags::Static | BindingFlags::Public);
 }
 
 FieldInfo Type___::GetField(String name) {
+  return GetField(name, BindingFlags::Instance | BindingFlags::Static | BindingFlags::Public);
 }
 
 Array<FieldInfo> Type___::GetFields() {
+  return GetFields(BindingFlags::Instance | BindingFlags::Static | BindingFlags::Public);
 }
 
 Array<MemberInfo> Type___::GetMember(String name) {
+  return GetMember(name, BindingFlags::Instance | BindingFlags::Static | BindingFlags::Public);
 }
 
 Array<MemberInfo> Type___::GetMember(String name, BindingFlags bindingAttr) {
@@ -436,9 +479,11 @@ Array<MemberInfo> Type___::GetMember(String name, MemberTypes type, BindingFlags
 }
 
 Array<MemberInfo> Type___::GetMembers() {
+  return GetMembers(BindingFlags::Instance | BindingFlags::Static | BindingFlags::Public);
 }
 
 MethodInfo Type___::GetMethod(String name) {
+  return GetMethod(name, BindingFlags::Instance | BindingFlags::Static | BindingFlags::Public);
 }
 
 MethodInfo Type___::GetMethod(String name, BindingFlags bindingAttr) {
@@ -453,6 +498,7 @@ MethodInfo Type___::GetMethod(String name, Array<Type> types) {
 }
 
 MethodInfo Type___::GetMethod(String name, Array<Type> types, Array<ParameterModifier> modifiers) {
+  return GetMethod(name, BindingFlags::Instance | BindingFlags::Static | BindingFlags::Public, nullptr, types, modifiers);
 }
 
 MethodInfo Type___::GetMethod(String name, BindingFlags bindingAttr, Binder binder, Array<Type> types, Array<ParameterModifier> modifiers) {
@@ -479,6 +525,7 @@ MethodInfo Type___::GetMethod(String name, Int32 genericParameterCount, Array<Ty
 }
 
 MethodInfo Type___::GetMethod(String name, Int32 genericParameterCount, Array<Type> types, Array<ParameterModifier> modifiers) {
+  return GetMethod(name, genericParameterCount, BindingFlags::Instance | BindingFlags::Static | BindingFlags::Public, nullptr, types, modifiers);
 }
 
 MethodInfo Type___::GetMethod(String name, Int32 genericParameterCount, BindingFlags bindingAttr, Binder binder, Array<Type> types, Array<ParameterModifier> modifiers) {
@@ -508,15 +555,19 @@ MethodInfo Type___::GetMethodImpl(String name, Int32 genericParameterCount, Bind
 }
 
 Array<MethodInfo> Type___::GetMethods() {
+  return GetMethods(BindingFlags::Instance | BindingFlags::Static | BindingFlags::Public);
 }
 
 Type Type___::GetNestedType(String name) {
+  return GetNestedType(name, BindingFlags::Instance | BindingFlags::Static | BindingFlags::Public);
 }
 
 Array<Type> Type___::GetNestedTypes() {
+  return GetNestedTypes(BindingFlags::Instance | BindingFlags::Static | BindingFlags::Public);
 }
 
 PropertyInfo Type___::GetProperty(String name) {
+  return GetProperty(name, BindingFlags::Instance | BindingFlags::Static | BindingFlags::Public);
 }
 
 PropertyInfo Type___::GetProperty(String name, BindingFlags bindingAttr) {
@@ -530,6 +581,7 @@ PropertyInfo Type___::GetProperty(String name, Type returnType) {
   if (name == nullptr) {
     rt::throw_exception<ArgumentNullException>("name");
   }
+  return GetPropertyImpl(name, BindingFlags::Instance | BindingFlags::Static | BindingFlags::Public, nullptr, returnType, nullptr, nullptr);
 }
 
 PropertyInfo Type___::GetProperty(String name, Array<Type> types) {
@@ -541,6 +593,7 @@ PropertyInfo Type___::GetProperty(String name, Type returnType, Array<Type> type
 }
 
 PropertyInfo Type___::GetProperty(String name, Type returnType, Array<Type> types, Array<ParameterModifier> modifiers) {
+  return GetProperty(name, BindingFlags::Instance | BindingFlags::Static | BindingFlags::Public, nullptr, returnType, types, modifiers);
 }
 
 PropertyInfo Type___::GetProperty(String name, BindingFlags bindingAttr, Binder binder, Type returnType, Array<Type> types, Array<ParameterModifier> modifiers) {
@@ -554,6 +607,7 @@ PropertyInfo Type___::GetProperty(String name, BindingFlags bindingAttr, Binder 
 }
 
 Array<PropertyInfo> Type___::GetProperties() {
+  return GetProperties(BindingFlags::Instance | BindingFlags::Static | BindingFlags::Public);
 }
 
 Array<MemberInfo> Type___::GetDefaultMembers() {
@@ -652,6 +706,11 @@ Type Type___::GetEnumUnderlyingType() {
   if (!get_IsEnum()) {
     rt::throw_exception<ArgumentException>(SR::get_Arg_MustBeEnum(), "enumType");
   }
+  Array<FieldInfo> fields = GetFields(BindingFlags::Instance | BindingFlags::Public | BindingFlags::NonPublic);
+  if (fields == nullptr || fields->get_Length() != 1) {
+    rt::throw_exception<ArgumentException>(SR::get_Argument_InvalidEnum(), "enumType");
+  }
+  return fields[0]->get_FieldType();
 }
 
 Array<> Type___::GetEnumValues() {
@@ -771,6 +830,35 @@ Array<> Type___::GetEnumRawConstantValues() {
 }
 
 void Type___::GetEnumData(Array<String>& enumNames, Array<>& enumValues) {
+  Array<FieldInfo> fields = GetFields(BindingFlags::Static | BindingFlags::Public | BindingFlags::NonPublic);
+  Array<Object> array = rt::newarr<Array<Object>>(fields->get_Length());
+  Array<String> array2 = rt::newarr<Array<String>>(fields->get_Length());
+  for (Int32 i = 0; i < fields->get_Length(); i++) {
+    array2[i] = fields[i]->get_Name();
+    array[i] = fields[i]->GetRawConstantValue();
+  }
+  IComparer default = Comparer<Object>::in::get_Default();
+  for (Int32 j = 1; j < array->get_Length(); j++) {
+    Int32 num = j;
+    String text = array2[j];
+    Object obj = array[j];
+    Boolean flag = false;
+    while (default->Compare(array[num - 1], obj) > 0) {
+      array2[num] = array2[num - 1];
+      array[num] = array[num - 1];
+      num--;
+      flag = true;
+      if (num == 0) {
+        break;
+      }
+    }
+    if (flag) {
+      array2[num] = text;
+      array[num] = obj;
+    }
+  }
+  enumNames = array2;
+  enumValues = array;
 }
 
 Int32 Type___::BinarySearch(Array<> array, Object value) {
@@ -827,6 +915,135 @@ Array<MemberInfo> Type___::FindMembers(MemberTypes memberType, BindingFlags bind
   Array<EventInfo> array5 = nullptr;
   Array<Type> array6 = nullptr;
   Int32 num = 0;
+  if ((memberType & MemberTypes::Method) != 0) {
+    array = GetMethods(bindingAttr);
+    if (filter != nullptr) {
+      for (Int32 i = 0; i < array->get_Length(); i++) {
+        if (!filter(array[i], filterCriteria)) {
+          array[i] = nullptr;
+        } else {
+          num++;
+        }
+      }
+    } else {
+      num += array->get_Length();
+    }
+  }
+  if ((memberType & MemberTypes::Constructor) != 0) {
+    array2 = GetConstructors(bindingAttr);
+    if (filter != nullptr) {
+      for (Int32 i = 0; i < array2->get_Length(); i++) {
+        if (!filter(array2[i], filterCriteria)) {
+          array2[i] = nullptr;
+        } else {
+          num++;
+        }
+      }
+    } else {
+      num += array2->get_Length();
+    }
+  }
+  if ((memberType & MemberTypes::Field) != 0) {
+    array3 = GetFields(bindingAttr);
+    if (filter != nullptr) {
+      for (Int32 i = 0; i < array3->get_Length(); i++) {
+        if (!filter(array3[i], filterCriteria)) {
+          array3[i] = nullptr;
+        } else {
+          num++;
+        }
+      }
+    } else {
+      num += array3->get_Length();
+    }
+  }
+  if ((memberType & MemberTypes::Property) != 0) {
+    array4 = GetProperties(bindingAttr);
+    if (filter != nullptr) {
+      for (Int32 i = 0; i < array4->get_Length(); i++) {
+        if (!filter(array4[i], filterCriteria)) {
+          array4[i] = nullptr;
+        } else {
+          num++;
+        }
+      }
+    } else {
+      num += array4->get_Length();
+    }
+  }
+  if ((memberType & MemberTypes::Event) != 0) {
+    array5 = GetEvents(bindingAttr);
+    if (filter != nullptr) {
+      for (Int32 i = 0; i < array5->get_Length(); i++) {
+        if (!filter(array5[i], filterCriteria)) {
+          array5[i] = nullptr;
+        } else {
+          num++;
+        }
+      }
+    } else {
+      num += array5->get_Length();
+    }
+  }
+  if ((memberType & MemberTypes::NestedType) != 0) {
+    array6 = GetNestedTypes(bindingAttr);
+    if (filter != nullptr) {
+      for (Int32 i = 0; i < array6->get_Length(); i++) {
+        if (!filter(array6[i], filterCriteria)) {
+          array6[i] = nullptr;
+        } else {
+          num++;
+        }
+      }
+    } else {
+      num += array6->get_Length();
+    }
+  }
+  Array<MemberInfo> array7 = rt::newarr<Array<MemberInfo>>(num);
+  num = 0;
+  if (array != nullptr) {
+    for (Int32 i = 0; i < array->get_Length(); i++) {
+      if (array[i] != nullptr) {
+        array7[num++] = array[i];
+      }
+    }
+  }
+  if (array2 != nullptr) {
+    for (Int32 i = 0; i < array2->get_Length(); i++) {
+      if (array2[i] != nullptr) {
+        array7[num++] = array2[i];
+      }
+    }
+  }
+  if (array3 != nullptr) {
+    for (Int32 i = 0; i < array3->get_Length(); i++) {
+      if (array3[i] != nullptr) {
+        array7[num++] = array3[i];
+      }
+    }
+  }
+  if (array4 != nullptr) {
+    for (Int32 i = 0; i < array4->get_Length(); i++) {
+      if (array4[i] != nullptr) {
+        array7[num++] = array4[i];
+      }
+    }
+  }
+  if (array5 != nullptr) {
+    for (Int32 i = 0; i < array5->get_Length(); i++) {
+      if (array5[i] != nullptr) {
+        array7[num++] = array5[i];
+      }
+    }
+  }
+  if (array6 != nullptr) {
+    for (Int32 i = 0; i < array6->get_Length(); i++) {
+      if (array6[i] != nullptr) {
+        array7[num++] = array6[i];
+      }
+    }
+  }
+  return array7;
 }
 
 Boolean Type___::IsSubclassOf(Type c) {
@@ -903,6 +1120,25 @@ Boolean Type___::FilterAttributeImpl(MemberInfo m, Object filterCriteria) {
         } catch (...) {
         }
         MethodAttributes methodAttributes2 = (m->get_MemberType() != MemberTypes::Method) ? ((ConstructorInfo)m)->get_Attributes() : ((MethodInfo)m)->get_Attributes();
+        if ((methodAttributes & MethodAttributes::MemberAccessMask) != 0 && (methodAttributes2 & MethodAttributes::MemberAccessMask) != (methodAttributes & MethodAttributes::MemberAccessMask)) {
+          return false;
+        }
+        if ((methodAttributes & MethodAttributes::Static) != 0 && (methodAttributes2 & MethodAttributes::Static) == 0) {
+          return false;
+        }
+        if ((methodAttributes & MethodAttributes::Final) != 0 && (methodAttributes2 & MethodAttributes::Final) == 0) {
+          return false;
+        }
+        if ((methodAttributes & MethodAttributes::Virtual) != 0 && (methodAttributes2 & MethodAttributes::Virtual) == 0) {
+          return false;
+        }
+        if ((methodAttributes & MethodAttributes::Abstract) != 0 && (methodAttributes2 & MethodAttributes::Abstract) == 0) {
+          return false;
+        }
+        if ((methodAttributes & MethodAttributes::SpecialName) != 0 && (methodAttributes2 & MethodAttributes::SpecialName) == 0) {
+          return false;
+        }
+        return true;
       }case MemberTypes::Field:
       {
         FieldAttributes fieldAttributes;
@@ -912,6 +1148,25 @@ Boolean Type___::FilterAttributeImpl(MemberInfo m, Object filterCriteria) {
         } catch (...) {
         }
         FieldAttributes attributes = ((FieldInfo)m)->get_Attributes();
+        if ((fieldAttributes & FieldAttributes::FieldAccessMask) != 0 && (attributes & FieldAttributes::FieldAccessMask) != (fieldAttributes & FieldAttributes::FieldAccessMask)) {
+          return false;
+        }
+        if ((fieldAttributes & FieldAttributes::Static) != 0 && (attributes & FieldAttributes::Static) == 0) {
+          return false;
+        }
+        if ((fieldAttributes & FieldAttributes::InitOnly) != 0 && (attributes & FieldAttributes::InitOnly) == 0) {
+          return false;
+        }
+        if ((fieldAttributes & FieldAttributes::Literal) != 0 && (attributes & FieldAttributes::Literal) == 0) {
+          return false;
+        }
+        if ((fieldAttributes & FieldAttributes::NotSerialized) != 0 && (attributes & FieldAttributes::NotSerialized) == 0) {
+          return false;
+        }
+        if ((fieldAttributes & FieldAttributes::PinvokeImpl) != 0 && (attributes & FieldAttributes::PinvokeImpl) == 0) {
+          return false;
+        }
+        return true;
       }default:
       return false;
   }

@@ -1,8 +1,10 @@
 #include "CultureAwareComparer-dep.h"
 
+#include <System.Private.CoreLib/System/ArgumentException-dep.h>
 #include <System.Private.CoreLib/System/ArgumentNullException-dep.h>
 #include <System.Private.CoreLib/System/CultureAwareComparer-dep.h>
 #include <System.Private.CoreLib/System/Object-dep.h>
+#include <System.Private.CoreLib/System/SR-dep.h>
 
 namespace System::Private::CoreLib::System::CultureAwareComparerNamespace {
 void CultureAwareComparer___::ctor(CultureInfo culture, CompareOptions options) {
@@ -10,6 +12,10 @@ void CultureAwareComparer___::ctor(CultureInfo culture, CompareOptions options) 
 
 void CultureAwareComparer___::ctor(CompareInfo compareInfo, CompareOptions options) {
   _compareInfo = compareInfo;
+  if ((options & ~(CompareOptions::IgnoreCase | CompareOptions::IgnoreNonSpace | CompareOptions::IgnoreSymbols | CompareOptions::IgnoreKanaType | CompareOptions::IgnoreWidth | CompareOptions::StringSort)) != 0) {
+    rt::throw_exception<ArgumentException>(SR::get_Argument_InvalidFlag(), "options");
+  }
+  _options = options;
 }
 
 void CultureAwareComparer___::ctor(SerializationInfo info, StreamingContext context) {
@@ -54,11 +60,13 @@ Boolean CultureAwareComparer___::Equals(Object obj) {
 }
 
 Int32 CultureAwareComparer___::GetHashCode() {
+  return _compareInfo->GetHashCode() ^ (Int32)(_options & (CompareOptions)2147483647);
 }
 
 void CultureAwareComparer___::GetObjectData(SerializationInfo info, StreamingContext context) {
   info->AddValue("_compareInfo", _compareInfo);
   info->AddValue("_options", _options);
+  info->AddValue("_ignoreCase", (_options & CompareOptions::IgnoreCase) != 0);
 }
 
 } // namespace System::Private::CoreLib::System::CultureAwareComparerNamespace

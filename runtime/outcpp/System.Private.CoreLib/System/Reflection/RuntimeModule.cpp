@@ -156,6 +156,7 @@ FieldInfo RuntimeModule___::ResolveLiteralField(Int32 metadataToken, Array<Type>
   Type type = ResolveType(parentToken, genericTypeArguments, genericMethodArguments);
   type->GetFields();
   try{
+    return type->GetField(name, BindingFlags::DeclaredOnly | BindingFlags::Instance | BindingFlags::Static | BindingFlags::Public | BindingFlags::NonPublic);
   } catch (...) {
   }
 }

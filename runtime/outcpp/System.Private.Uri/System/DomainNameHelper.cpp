@@ -64,6 +64,7 @@ Boolean DomainNameHelper::IsValid(Char* name, Int32 pos, Int32& returnedEnd, Boo
         if (ptr >= ptr3) {
           break;
         }
+        continue;
       }
     }
     return false;
@@ -115,6 +116,7 @@ Boolean DomainNameHelper::IsValidByIri(Char* name, Int32 pos, Int32& returnedEnd
         if (ptr >= ptr3) {
           break;
         }
+        continue;
       }
     }
     return false;

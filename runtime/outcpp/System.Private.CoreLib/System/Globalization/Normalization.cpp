@@ -114,6 +114,7 @@ Boolean Normalization::HasInvalidUnicodeSequence(String s) {
   for (Int32 i = 0; i < s->get_Length(); i++) {
     Char c = s[i];
     if (c < 55296) {
+      continue;
     }
     if (c == 65534) {
       return true;

@@ -509,6 +509,18 @@ DateTime DateTimeOffset::ValidateDate(DateTime dateTime, TimeSpan offset) {
 }
 
 DateTimeStyles DateTimeOffset::ValidateStyles(DateTimeStyles style, String parameterName) {
+  if ((style & ~(DateTimeStyles::AllowLeadingWhite | DateTimeStyles::AllowTrailingWhite | DateTimeStyles::AllowInnerWhite | DateTimeStyles::NoCurrentDateDefault | DateTimeStyles::AdjustToUniversal | DateTimeStyles::AssumeLocal | DateTimeStyles::AssumeUniversal | DateTimeStyles::RoundtripKind)) != 0) {
+    rt::throw_exception<ArgumentException>(SR::get_Argument_InvalidDateTimeStyles(), parameterName);
+  }
+  if ((style & DateTimeStyles::AssumeLocal) != 0 && (style & DateTimeStyles::AssumeUniversal) != 0) {
+    rt::throw_exception<ArgumentException>(SR::get_Argument_ConflictingDateTimeStyles(), parameterName);
+  }
+  if ((style & DateTimeStyles::NoCurrentDateDefault) != 0) {
+    rt::throw_exception<ArgumentException>(SR::get_Argument_DateTimeOffsetInvalidDateTimeStyles(), parameterName);
+  }
+  style &= ~DateTimeStyles::RoundtripKind;
+  style &= ~DateTimeStyles::AssumeLocal;
+  return style;
 }
 
 DateTimeOffset DateTimeOffset::op_Implicit(DateTime dateTime) {

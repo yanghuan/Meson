@@ -51,6 +51,7 @@ Boolean Int64::Equals(Int64 obj) {
 }
 
 Int32 Int64::GetHashCode() {
+  return (Int32)*this ^ (Int32)(*this >> 32);
 }
 
 String Int64::ToString() {

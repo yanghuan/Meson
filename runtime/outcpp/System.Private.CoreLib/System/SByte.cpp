@@ -104,6 +104,10 @@ SByte SByte::Parse(ReadOnlySpan<Char> s, NumberStyles style, NumberFormatInfo in
   if (parsingStatus != 0) {
     Number::ThrowOverflowOrFormatException(parsingStatus, TypeCode::SByte);
   }
+  if ((UInt32)(result - -128 - ((Int32)(style & NumberStyles::AllowHexSpecifier) >> 2)) > 255u) {
+    Number::ThrowOverflowException(TypeCode::SByte);
+  }
+  return (SByte)result;
 }
 
 Boolean SByte::TryParse(String s, SByte& result) {

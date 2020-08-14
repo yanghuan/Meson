@@ -76,6 +76,8 @@ void UmAlQuraCalendar___::ConvertHijriToGregorian(Int32 HijriYear, Int32 HijriMo
   DateTime gregorianDate = s_hijriYearInfo[num2].GregorianDate;
   Int32 num3 = s_hijriYearInfo[num2].HijriMonthsLengthFlags;
   for (Int32 i = 1; i < HijriMonth; i++) {
+    num = num + 29 + (num3 & 1);
+    num3 >>= 1;
   }
   gregorianDate.AddDays(num).GetDate(yg, mg, dg);
 }
@@ -122,6 +124,16 @@ void UmAlQuraCalendar___::ConvertGregorianToHijri(DateTime time, Int32& HijriYea
   Int32 num4 = 1;
   Double num5 = timeSpan.get_TotalDays();
   Int32 num6 = s_hijriYearInfo[num].HijriMonthsLengthFlags;
+  Int32 num7 = 29 + (num6 & 1);
+  while (num5 >= (Double)num7) {
+    num5 -= (Double)num7;
+    num6 >>= 1;
+    num7 = 29 + (num6 & 1);
+    num3++;
+  }
+  num4 = (HijriDay = num4 + (Int32)num5);
+  HijriMonth = num3;
+  HijriYear = num2;
 }
 
 Int32 UmAlQuraCalendar___::GetDatePart(DateTime time, Int32 part) {
@@ -174,12 +186,18 @@ Int32 UmAlQuraCalendar___::GetDayOfYear(DateTime time) {
 
 Int32 UmAlQuraCalendar___::GetDaysInMonth(Int32 year, Int32 month, Int32 era) {
   CheckYearMonthRange(year, month, era);
+  if ((s_hijriYearInfo[year - 1318].HijriMonthsLengthFlags & (1 << month - 1)) == 0) {
+    return 29;
+  }
+  return 30;
 }
 
 Int32 UmAlQuraCalendar___::RealGetDaysInYear(Int32 year) {
   Int32 num = 0;
   Int32 num2 = s_hijriYearInfo[year - 1318].HijriMonthsLengthFlags;
   for (Int32 i = 1; i <= 12; i++) {
+    num = num + 29 + (num2 & 1);
+    num2 >>= 1;
   }
   return num;
 }

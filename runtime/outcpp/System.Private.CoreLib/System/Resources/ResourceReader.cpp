@@ -201,6 +201,7 @@ void ResourceReader___::Dispose(Boolean disposing) {
 }
 
 Int32 ResourceReader___::ReadUnalignedI4(Int32* p) {
+  return *(Byte*)p | (((Byte*)p)[1] << 8) | (((Byte*)p)[2] << 16) | (((Byte*)p)[3] << 24);
 }
 
 void ResourceReader___::SkipString() {
@@ -500,6 +501,52 @@ void ResourceReader___::_ReadResources() {
     SkipString();
   }
   Int64 position = _store->get_BaseStream()->get_Position();
+  Int32 num6 = (Int32)position & 7;
+  if (num6 != 0) {
+    for (Int32 j = 0; j < 8 - num6; j++) {
+      _store->ReadByte();
+    }
+  }
+  if (_ums == nullptr) {
+    _nameHashes = rt::newarr<Array<Int32>>(_numResources);
+    for (Int32 k = 0; k < _numResources; k++) {
+      _nameHashes[k] = _store->ReadInt32();
+    }
+  } else {
+    Int32 num7 = 4 * _numResources;
+    if (num7 < 0) {
+      rt::throw_exception<BadImageFormatException>(SR::get_BadImageFormat_ResourcesHeaderCorrupted());
+    }
+    _nameHashesPtr = (Int32*)_ums->get_PositionPointer();
+    _ums->Seek(num7, SeekOrigin::Current);
+    _ = _ums->set_PositionPointer;
+  }
+  if (_ums == nullptr) {
+    _namePositions = rt::newarr<Array<Int32>>(_numResources);
+    for (Int32 l = 0; l < _numResources; l++) {
+      Int32 num8 = _store->ReadInt32();
+      if (num8 < 0) {
+        rt::throw_exception<BadImageFormatException>(SR::get_BadImageFormat_ResourcesHeaderCorrupted());
+      }
+      _namePositions[l] = num8;
+    }
+  } else {
+    Int32 num9 = 4 * _numResources;
+    if (num9 < 0) {
+      rt::throw_exception<BadImageFormatException>(SR::get_BadImageFormat_ResourcesHeaderCorrupted());
+    }
+    _namePositionsPtr = (Int32*)_ums->get_PositionPointer();
+    _ums->Seek(num9, SeekOrigin::Current);
+    _ = _ums->set_PositionPointer;
+  }
+  _dataSectionOffset = _store->ReadInt32();
+  if (_dataSectionOffset < 0) {
+    rt::throw_exception<BadImageFormatException>(SR::get_BadImageFormat_ResourcesHeaderCorrupted());
+  }
+  _nameSectionOffset = _store->get_BaseStream()->set_Position;
+  if (_dataSectionOffset < _nameSectionOffset) {
+    rt::throw_exception<BadImageFormatException>(SR::get_BadImageFormat_ResourcesHeaderCorrupted());
+  }
 }
 
 Type ResourceReader___::FindType(Int32 typeIndex) {

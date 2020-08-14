@@ -8,6 +8,7 @@
 #include <System.Private.CoreLib/System/Globalization/Calendar-dep.h>
 #include <System.Private.CoreLib/System/Globalization/CalendarId.h>
 #include <System.Private.CoreLib/System/Globalization/CultureInfo-dep.h>
+#include <System.Private.CoreLib/System/Globalization/DateTimeFormatFlags.h>
 #include <System.Private.CoreLib/System/Globalization/HebrewNumber-dep.h>
 #include <System.Private.CoreLib/System/Globalization/MonthNameStyles.h>
 #include <System.Private.CoreLib/System/Int64-dep.h>
@@ -241,6 +242,23 @@ StringBuilder DateTimeFormat::FormatCustomized(DateTime dateTime, ReadOnlySpan<C
         {
           num = ParseRepeatPattern(format, i, c);
           Int32 month = calendar->GetMonth(dateTime);
+          if (num <= 2) {
+            if (flag2) {
+              HebrewFormatDigits(result, month);
+            } else {
+              FormatDigits(result, month, num);
+            }
+          } else if (flag2) {
+            result->Append(FormatHebrewMonthName(dateTime, month, num, dtfi));
+          } else if ((dtfi->get_FormatFlags() & DateTimeFormatFlags::UseGenitiveMonth) != 0) {
+            result->Append(dtfi->InternalGetMonthName(month, IsUseGenitiveForm(format, i, num, 100) ? MonthNameStyles::Genitive : MonthNameStyles::Regular, num == 3));
+          } else {
+            result->Append(FormatMonth(month, num, dtfi));
+          }
+
+
+          timeOnly = false;
+          break;
         }case 121:
         {
           Int32 year = calendar->GetYear(dateTime);

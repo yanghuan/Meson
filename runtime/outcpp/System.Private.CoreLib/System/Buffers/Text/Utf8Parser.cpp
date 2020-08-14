@@ -1,19 +1,23 @@
 #include "Utf8Parser-dep.h"
 
+#include <System.Private.CoreLib/Internal/Runtime/CompilerServices/Unsafe-dep.h>
 #include <System.Private.CoreLib/System/ArgumentOutOfRangeException-dep.h>
 #include <System.Private.CoreLib/System/Buffers/Binary/BinaryPrimitives-dep.h>
 #include <System.Private.CoreLib/System/Buffers/Text/ParserHelpers-dep.h>
 #include <System.Private.CoreLib/System/Buffers/Text/Utf8Parser-dep.h>
 #include <System.Private.CoreLib/System/DateTimeKind.h>
 #include <System.Private.CoreLib/System/DateTimeOffset-dep.h>
+#include <System.Private.CoreLib/System/DayOfWeek.h>
 #include <System.Private.CoreLib/System/Int64-dep.h>
 #include <System.Private.CoreLib/System/Number-dep.h>
 #include <System.Private.CoreLib/System/Span-dep.h>
 #include <System.Private.CoreLib/System/ThrowHelper-dep.h>
 #include <System.Private.CoreLib/System/TimeSpan-dep.h>
+#include <System.Private.CoreLib/System/UInt16-dep.h>
 #include <System.Private.CoreLib/System/UInt64-dep.h>
 
 namespace System::Private::CoreLib::System::Buffers::Text::Utf8ParserNamespace {
+using namespace Internal::Runtime::CompilerServices;
 using namespace System::Buffers::Binary;
 
 Boolean Utf8Parser::TimeSpanSplitter::TrySplitTimeSpan(ReadOnlySpan<Byte> source, Boolean periodUsedToSeparateDay, Int32& bytesConsumed) {
@@ -60,6 +64,17 @@ Boolean Utf8Parser::TryParse(ReadOnlySpan<Byte> source, Boolean& value, Int32& b
     ThrowHelper::ThrowFormatException_BadFormatSpecifier();
   }
   if (source.get_Length() >= 4) {
+    Int32 num = BinaryPrimitives::ReadInt32LittleEndian(source) & -538976289;
+    if (num == 1163219540) {
+      bytesConsumed = 4;
+      value = true;
+      return true;
+    }
+    if (4u < (UInt32)source.get_Length() && num == 1397506374 && (source[4] & -33) == 69) {
+      bytesConsumed = 5;
+      value = false;
+      return true;
+    }
   }
   bytesConsumed = 0;
   value = false;
@@ -466,6 +481,174 @@ Boolean Utf8Parser::TryParseDateTimeOffsetR(ReadOnlySpan<Byte> source, UInt32 ca
     dateTimeOffset = DateTimeOffset();
     return false;
   }
+  UInt32 num = source[0] ^ caseFlipXorMask;
+  UInt32 num2 = source[1];
+  UInt32 num3 = source[2];
+  UInt32 num4 = source[3];
+  DayOfWeek dayOfWeek;
+  switch ((num << 24) | (num2 << 16) | (num3 << 8) | num4.get()) {
+    case 1400204844u:
+      dayOfWeek = DayOfWeek::Sunday;
+      break;
+    case 1299148332u:
+      dayOfWeek = DayOfWeek::Monday;
+      break;
+    case 1416979756u:
+      dayOfWeek = DayOfWeek::Tuesday;
+      break;
+    case 1466262572u:
+      dayOfWeek = DayOfWeek::Wednesday;
+      break;
+    case 1416131884u:
+      dayOfWeek = DayOfWeek::Thursday;
+      break;
+    case 1181903148u:
+      dayOfWeek = DayOfWeek::Friday;
+      break;
+    case 1398895660u:
+      dayOfWeek = DayOfWeek::Saturday;
+      break;
+    default:
+      bytesConsumed = 0;
+      dateTimeOffset = DateTimeOffset();
+      return false;
+  }
+  if (source[4] != 32) {
+    bytesConsumed = 0;
+    dateTimeOffset = DateTimeOffset();
+    return false;
+  }
+  UInt32 num5 = (UInt32)(source[5] - 48);
+  UInt32 num6 = (UInt32)(source[6] - 48);
+  if (num5 > 9 || num6 > 9) {
+    bytesConsumed = 0;
+    dateTimeOffset = DateTimeOffset();
+    return false;
+  }
+  Int32 day = (Int32)(num5 * 10 + num6);
+  if (source[7] != 32) {
+    bytesConsumed = 0;
+    dateTimeOffset = DateTimeOffset();
+    return false;
+  }
+  UInt32 num7 = source[8] ^ caseFlipXorMask;
+  UInt32 num8 = source[9];
+  UInt32 num9 = source[10];
+  UInt32 num10 = source[11];
+  Int32 month;
+  switch ((num7 << 24) | (num8 << 16) | (num9 << 8) | num10.get()) {
+    case 1247899168u:
+      month = 1;
+      break;
+    case 1181049376u:
+      month = 2;
+      break;
+    case 1298231840u:
+      month = 3;
+      break;
+    case 1097888288u:
+      month = 4;
+      break;
+    case 1298233632u:
+      month = 5;
+      break;
+    case 1249209888u:
+      month = 6;
+      break;
+    case 1249209376u:
+      month = 7;
+      break;
+    case 1098213152u:
+      month = 8;
+      break;
+    case 1399156768u:
+      month = 9;
+      break;
+    case 1331917856u:
+      month = 10;
+      break;
+    case 1315927584u:
+      month = 11;
+      break;
+    case 1147495200u:
+      month = 12;
+      break;
+    default:
+      bytesConsumed = 0;
+      dateTimeOffset = DateTimeOffset();
+      return false;
+  }
+  UInt32 num11 = (UInt32)(source[12] - 48);
+  UInt32 num12 = (UInt32)(source[13] - 48);
+  UInt32 num13 = (UInt32)(source[14] - 48);
+  UInt32 num14 = (UInt32)(source[15] - 48);
+  if (num11 > 9 || num12 > 9 || num13 > 9 || num14 > 9) {
+    bytesConsumed = 0;
+    dateTimeOffset = DateTimeOffset();
+    return false;
+  }
+  Int32 year = (Int32)(num11 * 1000 + num12 * 100 + num13 * 10 + num14);
+  if (source[16] != 32) {
+    bytesConsumed = 0;
+    dateTimeOffset = DateTimeOffset();
+    return false;
+  }
+  UInt32 num15 = (UInt32)(source[17] - 48);
+  UInt32 num16 = (UInt32)(source[18] - 48);
+  if (num15 > 9 || num16 > 9) {
+    bytesConsumed = 0;
+    dateTimeOffset = DateTimeOffset();
+    return false;
+  }
+  Int32 hour = (Int32)(num15 * 10 + num16);
+  if (source[19] != 58) {
+    bytesConsumed = 0;
+    dateTimeOffset = DateTimeOffset();
+    return false;
+  }
+  UInt32 num17 = (UInt32)(source[20] - 48);
+  UInt32 num18 = (UInt32)(source[21] - 48);
+  if (num17 > 9 || num18 > 9) {
+    bytesConsumed = 0;
+    dateTimeOffset = DateTimeOffset();
+    return false;
+  }
+  Int32 minute = (Int32)(num17 * 10 + num18);
+  if (source[22] != 58) {
+    bytesConsumed = 0;
+    dateTimeOffset = DateTimeOffset();
+    return false;
+  }
+  UInt32 num19 = (UInt32)(source[23] - 48);
+  UInt32 num20 = (UInt32)(source[24] - 48);
+  if (num19 > 9 || num20 > 9) {
+    bytesConsumed = 0;
+    dateTimeOffset = DateTimeOffset();
+    return false;
+  }
+  Int32 second = (Int32)(num19 * 10 + num20);
+  UInt32 num21 = source[25];
+  UInt32 num22 = source[26] ^ caseFlipXorMask;
+  UInt32 num23 = source[27] ^ caseFlipXorMask;
+  UInt32 num24 = source[28] ^ caseFlipXorMask;
+  UInt32 num25 = (num21 << 24) | (num22 << 16) | (num23 << 8) | num24;
+  if (num25 != 541543764) {
+    bytesConsumed = 0;
+    dateTimeOffset = DateTimeOffset();
+    return false;
+  }
+  if (!TryCreateDateTimeOffset(year, month, day, hour, minute, second, 0, false, 0, 0, dateTimeOffset)) {
+    bytesConsumed = 0;
+    dateTimeOffset = DateTimeOffset();
+    return false;
+  }
+  if (dayOfWeek != dateTimeOffset.get_DayOfWeek()) {
+    bytesConsumed = 0;
+    dateTimeOffset = DateTimeOffset();
+    return false;
+  }
+  bytesConsumed = 29;
+  return true;
 }
 
 Boolean Utf8Parser::TryParse(ReadOnlySpan<Byte> source, Decimal& value, Int32& bytesConsumed, Char standardFormat) {
@@ -579,24 +762,76 @@ Boolean Utf8Parser::TryParseGuidCore(ReadOnlySpan<Byte> source, Guid& value, Int
 
 Boolean Utf8Parser::TryParse(ReadOnlySpan<Byte> source, SByte& value, Int32& bytesConsumed, Char standardFormat) {
   while (standardFormat != 0) {
+    switch (standardFormat | 32.get()) {
+      case 100:
+      case 103:
+        break;
+      case 110:
+        return TryParseSByteN(source, value, bytesConsumed);
+      case 120:
+        Unsafe::SkipInit(value);
+        return TryParseByteX(source, Unsafe::As<SByte, Byte>(value), bytesConsumed);
+      default:
+        return ParserHelpers::TryParseThrowFormatException(source, value, bytesConsumed);
+    }
+    standardFormat = 0;
   }
   return TryParseSByteD(source, value, bytesConsumed);
 }
 
 Boolean Utf8Parser::TryParse(ReadOnlySpan<Byte> source, Int16& value, Int32& bytesConsumed, Char standardFormat) {
   while (standardFormat != 0) {
+    switch (standardFormat | 32.get()) {
+      case 100:
+      case 103:
+        break;
+      case 110:
+        return TryParseInt16N(source, value, bytesConsumed);
+      case 120:
+        Unsafe::SkipInit(value);
+        return TryParseUInt16X(source, Unsafe::As<Int16, UInt16>(value), bytesConsumed);
+      default:
+        return ParserHelpers::TryParseThrowFormatException(source, value, bytesConsumed);
+    }
+    standardFormat = 0;
   }
   return TryParseInt16D(source, value, bytesConsumed);
 }
 
 Boolean Utf8Parser::TryParse(ReadOnlySpan<Byte> source, Int32& value, Int32& bytesConsumed, Char standardFormat) {
   while (standardFormat != 0) {
+    switch (standardFormat | 32.get()) {
+      case 100:
+      case 103:
+        break;
+      case 110:
+        return TryParseInt32N(source, value, bytesConsumed);
+      case 120:
+        Unsafe::SkipInit(value);
+        return TryParseUInt32X(source, Unsafe::As<Int32, UInt32>(value), bytesConsumed);
+      default:
+        return ParserHelpers::TryParseThrowFormatException(source, value, bytesConsumed);
+    }
+    standardFormat = 0;
   }
   return TryParseInt32D(source, value, bytesConsumed);
 }
 
 Boolean Utf8Parser::TryParse(ReadOnlySpan<Byte> source, Int64& value, Int32& bytesConsumed, Char standardFormat) {
   while (standardFormat != 0) {
+    switch (standardFormat | 32.get()) {
+      case 100:
+      case 103:
+        break;
+      case 110:
+        return TryParseInt64N(source, value, bytesConsumed);
+      case 120:
+        Unsafe::SkipInit(value);
+        return TryParseUInt64X(source, Unsafe::As<Int64, UInt64>(value), bytesConsumed);
+      default:
+        return ParserHelpers::TryParseThrowFormatException(source, value, bytesConsumed);
+    }
+    standardFormat = 0;
   }
   return TryParseInt64D(source, value, bytesConsumed);
 }
@@ -634,6 +869,7 @@ Boolean Utf8Parser::TryParseSByteD(ReadOnlySpan<Byte> source, SByte& value, Int3
         }
         num3 = source[num2];
         if (num3 == 48) {
+          continue;
         }
       }
     }
@@ -673,6 +909,7 @@ Boolean Utf8Parser::TryParseInt16D(ReadOnlySpan<Byte> source, Int16& value, Int3
         }
         num3 = source[num2];
         if (num3 == 48) {
+          continue;
         }
       }
     }
@@ -712,6 +949,7 @@ Boolean Utf8Parser::TryParseInt32D(ReadOnlySpan<Byte> source, Int32& value, Int3
         }
         num3 = source[num2];
         if (num3 == 48) {
+          continue;
         }
       }
     }
@@ -825,6 +1063,7 @@ Boolean Utf8Parser::TryParseSByteN(ReadOnlySpan<Byte> source, SByte& value, Int3
           }
           num3 = source[num2];
           if (num3 == 44) {
+            continue;
           }
           if (num3 == 46) {
           }
@@ -833,6 +1072,7 @@ Boolean Utf8Parser::TryParseSByteN(ReadOnlySpan<Byte> source, SByte& value, Int3
           }
           num4 = num4 * 10 + num3 - 48;
           if (num4 <= 127 + (-1 * num + 1) / 2) {
+            continue;
           }
         }
       }
@@ -877,6 +1117,7 @@ Boolean Utf8Parser::TryParseInt16N(ReadOnlySpan<Byte> source, Int16& value, Int3
           }
           num3 = source[num2];
           if (num3 == 44) {
+            continue;
           }
           if (num3 == 46) {
           }
@@ -885,6 +1126,7 @@ Boolean Utf8Parser::TryParseInt16N(ReadOnlySpan<Byte> source, Int16& value, Int3
           }
           num4 = num4 * 10 + num3 - 48;
           if (num4 <= 32767 + (-1 * num + 1) / 2) {
+            continue;
           }
         }
       }
@@ -929,6 +1171,7 @@ Boolean Utf8Parser::TryParseInt32N(ReadOnlySpan<Byte> source, Int32& value, Int3
           }
           num3 = source[num2];
           if (num3 == 44) {
+            continue;
           }
           if (num3 == 46) {
           }
@@ -938,6 +1181,7 @@ Boolean Utf8Parser::TryParseInt32N(ReadOnlySpan<Byte> source, Int32& value, Int3
           if ((UInt32)num4 <= 214748364u) {
             num4 = num4 * 10 + num3 - 48;
             if ((UInt32)num4 <= 2147483647 + (Int64)((-1 * num + 1) / 2)) {
+              continue;
             }
           }
         }
@@ -983,6 +1227,7 @@ Boolean Utf8Parser::TryParseInt64N(ReadOnlySpan<Byte> source, Int64& value, Int3
           }
           num3 = source[num2];
           if (num3 == 44) {
+            continue;
           }
           if (num3 == 46) {
           }
@@ -992,6 +1237,7 @@ Boolean Utf8Parser::TryParseInt64N(ReadOnlySpan<Byte> source, Int64& value, Int3
           if ((UInt64)num4 <= 922337203685477580) {
             num4 = num4 * 10 + num3 - 48;
             if ((UInt64)num4 <= (UInt64)(Int64::MaxValue + (-1 * num + 1) / 2)) {
+              continue;
             }
           }
         }
@@ -1007,24 +1253,72 @@ Boolean Utf8Parser::TryParseInt64N(ReadOnlySpan<Byte> source, Int64& value, Int3
 
 Boolean Utf8Parser::TryParse(ReadOnlySpan<Byte> source, Byte& value, Int32& bytesConsumed, Char standardFormat) {
   while (standardFormat != 0) {
+    switch (standardFormat | 32.get()) {
+      case 100:
+      case 103:
+        break;
+      case 110:
+        return TryParseByteN(source, value, bytesConsumed);
+      case 120:
+        return TryParseByteX(source, value, bytesConsumed);
+      default:
+        return ParserHelpers::TryParseThrowFormatException(source, value, bytesConsumed);
+    }
+    standardFormat = 0;
   }
   return TryParseByteD(source, value, bytesConsumed);
 }
 
 Boolean Utf8Parser::TryParse(ReadOnlySpan<Byte> source, UInt16& value, Int32& bytesConsumed, Char standardFormat) {
   while (standardFormat != 0) {
+    switch (standardFormat | 32.get()) {
+      case 100:
+      case 103:
+        break;
+      case 110:
+        return TryParseUInt16N(source, value, bytesConsumed);
+      case 120:
+        return TryParseUInt16X(source, value, bytesConsumed);
+      default:
+        return ParserHelpers::TryParseThrowFormatException(source, value, bytesConsumed);
+    }
+    standardFormat = 0;
   }
   return TryParseUInt16D(source, value, bytesConsumed);
 }
 
 Boolean Utf8Parser::TryParse(ReadOnlySpan<Byte> source, UInt32& value, Int32& bytesConsumed, Char standardFormat) {
   while (standardFormat != 0) {
+    switch (standardFormat | 32.get()) {
+      case 100:
+      case 103:
+        break;
+      case 110:
+        return TryParseUInt32N(source, value, bytesConsumed);
+      case 120:
+        return TryParseUInt32X(source, value, bytesConsumed);
+      default:
+        return ParserHelpers::TryParseThrowFormatException(source, value, bytesConsumed);
+    }
+    standardFormat = 0;
   }
   return TryParseUInt32D(source, value, bytesConsumed);
 }
 
 Boolean Utf8Parser::TryParse(ReadOnlySpan<Byte> source, UInt64& value, Int32& bytesConsumed, Char standardFormat) {
   while (standardFormat != 0) {
+    switch (standardFormat | 32.get()) {
+      case 100:
+      case 103:
+        break;
+      case 110:
+        return TryParseUInt64N(source, value, bytesConsumed);
+      case 120:
+        return TryParseUInt64X(source, value, bytesConsumed);
+      default:
+        return ParserHelpers::TryParseThrowFormatException(source, value, bytesConsumed);
+    }
+    standardFormat = 0;
   }
   return TryParseUInt64D(source, value, bytesConsumed);
 }
@@ -1047,6 +1341,7 @@ Boolean Utf8Parser::TryParseByteD(ReadOnlySpan<Byte> source, Byte& value, Int32&
         }
         num2 = source[num];
         if (num2 == 48) {
+          continue;
         }
       }
     }
@@ -1071,6 +1366,7 @@ Boolean Utf8Parser::TryParseUInt16D(ReadOnlySpan<Byte> source, UInt16& value, In
         }
         num2 = source[num];
         if (num2 == 48) {
+          continue;
         }
       }
     }
@@ -1095,6 +1391,7 @@ Boolean Utf8Parser::TryParseUInt32D(ReadOnlySpan<Byte> source, UInt32& value, In
         }
         num2 = source[num];
         if (num2 == 48) {
+          continue;
         }
       }
     }
@@ -1177,6 +1474,7 @@ Boolean Utf8Parser::TryParseByteN(ReadOnlySpan<Byte> source, Byte& value, Int32&
           }
           num2 = source[num];
           if (num2 == 44) {
+            continue;
           }
           if (num2 == 46) {
           }
@@ -1185,6 +1483,7 @@ Boolean Utf8Parser::TryParseByteN(ReadOnlySpan<Byte> source, Byte& value, Int32&
           }
           num3 = num3 * 10 + num2 - 48;
           if (num3 <= 255) {
+            continue;
           }
         }
       }
@@ -1220,6 +1519,7 @@ Boolean Utf8Parser::TryParseUInt16N(ReadOnlySpan<Byte> source, UInt16& value, In
           }
           num2 = source[num];
           if (num2 == 44) {
+            continue;
           }
           if (num2 == 46) {
           }
@@ -1228,6 +1528,7 @@ Boolean Utf8Parser::TryParseUInt16N(ReadOnlySpan<Byte> source, UInt16& value, In
           }
           num3 = num3 * 10 + num2 - 48;
           if (num3 <= 65535) {
+            continue;
           }
         }
       }
@@ -1263,6 +1564,7 @@ Boolean Utf8Parser::TryParseUInt32N(ReadOnlySpan<Byte> source, UInt32& value, In
           }
           num2 = source[num];
           if (num2 == 44) {
+            continue;
           }
           if (num2 == 46) {
           }
@@ -1271,6 +1573,7 @@ Boolean Utf8Parser::TryParseUInt32N(ReadOnlySpan<Byte> source, UInt32& value, In
           }
           if ((UInt32)num3 <= 429496729u && (num3 != 429496729 || num2 <= 53)) {
             num3 = num3 * 10 + num2 - 48;
+            continue;
           }
         }
       }
@@ -1306,6 +1609,7 @@ Boolean Utf8Parser::TryParseUInt64N(ReadOnlySpan<Byte> source, UInt64& value, In
           }
           num2 = source[num];
           if (num2 == 44) {
+            continue;
           }
           if (num2 == 46) {
           }
@@ -1314,6 +1618,7 @@ Boolean Utf8Parser::TryParseUInt64N(ReadOnlySpan<Byte> source, UInt64& value, In
           }
           if ((UInt64)num3 <= 1844674407370955161 && (num3 != 1844674407370955161 || num2 <= 53)) {
             num3 = num3 * 10 + num2 - 48;
+            continue;
           }
         }
       }

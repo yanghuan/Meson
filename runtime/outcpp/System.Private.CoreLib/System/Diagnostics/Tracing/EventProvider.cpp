@@ -244,6 +244,10 @@ Boolean EventProvider___::IsEnabled(Byte level, Int64 keywords) {
   if (!m_enabled) {
     return false;
   }
+  if ((level <= m_level || m_level == 0) && (keywords == 0 || ((keywords & m_anyKeywordMask) != 0 && (keywords & m_allKeywordMask) == m_allKeywordMask))) {
+    return true;
+  }
+  return false;
 }
 
 EventProvider::in::WriteEventErrorCode EventProvider___::GetLastWriteEventError() {
@@ -400,6 +404,7 @@ Object EventProvider___::EncodeObject(Object& data, EventData*& dataDescriptor, 
         Type underlyingType = Enum::in::GetUnderlyingType(data->GetType());
       } catch (...) {
       }
+      continue;
     }
   }
   totalEventSize += dataDescriptor->Size;
@@ -433,6 +438,7 @@ Boolean EventProvider___::WriteEvent(EventDescriptor& eventDescriptor, IntPtr ev
       if (eventPayload[k] != nullptr) {
         Object obj = EncodeObject(eventPayload[k], dataDescriptor, dataBuffer, totalEventSize);
         if (obj == nullptr) {
+          continue;
         }
         Int32 num2 = (Int32)(dataDescriptor - ptr - 1);
         if (!rt::is<String>(obj)) {
@@ -445,6 +451,7 @@ Boolean EventProvider___::WriteEvent(EventDescriptor& eventDescriptor, IntPtr ev
         list2->Add(obj);
         list->Add(num2);
         i++;
+        continue;
       }
       s_returnCode = WriteEventErrorCode::NullInput;
       return false;

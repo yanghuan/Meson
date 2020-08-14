@@ -89,6 +89,14 @@ Array<Byte> DynamicResolver___::GetCodeInfo(Int32& stackSize, Int32& initLocals,
       rt::throw_exception<FormatException>();
     }
     Byte b = m_exceptionHeader[0];
+    if ((b & 64) != 0) {
+      Int32 num = m_exceptionHeader[3] << 16;
+      num |= m_exceptionHeader[2] << 8;
+      num |= m_exceptionHeader[1];
+      EHCount = (num - 4) / 24;
+    } else {
+      EHCount = (m_exceptionHeader[1] - 2) / 12;
+    }
   } else {
     EHCount = CalculateNumberOfExceptions(m_exceptions);
   }
@@ -110,6 +118,15 @@ void DynamicResolver___::GetEHInfo(Int32 excNumber, void* exc) {
     if (excNumber < numberOfCatches) {
       ((Resolver::in::CORINFO_EH_CLAUSE*)exc)->Flags = m_exceptions[i]->GetExceptionTypes()[excNumber];
       ((Resolver::in::CORINFO_EH_CLAUSE*)exc)->TryOffset = m_exceptions[i]->GetStartAddress();
+      if ((((Resolver::in::CORINFO_EH_CLAUSE*)exc)->Flags & 2) != 2) {
+        ((Resolver::in::CORINFO_EH_CLAUSE*)exc)->TryLength = m_exceptions[i]->GetEndAddress() - ((Resolver::in::CORINFO_EH_CLAUSE*)exc)->TryOffset;
+      } else {
+        ((Resolver::in::CORINFO_EH_CLAUSE*)exc)->TryLength = m_exceptions[i]->GetFinallyEndAddress() - ((Resolver::in::CORINFO_EH_CLAUSE*)exc)->TryOffset;
+      }
+      ((Resolver::in::CORINFO_EH_CLAUSE*)exc)->HandlerOffset = m_exceptions[i]->GetCatchAddresses()[excNumber];
+      ((Resolver::in::CORINFO_EH_CLAUSE*)exc)->HandlerLength = m_exceptions[i]->GetCatchEndAddresses()[excNumber] - ((Resolver::in::CORINFO_EH_CLAUSE*)exc)->HandlerOffset;
+      ((Resolver::in::CORINFO_EH_CLAUSE*)exc)->ClassTokenOrFilterOffset = m_exceptions[i]->GetFilterAddresses()[excNumber];
+      break;
     }
     excNumber -= numberOfCatches;
   }

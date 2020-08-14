@@ -18,6 +18,7 @@
 #include <System.Private.CoreLib/System/Text/Unicode/Utf8Utility-dep.h>
 #include <System.Private.CoreLib/System/Text/UTF8Encoding-dep.h>
 #include <System.Private.CoreLib/System/ThrowHelper-dep.h>
+#include <System.Private.CoreLib/System/UInt32-dep.h>
 #include <System.Private.CoreLib/System/UInt64-dep.h>
 
 namespace System::Private::CoreLib::System::Text::UTF8EncodingNamespace {
@@ -110,6 +111,16 @@ Int32 UTF8Encoding___::GetByteCount(Array<Char> chars, Int32 index, Int32 count)
   if (chars == nullptr) {
     ThrowHelper::ThrowArgumentNullException(ExceptionArgument::chars, ExceptionResource::ArgumentNull_Array);
   }
+  if ((index | count) < 0) {
+    ThrowHelper::ThrowArgumentOutOfRangeException((index < 0) ? ExceptionArgument::index : ExceptionArgument::count, ExceptionResource::ArgumentOutOfRange_NeedNonNegNum);
+  }
+  if (chars->get_Length() - index < count) {
+    ThrowHelper::ThrowArgumentOutOfRangeException(ExceptionArgument::chars, ExceptionResource::ArgumentOutOfRange_IndexCountBuffer);
+  }
+  {
+    Char* ptr = chars;
+    return GetByteCountCommon(ptr + index, count);
+  }
 }
 
 Int32 UTF8Encoding___::GetByteCount(String chars) {
@@ -167,11 +178,44 @@ Int32 UTF8Encoding___::GetBytes(String s, Int32 charIndex, Int32 charCount, Arra
   if (s == nullptr || bytes == nullptr) {
     ThrowHelper::ThrowArgumentNullException((s == nullptr) ? ExceptionArgument::s : ExceptionArgument::bytes, ExceptionResource::ArgumentNull_Array);
   }
+  if ((charIndex | charCount) < 0) {
+    ThrowHelper::ThrowArgumentOutOfRangeException((charIndex < 0) ? ExceptionArgument::charIndex : ExceptionArgument::charCount, ExceptionResource::ArgumentOutOfRange_NeedNonNegNum);
+  }
+  if (s->get_Length() - charIndex < charCount) {
+    ThrowHelper::ThrowArgumentOutOfRangeException(ExceptionArgument::s, ExceptionResource::ArgumentOutOfRange_IndexCount);
+  }
+  if ((UInt32)byteIndex > bytes->get_Length()) {
+    ThrowHelper::ThrowArgumentOutOfRangeException(ExceptionArgument::byteIndex, ExceptionResource::ArgumentOutOfRange_Index);
+  }
+  {
+    Char* ptr = s;
+    Char* ptr2 = ptr;
+    {
+      Byte* ptr3 = bytes;
+      return GetBytesCommon(ptr2 + charIndex, charCount, ptr3 + byteIndex, bytes->get_Length() - byteIndex);
+    }
+  }
 }
 
 Int32 UTF8Encoding___::GetBytes(Array<Char> chars, Int32 charIndex, Int32 charCount, Array<Byte> bytes, Int32 byteIndex) {
   if (chars == nullptr || bytes == nullptr) {
     ThrowHelper::ThrowArgumentNullException((chars == nullptr) ? ExceptionArgument::chars : ExceptionArgument::bytes, ExceptionResource::ArgumentNull_Array);
+  }
+  if ((charIndex | charCount) < 0) {
+    ThrowHelper::ThrowArgumentOutOfRangeException((charIndex < 0) ? ExceptionArgument::charIndex : ExceptionArgument::charCount, ExceptionResource::ArgumentOutOfRange_NeedNonNegNum);
+  }
+  if (chars->get_Length() - charIndex < charCount) {
+    ThrowHelper::ThrowArgumentOutOfRangeException(ExceptionArgument::chars, ExceptionResource::ArgumentOutOfRange_IndexCount);
+  }
+  if ((UInt32)byteIndex > bytes->get_Length()) {
+    ThrowHelper::ThrowArgumentOutOfRangeException(ExceptionArgument::byteIndex, ExceptionResource::ArgumentOutOfRange_Index);
+  }
+  {
+    Char* ptr = chars;
+    {
+      Byte* ptr2 = bytes;
+      return GetBytesCommon(ptr + charIndex, charCount, ptr2 + byteIndex, bytes->get_Length() - byteIndex);
+    }
   }
 }
 
@@ -179,6 +223,10 @@ Int32 UTF8Encoding___::GetBytes(Char* chars, Int32 charCount, Byte* bytes, Int32
   if (chars == nullptr || bytes == nullptr) {
     ThrowHelper::ThrowArgumentNullException((chars == nullptr) ? ExceptionArgument::chars : ExceptionArgument::bytes, ExceptionResource::ArgumentNull_Array);
   }
+  if ((charCount | byteCount) < 0) {
+    ThrowHelper::ThrowArgumentOutOfRangeException((charCount < 0) ? ExceptionArgument::charCount : ExceptionArgument::byteCount, ExceptionResource::ArgumentOutOfRange_NeedNonNegNum);
+  }
+  return GetBytesCommon(chars, charCount, bytes, byteCount);
 }
 
 Int32 UTF8Encoding___::GetBytes(ReadOnlySpan<Char> chars, Span<Byte> bytes) {
@@ -207,6 +255,16 @@ Int32 UTF8Encoding___::GetCharCount(Array<Byte> bytes, Int32 index, Int32 count)
   if (bytes == nullptr) {
     ThrowHelper::ThrowArgumentNullException(ExceptionArgument::bytes, ExceptionResource::ArgumentNull_Array);
   }
+  if ((index | count) < 0) {
+    ThrowHelper::ThrowArgumentOutOfRangeException((index < 0) ? ExceptionArgument::index : ExceptionArgument::count, ExceptionResource::ArgumentOutOfRange_NeedNonNegNum);
+  }
+  if (bytes->get_Length() - index < count) {
+    ThrowHelper::ThrowArgumentOutOfRangeException(ExceptionArgument::bytes, ExceptionResource::ArgumentOutOfRange_IndexCountBuffer);
+  }
+  {
+    Byte* ptr = bytes;
+    return GetCharCountCommon(ptr + index, count);
+  }
 }
 
 Int32 UTF8Encoding___::GetCharCount(Byte* bytes, Int32 count) {
@@ -230,12 +288,32 @@ Int32 UTF8Encoding___::GetChars(Array<Byte> bytes, Int32 byteIndex, Int32 byteCo
   if (bytes == nullptr || chars == nullptr) {
     ThrowHelper::ThrowArgumentNullException((bytes == nullptr) ? ExceptionArgument::bytes : ExceptionArgument::chars, ExceptionResource::ArgumentNull_Array);
   }
+  if ((byteIndex | byteCount) < 0) {
+    ThrowHelper::ThrowArgumentOutOfRangeException((byteIndex < 0) ? ExceptionArgument::byteIndex : ExceptionArgument::byteCount, ExceptionResource::ArgumentOutOfRange_NeedNonNegNum);
+  }
+  if (bytes->get_Length() - byteIndex < byteCount) {
+    ThrowHelper::ThrowArgumentOutOfRangeException(ExceptionArgument::bytes, ExceptionResource::ArgumentOutOfRange_IndexCountBuffer);
+  }
+  if ((UInt32)charIndex > (UInt32)chars->get_Length()) {
+    ThrowHelper::ThrowArgumentOutOfRangeException(ExceptionArgument::charIndex, ExceptionResource::ArgumentOutOfRange_Index);
+  }
+  {
+    Byte* ptr = bytes;
+    {
+      Char* ptr2 = chars;
+      return GetCharsCommon(ptr + byteIndex, byteCount, ptr2 + charIndex, chars->get_Length() - charIndex);
+    }
+  }
 }
 
 Int32 UTF8Encoding___::GetChars(Byte* bytes, Int32 byteCount, Char* chars, Int32 charCount) {
   if (bytes == nullptr || chars == nullptr) {
     ThrowHelper::ThrowArgumentNullException((bytes == nullptr) ? ExceptionArgument::bytes : ExceptionArgument::chars, ExceptionResource::ArgumentNull_Array);
   }
+  if ((byteCount | charCount) < 0) {
+    ThrowHelper::ThrowArgumentOutOfRangeException((byteCount < 0) ? ExceptionArgument::byteCount : ExceptionArgument::charCount, ExceptionResource::ArgumentOutOfRange_NeedNonNegNum);
+  }
+  return GetCharsCommon(bytes, byteCount, chars, charCount);
 }
 
 Int32 UTF8Encoding___::GetChars(ReadOnlySpan<Byte> bytes, Span<Char> chars) {
@@ -266,6 +344,19 @@ Int32 UTF8Encoding___::GetCharsWithFallback(ReadOnlySpan<Byte> bytes, Int32 orig
 String UTF8Encoding___::GetString(Array<Byte> bytes, Int32 index, Int32 count) {
   if (bytes == nullptr) {
     ThrowHelper::ThrowArgumentNullException(ExceptionArgument::bytes, ExceptionResource::ArgumentNull_Array);
+  }
+  if ((index | count) < 0) {
+    ThrowHelper::ThrowArgumentOutOfRangeException((index < 0) ? ExceptionArgument::index : ExceptionArgument::count, ExceptionResource::ArgumentOutOfRange_NeedNonNegNum);
+  }
+  if (bytes->get_Length() - index < count) {
+    ThrowHelper::ThrowArgumentOutOfRangeException(ExceptionArgument::bytes, ExceptionResource::ArgumentOutOfRange_IndexCountBuffer);
+  }
+  if (count == 0) {
+    return String::in::Empty;
+  }
+  {
+    Byte* ptr = bytes;
+    return String::in::CreateStringFromEncoding(ptr + index, count, (UTF8Encoding)this);
   }
 }
 

@@ -133,6 +133,7 @@ void RuntimeHelpers::PrepareConstrainedRegionsNoOP() {
 }
 
 Boolean RuntimeHelpers::IsPrimitiveType(CorElementType et) {
+  return ((1 << (Int32)et) & 50348028) != 0;
 }
 
 } // namespace System::Private::CoreLib::System::Runtime::CompilerServices::RuntimeHelpersNamespace

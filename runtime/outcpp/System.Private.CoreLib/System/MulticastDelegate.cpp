@@ -317,6 +317,7 @@ Boolean MulticastDelegate___::op_Inequality(MulticastDelegate d1, MulticastDeleg
 
 Int32 MulticastDelegate___::GetHashCode() {
   if (IsUnmanagedFunctionPtr()) {
+    return ValueType::in::GetHashCodeOfPtr(_methodPtr) ^ ValueType::in::GetHashCodeOfPtr(_methodPtrAux);
   }
   if (_invocationCount != (IntPtr)0) {
     Delegate delegate = rt::as<Delegate>(_invocationList);

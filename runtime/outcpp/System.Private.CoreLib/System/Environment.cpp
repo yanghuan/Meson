@@ -247,6 +247,7 @@ Boolean Environment::get_UserInteractive() {
     Interop::User32::USEROBJECTFLAGS uSEROBJECTFLAGS = Interop::User32::USEROBJECTFLAGS();
     UInt32 lpnLengthNeeded = 0u;
     if (Interop::User32::GetUserObjectInformationW(processWindowStation, 1, &uSEROBJECTFLAGS, (UInt32)sizeof(Interop::User32::USEROBJECTFLAGS), lpnLengthNeeded)) {
+      return (uSEROBJECTFLAGS.dwFlags & 1) != 0;
     }
   }
   return true;
@@ -407,6 +408,7 @@ void Environment::GetUserName(ValueStringBuilder& builder) {
   while (Interop::Secur32::GetUserNameExW(2, builder.GetPinnableReference(), lpnSize) == Interop::BOOLEAN::FALSE) {
     if (Marshal::GetLastWin32Error() == 234) {
       builder.EnsureCapacity((Int32)lpnSize);
+      continue;
     }
     builder.set_Length = 0;
     return;
@@ -646,10 +648,12 @@ IDictionary Environment::GetEnvironmentVariables() {
       for (; span[i] != 61 && span[i] != 0; i++) {
       }
       if (span[i] == 0) {
+        continue;
       }
       if (i - num == 0) {
         for (; span[i] != 0; i++) {
         }
+        continue;
       }
       String key = rt::newobj<String>(span.Slice(num, i - num));
       i++;

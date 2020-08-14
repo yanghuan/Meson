@@ -1,8 +1,10 @@
 #include "UnicodeEncoding-dep.h"
 
+#include <System.Private.CoreLib/Internal/Runtime/CompilerServices/Unsafe-dep.h>
 #include <System.Private.CoreLib/System/ArgumentException-dep.h>
 #include <System.Private.CoreLib/System/ArgumentNullException-dep.h>
 #include <System.Private.CoreLib/System/ArgumentOutOfRangeException-dep.h>
+#include <System.Private.CoreLib/System/BitConverter-dep.h>
 #include <System.Private.CoreLib/System/Int64-dep.h>
 #include <System.Private.CoreLib/System/Runtime/InteropServices/MemoryMarshal-dep.h>
 #include <System.Private.CoreLib/System/SR-dep.h>
@@ -13,8 +15,10 @@
 #include <System.Private.CoreLib/System/Text/EncoderFallbackBuffer-dep.h>
 #include <System.Private.CoreLib/System/Text/EncoderReplacementFallback-dep.h>
 #include <System.Private.CoreLib/System/Text/UnicodeEncoding-dep.h>
+#include <System.Private.CoreLib/System/UInt64-dep.h>
 
 namespace System::Private::CoreLib::System::Text::UnicodeEncodingNamespace {
+using namespace Internal::Runtime::CompilerServices;
 using namespace System::Runtime::InteropServices;
 
 Boolean UnicodeEncoding___::Decoder___::get_HasState() {
@@ -315,8 +319,73 @@ Int32 UnicodeEncoding___::GetCharCount(Byte* bytes, Int32 count, DecoderNLS base
     if (c > 0) {
       num2++;
     }
+    if (num >= 0 && (count & 1) == 1) {
+      num2++;
+    }
   }
   while (bytes < ptr) {
+    if ((bigEndian ^ BitConverter::IsLittleEndian) && ((Int64)bytes & 7) == 0 && num == -1 && c == 0) {
+      UInt64* ptr2 = (UInt64*)(ptr - 7);
+      UInt64* ptr3;
+      for (ptr3 = (UInt64*)bytes; ptr3 < ptr2; ptr3++) {
+        if ((-9223231297218904064 & (Int64)(*ptr3)) != 0) {
+          UInt64 num3 = (UInt64)((-576188069258921984 & (Int64)(*ptr3)) ^ -2882066263381583872);
+          if ((((Int64)num3 & -281474976710656) == 0 || (num3 & 281470681743360) == 0 || (num3 & 4294901760u) == 0 || (num3 & 65535) == 0) && (-287953294993589248 & (Int64)(*ptr3)) != (BitConverter::IsLittleEndian ? (-2593835887162763264) : (-2882061865335071744))) {
+            break;
+          }
+        }
+      }
+      bytes = (Byte*)ptr3;
+      if (bytes >= ptr) {
+        break;
+      }
+    }
+    if (num < 0) {
+      num = *(bytes++);
+      if (bytes >= ptr) {
+        break;
+      }
+    }
+    Char c2 = (!bigEndian) ? ((Char)((*(bytes++) << 8) | num)) : ((Char)((num << 8) | *(bytes++)));
+    num = -1;
+    if (c2 >= 55296 && c2 <= 57343) {
+      if (c2 <= 56319) {
+        if (c > 0) {
+          num2--;
+          Array<Byte> array = nullptr;
+          array = ((!bigEndian) ? rt::newarr<Array<Byte>>(2) : rt::newarr<Array<Byte>>(2));
+          if (decoderFallbackBuffer == nullptr) {
+            decoderFallbackBuffer = ((decoder != nullptr) ? decoder->get_FallbackBuffer() : decoderFallback->CreateFallbackBuffer());
+            decoderFallbackBuffer->InternalInitialize(byteStart, nullptr);
+          }
+          num2 += decoderFallbackBuffer->InternalFallback(array, bytes);
+        }
+        c = c2;
+      } else if (c == 0) {
+        num2--;
+        Array<Byte> array2 = nullptr;
+        array2 = ((!bigEndian) ? rt::newarr<Array<Byte>>(2) : rt::newarr<Array<Byte>>(2));
+        if (decoderFallbackBuffer == nullptr) {
+          decoderFallbackBuffer = ((decoder != nullptr) ? decoder->get_FallbackBuffer() : decoderFallback->CreateFallbackBuffer());
+          decoderFallbackBuffer->InternalInitialize(byteStart, nullptr);
+        }
+        num2 += decoderFallbackBuffer->InternalFallback(array2, bytes);
+      } else {
+        c = 0;
+      }
+
+    } else if (c > 0) {
+      num2--;
+      Array<Byte> array3 = nullptr;
+      array3 = ((!bigEndian) ? rt::newarr<Array<Byte>>(2) : rt::newarr<Array<Byte>>(2));
+      if (decoderFallbackBuffer == nullptr) {
+        decoderFallbackBuffer = ((decoder != nullptr) ? decoder->get_FallbackBuffer() : decoderFallback->CreateFallbackBuffer());
+        decoderFallbackBuffer->InternalInitialize(byteStart, nullptr);
+      }
+      num2 += decoderFallbackBuffer->InternalFallback(array3, bytes);
+      c = 0;
+    }
+
   }
   if (decoder == nullptr || decoder->get_MustFlush()) {
     if (c > 0) {
@@ -359,6 +428,109 @@ Int32 UnicodeEncoding___::GetChars(Byte* bytes, Int32 byteCount, Char* chars, In
   Byte* ptr3 = bytes;
   Char* ptr4 = chars;
   while (bytes < ptr) {
+    if ((bigEndian ^ BitConverter::IsLittleEndian) && ((Int64)chars & 7) == 0 && num == -1 && c == 0) {
+      UInt64* ptr5 = (UInt64*)(bytes - 7 + ((ptr - bytes >> 1 < ptr2 - chars) ? (ptr - bytes) : (ptr2 - chars << 1)));
+      UInt64* ptr6 = (UInt64*)bytes;
+      UInt64* ptr7 = (UInt64*)chars;
+      while (ptr6 < ptr5) {
+        if ((-9223231297218904064 & (Int64)(*ptr6)) != 0) {
+          UInt64 num2 = (UInt64)((-576188069258921984 & (Int64)(*ptr6)) ^ -2882066263381583872);
+          if ((((Int64)num2 & -281474976710656) == 0 || (num2 & 281470681743360) == 0 || (num2 & 4294901760u) == 0 || (num2 & 65535) == 0) && (-287953294993589248 & (Int64)(*ptr6)) != (BitConverter::IsLittleEndian ? (-2593835887162763264) : (-2882061865335071744))) {
+            break;
+          }
+        }
+        Unsafe::WriteUnaligned(ptr7, *ptr6);
+        ptr6++;
+        ptr7++;
+      }
+      chars = (Char*)ptr7;
+      bytes = (Byte*)ptr6;
+      if (bytes >= ptr) {
+        break;
+      }
+    }
+    if (num < 0) {
+      num = *(bytes++);
+      continue;
+    }
+    Char c2 = (!bigEndian) ? ((Char)((*(bytes++) << 8) | num)) : ((Char)((num << 8) | *(bytes++)));
+    num = -1;
+    if (c2 >= 55296 && c2 <= 57343) {
+      if (c2 <= 56319) {
+        if (c > 0) {
+          Array<Byte> array = nullptr;
+          array = ((!bigEndian) ? rt::newarr<Array<Byte>>(2) : rt::newarr<Array<Byte>>(2));
+          if (decoderFallbackBuffer == nullptr) {
+            decoderFallbackBuffer = ((decoder != nullptr) ? decoder->get_FallbackBuffer() : decoderFallback->CreateFallbackBuffer());
+            decoderFallbackBuffer->InternalInitialize(ptr3, ptr2);
+          }
+          Char* chars2 = chars;
+          Boolean flag = decoderFallbackBuffer->InternalFallback(array, bytes, chars2);
+          chars = chars2;
+          if (!flag) {
+            bytes -= 2;
+            decoderFallbackBuffer->InternalReset();
+            ThrowCharsOverflow(decoder, chars == ptr4);
+            break;
+          }
+        }
+        c = c2;
+        continue;
+      }
+      if (c == 0) {
+        Array<Byte> array2 = nullptr;
+        array2 = ((!bigEndian) ? rt::newarr<Array<Byte>>(2) : rt::newarr<Array<Byte>>(2));
+        if (decoderFallbackBuffer == nullptr) {
+          decoderFallbackBuffer = ((decoder != nullptr) ? decoder->get_FallbackBuffer() : decoderFallback->CreateFallbackBuffer());
+          decoderFallbackBuffer->InternalInitialize(ptr3, ptr2);
+        }
+        Char* chars2 = chars;
+        Boolean flag2 = decoderFallbackBuffer->InternalFallback(array2, bytes, chars2);
+        chars = chars2;
+        if (!flag2) {
+          bytes -= 2;
+          decoderFallbackBuffer->InternalReset();
+          ThrowCharsOverflow(decoder, chars == ptr4);
+          break;
+        }
+        continue;
+      }
+      if (chars >= ptr2 - 1) {
+        bytes -= 2;
+        ThrowCharsOverflow(decoder, chars == ptr4);
+        break;
+      }
+      Char* num3 = chars;
+      chars = num3 + 1;
+      *num3 = c;
+      c = 0;
+    } else if (c > 0) {
+      Array<Byte> array3 = nullptr;
+      array3 = ((!bigEndian) ? rt::newarr<Array<Byte>>(2) : rt::newarr<Array<Byte>>(2));
+      if (decoderFallbackBuffer == nullptr) {
+        decoderFallbackBuffer = ((decoder != nullptr) ? decoder->get_FallbackBuffer() : decoderFallback->CreateFallbackBuffer());
+        decoderFallbackBuffer->InternalInitialize(ptr3, ptr2);
+      }
+      Char* chars2 = chars;
+      Boolean flag3 = decoderFallbackBuffer->InternalFallback(array3, bytes, chars2);
+      chars = chars2;
+      if (!flag3) {
+        bytes -= 2;
+        decoderFallbackBuffer->InternalReset();
+        ThrowCharsOverflow(decoder, chars == ptr4);
+        break;
+      }
+      c = 0;
+    }
+
+    if (chars >= ptr2) {
+      bytes -= 2;
+      ThrowCharsOverflow(decoder, chars == ptr4);
+      break;
+    }
+    Char* num4 = chars;
+    chars = num4 + 1;
+    *num4 = c2;
   }
   if (decoder == nullptr || decoder->get_MustFlush()) {
     if (c > 0) {
@@ -434,6 +606,7 @@ Int32 UnicodeEncoding___::GetMaxCharCount(Int32 byteCount) {
   if (byteCount < 0) {
     rt::throw_exception<ArgumentOutOfRangeException>("byteCount", SR::get_ArgumentOutOfRange_NeedNonNegNum());
   }
+  Int64 num = (Int64)(byteCount >> 1) + (Int64)(byteCount & 1) + 1;
 }
 
 Boolean UnicodeEncoding___::Equals(Object value) {

@@ -6,6 +6,7 @@
 #include <System.Private.CoreLib/System/ArgumentOutOfRangeException-dep.h>
 #include <System.Private.CoreLib/System/Buffer-dep.h>
 #include <System.Private.CoreLib/System/ExceptionArgument.h>
+#include <System.Private.CoreLib/System/Int16-dep.h>
 #include <System.Private.CoreLib/System/IntPtr-dep.h>
 #include <System.Private.CoreLib/System/Runtime/CompilerServices/RuntimeHelpers-dep.h>
 #include <System.Private.CoreLib/System/SpanHelpers-dep.h>
@@ -112,6 +113,36 @@ void Buffer::Memmove(Byte* dest, Byte* src, UIntPtr len) {
   if ((UIntPtr)((IntPtr)(UIntPtr)(UIntPtr)(void*)dest - (IntPtr)(UIntPtr)(UIntPtr)(void*)src) >= len && (UIntPtr)((IntPtr)(UIntPtr)(UIntPtr)(void*)src - (IntPtr)(UIntPtr)(UIntPtr)(void*)dest) >= len) {
     Byte* ptr = src + len;
     Byte* ptr2 = dest + len;
+    if (len > 16) {
+      if (len > 64) {
+        if (len > 2048) {
+        }
+        UIntPtr num = len >> 6;
+      }
+      *(Block16*)dest = *(Block16*)src;
+      if (len > 32) {
+        *(Block16*)(dest + 16) = *(Block16*)(src + 16);
+        if (len > 48) {
+          *(Block16*)(dest + 32) = *(Block16*)(src + 32);
+        }
+      }
+      *(Block16*)(ptr2 - 16) = *(Block16*)(ptr - 16);
+    } else if ((len & 24) != 0) {
+      *(Int64*)dest = *(Int64*)src;
+      *(Int64*)(ptr2 - 8) = *(Int64*)(ptr - 8);
+    } else if ((len & 4) != 0) {
+      *(Int32*)dest = *(Int32*)src;
+      *(Int32*)(ptr2 - 4) = *(Int32*)(ptr - 4);
+    } else if (len != 0) {
+      *dest = *src;
+      if ((len & 2) != 0) {
+        *(Int16*)(ptr2 - 2) = *(Int16*)(ptr - 2);
+      }
+    }
+
+
+
+    return;
   }
 }
 
@@ -119,6 +150,36 @@ void Buffer::Memmove(Byte& dest, Byte& src, UIntPtr len) {
   if ((UIntPtr)(IntPtr)Unsafe::ByteOffset(src, dest) >= len && (UIntPtr)(IntPtr)Unsafe::ByteOffset(dest, src) >= len) {
     Byte& source = Unsafe::Add(src, (IntPtr)len);
     Byte& source2 = Unsafe::Add(dest, (IntPtr)len);
+    if (len > 16) {
+      if (len > 64) {
+        if (len > 2048) {
+        }
+        UIntPtr num = len >> 6;
+      }
+      Unsafe::As<Byte, Block16>(dest) = Unsafe::As<Byte, Block16>(src);
+      if (len > 32) {
+        Unsafe::As<Byte, Block16>(Unsafe::Add(dest, 16)) = Unsafe::As<Byte, Block16>(Unsafe::Add(src, 16));
+        if (len > 48) {
+          Unsafe::As<Byte, Block16>(Unsafe::Add(dest, 32)) = Unsafe::As<Byte, Block16>(Unsafe::Add(src, 32));
+        }
+      }
+      Unsafe::As<Byte, Block16>(Unsafe::Add(source2, -16)) = Unsafe::As<Byte, Block16>(Unsafe::Add(source, -16));
+    } else if ((len & 24) != 0) {
+      Unsafe::As<Byte, Int64>(dest) = Unsafe::As<Byte, Int64>(src);
+      Unsafe::As<Byte, Int64>(Unsafe::Add(source2, -8)) = Unsafe::As<Byte, Int64>(Unsafe::Add(source, -8));
+    } else if ((len & 4) != 0) {
+      Unsafe::As<Byte, Int32>(dest) = Unsafe::As<Byte, Int32>(src);
+      Unsafe::As<Byte, Int32>(Unsafe::Add(source2, -4)) = Unsafe::As<Byte, Int32>(Unsafe::Add(source, -4));
+    } else if (len != 0) {
+      dest = src;
+      if ((len & 2) != 0) {
+        Unsafe::As<Byte, Int16>(Unsafe::Add(source2, -2)) = Unsafe::As<Byte, Int16>(Unsafe::Add(source, -2));
+      }
+    }
+
+
+
+    return;
   }
   if (Unsafe::AreSame(dest, src)) {
     return;

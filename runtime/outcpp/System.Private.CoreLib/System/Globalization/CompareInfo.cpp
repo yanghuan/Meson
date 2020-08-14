@@ -4,6 +4,7 @@
 #include <System.Private.CoreLib/Interop-dep.h>
 #include <System.Private.CoreLib/System/ArgumentException-dep.h>
 #include <System.Private.CoreLib/System/ArgumentNullException-dep.h>
+#include <System.Private.CoreLib/System/Array-dep.h>
 #include <System.Private.CoreLib/System/Buffers/ArrayPool-dep.h>
 #include <System.Private.CoreLib/System/Buffers/Binary/BinaryPrimitives-dep.h>
 #include <System.Private.CoreLib/System/Byte-dep.h>
@@ -20,9 +21,11 @@
 #include <System.Private.CoreLib/System/Marvin-dep.h>
 #include <System.Private.CoreLib/System/Math-dep.h>
 #include <System.Private.CoreLib/System/MemoryExtensions-dep.h>
+#include <System.Private.CoreLib/System/Runtime/InteropServices/Marshal-dep.h>
 #include <System.Private.CoreLib/System/Runtime/InteropServices/MemoryMarshal-dep.h>
 #include <System.Private.CoreLib/System/Span-dep.h>
 #include <System.Private.CoreLib/System/SR-dep.h>
+#include <System.Private.CoreLib/System/Text/Unicode/Utf16Utility-dep.h>
 #include <System.Private.CoreLib/System/ThrowHelper-dep.h>
 #include <System.Private.CoreLib/System/UInt32-dep.h>
 #include <System.Private.CoreLib/System/UInt64-dep.h>
@@ -33,6 +36,7 @@ using namespace System::Buffers;
 using namespace System::Buffers::Binary;
 using namespace System::Collections::Generic;
 using namespace System::Runtime::InteropServices;
+using namespace System::Text::Unicode;
 
 IntPtr CompareInfo___::SortHandleCache::GetCachedSortHandle(String sortName) {
 }
@@ -212,12 +216,29 @@ Int32 CompareInfo___::Compare(ReadOnlySpan<Char> string1, ReadOnlySpan<Char> str
     CheckCompareOptionsForCompare(options);
     return 0;
   }
+  if ((options & ~(CompareOptions::IgnoreCase | CompareOptions::IgnoreNonSpace | CompareOptions::IgnoreSymbols | CompareOptions::IgnoreKanaType | CompareOptions::IgnoreWidth | CompareOptions::StringSort)) == 0) {
+    if (!GlobalizationMode::get_Invariant()) {
+      return CompareStringCore(string1, string2, options);
+    }
+    if ((options & CompareOptions::IgnoreCase) != 0) {
+    }
+  } else if (options != CompareOptions::Ordinal) {
+    if (options == CompareOptions::OrdinalIgnoreCase) {
+    }
+    ThrowCompareOptionsCheckFailed(options);
+  }
+
+  return MemoryExtensions::SequenceCompareTo(string1, string2);
 }
 
 void CompareInfo___::CheckCompareOptionsForCompare(CompareOptions options) {
+  if ((options & ~(CompareOptions::IgnoreCase | CompareOptions::IgnoreNonSpace | CompareOptions::IgnoreSymbols | CompareOptions::IgnoreKanaType | CompareOptions::IgnoreWidth | CompareOptions::StringSort)) != 0 && options != CompareOptions::Ordinal && options != CompareOptions::OrdinalIgnoreCase) {
+    ThrowCompareOptionsCheckFailed(options);
+  }
 }
 
 void CompareInfo___::ThrowCompareOptionsCheckFailed(CompareOptions options) {
+  rt::throw_exception<ArgumentException>(((options & CompareOptions::Ordinal) != 0) ? SR::get_Argument_CompareOptionOrdinal() : SR::get_Argument_InvalidFlag(), "options");
 }
 
 Int32 CompareInfo___::CompareStringCore(ReadOnlySpan<Char> string1, ReadOnlySpan<Char> string2, CompareOptions options) {
@@ -246,6 +267,21 @@ Int32 CompareInfo___::CompareOrdinalIgnoreCase(Char& strA, Int32 lengthA, Char& 
   Char& reference2 = strB;
   Char c = GlobalizationMode::get_Invariant() ? 65535 : 127;
   while (num != 0 && reference <= c && reference2 <= c) {
+    if (reference == reference2 || ((reference | 32) == (reference2 | 32) && (UInt32)((reference | 32) - 97) <= 25u)) {
+      num--;
+      reference = Unsafe::Add(reference, 1);
+      reference2 = Unsafe::Add(reference2, 1);
+      continue;
+    }
+    Int32 num3 = reference;
+    Int32 num4 = reference2;
+    if ((UInt32)(reference - 97) <= 25u) {
+      num3 -= 32;
+    }
+    if ((UInt32)(reference2 - 97) <= 25u) {
+      num4 -= 32;
+    }
+    return num3 - num4;
   }
   if (num == 0) {
     return lengthA - lengthB;
@@ -260,14 +296,46 @@ Boolean CompareInfo___::EqualsOrdinalIgnoreCase(Char& charA, Char& charB, Int32 
     if ((UInt32)length >= 4u) {
       UInt64 num = Unsafe::ReadUnaligned<UInt64>(Unsafe::As<Char, Byte>(Unsafe::AddByteOffset(charA, zero)));
       UInt64 num2 = Unsafe::ReadUnaligned<UInt64>(Unsafe::As<Char, Byte>(Unsafe::AddByteOffset(charB, zero)));
+      UInt64 num3 = num | num2;
+      if (!Utf16Utility::AllCharsInUInt32AreAscii((UInt32)((Int32)num3 | (Int32)(num3 >> 32)))) {
+        break;
+      }
+      if (!Utf16Utility::UInt64OrdinalIgnoreCaseAscii(num, num2)) {
+        return false;
+      }
+      zero += 8;
+      length -= 4;
+      continue;
     }
     if ((UInt32)length >= 2u) {
       UInt32 num4 = Unsafe::ReadUnaligned<UInt32>(Unsafe::As<Char, Byte>(Unsafe::AddByteOffset(charA, zero)));
       UInt32 num5 = Unsafe::ReadUnaligned<UInt32>(Unsafe::As<Char, Byte>(Unsafe::AddByteOffset(charB, zero)));
+      if (!Utf16Utility::AllCharsInUInt32AreAscii(num4 | num5)) {
+        break;
+      }
+      if (!Utf16Utility::UInt32OrdinalIgnoreCaseAscii(num4, num5)) {
+        return false;
+      }
+      zero += 4;
+      length -= 2;
     }
     if (length != 0) {
       UInt32 num6 = Unsafe::AddByteOffset(charA, zero);
       UInt32 num7 = Unsafe::AddByteOffset(charB, zero);
+      if ((num6 | num7) > 127) {
+        break;
+      }
+      if (num6 == num7) {
+        return true;
+      }
+      num6 |= 32;
+      if (num6 - 97 > 25) {
+        return false;
+      }
+      if (num6 != (num7 | 32)) {
+        return false;
+      }
+      return true;
     }
     return true;
   }
@@ -282,6 +350,12 @@ Boolean CompareInfo___::EqualsOrdinalIgnoreCaseNonAscii(Char& charA, Char& charB
   while (length != 0) {
     UInt32 num = Unsafe::AddByteOffset(charA, zero);
     UInt32 num2 = Unsafe::AddByteOffset(charB, zero);
+    if (num == num2 || ((num | 32) == (num2 | 32) && (num | 32) - 97 <= 25)) {
+      zero += 2;
+      length--;
+      continue;
+    }
+    return false;
   }
   return true;
 }
@@ -307,6 +381,19 @@ Boolean CompareInfo___::IsPrefix(ReadOnlySpan<Char> source, ReadOnlySpan<Char> p
   if (prefix.get_IsEmpty()) {
     return true;
   }
+  if ((options & ~(CompareOptions::IgnoreCase | CompareOptions::IgnoreNonSpace | CompareOptions::IgnoreSymbols | CompareOptions::IgnoreKanaType | CompareOptions::IgnoreWidth)) == 0) {
+    if (!GlobalizationMode::get_Invariant()) {
+      return StartsWithCore(source, prefix, options);
+    }
+    if ((options & CompareOptions::IgnoreCase) != 0) {
+    }
+  } else if (options != CompareOptions::Ordinal) {
+    if (options == CompareOptions::OrdinalIgnoreCase) {
+    }
+    ThrowCompareOptionsCheckFailed(options);
+  }
+
+  return MemoryExtensions::StartsWith(source, prefix);
 }
 
 Boolean CompareInfo___::StartsWithCore(ReadOnlySpan<Char> source, ReadOnlySpan<Char> prefix, CompareOptions options) {
@@ -334,6 +421,19 @@ Boolean CompareInfo___::IsSuffix(ReadOnlySpan<Char> source, ReadOnlySpan<Char> s
   if (suffix.get_IsEmpty()) {
     return true;
   }
+  if ((options & ~(CompareOptions::IgnoreCase | CompareOptions::IgnoreNonSpace | CompareOptions::IgnoreSymbols | CompareOptions::IgnoreKanaType | CompareOptions::IgnoreWidth)) == 0) {
+    if (!GlobalizationMode::get_Invariant()) {
+      return EndsWithCore(source, suffix, options);
+    }
+    if ((options & CompareOptions::IgnoreCase) != 0) {
+    }
+  } else if (options != CompareOptions::Ordinal) {
+    if (options == CompareOptions::OrdinalIgnoreCase) {
+    }
+    ThrowCompareOptionsCheckFailed(options);
+  }
+
+  return MemoryExtensions::EndsWith(source, suffix);
 }
 
 Boolean CompareInfo___::IsSuffix(String source, String suffix) {
@@ -418,6 +518,22 @@ Int32 CompareInfo___::IndexOf(String source, String value, Int32 startIndex, Int
 }
 
 Int32 CompareInfo___::IndexOf(ReadOnlySpan<Char> source, ReadOnlySpan<Char> value, CompareOptions options) {
+  if ((options & ~(CompareOptions::IgnoreCase | CompareOptions::IgnoreNonSpace | CompareOptions::IgnoreSymbols | CompareOptions::IgnoreKanaType | CompareOptions::IgnoreWidth)) == 0) {
+    if (!GlobalizationMode::get_Invariant()) {
+      if (value.get_IsEmpty()) {
+        return 0;
+      }
+      return IndexOfCore(source, value, options, nullptr, true);
+    }
+    if ((options & CompareOptions::IgnoreCase) != 0) {
+    }
+  } else if (options != CompareOptions::Ordinal) {
+    if (options == CompareOptions::OrdinalIgnoreCase) {
+    }
+    ThrowHelper::ThrowArgumentException(ExceptionResource::Argument_InvalidFlag, ExceptionArgument::options);
+  }
+
+  return MemoryExtensions::IndexOf(source, value);
 }
 
 Int32 CompareInfo___::IndexOf(ReadOnlySpan<Char> source, Rune value, CompareOptions options) {
@@ -450,6 +566,25 @@ Int32 CompareInfo___::IndexOfOrdinalIgnoreCase(ReadOnlySpan<Char> source, ReadOn
 
 Int32 CompareInfo___::IndexOf(ReadOnlySpan<Char> source, ReadOnlySpan<Char> value, Int32* matchLengthPtr, CompareOptions options, Boolean fromBeginning) {
   *matchLengthPtr = 0;
+  if ((options & ~(CompareOptions::IgnoreCase | CompareOptions::IgnoreNonSpace | CompareOptions::IgnoreSymbols | CompareOptions::IgnoreKanaType | CompareOptions::IgnoreWidth)) == 0) {
+    if (!GlobalizationMode::get_Invariant()) {
+      if (value.get_IsEmpty()) {
+        if (!fromBeginning) {
+          return source.get_Length();
+        }
+        return 0;
+      }
+      return IndexOfCore(source, value, options, matchLengthPtr, fromBeginning);
+    }
+    if ((options & CompareOptions::IgnoreCase) != 0) {
+    }
+  } else if (options != CompareOptions::Ordinal) {
+    if (options == CompareOptions::OrdinalIgnoreCase) {
+    }
+    ThrowHelper::ThrowArgumentException(ExceptionResource::Argument_InvalidFlag, ExceptionArgument::options);
+  }
+
+  Int32 num = fromBeginning ? MemoryExtensions::IndexOf(source, value) : MemoryExtensions::LastIndexOf(source, value);
 }
 
 Int32 CompareInfo___::IndexOfCore(ReadOnlySpan<Char> source, ReadOnlySpan<Char> target, CompareOptions options, Int32* matchLengthPtr, Boolean fromBeginning) {
@@ -522,6 +657,7 @@ Int32 CompareInfo___::LastIndexOf(String source, Char value, Int32 startIndex, I
       if (count > 0) {
         count--;
       }
+      continue;
     }
     ThrowHelper::ThrowArgumentOutOfRangeException(ExceptionArgument::startIndex, ExceptionResource::ArgumentOutOfRange_Index);
     break;
@@ -546,6 +682,7 @@ Int32 CompareInfo___::LastIndexOf(String source, String value, Int32 startIndex,
       if (count > 0) {
         count--;
       }
+      continue;
     }
     ThrowHelper::ThrowArgumentOutOfRangeException(ExceptionArgument::startIndex, ExceptionResource::ArgumentOutOfRange_Index);
     break;
@@ -554,6 +691,23 @@ Int32 CompareInfo___::LastIndexOf(String source, String value, Int32 startIndex,
 }
 
 Int32 CompareInfo___::LastIndexOf(ReadOnlySpan<Char> source, ReadOnlySpan<Char> value, CompareOptions options) {
+  if ((options & ~(CompareOptions::IgnoreCase | CompareOptions::IgnoreNonSpace | CompareOptions::IgnoreSymbols | CompareOptions::IgnoreKanaType | CompareOptions::IgnoreWidth)) == 0) {
+    if (!GlobalizationMode::get_Invariant()) {
+      if (value.get_IsEmpty()) {
+        return source.get_Length();
+      }
+      return IndexOfCore(source, value, options, nullptr, false);
+    }
+    if ((options & CompareOptions::IgnoreCase) == 0) {
+    }
+  } else {
+    if (options == CompareOptions::Ordinal) {
+    }
+    if (options != CompareOptions::OrdinalIgnoreCase) {
+      rt::throw_exception<ArgumentException>(SR::get_Argument_InvalidFlag(), "options");
+    }
+  }
+  return IndexOfOrdinalIgnoreCase(source, value, false);
 }
 
 Int32 CompareInfo___::LastIndexOf(ReadOnlySpan<Char> source, Rune value, CompareOptions options) {
@@ -583,6 +737,13 @@ SortKey CompareInfo___::CreateSortKeyCore(String source, CompareOptions options)
 }
 
 Int32 CompareInfo___::GetSortKey(ReadOnlySpan<Char> source, Span<Byte> destination, CompareOptions options) {
+  if ((options & ~(CompareOptions::IgnoreCase | CompareOptions::IgnoreNonSpace | CompareOptions::IgnoreSymbols | CompareOptions::IgnoreKanaType | CompareOptions::IgnoreWidth | CompareOptions::StringSort)) != 0) {
+    ThrowHelper::ThrowArgumentException(ExceptionResource::Argument_InvalidFlag, ExceptionArgument::options);
+  }
+  if (GlobalizationMode::get_Invariant()) {
+    return InvariantGetSortKey(source, destination, options);
+  }
+  return GetSortKeyCore(source, destination, options);
 }
 
 Int32 CompareInfo___::GetSortKeyCore(ReadOnlySpan<Char> source, Span<Byte> destination, CompareOptions options) {
@@ -593,6 +754,13 @@ Int32 CompareInfo___::GetSortKeyCore(ReadOnlySpan<Char> source, Span<Byte> desti
 }
 
 Int32 CompareInfo___::GetSortKeyLength(ReadOnlySpan<Char> source, CompareOptions options) {
+  if ((options & ~(CompareOptions::IgnoreCase | CompareOptions::IgnoreNonSpace | CompareOptions::IgnoreSymbols | CompareOptions::IgnoreKanaType | CompareOptions::IgnoreWidth | CompareOptions::StringSort)) != 0) {
+    ThrowHelper::ThrowArgumentException(ExceptionResource::Argument_InvalidFlag, ExceptionArgument::options);
+  }
+  if (GlobalizationMode::get_Invariant()) {
+    return InvariantGetSortKeyLength(source, options);
+  }
+  return GetSortKeyLengthCore(source, options);
 }
 
 Int32 CompareInfo___::GetSortKeyLengthCore(ReadOnlySpan<Char> source, CompareOptions options) {
@@ -622,6 +790,19 @@ Int32 CompareInfo___::GetHashCode(String source, CompareOptions options) {
 }
 
 Int32 CompareInfo___::GetHashCode(ReadOnlySpan<Char> source, CompareOptions options) {
+  if ((options & ~(CompareOptions::IgnoreCase | CompareOptions::IgnoreNonSpace | CompareOptions::IgnoreSymbols | CompareOptions::IgnoreKanaType | CompareOptions::IgnoreWidth | CompareOptions::StringSort)) == 0) {
+    if (!GlobalizationMode::get_Invariant()) {
+      return GetHashCodeOfStringCore(source, options);
+    }
+    if ((options & CompareOptions::IgnoreCase) != 0) {
+    }
+  } else if (options != CompareOptions::Ordinal) {
+    if (options == CompareOptions::OrdinalIgnoreCase) {
+    }
+    ThrowCompareOptionsCheckFailed(options);
+  }
+
+  return String::in::GetHashCode(source);
 }
 
 Int32 CompareInfo___::GetHashCodeOfStringCore(ReadOnlySpan<Char> source, CompareOptions options) {
@@ -705,6 +886,10 @@ Int32 CompareInfo___::IcuCompareString(ReadOnlySpan<Char> string1, ReadOnlySpan<
 
 Int32 CompareInfo___::IcuIndexOfCore(ReadOnlySpan<Char> source, ReadOnlySpan<Char> target, CompareOptions options, Int32* matchLengthPtr, Boolean fromBeginning) {
   if (_isAsciiEqualityOrdinal && CanUseAsciiOrdinalForOptions(options)) {
+    if ((options & CompareOptions::IgnoreCase) != 0) {
+      return IndexOfOrdinalIgnoreCaseHelper(source, target, options, matchLengthPtr, fromBeginning);
+    }
+    return IndexOfOrdinalHelper(source, target, options, matchLengthPtr, fromBeginning);
   }
   {
     Char* pSource = &MemoryMarshal::GetReference(source);
@@ -733,6 +918,7 @@ Int32 CompareInfo___::IndexOfOrdinalIgnoreCaseHelper(ReadOnlySpan<Char> source, 
             break;
           }
           num++;
+          continue;
         }
         if (target.get_Length() > source.get_Length()) {
           Int32 num2 = 0;
@@ -743,6 +929,7 @@ Int32 CompareInfo___::IndexOfOrdinalIgnoreCaseHelper(ReadOnlySpan<Char> source, 
                 break;
               }
               num2++;
+              continue;
             }
             return -1;
           }
@@ -821,6 +1008,7 @@ Int32 CompareInfo___::IndexOfOrdinalHelper(ReadOnlySpan<Char> source, ReadOnlySp
             break;
           }
           num++;
+          continue;
         }
         if (target.get_Length() > source.get_Length()) {
           Int32 num2 = 0;
@@ -831,6 +1019,7 @@ Int32 CompareInfo___::IndexOfOrdinalHelper(ReadOnlySpan<Char> source, ReadOnlySp
                 break;
               }
               num2++;
+              continue;
             }
             return -1;
           }
@@ -864,6 +1053,7 @@ Int32 CompareInfo___::IndexOfOrdinalHelper(ReadOnlySpan<Char> source, ReadOnlySp
                 if (c3 == c4) {
                   num7++;
                   num8++;
+                  continue;
                 }
               }
               if (num8 < source.get_Length() && ptr2[num8] >= 128) {
@@ -890,6 +1080,10 @@ Int32 CompareInfo___::IndexOfOrdinalHelper(ReadOnlySpan<Char> source, ReadOnlySp
 
 Boolean CompareInfo___::IcuStartsWith(ReadOnlySpan<Char> source, ReadOnlySpan<Char> prefix, CompareOptions options) {
   if (_isAsciiEqualityOrdinal && CanUseAsciiOrdinalForOptions(options)) {
+    if ((options & CompareOptions::IgnoreCase) != 0) {
+      return StartsWithOrdinalIgnoreCaseHelper(source, prefix, options);
+    }
+    return StartsWithOrdinalHelper(source, prefix, options);
   }
   {
     Char* source2 = &MemoryMarshal::GetReference(source);
@@ -919,6 +1113,7 @@ Boolean CompareInfo___::StartsWithOrdinalIgnoreCaseHelper(ReadOnlySpan<Char> sou
             ptr2++;
             ptr4++;
             num--;
+            continue;
           }
           if ((UInt32)(num2 - 97) <= 25u) {
             num2 -= 32;
@@ -930,6 +1125,7 @@ Boolean CompareInfo___::StartsWithOrdinalIgnoreCaseHelper(ReadOnlySpan<Char> sou
             ptr2++;
             ptr4++;
             num--;
+            continue;
           }
           if ((ptr2 < ptr + source.get_Length() - 1 && ptr2[1] >= 128) || (ptr4 < ptr3 + prefix.get_Length() - 1 && ptr4[1] >= 128)) {
             break;
@@ -971,6 +1167,7 @@ Boolean CompareInfo___::StartsWithOrdinalHelper(ReadOnlySpan<Char> source, ReadO
             ptr2++;
             ptr4++;
             num--;
+            continue;
           }
           if ((ptr2 < ptr + source.get_Length() - 1 && ptr2[1] >= 128) || (ptr4 < ptr3 + prefix.get_Length() - 1 && ptr4[1] >= 128)) {
             break;
@@ -995,6 +1192,10 @@ Boolean CompareInfo___::StartsWithOrdinalHelper(ReadOnlySpan<Char> source, ReadO
 
 Boolean CompareInfo___::IcuEndsWith(ReadOnlySpan<Char> source, ReadOnlySpan<Char> suffix, CompareOptions options) {
   if (_isAsciiEqualityOrdinal && CanUseAsciiOrdinalForOptions(options)) {
+    if ((options & CompareOptions::IgnoreCase) != 0) {
+      return EndsWithOrdinalIgnoreCaseHelper(source, suffix, options);
+    }
+    return EndsWithOrdinalHelper(source, suffix, options);
   }
   {
     Char* source2 = &MemoryMarshal::GetReference(source);
@@ -1024,6 +1225,7 @@ Boolean CompareInfo___::EndsWithOrdinalIgnoreCaseHelper(ReadOnlySpan<Char> sourc
             ptr2--;
             ptr4--;
             num--;
+            continue;
           }
           if ((UInt32)(num2 - 97) <= 25u) {
             num2 -= 32;
@@ -1035,6 +1237,7 @@ Boolean CompareInfo___::EndsWithOrdinalIgnoreCaseHelper(ReadOnlySpan<Char> sourc
             ptr2--;
             ptr4--;
             num--;
+            continue;
           }
           if ((ptr2 > ptr && *(ptr2 - 1) >= 128) || (ptr4 > ptr3 && *(ptr4 - 1) >= 128)) {
             break;
@@ -1076,6 +1279,7 @@ Boolean CompareInfo___::EndsWithOrdinalHelper(ReadOnlySpan<Char> source, ReadOnl
             ptr2--;
             ptr4--;
             num--;
+            continue;
           }
           if ((ptr2 > ptr && *(ptr2 - 1) >= 128) || (ptr4 > ptr3 && *(ptr4 - 1) >= 128)) {
             break;
@@ -1102,6 +1306,23 @@ SortKey CompareInfo___::IcuCreateSortKey(String source, CompareOptions options) 
   if (source == nullptr) {
     rt::throw_exception<ArgumentNullException>("source");
   }
+  if ((options & ~(CompareOptions::IgnoreCase | CompareOptions::IgnoreNonSpace | CompareOptions::IgnoreSymbols | CompareOptions::IgnoreKanaType | CompareOptions::IgnoreWidth | CompareOptions::StringSort)) != 0) {
+    rt::throw_exception<ArgumentException>(SR::get_Argument_InvalidFlag(), "options");
+  }
+  Array<Byte> array;
+  {
+    Char* ptr = source;
+    Char* str = ptr;
+    Int32 sortKey = Interop::Globalization::GetSortKey(_sortHandle, str, source->get_Length(), nullptr, 0, options);
+    array = rt::newarr<Array<Byte>>(sortKey);
+    {
+      Byte* sortKey2 = array;
+      if (Interop::Globalization::GetSortKey(_sortHandle, str, source->get_Length(), sortKey2, sortKey, options) != sortKey) {
+        rt::throw_exception<ArgumentException>(SR::get_Arg_ExternalException());
+      }
+    }
+  }
+  return rt::newobj<SortKey>((CompareInfo)this, source, options, array);
 }
 
 Int32 CompareInfo___::IcuGetSortKey(ReadOnlySpan<Char> source, Span<Byte> destination, CompareOptions options) {
@@ -1172,10 +1393,12 @@ Int32 CompareInfo___::IcuGetHashCodeOfString(ReadOnlySpan<Char> source, CompareO
 }
 
 Boolean CompareInfo___::CanUseAsciiOrdinalForOptions(CompareOptions options) {
+  return (options & CompareOptions::IgnoreSymbols) == 0;
 }
 
 SortVersion CompareInfo___::IcuGetSortVersion() {
   Int32 sortVersion = Interop::Globalization::GetSortVersion(_sortHandle);
+  return rt::newobj<SortVersion>(sortVersion, get_LCID(), Guid(sortVersion, 0, 0, 0, 0, 0, 0, (Byte)(get_LCID() >> 24), (Byte)((get_LCID() & 16711680) >> 16), (Byte)((get_LCID() & 65280) >> 8), (Byte)(get_LCID() & 255)));
 }
 
 Int32 CompareInfo___::InvariantIndexOf(ReadOnlySpan<Char> source, ReadOnlySpan<Char> value, Boolean ignoreCase, Boolean fromBeginning) {
@@ -1207,6 +1430,7 @@ Int32 CompareInfo___::InvariantFindString(Char* source, Int32 sourceCount, Char*
       for (num = 0; num <= num3; num++) {
         Char c2 = InvariantCaseFold(source[num]);
         if (c2 != c) {
+          continue;
         }
         for (num2 = 1; num2 < valueCount; num2++) {
           c2 = InvariantCaseFold(source[num + num2]);
@@ -1224,6 +1448,7 @@ Int32 CompareInfo___::InvariantFindString(Char* source, Int32 sourceCount, Char*
       for (num = 0; num <= num3; num++) {
         Char c2 = source[num];
         if (c2 != c4) {
+          continue;
         }
         for (num2 = 1; num2 < valueCount; num2++) {
           c2 = source[num + num2];
@@ -1289,6 +1514,21 @@ SortKey CompareInfo___::InvariantCreateSortKey(String source, CompareOptions opt
   if (source == nullptr) {
     rt::throw_exception<ArgumentNullException>("source");
   }
+  if ((options & ~(CompareOptions::IgnoreCase | CompareOptions::IgnoreNonSpace | CompareOptions::IgnoreSymbols | CompareOptions::IgnoreKanaType | CompareOptions::IgnoreWidth | CompareOptions::StringSort)) != 0) {
+    rt::throw_exception<ArgumentException>(SR::get_Argument_InvalidFlag(), "options");
+  }
+  Array<Byte> array;
+  if (source->get_Length() == 0) {
+    array = Array<>::in::Empty<Byte>();
+  } else {
+    array = rt::newarr<Array<Byte>>(source->get_Length() * 2);
+    if ((options & (CompareOptions::IgnoreCase | CompareOptions::OrdinalIgnoreCase)) != 0) {
+      InvariantCreateSortKeyOrdinalIgnoreCase(source, array);
+    } else {
+      InvariantCreateSortKeyOrdinal(source, array);
+    }
+  }
+  return rt::newobj<SortKey>((CompareInfo)this, source, options, array);
 }
 
 void CompareInfo___::InvariantCreateSortKeyOrdinal(ReadOnlySpan<Char> source, Span<Byte> sortKey) {
@@ -1309,6 +1549,12 @@ Int32 CompareInfo___::InvariantGetSortKey(ReadOnlySpan<Char> source, Span<Byte> 
   if ((UInt32)destination.get_Length() < (UInt32)(source.get_Length() * 2)) {
     ThrowHelper::ThrowArgumentException_DestinationTooShort();
   }
+  if ((options & CompareOptions::IgnoreCase) == 0) {
+    InvariantCreateSortKeyOrdinal(source, destination);
+  } else {
+    InvariantCreateSortKeyOrdinalIgnoreCase(source, destination);
+  }
+  return source.get_Length() * 2;
 }
 
 Int32 CompareInfo___::InvariantGetSortKeyLength(ReadOnlySpan<Char> source, CompareOptions options) {
@@ -1363,6 +1609,35 @@ Int32 CompareInfo___::NlsGetHashCodeOfString(ReadOnlySpan<Char> source, CompareO
   if (num == 0) {
     source = String::in::Empty;
     num = -1;
+  }
+  UInt32 dwMapFlags = (UInt32)(1024 | GetNativeCompareFlags(options));
+  {
+    Char* lpSrcStr = &MemoryMarshal::GetReference(source);
+    Int32 num2 = Interop::Kernel32::LCMapStringEx((_sortHandle != IntPtr::Zero) ? nullptr : _sortName, dwMapFlags, lpSrcStr, num, nullptr, 0, nullptr, nullptr, _sortHandle);
+    if (num2 == 0) {
+      rt::throw_exception<ArgumentException>(SR::get_Arg_ExternalException());
+    }
+    Array<Byte> array = nullptr;
+    Span<Byte> span2;
+    if (num2 <= 512) {
+      Byte default[512] = {};
+      Span<Byte> span = Span<Byte>(default, 512);
+      span2 = span;
+    } else {
+      span2 = (array = ArrayPool<Byte>::in::get_Shared()->Rent(num2));
+    }
+    Span<Byte> span3 = span2;
+    {
+      Byte* lpDestStr = &MemoryMarshal::GetReference(span3);
+      if (Interop::Kernel32::LCMapStringEx((_sortHandle != IntPtr::Zero) ? nullptr : _sortName, dwMapFlags, lpSrcStr, num, lpDestStr, num2, nullptr, nullptr, _sortHandle) != num2) {
+        rt::throw_exception<ArgumentException>(SR::get_Arg_ExternalException());
+      }
+    }
+    Int32 result = Marvin::ComputeHash32(span3.Slice(0, num2), Marvin::get_DefaultSeed());
+    if (array != nullptr) {
+      ArrayPool<Byte>::in::get_Shared()->Return(array);
+    }
+    return result;
   }
 }
 
@@ -1427,18 +1702,46 @@ Int32 CompareInfo___::FindString(UInt32 dwFindNLSStringFlags, ReadOnlySpan<Char>
 
 Int32 CompareInfo___::NlsIndexOfCore(ReadOnlySpan<Char> source, ReadOnlySpan<Char> target, CompareOptions options, Int32* matchLengthPtr, Boolean fromBeginning) {
   UInt32 num = fromBeginning ? 4194304u : 8388608u;
+  return FindString(num | (UInt32)GetNativeCompareFlags(options), source, target, matchLengthPtr);
 }
 
 Boolean CompareInfo___::NlsStartsWith(ReadOnlySpan<Char> source, ReadOnlySpan<Char> prefix, CompareOptions options) {
+  return FindString((UInt32)(1048576 | GetNativeCompareFlags(options)), source, prefix, nullptr) >= 0;
 }
 
 Boolean CompareInfo___::NlsEndsWith(ReadOnlySpan<Char> source, ReadOnlySpan<Char> suffix, CompareOptions options) {
+  return FindString((UInt32)(2097152 | GetNativeCompareFlags(options)), source, suffix, nullptr) >= 0;
 }
 
 SortKey CompareInfo___::NlsCreateSortKey(String source, CompareOptions options) {
   if (source == nullptr) {
     rt::throw_exception<ArgumentNullException>("source");
   }
+  if ((options & ~(CompareOptions::IgnoreCase | CompareOptions::IgnoreNonSpace | CompareOptions::IgnoreSymbols | CompareOptions::IgnoreKanaType | CompareOptions::IgnoreWidth | CompareOptions::StringSort)) != 0) {
+    rt::throw_exception<ArgumentException>(SR::get_Argument_InvalidFlag(), "options");
+  }
+  UInt32 dwMapFlags = (UInt32)(1024 | GetNativeCompareFlags(options));
+  Int32 num = source->get_Length();
+  if (num == 0) {
+    num = -1;
+  }
+  Array<Byte> array;
+  {
+    Char* ptr = source;
+    Char* lpSrcStr = ptr;
+    Int32 num2 = Interop::Kernel32::LCMapStringEx((_sortHandle != IntPtr::Zero) ? nullptr : _sortName, dwMapFlags, lpSrcStr, num, nullptr, 0, nullptr, nullptr, _sortHandle);
+    if (num2 == 0) {
+      rt::throw_exception<ArgumentException>(SR::get_Arg_ExternalException());
+    }
+    array = rt::newarr<Array<Byte>>(num2);
+    {
+      Byte* lpDestStr = array;
+      if (Interop::Kernel32::LCMapStringEx((_sortHandle != IntPtr::Zero) ? nullptr : _sortName, dwMapFlags, lpSrcStr, num, lpDestStr, array->get_Length(), nullptr, nullptr, _sortHandle) != num2) {
+        rt::throw_exception<ArgumentException>(SR::get_Arg_ExternalException());
+      }
+    }
+  }
+  return rt::newobj<SortKey>((CompareInfo)this, source, options, array);
 }
 
 Int32 CompareInfo___::NlsGetSortKey(ReadOnlySpan<Char> source, Span<Byte> destination, CompareOptions options) {
@@ -1448,9 +1751,54 @@ Int32 CompareInfo___::NlsGetSortKey(ReadOnlySpan<Char> source, Span<Byte> destin
   if (!Environment::get_IsWindows8OrAbove()) {
     source = source.ToString();
   }
+  UInt32 dwMapFlags = (UInt32)(1024 | GetNativeCompareFlags(options));
+  Int32 num = source.get_Length();
+  if (num == 0) {
+    source = String::in::Empty;
+    num = -1;
+  }
+  Int32 num3;
+  {
+    Char* lpSrcStr = &MemoryMarshal::GetReference(source);
+    {
+      Byte* lpDestStr = &MemoryMarshal::GetReference(destination);
+      if (!Environment::get_IsWindows8OrAbove()) {
+        Int32 num2 = Interop::Kernel32::LCMapStringEx((_sortHandle != IntPtr::Zero) ? nullptr : _sortName, dwMapFlags, lpSrcStr, num, nullptr, 0, nullptr, nullptr, _sortHandle);
+        if (num2 > destination.get_Length()) {
+          ThrowHelper::ThrowArgumentException_DestinationTooShort();
+        }
+        if (num2 <= 0) {
+          rt::throw_exception<ArgumentException>(SR::get_Arg_ExternalException());
+        }
+      }
+      num3 = Interop::Kernel32::LCMapStringEx((_sortHandle != IntPtr::Zero) ? nullptr : _sortName, dwMapFlags, lpSrcStr, num, lpDestStr, destination.get_Length(), nullptr, nullptr, _sortHandle);
+    }
+  }
+  if (num3 <= 0) {
+    if (Marshal::GetLastWin32Error() != 122) {
+      rt::throw_exception<ArgumentException>(SR::get_Arg_ExternalException());
+    }
+    ThrowHelper::ThrowArgumentException_DestinationTooShort();
+  }
+  return num3;
 }
 
 Int32 CompareInfo___::NlsGetSortKeyLength(ReadOnlySpan<Char> source, CompareOptions options) {
+  UInt32 dwMapFlags = (UInt32)(1024 | GetNativeCompareFlags(options));
+  Int32 num = source.get_Length();
+  if (num == 0) {
+    source = String::in::Empty;
+    num = -1;
+  }
+  Int32 num2;
+  {
+    Char* lpSrcStr = &MemoryMarshal::GetReference(source);
+    num2 = Interop::Kernel32::LCMapStringEx((_sortHandle != IntPtr::Zero) ? nullptr : _sortName, dwMapFlags, lpSrcStr, num, nullptr, 0, nullptr, nullptr, _sortHandle);
+  }
+  if (num2 <= 0) {
+    rt::throw_exception<ArgumentException>(SR::get_Arg_ExternalException());
+  }
+  return num2;
 }
 
 Boolean CompareInfo___::NlsIsSortable(ReadOnlySpan<Char> text) {
@@ -1462,6 +1810,28 @@ Boolean CompareInfo___::NlsIsSortable(ReadOnlySpan<Char> text) {
 
 Int32 CompareInfo___::GetNativeCompareFlags(CompareOptions options) {
   Int32 num = 134217728;
+  if ((options & CompareOptions::IgnoreCase) != 0) {
+    num |= 1;
+  }
+  if ((options & CompareOptions::IgnoreKanaType) != 0) {
+    num |= 65536;
+  }
+  if ((options & CompareOptions::IgnoreNonSpace) != 0) {
+    num |= 2;
+  }
+  if ((options & CompareOptions::IgnoreSymbols) != 0) {
+    num |= 4;
+  }
+  if ((options & CompareOptions::IgnoreWidth) != 0) {
+    num |= 131072;
+  }
+  if ((options & CompareOptions::StringSort) != 0) {
+    num |= 4096;
+  }
+  if (options == CompareOptions::Ordinal) {
+    num = 1073741824;
+  }
+  return num;
 }
 
 SortVersion CompareInfo___::NlsGetSortVersion() {

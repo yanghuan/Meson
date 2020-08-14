@@ -60,6 +60,13 @@ String AssemblyNameFormatter::ComputeDisplayName(String name, Version version, S
     } else {
     }
   }
+  if ((flags & AssemblyNameFlags::Retargetable) != 0) {
+    stringBuilder->Append(", Retargetable=Yes");
+  }
+  if (contentType == AssemblyContentType::WindowsRuntime) {
+    stringBuilder->Append(", ContentType=WindowsRuntime");
+  }
+  return stringBuilder->ToString();
 }
 
 void AssemblyNameFormatter::AppendQuoted(StringBuilder sb, String s) {

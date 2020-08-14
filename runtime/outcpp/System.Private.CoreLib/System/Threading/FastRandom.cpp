@@ -11,6 +11,12 @@ FastRandom::FastRandom(Int32 seed) {
 }
 
 Int32 FastRandom::Next(Int32 maxValue) {
+  UInt32 num = _x ^ (_x << 11);
+  _x = _y;
+  _y = _z;
+  _z = _w;
+  _w = (_w ^ (_w >> 19) ^ (num ^ (num >> 8)));
+  return (Int32)(_w % (UInt32)maxValue);
 }
 
 } // namespace System::Private::CoreLib::System::Threading::FastRandomNamespace

@@ -240,6 +240,7 @@ Array<ParameterInfo> RuntimePropertyInfo___::GetIndexParametersNoCopy() {
 }
 
 Object RuntimePropertyInfo___::GetValue(Object obj, Array<Object> index) {
+  return GetValue(obj, BindingFlags::Instance | BindingFlags::Static | BindingFlags::Public | BindingFlags::NonPublic, nullptr, index, nullptr);
 }
 
 Object RuntimePropertyInfo___::GetValue(Object obj, BindingFlags invokeAttr, Binder binder, Array<Object> index, CultureInfo culture) {
@@ -251,6 +252,7 @@ Object RuntimePropertyInfo___::GetValue(Object obj, BindingFlags invokeAttr, Bin
 }
 
 void RuntimePropertyInfo___::SetValue(Object obj, Object value, Array<Object> index) {
+  SetValue(obj, value, BindingFlags::Instance | BindingFlags::Static | BindingFlags::Public | BindingFlags::NonPublic, nullptr, index, nullptr);
 }
 
 void RuntimePropertyInfo___::SetValue(Object obj, Object value, BindingFlags invokeAttr, Binder binder, Array<Object> index, CultureInfo culture) {

@@ -8,6 +8,7 @@
 #include <System.Private.CoreLib/System/ArgumentNullException-dep.h>
 #include <System.Private.CoreLib/System/CannotUnloadAppDomainException-dep.h>
 #include <System.Private.CoreLib/System/Environment-dep.h>
+#include <System.Private.CoreLib/System/Func-dep.h>
 #include <System.Private.CoreLib/System/GC-dep.h>
 #include <System.Private.CoreLib/System/GCMemoryInfo-dep.h>
 #include <System.Private.CoreLib/System/IO/Path-dep.h>
@@ -21,6 +22,7 @@
 #include <System.Private.CoreLib/System/Security/Permissions/PermissionState.h>
 #include <System.Private.CoreLib/System/Security/Principal/PrincipalPolicy.h>
 #include <System.Private.CoreLib/System/SR-dep.h>
+#include <System.Private.CoreLib/System/Threading/Volatile-dep.h>
 #include <System.Private.CoreLib/System/Type-dep.h>
 
 namespace System::Private::CoreLib::System::AppDomainNamespace {
@@ -29,6 +31,7 @@ using namespace System::Reflection;
 using namespace System::Runtime::Loader;
 using namespace System::Security::Permissions;
 using namespace System::Security::Principal;
+using namespace System::Threading;
 
 AppDomain AppDomain___::get_CurrentDomain() {
   return s_domain;
@@ -315,12 +318,19 @@ IPrincipal AppDomain___::GetThreadPrincipal() {
       case PrincipalPolicy::UnauthenticatedPrincipal:
         if (s_getUnauthenticatedPrincipal == nullptr) {
           Type type2 = Type::in::GetType("System.Security.Principal.GenericPrincipal, System.Security.Claims", true);
+          MethodInfo method2 = type2->GetMethod("GetDefaultInstance", BindingFlags::Static | BindingFlags::NonPublic);
+          Volatile::Write(s_getUnauthenticatedPrincipal, method2->CreateDelegate<Func<IPrincipal>>());
         }
         principal = s_getUnauthenticatedPrincipal();
         break;
       case PrincipalPolicy::WindowsPrincipal:
         if (s_getWindowsPrincipal == nullptr) {
           Type type = Type::in::GetType("System.Security.Principal.WindowsPrincipal, System.Security.Principal.Windows", true);
+          MethodInfo method = type->GetMethod("GetDefaultInstance", BindingFlags::Static | BindingFlags::NonPublic);
+          if (method == nullptr) {
+            rt::throw_exception<PlatformNotSupportedException>(SR::get_PlatformNotSupported_Principal());
+          }
+          Volatile::Write(s_getWindowsPrincipal, method->CreateDelegate<Func<IPrincipal>>());
         }
         principal = s_getWindowsPrincipal();
         break;

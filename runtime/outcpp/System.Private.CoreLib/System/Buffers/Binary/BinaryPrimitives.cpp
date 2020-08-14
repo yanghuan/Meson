@@ -1,12 +1,14 @@
 #include "BinaryPrimitives-dep.h"
 
 #include <System.Private.CoreLib/System/BitConverter-dep.h>
+#include <System.Private.CoreLib/System/Numerics/BitOperations-dep.h>
 #include <System.Private.CoreLib/System/Runtime/InteropServices/MemoryMarshal-dep.h>
 #include <System.Private.CoreLib/System/UInt16-dep.h>
 #include <System.Private.CoreLib/System/UInt32-dep.h>
 #include <System.Private.CoreLib/System/UInt64-dep.h>
 
 namespace System::Private::CoreLib::System::Buffers::Binary::BinaryPrimitivesNamespace {
+using namespace System::Numerics;
 using namespace System::Runtime::InteropServices;
 
 SByte BinaryPrimitives::ReverseEndianness(SByte value) {
@@ -34,6 +36,7 @@ UInt16 BinaryPrimitives::ReverseEndianness(UInt16 value) {
 }
 
 UInt32 BinaryPrimitives::ReverseEndianness(UInt32 value) {
+  return BitOperations::RotateRight(value & 16711935, 8) + BitOperations::RotateLeft(value & 4278255360u, 8);
 }
 
 UInt64 BinaryPrimitives::ReverseEndianness(UInt64 value) {

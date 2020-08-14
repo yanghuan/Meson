@@ -53,6 +53,10 @@ String ActivityTracker___::ActivityInfo___::LiveActivities(ActivityInfo list) {
 }
 
 Boolean ActivityTracker___::ActivityInfo___::CanBeOrphan() {
+  if ((m_eventOptions & EventActivityOptions::Detachable) != 0) {
+    return true;
+  }
+  return false;
 }
 
 void ActivityTracker___::ActivityInfo___::CreateActivityPathGuid(Guid& idRet, Int32& activityPathGuidOffset) {
@@ -131,11 +135,14 @@ Int32 ActivityTracker___::ActivityInfo___::AddIdToGuid(Guid* outPtr, Int32 where
       num--;
     }
   }
+  *(UInt32*)((Byte*)outPtr + (?)3 * (?)4) = ((*(UInt32*)outPtr + *(UInt32*)((Byte*)outPtr + 4) + *(UInt32*)((Byte*)outPtr + (?)2 * (?)4) + 1503500717) ^ EventSource::in::s_currentPid);
+  return (Int32)(ptr - (Byte*)outPtr);
 }
 
 void ActivityTracker___::ActivityInfo___::WriteNibble(Byte*& ptr, Byte* endPtr, UInt32 value) {
   if (*ptr != 0) {
     Byte* intPtr = ptr++;
+    *intPtr = (Byte)(*intPtr | (Byte)value);
   } else {
     *ptr = (Byte)(value << 4);
   }

@@ -368,6 +368,9 @@ Int32 UTF7Encoding___::GetBytes(Char* chars, Int32 charCount, Byte* bytes, Int32
     num2 = encoder->bitCount;
     while (num2 >= 6) {
       num2 -= 6;
+      if (!encodingByteBuffer->AddByte(_base64Bytes[(num >> num2) & 63])) {
+        ThrowBytesOverflow(encoder, encodingByteBuffer->get_Count() == 0);
+      }
     }
   }
   while (encodingByteBuffer->get_MoreData()) {
@@ -375,6 +378,10 @@ Int32 UTF7Encoding___::GetBytes(Char* chars, Int32 charCount, Byte* bytes, Int32
     if (nextChar < 128 && _directEncode[nextChar]) {
       if (num2 >= 0) {
         if (num2 > 0) {
+          if (!encodingByteBuffer->AddByte(_base64Bytes[(num << 6 - num2) & 63])) {
+            break;
+          }
+          num2 = 0;
         }
         if (!encodingByteBuffer->AddByte(45)) {
           break;
@@ -384,11 +391,13 @@ Int32 UTF7Encoding___::GetBytes(Char* chars, Int32 charCount, Byte* bytes, Int32
       if (!encodingByteBuffer->AddByte((Byte)nextChar)) {
         break;
       }
+      continue;
     }
     if (num2 < 0 && nextChar == 43) {
       if (!encodingByteBuffer->AddByte((?)43, (?)45)) {
         break;
       }
+      continue;
     }
     if (num2 < 0) {
       if (!encodingByteBuffer->AddByte(43)) {
@@ -396,8 +405,30 @@ Int32 UTF7Encoding___::GetBytes(Char* chars, Int32 charCount, Byte* bytes, Int32
       }
       num2 = 0;
     }
+    num = ((num << 16) | nextChar);
+    num2 += 16;
+    while (num2 >= 6) {
+      num2 -= 6;
+      if (!encodingByteBuffer->AddByte(_base64Bytes[(num >> num2) & 63])) {
+        num2 += 6;
+        encodingByteBuffer->GetNextChar();
+        break;
+      }
+    }
+    if (num2 >= 6) {
+      break;
+    }
   }
   if (num2 >= 0 && (encoder == nullptr || encoder->get_MustFlush())) {
+    if (num2 > 0 && encodingByteBuffer->AddByte(_base64Bytes[(num << 6 - num2) & 63])) {
+      num2 = 0;
+    }
+    if (encodingByteBuffer->AddByte(45)) {
+      num = 0;
+      num2 = -1;
+    } else {
+      encodingByteBuffer->GetNextChar();
+    }
   }
   if (bytes != nullptr && encoder != nullptr) {
     encoder->bits = num;
@@ -423,6 +454,10 @@ Int32 UTF7Encoding___::GetChars(Byte* bytes, Int32 byteCount, Char* chars, Int32
     flag = decoder->firstByte;
   }
   if (num2 >= 16) {
+    if (!encodingCharBuffer->AddChar((Char)((num >> num2 - 16) & 65535))) {
+      ThrowCharsOverflow(decoder, true);
+    }
+    num2 -= 16;
   }
   while (encodingCharBuffer->get_MoreData()) {
     Byte nextByte = encodingCharBuffer->GetNextByte();
@@ -431,14 +466,23 @@ Int32 UTF7Encoding___::GetChars(Byte* bytes, Int32 byteCount, Char* chars, Int32
       SByte b;
       if (nextByte < 128 && (b = _base64Values[nextByte]) >= 0) {
         flag = false;
+        num = ((num << 6) | (Byte)b);
+        num2 += 6;
+        if (num2 < 16) {
+          continue;
+        }
+        num3 = ((num >> num2 - 16) & 65535);
+        num2 -= 16;
       } else {
         num2 = -1;
         if (nextByte != 45) {
           if (!encodingCharBuffer->Fallback(nextByte)) {
             break;
           }
+          continue;
         }
         if (!flag) {
+          continue;
         }
         num3 = 43;
       }
@@ -446,11 +490,13 @@ Int32 UTF7Encoding___::GetChars(Byte* bytes, Int32 byteCount, Char* chars, Int32
       if (nextByte == 43) {
         num2 = 0;
         flag = true;
+        continue;
       }
       if (nextByte >= 128) {
         if (!encodingCharBuffer->Fallback(nextByte)) {
           break;
         }
+        continue;
       }
       num3 = nextByte;
     }

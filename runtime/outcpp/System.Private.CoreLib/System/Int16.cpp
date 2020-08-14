@@ -104,6 +104,10 @@ Int16 Int16::Parse(ReadOnlySpan<Char> s, NumberStyles style, NumberFormatInfo in
   if (parsingStatus != 0) {
     Number::ThrowOverflowOrFormatException(parsingStatus, TypeCode::Int16);
   }
+  if ((UInt32)(result - -32768 - ((Int32)(style & NumberStyles::AllowHexSpecifier) << 6)) > 65535u) {
+    Number::ThrowOverflowException(TypeCode::Int16);
+  }
+  return (Int16)result;
 }
 
 Boolean Int16::TryParse(String s, Int16& result) {

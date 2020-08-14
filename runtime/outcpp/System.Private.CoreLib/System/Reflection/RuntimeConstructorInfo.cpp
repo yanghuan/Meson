@@ -7,15 +7,23 @@
 #include <System.Private.CoreLib/System/Reflection/MethodBase-dep.h>
 #include <System.Private.CoreLib/System/Reflection/RuntimeConstructorInfo-dep.h>
 #include <System.Private.CoreLib/System/Reflection/RuntimeMethodBody-dep.h>
+#include <System.Private.CoreLib/System/Reflection/TargetException-dep.h>
+#include <System.Private.CoreLib/System/Reflection/TargetParameterCountException-dep.h>
 #include <System.Private.CoreLib/System/RuntimeMethodHandle-dep.h>
 #include <System.Private.CoreLib/System/RuntimeTypeHandle-dep.h>
 #include <System.Private.CoreLib/System/SR-dep.h>
 #include <System.Private.CoreLib/System/Text/ValueStringBuilder-dep.h>
+#include <System.Private.CoreLib/System/Type-dep.h>
 
 namespace System::Private::CoreLib::System::Reflection::RuntimeConstructorInfoNamespace {
 using namespace System::Text;
 
 INVOCATION_FLAGS RuntimeConstructorInfo___::get_InvocationFlags() {
+  if ((m_invocationFlags & INVOCATION_FLAGS::INVOCATION_FLAGS_INITIALIZED) == 0) {
+    INVOCATION_FLAGS iNVOCATION_FLAGS = INVOCATION_FLAGS::INVOCATION_FLAGS_IS_CTOR;
+    Type declaringType = get_DeclaringType();
+  }
+  return m_invocationFlags;
 }
 
 RuntimeMethodHandleInternal RuntimeConstructorInfo___::get_ValueOfIRuntimeMethodInfo() {
@@ -201,10 +209,35 @@ void RuntimeConstructorInfo___::CheckCanCreateInstance(Type declaringType, Boole
 }
 
 void RuntimeConstructorInfo___::ThrowNoInvokeException() {
+  CheckCanCreateInstance(get_DeclaringType(), (get_CallingConvention() & CallingConventions::VarArgs) == CallingConventions::VarArgs);
+  if ((get_Attributes() & MethodAttributes::Static) == MethodAttributes::Static) {
+    rt::throw_exception<MemberAccessException>(SR::get_Acc_NotClassInit());
+  }
+  rt::throw_exception<TargetException>();
 }
 
 Object RuntimeConstructorInfo___::Invoke(Object obj, BindingFlags invokeAttr, Binder binder, Array<Object> parameters, CultureInfo culture) {
   INVOCATION_FLAGS invocationFlags = get_InvocationFlags();
+  if ((invocationFlags & INVOCATION_FLAGS::INVOCATION_FLAGS_NO_INVOKE) != 0) {
+    ThrowNoInvokeException();
+  }
+  CheckConsistency(obj);
+  Signature signature = get_Signature();
+  Int32 num = signature->get_Arguments()->get_Length();
+  Int32 num2 = (parameters != nullptr) ? parameters->get_Length() : 0;
+  if (num != num2) {
+    rt::throw_exception<TargetParameterCountException>(SR::get_Arg_ParmCnt());
+  }
+  Boolean wrapExceptions = (invokeAttr & BindingFlags::DoNotWrapExceptions) == 0;
+  if (num2 > 0) {
+    Array<Object> array = CheckArguments(parameters, binder, invokeAttr, culture, signature);
+    Object result = RuntimeMethodHandle::InvokeMethod(obj, array, signature, false, wrapExceptions);
+    for (Int32 i = 0; i < array->get_Length(); i++) {
+      parameters[i] = array[i];
+    }
+    return result;
+  }
+  return RuntimeMethodHandle::InvokeMethod(obj, nullptr, signature, false, wrapExceptions);
 }
 
 MethodBody RuntimeConstructorInfo___::GetMethodBody() {
@@ -217,6 +250,25 @@ MethodBody RuntimeConstructorInfo___::GetMethodBody() {
 
 Object RuntimeConstructorInfo___::Invoke(BindingFlags invokeAttr, Binder binder, Array<Object> parameters, CultureInfo culture) {
   INVOCATION_FLAGS invocationFlags = get_InvocationFlags();
+  if ((invocationFlags & (INVOCATION_FLAGS::INVOCATION_FLAGS_NO_INVOKE | INVOCATION_FLAGS::INVOCATION_FLAGS_NO_CTOR_INVOKE | INVOCATION_FLAGS::INVOCATION_FLAGS_CONTAINS_STACK_POINTERS)) != 0) {
+    ThrowNoInvokeException();
+  }
+  Signature signature = get_Signature();
+  Int32 num = signature->get_Arguments()->get_Length();
+  Int32 num2 = (parameters != nullptr) ? parameters->get_Length() : 0;
+  if (num != num2) {
+    rt::throw_exception<TargetParameterCountException>(SR::get_Arg_ParmCnt());
+  }
+  Boolean wrapExceptions = (invokeAttr & BindingFlags::DoNotWrapExceptions) == 0;
+  if (num2 > 0) {
+    Array<Object> array = CheckArguments(parameters, binder, invokeAttr, culture, signature);
+    Object result = RuntimeMethodHandle::InvokeMethod(nullptr, array, signature, true, wrapExceptions);
+    for (Int32 i = 0; i < array->get_Length(); i++) {
+      parameters[i] = array[i];
+    }
+    return result;
+  }
+  return RuntimeMethodHandle::InvokeMethod(nullptr, nullptr, signature, true, wrapExceptions);
 }
 
 } // namespace System::Private::CoreLib::System::Reflection::RuntimeConstructorInfoNamespace

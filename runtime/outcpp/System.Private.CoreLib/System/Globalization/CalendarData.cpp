@@ -219,6 +219,7 @@ Boolean CalendarData___::IcuLoadCalendarDataFromSystem(String localeName, Calend
   flag &= EnumMonthNames(localeName, calendarId, CalendarDataType::MonthGenitiveNames, saMonthGenitiveNames, leapHebrewMonthName);
   flag &= EnumMonthNames(localeName, calendarId, CalendarDataType::AbbrevMonthGenitiveNames, saAbbrevMonthGenitiveNames, leapHebrewMonthName);
   flag &= EnumEraNames(localeName, calendarId, CalendarDataType::EraNames, saEraNames);
+  return flag & EnumEraNames(localeName, calendarId, CalendarDataType::AbbrevEraNames, saAbbrevEraNames);
 }
 
 Int32 CalendarData___::IcuGetTwoDigitYearMax(CalendarId calendarId) {
@@ -442,6 +443,28 @@ Boolean CalendarData___::NlsLoadCalendarDataFromSystem(String localeName, Calend
       break;
   }
   CheckSpecialCalendar(calendarId, localeName);
+  flag &= CallGetCalendarInfoEx(localeName, calendarId, 48 | num, iTwoDigitYearMax);
+  flag &= CallGetCalendarInfoEx(localeName, calendarId, 2u, sNativeName);
+  flag &= CallGetCalendarInfoEx(localeName, calendarId, 56 | num, sMonthDay);
+  flag &= CallEnumCalendarInfo(localeName, calendarId, 5u, 31 | num, saShortDates);
+  flag &= CallEnumCalendarInfo(localeName, calendarId, 6u, 32 | num, saLongDates);
+  flag &= CallEnumCalendarInfo(localeName, calendarId, 47u, 4102u, saYearMonths);
+  flag &= GetCalendarDayInfo(localeName, calendarId, 13u, saDayNames);
+  flag &= GetCalendarDayInfo(localeName, calendarId, 20u, saAbbrevDayNames);
+  flag &= GetCalendarMonthInfo(localeName, calendarId, 21u, saMonthNames);
+  flag &= GetCalendarMonthInfo(localeName, calendarId, 34u, saAbbrevMonthNames);
+  GetCalendarDayInfo(localeName, calendarId, 55u, saSuperShortDayNames);
+  if (calendarId == CalendarId::GREGORIAN) {
+    GetCalendarMonthInfo(localeName, calendarId, 268435477u, saMonthGenitiveNames);
+    GetCalendarMonthInfo(localeName, calendarId, 268435490u, saAbbrevMonthGenitiveNames);
+  }
+  CallEnumCalendarInfo(localeName, calendarId, 4u, 0u, saEraNames);
+  CallEnumCalendarInfo(localeName, calendarId, 57u, 0u, saAbbrevEraNames);
+  saShortDates = CultureData::in::ReescapeWin32Strings(saShortDates);
+  saLongDates = CultureData::in::ReescapeWin32Strings(saLongDates);
+  saYearMonths = CultureData::in::ReescapeWin32Strings(saYearMonths);
+  sMonthDay = CultureData::in::ReescapeWin32String(sMonthDay);
+  return flag;
 }
 
 Int32 CalendarData___::NlsGetTwoDigitYearMax(CalendarId calendarId) {
@@ -486,6 +509,7 @@ void CalendarData___::CheckSpecialCalendar(CalendarId& calendar, String& localeN
 }
 
 Boolean CalendarData___::CallGetCalendarInfoEx(String localeName, CalendarId calendar, UInt32 calType, Int32& data) {
+  return Interop::Kernel32::GetCalendarInfoEx(localeName, (UInt32)calendar, IntPtr::Zero, calType | 536870912, IntPtr::Zero, 0, data) != 0;
 }
 
 Boolean CalendarData___::CallGetCalendarInfoEx(String localeName, CalendarId calendar, UInt32 calType, String& data) {
@@ -519,6 +543,27 @@ Boolean CalendarData___::CallEnumCalendarInfo(String localeName, CalendarId cale
   EnumData value = EnumData();
   value.userOverride = nullptr;
   value.strings = rt::newobj<List<String>>();
+  if (lcType != 0 && ((Int32)lcType & Int32::MinValue) == 0 && GetUserDefaultLocaleName() == localeName) {
+    CalendarId calendarId = (CalendarId)CultureData::in::GetLocaleInfoExInt(localeName, 4105u);
+    if (calendarId == calendar) {
+      String localeInfoEx = CultureData::in::GetLocaleInfoEx(localeName, lcType);
+      if (localeInfoEx != nullptr) {
+        value.userOverride = localeInfoEx;
+        value.strings->Add(localeInfoEx);
+      }
+    }
+  }
+  Interop::Kernel32::EnumCalendarInfoExEx(EnumCalendarInfoCallback, localeName, (UInt32)calendar, nullptr, calType, Unsafe::AsPointer(value));
+  if (value.strings->get_Count() == 0) {
+    data = nullptr;
+    return false;
+  }
+  Array<String> array = value.strings->ToArray();
+  if (calType == 57 || calType == 4) {
+    Array<>::in::Reverse(array, 0, array->get_Length());
+  }
+  data = array;
+  return true;
 }
 
 Boolean CalendarData___::GetCalendarDayInfo(String localeName, CalendarId calendar, UInt32 calType, Array<String>& outputStrings) {

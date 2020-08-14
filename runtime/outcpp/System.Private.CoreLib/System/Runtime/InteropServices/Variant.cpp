@@ -1,6 +1,10 @@
 #include "Variant-dep.h"
 
+#include <System.Private.CoreLib/Interop-dep.h>
+#include <System.Private.CoreLib/System/ArgumentException-dep.h>
 #include <System.Private.CoreLib/System/DBNull-dep.h>
+#include <System.Private.CoreLib/System/Runtime/InteropServices/ErrorWrapper-dep.h>
+#include <System.Private.CoreLib/System/Runtime/InteropServices/IDispatch.h>
 #include <System.Private.CoreLib/System/Runtime/InteropServices/Marshal-dep.h>
 #include <System.Private.CoreLib/System/Runtime/InteropServices/Variant-dep.h>
 
@@ -18,6 +22,7 @@ Boolean Variant::get_IsEmpty() {
 }
 
 Boolean Variant::get_IsByRef() {
+  return (_typeUnion._vt & 16384) != 0;
 }
 
 SByte Variant::get_AsI1() {
@@ -113,6 +118,82 @@ IntPtr Variant::get_AsByRefVariant() {
 }
 
 void Variant::CopyFromIndirect(Object value) {
+  VarEnum varEnum = get_VariantType() & (VarEnum)(-16385);
+  if (value == nullptr) {
+    if (varEnum == VarEnum::VT_DISPATCH || varEnum == VarEnum::VT_UNKNOWN || varEnum == VarEnum::VT_BSTR) {
+      *(IntPtr*)(void*)_typeUnion._unionTypes._byref = IntPtr::Zero;
+    }
+    return;
+  }
+  if ((varEnum & VarEnum::VT_ARRAY) != 0) {
+    Variant variant;
+    Marshal::GetNativeVariantForObject(value, (IntPtr)(void*)(&variant));
+    *(IntPtr*)(void*)_typeUnion._unionTypes._byref = variant._typeUnion._unionTypes._byref;
+    return;
+  }
+  switch (varEnum) {
+    case VarEnum::VT_I1:
+      *(SByte*)(void*)_typeUnion._unionTypes._byref = (SByte)value;
+      break;
+    case VarEnum::VT_UI1:
+      *(Byte*)(void*)_typeUnion._unionTypes._byref = (Byte)value;
+      break;
+    case VarEnum::VT_I2:
+      *(Int16*)(void*)_typeUnion._unionTypes._byref = (Int16)value;
+      break;
+    case VarEnum::VT_UI2:
+      *(UInt16*)(void*)_typeUnion._unionTypes._byref = (UInt16)value;
+      break;
+    case VarEnum::VT_BOOL:
+      *(Int16*)(void*)_typeUnion._unionTypes._byref = (Int16)(((Boolean)value) ? (-1) : 0);
+      break;
+    case VarEnum::VT_I4:
+    case VarEnum::VT_INT:
+      *(Int32*)(void*)_typeUnion._unionTypes._byref = (Int32)value;
+      break;
+    case VarEnum::VT_UI4:
+    case VarEnum::VT_UINT:
+      *(UInt32*)(void*)_typeUnion._unionTypes._byref = (UInt32)value;
+      break;
+    case VarEnum::VT_ERROR:
+      *(Int32*)(void*)_typeUnion._unionTypes._byref = ((ErrorWrapper)value)->get_ErrorCode();
+      break;
+    case VarEnum::VT_I8:
+      *(Int64*)(void*)_typeUnion._unionTypes._byref = (Int64)value;
+      break;
+    case VarEnum::VT_UI8:
+      *(UInt64*)(void*)_typeUnion._unionTypes._byref = (UInt64)value;
+      break;
+    case VarEnum::VT_R4:
+      *(Single*)(void*)_typeUnion._unionTypes._byref = (Single)value;
+      break;
+    case VarEnum::VT_R8:
+      *(Double*)(void*)_typeUnion._unionTypes._byref = (Double)value;
+      break;
+    case VarEnum::VT_DATE:
+      *(Double*)(void*)_typeUnion._unionTypes._byref = ((DateTime)value).ToOADate();
+      break;
+    case VarEnum::VT_UNKNOWN:
+      *(IntPtr*)(void*)_typeUnion._unionTypes._byref = Marshal::GetIUnknownForObject(value);
+      break;
+    case VarEnum::VT_DISPATCH:
+      *(IntPtr*)(void*)_typeUnion._unionTypes._byref = Marshal::GetComInterfaceForObject<Object, IDispatch>(value);
+      break;
+    case VarEnum::VT_BSTR:
+      *(IntPtr*)(void*)_typeUnion._unionTypes._byref = Marshal::StringToBSTR((String)value);
+      break;
+    case VarEnum::VT_CY:
+      *(Int64*)(void*)_typeUnion._unionTypes._byref = Decimal::ToOACurrency((Decimal)value);
+      break;
+    case VarEnum::VT_DECIMAL:
+      *(Decimal*)(void*)_typeUnion._unionTypes._byref = (Decimal)value;
+      break;
+    case VarEnum::VT_VARIANT:
+      Marshal::GetNativeVariantForObject(value, _typeUnion._unionTypes._byref);
+      break;
+    default:
+      rt::throw_exception<ArgumentException>();
+  }
 }
 
 Object Variant::ToObject() {
@@ -173,6 +254,18 @@ Object Variant::ToObject() {
 
 void Variant::Clear() {
   VarEnum variantType = get_VariantType();
+  if ((variantType & VarEnum::VT_BYREF) != 0) {
+    get_VariantType() = VarEnum::VT_EMPTY;
+  } else if ((variantType & VarEnum::VT_ARRAY) != 0 || variantType == VarEnum::VT_BSTR || variantType == VarEnum::VT_UNKNOWN || variantType == VarEnum::VT_DISPATCH || variantType == VarEnum::VT_VARIANT || variantType == VarEnum::VT_RECORD) {
+    {
+      Variant* ptr = &*this;
+      void* value = ptr;
+      Interop::OleAut32::VariantClear((IntPtr)value);
+    }
+  } else {
+    get_VariantType() = VarEnum::VT_EMPTY;
+  }
+
 }
 
 } // namespace System::Private::CoreLib::System::Runtime::InteropServices::VariantNamespace

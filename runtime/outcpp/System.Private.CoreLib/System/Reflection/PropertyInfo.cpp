@@ -9,6 +9,7 @@ MemberTypes PropertyInfo___::get_MemberType() {
 }
 
 Boolean PropertyInfo___::get_IsSpecialName() {
+  return (get_Attributes() & PropertyAttributes::SpecialName) != 0;
 }
 
 MethodInfo PropertyInfo___::get_GetMethod() {

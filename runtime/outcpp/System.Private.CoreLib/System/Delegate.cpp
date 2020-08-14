@@ -9,6 +9,7 @@
 #include <System.Private.CoreLib/System/MulticastNotSupportedException-dep.h>
 #include <System.Private.CoreLib/System/PlatformNotSupportedException-dep.h>
 #include <System.Private.CoreLib/System/Reflection/BindingFlags.h>
+#include <System.Private.CoreLib/System/Reflection/MethodAttributes.h>
 #include <System.Private.CoreLib/System/Reflection/RuntimeMethodInfo-dep.h>
 #include <System.Private.CoreLib/System/Runtime/CompilerServices/RuntimeHelpers-dep.h>
 #include <System.Private.CoreLib/System/RuntimeMethodHandle-dep.h>
@@ -103,6 +104,23 @@ MethodInfo Delegate___::GetMethodImpl() {
   if (_methodBase == nullptr || !rt::is<MethodInfo>(_methodBase)) {
     IRuntimeMethodInfo runtimeMethodInfo = FindMethodHandle();
     RuntimeType runtimeType = RuntimeMethodHandle::GetDeclaringType(runtimeMethodInfo);
+    if ((RuntimeTypeHandle::IsGenericTypeDefinition(runtimeType) || RuntimeTypeHandle::HasInstantiation(runtimeType)) && (RuntimeMethodHandle::GetAttributes(runtimeMethodInfo) & MethodAttributes::Static) == 0) {
+      if (_methodPtrAux == IntPtr::Zero) {
+        Type type = _target->GetType();
+        Type genericTypeDefinition = runtimeType->GetGenericTypeDefinition();
+        while (type != nullptr) {
+          if (type->get_IsGenericType() && type->GetGenericTypeDefinition() == genericTypeDefinition) {
+            runtimeType = (rt::as<RuntimeType>(type));
+            break;
+          }
+          type = type->get_BaseType();
+        }
+      } else {
+        MethodInfo method = GetType()->GetMethod("Invoke");
+        runtimeType = (RuntimeType)method->GetParameters()[0]->get_ParameterType();
+      }
+    }
+    _methodBase = (MethodInfo)RuntimeType::in::GetMethodBase(runtimeType, runtimeMethodInfo);
   }
   return (MethodInfo)_methodBase;
 }
@@ -125,6 +143,13 @@ Delegate Delegate___::CreateDelegate(Type type, Object target, String method, Bo
     rt::throw_exception<ArgumentException>(SR::get_Arg_MustBeDelegate(), "type");
   }
   Delegate delegate = InternalAlloc(runtimeType);
+  if (!delegate->BindToMethodName(target, (RuntimeType)target->GetType(), method, (DelegateBindingFlags)(26 | (ignoreCase ? 32 : 0)))) {
+    if (throwOnBindFailure) {
+      rt::throw_exception<ArgumentException>(SR::get_Arg_DlgtTargMeth());
+    }
+    return nullptr;
+  }
+  return delegate;
 }
 
 Delegate Delegate___::CreateDelegate(Type type, Type target, String method, Boolean ignoreCase, Boolean throwOnBindFailure) {
@@ -152,6 +177,13 @@ Delegate Delegate___::CreateDelegate(Type type, Type target, String method, Bool
     rt::throw_exception<ArgumentException>(SR::get_Arg_MustBeDelegate(), "type");
   }
   Delegate delegate = InternalAlloc(runtimeType);
+  if (!delegate->BindToMethodName(nullptr, runtimeType2, method, (DelegateBindingFlags)(5 | (ignoreCase ? 32 : 0)))) {
+    if (throwOnBindFailure) {
+      rt::throw_exception<ArgumentException>(SR::get_Arg_DlgtTargMeth());
+    }
+    return nullptr;
+  }
+  return delegate;
 }
 
 Delegate Delegate___::CreateDelegate(Type type, MethodInfo method, Boolean throwOnBindFailure) {

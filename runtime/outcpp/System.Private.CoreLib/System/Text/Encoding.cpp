@@ -295,24 +295,28 @@ Boolean Encoding___::get_IsBrowserDisplay() {
   if (_dataItem == nullptr) {
     GetDataItem();
   }
+  return (_dataItem->get_Flags() & 2) != 0;
 }
 
 Boolean Encoding___::get_IsBrowserSave() {
   if (_dataItem == nullptr) {
     GetDataItem();
   }
+  return (_dataItem->get_Flags() & 512) != 0;
 }
 
 Boolean Encoding___::get_IsMailNewsDisplay() {
   if (_dataItem == nullptr) {
     GetDataItem();
   }
+  return (_dataItem->get_Flags() & 1) != 0;
 }
 
 Boolean Encoding___::get_IsMailNewsSave() {
   if (_dataItem == nullptr) {
     GetDataItem();
   }
+  return (_dataItem->get_Flags() & 256) != 0;
 }
 
 Boolean Encoding___::get_IsSingleByte() {

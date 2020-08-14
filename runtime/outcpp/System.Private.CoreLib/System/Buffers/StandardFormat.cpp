@@ -101,6 +101,7 @@ Boolean StandardFormat::Equals(Object obj) {
 }
 
 Int32 StandardFormat::GetHashCode() {
+  return _format.GetHashCode() ^ _precision.GetHashCode();
 }
 
 Boolean StandardFormat::Equals(StandardFormat other) {

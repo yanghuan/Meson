@@ -18,10 +18,12 @@ using namespace System::Globalization;
 
 Boolean Double::IsFinite(Double d) {
   Int64 num = BitConverter::DoubleToInt64Bits(d);
+  return (num & Int64::MaxValue) < 9218868437227405312;
 }
 
 Boolean Double::IsInfinity(Double d) {
   Int64 num = BitConverter::DoubleToInt64Bits(d);
+  return (num & Int64::MaxValue) == 9218868437227405312;
 }
 
 Boolean Double::IsNaN(Double d) {
@@ -40,6 +42,7 @@ Boolean Double::IsNormal(Double d) {
   Int64 num = BitConverter::DoubleToInt64Bits(d);
   num &= Int64::MaxValue;
   if (num < 9218868437227405312 && num != 0) {
+    return (num & 9218868437227405312) != 0;
   }
   return false;
 }
@@ -52,14 +55,17 @@ Boolean Double::IsSubnormal(Double d) {
   Int64 num = BitConverter::DoubleToInt64Bits(d);
   num &= Int64::MaxValue;
   if (num < 9218868437227405312 && num != 0) {
+    return (num & 9218868437227405312) == 0;
   }
   return false;
 }
 
 Int32 Double::ExtractExponentFromBits(UInt64 bits) {
+  return (Int32)(bits >> 52) & 2047;
 }
 
 UInt64 Double::ExtractSignificandFromBits(UInt64 bits) {
+  return bits & 4503599627370495;
 }
 
 Int32 Double::CompareTo(Object value) {
@@ -157,6 +163,10 @@ Boolean Double::Equals(Double obj) {
 
 Int32 Double::GetHashCode() {
   Int64 num = Unsafe::As<Double, Int64>(Unsafe::AsRef(m_value));
+  if (((num - 1) & Int64::MaxValue) >= 9218868437227405312) {
+    num &= 9218868437227405312;
+  }
+  return (Int32)num ^ (Int32)(num >> 32);
 }
 
 String Double::ToString() {
@@ -183,6 +193,7 @@ Double Double::Parse(String s) {
   if (s == nullptr) {
     ThrowHelper::ThrowArgumentNullException(ExceptionArgument::s);
   }
+  return Number::ParseDouble(s, NumberStyles::AllowLeadingWhite | NumberStyles::AllowTrailingWhite | NumberStyles::AllowLeadingSign | NumberStyles::AllowDecimalPoint | NumberStyles::AllowThousands | NumberStyles::AllowExponent, NumberFormatInfo::in::get_CurrentInfo());
 }
 
 Double Double::Parse(String s, NumberStyles style) {
@@ -197,6 +208,7 @@ Double Double::Parse(String s, IFormatProvider provider) {
   if (s == nullptr) {
     ThrowHelper::ThrowArgumentNullException(ExceptionArgument::s);
   }
+  return Number::ParseDouble(s, NumberStyles::AllowLeadingWhite | NumberStyles::AllowTrailingWhite | NumberStyles::AllowLeadingSign | NumberStyles::AllowDecimalPoint | NumberStyles::AllowThousands | NumberStyles::AllowExponent, NumberFormatInfo::in::GetInstance(provider));
 }
 
 Double Double::Parse(String s, NumberStyles style, IFormatProvider provider) {
@@ -217,9 +229,11 @@ Boolean Double::TryParse(String s, Double& result) {
     result = 0;
     return false;
   }
+  return TryParse((ReadOnlySpan<Char>)s, NumberStyles::AllowLeadingWhite | NumberStyles::AllowTrailingWhite | NumberStyles::AllowLeadingSign | NumberStyles::AllowDecimalPoint | NumberStyles::AllowThousands | NumberStyles::AllowExponent, NumberFormatInfo::in::get_CurrentInfo(), result);
 }
 
 Boolean Double::TryParse(ReadOnlySpan<Char> s, Double& result) {
+  return TryParse(s, NumberStyles::AllowLeadingWhite | NumberStyles::AllowTrailingWhite | NumberStyles::AllowLeadingSign | NumberStyles::AllowDecimalPoint | NumberStyles::AllowThousands | NumberStyles::AllowExponent, NumberFormatInfo::in::get_CurrentInfo(), result);
 }
 
 Boolean Double::TryParse(String s, NumberStyles style, IFormatProvider provider, Double& result) {

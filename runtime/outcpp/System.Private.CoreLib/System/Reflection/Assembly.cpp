@@ -249,9 +249,11 @@ Array<Object> Assembly___::GetCustomAttributes(Type attributeType, Boolean inher
 }
 
 Object Assembly___::CreateInstance(String typeName) {
+  return CreateInstance(typeName, false, BindingFlags::Instance | BindingFlags::Public, nullptr, nullptr, nullptr, nullptr);
 }
 
 Object Assembly___::CreateInstance(String typeName, Boolean ignoreCase) {
+  return CreateInstance(typeName, ignoreCase, BindingFlags::Instance | BindingFlags::Public, nullptr, nullptr, nullptr, nullptr);
 }
 
 Object Assembly___::CreateInstance(String typeName, Boolean ignoreCase, BindingFlags bindingAttr, Binder binder, Array<Object> args, CultureInfo culture, Array<Object> activationAttributes) {

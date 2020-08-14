@@ -514,9 +514,27 @@ NumberFormatInfo NumberFormatInfo___::ReadOnly(NumberFormatInfo nfi) {
 }
 
 void NumberFormatInfo___::ValidateParseStyleInteger(NumberStyles style) {
+  auto throwInvalid = [](NumberStyles value) -> void {
+    if ((value & ~(NumberStyles::AllowLeadingWhite | NumberStyles::AllowTrailingWhite | NumberStyles::AllowLeadingSign | NumberStyles::AllowTrailingSign | NumberStyles::AllowParentheses | NumberStyles::AllowDecimalPoint | NumberStyles::AllowThousands | NumberStyles::AllowExponent | NumberStyles::AllowCurrencySymbol | NumberStyles::AllowHexSpecifier)) != 0) {
+      rt::throw_exception<ArgumentException>(SR::get_Argument_InvalidNumberStyles(), "style");
+    }
+    rt::throw_exception<ArgumentException>(SR::get_Arg_InvalidHexStyle());
+  };
+  if ((style & ~(NumberStyles::AllowLeadingWhite | NumberStyles::AllowTrailingWhite | NumberStyles::AllowLeadingSign | NumberStyles::AllowTrailingSign | NumberStyles::AllowParentheses | NumberStyles::AllowDecimalPoint | NumberStyles::AllowThousands | NumberStyles::AllowExponent | NumberStyles::AllowCurrencySymbol)) != 0 && (style & ~(NumberStyles::AllowLeadingWhite | NumberStyles::AllowTrailingWhite | NumberStyles::AllowHexSpecifier)) != 0) {
+    throwInvalid(style);
+  }
 }
 
 void NumberFormatInfo___::ValidateParseStyleFloatingPoint(NumberStyles style) {
+  auto throwInvalid = [](NumberStyles value) -> void {
+    if ((value & ~(NumberStyles::AllowLeadingWhite | NumberStyles::AllowTrailingWhite | NumberStyles::AllowLeadingSign | NumberStyles::AllowTrailingSign | NumberStyles::AllowParentheses | NumberStyles::AllowDecimalPoint | NumberStyles::AllowThousands | NumberStyles::AllowExponent | NumberStyles::AllowCurrencySymbol | NumberStyles::AllowHexSpecifier)) != 0) {
+      rt::throw_exception<ArgumentException>(SR::get_Argument_InvalidNumberStyles(), "style");
+    }
+    rt::throw_exception<ArgumentException>(SR::get_Arg_HexStyleNotSupported());
+  };
+  if ((style & ~(NumberStyles::AllowLeadingWhite | NumberStyles::AllowTrailingWhite | NumberStyles::AllowLeadingSign | NumberStyles::AllowTrailingSign | NumberStyles::AllowParentheses | NumberStyles::AllowDecimalPoint | NumberStyles::AllowThousands | NumberStyles::AllowExponent | NumberStyles::AllowCurrencySymbol)) != 0) {
+    throwInvalid(style);
+  }
 }
 
 } // namespace System::Private::CoreLib::System::Globalization::NumberFormatInfoNamespace

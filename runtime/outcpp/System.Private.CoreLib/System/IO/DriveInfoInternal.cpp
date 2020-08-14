@@ -16,6 +16,10 @@ Array<String> DriveInfoInternal::GetLogicalDrives() {
   UInt32 num = (UInt32)logicalDrives;
   Int32 num2 = 0;
   while (num != 0) {
+    if ((num & 1) != 0) {
+      num2++;
+    }
+    num >>= 1;
   }
   Array<String> array = rt::newarr<Array<String>>(num2);
   Char default[3] = {};
@@ -23,6 +27,11 @@ Array<String> DriveInfoInternal::GetLogicalDrives() {
   num = (UInt32)logicalDrives;
   num2 = 0;
   while (num != 0) {
+    if ((num & 1) != 0) {
+      array[num2++] = span.ToString();
+    }
+    num >>= 1;
+    span[0] += 1;
   }
   return array;
 }

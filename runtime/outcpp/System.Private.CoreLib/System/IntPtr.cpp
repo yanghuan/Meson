@@ -50,6 +50,7 @@ Boolean IntPtr::Equals(Object obj) {
 
 Int32 IntPtr::GetHashCode() {
   Int64 num = (Int64)_value;
+  return (Int32)num ^ (Int32)(num >> 32);
 }
 
 Int32 IntPtr::ToInt32() {

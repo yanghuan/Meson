@@ -14,39 +14,51 @@ MemberTypes FieldInfo___::get_MemberType() {
 }
 
 Boolean FieldInfo___::get_IsInitOnly() {
+  return (get_Attributes() & FieldAttributes::InitOnly) != 0;
 }
 
 Boolean FieldInfo___::get_IsLiteral() {
+  return (get_Attributes() & FieldAttributes::Literal) != 0;
 }
 
 Boolean FieldInfo___::get_IsNotSerialized() {
+  return (get_Attributes() & FieldAttributes::NotSerialized) != 0;
 }
 
 Boolean FieldInfo___::get_IsPinvokeImpl() {
+  return (get_Attributes() & FieldAttributes::PinvokeImpl) != 0;
 }
 
 Boolean FieldInfo___::get_IsSpecialName() {
+  return (get_Attributes() & FieldAttributes::SpecialName) != 0;
 }
 
 Boolean FieldInfo___::get_IsStatic() {
+  return (get_Attributes() & FieldAttributes::Static) != 0;
 }
 
 Boolean FieldInfo___::get_IsAssembly() {
+  return (get_Attributes() & FieldAttributes::FieldAccessMask) == FieldAttributes::Assembly;
 }
 
 Boolean FieldInfo___::get_IsFamily() {
+  return (get_Attributes() & FieldAttributes::FieldAccessMask) == FieldAttributes::Family;
 }
 
 Boolean FieldInfo___::get_IsFamilyAndAssembly() {
+  return (get_Attributes() & FieldAttributes::FieldAccessMask) == FieldAttributes::FamANDAssem;
 }
 
 Boolean FieldInfo___::get_IsFamilyOrAssembly() {
+  return (get_Attributes() & FieldAttributes::FieldAccessMask) == FieldAttributes::FamORAssem;
 }
 
 Boolean FieldInfo___::get_IsPrivate() {
+  return (get_Attributes() & FieldAttributes::FieldAccessMask) == FieldAttributes::Private;
 }
 
 Boolean FieldInfo___::get_IsPublic() {
+  return (get_Attributes() & FieldAttributes::FieldAccessMask) == FieldAttributes::Public;
 }
 
 Boolean FieldInfo___::get_IsSecurityCritical() {

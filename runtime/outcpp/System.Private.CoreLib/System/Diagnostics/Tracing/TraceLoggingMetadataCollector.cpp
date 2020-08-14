@@ -1,5 +1,6 @@
 #include "TraceLoggingMetadataCollector-dep.h"
 
+#include <System.Private.CoreLib/System/ArgumentOutOfRangeException-dep.h>
 #include <System.Private.CoreLib/System/Collections/Generic/List-dep.h>
 #include <System.Private.CoreLib/System/Diagnostics/Tracing/FieldMetadata-dep.h>
 #include <System.Private.CoreLib/System/Diagnostics/Tracing/TraceLoggingDataType.h>
@@ -72,12 +73,80 @@ TraceLoggingMetadataCollector TraceLoggingMetadataCollector___::AddGroup(String 
 
 void TraceLoggingMetadataCollector___::AddScalar(String name, TraceLoggingDataType type) {
   Int32 size;
+  switch (type & (TraceLoggingDataType)31) {
+    case TraceLoggingDataType::Int8:
+    case TraceLoggingDataType::UInt8:
+    case TraceLoggingDataType::Char8:
+      size = 1;
+      break;
+    case TraceLoggingDataType::Int16:
+    case TraceLoggingDataType::UInt16:
+    case TraceLoggingDataType::Char16:
+      size = 2;
+      break;
+    case TraceLoggingDataType::Int32:
+    case TraceLoggingDataType::UInt32:
+    case TraceLoggingDataType::Float:
+    case TraceLoggingDataType::Boolean32:
+    case TraceLoggingDataType::HexInt32:
+      size = 4;
+      break;
+    case TraceLoggingDataType::Int64:
+    case TraceLoggingDataType::UInt64:
+    case TraceLoggingDataType::Double:
+    case TraceLoggingDataType::FileTime:
+    case TraceLoggingDataType::HexInt64:
+      size = 8;
+      break;
+    case TraceLoggingDataType::Guid:
+    case TraceLoggingDataType::SystemTime:
+      size = 16;
+      break;
+    default:
+      rt::throw_exception<ArgumentOutOfRangeException>("type");
+  }
+  impl->AddScalar(size);
+  AddField(rt::newobj<FieldMetadata>(name, type, Tags, get_BeginningBufferedArray()));
 }
 
 void TraceLoggingMetadataCollector___::AddNullTerminatedString(String name, TraceLoggingDataType type) {
+  TraceLoggingDataType traceLoggingDataType = type & (TraceLoggingDataType)31;
+  if (traceLoggingDataType != TraceLoggingDataType::Utf16String) {
+    rt::throw_exception<ArgumentOutOfRangeException>("type");
+  }
+  impl->AddNonscalar();
+  AddField(rt::newobj<FieldMetadata>(name, type, Tags, get_BeginningBufferedArray()));
 }
 
 void TraceLoggingMetadataCollector___::AddArray(String name, TraceLoggingDataType type) {
+  switch (type & (TraceLoggingDataType)31) {
+    default:
+      rt::throw_exception<ArgumentOutOfRangeException>("type");
+    case TraceLoggingDataType::Int8:
+    case TraceLoggingDataType::UInt8:
+    case TraceLoggingDataType::Int16:
+    case TraceLoggingDataType::UInt16:
+    case TraceLoggingDataType::Int32:
+    case TraceLoggingDataType::UInt32:
+    case TraceLoggingDataType::Int64:
+    case TraceLoggingDataType::UInt64:
+    case TraceLoggingDataType::Float:
+    case TraceLoggingDataType::Double:
+    case TraceLoggingDataType::Boolean32:
+    case TraceLoggingDataType::Guid:
+    case TraceLoggingDataType::FileTime:
+    case TraceLoggingDataType::HexInt32:
+    case TraceLoggingDataType::HexInt64:
+    case TraceLoggingDataType::Char8:
+    case TraceLoggingDataType::Char16:
+      if (get_BeginningBufferedArray()) {
+        rt::throw_exception<NotSupportedException>(SR::get_EventSource_NotSupportedNestedArraysEnums());
+      }
+      impl->AddScalar(2);
+      impl->AddNonscalar();
+      AddField(rt::newobj<FieldMetadata>(name, type, Tags, true));
+      break;
+  }
 }
 
 void TraceLoggingMetadataCollector___::BeginBufferedArray() {

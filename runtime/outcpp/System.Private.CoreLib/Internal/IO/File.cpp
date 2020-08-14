@@ -34,6 +34,7 @@ Boolean File::Exists(String path) {
 Boolean File::InternalExists(String fullPath) {
   Interop::Kernel32::WIN32_FILE_ATTRIBUTE_DATA data = Interop::Kernel32::WIN32_FILE_ATTRIBUTE_DATA();
   if (FillAttributeInfo(fullPath, data, true) == 0 && data.dwFileAttributes != -1) {
+    return (data.dwFileAttributes & 16) == 0;
   }
   return false;
 }

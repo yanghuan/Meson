@@ -77,6 +77,7 @@ Boolean EventDescriptor::Equals(Object obj) {
 }
 
 Int32 EventDescriptor::GetHashCode() {
+  return m_id ^ m_version ^ m_channel ^ m_level ^ m_opcode ^ m_task ^ (Int32)m_keywords;
 }
 
 Boolean EventDescriptor::Equals(EventDescriptor other) {

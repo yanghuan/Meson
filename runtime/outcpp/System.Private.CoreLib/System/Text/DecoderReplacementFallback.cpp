@@ -32,6 +32,7 @@ void DecoderReplacementFallback___::ctor(String replacement) {
           break;
         }
         flag = true;
+        continue;
       }
       if (!flag) {
         flag = true;

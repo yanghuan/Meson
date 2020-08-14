@@ -1,5 +1,6 @@
 #include "ValueType-dep.h"
 
+#include <System.Private.CoreLib/System/Int32-dep.h>
 #include <System.Private.CoreLib/System/Reflection/BindingFlags.h>
 #include <System.Private.CoreLib/System/Reflection/FieldInfo-dep.h>
 #include <System.Private.CoreLib/System/Type-dep.h>
@@ -20,6 +21,20 @@ Boolean ValueType___::Equals(Object obj) {
   if (CanCompareBits((ValueType)this)) {
     return FastEqualsCheck((ValueType)this, obj);
   }
+  Array<FieldInfo> fields = type->GetFields(BindingFlags::Instance | BindingFlags::Public | BindingFlags::NonPublic);
+  for (Int32 i = 0; i < fields->get_Length(); i++) {
+    Object value = fields[i]->GetValue((ValueType)this);
+    Object value2 = fields[i]->GetValue(obj);
+    if (value == nullptr) {
+      if (value2 != nullptr) {
+        return false;
+      }
+    } else if (!value->Equals(value2)) {
+      return false;
+    }
+
+  }
+  return true;
 }
 
 String ValueType___::ToString() {

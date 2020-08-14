@@ -3,6 +3,7 @@
 #include <System.Private.CoreLib/Interop-dep.h>
 #include <System.Private.CoreLib/System/Byte-dep.h>
 #include <System.Private.CoreLib/System/SByte-dep.h>
+#include <System.Private.CoreLib/System/StubHelpers/AnsiCharMarshaler-dep.h>
 #include <System.Private.CoreLib/System/UInt32-dep.h>
 
 namespace System::Private::CoreLib::System::StubHelpers::AnsiBSTRMarshalerNamespace {
@@ -13,6 +14,7 @@ IntPtr AnsiBSTRMarshaler::ConvertToNative(Int32 flags, String strManaged) {
   Array<Byte> str = nullptr;
   Int32 cbLength = 0;
   if (strManaged->get_Length() > 0) {
+    str = AnsiCharMarshaler::DoAnsiConversion(strManaged, (flags & 255) != 0, flags >> 8 != 0, cbLength);
   }
   return Interop::OleAut32::SysAllocStringByteLen(str, (UInt32)cbLength);
 }

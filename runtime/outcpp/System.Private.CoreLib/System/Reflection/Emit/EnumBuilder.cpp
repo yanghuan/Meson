@@ -1,8 +1,10 @@
 #include "EnumBuilder-dep.h"
 
+#include <System.Private.CoreLib/System/ArgumentException-dep.h>
 #include <System.Private.CoreLib/System/NotSupportedException-dep.h>
 #include <System.Private.CoreLib/System/Reflection/Emit/EnumBuilder-dep.h>
 #include <System.Private.CoreLib/System/Reflection/Emit/SymbolType-dep.h>
+#include <System.Private.CoreLib/System/Reflection/Emit/TypeBuilder-dep.h>
 #include <System.Private.CoreLib/System/Reflection/FieldAttributes.h>
 #include <System.Private.CoreLib/System/SR-dep.h>
 
@@ -87,6 +89,9 @@ Boolean EnumBuilder___::IsAssignableFrom(TypeInfo typeInfo) {
 }
 
 FieldBuilder EnumBuilder___::DefineLiteral(String literalName, Object literalValue) {
+  FieldBuilder fieldBuilder = m_typeBuilder->DefineField(literalName, (EnumBuilder)this, FieldAttributes::FamANDAssem | FieldAttributes::Family | FieldAttributes::Static | FieldAttributes::Literal);
+  fieldBuilder->SetConstant(literalValue);
+  return fieldBuilder;
 }
 
 TypeInfo EnumBuilder___::CreateTypeInfo() {
@@ -254,6 +259,9 @@ Type EnumBuilder___::MakeArrayType(Int32 rank) {
 }
 
 void EnumBuilder___::ctor(String name, Type underlyingType, TypeAttributes visibility, ModuleBuilder module) {
+  if ((visibility & ~TypeAttributes::VisibilityMask) != 0) {
+    rt::throw_exception<ArgumentException>(SR::get_Argument_ShouldOnlySetVisibilityFlags(), "name");
+  }
 }
 
 } // namespace System::Private::CoreLib::System::Reflection::Emit::EnumBuilderNamespace

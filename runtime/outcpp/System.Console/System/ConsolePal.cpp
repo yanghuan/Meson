@@ -23,6 +23,7 @@
 #include <System.Private.CoreLib/System/IO/StreamReader-dep.h>
 #include <System.Private.CoreLib/System/Runtime/InteropServices/Marshal-dep.h>
 #include <System.Private.CoreLib/System/Span-dep.h>
+#include <System.Private.CoreLib/System/UInt16-dep.h>
 #include <System.Private.CoreLib/System/UInt32-dep.h>
 #include <System.Private.CoreLib/System/Version-dep.h>
 
@@ -163,6 +164,7 @@ Encoding ConsolePal::get_OutputEncoding() {
 Boolean ConsolePal::get_NumberLock() {
   try{
     Int16 keyState = Interop::User32::in::GetKeyState(144);
+    return (keyState & 1) == 1;
   } catch (Exception) {
   }
 }
@@ -170,6 +172,7 @@ Boolean ConsolePal::get_NumberLock() {
 Boolean ConsolePal::get_CapsLock() {
   try{
     Int16 keyState = Interop::User32::in::GetKeyState(20);
+    return (keyState & 1) == 1;
   } catch (Exception) {
   }
 }
@@ -210,6 +213,7 @@ Boolean ConsolePal::get_TreatControlCAsInput() {
   if (!Interop::Kernel32::GetConsoleMode(inputHandle, mode)) {
     rt::throw_exception(Win32Marshal::GetExceptionForWin32Error(Marshal::GetLastWin32Error()));
   }
+  return (mode & 1) == 0;
 }
 
 void ConsolePal::set_TreatControlCAsInput(Boolean value) {
@@ -221,6 +225,10 @@ void ConsolePal::set_TreatControlCAsInput(Boolean value) {
   if (!Interop::Kernel32::GetConsoleMode(inputHandle, mode)) {
     rt::throw_exception(Win32Marshal::GetExceptionForWin32Error(Marshal::GetLastWin32Error()));
   }
+  mode = ((!value) ? (mode | 1) : (mode & -2));
+  if (!Interop::Kernel32::SetConsoleMode(inputHandle, mode)) {
+    rt::throw_exception(Win32Marshal::GetExceptionForWin32Error(Marshal::GetLastWin32Error()));
+  }
 }
 
 ConsoleColor ConsolePal::get_BackgroundColor() {
@@ -229,6 +237,7 @@ ConsoleColor ConsolePal::get_BackgroundColor() {
   if (!succeeded) {
     return ConsoleColor::Black;
   }
+  return ColorAttributeToConsoleColor((Interop::Kernel32::Color)(bufferInfo.wAttributes & 240));
 }
 
 void ConsolePal::set_BackgroundColor(ConsoleColor value) {
@@ -237,6 +246,9 @@ void ConsolePal::set_BackgroundColor(ConsoleColor value) {
   Interop::Kernel32::CONSOLE_SCREEN_BUFFER_INFO bufferInfo = GetBufferInfo(false, succeeded);
   if (succeeded) {
     Int16 wAttributes = bufferInfo.wAttributes;
+    wAttributes = (Int16)(wAttributes & -241);
+    wAttributes = (Int16)((UInt16)wAttributes | (UInt16)color);
+    Interop::Kernel32::SetConsoleTextAttribute(get_OutputHandle(), wAttributes);
   }
 }
 
@@ -246,6 +258,7 @@ ConsoleColor ConsolePal::get_ForegroundColor() {
   if (!succeeded) {
     return ConsoleColor::Gray;
   }
+  return ColorAttributeToConsoleColor((Interop::Kernel32::Color)(bufferInfo.wAttributes & 15));
 }
 
 void ConsolePal::set_ForegroundColor(ConsoleColor value) {
@@ -254,6 +267,9 @@ void ConsolePal::set_ForegroundColor(ConsoleColor value) {
   Interop::Kernel32::CONSOLE_SCREEN_BUFFER_INFO bufferInfo = GetBufferInfo(false, succeeded);
   if (succeeded) {
     Int16 wAttributes = bufferInfo.wAttributes;
+    wAttributes = (Int16)(wAttributes & -16);
+    wAttributes = (Int16)((UInt16)wAttributes | (UInt16)color);
+    Interop::Kernel32::SetConsoleTextAttribute(get_OutputHandle(), wAttributes);
   }
 }
 
@@ -295,6 +311,16 @@ String ConsolePal::get_Title() {
     }
     if (num == 0) {
       Int32 lastWin32Error = Marshal::GetLastWin32Error();
+      switch (lastWin32Error.get()) {
+        case 122:
+          valueStringBuilder.EnsureCapacity(valueStringBuilder.get_Capacity() * 2);
+          continue;
+        default:
+          rt::throw_exception(Win32Marshal::GetExceptionForWin32Error(lastWin32Error, String::in::Empty));
+        case 0:
+          break;
+      }
+      break;
     }
     if (num < valueStringBuilder.get_Capacity() - 1 && (!IsWindows7() || num < valueStringBuilder.get_Capacity() / 2 - 1)) {
       break;
@@ -439,6 +465,10 @@ Boolean ConsolePal::IsErrorRedirectedCore() {
 
 Boolean ConsolePal::IsHandleRedirected(IntPtr handle) {
   UInt32 fileType = Interop::Kernel32::GetFileType(handle);
+  if ((fileType & 2) != 2) {
+    return true;
+  }
+  return !Interop::Kernel32::IsGetConsoleModeCallSuccessful(handle);
 }
 
 TextReader ConsolePal::GetOrCreateReader() {
@@ -462,6 +492,7 @@ Boolean ConsolePal::IsModKey(Interop::InputRecord ir) {
 }
 
 Boolean ConsolePal::IsAltKeyDown(Interop::InputRecord ir) {
+  return (ir.keyEvent.controlKeyState & 3) != 0;
 }
 
 ConsoleKeyInfo ConsolePal::ReadKey(Boolean intercept) {
@@ -680,9 +711,21 @@ void ConsolePal::SetWindowSize(Int32 width, Int32 height) {
 }
 
 Interop::Kernel32::Color ConsolePal::ConsoleColorToColorAttribute(ConsoleColor color, Boolean isBackground) {
+  if ((color & (ConsoleColor)(-16)) != 0) {
+    rt::throw_exception<ArgumentException>(SR::get_Arg_InvalidConsoleColor());
+  }
+  Interop::Kernel32::Color color2 = (Interop::Kernel32::Color)color;
+  if (isBackground) {
+    color2 = (Interop::Kernel32::Color)((Int32)color2 << 4);
+  }
+  return color2;
 }
 
 ConsoleColor ConsolePal::ColorAttributeToConsoleColor(Interop::Kernel32::Color c) {
+  if ((c & Interop::Kernel32::Color::BackgroundMask) != 0) {
+    c = (Interop::Kernel32::Color)((Int32)c >> 4);
+  }
+  return (ConsoleColor)c;
 }
 
 Interop::Kernel32::CONSOLE_SCREEN_BUFFER_INFO ConsolePal::GetBufferInfo() {

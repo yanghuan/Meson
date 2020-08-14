@@ -85,6 +85,12 @@ Int32 Interlocked::And(Int32& location1, Int32 value) {
   Int32 num = location1;
   Int32 num2;
   while (true) {
+    Int32 value2 = num & value;
+    num2 = CompareExchange(location1, value2, num);
+    if (num2 == num) {
+      break;
+    }
+    num = num2;
   }
   return num2;
 }
@@ -97,6 +103,12 @@ Int64 Interlocked::And(Int64& location1, Int64 value) {
   Int64 num = location1;
   Int64 num2;
   while (true) {
+    Int64 value2 = num & value;
+    num2 = CompareExchange(location1, value2, num);
+    if (num2 == num) {
+      break;
+    }
+    num = num2;
   }
   return num2;
 }
@@ -109,6 +121,12 @@ Int32 Interlocked::Or(Int32& location1, Int32 value) {
   Int32 num = location1;
   Int32 num2;
   while (true) {
+    Int32 value2 = num | value;
+    num2 = CompareExchange(location1, value2, num);
+    if (num2 == num) {
+      break;
+    }
+    num = num2;
   }
   return num2;
 }
@@ -121,6 +139,12 @@ Int64 Interlocked::Or(Int64& location1, Int64 value) {
   Int64 num = location1;
   Int64 num2;
   while (true) {
+    Int64 value2 = num | value;
+    num2 = CompareExchange(location1, value2, num);
+    if (num2 == num) {
+      break;
+    }
+    num = num2;
   }
   return num2;
 }

@@ -39,9 +39,11 @@ void IdnMapping___::set_UseStd3AsciiRules(Boolean value) {
 }
 
 UInt32 IdnMapping___::get_IcuFlags() {
+  return (UInt32)((get_AllowUnassigned() ? 1 : 0) | (get_UseStd3AsciiRules() ? 2 : 0));
 }
 
 UInt32 IdnMapping___::get_NlsFlags() {
+  return (UInt32)((get_AllowUnassigned() ? 1 : 0) | (get_UseStd3AsciiRules() ? 2 : 0));
 }
 
 void IdnMapping___::ctor() {
@@ -272,6 +274,7 @@ String IdnMapping___::PunycodeEncode(String unicode) {
             num9++;
           }
           if (num11 != num8) {
+            continue;
           }
           Int32 num13 = num9;
           Int32 num14 = 36;
@@ -469,6 +472,15 @@ String IdnMapping___::IcuGetUnicodeCore(String asciiString, Char* ascii, Int32 c
 }
 
 void IdnMapping___::CheckInvalidIdnCharacters(Char* s, Int32 count, UInt32 flags, String paramName) {
+  if ((flags & 2) != 0) {
+    return;
+  }
+  for (Int32 i = 0; i < count; i++) {
+    Char c = s[i];
+    if (c <= 31 || c == 127) {
+      rt::throw_exception<ArgumentException>(SR::get_Argument_IdnIllegalName(), paramName);
+    }
+  }
 }
 
 String IdnMapping___::NlsGetAsciiCore(String unicodeString, Char* unicode, Int32 count) {

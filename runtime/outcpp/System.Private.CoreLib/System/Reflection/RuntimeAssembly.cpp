@@ -13,6 +13,7 @@
 #include <System.Private.CoreLib/System/IRuntimeMethodInfo.h>
 #include <System.Private.CoreLib/System/NotSupportedException-dep.h>
 #include <System.Private.CoreLib/System/PlatformNotSupportedException-dep.h>
+#include <System.Private.CoreLib/System/Reflection/AssemblyNameFlags.h>
 #include <System.Private.CoreLib/System/Reflection/BindingFlags.h>
 #include <System.Private.CoreLib/System/Reflection/CustomAttribute-dep.h>
 #include <System.Private.CoreLib/System/Reflection/MetadataTokenType.h>
@@ -143,6 +144,11 @@ RuntimeAssembly RuntimeAssembly___::GetNativeHandle() {
 
 AssemblyName RuntimeAssembly___::GetName(Boolean copiedName) {
   String codeBase = GetCodeBase(copiedName);
+  AssemblyName assemblyName = rt::newobj<AssemblyName>(GetSimpleName(), GetPublicKey(), nullptr, GetVersion(), GetLocale(), GetHashAlgorithm(), AssemblyVersionCompatibility::SameMachine, codeBase, GetFlags() | AssemblyNameFlags::PublicKey, nullptr);
+  Module manifestModule = get_ManifestModule();
+  if (manifestModule->get_MDStreamVersion() > 65536) {
+  }
+  return assemblyName;
 }
 
 Type RuntimeAssembly___::GetType(String name, Boolean throwOnError, Boolean ignoreCase) {
@@ -323,6 +329,7 @@ Assembly RuntimeAssembly___::GetSatelliteAssembly(CultureInfo culture, Version v
 Assembly RuntimeAssembly___::InternalGetSatelliteAssembly(CultureInfo culture, Version version, Boolean throwOnFileNotFound) {
   AssemblyName assemblyName = rt::newobj<AssemblyName>();
   assemblyName->SetPublicKey(GetPublicKey());
+  assemblyName->set_Flags = (GetFlags() | AssemblyNameFlags::PublicKey);
 }
 
 Array<RuntimeModule> RuntimeAssembly___::GetModulesInternal(Boolean loadIfNotFound, Boolean getResourceModules) {

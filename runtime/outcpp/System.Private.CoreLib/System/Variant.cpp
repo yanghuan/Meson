@@ -26,6 +26,7 @@ using namespace System::Globalization;
 using namespace System::Runtime::InteropServices;
 
 Int32 Variant::get_CVType() {
+  return _flags & 65535;
 }
 
 Variant::Variant(Int32 flags, Object or_, Int64 data) {

@@ -78,6 +78,7 @@ Int32 CancellationTokenRegistration::GetHashCode() {
   if (_node == nullptr) {
     return _id.GetHashCode();
   }
+  return _node->GetHashCode() ^ _id.GetHashCode();
 }
 
 } // namespace System::Private::CoreLib::System::Threading::CancellationTokenRegistrationNamespace

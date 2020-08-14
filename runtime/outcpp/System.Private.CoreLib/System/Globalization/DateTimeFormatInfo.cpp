@@ -479,9 +479,11 @@ void DateTimeFormatInfo___::set_MonthNames(Array<String> value) {
 }
 
 Boolean DateTimeFormatInfo___::get_HasSpacesInMonthNames() {
+  return (get_FormatFlags() & DateTimeFormatFlags::UseSpacesInMonthNames) != 0;
 }
 
 Boolean DateTimeFormatInfo___::get_HasSpacesInDayNames() {
+  return (get_FormatFlags() & DateTimeFormatFlags::UseSpacesInDayNames) != 0;
 }
 
 Array<String> DateTimeFormatInfo___::get_AllYearMonthPatterns() {
@@ -613,6 +615,7 @@ Boolean DateTimeFormatInfo___::get_HasForceTwoDigitYears() {
 }
 
 Boolean DateTimeFormatInfo___::get_HasYearMonthAdjustment() {
+  return (get_FormatFlags() & DateTimeFormatFlags::UseHebrewRule) != 0;
 }
 
 Array<String> DateTimeFormatInfo___::InternalGetAbbreviatedDayOfWeekNames() {
@@ -1015,12 +1018,40 @@ void DateTimeFormatInfo___::SetAllDateTimePatterns(Array<String> patterns, Char 
 }
 
 void DateTimeFormatInfo___::ValidateStyles(DateTimeStyles style, String parameterName) {
+  if ((style & ~(DateTimeStyles::AllowLeadingWhite | DateTimeStyles::AllowTrailingWhite | DateTimeStyles::AllowInnerWhite | DateTimeStyles::NoCurrentDateDefault | DateTimeStyles::AdjustToUniversal | DateTimeStyles::AssumeLocal | DateTimeStyles::AssumeUniversal | DateTimeStyles::RoundtripKind)) != 0) {
+    rt::throw_exception<ArgumentException>(SR::get_Argument_InvalidDateTimeStyles(), parameterName);
+  }
+  if ((style & DateTimeStyles::AssumeLocal) != 0 && (style & DateTimeStyles::AssumeUniversal) != 0) {
+    rt::throw_exception<ArgumentException>(SR::get_Argument_ConflictingDateTimeStyles(), parameterName);
+  }
+  if ((style & DateTimeStyles::RoundtripKind) != 0 && (style & (DateTimeStyles::AdjustToUniversal | DateTimeStyles::AssumeLocal | DateTimeStyles::AssumeUniversal)) != 0) {
+    rt::throw_exception<ArgumentException>(SR::get_Argument_ConflictingDateTimeRoundtripStyles(), parameterName);
+  }
 }
 
 DateTimeFormatFlags DateTimeFormatInfo___::InitializeFormatFlags() {
+  formatFlags = (DateTimeFormatFlags)(DateTimeFormatInfoScanner::in::GetFormatFlagGenitiveMonth(get_MonthNames(), InternalGetGenitiveMonthNames(false), get_AbbreviatedMonthNames(), InternalGetGenitiveMonthNames(true)) | DateTimeFormatInfoScanner::in::GetFormatFlagUseSpaceInMonthNames(get_MonthNames(), InternalGetGenitiveMonthNames(false), get_AbbreviatedMonthNames(), InternalGetGenitiveMonthNames(true)) | DateTimeFormatInfoScanner::in::GetFormatFlagUseSpaceInDayNames(get_DayNames(), get_AbbreviatedDayNames()) | DateTimeFormatInfoScanner::in::GetFormatFlagUseHebrewCalendar((Int32)get_Calendar()->get_ID()));
+  return formatFlags;
 }
 
 Boolean DateTimeFormatInfo___::YearMonthAdjustment(Int32& year, Int32& month, Boolean parsedMonthName) {
+  if ((get_FormatFlags() & DateTimeFormatFlags::UseHebrewRule) != 0) {
+    if (year < 1000) {
+      year += 5000;
+    }
+    if (year < get_Calendar()->GetYear(get_Calendar()->get_MinSupportedDateTime()) || year > get_Calendar()->GetYear(get_Calendar()->get_MaxSupportedDateTime())) {
+      return false;
+    }
+    if (parsedMonthName && !get_Calendar()->IsLeapYear(year)) {
+      if (month >= 8) {
+        month--;
+      } else if (month == 7) {
+        return false;
+      }
+
+    }
+  }
+  return true;
 }
 
 DateTimeFormatInfo DateTimeFormatInfo___::GetJapaneseCalendarDTFI() {
@@ -1130,6 +1161,68 @@ Array<DateTimeFormatInfo::in::TokenHashValue> DateTimeFormatInfo___::CreateToken
     for (Int32 j = 1; j <= 13; j++) {
       InsertHash(array, GetAbbreviatedMonthName(j), TokenType::MonthToken, j);
     }
+    if ((get_FormatFlags() & DateTimeFormatFlags::UseGenitiveMonth) != 0) {
+      Array<String> array2 = InternalGetGenitiveMonthNames(false);
+      Array<String> array3 = InternalGetGenitiveMonthNames(true);
+      for (Int32 k = 1; k <= 13; k++) {
+        InsertHash(array, array2[k - 1], TokenType::MonthToken, k);
+        InsertHash(array, array3[k - 1], TokenType::MonthToken, k);
+      }
+    }
+    if ((get_FormatFlags() & DateTimeFormatFlags::UseLeapYearMonth) != 0) {
+      for (Int32 l = 1; l <= 13; l++) {
+        String str = InternalGetMonthName(l, MonthNameStyles::LeapYear, false);
+        InsertHash(array, str, TokenType::MonthToken, l);
+      }
+    }
+    for (Int32 m = 0; m < 7; m++) {
+      String dayName = GetDayName((DayOfWeek)m);
+      InsertHash(array, dayName, TokenType::DayOfWeekToken, m);
+      dayName = GetAbbreviatedDayName((DayOfWeek)m);
+      InsertHash(array, dayName, TokenType::DayOfWeekToken, m);
+    }
+    Array<Int32> eras = calendar->get_Eras();
+    for (Int32 n = 1; n <= eras->get_Length(); n++) {
+      InsertHash(array, GetEraName(n), TokenType::EraToken, n);
+      InsertHash(array, GetAbbreviatedEraName(n), TokenType::EraToken, n);
+    }
+    if (get_LanguageName()->Equals("ja")) {
+      for (Int32 num = 0; num < 7; num++) {
+        String str2 = "(" + GetAbbreviatedDayName((DayOfWeek)num) + ")";
+        InsertHash(array, str2, TokenType::DayOfWeekToken, num);
+      }
+    } else if (get_CultureName()->Equals("zh-TW")) {
+      DateTimeFormatInfo taiwanCalendarDTFI = GetTaiwanCalendarDTFI();
+      for (Int32 num3 = 1; num3 <= taiwanCalendarDTFI->get_Calendar()->get_Eras()->get_Length(); num3++) {
+        if (taiwanCalendarDTFI->GetEraName(num3)->get_Length() > 0) {
+          InsertHash(array, taiwanCalendarDTFI->GetEraName(num3), TokenType::TEraToken, num3);
+        }
+      }
+    }
+
+    InsertHash(array, get_InvariantInfo()->get_AMDesignator(), (TokenType)1027, 0);
+    InsertHash(array, get_InvariantInfo()->get_PMDesignator(), (TokenType)1284, 1);
+    for (Int32 num4 = 1; num4 <= 12; num4++) {
+      String monthName = get_InvariantInfo()->GetMonthName(num4);
+      InsertHash(array, monthName, TokenType::MonthToken, num4);
+      monthName = get_InvariantInfo()->GetAbbreviatedMonthName(num4);
+      InsertHash(array, monthName, TokenType::MonthToken, num4);
+    }
+    for (Int32 num5 = 0; num5 < 7; num5++) {
+      String dayName2 = get_InvariantInfo()->GetDayName((DayOfWeek)num5);
+      InsertHash(array, dayName2, TokenType::DayOfWeekToken, num5);
+      dayName2 = get_InvariantInfo()->GetAbbreviatedDayName((DayOfWeek)num5);
+      InsertHash(array, dayName2, TokenType::DayOfWeekToken, num5);
+    }
+    for (Int32 num6 = 0; num6 < get_AbbreviatedEnglishEraNames()->get_Length(); num6++) {
+      InsertHash(array, get_AbbreviatedEnglishEraNames()[num6], TokenType::EraToken, num6 + 1);
+    }
+    InsertHash(array, "T", TokenType::SEP_LocalTimeMark, 0);
+    InsertHash(array, "GMT", TokenType::TimeZoneToken, 0);
+    InsertHash(array, "Z", TokenType::TimeZoneToken, 0);
+    InsertHash(array, "/", TokenType::SEP_Date, 0);
+    InsertHash(array, ":", TokenType::SEP_Time, 0);
+    _dtfiTokenHash = array;
   }
   return array;
 }

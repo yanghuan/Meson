@@ -271,6 +271,7 @@ Int32 UTF32Encoding___::GetByteCount(Char* chars, Int32 count, EncoderNLS encode
         if (Char::IsLowSurrogate(c2)) {
           c = 0;
           num += 4;
+          continue;
         }
         chars--;
         Char* chars2 = chars;
@@ -335,6 +336,7 @@ Int32 UTF32Encoding___::GetBytes(Char* chars, Int32 charCount, Byte* bytes, Int3
           encoderFallbackBuffer->InternalFallback(c, chars2);
           chars = chars2;
           c = 0;
+          continue;
         }
         UInt32 surrogate = GetSurrogate(c, c2);
         c = 0;
@@ -350,6 +352,7 @@ Int32 UTF32Encoding___::GetBytes(Char* chars, Int32 charCount, Byte* bytes, Int3
             *(bytes++) = (Byte)(surrogate >> 16);
             *(bytes++) = 0;
           }
+          continue;
         }
         if (encoderFallbackBuffer->bFallingBack) {
           encoderFallbackBuffer->MovePrevious();
@@ -362,11 +365,13 @@ Int32 UTF32Encoding___::GetBytes(Char* chars, Int32 charCount, Byte* bytes, Int3
       } else {
         if (Char::IsHighSurrogate(c2)) {
           c = c2;
+          continue;
         }
         if (Char::IsLowSurrogate(c2)) {
           chars2 = chars;
           encoderFallbackBuffer->InternalFallback(c2, chars2);
           chars = chars2;
+          continue;
         }
         if (bytes + 3 < ptr4) {
           if (_bigEndian) {
@@ -380,6 +385,7 @@ Int32 UTF32Encoding___::GetBytes(Char* chars, Int32 charCount, Byte* bytes, Int3
             *(bytes++) = 0;
             *(bytes++) = 0;
           }
+          continue;
         }
         if (encoderFallbackBuffer->bFallingBack) {
           encoderFallbackBuffer->MovePrevious();
@@ -430,6 +436,7 @@ Int32 UTF32Encoding___::GetCharCount(Byte* bytes, Int32 count, DecoderNLS baseDe
     }
     num2++;
     if (num2 < 4) {
+      continue;
     }
     num2 = 0;
     if (num3 > 1114111 || (num3 >= 55296 && num3 <= 57343)) {
@@ -492,6 +499,7 @@ Int32 UTF32Encoding___::GetChars(Byte* bytes, Int32 byteCount, Char* chars, Int3
     }
     num++;
     if (num < 4) {
+      continue;
     }
     num = 0;
     if (num2 > 1114111 || (num2 >= 55296 && num2 <= 57343)) {
@@ -507,6 +515,7 @@ Int32 UTF32Encoding___::GetChars(Byte* bytes, Int32 byteCount, Char* chars, Int3
         break;
       }
       num2 = 0u;
+      continue;
     }
     if (num2 >= 65536) {
       if (chars >= ptr2 - 1) {

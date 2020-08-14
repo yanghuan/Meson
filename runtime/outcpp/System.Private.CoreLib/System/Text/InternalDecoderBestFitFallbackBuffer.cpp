@@ -79,6 +79,16 @@ Char InternalDecoderBestFitFallbackBuffer___::TryBestFit(Array<Byte> bytesCheck)
   }
   Int32 num3;
   while ((num3 = num2 - num) > 6) {
+    Int32 num4 = (num3 / 2 + num) & 65534;
+    Char c2 = _oFallback->_arrayBestFit[num4];
+    if (c2 == c) {
+      return _oFallback->_arrayBestFit[num4 + 1];
+    }
+    if (c2 < c) {
+      num = num4;
+    } else {
+      num2 = num4;
+    }
   }
   for (Int32 num4 = num; num4 < num2; num4 += 2) {
     if (_oFallback->_arrayBestFit[num4] == c) {

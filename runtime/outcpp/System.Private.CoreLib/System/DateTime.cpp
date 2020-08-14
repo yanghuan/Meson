@@ -44,13 +44,16 @@ DateTime::FullSystemTime::FullSystemTime(Int64 ticks) {
 }
 
 Int64 DateTime::get_InternalTicks() {
+  return (Int64)(_dateData & 4611686018427387903);
 }
 
 UInt64 DateTime::get_InternalKind() {
+  return _dateData & 13835058055282163712;
 }
 
 DateTime DateTime::get_Date() {
   Int64 internalTicks = get_InternalTicks();
+  return DateTime((UInt64)(internalTicks - internalTicks % 864000000000) | get_InternalKind());
 }
 
 Int32 DateTime::get_Day() {
@@ -132,6 +135,7 @@ DateTime DateTime::get_UtcNow() {
     GetSystemTimeWithLeapSecondsHandling(&time);
     return CreateDateTimeFromSystemTime(time);
   }
+  return DateTime((UInt64)((GetSystemTimeAsFileTime() + 504911232000000000) | 4611686018427387904));
 }
 
 DateTime::DateTime(Int64 ticks) {
@@ -152,12 +156,14 @@ DateTime::DateTime(Int64 ticks, DateTimeKind kind) {
   if (kind < DateTimeKind::Unspecified || kind > DateTimeKind::Local) {
     rt::throw_exception<ArgumentException>(SR::get_Argument_InvalidDateTimeKind(), "kind");
   }
+  _dateData = (UInt64)(ticks | ((Int64)kind << 62));
 }
 
 DateTime::DateTime(Int64 ticks, DateTimeKind kind, Boolean isAmbiguousDst) {
   if (ticks < 0 || ticks > 3155378975999999999) {
     rt::throw_exception<ArgumentOutOfRangeException>("ticks", SR::get_ArgumentOutOfRange_DateTimeBadTicks());
   }
+  _dateData = (UInt64)(ticks | (isAmbiguousDst ? (-4611686018427387904) : Int64::MinValue));
 }
 
 DateTime::DateTime(Int32 year, Int32 month, Int32 day) {
@@ -182,6 +188,7 @@ DateTime::DateTime(Int32 year, Int32 month, Int32 day, Int32 hour, Int32 minute,
     second = 59;
   }
   Int64 num = DateToTicks(year, month, day) + TimeToTicks(hour, minute, second);
+  _dateData = (UInt64)(num | ((Int64)kind << 62));
 }
 
 DateTime::DateTime(Int32 year, Int32 month, Int32 day, Int32 hour, Int32 minute, Int32 second, Calendar calendar) {
@@ -231,6 +238,7 @@ DateTime::DateTime(Int32 year, Int32 month, Int32 day, Int32 hour, Int32 minute,
   if (num < 0 || num > 3155378975999999999) {
     rt::throw_exception<ArgumentException>(SR::get_Arg_DateTimeRange());
   }
+  _dateData = (UInt64)(num | ((Int64)kind << 62));
 }
 
 DateTime::DateTime(Int32 year, Int32 month, Int32 day, Int32 hour, Int32 minute, Int32 second, Int32 millisecond, Calendar calendar) {
@@ -276,6 +284,13 @@ DateTime::DateTime(Int32 year, Int32 month, Int32 day, Int32 hour, Int32 minute,
   ticks += (Int64)millisecond * 10000;
   if (ticks < 0 || ticks > 3155378975999999999) {
     rt::throw_exception<ArgumentException>(SR::get_Arg_DateTimeRange());
+  }
+  _dateData = (UInt64)(ticks | ((Int64)kind << 62));
+  if (num == 60) {
+    DateTime dateTime = DateTime(_dateData);
+    if (!IsValidTimeWithLeapSeconds(dateTime.get_Year(), dateTime.get_Month(), dateTime.get_Day(), dateTime.get_Hour(), dateTime.get_Minute(), 60, kind)) {
+      rt::throw_exception<ArgumentOutOfRangeException>(nullptr, SR::get_ArgumentOutOfRange_BadHourMinuteSecond());
+    }
   }
 }
 
@@ -452,9 +467,39 @@ Boolean DateTime::Equals(DateTime t1, DateTime t2) {
 }
 
 DateTime DateTime::FromBinary(Int64 dateData) {
+  if ((dateData & Int64::MinValue) != 0) {
+    Int64 num = dateData & 4611686018427387903;
+    if (num > 4611685154427387904) {
+      num -= 4611686018427387904;
+    }
+    Boolean isAmbiguousLocalDst = false;
+    Int64 ticks;
+    if (num < 0) {
+      ticks = TimeZoneInfo::in::GetLocalUtcOffset(MinValue, TimeZoneInfoOptions::NoThrowOnInvalidTime).get_Ticks();
+    } else if (num > 3155378975999999999) {
+      ticks = TimeZoneInfo::in::GetLocalUtcOffset(MaxValue, TimeZoneInfoOptions::NoThrowOnInvalidTime).get_Ticks();
+    } else {
+      DateTime time = DateTime(num, DateTimeKind::Utc);
+    }
+
+    num += ticks;
+    if (num < 0) {
+      num += 864000000000;
+    }
+    if (num < 0 || num > 3155378975999999999) {
+      rt::throw_exception<ArgumentException>(SR::get_Argument_DateTimeBadBinaryData(), "dateData");
+    }
+    return DateTime(num, DateTimeKind::Local, isAmbiguousLocalDst);
+  }
+  return FromBinaryRaw(dateData);
 }
 
 DateTime DateTime::FromBinaryRaw(Int64 dateData) {
+  Int64 num = dateData & 4611686018427387903;
+  if (num < 0 || num > 3155378975999999999) {
+    rt::throw_exception<ArgumentException>(SR::get_Argument_DateTimeBadBinaryData(), "dateData");
+  }
+  return DateTime((UInt64)dateData);
 }
 
 DateTime DateTime::FromFileTime(Int64 fileTime) {
@@ -495,6 +540,7 @@ Int64 DateTime::ToBinary() {
     if (num < 0) {
       num = 4611686018427387904 + num;
     }
+    return num | Int64::MinValue;
   }
   return (Int64)_dateData;
 }
@@ -571,6 +617,7 @@ void DateTime::GetTimePrecise(Int32& hour, Int32& minute, Int32& second, Int32& 
 
 Int32 DateTime::GetHashCode() {
   Int64 internalTicks = get_InternalTicks();
+  return (Int32)internalTicks ^ (Int32)(internalTicks >> 32);
 }
 
 Boolean DateTime::IsAmbiguousDaylightSavingTime() {
@@ -581,6 +628,13 @@ Boolean DateTime::IsLeapYear(Int32 year) {
   if (year < 1 || year > 9999) {
     ThrowHelper::ThrowArgumentOutOfRange_Year();
   }
+  if ((year & 3) == 0) {
+    if ((year & 15) != 0) {
+      return year % 25 != 0;
+    }
+    return true;
+  }
+  return false;
 }
 
 DateTime DateTime::Parse(String s) {
@@ -659,6 +713,7 @@ DateTime DateTime::Subtract(TimeSpan value) {
   if (internalTicks < ticks || internalTicks - 3155378975999999999 > ticks) {
     rt::throw_exception<ArgumentOutOfRangeException>("value", SR::get_ArgumentOutOfRange_DateArithmetic());
   }
+  return DateTime((UInt64)(internalTicks - ticks) | get_InternalKind());
 }
 
 Double DateTime::TicksToOADate(Int64 value) {
@@ -690,6 +745,15 @@ Int64 DateTime::ToFileTime() {
 }
 
 Int64 DateTime::ToFileTimeUtc() {
+  Int64 num = (((Int64)get_InternalKind() & Int64::MinValue) != 0) ? ToUniversalTime().get_InternalTicks() : get_InternalTicks();
+  if (s_systemSupportsLeapSeconds) {
+    return ToFileTimeLeapSecondsAware(num);
+  }
+  num -= 504911232000000000;
+  if (num < 0) {
+    rt::throw_exception<ArgumentOutOfRangeException>(nullptr, SR::get_ArgumentOutOfRange_FileTimeInvalid());
+  }
+  return num;
 }
 
 DateTime DateTime::ToLocalTime() {
@@ -824,6 +888,7 @@ DateTime DateTime::op_Subtraction(DateTime d, TimeSpan t) {
   if (internalTicks < ticks || internalTicks - 3155378975999999999 > ticks) {
     rt::throw_exception<ArgumentOutOfRangeException>("t", SR::get_ArgumentOutOfRange_DateArithmetic());
   }
+  return DateTime((UInt64)(internalTicks - ticks) | d.get_InternalKind());
 }
 
 TimeSpan DateTime::op_Subtraction(DateTime d1, DateTime d2) {
@@ -946,6 +1011,7 @@ DateTime DateTime::CreateDateTimeFromSystemTime(FullSystemTime& time) {
   num += TimeToTicks(time.systemTime.Hour, time.systemTime.Minute, time.systemTime.Second);
   num += (Int64)time.systemTime.Milliseconds * 10000;
   num += time.hundredNanoSecond;
+  return DateTime((UInt64)(num | 4611686018427387904));
 }
 
 void DateTime::cctor() {

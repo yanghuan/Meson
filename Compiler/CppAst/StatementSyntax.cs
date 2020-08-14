@@ -676,7 +676,17 @@ namespace Meson.Compiler.CppAst {
       renderer.Render(this);
     }
 
-    public static readonly BreakStatementSyntax Ins = new BreakStatementSyntax();
+    public static readonly BreakStatementSyntax Default = new BreakStatementSyntax();
+  }
+
+  sealed class ContinueStatementSyntax : StatementSyntax {
+    private ContinueStatementSyntax() { }
+
+    internal override void Render(CppRenderer renderer) {
+      renderer.Render(this);
+    }
+
+    public static readonly ContinueStatementSyntax Default = new ContinueStatementSyntax();
   }
 
 }

@@ -431,6 +431,9 @@ void Hashtable___::ctor(SerializationInfo info, StreamingContext context) {
 }
 
 UInt32 Hashtable___::InitHash(Object key, Int32 hashsize, UInt32& seed, UInt32& incr) {
+  UInt32 result = seed = (UInt32)(GetHash(key) & Int32::MaxValue);
+  incr = 1 + seed * 101 % (UInt32)(hashsize - 1);
+  return result;
 }
 
 void Hashtable___::Add(Object key, Object value) {
@@ -589,6 +592,8 @@ void Hashtable___::rehash(Int32 newsize) {
   for (Int32 i = 0; i < _buckets->get_Length(); i++) {
     bucket bucket = _buckets[i];
     if (bucket.key != nullptr && bucket.key != _buckets) {
+      Int32 hashcode = bucket.hash_coll & Int32::MaxValue;
+      putEntry(array, bucket.key, bucket.val, hashcode);
     }
   }
   _isWriterInProgress = true;

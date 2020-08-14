@@ -1,8 +1,10 @@
 #include "RtFieldInfo-dep.h"
 
 #include <System.Private.CoreLib/System/ArgumentException-dep.h>
+#include <System.Private.CoreLib/System/FieldAccessException-dep.h>
 #include <System.Private.CoreLib/System/InvalidOperationException-dep.h>
 #include <System.Private.CoreLib/System/Reflection/RtFieldInfo-dep.h>
+#include <System.Private.CoreLib/System/Reflection/TargetException-dep.h>
 #include <System.Private.CoreLib/System/RuntimeFieldHandle-dep.h>
 #include <System.Private.CoreLib/System/RuntimeTypeHandle-dep.h>
 #include <System.Private.CoreLib/System/Signature-dep.h>
@@ -10,6 +12,10 @@
 
 namespace System::Private::CoreLib::System::Reflection::RtFieldInfoNamespace {
 INVOCATION_FLAGS RtFieldInfo___::get_InvocationFlags() {
+  if ((m_invocationFlags & INVOCATION_FLAGS::INVOCATION_FLAGS_INITIALIZED) == 0) {
+    return InitializeInvocationFlags();
+  }
+  return m_invocationFlags;
 }
 
 RuntimeFieldHandleInternal RtFieldInfo___::get_ValueOfIRuntimeFieldInfo() {
@@ -41,7 +47,18 @@ INVOCATION_FLAGS RtFieldInfo___::InitializeInvocationFlags() {
     iNVOCATION_FLAGS |= INVOCATION_FLAGS::INVOCATION_FLAGS_NO_INVOKE;
   }
   if (iNVOCATION_FLAGS == INVOCATION_FLAGS::INVOCATION_FLAGS_UNKNOWN) {
+    if ((m_fieldAttributes & FieldAttributes::InitOnly) != 0) {
+      iNVOCATION_FLAGS |= INVOCATION_FLAGS::INVOCATION_FLAGS_IS_CTOR;
+    }
+    if ((m_fieldAttributes & FieldAttributes::HasFieldRVA) != 0) {
+      iNVOCATION_FLAGS |= INVOCATION_FLAGS::INVOCATION_FLAGS_IS_CTOR;
+    }
+    Type fieldType = get_FieldType();
+    if (fieldType->get_IsPointer() || fieldType->get_IsEnum() || fieldType->get_IsPrimitive()) {
+      iNVOCATION_FLAGS |= INVOCATION_FLAGS::INVOCATION_FLAGS_FIELD_SPECIAL_CAST;
+    }
   }
+  return m_invocationFlags = (iNVOCATION_FLAGS | INVOCATION_FLAGS::INVOCATION_FLAGS_INITIALIZED);
 }
 
 void RtFieldInfo___::ctor(RuntimeFieldHandleInternal handle, RuntimeType declaringType, RuntimeType::in::RuntimeTypeCache reflectedTypeCache, BindingFlags bindingFlags) {
@@ -50,6 +67,12 @@ void RtFieldInfo___::ctor(RuntimeFieldHandleInternal handle, RuntimeType declari
 }
 
 void RtFieldInfo___::CheckConsistency(Object target) {
+  if ((m_fieldAttributes & FieldAttributes::Static) != FieldAttributes::Static && !m_declaringType->IsInstanceOfType(target)) {
+    if (target == nullptr) {
+      rt::throw_exception<TargetException>(SR::get_RFLCT_Targ_StatFldReqTarg());
+    }
+    rt::throw_exception<ArgumentException>(SR::Format(SR::get_Arg_FieldDeclTarget(), get_Name(), m_declaringType, target->GetType()));
+  }
 }
 
 Boolean RtFieldInfo___::CacheEquals(Object o) {
@@ -67,6 +90,22 @@ RuntimeModule RtFieldInfo___::GetRuntimeModule() {
 Object RtFieldInfo___::GetValue(Object obj) {
   INVOCATION_FLAGS invocationFlags = get_InvocationFlags();
   RuntimeType runtimeType = rt::as<RuntimeType>(get_DeclaringType());
+  if ((invocationFlags & INVOCATION_FLAGS::INVOCATION_FLAGS_NO_INVOKE) != 0) {
+    if (runtimeType != nullptr && get_DeclaringType()->get_ContainsGenericParameters()) {
+      rt::throw_exception<InvalidOperationException>(SR::get_Arg_UnboundGenField());
+    }
+    rt::throw_exception<FieldAccessException>();
+  }
+  CheckConsistency(obj);
+  RuntimeType fieldType = (RuntimeType)get_FieldType();
+  Boolean domainInitialized = false;
+  if (runtimeType == nullptr) {
+    return RuntimeFieldHandle::GetValue((RtFieldInfo)this, obj, fieldType, nullptr, domainInitialized);
+  }
+  domainInitialized = runtimeType->set_DomainInitialized;
+  Object value = RuntimeFieldHandle::GetValue((RtFieldInfo)this, obj, fieldType, runtimeType, domainInitialized);
+  runtimeType->set_DomainInitialized = domainInitialized;
+  return value;
 }
 
 Object RtFieldInfo___::GetRawConstantValue() {
@@ -83,6 +122,23 @@ Object RtFieldInfo___::GetValueDirect(TypedReference obj) {
 void RtFieldInfo___::SetValue(Object obj, Object value, BindingFlags invokeAttr, Binder binder, CultureInfo culture) {
   INVOCATION_FLAGS invocationFlags = get_InvocationFlags();
   RuntimeType runtimeType = rt::as<RuntimeType>(get_DeclaringType());
+  if ((invocationFlags & INVOCATION_FLAGS::INVOCATION_FLAGS_NO_INVOKE) != 0) {
+    if (runtimeType != nullptr && runtimeType->get_ContainsGenericParameters()) {
+      rt::throw_exception<InvalidOperationException>(SR::get_Arg_UnboundGenField());
+    }
+    rt::throw_exception<FieldAccessException>();
+  }
+  CheckConsistency(obj);
+  RuntimeType runtimeType2 = (RuntimeType)get_FieldType();
+  value = runtimeType2->CheckValue(value, binder, culture, invokeAttr);
+  Boolean domainInitialized = false;
+  if (runtimeType == nullptr) {
+    RuntimeFieldHandle::SetValue((RtFieldInfo)this, obj, value, runtimeType2, m_fieldAttributes, nullptr, domainInitialized);
+    return;
+  }
+  domainInitialized = runtimeType->set_DomainInitialized;
+  RuntimeFieldHandle::SetValue((RtFieldInfo)this, obj, value, runtimeType2, m_fieldAttributes, runtimeType, domainInitialized);
+  runtimeType->set_DomainInitialized = domainInitialized;
 }
 
 void RtFieldInfo___::SetValueDirect(TypedReference obj, Object value) {

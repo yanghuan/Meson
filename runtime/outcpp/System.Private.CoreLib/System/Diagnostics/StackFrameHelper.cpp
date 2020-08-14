@@ -1,5 +1,6 @@
 #include "StackFrameHelper-dep.h"
 
+#include <System.Private.CoreLib/System/Activator-dep.h>
 #include <System.Private.CoreLib/System/Diagnostics/StackFrameHelper-dep.h>
 #include <System.Private.CoreLib/System/Diagnostics/StackTrace-dep.h>
 #include <System.Private.CoreLib/System/IRuntimeMethodInfo.h>
@@ -8,10 +9,12 @@
 #include <System.Private.CoreLib/System/RuntimeMethodHandle-dep.h>
 #include <System.Private.CoreLib/System/RuntimeMethodInfoStub-dep.h>
 #include <System.Private.CoreLib/System/RuntimeType-dep.h>
+#include <System.Private.CoreLib/System/Threading/Interlocked-dep.h>
 #include <System.Private.CoreLib/System/Type-dep.h>
 
 namespace System::Private::CoreLib::System::Diagnostics::StackFrameHelperNamespace {
 using namespace System::Reflection;
+using namespace System::Threading;
 
 void StackFrameHelper___::ctor(Thread target) {
   targetThread = target;
@@ -45,6 +48,12 @@ void StackFrameHelper___::InitializeSourceInfo(Int32 iSkip, Boolean fNeedFileInf
     Type type = Type::in::GetType("System.Diagnostics.StackTraceSymbols, System.Diagnostics.StackTrace, Version=4.0.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a", false);
     if (!(type == nullptr)) {
       Array<Type> types = rt::newarr<Array<Type>>(11);
+      MethodInfo method = type->GetMethod("GetSourceLineInfo", BindingFlags::Instance | BindingFlags::Public | BindingFlags::NonPublic, nullptr, types, nullptr);
+      if (!(method == nullptr)) {
+        Object target = Activator::CreateInstance(type);
+        GetSourceLineInfoDelegate value = method->CreateDelegate<GetSourceLineInfoDelegate>(target);
+        Interlocked::CompareExchange(s_getSourceLineInfo, value, nullptr);
+      }
     }
   } catch (...) {
   } finally: {

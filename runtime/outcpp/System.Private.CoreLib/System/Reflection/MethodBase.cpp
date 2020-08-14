@@ -27,45 +27,58 @@ CallingConventions MethodBase___::get_CallingConvention() {
 }
 
 Boolean MethodBase___::get_IsAbstract() {
+  return (get_Attributes() & MethodAttributes::Abstract) != 0;
 }
 
 Boolean MethodBase___::get_IsConstructor() {
   if (rt::is<ConstructorInfo>((MethodBase)this) && !get_IsStatic()) {
+    return (get_Attributes() & MethodAttributes::RTSpecialName) == MethodAttributes::RTSpecialName;
   }
   return false;
 }
 
 Boolean MethodBase___::get_IsFinal() {
+  return (get_Attributes() & MethodAttributes::Final) != 0;
 }
 
 Boolean MethodBase___::get_IsHideBySig() {
+  return (get_Attributes() & MethodAttributes::HideBySig) != 0;
 }
 
 Boolean MethodBase___::get_IsSpecialName() {
+  return (get_Attributes() & MethodAttributes::SpecialName) != 0;
 }
 
 Boolean MethodBase___::get_IsStatic() {
+  return (get_Attributes() & MethodAttributes::Static) != 0;
 }
 
 Boolean MethodBase___::get_IsVirtual() {
+  return (get_Attributes() & MethodAttributes::Virtual) != 0;
 }
 
 Boolean MethodBase___::get_IsAssembly() {
+  return (get_Attributes() & MethodAttributes::MemberAccessMask) == MethodAttributes::Assembly;
 }
 
 Boolean MethodBase___::get_IsFamily() {
+  return (get_Attributes() & MethodAttributes::MemberAccessMask) == MethodAttributes::Family;
 }
 
 Boolean MethodBase___::get_IsFamilyAndAssembly() {
+  return (get_Attributes() & MethodAttributes::MemberAccessMask) == MethodAttributes::FamANDAssem;
 }
 
 Boolean MethodBase___::get_IsFamilyOrAssembly() {
+  return (get_Attributes() & MethodAttributes::MemberAccessMask) == MethodAttributes::FamORAssem;
 }
 
 Boolean MethodBase___::get_IsPrivate() {
+  return (get_Attributes() & MethodAttributes::MemberAccessMask) == MethodAttributes::Private;
 }
 
 Boolean MethodBase___::get_IsPublic() {
+  return (get_Attributes() & MethodAttributes::MemberAccessMask) == MethodAttributes::Public;
 }
 
 Boolean MethodBase___::get_IsConstructedGenericMethod() {

@@ -15,10 +15,16 @@ Int32 ProcessorIdCache::RefreshCurrentProcessorId() {
   if (num < 0) {
     num = Environment::get_CurrentManagedThreadId();
   }
+  t_currentProcessorIdCache = (((num << 16) & Int32::MaxValue) | s_processorIdRefreshRate);
+  return num;
 }
 
 Int32 ProcessorIdCache::GetCurrentProcessorId() {
   Int32 num = t_currentProcessorIdCache--;
+  if ((num & 65535) == 0) {
+    return RefreshCurrentProcessorId();
+  }
+  return num >> 16;
 }
 
 Boolean ProcessorIdCache::ProcessorNumberSpeedCheck() {

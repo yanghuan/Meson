@@ -43,16 +43,19 @@ Boolean UncNameHelper::IsValid(Char* name, Int32 start, Int32& returnedEnd, Bool
         return false;
       }
       flag = false;
+      continue;
     }
     if (name[i] == 45 || name[i] == 95) {
       if (!flag) {
         return false;
       }
+      continue;
     }
     if (Char::IsLetter(name[i]) || (name[i] >= 48 && name[i] <= 57)) {
       if (!flag) {
         flag = true;
       }
+      continue;
     }
     return false;
   }

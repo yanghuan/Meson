@@ -70,6 +70,9 @@ ComEventsMethod ComEventsSink___::AddMethod(Int32 dispid) {
 Variant& ComEventsSink___::GetVariant(Variant& pSrc) {
   if (pSrc.get_VariantType() == (VarEnum)16396) {
     Span<Variant> span = Span<Variant>(pSrc.get_AsByRefVariant().ToPointer(), 1);
+    if ((span[0].get_VariantType() & (VarEnum)20479) == (VarEnum)16396) {
+      return span[0];
+    }
   }
   return pSrc;
 }

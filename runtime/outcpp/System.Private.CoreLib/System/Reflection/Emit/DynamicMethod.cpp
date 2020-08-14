@@ -4,17 +4,21 @@
 #include <System.Private.CoreLib/System/ArgumentNullException-dep.h>
 #include <System.Private.CoreLib/System/ArgumentOutOfRangeException-dep.h>
 #include <System.Private.CoreLib/System/Byte-dep.h>
+#include <System.Private.CoreLib/System/GC-dep.h>
 #include <System.Private.CoreLib/System/Int32-dep.h>
 #include <System.Private.CoreLib/System/InvalidOperationException-dep.h>
 #include <System.Private.CoreLib/System/IRuntimeMethodInfo.h>
 #include <System.Private.CoreLib/System/MulticastDelegate-dep.h>
+#include <System.Private.CoreLib/System/NotSupportedException-dep.h>
 #include <System.Private.CoreLib/System/Reflection/Emit/DynamicILGenerator-dep.h>
 #include <System.Private.CoreLib/System/Reflection/Emit/DynamicMethod-dep.h>
 #include <System.Private.CoreLib/System/Reflection/Emit/EmptyCAHolder-dep.h>
 #include <System.Private.CoreLib/System/Reflection/Emit/SignatureHelper-dep.h>
 #include <System.Private.CoreLib/System/Reflection/MethodBase-dep.h>
 #include <System.Private.CoreLib/System/Reflection/RuntimeParameterInfo-dep.h>
+#include <System.Private.CoreLib/System/Reflection/TargetParameterCountException-dep.h>
 #include <System.Private.CoreLib/System/RuntimeType-dep.h>
+#include <System.Private.CoreLib/System/Signature-dep.h>
 #include <System.Private.CoreLib/System/SR-dep.h>
 #include <System.Private.CoreLib/System/Text/ValueStringBuilder-dep.h>
 
@@ -203,21 +207,25 @@ void DynamicMethod___::set_InitLocals(Boolean value) {
 }
 
 void DynamicMethod___::ctor(String name, Type returnType, Array<Type> parameterTypes) {
+  Init(name, MethodAttributes::FamANDAssem | MethodAttributes::Family | MethodAttributes::Static, CallingConventions::Standard, returnType, parameterTypes, nullptr, nullptr, false, true);
 }
 
 void DynamicMethod___::ctor(String name, Type returnType, Array<Type> parameterTypes, Boolean restrictedSkipVisibility) {
+  Init(name, MethodAttributes::FamANDAssem | MethodAttributes::Family | MethodAttributes::Static, CallingConventions::Standard, returnType, parameterTypes, nullptr, nullptr, restrictedSkipVisibility, true);
 }
 
 void DynamicMethod___::ctor(String name, Type returnType, Array<Type> parameterTypes, Module m) {
   if (m == nullptr) {
     rt::throw_exception<ArgumentNullException>("m");
   }
+  Init(name, MethodAttributes::FamANDAssem | MethodAttributes::Family | MethodAttributes::Static, CallingConventions::Standard, returnType, parameterTypes, nullptr, m, false, false);
 }
 
 void DynamicMethod___::ctor(String name, Type returnType, Array<Type> parameterTypes, Module m, Boolean skipVisibility) {
   if (m == nullptr) {
     rt::throw_exception<ArgumentNullException>("m");
   }
+  Init(name, MethodAttributes::FamANDAssem | MethodAttributes::Family | MethodAttributes::Static, CallingConventions::Standard, returnType, parameterTypes, nullptr, m, skipVisibility, false);
 }
 
 void DynamicMethod___::ctor(String name, MethodAttributes attributes, CallingConventions callingConvention, Type returnType, Array<Type> parameterTypes, Module m, Boolean skipVisibility) {
@@ -231,12 +239,14 @@ void DynamicMethod___::ctor(String name, Type returnType, Array<Type> parameterT
   if (owner == nullptr) {
     rt::throw_exception<ArgumentNullException>("owner");
   }
+  Init(name, MethodAttributes::FamANDAssem | MethodAttributes::Family | MethodAttributes::Static, CallingConventions::Standard, returnType, parameterTypes, owner, nullptr, false, false);
 }
 
 void DynamicMethod___::ctor(String name, Type returnType, Array<Type> parameterTypes, Type owner, Boolean skipVisibility) {
   if (owner == nullptr) {
     rt::throw_exception<ArgumentNullException>("owner");
   }
+  Init(name, MethodAttributes::FamANDAssem | MethodAttributes::Family | MethodAttributes::Static, CallingConventions::Standard, returnType, parameterTypes, owner, nullptr, skipVisibility, false);
 }
 
 void DynamicMethod___::ctor(String name, MethodAttributes attributes, CallingConventions callingConvention, Type returnType, Array<Type> parameterTypes, Type owner, Boolean skipVisibility) {
@@ -247,6 +257,18 @@ void DynamicMethod___::ctor(String name, MethodAttributes attributes, CallingCon
 }
 
 void DynamicMethod___::CheckConsistency(MethodAttributes attributes, CallingConventions callingConvention) {
+  if ((attributes & ~MethodAttributes::MemberAccessMask) != MethodAttributes::Static) {
+    rt::throw_exception<NotSupportedException>(SR::get_NotSupported_DynamicMethodFlags());
+  }
+  if ((attributes & MethodAttributes::MemberAccessMask) != MethodAttributes::Public) {
+    rt::throw_exception<NotSupportedException>(SR::get_NotSupported_DynamicMethodFlags());
+  }
+  if (callingConvention != CallingConventions::Standard && callingConvention != CallingConventions::VarArgs) {
+    rt::throw_exception<NotSupportedException>(SR::get_NotSupported_DynamicMethodFlags());
+  }
+  if (callingConvention == CallingConventions::VarArgs) {
+    rt::throw_exception<NotSupportedException>(SR::get_NotSupported_DynamicMethodFlags());
+  }
 }
 
 RuntimeModule DynamicMethod___::GetDynamicMethodsModule() {
@@ -313,6 +335,29 @@ MethodImplAttributes DynamicMethod___::GetMethodImplementationFlags() {
 }
 
 Object DynamicMethod___::Invoke(Object obj, BindingFlags invokeAttr, Binder binder, Array<Object> parameters, CultureInfo culture) {
+  if ((get_CallingConvention() & CallingConventions::VarArgs) == CallingConventions::VarArgs) {
+    rt::throw_exception<NotSupportedException>(SR::get_NotSupported_CallToVarArg());
+  }
+  GetMethodDescriptor();
+  Signature signature = rt::newobj<Signature>(m_methodHandle, m_parameterTypes, m_returnType, get_CallingConvention());
+  Int32 num = signature->get_Arguments()->get_Length();
+  Int32 num2 = (parameters != nullptr) ? parameters->get_Length() : 0;
+  if (num != num2) {
+    rt::throw_exception<TargetParameterCountException>(SR::get_Arg_ParmCnt());
+  }
+  Boolean wrapExceptions = (invokeAttr & BindingFlags::DoNotWrapExceptions) == 0;
+  Object result;
+  if (num2 > 0) {
+    Array<Object> array = CheckArguments(parameters, binder, invokeAttr, culture, signature);
+    result = RuntimeMethodHandle::InvokeMethod(nullptr, array, signature, false, wrapExceptions);
+    for (Int32 i = 0; i < array->get_Length(); i++) {
+      parameters[i] = array[i];
+    }
+  } else {
+    result = RuntimeMethodHandle::InvokeMethod(nullptr, nullptr, signature, false, wrapExceptions);
+  }
+  GC::KeepAlive((DynamicMethod)this);
+  return result;
 }
 
 Array<Object> DynamicMethod___::GetCustomAttributes(Type attributeType, Boolean inherit) {

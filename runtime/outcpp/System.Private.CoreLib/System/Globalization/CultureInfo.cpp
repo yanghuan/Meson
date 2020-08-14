@@ -366,6 +366,10 @@ Boolean CultureInfo___::VerifyCultureName(CultureInfo culture, Boolean throwExce
 }
 
 Array<CultureInfo> CultureInfo___::GetCultures(CultureTypes types) {
+  if ((types & CultureTypes::UserCustomCulture) == CultureTypes::UserCustomCulture) {
+    types |= CultureTypes::ReplacementCultures;
+  }
+  return CultureData::in::GetCultures(types);
 }
 
 Boolean CultureInfo___::Equals(Object value) {

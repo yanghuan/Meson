@@ -361,11 +361,16 @@ Int32 BinaryReader___::Read7BitEncodedInt() {
   Byte b;
   for (Int32 i = 0; i < 28; i += 7) {
     b = ReadByte();
+    num |= (UInt32)((b & 127) << i);
+    if ((UInt32)b <= 127u) {
+      return (Int32)num;
+    }
   }
   b = ReadByte();
   if ((UInt32)b > 15u) {
     rt::throw_exception<FormatException>(SR::get_Format_Bad7BitInt());
   }
+  return (Int32)num | (b << 28);
 }
 
 Int64 BinaryReader___::Read7BitEncodedInt64() {
@@ -373,11 +378,16 @@ Int64 BinaryReader___::Read7BitEncodedInt64() {
   Byte b;
   for (Int32 i = 0; i < 63; i += 7) {
     b = ReadByte();
+    num |= (UInt64)(((Int64)b & 127) << i);
+    if ((UInt32)b <= 127u) {
+      return (Int64)num;
+    }
   }
   b = ReadByte();
   if ((UInt32)b > 1u) {
     rt::throw_exception<FormatException>(SR::get_Format_Bad7BitInt());
   }
+  return (Int64)(num | ((UInt64)b << 63));
 }
 
 } // namespace System::Private::CoreLib::System::IO::BinaryReaderNamespace

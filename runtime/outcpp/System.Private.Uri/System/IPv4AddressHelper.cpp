@@ -186,6 +186,30 @@ Int64 IPv4AddressHelper::ParseNonCanonical(Char* name, Int32 start, Int32& end, 
     end = i;
   }
   ptr[num3] = num2;
+  switch (num3.get()) {
+    case 0:
+      if (*ptr > UInt32::MaxValue) {
+        return -1;
+      }
+      return *ptr;
+    case 1:
+      if (ptr[1] > 16777215) {
+        return -1;
+      }
+      return (*ptr << 24) | (ptr[1] & 16777215);
+    case 2:
+      if (ptr[2] > 65535) {
+        return -1;
+      }
+      return (*ptr << 24) | ((ptr[1] & 255) << 16) | (ptr[2] & 65535);
+    case 3:
+      if (ptr[3] > 255) {
+        return -1;
+      }
+      return (*ptr << 24) | ((ptr[1] & 255) << 16) | ((ptr[2] & 255) << 8) | (ptr[3] & 255);
+    default:
+      return -1;
+  }
 }
 
 } // namespace System::Private::Uri::System::IPv4AddressHelperNamespace

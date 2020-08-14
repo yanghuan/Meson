@@ -37,7 +37,9 @@ Int32 BitOperations::LeadingZeroCount(UInt32 value) {
     return 32;
   }
   if (X86Base::get_IsSupported()) {
+    return (Int32)(31 ^ X86Base::BitScanReverse(value));
   }
+  return 31 ^ Log2SoftwareFallback(value);
 }
 
 Int32 BitOperations::LeadingZeroCount(UInt64 value) {
@@ -49,6 +51,7 @@ Int32 BitOperations::LeadingZeroCount(UInt64 value) {
   }
   if (X86Base::X64::get_IsSupported()) {
     if (value != 0) {
+      return 63 ^ (Int32)X86Base::X64::BitScanReverse(value);
     }
     return 64;
   }
@@ -62,8 +65,10 @@ Int32 BitOperations::LeadingZeroCount(UInt64 value) {
 Int32 BitOperations::Log2(UInt32 value) {
   value |= 1;
   if (Lzcnt::in::get_IsSupported()) {
+    return (Int32)(31 ^ Lzcnt::in::LeadingZeroCount(value));
   }
   if (ArmBase::in::get_IsSupported()) {
+    return 31 ^ ArmBase::in::LeadingZeroCount(value);
   }
   if (X86Base::get_IsSupported()) {
     return (Int32)X86Base::BitScanReverse(value);
@@ -74,8 +79,10 @@ Int32 BitOperations::Log2(UInt32 value) {
 Int32 BitOperations::Log2(UInt64 value) {
   value |= 1;
   if (Lzcnt::in::X64::in::get_IsSupported()) {
+    return 63 ^ (Int32)Lzcnt::in::X64::in::LeadingZeroCount(value);
   }
   if (ArmBase::in::Arm64::in::get_IsSupported()) {
+    return 63 ^ ArmBase::in::Arm64::in::LeadingZeroCount(value);
   }
   if (X86Base::X64::get_IsSupported()) {
     return (Int32)X86Base::X64::BitScanReverse(value);
@@ -98,6 +105,10 @@ Int32 BitOperations::Log2SoftwareFallback(UInt32 value) {
 
 Int32 BitOperations::PopCount(UInt32 value) {
   auto SoftwareFallback = [](UInt32 value) -> Int32 {
+    value -= ((value >> 1) & 1431655765);
+    value = (value & 858993459) + ((value >> 2) & 858993459);
+    value = ((value + (value >> 4)) & 252645135) * 16843009 >> 24;
+    return (Int32)value;
   };
   if (Popcnt::in::get_IsSupported()) {
     return (Int32)Popcnt::in::PopCount(value);
@@ -112,6 +123,10 @@ Int32 BitOperations::PopCount(UInt32 value) {
 
 Int32 BitOperations::PopCount(UInt64 value) {
   auto SoftwareFallback = [](UInt64 value) -> Int32 {
+    value -= ((value >> 1) & 6148914691236517205);
+    value = (value & 3689348814741910323) + ((value >> 2) & 3689348814741910323);
+    value = ((value + (value >> 4)) & 1085102592571150095) * 72340172838076673 >> 56;
+    return (Int32)value;
   };
   if (Popcnt::in::X64::in::get_IsSupported()) {
     return (Int32)Popcnt::in::X64::in::PopCount(value);
@@ -141,6 +156,7 @@ Int32 BitOperations::TrailingZeroCount(UInt32 value) {
   if (X86Base::get_IsSupported()) {
     return (Int32)X86Base::BitScanForward(value);
   }
+  return Unsafe::AddByteOffset(MemoryMarshal::GetReference(get_TrailingZeroCountDeBruijn()), (IntPtr)(Int32)((value & (0 - value)) * 125613361 >> 27));
 }
 
 Int32 BitOperations::TrailingZeroCount(Int64 value) {
@@ -168,15 +184,19 @@ Int32 BitOperations::TrailingZeroCount(UInt64 value) {
 }
 
 UInt32 BitOperations::RotateLeft(UInt32 value, Int32 offset) {
+  return (value << offset) | (value >> 32 - offset);
 }
 
 UInt64 BitOperations::RotateLeft(UInt64 value, Int32 offset) {
+  return (value << offset) | (value >> 64 - offset);
 }
 
 UInt32 BitOperations::RotateRight(UInt32 value, Int32 offset) {
+  return (value >> offset) | (value << 32 - offset);
 }
 
 UInt64 BitOperations::RotateRight(UInt64 value, Int32 offset) {
+  return (value >> offset) | (value << 64 - offset);
 }
 
 } // namespace System::Private::CoreLib::System::Numerics::BitOperationsNamespace

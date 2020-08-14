@@ -93,9 +93,11 @@ Boolean PathInternal::RemoveRelativeSegments(ReadOnlySpan<Char> path, Int32 root
     Char c = path[i];
     if (IsDirectorySeparator(c) && i + 1 < path.get_Length()) {
       if (IsDirectorySeparator(path[i + 1])) {
+        continue;
       }
       if ((i + 2 == path.get_Length() || IsDirectorySeparator(path[i + 2])) && path[i + 1] == 46) {
         i++;
+        continue;
       }
       if (i + 2 < path.get_Length() && (i + 3 == path.get_Length() || IsDirectorySeparator(path[i + 3])) && path[i + 1] == 46 && path[i + 2] == 46) {
         Int32 num2;
@@ -109,6 +111,7 @@ Boolean PathInternal::RemoveRelativeSegments(ReadOnlySpan<Char> path, Int32 root
           sb.set_Length = num;
         }
         i += 2;
+        continue;
       }
     }
     if (c != 92 && c == 47) {
@@ -300,6 +303,7 @@ String PathInternal::NormalizeDirectorySeparators(String path) {
     Char c = path[j];
     if (IsDirectorySeparator(c)) {
       if (j + 1 < path->get_Length() && IsDirectorySeparator(path[j + 1])) {
+        continue;
       }
       c = 92;
     }

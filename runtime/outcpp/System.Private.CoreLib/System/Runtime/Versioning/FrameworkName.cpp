@@ -49,6 +49,7 @@ Boolean FrameworkName___::Equals(FrameworkName other) {
 }
 
 Int32 FrameworkName___::GetHashCode() {
+  return get_Identifier()->GetHashCode() ^ get_Version()->GetHashCode() ^ get_Profile()->GetHashCode();
 }
 
 String FrameworkName___::ToString() {

@@ -9,6 +9,7 @@
 #include <System.Private.CoreLib/System/Runtime/InteropServices/MemoryMarshal-dep.h>
 #include <System.Private.CoreLib/System/Span-dep.h>
 #include <System.Private.CoreLib/System/Text/Unicode/Utf16Utility-dep.h>
+#include <System.Private.CoreLib/System/UInt16-dep.h>
 #include <System.Private.CoreLib/System/UInt32-dep.h>
 #include <System.Private.CoreLib/System/UIntPtr-dep.h>
 
@@ -32,6 +33,24 @@ Int32 Marvin::ComputeHash32(Byte& data, UInt32 count, UInt32 p0, UInt32 p1) {
   if (count < 8) {
     if (count < 4) {
       num = ((!BitConverter::IsLittleEndian) ? 2147483648u : 128u);
+      if ((count & 1) != 0) {
+        num = Unsafe::AddByteOffset(data, (UIntPtr)count & (?)2u);
+        if (BitConverter::IsLittleEndian) {
+          num |= 32768;
+        } else {
+          num <<= 24;
+          num |= 8388608;
+        }
+      }
+      if ((count & 2) != 0) {
+        if (BitConverter::IsLittleEndian) {
+          num <<= 16;
+          num |= Unsafe::ReadUnaligned<UInt16>(data);
+        } else {
+          num |= Unsafe::ReadUnaligned<UInt16>(data);
+          num = BitOperations::RotateLeft(num, 16);
+        }
+      }
     }
   } else {
     UInt32 num2 = count / 8u;
@@ -74,6 +93,7 @@ Int32 Marvin::ComputeHash32OrdinalIgnoreCase(Char& data, Int32 count, UInt32 p0,
       Block(p0, p1);
       num2 += 4;
       num -= 2;
+      continue;
     }
     if (num != 0) {
       UInt32 value = Unsafe::AddByteOffset(data, num2);
@@ -85,6 +105,7 @@ Int32 Marvin::ComputeHash32OrdinalIgnoreCase(Char& data, Int32 count, UInt32 p0,
     p0 += 128;
     Block(p0, p1);
     Block(p0, p1);
+    return (Int32)(p1 ^ p0);
   }
   return ComputeHash32OrdinalIgnoreCaseSlow(Unsafe::AddByteOffset(data, num2), (Int32)num, p0, p1);
 }

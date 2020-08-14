@@ -7,8 +7,10 @@
 #include <System.Private.CoreLib/System/ArgumentOutOfRangeException-dep.h>
 #include <System.Private.CoreLib/System/Buffer-dep.h>
 #include <System.Private.CoreLib/System/Buffers/ArrayPool-dep.h>
+#include <System.Private.CoreLib/System/Exception-dep.h>
 #include <System.Private.CoreLib/System/Int64-dep.h>
 #include <System.Private.CoreLib/System/IO/Error-dep.h>
+#include <System.Private.CoreLib/System/IO/FileAccess.h>
 #include <System.Private.CoreLib/System/IO/FileStream-dep.h>
 #include <System.Private.CoreLib/System/IO/IOException-dep.h>
 #include <System.Private.CoreLib/System/IO/PathInternal-dep.h>
@@ -89,11 +91,28 @@ void FileStream___::FileStreamCompletionSource___::IOCallback(UInt32 errorCode, 
   Object nativeOverlappedState = ThreadPoolBoundHandle::in::GetNativeOverlappedState(pOverlapped);
   FileStream fileStream = rt::as<FileStream>(nativeOverlappedState);
   FileStreamCompletionSource fileStreamCompletionSource = (fileStream != nullptr) ? fileStream->_currentOverlappedOwner : ((FileStreamCompletionSource)nativeOverlappedState);
+  UInt64 num = (errorCode == 0 || errorCode == 109 || errorCode == 232) ? (4294967296 | (UInt64)numBytes) : (8589934592 | (UInt64)errorCode);
+  if (Interlocked::Exchange(fileStreamCompletionSource->_result, (Int64)num) == 0 && Interlocked::Exchange(fileStreamCompletionSource->_result, 34359738368) != 0) {
+    fileStreamCompletionSource->CompleteCallback(num);
+  }
 }
 
 void FileStream___::FileStreamCompletionSource___::CompleteCallback(UInt64 packedResult) {
   CancellationToken token = _cancellationRegistration.get_Token();
   ReleaseNativeResource();
+  Int64 num = (Int64)packedResult & -4294967296;
+  if (num == 8589934592) {
+    Int32 num2 = (Int32)(packedResult & UInt32::MaxValue);
+    if (num2 == 995) {
+      TrySetCanceled(token.get_IsCancellationRequested() ? token : CancellationToken(true));
+      return;
+    }
+    Exception exceptionForWin32Error = Win32Marshal::GetExceptionForWin32Error(num2);
+    exceptionForWin32Error->SetCurrentStackTrace();
+    TrySetException(exceptionForWin32Error);
+  } else {
+    TrySetResult((Int32)(packedResult & UInt32::MaxValue) + _numBufferedBytes);
+  }
 }
 
 void FileStream___::FileStreamCompletionSource___::Cancel(Object state) {
@@ -171,12 +190,14 @@ IntPtr FileStream___::get_Handle() {
 
 Boolean FileStream___::get_CanRead() {
   if (!_fileHandle->get_IsClosed()) {
+    return (_access & FileAccess::Read) != 0;
   }
   return false;
 }
 
 Boolean FileStream___::get_CanWrite() {
   if (!_fileHandle->get_IsClosed()) {
+    return (_access & FileAccess::Write) != 0;
   }
   return false;
 }
@@ -665,6 +686,13 @@ void FileStream___::InitFromHandleImpl(SafeFileHandle handle, Boolean useAsyncIO
 
 Interop::Kernel32::SECURITY_ATTRIBUTES FileStream___::GetSecAttrs(FileShare share) {
   Interop::Kernel32::SECURITY_ATTRIBUTES result = Interop::Kernel32::SECURITY_ATTRIBUTES();
+  if ((share & FileShare::Inheritable) != 0) {
+    Interop::Kernel32::SECURITY_ATTRIBUTES result2 = Interop::Kernel32::SECURITY_ATTRIBUTES();
+    result2.nLength = (UInt32)sizeof(Interop::Kernel32::SECURITY_ATTRIBUTES);
+    result2.bInheritHandle = Interop::BOOL::TRUE;
+    return result2;
+  }
+  return result;
 }
 
 Int64 FileStream___::GetLengthInternal() {
@@ -1248,6 +1276,13 @@ SafeFileHandle FileStream___::OpenHandle(FileMode mode, FileShare share, FileOpt
 
 SafeFileHandle FileStream___::CreateFileOpenHandle(FileMode mode, FileShare share, FileOptions options) {
   Interop::Kernel32::SECURITY_ATTRIBUTES secAttrs = GetSecAttrs(share);
+  Int32 dwDesiredAccess = (((_access & FileAccess::Read) == FileAccess::Read) ? Int32::MinValue : 0) | (((_access & FileAccess::Write) == FileAccess::Write) ? 1073741824 : 0);
+  share &= ~FileShare::Inheritable;
+  if (mode == FileMode::Append) {
+    mode = FileMode::OpenOrCreate;
+  }
+  Int32 num = (Int32)options;
+  num |= 1048576;
 }
 
 Boolean FileStream___::GetDefaultIsAsync(SafeFileHandle handle) {
@@ -1259,6 +1294,17 @@ Nullable<Boolean> FileStream___::IsHandleSynchronous(SafeFileHandle fileHandle, 
   }
   Interop::NtDll::IO_STATUS_BLOCK IoStatusBlock;
   UInt32 num;
+  switch (Interop::NtDll::NtQueryInformationFile(fileHandle, IoStatusBlock, &num, 4u, 16u).get()) {
+    case -1073741816:
+      if (!ignoreInvalid) {
+        rt::throw_exception(Win32Marshal::GetExceptionForWin32Error(6));
+      }
+      return nullptr;
+    default:
+      return nullptr;
+    case 0:
+      return (num & 48) != 0;
+  }
 }
 
 void FileStream___::VerifyHandleIsSync(SafeFileHandle handle) {

@@ -15,6 +15,7 @@ ExceptionHandler::ExceptionHandler(Int32 tryStartOffset, Int32 tryEndOffset, Int
 }
 
 Int32 ExceptionHandler::GetHashCode() {
+  return m_exceptionClass ^ m_tryStartOffset ^ m_tryEndOffset ^ m_filterOffset ^ m_handlerStartOffset ^ m_handlerEndOffset ^ (Int32)m_kind;
 }
 
 Boolean ExceptionHandler::Equals(Object obj) {

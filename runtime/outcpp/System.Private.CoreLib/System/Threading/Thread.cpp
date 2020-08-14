@@ -313,6 +313,10 @@ void Thread___::SetCultureOnUnstartedThread(CultureInfo value, Boolean uiCulture
   if (value == nullptr) {
     rt::throw_exception<ArgumentNullException>("value");
   }
+  if ((get_ThreadState() & ThreadState::Unstarted) == 0) {
+    rt::throw_exception<InvalidOperationException>(SR::get_Thread_Operation_RequiresCurrentThread());
+  }
+  SetCultureOnUnstartedThreadNoCheck(value, uiCulture);
 }
 
 void Thread___::ThreadNameChanged(String value) {

@@ -46,6 +46,10 @@ Exception Win32Marshal::GetExceptionForWin32Error(Int32 errorCode, String path) 
 }
 
 Int32 Win32Marshal::MakeHRFromErrorCode(Int32 errorCode) {
+  if ((4294901760u & errorCode) != 0) {
+    return errorCode;
+  }
+  return -2147024896 | errorCode;
 }
 
 String Win32Marshal::GetMessage(Int32 errorCode) {
