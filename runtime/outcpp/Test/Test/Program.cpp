@@ -1,23 +1,21 @@
 #include "Program-dep.h"
 
 #include <System.Console/System/Console-dep.h>
+#include <System.Private.CoreLib/System/Int32-dep.h>
 #include <Test/Test/Program-dep.h>
 
 namespace Test::Test::ProgramNamespace {
 using namespace ::System::Console::System;
-
-Int32 Program___::get_A() {
-  return a;
-}
-
-void Program___::set_A(Int32 value) {
-  a = value;
-}
+using namespace ::System::Private::CoreLib::System;
 
 void Program___::Main(Array<String> args) {
   Console::WriteLine(args);
-  get_A() = args->get_Length();
-  Int32 num = get_A();
+  Int32 num = args->get_Length();
+  Console::WriteLine(String::in::Format(dddd{0:x}ddd, num));
+  {
+    rt::lock(args);
+    num = 2;
+  }
 }
 
 void Program___::ctor() {

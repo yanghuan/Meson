@@ -2,6 +2,7 @@
 
 #include <System.Console/Interop-dep.h>
 #include <System.Console/System/Console-dep.h>
+#include <System.Console/System/ConsoleKey.h>
 #include <System.Console/System/ConsolePal-dep.h>
 #include <System.Console/System/ConsoleSpecialKey.h>
 #include <System.Console/System/IO/Error-dep.h>
@@ -20,6 +21,7 @@
 #include <System.Private.CoreLib/System/Int16-dep.h>
 #include <System.Private.CoreLib/System/InvalidOperationException-dep.h>
 #include <System.Private.CoreLib/System/IO/IOException-dep.h>
+#include <System.Private.CoreLib/System/IO/Stream-dep.h>
 #include <System.Private.CoreLib/System/IO/StreamReader-dep.h>
 #include <System.Private.CoreLib/System/Runtime/InteropServices/Marshal-dep.h>
 #include <System.Private.CoreLib/System/Span-dep.h>
@@ -42,6 +44,7 @@ void ConsolePal::WindowsConsoleStream___::ctor(IntPtr handle, FileAccess access,
 
 void ConsolePal::WindowsConsoleStream___::Dispose(Boolean disposing) {
   _handle = IntPtr::Zero;
+  Stream->Dispose(disposing);
 }
 
 Int32 ConsolePal::WindowsConsoleStream___::Read(Array<Byte> buffer, Int32 offset, Int32 count) {
@@ -66,6 +69,7 @@ void ConsolePal::WindowsConsoleStream___::Flush() {
   if (_handle == IntPtr::Zero) {
     rt::throw_exception(Error::GetFileNotOpen());
   }
+  Stream->Flush();
 }
 
 Int32 ConsolePal::WindowsConsoleStream___::ReadFileNative(IntPtr hFile, Array<Byte> bytes, Int32 offset, Int32 count, Boolean isPipe, Int32& bytesRead, Boolean useFileAPIs) {
@@ -498,6 +502,61 @@ Boolean ConsolePal::IsAltKeyDown(Interop::InputRecord ir) {
 ConsoleKeyInfo ConsolePal::ReadKey(Boolean intercept) {
   Int32 numEventsRead = -1;
   Interop::InputRecord buffer;
+  {
+    rt::lock(s_readKeySyncObject);
+    {
+      if (_cachedInputRecord.eventType == 1) {
+        buffer = _cachedInputRecord;
+        if (_cachedInputRecord.keyEvent.repeatCount == 0) {
+          _cachedInputRecord.eventType = -1;
+        } else {
+          _cachedInputRecord.keyEvent.repeatCount--;
+        }
+      } else {
+        while (true) {
+          if (!Interop::Kernel32::ReadConsoleInput(get_InputHandle(), buffer, 1, numEventsRead) || numEventsRead == 0) {
+            rt::throw_exception<InvalidOperationException>(SR::get_InvalidOperation_ConsoleReadKeyOnFile());
+          }
+          Int16 virtualKeyCode = buffer.keyEvent.virtualKeyCode;
+          if ((!IsKeyDownEvent(buffer) && virtualKeyCode != 18) || (buffer.keyEvent.uChar == 0 && IsModKey(buffer))) {
+            continue;
+          }
+          ConsoleKey consoleKey = (ConsoleKey)virtualKeyCode;
+          if (!IsAltKeyDown(buffer)) {
+            break;
+          }
+          if (consoleKey < ConsoleKey::NumPad0 || consoleKey > ConsoleKey::NumPad9) {
+            switch (consoleKey) {
+              case ConsoleKey::Clear:
+              case ConsoleKey::PageUp:
+              case ConsoleKey::PageDown:
+              case ConsoleKey::End:
+              case ConsoleKey::Home:
+              case ConsoleKey::LeftArrow:
+              case ConsoleKey::UpArrow:
+              case ConsoleKey::RightArrow:
+              case ConsoleKey::DownArrow:
+              case ConsoleKey::Insert:
+                continue;
+            }
+            break;
+          }
+        }
+        if (buffer.keyEvent.repeatCount > 1) {
+          buffer.keyEvent.repeatCount--;
+          _cachedInputRecord = buffer;
+        }
+      }
+    }}
+  ControlKeyState controlKeyState = (ControlKeyState)buffer.keyEvent.controlKeyState;
+  Boolean shift = (controlKeyState & ControlKeyState::ShiftPressed) != 0;
+  Boolean alt = (controlKeyState & (ControlKeyState::RightAltPressed | ControlKeyState::LeftAltPressed)) != 0;
+  Boolean control = (controlKeyState & (ControlKeyState::RightCtrlPressed | ControlKeyState::LeftCtrlPressed)) != 0;
+  ConsoleKeyInfo result = ConsoleKeyInfo(buffer.keyEvent.uChar, (ConsoleKey)buffer.keyEvent.virtualKeyCode, shift, alt, control);
+  if (!intercept) {
+    Console::Write(buffer.keyEvent.uChar);
+  }
+  return result;
 }
 
 void ConsolePal::ResetColor() {

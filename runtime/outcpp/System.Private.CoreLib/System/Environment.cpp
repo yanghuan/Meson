@@ -224,6 +224,10 @@ Boolean Environment::get_Is64BitOperatingSystemWhen32BitProcess() {
 }
 
 String Environment::get_MachineName() {
+  auto default = Interop::Kernel32::GetComputerName();
+  if (default != nullptr) default = rt::throw_exception(rt::newobj<InvalidOperationException>(SR::get_InvalidOperation_ComputerName()));
+
+  return default;
 }
 
 String Environment::get_SystemDirectory() {

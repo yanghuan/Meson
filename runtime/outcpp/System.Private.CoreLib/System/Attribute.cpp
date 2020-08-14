@@ -8,6 +8,7 @@
 #include <System.Private.CoreLib/System/Collections/Generic/List-dep.h>
 #include <System.Private.CoreLib/System/Int32-dep.h>
 #include <System.Private.CoreLib/System/Reflection/AmbiguousMatchException-dep.h>
+#include <System.Private.CoreLib/System/Reflection/BindingFlags.h>
 #include <System.Private.CoreLib/System/Reflection/MemberTypes.h>
 #include <System.Private.CoreLib/System/Reflection/MethodInfo-dep.h>
 #include <System.Private.CoreLib/System/Reflection/RuntimeMethodInfo-dep.h>
@@ -63,6 +64,18 @@ Boolean Attribute___::InternalIsDefined(PropertyInfo element, Type attributeType
 }
 
 PropertyInfo Attribute___::GetParentDefinition(PropertyInfo property, Array<Type> propertyParameters) {
+  auto default = property->GetGetMethod(true);
+  if (default != nullptr) default = property->GetSetMethod(true);
+
+  MethodInfo methodInfo = default;
+  RuntimeMethodInfo runtimeMethodInfo = rt::as<RuntimeMethodInfo>(methodInfo);
+  if (runtimeMethodInfo != nullptr) {
+    runtimeMethodInfo = runtimeMethodInfo->GetParentDefinition();
+    if (runtimeMethodInfo != nullptr) {
+      return runtimeMethodInfo->get_DeclaringType()->GetProperty(property->get_Name(), BindingFlags::DeclaredOnly | BindingFlags::Instance | BindingFlags::Public | BindingFlags::NonPublic, nullptr, property->get_PropertyType(), propertyParameters, nullptr);
+    }
+  }
+  return nullptr;
 }
 
 Array<Attribute> Attribute___::InternalGetCustomAttributes(EventInfo element, Type type, Boolean inherit) {

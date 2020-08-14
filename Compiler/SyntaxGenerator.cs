@@ -22,8 +22,7 @@ namespace Meson.Compiler {
     private readonly Dictionary<ISymbol, SymbolNameSyntax> memberNames_ = new Dictionary<ISymbol, SymbolNameSyntax>();
     private Dictionary<string, HashSet<ITypeDefinition>> namespaceTypes_;
     private static readonly DecompilerSettings decompilerSettings_ = new DecompilerSettings(LanguageVersion.Latest);
-    public ITypeDefinition IntPtrTypeDefinition { get; private set; }
-    public ITypeDefinition UIntPtrTypeDefinition { get; private set; }
+    private List<ITypeDefinition> knownTypes_ = new List<ITypeDefinition>();
 
     public SyntaxGenerator(Options options) {
       Options = options;
@@ -60,17 +59,22 @@ namespace Meson.Compiler {
       return assemblyTransforms.SelectMany(i => i.GetCompilationUnits());
     }
 
+    public ITypeDefinition IntPtrTypeDefinition => GetKnownType(KnownTypeCode.IntPtr);
+    public ITypeDefinition UIntPtrTypeDefinition => GetKnownType(KnownTypeCode.UIntPtr);
+    public ITypeDefinition StringTypeDefinition => GetKnownType(KnownTypeCode.String);
+
+    private ITypeDefinition GetKnownType(KnownTypeCode code) {
+      int index = code - KnownTypeCode.Object;
+      return knownTypes_[index];
+    }
+
     private bool TopLevelTypeFilter(ITypeDefinition type) {
       if (type.Name.StartsWith('<')) {
         return false;
       }
-      switch (type.KnownTypeCode) {
-        case KnownTypeCode.IntPtr:
-          IntPtrTypeDefinition = type;
-          break;
-        case KnownTypeCode.UIntPtr:
-          UIntPtrTypeDefinition = type;
-          break;
+      if (type.KnownTypeCode != KnownTypeCode.None) {
+        int index = type.KnownTypeCode - KnownTypeCode.Object;
+        knownTypes_.AddAt(index, type);
       }
       return true;
     }

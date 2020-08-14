@@ -10,6 +10,7 @@
 #include <System.Private.CoreLib/System/ArgumentOutOfRangeException-dep.h>
 #include <System.Private.CoreLib/System/Int64-dep.h>
 #include <System.Private.CoreLib/System/IntPtr-dep.h>
+#include <System.Private.CoreLib/System/Object-dep.h>
 #include <System.Private.CoreLib/System/UInt32-dep.h>
 
 namespace System::Console::System::Text::OSEncodingNamespace {
@@ -194,6 +195,30 @@ Encoder OSEncoding___::GetEncoder() {
 }
 
 Decoder OSEncoding___::GetDecoder() {
+  switch (get_CodePage().get()) {
+    case 932:
+    case 936:
+    case 949:
+    case 950:
+    case 1361:
+    case 10001:
+    case 10002:
+    case 10003:
+    case 10008:
+    case 20000:
+    case 20001:
+    case 20002:
+    case 20003:
+    case 20004:
+    case 20005:
+    case 20261:
+    case 20932:
+    case 20936:
+    case 51949:
+      return rt::newobj<DecoderDBCS>((OSEncoding)this);
+    default:
+      return Object->GetDecoder();
+  }
 }
 
 Int32 OSEncoding___::WideCharToMultiByte(Int32 codePage, Char* pChars, Int32 count, Byte* pBytes, Int32 byteCount) {

@@ -22,28 +22,75 @@ using namespace System::IO;
 using namespace System::Text;
 
 TextReader Console::get_In() {
+  auto EnsureInitialized = []() -> TextReader {
+    ConsolePal::EnsureConsoleInitialized();
+    {
+      rt::lock(s_syncObject);
+      if (s_in == nullptr) {
+        Volatile::Write(s_in, ConsolePal::GetOrCreateReader());
+      }
+      return s_in;
+    }
+  };
+  auto default = Volatile::Read(s_in);
+  if (default != nullptr) default = EnsureInitialized();
+
+  return default;
 }
 
 Encoding Console::get_InputEncoding() {
   Encoding encoding = Volatile::Read(s_inputEncoding);
   if (encoding == nullptr) {
+    {
+      rt::lock(s_syncObject);
+      if (s_inputEncoding == nullptr) {
+        Volatile::Write(s_inputEncoding, ConsolePal::get_InputEncoding());
+      }
+      return s_inputEncoding;
+    }
   }
   return encoding;
 }
 
 void Console::set_InputEncoding(Encoding value) {
   CheckNonNull(value, "value");
+  {
+    rt::lock(s_syncObject);
+    ConsolePal::SetConsoleInputEncoding(value);
+    Volatile::Write(s_inputEncoding, (Encoding)value->Clone());
+    Volatile::Write(s_in, nullptr);
+  }
 }
 
 Encoding Console::get_OutputEncoding() {
   Encoding encoding = Volatile::Read(s_outputEncoding);
   if (encoding == nullptr) {
+    {
+      rt::lock(s_syncObject);
+      if (s_outputEncoding == nullptr) {
+        Volatile::Write(s_outputEncoding, ConsolePal::get_OutputEncoding());
+      }
+      return s_outputEncoding;
+    }
   }
   return encoding;
 }
 
 void Console::set_OutputEncoding(Encoding value) {
   CheckNonNull(value, "value");
+  {
+    rt::lock(s_syncObject);
+    ConsolePal::SetConsoleOutputEncoding(value);
+    if (s_out != nullptr && !s_isOutTextWriterRedirected) {
+      s_out->Flush();
+      Volatile::Write(s_out, nullptr);
+    }
+    if (s_error != nullptr && !s_isErrorTextWriterRedirected) {
+      s_error->Flush();
+      Volatile::Write(s_error, nullptr);
+    }
+    Volatile::Write(s_outputEncoding, (Encoding)value->Clone());
+  }
 }
 
 Boolean Console::get_KeyAvailable() {
@@ -54,18 +101,71 @@ Boolean Console::get_KeyAvailable() {
 }
 
 TextWriter Console::get_Out() {
+  auto EnsureInitialized = []() -> TextWriter {
+    {
+      rt::lock(s_syncObject);
+      if (s_out == nullptr) {
+        Volatile::Write(s_out, CreateOutputWriter(OpenStandardOutput()));
+      }
+      return s_out;
+    }
+  };
+  auto default = Volatile::Read(s_out);
+  if (default != nullptr) default = EnsureInitialized();
+
+  return default;
 }
 
 TextWriter Console::get_Error() {
+  auto EnsureInitialized = []() -> TextWriter {
+    {
+      rt::lock(s_syncObject);
+      if (s_error == nullptr) {
+        Volatile::Write(s_error, CreateOutputWriter(OpenStandardError()));
+      }
+      return s_error;
+    }
+  };
+  auto default = Volatile::Read(s_error);
+  if (default != nullptr) default = EnsureInitialized();
+
+  return default;
 }
 
 Boolean Console::get_IsInputRedirected() {
+  auto EnsureInitialized = []() -> StrongBox<Boolean> {
+    Volatile::Write(_isStdInRedirected, rt::newobj<StrongBox<Boolean>>(ConsolePal::IsInputRedirectedCore()));
+    return _isStdInRedirected;
+  };
+  auto default = Volatile::Read(_isStdInRedirected);
+  if (default != nullptr) default = EnsureInitialized();
+
+  StrongBox<Boolean> strongBox = default;
+  return strongBox->Value;
 }
 
 Boolean Console::get_IsOutputRedirected() {
+  auto EnsureInitialized = []() -> StrongBox<Boolean> {
+    Volatile::Write(_isStdOutRedirected, rt::newobj<StrongBox<Boolean>>(ConsolePal::IsOutputRedirectedCore()));
+    return _isStdOutRedirected;
+  };
+  auto default = Volatile::Read(_isStdOutRedirected);
+  if (default != nullptr) default = EnsureInitialized();
+
+  StrongBox<Boolean> strongBox = default;
+  return strongBox->Value;
 }
 
 Boolean Console::get_IsErrorRedirected() {
+  auto EnsureInitialized = []() -> StrongBox<Boolean> {
+    Volatile::Write(_isStdErrRedirected, rt::newobj<StrongBox<Boolean>>(ConsolePal::IsErrorRedirectedCore()));
+    return _isStdErrRedirected;
+  };
+  auto default = Volatile::Read(_isStdErrRedirected);
+  if (default != nullptr) default = EnsureInitialized();
+
+  StrongBox<Boolean> strongBox = default;
+  return strongBox->Value;
 }
 
 Int32 Console::get_CursorSize() {
@@ -185,6 +285,10 @@ String Console::get_Title() {
 }
 
 void Console::set_Title(String value) {
+  auto default = value;
+  if (default != nullptr) default = rt::throw_exception(rt::newobj<ArgumentNullException>("value"));
+
+  ConsolePal::set_Title = (default);
 }
 
 Boolean Console::get_TreatControlCAsInput() {
@@ -289,16 +393,30 @@ Stream Console::OpenStandardError(Int32 bufferSize) {
 void Console::SetIn(TextReader newIn) {
   CheckNonNull(newIn, "newIn");
   newIn = SyncTextReader::in::GetSynchronizedTextReader(newIn);
+  {
+    rt::lock(s_syncObject);
+    Volatile::Write(s_in, newIn);
+  }
 }
 
 void Console::SetOut(TextWriter newOut) {
   CheckNonNull(newOut, "newOut");
   newOut = TextWriter::in::Synchronized(newOut);
+  {
+    rt::lock(s_syncObject);
+    s_isOutTextWriterRedirected = true;
+    Volatile::Write(s_out, newOut);
+  }
 }
 
 void Console::SetError(TextWriter newError) {
   CheckNonNull(newError, "newError");
   newError = TextWriter::in::Synchronized(newError);
+  {
+    rt::lock(s_syncObject);
+    s_isErrorTextWriterRedirected = true;
+    Volatile::Write(s_error, newError);
+  }
 }
 
 void Console::CheckNonNull(Object obj, String paramName) {

@@ -4,7 +4,7 @@ using System.ComponentModel.Design;
 using System.Diagnostics.Contracts;
 using System.Linq;
 using System.Reflection;
-
+using System.Text;
 using ICSharpCode.Decompiler.CSharp;
 using ICSharpCode.Decompiler.CSharp.Resolver;
 using ICSharpCode.Decompiler.CSharp.Syntax;
@@ -151,7 +151,8 @@ namespace Meson.Compiler {
     }
 
     public SyntaxNode VisitBaseReferenceExpression(BaseReferenceExpression baseReferenceExpression) {
-      throw new NotImplementedException();
+      var baseType = baseReferenceExpression.GetResolveResult().Type.GetDefinition().DirectBaseTypes.First();
+      return GetTypeName(baseType);
     }
 
     private static readonly string[] binaryOperatorTokens_ = new string[] { 
@@ -172,8 +173,16 @@ namespace Meson.Compiler {
 
     public SyntaxNode VisitBinaryOperatorExpression(BinaryOperatorExpression binaryOperatorExpression) {
       var left = binaryOperatorExpression.Left.AcceptExpression(this);
-      string operatorToken = GetBinaryOperatorToken(binaryOperatorExpression.Operator);
       var right = binaryOperatorExpression.Right.AcceptExpression(this);
+      if (binaryOperatorExpression.Operator == BinaryOperatorType.NullCoalescing) {
+        var temp = GetTempIdentifier();
+        var local = new VariableDeclarationStatementSyntax(IdentifierSyntax.Auto, temp, left);
+        var ifStatement = new IfElseStatementSyntax(temp.Binary(Tokens.NotEquals, IdentifierSyntax.Nullptr), temp.Binary(Tokens.Equals, right));
+        Block.Add(local);
+        Block.Add(ifStatement);
+        return temp;
+      }
+      string operatorToken = GetBinaryOperatorToken(binaryOperatorExpression.Operator);
       return left.Binary(operatorToken, right);
     }
 
@@ -255,7 +264,25 @@ namespace Meson.Compiler {
     }
 
     public SyntaxNode VisitInterpolatedStringExpression(InterpolatedStringExpression interpolatedStringExpression) {
-      throw new NotImplementedException();
+      var sb = new StringBuilder();
+      List<ExpressionSyntax> expressions = new List<ExpressionSyntax>();
+      foreach (var content in interpolatedStringExpression.Content) {
+        if (content is InterpolatedStringText) {
+          var identifier = content.Accept<ValueTextIdentifierSyntax>(this);
+          sb.Append(identifier.ValueText);
+        } else {
+          var interpolation = (Interpolation)content;
+          if (string.IsNullOrEmpty(interpolation.Suffix)) {
+            sb.AppendFormat("{{{0}}}", expressions.Count);
+          } else {
+            sb.AppendFormat("{{{0}:{1}}}", expressions.Count, interpolation.Suffix);
+          }
+          var expression = interpolation.Expression.AcceptExpression(this);
+          expressions.Add(expression);
+        }
+      }
+      var stringTypeName = GetTypeName(Generator.StringTypeDefinition);
+      return stringTypeName.WithIn().TwoColon("Format").Invation(new ExpressionSyntax[] { sb.ToString() }.Concat(expressions));
     }
 
     private void CheckArrayConflict(IMethod symbol, IParameter parameter, int index, IType type, ref ExpressionSyntax expression) {
@@ -796,7 +823,16 @@ namespace Meson.Compiler {
     }
 
     public SyntaxNode VisitLockStatement(LockStatement lockStatement) {
-      throw new NotImplementedException();
+      var expression = lockStatement.Expression.AcceptExpression(this);
+      var statement = lockStatement.EmbeddedStatement.AcceptStatement(this);
+      BlockStatementSyntax block = new BlockStatementSyntax();
+      block.Add(IdentifierSyntax.Lock.Invation(expression));
+      if (statement is BlockSyntax blockStatement) {
+        block.AddRange(blockStatement.Statements);
+      } else {
+        block.Add(statement);
+      }
+      return block;
     }
 
     public SyntaxNode VisitReturnStatement(ReturnStatement returnStatement) {
@@ -1147,7 +1183,7 @@ namespace Meson.Compiler {
     }
 
     public SyntaxNode VisitInterpolatedStringText(InterpolatedStringText interpolatedStringText) {
-      throw new NotImplementedException();
+      return (IdentifierSyntax)interpolatedStringText.Text;
     }
 
     public SyntaxNode VisitNullNode(AstNode nullNode) {

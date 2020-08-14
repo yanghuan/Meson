@@ -50,6 +50,7 @@ String Interop::Kernel32::GetMessage(Int32 errorCode, IntPtr moduleHandle) {
       Marshal::FreeHGlobal(intPtr);
     }
   }
+  return String::in::Format(Unknown error (0x{0:x}), errorCode);
 }
 
 String Interop::Kernel32::GetAndTrimString(Span<Char> buffer) {
