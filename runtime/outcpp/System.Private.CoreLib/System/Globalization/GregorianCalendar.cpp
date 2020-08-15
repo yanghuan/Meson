@@ -268,7 +268,7 @@ Int32 GregorianCalendar___::ToFourDigitYear(Int32 year) {
   if (year > 9999) {
     rt::throw_exception<ArgumentOutOfRangeException>("year", year, SR::Format(SR::get_ArgumentOutOfRange_Range(), 1, 9999));
   }
-  return Calendar::ToFourDigitYear(year);
+  return Calendar::in::ToFourDigitYear(year);
 }
 
 void GregorianCalendar___::cctor() {

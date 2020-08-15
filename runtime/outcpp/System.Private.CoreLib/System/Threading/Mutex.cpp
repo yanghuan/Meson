@@ -38,7 +38,7 @@ void Mutex___::ctor() {
 }
 
 void Mutex___::ctor(SafeWaitHandle handle) {
-  WaitHandle::set_SafeWaitHandle = handle;
+  WaitHandle::in::set_SafeWaitHandle = handle;
 }
 
 Mutex Mutex___::OpenExisting(String name) {
@@ -71,7 +71,7 @@ void Mutex___::CreateMutexCore(Boolean initiallyOwned, String name, Boolean& cre
     rt::throw_exception(Win32Marshal::GetExceptionForWin32Error(lastWin32Error, name));
   }
   createdNew = (lastWin32Error != 183);
-  WaitHandle::set_SafeWaitHandle = safeWaitHandle;
+  WaitHandle::in::set_SafeWaitHandle = safeWaitHandle;
 }
 
 WaitHandle::in::OpenExistingResult Mutex___::OpenExistingWorker(String name, Mutex& result) {
@@ -101,7 +101,7 @@ WaitHandle::in::OpenExistingResult Mutex___::OpenExistingWorker(String name, Mut
 }
 
 void Mutex___::ReleaseMutex() {
-  if (!Interop::Kernel32::ReleaseMutex(WaitHandle::get_SafeWaitHandle())) {
+  if (!Interop::Kernel32::ReleaseMutex(WaitHandle::in::get_SafeWaitHandle())) {
     rt::throw_exception<ApplicationException>(SR::get_Arg_SynchronizationLockException());
   }
 }

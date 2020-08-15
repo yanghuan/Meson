@@ -14,7 +14,7 @@ Int32 EncoderReplacementFallbackBuffer___::get_Remaining() {
 void EncoderReplacementFallbackBuffer___::ctor(EncoderReplacementFallback fallback) {
   _fallbackCount = -1;
   _fallbackIndex = -1;
-  EncoderFallbackBuffer::ctor();
+  EncoderFallbackBuffer::in::ctor();
   _strDefault = fallback->get_DefaultString() + fallback->get_DefaultString();
 }
 

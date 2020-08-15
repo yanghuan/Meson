@@ -200,7 +200,7 @@ Boolean RuntimeMethodInfo___::CacheEquals(Object o) {
 }
 
 RuntimeMethodInfo RuntimeMethodInfo___::GetParentDefinition() {
-  if (!MethodBase::get_IsVirtual() || m_declaringType->get_IsInterface()) {
+  if (!MethodBase::in::get_IsVirtual() || m_declaringType->get_IsInterface()) {
     return nullptr;
   }
   RuntimeType runtimeType = (RuntimeType)m_declaringType->get_BaseType();
@@ -239,7 +239,7 @@ Int32 RuntimeMethodInfo___::GetHashCode() {
   if (get_IsGenericMethod()) {
     return ValueType::in::GetHashCodeOfPtr(m_handle);
   }
-  return MethodInfo::GetHashCode();
+  return MethodInfo::in::GetHashCode();
 }
 
 Boolean RuntimeMethodInfo___::Equals(Object obj) {
@@ -361,7 +361,7 @@ void RuntimeMethodInfo___::ThrowNoInvokeException() {
   if (get_DeclaringType()->get_ContainsGenericParameters() || get_ContainsGenericParameters()) {
     rt::throw_exception<InvalidOperationException>(SR::get_Arg_UnboundGenParam());
   }
-  if (MethodBase::get_IsAbstract()) {
+  if (MethodBase::in::get_IsAbstract()) {
     rt::throw_exception<MemberAccessException>();
   }
   if (get_ReturnType()->get_IsByRef()) {
@@ -408,7 +408,7 @@ Array<Object> RuntimeMethodInfo___::InvokeArgumentsCheck(Object obj, BindingFlag
 }
 
 MethodInfo RuntimeMethodInfo___::GetBaseDefinition() {
-  if (!MethodBase::get_IsVirtual() || MethodBase::get_IsStatic() || m_declaringType == nullptr || m_declaringType->get_IsInterface()) {
+  if (!MethodBase::in::get_IsVirtual() || MethodBase::in::get_IsStatic() || m_declaringType == nullptr || m_declaringType->get_IsInterface()) {
     return (RuntimeMethodInfo)this;
   }
   Int32 slot = RuntimeMethodHandle::GetSlot((RuntimeMethodInfo)this);

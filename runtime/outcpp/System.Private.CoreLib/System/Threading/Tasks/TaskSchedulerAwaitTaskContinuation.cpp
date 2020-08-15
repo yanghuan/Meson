@@ -9,7 +9,7 @@ void TaskSchedulerAwaitTaskContinuation___::ctor(TaskScheduler scheduler, Action
 
 void TaskSchedulerAwaitTaskContinuation___::Run(Task<> ignored, Boolean canInlineContinuationTask) {
   if (m_scheduler == TaskScheduler::in::get_Default()) {
-    AwaitTaskContinuation::Run(ignored, canInlineContinuationTask);
+    AwaitTaskContinuation::in::Run(ignored, canInlineContinuationTask);
     return;
   }
   Boolean flag = canInlineContinuationTask && (TaskScheduler::in::get_InternalCurrent() == m_scheduler || Thread::in::get_CurrentThread()->get_IsThreadPoolThread());

@@ -24,7 +24,7 @@ using namespace System::Text;
 
 void CalendarData___::ctor() {
   iTwoDigitYearMax = 2029;
-  Object::ctor();
+  Object::in::ctor();
 }
 
 CalendarData CalendarData___::CreateInvariant() {
@@ -53,7 +53,7 @@ CalendarData CalendarData___::CreateInvariant() {
 
 void CalendarData___::ctor(String localeName, CalendarId calendarId, Boolean bUseUserOverrides) {
   iTwoDigitYearMax = 2029;
-  Object::ctor();
+  Object::in::ctor();
   this->bUseUserOverrides = bUseUserOverrides;
   if (!(GlobalizationMode::get_UseNls() ? NlsLoadCalendarDataFromSystem(localeName, calendarId) : IcuLoadCalendarDataFromSystem(localeName, calendarId))) {
     if (sNativeName == nullptr) {

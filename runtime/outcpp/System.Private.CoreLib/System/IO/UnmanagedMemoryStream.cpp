@@ -186,7 +186,7 @@ void UnmanagedMemoryStream___::Initialize(Byte* pointer, Int64 length, Int64 cap
 
 void UnmanagedMemoryStream___::CopyTo(ReadOnlySpanAction<Byte, Object> callback, Object state, Int32 bufferSize) {
   if (GetType() != rt::typeof<UnmanagedMemoryStream>()) {
-    Stream::CopyTo(callback, state, bufferSize);
+    Stream::in::CopyTo(callback, state, bufferSize);
     return;
   }
   if (callback == nullptr) {
@@ -226,7 +226,7 @@ void UnmanagedMemoryStream___::CopyTo(ReadOnlySpanAction<Byte, Object> callback,
 void UnmanagedMemoryStream___::Dispose(Boolean disposing) {
   _isOpen = false;
   _mem = nullptr;
-  Stream::Dispose(disposing);
+  Stream::in::Dispose(disposing);
 }
 
 void UnmanagedMemoryStream___::EnsureNotClosed() {
@@ -282,7 +282,7 @@ Int32 UnmanagedMemoryStream___::Read(Span<Byte> buffer) {
   if (GetType() == rt::typeof<UnmanagedMemoryStream>()) {
     return ReadCore(buffer);
   }
-  return Stream::Read(buffer);
+  return Stream::in::Read(buffer);
 }
 
 Int32 UnmanagedMemoryStream___::ReadCore(Span<Byte> buffer) {
@@ -450,7 +450,7 @@ void UnmanagedMemoryStream___::Write(ReadOnlySpan<Byte> buffer) {
   if (GetType() == rt::typeof<UnmanagedMemoryStream>()) {
     WriteCore(buffer);
   } else {
-    Stream::Write(buffer);
+    Stream::in::Write(buffer);
   }
 }
 

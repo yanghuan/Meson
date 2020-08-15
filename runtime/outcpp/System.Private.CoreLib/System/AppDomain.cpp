@@ -119,7 +119,7 @@ TimeSpan AppDomain___::get_MonitoringTotalProcessorTime() {
 void AppDomain___::ctor() {
   _forLock = rt::newobj<Object>();
   _principalPolicy = PrincipalPolicy::NoPrincipal;
-  MarshalByRefObject::ctor();
+  MarshalByRefObject::in::ctor();
 }
 
 void AppDomain___::SetDynamicBase(String path) {

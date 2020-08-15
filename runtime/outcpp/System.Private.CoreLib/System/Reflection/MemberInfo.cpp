@@ -42,11 +42,11 @@ IList<CustomAttributeData> MemberInfo___::GetCustomAttributesData() {
 }
 
 Boolean MemberInfo___::Equals(Object obj) {
-  return Object::Equals(obj);
+  return Object::in::Equals(obj);
 }
 
 Int32 MemberInfo___::GetHashCode() {
-  return Object::GetHashCode();
+  return Object::in::GetHashCode();
 }
 
 Boolean MemberInfo___::op_Equality(MemberInfo left, MemberInfo right) {

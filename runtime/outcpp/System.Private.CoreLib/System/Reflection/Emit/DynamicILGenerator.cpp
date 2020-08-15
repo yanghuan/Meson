@@ -236,10 +236,10 @@ void DynamicILGenerator___::Emit(OpCode opcode, SignatureHelper signature) {
 }
 
 void DynamicILGenerator___::BeginExceptFilterBlock() {
-  if (ILGenerator::get_CurrExcStackCount() == 0) {
+  if (ILGenerator::in::get_CurrExcStackCount() == 0) {
     rt::throw_exception<NotSupportedException>(SR::get_Argument_NotInExceptionBlock());
   }
-  __ExceptionInfo _ExceptionInfo = ILGenerator::get_CurrExcStack()[ILGenerator::get_CurrExcStackCount() - 1];
+  __ExceptionInfo _ExceptionInfo = ILGenerator::in::get_CurrExcStack()[ILGenerator::in::get_CurrExcStackCount() - 1];
   Label endLabel = _ExceptionInfo->GetEndLabel();
   Emit(OpCodes::in::Leave, endLabel);
   UpdateStackSize(OpCodes::in::Nop, 1);
@@ -247,10 +247,10 @@ void DynamicILGenerator___::BeginExceptFilterBlock() {
 }
 
 void DynamicILGenerator___::BeginCatchBlock(Type exceptionType) {
-  if (ILGenerator::get_CurrExcStackCount() == 0) {
+  if (ILGenerator::in::get_CurrExcStackCount() == 0) {
     rt::throw_exception<NotSupportedException>(SR::get_Argument_NotInExceptionBlock());
   }
-  __ExceptionInfo _ExceptionInfo = ILGenerator::get_CurrExcStack()[ILGenerator::get_CurrExcStackCount() - 1];
+  __ExceptionInfo _ExceptionInfo = ILGenerator::in::get_CurrExcStack()[ILGenerator::in::get_CurrExcStackCount() - 1];
   RuntimeType runtimeType = rt::as<RuntimeType>(exceptionType);
   if (_ExceptionInfo->GetCurrentState() == 1) {
     if (exceptionType != nullptr) {

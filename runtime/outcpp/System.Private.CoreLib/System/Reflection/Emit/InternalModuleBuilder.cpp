@@ -18,7 +18,7 @@ Boolean InternalModuleBuilder___::Equals(Object obj) {
 }
 
 Int32 InternalModuleBuilder___::GetHashCode() {
-  return Module::GetHashCode();
+  return Module::in::GetHashCode();
 }
 
 } // namespace System::Private::CoreLib::System::Reflection::Emit::InternalModuleBuilderNamespace

@@ -172,7 +172,7 @@ void UriBuilder___::ctor() {
   _scheme = "http";
   _schemeDelimiter = Uri::in::SchemeDelimiter;
   _username = String::in::Empty;
-  Object::ctor();
+  Object::in::ctor();
 }
 
 void UriBuilder___::ctor(String uri) {
@@ -186,7 +186,7 @@ void UriBuilder___::ctor(String uri) {
   _scheme = "http";
   _schemeDelimiter = Uri::in::SchemeDelimiter;
   _username = String::in::Empty;
-  Object::ctor();
+  Object::in::ctor();
   Uri uri2 = rt::newobj<Uri>(uri, UriKind::RelativeOrAbsolute);
   if (uri2->get_IsAbsoluteUri()) {
     Init(uri2);
@@ -207,7 +207,7 @@ void UriBuilder___::ctor(Uri uri) {
   _scheme = "http";
   _schemeDelimiter = Uri::in::SchemeDelimiter;
   _username = String::in::Empty;
-  Object::ctor();
+  Object::in::ctor();
   if ((Object)uri == nullptr) {
     rt::throw_exception<ArgumentNullException>("uri");
   }
@@ -246,7 +246,7 @@ void UriBuilder___::ctor(String schemeName, String hostName) {
   _scheme = "http";
   _schemeDelimiter = Uri::in::SchemeDelimiter;
   _username = String::in::Empty;
-  Object::ctor();
+  Object::in::ctor();
   get_Scheme() = schemeName;
   get_Host() = hostName;
 }

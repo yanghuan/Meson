@@ -4,15 +4,15 @@
 
 namespace System::Private::CoreLib::System::InvalidProgramExceptionNamespace {
 void InvalidProgramException___::ctor() {
-  Exception::set_HResult = -2146233030;
+  Exception::in::set_HResult = -2146233030;
 }
 
 void InvalidProgramException___::ctor(String message) {
-  Exception::set_HResult = -2146233030;
+  Exception::in::set_HResult = -2146233030;
 }
 
 void InvalidProgramException___::ctor(String message, Exception inner) {
-  Exception::set_HResult = -2146233030;
+  Exception::in::set_HResult = -2146233030;
 }
 
 void InvalidProgramException___::ctor(SerializationInfo info, StreamingContext context) {

@@ -4,15 +4,15 @@
 
 namespace System::Private::CoreLib::System::AccessViolationExceptionNamespace {
 void AccessViolationException___::ctor() {
-  Exception::set_HResult = -2147467261;
+  Exception::in::set_HResult = -2147467261;
 }
 
 void AccessViolationException___::ctor(String message) {
-  Exception::set_HResult = -2147467261;
+  Exception::in::set_HResult = -2147467261;
 }
 
 void AccessViolationException___::ctor(String message, Exception innerException) {
-  Exception::set_HResult = -2147467261;
+  Exception::in::set_HResult = -2147467261;
 }
 
 void AccessViolationException___::ctor(SerializationInfo info, StreamingContext context) {

@@ -8,6 +8,8 @@ namespace Test {
       int a = args.Length;
       Console.WriteLine($"dddd{a:x}ddd");
       lock (args) a = 2;
+      args?.Length.ToString();
+      string ss = args?.GetType()?.Assembly?.FullName.ToString();
     }
   }
 }

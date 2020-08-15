@@ -180,9 +180,9 @@ Int32 EncoderNLS___::DrainLeftoverDataForGetByteCount(ReadOnlySpan<Char> chars, 
     if (_encoding->TryGetByteCount(result, byteCount)) {
       return byteCount;
     }
-    Boolean flag = Encoder::get_FallbackBuffer()->Fallback(_charLeftOver, c, -1);
+    Boolean flag = Encoder::in::get_FallbackBuffer()->Fallback(_charLeftOver, c, -1);
   } else {
-    Boolean flag = Encoder::get_FallbackBuffer()->Fallback(_charLeftOver, -1);
+    Boolean flag = Encoder::in::get_FallbackBuffer()->Fallback(_charLeftOver, -1);
   }
   return _fallbackBuffer->DrainRemainingDataForGetByteCount();
 }
@@ -213,11 +213,11 @@ Boolean EncoderNLS___::TryDrainLeftoverDataForGetBytes(ReadOnlySpan<Char> chars,
           _encoding->ThrowBytesOverflow((EncoderNLS)this, true);
           break;
         case OperationStatus::InvalidData:
-          Encoder::get_FallbackBuffer()->Fallback(charLeftOver, c, -1);
+          Encoder::in::get_FallbackBuffer()->Fallback(charLeftOver, c, -1);
           break;
       }
     } else {
-      Encoder::get_FallbackBuffer()->Fallback(charLeftOver, -1);
+      Encoder::in::get_FallbackBuffer()->Fallback(charLeftOver, -1);
     }
   }
   if (_fallbackBuffer != nullptr && _fallbackBuffer->get_Remaining() > 0) {

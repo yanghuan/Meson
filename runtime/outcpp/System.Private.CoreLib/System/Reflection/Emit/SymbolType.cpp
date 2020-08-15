@@ -183,7 +183,7 @@ Type SymbolType___::FormCompoundType(String format, Type baseType, Int32 curInde
 
 void SymbolType___::ctor(TypeKind typeKind) {
   m_isSzArray = true;
-  TypeInfo::ctor();
+  TypeInfo::in::ctor();
   m_typeKind = typeKind;
   m_iaLowerBound = rt::newarr<Array<Int32>>(4);
   m_iaUpperBound = rt::newarr<Array<Int32>>(4);
@@ -234,7 +234,7 @@ Type SymbolType___::MakeArrayType(Int32 rank) {
 }
 
 Int32 SymbolType___::GetArrayRank() {
-  if (!Type::get_IsArray()) {
+  if (!Type::in::get_IsArray()) {
     rt::throw_exception<NotSupportedException>(SR::get_NotSupported_SubclassOverride());
   }
   return m_cRank;

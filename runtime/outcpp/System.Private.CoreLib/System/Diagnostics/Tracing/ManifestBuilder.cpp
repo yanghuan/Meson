@@ -39,7 +39,7 @@ IList<String> ManifestBuilder___::get_Errors() {
 
 void ManifestBuilder___::ctor(String providerName, Guid providerGuid, String dllName, ResourceManager resources, EventManifestOptions flags) {
   nextChannelKeywordBit = 9223372036854775808;
-  Object::ctor();
+  Object::in::ctor();
   this->providerName = providerName;
   this->flags = flags;
   this->resources = resources;

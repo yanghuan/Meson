@@ -215,7 +215,7 @@ void EventSource___::OverideEventProvider___::ctor(EventSource eventSource, Even
 
 void EventSource___::OverideEventProvider___::OnControllerCommand(ControllerCommand command, IDictionary<String, String> arguments, Int32 perEventSourceSessionId, Int32 etwSessionId) {
   EventListener listener = nullptr;
-  m_eventSource->SendCommand(listener, m_eventProviderType, perEventSourceSessionId, etwSessionId, (EventCommand)command, IsEnabled(), EventProvider::get_Level(), EventProvider::get_MatchAnyKeyword(), arguments);
+  m_eventSource->SendCommand(listener, m_eventProviderType, perEventSourceSessionId, etwSessionId, (EventCommand)command, IsEnabled(), EventProvider::in::get_Level(), EventProvider::in::get_MatchAnyKeyword(), arguments);
 }
 
 String EventSource___::get_Name() {
@@ -372,7 +372,7 @@ void EventSource___::ctor(EventSourceSettings settings, Array<String> traits) {
   m_createEventLock = rt::newobj<Object>();
   m_writeEventStringEventHandle = IntPtr::Zero;
   m_eventHandleTable = rt::newobj<TraceLoggingEventHandleTable>();
-  Object::ctor();
+  Object::in::ctor();
   m_config = ValidateSettings(settings);
   Guid eventSourceGuid;
   String eventSourceName;
@@ -888,7 +888,7 @@ void EventSource___::ctor(Guid eventSourceGuid, String eventSourceName, EventSou
   m_createEventLock = rt::newobj<Object>();
   m_writeEventStringEventHandle = IntPtr::Zero;
   m_eventHandleTable = rt::newobj<TraceLoggingEventHandleTable>();
-  Object::ctor();
+  Object::in::ctor();
   m_config = ValidateSettings(settings);
   Initialize(eventSourceGuid, eventSourceName, traits);
 }

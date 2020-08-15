@@ -198,7 +198,7 @@ Int32 DecoderNLS___::DrainLeftoverDataForGetChars(ReadOnlySpan<Byte> bytes, Span
       goto IL_00aa;
     default:
       {
-        if (Decoder::get_FallbackBuffer()->Fallback(span2.Slice(0, bytesConsumed2).ToArray(), -_leftoverByteCount) && !_fallbackBuffer->TryDrainRemainingDataForGetChars(chars, charsWritten)) {
+        if (Decoder::in::get_FallbackBuffer()->Fallback(span2.Slice(0, bytesConsumed2).ToArray(), -_leftoverByteCount) && !_fallbackBuffer->TryDrainRemainingDataForGetChars(chars, charsWritten)) {
           break;
         }
         goto IL_00aa;

@@ -44,7 +44,7 @@ Array<Byte> UTF8EncodingSealed___::GetBytes(String s) {
   if (s != nullptr && s->get_Length() <= 32) {
     return GetBytesForSmallInput(s);
   }
-  return Encoding::GetBytes(s);
+  return Encoding::in::GetBytes(s);
 }
 
 Array<Byte> UTF8EncodingSealed___::GetBytesForSmallInput(String s) {
@@ -64,7 +64,7 @@ String UTF8EncodingSealed___::GetString(Array<Byte> bytes) {
   if (bytes != nullptr && bytes->get_Length() <= 32) {
     return GetStringForSmallInput(bytes);
   }
-  return Encoding::GetString(bytes);
+  return Encoding::in::GetString(bytes);
 }
 
 String UTF8EncodingSealed___::GetStringForSmallInput(Array<Byte> bytes) {
@@ -359,7 +359,7 @@ Int32 UTF8Encoding___::GetCharsFast(Byte* pBytes, Int32 bytesLength, Char* pChar
 }
 
 Int32 UTF8Encoding___::GetCharsWithFallback(ReadOnlySpan<Byte> bytes, Int32 originalBytesLength, Span<Char> chars, Int32 originalCharsLength, DecoderNLS decoder) {
-  DecoderReplacementFallback decoderReplacementFallback = rt::as<DecoderReplacementFallback>(((decoder == nullptr) ? Encoding::get_DecoderFallback() : decoder->get_Fallback()));
+  DecoderReplacementFallback decoderReplacementFallback = rt::as<DecoderReplacementFallback>(((decoder == nullptr) ? Encoding::in::get_DecoderFallback() : decoder->get_Fallback()));
   if (decoderReplacementFallback != nullptr && decoderReplacementFallback->get_MaxCharCount() == 1 && decoderReplacementFallback->get_DefaultString()[0] == 65533) {
     Int32 bytesRead;
     Int32 charsWritten;
@@ -372,7 +372,7 @@ Int32 UTF8Encoding___::GetCharsWithFallback(ReadOnlySpan<Byte> bytes, Int32 orig
   if (bytes.get_IsEmpty()) {
     return originalCharsLength - chars.get_Length();
   }
-  return Encoding::GetCharsWithFallback(bytes, originalBytesLength, chars, originalCharsLength, decoder);
+  return Encoding::in::GetCharsWithFallback(bytes, originalBytesLength, chars, originalCharsLength, decoder);
 }
 
 String UTF8Encoding___::GetString(Array<Byte> bytes, Int32 index, Int32 count) {
@@ -442,8 +442,8 @@ Int32 UTF8Encoding___::GetMaxByteCount(Int32 charCount) {
     rt::throw_exception<ArgumentOutOfRangeException>("charCount", SR::get_ArgumentOutOfRange_NeedNonNegNum());
   }
   Int64 num = (Int64)charCount + 1;
-  if (Encoding::get_EncoderFallback()->get_MaxCharCount() > 1) {
-    num *= Encoding::get_EncoderFallback()->get_MaxCharCount();
+  if (Encoding::in::get_EncoderFallback()->get_MaxCharCount() > 1) {
+    num *= Encoding::in::get_EncoderFallback()->get_MaxCharCount();
   }
   num *= 3;
   if (num > Int32::MaxValue) {
@@ -457,8 +457,8 @@ Int32 UTF8Encoding___::GetMaxCharCount(Int32 byteCount) {
     rt::throw_exception<ArgumentOutOfRangeException>("byteCount", SR::get_ArgumentOutOfRange_NeedNonNegNum());
   }
   Int64 num = (Int64)byteCount + 1;
-  if (Encoding::get_DecoderFallback()->get_MaxCharCount() > 1) {
-    num *= Encoding::get_DecoderFallback()->get_MaxCharCount();
+  if (Encoding::in::get_DecoderFallback()->get_MaxCharCount() > 1) {
+    num *= Encoding::in::get_DecoderFallback()->get_MaxCharCount();
   }
   if (num > Int32::MaxValue) {
     rt::throw_exception<ArgumentOutOfRangeException>("byteCount", SR::get_ArgumentOutOfRange_GetCharCountOverflow());
@@ -476,8 +476,8 @@ Array<Byte> UTF8Encoding___::GetPreamble() {
 Boolean UTF8Encoding___::Equals(Object value) {
   UTF8Encoding uTF8Encoding = rt::as<UTF8Encoding>(value);
   if (uTF8Encoding != nullptr) {
-    if (_emitUTF8Identifier == uTF8Encoding->_emitUTF8Identifier && Encoding::get_EncoderFallback()->Equals(uTF8Encoding->get_EncoderFallback())) {
-      return Encoding::get_DecoderFallback()->Equals(uTF8Encoding->get_DecoderFallback());
+    if (_emitUTF8Identifier == uTF8Encoding->_emitUTF8Identifier && Encoding::in::get_EncoderFallback()->Equals(uTF8Encoding->get_EncoderFallback())) {
+      return Encoding::in::get_DecoderFallback()->Equals(uTF8Encoding->get_DecoderFallback());
     }
     return false;
   }
@@ -485,7 +485,7 @@ Boolean UTF8Encoding___::Equals(Object value) {
 }
 
 Int32 UTF8Encoding___::GetHashCode() {
-  return Encoding::get_EncoderFallback()->GetHashCode() + Encoding::get_DecoderFallback()->GetHashCode() + 65001 + (_emitUTF8Identifier ? 1 : 0);
+  return Encoding::in::get_EncoderFallback()->GetHashCode() + Encoding::in::get_DecoderFallback()->GetHashCode() + 65001 + (_emitUTF8Identifier ? 1 : 0);
 }
 
 void UTF8Encoding___::cctor() {

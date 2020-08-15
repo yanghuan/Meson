@@ -41,7 +41,7 @@ void ConsoleStream___::ctor(FileAccess access) {
 void ConsoleStream___::Dispose(Boolean disposing) {
   _canRead = false;
   _canWrite = false;
-  Stream::Dispose(disposing);
+  Stream::in::Dispose(disposing);
 }
 
 void ConsoleStream___::Flush() {

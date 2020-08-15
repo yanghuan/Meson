@@ -416,7 +416,7 @@ Int32 EastAsianLunisolarCalendar___::ToFourDigitYear(Int32 year) {
   if (year < 0) {
     rt::throw_exception<ArgumentOutOfRangeException>("year", year, SR::get_ArgumentOutOfRange_NeedNonNegNum());
   }
-  year = Calendar::ToFourDigitYear(year);
+  year = Calendar::in::ToFourDigitYear(year);
   CheckYearRange(year, 0);
   return year;
 }

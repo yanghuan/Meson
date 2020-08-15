@@ -4,15 +4,15 @@
 
 namespace System::Private::CoreLib::System::Runtime::Serialization::SerializationExceptionNamespace {
 void SerializationException___::ctor() {
-  Exception::set_HResult = -2146233076;
+  Exception::in::set_HResult = -2146233076;
 }
 
 void SerializationException___::ctor(String message) {
-  Exception::set_HResult = -2146233076;
+  Exception::in::set_HResult = -2146233076;
 }
 
 void SerializationException___::ctor(String message, Exception innerException) {
-  Exception::set_HResult = -2146233076;
+  Exception::in::set_HResult = -2146233076;
 }
 
 void SerializationException___::ctor(SerializationInfo info, StreamingContext context) {

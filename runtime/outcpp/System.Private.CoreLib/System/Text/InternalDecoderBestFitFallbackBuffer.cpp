@@ -22,7 +22,7 @@ Int32 InternalDecoderBestFitFallbackBuffer___::get_Remaining() {
 
 void InternalDecoderBestFitFallbackBuffer___::ctor(InternalDecoderBestFitFallback fallback) {
   _iCount = -1;
-  DecoderFallbackBuffer::ctor();
+  DecoderFallbackBuffer::in::ctor();
   _oFallback = fallback;
   if (_oFallback->_arrayBestFit != nullptr) {
     return;

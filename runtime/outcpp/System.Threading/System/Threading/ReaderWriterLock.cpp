@@ -18,7 +18,7 @@ using namespace ::System::Private::CoreLib::System;
 using namespace ::System::Private::CoreLib::System::Threading;
 
 void ReaderWriterLock___::ReaderWriterLockApplicationException___::ctor(Int32 errorHResult, String message) {
-  Exception::set_HResult = errorHResult;
+  Exception::in::set_HResult = errorHResult;
 }
 
 void ReaderWriterLock___::ReaderWriterLockApplicationException___::ctor(SerializationInfo info, StreamingContext context) {
@@ -117,7 +117,7 @@ Int32 ReaderWriterLock___::get_WriterSeqNum() {
 void ReaderWriterLock___::ctor() {
   _writerID = -1;
   _writerSeqNum = 1;
-  CriticalFinalizerObject::ctor();
+  CriticalFinalizerObject::in::ctor();
   _lockID = Interlocked::Increment(s_mostRecentLockID);
 }
 

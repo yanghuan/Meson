@@ -74,7 +74,7 @@ void HijriCalendar___::set_TwoDigitYearMax(Int32 value) {
 
 void HijriCalendar___::ctor() {
   _hijriAdvance = Int32::MinValue;
-  Calendar::ctor();
+  Calendar::in::ctor();
 }
 
 Int64 HijriCalendar___::GetAbsoluteDateHijri(Int32 y, Int32 m, Int32 d) {
@@ -284,7 +284,7 @@ Int32 HijriCalendar___::ToFourDigitYear(Int32 year) {
     rt::throw_exception<ArgumentOutOfRangeException>("year", year, SR::get_ArgumentOutOfRange_NeedNonNegNum());
   }
   if (year < 100) {
-    return Calendar::ToFourDigitYear(year);
+    return Calendar::in::ToFourDigitYear(year);
   }
   if (year > 9666) {
     rt::throw_exception<ArgumentOutOfRangeException>("year", year, SR::Format(SR::get_ArgumentOutOfRange_Range(), 1, 9666));

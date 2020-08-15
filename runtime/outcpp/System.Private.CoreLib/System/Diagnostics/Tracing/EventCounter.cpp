@@ -31,9 +31,9 @@ void EventCounter___::WriteMetric(Double value) {
 String EventCounter___::ToString() {
   Int32 num = Volatile::Read(_count);
   if (num != 0) {
-    return String::in::Format("EventCounter '{0}' Count {1} Mean {2}", DiagnosticCounter::get_Name(), num, (_sum / (Double)num).ToString("n3"));
+    return String::in::Format("EventCounter '{0}' Count {1} Mean {2}", DiagnosticCounter::in::get_Name(), num, (_sum / (Double)num).ToString("n3"));
   }
-  return "EventCounter '" + DiagnosticCounter::get_Name() + "' Count 0";
+  return "EventCounter '" + DiagnosticCounter::in::get_Name() + "' Count 0";
 }
 
 void EventCounter___::OnMetricWritten(Double value) {
@@ -67,13 +67,13 @@ void EventCounter___::WritePayload(Single intervalSec, Int32 pollingIntervalMill
     counterPayload->set_Series = String::in::Format("Interval={0}", pollingIntervalMillisec);
     counterPayload->set_CounterType = "Mean";
     counterPayload->set_Metadata = GetMetadataString();
-    auto& default = DiagnosticCounter::get_DisplayName();
+    auto& default = DiagnosticCounter::in::get_DisplayName();
     counterPayload->set_DisplayName = (default != nullptr ? default : "");
-    auto& extern = DiagnosticCounter::get_DisplayUnits();
+    auto& extern = DiagnosticCounter::in::get_DisplayUnits();
     counterPayload->set_DisplayUnits = (extern != nullptr ? extern : "");
-    counterPayload->set_Name = DiagnosticCounter::get_Name();
+    counterPayload->set_Name = DiagnosticCounter::in::get_Name();
     ResetStatistics();
-    DiagnosticCounter::get_EventSource()->Write("EventCounters", EventSourceOptions(), rt::newobj<CounterPayloadType>(counterPayload));
+    DiagnosticCounter::in::get_EventSource()->Write("EventCounters", EventSourceOptions(), rt::newobj<CounterPayloadType>(counterPayload));
   }
 }
 

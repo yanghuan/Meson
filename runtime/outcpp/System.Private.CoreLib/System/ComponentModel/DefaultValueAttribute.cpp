@@ -129,7 +129,7 @@ Boolean DefaultValueAttribute___::Equals(Object obj) {
 }
 
 Int32 DefaultValueAttribute___::GetHashCode() {
-  return Attribute::GetHashCode();
+  return Attribute::in::GetHashCode();
 }
 
 void DefaultValueAttribute___::SetValue(Object value) {

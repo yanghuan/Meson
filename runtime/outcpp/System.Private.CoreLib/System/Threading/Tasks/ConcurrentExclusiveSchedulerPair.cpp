@@ -221,7 +221,7 @@ void ConcurrentExclusiveSchedulerPair___::ctor(TaskScheduler taskScheduler, Int3
 
 void ConcurrentExclusiveSchedulerPair___::ctor(TaskScheduler taskScheduler, Int32 maxConcurrencyLevel, Int32 maxItemsPerTask) {
   m_threadProcessingMode = rt::newobj<ThreadLocal<ProcessingMode>>();
-  Object::ctor();
+  Object::in::ctor();
   if (taskScheduler == nullptr) {
     rt::throw_exception<ArgumentNullException>("taskScheduler");
   }

@@ -336,7 +336,7 @@ void TextWriter___::ctor() {
   CoreNewLine = s_coreNewLine;
   CoreNewLineStr = "
 ";
-  MarshalByRefObject::ctor();
+  MarshalByRefObject::in::ctor();
   _internalFormatProvider = nullptr;
 }
 
@@ -344,7 +344,7 @@ void TextWriter___::ctor(IFormatProvider formatProvider) {
   CoreNewLine = s_coreNewLine;
   CoreNewLineStr = "
 ";
-  MarshalByRefObject::ctor();
+  MarshalByRefObject::in::ctor();
   _internalFormatProvider = formatProvider;
 }
 

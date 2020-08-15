@@ -179,7 +179,7 @@ Object RuntimeParameterInfo___::GetDefaultValue(Boolean raw) {
     return nullptr;
   }
   Object obj = GetDefaultValueInternal(raw);
-  if (obj == DBNull::in::Value && ParameterInfo::get_IsOptional()) {
+  if (obj == DBNull::in::Value && ParameterInfo::in::get_IsOptional()) {
     obj = Type::in::Missing;
   }
   return obj;

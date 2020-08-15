@@ -58,7 +58,7 @@ void Calendar___::set_TwoDigitYearMax(Int32 value) {
 void Calendar___::ctor() {
   _currentEraValue = -1;
   _twoDigitYearMax = -1;
-  Object::ctor();
+  Object::in::ctor();
 }
 
 Object Calendar___::Clone() {

@@ -68,7 +68,7 @@ Boolean MulticastDelegate___::Equals(Object obj) {
       if (rt::is<Delegate>(multicastDelegate->_invocationList)) {
         return Equals(multicastDelegate->_invocationList);
       }
-      return Delegate::Equals(obj);
+      return Delegate::in::Equals(obj);
     }
     auto& default = (rt::as<Delegate>(_invocationList));
     auto& extern = default == nullptr ? nullptr : default->Equals(obj);
@@ -78,12 +78,12 @@ Boolean MulticastDelegate___::Equals(Object obj) {
     if (!_invocationList->Equals(multicastDelegate->_invocationList)) {
       return false;
     }
-    return Delegate::Equals((Object)multicastDelegate);
+    return Delegate::in::Equals((Object)multicastDelegate);
   }
   if (rt::is<Delegate>(multicastDelegate->_invocationList)) {
     return Equals(multicastDelegate->_invocationList);
   }
-  return Delegate::Equals((Object)multicastDelegate);
+  return Delegate::in::Equals((Object)multicastDelegate);
 }
 
 Boolean MulticastDelegate___::InvocationListEquals(MulticastDelegate d) {
@@ -333,7 +333,7 @@ Int32 MulticastDelegate___::GetHashCode() {
   }
   Array<Object> array = rt::as<Array<Object>>(_invocationList);
   if (array == nullptr) {
-    return Delegate::GetHashCode();
+    return Delegate::in::GetHashCode();
   }
   Int32 num = 0;
   for (Int32 i = 0; i < (Int32)_invocationCount; i++) {
@@ -357,7 +357,7 @@ Object MulticastDelegate___::GetTarget() {
       return delegate->GetTarget();
     }
   }
-  return Delegate::GetTarget();
+  return Delegate::in::GetTarget();
 }
 
 MethodInfo MulticastDelegate___::GetMethodImpl() {
@@ -384,7 +384,7 @@ MethodInfo MulticastDelegate___::GetMethodImpl() {
     return (MethodInfo)_methodBase;
   }
 
-  return Delegate::GetMethodImpl();
+  return Delegate::in::GetMethodImpl();
 }
 
 void MulticastDelegate___::ThrowNullThisInDelegateToInstance() {

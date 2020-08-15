@@ -9,13 +9,13 @@ using namespace System::Runtime::CompilerServices;
 
 String FileLoadException___::get_Message() {
   auto& default = _message;
-  return default != nullptr ? default : (_message = FormatFileLoadExceptionMessage(FileName, Exception::get_HResult()));
+  return default != nullptr ? default : (_message = FormatFileLoadExceptionMessage(FileName, Exception::in::get_HResult()));
 }
 
 void FileLoadException___::ctor(String fileName, Int32 hResult) {
-  Exception::set_HResult = hResult;
+  Exception::in::set_HResult = hResult;
   FileName = fileName;
-  _message = FormatFileLoadExceptionMessage(FileName, Exception::get_HResult());
+  _message = FormatFileLoadExceptionMessage(FileName, Exception::in::get_HResult());
 }
 
 String FileLoadException___::FormatFileLoadExceptionMessage(String fileName, Int32 hResult) {
@@ -31,24 +31,24 @@ String FileLoadException___::FormatFileLoadExceptionMessage(String fileName, Int
 }
 
 void FileLoadException___::ctor() {
-  Exception::set_HResult = -2146232799;
+  Exception::in::set_HResult = -2146232799;
 }
 
 void FileLoadException___::ctor(String message) {
-  Exception::set_HResult = -2146232799;
+  Exception::in::set_HResult = -2146232799;
 }
 
 void FileLoadException___::ctor(String message, Exception inner) {
-  Exception::set_HResult = -2146232799;
+  Exception::in::set_HResult = -2146232799;
 }
 
 void FileLoadException___::ctor(String message, String fileName) {
-  Exception::set_HResult = -2146232799;
+  Exception::in::set_HResult = -2146232799;
   FileName = fileName;
 }
 
 void FileLoadException___::ctor(String message, String fileName, Exception inner) {
-  Exception::set_HResult = -2146232799;
+  Exception::in::set_HResult = -2146232799;
   FileName = fileName;
 }
 
@@ -58,9 +58,9 @@ String FileLoadException___::ToString() {
     text = text + "
 " + SR::Format(SR::get_IO_FileName_Name(), FileName);
   }
-  if (Exception::get_InnerException() != nullptr) {
+  if (Exception::in::get_InnerException() != nullptr) {
     text = text + "
- ---> " + Exception::get_InnerException()->ToString();
+ ---> " + Exception::in::get_InnerException()->ToString();
   }
   if (get_StackTrace() != nullptr) {
     text = text + "
@@ -83,7 +83,7 @@ void FileLoadException___::ctor(SerializationInfo info, StreamingContext context
 }
 
 void FileLoadException___::GetObjectData(SerializationInfo info, StreamingContext context) {
-  Exception::GetObjectData(info, context);
+  Exception::in::GetObjectData(info, context);
   info->AddValue("FileLoad_FileName", FileName, rt::typeof<String>());
   info->AddValue("FileLoad_FusionLog", FusionLog, rt::typeof<String>());
 }

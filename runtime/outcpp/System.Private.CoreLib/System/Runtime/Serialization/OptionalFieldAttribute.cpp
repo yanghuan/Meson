@@ -17,7 +17,7 @@ void OptionalFieldAttribute___::set_VersionAdded(Int32 value) {
 
 void OptionalFieldAttribute___::ctor() {
   _versionAdded = 1;
-  Attribute::ctor();
+  Attribute::in::ctor();
 }
 
 } // namespace System::Private::CoreLib::System::Runtime::Serialization::OptionalFieldAttributeNamespace

@@ -40,7 +40,7 @@ Func<Object, PropertyValue> TraceLoggingTypeInfo___::get_PropertyValueFactory() 
 void TraceLoggingTypeInfo___::ctor(Type dataType) {
   level = (EventLevel)(-1);
   opcode = (EventOpcode)(-1);
-  Object::ctor();
+  Object::in::ctor();
   if (dataType == nullptr) {
     rt::throw_exception<ArgumentNullException>("dataType");
   }
@@ -52,7 +52,7 @@ void TraceLoggingTypeInfo___::ctor(Type dataType) {
 void TraceLoggingTypeInfo___::ctor(Type dataType, String name, EventLevel level, EventOpcode opcode, EventKeywords keywords, EventTags tags) {
   this->level = (EventLevel)(-1);
   this->opcode = (EventOpcode)(-1);
-  Object::ctor();
+  Object::in::ctor();
   if (dataType == nullptr) {
     rt::throw_exception<ArgumentNullException>("dataType");
   }

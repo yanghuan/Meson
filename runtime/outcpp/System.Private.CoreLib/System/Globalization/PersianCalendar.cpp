@@ -254,7 +254,7 @@ Int32 PersianCalendar___::ToFourDigitYear(Int32 year) {
     rt::throw_exception<ArgumentOutOfRangeException>("year", year, SR::get_ArgumentOutOfRange_NeedNonNegNum());
   }
   if (year < 100) {
-    return Calendar::ToFourDigitYear(year);
+    return Calendar::in::ToFourDigitYear(year);
   }
   if (year > 9378) {
     rt::throw_exception<ArgumentOutOfRangeException>("year", year, SR::Format(SR::get_ArgumentOutOfRange_Range(), 1, 9378));

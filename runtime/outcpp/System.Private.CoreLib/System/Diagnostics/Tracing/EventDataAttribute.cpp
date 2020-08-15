@@ -12,7 +12,7 @@ EventOpcode EventDataAttribute___::get_Opcode() {
 void EventDataAttribute___::ctor() {
   level = (EventLevel)(-1);
   opcode = (EventOpcode)(-1);
-  Attribute::ctor();
+  Attribute::in::ctor();
 }
 
 } // namespace System::Private::CoreLib::System::Diagnostics::Tracing::EventDataAttributeNamespace

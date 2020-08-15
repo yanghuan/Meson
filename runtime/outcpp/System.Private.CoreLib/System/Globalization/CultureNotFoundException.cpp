@@ -24,7 +24,7 @@ String CultureNotFoundException___::get_FormattedInvalidCultureId() {
 }
 
 String CultureNotFoundException___::get_Message() {
-  String message = ArgumentException::get_Message();
+  String message = ArgumentException::in::get_Message();
   if (_invalidCultureId.get_HasValue() || _invalidCultureName != nullptr) {
     String text = SR::Format(SR::get_Argument_CultureInvalidIdentifier(), get_FormattedInvalidCultureId());
     if (message == nullptr) {
@@ -70,7 +70,7 @@ void CultureNotFoundException___::ctor(SerializationInfo info, StreamingContext 
 }
 
 void CultureNotFoundException___::GetObjectData(SerializationInfo info, StreamingContext context) {
-  ArgumentException::GetObjectData(info, context);
+  ArgumentException::in::GetObjectData(info, context);
   info->AddValue("InvalidCultureId", _invalidCultureId, rt::typeof<Nullable<Int32>>());
   info->AddValue("InvalidCultureName", _invalidCultureName, rt::typeof<String>());
 }

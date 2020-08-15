@@ -700,7 +700,7 @@ Boolean TypeBuilder___::IsAssignableFrom(Type c) {
   if (typeBuilder->IsSubclassOf((TypeBuilder)this)) {
     return true;
   }
-  if (!Type::get_IsInterface()) {
+  if (!Type::in::get_IsInterface()) {
     return false;
   }
   Array<Type> interfaces = typeBuilder->GetInterfaces();
@@ -1336,7 +1336,7 @@ TypeInfo TypeBuilder___::CreateTypeNoLock() {
   if (m_inst != nullptr) {
     Array<GenericTypeParameterBuilder> inst = m_inst;
   }
-  if (!m_isHiddenGlobalType && m_constructorCount == 0 && (m_iAttr & TypeAttributes::ClassSemanticsMask) == 0 && !Type::get_IsValueType() && (m_iAttr & (TypeAttributes::Abstract | TypeAttributes::Sealed)) != (TypeAttributes::Abstract | TypeAttributes::Sealed)) {
+  if (!m_isHiddenGlobalType && m_constructorCount == 0 && (m_iAttr & TypeAttributes::ClassSemanticsMask) == 0 && !Type::in::get_IsValueType() && (m_iAttr & (TypeAttributes::Abstract | TypeAttributes::Sealed)) != (TypeAttributes::Abstract | TypeAttributes::Sealed)) {
     DefineDefaultConstructor(MethodAttributes::Public);
   }
   Int32 count = m_listMethods->get_Count();

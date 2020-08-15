@@ -4,24 +4,24 @@
 
 namespace System::Private::CoreLib::System::Security::SecurityExceptionNamespace {
 void SecurityException___::ctor() {
-  Exception::set_HResult = -2146233078;
+  Exception::in::set_HResult = -2146233078;
 }
 
 void SecurityException___::ctor(String message) {
-  Exception::set_HResult = -2146233078;
+  Exception::in::set_HResult = -2146233078;
 }
 
 void SecurityException___::ctor(String message, Exception inner) {
-  Exception::set_HResult = -2146233078;
+  Exception::in::set_HResult = -2146233078;
 }
 
 void SecurityException___::ctor(String message, Type type) {
-  Exception::set_HResult = -2146233078;
+  Exception::in::set_HResult = -2146233078;
   PermissionType = type;
 }
 
 void SecurityException___::ctor(String message, Type type, String state) {
-  Exception::set_HResult = -2146233078;
+  Exception::in::set_HResult = -2146233078;
   PermissionType = type;
   PermissionState = state;
 }
@@ -36,11 +36,11 @@ void SecurityException___::ctor(SerializationInfo info, StreamingContext context
 }
 
 String SecurityException___::ToString() {
-  return Exception::ToString();
+  return Exception::in::ToString();
 }
 
 void SecurityException___::GetObjectData(SerializationInfo info, StreamingContext context) {
-  Exception::GetObjectData(info, context);
+  Exception::in::GetObjectData(info, context);
   info->AddValue("Demanded", Demanded, rt::typeof<String>());
   info->AddValue("GrantedSet", GrantedSet, rt::typeof<String>());
   info->AddValue("RefusedSet", RefusedSet, rt::typeof<String>());

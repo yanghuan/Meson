@@ -10,7 +10,7 @@ Boolean TaskFactory___<>::CompleteOnCountdownPromise___<>::get_InvokeMayRunArbit
 }
 
 Boolean TaskFactory___<>::CompleteOnCountdownPromise___<>::get_ShouldNotifyDebuggerOfWaitCompletion() {
-  if (Task::get_ShouldNotifyDebuggerOfWaitCompletion()) {
+  if (Task::in::get_ShouldNotifyDebuggerOfWaitCompletion()) {
     return Task::in::AnyTaskRequiresNotifyDebuggerOfWaitCompletion(_tasks);
   }
   return false;

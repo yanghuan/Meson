@@ -11,7 +11,7 @@ Int32 DecoderReplacementFallbackBuffer___::get_Remaining() {
 void DecoderReplacementFallbackBuffer___::ctor(DecoderReplacementFallback fallback) {
   _fallbackCount = -1;
   _fallbackIndex = -1;
-  DecoderFallbackBuffer::ctor();
+  DecoderFallbackBuffer::in::ctor();
   _strDefault = fallback->get_DefaultString();
 }
 

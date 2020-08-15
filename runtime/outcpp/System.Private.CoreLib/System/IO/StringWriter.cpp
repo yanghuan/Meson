@@ -41,7 +41,7 @@ void StringWriter___::Close() {
 
 void StringWriter___::Dispose(Boolean disposing) {
   _isOpen = false;
-  TextWriter::Dispose(disposing);
+  TextWriter::in::Dispose(disposing);
 }
 
 StringBuilder StringWriter___::GetStringBuilder() {
@@ -76,7 +76,7 @@ void StringWriter___::Write(Array<Char> buffer, Int32 index, Int32 count) {
 
 void StringWriter___::Write(ReadOnlySpan<Char> buffer) {
   if (GetType() != rt::typeof<StringWriter>()) {
-    TextWriter::Write(buffer);
+    TextWriter::in::Write(buffer);
     return;
   }
   if (!_isOpen) {
@@ -96,7 +96,7 @@ void StringWriter___::Write(String value) {
 
 void StringWriter___::Write(StringBuilder value) {
   if (GetType() != rt::typeof<StringWriter>()) {
-    TextWriter::Write(value);
+    TextWriter::in::Write(value);
     return;
   }
   if (!_isOpen) {
@@ -107,7 +107,7 @@ void StringWriter___::Write(StringBuilder value) {
 
 void StringWriter___::WriteLine(ReadOnlySpan<Char> buffer) {
   if (GetType() != rt::typeof<StringWriter>()) {
-    TextWriter::WriteLine(buffer);
+    TextWriter::in::WriteLine(buffer);
     return;
   }
   if (!_isOpen) {
@@ -119,7 +119,7 @@ void StringWriter___::WriteLine(ReadOnlySpan<Char> buffer) {
 
 void StringWriter___::WriteLine(StringBuilder value) {
   if (GetType() != rt::typeof<StringWriter>()) {
-    TextWriter::WriteLine(value);
+    TextWriter::in::WriteLine(value);
     return;
   }
   if (!_isOpen) {
@@ -154,7 +154,7 @@ Task<> StringWriter___::WriteAsync(ReadOnlyMemory<Char> buffer, CancellationToke
 
 Task<> StringWriter___::WriteAsync(StringBuilder value, CancellationToken cancellationToken) {
   if (GetType() != rt::typeof<StringWriter>()) {
-    return TextWriter::WriteAsync(value, cancellationToken);
+    return TextWriter::in::WriteAsync(value, cancellationToken);
   }
   if (cancellationToken.get_IsCancellationRequested()) {
     return Task::in::FromCanceled(cancellationToken);
@@ -178,7 +178,7 @@ Task<> StringWriter___::WriteLineAsync(String value) {
 
 Task<> StringWriter___::WriteLineAsync(StringBuilder value, CancellationToken cancellationToken) {
   if (GetType() != rt::typeof<StringWriter>()) {
-    return TextWriter::WriteLineAsync(value, cancellationToken);
+    return TextWriter::in::WriteLineAsync(value, cancellationToken);
   }
   if (cancellationToken.get_IsCancellationRequested()) {
     return Task::in::FromCanceled(cancellationToken);

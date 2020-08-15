@@ -382,7 +382,7 @@ void NumberFormatInfo___::ctor() {
   _percentDecimalDigits = 2;
   _digitSubstitution = 1;
   _hasInvariantNumberSigns = true;
-  Object::ctor();
+  Object::in::ctor();
 }
 
 void NumberFormatInfo___::VerifyDecimalSeparator(String decSep, String propertyName) {
@@ -460,7 +460,7 @@ void NumberFormatInfo___::ctor(CultureData cultureData) {
   _percentDecimalDigits = 2;
   _digitSubstitution = 1;
   _hasInvariantNumberSigns = true;
-  Object::ctor();
+  Object::in::ctor();
   if (cultureData != nullptr) {
     cultureData->GetNFIValues((NumberFormatInfo)this);
     UpdateHasInvariantNumberSigns();

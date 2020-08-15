@@ -23,7 +23,7 @@ String CurrentSystemTimeZone___::get_DaylightName() {
 
 void CurrentSystemTimeZone___::ctor() {
   m_CachedDaylightChanges = rt::newobj<Hashtable>();
-  TimeZone::ctor();
+  TimeZone::in::ctor();
   TimeZoneInfo local = TimeZoneInfo::in::get_Local();
   m_ticksOffset = local->get_BaseUtcOffset().get_Ticks();
   m_standardName = local->get_StandardName();

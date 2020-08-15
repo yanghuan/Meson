@@ -488,7 +488,7 @@ Boolean RuntimeType___::get_IsSecurityTransparent() {
 }
 
 MemberTypes RuntimeType___::get_MemberType() {
-  if (!Type::get_IsPublic() && !Type::get_IsNotPublic()) {
+  if (!Type::in::get_IsPublic() && !Type::in::get_IsNotPublic()) {
     return MemberTypes::NestedType;
   }
   return MemberTypes::TypeInfo;
@@ -1405,7 +1405,7 @@ Object RuntimeType___::CheckValue(Object value, Binder binder, CultureInfo cultu
     }
     return value;
   }
-  if (Type::get_IsByRef()) {
+  if (Type::in::get_IsByRef()) {
     RuntimeType elementType = RuntimeTypeHandle::GetElementType((RuntimeType)this);
     if (elementType->IsInstanceOfType(value) || value == nullptr) {
       return AllocateValueType(elementType, value, false);
@@ -1418,7 +1418,7 @@ Object RuntimeType___::CheckValue(Object value, Binder binder, CultureInfo cultu
       return value;
     }
   }
-  Boolean flag = Type::get_IsPointer() || get_IsEnum() || Type::get_IsPrimitive();
+  Boolean flag = Type::in::get_IsPointer() || get_IsEnum() || Type::in::get_IsPrimitive();
   if (flag) {
     Pointer pointer = rt::as<Pointer>(value);
     RuntimeType valueType = (pointer == nullptr) ? ((RuntimeType)value->GetType()) : ((RuntimeType)pointer->GetPointerType());
@@ -1441,7 +1441,7 @@ Object RuntimeType___::TryChangeType(Object value, Binder binder, CultureInfo cu
     if (IsInstanceOfType(value)) {
       return value;
     }
-    if (Type::get_IsByRef()) {
+    if (Type::in::get_IsByRef()) {
       RuntimeType elementType = RuntimeTypeHandle::GetElementType((RuntimeType)this);
       if (elementType->IsInstanceOfType(value) || value == nullptr) {
         return AllocateValueType(elementType, value, false);
@@ -1710,7 +1710,7 @@ Object RuntimeType___::CreateInstanceImpl(BindingFlags bindingAttr, Binder binde
   Boolean publicOnly = (bindingAttr & BindingFlags::NonPublic) == 0;
   Boolean wrapExceptions = (bindingAttr & BindingFlags::DoNotWrapExceptions) == 0;
   Object result;
-  if (args->get_Length() == 0 && (bindingAttr & BindingFlags::Public) != 0 && (bindingAttr & BindingFlags::Instance) != 0 && (IsGenericCOMObjectImpl() || Type::get_IsValueType())) {
+  if (args->get_Length() == 0 && (bindingAttr & BindingFlags::Public) != 0 && (bindingAttr & BindingFlags::Instance) != 0 && (IsGenericCOMObjectImpl() || Type::in::get_IsValueType())) {
     result = CreateInstanceDefaultCtor(publicOnly, false, true, wrapExceptions);
   } else {
     Array<ConstructorInfo> constructors = GetConstructors(bindingAttr);
@@ -2156,7 +2156,7 @@ Boolean RuntimeType___::IsAssignableFrom(Type c) {
     if (c->IsSubclassOf((RuntimeType)this)) {
       return true;
     }
-    if (Type::get_IsInterface()) {
+    if (Type::in::get_IsInterface()) {
       return c->ImplementInterface((RuntimeType)this);
     }
     if (get_IsGenericParameter()) {
@@ -2173,7 +2173,7 @@ Boolean RuntimeType___::IsAssignableFrom(Type c) {
 }
 
 RuntimeType RuntimeType___::GetBaseType() {
-  if (Type::get_IsInterface()) {
+  if (Type::in::get_IsInterface()) {
     return nullptr;
   }
   if (RuntimeTypeHandle::IsGenericVariable((RuntimeType)this)) {

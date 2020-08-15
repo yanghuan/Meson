@@ -43,7 +43,7 @@ void ConsolePal::WindowsConsoleStream___::ctor(IntPtr handle, FileAccess access,
 
 void ConsolePal::WindowsConsoleStream___::Dispose(Boolean disposing) {
   _handle = IntPtr::Zero;
-  ConsoleStream::Dispose(disposing);
+  ConsoleStream::in::Dispose(disposing);
 }
 
 Int32 ConsolePal::WindowsConsoleStream___::Read(Array<Byte> buffer, Int32 offset, Int32 count) {
@@ -68,7 +68,7 @@ void ConsolePal::WindowsConsoleStream___::Flush() {
   if (_handle == IntPtr::Zero) {
     rt::throw_exception(Error::GetFileNotOpen());
   }
-  ConsoleStream::Flush();
+  ConsoleStream::in::Flush();
 }
 
 Int32 ConsolePal::WindowsConsoleStream___::ReadFileNative(IntPtr hFile, Array<Byte> bytes, Int32 offset, Int32 count, Boolean isPipe, Int32& bytesRead, Boolean useFileAPIs) {

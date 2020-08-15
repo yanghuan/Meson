@@ -213,11 +213,11 @@ void Module___::GetObjectData(SerializationInfo info, StreamingContext context) 
 }
 
 Boolean Module___::Equals(Object o) {
-  return Object::Equals(o);
+  return Object::in::Equals(o);
 }
 
 Int32 Module___::GetHashCode() {
-  return Object::GetHashCode();
+  return Object::in::GetHashCode();
 }
 
 Boolean Module___::op_Equality(Module left, Module right) {

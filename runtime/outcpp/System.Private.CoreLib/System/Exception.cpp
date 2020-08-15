@@ -211,7 +211,7 @@ void Exception___::SetCurrentStackTrace() {
 
 void Exception___::ctor() {
   _xcode = -532462766;
-  Object::ctor();
+  Object::in::ctor();
   _HResult = -2146233088;
 }
 
@@ -226,7 +226,7 @@ void Exception___::ctor(String message, Exception innerException) {
 
 void Exception___::ctor(SerializationInfo info, StreamingContext context) {
   _xcode = -532462766;
-  Object::ctor();
+  Object::in::ctor();
   if (info == nullptr) {
     rt::throw_exception<ArgumentNullException>("info");
   }
@@ -328,7 +328,7 @@ String Exception___::ToString() {
 }
 
 Type Exception___::GetType() {
-  return Object::GetType();
+  return Object::in::GetType();
 }
 
 void Exception___::RestoreRemoteStackTrace(SerializationInfo info, StreamingContext context) {

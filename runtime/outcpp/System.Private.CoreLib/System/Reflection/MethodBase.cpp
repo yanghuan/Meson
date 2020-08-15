@@ -190,11 +190,11 @@ Object MethodBase___::Invoke(Object obj, Array<Object> parameters) {
 }
 
 Boolean MethodBase___::Equals(Object obj) {
-  return MemberInfo::Equals(obj);
+  return MemberInfo::in::Equals(obj);
 }
 
 Int32 MethodBase___::GetHashCode() {
-  return MemberInfo::GetHashCode();
+  return MemberInfo::in::GetHashCode();
 }
 
 Boolean MethodBase___::op_Equality(MethodBase left, MethodBase right) {

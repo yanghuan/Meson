@@ -314,15 +314,15 @@ void Assembly___::GetObjectData(SerializationInfo info, StreamingContext context
 
 String Assembly___::ToString() {
   auto& default = get_FullName();
-  return default != nullptr ? default : Object::ToString();
+  return default != nullptr ? default : Object::in::ToString();
 }
 
 Boolean Assembly___::Equals(Object o) {
-  return Object::Equals(o);
+  return Object::in::Equals(o);
 }
 
 Int32 Assembly___::GetHashCode() {
-  return Object::GetHashCode();
+  return Object::in::GetHashCode();
 }
 
 Boolean Assembly___::op_Equality(Assembly left, Assembly right) {

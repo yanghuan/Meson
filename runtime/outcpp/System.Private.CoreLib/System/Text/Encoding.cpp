@@ -400,7 +400,7 @@ void Encoding___::ctor() {
 
 void Encoding___::ctor(Int32 codePage) {
   _isReadOnly = true;
-  Object::ctor();
+  Object::in::ctor();
   if (codePage < 0) {
     rt::throw_exception<ArgumentOutOfRangeException>("codePage");
   }
@@ -410,7 +410,7 @@ void Encoding___::ctor(Int32 codePage) {
 
 void Encoding___::ctor(Int32 codePage, EncoderFallback encoderFallback, DecoderFallback decoderFallback) {
   _isReadOnly = true;
-  Object::ctor();
+  Object::in::ctor();
   if (codePage < 0) {
     rt::throw_exception<ArgumentOutOfRangeException>("codePage");
   }

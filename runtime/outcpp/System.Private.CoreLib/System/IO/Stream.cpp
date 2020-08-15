@@ -412,7 +412,7 @@ void SyncStream___::Close() {
     try{
       _stream->Close();
     } finally: {
-      Stream::Dispose(true);
+      Stream::in::Dispose(true);
     }
   }
 }
@@ -425,7 +425,7 @@ void SyncStream___::Dispose(Boolean disposing) {
         ((IDisposable)_stream)->Dispose();
       }
     } finally: {
-      Stream::Dispose(disposing);
+      Stream::in::Dispose(disposing);
     }
   }
 }

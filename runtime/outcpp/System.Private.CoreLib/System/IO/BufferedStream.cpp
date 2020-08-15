@@ -147,7 +147,7 @@ void BufferedStream___::Dispose(Boolean disposing) {
   } finally: {
     _stream = nullptr;
     _buffer = nullptr;
-    Stream::Dispose(disposing);
+    Stream::in::Dispose(disposing);
   }
 }
 

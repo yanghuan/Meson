@@ -7,7 +7,7 @@ void CryptographicException___::ctor() {
 }
 
 void CryptographicException___::ctor(Int32 hr) {
-  Exception::set_HResult = hr;
+  Exception::in::set_HResult = hr;
 }
 
 void CryptographicException___::ctor(String message) {

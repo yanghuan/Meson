@@ -291,7 +291,7 @@ Boolean DateTimeFormatInfoScanner___::ArrayElementsBeginWithDigit(Array<String> 
 
 void DateTimeFormatInfoScanner___::ctor() {
   m_dateWords = rt::newobj<List<String>>();
-  Object::ctor();
+  Object::in::ctor();
 }
 
 } // namespace System::Private::CoreLib::System::Globalization::DateTimeFormatInfoScannerNamespace

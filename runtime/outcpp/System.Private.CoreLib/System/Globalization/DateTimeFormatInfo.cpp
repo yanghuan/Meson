@@ -715,7 +715,7 @@ void DateTimeFormatInfo___::ctor(CultureData cultureData, Calendar cal) {
   firstDayOfWeek = -1;
   calendarWeekRule = -1;
   formatFlags = DateTimeFormatFlags::NotInitialized;
-  Object::ctor();
+  Object::in::ctor();
   _cultureData = cultureData;
   get_Calendar() = cal;
 }

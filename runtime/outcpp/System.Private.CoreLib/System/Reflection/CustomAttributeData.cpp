@@ -422,7 +422,7 @@ String CustomAttributeData___::ToString() {
 }
 
 Int32 CustomAttributeData___::GetHashCode() {
-  return Object::GetHashCode();
+  return Object::in::GetHashCode();
 }
 
 Boolean CustomAttributeData___::Equals(Object obj) {

@@ -23,7 +23,7 @@ void StringReader___::Dispose(Boolean disposing) {
   _s = nullptr;
   _pos = 0;
   _length = 0;
-  TextReader::Dispose(disposing);
+  TextReader::in::Dispose(disposing);
 }
 
 Int32 StringReader___::Peek() {
@@ -75,7 +75,7 @@ Int32 StringReader___::Read(Array<Char> buffer, Int32 index, Int32 count) {
 
 Int32 StringReader___::Read(Span<Char> buffer) {
   if (GetType() != rt::typeof<StringReader>()) {
-    return TextReader::Read(buffer);
+    return TextReader::in::Read(buffer);
   }
   if (_s == nullptr) {
     rt::throw_exception<ObjectDisposedException>(nullptr, SR::get_ObjectDisposed_ReaderClosed());

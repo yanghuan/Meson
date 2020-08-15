@@ -371,7 +371,7 @@ Int32 HebrewCalendar___::ToFourDigitYear(Int32 year) {
     rt::throw_exception<ArgumentOutOfRangeException>("year", year, SR::get_ArgumentOutOfRange_NeedNonNegNum());
   }
   if (year < 100) {
-    return Calendar::ToFourDigitYear(year);
+    return Calendar::in::ToFourDigitYear(year);
   }
   if (year > 5999 || year < 5343) {
     rt::throw_exception<ArgumentOutOfRangeException>("year", year, SR::Format(SR::get_ArgumentOutOfRange_Range(), 5343, 5999));

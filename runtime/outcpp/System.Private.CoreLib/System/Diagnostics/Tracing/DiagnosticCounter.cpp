@@ -37,7 +37,7 @@ void DiagnosticCounter___::set_DisplayUnits(String value) {
 void DiagnosticCounter___::ctor(String name, Tracing::EventSource eventSource) {
   _displayName = "";
   _displayUnits = "";
-  Object::ctor();
+  Object::in::ctor();
   if (name == nullptr) {
     rt::throw_exception<ArgumentNullException>("Name");
   }

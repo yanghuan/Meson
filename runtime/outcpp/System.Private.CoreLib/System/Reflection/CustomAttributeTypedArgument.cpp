@@ -193,7 +193,7 @@ String CustomAttributeTypedArgument::ToString() {
 
 String CustomAttributeTypedArgument::ToString(Boolean typed) {
   if (m_argumentType == nullptr) {
-    return ValueType::ToString();
+    return ValueType::in::ToString();
   }
   if (get_ArgumentType()->get_IsEnum()) {
     return String::in::Format(typed ? "{0}" : "({1}){0}", get_Value(), get_ArgumentType()->get_FullName());
@@ -223,7 +223,7 @@ String CustomAttributeTypedArgument::ToString(Boolean typed) {
 }
 
 Int32 CustomAttributeTypedArgument::GetHashCode() {
-  return ValueType::GetHashCode();
+  return ValueType::in::GetHashCode();
 }
 
 Boolean CustomAttributeTypedArgument::Equals(Object obj) {

@@ -17,7 +17,7 @@ void PollingCounter___::ctor(String name, Tracing::EventSource eventSource, Func
 }
 
 String PollingCounter___::ToString() {
-  return "PollingCounter '" + DiagnosticCounter::get_Name() + "' Count 1 Mean " + _lastVal.ToString("n3");
+  return "PollingCounter '" + DiagnosticCounter::in::get_Name() + "' Count 1 Mean " + _lastVal.ToString("n3");
 }
 
 void PollingCounter___::WritePayload(Single intervalSec, Int32 pollingIntervalMillisec) {
@@ -29,8 +29,8 @@ void PollingCounter___::WritePayload(Single intervalSec, Int32 pollingIntervalMi
     } catch (Exception ex) {
     }
     CounterPayload counterPayload = rt::newobj<CounterPayload>();
-    counterPayload->set_Name = DiagnosticCounter::get_Name();
-    auto& default = DiagnosticCounter::get_DisplayName();
+    counterPayload->set_Name = DiagnosticCounter::in::get_Name();
+    auto& default = DiagnosticCounter::in::get_DisplayName();
     counterPayload->set_DisplayName = (default != nullptr ? default : "");
     counterPayload->set_Count = 1;
     counterPayload->set_IntervalSec = intervalSec;
@@ -41,10 +41,10 @@ void PollingCounter___::WritePayload(Single intervalSec, Int32 pollingIntervalMi
     counterPayload->set_Min = num;
     counterPayload->set_Metadata = GetMetadataString();
     counterPayload->set_StandardDeviation = 0;
-    auto& extern = DiagnosticCounter::get_DisplayUnits();
+    auto& extern = DiagnosticCounter::in::get_DisplayUnits();
     counterPayload->set_DisplayUnits = (extern != nullptr ? extern : "");
     _lastVal = num;
-    DiagnosticCounter::get_EventSource()->Write("EventCounters", EventSourceOptions(), rt::newobj<PollingPayloadType>(counterPayload));
+    DiagnosticCounter::in::get_EventSource()->Write("EventCounters", EventSourceOptions(), rt::newobj<PollingPayloadType>(counterPayload));
   }
 }
 

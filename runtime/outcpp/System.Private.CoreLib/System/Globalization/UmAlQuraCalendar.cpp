@@ -296,7 +296,7 @@ Int32 UmAlQuraCalendar___::ToFourDigitYear(Int32 year) {
     rt::throw_exception<ArgumentOutOfRangeException>("year", year, SR::get_ArgumentOutOfRange_NeedNonNegNum());
   }
   if (year < 100) {
-    return Calendar::ToFourDigitYear(year);
+    return Calendar::in::ToFourDigitYear(year);
   }
   if (year < 1318 || year > 1500) {
     rt::throw_exception<ArgumentOutOfRangeException>("year", year, SR::Format(SR::get_ArgumentOutOfRange_Range(), 1318, 1500));

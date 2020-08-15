@@ -26,7 +26,7 @@ Array<EventPipeProviderConfiguration> EventPipeConfiguration___::get_Providers()
 
 void EventPipeConfiguration___::ctor(String outputFile, EventPipeSerializationFormat format, UInt32 circularBufferSizeInMB) {
   m_minTimeBetweenSamples = TimeSpan::FromMilliseconds(1);
-  Object::ctor();
+  Object::in::ctor();
   if (String::in::IsNullOrEmpty(outputFile)) {
     rt::throw_exception<ArgumentNullException>("outputFile");
   }

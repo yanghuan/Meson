@@ -30,7 +30,7 @@ Boolean UnicodeEncoding___::Decoder___::get_HasState() {
 
 void UnicodeEncoding___::Decoder___::ctor(UnicodeEncoding encoding) {
   lastByte = -1;
-  DecoderNLS::ctor(encoding);
+  DecoderNLS::in::ctor(encoding);
 }
 
 void UnicodeEncoding___::Decoder___::Reset() {
@@ -844,8 +844,8 @@ Int32 UnicodeEncoding___::GetMaxByteCount(Int32 charCount) {
     rt::throw_exception<ArgumentOutOfRangeException>("charCount", SR::get_ArgumentOutOfRange_NeedNonNegNum());
   }
   Int64 num = (Int64)charCount + 1;
-  if (Encoding::get_EncoderFallback()->get_MaxCharCount() > 1) {
-    num *= Encoding::get_EncoderFallback()->get_MaxCharCount();
+  if (Encoding::in::get_EncoderFallback()->get_MaxCharCount() > 1) {
+    num *= Encoding::in::get_EncoderFallback()->get_MaxCharCount();
   }
   num <<= 1;
   if (num > Int32::MaxValue) {
@@ -859,8 +859,8 @@ Int32 UnicodeEncoding___::GetMaxCharCount(Int32 byteCount) {
     rt::throw_exception<ArgumentOutOfRangeException>("byteCount", SR::get_ArgumentOutOfRange_NeedNonNegNum());
   }
   Int64 num = (Int64)(byteCount >> 1) + (Int64)(byteCount & 1) + 1;
-  if (Encoding::get_DecoderFallback()->get_MaxCharCount() > 1) {
-    num *= Encoding::get_DecoderFallback()->get_MaxCharCount();
+  if (Encoding::in::get_DecoderFallback()->get_MaxCharCount() > 1) {
+    num *= Encoding::in::get_DecoderFallback()->get_MaxCharCount();
   }
   if (num > Int32::MaxValue) {
     rt::throw_exception<ArgumentOutOfRangeException>("byteCount", SR::get_ArgumentOutOfRange_GetCharCountOverflow());
@@ -871,8 +871,8 @@ Int32 UnicodeEncoding___::GetMaxCharCount(Int32 byteCount) {
 Boolean UnicodeEncoding___::Equals(Object value) {
   UnicodeEncoding unicodeEncoding = rt::as<UnicodeEncoding>(value);
   if (unicodeEncoding != nullptr) {
-    if (get_CodePage() == unicodeEncoding->get_CodePage() && byteOrderMark == unicodeEncoding->byteOrderMark && bigEndian == unicodeEncoding->bigEndian && Encoding::get_EncoderFallback()->Equals(unicodeEncoding->get_EncoderFallback())) {
-      return Encoding::get_DecoderFallback()->Equals(unicodeEncoding->get_DecoderFallback());
+    if (get_CodePage() == unicodeEncoding->get_CodePage() && byteOrderMark == unicodeEncoding->byteOrderMark && bigEndian == unicodeEncoding->bigEndian && Encoding::in::get_EncoderFallback()->Equals(unicodeEncoding->get_EncoderFallback())) {
+      return Encoding::in::get_DecoderFallback()->Equals(unicodeEncoding->get_DecoderFallback());
     }
     return false;
   }
@@ -880,7 +880,7 @@ Boolean UnicodeEncoding___::Equals(Object value) {
 }
 
 Int32 UnicodeEncoding___::GetHashCode() {
-  return get_CodePage() + Encoding::get_EncoderFallback()->GetHashCode() + Encoding::get_DecoderFallback()->GetHashCode() + (byteOrderMark ? 4 : 0) + (bigEndian ? 8 : 0);
+  return get_CodePage() + Encoding::in::get_EncoderFallback()->GetHashCode() + Encoding::in::get_DecoderFallback()->GetHashCode() + (byteOrderMark ? 4 : 0) + (bigEndian ? 8 : 0);
 }
 
 void UnicodeEncoding___::cctor() {

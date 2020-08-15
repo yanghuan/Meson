@@ -17,7 +17,7 @@ void IncrementingPollingCounter___::ctor(String name, Tracing::EventSource event
 }
 
 String IncrementingPollingCounter___::ToString() {
-  return String::in::Format("IncrementingPollingCounter '{0}' Increment {1}", DiagnosticCounter::get_Name(), _increment);
+  return String::in::Format("IncrementingPollingCounter '{0}' Increment {1}", DiagnosticCounter::in::get_Name(), _increment);
 }
 
 void IncrementingPollingCounter___::UpdateMetric() {
@@ -36,8 +36,8 @@ void IncrementingPollingCounter___::WritePayload(Single intervalSec, Int32 polli
   {
     rt::lock((IncrementingPollingCounter)this);
     IncrementingCounterPayload incrementingCounterPayload = rt::newobj<IncrementingCounterPayload>();
-    incrementingCounterPayload->set_Name = DiagnosticCounter::get_Name();
-    auto& default = DiagnosticCounter::get_DisplayName();
+    incrementingCounterPayload->set_Name = DiagnosticCounter::in::get_Name();
+    auto& default = DiagnosticCounter::in::get_DisplayName();
     incrementingCounterPayload->set_DisplayName = (default != nullptr ? default : "");
     incrementingCounterPayload->set_DisplayRateTimeScale = ((DisplayRateTimeScale == TimeSpan::Zero) ? "" : DisplayRateTimeScale.ToString("c"));
     incrementingCounterPayload->set_IntervalSec = intervalSec;
@@ -45,9 +45,9 @@ void IncrementingPollingCounter___::WritePayload(Single intervalSec, Int32 polli
     incrementingCounterPayload->set_CounterType = "Sum";
     incrementingCounterPayload->set_Metadata = GetMetadataString();
     incrementingCounterPayload->set_Increment = _increment - _prevIncrement;
-    auto& extern = DiagnosticCounter::get_DisplayUnits();
+    auto& extern = DiagnosticCounter::in::get_DisplayUnits();
     incrementingCounterPayload->set_DisplayUnits = (extern != nullptr ? extern : "");
-    DiagnosticCounter::get_EventSource()->Write("EventCounters", EventSourceOptions(), rt::newobj<IncrementingPollingCounterPayloadType>(incrementingCounterPayload));
+    DiagnosticCounter::in::get_EventSource()->Write("EventCounters", EventSourceOptions(), rt::newobj<IncrementingPollingCounterPayloadType>(incrementingCounterPayload));
   }
 }
 

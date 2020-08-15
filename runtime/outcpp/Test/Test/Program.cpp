@@ -16,6 +16,12 @@ void Program___::Main(Array<String> args) {
     rt::lock(args);
     num = 2;
   }
+  auto& default = args;
+  default == nullptr ? nullptr : default->get_Length().ToString();
+  auto& extern = args;
+  auto& ref = extern == nullptr ? nullptr : extern->GetType();
+  auto& out = ref == nullptr ? nullptr : ref->get_Assembly();
+  String text = out == nullptr ? nullptr : out->get_FullName()->ToString();
 }
 
 void Program___::ctor() {

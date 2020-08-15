@@ -38,7 +38,7 @@ void EventPipeEventDispatcher___::ctor() {
   m_dispatchTaskWaitHandle = rt::newobj<EventPipeWaitHandle>();
   m_dispatchControlLock = rt::newobj<Object>();
   m_subscriptions = rt::newobj<Dictionary<EventListener, EventListenerSubscription>>();
-  Object::ctor();
+  Object::in::ctor();
   m_RuntimeProviderID = EventPipeInternal::GetProvider("Microsoft-Windows-DotNETRuntime");
   m_dispatchTaskWaitHandle->set_SafeWaitHandle = rt::newobj<SafeWaitHandle>(IntPtr::Zero, false);
 }

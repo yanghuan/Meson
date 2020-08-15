@@ -82,7 +82,7 @@ void RegisteredWaitHandleSafe___::Finalize() {
 
 void RegisteredWaitHandleSafe___::ctor() {
   registeredWaitHandle = get_InvalidHandle();
-  CriticalFinalizerObject::ctor();
+  CriticalFinalizerObject::in::ctor();
 }
 
 } // namespace System::Private::CoreLib::System::Threading::RegisteredWaitHandleSafeNamespace

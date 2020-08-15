@@ -1691,7 +1691,7 @@ void CultureData___::ctor() {
   _iDefaultOemCodePage = -1;
   _iDefaultMacCodePage = -1;
   _iDefaultEbcdicCodePage = -1;
-  Object::ctor();
+  Object::in::ctor();
 }
 
 void CultureData___::cctor() {

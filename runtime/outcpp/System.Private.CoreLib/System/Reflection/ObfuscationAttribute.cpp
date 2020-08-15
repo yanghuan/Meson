@@ -6,7 +6,7 @@ void ObfuscationAttribute___::ctor() {
   Exclude = true;
   ApplyToMembers = true;
   Feature = "all";
-  Attribute::ctor();
+  Attribute::in::ctor();
 }
 
 } // namespace System::Private::CoreLib::System::Reflection::ObfuscationAttributeNamespace

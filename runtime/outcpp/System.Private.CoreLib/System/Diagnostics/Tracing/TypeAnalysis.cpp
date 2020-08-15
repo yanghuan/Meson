@@ -14,7 +14,7 @@ using namespace System::Reflection;
 void TypeAnalysis___::ctor(Type dataType, EventDataAttribute eventAttrib, List<Type> recursionCheck) {
   level = (EventLevel)(-1);
   opcode = (EventOpcode)(-1);
-  Object::ctor();
+  Object::in::ctor();
   IEnumerable<PropertyInfo> enumerable = Statics::GetProperties(dataType);
   List<PropertyAnalysis> list = rt::newobj<List<PropertyAnalysis>>();
 }

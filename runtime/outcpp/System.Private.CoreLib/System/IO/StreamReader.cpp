@@ -91,7 +91,7 @@ void StreamReader___::ThrowAsyncIOInProgress() {
 
 void StreamReader___::ctor() {
   _asyncReadTask = Task::in::get_CompletedTask();
-  TextReader::ctor();
+  TextReader::in::ctor();
   _stream = Stream::in::Null;
   _closable = true;
 }
@@ -113,7 +113,7 @@ void StreamReader___::ctor(Stream stream, Encoding encoding, Boolean detectEncod
 
 void StreamReader___::ctor(Stream stream, Encoding encoding, Boolean detectEncodingFromByteOrderMarks, Int32 bufferSize, Boolean leaveOpen) {
   _asyncReadTask = Task::in::get_CompletedTask();
-  TextReader::ctor();
+  TextReader::in::ctor();
   if (stream == nullptr) {
     rt::throw_exception<ArgumentNullException>("stream");
   }
@@ -196,7 +196,7 @@ void StreamReader___::Dispose(Boolean disposing) {
   } finally: {
     _charPos = 0;
     _charLen = 0;
-    TextReader::Dispose(disposing);
+    TextReader::in::Dispose(disposing);
   }
 }
 
@@ -246,7 +246,7 @@ Int32 StreamReader___::Read(Array<Char> buffer, Int32 index, Int32 count) {
 
 Int32 StreamReader___::Read(Span<Char> buffer) {
   if (!(GetType() == rt::typeof<StreamReader>())) {
-    return TextReader::Read(buffer);
+    return TextReader::in::Read(buffer);
   }
   return ReadSpan(buffer);
 }
@@ -305,12 +305,12 @@ Int32 StreamReader___::ReadBlock(Array<Char> buffer, Int32 index, Int32 count) {
   }
   ThrowIfDisposed();
   CheckAsyncTaskInProgress();
-  return TextReader::ReadBlock(buffer, index, count);
+  return TextReader::in::ReadBlock(buffer, index, count);
 }
 
 Int32 StreamReader___::ReadBlock(Span<Char> buffer) {
   if (GetType() != rt::typeof<StreamReader>()) {
-    return TextReader::ReadBlock(buffer);
+    return TextReader::in::ReadBlock(buffer);
   }
   Int32 num = 0;
   Int32 num2;
@@ -518,7 +518,7 @@ String StreamReader___::ReadLine() {
 
 Task<String> StreamReader___::ReadLineAsync() {
   if (GetType() != rt::typeof<StreamReader>()) {
-    return TextReader::ReadLineAsync();
+    return TextReader::in::ReadLineAsync();
   }
   ThrowIfDisposed();
   CheckAsyncTaskInProgress();
@@ -538,7 +538,7 @@ Task<String> StreamReader___::ReadLineAsyncInternal() {
 
 Task<String> StreamReader___::ReadToEndAsync() {
   if (GetType() != rt::typeof<StreamReader>()) {
-    return TextReader::ReadToEndAsync();
+    return TextReader::in::ReadToEndAsync();
   }
   ThrowIfDisposed();
   CheckAsyncTaskInProgress();
@@ -566,7 +566,7 @@ Task<Int32> StreamReader___::ReadAsync(Array<Char> buffer, Int32 index, Int32 co
     rt::throw_exception<ArgumentException>(SR::get_Argument_InvalidOffLen());
   }
   if (GetType() != rt::typeof<StreamReader>()) {
-    return TextReader::ReadAsync(buffer, index, count);
+    return TextReader::in::ReadAsync(buffer, index, count);
   }
   ThrowIfDisposed();
   CheckAsyncTaskInProgress();
@@ -575,7 +575,7 @@ Task<Int32> StreamReader___::ReadAsync(Array<Char> buffer, Int32 index, Int32 co
 
 ValueTask<Int32> StreamReader___::ReadAsync(Memory<Char> buffer, CancellationToken cancellationToken) {
   if (GetType() != rt::typeof<StreamReader>()) {
-    return TextReader::ReadAsync(buffer, cancellationToken);
+    return TextReader::in::ReadAsync(buffer, cancellationToken);
   }
   ThrowIfDisposed();
   CheckAsyncTaskInProgress();
@@ -659,16 +659,16 @@ Task<Int32> StreamReader___::ReadBlockAsync(Array<Char> buffer, Int32 index, Int
     rt::throw_exception<ArgumentException>(SR::get_Argument_InvalidOffLen());
   }
   if (GetType() != rt::typeof<StreamReader>()) {
-    return TextReader::ReadBlockAsync(buffer, index, count);
+    return TextReader::in::ReadBlockAsync(buffer, index, count);
   }
   ThrowIfDisposed();
   CheckAsyncTaskInProgress();
-  return (Task<Int32>)(_asyncReadTask = TextReader::ReadBlockAsync(buffer, index, count));
+  return (Task<Int32>)(_asyncReadTask = TextReader::in::ReadBlockAsync(buffer, index, count));
 }
 
 ValueTask<Int32> StreamReader___::ReadBlockAsync(Memory<Char> buffer, CancellationToken cancellationToken) {
   if (GetType() != rt::typeof<StreamReader>()) {
-    return TextReader::ReadBlockAsync(buffer, cancellationToken);
+    return TextReader::in::ReadBlockAsync(buffer, cancellationToken);
   }
   ThrowIfDisposed();
   CheckAsyncTaskInProgress();

@@ -84,7 +84,7 @@ Int32 ASCIIEncoding___::GetByteCount(ReadOnlySpan<Char> chars) {
 
 Int32 ASCIIEncoding___::GetByteCountCommon(Char* pChars, Int32 charCount) {
   Int32 charsConsumed;
-  Int32 num = GetByteCountFast(pChars, charCount, Encoding::get_EncoderFallback(), charsConsumed);
+  Int32 num = GetByteCountFast(pChars, charCount, Encoding::in::get_EncoderFallback(), charsConsumed);
   if (charsConsumed != charCount) {
     num += GetByteCountWithFallback(pChars, charCount, charsConsumed);
     if (num < 0) {
@@ -183,7 +183,7 @@ Int32 ASCIIEncoding___::GetBytesFast(Char* pChars, Int32 charsLength, Byte* pByt
 }
 
 Int32 ASCIIEncoding___::GetBytesWithFallback(ReadOnlySpan<Char> chars, Int32 originalCharsLength, Span<Byte> bytes, Int32 originalBytesLength, EncoderNLS encoder) {
-  EncoderReplacementFallback encoderReplacementFallback = rt::as<EncoderReplacementFallback>(((encoder == nullptr) ? Encoding::get_EncoderFallback() : encoder->get_Fallback()));
+  EncoderReplacementFallback encoderReplacementFallback = rt::as<EncoderReplacementFallback>(((encoder == nullptr) ? Encoding::in::get_EncoderFallback() : encoder->get_Fallback()));
   if (encoderReplacementFallback != nullptr && encoderReplacementFallback->get_MaxCharCount() == 1 && encoderReplacementFallback->get_DefaultString()[0] <= 127) {
     Byte b = (Byte)encoderReplacementFallback->get_DefaultString()[0];
     Int32 num = Math::Min(chars.get_Length(), bytes.get_Length());
@@ -206,7 +206,7 @@ Int32 ASCIIEncoding___::GetBytesWithFallback(ReadOnlySpan<Char> chars, Int32 ori
   if (chars.get_IsEmpty()) {
     return originalBytesLength - bytes.get_Length();
   }
-  return Encoding::GetBytesWithFallback(chars, originalCharsLength, bytes, originalBytesLength, encoder);
+  return Encoding::in::GetBytesWithFallback(chars, originalCharsLength, bytes, originalBytesLength, encoder);
 }
 
 Int32 ASCIIEncoding___::GetCharCount(Array<Byte> bytes, Int32 index, Int32 count) {
@@ -244,7 +244,7 @@ Int32 ASCIIEncoding___::GetCharCount(ReadOnlySpan<Byte> bytes) {
 
 Int32 ASCIIEncoding___::GetCharCountCommon(Byte* pBytes, Int32 byteCount) {
   Int32 bytesConsumed;
-  Int32 num = GetCharCountFast(pBytes, byteCount, Encoding::get_DecoderFallback(), bytesConsumed);
+  Int32 num = GetCharCountFast(pBytes, byteCount, Encoding::in::get_DecoderFallback(), bytesConsumed);
   if (bytesConsumed != byteCount) {
     num += GetCharCountWithFallback(pBytes, byteCount, bytesConsumed);
     if (num < 0) {
@@ -320,7 +320,7 @@ Int32 ASCIIEncoding___::GetCharsFast(Byte* pBytes, Int32 bytesLength, Char* pCha
 }
 
 Int32 ASCIIEncoding___::GetCharsWithFallback(ReadOnlySpan<Byte> bytes, Int32 originalBytesLength, Span<Char> chars, Int32 originalCharsLength, DecoderNLS decoder) {
-  DecoderReplacementFallback decoderReplacementFallback = rt::as<DecoderReplacementFallback>(((decoder == nullptr) ? Encoding::get_DecoderFallback() : decoder->get_Fallback()));
+  DecoderReplacementFallback decoderReplacementFallback = rt::as<DecoderReplacementFallback>(((decoder == nullptr) ? Encoding::in::get_DecoderFallback() : decoder->get_Fallback()));
   if (decoderReplacementFallback != nullptr && decoderReplacementFallback->get_MaxCharCount() == 1) {
     Char c = decoderReplacementFallback->get_DefaultString()[0];
     Int32 num = Math::Min(bytes.get_Length(), chars.get_Length());
@@ -343,7 +343,7 @@ Int32 ASCIIEncoding___::GetCharsWithFallback(ReadOnlySpan<Byte> bytes, Int32 ori
   if (bytes.get_IsEmpty()) {
     return originalCharsLength - chars.get_Length();
   }
-  return Encoding::GetCharsWithFallback(bytes, originalBytesLength, chars, originalCharsLength, decoder);
+  return Encoding::in::GetCharsWithFallback(bytes, originalBytesLength, chars, originalCharsLength, decoder);
 }
 
 String ASCIIEncoding___::GetString(Array<Byte> bytes, Int32 byteIndex, Int32 byteCount) {
@@ -410,8 +410,8 @@ Int32 ASCIIEncoding___::GetMaxByteCount(Int32 charCount) {
     rt::throw_exception<ArgumentOutOfRangeException>("charCount", SR::get_ArgumentOutOfRange_NeedNonNegNum());
   }
   Int64 num = (Int64)charCount + 1;
-  if (Encoding::get_EncoderFallback()->get_MaxCharCount() > 1) {
-    num *= Encoding::get_EncoderFallback()->get_MaxCharCount();
+  if (Encoding::in::get_EncoderFallback()->get_MaxCharCount() > 1) {
+    num *= Encoding::in::get_EncoderFallback()->get_MaxCharCount();
   }
   if (num > Int32::MaxValue) {
     rt::throw_exception<ArgumentOutOfRangeException>("charCount", SR::get_ArgumentOutOfRange_GetByteCountOverflow());
@@ -424,8 +424,8 @@ Int32 ASCIIEncoding___::GetMaxCharCount(Int32 byteCount) {
     rt::throw_exception<ArgumentOutOfRangeException>("byteCount", SR::get_ArgumentOutOfRange_NeedNonNegNum());
   }
   Int64 num = byteCount;
-  if (Encoding::get_DecoderFallback()->get_MaxCharCount() > 1) {
-    num *= Encoding::get_DecoderFallback()->get_MaxCharCount();
+  if (Encoding::in::get_DecoderFallback()->get_MaxCharCount() > 1) {
+    num *= Encoding::in::get_DecoderFallback()->get_MaxCharCount();
   }
   if (num > Int32::MaxValue) {
     rt::throw_exception<ArgumentOutOfRangeException>("byteCount", SR::get_ArgumentOutOfRange_GetCharCountOverflow());

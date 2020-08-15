@@ -75,7 +75,7 @@ void ComActivator::BasicClassFactory___::LockServer(Boolean fLock) {
 
 void ComActivator::LicenseClassFactory___::ctor(Guid clsid, Type classType) {
   _licenseProxy = rt::newobj<LicenseInteropProxy>();
-  Object::ctor();
+  Object::in::ctor();
   _classId = clsid;
   _classType = classType;
 }

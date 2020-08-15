@@ -51,7 +51,7 @@ void Task___<>::ContingentProperties___::UnregisterCancellationCallback() {
 
 void Task___<>::ContingentProperties___::ctor() {
   m_completionCountdown = 1;
-  Object::ctor();
+  Object::in::ctor();
 }
 
 Boolean Task___<>::SetOnInvokeMres___::get_InvokeMayRunArbitraryCode() {
@@ -91,7 +91,7 @@ void DelayPromiseWithCancellation___::CompleteCanceled() {
 
 void DelayPromiseWithCancellation___::Cleanup() {
   _registration.Dispose();
-  Task::in::DelayPromise::Cleanup();
+  Task::in::DelayPromise::in::Cleanup();
 }
 
 Boolean WhenAllPromise___<>::get_InvokeMayRunArbitraryCode() {
@@ -99,7 +99,7 @@ Boolean WhenAllPromise___<>::get_InvokeMayRunArbitraryCode() {
 }
 
 Boolean WhenAllPromise___<>::get_ShouldNotifyDebuggerOfWaitCompletion() {
-  if (Task::get_ShouldNotifyDebuggerOfWaitCompletion()) {
+  if (Task::in::get_ShouldNotifyDebuggerOfWaitCompletion()) {
     return AnyTaskRequiresNotifyDebuggerOfWaitCompletion(m_tasks);
   }
   return false;

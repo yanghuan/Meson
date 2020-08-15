@@ -252,7 +252,7 @@ void AssemblyName___::SetPublicKeyToken(Array<Byte> publicKeyToken) {
 String AssemblyName___::ToString() {
   String fullName = get_FullName();
   if (fullName == nullptr) {
-    return Object::ToString();
+    return Object::in::ToString();
   }
   return fullName;
 }

@@ -3,7 +3,7 @@
 namespace System::Private::CoreLib::System::Runtime::CompilerServices::InternalsVisibleToAttributeNamespace {
 void InternalsVisibleToAttribute___::ctor(String assemblyName) {
   AllInternalsVisible = true;
-  Attribute::ctor();
+  Attribute::in::ctor();
   AssemblyName = assemblyName;
 }
 

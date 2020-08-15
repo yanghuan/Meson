@@ -22,7 +22,7 @@ Boolean EditorBrowsableAttribute___::Equals(Object obj) {
 }
 
 Int32 EditorBrowsableAttribute___::GetHashCode() {
-  return Attribute::GetHashCode();
+  return Attribute::in::GetHashCode();
 }
 
 } // namespace System::Private::CoreLib::System::ComponentModel::EditorBrowsableAttributeNamespace

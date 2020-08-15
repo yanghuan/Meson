@@ -6,21 +6,21 @@
 namespace System::Private::CoreLib::System::MissingMemberExceptionNamespace {
 String MissingMemberException___::get_Message() {
   if (ClassName == nullptr) {
-    return Exception::get_Message();
+    return Exception::in::get_Message();
   }
   return SR::Format(SR::get_MissingMember_Name(), ClassName + "." + MemberName + ((Signature != nullptr) ? (" " + FormatSignature(Signature)) : String::in::Empty));
 }
 
 void MissingMemberException___::ctor() {
-  Exception::set_HResult = -2146233070;
+  Exception::in::set_HResult = -2146233070;
 }
 
 void MissingMemberException___::ctor(String message) {
-  Exception::set_HResult = -2146233070;
+  Exception::in::set_HResult = -2146233070;
 }
 
 void MissingMemberException___::ctor(String message, Exception inner) {
-  Exception::set_HResult = -2146233070;
+  Exception::in::set_HResult = -2146233070;
 }
 
 void MissingMemberException___::ctor(String className, String memberName) {
@@ -35,7 +35,7 @@ void MissingMemberException___::ctor(SerializationInfo info, StreamingContext co
 }
 
 void MissingMemberException___::GetObjectData(SerializationInfo info, StreamingContext context) {
-  Exception::GetObjectData(info, context);
+  Exception::in::GetObjectData(info, context);
   info->AddValue("MMClassName", ClassName, rt::typeof<String>());
   info->AddValue("MMMemberName", MemberName, rt::typeof<String>());
   info->AddValue("MMSignature", Signature, rt::typeof<Array<Byte>>());

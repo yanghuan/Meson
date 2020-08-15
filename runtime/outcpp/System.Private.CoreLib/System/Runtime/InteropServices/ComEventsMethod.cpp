@@ -61,7 +61,7 @@ Boolean ComEventsMethod___::get_Empty() {
 
 void ComEventsMethod___::ctor(Int32 dispid) {
   _delegateWrappers = rt::newobj<List<DelegateWrapper>>();
-  Object::ctor();
+  Object::in::ctor();
   _dispid = dispid;
 }
 

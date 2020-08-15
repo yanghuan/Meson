@@ -12,15 +12,15 @@ Int32 DecoderFallbackException___::get_Index() {
 }
 
 void DecoderFallbackException___::ctor() {
-  Exception::set_HResult = -2147024809;
+  Exception::in::set_HResult = -2147024809;
 }
 
 void DecoderFallbackException___::ctor(String message) {
-  Exception::set_HResult = -2147024809;
+  Exception::in::set_HResult = -2147024809;
 }
 
 void DecoderFallbackException___::ctor(String message, Exception innerException) {
-  Exception::set_HResult = -2147024809;
+  Exception::in::set_HResult = -2147024809;
 }
 
 void DecoderFallbackException___::ctor(String message, Array<Byte> bytesUnknown, Int32 index) {

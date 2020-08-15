@@ -17,7 +17,7 @@ void ReflectionTypeLoadException___::ctor(Array<Type> classes, Array<Exception> 
   Types = (default != nullptr ? default : Type::in::EmptyTypes);
   auto& extern = exceptions;
   LoaderExceptions = (extern != nullptr ? extern : Array<>::in::Empty<Exception>());
-  Exception::set_HResult = -2146232830;
+  Exception::in::set_HResult = -2146232830;
 }
 
 void ReflectionTypeLoadException___::ctor(SerializationInfo info, StreamingContext context) {
@@ -27,7 +27,7 @@ void ReflectionTypeLoadException___::ctor(SerializationInfo info, StreamingConte
 }
 
 void ReflectionTypeLoadException___::GetObjectData(SerializationInfo info, StreamingContext context) {
-  Exception::GetObjectData(info, context);
+  Exception::in::GetObjectData(info, context);
   info->AddValue("Types", nullptr, rt::typeof<Array<Type>>());
   info->AddValue("Exceptions", LoaderExceptions, rt::typeof<Array<Exception>>());
 }
@@ -37,7 +37,7 @@ String ReflectionTypeLoadException___::ToString() {
 }
 
 String ReflectionTypeLoadException___::CreateString(Boolean isMessage) {
-  String text = isMessage ? Exception::get_Message() : Exception::ToString();
+  String text = isMessage ? Exception::in::get_Message() : Exception::in::ToString();
   Array<Exception> loaderExceptions = LoaderExceptions;
   if (loaderExceptions->get_Length() == 0) {
     return text;

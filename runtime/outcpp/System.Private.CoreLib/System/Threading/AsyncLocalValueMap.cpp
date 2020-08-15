@@ -220,7 +220,7 @@ void AsyncLocalValueMap::ManyElementAsyncLocalValueMap___::ctor(Int32 capacity) 
 }
 
 IAsyncLocalValueMap AsyncLocalValueMap::ManyElementAsyncLocalValueMap___::Set(IAsyncLocal key, Object value, Boolean treatNullValueAsNonexistent) {
-  Int32 count = Dictionary<IAsyncLocal, Object>::get_Count();
+  Int32 count = Dictionary<IAsyncLocal, Object>::in::get_Count();
   Boolean flag = ContainsKey(key);
   if (value != nullptr || !treatNullValueAsNonexistent) {
     ManyElementAsyncLocalValueMap manyElementAsyncLocalValueMap = rt::newobj<ManyElementAsyncLocalValueMap>(count + ((!flag) ? 1 : 0));

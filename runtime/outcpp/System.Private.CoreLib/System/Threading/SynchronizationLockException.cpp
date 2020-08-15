@@ -4,15 +4,15 @@
 
 namespace System::Private::CoreLib::System::Threading::SynchronizationLockExceptionNamespace {
 void SynchronizationLockException___::ctor() {
-  Exception::set_HResult = -2146233064;
+  Exception::in::set_HResult = -2146233064;
 }
 
 void SynchronizationLockException___::ctor(String message) {
-  Exception::set_HResult = -2146233064;
+  Exception::in::set_HResult = -2146233064;
 }
 
 void SynchronizationLockException___::ctor(String message, Exception innerException) {
-  Exception::set_HResult = -2146233064;
+  Exception::in::set_HResult = -2146233064;
 }
 
 void SynchronizationLockException___::ctor(SerializationInfo info, StreamingContext context) {

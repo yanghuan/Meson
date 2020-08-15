@@ -29,7 +29,7 @@ INVOCATION_FLAGS RuntimeConstructorInfo___::get_InvocationFlags() {
     Type declaringType = get_DeclaringType();
     if (declaringType == rt::typeof<void>() || (declaringType != nullptr && declaringType->get_ContainsGenericParameters()) || (get_CallingConvention() & CallingConventions::VarArgs) == CallingConventions::VarArgs) {
       iNVOCATION_FLAGS |= INVOCATION_FLAGS::INVOCATION_FLAGS_NO_INVOKE;
-    } else if (MethodBase::get_IsStatic() || (declaringType != nullptr && declaringType->get_IsAbstract())) {
+    } else if (MethodBase::in::get_IsStatic() || (declaringType != nullptr && declaringType->get_IsAbstract())) {
       iNVOCATION_FLAGS |= INVOCATION_FLAGS::INVOCATION_FLAGS_NO_CTOR_INVOKE;
     } else {
       if (declaringType != nullptr && declaringType->get_IsByRefLike()) {
@@ -140,7 +140,7 @@ Boolean RuntimeConstructorInfo___::CacheEquals(Object o) {
 }
 
 void RuntimeConstructorInfo___::CheckConsistency(Object target) {
-  if ((target != nullptr || !MethodBase::get_IsStatic()) && !m_declaringType->IsInstanceOfType(target)) {
+  if ((target != nullptr || !MethodBase::in::get_IsStatic()) && !m_declaringType->IsInstanceOfType(target)) {
     if (target == nullptr) {
       rt::throw_exception<TargetException>(SR::get_RFLCT_Targ_StatMethReqTarg());
     }

@@ -27,7 +27,7 @@ Int64 TimerQueue___::get_TickCount64() {
 
 void TimerQueue___::ctor(Int32 id) {
   _currentAbsoluteThreshold = get_TickCount64() + 333;
-  Object::ctor();
+  Object::in::ctor();
   _id = id;
 }
 

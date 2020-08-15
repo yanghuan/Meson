@@ -88,7 +88,7 @@ Boolean TypeInfo___::IsAssignableFrom(TypeInfo typeInfo) {
   if (typeInfo->IsSubclassOf((TypeInfo)this)) {
     return true;
   }
-  if (Type::get_IsInterface()) {
+  if (Type::in::get_IsInterface()) {
     return typeInfo->ImplementInterface((TypeInfo)this);
   }
   if (get_IsGenericParameter()) {

@@ -4,15 +4,15 @@
 
 namespace System::Private::CoreLib::System::IO::PathTooLongExceptionNamespace {
 void PathTooLongException___::ctor() {
-  Exception::set_HResult = -2147024690;
+  Exception::in::set_HResult = -2147024690;
 }
 
 void PathTooLongException___::ctor(String message) {
-  Exception::set_HResult = -2147024690;
+  Exception::in::set_HResult = -2147024690;
 }
 
 void PathTooLongException___::ctor(String message, Exception innerException) {
-  Exception::set_HResult = -2147024690;
+  Exception::in::set_HResult = -2147024690;
 }
 
 void PathTooLongException___::ctor(SerializationInfo info, StreamingContext context) {

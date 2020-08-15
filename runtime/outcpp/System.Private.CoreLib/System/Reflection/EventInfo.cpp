@@ -89,11 +89,11 @@ void EventInfo___::RemoveEventHandler(Object target, Delegate handler) {
 }
 
 Boolean EventInfo___::Equals(Object obj) {
-  return MemberInfo::Equals(obj);
+  return MemberInfo::in::Equals(obj);
 }
 
 Int32 EventInfo___::GetHashCode() {
-  return MemberInfo::GetHashCode();
+  return MemberInfo::in::GetHashCode();
 }
 
 Boolean EventInfo___::op_Equality(EventInfo left, EventInfo right) {

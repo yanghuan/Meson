@@ -158,7 +158,7 @@ namespace Meson.Compiler {
 
     public SyntaxNode VisitBaseReferenceExpression(BaseReferenceExpression baseReferenceExpression) {
       var baseType = baseReferenceExpression.GetResolveResult().Type;
-      return GetTypeName(baseType);
+      return GetTypeName(baseType).WithIn();
     }
 
     private static readonly string[] binaryOperatorTokens_ = new string[] {

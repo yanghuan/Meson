@@ -43,7 +43,7 @@ void Linked1CancellationTokenSource___::ctor(CancellationToken token1) {
 void Linked1CancellationTokenSource___::Dispose(Boolean disposing) {
   if (disposing && !_disposed) {
     _reg1.Dispose();
-    CancellationTokenSource::Dispose(disposing);
+    CancellationTokenSource::in::Dispose(disposing);
   }
 }
 
@@ -56,7 +56,7 @@ void Linked2CancellationTokenSource___::Dispose(Boolean disposing) {
   if (disposing && !_disposed) {
     _reg1.Dispose();
     _reg2.Dispose();
-    CancellationTokenSource::Dispose(disposing);
+    CancellationTokenSource::in::Dispose(disposing);
   }
 }
 
@@ -80,7 +80,7 @@ void LinkedNCancellationTokenSource___::Dispose(Boolean disposing) {
       linkingRegistrations[i].Dispose();
     }
   }
-  CancellationTokenSource::Dispose(disposing);
+  CancellationTokenSource::in::Dispose(disposing);
 }
 
 void LinkedNCancellationTokenSource___::cctor() {
@@ -89,7 +89,7 @@ void LinkedNCancellationTokenSource___::cctor() {
 void CancellationTokenSource___::CallbackPartition___::ctor(CancellationTokenSource source) {
   Lock = SpinLock(false);
   NextAvailableId = 1;
-  Object::ctor();
+  Object::in::ctor();
   Source = source;
 }
 
@@ -167,13 +167,13 @@ Int64 CancellationTokenSource___::get_ExecutingCallback() {
 
 void CancellationTokenSource___::ctor() {
   _threadIDExecutingCallbacks = -1;
-  Object::ctor();
+  Object::in::ctor();
   _state = 1;
 }
 
 void CancellationTokenSource___::ctor(TimeSpan delay) {
   _threadIDExecutingCallbacks = -1;
-  Object::ctor();
+  Object::in::ctor();
   Int64 num = (Int64)delay.get_TotalMilliseconds();
   if (num < -1 || num > Int32::MaxValue) {
     rt::throw_exception<ArgumentOutOfRangeException>("delay");
@@ -183,7 +183,7 @@ void CancellationTokenSource___::ctor(TimeSpan delay) {
 
 void CancellationTokenSource___::ctor(Int32 millisecondsDelay) {
   _threadIDExecutingCallbacks = -1;
-  Object::ctor();
+  Object::in::ctor();
   if (millisecondsDelay < -1) {
     rt::throw_exception<ArgumentOutOfRangeException>("millisecondsDelay");
   }

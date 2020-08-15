@@ -20,11 +20,11 @@ Object ConstructorInfo___::Invoke(Array<Object> parameters) {
 }
 
 Boolean ConstructorInfo___::Equals(Object obj) {
-  return MethodBase::Equals(obj);
+  return MethodBase::in::Equals(obj);
 }
 
 Int32 ConstructorInfo___::GetHashCode() {
-  return MethodBase::GetHashCode();
+  return MethodBase::in::GetHashCode();
 }
 
 Boolean ConstructorInfo___::op_Equality(ConstructorInfo left, ConstructorInfo right) {

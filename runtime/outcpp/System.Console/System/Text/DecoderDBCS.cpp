@@ -14,7 +14,7 @@ using namespace ::System::Private::CoreLib::System;
 
 void DecoderDBCS___::ctor(Encoding encoding) {
   _leadByteRanges = rt::newarr<Array<Byte>>(10);
-  Decoder::ctor();
+  Decoder::in::ctor();
   _encoding = encoding;
   _rangesCount = Interop::Kernel32::GetLeadByteRanges(_encoding->get_CodePage(), _leadByteRanges);
   Reset();

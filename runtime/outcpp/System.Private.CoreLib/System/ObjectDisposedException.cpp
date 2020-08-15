@@ -7,10 +7,10 @@ namespace System::Private::CoreLib::System::ObjectDisposedExceptionNamespace {
 String ObjectDisposedException___::get_Message() {
   String objectName = get_ObjectName();
   if (String::in::IsNullOrEmpty(objectName)) {
-    return Exception::get_Message();
+    return Exception::in::get_Message();
   }
   String str = SR::Format(SR::get_ObjectDisposed_ObjectName_Name(), objectName);
-  return Exception::get_Message() + "
+  return Exception::in::get_Message() + "
 " + str;
 }
 
@@ -26,12 +26,12 @@ void ObjectDisposedException___::ctor(String objectName) {
 }
 
 void ObjectDisposedException___::ctor(String objectName, String message) {
-  Exception::set_HResult = -2146232798;
+  Exception::in::set_HResult = -2146232798;
   _objectName = objectName;
 }
 
 void ObjectDisposedException___::ctor(String message, Exception innerException) {
-  Exception::set_HResult = -2146232798;
+  Exception::in::set_HResult = -2146232798;
 }
 
 void ObjectDisposedException___::ctor(SerializationInfo info, StreamingContext context) {
@@ -39,7 +39,7 @@ void ObjectDisposedException___::ctor(SerializationInfo info, StreamingContext c
 }
 
 void ObjectDisposedException___::GetObjectData(SerializationInfo info, StreamingContext context) {
-  Exception::GetObjectData(info, context);
+  Exception::in::GetObjectData(info, context);
   info->AddValue("ObjectName", get_ObjectName(), rt::typeof<String>());
 }
 

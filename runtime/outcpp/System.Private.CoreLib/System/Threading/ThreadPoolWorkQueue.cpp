@@ -198,7 +198,7 @@ void ThreadPoolWorkQueue___::WorkStealingQueue___::ctor() {
   m_array = rt::newarr<Array<Object>>(32);
   m_mask = 31;
   m_foreignLock = SpinLock(false);
-  Object::ctor();
+  Object::in::ctor();
 }
 
 Array<ThreadPoolWorkQueue::in::WorkStealingQueue> ThreadPoolWorkQueue___::WorkStealingQueueList::get_Queues() {
@@ -256,7 +256,7 @@ Int64 ThreadPoolWorkQueue___::get_GlobalCount() {
 
 void ThreadPoolWorkQueue___::ctor() {
   workItems = rt::newobj<ConcurrentQueue<Object>>();
-  Object::ctor();
+  Object::in::ctor();
   loggingEnabled = FrameworkEventSource::in::Log->IsEnabled(EventLevel::Verbose, (EventKeywords)18);
 }
 

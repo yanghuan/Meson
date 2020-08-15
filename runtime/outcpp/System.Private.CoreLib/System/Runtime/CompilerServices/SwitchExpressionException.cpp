@@ -7,10 +7,10 @@
 namespace System::Private::CoreLib::System::Runtime::CompilerServices::SwitchExpressionExceptionNamespace {
 String SwitchExpressionException___::get_Message() {
   if (UnmatchedValue == nullptr) {
-    return Exception::get_Message();
+    return Exception::in::get_Message();
   }
   String str = SR::Format(SR::get_SwitchExpressionException_UnmatchedValue(), UnmatchedValue);
-  return Exception::get_Message() + Environment::get_NewLine() + str;
+  return Exception::in::get_Message() + Environment::get_NewLine() + str;
 }
 
 void SwitchExpressionException___::ctor() {
@@ -34,7 +34,7 @@ void SwitchExpressionException___::ctor(String message, Exception innerException
 }
 
 void SwitchExpressionException___::GetObjectData(SerializationInfo info, StreamingContext context) {
-  Exception::GetObjectData(info, context);
+  Exception::in::GetObjectData(info, context);
   info->AddValue("UnmatchedValue", UnmatchedValue, rt::typeof<Object>());
 }
 

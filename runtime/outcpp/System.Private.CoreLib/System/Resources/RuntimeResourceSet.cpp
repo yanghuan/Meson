@@ -50,13 +50,13 @@ void RuntimeResourceSet___::Dispose(Boolean disposing) {
         _defaultReader = nullptr;
       }
       _caseInsensitiveTable = nullptr;
-      ResourceSet::Dispose(disposing);
+      ResourceSet::in::Dispose(disposing);
     }
   } else {
     _resCache = nullptr;
     _caseInsensitiveTable = nullptr;
     _defaultReader = nullptr;
-    ResourceSet::Dispose(disposing);
+    ResourceSet::in::Dispose(disposing);
   }
 }
 

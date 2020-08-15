@@ -216,7 +216,7 @@ Decoder OSEncoding___::GetDecoder() {
     case 51949:
       return rt::newobj<DecoderDBCS>((OSEncoding)this);
     default:
-      return Encoding::GetDecoder();
+      return Encoding::in::GetDecoder();
   }
 }
 

@@ -126,7 +126,7 @@ void DebugProvider___::WriteToDebugger(String message) {
 
 void DebugProvider___::ctor() {
   _needIndent = true;
-  Object::ctor();
+  Object::in::ctor();
 }
 
 void DebugProvider___::cctor() {

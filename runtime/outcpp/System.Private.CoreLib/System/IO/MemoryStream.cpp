@@ -164,7 +164,7 @@ void MemoryStream___::Dispose(Boolean disposing) {
       _lastReadTask = nullptr;
     }
   } finally: {
-    Stream::Dispose(disposing);
+    Stream::in::Dispose(disposing);
   }
 }
 
@@ -285,7 +285,7 @@ Int32 MemoryStream___::Read(Array<Byte> buffer, Int32 offset, Int32 count) {
 
 Int32 MemoryStream___::Read(Span<Byte> buffer) {
   if (GetType() != rt::typeof<MemoryStream>()) {
-    return Stream::Read(buffer);
+    return Stream::in::Read(buffer);
   }
   EnsureNotClosed();
   Int32 num = Math::Min(_length - _position, buffer.get_Length());
@@ -345,7 +345,7 @@ Int32 MemoryStream___::ReadByte() {
 void MemoryStream___::CopyTo(Stream destination, Int32 bufferSize) {
   StreamHelpers::ValidateCopyToArgs((MemoryStream)this, destination, bufferSize);
   if (GetType() != rt::typeof<MemoryStream>()) {
-    Stream::CopyTo(destination, bufferSize);
+    Stream::in::CopyTo(destination, bufferSize);
     return;
   }
   Int32 position = _position;
@@ -358,7 +358,7 @@ void MemoryStream___::CopyTo(Stream destination, Int32 bufferSize) {
 Task<> MemoryStream___::CopyToAsync(Stream destination, Int32 bufferSize, CancellationToken cancellationToken) {
   StreamHelpers::ValidateCopyToArgs((MemoryStream)this, destination, bufferSize);
   if (GetType() != rt::typeof<MemoryStream>()) {
-    return Stream::CopyToAsync(destination, bufferSize, cancellationToken);
+    return Stream::in::CopyToAsync(destination, bufferSize, cancellationToken);
   }
   if (cancellationToken.get_IsCancellationRequested()) {
     return Task::in::FromCanceled(cancellationToken);
@@ -381,7 +381,7 @@ Task<> MemoryStream___::CopyToAsync(Stream destination, Int32 bufferSize, Cancel
 
 void MemoryStream___::CopyTo(ReadOnlySpanAction<Byte, Object> callback, Object state, Int32 bufferSize) {
   if (GetType() != rt::typeof<MemoryStream>()) {
-    Stream::CopyTo(callback, state, bufferSize);
+    Stream::in::CopyTo(callback, state, bufferSize);
     return;
   }
   StreamHelpers::ValidateCopyToArgs((MemoryStream)this, callback, bufferSize);
@@ -392,7 +392,7 @@ void MemoryStream___::CopyTo(ReadOnlySpanAction<Byte, Object> callback, Object s
 
 Task<> MemoryStream___::CopyToAsync(Func<ReadOnlyMemory<Byte>, Object, CancellationToken, ValueTask<>> callback, Object state, Int32 bufferSize, CancellationToken cancellationToken) {
   if (GetType() != rt::typeof<MemoryStream>()) {
-    return Stream::CopyToAsync(callback, state, bufferSize, cancellationToken);
+    return Stream::in::CopyToAsync(callback, state, bufferSize, cancellationToken);
   }
   StreamHelpers::ValidateCopyToArgs((MemoryStream)this, callback, bufferSize);
   if (cancellationToken.get_IsCancellationRequested()) {
@@ -509,7 +509,7 @@ void MemoryStream___::Write(Array<Byte> buffer, Int32 offset, Int32 count) {
 
 void MemoryStream___::Write(ReadOnlySpan<Byte> buffer) {
   if (GetType() != rt::typeof<MemoryStream>()) {
-    Stream::Write(buffer);
+    Stream::in::Write(buffer);
     return;
   }
   EnsureNotClosed();

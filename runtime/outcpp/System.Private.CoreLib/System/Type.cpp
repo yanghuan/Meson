@@ -410,7 +410,7 @@ void Type___::ctor() {
 }
 
 Type Type___::GetType() {
-  return Object::GetType();
+  return Object::in::GetType();
 }
 
 Int32 Type___::GetArrayRank() {
@@ -793,7 +793,7 @@ Int32 Type___::GetHashCode() {
   if ((Object)underlyingSystemType != (Type)this) {
     return underlyingSystemType->GetHashCode();
   }
-  return MemberInfo::GetHashCode();
+  return MemberInfo::in::GetHashCode();
 }
 
 Boolean Type___::Equals(Type o) {

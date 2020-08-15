@@ -65,13 +65,13 @@ CustomAttributeNamedArgument::CustomAttributeNamedArgument(MemberInfo memberInfo
 
 String CustomAttributeNamedArgument::ToString() {
   if (m_memberInfo == nullptr) {
-    return ValueType::ToString();
+    return ValueType::in::ToString();
   }
   return String::in::Format("{0} = {1}", get_MemberInfo()->get_Name(), get_TypedValue().ToString(get_ArgumentType() != rt::typeof<Object>()));
 }
 
 Int32 CustomAttributeNamedArgument::GetHashCode() {
-  return ValueType::GetHashCode();
+  return ValueType::in::GetHashCode();
 }
 
 Boolean CustomAttributeNamedArgument::Equals(Object obj) {

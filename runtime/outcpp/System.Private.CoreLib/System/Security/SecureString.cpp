@@ -68,13 +68,13 @@ Int32 SecureString___::get_Length() {
 
 void SecureString___::ctor() {
   _methodLock = rt::newobj<Object>();
-  Object::ctor();
+  Object::in::ctor();
   Initialize(ReadOnlySpan<Char>::get_Empty());
 }
 
 void SecureString___::ctor(Char* value, Int32 length) {
   _methodLock = rt::newobj<Object>();
-  Object::ctor();
+  Object::in::ctor();
   if (value == nullptr) {
     rt::throw_exception<ArgumentNullException>("value");
   }
@@ -103,7 +103,7 @@ void SecureString___::Initialize(ReadOnlySpan<Char> value) {
 
 void SecureString___::ctor(SecureString str) {
   _methodLock = rt::newobj<Object>();
-  Object::ctor();
+  Object::in::ctor();
   _buffer = UnmanagedBuffer::in::Allocate((Int32)str->_buffer->get_ByteLength());
   UnmanagedBuffer::in::Copy(str->_buffer, _buffer, str->_buffer->get_ByteLength());
   _decryptedLength = str->_decryptedLength;

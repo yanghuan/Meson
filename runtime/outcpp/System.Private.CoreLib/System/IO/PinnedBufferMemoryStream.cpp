@@ -35,7 +35,7 @@ void PinnedBufferMemoryStream___::Dispose(Boolean disposing) {
   if (_pinningHandle.get_IsAllocated()) {
     _pinningHandle.Free();
   }
-  UnmanagedMemoryStream::Dispose(disposing);
+  UnmanagedMemoryStream::in::Dispose(disposing);
 }
 
 } // namespace System::Private::CoreLib::System::IO::PinnedBufferMemoryStreamNamespace

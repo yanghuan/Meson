@@ -24,7 +24,7 @@ Int32 InternalEncoderBestFitFallbackBuffer___::get_Remaining() {
 
 void InternalEncoderBestFitFallbackBuffer___::ctor(InternalEncoderBestFitFallback fallback) {
   _iCount = -1;
-  EncoderFallbackBuffer::ctor();
+  EncoderFallbackBuffer::in::ctor();
   _oFallback = fallback;
   if (_oFallback->_arrayBestFit != nullptr) {
     return;

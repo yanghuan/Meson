@@ -24,10 +24,10 @@ ReadOnlyCollection<Exception> AggregateException___::get_InnerExceptions() {
 
 String AggregateException___::get_Message() {
   if (m_innerExceptions->get_Count() == 0) {
-    return Exception::get_Message();
+    return Exception::in::get_Message();
   }
   StringBuilder stringBuilder = StringBuilderCache::Acquire();
-  stringBuilder->Append(Exception::get_Message());
+  stringBuilder->Append(Exception::in::get_Message());
   stringBuilder->Append(32);
   for (Int32 i = 0; i < m_innerExceptions->get_Count(); i++) {
     stringBuilder->Append(40);
@@ -118,7 +118,7 @@ void AggregateException___::ctor(SerializationInfo info, StreamingContext contex
 }
 
 void AggregateException___::GetObjectData(SerializationInfo info, StreamingContext context) {
-  Exception::GetObjectData(info, context);
+  Exception::in::GetObjectData(info, context);
   Array<Exception> array = rt::newarr<Array<Exception>>(m_innerExceptions->get_Count());
   m_innerExceptions->CopyTo(array, 0);
   info->AddValue("InnerExceptions", array, rt::typeof<Array<Exception>>());
@@ -170,14 +170,14 @@ AggregateException AggregateException___::Flatten() {
       }
     }
   }
-  return rt::newobj<AggregateException>((GetType() == rt::typeof<AggregateException>()) ? Exception::get_Message() : get_Message(), list);
+  return rt::newobj<AggregateException>((GetType() == rt::typeof<AggregateException>()) ? Exception::in::get_Message() : get_Message(), list);
 }
 
 String AggregateException___::ToString() {
   StringBuilder stringBuilder = rt::newobj<StringBuilder>();
-  stringBuilder->Append(Exception::ToString());
+  stringBuilder->Append(Exception::in::ToString());
   for (Int32 i = 0; i < m_innerExceptions->get_Count(); i++) {
-    if (m_innerExceptions[i] != Exception::get_InnerException()) {
+    if (m_innerExceptions[i] != Exception::in::get_InnerException()) {
       stringBuilder->Append("
  ---> ");
       stringBuilder->AppendFormat(CultureInfo::in::get_InvariantCulture(), SR::get_AggregateException_InnerException(), i);

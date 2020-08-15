@@ -8,7 +8,7 @@ Object ThreadAbortException___::get_ExceptionState() {
 }
 
 void ThreadAbortException___::ctor() {
-  Exception::set_HResult = -2146233040;
+  Exception::in::set_HResult = -2146233040;
 }
 
 void ThreadAbortException___::ctor(SerializationInfo info, StreamingContext context) {

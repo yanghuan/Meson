@@ -9,19 +9,19 @@ String TypeInitializationException___::get_TypeName() {
 }
 
 void TypeInitializationException___::ctor() {
-  Exception::set_HResult = -2146233036;
+  Exception::in::set_HResult = -2146233036;
 }
 
 void TypeInitializationException___::ctor(String fullTypeName, Exception innerException) {
 }
 
 void TypeInitializationException___::ctor(String message) {
-  Exception::set_HResult = -2146233036;
+  Exception::in::set_HResult = -2146233036;
 }
 
 void TypeInitializationException___::ctor(String fullTypeName, String message, Exception innerException) {
   _typeName = fullTypeName;
-  Exception::set_HResult = -2146233036;
+  Exception::in::set_HResult = -2146233036;
 }
 
 void TypeInitializationException___::ctor(SerializationInfo info, StreamingContext context) {
@@ -29,7 +29,7 @@ void TypeInitializationException___::ctor(SerializationInfo info, StreamingConte
 }
 
 void TypeInitializationException___::GetObjectData(SerializationInfo info, StreamingContext context) {
-  Exception::GetObjectData(info, context);
+  Exception::in::GetObjectData(info, context);
   info->AddValue("TypeName", get_TypeName(), rt::typeof<String>());
 }
 
