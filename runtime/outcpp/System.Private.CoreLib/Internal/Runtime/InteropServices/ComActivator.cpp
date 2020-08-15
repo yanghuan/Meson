@@ -56,6 +56,7 @@ Object ComActivator::BasicClassFactory___::CreateAggregatedObject(Object pUnkOut
   try{
     IntPtr pUnk = Marshal::CreateAggregatedObject(iUnknownForObject, comObject);
     return Marshal::GetObjectForIUnknown(pUnk);
+  } catch (...) {
   } finally: {
     Marshal::Release(iUnknownForObject);
   }

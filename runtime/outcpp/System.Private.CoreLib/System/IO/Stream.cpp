@@ -411,6 +411,7 @@ void SyncStream___::Close() {
     rt::lock(_stream);
     try{
       _stream->Close();
+    } catch (...) {
     } finally: {
       Stream::in::Dispose(true);
     }
@@ -424,6 +425,7 @@ void SyncStream___::Dispose(Boolean disposing) {
       if (disposing) {
         ((IDisposable)_stream)->Dispose();
       }
+    } catch (...) {
     } finally: {
       Stream::in::Dispose(disposing);
     }
@@ -583,6 +585,7 @@ Task<> Stream___::CopyToAsyncInternal(Stream destination, Int32 bufferSize, Canc
   try{
     while (true) {
     }
+  } catch (...) {
   } finally: {
     ArrayPool<Byte>::in::get_Shared()->Return(buffer);
   }
@@ -601,6 +604,7 @@ void Stream___::CopyTo(Stream destination, Int32 bufferSize) {
     while ((count = Read(array, 0, array->get_Length())) != 0) {
       destination->Write(array, 0, count);
     }
+  } catch (...) {
   } finally: {
     ArrayPool<Byte>::in::get_Shared()->Return(array);
   }
@@ -701,6 +705,7 @@ Int32 Stream___::EndRead(IAsyncResult asyncResult) {
   }
   try{
     return readWriteTask->GetAwaiter().GetResult();
+  } catch (...) {
   } finally: {
     FinishTrackingAsyncOperation(readWriteTask);
   }
@@ -720,6 +725,7 @@ Task<Int32> Stream___::ReadAsync(Array<Byte> buffer, Int32 offset, Int32 count, 
 ValueTask<Int32> Stream___::ReadAsync(Memory<Byte> buffer, CancellationToken cancellationToken) {
   auto FinishReadAsync = [](Task<Int32> readTask, Array<Byte> localBuffer, Memory<Byte> localDestination) -> ValueTask<Int32> {
     try{
+    } catch (...) {
     } finally: {
       ArrayPool<Byte>::in::get_Shared()->Return(localBuffer);
     }
@@ -788,6 +794,7 @@ void Stream___::EndWrite(IAsyncResult asyncResult) {
   }
   try{
     readWriteTask->GetAwaiter().GetResult();
+  } catch (...) {
   } finally: {
     FinishTrackingAsyncOperation(readWriteTask);
   }
@@ -816,6 +823,7 @@ ValueTask<> Stream___::WriteAsync(ReadOnlyMemory<Byte> buffer, CancellationToken
 
 Task<> Stream___::FinishWriteAsync(Task<> writeTask, Array<Byte> localBuffer) {
   try{
+  } catch (...) {
   } finally: {
     ArrayPool<Byte>::in::get_Shared()->Return(localBuffer);
   }
@@ -836,6 +844,7 @@ Int32 Stream___::Read(Span<Byte> buffer) {
     }
     Span<Byte>(array, 0, num).CopyTo(buffer);
     return num;
+  } catch (...) {
   } finally: {
     ArrayPool<Byte>::in::get_Shared()->Return(array);
   }
@@ -854,6 +863,7 @@ void Stream___::Write(ReadOnlySpan<Byte> buffer) {
   try{
     buffer.CopyTo(array);
     Write(array, 0, buffer.get_Length());
+  } catch (...) {
   } finally: {
     ArrayPool<Byte>::in::get_Shared()->Return(array);
   }

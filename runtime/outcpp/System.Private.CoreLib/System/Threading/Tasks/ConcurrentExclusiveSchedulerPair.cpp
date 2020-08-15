@@ -343,6 +343,7 @@ void ConcurrentExclusiveSchedulerPair___::ProcessExclusiveTasks() {
         m_exclusiveTaskScheduler->ExecuteTask(result);
       }
     }
+  } catch (...) {
   } finally: {
     m_threadProcessingMode->set_Value = ProcessingMode::NotCurrentlyProcessing;
     {
@@ -368,6 +369,7 @@ void ConcurrentExclusiveSchedulerPair___::ProcessConcurrentTasks() {
         break;
       }
     }
+  } catch (...) {
   } finally: {
     m_threadProcessingMode->set_Value = ProcessingMode::NotCurrentlyProcessing;
     {

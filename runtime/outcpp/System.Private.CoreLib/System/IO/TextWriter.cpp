@@ -404,6 +404,7 @@ void TextWriter___::Write(ReadOnlySpan<Char> buffer) {
   try{
     buffer.CopyTo(Span<Char>(array));
     Write(array, 0, buffer.get_Length());
+  } catch (...) {
   } finally: {
     ArrayPool<Char>::in::get_Shared()->Return(array);
   }
@@ -507,6 +508,7 @@ void TextWriter___::WriteLine(ReadOnlySpan<Char> buffer) {
   try{
     buffer.CopyTo(Span<Char>(array));
     WriteLine(array, 0, buffer.get_Length());
+  } catch (...) {
   } finally: {
     ArrayPool<Char>::in::get_Shared()->Return(array);
   }

@@ -40,6 +40,7 @@ UInt64 EventPipeInternal::Enable(String outputFile, EventPipeSerializationFormat
         return Enable(outputFile2, format, circularBufferSizeInMB, providers2, (UInt32)span.get_Length());
       }
     }
+  } catch (...) {
   } finally: {
     for (Int32 j = 0; j < providers->get_Length(); j++) {
       span[j].Release();

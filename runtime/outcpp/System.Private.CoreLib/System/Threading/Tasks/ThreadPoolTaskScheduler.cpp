@@ -28,6 +28,7 @@ Boolean ThreadPoolTaskScheduler___::TryExecuteTaskInline(Task<> task, Boolean ta
   }
   try{
     task->ExecuteEntryUnsafe(nullptr);
+  } catch (...) {
   } finally: {
     if (taskWasPreviouslyQueued) {
       NotifyWorkItemProgress();

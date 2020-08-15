@@ -50,6 +50,7 @@ void UnmanagedMemoryStreamWrapper___::Dispose(Boolean disposing) {
     if (disposing) {
       _unmanagedStream->Dispose();
     }
+  } catch (...) {
   } finally: {
     MemoryStream::in::Dispose(disposing);
   }

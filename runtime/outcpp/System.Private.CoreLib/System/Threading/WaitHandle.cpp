@@ -109,6 +109,7 @@ Boolean WaitHandle___::WaitOneNoCheck(Int32 millisecondsTimeout) {
       rt::throw_exception<AbandonedMutexException>();
     }
     return num != 258;
+  } catch (...) {
   } finally: {
     if (success) {
       safeWaitHandle->DangerousRelease();
@@ -193,6 +194,7 @@ Int32 WaitHandle___::WaitMultiple(ReadOnlySpan<WaitHandle> waitHandles, Boolean 
       rt::throw_exception<AbandonedMutexException>(num, waitHandles[num]);
     }
     return num;
+  } catch (...) {
   } finally: {
     for (Int32 i = 0; i < waitHandles.get_Length(); i++) {
       if (array[i] != nullptr) {
@@ -229,6 +231,7 @@ Boolean WaitHandle___::SignalAndWait(WaitHandle toSignal, WaitHandle toWaitOn, I
       rt::throw_exception<AbandonedMutexException>();
     }
     return num != 258;
+  } catch (...) {
   } finally: {
     if (success2) {
       waitHandle2->DangerousRelease();

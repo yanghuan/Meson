@@ -182,6 +182,7 @@ void EventProvider___::GetSessionInfo(SessionInfoCallback action, List<SessionIn
           Guid* inBuffer = &m_providerId;
           num = Interop::Advapi32::EnumerateTraceGuidsEx(Interop::Advapi32::TRACE_QUERY_INFO_CLASS::TraceGuidQueryInfo, inBuffer, sizeof(Guid), ptr2, ReturnLength, ReturnLength);
         }
+      } catch (...) {
       } finally: {
       }
       switch (num.get()) {
@@ -216,6 +217,7 @@ void EventProvider___::GetSessionInfo(SessionInfoCallback action, List<SessionIn
           }}
       ptr2 = (Byte*)(void*)Marshal::AllocHGlobal(ReturnLength);
     }
+  } catch (...) {
   } finally: {
     if (ptr2 != nullptr && ptr2 != ptr) {
       Marshal::FreeHGlobal((IntPtr)(void*)ptr2);

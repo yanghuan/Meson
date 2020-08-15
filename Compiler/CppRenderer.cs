@@ -841,6 +841,7 @@ namespace Meson.Compiler {
 
     internal void Render(TryStatementSyntax node) {
       Write(Tokens.Try);
+      WriteSpace();
       WriteBlock(node);
       WriteNodes(node.CatchClauses);
       if (node.FinallyBlock != null) {

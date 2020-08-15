@@ -162,6 +162,7 @@ Int32 TextReader___::Read(Span<Char> buffer) {
     }
     Span<Char>(array, 0, num).CopyTo(buffer);
     return num;
+  } catch (...) {
   } finally: {
     ArrayPool<Char>::in::get_Shared()->Return(array);
   }
@@ -195,6 +196,7 @@ Int32 TextReader___::ReadBlock(Span<Char> buffer) {
     }
     Span<Char>(array, 0, num).CopyTo(buffer);
     return num;
+  } catch (...) {
   } finally: {
     ArrayPool<Char>::in::get_Shared()->Return(array);
   }
@@ -229,6 +231,7 @@ Task<String> TextReader___::ReadToEndAsync() {
   Array<Char> chars = ArrayPool<Char>::in::get_Shared()->Rent(4096);
   try{
     Int32 charCount;
+  } catch (...) {
   } finally: {
     ArrayPool<Char>::in::get_Shared()->Return(chars);
   }

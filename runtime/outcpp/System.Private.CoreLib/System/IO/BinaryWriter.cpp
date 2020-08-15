@@ -266,6 +266,7 @@ void BinaryWriter___::Write(ReadOnlySpan<Byte> buffer) {
   try{
     buffer.CopyTo(array);
     Write(array, 0, buffer.get_Length());
+  } catch (...) {
   } finally: {
     ArrayPool<Byte>::in::get_Shared()->Return(array);
   }
@@ -276,6 +277,7 @@ void BinaryWriter___::Write(ReadOnlySpan<Char> chars) {
   try{
     Int32 bytes = _encoding->GetBytes(chars, array);
     Write(array, 0, bytes);
+  } catch (...) {
   } finally: {
     ArrayPool<Byte>::in::get_Shared()->Return(array);
   }

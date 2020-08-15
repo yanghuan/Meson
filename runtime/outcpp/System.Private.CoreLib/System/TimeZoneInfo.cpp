@@ -1974,6 +1974,7 @@ String TimeZoneInfo___::TryGetLocalizedNameByNativeResource(String filePath, Int
         return rt::newobj<String>(ptr, 0, num);
       }
     }
+  } catch (...) {
   } finally: {
     if (intPtr != IntPtr::Zero) {
       Interop::Kernel32::FreeLibrary(intPtr);

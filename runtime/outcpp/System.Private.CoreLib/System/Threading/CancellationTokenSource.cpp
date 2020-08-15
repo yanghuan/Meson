@@ -120,6 +120,7 @@ Boolean CancellationTokenSource___::CallbackPartition___::Unregister(Int64 id, C
     node->Next = FreeNodeList;
     FreeNodeList = node;
     return true;
+  } catch (...) {
   } finally: {
     Lock.Exit(false);
   }
@@ -313,6 +314,7 @@ CancellationTokenRegistration CancellationTokenSource___::InternalRegister(Actio
         callbackNode->Next->Prev = callbackNode;
       }
       callbackPartition->Callbacks = callbackNode;
+    } catch (...) {
     } finally: {
       callbackPartition->Lock.Exit(false);
     }
@@ -348,6 +350,7 @@ void CancellationTokenSource___::ExecuteCallbackHandlers(Boolean throwOnFirstExc
   List<Exception> list = nullptr;
   try{
     Array<CallbackPartition> array2 = array;
+  } catch (...) {
   } finally: {
     _state = 3;
     Volatile::Write(_executingCallbackId, 0);

@@ -1041,6 +1041,7 @@ Object EventSource___::DecodeObject(Int32 eventId, Int32 parameterId, EventData*
         return nullptr;
       }
       return rt::newobj<String>((Char*)(void*)dataPointer);
+    } catch (...) {
     } finally: {
       m_EventSourceInDecodeObject = false;
     }
@@ -1373,6 +1374,7 @@ void EventSource___::ThrowEventSourceException(String eventName, Exception inner
     if (get_ThrowOnEventWriteErrors()) {
       rt::throw_exception<EventSourceException>(innerEx);
     }
+  } catch (...) {
   } finally: {
     m_EventSourceExceptionRecurenceCount--;
   }
@@ -2037,6 +2039,7 @@ void EventSource___::WriteMultiMergeInner(String eventName, EventSourceOptions& 
             traceLoggingTypeInfo->WriteData(TraceLoggingDataCollector::in::Instance, traceLoggingTypeInfo->get_PropertyValueFactory()(values[k]));
           }
           WriteEventRaw(eventName, eventDescriptor, orCreateEventHandle, activityID, childActivityID, (Int32)(DataCollector::ThreadInstance.Finish() - ptr), (IntPtr)(void*)ptr);
+        } catch (...) {
         } finally: {
           WriteCleanup(ptr2, pinCount);
         }
@@ -2159,9 +2162,11 @@ void EventSource___::WriteImpl(String eventName, EventSourceOptions& options, Ob
               }
             }
           }
+        } catch (...) {
         } finally: {
         }
       }
+    } catch (...) {
     } finally: {
     }
   } catch (Exception ex2) {

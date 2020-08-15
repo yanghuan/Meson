@@ -44,6 +44,7 @@ void AsyncVoidMethodBuilder::SetException(Exception exception) {
   if (_synchronizationContext != nullptr) {
     try{
       Task::in::ThrowAsync(exception, _synchronizationContext);
+    } catch (...) {
     } finally: {
       NotifySynchronizationContextOfCompletion();
     }

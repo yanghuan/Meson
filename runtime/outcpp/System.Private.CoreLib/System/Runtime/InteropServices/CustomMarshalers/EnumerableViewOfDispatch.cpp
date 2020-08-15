@@ -37,6 +37,7 @@ IEnumerator EnumerableViewOfDispatch___::GetEnumerator() {
     }
     intPtr = Marshal::GetIUnknownForObject(enumVARIANT);
     return (IEnumerator)EnumeratorToEnumVariantMarshaler::in::GetInstance(nullptr)->MarshalNativeToManaged(intPtr);
+  } catch (...) {
   } finally: {
     variant.Clear();
     if (intPtr != IntPtr::Zero) {

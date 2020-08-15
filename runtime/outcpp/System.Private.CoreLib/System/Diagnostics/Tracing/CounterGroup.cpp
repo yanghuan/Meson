@@ -116,6 +116,7 @@ void CounterGroup___::EnableTimer(Single pollingIntervalInSeconds) {
         s_counterGroupEnabledList->Add((CounterGroup)this);
       }
       s_pollingThreadSleepEvent->Set();
+    } catch (...) {
     } finally: {
       if (flag) {
         ExecutionContext::in::RestoreFlow();

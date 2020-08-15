@@ -689,6 +689,7 @@ String Environment::GetEnvironmentVariableCore(String variable) {
       return nullptr;
     }
     return rt::newobj<String>(buffer.Slice(0, environmentVariable));
+  } catch (...) {
   } finally: {
     ArrayPool<Char>::in::get_Shared()->Return(array);
   }
@@ -746,6 +747,7 @@ IDictionary Environment::GetEnvironmentVariables() {
       }
     }
     return hashtable;
+  } catch (...) {
   } finally: {
     Boolean flag = Interop::Kernel32::FreeEnvironmentStrings(environmentStrings);
   }

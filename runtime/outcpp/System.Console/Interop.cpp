@@ -46,6 +46,7 @@ String Interop::Kernel32::GetMessage(Int32 errorCode, IntPtr moduleHandle) {
       if (num3 > 0) {
         return GetAndTrimString(Span<Char>((void*)intPtr, num3));
       }
+    } catch (...) {
     } finally: {
       Marshal::FreeHGlobal(intPtr);
     }

@@ -749,6 +749,7 @@ String ResourceReader___::TypeNameFromTypeCode(ResourceTypeCode typeCode) {
   try{
     _store->get_BaseStream()->set_Position = _typeNamePositions[num];
     return _store->ReadString();
+  } catch (...) {
   } finally: {
     _store->get_BaseStream()->set_Position = position;
   }

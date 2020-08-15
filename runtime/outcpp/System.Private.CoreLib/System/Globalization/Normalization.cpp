@@ -72,9 +72,11 @@ String Normalization::IcuNormalize(String strInput, NormalizationForm normalizat
               Char* dstBuffer = &MemoryMarshal::GetReference(span2);
               num = Interop::Globalization::NormalizeString(normalizationForm, src, strInput->get_Length(), dstBuffer, span2.get_Length());
             }
+          } catch (...) {
           } finally: {
           }
         }
+      } catch (...) {
       } finally: {
       }
       if (num == -1) {
@@ -94,6 +96,7 @@ String Normalization::IcuNormalize(String strInput, NormalizationForm normalizat
       }
     }
     rt::throw_exception<ArgumentException>(SR::get_Argument_InvalidCharSequenceNoIndex(), "strInput");
+  } catch (...) {
   } finally: {
     if (array != nullptr) {
       ArrayPool<Char>::in::get_Shared()->Return(array);
@@ -176,9 +179,11 @@ String Normalization::NlsNormalize(String strInput, NormalizationForm normalizat
               Char* destination = &MemoryMarshal::GetReference(span2);
               num = Interop::Normaliz::NormalizeString(normalizationForm, source, strInput->get_Length(), destination, span2.get_Length());
             }
+          } catch (...) {
           } finally: {
           }
         }
+      } catch (...) {
       } finally: {
       }
       Int32 lastWin32Error = Marshal::GetLastWin32Error();
@@ -208,6 +213,7 @@ String Normalization::NlsNormalize(String strInput, NormalizationForm normalizat
       }
       span2 = (array = ArrayPool<Char>::in::get_Shared()->Rent(num));
     }
+  } catch (...) {
   } finally: {
     if (array != nullptr) {
       ArrayPool<Char>::in::get_Shared()->Return(array);

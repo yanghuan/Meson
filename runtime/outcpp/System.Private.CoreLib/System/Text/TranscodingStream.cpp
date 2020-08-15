@@ -190,6 +190,7 @@ Int32 TranscodingStream___::Read(Span<Byte> buffer) {
       Int32 bytes = _thisEncoder->GetBytes(array2, 0, chars, _readBuffer, 0, flush);
       _readBufferOffset = 0;
       _readBufferCount = bytes;
+    } catch (...) {
     } finally: {
       ArrayPool<Byte>::in::get_Shared()->Return(array);
       ArrayPool<Char>::in::get_Shared()->Return(array2);
@@ -215,6 +216,7 @@ ValueTask<Int32> TranscodingStream___::ReadAsync(Memory<Byte> buffer, Cancellati
       Array<Byte> rentedBytes = ArrayPool<Byte>::in::get_Shared()->Rent(4096);
       Array<Char> rentedChars = ArrayPool<Char>::in::get_Shared()->Rent(_readCharBufferMaxSize);
       try{
+      } catch (...) {
       } finally: {
         ArrayPool<Byte>::in::get_Shared()->Return(rentedBytes);
         ArrayPool<Char>::in::get_Shared()->Return(rentedChars);
@@ -282,6 +284,7 @@ void TranscodingStream___::Write(ReadOnlySpan<Byte> buffer) {
       ReadOnlySpan<Byte> readOnlySpan = buffer;
       buffer = readOnlySpan[Range(bytesUsed, readOnlySpan.get_Length())];
     } while (!completed)
+  } catch (...) {
   } finally: {
     ArrayPool<Char>::in::get_Shared()->Return(array);
     ArrayPool<Byte>::in::get_Shared()->Return(array2);
@@ -318,6 +321,7 @@ ValueTask<> TranscodingStream___::WriteAsync(ReadOnlyMemory<Byte> buffer, Cancel
           decodedChars = arraySegment[Range(charsUsed2, arraySegment.get_Count())];
         } while (!encoderFinished)
       } while (!decoderFinished)
+    } catch (...) {
     } finally: {
       ArrayPool<Char>::in::get_Shared()->Return(scratchChars);
       ArrayPool<Byte>::in::get_Shared()->Return(scratchBytes);

@@ -644,6 +644,9 @@ namespace Meson.Compiler.CppAst {
     public TryStatementSyntax(BlockSyntax tryBlock, IEnumerable<CatchClauseSyntax> catchClauses, BlockSyntax finallyBlock = null) {
       AddRange(tryBlock.Statements);
       CatchClauses.AddRange(catchClauses);
+      if (CatchClauses.Count == 0) {
+        CatchClauses.Add(new CatchClauseSyntax(IdentifierSyntax.VariableArguments, null));
+      }
       FinallyBlock = finallyBlock;
     }
 

@@ -117,6 +117,7 @@ Boolean SemaphoreSlim___::Wait(Int32 millisecondsTimeout, CancellationToken canc
       }
     }
     try{
+    } catch (...) {
     } finally: {
       Monitor::Enter(m_lockObjAndDisposed, lockTaken);
       if (lockTaken) {
@@ -147,6 +148,7 @@ Boolean SemaphoreSlim___::Wait(Int32 millisecondsTimeout, CancellationToken canc
         m_waitHandle->Reset();
       }
     }
+  } catch (...) {
   } finally: {
     if (lockTaken) {
       m_waitCount--;

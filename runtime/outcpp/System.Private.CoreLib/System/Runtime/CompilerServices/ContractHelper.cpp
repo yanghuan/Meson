@@ -22,6 +22,7 @@ String ContractHelper::RaiseContractFailedEvent(ContractFailureKind failureKind,
   String result;
   try{
     text = GetDisplayMessage(failureKind, userMessage, conditionText);
+  } catch (...) {
   } finally: {
     result = ((contractFailedEventArgs == nullptr || !contractFailedEventArgs->get_Handled()) ? text : nullptr);
   }

@@ -70,6 +70,7 @@ Array<String> RegistryKey___::GetSubKeyNames() {
         Win32Error(num, nullptr);
       }
     }
+  } catch (...) {
   } finally: {
     ArrayPool<Char>::in::get_Shared()->Return(array);
   }
@@ -101,6 +102,7 @@ Array<String> RegistryKey___::GetValueNames() {
       }
       lpcbValueName = array->get_Length();
     }
+  } catch (...) {
   } finally: {
     if (array != nullptr) {
       ArrayPool<Char>::in::get_Shared()->Return(array);

@@ -32,6 +32,7 @@ Int32 ThreadPoolWorkQueue___::WorkStealingQueue___::get_Count() {
   try{
     m_foreignLock.Enter(lockTaken);
     return Math::Max(0, m_tailIndex - m_headIndex);
+  } catch (...) {
   } finally: {
     if (lockTaken) {
       m_foreignLock.Exit(false);
@@ -49,6 +50,7 @@ void ThreadPoolWorkQueue___::WorkStealingQueue___::LocalPush(Object obj) {
         m_headIndex &= m_mask;
         num = (m_tailIndex &= m_mask);
       }
+    } catch (...) {
     } finally: {
       if (lockTaken) {
         m_foreignLock.Exit(true);
@@ -77,6 +79,7 @@ void ThreadPoolWorkQueue___::WorkStealingQueue___::LocalPush(Object obj) {
     }
     Volatile::Write(m_array[num & m_mask], obj);
     m_tailIndex = num + 1;
+  } catch (...) {
   } finally: {
     if (lockTaken2) {
       m_foreignLock.Exit(false);
@@ -105,6 +108,7 @@ Boolean ThreadPoolWorkQueue___::WorkStealingQueue___::LocalFindAndPop(Object obj
         }
 
         return true;
+      } catch (...) {
       } finally: {
         if (lockTaken) {
           m_foreignLock.Exit(false);
@@ -154,6 +158,7 @@ Object ThreadPoolWorkQueue___::WorkStealingQueue___::LocalPopCore() {
       }
       m_tailIndex = tailIndex + 1;
       return nullptr;
+    } catch (...) {
     } finally: {
       if (lockTaken) {
         m_foreignLock.Exit(false);
@@ -183,6 +188,7 @@ Object ThreadPoolWorkQueue___::WorkStealingQueue___::TrySteal(Boolean& missedSte
         }
         m_headIndex = headIndex;
       }
+    } catch (...) {
     } finally: {
       if (lockTaken) {
         m_foreignLock.Exit(false);
@@ -372,6 +378,7 @@ Boolean ThreadPoolWorkQueue___::Dispatch() {
           } else {
             Unsafe::As<IThreadPoolWorkItem>(obj)->Execute();
           }
+        } catch (...) {
         } finally: {
           if (flag2) {
             ThreadPool::ReportThreadStatus(false);
@@ -393,6 +400,7 @@ Boolean ThreadPoolWorkQueue___::Dispatch() {
       }
     }
     return true;
+  } catch (...) {
   } finally: {
     if (flag) {
       s_workQueue->EnsureThreadRequested();

@@ -115,6 +115,7 @@ void RuntimeHelpers::ExecuteCodeWithGuaranteedCleanup(TryCode code, CleanupCode 
   try{
     code(userData);
     exceptionThrown = false;
+  } catch (...) {
   } finally: {
     backoutCode(userData, exceptionThrown);
   }

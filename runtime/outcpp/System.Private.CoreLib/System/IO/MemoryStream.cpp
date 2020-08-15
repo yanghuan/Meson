@@ -163,6 +163,7 @@ void MemoryStream___::Dispose(Boolean disposing) {
       _expandable = false;
       _lastReadTask = nullptr;
     }
+  } catch (...) {
   } finally: {
     Stream::in::Dispose(disposing);
   }

@@ -882,6 +882,7 @@ void FileStream___::Dispose(Boolean disposing) {
       } catch (Exception e) {
       }
     }
+  } catch (...) {
   } finally: {
     if (_fileHandle != nullptr && !_fileHandle->get_IsClosed()) {
       auto& default = _fileHandle->get_ThreadPoolBinding();
@@ -905,6 +906,7 @@ ValueTask<> FileStream___::DisposeAsyncCore() {
   try{
     if (_fileHandle != nullptr && !_fileHandle->get_IsClosed() && _writePos > 0) {
     }
+  } catch (...) {
   } finally: {
     if (_fileHandle != nullptr && !_fileHandle->get_IsClosed()) {
       auto& default = _fileHandle->get_ThreadPoolBinding();
@@ -1427,6 +1429,7 @@ Task<> FileStream___::AsyncModeCopyToAsync(Stream destination, Int32 bufferSize,
               break;
           }
         }
+      } catch (...) {
       } finally: {
         NativeOverlapped* nativeOverlapped;
         {
@@ -1439,6 +1442,7 @@ Task<> FileStream___::AsyncModeCopyToAsync(Stream destination, Int32 bufferSize,
         }
       }
     }
+  } catch (...) {
   } finally: {
     cancellationReg.Dispose();
     awaitableOverlapped->Dispose();

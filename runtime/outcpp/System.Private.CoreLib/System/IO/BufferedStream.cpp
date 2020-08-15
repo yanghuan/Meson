@@ -140,10 +140,12 @@ void BufferedStream___::Dispose(Boolean disposing) {
     if (disposing && _stream != nullptr) {
       try{
         Flush();
+      } catch (...) {
       } finally: {
         _stream->Dispose();
       }
     }
+  } catch (...) {
   } finally: {
     _stream = nullptr;
     _buffer = nullptr;
@@ -156,9 +158,11 @@ ValueTask<> BufferedStream___::DisposeAsync() {
   try{
     if (_stream != nullptr) {
       try{
+      } catch (...) {
       } finally: {
       }
     }
+  } catch (...) {
   } finally: {
     _stream = nullptr;
     _buffer = nullptr;
@@ -352,6 +356,7 @@ Task<Int32> BufferedStream___::ReadAsync(Array<Byte> buffer, Int32 offset, Int32
       if (flag) {
         return (error == nullptr) ? LastSyncCompletedReadTask(num) : Task::in::FromException<Int32>(error);
       }
+    } catch (...) {
     } finally: {
       if (flag) {
         semaphoreSlim->Release();
@@ -378,6 +383,7 @@ ValueTask<Int32> BufferedStream___::ReadAsync(Memory<Byte> buffer, CancellationT
       if (flag) {
         return ValueTask<Int32>(num);
       }
+    } catch (...) {
     } finally: {
       if (flag) {
         semaphoreSlim->Release();
@@ -555,6 +561,7 @@ ValueTask<> BufferedStream___::WriteAsync(ReadOnlyMemory<Byte> buffer, Cancellat
         Int32 num = WriteToBuffer(buffer.get_Span());
         return ValueTask();
       }
+    } catch (...) {
     } finally: {
       if (flag) {
         semaphoreSlim->Release();

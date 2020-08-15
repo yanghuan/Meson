@@ -193,6 +193,7 @@ void StreamReader___::Dispose(Boolean disposing) {
     if (disposing) {
       _stream->Close();
     }
+  } catch (...) {
   } finally: {
     _charPos = 0;
     _charLen = 0;

@@ -168,6 +168,7 @@ void EventListener___::CallBackForExistingEventSources(Boolean addToListenersLis
         return;
       }
       Array<WeakReference<EventSource>> array = s_EventSources->ToArray();
+    } catch (...) {
     } finally: {
       s_CreatingListener = false;
     }

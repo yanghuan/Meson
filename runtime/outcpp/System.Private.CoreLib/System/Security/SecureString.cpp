@@ -45,6 +45,7 @@ void SecureString___::UnmanagedBuffer___::Copy(UnmanagedBuffer source, Unmanaged
     source->AcquirePointer(pointer);
     destination->AcquirePointer(pointer2);
     Buffer::MemoryCopy(pointer, pointer2, destination->get_ByteLength(), bytesLength);
+  } catch (...) {
   } finally: {
     if (pointer2 != nullptr) {
       destination->ReleasePointer();
@@ -94,6 +95,7 @@ void SecureString___::Initialize(ReadOnlySpan<Char> value) {
   try{
     Span<Char> destination = AcquireSpan(bufferToRelease);
     value.CopyTo(destination);
+  } catch (...) {
   } finally: {
     ProtectMemory();
     auto& default = bufferToRelease;
@@ -134,6 +136,7 @@ void SecureString___::AppendChar(Char c) {
       EnsureCapacity(_decryptedLength + 1);
       AcquireSpan(bufferToRelease)[_decryptedLength] = c;
       _decryptedLength++;
+    } catch (...) {
     } finally: {
       ProtectMemory();
       auto& default = bufferToRelease;
@@ -151,6 +154,7 @@ void SecureString___::Clear() {
     SafeBuffer bufferToRelease = nullptr;
     try{
       AcquireSpan(bufferToRelease).Clear();
+    } catch (...) {
     } finally: {
       auto& default = bufferToRelease;
       default == nullptr ? nullptr : default->DangerousRelease();
@@ -192,6 +196,7 @@ void SecureString___::InsertAt(Int32 index, Char c) {
       span.Slice(index, _decryptedLength - index).CopyTo(span.Slice(index + 1));
       span[index] = c;
       _decryptedLength++;
+    } catch (...) {
     } finally: {
       ProtectMemory();
       auto& default = bufferToRelease;
@@ -224,6 +229,7 @@ void SecureString___::RemoveAt(Int32 index) {
       Span<Char> span = AcquireSpan(bufferToRelease);
       span.Slice(index + 1, _decryptedLength - (index + 1)).CopyTo(span.Slice(index));
       _decryptedLength--;
+    } catch (...) {
     } finally: {
       ProtectMemory();
       auto& default = bufferToRelease;
@@ -244,6 +250,7 @@ void SecureString___::SetAt(Int32 index, Char c) {
     try{
       UnprotectMemory();
       AcquireSpan(bufferToRelease)[index] = c;
+    } catch (...) {
     } finally: {
       ProtectMemory();
       auto& default = bufferToRelease;
@@ -288,6 +295,7 @@ IntPtr SecureString___::MarshalToBSTR() {
       IntPtr result = intPtr;
       intPtr = IntPtr::Zero;
       return result;
+    } catch (...) {
     } finally: {
       if (intPtr != IntPtr::Zero) {
         Span<Char>((void*)intPtr, length).Clear();
@@ -322,6 +330,7 @@ IntPtr SecureString___::MarshalToString(Boolean globalAlloc, Boolean unicode) {
       IntPtr result = intPtr;
       intPtr = IntPtr::Zero;
       return result;
+    } catch (...) {
     } finally: {
       if (intPtr != IntPtr::Zero) {
         Span<Byte>((void*)intPtr, num).Clear();

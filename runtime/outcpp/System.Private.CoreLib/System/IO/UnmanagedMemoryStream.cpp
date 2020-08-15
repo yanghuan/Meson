@@ -136,6 +136,7 @@ void UnmanagedMemoryStream___::Initialize(SafeBuffer buffer, Int64 offset, Int64
     if (pointer + offset + length < pointer) {
       rt::throw_exception<ArgumentException>(SR::get_ArgumentOutOfRange_UnmanagedMemStreamWrapAround());
     }
+  } catch (...) {
   } finally: {
     if (pointer != nullptr) {
       buffer->ReleasePointer();
@@ -211,6 +212,7 @@ void UnmanagedMemoryStream___::CopyTo(ReadOnlySpanAction<Byte, Object> callback,
       ReadOnlySpan<Byte> span = ReadOnlySpan<Byte>(pointer + num + _offset, num4);
       Interlocked::Exchange(_position, num + num3);
       callback(span, state);
+    } catch (...) {
     } finally: {
       if (pointer != nullptr) {
         _buffer->ReleasePointer();
@@ -305,6 +307,7 @@ Int32 UnmanagedMemoryStream___::ReadCore(Span<Byte> buffer) {
       try{
         _buffer->AcquirePointer(pointer);
         Buffer::Memcpy(dest, pointer + num + _offset, num4);
+      } catch (...) {
       } finally: {
         if (pointer != nullptr) {
           _buffer->ReleasePointer();
@@ -367,6 +370,7 @@ Int32 UnmanagedMemoryStream___::ReadByte() {
     try{
       _buffer->AcquirePointer(pointer);
       return (pointer + num)[_offset];
+    } catch (...) {
     } finally: {
       if (pointer != nullptr) {
         _buffer->ReleasePointer();
@@ -485,6 +489,7 @@ void UnmanagedMemoryStream___::WriteCore(ReadOnlySpan<Byte> buffer) {
       try{
         _buffer->AcquirePointer(pointer);
         Buffer::Memcpy(pointer + num + _offset, src, buffer.get_Length());
+      } catch (...) {
       } finally: {
         if (pointer != nullptr) {
           _buffer->ReleasePointer();
@@ -561,6 +566,7 @@ void UnmanagedMemoryStream___::WriteByte(Byte value) {
     try{
       _buffer->AcquirePointer(pointer);
       (pointer + num)[_offset] = value;
+    } catch (...) {
     } finally: {
       if (pointer != nullptr) {
         _buffer->ReleasePointer();

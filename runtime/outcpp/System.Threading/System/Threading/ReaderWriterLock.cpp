@@ -192,6 +192,7 @@ void ReaderWriterLock___::AcquireReaderLock(Int32 millisecondsTimeout) {
         if (flag) {
           num4++;
         }
+      } catch (...) {
       } finally: {
         num3 = Interlocked::Add(_state, num4) - num4;
         if (!flag && (num3 & 1024) != 0 && (num3 & 8380416) == 8192) {
@@ -278,6 +279,7 @@ void ReaderWriterLock___::AcquireWriterLock(Int32 millisecondsTimeout) {
         if (flag) {
           num4 += 2048;
         }
+      } catch (...) {
       } finally: {
         num3 = Interlocked::Add(_state, num4) - num4;
         if (!flag && (num3 & 2048) != 0 && (num3 & -8388608) == 8388608) {
@@ -471,6 +473,7 @@ LockCookie ReaderWriterLock___::UpgradeToWriterLock(Int32 millisecondsTimeout) {
     AcquireWriterLock(millisecondsTimeout);
     flag = true;
     return lockCookie;
+  } catch (...) {
   } finally: {
     if (!flag) {
       LockCookieFlags flags = lockCookie._flags;

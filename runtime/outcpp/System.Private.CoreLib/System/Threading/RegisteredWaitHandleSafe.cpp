@@ -45,6 +45,7 @@ Boolean RegisteredWaitHandleSafe___::Unregister(WaitHandle waitObject) {
             GC::SuppressFinalize((RegisteredWaitHandleSafe)this);
           }
         }
+      } catch (...) {
       } finally: {
         m_lock = 0;
       }
@@ -75,6 +76,7 @@ void RegisteredWaitHandleSafe___::Finalize() {
       SetHandle(get_InvalidHandle());
       m_internalWaitObject = nullptr;
     }
+  } catch (...) {
   } finally: {
     m_lock = 0;
   }

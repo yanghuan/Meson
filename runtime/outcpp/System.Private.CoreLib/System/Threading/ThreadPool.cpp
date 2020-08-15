@@ -93,6 +93,7 @@ Boolean ThreadPool::BindHandle(SafeHandle osHandle) {
   try{
     osHandle->DangerousAddRef(success);
     return BindIOCompletionCallbackNative(osHandle->DangerousGetHandle());
+  } catch (...) {
   } finally: {
     if (success) {
       osHandle->DangerousRelease();

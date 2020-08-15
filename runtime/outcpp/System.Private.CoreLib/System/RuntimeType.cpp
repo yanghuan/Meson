@@ -252,6 +252,7 @@ MethodInfo RuntimeType___::RuntimeTypeCache___::GetGenericMethodInfo(RuntimeMeth
     }
     s_methodInstantiations[runtimeMethodInfo] = runtimeMethodInfo;
     return runtimeMethodInfo;
+  } catch (...) {
   } finally: {
     if (lockTaken) {
       Monitor::Exit(s_methodInstantiationsLock);
