@@ -6,6 +6,7 @@
 #include <System.Private.CoreLib/System/ArgumentNullException-dep.h>
 #include <System.Private.CoreLib/System/ArgumentOutOfRangeException-dep.h>
 #include <System.Private.CoreLib/System/Buffer-dep.h>
+#include <System.Private.CoreLib/System/Collections/Generic/IEnumerator.h>
 #include <System.Private.CoreLib/System/Collections/Generic/ValueListBuilder-dep.h>
 #include <System.Private.CoreLib/System/ExceptionArgument.h>
 #include <System.Private.CoreLib/System/ExceptionResource.h>
@@ -1102,6 +1103,26 @@ String String___::Concat(IEnumerable_<String> values) {
   if (values == nullptr) {
     rt::throw_exception<ArgumentNullException>("values");
   }
+  {
+    IEnumerator<String> enumerator = values->GetEnumerator();
+    rt::Using(enumerator);
+    if (!enumerator->MoveNext()) {
+      return Empty;
+    }
+    String current = enumerator->get_Current();
+    if (!enumerator->MoveNext()) {
+      auto& default = current;
+      return default != nullptr ? default : Empty;
+    }
+    Char default[256] = {};
+    Span<Char> initialBuffer = default;
+    ValueStringBuilder valueStringBuilder = ValueStringBuilder(initialBuffer);
+    valueStringBuilder.Append(current);
+    do {
+      valueStringBuilder.Append(enumerator->get_Current());
+    } while (enumerator->MoveNext())
+    return valueStringBuilder.ToString();
+  }
 }
 
 String String___::Concat(String str0, String str1) {
@@ -1341,6 +1362,27 @@ String String___::Join(String separator, Array<Object> values) {
 String String___::Join(String separator, IEnumerable_<String> values) {
   if (values == nullptr) {
     rt::throw_exception<ArgumentNullException>("values");
+  }
+  {
+    IEnumerator<String> enumerator = values->GetEnumerator();
+    rt::Using(enumerator);
+    if (!enumerator->MoveNext()) {
+      return Empty;
+    }
+    String current = enumerator->get_Current();
+    if (!enumerator->MoveNext()) {
+      auto& default = current;
+      return default != nullptr ? default : Empty;
+    }
+    Char default[256] = {};
+    Span<Char> initialBuffer = default;
+    ValueStringBuilder valueStringBuilder = ValueStringBuilder(initialBuffer);
+    valueStringBuilder.Append(current);
+    do {
+      valueStringBuilder.Append(separator);
+      valueStringBuilder.Append(enumerator->get_Current());
+    } while (enumerator->MoveNext())
+    return valueStringBuilder.ToString();
   }
 }
 

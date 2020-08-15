@@ -658,7 +658,7 @@ namespace Meson.Compiler {
     }
 
     public SyntaxNode VisitUncheckedExpression(UncheckedExpression uncheckedExpression) {
-      throw new NotImplementedException();
+      return uncheckedExpression.Expression.AcceptExpression(this);
     }
 
     public SyntaxNode VisitUndocumentedExpression(UndocumentedExpression undocumentedExpression) {
@@ -757,7 +757,8 @@ namespace Meson.Compiler {
     }
 
     public SyntaxNode VisitCheckedStatement(CheckedStatement checkedStatement) {
-      throw new NotImplementedException();
+      var block = checkedStatement.Body.Accept<BlockSyntax>(this);
+      return new BlockStatementSyntax(block.Statements);
     }
 
     public SyntaxNode VisitContinueStatement(ContinueStatement continueStatement) {
@@ -895,15 +896,31 @@ namespace Meson.Compiler {
     }
 
     public SyntaxNode VisitUncheckedStatement(UncheckedStatement uncheckedStatement) {
-      throw new NotImplementedException();
+       var block = uncheckedStatement.Body.Accept<BlockSyntax>(this);
+      return new BlockStatementSyntax(block.Statements);
     }
 
     public SyntaxNode VisitUnsafeStatement(UnsafeStatement unsafeStatement) {
-      throw new NotImplementedException();
+      var block = unsafeStatement.Body.Accept<BlockSyntax>(this);
+      return new BlockStatementSyntax(block.Statements);
     }
 
     public SyntaxNode VisitUsingStatement(UsingStatement usingStatement) {
-      throw new NotImplementedException();
+      BlockStatementSyntax blockStatement = new BlockStatementSyntax();
+      var resourceAcquisition = usingStatement.ResourceAcquisition.Accept<SyntaxNode>(this);
+      if (resourceAcquisition is VariableDeclarationStatementSyntax variableDeclaration) {
+        blockStatement.Add(variableDeclaration);
+        blockStatement.Add(IdentifierSyntax.Using.Invation(variableDeclaration.Variables.Select(i => i.Name)));
+      } else {
+        blockStatement.Add((ExpressionSyntax)resourceAcquisition);
+      }
+      var embeddedStatement = usingStatement.EmbeddedStatement.AcceptStatement(this);
+      if (embeddedStatement is BlockSyntax blockSyntax) {
+        blockStatement.AddRange(blockSyntax.Statements);
+      } else {
+        blockStatement.Add(embeddedStatement);
+      }
+      return blockStatement;
     }
 
     public SyntaxNode VisitVariableDeclarationStatement(VariableDeclarationStatement variableDeclarationStatement) {

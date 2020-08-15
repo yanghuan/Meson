@@ -52,6 +52,10 @@ void ScopeTree___::AddScopeInfo(ScopeAction sa, Int32 iOffset) {
   m_ScopeActions[m_iCount] = sa;
   m_iOffsets[m_iCount] = iOffset;
   m_localSymInfos[m_iCount] = nullptr;
+  {
+    m_iCount++;
+  }
+  m_iOpenScopeCount += 0 - sa;
 }
 
 void ScopeTree___::EnsureCapacity() {

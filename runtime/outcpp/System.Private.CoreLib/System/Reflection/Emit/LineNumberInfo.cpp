@@ -27,6 +27,10 @@ Int32 LineNumberInfo___::FindDocument(ISymbolDocumentWriter document) {
   EnsureCapacity();
   m_iLastFound = m_DocumentCount;
   m_Documents[m_iLastFound] = rt::newobj<REDocument>(document);
+  {
+    m_DocumentCount++;
+    return m_iLastFound;
+  }
 }
 
 void LineNumberInfo___::EnsureCapacity() {

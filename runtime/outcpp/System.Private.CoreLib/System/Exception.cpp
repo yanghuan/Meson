@@ -2,17 +2,20 @@
 
 #include <System.Private.CoreLib/System/ArgumentException-dep.h>
 #include <System.Private.CoreLib/System/ArgumentNullException-dep.h>
+#include <System.Private.CoreLib/System/Char-dep.h>
 #include <System.Private.CoreLib/System/Collections/EmptyReadOnlyDictionaryInternal-dep.h>
 #include <System.Private.CoreLib/System/Collections/ListDictionaryInternal-dep.h>
 #include <System.Private.CoreLib/System/Diagnostics/StackFrame-dep.h>
 #include <System.Private.CoreLib/System/Diagnostics/StackTrace-dep.h>
 #include <System.Private.CoreLib/System/Exception-dep.h>
+#include <System.Private.CoreLib/System/MemoryExtensions-dep.h>
 #include <System.Private.CoreLib/System/Reflection/Emit/ModuleBuilder-dep.h>
 #include <System.Private.CoreLib/System/Reflection/Module-dep.h>
 #include <System.Private.CoreLib/System/Reflection/RuntimeModule-dep.h>
 #include <System.Private.CoreLib/System/Runtime/CompilerServices/StringHandleOnStack-dep.h>
 #include <System.Private.CoreLib/System/Runtime/Serialization/StreamingContextStates.h>
 #include <System.Private.CoreLib/System/RuntimeType-dep.h>
+#include <System.Private.CoreLib/System/Span-dep.h>
 #include <System.Private.CoreLib/System/SR-dep.h>
 #include <System.Private.CoreLib/System/Text/StringBuilder-dep.h>
 #include <System.Private.CoreLib/System/ThrowHelper-dep.h>
@@ -273,6 +276,10 @@ void Exception___::GetObjectData(SerializationInfo info, StreamingContext contex
 }
 
 String Exception___::ToString() {
+  auto Write = [](String source, Span<Char>& dest) -> void {
+    MemoryExtensions::AsSpan(source).CopyTo(dest);
+    dest = dest.Slice(source->get_Length());
+  };
   String className = GetClassName();
   String message = get_Message();
   auto& default = _innerException;
@@ -281,6 +288,43 @@ String Exception___::ToString() {
   String exception_EndOfInnerExceptionStack = SR::get_Exception_EndOfInnerExceptionStack();
   String stackTrace = get_StackTrace();
   Int32 num = className->get_Length();
+  {
+    if (!String::in::IsNullOrEmpty(message)) {
+      num += 2 + message->get_Length();
+    }
+    if (_innerException != nullptr) {
+      num += "
+"->get_Length() + " ---> "->get_Length() + text->get_Length() + "
+"->get_Length() + 3 + exception_EndOfInnerExceptionStack->get_Length();
+    }
+    if (stackTrace != nullptr) {
+      num += "
+"->get_Length() + stackTrace->get_Length();
+    }
+    String text2 = String::in::FastAllocateString(num);
+    Span<Char> dest2 = Span<Char>(text2->GetRawStringData(), text2->get_Length());
+    Write(className, dest2);
+    if (!String::in::IsNullOrEmpty(message)) {
+      Write(": ", dest2);
+      Write(message, dest2);
+    }
+    if (_innerException != nullptr) {
+      Write("
+", dest2);
+      Write(" ---> ", dest2);
+      Write(text, dest2);
+      Write("
+", dest2);
+      Write("   ", dest2);
+      Write(exception_EndOfInnerExceptionStack, dest2);
+    }
+    if (stackTrace != nullptr) {
+      Write("
+", dest2);
+      Write(stackTrace, dest2);
+    }
+    return text2;
+  }
 }
 
 Type Exception___::GetType() {

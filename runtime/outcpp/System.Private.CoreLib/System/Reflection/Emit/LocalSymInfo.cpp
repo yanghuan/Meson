@@ -61,11 +61,17 @@ void LocalSymInfo___::AddLocalSymInfo(String strName, Array<Byte> signature, Int
   m_iLocalSlot[m_iLocalSymCount] = slot;
   m_strName[m_iLocalSymCount] = strName;
   m_ubSignature[m_iLocalSymCount] = signature;
+  {
+    m_iLocalSymCount++;
+  }
 }
 
 void LocalSymInfo___::AddUsingNamespace(String strNamespace) {
   EnsureCapacityNamespace();
   m_namespace[m_iNameSpaceCount] = strNamespace;
+  {
+    m_iNameSpaceCount++;
+  }
 }
 
 void LocalSymInfo___::EmitLocalSymInfo(ISymbolWriter symWriter) {

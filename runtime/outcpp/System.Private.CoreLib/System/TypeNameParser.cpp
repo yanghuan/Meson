@@ -15,6 +15,7 @@
 #include <System.Private.CoreLib/System/SR-dep.h>
 #include <System.Private.CoreLib/System/Text/ValueStringBuilder-dep.h>
 #include <System.Private.CoreLib/System/TypeLoadException-dep.h>
+#include <System.Private.CoreLib/System/TypeNameParser-dep.h>
 
 namespace System::Private::CoreLib::System::TypeNameParserNamespace {
 using namespace System::IO;
@@ -32,6 +33,11 @@ Type TypeNameParser___::GetType(String typeName, Func<AssemblyName, Assembly> as
   Type result = nullptr;
   SafeTypeNameParserHandle safeTypeNameParserHandle = CreateTypeNameParser(typeName, throwOnError);
   if (safeTypeNameParserHandle != nullptr) {
+    {
+      TypeNameParser typeNameParser = rt::newobj<TypeNameParser>(safeTypeNameParserHandle);
+      rt::Using(typeNameParser);
+      return typeNameParser->ConstructType(assemblyResolver, typeResolver, throwOnError, ignoreCase, stackMark);
+    }
   }
   return result;
 }
@@ -69,6 +75,14 @@ Type TypeNameParser___::ConstructType(Func<AssemblyName, Assembly> assemblyResol
   if (typeArguments != nullptr) {
     array = rt::newarr<Array<Type>>(typeArguments->get_Length());
     for (Int32 i = 0; i < typeArguments->get_Length(); i++) {
+      {
+        TypeNameParser typeNameParser = rt::newobj<TypeNameParser>(typeArguments[i]);
+        rt::Using(typeNameParser);
+        array[i] = typeNameParser->ConstructType(assemblyResolver, typeResolver, throwOnError, ignoreCase, stackMark);
+      }
+      if (array[i] == nullptr) {
+        return nullptr;
+      }
     }
   }
   Array<Int32> modifiers = GetModifiers();

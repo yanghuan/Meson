@@ -1,5 +1,7 @@
 #include "EventProvider-dep.h"
 
+#include <System.Private.CoreLib/Internal/Win32/Registry-dep.h>
+#include <System.Private.CoreLib/Internal/Win32/RegistryKey-dep.h>
 #include <System.Private.CoreLib/Interop-dep.h>
 #include <System.Private.CoreLib/System/ArgumentException-dep.h>
 #include <System.Private.CoreLib/System/Char-dep.h>
@@ -33,6 +35,7 @@
 #include <System.Private.CoreLib/System/UInt16-dep.h>
 
 namespace System::Private::CoreLib::System::Diagnostics::Tracing::EventProviderNamespace {
+using namespace Internal::Win32;
 using namespace System::Collections::Generic;
 using namespace System::Globalization;
 using namespace System::Numerics;
@@ -241,6 +244,18 @@ Boolean EventProvider___::GetDataFromController(Int32 etwSessionId, Interop::Adv
     _ = IntPtr::get_Size();
     str = "Software\Wow6432Node" + str;
     String name = "ControllerData_Session_" + etwSessionId.ToString(CultureInfo::in::get_InvariantCulture());
+    {
+      RegistryKey registryKey = Registry::LocalMachine->OpenSubKey(str);
+      rt::Using(registryKey);
+      auto& default = registryKey;
+      data = (rt::as<Array<Byte>>(default == nullptr ? nullptr : default->GetValue(name, nullptr)));
+      if (data != nullptr) {
+        command = ControllerCommand::Update;
+        return true;
+      }
+    }
+    command = ControllerCommand::Update;
+    return false;
   }
   if (filterData->Ptr != 0 && 0 < filterData->Size && filterData->Size <= 102400) {
     data = rt::newarr<Array<Byte>>(filterData->Size);

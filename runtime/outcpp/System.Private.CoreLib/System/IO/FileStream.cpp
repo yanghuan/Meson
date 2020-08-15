@@ -11,6 +11,7 @@
 #include <System.Private.CoreLib/System/Exception-dep.h>
 #include <System.Private.CoreLib/System/GC-dep.h>
 #include <System.Private.CoreLib/System/Int64-dep.h>
+#include <System.Private.CoreLib/System/IO/DisableMediaInsertionPrompt-dep.h>
 #include <System.Private.CoreLib/System/IO/Error-dep.h>
 #include <System.Private.CoreLib/System/IO/FileAccess.h>
 #include <System.Private.CoreLib/System/IO/FileStream-dep.h>
@@ -1507,6 +1508,10 @@ SafeFileHandle FileStream___::CreateFileOpenHandle(FileMode mode, FileShare shar
   }
   Int32 num = (Int32)options;
   num |= 1048576;
+  {
+    DisableMediaInsertionPrompt::Create();
+    return ValidateFileHandle(Interop::Kernel32::CreateFile(_path, dwDesiredAccess, share, &secAttrs, mode, num, IntPtr::Zero));
+  }
 }
 
 Boolean FileStream___::GetDefaultIsAsync(SafeFileHandle handle) {

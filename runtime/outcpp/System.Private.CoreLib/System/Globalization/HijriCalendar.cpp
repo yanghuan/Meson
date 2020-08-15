@@ -1,11 +1,23 @@
 #include "HijriCalendar-dep.h"
 
+#include <System.Private.CoreLib/Internal/Win32/Registry-dep.h>
+#include <System.Private.CoreLib/Internal/Win32/RegistryKey-dep.h>
+#include <System.Private.CoreLib/System/ArgumentException-dep.h>
 #include <System.Private.CoreLib/System/ArgumentOutOfRangeException-dep.h>
+#include <System.Private.CoreLib/System/FormatException-dep.h>
 #include <System.Private.CoreLib/System/Globalization/CultureInfo-dep.h>
+#include <System.Private.CoreLib/System/Globalization/NumberStyles.h>
 #include <System.Private.CoreLib/System/InvalidOperationException-dep.h>
+#include <System.Private.CoreLib/System/MemoryExtensions-dep.h>
+#include <System.Private.CoreLib/System/Object-dep.h>
+#include <System.Private.CoreLib/System/OverflowException-dep.h>
 #include <System.Private.CoreLib/System/SR-dep.h>
+#include <System.Private.CoreLib/System/String-dep.h>
+#include <System.Private.CoreLib/System/StringComparison.h>
 
 namespace System::Private::CoreLib::System::Globalization::HijriCalendarNamespace {
+using namespace Internal::Win32;
+
 DateTime HijriCalendar___::get_MinSupportedDateTime() {
   return s_calendarMinValue;
 }
@@ -288,6 +300,35 @@ Int32 HijriCalendar___::GetHijriDateAdjustment() {
 }
 
 Int32 HijriCalendar___::GetAdvanceHijriDate() {
+  {
+    RegistryKey registryKey = Registry::CurrentUser->OpenSubKey("Control Panel\International");
+    rt::Using(registryKey);
+    if (registryKey == nullptr) {
+      return 0;
+    }
+    Object value = registryKey->GetValue("AddHijriDate");
+    if (value == nullptr) {
+      return 0;
+    }
+    Int32 result = 0;
+    String text = value->ToString();
+    if (String::in::Compare(text, 0, "AddHijriDate", 0, "AddHijriDate"->get_Length(), StringComparison::OrdinalIgnoreCase) == 0) {
+      if (text->get_Length() == "AddHijriDate"->get_Length()) {
+        result = -1;
+      } else {
+        try{
+          Int32 num = Int32::Parse(MemoryExtensions::AsSpan(text, "AddHijriDate"->get_Length()), NumberStyles::Integer, CultureInfo::in::get_InvariantCulture());
+          if (num >= -2 && num <= 2) {
+            result = num;
+          }
+        } catch (ArgumentException) {
+        } catch (FormatException) {
+        } catch (OverflowException) {
+        }
+      }
+    }
+    return result;
+  }
 }
 
 void HijriCalendar___::cctor() {

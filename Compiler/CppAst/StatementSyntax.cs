@@ -154,6 +154,12 @@ namespace Meson.Compiler.CppAst {
   }
 
   sealed class BlockStatementSyntax : BlockSyntax {
+    public BlockStatementSyntax() {}
+
+    public BlockStatementSyntax(IEnumerable<StatementSyntax> statements) {
+      AddRange(statements);
+    }
+
     internal override void Render(CppRenderer renderer) {
       renderer.Render(this);
     }

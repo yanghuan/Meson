@@ -1,6 +1,7 @@
 #include "Environment-dep.h"
 
 #include <System.Private.CoreLib/Internal/Win32/Registry-dep.h>
+#include <System.Private.CoreLib/Internal/Win32/RegistryKey-dep.h>
 #include <System.Private.CoreLib/Interop-dep.h>
 #include <System.Private.CoreLib/System/ApplicationModel-dep.h>
 #include <System.Private.CoreLib/System/ArgumentException-dep.h>
@@ -406,6 +407,12 @@ String Environment::GetEnvironmentVariableFromRegistry(String variable, Boolean 
   if (ApplicationModel::IsUap) {
     return nullptr;
   }
+  {
+    RegistryKey registryKey = OpenEnvironmentKeyIfExists(fromMachine, false);
+    rt::Using(registryKey);
+    auto& default = registryKey;
+    return rt::as<String>(default == nullptr ? nullptr : default->GetValue(variable));
+  }
 }
 
 void Environment::SetEnvironmentVariableFromRegistry(String variable, String value, Boolean fromMachine) {
@@ -415,11 +422,35 @@ void Environment::SetEnvironmentVariableFromRegistry(String variable, String val
   if (!fromMachine && variable->get_Length() >= 255) {
     rt::throw_exception<ArgumentException>(SR::get_Argument_LongEnvVarValue(), "variable");
   }
+  {
+    RegistryKey registryKey = OpenEnvironmentKeyIfExists(fromMachine, true);
+    rt::Using(registryKey);
+    if (registryKey != nullptr) {
+      if (value == nullptr) {
+        registryKey->DeleteValue(variable, false);
+      } else {
+        registryKey->SetValue(variable, value);
+      }
+    }
+  }
+  {
+    Char* value2 = "Environment";
+    IntPtr pdwResult;
+    IntPtr intPtr = Interop::User32::SendMessageTimeout(IntPtr(65535), 26, IntPtr::Zero, (IntPtr)(void*)value2, 0, 1000, pdwResult);
+  }
 }
 
 IDictionary Environment::GetEnvironmentVariablesFromRegistry(Boolean fromMachine) {
   Hashtable hashtable = rt::newobj<Hashtable>();
   if (ApplicationModel::IsUap) {
+    return hashtable;
+  }
+  {
+    RegistryKey registryKey = OpenEnvironmentKeyIfExists(fromMachine, false);
+    rt::Using(registryKey);
+    if (registryKey != nullptr) {
+      Array<String> valueNames = registryKey->GetValueNames();
+    }
     return hashtable;
   }
 }

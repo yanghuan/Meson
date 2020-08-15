@@ -1,5 +1,7 @@
 #include "JapaneseCalendar-dep.h"
 
+#include <System.Private.CoreLib/Internal/Win32/Registry-dep.h>
+#include <System.Private.CoreLib/Internal/Win32/RegistryKey-dep.h>
 #include <System.Private.CoreLib/Interop-dep.h>
 #include <System.Private.CoreLib/System/ArgumentException-dep.h>
 #include <System.Private.CoreLib/System/ArgumentOutOfRangeException-dep.h>
@@ -23,6 +25,7 @@
 #include <System.Private.CoreLib/System/UnauthorizedAccessException-dep.h>
 
 namespace System::Private::CoreLib::System::Globalization::JapaneseCalendarNamespace {
+using namespace Internal::Win32;
 using namespace System::Collections::Generic;
 using namespace System::IO;
 using namespace System::Security;
@@ -248,6 +251,25 @@ Array<EraInfo> JapaneseCalendar___::NlsGetJapaneseEras() {
   Int32 num = 0;
   Array<EraInfo> array = nullptr;
   try{
+    {
+      RegistryKey registryKey = Registry::LocalMachine->OpenSubKey("System\CurrentControlSet\Control\Nls\Calendars\Japanese\Eras");
+      rt::Using(registryKey);
+      if (registryKey == nullptr) {
+        return nullptr;
+      }
+      Array<String> valueNames = registryKey->GetValueNames();
+      if (valueNames != nullptr && valueNames->get_Length() != 0) {
+        array = rt::newarr<Array<EraInfo>>(valueNames->get_Length());
+        for (Int32 i = 0; i < valueNames->get_Length(); i++) {
+          auto& default = registryKey->GetValue(valueNames[i]);
+          EraInfo eraFromValue = GetEraFromValue(valueNames[i], default == nullptr ? nullptr : default->ToString());
+          if (eraFromValue != nullptr) {
+            array[num] = eraFromValue;
+            num++;
+          }
+        }
+      }
+    }
   } catch (SecurityException) {
   } catch (IOException) {
   } catch (UnauthorizedAccessException) {

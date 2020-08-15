@@ -6,10 +6,12 @@
 #include <System.Private.CoreLib/System/Buffers/ArrayPool-dep.h>
 #include <System.Private.CoreLib/System/Byte-dep.h>
 #include <System.Private.CoreLib/System/Exception-dep.h>
+#include <System.Private.CoreLib/System/IntPtr-dep.h>
 #include <System.Private.CoreLib/System/IO/BinaryWriter-dep.h>
 #include <System.Private.CoreLib/System/IO/EncodingCache-dep.h>
 #include <System.Private.CoreLib/System/SR-dep.h>
 #include <System.Private.CoreLib/System/UInt64-dep.h>
+#include <System.Private.CoreLib/System/UIntPtr-dep.h>
 
 namespace System::Private::CoreLib::System::IO::BinaryWriterNamespace {
 using namespace System::Buffers;
@@ -246,6 +248,7 @@ void BinaryWriter___::Write(String value) {
       Char* ptr2 = ptr;
       {
         Byte* bytes = &_largeByteBuffer[0];
+        bytes2 = _encoder->GetBytes((Char*)(UIntPtr)ptr2 + (UIntPtr)(IntPtr)num * (?)2, num3, bytes, _largeByteBuffer->get_Length(), num3 == num2);
       }
     }
     OutStream->Write(_largeByteBuffer, 0, bytes2);

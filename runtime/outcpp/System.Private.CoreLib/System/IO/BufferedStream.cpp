@@ -460,6 +460,30 @@ void BufferedStream___::Write(Array<Byte> array, Int32 offset, Int32 count) {
     ClearReadBufferBeforeWrite();
   }
   Int32 num;
+  {
+    num = _writePos + count;
+    if (num + count < _bufferSize + _bufferSize) {
+      WriteToBuffer(array, offset, count);
+      if (_writePos >= _bufferSize) {
+        _stream->Write(_buffer, 0, _writePos);
+        _writePos = 0;
+        WriteToBuffer(array, offset, count);
+      }
+      return;
+    }
+  }
+  if (_writePos > 0) {
+    if (num <= _bufferSize + _bufferSize && num <= 81920) {
+      EnsureShadowBufferAllocated();
+      Buffer::BlockCopy(array, offset, _buffer, _writePos, count);
+      _stream->Write(_buffer, 0, num);
+      _writePos = 0;
+      return;
+    }
+    _stream->Write(_buffer, 0, _writePos);
+    _writePos = 0;
+  }
+  _stream->Write(array, offset, count);
 }
 
 void BufferedStream___::Write(ReadOnlySpan<Byte> buffer) {
@@ -469,6 +493,31 @@ void BufferedStream___::Write(ReadOnlySpan<Byte> buffer) {
     ClearReadBufferBeforeWrite();
   }
   Int32 num;
+  {
+    num = _writePos + buffer.get_Length();
+    if (num + buffer.get_Length() < _bufferSize + _bufferSize) {
+      Int32 start = WriteToBuffer(buffer);
+      if (_writePos >= _bufferSize) {
+        buffer = buffer.Slice(start);
+        _stream->Write(_buffer, 0, _writePos);
+        _writePos = 0;
+        start = WriteToBuffer(buffer);
+      }
+      return;
+    }
+  }
+  if (_writePos > 0) {
+    if (num <= _bufferSize + _bufferSize && num <= 81920) {
+      EnsureShadowBufferAllocated();
+      buffer.CopyTo(Span<Byte>(_buffer, _writePos, buffer.get_Length()));
+      _stream->Write(_buffer, 0, num);
+      _writePos = 0;
+      return;
+    }
+    _stream->Write(_buffer, 0, _writePos);
+    _writePos = 0;
+  }
+  _stream->Write(buffer);
 }
 
 Task<> BufferedStream___::WriteAsync(Array<Byte> buffer, Int32 offset, Int32 count, CancellationToken cancellationToken) {

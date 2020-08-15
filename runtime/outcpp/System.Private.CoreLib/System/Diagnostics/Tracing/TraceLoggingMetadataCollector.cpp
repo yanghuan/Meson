@@ -5,6 +5,7 @@
 #include <System.Private.CoreLib/System/Diagnostics/Tracing/FieldMetadata-dep.h>
 #include <System.Private.CoreLib/System/Diagnostics/Tracing/TraceLoggingDataType.h>
 #include <System.Private.CoreLib/System/Diagnostics/Tracing/TraceLoggingMetadataCollector-dep.h>
+#include <System.Private.CoreLib/System/Int16-dep.h>
 #include <System.Private.CoreLib/System/InvalidOperationException-dep.h>
 #include <System.Private.CoreLib/System/NotSupportedException-dep.h>
 #include <System.Private.CoreLib/System/SR-dep.h>
@@ -13,9 +14,25 @@ namespace System::Private::CoreLib::System::Diagnostics::Tracing::TraceLoggingMe
 using namespace System::Collections::Generic;
 
 void TraceLoggingMetadataCollector___::Impl___::AddScalar(Int32 size) {
+  {
+    if (bufferNesting == 0) {
+      if (!scalar) {
+        dataCount++;
+      }
+      scalar = true;
+      scratchSize = (Int16)(scratchSize + size);
+    }
+  }
 }
 
 void TraceLoggingMetadataCollector___::Impl___::AddNonscalar() {
+  {
+    if (bufferNesting == 0) {
+      scalar = false;
+      pinCount++;
+      dataCount++;
+    }
+  }
 }
 
 void TraceLoggingMetadataCollector___::Impl___::BeginBuffered() {

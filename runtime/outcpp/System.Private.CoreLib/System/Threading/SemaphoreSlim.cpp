@@ -10,6 +10,7 @@
 #include <System.Private.CoreLib/System/SR-dep.h>
 #include <System.Private.CoreLib/System/Threading/CancellationToken-dep.h>
 #include <System.Private.CoreLib/System/Threading/CancellationTokenRegistration-dep.h>
+#include <System.Private.CoreLib/System/Threading/CancellationTokenSource-dep.h>
 #include <System.Private.CoreLib/System/Threading/ManualResetEvent-dep.h>
 #include <System.Private.CoreLib/System/Threading/Monitor-dep.h>
 #include <System.Private.CoreLib/System/Threading/SemaphoreFullException-dep.h>
@@ -261,6 +262,11 @@ Boolean SemaphoreSlim___::RemoveAsyncWaiter(TaskNode task) {
 
 Task<Boolean> SemaphoreSlim___::WaitUntilCountOrTimeoutAsync(TaskNode asyncWaiter, Int32 millisecondsTimeout, CancellationToken cancellationToken) {
   if (millisecondsTimeout != -1) {
+    {
+      CancellationTokenSource cts = CancellationTokenSource::in::CreateLinkedTokenSource(cancellationToken);
+      rt::Using(cts);
+      Object obj = asyncWaiter;
+    }
   } else {
     Task task = rt::newobj<Task>(nullptr, TaskCreationOptions::RunContinuationsAsynchronously, true);
   }

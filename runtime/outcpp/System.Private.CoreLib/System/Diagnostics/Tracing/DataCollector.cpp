@@ -1,10 +1,14 @@
 #include "DataCollector-dep.h"
 
+#include <System.Private.CoreLib/System/Buffer-dep.h>
+#include <System.Private.CoreLib/System/Char-dep.h>
 #include <System.Private.CoreLib/System/Diagnostics/Tracing/DataCollector-dep.h>
 #include <System.Private.CoreLib/System/IndexOutOfRangeException-dep.h>
 #include <System.Private.CoreLib/System/IntPtr-dep.h>
 #include <System.Private.CoreLib/System/Runtime/InteropServices/GCHandleType.h>
+#include <System.Private.CoreLib/System/Runtime/InteropServices/Marshal-dep.h>
 #include <System.Private.CoreLib/System/SR-dep.h>
+#include <System.Private.CoreLib/System/UIntPtr-dep.h>
 
 namespace System::Private::CoreLib::System::Diagnostics::Tracing::DataCollectorNamespace {
 using namespace System::Runtime::InteropServices;
@@ -44,6 +48,16 @@ void DataCollector::AddScalar(void* value, Int32 size) {
   } else {
     Int32 num = bufferPos;
     Int32 num2;
+    {
+      bufferPos += size;
+      EnsureBuffer();
+      num2 = 0;
+    }
+    while (num2 != size) {
+      buffer[num] = ((Byte*)value)[num2];
+      num2++;
+      num++;
+    }
   }
 }
 
@@ -65,6 +79,15 @@ void DataCollector::AddNullTerminatedString(String value) {
     return;
   }
   Int32 startIndex = bufferPos;
+  {
+    bufferPos += num2;
+    EnsureBuffer();
+    {
+      Char* ptr = value;
+      void* value2 = ptr;
+      Marshal::Copy((IntPtr)value2, buffer, startIndex, num2);
+    }
+  }
 }
 
 void DataCollector::AddArray(Array<> value, Int32 length, Int32 itemSize) {
@@ -76,6 +99,19 @@ void DataCollector::AddArray(Array<> value, Int32 length, Int32 itemSize) {
     EnsureBuffer(num + 2);
   }
   AddScalar(&length, 2);
+  {
+    if (length != 0) {
+      if (bufferNesting == 0) {
+        ScalarsEnd();
+        PinArray(value, num);
+        return;
+      }
+      Int32 dstOffset = bufferPos;
+      bufferPos += num;
+      EnsureBuffer();
+      Buffer::BlockCopy(value, 0, buffer, dstOffset, num);
+    }
+  }
 }
 
 Int32 DataCollector::BeginBufferedArray() {
@@ -156,6 +192,14 @@ void DataCollector::ScalarsBegin() {
 }
 
 void DataCollector::ScalarsEnd() {
+  {
+    if (writingScalars) {
+      EventSource::in::EventData* ptr = datas;
+      ptr->m_Size = (Int32)(scratch - (Byte*)(UIntPtr)ptr->m_Ptr);
+      datas = ptr + 1;
+      writingScalars = false;
+    }
+  }
 }
 
 } // namespace System::Private::CoreLib::System::Diagnostics::Tracing::DataCollectorNamespace

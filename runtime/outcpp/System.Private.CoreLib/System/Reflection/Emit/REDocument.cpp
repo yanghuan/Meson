@@ -15,6 +15,9 @@ void REDocument___::AddLineNumberInfo(ISymbolDocumentWriter document, Int32 iOff
   m_iColumns[m_iLineNumberCount] = iStartColumn;
   m_iEndLines[m_iLineNumberCount] = iEndLine;
   m_iEndColumns[m_iLineNumberCount] = iEndColumn;
+  {
+    m_iLineNumberCount++;
+  }
 }
 
 void REDocument___::EnsureCapacity() {

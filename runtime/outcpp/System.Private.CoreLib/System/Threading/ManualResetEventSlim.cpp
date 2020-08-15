@@ -190,6 +190,33 @@ Boolean ManualResetEventSlim___::Wait(Int32 millisecondsTimeout, CancellationTok
       }
     }
     EnsureLockObjectCreated();
+    {
+      cancellationToken.UnsafeRegister(s_cancellationTokenCallback, (ManualResetEventSlim)this);
+      {
+        rt::lock(m_lock);
+        while (!get_IsSet()) {
+          cancellationToken.ThrowIfCancellationRequested();
+          if (flag) {
+            num = TimeoutHelper::UpdateTimeOut(startTime, millisecondsTimeout);
+            if (num <= 0) {
+              return false;
+            }
+          }
+          get_Waiters()++;
+          if (get_IsSet()) {
+            get_Waiters()--;
+            return true;
+          }
+          try{
+            if (!Monitor::Wait(m_lock, num)) {
+              return false;
+            }
+          } finally: {
+            get_Waiters()--;
+          }
+        }
+      }
+    }
   }
   return true;
 }
