@@ -158,6 +158,7 @@ void Buffer::Memmove(Byte* dest, Byte* src, UIntPtr len) {
     if (len > 16) {
       if (len > 64) {
         if (len > 2048) {
+          goto IL_011e;
         }
         UIntPtr num = len >> 6;
         do {
@@ -197,6 +198,10 @@ void Buffer::Memmove(Byte* dest, Byte* src, UIntPtr len) {
 
     return;
   }
+  goto IL_011e;
+
+IL_011e:
+  _Memmove(dest, src, len);
 }
 
 void Buffer::Memmove(Byte& dest, Byte& src, UIntPtr len) {
@@ -206,6 +211,7 @@ void Buffer::Memmove(Byte& dest, Byte& src, UIntPtr len) {
     if (len > 16) {
       if (len > 64) {
         if (len > 2048) {
+          goto IL_01db;
         }
         UIntPtr num = len >> 6;
         do {
@@ -248,6 +254,10 @@ void Buffer::Memmove(Byte& dest, Byte& src, UIntPtr len) {
   if (Unsafe::AreSame(dest, src)) {
     return;
   }
+  goto IL_01db;
+
+IL_01db:
+  _Memmove(dest, src, len);
 }
 
 void Buffer::_Memmove(Byte* dest, Byte* src, UIntPtr len) {

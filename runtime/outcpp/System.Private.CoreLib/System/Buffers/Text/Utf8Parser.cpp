@@ -10,6 +10,7 @@
 #include <System.Private.CoreLib/System/DayOfWeek.h>
 #include <System.Private.CoreLib/System/Int16-dep.h>
 #include <System.Private.CoreLib/System/Int64-dep.h>
+#include <System.Private.CoreLib/System/Math-dep.h>
 #include <System.Private.CoreLib/System/Number-dep.h>
 #include <System.Private.CoreLib/System/Span-dep.h>
 #include <System.Private.CoreLib/System/ThrowHelper-dep.h>
@@ -1172,11 +1173,13 @@ Boolean Utf8Parser::TryParseSByteD(ReadOnlySpan<Byte> source, SByte& value, Int3
       num = -1;
       num2++;
       if ((UInt32)num2 >= (UInt32)source.get_Length()) {
+        goto IL_0123;
       }
       num3 = source[num2];
     } else if (num3 == 43) {
       num2++;
       if ((UInt32)num2 >= (UInt32)source.get_Length()) {
+        goto IL_0123;
       }
       num3 = source[num2];
     }
@@ -1184,6 +1187,7 @@ Boolean Utf8Parser::TryParseSByteD(ReadOnlySpan<Byte> source, SByte& value, Int3
     num4 = 0;
     if (ParserHelpers::IsDigit(num3)) {
       if (num3 != 48) {
+        goto IL_009c;
       }
       while (true) {
         num2++;
@@ -1194,9 +1198,50 @@ Boolean Utf8Parser::TryParseSByteD(ReadOnlySpan<Byte> source, SByte& value, Int3
         if (num3 == 48) {
           continue;
         }
+        goto IL_0091;
+      }
+      goto IL_012b;
+    }
+  }
+  goto IL_0123;
+
+IL_0123:
+  bytesConsumed = 0;
+  value = 0;
+  return false;
+
+IL_0091:
+  if (ParserHelpers::IsDigit(num3)) {
+    goto IL_009c;
+  }
+  goto IL_012b;
+
+IL_012b:
+  bytesConsumed = num2;
+  value = (SByte)(num4 * num);
+  return true;
+
+IL_009c:
+  num4 = num3 - 48;
+  num2++;
+  if ((UInt32)num2 < (UInt32)source.get_Length()) {
+    num3 = source[num2];
+    if (ParserHelpers::IsDigit(num3)) {
+      num2++;
+      num4 = 10 * num4 + num3 - 48;
+      if ((UInt32)num2 < (UInt32)source.get_Length()) {
+        num3 = source[num2];
+        if (ParserHelpers::IsDigit(num3)) {
+          num2++;
+          num4 = num4 * 10 + num3 - 48;
+          if ((UInt32)num4 > 127 + (Int64)((-1 * num + 1) / 2) || ((UInt32)num2 < (UInt32)source.get_Length() && ParserHelpers::IsDigit(source[num2]))) {
+            goto IL_0123;
+          }
+        }
       }
     }
   }
+  goto IL_012b;
 }
 
 Boolean Utf8Parser::TryParseInt16D(ReadOnlySpan<Byte> source, Int16& value, Int32& bytesConsumed) {
@@ -1212,11 +1257,13 @@ Boolean Utf8Parser::TryParseInt16D(ReadOnlySpan<Byte> source, Int16& value, Int3
       num = -1;
       num2++;
       if ((UInt32)num2 >= (UInt32)source.get_Length()) {
+        goto IL_0186;
       }
       num3 = source[num2];
     } else if (num3 == 43) {
       num2++;
       if ((UInt32)num2 >= (UInt32)source.get_Length()) {
+        goto IL_0186;
       }
       num3 = source[num2];
     }
@@ -1224,6 +1271,7 @@ Boolean Utf8Parser::TryParseInt16D(ReadOnlySpan<Byte> source, Int16& value, Int3
     num4 = 0;
     if (ParserHelpers::IsDigit(num3)) {
       if (num3 != 48) {
+        goto IL_009c;
       }
       while (true) {
         num2++;
@@ -1234,9 +1282,64 @@ Boolean Utf8Parser::TryParseInt16D(ReadOnlySpan<Byte> source, Int16& value, Int3
         if (num3 == 48) {
           continue;
         }
+        goto IL_0091;
+      }
+      goto IL_018e;
+    }
+  }
+  goto IL_0186;
+
+IL_0186:
+  bytesConsumed = 0;
+  value = 0;
+  return false;
+
+IL_0091:
+  if (ParserHelpers::IsDigit(num3)) {
+    goto IL_009c;
+  }
+  goto IL_018e;
+
+IL_018e:
+  bytesConsumed = num2;
+  value = (Int16)(num4 * num);
+  return true;
+
+IL_009c:
+  num4 = num3 - 48;
+  num2++;
+  if ((UInt32)num2 < (UInt32)source.get_Length()) {
+    num3 = source[num2];
+    if (ParserHelpers::IsDigit(num3)) {
+      num2++;
+      num4 = 10 * num4 + num3 - 48;
+      if ((UInt32)num2 < (UInt32)source.get_Length()) {
+        num3 = source[num2];
+        if (ParserHelpers::IsDigit(num3)) {
+          num2++;
+          num4 = 10 * num4 + num3 - 48;
+          if ((UInt32)num2 < (UInt32)source.get_Length()) {
+            num3 = source[num2];
+            if (ParserHelpers::IsDigit(num3)) {
+              num2++;
+              num4 = 10 * num4 + num3 - 48;
+              if ((UInt32)num2 < (UInt32)source.get_Length()) {
+                num3 = source[num2];
+                if (ParserHelpers::IsDigit(num3)) {
+                  num2++;
+                  num4 = num4 * 10 + num3 - 48;
+                  if ((UInt32)num4 > 32767 + (Int64)((-1 * num + 1) / 2) || ((UInt32)num2 < (UInt32)source.get_Length() && ParserHelpers::IsDigit(source[num2]))) {
+                    goto IL_0186;
+                  }
+                }
+              }
+            }
+          }
+        }
       }
     }
   }
+  goto IL_018e;
 }
 
 Boolean Utf8Parser::TryParseInt32D(ReadOnlySpan<Byte> source, Int32& value, Int32& bytesConsumed) {
@@ -1252,11 +1355,13 @@ Boolean Utf8Parser::TryParseInt32D(ReadOnlySpan<Byte> source, Int32& value, Int3
       num = -1;
       num2++;
       if ((UInt32)num2 >= (UInt32)source.get_Length()) {
+        goto IL_0281;
       }
       num3 = source[num2];
     } else if (num3 == 43) {
       num2++;
       if ((UInt32)num2 >= (UInt32)source.get_Length()) {
+        goto IL_0281;
       }
       num3 = source[num2];
     }
@@ -1264,6 +1369,7 @@ Boolean Utf8Parser::TryParseInt32D(ReadOnlySpan<Byte> source, Int32& value, Int3
     num4 = 0;
     if (ParserHelpers::IsDigit(num3)) {
       if (num3 != 48) {
+        goto IL_009c;
       }
       while (true) {
         num2++;
@@ -1274,9 +1380,102 @@ Boolean Utf8Parser::TryParseInt32D(ReadOnlySpan<Byte> source, Int32& value, Int3
         if (num3 == 48) {
           continue;
         }
+        goto IL_0091;
+      }
+      goto IL_0289;
+    }
+  }
+  goto IL_0281;
+
+IL_0281:
+  bytesConsumed = 0;
+  value = 0;
+  return false;
+
+IL_0091:
+  if (ParserHelpers::IsDigit(num3)) {
+    goto IL_009c;
+  }
+  goto IL_0289;
+
+IL_0289:
+  bytesConsumed = num2;
+  value = num4 * num;
+  return true;
+
+IL_009c:
+  num4 = num3 - 48;
+  num2++;
+  if ((UInt32)num2 < (UInt32)source.get_Length()) {
+    num3 = source[num2];
+    if (ParserHelpers::IsDigit(num3)) {
+      num2++;
+      num4 = 10 * num4 + num3 - 48;
+      if ((UInt32)num2 < (UInt32)source.get_Length()) {
+        num3 = source[num2];
+        if (ParserHelpers::IsDigit(num3)) {
+          num2++;
+          num4 = 10 * num4 + num3 - 48;
+          if ((UInt32)num2 < (UInt32)source.get_Length()) {
+            num3 = source[num2];
+            if (ParserHelpers::IsDigit(num3)) {
+              num2++;
+              num4 = 10 * num4 + num3 - 48;
+              if ((UInt32)num2 < (UInt32)source.get_Length()) {
+                num3 = source[num2];
+                if (ParserHelpers::IsDigit(num3)) {
+                  num2++;
+                  num4 = 10 * num4 + num3 - 48;
+                  if ((UInt32)num2 < (UInt32)source.get_Length()) {
+                    num3 = source[num2];
+                    if (ParserHelpers::IsDigit(num3)) {
+                      num2++;
+                      num4 = 10 * num4 + num3 - 48;
+                      if ((UInt32)num2 < (UInt32)source.get_Length()) {
+                        num3 = source[num2];
+                        if (ParserHelpers::IsDigit(num3)) {
+                          num2++;
+                          num4 = 10 * num4 + num3 - 48;
+                          if ((UInt32)num2 < (UInt32)source.get_Length()) {
+                            num3 = source[num2];
+                            if (ParserHelpers::IsDigit(num3)) {
+                              num2++;
+                              num4 = 10 * num4 + num3 - 48;
+                              if ((UInt32)num2 < (UInt32)source.get_Length()) {
+                                num3 = source[num2];
+                                if (ParserHelpers::IsDigit(num3)) {
+                                  num2++;
+                                  num4 = 10 * num4 + num3 - 48;
+                                  if ((UInt32)num2 < (UInt32)source.get_Length()) {
+                                    num3 = source[num2];
+                                    if (ParserHelpers::IsDigit(num3)) {
+                                      num2++;
+                                      if (num4 <= 214748364) {
+                                        num4 = num4 * 10 + num3 - 48;
+                                        if ((UInt32)num4 <= 2147483647 + (Int64)((-1 * num + 1) / 2) && ((UInt32)num2 >= (UInt32)source.get_Length() || !ParserHelpers::IsDigit(source[num2]))) {
+                                          goto IL_0289;
+                                        }
+                                      }
+                                      goto IL_0281;
+                                    }
+                                  }
+                                }
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
       }
     }
   }
+  goto IL_0289;
 }
 
 Boolean Utf8Parser::TryParseInt64D(ReadOnlySpan<Byte> source, Int64& value, Int32& bytesConsumed) {
@@ -1367,11 +1566,13 @@ Boolean Utf8Parser::TryParseSByteN(ReadOnlySpan<Byte> source, SByte& value, Int3
       num = -1;
       num2++;
       if ((UInt32)num2 >= (UInt32)source.get_Length()) {
+        goto IL_00f9;
       }
       num3 = source[num2];
     } else if (num3 == 43) {
       num2++;
       if ((UInt32)num2 >= (UInt32)source.get_Length()) {
+        goto IL_00f9;
       }
       num3 = source[num2];
     }
@@ -1389,6 +1590,7 @@ Boolean Utf8Parser::TryParseSByteN(ReadOnlySpan<Byte> source, SByte& value, Int3
             continue;
           }
           if (num3 == 46) {
+            goto IL_00d4;
           }
           if (!ParserHelpers::IsDigit(num3)) {
             break;
@@ -1397,15 +1599,49 @@ Boolean Utf8Parser::TryParseSByteN(ReadOnlySpan<Byte> source, SByte& value, Int3
           if (num4 <= 127 + (-1 * num + 1) / 2) {
             continue;
           }
+          goto IL_00f9;
         }
+        goto IL_0101;
       }
     } else {
       num4 = 0;
       num2++;
       if ((UInt32)num2 < (UInt32)source.get_Length() && source[num2] == 48) {
+        goto IL_00d4;
       }
     }
   }
+  goto IL_00f9;
+
+IL_00f9:
+  bytesConsumed = 0;
+  value = 0;
+  return false;
+
+IL_0101:
+  bytesConsumed = num2;
+  value = (SByte)(num4 * num);
+  return true;
+
+IL_00d4:
+  while (true) {
+    num2++;
+    if ((UInt32)num2 >= (UInt32)source.get_Length()) {
+      break;
+    }
+    num3 = source[num2];
+    if (num3 == 48) {
+      continue;
+    }
+    goto IL_00f1;
+  }
+  goto IL_0101;
+
+IL_00f1:
+  if (ParserHelpers::IsDigit(num3)) {
+    goto IL_00f9;
+  }
+  goto IL_0101;
 }
 
 Boolean Utf8Parser::TryParseInt16N(ReadOnlySpan<Byte> source, Int16& value, Int32& bytesConsumed) {
@@ -1421,11 +1657,13 @@ Boolean Utf8Parser::TryParseInt16N(ReadOnlySpan<Byte> source, Int16& value, Int3
       num = -1;
       num2++;
       if ((UInt32)num2 >= (UInt32)source.get_Length()) {
+        goto IL_00ff;
       }
       num3 = source[num2];
     } else if (num3 == 43) {
       num2++;
       if ((UInt32)num2 >= (UInt32)source.get_Length()) {
+        goto IL_00ff;
       }
       num3 = source[num2];
     }
@@ -1443,6 +1681,7 @@ Boolean Utf8Parser::TryParseInt16N(ReadOnlySpan<Byte> source, Int16& value, Int3
             continue;
           }
           if (num3 == 46) {
+            goto IL_00da;
           }
           if (!ParserHelpers::IsDigit(num3)) {
             break;
@@ -1451,15 +1690,49 @@ Boolean Utf8Parser::TryParseInt16N(ReadOnlySpan<Byte> source, Int16& value, Int3
           if (num4 <= 32767 + (-1 * num + 1) / 2) {
             continue;
           }
+          goto IL_00ff;
         }
+        goto IL_0107;
       }
     } else {
       num4 = 0;
       num2++;
       if ((UInt32)num2 < (UInt32)source.get_Length() && source[num2] == 48) {
+        goto IL_00da;
       }
     }
   }
+  goto IL_00ff;
+
+IL_00ff:
+  bytesConsumed = 0;
+  value = 0;
+  return false;
+
+IL_0107:
+  bytesConsumed = num2;
+  value = (Int16)(num4 * num);
+  return true;
+
+IL_00da:
+  while (true) {
+    num2++;
+    if ((UInt32)num2 >= (UInt32)source.get_Length()) {
+      break;
+    }
+    num3 = source[num2];
+    if (num3 == 48) {
+      continue;
+    }
+    goto IL_00f7;
+  }
+  goto IL_0107;
+
+IL_00f7:
+  if (ParserHelpers::IsDigit(num3)) {
+    goto IL_00ff;
+  }
+  goto IL_0107;
 }
 
 Boolean Utf8Parser::TryParseInt32N(ReadOnlySpan<Byte> source, Int32& value, Int32& bytesConsumed) {
@@ -1475,11 +1748,13 @@ Boolean Utf8Parser::TryParseInt32N(ReadOnlySpan<Byte> source, Int32& value, Int3
       num = -1;
       num2++;
       if ((UInt32)num2 >= (UInt32)source.get_Length()) {
+        goto IL_010a;
       }
       num3 = source[num2];
     } else if (num3 == 43) {
       num2++;
       if ((UInt32)num2 >= (UInt32)source.get_Length()) {
+        goto IL_010a;
       }
       num3 = source[num2];
     }
@@ -1497,6 +1772,7 @@ Boolean Utf8Parser::TryParseInt32N(ReadOnlySpan<Byte> source, Int32& value, Int3
             continue;
           }
           if (num3 == 46) {
+            goto IL_00e5;
           }
           if (!ParserHelpers::IsDigit(num3)) {
             break;
@@ -1507,15 +1783,49 @@ Boolean Utf8Parser::TryParseInt32N(ReadOnlySpan<Byte> source, Int32& value, Int3
               continue;
             }
           }
+          goto IL_010a;
         }
+        goto IL_0112;
       }
     } else {
       num4 = 0;
       num2++;
       if ((UInt32)num2 < (UInt32)source.get_Length() && source[num2] == 48) {
+        goto IL_00e5;
       }
     }
   }
+  goto IL_010a;
+
+IL_010a:
+  bytesConsumed = 0;
+  value = 0;
+  return false;
+
+IL_0112:
+  bytesConsumed = num2;
+  value = num4 * num;
+  return true;
+
+IL_00e5:
+  while (true) {
+    num2++;
+    if ((UInt32)num2 >= (UInt32)source.get_Length()) {
+      break;
+    }
+    num3 = source[num2];
+    if (num3 == 48) {
+      continue;
+    }
+    goto IL_0102;
+  }
+  goto IL_0112;
+
+IL_0102:
+  if (ParserHelpers::IsDigit(num3)) {
+    goto IL_010a;
+  }
+  goto IL_0112;
 }
 
 Boolean Utf8Parser::TryParseInt64N(ReadOnlySpan<Byte> source, Int64& value, Int32& bytesConsumed) {
@@ -1531,11 +1841,13 @@ Boolean Utf8Parser::TryParseInt64N(ReadOnlySpan<Byte> source, Int64& value, Int3
       num = -1;
       num2++;
       if ((UInt32)num2 >= (UInt32)source.get_Length()) {
+        goto IL_0115;
       }
       num3 = source[num2];
     } else if (num3 == 43) {
       num2++;
       if ((UInt32)num2 >= (UInt32)source.get_Length()) {
+        goto IL_0115;
       }
       num3 = source[num2];
     }
@@ -1553,6 +1865,7 @@ Boolean Utf8Parser::TryParseInt64N(ReadOnlySpan<Byte> source, Int64& value, Int3
             continue;
           }
           if (num3 == 46) {
+            goto IL_00f0;
           }
           if (!ParserHelpers::IsDigit(num3)) {
             break;
@@ -1563,15 +1876,49 @@ Boolean Utf8Parser::TryParseInt64N(ReadOnlySpan<Byte> source, Int64& value, Int3
               continue;
             }
           }
+          goto IL_0115;
         }
+        goto IL_011e;
       }
     } else {
       num4 = 0;
       num2++;
       if ((UInt32)num2 < (UInt32)source.get_Length() && source[num2] == 48) {
+        goto IL_00f0;
       }
     }
   }
+  goto IL_0115;
+
+IL_0115:
+  bytesConsumed = 0;
+  value = 0;
+  return false;
+
+IL_011e:
+  bytesConsumed = num2;
+  value = num4 * num;
+  return true;
+
+IL_00f0:
+  while (true) {
+    num2++;
+    if ((UInt32)num2 >= (UInt32)source.get_Length()) {
+      break;
+    }
+    num3 = source[num2];
+    if (num3 == 48) {
+      continue;
+    }
+    goto IL_010d;
+  }
+  goto IL_011e;
+
+IL_010d:
+  if (ParserHelpers::IsDigit(num3)) {
+    goto IL_0115;
+  }
+  goto IL_011e;
 }
 
 Boolean Utf8Parser::TryParse(ReadOnlySpan<Byte> source, Byte& value, Int32& bytesConsumed, Char standardFormat) {
@@ -1656,6 +2003,7 @@ Boolean Utf8Parser::TryParseByteD(ReadOnlySpan<Byte> source, Byte& value, Int32&
     num3 = 0;
     if (ParserHelpers::IsDigit(num2)) {
       if (num2 != 48) {
+        goto IL_0056;
       }
       while (true) {
         num++;
@@ -1666,9 +2014,50 @@ Boolean Utf8Parser::TryParseByteD(ReadOnlySpan<Byte> source, Byte& value, Int32&
         if (num2 == 48) {
           continue;
         }
+        goto IL_004b;
+      }
+      goto IL_00dd;
+    }
+  }
+  goto IL_00d5;
+
+IL_004b:
+  if (ParserHelpers::IsDigit(num2)) {
+    goto IL_0056;
+  }
+  goto IL_00dd;
+
+IL_0056:
+  num3 = num2 - 48;
+  num++;
+  if ((UInt32)num < (UInt32)source.get_Length()) {
+    num2 = source[num];
+    if (ParserHelpers::IsDigit(num2)) {
+      num++;
+      num3 = 10 * num3 + num2 - 48;
+      if ((UInt32)num < (UInt32)source.get_Length()) {
+        num2 = source[num];
+        if (ParserHelpers::IsDigit(num2)) {
+          num++;
+          num3 = num3 * 10 + num2 - 48;
+          if ((UInt32)num3 > 255u || ((UInt32)num < (UInt32)source.get_Length() && ParserHelpers::IsDigit(source[num]))) {
+            goto IL_00d5;
+          }
+        }
       }
     }
   }
+  goto IL_00dd;
+
+IL_00dd:
+  bytesConsumed = num;
+  value = (Byte)num3;
+  return true;
+
+IL_00d5:
+  bytesConsumed = 0;
+  value = 0;
+  return false;
 }
 
 Boolean Utf8Parser::TryParseUInt16D(ReadOnlySpan<Byte> source, UInt16& value, Int32& bytesConsumed) {
@@ -1681,6 +2070,7 @@ Boolean Utf8Parser::TryParseUInt16D(ReadOnlySpan<Byte> source, UInt16& value, In
     num3 = 0;
     if (ParserHelpers::IsDigit(num2)) {
       if (num2 != 48) {
+        goto IL_0056;
       }
       while (true) {
         num++;
@@ -1691,9 +2081,64 @@ Boolean Utf8Parser::TryParseUInt16D(ReadOnlySpan<Byte> source, UInt16& value, In
         if (num2 == 48) {
           continue;
         }
+        goto IL_004b;
+      }
+      goto IL_013d;
+    }
+  }
+  goto IL_0135;
+
+IL_004b:
+  if (ParserHelpers::IsDigit(num2)) {
+    goto IL_0056;
+  }
+  goto IL_013d;
+
+IL_0056:
+  num3 = num2 - 48;
+  num++;
+  if ((UInt32)num < (UInt32)source.get_Length()) {
+    num2 = source[num];
+    if (ParserHelpers::IsDigit(num2)) {
+      num++;
+      num3 = 10 * num3 + num2 - 48;
+      if ((UInt32)num < (UInt32)source.get_Length()) {
+        num2 = source[num];
+        if (ParserHelpers::IsDigit(num2)) {
+          num++;
+          num3 = 10 * num3 + num2 - 48;
+          if ((UInt32)num < (UInt32)source.get_Length()) {
+            num2 = source[num];
+            if (ParserHelpers::IsDigit(num2)) {
+              num++;
+              num3 = 10 * num3 + num2 - 48;
+              if ((UInt32)num < (UInt32)source.get_Length()) {
+                num2 = source[num];
+                if (ParserHelpers::IsDigit(num2)) {
+                  num++;
+                  num3 = num3 * 10 + num2 - 48;
+                  if ((UInt32)num3 > 65535u || ((UInt32)num < (UInt32)source.get_Length() && ParserHelpers::IsDigit(source[num]))) {
+                    goto IL_0135;
+                  }
+                }
+              }
+            }
+          }
+        }
       }
     }
   }
+  goto IL_013d;
+
+IL_013d:
+  bytesConsumed = num;
+  value = (UInt16)num3;
+  return true;
+
+IL_0135:
+  bytesConsumed = 0;
+  value = 0;
+  return false;
 }
 
 Boolean Utf8Parser::TryParseUInt32D(ReadOnlySpan<Byte> source, UInt32& value, Int32& bytesConsumed) {
@@ -1706,6 +2151,7 @@ Boolean Utf8Parser::TryParseUInt32D(ReadOnlySpan<Byte> source, UInt32& value, In
     num3 = 0;
     if (ParserHelpers::IsDigit(num2)) {
       if (num2 != 48) {
+        goto IL_0056;
       }
       while (true) {
         num++;
@@ -1716,9 +2162,102 @@ Boolean Utf8Parser::TryParseUInt32D(ReadOnlySpan<Byte> source, UInt32& value, In
         if (num2 == 48) {
           continue;
         }
+        goto IL_004b;
+      }
+      goto IL_023d;
+    }
+  }
+  goto IL_0235;
+
+IL_004b:
+  if (ParserHelpers::IsDigit(num2)) {
+    goto IL_0056;
+  }
+  goto IL_023d;
+
+IL_0056:
+  num3 = num2 - 48;
+  num++;
+  if ((UInt32)num < (UInt32)source.get_Length()) {
+    num2 = source[num];
+    if (ParserHelpers::IsDigit(num2)) {
+      num++;
+      num3 = 10 * num3 + num2 - 48;
+      if ((UInt32)num < (UInt32)source.get_Length()) {
+        num2 = source[num];
+        if (ParserHelpers::IsDigit(num2)) {
+          num++;
+          num3 = 10 * num3 + num2 - 48;
+          if ((UInt32)num < (UInt32)source.get_Length()) {
+            num2 = source[num];
+            if (ParserHelpers::IsDigit(num2)) {
+              num++;
+              num3 = 10 * num3 + num2 - 48;
+              if ((UInt32)num < (UInt32)source.get_Length()) {
+                num2 = source[num];
+                if (ParserHelpers::IsDigit(num2)) {
+                  num++;
+                  num3 = 10 * num3 + num2 - 48;
+                  if ((UInt32)num < (UInt32)source.get_Length()) {
+                    num2 = source[num];
+                    if (ParserHelpers::IsDigit(num2)) {
+                      num++;
+                      num3 = 10 * num3 + num2 - 48;
+                      if ((UInt32)num < (UInt32)source.get_Length()) {
+                        num2 = source[num];
+                        if (ParserHelpers::IsDigit(num2)) {
+                          num++;
+                          num3 = 10 * num3 + num2 - 48;
+                          if ((UInt32)num < (UInt32)source.get_Length()) {
+                            num2 = source[num];
+                            if (ParserHelpers::IsDigit(num2)) {
+                              num++;
+                              num3 = 10 * num3 + num2 - 48;
+                              if ((UInt32)num < (UInt32)source.get_Length()) {
+                                num2 = source[num];
+                                if (ParserHelpers::IsDigit(num2)) {
+                                  num++;
+                                  num3 = 10 * num3 + num2 - 48;
+                                  if ((UInt32)num < (UInt32)source.get_Length()) {
+                                    num2 = source[num];
+                                    if (ParserHelpers::IsDigit(num2)) {
+                                      num++;
+                                      if ((UInt32)num3 <= 429496729u && (num3 != 429496729 || num2 <= 53)) {
+                                        num3 = num3 * 10 + num2 - 48;
+                                        if ((UInt32)num >= (UInt32)source.get_Length() || !ParserHelpers::IsDigit(source[num])) {
+                                          goto IL_023d;
+                                        }
+                                      }
+                                      goto IL_0235;
+                                    }
+                                  }
+                                }
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
       }
     }
   }
+  goto IL_023d;
+
+IL_023d:
+  bytesConsumed = num;
+  value = (UInt32)num3;
+  return true;
+
+IL_0235:
+  bytesConsumed = 0;
+  value = 0u;
+  return false;
 }
 
 Boolean Utf8Parser::TryParseUInt64D(ReadOnlySpan<Byte> source, UInt64& value, Int32& bytesConsumed) {
@@ -1784,6 +2323,7 @@ Boolean Utf8Parser::TryParseByteN(ReadOnlySpan<Byte> source, Byte& value, Int32&
     if (num2 == 43) {
       num++;
       if ((UInt32)num >= (UInt32)source.get_Length()) {
+        goto IL_00ce;
       }
       num2 = source[num];
     }
@@ -1800,6 +2340,7 @@ Boolean Utf8Parser::TryParseByteN(ReadOnlySpan<Byte> source, Byte& value, Int32&
             continue;
           }
           if (num2 == 46) {
+            goto IL_00a9;
           }
           if (!ParserHelpers::IsDigit(num2)) {
             break;
@@ -1808,15 +2349,49 @@ Boolean Utf8Parser::TryParseByteN(ReadOnlySpan<Byte> source, Byte& value, Int32&
           if (num3 <= 255) {
             continue;
           }
+          goto IL_00ce;
         }
+        goto IL_00d6;
       }
     } else {
       num3 = 0;
       num++;
       if ((UInt32)num < (UInt32)source.get_Length() && source[num] == 48) {
+        goto IL_00a9;
       }
     }
   }
+  goto IL_00ce;
+
+IL_00c6:
+  if (ParserHelpers::IsDigit(num2)) {
+    goto IL_00ce;
+  }
+  goto IL_00d6;
+
+IL_00ce:
+  bytesConsumed = 0;
+  value = 0;
+  return false;
+
+IL_00d6:
+  bytesConsumed = num;
+  value = (Byte)num3;
+  return true;
+
+IL_00a9:
+  while (true) {
+    num++;
+    if ((UInt32)num >= (UInt32)source.get_Length()) {
+      break;
+    }
+    num2 = source[num];
+    if (num2 == 48) {
+      continue;
+    }
+    goto IL_00c6;
+  }
+  goto IL_00d6;
 }
 
 Boolean Utf8Parser::TryParseUInt16N(ReadOnlySpan<Byte> source, UInt16& value, Int32& bytesConsumed) {
@@ -1829,6 +2404,7 @@ Boolean Utf8Parser::TryParseUInt16N(ReadOnlySpan<Byte> source, UInt16& value, In
     if (num2 == 43) {
       num++;
       if ((UInt32)num >= (UInt32)source.get_Length()) {
+        goto IL_00ce;
       }
       num2 = source[num];
     }
@@ -1845,6 +2421,7 @@ Boolean Utf8Parser::TryParseUInt16N(ReadOnlySpan<Byte> source, UInt16& value, In
             continue;
           }
           if (num2 == 46) {
+            goto IL_00a9;
           }
           if (!ParserHelpers::IsDigit(num2)) {
             break;
@@ -1853,15 +2430,49 @@ Boolean Utf8Parser::TryParseUInt16N(ReadOnlySpan<Byte> source, UInt16& value, In
           if (num3 <= 65535) {
             continue;
           }
+          goto IL_00ce;
         }
+        goto IL_00d6;
       }
     } else {
       num3 = 0;
       num++;
       if ((UInt32)num < (UInt32)source.get_Length() && source[num] == 48) {
+        goto IL_00a9;
       }
     }
   }
+  goto IL_00ce;
+
+IL_00c6:
+  if (ParserHelpers::IsDigit(num2)) {
+    goto IL_00ce;
+  }
+  goto IL_00d6;
+
+IL_00ce:
+  bytesConsumed = 0;
+  value = 0;
+  return false;
+
+IL_00d6:
+  bytesConsumed = num;
+  value = (UInt16)num3;
+  return true;
+
+IL_00a9:
+  while (true) {
+    num++;
+    if ((UInt32)num >= (UInt32)source.get_Length()) {
+      break;
+    }
+    num2 = source[num];
+    if (num2 == 48) {
+      continue;
+    }
+    goto IL_00c6;
+  }
+  goto IL_00d6;
 }
 
 Boolean Utf8Parser::TryParseUInt32N(ReadOnlySpan<Byte> source, UInt32& value, Int32& bytesConsumed) {
@@ -1874,6 +2485,7 @@ Boolean Utf8Parser::TryParseUInt32N(ReadOnlySpan<Byte> source, UInt32& value, In
     if (num2 == 43) {
       num++;
       if ((UInt32)num >= (UInt32)source.get_Length()) {
+        goto IL_00de;
       }
       num2 = source[num];
     }
@@ -1890,6 +2502,7 @@ Boolean Utf8Parser::TryParseUInt32N(ReadOnlySpan<Byte> source, UInt32& value, In
             continue;
           }
           if (num2 == 46) {
+            goto IL_00b9;
           }
           if (!ParserHelpers::IsDigit(num2)) {
             break;
@@ -1898,15 +2511,49 @@ Boolean Utf8Parser::TryParseUInt32N(ReadOnlySpan<Byte> source, UInt32& value, In
             num3 = num3 * 10 + num2 - 48;
             continue;
           }
+          goto IL_00de;
         }
+        goto IL_00e6;
       }
     } else {
       num3 = 0;
       num++;
       if ((UInt32)num < (UInt32)source.get_Length() && source[num] == 48) {
+        goto IL_00b9;
       }
     }
   }
+  goto IL_00de;
+
+IL_00d6:
+  if (ParserHelpers::IsDigit(num2)) {
+    goto IL_00de;
+  }
+  goto IL_00e6;
+
+IL_00de:
+  bytesConsumed = 0;
+  value = 0u;
+  return false;
+
+IL_00e6:
+  bytesConsumed = num;
+  value = (UInt32)num3;
+  return true;
+
+IL_00b9:
+  while (true) {
+    num++;
+    if ((UInt32)num >= (UInt32)source.get_Length()) {
+      break;
+    }
+    num2 = source[num];
+    if (num2 == 48) {
+      continue;
+    }
+    goto IL_00d6;
+  }
+  goto IL_00e6;
 }
 
 Boolean Utf8Parser::TryParseUInt64N(ReadOnlySpan<Byte> source, UInt64& value, Int32& bytesConsumed) {
@@ -1919,6 +2566,7 @@ Boolean Utf8Parser::TryParseUInt64N(ReadOnlySpan<Byte> source, UInt64& value, In
     if (num2 == 43) {
       num++;
       if ((UInt32)num >= (UInt32)source.get_Length()) {
+        goto IL_00eb;
       }
       num2 = source[num];
     }
@@ -1935,6 +2583,7 @@ Boolean Utf8Parser::TryParseUInt64N(ReadOnlySpan<Byte> source, UInt64& value, In
             continue;
           }
           if (num2 == 46) {
+            goto IL_00c6;
           }
           if (!ParserHelpers::IsDigit(num2)) {
             break;
@@ -1943,15 +2592,49 @@ Boolean Utf8Parser::TryParseUInt64N(ReadOnlySpan<Byte> source, UInt64& value, In
             num3 = num3 * 10 + num2 - 48;
             continue;
           }
+          goto IL_00eb;
         }
+        goto IL_00f4;
       }
     } else {
       num3 = 0;
       num++;
       if ((UInt32)num < (UInt32)source.get_Length() && source[num] == 48) {
+        goto IL_00c6;
       }
     }
   }
+  goto IL_00eb;
+
+IL_00e3:
+  if (ParserHelpers::IsDigit(num2)) {
+    goto IL_00eb;
+  }
+  goto IL_00f4;
+
+IL_00eb:
+  bytesConsumed = 0;
+  value = 0;
+  return false;
+
+IL_00f4:
+  bytesConsumed = num;
+  value = (UInt64)num3;
+  return true;
+
+IL_00c6:
+  while (true) {
+    num++;
+    if ((UInt32)num >= (UInt32)source.get_Length()) {
+      break;
+    }
+    num2 = source[num];
+    if (num2 == 48) {
+      continue;
+    }
+    goto IL_00e3;
+  }
+  goto IL_00f4;
 }
 
 Boolean Utf8Parser::TryParseByteX(ReadOnlySpan<Byte> source, Byte& value, Int32& bytesConsumed) {
@@ -2198,6 +2881,7 @@ Boolean Utf8Parser::TryParseNumber(ReadOnlySpan<Byte> source, Number::NumberBuff
   Byte b = source[i];
   if (b != 43) {
     if (b != 45) {
+      goto IL_0055;
     }
     number.IsNegative = true;
   }
@@ -2207,6 +2891,157 @@ Boolean Utf8Parser::TryParseNumber(ReadOnlySpan<Byte> source, Number::NumberBuff
     return false;
   }
   b = source[i];
+  goto IL_0055;
+
+IL_0055:
+  Int32 num2 = i;
+  Int32 num3 = 0;
+  Int32 num4 = digits.get_Length() - 1;
+  for (; i != source.get_Length(); i++) {
+    b = source[i];
+    if (b != 48) {
+      break;
+    }
+  }
+  if (i == source.get_Length()) {
+    bytesConsumed = i;
+    return true;
+  }
+  Int32 num5 = i;
+  Int32 num6 = 0;
+  while (i != source.get_Length()) {
+    b = source[i];
+    Int32 num7 = (Byte)(b - 48);
+    if (num7 > 9) {
+      break;
+    }
+    i++;
+    num3++;
+    if (num3 >= num4) {
+      num6 |= num7;
+    }
+  }
+  number.HasNonZeroTail = (num6 != 0);
+  Int32 num8 = i - num2;
+  Int32 num9 = i - num5;
+  Int32 num10 = Math::Min(num9, num4);
+  source.Slice(num5, num10).CopyTo(digits);
+  num = num10;
+  number.Scale = num9;
+  if (i == source.get_Length()) {
+    digits[num] = 0;
+    number.DigitsCount = num;
+    bytesConsumed = i;
+    return true;
+  }
+  Int32 num11 = 0;
+  if (b == 46) {
+    i++;
+    Int32 num12 = i;
+    while (i != source.get_Length()) {
+      b = source[i];
+      Int32 num13 = (Byte)(b - 48);
+      if (num13 > 9) {
+        break;
+      }
+      i++;
+      num3++;
+      if (num3 >= num4) {
+        num6 |= num13;
+      }
+    }
+    number.HasNonZeroTail = (num6 != 0);
+    num11 = i - num12;
+    Int32 j = num12;
+    if (num == 0) {
+      for (; j < i && source[j] == 48; j++) {
+        number.Scale--;
+      }
+    }
+    Int32 num14 = Math::Min(i - j, num4 - num);
+    source.Slice(j, num14).CopyTo(digits.Slice(num));
+    num += num14;
+    if (i == source.get_Length()) {
+      if (num8 == 0 && num11 == 0) {
+        bytesConsumed = 0;
+        return false;
+      }
+      digits[num] = 0;
+      number.DigitsCount = num;
+      bytesConsumed = i;
+      return true;
+    }
+  }
+  if (num8 == 0 && num11 == 0) {
+    bytesConsumed = 0;
+    return false;
+  }
+  if ((b & -33) != 69) {
+    digits[num] = 0;
+    number.DigitsCount = num;
+    bytesConsumed = i;
+    return true;
+  }
+  textUsedExponentNotation = true;
+  i++;
+  if ((options & ParseNumberOptions::AllowExponent) == 0) {
+    bytesConsumed = 0;
+    return false;
+  }
+  if (i == source.get_Length()) {
+    bytesConsumed = 0;
+    return false;
+  }
+  Boolean flag = false;
+  b = source[i];
+  if (b != 43) {
+    if (b != 45) {
+      goto IL_02a0;
+    }
+    flag = true;
+  }
+  i++;
+  if (i == source.get_Length()) {
+    bytesConsumed = 0;
+    return false;
+  }
+  b = source[i];
+  goto IL_02a0;
+
+IL_02a0:
+  if ((Byte)(b - 48) > 9) {
+    bytesConsumed = 0;
+    return false;
+  }
+  UInt32 value;
+  Int32 bytesConsumed2;
+  if (!TryParseUInt32D(source.Slice(i), value, bytesConsumed2)) {
+    value = UInt32::MaxValue;
+    for (i += 10; i != source.get_Length(); i++) {
+      b = source[i];
+      Int32 num15 = (Byte)(b - 48);
+      if (num15 > 9) {
+        break;
+      }
+    }
+  }
+  i += bytesConsumed2;
+  if (flag) {
+    if (number.Scale < Int32::MinValue + value) {
+      number.Scale = Int32::MinValue;
+    } else {
+      number.Scale -= (Int32)value;
+    }
+  } else if (number.Scale > 2147483647 - (Int64)value) {
+    number.Scale = Int32::MaxValue;
+  } else {
+    number.Scale += (Int32)value;
+  }
+
+  digits[num] = 0;
+  number.DigitsCount = num;
+  bytesConsumed = i;
+  return true;
 }
 
 Boolean Utf8Parser::TryParseTimeSpanBigG(ReadOnlySpan<Byte> source, TimeSpan& value, Int32& bytesConsumed) {

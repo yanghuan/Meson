@@ -826,7 +826,7 @@ namespace Meson.Compiler {
     }
 
     public SyntaxNode VisitGotoStatement(GotoStatement gotoStatement) {
-      throw new NotImplementedException();
+      return new GotoStatementSyntax(gotoStatement.Label);
     }
 
     public SyntaxNode VisitIfElseStatement(IfElseStatement ifElseStatement) {
@@ -838,7 +838,7 @@ namespace Meson.Compiler {
     }
 
     public SyntaxNode VisitLabelStatement(LabelStatement labelStatement) {
-      throw new NotImplementedException();
+      return new LabelStatementSyntax(labelStatement.Label);
     }
 
     public SyntaxNode VisitLockStatement(LockStatement lockStatement) {

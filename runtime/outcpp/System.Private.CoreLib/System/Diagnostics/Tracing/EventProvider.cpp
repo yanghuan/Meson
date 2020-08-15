@@ -428,6 +428,12 @@ Object EventProvider___::EncodeObject(Object& data, EventData*& dataDescriptor, 
       }
       continue;
     }
+    goto IL_0411;
+
+  IL_0411:
+    text = ((data != nullptr) ? data->ToString() : "");
+    dataDescriptor->Size = (UInt32)((text->get_Length() + 1) * 2);
+    break;
   }
   totalEventSize += dataDescriptor->Size;
   dataDescriptor++;

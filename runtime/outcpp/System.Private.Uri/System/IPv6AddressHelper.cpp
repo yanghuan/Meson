@@ -71,9 +71,12 @@ Boolean IPv6AddressHelper::InternalIsValid(Char* name, Int32 start, Int32& end, 
           if (name[i] != 47) {
             continue;
           }
+          goto IL_011c;
         }
+        goto IL_00ee;
       }
       if (c != 46) {
+        goto IL_015c;
       }
       if (flag2) {
         return false;
@@ -87,10 +90,13 @@ Boolean IPv6AddressHelper::InternalIsValid(Char* name, Int32 start, Int32& end, 
       i--;
     } else {
       if (c == 47) {
+        goto IL_011c;
       }
       if (c != 58) {
         if (c == 93) {
+          goto IL_00ee;
         }
+        goto IL_015c;
       }
       if (i > 0 && name[i - 1] == 58) {
         if (flag) {
@@ -102,6 +108,30 @@ Boolean IPv6AddressHelper::InternalIsValid(Char* name, Int32 start, Int32& end, 
         flag4 = true;
       }
     }
+    goto IL_015e;
+
+  IL_011c:
+    if (validateStrictAddress) {
+      return false;
+    }
+    if (num == 0 || flag3) {
+      return false;
+    }
+    flag3 = true;
+    flag4 = true;
+    goto IL_015e;
+
+  IL_00ee:
+    start = i;
+    i = end;
+    continue;
+
+  IL_015e:
+    num2 = 0;
+    continue;
+
+  IL_015c:
+    return false;
   }
   if (flag3 && (num2 < 1 || num2 > 2)) {
     return false;

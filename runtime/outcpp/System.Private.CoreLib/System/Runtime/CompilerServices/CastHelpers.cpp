@@ -90,6 +90,7 @@ Object CastHelpers::IsInstanceOfInterface(void* toTypeHnd, Object obj) {
     methodTable = RuntimeHelpers::GetMethodTable(obj);
     UIntPtr num = methodTable->InterfaceCount;
     if (num == 0) {
+      goto IL_0095;
     }
     MethodTable* interfaceMap = methodTable->InterfaceMap;
     UIntPtr num2 = 0u;
@@ -113,8 +114,20 @@ Object CastHelpers::IsInstanceOfInterface(void* toTypeHnd, Object obj) {
           }
         }
       }
+      goto IL_0095;
     }
   }
+  goto IL_00a0;
+
+IL_0095:
+  if (!methodTable->get_NonTrivialInterfaceCast()) {
+    obj = nullptr;
+    goto IL_00a0;
+  }
+  return IsInstance_Helper(toTypeHnd, obj);
+
+IL_00a0:
+  return obj;
 }
 
 Object CastHelpers::IsInstanceOfClass(void* toTypeHnd, Object obj) {
@@ -127,14 +140,17 @@ Object CastHelpers::IsInstanceOfClass(void* toTypeHnd, Object obj) {
       if (parentMethodTable != nullptr) {
         parentMethodTable = parentMethodTable->ParentMethodTable;
         if (parentMethodTable == toTypeHnd) {
+          goto IL_006c;
         }
         if (parentMethodTable != nullptr) {
           parentMethodTable = parentMethodTable->ParentMethodTable;
           if (parentMethodTable == toTypeHnd) {
+            goto IL_006c;
           }
           if (parentMethodTable != nullptr) {
             parentMethodTable = parentMethodTable->ParentMethodTable;
             if (parentMethodTable == toTypeHnd) {
+              goto IL_006c;
             }
             if (parentMethodTable != nullptr) {
               parentMethodTable = parentMethodTable->ParentMethodTable;
@@ -148,6 +164,10 @@ Object CastHelpers::IsInstanceOfClass(void* toTypeHnd, Object obj) {
       }
       obj = nullptr;
     }
+    goto IL_006c;
+
+  IL_006c:
+    return obj;
   }
   return IsInstance_Helper(toTypeHnd, obj);
 }
@@ -189,6 +209,7 @@ Object CastHelpers::ChkCastInterface(void* toTypeHnd, Object obj) {
     MethodTable* methodTable = RuntimeHelpers::GetMethodTable(obj);
     UIntPtr num = methodTable->InterfaceCount;
     if (num == 0) {
+      goto IL_0097;
     }
     MethodTable* interfaceMap = methodTable->InterfaceMap;
     UIntPtr num2 = 0u;
@@ -212,9 +233,13 @@ Object CastHelpers::ChkCastInterface(void* toTypeHnd, Object obj) {
           }
         }
       }
+      goto IL_0097;
     }
   }
   return obj;
+
+IL_0097:
+  return ChkCast_Helper(toTypeHnd, obj);
 }
 
 Object CastHelpers::ChkCastClass(void* toTypeHnd, Object obj) {

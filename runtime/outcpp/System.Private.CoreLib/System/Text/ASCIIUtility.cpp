@@ -76,6 +76,7 @@ UIntPtr ASCIIUtility::GetIndexOfFirstNonAsciiByte_Default(Byte* pBuffer, UIntPtr
           num = num2;
           pBuffer += 4;
         }
+        goto IL_011a;
       }
       pBuffer += 8;
       bufferLength -= 8;
@@ -84,18 +85,24 @@ UIntPtr ASCIIUtility::GetIndexOfFirstNonAsciiByte_Default(Byte* pBuffer, UIntPtr
     if ((bufferLength & 4) != 0) {
       num = Unsafe::ReadUnaligned<UInt32>(pBuffer);
       if (!AllBytesInUInt32AreAscii(num)) {
+        goto IL_011a;
       }
       pBuffer += 4;
     }
     if ((bufferLength & 2) != 0) {
       num = Unsafe::ReadUnaligned<UInt16>(pBuffer);
       if (!AllBytesInUInt32AreAscii(num)) {
+        goto IL_011a;
       }
       pBuffer += 2;
     }
     if ((bufferLength & 1) != 0 && *pBuffer >= 0) {
       pBuffer++;
     }
+    break;
+
+  IL_011a:
+    pBuffer += CountNumberOfLeadingAsciiBytesFromUInt32WithSomeNonAsciiData(num);
     break;
   }
   return (UIntPtr)((IntPtr)(UIntPtr)(UIntPtr)(void*)pBuffer - (IntPtr)(UIntPtr)(UIntPtr)(void*)value);
@@ -110,11 +117,13 @@ UIntPtr ASCIIUtility::GetIndexOfFirstNonAsciiByte_Sse2(Byte* pBuffer, UIntPtr bu
     num3 = (UInt32)Sse2::in::MoveMask(Sse2::in::LoadVector128(pBuffer));
     if (num3 == 0) {
       if (bufferLength < 2 * num) {
+        goto IL_00bf;
       }
       pBuffer = (Byte*)(void*)(UIntPtr)((UIntPtr)((IntPtr)(UIntPtr)(UIntPtr)(void*)pBuffer + (IntPtr)num) & ~num2);
       bufferLength += (UIntPtr)(IntPtr)(UIntPtr)(UIntPtr)(void*)value;
       bufferLength -= (UIntPtr)(IntPtr)(UIntPtr)(UIntPtr)(void*)pBuffer;
       if (bufferLength < 2 * num) {
+        goto IL_00aa;
       }
       Byte* ptr = (Byte*)(void*)(UIntPtr)((UIntPtr)((IntPtr)(UIntPtr)(UIntPtr)(void*)pBuffer + (IntPtr)bufferLength) - (UIntPtr)(2 * num));
       UInt32 num4;
@@ -130,12 +139,14 @@ UIntPtr ASCIIUtility::GetIndexOfFirstNonAsciiByte_Sse2(Byte* pBuffer, UIntPtr bu
         if (pBuffer <= ptr) {
           continue;
         }
+        goto IL_00aa;
       }
       if (num3 == 0) {
         pBuffer += num;
         num3 = num4;
       }
     }
+    goto IL_0107;
   }
   if ((bufferLength & 8) != 0) {
     _ = UIntPtr::get_Size();
@@ -143,6 +154,7 @@ UIntPtr ASCIIUtility::GetIndexOfFirstNonAsciiByte_Sse2(Byte* pBuffer, UIntPtr bu
     if (!AllBytesInUInt64AreAscii(num5)) {
       num5 &= 9259542123273814144;
       pBuffer += (UIntPtr)(BitOperations::TrailingZeroCount(num5) >> 3);
+      goto IL_00ed;
     }
     pBuffer += 8;
   }
@@ -150,6 +162,7 @@ UIntPtr ASCIIUtility::GetIndexOfFirstNonAsciiByte_Sse2(Byte* pBuffer, UIntPtr bu
     UInt32 value4 = Unsafe::ReadUnaligned<UInt32>(pBuffer);
     if (!AllBytesInUInt32AreAscii(value4)) {
       pBuffer += CountNumberOfLeadingAsciiBytesFromUInt32WithSomeNonAsciiData(value4);
+      goto IL_00ed;
     }
     pBuffer += 4;
   }
@@ -157,12 +170,46 @@ UIntPtr ASCIIUtility::GetIndexOfFirstNonAsciiByte_Sse2(Byte* pBuffer, UIntPtr bu
     UInt32 value4 = Unsafe::ReadUnaligned<UInt16>(pBuffer);
     if (!AllBytesInUInt32AreAscii(value4)) {
       pBuffer += (UIntPtr)(((IntPtr)(SByte)value4 >> 7) + 1);
+      goto IL_00ed;
     }
     pBuffer += 2;
   }
   if ((bufferLength & 1) != 0 && *pBuffer >= 0) {
     pBuffer++;
   }
+  goto IL_00ed;
+
+IL_00ed:
+  return (UIntPtr)((IntPtr)(UIntPtr)(UIntPtr)(void*)pBuffer - (IntPtr)(UIntPtr)(UIntPtr)(void*)value);
+
+IL_0107:
+  pBuffer += (UInt32)BitOperations::TrailingZeroCount(num3);
+  goto IL_00ed;
+
+IL_00aa:
+  if ((bufferLength & num) == 0) {
+    goto IL_00c5;
+  }
+  num3 = (UInt32)Sse2::in::MoveMask(Sse2::in::LoadAlignedVector128(pBuffer));
+  if (num3 == 0) {
+    goto IL_00bf;
+  }
+  goto IL_0107;
+
+IL_00c5:
+  if (((Byte)bufferLength & num2) != 0) {
+    pBuffer += (bufferLength & num2) - num;
+    num3 = (UInt32)Sse2::in::MoveMask(Sse2::in::LoadVector128(pBuffer));
+    if (num3 != 0) {
+      goto IL_0107;
+    }
+    pBuffer += num;
+  }
+  goto IL_00ed;
+
+IL_00bf:
+  pBuffer += num;
+  goto IL_00c5;
 }
 
 UIntPtr ASCIIUtility::GetIndexOfFirstNonAsciiChar(Char* pBuffer, UIntPtr bufferLength) {
@@ -200,6 +247,7 @@ UIntPtr ASCIIUtility::GetIndexOfFirstNonAsciiChar_Default(Char* pBuffer, UIntPtr
           num = num2;
           pBuffer += 2;
         }
+        goto IL_0127;
       }
       pBuffer += 4;
       bufferLength -= 4;
@@ -208,10 +256,17 @@ UIntPtr ASCIIUtility::GetIndexOfFirstNonAsciiChar_Default(Char* pBuffer, UIntPtr
     if ((bufferLength & 2) != 0) {
       num = Unsafe::ReadUnaligned<UInt32>(pBuffer);
       if (!AllCharsInUInt32AreAscii(num)) {
+        goto IL_0127;
       }
       pBuffer += 2;
     }
     if ((bufferLength & 1) != 0 && *pBuffer <= 127) {
+      pBuffer++;
+    }
+    break;
+
+  IL_0127:
+    if (FirstCharInUInt32IsAscii(num)) {
       pBuffer++;
     }
     break;
@@ -239,11 +294,13 @@ UIntPtr ASCIIUtility::GetIndexOfFirstNonAsciiChar_Sse2(Char* pBuffer, UIntPtr bu
     if ((num3 & 43690) == 0) {
       bufferLength <<= 1;
       if (bufferLength < 2 * num) {
+        goto IL_015c;
       }
       pBuffer = (Char*)(void*)(UIntPtr)((UIntPtr)((IntPtr)(UIntPtr)(UIntPtr)(void*)pBuffer + (IntPtr)num) & ~(UIntPtr)(num - 1));
       bufferLength += (UIntPtr)(IntPtr)(UIntPtr)(UIntPtr)(void*)value;
       bufferLength -= (UIntPtr)(IntPtr)(UIntPtr)(UIntPtr)(void*)pBuffer;
       if (bufferLength < 2 * num) {
+        goto IL_0118;
       }
       Char* ptr = (Char*)(void*)(UIntPtr)((UIntPtr)((IntPtr)(UIntPtr)(UIntPtr)(void*)pBuffer + (IntPtr)bufferLength) - (UIntPtr)(2 * num));
       Vector128<UInt16> vector;
@@ -265,18 +322,23 @@ UIntPtr ASCIIUtility::GetIndexOfFirstNonAsciiChar_Sse2(Char* pBuffer, UIntPtr bu
         if (pBuffer <= ptr) {
           continue;
         }
+        goto IL_0118;
       }
       if (Sse41::in::get_IsSupported()) {
         if (!Sse41::in::TestZ(left, right)) {
+          goto IL_020e;
         }
       } else {
         num3 = (UInt32)Sse2::in::MoveMask(Vector128::AsByte(Sse2::in::AddSaturate(left, right2)));
         if ((num3 & 43690) != 0) {
+          goto IL_0222;
         }
       }
       pBuffer += num2;
       left = vector;
+      goto IL_020e;
     }
+    goto IL_0222;
   }
   if ((bufferLength & 4) != 0) {
     _ = UIntPtr::get_Size();
@@ -284,6 +346,7 @@ UIntPtr ASCIIUtility::GetIndexOfFirstNonAsciiChar_Sse2(Char* pBuffer, UIntPtr bu
     if (!AllCharsInUInt64AreAscii(num4)) {
       num4 &= 18410996206198128512;
       pBuffer = (Char*)((Byte*)pBuffer + (UIntPtr)((BitOperations::TrailingZeroCount(num4) >> 3) & ~(?)1));
+      goto IL_01bf;
     }
     pBuffer += 4;
   }
@@ -293,12 +356,65 @@ UIntPtr ASCIIUtility::GetIndexOfFirstNonAsciiChar_Sse2(Char* pBuffer, UIntPtr bu
       if (FirstCharInUInt32IsAscii(value2)) {
         pBuffer++;
       }
+      goto IL_01bf;
     }
     pBuffer += 2;
   }
   if ((bufferLength & 1) != 0 && *pBuffer <= 127) {
     pBuffer++;
   }
+  goto IL_01bf;
+
+IL_015c:
+  pBuffer += num2;
+  goto IL_0166;
+
+IL_01bf:
+  return (UIntPtr)((IntPtr)(UIntPtr)(UIntPtr)(void*)pBuffer - (IntPtr)(UIntPtr)(UIntPtr)(void*)value) / (?)2u;
+
+IL_0222:
+  num3 &= 43690;
+  pBuffer = (Char*)((Byte*)pBuffer + (UInt32)BitOperations::TrailingZeroCount(num3) - 1);
+  goto IL_01bf;
+
+IL_0118:
+  if ((bufferLength & num) != 0) {
+    left = Sse2::in::LoadAlignedVector128((UInt16*)pBuffer);
+    if (Sse41::in::get_IsSupported()) {
+      if (!Sse41::in::TestZ(left, right)) {
+        goto IL_020e;
+      }
+    } else {
+      num3 = (UInt32)Sse2::in::MoveMask(Vector128::AsByte(Sse2::in::AddSaturate(left, right2)));
+      if ((num3 & 43690) != 0) {
+        goto IL_0222;
+      }
+    }
+    goto IL_015c;
+  }
+  goto IL_0166;
+
+IL_0166:
+  if (((Byte)bufferLength & (num - 1)) != 0) {
+    pBuffer = (Char*)((Byte*)pBuffer + (bufferLength & (num - 1)) - num);
+    left = Sse2::in::LoadVector128((UInt16*)pBuffer);
+    if (Sse41::in::get_IsSupported()) {
+      if (!Sse41::in::TestZ(left, right)) {
+        goto IL_020e;
+      }
+    } else {
+      num3 = (UInt32)Sse2::in::MoveMask(Vector128::AsByte(Sse2::in::AddSaturate(left, right2)));
+      if ((num3 & 43690) != 0) {
+        goto IL_0222;
+      }
+    }
+    pBuffer += num2;
+  }
+  goto IL_01bf;
+
+IL_020e:
+  num3 = (UInt32)Sse2::in::MoveMask(Vector128::AsByte(Sse2::in::AddSaturate(left, right2)));
+  goto IL_0222;
 }
 
 void ASCIIUtility::NarrowFourUtf16CharsToAsciiAndWriteToBuffer(Byte& outputBuffer, UInt64 value) {
@@ -346,6 +462,7 @@ UIntPtr ASCIIUtility::NarrowUtf16ToAscii(Char* pUtf16Buffer, Byte* pAsciiBuffer,
       _ = IntPtr::get_Size();
       num4 = Unsafe::ReadUnaligned<UInt64>(pUtf16Buffer);
       if (!AllCharsInUInt64AreAscii(num4)) {
+        goto IL_018b;
       }
       num = NarrowUtf16ToAscii_Sse2(pUtf16Buffer, pAsciiBuffer, elementCount);
     }
@@ -355,6 +472,7 @@ UIntPtr ASCIIUtility::NarrowUtf16ToAscii(Char* pUtf16Buffer, Byte* pAsciiBuffer,
       _ = IntPtr::get_Size();
       num4 = Unsafe::ReadUnaligned<UInt64>(pUtf16Buffer);
       if (!AllCharsInUInt64AreAscii(num4)) {
+        goto IL_018b;
       }
       Vector<UInt16> right = Vector<UInt16>(127);
       UIntPtr num6 = elementCount - 2 * num5;
@@ -373,6 +491,7 @@ UIntPtr ASCIIUtility::NarrowUtf16ToAscii(Char* pUtf16Buffer, Byte* pAsciiBuffer,
 
   UIntPtr num7 = elementCount - num;
   if (num7 < 4) {
+    goto IL_0137;
   }
   UIntPtr num8 = num + num7 - 4;
   while (true) {
@@ -386,7 +505,50 @@ UIntPtr ASCIIUtility::NarrowUtf16ToAscii(Char* pUtf16Buffer, Byte* pAsciiBuffer,
     if (num <= num8) {
       continue;
     }
+    goto IL_0137;
   }
+  goto IL_018b;
+
+IL_018b:
+  _ = IntPtr::get_Size();
+  num2 = (UInt32)((!BitConverter::IsLittleEndian) ? (num4 >> 32) : num4);
+  if (AllCharsInUInt32AreAscii(num2)) {
+    NarrowTwoUtf16CharsToAsciiAndWriteToBuffer(pAsciiBuffer[num], num2);
+    num2 = (UInt32)((!BitConverter::IsLittleEndian) ? num4 : (num4 >> 32));
+    num += 2;
+  }
+  goto IL_01cf;
+
+IL_0189:
+  return num;
+
+IL_01cf:
+  if (FirstCharInUInt32IsAscii(num2)) {
+    if (!BitConverter::IsLittleEndian) {
+      num2 >>= 16;
+    }
+    pAsciiBuffer[num] = (Byte)num2;
+    num++;
+  }
+  goto IL_0189;
+
+IL_0137:
+  if (((Int32)num7 & 2) != 0) {
+    num2 = Unsafe::ReadUnaligned<UInt32>(pUtf16Buffer + num);
+    if (!AllCharsInUInt32AreAscii(num2)) {
+      goto IL_01cf;
+    }
+    NarrowTwoUtf16CharsToAsciiAndWriteToBuffer(pAsciiBuffer[num], num2);
+    num += 2;
+  }
+  if (((Int32)num7 & 1) != 0) {
+    num2 = pUtf16Buffer[num];
+    if (num2 <= 127) {
+      pAsciiBuffer[num] = (Byte)num2;
+      num++;
+    }
+  }
+  goto IL_0189;
 }
 
 UIntPtr ASCIIUtility::NarrowUtf16ToAscii_Sse2(Char* pUtf16Buffer, Byte* pAsciiBuffer, UIntPtr elementCount) {
@@ -407,14 +569,61 @@ UIntPtr ASCIIUtility::NarrowUtf16ToAscii_Sse2(Char* pUtf16Buffer, Byte* pAsciiBu
   Sse2::in::StoreScalar((UInt64*)pAsciiBuffer, Vector128::AsUInt64(vector2));
   UIntPtr num3 = num / 2u;
   if (((UInt32)(Int32)pAsciiBuffer & (num / 2u)) != 0) {
+    goto IL_00e7;
   }
   vector = Sse2::in::LoadVector128((Int16*)(pUtf16Buffer + num3));
   if (Sse41::in::get_IsSupported()) {
     if (Sse41::in::TestZ(vector, right)) {
+      goto IL_00ca;
     }
   } else if ((Sse2::in::MoveMask(Vector128::AsByte(Sse2::in::AddSaturate(Vector128::AsUInt16(vector), right2))) & 43690) == 0) {
+    goto IL_00ca;
   }
 
+  goto IL_0188;
+
+IL_0188:
+  return num3;
+
+IL_00e7:
+  num3 = (UIntPtr)num - (UIntPtr)((IntPtr)(UIntPtr)(UIntPtr)(void*)pAsciiBuffer & (IntPtr)num2);
+  UIntPtr num4 = elementCount - num;
+  do {
+    vector = Sse2::in::LoadVector128((Int16*)(pUtf16Buffer + num3));
+    Vector128<Int16> right3 = Sse2::in::LoadVector128((Int16*)(pUtf16Buffer + num3 + num / 2u));
+    Vector128<Int16> vector3 = Sse2::in::Or(vector, right3);
+    if (Sse41::in::get_IsSupported()) {
+      if (Sse41::in::TestZ(vector3, right)) {
+        goto IL_0160;
+      }
+    } else if ((Sse2::in::MoveMask(Vector128::AsByte(Sse2::in::AddSaturate(Vector128::AsUInt16(vector3), right2))) & 43690) == 0) {
+      goto IL_0160;
+    }
+
+    if (Sse41::in::get_IsSupported()) {
+      if (!Sse41::in::TestZ(vector, right)) {
+        break;
+      }
+    } else if ((Sse2::in::MoveMask(Vector128::AsByte(Sse2::in::AddSaturate(Vector128::AsUInt16(vector), right2))) & 43690) != 0) {
+      break;
+    }
+
+    vector2 = Sse2::in::PackUnsignedSaturate(vector, vector);
+    Sse2::in::StoreScalar((UInt64*)(pAsciiBuffer + num3), Vector128::AsUInt64(vector2));
+    num3 += num / 2u;
+    break;
+
+  IL_0160:
+    vector2 = Sse2::in::PackUnsignedSaturate(vector, right3);
+    Sse2::in::StoreAligned(pAsciiBuffer + num3, vector2);
+    num3 += num;
+  } while (num3 <= num4)
+  goto IL_0188;
+
+IL_00ca:
+  vector2 = Sse2::in::PackUnsignedSaturate(vector, vector);
+  Sse2::in::StoreScalar((UInt64*)(pAsciiBuffer + num3), Vector128::AsUInt64(vector2));
+  goto IL_00e7;
 }
 
 UIntPtr ASCIIUtility::WidenAsciiToUtf16(Byte* pAsciiBuffer, Char* pUtf16Buffer, UIntPtr elementCount) {
@@ -444,6 +653,7 @@ UIntPtr ASCIIUtility::WidenAsciiToUtf16(Byte* pAsciiBuffer, Char* pUtf16Buffer, 
 
   UIntPtr num4 = elementCount - num;
   if (num4 < 4) {
+    goto IL_00d2;
   }
   UIntPtr num5 = num + num4 - 4;
   UInt32 num6;
@@ -457,7 +667,44 @@ UIntPtr ASCIIUtility::WidenAsciiToUtf16(Byte* pAsciiBuffer, Char* pUtf16Buffer, 
     if (num <= num5) {
       continue;
     }
+    goto IL_00d2;
   }
+  goto IL_016a;
+
+IL_016a:
+  while (((Byte)num6 & 128) == 0) {
+    pUtf16Buffer[num] = (Char)(Byte)num6;
+    num++;
+    num6 >>= 8;
+  }
+  goto IL_0155;
+
+IL_0155:
+  return num;
+
+IL_00d2:
+  if (((Int32)num4 & 2) != 0) {
+    num6 = Unsafe::ReadUnaligned<UInt16>(pAsciiBuffer + num);
+    if (!AllBytesInUInt32AreAscii(num6)) {
+      goto IL_016a;
+    }
+    if (BitConverter::IsLittleEndian) {
+      pUtf16Buffer[num] = (Char)(Byte)num6;
+      pUtf16Buffer[num + 1] = (Char)(num6 >> 8);
+    } else {
+      pUtf16Buffer[num + 1] = (Char)(Byte)num6;
+      pUtf16Buffer[num] = (Char)(num6 >> 8);
+    }
+    num += 2;
+  }
+  if (((Int32)num4 & 1) != 0) {
+    num6 = pAsciiBuffer[num];
+    if (((Byte)num6 & 128) == 0) {
+      pUtf16Buffer[num] = (Char)num6;
+      num++;
+    }
+  }
+  goto IL_0155;
 }
 
 UIntPtr ASCIIUtility::WidenAsciiToUtf16_Sse2(Byte* pAsciiBuffer, Char* pUtf16Buffer, UIntPtr elementCount) {

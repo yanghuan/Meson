@@ -104,6 +104,7 @@ Boolean SpanHelpers::Contains(Byte& searchSpace, Byte value, Int32 length) {
     while (num2 != 0) {
       num2--;
       if (value == Unsafe::AddByteOffset(searchSpace, num)) {
+        goto end_IL_00bd;
       }
       num++;
     }
@@ -113,6 +114,7 @@ Boolean SpanHelpers::Contains(Byte& searchSpace, Byte value, Int32 length) {
       for (; num2 > num; num += (UIntPtr)Vector<Byte>::get_Count()) {
         Vector<Byte> other = Vector::Equals(left, LoadVector(searchSpace, num));
         if (!Vector<Byte>::get_Zero().Equals(other)) {
+          goto end_IL_00bd;
         }
       }
       if (num < (UInt32)length) {
@@ -122,6 +124,9 @@ Boolean SpanHelpers::Contains(Byte& searchSpace, Byte value, Int32 length) {
     }
     return false;
     continue;
+
+  end_IL_00bd:
+    break;
   }
   return true;
 }
@@ -141,10 +146,13 @@ Int32 SpanHelpers::IndexOf(Byte& searchSpace, Byte value, Int32 length) {
     if (num2 >= 8) {
       num2 -= 8;
       if (value == Unsafe::AddByteOffset(searchSpace, num)) {
+        goto IL_0332;
       }
       if (value == Unsafe::AddByteOffset(searchSpace, num + 1)) {
+        goto IL_0335;
       }
       if (value == Unsafe::AddByteOffset(searchSpace, num + 2)) {
+        goto IL_033b;
       }
       if (value != Unsafe::AddByteOffset(searchSpace, num + 3)) {
         if (value != Unsafe::AddByteOffset(searchSpace, num + 4)) {
@@ -162,16 +170,21 @@ Int32 SpanHelpers::IndexOf(Byte& searchSpace, Byte value, Int32 length) {
         }
         return (Int32)(num + 4);
       }
+      goto IL_0341;
     }
     if (num2 >= 4) {
       num2 -= 4;
       if (value == Unsafe::AddByteOffset(searchSpace, num)) {
+        goto IL_0332;
       }
       if (value == Unsafe::AddByteOffset(searchSpace, num + 1)) {
+        goto IL_0335;
       }
       if (value == Unsafe::AddByteOffset(searchSpace, num + 2)) {
+        goto IL_033b;
       }
       if (value == Unsafe::AddByteOffset(searchSpace, num + 3)) {
+        goto IL_0341;
       }
       num += 4;
     }
@@ -181,6 +194,7 @@ Int32 SpanHelpers::IndexOf(Byte& searchSpace, Byte value, Int32 length) {
         num++;
         continue;
       }
+      goto IL_0332;
     }
     if (Avx2::in::get_IsSupported()) {
       if (num < (UInt32)length) {
@@ -254,6 +268,18 @@ Int32 SpanHelpers::IndexOf(Byte& searchSpace, Byte value, Int32 length) {
 
 
     return -1;
+
+  IL_0332:
+    return (Int32)num;
+
+  IL_0341:
+    return (Int32)(num + 3);
+
+  IL_033b:
+    return (Int32)(num + 2);
+
+  IL_0335:
+    return (Int32)(num + 1);
   }
   return (Int32)(num + 7);
 }
@@ -305,9 +331,13 @@ Int32 SpanHelpers::LastIndexOf(Byte& searchSpace, Byte value, Int32 length) {
                   if (value != Unsafe::AddByteOffset(searchSpace, num)) {
                     continue;
                   }
+                  goto IL_01ba;
                 }
+                goto IL_01bd;
               }
+              goto IL_01c3;
             }
+            goto IL_01c9;
           }
           return (Int32)(num + 4);
         }
@@ -319,12 +349,16 @@ Int32 SpanHelpers::LastIndexOf(Byte& searchSpace, Byte value, Int32 length) {
       num2 -= 4;
       num -= 4;
       if (value == Unsafe::AddByteOffset(searchSpace, num + 3)) {
+        goto IL_01c9;
       }
       if (value == Unsafe::AddByteOffset(searchSpace, num + 2)) {
+        goto IL_01c3;
       }
       if (value == Unsafe::AddByteOffset(searchSpace, num + 1)) {
+        goto IL_01bd;
       }
       if (value == Unsafe::AddByteOffset(searchSpace, num)) {
+        goto IL_01ba;
       }
     }
     while (num2 != 0) {
@@ -333,6 +367,7 @@ Int32 SpanHelpers::LastIndexOf(Byte& searchSpace, Byte value, Int32 length) {
       if (value != Unsafe::AddByteOffset(searchSpace, num)) {
         continue;
       }
+      goto IL_01ba;
     }
     if (Vector::get_IsHardwareAccelerated() && num != 0) {
       num2 = (num & (UIntPtr)(~(Vector<Byte>::get_Count() - 1)));
@@ -352,6 +387,18 @@ Int32 SpanHelpers::LastIndexOf(Byte& searchSpace, Byte value, Int32 length) {
       }
     }
     return -1;
+
+  IL_01ba:
+    return (Int32)num;
+
+  IL_01c3:
+    return (Int32)(num + 2);
+
+  IL_01c9:
+    return (Int32)(num + 3);
+
+  IL_01bd:
+    return (Int32)(num + 1);
   }
   return (Int32)(num + 7);
 }
@@ -372,12 +419,15 @@ Int32 SpanHelpers::IndexOfAny(Byte& searchSpace, Byte value0, Byte value1, Int32
       num2 -= 8;
       UInt32 num3 = Unsafe::AddByteOffset(searchSpace, num);
       if (value0 == num3 || value1 == num3) {
+        goto IL_03e3;
       }
       num3 = Unsafe::AddByteOffset(searchSpace, num + 1);
       if (value0 == num3 || value1 == num3) {
+        goto IL_03e6;
       }
       num3 = Unsafe::AddByteOffset(searchSpace, num + 2);
       if (value0 == num3 || value1 == num3) {
+        goto IL_03ec;
       }
       num3 = Unsafe::AddByteOffset(searchSpace, num + 3);
       if (value0 != num3 && value1 != num3) {
@@ -400,20 +450,25 @@ Int32 SpanHelpers::IndexOfAny(Byte& searchSpace, Byte value0, Byte value1, Int32
         }
         return (Int32)(num + 4);
       }
+      goto IL_03f2;
     }
     if (num2 >= 4) {
       num2 -= 4;
       UInt32 num3 = Unsafe::AddByteOffset(searchSpace, num);
       if (value0 == num3 || value1 == num3) {
+        goto IL_03e3;
       }
       num3 = Unsafe::AddByteOffset(searchSpace, num + 1);
       if (value0 == num3 || value1 == num3) {
+        goto IL_03e6;
       }
       num3 = Unsafe::AddByteOffset(searchSpace, num + 2);
       if (value0 == num3 || value1 == num3) {
+        goto IL_03ec;
       }
       num3 = Unsafe::AddByteOffset(searchSpace, num + 3);
       if (value0 == num3 || value1 == num3) {
+        goto IL_03f2;
       }
       num += 4;
     }
@@ -424,6 +479,7 @@ Int32 SpanHelpers::IndexOfAny(Byte& searchSpace, Byte value0, Byte value1, Int32
         num++;
         continue;
       }
+      goto IL_03e3;
     }
     if (Avx2::in::get_IsSupported()) {
       if (num < (UInt32)length) {
@@ -493,6 +549,18 @@ Int32 SpanHelpers::IndexOfAny(Byte& searchSpace, Byte value0, Byte value1, Int32
 
 
     return -1;
+
+  IL_03e3:
+    return (Int32)num;
+
+  IL_03e6:
+    return (Int32)(num + 1);
+
+  IL_03f2:
+    return (Int32)(num + 3);
+
+  IL_03ec:
+    return (Int32)(num + 2);
   }
   return (Int32)(num + 7);
 }
@@ -513,12 +581,15 @@ Int32 SpanHelpers::IndexOfAny(Byte& searchSpace, Byte value0, Byte value1, Byte 
       num2 -= 8;
       UInt32 num3 = Unsafe::AddByteOffset(searchSpace, num);
       if (value0 == num3 || value1 == num3 || value2 == num3) {
+        goto IL_04fa;
       }
       num3 = Unsafe::AddByteOffset(searchSpace, num + 1);
       if (value0 == num3 || value1 == num3 || value2 == num3) {
+        goto IL_04fd;
       }
       num3 = Unsafe::AddByteOffset(searchSpace, num + 2);
       if (value0 == num3 || value1 == num3 || value2 == num3) {
+        goto IL_0503;
       }
       num3 = Unsafe::AddByteOffset(searchSpace, num + 3);
       if (value0 != num3 && value1 != num3 && value2 != num3) {
@@ -541,20 +612,25 @@ Int32 SpanHelpers::IndexOfAny(Byte& searchSpace, Byte value0, Byte value1, Byte 
         }
         return (Int32)(num + 4);
       }
+      goto IL_0509;
     }
     if (num2 >= 4) {
       num2 -= 4;
       UInt32 num3 = Unsafe::AddByteOffset(searchSpace, num);
       if (value0 == num3 || value1 == num3 || value2 == num3) {
+        goto IL_04fa;
       }
       num3 = Unsafe::AddByteOffset(searchSpace, num + 1);
       if (value0 == num3 || value1 == num3 || value2 == num3) {
+        goto IL_04fd;
       }
       num3 = Unsafe::AddByteOffset(searchSpace, num + 2);
       if (value0 == num3 || value1 == num3 || value2 == num3) {
+        goto IL_0503;
       }
       num3 = Unsafe::AddByteOffset(searchSpace, num + 3);
       if (value0 == num3 || value1 == num3 || value2 == num3) {
+        goto IL_0509;
       }
       num += 4;
     }
@@ -565,6 +641,7 @@ Int32 SpanHelpers::IndexOfAny(Byte& searchSpace, Byte value0, Byte value1, Byte 
         num++;
         continue;
       }
+      goto IL_04fa;
     }
     if (Avx2::in::get_IsSupported()) {
       if (num < (UInt32)length) {
@@ -647,6 +724,18 @@ Int32 SpanHelpers::IndexOfAny(Byte& searchSpace, Byte value0, Byte value1, Byte 
 
 
     return -1;
+
+  IL_0503:
+    return (Int32)(num + 2);
+
+  IL_0509:
+    return (Int32)(num + 3);
+
+  IL_04fd:
+    return (Int32)(num + 1);
+
+  IL_04fa:
+    return (Int32)num;
   }
   return (Int32)(num + 7);
 }
@@ -681,9 +770,13 @@ Int32 SpanHelpers::LastIndexOfAny(Byte& searchSpace, Byte value0, Byte value1, I
                   if (value0 != num3 && value1 != num3) {
                     continue;
                   }
+                  goto IL_027c;
                 }
+                goto IL_027f;
               }
+              goto IL_0285;
             }
+            goto IL_028b;
           }
           return (Int32)(num + 4);
         }
@@ -696,15 +789,19 @@ Int32 SpanHelpers::LastIndexOfAny(Byte& searchSpace, Byte value0, Byte value1, I
       num -= 4;
       UInt32 num3 = Unsafe::AddByteOffset(searchSpace, num + 3);
       if (value0 == num3 || value1 == num3) {
+        goto IL_028b;
       }
       num3 = Unsafe::AddByteOffset(searchSpace, num + 2);
       if (value0 == num3 || value1 == num3) {
+        goto IL_0285;
       }
       num3 = Unsafe::AddByteOffset(searchSpace, num + 1);
       if (value0 == num3 || value1 == num3) {
+        goto IL_027f;
       }
       num3 = Unsafe::AddByteOffset(searchSpace, num);
       if (value0 == num3 || value1 == num3) {
+        goto IL_027c;
       }
     }
     while (num2 != 0) {
@@ -714,6 +811,7 @@ Int32 SpanHelpers::LastIndexOfAny(Byte& searchSpace, Byte value0, Byte value1, I
       if (value0 != num3 && value1 != num3) {
         continue;
       }
+      goto IL_027c;
     }
     if (Vector::get_IsHardwareAccelerated() && num != 0) {
       num2 = (num & (UIntPtr)(~(Vector<Byte>::get_Count() - 1)));
@@ -735,6 +833,18 @@ Int32 SpanHelpers::LastIndexOfAny(Byte& searchSpace, Byte value0, Byte value1, I
       }
     }
     return -1;
+
+  IL_027c:
+    return (Int32)num;
+
+  IL_028b:
+    return (Int32)(num + 3);
+
+  IL_027f:
+    return (Int32)(num + 1);
+
+  IL_0285:
+    return (Int32)(num + 2);
   }
   return (Int32)(num + 7);
 }
@@ -769,9 +879,13 @@ Int32 SpanHelpers::LastIndexOfAny(Byte& searchSpace, Byte value0, Byte value1, B
                   if (value0 != num3 && value1 != num3 && value2 != num3) {
                     continue;
                   }
+                  goto IL_0310;
                 }
+                goto IL_0313;
               }
+              goto IL_0319;
             }
+            goto IL_031f;
           }
           return (Int32)(num + 4);
         }
@@ -784,15 +898,19 @@ Int32 SpanHelpers::LastIndexOfAny(Byte& searchSpace, Byte value0, Byte value1, B
       num -= 4;
       UInt32 num3 = Unsafe::AddByteOffset(searchSpace, num + 3);
       if (value0 == num3 || value1 == num3 || value2 == num3) {
+        goto IL_031f;
       }
       num3 = Unsafe::AddByteOffset(searchSpace, num + 2);
       if (value0 == num3 || value1 == num3 || value2 == num3) {
+        goto IL_0319;
       }
       num3 = Unsafe::AddByteOffset(searchSpace, num + 1);
       if (value0 == num3 || value1 == num3 || value2 == num3) {
+        goto IL_0313;
       }
       num3 = Unsafe::AddByteOffset(searchSpace, num);
       if (value0 == num3 || value1 == num3 || value2 == num3) {
+        goto IL_0310;
       }
     }
     while (num2 != 0) {
@@ -802,6 +920,7 @@ Int32 SpanHelpers::LastIndexOfAny(Byte& searchSpace, Byte value0, Byte value1, B
       if (value0 != num3 && value1 != num3 && value2 != num3) {
         continue;
       }
+      goto IL_0310;
     }
     if (Vector::get_IsHardwareAccelerated() && num != 0) {
       num2 = (num & (UIntPtr)(~(Vector<Byte>::get_Count() - 1)));
@@ -824,6 +943,18 @@ Int32 SpanHelpers::LastIndexOfAny(Byte& searchSpace, Byte value0, Byte value1, B
       }
     }
     return -1;
+
+  IL_0310:
+    return (Int32)num;
+
+  IL_031f:
+    return (Int32)(num + 3);
+
+  IL_0319:
+    return (Int32)(num + 2);
+
+  IL_0313:
+    return (Int32)(num + 1);
   }
   return (Int32)(num + 7);
 }
@@ -848,6 +979,7 @@ Boolean SpanHelpers::SequenceEqual(Byte& first, Byte& second, UIntPtr length) {
     return num3 == 0;
   }
   if (Unsafe::AreSame(first, second)) {
+    goto IL_0087;
   }
   UIntPtr num5;
   UIntPtr num7;
@@ -859,6 +991,7 @@ Boolean SpanHelpers::SequenceEqual(Byte& first, Byte& second, UIntPtr length) {
       UIntPtr num4 = 0u;
       num5 = length - (UIntPtr)Vector256<Byte>::get_Count();
       if (num5 == 0) {
+        goto IL_00ea;
       }
       while (true) {
         value = Avx2::in::CompareEqual(LoadVector256(first, num4), LoadVector256(second, num4));
@@ -869,13 +1002,16 @@ Boolean SpanHelpers::SequenceEqual(Byte& first, Byte& second, UIntPtr length) {
         if (num5 > num4) {
           continue;
         }
+        goto IL_00ea;
       }
     } else {
       if (length < 16) {
+        goto IL_01fc;
       }
       UIntPtr num6 = 0u;
       num7 = length - 16;
       if (num7 == 0) {
+        goto IL_0161;
       }
       while (true) {
         value2 = Sse2::in::CompareEqual(LoadVector128(first, num6), LoadVector128(second, num6));
@@ -886,22 +1022,78 @@ Boolean SpanHelpers::SequenceEqual(Byte& first, Byte& second, UIntPtr length) {
         if (num7 > num6) {
           continue;
         }
+        goto IL_0161;
       }
     }
   } else {
     if (!Vector::get_IsHardwareAccelerated() || length < (UIntPtr)Vector<Byte>::get_Count()) {
+      goto IL_01fc;
     }
     UIntPtr num8 = 0u;
     num9 = length - (UIntPtr)Vector<Byte>::get_Count();
     if (num9 == 0) {
+      goto IL_01dd;
     }
     while (!(LoadVector(first, num8) != LoadVector(second, num8))) {
       num8 += (UIntPtr)Vector<Byte>::get_Count();
       if (num9 > num8) {
         continue;
       }
+      goto IL_01dd;
     }
   }
+  goto IL_0290;
+
+IL_0290:
+  return false;
+
+IL_01dd:
+  if (LoadVector(first, num9) == LoadVector(second, num9)) {
+    goto IL_0087;
+  }
+  goto IL_0290;
+
+IL_0278:
+  UIntPtr num10;
+  return LoadNUInt(first, num10) == LoadNUInt(second, num10);
+
+IL_01fc:
+  if (Sse2::in::get_IsSupported()) {
+    UIntPtr offset2 = length - (UIntPtr)sizeof(UIntPtr);
+    UIntPtr num11 = LoadNUInt(first) - LoadNUInt(second);
+    num11 |= LoadNUInt(first, offset2) - LoadNUInt(second, offset2);
+    return num11 == 0;
+  }
+  UIntPtr num12 = 0u;
+  num10 = length - (UIntPtr)sizeof(UIntPtr);
+  if (num10 == 0) {
+    goto IL_0278;
+  }
+  while (LoadNUInt(first, num12) == LoadNUInt(second, num12)) {
+    num12 += (UIntPtr)sizeof(UIntPtr);
+    if (num10 > num12) {
+      continue;
+    }
+    goto IL_0278;
+  }
+  goto IL_0290;
+
+IL_00ea:
+  value = Avx2::in::CompareEqual(LoadVector256(first, num5), LoadVector256(second, num5));
+  if (Avx2::in::MoveMask(value) == -1) {
+    goto IL_0087;
+  }
+  goto IL_0290;
+
+IL_0087:
+  return true;
+
+IL_0161:
+  value2 = Sse2::in::CompareEqual(LoadVector128(first, num7), LoadVector128(second, num7));
+  if (Sse2::in::MoveMask(value2) == 65535) {
+    goto IL_0087;
+  }
+  goto IL_0290;
 }
 
 Int32 SpanHelpers::LocateFirstFoundByte(Vector<Byte> match) {
@@ -949,12 +1141,15 @@ Int32 SpanHelpers::SequenceCompareTo(Byte& first, Int32 firstLength, Byte& secon
             num2 += (UInt32)BitOperations::TrailingZeroCount(value);
             return Unsafe::AddByteOffset(first, num2).CompareTo(Unsafe::AddByteOffset(second, num2));
           }
+          goto IL_0277;
         }
       } else if (Vector::get_IsHardwareAccelerated() && num3 > (UIntPtr)Vector<Byte>::get_Count()) {
         for (num3 -= (UIntPtr)Vector<Byte>::get_Count(); num3 > num2 && !(LoadVector(first, num2) != LoadVector(second, num2)); num2 += (UIntPtr)Vector<Byte>::get_Count()) {
         }
+        goto IL_0273;
       }
 
+      goto IL_021b;
     }
     if (num3 >= (UIntPtr)Vector256<Byte>::get_Count()) {
       num3 -= (UIntPtr)Vector256<Byte>::get_Count();
@@ -979,19 +1174,47 @@ Int32 SpanHelpers::SequenceCompareTo(Byte& first, Int32 firstLength, Byte& secon
       }
     } else {
       if (num3 < (UIntPtr)Vector128<Byte>::get_Count()) {
+        goto IL_021b;
       }
       num3 -= (UIntPtr)Vector128<Byte>::get_Count();
       if (num3 > num2) {
         num6 = (UInt32)Sse2::in::MoveMask(Sse2::in::CompareEqual(LoadVector128(first, num2), LoadVector128(second, num2)));
         if (num6 != 65535) {
+          goto IL_0111;
         }
       }
       num2 = num3;
       num6 = (UInt32)Sse2::in::MoveMask(Sse2::in::CompareEqual(LoadVector128(first, num2), LoadVector128(second, num2)));
       if (num6 != 65535) {
+        goto IL_0111;
       }
     }
   }
+  goto IL_0277;
+
+IL_021b:
+  if (num3 > (UIntPtr)sizeof(UIntPtr)) {
+    for (num3 -= (UIntPtr)sizeof(UIntPtr); num3 > num2 && LoadNUInt(first, num2) == LoadNUInt(second, num2); num2 += (UIntPtr)sizeof(UIntPtr)) {
+    }
+  }
+  goto IL_0273;
+
+IL_0111:
+  UInt32 value3 = ~num6;
+  num2 += (UInt32)BitOperations::TrailingZeroCount(value3);
+  return Unsafe::AddByteOffset(first, num2).CompareTo(Unsafe::AddByteOffset(second, num2));
+
+IL_0273:
+  for (; num > num2; num2++) {
+    Int32 num7 = Unsafe::AddByteOffset(first, num2).CompareTo(Unsafe::AddByteOffset(second, num2));
+    if (num7 != 0) {
+      return num7;
+    }
+  }
+  goto IL_0277;
+
+IL_0277:
+  return firstLength - secondLength;
 }
 
 Int32 SpanHelpers::LocateLastFoundByte(Vector<Byte> match) {
@@ -1154,6 +1377,7 @@ Boolean SpanHelpers::Contains(Char& searchSpace, Char value, Int32 length) {
       while (length > 0) {
         length--;
         if (value == *ptr2) {
+          goto end_IL_0079;
         }
         ptr2++;
       }
@@ -1163,6 +1387,7 @@ Boolean SpanHelpers::Contains(Char& searchSpace, Char value, Int32 length) {
         while (length > 0) {
           Vector<UInt16> other = Vector::Equals(left, Unsafe::Read<Vector<UInt16>>(ptr2));
           if (!Vector<UInt16>::get_Zero().Equals(other)) {
+            goto end_IL_0079;
           }
           ptr2 += Vector<UInt16>::get_Count();
           length -= Vector<UInt16>::get_Count();
@@ -1174,6 +1399,9 @@ Boolean SpanHelpers::Contains(Char& searchSpace, Char value, Int32 length) {
       }
       return false;
       continue;
+
+    end_IL_0079:
+      break;
     }
     return true;
   }
@@ -1213,6 +1441,7 @@ Int32 SpanHelpers::IndexOf(Char& searchSpace, Char value, Int32 length) {
     }
     while (num2 > 0) {
       if (value == Unsafe::Add(searchSpace, num)) {
+        goto end_IL_0089;
       }
       num++;
       num2--;
@@ -1301,6 +1530,9 @@ Int32 SpanHelpers::IndexOf(Char& searchSpace, Char value, Int32 length) {
 
     return -1;
     continue;
+
+  end_IL_0089:
+    break;
   }
   return (Int32)num;
 }
@@ -1336,6 +1568,7 @@ Int32 SpanHelpers::IndexOfAny(Char& searchSpace, Char value0, Char value1, Int32
       while (length > 0) {
         length--;
         if (*ptr2 == value0 || *ptr2 == value1) {
+          goto end_IL_00ab;
         }
         ptr2++;
       }
@@ -1360,6 +1593,9 @@ Int32 SpanHelpers::IndexOfAny(Char& searchSpace, Char value0, Char value1, Int32
       }
       return -1;
       continue;
+
+    end_IL_00ab:
+      break;
     }
     return (Int32)(ptr2 - ptr);
   }
@@ -1396,6 +1632,7 @@ Int32 SpanHelpers::IndexOfAny(Char& searchSpace, Char value0, Char value1, Char 
       while (length > 0) {
         length--;
         if (*ptr2 == value0 || *ptr2 == value1 || *ptr2 == value2) {
+          goto end_IL_00dd;
         }
         ptr2++;
       }
@@ -1421,6 +1658,9 @@ Int32 SpanHelpers::IndexOfAny(Char& searchSpace, Char value0, Char value1, Char 
       }
       return -1;
       continue;
+
+    end_IL_00dd:
+      break;
     }
     return (Int32)(ptr2 - ptr);
   }
@@ -1457,6 +1697,7 @@ Int32 SpanHelpers::IndexOfAny(Char& searchSpace, Char value0, Char value1, Char 
       while (length > 0) {
         length--;
         if (*ptr2 == value0 || *ptr2 == value1 || *ptr2 == value2 || *ptr2 == value3) {
+          goto end_IL_010d;
         }
         ptr2++;
       }
@@ -1483,6 +1724,9 @@ Int32 SpanHelpers::IndexOfAny(Char& searchSpace, Char value0, Char value1, Char 
       }
       return -1;
       continue;
+
+    end_IL_010d:
+      break;
     }
     return (Int32)(ptr2 - ptr);
   }
@@ -1519,6 +1763,7 @@ Int32 SpanHelpers::IndexOfAny(Char& searchSpace, Char value0, Char value1, Char 
       while (length > 0) {
         length--;
         if (*ptr2 == value0 || *ptr2 == value1 || *ptr2 == value2 || *ptr2 == value3 || *ptr2 == value4) {
+          goto end_IL_013d;
         }
         ptr2++;
       }
@@ -1546,6 +1791,9 @@ Int32 SpanHelpers::IndexOfAny(Char& searchSpace, Char value0, Char value1, Char 
       }
       return -1;
       continue;
+
+    end_IL_013d:
+      break;
     }
     return (Int32)(ptr2 - ptr);
   }
@@ -1571,6 +1819,7 @@ Int32 SpanHelpers::LastIndexOf(Char& searchSpace, Char value, Int32 length) {
             if (*ptr2 != value) {
               continue;
             }
+            goto IL_011d;
           }
           return (Int32)(ptr2 - ptr3) + 1;
         }
@@ -1582,6 +1831,7 @@ Int32 SpanHelpers::LastIndexOf(Char& searchSpace, Char value, Int32 length) {
         if (*ptr2 != value) {
           continue;
         }
+        goto IL_011d;
       }
       if (Vector::get_IsHardwareAccelerated() && ptr2 > ptr3) {
         length = (Int32)((ptr2 - ptr3) & ~(Vector<UInt16>::get_Count() - 1));
@@ -1602,6 +1852,9 @@ Int32 SpanHelpers::LastIndexOf(Char& searchSpace, Char value, Int32 length) {
         }
       }
       return -1;
+
+    IL_011d:
+      return (Int32)(ptr2 - ptr3);
     }
     return (Int32)(ptr2 - ptr3) + 3;
   }
@@ -1698,6 +1951,7 @@ void SpanHelpers::ClearWithReferences(IntPtr& ip, UIntPtr pointerSizeLength) {
       if (pointerSizeLength == 0) {
         return;
       }
+      goto IL_012f;
     }
   } else {
     Unsafe::Add(ip, 2) = IntPtr();
@@ -1707,6 +1961,10 @@ void SpanHelpers::ClearWithReferences(IntPtr& ip, UIntPtr pointerSizeLength) {
   }
   Unsafe::Add(ip, 1) = IntPtr();
   Unsafe::Add(Unsafe::Add(ip, (IntPtr)pointerSizeLength), -1) = IntPtr();
+  goto IL_012f;
+
+IL_012f:
+  ip = IntPtr();
 }
 
 } // namespace System::Private::CoreLib::System::SpanHelpersNamespace

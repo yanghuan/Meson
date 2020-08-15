@@ -1,6 +1,7 @@
 #include "Utf16Utility-dep.h"
 
 #include <System.Private.CoreLib/Internal/Runtime/CompilerServices/Unsafe-dep.h>
+#include <System.Private.CoreLib/System/BitConverter-dep.h>
 #include <System.Private.CoreLib/System/Int16-dep.h>
 #include <System.Private.CoreLib/System/Int32-dep.h>
 #include <System.Private.CoreLib/System/Int64-dep.h>
@@ -11,6 +12,7 @@
 #include <System.Private.CoreLib/System/Runtime/Intrinsics/X86/Sse2-dep.h>
 #include <System.Private.CoreLib/System/Runtime/Intrinsics/X86/Sse41-dep.h>
 #include <System.Private.CoreLib/System/Text/ASCIIUtility-dep.h>
+#include <System.Private.CoreLib/System/Text/UnicodeUtility-dep.h>
 #include <System.Private.CoreLib/System/UInt16-dep.h>
 #include <System.Private.CoreLib/System/UIntPtr-dep.h>
 
@@ -157,6 +159,7 @@ Char* Utf16Utility::GetPointerToFirstInvalidChar(Char* pInputBuffer, Int32 input
             num12++;
             continue;
           }
+          goto IL_03c1;
         }
         if (right9[Vector<UInt16>::get_Count() - 1] != 0) {
           pInputBuffer--;
@@ -174,9 +177,42 @@ Char* Utf16Utility::GetPointerToFirstInvalidChar(Char* pInputBuffer, Int32 input
       if (inputLength >= Vector<UInt16>::get_Count()) {
         continue;
       }
+      goto IL_03c1;
     }
+    goto IL_03c5;
   }
 
+  goto IL_03c1;
+
+IL_03c1:
+  while (inputLength > 0) {
+    UInt32 num14 = *pInputBuffer;
+    if (num14 > 127) {
+      num2 += num14 + 129024 >> 16;
+      if (UnicodeUtility::IsSurrogateCodePoint(num14)) {
+        num2 -= 2;
+        if (inputLength == 1) {
+          break;
+        }
+        num14 = Unsafe::ReadUnaligned<UInt32>(pInputBuffer);
+        if ((((Int32)num14 - (BitConverter::IsLittleEndian ? (-603924480) : (-671032320))) & -67044352) != 0) {
+          break;
+        }
+        num3--;
+        num2 += 2;
+        pInputBuffer++;
+        inputLength--;
+      }
+    }
+    pInputBuffer++;
+    inputLength--;
+  }
+  goto IL_03c5;
+
+IL_03c5:
+  utf8CodeUnitCountAdjustment = num2;
+  scalarCountAdjustment = num3;
+  return pInputBuffer;
 }
 
 } // namespace System::Private::CoreLib::System::Text::Unicode::Utf16UtilityNamespace

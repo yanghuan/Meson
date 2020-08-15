@@ -565,6 +565,7 @@ Int32 UnicodeEncoding___::GetChars(Byte* bytes, Int32 byteCount, Char* chars, In
         if (num >= 0) {
           bytes++;
         }
+        goto IL_04ea;
       }
       c = 0;
     }
@@ -586,6 +587,15 @@ Int32 UnicodeEncoding___::GetChars(Byte* bytes, Int32 byteCount, Char* chars, In
       }
     }
   }
+  goto IL_04ea;
+
+IL_04ea:
+  if (decoder != nullptr) {
+    decoder->_bytesUsed = (Int32)(bytes - ptr3);
+    decoder->lastChar = c;
+    decoder->lastByte = num;
+  }
+  return (Int32)(chars - ptr4);
 }
 
 Encoder UnicodeEncoding___::GetEncoder() {

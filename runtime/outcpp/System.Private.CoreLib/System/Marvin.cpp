@@ -51,6 +51,7 @@ Int32 Marvin::ComputeHash32(Byte& data, UInt32 count, UInt32 p0, UInt32 p1) {
           num = BitOperations::RotateLeft(num, 16);
         }
       }
+      goto IL_00bd;
     }
   } else {
     UInt32 num2 = count / 8u;
@@ -63,10 +64,32 @@ Int32 Marvin::ComputeHash32(Byte& data, UInt32 count, UInt32 p0, UInt32 p1) {
       data = Unsafe::AddByteOffset(data, 8u);
     } while (--num2 != 0)
     if ((count & 4) == 0) {
+      goto IL_006a;
     }
   }
   p0 += Unsafe::ReadUnaligned<UInt32>(data);
   Block(p0, p1);
+  goto IL_006a;
+
+IL_006a:
+  num = Unsafe::ReadUnaligned<UInt32>(Unsafe::Add(Unsafe::AddByteOffset(data, (UIntPtr)count & (?)7u), -4));
+  count = ~count << 3;
+  if (BitConverter::IsLittleEndian) {
+    num >>= 8;
+    num |= 2147483648u;
+    num >>= (Int32)(count & 31);
+  } else {
+    num <<= 8;
+    num |= 128;
+    num <<= (Int32)(count & 31);
+  }
+  goto IL_00bd;
+
+IL_00bd:
+  p0 += num;
+  Block(p0, p1);
+  Block(p0, p1);
+  return (Int32)(p1 ^ p0);
 }
 
 void Marvin::Block(UInt32& rp0, UInt32& rp1) {

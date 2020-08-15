@@ -8,9 +8,11 @@
 #include <System.Private.CoreLib/System/FormatException-dep.h>
 #include <System.Private.CoreLib/System/GC-dep.h>
 #include <System.Private.CoreLib/System/ICustomFormatter.h>
+#include <System.Private.CoreLib/System/IFormattable.h>
 #include <System.Private.CoreLib/System/IndexOutOfRangeException-dep.h>
 #include <System.Private.CoreLib/System/Int32-dep.h>
 #include <System.Private.CoreLib/System/Int64-dep.h>
+#include <System.Private.CoreLib/System/ISpanFormattable.h>
 #include <System.Private.CoreLib/System/Math-dep.h>
 #include <System.Private.CoreLib/System/MemoryExtensions-dep.h>
 #include <System.Private.CoreLib/System/OutOfMemoryException-dep.h>
@@ -1037,12 +1039,152 @@ StringBuilder StringBuilder___::AppendFormatHelper(IFormatProvider provider, Str
       } else if (c == 123) {
         if (num >= length || format[num] != 123) {
           num--;
+          goto IL_008f;
         }
         num++;
       }
 
       Append(c);
       continue;
+    }
+    goto IL_008f;
+
+  IL_008f:
+    if (num == length) {
+      break;
+    }
+    num++;
+    if (num == length || (c = format[num]) < 48 || c > 57) {
+      FormatError();
+    }
+    Int32 num2 = 0;
+    do {
+      num2 = num2 * 10 + c - 48;
+      num++;
+      if (num == length) {
+        FormatError();
+      }
+      c = format[num];
+    } while (c >= 48 && c <= 57 && num2 < 1000000)
+    if (num2 >= args.get_Length()) {
+      rt::throw_exception<FormatException>(SR::get_Format_IndexOutOfRange());
+    }
+    for (; num < length; num++) {
+      if ((c = format[num]) != 32) {
+        break;
+      }
+    }
+    Boolean flag = false;
+    Int32 num3 = 0;
+    if (c == 44) {
+      for (num++; num < length && format[num] == 32; num++) {
+      }
+      if (num == length) {
+        FormatError();
+      }
+      c = format[num];
+      if (c == 45) {
+        flag = true;
+        num++;
+        if (num == length) {
+          FormatError();
+        }
+        c = format[num];
+      }
+      if (c < 48 || c > 57) {
+        FormatError();
+      }
+      do {
+        num3 = num3 * 10 + c - 48;
+        num++;
+        if (num == length) {
+          FormatError();
+        }
+        c = format[num];
+      } while (c >= 48 && c <= 57 && num3 < 1000000)
+    }
+    for (; num < length; num++) {
+      if ((c = format[num]) != 32) {
+        break;
+      }
+    }
+    Object obj = args[num2];
+    ReadOnlySpan<Char> readOnlySpan = ReadOnlySpan<T>();
+    switch (c.get()) {
+      case 58:
+        {
+          num++;
+          Int32 num4 = num;
+          while (true) {
+            if (num == length) {
+              FormatError();
+            }
+            c = format[num];
+            switch (c.get()) {
+              case 123:
+                FormatError();
+                goto IL_0205;
+              default:
+                goto IL_0205;
+              case 125:
+                break;
+            }
+            break;
+
+          IL_0205:
+            num++;
+          }
+          if (num > num4) {
+            readOnlySpan = MemoryExtensions::AsSpan(format, num4, num - num4);
+          }
+          break;
+        }default:
+        FormatError();
+        break;
+      case 125:
+        break;
+    }
+    num++;
+    String text = nullptr;
+    String text2 = nullptr;
+    if (customFormatter != nullptr) {
+      if (readOnlySpan.get_Length() != 0) {
+        text2 = rt::newobj<String>(readOnlySpan);
+      }
+      text = customFormatter->Format(text2, obj, provider);
+    }
+    if (text == nullptr) {
+      ISpanFormattable spanFormattable = rt::as<ISpanFormattable>(obj);
+      Int32 charsWritten;
+      if (spanFormattable != nullptr && (flag || num3 == 0) && spanFormattable->TryFormat(get_RemainingCurrentChunk(), charsWritten, readOnlySpan, provider)) {
+        m_ChunkLength += charsWritten;
+        Int32 num5 = num3 - charsWritten;
+        if (flag && num5 > 0) {
+          Append(32, num5);
+        }
+        continue;
+      }
+      IFormattable formattable = rt::as<IFormattable>(obj);
+      if (formattable != nullptr) {
+        if (readOnlySpan.get_Length() != 0 && text2 == nullptr) {
+          text2 = rt::newobj<String>(readOnlySpan);
+        }
+        text = formattable->ToString(text2, provider);
+      } else if (obj != nullptr) {
+        text = obj->ToString();
+      }
+
+    }
+    if (text == nullptr) {
+      text = String::in::Empty;
+    }
+    Int32 num6 = num3 - text->get_Length();
+    if (!flag && num6 > 0) {
+      Append(32, num6);
+    }
+    Append(text);
+    if (flag && num6 > 0) {
+      Append(32, num6);
     }
   }
   return (StringBuilder)this;

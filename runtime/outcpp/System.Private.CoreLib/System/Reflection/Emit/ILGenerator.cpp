@@ -230,6 +230,48 @@ void ILGenerator___::Emit(OpCode opcode, Int16 arg) {
 void ILGenerator___::Emit(OpCode opcode, Int32 arg) {
   if (opcode.Equals(OpCodes::in::Ldc_I4)) {
     OpCode opCode;
+    switch (arg.get()) {
+      case -1:
+        opCode = OpCodes::in::Ldc_I4_M1;
+        goto IL_009b;
+      case 0:
+        opCode = OpCodes::in::Ldc_I4_0;
+        goto IL_009b;
+      case 1:
+        opCode = OpCodes::in::Ldc_I4_1;
+        goto IL_009b;
+      case 2:
+        opCode = OpCodes::in::Ldc_I4_2;
+        goto IL_009b;
+      case 3:
+        opCode = OpCodes::in::Ldc_I4_3;
+        goto IL_009b;
+      case 4:
+        opCode = OpCodes::in::Ldc_I4_4;
+        goto IL_009b;
+      case 5:
+        opCode = OpCodes::in::Ldc_I4_5;
+        goto IL_009b;
+      case 6:
+        opCode = OpCodes::in::Ldc_I4_6;
+        goto IL_009b;
+      case 7:
+        opCode = OpCodes::in::Ldc_I4_7;
+        goto IL_009b;
+      case 8:
+        {
+          opCode = OpCodes::in::Ldc_I4_8;
+          goto IL_009b;
+        }
+      IL_009b:
+        opcode = opCode;
+        Emit(opcode);
+        return;
+    }
+    if (arg >= -128 && arg <= 127) {
+      Emit(OpCodes::in::Ldc_I4_S, (SByte)arg);
+      return;
+    }
   } else if (opcode.Equals(OpCodes::in::Ldarg)) {
     if ((UInt32)arg <= 3u) {
       OpCode opCode;

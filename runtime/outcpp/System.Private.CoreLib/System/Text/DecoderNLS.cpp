@@ -183,6 +183,31 @@ Int32 DecoderNLS___::DrainLeftoverDataForGetChars(ReadOnlySpan<Byte> bytes, Span
   Boolean flag = false;
   Rune value;
   Int32 bytesConsumed2;
+  switch (_encoding->DecodeFirstRune(span2, value, bytesConsumed2)) {
+    case OperationStatus::Done:
+      if (!value.TryEncodeToUtf16(chars, charsWritten)) {
+        break;
+      }
+      goto IL_00aa;
+    case OperationStatus::NeedMoreData:
+      if (get_MustFlush()) {
+      }
+      flag = true;
+      goto IL_00aa;
+    default:
+      {
+      }
+    IL_00aa:
+      bytesConsumed = bytesConsumed2 - _leftoverByteCount;
+      if (flag) {
+        SetLeftoverData(span2);
+      } else {
+        ClearLeftoverData();
+      }
+      return charsWritten;
+  }
+  _encoding->ThrowCharsOverflow((DecoderNLS)this, true);
+  rt::throw_exception(nullptr);
 }
 
 Int32 DecoderNLS___::ConcatInto(ReadOnlySpan<Byte> srcLeft, ReadOnlySpan<Byte> srcRight, Span<Byte> dest) {

@@ -25,27 +25,45 @@ Boolean Utf8Formatter::TryFormat(Boolean value, Span<Byte> destination, Int32& b
   if (value) {
     if (symbolOrDefault == 71) {
       if (BinaryPrimitives::TryWriteUInt32BigEndian(destination, 1416787301u)) {
+        goto IL_0033;
       }
     } else {
       if (symbolOrDefault != 108) {
+        goto IL_0083;
       }
       if (BinaryPrimitives::TryWriteUInt32BigEndian(destination, 1953658213u)) {
+        goto IL_0033;
       }
     }
   } else if (symbolOrDefault == 71) {
     if (4u < (UInt32)destination.get_Length()) {
       BinaryPrimitives::WriteUInt32BigEndian(destination, 1180789875u);
+      goto IL_006e;
     }
   } else {
     if (symbolOrDefault != 108) {
+      goto IL_0083;
     }
     if (4u < (UInt32)destination.get_Length()) {
       BinaryPrimitives::WriteUInt32BigEndian(destination, 1717660787u);
+      goto IL_006e;
     }
   }
 
   bytesWritten = 0;
   return false;
+
+IL_0033:
+  bytesWritten = 4;
+  return true;
+
+IL_0083:
+  return FormattingHelpers::TryFormatThrowFormatException(bytesWritten);
+
+IL_006e:
+  destination[4] = 101;
+  bytesWritten = 5;
+  return true;
 }
 
 Boolean Utf8Formatter::TryFormat(DateTimeOffset value, Span<Byte> destination, Int32& bytesWritten, StandardFormat format) {
@@ -820,6 +838,89 @@ Boolean Utf8Formatter::TryFormat(TimeSpan value, Span<Byte> destination, Int32& 
   UInt64 modulo;
   num2 = FormattingHelpers::DivMod((UInt64)Math::Abs(value.get_Ticks()), 10000000, modulo);
   valueWithoutTrailingZeros = (UInt32)modulo;
+  goto IL_0082;
+
+IL_0082:
+  Int32 num3 = 0;
+  switch (c.get()) {
+    case 99:
+      if (valueWithoutTrailingZeros != 0) {
+        num3 = 7;
+      }
+      break;
+    case 71:
+      num3 = 7;
+      break;
+    default:
+      if (valueWithoutTrailingZeros != 0) {
+        num3 = 7 - FormattingHelpers::CountDecimalTrailingZeros(valueWithoutTrailingZeros, valueWithoutTrailingZeros);
+      }
+      break;
+  }
+  if (num3 != 0) {
+    num += num3 + 1;
+  }
+  UInt64 num4 = 0;
+  UInt64 modulo2 = 0;
+  if (num2 != 0) {
+    num4 = FormattingHelpers::DivMod(num2, 60, modulo2);
+  }
+  UInt64 num5 = 0;
+  UInt64 modulo3 = 0;
+  if (num4 != 0) {
+    num5 = FormattingHelpers::DivMod(num4, 60, modulo3);
+  }
+  UInt32 num6 = 0u;
+  UInt32 modulo4 = 0u;
+  if (num5 != 0) {
+    num6 = FormattingHelpers::DivMod((UInt32)num5, 24u, modulo4);
+  }
+  Int32 num7 = 2;
+  if (modulo4 < 10 && c == 103) {
+    num7--;
+    num--;
+  }
+  Int32 num8 = 0;
+  if (num6 == 0) {
+    if (c == 71) {
+      num += 2;
+      num8 = 1;
+    }
+  } else {
+    num8 = FormattingHelpers::CountDigits(num6);
+    num += num8 + 1;
+  }
+  if (value.get_Ticks() < 0) {
+    num++;
+  }
+  if (destination.get_Length() < num) {
+    bytesWritten = 0;
+    return false;
+  }
+  bytesWritten = num;
+  Int32 num9 = 0;
+  if (value.get_Ticks() < 0) {
+    destination[num9++] = 45;
+  }
+  if (num8 > 0) {
+    FormattingHelpers::WriteDigits(num6, destination.Slice(num9, num8));
+    num9 += num8;
+    destination[num9++] = (Byte)((c == 99) ? 46 : 58);
+  }
+  FormattingHelpers::WriteDigits(modulo4, destination.Slice(num9, num7));
+  num9 += num7;
+  destination[num9++] = 58;
+  FormattingHelpers::WriteDigits((UInt32)modulo3, destination.Slice(num9, 2));
+  num9 += 2;
+  destination[num9++] = 58;
+  FormattingHelpers::WriteDigits((UInt32)modulo2, destination.Slice(num9, 2));
+  num9 += 2;
+  if (num3 > 0) {
+    destination[num9++] = 46;
+    FormattingHelpers::WriteDigits(valueWithoutTrailingZeros, destination.Slice(num9, num3));
+    num9 += num3;
+  }
+  return true;
 }
 
 void Utf8Formatter::cctor() {

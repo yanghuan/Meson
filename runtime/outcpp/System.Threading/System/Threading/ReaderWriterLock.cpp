@@ -574,17 +574,23 @@ void ReaderWriterLock___::RestoreLock(LockCookie& lockCookie) {
         _writerID = currentThreadID;
         _writerLevel = lockCookie._writerLevel;
         _writerSeqNum++;
+        goto IL_00e5;
       }
     } else if ((flags & LockCookieFlags::OwnedReader) != 0) {
       ThreadLocalLockEntry orCreateCurrent = ThreadLocalLockEntry::in::GetOrCreateCurrent(_lockID);
       Int32 state = _state;
       if (state < 1023 && Interlocked::CompareExchange(_state, state + 1, state) == state) {
         orCreateCurrent->_readerLevel = lockCookie._readerLevel;
+        goto IL_00e5;
       }
     }
 
     RecoverLock(lockCookie, flags);
   }
+  goto IL_00e5;
+
+IL_00e5:
+  lockCookie._flags = LockCookieFlags::Invalid;
 }
 
 void ReaderWriterLock___::RecoverLock(LockCookie& lockCookie, LockCookieFlags flags) {

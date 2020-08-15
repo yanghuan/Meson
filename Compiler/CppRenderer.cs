@@ -893,5 +893,22 @@ namespace Meson.Compiler {
       WriteSemicolon();
       WriteNewLine();
     }
+
+    internal void Render(GotoStatementSyntax node) {
+      Write(Tokens.Goto);
+      WriteSpace();
+      Write(node.Label);
+      WriteSemicolon();
+      WriteNewLine();
+    }
+
+    internal void Render(LabelStatementSyntax node) {
+      WriteNewLine();
+      --indentLevel_;
+      Write(node.Label);
+      WriteColon();
+      ++indentLevel_;
+      WriteNewLine();
+    }
   }
 }

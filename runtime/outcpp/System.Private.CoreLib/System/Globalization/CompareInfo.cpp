@@ -4,6 +4,7 @@
 #include <System.Private.CoreLib/Interop-dep.h>
 #include <System.Private.CoreLib/System/ArgumentException-dep.h>
 #include <System.Private.CoreLib/System/ArgumentNullException-dep.h>
+#include <System.Private.CoreLib/System/ArgumentOutOfRangeException-dep.h>
 #include <System.Private.CoreLib/System/Array-dep.h>
 #include <System.Private.CoreLib/System/Buffers/ArrayPool-dep.h>
 #include <System.Private.CoreLib/System/Buffers/Binary/BinaryPrimitives-dep.h>
@@ -235,10 +236,32 @@ Int32 CompareInfo___::Compare(String string1, Int32 offset1, Int32 length1, Stri
   ReadOnlySpan<Char> slice2 = ReadOnlySpan<T>();
   if (string1 == nullptr) {
     if (offset1 == 0 && length1 == 0) {
+      goto IL_0027;
     }
   } else if (string1->TryGetSpan(offset1, length1, slice)) {
+    goto IL_0027;
   }
 
+  goto IL_006e;
+
+IL_0027:
+  if (string2 == nullptr) {
+    if (offset2 == 0 && length2 == 0) {
+      goto IL_0044;
+    }
+  } else if (string2->TryGetSpan(offset2, length2, slice2)) {
+    goto IL_0044;
+  }
+
+  goto IL_006e;
+
+IL_006e:
+  if (length1 < 0 || length2 < 0) {
+    rt::throw_exception<ArgumentOutOfRangeException>((length1 < 0) ? "length1" : "length2", SR::get_ArgumentOutOfRange_NeedPosNum());
+  }
+  if (offset1 < 0 || offset2 < 0) {
+    rt::throw_exception<ArgumentOutOfRangeException>((offset1 < 0) ? "offset1" : "offset2", SR::get_ArgumentOutOfRange_NeedPosNum());
+  }
 }
 
 Int32 CompareInfo___::Compare(ReadOnlySpan<Char> string1, ReadOnlySpan<Char> string2, CompareOptions options) {
@@ -251,14 +274,19 @@ Int32 CompareInfo___::Compare(ReadOnlySpan<Char> string1, ReadOnlySpan<Char> str
       return CompareStringCore(string1, string2, options);
     }
     if ((options & CompareOptions::IgnoreCase) != 0) {
+      goto IL_0050;
     }
   } else if (options != CompareOptions::Ordinal) {
     if (options == CompareOptions::OrdinalIgnoreCase) {
+      goto IL_0050;
     }
     ThrowCompareOptionsCheckFailed(options);
   }
 
   return MemoryExtensions::SequenceCompareTo(string1, string2);
+
+IL_0050:
+  return CompareOrdinalIgnoreCase(string1, string2);
 }
 
 void CompareInfo___::CheckCompareOptionsForCompare(CompareOptions options) {
@@ -416,14 +444,19 @@ Boolean CompareInfo___::IsPrefix(ReadOnlySpan<Char> source, ReadOnlySpan<Char> p
       return StartsWithCore(source, prefix, options);
     }
     if ((options & CompareOptions::IgnoreCase) != 0) {
+      goto IL_0047;
     }
   } else if (options != CompareOptions::Ordinal) {
     if (options == CompareOptions::OrdinalIgnoreCase) {
+      goto IL_0047;
     }
     ThrowCompareOptionsCheckFailed(options);
   }
 
   return MemoryExtensions::StartsWith(source, prefix);
+
+IL_0047:
+  return MemoryExtensions::StartsWithOrdinalIgnoreCase(source, prefix);
 }
 
 Boolean CompareInfo___::StartsWithCore(ReadOnlySpan<Char> source, ReadOnlySpan<Char> prefix, CompareOptions options) {
@@ -456,14 +489,19 @@ Boolean CompareInfo___::IsSuffix(ReadOnlySpan<Char> source, ReadOnlySpan<Char> s
       return EndsWithCore(source, suffix, options);
     }
     if ((options & CompareOptions::IgnoreCase) != 0) {
+      goto IL_0047;
     }
   } else if (options != CompareOptions::Ordinal) {
     if (options == CompareOptions::OrdinalIgnoreCase) {
+      goto IL_0047;
     }
     ThrowCompareOptionsCheckFailed(options);
   }
 
   return MemoryExtensions::EndsWith(source, suffix);
+
+IL_0047:
+  return MemoryExtensions::EndsWithOrdinalIgnoreCase(source, suffix);
 }
 
 Boolean CompareInfo___::IsSuffix(String source, String suffix) {
@@ -582,14 +620,19 @@ Int32 CompareInfo___::IndexOf(ReadOnlySpan<Char> source, ReadOnlySpan<Char> valu
       return IndexOfCore(source, value, options, nullptr, true);
     }
     if ((options & CompareOptions::IgnoreCase) != 0) {
+      goto IL_004d;
     }
   } else if (options != CompareOptions::Ordinal) {
     if (options == CompareOptions::OrdinalIgnoreCase) {
+      goto IL_004d;
     }
     ThrowHelper::ThrowArgumentException(ExceptionResource::Argument_InvalidFlag, ExceptionArgument::options);
   }
 
   return MemoryExtensions::IndexOf(source, value);
+
+IL_004d:
+  return IndexOfOrdinalIgnoreCase(source, value, true);
 }
 
 Int32 CompareInfo___::IndexOf(ReadOnlySpan<Char> source, Rune value, CompareOptions options) {
@@ -633,14 +676,27 @@ Int32 CompareInfo___::IndexOf(ReadOnlySpan<Char> source, ReadOnlySpan<Char> valu
       return IndexOfCore(source, value, options, matchLengthPtr, fromBeginning);
     }
     if ((options & CompareOptions::IgnoreCase) != 0) {
+      goto IL_0070;
     }
   } else if (options != CompareOptions::Ordinal) {
     if (options == CompareOptions::OrdinalIgnoreCase) {
+      goto IL_0070;
     }
     ThrowHelper::ThrowArgumentException(ExceptionResource::Argument_InvalidFlag, ExceptionArgument::options);
   }
 
   Int32 num = fromBeginning ? MemoryExtensions::IndexOf(source, value) : MemoryExtensions::LastIndexOf(source, value);
+  goto IL_007a;
+
+IL_007a:
+  if (num >= 0) {
+    *matchLengthPtr = value.get_Length();
+  }
+  return num;
+
+IL_0070:
+  num = IndexOfOrdinalIgnoreCase(source, value, fromBeginning);
+  goto IL_007a;
 }
 
 Int32 CompareInfo___::IndexOfCore(ReadOnlySpan<Char> source, ReadOnlySpan<Char> target, CompareOptions options, Int32* matchLengthPtr, Boolean fromBeginning) {
@@ -773,15 +829,20 @@ Int32 CompareInfo___::LastIndexOf(ReadOnlySpan<Char> source, ReadOnlySpan<Char> 
       return IndexOfCore(source, value, options, nullptr, false);
     }
     if ((options & CompareOptions::IgnoreCase) == 0) {
+      goto IL_0052;
     }
   } else {
     if (options == CompareOptions::Ordinal) {
+      goto IL_0052;
     }
     if (options != CompareOptions::OrdinalIgnoreCase) {
       rt::throw_exception<ArgumentException>(SR::get_Argument_InvalidFlag(), "options");
     }
   }
   return IndexOfOrdinalIgnoreCase(source, value, false);
+
+IL_0052:
+  return MemoryExtensions::LastIndexOf(source, value);
 }
 
 Int32 CompareInfo___::LastIndexOf(ReadOnlySpan<Char> source, Rune value, CompareOptions options) {
@@ -869,14 +930,19 @@ Int32 CompareInfo___::GetHashCode(ReadOnlySpan<Char> source, CompareOptions opti
       return GetHashCodeOfStringCore(source, options);
     }
     if ((options & CompareOptions::IgnoreCase) != 0) {
+      goto IL_003d;
     }
   } else if (options != CompareOptions::Ordinal) {
     if (options == CompareOptions::OrdinalIgnoreCase) {
+      goto IL_003d;
     }
     ThrowCompareOptionsCheckFailed(options);
   }
 
   return String::in::GetHashCode(source);
+
+IL_003d:
+  return String::in::GetHashCodeOrdinalIgnoreCase(source);
 }
 
 Int32 CompareInfo___::GetHashCodeOfStringCore(ReadOnlySpan<Char> source, CompareOptions options) {
@@ -1035,6 +1101,7 @@ Int32 CompareInfo___::IndexOfOrdinalIgnoreCaseHelper(ReadOnlySpan<Char> source, 
                   break;
                 }
                 if (c3 == c4) {
+                  goto IL_0184;
                 }
                 if ((UInt32)(c3 - 97) <= 25u) {
                   c3 = (Char)(c3 - 32);
@@ -1043,7 +1110,9 @@ Int32 CompareInfo___::IndexOfOrdinalIgnoreCaseHelper(ReadOnlySpan<Char> source, 
                   c4 = (Char)(c4 - 32);
                 }
                 if (c3 == c4) {
+                  goto IL_0184;
                 }
+                goto IL_0163;
               }
               if (num8 < source.get_Length() && ptr2[num8] >= 128) {
                 break;
@@ -1052,10 +1121,20 @@ Int32 CompareInfo___::IndexOfOrdinalIgnoreCaseHelper(ReadOnlySpan<Char> source, 
                 *matchLengthPtr = target.get_Length();
               }
               return num6;
+
+            IL_0184:
+              num7++;
+              num8++;
             }
             break;
           }
           return -1;
+
+        IL_0163:
+          if (num8 < source.get_Length() - 1 && (ptr2 + num8)[1] >= 128) {
+            break;
+          }
+          num6 += num5;
         }
         break;
       }
@@ -1129,6 +1208,7 @@ Int32 CompareInfo___::IndexOfOrdinalHelper(ReadOnlySpan<Char> source, ReadOnlySp
                   num8++;
                   continue;
                 }
+                goto IL_0135;
               }
               if (num8 < source.get_Length() && ptr2[num8] >= 128) {
                 break;
@@ -1141,6 +1221,12 @@ Int32 CompareInfo___::IndexOfOrdinalHelper(ReadOnlySpan<Char> source, ReadOnlySp
             break;
           }
           return -1;
+
+        IL_0135:
+          if (num8 < source.get_Length() - 1 && (ptr2 + num8)[1] >= 128) {
+            break;
+          }
+          num6 += num5;
         }
         break;
       }

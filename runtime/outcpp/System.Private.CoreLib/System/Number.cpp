@@ -1895,6 +1895,89 @@ Char Number::ParseFormatSpecifier(ReadOnlySpan<Char> format, Int32& digits) {
 void Number::NumberToString(ValueStringBuilder& sb, NumberBuffer& number, Char format, Int32 nMaxDigits, NumberFormatInfo info) {
   Boolean isCorrectlyRounded = number.Kind == NumberBufferKind::FloatingPoint;
   Boolean bSuppressScientific;
+  switch (format.get()) {
+    case 67:
+    case 99:
+      if (nMaxDigits < 0) {
+        nMaxDigits = info->set_CurrencyDecimalDigits;
+      }
+      RoundNumber(number, number.Scale + nMaxDigits, isCorrectlyRounded);
+      FormatCurrency(sb, number, nMaxDigits, info);
+      return;
+    case 70:
+    case 102:
+      if (nMaxDigits < 0) {
+        nMaxDigits = info->set_NumberDecimalDigits;
+      }
+      RoundNumber(number, number.Scale + nMaxDigits, isCorrectlyRounded);
+      if (number.IsNegative) {
+        sb.Append(info->get_NegativeSign());
+      }
+      FormatFixed(sb, number, nMaxDigits, nullptr, info->get_NumberDecimalSeparator(), nullptr);
+      return;
+    case 78:
+    case 110:
+      if (nMaxDigits < 0) {
+        nMaxDigits = info->set_NumberDecimalDigits;
+      }
+      RoundNumber(number, number.Scale + nMaxDigits, isCorrectlyRounded);
+      FormatNumber(sb, number, nMaxDigits, info);
+      return;
+    case 69:
+    case 101:
+      if (nMaxDigits < 0) {
+        nMaxDigits = 6;
+      }
+      nMaxDigits++;
+      RoundNumber(number, nMaxDigits, isCorrectlyRounded);
+      if (number.IsNegative) {
+        sb.Append(info->get_NegativeSign());
+      }
+      FormatScientific(sb, number, nMaxDigits, info, format);
+      return;
+    case 71:
+    case 103:
+      bSuppressScientific = false;
+      if (nMaxDigits < 1) {
+        if (number.Kind == NumberBufferKind::Decimal && nMaxDigits == -1) {
+          bSuppressScientific = true;
+          if (number.Digits[0] != 0) {
+            goto IL_0189;
+          }
+          goto IL_019e;
+        }
+        nMaxDigits = number.DigitsCount;
+      }
+      RoundNumber(number, nMaxDigits, isCorrectlyRounded);
+      goto IL_0189;
+    case 80:
+    case 112:
+      if (nMaxDigits < 0) {
+        nMaxDigits = info->set_PercentDecimalDigits;
+      }
+      number.Scale += 2;
+      RoundNumber(number, number.Scale + nMaxDigits, isCorrectlyRounded);
+      FormatPercent(sb, number, nMaxDigits, info);
+      return;
+    case 82:
+    case 114:
+      {
+        if (number.Kind != NumberBufferKind::FloatingPoint) {
+          break;
+        }
+        format = (Char)(format - 11);
+      }
+    IL_0189:
+      if (number.IsNegative) {
+        sb.Append(info->get_NegativeSign());
+      }
+      goto IL_019e;
+
+    IL_019e:
+      FormatGeneral(sb, number, nMaxDigits, info, (Char)(format - 2), bSuppressScientific);
+      return;
+  }
+  rt::throw_exception<FormatException>(SR::get_Argument_BadFormatSpecifier());
 }
 
 void Number::NumberToStringFormat(ValueStringBuilder& sb, NumberBuffer& number, ReadOnlySpan<Char> format, NumberFormatInfo info) {
@@ -2951,6 +3034,7 @@ Number::ParsingStatus Number::TryParseInt32IntegerStyle(ReadOnlySpan<Char> value
     i = 0;
     num = value[0];
     if ((styles & NumberStyles::AllowLeadingWhite) == 0 || !IsWhite(num)) {
+      goto IL_0048;
     }
     while (true) {
       i++;
@@ -2961,8 +3045,156 @@ Number::ParsingStatus Number::TryParseInt32IntegerStyle(ReadOnlySpan<Char> value
       if (IsWhite(num)) {
         continue;
       }
+      goto IL_0048;
     }
   }
+  goto IL_025a;
+
+IL_0170:
+  if (IsDigit(num)) {
+    goto IL_017b;
+  }
+  goto IL_026a;
+
+IL_0262:
+  result = 0;
+  return ParsingStatus::Overflow;
+
+IL_017b:
+  Int32 num2 = num - 48;
+  i++;
+  Int32 num3 = 0;
+  while (num3 < 8) {
+    if ((UInt32)i >= (UInt32)value.get_Length()) {
+      goto IL_024e;
+    }
+    num = value[i];
+    if (IsDigit(num)) {
+      i++;
+      num2 = 10 * num2 + num - 48;
+      num3++;
+      continue;
+    }
+    goto IL_026a;
+  }
+  if ((UInt32)i >= (UInt32)value.get_Length()) {
+    goto IL_024e;
+  }
+  num = value[i];
+  Boolean flag;
+  Int32 num4;
+  if (IsDigit(num)) {
+    i++;
+    flag = (num2 > 214748364);
+    num2 = num2 * 10 + num - 48;
+    flag = (flag || (UInt32)num2 > Int32::MaxValue + ((UInt32)num4 >> 31));
+    if ((UInt32)i >= (UInt32)value.get_Length()) {
+      goto IL_024b;
+    }
+    num = value[i];
+    while (IsDigit(num)) {
+      flag = true;
+      i++;
+      if ((UInt32)i < (UInt32)value.get_Length()) {
+        num = value[i];
+        continue;
+      }
+      goto IL_0262;
+    }
+  }
+  goto IL_026a;
+
+IL_024e:
+  result = num2 * num4;
+  return ParsingStatus::OK;
+
+IL_0048:
+  num4 = 1;
+  if ((styles & NumberStyles::AllowLeadingSign) != 0) {
+    if (info->get_HasInvariantNumberSigns()) {
+      if (num == 45) {
+        num4 = -1;
+        i++;
+        if ((UInt32)i >= (UInt32)value.get_Length()) {
+          goto IL_025a;
+        }
+        num = value[i];
+      } else if (num == 43) {
+        i++;
+        if ((UInt32)i >= (UInt32)value.get_Length()) {
+          goto IL_025a;
+        }
+        num = value[i];
+      }
+
+    } else {
+      value = value.Slice(i);
+      i = 0;
+      String positiveSign = info->get_PositiveSign();
+      String negativeSign = info->get_NegativeSign();
+      if (!String::in::IsNullOrEmpty(positiveSign) && MemoryExtensions::StartsWith(value, positiveSign)) {
+        i += positiveSign->get_Length();
+        if ((UInt32)i >= (UInt32)value.get_Length()) {
+          goto IL_025a;
+        }
+        num = value[i];
+      } else if (!String::in::IsNullOrEmpty(negativeSign) && MemoryExtensions::StartsWith(value, negativeSign)) {
+        num4 = -1;
+        i += negativeSign->get_Length();
+        if ((UInt32)i >= (UInt32)value.get_Length()) {
+          goto IL_025a;
+        }
+        num = value[i];
+      }
+
+    }
+  }
+  flag = false;
+  num2 = 0;
+  if (IsDigit(num)) {
+    if (num != 48) {
+      goto IL_017b;
+    }
+    while (true) {
+      i++;
+      if ((UInt32)i >= (UInt32)value.get_Length()) {
+        break;
+      }
+      num = value[i];
+      if (num == 48) {
+        continue;
+      }
+      goto IL_0170;
+    }
+    goto IL_024e;
+  }
+  goto IL_025a;
+
+IL_026a:
+  if (IsWhite(num)) {
+    if ((styles & NumberStyles::AllowTrailingWhite) == 0) {
+      goto IL_025a;
+    }
+    for (i++; i < value.get_Length() && IsWhite(value[i]); i++) {
+    }
+    if ((UInt32)i >= (UInt32)value.get_Length()) {
+      goto IL_024b;
+    }
+  }
+  if (TrailingZeros(value, i)) {
+    goto IL_024b;
+  }
+  goto IL_025a;
+
+IL_024b:
+  if (!flag) {
+    goto IL_024e;
+  }
+  goto IL_0262;
+
+IL_025a:
+  result = 0;
+  return ParsingStatus::Failed;
 }
 
 Number::ParsingStatus Number::TryParseInt64IntegerStyle(ReadOnlySpan<Char> value, NumberStyles styles, NumberFormatInfo info, Int64& result) {
@@ -2972,6 +3204,7 @@ Number::ParsingStatus Number::TryParseInt64IntegerStyle(ReadOnlySpan<Char> value
     i = 0;
     num = value[0];
     if ((styles & NumberStyles::AllowLeadingWhite) == 0 || !IsWhite(num)) {
+      goto IL_0048;
     }
     while (true) {
       i++;
@@ -2982,8 +3215,156 @@ Number::ParsingStatus Number::TryParseInt64IntegerStyle(ReadOnlySpan<Char> value
       if (IsWhite(num)) {
         continue;
       }
+      goto IL_0048;
     }
   }
+  goto IL_0270;
+
+IL_0171:
+  if (IsDigit(num)) {
+    goto IL_017c;
+  }
+  goto IL_0282;
+
+IL_0279:
+  result = 0;
+  return ParsingStatus::Overflow;
+
+IL_017c:
+  Int64 num2 = num - 48;
+  i++;
+  Int32 num3 = 0;
+  while (num3 < 17) {
+    if ((UInt32)i >= (UInt32)value.get_Length()) {
+      goto IL_0263;
+    }
+    num = value[i];
+    if (IsDigit(num)) {
+      i++;
+      num2 = 10 * num2 + num - 48;
+      num3++;
+      continue;
+    }
+    goto IL_0282;
+  }
+  if ((UInt32)i >= (UInt32)value.get_Length()) {
+    goto IL_0263;
+  }
+  num = value[i];
+  Boolean flag;
+  Int32 num4;
+  if (IsDigit(num)) {
+    i++;
+    flag = (num2 > 922337203685477580);
+    num2 = num2 * 10 + num - 48;
+    flag = (flag || (UInt64)num2 > (UInt64)(Int64::MaxValue + (Int64)((UInt32)num4 >> 31)));
+    if ((UInt32)i >= (UInt32)value.get_Length()) {
+      goto IL_0260;
+    }
+    num = value[i];
+    while (IsDigit(num)) {
+      flag = true;
+      i++;
+      if ((UInt32)i < (UInt32)value.get_Length()) {
+        num = value[i];
+        continue;
+      }
+      goto IL_0279;
+    }
+  }
+  goto IL_0282;
+
+IL_0263:
+  result = num2 * num4;
+  return ParsingStatus::OK;
+
+IL_0048:
+  num4 = 1;
+  if ((styles & NumberStyles::AllowLeadingSign) != 0) {
+    if (info->get_HasInvariantNumberSigns()) {
+      if (num == 45) {
+        num4 = -1;
+        i++;
+        if ((UInt32)i >= (UInt32)value.get_Length()) {
+          goto IL_0270;
+        }
+        num = value[i];
+      } else if (num == 43) {
+        i++;
+        if ((UInt32)i >= (UInt32)value.get_Length()) {
+          goto IL_0270;
+        }
+        num = value[i];
+      }
+
+    } else {
+      value = value.Slice(i);
+      i = 0;
+      String positiveSign = info->get_PositiveSign();
+      String negativeSign = info->get_NegativeSign();
+      if (!String::in::IsNullOrEmpty(positiveSign) && MemoryExtensions::StartsWith(value, positiveSign)) {
+        i += positiveSign->get_Length();
+        if ((UInt32)i >= (UInt32)value.get_Length()) {
+          goto IL_0270;
+        }
+        num = value[i];
+      } else if (!String::in::IsNullOrEmpty(negativeSign) && MemoryExtensions::StartsWith(value, negativeSign)) {
+        num4 = -1;
+        i += negativeSign->get_Length();
+        if ((UInt32)i >= (UInt32)value.get_Length()) {
+          goto IL_0270;
+        }
+        num = value[i];
+      }
+
+    }
+  }
+  flag = false;
+  num2 = 0;
+  if (IsDigit(num)) {
+    if (num != 48) {
+      goto IL_017c;
+    }
+    while (true) {
+      i++;
+      if ((UInt32)i >= (UInt32)value.get_Length()) {
+        break;
+      }
+      num = value[i];
+      if (num == 48) {
+        continue;
+      }
+      goto IL_0171;
+    }
+    goto IL_0263;
+  }
+  goto IL_0270;
+
+IL_0282:
+  if (IsWhite(num)) {
+    if ((styles & NumberStyles::AllowTrailingWhite) == 0) {
+      goto IL_0270;
+    }
+    for (i++; i < value.get_Length() && IsWhite(value[i]); i++) {
+    }
+    if ((UInt32)i >= (UInt32)value.get_Length()) {
+      goto IL_0260;
+    }
+  }
+  if (TrailingZeros(value, i)) {
+    goto IL_0260;
+  }
+  goto IL_0270;
+
+IL_0260:
+  if (!flag) {
+    goto IL_0263;
+  }
+  goto IL_0279;
+
+IL_0270:
+  result = 0;
+  return ParsingStatus::Failed;
 }
 
 Number::ParsingStatus Number::TryParseInt64(ReadOnlySpan<Char> value, NumberStyles styles, NumberFormatInfo info, Int64& result) {
@@ -3042,6 +3423,7 @@ Number::ParsingStatus Number::TryParseUInt32IntegerStyle(ReadOnlySpan<Char> valu
     i = 0;
     num = value[0];
     if ((styles & NumberStyles::AllowLeadingWhite) == 0 || !IsWhite(num)) {
+      goto IL_0048;
     }
     while (true) {
       i++;
@@ -3052,8 +3434,153 @@ Number::ParsingStatus Number::TryParseUInt32IntegerStyle(ReadOnlySpan<Char> valu
       if (IsWhite(num)) {
         continue;
       }
+      goto IL_0048;
     }
   }
+  goto IL_0252;
+
+IL_016d:
+  if (IsDigit(num)) {
+    goto IL_0178;
+  }
+  Boolean flag = false;
+  goto IL_0264;
+
+IL_0178:
+  Int32 num2 = num - 48;
+  i++;
+  Int32 num3 = 0;
+  while (num3 < 8) {
+    if ((UInt32)i >= (UInt32)value.get_Length()) {
+      goto IL_0246;
+    }
+    num = value[i];
+    if (IsDigit(num)) {
+      i++;
+      num2 = 10 * num2 + num - 48;
+      num3++;
+      continue;
+    }
+    goto IL_0264;
+  }
+  if ((UInt32)i >= (UInt32)value.get_Length()) {
+    goto IL_0246;
+  }
+  num = value[i];
+  if (IsDigit(num)) {
+    i++;
+    flag = (flag || (UInt32)num2 > 429496729u || (num2 == 429496729 && num > 53));
+    num2 = num2 * 10 + num - 48;
+    if ((UInt32)i >= (UInt32)value.get_Length()) {
+      goto IL_0246;
+    }
+    num = value[i];
+    while (IsDigit(num)) {
+      flag = true;
+      i++;
+      if ((UInt32)i < (UInt32)value.get_Length()) {
+        num = value[i];
+        continue;
+      }
+      goto IL_025a;
+    }
+  }
+  goto IL_0264;
+
+IL_0264:
+  if (IsWhite(num)) {
+    if ((styles & NumberStyles::AllowTrailingWhite) == 0) {
+      goto IL_0252;
+    }
+    for (i++; i < value.get_Length() && IsWhite(value[i]); i++) {
+    }
+    if ((UInt32)i >= (UInt32)value.get_Length()) {
+      goto IL_0246;
+    }
+  }
+  if (TrailingZeros(value, i)) {
+    goto IL_0246;
+  }
+  goto IL_0252;
+
+IL_025a:
+  result = 0u;
+  return ParsingStatus::Overflow;
+
+IL_0048:
+  flag = false;
+  if ((styles & NumberStyles::AllowLeadingSign) != 0) {
+    if (info->get_HasInvariantNumberSigns()) {
+      if (num == 43) {
+        i++;
+        if ((UInt32)i >= (UInt32)value.get_Length()) {
+          goto IL_0252;
+        }
+        num = value[i];
+      } else if (num == 45) {
+        flag = true;
+        i++;
+        if ((UInt32)i >= (UInt32)value.get_Length()) {
+          goto IL_0252;
+        }
+        num = value[i];
+      }
+
+    } else {
+      value = value.Slice(i);
+      i = 0;
+      String positiveSign = info->get_PositiveSign();
+      String negativeSign = info->get_NegativeSign();
+      if (!String::in::IsNullOrEmpty(positiveSign) && MemoryExtensions::StartsWith(value, positiveSign)) {
+        i += positiveSign->get_Length();
+        if ((UInt32)i >= (UInt32)value.get_Length()) {
+          goto IL_0252;
+        }
+        num = value[i];
+      } else if (!String::in::IsNullOrEmpty(negativeSign) && MemoryExtensions::StartsWith(value, negativeSign)) {
+        flag = true;
+        i += negativeSign->get_Length();
+        if ((UInt32)i >= (UInt32)value.get_Length()) {
+          goto IL_0252;
+        }
+        num = value[i];
+      }
+
+    }
+  }
+  num2 = 0;
+  if (IsDigit(num)) {
+    if (num != 48) {
+      goto IL_0178;
+    }
+    while (true) {
+      i++;
+      if ((UInt32)i >= (UInt32)value.get_Length()) {
+        break;
+      }
+      num = value[i];
+      if (num == 48) {
+        continue;
+      }
+      goto IL_016d;
+    }
+    goto IL_0249;
+  }
+  goto IL_0252;
+
+IL_0246:
+  if (!flag) {
+    goto IL_0249;
+  }
+  goto IL_025a;
+
+IL_0249:
+  result = (UInt32)num2;
+  return ParsingStatus::OK;
+
+IL_0252:
+  result = 0u;
+  return ParsingStatus::Failed;
 }
 
 Number::ParsingStatus Number::TryParseUInt32HexNumberStyle(ReadOnlySpan<Char> value, NumberStyles styles, UInt32& result) {
@@ -3063,6 +3590,7 @@ Number::ParsingStatus Number::TryParseUInt32HexNumberStyle(ReadOnlySpan<Char> va
     i = 0;
     num = value[0];
     if ((styles & NumberStyles::AllowLeadingWhite) == 0 || !IsWhite(num)) {
+      goto IL_0048;
     }
     while (true) {
       i++;
@@ -3073,8 +3601,116 @@ Number::ParsingStatus Number::TryParseUInt32HexNumberStyle(ReadOnlySpan<Char> va
       if (IsWhite(num)) {
         continue;
       }
+      goto IL_0048;
     }
   }
+  goto IL_018c;
+
+IL_0098:
+  ReadOnlySpan<Byte> charToHexLookup;
+  if ((UInt32)num < (UInt32)charToHexLookup.get_Length() && charToHexLookup[num] != Byte::MaxValue) {
+    goto IL_00b8;
+  }
+  goto IL_019c;
+
+IL_017c:
+  Boolean flag = true;
+  goto IL_019c;
+
+IL_00b8:
+  UInt32 num2 = charToHexLookup[num];
+  i++;
+  Int32 num3 = 0;
+  while (num3 < 7) {
+    if ((UInt32)i >= (UInt32)value.get_Length()) {
+      goto IL_0183;
+    }
+    num = value[i];
+    UInt32 num4;
+    if ((UInt32)num < (UInt32)charToHexLookup.get_Length() && (num4 = charToHexLookup[num]) != 255) {
+      i++;
+      num2 = 16 * num2 + num4;
+      num3++;
+      continue;
+    }
+    goto IL_019c;
+  }
+  if ((UInt32)i >= (UInt32)value.get_Length()) {
+    goto IL_0183;
+  }
+  num = value[i];
+  if ((UInt32)num < (UInt32)charToHexLookup.get_Length() && charToHexLookup[num] != Byte::MaxValue) {
+    while (true) {
+      i++;
+      if ((UInt32)i >= (UInt32)value.get_Length()) {
+        break;
+      }
+      num = value[i];
+      if ((UInt32)num < (UInt32)charToHexLookup.get_Length() && charToHexLookup[num] != Byte::MaxValue) {
+        continue;
+      }
+      goto IL_017c;
+    }
+    goto IL_0194;
+  }
+  goto IL_019c;
+
+IL_018c:
+  result = 0u;
+  return ParsingStatus::Failed;
+
+IL_0048:
+  flag = false;
+  num2 = 0u;
+  charToHexLookup = get_CharToHexLookup();
+  if ((UInt32)num < (UInt32)charToHexLookup.get_Length() && charToHexLookup[num] != Byte::MaxValue) {
+    if (num != 48) {
+      goto IL_00b8;
+    }
+    while (true) {
+      i++;
+      if ((UInt32)i >= (UInt32)value.get_Length()) {
+        break;
+      }
+      num = value[i];
+      if (num == 48) {
+        continue;
+      }
+      goto IL_0098;
+    }
+    goto IL_0183;
+  }
+  goto IL_018c;
+
+IL_0183:
+  result = num2;
+  return ParsingStatus::OK;
+
+IL_0194:
+  result = 0u;
+  return ParsingStatus::Overflow;
+
+IL_0180:
+  if (!flag) {
+    goto IL_0183;
+  }
+  goto IL_0194;
+
+IL_019c:
+  if (IsWhite(num)) {
+    if ((styles & NumberStyles::AllowTrailingWhite) == 0) {
+      goto IL_018c;
+    }
+    for (i++; i < value.get_Length() && IsWhite(value[i]); i++) {
+    }
+    if ((UInt32)i >= (UInt32)value.get_Length()) {
+      goto IL_0180;
+    }
+  }
+  if (TrailingZeros(value, i)) {
+    goto IL_0180;
+  }
+  goto IL_018c;
 }
 
 Number::ParsingStatus Number::TryParseUInt64(ReadOnlySpan<Char> value, NumberStyles styles, NumberFormatInfo info, UInt64& result) {
@@ -3108,6 +3744,7 @@ Number::ParsingStatus Number::TryParseUInt64IntegerStyle(ReadOnlySpan<Char> valu
     i = 0;
     num = value[0];
     if ((styles & NumberStyles::AllowLeadingWhite) == 0 || !IsWhite(num)) {
+      goto IL_0048;
     }
     while (true) {
       i++;
@@ -3118,8 +3755,153 @@ Number::ParsingStatus Number::TryParseUInt64IntegerStyle(ReadOnlySpan<Char> valu
       if (IsWhite(num)) {
         continue;
       }
+      goto IL_0048;
     }
   }
+  goto IL_0266;
+
+IL_016e:
+  if (IsDigit(num)) {
+    goto IL_0179;
+  }
+  Boolean flag = false;
+  goto IL_027a;
+
+IL_0179:
+  Int64 num2 = num - 48;
+  i++;
+  Int32 num3 = 0;
+  while (num3 < 18) {
+    if ((UInt32)i >= (UInt32)value.get_Length()) {
+      goto IL_025a;
+    }
+    num = value[i];
+    if (IsDigit(num)) {
+      i++;
+      num2 = 10 * num2 + num - 48;
+      num3++;
+      continue;
+    }
+    goto IL_027a;
+  }
+  if ((UInt32)i >= (UInt32)value.get_Length()) {
+    goto IL_025a;
+  }
+  num = value[i];
+  if (IsDigit(num)) {
+    i++;
+    flag = (flag || (UInt64)num2 > 1844674407370955161 || (num2 == 1844674407370955161 && num > 53));
+    num2 = num2 * 10 + num - 48;
+    if ((UInt32)i >= (UInt32)value.get_Length()) {
+      goto IL_025a;
+    }
+    num = value[i];
+    while (IsDigit(num)) {
+      flag = true;
+      i++;
+      if ((UInt32)i < (UInt32)value.get_Length()) {
+        num = value[i];
+        continue;
+      }
+      goto IL_026f;
+    }
+  }
+  goto IL_027a;
+
+IL_027a:
+  if (IsWhite(num)) {
+    if ((styles & NumberStyles::AllowTrailingWhite) == 0) {
+      goto IL_0266;
+    }
+    for (i++; i < value.get_Length() && IsWhite(value[i]); i++) {
+    }
+    if ((UInt32)i >= (UInt32)value.get_Length()) {
+      goto IL_025a;
+    }
+  }
+  if (TrailingZeros(value, i)) {
+    goto IL_025a;
+  }
+  goto IL_0266;
+
+IL_026f:
+  result = 0;
+  return ParsingStatus::Overflow;
+
+IL_0048:
+  flag = false;
+  if ((styles & NumberStyles::AllowLeadingSign) != 0) {
+    if (info->get_HasInvariantNumberSigns()) {
+      if (num == 43) {
+        i++;
+        if ((UInt32)i >= (UInt32)value.get_Length()) {
+          goto IL_0266;
+        }
+        num = value[i];
+      } else if (num == 45) {
+        flag = true;
+        i++;
+        if ((UInt32)i >= (UInt32)value.get_Length()) {
+          goto IL_0266;
+        }
+        num = value[i];
+      }
+
+    } else {
+      value = value.Slice(i);
+      i = 0;
+      String positiveSign = info->get_PositiveSign();
+      String negativeSign = info->get_NegativeSign();
+      if (!String::in::IsNullOrEmpty(positiveSign) && MemoryExtensions::StartsWith(value, positiveSign)) {
+        i += positiveSign->get_Length();
+        if ((UInt32)i >= (UInt32)value.get_Length()) {
+          goto IL_0266;
+        }
+        num = value[i];
+      } else if (!String::in::IsNullOrEmpty(negativeSign) && MemoryExtensions::StartsWith(value, negativeSign)) {
+        flag = true;
+        i += negativeSign->get_Length();
+        if ((UInt32)i >= (UInt32)value.get_Length()) {
+          goto IL_0266;
+        }
+        num = value[i];
+      }
+
+    }
+  }
+  num2 = 0;
+  if (IsDigit(num)) {
+    if (num != 48) {
+      goto IL_0179;
+    }
+    while (true) {
+      i++;
+      if ((UInt32)i >= (UInt32)value.get_Length()) {
+        break;
+      }
+      num = value[i];
+      if (num == 48) {
+        continue;
+      }
+      goto IL_016e;
+    }
+    goto IL_025d;
+  }
+  goto IL_0266;
+
+IL_025a:
+  if (!flag) {
+    goto IL_025d;
+  }
+  goto IL_026f;
+
+IL_025d:
+  result = (UInt64)num2;
+  return ParsingStatus::OK;
+
+IL_0266:
+  result = 0;
+  return ParsingStatus::Failed;
 }
 
 Number::ParsingStatus Number::TryParseUInt64HexNumberStyle(ReadOnlySpan<Char> value, NumberStyles styles, UInt64& result) {
@@ -3129,6 +3911,7 @@ Number::ParsingStatus Number::TryParseUInt64HexNumberStyle(ReadOnlySpan<Char> va
     i = 0;
     num = value[0];
     if ((styles & NumberStyles::AllowLeadingWhite) == 0 || !IsWhite(num)) {
+      goto IL_0048;
     }
     while (true) {
       i++;
@@ -3139,8 +3922,116 @@ Number::ParsingStatus Number::TryParseUInt64HexNumberStyle(ReadOnlySpan<Char> va
       if (IsWhite(num)) {
         continue;
       }
+      goto IL_0048;
     }
   }
+  goto IL_0191;
+
+IL_0099:
+  ReadOnlySpan<Byte> charToHexLookup;
+  if ((UInt32)num < (UInt32)charToHexLookup.get_Length() && charToHexLookup[num] != Byte::MaxValue) {
+    goto IL_00b9;
+  }
+  goto IL_01a3;
+
+IL_0181:
+  Boolean flag = true;
+  goto IL_01a3;
+
+IL_00b9:
+  UInt64 num2 = charToHexLookup[num];
+  i++;
+  Int32 num3 = 0;
+  while (num3 < 15) {
+    if ((UInt32)i >= (UInt32)value.get_Length()) {
+      goto IL_0188;
+    }
+    num = value[i];
+    UInt32 num4;
+    if ((UInt32)num < (UInt32)charToHexLookup.get_Length() && (num4 = charToHexLookup[num]) != 255) {
+      i++;
+      num2 = 16 * num2 + num4;
+      num3++;
+      continue;
+    }
+    goto IL_01a3;
+  }
+  if ((UInt32)i >= (UInt32)value.get_Length()) {
+    goto IL_0188;
+  }
+  num = value[i];
+  if ((UInt32)num < (UInt32)charToHexLookup.get_Length() && charToHexLookup[num] != Byte::MaxValue) {
+    while (true) {
+      i++;
+      if ((UInt32)i >= (UInt32)value.get_Length()) {
+        break;
+      }
+      num = value[i];
+      if ((UInt32)num < (UInt32)charToHexLookup.get_Length() && charToHexLookup[num] != Byte::MaxValue) {
+        continue;
+      }
+      goto IL_0181;
+    }
+    goto IL_019a;
+  }
+  goto IL_01a3;
+
+IL_0191:
+  result = 0;
+  return ParsingStatus::Failed;
+
+IL_0048:
+  flag = false;
+  num2 = 0;
+  charToHexLookup = get_CharToHexLookup();
+  if ((UInt32)num < (UInt32)charToHexLookup.get_Length() && charToHexLookup[num] != Byte::MaxValue) {
+    if (num != 48) {
+      goto IL_00b9;
+    }
+    while (true) {
+      i++;
+      if ((UInt32)i >= (UInt32)value.get_Length()) {
+        break;
+      }
+      num = value[i];
+      if (num == 48) {
+        continue;
+      }
+      goto IL_0099;
+    }
+    goto IL_0188;
+  }
+  goto IL_0191;
+
+IL_0188:
+  result = num2;
+  return ParsingStatus::OK;
+
+IL_019a:
+  result = 0;
+  return ParsingStatus::Overflow;
+
+IL_0185:
+  if (!flag) {
+    goto IL_0188;
+  }
+  goto IL_019a;
+
+IL_01a3:
+  if (IsWhite(num)) {
+    if ((styles & NumberStyles::AllowTrailingWhite) == 0) {
+      goto IL_0191;
+    }
+    for (i++; i < value.get_Length() && IsWhite(value[i]); i++) {
+    }
+    if ((UInt32)i >= (UInt32)value.get_Length()) {
+      goto IL_0185;
+    }
+  }
+  if (TrailingZeros(value, i)) {
+    goto IL_0185;
+  }
+  goto IL_0191;
 }
 
 Decimal Number::ParseDecimal(ReadOnlySpan<Char> value, NumberStyles styles, NumberFormatInfo info) {
@@ -3208,6 +4099,7 @@ Boolean Number::TryNumberToDecimal(NumberBuffer& number, Decimal& value) {
         num2 = *(++ptr);
       }
       if (flag) {
+        goto IL_01a8;
       }
     }
     if (++num3 == 0 && ++num4 == 0) {
@@ -3216,6 +4108,17 @@ Boolean Number::TryNumberToDecimal(NumberBuffer& number, Decimal& value) {
       num++;
     }
   }
+  goto IL_01a8;
+
+IL_01a8:
+  if (num > 0) {
+    return false;
+  }
+  if (num <= -29) {
+    value = Decimal(0, 0, 0, isNegative, 28);
+  } else {
+  }
+  return true;
 }
 
 Double Number::ParseDouble(ReadOnlySpan<Char> value, NumberStyles styles, NumberFormatInfo info) {

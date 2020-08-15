@@ -64,6 +64,7 @@
 #include <System.Private.CoreLib/System/Text/Encoding-dep.h>
 #include <System.Private.CoreLib/System/Threading/Interlocked-dep.h>
 #include <System.Private.CoreLib/System/Threading/Tasks/TplEventSource-dep.h>
+#include <System.Private.CoreLib/System/Threading/Thread-dep.h>
 #include <System.Private.CoreLib/System/UInt16-dep.h>
 #include <System.Private.CoreLib/System/UInt32-dep.h>
 #include <System.Private.CoreLib/System/UInt64-dep.h>
@@ -1558,6 +1559,29 @@ void EventSource___::SendManifest(Array<Byte> rawManifest) {
     ptr[1].Reserved = 0u;
     Int32 num2 = 65280;
     while (true) {
+
+    IL_00c7:
+      manifestEnvelope.TotalChunks = (UInt16)((num + (num2 - 1)) / num2);
+      while (num > 0) {
+        ptr[1].Size = (UInt32)Math::Min(num, num2);
+        if (m_etwProvider != nullptr && !m_etwProvider->WriteEvent(eventDescriptor, IntPtr::Zero, nullptr, nullptr, 2, (IntPtr)(void*)ptr)) {
+          if (EventProvider::in::GetLastWriteEventError() == EventProvider::in::WriteEventErrorCode::EventTooBig && manifestEnvelope.ChunkNumber == 0 && num2 > 256) {
+            num2 /= 2;
+            goto IL_00c7;
+          }
+          if (get_ThrowOnEventWriteErrors()) {
+            ThrowEventSourceException("SendManifest");
+          }
+          break;
+        }
+        num -= num2;
+        ptr[1].Ptr += (UInt32)num2;
+        manifestEnvelope.ChunkNumber++;
+        if ((Int32)manifestEnvelope.ChunkNumber % 5 == 0) {
+          Thread::in::Sleep(15);
+        }
+      }
+      break;
     }
   }
 }
@@ -1882,12 +1906,18 @@ void EventSource___::ReportOutOfBandMessage(String msg) {
     Debugger::Log(0, nullptr, String::in::Format("EventSource Error: {0}{1}", msg, Environment::get_NewLine()));
     if (m_outOfBandMessageCount < 15) {
       m_outOfBandMessageCount++;
+      goto IL_004d;
     }
     if (m_outOfBandMessageCount == 16) {
       return;
     }
     m_outOfBandMessageCount = 16;
     msg = "Reached message limit.   End of EventSource error messages.";
+    goto IL_004d;
+
+  IL_004d:
+    WriteEventString(msg);
+    WriteStringToAllListeners("EventSourceMessage", msg);
   } catch (...) {
   }
 }

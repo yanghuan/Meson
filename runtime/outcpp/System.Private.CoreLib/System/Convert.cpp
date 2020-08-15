@@ -68,6 +68,7 @@ Boolean Convert::TryDecodeFromUtf16(ReadOnlySpan<Char> utf16, Span<Byte> bytes, 
             if (num6 >= 0 && num3 <= length - 3) {
               WriteThreeLowOrderBytes(Unsafe::Add(reference2, num3), num6);
               num3 += 3;
+              goto IL_01e6;
             }
           } else if (num8 != 61) {
             num8 = Unsafe::Add(reference3, num8);
@@ -77,16 +78,31 @@ Boolean Convert::TryDecodeFromUtf16(ReadOnlySpan<Char> utf16, Span<Byte> bytes, 
               Unsafe::Add(reference2, num3) = (Byte)(num6 >> 16);
               Unsafe::Add(reference2, num3 + 1) = (Byte)(num6 >> 8);
               num3 += 2;
+              goto IL_01e6;
             }
           } else if (num6 >= 0 && num3 <= length - 1) {
             Unsafe::Add(reference2, num3) = (Byte)(num6 >> 16);
             num3++;
+            goto IL_01e6;
           }
 
 
         }
       }
 
+      goto IL_0200;
+
+    IL_0200:
+      consumed = num2;
+      written = num3;
+      return false;
+
+    IL_01e6:
+      num2 += 4;
+      if (num == utf16.get_Length()) {
+        break;
+      }
+      goto IL_0200;
     }
   }
   consumed = num2;

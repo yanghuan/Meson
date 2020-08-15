@@ -1,5 +1,6 @@
 #include "Gen2GcCallback-dep.h"
 
+#include <System.Private.CoreLib/System/GC-dep.h>
 #include <System.Private.CoreLib/System/Gen2GcCallback-dep.h>
 #include <System.Private.CoreLib/System/Runtime/InteropServices/GCHandle-dep.h>
 #include <System.Private.CoreLib/System/Runtime/InteropServices/GCHandleType.h>
@@ -29,6 +30,7 @@ void Gen2GcCallback___::Finalize() {
       }
     } catch (...) {
     }
+    goto IL_0054;
   }
   try{
     if (!_callback0()) {
@@ -36,6 +38,10 @@ void Gen2GcCallback___::Finalize() {
     }
   } catch (...) {
   }
+  goto IL_0054;
+
+IL_0054:
+  GC::ReRegisterForFinalize((Gen2GcCallback)this);
 }
 
 } // namespace System::Private::CoreLib::System::Gen2GcCallbackNamespace

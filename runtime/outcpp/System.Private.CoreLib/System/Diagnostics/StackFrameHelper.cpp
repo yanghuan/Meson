@@ -44,6 +44,7 @@ void StackFrameHelper___::InitializeSourceInfo(Int32 iSkip, Boolean fNeedFileInf
   t_reentrancy++;
   try{
     if (s_getSourceLineInfo != nullptr) {
+      goto IL_012b;
     }
     Type type = Type::in::GetType("System.Diagnostics.StackTraceSymbols, System.Diagnostics.StackTrace, Version=4.0.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a", false);
     if (!(type == nullptr)) {
@@ -53,8 +54,19 @@ void StackFrameHelper___::InitializeSourceInfo(Int32 iSkip, Boolean fNeedFileInf
         Object target = Activator::CreateInstance(type);
         GetSourceLineInfoDelegate value = method->CreateDelegate<GetSourceLineInfoDelegate>(target);
         Interlocked::CompareExchange(s_getSourceLineInfo, value, nullptr);
+        goto IL_012b;
       }
     }
+    goto end_IL_0022;
+
+  IL_012b:
+    for (Int32 i = 0; i < iFrameCount; i++) {
+      if (rgiMethodToken[i] != 0) {
+        s_getSourceLineInfo(rgAssembly[i], rgAssemblyPath[i], rgLoadedPeAddress[i], rgiLoadedPeSize[i], rgInMemoryPdbAddress[i], rgiInMemoryPdbSize[i], rgiMethodToken[i], rgiILOffset[i], rgFilename[i], rgiLineNumber[i], rgiColumnNumber[i]);
+      }
+    }
+
+  end_IL_0022:
   } catch (...) {
   } finally: {
     t_reentrancy--;

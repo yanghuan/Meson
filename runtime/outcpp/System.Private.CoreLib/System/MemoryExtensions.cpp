@@ -430,8 +430,11 @@ ReadOnlySpan<Char> MemoryExtensions::TrimStart(ReadOnlySpan<Char> span, ReadOnly
         num++;
         continue;
       }
+      goto IL_003c;
     }
     break;
+
+  IL_003c:
   }
   return span.Slice(i);
 }
@@ -448,8 +451,11 @@ ReadOnlySpan<Char> MemoryExtensions::TrimEnd(ReadOnlySpan<Char> span, ReadOnlySp
         num2++;
         continue;
       }
+      goto IL_0044;
     }
     break;
+
+  IL_0044:
   }
   return span.Slice(0, num + 1);
 }

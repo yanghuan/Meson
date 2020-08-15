@@ -703,4 +703,27 @@ namespace Meson.Compiler.CppAst {
     public static readonly ContinueStatementSyntax Default = new ContinueStatementSyntax();
   }
 
+  sealed class GotoStatementSyntax : StatementSyntax {
+    public string Label { get; }
+
+    public GotoStatementSyntax(string label) {
+      Label = label;
+    }
+
+    internal override void Render(CppRenderer renderer) {
+      renderer.Render(this);
+    }
+  }
+
+  sealed class LabelStatementSyntax : StatementSyntax {
+    public string Label { get; }
+
+    public LabelStatementSyntax(string label) {
+      Label = label;
+    }
+
+    internal override void Render(CppRenderer renderer) {
+      renderer.Render(this);
+    }
+  }
 }

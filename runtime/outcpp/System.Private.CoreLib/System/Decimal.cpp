@@ -265,10 +265,27 @@ UInt32 Decimal::DecCalc::Div128By96(Buf16& bufNum, Buf12& bufDen) {
   if (low > ~num3) {
     num2--;
     if (num2 >= (UInt32)(~num4)) {
+      goto IL_008b;
     }
   } else if (num2 > (UInt32)(~num4)) {
+    goto IL_008b;
   }
 
+  goto IL_00b4;
+
+IL_008b:
+  num3 = bufDen.set_Low64;
+  do {
+    num--;
+    low += num3;
+    num2 += u;
+  } while ((low >= num3 || num2++ >= u) && num2 >= u)
+  goto IL_00b4;
+
+IL_00b4:
+  bufNum.set_Low64 = low;
+  bufNum.U2 = num2;
+  return num;
 }
 
 UInt32 Decimal::DecCalc::IncreaseScale(Buf12& bufNum, UInt32 power) {
@@ -297,12 +314,14 @@ Int32 Decimal::DecCalc::ScaleResult(Buf24* bufRes, UInt32 hiRes, Int32 scale) {
     num -= BitOperations::LeadingZeroCount(*(UInt32*)((Byte*)bufRes + (Int64)hiRes * 4));
     num = (num * 77 >> 8) + 1;
     if (num > scale) {
+      goto IL_01cc;
     }
   }
   if (num < scale - 28) {
     num = scale - 28;
   }
   if (num == 0) {
+    goto IL_01ca;
   }
   scale -= num;
   UInt32 num2 = 0u;
@@ -373,7 +392,16 @@ Int32 Decimal::DecCalc::ScaleResult(Buf24* bufRes, UInt32 hiRes, Int32 scale) {
         continue;
       }
     }
+    goto IL_01ca;
   }
+  goto IL_01cc;
+
+IL_01ca:
+  return scale;
+
+IL_01cc:
+  Number::ThrowOverflowException(TypeCode::Decimal);
+  return 0;
 }
 
 UInt32 Decimal::DecCalc::DivByConst(UInt32* result, UInt32 hiRes, UInt32& quotient, UInt32& remainder, UInt32 power) {
@@ -411,6 +439,7 @@ Int32 Decimal::DecCalc::SearchScale(Buf12& bufQuo, Int32 scale) {
     if (scale > 19) {
       num = 28 - scale;
       if (u < powerOvflValues[num - 1].Hi) {
+        goto IL_00d1;
       }
     } else if (u < 4 || (u == 4 && low <= 5441186219426131129)) {
       return 9;
@@ -444,6 +473,13 @@ Int32 Decimal::DecCalc::SearchScale(Buf12& bufQuo, Int32 scale) {
       num--;
     }
   }
+  goto IL_00d1;
+
+IL_00d1:
+  if (num + scale < 0) {
+    Number::ThrowOverflowException(TypeCode::Decimal);
+  }
+  return num;
 }
 
 Boolean Decimal::DecCalc::Add32To96(Buf12& bufNum, UInt32 value) {
@@ -468,8 +504,10 @@ void Decimal::DecCalc::DecAddSub(DecCalc& d1, DecCalc& d2, Boolean sign) {
     if (num7 < 0) {
     }
     if (num2 != 0) {
+      goto IL_015f;
     }
     if (num > UInt32::MaxValue) {
+      goto IL_0106;
     }
     if ((Int32)num == 0) {
       UInt32 num8 = num3 & 2147483648u;
@@ -486,9 +524,205 @@ void Decimal::DecCalc::DecAddSub(DecCalc& d1, DecCalc& d2, Boolean sign) {
       if (num <= UInt32::MaxValue) {
         continue;
       }
+      goto IL_0106;
     }
     num = UInt32x32To64((UInt32)num, s_powers10[num7]);
   }
+  goto IL_0450;
+
+IL_03b1:
+  if ((num3 & 16711680) == 0) {
+    Number::ThrowOverflowException(TypeCode::Decimal);
+  }
+  num3 -= 65536;
+  UInt64 num9 = (UInt64)num2 + 4294967296;
+  num2 = (UInt32)(num9 / 10);
+  num9 = (num9 - num2 * 10 << 32) + (num >> 32);
+  UInt32 num10 = (UInt32)(num9 / 10);
+  num9 = (num9 - num10 * 10 << 32) + (UInt32)num;
+  num = num10;
+  num <<= 32;
+  num10 = (UInt32)(num9 / 10);
+  num += num10;
+  num10 = (UInt32)(Int32)num9 - num10 * 10;
+  if (num10 >= 5 && (num10 > 5 || (num & 1) != 0) && ++num == 0) {
+    num2++;
+  }
+  goto IL_04b9;
+
+IL_0350:
+  Buf24 value;
+  value.set_Low64 = num;
+  value.U2 = num2;
+  UInt32 num11;
+  num7 = ScaleResult(&value, num11, (Byte)(num3 >> 16));
+  num3 = (UInt32)(((Int32)num3 & -16711681) | (num7 << 16));
+  num = value.set_Low64;
+  num2 = value.U2;
+  goto IL_04b9;
+
+IL_0106:
+  UInt64 num13;
+  while (true) {
+    UInt32 b = 1000000000u;
+    if (num7 < 9) {
+      b = s_powers10[num7];
+    }
+    UInt64 num12 = UInt32x32To64((UInt32)num, b);
+    num13 = UInt32x32To64((UInt32)(num >> 32), b) + (num12 >> 32);
+    num = (UInt32)num12 + (num13 << 32);
+    num2 = (UInt32)(num13 >> 32);
+    if ((num7 -= 9) <= 0) {
+      break;
+    }
+    if (num2 == 0) {
+      continue;
+    }
+    goto IL_015f;
+  }
+  goto IL_0450;
+
+IL_0312:
+  UInt32* ptr = (UInt32*)(&value);
+  UInt32 num14 = 3u;
+  while (++ptr[num14++] == 0) {
+    if (num11 < num14) {
+      ptr[num14] = 1u;
+      num11 = num14;
+      break;
+    }
+  }
+  goto IL_0350;
+
+IL_015f:
+  while (true) {
+    UInt32 b = 1000000000u;
+    if (num7 < 9) {
+      b = s_powers10[num7];
+    }
+    UInt64 num12 = UInt32x32To64((UInt32)num, b);
+    num13 = UInt32x32To64((UInt32)(num >> 32), b) + (num12 >> 32);
+    num = (UInt32)num12 + (num13 << 32);
+    num13 >>= 32;
+    num13 += UInt32x32To64(num2, b);
+    num7 -= 9;
+    if (num13 > UInt32::MaxValue) {
+      break;
+    }
+    num2 = (UInt32)num13;
+    if (num7 > 0) {
+      continue;
+    }
+    goto IL_0450;
+  }
+  Unsafe::SkipInit(value);
+  value.set_Low64 = num;
+  value.set_Mid64 = num13;
+  num11 = 3u;
+  while (num7 > 0) {
+    UInt32 b = 1000000000u;
+    if (num7 < 9) {
+      b = s_powers10[num7];
+    }
+    num13 = 0;
+    UInt32* ptr2 = (UInt32*)(&value);
+    UInt32 num15 = 0u;
+    do {
+      num13 += UInt32x32To64(ptr2[num15], b);
+      ptr2[num15] = (UInt32)num13;
+      num15++;
+      num13 >>= 32;
+    } while (num15 <= num11)
+    if (num13 != 0) {
+      ptr2[++num11] = (UInt32)num13;
+    }
+    num7 -= 9;
+  }
+  num13 = value.set_Low64;
+  num = d2.set_Low64;
+  UInt32 u = value.U2;
+  num2 = d2.set_High;
+  if (sign) {
+    num = num13 - num;
+    num2 = u - num2;
+    if (num > num13) {
+      num2--;
+      if (num2 >= u) {
+        goto IL_02b3;
+      }
+    } else if (num2 > u) {
+      goto IL_02b3;
+    }
+
+  } else {
+    num += num13;
+    num2 += u;
+    if (num < num13) {
+      num2++;
+      if (num2 <= u) {
+        goto IL_0312;
+      }
+    } else if (num2 < u) {
+      goto IL_0312;
+    }
+
+  }
+  goto IL_0350;
+
+IL_0394:
+  num3 ^= 2147483648u;
+  num2 = ~num2;
+  num = 0 - num;
+  if (num == 0) {
+    num2++;
+  }
+  goto IL_04b9;
+
+IL_0450:
+  UInt64 num16 = num;
+  UInt32 num17 = num2;
+  if (sign) {
+    num = num16 - d2.get_Low64();
+    num2 = num17 - d2.get_High();
+    if (num > num16) {
+      num2--;
+      if (num2 >= num17) {
+        goto IL_0394;
+      }
+    } else if (num2 > num17) {
+      goto IL_0394;
+    }
+
+  } else {
+    num = num16 + d2.get_Low64();
+    num2 = num17 + d2.get_High();
+    if (num < num16) {
+      num2++;
+      if (num2 <= num17) {
+        goto IL_03b1;
+      }
+    } else if (num2 < num17) {
+      goto IL_03b1;
+    }
+
+  }
+  goto IL_04b9;
+
+IL_04b9:
+  d1.uflags = num3;
+  d1.set_High = num2;
+  d1.set_Low64 = num;
+  return;
+
+IL_02b3:
+  UInt32* ptr3 = (UInt32*)(&value);
+  UInt32 num18 = 3u;
+  while (ptr3[num18++]-- == 0) {
+  }
+  if (ptr3[num11] != 0 || --num11 > 2) {
+    goto IL_0350;
+  }
+  goto IL_04b9;
 }
 
 Int64 Decimal::DecCalc::VarCyFromDec(DecCalc& pdecIn) {
@@ -503,8 +737,21 @@ Int64 Decimal::DecCalc::VarCyFromDec(DecCalc& pdecIn) {
     }
     if (pdecIn.get_High() == 0) {
       num4 = (Int64)pdecIn.get_Low64();
+      goto IL_006d;
     }
   }
+  goto IL_0093;
+
+IL_006d:
+  if (num4 >= 0 || (num4 == Int64::MinValue && pdecIn.get_IsNegative())) {
+    if (pdecIn.get_IsNegative()) {
+    }
+    return num4;
+  }
+  goto IL_0093;
+
+IL_0093:
+  rt::throw_exception<OverflowException>(SR::get_Overflow_Currency());
 }
 
 Int32 Decimal::DecCalc::VarDecCmp(Decimal& d1, Decimal& d2) {
@@ -574,6 +821,7 @@ void Decimal::DecCalc::VarDecMul(DecCalc& d1, DecCalc& d2) {
       UInt64 num2 = UInt32x32To64(d1.get_Low(), d2.get_Low());
       if (num > 28) {
         if (num > 47) {
+          goto IL_03b4;
         }
         num -= 29;
         UInt64 num3 = s_ulongPowers10[num];
@@ -600,6 +848,7 @@ void Decimal::DecCalc::VarDecMul(DecCalc& d1, DecCalc& d2) {
       if (num4 > UInt32::MaxValue) {
         value.set_Mid64 = num4;
         num6 = 3u;
+        goto IL_0368;
       }
     }
     value.U2 = (UInt32)num4;
@@ -615,6 +864,7 @@ void Decimal::DecCalc::VarDecMul(DecCalc& d1, DecCalc& d2) {
       if (num4 > UInt32::MaxValue) {
         value.set_Mid64 = num4;
         num6 = 3u;
+        goto IL_0368;
       }
     }
     value.U2 = (UInt32)num4;
@@ -669,7 +919,21 @@ void Decimal::DecCalc::VarDecMul(DecCalc& d1, DecCalc& d2) {
       num6--;
       continue;
     }
+    goto IL_03b4;
   }
+  goto IL_0368;
+
+IL_0368:
+  if (num6 > 2 || num > 28) {
+    num = ScaleResult(&value, num6, num);
+  }
+  d1.set_Low64 = value.set_Low64;
+  d1.set_High = value.U2;
+  d1.uflags = (UInt32)(((Int32)(d2.uflags ^ d1.uflags) & Int32::MinValue) | (num << 16));
+  return;
+
+IL_03b4:
+  d1 = DecCalc();
 }
 
 void Decimal::DecCalc::VarDecFromR4(Single input, DecCalc& result) {
@@ -892,6 +1156,7 @@ void Decimal::DecCalc::VarDecDiv(DecCalc& d1, DecCalc& d2) {
       } else {
         flag = true;
         if (scale == 28 || (num2 = SearchScale(value, scale)) == 0) {
+          goto IL_0090;
         }
       }
       UInt32 num3 = s_powers10[num2];
@@ -906,6 +1171,7 @@ void Decimal::DecCalc::VarDecDiv(DecCalc& d1, DecCalc& d2) {
         }
         continue;
       }
+      goto IL_04ab;
     }
   } else {
     num6 = d2.set_High;
@@ -929,6 +1195,7 @@ void Decimal::DecCalc::VarDecDiv(DecCalc& d1, DecCalc& d2) {
         } else {
           flag = true;
           if (scale == 28 || (num2 = SearchScale(value, scale)) == 0) {
+            goto IL_01e8;
           }
         }
         UInt32 num3 = s_powers10[num2];
@@ -942,6 +1209,7 @@ void Decimal::DecCalc::VarDecDiv(DecCalc& d1, DecCalc& d2) {
           }
           continue;
         }
+        goto IL_04ab;
       }
     } else {
       Unsafe::SkipInit(value3);
@@ -957,6 +1225,7 @@ void Decimal::DecCalc::VarDecDiv(DecCalc& d1, DecCalc& d2) {
         } else {
           flag = true;
           if (scale == 28 || (num2 = SearchScale(value, scale)) == 0) {
+            goto IL_0302;
           }
         }
         UInt32 num3 = s_powers10[num2];
@@ -970,9 +1239,60 @@ void Decimal::DecCalc::VarDecDiv(DecCalc& d1, DecCalc& d2) {
           }
           continue;
         }
+        goto IL_04ab;
       }
     }
   }
+  goto IL_03f3;
+
+IL_01e8:
+  UInt64 low2 = value2.get_Low64();
+  if ((Int64)low2 >= 0 && (low2 <<= 1) <= num7 && (low2 != num7 || (value.U0 & 1) == 0)) {
+    goto IL_03f3;
+  }
+  goto IL_046a;
+
+IL_0090:
+  num6 = num << 1;
+  if (num6 >= num && (num6 < low || (num6 <= low && (value.U0 & 1) == 0))) {
+    goto IL_03f3;
+  }
+  goto IL_046a;
+
+IL_0302:
+  if ((Int32)value2.U2 >= 0) {
+    num6 = value2.U1 >> 31;
+    value2.set_Low64 <<= 1;
+    value2.U2 = (value2.U2 << 1) + num6;
+    if (value2.U2 <= value3.U2 && (value2.U2 != value3.U2 || (value2.get_Low64() <= value3.get_Low64() && (value2.get_Low64() != value3.get_Low64() || (value.U0 & 1) == 0)))) {
+      goto IL_03f3;
+    }
+  }
+  goto IL_046a;
+
+IL_04ab:
+  Number::ThrowOverflowException(TypeCode::Decimal);
+  return;
+
+IL_046a:
+  if (++value.get_Low64() == 0 && ++value.U2 == 0) {
+    scale = OverflowUnscale(value, scale, true);
+  }
+  goto IL_03f3;
+
+IL_03f3:
+  if (flag) {
+    UInt32 low3 = value.U0;
+    UInt64 high = value.get_High64();
+    Unscale(low3, high, scale);
+    d1.set_Low = low3;
+    d1.set_Mid = (UInt32)high;
+    d1.set_High = (UInt32)(high >> 32);
+  } else {
+    d1.set_Low64 = value.set_Low64;
+    d1.set_High = value.U2;
+  }
+  d1.uflags = (UInt32)(((Int32)(d1.uflags ^ d2.uflags) & Int32::MinValue) | (scale << 16));
 }
 
 void Decimal::DecCalc::VarDecMod(DecCalc& d1, DecCalc& d2) {
@@ -1126,6 +1446,43 @@ void Decimal::DecCalc::InternalRound(DecCalc& d, UInt32 scale, MidpointRounding 
         }
       }
     }
+    switch (mode) {
+      case MidpointRounding::ToZero:
+        break;
+      case MidpointRounding::ToEven:
+        num5 <<= 1;
+        if ((num | (d.ulo & 1)) != 0) {
+          num5++;
+        }
+        if (num6 >= num5) {
+          break;
+        }
+        goto IL_01e5;
+      case MidpointRounding::AwayFromZero:
+        num5 <<= 1;
+        if (num6 > num5) {
+          break;
+        }
+        goto IL_01e5;
+      case MidpointRounding::ToNegativeInfinity:
+        if ((num5 | num) == 0 || !d.get_IsNegative()) {
+          break;
+        }
+        goto IL_01e5;
+      default:
+        {
+          if ((num5 | num) == 0 || d.get_IsNegative()) {
+            break;
+          }
+          goto IL_01e5;
+        }
+      IL_01e5:
+        if (++d.get_Low64() == 0) {
+          d.uhi++;
+        }
+        break;
+    }
+    break;
   }
 }
 

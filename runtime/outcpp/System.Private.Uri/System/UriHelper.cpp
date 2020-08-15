@@ -10,8 +10,11 @@
 #include <System.Private.CoreLib/System/Text/Rune-dep.h>
 #include <System.Private.CoreLib/System/Text/SpanRuneEnumerator-dep.h>
 #include <System.Private.Uri/System/HexConverter-dep.h>
+#include <System.Private.Uri/System/IriHelper-dep.h>
+#include <System.Private.Uri/System/SR-dep.h>
 #include <System.Private.Uri/System/Text/ValueStringBuilder-dep.h>
 #include <System.Private.Uri/System/Uri-dep.h>
+#include <System.Private.Uri/System/UriFormatException-dep.h>
 
 namespace System::Private::Uri::System::UriHelperNamespace {
 using namespace ::System::Private::CoreLib::System;
@@ -247,6 +250,114 @@ void UriHelper::UnescapeString(Char* pStr, Int32 start, Int32 end, ValueStringBu
     return;
   }
   do {
+
+  IL_003c:
+    Char c = 0;
+    for (; i < end; i++) {
+      if ((c = pStr[i]) == 37) {
+        if ((unescapeMode & UnescapeMode::Unescape) == 0) {
+          flag = true;
+          break;
+        }
+        if (i + 2 < end) {
+          c = DecodeHexChars(pStr[i + 1], pStr[i + 2]);
+          if (unescapeMode < UnescapeMode::UnescapeAll) {
+            switch (c.get()) {
+              case 65535:
+                if ((unescapeMode & UnescapeMode::Escape) == 0) {
+                  continue;
+                }
+                flag = true;
+                break;
+              case 37:
+                i += 2;
+                continue;
+              default:
+                if (c == rsvd1 || c == rsvd2 || c == rsvd3) {
+                  i += 2;
+                  continue;
+                }
+                if ((unescapeMode & UnescapeMode::V1ToStringFlag) == 0 && IsNotSafeForUnescape(c)) {
+                  i += 2;
+                  continue;
+                }
+                if (flag2 && ((c <= 159 && IsNotSafeForUnescape(c)) || (c > 159 && !IriHelper::CheckIriUnicodeRange(c, isQuery)))) {
+                  i += 2;
+                  continue;
+                }
+                break;
+            }
+            break;
+          }
+          if (c != 65535) {
+            break;
+          }
+          if (unescapeMode >= UnescapeMode::UnescapeAllOrThrow) {
+            rt::throw_exception<UriFormatException>(SR::get_net_uri_BadString());
+          }
+        } else {
+          if (unescapeMode < UnescapeMode::UnescapeAll) {
+            flag = true;
+            break;
+          }
+          if (unescapeMode >= UnescapeMode::UnescapeAllOrThrow) {
+            rt::throw_exception<UriFormatException>(SR::get_net_uri_BadString());
+          }
+        }
+      } else if ((unescapeMode & (UnescapeMode::Unescape | UnescapeMode::UnescapeAll)) != (UnescapeMode::Unescape | UnescapeMode::UnescapeAll) && (unescapeMode & UnescapeMode::Escape) != 0) {
+        if (c == rsvd1 || c == rsvd2 || c == rsvd3) {
+          flag = true;
+          break;
+        }
+        if ((unescapeMode & UnescapeMode::V1ToStringFlag) == 0 && (c <= 31 || (c >= 127 && c <= 159))) {
+          flag = true;
+          break;
+        }
+      }
+
+    }
+    while (start < i) {
+      dest.Append(pStr[start++]);
+    }
+    if (i == end) {
+      continue;
+    }
+    if (flag) {
+      EscapeAsciiChar((Byte)pStr[i], dest);
+      flag = false;
+      start = ++i;
+      goto IL_003c;
+    }
+    if (c <= 127) {
+      dest.Append(c);
+      i += 3;
+      start = i;
+      goto IL_003c;
+    }
+    Int32 byteCount = 1;
+    if (array == nullptr) {
+      array = rt::newarr<Array<Byte>>(end - i);
+    }
+    array[0] = (Byte)c;
+    for (i += 3; i < end; i += 3) {
+      if ((c = pStr[i]) != 37) {
+        break;
+      }
+      if (i + 2 >= end) {
+        break;
+      }
+      c = DecodeHexChars(pStr[i + 1], pStr[i + 2]);
+      if (c == 65535 || c < 128) {
+        break;
+      }
+      array[byteCount++] = (Byte)c;
+    }
+    if (array2 == nullptr || array2->get_Length() < array->get_Length()) {
+      array2 = rt::newarr<Array<Char>>(array->get_Length());
+    }
+    Int32 chars = s_noFallbackCharUTF8->GetChars(array, 0, byteCount, array2, 0);
+    start = i;
+    MatchUTF8Sequence(dest, MemoryExtensions::AsSpan(array2, 0, chars), chars, array, byteCount, isQuery, flag2);
   } while (i != end)
 }
 
@@ -276,16 +387,21 @@ Char UriHelper::DecodeHexChars(UInt32 first, UInt32 second) {
   first -= 48;
   if (first > 9) {
     if ((UInt32)((first - 17) & -33) > 5) {
+      goto IL_0055;
     }
     first = ((first + 48) | 32) - 97 + 10;
   }
   second -= 48;
   if (second > 9) {
     if ((UInt32)((second - 17) & -33) > 5) {
+      goto IL_0055;
     }
     second = ((second + 48) | 32) - 97 + 10;
   }
   return (Char)((first << 4) | second);
+
+IL_0055:
+  return 65535;
 }
 
 Boolean UriHelper::IsNotSafeForUnescape(Char ch) {

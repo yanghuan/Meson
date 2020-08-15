@@ -151,12 +151,19 @@ OperationStatus Rune::DecodeFromUtf16(ReadOnlySpan<Char> source, Rune& result, I
         return OperationStatus::Done;
       }
     } else if (Char::IsHighSurrogate(c)) {
+      goto IL_004c;
     }
 
     charsConsumed = 1;
     result = get_ReplacementChar();
     return OperationStatus::InvalidData;
   }
+  goto IL_004c;
+
+IL_004c:
+  charsConsumed = source.get_Length();
+  result = get_ReplacementChar();
+  return OperationStatus::NeedMoreData;
 }
 
 OperationStatus Rune::DecodeFromUtf8(ReadOnlySpan<Byte> source, Rune& result, Int32& bytesConsumed) {
@@ -165,11 +172,13 @@ OperationStatus Rune::DecodeFromUtf8(ReadOnlySpan<Byte> source, Rune& result, In
   if ((UInt32)num < (UInt32)source.get_Length()) {
     num2 = source[num];
     if (UnicodeUtility::IsAsciiCodePoint(num2)) {
+      goto IL_0021;
     }
     if (UnicodeUtility::IsInRangeInclusive(num2, 194u, 244u)) {
       num2 = num2 - 194 << 6;
       num++;
       if ((UInt32)num >= (UInt32)source.get_Length()) {
+        goto IL_0163;
       }
       Int32 num3 = (SByte)source[num];
       if (num3 < -64) {
@@ -177,10 +186,12 @@ OperationStatus Rune::DecodeFromUtf8(ReadOnlySpan<Byte> source, Rune& result, In
         num2 += 128;
         num2 += 128;
         if (num2 < 2048) {
+          goto IL_0021;
         }
         if (UnicodeUtility::IsInRangeInclusive(num2, 2080u, 3343u) && !UnicodeUtility::IsInRangeInclusive(num2, 2912u, 2943u) && !UnicodeUtility::IsInRangeInclusive(num2, 3072u, 3087u)) {
           num++;
           if ((UInt32)num >= (UInt32)source.get_Length()) {
+            goto IL_0163;
           }
           num3 = (SByte)source[num];
           if (num3 < -64) {
@@ -191,22 +202,42 @@ OperationStatus Rune::DecodeFromUtf8(ReadOnlySpan<Byte> source, Rune& result, In
             if (num2 > 65535) {
               num++;
               if ((UInt32)num >= (UInt32)source.get_Length()) {
+                goto IL_0163;
               }
               num3 = (SByte)source[num];
               if (num3 >= -64) {
+                goto IL_0153;
               }
               num2 <<= 6;
               num2 += (UInt32)num3;
               num2 += 128;
               num2 -= 4194304;
             }
+            goto IL_0021;
           }
         }
       }
     } else {
       num = 1;
     }
+    goto IL_0153;
   }
+  goto IL_0163;
+
+IL_0021:
+  bytesConsumed = num + 1;
+  result = UnsafeCreate(num2);
+  return OperationStatus::Done;
+
+IL_0153:
+  bytesConsumed = num;
+  result = get_ReplacementChar();
+  return OperationStatus::InvalidData;
+
+IL_0163:
+  bytesConsumed = num;
+  result = get_ReplacementChar();
+  return OperationStatus::NeedMoreData;
 }
 
 OperationStatus Rune::DecodeLastFromUtf16(ReadOnlySpan<Char> source, Rune& result, Int32& charsConsumed) {

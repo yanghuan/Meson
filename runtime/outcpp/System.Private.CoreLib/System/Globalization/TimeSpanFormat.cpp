@@ -1,5 +1,6 @@
 #include "TimeSpanFormat-dep.h"
 
+#include <System.Private.CoreLib/System/Buffers/Text/FormattingHelpers-dep.h>
 #include <System.Private.CoreLib/System/DateTimeFormat-dep.h>
 #include <System.Private.CoreLib/System/FormatException-dep.h>
 #include <System.Private.CoreLib/System/Globalization/CultureInfo-dep.h>
@@ -9,6 +10,7 @@
 #include <System.Private.CoreLib/System/Int32-dep.h>
 #include <System.Private.CoreLib/System/Int64-dep.h>
 #include <System.Private.CoreLib/System/Math-dep.h>
+#include <System.Private.CoreLib/System/MemoryExtensions-dep.h>
 #include <System.Private.CoreLib/System/Runtime/InteropServices/MemoryMarshal-dep.h>
 #include <System.Private.CoreLib/System/SR-dep.h>
 #include <System.Private.CoreLib/System/Text/StringBuilder-dep.h>
@@ -17,6 +19,7 @@
 #include <System.Private.CoreLib/System/UInt64-dep.h>
 
 namespace System::Private::CoreLib::System::Globalization::TimeSpanFormatNamespace {
+using namespace System::Buffers::Text;
 using namespace System::Runtime::InteropServices;
 using namespace System::Text;
 
@@ -238,6 +241,97 @@ Boolean TimeSpanFormat::TryFormatStandard(TimeSpan value, StandardFormat format,
   UInt64 result;
   num3 = Math::DivRem((UInt64)num2, 10000000, result);
   valueWithoutTrailingZeros = (UInt32)result;
+  goto IL_0045;
+
+IL_0045:
+  Int32 num4 = 0;
+  switch (format) {
+    case StandardFormat::C:
+      if (valueWithoutTrailingZeros != 0) {
+        num4 = 7;
+        num += num4 + 1;
+      }
+      break;
+    case StandardFormat::G:
+      num4 = 7;
+      num += num4 + 1;
+      break;
+    default:
+      if (valueWithoutTrailingZeros != 0) {
+        num4 = 7 - FormattingHelpers::CountDecimalTrailingZeros(valueWithoutTrailingZeros, valueWithoutTrailingZeros);
+        num += num4 + 1;
+      }
+      break;
+  }
+  UInt64 num5 = 0;
+  UInt64 result2 = 0;
+  if (num3 != 0) {
+    num5 = Math::DivRem(num3, 60, result2);
+  }
+  UInt64 num6 = 0;
+  UInt64 result3 = 0;
+  if (num5 != 0) {
+    num6 = Math::DivRem(num5, 60, result3);
+  }
+  UInt32 num7 = 0u;
+  UInt32 result4 = 0u;
+  if (num6 != 0) {
+    num7 = Math::DivRem((UInt32)num6, 24u, result4);
+  }
+  Int32 num8 = 2;
+  if (format == StandardFormat::g && result4 < 10) {
+    num8 = 1;
+    num--;
+  }
+  Int32 num9 = 0;
+  if (num7 != 0) {
+    num9 = FormattingHelpers::CountDigits(num7);
+    num += num9 + 1;
+  } else if (format == StandardFormat::G) {
+    num += 2;
+    num9 = 1;
+  }
+
+  if (destination.get_Length() < num) {
+    charsWritten = 0;
+    return false;
+  }
+  Int32 num10 = 0;
+  if (value.get_Ticks() < 0) {
+    destination[num10++] = 45;
+  }
+  if (num9 != 0) {
+    WriteDigits(num7, destination.Slice(num10, num9));
+    num10 += num9;
+    destination[num10++] = ((format == StandardFormat::C) ? 46 : 58);
+  }
+  if (num8 == 2) {
+    WriteTwoDigits(result4, destination.Slice(num10));
+    num10 += 2;
+  } else {
+    destination[num10++] = (Char)(48 + result4);
+  }
+  destination[num10++] = 58;
+  WriteTwoDigits((UInt32)result3, destination.Slice(num10));
+  num10 += 2;
+  destination[num10++] = 58;
+  WriteTwoDigits((UInt32)result2, destination.Slice(num10));
+  num10 += 2;
+  if (num4 != 0) {
+    if (format == StandardFormat::C) {
+      destination[num10++] = 46;
+    } else if (decimalSeparator->get_Length() == 1) {
+      destination[num10++] = decimalSeparator[0];
+    } else {
+      MemoryExtensions::AsSpan(decimalSeparator).CopyTo(destination);
+      num10 += decimalSeparator->get_Length();
+    }
+
+    WriteDigits(valueWithoutTrailingZeros, destination.Slice(num10, num4));
+    num10 += num4;
+  }
+  charsWritten = num;
+  return true;
 }
 
 void TimeSpanFormat::WriteTwoDigits(UInt32 value, Span<Char> buffer) {
