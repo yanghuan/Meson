@@ -25,10 +25,6 @@ namespace ByteNamespace {
 using namespace System::Globalization;
 struct Byte : public valueType<Byte> {
   public: using interface = rt::TypeList<IComparable<>, IConvertible, IFormattable, IComparable<Byte>, IEquatable<Byte>, ISpanFormattable>;
-  public: constexpr Byte() noexcept : m_value(0) {}
-  public: constexpr Byte(uint8_t value) noexcept : m_value(value) {}
-  public: constexpr uint8_t& get() noexcept { return m_value; }
-  public: constexpr uint8_t get() const noexcept { return m_value; }
   public: Int32 CompareTo(Object value);
   public: Int32 CompareTo(Byte value);
   public: Boolean Equals(Object obj);
@@ -55,6 +51,10 @@ struct Byte : public valueType<Byte> {
   public: static constexpr uint8_t MaxValue = 255;
   public: static constexpr uint8_t MinValue = 0;
   public: static constexpr rt::TypeCode code = rt::TypeCode::Byte;
+  public: constexpr Byte() noexcept : m_value(0) {}
+  public: constexpr Byte(uint8_t value) noexcept : m_value(value) {}
+  public: constexpr uint8_t& get() noexcept { return m_value; }
+  public: constexpr uint8_t get() const noexcept { return m_value; }
 };
 } // namespace ByteNamespace
 using Byte = ByteNamespace::Byte;

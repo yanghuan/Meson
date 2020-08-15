@@ -26,10 +26,6 @@ namespace SingleNamespace {
 using namespace System::Globalization;
 struct Single : public valueType<Single> {
   public: using interface = rt::TypeList<IComparable<>, IConvertible, IFormattable, IComparable<Single>, IEquatable<Single>, ISpanFormattable>;
-  public: constexpr Single() noexcept : m_value(0) {}
-  public: constexpr Single(float value) noexcept : m_value(value) {}
-  public: constexpr float& get() noexcept { return m_value; }
-  public: constexpr float get() const noexcept { return m_value; }
   public: static Boolean IsFinite(Single f);
   public: static Boolean IsInfinity(Single f);
   public: static Boolean IsNaN(Single f);
@@ -75,6 +71,10 @@ struct Single : public valueType<Single> {
   public: static constexpr float NegativeInfinity = rt::NegativeInfinity<float>;
   public: static constexpr float NaN = rt::NaN<float>;
   public: static constexpr rt::TypeCode code = rt::TypeCode::Single;
+  public: constexpr Single() noexcept : m_value(0) {}
+  public: constexpr Single(float value) noexcept : m_value(value) {}
+  public: constexpr float& get() noexcept { return m_value; }
+  public: constexpr float get() const noexcept { return m_value; }
 };
 } // namespace SingleNamespace
 using Single = SingleNamespace::Single;

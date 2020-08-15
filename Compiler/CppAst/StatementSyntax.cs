@@ -230,11 +230,14 @@ namespace Meson.Compiler.CppAst {
     internal override void Render(CppRenderer renderer) {
       renderer.Render(this);
     }
+
+     public static readonly TemplateTypenameSyntax T = new TemplateTypenameSyntax(IdentifierSyntax.T);
   }
 
   sealed class TemplateSyntax : SyntaxNode {
     public List<TemplateTypenameSyntax> Arguments { get; } = new List<TemplateTypenameSyntax>();
-
+    public ExpressionSyntax Requires { get; set; }
+    
     public TemplateSyntax() {}
 
     public TemplateSyntax(TemplateTypenameSyntax argument) {
@@ -257,7 +260,7 @@ namespace Meson.Compiler.CppAst {
       renderer.Render(this);
     }
 
-    public static readonly TemplateSyntax T = new TemplateSyntax(new TemplateTypenameSyntax(IdentifierSyntax.T));
+    public static readonly TemplateSyntax T = new TemplateSyntax(TemplateTypenameSyntax.T);
     public static readonly TemplateSyntax Empty = new TemplateSyntax();
     public IEnumerable<IdentifierSyntax> TypeNames => Arguments.Select(i => i.Name);
   }

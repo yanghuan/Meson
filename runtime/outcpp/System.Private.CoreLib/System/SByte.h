@@ -25,10 +25,6 @@ namespace SByteNamespace {
 using namespace System::Globalization;
 struct SByte : public valueType<SByte> {
   public: using interface = rt::TypeList<IComparable<>, IConvertible, IFormattable, IComparable<SByte>, IEquatable<SByte>, ISpanFormattable>;
-  public: constexpr SByte() noexcept : m_value(0) {}
-  public: constexpr SByte(int8_t value) noexcept : m_value(value) {}
-  public: constexpr int8_t& get() noexcept { return m_value; }
-  public: constexpr int8_t get() const noexcept { return m_value; }
   public: Int32 CompareTo(Object obj);
   public: Int32 CompareTo(SByte value);
   public: Boolean Equals(Object obj);
@@ -55,6 +51,10 @@ struct SByte : public valueType<SByte> {
   public: static constexpr int8_t MaxValue = 127;
   public: static constexpr int8_t MinValue = -128;
   public: static constexpr rt::TypeCode code = rt::TypeCode::SByte;
+  public: constexpr SByte() noexcept : m_value(0) {}
+  public: constexpr SByte(int8_t value) noexcept : m_value(value) {}
+  public: constexpr int8_t& get() noexcept { return m_value; }
+  public: constexpr int8_t get() const noexcept { return m_value; }
 };
 } // namespace SByteNamespace
 using SByte = SByteNamespace::SByte;

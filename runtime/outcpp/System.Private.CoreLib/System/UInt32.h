@@ -24,10 +24,6 @@ namespace UInt32Namespace {
 using namespace System::Globalization;
 struct UInt32 : public valueType<UInt32> {
   public: using interface = rt::TypeList<IComparable<>, IConvertible, IFormattable, IComparable<UInt32>, IEquatable<UInt32>, ISpanFormattable>;
-  public: constexpr UInt32() noexcept : m_value(0) {}
-  public: constexpr UInt32(uint32_t value) noexcept : m_value(value) {}
-  public: constexpr uint32_t& get() noexcept { return m_value; }
-  public: constexpr uint32_t get() const noexcept { return m_value; }
   public: Int32 CompareTo(Object value);
   public: Int32 CompareTo(UInt32 value);
   public: Boolean Equals(Object obj);
@@ -52,6 +48,10 @@ struct UInt32 : public valueType<UInt32> {
   public: static constexpr uint32_t MaxValue = 4294967295u;
   public: static constexpr uint32_t MinValue = 0u;
   public: static constexpr rt::TypeCode code = rt::TypeCode::UInt32;
+  public: constexpr UInt32() noexcept : m_value(0) {}
+  public: constexpr UInt32(uint32_t value) noexcept : m_value(value) {}
+  public: constexpr uint32_t& get() noexcept { return m_value; }
+  public: constexpr uint32_t get() const noexcept { return m_value; }
 };
 } // namespace UInt32Namespace
 using UInt32 = UInt32Namespace::UInt32;

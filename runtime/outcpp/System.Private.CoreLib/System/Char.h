@@ -24,10 +24,6 @@ namespace CharNamespace {
 using namespace System::Globalization;
 struct Char : public valueType<Char> {
   public: using interface = rt::TypeList<IComparable<>, IComparable<Char>, IEquatable<Char>, IConvertible>;
-  public: constexpr Char() noexcept : m_value(0) {}
-  public: constexpr Char(char8_t value) noexcept : m_value(value) {}
-  public: constexpr char8_t& get() noexcept { return m_value; }
-  public: constexpr char8_t get() const noexcept { return m_value; }
   private: static ReadOnlySpan<Byte> get_Latin1CharInfo();
   private: static Boolean IsLatin1(Char ch);
   private: static Boolean IsAscii(Char ch);
@@ -101,6 +97,10 @@ struct Char : public valueType<Char> {
   public: static constexpr char8_t MaxValue = 65535;
   public: static constexpr char8_t MinValue = 0;
   public: static constexpr rt::TypeCode code = rt::TypeCode::Char;
+  public: constexpr Char() noexcept : m_value(0) {}
+  public: constexpr Char(char8_t value) noexcept : m_value(value) {}
+  public: constexpr char8_t& get() noexcept { return m_value; }
+  public: constexpr char8_t get() const noexcept { return m_value; }
 };
 } // namespace CharNamespace
 using Char = CharNamespace::Char;

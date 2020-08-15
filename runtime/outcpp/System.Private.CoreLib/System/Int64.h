@@ -24,10 +24,6 @@ namespace Int64Namespace {
 using namespace System::Globalization;
 struct Int64 : public valueType<Int64> {
   public: using interface = rt::TypeList<IComparable<>, IConvertible, IFormattable, IComparable<Int64>, IEquatable<Int64>, ISpanFormattable>;
-  public: constexpr Int64() noexcept : m_value(0) {}
-  public: constexpr Int64(int64_t value) noexcept : m_value(value) {}
-  public: constexpr int64_t& get() noexcept { return m_value; }
-  public: constexpr int64_t get() const noexcept { return m_value; }
   public: Int32 CompareTo(Object value);
   public: Int32 CompareTo(Int64 value);
   public: Boolean Equals(Object obj);
@@ -52,6 +48,10 @@ struct Int64 : public valueType<Int64> {
   public: static constexpr int64_t MaxValue = 9223372036854775807;
   public: static constexpr int64_t MinValue = -9223372036854775808;
   public: static constexpr rt::TypeCode code = rt::TypeCode::Int64;
+  public: constexpr Int64() noexcept : m_value(0) {}
+  public: constexpr Int64(int64_t value) noexcept : m_value(value) {}
+  public: constexpr int64_t& get() noexcept { return m_value; }
+  public: constexpr int64_t get() const noexcept { return m_value; }
 };
 } // namespace Int64Namespace
 using Int64 = Int64Namespace::Int64;

@@ -25,10 +25,6 @@ namespace Int16Namespace {
 using namespace System::Globalization;
 struct Int16 : public valueType<Int16> {
   public: using interface = rt::TypeList<IComparable<>, IConvertible, IFormattable, IComparable<Int16>, IEquatable<Int16>, ISpanFormattable>;
-  public: constexpr Int16() noexcept : m_value(0) {}
-  public: constexpr Int16(int16_t value) noexcept : m_value(value) {}
-  public: constexpr int16_t& get() noexcept { return m_value; }
-  public: constexpr int16_t get() const noexcept { return m_value; }
   public: Int32 CompareTo(Object value);
   public: Int32 CompareTo(Int16 value);
   public: Boolean Equals(Object obj);
@@ -55,6 +51,10 @@ struct Int16 : public valueType<Int16> {
   public: static constexpr int16_t MaxValue = 32767;
   public: static constexpr int16_t MinValue = -32768;
   public: static constexpr rt::TypeCode code = rt::TypeCode::Int16;
+  public: constexpr Int16() noexcept : m_value(0) {}
+  public: constexpr Int16(int16_t value) noexcept : m_value(value) {}
+  public: constexpr int16_t& get() noexcept { return m_value; }
+  public: constexpr int16_t get() const noexcept { return m_value; }
 };
 } // namespace Int16Namespace
 using Int16 = Int16Namespace::Int16;

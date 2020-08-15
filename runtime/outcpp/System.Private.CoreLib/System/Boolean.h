@@ -17,10 +17,6 @@ FORWARD(String)
 namespace BooleanNamespace {
 struct Boolean : public valueType<Boolean> {
   public: using interface = rt::TypeList<IComparable<>, IConvertible, IComparable<Boolean>, IEquatable<Boolean>>;
-  public: constexpr Boolean() noexcept : m_value(false) {}
-  public: constexpr Boolean(bool value) noexcept : m_value(value) {}
-  public: constexpr bool& get() noexcept { return m_value; }
-  public: constexpr bool get() const noexcept { return m_value; }
   public: Int32 GetHashCode();
   public: String ToString();
   public: String ToString(IFormatProvider provider);
@@ -42,6 +38,10 @@ struct Boolean : public valueType<Boolean> {
   public: static String TrueString;
   public: static String FalseString;
   public: static constexpr rt::TypeCode code = rt::TypeCode::Boolean;
+  public: constexpr Boolean() noexcept : m_value(false) {}
+  public: constexpr Boolean(bool value) noexcept : m_value(value) {}
+  public: constexpr bool& get() noexcept { return m_value; }
+  public: constexpr bool get() const noexcept { return m_value; }
 };
 } // namespace BooleanNamespace
 using Boolean = BooleanNamespace::Boolean;

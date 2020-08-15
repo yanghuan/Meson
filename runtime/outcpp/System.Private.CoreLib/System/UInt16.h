@@ -25,10 +25,6 @@ namespace UInt16Namespace {
 using namespace System::Globalization;
 struct UInt16 : public valueType<UInt16> {
   public: using interface = rt::TypeList<IComparable<>, IConvertible, IFormattable, IComparable<UInt16>, IEquatable<UInt16>, ISpanFormattable>;
-  public: constexpr UInt16() noexcept : m_value(0) {}
-  public: constexpr UInt16(uint16_t value) noexcept : m_value(value) {}
-  public: constexpr uint16_t& get() noexcept { return m_value; }
-  public: constexpr uint16_t get() const noexcept { return m_value; }
   public: Int32 CompareTo(Object value);
   public: Int32 CompareTo(UInt16 value);
   public: Boolean Equals(Object obj);
@@ -55,6 +51,10 @@ struct UInt16 : public valueType<UInt16> {
   public: static constexpr uint16_t MaxValue = 65535;
   public: static constexpr uint16_t MinValue = 0;
   public: static constexpr rt::TypeCode code = rt::TypeCode::UInt16;
+  public: constexpr UInt16() noexcept : m_value(0) {}
+  public: constexpr UInt16(uint16_t value) noexcept : m_value(value) {}
+  public: constexpr uint16_t& get() noexcept { return m_value; }
+  public: constexpr uint16_t get() const noexcept { return m_value; }
 };
 } // namespace UInt16Namespace
 using UInt16 = UInt16Namespace::UInt16;

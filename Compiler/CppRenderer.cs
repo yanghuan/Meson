@@ -351,6 +351,13 @@ namespace Meson.Compiler {
       Write(Tokens.Less);
       WriteNodesWithSeparated(node.Arguments);
       Write(Tokens.Greater);
+      if (node.Requires != null) {
+        WriteSpace();
+        Write(Tokens.Requires);
+        Write(Tokens.OpenParentheses);
+        node.Requires.Render(this);
+        Write(Tokens.CloseParentheses);
+      }
       WriteNewLine();
     }
 

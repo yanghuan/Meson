@@ -591,6 +591,10 @@ namespace Meson.Compiler {
     }
 
     public SyntaxNode VisitStackAllocExpression(StackAllocExpression stackAllocExpression) {
+      if (MethodSymbol.Name == "GetMessage") {
+
+      }
+
       var type = stackAllocExpression.Type.AcceptExpression(this);
       var count = stackAllocExpression.CountExpression.AcceptExpression(this);
       var temp = GetTempIdentifier();

@@ -281,6 +281,11 @@ namespace rt {
       return T1::op_Implicit(*this);
     }
 
+    template <class R, class T1 = T> requires(std::is_same_v<R, decltype(&(T1().GetPinnableReference()))>)
+    operator R() {
+      return p_ == nullptr ? nullptr : &p->GetPinnableReference();
+    }
+
     template <class R, class T1 = T> requires(!IsRef<R> && IsObject<T1>)
     explicit operator R() {
       return R();
@@ -568,6 +573,16 @@ namespace rt {
     }
 
     template <class T1 = T> requires(IsArithmetic<T1>) 
+    T operator |(const T& other) const {
+      return static_cast<const T*>(this)->get() | other.get();
+    }
+
+    template <class T1 = T> requires(IsArithmetic<T1>) 
+    T operator &(const T& other) const {
+      return static_cast<const T*>(this)->get() & other.get();
+    }
+
+    template <class T1 = T> requires(IsArithmetic<T1>) 
     T operator >>(const T& other) const {
       return static_cast<const T*>(this)->get() >> other.get();
     }
@@ -621,7 +636,12 @@ namespace rt {
     operator R() {
       return static_cast<T*>(this)->get();
     }
-    
+
+    template <class R, class T1 = T> requires(std::is_same_v<R, decltype(&(T1().GetPinnableReference()))>)
+    operator R() {
+      return &(static_cast<T*>(this)->GetPinnableReference());
+    }
+
     template <class R, class T1 = T> requires(IsPrimitive<R> && IsPrimitive<T1>)
     explicit operator R() const {
       return static_cast<std::remove_reference_t<decltype(R().get())>>(static_cast<const T*>(this)->get());
@@ -650,6 +670,11 @@ namespace rt {
     template <class T1 = T> requires(AlwaysTrue<decltype(T1::op_Inequality(T1(), T1()))>) 
     auto operator !=(const T& other) {
       return T::op_Inequality(*static_cast<T*>(this), other);
+    }
+
+    template <class... Args>
+    constexpr auto operator [](Args&&... args) {
+      return static_cast<T*>(this)->operator[](std::forward<Args>(args)...);
     }
   };
 

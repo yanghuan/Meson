@@ -23,10 +23,6 @@ namespace Int32Namespace {
 using namespace System::Globalization;
 struct Int32 : public valueType<Int32> {
   public: using interface = rt::TypeList<IComparable<>, IConvertible, IFormattable, IComparable<Int32>, IEquatable<Int32>, ISpanFormattable>;
-  public: constexpr Int32() noexcept : m_value(0) {}
-  public: constexpr Int32(int32_t value) noexcept : m_value(value) {}
-  public: constexpr int32_t& get() noexcept { return m_value; }
-  public: constexpr int32_t get() const noexcept { return m_value; }
   public: Int32 CompareTo(Object value);
   public: Int32 CompareTo(Int32 value);
   public: Boolean Equals(Object obj);
@@ -51,6 +47,12 @@ struct Int32 : public valueType<Int32> {
   public: static constexpr int32_t MaxValue = 2147483647;
   public: static constexpr int32_t MinValue = -2147483648;
   public: static constexpr rt::TypeCode code = rt::TypeCode::Int32;
+  public: constexpr Int32() noexcept : m_value(0) {}
+  public: constexpr Int32(int32_t value) noexcept : m_value(value) {}
+  public: template <class T> requires(std::is_enum_v<T>)
+  constexpr Int32(T value) noexcept : Int32((int32_t)value) {}
+  public: constexpr int32_t& get() noexcept { return m_value; }
+  public: constexpr int32_t get() const noexcept { return m_value; }
 };
 } // namespace Int32Namespace
 using Int32 = Int32Namespace::Int32;

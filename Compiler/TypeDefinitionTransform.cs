@@ -369,47 +369,6 @@ namespace Meson.Compiler {
       fieldName = GetMemberName(field);
       if (IsValueTypeInnerField(field, typeDefinition, out typeName)) {
         isPrimitiveType = true;
-        if (!field.IsStatic) {
-          var statements = new StatementListSyntax();
-          string accessibilityToken = Accessibility.Public.ToTokenString();
-          var defaultConstructor = new MethodDefinitionSyntax(node.Name) {
-            AccessibilityToken = accessibilityToken,
-            Body = BlockSyntax.EmptyBlock,
-            IsConstexpr = true,
-            IsNoexcept = true,
-          };
-          defaultConstructor.AddInitializationList(fieldName, field.Type.GetDefinition().GetPrimitiveTypeDefaultValue());
-          statements.Add(defaultConstructor);
-
-          var underlyingTypeConstructor = new MethodDefinitionSyntax(node.Name, new ParameterSyntax(typeName, IdentifierSyntax.Value).ArrayOf()) {
-            AccessibilityToken = accessibilityToken,
-            Body = BlockSyntax.EmptyBlock,
-            IsConstexpr = true,
-            IsNoexcept = true,
-          };
-          underlyingTypeConstructor.AddInitializationList(fieldName, IdentifierSyntax.Value);
-          statements.Add(underlyingTypeConstructor);
-
-          var getValue = new MethodDefinitionSyntax(IdentifierSyntax.Get, null, new RefExpressionSyntax(typeName)) {
-            AccessibilityToken = accessibilityToken,
-            IsConstexpr = true,
-            IsNoexcept = true,
-            Body = new BlockSyntax() { IsSingleLine = true },
-          };
-          getValue.Body.Add(fieldName.Return());
-          statements.Add(getValue);
-
-          var getValueConst = new MethodDefinitionSyntax(IdentifierSyntax.Get, null, typeName) {
-            AccessibilityToken = accessibilityToken,
-            IsConstexpr = true,
-            IsNoexcept = true,
-            IsConst = true,
-            Body = new BlockSyntax() { IsSingleLine = true },
-          };
-          getValueConst.Body.Add(fieldName.Return());
-          statements.Add(getValueConst);
-          node.Statements.Insert(1, statements);
-        }
       } else {
         typeName = GetFieldTypeName(field, typeDefinition);
       }
@@ -613,12 +572,66 @@ namespace Meson.Compiler {
         case KnownTypeCode.Int64:
         case KnownTypeCode.UInt64:
         case KnownTypeCode.Single:
-        case KnownTypeCode.Double:
+        case KnownTypeCode.Double: 
         case KnownTypeCode.String: {
             node.Add(new FieldDefinitionSyntax(IdentifierSyntax.TypeCode, code, true, Accessibility.Public.ToTokenString()) {
               IsConstexpr = true,
               ConstantValue = IdentifierSyntax.TypeCode.TwoColon(type.Name),
             });
+            if (type.KnownTypeCode != KnownTypeCode.String) {
+              var field = type.Fields.Single(i => !i.IsStatic);
+              var fieldName = GetMemberName(field);
+              var typeName = (IdentifierSyntax)field.Type.GetValueTypeInnerName();
+              string accessibilityToken = Accessibility.Public.ToTokenString();
+              var defaultConstructor = new MethodDefinitionSyntax(node.Name) {
+                AccessibilityToken = accessibilityToken,
+                Body = BlockSyntax.EmptyBlock,
+                IsConstexpr = true,
+                IsNoexcept = true,
+              };
+              defaultConstructor.AddInitializationList(fieldName, field.Type.GetDefinition().GetPrimitiveTypeDefaultValue());
+              node.Add(defaultConstructor);
+
+              var underlyingTypeConstructor = new MethodDefinitionSyntax(node.Name, new ParameterSyntax(typeName, IdentifierSyntax.Value).ArrayOf()) {
+                AccessibilityToken = accessibilityToken,
+                Body = BlockSyntax.EmptyBlock,
+                IsConstexpr = true,
+                IsNoexcept = true,
+              };
+              underlyingTypeConstructor.AddInitializationList(fieldName, IdentifierSyntax.Value);
+              node.Add(underlyingTypeConstructor);
+
+              if (type.IsKnownType(KnownTypeCode.Int32)) {
+                var enumTypeConstructor = new MethodDefinitionSyntax(node.Name, new ParameterSyntax(IdentifierSyntax.T, IdentifierSyntax.Value).ArrayOf()) {
+                  AccessibilityToken = accessibilityToken,
+                  Body = BlockSyntax.EmptyBlock,
+                  IsConstexpr = true,
+                  IsNoexcept = true,
+                  Template = new TemplateSyntax(TemplateTypenameSyntax.T) { Requires = IdentifierSyntax.IsEnumType.Generic(IdentifierSyntax.T) },
+                };
+                enumTypeConstructor.AddInitializationList(node.Name, IdentifierSyntax.Value.CastTo(typeName));
+                node.Add(enumTypeConstructor);
+              }
+
+              var getValue = new MethodDefinitionSyntax(IdentifierSyntax.Get, null, new RefExpressionSyntax(typeName)) {
+                AccessibilityToken = accessibilityToken,
+                IsConstexpr = true,
+                IsNoexcept = true,
+                Body = new BlockSyntax() { IsSingleLine = true },
+              };
+              getValue.Body.Add(fieldName.Return());
+              node.Add(getValue);
+
+              var getValueConst = new MethodDefinitionSyntax(IdentifierSyntax.Get, null, typeName) {
+                AccessibilityToken = accessibilityToken,
+                IsConstexpr = true,
+                IsNoexcept = true,
+                IsConst = true,
+                Body = new BlockSyntax() { IsSingleLine = true },
+              };
+              getValueConst.Body.Add(fieldName.Return());
+              node.Add(getValueConst);
+            }
             break;
           }
         case KnownTypeCode.SpanOfT:
