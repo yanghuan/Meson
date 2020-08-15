@@ -3,6 +3,7 @@
 #include <System.Private.CoreLib/System/__ComObject-dep.h>
 #include <System.Private.CoreLib/System/Activator-dep.h>
 #include <System.Private.CoreLib/System/Collections/Hashtable-dep.h>
+#include <System.Private.CoreLib/System/IDisposable.h>
 #include <System.Private.CoreLib/System/Reflection/BindingFlags.h>
 #include <System.Private.CoreLib/System/Runtime/InteropServices/Marshal-dep.h>
 
@@ -68,6 +69,9 @@ void __ComObject___::FinalReleaseSelf() {
 Object __ComObject___::CreateEventProvider(RuntimeType t) {
   Object obj = Activator::CreateInstance(t, BindingFlags::Instance | BindingFlags::Public | BindingFlags::NonPublic | BindingFlags::CreateInstance, nullptr, rt::newarr<Array<Object>>(1), nullptr);
   if (!SetData(t, obj)) {
+    auto& default = (rt::as<IDisposable>(obj));
+    default == nullptr ? nullptr : default->Dispose();
+    obj = GetData(t);
   }
   return obj;
 }

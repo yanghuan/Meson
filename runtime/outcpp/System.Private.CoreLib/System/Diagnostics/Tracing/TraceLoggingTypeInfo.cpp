@@ -74,10 +74,8 @@ Object TraceLoggingTypeInfo___::GetData(Object value) {
 }
 
 TraceLoggingTypeInfo TraceLoggingTypeInfo___::GetInstance(Type type, List<Type> recursionCheck) {
-  auto default = threadCache;
-  if (default != nullptr) default = (threadCache = rt::newobj<Dictionary<Type, TraceLoggingTypeInfo>>());
-
-  Dictionary<Type, TraceLoggingTypeInfo> dictionary = default;
+  auto& default = threadCache;
+  Dictionary<Type, TraceLoggingTypeInfo> dictionary = default != nullptr ? default : (threadCache = rt::newobj<Dictionary<Type, TraceLoggingTypeInfo>>());
   TraceLoggingTypeInfo value;
   if (!dictionary->TryGetValue(type, value)) {
     if (recursionCheck == nullptr) {

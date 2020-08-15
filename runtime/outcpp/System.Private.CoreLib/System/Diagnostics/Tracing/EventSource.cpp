@@ -1365,6 +1365,8 @@ void EventSource___::ThrowEventSourceException(String eventName, Exception inner
     }
     if (innerEx != nullptr) {
       innerEx = innerEx->GetBaseException();
+      auto& default = innerEx->GetType();
+      ReportOutOfBandMessage(text + ": " + default == nullptr ? nullptr : default->ToString() + ":" + innerEx->get_Message());
     } else {
       ReportOutOfBandMessage(text);
     }
@@ -1463,6 +1465,7 @@ void EventSource___::DoCommand(EventCommandEventArgs commandArgs) {
       }
       if (commandArgs->listener == nullptr) {
         if (!flag) {
+          commandArgs->perEventSourceSessionId = -commandArgs->perEventSourceSessionId;
         }
         commandArgs->perEventSourceSessionId--;
       }
@@ -1474,11 +1477,34 @@ void EventSource___::DoCommand(EventCommandEventArgs commandArgs) {
         m_eventSourceEnabled = true;
       }
       OnEventCommand(commandArgs);
+      auto& default = m_eventCommandExecuted;
+      default == nullptr ? nullptr : default->Invoke((EventSource)this, commandArgs);
+      if (commandArgs->enable) {
+        return;
+      }
+      for (Int32 j = 0; j < m_eventData->get_Length(); j++) {
+        Boolean enabledForAnyListener = false;
+        for (EventDispatcher eventDispatcher = m_Dispatchers; eventDispatcher != nullptr; eventDispatcher = eventDispatcher->m_Next) {
+          if (eventDispatcher->m_EventEnabled[j]) {
+            enabledForAnyListener = true;
+            break;
+          }
+        }
+        m_eventData[j].EnabledForAnyListener = enabledForAnyListener;
+      }
+      if (!AnyEventEnabled()) {
+        m_level = EventLevel::LogAlways;
+        m_matchAnyKeyword = EventKeywords::None;
+        m_eventSourceEnabled = false;
+      }
+      return;
     }
     if (commandArgs->get_Command() == EventCommand::SendManifest && m_rawManifest != nullptr) {
       SendManifest(m_rawManifest);
     }
     OnEventCommand(commandArgs);
+    auto& default = m_eventCommandExecuted;
+    default == nullptr ? nullptr : default->Invoke((EventSource)this, commandArgs);
   } catch (Exception ex) {
   }
 }
@@ -1973,10 +1999,8 @@ void EventSource___::WriteMultiMergeInner(String eventName, EventSourceOptions& 
   Byte opcode = ((options.valuesSet & 8) != 0) ? options.opcode : eventTypes->opcode;
   EventTags tags = ((options.valuesSet & 2) != 0) ? options.tags : eventTypes->get_Tags();
   EventKeywords keywords = ((options.valuesSet & 1) != 0) ? options.keywords : eventTypes->keywords;
-  auto default = eventName;
-  if (default != nullptr) default = eventTypes->get_Name();
-
-  NameInfo nameInfo = eventTypes->GetNameInfo(default, tags);
+  auto& default = eventName;
+  NameInfo nameInfo = eventTypes->GetNameInfo(default != nullptr ? default : eventTypes->get_Name(), tags);
   if (nameInfo == nullptr) {
     return;
   }
@@ -2261,10 +2285,8 @@ NameInfo EventSource___::UpdateDescriptor(String name, TraceLoggingEventTypes ev
   EventTags tags = ((options.valuesSet & 2) != 0) ? options.tags : eventInfo->get_Tags();
   EventKeywords keywords = ((options.valuesSet & 1) != 0) ? options.keywords : eventInfo->keywords;
   if (IsEnabled((EventLevel)level, keywords)) {
-    auto default = name;
-    if (default != nullptr) default = eventInfo->get_Name();
-
-    nameInfo = eventInfo->GetNameInfo(default, tags);
+    auto& default = name;
+    nameInfo = eventInfo->GetNameInfo(default != nullptr ? default : eventInfo->get_Name(), tags);
     traceloggingId = nameInfo->identity;
   }
   descriptor = EventDescriptor(traceloggingId, level, opcode, (Int64)keywords);

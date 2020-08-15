@@ -199,6 +199,7 @@ Vector4 Vector4::Divide(Vector4 left, Single divisor) {
 }
 
 Vector4 Vector4::Negate(Vector4 value) {
+  return -value;
 }
 
 Vector4::Vector4(Single value) {

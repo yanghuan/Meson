@@ -10,6 +10,7 @@
 #include <System.Private.CoreLib/System/IO/UnmanagedMemoryStream-dep.h>
 #include <System.Private.CoreLib/System/IO/UnmanagedMemoryStreamWrapper-dep.h>
 #include <System.Private.CoreLib/System/Reflection/AssemblyName-dep.h>
+#include <System.Private.CoreLib/System/Reflection/CustomAttributeExtensions-dep.h>
 #include <System.Private.CoreLib/System/Resources/FileBasedResourceGroveler-dep.h>
 #include <System.Private.CoreLib/System/Resources/ManifestBasedResourceGroveler-dep.h>
 #include <System.Private.CoreLib/System/Resources/ResourceFallbackManager-dep.h>
@@ -102,10 +103,8 @@ void ResourceManager___::set_IgnoreCase(Boolean value) {
 }
 
 Type ResourceManager___::get_ResourceSetType() {
-  auto default = _userResourceSet;
-  if (default != nullptr) default = rt::typeof<RuntimeResourceSet>();
-
-  return default;
+  auto& default = _userResourceSet;
+  return default != nullptr ? default : rt::typeof<RuntimeResourceSet>();
 }
 
 UltimateResourceFallbackLocation ResourceManager___::get_FallbackLocation() {
@@ -311,6 +310,16 @@ Version ResourceManager___::GetSatelliteContractVersion(Assembly a) {
   if (a == nullptr) {
     rt::throw_exception<ArgumentNullException>("a", SR::get_ArgumentNull_Assembly());
   }
+  auto& default = CustomAttributeExtensions::GetCustomAttribute(a);
+  String text = default == nullptr ? nullptr : default->get_Version();
+  if (text == nullptr) {
+    return nullptr;
+  }
+  Version result;
+  if (!Version::in::TryParse(text, result)) {
+    rt::throw_exception<ArgumentException>(SR::Format(SR::get_Arg_InvalidSatelliteContract_Asm_Ver(), a, text));
+  }
+  return result;
 }
 
 CultureInfo ResourceManager___::GetNeutralResourcesLanguage(Assembly a) {

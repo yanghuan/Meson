@@ -148,6 +148,7 @@ String ParseNumbers::IntToString(Int32 n, Int32 radix, Int32 width, Char padding
   UInt32 num;
   if (n < 0) {
     flag = true;
+    num = (UInt32)((10 == radix) ? (-n) : n);
   } else {
     num = (UInt32)n;
   }
@@ -237,6 +238,7 @@ String ParseNumbers::LongToString(Int64 n, Int32 radix, Int32 width, Char paddin
   UInt64 num;
   if (n < 0) {
     flag = true;
+    num = (UInt64)((10 == radix) ? (-n) : n);
   } else {
     num = (UInt64)n;
   }

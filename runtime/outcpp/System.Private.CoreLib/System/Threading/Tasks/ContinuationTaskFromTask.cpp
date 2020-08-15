@@ -15,6 +15,8 @@ void ContinuationTaskFromTask___::InnerInvoke() {
   if (action != nullptr) {
     action(antecedent);
   } else {
+    auto& default = (rt::as<Action<Task, Object>>(m_action));
+    default == nullptr ? nullptr : default->Invoke(antecedent, m_stateObject);
   }
 }
 

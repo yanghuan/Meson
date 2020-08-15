@@ -7,17 +7,13 @@ namespace System::Private::CoreLib::System::Runtime::CompilerServices::AsyncTask
 using namespace System::Threading::Tasks;
 
 Task<> AsyncTaskMethodBuilder<>::get_Task() {
-  auto default = m_task;
-  if (default != nullptr) default = InitializeTaskAsPromise();
-
-  return default;
+  auto& default = m_task;
+  return default != nullptr ? default : InitializeTaskAsPromise();
 }
 
 Object AsyncTaskMethodBuilder<>::get_ObjectIdForDebugger() {
-  auto default = m_task;
-  if (default != nullptr) default = (m_task = AsyncTaskMethodBuilder<VoidTaskResult>::CreateWeaklyTypedStateMachineBox());
-
-  return default;
+  auto& default = m_task;
+  return default != nullptr ? default : (m_task = AsyncTaskMethodBuilder<VoidTaskResult>::CreateWeaklyTypedStateMachineBox());
 }
 
 } // namespace System::Private::CoreLib::System::Runtime::CompilerServices::AsyncTaskMethodBuilderNamespace

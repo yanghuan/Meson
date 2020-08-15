@@ -100,6 +100,12 @@ void Contract::AssertMustUseRewriter(ContractFailureKind kind, String contractKi
   StackTrace stackTrace = rt::newobj<StackTrace>();
   Assembly assembly2 = nullptr;
   for (Int32 i = 0; i < stackTrace->get_FrameCount(); i++) {
+    auto& default = stackTrace->GetFrame(i)->GetMethod();
+    Assembly assembly3 = (default == nullptr ? nullptr : default->get_DeclaringType())->get_Assembly();
+    if (assembly3 != nullptr && assembly3 != assembly) {
+      assembly2 = assembly3;
+      break;
+    }
   }
   if ((Object)assembly2 == nullptr) {
     assembly2 = assembly;

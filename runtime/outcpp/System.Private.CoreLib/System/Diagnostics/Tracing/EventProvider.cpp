@@ -438,10 +438,8 @@ Object EventProvider___::EncodeObject(Object& data, EventData*& dataDescriptor, 
   totalEventSize += dataDescriptor->Size;
   dataDescriptor++;
   dataBuffer += 16;
-  auto default = ((Object)text);
-  if (default != nullptr) default = ((Object)array);
-
-  return default;
+  auto& default = ((Object)text);
+  return default != nullptr ? default : ((Object)array);
 }
 
 Boolean EventProvider___::WriteEvent(EventDescriptor& eventDescriptor, IntPtr eventHandle, Guid* activityID, Guid* childActivityID, Array<Object> eventPayload) {

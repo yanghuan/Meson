@@ -58,10 +58,8 @@ RuntimeMethodInfo Associates::AssignAssociates(Int32 tkMethod, RuntimeType decla
     }
   }
   RuntimeMethodInfo runtimeMethodInfo = rt::as<RuntimeMethodInfo>(RuntimeType::in::GetMethodBase(reflectedType, runtimeMethodHandleInternal));
-  auto default = runtimeMethodInfo;
-  if (default != nullptr) default = (rt::as<RuntimeMethodInfo>(reflectedType->get_Module()->ResolveMethod(tkMethod, nullptr, nullptr)));
-
-  return default;
+  auto& default = runtimeMethodInfo;
+  return default != nullptr ? default : (rt::as<RuntimeMethodInfo>(reflectedType->get_Module()->ResolveMethod(tkMethod, nullptr, nullptr)));
 }
 
 void Associates::AssignAssociates(MetadataImport scope, Int32 mdPropEvent, RuntimeType declaringType, RuntimeType reflectedType, RuntimeMethodInfo& addOn, RuntimeMethodInfo& removeOn, RuntimeMethodInfo& fireOn, RuntimeMethodInfo& getter, RuntimeMethodInfo& setter, Array<MethodInfo>& other, Boolean& composedOfAllPrivateMethods, BindingFlags& bindingFlags) {
@@ -127,6 +125,8 @@ void Associates::AssignAssociates(MetadataImport scope, Int32 mdPropEvent, Runti
   Boolean isStatic = (attributes & Attributes::ComposedOfNoStaticMembers) == 0;
   bindingFlags = RuntimeType::in::FilterPreCalculate(isPublic, isInherited, isStatic);
   composedOfAllPrivateMethods = ((attributes & Attributes::ComposedOfAllPrivateMethods) != 0);
+  auto& default = list;
+  other = default == nullptr ? nullptr : default->ToArray();
 }
 
 } // namespace System::Private::CoreLib::System::Reflection::AssociatesNamespace

@@ -35,6 +35,9 @@ ValueTask<> CancellationTokenRegistration::DisposeAsync() {
 
 Boolean CancellationTokenRegistration::Unregister() {
   CancellationTokenSource::in::CallbackNode node = _node;
+  auto& default = node;
+  auto& extern = default == nullptr ? nullptr : default->Partition->Unregister(_id, node);
+  return extern != nullptr ? extern : false;
 }
 
 void CancellationTokenRegistration::WaitForCallbackIfNecessary() {

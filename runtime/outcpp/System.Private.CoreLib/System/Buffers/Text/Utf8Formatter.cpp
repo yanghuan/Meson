@@ -137,6 +137,7 @@ Boolean Utf8Formatter::TryFormatDateTimeG(DateTime value, TimeSpan offset, Span<
     Byte b2;
     if (num2 < 0) {
       b2 = 45;
+      num2 = -num2;
     } else {
       b2 = 43;
     }
@@ -248,6 +249,7 @@ Boolean Utf8Formatter::TryFormatDateTimeO(DateTime value, TimeSpan offset, Span<
         Byte b;
         if (num2 < 0) {
           b = 45;
+          num2 = -num2;
         } else {
           b = 43;
         }
@@ -396,6 +398,7 @@ Boolean Utf8Formatter::TryFormatDecimalE(Number::NumberBuffer& number, Span<Byte
     destination[num2++] = 43;
   } else {
     destination[num2++] = 45;
+    num4 = -num4;
   }
   destination[num2++] = 48;
   destination[num2++] = (Byte)(num4 / 10 + 48);
@@ -436,6 +439,11 @@ Boolean Utf8Formatter::TryFormatDecimalF(Number::NumberBuffer& number, Span<Byte
     destination[num2++] = 46;
     Int32 k = 0;
     if (scale < 0) {
+      Int32 num4 = Math::Min(precision, -scale);
+      for (Int32 l = 0; l < num4; l++) {
+        destination[num2++] = 48;
+      }
+      k += num4;
     }
     for (; k < precision; k++) {
       Byte b2 = readOnlySpan[i];
@@ -462,6 +470,7 @@ Boolean Utf8Formatter::TryFormatDecimalG(Number::NumberBuffer& number, Span<Byte
   if (flag) {
     num = digitsCount + 1;
     if (scale <= 0) {
+      num += 1 + -scale;
     }
   } else {
     num = ((scale <= 0) ? 1 : scale);
@@ -496,6 +505,10 @@ Boolean Utf8Formatter::TryFormatDecimalG(Number::NumberBuffer& number, Span<Byte
   if (flag) {
     destination[num2++] = 46;
     if (scale < 0) {
+      Int32 num4 = -scale;
+      for (Int32 k = 0; k < num4; k++) {
+        destination[num2++] = 48;
+      }
     }
     Byte b2;
     while ((b2 = readOnlySpan[i++]) != 0) {
@@ -658,6 +671,7 @@ Boolean Utf8Formatter::TryFormatInt64D(Int64 value, Byte precision, Span<Byte> d
   Boolean insertNegationSign = false;
   if (value < 0) {
     insertNegationSign = true;
+    value = -value;
   }
   return TryFormatUInt64D((UInt64)value, precision, destination, insertNegationSign, bytesWritten);
 }
@@ -672,6 +686,16 @@ Boolean Utf8Formatter::TryFormatInt64Default(Int64 value, Span<Byte> destination
 
 Boolean Utf8Formatter::TryFormatInt64MultipleDigits(Int64 value, Span<Byte> destination, Int32& bytesWritten) {
   if (value < 0) {
+    value = -value;
+    Int32 num = FormattingHelpers::CountDigits((UInt64)value);
+    if (num >= destination.get_Length()) {
+      bytesWritten = 0;
+      return false;
+    }
+    destination[0] = 45;
+    bytesWritten = num + 1;
+    FormattingHelpers::WriteDigits((UInt64)value, destination.Slice(1, num));
+    return true;
   }
   return TryFormatUInt64MultipleDigits((UInt64)value, destination, bytesWritten);
 }
@@ -680,6 +704,7 @@ Boolean Utf8Formatter::TryFormatInt64N(Int64 value, Byte precision, Span<Byte> d
   Boolean insertNegationSign = false;
   if (value < 0) {
     insertNegationSign = true;
+    value = -value;
   }
   return TryFormatUInt64N((UInt64)value, precision, destination, insertNegationSign, bytesWritten);
 }
@@ -834,6 +859,12 @@ Boolean Utf8Formatter::TryFormat(TimeSpan value, Span<Byte> destination, Int32& 
   UInt32 valueWithoutTrailingZeros;
   UInt64 num2;
   if (ticks < 0) {
+    ticks = -ticks;
+    if (ticks < 0) {
+      valueWithoutTrailingZeros = 4775808u;
+      num2 = 922337203685;
+      goto IL_0082;
+    }
   }
   UInt64 modulo;
   num2 = FormattingHelpers::DivMod((UInt64)Math::Abs(value.get_Ticks()), 10000000, modulo);

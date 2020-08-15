@@ -63,6 +63,9 @@ Boolean MethodInfo___::op_Equality(MethodInfo left, MethodInfo right) {
   if ((Object)left == right) {
     return true;
   }
+  auto& default = left;
+  auto& extern = default == nullptr ? nullptr : default->Equals(right);
+  return extern != nullptr ? extern : false;
 }
 
 Boolean MethodInfo___::op_Inequality(MethodInfo left, MethodInfo right) {

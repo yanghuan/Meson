@@ -11,10 +11,8 @@
 
 namespace System::Private::CoreLib::System::Reflection::MdFieldInfoNamespace {
 String MdFieldInfo___::get_Name() {
-  auto default = m_name;
-  if (default != nullptr) default = (m_name = GetRuntimeModule()->get_MetadataImport().GetName(m_tkField).ToString());
-
-  return default;
+  auto& default = m_name;
+  return default != nullptr ? default : (m_name = GetRuntimeModule()->get_MetadataImport().GetName(m_tkField).ToString());
 }
 
 Int32 MdFieldInfo___::get_MetadataToken() {

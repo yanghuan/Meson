@@ -125,6 +125,7 @@ Type SymbolType___::FormCompoundType(String format, Type baseType, Int32 curInde
           curIndex++;
         }
         if (flag) {
+          num2 = -num2;
         }
         num3 = num2 - 1;
       }
@@ -147,6 +148,7 @@ Type SymbolType___::FormCompoundType(String format, Type baseType, Int32 curInde
             curIndex++;
           }
           if (flag2) {
+            num3 = -num3;
           }
           if (num3 < num2) {
             rt::throw_exception<ArgumentException>(SR::get_Argument_BadSigFormat());

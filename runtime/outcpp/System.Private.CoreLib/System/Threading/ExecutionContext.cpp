@@ -59,10 +59,8 @@ ExecutionContext ExecutionContext___::ShallowClone(Boolean isFlowSuppressed) {
 
 AsyncFlowControl ExecutionContext___::SuppressFlow() {
   Thread currentThread = Thread::in::get_CurrentThread();
-  auto default = currentThread->_executionContext;
-  if (default != nullptr) default = Default;
-
-  ExecutionContext executionContext = default;
+  auto& default = currentThread->_executionContext;
+  ExecutionContext executionContext = default != nullptr ? default : Default;
   if (executionContext->m_isFlowSuppressed) {
     rt::throw_exception<InvalidOperationException>(SR::get_InvalidOperation_CannotSupressFlowMultipleTimes());
   }
@@ -83,6 +81,9 @@ void ExecutionContext___::RestoreFlow() {
 }
 
 Boolean ExecutionContext___::IsFlowSuppressed() {
+  auto& default = Thread::in::get_CurrentThread()->_executionContext;
+  auto& extern = default == nullptr ? nullptr : default->m_isFlowSuppressed;
+  return extern != nullptr ? extern : false;
 }
 
 void ExecutionContext___::Run(ExecutionContext executionContext, ContextCallback<> callback, Object state) {
@@ -122,6 +123,8 @@ void ExecutionContext___::RunInternal(ExecutionContext executionContext, Context
   if (executionContext5 != executionContext4) {
     RestoreChangedContextToThread(thread2, executionContext4, executionContext5);
   }
+  auto& default = exceptionDispatchInfo;
+  default == nullptr ? nullptr : default->Throw();
 }
 
 void ExecutionContext___::RunFromThreadPoolDispatchLoop(Thread threadPoolThread, ExecutionContext executionContext, ContextCallback<> callback, Object state) {
@@ -138,6 +141,8 @@ void ExecutionContext___::RunFromThreadPoolDispatchLoop(Thread threadPoolThread,
   if (executionContext2 != nullptr) {
     RestoreChangedContextToThread(threadPoolThread, nullptr, executionContext2);
   }
+  auto& default = exceptionDispatchInfo;
+  default == nullptr ? nullptr : default->Throw();
 }
 
 void ExecutionContext___::RestoreChangedContextToThread(Thread currentThread, ExecutionContext contextToRestore, ExecutionContext currentContext) {
@@ -159,6 +164,20 @@ void ExecutionContext___::ResetThreadPoolThread(Thread currentThread) {
 }
 
 void ExecutionContext___::OnValuesChanged(ExecutionContext previousExecutionCtx, ExecutionContext nextExecutionCtx) {
+  auto& default = previousExecutionCtx;
+  Array<IAsyncLocal> array = default == nullptr ? nullptr : default->m_localChangeNotifications;
+  auto& extern = nextExecutionCtx;
+  Array<IAsyncLocal> array2 = extern == nullptr ? nullptr : extern->m_localChangeNotifications;
+  try{
+    if (array != nullptr && array2 != nullptr) {
+      Array<IAsyncLocal> array3 = array;
+    }
+    if (array != nullptr) {
+      Array<IAsyncLocal> array5 = array;
+    }
+    Array<IAsyncLocal> array6 = array2;
+  } catch (Exception exception) {
+  }
 }
 
 void ExecutionContext___::ThrowNullContext() {

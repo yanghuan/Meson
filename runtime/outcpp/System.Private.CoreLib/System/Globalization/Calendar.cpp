@@ -179,6 +179,7 @@ Int32 Calendar___::GetWeekOfYearFullDays(DateTime time, Int32 firstDayOfWeek, In
   if (time <= get_MinSupportedDateTime().AddDays(num)) {
     return GetWeekOfYearOfMinSupportedDateTime(firstDayOfWeek, fullDays);
   }
+  return GetWeekOfYearFullDays(time.AddDays(-(num + 1)), firstDayOfWeek, fullDays);
 }
 
 Int32 Calendar___::GetWeekOfYearOfMinSupportedDateTime(Int32 firstDayOfWeek, Int32 minimumDaysInFirstWeek) {

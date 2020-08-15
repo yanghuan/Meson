@@ -55,6 +55,7 @@ Int32 Comparer___::Compare(Object a, Object b) {
   }
   IComparable comparable2 = rt::as<IComparable>(b);
   if (comparable2 != nullptr) {
+    return -comparable2->CompareTo(a);
   }
   rt::throw_exception<ArgumentException>(SR::get_Argument_ImplementIComparable());
 }

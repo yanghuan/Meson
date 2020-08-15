@@ -4,6 +4,7 @@
 #include <System.Private.CoreLib/System/InvalidOperationException-dep.h>
 #include <System.Private.CoreLib/System/Object-dep.h>
 #include <System.Private.CoreLib/System/Reflection/MetadataToken-dep.h>
+#include <System.Private.CoreLib/System/Reflection/MethodInfo-dep.h>
 #include <System.Private.CoreLib/System/Reflection/Module-dep.h>
 #include <System.Private.CoreLib/System/SR-dep.h>
 
@@ -45,6 +46,8 @@ Type RuntimeExceptionHandlingClause___::get_CatchType() {
   if (!MetadataToken::IsNullToken(_catchMetadataToken)) {
     Type declaringType = _methodBody->_methodBase->get_DeclaringType();
     Module module = (declaringType == nullptr) ? _methodBody->_methodBase->get_Module() : declaringType->get_Module();
+    auto& default = declaringType;
+    result = module->ResolveType(_catchMetadataToken, default == nullptr ? nullptr : default->GetGenericArguments(), rt::is<MethodInfo>(_methodBody->_methodBase) ? _methodBody->_methodBase->GetGenericArguments() : nullptr);
   }
   return result;
 }

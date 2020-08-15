@@ -75,10 +75,8 @@ Array<EraInfo> JapaneseCalendar___::GetEraInfo() {
 }
 
 Calendar JapaneseCalendar___::GetDefaultInstance() {
-  auto default = s_defaultInstance;
-  if (default != nullptr) default = (s_defaultInstance = rt::newobj<JapaneseCalendar>());
-
-  return default;
+  auto& default = s_defaultInstance;
+  return default != nullptr ? default : (s_defaultInstance = rt::newobj<JapaneseCalendar>());
 }
 
 void JapaneseCalendar___::ctor() {

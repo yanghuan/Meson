@@ -1408,6 +1408,7 @@ void StringBuilder___::ReplaceAllInChunk(Array<Int32> replacements, Int32 replac
       }
     }
     if (num2 < 0) {
+      Remove(chunk->m_ChunkOffset + indexInChunk, -num2, chunk, indexInChunk);
     }
   }
 }

@@ -15,10 +15,8 @@ String ObjectDisposedException___::get_Message() {
 }
 
 String ObjectDisposedException___::get_ObjectName() {
-  auto default = _objectName;
-  if (default != nullptr) default = String::in::Empty;
-
-  return default;
+  auto& default = _objectName;
+  return default != nullptr ? default : String::in::Empty;
 }
 
 void ObjectDisposedException___::ctor() {

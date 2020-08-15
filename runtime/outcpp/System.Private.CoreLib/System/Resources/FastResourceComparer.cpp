@@ -77,6 +77,7 @@ Int32 FastResourceComparer___::CompareOrdinal(String a, Array<Byte> bytes, Int32
 }
 
 Int32 FastResourceComparer___::CompareOrdinal(Array<Byte> bytes, Int32 aCharLength, String b) {
+  return -CompareOrdinal(b, bytes, aCharLength);
 }
 
 Int32 FastResourceComparer___::CompareOrdinal(Byte* a, Int32 byteLen, String b) {

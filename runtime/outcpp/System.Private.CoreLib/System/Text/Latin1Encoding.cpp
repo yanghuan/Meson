@@ -42,6 +42,28 @@ Int32 Latin1Encoding___::GetByteCount(Char* chars, Int32 charCount, EncoderNLS e
     chars = chars2;
   }
   while (true) {
+    auto& default = encoderFallbackBuffer;
+    auto& extern = default == nullptr ? nullptr : default->InternalGetNextChar();
+    Char num2 = extern != nullptr ? extern : 0;
+    Char c2 = num2;
+    if (num2 == 0 && chars >= ptr) {
+      break;
+    }
+    if (c2 == 0) {
+      c2 = *chars;
+      chars++;
+    }
+    if (c2 > 255) {
+      if (encoderFallbackBuffer == nullptr) {
+        encoderFallbackBuffer = ((encoder != nullptr) ? encoder->get_FallbackBuffer() : encoderFallback->CreateFallbackBuffer());
+        encoderFallbackBuffer->InternalInitialize(ptr - charCount, ptr, encoder, false);
+      }
+      Char* chars2 = chars;
+      encoderFallbackBuffer->InternalFallback(c2, chars2);
+      chars = chars2;
+    } else {
+      num++;
+    }
   }
   return num;
 }
@@ -102,6 +124,42 @@ Int32 Latin1Encoding___::GetBytes(Char* chars, Int32 charCount, Byte* bytes, Int
     }
   }
   while (true) {
+    auto& default = encoderFallbackBuffer;
+    auto& extern = default == nullptr ? nullptr : default->InternalGetNextChar();
+    Char num2 = extern != nullptr ? extern : 0;
+    Char c4 = num2;
+    if (num2 == 0 && chars >= ptr) {
+      break;
+    }
+    if (c4 == 0) {
+      c4 = *chars;
+      chars++;
+    }
+    if (c4 > 255) {
+      if (encoderFallbackBuffer == nullptr) {
+        encoderFallbackBuffer = ((encoder != nullptr) ? encoder->get_FallbackBuffer() : encoderFallback->CreateFallbackBuffer());
+        encoderFallbackBuffer->InternalInitialize(ptr - charCount, ptr, encoder, true);
+      }
+      Char* chars2 = chars;
+      encoderFallbackBuffer->InternalFallback(c4, chars2);
+      chars = chars2;
+      if (encoderFallbackBuffer->get_Remaining() > ptr4 - bytes) {
+        chars--;
+        encoderFallbackBuffer->InternalReset();
+        ThrowBytesOverflow(encoder, chars == ptr3);
+        break;
+      }
+      continue;
+    }
+    if (bytes >= ptr4) {
+      if (encoderFallbackBuffer == nullptr || !encoderFallbackBuffer->bFallingBack) {
+        chars--;
+      }
+      ThrowBytesOverflow(encoder, chars == ptr3);
+      break;
+    }
+    *bytes = (Byte)c4;
+    bytes++;
   }
   if (encoder != nullptr) {
     if (encoderFallbackBuffer != nullptr && !encoderFallbackBuffer->bUsedEncoder) {

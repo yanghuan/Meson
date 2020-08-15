@@ -3,6 +3,7 @@
 #include <System.Private.CoreLib/System/IndexOutOfRangeException-dep.h>
 #include <System.Private.CoreLib/System/Int32-dep.h>
 #include <System.Private.CoreLib/System/Reflection/BindingFlags.h>
+#include <System.Private.CoreLib/System/Reflection/IntrospectionExtensions-dep.h>
 #include <System.Private.CoreLib/System/Reflection/TypeInfo-dep.h>
 
 namespace System::Private::CoreLib::System::Reflection::TypeInfoNamespace {
@@ -65,6 +66,8 @@ MethodInfo TypeInfo___::GetDeclaredMethod(String name) {
 }
 
 TypeInfo TypeInfo___::GetDeclaredNestedType(String name) {
+  auto& default = GetNestedType(name, BindingFlags::DeclaredOnly | BindingFlags::Instance | BindingFlags::Static | BindingFlags::Public | BindingFlags::NonPublic);
+  return IntrospectionExtensions::GetTypeInfo(default == nullptr ? nullptr : default);
 }
 
 PropertyInfo TypeInfo___::GetDeclaredProperty(String name) {

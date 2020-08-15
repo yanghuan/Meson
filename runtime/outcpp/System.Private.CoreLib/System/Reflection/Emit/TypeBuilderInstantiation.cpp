@@ -43,10 +43,8 @@ RuntimeTypeHandle TypeBuilderInstantiation___::get_TypeHandle() {
 }
 
 String TypeBuilderInstantiation___::get_FullName() {
-  auto default = m_strFullQualName;
-  if (default != nullptr) default = (m_strFullQualName = TypeNameBuilder::in::ToString((TypeBuilderInstantiation)this, TypeNameBuilder::in::Format::FullName));
-
-  return default;
+  auto& default = m_strFullQualName;
+  return default != nullptr ? default : (m_strFullQualName = TypeNameBuilder::in::ToString((TypeBuilderInstantiation)this, TypeNameBuilder::in::Format::FullName));
 }
 
 String TypeBuilderInstantiation___::get_Namespace() {

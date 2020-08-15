@@ -14,24 +14,40 @@ using namespace System::Runtime::Intrinsics::X86;
 
 Int16 Math::Abs(Int16 value) {
   if (value < 0) {
+    value = (Int16)(-value);
+    if (value < 0) {
+      ThrowAbsOverflow();
+    }
   }
   return value;
 }
 
 Int32 Math::Abs(Int32 value) {
   if (value < 0) {
+    value = -value;
+    if (value < 0) {
+      ThrowAbsOverflow();
+    }
   }
   return value;
 }
 
 Int64 Math::Abs(Int64 value) {
   if (value < 0) {
+    value = -value;
+    if (value < 0) {
+      ThrowAbsOverflow();
+    }
   }
   return value;
 }
 
 SByte Math::Abs(SByte value) {
   if (value < 0) {
+    value = (SByte)(-value);
+    if (value < 0) {
+      ThrowAbsOverflow();
+    }
   }
   return value;
 }
@@ -647,9 +663,11 @@ Int32 Math::Sign(Int16 value) {
 }
 
 Int32 Math::Sign(Int32 value) {
+  return (value >> 31) | (Int32)((UInt32)(-value) >> 31);
 }
 
 Int32 Math::Sign(Int64 value) {
+  return (Int32)((value >> 63) | (Int64)((UInt64)(-value) >> 63));
 }
 
 Int32 Math::Sign(SByte value) {

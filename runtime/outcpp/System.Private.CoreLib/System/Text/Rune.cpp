@@ -262,6 +262,9 @@ OperationStatus Rune::DecodeLastFromUtf16(ReadOnlySpan<Char> source, Rune& resul
       return OperationStatus::InvalidData;
     }
   }
+  charsConsumed = (Int32)((UInt32)(-source.get_Length()) >> 31);
+  result = get_ReplacementChar();
+  return OperationStatus::NeedMoreData;
 }
 
 OperationStatus Rune::DecodeLastFromUtf8(ReadOnlySpan<Byte> source, Rune& value, Int32& bytesConsumed) {

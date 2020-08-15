@@ -502,6 +502,14 @@ void Decimal::DecCalc::DecAddSub(DecCalc& d1, DecCalc& d2, Boolean sign) {
     num3 = ((num4 & 16711680) | (UInt32)((Int32)num3 & Int32::MinValue));
     num7 = (Int32)(num3 - num6) >> 16;
     if (num7 < 0) {
+      num7 = -num7;
+      num3 = num6;
+      if (sign) {
+        num3 ^= 2147483648u;
+      }
+      num = d2.set_Low64;
+      num2 = d2.set_High;
+      d2 = d1;
     }
     if (num2 != 0) {
       goto IL_015f;
@@ -730,6 +738,16 @@ Int64 Decimal::DecCalc::VarCyFromDec(DecCalc& pdecIn) {
   Int64 num4;
   if (num < 0) {
     if (pdecIn.get_High() == 0) {
+      UInt32 a = s_powers10[-num];
+      UInt64 num2 = UInt32x32To64(a, pdecIn.get_Mid());
+      if (num2 <= UInt32::MaxValue) {
+        UInt64 num3 = UInt32x32To64(a, pdecIn.get_Low());
+        num3 += (num2 <<= 32);
+        if (num3 >= num2) {
+          num4 = (Int64)num3;
+          goto IL_006d;
+        }
+      }
     }
   } else {
     if (num != 0) {
@@ -745,6 +763,7 @@ Int64 Decimal::DecCalc::VarCyFromDec(DecCalc& pdecIn) {
 IL_006d:
   if (num4 >= 0 || (num4 == Int64::MinValue && pdecIn.get_IsNegative())) {
     if (pdecIn.get_IsNegative()) {
+      num4 = -num4;
     }
     return num4;
   }
@@ -762,6 +781,7 @@ Int32 Decimal::DecCalc::VarDecCmp(Decimal& d1, Decimal& d2) {
     return (d1.flags >> 31) | 1;
   }
   if ((d1.get_Low() | d1.get_Mid() | d1.get_High()) == 0) {
+    return -((d2.flags >> 31) | 1);
   }
   Int32 num = (d1.flags >> 31) - (d2.flags >> 31);
   if (num != 0) {
@@ -781,6 +801,14 @@ Int32 Decimal::DecCalc::VarDecCmpSub(Decimal& d1, Decimal& d2) {
   if (num2 != 0) {
     num2 >>= 16;
     if (num2 < 0) {
+      num2 = -num2;
+      num = -num;
+      UInt64 num7 = num3;
+      num3 = num5;
+      num5 = num7;
+      UInt32 num8 = num4;
+      num4 = num6;
+      num6 = num8;
     }
     do {
       UInt32 b = (num2 >= 9) ? 1000000000u : s_powers10[num2];
@@ -798,6 +826,7 @@ Int32 Decimal::DecCalc::VarDecCmpSub(Decimal& d1, Decimal& d2) {
   UInt32 num11 = num4 - num6;
   if (num11 != 0) {
     if (num11 > num4) {
+      num = -num;
     }
     return num;
   }
@@ -805,6 +834,7 @@ Int32 Decimal::DecCalc::VarDecCmpSub(Decimal& d1, Decimal& d2) {
   if (num12 == 0) {
     num = 0;
   } else if (num12 > num3) {
+    num = -num;
   }
 
   return num;
@@ -958,6 +988,7 @@ void Decimal::DecCalc::VarDecFromR4(Single input, DecCalc& result) {
     }
     num3 *= s_doublePowers10[num4];
   } else if (num4 != -1 || num3 >= 10000000) {
+    num3 /= s_doublePowers10[-num4];
   } else {
     num4 = 0;
   }
@@ -980,6 +1011,23 @@ void Decimal::DecCalc::VarDecFromR4(Single input, DecCalc& result) {
     return;
   }
   if (num4 < 0) {
+    num4 = -num4;
+    if (num4 < 10) {
+      result.set_Low64 = UInt32x32To64(num5, s_powers10[num4]);
+    } else if (num4 > 18) {
+      UInt64 a = UInt32x32To64(num5, s_powers10[num4 - 18]);
+      UInt64x64To128(a, 1000000000000000000, result);
+    } else {
+      UInt64 num6 = UInt32x32To64(num5, s_powers10[num4 - 9]);
+      UInt64 num7 = UInt32x32To64(1000000000u, (UInt32)(num6 >> 32));
+      num6 = UInt32x32To64(1000000000u, (UInt32)num6);
+      result.set_Low = (UInt32)num6;
+      num7 += num6 >> 32;
+      result.set_Mid = (UInt32)num7;
+      num7 >>= 32;
+      result.set_High = (UInt32)num7;
+    }
+
   } else {
     Int32 num8 = num4;
     if (num8 > 6) {
@@ -1036,6 +1084,7 @@ void Decimal::DecCalc::VarDecFromR8(Double input, DecCalc& result) {
     }
     num3 *= s_doublePowers10[num4];
   } else if (num4 != -1 || num3 >= 1000000000000000) {
+    num3 /= s_doublePowers10[-num4];
   } else {
     num4 = 0;
   }
@@ -1058,6 +1107,19 @@ void Decimal::DecCalc::VarDecFromR8(Double input, DecCalc& result) {
     return;
   }
   if (num4 < 0) {
+    num4 = -num4;
+    if (num4 < 10) {
+      UInt32 b = s_powers10[num4];
+      UInt64 num6 = UInt32x32To64((UInt32)num5, b);
+      UInt64 num7 = UInt32x32To64((UInt32)(num5 >> 32), b);
+      result.set_Low = (UInt32)num6;
+      num7 += num6 >> 32;
+      result.set_Mid = (UInt32)num7;
+      num7 >>= 32;
+      result.set_High = (UInt32)num7;
+    } else {
+      UInt64x64To128(num5, s_ulongPowers10[num4 - 1], result);
+    }
   } else {
     Int32 num8 = num4;
     if (num8 > 14) {
@@ -1153,6 +1215,7 @@ void Decimal::DecCalc::VarDecDiv(DecCalc& d1, DecCalc& d2) {
         if (scale >= 0) {
           break;
         }
+        num2 = Math::Min(9, -scale);
       } else {
         flag = true;
         if (scale == 28 || (num2 = SearchScale(value, scale)) == 0) {
@@ -1192,6 +1255,7 @@ void Decimal::DecCalc::VarDecDiv(DecCalc& d1, DecCalc& d2) {
           if (scale >= 0) {
             break;
           }
+          num2 = Math::Min(9, -scale);
         } else {
           flag = true;
           if (scale == 28 || (num2 = SearchScale(value, scale)) == 0) {
@@ -1222,6 +1286,7 @@ void Decimal::DecCalc::VarDecDiv(DecCalc& d1, DecCalc& d2) {
           if (scale >= 0) {
             break;
           }
+          num2 = Math::Min(9, -scale);
         } else {
           flag = true;
           if (scale == 28 || (num2 = SearchScale(value, scale)) == 0) {
@@ -1381,6 +1446,19 @@ void Decimal::DecCalc::VarDecModFull(DecCalc& d1, DecCalc& d2, Int32 scale) {
   value.Buf24.set_Mid64 = d1.get_Mid() + ((UInt64)d1.get_High() << 32) >> 32 - num2;
   UInt32 num3 = 3u;
   while (scale < 0) {
+    UInt32 b = (scale <= -9) ? 1000000000u : s_powers10[-scale];
+    UInt32* ptr = (UInt32*)(&value);
+    UInt64 num4 = UInt32x32To64(value.Buf24.U0, b);
+    value.Buf24.U0 = (UInt32)num4;
+    for (Int32 i = 1; i <= num3; i++) {
+      num4 >>= 32;
+      num4 += UInt32x32To64(ptr[i], b);
+      ptr[i] = (UInt32)num4;
+    }
+    if (num4 > Int32::MaxValue) {
+      ptr[++num3] = (UInt32)(num4 >> 32);
+    }
+    scale += 9;
   }
   if (d2.get_High() == 0) {
     UInt64 den = d2.get_Low64() << num2;
@@ -1535,6 +1613,7 @@ Decimal::Decimal(Int32 value) {
     flags = 0;
   } else {
     flags = Int32::MinValue;
+    value = -value;
   }
   lo = value;
   mid = 0;
@@ -1553,6 +1632,7 @@ Decimal::Decimal(Int64 value) {
     flags = 0;
   } else {
     flags = Int32::MinValue;
+    value = -value;
   }
   lo = (Int32)value;
   mid = (Int32)(value >> 32);
@@ -1579,6 +1659,7 @@ Decimal Decimal::FromOACurrency(Int64 cy) {
   UInt64 num;
   if (cy < 0) {
     isNegative = true;
+    num = (UInt64)(-cy);
   } else {
     num = (UInt64)cy;
   }
@@ -1973,6 +2054,10 @@ Int32 Decimal::ToInt32(Decimal d) {
         return num;
       }
     } else {
+      num = -num;
+      if (num <= 0) {
+        return num;
+      }
     }
   }
   rt::throw_exception<OverflowException>(SR::get_Overflow_Int32());
@@ -1987,6 +2072,10 @@ Int64 Decimal::ToInt64(Decimal d) {
         return low;
       }
     } else {
+      low = -low;
+      if (low <= 0) {
+        return low;
+      }
     }
   }
   rt::throw_exception<OverflowException>(SR::get_Overflow_Int64());

@@ -1,5 +1,6 @@
 #include "Thread-dep.h"
 
+#include <System.Private.CoreLib/System/AppDomain-dep.h>
 #include <System.Private.CoreLib/System/ArgumentException-dep.h>
 #include <System.Private.CoreLib/System/ArgumentNullException-dep.h>
 #include <System.Private.CoreLib/System/ArgumentOutOfRangeException-dep.h>
@@ -29,10 +30,8 @@ Dictionary<String, LocalDataStoreSlot> Thread___::LocalDataStore::EnsureNameToSl
     return dictionary;
   }
   dictionary = rt::newobj<Dictionary<String, LocalDataStoreSlot>>();
-  auto default = Interlocked::CompareExchange(s_nameToSlotMap, dictionary, nullptr);
-  if (default != nullptr) default = dictionary;
-
-  return default;
+  auto& default = Interlocked::CompareExchange(s_nameToSlotMap, dictionary, nullptr);
+  return default != nullptr ? default : dictionary;
 }
 
 LocalDataStoreSlot Thread___::LocalDataStore::AllocateNamedSlot(String name) {
@@ -139,6 +138,12 @@ void Thread___::set_CurrentUICulture(CultureInfo value) {
 }
 
 IPrincipal Thread___::get_CurrentPrincipal() {
+  auto& default = s_asyncLocalPrincipal;
+  IPrincipal principal = default == nullptr ? nullptr : default->get_Value();
+  if (principal == nullptr) {
+    principal = (get_CurrentPrincipal() = AppDomain::in::get_CurrentDomain()->GetThreadPrincipal());
+  }
+  return principal;
 }
 
 void Thread___::set_CurrentPrincipal(IPrincipal value) {
@@ -152,10 +157,8 @@ void Thread___::set_CurrentPrincipal(IPrincipal value) {
 }
 
 Thread Thread___::get_CurrentThread() {
-  auto default = t_currentThread;
-  if (default != nullptr) default = InitializeCurrentThread();
-
-  return default;
+  auto& default = t_currentThread;
+  return default != nullptr ? default : InitializeCurrentThread();
 }
 
 ExecutionContext Thread___::get_ExecutionContext() {
@@ -353,6 +356,9 @@ void Thread___::SetCultureOnUnstartedThread(CultureInfo value, Boolean uiCulture
 }
 
 void Thread___::ThreadNameChanged(String value) {
+  auto& default = value;
+  auto& extern = default == nullptr ? nullptr : default->get_Length();
+  InformThreadNameChange(GetNativeHandle(), value, extern != nullptr ? extern : 0);
 }
 
 void Thread___::Abort() {

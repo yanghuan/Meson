@@ -112,10 +112,8 @@ RuntimeTypeHandle TypeBuilder___::get_TypeHandle() {
 }
 
 String TypeBuilder___::get_FullName() {
-  auto default = m_strFullQualName;
-  if (default != nullptr) default = (m_strFullQualName = TypeNameBuilder::in::ToString((TypeBuilder)this, TypeNameBuilder::in::Format::FullName));
-
-  return default;
+  auto& default = m_strFullQualName;
+  return default != nullptr ? default : (m_strFullQualName = TypeNameBuilder::in::ToString((TypeBuilder)this, TypeNameBuilder::in::Format::FullName));
 }
 
 String TypeBuilder___::get_Namespace() {
@@ -317,10 +315,8 @@ void TypeBuilder___::SetConstantValue(ModuleBuilder module, Int32 tk, Type destT
     if (destType->get_IsByRef()) {
       destType = destType->GetElementType();
     }
-    auto default = Nullable::GetUnderlyingType(destType);
-    if (default != nullptr) default = destType;
-
-    destType = (default);
+    auto& default = Nullable::GetUnderlyingType(destType);
+    destType = (default != nullptr ? default : destType);
     if (destType->get_IsEnum()) {
       EnumBuilder enumBuilder = rt::as<EnumBuilder>(destType);
       Type type2;
@@ -858,10 +854,8 @@ Type TypeBuilder___::MakeGenericType(Array<Type> typeArguments) {
 
 Array<Type> TypeBuilder___::GetGenericArguments() {
   Array<Type> inst = m_inst;
-  auto default = inst;
-  if (default != nullptr) default = Array<>::in::Empty<Type>();
-
-  return default;
+  auto& default = inst;
+  return default != nullptr ? default : Array<>::in::Empty<Type>();
 }
 
 Type TypeBuilder___::GetGenericTypeDefinition() {

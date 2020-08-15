@@ -1919,9 +1919,11 @@ IntPtr SpanHelpers::GetCharVector256SpanLength(IntPtr offset, IntPtr length) {
 }
 
 IntPtr SpanHelpers::UnalignedCountVector(Char& searchSpace) {
+  return (IntPtr)(UInt32)(-(Int32)Unsafe::AsPointer(searchSpace) / 2) & (IntPtr)(Vector<UInt16>::get_Count() - 1);
 }
 
 IntPtr SpanHelpers::UnalignedCountVector128(Char& searchSpace) {
+  return (IntPtr)(UInt32)(-(Int32)Unsafe::AsPointer(searchSpace) / 2) & (IntPtr)(Vector128<UInt16>::get_Count() - 1);
 }
 
 void SpanHelpers::ClearWithoutReferences(Byte& b, UIntPtr byteLength) {

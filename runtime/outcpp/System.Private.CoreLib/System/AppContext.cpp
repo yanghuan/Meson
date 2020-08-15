@@ -1,28 +1,35 @@
 #include "AppContext-dep.h"
 
+#include <System.Private.CoreLib/System/AppContext-dep.h>
+#include <System.Private.CoreLib/System/AppDomain-dep.h>
 #include <System.Private.CoreLib/System/ArgumentException-dep.h>
 #include <System.Private.CoreLib/System/ArgumentNullException-dep.h>
 #include <System.Private.CoreLib/System/Collections/Generic/Dictionary-dep.h>
+#include <System.Private.CoreLib/System/EventArgs-dep.h>
+#include <System.Private.CoreLib/System/IO/Path-dep.h>
+#include <System.Private.CoreLib/System/Reflection/Assembly-dep.h>
+#include <System.Private.CoreLib/System/Reflection/CustomAttributeExtensions-dep.h>
 #include <System.Private.CoreLib/System/Runtime/Loader/AssemblyLoadContext-dep.h>
 #include <System.Private.CoreLib/System/SR-dep.h>
 #include <System.Private.CoreLib/System/Threading/Interlocked-dep.h>
 
 namespace System::Private::CoreLib::System::AppContextNamespace {
 using namespace System::Collections::Generic;
+using namespace System::IO;
+using namespace System::Reflection;
 using namespace System::Runtime::Loader;
 using namespace System::Threading;
 
 String AppContext::get_BaseDirectory() {
-  auto default = s_defaultBaseDirectory;
-  if (default != nullptr) default = (s_defaultBaseDirectory = GetBaseDirectoryCore());
-
-  auto extern = (rt::as<String>(GetData("APP_CONTEXT_BASE_DIRECTORY")));
-  if (extern != nullptr) extern = default;
-
-  return extern;
+  auto& default = s_defaultBaseDirectory;
+  auto& extern = (rt::as<String>(GetData("APP_CONTEXT_BASE_DIRECTORY")));
+  return extern != nullptr ? extern : default != nullptr ? default : (s_defaultBaseDirectory = GetBaseDirectoryCore());
 }
 
 String AppContext::get_TargetFrameworkName() {
+  auto& default = Assembly::in::GetEntryAssembly();
+  auto& extern = CustomAttributeExtensions::GetCustomAttribute(default == nullptr ? nullptr : default);
+  return extern == nullptr ? nullptr : extern->get_FrameworkName();
 }
 
 Object AppContext::GetData(String name) {
@@ -104,6 +111,13 @@ void AppContext::Setup(Char** pNames, Char** pValues, Int32 count) {
 }
 
 String AppContext::GetBaseDirectoryCore() {
+  auto& default = Assembly::in::GetEntryAssembly();
+  String text = Path::GetDirectoryName(default == nullptr ? nullptr : default->get_Location());
+  if (text != nullptr && !Path::EndsInDirectorySeparator(text)) {
+    text += "\";
+  }
+  auto& extern = text;
+  return extern != nullptr ? extern : String::in::Empty;
 }
 
 } // namespace System::Private::CoreLib::System::AppContextNamespace

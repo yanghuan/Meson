@@ -190,6 +190,16 @@ DateTime HebrewCalendar___::AddMonths(DateTime time, Int32 months) {
         num++;
       }
     } else if ((num3 = datePart + months) <= 0) {
+      months = -months;
+      months -= datePart;
+      num--;
+      Int32 monthsInYear;
+      while (months > (monthsInYear = GetMonthsInYear(num, 0))) {
+        num--;
+        months -= monthsInYear;
+      }
+      monthsInYear = GetMonthsInYear(num, 0);
+      num3 = monthsInYear - months;
     }
 
     Int32 daysInMonth = GetDaysInMonth(num, num3);
@@ -331,6 +341,7 @@ Int32 HebrewCalendar___::GetDayDifference(Int32 lunarYearType, Int32 month1, Int
   }
   num3 += day2;
   if (!flag) {
+    return -num3;
   }
   return num3;
 }

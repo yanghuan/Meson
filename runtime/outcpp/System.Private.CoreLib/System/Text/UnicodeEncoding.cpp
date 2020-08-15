@@ -281,11 +281,107 @@ Int32 UnicodeEncoding___::GetByteCount(Char* chars, Int32 count, EncoderNLS enco
     if (encoder->get_InternalHasFallbackBuffer()) {
       encoderFallbackBuffer = encoder->get_FallbackBuffer();
       if (encoderFallbackBuffer->get_Remaining() > 0) {
+        auto& default = encoder->get_Fallback();
+        rt::throw_exception<ArgumentException>(SR::Format(SR::get_Argument_EncoderFallbackNotEmpty(), get_EncodingName(), default == nullptr ? nullptr : default->GetType()));
       }
       encoderFallbackBuffer->InternalInitialize(charStart, ptr, encoder, false);
     }
   }
   while (true) {
+    auto& default = encoderFallbackBuffer;
+    auto& extern = default == nullptr ? nullptr : default->InternalGetNextChar();
+    Char num2 = extern != nullptr ? extern : 0;
+    Char c2 = num2;
+    Char* chars2;
+    if (num2 != 0 || chars < ptr) {
+      if (c2 == 0) {
+        if ((bigEndian ^ BitConverter::IsLittleEndian) && ((Int64)chars & 7) == 0 && c == 0) {
+          UInt64* ptr2 = (UInt64*)(ptr - 3);
+          UInt64* ptr3;
+          for (ptr3 = (UInt64*)chars; ptr3 < ptr2; ptr3++) {
+            if ((-9223231297218904064 & (Int64)(*ptr3)) != 0) {
+              UInt64 num3 = (UInt64)((-576188069258921984 & (Int64)(*ptr3)) ^ -2882066263381583872);
+              if ((((Int64)num3 & -281474976710656) == 0 || (num3 & 281470681743360) == 0 || (num3 & 4294901760u) == 0 || (num3 & 65535) == 0) && (-287953294993589248 & (Int64)(*ptr3)) != (BitConverter::IsLittleEndian ? (-2593835887162763264) : (-2882061865335071744))) {
+                break;
+              }
+            }
+          }
+          chars = (Char*)ptr3;
+          if (chars >= ptr) {
+            goto IL_02a0;
+          }
+        }
+        c2 = *chars;
+        chars++;
+      } else {
+        num += 2;
+      }
+      if (c2 >= 55296 && c2 <= 57343) {
+        if (c2 <= 56319) {
+          if (c > 0) {
+            chars--;
+            num -= 2;
+            if (encoderFallbackBuffer == nullptr) {
+              encoderFallbackBuffer = ((encoder != nullptr) ? encoder->get_FallbackBuffer() : encoderFallback->CreateFallbackBuffer());
+              encoderFallbackBuffer->InternalInitialize(charStart, ptr, encoder, false);
+            }
+            chars2 = chars;
+            encoderFallbackBuffer->InternalFallback(c, chars2);
+            chars = chars2;
+            c = 0;
+          } else {
+            c = c2;
+          }
+        } else if (c == 0) {
+          num -= 2;
+          if (encoderFallbackBuffer == nullptr) {
+            encoderFallbackBuffer = ((encoder != nullptr) ? encoder->get_FallbackBuffer() : encoderFallback->CreateFallbackBuffer());
+            encoderFallbackBuffer->InternalInitialize(charStart, ptr, encoder, false);
+          }
+          chars2 = chars;
+          encoderFallbackBuffer->InternalFallback(c2, chars2);
+          chars = chars2;
+        } else {
+          c = 0;
+        }
+
+      } else if (c > 0) {
+        chars--;
+        if (encoderFallbackBuffer == nullptr) {
+          encoderFallbackBuffer = ((encoder != nullptr) ? encoder->get_FallbackBuffer() : encoderFallback->CreateFallbackBuffer());
+          encoderFallbackBuffer->InternalInitialize(charStart, ptr, encoder, false);
+        }
+        chars2 = chars;
+        encoderFallbackBuffer->InternalFallback(c, chars2);
+        chars = chars2;
+        num -= 2;
+        c = 0;
+      }
+
+      continue;
+    }
+    goto IL_02a0;
+
+  IL_02a0:
+    if (c <= 0) {
+      break;
+    }
+    num -= 2;
+    if (encoder != nullptr && !encoder->get_MustFlush()) {
+      break;
+    }
+    if (flag) {
+      rt::throw_exception<ArgumentException>(SR::Format(SR::get_Argument_RecursiveFallback(), c), "chars");
+    }
+    if (encoderFallbackBuffer == nullptr) {
+      encoderFallbackBuffer = ((encoder != nullptr) ? encoder->get_FallbackBuffer() : encoderFallback->CreateFallbackBuffer());
+      encoderFallbackBuffer->InternalInitialize(charStart, ptr, encoder, false);
+    }
+    chars2 = chars;
+    encoderFallbackBuffer->InternalFallback(c, chars2);
+    chars = chars2;
+    c = 0;
+    flag = true;
   }
   return num;
 }
@@ -303,11 +399,138 @@ Int32 UnicodeEncoding___::GetBytes(Char* chars, Int32 charCount, Byte* bytes, In
     if (encoder->get_InternalHasFallbackBuffer()) {
       encoderFallbackBuffer = encoder->get_FallbackBuffer();
       if (encoderFallbackBuffer->get_Remaining() > 0 && encoder->_throwOnOverflow) {
+        auto& default = encoder->get_Fallback();
+        rt::throw_exception<ArgumentException>(SR::Format(SR::get_Argument_EncoderFallbackNotEmpty(), get_EncodingName(), default == nullptr ? nullptr : default->GetType()));
       }
       encoderFallbackBuffer->InternalInitialize(ptr4, ptr2, encoder, false);
     }
   }
   while (true) {
+    auto& default = encoderFallbackBuffer;
+    auto& extern = default == nullptr ? nullptr : default->InternalGetNextChar();
+    Char num = extern != nullptr ? extern : 0;
+    Char c2 = num;
+    Char* chars2;
+    if (num != 0 || chars < ptr2) {
+      if (c2 == 0) {
+        if ((bigEndian ^ BitConverter::IsLittleEndian) && ((Int64)chars & 7) == 0 && c == 0) {
+          UInt64* ptr5 = (UInt64*)(chars - 3 + ((ptr - bytes >> 1 < ptr2 - chars) ? (ptr - bytes >> 1) : (ptr2 - chars)));
+          UInt64* ptr6 = (UInt64*)chars;
+          UInt64* ptr7 = (UInt64*)bytes;
+          while (ptr6 < ptr5) {
+            if ((-9223231297218904064 & (Int64)(*ptr6)) != 0) {
+              UInt64 num2 = (UInt64)((-576188069258921984 & (Int64)(*ptr6)) ^ -2882066263381583872);
+              if ((((Int64)num2 & -281474976710656) == 0 || (num2 & 281470681743360) == 0 || (num2 & 4294901760u) == 0 || (num2 & 65535) == 0) && (-287953294993589248 & (Int64)(*ptr6)) != (BitConverter::IsLittleEndian ? (-2593835887162763264) : (-2882061865335071744))) {
+                break;
+              }
+            }
+            Unsafe::WriteUnaligned(ptr7, *ptr6);
+            ptr6++;
+            ptr7++;
+          }
+          chars = (Char*)ptr6;
+          bytes = (Byte*)ptr7;
+          if (chars >= ptr2) {
+            goto IL_03aa;
+          }
+        }
+        c2 = *chars;
+        chars++;
+      }
+      if (c2 >= 55296 && c2 <= 57343) {
+        if (c2 <= 56319) {
+          if (c > 0) {
+            chars--;
+            if (encoderFallbackBuffer == nullptr) {
+              encoderFallbackBuffer = ((encoder != nullptr) ? encoder->get_FallbackBuffer() : encoderFallback->CreateFallbackBuffer());
+              encoderFallbackBuffer->InternalInitialize(ptr4, ptr2, encoder, true);
+            }
+            chars2 = chars;
+            encoderFallbackBuffer->InternalFallback(c, chars2);
+            chars = chars2;
+            c = 0;
+          } else {
+            c = c2;
+          }
+          continue;
+        }
+        if (c == 0) {
+          if (encoderFallbackBuffer == nullptr) {
+            encoderFallbackBuffer = ((encoder != nullptr) ? encoder->get_FallbackBuffer() : encoderFallback->CreateFallbackBuffer());
+            encoderFallbackBuffer->InternalInitialize(ptr4, ptr2, encoder, true);
+          }
+          chars2 = chars;
+          encoderFallbackBuffer->InternalFallback(c2, chars2);
+          chars = chars2;
+          continue;
+        }
+        if (bytes + 3 >= ptr) {
+          if (encoderFallbackBuffer != nullptr && encoderFallbackBuffer->bFallingBack) {
+            encoderFallbackBuffer->MovePrevious();
+            encoderFallbackBuffer->MovePrevious();
+          } else {
+            chars -= 2;
+          }
+          ThrowBytesOverflow(encoder, bytes == ptr3);
+          c = 0;
+          goto IL_03aa;
+        }
+        if (bigEndian) {
+          *(bytes++) = (Byte)((Int32)c >> 8);
+          *(bytes++) = (Byte)c;
+        } else {
+          *(bytes++) = (Byte)c;
+          *(bytes++) = (Byte)((Int32)c >> 8);
+        }
+        c = 0;
+      } else if (c > 0) {
+        chars--;
+        if (encoderFallbackBuffer == nullptr) {
+          encoderFallbackBuffer = ((encoder != nullptr) ? encoder->get_FallbackBuffer() : encoderFallback->CreateFallbackBuffer());
+          encoderFallbackBuffer->InternalInitialize(ptr4, ptr2, encoder, true);
+        }
+        chars2 = chars;
+        encoderFallbackBuffer->InternalFallback(c, chars2);
+        chars = chars2;
+        c = 0;
+        continue;
+      }
+
+      if (bytes + 1 < ptr) {
+        if (bigEndian) {
+          *(bytes++) = (Byte)((Int32)c2 >> 8);
+          *(bytes++) = (Byte)c2;
+        } else {
+          *(bytes++) = (Byte)c2;
+          *(bytes++) = (Byte)((Int32)c2 >> 8);
+        }
+        continue;
+      }
+      if (encoderFallbackBuffer != nullptr && encoderFallbackBuffer->bFallingBack) {
+        encoderFallbackBuffer->MovePrevious();
+      } else {
+        chars--;
+      }
+      ThrowBytesOverflow(encoder, bytes == ptr3);
+    }
+    goto IL_03aa;
+
+  IL_03aa:
+    if (c <= 0 || (encoder != nullptr && !encoder->get_MustFlush())) {
+      break;
+    }
+    if (flag) {
+      rt::throw_exception<ArgumentException>(SR::Format(SR::get_Argument_RecursiveFallback(), c), "chars");
+    }
+    if (encoderFallbackBuffer == nullptr) {
+      encoderFallbackBuffer = ((encoder != nullptr) ? encoder->get_FallbackBuffer() : encoderFallback->CreateFallbackBuffer());
+      encoderFallbackBuffer->InternalInitialize(ptr4, ptr2, encoder, true);
+    }
+    chars2 = chars;
+    encoderFallbackBuffer->InternalFallback(c, chars2);
+    chars = chars2;
+    c = 0;
+    flag = true;
   }
   if (encoder != nullptr) {
     encoder->_charLeftOver = c;

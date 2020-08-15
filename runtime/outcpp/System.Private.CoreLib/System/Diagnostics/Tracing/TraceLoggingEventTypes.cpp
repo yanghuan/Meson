@@ -65,10 +65,8 @@ void TraceLoggingEventTypes___::ctor(EventTags tags, String defaultName, Array<T
 }
 
 NameInfo TraceLoggingEventTypes___::GetNameInfo(String name, EventTags tags) {
-  auto default = nameInfos.TryGet(KeyValuePair<String, EventTags>(name, tags));
-  if (default != nullptr) default = nameInfos.GetOrAdd(rt::newobj<NameInfo>(name, tags, typeMetadata->get_Length()));
-
-  return default;
+  auto& default = nameInfos.TryGet(KeyValuePair<String, EventTags>(name, tags));
+  return default != nullptr ? default : nameInfos.GetOrAdd(rt::newobj<NameInfo>(name, tags, typeMetadata->get_Length()));
 }
 
 Array<TraceLoggingTypeInfo> TraceLoggingEventTypes___::MakeArray(Array<ParameterInfo> paramInfos) {

@@ -230,6 +230,9 @@ Boolean Module___::op_Equality(Module left, Module right) {
   if ((Object)left == right) {
     return true;
   }
+  auto& default = left;
+  auto& extern = default == nullptr ? nullptr : default->Equals(right);
+  return extern != nullptr ? extern : false;
 }
 
 Boolean Module___::op_Inequality(Module left, Module right) {

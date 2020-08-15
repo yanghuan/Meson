@@ -126,6 +126,8 @@ void CounterGroup___::EnableTimer(Single pollingIntervalInSeconds) {
 
 void CounterGroup___::DisableTimer() {
   _pollingIntervalInMilliseconds = 0;
+  auto& default = s_counterGroupEnabledList;
+  default == nullptr ? nullptr : default->Remove((CounterGroup)this);
 }
 
 void CounterGroup___::ResetCounters() {
@@ -153,6 +155,8 @@ void CounterGroup___::PollForValues() {
     if (num == Int32::MaxValue) {
       num = -1;
     }
+    auto& default = autoResetEvent;
+    default == nullptr ? nullptr : default->WaitOne(num);
   }
 }
 

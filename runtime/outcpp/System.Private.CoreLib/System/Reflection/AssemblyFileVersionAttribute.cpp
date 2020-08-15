@@ -4,10 +4,8 @@
 
 namespace System::Private::CoreLib::System::Reflection::AssemblyFileVersionAttributeNamespace {
 void AssemblyFileVersionAttribute___::ctor(String version) {
-  auto default = version;
-  if (default != nullptr) default = rt::throw_exception(rt::newobj<ArgumentNullException>("version"));
-
-  Version = (default);
+  auto& default = version;
+  Version = (default != nullptr ? default : rt::throw_exception(rt::newobj<ArgumentNullException>("version")));
 }
 
 } // namespace System::Private::CoreLib::System::Reflection::AssemblyFileVersionAttributeNamespace

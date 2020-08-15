@@ -21,10 +21,13 @@
 #include <System.Private.CoreLib/System/IO/PathHelper-dep.h>
 #include <System.Private.CoreLib/System/IO/Win32Marshal-dep.h>
 #include <System.Private.CoreLib/System/MemoryExtensions-dep.h>
+#include <System.Private.CoreLib/System/Object-dep.h>
 #include <System.Private.CoreLib/System/OutOfMemoryException-dep.h>
 #include <System.Private.CoreLib/System/PasteArguments-dep.h>
 #include <System.Private.CoreLib/System/PlatformID.h>
 #include <System.Private.CoreLib/System/ReadOnlySpan-dep.h>
+#include <System.Private.CoreLib/System/Reflection/BindingFlags.h>
+#include <System.Private.CoreLib/System/Reflection/CustomAttributeExtensions-dep.h>
 #include <System.Private.CoreLib/System/Runtime/InteropServices/Marshal-dep.h>
 #include <System.Private.CoreLib/System/Runtime/InteropServices/MemoryMarshal-dep.h>
 #include <System.Private.CoreLib/System/Span-dep.h>
@@ -32,6 +35,7 @@
 #include <System.Private.CoreLib/System/Text/ValueStringBuilder-dep.h>
 #include <System.Private.CoreLib/System/Threading/Interlocked-dep.h>
 #include <System.Private.CoreLib/System/Threading/Thread-dep.h>
+#include <System.Private.CoreLib/System/Type-dep.h>
 #include <System.Private.CoreLib/System/UInt32-dep.h>
 #include <System.Private.CoreLib/System/UInt64-dep.h>
 
@@ -41,12 +45,16 @@ using namespace System::Buffers;
 using namespace System::Collections;
 using namespace System::Diagnostics;
 using namespace System::IO;
+using namespace System::Reflection;
 using namespace System::Runtime::InteropServices;
 using namespace System::Text;
 using namespace System::Threading;
 
 String Environment::WinRTFolderPaths::GetFolderPath(SpecialFolder folder, SpecialFolderOption option) {
   if (s_winRTFolderPathsGetFolderPath == nullptr) {
+    auto& default = Type::in::GetType("System.WinRTFolderPaths, System.Runtime.WindowsRuntime, Version=4.0.14.0, Culture=neutral, PublicKeyToken=b77a5c561934e089", false);
+    auto& extern = (default == nullptr ? nullptr : default->GetMethod("GetFolderPath", BindingFlags::Static | BindingFlags::Public | BindingFlags::NonPublic, nullptr, rt::newarr<Array<Type>>(2), nullptr));
+    Func<SpecialFolder, SpecialFolderOption, String> func = (Func<SpecialFolder, SpecialFolderOption, String>)(extern == nullptr ? nullptr : extern->CreateDelegate(rt::typeof<Func<SpecialFolder, SpecialFolderOption, String>>()));
   }
   return s_winRTFolderPathsGetFolderPath(folder, option);
 }
@@ -131,6 +139,18 @@ OperatingSystem Environment::get_OSVersion() {
 }
 
 Version Environment::get_Version() {
+  auto& default = CustomAttributeExtensions::GetCustomAttribute(rt::typeof<Object>()->get_Assembly());
+  String text = default == nullptr ? nullptr : default->get_InformationalVersion();
+  ReadOnlySpan<Char> readOnlySpan = MemoryExtensions::AsSpan(text);
+  Int32 num = MemoryExtensions::IndexOfAny(readOnlySpan, 45, 43, 32);
+  if (num != -1) {
+    readOnlySpan = readOnlySpan.Slice(0, num);
+  }
+  Version result;
+  if (!Version::in::TryParse(readOnlySpan, result)) {
+    return rt::newobj<Version>();
+  }
+  return result;
 }
 
 Boolean Environment::get_IsWindows8OrAbove() {
@@ -229,10 +249,8 @@ Boolean Environment::get_Is64BitOperatingSystemWhen32BitProcess() {
 }
 
 String Environment::get_MachineName() {
-  auto default = Interop::Kernel32::GetComputerName();
-  if (default != nullptr) default = rt::throw_exception(rt::newobj<InvalidOperationException>(SR::get_InvalidOperation_ComputerName()));
-
-  return default;
+  auto& default = Interop::Kernel32::GetComputerName();
+  return default != nullptr ? default : rt::throw_exception(rt::newobj<InvalidOperationException>(SR::get_InvalidOperation_ComputerName()));
 }
 
 String Environment::get_SystemDirectory() {

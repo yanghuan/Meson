@@ -79,11 +79,67 @@ Matrix4x4::Matrix4x4(Matrix3x2 value) {
 Matrix4x4 Matrix4x4::CreateBillboard(Vector3 objectPosition, Vector3 cameraPosition, Vector3 cameraUpVector, Vector3 cameraForwardVector) {
   Vector3 left = Vector3(objectPosition.X - cameraPosition.X, objectPosition.Y - cameraPosition.Y, objectPosition.Z - cameraPosition.Z);
   Single num = left.LengthSquared();
+  left = ((!(num < 0.0001)) ? Vector3::Multiply(left, 1 / MathF::Sqrt(num)) : (-cameraForwardVector));
+  Vector3 vector = Vector3::Normalize(Vector3::Cross(cameraUpVector, left));
+  Vector3 vector2 = Vector3::Cross(left, vector);
+  Matrix4x4 result;
+  result.M11 = vector.X;
+  result.M12 = vector.Y;
+  result.M13 = vector.Z;
+  result.M14 = 0;
+  result.M21 = vector2.X;
+  result.M22 = vector2.Y;
+  result.M23 = vector2.Z;
+  result.M24 = 0;
+  result.M31 = left.X;
+  result.M32 = left.Y;
+  result.M33 = left.Z;
+  result.M34 = 0;
+  result.M41 = objectPosition.X;
+  result.M42 = objectPosition.Y;
+  result.M43 = objectPosition.Z;
+  result.M44 = 1;
+  return result;
 }
 
 Matrix4x4 Matrix4x4::CreateConstrainedBillboard(Vector3 objectPosition, Vector3 cameraPosition, Vector3 rotateAxis, Vector3 cameraForwardVector, Vector3 objectForwardVector) {
   Vector3 left = Vector3(objectPosition.X - cameraPosition.X, objectPosition.Y - cameraPosition.Y, objectPosition.Z - cameraPosition.Z);
   Single num = left.LengthSquared();
+  left = ((!(num < 0.0001)) ? Vector3::Multiply(left, 1 / MathF::Sqrt(num)) : (-cameraForwardVector));
+  Vector3 vector = rotateAxis;
+  Single x = Vector3::Dot(rotateAxis, left);
+  Vector3 vector3;
+  Vector3 vector2;
+  if (MathF::Abs(x) > 0.99825466) {
+    vector2 = objectForwardVector;
+    x = Vector3::Dot(rotateAxis, vector2);
+    if (MathF::Abs(x) > 0.99825466) {
+      vector2 = ((MathF::Abs(rotateAxis.Z) > 0.99825466) ? Vector3(1, 0, 0) : Vector3(0, 0, -1));
+    }
+    vector3 = Vector3::Normalize(Vector3::Cross(rotateAxis, vector2));
+    vector2 = Vector3::Normalize(Vector3::Cross(vector3, rotateAxis));
+  } else {
+    vector3 = Vector3::Normalize(Vector3::Cross(rotateAxis, left));
+    vector2 = Vector3::Normalize(Vector3::Cross(vector3, vector));
+  }
+  Matrix4x4 result;
+  result.M11 = vector3.X;
+  result.M12 = vector3.Y;
+  result.M13 = vector3.Z;
+  result.M14 = 0;
+  result.M21 = vector.X;
+  result.M22 = vector.Y;
+  result.M23 = vector.Z;
+  result.M24 = 0;
+  result.M31 = vector2.X;
+  result.M32 = vector2.Y;
+  result.M33 = vector2.Z;
+  result.M34 = 0;
+  result.M41 = objectPosition.X;
+  result.M42 = objectPosition.Y;
+  result.M43 = objectPosition.Z;
+  result.M44 = 1;
+  return result;
 }
 
 Matrix4x4 Matrix4x4::CreateTranslation(Vector3 position) {
@@ -567,6 +623,27 @@ Matrix4x4 Matrix4x4::CreateLookAt(Vector3 cameraPosition, Vector3 cameraTarget, 
 }
 
 Matrix4x4 Matrix4x4::CreateWorld(Vector3 position, Vector3 forward, Vector3 up) {
+  Vector3 vector = Vector3::Normalize(-forward);
+  Vector3 vector2 = Vector3::Normalize(Vector3::Cross(up, vector));
+  Vector3 vector3 = Vector3::Cross(vector, vector2);
+  Matrix4x4 result;
+  result.M11 = vector2.X;
+  result.M12 = vector2.Y;
+  result.M13 = vector2.Z;
+  result.M14 = 0;
+  result.M21 = vector3.X;
+  result.M22 = vector3.Y;
+  result.M23 = vector3.Z;
+  result.M24 = 0;
+  result.M31 = vector.X;
+  result.M32 = vector.Y;
+  result.M33 = vector.Z;
+  result.M34 = 0;
+  result.M41 = position.X;
+  result.M42 = position.Y;
+  result.M43 = position.Z;
+  result.M44 = 1;
+  return result;
 }
 
 Matrix4x4 Matrix4x4::CreateFromQuaternion(Quaternion quaternion) {
@@ -952,6 +1029,8 @@ Boolean Matrix4x4::Decompose(Matrix4x4 matrix, Vector3& scale, Quaternion& rotat
     Single num11 = identity.GetDeterminant();
     if (num11 < 0) {
       ptr2[num4] = 0 - ptr2[num4];
+      *ptr3[num4] = -(*ptr3[num4]);
+      num11 = 0 - num11;
     }
     num11 -= 1;
     num11 *= num11;
@@ -1073,6 +1152,7 @@ Matrix4x4 Matrix4x4::Lerp(Matrix4x4 matrix1, Matrix4x4 matrix2, Single amount) {
 }
 
 Matrix4x4 Matrix4x4::Negate(Matrix4x4 value) {
+  return -value;
 }
 
 Matrix4x4 Matrix4x4::Add(Matrix4x4 value1, Matrix4x4 value2) {

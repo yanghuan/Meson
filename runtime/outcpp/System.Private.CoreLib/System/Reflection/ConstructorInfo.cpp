@@ -37,6 +37,9 @@ Boolean ConstructorInfo___::op_Equality(ConstructorInfo left, ConstructorInfo ri
   if ((Object)left == right) {
     return true;
   }
+  auto& default = left;
+  auto& extern = default == nullptr ? nullptr : default->Equals(right);
+  return extern != nullptr ? extern : false;
 }
 
 Boolean ConstructorInfo___::op_Inequality(ConstructorInfo left, ConstructorInfo right) {

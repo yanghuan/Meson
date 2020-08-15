@@ -128,6 +128,7 @@ void ReaderWriterLockSlim___::SpinLock::EnterSpin(EnterSpinLockReason reason) {
     num++;
   }
   if (enterDeprioritizationStateChange != 0) {
+    Interlocked::Add(_enterDeprioritizationState, -enterDeprioritizationStateChange);
   }
 }
 

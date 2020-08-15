@@ -53,10 +53,8 @@ void GregorianCalendar___::set_TwoDigitYearMax(Int32 value) {
 }
 
 Calendar GregorianCalendar___::GetDefaultInstance() {
-  auto default = s_defaultInstance;
-  if (default != nullptr) default = (s_defaultInstance = rt::newobj<GregorianCalendar>());
-
-  return default;
+  auto& default = s_defaultInstance;
+  return default != nullptr ? default : (s_defaultInstance = rt::newobj<GregorianCalendar>());
 }
 
 void GregorianCalendar___::ctor() {

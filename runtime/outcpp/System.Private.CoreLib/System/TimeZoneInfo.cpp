@@ -8,6 +8,7 @@
 #include <System.Private.CoreLib/System/Char-dep.h>
 #include <System.Private.CoreLib/System/Collections/Generic/List-dep.h>
 #include <System.Private.CoreLib/System/DateTimeKind.h>
+#include <System.Private.CoreLib/System/EntryPointNotFoundException-dep.h>
 #include <System.Private.CoreLib/System/Environment-dep.h>
 #include <System.Private.CoreLib/System/Globalization/CultureInfo-dep.h>
 #include <System.Private.CoreLib/System/Globalization/DateTimeFormatInfo-dep.h>
@@ -262,6 +263,14 @@ void TimeZoneInfo___::AdjustmentRule___::ValidateAdjustmentRule(DateTime dateSta
 }
 
 void TimeZoneInfo___::AdjustmentRule___::AdjustDaylightDeltaToExpectedRange(TimeSpan& daylightDelta, TimeSpan& baseUtcOffsetDelta) {
+  if (daylightDelta > MaxDaylightDelta) {
+    daylightDelta -= DaylightDeltaAdjustment;
+    baseUtcOffsetDelta += DaylightDeltaAdjustment;
+  } else if (daylightDelta < -MaxDaylightDelta) {
+    daylightDelta += DaylightDeltaAdjustment;
+    baseUtcOffsetDelta -= DaylightDeltaAdjustment;
+  }
+
 }
 
 void TimeZoneInfo___::AdjustmentRule___::ctor(SerializationInfo info, StreamingContext context) {
@@ -295,10 +304,8 @@ void TimeZoneInfo___::OffsetAndRule___::ctor(Int32 year, TimeSpan offset, Adjust
 }
 
 TimeZoneInfo TimeZoneInfo___::CachedData___::get_Local() {
-  auto default = _localTimeZone;
-  if (default != nullptr) default = CreateLocal();
-
-  return default;
+  auto& default = _localTimeZone;
+  return default != nullptr ? default : CreateLocal();
 }
 
 TimeZoneInfo TimeZoneInfo___::CachedData___::CreateLocal() {
@@ -662,24 +669,18 @@ String TimeZoneInfo___::get_Id() {
 }
 
 String TimeZoneInfo___::get_DisplayName() {
-  auto default = _displayName;
-  if (default != nullptr) default = String::in::Empty;
-
-  return default;
+  auto& default = _displayName;
+  return default != nullptr ? default : String::in::Empty;
 }
 
 String TimeZoneInfo___::get_StandardName() {
-  auto default = _standardDisplayName;
-  if (default != nullptr) default = String::in::Empty;
-
-  return default;
+  auto& default = _standardDisplayName;
+  return default != nullptr ? default : String::in::Empty;
 }
 
 String TimeZoneInfo___::get_DaylightName() {
-  auto default = _daylightDisplayName;
-  if (default != nullptr) default = String::in::Empty;
-
-  return default;
+  auto& default = _daylightDisplayName;
+  return default != nullptr ? default : String::in::Empty;
 }
 
 TimeSpan TimeZoneInfo___::get_BaseUtcOffset() {
@@ -1250,6 +1251,7 @@ Boolean TimeZoneInfo___::GetIsDaylightSavings(DateTime time, AdjustmentRule rule
   } else {
     Boolean flag = rule->get_DaylightDelta() > TimeSpan::Zero;
     startTime = (rule->IsStartDateMarkerForBeginningOfYear() ? DateTime(daylightTime.Start.get_Year(), 1, 1, 0, 0, 0) : (daylightTime.Start + (flag ? rule->get_DaylightDelta() : TimeSpan::Zero)));
+    endTime = (rule->IsEndDateMarkerForEndOfYear() ? DateTime(daylightTime.End.get_Year() + 1, 1, 1, 0, 0, 0).AddTicks(-1) : (daylightTime.End + (flag ? (-rule->get_DaylightDelta()) : TimeSpan::Zero)));
   }
   Boolean flag2 = CheckIsDst(startTime, time, endTime, false, rule);
   if (flag2 && time.get_Kind() == DateTimeKind::Local && GetIsAmbiguousTime(time, rule, daylightTime)) {
@@ -1541,6 +1543,7 @@ DateTime TimeZoneInfo___::TransitionTimeToDateTime(Int32 year, TransitionTime tr
       num4 += 7;
     }
     if (num4 > 0) {
+      result = result.AddDays(-num4);
     }
   }
 
@@ -1657,6 +1660,18 @@ void TimeZoneInfo___::ctor(Interop::Kernel32::TIME_ZONE_INFORMATION& zone, Boole
   } else {
     _id = standardName;
   }
+  _baseUtcOffset = TimeSpan(0, -zone.Bias, 0);
+  if (!dstDisabled) {
+    Interop::Kernel32::REG_TZI_FORMAT timeZoneInformation = Interop::Kernel32::REG_TZI_FORMAT(zone);
+    AdjustmentRule adjustmentRule = CreateAdjustmentRuleFromTimeZoneInformation(timeZoneInformation, DateTime::MinValue.get_Date(), DateTime::MaxValue.get_Date(), zone.Bias);
+    if (adjustmentRule != nullptr) {
+      _adjustmentRules = rt::newarr<Array<AdjustmentRule>>(1);
+    }
+  }
+  ValidateTimeZoneInfo(_id, _baseUtcOffset, _adjustmentRules, _supportsDaylightSavingTime);
+  _displayName = standardName;
+  _standardDisplayName = standardName;
+  _daylightDisplayName = zone.GetDaylightName();
 }
 
 Boolean TimeZoneInfo___::CheckDaylightSavingTimeNotSupported(Interop::Kernel32::TIME_ZONE_INFORMATION& timeZone) {
@@ -1681,6 +1696,7 @@ TimeZoneInfo::in::AdjustmentRule TimeZoneInfo___::CreateAdjustmentRuleFromTimeZo
   if (transitionTime.Equals(transitionTime2)) {
     return nullptr;
   }
+  return AdjustmentRule::in::CreateAdjustmentRule(startDate, endDate, TimeSpan(0, -timeZoneInformation.DaylightBias, 0), transitionTime, transitionTime2, TimeSpan(0, defaultBaseUtcOffset - timeZoneInformation.Bias, 0), false);
 }
 
 String TimeZoneInfo___::FindIdFromTimeZoneInformation(Interop::Kernel32::TIME_ZONE_INFORMATION& timeZone, Boolean& dstDisabled) {
@@ -1844,6 +1860,16 @@ String TimeZoneInfo___::TryGetLocalizedNameByMuiNativeResource(String resource) 
   if (!Int32::TryParse(array[1], NumberStyles::Integer, CultureInfo::in::get_InvariantCulture(), result)) {
     return String::in::Empty;
   }
+  result = -result;
+  try{
+    Char default[260] = {};
+    Char* ptr = default;
+    Int32 pcchFileMUIPath = 260;
+    Int32 pcchLanguage = 0;
+    Int64 pululEnumerator = 0;
+    return Interop::Kernel32::GetFileMUIPath(16u, pcwszFilePath, nullptr, pcchLanguage, ptr, pcchFileMUIPath, pululEnumerator) ? TryGetLocalizedNameByNativeResource(rt::newobj<String>(ptr, 0, pcchFileMUIPath), result) : String::in::Empty;
+  } catch (EntryPointNotFoundException) {
+  }
 }
 
 String TimeZoneInfo___::TryGetLocalizedNameByNativeResource(String filePath, Int32 resource) {
@@ -1903,6 +1929,7 @@ void TimeZoneInfo___::cctor() {
   s_maxDateOnly = DateTime(9999, 12, 31);
   s_minDateOnly = DateTime(1, 1, 2);
   MaxOffset = TimeSpan::FromHours(14);
+  MinOffset = -MaxOffset;
 }
 
 } // namespace System::Private::CoreLib::System::TimeZoneInfoNamespace

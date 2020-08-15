@@ -662,6 +662,10 @@ void ReaderWriterLock___::ReleaseEvents() {
   ManualResetEventSlim readerEvent = _readerEvent;
   _readerEvent = nullptr;
   Interlocked::Add(_state, -3072);
+  auto& default = writerEvent;
+  default == nullptr ? nullptr : default->Dispose();
+  auto& extern = readerEvent;
+  extern == nullptr ? nullptr : extern->Dispose();
 }
 
 ArgumentOutOfRangeException ReaderWriterLock___::GetInvalidTimeoutException(String parameterName) {

@@ -138,6 +138,7 @@ TimeSpan TimeSpan::Duration() {
   if (get_Ticks() == MinValue.get_Ticks()) {
     rt::throw_exception<OverflowException>(SR::get_Overflow_Duration());
   }
+  return TimeSpan((_ticks >= 0) ? _ticks : (-_ticks));
 }
 
 Boolean TimeSpan::Equals(Object value) {
@@ -193,6 +194,7 @@ TimeSpan TimeSpan::Negate() {
   if (get_Ticks() == MinValue.get_Ticks()) {
     rt::throw_exception<OverflowException>(SR::get_Overflow_NegateTwosCompNum());
   }
+  return TimeSpan(-_ticks);
 }
 
 TimeSpan TimeSpan::FromSeconds(Double value) {
@@ -397,6 +399,7 @@ TimeSpan TimeSpan::op_UnaryNegation(TimeSpan t) {
   if (t._ticks == MinValue._ticks) {
     rt::throw_exception<OverflowException>(SR::get_Overflow_NegateTwosCompNum());
   }
+  return TimeSpan(-t._ticks);
 }
 
 TimeSpan TimeSpan::op_Subtraction(TimeSpan t1, TimeSpan t2) {

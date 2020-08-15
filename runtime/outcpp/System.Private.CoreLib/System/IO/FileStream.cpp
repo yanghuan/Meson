@@ -9,6 +9,7 @@
 #include <System.Private.CoreLib/System/Buffer-dep.h>
 #include <System.Private.CoreLib/System/Buffers/ArrayPool-dep.h>
 #include <System.Private.CoreLib/System/Exception-dep.h>
+#include <System.Private.CoreLib/System/GC-dep.h>
 #include <System.Private.CoreLib/System/Int64-dep.h>
 #include <System.Private.CoreLib/System/IO/Error-dep.h>
 #include <System.Private.CoreLib/System/IO/FileAccess.h>
@@ -160,6 +161,9 @@ void FileStream___::AsyncCopyToAwaitable___::IOCallback(UInt32 errorCode, UInt32
   AsyncCopyToAwaitable asyncCopyToAwaitable = (AsyncCopyToAwaitable)ThreadPoolBoundHandle::in::GetNativeOverlappedState(pOVERLAP);
   asyncCopyToAwaitable->_errorCode = errorCode;
   asyncCopyToAwaitable->_numBytes = numBytes;
+  auto& default = asyncCopyToAwaitable->_continuation;
+  auto& extern = (default != nullptr ? default : Interlocked::CompareExchange(asyncCopyToAwaitable->_continuation, s_sentinel, nullptr));
+  extern == nullptr ? nullptr : extern->Invoke();
 }
 
 void FileStream___::AsyncCopyToAwaitable___::MarkCompleted() {
@@ -220,10 +224,8 @@ SafeFileHandle FileStream___::get_SafeFileHandle() {
 }
 
 String FileStream___::get_Name() {
-  auto default = _path;
-  if (default != nullptr) default = SR::get_IO_UnknownFileName();
-
-  return default;
+  auto& default = _path;
+  return default != nullptr ? default : SR::get_IO_UnknownFileName();
 }
 
 Boolean FileStream___::get_IsAsync() {
@@ -881,7 +883,13 @@ void FileStream___::Dispose(Boolean disposing) {
     }
   } finally: {
     if (_fileHandle != nullptr && !_fileHandle->get_IsClosed()) {
+      auto& default = _fileHandle->get_ThreadPoolBinding();
+      default == nullptr ? nullptr : default->Dispose();
+      _fileHandle->Dispose();
     }
+    auto& default = _preallocatedOverlapped;
+    default == nullptr ? nullptr : default->Dispose();
+    _canSeek = false;
   }
 }
 
@@ -898,7 +906,14 @@ ValueTask<> FileStream___::DisposeAsyncCore() {
     }
   } finally: {
     if (_fileHandle != nullptr && !_fileHandle->get_IsClosed()) {
+      auto& default = _fileHandle->get_ThreadPoolBinding();
+      default == nullptr ? nullptr : default->Dispose();
+      _fileHandle->Dispose();
     }
+    auto& default = _preallocatedOverlapped;
+    default == nullptr ? nullptr : default->Dispose();
+    _canSeek = false;
+    GC::SuppressFinalize((FileStream)this);
   }
 }
 
@@ -1495,10 +1510,8 @@ SafeFileHandle FileStream___::CreateFileOpenHandle(FileMode mode, FileShare shar
 }
 
 Boolean FileStream___::GetDefaultIsAsync(SafeFileHandle handle) {
-  auto default = handle->get_IsAsync();
-  if (default != nullptr) default = (!IsHandleSynchronous(handle, true)).GetValueOrDefault();
-
-  return default;
+  auto& default = handle->get_IsAsync();
+  return default != nullptr ? default : (!IsHandleSynchronous(handle, true)).GetValueOrDefault();
 }
 
 Nullable<Boolean> FileStream___::IsHandleSynchronous(SafeFileHandle fileHandle, Boolean ignoreInvalid) {
@@ -1521,10 +1534,8 @@ Nullable<Boolean> FileStream___::IsHandleSynchronous(SafeFileHandle fileHandle, 
 }
 
 void FileStream___::VerifyHandleIsSync(SafeFileHandle handle) {
-  auto default = IsHandleSynchronous(handle, false);
-  if (default != nullptr) default = true;
-
-  if (!handle->get_IsAsync().get_HasValue() || (default)) {
+  auto& default = IsHandleSynchronous(handle, false);
+  if (!handle->get_IsAsync().get_HasValue() || (default != nullptr ? default : true)) {
     return;
   }
   rt::throw_exception<ArgumentException>(SR::get_Arg_HandleNotSync(), "handle");

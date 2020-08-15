@@ -272,5 +272,4 @@ namespace Meson.Compiler.CppAst {
       renderer.Render(this);
     }
   }
-
 }

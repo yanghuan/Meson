@@ -34,6 +34,8 @@ void DecoderNLS___::ctor(Encoding encoding) {
 
 void DecoderNLS___::Reset() {
   ClearLeftoverData();
+  auto& default = _fallbackBuffer;
+  default == nullptr ? nullptr : default->Reset();
 }
 
 Int32 DecoderNLS___::GetCharCount(Array<Byte> bytes, Int32 index, Int32 count) {
@@ -196,6 +198,10 @@ Int32 DecoderNLS___::DrainLeftoverDataForGetChars(ReadOnlySpan<Byte> bytes, Span
       goto IL_00aa;
     default:
       {
+        if (Decoder::get_FallbackBuffer()->Fallback(span2.Slice(0, bytesConsumed2).ToArray(), -_leftoverByteCount) && !_fallbackBuffer->TryDrainRemainingDataForGetChars(chars, charsWritten)) {
+          break;
+        }
+        goto IL_00aa;
       }
     IL_00aa:
       bytesConsumed = bytesConsumed2 - _leftoverByteCount;

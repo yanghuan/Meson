@@ -158,6 +158,7 @@ Vector2 Vector2::Divide(Vector2 left, Single divisor) {
 }
 
 Vector2 Vector2::Negate(Vector2 value) {
+  return -value;
 }
 
 Vector2::Vector2(Single value) {

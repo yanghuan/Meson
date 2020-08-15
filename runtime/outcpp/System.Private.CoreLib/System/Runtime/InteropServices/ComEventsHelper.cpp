@@ -11,14 +11,10 @@ void ComEventsHelper::Combine(Object rcw, Guid iid, Int32 dispid, Delegate d) {
   {
     rt::lock(rcw);
     ComEventsInfo comEventsInfo = ComEventsInfo::in::FromObject(rcw);
-    auto default = comEventsInfo->FindSink(iid);
-    if (default != nullptr) default = comEventsInfo->AddSink(iid);
-
-    ComEventsSink comEventsSink = default;
-    auto extern = comEventsSink->FindMethod(dispid);
-    if (extern != nullptr) extern = comEventsSink->AddMethod(dispid);
-
-    ComEventsMethod comEventsMethod = extern;
+    auto& default = comEventsInfo->FindSink(iid);
+    ComEventsSink comEventsSink = default != nullptr ? default : comEventsInfo->AddSink(iid);
+    auto& extern = comEventsSink->FindMethod(dispid);
+    ComEventsMethod comEventsMethod = extern != nullptr ? extern : comEventsSink->AddMethod(dispid);
     comEventsMethod->AddDelegate(d);
   }
 }

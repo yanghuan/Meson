@@ -106,9 +106,13 @@ void Debug::Write(String message) {
 }
 
 void Debug::WriteLine(Object value) {
+  auto& default = value;
+  WriteLine(default == nullptr ? nullptr : default->ToString());
 }
 
 void Debug::WriteLine(Object value, String category) {
+  auto& default = value;
+  WriteLine(default == nullptr ? nullptr : default->ToString(), category);
 }
 
 void Debug::WriteLine(String format, Array<Object> args) {
@@ -124,6 +128,8 @@ void Debug::WriteLine(String message, String category) {
 }
 
 void Debug::Write(Object value) {
+  auto& default = value;
+  Write(default == nullptr ? nullptr : default->ToString());
 }
 
 void Debug::Write(String message, String category) {
@@ -135,6 +141,8 @@ void Debug::Write(String message, String category) {
 }
 
 void Debug::Write(Object value, String category) {
+  auto& default = value;
+  Write(default == nullptr ? nullptr : default->ToString(), category);
 }
 
 void Debug::WriteIf(Boolean condition, String message) {

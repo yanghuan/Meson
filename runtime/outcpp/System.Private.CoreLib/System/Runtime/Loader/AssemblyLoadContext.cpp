@@ -4,6 +4,7 @@
 #include <System.Private.CoreLib/System/AppDomain-dep.h>
 #include <System.Private.CoreLib/System/ArgumentException-dep.h>
 #include <System.Private.CoreLib/System/ArgumentNullException-dep.h>
+#include <System.Private.CoreLib/System/AssemblyLoadEventArgs-dep.h>
 #include <System.Private.CoreLib/System/BadImageFormatException-dep.h>
 #include <System.Private.CoreLib/System/Collections/Generic/Dictionary-dep.h>
 #include <System.Private.CoreLib/System/Collections/Generic/List-dep.h>
@@ -17,6 +18,7 @@
 #include <System.Private.CoreLib/System/InvalidOperationException-dep.h>
 #include <System.Private.CoreLib/System/IO/Path-dep.h>
 #include <System.Private.CoreLib/System/IO/PathInternal-dep.h>
+#include <System.Private.CoreLib/System/Reflection/Emit/AssemblyBuilder-dep.h>
 #include <System.Private.CoreLib/System/Reflection/RuntimeAssembly-dep.h>
 #include <System.Private.CoreLib/System/ResolveEventArgs-dep.h>
 #include <System.Private.CoreLib/System/Runtime/InteropServices/GCHandle-dep.h>
@@ -37,6 +39,7 @@ using namespace System::Collections::Generic;
 using namespace System::Diagnostics::Tracing;
 using namespace System::IO;
 using namespace System::Reflection;
+using namespace System::Reflection::Emit;
 using namespace System::Runtime::InteropServices;
 using namespace System::Threading;
 
@@ -79,6 +82,8 @@ IEnumerable<AssemblyLoadContext> AssemblyLoadContext___::get_All() {
 }
 
 AssemblyLoadContext AssemblyLoadContext___::get_CurrentContextualReflectionContext() {
+  auto& default = s_asyncLocalCurrent;
+  return default == nullptr ? nullptr : default->get_Value();
 }
 
 Assembly AssemblyLoadContext___::InternalLoadFromPath(String assemblyPath, String nativeImagePath) {
@@ -158,6 +163,8 @@ RuntimeAssembly AssemblyLoadContext___::GetRuntimeAssembly(Assembly asm_) {
   if (!(asm == nullptr)) {
     RuntimeAssembly runtimeAssembly = rt::as<RuntimeAssembly>(asm);
     if ((Object)runtimeAssembly == nullptr) {
+      auto& default = (rt::as<AssemblyBuilder>(asm));
+      return default == nullptr ? nullptr : default->get_InternalAssembly();
     }
     return runtimeAssembly;
   }

@@ -13,6 +13,7 @@
 #include <System.Private.CoreLib/System/Threading/QueueUserWorkItemCallbackDefaultContext-dep.h>
 #include <System.Private.CoreLib/System/Threading/Tasks/Task-dep.h>
 #include <System.Private.CoreLib/System/Threading/ThreadPoolWorkQueue-dep.h>
+#include <System.Private.CoreLib/System/Threading/ThreadPoolWorkQueueThreadLocals-dep.h>
 #include <System.Private.CoreLib/System/ThrowHelper-dep.h>
 #include <System.Private.CoreLib/System/UInt32-dep.h>
 
@@ -215,6 +216,11 @@ IEnumerable<Object> ThreadPool::GetQueuedWorkItems() {
 }
 
 IEnumerable<Object> ThreadPool::GetLocallyQueuedWorkItems() {
+  auto& default = ThreadPoolWorkQueueThreadLocals::in::threadLocals;
+  ThreadPoolWorkQueue::in::WorkStealingQueue workStealingQueue = default == nullptr ? nullptr : default->workStealingQueue;
+  if (workStealingQueue == nullptr || workStealingQueue->m_array == nullptr) {
+  }
+  Array<Object> items = workStealingQueue->m_array;
 }
 
 IEnumerable<Object> ThreadPool::GetGloballyQueuedWorkItems() {

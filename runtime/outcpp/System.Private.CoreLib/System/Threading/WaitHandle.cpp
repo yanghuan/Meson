@@ -39,10 +39,8 @@ void WaitHandle___::set_Handle(IntPtr value) {
 }
 
 SafeWaitHandle WaitHandle___::get_SafeWaitHandle() {
-  auto default = _waitHandle;
-  if (default != nullptr) default = (_waitHandle = rt::newobj<SafeWaitHandle>(InvalidHandle, false));
-
-  return default;
+  auto& default = _waitHandle;
+  return default != nullptr ? default : (_waitHandle = rt::newobj<SafeWaitHandle>(InvalidHandle, false));
 }
 
 void WaitHandle___::set_SafeWaitHandle(SafeWaitHandle value) {
@@ -83,6 +81,8 @@ void WaitHandle___::Close() {
 }
 
 void WaitHandle___::Dispose(Boolean explicitDisposing) {
+  auto& default = _waitHandle;
+  default == nullptr ? nullptr : default->Close();
 }
 
 void WaitHandle___::Dispose() {
@@ -98,10 +98,8 @@ Boolean WaitHandle___::WaitOne(Int32 millisecondsTimeout) {
 }
 
 Boolean WaitHandle___::WaitOneNoCheck(Int32 millisecondsTimeout) {
-  auto default = _waitHandle;
-  if (default != nullptr) default = rt::throw_exception(rt::newobj<ObjectDisposedException>(nullptr, SR::get_ObjectDisposed_Generic()));
-
-  SafeWaitHandle safeWaitHandle = default;
+  auto& default = _waitHandle;
+  SafeWaitHandle safeWaitHandle = default != nullptr ? default : rt::throw_exception(rt::newobj<ObjectDisposedException>(nullptr, SR::get_ObjectDisposed_Generic()));
   Boolean success = false;
   try{
     safeWaitHandle->DangerousAddRef(success);
@@ -141,10 +139,8 @@ void WaitHandle___::ObtainSafeWaitHandles(ReadOnlySpan<WaitHandle> waitHandles, 
       if (waitHandle == nullptr) {
         rt::throw_exception<ArgumentNullException>("waitHandles[" + i + "]", SR::get_ArgumentNull_ArrayElement());
       }
-      auto default = waitHandle->_waitHandle;
-      if (default != nullptr) default = rt::throw_exception(rt::newobj<ObjectDisposedException>(nullptr, SR::get_ObjectDisposed_Generic()));
-
-      SafeWaitHandle safeWaitHandle2 = default;
+      auto& default = waitHandle->_waitHandle;
+      SafeWaitHandle safeWaitHandle2 = default != nullptr ? default : rt::throw_exception(rt::newobj<ObjectDisposedException>(nullptr, SR::get_ObjectDisposed_Generic()));
       safeWaitHandle = safeWaitHandle2;
       success = false;
       safeWaitHandle2->DangerousAddRef(success);
@@ -173,6 +169,39 @@ Int32 WaitHandle___::WaitMultiple(ReadOnlySpan<WaitHandle> waitHandles, Boolean 
     rt::throw_exception<ArgumentOutOfRangeException>("millisecondsTimeout", SR::get_ArgumentOutOfRange_NeedNonNegOrNegative1());
   }
   SynchronizationContext current = SynchronizationContext::in::get_Current();
+  auto& default = current;
+  auto& extern = default == nullptr ? nullptr : default->IsWaitNotificationRequired();
+  Boolean flag = extern != nullptr ? extern : false;
+  Array<SafeWaitHandle> array = RentSafeWaitHandleArray(waitHandles.get_Length());
+  try{
+    Int32 num;
+    if (flag) {
+      Array<IntPtr> array2 = rt::newarr<Array<IntPtr>>(waitHandles.get_Length());
+      ObtainSafeWaitHandles(waitHandles, array, array2);
+      num = current->Wait(array2, waitAll, millisecondsTimeout);
+    } else {
+      IntPtr ref[waitHandles.get_Length()] = {};
+      Span<IntPtr> span = ref;
+      ObtainSafeWaitHandles(waitHandles, array, span);
+      num = WaitMultipleIgnoringSyncContext(span, waitAll, millisecondsTimeout);
+    }
+    if (num >= 128 && num < 128 + waitHandles.get_Length()) {
+      if (waitAll) {
+        rt::throw_exception<AbandonedMutexException>();
+      }
+      num -= 128;
+      rt::throw_exception<AbandonedMutexException>(num, waitHandles[num]);
+    }
+    return num;
+  } finally: {
+    for (Int32 i = 0; i < waitHandles.get_Length(); i++) {
+      if (array[i] != nullptr) {
+        array[i]->DangerousRelease();
+        array[i] = nullptr;
+      }
+    }
+    ReturnSafeWaitHandleArray(array);
+  }
 }
 
 Boolean WaitHandle___::SignalAndWait(WaitHandle toSignal, WaitHandle toWaitOn, Int32 millisecondsTimeout) {

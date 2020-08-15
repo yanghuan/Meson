@@ -120,10 +120,8 @@ String Uri___::get_AbsolutePath() {
 String Uri___::get_PrivateAbsolutePath() {
   MoreInfo moreInfo = EnsureUriInfo()->get_MoreInfo();
   MoreInfo moreInfo2 = moreInfo;
-  auto default = moreInfo2->Path;
-  if (default != nullptr) default = (moreInfo2->Path = GetParts(UriComponents::Path | UriComponents::KeepDelimiter, UriFormat::UriEscaped));
-
-  return default;
+  auto& default = moreInfo2->Path;
+  return default != nullptr ? default : (moreInfo2->Path = GetParts(UriComponents::Path | UriComponents::KeepDelimiter, UriFormat::UriEscaped));
 }
 
 String Uri___::get_AbsoluteUri() {
@@ -132,10 +130,8 @@ String Uri___::get_AbsoluteUri() {
   }
   MoreInfo moreInfo = EnsureUriInfo()->get_MoreInfo();
   MoreInfo moreInfo2 = moreInfo;
-  auto default = moreInfo2->AbsoluteUri;
-  if (default != nullptr) default = (moreInfo2->AbsoluteUri = GetParts(UriComponents::AbsoluteUri, UriFormat::UriEscaped));
-
-  return default;
+  auto& default = moreInfo2->AbsoluteUri;
+  return default != nullptr ? default : (moreInfo2->AbsoluteUri = GetParts(UriComponents::AbsoluteUri, UriFormat::UriEscaped));
 }
 
 String Uri___::get_LocalPath() {
@@ -277,10 +273,8 @@ String Uri___::get_Query() {
   }
   MoreInfo moreInfo = EnsureUriInfo()->get_MoreInfo();
   MoreInfo moreInfo2 = moreInfo;
-  auto default = moreInfo2->Query;
-  if (default != nullptr) default = (moreInfo2->Query = GetParts(UriComponents::Query | UriComponents::KeepDelimiter, UriFormat::UriEscaped));
-
-  return default;
+  auto& default = moreInfo2->Query;
+  return default != nullptr ? default : (moreInfo2->Query = GetParts(UriComponents::Query | UriComponents::KeepDelimiter, UriFormat::UriEscaped));
 }
 
 String Uri___::get_Fragment() {
@@ -289,10 +283,8 @@ String Uri___::get_Fragment() {
   }
   MoreInfo moreInfo = EnsureUriInfo()->get_MoreInfo();
   MoreInfo moreInfo2 = moreInfo;
-  auto default = moreInfo2->Fragment;
-  if (default != nullptr) default = (moreInfo2->Fragment = GetParts(UriComponents::Fragment | UriComponents::KeepDelimiter, UriFormat::UriEscaped));
-
-  return default;
+  auto& default = moreInfo2->Fragment;
+  return default != nullptr ? default : (moreInfo2->Fragment = GetParts(UriComponents::Fragment | UriComponents::KeepDelimiter, UriFormat::UriEscaped));
 }
 
 String Uri___::get_Scheme() {
@@ -303,10 +295,8 @@ String Uri___::get_Scheme() {
 }
 
 String Uri___::get_OriginalString() {
-  auto default = _originalUnicodeString;
-  if (default != nullptr) default = _string;
-
-  return default;
+  auto& default = _originalUnicodeString;
+  return default != nullptr ? default : _string;
 }
 
 String Uri___::get_DnsSafeHost() {
@@ -325,6 +315,30 @@ String Uri___::get_IdnHost() {
   if (get_IsNotAbsoluteUri()) {
     rt::throw_exception<InvalidOperationException>(SR::get_net_uri_NotAbsolute());
   }
+  auto& default = _info;
+  if (default == nullptr ? nullptr : default->IdnHost == nullptr) {
+    EnsureHostString(false);
+    String text = _info->Host;
+    switch (get_HostType()) {
+      case Flags::DnsHostType:
+        text = DomainNameHelper::IdnEquivalent(text);
+        break;
+      case Flags::IPv6HostType:
+        text = ((_info->ScopeId != nullptr) ? String::in::Concat(MemoryExtensions::AsSpan(text, 1, text->get_Length() - 2), _info->ScopeId) : text->Substring(1, text->get_Length() - 2));
+        break;
+      case Flags::BasicHostType:
+        if (InFact(Flags::HostNotCanonical | Flags::E_HostNotCanonical)) {
+          Char extern[256] = {};
+          Span<Char> initialBuffer = extern;
+          ValueStringBuilder dest = ValueStringBuilder(initialBuffer);
+          UriHelper::UnescapeString(text, 0, text->get_Length(), dest, 65535, 65535, 65535, UnescapeMode::Unescape | UnescapeMode::UnescapeAll, _syntax, false);
+          text = dest.ToString();
+        }
+        break;
+    }
+    _info->IdnHost = text;
+  }
+  return _info->IdnHost;
 }
 
 Boolean Uri___::get_IsAbsoluteUri() {
@@ -358,6 +372,9 @@ void Uri___::InterlockedSetFlags(Flags flags) {
 }
 
 Boolean Uri___::IriParsingStatic(UriParser syntax) {
+  auto& default = syntax;
+  auto& extern = default == nullptr ? nullptr : default->InFact(UriSyntaxFlags::AllowIriParsing);
+  return extern != nullptr ? extern : true;
 }
 
 Boolean Uri___::NotAny(Flags flags) {
@@ -775,10 +792,8 @@ Int32 Uri___::GetHashCode() {
   }
   MoreInfo moreInfo = EnsureUriInfo()->get_MoreInfo();
   MoreInfo moreInfo2 = moreInfo;
-  auto default = moreInfo2->RemoteUrl;
-  if (default != nullptr) default = (moreInfo2->RemoteUrl = GetParts(UriComponents::HttpRequestUrl, UriFormat::SafeUnescaped));
-
-  String text = default;
+  auto& default = moreInfo2->RemoteUrl;
+  String text = default != nullptr ? default : (moreInfo2->RemoteUrl = GetParts(UriComponents::HttpRequestUrl, UriFormat::SafeUnescaped));
   if (get_IsUncOrDosPath()) {
     return text->GetHashCode(StringComparison::OrdinalIgnoreCase);
   }
@@ -894,15 +909,11 @@ Boolean Uri___::Equals(Object comparand) {
   MoreInfo moreInfo = _info->get_MoreInfo();
   MoreInfo moreInfo2 = result->_info->get_MoreInfo();
   MoreInfo moreInfo3 = moreInfo;
-  auto default = moreInfo3->RemoteUrl;
-  if (default != nullptr) default = (moreInfo3->RemoteUrl = GetParts(UriComponents::HttpRequestUrl, UriFormat::SafeUnescaped));
-
-  String a = default;
+  auto& default = moreInfo3->RemoteUrl;
+  String a = default != nullptr ? default : (moreInfo3->RemoteUrl = GetParts(UriComponents::HttpRequestUrl, UriFormat::SafeUnescaped));
   moreInfo3 = moreInfo2;
-  auto extern = moreInfo3->RemoteUrl;
-  if (extern != nullptr) extern = (moreInfo3->RemoteUrl = result->GetParts(UriComponents::HttpRequestUrl, UriFormat::SafeUnescaped));
-
-  String b = extern;
+  auto& extern = moreInfo3->RemoteUrl;
+  String b = extern != nullptr ? extern : (moreInfo3->RemoteUrl = result->GetParts(UriComponents::HttpRequestUrl, UriFormat::SafeUnescaped));
   return String::in::Equals(a, b, get_IsUncOrDosPath() ? StringComparison::OrdinalIgnoreCase : StringComparison::Ordinal);
 }
 
@@ -2677,10 +2688,8 @@ void Uri___::CreateThis(String uri, Boolean dontEscape, UriKind uriKind) {
   if (uriKind < UriKind::RelativeOrAbsolute || uriKind > UriKind::Relative) {
     rt::throw_exception<ArgumentException>(SR::Format(SR::get_net_uri_InvalidUriKind(), uriKind));
   }
-  auto default = uri;
-  if (default != nullptr) default = String::in::Empty;
-
-  _string = (default);
+  auto& default = uri;
+  _string = (default != nullptr ? default : String::in::Empty);
   if (dontEscape) {
     _flags |= Flags::UserEscaped;
   }

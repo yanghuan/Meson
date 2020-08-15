@@ -1,6 +1,8 @@
 #include "RegisteredWaitHandleSafe-dep.h"
 
+#include <System.Private.CoreLib/System/GC-dep.h>
 #include <System.Private.CoreLib/System/Threading/Interlocked-dep.h>
+#include <System.Private.CoreLib/System/Threading/RegisteredWaitHandleSafe-dep.h>
 #include <System.Private.CoreLib/System/Threading/Thread-dep.h>
 
 namespace System::Private::CoreLib::System::Threading::RegisteredWaitHandleSafeNamespace {
@@ -31,6 +33,17 @@ Boolean RegisteredWaitHandleSafe___::Unregister(WaitHandle waitObject) {
       flag2 = true;
       try{
         if (ValidHandle()) {
+          auto& default = waitObject;
+          flag = UnregisterWaitNative(GetHandle(), default == nullptr ? nullptr : default->get_SafeWaitHandle());
+          if (flag) {
+            if (bReleaseNeeded) {
+              m_internalWaitObject->get_SafeWaitHandle()->DangerousRelease();
+              bReleaseNeeded = false;
+            }
+            SetHandle(get_InvalidHandle());
+            m_internalWaitObject = nullptr;
+            GC::SuppressFinalize((RegisteredWaitHandleSafe)this);
+          }
         }
       } finally: {
         m_lock = 0;

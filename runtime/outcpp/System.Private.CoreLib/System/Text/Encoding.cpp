@@ -415,14 +415,10 @@ void Encoding___::ctor(Int32 codePage, EncoderFallback encoderFallback, DecoderF
     rt::throw_exception<ArgumentOutOfRangeException>("codePage");
   }
   _codePage = codePage;
-  auto default = encoderFallback;
-  if (default != nullptr) default = rt::newobj<InternalEncoderBestFitFallback>((Encoding)this);
-
-  this->encoderFallback = (default);
-  auto extern = decoderFallback;
-  if (extern != nullptr) extern = rt::newobj<InternalDecoderBestFitFallback>((Encoding)this);
-
-  this->decoderFallback = (extern);
+  auto& default = encoderFallback;
+  this->encoderFallback = (default != nullptr ? default : rt::newobj<InternalEncoderBestFitFallback>((Encoding)this));
+  auto& extern = decoderFallback;
+  this->decoderFallback = (extern != nullptr ? extern : rt::newobj<InternalDecoderBestFitFallback>((Encoding)this));
 }
 
 void Encoding___::SetDefaultFallbacks() {
@@ -501,17 +497,13 @@ Encoding Encoding___::GetEncoding(Int32 codepage, EncoderFallback encoderFallbac
 }
 
 Encoding Encoding___::GetEncoding(String name) {
-  auto default = EncodingProvider::in::GetEncodingFromProvider(name);
-  if (default != nullptr) default = GetEncoding(EncodingTable::GetCodePageFromName(name));
-
-  return default;
+  auto& default = EncodingProvider::in::GetEncodingFromProvider(name);
+  return default != nullptr ? default : GetEncoding(EncodingTable::GetCodePageFromName(name));
 }
 
 Encoding Encoding___::GetEncoding(String name, EncoderFallback encoderFallback, DecoderFallback decoderFallback) {
-  auto default = EncodingProvider::in::GetEncodingFromProvider(name, encoderFallback, decoderFallback);
-  if (default != nullptr) default = GetEncoding(EncodingTable::GetCodePageFromName(name), encoderFallback, decoderFallback);
-
-  return default;
+  auto& default = EncodingProvider::in::GetEncodingFromProvider(name, encoderFallback, decoderFallback);
+  return default != nullptr ? default : GetEncoding(EncodingTable::GetCodePageFromName(name), encoderFallback, decoderFallback);
 }
 
 Array<EncodingInfo> Encoding___::GetEncodings() {
@@ -823,6 +815,15 @@ void Encoding___::ThrowBytesOverflow() {
 }
 
 void Encoding___::ThrowBytesOverflow(EncoderNLS encoder, Boolean nothingEncoded) {
+  auto& default = encoder;
+  auto& extern = default == nullptr ? nullptr : default->_throwOnOverflow;
+  if ((extern != nullptr ? extern : true) || nothingEncoded) {
+    if (encoder != nullptr && encoder->get_InternalHasFallbackBuffer()) {
+      encoder->get_FallbackBuffer()->InternalReset();
+    }
+    ThrowBytesOverflow();
+  }
+  encoder->ClearMustFlush();
 }
 
 void Encoding___::ThrowConversionOverflow() {
@@ -834,6 +835,15 @@ void Encoding___::ThrowCharsOverflow() {
 }
 
 void Encoding___::ThrowCharsOverflow(DecoderNLS decoder, Boolean nothingDecoded) {
+  auto& default = decoder;
+  auto& extern = default == nullptr ? nullptr : default->_throwOnOverflow;
+  if ((extern != nullptr ? extern : true) || nothingDecoded) {
+    if (decoder != nullptr && decoder->get_InternalHasFallbackBuffer()) {
+      decoder->get_FallbackBuffer()->InternalReset();
+    }
+    ThrowCharsOverflow();
+  }
+  decoder->ClearMustFlush();
 }
 
 OperationStatus Encoding___::DecodeFirstRune(ReadOnlySpan<Byte> bytes, Rune& value, Int32& bytesConsumed) {

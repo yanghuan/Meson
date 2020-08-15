@@ -82,9 +82,7 @@ Object MdConstant::GetValue(MetadataImport scope, Int32 token, RuntimeTypeHandle
     }
     return DateTime(num2);
   }
-  auto default = defaultValue;
-  if (default != nullptr) default = String::in::Empty;
-
+  auto& default = defaultValue;
   switch (corElementType) {
     case CorElementType::ELEMENT_TYPE_VOID:
       return DBNull::in::Value;
@@ -113,7 +111,7 @@ Object MdConstant::GetValue(MetadataImport scope, Int32 token, RuntimeTypeHandle
     case CorElementType::ELEMENT_TYPE_R8:
       return *(Double*)(&value);
     case CorElementType::ELEMENT_TYPE_STRING:
-      return default;
+      return default != nullptr ? default : String::in::Empty;
     case CorElementType::ELEMENT_TYPE_CLASS:
       return nullptr;
     default:

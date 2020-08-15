@@ -32,10 +32,8 @@ Int32 RuntimeModule___::get_MDStreamVersion() {
 }
 
 RuntimeType RuntimeModule___::get_RuntimeType() {
-  auto default = m_runtimeType;
-  if (default != nullptr) default = (m_runtimeType = ModuleHandle::GetModuleType((RuntimeModule)this));
-
-  return default;
+  auto& default = m_runtimeType;
+  return default != nullptr ? default : (m_runtimeType = ModuleHandle::GetModuleType((RuntimeModule)this));
 }
 
 MetadataImport RuntimeModule___::get_MetadataImport() {

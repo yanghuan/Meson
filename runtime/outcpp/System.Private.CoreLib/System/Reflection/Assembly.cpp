@@ -313,10 +313,8 @@ void Assembly___::GetObjectData(SerializationInfo info, StreamingContext context
 }
 
 String Assembly___::ToString() {
-  auto default = get_FullName();
-  if (default != nullptr) default = Object::ToString();
-
-  return default;
+  auto& default = get_FullName();
+  return default != nullptr ? default : Object::ToString();
 }
 
 Boolean Assembly___::Equals(Object o) {
@@ -337,6 +335,9 @@ Boolean Assembly___::op_Equality(Assembly left, Assembly right) {
   if ((Object)left == right) {
     return true;
   }
+  auto& default = left;
+  auto& extern = default == nullptr ? nullptr : default->Equals(right);
+  return extern != nullptr ? extern : false;
 }
 
 Boolean Assembly___::op_Inequality(Assembly left, Assembly right) {

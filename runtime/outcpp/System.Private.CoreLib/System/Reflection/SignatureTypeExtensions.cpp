@@ -2,10 +2,14 @@
 
 #include <System.Private.CoreLib/System/Int32-dep.h>
 #include <System.Private.CoreLib/System/Object-dep.h>
+#include <System.Private.CoreLib/System/Reflection/SignatureType-dep.h>
 #include <System.Private.CoreLib/System/Reflection/SignatureTypeExtensions-dep.h>
 
 namespace System::Private::CoreLib::System::Reflection::SignatureTypeExtensionsNamespace {
 Boolean SignatureTypeExtensions::MatchesParameterTypeExactly(Type pattern, ParameterInfo parameter) {
+  auto& default = (rt::as<SignatureType>(pattern));
+  auto& extern = SignatureTypeExtensions::MatchesExactly(default == nullptr ? nullptr : default, parameter->get_ParameterType());
+  return extern != nullptr ? extern : ((Object)pattern == parameter->get_ParameterType());
 }
 
 Boolean SignatureTypeExtensions::MatchesExactly(SignatureType pattern, Type actual) {

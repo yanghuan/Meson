@@ -408,10 +408,20 @@ DateTime DateTime::AddSeconds(Double value) {
 
 DateTime DateTime::AddTicks(Int64 value) {
   Int64 internalTicks = get_InternalTicks();
+  if (value > 3155378975999999999 - internalTicks || value < -internalTicks) {
+    rt::throw_exception<ArgumentOutOfRangeException>("value", SR::get_ArgumentOutOfRange_DateArithmetic());
+  }
+  return DateTime((UInt64)(internalTicks + value) | get_InternalKind());
 }
 
 Boolean DateTime::TryAddTicks(Int64 value, DateTime& result) {
   Int64 internalTicks = get_InternalTicks();
+  if (value > 3155378975999999999 - internalTicks || value < -internalTicks) {
+    result = DateTime();
+    return false;
+  }
+  result = DateTime((UInt64)(internalTicks + value) | get_InternalKind());
+  return true;
 }
 
 DateTime DateTime::AddYears(Int32 value) {
@@ -943,6 +953,10 @@ Boolean DateTime::TryParseExact(ReadOnlySpan<Char> s, Array<String> formats, IFo
 DateTime DateTime::op_Addition(DateTime d, TimeSpan t) {
   Int64 internalTicks = d.get_InternalTicks();
   Int64 ticks = t._ticks;
+  if (ticks > 3155378975999999999 - internalTicks || ticks < -internalTicks) {
+    rt::throw_exception<ArgumentOutOfRangeException>("t", SR::get_ArgumentOutOfRange_DateArithmetic());
+  }
+  return DateTime((UInt64)(internalTicks + ticks) | d.get_InternalKind());
 }
 
 DateTime DateTime::op_Subtraction(DateTime d, TimeSpan t) {

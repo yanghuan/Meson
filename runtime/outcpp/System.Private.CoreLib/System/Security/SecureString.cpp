@@ -96,6 +96,8 @@ void SecureString___::Initialize(ReadOnlySpan<Char> value) {
     value.CopyTo(destination);
   } finally: {
     ProtectMemory();
+    auto& default = bufferToRelease;
+    default == nullptr ? nullptr : default->DangerousRelease();
   }
 }
 
@@ -134,6 +136,8 @@ void SecureString___::AppendChar(Char c) {
       _decryptedLength++;
     } finally: {
       ProtectMemory();
+      auto& default = bufferToRelease;
+      default == nullptr ? nullptr : default->DangerousRelease();
     }
   }
 }
@@ -148,6 +152,8 @@ void SecureString___::Clear() {
     try{
       AcquireSpan(bufferToRelease).Clear();
     } finally: {
+      auto& default = bufferToRelease;
+      default == nullptr ? nullptr : default->DangerousRelease();
     }
   }
 }
@@ -188,6 +194,8 @@ void SecureString___::InsertAt(Int32 index, Char c) {
       _decryptedLength++;
     } finally: {
       ProtectMemory();
+      auto& default = bufferToRelease;
+      default == nullptr ? nullptr : default->DangerousRelease();
     }
   }
 }
@@ -218,6 +226,8 @@ void SecureString___::RemoveAt(Int32 index) {
       _decryptedLength--;
     } finally: {
       ProtectMemory();
+      auto& default = bufferToRelease;
+      default == nullptr ? nullptr : default->DangerousRelease();
     }
   }
 }
@@ -236,6 +246,8 @@ void SecureString___::SetAt(Int32 index, Char c) {
       AcquireSpan(bufferToRelease)[index] = c;
     } finally: {
       ProtectMemory();
+      auto& default = bufferToRelease;
+      default == nullptr ? nullptr : default->DangerousRelease();
     }
   }
 }
@@ -282,6 +294,8 @@ IntPtr SecureString___::MarshalToBSTR() {
         Marshal::FreeBSTR(intPtr);
       }
       ProtectMemory();
+      auto& default = bufferToRelease;
+      default == nullptr ? nullptr : default->DangerousRelease();
     }
   }
 }
@@ -318,6 +332,8 @@ IntPtr SecureString___::MarshalToString(Boolean globalAlloc, Boolean unicode) {
         }
       }
       ProtectMemory();
+      auto& default = bufferToRelease;
+      default == nullptr ? nullptr : default->DangerousRelease();
     }
   }
 }

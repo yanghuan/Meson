@@ -3,6 +3,7 @@
 #include <System.Private.CoreLib/Interop-dep.h>
 #include <System.Private.CoreLib/System/ArgumentException-dep.h>
 #include <System.Private.CoreLib/System/ArgumentNullException-dep.h>
+#include <System.Private.CoreLib/System/Char-dep.h>
 #include <System.Private.CoreLib/System/Collections/Generic/List-dep.h>
 #include <System.Private.CoreLib/System/Configuration/Assemblies/AssemblyVersionCompatibility.h>
 #include <System.Private.CoreLib/System/Exception-dep.h>
@@ -14,6 +15,7 @@
 #include <System.Private.CoreLib/System/IRuntimeMethodInfo.h>
 #include <System.Private.CoreLib/System/NotSupportedException-dep.h>
 #include <System.Private.CoreLib/System/PlatformNotSupportedException-dep.h>
+#include <System.Private.CoreLib/System/ReadOnlySpan-dep.h>
 #include <System.Private.CoreLib/System/Reflection/AssemblyNameFlags.h>
 #include <System.Private.CoreLib/System/Reflection/BindingFlags.h>
 #include <System.Private.CoreLib/System/Reflection/CustomAttribute-dep.h>
@@ -183,6 +185,11 @@ Stream RuntimeAssembly___::GetManifestResourceStream(Type type, String name) {
   if (type == nullptr && name == nullptr) {
     rt::throw_exception<ArgumentNullException>("type");
   }
+  auto& default = type;
+  String text = default == nullptr ? nullptr : default->get_Namespace();
+  Char ptr = Type::in::Delimiter;
+  String name2 = (text != nullptr && name != nullptr) ? String::in::Concat(text, ReadOnlySpan<Char>(ptr, 1), name) : (text + name);
+  return GetManifestResourceStream(name2);
 }
 
 Stream RuntimeAssembly___::GetManifestResourceStream(String name) {
@@ -345,10 +352,8 @@ Assembly RuntimeAssembly___::InternalGetSatelliteAssembly(CultureInfo culture, V
   AssemblyName assemblyName = rt::newobj<AssemblyName>();
   assemblyName->SetPublicKey(GetPublicKey());
   assemblyName->set_Flags = (GetFlags() | AssemblyNameFlags::PublicKey);
-  auto default = version;
-  if (default != nullptr) default = GetVersion();
-
-  assemblyName->set_Version = (default);
+  auto& default = version;
+  assemblyName->set_Version = (default != nullptr ? default : GetVersion());
   assemblyName->set_CultureInfo = culture;
   assemblyName->set_Name = GetSimpleName() + ".resources";
   StackCrawlMark stackMark = StackCrawlMark::LookForMe;

@@ -31,10 +31,8 @@ void ResourceSet___::ctor(Stream stream) {
 }
 
 void ResourceSet___::ctor(IResourceReader reader) {
-  auto default = reader;
-  if (default != nullptr) default = rt::throw_exception(rt::newobj<ArgumentNullException>("reader"));
-
-  Reader = (default);
+  auto& default = reader;
+  Reader = (default != nullptr ? default : rt::throw_exception(rt::newobj<ArgumentNullException>("reader")));
   ReadResources();
 }
 
@@ -46,6 +44,8 @@ void ResourceSet___::Dispose(Boolean disposing) {
   if (disposing) {
     IResourceReader reader = Reader;
     Reader = nullptr;
+    auto& default = reader;
+    default == nullptr ? nullptr : default->Close();
   }
   Reader = nullptr;
   _caseInsensitiveTable = nullptr;

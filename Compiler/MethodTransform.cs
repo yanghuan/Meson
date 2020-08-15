@@ -182,11 +182,9 @@ namespace Meson.Compiler {
       var right = binaryOperatorExpression.Right.AcceptExpression(this);
       if (binaryOperatorExpression.Operator == BinaryOperatorType.NullCoalescing) {
         var temp = GetTempIdentifier();
-        var local = new VariableDeclarationStatementSyntax(IdentifierSyntax.Auto, temp, left);
-        var ifStatement = new IfElseStatementSyntax(temp.Binary(Tokens.NotEquals, IdentifierSyntax.Nullptr), temp.Binary(Tokens.Equals, right));
+        var local = new VariableDeclarationStatementSyntax(new RefExpressionSyntax(IdentifierSyntax.Auto), temp, left);
         Block.Add(local);
-        Block.Add(ifStatement);
-        return temp;
+        return new ConditionalExpressionSyntax(temp.Binary(Tokens.NotEquals, IdentifierSyntax.Nullptr), temp, right);
       }
       string operatorToken = GetBinaryOperatorToken(binaryOperatorExpression.Operator);
       return left.Binary(operatorToken, right);
@@ -629,38 +627,29 @@ namespace Meson.Compiler {
       return typeReferenceExpression.Type.AcceptVisitor(this);
     }
 
-    private static string GetUnaryOperator(UnaryOperatorType type) {
-      switch (type) {
-        case UnaryOperatorType.BitNot:
-          return Tokens.Tilde;
-
-        case UnaryOperatorType.AddressOf:
-          return Tokens.Ampersand;
-
-        case UnaryOperatorType.Not:
-          return Tokens.Exclamation;
-
-        case UnaryOperatorType.Increment:
-        case UnaryOperatorType.PostIncrement:
-          return Tokens.PlusPlus;
-
-        case UnaryOperatorType.Decrement:
-        case UnaryOperatorType.PostDecrement:
-          return Tokens.SubSub;
-
-        case UnaryOperatorType.Dereference:
-          return Tokens.Asterisk;
-
-        case UnaryOperatorType.SuppressNullableWarning:
-          return string.Empty;
-      }
-
-      throw new NotImplementedException();
-    }
+    private static readonly string[] unaryOperatorToknes_ = new string[] {
+      null, "!", "~", "-", "+",
+      "++", "--", "++", "--", "*",
+      "&", null, null, null, null, 
+      string.Empty, null,
+    };
 
     public SyntaxNode VisitUnaryOperatorExpression(UnaryOperatorExpression unaryOperatorExpression) {
-      string operatorToken = GetUnaryOperator(unaryOperatorExpression.Operator);
       var expression = unaryOperatorExpression.Expression.AcceptExpression(this);
+      if (unaryOperatorExpression.Operator == UnaryOperatorType.NullConditionalRewrap) {
+        return expression;
+      }
+
+      if (unaryOperatorExpression.Operator == UnaryOperatorType.NullConditional) {
+        var temp = GetTempIdentifier();
+        Block.Add(new VariableDeclarationStatementSyntax(new RefExpressionSyntax(IdentifierSyntax.Auto), temp, expression));
+        return new ConditionalExpressionSyntax(temp.Binary(Tokens.EqualsEquals, IdentifierSyntax.Nullptr), IdentifierSyntax.Nullptr, temp);
+      }
+
+      string operatorToken = unaryOperatorToknes_[(int)unaryOperatorExpression.Operator];
+      if (operatorToken == null) {
+        throw new NotImplementedException();
+      }
       bool isPosOperator = unaryOperatorExpression.Operator == UnaryOperatorType.PostIncrement || unaryOperatorExpression.Operator == UnaryOperatorType.PostDecrement;
       if (isPosOperator) {
         return new PostfixUnaryExpression(expression, operatorToken);

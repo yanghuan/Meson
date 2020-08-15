@@ -37,20 +37,16 @@ void IncrementingPollingCounter___::WritePayload(Single intervalSec, Int32 polli
     rt::lock((IncrementingPollingCounter)this);
     IncrementingCounterPayload incrementingCounterPayload = rt::newobj<IncrementingCounterPayload>();
     incrementingCounterPayload->set_Name = DiagnosticCounter::get_Name();
-    auto default = DiagnosticCounter::get_DisplayName();
-    if (default != nullptr) default = "";
-
-    incrementingCounterPayload->set_DisplayName = (default);
+    auto& default = DiagnosticCounter::get_DisplayName();
+    incrementingCounterPayload->set_DisplayName = (default != nullptr ? default : "");
     incrementingCounterPayload->set_DisplayRateTimeScale = ((DisplayRateTimeScale == TimeSpan::Zero) ? "" : DisplayRateTimeScale.ToString("c"));
     incrementingCounterPayload->set_IntervalSec = intervalSec;
     incrementingCounterPayload->set_Series = String::in::Format("Interval={0}", pollingIntervalMillisec);
     incrementingCounterPayload->set_CounterType = "Sum";
     incrementingCounterPayload->set_Metadata = GetMetadataString();
     incrementingCounterPayload->set_Increment = _increment - _prevIncrement;
-    auto extern = DiagnosticCounter::get_DisplayUnits();
-    if (extern != nullptr) extern = "";
-
-    incrementingCounterPayload->set_DisplayUnits = (extern);
+    auto& extern = DiagnosticCounter::get_DisplayUnits();
+    incrementingCounterPayload->set_DisplayUnits = (extern != nullptr ? extern : "");
     DiagnosticCounter::get_EventSource()->Write("EventCounters", EventSourceOptions(), rt::newobj<IncrementingPollingCounterPayloadType>(incrementingCounterPayload));
   }
 }

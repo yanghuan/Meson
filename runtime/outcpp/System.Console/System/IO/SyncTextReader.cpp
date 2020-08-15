@@ -10,10 +10,8 @@ namespace System::Console::System::IO::SyncTextReaderNamespace {
 using namespace ::System::Private::CoreLib::System;
 
 SyncTextReader SyncTextReader___::GetSynchronizedTextReader(TextReader reader) {
-  auto default = (rt::as<SyncTextReader>(reader));
-  if (default != nullptr) default = rt::newobj<SyncTextReader>(reader);
-
-  return default;
+  auto& default = (rt::as<SyncTextReader>(reader));
+  return default != nullptr ? default : rt::newobj<SyncTextReader>(reader);
 }
 
 void SyncTextReader___::ctor(TextReader t) {

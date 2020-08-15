@@ -58,10 +58,8 @@ CustomAttributeNamedArgument::CustomAttributeNamedArgument(MemberInfo memberInfo
 }
 
 CustomAttributeNamedArgument::CustomAttributeNamedArgument(MemberInfo memberInfo, CustomAttributeTypedArgument typedArgument) {
-  auto default = memberInfo;
-  if (default != nullptr) default = rt::throw_exception(rt::newobj<ArgumentNullException>("memberInfo"));
-
-  m_memberInfo = (default);
+  auto& default = memberInfo;
+  m_memberInfo = (default != nullptr ? default : rt::throw_exception(rt::newobj<ArgumentNullException>("memberInfo")));
   m_value = typedArgument;
 }
 

@@ -6,12 +6,15 @@
 #include <System.Private.CoreLib/System/Enum-dep.h>
 #include <System.Private.CoreLib/System/Func-dep.h>
 #include <System.Private.CoreLib/System/Globalization/CultureInfo-dep.h>
+#include <System.Private.CoreLib/System/Reflection/BindingFlags.h>
 #include <System.Private.CoreLib/System/Reflection/MethodInfo-dep.h>
+#include <System.Private.CoreLib/System/Threading/Volatile-dep.h>
 #include <System.Private.CoreLib/System/TimeSpan-dep.h>
 
 namespace System::Private::CoreLib::System::ComponentModel::DefaultValueAttributeNamespace {
 using namespace System::Globalization;
 using namespace System::Reflection;
+using namespace System::Threading;
 
 Object DefaultValueAttribute___::get_Value() {
   return _value;
@@ -21,6 +24,9 @@ void DefaultValueAttribute___::ctor(Type type, String value) {
   auto TryConvertFromInvariantString = [](Type typeToConvert, String stringValue, Object& conversionResult) -> Boolean {
     conversionResult = nullptr;
     if (s_convertFromInvariantString == nullptr) {
+      auto& default = Type::in::GetType("System.ComponentModel.TypeDescriptor, System.ComponentModel.TypeConverter", false);
+      MethodInfo methodInfo = default == nullptr ? nullptr : default->GetMethod("ConvertFromInvariantString", BindingFlags::Static | BindingFlags::NonPublic);
+      Volatile::Write(s_convertFromInvariantString, (methodInfo == nullptr) ? rt::newobj<Object>() : methodInfo->CreateDelegate(rt::typeof<Func<Type, String, Object>>()));
     }
     Func<Type, String, Object> func = rt::as<Func<Type, String, Object>>(s_convertFromInvariantString);
     if (func == nullptr) {

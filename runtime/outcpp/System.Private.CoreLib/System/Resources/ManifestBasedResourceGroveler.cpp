@@ -4,6 +4,7 @@
 #include <System.Private.CoreLib/System/ArgumentException-dep.h>
 #include <System.Private.CoreLib/System/BadImageFormatException-dep.h>
 #include <System.Private.CoreLib/System/Byte-dep.h>
+#include <System.Private.CoreLib/System/Char-dep.h>
 #include <System.Private.CoreLib/System/Environment-dep.h>
 #include <System.Private.CoreLib/System/Int32-dep.h>
 #include <System.Private.CoreLib/System/Int64-dep.h>
@@ -13,6 +14,7 @@
 #include <System.Private.CoreLib/System/IO/Stream-dep.h>
 #include <System.Private.CoreLib/System/MissingMethodException-dep.h>
 #include <System.Private.CoreLib/System/NotSupportedException-dep.h>
+#include <System.Private.CoreLib/System/ReadOnlySpan-dep.h>
 #include <System.Private.CoreLib/System/Reflection/BindingFlags.h>
 #include <System.Private.CoreLib/System/Reflection/CustomAttributeExtensions-dep.h>
 #include <System.Private.CoreLib/System/Reflection/RuntimeAssembly-dep.h>
@@ -154,13 +156,17 @@ ResourceSet ManifestBasedResourceGroveler___::CreateResourceSet(Stream store, As
 }
 
 Stream ManifestBasedResourceGroveler___::GetManifestResourceStream(Assembly satellite, String fileName) {
-  auto default = satellite->GetManifestResourceStream(_mediator->get_LocationInfo(), fileName);
-  if (default != nullptr) default = CaseInsensitiveManifestResourceStreamLookup(satellite, fileName);
-
-  return default;
+  auto& default = satellite->GetManifestResourceStream(_mediator->get_LocationInfo(), fileName);
+  return default != nullptr ? default : CaseInsensitiveManifestResourceStreamLookup(satellite, fileName);
 }
 
 Stream ManifestBasedResourceGroveler___::CaseInsensitiveManifestResourceStreamLookup(Assembly satellite, String name) {
+  auto& default = _mediator->get_LocationInfo();
+  String text = default == nullptr ? nullptr : default->get_Namespace();
+  Char ptr = Type::in::Delimiter;
+  String text2 = (text != nullptr && name != nullptr) ? String::in::Concat(text, ReadOnlySpan<Char>(ptr, 1), name) : (text + name);
+  String text3 = nullptr;
+  Array<String> manifestResourceNames = satellite->GetManifestResourceNames();
 }
 
 Assembly ManifestBasedResourceGroveler___::GetSatelliteAssembly(CultureInfo lookForCulture) {

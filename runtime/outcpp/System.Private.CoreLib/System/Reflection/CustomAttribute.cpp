@@ -418,10 +418,8 @@ AttributeUsageAttribute CustomAttribute::GetAttributeUsage(RuntimeType decorated
       attributeUsageAttribute = rt::newobj<AttributeUsageAttribute>(targets, allowMultiple, inherited);
     }
   }
-  auto default = attributeUsageAttribute;
-  if (default != nullptr) default = AttributeUsageAttribute::in::Default;
-
-  return default;
+  auto& default = attributeUsageAttribute;
+  return default != nullptr ? default : AttributeUsageAttribute::in::Default;
 }
 
 void CustomAttribute::ParseAttributeUsageAttribute(ConstArray ca, AttributeTargets& targets, Boolean& inherited, Boolean& allowMultiple) {

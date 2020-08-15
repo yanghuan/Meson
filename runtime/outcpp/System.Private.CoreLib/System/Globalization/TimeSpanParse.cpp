@@ -394,6 +394,10 @@ Boolean TimeSpanParse::StringParser::TryParse(ReadOnlySpan<Char> input, TimeSpan
     }
   }
   if (flag) {
+    time = -time;
+    if (time > 0) {
+      return result.SetOverflowFailure();
+    }
   } else if (time < 0) {
     return result.SetOverflowFailure();
   }
@@ -638,6 +642,10 @@ Boolean TimeSpanParse::ProcessTerminal_DHMSF(TimeSpanRawInfo& raw, TimeSpanStand
       return result.SetOverflowFailure();
     }
     if (!flag3) {
+      result2 = -result2;
+      if (result2 > 0) {
+        return result.SetOverflowFailure();
+      }
     }
     result.parsedTimeSpan = TimeSpan(result2);
     return true;
@@ -722,6 +730,10 @@ Boolean TimeSpanParse::ProcessTerminal_HMS_F_D(TimeSpanRawInfo& raw, TimeSpanSta
   }
   if (flag4) {
     if (!flag3) {
+      result2 = -result2;
+      if (result2 > 0) {
+        return result.SetOverflowFailure();
+      }
     }
     result.parsedTimeSpan = TimeSpan(result2);
     return true;
@@ -809,6 +821,10 @@ Boolean TimeSpanParse::ProcessTerminal_HM_S_D(TimeSpanRawInfo& raw, TimeSpanStan
   }
   if (flag4) {
     if (!flag3) {
+      result2 = -result2;
+      if (result2 > 0) {
+        return result.SetOverflowFailure();
+      }
     }
     result.parsedTimeSpan = TimeSpan(result2);
     return true;
@@ -854,6 +870,10 @@ Boolean TimeSpanParse::ProcessTerminal_HM(TimeSpanRawInfo& raw, TimeSpanStandard
       return result.SetOverflowFailure();
     }
     if (!flag3) {
+      result2 = -result2;
+      if (result2 > 0) {
+        return result.SetOverflowFailure();
+      }
     }
     result.parsedTimeSpan = TimeSpan(result2);
     return true;
@@ -896,6 +916,10 @@ Boolean TimeSpanParse::ProcessTerminal_D(TimeSpanRawInfo& raw, TimeSpanStandardS
       return result.SetOverflowFailure();
     }
     if (!flag3) {
+      result2 = -result2;
+      if (result2 > 0) {
+        return result.SetOverflowFailure();
+      }
     }
     result.parsedTimeSpan = TimeSpan(result2);
     return true;
@@ -1028,6 +1052,7 @@ Boolean TimeSpanParse::TryParseByFormat(ReadOnlySpan<Char> input, ReadOnlySpan<C
   Int64 result7;
   if (TryTimeToTicks(flag6, TimeSpanToken(result2), TimeSpanToken(result3), TimeSpanToken(result4), TimeSpanToken(result5), TimeSpanToken(result6, zeroes), result7)) {
     if (!flag6) {
+      result7 = -result7;
     }
     result.parsedTimeSpan = TimeSpan(result7);
     return true;

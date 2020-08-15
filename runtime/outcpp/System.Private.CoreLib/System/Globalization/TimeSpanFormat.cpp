@@ -237,6 +237,12 @@ Boolean TimeSpanFormat::TryFormatStandard(TimeSpan value, StandardFormat format,
   UInt64 num3;
   if (num2 < 0) {
     num = 9;
+    num2 = -num2;
+    if (num2 < 0) {
+      valueWithoutTrailingZeros = 4775808u;
+      num3 = 922337203685;
+      goto IL_0045;
+    }
   }
   UInt64 result;
   num3 = Math::DivRem((UInt64)num2, 10000000, result);
@@ -359,6 +365,8 @@ StringBuilder TimeSpanFormat::FormatCustomized(TimeSpan value, ReadOnlySpan<Char
   Int32 num = (Int32)(value.get_Ticks() / 864000000000);
   Int64 num2 = value.get_Ticks() % 864000000000;
   if (value.get_Ticks() < 0) {
+    num = -num;
+    num2 = -num2;
   }
   Int32 value2 = (Int32)(num2 / 36000000000 % 24);
   Int32 value3 = (Int32)(num2 / 600000000 % 60);

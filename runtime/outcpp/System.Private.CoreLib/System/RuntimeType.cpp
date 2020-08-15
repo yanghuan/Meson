@@ -42,6 +42,7 @@
 #include <System.Private.CoreLib/System/Reflection/PseudoCustomAttribute-dep.h>
 #include <System.Private.CoreLib/System/Reflection/SignatureConstructedGenericType-dep.h>
 #include <System.Private.CoreLib/System/Reflection/SignatureTypeExtensions-dep.h>
+#include <System.Private.CoreLib/System/Reflection/TargetInvocationException-dep.h>
 #include <System.Private.CoreLib/System/Runtime/CompilerServices/QCallTypeHandle-dep.h>
 #include <System.Private.CoreLib/System/Runtime/CompilerServices/RuntimeHelpers-dep.h>
 #include <System.Private.CoreLib/System/Runtime/InteropServices/BStrWrapper-dep.h>
@@ -144,10 +145,8 @@ void RuntimeType___::RuntimeTypeCache___::ctor(RuntimeType runtimeType) {
 }
 
 String RuntimeType___::RuntimeTypeCache___::ConstructName(String& name, TypeNameFormatFlags formatFlags) {
-  auto default = name;
-  if (default != nullptr) default = (name = RuntimeTypeHandle(m_runtimeType).ConstructName(formatFlags));
-
-  return default;
+  auto& default = name;
+  return default != nullptr ? default : (name = RuntimeTypeHandle(m_runtimeType).ConstructName(formatFlags));
 }
 
 String RuntimeType___::RuntimeTypeCache___::GetName(TypeNameKind kind) {
@@ -181,10 +180,8 @@ String RuntimeType___::RuntimeTypeCache___::GetNameSpace() {
 RuntimeType RuntimeType___::RuntimeTypeCache___::GetEnclosingType() {
   if (m_enclosingType == nullptr) {
     RuntimeType declaringType = RuntimeTypeHandle::GetDeclaringType(GetRuntimeType());
-    auto default = declaringType;
-    if (default != nullptr) default = ((RuntimeType)rt::typeof<void>());
-
-    m_enclosingType = (default);
+    auto& default = declaringType;
+    m_enclosingType = (default != nullptr ? default : ((RuntimeType)rt::typeof<void>()));
   }
   if (!(m_enclosingType == rt::typeof<void>())) {
     return m_enclosingType;
@@ -224,10 +221,8 @@ String RuntimeType___::RuntimeTypeCache___::GetDefaultMemberName() {
 }
 
 Array<Object> RuntimeType___::RuntimeTypeCache___::GetEmptyArray() {
-  auto default = _emptyArray;
-  if (default != nullptr) default = (_emptyArray = (Array<Object>)Array<>::in::CreateInstance(m_runtimeType, 0));
-
-  return default;
+  auto& default = _emptyArray;
+  return default != nullptr ? default : (_emptyArray = (Array<Object>)Array<>::in::CreateInstance(m_runtimeType, 0));
 }
 
 MethodInfo RuntimeType___::RuntimeTypeCache___::GetGenericMethodInfo(RuntimeMethodHandleInternal genericMethod) {
@@ -314,10 +309,8 @@ void RuntimeType___::ActivatorCache___::ctor(RuntimeMethodHandleInternal rmh) {
 void RuntimeType___::ActivatorCache___::Initialize() {
   if (!_hCtorMethodHandle.IsNullHandle()) {
     _ctorAttributes = RuntimeMethodHandle::GetAttributes(_hCtorMethodHandle);
-    auto default = s_delegateCtorInfo;
-    if (default != nullptr) default = (s_delegateCtorInfo = rt::typeof<CtorDelegate>()->GetConstructor(rt::newarr<Array<Type>>(2)));
-
-    ConstructorInfo constructorInfo = default;
+    auto& default = s_delegateCtorInfo;
+    ConstructorInfo constructorInfo = default != nullptr ? default : (s_delegateCtorInfo = rt::typeof<CtorDelegate>()->GetConstructor(rt::newarr<Array<Type>>(2)));
     _ctor = (CtorDelegate)constructorInfo->Invoke(rt::newarr<Array<Object>>(2));
   }
   _isFullyInitialized = true;
@@ -330,6 +323,8 @@ void RuntimeType___::ActivatorCache___::EnsureInitialized() {
 }
 
 Object RuntimeType___::get_GenericCache() {
+  auto& default = get_CacheIfExists();
+  return default == nullptr ? nullptr : default->get_GenericCache();
 }
 
 void RuntimeType___::set_GenericCache(Object value) {
@@ -441,10 +436,8 @@ Type RuntimeType___::get_DeclaringType() {
 }
 
 OleAutBinder RuntimeType___::get_ForwardCallBinder() {
-  auto default = s_ForwardCallBinder;
-  if (default != nullptr) default = (s_ForwardCallBinder = rt::newobj<OleAutBinder>());
-
-  return default;
+  auto& default = s_ForwardCallBinder;
+  return default != nullptr ? default : (s_ForwardCallBinder = rt::newobj<OleAutBinder>());
 }
 
 Assembly RuntimeType___::get_Assembly() {
@@ -544,6 +537,8 @@ MethodBase RuntimeType___::GetMethodBase(RuntimeType reflectedType, IRuntimeMeth
 
 MethodBase RuntimeType___::GetMethodBase(RuntimeType reflectedType, RuntimeMethodHandleInternal methodHandle) {
   if (RuntimeMethodHandle::IsDynamicMethod(methodHandle)) {
+    auto& default = RuntimeMethodHandle::GetResolver(methodHandle);
+    return default == nullptr ? nullptr : default->GetDynamicMethod();
   }
   RuntimeType runtimeType = RuntimeMethodHandle::GetDeclaringType(methodHandle);
   Array<RuntimeType> array = nullptr;
@@ -1323,10 +1318,8 @@ Array<RuntimeType> RuntimeType___::GetGenericArgumentsInternal() {
 
 Array<Type> RuntimeType___::GetGenericArguments() {
   Array<Type> instantiationPublic = GetRootElementType()->GetTypeHandleInternal().GetInstantiationPublic();
-  auto default = instantiationPublic;
-  if (default != nullptr) default = Array<>::in::Empty<Type>();
-
-  return default;
+  auto& default = instantiationPublic;
+  return default != nullptr ? default : Array<>::in::Empty<Type>();
 }
 
 Type RuntimeType___::MakeGenericType(Array<Type> instantiation) {
@@ -1377,10 +1370,8 @@ Array<Type> RuntimeType___::GetGenericParameterConstraints() {
     rt::throw_exception<InvalidOperationException>(SR::get_Arg_NotGenericParameter());
   }
   Array<Type> constraints = RuntimeTypeHandle((RuntimeType)this).GetConstraints();
-  auto default = constraints;
-  if (default != nullptr) default = Array<>::in::Empty<Type>();
-
-  return default;
+  auto& default = constraints;
+  return default != nullptr ? default : Array<>::in::Empty<Type>();
 }
 
 Boolean RuntimeType___::HasSameMetadataDefinitionAs(MemberInfo other) {
@@ -1518,6 +1509,16 @@ Object RuntimeType___::InvokeMember(String name, BindingFlags bindingFlags, Bind
     if (name == nullptr) {
       rt::throw_exception<ArgumentNullException>("name");
     }
+    auto& default = modifiers;
+    Array<Boolean> byrefModifiers = default == nullptr ? nullptr : default[0].get_IsByRefArray();
+    auto& extern = culture;
+    auto& ref = extern == nullptr ? nullptr : extern->get_LCID();
+    Int32 culture2 = ref != nullptr ? ref : 1033;
+    Boolean flag = (bindingFlags & BindingFlags::DoNotWrapExceptions) != 0;
+    try{
+      return InvokeDispMethod(name, bindingFlags, target, providedArgs, byrefModifiers, culture2, namedParams);
+    } catch (TargetInvocationException ex) {
+    }
   }
   if (namedParams != nullptr && Array<>::in::IndexOf(namedParams, nullptr) != -1) {
     rt::throw_exception<ArgumentException>(SR::get_Arg_NamedParamNull(), "namedParams");
@@ -1539,10 +1540,8 @@ Object RuntimeType___::InvokeMember(String name, BindingFlags bindingFlags, Bind
     rt::throw_exception<ArgumentNullException>("name");
   }
   if (name->get_Length() == 0 || name->Equals("[DISPID=0]")) {
-    auto default = GetDefaultMemberName();
-    if (default != nullptr) default = "ToString";
-
-    name = (default);
+    auto& default = GetDefaultMemberName();
+    name = (default != nullptr ? default : "ToString");
   }
   Boolean flag2 = (bindingFlags & BindingFlags::GetField) != 0;
   Boolean flag3 = (bindingFlags & BindingFlags::SetField) != 0;
@@ -1938,10 +1937,8 @@ Array<MemberInfo> RuntimeType___::GetDefaultMembers() {
   if (defaultMemberName != nullptr) {
     array = GetMember(defaultMemberName);
   }
-  auto default = array;
-  if (default != nullptr) default = Array<>::in::Empty<MemberInfo>();
-
-  return default;
+  auto& default = array;
+  return default != nullptr ? default : Array<>::in::Empty<MemberInfo>();
 }
 
 Type RuntimeType___::GetElementType() {

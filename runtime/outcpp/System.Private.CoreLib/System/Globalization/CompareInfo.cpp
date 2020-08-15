@@ -262,6 +262,25 @@ IL_006e:
   if (offset1 < 0 || offset2 < 0) {
     rt::throw_exception<ArgumentOutOfRangeException>((offset1 < 0) ? "offset1" : "offset2", SR::get_ArgumentOutOfRange_NeedPosNum());
   }
+  auto& default = string1;
+  auto& extern = default == nullptr ? nullptr : default->get_Length();
+  if (offset1 > (extern != nullptr ? extern : 0) - length1) {
+    rt::throw_exception<ArgumentOutOfRangeException>("string1", SR::get_ArgumentOutOfRange_OffsetLength());
+  }
+  rt::throw_exception<ArgumentOutOfRangeException>("string2", SR::get_ArgumentOutOfRange_OffsetLength());
+
+IL_0044:
+  Int32 result;
+  if (string1 == nullptr) {
+    result = ((string2 != nullptr) ? (-1) : 0);
+  } else {
+    if (string2 != nullptr) {
+      return Compare(slice, slice2, options);
+    }
+    result = 1;
+  }
+  CheckCompareOptionsForCompare(options);
+  return result;
 }
 
 Int32 CompareInfo___::Compare(ReadOnlySpan<Char> string1, ReadOnlySpan<Char> string2, CompareOptions options) {

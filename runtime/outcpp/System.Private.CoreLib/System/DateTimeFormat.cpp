@@ -603,6 +603,7 @@ Boolean DateTimeFormat::TryFormatO(DateTime dateTime, TimeSpan offset, Span<Char
         Char c;
         if (num2 < 0) {
           c = 45;
+          num2 = -num2;
         } else {
           c = 43;
         }

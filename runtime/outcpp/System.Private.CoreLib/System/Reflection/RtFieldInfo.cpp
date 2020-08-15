@@ -23,10 +23,8 @@ RuntimeFieldHandleInternal RtFieldInfo___::get_ValueOfIRuntimeFieldInfo() {
 }
 
 String RtFieldInfo___::get_Name() {
-  auto default = m_name;
-  if (default != nullptr) default = (m_name = RuntimeFieldHandle::GetName((RtFieldInfo)this));
-
-  return default;
+  auto& default = m_name;
+  return default != nullptr ? default : (m_name = RuntimeFieldHandle::GetName((RtFieldInfo)this));
 }
 
 Int32 RtFieldInfo___::get_MetadataToken() {
@@ -42,10 +40,8 @@ FieldAttributes RtFieldInfo___::get_Attributes() {
 }
 
 Type RtFieldInfo___::get_FieldType() {
-  auto default = m_fieldType;
-  if (default != nullptr) default = InitializeFieldType();
-
-  return default;
+  auto& default = m_fieldType;
+  return default != nullptr ? default : InitializeFieldType();
 }
 
 INVOCATION_FLAGS RtFieldInfo___::InitializeInvocationFlags() {

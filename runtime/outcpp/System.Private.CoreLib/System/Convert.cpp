@@ -140,6 +140,9 @@ TypeCode Convert::GetTypeCode(Object value) {
   if (value == nullptr) {
     return TypeCode::Empty;
   }
+  auto& default = (rt::as<IConvertible>(value));
+  auto& extern = default == nullptr ? nullptr : default->GetTypeCode();
+  return extern != nullptr ? extern : TypeCode::Object;
 }
 
 Boolean Convert::IsDBNull(Object value) {

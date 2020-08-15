@@ -31,10 +31,8 @@ String StringInfo___::get_String() {
 }
 
 void StringInfo___::set_String(String value) {
-  auto default = value;
-  if (default != nullptr) default = rt::throw_exception(rt::newobj<ArgumentNullException>("value"));
-
-  _str = (default);
+  auto& default = value;
+  _str = (default != nullptr ? default : rt::throw_exception(rt::newobj<ArgumentNullException>("value")));
   _indexes = nullptr;
 }
 
@@ -71,10 +69,8 @@ String StringInfo___::SubstringByTextElements(Int32 startingTextElement) {
 }
 
 String StringInfo___::SubstringByTextElements(Int32 startingTextElement, Int32 lengthInTextElements) {
-  auto default = get_Indexes();
-  if (default != nullptr) default = Array<>::in::Empty<Int32>();
-
-  Array<Int32> array = default;
+  auto& default = get_Indexes();
+  Array<Int32> array = default != nullptr ? default : Array<>::in::Empty<Int32>();
   if ((UInt32)startingTextElement >= (UInt32)array->get_Length()) {
     rt::throw_exception<ArgumentOutOfRangeException>("startingTextElement", startingTextElement, SR::get_Arg_ArgumentOutOfRangeException());
   }

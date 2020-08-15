@@ -117,6 +117,12 @@ MethodBase MethodBase___::GetMethodFromHandle(RuntimeMethodHandle handle) {
     rt::throw_exception<ArgumentException>(SR::get_Argument_InvalidHandle());
   }
   MethodBase methodBase = RuntimeType::in::GetMethodBase(handle.GetMethodInfo());
+  auto& default = methodBase;
+  Type type = default == nullptr ? nullptr : default->get_DeclaringType();
+  if (type != nullptr && type->get_IsGenericType()) {
+    rt::throw_exception<ArgumentException>(SR::Format(SR::get_Argument_MethodDeclaringTypeGeneric(), methodBase, type->GetGenericTypeDefinition()));
+  }
+  return methodBase;
 }
 
 MethodBase MethodBase___::GetMethodFromHandle(RuntimeMethodHandle handle, RuntimeTypeHandle declaringType) {
@@ -201,6 +207,9 @@ Boolean MethodBase___::op_Equality(MethodBase left, MethodBase right) {
   if ((Object)left == right) {
     return true;
   }
+  auto& default = left;
+  auto& extern = default == nullptr ? nullptr : default->Equals(right);
+  return extern != nullptr ? extern : false;
 }
 
 Boolean MethodBase___::op_Inequality(MethodBase left, MethodBase right) {

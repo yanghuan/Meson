@@ -17,6 +17,11 @@ Object AsyncVoidMethodBuilder::get_ObjectIdForDebugger() {
 
 AsyncVoidMethodBuilder AsyncVoidMethodBuilder::Create() {
   SynchronizationContext current = SynchronizationContext::in::get_Current();
+  auto& default = current;
+  default == nullptr ? nullptr : default->OperationStarted();
+  AsyncVoidMethodBuilder result = AsyncVoidMethodBuilder();
+  result._synchronizationContext = current;
+  return result;
 }
 
 void AsyncVoidMethodBuilder::SetStateMachine(IAsyncStateMachine stateMachine) {

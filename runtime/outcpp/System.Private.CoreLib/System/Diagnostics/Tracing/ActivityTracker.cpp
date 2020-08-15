@@ -168,6 +168,39 @@ void ActivityTracker___::OnStart(String providerName, String activityName, Int32
   ActivityInfo value = m_current->get_Value();
   String text = NormalizeActivityName(providerName, activityName, task);
   TplEventSource tplEventSource = useTplSource ? TplEventSource::in::Log : nullptr;
+  auto& default = tplEventSource;
+  auto& extern = default == nullptr ? nullptr : default->Debug;
+  Boolean flag = extern != nullptr ? extern : false;
+  if (flag) {
+    tplEventSource->DebugFacilityMessage("OnStartEnter", text);
+    tplEventSource->DebugFacilityMessage("OnStartEnterActivityState", ActivityInfo::in::LiveActivities(value));
+  }
+  if (value != nullptr) {
+    if (value->m_level >= 100) {
+      activityId = Guid::Empty;
+      relatedActivityId = Guid::Empty;
+      if (flag) {
+        tplEventSource->DebugFacilityMessage("OnStartRET", "Fail");
+      }
+      return;
+    }
+    if ((options & EventActivityOptions::Recursive) == 0) {
+      ActivityInfo activityInfo = FindActiveActivity(text, value);
+      if (activityInfo != nullptr) {
+        OnStop(providerName, activityName, task, activityId);
+        value = m_current->set_Value;
+      }
+    }
+  }
+  Int64 uniqueId = (value != nullptr) ? Interlocked::Increment(value->m_lastChildID) : Interlocked::Increment(m_nextId);
+  relatedActivityId = EventSource::in::get_CurrentThreadActivityId();
+  ActivityInfo activityInfo2 = rt::newobj<ActivityInfo>(text, uniqueId, value, relatedActivityId, options);
+  m_current->set_Value = activityInfo2;
+  activityId = activityInfo2->get_ActivityId();
+  if (flag) {
+    tplEventSource->DebugFacilityMessage("OnStartRetActivityState", ActivityInfo::in::LiveActivities(activityInfo2));
+    tplEventSource->DebugFacilityMessage1("OnStartRet", activityId.ToString(), relatedActivityId.ToString());
+  }
 }
 
 void ActivityTracker___::OnStop(String providerName, String activityName, Int32 task, Guid& activityId, Boolean useTplSource) {
@@ -176,6 +209,51 @@ void ActivityTracker___::OnStop(String providerName, String activityName, Int32 
   }
   String text = NormalizeActivityName(providerName, activityName, task);
   TplEventSource tplEventSource = useTplSource ? TplEventSource::in::Log : nullptr;
+  auto& default = tplEventSource;
+  auto& extern = default == nullptr ? nullptr : default->Debug;
+  Boolean flag = extern != nullptr ? extern : false;
+  if (flag) {
+    tplEventSource->DebugFacilityMessage("OnStopEnter", text);
+    tplEventSource->DebugFacilityMessage("OnStopEnterActivityState", ActivityInfo::in::LiveActivities(m_current->get_Value()));
+  }
+  ActivityInfo activityInfo;
+  ActivityInfo activityInfo2;
+  do {
+    ActivityInfo value = m_current->get_Value();
+    activityInfo = nullptr;
+    activityInfo2 = FindActiveActivity(text, value);
+    if (activityInfo2 == nullptr) {
+      activityId = Guid::Empty;
+      if (flag) {
+        tplEventSource->DebugFacilityMessage("OnStopRET", "Fail");
+      }
+      return;
+    }
+    activityId = activityInfo2->get_ActivityId();
+    ActivityInfo activityInfo3 = value;
+    while (activityInfo3 != activityInfo2 && activityInfo3 != nullptr) {
+      if (activityInfo3->m_stopped != 0) {
+        activityInfo3 = activityInfo3->m_creator;
+        continue;
+      }
+      if (activityInfo3->CanBeOrphan()) {
+        if (activityInfo == nullptr) {
+          activityInfo = activityInfo3;
+        }
+      } else {
+        activityInfo3->m_stopped = 1;
+      }
+      activityInfo3 = activityInfo3->m_creator;
+    }
+  } while (Interlocked::CompareExchange(activityInfo2->m_stopped, 1, 0) != 0)
+  if (activityInfo == nullptr) {
+    activityInfo = activityInfo2->m_creator;
+  }
+  m_current->set_Value = activityInfo;
+  if (flag) {
+    tplEventSource->DebugFacilityMessage("OnStopRetActivityState", ActivityInfo::in::LiveActivities(activityInfo));
+    tplEventSource->DebugFacilityMessage("OnStopRet", activityId.ToString());
+  }
 }
 
 void ActivityTracker___::Enable() {

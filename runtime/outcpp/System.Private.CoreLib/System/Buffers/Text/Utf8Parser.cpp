@@ -403,6 +403,7 @@ Boolean Utf8Parser::TryCreateDateTimeOffset(DateTime dateTime, Boolean offsetNeg
   }
   Int64 num = ((Int64)offsetHours * 3600 + (Int64)offsetMinutes * 60) * 10000000;
   if (offsetNegative) {
+    num = -num;
   }
   try{
     value = DateTimeOffset(dateTime.get_Ticks(), TimeSpan(num));
@@ -3261,6 +3262,17 @@ Boolean Utf8Parser::TryCreateTimeSpan(Boolean isNegative, UInt32 days, UInt32 ho
   Int64 num = ((Int64)days * 3600 * 24 + (Int64)hours * 3600 + (Int64)minutes * 60 + seconds) * 1000;
   Int64 ticks;
   if (isNegative) {
+    num = -num;
+    if (num < -922337203685477) {
+      timeSpan = TimeSpan();
+      return false;
+    }
+    Int64 num2 = num * 10000;
+    if (num2 < Int64::MinValue + fraction) {
+      timeSpan = TimeSpan();
+      return false;
+    }
+    ticks = num2 - fraction;
   } else {
     if (num > 922337203685477) {
       timeSpan = TimeSpan();

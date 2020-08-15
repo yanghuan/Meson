@@ -30,9 +30,13 @@ void DelayPromise___::CompleteTimedOut() {
 }
 
 void DelayPromise___::Cleanup() {
+  auto& default = _timer;
+  default == nullptr ? nullptr : default->Close();
 }
 
 void Task___<>::ContingentProperties___::SetCompleted() {
+  auto& default = m_completionEvent;
+  default == nullptr ? nullptr : default->Set();
 }
 
 void Task___<>::ContingentProperties___::UnregisterCancellationCallback() {
@@ -102,6 +106,8 @@ Boolean WhenAllPromise___<>::get_ShouldNotifyDebuggerOfWaitCompletion() {
 }
 
 Task<> Task___<>::get_ParentForDebugger() {
+  auto& default = m_contingentProperties;
+  return default == nullptr ? nullptr : default->m_parent;
 }
 
 Int32 Task___<>::get_StateFlagsForDebugger() {
@@ -109,6 +115,9 @@ Int32 Task___<>::get_StateFlagsForDebugger() {
 }
 
 String Task___<>::get_DebuggerDisplayMethodDescription() {
+  auto& default = m_action;
+  auto& extern = default == nullptr ? nullptr : default->get_Method()->ToString();
+  return extern != nullptr ? extern : "{null}";
 }
 
 TaskCreationOptions Task___<>::get_Options() {
@@ -136,6 +145,8 @@ Int32 Task___<>::get_Id() {
 }
 
 Nullable<Int32> Task___<>::get_CurrentId() {
+  auto& default = get_InternalCurrent();
+  return default == nullptr ? nullptr : default->get_Id();
 }
 
 Task<> Task___<>::get_InternalCurrent() {
@@ -192,6 +203,9 @@ Boolean Task___<>::get_IsCancellationRequested() {
 }
 
 CancellationToken Task___<>::get_CancellationToken() {
+  auto& default = Volatile::Read(m_contingentProperties);
+  auto& extern = default == nullptr ? nullptr : default->m_cancellationToken;
+  return extern != nullptr ? extern : CancellationToken();
 }
 
 Boolean Task___<>::get_IsCancellationAcknowledged() {
@@ -265,6 +279,9 @@ ExecutionContext Task___<>::get_CapturedContext() {
   if ((m_stateFlags & 536870912) == 536870912) {
     return nullptr;
   }
+  auto& default = m_contingentProperties;
+  auto& extern = default == nullptr ? nullptr : default->m_capturedContext;
+  return extern != nullptr ? extern : ExecutionContext::in::Default;
 }
 
 void Task___<>::set_CapturedContext(ExecutionContext value) {

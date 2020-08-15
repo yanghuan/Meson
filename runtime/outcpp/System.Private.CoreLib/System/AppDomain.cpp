@@ -304,12 +304,18 @@ ObjectHandle AppDomain___::CreateInstance(String assemblyName, String typeName, 
 }
 
 Object AppDomain___::CreateInstanceAndUnwrap(String assemblyName, String typeName) {
+  auto& default = CreateInstance(assemblyName, typeName);
+  return default == nullptr ? nullptr : default->Unwrap();
 }
 
 Object AppDomain___::CreateInstanceAndUnwrap(String assemblyName, String typeName, Boolean ignoreCase, BindingFlags bindingAttr, Binder binder, Array<Object> args, CultureInfo culture, Array<Object> activationAttributes) {
+  auto& default = CreateInstance(assemblyName, typeName, ignoreCase, bindingAttr, binder, args, culture, activationAttributes);
+  return default == nullptr ? nullptr : default->Unwrap();
 }
 
 Object AppDomain___::CreateInstanceAndUnwrap(String assemblyName, String typeName, Array<Object> activationAttributes) {
+  auto& default = CreateInstance(assemblyName, typeName, activationAttributes);
+  return default == nullptr ? nullptr : default->Unwrap();
 }
 
 ObjectHandle AppDomain___::CreateInstanceFrom(String assemblyFile, String typeName) {
@@ -325,12 +331,18 @@ ObjectHandle AppDomain___::CreateInstanceFrom(String assemblyFile, String typeNa
 }
 
 Object AppDomain___::CreateInstanceFromAndUnwrap(String assemblyFile, String typeName) {
+  auto& default = CreateInstanceFrom(assemblyFile, typeName);
+  return default == nullptr ? nullptr : default->Unwrap();
 }
 
 Object AppDomain___::CreateInstanceFromAndUnwrap(String assemblyFile, String typeName, Boolean ignoreCase, BindingFlags bindingAttr, Binder binder, Array<Object> args, CultureInfo culture, Array<Object> activationAttributes) {
+  auto& default = CreateInstanceFrom(assemblyFile, typeName, ignoreCase, bindingAttr, binder, args, culture, activationAttributes);
+  return default == nullptr ? nullptr : default->Unwrap();
 }
 
 Object AppDomain___::CreateInstanceFromAndUnwrap(String assemblyFile, String typeName, Array<Object> activationAttributes) {
+  auto& default = CreateInstanceFrom(assemblyFile, typeName, activationAttributes);
+  return default == nullptr ? nullptr : default->Unwrap();
 }
 
 IPrincipal AppDomain___::GetThreadPrincipal() {

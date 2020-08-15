@@ -54,10 +54,8 @@ void TaskFactory___<>::CompleteOnInvokePromise___::Invoke(Task<> completingTask)
 }
 
 TaskScheduler TaskFactory___<>::get_DefaultScheduler() {
-  auto default = m_defaultScheduler;
-  if (default != nullptr) default = TaskScheduler::in::get_Current();
-
-  return default;
+  auto& default = m_defaultScheduler;
+  return default != nullptr ? default : TaskScheduler::in::get_Current();
 }
 
 CancellationToken TaskFactory___<>::get_CancellationToken() {

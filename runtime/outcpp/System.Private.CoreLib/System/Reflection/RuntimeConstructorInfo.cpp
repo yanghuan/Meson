@@ -50,10 +50,8 @@ RuntimeMethodHandleInternal RuntimeConstructorInfo___::get_ValueOfIRuntimeMethod
 }
 
 Signature RuntimeConstructorInfo___::get_Signature() {
-  auto default = m_signature;
-  if (default != nullptr) default = (m_signature = rt::newobj<Signature>((RuntimeConstructorInfo)this, m_declaringType));
-
-  return default;
+  auto& default = m_signature;
+  return default != nullptr ? default : (m_signature = rt::newobj<Signature>((RuntimeConstructorInfo)this, m_declaringType));
 }
 
 RuntimeType RuntimeConstructorInfo___::get_ReflectedTypeInternal() {
@@ -210,10 +208,8 @@ Type RuntimeConstructorInfo___::GetReturnType() {
 }
 
 Array<ParameterInfo> RuntimeConstructorInfo___::GetParametersNoCopy() {
-  auto default = m_parameters;
-  if (default != nullptr) default = (m_parameters = RuntimeParameterInfo::in::GetParameters((RuntimeConstructorInfo)this, (RuntimeConstructorInfo)this, get_Signature()));
-
-  return default;
+  auto& default = m_parameters;
+  return default != nullptr ? default : (m_parameters = RuntimeParameterInfo::in::GetParameters((RuntimeConstructorInfo)this, (RuntimeConstructorInfo)this, get_Signature()));
 }
 
 Array<ParameterInfo> RuntimeConstructorInfo___::GetParameters() {

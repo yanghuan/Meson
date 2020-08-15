@@ -153,6 +153,9 @@ Boolean SemaphoreSlim___::Wait(Int32 millisecondsTimeout, CancellationToken canc
     }
     cancellationTokenRegistration.Dispose();
   }
+  auto& default = task;
+  auto& extern = default == nullptr ? nullptr : default->GetAwaiter().GetResult();
+  return extern != nullptr ? extern : flag;
 }
 
 Boolean SemaphoreSlim___::WaitUntilCountOrTimeout(Int32 millisecondsTimeout, UInt32 startTime, CancellationToken cancellationToken) {

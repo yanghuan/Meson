@@ -100,6 +100,7 @@ Int32 Random___::Next() {
 Double Random___::GetSampleForLargeRange() {
   Int32 num = InternalSample();
   if ((InternalSample() % 2 == 0) ? true : false) {
+    num = -num;
   }
   Double num2 = num;
   num2 += 2147483646;

@@ -5,6 +5,8 @@
 #include <System.Private.CoreLib/System/SR-dep.h>
 #include <System.Private.CoreLib/System/Threading/CancellationToken-dep.h>
 #include <System.Private.CoreLib/System/Threading/CancellationTokenSource-dep.h>
+#include <System.Private.CoreLib/System/Threading/ExecutionContext-dep.h>
+#include <System.Private.CoreLib/System/Threading/SynchronizationContext-dep.h>
 
 namespace System::Private::CoreLib::System::Threading::CancellationTokenNamespace {
 CancellationToken CancellationToken::get_None() {
@@ -23,10 +25,8 @@ Boolean CancellationToken::get_CanBeCanceled() {
 }
 
 WaitHandle CancellationToken::get_WaitHandle() {
-  auto default = _source;
-  if (default != nullptr) default = CancellationTokenSource::in::s_neverCanceledSource;
-
-  return (default)->get_WaitHandle();
+  auto& default = _source;
+  return (default != nullptr ? default : CancellationTokenSource::in::s_neverCanceledSource)->get_WaitHandle();
 }
 
 CancellationToken::CancellationToken(CancellationTokenSource source) {
@@ -37,17 +37,13 @@ CancellationToken::CancellationToken(Boolean canceled) {
 }
 
 CancellationTokenRegistration CancellationToken::Register(Action<> callback) {
-  auto default = callback;
-  if (default != nullptr) default = rt::throw_exception(rt::newobj<ArgumentNullException>("callback"));
-
-  return Register(s_actionToActionObjShunt, default, false, true);
+  auto& default = callback;
+  return Register(s_actionToActionObjShunt, default != nullptr ? default : rt::throw_exception(rt::newobj<ArgumentNullException>("callback")), false, true);
 }
 
 CancellationTokenRegistration CancellationToken::Register(Action<> callback, Boolean useSynchronizationContext) {
-  auto default = callback;
-  if (default != nullptr) default = rt::throw_exception(rt::newobj<ArgumentNullException>("callback"));
-
-  return Register(s_actionToActionObjShunt, default, useSynchronizationContext, true);
+  auto& default = callback;
+  return Register(s_actionToActionObjShunt, default != nullptr ? default : rt::throw_exception(rt::newobj<ArgumentNullException>("callback")), useSynchronizationContext, true);
 }
 
 CancellationTokenRegistration CancellationToken::Register(Action<Object> callback, Object state) {
@@ -66,6 +62,9 @@ CancellationTokenRegistration CancellationToken::Register(Action<Object> callbac
   if (callback == nullptr) {
     rt::throw_exception<ArgumentNullException>("callback");
   }
+  auto& default = _source;
+  auto& extern = default == nullptr ? nullptr : default->InternalRegister(callback, state, useSynchronizationContext ? SynchronizationContext::in::get_Current() : nullptr, useExecutionContext ? ExecutionContext::in::Capture() : nullptr);
+  return extern != nullptr ? extern : CancellationTokenRegistration();
 }
 
 Boolean CancellationToken::Equals(CancellationToken other) {
@@ -80,10 +79,8 @@ Boolean CancellationToken::Equals(Object other) {
 }
 
 Int32 CancellationToken::GetHashCode() {
-  auto default = _source;
-  if (default != nullptr) default = CancellationTokenSource::in::s_neverCanceledSource;
-
-  return (default)->GetHashCode();
+  auto& default = _source;
+  return (default != nullptr ? default : CancellationTokenSource::in::s_neverCanceledSource)->GetHashCode();
 }
 
 Boolean CancellationToken::op_Equality(CancellationToken left, CancellationToken right) {

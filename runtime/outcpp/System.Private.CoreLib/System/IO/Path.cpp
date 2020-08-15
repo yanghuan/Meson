@@ -326,6 +326,9 @@ String Path::Join(Array<String> paths) {
   }
   Int32 num = 0;
   for (Int32 i = 0; i < paths->get_Length(); i++) {
+    auto& default = paths[i];
+    auto& extern = default == nullptr ? nullptr : default->get_Length();
+    num += (extern != nullptr ? extern : 0);
   }
   num += paths->get_Length() - 1;
   Char default[260] = {};

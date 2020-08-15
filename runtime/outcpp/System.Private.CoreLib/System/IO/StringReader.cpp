@@ -10,10 +10,8 @@
 
 namespace System::Private::CoreLib::System::IO::StringReaderNamespace {
 void StringReader___::ctor(String s) {
-  auto default = s;
-  if (default != nullptr) default = rt::throw_exception(rt::newobj<ArgumentNullException>("s"));
-
-  _s = (default);
+  auto& default = s;
+  _s = (default != nullptr ? default : rt::throw_exception(rt::newobj<ArgumentNullException>("s")));
   _length = s->get_Length();
 }
 

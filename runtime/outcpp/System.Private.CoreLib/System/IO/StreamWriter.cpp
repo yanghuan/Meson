@@ -24,6 +24,7 @@
 #include <System.Private.CoreLib/System/Span-dep.h>
 #include <System.Private.CoreLib/System/SR-dep.h>
 #include <System.Private.CoreLib/System/Text/StringBuilder-dep.h>
+#include <System.Private.CoreLib/System/Text/StringBuilderCache-dep.h>
 #include <System.Private.CoreLib/System/Threading/CancellationToken-dep.h>
 #include <System.Private.CoreLib/System/Threading/Tasks/Task-dep.h>
 
@@ -318,6 +319,17 @@ void StreamWriter___::WriteLine(ReadOnlySpan<Char> value) {
 }
 
 void StreamWriter___::WriteFormatHelper(String format, ParamsArray args, Boolean appendNewLine) {
+  auto& default = format;
+  auto& extern = default == nullptr ? nullptr : default->get_Length();
+  StringBuilder stringBuilder = StringBuilderCache::Acquire((extern != nullptr ? extern : 0) + args.get_Length() * 8)->AppendFormatHelper(nullptr, format, args);
+  StringBuilder::in::ChunkEnumerator chunks = stringBuilder->GetChunks();
+  Boolean flag = chunks.MoveNext();
+  while (flag) {
+    ReadOnlySpan<Char> span = chunks.get_Current().get_Span();
+    flag = chunks.MoveNext();
+    WriteSpan(span, !flag && appendNewLine);
+  }
+  StringBuilderCache::Release(stringBuilder);
 }
 
 void StreamWriter___::Write(String format, Object arg0) {

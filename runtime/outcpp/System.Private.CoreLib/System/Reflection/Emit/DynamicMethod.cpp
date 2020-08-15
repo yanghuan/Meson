@@ -22,6 +22,8 @@
 #include <System.Private.CoreLib/System/Reflection/RuntimeParameterInfo-dep.h>
 #include <System.Private.CoreLib/System/Reflection/TargetParameterCountException-dep.h>
 #include <System.Private.CoreLib/System/Runtime/CompilerServices/MethodImplAttribute-dep.h>
+#include <System.Private.CoreLib/System/Runtime/CompilerServices/RuntimeHelpers-dep.h>
+#include <System.Private.CoreLib/System/RuntimeMethodHandleInternal-dep.h>
 #include <System.Private.CoreLib/System/RuntimeType-dep.h>
 #include <System.Private.CoreLib/System/Signature-dep.h>
 #include <System.Private.CoreLib/System/SR-dep.h>
@@ -360,6 +362,10 @@ Delegate DynamicMethod___::CreateDelegate(Type delegateType) {
   if (m_restrictedSkipVisibility) {
     GetMethodDescriptor();
     IRuntimeMethodInfo methodHandle = m_methodHandle;
+    auto& default = methodHandle;
+    auto& extern = default == nullptr ? nullptr : default->get_Value();
+    RuntimeHelpers::_CompileMethod(extern != nullptr ? extern : RuntimeMethodHandleInternal::get_EmptyHandle());
+    GC::KeepAlive(methodHandle);
   }
   MulticastDelegate multicastDelegate = (MulticastDelegate)Delegate::in::CreateDelegateNoSecurityCheck(delegateType, nullptr, GetMethodDescriptor());
   multicastDelegate->StoreDynamicMethod(GetMethodInfo());
@@ -370,6 +376,10 @@ Delegate DynamicMethod___::CreateDelegate(Type delegateType, Object target) {
   if (m_restrictedSkipVisibility) {
     GetMethodDescriptor();
     IRuntimeMethodInfo methodHandle = m_methodHandle;
+    auto& default = methodHandle;
+    auto& extern = default == nullptr ? nullptr : default->get_Value();
+    RuntimeHelpers::_CompileMethod(extern != nullptr ? extern : RuntimeMethodHandleInternal::get_EmptyHandle());
+    GC::KeepAlive(methodHandle);
   }
   MulticastDelegate multicastDelegate = (MulticastDelegate)Delegate::in::CreateDelegateNoSecurityCheck(delegateType, target, GetMethodDescriptor());
   multicastDelegate->StoreDynamicMethod(GetMethodInfo());

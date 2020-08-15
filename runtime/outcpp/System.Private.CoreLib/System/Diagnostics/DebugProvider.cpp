@@ -119,10 +119,8 @@ void DebugProvider___::WriteToDebugger(String message) {
   if (Debugger::IsLogging()) {
     Debugger::Log(0, nullptr, message);
   } else {
-    auto default = message;
-    if (default != nullptr) default = String::in::Empty;
-
-    Interop::Kernel32::OutputDebugString(default);
+    auto& default = message;
+    Interop::Kernel32::OutputDebugString(default != nullptr ? default : String::in::Empty);
   }
 }
 

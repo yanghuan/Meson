@@ -168,6 +168,7 @@ Vector3 Vector3::Divide(Vector3 left, Single divisor) {
 }
 
 Vector3 Vector3::Negate(Vector3 value) {
+  return -value;
 }
 
 Vector3::Vector3(Single value) {

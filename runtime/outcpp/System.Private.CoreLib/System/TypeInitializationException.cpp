@@ -4,10 +4,8 @@
 
 namespace System::Private::CoreLib::System::TypeInitializationExceptionNamespace {
 String TypeInitializationException___::get_TypeName() {
-  auto default = _typeName;
-  if (default != nullptr) default = String::in::Empty;
-
-  return default;
+  auto& default = _typeName;
+  return default != nullptr ? default : String::in::Empty;
 }
 
 void TypeInitializationException___::ctor() {

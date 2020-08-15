@@ -49,6 +49,8 @@ void AssemblyName___::set_CultureInfo(CultureInfo value) {
 }
 
 String AssemblyName___::get_CultureName() {
+  auto& default = _cultureInfo;
+  return default == nullptr ? nullptr : default->get_Name();
 }
 
 void AssemblyName___::set_CultureName(String value) {
@@ -139,10 +141,8 @@ String AssemblyName___::get_FullName() {
   if (get_Name() == nullptr) {
     return String::in::Empty;
   }
-  auto default = _publicKeyToken;
-  if (default != nullptr) default = ComputePublicKeyToken();
-
-  Array<Byte> pkt = default;
+  auto& default = _publicKeyToken;
+  Array<Byte> pkt = default != nullptr ? default : ComputePublicKeyToken();
   return AssemblyNameFormatter::ComputeDisplayName(get_Name(), get_Version(), get_CultureName(), pkt, get_Flags(), get_ContentType());
 }
 
@@ -241,10 +241,8 @@ void AssemblyName___::SetPublicKey(Array<Byte> publicKey) {
 }
 
 Array<Byte> AssemblyName___::GetPublicKeyToken() {
-  auto default = _publicKeyToken;
-  if (default != nullptr) default = (_publicKeyToken = ComputePublicKeyToken());
-
-  return default;
+  auto& default = _publicKeyToken;
+  return default != nullptr ? default : (_publicKeyToken = ComputePublicKeyToken());
 }
 
 void AssemblyName___::SetPublicKeyToken(Array<Byte> publicKeyToken) {
@@ -277,14 +275,10 @@ Boolean AssemblyName___::ReferenceMatchesDefinition(AssemblyName reference, Asse
   if (definition == nullptr) {
     rt::throw_exception<ArgumentNullException>("definition");
   }
-  auto default = reference->get_Name();
-  if (default != nullptr) default = String::in::Empty;
-
-  String text = default;
-  auto extern = definition->get_Name();
-  if (extern != nullptr) extern = String::in::Empty;
-
-  String value = extern;
+  auto& default = reference->get_Name();
+  String text = default != nullptr ? default : String::in::Empty;
+  auto& extern = definition->get_Name();
+  String value = extern != nullptr ? extern : String::in::Empty;
   return text->Equals(value, StringComparison::OrdinalIgnoreCase);
 }
 

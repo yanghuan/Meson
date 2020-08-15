@@ -8,10 +8,8 @@ namespace System::Private::CoreLib::System::IO::FileLoadExceptionNamespace {
 using namespace System::Runtime::CompilerServices;
 
 String FileLoadException___::get_Message() {
-  auto default = _message;
-  if (default != nullptr) default = (_message = FormatFileLoadExceptionMessage(FileName, Exception::get_HResult()));
-
-  return default;
+  auto& default = _message;
+  return default != nullptr ? default : (_message = FormatFileLoadExceptionMessage(FileName, Exception::get_HResult()));
 }
 
 void FileLoadException___::ctor(String fileName, Int32 hResult) {

@@ -61,6 +61,13 @@ String LicenseInteropProxy___::RequestLicKey(Type type) {
   if (!(Boolean)_validateTypeAndReturnDetails->Invoke(nullptr, BindingFlags::DoNotWrapExceptions, nullptr, array, nullptr)) {
     rt::throw_exception<COMException>();
   }
+  auto& default = ((IDisposable)array[2]);
+  default == nullptr ? nullptr : default->Dispose();
+  String text = (String)array[3];
+  if (text == nullptr) {
+    rt::throw_exception<COMException>();
+  }
+  return text;
 }
 
 Object LicenseInteropProxy___::AllocateAndValidateLicense(Type type, String key, Boolean isDesignTime) {

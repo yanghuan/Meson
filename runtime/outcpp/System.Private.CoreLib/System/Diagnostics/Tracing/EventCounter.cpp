@@ -67,14 +67,10 @@ void EventCounter___::WritePayload(Single intervalSec, Int32 pollingIntervalMill
     counterPayload->set_Series = String::in::Format("Interval={0}", pollingIntervalMillisec);
     counterPayload->set_CounterType = "Mean";
     counterPayload->set_Metadata = GetMetadataString();
-    auto default = DiagnosticCounter::get_DisplayName();
-    if (default != nullptr) default = "";
-
-    counterPayload->set_DisplayName = (default);
-    auto extern = DiagnosticCounter::get_DisplayUnits();
-    if (extern != nullptr) extern = "";
-
-    counterPayload->set_DisplayUnits = (extern);
+    auto& default = DiagnosticCounter::get_DisplayName();
+    counterPayload->set_DisplayName = (default != nullptr ? default : "");
+    auto& extern = DiagnosticCounter::get_DisplayUnits();
+    counterPayload->set_DisplayUnits = (extern != nullptr ? extern : "");
     counterPayload->set_Name = DiagnosticCounter::get_Name();
     ResetStatistics();
     DiagnosticCounter::get_EventSource()->Write("EventCounters", EventSourceOptions(), rt::newobj<CounterPayloadType>(counterPayload));
