@@ -777,7 +777,7 @@ MethodToken ModuleBuilder___::GetMethodTokenNoLock(MethodInfo method, Boolean ge
       }
       Int32 tr = getGenericTypeDefinition ? GetTypeToken(declaringType).get_Token() : GetTypeTokenInternal(declaringType).get_Token();
       SignatureHelper methodSigHelper;
-      try{
+      try {
         methodSigHelper = SignatureHelper::in::GetMethodSigHelper((ModuleBuilder)this, method->get_CallingConvention(), method->get_ReturnType(), method->get_ReturnParameter()->GetRequiredCustomModifiers(), method->get_ReturnParameter()->GetOptionalCustomModifiers(), array2, array3, array4);
       } catch (NotImplementedException) {
       }

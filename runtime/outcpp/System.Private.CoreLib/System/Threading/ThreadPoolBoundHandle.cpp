@@ -47,7 +47,7 @@ NativeOverlapped* ThreadPoolBoundHandle___::AllocateNativeOverlapped(PreAllocate
   }
   EnsureNotDisposed();
   preAllocated->AddRef();
-  try{
+  try {
     ThreadPoolBoundHandleOverlapped overlapped = preAllocated->_overlapped;
     if (overlapped->_boundHandle != nullptr) {
       rt::throw_exception<ArgumentException>(SR::get_Argument_PreAllocatedAlreadyAllocated(), "preAllocated");
@@ -82,7 +82,7 @@ Object ThreadPoolBoundHandle___::GetNativeOverlappedState(NativeOverlapped* over
 }
 
 ThreadPoolBoundHandleOverlapped ThreadPoolBoundHandle___::GetOverlappedWrapper(NativeOverlapped* overlapped) {
-  try{
+  try {
     return (ThreadPoolBoundHandleOverlapped)Overlapped::in::Unpack(overlapped);
   } catch (NullReferenceException innerException) {
   }
@@ -99,7 +99,7 @@ void ThreadPoolBoundHandle___::EnsureNotDisposed() {
 }
 
 ThreadPoolBoundHandle ThreadPoolBoundHandle___::BindHandleCore(SafeHandle handle) {
-  try{
+  try {
     Boolean flag = ThreadPool::BindHandle(handle);
   } catch (Exception ex) {
   }

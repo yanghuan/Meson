@@ -29,7 +29,7 @@ void ContinueWithTaskContinuation___::Run(Task<> completedTask, Boolean canInlin
       TaskContinuation::in::InlineIfPossibleOrElseQueue(task, true);
       return;
     }
-    try{
+    try {
       task->ScheduleAndStart(true);
     } catch (TaskSchedulerException) {
     }

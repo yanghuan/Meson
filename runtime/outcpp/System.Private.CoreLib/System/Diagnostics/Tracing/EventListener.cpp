@@ -158,7 +158,7 @@ void EventListener___::CallBackForExistingEventSources(Boolean addToListenersLis
     if (s_CreatingListener) {
       rt::throw_exception<InvalidOperationException>(SR::get_EventSource_ListenerCreatedInsideCallback());
     }
-    try{
+    try {
       s_CreatingListener = true;
       if (addToListenersList) {
         m_Next = s_Listeners;

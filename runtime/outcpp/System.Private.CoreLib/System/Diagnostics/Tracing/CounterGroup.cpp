@@ -100,7 +100,7 @@ void CounterGroup___::EnableTimer(Single pollingIntervalInSeconds) {
     ResetCounters();
     _timeStampSinceCollectionStarted = DateTime::get_UtcNow();
     Boolean flag = false;
-    try{
+    try {
       if (!ExecutionContext::in::IsFlowSuppressed()) {
         ExecutionContext::in::SuppressFlow();
         flag = true;

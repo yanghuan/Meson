@@ -90,7 +90,7 @@ void ComEventsSink___::Unadvise() {
   if (_connectionPoint == nullptr) {
     return;
   }
-  try{
+  try {
     _connectionPoint->Unadvise(_cookie);
     Marshal::ReleaseComObject(_connectionPoint);
   } catch (...) {

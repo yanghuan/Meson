@@ -180,7 +180,7 @@ String DomainNameHelper::UnicodeEquivalent(Char* hostname, Int32 start, Int32 en
     }
     if (!flag) {
       String unicode = text->Substring(num, num2 - num);
-      try{
+      try {
         unicode = s_idnMapping->GetAscii(unicode);
       } catch (ArgumentException) {
       }
@@ -191,7 +191,7 @@ String DomainNameHelper::UnicodeEquivalent(Char* hostname, Int32 start, Int32 en
     } else {
       Boolean flag5 = false;
       if (flag2) {
-        try{
+        try {
           text2 += s_idnMapping->GetUnicode(text, num, num2 - num);
           if (flag4) {
             text2 += ".";

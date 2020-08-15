@@ -490,7 +490,7 @@ Boolean CalendarData___::EnumCalendarInfo(String localeName, CalendarId calendar
 }
 
 void CalendarData___::EnumCalendarInfoCallback(String calendarString, IntPtr context) {
-  try{
+  try {
     IcuEnumCalendarsData& reference = Unsafe::As<Byte, IcuEnumCalendarsData>(*(Byte*)(void*)context);
     if (reference.DisallowDuplicates) {
     }
@@ -618,7 +618,7 @@ Boolean CalendarData___::CallGetCalendarInfoEx(String localeName, CalendarId cal
 
 Interop::BOOL CalendarData___::EnumCalendarInfoCallback(Char* lpCalendarInfoString, UInt32 calendar, IntPtr pReserved, void* lParam) {
   EnumData& reference = Unsafe::As<Byte, EnumData>(*(Byte*)lParam);
-  try{
+  try {
     String text = rt::newobj<String>(lpCalendarInfoString);
     if (reference.userOverride != text) {
       reference.strings->Add(text);
@@ -687,7 +687,7 @@ Boolean CalendarData___::GetCalendarMonthInfo(String localeName, CalendarId cale
 
 Interop::BOOL CalendarData___::EnumCalendarsCallback(Char* lpCalendarInfoString, UInt32 calendar, IntPtr reserved, void* lParam) {
   NlsEnumCalendarsData& reference = Unsafe::As<Byte, NlsEnumCalendarsData>(*(Byte*)lParam);
-  try{
+  try {
     if (reference.userOverride != calendar) {
       reference.calendars->Add((Int32)calendar);
     }

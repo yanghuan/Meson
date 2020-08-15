@@ -31,7 +31,7 @@ void AssemblyDependencyResolver___::ctor(String componentAssemblyPath) {
   String resourceSearchPathsList = nullptr;
   Int32 num = 0;
   StringBuilder errorMessage = rt::newobj<StringBuilder>();
-  try{
+  try {
   } catch (EntryPointNotFoundException innerException) {
   } catch (DllNotFoundException innerException2) {
   }

@@ -109,7 +109,7 @@ void ExecutionContext___::RunInternal(ExecutionContext executionContext, Context
     RestoreChangedContextToThread(currentThread, executionContext, executionContext2);
   }
   ExceptionDispatchInfo exceptionDispatchInfo = nullptr;
-  try{
+  try {
     callback(state);
   } catch (Exception source) {
   }
@@ -132,7 +132,7 @@ void ExecutionContext___::RunFromThreadPoolDispatchLoop(Thread threadPoolThread,
     RestoreChangedContextToThread(threadPoolThread, executionContext, nullptr);
   }
   ExceptionDispatchInfo exceptionDispatchInfo = nullptr;
-  try{
+  try {
     callback(state);
   } catch (Exception source) {
   }
@@ -168,7 +168,7 @@ void ExecutionContext___::OnValuesChanged(ExecutionContext previousExecutionCtx,
   Array<IAsyncLocal> array = default == nullptr ? nullptr : default->m_localChangeNotifications;
   auto& extern = nextExecutionCtx;
   Array<IAsyncLocal> array2 = extern == nullptr ? nullptr : extern->m_localChangeNotifications;
-  try{
+  try {
     if (array != nullptr && array2 != nullptr) {
       Array<IAsyncLocal> array3 = array;
     }

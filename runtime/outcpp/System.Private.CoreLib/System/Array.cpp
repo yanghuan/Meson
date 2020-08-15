@@ -78,7 +78,7 @@ void Array___<>::SorterObjectArray::Sort(Int32 left, Int32 length) {
 
 void Array___<>::SorterObjectArray::IntrospectiveSort(Int32 left, Int32 length) {
   if (length >= 2) {
-    try{
+    try {
       IntroSort(left, length + left - 1, 2 * (BitOperations::Log2((UInt32)length) + 1));
     } catch (IndexOutOfRangeException) {
     } catch (Exception e) {
@@ -232,7 +232,7 @@ void Array___<>::SorterGenericArray::Sort(Int32 left, Int32 length) {
 
 void Array___<>::SorterGenericArray::IntrospectiveSort(Int32 left, Int32 length) {
   if (length >= 2) {
-    try{
+    try {
       IntroSort(left, length + left - 1, 2 * (BitOperations::Log2((UInt32)length) + 1));
     } catch (IndexOutOfRangeException) {
     } catch (Exception e) {
@@ -989,7 +989,7 @@ Int32 Array___<>::BinarySearch(Array<> array, Int32 index, Int32 length, Object 
     while (num <= num2) {
       Int32 median = GetMedian(num, num2);
       Int32 num3;
-      try{
+      try {
         num3 = comparer->Compare(array2[median], value);
       } catch (Exception e) {
       }
@@ -1059,7 +1059,7 @@ Int32 Array___<>::BinarySearch(Array<> array, Int32 index, Int32 length, Object 
   while (num <= num2) {
     Int32 median2 = GetMedian(num, num2);
     Int32 num5;
-    try{
+    try {
       num5 = comparer->Compare(array->GetValue(median2), value);
     } catch (Exception e2) {
     }

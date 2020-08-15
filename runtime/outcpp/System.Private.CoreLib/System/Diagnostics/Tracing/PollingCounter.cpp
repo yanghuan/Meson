@@ -24,7 +24,7 @@ void PollingCounter___::WritePayload(Single intervalSec, Int32 pollingIntervalMi
   {
     rt::lock((PollingCounter)this);
     Double num = 0;
-    try{
+    try {
       num = _metricProvider();
     } catch (Exception ex) {
     }

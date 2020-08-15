@@ -41,7 +41,7 @@ void Task___<>::ContingentProperties___::SetCompleted() {
 
 void Task___<>::ContingentProperties___::UnregisterCancellationCallback() {
   if (m_cancellationRegistration != nullptr) {
-    try{
+    try {
       m_cancellationRegistration->Value.Dispose();
     } catch (ObjectDisposedException) {
     }

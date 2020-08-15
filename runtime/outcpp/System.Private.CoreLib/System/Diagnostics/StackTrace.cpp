@@ -216,7 +216,7 @@ void StackTrace___::ToString(TraceFormat traceFormat, StringBuilder sb) {
       sb->Append(93);
     }
     Array<ParameterInfo> array = nullptr;
-    try{
+    try {
       array = method->GetParameters();
     } catch (...) {
     }

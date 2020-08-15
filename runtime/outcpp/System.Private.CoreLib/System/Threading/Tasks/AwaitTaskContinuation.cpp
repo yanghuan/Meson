@@ -55,7 +55,7 @@ ContextCallback<> AwaitTaskContinuation___::GetInvokeActionCallback() {
 
 void AwaitTaskContinuation___::RunCallback(ContextCallback<> callback, Object state, Task<>& currentTask) {
   Task task = currentTask;
-  try{
+  try {
     if (task != nullptr) {
       currentTask = nullptr;
     }
@@ -79,7 +79,7 @@ void AwaitTaskContinuation___::RunOrScheduleAction(Action<> action, Boolean allo
     UnsafeScheduleAction(action, t_currentTask);
     return;
   }
-  try{
+  try {
     if (t_currentTask != nullptr) {
       Task::in::t_currentTask = nullptr;
     }
@@ -102,7 +102,7 @@ void AwaitTaskContinuation___::RunOrScheduleAction(IAsyncStateMachineBox box, Bo
     }
     return;
   }
-  try{
+  try {
     if (t_currentTask != nullptr) {
       Task::in::t_currentTask = nullptr;
     }

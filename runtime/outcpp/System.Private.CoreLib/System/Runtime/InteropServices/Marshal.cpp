@@ -488,7 +488,7 @@ void Marshal::Copy(IntPtr source, Array<IntPtr> destination, Int32 startIndex, I
 }
 
 Byte Marshal::ReadByte(IntPtr ptr, Int32 ofs) {
-  try{
+  try {
     Byte* ptr2 = (Byte*)(void*)ptr + ofs;
     return *ptr2;
   } catch (NullReferenceException) {
@@ -500,7 +500,7 @@ Byte Marshal::ReadByte(IntPtr ptr) {
 }
 
 Int16 Marshal::ReadInt16(IntPtr ptr, Int32 ofs) {
-  try{
+  try {
     Byte* ptr2 = (Byte*)(void*)ptr + ofs;
     if (((Int32)ptr2 & 1) == 0) {
       return *(Int16*)ptr2;
@@ -515,7 +515,7 @@ Int16 Marshal::ReadInt16(IntPtr ptr) {
 }
 
 Int32 Marshal::ReadInt32(IntPtr ptr, Int32 ofs) {
-  try{
+  try {
     Byte* ptr2 = (Byte*)(void*)ptr + ofs;
     if (((Int32)ptr2 & 3) == 0) {
       return *(Int32*)ptr2;
@@ -542,7 +542,7 @@ IntPtr Marshal::ReadIntPtr(IntPtr ptr) {
 }
 
 Int64 Marshal::ReadInt64(IntPtr ptr, Int32 ofs) {
-  try{
+  try {
     Byte* ptr2 = (Byte*)(void*)ptr + ofs;
     if (((Int32)ptr2 & 7) == 0) {
       return *(Int64*)ptr2;
@@ -557,7 +557,7 @@ Int64 Marshal::ReadInt64(IntPtr ptr) {
 }
 
 void Marshal::WriteByte(IntPtr ptr, Int32 ofs, Byte val) {
-  try{
+  try {
     Byte* ptr2 = (Byte*)(void*)ptr + ofs;
     *ptr2 = val;
   } catch (NullReferenceException) {
@@ -569,7 +569,7 @@ void Marshal::WriteByte(IntPtr ptr, Byte val) {
 }
 
 void Marshal::WriteInt16(IntPtr ptr, Int32 ofs, Int16 val) {
-  try{
+  try {
     Byte* ptr2 = (Byte*)(void*)ptr + ofs;
     if (((Int32)ptr2 & 1) == 0) {
       *(Int16*)ptr2 = val;
@@ -597,7 +597,7 @@ void Marshal::WriteInt16(IntPtr ptr, Char val) {
 }
 
 void Marshal::WriteInt32(IntPtr ptr, Int32 ofs, Int32 val) {
-  try{
+  try {
     Byte* ptr2 = (Byte*)(void*)ptr + ofs;
     if (((Int32)ptr2 & 3) == 0) {
       *(Int32*)ptr2 = val;
@@ -625,7 +625,7 @@ void Marshal::WriteIntPtr(IntPtr ptr, IntPtr val) {
 }
 
 void Marshal::WriteInt64(IntPtr ptr, Int32 ofs, Int64 val) {
-  try{
+  try {
     Byte* ptr2 = (Byte*)(void*)ptr + ofs;
     if (((Int32)ptr2 & 7) == 0) {
       *(Int64*)ptr2 = val;

@@ -71,7 +71,7 @@ String CultureData___::get_DisplayName() {
     if (get_IsSupplementalCustomCulture()) {
       text = ((!get_IsNeutralCulture()) ? get_NativeName() : get_NativeLanguageName());
     } else {
-      try{
+      try {
         text = (get_Name()->Equals("zh-CHT", StringComparison::OrdinalIgnoreCase) ? GetLanguageDisplayNameCore("zh-Hant") : ((!get_Name()->Equals("zh-CHS", StringComparison::OrdinalIgnoreCase)) ? GetLanguageDisplayNameCore(get_Name()) : GetLanguageDisplayNameCore("zh-Hans")));
       } catch (...) {
       }
@@ -184,7 +184,7 @@ Int32 CultureData___::get_GeoId() {
 String CultureData___::get_LocalizedCountryName() {
   String text = _sLocalizedCountry;
   if (text == nullptr) {
-    try{
+    try {
       text = (GlobalizationMode::get_UseNls() ? NlsGetRegionDisplayName() : IcuGetRegionDisplayName());
     } catch (...) {
     }
@@ -1493,7 +1493,7 @@ Int32 CultureData___::ConvertFirstDayOfWeekMonToSun(Int32 iTemp) {
 
 Interop::BOOL CultureData___::EnumSystemLocalesProc(Char* lpLocaleString, UInt32 flags, void* contextHandle) {
   EnumLocaleData& reference = Unsafe::As<Byte, EnumLocaleData>(*(Byte*)contextHandle);
-  try{
+  try {
     String text = rt::newobj<String>(lpLocaleString);
     String localeInfoEx = GetLocaleInfoEx(text, 90u);
     if (localeInfoEx != nullptr && localeInfoEx->Equals(reference.regionName, StringComparison::OrdinalIgnoreCase)) {
@@ -1507,7 +1507,7 @@ Interop::BOOL CultureData___::EnumSystemLocalesProc(Char* lpLocaleString, UInt32
 
 Interop::BOOL CultureData___::EnumAllSystemLocalesProc(Char* lpLocaleString, UInt32 flags, void* contextHandle) {
   EnumData& reference = Unsafe::As<Byte, EnumData>(*(Byte*)contextHandle);
-  try{
+  try {
     reference.strings->Add(rt::newobj<String>(lpLocaleString));
     return Interop::BOOL::TRUE;
   } catch (Exception) {
@@ -1516,7 +1516,7 @@ Interop::BOOL CultureData___::EnumAllSystemLocalesProc(Char* lpLocaleString, UIn
 
 Interop::BOOL CultureData___::EnumTimeCallback(Char* lpTimeFormatString, void* lParam) {
   EnumData& reference = Unsafe::As<Byte, EnumData>(*(Byte*)lParam);
-  try{
+  try {
     reference.strings->Add(rt::newobj<String>(lpTimeFormatString));
     return Interop::BOOL::TRUE;
   } catch (Exception) {

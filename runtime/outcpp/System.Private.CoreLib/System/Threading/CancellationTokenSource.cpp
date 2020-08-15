@@ -99,7 +99,7 @@ Boolean CancellationTokenSource___::CallbackPartition___::Unregister(Int64 id, C
   }
   Boolean lockTaken = false;
   Lock.Enter(lockTaken);
-  try{
+  try {
     if (node->Id != id) {
       return false;
     }
@@ -234,7 +234,7 @@ void CancellationTokenSource___::CancelAfter(Int32 millisecondsDelay) {
       timerQueueTimer = timerQueueTimer2;
     }
   }
-  try{
+  try {
     timerQueueTimer->Change((UInt32)millisecondsDelay, UInt32::MaxValue);
   } catch (ObjectDisposedException) {
   }
@@ -296,7 +296,7 @@ CancellationTokenRegistration CancellationTokenSource___::InternalRegister(Actio
     callbackPartition->Lock.Enter(lockTaken);
     Int64 id;
     CallbackNode callbackNode;
-    try{
+    try {
       id = callbackPartition->NextAvailableId++;
       callbackNode = callbackPartition->FreeNodeList;
       if (callbackNode != nullptr) {
@@ -348,7 +348,7 @@ void CancellationTokenSource___::ExecuteCallbackHandlers(Boolean throwOnFirstExc
     return;
   }
   List<Exception> list = nullptr;
-  try{
+  try {
     Array<CallbackPartition> array2 = array;
   } catch (...) {
   } finally: {

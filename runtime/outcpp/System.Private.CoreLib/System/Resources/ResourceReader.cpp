@@ -213,7 +213,7 @@ void ResourceReader___::GetResourceData(String resourceName, String& resourceTyp
 void ResourceReader___::ctor(String fileName) {
   _resCache = rt::newobj<Dictionary<String, ResourceLocator>>(FastResourceComparer::in::Default);
   _store = rt::newobj<BinaryReader>(rt::newobj<FileStream>(fileName, FileMode::Open, FileAccess::Read, FileShare::Read, 4096, FileOptions::RandomAccess), Encoding::in::get_UTF8());
-  try{
+  try {
     ReadResources();
   } catch (...) {
   }
@@ -472,7 +472,7 @@ Object ResourceReader___::LoadObject(Int32 pos, ResourceTypeCode& typeCode) {
 }
 
 Object ResourceReader___::LoadObjectV1(Int32 pos) {
-  try{
+  try {
     return _LoadObjectV1(pos);
   } catch (EndOfStreamException inner) {
   } catch (ArgumentOutOfRangeException inner2) {
@@ -536,7 +536,7 @@ Object ResourceReader___::_LoadObjectV1(Int32 pos) {
 }
 
 Object ResourceReader___::LoadObjectV2(Int32 pos, ResourceTypeCode& typeCode) {
-  try{
+  try {
     return _LoadObjectV2(pos, typeCode);
   } catch (EndOfStreamException inner) {
   } catch (ArgumentOutOfRangeException inner2) {
@@ -628,7 +628,7 @@ Object ResourceReader___::_LoadObjectV2(Int32 pos, ResourceTypeCode& typeCode) {
 }
 
 void ResourceReader___::ReadResources() {
-  try{
+  try {
     _ReadResources();
   } catch (EndOfStreamException inner) {
   } catch (IndexOutOfRangeException inner2) {
@@ -728,7 +728,7 @@ Type ResourceReader___::FindType(Int32 typeIndex) {
   }
   if (_typeTable[typeIndex] == nullptr) {
     Int64 position = _store->get_BaseStream()->get_Position();
-    try{
+    try {
       _store->get_BaseStream()->set_Position = _typeNamePositions[typeIndex];
       String typeName = _store->ReadString();
       _typeTable[typeIndex] = Type::in::GetType(typeName, true);
@@ -746,7 +746,7 @@ String ResourceReader___::TypeNameFromTypeCode(ResourceTypeCode typeCode) {
   }
   Int32 num = (Int32)(typeCode - 64);
   Int64 position = _store->get_BaseStream()->get_Position();
-  try{
+  try {
     _store->get_BaseStream()->set_Position = _typeNamePositions[num];
     return _store->ReadString();
   } catch (...) {

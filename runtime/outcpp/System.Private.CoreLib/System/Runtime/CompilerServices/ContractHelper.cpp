@@ -20,7 +20,7 @@ String ContractHelper::RaiseContractFailedEvent(ContractFailureKind failureKind,
   String text = "contract failed.";
   ContractFailedEventArgs contractFailedEventArgs = nullptr;
   String result;
-  try{
+  try {
     text = GetDisplayMessage(failureKind, userMessage, conditionText);
   } catch (...) {
   } finally: {

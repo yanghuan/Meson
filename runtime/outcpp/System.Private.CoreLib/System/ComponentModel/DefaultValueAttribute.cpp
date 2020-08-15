@@ -32,7 +32,7 @@ void DefaultValueAttribute___::ctor(Type type, String value) {
     if (func == nullptr) {
       return false;
     }
-    try{
+    try {
       conversionResult = func(typeToConvert, stringValue);
     } catch (...) {
     }
@@ -41,7 +41,7 @@ void DefaultValueAttribute___::ctor(Type type, String value) {
   if (type == nullptr) {
     return;
   }
-  try{
+  try {
     Object conversionResult2;
     if (TryConvertFromInvariantString(type, value, conversionResult2)) {
       _value = conversionResult2;

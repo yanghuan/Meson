@@ -79,7 +79,7 @@ Object LicenseInteropProxy___::AllocateAndValidateLicense(Type type, String key,
     Array<Object> parameters = rt::newarr<Array<Object>>(2);
     obj = _createRuntimeContext->Invoke(nullptr, BindingFlags::DoNotWrapExceptions, nullptr, parameters, nullptr);
   }
-  try{
+  try {
     Array<Object> parameters = rt::newarr<Array<Object>>(2);
     return _createWithContext->Invoke(nullptr, BindingFlags::DoNotWrapExceptions, nullptr, parameters, nullptr);
   } catch (Exception ex) {

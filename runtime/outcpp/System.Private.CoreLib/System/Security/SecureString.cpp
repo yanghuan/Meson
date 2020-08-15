@@ -41,7 +41,7 @@ void SecureString___::UnmanagedBuffer___::Copy(UnmanagedBuffer source, Unmanaged
   }
   Byte* pointer = nullptr;
   Byte* pointer2 = nullptr;
-  try{
+  try {
     source->AcquirePointer(pointer);
     destination->AcquirePointer(pointer2);
     Buffer::MemoryCopy(pointer, pointer2, destination->get_ByteLength(), bytesLength);
@@ -92,7 +92,7 @@ void SecureString___::Initialize(ReadOnlySpan<Char> value) {
   _buffer = UnmanagedBuffer::in::Allocate(GetAlignedByteSize(value.get_Length()));
   _decryptedLength = value.get_Length();
   SafeBuffer bufferToRelease = nullptr;
-  try{
+  try {
     Span<Char> destination = AcquireSpan(bufferToRelease);
     value.CopyTo(destination);
   } catch (...) {
@@ -131,7 +131,7 @@ void SecureString___::AppendChar(Char c) {
     EnsureNotDisposed();
     EnsureNotReadOnly();
     SafeBuffer bufferToRelease = nullptr;
-    try{
+    try {
       UnprotectMemory();
       EnsureCapacity(_decryptedLength + 1);
       AcquireSpan(bufferToRelease)[_decryptedLength] = c;
@@ -152,7 +152,7 @@ void SecureString___::Clear() {
     EnsureNotReadOnly();
     _decryptedLength = 0;
     SafeBuffer bufferToRelease = nullptr;
-    try{
+    try {
       AcquireSpan(bufferToRelease).Clear();
     } catch (...) {
     } finally: {
@@ -189,7 +189,7 @@ void SecureString___::InsertAt(Int32 index, Char c) {
     EnsureNotDisposed();
     EnsureNotReadOnly();
     SafeBuffer bufferToRelease = nullptr;
-    try{
+    try {
       UnprotectMemory();
       EnsureCapacity(_decryptedLength + 1);
       Span<Char> span = AcquireSpan(bufferToRelease);
@@ -224,7 +224,7 @@ void SecureString___::RemoveAt(Int32 index) {
     EnsureNotDisposed();
     EnsureNotReadOnly();
     SafeBuffer bufferToRelease = nullptr;
-    try{
+    try {
       UnprotectMemory();
       Span<Char> span = AcquireSpan(bufferToRelease);
       span.Slice(index + 1, _decryptedLength - (index + 1)).CopyTo(span.Slice(index));
@@ -247,7 +247,7 @@ void SecureString___::SetAt(Int32 index, Char c) {
     EnsureNotDisposed();
     EnsureNotReadOnly();
     SafeBuffer bufferToRelease = nullptr;
-    try{
+    try {
       UnprotectMemory();
       AcquireSpan(bufferToRelease)[index] = c;
     } catch (...) {
@@ -287,7 +287,7 @@ IntPtr SecureString___::MarshalToBSTR() {
     SafeBuffer bufferToRelease = nullptr;
     IntPtr intPtr = IntPtr::Zero;
     Int32 length = 0;
-    try{
+    try {
       Span<Char> span = AcquireSpan(bufferToRelease);
       length = _decryptedLength;
       intPtr = Marshal::AllocBSTR(length);
@@ -316,7 +316,7 @@ IntPtr SecureString___::MarshalToString(Boolean globalAlloc, Boolean unicode) {
     SafeBuffer bufferToRelease = nullptr;
     IntPtr intPtr = IntPtr::Zero;
     Int32 num = 0;
-    try{
+    try {
       Span<Char> span = AcquireSpan(bufferToRelease).Slice(0, _decryptedLength);
       num = ((!unicode) ? Marshal::GetAnsiStringByteCount(span) : ((span.get_Length() + 1) * 2));
       intPtr = ((!globalAlloc) ? Marshal::AllocCoTaskMem(num) : Marshal::AllocHGlobal(num));

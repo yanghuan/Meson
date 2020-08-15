@@ -236,7 +236,7 @@ MethodInfo RuntimeType___::RuntimeTypeCache___::GetGenericMethodInfo(RuntimeMeth
     Interlocked::CompareExchange(s_methodInstantiationsLock, rt::newobj<Object>(), nullptr);
   }
   Boolean lockTaken = false;
-  try{
+  try {
     Monitor::Enter(s_methodInstantiationsLock, lockTaken);
     if (loaderAllocator != nullptr) {
       runtimeMethodInfo2 = loaderAllocator->m_methodInstantiations[runtimeMethodInfo];
@@ -1358,7 +1358,7 @@ Type RuntimeType___::MakeGenericType(Array<Type> instantiation) {
   }
   Array<RuntimeType> genericArgumentsInternal = GetGenericArgumentsInternal();
   SanityCheckGenericArguments(array, genericArgumentsInternal);
-  try{
+  try {
     RuntimeTypeHandle runtimeTypeHandle = RuntimeTypeHandle((RuntimeType)this);
     Array<Type> inst = array;
     return runtimeTypeHandle.Instantiate(inst);
@@ -1516,7 +1516,7 @@ Object RuntimeType___::InvokeMember(String name, BindingFlags bindingFlags, Bind
     auto& ref = extern == nullptr ? nullptr : extern->get_LCID();
     Int32 culture2 = ref != nullptr ? ref : 1033;
     Boolean flag = (bindingFlags & BindingFlags::DoNotWrapExceptions) != 0;
-    try{
+    try {
       return InvokeDispMethod(name, bindingFlags, target, providedArgs, byrefModifiers, culture2, namedParams);
     } catch (TargetInvocationException ex) {
     }
@@ -1579,7 +1579,7 @@ Object RuntimeType___::InvokeMember(String name, BindingFlags bindingFlags, Bind
         if (num2 > 0) {
           Array<Int32> array2 = rt::newarr<Array<Int32>>(num2);
           for (Int32 i = 0; i < num2; i++) {
-            try{
+            try {
               array2[i] = ((IConvertible)providedArgs[i])->ToInt32(nullptr);
             } catch (InvalidCastException) {
             }
@@ -1660,7 +1660,7 @@ Object RuntimeType___::InvokeMember(String name, BindingFlags bindingFlags, Bind
     }
     Object state = nullptr;
     MethodBase methodBase = nullptr;
-    try{
+    try {
       Binder binder2 = binder;
       BindingFlags bindingAttr = bindingFlags;
       Array<MethodBase> match = array4;
@@ -1733,7 +1733,7 @@ Object RuntimeType___::CreateInstanceImpl(BindingFlags bindingAttr, Binder binde
     Array<MethodBase> match = list->ToArray();
     Object state = nullptr;
     MethodBase methodBase;
-    try{
+    try {
       methodBase = binder->BindToMethod(bindingAttr, match, args, nullptr, culture, nullptr, state);
     } catch (MissingMethodException) {
     }
@@ -1778,7 +1778,7 @@ Object RuntimeType___::CreateInstanceDefaultCtor(Boolean publicOnly, Boolean ski
     }
     Object obj = RuntimeTypeHandle::Allocate((RuntimeType)this);
     if (activatorCache->_ctor != nullptr) {
-      try{
+      try {
         activatorCache->_ctor(obj);
         return obj;
       } catch (Exception inner) {

@@ -42,7 +42,7 @@ void AsyncVoidMethodBuilder::SetException(Exception exception) {
   }
   _ = AsyncCausalityTracer::get_LoggingOn();
   if (_synchronizationContext != nullptr) {
-    try{
+    try {
       Task::in::ThrowAsync(exception, _synchronizationContext);
     } catch (...) {
     } finally: {
@@ -55,7 +55,7 @@ void AsyncVoidMethodBuilder::SetException(Exception exception) {
 }
 
 void AsyncVoidMethodBuilder::NotifySynchronizationContextOfCompletion() {
-  try{
+  try {
     _synchronizationContext->OperationCompleted();
   } catch (Exception exception) {
   }

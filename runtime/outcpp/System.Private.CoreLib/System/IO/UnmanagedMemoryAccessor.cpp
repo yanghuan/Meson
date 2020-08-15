@@ -73,7 +73,7 @@ void UnmanagedMemoryAccessor___::Initialize(SafeBuffer buffer, Int64 offset, Int
     rt::throw_exception<InvalidOperationException>(SR::get_InvalidOperation_CalledTwice());
   }
   Byte* pointer = nullptr;
-  try{
+  try {
     buffer->AcquirePointer(pointer);
     if ((UIntPtr)((Int64)pointer + offset + capacity) < (UIntPtr)pointer) {
       rt::throw_exception<ArgumentException>(SR::get_Argument_UnmanagedMemAccessorWrapAround());
@@ -109,7 +109,7 @@ Boolean UnmanagedMemoryAccessor___::ReadBoolean(Int64 position) {
 Byte UnmanagedMemoryAccessor___::ReadByte(Int64 position) {
   EnsureSafeToRead(position, 1);
   Byte* pointer = nullptr;
-  try{
+  try {
     _buffer->AcquirePointer(pointer);
     return (pointer + _offset)[position];
   } catch (...) {
@@ -127,7 +127,7 @@ Char UnmanagedMemoryAccessor___::ReadChar(Int64 position) {
 Int16 UnmanagedMemoryAccessor___::ReadInt16(Int64 position) {
   EnsureSafeToRead(position, 2);
   Byte* pointer = nullptr;
-  try{
+  try {
     _buffer->AcquirePointer(pointer);
     return Unsafe::ReadUnaligned<Int16>(pointer + _offset + position);
   } catch (...) {
@@ -141,7 +141,7 @@ Int16 UnmanagedMemoryAccessor___::ReadInt16(Int64 position) {
 Int32 UnmanagedMemoryAccessor___::ReadInt32(Int64 position) {
   EnsureSafeToRead(position, 4);
   Byte* pointer = nullptr;
-  try{
+  try {
     _buffer->AcquirePointer(pointer);
     return Unsafe::ReadUnaligned<Int32>(pointer + _offset + position);
   } catch (...) {
@@ -155,7 +155,7 @@ Int32 UnmanagedMemoryAccessor___::ReadInt32(Int64 position) {
 Int64 UnmanagedMemoryAccessor___::ReadInt64(Int64 position) {
   EnsureSafeToRead(position, 8);
   Byte* pointer = nullptr;
-  try{
+  try {
     _buffer->AcquirePointer(pointer);
     return Unsafe::ReadUnaligned<Int64>(pointer + _offset + position);
   } catch (...) {
@@ -173,7 +173,7 @@ Decimal UnmanagedMemoryAccessor___::ReadDecimal(Int64 position) {
   Int32 mid;
   Int32 hi;
   Int32 num;
-  try{
+  try {
     _buffer->AcquirePointer(pointer);
     pointer += _offset + position;
     lo = Unsafe::ReadUnaligned<Int32>(pointer);
@@ -225,7 +225,7 @@ void UnmanagedMemoryAccessor___::Write(Int64 position, Boolean value) {
 void UnmanagedMemoryAccessor___::Write(Int64 position, Byte value) {
   EnsureSafeToWrite(position, 1);
   Byte* pointer = nullptr;
-  try{
+  try {
     _buffer->AcquirePointer(pointer);
     (pointer + _offset)[position] = value;
   } catch (...) {
@@ -243,7 +243,7 @@ void UnmanagedMemoryAccessor___::Write(Int64 position, Char value) {
 void UnmanagedMemoryAccessor___::Write(Int64 position, Int16 value) {
   EnsureSafeToWrite(position, 2);
   Byte* pointer = nullptr;
-  try{
+  try {
     _buffer->AcquirePointer(pointer);
     Unsafe::WriteUnaligned(pointer + _offset + position, value);
   } catch (...) {
@@ -257,7 +257,7 @@ void UnmanagedMemoryAccessor___::Write(Int64 position, Int16 value) {
 void UnmanagedMemoryAccessor___::Write(Int64 position, Int32 value) {
   EnsureSafeToWrite(position, 4);
   Byte* pointer = nullptr;
-  try{
+  try {
     _buffer->AcquirePointer(pointer);
     Unsafe::WriteUnaligned(pointer + _offset + position, value);
   } catch (...) {
@@ -271,7 +271,7 @@ void UnmanagedMemoryAccessor___::Write(Int64 position, Int32 value) {
 void UnmanagedMemoryAccessor___::Write(Int64 position, Int64 value) {
   EnsureSafeToWrite(position, 8);
   Byte* pointer = nullptr;
-  try{
+  try {
     _buffer->AcquirePointer(pointer);
     Unsafe::WriteUnaligned(pointer + _offset + position, value);
   } catch (...) {
@@ -290,7 +290,7 @@ void UnmanagedMemoryAccessor___::Write(Int64 position, Decimal value) {
   Int32 value4 = ptr[2];
   Int32 value5 = ptr[3];
   Byte* pointer = nullptr;
-  try{
+  try {
     _buffer->AcquirePointer(pointer);
     pointer += _offset + position;
     Unsafe::WriteUnaligned(pointer, value4);

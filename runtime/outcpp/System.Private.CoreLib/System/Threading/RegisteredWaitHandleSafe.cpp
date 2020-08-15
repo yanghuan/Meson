@@ -31,7 +31,7 @@ Boolean RegisteredWaitHandleSafe___::Unregister(WaitHandle waitObject) {
   do {
     if (Interlocked::CompareExchange(m_lock, 1, 0) == 0) {
       flag2 = true;
-      try{
+      try {
         if (ValidHandle()) {
           auto& default = waitObject;
           flag = UnregisterWaitNative(GetHandle(), default == nullptr ? nullptr : default->get_SafeWaitHandle());
@@ -66,7 +66,7 @@ void RegisteredWaitHandleSafe___::Finalize() {
   if (Interlocked::CompareExchange(m_lock, 1, 0) != 0) {
     return;
   }
-  try{
+  try {
     if (ValidHandle()) {
       WaitHandleCleanupNative(registeredWaitHandle);
       if (bReleaseNeeded) {

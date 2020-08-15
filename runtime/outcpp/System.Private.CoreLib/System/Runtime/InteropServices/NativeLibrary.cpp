@@ -101,7 +101,7 @@ void NativeLibrary::SetDllImportResolver(Assembly assembly, DllImportResolver re
   if (s_nativeDllResolveMap == nullptr) {
     Interlocked::CompareExchange(s_nativeDllResolveMap, rt::newobj<ConditionalWeakTable<Assembly, DllImportResolver>>(), nullptr);
   }
-  try{
+  try {
     s_nativeDllResolveMap->Add(assembly, resolver);
   } catch (ArgumentException) {
   }

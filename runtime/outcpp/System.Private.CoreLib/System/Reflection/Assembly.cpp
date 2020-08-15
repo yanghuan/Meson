@@ -123,7 +123,7 @@ Assembly Assembly___::LoadWithPartialName(String partialName) {
   if (partialName->get_Length() == 0 || partialName[0] == 0) {
     rt::throw_exception<ArgumentException>(SR::get_Format_StringZeroLength(), "partialName");
   }
-  try{
+  try {
     StackCrawlMark stackMark = StackCrawlMark::LookForMyCaller;
     return RuntimeAssembly::in::InternalLoad(partialName, stackMark, AssemblyLoadContext::in::get_CurrentContextualReflectionContext());
   } catch (FileNotFoundException) {
@@ -429,7 +429,7 @@ Assembly Assembly___::LoadFromResolveHandler(Object sender, ResolveEventArgs arg
   if (AssemblyLoadContext::in::IsTracingEnabled()) {
     AssemblyLoadContext::in::TraceAssemblyLoadFromResolveHandlerInvoked(args->get_Name(), true, fullPath, text);
   }
-  try{
+  try {
     return LoadFrom(text);
   } catch (FileNotFoundException) {
   }

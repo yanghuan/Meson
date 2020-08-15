@@ -55,7 +55,7 @@ IntPtr CompareInfo___::SortHandleCache::GetCachedSortHandle(String sortName) {
         case Interop::Globalization::ResultCode::Success:
           break;
       }
-      try{
+      try {
         s_sortNameToSortHandleCache->Add(sortName, value);
       } catch (...) {
       }

@@ -138,35 +138,35 @@ Type SignatureTypeExtensions::TryResolve(SignatureType signatureType, Array<Type
 }
 
 Type SignatureTypeExtensions::TryMakeArrayType(Type type) {
-  try{
+  try {
     return type->MakeArrayType();
   } catch (...) {
   }
 }
 
 Type SignatureTypeExtensions::TryMakeArrayType(Type type, Int32 rank) {
-  try{
+  try {
     return type->MakeArrayType(rank);
   } catch (...) {
   }
 }
 
 Type SignatureTypeExtensions::TryMakeByRefType(Type type) {
-  try{
+  try {
     return type->MakeByRefType();
   } catch (...) {
   }
 }
 
 Type SignatureTypeExtensions::TryMakePointerType(Type type) {
-  try{
+  try {
     return type->MakePointerType();
   } catch (...) {
   }
 }
 
 Type SignatureTypeExtensions::TryMakeGenericType(Type type, Array<Type> instantiation) {
-  try{
+  try {
     return type->MakeGenericType(rt::newarr<Array<Type>>(1, instantiation));
   } catch (...) {
   }

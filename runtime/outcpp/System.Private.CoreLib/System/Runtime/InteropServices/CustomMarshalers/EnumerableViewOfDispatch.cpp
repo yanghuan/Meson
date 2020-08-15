@@ -29,7 +29,7 @@ IEnumerator EnumerableViewOfDispatch___::GetEnumerator() {
   Guid riid = Guid::Empty;
   get_Dispatch()->Invoke(-4, riid, 1, InvokeFlags::DISPATCH_METHOD | InvokeFlags::DISPATCH_PROPERTYGET, pDispParams, IntPtr(value), IntPtr::Zero, IntPtr::Zero);
   IntPtr intPtr = IntPtr::Zero;
-  try{
+  try {
     Object obj = variant.ToObject();
     IEnumVARIANT enumVARIANT = rt::as<IEnumVARIANT>(obj);
     if (enumVARIANT == nullptr) {

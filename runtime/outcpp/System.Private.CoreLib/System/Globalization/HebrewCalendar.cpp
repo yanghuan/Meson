@@ -179,7 +179,7 @@ Int32 HebrewCalendar___::GetDatePart(Int64 ticks, Int32 part) {
 }
 
 DateTime HebrewCalendar___::AddMonths(DateTime time, Int32 months) {
-  try{
+  try {
     Int32 num = GetDatePart(time.get_Ticks(), 0);
     Int32 datePart = GetDatePart(time.get_Ticks(), 2);
     Int32 num2 = GetDatePart(time.get_Ticks(), 3);

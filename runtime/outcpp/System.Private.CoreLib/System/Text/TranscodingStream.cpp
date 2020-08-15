@@ -183,7 +183,7 @@ Int32 TranscodingStream___::Read(Span<Byte> buffer) {
   if (_readBufferCount == 0) {
     Array<Byte> array = ArrayPool<Byte>::in::get_Shared()->Rent(4096);
     Array<Char> array2 = ArrayPool<Char>::in::get_Shared()->Rent(_readCharBufferMaxSize);
-    try{
+    try {
       Int32 num = _innerStream->Read(array, 0, 4096);
       Boolean flush = num == 0;
       Int32 chars = _innerDecoder->GetChars(array, 0, num, array2, 0, flush);
@@ -215,7 +215,7 @@ ValueTask<Int32> TranscodingStream___::ReadAsync(Memory<Byte> buffer, Cancellati
     if (_readBufferCount == 0) {
       Array<Byte> rentedBytes = ArrayPool<Byte>::in::get_Shared()->Rent(4096);
       Array<Char> rentedChars = ArrayPool<Char>::in::get_Shared()->Rent(_readCharBufferMaxSize);
-      try{
+      try {
       } catch (...) {
       } finally: {
         ArrayPool<Byte>::in::get_Shared()->Return(rentedBytes);
@@ -275,7 +275,7 @@ void TranscodingStream___::Write(ReadOnlySpan<Byte> buffer) {
   Int32 minimumLength = Math::Clamp(buffer.get_Length(), 4096, 1048576);
   Array<Char> array = ArrayPool<Char>::in::get_Shared()->Rent(minimumLength);
   Array<Byte> array2 = ArrayPool<Byte>::in::get_Shared()->Rent(minimumLength);
-  try{
+  try {
     Boolean completed;
     do {
       Int32 bytesUsed;
@@ -303,7 +303,7 @@ ValueTask<> TranscodingStream___::WriteAsync(ReadOnlyMemory<Byte> buffer, Cancel
     Int32 minimumLength = Math::Clamp(remainingOuterEncodedBytes.get_Length(), 4096, 1048576);
     Array<Char> scratchChars = ArrayPool<Char>::in::get_Shared()->Rent(minimumLength);
     Array<Byte> scratchBytes = ArrayPool<Byte>::in::get_Shared()->Rent(minimumLength);
-    try{
+    try {
       Boolean decoderFinished;
       do {
         Int32 bytesUsed;

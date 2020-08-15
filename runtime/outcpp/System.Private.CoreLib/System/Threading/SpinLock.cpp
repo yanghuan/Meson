@@ -15,7 +15,7 @@
 
 namespace System::Private::CoreLib::System::Threading::SpinLockNamespace {
 Nullable<Boolean> SystemThreading_SpinLockDebugView___::get_IsHeldByCurrentThread() {
-  try{
+  try {
     return _spinLock.get_IsHeldByCurrentThread();
   } catch (InvalidOperationException) {
   }

@@ -8,7 +8,7 @@ FORWARDS(Int32)
 FORWARD(String)
 FORWARD(Type)
 namespace ObjectNamespace {
-CLASS(Object) : public rt::object {
+CLASS(Object) {
   public: Type GetType();
   protected: Object MemberwiseClone();
   public: void ctor();
@@ -18,6 +18,7 @@ CLASS(Object) : public rt::object {
   public: static Boolean Equals(Object objA, Object objB);
   public: static Boolean ReferenceEquals(Object objA, Object objB);
   public: Int32 GetHashCode();
+  public: static constexpr rt::TypeCode code = rt::TypeCode::Object;
 };
 } // namespace ObjectNamespace
 using Object = ObjectNamespace::Object;

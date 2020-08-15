@@ -128,7 +128,7 @@ MethodBase RuntimeModule___::ResolveMethod(Int32 metadataToken, Array<Type> gene
   }
   Array<RuntimeTypeHandle> typeInstantiationContext = ConvertToTypeHandleArray(genericTypeArguments);
   Array<RuntimeTypeHandle> methodInstantiationContext = ConvertToTypeHandleArray(genericMethodArguments);
-  try{
+  try {
     if (!metadataToken2.get_IsMethodDef() && !metadataToken2.get_IsMethodSpec()) {
       if (!metadataToken2.get_IsMemberRef()) {
         rt::throw_exception<ArgumentException>(SR::Format(SR::get_Argument_ResolveMethod(), metadataToken2, (RuntimeModule)this), "metadataToken");
@@ -160,7 +160,7 @@ FieldInfo RuntimeModule___::ResolveLiteralField(Int32 metadataToken, Array<Type>
   Int32 parentToken = get_MetadataImport().GetParentToken(metadataToken2);
   Type type = ResolveType(parentToken, genericTypeArguments, genericMethodArguments);
   type->GetFields();
-  try{
+  try {
     return type->GetField(name, BindingFlags::DeclaredOnly | BindingFlags::Instance | BindingFlags::Static | BindingFlags::Public | BindingFlags::NonPublic);
   } catch (...) {
   }
@@ -173,7 +173,7 @@ FieldInfo RuntimeModule___::ResolveField(Int32 metadataToken, Array<Type> generi
   }
   Array<RuntimeTypeHandle> typeInstantiationContext = ConvertToTypeHandleArray(genericTypeArguments);
   Array<RuntimeTypeHandle> methodInstantiationContext = ConvertToTypeHandleArray(genericMethodArguments);
-  try{
+  try {
     IRuntimeFieldInfo runtimeFieldInfo;
     if (!metadataToken2.get_IsFieldDef()) {
       if (!metadataToken2.get_IsMemberRef()) {
@@ -209,7 +209,7 @@ Type RuntimeModule___::ResolveType(Int32 metadataToken, Array<Type> genericTypeA
   }
   Array<RuntimeTypeHandle> typeInstantiationContext = ConvertToTypeHandleArray(genericTypeArguments);
   Array<RuntimeTypeHandle> methodInstantiationContext = ConvertToTypeHandleArray(genericMethodArguments);
-  try{
+  try {
     Type runtimeType = GetModuleHandleImpl().ResolveTypeHandle(metadataToken, typeInstantiationContext, methodInstantiationContext).GetRuntimeType();
     if (runtimeType == nullptr) {
       rt::throw_exception<ArgumentException>(SR::Format(SR::get_Argument_ResolveType(), metadataToken2, (RuntimeModule)this), "metadataToken");

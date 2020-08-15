@@ -42,7 +42,7 @@ void StackFrameHelper___::InitializeSourceInfo(Int32 iSkip, Boolean fNeedFileInf
     return;
   }
   t_reentrancy++;
-  try{
+  try {
     if (s_getSourceLineInfo != nullptr) {
       goto IL_012b;
     }

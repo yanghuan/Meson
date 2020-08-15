@@ -50,7 +50,7 @@ void DynamicResolver___::Finalize() {
   DynamicMethod method = m_method;
   if (!(method == nullptr) && method->m_methodHandle != nullptr) {
     DestroyScout destroyScout;
-    try{
+    try {
       destroyScout = rt::newobj<DestroyScout>();
     } catch (...) {
     }

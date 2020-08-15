@@ -83,7 +83,7 @@ Calendar JapaneseCalendar___::GetDefaultInstance() {
 }
 
 void JapaneseCalendar___::ctor() {
-  try{
+  try {
     rt::newobj<CultureInfo>("ja-JP");
   } catch (ArgumentException innerException) {
   }
@@ -250,7 +250,7 @@ Boolean JapaneseCalendar___::GetJapaneseEraStartDate(Int32 era, DateTime& dateTi
 Array<EraInfo> JapaneseCalendar___::NlsGetJapaneseEras() {
   Int32 num = 0;
   Array<EraInfo> array = nullptr;
-  try{
+  try {
     {
       RegistryKey registryKey = Registry::LocalMachine->OpenSubKey("System\CurrentControlSet\Control\Nls\Calendars\Japanese\Eras");
       rt::Using(registryKey);

@@ -20,7 +20,7 @@ using namespace System::Runtime::InteropServices;
 using namespace System::Security;
 
 Boolean File::Exists(String path) {
-  try{
+  try {
     if (path == nullptr) {
       return false;
     }

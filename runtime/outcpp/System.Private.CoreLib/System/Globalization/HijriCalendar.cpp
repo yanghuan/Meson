@@ -316,7 +316,7 @@ Int32 HijriCalendar___::GetAdvanceHijriDate() {
       if (text->get_Length() == "AddHijriDate"->get_Length()) {
         result = -1;
       } else {
-        try{
+        try {
           Int32 num = Int32::Parse(MemoryExtensions::AsSpan(text, "AddHijriDate"->get_Length()), NumberStyles::Integer, CultureInfo::in::get_InvariantCulture());
           if (num >= -2 && num <= 2) {
             result = num;

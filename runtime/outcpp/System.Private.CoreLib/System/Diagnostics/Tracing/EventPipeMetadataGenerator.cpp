@@ -44,7 +44,7 @@ Array<Byte> EventPipeMetadataGenerator___::GenerateEventMetadata(Int32 eventId, 
 Array<Byte> EventPipeMetadataGenerator___::GenerateMetadata(Int32 eventId, String eventName, Int64 keywords, UInt32 level, UInt32 version, EventOpcode opcode, Array<EventParameterInfo> parameters) {
   Array<Byte> array = nullptr;
   Boolean flag = false;
-  try{
+  try {
     UInt32 num = (UInt32)(24 + (eventName->get_Length() + 1) * 2);
     UInt32 num2 = 0u;
     UInt32 num3 = num;

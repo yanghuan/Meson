@@ -267,7 +267,7 @@ MarshalAsAttribute PseudoCustomAttribute::GetMarshalAsCustomAttribute(Int32 toke
   MetadataImport::GetMarshalAs(fieldMarshal, unmanagedType, safeArraySubType, safeArrayUserDefinedSubType, arraySubType, sizeParamIndex, sizeConst, marshalType, marshalCookie, iidParamIndex);
   RuntimeType safeArrayUserDefinedSubType2 = String::in::IsNullOrEmpty(safeArrayUserDefinedSubType) ? nullptr : RuntimeTypeHandle::GetTypeByNameUsingCARules(safeArrayUserDefinedSubType, scope);
   RuntimeType marshalTypeRef = nullptr;
-  try{
+  try {
     marshalTypeRef = ((marshalType == nullptr) ? nullptr : RuntimeTypeHandle::GetTypeByNameUsingCARules(marshalType, scope));
   } catch (TypeLoadException) {
   }

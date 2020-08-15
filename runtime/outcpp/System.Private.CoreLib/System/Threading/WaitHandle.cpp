@@ -101,7 +101,7 @@ Boolean WaitHandle___::WaitOneNoCheck(Int32 millisecondsTimeout) {
   auto& default = _waitHandle;
   SafeWaitHandle safeWaitHandle = default != nullptr ? default : rt::throw_exception(rt::newobj<ObjectDisposedException>(nullptr, SR::get_ObjectDisposed_Generic()));
   Boolean success = false;
-  try{
+  try {
     safeWaitHandle->DangerousAddRef(success);
     SynchronizationContext current = SynchronizationContext::in::get_Current();
     Int32 num = (current == nullptr || !current->IsWaitNotificationRequired()) ? WaitOneCore(safeWaitHandle->DangerousGetHandle(), millisecondsTimeout) : current->Wait(rt::newarr<Array<IntPtr>>(1), false, millisecondsTimeout);
@@ -134,7 +134,7 @@ void WaitHandle___::ReturnSafeWaitHandleArray(Array<SafeWaitHandle> safeWaitHand
 void WaitHandle___::ObtainSafeWaitHandles(ReadOnlySpan<WaitHandle> waitHandles, Span<SafeWaitHandle> safeWaitHandles, Span<IntPtr> unsafeWaitHandles) {
   Boolean success = true;
   SafeWaitHandle safeWaitHandle = nullptr;
-  try{
+  try {
     for (Int32 i = 0; i < waitHandles.get_Length(); i++) {
       WaitHandle waitHandle = waitHandles[i];
       if (waitHandle == nullptr) {
@@ -174,7 +174,7 @@ Int32 WaitHandle___::WaitMultiple(ReadOnlySpan<WaitHandle> waitHandles, Boolean 
   auto& extern = default == nullptr ? nullptr : default->IsWaitNotificationRequired();
   Boolean flag = extern != nullptr ? extern : false;
   Array<SafeWaitHandle> array = RentSafeWaitHandleArray(waitHandles.get_Length());
-  try{
+  try {
     Int32 num;
     if (flag) {
       Array<IntPtr> array2 = rt::newarr<Array<IntPtr>>(waitHandles.get_Length());
@@ -223,7 +223,7 @@ Boolean WaitHandle___::SignalAndWait(WaitHandle toSignal, WaitHandle toWaitOn, I
   }
   Boolean success = false;
   Boolean success2 = false;
-  try{
+  try {
     waitHandle->DangerousAddRef(success);
     waitHandle2->DangerousAddRef(success2);
     Int32 num = SignalAndWaitCore(waitHandle->DangerousGetHandle(), waitHandle2->DangerousGetHandle(), millisecondsTimeout);

@@ -26,7 +26,7 @@ IEnumVARIANT EnumVariantViewOfEnumerator___::Clone() {
 
 Int32 EnumVariantViewOfEnumerator___::Next(Int32 celt, Array<Object> rgVar, IntPtr pceltFetched) {
   Int32 num = 0;
-  try{
+  try {
     if (celt > 0 && rgVar == nullptr) {
       return -2147024809;
     }
@@ -45,7 +45,7 @@ Int32 EnumVariantViewOfEnumerator___::Next(Int32 celt, Array<Object> rgVar, IntP
 }
 
 Int32 EnumVariantViewOfEnumerator___::Reset() {
-  try{
+  try {
     Enumerator->Reset();
   } catch (Exception ex) {
   }
@@ -53,7 +53,7 @@ Int32 EnumVariantViewOfEnumerator___::Reset() {
 }
 
 Int32 EnumVariantViewOfEnumerator___::Skip(Int32 celt) {
-  try{
+  try {
     while (celt > 0 && Enumerator->MoveNext()) {
       celt--;
     }

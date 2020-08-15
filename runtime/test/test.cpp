@@ -46,8 +46,20 @@ void TestTry() {
   }
 }
 
+void Format(String format, Object arg0) { 
+}
+
+
+void Format(String format, Array<Object> arg0) { 
+}
+
+
 int main() {
   TestTry();
+  Int32 a = 0;
+  Object i = a;
+  //Array<Object> arr = a;
+  Format("ddd {0}", a);
   return 0;
 }
 

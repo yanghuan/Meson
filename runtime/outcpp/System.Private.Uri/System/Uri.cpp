@@ -1450,7 +1450,7 @@ String Uri___::ReCreateParts(UriComponents parts, UInt16 nonCanonical, UriFormat
         Char* hostname = ptr;
         Boolean allAscii = false;
         Boolean atLeastOneValidIdn = false;
-        try{
+        try {
           text = DomainNameHelper::UnicodeEquivalent(hostname, 0, text->get_Length(), allAscii, atLeastOneValidIdn);
         } catch (UriFormatException) {
         }
@@ -2101,7 +2101,7 @@ Int32 Uri___::CheckAuthorityHelper(Char* pString, Int32 idx, Int32 length, Parsi
       }
       if (flag3) {
         String text2 = rt::newobj<String>(pString, num, i - num);
-        try{
+        try {
           newHost += text2->Normalize(NormalizationForm::FormC);
         } catch (ArgumentException) {
         }
@@ -2122,7 +2122,7 @@ Int32 Uri___::CheckAuthorityHelper(Char* pString, Int32 idx, Int32 length, Parsi
       flags |= Flags::BasicHostType;
       if (flag3) {
         String text3 = rt::newobj<String>(pString, num5, i - num5);
-        try{
+        try {
           newHost += text3->Normalize(NormalizationForm::FormC);
         } catch (ArgumentException) {
         }
@@ -2143,7 +2143,7 @@ void Uri___::CheckAuthorityHelperHandleDnsIri(Char* pString, Int32 start, Int32 
   flags |= Flags::DnsHostType;
   if (hasUnicode) {
     String text = UriHelper::StripBidiControlCharacters(ReadOnlySpan<Char>(pString + start, end - start));
-    try{
+    try {
       newHost += text->Normalize(NormalizationForm::FormC);
     } catch (ArgumentException) {
     }
@@ -2746,7 +2746,7 @@ void Uri___::InitializeUri(ParsingError err, UriKind uriKind, UriFormatException
       }
 
       if (flag) {
-        try{
+        try {
           EnsureParseRemaining();
         } catch (UriFormatException ex) {
         }
@@ -2771,7 +2771,7 @@ void Uri___::InitializeUri(ParsingError err, UriKind uriKind, UriFormatException
     }
 
     if (flag) {
-      try{
+      try {
         EnsureParseRemaining();
       } catch (UriFormatException ex3) {
       }
@@ -3055,7 +3055,7 @@ Uri Uri___::CreateHelper(String uriString, Boolean dontEscape, UriKind uriKind, 
     return nullptr;
   }
   Uri uri = rt::newobj<Uri>(flags, syntax, uriString);
-  try{
+  try {
     uri->InitializeUri(parsingError, uriKind, e);
     if (e == nullptr) {
       return uri;

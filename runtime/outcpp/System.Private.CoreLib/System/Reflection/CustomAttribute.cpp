@@ -301,7 +301,7 @@ void CustomAttribute::AddCustomAttributes(RuntimeType::in::ListBuilder<Object>& 
       RuntimeType type;
       Object value;
       GetPropertyOrFieldData(decoratedModule, blob, intPtr, name, isProperty, type, value);
-      try{
+      try {
         if (isProperty) {
           if ((Object)type == nullptr && value != nullptr) {
             type = (RuntimeType)value->GetType();

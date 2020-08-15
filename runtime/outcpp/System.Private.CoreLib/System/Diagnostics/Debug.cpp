@@ -77,7 +77,7 @@ void Debug::Assert(Boolean condition, String message, String detailMessage) {
 
 void Debug::ContractFailure(String message, String detailMessage, String failureKindMessage) {
   String stackTrace;
-  try{
+  try {
     stackTrace = rt::newobj<StackTrace>(2, true)->ToString(StackTrace::in::TraceFormat::Normal);
   } catch (...) {
   }

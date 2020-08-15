@@ -112,7 +112,7 @@ void RuntimeHelpers::ExecuteCodeWithGuaranteedCleanup(TryCode code, CleanupCode 
     rt::throw_exception<ArgumentNullException>("backoutCode");
   }
   Boolean exceptionThrown = true;
-  try{
+  try {
     code(userData);
     exceptionThrown = false;
   } catch (...) {

@@ -53,7 +53,7 @@ void ComActivator::BasicClassFactory___::ValidateObjectIsMarshallableAsInterface
 
 Object ComActivator::BasicClassFactory___::CreateAggregatedObject(Object pUnkOuter, Object comObject) {
   IntPtr iUnknownForObject = Marshal::GetIUnknownForObject(pUnkOuter);
-  try{
+  try {
     IntPtr pUnk = Marshal::CreateAggregatedObject(iUnknownForObject, comObject);
     return Marshal::GetObjectForIUnknown(pUnk);
   } catch (...) {
@@ -150,7 +150,7 @@ Int32 ComActivator::GetClassFactoryForTypeInternal(ComActivationContextInternal*
   ComActivationContextInternal& reference = pCxtInt;
   if (IsLoggingEnabled()) {
   }
-  try{
+  try {
     ComActivationContext cxt = ComActivationContext::Create(reference);
     Object classFactoryForType = GetClassFactoryForType(cxt);
     IntPtr iUnknownForObject = Marshal::GetIUnknownForObject(classFactoryForType);
@@ -167,7 +167,7 @@ Int32 ComActivator::RegisterClassForTypeInternal(ComActivationContextInternal* p
   if (reference.InterfaceId != Guid::Empty || reference.ClassFactoryDest != IntPtr::Zero) {
     rt::throw_exception<ArgumentException>(nullptr, "pCxtInt");
   }
-  try{
+  try {
     ComActivationContext cxt = ComActivationContext::Create(reference);
     ClassRegistrationScenarioForType(cxt, true);
   } catch (Exception ex) {
@@ -182,7 +182,7 @@ Int32 ComActivator::UnregisterClassForTypeInternal(ComActivationContextInternal*
   if (reference.InterfaceId != Guid::Empty || reference.ClassFactoryDest != IntPtr::Zero) {
     rt::throw_exception<ArgumentException>(nullptr, "pCxtInt");
   }
-  try{
+  try {
     ComActivationContext cxt = ComActivationContext::Create(reference);
     ClassRegistrationScenarioForType(cxt, false);
   } catch (Exception ex) {
@@ -195,7 +195,7 @@ Boolean ComActivator::IsLoggingEnabled() {
 }
 
 Type ComActivator::FindClassType(Guid clsid, String assemblyPath, String assemblyName, String typeName) {
-  try{
+  try {
     AssemblyLoadContext aLC = GetALC(assemblyPath);
     AssemblyName assemblyName2 = rt::newobj<AssemblyName>(assemblyName);
     Assembly assembly = aLC->LoadFromAssemblyName(assemblyName2);

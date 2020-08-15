@@ -45,7 +45,7 @@ void KoreanCalendar___::set_TwoDigitYearMax(Int32 value) {
 }
 
 void KoreanCalendar___::ctor() {
-  try{
+  try {
     rt::newobj<CultureInfo>("ko-KR");
   } catch (ArgumentException innerException) {
   }

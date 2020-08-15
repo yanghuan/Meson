@@ -171,7 +171,7 @@ Encoding ConsolePal::get_OutputEncoding() {
 }
 
 Boolean ConsolePal::get_NumberLock() {
-  try{
+  try {
     Int16 keyState = Interop::User32::in::GetKeyState(144);
     return (keyState & 1) == 1;
   } catch (Exception) {
@@ -179,7 +179,7 @@ Boolean ConsolePal::get_NumberLock() {
 }
 
 Boolean ConsolePal::get_CapsLock() {
-  try{
+  try {
     Int16 keyState = Interop::User32::in::GetKeyState(20);
     return (keyState & 1) == 1;
   } catch (Exception) {

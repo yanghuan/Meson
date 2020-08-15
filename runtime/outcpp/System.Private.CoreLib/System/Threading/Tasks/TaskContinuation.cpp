@@ -11,7 +11,7 @@ void TaskContinuation___::InlineIfPossibleOrElseQueue(Task<> task, Boolean needs
   } else {
     task->m_stateFlags |= 65536;
   }
-  try{
+  try {
     if (!task->m_taskScheduler->TryRunInline(task, false)) {
       task->m_taskScheduler->InternalQueueTask(task);
     }

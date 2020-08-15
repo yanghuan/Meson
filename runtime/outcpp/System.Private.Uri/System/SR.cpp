@@ -120,7 +120,7 @@ String SR::GetResourceString(String resourceKey, String defaultString) {
   if (UsingResourceKeys()) {
   }
   String text = nullptr;
-  try{
+  try {
     text = get_ResourceManager()->GetString(resourceKey);
   } catch (MissingManifestResourceException) {
   }

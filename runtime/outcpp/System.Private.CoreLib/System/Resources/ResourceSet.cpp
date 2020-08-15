@@ -79,7 +79,7 @@ IDictionaryEnumerator ResourceSet___::GetEnumeratorHelper() {
 
 String ResourceSet___::GetString(String name) {
   Object objectInternal = GetObjectInternal(name);
-  try{
+  try {
     return (String)objectInternal;
   } catch (InvalidCastException) {
   }
@@ -88,7 +88,7 @@ String ResourceSet___::GetString(String name) {
 String ResourceSet___::GetString(String name, Boolean ignoreCase) {
   Object objectInternal = GetObjectInternal(name);
   String text;
-  try{
+  try {
     text = (String)objectInternal;
   } catch (InvalidCastException) {
   }
@@ -96,7 +96,7 @@ String ResourceSet___::GetString(String name, Boolean ignoreCase) {
     return text;
   }
   objectInternal = GetCaseInsensitiveObjectInternal(name);
-  try{
+  try {
     return (String)objectInternal;
   } catch (InvalidCastException) {
   }

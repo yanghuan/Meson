@@ -29,7 +29,7 @@ String ComponentActivator::MarshalToString(IntPtr arg, String argName) {
 }
 
 Int32 ComponentActivator::LoadAssemblyAndGetFunctionPointer(IntPtr assemblyPathNative, IntPtr typeNameNative, IntPtr methodNameNative, IntPtr delegateTypeNative, IntPtr reserved, IntPtr functionHandle) {
-  try{
+  try {
     String assemblyPath = MarshalToString(assemblyPathNative, "assemblyPathNative");
     IsolatedComponentLoadContext alc = GetIsolatedComponentLoadContext(assemblyPath);
   } catch (Exception ex) {

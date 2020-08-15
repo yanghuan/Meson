@@ -95,7 +95,7 @@ CultureInfo ManifestBasedResourceGroveler___::GetNeutralResourcesLanguage(Assemb
   if (fallbackLocation < UltimateResourceFallbackLocation::MainAssembly || fallbackLocation > UltimateResourceFallbackLocation::Satellite) {
     rt::throw_exception<ArgumentException>(SR::Format(SR::get_Arg_InvalidNeutralResourcesLanguage_FallbackLoc(), fallbackLocation));
   }
-  try{
+  try {
     return CultureInfo::in::GetCultureInfo(customAttribute->get_CultureName());
   } catch (ArgumentException innerException) {
   }
@@ -145,8 +145,8 @@ ResourceSet ManifestBasedResourceGroveler___::CreateResourceSet(Stream store, As
     return rt::newobj<RuntimeResourceSet>(store, true);
   }
   Array<Object> args2 = rt::newarr<Array<Object>>(2);
-  try{
-    try{
+  try {
+    try {
       return (ResourceSet)Activator::CreateInstance(_mediator->get_UserResourceSet(), rt::newarr<Array<Object>>(1, args2));
     } catch (MissingMethodException) {
     }
@@ -175,7 +175,7 @@ Assembly ManifestBasedResourceGroveler___::GetSatelliteAssembly(CultureInfo look
     _mediator->set_LookedForSatelliteContractVersion = true;
   }
   Assembly result = nullptr;
-  try{
+  try {
     result = InternalGetSatelliteAssembly(_mediator->get_MainAssembly(), lookForCulture, _mediator->get_SatelliteContractVersion());
     return result;
   } catch (FileLoadException) {
@@ -218,7 +218,7 @@ void ManifestBasedResourceGroveler___::HandleSatelliteMissing() {
 }
 
 String ManifestBasedResourceGroveler___::GetManifestResourceNamesList(Assembly assembly) {
-  try{
+  try {
     Array<String> manifestResourceNames = assembly->GetManifestResourceNames();
     Int32 num = manifestResourceNames->get_Length();
     String str = """;

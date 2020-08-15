@@ -95,7 +95,7 @@ Boolean ConcurrentExclusiveSchedulerPair___::ConcurrentExclusiveTaskScheduler___
 
 Boolean ConcurrentExclusiveSchedulerPair___::ConcurrentExclusiveTaskScheduler___::TryExecuteTaskInlineOnTargetScheduler(Task<> task) {
   Task<Boolean> task2 = rt::newobj<Task<Boolean>>(s_tryExecuteTaskShim, Tuple::Create((ConcurrentExclusiveTaskScheduler)this, task));
-  try{
+  try {
     task2->RunSynchronously(m_pair->m_underlyingTaskScheduler);
     return task2->get_Result();
   } catch (...) {
@@ -297,7 +297,7 @@ void ConcurrentExclusiveSchedulerPair___::ProcessAsyncIfNecessary(Boolean fairly
   if (m_processingCount == 0 && flag) {
     m_processingCount = -1;
     if (!TryQueueThreadPoolWorkItem(fairly)) {
-      try{
+      try {
       } catch (Exception exception) {
       }
     }
@@ -312,7 +312,7 @@ void ConcurrentExclusiveSchedulerPair___::ProcessAsyncIfNecessary(Boolean fairly
         if (TryQueueThreadPoolWorkItem(fairly)) {
           continue;
         }
-        try{
+        try {
         } catch (Exception exception2) {
         }
       }
@@ -332,7 +332,7 @@ Boolean ConcurrentExclusiveSchedulerPair___::TryQueueThreadPoolWorkItem(Boolean 
 }
 
 void ConcurrentExclusiveSchedulerPair___::ProcessExclusiveTasks() {
-  try{
+  try {
     m_threadProcessingMode->set_Value = ProcessingMode::ProcessingExclusiveTask;
     for (Int32 i = 0; i < m_maxItemsPerTask; i++) {
       Task result;
@@ -355,7 +355,7 @@ void ConcurrentExclusiveSchedulerPair___::ProcessExclusiveTasks() {
 }
 
 void ConcurrentExclusiveSchedulerPair___::ProcessConcurrentTasks() {
-  try{
+  try {
     m_threadProcessingMode->set_Value = ProcessingMode::ProcessingConcurrentTasks;
     for (Int32 i = 0; i < m_maxItemsPerTask; i++) {
       Task result;

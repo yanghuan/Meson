@@ -51,7 +51,7 @@ void StartupHookProvider::ProcessStartupHooks() {
     if (text2->EndsWith(".dll", StringComparison::OrdinalIgnoreCase)) {
       rt::throw_exception<ArgumentException>(SR::Format(SR::get_Argument_InvalidStartupHookSimpleAssemblyName(), text2));
     }
-    try{
+    try {
       array3[i].AssemblyName = rt::newobj<AssemblyName>(text2);
     } catch (Exception innerException) {
     }
@@ -61,7 +61,7 @@ void StartupHookProvider::ProcessStartupHooks() {
 
 void StartupHookProvider::CallStartupHook(StartupHookNameOrPath startupHook) {
   Assembly assembly;
-  try{
+  try {
     if (startupHook.Path != nullptr) {
       assembly = AssemblyLoadContext::in::get_Default()->LoadFromAssemblyPath(startupHook.Path);
     } else {
@@ -76,7 +76,7 @@ void StartupHookProvider::CallStartupHook(StartupHookNameOrPath startupHook) {
   MethodInfo method = type->GetMethod("Initialize", BindingFlags::Static | BindingFlags::Public | BindingFlags::NonPublic, nullptr, Type::in::EmptyTypes, nullptr);
   Boolean flag = false;
   if (method == nullptr) {
-    try{
+    try {
       method = type->GetMethod("Initialize", BindingFlags::Instance | BindingFlags::Static | BindingFlags::Public | BindingFlags::NonPublic);
     } catch (AmbiguousMatchException) {
     }

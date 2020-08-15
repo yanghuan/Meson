@@ -155,7 +155,7 @@ Int32 TextReader___::Read(Array<Char> buffer, Int32 index, Int32 count) {
 
 Int32 TextReader___::Read(Span<Char> buffer) {
   Array<Char> array = ArrayPool<Char>::in::get_Shared()->Rent(buffer.get_Length());
-  try{
+  try {
     Int32 num = Read(array, 0, buffer.get_Length());
     if ((UInt32)num > (UInt32)buffer.get_Length()) {
       rt::throw_exception<IOException>(SR::get_IO_InvalidReadLength());
@@ -189,7 +189,7 @@ Int32 TextReader___::ReadBlock(Array<Char> buffer, Int32 index, Int32 count) {
 
 Int32 TextReader___::ReadBlock(Span<Char> buffer) {
   Array<Char> array = ArrayPool<Char>::in::get_Shared()->Rent(buffer.get_Length());
-  try{
+  try {
     Int32 num = ReadBlock(array, 0, buffer.get_Length());
     if ((UInt32)num > (UInt32)buffer.get_Length()) {
       rt::throw_exception<IOException>(SR::get_IO_InvalidReadLength());
@@ -229,7 +229,7 @@ Task<String> TextReader___::ReadLineAsync() {
 Task<String> TextReader___::ReadToEndAsync() {
   StringBuilder sb = rt::newobj<StringBuilder>(4096);
   Array<Char> chars = ArrayPool<Char>::in::get_Shared()->Rent(4096);
-  try{
+  try {
     Int32 charCount;
   } catch (...) {
   } finally: {

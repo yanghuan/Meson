@@ -250,7 +250,7 @@ DateTime Calendar___::ToDateTime(Int32 year, Int32 month, Int32 day, Int32 hour,
 
 Boolean Calendar___::TryToDateTime(Int32 year, Int32 month, Int32 day, Int32 hour, Int32 minute, Int32 second, Int32 millisecond, Int32 era, DateTime& result) {
   result = DateTime::MinValue;
-  try{
+  try {
     result = ToDateTime(year, month, day, hour, minute, second, millisecond, era);
     return true;
   } catch (ArgumentException) {

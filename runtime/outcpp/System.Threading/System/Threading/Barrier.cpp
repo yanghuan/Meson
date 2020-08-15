@@ -75,7 +75,7 @@ Boolean Barrier___::SetCurrentTotal(Int32 currentTotal, Int32 current, Int32 tot
 }
 
 Int64 Barrier___::AddParticipant() {
-  try{
+  try {
     return AddParticipants(1);
   } catch (ArgumentOutOfRangeException) {
   }
@@ -230,7 +230,7 @@ Boolean Barrier___::SignalAndWait(Int32 millisecondsTimeout, CancellationToken c
   ManualResetEventSlim currentPhaseEvent = sense ? _evenEvent : _oddEvent;
   Boolean flag = false;
   Boolean flag2 = false;
-  try{
+  try {
     flag2 = DiscontinuousWait(currentPhaseEvent, millisecondsTimeout, cancellationToken, currentPhaseNumber);
   } catch (OperationCanceledException) {
   } catch (ObjectDisposedException) {
@@ -262,7 +262,7 @@ Boolean Barrier___::SignalAndWait(Int32 millisecondsTimeout, CancellationToken c
 
 void Barrier___::FinishPhase(Boolean observedSense) {
   if (_postPhaseAction != nullptr) {
-    try{
+    try {
       _actionCallerID = Environment::get_CurrentManagedThreadId();
       if (_ownerThreadContext != nullptr) {
         ContextCallback callback = InvokePostPhaseAction;

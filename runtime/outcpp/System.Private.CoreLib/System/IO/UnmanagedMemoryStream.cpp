@@ -131,7 +131,7 @@ void UnmanagedMemoryStream___::Initialize(SafeBuffer buffer, Int64 offset, Int64
     rt::throw_exception<InvalidOperationException>(SR::get_InvalidOperation_CalledTwice());
   }
   Byte* pointer = nullptr;
-  try{
+  try {
     buffer->AcquirePointer(pointer);
     if (pointer + offset + length < pointer) {
       rt::throw_exception<ArgumentException>(SR::get_ArgumentOutOfRange_UnmanagedMemStreamWrapAround());
@@ -207,7 +207,7 @@ void UnmanagedMemoryStream___::CopyTo(ReadOnlySpanAction<Byte, Object> callback,
   }
   if (_buffer != nullptr) {
     Byte* pointer = nullptr;
-    try{
+    try {
       _buffer->AcquirePointer(pointer);
       ReadOnlySpan<Byte> span = ReadOnlySpan<Byte>(pointer + num + _offset, num4);
       Interlocked::Exchange(_position, num + num3);
@@ -257,7 +257,7 @@ Task<> UnmanagedMemoryStream___::FlushAsync(CancellationToken cancellationToken)
   if (cancellationToken.get_IsCancellationRequested()) {
     return Task::in::FromCanceled(cancellationToken);
   }
-  try{
+  try {
     Flush();
     return Task::in::get_CompletedTask();
   } catch (Exception exception) {
@@ -304,7 +304,7 @@ Int32 UnmanagedMemoryStream___::ReadCore(Span<Byte> buffer) {
     Byte* dest = &MemoryMarshal::GetReference(buffer);
     if (_buffer != nullptr) {
       Byte* pointer = nullptr;
-      try{
+      try {
         _buffer->AcquirePointer(pointer);
         Buffer::Memcpy(dest, pointer + num + _offset, num4);
       } catch (...) {
@@ -337,7 +337,7 @@ Task<Int32> UnmanagedMemoryStream___::ReadAsync(Array<Byte> buffer, Int32 offset
   if (cancellationToken.get_IsCancellationRequested()) {
     return Task::in::FromCanceled<Int32>(cancellationToken);
   }
-  try{
+  try {
     Int32 num = Read(buffer, offset, count);
     Task<Int32> lastReadTask = _lastReadTask;
     return (lastReadTask != nullptr && lastReadTask->get_Result() == num) ? lastReadTask : (_lastReadTask = Task::in::FromResult(num));
@@ -349,7 +349,7 @@ ValueTask<Int32> UnmanagedMemoryStream___::ReadAsync(Memory<Byte> buffer, Cancel
   if (cancellationToken.get_IsCancellationRequested()) {
     return ValueTask<Int32>(Task::in::FromCanceled<Int32>(cancellationToken));
   }
-  try{
+  try {
     ArraySegment<Byte> segment;
     return ValueTask<Int32>(MemoryMarshal::TryGetArray(buffer, segment) ? Read(segment.get_Array(), segment.get_Offset(), segment.get_Count()) : Read(buffer.get_Span()));
   } catch (Exception exception) {
@@ -367,7 +367,7 @@ Int32 UnmanagedMemoryStream___::ReadByte() {
   Interlocked::Exchange(_position, num + 1);
   if (_buffer != nullptr) {
     Byte* pointer = nullptr;
-    try{
+    try {
       _buffer->AcquirePointer(pointer);
       return (pointer + num)[_offset];
     } catch (...) {
@@ -486,7 +486,7 @@ void UnmanagedMemoryStream___::WriteCore(ReadOnlySpan<Byte> buffer) {
         rt::throw_exception<ArgumentException>(SR::get_Arg_BufferTooSmall());
       }
       Byte* pointer = nullptr;
-      try{
+      try {
         _buffer->AcquirePointer(pointer);
         Buffer::Memcpy(pointer + num + _offset, src, buffer.get_Length());
       } catch (...) {
@@ -518,7 +518,7 @@ Task<> UnmanagedMemoryStream___::WriteAsync(Array<Byte> buffer, Int32 offset, In
   if (cancellationToken.get_IsCancellationRequested()) {
     return Task::in::FromCanceled(cancellationToken);
   }
-  try{
+  try {
     Write(buffer, offset, count);
     return Task::in::get_CompletedTask();
   } catch (Exception exception) {
@@ -529,7 +529,7 @@ ValueTask<> UnmanagedMemoryStream___::WriteAsync(ReadOnlyMemory<Byte> buffer, Ca
   if (cancellationToken.get_IsCancellationRequested()) {
     return ValueTask(Task::in::FromCanceled(cancellationToken));
   }
-  try{
+  try {
     ArraySegment<Byte> segment;
     if (MemoryMarshal::TryGetArray(buffer, segment)) {
       Write(segment.get_Array(), segment.get_Offset(), segment.get_Count());
@@ -563,7 +563,7 @@ void UnmanagedMemoryStream___::WriteByte(Byte value) {
   }
   if (_buffer != nullptr) {
     Byte* pointer = nullptr;
-    try{
+    try {
       _buffer->AcquirePointer(pointer);
       (pointer + num)[_offset] = value;
     } catch (...) {

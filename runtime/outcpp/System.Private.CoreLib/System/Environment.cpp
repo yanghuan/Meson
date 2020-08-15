@@ -682,7 +682,7 @@ String Environment::GetEnvironmentVariableCore(String variable) {
     return rt::newobj<String>(buffer.Slice(0, environmentVariable));
   }
   Array<Char> array = ArrayPool<Char>::in::get_Shared()->Rent(environmentVariable);
-  try{
+  try {
     buffer = array;
     environmentVariable = Interop::Kernel32::GetEnvironmentVariable(variable, buffer);
     if ((environmentVariable == 0 && Marshal::GetLastWin32Error() == 203) || environmentVariable > buffer.get_Length()) {
@@ -717,7 +717,7 @@ IDictionary Environment::GetEnvironmentVariables() {
   if (environmentStrings == nullptr) {
     rt::throw_exception<OutOfMemoryException>();
   }
-  try{
+  try {
     Char* ptr;
     for (ptr = environmentStrings; *ptr != 0 || ptr[1] != 0; ptr++) {
     }
@@ -741,7 +741,7 @@ IDictionary Environment::GetEnvironmentVariables() {
       for (; span[i] != 0; i++) {
       }
       String value = rt::newobj<String>(span.Slice(num2, i - num2));
-      try{
+      try {
         hashtable->Add(key, value);
       } catch (ArgumentException) {
       }

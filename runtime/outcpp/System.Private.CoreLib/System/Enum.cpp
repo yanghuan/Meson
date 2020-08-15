@@ -484,7 +484,7 @@ Boolean Enum___::TryParseUInt64Enum(RuntimeType enumType, String originalValueSt
 Boolean Enum___::TryParseRareEnum(RuntimeType enumType, String originalValueString, ReadOnlySpan<Char> value, Boolean ignoreCase, Boolean throwOnFailure, Object& result) {
   if (StartsNumber(value[0])) {
     Type underlyingType = GetUnderlyingType(enumType);
-    try{
+    try {
       result = ToObject(enumType, Convert::ChangeType(value.ToString(), underlyingType, CultureInfo::in::get_InvariantCulture()));
       return true;
     } catch (FormatException) {
@@ -493,7 +493,7 @@ Boolean Enum___::TryParseRareEnum(RuntimeType enumType, String originalValueStri
   }
   UInt64 result2;
   if (TryParseByName(enumType, originalValueString, value, ignoreCase, throwOnFailure, result2)) {
-    try{
+    try {
       result = ToObject(enumType, result2);
       return true;
     } catch (...) {

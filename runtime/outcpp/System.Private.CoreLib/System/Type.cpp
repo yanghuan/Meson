@@ -1166,7 +1166,7 @@ Boolean Type___::FilterAttributeImpl(MemberInfo m, Object filterCriteria) {
     case MemberTypes::Method:
       {
         MethodAttributes methodAttributes;
-        try{
+        try {
           Int32 num2 = (Int32)filterCriteria;
           methodAttributes = (MethodAttributes)num2;
         } catch (...) {
@@ -1194,7 +1194,7 @@ Boolean Type___::FilterAttributeImpl(MemberInfo m, Object filterCriteria) {
       }case MemberTypes::Field:
       {
         FieldAttributes fieldAttributes;
-        try{
+        try {
           Int32 num = (Int32)filterCriteria;
           fieldAttributes = (FieldAttributes)num;
         } catch (...) {

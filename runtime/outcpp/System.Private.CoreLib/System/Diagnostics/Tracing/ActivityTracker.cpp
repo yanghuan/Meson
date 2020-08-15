@@ -258,7 +258,7 @@ void ActivityTracker___::OnStop(String providerName, String activityName, Int32 
 
 void ActivityTracker___::Enable() {
   if (m_current == nullptr) {
-    try{
+    try {
       m_current = rt::newobj<AsyncLocal<ActivityInfo>>(rt::newobj<Action<AsyncLocalValueChangedArgs<ActivityInfo>>>(&ActivityChanging));
     } catch (NotImplementedException) {
     }

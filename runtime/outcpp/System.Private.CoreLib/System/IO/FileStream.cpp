@@ -286,7 +286,7 @@ void FileStream___::ctor(IntPtr handle, FileAccess access, Boolean ownsHandle, I
   _activeBufferOperation = Task::in::get_CompletedTask();
   Stream::in::ctor();
   SafeFileHandle safeFileHandle = rt::newobj<SafeFileHandle>(handle, ownsHandle);
-  try{
+  try {
     ValidateAndInitFromHandle(safeFileHandle, access, bufferSize, isAsync);
   } catch (...) {
   }
@@ -391,7 +391,7 @@ void FileStream___::ctor(String path, FileMode mode, FileAccess access, FileShar
     SerializationInfo::in::ThrowIfDeserializationInProgress("AllowFileWrites", s_cachedSerializationSwitch);
   }
   _fileHandle = OpenHandle(mode, share, options);
-  try{
+  try {
     Init(mode, share, path);
   } catch (...) {
   }
@@ -810,7 +810,7 @@ void FileStream___::Init(FileMode mode, FileShare share, String originalPath) {
     }
   }
   if (_useAsyncIO) {
-    try{
+    try {
       _fileHandle->set_ThreadPoolBinding = ThreadPoolBoundHandle::in::BindHandle(_fileHandle);
     } catch (ArgumentException innerException) {
     } finally: {
@@ -836,7 +836,7 @@ void FileStream___::InitFromHandleImpl(SafeFileHandle handle, Boolean useAsyncIO
   _canSeek = (fileType == 1);
   _isPipe = (fileType == 3);
   if (useAsyncIO && !handle->get_IsAsync().GetValueOrDefault()) {
-    try{
+    try {
       handle->set_ThreadPoolBinding = ThreadPoolBoundHandle::in::BindHandle(handle);
     } catch (Exception innerException) {
     }
@@ -875,9 +875,9 @@ Int64 FileStream___::GetLengthInternal() {
 }
 
 void FileStream___::Dispose(Boolean disposing) {
-  try{
+  try {
     if (_fileHandle != nullptr && !_fileHandle->get_IsClosed() && _writePos > 0) {
-      try{
+      try {
         FlushWriteBuffer(!disposing);
       } catch (Exception e) {
       }
@@ -903,7 +903,7 @@ ValueTask<> FileStream___::DisposeAsync() {
 }
 
 ValueTask<> FileStream___::DisposeAsyncCore() {
-  try{
+  try {
     if (_fileHandle != nullptr && !_fileHandle->get_IsClosed() && _writePos > 0) {
     }
   } catch (...) {
@@ -1404,13 +1404,13 @@ Task<> FileStream___::AsyncModeCopyToAsync(Stream destination, Int32 bufferSize,
   Array<Byte> copyBuffer = ArrayPool<Byte>::in::get_Shared()->Rent(bufferSize);
   PreAllocatedOverlapped awaitableOverlapped = rt::newobj<PreAllocatedOverlapped>(AsyncCopyToAwaitable::in::s_callback, readAwaitable, copyBuffer);
   CancellationTokenRegistration cancellationReg = CancellationTokenRegistration();
-  try{
+  try {
     if (cancellationToken.get_CanBeCanceled()) {
     }
     while (true) {
       cancellationToken.ThrowIfCancellationRequested();
       readAwaitable->ResetForNextOperation();
-      try{
+      try {
         readAwaitable->_nativeOverlapped = _fileHandle->get_ThreadPoolBinding()->AllocateNativeOverlapped(awaitableOverlapped);
         if (canSeek) {
           readAwaitable->_nativeOverlapped->OffsetLow = (Int32)readAwaitable->_position;
@@ -1460,7 +1460,7 @@ Task<> FileStream___::FlushAsyncInternal(CancellationToken cancellationToken) {
   if (_fileHandle->get_IsClosed()) {
     rt::throw_exception(Error::GetFileNotOpen());
   }
-  try{
+  try {
     FlushInternalBuffer();
   } catch (Exception exception) {
   }

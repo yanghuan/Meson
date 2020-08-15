@@ -12,22 +12,23 @@
 
 namespace rt {
   enum class TypeCode {
-    None = 0,
-    Array = 1,
-    String = 2,
-    Boolean = 3,
-    Char = 4,
-    SByte = 5,
-    Byte = 6,
-    Int16 = 7,
-    UInt16 = 8,
-    Int32 = 9,
-    UInt32 = 10,
-    Int64 = 11,
-    UInt64 = 12,
-    Single = 13,
-    Double = 14,
-    Interface = 15,
+    None,
+    Object,
+    Array,
+    String,
+    Boolean,
+    Char,
+    SByte,
+    Byte,
+    Int16,
+    UInt16,
+    Int32,
+    UInt32,
+    Int64,
+    UInt64,
+    Single,
+    Double,
+    Interface,
   };
 
   template <class... Args>
@@ -104,14 +105,7 @@ namespace rt {
   static constexpr bool IsArray = CodeOf<T> == TypeCode::Array;
 
   template <class T>
-  struct IsObjectType {
-    struct __Type {
-    };
-    static constexpr bool value = std::is_base_of_v<object, typename std::conditional_t<IsComplete<T>::value, T, __Type>>;
-  };
-
-  template <class T>
-  static constexpr bool IsObject = IsObjectType<T>::value;
+  static constexpr bool IsObject = CodeOf<T> == TypeCode::Object;
 
   template <class T>
   class GCObject : public GCObjectHead {
@@ -222,6 +216,10 @@ namespace rt {
     template <class... _Types, class T1 = T> requires(IsString<T1>)
     ref(const std::tuple<_Types...>& t) {
       moveOf(string::cat(t));
+    }
+
+    template <class T1> requires(IsObject<T> && !IsRef<T1>)
+    ref(const T1 other) {
     }
 
     ref(ref&& other) noexcept {
@@ -483,18 +481,24 @@ namespace rt {
   template <class T>
   static constexpr bool IsPrimitive = CodeOf<T> != TypeCode::None;
 
+  constexpr bool IsArithmeticCode(TypeCode code) {
+    return code >= TypeCode::Char && code <= TypeCode::Double;
+  }
+
   template <class T>
-  static constexpr bool IsArithmetic = CodeOf<T> >= TypeCode::Char && CodeOf<T> <= TypeCode::Double;
+  static constexpr bool IsArithmetic = IsArithmeticCode(CodeOf<T>);
 
   template <class T>
   static constexpr bool AlwaysTrue = true;
-  
+
   template <class To, class From>
   constexpr bool IsImplicitPrimitive() {
     constexpr TypeCode codeOfFrom = CodeOf<From>;
     constexpr TypeCode codeOfTo = CodeOf<To>;
-    if constexpr ((codeOfTo >= TypeCode::Int64 && codeOfTo <= TypeCode::Double) && (codeOfFrom >= TypeCode::SByte && codeOfFrom <= TypeCode::UInt32)) {
-      return true;
+    if constexpr (IsArithmeticCode(codeOfFrom) && IsArithmeticCode(codeOfTo)) {
+      if constexpr (sizeof(To) > sizeof(From)) {
+        return true;
+      }
     }
     return false;
   }
@@ -574,6 +578,11 @@ namespace rt {
 
     template <class T1 = T> requires(IsArithmetic<T1>) 
     T operator |(const T& other) const {
+      return static_cast<const T*>(this)->get() | other.get();
+    }
+
+    template <class T1 = T> requires(IsArithmetic<T1>) 
+    T operator |(const T1& other) const {
       return static_cast<const T*>(this)->get() | other.get();
     }
 
@@ -674,7 +683,7 @@ namespace rt {
 
     template <class... Args>
     constexpr auto operator [](Args&&... args) {
-      return static_cast<T*>(this)->operator[](std::forward<Args>(args)...);
+      return static_cast<T*>(this)->get_Item(std::forward<Args>(args)...);
     }
   };
 
@@ -737,6 +746,11 @@ namespace rt {
     using T = A::in::element_type;
     return *reinterpret_cast<A*>(&rt::Array<T, object>::newarr(n.get()));
   }
+
+  template <class T>
+  inline void lock(const T& obj) {
+  }
+
 }  // namespace rt
 
 template <class T, class T1> requires(std::is_arithmetic_v<T> && rt::IsArithmetic<T1>) 
@@ -751,13 +765,11 @@ inline auto operator |=(T& a, const T& b) {
 
 template <class T> requires(std::is_enum_v<T>) 
 inline constexpr bool operator ==(const T& a, int32_t b) { 
-  static_assert(b == 0);
   return a == b;
 }
 
 template <class T> requires(std::is_enum_v<T>) 
 inline constexpr bool operator !=(const T& a, int32_t b) { 
-  static_assert(b == 0);
   return a != b;
 }
 

@@ -136,9 +136,9 @@ void BufferedStream___::EnsureBufferAllocated() {
 }
 
 void BufferedStream___::Dispose(Boolean disposing) {
-  try{
+  try {
     if (disposing && _stream != nullptr) {
-      try{
+      try {
         Flush();
       } catch (...) {
       } finally: {
@@ -155,9 +155,9 @@ void BufferedStream___::Dispose(Boolean disposing) {
 
 ValueTask<> BufferedStream___::DisposeAsync() {
   _ = 1;
-  try{
+  try {
     if (_stream != nullptr) {
-      try{
+      try {
       } catch (...) {
       } finally: {
       }
@@ -252,7 +252,7 @@ Int32 BufferedStream___::ReadFromBuffer(Span<Byte> destination) {
 }
 
 Int32 BufferedStream___::ReadFromBuffer(Array<Byte> array, Int32 offset, Int32 count, Exception& error) {
-  try{
+  try {
     error = nullptr;
     return ReadFromBuffer(array, offset, count);
   } catch (Exception ex) {
@@ -349,7 +349,7 @@ Task<Int32> BufferedStream___::ReadAsync(Array<Byte> buffer, Int32 offset, Int32
   Task task = semaphoreSlim->WaitAsync(cancellationToken);
   if (task->get_IsCompletedSuccessfully()) {
     Boolean flag = true;
-    try{
+    try {
       Exception error;
       num = ReadFromBuffer(buffer, offset, count, error);
       flag = (num == count || error != nullptr);
@@ -377,7 +377,7 @@ ValueTask<Int32> BufferedStream___::ReadAsync(Memory<Byte> buffer, CancellationT
   Task task = semaphoreSlim->WaitAsync(cancellationToken);
   if (task->get_IsCompletedSuccessfully()) {
     Boolean flag = true;
-    try{
+    try {
       num = ReadFromBuffer(buffer.get_Span());
       flag = (num == buffer.get_Length());
       if (flag) {
@@ -552,7 +552,7 @@ ValueTask<> BufferedStream___::WriteAsync(ReadOnlyMemory<Byte> buffer, Cancellat
   Task task = semaphoreSlim->WaitAsync(cancellationToken);
   if (task->get_IsCompletedSuccessfully()) {
     Boolean flag = true;
-    try{
+    try {
       if (_writePos == 0) {
         ClearReadBufferBeforeWrite();
       }

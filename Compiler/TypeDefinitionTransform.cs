@@ -172,9 +172,6 @@ namespace Meson.Compiler {
             interfaces = type.DirectBaseTypes;
           }
           AddInterfaces(type, node, interfaces);
-        } else {
-          Contract.Assert(type.IsKnownType(KnownTypeCode.Object));
-          node.Bases.Add(new BaseSyntax(IdentifierSyntax.Meson.TwoColon(type.Name.FirstCharLow())));
         }
       }
       parent_.Add(node);
@@ -561,6 +558,7 @@ namespace Meson.Compiler {
     private void AddTypeExtra(ITypeDefinition type, ClassSyntax node) {
       const string code = nameof(code);
       switch (type.KnownTypeCode) {
+        case KnownTypeCode.Object:
         case KnownTypeCode.Boolean:
         case KnownTypeCode.Char:
         case KnownTypeCode.SByte:
@@ -578,7 +576,7 @@ namespace Meson.Compiler {
               IsConstexpr = true,
               ConstantValue = IdentifierSyntax.TypeCode.TwoColon(type.Name),
             });
-            if (type.KnownTypeCode != KnownTypeCode.String) {
+            if (type.Kind == TypeKind.Struct) {
               var field = type.Fields.Single(i => !i.IsStatic);
               var fieldName = GetMemberName(field);
               var typeName = (IdentifierSyntax)field.Type.GetValueTypeInnerName();

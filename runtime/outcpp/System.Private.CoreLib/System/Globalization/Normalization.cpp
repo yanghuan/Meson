@@ -57,17 +57,17 @@ Boolean Normalization::IcuIsNormalized(String strInput, NormalizationForm normal
 String Normalization::IcuNormalize(String strInput, NormalizationForm normalizationForm) {
   ValidateArguments(strInput, normalizationForm);
   Array<Char> array = nullptr;
-  try{
+  try {
     Char default[512] = {};
     Span<Char> span = (strInput->get_Length() > 512) ? ((Span<Char>)(array = ArrayPool<Char>::in::get_Shared()->Rent(strInput->get_Length()))) : default;
     Span<Char> span2 = span;
     for (Int32 i = 0; i < 2; i++) {
       Int32 num;
-      try{
+      try {
         {
           Char* ptr = strInput;
           Char* src = ptr;
-          try{
+          try {
             {
               Char* dstBuffer = &MemoryMarshal::GetReference(span2);
               num = Interop::Globalization::NormalizeString(normalizationForm, src, strInput->get_Length(), dstBuffer, span2.get_Length());
@@ -164,17 +164,17 @@ String Normalization::NlsNormalize(String strInput, NormalizationForm normalizat
     return String::in::Empty;
   }
   Array<Char> array = nullptr;
-  try{
+  try {
     Char default[512] = {};
     Span<Char> span = (strInput->get_Length() > 512) ? ((Span<Char>)(array = ArrayPool<Char>::in::get_Shared()->Rent(strInput->get_Length()))) : default;
     Span<Char> span2 = span;
     while (true) {
       Int32 num;
-      try{
+      try {
         {
           Char* ptr = strInput;
           Char* source = ptr;
-          try{
+          try {
             {
               Char* destination = &MemoryMarshal::GetReference(span2);
               num = Interop::Normaliz::NormalizeString(normalizationForm, source, strInput->get_Length(), destination, span2.get_Length());

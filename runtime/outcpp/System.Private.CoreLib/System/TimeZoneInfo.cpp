@@ -382,7 +382,7 @@ TimeZoneInfo TimeZoneInfo___::StringSerializer::GetDeserializedTimeZoneInfo(Stri
   String nextStringValue3 = stringSerializer.GetNextStringValue();
   String nextStringValue4 = stringSerializer.GetNextStringValue();
   Array<AdjustmentRule> nextAdjustmentRuleArrayValue = stringSerializer.GetNextAdjustmentRuleArrayValue();
-  try{
+  try {
     return rt::newobj<TimeZoneInfo>(nextStringValue, nextTimeSpanValue, nextStringValue2, nextStringValue3, nextStringValue4, nextAdjustmentRuleArrayValue, false);
   } catch (ArgumentException innerException) {
   } catch (InvalidTimeZoneException innerException2) {
@@ -525,7 +525,7 @@ DateTime TimeZoneInfo___::StringSerializer::GetNextDateTimeValue(String format) 
 
 TimeSpan TimeZoneInfo___::StringSerializer::GetNextTimeSpanValue() {
   Int32 nextInt32Value = GetNextInt32Value();
-  try{
+  try {
     return TimeSpan(0, nextInt32Value, 0);
   } catch (ArgumentOutOfRangeException innerException) {
   }
@@ -598,7 +598,7 @@ TimeZoneInfo::in::AdjustmentRule TimeZoneInfo___::StringSerializer::GetNextAdjus
     _currentTokenStartIndex++;
   }
   AdjustmentRule result;
-  try{
+  try {
     result = AdjustmentRule::in::CreateAdjustmentRule(nextDateTimeValue, nextDateTimeValue2, nextTimeSpanValue, nextTransitionTimeValue, nextTransitionTimeValue2, baseUtcOffsetDelta, num > 0);
   } catch (ArgumentException innerException) {
   }
@@ -631,14 +631,14 @@ TimeZoneInfo::in::TransitionTime TimeZoneInfo___::StringSerializer::GetNextTrans
   TransitionTime result;
   if (nextInt32Value == 1) {
     Int32 nextInt32Value3 = GetNextInt32Value();
-    try{
+    try {
       result = TransitionTime::CreateFixedDateRule(nextDateTimeValue, nextInt32Value2, nextInt32Value3);
     } catch (ArgumentException innerException) {
     }
   } else {
     Int32 nextInt32Value4 = GetNextInt32Value();
     Int32 nextInt32Value5 = GetNextInt32Value();
-    try{
+    try {
       result = TransitionTime::CreateFloatingDateRule(nextDateTimeValue, nextInt32Value2, nextInt32Value4, (DayOfWeek)nextInt32Value5);
     } catch (ArgumentException innerException2) {
     }
@@ -1329,14 +1329,14 @@ Boolean TimeZoneInfo___::GetIsDaylightSavingsFromUtc(DateTime time, Int32 year, 
   if (flag) {
     isAmbiguousLocalDst = (time >= t && time < t2);
     if (!isAmbiguousLocalDst && t.get_Year() != t2.get_Year()) {
-      try{
+      try {
         DateTime t3 = t.AddYears(1);
         DateTime t4 = t2.AddYears(1);
         isAmbiguousLocalDst = (time >= t3 && time < t4);
       } catch (ArgumentOutOfRangeException) {
       }
       if (!isAmbiguousLocalDst) {
-        try{
+        try {
           DateTime t3 = t.AddYears(-1);
           DateTime t4 = t2.AddYears(-1);
           isAmbiguousLocalDst = (time >= t3 && time < t4);
@@ -1401,14 +1401,14 @@ Boolean TimeZoneInfo___::GetIsAmbiguousTime(DateTime time, AdjustmentRule rule, 
   }
   result = (time >= t2 && time < t);
   if (!result && t.get_Year() != t2.get_Year()) {
-    try{
+    try {
       DateTime t3 = t.AddYears(1);
       DateTime t4 = t2.AddYears(1);
       result = (time >= t4 && time < t3);
     } catch (ArgumentOutOfRangeException) {
     }
     if (!result) {
-      try{
+      try {
         DateTime t3 = t.AddYears(-1);
         DateTime t4 = t2.AddYears(-1);
         result = (time >= t4 && time < t3);
@@ -1442,14 +1442,14 @@ Boolean TimeZoneInfo___::GetIsInvalidTime(DateTime time, AdjustmentRule rule, Da
   }
   result = (time >= t && time < t2);
   if (!result && t.get_Year() != t2.get_Year()) {
-    try{
+    try {
       DateTime t3 = t.AddYears(1);
       DateTime t4 = t2.AddYears(1);
       result = (time >= t3 && time < t4);
     } catch (ArgumentOutOfRangeException) {
     }
     if (!result) {
-      try{
+      try {
         DateTime t3 = t.AddYears(-1);
         DateTime t4 = t2.AddYears(-1);
         result = (time >= t3 && time < t4);
@@ -1745,13 +1745,13 @@ TimeZoneInfo TimeZoneInfo___::GetLocalTimeZone(CachedData cachedData) {
 }
 
 TimeZoneInfo TimeZoneInfo___::GetLocalTimeZoneFromWin32Data(Interop::Kernel32::TIME_ZONE_INFORMATION& timeZoneInformation, Boolean dstDisabled) {
-  try{
+  try {
     return rt::newobj<TimeZoneInfo>(timeZoneInformation, dstDisabled);
   } catch (ArgumentException) {
   } catch (InvalidTimeZoneException) {
   }
   if (!dstDisabled) {
-    try{
+    try {
       return rt::newobj<TimeZoneInfo>(timeZoneInformation, true);
     } catch (ArgumentException) {
     } catch (InvalidTimeZoneException) {
@@ -1828,7 +1828,7 @@ Boolean TimeZoneInfo___::TransitionTimeFromTimeZoneInformation(Interop::Kernel32
 Boolean TimeZoneInfo___::TryCreateAdjustmentRules(String id, Interop::Kernel32::REG_TZI_FORMAT& defaultTimeZoneInformation, Array<AdjustmentRule>& rules, Exception& e, Int32 defaultBaseUtcOffset) {
   rules = nullptr;
   e = nullptr;
-  try{
+  try {
     {
       RegistryKey registryKey = Registry::LocalMachine->OpenSubKey("SOFTWARE\Microsoft\Windows NT\CurrentVersion\Time Zones\" + id + "\Dynamic DST", false);
       rt::Using(registryKey);
@@ -1942,7 +1942,7 @@ String TimeZoneInfo___::TryGetLocalizedNameByMuiNativeResource(String resource) 
   String systemDirectory = Environment::get_SystemDirectory();
   String path = array[0]->TrimStart(64);
   String pcwszFilePath;
-  try{
+  try {
     pcwszFilePath = Path::Combine(systemDirectory, path);
   } catch (ArgumentException) {
   }
@@ -1951,7 +1951,7 @@ String TimeZoneInfo___::TryGetLocalizedNameByMuiNativeResource(String resource) 
     return String::in::Empty;
   }
   result = -result;
-  try{
+  try {
     Char default[260] = {};
     Char* ptr = default;
     Int32 pcchFileMUIPath = 260;
@@ -1964,7 +1964,7 @@ String TimeZoneInfo___::TryGetLocalizedNameByMuiNativeResource(String resource) 
 
 String TimeZoneInfo___::TryGetLocalizedNameByNativeResource(String filePath, Int32 resource) {
   IntPtr intPtr = IntPtr::Zero;
-  try{
+  try {
     intPtr = Interop::Kernel32::LoadLibraryEx(filePath, IntPtr::Zero, 2);
     if (intPtr != IntPtr::Zero) {
       Char default[500] = {};
@@ -2033,7 +2033,7 @@ TimeZoneInfo::in::TimeZoneInfoResult TimeZoneInfo___::TryGetTimeZoneFromLocalMac
     String standardName;
     String daylightName;
     GetLocalizedNamesByRegistryKey(registryKey, displayName, standardName, daylightName);
-    try{
+    try {
       value = rt::newobj<TimeZoneInfo>(id, TimeSpan(0, -dtzi.Bias, 0), displayName, standardName, daylightName, rules, false);
       return TimeZoneInfoResult::Success;
     } catch (ArgumentException ex) {

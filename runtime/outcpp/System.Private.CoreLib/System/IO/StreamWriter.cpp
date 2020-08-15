@@ -144,7 +144,7 @@ void StreamWriter___::Close() {
 }
 
 void StreamWriter___::Dispose(Boolean disposing) {
-  try{
+  try {
     if (!_disposed && disposing) {
       CheckAsyncTaskInProgress();
       Flush(true, true);
@@ -159,7 +159,7 @@ void StreamWriter___::CloseStreamFromDispose(Boolean disposing) {
   if (!_closable || _disposed) {
     return;
   }
-  try{
+  try {
     if (disposing) {
       _stream->Close();
     }
@@ -179,7 +179,7 @@ ValueTask<> StreamWriter___::DisposeAsync() {
 }
 
 ValueTask<> StreamWriter___::DisposeAsyncCore() {
-  try{
+  try {
     if (!_disposed) {
     }
   } catch (...) {

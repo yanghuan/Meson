@@ -29,7 +29,7 @@ Boolean ThreadPoolWorkQueue___::WorkStealingQueue___::get_CanSteal() {
 
 Int32 ThreadPoolWorkQueue___::WorkStealingQueue___::get_Count() {
   Boolean lockTaken = false;
-  try{
+  try {
     m_foreignLock.Enter(lockTaken);
     return Math::Max(0, m_tailIndex - m_headIndex);
   } catch (...) {
@@ -44,7 +44,7 @@ void ThreadPoolWorkQueue___::WorkStealingQueue___::LocalPush(Object obj) {
   Int32 num = m_tailIndex;
   if (num == Int32::MaxValue) {
     Boolean lockTaken = false;
-    try{
+    try {
       m_foreignLock.Enter(lockTaken);
       if (m_tailIndex == Int32::MaxValue) {
         m_headIndex &= m_mask;
@@ -63,7 +63,7 @@ void ThreadPoolWorkQueue___::WorkStealingQueue___::LocalPush(Object obj) {
     return;
   }
   Boolean lockTaken2 = false;
-  try{
+  try {
     m_foreignLock.Enter(lockTaken2);
     Int32 headIndex = m_headIndex;
     Int32 num2 = m_tailIndex - m_headIndex;
@@ -95,7 +95,7 @@ Boolean ThreadPoolWorkQueue___::WorkStealingQueue___::LocalFindAndPop(Object obj
   for (Int32 num = m_tailIndex - 2; num >= m_headIndex; num--) {
     if (m_array[num & m_mask] == obj) {
       Boolean lockTaken = false;
-      try{
+      try {
         m_foreignLock.Enter(lockTaken);
         if (m_array[num & m_mask] == nullptr) {
           return false;
@@ -145,7 +145,7 @@ Object ThreadPoolWorkQueue___::WorkStealingQueue___::LocalPopCore() {
       continue;
     }
     Boolean lockTaken = false;
-    try{
+    try {
       m_foreignLock.Enter(lockTaken);
       if (m_headIndex <= tailIndex) {
         Int32 num2 = tailIndex & m_mask;
@@ -172,7 +172,7 @@ Object ThreadPoolWorkQueue___::WorkStealingQueue___::LocalPopCore() {
 Object ThreadPoolWorkQueue___::WorkStealingQueue___::TrySteal(Boolean& missedSteal) {
   while (get_CanSteal()) {
     Boolean lockTaken = false;
-    try{
+    try {
       m_foreignLock.TryEnter(lockTaken);
       if (lockTaken) {
         Int32 headIndex = m_headIndex;
@@ -350,7 +350,7 @@ Boolean ThreadPoolWorkQueue___::Dispatch() {
   s_workQueue->MarkThreadRequestSatisfied();
   s_workQueue->loggingEnabled = FrameworkEventSource::in::Log->IsEnabled(EventLevel::Verbose, (EventKeywords)18);
   Boolean flag = true;
-  try{
+  try {
     ThreadPoolWorkQueue threadPoolWorkQueue = s_workQueue;
     ThreadPoolWorkQueueThreadLocals orCreateThreadLocals = threadPoolWorkQueue->GetOrCreateThreadLocals();
     Thread currentThread = orCreateThreadLocals->currentThread;
@@ -369,7 +369,7 @@ Boolean ThreadPoolWorkQueue___::Dispatch() {
       threadPoolWorkQueue->EnsureThreadRequested();
       if (ThreadPool::EnableWorkerTracking) {
         Boolean flag2 = false;
-        try{
+        try {
           ThreadPool::ReportThreadStatus(true);
           flag2 = true;
           Task task = rt::as<Task>(obj);

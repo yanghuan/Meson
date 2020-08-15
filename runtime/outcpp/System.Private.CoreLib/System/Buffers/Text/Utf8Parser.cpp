@@ -405,7 +405,7 @@ Boolean Utf8Parser::TryCreateDateTimeOffset(DateTime dateTime, Boolean offsetNeg
   if (offsetNegative) {
     num = -num;
   }
-  try{
+  try {
     value = DateTimeOffset(dateTime.get_Ticks(), TimeSpan(num));
   } catch (ArgumentOutOfRangeException) {
   }
@@ -431,7 +431,7 @@ Boolean Utf8Parser::TryCreateDateTimeOffsetInterpretingDataAsLocalTime(Int32 yea
     value = DateTimeOffset();
     return false;
   }
-  try{
+  try {
     value = DateTimeOffset(value2);
   } catch (ArgumentOutOfRangeException) {
   }

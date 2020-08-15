@@ -4257,7 +4257,7 @@ String SR::InternalGetResourceString(String key) {
     return key;
   }
   Boolean lockTaken = false;
-  try{
+  try {
     Monitor::Enter(_lock, lockTaken);
     if (_currentlyLoading != nullptr && _currentlyLoading->get_Count() > 0 && _currentlyLoading->LastIndexOf(key) != -1) {
       if (_infinitelyRecursingCount > 0) {
@@ -4298,7 +4298,7 @@ String SR::GetResourceString(String resourceKey, String defaultString) {
   if (UsingResourceKeys()) {
   }
   String text = nullptr;
-  try{
+  try {
     text = InternalGetResourceString(resourceKey);
   } catch (MissingManifestResourceException) {
   }

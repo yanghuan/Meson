@@ -108,7 +108,7 @@ void EventProvider___::Finalize() {
 }
 
 void EventProvider___::EtwEnableCallBack(Guid& sourceId, Int32 controlCode, Byte setLevel, Int64 anyKeyword, Int64 allKeyword, Interop::Advapi32::EVENT_FILTER_DESCRIPTOR* filterData, void* callbackContext) {
-  try{
+  try {
     ControllerCommand command = ControllerCommand::Update;
     IDictionary<String, String> dictionary = nullptr;
     Boolean flag = false;
@@ -174,10 +174,10 @@ void EventProvider___::GetSessionInfo(SessionInfoCallback action, List<SessionIn
   Byte default[(Int32)(UInt32)ReturnLength] = {};
   Byte* ptr = default;
   Byte* ptr2 = ptr;
-  try{
+  try {
     while (true) {
       Int32 num = 0;
-      try{
+      try {
         {
           Guid* inBuffer = &m_providerId;
           num = Interop::Advapi32::EnumerateTraceGuidsEx(Interop::Advapi32::TRACE_QUERY_INFO_CLASS::TraceGuidQueryInfo, inBuffer, sizeof(Guid), ptr2, ReturnLength, ReturnLength);
@@ -431,7 +431,7 @@ Object EventProvider___::EncodeObject(Object& data, EventData*& dataDescriptor, 
       break;
     }
     if (rt::is<Enum>(data)) {
-      try{
+      try {
         Type underlyingType = Enum::in::GetUnderlyingType(data->GetType());
         if (underlyingType == rt::typeof<UInt64>()) {
           data = (UInt64)data;
@@ -634,7 +634,7 @@ void EventProvider___::EventUnregister(Int64 registrationHandle) {
 Int32 EventProvider___::SetInformation(Interop::Advapi32::EVENT_INFO_CLASS eventInfoClass, IntPtr data, UInt32 dataSize) {
   Int32 result = 50;
   if (!m_setInformationMissing) {
-    try{
+    try {
       result = Interop::Advapi32::EventSetInformation(m_regHandle, eventInfoClass, (void*)data, (Int32)dataSize);
       return result;
     } catch (TypeLoadException) {

@@ -2007,7 +2007,7 @@ Decimal Decimal::Subtract(Decimal d1, Decimal d2) {
 
 Byte Decimal::ToByte(Decimal value) {
   UInt32 num;
-  try{
+  try {
     num = ToUInt32(value);
   } catch (OverflowException) {
   }
@@ -2019,7 +2019,7 @@ Byte Decimal::ToByte(Decimal value) {
 
 SByte Decimal::ToSByte(Decimal value) {
   Int32 num;
-  try{
+  try {
     num = ToInt32(value);
   } catch (OverflowException) {
   }
@@ -2031,7 +2031,7 @@ SByte Decimal::ToSByte(Decimal value) {
 
 Int16 Decimal::ToInt16(Decimal value) {
   Int32 num;
-  try{
+  try {
     num = ToInt32(value);
   } catch (OverflowException) {
   }
@@ -2083,7 +2083,7 @@ Int64 Decimal::ToInt64(Decimal d) {
 
 UInt16 Decimal::ToUInt16(Decimal value) {
   UInt32 num;
-  try{
+  try {
     num = ToUInt32(value);
   } catch (OverflowException) {
   }
@@ -2184,7 +2184,7 @@ SByte Decimal::op_Explicit(Decimal value, SByte) {
 }
 
 Char Decimal::op_Explicit(Decimal value, Char) {
-  try{
+  try {
     return (Char)ToUInt16(value);
   } catch (OverflowException innerException) {
   }

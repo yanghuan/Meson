@@ -105,7 +105,7 @@ Boolean SemaphoreSlim___::Wait(Int32 millisecondsTimeout, CancellationToken canc
   Task<Boolean> task = nullptr;
   Boolean lockTaken = false;
   CancellationTokenRegistration cancellationTokenRegistration = cancellationToken.UnsafeRegister(s_cancellationTokenCanceledEventHandler, (SemaphoreSlim)this);
-  try{
+  try {
     if (m_currentCount == 0) {
       Int32 num = SpinWait::SpinCountforSpinBeforeWait * 4;
       SpinWait spinWait = SpinWait();
@@ -116,7 +116,7 @@ Boolean SemaphoreSlim___::Wait(Int32 millisecondsTimeout, CancellationToken canc
         }
       }
     }
-    try{
+    try {
     } catch (...) {
     } finally: {
       Monitor::Enter(m_lockObjAndDisposed, lockTaken);
@@ -132,7 +132,7 @@ Boolean SemaphoreSlim___::Wait(Int32 millisecondsTimeout, CancellationToken canc
         if (millisecondsTimeout == 0) {
           return false;
         }
-        try{
+        try {
           flag = WaitUntilCountOrTimeout(millisecondsTimeout, startTime, cancellationToken);
         } catch (OperationCanceledException ex2) {
         }

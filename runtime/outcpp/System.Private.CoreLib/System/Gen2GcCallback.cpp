@@ -24,7 +24,7 @@ void Gen2GcCallback___::Finalize() {
       _weakTargetObj.Free();
       return;
     }
-    try{
+    try {
       if (!_callback1(target)) {
         return;
       }
@@ -32,7 +32,7 @@ void Gen2GcCallback___::Finalize() {
     }
     goto IL_0054;
   }
-  try{
+  try {
     if (!_callback0()) {
       return;
     }

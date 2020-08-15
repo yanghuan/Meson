@@ -105,7 +105,7 @@ void FrameworkName___::ctor(String frameworkName) {
       if (input.get_Length() > 0 && (input[0] == 118 || input[0] == 86)) {
         input = input.Slice(1);
       }
-      try{
+      try {
         _version = Version::in::Parse(input);
       } catch (Exception innerException) {
       }

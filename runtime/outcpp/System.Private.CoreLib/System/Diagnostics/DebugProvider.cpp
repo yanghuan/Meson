@@ -27,7 +27,7 @@ String DebugProvider___::DebugAssertException___::Terminate(String s) {
 
 void DebugProvider___::Fail(String message, String detailMessage) {
   String stackTrace;
-  try{
+  try {
     stackTrace = rt::newobj<StackTrace>(0, true)->ToString(StackTrace::in::TraceFormat::Normal);
   } catch (...) {
   }

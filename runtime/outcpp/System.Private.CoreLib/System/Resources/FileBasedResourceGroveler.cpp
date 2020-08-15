@@ -49,7 +49,7 @@ ResourceSet FileBasedResourceGroveler___::CreateResourceSet(String file) {
     return rt::newobj<RuntimeResourceSet>(file);
   }
   Array<Object> args = rt::newarr<Array<Object>>(1);
-  try{
+  try {
     return (ResourceSet)Activator::CreateInstance(_mediator->get_UserResourceSet(), rt::newarr<Array<Object>>(1, args));
   } catch (MissingMethodException innerException) {
   }

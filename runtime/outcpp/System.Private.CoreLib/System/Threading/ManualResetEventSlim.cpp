@@ -207,7 +207,7 @@ Boolean ManualResetEventSlim___::Wait(Int32 millisecondsTimeout, CancellationTok
             get_Waiters()--;
             return true;
           }
-          try{
+          try {
             if (!Monitor::Wait(m_lock, num)) {
               return false;
             }

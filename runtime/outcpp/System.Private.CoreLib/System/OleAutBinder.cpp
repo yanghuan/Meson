@@ -23,7 +23,7 @@ Object OleAutBinder___::ChangeType(Object value, Type type, CultureInfo cultureI
   if (type->get_IsEnum() && type2->get_IsPrimitive()) {
     return Enum::in::Parse(type, value->ToString());
   }
-  try{
+  try {
     return OAVariantLib::ChangeType(source, type, 16, cultureInfo).ToObject();
   } catch (NotSupportedException) {
   }

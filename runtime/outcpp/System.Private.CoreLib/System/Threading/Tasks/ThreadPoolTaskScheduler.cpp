@@ -26,7 +26,7 @@ Boolean ThreadPoolTaskScheduler___::TryExecuteTaskInline(Task<> task, Boolean ta
   if (taskWasPreviouslyQueued && !ThreadPool::TryPopCustomWorkItem(task)) {
     return false;
   }
-  try{
+  try {
     task->ExecuteEntryUnsafe(nullptr);
   } catch (...) {
   } finally: {

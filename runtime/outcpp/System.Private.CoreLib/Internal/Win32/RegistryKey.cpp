@@ -59,7 +59,7 @@ RegistryKey RegistryKey___::OpenSubKey(String name, Boolean writable) {
 Array<String> RegistryKey___::GetSubKeyNames() {
   List<String> list = rt::newobj<List<String>>();
   Array<Char> array = ArrayPool<Char>::in::get_Shared()->Rent(256);
-  try{
+  try {
     Int32 lpcbName = array->get_Length();
     Int32 num;
     while ((num = Interop::Advapi32::RegEnumKeyEx(_hkey, list->get_Count(), array, lpcbName, nullptr, nullptr, nullptr, nullptr)) != 259) {
@@ -80,7 +80,7 @@ Array<String> RegistryKey___::GetSubKeyNames() {
 Array<String> RegistryKey___::GetValueNames() {
   List<String> list = rt::newobj<List<String>>();
   Array<Char> array = ArrayPool<Char>::in::get_Shared()->Rent(100);
-  try{
+  try {
     Int32 lpcbValueName = array->get_Length();
     Int32 num;
     while ((num = Interop::Advapi32::RegEnumValue(_hkey, list->get_Count(), array, lpcbValueName, IntPtr::Zero, nullptr, nullptr, nullptr)) != 259) {

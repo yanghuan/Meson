@@ -123,7 +123,7 @@ Int32 BinaryReader___::Read() {
     if (num3 == 0) {
       return -1;
     }
-    try{
+    try {
       num = _decoder->GetChars(ReadOnlySpan<Byte>(_charBytes, 0, num3), chars, false);
     } catch (...) {
     }
@@ -194,7 +194,7 @@ Double BinaryReader___::ReadDouble() {
 
 Decimal BinaryReader___::ReadDecimal() {
   ReadOnlySpan<Byte> span = InternalRead(16);
-  try{
+  try {
     return Decimal::ToDecimal(span);
   } catch (ArgumentException innerException) {
   }

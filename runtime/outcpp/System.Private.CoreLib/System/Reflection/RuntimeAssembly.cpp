@@ -393,7 +393,7 @@ Array<Type> RuntimeAssembly___::GetForwardedTypes() {
 
 void RuntimeAssembly___::AddPublicNestedTypes(Type type, List<Type> types, List<Exception> exceptions) {
   Array<Type> nestedTypes;
-  try{
+  try {
     nestedTypes = type->GetNestedTypes(BindingFlags::Public);
   } catch (Exception item) {
   }

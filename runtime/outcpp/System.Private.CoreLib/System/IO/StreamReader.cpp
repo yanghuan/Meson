@@ -189,7 +189,7 @@ void StreamReader___::Dispose(Boolean disposing) {
   if (!_closable) {
     return;
   }
-  try{
+  try {
     if (disposing) {
       _stream->Close();
     }

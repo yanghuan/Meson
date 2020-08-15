@@ -28,7 +28,7 @@ void EventPipeInternal::EventPipeProviderConfigurationNative::Release() {
 UInt64 EventPipeInternal::Enable(String outputFile, EventPipeSerializationFormat format, UInt32 circularBufferSizeInMB, Array<EventPipeProviderConfiguration> providers) {
   Span<EventPipeProviderConfigurationNative> span = Span<EventPipeProviderConfigurationNative>((void*)Marshal::AllocCoTaskMem(sizeof(EventPipeProviderConfigurationNative) * providers->get_Length()), providers->get_Length());
   span.Clear();
-  try{
+  try {
     for (Int32 i = 0; i < providers->get_Length(); i++) {
       EventPipeProviderConfigurationNative::MarshalToNative(providers[i], span[i]);
     }

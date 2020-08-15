@@ -260,7 +260,7 @@ void UriBuilder___::ctor(String scheme, String host, Int32 port, String pathValu
 }
 
 void UriBuilder___::ctor(String scheme, String host, Int32 port, String path, String extraValue) {
-  try{
+  try {
     set_Extra() = extraValue;
   } catch (Exception ex) {
   }

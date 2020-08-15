@@ -773,7 +773,7 @@ void EventSource___::WriteEventWithRelatedActivityIdCore(Int32 eventId, Guid* re
   if (!m_eventSourceEnabled) {
     return;
   }
-  try{
+  try {
     if (relatedActivityId != nullptr) {
       ValidateEventOpcodeForTransfer(m_eventData[eventId], m_eventData[eventId].Name);
     }
@@ -843,7 +843,7 @@ void EventSource___::Dispose() {
 void EventSource___::Dispose(Boolean disposing) {
   if (disposing) {
     if (m_eventSourceEnabled) {
-      try{
+      try {
         SendManifest(m_rawManifest);
       } catch (...) {
       }
@@ -894,7 +894,7 @@ void EventSource___::ctor(Guid eventSourceGuid, String eventSourceName, EventSou
 }
 
 void EventSource___::Initialize(Guid eventSourceGuid, String eventSourceName, Array<String> traits) {
-  try{
+  try {
     m_traits = traits;
     if (m_traits != nullptr && m_traits->get_Length() % 2 != 0) {
       rt::throw_exception<ArgumentException>(SR::get_EventSource_TraitEven(), "traits");
@@ -1027,7 +1027,7 @@ Object EventSource___::DecodeObject(Int32 eventId, Int32 parameterId, EventData*
     if (type == rt::typeof<Byte*>()) {
       break;
     }
-    try{
+    try {
       m_EventSourceInDecodeObject = true;
       if (ReflectionExtensions::IsEnum(type)) {
         type = Enum::in::GetUnderlyingType(type);
@@ -1063,7 +1063,7 @@ void EventSource___::WriteEventVarargs(Int32 eventId, Guid* childActivityID, Arr
   if (!m_eventSourceEnabled) {
     return;
   }
-  try{
+  try {
     if (childActivityID != nullptr) {
       ValidateEventOpcodeForTransfer(m_eventData[eventId], m_eventData[eventId].Name);
       if (!m_eventData[eventId].HasRelatedActivityID) {
@@ -1200,7 +1200,7 @@ void EventSource___::DispatchToAllListeners(Int32 eventId, EventWrittenEventArgs
   Exception ex = nullptr;
   for (EventDispatcher eventDispatcher = m_Dispatchers; eventDispatcher != nullptr; eventDispatcher = eventDispatcher->m_Next) {
     if (eventId == -1 || eventDispatcher->m_EventEnabled[eventId]) {
-      try{
+      try {
         eventDispatcher->m_Listener->OnEventWritten(eventCallbackArgs);
       } catch (Exception ex2) {
       }
@@ -1288,7 +1288,7 @@ void EventSource___::WriteStringToAllListeners(String eventName, String msg) {
         }
       }
     }
-    try{
+    try {
       if (flag) {
         eventDispatcher->m_Listener->OnEventWritten(eventWrittenEventArgs);
       }
@@ -1332,7 +1332,7 @@ void EventSource___::ThrowEventSourceException(String eventName, Exception inner
   if (m_EventSourceExceptionRecurenceCount > 0) {
     return;
   }
-  try{
+  try {
     m_EventSourceExceptionRecurenceCount++;
     String text = "EventSourceException";
     if (eventName != nullptr) {
@@ -1432,7 +1432,7 @@ void EventSource___::DoCommand(EventCommandEventArgs commandArgs) {
     return;
   }
   m_outOfBandMessageCount = 0;
-  try{
+  try {
     EnsureDescriptorsInitialized();
     commandArgs->dispatcher = GetDispatcher(commandArgs->listener);
     if (commandArgs->dispatcher == nullptr && commandArgs->listener != nullptr) {
@@ -1666,7 +1666,7 @@ Array<Byte> EventSource___::CreateManifestAndDescriptors(Type eventSourceType, S
   if (ReflectionExtensions::IsAbstract(eventSourceType) && (flags & EventManifestOptions::Strict) == 0) {
     return nullptr;
   }
-  try{
+  try {
     Array<MethodInfo> methods = eventSourceType->GetMethods(BindingFlags::DeclaredOnly | BindingFlags::Instance | BindingFlags::Public | BindingFlags::NonPublic);
     Int32 num = 1;
     Array<EventMetadata> eventData = nullptr;
@@ -1930,7 +1930,7 @@ Int32 EventSource___::GetHelperCallFirstArg(MethodInfo method) {
 }
 
 void EventSource___::ReportOutOfBandMessage(String msg) {
-  try{
+  try {
     Debugger::Log(0, nullptr, String::in::Format("EventSource Error: {0}{1}", msg, Environment::get_NewLine()));
     if (m_outOfBandMessageCount < 15) {
       m_outOfBandMessageCount++;
@@ -2032,7 +2032,7 @@ void EventSource___::WriteMultiMergeInner(String eventName, EventSourceOptions& 
         ptr[1].SetMetadata(pointer2, nameInfo->nameMetadata->get_Length(), 1);
         ptr[2].SetMetadata(pointer3, eventTypes->typeMetadata->get_Length(), 1);
         RuntimeHelpers::PrepareConstrainedRegions();
-        try{
+        try {
           DataCollector::ThreadInstance.Enable(scratch, eventTypes->scratchSize, ptr + 3, eventTypes->dataCount, ptr2, pinCount);
           for (Int32 k = 0; k < eventTypes->typeInfos->get_Length(); k++) {
             TraceLoggingTypeInfo traceLoggingTypeInfo = eventTypes->typeInfos[k];
@@ -2092,8 +2092,8 @@ void EventSource___::WriteMultiMerge(String eventName, EventSourceOptions& optio
 }
 
 void EventSource___::WriteImpl(String eventName, EventSourceOptions& options, Object data, Guid* pActivityId, Guid* pRelatedActivityId, TraceLoggingEventTypes eventTypes) {
-  try{
-    try{
+  try {
+    try {
       {
         EventSourceOptions* ptr3 = &options;
         options.set_Opcode = (options.get_IsOpcodeSet() ? options.get_Opcode() : GetOpcodeWithDefault(options.get_Opcode(), eventName));
@@ -2116,7 +2116,7 @@ void EventSource___::WriteImpl(String eventName, EventSourceOptions& options, Ob
         for (Int32 j = 0; j < pinCount; j++) {
           ptr2[j] = GCHandle();
         }
-        try{
+        try {
           {
             Byte* pointer = providerMetadata;
             {
@@ -2146,7 +2146,7 @@ void EventSource___::WriteImpl(String eventName, EventSourceOptions& options, Ob
                     pRelatedActivityId = &relatedActivityId;
                   }
                 }
-                try{
+                try {
                   DataCollector::ThreadInstance.Enable(scratch, eventTypes->scratchSize, ptr + 3, eventTypes->dataCount, ptr2, pinCount);
                   TraceLoggingTypeInfo traceLoggingTypeInfo = eventTypes->typeInfos[0];
                   traceLoggingTypeInfo->WriteData(TraceLoggingDataCollector::in::Instance, traceLoggingTypeInfo->get_PropertyValueFactory()(data));

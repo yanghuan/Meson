@@ -430,7 +430,7 @@ Boolean DateTimeParse::Lex(DS dps, __DTString& str, DateTimeToken& dtok, DateTim
             }
             break;
           case TokenType::SEP_YearSuff:
-            try{
+            try {
               dtok.num = dtfi->get_Calendar()->ToFourDigitYear(tokenValue);
             } catch (ArgumentOutOfRangeException) {
             }
@@ -836,7 +836,7 @@ Boolean DateTimeParse::GetMonthDayOrder(String pattern, Int32& order) {
 
 Boolean DateTimeParse::TryAdjustYear(DateTimeResult& result, Int32 year, Int32& adjustedYear) {
   if (year < 100) {
-    try{
+    try {
       year = result.calendar->ToFourDigitYear(year);
     } catch (ArgumentOutOfRangeException) {
     }
@@ -2681,7 +2681,7 @@ Boolean DateTimeParse::DoStrictParse(ReadOnlySpan<Char> s, ReadOnlySpan<Char> fo
       result.SetBadDateTimeFailure();
       return false;
     }
-    try{
+    try {
       result.Year = parseInfo.calendar->ToFourDigitYear(result.Year);
     } catch (ArgumentOutOfRangeException) {
     }

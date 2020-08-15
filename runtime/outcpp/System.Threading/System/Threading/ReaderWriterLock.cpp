@@ -186,7 +186,7 @@ void ReaderWriterLock___::AcquireReaderLock(Int32 millisecondsTimeout) {
       Int32 num4 = -8192;
       ManualResetEventSlim manualResetEventSlim = nullptr;
       Boolean flag = false;
-      try{
+      try {
         manualResetEventSlim = GetOrCreateReaderEvent();
         flag = manualResetEventSlim->Wait(millisecondsTimeout);
         if (flag) {
@@ -273,7 +273,7 @@ void ReaderWriterLock___::AcquireWriterLock(Int32 millisecondsTimeout) {
       Int32 num4 = -8388608;
       AutoResetEvent autoResetEvent = nullptr;
       Boolean flag = false;
-      try{
+      try {
         autoResetEvent = GetOrCreateWriterEvent();
         flag = autoResetEvent->WaitOne(millisecondsTimeout);
         if (flag) {
@@ -469,7 +469,7 @@ LockCookie ReaderWriterLock___::UpgradeToWriterLock(Int32 millisecondsTimeout) {
     ReleaseReaderLock();
   }
   Boolean flag = false;
-  try{
+  try {
     AcquireWriterLock(millisecondsTimeout);
     flag = true;
     return lockCookie;
@@ -646,14 +646,14 @@ AutoResetEvent ReaderWriterLock___::GetOrCreateWriterEvent() {
 }
 
 ManualResetEventSlim ReaderWriterLock___::TryGetOrCreateReaderEvent() {
-  try{
+  try {
     return GetOrCreateReaderEvent();
   } catch (...) {
   }
 }
 
 AutoResetEvent ReaderWriterLock___::TryGetOrCreateWriterEvent() {
-  try{
+  try {
     return GetOrCreateWriterEvent();
   } catch (...) {
   }

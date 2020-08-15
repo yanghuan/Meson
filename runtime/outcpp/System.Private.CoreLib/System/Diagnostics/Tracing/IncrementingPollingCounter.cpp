@@ -21,7 +21,7 @@ String IncrementingPollingCounter___::ToString() {
 }
 
 void IncrementingPollingCounter___::UpdateMetric() {
-  try{
+  try {
     {
       rt::lock((IncrementingPollingCounter)this);
       _prevIncrement = _increment;

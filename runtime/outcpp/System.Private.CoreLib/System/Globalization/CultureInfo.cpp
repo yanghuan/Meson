@@ -372,7 +372,7 @@ void CultureInfo___::ctor(String cultureName, String textAndCompareCultureName) 
 }
 
 CultureInfo CultureInfo___::GetCultureByName(String name) {
-  try{
+  try {
     return rt::newobj<CultureInfo>(name);
   } catch (ArgumentException) {
   }
@@ -380,7 +380,7 @@ CultureInfo CultureInfo___::GetCultureByName(String name) {
 
 CultureInfo CultureInfo___::CreateSpecificCulture(String name) {
   CultureInfo cultureInfo;
-  try{
+  try {
     cultureInfo = rt::newobj<CultureInfo>(name);
   } catch (ArgumentException) {
   }
@@ -571,7 +571,7 @@ CultureInfo CultureInfo___::GetCultureInfo(Int32 culture) {
       return value;
     }
   }
-  try{
+  try {
     value = rt::newobj<CultureInfo>(culture, false);
   } catch (ArgumentException) {
   }
@@ -624,7 +624,7 @@ CultureInfo CultureInfo___::GetCultureInfo(String name, String altName) {
       return value;
     }
   }
-  try{
+  try {
     value = rt::newobj<CultureInfo>(name, altName);
     value->get_TextInfo()->SetReadOnlyState(true);
   } catch (ArgumentException) {

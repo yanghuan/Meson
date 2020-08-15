@@ -46,7 +46,7 @@ void UnmanagedMemoryStreamWrapper___::ctor(UnmanagedMemoryStream stream) {
 }
 
 void UnmanagedMemoryStreamWrapper___::Dispose(Boolean disposing) {
-  try{
+  try {
     if (disposing) {
       _unmanagedStream->Dispose();
     }

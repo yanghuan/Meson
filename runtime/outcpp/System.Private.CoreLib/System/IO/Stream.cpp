@@ -82,7 +82,7 @@ ValueTask<> WriteCallbackStream___::WriteAsync(ReadOnlyMemory<Byte> buffer, Canc
   if (_func != nullptr) {
     return _func(buffer, _state, cancellationToken);
   }
-  try{
+  try {
     cancellationToken.ThrowIfCancellationRequested();
     _action(buffer.get_Span(), _state);
     return ValueTask();
@@ -409,7 +409,7 @@ void SyncStream___::ctor(Stream stream) {
 void SyncStream___::Close() {
   {
     rt::lock(_stream);
-    try{
+    try {
       _stream->Close();
     } catch (...) {
     } finally: {
@@ -421,7 +421,7 @@ void SyncStream___::Close() {
 void SyncStream___::Dispose(Boolean disposing) {
   {
     rt::lock(_stream);
-    try{
+    try {
       if (disposing) {
         ((IDisposable)_stream)->Dispose();
       }
@@ -582,7 +582,7 @@ Task<> Stream___::CopyToAsync(Stream destination, Int32 bufferSize, Cancellation
 
 Task<> Stream___::CopyToAsyncInternal(Stream destination, Int32 bufferSize, CancellationToken cancellationToken) {
   Array<Byte> buffer = ArrayPool<Byte>::in::get_Shared()->Rent(bufferSize);
-  try{
+  try {
     while (true) {
     }
   } catch (...) {
@@ -599,7 +599,7 @@ void Stream___::CopyTo(Stream destination) {
 void Stream___::CopyTo(Stream destination, Int32 bufferSize) {
   StreamHelpers::ValidateCopyToArgs((Stream)this, destination, bufferSize);
   Array<Byte> array = ArrayPool<Byte>::in::get_Shared()->Rent(bufferSize);
-  try{
+  try {
     Int32 count;
     while ((count = Read(array, 0, array->get_Length())) != 0) {
       destination->Write(array, 0, count);
@@ -654,7 +654,7 @@ void Stream___::Dispose(Boolean disposing) {
 }
 
 ValueTask<> Stream___::DisposeAsync() {
-  try{
+  try {
     Dispose();
     return ValueTask();
   } catch (Exception exception) {
@@ -703,7 +703,7 @@ Int32 Stream___::EndRead(IAsyncResult asyncResult) {
   if (!readWriteTask->_isRead) {
     rt::throw_exception<ArgumentException>(SR::get_InvalidOperation_WrongAsyncResultOrEndReadCalledMultiple());
   }
-  try{
+  try {
     return readWriteTask->GetAwaiter().GetResult();
   } catch (...) {
   } finally: {
@@ -724,7 +724,7 @@ Task<Int32> Stream___::ReadAsync(Array<Byte> buffer, Int32 offset, Int32 count, 
 
 ValueTask<Int32> Stream___::ReadAsync(Memory<Byte> buffer, CancellationToken cancellationToken) {
   auto FinishReadAsync = [](Task<Int32> readTask, Array<Byte> localBuffer, Memory<Byte> localDestination) -> ValueTask<Int32> {
-    try{
+    try {
     } catch (...) {
     } finally: {
       ArrayPool<Byte>::in::get_Shared()->Return(localBuffer);
@@ -792,7 +792,7 @@ void Stream___::EndWrite(IAsyncResult asyncResult) {
   if (readWriteTask->_isRead) {
     rt::throw_exception<ArgumentException>(SR::get_InvalidOperation_WrongAsyncResultOrEndWriteCalledMultiple());
   }
-  try{
+  try {
     readWriteTask->GetAwaiter().GetResult();
   } catch (...) {
   } finally: {
@@ -822,7 +822,7 @@ ValueTask<> Stream___::WriteAsync(ReadOnlyMemory<Byte> buffer, CancellationToken
 }
 
 Task<> Stream___::FinishWriteAsync(Task<> writeTask, Array<Byte> localBuffer) {
-  try{
+  try {
   } catch (...) {
   } finally: {
     ArrayPool<Byte>::in::get_Shared()->Return(localBuffer);
@@ -837,7 +837,7 @@ Task<> Stream___::BeginEndWriteAsync(Array<Byte> buffer, Int32 offset, Int32 cou
 
 Int32 Stream___::Read(Span<Byte> buffer) {
   Array<Byte> array = ArrayPool<Byte>::in::get_Shared()->Rent(buffer.get_Length());
-  try{
+  try {
     Int32 num = Read(array, 0, buffer.get_Length());
     if ((UInt32)num > (UInt32)buffer.get_Length()) {
       rt::throw_exception<IOException>(SR::get_IO_StreamTooLong());
@@ -860,7 +860,7 @@ Int32 Stream___::ReadByte() {
 
 void Stream___::Write(ReadOnlySpan<Byte> buffer) {
   Array<Byte> array = ArrayPool<Byte>::in::get_Shared()->Rent(buffer.get_Length());
-  try{
+  try {
     buffer.CopyTo(array);
     Write(array, 0, buffer.get_Length());
   } catch (...) {
@@ -888,7 +888,7 @@ void Stream___::ObjectInvariant() {
 
 IAsyncResult Stream___::BlockingBeginRead(Array<Byte> buffer, Int32 offset, Int32 count, AsyncCallback callback, Object state) {
   SynchronousAsyncResult synchronousAsyncResult;
-  try{
+  try {
     Int32 bytesRead = Read(buffer, offset, count);
     synchronousAsyncResult = rt::newobj<SynchronousAsyncResult>(bytesRead, state);
   } catch (IOException ex) {
@@ -904,7 +904,7 @@ Int32 Stream___::BlockingEndRead(IAsyncResult asyncResult) {
 
 IAsyncResult Stream___::BlockingBeginWrite(Array<Byte> buffer, Int32 offset, Int32 count, AsyncCallback callback, Object state) {
   SynchronousAsyncResult synchronousAsyncResult;
-  try{
+  try {
     Write(buffer, offset, count);
     synchronousAsyncResult = rt::newobj<SynchronousAsyncResult>(state);
   } catch (IOException ex) {

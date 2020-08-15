@@ -480,7 +480,7 @@ MethodInfo RuntimeMethodInfo___::MakeGenericMethod(Array<Type> methodInstantiati
   Array<RuntimeType> genericArgumentsInternal = GetGenericArgumentsInternal();
   RuntimeType::in::SanityCheckGenericArguments(array, genericArgumentsInternal);
   MethodInfo methodInfo = nullptr;
-  try{
+  try {
     return rt::as<MethodInfo>(RuntimeType::in::GetMethodBase(get_ReflectedTypeInternal(), RuntimeMethodHandle::GetStubIfNeeded(RuntimeMethodHandleInternal(m_handle), m_declaringType, array)));
   } catch (VerificationException e) {
   }

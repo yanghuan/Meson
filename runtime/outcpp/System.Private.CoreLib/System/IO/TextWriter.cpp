@@ -362,7 +362,7 @@ void TextWriter___::Dispose() {
 }
 
 ValueTask<> TextWriter___::DisposeAsync() {
-  try{
+  try {
     Dispose();
     return ValueTask();
   } catch (Exception exception) {
@@ -401,7 +401,7 @@ void TextWriter___::Write(Array<Char> buffer, Int32 index, Int32 count) {
 
 void TextWriter___::Write(ReadOnlySpan<Char> buffer) {
   Array<Char> array = ArrayPool<Char>::in::get_Shared()->Rent(buffer.get_Length());
-  try{
+  try {
     buffer.CopyTo(Span<Char>(array));
     Write(array, 0, buffer.get_Length());
   } catch (...) {
@@ -505,7 +505,7 @@ void TextWriter___::WriteLine(Array<Char> buffer, Int32 index, Int32 count) {
 
 void TextWriter___::WriteLine(ReadOnlySpan<Char> buffer) {
   Array<Char> array = ArrayPool<Char>::in::get_Shared()->Rent(buffer.get_Length());
-  try{
+  try {
     buffer.CopyTo(Span<Char>(array));
     WriteLine(array, 0, buffer.get_Length());
   } catch (...) {

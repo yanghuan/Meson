@@ -50,7 +50,7 @@ Calendar TaiwanCalendar___::GetDefaultInstance() {
 }
 
 void TaiwanCalendar___::ctor() {
-  try{
+  try {
     rt::newobj<CultureInfo>("zh-TW");
   } catch (ArgumentException innerException) {
   }
