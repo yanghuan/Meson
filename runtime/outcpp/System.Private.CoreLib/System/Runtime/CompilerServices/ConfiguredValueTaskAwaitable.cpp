@@ -2,6 +2,7 @@
 
 #include <System.Private.CoreLib/Internal/Runtime/CompilerServices/Unsafe-dep.h>
 #include <System.Private.CoreLib/System/Object-dep.h>
+#include <System.Private.CoreLib/System/Runtime/CompilerServices/ConfiguredValueTaskAwaitable-dep.h>
 #include <System.Private.CoreLib/System/Runtime/CompilerServices/ValueTaskAwaiter-dep.h>
 #include <System.Private.CoreLib/System/Threading/Tasks/Sources/IValueTaskSource.h>
 #include <System.Private.CoreLib/System/Threading/Tasks/Sources/ValueTaskSourceOnCompletedFlags.h>
@@ -26,28 +27,36 @@ void ConfiguredValueTaskAwaitable<>::ConfiguredValueTaskAwaiter::GetResult() {
 
 void ConfiguredValueTaskAwaitable<>::ConfiguredValueTaskAwaiter::OnCompleted(Action<> continuation) {
   Object obj = _value._obj;
-  Task task = rt::as<Task>(obj);
+  Task<> task = rt::as<Task<>>(obj);
   if (task != nullptr) {
     task->ConfigureAwait(_value._continueOnCapturedContext).GetAwaiter().OnCompleted(continuation);
   } else if (obj != nullptr) {
-    Unsafe::As<IValueTaskSource>(obj)->OnCompleted(ValueTaskAwaiter::s_invokeActionDelegate, continuation, _value._token, (ValueTaskSourceOnCompletedFlags)(2 | (_value._continueOnCapturedContext ? 1 : 0)));
+    Unsafe::As<IValueTaskSource<>>(obj)->OnCompleted(ValueTaskAwaiter<>::s_invokeActionDelegate, continuation, _value._token, (ValueTaskSourceOnCompletedFlags)(2 | (_value._continueOnCapturedContext ? 1 : 0)));
   } else {
-    ValueTask::get_CompletedTask()->ConfigureAwait(_value._continueOnCapturedContext).GetAwaiter().OnCompleted(continuation);
+    ValueTask<>::get_CompletedTask()->ConfigureAwait(_value._continueOnCapturedContext).GetAwaiter().OnCompleted(continuation);
   }
 
 }
 
 void ConfiguredValueTaskAwaitable<>::ConfiguredValueTaskAwaiter::UnsafeOnCompleted(Action<> continuation) {
   Object obj = _value._obj;
-  Task task = rt::as<Task>(obj);
+  Task<> task = rt::as<Task<>>(obj);
   if (task != nullptr) {
     task->ConfigureAwait(_value._continueOnCapturedContext).GetAwaiter().UnsafeOnCompleted(continuation);
   } else if (obj != nullptr) {
-    Unsafe::As<IValueTaskSource>(obj)->OnCompleted(ValueTaskAwaiter::s_invokeActionDelegate, continuation, _value._token, _value._continueOnCapturedContext ? ValueTaskSourceOnCompletedFlags::UseSchedulingContext : ValueTaskSourceOnCompletedFlags::None);
+    Unsafe::As<IValueTaskSource<>>(obj)->OnCompleted(ValueTaskAwaiter<>::s_invokeActionDelegate, continuation, _value._token, _value._continueOnCapturedContext ? ValueTaskSourceOnCompletedFlags::UseSchedulingContext : ValueTaskSourceOnCompletedFlags::None);
   } else {
-    ValueTask::get_CompletedTask()->ConfigureAwait(_value._continueOnCapturedContext).GetAwaiter().UnsafeOnCompleted(continuation);
+    ValueTask<>::get_CompletedTask()->ConfigureAwait(_value._continueOnCapturedContext).GetAwaiter().UnsafeOnCompleted(continuation);
   }
 
+}
+
+ConfiguredValueTaskAwaitable<>::ConfiguredValueTaskAwaitable(ValueTask<>& value) {
+  _value = value;
+}
+
+ConfiguredValueTaskAwaitable<>::ConfiguredValueTaskAwaiter ConfiguredValueTaskAwaitable<>::GetAwaiter() {
+  return ConfiguredValueTaskAwaiter(_value);
 }
 
 } // namespace System::Private::CoreLib::System::Runtime::CompilerServices::ConfiguredValueTaskAwaitableNamespace

@@ -11,13 +11,13 @@ void ContinueWithTaskContinuation___::ctor(Task<> task, TaskContinuationOptions 
   m_options = options;
   m_taskScheduler = scheduler;
   _ = AsyncCausalityTracer::get_LoggingOn();
-  if (Task::in::s_asyncDebuggingEnabled) {
-    Task::in::AddToActiveTasks(m_task);
+  if (Task<>::in::s_asyncDebuggingEnabled) {
+    Task<>::in::AddToActiveTasks(m_task);
   }
 }
 
 void ContinueWithTaskContinuation___::Run(Task<> completedTask, Boolean canInlineContinuationTask) {
-  Task task = m_task;
+  Task<> task = m_task;
   m_task = nullptr;
   TaskContinuationOptions options = m_options;
   if (completedTask->get_IsCompletedSuccessfully() ? ((options & TaskContinuationOptions::NotOnRanToCompletion) == 0) : (completedTask->get_IsCanceled() ? ((options & TaskContinuationOptions::NotOnCanceled) == 0) : ((options & TaskContinuationOptions::NotOnFaulted) == 0))) {
@@ -34,7 +34,7 @@ void ContinueWithTaskContinuation___::Run(Task<> completedTask, Boolean canInlin
     } catch (TaskSchedulerException) {
     }
   } else {
-    Task::in::ContingentProperties contingentProperties = task->m_contingentProperties;
+    Task<>::in::ContingentProperties contingentProperties = task->m_contingentProperties;
     if (contingentProperties == nullptr || contingentProperties->m_cancellationToken == CancellationToken()) {
       task->InternalCancelContinueWithInitialState();
     } else {

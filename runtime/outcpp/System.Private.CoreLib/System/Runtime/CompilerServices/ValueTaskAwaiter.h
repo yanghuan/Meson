@@ -21,6 +21,12 @@ template <>
 struct ValueTaskAwaiter<> : public valueType<ValueTaskAwaiter<>> {
   public: using interface = rt::TypeList<ICriticalNotifyCompletion, INotifyCompletion, IStateMachineBoxAwareAwaiter>;
   public: Boolean get_IsCompleted();
+  public: explicit ValueTaskAwaiter(ValueTask<>& value);
+  public: void GetResult();
+  public: void OnCompleted(Action<> continuation);
+  public: void UnsafeOnCompleted(Action<> continuation);
+  private: static void cctor();
+  public: explicit ValueTaskAwaiter() {}
   public: static Action<Object> s_invokeActionDelegate;
   private: ValueTask<> _value;
 };
@@ -28,6 +34,11 @@ template <class TResult>
 struct ValueTaskAwaiter<TResult> : public valueType<ValueTaskAwaiter<TResult>> {
   public: using interface = rt::TypeList<ICriticalNotifyCompletion, INotifyCompletion, IStateMachineBoxAwareAwaiter>;
   public: Boolean get_IsCompleted();
+  public: explicit ValueTaskAwaiter(ValueTask<TResult>& value);
+  public: TResult GetResult();
+  public: void OnCompleted(Action<> continuation);
+  public: void UnsafeOnCompleted(Action<> continuation);
+  public: explicit ValueTaskAwaiter() {}
   private: ValueTask<TResult> _value;
 };
 } // namespace ValueTaskAwaiterNamespace

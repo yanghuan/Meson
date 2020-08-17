@@ -337,7 +337,7 @@ Boolean BitConverter::ToBoolean(ReadOnlySpan<Byte> value) {
 
 Int64 BitConverter::DoubleToInt64Bits(Double value) {
   if (Sse2::in::X64::in::get_IsSupported()) {
-    Vector128<Int64> value2 = Vector128::AsInt64(Vector128::CreateScalarUnsafe(value));
+    Vector128<Int64> value2 = Vector128<>::AsInt64(Vector128<>::CreateScalarUnsafe(value));
     return Sse2::in::X64::in::ConvertToInt64(value2);
   }
   return *(Int64*)(&value);
@@ -345,15 +345,15 @@ Int64 BitConverter::DoubleToInt64Bits(Double value) {
 
 Double BitConverter::Int64BitsToDouble(Int64 value) {
   if (Sse2::in::X64::in::get_IsSupported()) {
-    Vector128<Double> vector = Vector128::AsDouble(Vector128::CreateScalarUnsafe(value));
-    return Vector128::ToScalar(vector);
+    Vector128<Double> vector = Vector128<>::AsDouble(Vector128<>::CreateScalarUnsafe(value));
+    return Vector128<>::ToScalar(vector);
   }
   return *(Double*)(&value);
 }
 
 Int32 BitConverter::SingleToInt32Bits(Single value) {
   if (Sse2::in::get_IsSupported()) {
-    Vector128<Int32> value2 = Vector128::AsInt32(Vector128::CreateScalarUnsafe(value));
+    Vector128<Int32> value2 = Vector128<>::AsInt32(Vector128<>::CreateScalarUnsafe(value));
     return Sse2::in::ConvertToInt32(value2);
   }
   return *(Int32*)(&value);
@@ -361,8 +361,8 @@ Int32 BitConverter::SingleToInt32Bits(Single value) {
 
 Single BitConverter::Int32BitsToSingle(Int32 value) {
   if (Sse2::in::get_IsSupported()) {
-    Vector128<Single> vector = Vector128::AsSingle(Vector128::CreateScalarUnsafe(value));
-    return Vector128::ToScalar(vector);
+    Vector128<Single> vector = Vector128<>::AsSingle(Vector128<>::CreateScalarUnsafe(value));
+    return Vector128<>::ToScalar(vector);
   }
   return *(Single*)(&value);
 }

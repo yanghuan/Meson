@@ -1,5 +1,6 @@
 #include "ConfiguredTaskAwaitable-dep.h"
 
+#include <System.Private.CoreLib/System/Runtime/CompilerServices/ConfiguredTaskAwaitable-dep.h>
 #include <System.Private.CoreLib/System/Runtime/CompilerServices/TaskAwaiter-dep.h>
 
 namespace System::Private::CoreLib::System::Runtime::CompilerServices::ConfiguredTaskAwaitableNamespace {
@@ -13,15 +14,23 @@ ConfiguredTaskAwaitable<>::ConfiguredTaskAwaiter::ConfiguredTaskAwaiter(Task<> t
 }
 
 void ConfiguredTaskAwaitable<>::ConfiguredTaskAwaiter::OnCompleted(Action<> continuation) {
-  TaskAwaiter::OnCompletedInternal(m_task, continuation, m_continueOnCapturedContext, true);
+  TaskAwaiter<>::OnCompletedInternal(m_task, continuation, m_continueOnCapturedContext, true);
 }
 
 void ConfiguredTaskAwaitable<>::ConfiguredTaskAwaiter::UnsafeOnCompleted(Action<> continuation) {
-  TaskAwaiter::OnCompletedInternal(m_task, continuation, m_continueOnCapturedContext, false);
+  TaskAwaiter<>::OnCompletedInternal(m_task, continuation, m_continueOnCapturedContext, false);
 }
 
 void ConfiguredTaskAwaitable<>::ConfiguredTaskAwaiter::GetResult() {
-  TaskAwaiter::ValidateEnd(m_task);
+  TaskAwaiter<>::ValidateEnd(m_task);
+}
+
+ConfiguredTaskAwaitable<>::ConfiguredTaskAwaitable(Task<> task, Boolean continueOnCapturedContext) {
+  m_configuredTaskAwaiter = ConfiguredTaskAwaiter(task, continueOnCapturedContext);
+}
+
+ConfiguredTaskAwaitable<>::ConfiguredTaskAwaiter ConfiguredTaskAwaitable<>::GetAwaiter() {
+  return m_configuredTaskAwaiter;
 }
 
 } // namespace System::Private::CoreLib::System::Runtime::CompilerServices::ConfiguredTaskAwaitableNamespace

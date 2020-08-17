@@ -212,7 +212,7 @@ Task<Boolean> SemaphoreSlim___::WaitAsync(Int32 millisecondsTimeout, Cancellatio
     rt::throw_exception<ArgumentOutOfRangeException>("millisecondsTimeout", millisecondsTimeout, SR::get_SemaphoreSlim_Wait_TimeoutWrong());
   }
   if (cancellationToken.get_IsCancellationRequested()) {
-    return Task::in::FromCanceled<Boolean>(cancellationToken);
+    return Task<>::in::FromCanceled<Boolean>(cancellationToken);
   }
   {
     rt::lock(m_lockObjAndDisposed);
@@ -270,7 +270,7 @@ Task<Boolean> SemaphoreSlim___::WaitUntilCountOrTimeoutAsync(TaskNode asyncWaite
       Object obj = asyncWaiter;
     }
   } else {
-    Task task = rt::newobj<Task>(nullptr, TaskCreationOptions::RunContinuationsAsynchronously, true);
+    Task<> task = rt::newobj<Task<>>(nullptr, TaskCreationOptions::RunContinuationsAsynchronously, true);
   }
   {
     rt::lock(m_lockObjAndDisposed);

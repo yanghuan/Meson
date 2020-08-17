@@ -49,11 +49,11 @@ Int32 Comparer___::Compare(Object a, Object b) {
       return _compareInfo->Compare(text, text2);
     }
   }
-  IComparable comparable = rt::as<IComparable>(a);
+  IComparable<> comparable = rt::as<IComparable<>>(a);
   if (comparable != nullptr) {
     return comparable->CompareTo(b);
   }
-  IComparable comparable2 = rt::as<IComparable>(b);
+  IComparable<> comparable2 = rt::as<IComparable<>>(b);
   if (comparable2 != nullptr) {
     return -comparable2->CompareTo(a);
   }

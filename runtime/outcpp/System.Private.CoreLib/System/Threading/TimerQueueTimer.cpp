@@ -91,19 +91,19 @@ ValueTask<> TimerQueueTimer___::CloseAsync() {
       if (rt::is<WaitHandle>(notifyWhenNoCallbacksRunning)) {
         InvalidOperationException ex = rt::newobj<InvalidOperationException>(SR::get_InvalidOperation_TimerAlreadyClosed());
         ex->SetCurrentStackTrace();
-        return ValueTask(Task::in::FromException(ex));
+        return ValueTask<>(Task<>::in::FromException(ex));
       }
     } else {
       _canceled = true;
       _associatedTimerQueue->DeleteTimer((TimerQueueTimer)this);
     }
     if (_callbacksRunning == 0) {
-      return ValueTask();
+      return ValueTask<>();
     }
     if (notifyWhenNoCallbacksRunning == nullptr) {
-      return ValueTask((Task)(_notifyWhenNoCallbacksRunning = rt::newobj<Task<Boolean>>((Object)nullptr, TaskCreationOptions::RunContinuationsAsynchronously)));
+      return ValueTask<>((Task<>)(_notifyWhenNoCallbacksRunning = rt::newobj<Task<Boolean>>((Object)nullptr, TaskCreationOptions::RunContinuationsAsynchronously)));
     }
-    return ValueTask((Task<Boolean>)notifyWhenNoCallbacksRunning);
+    return ValueTask<>((Task<Boolean>)notifyWhenNoCallbacksRunning);
   }
 }
 

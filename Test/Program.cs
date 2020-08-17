@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
+using System.Threading.Tasks;
 
 namespace Test {
   class Program {
@@ -11,6 +12,7 @@ namespace Test {
     private static void Main(string[] args) {
       Console.WriteLine(args);
       Write(ref args, null);
+      Task.FromResult(2);
     }
   }
 }

@@ -78,7 +78,7 @@ void StreamWriter___::ctor(Stream stream, Encoding encoding, Int32 bufferSize) {
 }
 
 void StreamWriter___::ctor(Stream stream, Encoding encoding, Int32 bufferSize, Boolean leaveOpen) {
-  _asyncWriteTask = Task::in::get_CompletedTask();
+  _asyncWriteTask = Task<>::in::get_CompletedTask();
   TextWriter::in::ctor(nullptr);
   if (stream == nullptr) {
     rt::throw_exception<ArgumentNullException>("stream");
@@ -441,7 +441,7 @@ Task<> StreamWriter___::WriteAsync(String value) {
     CheckAsyncTaskInProgress();
     return _asyncWriteTask = WriteAsyncInternal((StreamWriter)this, value, _charBuffer, _charPos, _charLen, CoreNewLine, _autoFlush, false);
   }
-  return Task::in::get_CompletedTask();
+  return Task<>::in::get_CompletedTask();
 }
 
 Task<> StreamWriter___::WriteAsyncInternal(StreamWriter _this, String value, Array<Char> charBuffer, Int32 charPos, Int32 charLen, Array<Char> coreNewLine, Boolean autoFlush, Boolean appendNewLine) {
@@ -500,7 +500,7 @@ Task<> StreamWriter___::WriteAsync(ReadOnlyMemory<Char> buffer, CancellationToke
   ThrowIfDisposed();
   CheckAsyncTaskInProgress();
   if (cancellationToken.get_IsCancellationRequested()) {
-    return Task::in::FromCanceled(cancellationToken);
+    return Task<>::in::FromCanceled(cancellationToken);
   }
   return _asyncWriteTask = WriteAsyncInternal((StreamWriter)this, buffer, _charBuffer, _charPos, _charLen, CoreNewLine, _autoFlush, false, cancellationToken);
 }
@@ -587,7 +587,7 @@ Task<> StreamWriter___::WriteLineAsync(ReadOnlyMemory<Char> buffer, Cancellation
   ThrowIfDisposed();
   CheckAsyncTaskInProgress();
   if (cancellationToken.get_IsCancellationRequested()) {
-    return Task::in::FromCanceled(cancellationToken);
+    return Task<>::in::FromCanceled(cancellationToken);
   }
   return _asyncWriteTask = WriteAsyncInternal((StreamWriter)this, buffer, _charBuffer, _charPos, _charLen, CoreNewLine, _autoFlush, true, cancellationToken);
 }
@@ -603,12 +603,12 @@ Task<> StreamWriter___::FlushAsync() {
 
 Task<> StreamWriter___::FlushAsyncInternal(Boolean flushStream, Boolean flushEncoder, Array<Char> sCharBuffer, Int32 sCharPos, CancellationToken cancellationToken) {
   if (cancellationToken.get_IsCancellationRequested()) {
-    return Task::in::FromCanceled(cancellationToken);
+    return Task<>::in::FromCanceled(cancellationToken);
   }
   if (sCharPos == 0 && !flushStream && !flushEncoder) {
-    return Task::in::get_CompletedTask();
+    return Task<>::in::get_CompletedTask();
   }
-  Task result = FlushAsyncInternal((StreamWriter)this, flushStream, flushEncoder, sCharBuffer, sCharPos, _haveWrittenPreamble, _encoding, _encoder, _byteBuffer, _stream, cancellationToken);
+  Task<> result = FlushAsyncInternal((StreamWriter)this, flushStream, flushEncoder, sCharBuffer, sCharPos, _haveWrittenPreamble, _encoding, _encoder, _byteBuffer, _stream, cancellationToken);
   _charPos = 0;
   return result;
 }

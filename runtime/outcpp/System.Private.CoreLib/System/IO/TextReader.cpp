@@ -72,11 +72,11 @@ String SyncTextReader___::ReadToEnd() {
 }
 
 Task<String> SyncTextReader___::ReadLineAsync() {
-  return Task::in::FromResult(ReadLine());
+  return Task<>::in::FromResult(ReadLine());
 }
 
 Task<String> SyncTextReader___::ReadToEndAsync() {
-  return Task::in::FromResult(ReadToEnd());
+  return Task<>::in::FromResult(ReadToEnd());
 }
 
 Task<Int32> SyncTextReader___::ReadBlockAsync(Array<Char> buffer, Int32 index, Int32 count) {
@@ -89,7 +89,7 @@ Task<Int32> SyncTextReader___::ReadBlockAsync(Array<Char> buffer, Int32 index, I
   if (buffer->get_Length() - index < count) {
     rt::throw_exception<ArgumentException>(SR::get_Argument_InvalidOffLen());
   }
-  return Task::in::FromResult(ReadBlock(buffer, index, count));
+  return Task<>::in::FromResult(ReadBlock(buffer, index, count));
 }
 
 Task<Int32> SyncTextReader___::ReadAsync(Array<Char> buffer, Int32 index, Int32 count) {
@@ -102,7 +102,7 @@ Task<Int32> SyncTextReader___::ReadAsync(Array<Char> buffer, Int32 index, Int32 
   if (buffer->get_Length() - index < count) {
     rt::throw_exception<ArgumentException>(SR::get_Argument_InvalidOffLen());
   }
-  return Task::in::FromResult(Read(buffer, index, count));
+  return Task<>::in::FromResult(Read(buffer, index, count));
 }
 
 void TextReader___::ctor() {

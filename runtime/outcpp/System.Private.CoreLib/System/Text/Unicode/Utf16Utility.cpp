@@ -88,20 +88,20 @@ Char* Utf16Utility::GetPointerToFirstInvalidChar(Char* pInputBuffer, Int32 input
   Int32 num3 = 0;
   if (Sse2::in::get_IsSupported()) {
     if (inputLength >= Vector128<UInt16>::get_Count()) {
-      Vector128<UInt16> vector = Vector128::Create((?)128);
-      Vector128<UInt16> right = Vector128::Create((?)43008);
-      Vector128<Int16> right2 = Vector128::Create((?)(-30720));
+      Vector128<UInt16> vector = Vector128<>::Create((?)128);
+      Vector128<UInt16> right = Vector128<>::Create((?)43008);
+      Vector128<Int16> right2 = Vector128<>::Create((?)(-30720));
       Vector128<UInt16> zero = Vector128<UInt16>::get_Zero();
       do {
         Vector128<UInt16> vector2 = Sse2::in::LoadVector128((UInt16*)pInputBuffer);
-        Vector128<UInt16> left = (!Sse41::in::get_IsSupported()) ? Sse2::in::AndNot(Vector128::AsUInt16(Sse2::in::CompareGreaterThan(Vector128::AsInt16(vector), Vector128::AsInt16(vector2))), vector) : Sse41::in::Min(vector2, vector);
+        Vector128<UInt16> left = (!Sse41::in::get_IsSupported()) ? Sse2::in::AndNot(Vector128<>::AsUInt16(Sse2::in::CompareGreaterThan(Vector128<>::AsInt16(vector), Vector128<>::AsInt16(vector2))), vector) : Sse41::in::Min(vector2, vector);
         Vector128<UInt16> right3 = Sse2::in::Subtract(zero, Sse2::in::ShiftRightLogical(vector2, 11));
-        UInt32 value = (UInt32)Sse2::in::MoveMask(Vector128::AsByte(Sse2::in::Or(left, right3)));
+        UInt32 value = (UInt32)Sse2::in::MoveMask(Vector128<>::AsByte(Sse2::in::Or(left, right3)));
         UInt32 num4 = (UInt32)BitOperations::PopCount(value);
         vector2 = Sse2::in::Add(vector2, right);
-        value = (UInt32)Sse2::in::MoveMask(Vector128::AsByte(Sse2::in::CompareLessThan(Vector128::AsInt16(vector2), right2)));
+        value = (UInt32)Sse2::in::MoveMask(Vector128<>::AsByte(Sse2::in::CompareLessThan(Vector128<>::AsInt16(vector2), right2)));
         if (value != 0) {
-          UInt32 num5 = (UInt32)Sse2::in::MoveMask(Vector128::AsByte(Sse2::in::ShiftRightLogical(vector2, 3)));
+          UInt32 num5 = (UInt32)Sse2::in::MoveMask(Vector128<>::AsByte(Sse2::in::ShiftRightLogical(vector2, 3)));
           UInt32 num6 = num5 & value;
           UInt32 num7 = (num5 ^ 21845) & value;
           num7 <<= 2;
@@ -125,15 +125,15 @@ Char* Utf16Utility::GetPointerToFirstInvalidChar(Char* pInputBuffer, Int32 input
         inputLength -= Vector128<UInt16>::get_Count();
       } while (inputLength >= Vector128<UInt16>::get_Count())
     }
-  } else if (Vector::get_IsHardwareAccelerated() && inputLength >= Vector<UInt16>::get_Count()) {
+  } else if (Vector<>::get_IsHardwareAccelerated() && inputLength >= Vector<UInt16>::get_Count()) {
     Vector<UInt16> right4 = Vector<UInt16>(128);
     Vector<UInt16> right5 = Vector<UInt16>(1024);
     Vector<UInt16> right6 = Vector<UInt16>(2048);
     Vector<UInt16> vector3 = Vector<UInt16>(55296);
     while (true) {
       Vector<UInt16> left2 = Unsafe::ReadUnaligned<Vector<UInt16>>(pInputBuffer);
-      Vector<UInt16> right7 = Vector::GreaterThanOrEqual(left2, right4);
-      Vector<UInt16> right8 = Vector::GreaterThanOrEqual(left2, right6);
+      Vector<UInt16> right7 = Vector<>::GreaterThanOrEqual(left2, right4);
+      Vector<UInt16> right8 = Vector<>::GreaterThanOrEqual(left2, right6);
       Vector<UInt64> vector4 = (Vector<UInt64>)(Vector<UInt16>::get_Zero() - right7 - right8);
       UIntPtr num9 = 0u;
       for (Int32 i = 0; i < Vector<UInt64>::get_Count(); i++) {
@@ -144,10 +144,10 @@ Char* Utf16Utility::GetPointerToFirstInvalidChar(Char* pInputBuffer, Int32 input
       num10 += (UInt32)(Int32)(num9 >> 32);
       num10 = (UInt16)num10 + (num10 >> 16);
       left2 -= vector3;
-      Vector<UInt16> left3 = Vector::LessThan(left2, right6);
+      Vector<UInt16> left3 = Vector<>::LessThan(left2, right6);
       if (left3 != Vector<UInt16>::get_Zero()) {
-        Vector<UInt16> right9 = Vector::LessThan(left2, right5);
-        Vector<UInt16> vector5 = Vector::AndNot(left3, right9);
+        Vector<UInt16> right9 = Vector<>::LessThan(left2, right5);
+        Vector<UInt16> vector5 = Vector<>::AndNot(left3, right9);
         if (vector5[0] != 0) {
           break;
         }

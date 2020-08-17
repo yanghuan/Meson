@@ -50,12 +50,12 @@ void ConcurrentExclusiveSchedulerPair___::ConcurrentExclusiveTaskScheduler___::c
   m_pair = pair;
   m_maxConcurrencyLevel = maxConcurrencyLevel;
   m_processingMode = processingMode;
-  IProducerConsumerQueue<Task> tasks;
+  IProducerConsumerQueue<Task<>> tasks;
   if (processingMode != ProcessingMode::ProcessingExclusiveTask) {
-    IProducerConsumerQueue<Task> producerConsumerQueue = rt::newobj<MultiProducerMultiConsumerQueue<Task>>();
+    IProducerConsumerQueue<Task<>> producerConsumerQueue = rt::newobj<MultiProducerMultiConsumerQueue<Task<>>>();
     tasks = producerConsumerQueue;
   } else {
-    IProducerConsumerQueue<Task> producerConsumerQueue = rt::newobj<SingleProducerSingleConsumerQueue<Task>>();
+    IProducerConsumerQueue<Task<>> producerConsumerQueue = rt::newobj<SingleProducerSingleConsumerQueue<Task<>>>();
     tasks = producerConsumerQueue;
   }
   m_tasks = tasks;
@@ -94,7 +94,7 @@ Boolean ConcurrentExclusiveSchedulerPair___::ConcurrentExclusiveTaskScheduler___
 }
 
 Boolean ConcurrentExclusiveSchedulerPair___::ConcurrentExclusiveTaskScheduler___::TryExecuteTaskInlineOnTargetScheduler(Task<> task) {
-  Task<Boolean> task2 = rt::newobj<Task<Boolean>>(s_tryExecuteTaskShim, Tuple::Create((ConcurrentExclusiveTaskScheduler)this, task));
+  Task<Boolean> task2 = rt::newobj<Task<Boolean>>(s_tryExecuteTaskShim, Tuple<>::Create((ConcurrentExclusiveTaskScheduler)this, task));
   try {
     task2->RunSynchronously(m_pair->m_underlyingTaskScheduler);
     return task2->get_Result();
@@ -105,7 +105,7 @@ Boolean ConcurrentExclusiveSchedulerPair___::ConcurrentExclusiveTaskScheduler___
 }
 
 Boolean ConcurrentExclusiveSchedulerPair___::ConcurrentExclusiveTaskScheduler___::TryExecuteTaskShim(Object state) {
-  Tuple<ConcurrentExclusiveTaskScheduler, Task> tuple = (Tuple<ConcurrentExclusiveTaskScheduler, Task>)state;
+  Tuple<ConcurrentExclusiveTaskScheduler, Task<>> tuple = (Tuple<ConcurrentExclusiveTaskScheduler, Task<>>)state;
   return tuple->get_Item1()->TryExecuteTask(tuple->get_Item2());
 }
 
@@ -293,7 +293,7 @@ void ConcurrentExclusiveSchedulerPair___::ProcessAsyncIfNecessary(Boolean fairly
     return;
   }
   Boolean flag = !m_exclusiveTaskScheduler->m_tasks->get_IsEmpty();
-  Task task = nullptr;
+  Task<> task = nullptr;
   if (m_processingCount == 0 && flag) {
     m_processingCount = -1;
     if (!TryQueueThreadPoolWorkItem(fairly)) {
@@ -335,7 +335,7 @@ void ConcurrentExclusiveSchedulerPair___::ProcessExclusiveTasks() {
   try {
     m_threadProcessingMode->set_Value(ProcessingMode::ProcessingExclusiveTask);
     for (Int32 i = 0; i < m_maxItemsPerTask; i++) {
-      Task result;
+      Task<> result;
       if (!m_exclusiveTaskScheduler->m_tasks->TryDequeue(result)) {
         break;
       }
@@ -358,7 +358,7 @@ void ConcurrentExclusiveSchedulerPair___::ProcessConcurrentTasks() {
   try {
     m_threadProcessingMode->set_Value(ProcessingMode::ProcessingConcurrentTasks);
     for (Int32 i = 0; i < m_maxItemsPerTask; i++) {
-      Task result;
+      Task<> result;
       if (!m_concurrentTaskScheduler->m_tasks->TryDequeue(result)) {
         break;
       }

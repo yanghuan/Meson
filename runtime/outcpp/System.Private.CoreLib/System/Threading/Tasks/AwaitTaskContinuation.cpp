@@ -32,17 +32,17 @@ void AwaitTaskContinuation___::ctor(Action<> action, Boolean flowExecutionContex
 }
 
 Task<> AwaitTaskContinuation___::CreateTask(Action<Object> action, Object state, TaskScheduler scheduler) {
-  return rt::newobj<Task>(action, state, nullptr, CancellationToken(), TaskCreationOptions::None, InternalTaskOptions::QueuedByRuntime, scheduler);
+  return rt::newobj<Task<>>(action, state, nullptr, CancellationToken(), TaskCreationOptions::None, InternalTaskOptions::QueuedByRuntime, scheduler);
 }
 
 void AwaitTaskContinuation___::Run(Task<> task, Boolean canInlineContinuationTask) {
   if (canInlineContinuationTask && get_IsValidLocationForInlining()) {
-    RunCallback(GetInvokeActionCallback(), m_action, Task::in::t_currentTask);
+    RunCallback(GetInvokeActionCallback(), m_action, Task<>::in::t_currentTask);
     return;
   }
   TplEventSource log = TplEventSource::in::Log;
   if (log->IsEnabled()) {
-    m_continuationId = Task::in::NewId();
+    m_continuationId = Task<>::in::NewId();
     auto& default = task->get_ExecutingTaskScheduler();
     log->AwaitTaskContinuationScheduled((default != nullptr ? default : TaskScheduler::in::get_Default())->get_Id(), task->get_Id(), m_continuationId);
   }
@@ -54,7 +54,7 @@ ContextCallback<> AwaitTaskContinuation___::GetInvokeActionCallback() {
 }
 
 void AwaitTaskContinuation___::RunCallback(ContextCallback<> callback, Object state, Task<>& currentTask) {
-  Task task = currentTask;
+  Task<> task = currentTask;
   try {
     if (task != nullptr) {
       currentTask = nullptr;
@@ -74,26 +74,26 @@ void AwaitTaskContinuation___::RunCallback(ContextCallback<> callback, Object st
 }
 
 void AwaitTaskContinuation___::RunOrScheduleAction(Action<> action, Boolean allowInlining) {
-  Task t_currentTask = Task::in::t_currentTask;
+  Task<> t_currentTask = Task<>::in::t_currentTask;
   if (!allowInlining || !get_IsValidLocationForInlining()) {
     UnsafeScheduleAction(action, t_currentTask);
     return;
   }
   try {
     if (t_currentTask != nullptr) {
-      Task::in::t_currentTask = nullptr;
+      Task<>::in::t_currentTask = nullptr;
     }
     action();
   } catch (Exception exception) {
   } finally: {
     if (t_currentTask != nullptr) {
-      Task::in::t_currentTask = t_currentTask;
+      Task<>::in::t_currentTask = t_currentTask;
     }
   }
 }
 
 void AwaitTaskContinuation___::RunOrScheduleAction(IAsyncStateMachineBox box, Boolean allowInlining) {
-  Task t_currentTask = Task::in::t_currentTask;
+  Task<> t_currentTask = Task<>::in::t_currentTask;
   if (!allowInlining || !get_IsValidLocationForInlining()) {
     if (TplEventSource::in::Log->IsEnabled()) {
       UnsafeScheduleAction(box->get_MoveNextAction(), t_currentTask);
@@ -104,13 +104,13 @@ void AwaitTaskContinuation___::RunOrScheduleAction(IAsyncStateMachineBox box, Bo
   }
   try {
     if (t_currentTask != nullptr) {
-      Task::in::t_currentTask = nullptr;
+      Task<>::in::t_currentTask = nullptr;
     }
     box->MoveNext();
   } catch (Exception exception) {
   } finally: {
     if (t_currentTask != nullptr) {
-      Task::in::t_currentTask = t_currentTask;
+      Task<>::in::t_currentTask = t_currentTask;
     }
   }
 }
@@ -119,7 +119,7 @@ void AwaitTaskContinuation___::UnsafeScheduleAction(Action<> action, Task<> task
   AwaitTaskContinuation awaitTaskContinuation = rt::newobj<AwaitTaskContinuation>(action, false);
   TplEventSource log = TplEventSource::in::Log;
   if (log->IsEnabled() && task != nullptr) {
-    awaitTaskContinuation->m_continuationId = Task::in::NewId();
+    awaitTaskContinuation->m_continuationId = Task<>::in::NewId();
     auto& default = task->get_ExecutingTaskScheduler();
     log->AwaitTaskContinuationScheduled((default != nullptr ? default : TaskScheduler::in::get_Default())->get_Id(), task->get_Id(), awaitTaskContinuation->m_continuationId);
   }

@@ -88,7 +88,7 @@ Int32 StringComparer___::Compare(Object x, Object y) {
       return Compare(text, text2);
     }
   }
-  IComparable comparable = rt::as<IComparable>(x);
+  IComparable<> comparable = rt::as<IComparable<>>(x);
   if (comparable != nullptr) {
     return comparable->CompareTo(y);
   }

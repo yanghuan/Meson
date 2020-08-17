@@ -192,11 +192,11 @@ void MemoryStream___::Flush() {
 
 Task<> MemoryStream___::FlushAsync(CancellationToken cancellationToken) {
   if (cancellationToken.get_IsCancellationRequested()) {
-    return Task::in::FromCanceled(cancellationToken);
+    return Task<>::in::FromCanceled(cancellationToken);
   }
   try {
     Flush();
-    return Task::in::get_CompletedTask();
+    return Task<>::in::get_CompletedTask();
   } catch (Exception exception) {
   }
 }
@@ -312,12 +312,12 @@ Task<Int32> MemoryStream___::ReadAsync(Array<Byte> buffer, Int32 offset, Int32 c
     rt::throw_exception<ArgumentException>(SR::get_Argument_InvalidOffLen());
   }
   if (cancellationToken.get_IsCancellationRequested()) {
-    return Task::in::FromCanceled<Int32>(cancellationToken);
+    return Task<>::in::FromCanceled<Int32>(cancellationToken);
   }
   try {
     Int32 num = Read(buffer, offset, count);
     Task<Int32> lastReadTask = _lastReadTask;
-    return (lastReadTask != nullptr && lastReadTask->get_Result() == num) ? lastReadTask : (_lastReadTask = Task::in::FromResult(num));
+    return (lastReadTask != nullptr && lastReadTask->get_Result() == num) ? lastReadTask : (_lastReadTask = Task<>::in::FromResult(num));
   } catch (OperationCanceledException exception) {
   } catch (Exception exception2) {
   }
@@ -325,7 +325,7 @@ Task<Int32> MemoryStream___::ReadAsync(Array<Byte> buffer, Int32 offset, Int32 c
 
 ValueTask<Int32> MemoryStream___::ReadAsync(Memory<Byte> buffer, CancellationToken cancellationToken) {
   if (cancellationToken.get_IsCancellationRequested()) {
-    return ValueTask<Int32>(Task::in::FromCanceled<Int32>(cancellationToken));
+    return ValueTask<Int32>(Task<>::in::FromCanceled<Int32>(cancellationToken));
   }
   try {
     ArraySegment<Byte> segment;
@@ -362,12 +362,12 @@ Task<> MemoryStream___::CopyToAsync(Stream destination, Int32 bufferSize, Cancel
     return Stream::in::CopyToAsync(destination, bufferSize, cancellationToken);
   }
   if (cancellationToken.get_IsCancellationRequested()) {
-    return Task::in::FromCanceled(cancellationToken);
+    return Task<>::in::FromCanceled(cancellationToken);
   }
   Int32 position = _position;
   Int32 num = InternalEmulateRead(_length - _position);
   if (num == 0) {
-    return Task::in::get_CompletedTask();
+    return Task<>::in::get_CompletedTask();
   }
   MemoryStream memoryStream = rt::as<MemoryStream>(destination);
   if (memoryStream == nullptr) {
@@ -375,7 +375,7 @@ Task<> MemoryStream___::CopyToAsync(Stream destination, Int32 bufferSize, Cancel
   }
   try {
     memoryStream->Write(_buffer, position, num);
-    return Task::in::get_CompletedTask();
+    return Task<>::in::get_CompletedTask();
   } catch (Exception exception) {
   }
 }
@@ -397,7 +397,7 @@ Task<> MemoryStream___::CopyToAsync(Func<ReadOnlyMemory<Byte>, Object, Cancellat
   }
   StreamHelpers::ValidateCopyToArgs((MemoryStream)this, callback, bufferSize);
   if (cancellationToken.get_IsCancellationRequested()) {
-    return Task::in::FromCanceled(cancellationToken);
+    return Task<>::in::FromCanceled(cancellationToken);
   }
   ReadOnlyMemory<Byte> arg = ReadOnlyMemory<Byte>(_buffer, _position, _length - _position);
   _position = _length;
@@ -547,11 +547,11 @@ Task<> MemoryStream___::WriteAsync(Array<Byte> buffer, Int32 offset, Int32 count
     rt::throw_exception<ArgumentException>(SR::get_Argument_InvalidOffLen());
   }
   if (cancellationToken.get_IsCancellationRequested()) {
-    return Task::in::FromCanceled(cancellationToken);
+    return Task<>::in::FromCanceled(cancellationToken);
   }
   try {
     Write(buffer, offset, count);
-    return Task::in::get_CompletedTask();
+    return Task<>::in::get_CompletedTask();
   } catch (OperationCanceledException exception) {
   } catch (Exception exception2) {
   }
@@ -559,7 +559,7 @@ Task<> MemoryStream___::WriteAsync(Array<Byte> buffer, Int32 offset, Int32 count
 
 ValueTask<> MemoryStream___::WriteAsync(ReadOnlyMemory<Byte> buffer, CancellationToken cancellationToken) {
   if (cancellationToken.get_IsCancellationRequested()) {
-    return ValueTask(Task::in::FromCanceled(cancellationToken));
+    return ValueTask<>(Task<>::in::FromCanceled(cancellationToken));
   }
   try {
     ArraySegment<Byte> segment;
@@ -568,7 +568,7 @@ ValueTask<> MemoryStream___::WriteAsync(ReadOnlyMemory<Byte> buffer, Cancellatio
     } else {
       Write(buffer.get_Span());
     }
-    return ValueTask();
+    return ValueTask<>();
   } catch (OperationCanceledException exception) {
   } catch (Exception exception2) {
   }

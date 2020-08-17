@@ -237,79 +237,79 @@ void SyncTextWriter___::WriteLine(String format, Array<Object> arg) {
 
 ValueTask<> SyncTextWriter___::DisposeAsync() {
   Dispose();
-  return ValueTask();
+  return ValueTask<>();
 }
 
 Task<> SyncTextWriter___::WriteAsync(Char value) {
   Write(value);
-  return Task::in::get_CompletedTask();
+  return Task<>::in::get_CompletedTask();
 }
 
 Task<> SyncTextWriter___::WriteAsync(String value) {
   Write(value);
-  return Task::in::get_CompletedTask();
+  return Task<>::in::get_CompletedTask();
 }
 
 Task<> SyncTextWriter___::WriteAsync(StringBuilder value, CancellationToken cancellationToken) {
   if (cancellationToken.get_IsCancellationRequested()) {
-    return Task::in::FromCanceled(cancellationToken);
+    return Task<>::in::FromCanceled(cancellationToken);
   }
   Write(value);
-  return Task::in::get_CompletedTask();
+  return Task<>::in::get_CompletedTask();
 }
 
 Task<> SyncTextWriter___::WriteAsync(Array<Char> buffer, Int32 index, Int32 count) {
   Write(buffer, index, count);
-  return Task::in::get_CompletedTask();
+  return Task<>::in::get_CompletedTask();
 }
 
 Task<> SyncTextWriter___::WriteAsync(ReadOnlyMemory<Char> buffer, CancellationToken cancellationToken) {
   if (cancellationToken.get_IsCancellationRequested()) {
-    return Task::in::FromCanceled(cancellationToken);
+    return Task<>::in::FromCanceled(cancellationToken);
   }
   Write(buffer.get_Span());
-  return Task::in::get_CompletedTask();
+  return Task<>::in::get_CompletedTask();
 }
 
 Task<> SyncTextWriter___::WriteLineAsync(ReadOnlyMemory<Char> buffer, CancellationToken cancellationToken) {
   if (cancellationToken.get_IsCancellationRequested()) {
-    return Task::in::FromCanceled(cancellationToken);
+    return Task<>::in::FromCanceled(cancellationToken);
   }
   WriteLine(buffer.get_Span());
-  return Task::in::get_CompletedTask();
+  return Task<>::in::get_CompletedTask();
 }
 
 Task<> SyncTextWriter___::WriteLineAsync(Char value) {
   WriteLine(value);
-  return Task::in::get_CompletedTask();
+  return Task<>::in::get_CompletedTask();
 }
 
 Task<> SyncTextWriter___::WriteLineAsync() {
   WriteLine();
-  return Task::in::get_CompletedTask();
+  return Task<>::in::get_CompletedTask();
 }
 
 Task<> SyncTextWriter___::WriteLineAsync(String value) {
   WriteLine(value);
-  return Task::in::get_CompletedTask();
+  return Task<>::in::get_CompletedTask();
 }
 
 Task<> SyncTextWriter___::WriteLineAsync(StringBuilder value, CancellationToken cancellationToken) {
   if (cancellationToken.get_IsCancellationRequested()) {
-    return Task::in::FromCanceled(cancellationToken);
+    return Task<>::in::FromCanceled(cancellationToken);
   }
   WriteLine(value);
-  return Task::in::get_CompletedTask();
+  return Task<>::in::get_CompletedTask();
 }
 
 Task<> SyncTextWriter___::WriteLineAsync(Array<Char> buffer, Int32 index, Int32 count) {
   WriteLine(buffer, index, count);
-  return Task::in::get_CompletedTask();
+  return Task<>::in::get_CompletedTask();
 }
 
 Task<> SyncTextWriter___::FlushAsync() {
   Flush();
-  return Task::in::get_CompletedTask();
+  return Task<>::in::get_CompletedTask();
 }
 
 IFormatProvider TextWriter___::get_FormatProvider() {
@@ -364,7 +364,7 @@ void TextWriter___::Dispose() {
 ValueTask<> TextWriter___::DisposeAsync() {
   try {
     Dispose();
-    return ValueTask();
+    return ValueTask<>();
   } catch (Exception exception) {
   }
 }
@@ -604,7 +604,7 @@ Task<> TextWriter___::WriteAsync(String value) {
 }
 
 Task<> TextWriter___::WriteAsync(StringBuilder value, CancellationToken cancellationToken) {
-  auto WriteAsyncCore = [](StringBuilder sb, CancellationToken ct) -> Task {
+  auto WriteAsyncCore = [](StringBuilder sb, CancellationToken ct) -> Task<> {
     StringBuilder::in::ChunkEnumerator enumerator = sb->GetChunks().GetEnumerator();
     while (enumerator.MoveNext()) {
       ReadOnlyMemory<Char> current = enumerator.get_Current();
@@ -614,14 +614,14 @@ Task<> TextWriter___::WriteAsync(StringBuilder value, CancellationToken cancella
     if (value != nullptr) {
       return WriteAsyncCore(value, cancellationToken);
     }
-    return Task::in::get_CompletedTask();
+    return Task<>::in::get_CompletedTask();
   }
-  return Task::in::FromCanceled(cancellationToken);
+  return Task<>::in::FromCanceled(cancellationToken);
 }
 
 Task<> TextWriter___::WriteAsync(Array<Char> buffer) {
   if (buffer == nullptr) {
-    return Task::in::get_CompletedTask();
+    return Task<>::in::get_CompletedTask();
   }
   return WriteAsync(buffer, 0, buffer->get_Length());
 }
@@ -637,7 +637,7 @@ Task<> TextWriter___::WriteAsync(ReadOnlyMemory<Char> buffer, CancellationToken 
     }
     return WriteAsync(segment.get_Array(), segment.get_Offset(), segment.get_Count());
   }
-  return Task::in::FromCanceled(cancellationToken);
+  return Task<>::in::FromCanceled(cancellationToken);
 }
 
 Task<> TextWriter___::WriteLineAsync(Char value) {
@@ -649,7 +649,7 @@ Task<> TextWriter___::WriteLineAsync(String value) {
 }
 
 Task<> TextWriter___::WriteLineAsync(StringBuilder value, CancellationToken cancellationToken) {
-  auto WriteLineAsyncCore = [](StringBuilder sb, CancellationToken ct) -> Task {
+  auto WriteLineAsyncCore = [](StringBuilder sb, CancellationToken ct) -> Task<> {
     StringBuilder::in::ChunkEnumerator enumerator = sb->GetChunks().GetEnumerator();
     while (enumerator.MoveNext()) {
       ReadOnlyMemory<Char> current = enumerator.get_Current();
@@ -661,7 +661,7 @@ Task<> TextWriter___::WriteLineAsync(StringBuilder value, CancellationToken canc
     }
     return WriteAsync(CoreNewLine, cancellationToken);
   }
-  return Task::in::FromCanceled(cancellationToken);
+  return Task<>::in::FromCanceled(cancellationToken);
 }
 
 Task<> TextWriter___::WriteLineAsync(Array<Char> buffer) {
@@ -682,7 +682,7 @@ Task<> TextWriter___::WriteLineAsync(ReadOnlyMemory<Char> buffer, CancellationTo
     }
     return WriteLineAsync(segment.get_Array(), segment.get_Offset(), segment.get_Count());
   }
-  return Task::in::FromCanceled(cancellationToken);
+  return Task<>::in::FromCanceled(cancellationToken);
 }
 
 Task<> TextWriter___::WriteLineAsync() {

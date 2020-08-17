@@ -25,7 +25,7 @@ Plane::Plane(Vector4 value) {
 }
 
 Plane Plane::CreateFromVertices(Vector3 point1, Vector3 point2, Vector3 point3) {
-  if (Vector::get_IsHardwareAccelerated()) {
+  if (Vector<>::get_IsHardwareAccelerated()) {
     Vector3 vector = point2 - point1;
     Vector3 vector2 = point3 - point1;
     Vector3 value = Vector3::Cross(vector, vector2);
@@ -49,7 +49,7 @@ Plane Plane::CreateFromVertices(Vector3 point1, Vector3 point2, Vector3 point3) 
 }
 
 Plane Plane::Normalize(Plane value) {
-  if (Vector::get_IsHardwareAccelerated()) {
+  if (Vector<>::get_IsHardwareAccelerated()) {
     Single num = value.Normal.LengthSquared();
     if (MathF::Abs(num - 1) < 1.1920929E-07) {
       return value;
@@ -108,14 +108,14 @@ Single Plane::Dot(Plane plane, Vector4 value) {
 }
 
 Single Plane::DotCoordinate(Plane plane, Vector3 value) {
-  if (Vector::get_IsHardwareAccelerated()) {
+  if (Vector<>::get_IsHardwareAccelerated()) {
     return Vector3::Dot(plane.Normal, value) + plane.D;
   }
   return plane.Normal.X * value.X + plane.Normal.Y * value.Y + plane.Normal.Z * value.Z + plane.D;
 }
 
 Single Plane::DotNormal(Plane plane, Vector3 value) {
-  if (Vector::get_IsHardwareAccelerated()) {
+  if (Vector<>::get_IsHardwareAccelerated()) {
     return Vector3::Dot(plane.Normal, value);
   }
   return plane.Normal.X * value.X + plane.Normal.Y * value.Y + plane.Normal.Z * value.Z;
@@ -136,7 +136,7 @@ Boolean Plane::op_Inequality(Plane value1, Plane value2) {
 }
 
 Boolean Plane::Equals(Plane other) {
-  if (Vector::get_IsHardwareAccelerated()) {
+  if (Vector<>::get_IsHardwareAccelerated()) {
     if (Normal.Equals(other.Normal)) {
       return D == other.D;
     }

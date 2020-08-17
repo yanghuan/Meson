@@ -43,13 +43,13 @@ void AsyncVoidMethodBuilder::SetException(Exception exception) {
   _ = AsyncCausalityTracer::get_LoggingOn();
   if (_synchronizationContext != nullptr) {
     try {
-      Task::in::ThrowAsync(exception, _synchronizationContext);
+      Task<>::in::ThrowAsync(exception, _synchronizationContext);
     } catch (...) {
     } finally: {
       NotifySynchronizationContextOfCompletion();
     }
   } else {
-    Task::in::ThrowAsync(exception, nullptr);
+    Task<>::in::ThrowAsync(exception, nullptr);
   }
   _builder.SetResult();
 }

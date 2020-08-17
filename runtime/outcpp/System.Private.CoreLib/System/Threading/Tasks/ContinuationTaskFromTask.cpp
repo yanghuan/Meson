@@ -8,14 +8,14 @@ void ContinuationTaskFromTask___::ctor(Task<> antecedent, Delegate action, Objec
 }
 
 void ContinuationTaskFromTask___::InnerInvoke() {
-  Task antecedent = m_antecedent;
+  Task<> antecedent = m_antecedent;
   m_antecedent = nullptr;
   antecedent->NotifyDebuggerOfWaitCompletionIfNecessary();
-  Action<Task> action = rt::as<Action<Task>>(m_action);
+  Action<Task<>> action = rt::as<Action<Task<>>>(m_action);
   if (action != nullptr) {
     action(antecedent);
   } else {
-    auto& default = (rt::as<Action<Task, Object>>(m_action));
+    auto& default = (rt::as<Action<Task<>, Object>>(m_action));
     default == nullptr ? nullptr : default->Invoke(antecedent, m_stateObject);
   }
 }

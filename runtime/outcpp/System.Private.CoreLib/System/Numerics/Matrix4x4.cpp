@@ -862,13 +862,13 @@ Boolean Matrix4x4::Invert(Matrix4x4 matrix, Matrix4x4& result) {
     left15 = Permute(left15, 216);
     left16 = Permute(left16, 216);
     right3 = left;
-    Single num25 = Vector4::Dot(Vector128::AsVector4(left13), Vector128::AsVector4(right3));
+    Single num25 = Vector4::Dot(Vector128<>::AsVector4(left13), Vector128<>::AsVector4(right3));
     if (MathF::Abs(num25) < Single::Epsilon) {
       result = Matrix4x4(Single::NaN, Single::NaN, Single::NaN, Single::NaN, Single::NaN, Single::NaN, Single::NaN, Single::NaN, Single::NaN, Single::NaN, Single::NaN, Single::NaN, Single::NaN, Single::NaN, Single::NaN, Single::NaN);
       return false;
     }
-    Vector128<Single> left17 = Vector128::Create(1);
-    Vector128<Single> right12 = Vector128::Create(num25);
+    Vector128<Single> left17 = Vector128<>::Create(1);
+    Vector128<Single> right12 = Vector128<>::Create(num25);
     right12 = Sse::in::Divide(left17, right12);
     left = Sse::in::Multiply(left13, right12);
     right = Sse::in::Multiply(left14, right12);
@@ -1124,7 +1124,7 @@ Matrix4x4 Matrix4x4::Transpose(Matrix4x4 matrix) {
 
 Matrix4x4 Matrix4x4::Lerp(Matrix4x4 matrix1, Matrix4x4 matrix2, Single amount) {
   if (Sse::in::get_IsSupported()) {
-    Vector128<Single> t = Vector128::Create(amount);
+    Vector128<Single> t = Vector128<>::Create(amount);
     Sse::in::Store(&matrix1.M11, VectorMath::Lerp(Sse::in::LoadVector128(&matrix1.M11), Sse::in::LoadVector128(&matrix2.M11), t));
     Sse::in::Store(&matrix1.M21, VectorMath::Lerp(Sse::in::LoadVector128(&matrix1.M21), Sse::in::LoadVector128(&matrix2.M21), t));
     Sse::in::Store(&matrix1.M31, VectorMath::Lerp(Sse::in::LoadVector128(&matrix1.M31), Sse::in::LoadVector128(&matrix2.M31), t));
@@ -1290,7 +1290,7 @@ Matrix4x4 Matrix4x4::op_Multiply(Matrix4x4 value1, Matrix4x4 value2) {
 
 Matrix4x4 Matrix4x4::op_Multiply(Matrix4x4 value1, Single value2) {
   if (Sse::in::get_IsSupported()) {
-    Vector128<Single> right = Vector128::Create(value2);
+    Vector128<Single> right = Vector128<>::Create(value2);
     Sse::in::Store(&value1.M11, Sse::in::Multiply(Sse::in::LoadVector128(&value1.M11), right));
     Sse::in::Store(&value1.M21, Sse::in::Multiply(Sse::in::LoadVector128(&value1.M21), right));
     Sse::in::Store(&value1.M31, Sse::in::Multiply(Sse::in::LoadVector128(&value1.M31), right));

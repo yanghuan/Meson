@@ -73,13 +73,13 @@ ValueTask<> BinaryWriter___::DisposeAsync() {
   try {
     if (GetType() == rt::typeof<BinaryWriter>()) {
       if (_leaveOpen) {
-        return ValueTask(OutStream->FlushAsync());
+        return ValueTask<>(OutStream->FlushAsync());
       }
       OutStream->Close();
     } else {
       Dispose();
     }
-    return ValueTask();
+    return ValueTask<>();
   } catch (Exception exception) {
   }
 }

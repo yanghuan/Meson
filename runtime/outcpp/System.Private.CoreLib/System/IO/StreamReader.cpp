@@ -90,7 +90,7 @@ void StreamReader___::ThrowAsyncIOInProgress() {
 }
 
 void StreamReader___::ctor() {
-  _asyncReadTask = Task::in::get_CompletedTask();
+  _asyncReadTask = Task<>::in::get_CompletedTask();
   TextReader::in::ctor();
   _stream = Stream::in::Null;
   _closable = true;
@@ -112,7 +112,7 @@ void StreamReader___::ctor(Stream stream, Encoding encoding, Boolean detectEncod
 }
 
 void StreamReader___::ctor(Stream stream, Encoding encoding, Boolean detectEncodingFromByteOrderMarks, Int32 bufferSize, Boolean leaveOpen) {
-  _asyncReadTask = Task::in::get_CompletedTask();
+  _asyncReadTask = Task<>::in::get_CompletedTask();
   TextReader::in::ctor();
   if (stream == nullptr) {
     rt::throw_exception<ArgumentNullException>("stream");
@@ -581,7 +581,7 @@ ValueTask<Int32> StreamReader___::ReadAsync(Memory<Char> buffer, CancellationTok
   ThrowIfDisposed();
   CheckAsyncTaskInProgress();
   if (cancellationToken.get_IsCancellationRequested()) {
-    return ValueTask<Int32>(Task::in::FromCanceled<Int32>(cancellationToken));
+    return ValueTask<Int32>(Task<>::in::FromCanceled<Int32>(cancellationToken));
   }
   return ReadAsyncInternal(buffer, cancellationToken);
 }
@@ -674,7 +674,7 @@ ValueTask<Int32> StreamReader___::ReadBlockAsync(Memory<Char> buffer, Cancellati
   ThrowIfDisposed();
   CheckAsyncTaskInProgress();
   if (cancellationToken.get_IsCancellationRequested()) {
-    return ValueTask<Int32>(Task::in::FromCanceled<Int32>(cancellationToken));
+    return ValueTask<Int32>(Task<>::in::FromCanceled<Int32>(cancellationToken));
   }
   ValueTask<Int32> result = ReadBlockAsyncInternal(buffer, cancellationToken);
   if (result.get_IsCompletedSuccessfully()) {

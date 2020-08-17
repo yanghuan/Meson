@@ -28,7 +28,7 @@ void CancellationTokenRegistration::Dispose() {
 ValueTask<> CancellationTokenRegistration::DisposeAsync() {
   CancellationTokenSource::in::CallbackNode node = _node;
   if (node == nullptr || node->Partition->Unregister(_id, node)) {
-    return ValueTask();
+    return ValueTask<>();
   }
   return WaitForCallbackIfNecessaryAsync();
 }
@@ -52,7 +52,7 @@ ValueTask<> CancellationTokenRegistration::WaitForCallbackIfNecessaryAsync() {
   if (source->get_IsCancellationRequested() && !source->get_IsCancellationCompleted() && source->get_ThreadIDExecutingCallbacks() != Environment::get_CurrentManagedThreadId()) {
     return source->WaitForCallbackToCompleteAsync(_id);
   }
-  return ValueTask();
+  return ValueTask<>();
 }
 
 Boolean CancellationTokenRegistration::op_Equality(CancellationTokenRegistration left, CancellationTokenRegistration right) {

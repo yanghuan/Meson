@@ -409,7 +409,7 @@ void CancellationTokenSource___::WaitForCallbackToComplete(Int64 id) {
 
 ValueTask<> CancellationTokenSource___::WaitForCallbackToCompleteAsync(Int64 id) {
   if (get_ExecutingCallback() != id) {
-    return ValueTask();
+    return ValueTask<>();
   }
 }
 

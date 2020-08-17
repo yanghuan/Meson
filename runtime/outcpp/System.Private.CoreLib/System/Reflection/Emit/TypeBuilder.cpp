@@ -315,7 +315,7 @@ void TypeBuilder___::SetConstantValue(ModuleBuilder module, Int32 tk, Type destT
     if (destType->get_IsByRef()) {
       destType = destType->GetElementType();
     }
-    auto& default = Nullable::GetUnderlyingType(destType);
+    auto& default = Nullable<>::GetUnderlyingType(destType);
     destType = (default != nullptr ? default : destType);
     if (destType->get_IsEnum()) {
       EnumBuilder enumBuilder = rt::as<EnumBuilder>(destType);

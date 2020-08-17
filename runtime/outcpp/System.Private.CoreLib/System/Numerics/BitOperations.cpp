@@ -114,9 +114,9 @@ Int32 BitOperations::PopCount(UInt32 value) {
     return (Int32)Popcnt::in::PopCount(value);
   }
   if (AdvSimd::in::Arm64::in::get_IsSupported()) {
-    Vector64<UInt64> vector = Vector64::Create((UInt64)value);
-    Vector64<Byte> vector2 = AdvSimd::in::Arm64::in::AddAcross(AdvSimd::in::PopCount(Vector64::AsByte(vector)));
-    return Vector64::ToScalar(vector2);
+    Vector64<UInt64> vector = Vector64<>::Create((UInt64)value);
+    Vector64<Byte> vector2 = AdvSimd::in::Arm64::in::AddAcross(AdvSimd::in::PopCount(Vector64<>::AsByte(vector)));
+    return Vector64<>::ToScalar(vector2);
   }
   return SoftwareFallback(value);
 }
@@ -132,9 +132,9 @@ Int32 BitOperations::PopCount(UInt64 value) {
     return (Int32)Popcnt::in::X64::in::PopCount(value);
   }
   if (AdvSimd::in::Arm64::in::get_IsSupported()) {
-    Vector64<UInt64> vector = Vector64::Create(value);
-    Vector64<Byte> vector2 = AdvSimd::in::Arm64::in::AddAcross(AdvSimd::in::PopCount(Vector64::AsByte(vector)));
-    return Vector64::ToScalar(vector2);
+    Vector64<UInt64> vector = Vector64<>::Create(value);
+    Vector64<Byte> vector2 = AdvSimd::in::Arm64::in::AddAcross(AdvSimd::in::PopCount(Vector64<>::AsByte(vector)));
+    return Vector64<>::ToScalar(vector2);
   }
   return SoftwareFallback(value);
 }

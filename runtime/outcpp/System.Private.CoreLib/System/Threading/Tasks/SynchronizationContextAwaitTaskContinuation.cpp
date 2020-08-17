@@ -11,16 +11,16 @@ void SynchronizationContextAwaitTaskContinuation___::ctor(SynchronizationContext
 
 void SynchronizationContextAwaitTaskContinuation___::Run(Task<> task, Boolean canInlineContinuationTask) {
   if (canInlineContinuationTask && m_syncContext == SynchronizationContext::in::get_Current()) {
-    RunCallback(AwaitTaskContinuation::in::GetInvokeActionCallback(), m_action, Task::in::t_currentTask);
+    RunCallback(AwaitTaskContinuation::in::GetInvokeActionCallback(), m_action, Task<>::in::t_currentTask);
     return;
   }
   TplEventSource log = TplEventSource::in::Log;
   if (log->IsEnabled()) {
-    m_continuationId = Task::in::NewId();
+    m_continuationId = Task<>::in::NewId();
     auto& default = task->get_ExecutingTaskScheduler();
     log->AwaitTaskContinuationScheduled((default != nullptr ? default : TaskScheduler::in::get_Default())->get_Id(), task->get_Id(), m_continuationId);
   }
-  RunCallback(GetPostActionCallback(), (SynchronizationContextAwaitTaskContinuation)this, Task::in::t_currentTask);
+  RunCallback(GetPostActionCallback(), (SynchronizationContextAwaitTaskContinuation)this, Task<>::in::t_currentTask);
 }
 
 void SynchronizationContextAwaitTaskContinuation___::PostAction(Object state) {

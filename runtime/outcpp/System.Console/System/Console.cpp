@@ -575,7 +575,7 @@ Boolean Console::HandleBreakEvent(ConsoleSpecialKey controlKey) {
     return false;
   }
   ConsoleCancelEventArgs consoleCancelEventArgs = rt::newobj<ConsoleCancelEventArgs>(controlKey);
-  consoleCancelEventHandler(nullptr, consoleCancelEventArgs);
+  consoleCancelEventHandler((Object)nullptr, consoleCancelEventArgs);
   return consoleCancelEventArgs->get_Cancel();
 }
 

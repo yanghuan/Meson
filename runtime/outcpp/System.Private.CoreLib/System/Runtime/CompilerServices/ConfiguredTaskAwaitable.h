@@ -31,6 +31,9 @@ struct ConfiguredTaskAwaitable<> : public valueType<ConfiguredTaskAwaitable<>> {
     public: Task<> m_task;
     public: Boolean m_continueOnCapturedContext;
   };
+  public: explicit ConfiguredTaskAwaitable(Task<> task, Boolean continueOnCapturedContext);
+  public: ConfiguredTaskAwaiter GetAwaiter();
+  public: explicit ConfiguredTaskAwaitable() {}
   private: ConfiguredTaskAwaiter m_configuredTaskAwaiter;
 };
 template <class TResult>
@@ -46,6 +49,9 @@ struct ConfiguredTaskAwaitable<TResult> : public valueType<ConfiguredTaskAwaitab
     private: Task<TResult> m_task;
     private: Boolean m_continueOnCapturedContext;
   };
+  public: explicit ConfiguredTaskAwaitable(Task<TResult> task, Boolean continueOnCapturedContext);
+  public: ConfiguredTaskAwaiter GetAwaiter();
+  public: explicit ConfiguredTaskAwaitable() {}
   private: ConfiguredTaskAwaiter m_configuredTaskAwaiter;
 };
 } // namespace ConfiguredTaskAwaitableNamespace

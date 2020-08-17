@@ -42,9 +42,9 @@ namespace Meson.Compiler {
       foreach (var types in sameNameTypes) {
         if (types.Count > 1) {
           foreach (var type in types) {
-            Generator.AddMultiGenericType(type, types);
             CheckVoidGenericType(GetTypes(type.NestedTypes));
           }
+          Generator.AddMultiGenericType(types);
         } else {
           var type = types.First();
           CheckVoidGenericType(GetTypes(type.NestedTypes));

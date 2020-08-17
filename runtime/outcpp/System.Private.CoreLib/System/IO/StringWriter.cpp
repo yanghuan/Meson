@@ -131,25 +131,25 @@ void StringWriter___::WriteLine(StringBuilder value) {
 
 Task<> StringWriter___::WriteAsync(Char value) {
   Write(value);
-  return Task::in::get_CompletedTask();
+  return Task<>::in::get_CompletedTask();
 }
 
 Task<> StringWriter___::WriteAsync(String value) {
   Write(value);
-  return Task::in::get_CompletedTask();
+  return Task<>::in::get_CompletedTask();
 }
 
 Task<> StringWriter___::WriteAsync(Array<Char> buffer, Int32 index, Int32 count) {
   Write(buffer, index, count);
-  return Task::in::get_CompletedTask();
+  return Task<>::in::get_CompletedTask();
 }
 
 Task<> StringWriter___::WriteAsync(ReadOnlyMemory<Char> buffer, CancellationToken cancellationToken) {
   if (cancellationToken.get_IsCancellationRequested()) {
-    return Task::in::FromCanceled(cancellationToken);
+    return Task<>::in::FromCanceled(cancellationToken);
   }
   Write(buffer.get_Span());
-  return Task::in::get_CompletedTask();
+  return Task<>::in::get_CompletedTask();
 }
 
 Task<> StringWriter___::WriteAsync(StringBuilder value, CancellationToken cancellationToken) {
@@ -157,23 +157,23 @@ Task<> StringWriter___::WriteAsync(StringBuilder value, CancellationToken cancel
     return TextWriter::in::WriteAsync(value, cancellationToken);
   }
   if (cancellationToken.get_IsCancellationRequested()) {
-    return Task::in::FromCanceled(cancellationToken);
+    return Task<>::in::FromCanceled(cancellationToken);
   }
   if (!_isOpen) {
     rt::throw_exception<ObjectDisposedException>(nullptr, SR::get_ObjectDisposed_WriterClosed());
   }
   _sb->Append(value);
-  return Task::in::get_CompletedTask();
+  return Task<>::in::get_CompletedTask();
 }
 
 Task<> StringWriter___::WriteLineAsync(Char value) {
   WriteLine(value);
-  return Task::in::get_CompletedTask();
+  return Task<>::in::get_CompletedTask();
 }
 
 Task<> StringWriter___::WriteLineAsync(String value) {
   WriteLine(value);
-  return Task::in::get_CompletedTask();
+  return Task<>::in::get_CompletedTask();
 }
 
 Task<> StringWriter___::WriteLineAsync(StringBuilder value, CancellationToken cancellationToken) {
@@ -181,31 +181,31 @@ Task<> StringWriter___::WriteLineAsync(StringBuilder value, CancellationToken ca
     return TextWriter::in::WriteLineAsync(value, cancellationToken);
   }
   if (cancellationToken.get_IsCancellationRequested()) {
-    return Task::in::FromCanceled(cancellationToken);
+    return Task<>::in::FromCanceled(cancellationToken);
   }
   if (!_isOpen) {
     rt::throw_exception<ObjectDisposedException>(nullptr, SR::get_ObjectDisposed_WriterClosed());
   }
   _sb->Append(value);
   WriteLine();
-  return Task::in::get_CompletedTask();
+  return Task<>::in::get_CompletedTask();
 }
 
 Task<> StringWriter___::WriteLineAsync(Array<Char> buffer, Int32 index, Int32 count) {
   WriteLine(buffer, index, count);
-  return Task::in::get_CompletedTask();
+  return Task<>::in::get_CompletedTask();
 }
 
 Task<> StringWriter___::WriteLineAsync(ReadOnlyMemory<Char> buffer, CancellationToken cancellationToken) {
   if (cancellationToken.get_IsCancellationRequested()) {
-    return Task::in::FromCanceled(cancellationToken);
+    return Task<>::in::FromCanceled(cancellationToken);
   }
   WriteLine(buffer.get_Span());
-  return Task::in::get_CompletedTask();
+  return Task<>::in::get_CompletedTask();
 }
 
 Task<> StringWriter___::FlushAsync() {
-  return Task::in::get_CompletedTask();
+  return Task<>::in::get_CompletedTask();
 }
 
 String StringWriter___::ToString() {

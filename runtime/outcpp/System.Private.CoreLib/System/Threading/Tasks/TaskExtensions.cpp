@@ -14,12 +14,12 @@ Task<> TaskExtensions::Unwrap(Task<Task<>> task) {
   if (task->get_IsCompletedSuccessfully()) {
     task2 = task->get_Result();
     if (task2 == nullptr) {
-      return Task::in::FromCanceled(CancellationToken(true));
+      return Task<>::in::FromCanceled(CancellationToken(true));
     }
   } else {
-    task2 = Task::in::CreateUnwrapPromise<VoidTaskResult>(task, false);
+    task2 = Task<>::in::CreateUnwrapPromise<VoidTaskResult>(task, false);
   }
-  return (Task)task2;
+  return (Task<>)task2;
 }
 
 } // namespace System::Private::CoreLib::System::Threading::Tasks::TaskExtensionsNamespace

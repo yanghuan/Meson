@@ -789,7 +789,7 @@ OperationStatus Utf8Utility::TranscodeToUtf8(Char* pInputBuffer, Int32 inputLeng
   Vector128<Int16> value;
   Unsafe::SkipInit(value);
   if (Sse41::in::X64::in::get_IsSupported()) {
-    value = Vector128::Create((?)(-128));
+    value = Vector128<>::Create((?)(-128));
   }
   UInt32 num2;
   while (true) {
@@ -823,7 +823,7 @@ OperationStatus Utf8Utility::TranscodeToUtf8(Char* pInputBuffer, Int32 inputLeng
         while ((UInt32)num7 < num6) {
           vector = Unsafe::ReadUnaligned<Vector128<Int16>>(pInputBuffer);
           if (Sse41::in::TestZ(vector, value)) {
-            Sse2::in::StoreScalar((UInt64*)pOutputBuffer, Vector128::AsUInt64(Sse2::in::PackUnsignedSaturate(vector, vector)));
+            Sse2::in::StoreScalar((UInt64*)pOutputBuffer, Vector128<>::AsUInt64(Sse2::in::PackUnsignedSaturate(vector, vector)));
             pInputBuffer += 8;
             pOutputBuffer += 8;
             num7++;
@@ -837,8 +837,8 @@ OperationStatus Utf8Utility::TranscodeToUtf8(Char* pInputBuffer, Int32 inputLeng
           if (!Utf16Utility::AllCharsInUInt64AreAscii(num8)) {
             goto IL_01d3;
           }
-          vector = Vector128::AsInt16(Vector128::CreateScalarUnsafe(num8));
-          Unsafe::WriteUnaligned(pOutputBuffer, Sse2::in::ConvertToUInt32(Vector128::AsUInt32(Sse2::in::PackUnsignedSaturate(vector, vector))));
+          vector = Vector128<>::AsInt16(Vector128<>::CreateScalarUnsafe(num8));
+          Unsafe::WriteUnaligned(pOutputBuffer, Sse2::in::ConvertToUInt32(Vector128<>::AsUInt32(Sse2::in::PackUnsignedSaturate(vector, vector))));
           pInputBuffer += 4;
           pOutputBuffer += 4;
           outputBytesRemaining -= 4;
@@ -1032,13 +1032,13 @@ OperationStatus Utf8Utility::TranscodeToUtf8(Char* pInputBuffer, Int32 inputLeng
 
     IL_017a:
       outputBytesRemaining -= 8 * num7;
-      num8 = Sse2::in::X64::in::ConvertToUInt64(Vector128::AsUInt64(vector));
+      num8 = Sse2::in::X64::in::ConvertToUInt64(Vector128<>::AsUInt64(vector));
       if (Utf16Utility::AllCharsInUInt64AreAscii(num8)) {
-        Unsafe::WriteUnaligned(pOutputBuffer, Sse2::in::ConvertToUInt32(Vector128::AsUInt32(Sse2::in::PackUnsignedSaturate(vector, vector))));
+        Unsafe::WriteUnaligned(pOutputBuffer, Sse2::in::ConvertToUInt32(Vector128<>::AsUInt32(Sse2::in::PackUnsignedSaturate(vector, vector))));
         pInputBuffer += 4;
         pOutputBuffer += 4;
         outputBytesRemaining -= 4;
-        num8 = Vector128::GetElement(Vector128::AsUInt64(vector), 1);
+        num8 = Vector128<>::GetElement(Vector128<>::AsUInt64(vector), 1);
       }
       goto IL_01d3;
     }

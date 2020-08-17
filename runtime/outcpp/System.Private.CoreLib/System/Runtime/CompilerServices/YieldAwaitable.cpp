@@ -47,20 +47,20 @@ void YieldAwaitable::YieldAwaiter::QueueContinuation(Action<> continuation, Bool
       ThreadPool::UnsafeQueueUserWorkItem(s_waitCallbackRunAction, continuation);
     }
   } else {
-    Task::in::get_Factory()->StartNew(continuation, CancellationToken(), TaskCreationOptions::PreferFairness, current2);
+    Task<>::in::get_Factory()->StartNew(continuation, CancellationToken(), TaskCreationOptions::PreferFairness, current2);
   }
 }
 
 Action<> YieldAwaitable::YieldAwaiter::OutputCorrelationEtwEvent(Action<> continuation) {
-  Int32 num = Task::in::NewId();
-  Task internalCurrent = Task::in::get_InternalCurrent();
+  Int32 num = Task<>::in::NewId();
+  Task<> internalCurrent = Task<>::in::get_InternalCurrent();
   auto& default = internalCurrent;
   auto& extern = default == nullptr ? nullptr : default->get_Id();
   TplEventSource::in::Log->AwaitTaskContinuationScheduled(TaskScheduler::in::get_Current()->get_Id(), extern != nullptr ? extern : 0, num);
 }
 
 void YieldAwaitable::YieldAwaiter::RunAction(Object state) {
-  ((Action)state)();
+  ((Action<>)state)();
 }
 
 void YieldAwaitable::YieldAwaiter::GetResult() {

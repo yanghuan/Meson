@@ -70,7 +70,7 @@ Action<> AsyncMethodBuilderCore::TryGetStateMachineForDebugger(Action<> action) 
 Task<> AsyncMethodBuilderCore::TryGetContinuationTask(Action<> continuation) {
   ContinuationWrapper continuationWrapper = rt::as<ContinuationWrapper>(continuation->get_Target());
   if (continuationWrapper == nullptr) {
-    return rt::as<Task>(continuation->get_Target());
+    return rt::as<Task<>>(continuation->get_Target());
   }
   return continuationWrapper->_innerTask;
 }

@@ -51,12 +51,12 @@ UIntPtr ASCIIUtility::GetIndexOfFirstNonAsciiByte(Byte* pBuffer, UIntPtr bufferL
 
 UIntPtr ASCIIUtility::GetIndexOfFirstNonAsciiByte_Default(Byte* pBuffer, UIntPtr bufferLength) {
   Byte* value = pBuffer;
-  if (Vector::get_IsHardwareAccelerated() && bufferLength >= (UInt32)(2 * Vector<SByte>::get_Count())) {
+  if (Vector<>::get_IsHardwareAccelerated() && bufferLength >= (UInt32)(2 * Vector<SByte>::get_Count())) {
     UInt32 count = (UInt32)Vector<SByte>::get_Count();
-    if (Vector::GreaterThanOrEqualAll(Unsafe::ReadUnaligned<Vector<SByte>>(pBuffer), Vector<SByte>::get_Zero())) {
+    if (Vector<>::GreaterThanOrEqualAll(Unsafe::ReadUnaligned<Vector<SByte>>(pBuffer), Vector<SByte>::get_Zero())) {
       Byte* ptr = pBuffer + bufferLength - count;
       pBuffer = (Byte*)(void*)(UIntPtr)((UIntPtr)((IntPtr)(UIntPtr)(UIntPtr)(void*)pBuffer + (IntPtr)count) & ~(UIntPtr)(count - 1));
-      while (!Vector::LessThanAny(Unsafe::Read<Vector<SByte>>(pBuffer), Vector<SByte>::get_Zero())) {
+      while (!Vector<>::LessThanAny(Unsafe::Read<Vector<SByte>>(pBuffer), Vector<SByte>::get_Zero())) {
         pBuffer += count;
         if (pBuffer > ptr) {
           break;
@@ -221,14 +221,14 @@ UIntPtr ASCIIUtility::GetIndexOfFirstNonAsciiChar(Char* pBuffer, UIntPtr bufferL
 
 UIntPtr ASCIIUtility::GetIndexOfFirstNonAsciiChar_Default(Char* pBuffer, UIntPtr bufferLength) {
   Char* value = pBuffer;
-  if (Vector::get_IsHardwareAccelerated() && bufferLength >= (UInt32)(2 * Vector<UInt16>::get_Count())) {
+  if (Vector<>::get_IsHardwareAccelerated() && bufferLength >= (UInt32)(2 * Vector<UInt16>::get_Count())) {
     UInt32 count = (UInt32)Vector<UInt16>::get_Count();
     UInt32 count2 = (UInt32)Vector<Byte>::get_Count();
     Vector<UInt16> right = Vector<UInt16>(127);
-    if (Vector::LessThanOrEqualAll(Unsafe::ReadUnaligned<Vector<UInt16>>(pBuffer), right)) {
+    if (Vector<>::LessThanOrEqualAll(Unsafe::ReadUnaligned<Vector<UInt16>>(pBuffer), right)) {
       Char* ptr = pBuffer + bufferLength - count;
       pBuffer = (Char*)(void*)(UIntPtr)((UIntPtr)((IntPtr)(UIntPtr)(UIntPtr)(void*)pBuffer + (IntPtr)count2) & ~(UIntPtr)(count2 - 1));
-      while (!Vector::GreaterThanAny(Unsafe::Read<Vector<UInt16>>(pBuffer), right)) {
+      while (!Vector<>::GreaterThanAny(Unsafe::Read<Vector<UInt16>>(pBuffer), right)) {
         pBuffer += count;
         if (pBuffer > ptr) {
           break;
@@ -287,10 +287,10 @@ UIntPtr ASCIIUtility::GetIndexOfFirstNonAsciiChar_Sse2(Char* pBuffer, UIntPtr bu
   Vector128<UInt16> left;
   UInt32 num3;
   if (bufferLength >= num2) {
-    right = Vector128::Create((?)65408);
-    right2 = Vector128::Create((?)32640);
+    right = Vector128<>::Create((?)65408);
+    right2 = Vector128<>::Create((?)32640);
     left = Sse2::in::LoadVector128((UInt16*)pBuffer);
-    num3 = (UInt32)Sse2::in::MoveMask(Vector128::AsByte(Sse2::in::AddSaturate(left, right2)));
+    num3 = (UInt32)Sse2::in::MoveMask(Vector128<>::AsByte(Sse2::in::AddSaturate(left, right2)));
     if ((num3 & 43690) == 0) {
       bufferLength <<= 1;
       if (bufferLength < 2 * num) {
@@ -313,7 +313,7 @@ UIntPtr ASCIIUtility::GetIndexOfFirstNonAsciiChar_Sse2(Char* pBuffer, UIntPtr bu
             break;
           }
         } else {
-          num3 = (UInt32)Sse2::in::MoveMask(Vector128::AsByte(Sse2::in::AddSaturate(left2, right2)));
+          num3 = (UInt32)Sse2::in::MoveMask(Vector128<>::AsByte(Sse2::in::AddSaturate(left2, right2)));
           if ((num3 & 43690) != 0) {
             break;
           }
@@ -329,7 +329,7 @@ UIntPtr ASCIIUtility::GetIndexOfFirstNonAsciiChar_Sse2(Char* pBuffer, UIntPtr bu
           goto IL_020e;
         }
       } else {
-        num3 = (UInt32)Sse2::in::MoveMask(Vector128::AsByte(Sse2::in::AddSaturate(left, right2)));
+        num3 = (UInt32)Sse2::in::MoveMask(Vector128<>::AsByte(Sse2::in::AddSaturate(left, right2)));
         if ((num3 & 43690) != 0) {
           goto IL_0222;
         }
@@ -385,7 +385,7 @@ IL_0118:
         goto IL_020e;
       }
     } else {
-      num3 = (UInt32)Sse2::in::MoveMask(Vector128::AsByte(Sse2::in::AddSaturate(left, right2)));
+      num3 = (UInt32)Sse2::in::MoveMask(Vector128<>::AsByte(Sse2::in::AddSaturate(left, right2)));
       if ((num3 & 43690) != 0) {
         goto IL_0222;
       }
@@ -403,7 +403,7 @@ IL_0166:
         goto IL_020e;
       }
     } else {
-      num3 = (UInt32)Sse2::in::MoveMask(Vector128::AsByte(Sse2::in::AddSaturate(left, right2)));
+      num3 = (UInt32)Sse2::in::MoveMask(Vector128<>::AsByte(Sse2::in::AddSaturate(left, right2)));
       if ((num3 & 43690) != 0) {
         goto IL_0222;
       }
@@ -413,14 +413,14 @@ IL_0166:
   goto IL_01bf;
 
 IL_020e:
-  num3 = (UInt32)Sse2::in::MoveMask(Vector128::AsByte(Sse2::in::AddSaturate(left, right2)));
+  num3 = (UInt32)Sse2::in::MoveMask(Vector128<>::AsByte(Sse2::in::AddSaturate(left, right2)));
   goto IL_0222;
 }
 
 void ASCIIUtility::NarrowFourUtf16CharsToAsciiAndWriteToBuffer(Byte& outputBuffer, UInt64 value) {
   if (Sse2::in::X64::in::get_IsSupported()) {
-    Vector128<Int16> vector = Vector128::AsInt16(Sse2::in::X64::in::ConvertScalarToVector128UInt64(value));
-    Vector128<UInt32> value2 = Vector128::AsUInt32(Sse2::in::PackUnsignedSaturate(vector, vector));
+    Vector128<Int16> vector = Vector128<>::AsInt16(Sse2::in::X64::in::ConvertScalarToVector128UInt64(value));
+    Vector128<UInt32> value2 = Vector128<>::AsUInt32(Sse2::in::PackUnsignedSaturate(vector, vector));
     Unsafe::WriteUnaligned(outputBuffer, Sse2::in::ConvertToUInt32(value2));
   } else if (BitConverter::IsLittleEndian) {
     outputBuffer = (Byte)value;
@@ -466,7 +466,7 @@ UIntPtr ASCIIUtility::NarrowUtf16ToAscii(Char* pUtf16Buffer, Byte* pAsciiBuffer,
       }
       num = NarrowUtf16ToAscii_Sse2(pUtf16Buffer, pAsciiBuffer, elementCount);
     }
-  } else if (Vector::get_IsHardwareAccelerated()) {
+  } else if (Vector<>::get_IsHardwareAccelerated()) {
     UInt32 num5 = (UInt32)Unsafe::SizeOf<Vector<Byte>>();
     if (elementCount >= 2 * num5) {
       _ = IntPtr::get_Size();
@@ -479,10 +479,10 @@ UIntPtr ASCIIUtility::NarrowUtf16ToAscii(Char* pUtf16Buffer, Byte* pAsciiBuffer,
       do {
         Vector<UInt16> vector = Unsafe::ReadUnaligned<Vector<UInt16>>(pUtf16Buffer + num);
         Vector<UInt16> vector2 = Unsafe::ReadUnaligned<Vector<UInt16>>(pUtf16Buffer + num + Vector<UInt16>::get_Count());
-        if (Vector::GreaterThanAny(Vector::BitwiseOr(vector, vector2), right)) {
+        if (Vector<>::GreaterThanAny(Vector<>::BitwiseOr(vector, vector2), right)) {
           break;
         }
-        Vector<Byte> value = Vector::Narrow(vector, vector2);
+        Vector<Byte> value = Vector<>::Narrow(vector, vector2);
         Unsafe::WriteUnaligned(pAsciiBuffer + num, value);
         num += num5;
       } while (num <= num6)
@@ -554,19 +554,19 @@ IL_0137:
 UIntPtr ASCIIUtility::NarrowUtf16ToAscii_Sse2(Char* pUtf16Buffer, Byte* pAsciiBuffer, UIntPtr elementCount) {
   UInt32 num = (UInt32)Unsafe::SizeOf<Vector128<Byte>>();
   UIntPtr num2 = num - 1;
-  Vector128<Int16> right = Vector128::Create((?)(-128));
-  Vector128<UInt16> right2 = Vector128::Create((?)32640);
+  Vector128<Int16> right = Vector128<>::Create((?)(-128));
+  Vector128<UInt16> right2 = Vector128<>::Create((?)32640);
   Vector128<Int16> vector = Sse2::in::LoadVector128((Int16*)pUtf16Buffer);
   if (Sse41::in::get_IsSupported()) {
     if (!Sse41::in::TestZ(vector, right)) {
       return 0u;
     }
-  } else if ((Sse2::in::MoveMask(Vector128::AsByte(Sse2::in::AddSaturate(Vector128::AsUInt16(vector), right2))) & 43690) != 0) {
+  } else if ((Sse2::in::MoveMask(Vector128<>::AsByte(Sse2::in::AddSaturate(Vector128<>::AsUInt16(vector), right2))) & 43690) != 0) {
     return 0u;
   }
 
   Vector128<Byte> vector2 = Sse2::in::PackUnsignedSaturate(vector, vector);
-  Sse2::in::StoreScalar((UInt64*)pAsciiBuffer, Vector128::AsUInt64(vector2));
+  Sse2::in::StoreScalar((UInt64*)pAsciiBuffer, Vector128<>::AsUInt64(vector2));
   UIntPtr num3 = num / 2u;
   if (((UInt32)(Int32)pAsciiBuffer & (num / 2u)) != 0) {
     goto IL_00e7;
@@ -576,7 +576,7 @@ UIntPtr ASCIIUtility::NarrowUtf16ToAscii_Sse2(Char* pUtf16Buffer, Byte* pAsciiBu
     if (Sse41::in::TestZ(vector, right)) {
       goto IL_00ca;
     }
-  } else if ((Sse2::in::MoveMask(Vector128::AsByte(Sse2::in::AddSaturate(Vector128::AsUInt16(vector), right2))) & 43690) == 0) {
+  } else if ((Sse2::in::MoveMask(Vector128<>::AsByte(Sse2::in::AddSaturate(Vector128<>::AsUInt16(vector), right2))) & 43690) == 0) {
     goto IL_00ca;
   }
 
@@ -596,7 +596,7 @@ IL_00e7:
       if (Sse41::in::TestZ(vector3, right)) {
         goto IL_0160;
       }
-    } else if ((Sse2::in::MoveMask(Vector128::AsByte(Sse2::in::AddSaturate(Vector128::AsUInt16(vector3), right2))) & 43690) == 0) {
+    } else if ((Sse2::in::MoveMask(Vector128<>::AsByte(Sse2::in::AddSaturate(Vector128<>::AsUInt16(vector3), right2))) & 43690) == 0) {
       goto IL_0160;
     }
 
@@ -604,12 +604,12 @@ IL_00e7:
       if (!Sse41::in::TestZ(vector, right)) {
         break;
       }
-    } else if ((Sse2::in::MoveMask(Vector128::AsByte(Sse2::in::AddSaturate(Vector128::AsUInt16(vector), right2))) & 43690) != 0) {
+    } else if ((Sse2::in::MoveMask(Vector128<>::AsByte(Sse2::in::AddSaturate(Vector128<>::AsUInt16(vector), right2))) & 43690) != 0) {
       break;
     }
 
     vector2 = Sse2::in::PackUnsignedSaturate(vector, vector);
-    Sse2::in::StoreScalar((UInt64*)(pAsciiBuffer + num3), Vector128::AsUInt64(vector2));
+    Sse2::in::StoreScalar((UInt64*)(pAsciiBuffer + num3), Vector128<>::AsUInt64(vector2));
     num3 += num / 2u;
     break;
 
@@ -622,7 +622,7 @@ IL_00e7:
 
 IL_00ca:
   vector2 = Sse2::in::PackUnsignedSaturate(vector, vector);
-  Sse2::in::StoreScalar((UInt64*)(pAsciiBuffer + num3), Vector128::AsUInt64(vector2));
+  Sse2::in::StoreScalar((UInt64*)(pAsciiBuffer + num3), Vector128<>::AsUInt64(vector2));
   goto IL_00e7;
 }
 
@@ -632,18 +632,18 @@ UIntPtr ASCIIUtility::WidenAsciiToUtf16(Byte* pAsciiBuffer, Char* pUtf16Buffer, 
     if (elementCount >= (UInt32)(2 * Unsafe::SizeOf<Vector128<Byte>>())) {
       num = WidenAsciiToUtf16_Sse2(pAsciiBuffer, pUtf16Buffer, elementCount);
     }
-  } else if (Vector::get_IsHardwareAccelerated()) {
+  } else if (Vector<>::get_IsHardwareAccelerated()) {
     UInt32 num2 = (UInt32)Unsafe::SizeOf<Vector<Byte>>();
     if (elementCount >= num2) {
       UIntPtr num3 = elementCount - num2;
       do {
         Vector<SByte> vector = Unsafe::ReadUnaligned<Vector<SByte>>(pAsciiBuffer + num);
-        if (Vector::LessThanAny(vector, Vector<SByte>::get_Zero())) {
+        if (Vector<>::LessThanAny(vector, Vector<SByte>::get_Zero())) {
           break;
         }
         Vector<UInt16> low;
         Vector<UInt16> high;
-        Vector::Widen(Vector::AsVectorByte(vector), low, high);
+        Vector<>::Widen(Vector<>::AsVectorByte(vector), low, high);
         Unsafe::WriteUnaligned(pUtf16Buffer + num, low);
         Unsafe::WriteUnaligned(pUtf16Buffer + num + Vector<UInt16>::get_Count(), high);
         num += num2;
@@ -743,8 +743,8 @@ UIntPtr ASCIIUtility::WidenAsciiToUtf16_Sse2(Byte* pAsciiBuffer, Char* pUtf16Buf
 
 void ASCIIUtility::WidenFourAsciiBytesToUtf16AndWriteToBuffer(Char& outputBuffer, UInt32 value) {
   if (Sse2::in::X64::in::get_IsSupported()) {
-    Vector128<Byte> left = Vector128::AsByte(Sse2::in::ConvertScalarToVector128UInt32(value));
-    Vector128<UInt64> value2 = Vector128::AsUInt64(Sse2::in::UnpackLow(left, Vector128<Byte>::get_Zero()));
+    Vector128<Byte> left = Vector128<>::AsByte(Sse2::in::ConvertScalarToVector128UInt32(value));
+    Vector128<UInt64> value2 = Vector128<>::AsUInt64(Sse2::in::UnpackLow(left, Vector128<Byte>::get_Zero()));
     Unsafe::WriteUnaligned(Unsafe::As<Char, Byte>(outputBuffer), Sse2::in::X64::in::ConvertToUInt64(value2));
   } else if (BitConverter::IsLittleEndian) {
     outputBuffer = (Char)(Byte)value;

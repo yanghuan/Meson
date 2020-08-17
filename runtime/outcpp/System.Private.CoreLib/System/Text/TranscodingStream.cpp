@@ -85,12 +85,12 @@ void TranscodingStream___::Dispose(Boolean disposing) {
 }
 
 ValueTask<> TranscodingStream___::DisposeAsync() {
-  auto DisposeAsyncCore = [](ArraySegment<Byte> pendingData) -> ValueTask {
+  auto DisposeAsyncCore = [](ArraySegment<Byte> pendingData) -> ValueTask<> {
     Stream innerStream2 = _innerStream;
     _innerStream = nullptr;
   };
   if (_innerStream == nullptr) {
-    return ValueTask();
+    return ValueTask<>();
   }
   ArraySegment<Byte> pendingData2 = FinalFlushWriteBuffers();
   if (pendingData2.get_Count() == 0) {
@@ -99,7 +99,7 @@ ValueTask<> TranscodingStream___::DisposeAsync() {
     if (!_leaveOpen) {
       return innerStream->DisposeAsync();
     }
-    return ValueTask();
+    return ValueTask<>();
   }
   return DisposeAsyncCore(pendingData2);
 }
@@ -230,7 +230,7 @@ ValueTask<Int32> TranscodingStream___::ReadAsync(Memory<Byte> buffer, Cancellati
   };
   EnsurePreReadConditions();
   if (cancellationToken.get_IsCancellationRequested()) {
-    return ValueTask<Int32>(Task::in::FromCanceled<Int32>(cancellationToken));
+    return ValueTask<Int32>(Task<>::in::FromCanceled<Int32>(cancellationToken));
   }
   return ReadAsyncCore(buffer, cancellationToken);
 }
@@ -299,7 +299,7 @@ Task<> TranscodingStream___::WriteAsync(Array<Byte> buffer, Int32 offset, Int32 
 }
 
 ValueTask<> TranscodingStream___::WriteAsync(ReadOnlyMemory<Byte> buffer, CancellationToken cancellationToken) {
-  auto WriteAsyncCore = [](ReadOnlyMemory<Byte> remainingOuterEncodedBytes, CancellationToken cancellationToken) -> ValueTask {
+  auto WriteAsyncCore = [](ReadOnlyMemory<Byte> remainingOuterEncodedBytes, CancellationToken cancellationToken) -> ValueTask<> {
     Int32 minimumLength = Math::Clamp(remainingOuterEncodedBytes.get_Length(), 4096, 1048576);
     Array<Char> scratchChars = ArrayPool<Char>::in::get_Shared()->Rent(minimumLength);
     Array<Byte> scratchBytes = ArrayPool<Byte>::in::get_Shared()->Rent(minimumLength);
@@ -329,7 +329,7 @@ ValueTask<> TranscodingStream___::WriteAsync(ReadOnlyMemory<Byte> buffer, Cancel
   };
   EnsurePreWriteConditions();
   if (cancellationToken.get_IsCancellationRequested()) {
-    return ValueTask(Task::in::FromCanceled(cancellationToken));
+    return ValueTask<>(Task<>::in::FromCanceled(cancellationToken));
   }
   return WriteAsyncCore(buffer, cancellationToken);
 }

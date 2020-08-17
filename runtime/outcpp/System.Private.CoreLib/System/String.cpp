@@ -1665,13 +1665,13 @@ String String___::Replace(Char oldChar, Char newChar) {
   }
   UInt16& reference = Unsafe::Add(Unsafe::As<Char, UInt16>(_firstChar), num3);
   UInt16& reference2 = Unsafe::Add(Unsafe::As<Char, UInt16>(text->_firstChar), num3);
-  if (Vector::get_IsHardwareAccelerated() && num2 >= Vector<UInt16>::get_Count()) {
+  if (Vector<>::get_IsHardwareAccelerated() && num2 >= Vector<UInt16>::get_Count()) {
     Vector<UInt16> right = Vector<UInt16>(oldChar);
     Vector<UInt16> left = Vector<UInt16>(newChar);
     do {
       Vector<UInt16> vector = Unsafe::ReadUnaligned<Vector<UInt16>>(Unsafe::As<UInt16, Byte>(reference));
-      Vector<UInt16> condition = Vector::Equals(vector, right);
-      Vector<UInt16> value = Vector::ConditionalSelect(condition, left, vector);
+      Vector<UInt16> condition = Vector<>::Equals(vector, right);
+      Vector<UInt16> value = Vector<>::ConditionalSelect(condition, left, vector);
       Unsafe::WriteUnaligned(Unsafe::As<UInt16, Byte>(reference2), value);
       reference = Unsafe::Add(reference, Vector<UInt16>::get_Count());
       reference2 = Unsafe::Add(reference2, Vector<UInt16>::get_Count());

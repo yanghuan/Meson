@@ -290,8 +290,13 @@ namespace rt {
     }
 
     template <class... Args>
-    constexpr auto& operator [](Args&&... args) {
+    auto& operator [](Args&&... args) {
       return get()->operator[](std::forward<Args>(args)...);
+    }
+
+    template <class... Args>
+    auto operator ()(Args&&... args) {
+      return get()->Invoke(std::forward<Args>(args)...);
     }
 
     T* get() const noexcept {

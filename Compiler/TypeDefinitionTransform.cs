@@ -188,10 +188,6 @@ namespace Meson.Compiler {
     }
 
     private bool IsExportMethod(IMethod method) {
-      if (IsMulti) {
-        return false;
-      }
-
       if (method.Name.Contains('<')) {
         return false;
       }

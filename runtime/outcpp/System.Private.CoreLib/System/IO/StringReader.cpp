@@ -130,11 +130,11 @@ String StringReader___::ReadLine() {
 }
 
 Task<String> StringReader___::ReadLineAsync() {
-  return Task::in::FromResult(ReadLine());
+  return Task<>::in::FromResult(ReadLine());
 }
 
 Task<String> StringReader___::ReadToEndAsync() {
-  return Task::in::FromResult(ReadToEnd());
+  return Task<>::in::FromResult(ReadToEnd());
 }
 
 Task<Int32> StringReader___::ReadBlockAsync(Array<Char> buffer, Int32 index, Int32 count) {
@@ -147,14 +147,14 @@ Task<Int32> StringReader___::ReadBlockAsync(Array<Char> buffer, Int32 index, Int
   if (buffer->get_Length() - index < count) {
     rt::throw_exception<ArgumentException>(SR::get_Argument_InvalidOffLen());
   }
-  return Task::in::FromResult(ReadBlock(buffer, index, count));
+  return Task<>::in::FromResult(ReadBlock(buffer, index, count));
 }
 
 ValueTask<Int32> StringReader___::ReadBlockAsync(Memory<Char> buffer, CancellationToken cancellationToken) {
   if (!cancellationToken.get_IsCancellationRequested()) {
     return ValueTask<Int32>(ReadBlock(buffer.get_Span()));
   }
-  return ValueTask<Int32>(Task::in::FromCanceled<Int32>(cancellationToken));
+  return ValueTask<Int32>(Task<>::in::FromCanceled<Int32>(cancellationToken));
 }
 
 Task<Int32> StringReader___::ReadAsync(Array<Char> buffer, Int32 index, Int32 count) {
@@ -167,14 +167,14 @@ Task<Int32> StringReader___::ReadAsync(Array<Char> buffer, Int32 index, Int32 co
   if (buffer->get_Length() - index < count) {
     rt::throw_exception<ArgumentException>(SR::get_Argument_InvalidOffLen());
   }
-  return Task::in::FromResult(Read(buffer, index, count));
+  return Task<>::in::FromResult(Read(buffer, index, count));
 }
 
 ValueTask<Int32> StringReader___::ReadAsync(Memory<Char> buffer, CancellationToken cancellationToken) {
   if (!cancellationToken.get_IsCancellationRequested()) {
     return ValueTask<Int32>(Read(buffer.get_Span()));
   }
-  return ValueTask<Int32>(Task::in::FromCanceled<Int32>(cancellationToken));
+  return ValueTask<Int32>(Task<>::in::FromCanceled<Int32>(cancellationToken));
 }
 
 } // namespace System::Private::CoreLib::System::IO::StringReaderNamespace

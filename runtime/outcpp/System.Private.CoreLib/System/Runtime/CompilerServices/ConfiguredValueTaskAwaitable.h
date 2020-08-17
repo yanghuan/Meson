@@ -28,6 +28,9 @@ struct ConfiguredValueTaskAwaitable<> : public valueType<ConfiguredValueTaskAwai
     public: explicit ConfiguredValueTaskAwaiter() {}
     private: ValueTask<> _value;
   };
+  public: explicit ConfiguredValueTaskAwaitable(ValueTask<>& value);
+  public: ConfiguredValueTaskAwaiter GetAwaiter();
+  public: explicit ConfiguredValueTaskAwaitable() {}
   private: ValueTask<> _value;
 };
 template <class TResult>
@@ -42,6 +45,9 @@ struct ConfiguredValueTaskAwaitable<TResult> : public valueType<ConfiguredValueT
     public: explicit ConfiguredValueTaskAwaiter() {}
     private: ValueTask<TResult> _value;
   };
+  public: explicit ConfiguredValueTaskAwaitable(ValueTask<TResult>& value);
+  public: ConfiguredValueTaskAwaiter GetAwaiter();
+  public: explicit ConfiguredValueTaskAwaitable() {}
   private: ValueTask<TResult> _value;
 };
 } // namespace ConfiguredValueTaskAwaitableNamespace

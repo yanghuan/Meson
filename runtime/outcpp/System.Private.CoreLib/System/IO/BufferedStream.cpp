@@ -191,7 +191,7 @@ void BufferedStream___::Flush() {
 
 Task<> BufferedStream___::FlushAsync(CancellationToken cancellationToken) {
   if (cancellationToken.get_IsCancellationRequested()) {
-    return Task::in::FromCanceled<Int32>(cancellationToken);
+    return Task<>::in::FromCanceled<Int32>(cancellationToken);
   }
   EnsureNotClosed();
   return FlushAsyncInternal(cancellationToken);
@@ -323,7 +323,7 @@ Task<Int32> BufferedStream___::LastSyncCompletedReadTask(Int32 val) {
   if (lastSyncCompletedReadTask != nullptr && lastSyncCompletedReadTask->get_Result() == val) {
     return lastSyncCompletedReadTask;
   }
-  return _lastSyncCompletedReadTask = Task::in::FromResult(val);
+  return _lastSyncCompletedReadTask = Task<>::in::FromResult(val);
 }
 
 Task<Int32> BufferedStream___::ReadAsync(Array<Byte> buffer, Int32 offset, Int32 count, CancellationToken cancellationToken) {
@@ -340,13 +340,13 @@ Task<Int32> BufferedStream___::ReadAsync(Array<Byte> buffer, Int32 offset, Int32
     rt::throw_exception<ArgumentException>(SR::get_Argument_InvalidOffLen());
   }
   if (cancellationToken.get_IsCancellationRequested()) {
-    return Task::in::FromCanceled<Int32>(cancellationToken);
+    return Task<>::in::FromCanceled<Int32>(cancellationToken);
   }
   EnsureNotClosed();
   EnsureCanRead();
   Int32 num = 0;
   SemaphoreSlim semaphoreSlim = LazyEnsureAsyncActiveSemaphoreInitialized();
-  Task task = semaphoreSlim->WaitAsync(cancellationToken);
+  Task<> task = semaphoreSlim->WaitAsync(cancellationToken);
   if (task->get_IsCompletedSuccessfully()) {
     Boolean flag = true;
     try {
@@ -354,7 +354,7 @@ Task<Int32> BufferedStream___::ReadAsync(Array<Byte> buffer, Int32 offset, Int32
       num = ReadFromBuffer(buffer, offset, count, error);
       flag = (num == count || error != nullptr);
       if (flag) {
-        return (error == nullptr) ? LastSyncCompletedReadTask(num) : Task::in::FromException<Int32>(error);
+        return (error == nullptr) ? LastSyncCompletedReadTask(num) : Task<>::in::FromException<Int32>(error);
       }
     } catch (...) {
     } finally: {
@@ -368,13 +368,13 @@ Task<Int32> BufferedStream___::ReadAsync(Array<Byte> buffer, Int32 offset, Int32
 
 ValueTask<Int32> BufferedStream___::ReadAsync(Memory<Byte> buffer, CancellationToken cancellationToken) {
   if (cancellationToken.get_IsCancellationRequested()) {
-    return ValueTask<Int32>(Task::in::FromCanceled<Int32>(cancellationToken));
+    return ValueTask<Int32>(Task<>::in::FromCanceled<Int32>(cancellationToken));
   }
   EnsureNotClosed();
   EnsureCanRead();
   Int32 num = 0;
   SemaphoreSlim semaphoreSlim = LazyEnsureAsyncActiveSemaphoreInitialized();
-  Task task = semaphoreSlim->WaitAsync(cancellationToken);
+  Task<> task = semaphoreSlim->WaitAsync(cancellationToken);
   if (task->get_IsCompletedSuccessfully()) {
     Boolean flag = true;
     try {
@@ -544,12 +544,12 @@ Task<> BufferedStream___::WriteAsync(Array<Byte> buffer, Int32 offset, Int32 cou
 
 ValueTask<> BufferedStream___::WriteAsync(ReadOnlyMemory<Byte> buffer, CancellationToken cancellationToken) {
   if (cancellationToken.get_IsCancellationRequested()) {
-    return ValueTask(Task::in::FromCanceled<Int32>(cancellationToken));
+    return ValueTask<>(Task<>::in::FromCanceled<Int32>(cancellationToken));
   }
   EnsureNotClosed();
   EnsureCanWrite();
   SemaphoreSlim semaphoreSlim = LazyEnsureAsyncActiveSemaphoreInitialized();
-  Task task = semaphoreSlim->WaitAsync(cancellationToken);
+  Task<> task = semaphoreSlim->WaitAsync(cancellationToken);
   if (task->get_IsCompletedSuccessfully()) {
     Boolean flag = true;
     try {
@@ -559,7 +559,7 @@ ValueTask<> BufferedStream___::WriteAsync(ReadOnlyMemory<Byte> buffer, Cancellat
       flag = (buffer.get_Length() < _bufferSize - _writePos);
       if (flag) {
         Int32 num = WriteToBuffer(buffer.get_Span());
-        return ValueTask();
+        return ValueTask<>();
       }
     } catch (...) {
     } finally: {
@@ -645,7 +645,7 @@ Task<> BufferedStream___::CopyToAsync(Stream destination, Int32 bufferSize, Canc
   if (!cancellationToken.get_IsCancellationRequested()) {
     return CopyToAsyncCore(destination, bufferSize, cancellationToken);
   }
-  return Task::in::FromCanceled<Int32>(cancellationToken);
+  return Task<>::in::FromCanceled<Int32>(cancellationToken);
 }
 
 Task<> BufferedStream___::CopyToAsyncCore(Stream destination, Int32 bufferSize, CancellationToken cancellationToken) {

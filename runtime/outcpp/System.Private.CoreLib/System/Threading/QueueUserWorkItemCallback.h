@@ -12,12 +12,17 @@ FORWARD(WaitCallback)
 namespace QueueUserWorkItemCallbackNamespace {
 CLASS_FORWARD(QueueUserWorkItemCallback, T1, T2)
 CLASS_(QueueUserWorkItemCallback) : public QueueUserWorkItemCallbackBase::in {
+  public: void ctor(WaitCallback callback, Object state, ExecutionContext context);
+  public: void Execute();
+  private: static void cctor();
   private: WaitCallback _callback;
   private: Object _state;
   private: ExecutionContext _context;
   private: static Action<QueueUserWorkItemCallback<>> s_executionContextShim;
 };
 CLASS_(QueueUserWorkItemCallback, TState) : public QueueUserWorkItemCallbackBase::in {
+  public: void ctor(Action<TState> callback, TState state, ExecutionContext context);
+  public: void Execute();
   private: Action<TState> _callback;
   private: TState _state;
   private: ExecutionContext _context;

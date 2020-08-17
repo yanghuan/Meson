@@ -85,7 +85,7 @@ ValueTask<> WriteCallbackStream___::WriteAsync(ReadOnlyMemory<Byte> buffer, Canc
   try {
     cancellationToken.ThrowIfCancellationRequested();
     _action(buffer.get_Span(), _state);
-    return ValueTask();
+    return ValueTask<>();
   } catch (Exception exception) {
   }
 }
@@ -94,7 +94,7 @@ void WriteCallbackStream___::Flush() {
 }
 
 Task<> WriteCallbackStream___::FlushAsync(CancellationToken token) {
-  return Task::in::get_CompletedTask();
+  return Task<>::in::get_CompletedTask();
 }
 
 Int32 WriteCallbackStream___::Read(Array<Byte> buffer, Int32 offset, Int32 count) {
@@ -172,9 +172,9 @@ void NullStream___::CopyTo(Stream destination, Int32 bufferSize) {
 Task<> NullStream___::CopyToAsync(Stream destination, Int32 bufferSize, CancellationToken cancellationToken) {
   StreamHelpers::ValidateCopyToArgs((NullStream)this, destination, bufferSize);
   if (!cancellationToken.get_IsCancellationRequested()) {
-    return Task::in::get_CompletedTask();
+    return Task<>::in::get_CompletedTask();
   }
-  return Task::in::FromCanceled(cancellationToken);
+  return Task<>::in::FromCanceled(cancellationToken);
 }
 
 void NullStream___::CopyTo(ReadOnlySpanAction<Byte, Object> callback, Object state, Int32 bufferSize) {
@@ -184,9 +184,9 @@ void NullStream___::CopyTo(ReadOnlySpanAction<Byte, Object> callback, Object sta
 Task<> NullStream___::CopyToAsync(Func<ReadOnlyMemory<Byte>, Object, CancellationToken, ValueTask<>> callback, Object state, Int32 bufferSize, CancellationToken cancellationToken) {
   StreamHelpers::ValidateCopyToArgs((NullStream)this, callback, bufferSize);
   if (!cancellationToken.get_IsCancellationRequested()) {
-    return Task::in::get_CompletedTask();
+    return Task<>::in::get_CompletedTask();
   }
-  return Task::in::FromCanceled(cancellationToken);
+  return Task<>::in::FromCanceled(cancellationToken);
 }
 
 void NullStream___::Dispose(Boolean disposing) {
@@ -197,9 +197,9 @@ void NullStream___::Flush() {
 
 Task<> NullStream___::FlushAsync(CancellationToken cancellationToken) {
   if (!cancellationToken.get_IsCancellationRequested()) {
-    return Task::in::get_CompletedTask();
+    return Task<>::in::get_CompletedTask();
   }
-  return Task::in::FromCanceled(cancellationToken);
+  return Task<>::in::FromCanceled(cancellationToken);
 }
 
 IAsyncResult NullStream___::BeginRead(Array<Byte> buffer, Int32 offset, Int32 count, AsyncCallback callback, Object state) {
@@ -258,16 +258,16 @@ void NullStream___::Write(ReadOnlySpan<Byte> buffer) {
 
 Task<> NullStream___::WriteAsync(Array<Byte> buffer, Int32 offset, Int32 count, CancellationToken cancellationToken) {
   if (!cancellationToken.get_IsCancellationRequested()) {
-    return Task::in::get_CompletedTask();
+    return Task<>::in::get_CompletedTask();
   }
-  return Task::in::FromCanceled(cancellationToken);
+  return Task<>::in::FromCanceled(cancellationToken);
 }
 
 ValueTask<> NullStream___::WriteAsync(ReadOnlyMemory<Byte> buffer, CancellationToken cancellationToken) {
   if (!cancellationToken.get_IsCancellationRequested()) {
-    return ValueTask();
+    return ValueTask<>();
   }
-  return ValueTask(Task::in::FromCanceled(cancellationToken));
+  return ValueTask<>(Task<>::in::FromCanceled(cancellationToken));
 }
 
 void NullStream___::WriteByte(Byte value) {
@@ -281,7 +281,7 @@ void NullStream___::SetLength(Int64 length) {
 }
 
 void NullStream___::cctor() {
-  s_zeroTask = Task::in::FromResult(0);
+  s_zeroTask = Task<>::in::FromResult(0);
 }
 
 Boolean Stream___::SynchronousAsyncResult___::get_IsCompleted() {
@@ -656,7 +656,7 @@ void Stream___::Dispose(Boolean disposing) {
 ValueTask<> Stream___::DisposeAsync() {
   try {
     Dispose();
-    return ValueTask();
+    return ValueTask<>();
   } catch (Exception exception) {
   }
 }
@@ -681,7 +681,7 @@ IAsyncResult Stream___::BeginReadInternal(Array<Byte> buffer, Int32 offset, Int3
     rt::throw_exception(Error::GetReadNotSupported());
   }
   SemaphoreSlim semaphoreSlim = EnsureAsyncActiveSemaphoreInitialized();
-  Task task = nullptr;
+  Task<> task = nullptr;
   if (serializeAsynchronously) {
     task = semaphoreSlim->WaitAsync();
   } else {
@@ -719,7 +719,7 @@ Task<Int32> Stream___::ReadAsync(Array<Byte> buffer, Int32 offset, Int32 count, 
   if (!cancellationToken.get_IsCancellationRequested()) {
     return BeginEndReadAsync(buffer, offset, count);
   }
-  return Task::in::FromCanceled<Int32>(cancellationToken);
+  return Task<>::in::FromCanceled<Int32>(cancellationToken);
 }
 
 ValueTask<Int32> Stream___::ReadAsync(Memory<Byte> buffer, CancellationToken cancellationToken) {
@@ -753,7 +753,7 @@ IAsyncResult Stream___::BeginWriteInternal(Array<Byte> buffer, Int32 offset, Int
     rt::throw_exception(Error::GetWriteNotSupported());
   }
   SemaphoreSlim semaphoreSlim = EnsureAsyncActiveSemaphoreInitialized();
-  Task task = nullptr;
+  Task<> task = nullptr;
   if (serializeAsynchronously) {
     task = semaphoreSlim->WaitAsync();
   } else {
@@ -808,17 +808,17 @@ Task<> Stream___::WriteAsync(Array<Byte> buffer, Int32 offset, Int32 count, Canc
   if (!cancellationToken.get_IsCancellationRequested()) {
     return BeginEndWriteAsync(buffer, offset, count);
   }
-  return Task::in::FromCanceled(cancellationToken);
+  return Task<>::in::FromCanceled(cancellationToken);
 }
 
 ValueTask<> Stream___::WriteAsync(ReadOnlyMemory<Byte> buffer, CancellationToken cancellationToken) {
   ArraySegment<Byte> segment;
   if (MemoryMarshal::TryGetArray(buffer, segment)) {
-    return ValueTask(WriteAsync(segment.get_Array(), segment.get_Offset(), segment.get_Count(), cancellationToken));
+    return ValueTask<>(WriteAsync(segment.get_Array(), segment.get_Offset(), segment.get_Count(), cancellationToken));
   }
   Array<Byte> array = ArrayPool<Byte>::in::get_Shared()->Rent(buffer.get_Length());
   buffer.get_Span().CopyTo(array);
-  return ValueTask(FinishWriteAsync(WriteAsync(array, 0, buffer.get_Length(), cancellationToken), array));
+  return ValueTask<>(FinishWriteAsync(WriteAsync(array, 0, buffer.get_Length(), cancellationToken), array));
 }
 
 Task<> Stream___::FinishWriteAsync(Task<> writeTask, Array<Byte> localBuffer) {
@@ -831,7 +831,7 @@ Task<> Stream___::FinishWriteAsync(Task<> writeTask, Array<Byte> localBuffer) {
 
 Task<> Stream___::BeginEndWriteAsync(Array<Byte> buffer, Int32 offset, Int32 count) {
   if (!HasOverriddenBeginEndWrite()) {
-    return (Task)BeginWriteInternal(buffer, offset, count, nullptr, nullptr, true, false);
+    return (Task<>)BeginWriteInternal(buffer, offset, count, nullptr, nullptr, true, false);
   }
 }
 

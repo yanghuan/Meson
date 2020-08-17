@@ -44,7 +44,7 @@ TaskScheduler TaskScheduler___::get_Current() {
 }
 
 TaskScheduler TaskScheduler___::get_InternalCurrent() {
-  Task internalCurrent = Task::in::get_InternalCurrent();
+  Task<> internalCurrent = Task<>::in::get_InternalCurrent();
   if (internalCurrent == nullptr || (internalCurrent->get_CreationOptions() & TaskCreationOptions::HideScheduler) != 0) {
     return nullptr;
   }
@@ -124,15 +124,15 @@ void TaskScheduler___::PublishUnobservedTaskException(Object sender, UnobservedT
 }
 
 Array<Task<>> TaskScheduler___::GetScheduledTasksForDebugger() {
-  IEnumerable<Task> scheduledTasks = GetScheduledTasks();
+  IEnumerable<Task<>> scheduledTasks = GetScheduledTasks();
   if (scheduledTasks == nullptr) {
     return nullptr;
   }
-  Array<Task> array = rt::as<Array<Task>>(scheduledTasks);
+  Array<Task<>> array = rt::as<Array<Task<>>>(scheduledTasks);
   if (array == nullptr) {
-    array = rt::newobj<List<Task>>(scheduledTasks)->ToArray();
+    array = rt::newobj<List<Task<>>>(scheduledTasks)->ToArray();
   }
-  Array<Task> array2 = array;
+  Array<Task<>> array2 = array;
 }
 
 Array<TaskScheduler> TaskScheduler___::GetTaskSchedulersForDebugger() {

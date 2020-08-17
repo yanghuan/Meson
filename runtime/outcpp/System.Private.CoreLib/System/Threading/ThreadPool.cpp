@@ -180,7 +180,7 @@ Boolean ThreadPool::QueueUserWorkItem(WaitCallback callBack, Object state) {
     ThrowHelper::ThrowArgumentNullException(ExceptionArgument::callBack);
   }
   ExecutionContext executionContext = ExecutionContext::in::Capture();
-  Object callback = (executionContext == nullptr || executionContext->get_IsDefault()) ? ((QueueUserWorkItemCallbackBase)rt::newobj<QueueUserWorkItemCallbackDefaultContext>(callBack, state)) : ((QueueUserWorkItemCallbackBase)rt::newobj<QueueUserWorkItemCallback>(callBack, state, executionContext));
+  Object callback = (executionContext == nullptr || executionContext->get_IsDefault()) ? ((QueueUserWorkItemCallbackBase)rt::newobj<QueueUserWorkItemCallbackDefaultContext<>>(callBack, state)) : ((QueueUserWorkItemCallbackBase)rt::newobj<QueueUserWorkItemCallback<>>(callBack, state, executionContext));
   s_workQueue->Enqueue(callback, true);
   return true;
 }
@@ -189,7 +189,7 @@ Boolean ThreadPool::UnsafeQueueUserWorkItem(WaitCallback callBack, Object state)
   if (callBack == nullptr) {
     ThrowHelper::ThrowArgumentNullException(ExceptionArgument::callBack);
   }
-  Object callback = rt::newobj<QueueUserWorkItemCallbackDefaultContext>(callBack, state);
+  Object callback = rt::newobj<QueueUserWorkItemCallbackDefaultContext<>>(callBack, state);
   s_workQueue->Enqueue(callback, true);
   return true;
 }
@@ -198,7 +198,7 @@ Boolean ThreadPool::UnsafeQueueUserWorkItem(IThreadPoolWorkItem callBack, Boolea
   if (callBack == nullptr) {
     ThrowHelper::ThrowArgumentNullException(ExceptionArgument::callBack);
   }
-  if (rt::is<Task>(callBack)) {
+  if (rt::is<Task<>>(callBack)) {
     ThrowHelper::ThrowArgumentOutOfRangeException(ExceptionArgument::callBack);
   }
   UnsafeQueueUserWorkItemInternal(callBack, preferLocal);

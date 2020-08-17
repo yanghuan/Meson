@@ -372,7 +372,7 @@ Boolean ThreadPoolWorkQueue___::Dispatch() {
         try {
           ThreadPool::ReportThreadStatus(true);
           flag2 = true;
-          Task task = rt::as<Task>(obj);
+          Task<> task = rt::as<Task<>>(obj);
           if (task != nullptr) {
             task->ExecuteFromThreadPool(currentThread);
           } else {
@@ -385,7 +385,7 @@ Boolean ThreadPoolWorkQueue___::Dispatch() {
           }
         }
       } else {
-        Task task2 = rt::as<Task>(obj);
+        Task<> task2 = rt::as<Task<>>(obj);
         if (task2 != nullptr) {
           task2->ExecuteFromThreadPool(currentThread);
         } else {

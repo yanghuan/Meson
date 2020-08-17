@@ -36,7 +36,7 @@ Int32 CompatibleComparer___::Compare(Object a, Object b) {
   if (_comparer != nullptr) {
     return _comparer->Compare(a, b);
   }
-  IComparable comparable = rt::as<IComparable>(a);
+  IComparable<> comparable = rt::as<IComparable<>>(a);
   if (comparable != nullptr) {
     return comparable->CompareTo(b);
   }

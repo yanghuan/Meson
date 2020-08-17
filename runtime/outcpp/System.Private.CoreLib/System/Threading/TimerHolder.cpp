@@ -24,7 +24,7 @@ Boolean TimerHolder___::Close(WaitHandle notifyObject) {
 }
 
 ValueTask<> TimerHolder___::CloseAsync() {
-  ValueTask result = _timer->CloseAsync();
+  ValueTask<> result = _timer->CloseAsync();
   GC::SuppressFinalize((TimerHolder)this);
   return result;
 }

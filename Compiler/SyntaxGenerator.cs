@@ -18,7 +18,7 @@ namespace Meson.Compiler {
 
     public Options Options { get; }
     private readonly Dictionary<IModule, CSharpDecompiler> decompilers_ = new Dictionary<IModule, CSharpDecompiler>();
-    private readonly Dictionary<ITypeDefinition, RefMultiGenericTypeInfo> multiGenericTypes_ = new Dictionary<ITypeDefinition, RefMultiGenericTypeInfo>();
+    private readonly Dictionary<ITypeDefinition, RefMultiGenericTypeInfo> multiGenericTypes_ = new Dictionary<ITypeDefinition, RefMultiGenericTypeInfo>(TypeDefinitionEqualityComparer.Default);
     private readonly Dictionary<ISymbol, SymbolNameSyntax> memberNames_ = new Dictionary<ISymbol, SymbolNameSyntax>();
     private Dictionary<string, HashSet<ITypeDefinition>> namespaceTypes_;
     private static readonly DecompilerSettings decompilerSettings_ = new DecompilerSettings(LanguageVersion.Latest) {
@@ -118,8 +118,8 @@ namespace Meson.Compiler {
       }
     }
 
-    public void AddMultiGenericType(ITypeDefinition type, List<ITypeDefinition> types) {
-      multiGenericTypes_.Add(type, new RefMultiGenericTypeInfo() { Types = types });
+    public void AddMultiGenericType(List<ITypeDefinition> types) {
+      multiGenericTypes_.Add(types.First(), new RefMultiGenericTypeInfo() { Types = types });
     }
 
     public bool IsVoidGenericType(ITypeDefinition type) {
