@@ -329,7 +329,7 @@ Object RuntimeType___::get_GenericCache() {
 }
 
 void RuntimeType___::set_GenericCache(Object value) {
-  get_Cache()->set_GenericCache = value;
+  get_Cache()->set_GenericCache(value);
 }
 
 Boolean RuntimeType___::get_DomainInitialized() {
@@ -337,7 +337,7 @@ Boolean RuntimeType___::get_DomainInitialized() {
 }
 
 void RuntimeType___::set_DomainInitialized(Boolean value) {
-  get_Cache()->set_DomainInitialized = value;
+  get_Cache()->set_DomainInitialized(value);
 }
 
 RuntimeType::in::RuntimeTypeCache RuntimeType___::get_CacheIfExists() {
@@ -1764,7 +1764,7 @@ Object RuntimeType___::CreateInstanceDefaultCtorSlow(Boolean publicOnly, Boolean
     rt::throw_exception<MissingMethodException>(SR::Format(SR::get_Arg_NoDefCTor(), (RuntimeType)this));
   }
   if (canBeCached && fillCache) {
-    get_GenericCache() = rt::newobj<ActivatorCache>(ctor);
+    get_GenericCache(rt::newobj<ActivatorCache>(ctor));
   }
   return result;
 }
@@ -2050,7 +2050,7 @@ TypeCode RuntimeType___::GetTypeCodeImpl() {
       typeCode = ((!((RuntimeType)this == Convert::ConvertTypes[2])) ? ((!((RuntimeType)this == Convert::ConvertTypes[18])) ? TypeCode::Object : TypeCode::String) : TypeCode::DBNull);
       break;
   }
-  get_Cache()->set_TypeCode = typeCode;
+  get_Cache()->set_TypeCode(typeCode);
   return typeCode;
 }
 

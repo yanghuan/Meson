@@ -11,7 +11,8 @@
 namespace System::Private::CoreLib::System::IO::StringReaderNamespace {
 void StringReader___::ctor(String s) {
   auto& default = s;
-  _s = (default != nullptr ? default : rt::throw_exception(rt::newobj<ArgumentNullException>("s")));
+  if (default == nullptr) rt::throw_exception(rt::newobj<ArgumentNullException>("s"));
+  _s = (default);
   _length = s->get_Length();
 }
 

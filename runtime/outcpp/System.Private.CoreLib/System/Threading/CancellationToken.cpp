@@ -38,12 +38,14 @@ CancellationToken::CancellationToken(Boolean canceled) {
 
 CancellationTokenRegistration CancellationToken::Register(Action<> callback) {
   auto& default = callback;
-  return Register(s_actionToActionObjShunt, default != nullptr ? default : rt::throw_exception(rt::newobj<ArgumentNullException>("callback")), false, true);
+  if (default == nullptr) rt::throw_exception(rt::newobj<ArgumentNullException>("callback"));
+  return Register(s_actionToActionObjShunt, default, false, true);
 }
 
 CancellationTokenRegistration CancellationToken::Register(Action<> callback, Boolean useSynchronizationContext) {
   auto& default = callback;
-  return Register(s_actionToActionObjShunt, default != nullptr ? default : rt::throw_exception(rt::newobj<ArgumentNullException>("callback")), useSynchronizationContext, true);
+  if (default == nullptr) rt::throw_exception(rt::newobj<ArgumentNullException>("callback"));
+  return Register(s_actionToActionObjShunt, default, useSynchronizationContext, true);
 }
 
 CancellationTokenRegistration CancellationToken::Register(Action<Object> callback, Object state) {

@@ -113,7 +113,7 @@ void ComEventsMethod___::RemoveDelegate(Delegate d, Boolean wrapArgs) {
     if (num >= 0) {
       Delegate delegate = Delegate::in::Remove(delegateWrapper->get_Delegate(), d);
       if ((Object)delegate != nullptr) {
-        delegateWrapper->set_Delegate = delegate;
+        delegateWrapper->set_Delegate(delegate);
       } else {
         _delegateWrappers->RemoveAt(num);
       }

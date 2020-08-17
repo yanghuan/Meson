@@ -621,7 +621,7 @@ void DateTimeFormatInfo___::set_MonthGenitiveNames(Array<String> value) {
 
 String DateTimeFormatInfo___::get_DecimalSeparator() {
   auto& default = _decimalSeparator;
-  return default != nullptr ? default : (_decimalSeparator = rt::newobj<NumberFormatInfo>(_cultureData->get_UseUserOverride() ? CultureData::in::GetCultureData(_cultureData->get_CultureName(), false) : _cultureData)->set_NumberDecimalSeparator);
+  return default != nullptr ? default : (_decimalSeparator = rt::newobj<NumberFormatInfo>(_cultureData->get_UseUserOverride() ? CultureData::in::GetCultureData(_cultureData->get_CultureName(), false) : _cultureData)->set_NumberDecimalSeparator());
 }
 
 String DateTimeFormatInfo___::get_FullTimeSpanPositivePattern() {
@@ -717,7 +717,7 @@ void DateTimeFormatInfo___::ctor(CultureData cultureData, Calendar cal) {
   formatFlags = DateTimeFormatFlags::NotInitialized;
   Object::in::ctor();
   _cultureData = cultureData;
-  get_Calendar() = cal;
+  get_Calendar(cal);
 }
 
 void DateTimeFormatInfo___::InitializeOverridableProperties(CultureData cultureData, CalendarId calendarId) {
@@ -1119,8 +1119,8 @@ Boolean DateTimeFormatInfo___::YearMonthAdjustment(Int32& year, Int32& month, Bo
 DateTimeFormatInfo DateTimeFormatInfo___::GetJapaneseCalendarDTFI() {
   DateTimeFormatInfo dateTimeFormat = s_jajpDTFI;
   if (dateTimeFormat == nullptr) {
-    dateTimeFormat = rt::newobj<CultureInfo>("ja-JP", false)->set_DateTimeFormat;
-    dateTimeFormat->set_Calendar = JapaneseCalendar::in::GetDefaultInstance();
+    dateTimeFormat = rt::newobj<CultureInfo>("ja-JP", false)->set_DateTimeFormat();
+    dateTimeFormat->set_Calendar(JapaneseCalendar::in::GetDefaultInstance());
     s_jajpDTFI = dateTimeFormat;
   }
   return dateTimeFormat;
@@ -1129,8 +1129,8 @@ DateTimeFormatInfo DateTimeFormatInfo___::GetJapaneseCalendarDTFI() {
 DateTimeFormatInfo DateTimeFormatInfo___::GetTaiwanCalendarDTFI() {
   DateTimeFormatInfo dateTimeFormat = s_zhtwDTFI;
   if (dateTimeFormat == nullptr) {
-    dateTimeFormat = rt::newobj<CultureInfo>("zh-TW", false)->set_DateTimeFormat;
-    dateTimeFormat->set_Calendar = TaiwanCalendar::in::GetDefaultInstance();
+    dateTimeFormat = rt::newobj<CultureInfo>("zh-TW", false)->set_DateTimeFormat();
+    dateTimeFormat->set_Calendar(TaiwanCalendar::in::GetDefaultInstance());
     s_zhtwDTFI = dateTimeFormat;
   }
   return dateTimeFormat;

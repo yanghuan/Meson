@@ -32,7 +32,8 @@ String StringInfo___::get_String() {
 
 void StringInfo___::set_String(String value) {
   auto& default = value;
-  _str = (default != nullptr ? default : rt::throw_exception(rt::newobj<ArgumentNullException>("value")));
+  if (default == nullptr) rt::throw_exception(rt::newobj<ArgumentNullException>("value"));
+  _str = (default);
   _indexes = nullptr;
 }
 
@@ -48,7 +49,7 @@ void StringInfo___::ctor() {
 }
 
 void StringInfo___::ctor(String value) {
-  get_String() = value;
+  get_String(value);
 }
 
 Boolean StringInfo___::Equals(Object value) {

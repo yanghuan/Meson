@@ -15,39 +15,39 @@ Int32 AbandonedMutexException___::get_MutexIndex() {
 void AbandonedMutexException___::ctor() {
   _mutexIndex = -1;
   SystemException::in::ctor(SR::get_Threading_AbandonedMutexException());
-  Exception::in::set_HResult = -2146233043;
+  Exception::in::set_HResult(-2146233043);
 }
 
 void AbandonedMutexException___::ctor(String message) {
   _mutexIndex = -1;
   SystemException::in::ctor(message);
-  Exception::in::set_HResult = -2146233043;
+  Exception::in::set_HResult(-2146233043);
 }
 
 void AbandonedMutexException___::ctor(String message, Exception inner) {
   _mutexIndex = -1;
   SystemException::in::ctor(message, inner);
-  Exception::in::set_HResult = -2146233043;
+  Exception::in::set_HResult(-2146233043);
 }
 
 void AbandonedMutexException___::ctor(Int32 location, WaitHandle handle) {
   _mutexIndex = -1;
   SystemException::in::ctor(SR::get_Threading_AbandonedMutexException());
-  Exception::in::set_HResult = -2146233043;
+  Exception::in::set_HResult(-2146233043);
   SetupException(location, handle);
 }
 
 void AbandonedMutexException___::ctor(String message, Int32 location, WaitHandle handle) {
   _mutexIndex = -1;
   SystemException::in::ctor(message);
-  Exception::in::set_HResult = -2146233043;
+  Exception::in::set_HResult(-2146233043);
   SetupException(location, handle);
 }
 
 void AbandonedMutexException___::ctor(String message, Exception inner, Int32 location, WaitHandle handle) {
   _mutexIndex = -1;
   SystemException::in::ctor(message, inner);
-  Exception::in::set_HResult = -2146233043;
+  Exception::in::set_HResult(-2146233043);
   SetupException(location, handle);
 }
 

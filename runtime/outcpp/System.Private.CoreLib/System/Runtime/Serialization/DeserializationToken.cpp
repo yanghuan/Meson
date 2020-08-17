@@ -14,8 +14,8 @@ void DeserializationToken::Dispose() {
   {
     rt::lock(_tracker);
     if (_tracker->get_DeserializationInProgress()) {
-      _tracker->set_DeserializationInProgress = false;
-      SerializationInfo::in::get_AsyncDeserializationInProgress()->set_Value = false;
+      _tracker->set_DeserializationInProgress(false);
+      SerializationInfo::in::get_AsyncDeserializationInProgress()->set_Value(false);
     }
   }
 }

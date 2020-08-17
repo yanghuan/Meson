@@ -26,12 +26,12 @@ void ObjectDisposedException___::ctor(String objectName) {
 }
 
 void ObjectDisposedException___::ctor(String objectName, String message) {
-  Exception::in::set_HResult = -2146232798;
+  Exception::in::set_HResult(-2146232798);
   _objectName = objectName;
 }
 
 void ObjectDisposedException___::ctor(String message, Exception innerException) {
-  Exception::in::set_HResult = -2146232798;
+  Exception::in::set_HResult(-2146232798);
 }
 
 void ObjectDisposedException___::ctor(SerializationInfo info, StreamingContext context) {

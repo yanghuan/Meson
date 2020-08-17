@@ -4,15 +4,15 @@
 
 namespace System::Private::CoreLib::System::IndexOutOfRangeExceptionNamespace {
 void IndexOutOfRangeException___::ctor() {
-  Exception::in::set_HResult = -2146233080;
+  Exception::in::set_HResult(-2146233080);
 }
 
 void IndexOutOfRangeException___::ctor(String message) {
-  Exception::in::set_HResult = -2146233080;
+  Exception::in::set_HResult(-2146233080);
 }
 
 void IndexOutOfRangeException___::ctor(String message, Exception innerException) {
-  Exception::in::set_HResult = -2146233080;
+  Exception::in::set_HResult(-2146233080);
 }
 
 void IndexOutOfRangeException___::ctor(SerializationInfo info, StreamingContext context) {

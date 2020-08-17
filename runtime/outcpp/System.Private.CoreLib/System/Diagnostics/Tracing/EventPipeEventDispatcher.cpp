@@ -40,7 +40,7 @@ void EventPipeEventDispatcher___::ctor() {
   m_subscriptions = rt::newobj<Dictionary<EventListener, EventListenerSubscription>>();
   Object::in::ctor();
   m_RuntimeProviderID = EventPipeInternal::GetProvider("Microsoft-Windows-DotNETRuntime");
-  m_dispatchTaskWaitHandle->set_SafeWaitHandle = rt::newobj<SafeWaitHandle>(IntPtr::Zero, false);
+  m_dispatchTaskWaitHandle->set_SafeWaitHandle(rt::newobj<SafeWaitHandle>(IntPtr::Zero, false));
 }
 
 void EventPipeEventDispatcher___::SendCommand(EventListener eventListener, EventCommand command, Boolean enable, EventLevel level, EventKeywords matchAnyKeywords) {
@@ -79,7 +79,7 @@ void EventPipeEventDispatcher___::CommitDispatchConfiguration() {
 void EventPipeEventDispatcher___::StartDispatchTask() {
   if (m_dispatchTask == nullptr) {
     m_stopDispatchTask = false;
-    m_dispatchTaskWaitHandle->set_SafeWaitHandle = rt::newobj<SafeWaitHandle>(EventPipeInternal::GetWaitHandle(m_sessionID), false);
+    m_dispatchTaskWaitHandle->set_SafeWaitHandle(rt::newobj<SafeWaitHandle>(EventPipeInternal::GetWaitHandle(m_sessionID), false));
     m_dispatchTask = Task::in::get_Factory()->StartNew(rt::newobj<Action>(&DispatchEventsToEventListeners), CancellationToken::get_None(), TaskCreationOptions::LongRunning, TaskScheduler::in::get_Default());
   }
 }

@@ -50,14 +50,14 @@ void PathHelper::GetFullPathName(ReadOnlySpan<Char> path, ValueStringBuilder& bu
     }
     rt::throw_exception(Win32Marshal::GetExceptionForWin32Error(num, path.ToString()));
   }
-  builder.set_Length = (Int32)fullPathNameW;
+  builder.set_Length((Int32)fullPathNameW);
 }
 
 Int32 PathHelper::PrependDevicePathChars(ValueStringBuilder& content, Boolean isDosUnc, ValueStringBuilder& buffer) {
   Int32 length = content.get_Length();
   length += (isDosUnc ? 6 : 4);
   buffer.EnsureCapacity(length + 1);
-  buffer.set_Length = 0;
+  buffer.set_Length(0);
   if (isDosUnc) {
     buffer.Append("\\?\UNC\");
     buffer.Append(content.AsSpan(2));
@@ -111,7 +111,7 @@ String PathHelper::TryExpandShortFileName(ValueStringBuilder& outputBuilder, Str
       outputBuilder.EnsureCapacity((Int32)longPathNameW);
     } else {
       flag4 = true;
-      outputBuilder.set_Length = (Int32)longPathNameW;
+      outputBuilder.set_Length((Int32)longPathNameW);
       if (num2 < length - 1) {
         outputBuilder.Append(buffer.AsSpan(num2, buffer.get_Length() - num2));
       }

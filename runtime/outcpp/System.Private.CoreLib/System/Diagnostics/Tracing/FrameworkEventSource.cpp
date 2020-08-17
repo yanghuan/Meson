@@ -22,24 +22,24 @@ void FrameworkEventSource___::WriteEvent(Int32 eventId, Int64 arg1, Int32 arg2, 
       Char* value = ptr;
       EventSource::in::EventData default[6] = {};
       EventSource::in::EventData* ptr2 = default;
-      ptr2->set_DataPointer = (IntPtr)(void*)(&arg1);
-      ptr2->set_Size = 8;
-      ptr2->set_Reserved = 0;
-      ptr2[1].set_DataPointer = (IntPtr)(void*)(&arg2);
-      ptr2[1].set_Size = 4;
-      ptr2[1].set_Reserved = 0;
-      ptr2[2].set_DataPointer = (IntPtr)(void*)value;
-      ptr2[2].set_Size = (arg3->get_Length() + 1) * 2;
-      ptr2[2].set_Reserved = 0;
-      ptr2[3].set_DataPointer = (IntPtr)(void*)(&arg4);
-      ptr2[3].set_Size = 4;
-      ptr2[3].set_Reserved = 0;
-      ptr2[4].set_DataPointer = (IntPtr)(void*)(&arg5);
-      ptr2[4].set_Size = 4;
-      ptr2[4].set_Reserved = 0;
-      ptr2[5].set_DataPointer = (IntPtr)(void*)(&arg6);
-      ptr2[5].set_Size = 4;
-      ptr2[5].set_Reserved = 0;
+      ptr2->set_DataPointer((IntPtr)(void*)(&arg1));
+      ptr2->set_Size(8);
+      ptr2->set_Reserved(0);
+      ptr2[1].set_DataPointer((IntPtr)(void*)(&arg2));
+      ptr2[1].set_Size(4);
+      ptr2[1].set_Reserved(0);
+      ptr2[2].set_DataPointer((IntPtr)(void*)value);
+      ptr2[2].set_Size((arg3->get_Length() + 1) * 2);
+      ptr2[2].set_Reserved(0);
+      ptr2[3].set_DataPointer((IntPtr)(void*)(&arg4));
+      ptr2[3].set_Size(4);
+      ptr2[3].set_Reserved(0);
+      ptr2[4].set_DataPointer((IntPtr)(void*)(&arg5));
+      ptr2[4].set_Size(4);
+      ptr2[4].set_Reserved(0);
+      ptr2[5].set_DataPointer((IntPtr)(void*)(&arg6));
+      ptr2[5].set_Size(4);
+      ptr2[5].set_Reserved(0);
       WriteEventCore(eventId, 6, ptr2);
     }
   }
@@ -55,15 +55,15 @@ void FrameworkEventSource___::WriteEvent(Int32 eventId, Int64 arg1, Int32 arg2, 
       Char* value = ptr;
       EventSource::in::EventData default[3] = {};
       EventSource::in::EventData* ptr2 = default;
-      ptr2->set_DataPointer = (IntPtr)(void*)(&arg1);
-      ptr2->set_Size = 8;
-      ptr2->set_Reserved = 0;
-      ptr2[1].set_DataPointer = (IntPtr)(void*)(&arg2);
-      ptr2[1].set_Size = 4;
-      ptr2[1].set_Reserved = 0;
-      ptr2[2].set_DataPointer = (IntPtr)(void*)value;
-      ptr2[2].set_Size = (arg3->get_Length() + 1) * 2;
-      ptr2[2].set_Reserved = 0;
+      ptr2->set_DataPointer((IntPtr)(void*)(&arg1));
+      ptr2->set_Size(8);
+      ptr2->set_Reserved(0);
+      ptr2[1].set_DataPointer((IntPtr)(void*)(&arg2));
+      ptr2[1].set_Size(4);
+      ptr2[1].set_Reserved(0);
+      ptr2[2].set_DataPointer((IntPtr)(void*)value);
+      ptr2[2].set_Size((arg3->get_Length() + 1) * 2);
+      ptr2[2].set_Reserved(0);
       WriteEventCore(eventId, 3, ptr2);
     }
   }

@@ -14,7 +14,7 @@ void ThreadPoolTaskScheduler___::QueueTask(Task<> task) {
   TaskCreationOptions options = task->get_Options();
   if ((options & TaskCreationOptions::LongRunning) != 0) {
     Thread thread = rt::newobj<Thread>(s_longRunningThreadWork);
-    thread->set_IsBackground = true;
+    thread->set_IsBackground(true);
     thread->Start(task);
   } else {
     Boolean preferLocal = (options & TaskCreationOptions::PreferFairness) == 0;

@@ -18,7 +18,7 @@ String TypeLoadException___::get_TypeName() {
 }
 
 void TypeLoadException___::ctor(String className, String assemblyName, String messageArg, Int32 resourceId) {
-  Exception::in::set_HResult = -2146233054;
+  Exception::in::set_HResult(-2146233054);
   _className = className;
   _assemblyName = assemblyName;
   _messageArg = messageArg;
@@ -46,15 +46,15 @@ void TypeLoadException___::SetMessageField() {
 }
 
 void TypeLoadException___::ctor() {
-  Exception::in::set_HResult = -2146233054;
+  Exception::in::set_HResult(-2146233054);
 }
 
 void TypeLoadException___::ctor(String message) {
-  Exception::in::set_HResult = -2146233054;
+  Exception::in::set_HResult(-2146233054);
 }
 
 void TypeLoadException___::ctor(String message, Exception inner) {
-  Exception::in::set_HResult = -2146233054;
+  Exception::in::set_HResult(-2146233054);
 }
 
 void TypeLoadException___::ctor(SerializationInfo info, StreamingContext context) {

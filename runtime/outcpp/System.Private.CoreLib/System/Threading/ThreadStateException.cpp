@@ -4,15 +4,15 @@
 
 namespace System::Private::CoreLib::System::Threading::ThreadStateExceptionNamespace {
 void ThreadStateException___::ctor() {
-  Exception::in::set_HResult = -2146233056;
+  Exception::in::set_HResult(-2146233056);
 }
 
 void ThreadStateException___::ctor(String message) {
-  Exception::in::set_HResult = -2146233056;
+  Exception::in::set_HResult(-2146233056);
 }
 
 void ThreadStateException___::ctor(String message, Exception innerException) {
-  Exception::in::set_HResult = -2146233056;
+  Exception::in::set_HResult(-2146233056);
 }
 
 void ThreadStateException___::ctor(SerializationInfo info, StreamingContext context) {

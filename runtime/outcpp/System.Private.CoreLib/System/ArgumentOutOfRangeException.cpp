@@ -22,24 +22,24 @@ Object ArgumentOutOfRangeException___::get_ActualValue() {
 }
 
 void ArgumentOutOfRangeException___::ctor() {
-  Exception::in::set_HResult = -2146233086;
+  Exception::in::set_HResult(-2146233086);
 }
 
 void ArgumentOutOfRangeException___::ctor(String paramName) {
-  Exception::in::set_HResult = -2146233086;
+  Exception::in::set_HResult(-2146233086);
 }
 
 void ArgumentOutOfRangeException___::ctor(String paramName, String message) {
-  Exception::in::set_HResult = -2146233086;
+  Exception::in::set_HResult(-2146233086);
 }
 
 void ArgumentOutOfRangeException___::ctor(String message, Exception innerException) {
-  Exception::in::set_HResult = -2146233086;
+  Exception::in::set_HResult(-2146233086);
 }
 
 void ArgumentOutOfRangeException___::ctor(String paramName, Object actualValue, String message) {
   _actualValue = actualValue;
-  Exception::in::set_HResult = -2146233086;
+  Exception::in::set_HResult(-2146233086);
 }
 
 void ArgumentOutOfRangeException___::ctor(SerializationInfo info, StreamingContext context) {

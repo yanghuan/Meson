@@ -4,15 +4,15 @@
 
 namespace System::Private::CoreLib::System::TypeUnloadedExceptionNamespace {
 void TypeUnloadedException___::ctor() {
-  Exception::in::set_HResult = -2146234349;
+  Exception::in::set_HResult(-2146234349);
 }
 
 void TypeUnloadedException___::ctor(String message) {
-  Exception::in::set_HResult = -2146234349;
+  Exception::in::set_HResult(-2146234349);
 }
 
 void TypeUnloadedException___::ctor(String message, Exception innerException) {
-  Exception::in::set_HResult = -2146234349;
+  Exception::in::set_HResult(-2146234349);
 }
 
 void TypeUnloadedException___::ctor(SerializationInfo info, StreamingContext context) {

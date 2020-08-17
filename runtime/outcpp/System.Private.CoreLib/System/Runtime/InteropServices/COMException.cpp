@@ -9,19 +9,19 @@ using namespace System::Globalization;
 using namespace System::Text;
 
 void COMException___::ctor() {
-  Exception::in::set_HResult = -2147467259;
+  Exception::in::set_HResult(-2147467259);
 }
 
 void COMException___::ctor(String message) {
-  Exception::in::set_HResult = -2147467259;
+  Exception::in::set_HResult(-2147467259);
 }
 
 void COMException___::ctor(String message, Exception inner) {
-  Exception::in::set_HResult = -2147467259;
+  Exception::in::set_HResult(-2147467259);
 }
 
 void COMException___::ctor(String message, Int32 errorCode) {
-  Exception::in::set_HResult = errorCode;
+  Exception::in::set_HResult(errorCode);
 }
 
 void COMException___::ctor(SerializationInfo info, StreamingContext context) {

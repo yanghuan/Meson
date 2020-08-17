@@ -4,7 +4,7 @@
 
 namespace System::Private::CoreLib::System::Runtime::InteropServices::BestFitMappingAttributeNamespace {
 void BestFitMappingAttribute___::ctor(Boolean BestFitMapping) {
-  this->get_BestFitMapping() = BestFitMapping;
+  this->get_BestFitMapping(BestFitMapping);
 }
 
 } // namespace System::Private::CoreLib::System::Runtime::InteropServices::BestFitMappingAttributeNamespace

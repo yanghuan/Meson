@@ -4,15 +4,15 @@
 
 namespace System::Private::CoreLib::System::PlatformNotSupportedExceptionNamespace {
 void PlatformNotSupportedException___::ctor() {
-  Exception::in::set_HResult = -2146233031;
+  Exception::in::set_HResult(-2146233031);
 }
 
 void PlatformNotSupportedException___::ctor(String message) {
-  Exception::in::set_HResult = -2146233031;
+  Exception::in::set_HResult(-2146233031);
 }
 
 void PlatformNotSupportedException___::ctor(String message, Exception inner) {
-  Exception::in::set_HResult = -2146233031;
+  Exception::in::set_HResult(-2146233031);
 }
 
 void PlatformNotSupportedException___::ctor(SerializationInfo info, StreamingContext context) {

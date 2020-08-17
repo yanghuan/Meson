@@ -84,7 +84,7 @@ void TimeSpanFormat::FormatLiterals::Init(ReadOnlySpan<Char> format, Boolean use
             return;
           }
           _literals[num] = stringBuilder->ToString();
-          stringBuilder->set_Length = 0;
+          stringBuilder->set_Length(0);
           flag = false;
         } else if (!flag) {
           c = format[j];
@@ -202,7 +202,7 @@ Boolean TimeSpanFormat::TryFormat(TimeSpan value, Span<Char> destination, Int32&
   StringBuilder stringBuilder = FormatCustomized(value, format, DateTimeFormatInfo::in::GetInstance(formatProvider));
   if (stringBuilder->get_Length() <= destination.get_Length()) {
     stringBuilder->CopyTo(0, destination, stringBuilder->get_Length());
-    charsWritten = stringBuilder->set_Length;
+    charsWritten = stringBuilder->set_Length();
     StringBuilderCache::Release(stringBuilder);
     return true;
   }

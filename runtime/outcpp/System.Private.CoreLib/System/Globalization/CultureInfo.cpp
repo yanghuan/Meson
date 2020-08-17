@@ -51,7 +51,7 @@ void CultureInfo___::set_CurrentCulture(CultureInfo value) {
   if (s_asyncLocalCurrentCulture == nullptr) {
     Interlocked::CompareExchange(s_asyncLocalCurrentCulture, rt::newobj<AsyncLocal<CultureInfo>>(rt::newobj<Action<AsyncLocalValueChangedArgs<CultureInfo>>>(&AsyncLocalSetCurrentCulture)), (AsyncLocal<CultureInfo>)nullptr);
   }
-  s_asyncLocalCurrentCulture->set_Value = value;
+  s_asyncLocalCurrentCulture->set_Value(value);
 }
 
 CultureInfo CultureInfo___::get_CurrentUICulture() {
@@ -68,7 +68,7 @@ void CultureInfo___::set_CurrentUICulture(CultureInfo value) {
   if (s_asyncLocalCurrentUICulture == nullptr) {
     Interlocked::CompareExchange(s_asyncLocalCurrentUICulture, rt::newobj<AsyncLocal<CultureInfo>>(rt::newobj<Action<AsyncLocalValueChangedArgs<CultureInfo>>>(&AsyncLocalSetCurrentUICulture)), (AsyncLocal<CultureInfo>)nullptr);
   }
-  s_asyncLocalCurrentUICulture->set_Value = value;
+  s_asyncLocalCurrentUICulture->set_Value(value);
 }
 
 CultureInfo CultureInfo___::get_UserDefaultUICulture() {
@@ -364,7 +364,8 @@ void CultureInfo___::ctor(String cultureName, String textAndCompareCultureName) 
     rt::throw_exception<ArgumentNullException>("cultureName", SR::get_ArgumentNull_String());
   }
   auto& default = CultureData::in::GetCultureData(cultureName, false);
-  CultureData cultureData = _cultureData = (default != nullptr ? default : rt::throw_exception(rt::newobj<CultureNotFoundException>("cultureName", cultureName, SR::get_Argument_CultureNotSupported())));
+  if (default == nullptr) rt::throw_exception(rt::newobj<CultureNotFoundException>("cultureName", cultureName, SR::get_Argument_CultureNotSupported()));
+  CultureData cultureData = _cultureData = (default);
   _name = _cultureData->get_CultureName();
   CultureInfo cultureInfo = GetCultureInfo(textAndCompareCultureName);
   _compareInfo = cultureInfo->get_CompareInfo();
@@ -507,14 +508,14 @@ Object CultureInfo___::Clone() {
       cultureInfo->_numInfo = (NumberFormatInfo)_numInfo->Clone();
     }
   } else {
-    cultureInfo->set_DateTimeFormat = (DateTimeFormatInfo)get_DateTimeFormat()->Clone();
-    cultureInfo->set_NumberFormat = (NumberFormatInfo)get_NumberFormat()->Clone();
+    cultureInfo->set_DateTimeFormat((DateTimeFormatInfo)get_DateTimeFormat()->Clone());
+    cultureInfo->set_NumberFormat((NumberFormatInfo)get_NumberFormat()->Clone());
   }
   if (_textInfo != nullptr) {
     cultureInfo->_textInfo = (TextInfo)_textInfo->Clone();
   }
   if (_dateTimeInfo != nullptr && _dateTimeInfo->get_Calendar() == _calendar) {
-    cultureInfo->_calendar = cultureInfo->get_DateTimeFormat()->set_Calendar;
+    cultureInfo->_calendar = cultureInfo->get_DateTimeFormat()->set_Calendar();
   } else if (_calendar != nullptr) {
     cultureInfo->_calendar = (Calendar)_calendar->Clone();
   }
@@ -539,8 +540,8 @@ CultureInfo CultureInfo___::ReadOnly(CultureInfo ci) {
         cultureInfo->_numInfo = NumberFormatInfo::in::ReadOnly(ci->_numInfo);
       }
     } else {
-      cultureInfo->set_DateTimeFormat = DateTimeFormatInfo::in::ReadOnly(ci->get_DateTimeFormat());
-      cultureInfo->set_NumberFormat = NumberFormatInfo::in::ReadOnly(ci->get_NumberFormat());
+      cultureInfo->set_DateTimeFormat(DateTimeFormatInfo::in::ReadOnly(ci->get_DateTimeFormat()));
+      cultureInfo->set_NumberFormat(NumberFormatInfo::in::ReadOnly(ci->get_NumberFormat()));
     }
   }
   if (ci->_textInfo != nullptr) {
@@ -596,7 +597,8 @@ CultureInfo CultureInfo___::GetCultureInfo(String name) {
     }
   }
   auto& default = CreateCultureInfoNoThrow(name, false);
-  value = (default != nullptr ? default : rt::throw_exception(rt::newobj<CultureNotFoundException>("name", name, SR::get_Argument_CultureNotSupported())));
+  if (default == nullptr) rt::throw_exception(rt::newobj<CultureNotFoundException>("name", name, SR::get_Argument_CultureNotSupported()));
+  value = (default);
   value->_isReadOnly = true;
   name = CultureData::in::AnsiToLower(value->_name);
   {

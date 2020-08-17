@@ -53,25 +53,25 @@ void EventCounter___::WritePayload(Single intervalSec, Int32 pollingIntervalMill
     rt::lock((EventCounter)this);
     Flush();
     CounterPayload counterPayload = rt::newobj<CounterPayload>();
-    counterPayload->set_Count = _count;
-    counterPayload->set_IntervalSec = intervalSec;
+    counterPayload->set_Count(_count);
+    counterPayload->set_IntervalSec(intervalSec);
     if (0 < _count) {
-      counterPayload->set_Mean = _sum / (Double)_count;
-      counterPayload->set_StandardDeviation = Math::Sqrt(_sumSquared / (Double)_count - _sum * _sum / (Double)_count / (Double)_count);
+      counterPayload->set_Mean(_sum / (Double)_count);
+      counterPayload->set_StandardDeviation(Math::Sqrt(_sumSquared / (Double)_count - _sum * _sum / (Double)_count / (Double)_count));
     } else {
-      counterPayload->set_Mean = 0;
-      counterPayload->set_StandardDeviation = 0;
+      counterPayload->set_Mean(0);
+      counterPayload->set_StandardDeviation(0);
     }
-    counterPayload->set_Min = _min;
-    counterPayload->set_Max = _max;
-    counterPayload->set_Series = String::in::Format("Interval={0}", pollingIntervalMillisec);
-    counterPayload->set_CounterType = "Mean";
-    counterPayload->set_Metadata = GetMetadataString();
+    counterPayload->set_Min(_min);
+    counterPayload->set_Max(_max);
+    counterPayload->set_Series(String::in::Format("Interval={0}", pollingIntervalMillisec));
+    counterPayload->set_CounterType("Mean");
+    counterPayload->set_Metadata(GetMetadataString());
     auto& default = DiagnosticCounter::in::get_DisplayName();
-    counterPayload->set_DisplayName = (default != nullptr ? default : "");
+    counterPayload->set_DisplayName((default != nullptr ? default : ""));
     auto& extern = DiagnosticCounter::in::get_DisplayUnits();
-    counterPayload->set_DisplayUnits = (extern != nullptr ? extern : "");
-    counterPayload->set_Name = DiagnosticCounter::in::get_Name();
+    counterPayload->set_DisplayUnits((extern != nullptr ? extern : ""));
+    counterPayload->set_Name(DiagnosticCounter::in::get_Name());
     ResetStatistics();
     DiagnosticCounter::in::get_EventSource()->Write("EventCounters", EventSourceOptions(), rt::newobj<CounterPayloadType>(counterPayload));
   }

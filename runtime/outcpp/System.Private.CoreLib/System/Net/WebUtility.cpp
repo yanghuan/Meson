@@ -170,7 +170,7 @@ void WebUtility::HtmlEncode(ReadOnlySpan<Char> input, ValueStringBuilder& output
       Span<Char> destination = output.AppendSpan(10);
       Int32 charsWritten;
       num.TryFormat(destination, charsWritten);
-      output.set_Length -= 10 - charsWritten;
+      output.set_Length(10 - charsWritten);
       output.Append(59);
     } else {
       output.Append(c);

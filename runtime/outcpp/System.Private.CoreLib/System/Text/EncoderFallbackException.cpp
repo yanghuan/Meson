@@ -22,15 +22,15 @@ Int32 EncoderFallbackException___::get_Index() {
 }
 
 void EncoderFallbackException___::ctor() {
-  Exception::in::set_HResult = -2147024809;
+  Exception::in::set_HResult(-2147024809);
 }
 
 void EncoderFallbackException___::ctor(String message) {
-  Exception::in::set_HResult = -2147024809;
+  Exception::in::set_HResult(-2147024809);
 }
 
 void EncoderFallbackException___::ctor(String message, Exception innerException) {
-  Exception::in::set_HResult = -2147024809;
+  Exception::in::set_HResult(-2147024809);
 }
 
 void EncoderFallbackException___::ctor(String message, Char charUnknown, Int32 index) {

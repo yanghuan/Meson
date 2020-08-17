@@ -76,7 +76,7 @@ Object Thread___::LocalDataStore::GetData(LocalDataStoreSlot slot) {
 }
 
 void Thread___::LocalDataStore::SetData(LocalDataStoreSlot slot, Object value) {
-  GetThreadLocal(slot)->set_Value = value;
+  GetThreadLocal(slot)->set_Value(value);
 }
 
 Boolean Thread___::get_IsBackground() {
@@ -120,7 +120,7 @@ void Thread___::set_CurrentCulture(CultureInfo value) {
   if ((Thread)this != get_CurrentThread()) {
     SetCultureOnUnstartedThread(value, false);
   } else {
-    CultureInfo::in::set_CurrentCulture = value;
+    CultureInfo::in::set_CurrentCulture(value);
   }
 }
 
@@ -133,7 +133,7 @@ void Thread___::set_CurrentUICulture(CultureInfo value) {
   if ((Thread)this != get_CurrentThread()) {
     SetCultureOnUnstartedThread(value, true);
   } else {
-    CultureInfo::in::set_CurrentUICulture = value;
+    CultureInfo::in::set_CurrentUICulture(value);
   }
 }
 
@@ -141,7 +141,7 @@ IPrincipal Thread___::get_CurrentPrincipal() {
   auto& default = s_asyncLocalPrincipal;
   IPrincipal principal = default == nullptr ? nullptr : default->get_Value();
   if (principal == nullptr) {
-    principal = (get_CurrentPrincipal() = AppDomain::in::get_CurrentDomain()->GetThreadPrincipal());
+    principal = (get_CurrentPrincipal(AppDomain::in::get_CurrentDomain()->GetThreadPrincipal()));
   }
   return principal;
 }
@@ -153,7 +153,7 @@ void Thread___::set_CurrentPrincipal(IPrincipal value) {
     }
     Interlocked::CompareExchange(s_asyncLocalPrincipal, rt::newobj<AsyncLocal<IPrincipal>>(), (AsyncLocal<IPrincipal>)nullptr);
   }
-  s_asyncLocalPrincipal->set_Value = value;
+  s_asyncLocalPrincipal->set_Value(value);
 }
 
 Thread Thread___::get_CurrentThread() {

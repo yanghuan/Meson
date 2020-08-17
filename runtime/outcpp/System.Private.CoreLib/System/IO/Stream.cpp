@@ -379,7 +379,7 @@ Int64 SyncStream___::get_Position() {
 void SyncStream___::set_Position(Int64 value) {
   {
     rt::lock(_stream);
-    _stream->set_Position = value;
+    _stream->set_Position(value);
   }
 }
 
@@ -388,7 +388,7 @@ Int32 SyncStream___::get_ReadTimeout() {
 }
 
 void SyncStream___::set_ReadTimeout(Int32 value) {
-  _stream->set_ReadTimeout = value;
+  _stream->set_ReadTimeout(value);
 }
 
 Int32 SyncStream___::get_WriteTimeout() {
@@ -396,7 +396,7 @@ Int32 SyncStream___::get_WriteTimeout() {
 }
 
 void SyncStream___::set_WriteTimeout(Int32 value) {
-  _stream->set_WriteTimeout = value;
+  _stream->set_WriteTimeout(value);
 }
 
 void SyncStream___::ctor(Stream stream) {

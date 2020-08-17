@@ -162,7 +162,7 @@ Int32 Console::get_CursorSize() {
 }
 
 void Console::set_CursorSize(Int32 value) {
-  ConsolePal::set_CursorSize = value;
+  ConsolePal::set_CursorSize(value);
 }
 
 Boolean Console::get_NumberLock() {
@@ -178,7 +178,7 @@ ConsoleColor Console::get_BackgroundColor() {
 }
 
 void Console::set_BackgroundColor(ConsoleColor value) {
-  ConsolePal::set_BackgroundColor = value;
+  ConsolePal::set_BackgroundColor(value);
 }
 
 ConsoleColor Console::get_ForegroundColor() {
@@ -186,7 +186,7 @@ ConsoleColor Console::get_ForegroundColor() {
 }
 
 void Console::set_ForegroundColor(ConsoleColor value) {
-  ConsolePal::set_ForegroundColor = value;
+  ConsolePal::set_ForegroundColor(value);
 }
 
 Int32 Console::get_BufferWidth() {
@@ -194,7 +194,7 @@ Int32 Console::get_BufferWidth() {
 }
 
 void Console::set_BufferWidth(Int32 value) {
-  ConsolePal::set_BufferWidth = value;
+  ConsolePal::set_BufferWidth(value);
 }
 
 Int32 Console::get_BufferHeight() {
@@ -202,7 +202,7 @@ Int32 Console::get_BufferHeight() {
 }
 
 void Console::set_BufferHeight(Int32 value) {
-  ConsolePal::set_BufferHeight = value;
+  ConsolePal::set_BufferHeight(value);
 }
 
 Int32 Console::get_WindowLeft() {
@@ -210,7 +210,7 @@ Int32 Console::get_WindowLeft() {
 }
 
 void Console::set_WindowLeft(Int32 value) {
-  ConsolePal::set_WindowLeft = value;
+  ConsolePal::set_WindowLeft(value);
 }
 
 Int32 Console::get_WindowTop() {
@@ -218,7 +218,7 @@ Int32 Console::get_WindowTop() {
 }
 
 void Console::set_WindowTop(Int32 value) {
-  ConsolePal::set_WindowTop = value;
+  ConsolePal::set_WindowTop(value);
 }
 
 Int32 Console::get_WindowWidth() {
@@ -226,7 +226,7 @@ Int32 Console::get_WindowWidth() {
 }
 
 void Console::set_WindowWidth(Int32 value) {
-  ConsolePal::set_WindowWidth = value;
+  ConsolePal::set_WindowWidth(value);
 }
 
 Int32 Console::get_WindowHeight() {
@@ -234,7 +234,7 @@ Int32 Console::get_WindowHeight() {
 }
 
 void Console::set_WindowHeight(Int32 value) {
-  ConsolePal::set_WindowHeight = value;
+  ConsolePal::set_WindowHeight(value);
 }
 
 Int32 Console::get_LargestWindowWidth() {
@@ -250,7 +250,7 @@ Boolean Console::get_CursorVisible() {
 }
 
 void Console::set_CursorVisible(Boolean value) {
-  ConsolePal::set_CursorVisible = value;
+  ConsolePal::set_CursorVisible(value);
 }
 
 Int32 Console::get_CursorLeft() {
@@ -275,7 +275,8 @@ String Console::get_Title() {
 
 void Console::set_Title(String value) {
   auto& default = value;
-  ConsolePal::set_Title = (default != nullptr ? default : rt::throw_exception(rt::newobj<ArgumentNullException>("value")));
+  if (default == nullptr) rt::throw_exception(rt::newobj<ArgumentNullException>("value"));
+  ConsolePal::set_Title((default));
 }
 
 Boolean Console::get_TreatControlCAsInput() {
@@ -283,7 +284,7 @@ Boolean Console::get_TreatControlCAsInput() {
 }
 
 void Console::set_TreatControlCAsInput(Boolean value) {
-  ConsolePal::set_TreatControlCAsInput = value;
+  ConsolePal::set_TreatControlCAsInput(value);
 }
 
 ConsoleKeyInfo Console::ReadKey() {

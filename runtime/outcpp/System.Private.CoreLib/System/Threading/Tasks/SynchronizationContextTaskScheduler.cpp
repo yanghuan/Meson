@@ -11,7 +11,8 @@ Int32 SynchronizationContextTaskScheduler___::get_MaximumConcurrencyLevel() {
 
 void SynchronizationContextTaskScheduler___::ctor() {
   auto& default = SynchronizationContext::in::get_Current();
-  m_synchronizationContext = (default != nullptr ? default : rt::throw_exception(rt::newobj<InvalidOperationException>(SR::get_TaskScheduler_FromCurrentSynchronizationContext_NoCurrent())));
+  if (default == nullptr) rt::throw_exception(rt::newobj<InvalidOperationException>(SR::get_TaskScheduler_FromCurrentSynchronizationContext_NoCurrent()));
+  m_synchronizationContext = (default);
 }
 
 void SynchronizationContextTaskScheduler___::QueueTask(Task<> task) {

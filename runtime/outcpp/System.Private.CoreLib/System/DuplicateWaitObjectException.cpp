@@ -4,19 +4,19 @@
 
 namespace System::Private::CoreLib::System::DuplicateWaitObjectExceptionNamespace {
 void DuplicateWaitObjectException___::ctor() {
-  Exception::in::set_HResult = -2146233047;
+  Exception::in::set_HResult(-2146233047);
 }
 
 void DuplicateWaitObjectException___::ctor(String parameterName) {
-  Exception::in::set_HResult = -2146233047;
+  Exception::in::set_HResult(-2146233047);
 }
 
 void DuplicateWaitObjectException___::ctor(String parameterName, String message) {
-  Exception::in::set_HResult = -2146233047;
+  Exception::in::set_HResult(-2146233047);
 }
 
 void DuplicateWaitObjectException___::ctor(String message, Exception innerException) {
-  Exception::in::set_HResult = -2146233047;
+  Exception::in::set_HResult(-2146233047);
 }
 
 void DuplicateWaitObjectException___::ctor(SerializationInfo info, StreamingContext context) {

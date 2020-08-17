@@ -9,19 +9,19 @@ String TypeInitializationException___::get_TypeName() {
 }
 
 void TypeInitializationException___::ctor() {
-  Exception::in::set_HResult = -2146233036;
+  Exception::in::set_HResult(-2146233036);
 }
 
 void TypeInitializationException___::ctor(String fullTypeName, Exception innerException) {
 }
 
 void TypeInitializationException___::ctor(String message) {
-  Exception::in::set_HResult = -2146233036;
+  Exception::in::set_HResult(-2146233036);
 }
 
 void TypeInitializationException___::ctor(String fullTypeName, String message, Exception innerException) {
   _typeName = fullTypeName;
-  Exception::in::set_HResult = -2146233036;
+  Exception::in::set_HResult(-2146233036);
 }
 
 void TypeInitializationException___::ctor(SerializationInfo info, StreamingContext context) {

@@ -17,7 +17,7 @@ void ReflectionTypeLoadException___::ctor(Array<Type> classes, Array<Exception> 
   Types = (default != nullptr ? default : Type::in::EmptyTypes);
   auto& extern = exceptions;
   LoaderExceptions = (extern != nullptr ? extern : Array<>::in::Empty<Exception>());
-  Exception::in::set_HResult = -2146232830;
+  Exception::in::set_HResult(-2146232830);
 }
 
 void ReflectionTypeLoadException___::ctor(SerializationInfo info, StreamingContext context) {

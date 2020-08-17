@@ -675,7 +675,7 @@ void Path::GetTempPath(ValueStringBuilder& builder) {
   if (tempPathW == 0) {
     rt::throw_exception(Win32Marshal::GetExceptionForLastWin32Error());
   }
-  builder.set_Length = (Int32)tempPathW;
+  builder.set_Length((Int32)tempPathW);
 }
 
 String Path::GetTempFileName() {
@@ -691,7 +691,7 @@ String Path::GetTempFileName() {
   if (tempFileNameW == 0) {
     rt::throw_exception(Win32Marshal::GetExceptionForLastWin32Error());
   }
-  path.set_Length = MemoryExtensions::IndexOf(path.get_RawChars(), 0);
+  path.set_Length(MemoryExtensions::IndexOf(path.get_RawChars(), 0));
   String result = PathHelper::Normalize(path);
   path.Dispose();
   return result;

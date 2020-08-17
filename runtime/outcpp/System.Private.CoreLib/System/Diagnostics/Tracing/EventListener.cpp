@@ -101,7 +101,7 @@ void EventListener___::OnEventSourceCreated(EventSource eventSource) {
   EventHandler<EventSourceCreatedEventArgs> eventSourceCreated = _EventSourceCreated;
   if (eventSourceCreated != nullptr) {
     EventSourceCreatedEventArgs eventSourceCreatedEventArgs = rt::newobj<EventSourceCreatedEventArgs>();
-    eventSourceCreatedEventArgs->set_EventSource = eventSource;
+    eventSourceCreatedEventArgs->set_EventSource(eventSource);
     eventSourceCreated((EventListener)this, eventSourceCreatedEventArgs);
   }
 }

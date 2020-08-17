@@ -12,15 +12,15 @@ String MissingMemberException___::get_Message() {
 }
 
 void MissingMemberException___::ctor() {
-  Exception::in::set_HResult = -2146233070;
+  Exception::in::set_HResult(-2146233070);
 }
 
 void MissingMemberException___::ctor(String message) {
-  Exception::in::set_HResult = -2146233070;
+  Exception::in::set_HResult(-2146233070);
 }
 
 void MissingMemberException___::ctor(String message, Exception inner) {
-  Exception::in::set_HResult = -2146233070;
+  Exception::in::set_HResult(-2146233070);
 }
 
 void MissingMemberException___::ctor(String className, String memberName) {

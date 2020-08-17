@@ -220,7 +220,7 @@ Boolean Version___::TryFormat(Span<Char> destination, Int32 fieldCount, Int32& c
         if (stringBuilder->get_Length() <= destination.get_Length()) {
           stringBuilder->CopyTo(0, destination, stringBuilder->get_Length());
           StringBuilderCache::Release(stringBuilder);
-          charsWritten = stringBuilder->set_Length;
+          charsWritten = stringBuilder->set_Length();
           return true;
         }
         StringBuilderCache::Release(stringBuilder);

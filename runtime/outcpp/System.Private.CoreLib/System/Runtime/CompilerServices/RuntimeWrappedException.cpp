@@ -6,7 +6,7 @@ Object RuntimeWrappedException___::get_WrappedException() {
 }
 
 void RuntimeWrappedException___::ctor(Object thrownObject) {
-  Exception::in::set_HResult = -2146233026;
+  Exception::in::set_HResult(-2146233026);
   _wrappedException = thrownObject;
 }
 

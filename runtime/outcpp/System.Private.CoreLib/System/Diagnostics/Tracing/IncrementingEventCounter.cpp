@@ -25,17 +25,17 @@ void IncrementingEventCounter___::WritePayload(Single intervalSec, Int32 polling
   {
     rt::lock((IncrementingEventCounter)this);
     IncrementingCounterPayload incrementingCounterPayload = rt::newobj<IncrementingCounterPayload>();
-    incrementingCounterPayload->set_Name = DiagnosticCounter::in::get_Name();
-    incrementingCounterPayload->set_IntervalSec = intervalSec;
+    incrementingCounterPayload->set_Name(DiagnosticCounter::in::get_Name());
+    incrementingCounterPayload->set_IntervalSec(intervalSec);
     auto& default = DiagnosticCounter::in::get_DisplayName();
-    incrementingCounterPayload->set_DisplayName = (default != nullptr ? default : "");
-    incrementingCounterPayload->set_DisplayRateTimeScale = ((DisplayRateTimeScale == TimeSpan::Zero) ? "" : DisplayRateTimeScale.ToString("c"));
-    incrementingCounterPayload->set_Series = String::in::Format("Interval={0}", pollingIntervalMillisec);
-    incrementingCounterPayload->set_CounterType = "Sum";
-    incrementingCounterPayload->set_Metadata = GetMetadataString();
-    incrementingCounterPayload->set_Increment = _increment - _prevIncrement;
+    incrementingCounterPayload->set_DisplayName((default != nullptr ? default : ""));
+    incrementingCounterPayload->set_DisplayRateTimeScale(((DisplayRateTimeScale == TimeSpan::Zero) ? "" : DisplayRateTimeScale.ToString("c")));
+    incrementingCounterPayload->set_Series(String::in::Format("Interval={0}", pollingIntervalMillisec));
+    incrementingCounterPayload->set_CounterType("Sum");
+    incrementingCounterPayload->set_Metadata(GetMetadataString());
+    incrementingCounterPayload->set_Increment(_increment - _prevIncrement);
     auto& extern = DiagnosticCounter::in::get_DisplayUnits();
-    incrementingCounterPayload->set_DisplayUnits = (extern != nullptr ? extern : "");
+    incrementingCounterPayload->set_DisplayUnits((extern != nullptr ? extern : ""));
     _prevIncrement = _increment;
     DiagnosticCounter::in::get_EventSource()->Write("EventCounters", EventSourceOptions(), rt::newobj<IncrementingEventCounterPayloadType>(incrementingCounterPayload));
   }

@@ -12,8 +12,8 @@ Encoding EncodingProvider___::GetEncoding(String name, EncoderFallback encoderFa
   Encoding encoding = GetEncoding(name);
   if (encoding != nullptr) {
     encoding = (Encoding)encoding->Clone();
-    encoding->set_EncoderFallback = encoderFallback;
-    encoding->set_DecoderFallback = decoderFallback;
+    encoding->set_EncoderFallback(encoderFallback);
+    encoding->set_DecoderFallback(decoderFallback);
   }
   return encoding;
 }
@@ -22,8 +22,8 @@ Encoding EncodingProvider___::GetEncoding(Int32 codepage, EncoderFallback encode
   Encoding encoding = GetEncoding(codepage);
   if (encoding != nullptr) {
     encoding = (Encoding)encoding->Clone();
-    encoding->set_EncoderFallback = encoderFallback;
-    encoding->set_DecoderFallback = decoderFallback;
+    encoding->set_EncoderFallback(encoderFallback);
+    encoding->set_DecoderFallback(decoderFallback);
   }
   return encoding;
 }

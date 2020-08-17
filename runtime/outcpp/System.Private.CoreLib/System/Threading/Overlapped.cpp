@@ -19,7 +19,7 @@ Int32 Overlapped___::get_OffsetLow() {
 }
 
 void Overlapped___::set_OffsetLow(Int32 value) {
-  _overlappedData->get_OffsetLow() = value;
+  _overlappedData->get_OffsetLow(value);
 }
 
 Int32 Overlapped___::get_OffsetHigh() {
@@ -27,7 +27,7 @@ Int32 Overlapped___::get_OffsetHigh() {
 }
 
 void Overlapped___::set_OffsetHigh(Int32 value) {
-  _overlappedData->get_OffsetHigh() = value;
+  _overlappedData->get_OffsetHigh(value);
 }
 
 Int32 Overlapped___::get_EventHandle() {
@@ -35,7 +35,7 @@ Int32 Overlapped___::get_EventHandle() {
 }
 
 void Overlapped___::set_EventHandle(Int32 value) {
-  get_EventHandleIntPtr() = IntPtr(value);
+  get_EventHandleIntPtr(IntPtr(value));
 }
 
 IntPtr Overlapped___::get_EventHandleIntPtr() {
@@ -43,7 +43,7 @@ IntPtr Overlapped___::get_EventHandleIntPtr() {
 }
 
 void Overlapped___::set_EventHandleIntPtr(IntPtr value) {
-  _overlappedData->get_EventHandle() = value;
+  _overlappedData->get_EventHandle(value);
 }
 
 void Overlapped___::ctor() {
@@ -51,9 +51,9 @@ void Overlapped___::ctor() {
 }
 
 void Overlapped___::ctor(Int32 offsetLo, Int32 offsetHi, IntPtr hEvent, IAsyncResult ar) {
-  _overlappedData->get_OffsetLow() = offsetLo;
-  _overlappedData->get_OffsetHigh() = offsetHi;
-  _overlappedData->get_EventHandle() = hEvent;
+  _overlappedData->get_OffsetLow(offsetLo);
+  _overlappedData->get_OffsetHigh(offsetHi);
+  _overlappedData->get_EventHandle(hEvent);
   _overlappedData->_asyncResult = ar;
 }
 

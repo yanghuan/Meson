@@ -149,10 +149,25 @@ namespace Meson.Compiler {
       return assignmentOperators_[index];
     }
 
+    private InvationExpressionSyntax GetPropertyInvationExpression(ExpressionSyntax propertyExpression) {
+      if (propertyExpression is MemberAccessExpressionSyntax memberAccess) {
+        return GetPropertyInvationExpression(memberAccess.Name);
+      }
+      return propertyExpression as InvationExpressionSyntax;
+    }
+
     public SyntaxNode VisitAssignmentExpression(AssignmentExpression assignmentExpression) {
       var left = assignmentExpression.Left.AcceptExpression(this);
-      var operatorToken = GetAssignmentOperator(assignmentExpression.Operator);
       var right = assignmentExpression.Right.AcceptExpression(this);
+      var leftSymbol = assignmentExpression.Left.GetSymbol();
+      if (leftSymbol != null && leftSymbol.SymbolKind == SymbolKind.Property) {
+        var invation = GetPropertyInvationExpression(left);
+        if (invation != null) {
+          invation.Arguments.Add(right);
+          return left;
+        }
+      }
+      var operatorToken = GetAssignmentOperator(assignmentExpression.Operator);
       return left.Binary(operatorToken, right);
     }
 
@@ -184,7 +199,12 @@ namespace Meson.Compiler {
         var temp = GetTempIdentifier();
         var local = new VariableDeclarationStatementSyntax(new RefExpressionSyntax(IdentifierSyntax.Auto), temp, left);
         Block.Add(local);
-        return new ConditionalExpressionSyntax(temp.Binary(Tokens.NotEquals, IdentifierSyntax.Nullptr), temp, right);
+        if (binaryOperatorExpression.Right is ThrowExpression) {
+          Block.Add(new IfElseStatementSyntax(temp.Binary(Tokens.EqualsEquals, IdentifierSyntax.Nullptr), right));
+          return temp;
+        } else {
+          return new ConditionalExpressionSyntax(temp.Binary(Tokens.NotEquals, IdentifierSyntax.Nullptr), temp, right);
+        }
       }
       string operatorToken = GetBinaryOperatorToken(binaryOperatorExpression.Operator);
       return left.Binary(operatorToken, right);
@@ -461,9 +481,7 @@ namespace Meson.Compiler {
                   member = isGetter ? property.Getter : property.Setter;
                   Contract.Assert(member != null);
                   name = GetMemberName(member);
-                  if (isGetter) {
-                    name = name.Invation();
-                  }
+                  name = name.Invation();
                   break;
                 }
               case SymbolKind.Method: {

@@ -90,7 +90,7 @@ Int32 BinaryReader___::PeekChar() {
   }
   Int64 position = _stream->get_Position();
   Int32 result = Read();
-  _stream->set_Position = position;
+  _stream->set_Position(position);
   return result;
 }
 
@@ -99,7 +99,7 @@ Int32 BinaryReader___::Read() {
   Int32 num = 0;
   Int64 num2 = 0;
   if (_stream->get_CanSeek()) {
-    num2 = _stream->set_Position;
+    num2 = _stream->set_Position();
   }
   if (_charBytes == nullptr) {
     _charBytes = rt::newarr<Array<Byte>>(128);

@@ -4,24 +4,24 @@
 
 namespace System::Private::CoreLib::System::Security::SecurityExceptionNamespace {
 void SecurityException___::ctor() {
-  Exception::in::set_HResult = -2146233078;
+  Exception::in::set_HResult(-2146233078);
 }
 
 void SecurityException___::ctor(String message) {
-  Exception::in::set_HResult = -2146233078;
+  Exception::in::set_HResult(-2146233078);
 }
 
 void SecurityException___::ctor(String message, Exception inner) {
-  Exception::in::set_HResult = -2146233078;
+  Exception::in::set_HResult(-2146233078);
 }
 
 void SecurityException___::ctor(String message, Type type) {
-  Exception::in::set_HResult = -2146233078;
+  Exception::in::set_HResult(-2146233078);
   PermissionType = type;
 }
 
 void SecurityException___::ctor(String message, Type type, String state) {
-  Exception::in::set_HResult = -2146233078;
+  Exception::in::set_HResult(-2146233078);
   PermissionType = type;
   PermissionState = state;
 }

@@ -4,15 +4,15 @@
 
 namespace System::Private::CoreLib::System::Resources::MissingManifestResourceExceptionNamespace {
 void MissingManifestResourceException___::ctor() {
-  Exception::in::set_HResult = -2146233038;
+  Exception::in::set_HResult(-2146233038);
 }
 
 void MissingManifestResourceException___::ctor(String message) {
-  Exception::in::set_HResult = -2146233038;
+  Exception::in::set_HResult(-2146233038);
 }
 
 void MissingManifestResourceException___::ctor(String message, Exception inner) {
-  Exception::in::set_HResult = -2146233038;
+  Exception::in::set_HResult(-2146233038);
 }
 
 void MissingManifestResourceException___::ctor(SerializationInfo info, StreamingContext context) {

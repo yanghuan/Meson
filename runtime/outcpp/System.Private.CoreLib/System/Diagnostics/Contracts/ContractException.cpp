@@ -18,11 +18,11 @@ String ContractException___::get_Condition() {
 }
 
 void ContractException___::ctor() {
-  Exception::in::set_HResult = -2146233022;
+  Exception::in::set_HResult(-2146233022);
 }
 
 void ContractException___::ctor(ContractFailureKind kind, String failure, String userMessage, String condition, Exception innerException) {
-  Exception::in::set_HResult = -2146233022;
+  Exception::in::set_HResult(-2146233022);
   _kind = kind;
   _userMessage = userMessage;
   _condition = condition;

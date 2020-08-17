@@ -12,15 +12,15 @@ String MissingFieldException___::get_Message() {
 }
 
 void MissingFieldException___::ctor() {
-  Exception::in::set_HResult = -2146233071;
+  Exception::in::set_HResult(-2146233071);
 }
 
 void MissingFieldException___::ctor(String message) {
-  Exception::in::set_HResult = -2146233071;
+  Exception::in::set_HResult(-2146233071);
 }
 
 void MissingFieldException___::ctor(String message, Exception inner) {
-  Exception::in::set_HResult = -2146233071;
+  Exception::in::set_HResult(-2146233071);
 }
 
 void MissingFieldException___::ctor(String className, String fieldName) {

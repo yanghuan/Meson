@@ -4,15 +4,15 @@
 
 namespace System::Private::CoreLib::System::OverflowExceptionNamespace {
 void OverflowException___::ctor() {
-  Exception::in::set_HResult = -2146233066;
+  Exception::in::set_HResult(-2146233066);
 }
 
 void OverflowException___::ctor(String message) {
-  Exception::in::set_HResult = -2146233066;
+  Exception::in::set_HResult(-2146233066);
 }
 
 void OverflowException___::ctor(String message, Exception innerException) {
-  Exception::in::set_HResult = -2146233066;
+  Exception::in::set_HResult(-2146233066);
 }
 
 void OverflowException___::ctor(SerializationInfo info, StreamingContext context) {

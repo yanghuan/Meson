@@ -353,7 +353,7 @@ String ResourceManager___::GetString(String name, CultureInfo culture) {
     rt::throw_exception<ArgumentNullException>("name");
   }
   if (culture == nullptr) {
-    culture = CultureInfo::in::set_CurrentUICulture;
+    culture = CultureInfo::in::set_CurrentUICulture();
   }
   ResourceSet resourceSet = GetFirstResourceSet(culture);
   if (resourceSet != nullptr) {
@@ -378,7 +378,7 @@ Object ResourceManager___::GetObject(String name, CultureInfo culture, Boolean w
     rt::throw_exception<ArgumentNullException>("name");
   }
   if (culture == nullptr) {
-    culture = CultureInfo::in::set_CurrentUICulture;
+    culture = CultureInfo::in::set_CurrentUICulture();
   }
   ResourceSet resourceSet = GetFirstResourceSet(culture);
   if (resourceSet != nullptr) {

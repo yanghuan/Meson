@@ -282,7 +282,7 @@ Guid EventSource___::GetGuid(Type eventSourceType) {
       return result;
     }
     if (eventSourceAttribute->get_Name() != nullptr) {
-      name = eventSourceAttribute->set_Name;
+      name = eventSourceAttribute->set_Name();
     }
   }
   if (name == nullptr) {
@@ -428,9 +428,9 @@ void EventSource___::WriteEvent(Int32 eventId, Int32 arg1) {
   if (m_eventSourceEnabled) {
     EventData default[1] = {};
     EventData* ptr = default;
-    ptr->set_DataPointer = (IntPtr)(void*)(&arg1);
-    ptr->set_Size = 4;
-    ptr->set_Reserved = 0;
+    ptr->set_DataPointer((IntPtr)(void*)(&arg1));
+    ptr->set_Size(4);
+    ptr->set_Reserved(0);
     WriteEventCore(eventId, 1, ptr);
   }
 }
@@ -439,12 +439,12 @@ void EventSource___::WriteEvent(Int32 eventId, Int32 arg1, Int32 arg2) {
   if (m_eventSourceEnabled) {
     EventData default[2] = {};
     EventData* ptr = default;
-    ptr->set_DataPointer = (IntPtr)(void*)(&arg1);
-    ptr->set_Size = 4;
-    ptr->set_Reserved = 0;
-    ptr[1].set_DataPointer = (IntPtr)(void*)(&arg2);
-    ptr[1].set_Size = 4;
-    ptr[1].set_Reserved = 0;
+    ptr->set_DataPointer((IntPtr)(void*)(&arg1));
+    ptr->set_Size(4);
+    ptr->set_Reserved(0);
+    ptr[1].set_DataPointer((IntPtr)(void*)(&arg2));
+    ptr[1].set_Size(4);
+    ptr[1].set_Reserved(0);
     WriteEventCore(eventId, 2, ptr);
   }
 }
@@ -453,15 +453,15 @@ void EventSource___::WriteEvent(Int32 eventId, Int32 arg1, Int32 arg2, Int32 arg
   if (m_eventSourceEnabled) {
     EventData default[3] = {};
     EventData* ptr = default;
-    ptr->set_DataPointer = (IntPtr)(void*)(&arg1);
-    ptr->set_Size = 4;
-    ptr->set_Reserved = 0;
-    ptr[1].set_DataPointer = (IntPtr)(void*)(&arg2);
-    ptr[1].set_Size = 4;
-    ptr[1].set_Reserved = 0;
-    ptr[2].set_DataPointer = (IntPtr)(void*)(&arg3);
-    ptr[2].set_Size = 4;
-    ptr[2].set_Reserved = 0;
+    ptr->set_DataPointer((IntPtr)(void*)(&arg1));
+    ptr->set_Size(4);
+    ptr->set_Reserved(0);
+    ptr[1].set_DataPointer((IntPtr)(void*)(&arg2));
+    ptr[1].set_Size(4);
+    ptr[1].set_Reserved(0);
+    ptr[2].set_DataPointer((IntPtr)(void*)(&arg3));
+    ptr[2].set_Size(4);
+    ptr[2].set_Reserved(0);
     WriteEventCore(eventId, 3, ptr);
   }
 }
@@ -470,9 +470,9 @@ void EventSource___::WriteEvent(Int32 eventId, Int64 arg1) {
   if (m_eventSourceEnabled) {
     EventData default[1] = {};
     EventData* ptr = default;
-    ptr->set_DataPointer = (IntPtr)(void*)(&arg1);
-    ptr->set_Size = 8;
-    ptr->set_Reserved = 0;
+    ptr->set_DataPointer((IntPtr)(void*)(&arg1));
+    ptr->set_Size(8);
+    ptr->set_Reserved(0);
     WriteEventCore(eventId, 1, ptr);
   }
 }
@@ -481,12 +481,12 @@ void EventSource___::WriteEvent(Int32 eventId, Int64 arg1, Int64 arg2) {
   if (m_eventSourceEnabled) {
     EventData default[2] = {};
     EventData* ptr = default;
-    ptr->set_DataPointer = (IntPtr)(void*)(&arg1);
-    ptr->set_Size = 8;
-    ptr->set_Reserved = 0;
-    ptr[1].set_DataPointer = (IntPtr)(void*)(&arg2);
-    ptr[1].set_Size = 8;
-    ptr[1].set_Reserved = 0;
+    ptr->set_DataPointer((IntPtr)(void*)(&arg1));
+    ptr->set_Size(8);
+    ptr->set_Reserved(0);
+    ptr[1].set_DataPointer((IntPtr)(void*)(&arg2));
+    ptr[1].set_Size(8);
+    ptr[1].set_Reserved(0);
     WriteEventCore(eventId, 2, ptr);
   }
 }
@@ -495,15 +495,15 @@ void EventSource___::WriteEvent(Int32 eventId, Int64 arg1, Int64 arg2, Int64 arg
   if (m_eventSourceEnabled) {
     EventData default[3] = {};
     EventData* ptr = default;
-    ptr->set_DataPointer = (IntPtr)(void*)(&arg1);
-    ptr->set_Size = 8;
-    ptr->set_Reserved = 0;
-    ptr[1].set_DataPointer = (IntPtr)(void*)(&arg2);
-    ptr[1].set_Size = 8;
-    ptr[1].set_Reserved = 0;
-    ptr[2].set_DataPointer = (IntPtr)(void*)(&arg3);
-    ptr[2].set_Size = 8;
-    ptr[2].set_Reserved = 0;
+    ptr->set_DataPointer((IntPtr)(void*)(&arg1));
+    ptr->set_Size(8);
+    ptr->set_Reserved(0);
+    ptr[1].set_DataPointer((IntPtr)(void*)(&arg2));
+    ptr[1].set_Size(8);
+    ptr[1].set_Reserved(0);
+    ptr[2].set_DataPointer((IntPtr)(void*)(&arg3));
+    ptr[2].set_Size(8);
+    ptr[2].set_Reserved(0);
     WriteEventCore(eventId, 3, ptr);
   }
 }
@@ -518,9 +518,9 @@ void EventSource___::WriteEvent(Int32 eventId, String arg1) {
       Char* value = ptr;
       EventData default[1] = {};
       EventData* ptr2 = default;
-      ptr2->set_DataPointer = (IntPtr)(void*)value;
-      ptr2->set_Size = (arg1->get_Length() + 1) * 2;
-      ptr2->set_Reserved = 0;
+      ptr2->set_DataPointer((IntPtr)(void*)value);
+      ptr2->set_Size((arg1->get_Length() + 1) * 2);
+      ptr2->set_Reserved(0);
       WriteEventCore(eventId, 1, ptr2);
     }
   }
@@ -544,12 +544,12 @@ void EventSource___::WriteEvent(Int32 eventId, String arg1, String arg2) {
       Char* value2 = ptr2;
       EventData default[2] = {};
       EventData* ptr3 = default;
-      ptr3->set_DataPointer = (IntPtr)(void*)value;
-      ptr3->set_Size = (arg1->get_Length() + 1) * 2;
-      ptr3->set_Reserved = 0;
-      ptr3[1].set_DataPointer = (IntPtr)(void*)value2;
-      ptr3[1].set_Size = (arg2->get_Length() + 1) * 2;
-      ptr3[1].set_Reserved = 0;
+      ptr3->set_DataPointer((IntPtr)(void*)value);
+      ptr3->set_Size((arg1->get_Length() + 1) * 2);
+      ptr3->set_Reserved(0);
+      ptr3[1].set_DataPointer((IntPtr)(void*)value2);
+      ptr3[1].set_Size((arg2->get_Length() + 1) * 2);
+      ptr3[1].set_Reserved(0);
       WriteEventCore(eventId, 2, ptr3);
     }
   }
@@ -579,15 +579,15 @@ void EventSource___::WriteEvent(Int32 eventId, String arg1, String arg2, String 
         Char* value3 = ptr3;
         EventData default[3] = {};
         EventData* ptr4 = default;
-        ptr4->set_DataPointer = (IntPtr)(void*)value;
-        ptr4->set_Size = (arg1->get_Length() + 1) * 2;
-        ptr4->set_Reserved = 0;
-        ptr4[1].set_DataPointer = (IntPtr)(void*)value2;
-        ptr4[1].set_Size = (arg2->get_Length() + 1) * 2;
-        ptr4[1].set_Reserved = 0;
-        ptr4[2].set_DataPointer = (IntPtr)(void*)value3;
-        ptr4[2].set_Size = (arg3->get_Length() + 1) * 2;
-        ptr4[2].set_Reserved = 0;
+        ptr4->set_DataPointer((IntPtr)(void*)value);
+        ptr4->set_Size((arg1->get_Length() + 1) * 2);
+        ptr4->set_Reserved(0);
+        ptr4[1].set_DataPointer((IntPtr)(void*)value2);
+        ptr4[1].set_Size((arg2->get_Length() + 1) * 2);
+        ptr4[1].set_Reserved(0);
+        ptr4[2].set_DataPointer((IntPtr)(void*)value3);
+        ptr4[2].set_Size((arg3->get_Length() + 1) * 2);
+        ptr4[2].set_Reserved(0);
         WriteEventCore(eventId, 3, ptr4);
       }
     }
@@ -604,12 +604,12 @@ void EventSource___::WriteEvent(Int32 eventId, String arg1, Int32 arg2) {
       Char* value = ptr;
       EventData default[2] = {};
       EventData* ptr2 = default;
-      ptr2->set_DataPointer = (IntPtr)(void*)value;
-      ptr2->set_Size = (arg1->get_Length() + 1) * 2;
-      ptr2->set_Reserved = 0;
-      ptr2[1].set_DataPointer = (IntPtr)(void*)(&arg2);
-      ptr2[1].set_Size = 4;
-      ptr2[1].set_Reserved = 0;
+      ptr2->set_DataPointer((IntPtr)(void*)value);
+      ptr2->set_Size((arg1->get_Length() + 1) * 2);
+      ptr2->set_Reserved(0);
+      ptr2[1].set_DataPointer((IntPtr)(void*)(&arg2));
+      ptr2[1].set_Size(4);
+      ptr2[1].set_Reserved(0);
       WriteEventCore(eventId, 2, ptr2);
     }
   }
@@ -625,15 +625,15 @@ void EventSource___::WriteEvent(Int32 eventId, String arg1, Int32 arg2, Int32 ar
       Char* value = ptr;
       EventData default[3] = {};
       EventData* ptr2 = default;
-      ptr2->set_DataPointer = (IntPtr)(void*)value;
-      ptr2->set_Size = (arg1->get_Length() + 1) * 2;
-      ptr2->set_Reserved = 0;
-      ptr2[1].set_DataPointer = (IntPtr)(void*)(&arg2);
-      ptr2[1].set_Size = 4;
-      ptr2[1].set_Reserved = 0;
-      ptr2[2].set_DataPointer = (IntPtr)(void*)(&arg3);
-      ptr2[2].set_Size = 4;
-      ptr2[2].set_Reserved = 0;
+      ptr2->set_DataPointer((IntPtr)(void*)value);
+      ptr2->set_Size((arg1->get_Length() + 1) * 2);
+      ptr2->set_Reserved(0);
+      ptr2[1].set_DataPointer((IntPtr)(void*)(&arg2));
+      ptr2[1].set_Size(4);
+      ptr2[1].set_Reserved(0);
+      ptr2[2].set_DataPointer((IntPtr)(void*)(&arg3));
+      ptr2[2].set_Size(4);
+      ptr2[2].set_Reserved(0);
       WriteEventCore(eventId, 3, ptr2);
     }
   }
@@ -649,12 +649,12 @@ void EventSource___::WriteEvent(Int32 eventId, String arg1, Int64 arg2) {
       Char* value = ptr;
       EventData default[2] = {};
       EventData* ptr2 = default;
-      ptr2->set_DataPointer = (IntPtr)(void*)value;
-      ptr2->set_Size = (arg1->get_Length() + 1) * 2;
-      ptr2->set_Reserved = 0;
-      ptr2[1].set_DataPointer = (IntPtr)(void*)(&arg2);
-      ptr2[1].set_Size = 8;
-      ptr2[1].set_Reserved = 0;
+      ptr2->set_DataPointer((IntPtr)(void*)value);
+      ptr2->set_Size((arg1->get_Length() + 1) * 2);
+      ptr2->set_Reserved(0);
+      ptr2[1].set_DataPointer((IntPtr)(void*)(&arg2));
+      ptr2[1].set_Size(8);
+      ptr2[1].set_Reserved(0);
       WriteEventCore(eventId, 2, ptr2);
     }
   }
@@ -670,12 +670,12 @@ void EventSource___::WriteEvent(Int32 eventId, Int64 arg1, String arg2) {
       Char* value = ptr;
       EventData default[2] = {};
       EventData* ptr2 = default;
-      ptr2->set_DataPointer = (IntPtr)(void*)(&arg1);
-      ptr2->set_Size = 8;
-      ptr2->set_Reserved = 0;
-      ptr2[1].set_DataPointer = (IntPtr)(void*)value;
-      ptr2[1].set_Size = (arg2->get_Length() + 1) * 2;
-      ptr2[1].set_Reserved = 0;
+      ptr2->set_DataPointer((IntPtr)(void*)(&arg1));
+      ptr2->set_Size(8);
+      ptr2->set_Reserved(0);
+      ptr2[1].set_DataPointer((IntPtr)(void*)value);
+      ptr2[1].set_Size((arg2->get_Length() + 1) * 2);
+      ptr2[1].set_Reserved(0);
       WriteEventCore(eventId, 2, ptr2);
     }
   }
@@ -691,12 +691,12 @@ void EventSource___::WriteEvent(Int32 eventId, Int32 arg1, String arg2) {
       Char* value = ptr;
       EventData default[2] = {};
       EventData* ptr2 = default;
-      ptr2->set_DataPointer = (IntPtr)(void*)(&arg1);
-      ptr2->set_Size = 4;
-      ptr2->set_Reserved = 0;
-      ptr2[1].set_DataPointer = (IntPtr)(void*)value;
-      ptr2[1].set_Size = (arg2->get_Length() + 1) * 2;
-      ptr2[1].set_Reserved = 0;
+      ptr2->set_DataPointer((IntPtr)(void*)(&arg1));
+      ptr2->set_Size(4);
+      ptr2->set_Reserved(0);
+      ptr2[1].set_DataPointer((IntPtr)(void*)value);
+      ptr2[1].set_Size((arg2->get_Length() + 1) * 2);
+      ptr2[1].set_Reserved(0);
       WriteEventCore(eventId, 2, ptr2);
     }
   }
@@ -710,24 +710,24 @@ void EventSource___::WriteEvent(Int32 eventId, Array<Byte> arg1) {
   EventData* ptr = default;
   if (arg1 == nullptr || arg1->get_Length() == 0) {
     Int32 num = 0;
-    ptr->set_DataPointer = (IntPtr)(void*)(&num);
-    ptr->set_Size = 4;
-    ptr->set_Reserved = 0;
-    ptr[1].set_DataPointer = (IntPtr)(void*)(&num);
-    ptr[1].set_Size = 0;
-    ptr[1].set_Reserved = 0;
+    ptr->set_DataPointer((IntPtr)(void*)(&num));
+    ptr->set_Size(4);
+    ptr->set_Reserved(0);
+    ptr[1].set_DataPointer((IntPtr)(void*)(&num));
+    ptr[1].set_Size(0);
+    ptr[1].set_Reserved(0);
     WriteEventCore(eventId, 2, ptr);
     return;
   }
   Int32 size = arg1->get_Length();
   {
     Byte* value = &arg1[0];
-    ptr->set_DataPointer = (IntPtr)(void*)(&size);
-    ptr->set_Size = 4;
-    ptr->set_Reserved = 0;
-    ptr[1].set_DataPointer = (IntPtr)(void*)value;
-    ptr[1].set_Size = size;
-    ptr[1].set_Reserved = 0;
+    ptr->set_DataPointer((IntPtr)(void*)(&size));
+    ptr->set_Size(4);
+    ptr->set_Reserved(0);
+    ptr[1].set_DataPointer((IntPtr)(void*)value);
+    ptr[1].set_Size(size);
+    ptr[1].set_Reserved(0);
     WriteEventCore(eventId, 2, ptr);
   }
 }
@@ -738,29 +738,29 @@ void EventSource___::WriteEvent(Int32 eventId, Int64 arg1, Array<Byte> arg2) {
   }
   EventData default[3] = {};
   EventData* ptr = default;
-  ptr->set_DataPointer = (IntPtr)(void*)(&arg1);
-  ptr->set_Size = 8;
-  ptr->set_Reserved = 0;
+  ptr->set_DataPointer((IntPtr)(void*)(&arg1));
+  ptr->set_Size(8);
+  ptr->set_Reserved(0);
   if (arg2 == nullptr || arg2->get_Length() == 0) {
     Int32 num = 0;
-    ptr[1].set_DataPointer = (IntPtr)(void*)(&num);
-    ptr[1].set_Size = 4;
-    ptr[1].set_Reserved = 0;
-    ptr[2].set_DataPointer = (IntPtr)(void*)(&num);
-    ptr[2].set_Size = 0;
-    ptr[2].set_Reserved = 0;
+    ptr[1].set_DataPointer((IntPtr)(void*)(&num));
+    ptr[1].set_Size(4);
+    ptr[1].set_Reserved(0);
+    ptr[2].set_DataPointer((IntPtr)(void*)(&num));
+    ptr[2].set_Size(0);
+    ptr[2].set_Reserved(0);
     WriteEventCore(eventId, 3, ptr);
     return;
   }
   Int32 size = arg2->get_Length();
   {
     Byte* value = &arg2[0];
-    ptr[1].set_DataPointer = (IntPtr)(void*)(&size);
-    ptr[1].set_Size = 4;
-    ptr[1].set_Reserved = 0;
-    ptr[2].set_DataPointer = (IntPtr)(void*)value;
-    ptr[2].set_Size = size;
-    ptr[2].set_Reserved = 0;
+    ptr[1].set_DataPointer((IntPtr)(void*)(&size));
+    ptr[1].set_Size(4);
+    ptr[1].set_Reserved(0);
+    ptr[2].set_DataPointer((IntPtr)(void*)value);
+    ptr[2].set_Size(size);
+    ptr[2].set_Reserved(0);
     WriteEventCore(eventId, 3, ptr);
   }
 }
@@ -813,9 +813,9 @@ void EventSource___::WriteEventWithRelatedActivityIdCore(Int32 eventId, Guid* re
           Interlocked::CompareExchange(m_eventData[eventId].TraceLoggingEventTypes, traceLoggingEventTypes, (TraceLoggingEventTypes)nullptr);
         }
         EventSourceOptions eventSourceOptions = EventSourceOptions();
-        eventSourceOptions.set_Keywords = (EventKeywords)m_eventData[eventId].Descriptor.get_Keywords();
-        eventSourceOptions.set_Level = (EventLevel)m_eventData[eventId].Descriptor.get_Level();
-        eventSourceOptions.set_Opcode = (EventOpcode)m_eventData[eventId].Descriptor.get_Opcode();
+        eventSourceOptions.set_Keywords((EventKeywords)m_eventData[eventId].Descriptor.get_Keywords());
+        eventSourceOptions.set_Level((EventLevel)m_eventData[eventId].Descriptor.get_Level());
+        eventSourceOptions.set_Opcode((EventOpcode)m_eventData[eventId].Descriptor.get_Opcode());
         EventSourceOptions options = eventSourceOptions;
         WriteMultiMerge(m_eventData[eventId].Name, options, traceLoggingEventTypes, activityID, relatedActivityId, data);
       }
@@ -1017,7 +1017,7 @@ Object EventSource___::DecodeObject(Int32 eventId, Int32 parameterId, EventData*
     if (type == rt::typeof<Array<Byte>>()) {
       Int32 num = *(Int32*)(void*)dataPointer;
       Array<Byte> array = rt::newarr<Array<Byte>>(num);
-      dataPointer = data->set_DataPointer;
+      dataPointer = data->set_DataPointer();
       data++;
       for (Int32 i = 0; i < num; i++) {
         array[i] = *(Byte*)(void*)(dataPointer + i);
@@ -1107,9 +1107,9 @@ void EventSource___::WriteEventVarargs(Int32 eventId, Guid* childActivityID, Arr
           Interlocked::CompareExchange(m_eventData[eventId].TraceLoggingEventTypes, traceLoggingEventTypes, (TraceLoggingEventTypes)nullptr);
         }
         EventSourceOptions eventSourceOptions = EventSourceOptions();
-        eventSourceOptions.set_Keywords = (EventKeywords)m_eventData[eventId].Descriptor.get_Keywords();
-        eventSourceOptions.set_Level = (EventLevel)m_eventData[eventId].Descriptor.get_Level();
-        eventSourceOptions.set_Opcode = (EventOpcode)m_eventData[eventId].Descriptor.get_Opcode();
+        eventSourceOptions.set_Keywords((EventKeywords)m_eventData[eventId].Descriptor.get_Keywords());
+        eventSourceOptions.set_Level((EventLevel)m_eventData[eventId].Descriptor.get_Level());
+        eventSourceOptions.set_Opcode((EventOpcode)m_eventData[eventId].Descriptor.get_Opcode());
         EventSourceOptions options = eventSourceOptions;
         WriteMultiMerge(m_eventData[eventId].Name, options, traceLoggingEventTypes, activityID, childActivityID, args);
       }
@@ -1177,22 +1177,22 @@ void EventSource___::WriteToAllListeners(Int32 eventId, Guid* activityID, Guid* 
 
 void EventSource___::WriteToAllListeners(Int32 eventId, UInt32* osThreadId, DateTime* timeStamp, Guid* activityID, Guid* childActivityID, Array<Object> args) {
   EventWrittenEventArgs eventWrittenEventArgs = rt::newobj<EventWrittenEventArgs>((EventSource)this);
-  eventWrittenEventArgs->set_EventId = eventId;
+  eventWrittenEventArgs->set_EventId(eventId);
   if (osThreadId != nullptr) {
-    eventWrittenEventArgs->set_OSThreadId = (Int32)(*osThreadId);
+    eventWrittenEventArgs->set_OSThreadId((Int32)(*osThreadId));
   }
   if (timeStamp != nullptr) {
-    eventWrittenEventArgs->set_TimeStamp = *timeStamp;
+    eventWrittenEventArgs->set_TimeStamp(*timeStamp);
   }
   if (activityID != nullptr) {
-    eventWrittenEventArgs->set_ActivityId = *activityID;
+    eventWrittenEventArgs->set_ActivityId(*activityID);
   }
   if (childActivityID != nullptr) {
-    eventWrittenEventArgs->set_RelatedActivityId = *childActivityID;
+    eventWrittenEventArgs->set_RelatedActivityId(*childActivityID);
   }
-  eventWrittenEventArgs->set_EventName = m_eventData[eventId].Name;
-  eventWrittenEventArgs->set_Message = m_eventData[eventId].Message;
-  eventWrittenEventArgs->set_Payload = rt::newobj<ReadOnlyCollection<Object>>(args);
+  eventWrittenEventArgs->set_EventName(m_eventData[eventId].Name);
+  eventWrittenEventArgs->set_Message(m_eventData[eventId].Message);
+  eventWrittenEventArgs->set_Payload(rt::newobj<ReadOnlyCollection<Object>>(args));
   DispatchToAllListeners(eventId, eventWrittenEventArgs);
 }
 
@@ -1221,8 +1221,8 @@ void EventSource___::WriteEventString(String msgString) {
   Int64 keywords = -1;
   if (get_SelfDescribingEvents()) {
     EventSourceOptions eventSourceOptions = EventSourceOptions();
-    eventSourceOptions.set_Keywords = (EventKeywords)keywords;
-    eventSourceOptions.set_Level = eventLevel;
+    eventSourceOptions.set_Keywords((EventKeywords)keywords);
+    eventSourceOptions.set_Level(eventLevel);
     EventSourceOptions options = eventSourceOptions;
     TraceLoggingEventTypes eventTypes = rt::newobj<TraceLoggingEventTypes>("EventSourceMessage", EventTags::None, rt::typeof<String>());
     WriteMultiMergeInner("EventSourceMessage", options, eventTypes, nullptr, nullptr, msgString);
@@ -1271,11 +1271,11 @@ void EventSource___::WriteEventString(String msgString) {
 
 void EventSource___::WriteStringToAllListeners(String eventName, String msg) {
   EventWrittenEventArgs eventWrittenEventArgs = rt::newobj<EventWrittenEventArgs>((EventSource)this);
-  eventWrittenEventArgs->set_EventId = 0;
-  eventWrittenEventArgs->set_Message = msg;
-  eventWrittenEventArgs->set_Payload = rt::newobj<ReadOnlyCollection<Object>>(rt::newobj<List<Object>>());
-  eventWrittenEventArgs->set_PayloadNames = rt::newobj<ReadOnlyCollection<String>>(rt::newobj<List<String>>());
-  eventWrittenEventArgs->set_EventName = eventName;
+  eventWrittenEventArgs->set_EventId(0);
+  eventWrittenEventArgs->set_Message(msg);
+  eventWrittenEventArgs->set_Payload(rt::newobj<ReadOnlyCollection<Object>>(rt::newobj<List<Object>>()));
+  eventWrittenEventArgs->set_PayloadNames(rt::newobj<ReadOnlyCollection<String>>(rt::newobj<List<String>>()));
+  eventWrittenEventArgs->set_EventName(eventName);
   for (EventDispatcher eventDispatcher = m_Dispatchers; eventDispatcher != nullptr; eventDispatcher = eventDispatcher->m_Next) {
     Boolean flag = false;
     if (eventDispatcher->m_EventEnabled == nullptr) {
@@ -1439,7 +1439,7 @@ void EventSource___::DoCommand(EventCommandEventArgs commandArgs) {
       rt::throw_exception<ArgumentException>(SR::get_EventSource_ListenerNotFound());
     }
     if (commandArgs->get_Arguments() == nullptr) {
-      IDictionary<String, String> dictionary2 = commandArgs->set_Arguments = rt::newobj<Dictionary<String, String>>();
+      IDictionary<String, String> dictionary2 = commandArgs->set_Arguments(rt::newobj<Dictionary<String, String>>());
     }
     if (commandArgs->get_Command() == EventCommand::Update) {
       for (Int32 i = 0; i < m_eventData->get_Length(); i++) {
@@ -1471,7 +1471,7 @@ void EventSource___::DoCommand(EventCommandEventArgs commandArgs) {
         }
         commandArgs->perEventSourceSessionId--;
       }
-      commandArgs->set_Command = (flag ? EventCommand::Enable : EventCommand::Disable);
+      commandArgs->set_Command((flag ? EventCommand::Enable : EventCommand::Disable));
       if (flag && commandArgs->dispatcher == nullptr && !get_SelfDescribingEvents()) {
         SendManifest(m_rawManifest);
       }
@@ -1756,11 +1756,11 @@ void EventSource___::AddEventDescriptor(Array<EventMetadata>& eventData, String 
     eventData = array;
   }
   eventData[eventAttribute->get_EventId()].Descriptor = EventDescriptor(eventAttribute->get_EventId(), eventAttribute->get_Version(), (Byte)eventAttribute->get_Channel(), (Byte)eventAttribute->get_Level(), (Byte)eventAttribute->get_Opcode(), (Int32)eventAttribute->get_Task(), (Int64)eventAttribute->get_Keywords() | (Int64)SessionMask::get_All().ToEventKeywords());
-  eventData[eventAttribute->get_EventId()].Tags = eventAttribute->set_Tags;
+  eventData[eventAttribute->get_EventId()].Tags = eventAttribute->set_Tags();
   eventData[eventAttribute->get_EventId()].Name = eventName;
   eventData[eventAttribute->get_EventId()].Parameters = eventParameters;
-  eventData[eventAttribute->get_EventId()].Message = eventAttribute->set_Message;
-  eventData[eventAttribute->get_EventId()].ActivityOptions = eventAttribute->set_ActivityOptions;
+  eventData[eventAttribute->get_EventId()].Message = eventAttribute->set_Message();
+  eventData[eventAttribute->get_EventId()].ActivityOptions = eventAttribute->set_ActivityOptions();
   eventData[eventAttribute->get_EventId()].HasRelatedActivityID = hasRelatedActivityID;
   eventData[eventAttribute->get_EventId()].EventHandle = IntPtr::Zero;
 }
@@ -2096,7 +2096,7 @@ void EventSource___::WriteImpl(String eventName, EventSourceOptions& options, Ob
     try {
       {
         EventSourceOptions* ptr3 = &options;
-        options.set_Opcode = (options.get_IsOpcodeSet() ? options.get_Opcode() : GetOpcodeWithDefault(options.get_Opcode(), eventName));
+        options.set_Opcode((options.get_IsOpcodeSet() ? options.get_Opcode() : GetOpcodeWithDefault(options.get_Opcode(), eventName)));
         EventDescriptor descriptor;
         NameInfo nameInfo = UpdateDescriptor(eventName, eventTypes, options, descriptor);
         if (nameInfo == nullptr) {
@@ -2175,21 +2175,21 @@ void EventSource___::WriteImpl(String eventName, EventSourceOptions& options, Ob
 
 void EventSource___::WriteToAllListeners(String eventName, EventDescriptor& eventDescriptor, EventTags tags, Guid* pActivityId, Guid* pChildActivityId, EventPayload payload) {
   EventWrittenEventArgs eventWrittenEventArgs = rt::newobj<EventWrittenEventArgs>((EventSource)this);
-  eventWrittenEventArgs->set_EventName = eventName;
+  eventWrittenEventArgs->set_EventName(eventName);
   eventWrittenEventArgs->m_level = (EventLevel)eventDescriptor.get_Level();
   eventWrittenEventArgs->m_keywords = (EventKeywords)eventDescriptor.get_Keywords();
   eventWrittenEventArgs->m_opcode = (EventOpcode)eventDescriptor.get_Opcode();
   eventWrittenEventArgs->m_tags = tags;
-  eventWrittenEventArgs->set_EventId = -1;
+  eventWrittenEventArgs->set_EventId(-1);
   if (pActivityId != nullptr) {
-    eventWrittenEventArgs->set_ActivityId = *pActivityId;
+    eventWrittenEventArgs->set_ActivityId(*pActivityId);
   }
   if (pChildActivityId != nullptr) {
-    eventWrittenEventArgs->set_RelatedActivityId = *pChildActivityId;
+    eventWrittenEventArgs->set_RelatedActivityId(*pChildActivityId);
   }
   if (payload != nullptr) {
-    eventWrittenEventArgs->set_Payload = rt::newobj<ReadOnlyCollection<Object>>((IList<Object>)payload->get_Values());
-    eventWrittenEventArgs->set_PayloadNames = rt::newobj<ReadOnlyCollection<String>>((IList<String>)payload->get_Keys());
+    eventWrittenEventArgs->set_Payload(rt::newobj<ReadOnlyCollection<Object>>((IList<Object>)payload->get_Values()));
+    eventWrittenEventArgs->set_PayloadNames(rt::newobj<ReadOnlyCollection<String>>((IList<String>)payload->get_Keys()));
   }
   DispatchToAllListeners(-1, eventWrittenEventArgs);
 }

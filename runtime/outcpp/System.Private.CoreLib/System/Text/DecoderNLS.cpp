@@ -28,7 +28,7 @@ Boolean DecoderNLS___::get_HasLeftoverData() {
 
 void DecoderNLS___::ctor(Encoding encoding) {
   _encoding = encoding;
-  _fallback = _encoding->set_DecoderFallback;
+  _fallback = _encoding->set_DecoderFallback();
   Reset();
 }
 

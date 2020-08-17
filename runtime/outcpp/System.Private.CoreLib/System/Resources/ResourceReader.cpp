@@ -86,7 +86,7 @@ DictionaryEntry ResourceReader___::ResourceEnumerator___::get_Entry() {
       key = _reader->AllocateStringForNameIndex(_currentName, _dataPosition);
       ResourceLocator value;
       if (_reader->_resCache->TryGetValue(key, value)) {
-        obj = value.set_Value;
+        obj = value.set_Value();
       }
       if (obj == nullptr) {
         obj = ((_dataPosition != -1) ? _reader->LoadObject(_dataPosition) : _reader->GetValueForNameIndex(_currentName));
@@ -179,12 +179,12 @@ void ResourceReader___::GetResourceData(String resourceName, String& resourceTyp
   {
     rt::lock((ResourceReader)this);
     for (Int32 i = 0; i < _numResources; i++) {
-      _store->get_BaseStream()->set_Position = _nameSectionOffset + GetNamePosition(i);
+      _store->get_BaseStream()->set_Position(_nameSectionOffset + GetNamePosition(i));
       Int32 num2 = _store->Read7BitEncodedInt();
       if (num2 < 0) {
         rt::throw_exception<FormatException>(SR::Format(SR::get_BadImageFormat_ResourcesNameInvalidOffset(), num2));
       }
-      _store->get_BaseStream()->set_Position += num2;
+      _store->get_BaseStream()->set_Position(num2);
       Int32 num3 = _store->ReadInt32();
       if (num3 < 0 || num3 >= _store->get_BaseStream()->get_Length() - _dataSectionOffset) {
         rt::throw_exception<FormatException>(SR::Format(SR::get_BadImageFormat_ResourcesDataInvalidOffset(), num3));
@@ -195,7 +195,7 @@ void ResourceReader___::GetResourceData(String resourceName, String& resourceTyp
     Int32 num4 = Array<>::in::BinarySearch(array, num);
     Int64 num5 = (num4 < _numResources - 1) ? (array[num4 + 1] + _dataSectionOffset) : _store->get_BaseStream()->get_Length();
     Int32 num6 = (Int32)(num5 - (num + _dataSectionOffset));
-    _store->get_BaseStream()->set_Position = _dataSectionOffset + num;
+    _store->get_BaseStream()->set_Position(_dataSectionOffset + num);
     ResourceTypeCode resourceTypeCode = (ResourceTypeCode)_store->Read7BitEncodedInt();
     if (resourceTypeCode < ResourceTypeCode::Null || (Int32)resourceTypeCode >= 64 + _typeTable->get_Length()) {
       rt::throw_exception<BadImageFormatException>(SR::get_BadImageFormat_InvalidType());
@@ -388,7 +388,7 @@ String ResourceReader___::AllocateStringForNameIndex(Int32 index, Int32& dataOff
       String text = nullptr;
       Char* positionPointer = (Char*)_ums->get_PositionPointer();
       text = rt::newobj<String>(positionPointer, 0, num2 / 2);
-      _ums->set_Position += num2;
+      _ums->set_Position(num2);
       dataOffset = _store->ReadInt32();
       if (dataOffset < 0 || dataOffset >= _store->get_BaseStream()->get_Length() - _dataSectionOffset) {
         rt::throw_exception<FormatException>(SR::Format(SR::get_BadImageFormat_ResourcesDataInvalidOffset(), dataOffset));
@@ -692,7 +692,7 @@ void ResourceReader___::_ReadResources() {
     }
     _nameHashesPtr = (Int32*)_ums->get_PositionPointer();
     _ums->Seek(num7, SeekOrigin::Current);
-    _ = _ums->set_PositionPointer;
+    _ = _ums->set_PositionPointer();
   }
   if (_ums == nullptr) {
     _namePositions = rt::newarr<Array<Int32>>(_numResources);
@@ -710,13 +710,13 @@ void ResourceReader___::_ReadResources() {
     }
     _namePositionsPtr = (Int32*)_ums->get_PositionPointer();
     _ums->Seek(num9, SeekOrigin::Current);
-    _ = _ums->set_PositionPointer;
+    _ = _ums->set_PositionPointer();
   }
   _dataSectionOffset = _store->ReadInt32();
   if (_dataSectionOffset < 0) {
     rt::throw_exception<BadImageFormatException>(SR::get_BadImageFormat_ResourcesHeaderCorrupted());
   }
-  _nameSectionOffset = _store->get_BaseStream()->set_Position;
+  _nameSectionOffset = _store->get_BaseStream()->set_Position();
   if (_dataSectionOffset < _nameSectionOffset) {
     rt::throw_exception<BadImageFormatException>(SR::get_BadImageFormat_ResourcesHeaderCorrupted());
   }
@@ -729,12 +729,12 @@ Type ResourceReader___::FindType(Int32 typeIndex) {
   if (_typeTable[typeIndex] == nullptr) {
     Int64 position = _store->get_BaseStream()->get_Position();
     try {
-      _store->get_BaseStream()->set_Position = _typeNamePositions[typeIndex];
+      _store->get_BaseStream()->set_Position(_typeNamePositions[typeIndex]);
       String typeName = _store->ReadString();
       _typeTable[typeIndex] = Type::in::GetType(typeName, true);
     } catch (FileNotFoundException) {
     } finally: {
-      _store->get_BaseStream()->set_Position = position;
+      _store->get_BaseStream()->set_Position(position);
     }
   }
   return _typeTable[typeIndex];
@@ -747,11 +747,11 @@ String ResourceReader___::TypeNameFromTypeCode(ResourceTypeCode typeCode) {
   Int32 num = (Int32)(typeCode - 64);
   Int64 position = _store->get_BaseStream()->get_Position();
   try {
-    _store->get_BaseStream()->set_Position = _typeNamePositions[num];
+    _store->get_BaseStream()->set_Position(_typeNamePositions[num]);
     return _store->ReadString();
   } catch (...) {
   } finally: {
-    _store->get_BaseStream()->set_Position = position;
+    _store->get_BaseStream()->set_Position(position);
   }
 }
 

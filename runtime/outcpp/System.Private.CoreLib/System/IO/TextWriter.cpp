@@ -58,7 +58,7 @@ String SyncTextWriter___::get_NewLine() {
 }
 
 void SyncTextWriter___::set_NewLine(String value) {
-  _out->set_NewLine = value;
+  _out->set_NewLine(value);
 }
 
 void SyncTextWriter___::ctor(TextWriter t) {

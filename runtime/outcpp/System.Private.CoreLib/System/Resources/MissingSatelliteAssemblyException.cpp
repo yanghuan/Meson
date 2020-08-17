@@ -8,20 +8,20 @@ String MissingSatelliteAssemblyException___::get_CultureName() {
 }
 
 void MissingSatelliteAssemblyException___::ctor() {
-  Exception::in::set_HResult = -2146233034;
+  Exception::in::set_HResult(-2146233034);
 }
 
 void MissingSatelliteAssemblyException___::ctor(String message) {
-  Exception::in::set_HResult = -2146233034;
+  Exception::in::set_HResult(-2146233034);
 }
 
 void MissingSatelliteAssemblyException___::ctor(String message, String cultureName) {
-  Exception::in::set_HResult = -2146233034;
+  Exception::in::set_HResult(-2146233034);
   _cultureName = cultureName;
 }
 
 void MissingSatelliteAssemblyException___::ctor(String message, Exception inner) {
-  Exception::in::set_HResult = -2146233034;
+  Exception::in::set_HResult(-2146233034);
 }
 
 void MissingSatelliteAssemblyException___::ctor(SerializationInfo info, StreamingContext context) {

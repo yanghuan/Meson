@@ -12,15 +12,15 @@ String MissingMethodException___::get_Message() {
 }
 
 void MissingMethodException___::ctor() {
-  Exception::in::set_HResult = -2146233069;
+  Exception::in::set_HResult(-2146233069);
 }
 
 void MissingMethodException___::ctor(String message) {
-  Exception::in::set_HResult = -2146233069;
+  Exception::in::set_HResult(-2146233069);
 }
 
 void MissingMethodException___::ctor(String message, Exception inner) {
-  Exception::in::set_HResult = -2146233069;
+  Exception::in::set_HResult(-2146233069);
 }
 
 void MissingMethodException___::ctor(String className, String methodName) {

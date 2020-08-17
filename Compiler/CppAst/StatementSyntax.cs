@@ -535,6 +535,8 @@ namespace Meson.Compiler.CppAst {
       TrueStatement = trueStatement;
     }
 
+    public bool IsSingleLine => FalseStatement == null && !(TrueStatement is BlockSyntax);
+
     internal override void Render(CppRenderer renderer) {
       renderer.Render(this);
     }

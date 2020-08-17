@@ -97,7 +97,7 @@ Int32 DateTimeFormatInfoScanner___::AddDateWords(String pattern, Int32 index, St
           if (formatPostfix != nullptr) {
             formatPostfix = nullptr;
           }
-          stringBuilder->set_Length = 0;
+          stringBuilder->set_Length(0);
           index++;
         } else {
           stringBuilder->Append(c);

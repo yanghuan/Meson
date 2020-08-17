@@ -8,7 +8,7 @@ void TargetException___::ctor(String message) {
 }
 
 void TargetException___::ctor(String message, Exception inner) {
-  Exception::in::set_HResult = -2146232829;
+  Exception::in::set_HResult(-2146232829);
 }
 
 void TargetException___::ctor(SerializationInfo info, StreamingContext context) {

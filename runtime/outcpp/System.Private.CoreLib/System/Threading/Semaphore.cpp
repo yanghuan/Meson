@@ -66,7 +66,7 @@ Int32 Semaphore___::Release(Int32 releaseCount) {
 }
 
 void Semaphore___::ctor(SafeWaitHandle handle) {
-  WaitHandle::in::set_SafeWaitHandle = handle;
+  WaitHandle::in::set_SafeWaitHandle(handle);
 }
 
 void Semaphore___::CreateSemaphoreCore(Int32 initialCount, Int32 maximumCount, String name, Boolean& createdNew) {
@@ -79,7 +79,7 @@ void Semaphore___::CreateSemaphoreCore(Int32 initialCount, Int32 maximumCount, S
     rt::throw_exception(Win32Marshal::GetExceptionForLastWin32Error());
   }
   createdNew = (lastWin32Error != 183);
-  WaitHandle::in::set_SafeWaitHandle = safeWaitHandle;
+  WaitHandle::in::set_SafeWaitHandle(safeWaitHandle);
 }
 
 WaitHandle::in::OpenExistingResult Semaphore___::OpenExistingWorker(String name, Semaphore& result) {

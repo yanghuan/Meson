@@ -13,7 +13,7 @@ String FileLoadException___::get_Message() {
 }
 
 void FileLoadException___::ctor(String fileName, Int32 hResult) {
-  Exception::in::set_HResult = hResult;
+  Exception::in::set_HResult(hResult);
   FileName = fileName;
   _message = FormatFileLoadExceptionMessage(FileName, Exception::in::get_HResult());
 }
@@ -31,24 +31,24 @@ String FileLoadException___::FormatFileLoadExceptionMessage(String fileName, Int
 }
 
 void FileLoadException___::ctor() {
-  Exception::in::set_HResult = -2146232799;
+  Exception::in::set_HResult(-2146232799);
 }
 
 void FileLoadException___::ctor(String message) {
-  Exception::in::set_HResult = -2146232799;
+  Exception::in::set_HResult(-2146232799);
 }
 
 void FileLoadException___::ctor(String message, Exception inner) {
-  Exception::in::set_HResult = -2146232799;
+  Exception::in::set_HResult(-2146232799);
 }
 
 void FileLoadException___::ctor(String message, String fileName) {
-  Exception::in::set_HResult = -2146232799;
+  Exception::in::set_HResult(-2146232799);
   FileName = fileName;
 }
 
 void FileLoadException___::ctor(String message, String fileName, Exception inner) {
-  Exception::in::set_HResult = -2146232799;
+  Exception::in::set_HResult(-2146232799);
   FileName = fileName;
 }
 

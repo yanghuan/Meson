@@ -14,9 +14,9 @@ ResourceLocation ManifestResourceInfo___::get_ResourceLocation() {
 }
 
 void ManifestResourceInfo___::ctor(Assembly containingAssembly, String containingFileName, Reflection::ResourceLocation resourceLocation) {
-  get_ReferencedAssembly() = containingAssembly;
-  get_FileName() = containingFileName;
-  get_ResourceLocation() = resourceLocation;
+  get_ReferencedAssembly(containingAssembly);
+  get_FileName(containingFileName);
+  get_ResourceLocation(resourceLocation);
 }
 
 } // namespace System::Private::CoreLib::System::Reflection::ManifestResourceInfoNamespace

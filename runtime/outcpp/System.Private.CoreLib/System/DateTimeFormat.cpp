@@ -462,7 +462,7 @@ String DateTimeFormat::ExpandPredefinedFormat(ReadOnlySpan<Char> format, DateTim
       }
       dtfi = (DateTimeFormatInfo)dtfi->Clone();
       if (dtfi->get_Calendar()->GetType() != rt::typeof<GregorianCalendar>()) {
-        dtfi->set_Calendar = GregorianCalendar::in::GetDefaultInstance();
+        dtfi->set_Calendar(GregorianCalendar::in::GetDefaultInstance());
       }
       dateTime = dateTime.ToUniversalTime();
       break;
@@ -518,7 +518,7 @@ Boolean DateTimeFormat::TryFormat(DateTime dateTime, Span<Char> destination, Int
   Boolean flag = stringBuilder->get_Length() <= destination.get_Length();
   if (flag) {
     stringBuilder->CopyTo(0, destination, stringBuilder->get_Length());
-    charsWritten = stringBuilder->set_Length;
+    charsWritten = stringBuilder->set_Length();
   } else {
     charsWritten = 0;
   }
@@ -752,9 +752,9 @@ Array<String> DateTimeFormat::GetAllDateTimes(DateTime dateTime, DateTimeFormatI
 
 void DateTimeFormat::cctor() {
   allStandardFormats = rt::newarr<Array<Char>>(19);
-  InvariantFormatInfo = CultureInfo::in::get_InvariantCulture()->set_DateTimeFormat;
-  InvariantAbbreviatedMonthNames = InvariantFormatInfo->set_AbbreviatedMonthNames;
-  InvariantAbbreviatedDayNames = InvariantFormatInfo->set_AbbreviatedDayNames;
+  InvariantFormatInfo = CultureInfo::in::get_InvariantCulture()->set_DateTimeFormat();
+  InvariantAbbreviatedMonthNames = InvariantFormatInfo->set_AbbreviatedMonthNames();
+  InvariantAbbreviatedDayNames = InvariantFormatInfo->set_AbbreviatedDayNames();
   fixedNumberFormats = rt::newarr<Array<String>>(7);
 }
 

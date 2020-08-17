@@ -362,7 +362,7 @@ String ConsolePal::get_Title() {
     }
     valueStringBuilder.EnsureCapacity(valueStringBuilder.get_Capacity() * 2);
   }
-  valueStringBuilder.set_Length = (Int32)num;
+  valueStringBuilder.set_Length((Int32)num);
   return valueStringBuilder.ToString();
 }
 

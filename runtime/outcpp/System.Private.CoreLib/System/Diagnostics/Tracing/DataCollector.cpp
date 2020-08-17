@@ -176,7 +176,7 @@ void DataCollector::PinArray(Object value, Int32 size) {
   pins = ptr + 1;
   datas = ptr2 + 1;
   *ptr = GCHandle::Alloc(value, GCHandleType::Pinned);
-  ptr2->set_DataPointer = ptr->AddrOfPinnedObject();
+  ptr2->set_DataPointer(ptr->AddrOfPinnedObject());
   ptr2->m_Size = size;
 }
 
@@ -186,7 +186,7 @@ void DataCollector::ScalarsBegin() {
     if (datasEnd <= ptr) {
       rt::throw_exception<IndexOutOfRangeException>(SR::get_EventSource_DataDescriptorsOutOfRange());
     }
-    ptr->set_DataPointer = (IntPtr)(void*)scratch;
+    ptr->set_DataPointer((IntPtr)(void*)scratch);
     writingScalars = true;
   }
 }

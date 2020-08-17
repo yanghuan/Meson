@@ -14,7 +14,7 @@ void WaitHandleExtensions::SetSafeWaitHandle(WaitHandle waitHandle, SafeWaitHand
   if (waitHandle == nullptr) {
     rt::throw_exception<ArgumentNullException>("waitHandle");
   }
-  waitHandle->set_SafeWaitHandle = value;
+  waitHandle->set_SafeWaitHandle(value);
 }
 
 } // namespace System::Private::CoreLib::System::Threading::WaitHandleExtensionsNamespace

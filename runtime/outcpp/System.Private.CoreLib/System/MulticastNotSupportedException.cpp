@@ -4,15 +4,15 @@
 
 namespace System::Private::CoreLib::System::MulticastNotSupportedExceptionNamespace {
 void MulticastNotSupportedException___::ctor() {
-  Exception::in::set_HResult = -2146233068;
+  Exception::in::set_HResult(-2146233068);
 }
 
 void MulticastNotSupportedException___::ctor(String message) {
-  Exception::in::set_HResult = -2146233068;
+  Exception::in::set_HResult(-2146233068);
 }
 
 void MulticastNotSupportedException___::ctor(String message, Exception inner) {
-  Exception::in::set_HResult = -2146233068;
+  Exception::in::set_HResult(-2146233068);
 }
 
 void MulticastNotSupportedException___::ctor(SerializationInfo info, StreamingContext context) {

@@ -188,14 +188,14 @@ void ActivityTracker___::OnStart(String providerName, String activityName, Int32
       ActivityInfo activityInfo = FindActiveActivity(text, value);
       if (activityInfo != nullptr) {
         OnStop(providerName, activityName, task, activityId);
-        value = m_current->set_Value;
+        value = m_current->set_Value();
       }
     }
   }
   Int64 uniqueId = (value != nullptr) ? Interlocked::Increment(value->m_lastChildID) : Interlocked::Increment(m_nextId);
   relatedActivityId = EventSource::in::get_CurrentThreadActivityId();
   ActivityInfo activityInfo2 = rt::newobj<ActivityInfo>(text, uniqueId, value, relatedActivityId, options);
-  m_current->set_Value = activityInfo2;
+  m_current->set_Value(activityInfo2);
   activityId = activityInfo2->get_ActivityId();
   if (flag) {
     tplEventSource->DebugFacilityMessage("OnStartRetActivityState", ActivityInfo::in::LiveActivities(activityInfo2));
@@ -249,7 +249,7 @@ void ActivityTracker___::OnStop(String providerName, String activityName, Int32 
   if (activityInfo == nullptr) {
     activityInfo = activityInfo2->m_creator;
   }
-  m_current->set_Value = activityInfo;
+  m_current->set_Value(activityInfo);
   if (flag) {
     tplEventSource->DebugFacilityMessage("OnStopRetActivityState", ActivityInfo::in::LiveActivities(activityInfo));
     tplEventSource->DebugFacilityMessage("OnStopRet", activityId.ToString());

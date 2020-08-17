@@ -97,8 +97,8 @@ DeserializationToken SerializationInfo___::StartDeserialization() {
       {
         rt::lock(threadDeserializationTracker);
         if (!threadDeserializationTracker->get_DeserializationInProgress()) {
-          AsyncDeserializationInProgress->set_Value = true;
-          threadDeserializationTracker->set_DeserializationInProgress = true;
+          AsyncDeserializationInProgress->set_Value(true);
+          threadDeserializationTracker->set_DeserializationInProgress(true);
           return DeserializationToken(threadDeserializationTracker);
         }
       }

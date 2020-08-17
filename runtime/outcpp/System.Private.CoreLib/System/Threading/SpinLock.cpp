@@ -133,7 +133,7 @@ void SpinLock::ContinueTryEnter(Int32 millisecondsTimeout, Boolean& lockTaken) {
   }
   SpinWait spinWait = SpinWait();
   if (num > Environment::get_ProcessorCount()) {
-    spinWait.set_Count = 10;
+    spinWait.set_Count(10);
   }
   do {
     spinWait.SpinOnce(40);

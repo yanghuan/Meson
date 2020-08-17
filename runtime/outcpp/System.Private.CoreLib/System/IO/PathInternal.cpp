@@ -103,12 +103,12 @@ Boolean PathInternal::RemoveRelativeSegments(ReadOnlySpan<Char> path, Int32 root
         Int32 num2;
         for (num2 = sb.get_Length() - 1; num2 >= num; num2--) {
           if (IsDirectorySeparator(sb[num2])) {
-            sb.set_Length = ((i + 3 >= path.get_Length() && num2 == num) ? (num2 + 1) : num2);
+            sb.set_Length(((i + 3 >= path.get_Length() && num2 == num) ? (num2 + 1) : num2));
             break;
           }
         }
         if (num2 < num) {
-          sb.set_Length = num;
+          sb.set_Length(num);
         }
         i += 2;
         continue;

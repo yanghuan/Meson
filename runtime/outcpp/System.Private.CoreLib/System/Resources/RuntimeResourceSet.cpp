@@ -107,7 +107,7 @@ Object RuntimeResourceSet___::GetObject(String key, Boolean ignoreCase, Boolean 
     if (_defaultReader != nullptr) {
       Int32 num = -1;
       if (_resCache->TryGetValue(key, value)) {
-        obj = value.set_Value;
+        obj = value.set_Value();
         num = value.get_DataPosition();
       }
       if (num == -1 && obj == nullptr) {
@@ -185,7 +185,7 @@ Object RuntimeResourceSet___::ResolveResourceLocator(ResourceLocator resLocation
       obj = _defaultReader->LoadObject(resLocation.get_DataPosition(), typeCode);
     }
     if (!keyInWrongCase && ResourceLocator::CanCache(typeCode)) {
-      resLocation.set_Value = obj;
+      resLocation.set_Value(obj);
       copyOfCache[key] = resLocation;
     }
   }

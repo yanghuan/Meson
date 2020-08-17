@@ -4,15 +4,15 @@
 
 namespace System::Private::CoreLib::System::Security::VerificationExceptionNamespace {
 void VerificationException___::ctor() {
-  Exception::in::set_HResult = -2146233075;
+  Exception::in::set_HResult(-2146233075);
 }
 
 void VerificationException___::ctor(String message) {
-  Exception::in::set_HResult = -2146233075;
+  Exception::in::set_HResult(-2146233075);
 }
 
 void VerificationException___::ctor(String message, Exception innerException) {
-  Exception::in::set_HResult = -2146233075;
+  Exception::in::set_HResult(-2146233075);
 }
 
 void VerificationException___::ctor(SerializationInfo info, StreamingContext context) {

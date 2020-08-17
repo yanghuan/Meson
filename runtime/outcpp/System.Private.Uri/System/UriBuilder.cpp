@@ -21,7 +21,7 @@ void UriBuilder___::set_Extra(String value) {
   }
   if (value->get_Length() > 0) {
     if (value[0] == 35) {
-      get_Fragment() = value->Substring(1);
+      get_Fragment(value->Substring(1));
       return;
     }
     if (value[0] != 63) {
@@ -31,12 +31,12 @@ void UriBuilder___::set_Extra(String value) {
     if (num == -1) {
       num = value->get_Length();
     } else {
-      get_Fragment() = value->Substring(num + 1);
+      get_Fragment(value->Substring(num + 1));
     }
-    get_Query() = value->Substring(1, num - 1);
+    get_Query(value->Substring(1, num - 1));
   } else {
-    get_Fragment() = String::in::Empty;
-    get_Query() = String::in::Empty;
+    get_Fragment(String::in::Empty);
+    get_Query(String::in::Empty);
   }
 }
 
@@ -247,21 +247,21 @@ void UriBuilder___::ctor(String schemeName, String hostName) {
   _schemeDelimiter = Uri::in::SchemeDelimiter;
   _username = String::in::Empty;
   Object::in::ctor();
-  get_Scheme() = schemeName;
-  get_Host() = hostName;
+  get_Scheme(schemeName);
+  get_Host(hostName);
 }
 
 void UriBuilder___::ctor(String scheme, String host, Int32 portNumber) {
-  get_Port() = portNumber;
+  get_Port(portNumber);
 }
 
 void UriBuilder___::ctor(String scheme, String host, Int32 port, String pathValue) {
-  get_Path() = pathValue;
+  get_Path(pathValue);
 }
 
 void UriBuilder___::ctor(String scheme, String host, Int32 port, String path, String extraValue) {
   try {
-    set_Extra() = extraValue;
+    set_Extra(extraValue);
   } catch (Exception ex) {
   }
 }

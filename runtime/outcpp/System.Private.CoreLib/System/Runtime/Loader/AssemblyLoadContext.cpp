@@ -356,7 +356,7 @@ void AssemblyLoadContext___::SetCurrentContextualReflectionContext(AssemblyLoadC
   if (s_asyncLocalCurrent == nullptr) {
     Interlocked::CompareExchange(s_asyncLocalCurrent, rt::newobj<AsyncLocal<AssemblyLoadContext>>(), (AsyncLocal<AssemblyLoadContext>)nullptr);
   }
-  s_asyncLocalCurrent->set_Value = value;
+  s_asyncLocalCurrent->set_Value(value);
 }
 
 AssemblyLoadContext::in::ContextualReflectionScope AssemblyLoadContext___::EnterContextualReflection() {

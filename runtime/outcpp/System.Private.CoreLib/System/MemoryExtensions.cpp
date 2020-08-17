@@ -217,7 +217,7 @@ Int32 MemoryExtensions::ToLower(ReadOnlySpan<Char> source, Span<Char> destinatio
     rt::throw_exception<InvalidOperationException>(SR::get_InvalidOperation_SpanOverlappedOperation());
   }
   if (culture == nullptr) {
-    culture = CultureInfo::in::set_CurrentCulture;
+    culture = CultureInfo::in::set_CurrentCulture();
   }
   if (destination.get_Length() < source.get_Length()) {
     return -1;
@@ -250,7 +250,7 @@ Int32 MemoryExtensions::ToUpper(ReadOnlySpan<Char> source, Span<Char> destinatio
     rt::throw_exception<InvalidOperationException>(SR::get_InvalidOperation_SpanOverlappedOperation());
   }
   if (culture == nullptr) {
-    culture = CultureInfo::in::set_CurrentCulture;
+    culture = CultureInfo::in::set_CurrentCulture();
   }
   if (destination.get_Length() < source.get_Length()) {
     return -1;

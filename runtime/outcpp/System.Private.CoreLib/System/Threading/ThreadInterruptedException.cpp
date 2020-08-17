@@ -4,15 +4,15 @@
 
 namespace System::Private::CoreLib::System::Threading::ThreadInterruptedExceptionNamespace {
 void ThreadInterruptedException___::ctor() {
-  Exception::in::set_HResult = -2146233063;
+  Exception::in::set_HResult(-2146233063);
 }
 
 void ThreadInterruptedException___::ctor(String message) {
-  Exception::in::set_HResult = -2146233063;
+  Exception::in::set_HResult(-2146233063);
 }
 
 void ThreadInterruptedException___::ctor(String message, Exception innerException) {
-  Exception::in::set_HResult = -2146233063;
+  Exception::in::set_HResult(-2146233063);
 }
 
 void ThreadInterruptedException___::ctor(SerializationInfo info, StreamingContext context) {

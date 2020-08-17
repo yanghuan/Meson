@@ -1201,7 +1201,7 @@ Int32 Number::GetFloatingPointMaxDigitsAndPrecision(Char fmt, Int32& precision, 
     case 67:
     case 99:
       if (precision == -1) {
-        precision = info->set_CurrencyDecimalDigits;
+        precision = info->set_CurrencyDecimalDigits();
       }
       isSignificantDigits = false;
       break;
@@ -1218,7 +1218,7 @@ Int32 Number::GetFloatingPointMaxDigitsAndPrecision(Char fmt, Int32& precision, 
     case 102:
     case 110:
       if (precision == -1) {
-        precision = info->set_NumberDecimalDigits;
+        precision = info->set_NumberDecimalDigits();
       }
       isSignificantDigits = false;
       break;
@@ -1232,7 +1232,7 @@ Int32 Number::GetFloatingPointMaxDigitsAndPrecision(Char fmt, Int32& precision, 
     case 80:
     case 112:
       if (precision == -1) {
-        precision = info->set_PercentDecimalDigits;
+        precision = info->set_PercentDecimalDigits();
       }
       precision += 2;
       isSignificantDigits = false;
@@ -2048,7 +2048,7 @@ void Number::NumberToString(ValueStringBuilder& sb, NumberBuffer& number, Char f
     case 67:
     case 99:
       if (nMaxDigits < 0) {
-        nMaxDigits = info->set_CurrencyDecimalDigits;
+        nMaxDigits = info->set_CurrencyDecimalDigits();
       }
       RoundNumber(number, number.Scale + nMaxDigits, isCorrectlyRounded);
       FormatCurrency(sb, number, nMaxDigits, info);
@@ -2056,7 +2056,7 @@ void Number::NumberToString(ValueStringBuilder& sb, NumberBuffer& number, Char f
     case 70:
     case 102:
       if (nMaxDigits < 0) {
-        nMaxDigits = info->set_NumberDecimalDigits;
+        nMaxDigits = info->set_NumberDecimalDigits();
       }
       RoundNumber(number, number.Scale + nMaxDigits, isCorrectlyRounded);
       if (number.IsNegative) {
@@ -2067,7 +2067,7 @@ void Number::NumberToString(ValueStringBuilder& sb, NumberBuffer& number, Char f
     case 78:
     case 110:
       if (nMaxDigits < 0) {
-        nMaxDigits = info->set_NumberDecimalDigits;
+        nMaxDigits = info->set_NumberDecimalDigits();
       }
       RoundNumber(number, number.Scale + nMaxDigits, isCorrectlyRounded);
       FormatNumber(sb, number, nMaxDigits, info);
@@ -2102,7 +2102,7 @@ void Number::NumberToString(ValueStringBuilder& sb, NumberBuffer& number, Char f
     case 80:
     case 112:
       if (nMaxDigits < 0) {
-        nMaxDigits = info->set_PercentDecimalDigits;
+        nMaxDigits = info->set_PercentDecimalDigits();
       }
       number.Scale += 2;
       RoundNumber(number, number.Scale + nMaxDigits, isCorrectlyRounded);
@@ -3045,13 +3045,13 @@ Boolean Number::TryParseNumber(Char*& str, Char* strEnd, NumberStyles styles, Nu
   String value;
   String value2;
   if ((styles & NumberStyles::AllowCurrencySymbol) != 0) {
-    text = info->set_CurrencySymbol;
-    value = info->set_CurrencyDecimalSeparator;
-    value2 = info->set_CurrencyGroupSeparator;
+    text = info->set_CurrencySymbol();
+    value = info->set_CurrencyDecimalSeparator();
+    value2 = info->set_CurrencyGroupSeparator();
     flag = true;
   } else {
-    value = info->set_NumberDecimalSeparator;
-    value2 = info->set_NumberGroupSeparator;
+    value = info->set_NumberDecimalSeparator();
+    value2 = info->set_NumberGroupSeparator();
   }
   Int32 num = 0;
   Char* ptr = str;

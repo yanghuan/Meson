@@ -72,7 +72,7 @@ void ManualResetEventSlim___::ctor(Boolean initialState, Int32 spinCount) {
 
 void ManualResetEventSlim___::Initialize(Boolean initialState, Int32 spinCount) {
   m_combinedState = (initialState ? Int32::MinValue : 0);
-  get_SpinCount() = (Environment::get_IsSingleProcessor() ? 1 : spinCount);
+  get_SpinCount((Environment::get_IsSingleProcessor() ? 1 : spinCount));
 }
 
 void ManualResetEventSlim___::EnsureLockObjectCreated() {
@@ -106,7 +106,7 @@ void ManualResetEventSlim___::Set() {
 }
 
 void ManualResetEventSlim___::Set(Boolean duringCancellation) {
-  get_IsSet() = true;
+  get_IsSet(true);
   if (get_Waiters() > 0) {
     {
       rt::lock(m_lock);
@@ -130,7 +130,7 @@ void ManualResetEventSlim___::Reset() {
   if (m_eventObj != nullptr) {
     m_eventObj->Reset();
   }
-  get_IsSet() = false;
+  get_IsSet(false);
 }
 
 void ManualResetEventSlim___::Wait() {

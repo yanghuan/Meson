@@ -49,7 +49,7 @@ Enum::in::EnumInfo Enum___::GetEnumInfo(RuntimeType enumType, Boolean getNames) 
     RuntimeTypeHandle rth = enumType->GetTypeHandleInternal();
     GetEnumValuesAndNames(QCallTypeHandle(rth), ObjectHandleOnStack::Create(o), ObjectHandleOnStack::Create(o2), getNames ? Interop::BOOL::TRUE : Interop::BOOL::FALSE);
     Boolean hasFlagsAttribute = enumType->IsDefined(rt::typeof<FlagsAttribute>(), false);
-    enumInfo = (EnumInfo)(enumType->set_GenericCache = rt::newobj<EnumInfo>(hasFlagsAttribute, o, o2));
+    enumInfo = (EnumInfo)(enumType->set_GenericCache(rt::newobj<EnumInfo>(hasFlagsAttribute, o, o2)));
   }
   return enumInfo;
 }

@@ -421,7 +421,7 @@ Int32 SyncArrayList___::get_Capacity() {
 void SyncArrayList___::set_Capacity(Int32 value) {
   {
     rt::lock(_root);
-    _list->set_Capacity = value;
+    _list->set_Capacity(value);
   }
 }
 
@@ -1942,7 +1942,7 @@ void ArrayList___::EnsureCapacity(Int32 min) {
     if (num < min) {
       num = min;
     }
-    get_Capacity() = num;
+    get_Capacity(num);
   }
 }
 
@@ -2222,7 +2222,7 @@ Array<> ArrayList___::ToArray(Type type) {
 }
 
 void ArrayList___::TrimToSize() {
-  get_Capacity() = _size;
+  get_Capacity(_size);
 }
 
 } // namespace System::Private::CoreLib::System::Collections::ArrayListNamespace

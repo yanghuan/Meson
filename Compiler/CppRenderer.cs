@@ -692,7 +692,9 @@ namespace Meson.Compiler {
         WriteSpace();
         node.FalseStatement.Render(this);
       }
-      WriteNewLine();
+      if (!node.IsSingleLine) {
+        WriteNewLine();
+      }
     }
 
     private void OpenForIteratorStatement() {

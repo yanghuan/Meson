@@ -50,7 +50,7 @@ Boolean ConstructorBuilder___::get_InitLocals() {
 }
 
 void ConstructorBuilder___::set_InitLocals(Boolean value) {
-  m_methodBuilder->set_InitLocals = value;
+  m_methodBuilder->set_InitLocals(value);
 }
 
 void ConstructorBuilder___::ctor(String name, MethodAttributes attributes, CallingConventions callingConvention, Array<Type> parameterTypes, Array<Array<Type>> requiredCustomModifiers, Array<Array<Type>> optionalCustomModifiers, ModuleBuilder mod, TypeBuilder type) {

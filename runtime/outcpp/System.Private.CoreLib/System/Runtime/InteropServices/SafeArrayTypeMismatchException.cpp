@@ -4,15 +4,15 @@
 
 namespace System::Private::CoreLib::System::Runtime::InteropServices::SafeArrayTypeMismatchExceptionNamespace {
 void SafeArrayTypeMismatchException___::ctor() {
-  Exception::in::set_HResult = -2146233037;
+  Exception::in::set_HResult(-2146233037);
 }
 
 void SafeArrayTypeMismatchException___::ctor(String message) {
-  Exception::in::set_HResult = -2146233037;
+  Exception::in::set_HResult(-2146233037);
 }
 
 void SafeArrayTypeMismatchException___::ctor(String message, Exception inner) {
-  Exception::in::set_HResult = -2146233037;
+  Exception::in::set_HResult(-2146233037);
 }
 
 void SafeArrayTypeMismatchException___::ctor(SerializationInfo info, StreamingContext context) {

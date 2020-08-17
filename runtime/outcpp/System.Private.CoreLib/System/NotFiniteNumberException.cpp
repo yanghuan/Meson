@@ -9,31 +9,31 @@ Double NotFiniteNumberException___::get_OffendingNumber() {
 
 void NotFiniteNumberException___::ctor() {
   _offendingNumber = 0;
-  Exception::in::set_HResult = -2146233048;
+  Exception::in::set_HResult(-2146233048);
 }
 
 void NotFiniteNumberException___::ctor(Double offendingNumber) {
   _offendingNumber = offendingNumber;
-  Exception::in::set_HResult = -2146233048;
+  Exception::in::set_HResult(-2146233048);
 }
 
 void NotFiniteNumberException___::ctor(String message) {
   _offendingNumber = 0;
-  Exception::in::set_HResult = -2146233048;
+  Exception::in::set_HResult(-2146233048);
 }
 
 void NotFiniteNumberException___::ctor(String message, Double offendingNumber) {
   _offendingNumber = offendingNumber;
-  Exception::in::set_HResult = -2146233048;
+  Exception::in::set_HResult(-2146233048);
 }
 
 void NotFiniteNumberException___::ctor(String message, Exception innerException) {
-  Exception::in::set_HResult = -2146233048;
+  Exception::in::set_HResult(-2146233048);
 }
 
 void NotFiniteNumberException___::ctor(String message, Double offendingNumber, Exception innerException) {
   _offendingNumber = offendingNumber;
-  Exception::in::set_HResult = -2146233048;
+  Exception::in::set_HResult(-2146233048);
 }
 
 void NotFiniteNumberException___::ctor(SerializationInfo info, StreamingContext context) {

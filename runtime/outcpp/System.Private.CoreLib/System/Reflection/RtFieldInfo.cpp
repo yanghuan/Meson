@@ -106,9 +106,9 @@ Object RtFieldInfo___::GetValue(Object obj) {
   if (runtimeType == nullptr) {
     return RuntimeFieldHandle::GetValue((RtFieldInfo)this, obj, fieldType, nullptr, domainInitialized);
   }
-  domainInitialized = runtimeType->set_DomainInitialized;
+  domainInitialized = runtimeType->set_DomainInitialized();
   Object value = RuntimeFieldHandle::GetValue((RtFieldInfo)this, obj, fieldType, runtimeType, domainInitialized);
-  runtimeType->set_DomainInitialized = domainInitialized;
+  runtimeType->set_DomainInitialized(domainInitialized);
   return value;
 }
 
@@ -140,9 +140,9 @@ void RtFieldInfo___::SetValue(Object obj, Object value, BindingFlags invokeAttr,
     RuntimeFieldHandle::SetValue((RtFieldInfo)this, obj, value, runtimeType2, m_fieldAttributes, nullptr, domainInitialized);
     return;
   }
-  domainInitialized = runtimeType->set_DomainInitialized;
+  domainInitialized = runtimeType->set_DomainInitialized();
   RuntimeFieldHandle::SetValue((RtFieldInfo)this, obj, value, runtimeType2, m_fieldAttributes, runtimeType, domainInitialized);
-  runtimeType->set_DomainInitialized = domainInitialized;
+  runtimeType->set_DomainInitialized(domainInitialized);
 }
 
 void RtFieldInfo___::SetValueDirect(TypedReference obj, Object value) {

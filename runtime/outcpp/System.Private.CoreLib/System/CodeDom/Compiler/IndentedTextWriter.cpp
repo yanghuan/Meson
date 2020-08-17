@@ -13,7 +13,7 @@ String IndentedTextWriter___::get_NewLine() {
 }
 
 void IndentedTextWriter___::set_NewLine(String value) {
-  _writer->set_NewLine = value;
+  _writer->set_NewLine(value);
 }
 
 Int32 IndentedTextWriter___::get_Indent() {

@@ -131,9 +131,9 @@ EventChannelType ManifestBuilder___::EventChannelToChannelType(EventChannel chan
 
 EventChannelAttribute ManifestBuilder___::GetDefaultChannelAttribute(EventChannel channel) {
   EventChannelAttribute eventChannelAttribute = rt::newobj<EventChannelAttribute>();
-  eventChannelAttribute->set_EventChannelType = EventChannelToChannelType(channel);
+  eventChannelAttribute->set_EventChannelType(EventChannelToChannelType(channel));
   if (eventChannelAttribute->get_EventChannelType() <= EventChannelType::Operational) {
-    eventChannelAttribute->set_Enabled = true;
+    eventChannelAttribute->set_Enabled(true);
   }
   return eventChannelAttribute;
 }

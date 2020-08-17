@@ -307,7 +307,7 @@ String IdnMapping___::PunycodeEncode(String unicode) {
       stringBuilder->Append(46);
     }
     num2 = num + 1;
-    num3 = stringBuilder->set_Length;
+    num3 = stringBuilder->set_Length();
   }
 }
 

@@ -383,7 +383,7 @@ Int32 StringBuilder___::EnsureCapacity(Int32 capacity) {
     rt::throw_exception<ArgumentOutOfRangeException>("capacity", SR::get_ArgumentOutOfRange_NegativeCapacity());
   }
   if (get_Capacity() < capacity) {
-    get_Capacity() = capacity;
+    get_Capacity(capacity);
   }
   return get_Capacity();
 }
@@ -440,7 +440,7 @@ String StringBuilder___::ToString(Int32 startIndex, Int32 length) {
 }
 
 StringBuilder StringBuilder___::Clear() {
-  get_Length() = 0;
+  get_Length(0);
   return (StringBuilder)this;
 }
 
@@ -713,7 +713,7 @@ StringBuilder StringBuilder___::Remove(Int32 startIndex, Int32 length) {
     rt::throw_exception<ArgumentOutOfRangeException>("length", SR::get_ArgumentOutOfRange_Index());
   }
   if (get_Length() == length && startIndex == 0) {
-    get_Length() = 0;
+    get_Length(0);
     return (StringBuilder)this;
   }
   if (length > 0) {

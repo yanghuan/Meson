@@ -4,15 +4,15 @@
 
 namespace System::Private::CoreLib::System::AppDomainUnloadedExceptionNamespace {
 void AppDomainUnloadedException___::ctor() {
-  Exception::in::set_HResult = -2146234348;
+  Exception::in::set_HResult(-2146234348);
 }
 
 void AppDomainUnloadedException___::ctor(String message) {
-  Exception::in::set_HResult = -2146234348;
+  Exception::in::set_HResult(-2146234348);
 }
 
 void AppDomainUnloadedException___::ctor(String message, Exception innerException) {
-  Exception::in::set_HResult = -2146234348;
+  Exception::in::set_HResult(-2146234348);
 }
 
 void AppDomainUnloadedException___::ctor(SerializationInfo info, StreamingContext context) {

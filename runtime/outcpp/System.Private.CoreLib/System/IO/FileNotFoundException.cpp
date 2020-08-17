@@ -11,30 +11,30 @@ String FileNotFoundException___::get_Message() {
 }
 
 void FileNotFoundException___::ctor(String fileName, Int32 hResult) {
-  Exception::in::set_HResult = hResult;
+  Exception::in::set_HResult(hResult);
   FileName = fileName;
   SetMessageField();
 }
 
 void FileNotFoundException___::ctor() {
-  Exception::in::set_HResult = -2147024894;
+  Exception::in::set_HResult(-2147024894);
 }
 
 void FileNotFoundException___::ctor(String message) {
-  Exception::in::set_HResult = -2147024894;
+  Exception::in::set_HResult(-2147024894);
 }
 
 void FileNotFoundException___::ctor(String message, Exception innerException) {
-  Exception::in::set_HResult = -2147024894;
+  Exception::in::set_HResult(-2147024894);
 }
 
 void FileNotFoundException___::ctor(String message, String fileName) {
-  Exception::in::set_HResult = -2147024894;
+  Exception::in::set_HResult(-2147024894);
   FileName = fileName;
 }
 
 void FileNotFoundException___::ctor(String message, String fileName, Exception innerException) {
-  Exception::in::set_HResult = -2147024894;
+  Exception::in::set_HResult(-2147024894);
   FileName = fileName;
 }
 

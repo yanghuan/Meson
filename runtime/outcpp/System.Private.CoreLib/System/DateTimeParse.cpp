@@ -1539,7 +1539,7 @@ Boolean DateTimeParse::TryParse(ReadOnlySpan<Char> s, DateTimeFormatInfo dtfi, D
   Int32* numberBuffer = default;
   raw.Init(numberBuffer);
   raw.hasSameDateAndTimeSeparators = dtfi->get_DateSeparator()->Equals(dtfi->get_TimeSeparator(), StringComparison::Ordinal);
-  result.calendar = dtfi->set_Calendar;
+  result.calendar = dtfi->set_Calendar();
   result.era = 0;
   __DTString str = __DTString(s, dtfi);
   str.GetNext();
@@ -2104,7 +2104,7 @@ Boolean DateTimeParse::MatchTimeMark(__DTString& str, DateTimeFormatInfo dtfi, T
       result = TM::AM;
       return true;
     }
-    aMDesignator = dtfi->set_PMDesignator;
+    aMDesignator = dtfi->set_PMDesignator();
     if (aMDesignator->get_Length() > 0 && str.MatchSpecifiedWord(aMDesignator)) {
       str.Index += aMDesignator->get_Length() - 1;
       result = TM::PM;
@@ -2231,7 +2231,7 @@ String DateTimeParse::ExpandPredefinedFormat(ReadOnlySpan<Char> format, DateTime
       result.flags |= ParseFlags::TimeZoneUtc;
       if (dtfi->get_Calendar()->GetType() != rt::typeof<GregorianCalendar>()) {
         dtfi = (DateTimeFormatInfo)dtfi->Clone();
-        dtfi->set_Calendar = GregorianCalendar::in::GetDefaultInstance();
+        dtfi->set_Calendar(GregorianCalendar::in::GetDefaultInstance());
       }
       break;
   }
@@ -2623,7 +2623,7 @@ Boolean DateTimeParse::TryParseQuoteString(ReadOnlySpan<Char> format, Int32 pos,
 Boolean DateTimeParse::DoStrictParse(ReadOnlySpan<Char> s, ReadOnlySpan<Char> formatParam, DateTimeStyles styles, DateTimeFormatInfo dtfi, DateTimeResult& result) {
   ParsingInfo parseInfo = ParsingInfo();
   parseInfo.Init();
-  parseInfo.calendar = dtfi->set_Calendar;
+  parseInfo.calendar = dtfi->set_Calendar();
   parseInfo.fAllowInnerWhite = ((styles & DateTimeStyles::AllowInnerWhite) != 0);
   parseInfo.fAllowTrailingWhite = ((styles & DateTimeStyles::AllowTrailingWhite) != 0);
   if (formatParam.get_Length() == 1) {

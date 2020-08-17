@@ -491,8 +491,8 @@ Encoding Encoding___::GetEncoding(Int32 codepage, EncoderFallback encoderFallbac
   }
   encodingFromProvider = GetEncoding(codepage);
   Encoding encoding = (Encoding)encodingFromProvider->Clone();
-  encoding->set_EncoderFallback = encoderFallback;
-  encoding->set_DecoderFallback = decoderFallback;
+  encoding->set_EncoderFallback(encoderFallback);
+  encoding->set_DecoderFallback(decoderFallback);
   return encoding;
 }
 

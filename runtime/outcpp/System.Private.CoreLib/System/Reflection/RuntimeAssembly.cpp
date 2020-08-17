@@ -351,11 +351,11 @@ Assembly RuntimeAssembly___::GetSatelliteAssembly(CultureInfo culture, Version v
 Assembly RuntimeAssembly___::InternalGetSatelliteAssembly(CultureInfo culture, Version version, Boolean throwOnFileNotFound) {
   AssemblyName assemblyName = rt::newobj<AssemblyName>();
   assemblyName->SetPublicKey(GetPublicKey());
-  assemblyName->set_Flags = (GetFlags() | AssemblyNameFlags::PublicKey);
+  assemblyName->set_Flags((GetFlags() | AssemblyNameFlags::PublicKey));
   auto& default = version;
-  assemblyName->set_Version = (default != nullptr ? default : GetVersion());
-  assemblyName->set_CultureInfo = culture;
-  assemblyName->set_Name = GetSimpleName() + ".resources";
+  assemblyName->set_Version((default != nullptr ? default : GetVersion()));
+  assemblyName->set_CultureInfo(culture);
+  assemblyName->set_Name(GetSimpleName() + ".resources");
   StackCrawlMark stackMark = StackCrawlMark::LookForMe;
   RuntimeAssembly runtimeAssembly = InternalLoad(assemblyName, (RuntimeAssembly)this, stackMark, throwOnFileNotFound);
   if (runtimeAssembly == (RuntimeAssembly)this) {

@@ -124,7 +124,7 @@ ResourceSet ManifestBasedResourceGroveler___::CreateResourceSet(Stream store, As
         text2 = binaryReader->ReadString();
         binaryReader->get_BaseStream()->Seek(offset, SeekOrigin::Begin);
       }
-      store->set_Position = position;
+      store->set_Position(position);
       if (CanUseDefaultResourceClasses(text, text2)) {
         return rt::newobj<RuntimeResourceSet>(store, true);
       }
@@ -139,7 +139,7 @@ ResourceSet ManifestBasedResourceGroveler___::CreateResourceSet(Stream store, As
       Type type2 = (!(_mediator->get_UserResourceSet() == nullptr)) ? _mediator->get_UserResourceSet() : Type::in::GetType(text2, true, false);
       return (ResourceSet)Activator::CreateInstance(type2, BindingFlags::Instance | BindingFlags::Public | BindingFlags::NonPublic | BindingFlags::CreateInstance, nullptr, args, nullptr, nullptr);
     }
-    store->set_Position = position;
+    store->set_Position(position);
   }
   if (_mediator->get_UserResourceSet() == nullptr) {
     return rt::newobj<RuntimeResourceSet>(store, true);
@@ -171,8 +171,8 @@ Stream ManifestBasedResourceGroveler___::CaseInsensitiveManifestResourceStreamLo
 
 Assembly ManifestBasedResourceGroveler___::GetSatelliteAssembly(CultureInfo lookForCulture) {
   if (!_mediator->get_LookedForSatelliteContractVersion()) {
-    _mediator->set_SatelliteContractVersion = ResourceManager::in::ResourceManagerMediator::in::ObtainSatelliteContractVersion(_mediator->get_MainAssembly());
-    _mediator->set_LookedForSatelliteContractVersion = true;
+    _mediator->set_SatelliteContractVersion(ResourceManager::in::ResourceManagerMediator::in::ObtainSatelliteContractVersion(_mediator->get_MainAssembly()));
+    _mediator->set_LookedForSatelliteContractVersion(true);
   }
   Assembly result = nullptr;
   try {

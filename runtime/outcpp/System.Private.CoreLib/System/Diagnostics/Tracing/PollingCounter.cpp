@@ -29,20 +29,20 @@ void PollingCounter___::WritePayload(Single intervalSec, Int32 pollingIntervalMi
     } catch (Exception ex) {
     }
     CounterPayload counterPayload = rt::newobj<CounterPayload>();
-    counterPayload->set_Name = DiagnosticCounter::in::get_Name();
+    counterPayload->set_Name(DiagnosticCounter::in::get_Name());
     auto& default = DiagnosticCounter::in::get_DisplayName();
-    counterPayload->set_DisplayName = (default != nullptr ? default : "");
-    counterPayload->set_Count = 1;
-    counterPayload->set_IntervalSec = intervalSec;
-    counterPayload->set_Series = String::in::Format("Interval={0}", pollingIntervalMillisec);
-    counterPayload->set_CounterType = "Mean";
-    counterPayload->set_Mean = num;
-    counterPayload->set_Max = num;
-    counterPayload->set_Min = num;
-    counterPayload->set_Metadata = GetMetadataString();
-    counterPayload->set_StandardDeviation = 0;
+    counterPayload->set_DisplayName((default != nullptr ? default : ""));
+    counterPayload->set_Count(1);
+    counterPayload->set_IntervalSec(intervalSec);
+    counterPayload->set_Series(String::in::Format("Interval={0}", pollingIntervalMillisec));
+    counterPayload->set_CounterType("Mean");
+    counterPayload->set_Mean(num);
+    counterPayload->set_Max(num);
+    counterPayload->set_Min(num);
+    counterPayload->set_Metadata(GetMetadataString());
+    counterPayload->set_StandardDeviation(0);
     auto& extern = DiagnosticCounter::in::get_DisplayUnits();
-    counterPayload->set_DisplayUnits = (extern != nullptr ? extern : "");
+    counterPayload->set_DisplayUnits((extern != nullptr ? extern : ""));
     _lastVal = num;
     DiagnosticCounter::in::get_EventSource()->Write("EventCounters", EventSourceOptions(), rt::newobj<PollingPayloadType>(counterPayload));
   }

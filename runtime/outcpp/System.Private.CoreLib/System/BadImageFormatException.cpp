@@ -21,30 +21,30 @@ String BadImageFormatException___::get_FusionLog() {
 }
 
 void BadImageFormatException___::ctor(String fileName, Int32 hResult) {
-  Exception::in::set_HResult = hResult;
+  Exception::in::set_HResult(hResult);
   _fileName = fileName;
   SetMessageField();
 }
 
 void BadImageFormatException___::ctor() {
-  Exception::in::set_HResult = -2147024885;
+  Exception::in::set_HResult(-2147024885);
 }
 
 void BadImageFormatException___::ctor(String message) {
-  Exception::in::set_HResult = -2147024885;
+  Exception::in::set_HResult(-2147024885);
 }
 
 void BadImageFormatException___::ctor(String message, Exception inner) {
-  Exception::in::set_HResult = -2147024885;
+  Exception::in::set_HResult(-2147024885);
 }
 
 void BadImageFormatException___::ctor(String message, String fileName) {
-  Exception::in::set_HResult = -2147024885;
+  Exception::in::set_HResult(-2147024885);
   _fileName = fileName;
 }
 
 void BadImageFormatException___::ctor(String message, String fileName, Exception inner) {
-  Exception::in::set_HResult = -2147024885;
+  Exception::in::set_HResult(-2147024885);
   _fileName = fileName;
 }
 

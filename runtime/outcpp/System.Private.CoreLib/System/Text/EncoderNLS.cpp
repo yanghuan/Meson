@@ -37,7 +37,7 @@ Boolean EncoderNLS___::get_HasState() {
 
 void EncoderNLS___::ctor(Encoding encoding) {
   _encoding = encoding;
-  _fallback = _encoding->set_EncoderFallback;
+  _fallback = _encoding->set_EncoderFallback();
   Reset();
 }
 

@@ -811,7 +811,7 @@ void FileStream___::Init(FileMode mode, FileShare share, String originalPath) {
   }
   if (_useAsyncIO) {
     try {
-      _fileHandle->set_ThreadPoolBinding = ThreadPoolBoundHandle::in::BindHandle(_fileHandle);
+      _fileHandle->set_ThreadPoolBinding(ThreadPoolBoundHandle::in::BindHandle(_fileHandle));
     } catch (ArgumentException innerException) {
     } finally: {
       if (_fileHandle->get_ThreadPoolBinding() == nullptr) {
@@ -837,7 +837,7 @@ void FileStream___::InitFromHandleImpl(SafeFileHandle handle, Boolean useAsyncIO
   _isPipe = (fileType == 3);
   if (useAsyncIO && !handle->get_IsAsync().GetValueOrDefault()) {
     try {
-      handle->set_ThreadPoolBinding = ThreadPoolBoundHandle::in::BindHandle(handle);
+      handle->set_ThreadPoolBinding(ThreadPoolBoundHandle::in::BindHandle(handle));
     } catch (Exception innerException) {
     }
   } else if (!useAsyncIO) {
@@ -1495,7 +1495,7 @@ SafeFileHandle FileStream___::ValidateFileHandle(SafeFileHandle fileHandle) {
     }
     rt::throw_exception(Win32Marshal::GetExceptionForWin32Error(num, _path));
   }
-  fileHandle->set_IsAsync = _useAsyncIO;
+  fileHandle->set_IsAsync(_useAsyncIO);
   return fileHandle;
 }
 

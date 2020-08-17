@@ -22,7 +22,7 @@ using namespace System::Runtime::CompilerServices;
 
 void TplEventSource___::OnEventCommand(EventCommandEventArgs command) {
   if (command->get_Command() != EventCommand::Enable) {
-    _ = command->set_Command;
+    _ = command->set_Command();
     _ = -3;
   }
   if (IsEnabled(EventLevel::Informational, (EventKeywords)128)) {
@@ -41,24 +41,24 @@ void TplEventSource___::TaskScheduled(Int32 OriginatingTaskSchedulerID, Int32 Or
   if (IsEnabled() && IsEnabled(EventLevel::Informational, (EventKeywords)3)) {
     EventSource::in::EventData default[6] = {};
     EventSource::in::EventData* ptr = default;
-    ptr->set_Size = 4;
-    ptr->set_DataPointer = (IntPtr)(void*)(&OriginatingTaskSchedulerID);
-    ptr->set_Reserved = 0;
-    ptr[1].set_Size = 4;
-    ptr[1].set_DataPointer = (IntPtr)(void*)(&OriginatingTaskID);
-    ptr[1].set_Reserved = 0;
-    ptr[2].set_Size = 4;
-    ptr[2].set_DataPointer = (IntPtr)(void*)(&TaskID);
-    ptr[2].set_Reserved = 0;
-    ptr[3].set_Size = 4;
-    ptr[3].set_DataPointer = (IntPtr)(void*)(&CreatingTaskID);
-    ptr[3].set_Reserved = 0;
-    ptr[4].set_Size = 4;
-    ptr[4].set_DataPointer = (IntPtr)(void*)(&TaskCreationOptions);
-    ptr[4].set_Reserved = 0;
-    ptr[5].set_Size = 4;
-    ptr[5].set_DataPointer = (IntPtr)(void*)(&appDomain);
-    ptr[5].set_Reserved = 0;
+    ptr->set_Size(4);
+    ptr->set_DataPointer((IntPtr)(void*)(&OriginatingTaskSchedulerID));
+    ptr->set_Reserved(0);
+    ptr[1].set_Size(4);
+    ptr[1].set_DataPointer((IntPtr)(void*)(&OriginatingTaskID));
+    ptr[1].set_Reserved(0);
+    ptr[2].set_Size(4);
+    ptr[2].set_DataPointer((IntPtr)(void*)(&TaskID));
+    ptr[2].set_Reserved(0);
+    ptr[3].set_Size(4);
+    ptr[3].set_DataPointer((IntPtr)(void*)(&CreatingTaskID));
+    ptr[3].set_Reserved(0);
+    ptr[4].set_Size(4);
+    ptr[4].set_DataPointer((IntPtr)(void*)(&TaskCreationOptions));
+    ptr[4].set_Reserved(0);
+    ptr[5].set_Size(4);
+    ptr[5].set_DataPointer((IntPtr)(void*)(&appDomain));
+    ptr[5].set_Reserved(0);
     if (TasksSetActivityIds) {
       Guid guid = CreateGuidForTaskID(TaskID);
       WriteEventWithRelatedActivityIdCore(7, &guid, 6, ptr);
@@ -79,18 +79,18 @@ void TplEventSource___::TaskCompleted(Int32 OriginatingTaskSchedulerID, Int32 Or
     EventSource::in::EventData default[4] = {};
     EventSource::in::EventData* ptr = default;
     Int32 num = IsExceptional ? 1 : 0;
-    ptr->set_Size = 4;
-    ptr->set_DataPointer = (IntPtr)(void*)(&OriginatingTaskSchedulerID);
-    ptr->set_Reserved = 0;
-    ptr[1].set_Size = 4;
-    ptr[1].set_DataPointer = (IntPtr)(void*)(&OriginatingTaskID);
-    ptr[1].set_Reserved = 0;
-    ptr[2].set_Size = 4;
-    ptr[2].set_DataPointer = (IntPtr)(void*)(&TaskID);
-    ptr[2].set_Reserved = 0;
-    ptr[3].set_Size = 4;
-    ptr[3].set_DataPointer = (IntPtr)(void*)(&num);
-    ptr[3].set_Reserved = 0;
+    ptr->set_Size(4);
+    ptr->set_DataPointer((IntPtr)(void*)(&OriginatingTaskSchedulerID));
+    ptr->set_Reserved(0);
+    ptr[1].set_Size(4);
+    ptr[1].set_DataPointer((IntPtr)(void*)(&OriginatingTaskID));
+    ptr[1].set_Reserved(0);
+    ptr[2].set_Size(4);
+    ptr[2].set_DataPointer((IntPtr)(void*)(&TaskID));
+    ptr[2].set_Reserved(0);
+    ptr[3].set_Size(4);
+    ptr[3].set_DataPointer((IntPtr)(void*)(&num));
+    ptr[3].set_Reserved(0);
     WriteEventCore(9, 4, ptr);
   }
 }
@@ -99,21 +99,21 @@ void TplEventSource___::TaskWaitBegin(Int32 OriginatingTaskSchedulerID, Int32 Or
   if (IsEnabled() && IsEnabled(EventLevel::Informational, (EventKeywords)3)) {
     EventSource::in::EventData default[5] = {};
     EventSource::in::EventData* ptr = default;
-    ptr->set_Size = 4;
-    ptr->set_DataPointer = (IntPtr)(void*)(&OriginatingTaskSchedulerID);
-    ptr->set_Reserved = 0;
-    ptr[1].set_Size = 4;
-    ptr[1].set_DataPointer = (IntPtr)(void*)(&OriginatingTaskID);
-    ptr[1].set_Reserved = 0;
-    ptr[2].set_Size = 4;
-    ptr[2].set_DataPointer = (IntPtr)(void*)(&TaskID);
-    ptr[2].set_Reserved = 0;
-    ptr[3].set_Size = 4;
-    ptr[3].set_DataPointer = (IntPtr)(void*)(&Behavior);
-    ptr[3].set_Reserved = 0;
-    ptr[4].set_Size = 4;
-    ptr[4].set_DataPointer = (IntPtr)(void*)(&ContinueWithTaskID);
-    ptr[4].set_Reserved = 0;
+    ptr->set_Size(4);
+    ptr->set_DataPointer((IntPtr)(void*)(&OriginatingTaskSchedulerID));
+    ptr->set_Reserved(0);
+    ptr[1].set_Size(4);
+    ptr[1].set_DataPointer((IntPtr)(void*)(&OriginatingTaskID));
+    ptr[1].set_Reserved(0);
+    ptr[2].set_Size(4);
+    ptr[2].set_DataPointer((IntPtr)(void*)(&TaskID));
+    ptr[2].set_Reserved(0);
+    ptr[3].set_Size(4);
+    ptr[3].set_DataPointer((IntPtr)(void*)(&Behavior));
+    ptr[3].set_Reserved(0);
+    ptr[4].set_Size(4);
+    ptr[4].set_DataPointer((IntPtr)(void*)(&ContinueWithTaskID));
+    ptr[4].set_Reserved(0);
     if (TasksSetActivityIds) {
       Guid guid = CreateGuidForTaskID(TaskID);
       WriteEventWithRelatedActivityIdCore(10, &guid, 5, ptr);
@@ -145,15 +145,15 @@ void TplEventSource___::AwaitTaskContinuationScheduled(Int32 OriginatingTaskSche
   if (IsEnabled() && IsEnabled(EventLevel::Informational, (EventKeywords)3)) {
     EventSource::in::EventData default[3] = {};
     EventSource::in::EventData* ptr = default;
-    ptr->set_Size = 4;
-    ptr->set_DataPointer = (IntPtr)(void*)(&OriginatingTaskSchedulerID);
-    ptr->set_Reserved = 0;
-    ptr[1].set_Size = 4;
-    ptr[1].set_DataPointer = (IntPtr)(void*)(&OriginatingTaskID);
-    ptr[1].set_Reserved = 0;
-    ptr[2].set_Size = 4;
-    ptr[2].set_DataPointer = (IntPtr)(void*)(&ContinueWithTaskId);
-    ptr[2].set_Reserved = 0;
+    ptr->set_Size(4);
+    ptr->set_DataPointer((IntPtr)(void*)(&OriginatingTaskSchedulerID));
+    ptr->set_Reserved(0);
+    ptr[1].set_Size(4);
+    ptr[1].set_DataPointer((IntPtr)(void*)(&OriginatingTaskID));
+    ptr[1].set_Reserved(0);
+    ptr[2].set_Size(4);
+    ptr[2].set_DataPointer((IntPtr)(void*)(&ContinueWithTaskId));
+    ptr[2].set_Reserved(0);
     if (TasksSetActivityIds) {
       Guid guid = CreateGuidForTaskID(ContinueWithTaskId);
       WriteEventWithRelatedActivityIdCore(12, &guid, 3, ptr);

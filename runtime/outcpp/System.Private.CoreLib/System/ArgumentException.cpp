@@ -18,25 +18,25 @@ String ArgumentException___::get_ParamName() {
 }
 
 void ArgumentException___::ctor() {
-  Exception::in::set_HResult = -2147024809;
+  Exception::in::set_HResult(-2147024809);
 }
 
 void ArgumentException___::ctor(String message) {
-  Exception::in::set_HResult = -2147024809;
+  Exception::in::set_HResult(-2147024809);
 }
 
 void ArgumentException___::ctor(String message, Exception innerException) {
-  Exception::in::set_HResult = -2147024809;
+  Exception::in::set_HResult(-2147024809);
 }
 
 void ArgumentException___::ctor(String message, String paramName, Exception innerException) {
   _paramName = paramName;
-  Exception::in::set_HResult = -2147024809;
+  Exception::in::set_HResult(-2147024809);
 }
 
 void ArgumentException___::ctor(String message, String paramName) {
   _paramName = paramName;
-  Exception::in::set_HResult = -2147024809;
+  Exception::in::set_HResult(-2147024809);
 }
 
 void ArgumentException___::ctor(SerializationInfo info, StreamingContext context) {

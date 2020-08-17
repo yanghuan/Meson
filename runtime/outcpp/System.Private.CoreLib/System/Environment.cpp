@@ -113,7 +113,7 @@ void Environment::set_CurrentDirectory(String value) {
   if (value->get_Length() == 0) {
     rt::throw_exception<ArgumentException>(SR::get_Argument_PathEmpty(), "value");
   }
-  get_CurrentDirectoryCore() = value;
+  get_CurrentDirectoryCore(value);
 }
 
 Boolean Environment::get_Is64BitProcess() {
@@ -187,7 +187,7 @@ String Environment::get_UserDomainName() {
   ReadOnlySpan<Char> span = builder.AsSpan();
   Int32 num = MemoryExtensions::IndexOf(span, 92);
   if (num != -1) {
-    builder.set_Length = num;
+    builder.set_Length(num);
     return builder.ToString();
   }
   Char extern[64] = {};
@@ -207,7 +207,7 @@ String Environment::get_UserDomainName() {
     valueStringBuilder.EnsureCapacity((Int32)cchReferencedDomainName);
   }
   builder.Dispose();
-  valueStringBuilder.set_Length = (Int32)cchReferencedDomainName;
+  valueStringBuilder.set_Length((Int32)cchReferencedDomainName);
   return valueStringBuilder.ToString();
 }
 
@@ -222,7 +222,7 @@ String Environment::get_CurrentDirectoryCore() {
   if (currentDirectory == 0) {
     rt::throw_exception(Win32Marshal::GetExceptionForLastWin32Error());
   }
-  outputBuilder.set_Length = (Int32)currentDirectory;
+  outputBuilder.set_Length((Int32)currentDirectory);
   if (MemoryExtensions::Contains(outputBuilder.AsSpan(), 126)) {
     String result = PathHelper::TryExpandShortFileName(outputBuilder, nullptr);
     outputBuilder.Dispose();
@@ -251,7 +251,8 @@ Boolean Environment::get_Is64BitOperatingSystemWhen32BitProcess() {
 
 String Environment::get_MachineName() {
   auto& default = Interop::Kernel32::GetComputerName();
-  return default != nullptr ? default : rt::throw_exception(rt::newobj<InvalidOperationException>(SR::get_InvalidOperation_ComputerName()));
+  if (default == nullptr) rt::throw_exception(rt::newobj<InvalidOperationException>(SR::get_InvalidOperation_ComputerName()));
+  return default;
 }
 
 String Environment::get_SystemDirectory() {
@@ -265,7 +266,7 @@ String Environment::get_SystemDirectory() {
   if (systemDirectoryW == 0) {
     rt::throw_exception(Win32Marshal::GetExceptionForLastWin32Error());
   }
-  valueStringBuilder.set_Length = (Int32)systemDirectoryW;
+  valueStringBuilder.set_Length((Int32)systemDirectoryW);
   return valueStringBuilder.ToString();
 }
 
@@ -475,10 +476,10 @@ void Environment::GetUserName(ValueStringBuilder& builder) {
       builder.EnsureCapacity((Int32)lpnSize);
       continue;
     }
-    builder.set_Length = 0;
+    builder.set_Length(0);
     return;
   }
-  builder.set_Length = (Int32)lpnSize;
+  builder.set_Length((Int32)lpnSize);
 }
 
 String Environment::GetFolderPathCore(SpecialFolder folder, SpecialFolderOption option) {
@@ -655,7 +656,7 @@ String Environment::ExpandEnvironmentVariablesCore(String name) {
   if (num == 0) {
     Marshal::ThrowExceptionForHR(Marshal::GetHRForLastWin32Error());
   }
-  valueStringBuilder.set_Length = (Int32)(num - 1);
+  valueStringBuilder.set_Length((Int32)(num - 1));
   return valueStringBuilder.ToString();
 }
 

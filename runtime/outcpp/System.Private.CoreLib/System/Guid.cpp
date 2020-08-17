@@ -873,7 +873,7 @@ Guid Guid::NewGuid() {
   Int32 num = Interop::Ole32::CoCreateGuid(guid);
   if (num != 0) {
     Exception ex = rt::newobj<Exception>();
-    ex->set_HResult = num;
+    ex->set_HResult(num);
     rt::throw_exception(ex);
   }
   return guid;

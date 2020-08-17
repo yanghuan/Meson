@@ -11,19 +11,19 @@ Int32 ExternalException___::get_ErrorCode() {
 }
 
 void ExternalException___::ctor() {
-  Exception::in::set_HResult = -2147467259;
+  Exception::in::set_HResult(-2147467259);
 }
 
 void ExternalException___::ctor(String message) {
-  Exception::in::set_HResult = -2147467259;
+  Exception::in::set_HResult(-2147467259);
 }
 
 void ExternalException___::ctor(String message, Exception inner) {
-  Exception::in::set_HResult = -2147467259;
+  Exception::in::set_HResult(-2147467259);
 }
 
 void ExternalException___::ctor(String message, Int32 errorCode) {
-  Exception::in::set_HResult = errorCode;
+  Exception::in::set_HResult(errorCode);
 }
 
 void ExternalException___::ctor(SerializationInfo info, StreamingContext context) {

@@ -4,8 +4,8 @@
 
 namespace System::Private::CoreLib::System::Runtime::InteropServices::ComEventInterfaceAttributeNamespace {
 void ComEventInterfaceAttribute___::ctor(Type SourceInterface, Type EventProvider) {
-  this->get_SourceInterface() = SourceInterface;
-  this->get_EventProvider() = EventProvider;
+  this->get_SourceInterface(SourceInterface);
+  this->get_EventProvider(EventProvider);
 }
 
 } // namespace System::Private::CoreLib::System::Runtime::InteropServices::ComEventInterfaceAttributeNamespace

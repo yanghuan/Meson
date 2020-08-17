@@ -5,7 +5,7 @@ void ResourceFallbackManager___::ctor(CultureInfo startingCulture, CultureInfo n
   if (startingCulture != nullptr) {
     m_startingCulture = startingCulture;
   } else {
-    m_startingCulture = CultureInfo::in::set_CurrentUICulture;
+    m_startingCulture = CultureInfo::in::set_CurrentUICulture();
   }
   m_neutralResourcesCulture = neutralResourcesCulture;
   m_useParents = useParents;

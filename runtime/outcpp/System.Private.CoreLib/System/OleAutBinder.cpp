@@ -11,7 +11,7 @@ using namespace Microsoft::Win32;
 Object OleAutBinder___::ChangeType(Object value, Type type, CultureInfo cultureInfo) {
   Variant source = Variant(value);
   if (cultureInfo == nullptr) {
-    cultureInfo = CultureInfo::in::set_CurrentCulture;
+    cultureInfo = CultureInfo::in::set_CurrentCulture();
   }
   if (type->get_IsByRef()) {
     type = type->GetElementType();

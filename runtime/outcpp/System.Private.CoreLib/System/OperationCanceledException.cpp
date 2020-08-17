@@ -12,27 +12,27 @@ void OperationCanceledException___::set_CancellationToken(CancellationToken valu
 }
 
 void OperationCanceledException___::ctor() {
-  Exception::in::set_HResult = -2146233029;
+  Exception::in::set_HResult(-2146233029);
 }
 
 void OperationCanceledException___::ctor(String message) {
-  Exception::in::set_HResult = -2146233029;
+  Exception::in::set_HResult(-2146233029);
 }
 
 void OperationCanceledException___::ctor(String message, Exception innerException) {
-  Exception::in::set_HResult = -2146233029;
+  Exception::in::set_HResult(-2146233029);
 }
 
 void OperationCanceledException___::ctor(CancellationToken token) {
-  get_CancellationToken() = token;
+  get_CancellationToken(token);
 }
 
 void OperationCanceledException___::ctor(String message, CancellationToken token) {
-  get_CancellationToken() = token;
+  get_CancellationToken(token);
 }
 
 void OperationCanceledException___::ctor(String message, Exception innerException, CancellationToken token) {
-  get_CancellationToken() = token;
+  get_CancellationToken(token);
 }
 
 void OperationCanceledException___::ctor(SerializationInfo info, StreamingContext context) {

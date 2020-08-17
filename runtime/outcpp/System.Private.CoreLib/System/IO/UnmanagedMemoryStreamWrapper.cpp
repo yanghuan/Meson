@@ -38,7 +38,7 @@ Int64 UnmanagedMemoryStreamWrapper___::get_Position() {
 }
 
 void UnmanagedMemoryStreamWrapper___::set_Position(Int64 value) {
-  _unmanagedStream->set_Position = value;
+  _unmanagedStream->set_Position(value);
 }
 
 void UnmanagedMemoryStreamWrapper___::ctor(UnmanagedMemoryStream stream) {

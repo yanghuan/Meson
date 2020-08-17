@@ -29,11 +29,11 @@ void ThreadHelper___::ThreadStart_Context(Object state) {
 
 void ThreadHelper___::InitializeCulture() {
   if (_startCulture != nullptr) {
-    CultureInfo::in::set_CurrentCulture = _startCulture;
+    CultureInfo::in::set_CurrentCulture(_startCulture);
     _startCulture = nullptr;
   }
   if (_startUICulture != nullptr) {
-    CultureInfo::in::set_CurrentUICulture = _startUICulture;
+    CultureInfo::in::set_CurrentUICulture(_startUICulture);
     _startUICulture = nullptr;
   }
 }

@@ -333,7 +333,7 @@ Boolean ConcurrentExclusiveSchedulerPair___::TryQueueThreadPoolWorkItem(Boolean 
 
 void ConcurrentExclusiveSchedulerPair___::ProcessExclusiveTasks() {
   try {
-    m_threadProcessingMode->set_Value = ProcessingMode::ProcessingExclusiveTask;
+    m_threadProcessingMode->set_Value(ProcessingMode::ProcessingExclusiveTask);
     for (Int32 i = 0; i < m_maxItemsPerTask; i++) {
       Task result;
       if (!m_exclusiveTaskScheduler->m_tasks->TryDequeue(result)) {
@@ -345,7 +345,7 @@ void ConcurrentExclusiveSchedulerPair___::ProcessExclusiveTasks() {
     }
   } catch (...) {
   } finally: {
-    m_threadProcessingMode->set_Value = ProcessingMode::NotCurrentlyProcessing;
+    m_threadProcessingMode->set_Value(ProcessingMode::NotCurrentlyProcessing);
     {
       rt::lock(get_ValueLock());
       m_processingCount = 0;
@@ -356,7 +356,7 @@ void ConcurrentExclusiveSchedulerPair___::ProcessExclusiveTasks() {
 
 void ConcurrentExclusiveSchedulerPair___::ProcessConcurrentTasks() {
   try {
-    m_threadProcessingMode->set_Value = ProcessingMode::ProcessingConcurrentTasks;
+    m_threadProcessingMode->set_Value(ProcessingMode::ProcessingConcurrentTasks);
     for (Int32 i = 0; i < m_maxItemsPerTask; i++) {
       Task result;
       if (!m_concurrentTaskScheduler->m_tasks->TryDequeue(result)) {
@@ -371,7 +371,7 @@ void ConcurrentExclusiveSchedulerPair___::ProcessConcurrentTasks() {
     }
   } catch (...) {
   } finally: {
-    m_threadProcessingMode->set_Value = ProcessingMode::NotCurrentlyProcessing;
+    m_threadProcessingMode->set_Value(ProcessingMode::NotCurrentlyProcessing);
     {
       rt::lock(get_ValueLock());
       if (m_processingCount > 0) {

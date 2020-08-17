@@ -4,15 +4,15 @@
 
 namespace System::Private::CoreLib::System::MemberAccessExceptionNamespace {
 void MemberAccessException___::ctor() {
-  Exception::in::set_HResult = -2146233062;
+  Exception::in::set_HResult(-2146233062);
 }
 
 void MemberAccessException___::ctor(String message) {
-  Exception::in::set_HResult = -2146233062;
+  Exception::in::set_HResult(-2146233062);
 }
 
 void MemberAccessException___::ctor(String message, Exception inner) {
-  Exception::in::set_HResult = -2146233062;
+  Exception::in::set_HResult(-2146233062);
 }
 
 void MemberAccessException___::ctor(SerializationInfo info, StreamingContext context) {
