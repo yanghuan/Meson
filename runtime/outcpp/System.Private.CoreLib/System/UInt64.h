@@ -1,10 +1,8 @@
 #pragma once
 
+#include <System.Private.CoreLib/System/Globalization/NumberStyles.h>
 #include <System.Private.CoreLib/System/ValueType.h>
 
-namespace System::Private::CoreLib::System::Globalization {
-enum class NumberStyles : int32_t;
-} // namespace System::Private::CoreLib::System::Globalization
 namespace System::Private::CoreLib::System {
 enum class TypeCode : int32_t;
 FORWARDS(Boolean)
@@ -38,7 +36,7 @@ struct UInt64 : public valueType<UInt64> {
   public: static UInt64 Parse(String s, NumberStyles style);
   public: static UInt64 Parse(String s, IFormatProvider provider);
   public: static UInt64 Parse(String s, NumberStyles style, IFormatProvider provider);
-  public: static UInt64 Parse(ReadOnlySpan<Char> s, NumberStyles style = 7, IFormatProvider provider = nullptr);
+  public: static UInt64 Parse(ReadOnlySpan<Char> s, NumberStyles style = NumberStyles::Integer, IFormatProvider provider = nullptr);
   public: static Boolean TryParse(String s, UInt64& result);
   public: static Boolean TryParse(ReadOnlySpan<Char> s, UInt64& result);
   public: static Boolean TryParse(String s, NumberStyles style, IFormatProvider provider, UInt64& result);

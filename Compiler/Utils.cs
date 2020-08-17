@@ -507,7 +507,8 @@ namespace Meson.Compiler {
     }
 
     internal static LiteralExpressionSyntax GetPrimitiveExpression(object value, bool isInPrimitiveType = false) {
-      var code = Type.GetTypeCode(value.GetType());
+      var type = value.GetType();
+      var code = Type.GetTypeCode(type);
       switch (code) {
         case TypeCode.Char:{
           char v = (char)value;

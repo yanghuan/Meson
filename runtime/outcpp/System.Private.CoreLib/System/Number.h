@@ -4,6 +4,7 @@
 #include <System.Private.CoreLib/System/Byte.h>
 #include <System.Private.CoreLib/System/Int32.h>
 #include <System.Private.CoreLib/System/Span.h>
+#include <System.Private.CoreLib/System/TypeCode.h>
 #include <System.Private.CoreLib/System/UInt16.h>
 #include <System.Private.CoreLib/System/UInt32.h>
 #include <System.Private.CoreLib/System/UInt64.h>
@@ -17,7 +18,6 @@ namespace System::Private::CoreLib::System::Text {
 FORWARDS(ValueStringBuilder)
 } // namespace System::Private::CoreLib::System::Text
 namespace System::Private::CoreLib::System {
-enum class TypeCode : int32_t;
 FORWARD_(Array, T1, T2)
 FORWARDS(Char)
 FORWARDS(Decimal)
@@ -262,7 +262,7 @@ class Number {
   private: static Char* MatchChars(Char* p, Char* pEnd, String value);
   private: static Boolean IsWhite(Int32 ch);
   private: static Boolean IsDigit(Int32 ch);
-  public: static void ThrowOverflowOrFormatException(ParsingStatus status, TypeCode type = 0);
+  public: static void ThrowOverflowOrFormatException(ParsingStatus status, TypeCode type = TypeCode::Empty);
   public: static void ThrowOverflowException(TypeCode type);
   private: static Exception GetException(ParsingStatus status, TypeCode type);
   public: static Double NumberToDouble(NumberBuffer& number);

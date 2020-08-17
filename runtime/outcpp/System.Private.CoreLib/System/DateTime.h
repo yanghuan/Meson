@@ -1,6 +1,7 @@
 #pragma once
 
 #include <System.Private.CoreLib/Interop.h>
+#include <System.Private.CoreLib/System/Globalization/DateTimeStyles.h>
 #include <System.Private.CoreLib/System/Int64.h>
 #include <System.Private.CoreLib/System/UInt64.h>
 #include <System.Private.CoreLib/System/ValueType.h>
@@ -11,7 +12,6 @@ FORWARD(SerializationInfo)
 FORWARDS(StreamingContext)
 } // namespace System::Private::CoreLib::System::Runtime::Serialization
 namespace System::Private::CoreLib::System::Globalization {
-enum class DateTimeStyles : int32_t;
 FORWARD(Calendar)
 } // namespace System::Private::CoreLib::System::Globalization
 namespace System::Private::CoreLib::System {
@@ -123,12 +123,12 @@ struct DateTime : public valueType<DateTime> {
   public: static DateTime Parse(String s);
   public: static DateTime Parse(String s, IFormatProvider provider);
   public: static DateTime Parse(String s, IFormatProvider provider, DateTimeStyles styles);
-  public: static DateTime Parse(ReadOnlySpan<Char> s, IFormatProvider provider = nullptr, DateTimeStyles styles = 0);
+  public: static DateTime Parse(ReadOnlySpan<Char> s, IFormatProvider provider = nullptr, DateTimeStyles styles = DateTimeStyles::None);
   public: static DateTime ParseExact(String s, String format, IFormatProvider provider);
   public: static DateTime ParseExact(String s, String format, IFormatProvider provider, DateTimeStyles style);
-  public: static DateTime ParseExact(ReadOnlySpan<Char> s, ReadOnlySpan<Char> format, IFormatProvider provider, DateTimeStyles style = 0);
+  public: static DateTime ParseExact(ReadOnlySpan<Char> s, ReadOnlySpan<Char> format, IFormatProvider provider, DateTimeStyles style = DateTimeStyles::None);
   public: static DateTime ParseExact(String s, Array<String> formats, IFormatProvider provider, DateTimeStyles style);
-  public: static DateTime ParseExact(ReadOnlySpan<Char> s, Array<String> formats, IFormatProvider provider, DateTimeStyles style = 0);
+  public: static DateTime ParseExact(ReadOnlySpan<Char> s, Array<String> formats, IFormatProvider provider, DateTimeStyles style = DateTimeStyles::None);
   public: TimeSpan Subtract(DateTime value);
   public: DateTime Subtract(TimeSpan value);
   private: static Double TicksToOADate(Int64 value);

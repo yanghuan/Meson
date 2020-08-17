@@ -3,6 +3,7 @@
 #include <System.Private.CoreLib/System/Boolean.h>
 #include <System.Private.CoreLib/System/Byte.h>
 #include <System.Private.CoreLib/System/Diagnostics/Tracing/EventDescriptor.h>
+#include <System.Private.CoreLib/System/Diagnostics/Tracing/EventManifestOptions.h>
 #include <System.Private.CoreLib/System/Diagnostics/Tracing/EventProvider.h>
 #include <System.Private.CoreLib/System/Guid.h>
 #include <System.Private.CoreLib/System/Int32.h>
@@ -47,7 +48,6 @@ enum class EventChannel : uint8_t;
 enum class EventCommand : int32_t;
 enum class EventKeywords : int64_t;
 enum class EventLevel : int32_t;
-enum class EventManifestOptions : int32_t;
 enum class EventOpcode : int32_t;
 enum class EventProviderType : int32_t;
 enum class EventSourceSettings : int32_t;
@@ -193,10 +193,10 @@ CLASS(EventSource) : public Object::in {
   private: Boolean AnyEventEnabled();
   private: void EnsureDescriptorsInitialized();
   private: void SendManifest(Array<Byte> rawManifest);
-  public: static Attribute GetCustomAttributeHelper(MemberInfo member, Type attributeType, EventManifestOptions flags = 0);
+  public: static Attribute GetCustomAttributeHelper(MemberInfo member, Type attributeType, EventManifestOptions flags = EventManifestOptions::None);
   private: static Boolean AttributeTypeNamesMatch(Type attributeType, Type reflectedAttributeType);
   private: static Type GetEventSourceBaseType(Type eventSourceType, Boolean allowEventSourceOverride, Boolean reflectionOnly);
-  private: static Array<Byte> CreateManifestAndDescriptors(Type eventSourceType, String eventSourceDllName, EventSource source, EventManifestOptions flags = 0);
+  private: static Array<Byte> CreateManifestAndDescriptors(Type eventSourceType, String eventSourceDllName, EventSource source, EventManifestOptions flags = EventManifestOptions::None);
   private: static Boolean RemoveFirstArgIfRelatedActivityId(Array<ParameterInfo>& args);
   private: static void AddProviderEnumKind(ManifestBuilder manifest, FieldInfo staticField, String providerEnumKind);
   private: static void AddEventDescriptor(Array<EventMetadata>& eventData, String eventName, EventAttribute eventAttribute, Array<ParameterInfo> eventParameters, Boolean hasRelatedActivityID);

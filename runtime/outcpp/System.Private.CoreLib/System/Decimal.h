@@ -1,5 +1,6 @@
 #pragma once
 
+#include <System.Private.CoreLib/System/Globalization/NumberStyles.h>
 #include <System.Private.CoreLib/System/Int32.h>
 #include <System.Private.CoreLib/System/UInt32.h>
 #include <System.Private.CoreLib/System/UInt64.h>
@@ -8,9 +9,6 @@
 namespace System::Private::CoreLib::System::Runtime::Serialization {
 FORWARD(IDeserializationCallback)
 } // namespace System::Private::CoreLib::System::Runtime::Serialization
-namespace System::Private::CoreLib::System::Globalization {
-enum class NumberStyles : int32_t;
-} // namespace System::Private::CoreLib::System::Globalization
 namespace System::Private::CoreLib::System {
 enum class MidpointRounding : int32_t;
 enum class TypeCode : int32_t;
@@ -183,7 +181,7 @@ struct Decimal : public valueType<Decimal> {
   public: static Decimal Parse(String s, NumberStyles style);
   public: static Decimal Parse(String s, IFormatProvider provider);
   public: static Decimal Parse(String s, NumberStyles style, IFormatProvider provider);
-  public: static Decimal Parse(ReadOnlySpan<Char> s, NumberStyles style = 111, IFormatProvider provider = nullptr);
+  public: static Decimal Parse(ReadOnlySpan<Char> s, NumberStyles style = NumberStyles::Number, IFormatProvider provider = nullptr);
   public: static Boolean TryParse(String s, Decimal& result);
   public: static Boolean TryParse(ReadOnlySpan<Char> s, Decimal& result);
   public: static Boolean TryParse(String s, NumberStyles style, IFormatProvider provider, Decimal& result);

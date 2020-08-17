@@ -1,11 +1,9 @@
 #pragma once
 
+#include <System.Private.CoreLib/System/Globalization/TimeSpanStyles.h>
 #include <System.Private.CoreLib/System/Int64.h>
 #include <System.Private.CoreLib/System/ValueType.h>
 
-namespace System::Private::CoreLib::System::Globalization {
-enum class TimeSpanStyles : int32_t;
-} // namespace System::Private::CoreLib::System::Globalization
 namespace System::Private::CoreLib::System {
 FORWARD_(Array, T1, T2)
 FORWARDS(Boolean)
@@ -70,9 +68,9 @@ struct TimeSpan : public valueType<TimeSpan> {
   public: static TimeSpan ParseExact(String input, String format, IFormatProvider formatProvider);
   public: static TimeSpan ParseExact(String input, Array<String> formats, IFormatProvider formatProvider);
   public: static TimeSpan ParseExact(String input, String format, IFormatProvider formatProvider, TimeSpanStyles styles);
-  public: static TimeSpan ParseExact(ReadOnlySpan<Char> input, ReadOnlySpan<Char> format, IFormatProvider formatProvider, TimeSpanStyles styles = 0);
+  public: static TimeSpan ParseExact(ReadOnlySpan<Char> input, ReadOnlySpan<Char> format, IFormatProvider formatProvider, TimeSpanStyles styles = TimeSpanStyles::None);
   public: static TimeSpan ParseExact(String input, Array<String> formats, IFormatProvider formatProvider, TimeSpanStyles styles);
-  public: static TimeSpan ParseExact(ReadOnlySpan<Char> input, Array<String> formats, IFormatProvider formatProvider, TimeSpanStyles styles = 0);
+  public: static TimeSpan ParseExact(ReadOnlySpan<Char> input, Array<String> formats, IFormatProvider formatProvider, TimeSpanStyles styles = TimeSpanStyles::None);
   public: static Boolean TryParse(String s, TimeSpan& result);
   public: static Boolean TryParse(ReadOnlySpan<Char> s, TimeSpan& result);
   public: static Boolean TryParse(String input, IFormatProvider formatProvider, TimeSpan& result);

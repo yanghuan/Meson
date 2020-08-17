@@ -3,6 +3,7 @@
 #include <System.Private.CoreLib/System/Char.h>
 #include <System.Private.CoreLib/System/Int32.h>
 #include <System.Private.CoreLib/System/Object.h>
+#include <System.Private.CoreLib/System/StringSplitOptions.h>
 #include <System.Private.CoreLib/System/ValueType.h>
 
 namespace System::Private::CoreLib::System::Collections {
@@ -28,7 +29,6 @@ FORWARD(SpanAction, T, TArg)
 } // namespace System::Private::CoreLib::System::Buffers
 namespace System::Private::CoreLib::System {
 enum class StringComparison : int32_t;
-enum class StringSplitOptions : int32_t;
 enum class TypeCode : int32_t;
 FORWARD_(Array, T1, T2)
 FORWARDS(Boolean)
@@ -205,15 +205,15 @@ CLASS(String) : public Object::in {
   public: String Replace(Char oldChar, Char newChar);
   public: String Replace(String oldValue, String newValue);
   private: String ReplaceHelper(Int32 oldValueLength, String newValue, ReadOnlySpan<Int32> indices);
-  public: Array<String> Split(Char separator, StringSplitOptions options = 0);
-  public: Array<String> Split(Char separator, Int32 count, StringSplitOptions options = 0);
+  public: Array<String> Split(Char separator, StringSplitOptions options = StringSplitOptions::None);
+  public: Array<String> Split(Char separator, Int32 count, StringSplitOptions options = StringSplitOptions::None);
   public: Array<String> Split(Array<Char> separator);
   public: Array<String> Split(Array<Char> separator, Int32 count);
   public: Array<String> Split(Array<Char> separator, StringSplitOptions options);
   public: Array<String> Split(Array<Char> separator, Int32 count, StringSplitOptions options);
   private: Array<String> SplitInternal(ReadOnlySpan<Char> separators, Int32 count, StringSplitOptions options);
-  public: Array<String> Split(String separator, StringSplitOptions options = 0);
-  public: Array<String> Split(String separator, Int32 count, StringSplitOptions options = 0);
+  public: Array<String> Split(String separator, StringSplitOptions options = StringSplitOptions::None);
+  public: Array<String> Split(String separator, Int32 count, StringSplitOptions options = StringSplitOptions::None);
   public: Array<String> Split(Array<String> separator, StringSplitOptions options);
   public: Array<String> Split(Array<String> separator, Int32 count, StringSplitOptions options);
   private: Array<String> SplitInternal(String separator, Array<String> separators, Int32 count, StringSplitOptions options);

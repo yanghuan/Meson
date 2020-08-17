@@ -1,9 +1,9 @@
 #pragma once
 
+#include <System.Private.CoreLib/System/Globalization/NumberStyles.h>
 #include <System.Private.CoreLib/System/ValueType.h>
 
 namespace System::Private::CoreLib::System::Globalization {
-enum class NumberStyles : int32_t;
 FORWARD(NumberFormatInfo)
 } // namespace System::Private::CoreLib::System::Globalization
 namespace System::Private::CoreLib::System {
@@ -34,12 +34,12 @@ struct SByte : public valueType<SByte> {
   public: String ToString(String format);
   public: String ToString(IFormatProvider provider);
   public: String ToString(String format, IFormatProvider provider);
-  public: Boolean TryFormat(Span<Char> destination, Int32& charsWritten, ReadOnlySpan<Char> format = ReadOnlySpan<Char>(), IFormatProvider provider = nullptr);
+  public: Boolean TryFormat(Span<Char> destination, Int32& charsWritten, ReadOnlySpan<Char> format = nullptr, IFormatProvider provider = nullptr);
   public: static SByte Parse(String s);
   public: static SByte Parse(String s, NumberStyles style);
   public: static SByte Parse(String s, IFormatProvider provider);
   public: static SByte Parse(String s, NumberStyles style, IFormatProvider provider);
-  public: static SByte Parse(ReadOnlySpan<Char> s, NumberStyles style = 7, IFormatProvider provider = nullptr);
+  public: static SByte Parse(ReadOnlySpan<Char> s, NumberStyles style = NumberStyles::Integer, IFormatProvider provider = nullptr);
   private: static SByte Parse(ReadOnlySpan<Char> s, NumberStyles style, NumberFormatInfo info);
   public: static Boolean TryParse(String s, SByte& result);
   public: static Boolean TryParse(ReadOnlySpan<Char> s, SByte& result);

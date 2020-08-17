@@ -1,6 +1,7 @@
 #pragma once
 
 #include <System.Private.CoreLib/System/DateTime.h>
+#include <System.Private.CoreLib/System/Globalization/DateTimeStyles.h>
 #include <System.Private.CoreLib/System/Int16.h>
 #include <System.Private.CoreLib/System/ValueType.h>
 
@@ -11,7 +12,6 @@ FORWARD(SerializationInfo)
 FORWARDS(StreamingContext)
 } // namespace System::Private::CoreLib::System::Runtime::Serialization
 namespace System::Private::CoreLib::System::Globalization {
-enum class DateTimeStyles : int32_t;
 FORWARD(Calendar)
 } // namespace System::Private::CoreLib::System::Globalization
 namespace System::Private::CoreLib::System {
@@ -87,12 +87,12 @@ struct DateTimeOffset : public valueType<DateTimeOffset> {
   public: static DateTimeOffset Parse(String input);
   public: static DateTimeOffset Parse(String input, IFormatProvider formatProvider);
   public: static DateTimeOffset Parse(String input, IFormatProvider formatProvider, DateTimeStyles styles);
-  public: static DateTimeOffset Parse(ReadOnlySpan<Char> input, IFormatProvider formatProvider = nullptr, DateTimeStyles styles = 0);
+  public: static DateTimeOffset Parse(ReadOnlySpan<Char> input, IFormatProvider formatProvider = nullptr, DateTimeStyles styles = DateTimeStyles::None);
   public: static DateTimeOffset ParseExact(String input, String format, IFormatProvider formatProvider);
   public: static DateTimeOffset ParseExact(String input, String format, IFormatProvider formatProvider, DateTimeStyles styles);
-  public: static DateTimeOffset ParseExact(ReadOnlySpan<Char> input, ReadOnlySpan<Char> format, IFormatProvider formatProvider, DateTimeStyles styles = 0);
+  public: static DateTimeOffset ParseExact(ReadOnlySpan<Char> input, ReadOnlySpan<Char> format, IFormatProvider formatProvider, DateTimeStyles styles = DateTimeStyles::None);
   public: static DateTimeOffset ParseExact(String input, Array<String> formats, IFormatProvider formatProvider, DateTimeStyles styles);
-  public: static DateTimeOffset ParseExact(ReadOnlySpan<Char> input, Array<String> formats, IFormatProvider formatProvider, DateTimeStyles styles = 0);
+  public: static DateTimeOffset ParseExact(ReadOnlySpan<Char> input, Array<String> formats, IFormatProvider formatProvider, DateTimeStyles styles = DateTimeStyles::None);
   public: TimeSpan Subtract(DateTimeOffset value);
   public: DateTimeOffset Subtract(TimeSpan value);
   public: Int64 ToFileTime();

@@ -1,9 +1,9 @@
 #pragma once
 
+#include <System.Private.CoreLib/System/Globalization/NumberStyles.h>
 #include <System.Private.CoreLib/System/ValueType.h>
 
 namespace System::Private::CoreLib::System::Globalization {
-enum class NumberStyles : int32_t;
 FORWARD(NumberFormatInfo)
 } // namespace System::Private::CoreLib::System::Globalization
 namespace System::Private::CoreLib::System {
@@ -39,7 +39,7 @@ struct UInt16 : public valueType<UInt16> {
   public: static UInt16 Parse(String s, NumberStyles style);
   public: static UInt16 Parse(String s, IFormatProvider provider);
   public: static UInt16 Parse(String s, NumberStyles style, IFormatProvider provider);
-  public: static UInt16 Parse(ReadOnlySpan<Char> s, NumberStyles style = 7, IFormatProvider provider = nullptr);
+  public: static UInt16 Parse(ReadOnlySpan<Char> s, NumberStyles style = NumberStyles::Integer, IFormatProvider provider = nullptr);
   private: static UInt16 Parse(ReadOnlySpan<Char> s, NumberStyles style, NumberFormatInfo info);
   public: static Boolean TryParse(String s, UInt16& result);
   public: static Boolean TryParse(ReadOnlySpan<Char> s, UInt16& result);

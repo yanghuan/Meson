@@ -1,6 +1,7 @@
 #pragma once
 
 #include <System.Private.CoreLib/System/Boolean.h>
+#include <System.Private.CoreLib/System/Globalization/CompareOptions.h>
 #include <System.Private.CoreLib/System/Int32.h>
 #include <System.Private.CoreLib/System/IntPtr.h>
 #include <System.Private.CoreLib/System/Object.h>
@@ -27,7 +28,6 @@ namespace System::Private::CoreLib::System::Text {
 FORWARDS(Rune)
 } // namespace System::Private::CoreLib::System::Text
 namespace System::Private::CoreLib::System::Globalization {
-enum class CompareOptions : int32_t;
 FORWARD(CultureInfo)
 FORWARD(SortKey)
 FORWARD(SortVersion)
@@ -68,7 +68,7 @@ CLASS(CompareInfo) : public Object::in {
   public: Int32 Compare(String string1, Int32 offset1, String string2, Int32 offset2, CompareOptions options);
   public: Int32 Compare(String string1, Int32 offset1, String string2, Int32 offset2);
   public: Int32 Compare(String string1, Int32 offset1, Int32 length1, String string2, Int32 offset2, Int32 length2, CompareOptions options);
-  public: Int32 Compare(ReadOnlySpan<Char> string1, ReadOnlySpan<Char> string2, CompareOptions options = 0);
+  public: Int32 Compare(ReadOnlySpan<Char> string1, ReadOnlySpan<Char> string2, CompareOptions options = CompareOptions::None);
   private: static void CheckCompareOptionsForCompare(CompareOptions options);
   private: static void ThrowCompareOptionsCheckFailed(CompareOptions options);
   private: Int32 CompareStringCore(ReadOnlySpan<Char> string1, ReadOnlySpan<Char> string2, CompareOptions options);
@@ -80,11 +80,11 @@ CLASS(CompareInfo) : public Object::in {
   private: static Boolean EqualsOrdinalIgnoreCaseNonAscii(Char& charA, Char& charB, Int32 length);
   private: static Int32 CompareStringOrdinalIgnoreCaseCore(Char& string1, Int32 count1, Char& string2, Int32 count2);
   public: Boolean IsPrefix(String source, String prefix, CompareOptions options);
-  public: Boolean IsPrefix(ReadOnlySpan<Char> source, ReadOnlySpan<Char> prefix, CompareOptions options = 0);
+  public: Boolean IsPrefix(ReadOnlySpan<Char> source, ReadOnlySpan<Char> prefix, CompareOptions options = CompareOptions::None);
   private: Boolean StartsWithCore(ReadOnlySpan<Char> source, ReadOnlySpan<Char> prefix, CompareOptions options);
   public: Boolean IsPrefix(String source, String prefix);
   public: Boolean IsSuffix(String source, String suffix, CompareOptions options);
-  public: Boolean IsSuffix(ReadOnlySpan<Char> source, ReadOnlySpan<Char> suffix, CompareOptions options = 0);
+  public: Boolean IsSuffix(ReadOnlySpan<Char> source, ReadOnlySpan<Char> suffix, CompareOptions options = CompareOptions::None);
   public: Boolean IsSuffix(String source, String suffix);
   private: Boolean EndsWithCore(ReadOnlySpan<Char> source, ReadOnlySpan<Char> suffix, CompareOptions options);
   public: Int32 IndexOf(String source, Char value);
@@ -99,8 +99,8 @@ CLASS(CompareInfo) : public Object::in {
   public: Int32 IndexOf(String source, String value, Int32 startIndex, Int32 count);
   public: Int32 IndexOf(String source, Char value, Int32 startIndex, Int32 count, CompareOptions options);
   public: Int32 IndexOf(String source, String value, Int32 startIndex, Int32 count, CompareOptions options);
-  public: Int32 IndexOf(ReadOnlySpan<Char> source, ReadOnlySpan<Char> value, CompareOptions options = 0);
-  public: Int32 IndexOf(ReadOnlySpan<Char> source, Rune value, CompareOptions options = 0);
+  public: Int32 IndexOf(ReadOnlySpan<Char> source, ReadOnlySpan<Char> value, CompareOptions options = CompareOptions::None);
+  public: Int32 IndexOf(ReadOnlySpan<Char> source, Rune value, CompareOptions options = CompareOptions::None);
   private: static Int32 IndexOfOrdinalCore(ReadOnlySpan<Char> source, ReadOnlySpan<Char> value, Boolean ignoreCase, Boolean fromBeginning);
   public: static Int32 IndexOfOrdinalIgnoreCase(ReadOnlySpan<Char> source, ReadOnlySpan<Char> value, Boolean fromBeginning);
   public: Int32 IndexOf(ReadOnlySpan<Char> source, ReadOnlySpan<Char> value, Int32* matchLengthPtr, CompareOptions options, Boolean fromBeginning);
@@ -117,14 +117,14 @@ CLASS(CompareInfo) : public Object::in {
   public: Int32 LastIndexOf(String source, String value, Int32 startIndex, Int32 count);
   public: Int32 LastIndexOf(String source, Char value, Int32 startIndex, Int32 count, CompareOptions options);
   public: Int32 LastIndexOf(String source, String value, Int32 startIndex, Int32 count, CompareOptions options);
-  public: Int32 LastIndexOf(ReadOnlySpan<Char> source, ReadOnlySpan<Char> value, CompareOptions options = 0);
-  public: Int32 LastIndexOf(ReadOnlySpan<Char> source, Rune value, CompareOptions options = 0);
+  public: Int32 LastIndexOf(ReadOnlySpan<Char> source, ReadOnlySpan<Char> value, CompareOptions options = CompareOptions::None);
+  public: Int32 LastIndexOf(ReadOnlySpan<Char> source, Rune value, CompareOptions options = CompareOptions::None);
   public: SortKey GetSortKey(String source, CompareOptions options);
   public: SortKey GetSortKey(String source);
   private: SortKey CreateSortKeyCore(String source, CompareOptions options);
-  public: Int32 GetSortKey(ReadOnlySpan<Char> source, Span<Byte> destination, CompareOptions options = 0);
+  public: Int32 GetSortKey(ReadOnlySpan<Char> source, Span<Byte> destination, CompareOptions options = CompareOptions::None);
   private: Int32 GetSortKeyCore(ReadOnlySpan<Char> source, Span<Byte> destination, CompareOptions options);
-  public: Int32 GetSortKeyLength(ReadOnlySpan<Char> source, CompareOptions options = 0);
+  public: Int32 GetSortKeyLength(ReadOnlySpan<Char> source, CompareOptions options = CompareOptions::None);
   private: Int32 GetSortKeyLengthCore(ReadOnlySpan<Char> source, CompareOptions options);
   public: Boolean Equals(Object value);
   public: Int32 GetHashCode();

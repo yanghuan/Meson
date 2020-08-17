@@ -371,22 +371,11 @@ namespace Meson.Compiler {
       for (int j = 0; j < arguments.Count; ++j) {
         var argument = arguments[j];
         if (argument == null) {
-          var defaultValue = GetDefaultParameterValue(symbol.Parameters[j]);
+          var defaultValue = typeDefinition_.GetDefaultParameterValue(symbol.Parameters[j]);
           arguments[j] = defaultValue;
         }
       }
       return arguments;
-    }
-
-    internal static ExpressionSyntax GetDefaultParameterValue(IParameter parameter) {
-      var constValue = parameter.GetConstantValue();
-      ExpressionSyntax defaultValue;
-      if (constValue == null) {
-        defaultValue = IdentifierSyntax.Nullptr;
-      } else {
-        defaultValue = Utils.GetPrimitiveExpression(constValue);
-      }
-      return defaultValue;
     }
 
     private List<ExpressionSyntax> BuildInvocationArguments(IMethod symbol, InvocationExpression invocationExpression) {
