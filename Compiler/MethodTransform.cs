@@ -371,7 +371,7 @@ namespace Meson.Compiler {
       for (int j = 0; j < arguments.Count; ++j) {
         var argument = arguments[j];
         if (argument == null) {
-          var defaultValue = typeDefinition_.GetDefaultParameterValue(symbol.Parameters[j]);
+          var defaultValue = typeDefinition_.GetDefaultParameterValue(symbol.Parameters[j], symbol.DeclaringTypeDefinition);
           arguments[j] = defaultValue;
         }
       }

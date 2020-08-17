@@ -282,13 +282,13 @@ namespace Meson.Compiler {
       });
     }
 
-    internal ExpressionSyntax GetDefaultParameterValue(IParameter parameter) {
+    internal ExpressionSyntax GetDefaultParameterValue(IParameter parameter, ITypeDefinition typeDefinition) {
       var constValue = parameter.GetConstantValue();
       ExpressionSyntax defaultValue;
       if (constValue == null) {
         defaultValue = IdentifierSyntax.Nullptr;
       } else if (parameter.Type.Kind == TypeKind.Enum) {
-        var typeName = GetTypeName(parameter.Type, null, parameter);
+        var typeName = GetTypeName(parameter.Type, typeDefinition, parameter);
         var fields = parameter.Type.GetDefinition().Fields;
         var field = fields.FirstOrDefault(i => constValue.Equals(i.GetConstantValue()));
         if (field != null) {
@@ -332,7 +332,7 @@ namespace Meson.Compiler {
       var name = GetMemberName(parameter);
       ExpressionSyntax value;
       if (parameter.HasConstantValueInSignature) {
-        value = GetDefaultParameterValue(parameter);
+        value = GetDefaultParameterValue(parameter, typeDefinition);
       } else {
         value = null;
       }

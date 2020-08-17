@@ -16,7 +16,7 @@ class HexConverter {
     Upper = 0,
     Lower = 8224,
   };
-  public: static void ToCharsBuffer(Byte value, Span<Char> buffer, Int32 startingIndex = 0, Casing casing = HexConverter::Casing::Upper);
+  public: static void ToCharsBuffer(Byte value, Span<Char> buffer, Int32 startingIndex = 0, Casing casing = Casing::Upper);
 };
 } // namespace HexConverterNamespace
 using HexConverter = HexConverterNamespace::HexConverter;
