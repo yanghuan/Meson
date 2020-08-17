@@ -396,7 +396,7 @@ CancellationTokenSource CancellationTokenSource___::CreateLinkedTokenSource(Arra
     case 2:
       return CreateLinkedTokenSource(tokens[0], tokens[1]);
     default:
-      return rt::newobj<LinkedNCancellationTokenSource>(rt::newarr<Array<CancellationToken>>(1, tokens));
+      return rt::newobj<LinkedNCancellationTokenSource>(tokens);
   }
 }
 

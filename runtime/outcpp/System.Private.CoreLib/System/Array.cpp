@@ -792,7 +792,7 @@ Array<> Array___<>::CreateInstance(Type elementType, Array<Int64> lengths) {
     }
     array[i] = num2;
   }
-  return CreateInstance(elementType, rt::newarr<Array<Int32>>(1, array));
+  return CreateInstance(elementType, array);
 }
 
 void Array___<>::Copy(Array<> sourceArray, Array<> destinationArray, Int64 length) {
@@ -871,7 +871,7 @@ Object Array___<>::GetValue(Array<Int64> indices) {
     }
     array[i] = num2;
   }
-  return GetValue(rt::newarr<Array<Int32>>(1, array));
+  return GetValue(array);
 }
 
 void Array___<>::SetValue(Object value, Int64 index) {
@@ -926,7 +926,7 @@ void Array___<>::SetValue(Object value, Array<Int64> indices) {
     }
     array[i] = num2;
   }
-  SetValue(value, rt::newarr<Array<Int32>>(1, array));
+  SetValue(value, array);
 }
 
 Int32 Array___<>::GetMedian(Int32 low, Int32 hi) {

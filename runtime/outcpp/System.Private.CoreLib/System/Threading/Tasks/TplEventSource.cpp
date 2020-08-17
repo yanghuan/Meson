@@ -183,7 +183,7 @@ void TplEventSource___::DebugFacilityMessage1(String Facility, String Message, S
 
 void TplEventSource___::SetActivityId(Guid NewId) {
   if (DebugActivityId) {
-    WriteEvent(25, rt::newarr<Array<Object>>(1, NewId));
+    WriteEvent(25, NewId);
   }
 }
 

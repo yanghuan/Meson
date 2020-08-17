@@ -1203,7 +1203,7 @@ Array<DateTimeFormatInfo::in::TokenHashValue> DateTimeFormatInfo___::CreateToken
             {
               String text = dateWordsOfDTFI[i]->Substring(1);
               InsertHash(array, text, TokenType::IgnorableSymbol, 0);
-              if (get_DateSeparator()->Trim(rt::newarr<Array<Char>>(1, nullptr))->Equals(text)) {
+              if (get_DateSeparator()->Trim(nullptr)->Equals(text)) {
                 flag2 = true;
               }
               break;

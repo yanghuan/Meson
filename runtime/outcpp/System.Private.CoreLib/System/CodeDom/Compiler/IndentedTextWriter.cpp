@@ -120,7 +120,7 @@ void IndentedTextWriter___::Write(String format, Object arg0, Object arg1) {
 
 void IndentedTextWriter___::Write(String format, Array<Object> arg) {
   OutputTabs();
-  _writer->Write(format, rt::newarr<Array<Object>>(1, arg));
+  _writer->Write(format, arg);
 }
 
 void IndentedTextWriter___::WriteLineNoTabs(String s) {
@@ -207,7 +207,7 @@ void IndentedTextWriter___::WriteLine(String format, Object arg0, Object arg1) {
 
 void IndentedTextWriter___::WriteLine(String format, Array<Object> arg) {
   OutputTabs();
-  _writer->WriteLine(format, rt::newarr<Array<Object>>(1, arg));
+  _writer->WriteLine(format, arg);
   _tabsPending = true;
 }
 

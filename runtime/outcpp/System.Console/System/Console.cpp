@@ -491,7 +491,7 @@ void Console::WriteLine(String format, Array<Object> arg) {
   if (arg == nullptr) {
     get_Out()->WriteLine(format, nullptr, nullptr);
   } else {
-    get_Out()->WriteLine(format, rt::newarr<Array<Object>>(1, arg));
+    get_Out()->WriteLine(format, arg);
   }
 }
 
@@ -511,7 +511,7 @@ void Console::Write(String format, Array<Object> arg) {
   if (arg == nullptr) {
     get_Out()->Write(format, nullptr, nullptr);
   } else {
-    get_Out()->Write(format, rt::newarr<Array<Object>>(1, arg));
+    get_Out()->Write(format, arg);
   }
 }
 

@@ -225,7 +225,7 @@ MethodInfo TypeBuilder___::GetMethod(Type type, MethodInfo method) {
     rt::throw_exception<ArgumentException>(SR::get_Argument_InvalidMethodDeclaringType(), "type");
   }
   if (type->get_IsGenericTypeDefinition()) {
-    type = type->MakeGenericType(rt::newarr<Array<Type>>(1, type->GetGenericArguments()));
+    type = type->MakeGenericType(type->GetGenericArguments());
   }
   if (!rt::is<TypeBuilderInstantiation>(type)) {
     rt::throw_exception<ArgumentException>(SR::get_Argument_NeedNonGenericType(), "type");
@@ -244,7 +244,7 @@ ConstructorInfo TypeBuilder___::GetConstructor(Type type, ConstructorInfo constr
     rt::throw_exception<ArgumentException>(SR::get_Argument_NeedNonGenericType(), "type");
   }
   if (rt::is<TypeBuilder>(type) && type->get_IsGenericTypeDefinition()) {
-    type = type->MakeGenericType(rt::newarr<Array<Type>>(1, type->GetGenericArguments()));
+    type = type->MakeGenericType(type->GetGenericArguments());
   }
   if (type->GetGenericTypeDefinition() != constructor->get_DeclaringType()) {
     rt::throw_exception<ArgumentException>(SR::get_Argument_InvalidConstructorDeclaringType(), "type");
@@ -263,7 +263,7 @@ FieldInfo TypeBuilder___::GetField(Type type, FieldInfo field) {
     rt::throw_exception<ArgumentException>(SR::get_Argument_NeedNonGenericType(), "type");
   }
   if (rt::is<TypeBuilder>(type) && type->get_IsGenericTypeDefinition()) {
-    type = type->MakeGenericType(rt::newarr<Array<Type>>(1, type->GetGenericArguments()));
+    type = type->MakeGenericType(type->GetGenericArguments());
   }
   if (type->GetGenericTypeDefinition() != field->get_DeclaringType()) {
     rt::throw_exception<ArgumentException>(SR::get_Argument_InvalidFieldDeclaringType(), "type");
@@ -442,7 +442,7 @@ void TypeBuilder___::ctor(String fullname, TypeAttributes attr, Type parent, Arr
   SetParent(parent);
   m_listMethods = rt::newobj<List<MethodBuilder>>();
   m_lastTokenizedMethod = -1;
-  SetInterfaces(rt::newarr<Array<Type>>(1, interfaces));
+  SetInterfaces(interfaces);
   Int32 tkParent = 0;
   if (m_typeParent != nullptr) {
     tkParent = m_module->GetTypeTokenInternal(m_typeParent).get_Token();
@@ -848,7 +848,7 @@ Array<GenericTypeParameterBuilder> TypeBuilder___::DefineGenericParameters(Array
 }
 
 Type TypeBuilder___::MakeGenericType(Array<Type> typeArguments) {
-  CheckContext(rt::newarr<Array<Type>>(1, typeArguments));
+  CheckContext(typeArguments);
   return TypeBuilderInstantiation::in::MakeGenericType((TypeBuilder)this, typeArguments);
 }
 
@@ -922,10 +922,10 @@ MethodBuilder TypeBuilder___::DefineMethodNoLock(String name, MethodAttributes a
   if (name->get_Length() == 0) {
     rt::throw_exception<ArgumentException>(SR::get_Argument_EmptyName(), "name");
   }
-  CheckContext(rt::newarr<Array<Type>>(1, returnType));
+  CheckContext(returnType);
   CheckContext(rt::newarr<Array<Array<Type>>>(3, returnTypeRequiredCustomModifiers, returnTypeOptionalCustomModifiers, parameterTypes));
-  CheckContext(rt::newarr<Array<Array<Type>>>(1, parameterTypeRequiredCustomModifiers));
-  CheckContext(rt::newarr<Array<Array<Type>>>(1, parameterTypeOptionalCustomModifiers));
+  CheckContext(parameterTypeRequiredCustomModifiers);
+  CheckContext(parameterTypeOptionalCustomModifiers);
   if (parameterTypes != nullptr) {
     if (parameterTypeOptionalCustomModifiers != nullptr && parameterTypeOptionalCustomModifiers->get_Length() != parameterTypes->get_Length()) {
       rt::throw_exception<ArgumentException>(SR::Format(SR::get_Argument_MismatchedArrays(), "parameterTypeOptionalCustomModifiers", "parameterTypes"));
@@ -956,10 +956,10 @@ MethodBuilder TypeBuilder___::DefinePInvokeMethod(String name, String dllName, S
 }
 
 MethodBuilder TypeBuilder___::DefinePInvokeMethodHelper(String name, String dllName, String importName, MethodAttributes attributes, CallingConventions callingConvention, Type returnType, Array<Type> returnTypeRequiredCustomModifiers, Array<Type> returnTypeOptionalCustomModifiers, Array<Type> parameterTypes, Array<Array<Type>> parameterTypeRequiredCustomModifiers, Array<Array<Type>> parameterTypeOptionalCustomModifiers, CallingConvention nativeCallConv, CharSet nativeCharSet) {
-  CheckContext(rt::newarr<Array<Type>>(1, returnType));
+  CheckContext(returnType);
   CheckContext(rt::newarr<Array<Array<Type>>>(3, returnTypeRequiredCustomModifiers, returnTypeOptionalCustomModifiers, parameterTypes));
-  CheckContext(rt::newarr<Array<Array<Type>>>(1, parameterTypeRequiredCustomModifiers));
-  CheckContext(rt::newarr<Array<Array<Type>>>(1, parameterTypeOptionalCustomModifiers));
+  CheckContext(parameterTypeRequiredCustomModifiers);
+  CheckContext(parameterTypeOptionalCustomModifiers);
   {
     rt::lock(get_SyncRoot());
     if (name == nullptr) {
@@ -1067,7 +1067,7 @@ ConstructorBuilder TypeBuilder___::DefineDefaultConstructorNoLock(MethodAttribut
     if (type == nullptr) {
       rt::throw_exception<NotSupportedException>(SR::get_NotSupported_DynamicModule());
     }
-    Type type2 = type->MakeGenericType(rt::newarr<Array<Type>>(1, m_typeParent->GetGenericArguments()));
+    Type type2 = type->MakeGenericType(m_typeParent->GetGenericArguments());
     constructorInfo = ((!rt::is<TypeBuilderInstantiation>(type2)) ? type2->GetConstructor(BindingFlags::Instance | BindingFlags::Public | BindingFlags::NonPublic, nullptr, Type::in::EmptyTypes, nullptr) : GetConstructor(type2, type->GetConstructor(BindingFlags::Instance | BindingFlags::Public | BindingFlags::NonPublic, nullptr, Type::in::EmptyTypes, nullptr)));
   }
   if (constructorInfo == nullptr) {
@@ -1101,9 +1101,9 @@ ConstructorBuilder TypeBuilder___::DefineConstructor(MethodAttributes attributes
 }
 
 ConstructorBuilder TypeBuilder___::DefineConstructorNoLock(MethodAttributes attributes, CallingConventions callingConvention, Array<Type> parameterTypes, Array<Array<Type>> requiredCustomModifiers, Array<Array<Type>> optionalCustomModifiers) {
-  CheckContext(rt::newarr<Array<Type>>(1, parameterTypes));
-  CheckContext(rt::newarr<Array<Array<Type>>>(1, requiredCustomModifiers));
-  CheckContext(rt::newarr<Array<Array<Type>>>(1, optionalCustomModifiers));
+  CheckContext(parameterTypes);
+  CheckContext(requiredCustomModifiers);
+  CheckContext(optionalCustomModifiers);
   ThrowIfCreated();
   String name = ((attributes & MethodAttributes::Static) != 0) ? ConstructorInfo::in::TypeConstructorName : ConstructorInfo::in::ConstructorName;
   attributes |= MethodAttributes::SpecialName;
@@ -1122,8 +1122,8 @@ TypeBuilder TypeBuilder___::DefineNestedType(String name) {
 TypeBuilder TypeBuilder___::DefineNestedType(String name, TypeAttributes attr, Type parent, Array<Type> interfaces) {
   {
     rt::lock(get_SyncRoot());
-    CheckContext(rt::newarr<Array<Type>>(1, parent));
-    CheckContext(rt::newarr<Array<Type>>(1, interfaces));
+    CheckContext(parent);
+    CheckContext(interfaces);
     return DefineNestedTypeNoLock(name, attr, parent, interfaces, PackingSize::Unspecified, 0);
   }
 }
@@ -1180,8 +1180,8 @@ FieldBuilder TypeBuilder___::DefineField(String fieldName, Type type, Array<Type
 
 FieldBuilder TypeBuilder___::DefineFieldNoLock(String fieldName, Type type, Array<Type> requiredCustomModifiers, Array<Type> optionalCustomModifiers, FieldAttributes attributes) {
   ThrowIfCreated();
-  CheckContext(rt::newarr<Array<Type>>(1, type));
-  CheckContext(rt::newarr<Array<Type>>(1, requiredCustomModifiers));
+  CheckContext(type);
+  CheckContext(requiredCustomModifiers);
   if (m_enumUnderlyingType == nullptr && get_IsEnum() && (attributes & FieldAttributes::Static) == 0) {
     m_enumUnderlyingType = type;
   }
@@ -1239,10 +1239,10 @@ PropertyBuilder TypeBuilder___::DefinePropertyNoLock(String name, PropertyAttrib
   if (name->get_Length() == 0) {
     rt::throw_exception<ArgumentException>(SR::get_Argument_EmptyName(), "name");
   }
-  CheckContext(rt::newarr<Array<Type>>(1, returnType));
+  CheckContext(returnType);
   CheckContext(rt::newarr<Array<Array<Type>>>(3, returnTypeRequiredCustomModifiers, returnTypeOptionalCustomModifiers, parameterTypes));
-  CheckContext(rt::newarr<Array<Array<Type>>>(1, parameterTypeRequiredCustomModifiers));
-  CheckContext(rt::newarr<Array<Array<Type>>>(1, parameterTypeOptionalCustomModifiers));
+  CheckContext(parameterTypeRequiredCustomModifiers);
+  CheckContext(parameterTypeOptionalCustomModifiers);
   ThrowIfCreated();
   SignatureHelper propertySigHelper = SignatureHelper::in::GetPropertySigHelper(m_module, callingConvention, returnType, returnTypeRequiredCustomModifiers, returnTypeOptionalCustomModifiers, parameterTypes, parameterTypeRequiredCustomModifiers, parameterTypeOptionalCustomModifiers);
   Int32 length;
@@ -1268,7 +1268,7 @@ EventBuilder TypeBuilder___::DefineEventNoLock(String name, EventAttributes attr
   if (name[0] == 0) {
     rt::throw_exception<ArgumentException>(SR::get_Argument_IllegalName(), "name");
   }
-  CheckContext(rt::newarr<Array<Type>>(1, eventtype));
+  CheckContext(eventtype);
   ThrowIfCreated();
   Int32 token = m_module->GetTypeTokenInternal(eventtype).get_Token();
   ModuleBuilder module = m_module;
@@ -1290,11 +1290,11 @@ Type TypeBuilder___::CreateType() {
 }
 
 void TypeBuilder___::CheckContext(Array<Array<Type>> typess) {
-  m_module->CheckContext(rt::newarr<Array<Array<Type>>>(1, typess));
+  m_module->CheckContext(typess);
 }
 
 void TypeBuilder___::CheckContext(Array<Type> types) {
-  m_module->CheckContext(rt::newarr<Array<Type>>(1, types));
+  m_module->CheckContext(types);
 }
 
 TypeInfo TypeBuilder___::CreateTypeNoLock() {
@@ -1393,7 +1393,7 @@ TypeInfo TypeBuilder___::CreateTypeNoLock() {
 void TypeBuilder___::SetParent(Type parent) {
   ThrowIfCreated();
   if (parent != nullptr) {
-    CheckContext(rt::newarr<Array<Type>>(1, parent));
+    CheckContext(parent);
     if (parent->get_IsInterface()) {
       rt::throw_exception<ArgumentException>(SR::get_Argument_CannotSetParentToInterface());
     }
@@ -1413,7 +1413,7 @@ void TypeBuilder___::AddInterfaceImplementation(Type interfaceType) {
   if (interfaceType == nullptr) {
     rt::throw_exception<ArgumentNullException>("interfaceType");
   }
-  CheckContext(rt::newarr<Array<Type>>(1, interfaceType));
+  CheckContext(interfaceType);
   ThrowIfCreated();
   TypeToken typeTokenInternal = m_module->GetTypeTokenInternal(interfaceType);
   ModuleBuilder module = m_module;

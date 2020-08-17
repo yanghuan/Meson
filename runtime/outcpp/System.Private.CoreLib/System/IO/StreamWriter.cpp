@@ -366,7 +366,7 @@ void StreamWriter___::Write(String format, Array<Object> arg) {
     }
     WriteFormatHelper(format, ParamsArray(arg), false);
   } else {
-    TextWriter::in::Write(format, rt::newarr<Array<Object>>(1, arg));
+    TextWriter::in::Write(format, arg);
   }
 }
 
@@ -401,7 +401,7 @@ void StreamWriter___::WriteLine(String format, Array<Object> arg) {
     }
     WriteFormatHelper(format, ParamsArray(arg), true);
   } else {
-    TextWriter::in::WriteLine(format, rt::newarr<Array<Object>>(1, arg));
+    TextWriter::in::WriteLine(format, arg);
   }
 }
 

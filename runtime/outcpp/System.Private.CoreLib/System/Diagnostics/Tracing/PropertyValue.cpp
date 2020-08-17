@@ -153,7 +153,7 @@ Func<PropertyValue, PropertyValue> PropertyValue::GetBoxedValueTypePropertyGette
 }
 
 Func<PropertyValue, PropertyValue> PropertyValue::GetReferenceTypePropertyGetter(PropertyInfo property) {
-  TypeHelper typeHelper = (TypeHelper)Activator::CreateInstance(rt::typeof<ReferenceTypeHelper<TContainer>>()->MakeGenericType(rt::newarr<Array<Type>>(1, property->get_DeclaringType())));
+  TypeHelper typeHelper = (TypeHelper)Activator::CreateInstance(rt::typeof<ReferenceTypeHelper<TContainer>>()->MakeGenericType(property->get_DeclaringType()));
   return typeHelper->GetPropertyGetter(property);
 }
 

@@ -24,7 +24,7 @@ namespace System::Private::CoreLib::System::Collections::Generic::ComparerHelper
 Object ComparerHelpers::CreateDefaultComparer(Type type) {
   Object obj = nullptr;
   RuntimeType runtimeType = (RuntimeType)type;
-  if (rt::typeof<IComparable<T>>()->MakeGenericType(rt::newarr<Array<Type>>(1, type))->IsAssignableFrom(type)) {
+  if (rt::typeof<IComparable<T>>()->MakeGenericType(type)->IsAssignableFrom(type)) {
     obj = RuntimeTypeHandle::CreateInstanceForAnotherGenericParameter((RuntimeType)rt::typeof<GenericComparer<Int32>>(), runtimeType);
   } else if (type->get_IsGenericType()) {
     if (type->GetGenericTypeDefinition() == rt::typeof<Nullable<T>>()) {
@@ -41,7 +41,7 @@ Object ComparerHelpers::CreateDefaultComparer(Type type) {
 
 Object ComparerHelpers::TryCreateNullableComparer(RuntimeType nullableType) {
   RuntimeType runtimeType = (RuntimeType)nullableType->GetGenericArguments()[0];
-  if (rt::typeof<IComparable<T>>()->MakeGenericType(rt::newarr<Array<Type>>(1, runtimeType))->IsAssignableFrom(runtimeType)) {
+  if (rt::typeof<IComparable<T>>()->MakeGenericType(runtimeType)->IsAssignableFrom(runtimeType)) {
     return RuntimeTypeHandle::CreateInstanceForAnotherGenericParameter((RuntimeType)rt::typeof<NullableComparer<Int32>>(), runtimeType);
   }
   return nullptr;
@@ -60,7 +60,7 @@ Object ComparerHelpers::CreateDefaultEqualityComparer(Type type) {
   RuntimeType runtimeType = (RuntimeType)type;
   if (type == rt::typeof<Byte>()) {
     obj = rt::newobj<ByteEqualityComparer>();
-  } else if (rt::typeof<IEquatable<T>>()->MakeGenericType(rt::newarr<Array<Type>>(1, type))->IsAssignableFrom(type)) {
+  } else if (rt::typeof<IEquatable<T>>()->MakeGenericType(type)->IsAssignableFrom(type)) {
     obj = RuntimeTypeHandle::CreateInstanceForAnotherGenericParameter((RuntimeType)rt::typeof<GenericEqualityComparer<Int32>>(), runtimeType);
   } else if (type->get_IsGenericType()) {
     if (type->GetGenericTypeDefinition() == rt::typeof<Nullable<T>>()) {
@@ -78,7 +78,7 @@ Object ComparerHelpers::CreateDefaultEqualityComparer(Type type) {
 
 Object ComparerHelpers::TryCreateNullableEqualityComparer(RuntimeType nullableType) {
   RuntimeType runtimeType = (RuntimeType)nullableType->GetGenericArguments()[0];
-  if (rt::typeof<IEquatable<T>>()->MakeGenericType(rt::newarr<Array<Type>>(1, runtimeType))->IsAssignableFrom(runtimeType)) {
+  if (rt::typeof<IEquatable<T>>()->MakeGenericType(runtimeType)->IsAssignableFrom(runtimeType)) {
     return RuntimeTypeHandle::CreateInstanceForAnotherGenericParameter((RuntimeType)rt::typeof<NullableEqualityComparer<Int32>>(), runtimeType);
   }
   return nullptr;

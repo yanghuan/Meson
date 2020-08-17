@@ -1094,10 +1094,10 @@ void EventSource___::WriteEventVarargs(Int32 eventId, Guid* childActivityID, Arr
     }
     if (m_eventData[eventId].EnabledForETW || m_eventData[eventId].EnabledForEventPipe) {
       if (!get_SelfDescribingEvents()) {
-        if (!m_etwProvider->WriteEvent(m_eventData[eventId].Descriptor, m_eventData[eventId].EventHandle, activityID, childActivityID, rt::newarr<Array<Object>>(1, args))) {
+        if (!m_etwProvider->WriteEvent(m_eventData[eventId].Descriptor, m_eventData[eventId].EventHandle, activityID, childActivityID, args)) {
           ThrowEventSourceException(m_eventData[eventId].Name);
         }
-        if (!m_eventPipeProvider->WriteEvent(m_eventData[eventId].Descriptor, m_eventData[eventId].EventHandle, activityID, childActivityID, rt::newarr<Array<Object>>(1, args))) {
+        if (!m_eventPipeProvider->WriteEvent(m_eventData[eventId].Descriptor, m_eventData[eventId].EventHandle, activityID, childActivityID, args)) {
           ThrowEventSourceException(m_eventData[eventId].Name);
         }
       } else {
@@ -1111,16 +1111,16 @@ void EventSource___::WriteEventVarargs(Int32 eventId, Guid* childActivityID, Arr
         eventSourceOptions.set_Level = (EventLevel)m_eventData[eventId].Descriptor.get_Level();
         eventSourceOptions.set_Opcode = (EventOpcode)m_eventData[eventId].Descriptor.get_Opcode();
         EventSourceOptions options = eventSourceOptions;
-        WriteMultiMerge(m_eventData[eventId].Name, options, traceLoggingEventTypes, activityID, childActivityID, rt::newarr<Array<Object>>(1, args));
+        WriteMultiMerge(m_eventData[eventId].Name, options, traceLoggingEventTypes, activityID, childActivityID, args);
       }
     }
     if (m_Dispatchers != nullptr && m_eventData[eventId].EnabledForAnyListener) {
       if (LocalAppContextSwitches::get_PreserveEventListnerObjectIdentity()) {
-        WriteToAllListeners(eventId, nullptr, nullptr, activityID, childActivityID, rt::newarr<Array<Object>>(1, args));
+        WriteToAllListeners(eventId, nullptr, nullptr, activityID, childActivityID, args);
         return;
       }
       Array<Object> args2 = SerializeEventArgs(eventId, args);
-      WriteToAllListeners(eventId, nullptr, nullptr, activityID, childActivityID, rt::newarr<Array<Object>>(1, args2));
+      WriteToAllListeners(eventId, nullptr, nullptr, activityID, childActivityID, args2);
     }
   } catch (Exception ex) {
   }
@@ -1172,7 +1172,7 @@ void EventSource___::WriteToAllListeners(Int32 eventId, Guid* activityID, Guid* 
   for (Int32 j = 0; j < num; j++) {
     array[j] = DecodeObject(eventId, j, data2);
   }
-  WriteToAllListeners(eventId, nullptr, nullptr, activityID, childActivityID, rt::newarr<Array<Object>>(1, array));
+  WriteToAllListeners(eventId, nullptr, nullptr, activityID, childActivityID, array);
 }
 
 void EventSource___::WriteToAllListeners(Int32 eventId, UInt32* osThreadId, DateTime* timeStamp, Guid* activityID, Guid* childActivityID, Array<Object> args) {
@@ -1224,8 +1224,8 @@ void EventSource___::WriteEventString(String msgString) {
     eventSourceOptions.set_Keywords = (EventKeywords)keywords;
     eventSourceOptions.set_Level = eventLevel;
     EventSourceOptions options = eventSourceOptions;
-    TraceLoggingEventTypes eventTypes = rt::newobj<TraceLoggingEventTypes>("EventSourceMessage", EventTags::None, rt::newarr<Array<Type>>(1, rt::typeof<String>()));
-    WriteMultiMergeInner("EventSourceMessage", options, eventTypes, nullptr, nullptr, rt::newarr<Array<Object>>(1, msgString));
+    TraceLoggingEventTypes eventTypes = rt::newobj<TraceLoggingEventTypes>("EventSourceMessage", EventTags::None, rt::typeof<String>());
+    WriteMultiMergeInner("EventSourceMessage", options, eventTypes, nullptr, nullptr, msgString);
     return;
   }
   if (m_rawManifest == nullptr && m_outOfBandMessageCount == 1) {
@@ -1990,7 +1990,7 @@ void EventSource___::WriteMultiMerge(String eventName, EventSourceOptions& optio
     Byte level = ((options.valuesSet & 4) != 0) ? options.level : eventTypes->level;
     EventKeywords keywords = ((options.valuesSet & 1) != 0) ? options.keywords : eventTypes->keywords;
     if (IsEnabled((EventLevel)level, keywords)) {
-      WriteMultiMergeInner(eventName, options, eventTypes, activityID, childActivityID, rt::newarr<Array<Object>>(1, values));
+      WriteMultiMergeInner(eventName, options, eventTypes, activityID, childActivityID, values);
     }
   }
 }

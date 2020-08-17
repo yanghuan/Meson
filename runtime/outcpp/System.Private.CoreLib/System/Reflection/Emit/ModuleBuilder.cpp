@@ -117,11 +117,11 @@ Type ModuleBuilder___::GetType(String strFormat, Type baseType) {
 }
 
 void ModuleBuilder___::CheckContext(Array<Array<Type>> typess) {
-  AssemblyBuilder::in::CheckContext(rt::newarr<Array<Array<Type>>>(1, typess));
+  AssemblyBuilder::in::CheckContext(typess);
 }
 
 void ModuleBuilder___::CheckContext(Array<Type> types) {
-  AssemblyBuilder::in::CheckContext(rt::newarr<Array<Type>>(1, types));
+  AssemblyBuilder::in::CheckContext(types);
 }
 
 Int32 ModuleBuilder___::GetMemberRef(Module refedModule, Int32 tr, Int32 defToken) {
@@ -502,7 +502,7 @@ TypeBuilder ModuleBuilder___::DefineType(String name, TypeAttributes attr) {
 TypeBuilder ModuleBuilder___::DefineType(String name, TypeAttributes attr, Type parent) {
   {
     rt::lock(get_SyncRoot());
-    CheckContext(rt::newarr<Array<Type>>(1, parent));
+    CheckContext(parent);
     return DefineTypeNoLock(name, attr, parent, nullptr, PackingSize::Unspecified, 0);
   }
 }
@@ -544,7 +544,7 @@ TypeBuilder ModuleBuilder___::DefineTypeNoLock(String name, TypeAttributes attr,
 }
 
 EnumBuilder ModuleBuilder___::DefineEnum(String name, TypeAttributes visibility, Type underlyingType) {
-  CheckContext(rt::newarr<Array<Type>>(1, underlyingType));
+  CheckContext(underlyingType);
   {
     rt::lock(get_SyncRoot());
     EnumBuilder enumBuilder = DefineEnumNoLock(name, visibility, underlyingType);
@@ -567,8 +567,8 @@ MethodBuilder ModuleBuilder___::DefinePInvokeMethod(String name, String dllName,
     if ((attributes & MethodAttributes::Static) == 0) {
       rt::throw_exception<ArgumentException>(SR::get_Argument_GlobalFunctionHasToBeStatic());
     }
-    CheckContext(rt::newarr<Array<Type>>(1, returnType));
-    CheckContext(rt::newarr<Array<Type>>(1, parameterTypes));
+    CheckContext(returnType);
+    CheckContext(parameterTypes);
     return _moduleData->_globalTypeBuilder->DefinePInvokeMethod(name, dllName, entryName, attributes, callingConvention, returnType, parameterTypes, nativeCallConv, nativeCharSet);
   }
 }
@@ -601,10 +601,10 @@ MethodBuilder ModuleBuilder___::DefineGlobalMethodNoLock(String name, MethodAttr
   if ((attributes & MethodAttributes::Static) == 0) {
     rt::throw_exception<ArgumentException>(SR::get_Argument_GlobalFunctionHasToBeStatic());
   }
-  CheckContext(rt::newarr<Array<Type>>(1, returnType));
+  CheckContext(returnType);
   CheckContext(rt::newarr<Array<Array<Type>>>(3, requiredReturnTypeCustomModifiers, optionalReturnTypeCustomModifiers, parameterTypes));
-  CheckContext(rt::newarr<Array<Array<Type>>>(1, requiredParameterTypeCustomModifiers));
-  CheckContext(rt::newarr<Array<Array<Type>>>(1, optionalParameterTypeCustomModifiers));
+  CheckContext(requiredParameterTypeCustomModifiers);
+  CheckContext(optionalParameterTypeCustomModifiers);
   return _moduleData->_globalTypeBuilder->DefineMethod(name, attributes, callingConvention, returnType, requiredReturnTypeCustomModifiers, optionalReturnTypeCustomModifiers, parameterTypes, requiredParameterTypeCustomModifiers, optionalParameterTypeCustomModifiers);
 }
 
@@ -670,7 +670,7 @@ TypeToken ModuleBuilder___::GetTypeTokenWorkerNoLock(Type type, Boolean getGener
   if (type == nullptr) {
     rt::throw_exception<ArgumentNullException>("type");
   }
-  CheckContext(rt::newarr<Array<Type>>(1, type));
+  CheckContext(type);
   if (type->get_IsByRef()) {
     rt::throw_exception<ArgumentException>(SR::get_Argument_CannotGetTypeTokenForByRef());
   }
@@ -836,7 +836,7 @@ MethodToken ModuleBuilder___::GetArrayMethodTokenNoLock(Type arrayClass, String 
     rt::throw_exception<ArgumentException>(SR::get_Argument_HasToBeArrayClass());
   }
   CheckContext(rt::newarr<Array<Type>>(2, returnType, arrayClass));
-  CheckContext(rt::newarr<Array<Type>>(1, parameterTypes));
+  CheckContext(parameterTypes);
   SignatureHelper methodSigHelper = SignatureHelper::in::GetMethodSigHelper((ModuleBuilder)this, callingConvention, returnType, nullptr, nullptr, parameterTypes, nullptr, nullptr);
   Int32 length;
   Array<Byte> signature = methodSigHelper->InternalGetSignature(length);
@@ -847,7 +847,7 @@ MethodToken ModuleBuilder___::GetArrayMethodTokenNoLock(Type arrayClass, String 
 
 MethodInfo ModuleBuilder___::GetArrayMethod(Type arrayClass, String methodName, CallingConventions callingConvention, Type returnType, Array<Type> parameterTypes) {
   CheckContext(rt::newarr<Array<Type>>(2, returnType, arrayClass));
-  CheckContext(rt::newarr<Array<Type>>(1, parameterTypes));
+  CheckContext(parameterTypes);
   MethodToken arrayMethodToken = GetArrayMethodToken(arrayClass, methodName, callingConvention, returnType, parameterTypes);
   return rt::newobj<SymbolMethod>((ModuleBuilder)this, arrayMethodToken, arrayClass, methodName, callingConvention, returnType, parameterTypes);
 }

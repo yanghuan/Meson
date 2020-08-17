@@ -300,13 +300,13 @@ void GenericTypeParameterBuilder___::SetCustomAttribute(CustomAttributeBuilder c
 }
 
 void GenericTypeParameterBuilder___::SetBaseTypeConstraint(Type baseTypeConstraint) {
-  m_type->CheckContext(rt::newarr<Array<Type>>(1, baseTypeConstraint));
+  m_type->CheckContext(baseTypeConstraint);
   m_type->SetParent(baseTypeConstraint);
 }
 
 void GenericTypeParameterBuilder___::SetInterfaceConstraints(Array<Type> interfaceConstraints) {
-  m_type->CheckContext(rt::newarr<Array<Type>>(1, interfaceConstraints));
-  m_type->SetInterfaces(rt::newarr<Array<Type>>(1, interfaceConstraints));
+  m_type->CheckContext(interfaceConstraints);
+  m_type->SetInterfaces(interfaceConstraints);
 }
 
 void GenericTypeParameterBuilder___::SetGenericParameterAttributes(GenericParameterAttributes genericParameterAttributes) {

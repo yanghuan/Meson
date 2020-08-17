@@ -176,7 +176,7 @@ Int32 AppDomain___::ExecuteAssemblyByName(AssemblyName assemblyName, Array<Strin
 }
 
 Int32 AppDomain___::ExecuteAssemblyByName(String assemblyName) {
-  return ExecuteAssemblyByName(assemblyName, rt::newarr<Array<String>>(1, (Array<String>)nullptr));
+  return ExecuteAssemblyByName(assemblyName, (Array<String>)nullptr);
 }
 
 Int32 AppDomain___::ExecuteAssemblyByName(String assemblyName, Array<String> args) {

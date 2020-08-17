@@ -167,7 +167,7 @@ Type SignatureTypeExtensions::TryMakePointerType(Type type) {
 
 Type SignatureTypeExtensions::TryMakeGenericType(Type type, Array<Type> instantiation) {
   try {
-    return type->MakeGenericType(rt::newarr<Array<Type>>(1, instantiation));
+    return type->MakeGenericType(instantiation);
   } catch (...) {
   }
 }

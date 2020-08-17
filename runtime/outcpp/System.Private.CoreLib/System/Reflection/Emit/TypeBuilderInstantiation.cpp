@@ -177,7 +177,7 @@ Type TypeBuilderInstantiation___::Substitute(Array<Type> substitutes) {
     }
 
   }
-  return GetGenericTypeDefinition()->MakeGenericType(rt::newarr<Array<Type>>(1, array));
+  return GetGenericTypeDefinition()->MakeGenericType(array);
 }
 
 ConstructorInfo TypeBuilderInstantiation___::GetConstructorImpl(BindingFlags bindingAttr, Binder binder, CallingConventions callConvention, Array<Type> types, Array<ParameterModifier> modifiers) {

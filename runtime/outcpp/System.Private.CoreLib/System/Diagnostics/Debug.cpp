@@ -58,7 +58,7 @@ void Debug::Print(String message) {
 }
 
 void Debug::Print(String format, Array<Object> args) {
-  WriteLine(String::in::Format(nullptr, format, rt::newarr<Array<Object>>(1, args)));
+  WriteLine(String::in::Format(nullptr, format, args));
 }
 
 void Debug::Assert(Boolean condition) {
@@ -94,7 +94,7 @@ void Debug::Fail(String message, String detailMessage) {
 }
 
 void Debug::Assert(Boolean condition, String message, String detailMessageFormat, Array<Object> args) {
-  Assert(condition, message, String::in::Format(detailMessageFormat, rt::newarr<Array<Object>>(1, args)));
+  Assert(condition, message, String::in::Format(detailMessageFormat, args));
 }
 
 void Debug::WriteLine(String message) {
@@ -116,7 +116,7 @@ void Debug::WriteLine(Object value, String category) {
 }
 
 void Debug::WriteLine(String format, Array<Object> args) {
-  WriteLine(String::in::Format(nullptr, format, rt::newarr<Array<Object>>(1, args)));
+  WriteLine(String::in::Format(nullptr, format, args));
 }
 
 void Debug::WriteLine(String message, String category) {

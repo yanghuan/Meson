@@ -31,7 +31,7 @@ Object ComEventsMethod___::DelegateWrapper___::Invoke(Array<Object> args) {
       }
     }
   }
-  return Delegate->DynamicInvoke(rt::newarr<Array<Object>>(1, (!WrapArgs) ? args : rt::newarr<Array<Object>>(1)));
+  return Delegate->DynamicInvoke((!WrapArgs) ? args : rt::newarr<Array<Object>>(1));
 }
 
 void ComEventsMethod___::DelegateWrapper___::PreProcessSignature() {

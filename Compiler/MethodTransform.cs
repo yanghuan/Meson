@@ -307,28 +307,30 @@ namespace Meson.Compiler {
       List<ExpressionSyntax> arguments = new List<ExpressionSyntax>();
       int i = 0;
       foreach (var argument in argumentExpressions) {
+        var resolveResult = argument.GetResolveResult();
         var parameter = symbol.Parameters[i];
         if (parameter.IsParams) {
-          var typeName = GetTypeName(parameter.Type);
-          var expressions = argumentExpressions.Skip(i).Select(i => i.AcceptExpression(this)).ToArray();
-          var invation = IdentifierSyntax.NewArray.Generic(typeName).Invation(expressions.Length.ToString());
-          invation.Arguments.AddRange(expressions);
-          arguments.Add(invation);
-          break;
-        } else {
-          var resolveResult = argument.GetResolveResult();
-          var expression = argument.AcceptExpression(this);
-          CheckArrayConflict(symbol, parameter, i, resolveResult.Type, ref expression);
-          if (argument is NamedArgumentExpression namedArgument) {
-            string name = namedArgument.Name;
-            int index = symbol.Parameters.IndexOf(i => i.Name == name);
-            if (index == -1) {
-              throw new InvalidOperationException();
-            }
-            arguments.AddAt(index, expression);
-          } else {
-            arguments.Add(expression);
+          bool isMatchParamArray = parameter.Type.Kind == TypeKind.Array && i == symbol.Parameters.Count - 1 && i == argumentExpressions.Count - 1;
+          if (!isMatchParamArray) {
+            var typeName = GetTypeName(parameter.Type);
+            var expressions = argumentExpressions.Skip(i).Select(i => i.AcceptExpression(this)).ToArray();
+            var invation = IdentifierSyntax.NewArray.Generic(typeName).Invation(expressions.Length.ToString());
+            invation.Arguments.AddRange(expressions);
+            arguments.Add(invation);
+            break;
           }
+        }
+        var expression = argument.AcceptExpression(this);
+        CheckArrayConflict(symbol, parameter, i, resolveResult.Type, ref expression);
+        if (argument is NamedArgumentExpression namedArgument) {
+          string name = namedArgument.Name;
+          int index = symbol.Parameters.IndexOf(i => i.Name == name);
+          if (index == -1) {
+            throw new InvalidOperationException();
+          }
+          arguments.AddAt(index, expression);
+        } else {
+          arguments.Add(expression);
         }
         ++i;
       }

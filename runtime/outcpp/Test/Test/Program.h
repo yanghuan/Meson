@@ -10,6 +10,7 @@ namespace Test::Test {
 namespace ProgramNamespace {
 using namespace ::System::Private::CoreLib::System;
 CLASS(Program) : public Object::in {
+  private: static void Print(Array<Object> args);
   public: static void Main(Array<String> args);
   public: void ctor();
 };

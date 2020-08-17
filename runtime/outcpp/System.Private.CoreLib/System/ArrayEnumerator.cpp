@@ -1,7 +1,6 @@
 #include "ArrayEnumerator-dep.h"
 
 #include <System.Private.CoreLib/System/ArrayEnumerator-dep.h>
-#include <System.Private.CoreLib/System/Int32-dep.h>
 #include <System.Private.CoreLib/System/ThrowHelper-dep.h>
 
 namespace System::Private::CoreLib::System::ArrayEnumeratorNamespace {
@@ -12,7 +11,7 @@ Object ArrayEnumerator___::get_Current() {
   if (_complete) {
     ThrowHelper::ThrowInvalidOperationException_InvalidOperation_EnumEnded();
   }
-  return array->GetValue(rt::newarr<Array<Int32>>(1, _indices));
+  return array->GetValue(_indices);
 }
 
 void ArrayEnumerator___::ctor(Array<> array, Int32 index, Int32 count) {

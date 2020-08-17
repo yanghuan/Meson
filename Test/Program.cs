@@ -3,13 +3,14 @@ using System.Runtime.InteropServices;
 
 namespace Test {
   class Program {
+    private static void Print(params object[] args) {
+
+    }
+
+
     private static void Main(string[] args) {
       Console.WriteLine(args);
-      int a = args.Length;
-      Console.WriteLine($"dddd{a:x}ddd");
-      lock (args) a = 2;
-      args?.Length.ToString();
-      string ss = args?.GetType()?.Assembly?.FullName.ToString();
+      Print(args, args);
     }
   }
 }

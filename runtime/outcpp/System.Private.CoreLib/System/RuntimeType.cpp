@@ -1586,9 +1586,9 @@ Object RuntimeType___::InvokeMember(String name, BindingFlags bindingFlags, Bind
           }
           Array<> array3 = (Array<>)fieldInfo->GetValue(target);
           if ((bindingFlags & BindingFlags::GetField) != 0) {
-            return array3->GetValue(rt::newarr<Array<Int32>>(1, array2));
+            return array3->GetValue(array2);
           }
-          array3->SetValue(providedArgs[num2], rt::newarr<Array<Int32>>(1, array2));
+          array3->SetValue(providedArgs[num2], array2);
           return nullptr;
         }
       }

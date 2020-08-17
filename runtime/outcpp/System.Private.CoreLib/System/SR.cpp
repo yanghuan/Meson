@@ -4330,7 +4330,7 @@ String SR::Format(String resourceFormat, Array<Object> args) {
   if (args != nullptr) {
     if (UsingResourceKeys()) {
     }
-    return String::in::Format(resourceFormat, rt::newarr<Array<Object>>(1, args));
+    return String::in::Format(resourceFormat, args);
   }
   return resourceFormat;
 }

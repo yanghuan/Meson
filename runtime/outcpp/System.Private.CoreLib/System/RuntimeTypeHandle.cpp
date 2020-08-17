@@ -68,7 +68,7 @@ RuntimeType RuntimeTypeHandle::GetTypeChecked() {
 Type RuntimeTypeHandle::GetTypeHelper(Type typeStart, Array<Type> genericArgs, IntPtr pModifiers, Int32 cModifiers) {
   Type type = typeStart;
   if (genericArgs != nullptr) {
-    type = type->MakeGenericType(rt::newarr<Array<Type>>(1, genericArgs));
+    type = type->MakeGenericType(genericArgs);
   }
   if (cModifiers > 0) {
     Int32* value = (Int32*)pModifiers.ToPointer();

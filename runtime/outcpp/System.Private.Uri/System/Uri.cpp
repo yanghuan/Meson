@@ -3077,7 +3077,7 @@ Uri Uri___::ResolveHelper(Uri baseUri, Uri relativeUri, String& newUriString, Bo
     text = String::in::Empty;
   }
   if (text->get_Length() > 0 && (UriHelper::IsLWS(text[0]) || UriHelper::IsLWS(text[text->get_Length() - 1]))) {
-    text = text->Trim(rt::newarr<Array<Char>>(1, UriHelper::s_WSchars));
+    text = text->Trim(UriHelper::s_WSchars);
   }
   if (text->get_Length() == 0) {
     newUriString = baseUri->GetParts(UriComponents::AbsoluteUri, baseUri->get_UserEscaped() ? UriFormat::UriEscaped : UriFormat::SafeUnescaped);

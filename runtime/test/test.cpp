@@ -8,6 +8,7 @@
 #include <System.Private.CoreLib/System/Int64-dep.h>
 #include <System.Private.CoreLib/System/UInt64-dep.h>
 #include <System.Private.CoreLib/System/String-dep.h>
+#include <System.Private.CoreLib/System/Threading/Volatile-dep.h>
 
 #include <cstdio>
 #include <limits>
@@ -15,6 +16,7 @@
 #include <iostream>
 
 using namespace System::Private::CoreLib::System;
+using namespace ::System::Private::CoreLib::System::Threading;
 
 class No_Complete;
 
@@ -46,20 +48,17 @@ void TestTry() {
   }
 }
 
-void Format(String format, Object arg0) { 
+template <class T>
+void Write(T& location, T value) {
+
 }
-
-
-void Format(String format, Array<Object> arg0) { 
-}
-
 
 int main() {
   TestTry();
-  Int32 a = 0;
-  Object i = a;
-  //Array<Object> arr = a;
-  Format("ddd {0}", a);
+  String a = "";
+  String b = nullptr;
+  Volatile::Write(a, b);
+  Write(a, (String)nullptr);
   return 0;
 }
 

@@ -152,7 +152,7 @@ void SyncTextWriter___::Write(String format, Object arg0, Object arg1, Object ar
 }
 
 void SyncTextWriter___::Write(String format, Array<Object> arg) {
-  _out->Write(format, rt::newarr<Array<Object>>(1, arg));
+  _out->Write(format, arg);
 }
 
 void SyncTextWriter___::WriteLine() {
@@ -232,7 +232,7 @@ void SyncTextWriter___::WriteLine(String format, Object arg0, Object arg1, Objec
 }
 
 void SyncTextWriter___::WriteLine(String format, Array<Object> arg) {
-  _out->WriteLine(format, rt::newarr<Array<Object>>(1, arg));
+  _out->WriteLine(format, arg);
 }
 
 ValueTask<> SyncTextWriter___::DisposeAsync() {
@@ -481,7 +481,7 @@ void TextWriter___::Write(String format, Object arg0, Object arg1, Object arg2) 
 }
 
 void TextWriter___::Write(String format, Array<Object> arg) {
-  Write(String::in::Format(get_FormatProvider(), format, rt::newarr<Array<Object>>(1, arg)));
+  Write(String::in::Format(get_FormatProvider(), format, arg));
 }
 
 void TextWriter___::WriteLine() {
@@ -592,7 +592,7 @@ void TextWriter___::WriteLine(String format, Object arg0, Object arg1, Object ar
 }
 
 void TextWriter___::WriteLine(String format, Array<Object> arg) {
-  WriteLine(String::in::Format(get_FormatProvider(), format, rt::newarr<Array<Object>>(1, arg)));
+  WriteLine(String::in::Format(get_FormatProvider(), format, arg));
 }
 
 Task<> TextWriter___::WriteAsync(Char value) {

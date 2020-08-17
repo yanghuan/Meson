@@ -26,7 +26,7 @@ Object FormattableStringFactory::ConcreteFormattableString___::GetArgument(Int32
 }
 
 String FormattableStringFactory::ConcreteFormattableString___::ToString(IFormatProvider formatProvider) {
-  return String::in::Format(formatProvider, _format, rt::newarr<Array<Object>>(1, _arguments));
+  return String::in::Format(formatProvider, _format, _arguments);
 }
 
 FormattableString FormattableStringFactory::Create(String format, Array<Object> arguments) {

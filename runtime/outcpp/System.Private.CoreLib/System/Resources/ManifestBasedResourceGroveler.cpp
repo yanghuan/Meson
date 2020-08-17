@@ -133,7 +133,7 @@ ResourceSet ManifestBasedResourceGroveler___::CreateResourceSet(Stream store, As
         resourceReader = rt::newobj<ResourceReader>(store, rt::newobj<Dictionary<String, ResourceLocator>>(FastResourceComparer::in::Default), true);
       } else {
         Type type = Type::in::GetType(text, true);
-        resourceReader = (IResourceReader)Activator::CreateInstance(type, rt::newarr<Array<Object>>(1, store));
+        resourceReader = (IResourceReader)Activator::CreateInstance(type, store);
       }
       Array<Object> args = rt::newarr<Array<Object>>(1);
       Type type2 = (!(_mediator->get_UserResourceSet() == nullptr)) ? _mediator->get_UserResourceSet() : Type::in::GetType(text2, true, false);
@@ -147,10 +147,10 @@ ResourceSet ManifestBasedResourceGroveler___::CreateResourceSet(Stream store, As
   Array<Object> args2 = rt::newarr<Array<Object>>(2);
   try {
     try {
-      return (ResourceSet)Activator::CreateInstance(_mediator->get_UserResourceSet(), rt::newarr<Array<Object>>(1, args2));
+      return (ResourceSet)Activator::CreateInstance(_mediator->get_UserResourceSet(), args2);
     } catch (MissingMethodException) {
     }
-    return (ResourceSet)Activator::CreateInstance(nullptr, rt::newarr<Array<Object>>(1), rt::newarr<Array<Object>>(1, _mediator->get_UserResourceSet()));
+    return (ResourceSet)Activator::CreateInstance(_mediator->get_UserResourceSet(), rt::newarr<Array<Object>>(1));
   } catch (MissingMethodException innerException) {
   }
 }

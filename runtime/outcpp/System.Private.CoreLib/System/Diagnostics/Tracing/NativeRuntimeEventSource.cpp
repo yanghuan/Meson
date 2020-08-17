@@ -11,7 +11,7 @@ void NativeRuntimeEventSource___::ctor() {
 void NativeRuntimeEventSource___::ProcessEvent(UInt32 eventID, UInt32 osThreadID, DateTime timeStamp, Guid activityId, Guid childActivityId, ReadOnlySpan<Byte> payload) {
   if (eventID < m_eventData->get_Length()) {
     Array<Object> args = EventPipePayloadDecoder::DecodePayload(m_eventData[eventID], payload);
-    WriteToAllListeners((Int32)eventID, &osThreadID, &timeStamp, &activityId, &childActivityId, rt::newarr<Array<Object>>(1, args));
+    WriteToAllListeners((Int32)eventID, &osThreadID, &timeStamp, &activityId, &childActivityId, args);
   }
 }
 

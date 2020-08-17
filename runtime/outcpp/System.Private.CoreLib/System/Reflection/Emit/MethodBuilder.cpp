@@ -171,11 +171,11 @@ void MethodBuilder___::ctor(String name, MethodAttributes attributes, CallingCon
 }
 
 void MethodBuilder___::CheckContext(Array<Array<Type>> typess) {
-  m_module->CheckContext(rt::newarr<Array<Array<Type>>>(1, typess));
+  m_module->CheckContext(typess);
 }
 
 void MethodBuilder___::CheckContext(Array<Type> types) {
-  m_module->CheckContext(rt::newarr<Array<Type>>(1, types));
+  m_module->CheckContext(types);
 }
 
 void MethodBuilder___::CreateMethodBodyHelper(ILGenerator il) {
@@ -485,21 +485,21 @@ MethodToken MethodBuilder___::GetTokenNoLock() {
 }
 
 void MethodBuilder___::SetParameters(Array<Type> parameterTypes) {
-  CheckContext(rt::newarr<Array<Type>>(1, parameterTypes));
+  CheckContext(parameterTypes);
   SetSignature(nullptr, nullptr, nullptr, parameterTypes, nullptr, nullptr);
 }
 
 void MethodBuilder___::SetReturnType(Type returnType) {
-  CheckContext(rt::newarr<Array<Type>>(1, returnType));
+  CheckContext(returnType);
   SetSignature(returnType, nullptr, nullptr, nullptr, nullptr, nullptr);
 }
 
 void MethodBuilder___::SetSignature(Type returnType, Array<Type> returnTypeRequiredCustomModifiers, Array<Type> returnTypeOptionalCustomModifiers, Array<Type> parameterTypes, Array<Array<Type>> parameterTypeRequiredCustomModifiers, Array<Array<Type>> parameterTypeOptionalCustomModifiers) {
   if (m_tkMethod.get_Token() == 0) {
-    CheckContext(rt::newarr<Array<Type>>(1, returnType));
+    CheckContext(returnType);
     CheckContext(rt::newarr<Array<Array<Type>>>(3, returnTypeRequiredCustomModifiers, returnTypeOptionalCustomModifiers, parameterTypes));
-    CheckContext(rt::newarr<Array<Array<Type>>>(1, parameterTypeRequiredCustomModifiers));
-    CheckContext(rt::newarr<Array<Array<Type>>>(1, parameterTypeOptionalCustomModifiers));
+    CheckContext(parameterTypeRequiredCustomModifiers);
+    CheckContext(parameterTypeOptionalCustomModifiers);
     ThrowIfGeneric();
     if (returnType != nullptr) {
       m_returnType = returnType;

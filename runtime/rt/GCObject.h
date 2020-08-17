@@ -284,7 +284,7 @@ namespace rt {
       return p_ == nullptr ? nullptr : &p->GetPinnableReference();
     }
 
-    template <class R, class T1 = T> requires(!IsRef<R> && IsObject<T1>)
+    template <class R, class T1 = T> requires(IsObject<T1>)
     explicit operator R() {
       return R();
     }
@@ -687,17 +687,22 @@ namespace rt {
     }
   };
 
+  template <class T>
+  size_t GetArrayIndex(const T& index) {
+    if constexpr (CodeOf<T> == TypeCode::None) {
+      return index;
+    }  else {
+      return index.get();
+    }
+  }
+
   template <class T, size_t N>
   struct FixedBuffer {
     T v[N];
 
-    constexpr T& operator [](int32_t index) {
-      return v[index];
-    }
-
     template <class Size> 
     constexpr T& operator [](const Size& index) {
-      return v[index.get()];
+      return v[GetArrayIndex(index)];
     }
   };
 
@@ -744,7 +749,7 @@ namespace rt {
   template <class A, class Size>
   inline auto newarr(const Size& n) {
     using T = A::in::element_type;
-    return *reinterpret_cast<A*>(&rt::Array<T, object>::newarr(n.get()));
+    return *reinterpret_cast<A*>(&rt::Array<T, object>::newarr(GetArrayIndex(n)));
   }
 
   template <class T>
@@ -752,16 +757,6 @@ namespace rt {
   }
 
 }  // namespace rt
-
-template <class T, class T1> requires(std::is_arithmetic_v<T> && rt::IsArithmetic<T1>) 
-inline auto operator *(const T& a, const T1& b) { 
-  return b * a;
-}
-
-template <class T> requires(std::is_enum_v<T>) 
-inline auto operator |=(T& a, const T& b) { 
-  return a = (T)((int)a | (int)b);
-}
 
 template <class T> requires(std::is_enum_v<T>) 
 inline constexpr bool operator ==(const T& a, int32_t b) { 
@@ -771,6 +766,21 @@ inline constexpr bool operator ==(const T& a, int32_t b) {
 template <class T> requires(std::is_enum_v<T>) 
 inline constexpr bool operator !=(const T& a, int32_t b) { 
   return a != b;
+}
+
+template <class T, class T1> requires(std::is_arithmetic_v<T> && rt::IsArithmetic<T1>) 
+inline auto operator *(const T& a, const T1& b) { 
+  return b * a;
+}
+
+template <class T> requires(std::is_enum_v<T>) 
+inline auto operator &(T& a, const T& b) { 
+  return (T)((int)a & (int)b);
+}
+
+template <class T> requires(std::is_enum_v<T>) 
+inline auto operator |=(T& a, const T& b) { 
+  return a = (T)((int)a | (int)b);
 }
 
 #if defined(_MSC_VER)
