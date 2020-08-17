@@ -290,15 +290,24 @@ namespace Meson.Compiler {
     }
 
     private void CheckArrayConflict(IMethod symbol, IParameter parameter, int index, IType type, ref ExpressionSyntax expression) {
+      bool isCast = false;
       if (type.Kind == TypeKind.Array && parameter.Type.Kind == TypeKind.Array && parameter.Type.FullName != type.FullName) {
         bool exists = symbol.DeclaringTypeDefinition.Methods.Any(i => i != symbol
           && i.Name == symbol.Name
           && i.Parameters.Count == symbol.Parameters.Count
           && type.Is(i.Parameters[index].Type.Original()));
         if (exists) {
-          var targetType = GetTypeName(parameter.Type, parameter);
-          expression = expression.CastTo(targetType);
+          isCast = true;
         }
+      }
+
+      if (type.Kind == TypeKind.Null && ((IMethod)symbol.MemberDefinition).Parameters[index].Type.Kind == TypeKind.TypeParameter) {
+        isCast = true;
+      }
+
+      if (isCast) {
+        var targetType = GetTypeName(parameter.Type, parameter);
+        expression = expression.CastTo(targetType);
       }
     }
 

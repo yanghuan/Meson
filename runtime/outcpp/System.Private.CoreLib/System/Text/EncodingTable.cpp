@@ -63,7 +63,7 @@ Array<EncodingInfo> EncodingTable::GetEncodings() {
 
 CodePageDataItem EncodingTable::GetCodePageDataItem(Int32 codePage) {
   if (s_codePageToCodePageData == nullptr) {
-    Interlocked::CompareExchange(s_codePageToCodePageData, rt::newarr<Array<CodePageDataItem>>(s_mappedCodePages->get_Length()), nullptr);
+    Interlocked::CompareExchange(s_codePageToCodePageData, rt::newarr<Array<CodePageDataItem>>(s_mappedCodePages->get_Length()), (Array<CodePageDataItem>)nullptr);
   }
   Int32 num;
   switch (codePage.get()) {
@@ -96,7 +96,7 @@ CodePageDataItem EncodingTable::GetCodePageDataItem(Int32 codePage) {
   }
   CodePageDataItem codePageDataItem = s_codePageToCodePageData[num];
   if (codePageDataItem == nullptr) {
-    Interlocked::CompareExchange(s_codePageToCodePageData[num], InternalGetCodePageDataItem(codePage, num), nullptr);
+    Interlocked::CompareExchange(s_codePageToCodePageData[num], InternalGetCodePageDataItem(codePage, num), (CodePageDataItem)nullptr);
     codePageDataItem = s_codePageToCodePageData[num];
   }
   return codePageDataItem;

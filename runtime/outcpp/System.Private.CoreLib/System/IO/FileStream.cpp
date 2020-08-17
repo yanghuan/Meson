@@ -163,7 +163,7 @@ void FileStream___::AsyncCopyToAwaitable___::IOCallback(UInt32 errorCode, UInt32
   asyncCopyToAwaitable->_errorCode = errorCode;
   asyncCopyToAwaitable->_numBytes = numBytes;
   auto& default = asyncCopyToAwaitable->_continuation;
-  auto& extern = (default != nullptr ? default : Interlocked::CompareExchange(asyncCopyToAwaitable->_continuation, s_sentinel, nullptr));
+  auto& extern = (default != nullptr ? default : Interlocked::CompareExchange(asyncCopyToAwaitable->_continuation, s_sentinel, (Action)nullptr));
   extern == nullptr ? nullptr : extern->Invoke();
 }
 
@@ -183,7 +183,7 @@ void FileStream___::AsyncCopyToAwaitable___::OnCompleted(Action<> continuation) 
 }
 
 void FileStream___::AsyncCopyToAwaitable___::UnsafeOnCompleted(Action<> continuation) {
-  if ((Object)_continuation == s_sentinel || Interlocked::CompareExchange(_continuation, continuation, nullptr) != nullptr) {
+  if ((Object)_continuation == s_sentinel || Interlocked::CompareExchange(_continuation, continuation, (Action)nullptr) != nullptr) {
     Task::in::Run(continuation);
   }
 }

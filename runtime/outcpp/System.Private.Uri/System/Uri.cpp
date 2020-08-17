@@ -51,7 +51,7 @@ void Uri___::MoreInfo___::ctor() {
 
 Uri::in::MoreInfo Uri___::UriInfo___::get_MoreInfo() {
   if (_moreInfo == nullptr) {
-    Interlocked::CompareExchange(_moreInfo, rt::newobj<MoreInfo>(), nullptr);
+    Interlocked::CompareExchange(_moreInfo, rt::newobj<MoreInfo>(), (MoreInfo)nullptr);
   }
   return _moreInfo;
 }
@@ -1192,7 +1192,7 @@ void Uri___::CreateUriInfo(Flags cF) {
     }
   }
   cF |= Flags::MinimalUriInfoSet;
-  Interlocked::CompareExchange(_info, uriInfo, nullptr);
+  Interlocked::CompareExchange(_info, uriInfo, (UriInfo)nullptr);
   Flags flags = _flags;
   while ((flags & Flags::MinimalUriInfoSet) == Flags::Zero) {
     Flags value = (Flags)((UInt64)((Int64)flags & -65536) | (UInt64)cF);

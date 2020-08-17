@@ -810,7 +810,7 @@ void EventSource___::WriteEventWithRelatedActivityIdCore(Int32 eventId, Guid* re
         TraceLoggingEventTypes traceLoggingEventTypes = m_eventData[eventId].TraceLoggingEventTypes;
         if (traceLoggingEventTypes == nullptr) {
           traceLoggingEventTypes = rt::newobj<TraceLoggingEventTypes>(m_eventData[eventId].Name, m_eventData[eventId].Tags, m_eventData[eventId].Parameters);
-          Interlocked::CompareExchange(m_eventData[eventId].TraceLoggingEventTypes, traceLoggingEventTypes, nullptr);
+          Interlocked::CompareExchange(m_eventData[eventId].TraceLoggingEventTypes, traceLoggingEventTypes, (TraceLoggingEventTypes)nullptr);
         }
         EventSourceOptions eventSourceOptions = EventSourceOptions();
         eventSourceOptions.set_Keywords = (EventKeywords)m_eventData[eventId].Descriptor.get_Keywords();
@@ -1104,7 +1104,7 @@ void EventSource___::WriteEventVarargs(Int32 eventId, Guid* childActivityID, Arr
         TraceLoggingEventTypes traceLoggingEventTypes = m_eventData[eventId].TraceLoggingEventTypes;
         if (traceLoggingEventTypes == nullptr) {
           traceLoggingEventTypes = rt::newobj<TraceLoggingEventTypes>(m_eventData[eventId].Name, EventTags::None, m_eventData[eventId].Parameters);
-          Interlocked::CompareExchange(m_eventData[eventId].TraceLoggingEventTypes, traceLoggingEventTypes, nullptr);
+          Interlocked::CompareExchange(m_eventData[eventId].TraceLoggingEventTypes, traceLoggingEventTypes, (TraceLoggingEventTypes)nullptr);
         }
         EventSourceOptions eventSourceOptions = EventSourceOptions();
         eventSourceOptions.set_Keywords = (EventKeywords)m_eventData[eventId].Descriptor.get_Keywords();
@@ -1130,7 +1130,7 @@ Array<Object> EventSource___::SerializeEventArgs(Int32 eventId, Array<Object> ar
   TraceLoggingEventTypes traceLoggingEventTypes = m_eventData[eventId].TraceLoggingEventTypes;
   if (traceLoggingEventTypes == nullptr) {
     traceLoggingEventTypes = rt::newobj<TraceLoggingEventTypes>(m_eventData[eventId].Name, EventTags::None, m_eventData[eventId].Parameters);
-    Interlocked::CompareExchange(m_eventData[eventId].TraceLoggingEventTypes, traceLoggingEventTypes, nullptr);
+    Interlocked::CompareExchange(m_eventData[eventId].TraceLoggingEventTypes, traceLoggingEventTypes, (TraceLoggingEventTypes)nullptr);
   }
   Int32 num = Math::Min(traceLoggingEventTypes->typeInfos->get_Length(), args->get_Length());
   Array<Object> array = rt::newarr<Array<Object>>(traceLoggingEventTypes->typeInfos->get_Length());

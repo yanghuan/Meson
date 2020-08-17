@@ -85,7 +85,7 @@ void ManualResetEventSlim___::EnsureLockObjectCreated() {
 void ManualResetEventSlim___::LazyInitializeEvent() {
   Boolean isSet = get_IsSet();
   ManualResetEvent manualResetEvent = rt::newobj<ManualResetEvent>(isSet);
-  if (Interlocked::CompareExchange(m_eventObj, manualResetEvent, nullptr) != nullptr) {
+  if (Interlocked::CompareExchange(m_eventObj, manualResetEvent, (ManualResetEvent)nullptr) != nullptr) {
     manualResetEvent->Dispose();
     return;
   }

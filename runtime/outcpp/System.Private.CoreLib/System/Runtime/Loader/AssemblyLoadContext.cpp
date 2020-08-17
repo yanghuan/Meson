@@ -354,7 +354,7 @@ void AssemblyLoadContext___::VerifyIsAlive() {
 
 void AssemblyLoadContext___::SetCurrentContextualReflectionContext(AssemblyLoadContext value) {
   if (s_asyncLocalCurrent == nullptr) {
-    Interlocked::CompareExchange(s_asyncLocalCurrent, rt::newobj<AsyncLocal<AssemblyLoadContext>>(), nullptr);
+    Interlocked::CompareExchange(s_asyncLocalCurrent, rt::newobj<AsyncLocal<AssemblyLoadContext>>(), (AsyncLocal<AssemblyLoadContext>)nullptr);
   }
   s_asyncLocalCurrent->set_Value = value;
 }

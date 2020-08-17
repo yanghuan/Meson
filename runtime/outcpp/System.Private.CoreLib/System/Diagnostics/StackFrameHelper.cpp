@@ -53,7 +53,7 @@ void StackFrameHelper___::InitializeSourceInfo(Int32 iSkip, Boolean fNeedFileInf
       if (!(method == nullptr)) {
         Object target = Activator::CreateInstance(type);
         GetSourceLineInfoDelegate value = method->CreateDelegate<GetSourceLineInfoDelegate>(target);
-        Interlocked::CompareExchange(s_getSourceLineInfo, value, nullptr);
+        Interlocked::CompareExchange(s_getSourceLineInfo, value, (GetSourceLineInfoDelegate)nullptr);
         goto IL_012b;
       }
     }

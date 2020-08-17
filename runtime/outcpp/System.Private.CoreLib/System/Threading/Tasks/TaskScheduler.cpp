@@ -103,10 +103,10 @@ void TaskScheduler___::ctor() {
 void TaskScheduler___::AddToActiveTaskSchedulers() {
   ConditionalWeakTable<TaskScheduler, Object> conditionalWeakTable = s_activeTaskSchedulers;
   if (conditionalWeakTable == nullptr) {
-    Interlocked::CompareExchange(s_activeTaskSchedulers, rt::newobj<ConditionalWeakTable<TaskScheduler, Object>>(), nullptr);
+    Interlocked::CompareExchange(s_activeTaskSchedulers, rt::newobj<ConditionalWeakTable<TaskScheduler, Object>>(), (ConditionalWeakTable<TaskScheduler, Object>)nullptr);
     conditionalWeakTable = s_activeTaskSchedulers;
   }
-  conditionalWeakTable->Add((TaskScheduler)this, nullptr);
+  conditionalWeakTable->Add((TaskScheduler)this, (Object)nullptr);
 }
 
 TaskScheduler TaskScheduler___::FromCurrentSynchronizationContext() {

@@ -52,7 +52,7 @@ void AppContext::SetData(String name, Object data) {
     rt::throw_exception<ArgumentNullException>("name");
   }
   if (s_dataStore == nullptr) {
-    Interlocked::CompareExchange(s_dataStore, rt::newobj<Dictionary<String, Object>>(), nullptr);
+    Interlocked::CompareExchange(s_dataStore, rt::newobj<Dictionary<String, Object>>(), (Dictionary<String, Object>)nullptr);
   }
   {
     rt::lock(s_dataStore);
@@ -95,7 +95,7 @@ void AppContext::SetSwitch(String switchName, Boolean isEnabled) {
     rt::throw_exception<ArgumentException>(SR::get_Argument_EmptyName(), "switchName");
   }
   if (s_switches == nullptr) {
-    Interlocked::CompareExchange(s_switches, rt::newobj<Dictionary<String, Boolean>>(), nullptr);
+    Interlocked::CompareExchange(s_switches, rt::newobj<Dictionary<String, Boolean>>(), (Dictionary<String, Boolean>)nullptr);
   }
   {
     rt::lock(s_switches);

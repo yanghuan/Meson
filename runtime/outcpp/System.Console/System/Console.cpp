@@ -10,6 +10,7 @@
 #include <System.Private.CoreLib/System/ArgumentOutOfRangeException-dep.h>
 #include <System.Private.CoreLib/System/InvalidOperationException-dep.h>
 #include <System.Private.CoreLib/System/IO/StreamWriter-dep.h>
+#include <System.Private.CoreLib/System/IO/TextWriter-dep.h>
 #include <System.Private.CoreLib/System/Runtime/CompilerServices/StrongBox-dep.h>
 #include <System.Private.CoreLib/System/Threading/Volatile-dep.h>
 
@@ -56,7 +57,7 @@ void Console::set_InputEncoding(Encoding value) {
     rt::lock(s_syncObject);
     ConsolePal::SetConsoleInputEncoding(value);
     Volatile::Write(s_inputEncoding, (Encoding)value->Clone());
-    Volatile::Write(s_in, nullptr);
+    Volatile::Write(s_in, (TextReader)nullptr);
   }
 }
 
@@ -81,11 +82,11 @@ void Console::set_OutputEncoding(Encoding value) {
     ConsolePal::SetConsoleOutputEncoding(value);
     if (s_out != nullptr && !s_isOutTextWriterRedirected) {
       s_out->Flush();
-      Volatile::Write(s_out, nullptr);
+      Volatile::Write(s_out, (TextWriter)nullptr);
     }
     if (s_error != nullptr && !s_isErrorTextWriterRedirected) {
       s_error->Flush();
-      Volatile::Write(s_error, nullptr);
+      Volatile::Write(s_error, (TextWriter)nullptr);
     }
     Volatile::Write(s_outputEncoding, (Encoding)value->Clone());
   }

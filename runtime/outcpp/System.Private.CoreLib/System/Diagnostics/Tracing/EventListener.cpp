@@ -24,7 +24,7 @@ using namespace System::Threading;
 
 Object EventListener___::get_EventListenersLock() {
   if (s_EventSources == nullptr) {
-    Interlocked::CompareExchange(s_EventSources, rt::newobj<List<WeakReference<EventSource>>>(2), nullptr);
+    Interlocked::CompareExchange(s_EventSources, rt::newobj<List<WeakReference<EventSource>>>(2), (List<WeakReference<EventSource>>)nullptr);
   }
   return s_EventSources;
 }

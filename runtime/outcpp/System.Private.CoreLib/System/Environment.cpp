@@ -134,7 +134,7 @@ String Environment::get_NewLine() {
 
 OperatingSystem Environment::get_OSVersion() {
   if (s_osVersion == nullptr) {
-    Interlocked::CompareExchange(s_osVersion, GetOSVersion(), nullptr);
+    Interlocked::CompareExchange(s_osVersion, GetOSVersion(), (OperatingSystem)nullptr);
   }
   return s_osVersion;
 }

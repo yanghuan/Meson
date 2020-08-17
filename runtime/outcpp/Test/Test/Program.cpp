@@ -6,12 +6,9 @@
 namespace Test::Test::ProgramNamespace {
 using namespace ::System::Console::System;
 
-void Program___::Print(Array<Object> args) {
-}
-
 void Program___::Main(Array<String> args) {
   Console::WriteLine(args);
-  Print(rt::newarr<Array<Object>>(2, args, args));
+  Write(args, (Array<String>)nullptr);
 }
 
 void Program___::ctor() {

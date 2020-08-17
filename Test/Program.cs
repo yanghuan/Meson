@@ -3,14 +3,13 @@ using System.Runtime.InteropServices;
 
 namespace Test {
   class Program {
-    private static void Print(params object[] args) {
+    private static void Write<T>(ref T a, T b) {
 
     }
 
-
     private static void Main(string[] args) {
       Console.WriteLine(args);
-      Print(args, args);
+      Write(ref args, null);
     }
   }
 }

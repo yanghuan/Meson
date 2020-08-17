@@ -58,7 +58,7 @@ int main() {
   String a = "";
   String b = nullptr;
   Volatile::Write(a, b);
-  Write(a, (String)nullptr);
+  Write(a, nullptr);
   return 0;
 }
 

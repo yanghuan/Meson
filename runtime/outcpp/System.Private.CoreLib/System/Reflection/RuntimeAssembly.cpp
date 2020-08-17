@@ -63,7 +63,7 @@ String RuntimeAssembly___::get_FullName() {
     String s = nullptr;
     RuntimeAssembly assembly = (RuntimeAssembly)this;
     GetFullName(QCallAssembly(assembly), StringHandleOnStack(s));
-    Interlocked::CompareExchange(m_fullname, s, nullptr);
+    Interlocked::CompareExchange(m_fullname, s, (String)nullptr);
   }
   return m_fullname;
 }

@@ -11,7 +11,7 @@ using namespace System::Threading;
 
 ConditionalWeakTable<Object, SerializationInfo> HashHelpers::get_SerializationInfoTable() {
   if (s_serializationInfoTable == nullptr) {
-    Interlocked::CompareExchange(s_serializationInfoTable, rt::newobj<ConditionalWeakTable<Object, SerializationInfo>>(), nullptr);
+    Interlocked::CompareExchange(s_serializationInfoTable, rt::newobj<ConditionalWeakTable<Object, SerializationInfo>>(), (ConditionalWeakTable<Object, SerializationInfo>)nullptr);
   }
   return s_serializationInfoTable;
 }

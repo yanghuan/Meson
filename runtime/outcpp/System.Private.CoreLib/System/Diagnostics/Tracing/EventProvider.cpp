@@ -510,7 +510,7 @@ Boolean EventProvider___::WriteEvent(EventDescriptor& eventDescriptor, IntPtr ev
     }
     if (!flag && i < 8) {
       for (; i < 8; i++) {
-        list2->Add(nullptr);
+        list2->Add((Object)nullptr);
       }
       {
         Char* ptr3 = (String)list2[0];

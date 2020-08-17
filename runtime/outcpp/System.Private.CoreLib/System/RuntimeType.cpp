@@ -1521,7 +1521,7 @@ Object RuntimeType___::InvokeMember(String name, BindingFlags bindingFlags, Bind
     } catch (TargetInvocationException ex) {
     }
   }
-  if (namedParams != nullptr && Array<>::in::IndexOf(namedParams, nullptr) != -1) {
+  if (namedParams != nullptr && Array<>::in::IndexOf(namedParams, (String)nullptr) != -1) {
     rt::throw_exception<ArgumentException>(SR::get_Arg_NamedParamNull(), "namedParams");
   }
   Int32 num = (providedArgs != nullptr) ? providedArgs->get_Length() : 0;

@@ -253,7 +253,7 @@ ManualResetEventSlim Task___<>::get_CompletedEvent() {
   if (contingentProperties->m_completionEvent == nullptr) {
     Boolean isCompleted = get_IsCompleted();
     ManualResetEventSlim manualResetEventSlim = rt::newobj<ManualResetEventSlim>(isCompleted);
-    if (Interlocked::CompareExchange(contingentProperties->m_completionEvent, manualResetEventSlim, nullptr) != nullptr) {
+    if (Interlocked::CompareExchange(contingentProperties->m_completionEvent, manualResetEventSlim, (ManualResetEventSlim)nullptr) != nullptr) {
       manualResetEventSlim->Dispose();
     } else if (!isCompleted && get_IsCompleted()) {
       manualResetEventSlim->Set();

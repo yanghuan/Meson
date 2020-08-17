@@ -10,14 +10,14 @@ using namespace System::Threading;
 
 EncoderFallback EncoderFallback___::get_ReplacementFallback() {
   if (s_replacementFallback == nullptr) {
-    Interlocked::CompareExchange(s_replacementFallback, rt::newobj<EncoderReplacementFallback>(), nullptr);
+    Interlocked::CompareExchange(s_replacementFallback, rt::newobj<EncoderReplacementFallback>(), (EncoderFallback)nullptr);
   }
   return s_replacementFallback;
 }
 
 EncoderFallback EncoderFallback___::get_ExceptionFallback() {
   if (s_exceptionFallback == nullptr) {
-    Interlocked::CompareExchange(s_exceptionFallback, rt::newobj<EncoderExceptionFallback>(), nullptr);
+    Interlocked::CompareExchange(s_exceptionFallback, rt::newobj<EncoderExceptionFallback>(), (EncoderFallback)nullptr);
   }
   return s_exceptionFallback;
 }

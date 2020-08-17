@@ -293,7 +293,7 @@ RuntimeTypeHandle Type___::get_TypeHandle() {
 Binder Type___::get_DefaultBinder() {
   if (s_defaultBinder == nullptr) {
     DefaultBinder value = rt::newobj<DefaultBinder>();
-    Interlocked::CompareExchange(s_defaultBinder, value, nullptr);
+    Interlocked::CompareExchange(s_defaultBinder, value, (Binder)nullptr);
   }
   return s_defaultBinder;
 }

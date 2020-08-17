@@ -100,7 +100,7 @@ Boolean ThreadPoolWorkQueue___::WorkStealingQueue___::LocalFindAndPop(Object obj
         if (m_array[num & m_mask] == nullptr) {
           return false;
         }
-        Volatile::Write(m_array[num & m_mask], nullptr);
+        Volatile::Write(m_array[num & m_mask], (Object)nullptr);
         if (num == m_tailIndex) {
           m_tailIndex--;
         } else if (num == m_headIndex) {

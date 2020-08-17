@@ -49,7 +49,7 @@ void CultureInfo___::set_CurrentCulture(CultureInfo value) {
     rt::throw_exception<ArgumentNullException>("value");
   }
   if (s_asyncLocalCurrentCulture == nullptr) {
-    Interlocked::CompareExchange(s_asyncLocalCurrentCulture, rt::newobj<AsyncLocal<CultureInfo>>(rt::newobj<Action<AsyncLocalValueChangedArgs<CultureInfo>>>(&AsyncLocalSetCurrentCulture)), nullptr);
+    Interlocked::CompareExchange(s_asyncLocalCurrentCulture, rt::newobj<AsyncLocal<CultureInfo>>(rt::newobj<Action<AsyncLocalValueChangedArgs<CultureInfo>>>(&AsyncLocalSetCurrentCulture)), (AsyncLocal<CultureInfo>)nullptr);
   }
   s_asyncLocalCurrentCulture->set_Value = value;
 }
@@ -66,7 +66,7 @@ void CultureInfo___::set_CurrentUICulture(CultureInfo value) {
   }
   VerifyCultureName(value, true);
   if (s_asyncLocalCurrentUICulture == nullptr) {
-    Interlocked::CompareExchange(s_asyncLocalCurrentUICulture, rt::newobj<AsyncLocal<CultureInfo>>(rt::newobj<Action<AsyncLocalValueChangedArgs<CultureInfo>>>(&AsyncLocalSetCurrentUICulture)), nullptr);
+    Interlocked::CompareExchange(s_asyncLocalCurrentUICulture, rt::newobj<AsyncLocal<CultureInfo>>(rt::newobj<Action<AsyncLocalValueChangedArgs<CultureInfo>>>(&AsyncLocalSetCurrentUICulture)), (AsyncLocal<CultureInfo>)nullptr);
   }
   s_asyncLocalCurrentUICulture->set_Value = value;
 }
@@ -209,7 +209,7 @@ NumberFormatInfo CultureInfo___::get_NumberFormat() {
   if (_numInfo == nullptr) {
     NumberFormatInfo numberFormatInfo = rt::newobj<NumberFormatInfo>(_cultureData);
     numberFormatInfo->_isReadOnly = _isReadOnly;
-    Interlocked::CompareExchange(_numInfo, numberFormatInfo, nullptr);
+    Interlocked::CompareExchange(_numInfo, numberFormatInfo, (NumberFormatInfo)nullptr);
   }
   return _numInfo;
 }
@@ -226,7 +226,7 @@ DateTimeFormatInfo CultureInfo___::get_DateTimeFormat() {
   if (_dateTimeInfo == nullptr) {
     DateTimeFormatInfo dateTimeFormatInfo = rt::newobj<DateTimeFormatInfo>(_cultureData, get_Calendar());
     dateTimeFormatInfo->_isReadOnly = _isReadOnly;
-    Interlocked::CompareExchange(_dateTimeInfo, dateTimeFormatInfo, nullptr);
+    Interlocked::CompareExchange(_dateTimeInfo, dateTimeFormatInfo, (DateTimeFormatInfo)nullptr);
   }
   return _dateTimeInfo;
 }
@@ -274,7 +274,7 @@ Dictionary<String, CultureInfo> CultureInfo___::get_CachedCulturesByName() {
   Dictionary<String, CultureInfo> dictionary = s_cachedCulturesByName;
   if (dictionary == nullptr) {
     dictionary = rt::newobj<Dictionary<String, CultureInfo>>();
-    auto& default = Interlocked::CompareExchange(s_cachedCulturesByName, dictionary, nullptr);
+    auto& default = Interlocked::CompareExchange(s_cachedCulturesByName, dictionary, (Dictionary<String, CultureInfo>)nullptr);
     dictionary = (default != nullptr ? default : dictionary);
   }
   return dictionary;
@@ -284,7 +284,7 @@ Dictionary<Int32, CultureInfo> CultureInfo___::get_CachedCulturesByLcid() {
   Dictionary<Int32, CultureInfo> dictionary = s_cachedCulturesByLcid;
   if (dictionary == nullptr) {
     dictionary = rt::newobj<Dictionary<Int32, CultureInfo>>();
-    auto& default = Interlocked::CompareExchange(s_cachedCulturesByLcid, dictionary, nullptr);
+    auto& default = Interlocked::CompareExchange(s_cachedCulturesByLcid, dictionary, (Dictionary<Int32, CultureInfo>)nullptr);
     dictionary = (default != nullptr ? default : dictionary);
   }
   return dictionary;
@@ -299,12 +299,12 @@ void CultureInfo___::AsyncLocalSetCurrentUICulture(AsyncLocalValueChangedArgs<Cu
 }
 
 CultureInfo CultureInfo___::InitializeUserDefaultCulture() {
-  Interlocked::CompareExchange(s_userDefaultCulture, GetUserDefaultCulture(), nullptr);
+  Interlocked::CompareExchange(s_userDefaultCulture, GetUserDefaultCulture(), (CultureInfo)nullptr);
   return s_userDefaultCulture;
 }
 
 CultureInfo CultureInfo___::InitializeUserDefaultUICulture() {
-  Interlocked::CompareExchange(s_userDefaultUICulture, GetUserDefaultUICulture(), nullptr);
+  Interlocked::CompareExchange(s_userDefaultUICulture, GetUserDefaultUICulture(), (CultureInfo)nullptr);
   return s_userDefaultUICulture;
 }
 

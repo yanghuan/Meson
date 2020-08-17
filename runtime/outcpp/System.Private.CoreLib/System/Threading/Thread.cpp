@@ -30,7 +30,7 @@ Dictionary<String, LocalDataStoreSlot> Thread___::LocalDataStore::EnsureNameToSl
     return dictionary;
   }
   dictionary = rt::newobj<Dictionary<String, LocalDataStoreSlot>>();
-  auto& default = Interlocked::CompareExchange(s_nameToSlotMap, dictionary, nullptr);
+  auto& default = Interlocked::CompareExchange(s_nameToSlotMap, dictionary, (Dictionary<String, LocalDataStoreSlot>)nullptr);
   return default != nullptr ? default : dictionary;
 }
 
@@ -151,7 +151,7 @@ void Thread___::set_CurrentPrincipal(IPrincipal value) {
     if (value == nullptr) {
       return;
     }
-    Interlocked::CompareExchange(s_asyncLocalPrincipal, rt::newobj<AsyncLocal<IPrincipal>>(), nullptr);
+    Interlocked::CompareExchange(s_asyncLocalPrincipal, rt::newobj<AsyncLocal<IPrincipal>>(), (AsyncLocal<IPrincipal>)nullptr);
   }
   s_asyncLocalPrincipal->set_Value = value;
 }

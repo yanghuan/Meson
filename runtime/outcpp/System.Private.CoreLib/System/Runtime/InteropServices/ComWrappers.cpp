@@ -102,7 +102,7 @@ void ComWrappers___::RegisterForTrackerSupport(ComWrappers instance) {
   if (instance == nullptr) {
     rt::throw_exception<ArgumentNullException>("instance");
   }
-  if (Interlocked::CompareExchange(s_globalInstanceForTrackerSupport, instance, nullptr) != nullptr) {
+  if (Interlocked::CompareExchange(s_globalInstanceForTrackerSupport, instance, (ComWrappers)nullptr) != nullptr) {
     rt::throw_exception<InvalidOperationException>(SR::get_InvalidOperation_ResetGlobalComWrappersInstance());
   }
   SetGlobalInstanceRegisteredForTrackerSupport();
@@ -112,7 +112,7 @@ void ComWrappers___::RegisterForMarshalling(ComWrappers instance) {
   if (instance == nullptr) {
     rt::throw_exception<ArgumentNullException>("instance");
   }
-  if (Interlocked::CompareExchange(s_globalInstanceForMarshalling, instance, nullptr) != nullptr) {
+  if (Interlocked::CompareExchange(s_globalInstanceForMarshalling, instance, (ComWrappers)nullptr) != nullptr) {
     rt::throw_exception<InvalidOperationException>(SR::get_InvalidOperation_ResetGlobalComWrappersInstance());
   }
   SetGlobalInstanceRegisteredForMarshalling();
