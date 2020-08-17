@@ -56,7 +56,7 @@ struct Double : public valueType<Double> {
   public: static Double Parse(String s, NumberStyles style);
   public: static Double Parse(String s, IFormatProvider provider);
   public: static Double Parse(String s, NumberStyles style, IFormatProvider provider);
-  public: static Double Parse(ReadOnlySpan<Char> s, NumberStyles style = 231, IFormatProvider provider = nullptr);
+  public: static Double Parse(ReadOnlySpan<Char> s, NumberStyles style = NumberStyles::AllowLeadingWhite | NumberStyles::AllowTrailingWhite | NumberStyles::AllowLeadingSign | NumberStyles::AllowDecimalPoint | NumberStyles::AllowThousands | NumberStyles::AllowExponent, IFormatProvider provider = nullptr);
   public: static Boolean TryParse(String s, Double& result);
   public: static Boolean TryParse(ReadOnlySpan<Char> s, Double& result);
   public: static Boolean TryParse(String s, NumberStyles style, IFormatProvider provider, Double& result);

@@ -143,6 +143,7 @@ namespace Meson.Compiler.CppAst {
     public const string Ampersand = "&";
     public const string LogicAnd = "&&";
     public const string LogicOr = "||";
+    public const string BitOr = "|";
     public const string Exclamation = "!";
     public const string Quote = "\"";
     public const string Arrow = "->";

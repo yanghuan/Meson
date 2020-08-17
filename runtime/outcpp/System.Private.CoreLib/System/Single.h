@@ -56,7 +56,7 @@ struct Single : public valueType<Single> {
   public: static Single Parse(String s, NumberStyles style);
   public: static Single Parse(String s, IFormatProvider provider);
   public: static Single Parse(String s, NumberStyles style, IFormatProvider provider);
-  public: static Single Parse(ReadOnlySpan<Char> s, NumberStyles style = 231, IFormatProvider provider = nullptr);
+  public: static Single Parse(ReadOnlySpan<Char> s, NumberStyles style = NumberStyles::AllowLeadingWhite | NumberStyles::AllowTrailingWhite | NumberStyles::AllowLeadingSign | NumberStyles::AllowDecimalPoint | NumberStyles::AllowThousands | NumberStyles::AllowExponent, IFormatProvider provider = nullptr);
   public: static Boolean TryParse(String s, Single& result);
   public: static Boolean TryParse(ReadOnlySpan<Char> s, Single& result);
   public: static Boolean TryParse(String s, NumberStyles style, IFormatProvider provider, Single& result);

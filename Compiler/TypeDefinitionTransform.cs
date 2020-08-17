@@ -289,11 +289,30 @@ namespace Meson.Compiler {
         defaultValue = IdentifierSyntax.Nullptr;
       } else if (parameter.Type.Kind == TypeKind.Enum) {
         var typeName = GetTypeName(parameter.Type, null, parameter);
-        var field = parameter.Type.GetDefinition().GetFields().FirstOrDefault(i => constValue.Equals(i.GetConstantValue()));
+        var fields = parameter.Type.GetDefinition().Fields;
+        var field = fields.FirstOrDefault(i => constValue.Equals(i.GetConstantValue()));
         if (field != null) {
           return typeName.TwoColon(field.Name);
         }
-        return constValue.ToString();
+        long v = Convert.ToInt64(constValue);
+        ExpressionSyntax value = null;
+        long v1 = 0;
+        foreach (var f in fields.Skip(1)) {
+          long fieldValue = Convert.ToInt64(f.GetConstantValue());
+          if ((v & fieldValue) != 0) {
+            if (value == null) {
+              value = typeName.TwoColon(f.Name);
+              v1 = fieldValue;
+            } else {
+              value = value.Binary(Tokens.BitOr, typeName.TwoColon(f.Name));
+              v1 |= fieldValue;
+            }
+            if (v == v1) {
+              return value;
+            }
+          }
+        }
+        return constValue.ToString().Identifier().CastTo(typeName);
       } else {
         defaultValue = Utils.GetPrimitiveExpression(constValue);
       }
