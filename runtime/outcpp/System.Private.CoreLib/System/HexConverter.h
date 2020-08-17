@@ -13,8 +13,8 @@ class HexConverter {
     Upper = 0,
     Lower = 8224,
   };
-  public: static void ToBytesBuffer(Byte value, Span<Byte> buffer, Int32 startingIndex, Casing casing);
-  public: static void ToCharsBuffer(Byte value, Span<Char> buffer, Int32 startingIndex, Casing casing);
+  public: static void ToBytesBuffer(Byte value, Span<Byte> buffer, Int32 startingIndex = 0, Casing casing = 0u);
+  public: static void ToCharsBuffer(Byte value, Span<Char> buffer, Int32 startingIndex = 0, Casing casing = 0u);
   public: static Char ToCharUpper(Int32 value);
   public: static Char ToCharLower(Int32 value);
 };

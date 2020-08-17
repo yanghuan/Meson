@@ -166,7 +166,7 @@ CLASS(EventSource) : public Object::in {
   protected: void Finalize();
   private: void WriteEventRaw(String eventName, EventDescriptor& eventDescriptor, IntPtr eventHandle, Guid* activityID, Guid* relatedActivityID, Int32 dataCount, IntPtr data);
   public: void ctor(Guid eventSourceGuid, String eventSourceName);
-  public: void ctor(Guid eventSourceGuid, String eventSourceName, EventSourceSettings settings, Array<String> traits);
+  public: void ctor(Guid eventSourceGuid, String eventSourceName, EventSourceSettings settings, Array<String> traits = nullptr);
   private: void Initialize(Guid eventSourceGuid, String eventSourceName, Array<String> traits);
   private: static String GetName(Type eventSourceType, EventManifestOptions flags);
   private: static Guid GenerateGuidFromName(String name);
@@ -182,7 +182,7 @@ CLASS(EventSource) : public Object::in {
   private: void WriteStringToAllListeners(String eventName, String msg);
   private: Boolean IsEnabledByDefault(Int32 eventNum, Boolean enable, EventLevel currentLevel, EventKeywords currentMatchAnyKeyword);
   private: Boolean IsEnabledCommon(Boolean enabled, EventLevel currentLevel, EventKeywords currentMatchAnyKeyword, EventLevel eventLevel, EventKeywords eventKeywords, EventChannel eventChannel);
-  private: void ThrowEventSourceException(String eventName, Exception innerEx);
+  private: void ThrowEventSourceException(String eventName, Exception innerEx = nullptr);
   private: void ValidateEventOpcodeForTransfer(EventMetadata& eventData, String eventName);
   public: static EventOpcode GetOpcodeWithDefault(EventOpcode opcode, String eventName);
   private: static Int32 GetParameterCount(EventMetadata eventData);
@@ -193,10 +193,10 @@ CLASS(EventSource) : public Object::in {
   private: Boolean AnyEventEnabled();
   private: void EnsureDescriptorsInitialized();
   private: void SendManifest(Array<Byte> rawManifest);
-  public: static Attribute GetCustomAttributeHelper(MemberInfo member, Type attributeType, EventManifestOptions flags);
+  public: static Attribute GetCustomAttributeHelper(MemberInfo member, Type attributeType, EventManifestOptions flags = 0);
   private: static Boolean AttributeTypeNamesMatch(Type attributeType, Type reflectedAttributeType);
   private: static Type GetEventSourceBaseType(Type eventSourceType, Boolean allowEventSourceOverride, Boolean reflectionOnly);
-  private: static Array<Byte> CreateManifestAndDescriptors(Type eventSourceType, String eventSourceDllName, EventSource source, EventManifestOptions flags);
+  private: static Array<Byte> CreateManifestAndDescriptors(Type eventSourceType, String eventSourceDllName, EventSource source, EventManifestOptions flags = 0);
   private: static Boolean RemoveFirstArgIfRelatedActivityId(Array<ParameterInfo>& args);
   private: static void AddProviderEnumKind(ManifestBuilder manifest, FieldInfo staticField, String providerEnumKind);
   private: static void AddEventDescriptor(Array<EventMetadata>& eventData, String eventName, EventAttribute eventAttribute, Array<ParameterInfo> eventParameters, Boolean hasRelatedActivityID);

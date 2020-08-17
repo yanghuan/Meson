@@ -159,7 +159,7 @@ CLASS_(TaskFactory) : public Object::in {
   Task<TResult> ContinueWhenAll(Array<Task<TAntecedentResult>> tasks, Func<Array<Task<TAntecedentResult>>, TResult> continuationFunction, TaskContinuationOptions continuationOptions);
   public: template <class TAntecedentResult, class TResult>
   Task<TResult> ContinueWhenAll(Array<Task<TAntecedentResult>> tasks, Func<Array<Task<TAntecedentResult>>, TResult> continuationFunction, CancellationToken cancellationToken, TaskContinuationOptions continuationOptions, TaskScheduler scheduler);
-  public: static Task<Task<>> CommonCWAnyLogic(IList<Task<>> tasks, Boolean isSyncBlocking);
+  public: static Task<Task<>> CommonCWAnyLogic(IList<Task<>> tasks, Boolean isSyncBlocking = false);
   public: static void CommonCWAnyLogicCleanup(Task<Task<>> continuation);
   public: Task<> ContinueWhenAny(Array<Task<>> tasks, Action<Task<>> continuationAction);
   public: Task<> ContinueWhenAny(Array<Task<>> tasks, Action<Task<>> continuationAction, CancellationToken cancellationToken);

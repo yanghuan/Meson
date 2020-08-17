@@ -66,13 +66,13 @@ struct TimeSpan : public valueType<TimeSpan> {
   private: static void ValidateStyles(TimeSpanStyles style, String parameterName);
   public: static TimeSpan Parse(String s);
   public: static TimeSpan Parse(String input, IFormatProvider formatProvider);
-  public: static TimeSpan Parse(ReadOnlySpan<Char> input, IFormatProvider formatProvider);
+  public: static TimeSpan Parse(ReadOnlySpan<Char> input, IFormatProvider formatProvider = nullptr);
   public: static TimeSpan ParseExact(String input, String format, IFormatProvider formatProvider);
   public: static TimeSpan ParseExact(String input, Array<String> formats, IFormatProvider formatProvider);
   public: static TimeSpan ParseExact(String input, String format, IFormatProvider formatProvider, TimeSpanStyles styles);
-  public: static TimeSpan ParseExact(ReadOnlySpan<Char> input, ReadOnlySpan<Char> format, IFormatProvider formatProvider, TimeSpanStyles styles);
+  public: static TimeSpan ParseExact(ReadOnlySpan<Char> input, ReadOnlySpan<Char> format, IFormatProvider formatProvider, TimeSpanStyles styles = 0);
   public: static TimeSpan ParseExact(String input, Array<String> formats, IFormatProvider formatProvider, TimeSpanStyles styles);
-  public: static TimeSpan ParseExact(ReadOnlySpan<Char> input, Array<String> formats, IFormatProvider formatProvider, TimeSpanStyles styles);
+  public: static TimeSpan ParseExact(ReadOnlySpan<Char> input, Array<String> formats, IFormatProvider formatProvider, TimeSpanStyles styles = 0);
   public: static Boolean TryParse(String s, TimeSpan& result);
   public: static Boolean TryParse(ReadOnlySpan<Char> s, TimeSpan& result);
   public: static Boolean TryParse(String input, IFormatProvider formatProvider, TimeSpan& result);
@@ -88,7 +88,7 @@ struct TimeSpan : public valueType<TimeSpan> {
   public: String ToString();
   public: String ToString(String format);
   public: String ToString(String format, IFormatProvider formatProvider);
-  public: Boolean TryFormat(Span<Char> destination, Int32& charsWritten, ReadOnlySpan<Char> format, IFormatProvider formatProvider);
+  public: Boolean TryFormat(Span<Char> destination, Int32& charsWritten, ReadOnlySpan<Char> format = nullptr, IFormatProvider formatProvider = nullptr);
   public: static TimeSpan op_UnaryNegation(TimeSpan t);
   public: static TimeSpan op_Subtraction(TimeSpan t1, TimeSpan t2);
   public: static TimeSpan op_UnaryPlus(TimeSpan t);

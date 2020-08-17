@@ -32,12 +32,12 @@ struct Int32 : public valueType<Int32> {
   public: String ToString(String format);
   public: String ToString(IFormatProvider provider);
   public: String ToString(String format, IFormatProvider provider);
-  public: Boolean TryFormat(Span<Char> destination, Int32& charsWritten, ReadOnlySpan<Char> format, IFormatProvider provider);
+  public: Boolean TryFormat(Span<Char> destination, Int32& charsWritten, ReadOnlySpan<Char> format = nullptr, IFormatProvider provider = nullptr);
   public: static Int32 Parse(String s);
   public: static Int32 Parse(String s, NumberStyles style);
   public: static Int32 Parse(String s, IFormatProvider provider);
   public: static Int32 Parse(String s, NumberStyles style, IFormatProvider provider);
-  public: static Int32 Parse(ReadOnlySpan<Char> s, NumberStyles style, IFormatProvider provider);
+  public: static Int32 Parse(ReadOnlySpan<Char> s, NumberStyles style = 7, IFormatProvider provider = nullptr);
   public: static Boolean TryParse(String s, Int32& result);
   public: static Boolean TryParse(ReadOnlySpan<Char> s, Int32& result);
   public: static Boolean TryParse(String s, NumberStyles style, IFormatProvider provider, Int32& result);

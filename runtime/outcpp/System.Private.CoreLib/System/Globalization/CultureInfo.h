@@ -76,7 +76,7 @@ CLASS(CultureInfo) : public Object::in {
   private: static CultureInfo InitializeUserDefaultUICulture();
   public: void ctor(String name);
   public: void ctor(String name, Boolean useUserOverride);
-  private: void ctor(CultureData cultureData, Boolean isReadOnly);
+  private: void ctor(CultureData cultureData, Boolean isReadOnly = false);
   private: static CultureInfo CreateCultureInfoNoThrow(String name, Boolean useUserOverride);
   public: void ctor(Int32 culture);
   public: void ctor(Int32 culture, Boolean useUserOverride);

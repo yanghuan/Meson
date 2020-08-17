@@ -14,7 +14,7 @@ namespace LibraryNameVariationNamespace {
 using namespace System::Collections::Generic;
 struct LibraryNameVariation : public valueType<LibraryNameVariation> {
   public: explicit LibraryNameVariation(String prefix, String suffix);
-  public: static IEnumerable<LibraryNameVariation> DetermineLibraryNameVariations(String libName, Boolean isRelativePath, Boolean forOSLoader);
+  public: static IEnumerable<LibraryNameVariation> DetermineLibraryNameVariations(String libName, Boolean isRelativePath, Boolean forOSLoader = false);
   public: explicit LibraryNameVariation() {}
   public: String Prefix;
   public: String Suffix;

@@ -19,7 +19,7 @@ CLASS(MemoryManager, T) : public Object::in {
   public: using interface = rt::TypeList<IMemoryOwner<T>, IDisposable, IPinnable>;
   public: Memory<T> get_Memory();
   public: Span<T> GetSpan();
-  public: MemoryHandle Pin(Int32 elementIndex);
+  public: MemoryHandle Pin(Int32 elementIndex = 0);
   public: void Unpin();
   protected: Memory<T> CreateMemory(Int32 length);
   protected: Memory<T> CreateMemory(Int32 start, Int32 length);

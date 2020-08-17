@@ -95,11 +95,11 @@ CLASS(ConcurrentExclusiveSchedulerPair) : public Object::in {
   private: void CleanupStateIfCompletingAndQuiesced();
   private: void CompleteTaskAsync();
   private: void FaultWithTask(Task<> faultedTask);
-  private: void ProcessAsyncIfNecessary(Boolean fairly);
+  private: void ProcessAsyncIfNecessary(Boolean fairly = false);
   private: Boolean TryQueueThreadPoolWorkItem(Boolean fairly);
   private: void ProcessExclusiveTasks();
   private: void ProcessConcurrentTasks();
-  public: static TaskCreationOptions GetCreationOptionsForTask(Boolean isReplacementReplica);
+  public: static TaskCreationOptions GetCreationOptionsForTask(Boolean isReplacementReplica = false);
   private: ThreadLocal<ProcessingMode> m_threadProcessingMode;
   private: ConcurrentExclusiveTaskScheduler m_concurrentTaskScheduler;
   private: ConcurrentExclusiveTaskScheduler m_exclusiveTaskScheduler;

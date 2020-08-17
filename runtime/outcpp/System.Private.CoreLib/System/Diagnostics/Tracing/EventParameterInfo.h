@@ -15,7 +15,7 @@ FORWARD(PropertyAnalysis)
 FORWARD(TraceLoggingTypeInfo)
 namespace EventParameterInfoNamespace {
 struct EventParameterInfo : public valueType<EventParameterInfo> {
-  public: void SetInfo(String name, Type type, TraceLoggingTypeInfo typeInfo);
+  public: void SetInfo(String name, Type type, TraceLoggingTypeInfo typeInfo = nullptr);
   public: Boolean GenerateMetadata(Byte* pMetadataBlob, UInt32& offset, UInt32 blobSize);
   private: static Boolean GenerateMetadataForProperty(PropertyAnalysis property, Byte* pMetadataBlob, UInt32& offset, UInt32 blobSize);
   public: Boolean GenerateMetadataV2(Byte* pMetadataBlob, UInt32& offset, UInt32 blobSize);

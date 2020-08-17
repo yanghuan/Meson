@@ -35,8 +35,8 @@ CLASS(ComEventsMethod) : public Object::in {
   public: static ComEventsMethod Find(ComEventsMethod methods, Int32 dispid);
   public: static ComEventsMethod Add(ComEventsMethod methods, ComEventsMethod method);
   public: static ComEventsMethod Remove(ComEventsMethod methods, ComEventsMethod method);
-  public: void AddDelegate(Delegate d, Boolean wrapArgs);
-  public: void RemoveDelegate(Delegate d, Boolean wrapArgs);
+  public: void AddDelegate(Delegate d, Boolean wrapArgs = false);
+  public: void RemoveDelegate(Delegate d, Boolean wrapArgs = false);
   public: Object Invoke(Array<Object> args);
   private: List<DelegateWrapper> _delegateWrappers;
   private: Int32 _dispid;

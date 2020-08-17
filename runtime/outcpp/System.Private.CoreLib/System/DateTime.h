@@ -123,12 +123,12 @@ struct DateTime : public valueType<DateTime> {
   public: static DateTime Parse(String s);
   public: static DateTime Parse(String s, IFormatProvider provider);
   public: static DateTime Parse(String s, IFormatProvider provider, DateTimeStyles styles);
-  public: static DateTime Parse(ReadOnlySpan<Char> s, IFormatProvider provider, DateTimeStyles styles);
+  public: static DateTime Parse(ReadOnlySpan<Char> s, IFormatProvider provider = nullptr, DateTimeStyles styles = 0);
   public: static DateTime ParseExact(String s, String format, IFormatProvider provider);
   public: static DateTime ParseExact(String s, String format, IFormatProvider provider, DateTimeStyles style);
-  public: static DateTime ParseExact(ReadOnlySpan<Char> s, ReadOnlySpan<Char> format, IFormatProvider provider, DateTimeStyles style);
+  public: static DateTime ParseExact(ReadOnlySpan<Char> s, ReadOnlySpan<Char> format, IFormatProvider provider, DateTimeStyles style = 0);
   public: static DateTime ParseExact(String s, Array<String> formats, IFormatProvider provider, DateTimeStyles style);
-  public: static DateTime ParseExact(ReadOnlySpan<Char> s, Array<String> formats, IFormatProvider provider, DateTimeStyles style);
+  public: static DateTime ParseExact(ReadOnlySpan<Char> s, Array<String> formats, IFormatProvider provider, DateTimeStyles style = 0);
   public: TimeSpan Subtract(DateTime value);
   public: DateTime Subtract(TimeSpan value);
   private: static Double TicksToOADate(Int64 value);
@@ -145,7 +145,7 @@ struct DateTime : public valueType<DateTime> {
   public: String ToString(String format);
   public: String ToString(IFormatProvider provider);
   public: String ToString(String format, IFormatProvider provider);
-  public: Boolean TryFormat(Span<Char> destination, Int32& charsWritten, ReadOnlySpan<Char> format, IFormatProvider provider);
+  public: Boolean TryFormat(Span<Char> destination, Int32& charsWritten, ReadOnlySpan<Char> format = nullptr, IFormatProvider provider = nullptr);
   public: DateTime ToUniversalTime();
   public: static Boolean TryParse(String s, DateTime& result);
   public: static Boolean TryParse(ReadOnlySpan<Char> s, DateTime& result);

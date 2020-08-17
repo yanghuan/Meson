@@ -51,12 +51,12 @@ struct Double : public valueType<Double> {
   public: String ToString(String format);
   public: String ToString(IFormatProvider provider);
   public: String ToString(String format, IFormatProvider provider);
-  public: Boolean TryFormat(Span<Char> destination, Int32& charsWritten, ReadOnlySpan<Char> format, IFormatProvider provider);
+  public: Boolean TryFormat(Span<Char> destination, Int32& charsWritten, ReadOnlySpan<Char> format = nullptr, IFormatProvider provider = nullptr);
   public: static Double Parse(String s);
   public: static Double Parse(String s, NumberStyles style);
   public: static Double Parse(String s, IFormatProvider provider);
   public: static Double Parse(String s, NumberStyles style, IFormatProvider provider);
-  public: static Double Parse(ReadOnlySpan<Char> s, NumberStyles style, IFormatProvider provider);
+  public: static Double Parse(ReadOnlySpan<Char> s, NumberStyles style = 231, IFormatProvider provider = nullptr);
   public: static Boolean TryParse(String s, Double& result);
   public: static Boolean TryParse(ReadOnlySpan<Char> s, Double& result);
   public: static Boolean TryParse(String s, NumberStyles style, IFormatProvider provider, Double& result);

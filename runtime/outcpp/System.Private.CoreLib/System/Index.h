@@ -15,7 +15,7 @@ struct Index : public valueType<Index> {
   public: static Index get_End();
   public: Int32 get_Value();
   public: Boolean get_IsFromEnd();
-  public: explicit Index(Int32 value, Boolean fromEnd);
+  public: explicit Index(Int32 value, Boolean fromEnd = false);
   private: explicit Index(Int32 value);
   public: static Index FromStart(Int32 value);
   public: static Index FromEnd(Int32 value);

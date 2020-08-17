@@ -28,7 +28,7 @@ CLASS(ConfigurableArrayPool, T) : public ArrayPool<T>::in {
   public: void ctor();
   public: void ctor(Int32 maxArrayLength, Int32 maxArraysPerBucket);
   public: Array<T> Rent(Int32 minimumLength);
-  public: void Return(Array<T> array, Boolean clearArray);
+  public: void Return(Array<T> array, Boolean clearArray = false);
   private: Array<Bucket> _buckets;
 };
 } // namespace ConfigurableArrayPoolNamespace

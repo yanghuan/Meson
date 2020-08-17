@@ -96,7 +96,7 @@ CLASS(AssemblyLoadContext) : public Object::in {
   private: static void InitializeDefaultContext();
   protected: void ctor();
   protected: void ctor(Boolean isCollectible);
-  public: void ctor(String name, Boolean isCollectible);
+  public: void ctor(String name, Boolean isCollectible = false);
   public: void ctor(Boolean representsTPALoadContext, Boolean isCollectible, String name);
   protected: void Finalize();
   private: void RaiseUnloadEvent();

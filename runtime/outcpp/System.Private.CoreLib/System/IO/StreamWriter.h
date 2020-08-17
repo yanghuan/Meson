@@ -42,7 +42,7 @@ CLASS(StreamWriter) : public TextWriter::in {
   public: void ctor(Stream stream);
   public: void ctor(Stream stream, Encoding encoding);
   public: void ctor(Stream stream, Encoding encoding, Int32 bufferSize);
-  public: void ctor(Stream stream, Encoding encoding, Int32 bufferSize, Boolean leaveOpen);
+  public: void ctor(Stream stream, Encoding encoding = nullptr, Int32 bufferSize = -1, Boolean leaveOpen = false);
   public: void ctor(String path);
   public: void ctor(String path, Boolean append);
   public: void ctor(String path, Boolean append, Encoding encoding);
@@ -77,15 +77,15 @@ CLASS(StreamWriter) : public TextWriter::in {
   public: Task<> WriteAsync(String value);
   private: static Task<> WriteAsyncInternal(StreamWriter _this, String value, Array<Char> charBuffer, Int32 charPos, Int32 charLen, Array<Char> coreNewLine, Boolean autoFlush, Boolean appendNewLine);
   public: Task<> WriteAsync(Array<Char> buffer, Int32 index, Int32 count);
-  public: Task<> WriteAsync(ReadOnlyMemory<Char> buffer, CancellationToken cancellationToken);
+  public: Task<> WriteAsync(ReadOnlyMemory<Char> buffer, CancellationToken cancellationToken = nullptr);
   private: static Task<> WriteAsyncInternal(StreamWriter _this, ReadOnlyMemory<Char> source, Array<Char> charBuffer, Int32 charPos, Int32 charLen, Array<Char> coreNewLine, Boolean autoFlush, Boolean appendNewLine, CancellationToken cancellationToken);
   public: Task<> WriteLineAsync();
   public: Task<> WriteLineAsync(Char value);
   public: Task<> WriteLineAsync(String value);
   public: Task<> WriteLineAsync(Array<Char> buffer, Int32 index, Int32 count);
-  public: Task<> WriteLineAsync(ReadOnlyMemory<Char> buffer, CancellationToken cancellationToken);
+  public: Task<> WriteLineAsync(ReadOnlyMemory<Char> buffer, CancellationToken cancellationToken = nullptr);
   public: Task<> FlushAsync();
-  private: Task<> FlushAsyncInternal(Boolean flushStream, Boolean flushEncoder, Array<Char> sCharBuffer, Int32 sCharPos, CancellationToken cancellationToken);
+  private: Task<> FlushAsyncInternal(Boolean flushStream, Boolean flushEncoder, Array<Char> sCharBuffer, Int32 sCharPos, CancellationToken cancellationToken = nullptr);
   private: static Task<> FlushAsyncInternal(StreamWriter _this, Boolean flushStream, Boolean flushEncoder, Array<Char> charBuffer, Int32 charPos, Boolean haveWrittenPreamble, Encoding encoding, Encoder encoder, Array<Byte> byteBuffer, Stream stream, CancellationToken cancellationToken);
   private: void ThrowIfDisposed();
   private: static void cctor();

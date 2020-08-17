@@ -349,10 +349,10 @@ class Convert {
   public: static String ToBase64String(Array<Byte> inArray, Base64FormattingOptions options);
   public: static String ToBase64String(Array<Byte> inArray, Int32 offset, Int32 length);
   public: static String ToBase64String(Array<Byte> inArray, Int32 offset, Int32 length, Base64FormattingOptions options);
-  public: static String ToBase64String(ReadOnlySpan<Byte> bytes, Base64FormattingOptions options);
+  public: static String ToBase64String(ReadOnlySpan<Byte> bytes, Base64FormattingOptions options = 0);
   public: static Int32 ToBase64CharArray(Array<Byte> inArray, Int32 offsetIn, Int32 length, Array<Char> outArray, Int32 offsetOut);
   public: static Int32 ToBase64CharArray(Array<Byte> inArray, Int32 offsetIn, Int32 length, Array<Char> outArray, Int32 offsetOut, Base64FormattingOptions options);
-  public: static Boolean TryToBase64Chars(ReadOnlySpan<Byte> bytes, Span<Char> chars, Int32& charsWritten, Base64FormattingOptions options);
+  public: static Boolean TryToBase64Chars(ReadOnlySpan<Byte> bytes, Span<Char> chars, Int32& charsWritten, Base64FormattingOptions options = 0);
   private: static Int32 ConvertToBase64Array(Char* outChars, Byte* inData, Int32 offset, Int32 length, Boolean insertLineBreaks);
   private: static Int32 ToBase64_CalculateAndValidateOutputLength(Int32 inputLength, Boolean insertLineBreaks);
   public: static Array<Byte> FromBase64String(String s);

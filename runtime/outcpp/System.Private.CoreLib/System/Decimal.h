@@ -178,12 +178,12 @@ struct Decimal : public valueType<Decimal> {
   public: String ToString(String format);
   public: String ToString(IFormatProvider provider);
   public: String ToString(String format, IFormatProvider provider);
-  public: Boolean TryFormat(Span<Char> destination, Int32& charsWritten, ReadOnlySpan<Char> format, IFormatProvider provider);
+  public: Boolean TryFormat(Span<Char> destination, Int32& charsWritten, ReadOnlySpan<Char> format = nullptr, IFormatProvider provider = nullptr);
   public: static Decimal Parse(String s);
   public: static Decimal Parse(String s, NumberStyles style);
   public: static Decimal Parse(String s, IFormatProvider provider);
   public: static Decimal Parse(String s, NumberStyles style, IFormatProvider provider);
-  public: static Decimal Parse(ReadOnlySpan<Char> s, NumberStyles style, IFormatProvider provider);
+  public: static Decimal Parse(ReadOnlySpan<Char> s, NumberStyles style = 111, IFormatProvider provider = nullptr);
   public: static Boolean TryParse(String s, Decimal& result);
   public: static Boolean TryParse(ReadOnlySpan<Char> s, Decimal& result);
   public: static Boolean TryParse(String s, NumberStyles style, IFormatProvider provider, Decimal& result);

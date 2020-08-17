@@ -30,7 +30,7 @@ CLASS(Timer) : public MarshalByRefObject::in {
   public: void ctor(TimerCallback callback, Object state, UInt32 dueTime, UInt32 period);
   public: void ctor(TimerCallback callback, Object state, Int64 dueTime, Int64 period);
   public: void ctor(TimerCallback callback);
-  private: void TimerSetup(TimerCallback callback, Object state, UInt32 dueTime, UInt32 period, Boolean flowExecutionContext);
+  private: void TimerSetup(TimerCallback callback, Object state, UInt32 dueTime, UInt32 period, Boolean flowExecutionContext = true);
   public: Boolean Change(Int32 dueTime, Int32 period);
   public: Boolean Change(TimeSpan dueTime, TimeSpan period);
   public: Boolean Change(UInt32 dueTime, UInt32 period);

@@ -25,7 +25,7 @@ CLASS(TimerQueueTimer) : public Object::in {
   public: void Close();
   public: Boolean Close(WaitHandle toSignal);
   public: ValueTask<> CloseAsync();
-  public: void Fire(Boolean isThreadPool);
+  public: void Fire(Boolean isThreadPool = false);
   public: void SignalNoCallbacksRunning();
   public: void CallCallback(Boolean isThreadPool);
   private: static void cctor();

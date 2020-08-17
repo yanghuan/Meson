@@ -48,17 +48,18 @@ void TestTry() {
   }
 }
 
-template <class T>
-void Write(T& location, T value) {
+void TestStrDefault() {
+  struct A {
+    static void f(int a, String b = "") {
 
+    }
+  };
+
+  A::f(1);
 }
 
 int main() {
   TestTry();
-  String a = "";
-  String b = nullptr;
-  Volatile::Write(a, b);
-  Write(a, nullptr);
   return 0;
 }
 

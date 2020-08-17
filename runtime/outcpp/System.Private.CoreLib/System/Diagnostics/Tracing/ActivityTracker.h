@@ -29,7 +29,7 @@ CLASS(ActivityTracker) : public Object::in {
     public: Boolean CanBeOrphan();
     private: void CreateActivityPathGuid(Guid& idRet, Int32& activityPathGuidOffset);
     private: void CreateOverflowGuid(Guid* outPtr);
-    private: static Int32 AddIdToGuid(Guid* outPtr, Int32 whereToAddId, UInt32 id, Boolean overflow);
+    private: static Int32 AddIdToGuid(Guid* outPtr, Int32 whereToAddId, UInt32 id, Boolean overflow = false);
     private: static void WriteNibble(Byte*& ptr, Byte* endPtr, UInt32 value);
     public: String m_name;
     private: Int64 m_uniqueId;
@@ -43,8 +43,8 @@ CLASS(ActivityTracker) : public Object::in {
     public: Guid m_activityIdToRestore;
   };
   public: static ActivityTracker get_Instance();
-  public: void OnStart(String providerName, String activityName, Int32 task, Guid& activityId, Guid& relatedActivityId, EventActivityOptions options, Boolean useTplSource);
-  public: void OnStop(String providerName, String activityName, Int32 task, Guid& activityId, Boolean useTplSource);
+  public: void OnStart(String providerName, String activityName, Int32 task, Guid& activityId, Guid& relatedActivityId, EventActivityOptions options, Boolean useTplSource = true);
+  public: void OnStop(String providerName, String activityName, Int32 task, Guid& activityId, Boolean useTplSource = true);
   public: void Enable();
   private: static ActivityInfo FindActiveActivity(String name, ActivityInfo startLocation);
   private: static String NormalizeActivityName(String providerName, String activityName, Int32 task);

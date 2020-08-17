@@ -332,10 +332,12 @@ namespace Meson.Compiler.CppAst {
   sealed class ParameterSyntax : SyntaxNode {
     public ExpressionSyntax Type { get; }
     public IdentifierSyntax Name { get; }
+    public ExpressionSyntax Value { get; }
 
-    public ParameterSyntax(ExpressionSyntax type, IdentifierSyntax name) {
+    public ParameterSyntax(ExpressionSyntax type, IdentifierSyntax name, ExpressionSyntax value = null) {
       Type = type;
       Name = name;
+      Value = value;
     }
 
     internal override void Render(CppRenderer renderer) {

@@ -473,6 +473,12 @@ namespace Meson.Compiler {
       if (node.Name != null) {
         WriteSpace();
         node.Name.Render(this);
+        if (node.Value != null) {
+          WriteSpace();
+          Write(Tokens.Equals);
+          WriteSpace();
+          node.Value.Render(this);
+        }
       }
     }
 

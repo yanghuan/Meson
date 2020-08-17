@@ -293,7 +293,13 @@ namespace Meson.Compiler {
       });
       CheckParameterTypeConflict(ref type, parameter, method, typeDefinition);
       var name = GetMemberName(parameter);
-      return new ParameterSyntax(type, name);
+      ExpressionSyntax value;
+      if (parameter.HasConstantValueInSignature) {
+        value = MethodTransform.GetDefaultParameterValue(parameter);
+      } else {
+        value = null;
+      }
+      return new ParameterSyntax(type, name, value);
     }
 
     public List<IMember> GetTypeMembersFromCache(ITypeDefinition typeDefinition) {

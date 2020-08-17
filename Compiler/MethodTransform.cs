@@ -378,7 +378,7 @@ namespace Meson.Compiler {
       return arguments;
     }
 
-    private ExpressionSyntax GetDefaultParameterValue(IParameter parameter) {
+    internal static ExpressionSyntax GetDefaultParameterValue(IParameter parameter) {
       var constValue = parameter.GetConstantValue();
       ExpressionSyntax defaultValue;
       if (constValue == null) {

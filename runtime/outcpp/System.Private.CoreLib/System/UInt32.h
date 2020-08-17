@@ -33,12 +33,12 @@ struct UInt32 : public valueType<UInt32> {
   public: String ToString(IFormatProvider provider);
   public: String ToString(String format);
   public: String ToString(String format, IFormatProvider provider);
-  public: Boolean TryFormat(Span<Char> destination, Int32& charsWritten, ReadOnlySpan<Char> format, IFormatProvider provider);
+  public: Boolean TryFormat(Span<Char> destination, Int32& charsWritten, ReadOnlySpan<Char> format = nullptr, IFormatProvider provider = nullptr);
   public: static UInt32 Parse(String s);
   public: static UInt32 Parse(String s, NumberStyles style);
   public: static UInt32 Parse(String s, IFormatProvider provider);
   public: static UInt32 Parse(String s, NumberStyles style, IFormatProvider provider);
-  public: static UInt32 Parse(ReadOnlySpan<Char> s, NumberStyles style, IFormatProvider provider);
+  public: static UInt32 Parse(ReadOnlySpan<Char> s, NumberStyles style = 7, IFormatProvider provider = nullptr);
   public: static Boolean TryParse(String s, UInt32& result);
   public: static Boolean TryParse(ReadOnlySpan<Char> s, UInt32& result);
   public: static Boolean TryParse(String s, NumberStyles style, IFormatProvider provider, UInt32& result);

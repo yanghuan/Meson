@@ -10,8 +10,8 @@ FORWARD(String)
 namespace System::Private::CoreLib::System::IO {
 namespace Win32MarshalNamespace {
 class Win32Marshal {
-  public: static Exception GetExceptionForLastWin32Error(String path);
-  public: static Exception GetExceptionForWin32Error(Int32 errorCode, String path);
+  public: static Exception GetExceptionForLastWin32Error(String path = "");
+  public: static Exception GetExceptionForWin32Error(Int32 errorCode, String path = "");
   public: static Int32 MakeHRFromErrorCode(Int32 errorCode);
   public: static String GetMessage(Int32 errorCode);
 };

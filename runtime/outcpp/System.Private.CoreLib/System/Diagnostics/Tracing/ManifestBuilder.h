@@ -59,9 +59,9 @@ CLASS(ManifestBuilder) : public Object::in {
   public: void StartEvent(String eventName, EventAttribute eventAttribute);
   public: void AddEventParameter(Type type, String name);
   public: void EndEvent();
-  public: UInt64 GetChannelKeyword(EventChannel channel, UInt64 channelKeyword);
+  public: UInt64 GetChannelKeyword(EventChannel channel, UInt64 channelKeyword = 0);
   public: Array<Byte> CreateManifest();
-  public: void ManifestError(String msg, Boolean runtimeCritical);
+  public: void ManifestError(String msg, Boolean runtimeCritical = false);
   private: String CreateManifestString();
   private: void WriteNameAndMessageAttribs(StringBuilder stringBuilder, String elementName, String name);
   private: void WriteMessageAttrib(StringBuilder stringBuilder, String elementName, String name, String value);

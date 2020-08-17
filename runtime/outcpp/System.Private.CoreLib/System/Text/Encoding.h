@@ -186,7 +186,7 @@ CLASS(Encoding) : public Object::in {
   public: String GetString(Array<Byte> bytes, Int32 index, Int32 count);
   public: Boolean Equals(Object value);
   public: Int32 GetHashCode();
-  public: static Stream CreateTranscodingStream(Stream innerStream, Encoding innerStreamEncoding, Encoding outerStreamEncoding, Boolean leaveOpen);
+  public: static Stream CreateTranscodingStream(Stream innerStream, Encoding innerStreamEncoding, Encoding outerStreamEncoding, Boolean leaveOpen = false);
   public: Array<Char> GetBestFitUnicodeToBytesData();
   public: Array<Char> GetBestFitBytesToUnicodeData();
   public: void ThrowBytesOverflow();

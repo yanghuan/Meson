@@ -34,12 +34,12 @@ struct UInt16 : public valueType<UInt16> {
   public: String ToString(IFormatProvider provider);
   public: String ToString(String format);
   public: String ToString(String format, IFormatProvider provider);
-  public: Boolean TryFormat(Span<Char> destination, Int32& charsWritten, ReadOnlySpan<Char> format, IFormatProvider provider);
+  public: Boolean TryFormat(Span<Char> destination, Int32& charsWritten, ReadOnlySpan<Char> format = nullptr, IFormatProvider provider = nullptr);
   public: static UInt16 Parse(String s);
   public: static UInt16 Parse(String s, NumberStyles style);
   public: static UInt16 Parse(String s, IFormatProvider provider);
   public: static UInt16 Parse(String s, NumberStyles style, IFormatProvider provider);
-  public: static UInt16 Parse(ReadOnlySpan<Char> s, NumberStyles style, IFormatProvider provider);
+  public: static UInt16 Parse(ReadOnlySpan<Char> s, NumberStyles style = 7, IFormatProvider provider = nullptr);
   private: static UInt16 Parse(ReadOnlySpan<Char> s, NumberStyles style, NumberFormatInfo info);
   public: static Boolean TryParse(String s, UInt16& result);
   public: static Boolean TryParse(ReadOnlySpan<Char> s, UInt16& result);

@@ -13,7 +13,7 @@ using namespace System::Runtime::InteropServices;
 struct MemoryHandle : public valueType<MemoryHandle> {
   public: using interface = rt::TypeList<IDisposable>;
   public: void* get_Pointer();
-  public: explicit MemoryHandle(void* pointer, GCHandle handle, IPinnable pinnable);
+  public: explicit MemoryHandle(void* pointer, GCHandle handle = nullptr, IPinnable pinnable = nullptr);
   public: void Dispose();
   public: explicit MemoryHandle() {}
   private: void* _pointer;

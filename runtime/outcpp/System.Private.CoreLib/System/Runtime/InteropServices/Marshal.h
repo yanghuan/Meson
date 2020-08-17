@@ -255,7 +255,7 @@ class Marshal {
   public: static IntPtr StringToCoTaskMemAuto(String s);
   private: static Int32 GetSystemMaxDBCSCharSize();
   private: static Boolean IsNullOrWin32Atom(IntPtr ptr);
-  public: static Int32 StringToAnsiString(String s, Byte* buffer, Int32 bufferLength, Boolean bestFit, Boolean throwOnUnmappableChar);
+  public: static Int32 StringToAnsiString(String s, Byte* buffer, Int32 bufferLength, Boolean bestFit = false, Boolean throwOnUnmappableChar = false);
   public: static Int32 GetAnsiStringByteCount(ReadOnlySpan<Char> chars);
   public: static void GetAnsiStringBytes(ReadOnlySpan<Char> chars, Span<Byte> bytes);
   private: static void cctor();

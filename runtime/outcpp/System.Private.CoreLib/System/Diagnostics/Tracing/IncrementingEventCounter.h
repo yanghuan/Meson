@@ -16,7 +16,7 @@ CLASS(IncrementingEventCounter) : public DiagnosticCounter::in {
   public: TimeSpan get_DisplayRateTimeScale() { return DisplayRateTimeScale; }
   public: void set_DisplayRateTimeScale(TimeSpan value) { DisplayRateTimeScale = value; }
   public: void ctor(String name, Tracing::EventSource eventSource);
-  public: void Increment(Double increment);
+  public: void Increment(Double increment = 1);
   public: String ToString();
   public: void WritePayload(Single intervalSec, Int32 pollingIntervalMillisec);
   public: void UpdateMetric();

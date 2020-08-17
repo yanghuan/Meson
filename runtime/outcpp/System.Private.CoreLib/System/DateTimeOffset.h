@@ -87,12 +87,12 @@ struct DateTimeOffset : public valueType<DateTimeOffset> {
   public: static DateTimeOffset Parse(String input);
   public: static DateTimeOffset Parse(String input, IFormatProvider formatProvider);
   public: static DateTimeOffset Parse(String input, IFormatProvider formatProvider, DateTimeStyles styles);
-  public: static DateTimeOffset Parse(ReadOnlySpan<Char> input, IFormatProvider formatProvider, DateTimeStyles styles);
+  public: static DateTimeOffset Parse(ReadOnlySpan<Char> input, IFormatProvider formatProvider = nullptr, DateTimeStyles styles = 0);
   public: static DateTimeOffset ParseExact(String input, String format, IFormatProvider formatProvider);
   public: static DateTimeOffset ParseExact(String input, String format, IFormatProvider formatProvider, DateTimeStyles styles);
-  public: static DateTimeOffset ParseExact(ReadOnlySpan<Char> input, ReadOnlySpan<Char> format, IFormatProvider formatProvider, DateTimeStyles styles);
+  public: static DateTimeOffset ParseExact(ReadOnlySpan<Char> input, ReadOnlySpan<Char> format, IFormatProvider formatProvider, DateTimeStyles styles = 0);
   public: static DateTimeOffset ParseExact(String input, Array<String> formats, IFormatProvider formatProvider, DateTimeStyles styles);
-  public: static DateTimeOffset ParseExact(ReadOnlySpan<Char> input, Array<String> formats, IFormatProvider formatProvider, DateTimeStyles styles);
+  public: static DateTimeOffset ParseExact(ReadOnlySpan<Char> input, Array<String> formats, IFormatProvider formatProvider, DateTimeStyles styles = 0);
   public: TimeSpan Subtract(DateTimeOffset value);
   public: DateTimeOffset Subtract(TimeSpan value);
   public: Int64 ToFileTime();
@@ -105,7 +105,7 @@ struct DateTimeOffset : public valueType<DateTimeOffset> {
   public: String ToString(String format);
   public: String ToString(IFormatProvider formatProvider);
   public: String ToString(String format, IFormatProvider formatProvider);
-  public: Boolean TryFormat(Span<Char> destination, Int32& charsWritten, ReadOnlySpan<Char> format, IFormatProvider formatProvider);
+  public: Boolean TryFormat(Span<Char> destination, Int32& charsWritten, ReadOnlySpan<Char> format = nullptr, IFormatProvider formatProvider = nullptr);
   public: DateTimeOffset ToUniversalTime();
   public: static Boolean TryParse(String input, DateTimeOffset& result);
   public: static Boolean TryParse(ReadOnlySpan<Char> input, DateTimeOffset& result);

@@ -133,12 +133,12 @@ CLASS(FileStream) : public Stream::in {
   public: Int32 Read(Array<Byte> array, Int32 offset, Int32 count);
   public: Int32 Read(Span<Byte> buffer);
   public: Task<Int32> ReadAsync(Array<Byte> buffer, Int32 offset, Int32 count, CancellationToken cancellationToken);
-  public: ValueTask<Int32> ReadAsync(Memory<Byte> buffer, CancellationToken cancellationToken);
+  public: ValueTask<Int32> ReadAsync(Memory<Byte> buffer, CancellationToken cancellationToken = nullptr);
   private: Task<Int32> ReadAsyncTask(Array<Byte> array, Int32 offset, Int32 count, CancellationToken cancellationToken);
   public: void Write(Array<Byte> array, Int32 offset, Int32 count);
   public: void Write(ReadOnlySpan<Byte> buffer);
   public: Task<> WriteAsync(Array<Byte> buffer, Int32 offset, Int32 count, CancellationToken cancellationToken);
-  public: ValueTask<> WriteAsync(ReadOnlyMemory<Byte> buffer, CancellationToken cancellationToken);
+  public: ValueTask<> WriteAsync(ReadOnlyMemory<Byte> buffer, CancellationToken cancellationToken = nullptr);
   public: void Flush();
   public: void Flush(Boolean flushToDisk);
   private: void ValidateReadWriteArgs(Array<Byte> array, Int32 offset, Int32 count);
@@ -169,7 +169,7 @@ CLASS(FileStream) : public Stream::in {
   private: void FlushOSBuffer();
   private: Task<> FlushWriteAsync(CancellationToken cancellationToken);
   private: void FlushWriteBufferForWriteByte();
-  private: void FlushWriteBuffer(Boolean calledFromFinalizer);
+  private: void FlushWriteBuffer(Boolean calledFromFinalizer = false);
   private: void SetLengthInternal(Int64 value);
   private: void SetLengthCore(Int64 value);
   private: FileStreamCompletionSource CompareExchangeCurrentOverlappedOwner(FileStreamCompletionSource newSource, FileStreamCompletionSource existingSource);
@@ -177,7 +177,7 @@ CLASS(FileStream) : public Stream::in {
   private: Int32 FillReadBufferForReadByte();
   private: Int32 ReadNative(Span<Byte> buffer);
   public: Int64 Seek(Int64 offset, SeekOrigin origin);
-  private: Int64 SeekCore(SafeFileHandle fileHandle, Int64 offset, SeekOrigin origin, Boolean closeInvalidHandle);
+  private: Int64 SeekCore(SafeFileHandle fileHandle, Int64 offset, SeekOrigin origin, Boolean closeInvalidHandle = false);
   private: void WriteSpan(ReadOnlySpan<Byte> source);
   private: void WriteCore(ReadOnlySpan<Byte> source);
   private: Task<Int32> ReadAsyncInternal(Memory<Byte> destination, CancellationToken cancellationToken, Int32& synchronousResult);

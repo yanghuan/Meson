@@ -49,7 +49,7 @@ class DateTimeFormat {
   private: static Boolean TryFormatO(DateTime dateTime, TimeSpan offset, Span<Char> destination, Int32& charsWritten);
   private: static Boolean TryFormatR(DateTime dateTime, TimeSpan offset, Span<Char> destination, Int32& charsWritten);
   private: static void WriteTwoDecimalDigits(UInt32 value, Span<Char> destination, Int32 offset);
-  private: static void WriteFourDecimalDigits(UInt32 value, Span<Char> buffer, Int32 startingIndex);
+  private: static void WriteFourDecimalDigits(UInt32 value, Span<Char> buffer, Int32 startingIndex = 0);
   private: static void WriteDigits(UInt64 value, Span<Char> buffer);
   public: static Array<String> GetAllDateTimes(DateTime dateTime, Char format, DateTimeFormatInfo dtfi);
   public: static Array<String> GetAllDateTimes(DateTime dateTime, DateTimeFormatInfo dtfi);

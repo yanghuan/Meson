@@ -262,7 +262,7 @@ class Number {
   private: static Char* MatchChars(Char* p, Char* pEnd, String value);
   private: static Boolean IsWhite(Int32 ch);
   private: static Boolean IsDigit(Int32 ch);
-  public: static void ThrowOverflowOrFormatException(ParsingStatus status, TypeCode type);
+  public: static void ThrowOverflowOrFormatException(ParsingStatus status, TypeCode type = 0);
   public: static void ThrowOverflowException(TypeCode type);
   private: static Exception GetException(ParsingStatus status, TypeCode type);
   public: static Double NumberToDouble(NumberBuffer& number);

@@ -51,7 +51,7 @@ class TimeSpanFormat {
   private: static Boolean TryFormatStandard(TimeSpan value, StandardFormat format, String decimalSeparator, Span<Char> destination, Int32& charsWritten);
   private: static void WriteTwoDigits(UInt32 value, Span<Char> buffer);
   private: static void WriteDigits(UInt32 value, Span<Char> buffer);
-  private: static StringBuilder FormatCustomized(TimeSpan value, ReadOnlySpan<Char> format, DateTimeFormatInfo dtfi, StringBuilder result);
+  private: static StringBuilder FormatCustomized(TimeSpan value, ReadOnlySpan<Char> format, DateTimeFormatInfo dtfi, StringBuilder result = nullptr);
   private: static void cctor();
   public: static FormatLiterals PositiveInvariantFormatLiterals;
   public: static FormatLiterals NegativeInvariantFormatLiterals;

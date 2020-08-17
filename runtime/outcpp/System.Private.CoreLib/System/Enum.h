@@ -49,7 +49,7 @@ CLASS(Enum) : public ValueType::in {
   private: CorElementType InternalGetCorElementType();
   public: static RuntimeType InternalGetUnderlyingType(RuntimeType enumType);
   private: Boolean InternalHasFlag(Enum flags);
-  private: static EnumInfo GetEnumInfo(RuntimeType enumType, Boolean getNames);
+  private: static EnumInfo GetEnumInfo(RuntimeType enumType, Boolean getNames = true);
   public: static Array<UInt64> InternalGetValues(RuntimeType enumType);
   public: static Array<String> InternalGetNames(RuntimeType enumType);
   public: Boolean HasFlag(Enum flag);

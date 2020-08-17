@@ -189,7 +189,7 @@ CLASS_(Task) : public Object::in {
   public: void ExecuteFromThreadPool(Thread threadPoolThread);
   public: void ExecuteEntryUnsafe(Thread threadPoolThread);
   public: void ExecuteEntryCancellationRequestedOrCanceled();
-  private: void ExecuteWithThreadLocal(Task<>& currentTaskSlot, Thread threadPoolThread);
+  private: void ExecuteWithThreadLocal(Task<>& currentTaskSlot, Thread threadPoolThread = nullptr);
   public: void InnerInvoke();
   private: void HandleException(Exception unhandledException);
   public: TaskAwaiter<> GetAwaiter();
@@ -259,7 +259,7 @@ CLASS_(Task) : public Object::in {
   Task<TResult> ContinueWith(Func<Task<>, Object, TResult> continuationFunction, Object state, TaskScheduler scheduler, CancellationToken cancellationToken, TaskContinuationOptions continuationOptions);
   public: static void CreationOptionsFromContinuationOptions(TaskContinuationOptions continuationOptions, TaskCreationOptions& creationOptions, InternalTaskOptions& internalOptions);
   public: void ContinueWithCore(Task<> continuationTask, TaskScheduler scheduler, CancellationToken cancellationToken, TaskContinuationOptions options);
-  public: void AddCompletionAction(ITaskCompletionAction action, Boolean addBeforeOthers);
+  public: void AddCompletionAction(ITaskCompletionAction action, Boolean addBeforeOthers = false);
   private: Boolean AddTaskContinuationComplex(Object tc, Boolean addBeforeOthers);
   private: Boolean AddTaskContinuation(Object tc, Boolean addBeforeOthers);
   public: void RemoveContinuation(Object continuationObject);

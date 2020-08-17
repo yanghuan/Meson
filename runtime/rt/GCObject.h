@@ -341,7 +341,7 @@ namespace rt {
 
   template <class... _Types>
   constexpr auto operator +(const std::tuple<_Types...>& t, const ref<typename StringTrim<_Types...>::type>& right) noexcept {
-    string* a = right != nullptr ? right.get() : nullptr;
+    string* a = right != nullptr ? reinterpret_cast<string*>(right.get()) : nullptr;
     return std::tuple_cat(t, std::make_tuple(a));
   }
 

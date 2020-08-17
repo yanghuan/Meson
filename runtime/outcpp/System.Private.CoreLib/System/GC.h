@@ -72,7 +72,7 @@ class GC {
   private: static IntPtr _RegisterFrozenSegment(IntPtr sectionAddress, IntPtr sectionSize);
   private: static void _UnregisterFrozenSegment(IntPtr segmentHandle);
   public: static Int64 GetAllocatedBytesForCurrentThread();
-  public: static Int64 GetTotalAllocatedBytes(Boolean precise);
+  public: static Int64 GetTotalAllocatedBytes(Boolean precise = false);
   private: static Boolean _RegisterForFullGCNotification(Int32 maxGenerationPercentage, Int32 largeObjectHeapPercentage);
   private: static Boolean _CancelFullGCNotification();
   private: static Int32 _WaitForFullGCApproach(Int32 millisecondsTimeout);
@@ -90,9 +90,9 @@ class GC {
   public: static Boolean TryStartNoGCRegion(Int64 totalSize, Int64 lohSize, Boolean disallowFullBlockingGC);
   public: static void EndNoGCRegion();
   public: template <class T>
-  static Array<T> AllocateUninitializedArray(Int32 length, Boolean pinned);
+  static Array<T> AllocateUninitializedArray(Int32 length, Boolean pinned = false);
   public: template <class T>
-  static Array<T> AllocateArray(Int32 length, Boolean pinned);
+  static Array<T> AllocateArray(Int32 length, Boolean pinned = false);
 };
 } // namespace GCNamespace
 using GC = GCNamespace::GC;

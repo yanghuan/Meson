@@ -21,12 +21,12 @@ struct StandardFormat : public valueType<StandardFormat> {
   public: Byte get_Precision();
   public: Boolean get_HasPrecision();
   public: Boolean get_IsDefault();
-  public: explicit StandardFormat(Char symbol, Byte precision);
+  public: explicit StandardFormat(Char symbol, Byte precision = 255);
   public: static StandardFormat op_Implicit(Char symbol);
   public: static StandardFormat Parse(ReadOnlySpan<Char> format);
   public: static StandardFormat Parse(String format);
   public: static Boolean TryParse(ReadOnlySpan<Char> format, StandardFormat& result);
-  private: static Boolean ParseHelper(ReadOnlySpan<Char> format, StandardFormat& standardFormat, Boolean throws);
+  private: static Boolean ParseHelper(ReadOnlySpan<Char> format, StandardFormat& standardFormat, Boolean throws = false);
   public: Boolean Equals(Object obj);
   public: Int32 GetHashCode();
   public: Boolean Equals(StandardFormat other);

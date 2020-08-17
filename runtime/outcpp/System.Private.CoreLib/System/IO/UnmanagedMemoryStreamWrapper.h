@@ -55,9 +55,9 @@ CLASS(UnmanagedMemoryStreamWrapper) : public MemoryStream::in {
   public: Task<> CopyToAsync(Stream destination, Int32 bufferSize, CancellationToken cancellationToken);
   public: Task<> FlushAsync(CancellationToken cancellationToken);
   public: Task<Int32> ReadAsync(Array<Byte> buffer, Int32 offset, Int32 count, CancellationToken cancellationToken);
-  public: ValueTask<Int32> ReadAsync(Memory<Byte> buffer, CancellationToken cancellationToken);
+  public: ValueTask<Int32> ReadAsync(Memory<Byte> buffer, CancellationToken cancellationToken = nullptr);
   public: Task<> WriteAsync(Array<Byte> buffer, Int32 offset, Int32 count, CancellationToken cancellationToken);
-  public: ValueTask<> WriteAsync(ReadOnlyMemory<Byte> buffer, CancellationToken cancellationToken);
+  public: ValueTask<> WriteAsync(ReadOnlyMemory<Byte> buffer, CancellationToken cancellationToken = nullptr);
   private: UnmanagedMemoryStream _unmanagedStream;
 };
 } // namespace UnmanagedMemoryStreamWrapperNamespace

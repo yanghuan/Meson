@@ -33,12 +33,12 @@ struct Int64 : public valueType<Int64> {
   public: String ToString(IFormatProvider provider);
   public: String ToString(String format);
   public: String ToString(String format, IFormatProvider provider);
-  public: Boolean TryFormat(Span<Char> destination, Int32& charsWritten, ReadOnlySpan<Char> format, IFormatProvider provider);
+  public: Boolean TryFormat(Span<Char> destination, Int32& charsWritten, ReadOnlySpan<Char> format = nullptr, IFormatProvider provider = nullptr);
   public: static Int64 Parse(String s);
   public: static Int64 Parse(String s, NumberStyles style);
   public: static Int64 Parse(String s, IFormatProvider provider);
   public: static Int64 Parse(String s, NumberStyles style, IFormatProvider provider);
-  public: static Int64 Parse(ReadOnlySpan<Char> s, NumberStyles style, IFormatProvider provider);
+  public: static Int64 Parse(ReadOnlySpan<Char> s, NumberStyles style = 7, IFormatProvider provider = nullptr);
   public: static Boolean TryParse(String s, Int64& result);
   public: static Boolean TryParse(ReadOnlySpan<Char> s, Int64& result);
   public: static Boolean TryParse(String s, NumberStyles style, IFormatProvider provider, Int64& result);

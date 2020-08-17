@@ -28,7 +28,7 @@ using IEnumerable = Collections::IEnumerable;
 CLASS(RuntimeResourceSet) : public ResourceSet::in {
   public: using interface = rt::TypeList<IEnumerable>;
   public: void ctor(String fileName);
-  public: void ctor(Stream stream, Boolean permitDeserialization);
+  public: void ctor(Stream stream, Boolean permitDeserialization = false);
   protected: void Dispose(Boolean disposing);
   public: IDictionaryEnumerator GetEnumerator();
   private: IDictionaryEnumerator GetEnumeratorHelper();

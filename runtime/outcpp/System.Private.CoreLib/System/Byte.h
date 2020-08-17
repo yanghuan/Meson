@@ -34,7 +34,7 @@ struct Byte : public valueType<Byte> {
   public: static Byte Parse(String s, NumberStyles style);
   public: static Byte Parse(String s, IFormatProvider provider);
   public: static Byte Parse(String s, NumberStyles style, IFormatProvider provider);
-  public: static Byte Parse(ReadOnlySpan<Char> s, NumberStyles style, IFormatProvider provider);
+  public: static Byte Parse(ReadOnlySpan<Char> s, NumberStyles style = 7, IFormatProvider provider = nullptr);
   private: static Byte Parse(ReadOnlySpan<Char> s, NumberStyles style, NumberFormatInfo info);
   public: static Boolean TryParse(String s, Byte& result);
   public: static Boolean TryParse(ReadOnlySpan<Char> s, Byte& result);
@@ -45,7 +45,7 @@ struct Byte : public valueType<Byte> {
   public: String ToString(String format);
   public: String ToString(IFormatProvider provider);
   public: String ToString(String format, IFormatProvider provider);
-  public: Boolean TryFormat(Span<Char> destination, Int32& charsWritten, ReadOnlySpan<Char> format, IFormatProvider provider);
+  public: Boolean TryFormat(Span<Char> destination, Int32& charsWritten, ReadOnlySpan<Char> format = ReadOnlySpan<Char>(), IFormatProvider provider = nullptr);
   public: TypeCode GetTypeCode();
   private: uint8_t m_value;
   public: static constexpr uint8_t MaxValue = 255;

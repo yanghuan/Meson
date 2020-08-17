@@ -26,8 +26,8 @@ class FormattingHelpers {
   public: static void WriteDigits(UInt64 value, Span<Byte> buffer);
   public: static void WriteDigitsWithGroupSeparator(UInt64 value, Span<Byte> buffer);
   public: static void WriteDigits(UInt32 value, Span<Byte> buffer);
-  public: static void WriteFourDecimalDigits(UInt32 value, Span<Byte> buffer, Int32 startingIndex);
-  public: static void WriteTwoDecimalDigits(UInt32 value, Span<Byte> buffer, Int32 startingIndex);
+  public: static void WriteFourDecimalDigits(UInt32 value, Span<Byte> buffer, Int32 startingIndex = 0);
+  public: static void WriteTwoDecimalDigits(UInt32 value, Span<Byte> buffer, Int32 startingIndex = 0);
   public: static UInt64 DivMod(UInt64 numerator, UInt64 denominator, UInt64& modulo);
   public: static UInt32 DivMod(UInt32 numerator, UInt32 denominator, UInt32& modulo);
   public: static Boolean TryFormatThrowFormatException(Int32& bytesWritten);

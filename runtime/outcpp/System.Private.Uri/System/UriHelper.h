@@ -31,8 +31,8 @@ class UriHelper {
   public: static ReadOnlySpan<Boolean> get_UnreservedReservedTable();
   public: static ReadOnlySpan<Boolean> get_UnreservedTable();
   public: static Boolean TestForSubPath(Char* selfPtr, Int32 selfLength, Char* otherPtr, Int32 otherLength, Boolean ignoreCase);
-  public: static String EscapeString(String stringToEscape, Boolean checkExistingEscaped, ReadOnlySpan<Boolean> unreserved, Char forceEscape1, Char forceEscape2);
-  public: static Array<Char> EscapeString(ReadOnlySpan<Char> stringToEscape, Array<Char> dest, Int32& destPos, Boolean checkExistingEscaped, Char forceEscape1, Char forceEscape2);
+  public: static String EscapeString(String stringToEscape, Boolean checkExistingEscaped, ReadOnlySpan<Boolean> unreserved, Char forceEscape1 = 0, Char forceEscape2 = 0);
+  public: static Array<Char> EscapeString(ReadOnlySpan<Char> stringToEscape, Array<Char> dest, Int32& destPos, Boolean checkExistingEscaped, Char forceEscape1 = 0, Char forceEscape2 = 0);
   private: static void EscapeStringToBuilder(ReadOnlySpan<Char> stringToEscape, ValueStringBuilder& vsb, ReadOnlySpan<Boolean> noEscape, Boolean checkExistingEscaped);
   public: static Array<Char> UnescapeString(String input, Int32 start, Int32 end, Array<Char> dest, Int32& destPosition, Char rsvd1, Char rsvd2, Char rsvd3, UnescapeMode unescapeMode, UriParser syntax, Boolean isQuery);
   public: static Array<Char> UnescapeString(Char* pStr, Int32 start, Int32 end, Array<Char> dest, Int32& destPosition, Char rsvd1, Char rsvd2, Char rsvd3, UnescapeMode unescapeMode, UriParser syntax, Boolean isQuery);
@@ -48,7 +48,7 @@ class UriHelper {
   public: static Boolean IsAsciiLetterOrDigit(Char character);
   public: static Boolean IsHexDigit(Char character);
   public: static Boolean IsBidiControlCharacter(Char ch);
-  public: static String StripBidiControlCharacters(ReadOnlySpan<Char> strToClean, String backingString);
+  public: static String StripBidiControlCharacters(ReadOnlySpan<Char> strToClean, String backingString = nullptr);
   private: static void cctor();
   public: static Encoding s_noFallbackCharUTF8;
   public: static Array<Char> s_WSchars;

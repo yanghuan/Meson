@@ -230,7 +230,7 @@ CLASS(TimeZoneInfo) : public Object::in {
   private: static TimeSpan GetUtcOffsetFromUtc(DateTime time, TimeZoneInfo zone, Boolean& isDaylightSavings);
   public: static TimeSpan GetUtcOffsetFromUtc(DateTime time, TimeZoneInfo zone, Boolean& isDaylightSavings, Boolean& isAmbiguousLocalDst);
   public: static DateTime TransitionTimeToDateTime(Int32 year, TransitionTime transitionTime);
-  private: static TimeZoneInfoResult TryGetTimeZone(String id, Boolean dstDisabled, TimeZoneInfo& value, Exception& e, CachedData cachedData, Boolean alwaysFallbackToLocalMachine);
+  private: static TimeZoneInfoResult TryGetTimeZone(String id, Boolean dstDisabled, TimeZoneInfo& value, Exception& e, CachedData cachedData, Boolean alwaysFallbackToLocalMachine = false);
   private: static TimeZoneInfoResult TryGetTimeZoneFromLocalMachine(String id, Boolean dstDisabled, TimeZoneInfo& value, Exception& e, CachedData cachedData);
   private: static void ValidateTimeZoneInfo(String id, TimeSpan baseUtcOffset, Array<AdjustmentRule> adjustmentRules, Boolean& adjustmentRulesSupportDst);
   public: static Boolean UtcOffsetOutOfRange(TimeSpan offset);

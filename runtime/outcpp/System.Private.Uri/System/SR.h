@@ -42,7 +42,7 @@ class SR {
   public: static String get_InvalidNullArgument();
   public: static String get_net_uri_InitializeCalledAlreadyOrTooLate();
   private: static Boolean UsingResourceKeys();
-  public: static String GetResourceString(String resourceKey, String defaultString);
+  public: static String GetResourceString(String resourceKey, String defaultString = nullptr);
   public: static String Format(String resourceFormat, Object p1);
   public: static String Format(String resourceFormat, Object p1, Object p2);
   private: static ResourceManager s_resourceManager;

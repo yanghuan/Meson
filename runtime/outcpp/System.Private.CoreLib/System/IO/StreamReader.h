@@ -42,7 +42,7 @@ CLASS(StreamReader) : public TextReader::in {
   public: void ctor(Stream stream, Encoding encoding);
   public: void ctor(Stream stream, Encoding encoding, Boolean detectEncodingFromByteOrderMarks);
   public: void ctor(Stream stream, Encoding encoding, Boolean detectEncodingFromByteOrderMarks, Int32 bufferSize);
-  public: void ctor(Stream stream, Encoding encoding, Boolean detectEncodingFromByteOrderMarks, Int32 bufferSize, Boolean leaveOpen);
+  public: void ctor(Stream stream, Encoding encoding = nullptr, Boolean detectEncodingFromByteOrderMarks = true, Int32 bufferSize = -1, Boolean leaveOpen = false);
   public: void ctor(String path);
   public: void ctor(String path, Boolean detectEncodingFromByteOrderMarks);
   public: void ctor(String path, Encoding encoding);
@@ -71,10 +71,10 @@ CLASS(StreamReader) : public TextReader::in {
   public: Task<String> ReadToEndAsync();
   private: Task<String> ReadToEndAsyncInternal();
   public: Task<Int32> ReadAsync(Array<Char> buffer, Int32 index, Int32 count);
-  public: ValueTask<Int32> ReadAsync(Memory<Char> buffer, CancellationToken cancellationToken);
+  public: ValueTask<Int32> ReadAsync(Memory<Char> buffer, CancellationToken cancellationToken = nullptr);
   public: ValueTask<Int32> ReadAsyncInternal(Memory<Char> buffer, CancellationToken cancellationToken);
   public: Task<Int32> ReadBlockAsync(Array<Char> buffer, Int32 index, Int32 count);
-  public: ValueTask<Int32> ReadBlockAsync(Memory<Char> buffer, CancellationToken cancellationToken);
+  public: ValueTask<Int32> ReadBlockAsync(Memory<Char> buffer, CancellationToken cancellationToken = nullptr);
   private: ValueTask<Int32> ReadBufferAsync(CancellationToken cancellationToken);
   private: void ThrowIfDisposed();
   private: static void cctor();
