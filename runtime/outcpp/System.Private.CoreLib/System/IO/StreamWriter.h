@@ -77,15 +77,15 @@ CLASS(StreamWriter) : public TextWriter::in {
   public: Task<> WriteAsync(String value);
   private: static Task<> WriteAsyncInternal(StreamWriter _this, String value, Array<Char> charBuffer, Int32 charPos, Int32 charLen, Array<Char> coreNewLine, Boolean autoFlush, Boolean appendNewLine);
   public: Task<> WriteAsync(Array<Char> buffer, Int32 index, Int32 count);
-  public: Task<> WriteAsync(ReadOnlyMemory<Char> buffer, CancellationToken cancellationToken = nullptr);
+  public: Task<> WriteAsync(ReadOnlyMemory<Char> buffer, CancellationToken cancellationToken = rt::default);
   private: static Task<> WriteAsyncInternal(StreamWriter _this, ReadOnlyMemory<Char> source, Array<Char> charBuffer, Int32 charPos, Int32 charLen, Array<Char> coreNewLine, Boolean autoFlush, Boolean appendNewLine, CancellationToken cancellationToken);
   public: Task<> WriteLineAsync();
   public: Task<> WriteLineAsync(Char value);
   public: Task<> WriteLineAsync(String value);
   public: Task<> WriteLineAsync(Array<Char> buffer, Int32 index, Int32 count);
-  public: Task<> WriteLineAsync(ReadOnlyMemory<Char> buffer, CancellationToken cancellationToken = nullptr);
+  public: Task<> WriteLineAsync(ReadOnlyMemory<Char> buffer, CancellationToken cancellationToken = rt::default);
   public: Task<> FlushAsync();
-  private: Task<> FlushAsyncInternal(Boolean flushStream, Boolean flushEncoder, Array<Char> sCharBuffer, Int32 sCharPos, CancellationToken cancellationToken = nullptr);
+  private: Task<> FlushAsyncInternal(Boolean flushStream, Boolean flushEncoder, Array<Char> sCharBuffer, Int32 sCharPos, CancellationToken cancellationToken = rt::default);
   private: static Task<> FlushAsyncInternal(StreamWriter _this, Boolean flushStream, Boolean flushEncoder, Array<Char> charBuffer, Int32 charPos, Boolean haveWrittenPreamble, Encoding encoding, Encoder encoder, Array<Byte> byteBuffer, Stream stream, CancellationToken cancellationToken);
   private: void ThrowIfDisposed();
   private: static void cctor();

@@ -133,12 +133,12 @@ CLASS(FileStream) : public Stream::in {
   public: Int32 Read(Array<Byte> array, Int32 offset, Int32 count);
   public: Int32 Read(Span<Byte> buffer);
   public: Task<Int32> ReadAsync(Array<Byte> buffer, Int32 offset, Int32 count, CancellationToken cancellationToken);
-  public: ValueTask<Int32> ReadAsync(Memory<Byte> buffer, CancellationToken cancellationToken = nullptr);
+  public: ValueTask<Int32> ReadAsync(Memory<Byte> buffer, CancellationToken cancellationToken = rt::default);
   private: Task<Int32> ReadAsyncTask(Array<Byte> array, Int32 offset, Int32 count, CancellationToken cancellationToken);
   public: void Write(Array<Byte> array, Int32 offset, Int32 count);
   public: void Write(ReadOnlySpan<Byte> buffer);
   public: Task<> WriteAsync(Array<Byte> buffer, Int32 offset, Int32 count, CancellationToken cancellationToken);
-  public: ValueTask<> WriteAsync(ReadOnlyMemory<Byte> buffer, CancellationToken cancellationToken = nullptr);
+  public: ValueTask<> WriteAsync(ReadOnlyMemory<Byte> buffer, CancellationToken cancellationToken = rt::default);
   public: void Flush();
   public: void Flush(Boolean flushToDisk);
   private: void ValidateReadWriteArgs(Array<Byte> array, Int32 offset, Int32 count);

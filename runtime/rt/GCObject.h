@@ -711,6 +711,15 @@ namespace rt {
     }
   };
 
+  struct Default {
+    template <class R>
+    constexpr operator R() const {
+      return R();
+    }
+  };
+
+  constexpr Default default;
+  
   template <class T, class V>
   bool is(const V& v) {
     return false;
@@ -764,27 +773,32 @@ namespace rt {
 }  // namespace rt
 
 template <class T> requires(std::is_enum_v<T>) 
-inline constexpr bool operator ==(const T& a, int32_t b) { 
+inline constexpr bool operator ==(T a, int32_t b) { 
   return a == b;
 }
 
 template <class T> requires(std::is_enum_v<T>) 
-inline constexpr bool operator !=(const T& a, int32_t b) { 
+inline constexpr bool operator !=(T a, int32_t b) { 
   return a != b;
 }
 
 template <class T, class T1> requires(std::is_arithmetic_v<T> && rt::IsArithmetic<T1>) 
-inline auto operator *(const T& a, const T1& b) { 
+inline constexpr auto operator *(T a, T1 b) { 
   return b * a;
 }
 
 template <class T> requires(std::is_enum_v<T>) 
-inline auto operator &(T& a, const T& b) { 
+inline constexpr auto operator &(T a, T b) { 
   return (T)((int)a & (int)b);
 }
 
 template <class T> requires(std::is_enum_v<T>) 
-inline auto operator |=(T& a, const T& b) { 
+inline constexpr auto operator |(T a, T b) { 
+  return (T)((int)a | (int)b);
+}
+
+template <class T> requires(std::is_enum_v<T>) 
+inline constexpr auto operator |=(T a, T b) { 
   return a = (T)((int)a | (int)b);
 }
 

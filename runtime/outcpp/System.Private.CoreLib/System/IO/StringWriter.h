@@ -47,13 +47,13 @@ CLASS(StringWriter) : public TextWriter::in {
   public: Task<> WriteAsync(Char value);
   public: Task<> WriteAsync(String value);
   public: Task<> WriteAsync(Array<Char> buffer, Int32 index, Int32 count);
-  public: Task<> WriteAsync(ReadOnlyMemory<Char> buffer, CancellationToken cancellationToken = nullptr);
-  public: Task<> WriteAsync(StringBuilder value, CancellationToken cancellationToken = nullptr);
+  public: Task<> WriteAsync(ReadOnlyMemory<Char> buffer, CancellationToken cancellationToken = rt::default);
+  public: Task<> WriteAsync(StringBuilder value, CancellationToken cancellationToken = rt::default);
   public: Task<> WriteLineAsync(Char value);
   public: Task<> WriteLineAsync(String value);
-  public: Task<> WriteLineAsync(StringBuilder value, CancellationToken cancellationToken = nullptr);
+  public: Task<> WriteLineAsync(StringBuilder value, CancellationToken cancellationToken = rt::default);
   public: Task<> WriteLineAsync(Array<Char> buffer, Int32 index, Int32 count);
-  public: Task<> WriteLineAsync(ReadOnlyMemory<Char> buffer, CancellationToken cancellationToken = nullptr);
+  public: Task<> WriteLineAsync(ReadOnlyMemory<Char> buffer, CancellationToken cancellationToken = rt::default);
   public: Task<> FlushAsync();
   public: String ToString();
   private: static UnicodeEncoding s_encoding;

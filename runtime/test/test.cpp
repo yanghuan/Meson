@@ -48,14 +48,19 @@ void TestTry() {
   }
 }
 
+enum class Enum {
+  A,
+  B,
+  C,
+};
+
+template <class T>
+static void F(T a, T t = rt::default, Enum r = Enum::A | Enum::B) {
+}
+
 void TestStrDefault() {
-  struct A {
-    static void f(int a, String b = "") {
-
-    }
-  };
-
-  A::f(1);
+  F(1);
+  //int a = rt::default;
 }
 
 int main() {

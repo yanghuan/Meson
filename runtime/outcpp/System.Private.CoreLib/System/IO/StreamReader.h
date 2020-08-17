@@ -71,10 +71,10 @@ CLASS(StreamReader) : public TextReader::in {
   public: Task<String> ReadToEndAsync();
   private: Task<String> ReadToEndAsyncInternal();
   public: Task<Int32> ReadAsync(Array<Char> buffer, Int32 index, Int32 count);
-  public: ValueTask<Int32> ReadAsync(Memory<Char> buffer, CancellationToken cancellationToken = nullptr);
+  public: ValueTask<Int32> ReadAsync(Memory<Char> buffer, CancellationToken cancellationToken = rt::default);
   public: ValueTask<Int32> ReadAsyncInternal(Memory<Char> buffer, CancellationToken cancellationToken);
   public: Task<Int32> ReadBlockAsync(Array<Char> buffer, Int32 index, Int32 count);
-  public: ValueTask<Int32> ReadBlockAsync(Memory<Char> buffer, CancellationToken cancellationToken = nullptr);
+  public: ValueTask<Int32> ReadBlockAsync(Memory<Char> buffer, CancellationToken cancellationToken = rt::default);
   private: ValueTask<Int32> ReadBufferAsync(CancellationToken cancellationToken);
   private: void ThrowIfDisposed();
   private: static void cctor();

@@ -51,7 +51,7 @@ struct Single : public valueType<Single> {
   public: String ToString(IFormatProvider provider);
   public: String ToString(String format);
   public: String ToString(String format, IFormatProvider provider);
-  public: Boolean TryFormat(Span<Char> destination, Int32& charsWritten, ReadOnlySpan<Char> format = nullptr, IFormatProvider provider = nullptr);
+  public: Boolean TryFormat(Span<Char> destination, Int32& charsWritten, ReadOnlySpan<Char> format = rt::default, IFormatProvider provider = nullptr);
   public: static Single Parse(String s);
   public: static Single Parse(String s, NumberStyles style);
   public: static Single Parse(String s, IFormatProvider provider);

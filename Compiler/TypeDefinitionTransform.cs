@@ -282,37 +282,49 @@ namespace Meson.Compiler {
       });
     }
 
+    private ExpressionSyntax GetDefaultEnumValue(IParameter parameter, object constValue, ExpressionSyntax typeName) {
+      var fields = parameter.Type.GetDefinition().Fields;
+      var field = fields.FirstOrDefault(i => constValue.Equals(i.GetConstantValue()));
+      if (field != null) {
+        return typeName.TwoColon(field.Name);
+      }
+      long v = Convert.ToInt64(constValue);
+      ExpressionSyntax value = null;
+      long v1 = 0;
+      foreach (var f in fields.Skip(1)) {
+        long fieldValue = Convert.ToInt64(f.GetConstantValue());
+        if ((v & fieldValue) != 0) {
+          if (value == null) {
+            value = typeName.TwoColon(f.Name);
+            v1 = fieldValue;
+          } else {
+            value = value.Binary(Tokens.BitOr, typeName.TwoColon(f.Name));
+            v1 |= fieldValue;
+          }
+          if (v == v1) {
+            return value;
+          }
+        }
+      }
+      return constValue.ToString().Identifier().CastTo(typeName);
+    }
+
     internal ExpressionSyntax GetDefaultParameterValue(IParameter parameter, ITypeDefinition typeDefinition) {
+      var parameterType = GetTypeName(parameter.Type, typeDefinition, parameter);
+      return GetDefaultParameterValue(parameter, parameterType);
+    }
+
+    private ExpressionSyntax GetDefaultParameterValue(IParameter parameter, ExpressionSyntax parametertype) {
       var constValue = parameter.GetConstantValue();
       ExpressionSyntax defaultValue;
       if (constValue == null) {
-        defaultValue = IdentifierSyntax.Nullptr;
+        if (parameter.Type.Kind == TypeKind.Struct) {
+          defaultValue = IdentifierSyntax.Default;
+        } else {
+          defaultValue = IdentifierSyntax.Nullptr;
+        }
       } else if (parameter.Type.Kind == TypeKind.Enum) {
-        var typeName = GetTypeName(parameter.Type, typeDefinition, parameter);
-        var fields = parameter.Type.GetDefinition().Fields;
-        var field = fields.FirstOrDefault(i => constValue.Equals(i.GetConstantValue()));
-        if (field != null) {
-          return typeName.TwoColon(field.Name);
-        }
-        long v = Convert.ToInt64(constValue);
-        ExpressionSyntax value = null;
-        long v1 = 0;
-        foreach (var f in fields.Skip(1)) {
-          long fieldValue = Convert.ToInt64(f.GetConstantValue());
-          if ((v & fieldValue) != 0) {
-            if (value == null) {
-              value = typeName.TwoColon(f.Name);
-              v1 = fieldValue;
-            } else {
-              value = value.Binary(Tokens.BitOr, typeName.TwoColon(f.Name));
-              v1 |= fieldValue;
-            }
-            if (v == v1) {
-              return value;
-            }
-          }
-        }
-        return constValue.ToString().Identifier().CastTo(typeName);
+        defaultValue = GetDefaultEnumValue(parameter, constValue, parametertype);
       } else {
         defaultValue = Utils.GetPrimitiveExpression(constValue);
       }
@@ -332,7 +344,7 @@ namespace Meson.Compiler {
       var name = GetMemberName(parameter);
       ExpressionSyntax value;
       if (parameter.HasConstantValueInSignature) {
-        value = GetDefaultParameterValue(parameter, typeDefinition);
+        value = GetDefaultParameterValue(parameter, type);
       } else {
         value = null;
       }

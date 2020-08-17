@@ -130,7 +130,7 @@ CLASS(Stream) : public MarshalByRefObject::in {
   public: Int32 EndRead(IAsyncResult asyncResult);
   public: Task<Int32> ReadAsync(Array<Byte> buffer, Int32 offset, Int32 count);
   public: Task<Int32> ReadAsync(Array<Byte> buffer, Int32 offset, Int32 count, CancellationToken cancellationToken);
-  public: ValueTask<Int32> ReadAsync(Memory<Byte> buffer, CancellationToken cancellationToken = nullptr);
+  public: ValueTask<Int32> ReadAsync(Memory<Byte> buffer, CancellationToken cancellationToken = rt::default);
   private: Task<Int32> BeginEndReadAsync(Array<Byte> buffer, Int32 offset, Int32 count);
   public: IAsyncResult BeginWrite(Array<Byte> buffer, Int32 offset, Int32 count, AsyncCallback callback, Object state);
   public: IAsyncResult BeginWriteInternal(Array<Byte> buffer, Int32 offset, Int32 count, AsyncCallback callback, Object state, Boolean serializeAsynchronously, Boolean apm);
@@ -140,7 +140,7 @@ CLASS(Stream) : public MarshalByRefObject::in {
   public: void EndWrite(IAsyncResult asyncResult);
   public: Task<> WriteAsync(Array<Byte> buffer, Int32 offset, Int32 count);
   public: Task<> WriteAsync(Array<Byte> buffer, Int32 offset, Int32 count, CancellationToken cancellationToken);
-  public: ValueTask<> WriteAsync(ReadOnlyMemory<Byte> buffer, CancellationToken cancellationToken = nullptr);
+  public: ValueTask<> WriteAsync(ReadOnlyMemory<Byte> buffer, CancellationToken cancellationToken = rt::default);
   private: Task<> FinishWriteAsync(Task<> writeTask, Array<Byte> localBuffer);
   private: Task<> BeginEndWriteAsync(Array<Byte> buffer, Int32 offset, Int32 count);
   public: Int64 Seek(Int64 offset, SeekOrigin origin);
@@ -206,12 +206,12 @@ CLASS(NullStream) : public Stream::in {
   public: Int32 Read(Array<Byte> buffer, Int32 offset, Int32 count);
   public: Int32 Read(Span<Byte> buffer);
   public: Task<Int32> ReadAsync(Array<Byte> buffer, Int32 offset, Int32 count, CancellationToken cancellationToken);
-  public: ValueTask<Int32> ReadAsync(Memory<Byte> buffer, CancellationToken cancellationToken = nullptr);
+  public: ValueTask<Int32> ReadAsync(Memory<Byte> buffer, CancellationToken cancellationToken = rt::default);
   public: Int32 ReadByte();
   public: void Write(Array<Byte> buffer, Int32 offset, Int32 count);
   public: void Write(ReadOnlySpan<Byte> buffer);
   public: Task<> WriteAsync(Array<Byte> buffer, Int32 offset, Int32 count, CancellationToken cancellationToken);
-  public: ValueTask<> WriteAsync(ReadOnlyMemory<Byte> buffer, CancellationToken cancellationToken = nullptr);
+  public: ValueTask<> WriteAsync(ReadOnlyMemory<Byte> buffer, CancellationToken cancellationToken = rt::default);
   public: void WriteByte(Byte value);
   public: Int64 Seek(Int64 offset, SeekOrigin origin);
   public: void SetLength(Int64 length);
