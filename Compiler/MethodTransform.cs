@@ -301,8 +301,12 @@ namespace Meson.Compiler {
         }
       }
 
-      if (type.Kind == TypeKind.Null && ((IMethod)symbol.MemberDefinition).Parameters[index].Type.Kind == TypeKind.TypeParameter) {
-        isCast = true;
+      if (type.Kind == TypeKind.Null) {
+        var original = (IMethod)symbol.MemberDefinition;
+        var originalParameterType = original.Parameters[index].Type;
+        if (originalParameterType.Kind == TypeKind.TypeParameter && original.TypeParameters.Any(i => i.Name == originalParameterType.Name)) {
+          isCast = true;
+        }
       }
 
       if (isCast) {

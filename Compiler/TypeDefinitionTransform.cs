@@ -276,7 +276,7 @@ namespace Meson.Compiler {
     }
 
     private ExpressionSyntax GetRetuenTypeSyntax(IMethod method, ITypeDefinition typeDefinition) {
-      var returnType = CompilationUnit.GetTypeName(new TypeNameArgs {
+      return CompilationUnit.GetTypeName(new TypeNameArgs {
         Type = method.ReturnType,
         Definition = typeDefinition,
         IsForward = true,
@@ -284,18 +284,6 @@ namespace Meson.Compiler {
         Original = method.ReturnType,
         Symbol = method,
       });
-      CheckReturnTypeConflict(ref returnType, method.ReturnType.GetDefinition(), typeDefinition);
-      return returnType;
-    }
-
-    private static void CheckReturnTypeConflict(ref ExpressionSyntax type, ITypeDefinition returnType, ITypeDefinition typeDefinition) {
-      if (returnType != null) {
-        foreach (var nestedType in typeDefinition.NestedTypes) {
-          if (nestedType != returnType && nestedType.Name == returnType.Name) {
-            type = type.WithFullName(returnType, typeDefinition);
-          }
-        }
-      }
     }
 
     private ParameterSyntax GetParameterSyntax(IParameter parameter, IMethod method, ITypeDefinition typeDefinition) {

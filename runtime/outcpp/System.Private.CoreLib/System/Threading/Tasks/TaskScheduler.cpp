@@ -106,7 +106,7 @@ void TaskScheduler___::AddToActiveTaskSchedulers() {
     Interlocked::CompareExchange(s_activeTaskSchedulers, rt::newobj<ConditionalWeakTable<TaskScheduler, Object>>(), (ConditionalWeakTable<TaskScheduler, Object>)nullptr);
     conditionalWeakTable = s_activeTaskSchedulers;
   }
-  conditionalWeakTable->Add((TaskScheduler)this, (Object)nullptr);
+  conditionalWeakTable->Add((TaskScheduler)this, nullptr);
 }
 
 TaskScheduler TaskScheduler___::FromCurrentSynchronizationContext() {

@@ -333,12 +333,14 @@ namespace Meson.Compiler {
       if (!isGeneric && typeDefinition != null) {
         if (Generator.IsVoidGenericType(typeDefinition)) {
           typeName = typeName.Generic();
-        } else if (args.IsInHead) {
-          var definitionBaseType = args.Definition.DirectBaseTypes.FirstOrDefault()?.GetDefinition();
-          if (definitionBaseType != null && definitionBaseType.KnownTypeCode == KnownTypeCode.None) {
-            var sameNameBaseType = definitionBaseType.NestedTypes.FirstOrDefault(i => i.Name == typeDefinition.Name);
-            if (sameNameBaseType != null && sameNameBaseType != typeDefinition) {
+        } else if (args.Definition != null && typeDefinition.DeclaringTypeDefinition == null) {
+          var nestedTypes = args.Definition.NestedTypes.Concat(args.Definition.GetAllBaseTypes().SelectMany(i => i.NestedTypes.Where(i => i.Accessibility != Accessibility.Private)));
+          var nestedType = nestedTypes.FirstOrDefault(i => i.Name == typeDefinition.Name);
+          if (nestedType != null && !nestedType.EQ(typeDefinition)) {
+            if (args.IsInHead && typeDefinition.EQ(args.Definition)) {
               typeName = typeDefinition.Name.WithNamespace().Identifier().TwoColon(typeName);
+            } else {
+              typeName = typeName.WithFullName(typeDefinition, args.Definition);
             }
           }
         }

@@ -609,12 +609,12 @@ namespace Meson.Compiler {
       return type.ParentModule == other.ParentModule && type.Namespace == other.Namespace;
     }
 
-    public static IEnumerable<ITypeDefinition> GetBaseTypeDefinitionsWithoutInterface(this ITypeDefinition type) {
+    public static IEnumerable<ITypeDefinition> GetAllBaseTypes(this ITypeDefinition type) {
       return type.GetAllBaseTypeDefinitions().Where(i => i.Kind != TypeKind.Interface);
     }
 
     public static IEnumerable<IMember> GetAllMembers(this ITypeDefinition type) {
-      return type.GetBaseTypeDefinitionsWithoutInterface().SelectMany(i => {
+      return type.GetAllBaseTypes().SelectMany(i => {
         List<IMember> members = new List<IMember>();
         foreach (var p in i.Properties) {
           if (p.CanGet) {
