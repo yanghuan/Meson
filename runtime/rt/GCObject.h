@@ -740,6 +740,15 @@ namespace rt {
     return nullptr;
   }
 
+  template <class T>
+  inline void lock(const T& obj) {
+  }
+
+  template <class T>
+  inline const TypeMetadata& typeof() {
+    return gTypeMetadata;
+  }
+
   template <class R, class Arg>
   int init(int argc, char* argv[], R (*f)(Arg)) {
     auto args = Array<ref<string>, object>::newarr(argc - 1);
@@ -775,11 +784,6 @@ namespace rt {
     using T = A::in::element_type;
     return *reinterpret_cast<A*>(&rt::Array<T, object>::newarr(GetArrayIndex(n)));
   }
-
-  template <class T>
-  inline void lock(const T& obj) {
-  }
-
 }  // namespace rt
 
 template <class T> requires(std::is_enum_v<T>) 

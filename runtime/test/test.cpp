@@ -68,6 +68,10 @@ template <>
 void TestDefault::f(int a, int b) {
 }
 
+
+// https://stackoverflow.com/a/28209546/13460873
+template <char...> double operator "" _x(); // OK
+
 void TestStrDefault() {
   F(1);
   TestDefault a;
@@ -77,6 +81,8 @@ void TestStrDefault() {
 int main() {
   TestTry();
   Int32 a = 0;
+  double aa = "dddd"_x;
+
   return 0;
 }
 
