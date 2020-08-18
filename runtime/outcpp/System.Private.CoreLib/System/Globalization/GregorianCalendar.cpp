@@ -86,9 +86,9 @@ DateTime GregorianCalendar___::AddMonths(DateTime time, Int32 months) {
   if (months < -120000 || months > 120000) {
     rt::throw_exception<ArgumentOutOfRangeException>("months", months, SR::Format(SR::get_ArgumentOutOfRange_Range(), -120000, 120000));
   }
-  Int32 year;
-  Int32 month;
   Int32 day;
+  Int32 month;
+  Int32 year;
   time.GetDate(year, month, day);
   Int32 num = month - 1 + months;
   if (num >= 0) {

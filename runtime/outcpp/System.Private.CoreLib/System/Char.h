@@ -99,6 +99,8 @@ struct Char : public valueType<Char> {
   public: static constexpr rt::TypeCode code = rt::TypeCode::Char;
   public: constexpr Char() noexcept : m_value(0) {}
   public: constexpr Char(char8_t value) noexcept : m_value(value) {}
+  public: template <class T> requires(std::is_enum_v<T>)
+  constexpr Char(T value) noexcept : Char((char8_t)value) {}
   public: constexpr char8_t& get() noexcept { return m_value; }
   public: constexpr char8_t get() const noexcept { return m_value; }
 };

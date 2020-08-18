@@ -716,8 +716,8 @@ void RuntimeType___::FilterHelper(BindingFlags bindingFlags, String& name, Boole
 }
 
 void RuntimeType___::FilterHelper(BindingFlags bindingFlags, String& name, Boolean& ignoreCase, MemberListType& listType) {
-  Boolean _;
-  FilterHelper(bindingFlags, name, false, _, ignoreCase, listType);
+  Boolean prefixLookup;
+  FilterHelper(bindingFlags, name, false, prefixLookup, ignoreCase, listType);
 }
 
 Boolean RuntimeType___::FilterApplyPrefixLookup(MemberInfo memberInfo, String name, Boolean ignoreCase) {
@@ -933,9 +933,9 @@ RuntimeType::in::ListBuilder<Type> RuntimeType___::GetNestedTypeCandidates(Strin
   String ns;
   SplitName(fullname, name, ns);
   Boolean prefixLookup;
-  Boolean _;
+  Boolean ignoreCase;
   MemberListType listType;
-  FilterHelper(bindingAttr, name, allowPrefixLookup, prefixLookup, _, listType);
+  FilterHelper(bindingAttr, name, allowPrefixLookup, prefixLookup, ignoreCase, listType);
   Array<RuntimeType> nestedTypeList = get_Cache()->GetNestedTypeList(listType, name);
   ListBuilder<Type> result = ListBuilder<Type>(nestedTypeList->get_Length());
 }
@@ -1135,9 +1135,9 @@ EventInfo RuntimeType___::GetEvent(String name, BindingFlags bindingAttr) {
   if (name == nullptr) {
     rt::throw_exception<ArgumentNullException>("name");
   }
-  Boolean _;
+  Boolean ignoreCase;
   MemberListType listType;
-  FilterHelper(bindingAttr, name, _, listType);
+  FilterHelper(bindingAttr, name, ignoreCase, listType);
   Array<RuntimeEventInfo> eventList = get_Cache()->GetEventList(listType, name);
   EventInfo eventInfo = nullptr;
   bindingAttr ^= BindingFlags::DeclaredOnly;
@@ -1147,9 +1147,9 @@ FieldInfo RuntimeType___::GetField(String name, BindingFlags bindingAttr) {
   if (name == nullptr) {
     rt::throw_exception<ArgumentNullException>();
   }
-  Boolean _;
+  Boolean ignoreCase;
   MemberListType listType;
-  FilterHelper(bindingAttr, name, _, listType);
+  FilterHelper(bindingAttr, name, ignoreCase, listType);
   Array<RuntimeFieldInfo> fieldList = get_Cache()->GetFieldList(listType, name);
   FieldInfo fieldInfo = nullptr;
   bindingAttr ^= BindingFlags::DeclaredOnly;
@@ -1168,9 +1168,9 @@ Type RuntimeType___::GetInterface(String fullname, Boolean ignoreCase) {
   String name;
   String ns;
   SplitName(fullname, name, ns);
-  Boolean _;
+  Boolean ignoreCase2;
   MemberListType listType;
-  FilterHelper(bindingFlags, name, _, listType);
+  FilterHelper(bindingFlags, name, ignoreCase2, listType);
   Array<RuntimeType> interfaceList = get_Cache()->GetInterfaceList(listType, name);
   RuntimeType runtimeType = nullptr;
 }
@@ -1183,9 +1183,9 @@ Type RuntimeType___::GetNestedType(String fullname, BindingFlags bindingAttr) {
   String name;
   String ns;
   SplitName(fullname, name, ns);
-  Boolean _;
+  Boolean ignoreCase;
   MemberListType listType;
-  FilterHelper(bindingAttr, name, _, listType);
+  FilterHelper(bindingAttr, name, ignoreCase, listType);
   Array<RuntimeType> nestedTypeList = get_Cache()->GetNestedTypeList(listType, name);
   RuntimeType runtimeType = nullptr;
 }

@@ -1,5 +1,6 @@
 #pragma once
 
+#include <System.Private.CoreLib/System/Int32.h>
 #include <System.Private.CoreLib/System/Object.h>
 
 namespace System::Private::CoreLib::System {
@@ -10,9 +11,11 @@ namespace Test::Test {
 namespace ProgramNamespace {
 using namespace ::System::Private::CoreLib::System;
 CLASS(Program) : public Object::in {
-  private: static void Write(String c = nullptr);
+  private: Int32 get_A() { return A; }
+  private: void set_A(Int32 value) { A = value; }
   public: static void Main(Array<String> args);
   public: void ctor();
+  private: Int32 A;
 };
 } // namespace ProgramNamespace
 using Program = ProgramNamespace::Program;

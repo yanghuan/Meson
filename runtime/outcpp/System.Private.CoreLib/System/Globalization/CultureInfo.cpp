@@ -108,7 +108,8 @@ CultureInfo CultureInfo___::get_Parent() {
   if (_parent == nullptr) {
     String parentName = _cultureData->get_ParentName();
     auto& default = CreateCultureInfoNoThrow(parentName, _cultureData->get_UseUserOverride());
-    Interlocked::CompareExchange<CultureInfo>(_parent, (!String::in::IsNullOrEmpty(parentName)) ? (default != nullptr ? default : get_InvariantCulture()) : get_InvariantCulture(), (CultureInfo)nullptr);
+    CultureInfo value = (!String::in::IsNullOrEmpty(parentName)) ? (default != nullptr ? default : get_InvariantCulture()) : get_InvariantCulture();
+    Interlocked::CompareExchange(_parent, value, (CultureInfo)nullptr);
   }
   return _parent;
 }

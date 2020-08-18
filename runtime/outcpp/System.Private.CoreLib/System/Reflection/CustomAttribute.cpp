@@ -233,10 +233,10 @@ Boolean CustomAttribute::IsCustomAttributeDefined(RuntimeModule decoratedModule,
     MetadataImport scope = decoratedModule->get_MetadataImport();
     RuntimeType::in::ListBuilder<T> derivedAttributes = RuntimeType::in::ListBuilder<T>();
     for (Int32 i = 0; i < customAttributeRecords->get_Length(); i++) {
-      RuntimeType _;
-      IRuntimeMethodInfo _;
-      Boolean _;
-      if (FilterCustomAttributeRecord(customAttributeRecords[i].tkCtor, scope, decoratedModule, decoratedMetadataToken, attributeFilterType, mustBeInheritable, derivedAttributes, _, _, _)) {
+      RuntimeType attributeType;
+      IRuntimeMethodInfo ctorWithParameters;
+      Boolean isVarArg;
+      if (FilterCustomAttributeRecord(customAttributeRecords[i].tkCtor, scope, decoratedModule, decoratedMetadataToken, attributeFilterType, mustBeInheritable, derivedAttributes, attributeType, ctorWithParameters, isVarArg)) {
         return true;
       }
     }

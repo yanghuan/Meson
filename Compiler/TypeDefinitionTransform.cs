@@ -331,11 +331,6 @@ namespace Meson.Compiler {
       return constValue.ToString().Identifier().CastTo(typeName);
     }
 
-    internal ExpressionSyntax GetDefaultParameterValue(IParameter parameter, ITypeDefinition typeDefinition) {
-      var parameterType = GetTypeName(parameter.Type, typeDefinition, parameter);
-      return GetDefaultParameterValue(parameter, parameterType);
-    }
-
     private ExpressionSyntax GetDefaultParameterValue(IParameter parameter, ExpressionSyntax parametertype) {
       var constValue = parameter.GetConstantValue();
       ExpressionSyntax defaultValue;
@@ -656,7 +651,7 @@ namespace Meson.Compiler {
               underlyingTypeConstructor.AddInitializationList(fieldName, IdentifierSyntax.Value);
               node.Add(underlyingTypeConstructor);
 
-              if (type.IsKnownType(KnownTypeCode.Int32)) {
+              if (type.IsNumberType()) {
                 var enumTypeConstructor = new MethodDefinitionSyntax(node.Name, new ParameterSyntax(IdentifierSyntax.T, IdentifierSyntax.Value).ArrayOf()) {
                   AccessibilityToken = accessibilityToken,
                   Body = BlockSyntax.EmptyBlock,

@@ -1742,8 +1742,8 @@ Boolean DateTimeParse::AdjustTimeZoneToLocal(DateTimeResult& result, Boolean bTi
       ticks += local->GetUtcOffset(result.parsedDate, TimeZoneInfoOptions::NoThrowOnInvalidTime).get_Ticks();
     } else {
       DateTime time = DateTime(ticks, DateTimeKind::Utc);
-      Boolean _;
-      ticks += TimeZoneInfo::in::GetUtcOffsetFromUtc(time, TimeZoneInfo::in::get_Local(), _, isAmbiguousLocalDst).get_Ticks();
+      Boolean isDaylightSavings;
+      ticks += TimeZoneInfo::in::GetUtcOffsetFromUtc(time, TimeZoneInfo::in::get_Local(), isDaylightSavings, isAmbiguousLocalDst).get_Ticks();
     }
   }
   if (ticks < 0 || ticks > 3155378975999999999) {

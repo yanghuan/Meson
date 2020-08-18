@@ -150,7 +150,8 @@ ResourceSet ManifestBasedResourceGroveler___::CreateResourceSet(Stream store, As
       return (ResourceSet)Activator::CreateInstance(_mediator->get_UserResourceSet(), args2);
     } catch (MissingMethodException) {
     }
-    return (ResourceSet)Activator::CreateInstance(_mediator->get_UserResourceSet(), rt::newarr<Array<Object>>(1));
+    args2 = rt::newarr<Array<Object>>(1);
+    return (ResourceSet)Activator::CreateInstance(_mediator->get_UserResourceSet(), args2);
   } catch (MissingMethodException innerException) {
   }
 }

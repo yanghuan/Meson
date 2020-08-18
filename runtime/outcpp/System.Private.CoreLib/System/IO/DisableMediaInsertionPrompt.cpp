@@ -13,8 +13,8 @@ DisableMediaInsertionPrompt DisableMediaInsertionPrompt::Create() {
 
 void DisableMediaInsertionPrompt::Dispose() {
   if (_disableSuccess) {
-    UInt32 _;
-    Interop::Kernel32::SetThreadErrorMode(_oldMode, _);
+    UInt32 lpOldMode;
+    Interop::Kernel32::SetThreadErrorMode(_oldMode, lpOldMode);
   }
 }
 

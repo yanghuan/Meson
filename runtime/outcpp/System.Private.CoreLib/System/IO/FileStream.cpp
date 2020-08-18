@@ -24,6 +24,7 @@
 #include <System.Private.CoreLib/System/Math-dep.h>
 #include <System.Private.CoreLib/System/MemoryExtensions-dep.h>
 #include <System.Private.CoreLib/System/NotSupportedException-dep.h>
+#include <System.Private.CoreLib/System/Nullable-dep.h>
 #include <System.Private.CoreLib/System/Object-dep.h>
 #include <System.Private.CoreLib/System/ObjectDisposedException-dep.h>
 #include <System.Private.CoreLib/System/ReadOnlySpan-dep.h>
@@ -1521,8 +1522,12 @@ SafeFileHandle FileStream___::CreateFileOpenHandle(FileMode mode, FileShare shar
 }
 
 Boolean FileStream___::GetDefaultIsAsync(SafeFileHandle handle) {
-  auto& default = handle->get_IsAsync();
-  return default != nullptr ? default : (!IsHandleSynchronous(handle, true)).GetValueOrDefault();
+  Nullable<Boolean> isAsync = handle->get_IsAsync();
+  if (!isAsync.get_HasValue()) {
+    Nullable<Boolean> flag = !IsHandleSynchronous(handle, true);
+    return flag.GetValueOrDefault();
+  }
+  return isAsync.GetValueOrDefault();
 }
 
 Nullable<Boolean> FileStream___::IsHandleSynchronous(SafeFileHandle fileHandle, Boolean ignoreInvalid) {

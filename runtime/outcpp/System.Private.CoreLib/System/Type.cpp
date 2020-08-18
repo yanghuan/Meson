@@ -865,15 +865,15 @@ Array<String> Type___::GetEnumNames() {
     rt::throw_exception<ArgumentException>(SR::get_Arg_MustBeEnum(), "enumType");
   }
   Array<String> enumNames;
-  Array<> _;
-  GetEnumData(enumNames, _);
+  Array<> enumValues;
+  GetEnumData(enumNames, enumValues);
   return enumNames;
 }
 
 Array<> Type___::GetEnumRawConstantValues() {
-  Array<String> _;
+  Array<String> enumNames;
   Array<> enumValues;
-  GetEnumData(_, enumValues);
+  GetEnumData(enumNames, enumValues);
   return enumValues;
 }
 

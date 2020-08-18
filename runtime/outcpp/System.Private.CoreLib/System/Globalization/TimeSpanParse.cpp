@@ -1006,8 +1006,8 @@ Boolean TimeSpanParse::TryParseByFormat(ReadOnlySpan<Char> input, ReadOnlySpan<C
       case 100:
         {
           returnValue = DateTimeFormat::ParseRepeatPattern(format, i, c);
-          Int32 _;
-          if (returnValue > 8 || flag || !ParseExactDigits(tokenizer, (returnValue < 2) ? 1 : returnValue, (returnValue < 2) ? 8 : returnValue, _, result2)) {
+          Int32 zeroes2;
+          if (returnValue > 8 || flag || !ParseExactDigits(tokenizer, (returnValue < 2) ? 1 : returnValue, (returnValue < 2) ? 8 : returnValue, zeroes2, result2)) {
             return result.SetInvalidStringFailure();
           }
           flag = true;

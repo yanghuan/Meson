@@ -380,9 +380,9 @@ DateTime DateTime::AddMonths(Int32 months) {
   if (months < -120000 || months > 120000) {
     rt::throw_exception<ArgumentOutOfRangeException>("months", SR::get_ArgumentOutOfRange_DateTimeBadMonths());
   }
-  Int32 year;
-  Int32 month;
   Int32 day;
+  Int32 month;
+  Int32 year;
   GetDate(year, month, day);
   Int32 num = month - 1 + months;
   if (num >= 0) {
@@ -529,8 +529,8 @@ DateTime DateTime::FromBinary(Int64 dateData) {
       ticks = TimeZoneInfo::in::GetLocalUtcOffset(MaxValue, TimeZoneInfoOptions::NoThrowOnInvalidTime).get_Ticks();
     } else {
       DateTime time = DateTime(num, DateTimeKind::Utc);
-      Boolean _;
-      ticks = TimeZoneInfo::in::GetUtcOffsetFromUtc(time, TimeZoneInfo::in::get_Local(), _, isAmbiguousLocalDst).get_Ticks();
+      Boolean isDaylightSavings;
+      ticks = TimeZoneInfo::in::GetUtcOffsetFromUtc(time, TimeZoneInfo::in::get_Local(), isDaylightSavings, isAmbiguousLocalDst).get_Ticks();
     }
 
     num += ticks;

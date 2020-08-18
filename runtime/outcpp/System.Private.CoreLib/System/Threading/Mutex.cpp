@@ -23,18 +23,18 @@ void Mutex___::ctor(Boolean initiallyOwned, String name, Boolean& createdNew) {
 }
 
 void Mutex___::ctor(Boolean initiallyOwned, String name) {
-  Boolean _;
-  CreateMutexCore(initiallyOwned, name, _);
+  Boolean createdNew;
+  CreateMutexCore(initiallyOwned, name, createdNew);
 }
 
 void Mutex___::ctor(Boolean initiallyOwned) {
-  Boolean _;
-  CreateMutexCore(initiallyOwned, nullptr, _);
+  Boolean createdNew;
+  CreateMutexCore(initiallyOwned, nullptr, createdNew);
 }
 
 void Mutex___::ctor() {
-  Boolean _;
-  CreateMutexCore(false, nullptr, _);
+  Boolean createdNew;
+  CreateMutexCore(false, nullptr, createdNew);
 }
 
 void Mutex___::ctor(SafeWaitHandle handle) {

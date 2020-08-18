@@ -236,9 +236,9 @@ Boolean Utf8Parser::TryParseDateTimeOffsetDefault(ReadOnlySpan<Byte> source, Dat
     return false;
   }
   DateTime value2;
-  DateTimeOffset _;
-  Int32 _;
-  if (!TryParseDateTimeG(source, value2, _, _)) {
+  DateTimeOffset valueAsOffset;
+  Int32 bytesConsumed2;
+  if (!TryParseDateTimeG(source, value2, valueAsOffset, bytesConsumed2)) {
     bytesConsumed = 0;
     value = DateTimeOffset();
     return false;

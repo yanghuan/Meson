@@ -16,8 +16,8 @@ void Console::Write(String s) {
   Array<Byte> bytes = Encoding::in::get_UTF8()->GetBytes(s);
   {
     Byte* bytes2 = bytes;
-    Int32 _;
-    Interop::Kernel32::WriteFile(_outputHandle, bytes2, bytes->get_Length(), _, IntPtr::Zero);
+    Int32 numBytesWritten;
+    Interop::Kernel32::WriteFile(_outputHandle, bytes2, bytes->get_Length(), numBytesWritten, IntPtr::Zero);
   }
 }
 

@@ -4,6 +4,7 @@
 #include <System.Private.CoreLib/System/ArgumentException-dep.h>
 #include <System.Private.CoreLib/System/ArgumentNullException-dep.h>
 #include <System.Private.CoreLib/System/ArgumentOutOfRangeException-dep.h>
+#include <System.Private.CoreLib/System/Boolean-dep.h>
 #include <System.Private.CoreLib/System/IntPtr-dep.h>
 #include <System.Private.CoreLib/System/IO/IOException-dep.h>
 #include <System.Private.CoreLib/System/IO/Win32Marshal-dep.h>
@@ -21,6 +22,8 @@ void Semaphore___::ctor(Int32 initialCount, Int32 maximumCount) {
 }
 
 void Semaphore___::ctor(Int32 initialCount, Int32 maximumCount, String name) {
+  Boolean createdNew;
+  this->ctor(initialCount, maximumCount, name, createdNew);
 }
 
 void Semaphore___::ctor(Int32 initialCount, Int32 maximumCount, String name, Boolean& createdNew) {

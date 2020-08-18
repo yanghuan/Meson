@@ -190,9 +190,9 @@ ConstArray MetadataImport::GetFieldMarshal(Int32 fieldToken) {
 }
 
 void MetadataImport::GetPInvokeMap(Int32 token, PInvokeAttributes& attributes, String& importName, String& importDll) {
+  Int32 attributes2;
   void* pStringHeap;
   void* pStringHeap2;
-  Int32 attributes2;
   _GetPInvokeMap(m_metadataImport2, token, attributes2, &pStringHeap, &pStringHeap2);
   importName = MdUtf8String(pStringHeap).ToString();
   importDll = MdUtf8String(pStringHeap2).ToString();

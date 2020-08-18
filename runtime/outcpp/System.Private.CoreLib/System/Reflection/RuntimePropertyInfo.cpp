@@ -26,10 +26,10 @@ using namespace System::Text;
 
 Signature RuntimePropertyInfo___::get_Signature() {
   if (m_signature == nullptr) {
-    void* _;
-    PropertyAttributes _;
+    void* name;
+    PropertyAttributes propertyAttributes;
     ConstArray signature;
-    GetRuntimeModule()->get_MetadataImport().GetPropertyProps(m_token, _, _, signature);
+    GetRuntimeModule()->get_MetadataImport().GetPropertyProps(m_token, name, propertyAttributes, signature);
     m_signature = rt::newobj<Signature>(signature.get_Signature().ToPointer(), signature.get_Length(), m_declaringType);
   }
   return m_signature;
@@ -93,12 +93,12 @@ void RuntimePropertyInfo___::ctor(Int32 tkProperty, RuntimeType declaredType, Ru
   m_token = tkProperty;
   m_reflectedTypeCache = reflectedTypeCache;
   m_declaringType = declaredType;
-  ConstArray _;
-  metadataImport.GetPropertyProps(tkProperty, m_utf8name, m_flags, _);
-  RuntimeMethodInfo _;
-  RuntimeMethodInfo _;
-  RuntimeMethodInfo _;
-  Associates::AssignAssociates(metadataImport, tkProperty, declaredType, reflectedTypeCache->GetRuntimeType(), _, _, _, m_getterMethod, m_setterMethod, m_otherMethod, isPrivate, m_bindingFlags);
+  ConstArray signature;
+  metadataImport.GetPropertyProps(tkProperty, m_utf8name, m_flags, signature);
+  RuntimeMethodInfo addOn;
+  RuntimeMethodInfo removeOn;
+  RuntimeMethodInfo fireOn;
+  Associates::AssignAssociates(metadataImport, tkProperty, declaredType, reflectedTypeCache->GetRuntimeType(), addOn, removeOn, fireOn, m_getterMethod, m_setterMethod, m_otherMethod, isPrivate, m_bindingFlags);
 }
 
 Boolean RuntimePropertyInfo___::CacheEquals(Object o) {

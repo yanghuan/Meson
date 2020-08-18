@@ -597,6 +597,11 @@ namespace rt {
     }
 
     template <class T1 = T> requires(IsArithmetic<T1>) 
+    T operator &(const T1& other) const {
+      return static_cast<const T*>(this)->get() & other.get();
+    }
+
+    template <class T1 = T> requires(IsArithmetic<T1>) 
     T operator >>(const T& other) const {
       return static_cast<const T*>(this)->get() >> other.get();
     }
@@ -659,6 +664,11 @@ namespace rt {
     template <class R, class T1 = T> requires(IsPrimitive<R> && IsPrimitive<T1>)
     explicit operator R() const {
       return static_cast<std::remove_reference_t<decltype(R().get())>>(static_cast<const T*>(this)->get());
+    }
+
+    template <class R, class T1 = T> requires(std::is_enum_v<R> && IsPrimitive<T1>)
+    explicit operator R() const {
+      return static_cast<R>(static_cast<const T*>(this)->get());
     }
 
     template <class T1 = T> requires(IsPrimitive<T1>)
@@ -782,9 +792,19 @@ inline constexpr bool operator !=(T a, int32_t b) {
   return (int32_t)a != b;
 }
 
+template <class T, class T1> requires(std::is_pointer_v<T> && rt::IsArithmetic<T1>) 
+inline constexpr T operator +(T a, T1 b) { 
+  return a + b.get();
+}
+
 template <class T, class T1> requires(std::is_arithmetic_v<T> && rt::IsArithmetic<T1>) 
 inline constexpr auto operator *(T a, T1 b) { 
   return b * a;
+}
+
+template <class T, class T1> requires(std::is_arithmetic_v<T> && rt::IsArithmetic<T1>) 
+inline constexpr auto operator &(T a, T1 b) { 
+  return b & a;
 }
 
 template <class T> requires(std::is_enum_v<T>) 

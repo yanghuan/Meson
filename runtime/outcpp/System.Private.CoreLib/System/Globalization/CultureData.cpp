@@ -813,7 +813,8 @@ String CultureData___::StripSecondsFromPattern(String time) {
             }
             Boolean containsSpace;
             Int32 indexOfNextTokenAfterSeconds = GetIndexOfNextTokenAfterSeconds(time, i, containsSpace);
-            time = String::in::Concat(MemoryExtensions::AsSpan(time, 0, i), (!containsSpace) ? "" : " ", MemoryExtensions::AsSpan(time, indexOfNextTokenAfterSeconds));
+            String value = (!containsSpace) ? "" : " ";
+            time = String::in::Concat(MemoryExtensions::AsSpan(time, 0, i), value, MemoryExtensions::AsSpan(time, indexOfNextTokenAfterSeconds));
             break;
           }case 72:
         case 104:

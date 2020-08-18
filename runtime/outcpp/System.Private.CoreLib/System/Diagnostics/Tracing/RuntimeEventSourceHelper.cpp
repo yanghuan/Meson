@@ -5,11 +5,11 @@
 
 namespace System::Private::CoreLib::System::Diagnostics::Tracing::RuntimeEventSourceHelperNamespace {
 Int32 RuntimeEventSourceHelper::GetCpuUsage() {
-  Int64 _;
+  Int64 creation;
   Int64 exit;
   Int64 kernel;
   Int64 user;
-  if (!Interop::Kernel32::GetProcessTimes(Interop::Kernel32::GetCurrentProcess(), _, exit, kernel, user)) {
+  if (!Interop::Kernel32::GetProcessTimes(Interop::Kernel32::GetCurrentProcess(), creation, exit, kernel, user)) {
     return 0;
   }
   Int64 kernel2;

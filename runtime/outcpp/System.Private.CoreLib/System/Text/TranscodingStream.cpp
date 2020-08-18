@@ -11,7 +11,6 @@
 #include <System.Private.CoreLib/System/MemoryExtensions-dep.h>
 #include <System.Private.CoreLib/System/NotSupportedException-dep.h>
 #include <System.Private.CoreLib/System/ObjectDisposedException-dep.h>
-#include <System.Private.CoreLib/System/Range-dep.h>
 #include <System.Private.CoreLib/System/ReadOnlyMemory-dep.h>
 #include <System.Private.CoreLib/System/ReadOnlySpan-dep.h>
 #include <System.Private.CoreLib/System/Runtime/InteropServices/MemoryMarshal-dep.h>
@@ -282,7 +281,7 @@ void TranscodingStream___::Write(ReadOnlySpan<Byte> buffer) {
       Int32 charsUsed;
       _thisDecoder->Convert(buffer, array, false, bytesUsed, charsUsed, completed);
       ReadOnlySpan<Byte> readOnlySpan = buffer;
-      buffer = readOnlySpan[Range(bytesUsed, readOnlySpan.get_Length())];
+      Int32 length = readOnlySpan.get_Length();
     } while (!completed)
   } catch (...) {
   } finally: {
@@ -310,16 +309,7 @@ ValueTask<> TranscodingStream___::WriteAsync(ReadOnlyMemory<Byte> buffer, Cancel
         Int32 charsUsed;
         _thisDecoder->Convert(remainingOuterEncodedBytes.get_Span(), scratchChars, false, bytesUsed, charsUsed, decoderFinished);
         ReadOnlyMemory<Byte> readOnlyMemory = remainingOuterEncodedBytes;
-        remainingOuterEncodedBytes = readOnlyMemory[Range(bytesUsed, readOnlyMemory.get_Length())];
-        ArraySegment<Char> decodedChars = ArraySegment<Char>(scratchChars, 0, charsUsed);
-        Boolean encoderFinished;
-        do {
-          Int32 charsUsed2;
-          Int32 bytesUsed2;
-          _innerEncoder->Convert(decodedChars, scratchBytes, false, charsUsed2, bytesUsed2, encoderFinished);
-          ArraySegment<Char> arraySegment = decodedChars;
-          decodedChars = arraySegment[Range(charsUsed2, arraySegment.get_Count())];
-        } while (!encoderFinished)
+        Int32 length = readOnlyMemory.get_Length();
       } while (!decoderFinished)
     } catch (...) {
     } finally: {

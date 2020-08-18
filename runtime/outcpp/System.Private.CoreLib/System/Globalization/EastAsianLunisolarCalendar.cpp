@@ -28,9 +28,9 @@ void EastAsianLunisolarCalendar___::set_TwoDigitYearMax(Int32 value) {
 Int32 EastAsianLunisolarCalendar___::GetSexagenaryYear(DateTime time) {
   CheckTicksRange(time.get_Ticks());
   Int32 year;
-  Int32 _;
-  Int32 _;
-  TimeToLunar(time, year, _, _);
+  Int32 month;
+  Int32 day;
+  TimeToLunar(time, year, month, day);
   return (year - 4) % 60 + 1;
 }
 
@@ -261,8 +261,8 @@ DateTime EastAsianLunisolarCalendar___::AddMonths(DateTime time, Int32 months) {
   }
   CheckTicksRange(time.get_Ticks());
   Int32 year;
-  Int32 month;
   Int32 day;
+  Int32 month;
   TimeToLunar(time, year, month, day);
   Int32 num = month + months;
   if (num > 0) {
@@ -292,9 +292,9 @@ DateTime EastAsianLunisolarCalendar___::AddMonths(DateTime time, Int32 months) {
 
 DateTime EastAsianLunisolarCalendar___::AddYears(DateTime time, Int32 years) {
   CheckTicksRange(time.get_Ticks());
-  Int32 year;
   Int32 month;
   Int32 day;
+  Int32 year;
   TimeToLunar(time, year, month, day);
   year += years;
   if (month == 13 && !InternalIsLeapYear(year)) {
@@ -324,10 +324,10 @@ Int32 EastAsianLunisolarCalendar___::GetDayOfYear(DateTime time) {
 
 Int32 EastAsianLunisolarCalendar___::GetDayOfMonth(DateTime time) {
   CheckTicksRange(time.get_Ticks());
-  Int32 _;
-  Int32 _;
+  Int32 year;
+  Int32 month;
   Int32 day;
-  TimeToLunar(time, _, _, day);
+  TimeToLunar(time, year, month, day);
   return day;
 }
 
@@ -343,19 +343,19 @@ Int32 EastAsianLunisolarCalendar___::GetDaysInYear(Int32 year, Int32 era) {
 
 Int32 EastAsianLunisolarCalendar___::GetMonth(DateTime time) {
   CheckTicksRange(time.get_Ticks());
-  Int32 _;
+  Int32 year;
   Int32 month;
-  Int32 _;
-  TimeToLunar(time, _, month, _);
+  Int32 day;
+  TimeToLunar(time, year, month, day);
   return month;
 }
 
 Int32 EastAsianLunisolarCalendar___::GetYear(DateTime time) {
   CheckTicksRange(time.get_Ticks());
   Int32 year;
-  Int32 _;
-  Int32 _;
-  TimeToLunar(time, year, _, _);
+  Int32 month;
+  Int32 day;
+  TimeToLunar(time, year, month, day);
   return GetYear(year, time);
 }
 

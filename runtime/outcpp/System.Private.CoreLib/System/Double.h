@@ -74,6 +74,8 @@ struct Double : public valueType<Double> {
   public: static constexpr rt::TypeCode code = rt::TypeCode::Double;
   public: constexpr Double() noexcept : m_value(0) {}
   public: constexpr Double(double value) noexcept : m_value(value) {}
+  public: template <class T> requires(std::is_enum_v<T>)
+  constexpr Double(T value) noexcept : Double((double)value) {}
   public: constexpr double& get() noexcept { return m_value; }
   public: constexpr double get() const noexcept { return m_value; }
 };

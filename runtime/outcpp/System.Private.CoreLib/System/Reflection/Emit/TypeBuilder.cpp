@@ -989,8 +989,8 @@ MethodBuilder TypeBuilder___::DefinePInvokeMethodHelper(String name, String dllN
     ThrowIfCreated();
     attributes |= MethodAttributes::PinvokeImpl;
     MethodBuilder methodBuilder = rt::newobj<MethodBuilder>(name, attributes, callingConvention, returnType, returnTypeRequiredCustomModifiers, returnTypeOptionalCustomModifiers, parameterTypes, parameterTypeRequiredCustomModifiers, parameterTypeOptionalCustomModifiers, m_module, (TypeBuilder)this);
-    Int32 _;
-    methodBuilder->GetMethodSignature()->InternalGetSignature(_);
+    Int32 length;
+    methodBuilder->GetMethodSignature()->InternalGetSignature(length);
     if (m_listMethods->Contains(methodBuilder)) {
       rt::throw_exception<ArgumentException>(SR::get_Argument_MethodRedefined());
     }
@@ -1248,7 +1248,8 @@ PropertyBuilder TypeBuilder___::DefinePropertyNoLock(String name, PropertyAttrib
   Int32 length;
   Array<Byte> signature = propertySigHelper->InternalGetSignature(length);
   ModuleBuilder module = m_module;
-  return rt::newobj<PropertyBuilder>(m_module, name, propertySigHelper, attributes, returnType, PropertyToken(DefineProperty(QCallModule(module), m_tdType.get_Token(), name, attributes, signature, length)), (TypeBuilder)this);
+  PropertyToken prToken = PropertyToken(DefineProperty(QCallModule(module), m_tdType.get_Token(), name, attributes, signature, length));
+  return rt::newobj<PropertyBuilder>(m_module, name, propertySigHelper, attributes, returnType, prToken, (TypeBuilder)this);
 }
 
 EventBuilder TypeBuilder___::DefineEvent(String name, EventAttributes attributes, Type eventtype) {
@@ -1272,7 +1273,8 @@ EventBuilder TypeBuilder___::DefineEventNoLock(String name, EventAttributes attr
   ThrowIfCreated();
   Int32 token = m_module->GetTypeTokenInternal(eventtype).get_Token();
   ModuleBuilder module = m_module;
-  return rt::newobj<EventBuilder>(m_module, name, attributes, (TypeBuilder)this, EventToken(DefineEvent(QCallModule(module), m_tdType.get_Token(), name, attributes, token)));
+  EventToken evToken = EventToken(DefineEvent(QCallModule(module), m_tdType.get_Token(), name, attributes, token));
+  return rt::newobj<EventBuilder>(m_module, name, attributes, (TypeBuilder)this, evToken);
 }
 
 TypeInfo TypeBuilder___::CreateTypeInfo() {

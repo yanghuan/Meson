@@ -489,8 +489,8 @@ String DateTimeFormat::Format(DateTime dateTime, String format, IFormatProvider 
       case 114:
         {
           String text = String::in::FastAllocateString(29);
-          Int32 _;
-          TryFormatR(dateTime, offset, Span<Char>(text->GetRawStringData(), text->get_Length()), _);
+          Int32 charsWritten;
+          TryFormatR(dateTime, offset, Span<Char>(text->GetRawStringData(), text->get_Length()), charsWritten);
           return text;
         }}
   }

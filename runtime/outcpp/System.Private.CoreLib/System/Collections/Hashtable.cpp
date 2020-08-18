@@ -1,5 +1,6 @@
 #include "Hashtable-dep.h"
 
+#include <System.Private.CoreLib/<PrivateImplementationDetails>-dep.h>
 #include <System.Private.CoreLib/System/ArgumentException-dep.h>
 #include <System.Private.CoreLib/System/ArgumentNullException-dep.h>
 #include <System.Private.CoreLib/System/ArgumentOutOfRangeException-dep.h>
@@ -13,6 +14,7 @@
 #include <System.Private.CoreLib/System/Runtime/Serialization/SerializationException-dep.h>
 #include <System.Private.CoreLib/System/Runtime/Serialization/SerializationInfoEnumerator-dep.h>
 #include <System.Private.CoreLib/System/SR-dep.h>
+#include <System.Private.CoreLib/System/String-dep.h>
 #include <System.Private.CoreLib/System/Threading/SpinWait-dep.h>
 #include <System.Private.CoreLib/System/UInt32-dep.h>
 
@@ -869,27 +871,42 @@ void Hashtable___::OnDeserialization(Object sender) {
   Array<Object> array2 = nullptr;
   SerializationInfoEnumerator enumerator = value->GetEnumerator();
   while (enumerator->MoveNext()) {
-    switch (enumerator->get_Name().get()) {
-      case "LoadFactor":
-        _loadFactor = value->GetSingle("LoadFactor");
+    String name = enumerator->get_Name();
+    switch (<PrivateImplementationDetails>::in::ComputeStringHash(name).get()) {
+      case 3483216242u:
+        if (name == "LoadFactor") {
+          _loadFactor = value->GetSingle("LoadFactor");
+        }
         break;
-      case "HashSize":
-        num = value->GetInt32("HashSize");
+      case 3356145248u:
+        if (name == "HashSize") {
+          num = value->GetInt32("HashSize");
+        }
         break;
-      case "KeyComparer":
-        _keycomparer = (IEqualityComparer)value->GetValue("KeyComparer", rt::typeof<IEqualityComparer>());
+      case 1228509323u:
+        if (name == "KeyComparer") {
+          _keycomparer = (IEqualityComparer)value->GetValue("KeyComparer", rt::typeof<IEqualityComparer>());
+        }
         break;
-      case "Comparer":
-        comparer = (IComparer)value->GetValue("Comparer", rt::typeof<IComparer>());
+      case 891156946u:
+        if (name == "Comparer") {
+          comparer = (IComparer)value->GetValue("Comparer", rt::typeof<IComparer>());
+        }
         break;
-      case "HashCodeProvider":
-        hashCodeProvider = (IHashCodeProvider)value->GetValue("HashCodeProvider", rt::typeof<IHashCodeProvider>());
+      case 2484309429u:
+        if (name == "HashCodeProvider") {
+          hashCodeProvider = (IHashCodeProvider)value->GetValue("HashCodeProvider", rt::typeof<IHashCodeProvider>());
+        }
         break;
-      case "Keys":
-        array = (Array<Object>)value->GetValue("Keys", rt::typeof<Array<Object>>());
+      case 1613443821u:
+        if (name == "Keys") {
+          array = (Array<Object>)value->GetValue("Keys", rt::typeof<Array<Object>>());
+        }
         break;
-      case "Values":
-        array2 = (Array<Object>)value->GetValue("Values", rt::typeof<Array<Object>>());
+      case 2370642523u:
+        if (name == "Values") {
+          array2 = (Array<Object>)value->GetValue("Values", rt::typeof<Array<Object>>());
+        }
         break;
     }
   }

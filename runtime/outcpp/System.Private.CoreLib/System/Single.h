@@ -74,6 +74,8 @@ struct Single : public valueType<Single> {
   public: static constexpr rt::TypeCode code = rt::TypeCode::Single;
   public: constexpr Single() noexcept : m_value(0) {}
   public: constexpr Single(float value) noexcept : m_value(value) {}
+  public: template <class T> requires(std::is_enum_v<T>)
+  constexpr Single(T value) noexcept : Single((float)value) {}
   public: constexpr float& get() noexcept { return m_value; }
   public: constexpr float get() const noexcept { return m_value; }
 };

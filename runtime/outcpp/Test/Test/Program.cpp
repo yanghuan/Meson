@@ -1,16 +1,16 @@
 #include "Program-dep.h"
 
 #include <System.Console/System/Console-dep.h>
+#include <Test/Test/E.h>
+#include <Test/Test/Extension-dep.h>
 #include <Test/Test/Program-dep.h>
 
 namespace Test::Test::ProgramNamespace {
 using namespace ::System::Console::System;
 
-void Program___::Write(String c) {
-}
-
 void Program___::Main(Array<String> args) {
   Console::WriteLine(args);
+  Extension::F(E::A, 10, true);
 }
 
 void Program___::ctor() {

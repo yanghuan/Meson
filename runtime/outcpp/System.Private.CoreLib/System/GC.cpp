@@ -18,10 +18,10 @@ GCMemoryInfo GC::GetGCMemoryInfo() {
   UInt64 highMemLoadThresholdBytes;
   UInt64 totalAvailableMemoryBytes;
   UInt64 lastRecordedMemLoadBytes;
-  UInt32 _;
+  UInt32 lastRecordedMemLoadPct;
   UIntPtr lastRecordedHeapSizeBytes;
   UIntPtr lastRecordedFragmentationBytes;
-  GetMemoryInfo(highMemLoadThresholdBytes, totalAvailableMemoryBytes, lastRecordedMemLoadBytes, _, lastRecordedHeapSizeBytes, lastRecordedFragmentationBytes);
+  GetMemoryInfo(highMemLoadThresholdBytes, totalAvailableMemoryBytes, lastRecordedMemLoadBytes, lastRecordedMemLoadPct, lastRecordedHeapSizeBytes, lastRecordedFragmentationBytes);
   return GCMemoryInfo((Int64)highMemLoadThresholdBytes, (Int64)lastRecordedMemLoadBytes, (Int64)totalAvailableMemoryBytes, (Int64)(UInt64)lastRecordedHeapSizeBytes, (Int64)(UInt64)lastRecordedFragmentationBytes);
 }
 

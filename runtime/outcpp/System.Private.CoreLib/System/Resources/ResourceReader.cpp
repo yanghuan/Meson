@@ -445,7 +445,8 @@ String ResourceReader___::LoadString(Int32 pos) {
   } else {
     ResourceTypeCode resourceTypeCode = (ResourceTypeCode)num;
     if (resourceTypeCode != ResourceTypeCode::String && resourceTypeCode != 0) {
-      rt::throw_exception<InvalidOperationException>(SR::Format(SR::get_InvalidOperation_ResourceNotString_Type(), (resourceTypeCode >= ResourceTypeCode::StartOfUserTypes) ? FindType((Int32)(resourceTypeCode - 64))->get_FullName() : resourceTypeCode->ToString()));
+      String p = (resourceTypeCode >= ResourceTypeCode::StartOfUserTypes) ? FindType((Int32)(resourceTypeCode - 64))->get_FullName() : resourceTypeCode->ToString();
+      rt::throw_exception<InvalidOperationException>(SR::Format(SR::get_InvalidOperation_ResourceNotString_Type(), p));
     }
     if (resourceTypeCode == ResourceTypeCode::String) {
       result = _store->ReadString();

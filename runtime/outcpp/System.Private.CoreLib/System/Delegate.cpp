@@ -60,7 +60,8 @@ void Delegate___::ctor(Type target, String method) {
 }
 
 Object Delegate___::DynamicInvokeImpl(Array<Object> args) {
-  RuntimeMethodInfo runtimeMethodInfo = (RuntimeMethodInfo)RuntimeType::in::GetMethodBase((RuntimeType)GetType(), RuntimeMethodHandleInternal(GetInvokeMethod()));
+  RuntimeMethodHandleInternal methodHandle = RuntimeMethodHandleInternal(GetInvokeMethod());
+  RuntimeMethodInfo runtimeMethodInfo = (RuntimeMethodInfo)RuntimeType::in::GetMethodBase((RuntimeType)GetType(), methodHandle);
   return runtimeMethodInfo->Invoke((Delegate)this, BindingFlags::Default, nullptr, args, nullptr);
 }
 

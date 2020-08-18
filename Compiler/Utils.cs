@@ -356,6 +356,10 @@ namespace Meson.Compiler {
       return type.KnownTypeCode == KnownTypeCode.Object;
     }
 
+    public static bool IsNumberType(this ITypeDefinition type) {
+      return type.KnownTypeCode >= KnownTypeCode.Char && type.KnownTypeCode <= KnownTypeCode.Double;
+    }
+
     public static IType Original(this IType type) {
       if (type is NullabilityAnnotatedType t) {
         type = t.TypeWithoutAnnotation;

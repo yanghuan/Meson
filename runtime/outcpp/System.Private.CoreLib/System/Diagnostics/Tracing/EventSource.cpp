@@ -376,9 +376,9 @@ void EventSource___::ctor(EventSourceSettings settings, Array<String> traits) {
   m_config = ValidateSettings(settings);
   Guid eventSourceGuid;
   String eventSourceName;
-  Array<EventMetadata> _;
-  Array<Byte> _;
-  GetMetadata(eventSourceGuid, eventSourceName, _, _);
+  Array<EventMetadata> eventData;
+  Array<Byte> manifestBytes;
+  GetMetadata(eventSourceGuid, eventSourceName, eventData, manifestBytes);
   if (eventSourceGuid.Equals(Guid::Empty) || eventSourceName == nullptr) {
     Type type = GetType();
     eventSourceGuid = GetGuid(type);

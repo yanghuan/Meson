@@ -124,8 +124,8 @@ void EventListener___::AddEventSource(EventSource newEventSource) {
       while (0 < num2) {
         num2--;
         WeakReference<EventSource> weakReference = s_EventSources[num2];
-        EventSource _;
-        if (!weakReference->TryGetTarget(_)) {
+        EventSource target;
+        if (!weakReference->TryGetTarget(target)) {
           num = num2;
           weakReference->SetTarget(newEventSource);
           break;

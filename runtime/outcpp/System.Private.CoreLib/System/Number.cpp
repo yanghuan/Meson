@@ -590,7 +590,8 @@ void Number::BigInteger::SetUInt64(BigInteger& result, UInt64 value) {
 }
 
 void Number::BigInteger::SetValue(BigInteger& result, BigInteger& value) {
-  Buffer::Memcpy((Byte*)result.GetBlocksPointer(), (Byte*)value.GetBlocksPointer(), (result._length = value._length) * 4);
+  Int32 num = result._length = value._length;
+  Buffer::Memcpy((Byte*)result.GetBlocksPointer(), (Byte*)value.GetBlocksPointer(), num * 4);
 }
 
 void Number::BigInteger::SetZero(BigInteger& result) {

@@ -346,17 +346,18 @@ void StringBuilder___::ctor(SerializationInfo info, StreamingContext context) {
   Boolean flag = false;
   SerializationInfoEnumerator enumerator = info->GetEnumerator();
   while (enumerator->MoveNext()) {
-    switch (enumerator->get_Name().get()) {
-      case "m_MaxCapacity":
-        num2 = info->GetInt32("m_MaxCapacity");
-        break;
-      case "m_StringValue":
+    String name = enumerator->get_Name();
+    if (!(name == "m_MaxCapacity")) {
+      if (!(name == "m_StringValue")) {
+        if (name == "Capacity") {
+          num = info->GetInt32("Capacity");
+          flag = true;
+        }
+      } else {
         text = info->GetString("m_StringValue");
-        break;
-      case "Capacity":
-        num = info->GetInt32("Capacity");
-        flag = true;
-        break;
+      }
+    } else {
+      num2 = info->GetInt32("m_MaxCapacity");
     }
   }
   if (text == nullptr) {
@@ -717,9 +718,9 @@ StringBuilder StringBuilder___::Remove(Int32 startIndex, Int32 length) {
     return (StringBuilder)this;
   }
   if (length > 0) {
-    StringBuilder _;
-    Int32 _;
-    Remove(startIndex, length, _, _);
+    StringBuilder chunk;
+    Int32 indexInChunk;
+    Remove(startIndex, length, chunk, indexInChunk);
   }
   return (StringBuilder)this;
 }

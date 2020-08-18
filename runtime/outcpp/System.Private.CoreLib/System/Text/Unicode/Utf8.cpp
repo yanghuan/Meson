@@ -77,9 +77,9 @@ OperationStatus Utf8::ToUtf16(ReadOnlySpan<Byte> source, Span<Char> destination,
         destination[0] = 65533;
         destination = destination.Slice(1);
         source = source.Slice((Int32)(pInputBufferRemaining - (Byte*)Unsafe::AsPointer(MemoryMarshal::GetReference(source))));
-        Rune _;
+        Rune result;
         Int32 bytesConsumed;
-        Rune::DecodeFromUtf8(source, _, bytesConsumed);
+        Rune::DecodeFromUtf8(source, result, bytesConsumed);
         source = source.Slice(bytesConsumed);
         operationStatus = OperationStatus::Done;
         pInputBufferRemaining = (Byte*)Unsafe::AsPointer(MemoryMarshal::GetReference(source));

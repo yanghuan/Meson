@@ -227,13 +227,15 @@ Int32 CharUnicodeInfo::GetCodePointFromString(String s, Int32 index) {
 UIntPtr CharUnicodeInfo::GetCategoryCasingTableOffsetNoBoundsChecks(UInt32 codePoint) {
   UInt32 num = Unsafe::AddByteOffset(MemoryMarshal::GetReference(get_CategoryCasingLevel1Index()), codePoint >> 9);
   Byte& source = Unsafe::AddByteOffset(MemoryMarshal::GetReference(get_CategoryCasingLevel2Index()), (num << 6) + ((codePoint >> 3) & 62));
-  return Unsafe::AddByteOffset<Byte>(MemoryMarshal::GetReference(get_CategoryCasingLevel3Index()), (UInt32)(((!BitConverter::IsLittleEndian) ? BinaryPrimitives::ReverseEndianness(Unsafe::ReadUnaligned<UInt16>(source)) : Unsafe::ReadUnaligned<UInt16>(source)) << 4) + (codePoint & 15));
+  num = ((!BitConverter::IsLittleEndian) ? BinaryPrimitives::ReverseEndianness(Unsafe::ReadUnaligned<UInt16>(source)) : Unsafe::ReadUnaligned<UInt16>(source));
+  return Unsafe::AddByteOffset(MemoryMarshal::GetReference(get_CategoryCasingLevel3Index()), (num << 4) + (codePoint & 15));
 }
 
 UIntPtr CharUnicodeInfo::GetNumericGraphemeTableOffsetNoBoundsChecks(UInt32 codePoint) {
   UInt32 num = Unsafe::AddByteOffset(MemoryMarshal::GetReference(get_NumericGraphemeLevel1Index()), codePoint >> 9);
   Byte& source = Unsafe::AddByteOffset(MemoryMarshal::GetReference(get_NumericGraphemeLevel2Index()), (num << 6) + ((codePoint >> 3) & 62));
-  return Unsafe::AddByteOffset<Byte>(MemoryMarshal::GetReference(get_NumericGraphemeLevel3Index()), (UInt32)(((!BitConverter::IsLittleEndian) ? BinaryPrimitives::ReverseEndianness(Unsafe::ReadUnaligned<UInt16>(source)) : Unsafe::ReadUnaligned<UInt16>(source)) << 4) + (codePoint & 15));
+  num = ((!BitConverter::IsLittleEndian) ? BinaryPrimitives::ReverseEndianness(Unsafe::ReadUnaligned<UInt16>(source)) : Unsafe::ReadUnaligned<UInt16>(source));
+  return Unsafe::AddByteOffset(MemoryMarshal::GetReference(get_NumericGraphemeLevel3Index()), (num << 4) + (codePoint & 15));
 }
 
 } // namespace System::Private::CoreLib::System::Globalization::CharUnicodeInfoNamespace

@@ -2237,9 +2237,9 @@ Boolean Convert::TryFromBase64Chars(ReadOnlySpan<Char> chars, Span<Byte> bytes, 
       return false;
     }
     span = span.Slice(0, charsWritten);
-    Int32 _;
+    Int32 consumed3;
     Int32 written2;
-    if (!TryDecodeFromUtf16(span, bytes, _, written2)) {
+    if (!TryDecodeFromUtf16(span, bytes, consumed3, written2)) {
       bytesWritten = 0;
       return false;
     }
@@ -2314,8 +2314,8 @@ Array<Byte> Convert::FromBase64CharPtr(Char* inputPtr, Int32 inputLength) {
   }
   Int32 num2 = FromBase64_ComputeResultLength(inputPtr, inputLength);
   Array<Byte> array = rt::newarr<Array<Byte>>(num2);
-  Int32 _;
-  if (!TryFromBase64Chars(ReadOnlySpan<Char>(inputPtr, inputLength), array, _)) {
+  Int32 bytesWritten;
+  if (!TryFromBase64Chars(ReadOnlySpan<Char>(inputPtr, inputLength), array, bytesWritten)) {
     rt::throw_exception<FormatException>(SR::get_Format_BadBase64Char());
   }
   return array;

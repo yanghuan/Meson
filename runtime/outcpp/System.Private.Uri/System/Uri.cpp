@@ -2172,8 +2172,8 @@ Uri::in::Check Uri___::CheckCanonical(Char* str, Int32& idx, Int32 end, Char del
         check |= Check::FoundNonAscii;
         if (Char::IsHighSurrogate(c)) {
           if (i + 1 < end) {
-            Boolean _;
-            flag3 = IriHelper::CheckIriUnicodeRange(c, str[i + 1], _, true);
+            Boolean isSurrogatePair;
+            flag3 = IriHelper::CheckIriUnicodeRange(c, str[i + 1], isSurrogatePair, true);
           }
         } else {
           flag3 = IriHelper::CheckIriUnicodeRange(c, true);
@@ -3097,7 +3097,8 @@ Uri Uri___::ResolveHelper(Uri baseUri, Uri relativeUri, String& newUriString, Bo
       return nullptr;
     }
     if (baseUri->get_Syntax()->InFact(UriSyntaxFlags::AllowDOSPath)) {
-      newUriString = String::in::Concat(baseUri->get_Scheme(), (!baseUri->InFact(Flags::AuthorityFound)) ? (baseUri->get_Syntax()->InFact(UriSyntaxFlags::PathIsRooted) ? ":/" : ":") : (baseUri->get_Syntax()->InFact(UriSyntaxFlags::PathIsRooted) ? ":///" : "://"), text);
+      String str = (!baseUri->InFact(Flags::AuthorityFound)) ? (baseUri->get_Syntax()->InFact(UriSyntaxFlags::PathIsRooted) ? ":/" : ":") : (baseUri->get_Syntax()->InFact(UriSyntaxFlags::PathIsRooted) ? ":///" : "://");
+      newUriString = baseUri->get_Scheme() + str + text;
       return nullptr;
     }
   }

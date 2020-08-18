@@ -354,25 +354,8 @@ namespace Meson.Compiler {
         }
         var expression = argument.AcceptExpression(this);
         CheckParameterType(symbol, parameter, i, resolveResult.Type, ref expression);
-        if (argument is NamedArgumentExpression namedArgument) {
-          string name = namedArgument.Name;
-          int index = symbol.Parameters.IndexOf(i => i.Name == name);
-          if (index == -1) {
-            throw new InvalidOperationException();
-          }
-          arguments.AddAt(index, expression);
-        } else {
-          arguments.Add(expression);
-        }
+        arguments.Add(expression);
         ++i;
-      }
-
-      for (int j = 0; j < arguments.Count; ++j) {
-        var argument = arguments[j];
-        if (argument == null) {
-          var defaultValue = typeDefinition_.GetDefaultParameterValue(symbol.Parameters[j], symbol.DeclaringTypeDefinition);
-          arguments[j] = defaultValue;
-        }
       }
       return arguments;
     }

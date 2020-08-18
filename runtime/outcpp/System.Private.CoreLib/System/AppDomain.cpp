@@ -106,11 +106,11 @@ Boolean AppDomain___::get_ShadowCopyFiles() {
 }
 
 TimeSpan AppDomain___::get_MonitoringTotalProcessorTime() {
-  Int64 _;
-  Int64 _;
-  Int64 _;
+  Int64 creation;
+  Int64 exit;
+  Int64 kernel;
   Int64 user;
-  if (!Interop::Kernel32::GetProcessTimes(Interop::Kernel32::GetCurrentProcess(), _, _, _, user)) {
+  if (!Interop::Kernel32::GetProcessTimes(Interop::Kernel32::GetCurrentProcess(), creation, exit, kernel, user)) {
     return TimeSpan::Zero;
   }
   return TimeSpan(user);

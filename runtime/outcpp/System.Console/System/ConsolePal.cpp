@@ -107,9 +107,9 @@ Int32 ConsolePal::WindowsConsoleStream___::WriteFileNative(IntPtr hFile, Array<B
   Boolean flag;
   {
     Byte* ptr = &bytes[0];
-    Int32 _;
-    Int32 _;
-    flag = ((!useFileAPIs) ? Interop::Kernel32::WriteConsole(hFile, ptr + offset, count / 2, _, IntPtr::Zero) : (Interop::Kernel32::WriteFile(hFile, ptr + offset, count, _, IntPtr::Zero) != 0));
+    Int32 lpNumberOfCharsWritten;
+    Int32 numBytesWritten;
+    flag = ((!useFileAPIs) ? Interop::Kernel32::WriteConsole(hFile, ptr + offset, count / 2, lpNumberOfCharsWritten, IntPtr::Zero) : (Interop::Kernel32::WriteFile(hFile, ptr + offset, count, numBytesWritten, IntPtr::Zero) != 0));
   }
   if (flag) {
     return 0;

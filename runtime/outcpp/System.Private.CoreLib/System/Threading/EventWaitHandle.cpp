@@ -18,9 +18,13 @@ using namespace System::IO;
 using namespace System::Runtime::InteropServices;
 
 void EventWaitHandle___::ctor(Boolean initialState, EventResetMode mode) {
+  Boolean createdNew;
+  this->ctor(initialState, mode, nullptr, createdNew);
 }
 
 void EventWaitHandle___::ctor(Boolean initialState, EventResetMode mode, String name) {
+  Boolean createdNew;
+  this->ctor(initialState, mode, name, createdNew);
 }
 
 void EventWaitHandle___::ctor(Boolean initialState, EventResetMode mode, String name, Boolean& createdNew) {

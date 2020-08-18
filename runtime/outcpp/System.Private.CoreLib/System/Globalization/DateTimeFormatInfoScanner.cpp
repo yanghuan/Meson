@@ -149,8 +149,8 @@ void DateTimeFormatInfoScanner___::ScanDateWord(String pattern) {
         break;
       case 121:
         {
-          Int32 _;
-          num = ScanRepeatChar(pattern, 121, num, _);
+          Int32 count2;
+          num = ScanRepeatChar(pattern, 121, num, count2);
           _ymdFlags |= FoundDatePattern::FoundYearPatternFlag;
           break;
         }case 100:

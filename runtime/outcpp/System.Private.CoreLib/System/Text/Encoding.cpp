@@ -986,8 +986,8 @@ Int32 Encoding___::GetBytesWithFallback(ReadOnlySpan<Char> chars, Int32 original
         Int32 charsConsumed;
         OperationStatus operationStatus = Rune::DecodeFromUtf16(chars, result, charsConsumed);
         if (operationStatus != OperationStatus::NeedMoreData) {
-          Int32 _;
-          if (operationStatus != OperationStatus::InvalidData && EncodeRune(result, bytes, _) == OperationStatus::DestinationTooSmall) {
+          Int32 bytesWritten;
+          if (operationStatus != OperationStatus::InvalidData && EncodeRune(result, bytes, bytesWritten) == OperationStatus::DestinationTooSmall) {
             break;
           }
         } else if (encoder != nullptr && !encoder->get_MustFlush()) {

@@ -134,10 +134,10 @@ String Marshal::GetTypeInfoName(ITypeInfo typeInfo) {
     rt::throw_exception<ArgumentNullException>("typeInfo");
   }
   String strName;
-  String _;
-  Int32 _;
-  String _;
-  typeInfo->GetDocumentation(-1, strName, _, _, _);
+  String strDocString;
+  Int32 dwHelpContext;
+  String strHelpFile;
+  typeInfo->GetDocumentation(-1, strName, strDocString, dwHelpContext, strHelpFile);
   return strName;
 }
 
@@ -331,9 +331,9 @@ Object Marshal::CreateWrapperOfType(Object o, Type t) {
 Object Marshal::BindToMoniker(String monikerName) {
   IBindCtx ppbc;
   CreateBindCtx(0u, ppbc);
-  UInt32 _;
+  UInt32 pchEaten;
   IMoniker ppmk;
-  MkParseDisplayName(ppbc, monikerName, _, ppmk);
+  MkParseDisplayName(ppbc, monikerName, pchEaten, ppmk);
   Object ppvResult;
   BindMoniker(ppmk, 0u, IID_IUnknown, ppvResult);
   return ppvResult;

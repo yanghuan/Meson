@@ -54,6 +54,8 @@ struct UInt16 : public valueType<UInt16> {
   public: static constexpr rt::TypeCode code = rt::TypeCode::UInt16;
   public: constexpr UInt16() noexcept : m_value(0) {}
   public: constexpr UInt16(uint16_t value) noexcept : m_value(value) {}
+  public: template <class T> requires(std::is_enum_v<T>)
+  constexpr UInt16(T value) noexcept : UInt16((uint16_t)value) {}
   public: constexpr uint16_t& get() noexcept { return m_value; }
   public: constexpr uint16_t get() const noexcept { return m_value; }
 };

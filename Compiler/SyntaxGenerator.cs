@@ -22,7 +22,11 @@ namespace Meson.Compiler {
     private readonly Dictionary<ISymbol, SymbolNameSyntax> memberNames_ = new Dictionary<ISymbol, SymbolNameSyntax>();
     private Dictionary<string, HashSet<ITypeDefinition>> namespaceTypes_;
     private static readonly DecompilerSettings decompilerSettings_ = new DecompilerSettings(LanguageVersion.Latest) {
-      //PatternBasedFixedStatement = false,
+      OutVariables = false,
+      NamedArguments = false,
+      QueryExpressions = false,
+      ExtensionMethods = false,
+      SwitchStatementOnString = false,
     };
     private List<ITypeDefinition> knownTypes_ = new List<ITypeDefinition>();
 

@@ -10,17 +10,16 @@ Boolean RuntimeFeature::get_IsDynamicCodeCompiled() {
 }
 
 Boolean RuntimeFeature::IsSupported(String feature) {
-  switch (feature.get()) {
-    case "PortablePdb":
-    case "DefaultImplementationsOfInterfaces":
-      return true;
-    case "IsDynamicCodeSupported":
-      return get_IsDynamicCodeSupported();
-    case "IsDynamicCodeCompiled":
-      return get_IsDynamicCodeCompiled();
-    default:
+  if (!(feature == "PortablePdb") && !(feature == "DefaultImplementationsOfInterfaces")) {
+    if (!(feature == "IsDynamicCodeSupported")) {
+      if (feature == "IsDynamicCodeCompiled") {
+        return get_IsDynamicCodeCompiled();
+      }
       return false;
+    }
+    return get_IsDynamicCodeSupported();
   }
+  return true;
 }
 
 } // namespace System::Private::CoreLib::System::Runtime::CompilerServices::RuntimeFeatureNamespace

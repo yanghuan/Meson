@@ -123,8 +123,8 @@ TokenType __DTString::GetSeparatorToken(DateTimeFormatInfo dtfi, Int32& indexBef
   }
   TokenType tokenType;
   if (!DateTimeParse::IsDigit(m_current)) {
-    Int32 _;
-    if (!dtfi->Tokenize(TokenType::SeparatorTokenMask, tokenType, _, *this)) {
+    Int32 tokenValue;
+    if (!dtfi->Tokenize(TokenType::SeparatorTokenMask, tokenType, tokenValue, *this)) {
       tokenType = TokenType::SEP_Space;
       return tokenType;
     }

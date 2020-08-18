@@ -60,9 +60,9 @@ void RuntimeEventInfo___::ctor(Int32 tkEvent, RuntimeType declaredType, RuntimeT
   m_declaringType = declaredType;
   RuntimeType runtimeType = reflectedTypeCache->GetRuntimeType();
   metadataImport.GetEventProps(tkEvent, m_utf8name, m_flags);
-  RuntimeMethodInfo _;
-  RuntimeMethodInfo _;
-  Associates::AssignAssociates(metadataImport, tkEvent, declaredType, runtimeType, m_addMethod, m_removeMethod, m_raiseMethod, _, _, m_otherMethod, isPrivate, m_bindingFlags);
+  RuntimeMethodInfo getter;
+  RuntimeMethodInfo setter;
+  Associates::AssignAssociates(metadataImport, tkEvent, declaredType, runtimeType, m_addMethod, m_removeMethod, m_raiseMethod, getter, setter, m_otherMethod, isPrivate, m_bindingFlags);
 }
 
 Boolean RuntimeEventInfo___::CacheEquals(Object o) {
