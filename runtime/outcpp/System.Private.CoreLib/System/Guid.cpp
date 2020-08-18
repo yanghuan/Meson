@@ -16,6 +16,7 @@
 #include <System.Private.CoreLib/System/MemoryExtensions-dep.h>
 #include <System.Private.CoreLib/System/Number-dep.h>
 #include <System.Private.CoreLib/System/OverflowException-dep.h>
+#include <System.Private.CoreLib/System/ReadOnlySpan-dep.h>
 #include <System.Private.CoreLib/System/Runtime/InteropServices/MemoryMarshal-dep.h>
 #include <System.Private.CoreLib/System/SR-dep.h>
 
@@ -43,6 +44,10 @@ void GuidResult::SetFailure(Boolean overflow, String failureMessageID) {
 }
 
 Guid::Guid(Array<Byte> b) {
+  if (b == nullptr) {
+    rt::throw_exception<ArgumentNullException>("b");
+  }
+  *this = Guid(ReadOnlySpan<Byte>(b));
 }
 
 Guid::Guid(ReadOnlySpan<Byte> b) {

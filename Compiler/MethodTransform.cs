@@ -199,12 +199,7 @@ namespace Meson.Compiler {
         var temp = GetTempIdentifier();
         var local = new VariableDeclarationStatementSyntax(new RefExpressionSyntax(IdentifierSyntax.Auto), temp, left);
         Block.Add(local);
-        if (binaryOperatorExpression.Right is ThrowExpression) {
-          Block.Add(new IfElseStatementSyntax(temp.Binary(Tokens.EqualsEquals, IdentifierSyntax.Nullptr), right));
-          return temp;
-        } else {
-          return new ConditionalExpressionSyntax(temp.Binary(Tokens.NotEquals, IdentifierSyntax.Nullptr), temp, right);
-        }
+        return new ConditionalExpressionSyntax(temp.Binary(Tokens.NotEquals, IdentifierSyntax.Nullptr), temp, right);
       }
       string operatorToken = GetBinaryOperatorToken(binaryOperatorExpression.Operator);
       return left.Binary(operatorToken, right);

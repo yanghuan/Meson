@@ -1,6 +1,7 @@
 #include "CancellationToken-dep.h"
 
 #include <System.Private.CoreLib/System/ArgumentNullException-dep.h>
+#include <System.Private.CoreLib/System/Object-dep.h>
 #include <System.Private.CoreLib/System/OperationCanceledException-dep.h>
 #include <System.Private.CoreLib/System/SR-dep.h>
 #include <System.Private.CoreLib/System/Threading/CancellationToken-dep.h>
@@ -37,15 +38,19 @@ CancellationToken::CancellationToken(Boolean canceled) {
 }
 
 CancellationTokenRegistration CancellationToken::Register(Action<> callback) {
-  auto& default = callback;
-  if (default == nullptr) rt::throw_exception(rt::newobj<ArgumentNullException>("callback"));
-  return Register(s_actionToActionObjShunt, default, false, true);
+  Action<Object> callback2 = s_actionToActionObjShunt;
+  if (callback == nullptr) {
+    rt::throw_exception<ArgumentNullException>("callback");
+  }
+  return Register(callback2, callback, false, true);
 }
 
 CancellationTokenRegistration CancellationToken::Register(Action<> callback, Boolean useSynchronizationContext) {
-  auto& default = callback;
-  if (default == nullptr) rt::throw_exception(rt::newobj<ArgumentNullException>("callback"));
-  return Register(s_actionToActionObjShunt, default, useSynchronizationContext, true);
+  Action<Object> callback2 = s_actionToActionObjShunt;
+  if (callback == nullptr) {
+    rt::throw_exception<ArgumentNullException>("callback");
+  }
+  return Register(callback2, callback, useSynchronizationContext, true);
 }
 
 CancellationTokenRegistration CancellationToken::Register(Action<Object> callback, Object state) {

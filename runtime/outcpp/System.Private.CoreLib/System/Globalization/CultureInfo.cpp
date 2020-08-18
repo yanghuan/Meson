@@ -364,9 +364,11 @@ void CultureInfo___::ctor(String cultureName, String textAndCompareCultureName) 
   if (cultureName == nullptr) {
     rt::throw_exception<ArgumentNullException>("cultureName", SR::get_ArgumentNull_String());
   }
-  auto& default = CultureData::in::GetCultureData(cultureName, false);
-  if (default == nullptr) rt::throw_exception(rt::newobj<CultureNotFoundException>("cultureName", cultureName, SR::get_Argument_CultureNotSupported()));
-  CultureData cultureData = _cultureData = (default);
+  CultureData cultureData = CultureData::in::GetCultureData(cultureName, false);
+  if (cultureData == nullptr) {
+    rt::throw_exception<CultureNotFoundException>("cultureName", cultureName, SR::get_Argument_CultureNotSupported());
+  }
+  CultureData cultureData2 = _cultureData = cultureData;
   _name = _cultureData->get_CultureName();
   CultureInfo cultureInfo = GetCultureInfo(textAndCompareCultureName);
   _compareInfo = cultureInfo->get_CompareInfo();
@@ -597,9 +599,11 @@ CultureInfo CultureInfo___::GetCultureInfo(String name) {
       return value;
     }
   }
-  auto& default = CreateCultureInfoNoThrow(name, false);
-  if (default == nullptr) rt::throw_exception(rt::newobj<CultureNotFoundException>("name", name, SR::get_Argument_CultureNotSupported()));
-  value = (default);
+  CultureInfo cultureInfo = CreateCultureInfoNoThrow(name, false);
+  if (cultureInfo == nullptr) {
+    rt::throw_exception<CultureNotFoundException>("name", name, SR::get_Argument_CultureNotSupported());
+  }
+  value = cultureInfo;
   value->_isReadOnly = true;
   name = CultureData::in::AnsiToLower(value->_name);
   {

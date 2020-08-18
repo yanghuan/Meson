@@ -98,9 +98,11 @@ Boolean WaitHandle___::WaitOne(Int32 millisecondsTimeout) {
 }
 
 Boolean WaitHandle___::WaitOneNoCheck(Int32 millisecondsTimeout) {
-  auto& default = _waitHandle;
-  if (default == nullptr) rt::throw_exception(rt::newobj<ObjectDisposedException>(nullptr, SR::get_ObjectDisposed_Generic()));
-  SafeWaitHandle safeWaitHandle = default;
+  SafeWaitHandle waitHandle = _waitHandle;
+  if (waitHandle == nullptr) {
+    rt::throw_exception<ObjectDisposedException>(nullptr, SR::get_ObjectDisposed_Generic());
+  }
+  SafeWaitHandle safeWaitHandle = waitHandle;
   Boolean success = false;
   try {
     safeWaitHandle->DangerousAddRef(success);
@@ -141,9 +143,11 @@ void WaitHandle___::ObtainSafeWaitHandles(ReadOnlySpan<WaitHandle> waitHandles, 
       if (waitHandle == nullptr) {
         rt::throw_exception<ArgumentNullException>("waitHandles[" + i + "]", SR::get_ArgumentNull_ArrayElement());
       }
-      auto& default = waitHandle->_waitHandle;
-      if (default == nullptr) rt::throw_exception(rt::newobj<ObjectDisposedException>(nullptr, SR::get_ObjectDisposed_Generic()));
-      SafeWaitHandle safeWaitHandle2 = default;
+      SafeWaitHandle waitHandle2 = waitHandle->_waitHandle;
+      if (waitHandle2 == nullptr) {
+        rt::throw_exception<ObjectDisposedException>(nullptr, SR::get_ObjectDisposed_Generic());
+      }
+      SafeWaitHandle safeWaitHandle2 = waitHandle2;
       safeWaitHandle = safeWaitHandle2;
       success = false;
       safeWaitHandle2->DangerousAddRef(success);

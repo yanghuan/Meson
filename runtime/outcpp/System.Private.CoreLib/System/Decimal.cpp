@@ -2,6 +2,7 @@
 
 #include <System.Private.CoreLib/Internal/Runtime/CompilerServices/Unsafe-dep.h>
 #include <System.Private.CoreLib/System/ArgumentException-dep.h>
+#include <System.Private.CoreLib/System/ArgumentNullException-dep.h>
 #include <System.Private.CoreLib/System/ArgumentOutOfRangeException-dep.h>
 #include <System.Private.CoreLib/System/Buffers/Binary/BinaryPrimitives-dep.h>
 #include <System.Private.CoreLib/System/Byte-dep.h>
@@ -17,6 +18,7 @@
 #include <System.Private.CoreLib/System/Number-dep.h>
 #include <System.Private.CoreLib/System/Numerics/BitOperations-dep.h>
 #include <System.Private.CoreLib/System/OverflowException-dep.h>
+#include <System.Private.CoreLib/System/ReadOnlySpan-dep.h>
 #include <System.Private.CoreLib/System/Runtime/Intrinsics/X86/Sse41-dep.h>
 #include <System.Private.CoreLib/System/SByte-dep.h>
 #include <System.Private.CoreLib/System/SR-dep.h>
@@ -1685,6 +1687,10 @@ Boolean Decimal::IsValid(Int32 flags) {
 }
 
 Decimal::Decimal(Array<Int32> bits) {
+  if (bits == nullptr) {
+    rt::throw_exception<ArgumentNullException>("bits");
+  }
+  *this = Decimal((ReadOnlySpan<Int32>)bits);
 }
 
 Decimal::Decimal(ReadOnlySpan<Int32> bits) {

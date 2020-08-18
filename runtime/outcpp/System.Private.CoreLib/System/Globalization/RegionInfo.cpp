@@ -76,9 +76,11 @@ void RegionInfo___::ctor(String name) {
   if (name->get_Length() == 0) {
     rt::throw_exception<ArgumentException>(SR::get_Argument_NoRegionInvariantCulture(), "name");
   }
-  auto& default = CultureData::in::GetCultureDataForRegion(name, true);
-  if (default == nullptr) rt::throw_exception(rt::newobj<ArgumentException>(SR::Format(SR::get_Argument_InvalidCultureName(), name), "name"));
-  _cultureData = (default);
+  CultureData cultureDataForRegion = CultureData::in::GetCultureDataForRegion(name, true);
+  if (cultureDataForRegion == nullptr) {
+    rt::throw_exception<ArgumentException>(SR::Format(SR::get_Argument_InvalidCultureName(), name), "name");
+  }
+  _cultureData = cultureDataForRegion;
   if (_cultureData->get_IsNeutralCulture()) {
     rt::throw_exception<ArgumentException>(SR::Format(SR::get_Argument_InvalidNeutralRegionName(), name), "name");
   }

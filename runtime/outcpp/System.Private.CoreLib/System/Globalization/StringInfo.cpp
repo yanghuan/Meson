@@ -31,9 +31,10 @@ String StringInfo___::get_String() {
 }
 
 void StringInfo___::set_String(String value) {
-  auto& default = value;
-  if (default == nullptr) rt::throw_exception(rt::newobj<ArgumentNullException>("value"));
-  _str = (default);
+  if (value == nullptr) {
+    rt::throw_exception<ArgumentNullException>("value");
+  }
+  _str = value;
   _indexes = nullptr;
 }
 

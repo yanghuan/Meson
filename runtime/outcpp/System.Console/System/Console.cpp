@@ -274,9 +274,10 @@ String Console::get_Title() {
 }
 
 void Console::set_Title(String value) {
-  auto& default = value;
-  if (default == nullptr) rt::throw_exception(rt::newobj<ArgumentNullException>("value"));
-  ConsolePal::set_Title((default));
+  if (value == nullptr) {
+    rt::throw_exception<ArgumentNullException>("value");
+  }
+  ConsolePal::set_Title(value);
 }
 
 Boolean Console::get_TreatControlCAsInput() {
