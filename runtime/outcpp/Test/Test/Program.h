@@ -1,7 +1,6 @@
 #pragma once
 
 #include <System.Private.CoreLib/System/Object.h>
-#include <Test/Test/TestEnum.h>
 
 namespace System::Private::CoreLib::System {
 FORWARD_(Array, T1, T2)
@@ -11,9 +10,7 @@ namespace Test::Test {
 namespace ProgramNamespace {
 using namespace ::System::Private::CoreLib::System;
 CLASS(Program) : public Object::in {
-  public: static void f(TestEnum E = (TestEnum)21);
-  private: template <class T>
-  static void Write(T& a, T b);
+  private: static void Write(String c = nullptr);
   public: static void Main(Array<String> args);
   public: void ctor();
 };

@@ -51,7 +51,7 @@ struct Double : public valueType<Double> {
   public: String ToString(String format);
   public: String ToString(IFormatProvider provider);
   public: String ToString(String format, IFormatProvider provider);
-  public: Boolean TryFormat(Span<Char> destination, Int32& charsWritten, ReadOnlySpan<Char> format, IFormatProvider provider = nullptr);
+  public: Boolean TryFormat(Span<Char> destination, Int32& charsWritten, ReadOnlySpan<Char> format = rt::default, IFormatProvider provider = nullptr);
   public: static Double Parse(String s);
   public: static Double Parse(String s, NumberStyles style);
   public: static Double Parse(String s, IFormatProvider provider);

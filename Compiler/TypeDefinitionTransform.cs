@@ -218,6 +218,19 @@ namespace Meson.Compiler {
       return Generator.GetMemberName(field);
     }
 
+    private void CheckStructDefaultParameters(IMethod method, MethodDefinitionSyntax methodDefinition) {
+      int index = 0;
+      foreach (var parameter in methodDefinition.Parameters) {
+        if (parameter.Value == IdentifierSyntax.Default) {
+          var parameterSymbol = method.Parameters[index];
+          if (parameterSymbol.Type.Kind != TypeKind.TypeParameter) {
+            Contract.Assert(parameterSymbol.Type.Kind == TypeKind.Struct);
+          }
+        }
+        ++index;
+      }
+    }
+
     private void VisitMethod(IMethod method, ITypeDefinition typeDefinition, ClassSyntax node) {
       bool isCtor = method.IsCtor();
       if (isCtor && !method.HasBody) {
@@ -243,6 +256,7 @@ namespace Meson.Compiler {
           IsStatic = method.IsStatic,
           AccessibilityToken = !method.IsMainEntryPoint() ? method.Accessibility.ToTokenString() : Tokens.Public,
         };
+        CheckStructDefaultParameters(method, methodDefinition);
       }
       node.Statements.Add(methodDefinition);
       if (method.HasBody) {
@@ -311,18 +325,14 @@ namespace Meson.Compiler {
 
     internal ExpressionSyntax GetDefaultParameterValue(IParameter parameter, ITypeDefinition typeDefinition) {
       var parameterType = GetTypeName(parameter.Type, typeDefinition, parameter);
-      return GetDefaultParameterValue(parameter, parameterType, false);
+      return GetDefaultParameterValue(parameter, parameterType);
     }
 
-    private ExpressionSyntax GetDefaultParameterValue(IParameter parameter, ExpressionSyntax parametertype, bool isFromParameter) {
+    private ExpressionSyntax GetDefaultParameterValue(IParameter parameter, ExpressionSyntax parametertype) {
       var constValue = parameter.GetConstantValue();
       ExpressionSyntax defaultValue;
       if (constValue == null) {
-        if (parameter.Type.Kind == TypeKind.Struct) {
-          defaultValue = isFromParameter ? null : IdentifierSyntax.Default;
-        } else {
-          defaultValue = IdentifierSyntax.Nullptr;
-        }
+        defaultValue = parameter.Type.IsReferenceType == true ? IdentifierSyntax.Nullptr : IdentifierSyntax.Default;
       } else if (parameter.Type.Kind == TypeKind.Enum) {
         defaultValue = GetDefaultEnumValue(parameter, constValue, parametertype);
       } else {
@@ -344,7 +354,7 @@ namespace Meson.Compiler {
       var name = GetMemberName(parameter);
       ExpressionSyntax value;
       if (parameter.HasConstantValueInSignature) {
-        value = GetDefaultParameterValue(parameter, type, true);
+        value = GetDefaultParameterValue(parameter, type);
       } else {
         value = null;
       }

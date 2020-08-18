@@ -65,6 +65,9 @@ void TestStrDefault() {
 
 int main() {
   TestTry();
+  Int32 a = 0;
+  a.GetBoolean();
+
   return 0;
 }
 
