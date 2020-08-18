@@ -206,7 +206,8 @@ namespace Meson.Compiler {
         if (!Generator.IsCompilationUnitIn(rootType, referenceType)) {
           var referenceTypeDefinition = referenceType.GetDefinition();
           if (referenceTypeDefinition.Kind == TypeKind.Enum) {
-            AddHeadReference(referenceTypeDefinition, !(args.Symbol is IParameter parameter && parameter.HasConstantValueInSignature));
+            bool hasConstDefaultValue = args.Symbol is IParameter parameter && parameter.HasConstantValueInSignature;
+            AddHeadReference(referenceTypeDefinition, !hasConstDefaultValue);
           } else {
             if (args.Type.DeclaringType != null) {
               bool checkCycleReference = args.Type.IsReferenceType == true || args.Original.Kind == TypeKind.Pointer;

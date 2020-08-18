@@ -30,7 +30,7 @@ struct Int32 : public valueType<Int32> {
   public: String ToString(String format);
   public: String ToString(IFormatProvider provider);
   public: String ToString(String format, IFormatProvider provider);
-  public: Boolean TryFormat(Span<Char> destination, Int32& charsWritten, ReadOnlySpan<Char> format = rt::default, IFormatProvider provider = nullptr);
+  public: Boolean TryFormat(Span<Char> destination, Int32& charsWritten, ReadOnlySpan<Char> format, IFormatProvider provider = nullptr);
   public: static Int32 Parse(String s);
   public: static Int32 Parse(String s, NumberStyles style);
   public: static Int32 Parse(String s, IFormatProvider provider);

@@ -10,7 +10,7 @@ FORWARD(IAsyncEnumerator, T)
 namespace IAsyncEnumerableNamespace {
 using namespace System::Threading;
 CLASS(IAsyncEnumerable, T) : public Object::in {
-  public: IAsyncEnumerator<T> GetAsyncEnumerator(CancellationToken cancellationToken = rt::default);
+  public: IAsyncEnumerator<T> GetAsyncEnumerator(CancellationToken cancellationToken);
   public: static constexpr rt::TypeCode code = rt::TypeCode::Interface;
 };
 } // namespace IAsyncEnumerableNamespace

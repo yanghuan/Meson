@@ -176,7 +176,7 @@ struct Decimal : public valueType<Decimal> {
   public: String ToString(String format);
   public: String ToString(IFormatProvider provider);
   public: String ToString(String format, IFormatProvider provider);
-  public: Boolean TryFormat(Span<Char> destination, Int32& charsWritten, ReadOnlySpan<Char> format = rt::default, IFormatProvider provider = nullptr);
+  public: Boolean TryFormat(Span<Char> destination, Int32& charsWritten, ReadOnlySpan<Char> format, IFormatProvider provider = nullptr);
   public: static Decimal Parse(String s);
   public: static Decimal Parse(String s, NumberStyles style);
   public: static Decimal Parse(String s, IFormatProvider provider);

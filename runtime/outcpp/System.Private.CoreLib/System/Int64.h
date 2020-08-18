@@ -31,7 +31,7 @@ struct Int64 : public valueType<Int64> {
   public: String ToString(IFormatProvider provider);
   public: String ToString(String format);
   public: String ToString(String format, IFormatProvider provider);
-  public: Boolean TryFormat(Span<Char> destination, Int32& charsWritten, ReadOnlySpan<Char> format = rt::default, IFormatProvider provider = nullptr);
+  public: Boolean TryFormat(Span<Char> destination, Int32& charsWritten, ReadOnlySpan<Char> format, IFormatProvider provider = nullptr);
   public: static Int64 Parse(String s);
   public: static Int64 Parse(String s, NumberStyles style);
   public: static Int64 Parse(String s, IFormatProvider provider);

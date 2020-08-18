@@ -309,15 +309,14 @@ namespace Meson.Compiler {
       return stringTypeName.WithIn().TwoColon("Format").Invation(new ExpressionSyntax[] { new StringLiteralExpressionSyntax(sb.ToString()) }.Concat(expressions));
     }
 
-    private void CheckArrayConflict(IMethod symbol, IParameter parameter, int index, IType type, ref ExpressionSyntax expression) {
-      bool isCast = false;
+    private void CheckParameterType(IMethod symbol, IParameter parameter, int index, IType type, ref ExpressionSyntax expression) {
       if (type.Kind == TypeKind.Array && parameter.Type.Kind == TypeKind.Array && parameter.Type.FullName != type.FullName) {
         bool exists = symbol.DeclaringTypeDefinition.Methods.Any(i => i != symbol
           && i.Name == symbol.Name
           && i.Parameters.Count == symbol.Parameters.Count
           && type.Is(i.Parameters[index].Type.Original()));
         if (exists) {
-          isCast = true;
+          goto Cast;
         }
       }
 
@@ -325,14 +324,14 @@ namespace Meson.Compiler {
         var original = (IMethod)symbol.MemberDefinition;
         var originalParameterType = original.Parameters[index].Type;
         if (originalParameterType.Kind == TypeKind.TypeParameter && original.TypeParameters.Any(i => i.Name == originalParameterType.Name)) {
-          isCast = true;
+          goto Cast;
         }
       }
-
-      if (isCast) {
-        var targetType = GetTypeName(parameter.Type, parameter);
-        expression = expression.CastTo(targetType);
-      }
+      return;
+    
+     Cast:
+      var targetType = GetTypeName(parameter.Type, parameter);
+      expression = expression.CastTo(targetType);
     }
 
     private List<ExpressionSyntax> BuildArguments(IMethod symbol, ICollection<Expression> argumentExpressions) {
@@ -354,7 +353,7 @@ namespace Meson.Compiler {
           }
         }
         var expression = argument.AcceptExpression(this);
-        CheckArrayConflict(symbol, parameter, i, resolveResult.Type, ref expression);
+        CheckParameterType(symbol, parameter, i, resolveResult.Type, ref expression);
         if (argument is NamedArgumentExpression namedArgument) {
           string name = namedArgument.Name;
           int index = symbol.Parameters.IndexOf(i => i.Name == name);

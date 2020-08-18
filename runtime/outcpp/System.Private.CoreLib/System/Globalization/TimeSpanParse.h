@@ -58,7 +58,7 @@ class TimeSpanParse {
     public: Boolean SetArgumentNullFailure(String argumentName);
     public: Boolean SetOverflowFailure();
     public: Boolean SetBadTimeSpanFailure();
-    public: Boolean SetBadFormatSpecifierFailure(Nullable<Char> formatSpecifierCharacter = rt::default);
+    public: Boolean SetBadFormatSpecifierFailure(Nullable<Char> formatSpecifierCharacter);
     public: explicit TimeSpanResult() {}
     public: TimeSpan parsedTimeSpan;
     private: Boolean _throwOnFailure;

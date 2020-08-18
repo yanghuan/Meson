@@ -64,7 +64,7 @@ CLASS(BufferedStream) : public Stream::in {
   public: Int32 Read(Span<Byte> destination);
   private: Task<Int32> LastSyncCompletedReadTask(Int32 val);
   public: Task<Int32> ReadAsync(Array<Byte> buffer, Int32 offset, Int32 count, CancellationToken cancellationToken);
-  public: ValueTask<Int32> ReadAsync(Memory<Byte> buffer, CancellationToken cancellationToken = rt::default);
+  public: ValueTask<Int32> ReadAsync(Memory<Byte> buffer, CancellationToken cancellationToken);
   private: ValueTask<Int32> ReadFromUnderlyingStreamAsync(Memory<Byte> buffer, CancellationToken cancellationToken, Int32 bytesAlreadySatisfied, Task<> semaphoreLockTask);
   public: IAsyncResult BeginRead(Array<Byte> buffer, Int32 offset, Int32 count, AsyncCallback callback, Object state);
   public: Int32 EndRead(IAsyncResult asyncResult);
@@ -75,7 +75,7 @@ CLASS(BufferedStream) : public Stream::in {
   public: void Write(Array<Byte> array, Int32 offset, Int32 count);
   public: void Write(ReadOnlySpan<Byte> buffer);
   public: Task<> WriteAsync(Array<Byte> buffer, Int32 offset, Int32 count, CancellationToken cancellationToken);
-  public: ValueTask<> WriteAsync(ReadOnlyMemory<Byte> buffer, CancellationToken cancellationToken = rt::default);
+  public: ValueTask<> WriteAsync(ReadOnlyMemory<Byte> buffer, CancellationToken cancellationToken);
   private: ValueTask<> WriteToUnderlyingStreamAsync(ReadOnlyMemory<Byte> buffer, CancellationToken cancellationToken, Task<> semaphoreLockTask);
   public: IAsyncResult BeginWrite(Array<Byte> buffer, Int32 offset, Int32 count, AsyncCallback callback, Object state);
   public: void EndWrite(IAsyncResult asyncResult);

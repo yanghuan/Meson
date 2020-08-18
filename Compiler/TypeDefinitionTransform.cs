@@ -311,15 +311,15 @@ namespace Meson.Compiler {
 
     internal ExpressionSyntax GetDefaultParameterValue(IParameter parameter, ITypeDefinition typeDefinition) {
       var parameterType = GetTypeName(parameter.Type, typeDefinition, parameter);
-      return GetDefaultParameterValue(parameter, parameterType);
+      return GetDefaultParameterValue(parameter, parameterType, false);
     }
 
-    private ExpressionSyntax GetDefaultParameterValue(IParameter parameter, ExpressionSyntax parametertype) {
+    private ExpressionSyntax GetDefaultParameterValue(IParameter parameter, ExpressionSyntax parametertype, bool isFromParameter) {
       var constValue = parameter.GetConstantValue();
       ExpressionSyntax defaultValue;
       if (constValue == null) {
         if (parameter.Type.Kind == TypeKind.Struct) {
-          defaultValue = IdentifierSyntax.Default;
+          defaultValue = isFromParameter ? null : IdentifierSyntax.Default;
         } else {
           defaultValue = IdentifierSyntax.Nullptr;
         }
@@ -344,7 +344,7 @@ namespace Meson.Compiler {
       var name = GetMemberName(parameter);
       ExpressionSyntax value;
       if (parameter.HasConstantValueInSignature) {
-        value = GetDefaultParameterValue(parameter, type);
+        value = GetDefaultParameterValue(parameter, type, true);
       } else {
         value = null;
       }
