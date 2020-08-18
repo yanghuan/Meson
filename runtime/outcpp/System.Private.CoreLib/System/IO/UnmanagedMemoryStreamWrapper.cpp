@@ -145,6 +145,7 @@ Task<Int32> UnmanagedMemoryStreamWrapper___::ReadAsync(Array<Byte> buffer, Int32
   return _unmanagedStream->ReadAsync(buffer, offset, count, cancellationToken);
 }
 
+template <>
 ValueTask<Int32> UnmanagedMemoryStreamWrapper___::ReadAsync(Memory<Byte> buffer, CancellationToken cancellationToken) {
   return _unmanagedStream->ReadAsync(buffer, cancellationToken);
 }
@@ -153,6 +154,7 @@ Task<> UnmanagedMemoryStreamWrapper___::WriteAsync(Array<Byte> buffer, Int32 off
   return _unmanagedStream->WriteAsync(buffer, offset, count, cancellationToken);
 }
 
+template <>
 ValueTask<> UnmanagedMemoryStreamWrapper___::WriteAsync(ReadOnlyMemory<Byte> buffer, CancellationToken cancellationToken) {
   return _unmanagedStream->WriteAsync(buffer, cancellationToken);
 }

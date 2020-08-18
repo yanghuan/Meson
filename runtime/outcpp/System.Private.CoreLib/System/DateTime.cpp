@@ -888,6 +888,7 @@ String DateTime::ToString(String format, IFormatProvider provider) {
   return DateTimeFormat::Format(*this, format, provider);
 }
 
+template <>
 Boolean DateTime::TryFormat(Span<Char> destination, Int32& charsWritten, ReadOnlySpan<Char> format, IFormatProvider provider) {
   return DateTimeFormat::TryFormat(*this, destination, charsWritten, format, provider);
 }

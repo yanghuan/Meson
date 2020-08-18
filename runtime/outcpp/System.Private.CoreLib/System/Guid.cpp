@@ -724,6 +724,7 @@ String Guid::ToString(String format, IFormatProvider provider) {
   return text;
 }
 
+template <>
 Boolean Guid::TryFormat(Span<Char> destination, Int32& charsWritten, ReadOnlySpan<Char> format) {
   if (format.get_Length() == 0) {
     format = "D";

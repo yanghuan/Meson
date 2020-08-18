@@ -402,6 +402,7 @@ String DateTimeOffset::ToString(String format, IFormatProvider formatProvider) {
   return DateTimeFormat::Format(get_ClockDateTime(), format, formatProvider, get_Offset());
 }
 
+template <>
 Boolean DateTimeOffset::TryFormat(Span<Char> destination, Int32& charsWritten, ReadOnlySpan<Char> format, IFormatProvider formatProvider) {
   return DateTimeFormat::TryFormat(get_ClockDateTime(), destination, charsWritten, format, formatProvider, get_Offset());
 }

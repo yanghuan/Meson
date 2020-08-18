@@ -185,6 +185,7 @@ String Double::ToString(String format, IFormatProvider provider) {
   return Number::FormatDouble(*this, format, NumberFormatInfo::in::GetInstance(provider));
 }
 
+template <>
 Boolean Double::TryFormat(Span<Char> destination, Int32& charsWritten, ReadOnlySpan<Char> format, IFormatProvider provider) {
   return Number::TryFormatDouble(*this, format, NumberFormatInfo::in::GetInstance(provider), destination, charsWritten);
 }

@@ -5,6 +5,7 @@ void* MemoryHandle::get_Pointer() {
   return _pointer;
 }
 
+template <>
 MemoryHandle::MemoryHandle(void* pointer, GCHandle handle, IPinnable pinnable) {
   _pointer = pointer;
   _handle = handle;

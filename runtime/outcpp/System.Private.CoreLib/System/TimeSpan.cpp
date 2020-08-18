@@ -391,6 +391,7 @@ String TimeSpan::ToString(String format, IFormatProvider formatProvider) {
   return TimeSpanFormat::Format(*this, format, formatProvider);
 }
 
+template <>
 Boolean TimeSpan::TryFormat(Span<Char> destination, Int32& charsWritten, ReadOnlySpan<Char> format, IFormatProvider formatProvider) {
   return TimeSpanFormat::TryFormat(*this, destination, charsWritten, format, formatProvider);
 }

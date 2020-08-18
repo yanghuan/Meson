@@ -45,7 +45,8 @@ struct Byte : public valueType<Byte> {
   public: String ToString(String format);
   public: String ToString(IFormatProvider provider);
   public: String ToString(String format, IFormatProvider provider);
-  public: Boolean TryFormat(Span<Char> destination, Int32& charsWritten, ReadOnlySpan<Char> format = rt::default, IFormatProvider provider = nullptr);
+  public: template <class T0 = ReadOnlySpan<Char>>
+  Boolean TryFormat(Span<Char> destination, Int32& charsWritten, T0 format = rt::default, IFormatProvider provider = nullptr);
   public: TypeCode GetTypeCode();
   private: uint8_t m_value;
   public: static constexpr uint8_t MaxValue = 255;

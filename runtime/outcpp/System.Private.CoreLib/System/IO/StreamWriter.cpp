@@ -493,6 +493,7 @@ Task<> StreamWriter___::WriteAsync(Array<Char> buffer, Int32 index, Int32 count)
   return _asyncWriteTask = WriteAsyncInternal((StreamWriter)this, ReadOnlyMemory<Char>(buffer, index, count), _charBuffer, _charPos, _charLen, CoreNewLine, _autoFlush, false, CancellationToken());
 }
 
+template <>
 Task<> StreamWriter___::WriteAsync(ReadOnlyMemory<Char> buffer, CancellationToken cancellationToken) {
   if (GetType() != rt::typeof<StreamWriter>()) {
     return TextWriter::in::WriteAsync(buffer, cancellationToken);
@@ -580,6 +581,7 @@ Task<> StreamWriter___::WriteLineAsync(Array<Char> buffer, Int32 index, Int32 co
   return _asyncWriteTask = WriteAsyncInternal((StreamWriter)this, ReadOnlyMemory<Char>(buffer, index, count), _charBuffer, _charPos, _charLen, CoreNewLine, _autoFlush, true, CancellationToken());
 }
 
+template <>
 Task<> StreamWriter___::WriteLineAsync(ReadOnlyMemory<Char> buffer, CancellationToken cancellationToken) {
   if (GetType() != rt::typeof<StreamWriter>()) {
     return TextWriter::in::WriteLineAsync(buffer, cancellationToken);
@@ -601,6 +603,7 @@ Task<> StreamWriter___::FlushAsync() {
   return _asyncWriteTask = FlushAsyncInternal(true, true, _charBuffer, _charPos);
 }
 
+template <>
 Task<> StreamWriter___::FlushAsyncInternal(Boolean flushStream, Boolean flushEncoder, Array<Char> sCharBuffer, Int32 sCharPos, CancellationToken cancellationToken) {
   if (cancellationToken.get_IsCancellationRequested()) {
     return Task<>::in::FromCanceled(cancellationToken);

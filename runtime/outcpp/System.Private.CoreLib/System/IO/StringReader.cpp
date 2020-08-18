@@ -150,6 +150,7 @@ Task<Int32> StringReader___::ReadBlockAsync(Array<Char> buffer, Int32 index, Int
   return Task<>::in::FromResult(ReadBlock(buffer, index, count));
 }
 
+template <>
 ValueTask<Int32> StringReader___::ReadBlockAsync(Memory<Char> buffer, CancellationToken cancellationToken) {
   if (!cancellationToken.get_IsCancellationRequested()) {
     return ValueTask<Int32>(ReadBlock(buffer.get_Span()));
@@ -170,6 +171,7 @@ Task<Int32> StringReader___::ReadAsync(Array<Char> buffer, Int32 index, Int32 co
   return Task<>::in::FromResult(Read(buffer, index, count));
 }
 
+template <>
 ValueTask<Int32> StringReader___::ReadAsync(Memory<Char> buffer, CancellationToken cancellationToken) {
   if (!cancellationToken.get_IsCancellationRequested()) {
     return ValueTask<Int32>(Read(buffer.get_Span()));

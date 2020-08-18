@@ -144,6 +144,7 @@ Task<> StringWriter___::WriteAsync(Array<Char> buffer, Int32 index, Int32 count)
   return Task<>::in::get_CompletedTask();
 }
 
+template <>
 Task<> StringWriter___::WriteAsync(ReadOnlyMemory<Char> buffer, CancellationToken cancellationToken) {
   if (cancellationToken.get_IsCancellationRequested()) {
     return Task<>::in::FromCanceled(cancellationToken);
@@ -152,6 +153,7 @@ Task<> StringWriter___::WriteAsync(ReadOnlyMemory<Char> buffer, CancellationToke
   return Task<>::in::get_CompletedTask();
 }
 
+template <>
 Task<> StringWriter___::WriteAsync(StringBuilder value, CancellationToken cancellationToken) {
   if (GetType() != rt::typeof<StringWriter>()) {
     return TextWriter::in::WriteAsync(value, cancellationToken);
@@ -176,6 +178,7 @@ Task<> StringWriter___::WriteLineAsync(String value) {
   return Task<>::in::get_CompletedTask();
 }
 
+template <>
 Task<> StringWriter___::WriteLineAsync(StringBuilder value, CancellationToken cancellationToken) {
   if (GetType() != rt::typeof<StringWriter>()) {
     return TextWriter::in::WriteLineAsync(value, cancellationToken);
@@ -196,6 +199,7 @@ Task<> StringWriter___::WriteLineAsync(Array<Char> buffer, Int32 index, Int32 co
   return Task<>::in::get_CompletedTask();
 }
 
+template <>
 Task<> StringWriter___::WriteLineAsync(ReadOnlyMemory<Char> buffer, CancellationToken cancellationToken) {
   if (cancellationToken.get_IsCancellationRequested()) {
     return Task<>::in::FromCanceled(cancellationToken);

@@ -1090,6 +1090,10 @@ namespace Meson.Compiler {
       }
     }
 
+    private static bool IsStructDefaultParameterExists(IMethod method) {
+      return method.Parameters.Any(i => i.HasConstantValueInSignature && i.GetConstantValue() == null && i.Type.Kind == TypeKind.Struct);
+    }
+
     private MethodDefinitionSyntax BuildMethodDeclaration(BlockStatement body) {
       var method = MethodSymbol;
       var parameters = method.Parameters.Select(i => GetParameterSyntax(i, method)).ToList();
@@ -1109,6 +1113,9 @@ namespace Meson.Compiler {
         DeclaringType = declaringType,
         Body = new BlockSyntax(),
       };
+      if (IsStructDefaultParameterExists(method)) {
+        node.Template = TemplateSyntax.Empty;
+      }
       PushFunction(node);
       if (body != null) {
         var block = body.Accept<BlockSyntax>(this);

@@ -63,7 +63,8 @@ CLASS(MemoryStream) : public Stream::in {
   public: Int32 Read(Array<Byte> buffer, Int32 offset, Int32 count);
   public: Int32 Read(Span<Byte> buffer);
   public: Task<Int32> ReadAsync(Array<Byte> buffer, Int32 offset, Int32 count, CancellationToken cancellationToken);
-  public: ValueTask<Int32> ReadAsync(Memory<Byte> buffer, CancellationToken cancellationToken = rt::default);
+  public: template <class T0 = CancellationToken>
+  ValueTask<Int32> ReadAsync(Memory<Byte> buffer, T0 cancellationToken = rt::default);
   public: Int32 ReadByte();
   public: void CopyTo(Stream destination, Int32 bufferSize);
   public: Task<> CopyToAsync(Stream destination, Int32 bufferSize, CancellationToken cancellationToken);
@@ -75,7 +76,8 @@ CLASS(MemoryStream) : public Stream::in {
   public: void Write(Array<Byte> buffer, Int32 offset, Int32 count);
   public: void Write(ReadOnlySpan<Byte> buffer);
   public: Task<> WriteAsync(Array<Byte> buffer, Int32 offset, Int32 count, CancellationToken cancellationToken);
-  public: ValueTask<> WriteAsync(ReadOnlyMemory<Byte> buffer, CancellationToken cancellationToken = rt::default);
+  public: template <class T0 = CancellationToken>
+  ValueTask<> WriteAsync(ReadOnlyMemory<Byte> buffer, T0 cancellationToken = rt::default);
   public: void WriteByte(Byte value);
   public: void WriteTo(Stream stream);
   private: Array<Byte> _buffer;

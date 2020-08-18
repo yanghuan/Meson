@@ -216,13 +216,13 @@ namespace Meson.Compiler.CppAst {
     public string ClassToken { get; set; } = Tokens.Class;
     public IdentifierSyntax Name { get; }
     public string EqualsToken => Tokens.Equals;
-    public IdentifierSyntax Value { get; set; }
+    public ExpressionSyntax Value { get; set; }
 
     public TemplateTypenameSyntax(IdentifierSyntax name) {
       Name = name;
     }
 
-    public TemplateTypenameSyntax(IdentifierSyntax name, IdentifierSyntax value) {
+    public TemplateTypenameSyntax(IdentifierSyntax name, ExpressionSyntax value) {
       Name = name;
       Value = value;
     }
@@ -330,7 +330,7 @@ namespace Meson.Compiler.CppAst {
   }
 
   sealed class ParameterSyntax : SyntaxNode {
-    public ExpressionSyntax Type { get; }
+    public ExpressionSyntax Type { get; set; }
     public IdentifierSyntax Name { get; }
     public ExpressionSyntax Value { get; }
 

@@ -574,6 +574,7 @@ Task<Int32> StreamReader___::ReadAsync(Array<Char> buffer, Int32 index, Int32 co
   return (Task<Int32>)(_asyncReadTask = ReadAsyncInternal(Memory<Char>(buffer, index, count), CancellationToken::get_None()).AsTask());
 }
 
+template <>
 ValueTask<Int32> StreamReader___::ReadAsync(Memory<Char> buffer, CancellationToken cancellationToken) {
   if (GetType() != rt::typeof<StreamReader>()) {
     return TextReader::in::ReadAsync(buffer, cancellationToken);
@@ -667,6 +668,7 @@ Task<Int32> StreamReader___::ReadBlockAsync(Array<Char> buffer, Int32 index, Int
   return (Task<Int32>)(_asyncReadTask = TextReader::in::ReadBlockAsync(buffer, index, count));
 }
 
+template <>
 ValueTask<Int32> StreamReader___::ReadBlockAsync(Memory<Char> buffer, CancellationToken cancellationToken) {
   if (GetType() != rt::typeof<StreamReader>()) {
     return TextReader::in::ReadBlockAsync(buffer, cancellationToken);

@@ -251,6 +251,7 @@ Task<Int32> TextReader___::ReadAsync(Array<Char> buffer, Int32 index, Int32 coun
   return ReadAsyncInternal(Memory<Char>(buffer, index, count), CancellationToken()).AsTask();
 }
 
+template <>
 ValueTask<Int32> TextReader___::ReadAsync(Memory<Char> buffer, CancellationToken cancellationToken) {
   ArraySegment<Char> segment;
 }
@@ -272,6 +273,7 @@ Task<Int32> TextReader___::ReadBlockAsync(Array<Char> buffer, Int32 index, Int32
   return ReadBlockAsyncInternal(Memory<Char>(buffer, index, count), CancellationToken()).AsTask();
 }
 
+template <>
 ValueTask<Int32> TextReader___::ReadBlockAsync(Memory<Char> buffer, CancellationToken cancellationToken) {
   ArraySegment<Char> segment;
 }

@@ -159,7 +159,8 @@ CLASS(DateTimeFormatInfo) : public Object::in {
   public: static DateTimeFormatInfo GetTaiwanCalendarDTFI();
   private: void ClearTokenHashTable();
   public: Array<TokenHashValue> CreateTokenHashTable();
-  private: void AddMonthNames(Array<TokenHashValue> temp, ReadOnlySpan<Char> monthPostfix = rt::default);
+  private: template <class T0 = ReadOnlySpan<Char>>
+  void AddMonthNames(Array<TokenHashValue> temp, T0 monthPostfix = rt::default);
   private: static Boolean TryParseHebrewNumber(__DTString& str, Boolean& badFormat, Int32& number);
   private: static Boolean IsHebrewChar(Char ch);
   private: Boolean IsAllowedJapaneseTokenFollowedByNonSpaceLetter(String tokenString, Char nextCh);

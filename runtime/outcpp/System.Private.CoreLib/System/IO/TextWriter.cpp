@@ -250,6 +250,7 @@ Task<> SyncTextWriter___::WriteAsync(String value) {
   return Task<>::in::get_CompletedTask();
 }
 
+template <>
 Task<> SyncTextWriter___::WriteAsync(StringBuilder value, CancellationToken cancellationToken) {
   if (cancellationToken.get_IsCancellationRequested()) {
     return Task<>::in::FromCanceled(cancellationToken);
@@ -263,6 +264,7 @@ Task<> SyncTextWriter___::WriteAsync(Array<Char> buffer, Int32 index, Int32 coun
   return Task<>::in::get_CompletedTask();
 }
 
+template <>
 Task<> SyncTextWriter___::WriteAsync(ReadOnlyMemory<Char> buffer, CancellationToken cancellationToken) {
   if (cancellationToken.get_IsCancellationRequested()) {
     return Task<>::in::FromCanceled(cancellationToken);
@@ -271,6 +273,7 @@ Task<> SyncTextWriter___::WriteAsync(ReadOnlyMemory<Char> buffer, CancellationTo
   return Task<>::in::get_CompletedTask();
 }
 
+template <>
 Task<> SyncTextWriter___::WriteLineAsync(ReadOnlyMemory<Char> buffer, CancellationToken cancellationToken) {
   if (cancellationToken.get_IsCancellationRequested()) {
     return Task<>::in::FromCanceled(cancellationToken);
@@ -294,6 +297,7 @@ Task<> SyncTextWriter___::WriteLineAsync(String value) {
   return Task<>::in::get_CompletedTask();
 }
 
+template <>
 Task<> SyncTextWriter___::WriteLineAsync(StringBuilder value, CancellationToken cancellationToken) {
   if (cancellationToken.get_IsCancellationRequested()) {
     return Task<>::in::FromCanceled(cancellationToken);
@@ -603,6 +607,7 @@ Task<> TextWriter___::WriteAsync(String value) {
   Tuple<TextWriter, String> state2 = rt::newobj<Tuple<TextWriter, String>>((TextWriter)this, value);
 }
 
+template <>
 Task<> TextWriter___::WriteAsync(StringBuilder value, CancellationToken cancellationToken) {
   auto WriteAsyncCore = [](StringBuilder sb, CancellationToken ct) -> Task<> {
     StringBuilder::in::ChunkEnumerator enumerator = sb->GetChunks().GetEnumerator();
@@ -630,6 +635,7 @@ Task<> TextWriter___::WriteAsync(Array<Char> buffer, Int32 index, Int32 count) {
   Tuple<TextWriter, Array<Char>, Int32, Int32> state2 = rt::newobj<Tuple<TextWriter, Array<Char>, Int32, Int32>>((TextWriter)this, buffer, index, count);
 }
 
+template <>
 Task<> TextWriter___::WriteAsync(ReadOnlyMemory<Char> buffer, CancellationToken cancellationToken) {
   if (!cancellationToken.get_IsCancellationRequested()) {
     ArraySegment<Char> segment;
@@ -648,6 +654,7 @@ Task<> TextWriter___::WriteLineAsync(String value) {
   Tuple<TextWriter, String> state2 = rt::newobj<Tuple<TextWriter, String>>((TextWriter)this, value);
 }
 
+template <>
 Task<> TextWriter___::WriteLineAsync(StringBuilder value, CancellationToken cancellationToken) {
   auto WriteLineAsyncCore = [](StringBuilder sb, CancellationToken ct) -> Task<> {
     StringBuilder::in::ChunkEnumerator enumerator = sb->GetChunks().GetEnumerator();
@@ -675,6 +682,7 @@ Task<> TextWriter___::WriteLineAsync(Array<Char> buffer, Int32 index, Int32 coun
   Tuple<TextWriter, Array<Char>, Int32, Int32> state2 = rt::newobj<Tuple<TextWriter, Array<Char>, Int32, Int32>>((TextWriter)this, buffer, index, count);
 }
 
+template <>
 Task<> TextWriter___::WriteLineAsync(ReadOnlyMemory<Char> buffer, CancellationToken cancellationToken) {
   if (!cancellationToken.get_IsCancellationRequested()) {
     ArraySegment<Char> segment;

@@ -59,6 +59,7 @@ String SByte::ToString(String format, IFormatProvider provider) {
   return Number::FormatInt32(*this, 255, format, provider);
 }
 
+template <>
 Boolean SByte::TryFormat(Span<Char> destination, Int32& charsWritten, ReadOnlySpan<Char> format, IFormatProvider provider) {
   return Number::TryFormatInt32(*this, 255, format, provider, destination, charsWritten);
 }

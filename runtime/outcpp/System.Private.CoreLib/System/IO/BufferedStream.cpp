@@ -366,6 +366,7 @@ Task<Int32> BufferedStream___::ReadAsync(Array<Byte> buffer, Int32 offset, Int32
   return ReadFromUnderlyingStreamAsync(Memory<Byte>(buffer, offset + num, count - num), cancellationToken, num, task).AsTask();
 }
 
+template <>
 ValueTask<Int32> BufferedStream___::ReadAsync(Memory<Byte> buffer, CancellationToken cancellationToken) {
   if (cancellationToken.get_IsCancellationRequested()) {
     return ValueTask<Int32>(Task<>::in::FromCanceled<Int32>(cancellationToken));
@@ -542,6 +543,7 @@ Task<> BufferedStream___::WriteAsync(Array<Byte> buffer, Int32 offset, Int32 cou
   return WriteAsync(ReadOnlyMemory<Byte>(buffer, offset, count), cancellationToken).AsTask();
 }
 
+template <>
 ValueTask<> BufferedStream___::WriteAsync(ReadOnlyMemory<Byte> buffer, CancellationToken cancellationToken) {
   if (cancellationToken.get_IsCancellationRequested()) {
     return ValueTask<>(Task<>::in::FromCanceled<Int32>(cancellationToken));

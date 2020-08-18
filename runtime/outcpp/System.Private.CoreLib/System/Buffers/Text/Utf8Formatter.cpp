@@ -20,6 +20,7 @@
 namespace System::Private::CoreLib::System::Buffers::Text::Utf8FormatterNamespace {
 using namespace System::Buffers::Binary;
 
+template <>
 Boolean Utf8Formatter::TryFormat(Boolean value, Span<Byte> destination, Int32& bytesWritten, StandardFormat format) {
   Char symbolOrDefault = FormattingHelpers::GetSymbolOrDefault(format, 71);
   if (value) {
@@ -66,6 +67,7 @@ IL_006e:
   return true;
 }
 
+template <>
 Boolean Utf8Formatter::TryFormat(DateTimeOffset value, Span<Byte> destination, Int32& bytesWritten, StandardFormat format) {
   TimeSpan offset = Utf8Constants::NullUtcOffset;
   Char c = format.get_Symbol();
@@ -87,6 +89,7 @@ Boolean Utf8Formatter::TryFormat(DateTimeOffset value, Span<Byte> destination, I
   }
 }
 
+template <>
 Boolean Utf8Formatter::TryFormat(DateTime value, Span<Byte> destination, Int32& bytesWritten, StandardFormat format) {
   switch (FormattingHelpers::GetSymbolOrDefault(format, 71).get()) {
     case 82:
@@ -312,6 +315,7 @@ Boolean Utf8Formatter::TryFormatDateTimeR(DateTime value, Span<Byte> destination
   return true;
 }
 
+template <>
 Boolean Utf8Formatter::TryFormat(Decimal value, Span<Byte> destination, Int32& bytesWritten, StandardFormat format) {
   if (format.get_IsDefault()) {
     format = 71;
@@ -519,14 +523,17 @@ Boolean Utf8Formatter::TryFormatDecimalG(Number::NumberBuffer& number, Span<Byte
   return true;
 }
 
+template <>
 Boolean Utf8Formatter::TryFormat(Double value, Span<Byte> destination, Int32& bytesWritten, StandardFormat format) {
   return TryFormatFloatingPoint(value, destination, bytesWritten, format);
 }
 
+template <>
 Boolean Utf8Formatter::TryFormat(Single value, Span<Byte> destination, Int32& bytesWritten, StandardFormat format) {
   return TryFormatFloatingPoint(value, destination, bytesWritten, format);
 }
 
+template <>
 Boolean Utf8Formatter::TryFormat(Guid value, Span<Byte> destination, Int32& bytesWritten, StandardFormat format) {
   Int32 num;
   switch (FormattingHelpers::GetSymbolOrDefault(format, 68).get()) {
@@ -609,34 +616,42 @@ Boolean Utf8Formatter::TryFormat(Guid value, Span<Byte> destination, Int32& byte
   return true;
 }
 
+template <>
 Boolean Utf8Formatter::TryFormat(Byte value, Span<Byte> destination, Int32& bytesWritten, StandardFormat format) {
   return TryFormatUInt64(value, destination, bytesWritten, format);
 }
 
+template <>
 Boolean Utf8Formatter::TryFormat(SByte value, Span<Byte> destination, Int32& bytesWritten, StandardFormat format) {
   return TryFormatInt64(value, 255, destination, bytesWritten, format);
 }
 
+template <>
 Boolean Utf8Formatter::TryFormat(UInt16 value, Span<Byte> destination, Int32& bytesWritten, StandardFormat format) {
   return TryFormatUInt64(value, destination, bytesWritten, format);
 }
 
+template <>
 Boolean Utf8Formatter::TryFormat(Int16 value, Span<Byte> destination, Int32& bytesWritten, StandardFormat format) {
   return TryFormatInt64(value, 65535, destination, bytesWritten, format);
 }
 
+template <>
 Boolean Utf8Formatter::TryFormat(UInt32 value, Span<Byte> destination, Int32& bytesWritten, StandardFormat format) {
   return TryFormatUInt64(value, destination, bytesWritten, format);
 }
 
+template <>
 Boolean Utf8Formatter::TryFormat(Int32 value, Span<Byte> destination, Int32& bytesWritten, StandardFormat format) {
   return TryFormatInt64(value, 4294967295, destination, bytesWritten, format);
 }
 
+template <>
 Boolean Utf8Formatter::TryFormat(UInt64 value, Span<Byte> destination, Int32& bytesWritten, StandardFormat format) {
   return TryFormatUInt64(value, destination, bytesWritten, format);
 }
 
+template <>
 Boolean Utf8Formatter::TryFormat(Int64 value, Span<Byte> destination, Int32& bytesWritten, StandardFormat format) {
   return TryFormatInt64(value, UInt64::MaxValue, destination, bytesWritten, format);
 }
@@ -840,6 +855,7 @@ Boolean Utf8Formatter::TryFormatUInt64X(UInt64 value, Byte precision, Boolean us
   return true;
 }
 
+template <>
 Boolean Utf8Formatter::TryFormat(TimeSpan value, Span<Byte> destination, Int32& bytesWritten, StandardFormat format) {
   Char c = FormattingHelpers::GetSymbolOrDefault(format, 99);
   switch (c.get()) {

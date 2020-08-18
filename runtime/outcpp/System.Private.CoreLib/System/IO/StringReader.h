@@ -36,9 +36,11 @@ CLASS(StringReader) : public TextReader::in {
   public: Task<String> ReadLineAsync();
   public: Task<String> ReadToEndAsync();
   public: Task<Int32> ReadBlockAsync(Array<Char> buffer, Int32 index, Int32 count);
-  public: ValueTask<Int32> ReadBlockAsync(Memory<Char> buffer, CancellationToken cancellationToken = rt::default);
+  public: template <class T0 = CancellationToken>
+  ValueTask<Int32> ReadBlockAsync(Memory<Char> buffer, T0 cancellationToken = rt::default);
   public: Task<Int32> ReadAsync(Array<Char> buffer, Int32 index, Int32 count);
-  public: ValueTask<Int32> ReadAsync(Memory<Char> buffer, CancellationToken cancellationToken = rt::default);
+  public: template <class T0 = CancellationToken>
+  ValueTask<Int32> ReadAsync(Memory<Char> buffer, T0 cancellationToken = rt::default);
   private: String _s;
   private: Int32 _pos;
   private: Int32 _length;

@@ -93,16 +93,20 @@ CLASS(TextWriter) : public MarshalByRefObject::in {
   public: void WriteLine(String format, Array<Object> arg);
   public: Task<> WriteAsync(Char value);
   public: Task<> WriteAsync(String value);
-  public: Task<> WriteAsync(StringBuilder value, CancellationToken cancellationToken = rt::default);
+  public: template <class T0 = CancellationToken>
+  Task<> WriteAsync(StringBuilder value, T0 cancellationToken = rt::default);
   public: Task<> WriteAsync(Array<Char> buffer);
   public: Task<> WriteAsync(Array<Char> buffer, Int32 index, Int32 count);
-  public: Task<> WriteAsync(ReadOnlyMemory<Char> buffer, CancellationToken cancellationToken = rt::default);
+  public: template <class T0 = CancellationToken>
+  Task<> WriteAsync(ReadOnlyMemory<Char> buffer, T0 cancellationToken = rt::default);
   public: Task<> WriteLineAsync(Char value);
   public: Task<> WriteLineAsync(String value);
-  public: Task<> WriteLineAsync(StringBuilder value, CancellationToken cancellationToken = rt::default);
+  public: template <class T0 = CancellationToken>
+  Task<> WriteLineAsync(StringBuilder value, T0 cancellationToken = rt::default);
   public: Task<> WriteLineAsync(Array<Char> buffer);
   public: Task<> WriteLineAsync(Array<Char> buffer, Int32 index, Int32 count);
-  public: Task<> WriteLineAsync(ReadOnlyMemory<Char> buffer, CancellationToken cancellationToken = rt::default);
+  public: template <class T0 = CancellationToken>
+  Task<> WriteLineAsync(ReadOnlyMemory<Char> buffer, T0 cancellationToken = rt::default);
   public: Task<> WriteLineAsync();
   public: Task<> FlushAsync();
   public: static TextWriter Synchronized(TextWriter writer);
@@ -175,14 +179,18 @@ CLASS(SyncTextWriter) : public TextWriter::in {
   public: ValueTask<> DisposeAsync();
   public: Task<> WriteAsync(Char value);
   public: Task<> WriteAsync(String value);
-  public: Task<> WriteAsync(StringBuilder value, CancellationToken cancellationToken = rt::default);
+  public: template <class T0 = CancellationToken>
+  Task<> WriteAsync(StringBuilder value, T0 cancellationToken = rt::default);
   public: Task<> WriteAsync(Array<Char> buffer, Int32 index, Int32 count);
-  public: Task<> WriteAsync(ReadOnlyMemory<Char> buffer, CancellationToken cancellationToken = rt::default);
-  public: Task<> WriteLineAsync(ReadOnlyMemory<Char> buffer, CancellationToken cancellationToken = rt::default);
+  public: template <class T0 = CancellationToken>
+  Task<> WriteAsync(ReadOnlyMemory<Char> buffer, T0 cancellationToken = rt::default);
+  public: template <class T0 = CancellationToken>
+  Task<> WriteLineAsync(ReadOnlyMemory<Char> buffer, T0 cancellationToken = rt::default);
   public: Task<> WriteLineAsync(Char value);
   public: Task<> WriteLineAsync();
   public: Task<> WriteLineAsync(String value);
-  public: Task<> WriteLineAsync(StringBuilder value, CancellationToken cancellationToken = rt::default);
+  public: template <class T0 = CancellationToken>
+  Task<> WriteLineAsync(StringBuilder value, T0 cancellationToken = rt::default);
   public: Task<> WriteLineAsync(Array<Char> buffer, Int32 index, Int32 count);
   public: Task<> FlushAsync();
   private: TextWriter _out;

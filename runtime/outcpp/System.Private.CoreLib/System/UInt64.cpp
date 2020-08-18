@@ -70,6 +70,7 @@ String UInt64::ToString(String format, IFormatProvider provider) {
   return Number::FormatUInt64(*this, format, provider);
 }
 
+template <>
 Boolean UInt64::TryFormat(Span<Char> destination, Int32& charsWritten, ReadOnlySpan<Char> format, IFormatProvider provider) {
   return Number::TryFormatUInt64(*this, format, provider, destination, charsWritten);
 }

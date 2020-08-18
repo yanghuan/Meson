@@ -185,6 +185,7 @@ String Single::ToString(String format, IFormatProvider provider) {
   return Number::FormatSingle(*this, format, NumberFormatInfo::in::GetInstance(provider));
 }
 
+template <>
 Boolean Single::TryFormat(Span<Char> destination, Int32& charsWritten, ReadOnlySpan<Char> format, IFormatProvider provider) {
   return Number::TryFormatSingle(*this, format, NumberFormatInfo::in::GetInstance(provider), destination, charsWritten);
 }

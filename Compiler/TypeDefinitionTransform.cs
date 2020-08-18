@@ -225,6 +225,14 @@ namespace Meson.Compiler {
           var parameterSymbol = method.Parameters[index];
           if (parameterSymbol.Type.Kind != TypeKind.TypeParameter) {
             Contract.Assert(parameterSymbol.Type.Kind == TypeKind.Struct);
+            var template = methodDefinition.Template;
+            if (template == null) {
+              template = new TemplateSyntax();
+              methodDefinition.Template = template;
+            }
+            IdentifierSyntax name = "T" + template.Arguments.Count;
+            template.Arguments.Add(new TemplateTypenameSyntax(name, parameter.Type));
+            parameter.Type = name;
           }
         }
         ++index;

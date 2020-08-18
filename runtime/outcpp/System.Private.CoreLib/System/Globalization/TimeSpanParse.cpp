@@ -104,6 +104,7 @@ Boolean TimeSpanParse::TimeSpanResult::SetBadTimeSpanFailure() {
   rt::throw_exception<FormatException>(SR::Format(SR::get_Format_BadTimeSpan(), rt::newobj<String>(_originalTimeSpanString)));
 }
 
+template <>
 Boolean TimeSpanParse::TimeSpanResult::SetBadFormatSpecifierFailure(Nullable<Char> formatSpecifierCharacter) {
   if (!_throwOnFailure) {
     return false;

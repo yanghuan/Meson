@@ -31,7 +31,8 @@ struct UInt32 : public valueType<UInt32> {
   public: String ToString(IFormatProvider provider);
   public: String ToString(String format);
   public: String ToString(String format, IFormatProvider provider);
-  public: Boolean TryFormat(Span<Char> destination, Int32& charsWritten, ReadOnlySpan<Char> format = rt::default, IFormatProvider provider = nullptr);
+  public: template <class T0 = ReadOnlySpan<Char>>
+  Boolean TryFormat(Span<Char> destination, Int32& charsWritten, T0 format = rt::default, IFormatProvider provider = nullptr);
   public: static UInt32 Parse(String s);
   public: static UInt32 Parse(String s, NumberStyles style);
   public: static UInt32 Parse(String s, IFormatProvider provider);

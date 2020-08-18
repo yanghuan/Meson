@@ -59,6 +59,7 @@ String Int16::ToString(String format, IFormatProvider provider) {
   return Number::FormatInt32(*this, 65535, format, provider);
 }
 
+template <>
 Boolean Int16::TryFormat(Span<Char> destination, Int32& charsWritten, ReadOnlySpan<Char> format, IFormatProvider provider) {
   return Number::TryFormatInt32(*this, 65535, format, provider, destination, charsWritten);
 }

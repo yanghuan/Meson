@@ -470,6 +470,7 @@ Task<Int32> FileStream___::ReadAsync(Array<Byte> buffer, Int32 offset, Int32 cou
   return ReadAsyncTask(buffer, offset, count, cancellationToken);
 }
 
+template <>
 ValueTask<Int32> FileStream___::ReadAsync(Memory<Byte> buffer, CancellationToken cancellationToken) {
   if (GetType() != rt::typeof<FileStream>()) {
     return Stream::in::ReadAsync(buffer, cancellationToken);
@@ -555,6 +556,7 @@ Task<> FileStream___::WriteAsync(Array<Byte> buffer, Int32 offset, Int32 count, 
   return WriteAsyncInternal(ReadOnlyMemory<Byte>(buffer, offset, count), cancellationToken).AsTask();
 }
 
+template <>
 ValueTask<> FileStream___::WriteAsync(ReadOnlyMemory<Byte> buffer, CancellationToken cancellationToken) {
   if (GetType() != rt::typeof<FileStream>()) {
     return Stream::in::WriteAsync(buffer, cancellationToken);

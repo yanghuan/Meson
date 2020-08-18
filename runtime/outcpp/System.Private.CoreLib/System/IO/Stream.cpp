@@ -242,6 +242,7 @@ Task<Int32> NullStream___::ReadAsync(Array<Byte> buffer, Int32 offset, Int32 cou
   return s_zeroTask;
 }
 
+template <>
 ValueTask<Int32> NullStream___::ReadAsync(Memory<Byte> buffer, CancellationToken cancellationToken) {
   return ValueTask<Int32>(0);
 }
@@ -263,6 +264,7 @@ Task<> NullStream___::WriteAsync(Array<Byte> buffer, Int32 offset, Int32 count, 
   return Task<>::in::FromCanceled(cancellationToken);
 }
 
+template <>
 ValueTask<> NullStream___::WriteAsync(ReadOnlyMemory<Byte> buffer, CancellationToken cancellationToken) {
   if (!cancellationToken.get_IsCancellationRequested()) {
     return ValueTask<>();
@@ -722,6 +724,7 @@ Task<Int32> Stream___::ReadAsync(Array<Byte> buffer, Int32 offset, Int32 count, 
   return Task<>::in::FromCanceled<Int32>(cancellationToken);
 }
 
+template <>
 ValueTask<Int32> Stream___::ReadAsync(Memory<Byte> buffer, CancellationToken cancellationToken) {
   auto FinishReadAsync = [](Task<Int32> readTask, Array<Byte> localBuffer, Memory<Byte> localDestination) -> ValueTask<Int32> {
     try {
@@ -811,6 +814,7 @@ Task<> Stream___::WriteAsync(Array<Byte> buffer, Int32 offset, Int32 count, Canc
   return Task<>::in::FromCanceled(cancellationToken);
 }
 
+template <>
 ValueTask<> Stream___::WriteAsync(ReadOnlyMemory<Byte> buffer, CancellationToken cancellationToken) {
   ArraySegment<Byte> segment;
   if (MemoryMarshal::TryGetArray(buffer, segment)) {

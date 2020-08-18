@@ -58,16 +58,25 @@ template <class T>
 static void F(T a, T t = rt::default, Enum r = Enum::A | Enum::B) {
 }
 
+struct TestDefault
+{
+  template <class T = int>
+  void f(T a = rt::default, int b = 0);  
+};
+
+template <>
+void TestDefault::f(int a, int b) {
+}
+
 void TestStrDefault() {
   F(1);
-  //int a = rt::default;
+  TestDefault a;
+  a.f();
 }
 
 int main() {
   TestTry();
   Int32 a = 0;
-  a.GetBoolean();
-
   return 0;
 }
 

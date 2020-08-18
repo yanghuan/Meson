@@ -345,6 +345,7 @@ Task<Int32> UnmanagedMemoryStream___::ReadAsync(Array<Byte> buffer, Int32 offset
   }
 }
 
+template <>
 ValueTask<Int32> UnmanagedMemoryStream___::ReadAsync(Memory<Byte> buffer, CancellationToken cancellationToken) {
   if (cancellationToken.get_IsCancellationRequested()) {
     return ValueTask<Int32>(Task<>::in::FromCanceled<Int32>(cancellationToken));
@@ -525,6 +526,7 @@ Task<> UnmanagedMemoryStream___::WriteAsync(Array<Byte> buffer, Int32 offset, In
   }
 }
 
+template <>
 ValueTask<> UnmanagedMemoryStream___::WriteAsync(ReadOnlyMemory<Byte> buffer, CancellationToken cancellationToken) {
   if (cancellationToken.get_IsCancellationRequested()) {
     return ValueTask<>(Task<>::in::FromCanceled(cancellationToken));

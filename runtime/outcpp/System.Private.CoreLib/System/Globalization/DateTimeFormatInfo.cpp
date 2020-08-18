@@ -1297,6 +1297,7 @@ Array<DateTimeFormatInfo::in::TokenHashValue> DateTimeFormatInfo___::CreateToken
   return array;
 }
 
+template <>
 void DateTimeFormatInfo___::AddMonthNames(Array<TokenHashValue> temp, ReadOnlySpan<Char> monthPostfix) {
   for (Int32 i = 1; i <= 13; i++) {
     String monthName = GetMonthName(i);

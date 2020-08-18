@@ -69,7 +69,8 @@ struct Guid : public valueType<Guid> {
   private: static Int32 HexsToChars(Char* guidChars, Int32 a, Int32 b);
   private: static Int32 HexsToCharsHexOutput(Char* guidChars, Int32 a, Int32 b);
   public: String ToString(String format, IFormatProvider provider);
-  public: Boolean TryFormat(Span<Char> destination, Int32& charsWritten, ReadOnlySpan<Char> format = rt::default);
+  public: template <class T0 = ReadOnlySpan<Char>>
+  Boolean TryFormat(Span<Char> destination, Int32& charsWritten, T0 format = rt::default);
   public: static Guid NewGuid();
   public: explicit Guid() {}
   public: static Guid Empty;

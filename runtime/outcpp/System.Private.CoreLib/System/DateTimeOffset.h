@@ -105,7 +105,8 @@ struct DateTimeOffset : public valueType<DateTimeOffset> {
   public: String ToString(String format);
   public: String ToString(IFormatProvider formatProvider);
   public: String ToString(String format, IFormatProvider formatProvider);
-  public: Boolean TryFormat(Span<Char> destination, Int32& charsWritten, ReadOnlySpan<Char> format = rt::default, IFormatProvider formatProvider = nullptr);
+  public: template <class T0 = ReadOnlySpan<Char>>
+  Boolean TryFormat(Span<Char> destination, Int32& charsWritten, T0 format = rt::default, IFormatProvider formatProvider = nullptr);
   public: DateTimeOffset ToUniversalTime();
   public: static Boolean TryParse(String input, DateTimeOffset& result);
   public: static Boolean TryParse(ReadOnlySpan<Char> input, DateTimeOffset& result);

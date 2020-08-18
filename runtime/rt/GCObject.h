@@ -774,12 +774,12 @@ namespace rt {
 
 template <class T> requires(std::is_enum_v<T>) 
 inline constexpr bool operator ==(T a, int32_t b) { 
-  return a == b;
+  return (int32_t)a == b;
 }
 
 template <class T> requires(std::is_enum_v<T>) 
 inline constexpr bool operator !=(T a, int32_t b) { 
-  return a != b;
+  return (int32_t)a != b;
 }
 
 template <class T, class T1> requires(std::is_arithmetic_v<T> && rt::IsArithmetic<T1>) 

@@ -70,6 +70,7 @@ String Int32::ToString(String format, IFormatProvider provider) {
   return Number::FormatInt32(*this, -1, format, provider);
 }
 
+template <>
 Boolean Int32::TryFormat(Span<Char> destination, Int32& charsWritten, ReadOnlySpan<Char> format, IFormatProvider provider) {
   return Number::TryFormatInt32(*this, -1, format, provider, destination, charsWritten);
 }
