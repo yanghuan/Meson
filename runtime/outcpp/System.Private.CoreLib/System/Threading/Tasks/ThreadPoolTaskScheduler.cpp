@@ -1,13 +1,14 @@
 #include "ThreadPoolTaskScheduler-dep.h"
 
 #include <System.Private.CoreLib/System/Boolean-dep.h>
+#include <System.Private.CoreLib/System/Int32-dep.h>
 #include <System.Private.CoreLib/System/Threading/Tasks/TaskCreationOptions.h>
 #include <System.Private.CoreLib/System/Threading/Thread-dep.h>
 #include <System.Private.CoreLib/System/Threading/ThreadPool-dep.h>
 
 namespace System::Private::CoreLib::System::Threading::Tasks::ThreadPoolTaskSchedulerNamespace {
 void ThreadPoolTaskScheduler___::ctor() {
-  _ = TaskScheduler::in::get_Id();
+  Int32 id = TaskScheduler::in::get_Id();
 }
 
 void ThreadPoolTaskScheduler___::QueueTask(Task<> task) {

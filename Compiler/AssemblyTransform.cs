@@ -10,6 +10,11 @@ namespace Meson.Compiler {
     public IModule Module { get;}
     private readonly Dictionary<ITypeDefinition, ITypeDefinition> nestedBrotherTypes_ = new Dictionary<ITypeDefinition, ITypeDefinition>();
     private IEnumerable<CompilationUnitTransform> compilationUnits_;
+    private static HashSet<string> ignoreDefinitionTypes_ = new HashSet<string>() {
+      "System.Runtime.CompilerServices.NullablePublicOnlyAttribute",
+      "System.Runtime.CompilerServices.NullableContextAttribute",
+      "System.Runtime.CompilerServices.NullableAttribute"
+    };
 
     public AssemblyTransform(SyntaxGenerator generator, IModule module) {
       Generator = generator;
@@ -31,7 +36,19 @@ namespace Meson.Compiler {
     }
 
     private static bool IsExportType(ITypeDefinition type) {
-      return type.Name.Length > 0 && !type.Name.StartsWith("<");
+      if (type.Name.Length == 0) {
+        return false;
+      }
+
+      if (type.Name[0] == '<') {
+        return false;
+      }
+
+      if (type.DeclaringType == null && ignoreDefinitionTypes_.Contains(type.FullName)) {
+        return false;
+      }
+
+      return true;
     }
 
     public IEnumerable<CompilationUnitTransform> GetCompilationUnits() {

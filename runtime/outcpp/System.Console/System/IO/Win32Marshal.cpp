@@ -44,14 +44,14 @@ Exception Win32Marshal::GetExceptionForWin32Error(Int32 errorCode, String path) 
     case 995:
       return rt::newobj<OperationCanceledException>();
   }
-  return nullptr; //rt::newobj<IOException>(String::in::IsNullOrEmpty(path) ? GetMessage(errorCode) : (GetMessage(errorCode) + " : '" + path + "'"), MakeHRFromErrorCode(errorCode));
+  return rt::newobj<IOException>(String::in::IsNullOrEmpty(path) ? GetMessage(errorCode) : (GetMessage(errorCode) + " : '" + path + "'"), MakeHRFromErrorCode(errorCode));
 }
 
 Int32 Win32Marshal::MakeHRFromErrorCode(Int32 errorCode) {
   if ((4294901760u & errorCode) != 0) {
     return errorCode;
   }
-  return (Int32)-2147024896 | errorCode;
+  return -2147024896 | errorCode;
 }
 
 String Win32Marshal::GetMessage(Int32 errorCode) {

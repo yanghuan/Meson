@@ -7,6 +7,7 @@
 #include <System.Private.CoreLib/System/Diagnostics/Tracing/EventKeywords.h>
 #include <System.Private.CoreLib/System/Diagnostics/Tracing/EventLevel.h>
 #include <System.Private.CoreLib/System/Guid-dep.h>
+#include <System.Private.CoreLib/System/Int32-dep.h>
 #include <System.Private.CoreLib/System/Int64-dep.h>
 #include <System.Private.CoreLib/System/IntPtr-dep.h>
 #include <System.Private.CoreLib/System/Runtime/CompilerServices/AsyncMethodBuilderCore-dep.h>
@@ -22,8 +23,8 @@ using namespace System::Runtime::CompilerServices;
 
 void TplEventSource___::OnEventCommand(EventCommandEventArgs command) {
   if (command->get_Command() != EventCommand::Enable) {
-    _ = command->set_Command();
-    _ = -3;
+    EventCommand command2 = command->get_Command();
+    Int32 num = -3;
   }
   if (IsEnabled(EventLevel::Informational, (EventKeywords)128)) {
     ActivityTracker::in::get_Instance()->Enable();

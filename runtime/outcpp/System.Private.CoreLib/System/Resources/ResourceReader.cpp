@@ -693,7 +693,7 @@ void ResourceReader___::_ReadResources() {
     }
     _nameHashesPtr = (Int32*)_ums->get_PositionPointer();
     _ums->Seek(num7, SeekOrigin::Current);
-    _ = _ums->set_PositionPointer();
+    Byte* positionPointer = _ums->get_PositionPointer();
   }
   if (_ums == nullptr) {
     _namePositions = rt::newarr<Array<Int32>>(_numResources);
@@ -711,7 +711,7 @@ void ResourceReader___::_ReadResources() {
     }
     _namePositionsPtr = (Int32*)_ums->get_PositionPointer();
     _ums->Seek(num9, SeekOrigin::Current);
-    _ = _ums->set_PositionPointer();
+    Byte* positionPointer2 = _ums->get_PositionPointer();
   }
   _dataSectionOffset = _store->ReadInt32();
   if (_dataSectionOffset < 0) {

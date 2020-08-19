@@ -3,7 +3,6 @@
 #include "Array.h"
 
 #include <System.Private.CoreLib/System/Action-dep.h>
-#include <System.Private.CoreLib/System/Array-dep.h>
 #include <System.Private.CoreLib/System/Boolean-dep.h>
 #include <System.Private.CoreLib/System/Collections/Generic/IComparer.h>
 #include <System.Private.CoreLib/System/Collections/ICollection.h>

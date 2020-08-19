@@ -11,8 +11,8 @@ using namespace Internal::Runtime::CompilerServices;
 using namespace System::Runtime::InteropServices;
 
 OperationStatus Utf8::FromUtf16(ReadOnlySpan<Char> source, Span<Byte> destination, Int32& charsRead, Int32& bytesWritten, Boolean replaceInvalidSequences, Boolean isFinalBlock) {
-  _ = source.get_Length();
-  _ = destination.get_Length();
+  Int32 length = source.get_Length();
+  Int32 length2 = destination.get_Length();
   {
     Char* ptr = &MemoryMarshal::GetReference(source);
     {
@@ -51,8 +51,8 @@ OperationStatus Utf8::FromUtf16(ReadOnlySpan<Char> source, Span<Byte> destinatio
 }
 
 OperationStatus Utf8::ToUtf16(ReadOnlySpan<Byte> source, Span<Char> destination, Int32& bytesRead, Int32& charsWritten, Boolean replaceInvalidSequences, Boolean isFinalBlock) {
-  _ = source.get_Length();
-  _ = destination.get_Length();
+  Int32 length = source.get_Length();
+  Int32 length2 = destination.get_Length();
   {
     Byte* ptr = &MemoryMarshal::GetReference(source);
     {

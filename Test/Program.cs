@@ -23,6 +23,7 @@ namespace Test {
     private static void Main(string[] args) {
       Console.WriteLine(args);
       E.A.F(c: true);
+      
     }
   }
 }

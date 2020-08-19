@@ -282,7 +282,7 @@ namespace Meson.Compiler {
           }
 
           if (recursiveTypes != null) {
-            var typeDefinition = referenceType.GetReferenceTypeDefinition();
+            var typeDefinition = referenceType.GetElementTypeDefinition();
             if (typeDefinition != null && !recursiveTypes.Contains(typeDefinition)) {
               if (typeDefinition.IsMemberTypeExists(memberType, recursiveTypes)) {
                 return true;
@@ -316,10 +316,10 @@ namespace Meson.Compiler {
       return type.Kind != TypeKind.Struct && type.Kind != TypeKind.Enum;
     }
 
-    public static ITypeDefinition GetReferenceTypeDefinition(this IType type) {
+    public static ITypeDefinition GetElementTypeDefinition(this IType type) {
       var definition = type.GetDefinition();
       if (definition == null && type is TypeWithElementType t) {
-        definition = t.ElementType.GetReferenceTypeDefinition();
+        definition = t.ElementType.GetElementTypeDefinition();
       }
       return definition;
     }

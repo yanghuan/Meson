@@ -147,7 +147,7 @@ Boolean ConsolePal::ControlCHandlerRegistrar___::BreakEvent(Int32 controlType) {
 }
 
 IntPtr ConsolePal::get_InvalidHandleValue() {
-  return IntPtr((Int32)-1);
+  return IntPtr(-1);
 }
 
 IntPtr ConsolePal::get_InputHandle() {

@@ -73,7 +73,7 @@ String AssemblyLoadContext___::get_Name() {
 }
 
 IEnumerable<AssemblyLoadContext> AssemblyLoadContext___::get_All() {
-  _ = get_Default();
+  AssemblyLoadContext default = get_Default();
   List<WeakReference<AssemblyLoadContext>> list = nullptr;
   {
     rt::lock(s_allContexts);
@@ -181,7 +181,7 @@ void AssemblyLoadContext___::StopAssemblyLoad(Guid& activityId) {
 }
 
 void AssemblyLoadContext___::InitializeDefaultContext() {
-  _ = get_Default();
+  AssemblyLoadContext default = get_Default();
 }
 
 void AssemblyLoadContext___::ctor() {

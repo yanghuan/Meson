@@ -149,7 +149,7 @@ UIntPtr ASCIIUtility::GetIndexOfFirstNonAsciiByte_Sse2(Byte* pBuffer, UIntPtr bu
     goto IL_0107;
   }
   if ((bufferLength & 8) != 0) {
-    _ = UIntPtr::get_Size();
+    Int32 size = UIntPtr::get_Size();
     UInt64 num5 = Unsafe::ReadUnaligned<UInt64>(pBuffer);
     if (!AllBytesInUInt64AreAscii(num5)) {
       num5 &= 9259542123273814144;
@@ -341,7 +341,7 @@ UIntPtr ASCIIUtility::GetIndexOfFirstNonAsciiChar_Sse2(Char* pBuffer, UIntPtr bu
     goto IL_0222;
   }
   if ((bufferLength & 4) != 0) {
-    _ = UIntPtr::get_Size();
+    Int32 size = UIntPtr::get_Size();
     UInt64 num4 = Unsafe::ReadUnaligned<UInt64>(pBuffer);
     if (!AllCharsInUInt64AreAscii(num4)) {
       num4 &= 18410996206198128512;
@@ -459,7 +459,7 @@ UIntPtr ASCIIUtility::NarrowUtf16ToAscii(Char* pUtf16Buffer, Byte* pAsciiBuffer,
   UInt64 num4 = 0;
   if (Sse2::in::get_IsSupported()) {
     if (elementCount >= (UInt32)(2 * Unsafe::SizeOf<Vector128<Byte>>())) {
-      _ = IntPtr::get_Size();
+      Int32 size = IntPtr::get_Size();
       num4 = Unsafe::ReadUnaligned<UInt64>(pUtf16Buffer);
       if (!AllCharsInUInt64AreAscii(num4)) {
         goto IL_018b;
@@ -469,7 +469,7 @@ UIntPtr ASCIIUtility::NarrowUtf16ToAscii(Char* pUtf16Buffer, Byte* pAsciiBuffer,
   } else if (Vector<>::get_IsHardwareAccelerated()) {
     UInt32 num5 = (UInt32)Unsafe::SizeOf<Vector<Byte>>();
     if (elementCount >= 2 * num5) {
-      _ = IntPtr::get_Size();
+      Int32 size2 = IntPtr::get_Size();
       num4 = Unsafe::ReadUnaligned<UInt64>(pUtf16Buffer);
       if (!AllCharsInUInt64AreAscii(num4)) {
         goto IL_018b;
@@ -495,7 +495,7 @@ UIntPtr ASCIIUtility::NarrowUtf16ToAscii(Char* pUtf16Buffer, Byte* pAsciiBuffer,
   }
   UIntPtr num8 = num + num7 - 4;
   while (true) {
-    _ = IntPtr::get_Size();
+    Int32 size3 = IntPtr::get_Size();
     num4 = Unsafe::ReadUnaligned<UInt64>(pUtf16Buffer + num);
     if (!AllCharsInUInt64AreAscii(num4)) {
       break;
@@ -510,7 +510,7 @@ UIntPtr ASCIIUtility::NarrowUtf16ToAscii(Char* pUtf16Buffer, Byte* pAsciiBuffer,
   goto IL_018b;
 
 IL_018b:
-  _ = IntPtr::get_Size();
+  Int32 size4 = IntPtr::get_Size();
   num2 = (UInt32)((!BitConverter::IsLittleEndian) ? (num4 >> 32) : num4);
   if (AllCharsInUInt32AreAscii(num2)) {
     NarrowTwoUtf16CharsToAsciiAndWriteToBuffer(pAsciiBuffer[num], num2);

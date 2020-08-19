@@ -1,5 +1,6 @@
 #include "AsyncVoidMethodBuilder-dep.h"
 
+#include <System.Private.CoreLib/System/Boolean-dep.h>
 #include <System.Private.CoreLib/System/ExceptionArgument.h>
 #include <System.Private.CoreLib/System/Runtime/CompilerServices/AsyncVoidMethodBuilder-dep.h>
 #include <System.Private.CoreLib/System/Threading/SynchronizationContext-dep.h>
@@ -29,7 +30,7 @@ void AsyncVoidMethodBuilder::SetStateMachine(IAsyncStateMachine stateMachine) {
 }
 
 void AsyncVoidMethodBuilder::SetResult() {
-  _ = AsyncCausalityTracer::get_LoggingOn();
+  Boolean loggingOn = AsyncCausalityTracer::get_LoggingOn();
   _builder.SetResult();
   if (_synchronizationContext != nullptr) {
     NotifySynchronizationContextOfCompletion();
@@ -40,7 +41,7 @@ void AsyncVoidMethodBuilder::SetException(Exception exception) {
   if (exception == nullptr) {
     ThrowHelper::ThrowArgumentNullException(ExceptionArgument::exception);
   }
-  _ = AsyncCausalityTracer::get_LoggingOn();
+  Boolean loggingOn = AsyncCausalityTracer::get_LoggingOn();
   if (_synchronizationContext != nullptr) {
     try {
       Task<>::in::ThrowAsync(exception, _synchronizationContext);

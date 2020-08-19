@@ -569,7 +569,7 @@ namespace Meson.Compiler {
       var target = pointerReferenceExpression.Target.UnParenthesized();
       var targetType = target.GetResolveResult().Type;
       Contract.Assert(targetType.Kind == TypeKind.Pointer);
-      var definition = targetType.GetReferenceTypeDefinition();
+      var definition = targetType.GetElementTypeDefinition();
       var symbol = definition.Members.Single(i => i.Name == pointerReferenceExpression.MemberName);
       return symbol;
     }

@@ -1,6 +1,7 @@
 #include "Task-dep.h"
 
 #include <System.Private.CoreLib/System/ArgumentNullException-dep.h>
+#include <System.Private.CoreLib/System/Boolean-dep.h>
 #include <System.Private.CoreLib/System/Collections/Generic/ICollection.h>
 #include <System.Private.CoreLib/System/Diagnostics/Debugger-dep.h>
 #include <System.Private.CoreLib/System/Diagnostics/Tracing/EventSource-dep.h>
@@ -46,7 +47,7 @@ using namespace System::Runtime::CompilerServices;
 using namespace System::Runtime::ExceptionServices;
 
 void DelayPromise___::ctor(Int32 millisecondsDelay) {
-  _ = AsyncCausalityTracer::get_LoggingOn();
+  Boolean loggingOn = AsyncCausalityTracer::get_LoggingOn();
   if (s_asyncDebuggingEnabled) {
     AddToActiveTasks((DelayPromise)this);
   }
@@ -60,7 +61,7 @@ void DelayPromise___::CompleteTimedOut() {
     if (s_asyncDebuggingEnabled) {
       RemoveFromActiveTasks((DelayPromise)this);
     }
-    _ = AsyncCausalityTracer::get_LoggingOn();
+    Boolean loggingOn = AsyncCausalityTracer::get_LoggingOn();
   }
 }
 
@@ -141,7 +142,7 @@ Boolean WhenAllPromise___<>::get_ShouldNotifyDebuggerOfWaitCompletion() {
 }
 
 void WhenAllPromise___<>::ctor(Array<Task<>> tasks) {
-  _ = AsyncCausalityTracer::get_LoggingOn();
+  Boolean loggingOn = AsyncCausalityTracer::get_LoggingOn();
   if (s_asyncDebuggingEnabled) {
     AddToActiveTasks((WhenAllPromise<>)this);
   }
@@ -150,7 +151,7 @@ void WhenAllPromise___<>::ctor(Array<Task<>> tasks) {
 }
 
 void WhenAllPromise___<>::Invoke(Task<> completedTask) {
-  _ = AsyncCausalityTracer::get_LoggingOn();
+  Boolean loggingOn = AsyncCausalityTracer::get_LoggingOn();
   if (Interlocked::Decrement(m_count) != 0) {
     return;
   }
@@ -181,7 +182,7 @@ void WhenAllPromise___<>::Invoke(Task<> completedTask) {
     TrySetCanceled(task->get_CancellationToken(), task->GetCancellationExceptionDispatchInfo());
     return;
   }
-  _ = AsyncCausalityTracer::get_LoggingOn();
+  Boolean loggingOn2 = AsyncCausalityTracer::get_LoggingOn();
   if (s_asyncDebuggingEnabled) {
     RemoveFromActiveTasks((WhenAllPromise<>)this);
   }
@@ -855,19 +856,19 @@ void Task___<>::FinishStageTwo() {
   Int32 num;
   if (get_ExceptionRecorded()) {
     num = 2097152;
-    _ = AsyncCausalityTracer::get_LoggingOn();
+    Boolean loggingOn = AsyncCausalityTracer::get_LoggingOn();
     if (s_asyncDebuggingEnabled) {
       RemoveFromActiveTasks((Task<>)this);
     }
   } else if (get_IsCancellationRequested() && get_IsCancellationAcknowledged()) {
     num = 4194304;
-    _ = AsyncCausalityTracer::get_LoggingOn();
+    Boolean loggingOn2 = AsyncCausalityTracer::get_LoggingOn();
     if (s_asyncDebuggingEnabled) {
       RemoveFromActiveTasks((Task<>)this);
     }
   } else {
     num = 16777216;
-    _ = AsyncCausalityTracer::get_LoggingOn();
+    Boolean loggingOn3 = AsyncCausalityTracer::get_LoggingOn();
     if (s_asyncDebuggingEnabled) {
       RemoveFromActiveTasks((Task<>)this);
     }
@@ -1274,7 +1275,7 @@ void Task___<>::CancellationCleanupLogic() {
     contingentProperties->SetCompleted();
     contingentProperties->UnregisterCancellationCallback();
   }
-  _ = AsyncCausalityTracer::get_LoggingOn();
+  Boolean loggingOn = AsyncCausalityTracer::get_LoggingOn();
   if (s_asyncDebuggingEnabled) {
     RemoveFromActiveTasks((Task<>)this);
   }
@@ -1335,7 +1336,7 @@ void Task___<>::RunContinuations(Object continuationObject) {
   if (!tplEventSource->IsEnabled()) {
     tplEventSource = nullptr;
   }
-  _ = AsyncCausalityTracer::get_LoggingOn();
+  Boolean loggingOn = AsyncCausalityTracer::get_LoggingOn();
   Boolean flag = (m_stateFlags & 64) == 0 && RuntimeHelpers::TryEnsureSufficientExecutionStack();
   IAsyncStateMachineBox asyncStateMachineBox = rt::as<IAsyncStateMachineBox>(continuationObject);
   if (asyncStateMachineBox == nullptr) {
@@ -1442,7 +1443,7 @@ void Task___<>::RunOrQueueCompletionAction(ITaskCompletionAction completionActio
 }
 
 void Task___<>::LogFinishCompletionNotification() {
-  _ = AsyncCausalityTracer::get_LoggingOn();
+  Boolean loggingOn = AsyncCausalityTracer::get_LoggingOn();
 }
 
 Task<> Task___<>::ContinueWith(Action<Task<>> continuationAction) {

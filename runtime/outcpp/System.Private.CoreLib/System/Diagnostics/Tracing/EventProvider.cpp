@@ -243,7 +243,7 @@ Boolean EventProvider___::GetDataFromController(Int32 etwSessionId, Interop::Adv
   if (filterData == nullptr) {
     Guid providerId = m_providerId;
     String str = "\Microsoft\Windows\CurrentVersion\Winevt\Publishers\{" + providerId.ToString() + "}";
-    _ = IntPtr::get_Size();
+    Int32 size = IntPtr::get_Size();
     str = "Software\Wow6432Node" + str;
     String name = "ControllerData_Session_" + etwSessionId.ToString(CultureInfo::in::get_InvariantCulture());
     {
@@ -602,7 +602,7 @@ Boolean EventProvider___::WriteEvent(EventDescriptor& eventDescriptor, IntPtr ev
 }
 
 Boolean EventProvider___::WriteEvent(EventDescriptor& eventDescriptor, IntPtr eventHandle, Guid* activityID, Guid* childActivityID, Int32 dataCount, IntPtr data) {
-  _ = 0u;
+  UInt32 num = 0u;
   WriteEventErrorCode writeEventErrorCode = m_eventProvider->EventWriteTransfer(m_regHandle, eventDescriptor, eventHandle, activityID, childActivityID, dataCount, (EventData*)(void*)data);
   if (writeEventErrorCode != 0) {
     SetLastError(writeEventErrorCode);

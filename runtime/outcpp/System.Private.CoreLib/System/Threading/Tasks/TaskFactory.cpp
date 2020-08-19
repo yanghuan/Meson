@@ -27,19 +27,19 @@ Boolean TaskFactory___<>::CompleteOnCountdownPromise___<>::get_ShouldNotifyDebug
 void TaskFactory___<>::CompleteOnCountdownPromise___<>::ctor(Array<Task<>> tasksCopy) {
   _tasks = tasksCopy;
   _count = tasksCopy->get_Length();
-  _ = AsyncCausalityTracer::get_LoggingOn();
+  Boolean loggingOn = AsyncCausalityTracer::get_LoggingOn();
   if (Task<>::in::s_asyncDebuggingEnabled) {
     Task<>::in::AddToActiveTasks((CompleteOnCountdownPromise<>)this);
   }
 }
 
 void TaskFactory___<>::CompleteOnCountdownPromise___<>::Invoke(Task<> completingTask) {
-  _ = AsyncCausalityTracer::get_LoggingOn();
+  Boolean loggingOn = AsyncCausalityTracer::get_LoggingOn();
   if (completingTask->get_IsWaitNotificationEnabled()) {
     SetNotificationForWaitCompletion(true);
   }
   if (Interlocked::Decrement(_count) == 0) {
-    _ = AsyncCausalityTracer::get_LoggingOn();
+    Boolean loggingOn2 = AsyncCausalityTracer::get_LoggingOn();
     if (Task<>::in::s_asyncDebuggingEnabled) {
       Task<>::in::RemoveFromActiveTasks((CompleteOnCountdownPromise<>)this);
     }
@@ -56,7 +56,7 @@ void TaskFactory___<>::CompleteOnInvokePromise___::ctor(IList<Task<>> tasks, Boo
   if (isSyncBlocking) {
     _stateFlags = 2;
   }
-  _ = AsyncCausalityTracer::get_LoggingOn();
+  Boolean loggingOn = AsyncCausalityTracer::get_LoggingOn();
   if (Task<>::in::s_asyncDebuggingEnabled) {
     Task<>::in::AddToActiveTasks((CompleteOnInvokePromise)this);
   }
@@ -68,7 +68,7 @@ void TaskFactory___<>::CompleteOnInvokePromise___::Invoke(Task<> completingTask)
   if ((stateFlags & 1) != 0 || Interlocked::Exchange(_stateFlags, num | 1) != num) {
     return;
   }
-  _ = AsyncCausalityTracer::get_LoggingOn();
+  Boolean loggingOn = AsyncCausalityTracer::get_LoggingOn();
   if (Task<>::in::s_asyncDebuggingEnabled) {
     Task<>::in::RemoveFromActiveTasks((CompleteOnInvokePromise)this);
   }

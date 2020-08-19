@@ -1251,7 +1251,7 @@ Byte* Utf8Utility::GetPointerToFirstInvalidByte(Byte* pInputBuffer, Int32 inputL
               num -= 2;
               UInt64 num5;
               while (true) {
-                _ = IntPtr::get_Size();
+                Int32 size = IntPtr::get_Size();
                 if (!BitConverter::IsLittleEndian || (IntPtr)(ptr - pInputBuffer) < 5) {
                   break;
                 }

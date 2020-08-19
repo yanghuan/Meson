@@ -273,7 +273,7 @@ namespace Meson.Compiler {
             ArrayType arrayType = (ArrayType)args.Type;
             if (args.IsInHead) {
               var arrayDefinition = arrayType.DirectBaseTypes.First().GetDefinition();
-              if (arrayDefinition != args.Definition) {
+              if (arrayDefinition != args.Definition.GetReferenceType()) {
                 AddHeadReference(arrayDefinition, args.IsForward);
               }
             }

@@ -159,7 +159,7 @@ void Exception___::OnDeserialized(StreamingContext context) {
 }
 
 void Exception___::InternalPreserveStackTrace() {
-  _ = get_Source();
+  String source = get_Source();
   String stackTrace = get_StackTrace();
   if (!String::in::IsNullOrEmpty(stackTrace)) {
     _remoteStackTraceString = stackTrace + "

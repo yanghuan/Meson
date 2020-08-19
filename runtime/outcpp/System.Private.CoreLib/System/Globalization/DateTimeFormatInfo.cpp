@@ -1189,7 +1189,7 @@ Array<DateTimeFormatInfo::in::TokenHashValue> DateTimeFormatInfo___::CreateToken
     }
     DateTimeFormatInfoScanner dateTimeFormatInfoScanner = rt::newobj<DateTimeFormatInfoScanner>();
     Array<String> dateWordsOfDTFI = dateTimeFormatInfoScanner->GetDateWordsOfDTFI((DateTimeFormatInfo)this);
-    _ = get_FormatFlags();
+    DateTimeFormatFlags formatFlag = get_FormatFlags();
     Boolean flag2 = false;
     if (dateWordsOfDTFI != nullptr) {
       for (Int32 i = 0; i < dateWordsOfDTFI->get_Length(); i++) {

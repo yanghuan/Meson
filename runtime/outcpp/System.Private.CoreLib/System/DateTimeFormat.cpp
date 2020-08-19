@@ -573,7 +573,7 @@ Boolean DateTimeFormat::TryFormatO(DateTime dateTime, TimeSpan offset, Span<Char
     return false;
   }
   charsWritten = num;
-  _ = destination[26];
+  Char& reference = destination[26];
   Int32 year;
   Int32 month;
   Int32 day;

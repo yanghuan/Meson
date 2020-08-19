@@ -154,7 +154,7 @@ void BufferedStream___::Dispose(Boolean disposing) {
 }
 
 ValueTask<> BufferedStream___::DisposeAsync() {
-  _ = 1;
+  Int32 num = 1;
   try {
     if (_stream != nullptr) {
       try {

@@ -250,11 +250,11 @@ TypeCode EventParameterInfo::GetTypeCodeExtended(Type parameterType) {
     return (TypeCode)17;
   }
   if (parameterType == rt::typeof<IntPtr>()) {
-    _ = IntPtr::get_Size();
+    Int32 size = IntPtr::get_Size();
     return TypeCode::Int64;
   }
   if (parameterType == rt::typeof<UIntPtr>()) {
-    _ = UIntPtr::get_Size();
+    Int32 size2 = UIntPtr::get_Size();
     return TypeCode::UInt64;
   }
   return Type::in::GetTypeCode(parameterType);

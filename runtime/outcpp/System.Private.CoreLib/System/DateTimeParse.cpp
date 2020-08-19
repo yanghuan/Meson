@@ -1758,7 +1758,7 @@ Boolean DateTimeParse::AdjustTimeZoneToLocal(DateTimeResult& result, Boolean bTi
 Boolean DateTimeParse::ParseISO8601(DateTimeRawInfo& raw, __DTString& str, DateTimeStyles styles, DateTimeResult& result) {
   if (raw.year >= 0 && raw.GetNumber(0) >= 0) {
     raw.GetNumber(1);
-    _ = 0;
+    Int32 num = 0;
   }
   str.Index--;
   Int32 result2 = 0;

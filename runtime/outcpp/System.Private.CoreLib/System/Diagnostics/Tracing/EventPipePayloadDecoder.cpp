@@ -36,7 +36,7 @@ Array<Object> EventPipePayloadDecoder::DecodePayload(EventSource::in::EventMetad
     }
     Type parameterType = parameters[i]->get_ParameterType();
     if (parameterType == rt::typeof<IntPtr>()) {
-      _ = IntPtr::get_Size();
+      Int32 size = IntPtr::get_Size();
       array[i] = (IntPtr)BinaryPrimitives::ReadInt64LittleEndian(payload);
       payload = payload.Slice(IntPtr::get_Size());
     } else if (parameterType == rt::typeof<Int32>()) {

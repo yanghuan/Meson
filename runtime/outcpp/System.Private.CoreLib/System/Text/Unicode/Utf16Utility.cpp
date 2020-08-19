@@ -116,7 +116,7 @@ Char* Utf16Utility::GetPointerToFirstInvalidChar(Char* pInputBuffer, Int32 input
           }
           UIntPtr num8 = (UInt32)BitOperations::PopCount(num7);
           num3 -= (Int32)num8;
-          _ = IntPtr::get_Size();
+          Int32 size = IntPtr::get_Size();
           num2 -= (Int64)num8;
           num2 -= (Int64)num8;
         }
@@ -140,7 +140,7 @@ Char* Utf16Utility::GetPointerToFirstInvalidChar(Char* pInputBuffer, Int32 input
         num9 += (UIntPtr)(IntPtr)vector4[i];
       }
       UInt32 num10 = (UInt32)num9;
-      _ = IntPtr::get_Size();
+      Int32 size2 = IntPtr::get_Size();
       num10 += (UInt32)(Int32)(num9 >> 32);
       num10 = (UInt16)num10 + (num10 >> 16);
       left2 -= vector3;

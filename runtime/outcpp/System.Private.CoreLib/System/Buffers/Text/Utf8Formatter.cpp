@@ -222,7 +222,7 @@ Boolean Utf8Formatter::TryFormatDateTimeO(DateTime value, TimeSpan offset, Span<
     return false;
   }
   bytesWritten = num;
-  _ = destination[26];
+  Byte& reference = destination[26];
   Int32 year;
   Int32 month;
   Int32 day;
@@ -565,7 +565,7 @@ Boolean Utf8Formatter::TryFormat(Guid value, Span<Byte> destination, Int32& byte
   num >>= 8;
   DecomposedGuid decomposedGuid = DecomposedGuid();
   decomposedGuid.Guid = value;
-  _ = destination[8];
+  Byte& reference = destination[8];
   HexConverter::ToBytesBuffer(decomposedGuid.Byte03, destination, 0, HexConverter::Casing::Lower);
   HexConverter::ToBytesBuffer(decomposedGuid.Byte02, destination, 2, HexConverter::Casing::Lower);
   HexConverter::ToBytesBuffer(decomposedGuid.Byte01, destination, 4, HexConverter::Casing::Lower);
@@ -576,7 +576,7 @@ Boolean Utf8Formatter::TryFormat(Guid value, Span<Byte> destination, Int32& byte
   } else {
     destination = destination.Slice(8);
   }
-  _ = destination[4];
+  Byte& reference2 = destination[4];
   HexConverter::ToBytesBuffer(decomposedGuid.Byte05, destination, 0, HexConverter::Casing::Lower);
   HexConverter::ToBytesBuffer(decomposedGuid.Byte04, destination, 2, HexConverter::Casing::Lower);
   if (num < 0) {
@@ -585,7 +585,7 @@ Boolean Utf8Formatter::TryFormat(Guid value, Span<Byte> destination, Int32& byte
   } else {
     destination = destination.Slice(4);
   }
-  _ = destination[4];
+  Byte& reference3 = destination[4];
   HexConverter::ToBytesBuffer(decomposedGuid.Byte07, destination, 0, HexConverter::Casing::Lower);
   HexConverter::ToBytesBuffer(decomposedGuid.Byte06, destination, 2, HexConverter::Casing::Lower);
   if (num < 0) {
@@ -594,7 +594,7 @@ Boolean Utf8Formatter::TryFormat(Guid value, Span<Byte> destination, Int32& byte
   } else {
     destination = destination.Slice(4);
   }
-  _ = destination[4];
+  Byte& reference4 = destination[4];
   HexConverter::ToBytesBuffer(decomposedGuid.Byte08, destination, 0, HexConverter::Casing::Lower);
   HexConverter::ToBytesBuffer(decomposedGuid.Byte09, destination, 2, HexConverter::Casing::Lower);
   if (num < 0) {
@@ -603,7 +603,7 @@ Boolean Utf8Formatter::TryFormat(Guid value, Span<Byte> destination, Int32& byte
   } else {
     destination = destination.Slice(4);
   }
-  _ = destination[11];
+  Byte& reference5 = destination[11];
   HexConverter::ToBytesBuffer(decomposedGuid.Byte10, destination, 0, HexConverter::Casing::Lower);
   HexConverter::ToBytesBuffer(decomposedGuid.Byte11, destination, 2, HexConverter::Casing::Lower);
   HexConverter::ToBytesBuffer(decomposedGuid.Byte12, destination, 4, HexConverter::Casing::Lower);
@@ -695,7 +695,7 @@ Boolean Utf8Formatter::TryFormatInt64Default(Int64 value, Span<Byte> destination
   if ((UInt64)value < 10) {
     return TryFormatUInt32SingleDigit((UInt32)value, destination, bytesWritten);
   }
-  _ = IntPtr::get_Size();
+  Int32 size = IntPtr::get_Size();
   return TryFormatInt64MultipleDigits(value, destination, bytesWritten);
 }
 
@@ -780,7 +780,7 @@ Boolean Utf8Formatter::TryFormatUInt64Default(UInt64 value, Span<Byte> destinati
   if (value < 10) {
     return TryFormatUInt32SingleDigit((UInt32)value, destination, bytesWritten);
   }
-  _ = IntPtr::get_Size();
+  Int32 size = IntPtr::get_Size();
   return TryFormatUInt64MultipleDigits(value, destination, bytesWritten);
 }
 

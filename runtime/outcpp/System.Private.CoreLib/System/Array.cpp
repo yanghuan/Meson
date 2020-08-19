@@ -3,6 +3,7 @@
 #include <System.Private.CoreLib/Internal/Runtime/CompilerServices/Unsafe-dep.h>
 #include <System.Private.CoreLib/System/ArgumentException-dep.h>
 #include <System.Private.CoreLib/System/ArgumentOutOfRangeException-dep.h>
+#include <System.Private.CoreLib/System/Array-dep.h>
 #include <System.Private.CoreLib/System/ArrayEnumerator-dep.h>
 #include <System.Private.CoreLib/System/ArrayTypeMismatchException-dep.h>
 #include <System.Private.CoreLib/System/Buffer-dep.h>

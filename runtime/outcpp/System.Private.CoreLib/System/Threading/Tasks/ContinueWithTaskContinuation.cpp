@@ -1,5 +1,6 @@
 #include "ContinueWithTaskContinuation-dep.h"
 
+#include <System.Private.CoreLib/System/Boolean-dep.h>
 #include <System.Private.CoreLib/System/Object-dep.h>
 #include <System.Private.CoreLib/System/Threading/CancellationToken-dep.h>
 #include <System.Private.CoreLib/System/Threading/Tasks/AsyncCausalityTracer-dep.h>
@@ -10,7 +11,7 @@ void ContinueWithTaskContinuation___::ctor(Task<> task, TaskContinuationOptions 
   m_task = task;
   m_options = options;
   m_taskScheduler = scheduler;
-  _ = AsyncCausalityTracer::get_LoggingOn();
+  Boolean loggingOn = AsyncCausalityTracer::get_LoggingOn();
   if (Task<>::in::s_asyncDebuggingEnabled) {
     Task<>::in::AddToActiveTasks(m_task);
   }
@@ -22,7 +23,7 @@ void ContinueWithTaskContinuation___::Run(Task<> completedTask, Boolean canInlin
   TaskContinuationOptions options = m_options;
   if (completedTask->get_IsCompletedSuccessfully() ? ((options & TaskContinuationOptions::NotOnRanToCompletion) == 0) : (completedTask->get_IsCanceled() ? ((options & TaskContinuationOptions::NotOnCanceled) == 0) : ((options & TaskContinuationOptions::NotOnFaulted) == 0))) {
     if (!task->get_IsCanceled()) {
-      _ = AsyncCausalityTracer::get_LoggingOn();
+      Boolean loggingOn = AsyncCausalityTracer::get_LoggingOn();
     }
     task->m_taskScheduler = m_taskScheduler;
     if (canInlineContinuationTask && (options & TaskContinuationOptions::ExecuteSynchronously) != 0) {
