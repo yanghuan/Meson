@@ -15,11 +15,11 @@ namespace System::Private::CoreLib::System::Globalization::GlobalizationModeName
 using namespace System::Runtime::InteropServices;
 
 Boolean GlobalizationMode::get_Invariant() {
-  return <Invariant>k__BackingField;
+  return Invariant;
 }
 
 Boolean GlobalizationMode::get_UseNls() {
-  return <UseNls>k__BackingField;
+  return UseNls;
 }
 
 Boolean GlobalizationMode::GetInvariantSwitchValue() {

@@ -87,7 +87,7 @@ String Environment::get_StackTrace() {
 }
 
 Int32 Environment::get_ProcessorCount() {
-  return <ProcessorCount>k__BackingField;
+  return ProcessorCount;
 }
 
 Boolean Environment::get_IsSingleProcessor() {

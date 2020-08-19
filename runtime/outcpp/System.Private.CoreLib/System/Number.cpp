@@ -886,7 +886,7 @@ void Number::Grisu3::cctor() {
 }
 
 Number::FloatingPointInfo::FloatingPointInfo(UInt16 denormalMantissaBits, UInt16 exponentBits, Int32 maxBinaryExponent, Int32 exponentBias, UInt64 infinityBits) {
-  <ExponentBits>k__BackingField = exponentBits;
+  ExponentBits = exponentBits;
   DenormalMantissaBits = denormalMantissaBits;
   NormalMantissaBits = (UInt16)(denormalMantissaBits + 1);
   OverflowDecimalExponent = (maxBinaryExponent + 2 * NormalMantissaBits) / 3;

@@ -238,6 +238,10 @@ namespace Meson.Compiler {
       var symbol = identifierExpression.GetSymbol();
       if (symbol != null) {
         switch (symbol.SymbolKind) {
+          case SymbolKind.Field: {
+              var field = (IField)symbol;
+              return field.GetFieldName().Identifier();
+            }
           case SymbolKind.Property: {
               var property = (IProperty)symbol;
               if (!property.IsPropertyField()) {

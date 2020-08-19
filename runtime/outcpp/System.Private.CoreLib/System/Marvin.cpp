@@ -21,7 +21,7 @@ using namespace System::Runtime::InteropServices;
 using namespace System::Text::Unicode;
 
 UInt64 Marvin::get_DefaultSeed() {
-  return <DefaultSeed>k__BackingField;
+  return DefaultSeed;
 }
 
 Int32 Marvin::ComputeHash32(ReadOnlySpan<Byte> data, UInt64 seed) {
