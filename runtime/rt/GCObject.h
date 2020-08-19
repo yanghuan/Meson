@@ -807,6 +807,11 @@ inline constexpr auto operator &(T a, T1 b) {
   return b & a;
 }
 
+template <class T, class T1> requires(std::is_arithmetic_v<T> && rt::IsArithmetic<T1>) 
+inline constexpr auto operator |(T a, T1 b) { 
+  return b | a;
+}
+
 template <class T> requires(std::is_enum_v<T>) 
 inline constexpr auto operator &(T a, T b) { 
   return (T)((int)a & (int)b);
