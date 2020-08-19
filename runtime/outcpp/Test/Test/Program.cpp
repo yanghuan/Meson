@@ -8,6 +8,14 @@
 namespace Test::Test::ProgramNamespace {
 using namespace ::System::Console::System;
 
+Int32 Program___::get_A() {
+  return <A>k__BackingField;
+}
+
+void Program___::set_A(Int32 value) {
+  <A>k__BackingField = value;
+}
+
 void Program___::Main(Array<String> args) {
   Console::WriteLine(args);
   Extension::F(E::A, 10, true);

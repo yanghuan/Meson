@@ -18,7 +18,7 @@ namespace Test {
 
 
   class Program {
-    private int A { get; set; }
+    private static int A { get; set; }
 
     private static void Main(string[] args) {
       Console.WriteLine(args);

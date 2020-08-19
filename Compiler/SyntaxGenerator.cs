@@ -57,7 +57,7 @@ namespace Meson.Compiler {
     public EntityDeclaration GetMethodDeclaration(IMethod method) {
       var decompiler = GetDecompiler(method.ParentModule);
       var node = decompiler.Decompile(method.MetadataToken);
-      return node.Members.OfType<EntityDeclaration>().FirstOrDefault();
+      return node.Members.OfType<EntityDeclaration>().First();
     }
 
     private IEnumerable<CompilationUnitTransform> GetCompilationUnits() {

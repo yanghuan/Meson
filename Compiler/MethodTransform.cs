@@ -75,23 +75,16 @@ namespace Meson.Compiler {
     private void Visit(IMethod methodSymbol) {
       if (methodSymbol.HasBody) {
         methodSymbols_.Push(methodSymbol);
-        MethodDefinitionSyntax node;
         var declaration = Generator.GetMethodDeclaration(methodSymbol);
-        if (declaration != null) {
-          node = declaration.Accept<MethodDefinitionSyntax>(this);
-        } else {
-          node = BuildMethodDeclaration(null);
-        }
+        var node = declaration.Accept<MethodDefinitionSyntax>(this);
         methodSymbols_.Pop();
-        if (node != null) {
-          if (node.IsInline) {
-            CompilationUnit.AddInlineMethodDefinition(node);
-          } else {
-            CompilationUnit.AddSrcStatement(node);
-            CompilationUnit.AddSrcStatement(BlankLinesStatement.One);
-            if (methodSymbol.IsMainEntryPoint()) {
-              InsetMainFuntion(methodSymbol, node);
-            }
+        if (node.IsInline) {
+          CompilationUnit.AddInlineMethodDefinition(node);
+        } else {
+          CompilationUnit.AddSrcStatement(node);
+          CompilationUnit.AddSrcStatement(BlankLinesStatement.One);
+          if (methodSymbol.IsMainEntryPoint()) {
+            InsetMainFuntion(methodSymbol, node);
           }
         }
       }
@@ -1038,36 +1031,6 @@ namespace Meson.Compiler {
       return name;
     }
 
-    private void InsertDefaultReturnValue(MethodDefinitionSyntax node, IMethod method, ExpressionSyntax returnType) {
-      switch (method.ReturnType.Kind) {
-        case TypeKind.Pointer:
-        case TypeKind.Class:
-        case TypeKind.Interface:
-        case TypeKind.Delegate: {
-            node.AddStatement(IdentifierSyntax.Nullptr.Return());
-            break;
-          }
-        case TypeKind.ByReference: {
-            var refIdentifier = (RefExpressionSyntax)returnType;
-            node.AddStatement(refIdentifier.Expression.Invation().Return());
-            break;
-          }
-        case TypeKind.Enum: {
-            var field = method.ReturnType.GetDefinition().Fields.Last();
-            var name = GetMemberName(field);
-            node.AddStatement(returnType.TwoColon(name).Return());
-            break;
-          }
-        case TypeKind.Void: {
-            break;
-          }
-        default: {
-            node.AddStatement(returnType.Invation().Return());
-            break;
-          }
-      }
-    }
-
     private static bool IsStructDefaultParameterExists(IMethod method) {
       return method.Parameters.Any(i => i.HasConstantValueInSignature && i.GetConstantValue() == null && i.Type.Kind == TypeKind.Struct);
     }
@@ -1095,22 +1058,8 @@ namespace Meson.Compiler {
         node.Template = TemplateSyntax.Empty;
       }
       PushFunction(node);
-      if (body != null) {
-        var block = body.Accept<BlockSyntax>(this);
-        node.AddStatements(block.Statements);
-      } else if (method.AccessorOwner is IProperty property) {
-        if (property.IsPropertyField()) {
-          node.IsInline = true;
-          var fieldName = typeDefinition_.GetPropertyFieldName(method.DeclaringTypeDefinition, property);
-          if (method.AccessorKind == MethodSemanticsAttributes.Getter) {
-            node.Body.Add(new ReturnStatementSyntax(fieldName));
-          } else {
-            node.Body.Add(new BinaryExpressionSyntax(fieldName, Tokens.Equals, IdentifierSyntax.Value));
-          }
-        } else {
-          InsertDefaultReturnValue(node, method, returnType);
-        }
-      }
+      var block = body.Accept<BlockSyntax>(this);
+      node.AddStatements(block.Statements);
       PopFunction();
       return node;
     }
