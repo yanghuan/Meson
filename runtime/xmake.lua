@@ -1,4 +1,7 @@
 set_project("runtime")
+--set_config("cc", "gcc")
+--set_config("cxx", "gcc")
+--set_config("ld", "g++")
 set_languages("c++20")
 add_requires("boost 1.72.0")
 

@@ -1,5 +1,11 @@
 #include "test.h"
 #include "runtime.h"
+
+#include <cstdio>
+#include <limits>
+#include <cmath>
+#include <iostream>
+
 #include <System.Private.CoreLib/System/Array-dep.h>
 #include <System.Private.CoreLib/System/Int32-dep.h>
 #include <System.Private.CoreLib/System/UInt32-dep.h>
@@ -10,10 +16,6 @@
 #include <System.Private.CoreLib/System/String-dep.h>
 #include <System.Private.CoreLib/System/Threading/Volatile-dep.h>
 
-#include <cstdio>
-#include <limits>
-#include <cmath>
-#include <iostream>
 
 using namespace System::Private::CoreLib::System;
 using namespace ::System::Private::CoreLib::System::Threading;
