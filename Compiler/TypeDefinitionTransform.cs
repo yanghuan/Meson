@@ -331,7 +331,7 @@ namespace Meson.Compiler {
       return constValue.ToString().Identifier().CastTo(typeName);
     }
 
-    private ExpressionSyntax GetDefaultParameterValue(IParameter parameter, ExpressionSyntax parametertype) {
+    private ExpressionSyntax GetDefaultParameterValue(IParameter parameter, ExpressionSyntax parametertype, ITypeDefinition typeDefinition) {
       var constValue = parameter.GetConstantValue();
       ExpressionSyntax defaultValue;
       if (constValue == null) {
@@ -345,10 +345,11 @@ namespace Meson.Compiler {
     }
 
     private ParameterSyntax GetParameterSyntax(IParameter parameter, IMethod method, ITypeDefinition typeDefinition) {
+      bool isConstValueImport = parameter.HasConstantValueInSignature && (parameter.Type.Kind == TypeKind.Enum || parameter.GetConstantValue() is string);
       var type = CompilationUnit.GetTypeName(new TypeNameArgs {
         Type = parameter.Type,
         Definition = typeDefinition,
-        IsForward = true,
+        IsForward = !isConstValueImport,
         IsInHead = true,
         Original = parameter.Type,
         Symbol = parameter,
@@ -357,7 +358,7 @@ namespace Meson.Compiler {
       var name = GetMemberName(parameter);
       ExpressionSyntax value;
       if (parameter.HasConstantValueInSignature) {
-        value = GetDefaultParameterValue(parameter, type);
+        value = GetDefaultParameterValue(parameter, type, typeDefinition);
       } else {
         value = null;
       }
