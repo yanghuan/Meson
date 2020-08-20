@@ -3,6 +3,7 @@ set_project("runtime")
 --set_config("cxx", "gcc")
 --set_config("ld", "g++")
 set_languages("c++20")
+set_config("cxxflags", "/permissive-")
 add_requires("boost 1.72.0")
 
 add_rules("mode.debug", "mode.release", "mode.minsizerel")
