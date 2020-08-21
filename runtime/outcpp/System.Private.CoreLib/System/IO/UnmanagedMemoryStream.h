@@ -64,7 +64,7 @@ CLASS(UnmanagedMemoryStream) : public Stream::in {
   public: Int32 ReadCore(Span<Byte> buffer);
   public: Task<Int32> ReadAsync(Array<Byte> buffer, Int32 offset, Int32 count, CancellationToken cancellationToken);
   public: template <class T0 = CancellationToken>
-  ValueTask<Int32> ReadAsync(Memory<Byte> buffer, T0 cancellationToken = rt::default);
+  ValueTask<Int32> ReadAsync(Memory<Byte> buffer, T0 cancellationToken = rt::default__);
   public: Int32 ReadByte();
   public: Int64 Seek(Int64 offset, SeekOrigin loc);
   public: void SetLength(Int64 value);
@@ -73,7 +73,7 @@ CLASS(UnmanagedMemoryStream) : public Stream::in {
   public: void WriteCore(ReadOnlySpan<Byte> buffer);
   public: Task<> WriteAsync(Array<Byte> buffer, Int32 offset, Int32 count, CancellationToken cancellationToken);
   public: template <class T0 = CancellationToken>
-  ValueTask<> WriteAsync(ReadOnlyMemory<Byte> buffer, T0 cancellationToken = rt::default);
+  ValueTask<> WriteAsync(ReadOnlyMemory<Byte> buffer, T0 cancellationToken = rt::default__);
   public: void WriteByte(Byte value);
   private: SafeBuffer _buffer;
   private: Byte* _mem;

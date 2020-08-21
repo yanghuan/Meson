@@ -416,8 +416,8 @@ String IdnMapping___::IcuGetAsciiCore(String unicodeString, Char* unicode, Int32
   Int32 num = (Int32)Math::Min((Int64)count * 3 + 4, 512);
   Int32 num2;
   if (num < 512) {
-    Char default[num] = {};
-    Char* ptr = default;
+    Char as[num] = {};
+    Char* ptr = as;
     num2 = Interop::Globalization::ToAscii(icuFlags, unicode, count, ptr, num);
     if (num2 > 0 && num2 <= num) {
       return GetStringForOutput(unicodeString, unicode, count, ptr, num2);
@@ -443,8 +443,8 @@ String IdnMapping___::IcuGetUnicodeCore(String asciiString, Char* ascii, Int32 c
   UInt32 icuFlags = get_IcuFlags();
   CheckInvalidIdnCharacters(ascii, count, icuFlags, "ascii");
   if (count < 512) {
-    Char default[count] = {};
-    Char* output = default;
+    Char as[count] = {};
+    Char* output = as;
     return IcuGetUnicodeCore(asciiString, ascii, count, icuFlags, output, count, true);
   }
   Array<Char> array = rt::newarr<Array<Char>>(count);
@@ -490,8 +490,8 @@ String IdnMapping___::NlsGetAsciiCore(String unicodeString, Char* unicode, Int32
     ThrowForZeroLength(true);
   }
   if (num < 512) {
-    Char default[num] = {};
-    Char* output = default;
+    Char as[num] = {};
+    Char* output = as;
     return NlsGetAsciiCore(unicodeString, unicode, count, nlsFlags, output, num);
   }
   Array<Char> array = rt::newarr<Array<Char>>(num);
@@ -516,8 +516,8 @@ String IdnMapping___::NlsGetUnicodeCore(String asciiString, Char* ascii, Int32 c
     ThrowForZeroLength(false);
   }
   if (num < 512) {
-    Char default[num] = {};
-    Char* output = default;
+    Char as[num] = {};
+    Char* output = as;
     return NlsGetUnicodeCore(asciiString, ascii, count, nlsFlags, output, num);
   }
   Array<Char> array = rt::newarr<Array<Char>>(num);

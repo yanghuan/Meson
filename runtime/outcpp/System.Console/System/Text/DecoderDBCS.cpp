@@ -62,8 +62,8 @@ Int32 DecoderDBCS___::GetCharCount(Array<Byte> bytes, Int32 index, Int32 count, 
 }
 
 Int32 DecoderDBCS___::ConvertWithLeftOverByte(Byte* bytes, Int32 count, Char* chars, Int32 charCount) {
-  Byte default[2] = {};
-  Byte* ptr = default;
+  Byte as[2] = {};
+  Byte* ptr = as;
   *ptr = _leftOverLeadByte;
   Int32 num = 0;
   if (count > 0) {

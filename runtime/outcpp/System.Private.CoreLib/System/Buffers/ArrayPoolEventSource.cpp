@@ -8,8 +8,8 @@ void ArrayPoolEventSource___::ctor() {
 }
 
 void ArrayPoolEventSource___::BufferRented(Int32 bufferId, Int32 bufferSize, Int32 poolId, Int32 bucketId) {
-  EventSource::in::EventData default[4] = {};
-  EventSource::in::EventData* ptr = default;
+  EventSource::in::EventData as[4] = {};
+  EventSource::in::EventData* ptr = as;
   ptr->set_Size(4);
   ptr->set_DataPointer((IntPtr)(void*)(&bufferId));
   ptr->set_Reserved(0);
@@ -26,8 +26,8 @@ void ArrayPoolEventSource___::BufferRented(Int32 bufferId, Int32 bufferSize, Int
 }
 
 void ArrayPoolEventSource___::BufferAllocated(Int32 bufferId, Int32 bufferSize, Int32 poolId, Int32 bucketId, BufferAllocatedReason reason) {
-  EventSource::in::EventData default[5] = {};
-  EventSource::in::EventData* ptr = default;
+  EventSource::in::EventData as[5] = {};
+  EventSource::in::EventData* ptr = as;
   ptr->set_Size(4);
   ptr->set_DataPointer((IntPtr)(void*)(&bufferId));
   ptr->set_Reserved(0);

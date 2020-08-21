@@ -1122,12 +1122,12 @@ UInt32 Number::Dragon4(UInt64 mantissa, Int32 exponent, UInt32 mantissaHighBitId
 String Number::FormatDecimal(Decimal value, ReadOnlySpan<Char> format, NumberFormatInfo info) {
   Int32 digits;
   Char c = ParseFormatSpecifier(format, digits);
-  Byte default[31] = {};
-  Byte* digits2 = default;
+  Byte as[31] = {};
+  Byte* digits2 = as;
   NumberBuffer number = NumberBuffer(NumberBufferKind::Decimal, digits2, 31);
   DecimalToNumber(value, number);
-  Char extern[32] = {};
-  Char* pointer = extern;
+  Char as[32] = {};
+  Char* pointer = as;
   ValueStringBuilder sb = ValueStringBuilder(Span<Char>(pointer, 32));
   if (c != 0) {
     NumberToString(sb, number, c, digits, info);
@@ -1140,12 +1140,12 @@ String Number::FormatDecimal(Decimal value, ReadOnlySpan<Char> format, NumberFor
 Boolean Number::TryFormatDecimal(Decimal value, ReadOnlySpan<Char> format, NumberFormatInfo info, Span<Char> destination, Int32& charsWritten) {
   Int32 digits;
   Char c = ParseFormatSpecifier(format, digits);
-  Byte default[31] = {};
-  Byte* digits2 = default;
+  Byte as[31] = {};
+  Byte* digits2 = as;
   NumberBuffer number = NumberBuffer(NumberBufferKind::Decimal, digits2, 31);
   DecimalToNumber(value, number);
-  Char extern[32] = {};
-  Char* pointer = extern;
+  Char as[32] = {};
+  Char* pointer = as;
   ValueStringBuilder sb = ValueStringBuilder(Span<Char>(pointer, 32));
   if (c != 0) {
     NumberToString(sb, number, c, digits, info);
@@ -1174,16 +1174,16 @@ void Number::DecimalToNumber(Decimal& d, NumberBuffer& number) {
 }
 
 String Number::FormatDouble(Double value, String format, NumberFormatInfo info) {
-  Char default[32] = {};
-  Span<Char> initialBuffer = default;
+  Char as[32] = {};
+  Span<Char> initialBuffer = as;
   ValueStringBuilder sb = ValueStringBuilder(initialBuffer);
-  auto& extern = FormatDouble(sb, value, format, info);
-  return extern != nullptr ? extern : sb.ToString();
+  auto& as = FormatDouble(sb, value, format, info);
+  return as != nullptr ? as : sb.ToString();
 }
 
 Boolean Number::TryFormatDouble(Double value, ReadOnlySpan<Char> format, NumberFormatInfo info, Span<Char> destination, Int32& charsWritten) {
-  Char default[32] = {};
-  Span<Char> initialBuffer = default;
+  Char as[32] = {};
+  Span<Char> initialBuffer = as;
   ValueStringBuilder sb = ValueStringBuilder(initialBuffer);
   String text = FormatDouble(sb, value, format, info);
   if (text == nullptr) {
@@ -1261,8 +1261,8 @@ String Number::FormatDouble(ValueStringBuilder& sb, Double value, ReadOnlySpan<C
   }
   Int32 digits;
   Char c = ParseFormatSpecifier(format, digits);
-  Byte default[769] = {};
-  Byte* digits2 = default;
+  Byte as[769] = {};
+  Byte* digits2 = as;
   if (c == 0) {
     digits = 15;
   }
@@ -1285,16 +1285,16 @@ String Number::FormatDouble(ValueStringBuilder& sb, Double value, ReadOnlySpan<C
 }
 
 String Number::FormatSingle(Single value, String format, NumberFormatInfo info) {
-  Char default[32] = {};
-  Span<Char> initialBuffer = default;
+  Char as[32] = {};
+  Span<Char> initialBuffer = as;
   ValueStringBuilder sb = ValueStringBuilder(initialBuffer);
-  auto& extern = FormatSingle(sb, value, format, info);
-  return extern != nullptr ? extern : sb.ToString();
+  auto& as = FormatSingle(sb, value, format, info);
+  return as != nullptr ? as : sb.ToString();
 }
 
 Boolean Number::TryFormatSingle(Single value, ReadOnlySpan<Char> format, NumberFormatInfo info, Span<Char> destination, Int32& charsWritten) {
-  Char default[32] = {};
-  Span<Char> initialBuffer = default;
+  Char as[32] = {};
+  Span<Char> initialBuffer = as;
   ValueStringBuilder sb = ValueStringBuilder(initialBuffer);
   String text = FormatSingle(sb, value, format, info);
   if (text == nullptr) {
@@ -1315,8 +1315,8 @@ String Number::FormatSingle(ValueStringBuilder& sb, Single value, ReadOnlySpan<C
   }
   Int32 digits;
   Char c = ParseFormatSpecifier(format, digits);
-  Byte default[114] = {};
-  Byte* digits2 = default;
+  Byte as[114] = {};
+  Byte* digits2 = as;
   if (c == 0) {
     digits = 7;
   }
@@ -1367,12 +1367,12 @@ String Number::FormatInt32(Int32 value, Int32 hexMask, String format, IFormatPro
       return Int32ToHexStr(value & hexMask, GetHexBase(c), digits);
     }
     NumberFormatInfo instance = NumberFormatInfo::in::GetInstance(provider);
-    Byte default[11] = {};
-    Byte* digits2 = default;
+    Byte as[11] = {};
+    Byte* digits2 = as;
     NumberBuffer number = NumberBuffer(NumberBufferKind::Integer, digits2, 11);
     Int32ToNumber(value, number);
-    Char extern[32] = {};
-    Char* pointer = extern;
+    Char as[32] = {};
+    Char* pointer = as;
     ValueStringBuilder sb = ValueStringBuilder(Span<Char>(pointer, 32));
     if (c != 0) {
       NumberToString(sb, number, c, digits, instance);
@@ -1405,12 +1405,12 @@ Boolean Number::TryFormatInt32(Int32 value, Int32 hexMask, ReadOnlySpan<Char> fo
       return TryInt32ToHexStr(value & hexMask, GetHexBase(c), digits, destination, charsWritten);
     }
     NumberFormatInfo instance = NumberFormatInfo::in::GetInstance(provider);
-    Byte default[11] = {};
-    Byte* digits2 = default;
+    Byte as[11] = {};
+    Byte* digits2 = as;
     NumberBuffer number = NumberBuffer(NumberBufferKind::Integer, digits2, 11);
     Int32ToNumber(value, number);
-    Char extern[32] = {};
-    Char* pointer = extern;
+    Char as[32] = {};
+    Char* pointer = as;
     ValueStringBuilder sb = ValueStringBuilder(Span<Char>(pointer, 32));
     if (c != 0) {
       NumberToString(sb, number, c, digits, instance);
@@ -1441,12 +1441,12 @@ String Number::FormatUInt32(UInt32 value, String format, IFormatProvider provide
       return Int32ToHexStr((Int32)value, GetHexBase(c), digits);
     }
     NumberFormatInfo instance = NumberFormatInfo::in::GetInstance(provider);
-    Byte default[11] = {};
-    Byte* digits2 = default;
+    Byte as[11] = {};
+    Byte* digits2 = as;
     NumberBuffer number = NumberBuffer(NumberBufferKind::Integer, digits2, 11);
     UInt32ToNumber(value, number);
-    Char extern[32] = {};
-    Char* pointer = extern;
+    Char as[32] = {};
+    Char* pointer = as;
     ValueStringBuilder sb = ValueStringBuilder(Span<Char>(pointer, 32));
     if (c != 0) {
       NumberToString(sb, number, c, digits, instance);
@@ -1473,12 +1473,12 @@ Boolean Number::TryFormatUInt32(UInt32 value, ReadOnlySpan<Char> format, IFormat
       return TryInt32ToHexStr((Int32)value, GetHexBase(c), digits, destination, charsWritten);
     }
     NumberFormatInfo instance = NumberFormatInfo::in::GetInstance(provider);
-    Byte default[11] = {};
-    Byte* digits2 = default;
+    Byte as[11] = {};
+    Byte* digits2 = as;
     NumberBuffer number = NumberBuffer(NumberBufferKind::Integer, digits2, 11);
     UInt32ToNumber(value, number);
-    Char extern[32] = {};
-    Char* pointer = extern;
+    Char as[32] = {};
+    Char* pointer = as;
     ValueStringBuilder sb = ValueStringBuilder(Span<Char>(pointer, 32));
     if (c != 0) {
       NumberToString(sb, number, c, digits, instance);
@@ -1509,12 +1509,12 @@ String Number::FormatInt64(Int64 value, String format, IFormatProvider provider)
       return Int64ToHexStr(value, GetHexBase(c), digits);
     }
     NumberFormatInfo instance = NumberFormatInfo::in::GetInstance(provider);
-    Byte default[20] = {};
-    Byte* digits2 = default;
+    Byte as[20] = {};
+    Byte* digits2 = as;
     NumberBuffer number = NumberBuffer(NumberBufferKind::Integer, digits2, 20);
     Int64ToNumber(value, number);
-    Char extern[32] = {};
-    Char* pointer = extern;
+    Char as[32] = {};
+    Char* pointer = as;
     ValueStringBuilder sb = ValueStringBuilder(Span<Char>(pointer, 32));
     if (c != 0) {
       NumberToString(sb, number, c, digits, instance);
@@ -1547,12 +1547,12 @@ Boolean Number::TryFormatInt64(Int64 value, ReadOnlySpan<Char> format, IFormatPr
       return TryInt64ToHexStr(value, GetHexBase(c), digits, destination, charsWritten);
     }
     NumberFormatInfo instance = NumberFormatInfo::in::GetInstance(provider);
-    Byte default[20] = {};
-    Byte* digits2 = default;
+    Byte as[20] = {};
+    Byte* digits2 = as;
     NumberBuffer number = NumberBuffer(NumberBufferKind::Integer, digits2, 20);
     Int64ToNumber(value, number);
-    Char extern[32] = {};
-    Char* pointer = extern;
+    Char as[32] = {};
+    Char* pointer = as;
     ValueStringBuilder sb = ValueStringBuilder(Span<Char>(pointer, 32));
     if (c != 0) {
       NumberToString(sb, number, c, digits, instance);
@@ -1583,12 +1583,12 @@ String Number::FormatUInt64(UInt64 value, String format, IFormatProvider provide
       return Int64ToHexStr((Int64)value, GetHexBase(c), digits);
     }
     NumberFormatInfo instance = NumberFormatInfo::in::GetInstance(provider);
-    Byte default[21] = {};
-    Byte* digits2 = default;
+    Byte as[21] = {};
+    Byte* digits2 = as;
     NumberBuffer number = NumberBuffer(NumberBufferKind::Integer, digits2, 21);
     UInt64ToNumber(value, number);
-    Char extern[32] = {};
-    Char* pointer = extern;
+    Char as[32] = {};
+    Char* pointer = as;
     ValueStringBuilder sb = ValueStringBuilder(Span<Char>(pointer, 32));
     if (c != 0) {
       NumberToString(sb, number, c, digits, instance);
@@ -1615,12 +1615,12 @@ Boolean Number::TryFormatUInt64(UInt64 value, ReadOnlySpan<Char> format, IFormat
       return TryInt64ToHexStr((Int64)value, GetHexBase(c), digits, destination, charsWritten);
     }
     NumberFormatInfo instance = NumberFormatInfo::in::GetInstance(provider);
-    Byte default[21] = {};
-    Byte* digits2 = default;
+    Byte as[21] = {};
+    Byte* digits2 = as;
     NumberBuffer number = NumberBuffer(NumberBufferKind::Integer, digits2, 21);
     UInt64ToNumber(value, number);
-    Char extern[32] = {};
-    Char* pointer = extern;
+    Char as[32] = {};
+    Char* pointer = as;
     ValueStringBuilder sb = ValueStringBuilder(Span<Char>(pointer, 32));
     if (c != 0) {
       NumberToString(sb, number, c, digits, instance);
@@ -2259,8 +2259,8 @@ void Number::NumberToStringFormat(ValueStringBuilder& sb, NumberBuffer& number, 
     num11 = number.Scale - num4;
   }
   num9 = num2;
-  Int32 default[4] = {};
-  Span<Int32> span = default;
+  Int32 as[4] = {};
+  Span<Int32> span = as;
   Int32 num12 = -1;
   if (flag2 && info->get_NumberGroupSeparator()->get_Length() > 0) {
     Array<Int32> numberGroupSizes = info->_numberGroupSizes;
@@ -2509,8 +2509,8 @@ void Number::FormatExponent(ValueStringBuilder& sb, NumberFormatInfo info, Int32
     sb.Append(info->get_PositiveSign());
   }
 
-  Char default[10] = {};
-  Char* ptr = default;
+  Char as[10] = {};
+  Char* ptr = as;
   Char* ptr2 = UInt32ToDecChars(ptr + 10, (UInt32)value, minDigits);
   sb.Append(ptr2, (Int32)(ptr + 10 - ptr2));
 }
@@ -3200,8 +3200,8 @@ Number::ParsingStatus Number::TryParseInt32(ReadOnlySpan<Char> value, NumberStyl
 
 Number::ParsingStatus Number::TryParseInt32Number(ReadOnlySpan<Char> value, NumberStyles styles, NumberFormatInfo info, Int32& result) {
   result = 0;
-  Byte default[11] = {};
-  Byte* digits = default;
+  Byte as[11] = {};
+  Byte* digits = as;
   NumberBuffer number = NumberBuffer(NumberBufferKind::Integer, digits, 11);
   if (!TryStringToNumber(value, styles, number, info)) {
     return ParsingStatus::Failed;
@@ -3565,8 +3565,8 @@ Number::ParsingStatus Number::TryParseInt64(ReadOnlySpan<Char> value, NumberStyl
 
 Number::ParsingStatus Number::TryParseInt64Number(ReadOnlySpan<Char> value, NumberStyles styles, NumberFormatInfo info, Int64& result) {
   result = 0;
-  Byte default[20] = {};
-  Byte* digits = default;
+  Byte as[20] = {};
+  Byte* digits = as;
   NumberBuffer number = NumberBuffer(NumberBufferKind::Integer, digits, 20);
   if (!TryStringToNumber(value, styles, number, info)) {
     return ParsingStatus::Failed;
@@ -3589,8 +3589,8 @@ Number::ParsingStatus Number::TryParseUInt32(ReadOnlySpan<Char> value, NumberSty
 
 Number::ParsingStatus Number::TryParseUInt32Number(ReadOnlySpan<Char> value, NumberStyles styles, NumberFormatInfo info, UInt32& result) {
   result = 0u;
-  Byte default[11] = {};
-  Byte* digits = default;
+  Byte as[11] = {};
+  Byte* digits = as;
   NumberBuffer number = NumberBuffer(NumberBufferKind::Integer, digits, 11);
   if (!TryStringToNumber(value, styles, number, info)) {
     return ParsingStatus::Failed;
@@ -3910,8 +3910,8 @@ Number::ParsingStatus Number::TryParseUInt64(ReadOnlySpan<Char> value, NumberSty
 
 Number::ParsingStatus Number::TryParseUInt64Number(ReadOnlySpan<Char> value, NumberStyles styles, NumberFormatInfo info, UInt64& result) {
   result = 0;
-  Byte default[21] = {};
-  Byte* digits = default;
+  Byte as[21] = {};
+  Byte* digits = as;
   NumberBuffer number = NumberBuffer(NumberBufferKind::Integer, digits, 21);
   if (!TryStringToNumber(value, styles, number, info)) {
     return ParsingStatus::Failed;
@@ -4326,8 +4326,8 @@ Single Number::ParseSingle(ReadOnlySpan<Char> value, NumberStyles styles, Number
 }
 
 Number::ParsingStatus Number::TryParseDecimal(ReadOnlySpan<Char> value, NumberStyles styles, NumberFormatInfo info, Decimal& result) {
-  Byte default[31] = {};
-  Byte* digits = default;
+  Byte as[31] = {};
+  Byte* digits = as;
   NumberBuffer number = NumberBuffer(NumberBufferKind::Decimal, digits, 31);
   result = Decimal();
   if (!TryStringToNumber(value, styles, number, info)) {
@@ -4340,8 +4340,8 @@ Number::ParsingStatus Number::TryParseDecimal(ReadOnlySpan<Char> value, NumberSt
 }
 
 Boolean Number::TryParseDouble(ReadOnlySpan<Char> value, NumberStyles styles, NumberFormatInfo info, Double& result) {
-  Byte default[769] = {};
-  Byte* digits = default;
+  Byte as[769] = {};
+  Byte* digits = as;
   NumberBuffer number = NumberBuffer(NumberBufferKind::FloatingPoint, digits, 769);
   if (!TryStringToNumber(value, styles, number, info)) {
     ReadOnlySpan<Char> span = MemoryExtensions::Trim(value);
@@ -4379,8 +4379,8 @@ Boolean Number::TryParseDouble(ReadOnlySpan<Char> value, NumberStyles styles, Nu
 }
 
 Boolean Number::TryParseSingle(ReadOnlySpan<Char> value, NumberStyles styles, NumberFormatInfo info, Single& result) {
-  Byte default[114] = {};
-  Byte* digits = default;
+  Byte as[114] = {};
+  Byte* digits = as;
   NumberBuffer number = NumberBuffer(NumberBufferKind::FloatingPoint, digits, 114);
   if (!TryStringToNumber(value, styles, number, info)) {
     ReadOnlySpan<Char> span = MemoryExtensions::Trim(value);

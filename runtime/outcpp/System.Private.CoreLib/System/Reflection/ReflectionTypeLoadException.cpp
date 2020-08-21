@@ -13,17 +13,17 @@ void ReflectionTypeLoadException___::ctor(Array<Type> classes, Array<Exception> 
 }
 
 void ReflectionTypeLoadException___::ctor(Array<Type> classes, Array<Exception> exceptions, String message) {
-  auto& default = classes;
-  Types = (default != nullptr ? default : Type::in::EmptyTypes);
-  auto& extern = exceptions;
-  LoaderExceptions = (extern != nullptr ? extern : Array<>::in::Empty<Exception>());
+  auto& as = classes;
+  Types = (as != nullptr ? as : Type::in::EmptyTypes);
+  auto& as = exceptions;
+  LoaderExceptions = (as != nullptr ? as : Array<>::in::Empty<Exception>());
   Exception::in::set_HResult(-2146232830);
 }
 
 void ReflectionTypeLoadException___::ctor(SerializationInfo info, StreamingContext context) {
   Types = Type::in::EmptyTypes;
-  auto& default = ((Array<Exception>)info->GetValue("Exceptions", rt::typeof<Array<Exception>>()));
-  LoaderExceptions = (default != nullptr ? default : Array<>::in::Empty<Exception>());
+  auto& as = ((Array<Exception>)info->GetValue("Exceptions", rt::typeof<Array<Exception>>()));
+  LoaderExceptions = (as != nullptr ? as : Array<>::in::Empty<Exception>());
 }
 
 void ReflectionTypeLoadException___::GetObjectData(SerializationInfo info, StreamingContext context) {

@@ -11,8 +11,8 @@
 
 namespace System::Private::CoreLib::System::Reflection::Emit::DynamicILInfoNamespace {
 Array<Byte> DynamicILInfo___::get_LocalSignature() {
-  auto& default = m_localSignature;
-  return default != nullptr ? default : (m_localSignature = SignatureHelper::in::GetLocalVarSigHelper()->InternalGetSignatureArray());
+  auto& as = m_localSignature;
+  return as != nullptr ? as : (m_localSignature = SignatureHelper::in::GetLocalVarSigHelper()->InternalGetSignatureArray());
 }
 
 Array<Byte> DynamicILInfo___::get_Exceptions() {

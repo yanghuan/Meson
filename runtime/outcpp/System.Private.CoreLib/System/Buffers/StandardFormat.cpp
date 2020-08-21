@@ -115,8 +115,8 @@ Boolean StandardFormat::Equals(StandardFormat other) {
 }
 
 String StandardFormat::ToString() {
-  Char default[3] = {};
-  Span<Char> destination = default;
+  Char as[3] = {};
+  Span<Char> destination = as;
 }
 
 Int32 StandardFormat::Format(Span<Char> destination) {

@@ -34,8 +34,8 @@ void DecoderNLS___::ctor(Encoding encoding) {
 
 void DecoderNLS___::Reset() {
   ClearLeftoverData();
-  auto& default = _fallbackBuffer;
-  default == nullptr ? nullptr : default->Reset();
+  auto& as = _fallbackBuffer;
+  as == nullptr ? nullptr : as->Reset();
 }
 
 Int32 DecoderNLS___::GetCharCount(Array<Byte> bytes, Int32 index, Int32 count) {
@@ -167,8 +167,8 @@ void DecoderNLS___::ClearLeftoverData() {
 }
 
 Int32 DecoderNLS___::DrainLeftoverDataForGetCharCount(ReadOnlySpan<Byte> bytes, Int32& bytesConsumed) {
-  Byte default[4] = {};
-  Span<Byte> span = Span<Byte>(default, 4);
+  Byte as[4] = {};
+  Span<Byte> span = Span<Byte>(as, 4);
   Span<Byte> span2 = span;
   span2 = span2.Slice(0, ConcatInto(GetLeftoverData(), bytes, span2));
   Int32 result = 0;
@@ -177,8 +177,8 @@ Int32 DecoderNLS___::DrainLeftoverDataForGetCharCount(ReadOnlySpan<Byte> bytes, 
 }
 
 Int32 DecoderNLS___::DrainLeftoverDataForGetChars(ReadOnlySpan<Byte> bytes, Span<Char> chars, Int32& bytesConsumed) {
-  Byte default[4] = {};
-  Span<Byte> span = Span<Byte>(default, 4);
+  Byte as[4] = {};
+  Span<Byte> span = Span<Byte>(as, 4);
   Span<Byte> span2 = span;
   span2 = span2.Slice(0, ConcatInto(GetLeftoverData(), bytes, span2));
   Int32 charsWritten = 0;

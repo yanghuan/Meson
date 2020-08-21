@@ -42,8 +42,8 @@ ApplicationId ApplicationId___::Copy() {
 }
 
 String ApplicationId___::ToString() {
-  Char default[128] = {};
-  Span<Char> initialBuffer = default;
+  Char as[128] = {};
+  Span<Char> initialBuffer = as;
   ValueStringBuilder stringBuilder = ValueStringBuilder(initialBuffer);
   stringBuilder.Append(Name);
   if (Culture != nullptr) {

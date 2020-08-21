@@ -11,8 +11,8 @@ using namespace System::Runtime::Intrinsics::X86;
 
 Vector256<Byte> Vector256<>::Create(Byte value) {
   auto SoftwareFallback = [](Byte value) -> Vector256<Byte> {
-    Byte default[32] = {};
-    Byte* source = default;
+    Byte as[32] = {};
+    Byte* source = as;
     return Unsafe::AsRef<Vector256<Byte>>(source);
   };
   if (Avx::in::get_IsSupported()) {
@@ -23,8 +23,8 @@ Vector256<Byte> Vector256<>::Create(Byte value) {
 
 Vector256<Double> Vector256<>::Create(Double value) {
   auto SoftwareFallback = [](Double value) -> Vector256<Double> {
-    Double default[4] = {};
-    Double* source = default;
+    Double as[4] = {};
+    Double* source = as;
     return Unsafe::AsRef<Vector256<Double>>(source);
   };
   if (Avx::in::get_IsSupported()) {
@@ -35,8 +35,8 @@ Vector256<Double> Vector256<>::Create(Double value) {
 
 Vector256<Int16> Vector256<>::Create(Int16 value) {
   auto SoftwareFallback = [](Int16 value) -> Vector256<Int16> {
-    Int16 default[16] = {};
-    Int16* source = default;
+    Int16 as[16] = {};
+    Int16* source = as;
     return Unsafe::AsRef<Vector256<Int16>>(source);
   };
   if (Avx::in::get_IsSupported()) {
@@ -47,8 +47,8 @@ Vector256<Int16> Vector256<>::Create(Int16 value) {
 
 Vector256<Int32> Vector256<>::Create(Int32 value) {
   auto SoftwareFallback = [](Int32 value) -> Vector256<Int32> {
-    Int32 default[8] = {};
-    Int32* source = default;
+    Int32 as[8] = {};
+    Int32* source = as;
     return Unsafe::AsRef<Vector256<Int32>>(source);
   };
   if (Avx::in::get_IsSupported()) {
@@ -59,8 +59,8 @@ Vector256<Int32> Vector256<>::Create(Int32 value) {
 
 Vector256<Int64> Vector256<>::Create(Int64 value) {
   auto SoftwareFallback = [](Int64 value) -> Vector256<Int64> {
-    Int64 default[4] = {};
-    Int64* source = default;
+    Int64 as[4] = {};
+    Int64* source = as;
     return Unsafe::AsRef<Vector256<Int64>>(source);
   };
   if (Sse2::in::X64::in::get_IsSupported() && Avx::in::get_IsSupported()) {
@@ -71,8 +71,8 @@ Vector256<Int64> Vector256<>::Create(Int64 value) {
 
 Vector256<SByte> Vector256<>::Create(SByte value) {
   auto SoftwareFallback = [](SByte value) -> Vector256<SByte> {
-    SByte default[32] = {};
-    SByte* source = default;
+    SByte as[32] = {};
+    SByte* source = as;
     return Unsafe::AsRef<Vector256<SByte>>(source);
   };
   if (Avx::in::get_IsSupported()) {
@@ -83,8 +83,8 @@ Vector256<SByte> Vector256<>::Create(SByte value) {
 
 Vector256<Single> Vector256<>::Create(Single value) {
   auto SoftwareFallback = [](Single value) -> Vector256<Single> {
-    Single default[8] = {};
-    Single* source = default;
+    Single as[8] = {};
+    Single* source = as;
     return Unsafe::AsRef<Vector256<Single>>(source);
   };
   if (Avx::in::get_IsSupported()) {
@@ -95,8 +95,8 @@ Vector256<Single> Vector256<>::Create(Single value) {
 
 Vector256<UInt16> Vector256<>::Create(UInt16 value) {
   auto SoftwareFallback = [](UInt16 value) -> Vector256<UInt16> {
-    UInt16 default[16] = {};
-    UInt16* source = default;
+    UInt16 as[16] = {};
+    UInt16* source = as;
     return Unsafe::AsRef<Vector256<UInt16>>(source);
   };
   if (Avx::in::get_IsSupported()) {
@@ -107,8 +107,8 @@ Vector256<UInt16> Vector256<>::Create(UInt16 value) {
 
 Vector256<UInt32> Vector256<>::Create(UInt32 value) {
   auto SoftwareFallback = [](UInt32 value) -> Vector256<UInt32> {
-    UInt32 default[8] = {};
-    UInt32* source = default;
+    UInt32 as[8] = {};
+    UInt32* source = as;
     return Unsafe::AsRef<Vector256<UInt32>>(source);
   };
   if (Avx::in::get_IsSupported()) {
@@ -119,8 +119,8 @@ Vector256<UInt32> Vector256<>::Create(UInt32 value) {
 
 Vector256<UInt64> Vector256<>::Create(UInt64 value) {
   auto SoftwareFallback = [](UInt64 value) -> Vector256<UInt64> {
-    UInt64 default[4] = {};
-    UInt64* source = default;
+    UInt64 as[4] = {};
+    UInt64* source = as;
     return Unsafe::AsRef<Vector256<UInt64>>(source);
   };
   if (Sse2::in::X64::in::get_IsSupported() && Avx::in::get_IsSupported()) {
@@ -131,8 +131,8 @@ Vector256<UInt64> Vector256<>::Create(UInt64 value) {
 
 Vector256<Byte> Vector256<>::Create(Byte e0, Byte e1, Byte e2, Byte e3, Byte e4, Byte e5, Byte e6, Byte e7, Byte e8, Byte e9, Byte e10, Byte e11, Byte e12, Byte e13, Byte e14, Byte e15, Byte e16, Byte e17, Byte e18, Byte e19, Byte e20, Byte e21, Byte e22, Byte e23, Byte e24, Byte e25, Byte e26, Byte e27, Byte e28, Byte e29, Byte e30, Byte e31) {
   auto SoftwareFallback = [](Byte e0, Byte e1, Byte e2, Byte e3, Byte e4, Byte e5, Byte e6, Byte e7, Byte e8, Byte e9, Byte e10, Byte e11, Byte e12, Byte e13, Byte e14, Byte e15, Byte e16, Byte e17, Byte e18, Byte e19, Byte e20, Byte e21, Byte e22, Byte e23, Byte e24, Byte e25, Byte e26, Byte e27, Byte e28, Byte e29, Byte e30, Byte e31) -> Vector256<Byte> {
-    Byte default[32] = {};
-    Byte* source = default;
+    Byte as[32] = {};
+    Byte* source = as;
     return Unsafe::AsRef<Vector256<Byte>>(source);
   };
   if (Avx::in::get_IsSupported()) {
@@ -143,8 +143,8 @@ Vector256<Byte> Vector256<>::Create(Byte e0, Byte e1, Byte e2, Byte e3, Byte e4,
 
 Vector256<Double> Vector256<>::Create(Double e0, Double e1, Double e2, Double e3) {
   auto SoftwareFallback = [](Double e0, Double e1, Double e2, Double e3) -> Vector256<Double> {
-    Double default[4] = {};
-    Double* source = default;
+    Double as[4] = {};
+    Double* source = as;
     return Unsafe::AsRef<Vector256<Double>>(source);
   };
   if (Avx::in::get_IsSupported()) {
@@ -155,8 +155,8 @@ Vector256<Double> Vector256<>::Create(Double e0, Double e1, Double e2, Double e3
 
 Vector256<Int16> Vector256<>::Create(Int16 e0, Int16 e1, Int16 e2, Int16 e3, Int16 e4, Int16 e5, Int16 e6, Int16 e7, Int16 e8, Int16 e9, Int16 e10, Int16 e11, Int16 e12, Int16 e13, Int16 e14, Int16 e15) {
   auto SoftwareFallback = [](Int16 e0, Int16 e1, Int16 e2, Int16 e3, Int16 e4, Int16 e5, Int16 e6, Int16 e7, Int16 e8, Int16 e9, Int16 e10, Int16 e11, Int16 e12, Int16 e13, Int16 e14, Int16 e15) -> Vector256<Int16> {
-    Int16 default[16] = {};
-    Int16* source = default;
+    Int16 as[16] = {};
+    Int16* source = as;
     return Unsafe::AsRef<Vector256<Int16>>(source);
   };
   if (Avx::in::get_IsSupported()) {
@@ -167,8 +167,8 @@ Vector256<Int16> Vector256<>::Create(Int16 e0, Int16 e1, Int16 e2, Int16 e3, Int
 
 Vector256<Int32> Vector256<>::Create(Int32 e0, Int32 e1, Int32 e2, Int32 e3, Int32 e4, Int32 e5, Int32 e6, Int32 e7) {
   auto SoftwareFallback = [](Int32 e0, Int32 e1, Int32 e2, Int32 e3, Int32 e4, Int32 e5, Int32 e6, Int32 e7) -> Vector256<Int32> {
-    Int32 default[8] = {};
-    Int32* source = default;
+    Int32 as[8] = {};
+    Int32* source = as;
     return Unsafe::AsRef<Vector256<Int32>>(source);
   };
   if (Avx::in::get_IsSupported()) {
@@ -179,8 +179,8 @@ Vector256<Int32> Vector256<>::Create(Int32 e0, Int32 e1, Int32 e2, Int32 e3, Int
 
 Vector256<Int64> Vector256<>::Create(Int64 e0, Int64 e1, Int64 e2, Int64 e3) {
   auto SoftwareFallback = [](Int64 e0, Int64 e1, Int64 e2, Int64 e3) -> Vector256<Int64> {
-    Int64 default[4] = {};
-    Int64* source = default;
+    Int64 as[4] = {};
+    Int64* source = as;
     return Unsafe::AsRef<Vector256<Int64>>(source);
   };
   if (Sse2::in::X64::in::get_IsSupported() && Avx::in::get_IsSupported()) {
@@ -191,8 +191,8 @@ Vector256<Int64> Vector256<>::Create(Int64 e0, Int64 e1, Int64 e2, Int64 e3) {
 
 Vector256<SByte> Vector256<>::Create(SByte e0, SByte e1, SByte e2, SByte e3, SByte e4, SByte e5, SByte e6, SByte e7, SByte e8, SByte e9, SByte e10, SByte e11, SByte e12, SByte e13, SByte e14, SByte e15, SByte e16, SByte e17, SByte e18, SByte e19, SByte e20, SByte e21, SByte e22, SByte e23, SByte e24, SByte e25, SByte e26, SByte e27, SByte e28, SByte e29, SByte e30, SByte e31) {
   auto SoftwareFallback = [](SByte e0, SByte e1, SByte e2, SByte e3, SByte e4, SByte e5, SByte e6, SByte e7, SByte e8, SByte e9, SByte e10, SByte e11, SByte e12, SByte e13, SByte e14, SByte e15, SByte e16, SByte e17, SByte e18, SByte e19, SByte e20, SByte e21, SByte e22, SByte e23, SByte e24, SByte e25, SByte e26, SByte e27, SByte e28, SByte e29, SByte e30, SByte e31) -> Vector256<SByte> {
-    SByte default[32] = {};
-    SByte* source = default;
+    SByte as[32] = {};
+    SByte* source = as;
     return Unsafe::AsRef<Vector256<SByte>>(source);
   };
   if (Avx::in::get_IsSupported()) {
@@ -203,8 +203,8 @@ Vector256<SByte> Vector256<>::Create(SByte e0, SByte e1, SByte e2, SByte e3, SBy
 
 Vector256<Single> Vector256<>::Create(Single e0, Single e1, Single e2, Single e3, Single e4, Single e5, Single e6, Single e7) {
   auto SoftwareFallback = [](Single e0, Single e1, Single e2, Single e3, Single e4, Single e5, Single e6, Single e7) -> Vector256<Single> {
-    Single default[8] = {};
-    Single* source = default;
+    Single as[8] = {};
+    Single* source = as;
     return Unsafe::AsRef<Vector256<Single>>(source);
   };
   if (Avx::in::get_IsSupported()) {
@@ -215,8 +215,8 @@ Vector256<Single> Vector256<>::Create(Single e0, Single e1, Single e2, Single e3
 
 Vector256<UInt16> Vector256<>::Create(UInt16 e0, UInt16 e1, UInt16 e2, UInt16 e3, UInt16 e4, UInt16 e5, UInt16 e6, UInt16 e7, UInt16 e8, UInt16 e9, UInt16 e10, UInt16 e11, UInt16 e12, UInt16 e13, UInt16 e14, UInt16 e15) {
   auto SoftwareFallback = [](UInt16 e0, UInt16 e1, UInt16 e2, UInt16 e3, UInt16 e4, UInt16 e5, UInt16 e6, UInt16 e7, UInt16 e8, UInt16 e9, UInt16 e10, UInt16 e11, UInt16 e12, UInt16 e13, UInt16 e14, UInt16 e15) -> Vector256<UInt16> {
-    UInt16 default[16] = {};
-    UInt16* source = default;
+    UInt16 as[16] = {};
+    UInt16* source = as;
     return Unsafe::AsRef<Vector256<UInt16>>(source);
   };
   if (Avx::in::get_IsSupported()) {
@@ -227,8 +227,8 @@ Vector256<UInt16> Vector256<>::Create(UInt16 e0, UInt16 e1, UInt16 e2, UInt16 e3
 
 Vector256<UInt32> Vector256<>::Create(UInt32 e0, UInt32 e1, UInt32 e2, UInt32 e3, UInt32 e4, UInt32 e5, UInt32 e6, UInt32 e7) {
   auto SoftwareFallback = [](UInt32 e0, UInt32 e1, UInt32 e2, UInt32 e3, UInt32 e4, UInt32 e5, UInt32 e6, UInt32 e7) -> Vector256<UInt32> {
-    UInt32 default[8] = {};
-    UInt32* source = default;
+    UInt32 as[8] = {};
+    UInt32* source = as;
     return Unsafe::AsRef<Vector256<UInt32>>(source);
   };
   if (Avx::in::get_IsSupported()) {
@@ -239,8 +239,8 @@ Vector256<UInt32> Vector256<>::Create(UInt32 e0, UInt32 e1, UInt32 e2, UInt32 e3
 
 Vector256<UInt64> Vector256<>::Create(UInt64 e0, UInt64 e1, UInt64 e2, UInt64 e3) {
   auto SoftwareFallback = [](UInt64 e0, UInt64 e1, UInt64 e2, UInt64 e3) -> Vector256<UInt64> {
-    UInt64 default[4] = {};
-    UInt64* source = default;
+    UInt64 as[4] = {};
+    UInt64* source = as;
     return Unsafe::AsRef<Vector256<UInt64>>(source);
   };
   if (Sse2::in::X64::in::get_IsSupported() && Avx::in::get_IsSupported()) {
@@ -520,71 +520,71 @@ Vector256<UInt64> Vector256<>::CreateScalar(UInt64 value) {
 }
 
 Vector256<Byte> Vector256<>::CreateScalarUnsafe(Byte value) {
-  Byte default[32] = {};
-  Byte* ptr = default;
+  Byte as[32] = {};
+  Byte* ptr = as;
   *ptr = value;
   return Unsafe::AsRef<Vector256<Byte>>(ptr);
 }
 
 Vector256<Double> Vector256<>::CreateScalarUnsafe(Double value) {
-  Double default[4] = {};
-  Double* ptr = default;
+  Double as[4] = {};
+  Double* ptr = as;
   *ptr = value;
   return Unsafe::AsRef<Vector256<Double>>(ptr);
 }
 
 Vector256<Int16> Vector256<>::CreateScalarUnsafe(Int16 value) {
-  Int16 default[16] = {};
-  Int16* ptr = default;
+  Int16 as[16] = {};
+  Int16* ptr = as;
   *ptr = value;
   return Unsafe::AsRef<Vector256<Int16>>(ptr);
 }
 
 Vector256<Int32> Vector256<>::CreateScalarUnsafe(Int32 value) {
-  Int32 default[8] = {};
-  Int32* ptr = default;
+  Int32 as[8] = {};
+  Int32* ptr = as;
   *ptr = value;
   return Unsafe::AsRef<Vector256<Int32>>(ptr);
 }
 
 Vector256<Int64> Vector256<>::CreateScalarUnsafe(Int64 value) {
-  Int64 default[4] = {};
-  Int64* ptr = default;
+  Int64 as[4] = {};
+  Int64* ptr = as;
   *ptr = value;
   return Unsafe::AsRef<Vector256<Int64>>(ptr);
 }
 
 Vector256<SByte> Vector256<>::CreateScalarUnsafe(SByte value) {
-  SByte default[32] = {};
-  SByte* ptr = default;
+  SByte as[32] = {};
+  SByte* ptr = as;
   *ptr = value;
   return Unsafe::AsRef<Vector256<SByte>>(ptr);
 }
 
 Vector256<Single> Vector256<>::CreateScalarUnsafe(Single value) {
-  Single default[8] = {};
-  Single* ptr = default;
+  Single as[8] = {};
+  Single* ptr = as;
   *ptr = value;
   return Unsafe::AsRef<Vector256<Single>>(ptr);
 }
 
 Vector256<UInt16> Vector256<>::CreateScalarUnsafe(UInt16 value) {
-  UInt16 default[16] = {};
-  UInt16* ptr = default;
+  UInt16 as[16] = {};
+  UInt16* ptr = as;
   *ptr = value;
   return Unsafe::AsRef<Vector256<UInt16>>(ptr);
 }
 
 Vector256<UInt32> Vector256<>::CreateScalarUnsafe(UInt32 value) {
-  UInt32 default[8] = {};
-  UInt32* ptr = default;
+  UInt32 as[8] = {};
+  UInt32* ptr = as;
   *ptr = value;
   return Unsafe::AsRef<Vector256<UInt32>>(ptr);
 }
 
 Vector256<UInt64> Vector256<>::CreateScalarUnsafe(UInt64 value) {
-  UInt64 default[4] = {};
-  UInt64* ptr = default;
+  UInt64 as[4] = {};
+  UInt64* ptr = as;
   *ptr = value;
   return Unsafe::AsRef<Vector256<UInt64>>(ptr);
 }

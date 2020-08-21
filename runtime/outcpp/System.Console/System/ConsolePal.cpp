@@ -334,8 +334,8 @@ Int32 ConsolePal::get_CursorTop() {
 }
 
 String ConsolePal::get_Title() {
-  Char default[256] = {};
-  Span<Char> initialBuffer = default;
+  Char as[256] = {};
+  Span<Char> initialBuffer = as;
   ValueStringBuilder valueStringBuilder = ValueStringBuilder(initialBuffer);
   UInt32 num;
   while (true) {

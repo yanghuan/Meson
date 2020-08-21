@@ -33,8 +33,8 @@ TextReader Console::get_In() {
       return s_in;
     }
   };
-  auto& default = Volatile::Read(s_in);
-  return default != nullptr ? default : EnsureInitialized();
+  auto& as = Volatile::Read(s_in);
+  return as != nullptr ? as : EnsureInitialized();
 }
 
 Encoding Console::get_InputEncoding() {
@@ -109,8 +109,8 @@ TextWriter Console::get_Out() {
       return s_out;
     }
   };
-  auto& default = Volatile::Read(s_out);
-  return default != nullptr ? default : EnsureInitialized();
+  auto& as = Volatile::Read(s_out);
+  return as != nullptr ? as : EnsureInitialized();
 }
 
 TextWriter Console::get_Error() {
@@ -123,8 +123,8 @@ TextWriter Console::get_Error() {
       return s_error;
     }
   };
-  auto& default = Volatile::Read(s_error);
-  return default != nullptr ? default : EnsureInitialized();
+  auto& as = Volatile::Read(s_error);
+  return as != nullptr ? as : EnsureInitialized();
 }
 
 Boolean Console::get_IsInputRedirected() {
@@ -132,8 +132,8 @@ Boolean Console::get_IsInputRedirected() {
     Volatile::Write(_isStdInRedirected, rt::newobj<StrongBox<Boolean>>(ConsolePal::IsInputRedirectedCore()));
     return _isStdInRedirected;
   };
-  auto& default = Volatile::Read(_isStdInRedirected);
-  StrongBox<Boolean> strongBox = default != nullptr ? default : EnsureInitialized();
+  auto& as = Volatile::Read(_isStdInRedirected);
+  StrongBox<Boolean> strongBox = as != nullptr ? as : EnsureInitialized();
   return strongBox->Value;
 }
 
@@ -142,8 +142,8 @@ Boolean Console::get_IsOutputRedirected() {
     Volatile::Write(_isStdOutRedirected, rt::newobj<StrongBox<Boolean>>(ConsolePal::IsOutputRedirectedCore()));
     return _isStdOutRedirected;
   };
-  auto& default = Volatile::Read(_isStdOutRedirected);
-  StrongBox<Boolean> strongBox = default != nullptr ? default : EnsureInitialized();
+  auto& as = Volatile::Read(_isStdOutRedirected);
+  StrongBox<Boolean> strongBox = as != nullptr ? as : EnsureInitialized();
   return strongBox->Value;
 }
 
@@ -152,8 +152,8 @@ Boolean Console::get_IsErrorRedirected() {
     Volatile::Write(_isStdErrRedirected, rt::newobj<StrongBox<Boolean>>(ConsolePal::IsErrorRedirectedCore()));
     return _isStdErrRedirected;
   };
-  auto& default = Volatile::Read(_isStdErrRedirected);
-  StrongBox<Boolean> strongBox = default != nullptr ? default : EnsureInitialized();
+  auto& as = Volatile::Read(_isStdErrRedirected);
+  StrongBox<Boolean> strongBox = as != nullptr ? as : EnsureInitialized();
   return strongBox->Value;
 }
 

@@ -43,8 +43,8 @@ void AwaitTaskContinuation___::Run(Task<> task, Boolean canInlineContinuationTas
   TplEventSource log = TplEventSource::in::Log;
   if (log->IsEnabled()) {
     m_continuationId = Task<>::in::NewId();
-    auto& default = task->get_ExecutingTaskScheduler();
-    log->AwaitTaskContinuationScheduled((default != nullptr ? default : TaskScheduler::in::get_Default())->get_Id(), task->get_Id(), m_continuationId);
+    auto& as = task->get_ExecutingTaskScheduler();
+    log->AwaitTaskContinuationScheduled((as != nullptr ? as : TaskScheduler::in::get_Default())->get_Id(), task->get_Id(), m_continuationId);
   }
   ThreadPool::UnsafeQueueUserWorkItemInternal((AwaitTaskContinuation)this, true);
 }
@@ -120,8 +120,8 @@ void AwaitTaskContinuation___::UnsafeScheduleAction(Action<> action, Task<> task
   TplEventSource log = TplEventSource::in::Log;
   if (log->IsEnabled() && task != nullptr) {
     awaitTaskContinuation->m_continuationId = Task<>::in::NewId();
-    auto& default = task->get_ExecutingTaskScheduler();
-    log->AwaitTaskContinuationScheduled((default != nullptr ? default : TaskScheduler::in::get_Default())->get_Id(), task->get_Id(), awaitTaskContinuation->m_continuationId);
+    auto& as = task->get_ExecutingTaskScheduler();
+    log->AwaitTaskContinuationScheduled((as != nullptr ? as : TaskScheduler::in::get_Default())->get_Id(), task->get_Id(), awaitTaskContinuation->m_continuationId);
   }
   ThreadPool::UnsafeQueueUserWorkItemInternal(awaitTaskContinuation, true);
 }

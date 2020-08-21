@@ -69,8 +69,8 @@ Object ComWrappers___::CallCreateObject(ComWrappersScenario scenario, ComWrapper
       comWrappers = s_globalInstanceForMarshalling;
       break;
   }
-  auto& default = comWrappers;
-  return default == nullptr ? nullptr : default->CreateObject(externalComObject, flags);
+  auto& as = comWrappers;
+  return as == nullptr ? nullptr : as->CreateObject(externalComObject, flags);
 }
 
 Object ComWrappers___::GetOrRegisterObjectForComInstance(IntPtr externalComObject, CreateObjectFlags flags, Object wrapper) {
@@ -94,8 +94,8 @@ Boolean ComWrappers___::TryGetOrCreateObjectForComInstanceInternal(ComWrappers i
 }
 
 void ComWrappers___::CallReleaseObjects(ComWrappers comWrappersImpl, IEnumerable objects) {
-  auto& default = comWrappersImpl;
-  (default != nullptr ? default : s_globalInstanceForTrackerSupport)->ReleaseObjects(objects);
+  auto& as = comWrappersImpl;
+  (as != nullptr ? as : s_globalInstanceForTrackerSupport)->ReleaseObjects(objects);
 }
 
 void ComWrappers___::RegisterForTrackerSupport(ComWrappers instance) {

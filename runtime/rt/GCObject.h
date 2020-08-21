@@ -54,14 +54,14 @@ namespace rt {
 
   inline TypeMetadata gTypeMetadata;
 
-  class GCObjectHead {
-  public:
-    GCObjectHead(const TypeMetadata& metadata) noexcept : metadata_(metadata) {}
-  protected:
+  struct GCObjectHead {
+    GCObjectHead(const TypeMetadata& metadata) noexcept : metadata_(metadata) {
+    }
+
     bool refDec() noexcept {
       return --refs_ == 0;
     }
-  private:
+
     void refAdd() noexcept {
       printf("refAdd\n");
       ++refs_;
@@ -69,9 +69,6 @@ namespace rt {
 
     std::atomic_uint32_t refs_ = 1;
     const TypeMetadata& metadata_;
-
-    template <class T>
-    friend class ref;
   };
 
   template <class T, class = void>
@@ -108,8 +105,7 @@ namespace rt {
   static constexpr bool IsObject = CodeOf<T> == TypeCode::Object;
 
   template <class T>
-  class GCObject : public GCObjectHead {
-  public:
+  struct GCObject : public GCObjectHead {
     T* get() noexcept {
       return &v_;
     }
@@ -125,23 +121,14 @@ namespace rt {
       return reinterpret_cast<GCObject<T>*>(reinterpret_cast<int8_t*>(p) - sizeof(GCObjectHead));
     }
 
-  private:
     constexpr size_t GetAllocSize() noexcept {
-      if constexpr (IsArray<T>) {
+      if constexpr (IsArray<T> || IsString<T>) {
         return get()->GetAllocSize();
-      }
-      if constexpr (IsString<T>) {
-        return reinterpret_cast<string*>(get())->GetAllocSize();
       }
       return sizeof(GCObject);
     }
 
     T v_;
-    friend class object;
-    friend class string;
-
-    template <class T, class Base>
-    friend class Array;
   };
 
   template <class T, class T1>
@@ -281,7 +268,7 @@ namespace rt {
 
     template <class R, class T1 = T> requires(std::is_same_v<R, decltype(&(T1().GetPinnableReference()))>)
     operator R() {
-      return p_ == nullptr ? nullptr : &p->GetPinnableReference();
+      return p_ == nullptr ? nullptr : &(p_->GetPinnableReference());
     }
 
     template <class R, class T1 = T> requires(IsObject<T1>)
@@ -345,8 +332,7 @@ namespace rt {
     return std::tuple_cat(t, std::make_tuple(a));
   }
 
-  class object {
-  public:
+  struct object {
     template <class T, class... Args>
     static T newobj(Args&&... args) {
       using GCObject = typename T::GCObject;
@@ -356,23 +342,17 @@ namespace rt {
       temp->get()->ctor(std::forward<Args>(args)...);
       return T(temp);
     }
-  private:
+
     static void* alloc(size_t size);
     static void free(void* p, size_t size);
-
-    template <class T>
-    friend class GCObject;
-
-    template <class T, class Base>
-    friend class Array;
   };
 
-  class string {
+  struct string {
     struct str {
       int32_t length;
       char first[];
     };
-  public:
+
     static size_t GetAllocSize(size_t n) noexcept {
       return sizeof(GCObject<str>) + n + 1;
     }
@@ -400,27 +380,35 @@ namespace rt {
       return p->first; 
     }
 
-  private:
     int32_t& length() {
       auto p = reinterpret_cast<str*>(this);
       return p->length;
     }
+
     int32_t length() const {
       auto p = reinterpret_cast<const str*>(this);
       return p->length;
     }
+
     static ref<string> load(const char* str, size_t n);
     static ref<string> cat(string** being, size_t n);
     static GCObject<string>* alloc(size_t n);
   };
 
+  template <class Base>
+  struct String : public Base {
+    size_t GetAllocSize() noexcept {
+      return reinterpret_cast<string*>(this)->GetAllocSize();
+    }
+  };
+
   template <class T, class Base>
-  class Array : public Base {
+  struct Array : public Base {
     struct array {
       int32_t length;
       T first[];
     };
-  public:
+
     using element_type = T;
     static constexpr TypeCode code = TypeCode::Array;
 
@@ -472,7 +460,6 @@ namespace rt {
       return ref<array>(temp);
     }
 
-  protected:
     int32_t length;
   };
 
@@ -728,7 +715,7 @@ namespace rt {
     }
   };
 
-  constexpr Default default;
+  inline constexpr Default default__;
   
   template <class T, class V>
   bool is(const V& v) {
@@ -781,7 +768,7 @@ namespace rt {
 
   template <class A, class Size>
   inline auto newarr(const Size& n) {
-    using T = A::in::element_type;
+    using T = typename A::in::element_type;
     return *reinterpret_cast<A*>(&rt::Array<T, object>::newarr(GetArrayIndex(n)));
   }
 }  // namespace rt

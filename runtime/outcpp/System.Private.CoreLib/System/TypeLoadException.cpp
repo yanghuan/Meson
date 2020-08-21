@@ -13,8 +13,8 @@ String TypeLoadException___::get_Message() {
 }
 
 String TypeLoadException___::get_TypeName() {
-  auto& default = _className;
-  return default != nullptr ? default : String::in::Empty;
+  auto& as = _className;
+  return as != nullptr ? as : String::in::Empty;
 }
 
 void TypeLoadException___::ctor(String className, String assemblyName, String messageArg, Int32 resourceId) {

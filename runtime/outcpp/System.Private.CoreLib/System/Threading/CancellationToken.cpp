@@ -26,8 +26,8 @@ Boolean CancellationToken::get_CanBeCanceled() {
 }
 
 WaitHandle CancellationToken::get_WaitHandle() {
-  auto& default = _source;
-  return (default != nullptr ? default : CancellationTokenSource::in::s_neverCanceledSource)->get_WaitHandle();
+  auto& as = _source;
+  return (as != nullptr ? as : CancellationTokenSource::in::s_neverCanceledSource)->get_WaitHandle();
 }
 
 CancellationToken::CancellationToken(CancellationTokenSource source) {
@@ -69,9 +69,9 @@ CancellationTokenRegistration CancellationToken::Register(Action<Object> callbac
   if (callback == nullptr) {
     rt::throw_exception<ArgumentNullException>("callback");
   }
-  auto& default = _source;
-  auto& extern = default == nullptr ? nullptr : default->InternalRegister(callback, state, useSynchronizationContext ? SynchronizationContext::in::get_Current() : nullptr, useExecutionContext ? ExecutionContext::in::Capture() : nullptr);
-  return extern != nullptr ? extern : CancellationTokenRegistration();
+  auto& as = _source;
+  auto& as = as == nullptr ? nullptr : as->InternalRegister(callback, state, useSynchronizationContext ? SynchronizationContext::in::get_Current() : nullptr, useExecutionContext ? ExecutionContext::in::Capture() : nullptr);
+  return as != nullptr ? as : CancellationTokenRegistration();
 }
 
 Boolean CancellationToken::Equals(CancellationToken other) {
@@ -86,8 +86,8 @@ Boolean CancellationToken::Equals(Object other) {
 }
 
 Int32 CancellationToken::GetHashCode() {
-  auto& default = _source;
-  return (default != nullptr ? default : CancellationTokenSource::in::s_neverCanceledSource)->GetHashCode();
+  auto& as = _source;
+  return (as != nullptr ? as : CancellationTokenSource::in::s_neverCanceledSource)->GetHashCode();
 }
 
 Boolean CancellationToken::op_Equality(CancellationToken left, CancellationToken right) {

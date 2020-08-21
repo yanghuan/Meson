@@ -22,8 +22,8 @@ Array<String> DriveInfoInternal::GetLogicalDrives() {
     num >>= 1;
   }
   Array<String> array = rt::newarr<Array<String>>(num2);
-  Char default[3] = {};
-  Span<Char> span = default;
+  Char as[3] = {};
+  Span<Char> span = as;
   num = (UInt32)logicalDrives;
   num2 = 0;
   while (num != 0) {

@@ -145,8 +145,8 @@ Int32 Marvin::ComputeHash32OrdinalIgnoreCase(Char& data, Int32 count, UInt32 p0,
 
 Int32 Marvin::ComputeHash32OrdinalIgnoreCaseSlow(Char& data, Int32 count, UInt32 p0, UInt32 p1) {
   Array<Char> array = nullptr;
-  Char default[64] = {};
-  Span<Char> span = ((UInt32)count > 64u) ? ((Span<Char>)(array = ArrayPool<Char>::in::get_Shared()->Rent(count))) : default;
+  Char as[64] = {};
+  Span<Char> span = ((UInt32)count > 64u) ? ((Span<Char>)(array = ArrayPool<Char>::in::get_Shared()->Rent(count))) : as;
   Span<Char> span2 = span;
   Int32 num = MemoryExtensions::ToUpperInvariant(ReadOnlySpan<Char>(data, count), span2);
   Int32 result = ComputeHash32(Unsafe::As<Char, Byte>(MemoryMarshal::GetReference(span2)), (UInt32)(num * 2), p0, p1);

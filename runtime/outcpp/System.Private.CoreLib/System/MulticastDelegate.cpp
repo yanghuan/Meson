@@ -70,9 +70,9 @@ Boolean MulticastDelegate___::Equals(Object obj) {
       }
       return Delegate::in::Equals(obj);
     }
-    auto& default = (rt::as<Delegate>(_invocationList));
-    auto& extern = default == nullptr ? nullptr : default->Equals(obj);
-    return extern != nullptr ? extern : InvocationListEquals(multicastDelegate);
+    auto& as = (rt::as<Delegate>(_invocationList));
+    auto& as = as == nullptr ? nullptr : as->Equals(obj);
+    return as != nullptr ? as : InvocationListEquals(multicastDelegate);
   }
   if (!InvocationListLogicallyNull()) {
     if (!_invocationList->Equals(multicastDelegate->_invocationList)) {

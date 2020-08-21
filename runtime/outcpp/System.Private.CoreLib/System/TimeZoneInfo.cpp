@@ -307,8 +307,8 @@ void TimeZoneInfo___::OffsetAndRule___::ctor(Int32 year, TimeSpan offset, Adjust
 }
 
 TimeZoneInfo TimeZoneInfo___::CachedData___::get_Local() {
-  auto& default = _localTimeZone;
-  return default != nullptr ? default : CreateLocal();
+  auto& as = _localTimeZone;
+  return as != nullptr ? as : CreateLocal();
 }
 
 TimeZoneInfo TimeZoneInfo___::CachedData___::CreateLocal() {
@@ -357,8 +357,8 @@ void TimeZoneInfo___::CachedData___::ctor() {
 }
 
 String TimeZoneInfo___::StringSerializer::GetSerializedString(TimeZoneInfo zone) {
-  Char default[64] = {};
-  Span<Char> initialBuffer = default;
+  Char as[64] = {};
+  Span<Char> initialBuffer = as;
   ValueStringBuilder serializedText = ValueStringBuilder(initialBuffer);
   SerializeSubstitute(zone->get_Id(), serializedText);
   serializedText.Append(59);
@@ -472,8 +472,8 @@ String TimeZoneInfo___::StringSerializer::GetNextStringValue() {
     rt::throw_exception<SerializationException>(SR::get_Serialization_InvalidData());
   }
   State state = State::NotEscaped;
-  Char default[64] = {};
-  Span<Char> initialBuffer = default;
+  Char as[64] = {};
+  Span<Char> initialBuffer = as;
   ValueStringBuilder valueStringBuilder = ValueStringBuilder(initialBuffer);
   for (Int32 i = _currentTokenStartIndex; i < _serializedText->get_Length(); i++) {
     switch (state) {
@@ -672,18 +672,18 @@ String TimeZoneInfo___::get_Id() {
 }
 
 String TimeZoneInfo___::get_DisplayName() {
-  auto& default = _displayName;
-  return default != nullptr ? default : String::in::Empty;
+  auto& as = _displayName;
+  return as != nullptr ? as : String::in::Empty;
 }
 
 String TimeZoneInfo___::get_StandardName() {
-  auto& default = _standardDisplayName;
-  return default != nullptr ? default : String::in::Empty;
+  auto& as = _standardDisplayName;
+  return as != nullptr ? as : String::in::Empty;
 }
 
 String TimeZoneInfo___::get_DaylightName() {
-  auto& default = _daylightDisplayName;
-  return default != nullptr ? default : String::in::Empty;
+  auto& as = _daylightDisplayName;
+  return as != nullptr ? as : String::in::Empty;
 }
 
 TimeSpan TimeZoneInfo___::get_BaseUtcOffset() {
@@ -1952,8 +1952,8 @@ String TimeZoneInfo___::TryGetLocalizedNameByMuiNativeResource(String resource) 
   }
   result = -result;
   try {
-    Char default[260] = {};
-    Char* ptr = default;
+    Char as[260] = {};
+    Char* ptr = as;
     Int32 pcchFileMUIPath = 260;
     Int32 pcchLanguage = 0;
     Int64 pululEnumerator = 0;
@@ -1967,8 +1967,8 @@ String TimeZoneInfo___::TryGetLocalizedNameByNativeResource(String filePath, Int
   try {
     intPtr = Interop::Kernel32::LoadLibraryEx(filePath, IntPtr::Zero, 2);
     if (intPtr != IntPtr::Zero) {
-      Char default[500] = {};
-      Char* ptr = default;
+      Char as[500] = {};
+      Char* ptr = as;
       Int32 num = Interop::User32::LoadString(intPtr, (UInt32)resource, ptr, 500);
       if (num != 0) {
         return rt::newobj<String>(ptr, 0, num);

@@ -59,7 +59,7 @@ class TimeSpanParse {
     public: Boolean SetOverflowFailure();
     public: Boolean SetBadTimeSpanFailure();
     public: template <class T0 = Nullable<Char>>
-    Boolean SetBadFormatSpecifierFailure(T0 formatSpecifierCharacter = rt::default);
+    Boolean SetBadFormatSpecifierFailure(T0 formatSpecifierCharacter = rt::default__);
     public: explicit TimeSpanResult() {}
     public: TimeSpan parsedTimeSpan;
     private: Boolean _throwOnFailure;

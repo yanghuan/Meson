@@ -10,8 +10,8 @@ using namespace System::Runtime::Intrinsics::Arm;
 
 Vector64<Byte> Vector64<>::Create(Byte value) {
   auto SoftwareFallback = [](Byte value) -> Vector64<Byte> {
-    Byte default[8] = {};
-    Byte* source = default;
+    Byte as[8] = {};
+    Byte* source = as;
     return Unsafe::AsRef<Vector64<Byte>>(source);
   };
   if (AdvSimd::in::get_IsSupported()) {
@@ -32,8 +32,8 @@ Vector64<Double> Vector64<>::Create(Double value) {
 
 Vector64<Int16> Vector64<>::Create(Int16 value) {
   auto SoftwareFallback = [](Int16 value) -> Vector64<Int16> {
-    Int16 default[4] = {};
-    Int16* source = default;
+    Int16 as[4] = {};
+    Int16* source = as;
     return Unsafe::AsRef<Vector64<Int16>>(source);
   };
   if (AdvSimd::in::get_IsSupported()) {
@@ -44,8 +44,8 @@ Vector64<Int16> Vector64<>::Create(Int16 value) {
 
 Vector64<Int32> Vector64<>::Create(Int32 value) {
   auto SoftwareFallback = [](Int32 value) -> Vector64<Int32> {
-    Int32 default[2] = {};
-    Int32* source = default;
+    Int32 as[2] = {};
+    Int32* source = as;
     return Unsafe::AsRef<Vector64<Int32>>(source);
   };
   if (AdvSimd::in::get_IsSupported()) {
@@ -66,8 +66,8 @@ Vector64<Int64> Vector64<>::Create(Int64 value) {
 
 Vector64<SByte> Vector64<>::Create(SByte value) {
   auto SoftwareFallback = [](SByte value) -> Vector64<SByte> {
-    SByte default[8] = {};
-    SByte* source = default;
+    SByte as[8] = {};
+    SByte* source = as;
     return Unsafe::AsRef<Vector64<SByte>>(source);
   };
   if (AdvSimd::in::get_IsSupported()) {
@@ -78,8 +78,8 @@ Vector64<SByte> Vector64<>::Create(SByte value) {
 
 Vector64<Single> Vector64<>::Create(Single value) {
   auto SoftwareFallback = [](Single value) -> Vector64<Single> {
-    Single default[2] = {};
-    Single* source = default;
+    Single as[2] = {};
+    Single* source = as;
     return Unsafe::AsRef<Vector64<Single>>(source);
   };
   if (AdvSimd::in::get_IsSupported()) {
@@ -90,8 +90,8 @@ Vector64<Single> Vector64<>::Create(Single value) {
 
 Vector64<UInt16> Vector64<>::Create(UInt16 value) {
   auto SoftwareFallback = [](UInt16 value) -> Vector64<UInt16> {
-    UInt16 default[4] = {};
-    UInt16* source = default;
+    UInt16 as[4] = {};
+    UInt16* source = as;
     return Unsafe::AsRef<Vector64<UInt16>>(source);
   };
   if (AdvSimd::in::get_IsSupported()) {
@@ -102,8 +102,8 @@ Vector64<UInt16> Vector64<>::Create(UInt16 value) {
 
 Vector64<UInt32> Vector64<>::Create(UInt32 value) {
   auto SoftwareFallback = [](UInt32 value) -> Vector64<UInt32> {
-    UInt32 default[2] = {};
-    UInt32* source = default;
+    UInt32 as[2] = {};
+    UInt32* source = as;
     return Unsafe::AsRef<Vector64<UInt32>>(source);
   };
   if (AdvSimd::in::get_IsSupported()) {
@@ -124,8 +124,8 @@ Vector64<UInt64> Vector64<>::Create(UInt64 value) {
 
 Vector64<Byte> Vector64<>::Create(Byte e0, Byte e1, Byte e2, Byte e3, Byte e4, Byte e5, Byte e6, Byte e7) {
   auto SoftwareFallback = [](Byte e0, Byte e1, Byte e2, Byte e3, Byte e4, Byte e5, Byte e6, Byte e7) -> Vector64<Byte> {
-    Byte default[8] = {};
-    Byte* source = default;
+    Byte as[8] = {};
+    Byte* source = as;
     return Unsafe::AsRef<Vector64<Byte>>(source);
   };
   if (AdvSimd::in::get_IsSupported()) {
@@ -136,8 +136,8 @@ Vector64<Byte> Vector64<>::Create(Byte e0, Byte e1, Byte e2, Byte e3, Byte e4, B
 
 Vector64<Int16> Vector64<>::Create(Int16 e0, Int16 e1, Int16 e2, Int16 e3) {
   auto SoftwareFallback = [](Int16 e0, Int16 e1, Int16 e2, Int16 e3) -> Vector64<Int16> {
-    Int16 default[4] = {};
-    Int16* source = default;
+    Int16 as[4] = {};
+    Int16* source = as;
     return Unsafe::AsRef<Vector64<Int16>>(source);
   };
   if (AdvSimd::in::get_IsSupported()) {
@@ -148,8 +148,8 @@ Vector64<Int16> Vector64<>::Create(Int16 e0, Int16 e1, Int16 e2, Int16 e3) {
 
 Vector64<Int32> Vector64<>::Create(Int32 e0, Int32 e1) {
   auto SoftwareFallback = [](Int32 e0, Int32 e1) -> Vector64<Int32> {
-    Int32 default[2] = {};
-    Int32* source = default;
+    Int32 as[2] = {};
+    Int32* source = as;
     return Unsafe::AsRef<Vector64<Int32>>(source);
   };
   if (AdvSimd::in::get_IsSupported()) {
@@ -160,8 +160,8 @@ Vector64<Int32> Vector64<>::Create(Int32 e0, Int32 e1) {
 
 Vector64<SByte> Vector64<>::Create(SByte e0, SByte e1, SByte e2, SByte e3, SByte e4, SByte e5, SByte e6, SByte e7) {
   auto SoftwareFallback = [](SByte e0, SByte e1, SByte e2, SByte e3, SByte e4, SByte e5, SByte e6, SByte e7) -> Vector64<SByte> {
-    SByte default[8] = {};
-    SByte* source = default;
+    SByte as[8] = {};
+    SByte* source = as;
     return Unsafe::AsRef<Vector64<SByte>>(source);
   };
   if (AdvSimd::in::get_IsSupported()) {
@@ -172,8 +172,8 @@ Vector64<SByte> Vector64<>::Create(SByte e0, SByte e1, SByte e2, SByte e3, SByte
 
 Vector64<Single> Vector64<>::Create(Single e0, Single e1) {
   auto SoftwareFallback = [](Single e0, Single e1) -> Vector64<Single> {
-    Single default[2] = {};
-    Single* source = default;
+    Single as[2] = {};
+    Single* source = as;
     return Unsafe::AsRef<Vector64<Single>>(source);
   };
   if (AdvSimd::in::get_IsSupported()) {
@@ -184,8 +184,8 @@ Vector64<Single> Vector64<>::Create(Single e0, Single e1) {
 
 Vector64<UInt16> Vector64<>::Create(UInt16 e0, UInt16 e1, UInt16 e2, UInt16 e3) {
   auto SoftwareFallback = [](UInt16 e0, UInt16 e1, UInt16 e2, UInt16 e3) -> Vector64<UInt16> {
-    UInt16 default[4] = {};
-    UInt16* source = default;
+    UInt16 as[4] = {};
+    UInt16* source = as;
     return Unsafe::AsRef<Vector64<UInt16>>(source);
   };
   if (AdvSimd::in::get_IsSupported()) {
@@ -196,8 +196,8 @@ Vector64<UInt16> Vector64<>::Create(UInt16 e0, UInt16 e1, UInt16 e2, UInt16 e3) 
 
 Vector64<UInt32> Vector64<>::Create(UInt32 e0, UInt32 e1) {
   auto SoftwareFallback = [](UInt32 e0, UInt32 e1) -> Vector64<UInt32> {
-    UInt32 default[2] = {};
-    UInt32* source = default;
+    UInt32 as[2] = {};
+    UInt32* source = as;
     return Unsafe::AsRef<Vector64<UInt32>>(source);
   };
   if (AdvSimd::in::get_IsSupported()) {
@@ -291,50 +291,50 @@ Vector64<UInt32> Vector64<>::CreateScalar(UInt32 value) {
 }
 
 Vector64<Byte> Vector64<>::CreateScalarUnsafe(Byte value) {
-  Byte default[8] = {};
-  Byte* ptr = default;
+  Byte as[8] = {};
+  Byte* ptr = as;
   *ptr = value;
   return Unsafe::AsRef<Vector64<Byte>>(ptr);
 }
 
 Vector64<Int16> Vector64<>::CreateScalarUnsafe(Int16 value) {
-  Int16 default[4] = {};
-  Int16* ptr = default;
+  Int16 as[4] = {};
+  Int16* ptr = as;
   *ptr = value;
   return Unsafe::AsRef<Vector64<Int16>>(ptr);
 }
 
 Vector64<Int32> Vector64<>::CreateScalarUnsafe(Int32 value) {
-  Int32 default[2] = {};
-  Int32* ptr = default;
+  Int32 as[2] = {};
+  Int32* ptr = as;
   *ptr = value;
   return Unsafe::AsRef<Vector64<Int32>>(ptr);
 }
 
 Vector64<SByte> Vector64<>::CreateScalarUnsafe(SByte value) {
-  SByte default[8] = {};
-  SByte* ptr = default;
+  SByte as[8] = {};
+  SByte* ptr = as;
   *ptr = value;
   return Unsafe::AsRef<Vector64<SByte>>(ptr);
 }
 
 Vector64<Single> Vector64<>::CreateScalarUnsafe(Single value) {
-  Single default[2] = {};
-  Single* ptr = default;
+  Single as[2] = {};
+  Single* ptr = as;
   *ptr = value;
   return Unsafe::AsRef<Vector64<Single>>(ptr);
 }
 
 Vector64<UInt16> Vector64<>::CreateScalarUnsafe(UInt16 value) {
-  UInt16 default[4] = {};
-  UInt16* ptr = default;
+  UInt16 as[4] = {};
+  UInt16* ptr = as;
   *ptr = value;
   return Unsafe::AsRef<Vector64<UInt16>>(ptr);
 }
 
 Vector64<UInt32> Vector64<>::CreateScalarUnsafe(UInt32 value) {
-  UInt32 default[2] = {};
-  UInt32* ptr = default;
+  UInt32 as[2] = {};
+  UInt32* ptr = as;
   *ptr = value;
   return Unsafe::AsRef<Vector64<UInt32>>(ptr);
 }

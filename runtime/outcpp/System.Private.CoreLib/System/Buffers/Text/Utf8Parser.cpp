@@ -845,8 +845,8 @@ Boolean Utf8Parser::TryParse(ReadOnlySpan<Byte> source, Decimal& value, Int32& b
     default:
       return ParserHelpers::TryParseThrowFormatException(value, bytesConsumed);
   }
-  Byte default[31] = {};
-  Byte* digits = default;
+  Byte as[31] = {};
+  Byte* digits = as;
   Number::NumberBuffer number = Number::NumberBuffer(Number::NumberBufferKind::Decimal, digits, 31);
   Boolean textUsedExponentNotation;
   if (!TryParseNumber(source, number, bytesConsumed, options, textUsedExponentNotation)) {
@@ -868,8 +868,8 @@ Boolean Utf8Parser::TryParse(ReadOnlySpan<Byte> source, Decimal& value, Int32& b
 }
 
 Boolean Utf8Parser::TryParse(ReadOnlySpan<Byte> source, Single& value, Int32& bytesConsumed, Char standardFormat) {
-  Byte default[114] = {};
-  Byte* digits = default;
+  Byte as[114] = {};
+  Byte* digits = as;
   Number::NumberBuffer number = Number::NumberBuffer(Number::NumberBufferKind::FloatingPoint, digits, 114);
   if (TryParseNormalAsFloatingPoint(source, number, bytesConsumed, standardFormat)) {
     value = Number::NumberToSingle(number);
@@ -879,8 +879,8 @@ Boolean Utf8Parser::TryParse(ReadOnlySpan<Byte> source, Single& value, Int32& by
 }
 
 Boolean Utf8Parser::TryParse(ReadOnlySpan<Byte> source, Double& value, Int32& bytesConsumed, Char standardFormat) {
-  Byte default[769] = {};
-  Byte* digits = default;
+  Byte as[769] = {};
+  Byte* digits = as;
   Number::NumberBuffer number = Number::NumberBuffer(Number::NumberBufferKind::FloatingPoint, digits, 769);
   if (TryParseNormalAsFloatingPoint(source, number, bytesConsumed, standardFormat)) {
     value = Number::NumberToDouble(number);

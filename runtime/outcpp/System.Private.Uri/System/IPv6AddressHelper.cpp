@@ -10,8 +10,8 @@ namespace System::Private::Uri::System::IPv6AddressHelperNamespace {
 using namespace ::System::Private::CoreLib::System;
 
 String IPv6AddressHelper::ParseCanonicalName(String str, Int32 start, Boolean& isLoopback, String& scopeId) {
-  UInt16 default[8] = {};
-  Span<UInt16> span = default;
+  UInt16 as[8] = {};
+  Span<UInt16> span = as;
   span.Clear();
   Parse(str, span, start, scopeId);
   isLoopback = IsLoopback(span);

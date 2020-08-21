@@ -171,8 +171,8 @@ void EventProvider___::GetSessionInfoCallback(Int32 etwSessionId, Int64 matchAll
 
 void EventProvider___::GetSessionInfo(SessionInfoCallback action, List<SessionInfo>& sessionList) {
   Int32 ReturnLength = 256;
-  Byte default[(Int32)(UInt32)ReturnLength] = {};
-  Byte* ptr = default;
+  Byte as[(Int32)(UInt32)ReturnLength] = {};
+  Byte* ptr = as;
   Byte* ptr2 = ptr;
   try {
     while (true) {
@@ -249,8 +249,8 @@ Boolean EventProvider___::GetDataFromController(Int32 etwSessionId, Interop::Adv
     {
       RegistryKey registryKey = Registry::LocalMachine->OpenSubKey(str);
       rt::Using(registryKey);
-      auto& default = registryKey;
-      data = (rt::as<Array<Byte>>(default == nullptr ? nullptr : default->GetValue(name, nullptr)));
+      auto& as = registryKey;
+      data = (rt::as<Array<Byte>>(as == nullptr ? nullptr : as->GetValue(name, nullptr)));
       if (data != nullptr) {
         command = ControllerCommand::Update;
         return true;
@@ -455,8 +455,8 @@ Object EventProvider___::EncodeObject(Object& data, EventData*& dataDescriptor, 
   totalEventSize += dataDescriptor->Size;
   dataDescriptor++;
   dataBuffer += 16;
-  auto& default = ((Object)text);
-  return default != nullptr ? default : ((Object)array);
+  auto& as = ((Object)text);
+  return as != nullptr ? as : ((Object)array);
 }
 
 Boolean EventProvider___::WriteEvent(EventDescriptor& eventDescriptor, IntPtr eventHandle, Guid* activityID, Guid* childActivityID, Array<Object> eventPayload) {
@@ -471,14 +471,14 @@ Boolean EventProvider___::WriteEvent(EventDescriptor& eventDescriptor, IntPtr ev
     Int32 i = 0;
     List<Int32> list = rt::newobj<List<Int32>>(8);
     List<Object> list2 = rt::newobj<List<Object>>(8);
-    EventData default[2 * num] = {};
-    EventData* ptr = default;
+    EventData as[2 * num] = {};
+    EventData* ptr = as;
     for (Int32 j = 0; j < 2 * num; j++) {
       ptr[j] = EventData();
     }
     EventData* dataDescriptor = ptr;
-    Byte extern[(Int32)(UInt32)(32 * num)] = {};
-    Byte* ptr2 = extern;
+    Byte as[(Int32)(UInt32)(32 * num)] = {};
+    Byte* ptr2 = as;
     Byte* dataBuffer = ptr2;
     Boolean flag = false;
     for (Int32 k = 0; k < eventPayload->get_Length(); k++) {

@@ -157,13 +157,13 @@ ResourceSet ManifestBasedResourceGroveler___::CreateResourceSet(Stream store, As
 }
 
 Stream ManifestBasedResourceGroveler___::GetManifestResourceStream(Assembly satellite, String fileName) {
-  auto& default = satellite->GetManifestResourceStream(_mediator->get_LocationInfo(), fileName);
-  return default != nullptr ? default : CaseInsensitiveManifestResourceStreamLookup(satellite, fileName);
+  auto& as = satellite->GetManifestResourceStream(_mediator->get_LocationInfo(), fileName);
+  return as != nullptr ? as : CaseInsensitiveManifestResourceStreamLookup(satellite, fileName);
 }
 
 Stream ManifestBasedResourceGroveler___::CaseInsensitiveManifestResourceStreamLookup(Assembly satellite, String name) {
-  auto& default = _mediator->get_LocationInfo();
-  String text = default == nullptr ? nullptr : default->get_Namespace();
+  auto& as = _mediator->get_LocationInfo();
+  String text = as == nullptr ? nullptr : as->get_Namespace();
   Char ptr = Type::in::Delimiter;
   String text2 = (text != nullptr && name != nullptr) ? String::in::Concat(text, ReadOnlySpan<Char>(ptr, 1), name) : (text + name);
   String text3 = nullptr;

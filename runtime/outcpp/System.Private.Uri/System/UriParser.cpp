@@ -139,9 +139,9 @@ Boolean UriParser___::IsKnownScheme(String schemeName) {
   if (!Uri::in::CheckSchemeName(schemeName)) {
     rt::throw_exception<ArgumentOutOfRangeException>("schemeName");
   }
-  auto& default = GetSyntax(schemeName->ToLowerInvariant());
-  auto& extern = default == nullptr ? nullptr : default->NotAny(UriSyntaxFlags::V1_UnknownUri);
-  return extern != nullptr ? extern : false;
+  auto& as = GetSyntax(schemeName->ToLowerInvariant());
+  auto& as = as == nullptr ? nullptr : as->NotAny(UriSyntaxFlags::V1_UnknownUri);
+  return as != nullptr ? as : false;
 }
 
 Boolean UriParser___::NotAny(UriSyntaxFlags flags) {
@@ -210,8 +210,8 @@ UriParser UriParser___::FindOrFetchAsUnknownV1Syntax(String lwrCaseScheme) {
 }
 
 UriParser UriParser___::GetSyntax(String lwrCaseScheme) {
-  auto& default = s_table[lwrCaseScheme];
-  return (UriParser)(default != nullptr ? default : s_tempTable[lwrCaseScheme]);
+  auto& as = s_table[lwrCaseScheme];
+  return (UriParser)(as != nullptr ? as : s_tempTable[lwrCaseScheme]);
 }
 
 void UriParser___::CheckSetIsSimpleFlag() {

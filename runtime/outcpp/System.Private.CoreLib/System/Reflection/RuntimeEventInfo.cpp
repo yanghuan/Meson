@@ -25,8 +25,8 @@ MemberTypes RuntimeEventInfo___::get_MemberType() {
 }
 
 String RuntimeEventInfo___::get_Name() {
-  auto& default = m_name;
-  return default != nullptr ? default : (m_name = MdUtf8String(m_utf8name).ToString());
+  auto& as = m_name;
+  return as != nullptr ? as : (m_name = MdUtf8String(m_utf8name).ToString());
 }
 
 Type RuntimeEventInfo___::get_DeclaringType() {

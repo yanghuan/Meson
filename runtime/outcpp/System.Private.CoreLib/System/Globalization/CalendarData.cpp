@@ -337,8 +337,8 @@ void CalendarData___::FixDefaultShortDatePattern(List<String> shortDatePatterns)
   if (text->get_Length() > 100) {
     return;
   }
-  Char default[text->get_Length() + 2] = {};
-  Span<Char> span = default;
+  Char as[text->get_Length() + 2] = {};
+  Span<Char> span = as;
   Int32 i;
   for (i = 0; i < text->get_Length(); i++) {
     if (text[i] == 39) {
@@ -602,8 +602,8 @@ Boolean CalendarData___::CallGetCalendarInfoEx(String localeName, CalendarId cal
 }
 
 Boolean CalendarData___::CallGetCalendarInfoEx(String localeName, CalendarId calendar, UInt32 calType, String& data) {
-  Char default[80] = {};
-  Char* ptr = default;
+  Char as[80] = {};
+  Char* ptr = as;
   Int32 num = Interop::Kernel32::GetCalendarInfoEx(localeName, (UInt32)calendar, IntPtr::Zero, calType, (IntPtr)(void*)ptr, 80, IntPtr::Zero);
   if (num > 0) {
     if (ptr[num - 1] == 0) {
@@ -697,8 +697,8 @@ Interop::BOOL CalendarData___::EnumCalendarsCallback(Char* lpCalendarInfoString,
 }
 
 String CalendarData___::GetUserDefaultLocaleName() {
-  Char default[85] = {};
-  Char* ptr = default;
+  Char as[85] = {};
+  Char* ptr = as;
   Int32 localeInfoEx = CultureData::in::GetLocaleInfoEx(nullptr, 92u, ptr, 85);
   if (localeInfoEx > 0) {
     return rt::newobj<String>(ptr, 0, localeInfoEx - 1);

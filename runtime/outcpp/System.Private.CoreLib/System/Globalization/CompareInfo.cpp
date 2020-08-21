@@ -161,8 +161,8 @@ Boolean CompareInfo___::IsSortable(ReadOnlySpan<Char> text) {
 }
 
 Boolean CompareInfo___::IsSortable(Rune value) {
-  Char default[2] = {};
-  Span<Char> destination = default;
+  Char as[2] = {};
+  Span<Char> destination = as;
 }
 
 void CompareInfo___::InitSort(CultureInfo culture) {
@@ -262,9 +262,9 @@ IL_006e:
   if (offset1 < 0 || offset2 < 0) {
     rt::throw_exception<ArgumentOutOfRangeException>((offset1 < 0) ? "offset1" : "offset2", SR::get_ArgumentOutOfRange_NeedPosNum());
   }
-  auto& default = string1;
-  auto& extern = default == nullptr ? nullptr : default->get_Length();
-  if (offset1 > (extern != nullptr ? extern : 0) - length1) {
+  auto& as = string1;
+  auto& as = as == nullptr ? nullptr : as->get_Length();
+  if (offset1 > (as != nullptr ? as : 0) - length1) {
     rt::throw_exception<ArgumentOutOfRangeException>("string1", SR::get_ArgumentOutOfRange_OffsetLength());
   }
   rt::throw_exception<ArgumentOutOfRangeException>("string2", SR::get_ArgumentOutOfRange_OffsetLength());
@@ -655,8 +655,8 @@ IL_004d:
 }
 
 Int32 CompareInfo___::IndexOf(ReadOnlySpan<Char> source, Rune value, CompareOptions options) {
-  Char default[2] = {};
-  Span<Char> destination = default;
+  Char as[2] = {};
+  Span<Char> destination = as;
 }
 
 Int32 CompareInfo___::IndexOfOrdinalCore(ReadOnlySpan<Char> source, ReadOnlySpan<Char> value, Boolean ignoreCase, Boolean fromBeginning) {
@@ -865,8 +865,8 @@ IL_0052:
 }
 
 Int32 CompareInfo___::LastIndexOf(ReadOnlySpan<Char> source, Rune value, CompareOptions options) {
-  Char default[2] = {};
-  Span<Char> destination = default;
+  Char as[2] = {};
+  Span<Char> destination = as;
 }
 
 SortKey CompareInfo___::GetSortKey(String source, CompareOptions options) {
@@ -1550,8 +1550,8 @@ Int32 CompareInfo___::IcuGetHashCodeOfString(ReadOnlySpan<Char> source, CompareO
   Array<Byte> array = nullptr;
   Span<Byte> span2;
   if (num <= 1024) {
-    Byte default[1024] = {};
-    Span<Byte> span = Span<Byte>(default, 1024);
+    Byte as[1024] = {};
+    Span<Byte> span = Span<Byte>(as, 1024);
     span2 = span;
   } else {
     span2 = (array = ArrayPool<Byte>::in::get_Shared()->Rent(num));
@@ -1812,8 +1812,8 @@ Int32 CompareInfo___::NlsGetHashCodeOfString(ReadOnlySpan<Char> source, CompareO
     Array<Byte> array = nullptr;
     Span<Byte> span2;
     if (num2 <= 512) {
-      Byte default[512] = {};
-      Span<Byte> span = Span<Byte>(default, 512);
+      Byte as[512] = {};
+      Span<Byte> span = Span<Byte>(as, 512);
       span2 = span;
     } else {
       span2 = (array = ArrayPool<Byte>::in::get_Shared()->Rent(num2));

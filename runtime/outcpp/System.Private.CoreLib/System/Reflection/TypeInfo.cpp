@@ -66,8 +66,8 @@ MethodInfo TypeInfo___::GetDeclaredMethod(String name) {
 }
 
 TypeInfo TypeInfo___::GetDeclaredNestedType(String name) {
-  auto& default = GetNestedType(name, BindingFlags::DeclaredOnly | BindingFlags::Instance | BindingFlags::Static | BindingFlags::Public | BindingFlags::NonPublic);
-  return IntrospectionExtensions::GetTypeInfo(default == nullptr ? nullptr : default);
+  auto& as = GetNestedType(name, BindingFlags::DeclaredOnly | BindingFlags::Instance | BindingFlags::Static | BindingFlags::Public | BindingFlags::NonPublic);
+  return IntrospectionExtensions::GetTypeInfo(as == nullptr ? nullptr : as);
 }
 
 PropertyInfo TypeInfo___::GetDeclaredProperty(String name) {

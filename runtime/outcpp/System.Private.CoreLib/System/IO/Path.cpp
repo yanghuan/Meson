@@ -166,8 +166,8 @@ ReadOnlySpan<Char> Path::GetFileNameWithoutExtension(ReadOnlySpan<Char> path) {
 }
 
 String Path::GetRandomFileName() {
-  Byte default[8] = {};
-  Byte* ptr = default;
+  Byte as[8] = {};
+  Byte* ptr = as;
   Interop::GetRandomBytes(ptr, 8);
 }
 
@@ -246,8 +246,8 @@ String Path::Combine(Array<String> paths) {
       }
     }
   }
-  Char default[260] = {};
-  Span<Char> initialBuffer = default;
+  Char as[260] = {};
+  Span<Char> initialBuffer = as;
   ValueStringBuilder valueStringBuilder = ValueStringBuilder(initialBuffer);
   valueStringBuilder.EnsureCapacity(num);
   for (Int32 j = num2; j < paths->get_Length(); j++) {
@@ -327,13 +327,13 @@ String Path::Join(Array<String> paths) {
   }
   Int32 num = 0;
   for (Int32 i = 0; i < paths->get_Length(); i++) {
-    auto& default = paths[i];
-    auto& extern = default == nullptr ? nullptr : default->get_Length();
-    num += (extern != nullptr ? extern : 0);
+    auto& as = paths[i];
+    auto& as = as == nullptr ? nullptr : as->get_Length();
+    num += (as != nullptr ? as : 0);
   }
   num += paths->get_Length() - 1;
-  Char default[260] = {};
-  Span<Char> initialBuffer = default;
+  Char as[260] = {};
+  Span<Char> initialBuffer = as;
   ValueStringBuilder valueStringBuilder = ValueStringBuilder(initialBuffer);
   valueStringBuilder.EnsureCapacity(num);
 }
@@ -562,8 +562,8 @@ String Path::GetRelativePath(String relativeTo, String path, StringComparison co
   if (num2 == num3 && num >= num2) {
     return ".";
   }
-  Char default[260] = {};
-  Span<Char> initialBuffer = default;
+  Char as[260] = {};
+  Span<Char> initialBuffer = as;
   ValueStringBuilder valueStringBuilder = ValueStringBuilder(initialBuffer);
   valueStringBuilder.EnsureCapacity(Math::Max(relativeTo->get_Length(), path->get_Length()));
   if (num < num2) {
@@ -659,8 +659,8 @@ String Path::GetFullPath(String path, String basePath) {
 }
 
 String Path::GetTempPath() {
-  Char default[260] = {};
-  Span<Char> initialBuffer = default;
+  Char as[260] = {};
+  Span<Char> initialBuffer = as;
   ValueStringBuilder builder = ValueStringBuilder(initialBuffer);
   GetTempPath(builder);
   String result = PathHelper::Normalize(builder);
@@ -680,12 +680,12 @@ void Path::GetTempPath(ValueStringBuilder& builder) {
 }
 
 String Path::GetTempFileName() {
-  Char default[260] = {};
-  Span<Char> initialBuffer = default;
+  Char as[260] = {};
+  Span<Char> initialBuffer = as;
   ValueStringBuilder builder = ValueStringBuilder(initialBuffer);
   GetTempPath(builder);
-  Char extern[260] = {};
-  initialBuffer = extern;
+  Char as[260] = {};
+  initialBuffer = as;
   ValueStringBuilder path = ValueStringBuilder(initialBuffer);
   UInt32 tempFileNameW = Interop::Kernel32::GetTempFileNameW(builder.GetPinnableReference(), "tmp", 0u, path.GetPinnableReference());
   builder.Dispose();

@@ -85,9 +85,9 @@ Boolean PropertyInfo___::op_Equality(PropertyInfo left, PropertyInfo right) {
   if ((Object)left == right) {
     return true;
   }
-  auto& default = left;
-  auto& extern = default == nullptr ? nullptr : default->Equals(right);
-  return extern != nullptr ? extern : false;
+  auto& as = left;
+  auto& as = as == nullptr ? nullptr : as->Equals(right);
+  return as != nullptr ? as : false;
 }
 
 Boolean PropertyInfo___::op_Inequality(PropertyInfo left, PropertyInfo right) {

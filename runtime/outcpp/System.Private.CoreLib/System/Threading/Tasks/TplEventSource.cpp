@@ -40,8 +40,8 @@ void TplEventSource___::ctor() {
 
 void TplEventSource___::TaskScheduled(Int32 OriginatingTaskSchedulerID, Int32 OriginatingTaskID, Int32 TaskID, Int32 CreatingTaskID, Int32 TaskCreationOptions, Int32 appDomain) {
   if (IsEnabled() && IsEnabled(EventLevel::Informational, (EventKeywords)3)) {
-    EventSource::in::EventData default[6] = {};
-    EventSource::in::EventData* ptr = default;
+    EventSource::in::EventData as[6] = {};
+    EventSource::in::EventData* ptr = as;
     ptr->set_Size(4);
     ptr->set_DataPointer((IntPtr)(void*)(&OriginatingTaskSchedulerID));
     ptr->set_Reserved(0);
@@ -77,8 +77,8 @@ void TplEventSource___::TaskStarted(Int32 OriginatingTaskSchedulerID, Int32 Orig
 
 void TplEventSource___::TaskCompleted(Int32 OriginatingTaskSchedulerID, Int32 OriginatingTaskID, Int32 TaskID, Boolean IsExceptional) {
   if (IsEnabled(EventLevel::Informational, (EventKeywords)2)) {
-    EventSource::in::EventData default[4] = {};
-    EventSource::in::EventData* ptr = default;
+    EventSource::in::EventData as[4] = {};
+    EventSource::in::EventData* ptr = as;
     Int32 num = IsExceptional ? 1 : 0;
     ptr->set_Size(4);
     ptr->set_DataPointer((IntPtr)(void*)(&OriginatingTaskSchedulerID));
@@ -98,8 +98,8 @@ void TplEventSource___::TaskCompleted(Int32 OriginatingTaskSchedulerID, Int32 Or
 
 void TplEventSource___::TaskWaitBegin(Int32 OriginatingTaskSchedulerID, Int32 OriginatingTaskID, Int32 TaskID, TaskWaitBehavior Behavior, Int32 ContinueWithTaskID) {
   if (IsEnabled() && IsEnabled(EventLevel::Informational, (EventKeywords)3)) {
-    EventSource::in::EventData default[5] = {};
-    EventSource::in::EventData* ptr = default;
+    EventSource::in::EventData as[5] = {};
+    EventSource::in::EventData* ptr = as;
     ptr->set_Size(4);
     ptr->set_DataPointer((IntPtr)(void*)(&OriginatingTaskSchedulerID));
     ptr->set_Reserved(0);
@@ -144,8 +144,8 @@ void TplEventSource___::TaskWaitContinuationStarted(Int32 TaskID) {
 
 void TplEventSource___::AwaitTaskContinuationScheduled(Int32 OriginatingTaskSchedulerID, Int32 OriginatingTaskID, Int32 ContinueWithTaskId) {
   if (IsEnabled() && IsEnabled(EventLevel::Informational, (EventKeywords)3)) {
-    EventSource::in::EventData default[3] = {};
-    EventSource::in::EventData* ptr = default;
+    EventSource::in::EventData as[3] = {};
+    EventSource::in::EventData* ptr = as;
     ptr->set_Size(4);
     ptr->set_DataPointer((IntPtr)(void*)(&OriginatingTaskSchedulerID));
     ptr->set_Reserved(0);

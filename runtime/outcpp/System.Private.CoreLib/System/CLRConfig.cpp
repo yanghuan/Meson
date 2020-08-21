@@ -15,8 +15,8 @@ Boolean CLRConfig::GetBoolValueWithFallbacks(String switchName, String environme
   if (exist) {
     return boolValue;
   }
-  Char default[32] = {};
-  Span<Char> buffer = default;
+  Char as[32] = {};
+  Span<Char> buffer = as;
   switch (Interop::Kernel32::GetEnvironmentVariable(environmentName, buffer).get()) {
     case 1:
       if (buffer[0] == 48) {

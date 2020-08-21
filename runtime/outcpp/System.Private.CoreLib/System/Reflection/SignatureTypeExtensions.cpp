@@ -7,9 +7,9 @@
 
 namespace System::Private::CoreLib::System::Reflection::SignatureTypeExtensionsNamespace {
 Boolean SignatureTypeExtensions::MatchesParameterTypeExactly(Type pattern, ParameterInfo parameter) {
-  auto& default = (rt::as<SignatureType>(pattern));
-  auto& extern = SignatureTypeExtensions::MatchesExactly(default == nullptr ? nullptr : default, parameter->get_ParameterType());
-  return extern != nullptr ? extern : ((Object)pattern == parameter->get_ParameterType());
+  auto& as = (rt::as<SignatureType>(pattern));
+  auto& as = SignatureTypeExtensions::MatchesExactly(as == nullptr ? nullptr : as, parameter->get_ParameterType());
+  return as != nullptr ? as : ((Object)pattern == parameter->get_ParameterType());
 }
 
 Boolean SignatureTypeExtensions::MatchesExactly(SignatureType pattern, Type actual) {

@@ -168,9 +168,9 @@ void ActivityTracker___::OnStart(String providerName, String activityName, Int32
   ActivityInfo value = m_current->get_Value();
   String text = NormalizeActivityName(providerName, activityName, task);
   TplEventSource tplEventSource = useTplSource ? TplEventSource::in::Log : nullptr;
-  auto& default = tplEventSource;
-  auto& extern = default == nullptr ? nullptr : default->Debug;
-  Boolean flag = extern != nullptr ? extern : false;
+  auto& as = tplEventSource;
+  auto& as = as == nullptr ? nullptr : as->Debug;
+  Boolean flag = as != nullptr ? as : false;
   if (flag) {
     tplEventSource->DebugFacilityMessage("OnStartEnter", text);
     tplEventSource->DebugFacilityMessage("OnStartEnterActivityState", ActivityInfo::in::LiveActivities(value));
@@ -209,9 +209,9 @@ void ActivityTracker___::OnStop(String providerName, String activityName, Int32 
   }
   String text = NormalizeActivityName(providerName, activityName, task);
   TplEventSource tplEventSource = useTplSource ? TplEventSource::in::Log : nullptr;
-  auto& default = tplEventSource;
-  auto& extern = default == nullptr ? nullptr : default->Debug;
-  Boolean flag = extern != nullptr ? extern : false;
+  auto& as = tplEventSource;
+  auto& as = as == nullptr ? nullptr : as->Debug;
+  Boolean flag = as != nullptr ? as : false;
   if (flag) {
     tplEventSource->DebugFacilityMessage("OnStopEnter", text);
     tplEventSource->DebugFacilityMessage("OnStopEnterActivityState", ActivityInfo::in::LiveActivities(m_current->get_Value()));

@@ -33,9 +33,9 @@ Boolean ValueTask<>::get_IsCompleted() {
   if (obj == nullptr) {
     return true;
   }
-  auto& default = (rt::as<Task<>>(obj));
-  auto& extern = default == nullptr ? nullptr : default->get_IsCompleted();
-  return extern != nullptr ? extern : (Unsafe::As<IValueTaskSource<>>(obj)->GetStatus(_token) != ValueTaskSourceStatus::Pending);
+  auto& as = (rt::as<Task<>>(obj));
+  auto& as = as == nullptr ? nullptr : as->get_IsCompleted();
+  return as != nullptr ? as : (Unsafe::As<IValueTaskSource<>>(obj)->GetStatus(_token) != ValueTaskSourceStatus::Pending);
 }
 
 Boolean ValueTask<>::get_IsCompletedSuccessfully() {
@@ -43,9 +43,9 @@ Boolean ValueTask<>::get_IsCompletedSuccessfully() {
   if (obj == nullptr) {
     return true;
   }
-  auto& default = (rt::as<Task<>>(obj));
-  auto& extern = default == nullptr ? nullptr : default->get_IsCompletedSuccessfully();
-  return extern != nullptr ? extern : (Unsafe::As<IValueTaskSource<>>(obj)->GetStatus(_token) == ValueTaskSourceStatus::Succeeded);
+  auto& as = (rt::as<Task<>>(obj));
+  auto& as = as == nullptr ? nullptr : as->get_IsCompletedSuccessfully();
+  return as != nullptr ? as : (Unsafe::As<IValueTaskSource<>>(obj)->GetStatus(_token) == ValueTaskSourceStatus::Succeeded);
 }
 
 Boolean ValueTask<>::get_IsFaulted() {
@@ -53,9 +53,9 @@ Boolean ValueTask<>::get_IsFaulted() {
   if (obj == nullptr) {
     return false;
   }
-  auto& default = (rt::as<Task<>>(obj));
-  auto& extern = default == nullptr ? nullptr : default->get_IsFaulted();
-  return extern != nullptr ? extern : (Unsafe::As<IValueTaskSource<>>(obj)->GetStatus(_token) == ValueTaskSourceStatus::Faulted);
+  auto& as = (rt::as<Task<>>(obj));
+  auto& as = as == nullptr ? nullptr : as->get_IsFaulted();
+  return as != nullptr ? as : (Unsafe::As<IValueTaskSource<>>(obj)->GetStatus(_token) == ValueTaskSourceStatus::Faulted);
 }
 
 Boolean ValueTask<>::get_IsCanceled() {
@@ -63,9 +63,9 @@ Boolean ValueTask<>::get_IsCanceled() {
   if (obj == nullptr) {
     return false;
   }
-  auto& default = (rt::as<Task<>>(obj));
-  auto& extern = default == nullptr ? nullptr : default->get_IsCanceled();
-  return extern != nullptr ? extern : (Unsafe::As<IValueTaskSource<>>(obj)->GetStatus(_token) == ValueTaskSourceStatus::Canceled);
+  auto& as = (rt::as<Task<>>(obj));
+  auto& as = as == nullptr ? nullptr : as->get_IsCanceled();
+  return as != nullptr ? as : (Unsafe::As<IValueTaskSource<>>(obj)->GetStatus(_token) == ValueTaskSourceStatus::Canceled);
 }
 
 ValueTask<>::ValueTask(Task<> task) {
@@ -93,9 +93,9 @@ ValueTask<>::ValueTask(Object obj, Int16 token, Boolean continueOnCapturedContex
 }
 
 Int32 ValueTask<>::GetHashCode() {
-  auto& default = _obj;
-  auto& extern = default == nullptr ? nullptr : default->GetHashCode();
-  return extern != nullptr ? extern : 0;
+  auto& as = _obj;
+  auto& as = as == nullptr ? nullptr : as->GetHashCode();
+  return as != nullptr ? as : 0;
 }
 
 Boolean ValueTask<>::Equals(Object obj) {

@@ -49,44 +49,44 @@ class Utf8Formatter {
     public: Byte Byte15;
   };
   public: template <class T0 = StandardFormat>
-  static Boolean TryFormat(Boolean value, Span<Byte> destination, Int32& bytesWritten, T0 format = rt::default);
+  static Boolean TryFormat(Boolean value, Span<Byte> destination, Int32& bytesWritten, T0 format = rt::default__);
   public: template <class T0 = StandardFormat>
-  static Boolean TryFormat(DateTimeOffset value, Span<Byte> destination, Int32& bytesWritten, T0 format = rt::default);
+  static Boolean TryFormat(DateTimeOffset value, Span<Byte> destination, Int32& bytesWritten, T0 format = rt::default__);
   public: template <class T0 = StandardFormat>
-  static Boolean TryFormat(DateTime value, Span<Byte> destination, Int32& bytesWritten, T0 format = rt::default);
+  static Boolean TryFormat(DateTime value, Span<Byte> destination, Int32& bytesWritten, T0 format = rt::default__);
   private: static Boolean TryFormatDateTimeG(DateTime value, TimeSpan offset, Span<Byte> destination, Int32& bytesWritten);
   private: static Boolean TryFormatDateTimeL(DateTime value, Span<Byte> destination, Int32& bytesWritten);
   private: static Boolean TryFormatDateTimeO(DateTime value, TimeSpan offset, Span<Byte> destination, Int32& bytesWritten);
   private: static Boolean TryFormatDateTimeR(DateTime value, Span<Byte> destination, Int32& bytesWritten);
   public: template <class T0 = StandardFormat>
-  static Boolean TryFormat(Decimal value, Span<Byte> destination, Int32& bytesWritten, T0 format = rt::default);
+  static Boolean TryFormat(Decimal value, Span<Byte> destination, Int32& bytesWritten, T0 format = rt::default__);
   private: static Boolean TryFormatDecimalE(Number::NumberBuffer& number, Span<Byte> destination, Int32& bytesWritten, Byte precision, Byte exponentSymbol);
   private: static Boolean TryFormatDecimalF(Number::NumberBuffer& number, Span<Byte> destination, Int32& bytesWritten, Byte precision);
   private: static Boolean TryFormatDecimalG(Number::NumberBuffer& number, Span<Byte> destination, Int32& bytesWritten);
   public: template <class T0 = StandardFormat>
-  static Boolean TryFormat(Double value, Span<Byte> destination, Int32& bytesWritten, T0 format = rt::default);
+  static Boolean TryFormat(Double value, Span<Byte> destination, Int32& bytesWritten, T0 format = rt::default__);
   public: template <class T0 = StandardFormat>
-  static Boolean TryFormat(Single value, Span<Byte> destination, Int32& bytesWritten, T0 format = rt::default);
+  static Boolean TryFormat(Single value, Span<Byte> destination, Int32& bytesWritten, T0 format = rt::default__);
   private: template <class T>
   static Boolean TryFormatFloatingPoint(T value, Span<Byte> destination, Int32& bytesWritten, StandardFormat format);
   public: template <class T0 = StandardFormat>
-  static Boolean TryFormat(Guid value, Span<Byte> destination, Int32& bytesWritten, T0 format = rt::default);
+  static Boolean TryFormat(Guid value, Span<Byte> destination, Int32& bytesWritten, T0 format = rt::default__);
   public: template <class T0 = StandardFormat>
-  static Boolean TryFormat(Byte value, Span<Byte> destination, Int32& bytesWritten, T0 format = rt::default);
+  static Boolean TryFormat(Byte value, Span<Byte> destination, Int32& bytesWritten, T0 format = rt::default__);
   public: template <class T0 = StandardFormat>
-  static Boolean TryFormat(SByte value, Span<Byte> destination, Int32& bytesWritten, T0 format = rt::default);
+  static Boolean TryFormat(SByte value, Span<Byte> destination, Int32& bytesWritten, T0 format = rt::default__);
   public: template <class T0 = StandardFormat>
-  static Boolean TryFormat(UInt16 value, Span<Byte> destination, Int32& bytesWritten, T0 format = rt::default);
+  static Boolean TryFormat(UInt16 value, Span<Byte> destination, Int32& bytesWritten, T0 format = rt::default__);
   public: template <class T0 = StandardFormat>
-  static Boolean TryFormat(Int16 value, Span<Byte> destination, Int32& bytesWritten, T0 format = rt::default);
+  static Boolean TryFormat(Int16 value, Span<Byte> destination, Int32& bytesWritten, T0 format = rt::default__);
   public: template <class T0 = StandardFormat>
-  static Boolean TryFormat(UInt32 value, Span<Byte> destination, Int32& bytesWritten, T0 format = rt::default);
+  static Boolean TryFormat(UInt32 value, Span<Byte> destination, Int32& bytesWritten, T0 format = rt::default__);
   public: template <class T0 = StandardFormat>
-  static Boolean TryFormat(Int32 value, Span<Byte> destination, Int32& bytesWritten, T0 format = rt::default);
+  static Boolean TryFormat(Int32 value, Span<Byte> destination, Int32& bytesWritten, T0 format = rt::default__);
   public: template <class T0 = StandardFormat>
-  static Boolean TryFormat(UInt64 value, Span<Byte> destination, Int32& bytesWritten, T0 format = rt::default);
+  static Boolean TryFormat(UInt64 value, Span<Byte> destination, Int32& bytesWritten, T0 format = rt::default__);
   public: template <class T0 = StandardFormat>
-  static Boolean TryFormat(Int64 value, Span<Byte> destination, Int32& bytesWritten, T0 format = rt::default);
+  static Boolean TryFormat(Int64 value, Span<Byte> destination, Int32& bytesWritten, T0 format = rt::default__);
   private: static Boolean TryFormatInt64(Int64 value, UInt64 mask, Span<Byte> destination, Int32& bytesWritten, StandardFormat format);
   private: static Boolean TryFormatInt64D(Int64 value, Byte precision, Span<Byte> destination, Int32& bytesWritten);
   private: static Boolean TryFormatInt64Default(Int64 value, Span<Byte> destination, Int32& bytesWritten);
@@ -100,7 +100,7 @@ class Utf8Formatter {
   private: static Boolean TryFormatUInt64N(UInt64 value, Byte precision, Span<Byte> destination, Boolean insertNegationSign, Int32& bytesWritten);
   private: static Boolean TryFormatUInt64X(UInt64 value, Byte precision, Boolean useLower, Span<Byte> destination, Int32& bytesWritten);
   public: template <class T0 = StandardFormat>
-  static Boolean TryFormat(TimeSpan value, Span<Byte> destination, Int32& bytesWritten, T0 format = rt::default);
+  static Boolean TryFormat(TimeSpan value, Span<Byte> destination, Int32& bytesWritten, T0 format = rt::default__);
   private: static void cctor();
   private: static Array<UInt32> s_dayAbbreviations;
   private: static Array<UInt32> s_dayAbbreviationsLowercase;

@@ -80,8 +80,8 @@ SafeFindHandle Interop::Kernel32::FindFirstFile(String fileName, WIN32_FIND_DATA
 }
 
 String Interop::Kernel32::GetComputerName() {
-  Char default[16] = {};
-  Span<Char> span = default;
+  Char as[16] = {};
+  Span<Char> span = as;
   UInt32 nSize = (UInt32)span.get_Length();
   if (GetComputerName(MemoryMarshal::GetReference(span), nSize) == 0) {
     return nullptr;
@@ -110,8 +110,8 @@ String Interop::Kernel32::GetMessage(Int32 errorCode, IntPtr moduleHandle) {
   if (moduleHandle != IntPtr::Zero) {
     num |= 2048;
   }
-  Char default[256] = {};
-  Span<Char> span = default;
+  Char as[256] = {};
+  Span<Char> span = as;
   {
     Char* lpBuffer = span;
     Int32 num2 = FormatMessage(num, moduleHandle, (UInt32)errorCode, 0, lpBuffer, span.get_Length(), IntPtr::Zero);

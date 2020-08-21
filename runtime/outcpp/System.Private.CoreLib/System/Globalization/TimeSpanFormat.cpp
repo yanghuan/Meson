@@ -212,8 +212,8 @@ Boolean TimeSpanFormat::TryFormat(TimeSpan value, Span<Char> destination, Int32&
 }
 
 String TimeSpanFormat::FormatC(TimeSpan value) {
-  Char default[26] = {};
-  Span<Char> destination = default;
+  Char as[26] = {};
+  Span<Char> destination = as;
   Int32 charsWritten;
   TryFormatStandard(value, StandardFormat::C, nullptr, destination, charsWritten);
   return rt::newobj<String>(destination.Slice(0, charsWritten));
@@ -222,8 +222,8 @@ String TimeSpanFormat::FormatC(TimeSpan value) {
 String TimeSpanFormat::FormatG(TimeSpan value, DateTimeFormatInfo dtfi, StandardFormat format) {
   String decimalSeparator = dtfi->get_DecimalSeparator();
   Int32 num = 25 + decimalSeparator->get_Length();
-  Char default[num] = {};
-  Span<Char> span = (num >= 128) ? ((Span<Char>)rt::newarr<Array<Char>>(num)) : default;
+  Char as[num] = {};
+  Span<Char> span = (num >= 128) ? ((Span<Char>)rt::newarr<Array<Char>>(num)) : as;
   Span<Char> destination = span;
   Int32 charsWritten;
   TryFormatStandard(value, format, decimalSeparator, destination, charsWritten);

@@ -53,9 +53,9 @@ using namespace System::Threading;
 
 String Environment::WinRTFolderPaths::GetFolderPath(SpecialFolder folder, SpecialFolderOption option) {
   if (s_winRTFolderPathsGetFolderPath == nullptr) {
-    auto& default = Type::in::GetType("System.WinRTFolderPaths, System.Runtime.WindowsRuntime, Version=4.0.14.0, Culture=neutral, PublicKeyToken=b77a5c561934e089", false);
-    auto& extern = (default == nullptr ? nullptr : default->GetMethod("GetFolderPath", BindingFlags::Static | BindingFlags::Public | BindingFlags::NonPublic, nullptr, rt::newarr<Array<Type>>(2), nullptr));
-    Func<SpecialFolder, SpecialFolderOption, String> func = (Func<SpecialFolder, SpecialFolderOption, String>)(extern == nullptr ? nullptr : extern->CreateDelegate(rt::typeof<Func<SpecialFolder, SpecialFolderOption, String>>()));
+    auto& as = Type::in::GetType("System.WinRTFolderPaths, System.Runtime.WindowsRuntime, Version=4.0.14.0, Culture=neutral, PublicKeyToken=b77a5c561934e089", false);
+    auto& as = (as == nullptr ? nullptr : as->GetMethod("GetFolderPath", BindingFlags::Static | BindingFlags::Public | BindingFlags::NonPublic, nullptr, rt::newarr<Array<Type>>(2), nullptr));
+    Func<SpecialFolder, SpecialFolderOption, String> func = (Func<SpecialFolder, SpecialFolderOption, String>)(as == nullptr ? nullptr : as->CreateDelegate(rt::typeof<Func<SpecialFolder, SpecialFolderOption, String>>()));
   }
   return s_winRTFolderPathsGetFolderPath(folder, option);
 }
@@ -140,8 +140,8 @@ OperatingSystem Environment::get_OSVersion() {
 }
 
 Version Environment::get_Version() {
-  auto& default = CustomAttributeExtensions::GetCustomAttribute(rt::typeof<Object>()->get_Assembly());
-  String text = default == nullptr ? nullptr : default->get_InformationalVersion();
+  auto& as = CustomAttributeExtensions::GetCustomAttribute(rt::typeof<Object>()->get_Assembly());
+  String text = as == nullptr ? nullptr : as->get_InformationalVersion();
   ReadOnlySpan<Char> readOnlySpan = MemoryExtensions::AsSpan(text);
   Int32 num = MemoryExtensions::IndexOfAny(readOnlySpan, 45, 43, 32);
   if (num != -1) {
@@ -162,8 +162,8 @@ String Environment::get_UserName() {
   if (ApplicationModel::IsUap) {
     return "Windows User";
   }
-  Char default[40] = {};
-  Span<Char> initialBuffer = default;
+  Char as[40] = {};
+  Span<Char> initialBuffer = as;
   ValueStringBuilder builder = ValueStringBuilder(initialBuffer);
   GetUserName(builder);
   ReadOnlySpan<Char> span = builder.AsSpan();
@@ -180,8 +180,8 @@ String Environment::get_UserDomainName() {
   if (ApplicationModel::IsUap) {
     return "Windows Domain";
   }
-  Char default[40] = {};
-  Span<Char> initialBuffer = default;
+  Char as[40] = {};
+  Span<Char> initialBuffer = as;
   ValueStringBuilder builder = ValueStringBuilder(initialBuffer);
   GetUserName(builder);
   ReadOnlySpan<Char> span = builder.AsSpan();
@@ -190,12 +190,12 @@ String Environment::get_UserDomainName() {
     builder.set_Length(num);
     return builder.ToString();
   }
-  Char extern[64] = {};
-  initialBuffer = extern;
+  Char as[64] = {};
+  initialBuffer = as;
   ValueStringBuilder valueStringBuilder = ValueStringBuilder(initialBuffer);
   UInt32 cchReferencedDomainName = (UInt32)valueStringBuilder.get_Capacity();
-  Byte ref[68] = {};
-  Span<Byte> span2 = Span<Byte>(ref, 68);
+  Byte in[68] = {};
+  Span<Byte> span2 = Span<Byte>(in, 68);
   Span<Byte> span3 = span2;
   UInt32 cbSid = 68u;
   UInt32 peUse;
@@ -212,8 +212,8 @@ String Environment::get_UserDomainName() {
 }
 
 String Environment::get_CurrentDirectoryCore() {
-  Char default[260] = {};
-  Span<Char> initialBuffer = default;
+  Char as[260] = {};
+  Span<Char> initialBuffer = as;
   ValueStringBuilder outputBuilder = ValueStringBuilder(initialBuffer);
   UInt32 currentDirectory;
   while ((currentDirectory = Interop::Kernel32::GetCurrentDirectory((UInt32)outputBuilder.get_Capacity(), outputBuilder.GetPinnableReference())) > outputBuilder.get_Capacity()) {
@@ -258,8 +258,8 @@ String Environment::get_MachineName() {
 }
 
 String Environment::get_SystemDirectory() {
-  Char default[32] = {};
-  Span<Char> initialBuffer = default;
+  Char as[32] = {};
+  Span<Char> initialBuffer = as;
   ValueStringBuilder valueStringBuilder = ValueStringBuilder(initialBuffer);
   UInt32 systemDirectoryW;
   while ((systemDirectoryW = Interop::Kernel32::GetSystemDirectoryW(valueStringBuilder.GetPinnableReference(), (UInt32)valueStringBuilder.get_Capacity())) > valueStringBuilder.get_Capacity()) {
@@ -413,8 +413,8 @@ String Environment::GetEnvironmentVariableFromRegistry(String variable, Boolean 
   {
     RegistryKey registryKey = OpenEnvironmentKeyIfExists(fromMachine, false);
     rt::Using(registryKey);
-    auto& default = registryKey;
-    return rt::as<String>(default == nullptr ? nullptr : default->GetValue(variable));
+    auto& as = registryKey;
+    return rt::as<String>(as == nullptr ? nullptr : as->GetValue(variable));
   }
 }
 
@@ -648,8 +648,8 @@ Array<String> Environment::GetLogicalDrives() {
 }
 
 String Environment::ExpandEnvironmentVariablesCore(String name) {
-  Char default[128] = {};
-  Span<Char> initialBuffer = default;
+  Char as[128] = {};
+  Span<Char> initialBuffer = as;
   ValueStringBuilder valueStringBuilder = ValueStringBuilder(initialBuffer);
   UInt32 num;
   while ((num = Interop::Kernel32::ExpandEnvironmentStrings(name, valueStringBuilder.GetPinnableReference(), (UInt32)valueStringBuilder.get_Capacity())) > valueStringBuilder.get_Capacity()) {
@@ -675,8 +675,8 @@ OperatingSystem Environment::GetOSVersion() {
 }
 
 String Environment::GetEnvironmentVariableCore(String variable) {
-  Char default[128] = {};
-  Span<Char> buffer = default;
+  Char as[128] = {};
+  Span<Char> buffer = as;
   Int32 environmentVariable = Interop::Kernel32::GetEnvironmentVariable(variable, buffer);
   if (environmentVariable == 0 && Marshal::GetLastWin32Error() == 203) {
     return nullptr;

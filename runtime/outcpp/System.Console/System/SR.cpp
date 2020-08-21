@@ -8,8 +8,8 @@ using namespace ::System::Private::CoreLib::System::Resources;
 using namespace FxResources::System::Console;
 
 ResourceManager SR::get_ResourceManager() {
-  auto& default = s_resourceManager;
-  return default != nullptr ? default : (s_resourceManager = rt::newobj<ResourceManager>(rt::typeof<SR>()));
+  auto& as = s_resourceManager;
+  return as != nullptr ? as : (s_resourceManager = rt::newobj<ResourceManager>(rt::typeof<SR>()));
 }
 
 String SR::get_ArgumentOutOfRange_ConsoleWindowBufferSize() {

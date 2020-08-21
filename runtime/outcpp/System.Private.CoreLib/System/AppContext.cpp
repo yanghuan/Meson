@@ -21,15 +21,15 @@ using namespace System::Runtime::Loader;
 using namespace System::Threading;
 
 String AppContext::get_BaseDirectory() {
-  auto& default = s_defaultBaseDirectory;
-  auto& extern = (rt::as<String>(GetData("APP_CONTEXT_BASE_DIRECTORY")));
-  return extern != nullptr ? extern : default != nullptr ? default : (s_defaultBaseDirectory = GetBaseDirectoryCore());
+  auto& as = s_defaultBaseDirectory;
+  auto& as = (rt::as<String>(GetData("APP_CONTEXT_BASE_DIRECTORY")));
+  return as != nullptr ? as : as != nullptr ? as : (s_defaultBaseDirectory = GetBaseDirectoryCore());
 }
 
 String AppContext::get_TargetFrameworkName() {
-  auto& default = Assembly::in::GetEntryAssembly();
-  auto& extern = CustomAttributeExtensions::GetCustomAttribute(default == nullptr ? nullptr : default);
-  return extern == nullptr ? nullptr : extern->get_FrameworkName();
+  auto& as = Assembly::in::GetEntryAssembly();
+  auto& as = CustomAttributeExtensions::GetCustomAttribute(as == nullptr ? nullptr : as);
+  return as == nullptr ? nullptr : as->get_FrameworkName();
 }
 
 Object AppContext::GetData(String name) {
@@ -111,13 +111,13 @@ void AppContext::Setup(Char** pNames, Char** pValues, Int32 count) {
 }
 
 String AppContext::GetBaseDirectoryCore() {
-  auto& default = Assembly::in::GetEntryAssembly();
-  String text = Path::GetDirectoryName(default == nullptr ? nullptr : default->get_Location());
+  auto& as = Assembly::in::GetEntryAssembly();
+  String text = Path::GetDirectoryName(as == nullptr ? nullptr : as->get_Location());
   if (text != nullptr && !Path::EndsInDirectorySeparator(text)) {
     text += "\";
   }
-  auto& extern = text;
-  return extern != nullptr ? extern : String::in::Empty;
+  auto& as = text;
+  return as != nullptr ? as : String::in::Empty;
 }
 
 } // namespace System::Private::CoreLib::System::AppContextNamespace

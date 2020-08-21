@@ -309,8 +309,8 @@ void Array___<>::SorterGenericArray::Heapsort(Int32 lo, Int32 hi) {
 
 void Array___<>::SorterGenericArray::DownHeap(Int32 i, Int32 n, Int32 lo) {
   Object value = keys->GetValue(lo + i - 1);
-  auto& default = items;
-  Object value2 = default == nullptr ? nullptr : default->GetValue(lo + i - 1);
+  auto& as = items;
+  Object value2 = as == nullptr ? nullptr : as->GetValue(lo + i - 1);
   while (i <= n / 2) {
     Int32 num = 2 * i;
     if (num < n && comparer->Compare(keys->GetValue(lo + num - 1), keys->GetValue(lo + num)) < 0) {
@@ -335,8 +335,8 @@ void Array___<>::SorterGenericArray::InsertionSort(Int32 lo, Int32 hi) {
   for (Int32 i = lo; i < hi; i++) {
     Int32 num = i;
     Object value = keys->GetValue(i + 1);
-    auto& default = items;
-    Object value2 = default == nullptr ? nullptr : default->GetValue(i + 1);
+    auto& as = items;
+    Object value2 = as == nullptr ? nullptr : as->GetValue(i + 1);
     while (num >= lo && comparer->Compare(value, keys->GetValue(num)) < 0) {
       keys->SetValue(keys->GetValue(num), num + 1);
       if (items != nullptr) {
@@ -423,8 +423,8 @@ Array<> Array___<>::CreateInstance(Type elementType, Int32 length1, Int32 length
   if (runtimeType == nullptr) {
     ThrowHelper::ThrowArgumentException(ExceptionResource::Arg_MustBeType, ExceptionArgument::elementType);
   }
-  Int32 default[2] = {};
-  Int32* ptr = default;
+  Int32 as[2] = {};
+  Int32* ptr = as;
   *ptr = length1;
   ptr[1] = length2;
   return InternalCreate((void*)runtimeType->get_TypeHandle().get_Value(), 2, ptr, nullptr);
@@ -447,8 +447,8 @@ Array<> Array___<>::CreateInstance(Type elementType, Int32 length1, Int32 length
   if (runtimeType == nullptr) {
     ThrowHelper::ThrowArgumentException(ExceptionResource::Arg_MustBeType, ExceptionArgument::elementType);
   }
-  Int32 default[3] = {};
-  Int32* ptr = default;
+  Int32 as[3] = {};
+  Int32* ptr = as;
   *ptr = length1;
   ptr[1] = length2;
   ptr[2] = length3;
@@ -661,8 +661,8 @@ Object Array___<>::GetValue(Int32 index1, Int32 index2) {
   if (get_Rank() != 2) {
     ThrowHelper::ThrowArgumentException(ExceptionResource::Arg_Need2DArray);
   }
-  Int32 default[2] = {};
-  Int32* ptr = default;
+  Int32 as[2] = {};
+  Int32* ptr = as;
   *ptr = index1;
   ptr[1] = index2;
   TypedReference typedReference = TypedReference();
@@ -674,8 +674,8 @@ Object Array___<>::GetValue(Int32 index1, Int32 index2, Int32 index3) {
   if (get_Rank() != 3) {
     ThrowHelper::ThrowArgumentException(ExceptionResource::Arg_Need3DArray);
   }
-  Int32 default[3] = {};
-  Int32* ptr = default;
+  Int32 as[3] = {};
+  Int32* ptr = as;
   *ptr = index1;
   ptr[1] = index2;
   ptr[2] = index3;
@@ -697,8 +697,8 @@ void Array___<>::SetValue(Object value, Int32 index1, Int32 index2) {
   if (get_Rank() != 2) {
     ThrowHelper::ThrowArgumentException(ExceptionResource::Arg_Need2DArray);
   }
-  Int32 default[2] = {};
-  Int32* ptr = default;
+  Int32 as[2] = {};
+  Int32* ptr = as;
   *ptr = index1;
   ptr[1] = index2;
   TypedReference typedReference = TypedReference();
@@ -710,8 +710,8 @@ void Array___<>::SetValue(Object value, Int32 index1, Int32 index2, Int32 index3
   if (get_Rank() != 3) {
     ThrowHelper::ThrowArgumentException(ExceptionResource::Arg_Need3DArray);
   }
-  Int32 default[3] = {};
-  Int32* ptr = default;
+  Int32 as[3] = {};
+  Int32* ptr = as;
   *ptr = index1;
   ptr[1] = index2;
   ptr[2] = index3;

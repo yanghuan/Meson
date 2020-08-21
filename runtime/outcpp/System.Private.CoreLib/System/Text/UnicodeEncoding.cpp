@@ -281,16 +281,16 @@ Int32 UnicodeEncoding___::GetByteCount(Char* chars, Int32 count, EncoderNLS enco
     if (encoder->get_InternalHasFallbackBuffer()) {
       encoderFallbackBuffer = encoder->get_FallbackBuffer();
       if (encoderFallbackBuffer->get_Remaining() > 0) {
-        auto& default = encoder->get_Fallback();
-        rt::throw_exception<ArgumentException>(SR::Format(SR::get_Argument_EncoderFallbackNotEmpty(), get_EncodingName(), default == nullptr ? nullptr : default->GetType()));
+        auto& as = encoder->get_Fallback();
+        rt::throw_exception<ArgumentException>(SR::Format(SR::get_Argument_EncoderFallbackNotEmpty(), get_EncodingName(), as == nullptr ? nullptr : as->GetType()));
       }
       encoderFallbackBuffer->InternalInitialize(charStart, ptr, encoder, false);
     }
   }
   while (true) {
-    auto& default = encoderFallbackBuffer;
-    auto& extern = default == nullptr ? nullptr : default->InternalGetNextChar();
-    Char num2 = extern != nullptr ? extern : 0;
+    auto& as = encoderFallbackBuffer;
+    auto& as = as == nullptr ? nullptr : as->InternalGetNextChar();
+    Char num2 = as != nullptr ? as : 0;
     Char c2 = num2;
     Char* chars2;
     if (num2 != 0 || chars < ptr) {
@@ -399,16 +399,16 @@ Int32 UnicodeEncoding___::GetBytes(Char* chars, Int32 charCount, Byte* bytes, In
     if (encoder->get_InternalHasFallbackBuffer()) {
       encoderFallbackBuffer = encoder->get_FallbackBuffer();
       if (encoderFallbackBuffer->get_Remaining() > 0 && encoder->_throwOnOverflow) {
-        auto& default = encoder->get_Fallback();
-        rt::throw_exception<ArgumentException>(SR::Format(SR::get_Argument_EncoderFallbackNotEmpty(), get_EncodingName(), default == nullptr ? nullptr : default->GetType()));
+        auto& as = encoder->get_Fallback();
+        rt::throw_exception<ArgumentException>(SR::Format(SR::get_Argument_EncoderFallbackNotEmpty(), get_EncodingName(), as == nullptr ? nullptr : as->GetType()));
       }
       encoderFallbackBuffer->InternalInitialize(ptr4, ptr2, encoder, false);
     }
   }
   while (true) {
-    auto& default = encoderFallbackBuffer;
-    auto& extern = default == nullptr ? nullptr : default->InternalGetNextChar();
-    Char num = extern != nullptr ? extern : 0;
+    auto& as = encoderFallbackBuffer;
+    auto& as = as == nullptr ? nullptr : as->InternalGetNextChar();
+    Char num = as != nullptr ? as : 0;
     Char c2 = num;
     Char* chars2;
     if (num != 0 || chars < ptr2) {

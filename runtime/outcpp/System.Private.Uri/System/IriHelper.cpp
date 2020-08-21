@@ -56,8 +56,8 @@ String IriHelper::EscapeUnescapeIri(Char* pInput, Int32 start, Int32 end, UriCom
   ValueStringBuilder dest = ValueStringBuilder(initialCapacity);
   Array<Byte> array = nullptr;
   Int32 i = start;
-  Byte default[4] = {};
-  Span<Byte> span = Span<Byte>(default, 4);
+  Byte as[4] = {};
+  Span<Byte> span = Span<Byte>(as, 4);
   Span<Byte> destination = span;
   for (; i < end; i++) {
     Char c;

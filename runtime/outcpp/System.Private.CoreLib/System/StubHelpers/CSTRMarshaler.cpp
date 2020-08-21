@@ -100,8 +100,8 @@ String CSTRMarshaler::ConvertFixedToManaged(IntPtr cstr, Int32 length) {
   }
   Span<SByte> span = Span<SByte>((void*)cstr, length);
   Int32 num2 = num;
-  Byte default[(Int32)(UInt32)num2] = {};
-  Span<SByte> span2 = Span<SByte>(default, num2);
+  Byte as[(Int32)(UInt32)num2] = {};
+  Span<SByte> span2 = Span<SByte>(as, num2);
   Span<SByte> destination = span2;
   span.CopyTo(destination);
   destination[length - 1] = 0;

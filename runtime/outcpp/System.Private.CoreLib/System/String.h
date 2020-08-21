@@ -53,7 +53,7 @@ using namespace System::Text;
 using IEnumerable = Collections::IEnumerable;
 template <class T>
 using IEnumerable_ = Collections::Generic::IEnumerable<T>;
-CLASS(String) : public Object::in {
+CLASS(String) : public rt::String<Object::in> {
   public: using interface = rt::TypeList<IComparable<>, IEnumerable, IConvertible, IEnumerable_<Char>, IComparable<String>, IEquatable<String>, ICloneable>;
   private: struct ProbabilisticMap : public valueType<ProbabilisticMap> {
   };

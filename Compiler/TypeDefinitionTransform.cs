@@ -161,12 +161,16 @@ namespace Meson.Compiler {
         if (firstBaseType != null) {
           IEnumerable<IType> interfaces;
           if (firstBaseType.Kind == TypeKind.Class) {
-            var baseTypeName = CompilationUnit.GetTypeName(new TypeNameArgs() {
+            var baseType = CompilationUnit.GetTypeName(new TypeNameArgs() {
               Type = firstBaseType,
               Definition = type,
               IsInHead = true,
-            });
-            node.Bases.Add(new BaseSyntax(baseTypeName.WithIn()));
+            }).WithIn();
+            if (type.IsStringType()) {
+              node.Bases.Add(new BaseSyntax(IdentifierSyntax.Meson.TwoColon(type.Name).Generic(baseType)));
+            } else {
+              node.Bases.Add(new BaseSyntax(baseType));
+            }
             interfaces = type.DirectBaseTypes.Skip(1);
           } else {
             interfaces = type.DirectBaseTypes;

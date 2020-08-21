@@ -16,8 +16,8 @@ void DebuggerDisplayAttribute___::set_Target(System::Type value) {
 }
 
 void DebuggerDisplayAttribute___::ctor(String value) {
-  auto& default = value;
-  Value = (default != nullptr ? default : "");
+  auto& as = value;
+  Value = (as != nullptr ? as : "");
   Name = "";
   Type = "";
 }

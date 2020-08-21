@@ -142,8 +142,8 @@ void MethodBuilder___::ctor(String name, MethodAttributes attributes, CallingCon
   m_strName = name;
   m_module = mod;
   m_containingType = type;
-  auto& default = returnType;
-  m_returnType = (default != nullptr ? default : rt::typeof<void>());
+  auto& as = returnType;
+  m_returnType = (as != nullptr ? as : rt::typeof<void>());
   if ((attributes & MethodAttributes::Static) == 0) {
     callingConvention |= CallingConventions::HasThis;
   } else if ((attributes & MethodAttributes::Virtual) != 0) {
@@ -255,8 +255,8 @@ void MethodBuilder___::ReleaseBakedStructures() {
 }
 
 Array<Type> MethodBuilder___::GetParameterTypes() {
-  auto& default = m_parameterTypes;
-  return default != nullptr ? default : (m_parameterTypes = Array<>::in::Empty<Type>());
+  auto& as = m_parameterTypes;
+  return as != nullptr ? as : (m_parameterTypes = Array<>::in::Empty<Type>());
 }
 
 Type MethodBuilder___::GetMethodBaseReturnType(MethodBase method) {
@@ -264,8 +264,8 @@ Type MethodBuilder___::GetMethodBaseReturnType(MethodBase method) {
   if ((Object)methodInfo != nullptr) {
     return methodInfo->get_ReturnType();
   }
-  auto& default = (rt::as<ConstructorInfo>(method));
-  return default == nullptr ? nullptr : default->GetReturnType();
+  auto& as = (rt::as<ConstructorInfo>(method));
+  return as == nullptr ? nullptr : as->GetReturnType();
 }
 
 void MethodBuilder___::SetToken(MethodToken token) {
@@ -407,8 +407,8 @@ MethodInfo MethodBuilder___::GetGenericMethodDefinition() {
 
 Array<Type> MethodBuilder___::GetGenericArguments() {
   Array<Type> inst = m_inst;
-  auto& default = inst;
-  return default != nullptr ? default : Array<>::in::Empty<Type>();
+  auto& as = inst;
+  return as != nullptr ? as : Array<>::in::Empty<Type>();
 }
 
 MethodInfo MethodBuilder___::MakeGenericMethod(Array<Type> typeArguments) {
@@ -540,15 +540,15 @@ void MethodBuilder___::SetImplementationFlags(MethodImplAttributes attributes) {
 ILGenerator MethodBuilder___::GetILGenerator() {
   ThrowIfGeneric();
   ThrowIfShouldNotHaveBody();
-  auto& default = m_ilGenerator;
-  return default != nullptr ? default : (m_ilGenerator = rt::newobj<ILGenerator>((MethodBuilder)this));
+  auto& as = m_ilGenerator;
+  return as != nullptr ? as : (m_ilGenerator = rt::newobj<ILGenerator>((MethodBuilder)this));
 }
 
 ILGenerator MethodBuilder___::GetILGenerator(Int32 size) {
   ThrowIfGeneric();
   ThrowIfShouldNotHaveBody();
-  auto& default = m_ilGenerator;
-  return default != nullptr ? default : (m_ilGenerator = rt::newobj<ILGenerator>((MethodBuilder)this, size));
+  auto& as = m_ilGenerator;
+  return as != nullptr ? as : (m_ilGenerator = rt::newobj<ILGenerator>((MethodBuilder)this, size));
 }
 
 void MethodBuilder___::ThrowIfShouldNotHaveBody() {

@@ -104,8 +104,8 @@ Int32 BinaryReader___::Read() {
   if (_charBytes == nullptr) {
     _charBytes = rt::newarr<Array<Byte>>(128);
   }
-  Char default[1] = {};
-  Span<Char> chars = default;
+  Char as[1] = {};
+  Span<Char> chars = as;
   while (num == 0) {
     Int32 num3 = (!_2BytesPerChar) ? 1 : 2;
     Int32 num4 = _stream->ReadByte();

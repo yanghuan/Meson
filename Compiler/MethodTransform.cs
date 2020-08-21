@@ -1,9 +1,8 @@
 using System;
 using System.Collections.Generic;
-using System.ComponentModel.Design;
 using System.Diagnostics.Contracts;
 using System.Linq;
-using System.Reflection;
+
 using System.Text;
 using ICSharpCode.Decompiler.CSharp;
 using ICSharpCode.Decompiler.CSharp.Resolver;

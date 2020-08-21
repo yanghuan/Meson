@@ -897,8 +897,8 @@ IAsyncResult Stream___::BlockingBeginRead(Array<Byte> buffer, Int32 offset, Int3
     synchronousAsyncResult = rt::newobj<SynchronousAsyncResult>(bytesRead, state);
   } catch (IOException ex) {
   }
-  auto& default = callback;
-  default == nullptr ? nullptr : default->Invoke(synchronousAsyncResult);
+  auto& as = callback;
+  as == nullptr ? nullptr : as->Invoke(synchronousAsyncResult);
   return synchronousAsyncResult;
 }
 
@@ -913,8 +913,8 @@ IAsyncResult Stream___::BlockingBeginWrite(Array<Byte> buffer, Int32 offset, Int
     synchronousAsyncResult = rt::newobj<SynchronousAsyncResult>(state);
   } catch (IOException ex) {
   }
-  auto& default = callback;
-  default == nullptr ? nullptr : default->Invoke(synchronousAsyncResult);
+  auto& as = callback;
+  as == nullptr ? nullptr : as->Invoke(synchronousAsyncResult);
   return synchronousAsyncResult;
 }
 

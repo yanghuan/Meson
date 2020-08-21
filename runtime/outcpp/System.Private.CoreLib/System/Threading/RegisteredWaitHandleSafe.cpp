@@ -33,8 +33,8 @@ Boolean RegisteredWaitHandleSafe___::Unregister(WaitHandle waitObject) {
       flag2 = true;
       try {
         if (ValidHandle()) {
-          auto& default = waitObject;
-          flag = UnregisterWaitNative(GetHandle(), default == nullptr ? nullptr : default->get_SafeWaitHandle());
+          auto& as = waitObject;
+          flag = UnregisterWaitNative(GetHandle(), as == nullptr ? nullptr : as->get_SafeWaitHandle());
           if (flag) {
             if (bReleaseNeeded) {
               m_internalWaitObject->get_SafeWaitHandle()->DangerousRelease();

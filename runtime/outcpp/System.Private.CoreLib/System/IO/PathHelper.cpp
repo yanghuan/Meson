@@ -19,8 +19,8 @@ using namespace System::Runtime::InteropServices;
 using namespace System::Text;
 
 String PathHelper::Normalize(String path) {
-  Char default[260] = {};
-  Span<Char> initialBuffer = default;
+  Char as[260] = {};
+  Span<Char> initialBuffer = as;
   ValueStringBuilder builder = ValueStringBuilder(initialBuffer);
   GetFullPathName(MemoryExtensions::AsSpan(path), builder);
   String result = (MemoryExtensions::IndexOf(builder.AsSpan(), 126) >= 0) ? TryExpandShortFileName(builder, path) : (MemoryExtensions::Equals(MemoryExtensions, builder.AsSpan(), MemoryExtensions::AsSpan(path), StringComparison::Ordinal) ? path : builder.ToString());
@@ -29,8 +29,8 @@ String PathHelper::Normalize(String path) {
 }
 
 String PathHelper::Normalize(ValueStringBuilder& path) {
-  Char default[260] = {};
-  Span<Char> initialBuffer = default;
+  Char as[260] = {};
+  Span<Char> initialBuffer = as;
   ValueStringBuilder builder = ValueStringBuilder(initialBuffer);
   GetFullPathName(path.AsSpan(true), builder);
   String result = (MemoryExtensions::IndexOf(builder.AsSpan(), 126) >= 0) ? TryExpandShortFileName(builder, nullptr) : builder.ToString();

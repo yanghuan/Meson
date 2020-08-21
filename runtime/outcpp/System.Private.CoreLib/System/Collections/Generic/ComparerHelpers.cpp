@@ -35,8 +35,8 @@ Object ComparerHelpers::CreateDefaultComparer(Type type) {
   }
 
 
-  auto& default = obj;
-  return default != nullptr ? default : RuntimeTypeHandle::CreateInstanceForAnotherGenericParameter((RuntimeType)rt::typeof<ObjectComparer<Object>>(), runtimeType);
+  auto& as = obj;
+  return as != nullptr ? as : RuntimeTypeHandle::CreateInstanceForAnotherGenericParameter((RuntimeType)rt::typeof<ObjectComparer<Object>>(), runtimeType);
 }
 
 Object ComparerHelpers::TryCreateNullableComparer(RuntimeType nullableType) {
@@ -72,8 +72,8 @@ Object ComparerHelpers::CreateDefaultEqualityComparer(Type type) {
 
 
 
-  auto& default = obj;
-  return default != nullptr ? default : RuntimeTypeHandle::CreateInstanceForAnotherGenericParameter((RuntimeType)rt::typeof<ObjectEqualityComparer<Object>>(), runtimeType);
+  auto& as = obj;
+  return as != nullptr ? as : RuntimeTypeHandle::CreateInstanceForAnotherGenericParameter((RuntimeType)rt::typeof<ObjectEqualityComparer<Object>>(), runtimeType);
 }
 
 Object ComparerHelpers::TryCreateNullableEqualityComparer(RuntimeType nullableType) {

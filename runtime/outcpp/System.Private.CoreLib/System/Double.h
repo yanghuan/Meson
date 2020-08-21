@@ -52,7 +52,7 @@ struct Double : public valueType<Double> {
   public: String ToString(IFormatProvider provider);
   public: String ToString(String format, IFormatProvider provider);
   public: template <class T0 = ReadOnlySpan<Char>>
-  Boolean TryFormat(Span<Char> destination, Int32& charsWritten, T0 format = rt::default, IFormatProvider provider = nullptr);
+  Boolean TryFormat(Span<Char> destination, Int32& charsWritten, T0 format = rt::default__, IFormatProvider provider = nullptr);
   public: static Double Parse(String s);
   public: static Double Parse(String s, NumberStyles style);
   public: static Double Parse(String s, IFormatProvider provider);

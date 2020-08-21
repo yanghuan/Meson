@@ -87,7 +87,7 @@ struct TimeSpan : public valueType<TimeSpan> {
   public: String ToString(String format);
   public: String ToString(String format, IFormatProvider formatProvider);
   public: template <class T0 = ReadOnlySpan<Char>>
-  Boolean TryFormat(Span<Char> destination, Int32& charsWritten, T0 format = rt::default, IFormatProvider formatProvider = nullptr);
+  Boolean TryFormat(Span<Char> destination, Int32& charsWritten, T0 format = rt::default__, IFormatProvider formatProvider = nullptr);
   public: static TimeSpan op_UnaryNegation(TimeSpan t);
   public: static TimeSpan op_Subtraction(TimeSpan t1, TimeSpan t2);
   public: static TimeSpan op_UnaryPlus(TimeSpan t);

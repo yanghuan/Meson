@@ -27,9 +27,9 @@ using namespace System::Threading;
 using namespace System::Threading::Tasks;
 
 Boolean TranscodingStream___::get_CanRead() {
-  auto& default = _innerStream;
-  auto& extern = default == nullptr ? nullptr : default->get_CanRead();
-  return extern != nullptr ? extern : false;
+  auto& as = _innerStream;
+  auto& as = as == nullptr ? nullptr : as->get_CanRead();
+  return as != nullptr ? as : false;
 }
 
 Boolean TranscodingStream___::get_CanSeek() {
@@ -37,9 +37,9 @@ Boolean TranscodingStream___::get_CanSeek() {
 }
 
 Boolean TranscodingStream___::get_CanWrite() {
-  auto& default = _innerStream;
-  auto& extern = default == nullptr ? nullptr : default->get_CanWrite();
-  return extern != nullptr ? extern : false;
+  auto& as = _innerStream;
+  auto& as = as == nullptr ? nullptr : as->get_CanWrite();
+  return as != nullptr ? as : false;
 }
 
 Int64 TranscodingStream___::get_Length() {
@@ -235,8 +235,8 @@ ValueTask<Int32> TranscodingStream___::ReadAsync(Memory<Byte> buffer, Cancellati
 }
 
 Int32 TranscodingStream___::ReadByte() {
-  Byte default[1] = {};
-  Span<Byte> span = Span<Byte>(default, 1);
+  Byte as[1] = {};
+  Span<Byte> span = Span<Byte>(as, 1);
   Span<Byte> buffer = span;
   if (Read(buffer) != 0) {
     return buffer[0];

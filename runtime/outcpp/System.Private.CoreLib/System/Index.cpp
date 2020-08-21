@@ -90,8 +90,8 @@ String Index::ToString() {
 }
 
 String Index::ToStringFromEnd() {
-  Char default[11] = {};
-  Span<Char> span = default;
+  Char as[11] = {};
+  Span<Char> span = as;
   Int32 charsWritten;
   Boolean flag = ((UInt32)get_Value()).TryFormat(span.Slice(1), charsWritten);
   span[0] = 94;

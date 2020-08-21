@@ -20,8 +20,8 @@ void FrameworkEventSource___::WriteEvent(Int32 eventId, Int64 arg1, Int32 arg2, 
     {
       Char* ptr = arg3;
       Char* value = ptr;
-      EventSource::in::EventData default[6] = {};
-      EventSource::in::EventData* ptr2 = default;
+      EventSource::in::EventData as[6] = {};
+      EventSource::in::EventData* ptr2 = as;
       ptr2->set_DataPointer((IntPtr)(void*)(&arg1));
       ptr2->set_Size(8);
       ptr2->set_Reserved(0);
@@ -53,8 +53,8 @@ void FrameworkEventSource___::WriteEvent(Int32 eventId, Int64 arg1, Int32 arg2, 
     {
       Char* ptr = arg3;
       Char* value = ptr;
-      EventSource::in::EventData default[3] = {};
-      EventSource::in::EventData* ptr2 = default;
+      EventSource::in::EventData as[3] = {};
+      EventSource::in::EventData* ptr2 = as;
       ptr2->set_DataPointer((IntPtr)(void*)(&arg1));
       ptr2->set_Size(8);
       ptr2->set_Reserved(0);

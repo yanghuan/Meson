@@ -70,8 +70,8 @@ Boolean PathInternal::AreRootsEqual(String first, String second, StringCompariso
 }
 
 String PathInternal::RemoveRelativeSegments(String path, Int32 rootLength) {
-  Char default[260] = {};
-  Span<Char> initialBuffer = default;
+  Char as[260] = {};
+  Span<Char> initialBuffer = as;
   ValueStringBuilder sb = ValueStringBuilder(initialBuffer);
   if (RemoveRelativeSegments(MemoryExtensions::AsSpan(path), rootLength, sb)) {
     path = sb.ToString();
@@ -291,8 +291,8 @@ String PathInternal::NormalizeDirectorySeparators(String path) {
   if (flag) {
     return path;
   }
-  Char default[260] = {};
-  Span<Char> initialBuffer = default;
+  Char as[260] = {};
+  Span<Char> initialBuffer = as;
   ValueStringBuilder valueStringBuilder = ValueStringBuilder(initialBuffer);
   Int32 num = 0;
   if (IsDirectorySeparator(path[num])) {

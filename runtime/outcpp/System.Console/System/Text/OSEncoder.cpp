@@ -40,8 +40,8 @@ Int32 OSEncoder___::GetByteCount(Array<Char> chars, Int32 index, Int32 count, Bo
 }
 
 Int32 OSEncoder___::ConvertWithLeftOverChar(Char* chars, Int32 count, Byte* bytes, Int32 byteCount) {
-  Char default[2] = {};
-  Char* ptr = default;
+  Char as[2] = {};
+  Char* ptr = as;
   *ptr = _charLeftOver;
   Int32 num = 0;
   if (count > 0 && Char::IsLowSurrogate(*chars)) {

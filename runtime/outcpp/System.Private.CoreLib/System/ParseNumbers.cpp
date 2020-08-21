@@ -139,8 +139,8 @@ Int32 ParseNumbers::StringToInt(ReadOnlySpan<Char> s, Int32 radix, Int32 flags, 
 }
 
 String ParseNumbers::IntToString(Int32 n, Int32 radix, Int32 width, Char paddingChar, Int32 flags) {
-  Char default[66] = {};
-  Span<Char> span = default;
+  Char as[66] = {};
+  Span<Char> span = as;
   if (radix < 2 || radix > 36) {
     rt::throw_exception<ArgumentException>(SR::get_Arg_InvalidBase(), "radix");
   }
@@ -229,8 +229,8 @@ String ParseNumbers::IntToString(Int32 n, Int32 radix, Int32 width, Char padding
 }
 
 String ParseNumbers::LongToString(Int64 n, Int32 radix, Int32 width, Char paddingChar, Int32 flags) {
-  Char default[67] = {};
-  Span<Char> span = default;
+  Char as[67] = {};
+  Span<Char> span = as;
   if (radix < 2 || radix > 36) {
     rt::throw_exception<ArgumentException>(SR::get_Arg_InvalidBase(), "radix");
   }

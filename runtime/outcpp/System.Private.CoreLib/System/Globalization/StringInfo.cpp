@@ -71,8 +71,8 @@ String StringInfo___::SubstringByTextElements(Int32 startingTextElement) {
 }
 
 String StringInfo___::SubstringByTextElements(Int32 startingTextElement, Int32 lengthInTextElements) {
-  auto& default = get_Indexes();
-  Array<Int32> array = default != nullptr ? default : Array<>::in::Empty<Int32>();
+  auto& as = get_Indexes();
+  Array<Int32> array = as != nullptr ? as : Array<>::in::Empty<Int32>();
   if ((UInt32)startingTextElement >= (UInt32)array->get_Length()) {
     rt::throw_exception<ArgumentOutOfRangeException>("startingTextElement", startingTextElement, SR::get_Arg_ArgumentOutOfRangeException());
   }
@@ -117,8 +117,8 @@ Array<Int32> StringInfo___::ParseCombiningCharacters(String str) {
   if (str->get_Length() > 256) {
     return ParseCombiningCharactersForLargeString(str);
   }
-  Int32 default[str->get_Length()] = {};
-  Span<Int32> span = default;
+  Int32 as[str->get_Length()] = {};
+  Span<Int32> span = as;
   Int32 length = 0;
   ReadOnlySpan<Char> input = str;
   while (!input.get_IsEmpty()) {

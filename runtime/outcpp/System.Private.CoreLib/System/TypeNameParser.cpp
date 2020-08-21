@@ -146,8 +146,8 @@ String TypeNameParser___::EscapeTypeName(String name) {
   if (name->IndexOfAny(SPECIAL_CHARS) < 0) {
     return name;
   }
-  Char default[64] = {};
-  Span<Char> initialBuffer = default;
+  Char as[64] = {};
+  Span<Char> initialBuffer = as;
   ValueStringBuilder valueStringBuilder = ValueStringBuilder(initialBuffer);
 }
 

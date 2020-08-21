@@ -77,13 +77,13 @@ String Exception___::get_SerializationStackTraceString() {
 }
 
 String Exception___::get_Message() {
-  auto& default = _message;
-  return default != nullptr ? default : SR::Format(SR::get_Exception_WasThrown(), GetClassName());
+  auto& as = _message;
+  return as != nullptr ? as : SR::Format(SR::get_Exception_WasThrown(), GetClassName());
 }
 
 IDictionary Exception___::get_Data() {
-  auto& default = _data;
-  return default != nullptr ? default : (_data = CreateDataContainer());
+  auto& as = _data;
+  return as != nullptr ? as : (_data = CreateDataContainer());
 }
 
 Exception Exception___::get_InnerException() {
@@ -99,8 +99,8 @@ void Exception___::set_HelpLink(String value) {
 }
 
 String Exception___::get_Source() {
-  auto& default = _source;
-  return default != nullptr ? default : (_source = CreateSourceName());
+  auto& as = _source;
+  return as != nullptr ? as : (_source = CreateSourceName());
 }
 
 void Exception___::set_Source(String value) {
@@ -171,10 +171,10 @@ void Exception___::InternalPreserveStackTrace() {
 
 void Exception___::RestoreDispatchState(DispatchState& dispatchState) {
   if (!IsImmutableAgileException((Exception)this)) {
-    auto& default = dispatchState.StackTrace;
-    Array<Byte> currentStackTrace = (Array<Byte>)default == nullptr ? nullptr : default->Clone();
-    auto& extern = dispatchState.DynamicMethods;
-    Array<Object> dynamicMethodArray = (Array<Object>)extern == nullptr ? nullptr : extern->Clone();
+    auto& as = dispatchState.StackTrace;
+    Array<Byte> currentStackTrace = (Array<Byte>)as == nullptr ? nullptr : as->Clone();
+    auto& as = dispatchState.DynamicMethods;
+    Array<Object> dynamicMethodArray = (Array<Object>)as == nullptr ? nullptr : as->Clone();
     _watsonBuckets = dispatchState.WatsonBuckets;
     _ipForWatsonBuckets = dispatchState.IpForWatsonBuckets;
     _remoteStackTraceString = dispatchState.RemoteStackTrace;
@@ -282,9 +282,9 @@ String Exception___::ToString() {
   };
   String className = GetClassName();
   String message = get_Message();
-  auto& default = _innerException;
-  auto& extern = default == nullptr ? nullptr : default->ToString();
-  String text = extern != nullptr ? extern : "";
+  auto& as = _innerException;
+  auto& as = as == nullptr ? nullptr : as->ToString();
+  String text = as != nullptr ? as : "";
   String exception_EndOfInnerExceptionStack = SR::get_Exception_EndOfInnerExceptionStack();
   String stackTrace = get_StackTrace();
   Int32 num = className->get_Length();

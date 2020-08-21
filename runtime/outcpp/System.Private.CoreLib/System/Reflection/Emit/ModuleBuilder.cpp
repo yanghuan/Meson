@@ -286,11 +286,11 @@ Int32 ModuleBuilder___::GetMemberRefToken(MethodBase method, IEnumerable<Type> o
         methodBase = method;
       } else if (method->get_IsGenericMethod()) {
         methodBase = methodInfo->GetGenericMethodDefinition();
-        auto& default = methodBase->get_DeclaringType();
-        methodBase = methodBase->get_Module()->ResolveMethod(method->get_MetadataToken(), default == nullptr ? nullptr : default->GetGenericArguments(), methodBase->GetGenericArguments());
+        auto& as = methodBase->get_DeclaringType();
+        methodBase = methodBase->get_Module()->ResolveMethod(method->get_MetadataToken(), as == nullptr ? nullptr : as->GetGenericArguments(), methodBase->GetGenericArguments());
       } else {
-        auto& default = method->get_DeclaringType();
-        methodBase = method->get_Module()->ResolveMethod(method->get_MetadataToken(), default == nullptr ? nullptr : default->GetGenericArguments(), nullptr);
+        auto& as = method->get_DeclaringType();
+        methodBase = method->get_Module()->ResolveMethod(method->get_MetadataToken(), as == nullptr ? nullptr : as->GetGenericArguments(), nullptr);
       }
 
 

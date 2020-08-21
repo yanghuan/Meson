@@ -98,8 +98,8 @@ void SecureString___::Initialize(ReadOnlySpan<Char> value) {
   } catch (...) {
   } finally: {
     ProtectMemory();
-    auto& default = bufferToRelease;
-    default == nullptr ? nullptr : default->DangerousRelease();
+    auto& as = bufferToRelease;
+    as == nullptr ? nullptr : as->DangerousRelease();
   }
 }
 
@@ -139,8 +139,8 @@ void SecureString___::AppendChar(Char c) {
     } catch (...) {
     } finally: {
       ProtectMemory();
-      auto& default = bufferToRelease;
-      default == nullptr ? nullptr : default->DangerousRelease();
+      auto& as = bufferToRelease;
+      as == nullptr ? nullptr : as->DangerousRelease();
     }
   }
 }
@@ -156,8 +156,8 @@ void SecureString___::Clear() {
       AcquireSpan(bufferToRelease).Clear();
     } catch (...) {
     } finally: {
-      auto& default = bufferToRelease;
-      default == nullptr ? nullptr : default->DangerousRelease();
+      auto& as = bufferToRelease;
+      as == nullptr ? nullptr : as->DangerousRelease();
     }
   }
 }
@@ -199,8 +199,8 @@ void SecureString___::InsertAt(Int32 index, Char c) {
     } catch (...) {
     } finally: {
       ProtectMemory();
-      auto& default = bufferToRelease;
-      default == nullptr ? nullptr : default->DangerousRelease();
+      auto& as = bufferToRelease;
+      as == nullptr ? nullptr : as->DangerousRelease();
     }
   }
 }
@@ -232,8 +232,8 @@ void SecureString___::RemoveAt(Int32 index) {
     } catch (...) {
     } finally: {
       ProtectMemory();
-      auto& default = bufferToRelease;
-      default == nullptr ? nullptr : default->DangerousRelease();
+      auto& as = bufferToRelease;
+      as == nullptr ? nullptr : as->DangerousRelease();
     }
   }
 }
@@ -253,8 +253,8 @@ void SecureString___::SetAt(Int32 index, Char c) {
     } catch (...) {
     } finally: {
       ProtectMemory();
-      auto& default = bufferToRelease;
-      default == nullptr ? nullptr : default->DangerousRelease();
+      auto& as = bufferToRelease;
+      as == nullptr ? nullptr : as->DangerousRelease();
     }
   }
 }
@@ -302,8 +302,8 @@ IntPtr SecureString___::MarshalToBSTR() {
         Marshal::FreeBSTR(intPtr);
       }
       ProtectMemory();
-      auto& default = bufferToRelease;
-      default == nullptr ? nullptr : default->DangerousRelease();
+      auto& as = bufferToRelease;
+      as == nullptr ? nullptr : as->DangerousRelease();
     }
   }
 }
@@ -341,8 +341,8 @@ IntPtr SecureString___::MarshalToString(Boolean globalAlloc, Boolean unicode) {
         }
       }
       ProtectMemory();
-      auto& default = bufferToRelease;
-      default == nullptr ? nullptr : default->DangerousRelease();
+      auto& as = bufferToRelease;
+      as == nullptr ? nullptr : as->DangerousRelease();
     }
   }
 }

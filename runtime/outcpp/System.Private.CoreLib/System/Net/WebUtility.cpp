@@ -94,8 +94,8 @@ String WebUtility::HtmlEncode(String value) {
   if (num == -1) {
     return value;
   }
-  Char default[256] = {};
-  Span<Char> span = (value->get_Length() >= 80) ? ((Span<Char>)nullptr) : default;
+  Char as[256] = {};
+  Span<Char> span = (value->get_Length() >= 80) ? ((Span<Char>)nullptr) : as;
   Span<Char> span2 = span;
   ValueStringBuilder output = (span2 != nullptr) ? ValueStringBuilder(span2) : ValueStringBuilder(value->get_Length() + 200);
   output.Append(input.Slice(0, num));
@@ -117,8 +117,8 @@ void WebUtility::HtmlEncode(String value, TextWriter output) {
     output->Write(value);
     return;
   }
-  Char default[256] = {};
-  Span<Char> span = (value->get_Length() >= 80) ? ((Span<Char>)nullptr) : default;
+  Char as[256] = {};
+  Span<Char> span = (value->get_Length() >= 80) ? ((Span<Char>)nullptr) : as;
   Span<Char> span2 = span;
   ValueStringBuilder output2 = (span2 != nullptr) ? ValueStringBuilder(span2) : ValueStringBuilder(value->get_Length() + 200);
   output2.Append(input.Slice(0, num));
@@ -187,8 +187,8 @@ String WebUtility::HtmlDecode(String value) {
   if (num == -1) {
     return value;
   }
-  Char default[256] = {};
-  Span<Char> span = (value->get_Length() > 256) ? ((Span<Char>)nullptr) : default;
+  Char as[256] = {};
+  Span<Char> span = (value->get_Length() > 256) ? ((Span<Char>)nullptr) : as;
   Span<Char> span2 = span;
   ValueStringBuilder output = (span2 != nullptr) ? ValueStringBuilder(span2) : ValueStringBuilder(value->get_Length());
   output.Append(input.Slice(0, num));
@@ -210,8 +210,8 @@ void WebUtility::HtmlDecode(String value, TextWriter output) {
     output->Write(value);
     return;
   }
-  Char default[256] = {};
-  Span<Char> span = (value->get_Length() > 256) ? ((Span<Char>)nullptr) : default;
+  Char as[256] = {};
+  Span<Char> span = (value->get_Length() > 256) ? ((Span<Char>)nullptr) : as;
   Span<Char> span2 = span;
   ValueStringBuilder output2 = (span2 != nullptr) ? ValueStringBuilder(span2) : ValueStringBuilder(value->get_Length());
   output2.Append(input.Slice(0, num));

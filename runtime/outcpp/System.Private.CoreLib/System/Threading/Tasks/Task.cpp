@@ -66,13 +66,13 @@ void DelayPromise___::CompleteTimedOut() {
 }
 
 void DelayPromise___::Cleanup() {
-  auto& default = _timer;
-  default == nullptr ? nullptr : default->Close();
+  auto& as = _timer;
+  as == nullptr ? nullptr : as->Close();
 }
 
 void Task___<>::ContingentProperties___::SetCompleted() {
-  auto& default = m_completionEvent;
-  default == nullptr ? nullptr : default->Set();
+  auto& as = m_completionEvent;
+  as == nullptr ? nullptr : as->Set();
 }
 
 void Task___<>::ContingentProperties___::UnregisterCancellationCallback() {
@@ -190,8 +190,8 @@ void WhenAllPromise___<>::Invoke(Task<> completedTask) {
 }
 
 Task<> Task___<>::get_ParentForDebugger() {
-  auto& default = m_contingentProperties;
-  return default == nullptr ? nullptr : default->m_parent;
+  auto& as = m_contingentProperties;
+  return as == nullptr ? nullptr : as->m_parent;
 }
 
 Int32 Task___<>::get_StateFlagsForDebugger() {
@@ -199,9 +199,9 @@ Int32 Task___<>::get_StateFlagsForDebugger() {
 }
 
 String Task___<>::get_DebuggerDisplayMethodDescription() {
-  auto& default = m_action;
-  auto& extern = default == nullptr ? nullptr : default->get_Method()->ToString();
-  return extern != nullptr ? extern : "{null}";
+  auto& as = m_action;
+  auto& as = as == nullptr ? nullptr : as->get_Method()->ToString();
+  return as != nullptr ? as : "{null}";
 }
 
 TaskCreationOptions Task___<>::get_Options() {
@@ -229,8 +229,8 @@ Int32 Task___<>::get_Id() {
 }
 
 Nullable<Int32> Task___<>::get_CurrentId() {
-  auto& default = get_InternalCurrent();
-  return default == nullptr ? nullptr : default->get_Id();
+  auto& as = get_InternalCurrent();
+  return as == nullptr ? nullptr : as->get_Id();
 }
 
 Task<> Task___<>::get_InternalCurrent() {
@@ -287,9 +287,9 @@ Boolean Task___<>::get_IsCancellationRequested() {
 }
 
 CancellationToken Task___<>::get_CancellationToken() {
-  auto& default = Volatile::Read(m_contingentProperties);
-  auto& extern = default == nullptr ? nullptr : default->m_cancellationToken;
-  return extern != nullptr ? extern : CancellationToken();
+  auto& as = Volatile::Read(m_contingentProperties);
+  auto& as = as == nullptr ? nullptr : as->m_cancellationToken;
+  return as != nullptr ? as : CancellationToken();
 }
 
 Boolean Task___<>::get_IsCancellationAcknowledged() {
@@ -363,9 +363,9 @@ ExecutionContext Task___<>::get_CapturedContext() {
   if ((m_stateFlags & 536870912) == 536870912) {
     return nullptr;
   }
-  auto& default = m_contingentProperties;
-  auto& extern = default == nullptr ? nullptr : default->m_capturedContext;
-  return extern != nullptr ? extern : ExecutionContext::in::Default;
+  auto& as = m_contingentProperties;
+  auto& as = as == nullptr ? nullptr : as->m_capturedContext;
+  return as != nullptr ? as : ExecutionContext::in::Default;
 }
 
 void Task___<>::set_CapturedContext(ExecutionContext value) {
@@ -571,13 +571,13 @@ void Task___<>::FireTaskScheduledIfNeeded(TaskScheduler ts) {
   if ((m_stateFlags & 1073741824) == 0) {
     m_stateFlags |= 1073741824;
     Task<> internalCurrent = get_InternalCurrent();
-    auto& default = m_contingentProperties;
-    Task<> task = default == nullptr ? nullptr : default->m_parent;
-    auto& extern = internalCurrent;
-    auto& ref = extern == nullptr ? nullptr : extern->get_Id();
-    auto& out = task;
-    auto& byte = out == nullptr ? nullptr : out->get_Id();
-    TplEventSource::in::Log->TaskScheduled(ts->get_Id(), ref != nullptr ? ref : 0, get_Id(), byte != nullptr ? byte : 0, (Int32)get_Options());
+    auto& as = m_contingentProperties;
+    Task<> task = as == nullptr ? nullptr : as->m_parent;
+    auto& as = internalCurrent;
+    auto& in = as == nullptr ? nullptr : as->get_Id();
+    auto& ref = task;
+    auto& out = ref == nullptr ? nullptr : ref->get_Id();
+    TplEventSource::in::Log->TaskScheduled(ts->get_Id(), in != nullptr ? in : 0, get_Id(), out != nullptr ? out : 0, (Int32)get_Options());
   }
 }
 
@@ -694,8 +694,8 @@ Task<>::in::ContingentProperties Task___<>::EnsureContingentPropertiesInitialize
 }
 
 Task<>::in::ContingentProperties Task___<>::EnsureContingentPropertiesInitializedUnsafe() {
-  auto& default = m_contingentProperties;
-  return default != nullptr ? default : (m_contingentProperties = rt::newobj<ContingentProperties>());
+  auto& as = m_contingentProperties;
+  return as != nullptr ? as : (m_contingentProperties = rt::newobj<ContingentProperties>());
 }
 
 Boolean Task___<>::IsCompletedMethod(Int32 flags) {
@@ -791,8 +791,8 @@ ExceptionDispatchInfo Task___<>::GetCancellationExceptionDispatchInfo() {
   if (contingentProperties == nullptr) {
     return nullptr;
   }
-  auto& default = contingentProperties->m_exceptionsHolder;
-  return default == nullptr ? nullptr : default->GetCancellationExceptionDispatchInfo();
+  auto& as = contingentProperties->m_exceptionsHolder;
+  return as == nullptr ? nullptr : as->GetCancellationExceptionDispatchInfo();
 }
 
 void Task___<>::ThrowIfExceptional(Boolean includeTaskCanceledExceptions) {
@@ -813,8 +813,8 @@ void Task___<>::ThrowAsync(Exception exception, SynchronizationContext targetCon
 }
 
 void Task___<>::UpdateExceptionObservedStatus() {
-  auto& default = m_contingentProperties;
-  Task<> task = default == nullptr ? nullptr : default->m_parent;
+  auto& as = m_contingentProperties;
+  Task<> task = as == nullptr ? nullptr : as->m_parent;
   if (task != nullptr && (get_Options() & TaskCreationOptions::AttachedToParent) != 0 && (task->get_CreationOptions() & TaskCreationOptions::DenyChildAttach) == 0 && get_InternalCurrent() == task) {
     m_stateFlags |= 524288;
   }
@@ -894,8 +894,8 @@ void Task___<>::FinishStageThree() {
 }
 
 void Task___<>::NotifyParentIfPotentiallyAttachedTask() {
-  auto& default = m_contingentProperties;
-  Task<> task = default == nullptr ? nullptr : default->m_parent;
+  auto& as = m_contingentProperties;
+  Task<> task = as == nullptr ? nullptr : as->m_parent;
   if (task != nullptr && (task->get_CreationOptions() & TaskCreationOptions::DenyChildAttach) == 0 && (m_stateFlags & 65535 & 4) != 0) {
     task->ProcessChildCompletion((Task<>)this);
   }
@@ -1018,8 +1018,8 @@ void Task___<>::InnerInvoke() {
   if (action != nullptr) {
     action();
   } else {
-    auto& default = (rt::as<Action<Object>>(m_action));
-    default == nullptr ? nullptr : default->Invoke(m_stateObject);
+    auto& as = (rt::as<Action<Object>>(m_action));
+    as == nullptr ? nullptr : as->Invoke(m_stateObject);
   }
 }
 
@@ -1157,11 +1157,11 @@ Boolean Task___<>::InternalWaitCore(Int32 millisecondsTimeout, CancellationToken
   Boolean flag = log->IsEnabled();
   if (flag) {
     Task<> internalCurrent = get_InternalCurrent();
-    auto& default = internalCurrent;
-    auto& extern = default == nullptr ? nullptr : default->m_taskScheduler->get_Id();
-    auto& ref = internalCurrent;
-    auto& out = ref == nullptr ? nullptr : ref->get_Id();
-    log->TaskWaitBegin(extern != nullptr ? extern : TaskScheduler::in::get_Default()->get_Id(), out != nullptr ? out : 0, get_Id(), TplEventSource::in::TaskWaitBehavior::Synchronous, 0);
+    auto& as = internalCurrent;
+    auto& as = as == nullptr ? nullptr : as->m_taskScheduler->get_Id();
+    auto& in = internalCurrent;
+    auto& ref = in == nullptr ? nullptr : in->get_Id();
+    log->TaskWaitBegin(as != nullptr ? as : TaskScheduler::in::get_Default()->get_Id(), ref != nullptr ? ref : 0, get_Id(), TplEventSource::in::TaskWaitBehavior::Synchronous, 0);
   }
   Debugger::NotifyOfCrossThreadDependency();
   Boolean result = (millisecondsTimeout == -1 && !cancellationToken.get_CanBeCanceled() && WrappedTryRunInline() && get_IsCompleted()) || SpinThenBlockingWait(millisecondsTimeout, cancellationToken);
@@ -1227,9 +1227,9 @@ void Task___<>::InternalCancel() {
   if ((m_stateFlags & 65536) != 0) {
     TaskScheduler taskScheduler = m_taskScheduler;
     try {
-      auto& default = taskScheduler;
-      auto& extern = default == nullptr ? nullptr : default->TryDequeue((Task<>)this);
-      flag = (extern != nullptr ? extern : false);
+      auto& as = taskScheduler;
+      auto& as = as == nullptr ? nullptr : as->TryDequeue((Task<>)this);
+      flag = (as != nullptr ? as : false);
     } catch (Exception innerException) {
     }
   }
@@ -1366,8 +1366,8 @@ void Task___<>::RunContinuations(Object continuationObject) {
             if (continueWithTaskContinuation != nullptr) {
               if ((continueWithTaskContinuation->m_options & TaskContinuationOptions::ExecuteSynchronously) == 0) {
                 list[i] = nullptr;
-                auto& default = tplEventSource;
-                default == nullptr ? nullptr : default->RunningContinuationList(get_Id(), i, continueWithTaskContinuation);
+                auto& as = tplEventSource;
+                as == nullptr ? nullptr : as->RunningContinuationList(get_Id(), i, continueWithTaskContinuation);
                 continueWithTaskContinuation->Run((Task<>)this, false);
               }
             } else {
@@ -1376,8 +1376,8 @@ void Task___<>::RunContinuations(Object continuationObject) {
               }
               if (flag2) {
                 list[i] = nullptr;
-                auto& default = tplEventSource;
-                default == nullptr ? nullptr : default->RunningContinuationList(get_Id(), i, obj);
+                auto& as = tplEventSource;
+                as == nullptr ? nullptr : as->RunningContinuationList(get_Id(), i, obj);
                 IAsyncStateMachineBox asyncStateMachineBox2 = rt::as<IAsyncStateMachineBox>(obj);
                 if (asyncStateMachineBox2 == nullptr) {
                   Action<> action2 = rt::as<Action<>>(obj);
@@ -1400,8 +1400,8 @@ void Task___<>::RunContinuations(Object continuationObject) {
             continue;
           }
           list[j] = nullptr;
-          auto& default = tplEventSource;
-          default == nullptr ? nullptr : default->RunningContinuationList(get_Id(), j, obj2);
+          auto& as = tplEventSource;
+          as == nullptr ? nullptr : as->RunningContinuationList(get_Id(), j, obj2);
           IAsyncStateMachineBox asyncStateMachineBox3 = rt::as<IAsyncStateMachineBox>(obj2);
           if (asyncStateMachineBox3 == nullptr) {
             Action<> action3 = rt::as<Action<>>(obj2);
@@ -1977,8 +1977,8 @@ Array<Delegate> Task___<>::GetDelegatesFromContinuationObject(Object continuatio
 
 Task<> Task___<>::GetActiveTaskFromId(Int32 taskId) {
   Task<> value = nullptr;
-  auto& default = s_currentActiveTasks;
-  default == nullptr ? nullptr : default->TryGetValue(taskId, value);
+  auto& as = s_currentActiveTasks;
+  as == nullptr ? nullptr : as->TryGetValue(taskId, value);
   return value;
 }
 

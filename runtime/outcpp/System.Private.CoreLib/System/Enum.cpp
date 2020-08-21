@@ -240,8 +240,8 @@ String Enum___::InternalFlagsFormat(RuntimeType enumType, EnumInfo enumInfo, UIn
     }
     return names[0];
   }
-  Int32 default[64] = {};
-  Span<Int32> span = default;
+  Int32 as[64] = {};
+  Span<Int32> span = as;
   Int32 num;
   for (num = values->get_Length() - 1; num >= 0; num--) {
     if (values[num] == resultValue) {
@@ -617,12 +617,12 @@ String Enum___::Format(Type enumType, Object value, String format) {
     rt::throw_exception<ArgumentException>(SR::Format(SR::get_Arg_EnumFormatUnderlyingTypeAndObjectMustBeSameType(), type, underlyingType));
   }
   if (format->get_Length() == 1) {
-    auto& default = GetEnumName(enumType2, ToUInt64(value));
-    auto& extern = InternalFlagsFormat(enumType2, ToUInt64(value));
+    auto& as = GetEnumName(enumType2, ToUInt64(value));
+    auto& as = InternalFlagsFormat(enumType2, ToUInt64(value));
     switch (format[0].get()) {
       case 71:
       case 103:
-        return default != nullptr ? default : value->ToString();
+        return as != nullptr ? as : value->ToString();
       case 68:
       case 100:
         return value->ToString();
@@ -631,7 +631,7 @@ String Enum___::Format(Type enumType, Object value, String format) {
         return ValueToHexString(value);
       case 70:
       case 102:
-        return extern != nullptr ? extern : value->ToString();
+        return as != nullptr ? as : value->ToString();
     }
   }
   rt::throw_exception<FormatException>(SR::get_Format_InvalidEnumFormatSpecification());
@@ -743,8 +743,8 @@ Int32 Enum___::GetHashCode() {
 }
 
 String Enum___::ToString() {
-  auto& default = InternalFormat((RuntimeType)GetType(), ToUInt64());
-  return default != nullptr ? default : ValueToString();
+  auto& as = InternalFormat((RuntimeType)GetType(), ToUInt64());
+  return as != nullptr ? as : ValueToString();
 }
 
 Int32 Enum___::CompareTo(Object target) {
@@ -798,7 +798,7 @@ String Enum___::ToString(String format) {
     return ToString();
   }
   if (format->get_Length() == 1) {
-    auto& default = InternalFlagsFormat((RuntimeType)GetType(), ToUInt64());
+    auto& as = InternalFlagsFormat((RuntimeType)GetType(), ToUInt64());
     switch (format[0].get()) {
       case 71:
       case 103:
@@ -811,7 +811,7 @@ String Enum___::ToString(String format) {
         return ValueToHexString();
       case 70:
       case 102:
-        return default != nullptr ? default : ValueToString();
+        return as != nullptr ? as : ValueToString();
     }
   }
   rt::throw_exception<FormatException>(SR::get_Format_InvalidEnumFormatSpecification());

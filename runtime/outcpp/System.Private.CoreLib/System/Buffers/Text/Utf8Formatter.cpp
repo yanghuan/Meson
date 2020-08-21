@@ -327,8 +327,8 @@ Boolean Utf8Formatter::TryFormat(Decimal value, Span<Byte> destination, Int32& b
         if (format.get_Precision() != Byte::MaxValue) {
           rt::throw_exception<NotSupportedException>(SR::get_Argument_GWithPrecisionNotSupported());
         }
-        Byte default[31] = {};
-        Byte* digits3 = default;
+        Byte as[31] = {};
+        Byte* digits3 = as;
         Number::NumberBuffer number3 = Number::NumberBuffer(Number::NumberBufferKind::Decimal, digits3, 31);
         Number::DecimalToNumber(value, number3);
         if (number3.Digits[0] == 0) {
@@ -338,8 +338,8 @@ Boolean Utf8Formatter::TryFormat(Decimal value, Span<Byte> destination, Int32& b
       }case 70:
     case 102:
       {
-        Byte default[31] = {};
-        Byte* digits2 = default;
+        Byte as[31] = {};
+        Byte* digits2 = as;
         Number::NumberBuffer number2 = Number::NumberBuffer(Number::NumberBufferKind::Decimal, digits2, 31);
         Number::DecimalToNumber(value, number2);
         Byte b2 = (Byte)((format.get_Precision() == Byte::MaxValue) ? 2 : format.get_Precision());
@@ -348,8 +348,8 @@ Boolean Utf8Formatter::TryFormat(Decimal value, Span<Byte> destination, Int32& b
       }case 69:
     case 101:
       {
-        Byte default[31] = {};
-        Byte* digits = default;
+        Byte as[31] = {};
+        Byte* digits = as;
         Number::NumberBuffer number = Number::NumberBuffer(Number::NumberBufferKind::Decimal, digits, 31);
         Number::DecimalToNumber(value, number);
         Byte b = (Byte)((format.get_Precision() == Byte::MaxValue) ? 6 : format.get_Precision());

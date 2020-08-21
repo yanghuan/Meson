@@ -246,8 +246,8 @@ void ResourceReader___::Dispose(Boolean disposing) {
     if (disposing) {
       BinaryReader store = _store;
       _store = nullptr;
-      auto& default = store;
-      default == nullptr ? nullptr : default->Close();
+      auto& as = store;
+      as == nullptr ? nullptr : as->Close();
     }
     _store = nullptr;
     _namePositions = nullptr;

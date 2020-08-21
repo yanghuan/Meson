@@ -10,11 +10,11 @@ namespace System::Private::Uri::System::IPv4AddressHelperNamespace {
 using namespace ::System::Private::CoreLib::System;
 
 String IPv4AddressHelper::ParseCanonicalName(String str, Int32 start, Int32 end, Boolean& isLoopback) {
-  Byte default[4] = {};
-  Byte* ptr = default;
+  Byte as[4] = {};
+  Byte* ptr = as;
   isLoopback = Parse(str, ptr, start, end);
-  Char extern[15] = {};
-  Span<Char> span = extern;
+  Char as[15] = {};
+  Span<Char> span = as;
   Int32 num = 0;
   Int32 charsWritten;
   for (Int32 i = 0; i < 3; i++) {
@@ -42,8 +42,8 @@ Boolean IPv4AddressHelper::Parse(String name, Byte* numbers, Int32 start, Int32 
 }
 
 Int32 IPv4AddressHelper::ParseHostNumber(ReadOnlySpan<Char> str, Int32 start, Int32 end) {
-  Byte default[4] = {};
-  Byte* ptr = default;
+  Byte as[4] = {};
+  Byte* ptr = as;
   ParseCanonical(str, ptr, start, end);
   return (*ptr << 24) + (ptr[1] << 16) + (ptr[2] << 8) + ptr[3];
 }
@@ -119,8 +119,8 @@ Boolean IPv4AddressHelper::IsValidCanonical(Char* name, Int32 start, Int32& end,
 
 Int64 IPv4AddressHelper::ParseNonCanonical(Char* name, Int32 start, Int32& end, Boolean notImplicitFile) {
   Int32 num = 10;
-  Int64 default[4] = {};
-  Int64* ptr = default;
+  Int64 as[4] = {};
+  Int64* ptr = as;
   Int64 num2 = 0;
   Boolean flag = false;
   Int32 num3 = 0;

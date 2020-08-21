@@ -54,9 +54,9 @@ void YieldAwaitable::YieldAwaiter::QueueContinuation(Action<> continuation, Bool
 Action<> YieldAwaitable::YieldAwaiter::OutputCorrelationEtwEvent(Action<> continuation) {
   Int32 num = Task<>::in::NewId();
   Task<> internalCurrent = Task<>::in::get_InternalCurrent();
-  auto& default = internalCurrent;
-  auto& extern = default == nullptr ? nullptr : default->get_Id();
-  TplEventSource::in::Log->AwaitTaskContinuationScheduled(TaskScheduler::in::get_Current()->get_Id(), extern != nullptr ? extern : 0, num);
+  auto& as = internalCurrent;
+  auto& as = as == nullptr ? nullptr : as->get_Id();
+  TplEventSource::in::Log->AwaitTaskContinuationScheduled(TaskScheduler::in::get_Current()->get_Id(), as != nullptr ? as : 0, num);
 }
 
 void YieldAwaitable::YieldAwaiter::RunAction(Object state) {

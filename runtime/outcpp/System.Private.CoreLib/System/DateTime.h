@@ -146,7 +146,7 @@ struct DateTime : public valueType<DateTime> {
   public: String ToString(IFormatProvider provider);
   public: String ToString(String format, IFormatProvider provider);
   public: template <class T0 = ReadOnlySpan<Char>>
-  Boolean TryFormat(Span<Char> destination, Int32& charsWritten, T0 format = rt::default, IFormatProvider provider = nullptr);
+  Boolean TryFormat(Span<Char> destination, Int32& charsWritten, T0 format = rt::default__, IFormatProvider provider = nullptr);
   public: DateTime ToUniversalTime();
   public: static Boolean TryParse(String s, DateTime& result);
   public: static Boolean TryParse(ReadOnlySpan<Char> s, DateTime& result);

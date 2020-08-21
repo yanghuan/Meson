@@ -52,8 +52,8 @@ void ILGenerator___::ctor(MethodInfo methodBuilder, Int32 size) {
   m_ScopeTree = rt::newobj<ScopeTree>();
   m_LineNumberInfo = rt::newobj<LineNumberInfo>();
   m_methodBuilder = methodBuilder;
-  auto& default = (rt::as<MethodBuilder>(m_methodBuilder));
-  m_localSignature = SignatureHelper::in::GetLocalVarSigHelper(default == nullptr ? nullptr : default->GetTypeBuilder()->get_Module());
+  auto& as = (rt::as<MethodBuilder>(m_methodBuilder));
+  m_localSignature = SignatureHelper::in::GetLocalVarSigHelper(as == nullptr ? nullptr : as->GetTypeBuilder()->get_Module());
 }
 
 void ILGenerator___::RecordTokenFixup() {

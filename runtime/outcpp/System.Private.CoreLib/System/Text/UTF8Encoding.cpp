@@ -48,8 +48,8 @@ Array<Byte> UTF8EncodingSealed___::GetBytes(String s) {
 }
 
 Array<Byte> UTF8EncodingSealed___::GetBytesForSmallInput(String s) {
-  Byte default[96] = {};
-  Byte* ptr = default;
+  Byte as[96] = {};
+  Byte* ptr = as;
   Int32 length = s->get_Length();
   Int32 bytesCommon;
   {
@@ -68,8 +68,8 @@ String UTF8EncodingSealed___::GetString(Array<Byte> bytes) {
 }
 
 String UTF8EncodingSealed___::GetStringForSmallInput(Array<Byte> bytes) {
-  Char default[32] = {};
-  Char* ptr = default;
+  Char as[32] = {};
+  Char* ptr = as;
   Int32 byteCount = bytes->get_Length();
   Int32 charsCommon;
   {
@@ -363,9 +363,9 @@ Int32 UTF8Encoding___::GetCharsWithFallback(ReadOnlySpan<Byte> bytes, Int32 orig
   if (decoderReplacementFallback != nullptr && decoderReplacementFallback->get_MaxCharCount() == 1 && decoderReplacementFallback->get_DefaultString()[0] == 65533) {
     Int32 bytesRead;
     Int32 charsWritten;
-    auto& default = decoder;
-    auto& extern = default == nullptr ? nullptr : default->get_MustFlush();
-    Utf8::ToUtf16(bytes, chars, bytesRead, charsWritten, true, extern != nullptr ? extern : true);
+    auto& as = decoder;
+    auto& as = as == nullptr ? nullptr : as->get_MustFlush();
+    Utf8::ToUtf16(bytes, chars, bytesRead, charsWritten, true, as != nullptr ? as : true);
     bytes = bytes.Slice(bytesRead);
     chars = chars.Slice(charsWritten);
   }

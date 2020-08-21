@@ -24,8 +24,8 @@ void DefaultValueAttribute___::ctor(Type type, String value) {
   auto TryConvertFromInvariantString = [](Type typeToConvert, String stringValue, Object& conversionResult) -> Boolean {
     conversionResult = nullptr;
     if (s_convertFromInvariantString == nullptr) {
-      auto& default = Type::in::GetType("System.ComponentModel.TypeDescriptor, System.ComponentModel.TypeConverter", false);
-      MethodInfo methodInfo = default == nullptr ? nullptr : default->GetMethod("ConvertFromInvariantString", BindingFlags::Static | BindingFlags::NonPublic);
+      auto& as = Type::in::GetType("System.ComponentModel.TypeDescriptor, System.ComponentModel.TypeConverter", false);
+      MethodInfo methodInfo = as == nullptr ? nullptr : as->GetMethod("ConvertFromInvariantString", BindingFlags::Static | BindingFlags::NonPublic);
       Volatile::Write(s_convertFromInvariantString, (methodInfo == nullptr) ? rt::newobj<Object>() : methodInfo->CreateDelegate(rt::typeof<Func<Type, String, Object>>()));
     }
     Func<Type, String, Object> func = rt::as<Func<Type, String, Object>>(s_convertFromInvariantString);

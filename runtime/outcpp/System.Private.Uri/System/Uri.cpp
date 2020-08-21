@@ -120,8 +120,8 @@ String Uri___::get_AbsolutePath() {
 String Uri___::get_PrivateAbsolutePath() {
   MoreInfo moreInfo = EnsureUriInfo()->get_MoreInfo();
   MoreInfo moreInfo2 = moreInfo;
-  auto& default = moreInfo2->Path;
-  return default != nullptr ? default : (moreInfo2->Path = GetParts(UriComponents::Path | UriComponents::KeepDelimiter, UriFormat::UriEscaped));
+  auto& as = moreInfo2->Path;
+  return as != nullptr ? as : (moreInfo2->Path = GetParts(UriComponents::Path | UriComponents::KeepDelimiter, UriFormat::UriEscaped));
 }
 
 String Uri___::get_AbsoluteUri() {
@@ -130,8 +130,8 @@ String Uri___::get_AbsoluteUri() {
   }
   MoreInfo moreInfo = EnsureUriInfo()->get_MoreInfo();
   MoreInfo moreInfo2 = moreInfo;
-  auto& default = moreInfo2->AbsoluteUri;
-  return default != nullptr ? default : (moreInfo2->AbsoluteUri = GetParts(UriComponents::AbsoluteUri, UriFormat::UriEscaped));
+  auto& as = moreInfo2->AbsoluteUri;
+  return as != nullptr ? as : (moreInfo2->AbsoluteUri = GetParts(UriComponents::AbsoluteUri, UriFormat::UriEscaped));
 }
 
 String Uri___::get_LocalPath() {
@@ -273,8 +273,8 @@ String Uri___::get_Query() {
   }
   MoreInfo moreInfo = EnsureUriInfo()->get_MoreInfo();
   MoreInfo moreInfo2 = moreInfo;
-  auto& default = moreInfo2->Query;
-  return default != nullptr ? default : (moreInfo2->Query = GetParts(UriComponents::Query | UriComponents::KeepDelimiter, UriFormat::UriEscaped));
+  auto& as = moreInfo2->Query;
+  return as != nullptr ? as : (moreInfo2->Query = GetParts(UriComponents::Query | UriComponents::KeepDelimiter, UriFormat::UriEscaped));
 }
 
 String Uri___::get_Fragment() {
@@ -283,8 +283,8 @@ String Uri___::get_Fragment() {
   }
   MoreInfo moreInfo = EnsureUriInfo()->get_MoreInfo();
   MoreInfo moreInfo2 = moreInfo;
-  auto& default = moreInfo2->Fragment;
-  return default != nullptr ? default : (moreInfo2->Fragment = GetParts(UriComponents::Fragment | UriComponents::KeepDelimiter, UriFormat::UriEscaped));
+  auto& as = moreInfo2->Fragment;
+  return as != nullptr ? as : (moreInfo2->Fragment = GetParts(UriComponents::Fragment | UriComponents::KeepDelimiter, UriFormat::UriEscaped));
 }
 
 String Uri___::get_Scheme() {
@@ -295,8 +295,8 @@ String Uri___::get_Scheme() {
 }
 
 String Uri___::get_OriginalString() {
-  auto& default = _originalUnicodeString;
-  return default != nullptr ? default : _string;
+  auto& as = _originalUnicodeString;
+  return as != nullptr ? as : _string;
 }
 
 String Uri___::get_DnsSafeHost() {
@@ -315,8 +315,8 @@ String Uri___::get_IdnHost() {
   if (get_IsNotAbsoluteUri()) {
     rt::throw_exception<InvalidOperationException>(SR::get_net_uri_NotAbsolute());
   }
-  auto& default = _info;
-  if (default == nullptr ? nullptr : default->IdnHost == nullptr) {
+  auto& as = _info;
+  if (as == nullptr ? nullptr : as->IdnHost == nullptr) {
     EnsureHostString(false);
     String text = _info->Host;
     switch (get_HostType()) {
@@ -328,8 +328,8 @@ String Uri___::get_IdnHost() {
         break;
       case Flags::BasicHostType:
         if (InFact(Flags::HostNotCanonical | Flags::E_HostNotCanonical)) {
-          Char extern[256] = {};
-          Span<Char> initialBuffer = extern;
+          Char as[256] = {};
+          Span<Char> initialBuffer = as;
           ValueStringBuilder dest = ValueStringBuilder(initialBuffer);
           UriHelper::UnescapeString(text, 0, text->get_Length(), dest, 65535, 65535, 65535, UnescapeMode::Unescape | UnescapeMode::UnescapeAll, _syntax, false);
           text = dest.ToString();
@@ -372,9 +372,9 @@ void Uri___::InterlockedSetFlags(Flags flags) {
 }
 
 Boolean Uri___::IriParsingStatic(UriParser syntax) {
-  auto& default = syntax;
-  auto& extern = default == nullptr ? nullptr : default->InFact(UriSyntaxFlags::AllowIriParsing);
-  return extern != nullptr ? extern : true;
+  auto& as = syntax;
+  auto& as = as == nullptr ? nullptr : as->InFact(UriSyntaxFlags::AllowIriParsing);
+  return as != nullptr ? as : true;
 }
 
 Boolean Uri___::NotAny(Flags flags) {
@@ -792,8 +792,8 @@ Int32 Uri___::GetHashCode() {
   }
   MoreInfo moreInfo = EnsureUriInfo()->get_MoreInfo();
   MoreInfo moreInfo2 = moreInfo;
-  auto& default = moreInfo2->RemoteUrl;
-  String text = default != nullptr ? default : (moreInfo2->RemoteUrl = GetParts(UriComponents::HttpRequestUrl, UriFormat::SafeUnescaped));
+  auto& as = moreInfo2->RemoteUrl;
+  String text = as != nullptr ? as : (moreInfo2->RemoteUrl = GetParts(UriComponents::HttpRequestUrl, UriFormat::SafeUnescaped));
   if (get_IsUncOrDosPath()) {
     return text->GetHashCode(StringComparison::OrdinalIgnoreCase);
   }
@@ -909,11 +909,11 @@ Boolean Uri___::Equals(Object comparand) {
   MoreInfo moreInfo = _info->get_MoreInfo();
   MoreInfo moreInfo2 = result->_info->get_MoreInfo();
   MoreInfo moreInfo3 = moreInfo;
-  auto& default = moreInfo3->RemoteUrl;
-  String a = default != nullptr ? default : (moreInfo3->RemoteUrl = GetParts(UriComponents::HttpRequestUrl, UriFormat::SafeUnescaped));
+  auto& as = moreInfo3->RemoteUrl;
+  String a = as != nullptr ? as : (moreInfo3->RemoteUrl = GetParts(UriComponents::HttpRequestUrl, UriFormat::SafeUnescaped));
   moreInfo3 = moreInfo2;
-  auto& extern = moreInfo3->RemoteUrl;
-  String b = extern != nullptr ? extern : (moreInfo3->RemoteUrl = result->GetParts(UriComponents::HttpRequestUrl, UriFormat::SafeUnescaped));
+  auto& as = moreInfo3->RemoteUrl;
+  String b = as != nullptr ? as : (moreInfo3->RemoteUrl = result->GetParts(UriComponents::HttpRequestUrl, UriFormat::SafeUnescaped));
   return String::in::Equals(a, b, get_IsUncOrDosPath() ? StringComparison::OrdinalIgnoreCase : StringComparison::Ordinal);
 }
 
@@ -2688,8 +2688,8 @@ void Uri___::CreateThis(String uri, Boolean dontEscape, UriKind uriKind) {
   if (uriKind < UriKind::RelativeOrAbsolute || uriKind > UriKind::Relative) {
     rt::throw_exception<ArgumentException>(SR::Format(SR::get_net_uri_InvalidUriKind(), uriKind));
   }
-  auto& default = uri;
-  _string = (default != nullptr ? default : String::in::Empty);
+  auto& as = uri;
+  _string = (as != nullptr ? as : String::in::Empty);
   if (dontEscape) {
     _flags |= Flags::UserEscaped;
   }
@@ -3007,8 +3007,8 @@ String Uri___::UnescapeDataString(String stringToUnescape) {
   if (num == -1) {
     return stringToUnescape;
   }
-  Char default[256] = {};
-  Span<Char> initialBuffer = default;
+  Char as[256] = {};
+  Span<Char> initialBuffer = as;
   ValueStringBuilder dest = ValueStringBuilder(initialBuffer);
   dest.EnsureCapacity(stringToUnescape->get_Length());
   dest.Append(MemoryExtensions::AsSpan(stringToUnescape, 0, num));

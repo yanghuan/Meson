@@ -191,8 +191,8 @@ Int32 String___::Compare(String strA, String strB, StringComparison comparisonTy
 }
 
 Int32 String___::Compare(String strA, String strB, CultureInfo culture, CompareOptions options) {
-  auto& default = culture;
-  CultureInfo cultureInfo = default != nullptr ? default : CultureInfo::in::get_CurrentCulture();
+  auto& as = culture;
+  CultureInfo cultureInfo = as != nullptr ? as : CultureInfo::in::get_CurrentCulture();
   return cultureInfo->get_CompareInfo()->Compare(strA, strB, options);
 }
 
@@ -224,8 +224,8 @@ Int32 String___::Compare(String strA, Int32 indexA, String strB, Int32 indexB, I
 }
 
 Int32 String___::Compare(String strA, Int32 indexA, String strB, Int32 indexB, Int32 length, CultureInfo culture, CompareOptions options) {
-  auto& default = culture;
-  CultureInfo cultureInfo = default != nullptr ? default : CultureInfo::in::get_CurrentCulture();
+  auto& as = culture;
+  CultureInfo cultureInfo = as != nullptr ? as : CultureInfo::in::get_CurrentCulture();
   Int32 num = length;
   Int32 num2 = length;
   if (strA != nullptr) {
@@ -389,8 +389,8 @@ Boolean String___::EndsWith(String value, Boolean ignoreCase, CultureInfo cultur
   if ((Object)(String)this == value) {
     return true;
   }
-  auto& default = culture;
-  CultureInfo cultureInfo = default != nullptr ? default : CultureInfo::in::get_CurrentCulture();
+  auto& as = culture;
+  CultureInfo cultureInfo = as != nullptr ? as : CultureInfo::in::get_CurrentCulture();
   return cultureInfo->get_CompareInfo()->IsSuffix((String)this, value, ignoreCase ? CompareOptions::IgnoreCase : CompareOptions::None);
 }
 
@@ -622,8 +622,8 @@ Boolean String___::StartsWith(String value, Boolean ignoreCase, CultureInfo cult
   if ((Object)(String)this == value) {
     return true;
   }
-  auto& default = culture;
-  CultureInfo cultureInfo = default != nullptr ? default : CultureInfo::in::get_CurrentCulture();
+  auto& as = culture;
+  CultureInfo cultureInfo = as != nullptr ? as : CultureInfo::in::get_CurrentCulture();
   return cultureInfo->get_CompareInfo()->IsPrefix((String)this, value, ignoreCase ? CompareOptions::IgnoreCase : CompareOptions::None);
 }
 
@@ -1037,9 +1037,9 @@ void String___::FillStringChecked(String dest, Int32 destPos, String src) {
 }
 
 String String___::Concat(Object arg0) {
-  auto& default = arg0;
-  auto& extern = default == nullptr ? nullptr : default->ToString();
-  return extern != nullptr ? extern : Empty;
+  auto& as = arg0;
+  auto& as = as == nullptr ? nullptr : as->ToString();
+  return as != nullptr ? as : Empty;
 }
 
 String String___::Concat(Object arg0, Object arg1) {
@@ -1072,8 +1072,8 @@ String String___::Concat(Array<Object> args) {
   if (args->get_Length() <= 1) {
     Object obj;
     if (args->get_Length() != 0) {
-      auto& default = args[0];
-      obj = default == nullptr ? nullptr : default->ToString();
+      auto& as = args[0];
+      obj = as == nullptr ? nullptr : as->ToString();
       if (obj == nullptr) {
         return Empty;
       }
@@ -1085,9 +1085,9 @@ String String___::Concat(Array<Object> args) {
   Array<String> array = rt::newarr<Array<String>>(args->get_Length());
   Int32 num = 0;
   for (Int32 i = 0; i < args->get_Length(); i++) {
-    auto& default = args[i];
-    auto& extern = default == nullptr ? nullptr : default->ToString();
-    num += (array[i] = (extern != nullptr ? extern : Empty))->get_Length();
+    auto& as = args[i];
+    auto& as = as == nullptr ? nullptr : as->ToString();
+    num += (array[i] = (as != nullptr ? as : Empty))->get_Length();
     if (num < 0) {
       rt::throw_exception<OutOfMemoryException>();
     }
@@ -1111,11 +1111,11 @@ String String___::Concat(IEnumerable_<String> values) {
     }
     String current = enumerator->get_Current();
     if (!enumerator->MoveNext()) {
-      auto& default = current;
-      return default != nullptr ? default : Empty;
+      auto& as = current;
+      return as != nullptr ? as : Empty;
     }
-    Char default[256] = {};
-    Span<Char> initialBuffer = default;
+    Char as[256] = {};
+    Span<Char> initialBuffer = as;
     ValueStringBuilder valueStringBuilder = ValueStringBuilder(initialBuffer);
     valueStringBuilder.Append(current);
     do {
@@ -1287,8 +1287,8 @@ String String___::FormatHelper(IFormatProvider provider, String format, ParamsAr
   if (format == nullptr) {
     rt::throw_exception<ArgumentNullException>("format");
   }
-  Char default[256] = {};
-  Span<Char> initialBuffer = default;
+  Char as[256] = {};
+  Span<Char> initialBuffer = as;
   ValueStringBuilder valueStringBuilder = ValueStringBuilder(initialBuffer);
   valueStringBuilder.EnsureCapacity(format->get_Length() + args.get_Length() * 8);
   valueStringBuilder.AppendFormatHelper(provider, format, args);
@@ -1371,11 +1371,11 @@ String String___::Join(String separator, IEnumerable_<String> values) {
     }
     String current = enumerator->get_Current();
     if (!enumerator->MoveNext()) {
-      auto& default = current;
-      return default != nullptr ? default : Empty;
+      auto& as = current;
+      return as != nullptr ? as : Empty;
     }
-    Char default[256] = {};
-    Span<Char> initialBuffer = default;
+    Char as[256] = {};
+    Span<Char> initialBuffer = as;
     ValueStringBuilder valueStringBuilder = ValueStringBuilder(initialBuffer);
     valueStringBuilder.Append(current);
     do {
@@ -1403,14 +1403,14 @@ String String___::JoinCore(Char* separator, Int32 separatorLength, Array<Object>
   if (values->get_Length() == 0) {
     return Empty;
   }
-  auto& default = values[0];
-  String text = default == nullptr ? nullptr : default->ToString();
+  auto& as = values[0];
+  String text = as == nullptr ? nullptr : as->ToString();
   if (values->get_Length() == 1) {
-    auto& extern = text;
-    return extern != nullptr ? extern : Empty;
+    auto& as = text;
+    return as != nullptr ? as : Empty;
   }
-  Char extern[256] = {};
-  Span<Char> initialBuffer = extern;
+  Char as[256] = {};
+  Span<Char> initialBuffer = as;
   ValueStringBuilder valueStringBuilder = ValueStringBuilder(initialBuffer);
   valueStringBuilder.Append(text);
   for (Int32 i = 1; i < values->get_Length(); i++) {
@@ -1591,8 +1591,8 @@ String String___::Remove(Int32 startIndex) {
 }
 
 String String___::Replace(String oldValue, String newValue, Boolean ignoreCase, CultureInfo culture) {
-  auto& default = culture;
-  return ReplaceCore(oldValue, newValue, default == nullptr ? nullptr : default->get_CompareInfo(), ignoreCase ? CompareOptions::IgnoreCase : CompareOptions::None);
+  auto& as = culture;
+  return ReplaceCore(oldValue, newValue, as == nullptr ? nullptr : as->get_CompareInfo(), ignoreCase ? CompareOptions::IgnoreCase : CompareOptions::None);
 }
 
 String String___::Replace(String oldValue, String newValue, StringComparison comparisonType) {
@@ -1619,14 +1619,14 @@ String String___::ReplaceCore(String oldValue, String newValue, CompareInfo ci, 
   if (oldValue->get_Length() == 0) {
     rt::throw_exception<ArgumentException>(SR::get_Argument_StringZeroLength(), "oldValue");
   }
-  auto& default = ci;
-  auto& extern = ReplaceCore((String)this, MemoryExtensions::AsSpan(oldValue), MemoryExtensions::AsSpan(newValue), default != nullptr ? default : CultureInfo::in::get_CurrentCulture()->get_CompareInfo(), options);
-  return extern != nullptr ? extern : (String)this;
+  auto& as = ci;
+  auto& as = ReplaceCore((String)this, MemoryExtensions::AsSpan(oldValue), MemoryExtensions::AsSpan(newValue), as != nullptr ? as : CultureInfo::in::get_CurrentCulture()->get_CompareInfo(), options);
+  return as != nullptr ? as : (String)this;
 }
 
 String String___::ReplaceCore(ReadOnlySpan<Char> searchSpace, ReadOnlySpan<Char> oldValue, ReadOnlySpan<Char> newValue, CompareInfo compareInfo, CompareOptions options) {
-  Char default[256] = {};
-  Span<Char> initialBuffer = default;
+  Char as[256] = {};
+  Span<Char> initialBuffer = as;
   ValueStringBuilder valueStringBuilder = ValueStringBuilder(initialBuffer);
   valueStringBuilder.EnsureCapacity(searchSpace.get_Length());
   Int32 num = 0;
@@ -1698,8 +1698,8 @@ String String___::Replace(String oldValue, String newValue) {
   if (newValue == nullptr) {
     newValue = Empty;
   }
-  Int32 default[128] = {};
-  Span<Int32> initialSpan = default;
+  Int32 as[128] = {};
+  Span<Int32> initialSpan = as;
   ValueListBuilder<Int32> valueListBuilder = ValueListBuilder<Int32>(initialSpan);
   {
     Char* ptr = &_firstChar;
@@ -1780,8 +1780,8 @@ Array<String> String___::SplitInternal(ReadOnlySpan<Char> separators, Int32 coun
   if (count == 1) {
     return rt::newarr<Array<String>>(1);
   }
-  Int32 default[128] = {};
-  Span<Int32> initialSpan = default;
+  Int32 as[128] = {};
+  Span<Int32> initialSpan = as;
   ValueListBuilder<Int32> sepListBuilder = ValueListBuilder<Int32>(initialSpan);
   MakeSeparatorList(separators, sepListBuilder);
   ReadOnlySpan<Int32> sepList = sepListBuilder.AsSpan();
@@ -1794,13 +1794,13 @@ Array<String> String___::SplitInternal(ReadOnlySpan<Char> separators, Int32 coun
 }
 
 Array<String> String___::Split(String separator, StringSplitOptions options) {
-  auto& default = separator;
-  return SplitInternal(default != nullptr ? default : Empty, nullptr, Int32::MaxValue, options);
+  auto& as = separator;
+  return SplitInternal(as != nullptr ? as : Empty, nullptr, Int32::MaxValue, options);
 }
 
 Array<String> String___::Split(String separator, Int32 count, StringSplitOptions options) {
-  auto& default = separator;
-  return SplitInternal(default != nullptr ? default : Empty, nullptr, count, options);
+  auto& as = separator;
+  return SplitInternal(as != nullptr ? as : Empty, nullptr, count, options);
 }
 
 Array<String> String___::Split(Array<String> separator, StringSplitOptions options) {
@@ -1832,11 +1832,11 @@ Array<String> String___::SplitInternal(String separator, Array<String> separator
   if (flag2) {
     return SplitInternal(separator, count, options);
   }
-  Int32 default[128] = {};
-  Span<Int32> initialSpan = default;
+  Int32 as[128] = {};
+  Span<Int32> initialSpan = as;
   ValueListBuilder<Int32> sepListBuilder = ValueListBuilder<Int32>(initialSpan);
-  Int32 extern[128] = {};
-  initialSpan = extern;
+  Int32 as[128] = {};
+  initialSpan = as;
   ValueListBuilder<Int32> lengthListBuilder = ValueListBuilder<Int32>(initialSpan);
   MakeSeparatorList(separators, sepListBuilder, lengthListBuilder);
   ReadOnlySpan<Int32> sepList = sepListBuilder.AsSpan();
@@ -1851,8 +1851,8 @@ Array<String> String___::SplitInternal(String separator, Array<String> separator
 }
 
 Array<String> String___::SplitInternal(String separator, Int32 count, StringSplitOptions options) {
-  Int32 default[128] = {};
-  Span<Int32> initialSpan = default;
+  Int32 as[128] = {};
+  Span<Int32> initialSpan = as;
   ValueListBuilder<Int32> sepListBuilder = ValueListBuilder<Int32>(initialSpan);
   MakeSeparatorList(separator, sepListBuilder);
   ReadOnlySpan<Int32> sepList = sepListBuilder.AsSpan();
@@ -2027,8 +2027,8 @@ String String___::ToLower() {
 }
 
 String String___::ToLower(CultureInfo culture) {
-  auto& default = culture;
-  CultureInfo cultureInfo = default != nullptr ? default : CultureInfo::in::get_CurrentCulture();
+  auto& as = culture;
+  CultureInfo cultureInfo = as != nullptr ? as : CultureInfo::in::get_CurrentCulture();
   return cultureInfo->get_TextInfo()->ToLower((String)this);
 }
 
@@ -2041,8 +2041,8 @@ String String___::ToUpper() {
 }
 
 String String___::ToUpper(CultureInfo culture) {
-  auto& default = culture;
-  CultureInfo cultureInfo = default != nullptr ? default : CultureInfo::in::get_CurrentCulture();
+  auto& as = culture;
+  CultureInfo cultureInfo = as != nullptr ? as : CultureInfo::in::get_CurrentCulture();
   return cultureInfo->get_TextInfo()->ToUpper((String)this);
 }
 

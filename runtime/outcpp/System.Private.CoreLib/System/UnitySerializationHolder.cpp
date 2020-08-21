@@ -30,8 +30,8 @@ void UnitySerializationHolder___::GetObjectData(SerializationInfo info, Streamin
 
 Object UnitySerializationHolder___::GetRealObject(StreamingContext context) {
   if (_unityType != 2) {
-    auto& default = _data;
-    rt::throw_exception<ArgumentException>(SR::Format(SR::get_Argument_InvalidUnity(), default != nullptr ? default : "UnityType"));
+    auto& as = _data;
+    rt::throw_exception<ArgumentException>(SR::Format(SR::get_Argument_InvalidUnity(), as != nullptr ? as : "UnityType"));
   }
   return DBNull::in::Value;
 }

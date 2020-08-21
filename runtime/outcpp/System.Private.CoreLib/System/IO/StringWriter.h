@@ -48,16 +48,16 @@ CLASS(StringWriter) : public TextWriter::in {
   public: Task<> WriteAsync(String value);
   public: Task<> WriteAsync(Array<Char> buffer, Int32 index, Int32 count);
   public: template <class T0 = CancellationToken>
-  Task<> WriteAsync(ReadOnlyMemory<Char> buffer, T0 cancellationToken = rt::default);
+  Task<> WriteAsync(ReadOnlyMemory<Char> buffer, T0 cancellationToken = rt::default__);
   public: template <class T0 = CancellationToken>
-  Task<> WriteAsync(StringBuilder value, T0 cancellationToken = rt::default);
+  Task<> WriteAsync(StringBuilder value, T0 cancellationToken = rt::default__);
   public: Task<> WriteLineAsync(Char value);
   public: Task<> WriteLineAsync(String value);
   public: template <class T0 = CancellationToken>
-  Task<> WriteLineAsync(StringBuilder value, T0 cancellationToken = rt::default);
+  Task<> WriteLineAsync(StringBuilder value, T0 cancellationToken = rt::default__);
   public: Task<> WriteLineAsync(Array<Char> buffer, Int32 index, Int32 count);
   public: template <class T0 = CancellationToken>
-  Task<> WriteLineAsync(ReadOnlyMemory<Char> buffer, T0 cancellationToken = rt::default);
+  Task<> WriteLineAsync(ReadOnlyMemory<Char> buffer, T0 cancellationToken = rt::default__);
   public: Task<> FlushAsync();
   public: String ToString();
   private: static UnicodeEncoding s_encoding;

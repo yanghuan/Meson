@@ -37,8 +37,8 @@ Array<Byte> DynamicScope___::ResolveSignature(Int32 token, Int32 fromMethod) {
   if (fromMethod == 0) {
     return (Array<Byte>)(DynamicScope)this[token];
   }
-  auto& default = (rt::as<VarArgMethod>((DynamicScope)this[token]));
-  return default == nullptr ? nullptr : default->m_signature->GetSignature(true);
+  auto& as = (rt::as<VarArgMethod>((DynamicScope)this[token]));
+  return as == nullptr ? nullptr : as->m_signature->GetSignature(true);
 }
 
 Int32 DynamicScope___::GetTokenFor(RuntimeMethodHandle method) {

@@ -39,8 +39,8 @@ Int32 Range::GetHashCode() {
 }
 
 String Range::ToString() {
-  Char default[24] = {};
-  Span<Char> span = default;
+  Char as[24] = {};
+  Span<Char> span = as;
   Int32 num = 0;
   if (Start.get_IsFromEnd()) {
     span[0] = 94;

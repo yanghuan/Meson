@@ -836,8 +836,8 @@ String Marshal::GenerateProgIdForType(Type type) {
   }
   ProgIdAttribute customAttribute = CustomAttributeExtensions::GetCustomAttribute(type);
   if (customAttribute != nullptr) {
-    auto& default = customAttribute->get_Value();
-    return default != nullptr ? default : String::in::Empty;
+    auto& as = customAttribute->get_Value();
+    return as != nullptr ? as : String::in::Empty;
   }
   return type->get_FullName();
 }

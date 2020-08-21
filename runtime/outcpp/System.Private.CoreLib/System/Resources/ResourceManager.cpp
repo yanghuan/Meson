@@ -103,8 +103,8 @@ void ResourceManager___::set_IgnoreCase(Boolean value) {
 }
 
 Type ResourceManager___::get_ResourceSetType() {
-  auto& default = _userResourceSet;
-  return default != nullptr ? default : rt::typeof<RuntimeResourceSet>();
+  auto& as = _userResourceSet;
+  return as != nullptr ? as : rt::typeof<RuntimeResourceSet>();
 }
 
 UltimateResourceFallbackLocation ResourceManager___::get_FallbackLocation() {
@@ -310,8 +310,8 @@ Version ResourceManager___::GetSatelliteContractVersion(Assembly a) {
   if (a == nullptr) {
     rt::throw_exception<ArgumentNullException>("a", SR::get_ArgumentNull_Assembly());
   }
-  auto& default = CustomAttributeExtensions::GetCustomAttribute(a);
-  String text = default == nullptr ? nullptr : default->get_Version();
+  auto& as = CustomAttributeExtensions::GetCustomAttribute(a);
+  String text = as == nullptr ? nullptr : as->get_Version();
   if (text == nullptr) {
     return nullptr;
   }

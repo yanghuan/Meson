@@ -89,8 +89,8 @@ void StartupHookProvider::CallStartupHook(StartupHookNameOrPath startupHook) {
   }
 
   if (flag) {
-    auto& default = startupHook.Path;
-    rt::throw_exception<ArgumentException>(SR::Format(SR::get_Argument_InvalidStartupHookSignature(), "StartupHook" + Type::in::Delimiter + "Initialize", default != nullptr ? default : startupHook.AssemblyName->ToString()));
+    auto& as = startupHook.Path;
+    rt::throw_exception<ArgumentException>(SR::Format(SR::get_Argument_InvalidStartupHookSignature(), "StartupHook" + Type::in::Delimiter + "Initialize", as != nullptr ? as : startupHook.AssemblyName->ToString()));
   }
   method->Invoke(nullptr, nullptr);
 }

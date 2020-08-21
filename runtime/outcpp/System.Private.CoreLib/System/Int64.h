@@ -32,7 +32,7 @@ struct Int64 : public valueType<Int64> {
   public: String ToString(String format);
   public: String ToString(String format, IFormatProvider provider);
   public: template <class T0 = ReadOnlySpan<Char>>
-  Boolean TryFormat(Span<Char> destination, Int32& charsWritten, T0 format = rt::default, IFormatProvider provider = nullptr);
+  Boolean TryFormat(Span<Char> destination, Int32& charsWritten, T0 format = rt::default__, IFormatProvider provider = nullptr);
   public: static Int64 Parse(String s);
   public: static Int64 Parse(String s, NumberStyles style);
   public: static Int64 Parse(String s, IFormatProvider provider);

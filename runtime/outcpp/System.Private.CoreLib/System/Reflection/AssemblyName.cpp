@@ -49,8 +49,8 @@ void AssemblyName___::set_CultureInfo(CultureInfo value) {
 }
 
 String AssemblyName___::get_CultureName() {
-  auto& default = _cultureInfo;
-  return default == nullptr ? nullptr : default->get_Name();
+  auto& as = _cultureInfo;
+  return as == nullptr ? nullptr : as->get_Name();
 }
 
 void AssemblyName___::set_CultureName(String value) {
@@ -141,8 +141,8 @@ String AssemblyName___::get_FullName() {
   if (get_Name() == nullptr) {
     return String::in::Empty;
   }
-  auto& default = _publicKeyToken;
-  Array<Byte> pkt = default != nullptr ? default : ComputePublicKeyToken();
+  auto& as = _publicKeyToken;
+  Array<Byte> pkt = as != nullptr ? as : ComputePublicKeyToken();
   return AssemblyNameFormatter::ComputeDisplayName(get_Name(), get_Version(), get_CultureName(), pkt, get_Flags(), get_ContentType());
 }
 
@@ -241,8 +241,8 @@ void AssemblyName___::SetPublicKey(Array<Byte> publicKey) {
 }
 
 Array<Byte> AssemblyName___::GetPublicKeyToken() {
-  auto& default = _publicKeyToken;
-  return default != nullptr ? default : (_publicKeyToken = ComputePublicKeyToken());
+  auto& as = _publicKeyToken;
+  return as != nullptr ? as : (_publicKeyToken = ComputePublicKeyToken());
 }
 
 void AssemblyName___::SetPublicKeyToken(Array<Byte> publicKeyToken) {
@@ -275,10 +275,10 @@ Boolean AssemblyName___::ReferenceMatchesDefinition(AssemblyName reference, Asse
   if (definition == nullptr) {
     rt::throw_exception<ArgumentNullException>("definition");
   }
-  auto& default = reference->get_Name();
-  String text = default != nullptr ? default : String::in::Empty;
-  auto& extern = definition->get_Name();
-  String value = extern != nullptr ? extern : String::in::Empty;
+  auto& as = reference->get_Name();
+  String text = as != nullptr ? as : String::in::Empty;
+  auto& as = definition->get_Name();
+  String value = as != nullptr ? as : String::in::Empty;
   return text->Equals(value, StringComparison::OrdinalIgnoreCase);
 }
 
@@ -297,8 +297,8 @@ String AssemblyName___::EscapeCodeBase(String codebase) {
 Array<Char> AssemblyName___::EscapeString(String input, Int32 start, Int32 end, Array<Char> dest, Int32& destPos, Boolean isUriString, Char force1, Char force2, Char rsvd) {
   Int32 i = start;
   Int32 num = start;
-  Byte default[160] = {};
-  Byte* ptr = default;
+  Byte as[160] = {};
+  Byte* ptr = as;
   {
     Char* ptr2 = input;
     Char* ptr3 = ptr2;

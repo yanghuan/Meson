@@ -12,13 +12,13 @@ Boolean Vector<>::get_IsHardwareAccelerated() {
 
 void Vector<>::Widen(Vector<Byte> source, Vector<UInt16>& low, Vector<UInt16>& high) {
   Int32 count = Vector<Byte>::get_Count();
-  UInt16 default[count / 2] = {};
-  UInt16* ptr = default;
+  UInt16 as[count / 2] = {};
+  UInt16* ptr = as;
   for (Int32 i = 0; i < count / 2; i++) {
     ptr[i] = source[i];
   }
-  UInt16 extern[count / 2] = {};
-  UInt16* ptr2 = extern;
+  UInt16 as[count / 2] = {};
+  UInt16* ptr2 = as;
   for (Int32 j = 0; j < count / 2; j++) {
     ptr2[j] = source[j + count / 2];
   }
@@ -28,13 +28,13 @@ void Vector<>::Widen(Vector<Byte> source, Vector<UInt16>& low, Vector<UInt16>& h
 
 void Vector<>::Widen(Vector<UInt16> source, Vector<UInt32>& low, Vector<UInt32>& high) {
   Int32 count = Vector<UInt16>::get_Count();
-  UInt32 default[count / 2] = {};
-  UInt32* ptr = default;
+  UInt32 as[count / 2] = {};
+  UInt32* ptr = as;
   for (Int32 i = 0; i < count / 2; i++) {
     ptr[i] = source[i];
   }
-  UInt32 extern[count / 2] = {};
-  UInt32* ptr2 = extern;
+  UInt32 as[count / 2] = {};
+  UInt32* ptr2 = as;
   for (Int32 j = 0; j < count / 2; j++) {
     ptr2[j] = source[j + count / 2];
   }
@@ -44,13 +44,13 @@ void Vector<>::Widen(Vector<UInt16> source, Vector<UInt32>& low, Vector<UInt32>&
 
 void Vector<>::Widen(Vector<UInt32> source, Vector<UInt64>& low, Vector<UInt64>& high) {
   Int32 count = Vector<UInt32>::get_Count();
-  UInt64 default[count / 2] = {};
-  UInt64* ptr = default;
+  UInt64 as[count / 2] = {};
+  UInt64* ptr = as;
   for (Int32 i = 0; i < count / 2; i++) {
     ptr[i] = source[i];
   }
-  UInt64 extern[count / 2] = {};
-  UInt64* ptr2 = extern;
+  UInt64 as[count / 2] = {};
+  UInt64* ptr2 = as;
   for (Int32 j = 0; j < count / 2; j++) {
     ptr2[j] = source[j + count / 2];
   }
@@ -60,13 +60,13 @@ void Vector<>::Widen(Vector<UInt32> source, Vector<UInt64>& low, Vector<UInt64>&
 
 void Vector<>::Widen(Vector<SByte> source, Vector<Int16>& low, Vector<Int16>& high) {
   Int32 count = Vector<SByte>::get_Count();
-  Int16 default[count / 2] = {};
-  Int16* ptr = default;
+  Int16 as[count / 2] = {};
+  Int16* ptr = as;
   for (Int32 i = 0; i < count / 2; i++) {
     ptr[i] = source[i];
   }
-  Int16 extern[count / 2] = {};
-  Int16* ptr2 = extern;
+  Int16 as[count / 2] = {};
+  Int16* ptr2 = as;
   for (Int32 j = 0; j < count / 2; j++) {
     ptr2[j] = source[j + count / 2];
   }
@@ -76,13 +76,13 @@ void Vector<>::Widen(Vector<SByte> source, Vector<Int16>& low, Vector<Int16>& hi
 
 void Vector<>::Widen(Vector<Int16> source, Vector<Int32>& low, Vector<Int32>& high) {
   Int32 count = Vector<Int16>::get_Count();
-  Int32 default[count / 2] = {};
-  Int32* ptr = default;
+  Int32 as[count / 2] = {};
+  Int32* ptr = as;
   for (Int32 i = 0; i < count / 2; i++) {
     ptr[i] = source[i];
   }
-  Int32 extern[count / 2] = {};
-  Int32* ptr2 = extern;
+  Int32 as[count / 2] = {};
+  Int32* ptr2 = as;
   for (Int32 j = 0; j < count / 2; j++) {
     ptr2[j] = source[j + count / 2];
   }
@@ -92,13 +92,13 @@ void Vector<>::Widen(Vector<Int16> source, Vector<Int32>& low, Vector<Int32>& hi
 
 void Vector<>::Widen(Vector<Int32> source, Vector<Int64>& low, Vector<Int64>& high) {
   Int32 count = Vector<Int32>::get_Count();
-  Int64 default[count / 2] = {};
-  Int64* ptr = default;
+  Int64 as[count / 2] = {};
+  Int64* ptr = as;
   for (Int32 i = 0; i < count / 2; i++) {
     ptr[i] = source[i];
   }
-  Int64 extern[count / 2] = {};
-  Int64* ptr2 = extern;
+  Int64 as[count / 2] = {};
+  Int64* ptr2 = as;
   for (Int32 j = 0; j < count / 2; j++) {
     ptr2[j] = source[j + count / 2];
   }
@@ -108,13 +108,13 @@ void Vector<>::Widen(Vector<Int32> source, Vector<Int64>& low, Vector<Int64>& hi
 
 void Vector<>::Widen(Vector<Single> source, Vector<Double>& low, Vector<Double>& high) {
   Int32 count = Vector<Single>::get_Count();
-  Double default[count / 2] = {};
-  Double* ptr = default;
+  Double as[count / 2] = {};
+  Double* ptr = as;
   for (Int32 i = 0; i < count / 2; i++) {
     ptr[i] = source[i];
   }
-  Double extern[count / 2] = {};
-  Double* ptr2 = extern;
+  Double as[count / 2] = {};
+  Double* ptr2 = as;
   for (Int32 j = 0; j < count / 2; j++) {
     ptr2[j] = source[j + count / 2];
   }
@@ -124,8 +124,8 @@ void Vector<>::Widen(Vector<Single> source, Vector<Double>& low, Vector<Double>&
 
 Vector<Byte> Vector<>::Narrow(Vector<UInt16> low, Vector<UInt16> high) {
   Int32 count = Vector<Byte>::get_Count();
-  Byte default[(Int32)(UInt32)count] = {};
-  Byte* ptr = default;
+  Byte as[(Int32)(UInt32)count] = {};
+  Byte* ptr = as;
   for (Int32 i = 0; i < count / 2; i++) {
     ptr[i] = (Byte)low[i];
   }
@@ -137,8 +137,8 @@ Vector<Byte> Vector<>::Narrow(Vector<UInt16> low, Vector<UInt16> high) {
 
 Vector<UInt16> Vector<>::Narrow(Vector<UInt32> low, Vector<UInt32> high) {
   Int32 count = Vector<UInt16>::get_Count();
-  UInt16 default[count] = {};
-  UInt16* ptr = default;
+  UInt16 as[count] = {};
+  UInt16* ptr = as;
   for (Int32 i = 0; i < count / 2; i++) {
     ptr[i] = (UInt16)low[i];
   }
@@ -150,8 +150,8 @@ Vector<UInt16> Vector<>::Narrow(Vector<UInt32> low, Vector<UInt32> high) {
 
 Vector<UInt32> Vector<>::Narrow(Vector<UInt64> low, Vector<UInt64> high) {
   Int32 count = Vector<UInt32>::get_Count();
-  UInt32 default[count] = {};
-  UInt32* ptr = default;
+  UInt32 as[count] = {};
+  UInt32* ptr = as;
   for (Int32 i = 0; i < count / 2; i++) {
     ptr[i] = (UInt32)low[i];
   }
@@ -163,8 +163,8 @@ Vector<UInt32> Vector<>::Narrow(Vector<UInt64> low, Vector<UInt64> high) {
 
 Vector<SByte> Vector<>::Narrow(Vector<Int16> low, Vector<Int16> high) {
   Int32 count = Vector<SByte>::get_Count();
-  SByte default[(Int32)(UInt32)count] = {};
-  SByte* ptr = default;
+  SByte as[(Int32)(UInt32)count] = {};
+  SByte* ptr = as;
   for (Int32 i = 0; i < count / 2; i++) {
     ptr[i] = (SByte)low[i];
   }
@@ -176,8 +176,8 @@ Vector<SByte> Vector<>::Narrow(Vector<Int16> low, Vector<Int16> high) {
 
 Vector<Int16> Vector<>::Narrow(Vector<Int32> low, Vector<Int32> high) {
   Int32 count = Vector<Int16>::get_Count();
-  Int16 default[count] = {};
-  Int16* ptr = default;
+  Int16 as[count] = {};
+  Int16* ptr = as;
   for (Int32 i = 0; i < count / 2; i++) {
     ptr[i] = (Int16)low[i];
   }
@@ -189,8 +189,8 @@ Vector<Int16> Vector<>::Narrow(Vector<Int32> low, Vector<Int32> high) {
 
 Vector<Int32> Vector<>::Narrow(Vector<Int64> low, Vector<Int64> high) {
   Int32 count = Vector<Int32>::get_Count();
-  Int32 default[count] = {};
-  Int32* ptr = default;
+  Int32 as[count] = {};
+  Int32* ptr = as;
   for (Int32 i = 0; i < count / 2; i++) {
     ptr[i] = (Int32)low[i];
   }
@@ -202,8 +202,8 @@ Vector<Int32> Vector<>::Narrow(Vector<Int64> low, Vector<Int64> high) {
 
 Vector<Single> Vector<>::Narrow(Vector<Double> low, Vector<Double> high) {
   Int32 count = Vector<Single>::get_Count();
-  Single default[count] = {};
-  Single* ptr = default;
+  Single as[count] = {};
+  Single* ptr = as;
   for (Int32 i = 0; i < count / 2; i++) {
     ptr[i] = (Single)low[i];
   }
@@ -215,8 +215,8 @@ Vector<Single> Vector<>::Narrow(Vector<Double> low, Vector<Double> high) {
 
 Vector<Single> Vector<>::ConvertToSingle(Vector<Int32> value) {
   Int32 count = Vector<Single>::get_Count();
-  Single default[count] = {};
-  Single* ptr = default;
+  Single as[count] = {};
+  Single* ptr = as;
   for (Int32 i = 0; i < count; i++) {
     ptr[i] = value[i];
   }
@@ -225,8 +225,8 @@ Vector<Single> Vector<>::ConvertToSingle(Vector<Int32> value) {
 
 Vector<Single> Vector<>::ConvertToSingle(Vector<UInt32> value) {
   Int32 count = Vector<Single>::get_Count();
-  Single default[count] = {};
-  Single* ptr = default;
+  Single as[count] = {};
+  Single* ptr = as;
   for (Int32 i = 0; i < count; i++) {
     ptr[i] = value[i];
   }
@@ -235,8 +235,8 @@ Vector<Single> Vector<>::ConvertToSingle(Vector<UInt32> value) {
 
 Vector<Double> Vector<>::ConvertToDouble(Vector<Int64> value) {
   Int32 count = Vector<Double>::get_Count();
-  Double default[count] = {};
-  Double* ptr = default;
+  Double as[count] = {};
+  Double* ptr = as;
   for (Int32 i = 0; i < count; i++) {
     ptr[i] = value[i];
   }
@@ -245,8 +245,8 @@ Vector<Double> Vector<>::ConvertToDouble(Vector<Int64> value) {
 
 Vector<Double> Vector<>::ConvertToDouble(Vector<UInt64> value) {
   Int32 count = Vector<Double>::get_Count();
-  Double default[count] = {};
-  Double* ptr = default;
+  Double as[count] = {};
+  Double* ptr = as;
   for (Int32 i = 0; i < count; i++) {
     ptr[i] = value[i];
   }
@@ -255,8 +255,8 @@ Vector<Double> Vector<>::ConvertToDouble(Vector<UInt64> value) {
 
 Vector<Int32> Vector<>::ConvertToInt32(Vector<Single> value) {
   Int32 count = Vector<Int32>::get_Count();
-  Int32 default[count] = {};
-  Int32* ptr = default;
+  Int32 as[count] = {};
+  Int32* ptr = as;
   for (Int32 i = 0; i < count; i++) {
     ptr[i] = (Int32)value[i];
   }
@@ -265,8 +265,8 @@ Vector<Int32> Vector<>::ConvertToInt32(Vector<Single> value) {
 
 Vector<UInt32> Vector<>::ConvertToUInt32(Vector<Single> value) {
   Int32 count = Vector<UInt32>::get_Count();
-  UInt32 default[count] = {};
-  UInt32* ptr = default;
+  UInt32 as[count] = {};
+  UInt32* ptr = as;
   for (Int32 i = 0; i < count; i++) {
     ptr[i] = (UInt32)value[i];
   }
@@ -275,8 +275,8 @@ Vector<UInt32> Vector<>::ConvertToUInt32(Vector<Single> value) {
 
 Vector<Int64> Vector<>::ConvertToInt64(Vector<Double> value) {
   Int32 count = Vector<Int64>::get_Count();
-  Int64 default[count] = {};
-  Int64* ptr = default;
+  Int64 as[count] = {};
+  Int64* ptr = as;
   for (Int32 i = 0; i < count; i++) {
     ptr[i] = (Int64)value[i];
   }
@@ -285,8 +285,8 @@ Vector<Int64> Vector<>::ConvertToInt64(Vector<Double> value) {
 
 Vector<UInt64> Vector<>::ConvertToUInt64(Vector<Double> value) {
   Int32 count = Vector<UInt64>::get_Count();
-  UInt64 default[count] = {};
-  UInt64* ptr = default;
+  UInt64 as[count] = {};
+  UInt64* ptr = as;
   for (Int32 i = 0; i < count; i++) {
     ptr[i] = (UInt64)value[i];
   }

@@ -82,8 +82,8 @@ IEnumerable<AssemblyLoadContext> AssemblyLoadContext___::get_All() {
 }
 
 AssemblyLoadContext AssemblyLoadContext___::get_CurrentContextualReflectionContext() {
-  auto& default = s_asyncLocalCurrent;
-  return default == nullptr ? nullptr : default->get_Value();
+  auto& as = s_asyncLocalCurrent;
+  return as == nullptr ? nullptr : as->get_Value();
 }
 
 Assembly AssemblyLoadContext___::InternalLoadFromPath(String assemblyPath, String nativeImagePath) {
@@ -163,8 +163,8 @@ RuntimeAssembly AssemblyLoadContext___::GetRuntimeAssembly(Assembly asm_) {
   if (!(asm == nullptr)) {
     RuntimeAssembly runtimeAssembly = rt::as<RuntimeAssembly>(asm);
     if ((Object)runtimeAssembly == nullptr) {
-      auto& default = (rt::as<AssemblyBuilder>(asm));
-      return default == nullptr ? nullptr : default->get_InternalAssembly();
+      auto& as = (rt::as<AssemblyBuilder>(asm));
+      return as == nullptr ? nullptr : as->get_InternalAssembly();
     }
     return runtimeAssembly;
   }

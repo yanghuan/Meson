@@ -160,7 +160,7 @@ CLASS(DateTimeFormatInfo) : public Object::in {
   private: void ClearTokenHashTable();
   public: Array<TokenHashValue> CreateTokenHashTable();
   private: template <class T0 = ReadOnlySpan<Char>>
-  void AddMonthNames(Array<TokenHashValue> temp, T0 monthPostfix = rt::default);
+  void AddMonthNames(Array<TokenHashValue> temp, T0 monthPostfix = rt::default__);
   private: static Boolean TryParseHebrewNumber(__DTString& str, Boolean& badFormat, Int32& number);
   private: static Boolean IsHebrewChar(Char ch);
   private: Boolean IsAllowedJapaneseTokenFollowedByNonSpaceLetter(String tokenString, Char nextCh);

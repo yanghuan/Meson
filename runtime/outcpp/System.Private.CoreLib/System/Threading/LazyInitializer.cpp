@@ -4,9 +4,9 @@
 
 namespace System::Private::CoreLib::System::Threading::LazyInitializerNamespace {
 Object LazyInitializer::EnsureLockInitialized(Object& syncLock) {
-  auto& default = Interlocked::CompareExchange(syncLock, rt::newobj<Object>(), nullptr);
-  auto& extern = syncLock;
-  return extern != nullptr ? extern : default != nullptr ? default : syncLock;
+  auto& as = Interlocked::CompareExchange(syncLock, rt::newobj<Object>(), nullptr);
+  auto& as = syncLock;
+  return as != nullptr ? as : as != nullptr ? as : syncLock;
 }
 
 } // namespace System::Private::CoreLib::System::Threading::LazyInitializerNamespace

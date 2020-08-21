@@ -53,8 +53,8 @@ Boolean TextInfo___::get_IsReadOnly() {
 }
 
 String TextInfo___::get_ListSeparator() {
-  auto& default = _listSeparator;
-  return default != nullptr ? default : (_listSeparator = _cultureData->get_ListSeparator());
+  auto& as = _listSeparator;
+  return as != nullptr ? as : (_listSeparator = _cultureData->get_ListSeparator());
 }
 
 void TextInfo___::set_ListSeparator(String value) {
@@ -375,8 +375,8 @@ Int32 TextInfo___::AddTitlecaseLetter(StringBuilder& result, String& input, Int3
     if (GlobalizationMode::get_Invariant()) {
       result->Append(readOnlySpan);
     } else {
-      Char default[2] = {};
-      Span<Char> span = default;
+      Char as[2] = {};
+      Span<Char> span = as;
       ChangeCaseToUpper(readOnlySpan, span);
       result->Append(span);
     }

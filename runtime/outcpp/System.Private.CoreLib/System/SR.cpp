@@ -20,8 +20,8 @@ using namespace System::Runtime::CompilerServices;
 using namespace System::Threading;
 
 ResourceManager SR::get_ResourceManager() {
-  auto& default = s_resourceManager;
-  return default != nullptr ? default : (s_resourceManager = rt::newobj<ResourceManager>(rt::typeof<Strings>()));
+  auto& as = s_resourceManager;
+  return as != nullptr ? as : (s_resourceManager = rt::newobj<ResourceManager>(rt::typeof<Strings>()));
 }
 
 String SR::get_Acc_CreateAbstEx() {
@@ -4280,8 +4280,8 @@ String SR::InternalGetResourceString(String key) {
     _currentlyLoading->Add(key);
     String string = get_ResourceManager()->GetString(key, nullptr);
     _currentlyLoading->RemoveAt(_currentlyLoading->get_Count() - 1);
-    auto& default = string;
-    return default != nullptr ? default : key;
+    auto& as = string;
+    return as != nullptr ? as : key;
   } catch (...) {
   } finally: {
     if (lockTaken) {

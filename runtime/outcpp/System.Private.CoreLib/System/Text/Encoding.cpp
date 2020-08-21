@@ -415,10 +415,10 @@ void Encoding___::ctor(Int32 codePage, EncoderFallback encoderFallback, DecoderF
     rt::throw_exception<ArgumentOutOfRangeException>("codePage");
   }
   _codePage = codePage;
-  auto& default = encoderFallback;
-  this->encoderFallback = (default != nullptr ? default : rt::newobj<InternalEncoderBestFitFallback>((Encoding)this));
-  auto& extern = decoderFallback;
-  this->decoderFallback = (extern != nullptr ? extern : rt::newobj<InternalDecoderBestFitFallback>((Encoding)this));
+  auto& as = encoderFallback;
+  this->encoderFallback = (as != nullptr ? as : rt::newobj<InternalEncoderBestFitFallback>((Encoding)this));
+  auto& as = decoderFallback;
+  this->decoderFallback = (as != nullptr ? as : rt::newobj<InternalDecoderBestFitFallback>((Encoding)this));
 }
 
 void Encoding___::SetDefaultFallbacks() {
@@ -497,13 +497,13 @@ Encoding Encoding___::GetEncoding(Int32 codepage, EncoderFallback encoderFallbac
 }
 
 Encoding Encoding___::GetEncoding(String name) {
-  auto& default = EncodingProvider::in::GetEncodingFromProvider(name);
-  return default != nullptr ? default : GetEncoding(EncodingTable::GetCodePageFromName(name));
+  auto& as = EncodingProvider::in::GetEncodingFromProvider(name);
+  return as != nullptr ? as : GetEncoding(EncodingTable::GetCodePageFromName(name));
 }
 
 Encoding Encoding___::GetEncoding(String name, EncoderFallback encoderFallback, DecoderFallback decoderFallback) {
-  auto& default = EncodingProvider::in::GetEncodingFromProvider(name, encoderFallback, decoderFallback);
-  return default != nullptr ? default : GetEncoding(EncodingTable::GetCodePageFromName(name), encoderFallback, decoderFallback);
+  auto& as = EncodingProvider::in::GetEncodingFromProvider(name, encoderFallback, decoderFallback);
+  return as != nullptr ? as : GetEncoding(EncodingTable::GetCodePageFromName(name), encoderFallback, decoderFallback);
 }
 
 Array<EncodingInfo> Encoding___::GetEncodings() {
@@ -815,9 +815,9 @@ void Encoding___::ThrowBytesOverflow() {
 }
 
 void Encoding___::ThrowBytesOverflow(EncoderNLS encoder, Boolean nothingEncoded) {
-  auto& default = encoder;
-  auto& extern = default == nullptr ? nullptr : default->_throwOnOverflow;
-  if ((extern != nullptr ? extern : true) || nothingEncoded) {
+  auto& as = encoder;
+  auto& as = as == nullptr ? nullptr : as->_throwOnOverflow;
+  if ((as != nullptr ? as : true) || nothingEncoded) {
     if (encoder != nullptr && encoder->get_InternalHasFallbackBuffer()) {
       encoder->get_FallbackBuffer()->InternalReset();
     }
@@ -835,9 +835,9 @@ void Encoding___::ThrowCharsOverflow() {
 }
 
 void Encoding___::ThrowCharsOverflow(DecoderNLS decoder, Boolean nothingDecoded) {
-  auto& default = decoder;
-  auto& extern = default == nullptr ? nullptr : default->_throwOnOverflow;
-  if ((extern != nullptr ? extern : true) || nothingDecoded) {
+  auto& as = decoder;
+  auto& as = as == nullptr ? nullptr : as->_throwOnOverflow;
+  if ((as != nullptr ? as : true) || nothingDecoded) {
     if (decoder != nullptr && decoder->get_InternalHasFallbackBuffer()) {
       decoder->get_FallbackBuffer()->InternalReset();
     }

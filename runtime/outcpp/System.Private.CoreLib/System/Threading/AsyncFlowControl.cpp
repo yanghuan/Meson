@@ -40,9 +40,9 @@ Boolean AsyncFlowControl::Equals(AsyncFlowControl obj) {
 }
 
 Int32 AsyncFlowControl::GetHashCode() {
-  auto& default = _thread;
-  auto& extern = default == nullptr ? nullptr : default->GetHashCode();
-  return extern != nullptr ? extern : 0;
+  auto& as = _thread;
+  auto& as = as == nullptr ? nullptr : as->GetHashCode();
+  return as != nullptr ? as : 0;
 }
 
 Boolean AsyncFlowControl::op_Equality(AsyncFlowControl a, AsyncFlowControl b) {

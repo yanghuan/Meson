@@ -140,9 +140,9 @@ TypeCode Convert::GetTypeCode(Object value) {
   if (value == nullptr) {
     return TypeCode::Empty;
   }
-  auto& default = (rt::as<IConvertible>(value));
-  auto& extern = default == nullptr ? nullptr : default->GetTypeCode();
-  return extern != nullptr ? extern : TypeCode::Object;
+  auto& as = (rt::as<IConvertible>(value));
+  auto& as = as == nullptr ? nullptr : as->GetTypeCode();
+  return as != nullptr ? as : TypeCode::Object;
 }
 
 Boolean Convert::IsDBNull(Object value) {
@@ -2205,8 +2205,8 @@ Boolean Convert::TryFromBase64String(String s, Span<Byte> bytes, Int32& bytesWri
 }
 
 Boolean Convert::TryFromBase64Chars(ReadOnlySpan<Char> chars, Span<Byte> bytes, Int32& bytesWritten) {
-  Char default[4] = {};
-  Span<Char> span = default;
+  Char as[4] = {};
+  Span<Char> span = as;
   bytesWritten = 0;
   while (chars.get_Length() != 0) {
     Int32 consumed;

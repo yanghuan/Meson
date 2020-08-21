@@ -38,10 +38,10 @@ namespace System::Private::CoreLib::System::Globalization::CultureInfoNamespace 
 using namespace System::Threading;
 
 CultureInfo CultureInfo___::get_CurrentCulture() {
-  auto& default = s_userDefaultCulture;
-  auto& extern = s_DefaultThreadCurrentCulture;
-  auto& ref = s_currentThreadCulture;
-  return ref != nullptr ? ref : extern != nullptr ? extern : default != nullptr ? default : InitializeUserDefaultCulture();
+  auto& as = s_userDefaultCulture;
+  auto& as = s_DefaultThreadCurrentCulture;
+  auto& in = s_currentThreadCulture;
+  return in != nullptr ? in : as != nullptr ? as : as != nullptr ? as : InitializeUserDefaultCulture();
 }
 
 void CultureInfo___::set_CurrentCulture(CultureInfo value) {
@@ -55,9 +55,9 @@ void CultureInfo___::set_CurrentCulture(CultureInfo value) {
 }
 
 CultureInfo CultureInfo___::get_CurrentUICulture() {
-  auto& default = s_DefaultThreadCurrentUICulture;
-  auto& extern = s_currentThreadUICulture;
-  return extern != nullptr ? extern : default != nullptr ? default : get_UserDefaultUICulture();
+  auto& as = s_DefaultThreadCurrentUICulture;
+  auto& as = s_currentThreadUICulture;
+  return as != nullptr ? as : as != nullptr ? as : get_UserDefaultUICulture();
 }
 
 void CultureInfo___::set_CurrentUICulture(CultureInfo value) {
@@ -72,13 +72,13 @@ void CultureInfo___::set_CurrentUICulture(CultureInfo value) {
 }
 
 CultureInfo CultureInfo___::get_UserDefaultUICulture() {
-  auto& default = s_userDefaultUICulture;
-  return default != nullptr ? default : InitializeUserDefaultUICulture();
+  auto& as = s_userDefaultUICulture;
+  return as != nullptr ? as : InitializeUserDefaultUICulture();
 }
 
 CultureInfo CultureInfo___::get_InstalledUICulture() {
-  auto& default = s_userDefaultCulture;
-  return default != nullptr ? default : InitializeUserDefaultCulture();
+  auto& as = s_userDefaultCulture;
+  return as != nullptr ? as : InitializeUserDefaultCulture();
 }
 
 CultureInfo CultureInfo___::get_DefaultThreadCurrentCulture() {
@@ -107,8 +107,8 @@ CultureInfo CultureInfo___::get_InvariantCulture() {
 CultureInfo CultureInfo___::get_Parent() {
   if (_parent == nullptr) {
     String parentName = _cultureData->get_ParentName();
-    auto& default = CreateCultureInfoNoThrow(parentName, _cultureData->get_UseUserOverride());
-    CultureInfo value = (!String::in::IsNullOrEmpty(parentName)) ? (default != nullptr ? default : get_InvariantCulture()) : get_InvariantCulture();
+    auto& as = CreateCultureInfoNoThrow(parentName, _cultureData->get_UseUserOverride());
+    CultureInfo value = (!String::in::IsNullOrEmpty(parentName)) ? (as != nullptr ? as : get_InvariantCulture()) : get_InvariantCulture();
     Interlocked::CompareExchange(_parent, value, (CultureInfo)nullptr);
   }
   return _parent;
@@ -125,8 +125,8 @@ Int32 CultureInfo___::get_KeyboardLayoutId() {
 String CultureInfo___::get_Name() {
   String text = _nonSortName;
   if (text == nullptr) {
-    auto& default = _cultureData->get_Name();
-    String obj = default != nullptr ? default : String::in::Empty;
+    auto& as = _cultureData->get_Name();
+    String obj = as != nullptr ? as : String::in::Empty;
     String text2 = obj;
     _nonSortName = obj;
     text = text2;
@@ -135,8 +135,8 @@ String CultureInfo___::get_Name() {
 }
 
 String CultureInfo___::get_SortName() {
-  auto& default = _sortName;
-  return default != nullptr ? default : (_sortName = _cultureData->get_SortName());
+  auto& as = _sortName;
+  return as != nullptr ? as : (_sortName = _cultureData->get_SortName());
 }
 
 String CultureInfo___::get_IetfLanguageTag() {
@@ -175,8 +175,8 @@ String CultureInfo___::get_ThreeLetterWindowsLanguageName() {
 }
 
 CompareInfo CultureInfo___::get_CompareInfo() {
-  auto& default = _compareInfo;
-  return default != nullptr ? default : (_compareInfo = (get_UseUserOverride() ? GetCultureInfo(_name)->get_CompareInfo() : rt::newobj<CompareInfo>((CultureInfo)this)));
+  auto& as = _compareInfo;
+  return as != nullptr ? as : (_compareInfo = (get_UseUserOverride() ? GetCultureInfo(_name)->get_CompareInfo() : rt::newobj<CompareInfo>((CultureInfo)this)));
 }
 
 TextInfo CultureInfo___::get_TextInfo() {
@@ -275,8 +275,8 @@ Dictionary<String, CultureInfo> CultureInfo___::get_CachedCulturesByName() {
   Dictionary<String, CultureInfo> dictionary = s_cachedCulturesByName;
   if (dictionary == nullptr) {
     dictionary = rt::newobj<Dictionary<String, CultureInfo>>();
-    auto& default = Interlocked::CompareExchange(s_cachedCulturesByName, dictionary, (Dictionary<String, CultureInfo>)nullptr);
-    dictionary = (default != nullptr ? default : dictionary);
+    auto& as = Interlocked::CompareExchange(s_cachedCulturesByName, dictionary, (Dictionary<String, CultureInfo>)nullptr);
+    dictionary = (as != nullptr ? as : dictionary);
   }
   return dictionary;
 }
@@ -285,8 +285,8 @@ Dictionary<Int32, CultureInfo> CultureInfo___::get_CachedCulturesByLcid() {
   Dictionary<Int32, CultureInfo> dictionary = s_cachedCulturesByLcid;
   if (dictionary == nullptr) {
     dictionary = rt::newobj<Dictionary<Int32, CultureInfo>>();
-    auto& default = Interlocked::CompareExchange(s_cachedCulturesByLcid, dictionary, (Dictionary<Int32, CultureInfo>)nullptr);
-    dictionary = (default != nullptr ? default : dictionary);
+    auto& as = Interlocked::CompareExchange(s_cachedCulturesByLcid, dictionary, (Dictionary<Int32, CultureInfo>)nullptr);
+    dictionary = (as != nullptr ? as : dictionary);
   }
   return dictionary;
 }
@@ -687,8 +687,8 @@ CultureInfo CultureInfo___::GetUserDefaultCulture() {
   if (GlobalizationMode::get_Invariant()) {
     return get_InvariantCulture();
   }
-  auto& default = CultureData::in::GetLocaleInfoEx(nullptr, 92u);
-  String text = default != nullptr ? default : CultureData::in::GetLocaleInfoEx("!x-sys-default-locale", 92u);
+  auto& as = CultureData::in::GetLocaleInfoEx(nullptr, 92u);
+  String text = as != nullptr ? as : CultureData::in::GetLocaleInfoEx("!x-sys-default-locale", 92u);
   if (text == nullptr) {
     return get_InvariantCulture();
   }
@@ -702,8 +702,8 @@ CultureInfo CultureInfo___::GetUserDefaultUICulture() {
   UInt32 num = 0u;
   UInt32 num2 = 0u;
   if (Interop::Kernel32::GetUserPreferredUILanguages(8u, &num, nullptr, &num2) != 0) {
-    Char default[(Int32)num2] = {};
-    Span<Char> span = (num2 > 256) ? ((Span<Char>)rt::newarr<Array<Char>>(num2)) : default;
+    Char as[(Int32)num2] = {};
+    Span<Char> span = (num2 > 256) ? ((Span<Char>)rt::newarr<Array<Char>>(num2)) : as;
     Span<Char> span2 = span;
     {
       Char* pwszLanguagesBuffer = span2;

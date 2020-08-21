@@ -20,8 +20,8 @@ Array<Byte> AnsiCharMarshaler::DoAnsiConversion(String str, Boolean fBestFit, Bo
 
 Byte AnsiCharMarshaler::ConvertToNative(Char managedChar, Boolean fBestFit, Boolean fThrowOnUnmappableChar) {
   Int32 num = 2 * Marshal::SystemMaxDBCSCharSize;
-  Byte default[(Int32)(UInt32)num] = {};
-  Byte* ptr = default;
+  Byte as[(Int32)(UInt32)num] = {};
+  Byte* ptr = as;
   Int32 num2 = Marshal::StringToAnsiString(managedChar.ToString(), ptr, num, fBestFit, fThrowOnUnmappableChar);
   return *ptr;
 }

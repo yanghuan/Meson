@@ -92,8 +92,8 @@ String UriHelper::EscapeString(String stringToEscape, Boolean checkExistingEscap
   if ((forceEscape1 | forceEscape2) == 0) {
     readOnlySpan = unreserved;
   } else {
-    Byte default[128] = {};
-    Span<Boolean> span = Span<Boolean>(default, 128);
+    Byte as[128] = {};
+    Span<Boolean> span = Span<Boolean>(as, 128);
     Span<Boolean> span2 = span;
     unreserved.CopyTo(span2);
     span2[forceEscape1] = false;
@@ -113,8 +113,8 @@ String UriHelper::EscapeString(String stringToEscape, Boolean checkExistingEscap
   if (i == stringToEscape->get_Length()) {
     return stringToEscape;
   }
-  Char default[256] = {};
-  Span<Char> initialBuffer = default;
+  Char as[256] = {};
+  Span<Char> initialBuffer = as;
   ValueStringBuilder vsb = ValueStringBuilder(initialBuffer);
   vsb.Append(MemoryExtensions::AsSpan(stringToEscape, 0, i));
   EscapeStringToBuilder(MemoryExtensions::AsSpan(stringToEscape, i), vsb, readOnlySpan, checkExistingEscaped);
@@ -131,8 +131,8 @@ Array<Char> UriHelper::EscapeString(ReadOnlySpan<Char> stringToEscape, Array<Cha
   if ((forceEscape1 | forceEscape2) == 0) {
     readOnlySpan = get_UnreservedReservedTable();
   } else {
-    Byte default[128] = {};
-    Span<Boolean> span = Span<Boolean>(default, 128);
+    Byte as[128] = {};
+    Span<Boolean> span = Span<Boolean>(as, 128);
     Span<Boolean> span2 = span;
     get_UnreservedReservedTable().CopyTo(span2);
     span2[forceEscape1] = false;
@@ -157,8 +157,8 @@ Array<Char> UriHelper::EscapeString(ReadOnlySpan<Char> stringToEscape, Array<Cha
     }
     return dest;
   }
-  Char default[256] = {};
-  Span<Char> initialBuffer = default;
+  Char as[256] = {};
+  Span<Char> initialBuffer = as;
   ValueStringBuilder vsb = ValueStringBuilder(initialBuffer);
   vsb.Append(stringToEscape.Slice(0, i));
   EscapeStringToBuilder(stringToEscape.Slice(i), vsb, readOnlySpan, checkExistingEscaped);
@@ -170,8 +170,8 @@ Array<Char> UriHelper::EscapeString(ReadOnlySpan<Char> stringToEscape, Array<Cha
 }
 
 void UriHelper::EscapeStringToBuilder(ReadOnlySpan<Char> stringToEscape, ValueStringBuilder& vsb, ReadOnlySpan<Boolean> noEscape, Boolean checkExistingEscaped) {
-  Byte default[4] = {};
-  Span<Byte> span = Span<Byte>(default, 4);
+  Byte as[4] = {};
+  Span<Byte> span = Span<Byte>(as, 4);
   Span<Byte> destination = span;
   SpanRuneEnumerator spanRuneEnumerator = MemoryExtensions::EnumerateRunes(stringToEscape);
   while (spanRuneEnumerator.MoveNext()) {
@@ -362,8 +362,8 @@ void UriHelper::UnescapeString(Char* pStr, Int32 start, Int32 end, ValueStringBu
 }
 
 void UriHelper::MatchUTF8Sequence(ValueStringBuilder& dest, Span<Char> unescapedChars, Int32 charCount, Array<Byte> bytes, Int32 byteCount, Boolean isQuery, Boolean iriParsing) {
-  Byte default[4] = {};
-  Span<Byte> span = Span<Byte>(default, 4);
+  Byte as[4] = {};
+  Span<Byte> span = Span<Byte>(as, 4);
   Span<Byte> span2 = span;
   Int32 num = 0;
   {

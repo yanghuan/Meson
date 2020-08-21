@@ -46,8 +46,8 @@ void ResourceSet___::Dispose(Boolean disposing) {
   if (disposing) {
     IResourceReader reader = Reader;
     Reader = nullptr;
-    auto& default = reader;
-    default == nullptr ? nullptr : default->Close();
+    auto& as = reader;
+    as == nullptr ? nullptr : as->Close();
   }
   Reader = nullptr;
   _caseInsensitiveTable = nullptr;

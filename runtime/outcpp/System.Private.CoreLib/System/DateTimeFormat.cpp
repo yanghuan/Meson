@@ -37,8 +37,8 @@ void DateTimeFormat::FormatDigits(StringBuilder outputBuffer, Int32 value, Int32
   if (!overrideLengthLimit && len > 2) {
     len = 2;
   }
-  Char default[16] = {};
-  Char* ptr = default;
+  Char as[16] = {};
+  Char* ptr = as;
   Char* ptr2 = ptr + 16;
   Int32 num = value;
   do {
@@ -480,8 +480,8 @@ String DateTimeFormat::Format(DateTime dateTime, String format, IFormatProvider 
       case 79:
       case 111:
         {
-          Char default[33] = {};
-          Span<Char> destination = default;
+          Char as[33] = {};
+          Span<Char> destination = as;
           Int32 charsWritten2;
           TryFormatO(dateTime, offset, destination, charsWritten2);
           return destination.Slice(0, charsWritten2).ToString();

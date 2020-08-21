@@ -54,8 +54,8 @@ RuntimeType RuntimeMethodInfo___::get_ReflectedTypeInternal() {
 }
 
 Signature RuntimeMethodInfo___::get_Signature() {
-  auto& default = m_signature;
-  return default != nullptr ? default : (m_signature = rt::newobj<Signature>((RuntimeMethodInfo)this, m_declaringType));
+  auto& as = m_signature;
+  return as != nullptr ? as : (m_signature = rt::newobj<Signature>((RuntimeMethodInfo)this, m_declaringType));
 }
 
 BindingFlags RuntimeMethodInfo___::get_BindingFlags() {
@@ -67,8 +67,8 @@ Int32 RuntimeMethodInfo___::get_GenericParameterCount() {
 }
 
 String RuntimeMethodInfo___::get_Name() {
-  auto& default = m_name;
-  return default != nullptr ? default : (m_name = RuntimeMethodHandle::GetName((RuntimeMethodInfo)this));
+  auto& as = m_name;
+  return as != nullptr ? as : (m_name = RuntimeMethodHandle::GetName((RuntimeMethodInfo)this));
 }
 
 Type RuntimeMethodInfo___::get_DeclaringType() {
@@ -182,13 +182,13 @@ void RuntimeMethodInfo___::ctor(RuntimeMethodHandleInternal handle, RuntimeType 
 }
 
 Array<ParameterInfo> RuntimeMethodInfo___::FetchNonReturnParameters() {
-  auto& default = m_parameters;
-  return default != nullptr ? default : (m_parameters = RuntimeParameterInfo::in::GetParameters((RuntimeMethodInfo)this, (RuntimeMethodInfo)this, get_Signature()));
+  auto& as = m_parameters;
+  return as != nullptr ? as : (m_parameters = RuntimeParameterInfo::in::GetParameters((RuntimeMethodInfo)this, (RuntimeMethodInfo)this, get_Signature()));
 }
 
 ParameterInfo RuntimeMethodInfo___::FetchReturnParameter() {
-  auto& default = m_returnParameter;
-  return default != nullptr ? default : (m_returnParameter = RuntimeParameterInfo::in::GetReturnParameter((RuntimeMethodInfo)this, (RuntimeMethodInfo)this, get_Signature()));
+  auto& as = m_returnParameter;
+  return as != nullptr ? as : (m_returnParameter = RuntimeParameterInfo::in::GetReturnParameter((RuntimeMethodInfo)this, (RuntimeMethodInfo)this, get_Signature()));
 }
 
 Boolean RuntimeMethodInfo___::CacheEquals(Object o) {
@@ -491,8 +491,8 @@ Array<RuntimeType> RuntimeMethodInfo___::GetGenericArgumentsInternal() {
 }
 
 Array<Type> RuntimeMethodInfo___::GetGenericArguments() {
-  auto& default = RuntimeMethodHandle::GetMethodInstantiationPublic((RuntimeMethodInfo)this);
-  return default != nullptr ? default : Array<>::in::Empty<Type>();
+  auto& as = RuntimeMethodHandle::GetMethodInstantiationPublic((RuntimeMethodInfo)this);
+  return as != nullptr ? as : Array<>::in::Empty<Type>();
 }
 
 MethodInfo RuntimeMethodInfo___::GetGenericMethodDefinition() {

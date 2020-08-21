@@ -1535,8 +1535,8 @@ Boolean DateTimeParse::TryParse(ReadOnlySpan<Char> s, DateTimeFormatInfo dtfi, D
   DateTimeToken dtok = DateTimeToken();
   dtok.suffix = TokenType::SEP_Unk;
   DateTimeRawInfo raw = DateTimeRawInfo();
-  Int32 default[3] = {};
-  Int32* numberBuffer = default;
+  Int32 as[3] = {};
+  Int32* numberBuffer = as;
   raw.Init(numberBuffer);
   raw.hasSameDateAndTimeSeparators = dtfi->get_DateSeparator()->Equals(dtfi->get_TimeSeparator(), StringComparison::Ordinal);
   result.calendar = dtfi->set_Calendar();

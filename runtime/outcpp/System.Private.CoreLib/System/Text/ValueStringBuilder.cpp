@@ -47,8 +47,8 @@ void ValueStringBuilder::AppendFormatHelper(IFormatProvider provider, String for
   Int32 num = 0;
   Int32 length = format->get_Length();
   Char c = 0;
-  auto& default = provider;
-  ICustomFormatter customFormatter = (ICustomFormatter)(default == nullptr ? nullptr : default->GetFormat(rt::typeof<ICustomFormatter>()));
+  auto& as = provider;
+  ICustomFormatter customFormatter = (ICustomFormatter)(as == nullptr ? nullptr : as->GetFormat(rt::typeof<ICustomFormatter>()));
   while (true) {
     if (num < length) {
       c = format[num];

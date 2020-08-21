@@ -426,8 +426,8 @@ void EventSource___::WriteEvent(Int32 eventId) {
 
 void EventSource___::WriteEvent(Int32 eventId, Int32 arg1) {
   if (m_eventSourceEnabled) {
-    EventData default[1] = {};
-    EventData* ptr = default;
+    EventData as[1] = {};
+    EventData* ptr = as;
     ptr->set_DataPointer((IntPtr)(void*)(&arg1));
     ptr->set_Size(4);
     ptr->set_Reserved(0);
@@ -437,8 +437,8 @@ void EventSource___::WriteEvent(Int32 eventId, Int32 arg1) {
 
 void EventSource___::WriteEvent(Int32 eventId, Int32 arg1, Int32 arg2) {
   if (m_eventSourceEnabled) {
-    EventData default[2] = {};
-    EventData* ptr = default;
+    EventData as[2] = {};
+    EventData* ptr = as;
     ptr->set_DataPointer((IntPtr)(void*)(&arg1));
     ptr->set_Size(4);
     ptr->set_Reserved(0);
@@ -451,8 +451,8 @@ void EventSource___::WriteEvent(Int32 eventId, Int32 arg1, Int32 arg2) {
 
 void EventSource___::WriteEvent(Int32 eventId, Int32 arg1, Int32 arg2, Int32 arg3) {
   if (m_eventSourceEnabled) {
-    EventData default[3] = {};
-    EventData* ptr = default;
+    EventData as[3] = {};
+    EventData* ptr = as;
     ptr->set_DataPointer((IntPtr)(void*)(&arg1));
     ptr->set_Size(4);
     ptr->set_Reserved(0);
@@ -468,8 +468,8 @@ void EventSource___::WriteEvent(Int32 eventId, Int32 arg1, Int32 arg2, Int32 arg
 
 void EventSource___::WriteEvent(Int32 eventId, Int64 arg1) {
   if (m_eventSourceEnabled) {
-    EventData default[1] = {};
-    EventData* ptr = default;
+    EventData as[1] = {};
+    EventData* ptr = as;
     ptr->set_DataPointer((IntPtr)(void*)(&arg1));
     ptr->set_Size(8);
     ptr->set_Reserved(0);
@@ -479,8 +479,8 @@ void EventSource___::WriteEvent(Int32 eventId, Int64 arg1) {
 
 void EventSource___::WriteEvent(Int32 eventId, Int64 arg1, Int64 arg2) {
   if (m_eventSourceEnabled) {
-    EventData default[2] = {};
-    EventData* ptr = default;
+    EventData as[2] = {};
+    EventData* ptr = as;
     ptr->set_DataPointer((IntPtr)(void*)(&arg1));
     ptr->set_Size(8);
     ptr->set_Reserved(0);
@@ -493,8 +493,8 @@ void EventSource___::WriteEvent(Int32 eventId, Int64 arg1, Int64 arg2) {
 
 void EventSource___::WriteEvent(Int32 eventId, Int64 arg1, Int64 arg2, Int64 arg3) {
   if (m_eventSourceEnabled) {
-    EventData default[3] = {};
-    EventData* ptr = default;
+    EventData as[3] = {};
+    EventData* ptr = as;
     ptr->set_DataPointer((IntPtr)(void*)(&arg1));
     ptr->set_Size(8);
     ptr->set_Reserved(0);
@@ -516,8 +516,8 @@ void EventSource___::WriteEvent(Int32 eventId, String arg1) {
     {
       Char* ptr = arg1;
       Char* value = ptr;
-      EventData default[1] = {};
-      EventData* ptr2 = default;
+      EventData as[1] = {};
+      EventData* ptr2 = as;
       ptr2->set_DataPointer((IntPtr)(void*)value);
       ptr2->set_Size((arg1->get_Length() + 1) * 2);
       ptr2->set_Reserved(0);
@@ -542,8 +542,8 @@ void EventSource___::WriteEvent(Int32 eventId, String arg1, String arg2) {
     {
       Char* ptr2 = arg2;
       Char* value2 = ptr2;
-      EventData default[2] = {};
-      EventData* ptr3 = default;
+      EventData as[2] = {};
+      EventData* ptr3 = as;
       ptr3->set_DataPointer((IntPtr)(void*)value);
       ptr3->set_Size((arg1->get_Length() + 1) * 2);
       ptr3->set_Reserved(0);
@@ -577,8 +577,8 @@ void EventSource___::WriteEvent(Int32 eventId, String arg1, String arg2, String 
       {
         Char* ptr3 = arg3;
         Char* value3 = ptr3;
-        EventData default[3] = {};
-        EventData* ptr4 = default;
+        EventData as[3] = {};
+        EventData* ptr4 = as;
         ptr4->set_DataPointer((IntPtr)(void*)value);
         ptr4->set_Size((arg1->get_Length() + 1) * 2);
         ptr4->set_Reserved(0);
@@ -602,8 +602,8 @@ void EventSource___::WriteEvent(Int32 eventId, String arg1, Int32 arg2) {
     {
       Char* ptr = arg1;
       Char* value = ptr;
-      EventData default[2] = {};
-      EventData* ptr2 = default;
+      EventData as[2] = {};
+      EventData* ptr2 = as;
       ptr2->set_DataPointer((IntPtr)(void*)value);
       ptr2->set_Size((arg1->get_Length() + 1) * 2);
       ptr2->set_Reserved(0);
@@ -623,8 +623,8 @@ void EventSource___::WriteEvent(Int32 eventId, String arg1, Int32 arg2, Int32 ar
     {
       Char* ptr = arg1;
       Char* value = ptr;
-      EventData default[3] = {};
-      EventData* ptr2 = default;
+      EventData as[3] = {};
+      EventData* ptr2 = as;
       ptr2->set_DataPointer((IntPtr)(void*)value);
       ptr2->set_Size((arg1->get_Length() + 1) * 2);
       ptr2->set_Reserved(0);
@@ -647,8 +647,8 @@ void EventSource___::WriteEvent(Int32 eventId, String arg1, Int64 arg2) {
     {
       Char* ptr = arg1;
       Char* value = ptr;
-      EventData default[2] = {};
-      EventData* ptr2 = default;
+      EventData as[2] = {};
+      EventData* ptr2 = as;
       ptr2->set_DataPointer((IntPtr)(void*)value);
       ptr2->set_Size((arg1->get_Length() + 1) * 2);
       ptr2->set_Reserved(0);
@@ -668,8 +668,8 @@ void EventSource___::WriteEvent(Int32 eventId, Int64 arg1, String arg2) {
     {
       Char* ptr = arg2;
       Char* value = ptr;
-      EventData default[2] = {};
-      EventData* ptr2 = default;
+      EventData as[2] = {};
+      EventData* ptr2 = as;
       ptr2->set_DataPointer((IntPtr)(void*)(&arg1));
       ptr2->set_Size(8);
       ptr2->set_Reserved(0);
@@ -689,8 +689,8 @@ void EventSource___::WriteEvent(Int32 eventId, Int32 arg1, String arg2) {
     {
       Char* ptr = arg2;
       Char* value = ptr;
-      EventData default[2] = {};
-      EventData* ptr2 = default;
+      EventData as[2] = {};
+      EventData* ptr2 = as;
       ptr2->set_DataPointer((IntPtr)(void*)(&arg1));
       ptr2->set_Size(4);
       ptr2->set_Reserved(0);
@@ -706,8 +706,8 @@ void EventSource___::WriteEvent(Int32 eventId, Array<Byte> arg1) {
   if (!m_eventSourceEnabled) {
     return;
   }
-  EventData default[2] = {};
-  EventData* ptr = default;
+  EventData as[2] = {};
+  EventData* ptr = as;
   if (arg1 == nullptr || arg1->get_Length() == 0) {
     Int32 num = 0;
     ptr->set_DataPointer((IntPtr)(void*)(&num));
@@ -736,8 +736,8 @@ void EventSource___::WriteEvent(Int32 eventId, Int64 arg1, Array<Byte> arg2) {
   if (!m_eventSourceEnabled) {
     return;
   }
-  EventData default[3] = {};
-  EventData* ptr = default;
+  EventData as[3] = {};
+  EventData* ptr = as;
   ptr->set_DataPointer((IntPtr)(void*)(&arg1));
   ptr->set_Size(8);
   ptr->set_Reserved(0);
@@ -1366,8 +1366,8 @@ void EventSource___::ThrowEventSourceException(String eventName, Exception inner
     }
     if (innerEx != nullptr) {
       innerEx = innerEx->GetBaseException();
-      auto& default = innerEx->GetType();
-      ReportOutOfBandMessage(text + ": " + default == nullptr ? nullptr : default->ToString() + ":" + innerEx->get_Message());
+      auto& as = innerEx->GetType();
+      ReportOutOfBandMessage(text + ": " + as == nullptr ? nullptr : as->ToString() + ":" + innerEx->get_Message());
     } else {
       ReportOutOfBandMessage(text);
     }
@@ -1479,8 +1479,8 @@ void EventSource___::DoCommand(EventCommandEventArgs commandArgs) {
         m_eventSourceEnabled = true;
       }
       OnEventCommand(commandArgs);
-      auto& default = m_eventCommandExecuted;
-      default == nullptr ? nullptr : default->Invoke((EventSource)this, commandArgs);
+      auto& as = m_eventCommandExecuted;
+      as == nullptr ? nullptr : as->Invoke((EventSource)this, commandArgs);
       if (commandArgs->enable) {
         return;
       }
@@ -1505,8 +1505,8 @@ void EventSource___::DoCommand(EventCommandEventArgs commandArgs) {
       SendManifest(m_rawManifest);
     }
     OnEventCommand(commandArgs);
-    auto& default = m_eventCommandExecuted;
-    default == nullptr ? nullptr : default->Invoke((EventSource)this, commandArgs);
+    auto& as = m_eventCommandExecuted;
+    as == nullptr ? nullptr : as->Invoke((EventSource)this, commandArgs);
   } catch (Exception ex) {
   }
 }
@@ -1578,8 +1578,8 @@ void EventSource___::SendManifest(Array<Byte> rawManifest) {
     manifestEnvelope.Magic = 91;
     Int32 num = rawManifest->get_Length();
     manifestEnvelope.ChunkNumber = 0;
-    EventProvider::in::EventData default[2] = {};
-    EventProvider::in::EventData* ptr = default;
+    EventProvider::in::EventData as[2] = {};
+    EventProvider::in::EventData* ptr = as;
     ptr->Ptr = (UInt64)(&manifestEnvelope);
     ptr->Size = (UInt32)sizeof(ManifestEnvelope);
     ptr->Reserved = 0u;
@@ -2001,8 +2001,8 @@ void EventSource___::WriteMultiMergeInner(String eventName, EventSourceOptions& 
   Byte opcode = ((options.valuesSet & 8) != 0) ? options.opcode : eventTypes->opcode;
   EventTags tags = ((options.valuesSet & 2) != 0) ? options.tags : eventTypes->get_Tags();
   EventKeywords keywords = ((options.valuesSet & 1) != 0) ? options.keywords : eventTypes->keywords;
-  auto& default = eventName;
-  NameInfo nameInfo = eventTypes->GetNameInfo(default != nullptr ? default : eventTypes->get_Name(), tags);
+  auto& as = eventName;
+  NameInfo nameInfo = eventTypes->GetNameInfo(as != nullptr ? as : eventTypes->get_Name(), tags);
   if (nameInfo == nullptr) {
     return;
   }
@@ -2010,15 +2010,15 @@ void EventSource___::WriteMultiMergeInner(String eventName, EventSourceOptions& 
   EventDescriptor eventDescriptor = EventDescriptor(num, level, opcode, (Int64)keywords);
   IntPtr orCreateEventHandle = nameInfo->GetOrCreateEventHandle(m_eventPipeProvider, m_eventHandleTable, eventDescriptor, eventTypes);
   Int32 pinCount = eventTypes->pinCount;
-  Byte extern[(Int32)(UInt32)eventTypes->scratchSize] = {};
-  Byte* scratch = extern;
-  EventData ref[eventTypes->dataCount + 3] = {};
-  EventData* ptr = ref;
+  Byte as[(Int32)(UInt32)eventTypes->scratchSize] = {};
+  Byte* scratch = as;
+  EventData in[eventTypes->dataCount + 3] = {};
+  EventData* ptr = in;
   for (Int32 i = 0; i < eventTypes->dataCount + 3; i++) {
     ptr[i] = EventData();
   }
-  GCHandle out[pinCount] = {};
-  GCHandle* ptr2 = out;
+  GCHandle ref[pinCount] = {};
+  GCHandle* ptr2 = ref;
   for (Int32 j = 0; j < pinCount; j++) {
     ptr2[j] = GCHandle();
   }
@@ -2061,8 +2061,8 @@ void EventSource___::WriteMultiMerge(String eventName, EventSourceOptions& optio
     }
     IntPtr orCreateEventHandle = nameInfo->GetOrCreateEventHandle(m_eventPipeProvider, m_eventHandleTable, descriptor, eventTypes);
     Int32 num = eventTypes->dataCount + eventTypes->typeInfos->get_Length() * 2 + 3;
-    EventData default[num] = {};
-    EventData* ptr = default;
+    EventData as[num] = {};
+    EventData* ptr = as;
     for (Int32 i = 0; i < num; i++) {
       ptr[i] = EventData();
     }
@@ -2104,15 +2104,15 @@ void EventSource___::WriteImpl(String eventName, EventSourceOptions& options, Ob
         }
         IntPtr orCreateEventHandle = nameInfo->GetOrCreateEventHandle(m_eventPipeProvider, m_eventHandleTable, descriptor, eventTypes);
         Int32 pinCount = eventTypes->pinCount;
-        Byte default[(Int32)(UInt32)eventTypes->scratchSize] = {};
-        Byte* scratch = default;
-        EventData extern[eventTypes->dataCount + 3] = {};
-        EventData* ptr = extern;
+        Byte as[(Int32)(UInt32)eventTypes->scratchSize] = {};
+        Byte* scratch = as;
+        EventData as[eventTypes->dataCount + 3] = {};
+        EventData* ptr = as;
         for (Int32 i = 0; i < eventTypes->dataCount + 3; i++) {
           ptr[i] = EventData();
         }
-        GCHandle ref[pinCount] = {};
-        GCHandle* ptr2 = ref;
+        GCHandle in[pinCount] = {};
+        GCHandle* ptr2 = in;
         for (Int32 j = 0; j < pinCount; j++) {
           ptr2[j] = GCHandle();
         }
@@ -2290,8 +2290,8 @@ NameInfo EventSource___::UpdateDescriptor(String name, TraceLoggingEventTypes ev
   EventTags tags = ((options.valuesSet & 2) != 0) ? options.tags : eventInfo->get_Tags();
   EventKeywords keywords = ((options.valuesSet & 1) != 0) ? options.keywords : eventInfo->keywords;
   if (IsEnabled((EventLevel)level, keywords)) {
-    auto& default = name;
-    nameInfo = eventInfo->GetNameInfo(default != nullptr ? default : eventInfo->get_Name(), tags);
+    auto& as = name;
+    nameInfo = eventInfo->GetNameInfo(as != nullptr ? as : eventInfo->get_Name(), tags);
     traceloggingId = nameInfo->identity;
   }
   descriptor = EventDescriptor(traceloggingId, level, opcode, (Int64)keywords);

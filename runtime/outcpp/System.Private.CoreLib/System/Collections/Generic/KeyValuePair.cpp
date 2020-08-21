@@ -8,8 +8,8 @@ namespace System::Private::CoreLib::System::Collections::Generic::KeyValuePairNa
 using namespace System::Text;
 
 String KeyValuePair<>::PairToString(Object key, Object value) {
-  Char default[64] = {};
-  Span<Char> initialBuffer = default;
+  Char as[64] = {};
+  Span<Char> initialBuffer = as;
   ValueStringBuilder valueStringBuilder = ValueStringBuilder(initialBuffer);
   valueStringBuilder.Append(91);
   if (key != nullptr) {

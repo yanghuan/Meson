@@ -39,8 +39,8 @@ TaskScheduler TaskScheduler___::get_Default() {
 }
 
 TaskScheduler TaskScheduler___::get_Current() {
-  auto& default = get_InternalCurrent();
-  return default != nullptr ? default : get_Default();
+  auto& as = get_InternalCurrent();
+  return as != nullptr ? as : get_Default();
 }
 
 TaskScheduler TaskScheduler___::get_InternalCurrent() {

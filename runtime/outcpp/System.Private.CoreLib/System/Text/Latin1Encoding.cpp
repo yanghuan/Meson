@@ -42,9 +42,9 @@ Int32 Latin1Encoding___::GetByteCount(Char* chars, Int32 charCount, EncoderNLS e
     chars = chars2;
   }
   while (true) {
-    auto& default = encoderFallbackBuffer;
-    auto& extern = default == nullptr ? nullptr : default->InternalGetNextChar();
-    Char num2 = extern != nullptr ? extern : 0;
+    auto& as = encoderFallbackBuffer;
+    auto& as = as == nullptr ? nullptr : as->InternalGetNextChar();
+    Char num2 = as != nullptr ? as : 0;
     Char c2 = num2;
     if (num2 == 0 && chars >= ptr) {
       break;
@@ -124,9 +124,9 @@ Int32 Latin1Encoding___::GetBytes(Char* chars, Int32 charCount, Byte* bytes, Int
     }
   }
   while (true) {
-    auto& default = encoderFallbackBuffer;
-    auto& extern = default == nullptr ? nullptr : default->InternalGetNextChar();
-    Char num2 = extern != nullptr ? extern : 0;
+    auto& as = encoderFallbackBuffer;
+    auto& as = as == nullptr ? nullptr : as->InternalGetNextChar();
+    Char num2 = as != nullptr ? as : 0;
     Char c4 = num2;
     if (num2 == 0 && chars >= ptr) {
       break;
