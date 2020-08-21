@@ -1,11 +1,10 @@
 #pragma once
 
-#include <rt/GCObject.h>
+#include <System.Private.CoreLib/System/String.h>
 
 namespace System::Private::CoreLib::System {
 FORWARD(Exception)
 FORWARDS(Int32)
-FORWARD(String)
 } // namespace System::Private::CoreLib::System
 namespace System::Console::System::IO {
 namespace Win32MarshalNamespace {
