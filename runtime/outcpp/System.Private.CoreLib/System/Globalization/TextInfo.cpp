@@ -53,7 +53,7 @@ Boolean TextInfo___::get_IsReadOnly() {
 }
 
 String TextInfo___::get_ListSeparator() {
-  auto& as = _listSeparator;
+  String as = _listSeparator;
   return as != nullptr ? as : (_listSeparator = _cultureData->get_ListSeparator());
 }
 

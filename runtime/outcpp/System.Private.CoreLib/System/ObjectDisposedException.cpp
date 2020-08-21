@@ -15,7 +15,7 @@ String ObjectDisposedException___::get_Message() {
 }
 
 String ObjectDisposedException___::get_ObjectName() {
-  auto& as = _objectName;
+  String as = _objectName;
   return as != nullptr ? as : String::in::Empty;
 }
 

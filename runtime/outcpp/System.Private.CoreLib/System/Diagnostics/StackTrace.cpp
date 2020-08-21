@@ -174,8 +174,7 @@ void StackTrace___::ToString(TraceFormat traceFormat, StringBuilder sb) {
   Boolean flag = true;
   for (Int32 i = 0; i < _numOfFrames; i++) {
     StackFrame frame = GetFrame(i);
-    auto& as = frame;
-    MethodBase method = as == nullptr ? nullptr : as->GetMethod();
+    MethodBase method = (frame != nullptr) ? frame->GetMethod() : nullptr;
     if (!(method != nullptr) || (!ShowInStackTrace(method) && i != _numOfFrames - 1)) {
       continue;
     }

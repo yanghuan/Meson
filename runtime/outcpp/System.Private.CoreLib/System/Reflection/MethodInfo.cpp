@@ -63,9 +63,10 @@ Boolean MethodInfo___::op_Equality(MethodInfo left, MethodInfo right) {
   if ((Object)left == right) {
     return true;
   }
-  auto& as = left;
-  auto& as = as == nullptr ? nullptr : as->Equals(right);
-  return as != nullptr ? as : false;
+  if ((Object)left != nullptr) {
+    return left->Equals(right);
+  }
+  return false;
 }
 
 Boolean MethodInfo___::op_Inequality(MethodInfo left, MethodInfo right) {

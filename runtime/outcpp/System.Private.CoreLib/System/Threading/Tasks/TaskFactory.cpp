@@ -85,7 +85,7 @@ void TaskFactory___<>::CompleteOnInvokePromise___::Invoke(Task<> completingTask)
 }
 
 TaskScheduler TaskFactory___<>::get_DefaultScheduler() {
-  auto& as = m_defaultScheduler;
+  TaskScheduler as = m_defaultScheduler;
   return as != nullptr ? as : TaskScheduler::in::get_Current();
 }
 

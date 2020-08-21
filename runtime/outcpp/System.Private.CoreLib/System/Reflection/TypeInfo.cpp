@@ -2,6 +2,7 @@
 
 #include <System.Private.CoreLib/System/IndexOutOfRangeException-dep.h>
 #include <System.Private.CoreLib/System/Int32-dep.h>
+#include <System.Private.CoreLib/System/Object-dep.h>
 #include <System.Private.CoreLib/System/Reflection/BindingFlags.h>
 #include <System.Private.CoreLib/System/Reflection/IntrospectionExtensions-dep.h>
 #include <System.Private.CoreLib/System/Reflection/TypeInfo-dep.h>
@@ -66,8 +67,11 @@ MethodInfo TypeInfo___::GetDeclaredMethod(String name) {
 }
 
 TypeInfo TypeInfo___::GetDeclaredNestedType(String name) {
-  auto& as = GetNestedType(name, BindingFlags::DeclaredOnly | BindingFlags::Instance | BindingFlags::Static | BindingFlags::Public | BindingFlags::NonPublic);
-  return IntrospectionExtensions::GetTypeInfo(as == nullptr ? nullptr : as);
+  Type nestedType = GetNestedType(name, BindingFlags::DeclaredOnly | BindingFlags::Instance | BindingFlags::Static | BindingFlags::Public | BindingFlags::NonPublic);
+  if ((Object)nestedType == nullptr) {
+    return nullptr;
+  }
+  return IntrospectionExtensions::GetTypeInfo(nestedType);
 }
 
 PropertyInfo TypeInfo___::GetDeclaredProperty(String name) {

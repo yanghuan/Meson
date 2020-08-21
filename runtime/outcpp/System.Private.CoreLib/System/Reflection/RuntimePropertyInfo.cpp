@@ -44,7 +44,7 @@ MemberTypes RuntimePropertyInfo___::get_MemberType() {
 }
 
 String RuntimePropertyInfo___::get_Name() {
-  auto& as = m_name;
+  String as = m_name;
   return as != nullptr ? as : (m_name = MdUtf8String(m_utf8name).ToString());
 }
 

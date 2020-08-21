@@ -322,9 +322,7 @@ void StreamWriter___::WriteLine(ReadOnlySpan<Char> value) {
 }
 
 void StreamWriter___::WriteFormatHelper(String format, ParamsArray args, Boolean appendNewLine) {
-  auto& as = format;
-  auto& as = as == nullptr ? nullptr : as->get_Length();
-  StringBuilder stringBuilder = StringBuilderCache::Acquire((as != nullptr ? as : 0) + args.get_Length() * 8)->AppendFormatHelper(nullptr, format, args);
+  StringBuilder stringBuilder = StringBuilderCache::Acquire(((format != nullptr) ? format->get_Length() : 0) + args.get_Length() * 8)->AppendFormatHelper(nullptr, format, args);
   StringBuilder::in::ChunkEnumerator chunks = stringBuilder->GetChunks();
   Boolean flag = chunks.MoveNext();
   while (flag) {

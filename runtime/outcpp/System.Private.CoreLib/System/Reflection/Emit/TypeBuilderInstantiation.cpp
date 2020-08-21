@@ -43,7 +43,7 @@ RuntimeTypeHandle TypeBuilderInstantiation___::get_TypeHandle() {
 }
 
 String TypeBuilderInstantiation___::get_FullName() {
-  auto& as = m_strFullQualName;
+  String as = m_strFullQualName;
   return as != nullptr ? as : (m_strFullQualName = TypeNameBuilder::in::ToString((TypeBuilderInstantiation)this, TypeNameBuilder::in::Format::FullName));
 }
 

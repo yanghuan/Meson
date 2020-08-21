@@ -265,9 +265,11 @@ Int32 UTF32Encoding___::GetByteCount(Char* chars, Int32 count, EncoderNLS encode
     c = encoder->_charLeftOver;
     encoderFallbackBuffer = encoder->get_FallbackBuffer();
     if (encoderFallbackBuffer->get_Remaining() > 0) {
-      auto& as = encoder->get_Fallback();
-      auto& as = as == nullptr ? nullptr : as->GetType()->ToString();
-      rt::throw_exception<ArgumentException>(SR::Format(SR::get_Argument_EncoderFallbackNotEmpty(), get_EncodingName(), as != nullptr ? as : String::in::Empty));
+      String argument_EncoderFallbackNotEmpty = SR::get_Argument_EncoderFallbackNotEmpty();
+      String encodingName = get_EncodingName();
+      EncoderFallback fallback = encoder->get_Fallback();
+      ? as = ((fallback != nullptr) ? fallback->GetType()->ToString() : nullptr);
+      rt::throw_exception<ArgumentException>(SR::Format(argument_EncoderFallbackNotEmpty, encodingName, as != nullptr ? as : String::in::Empty));
     }
   } else {
     encoderFallbackBuffer = encoderFallback->CreateFallbackBuffer();
@@ -329,8 +331,10 @@ Int32 UTF32Encoding___::GetBytes(Char* chars, Int32 charCount, Byte* bytes, Int3
     c = encoder->_charLeftOver;
     encoderFallbackBuffer = encoder->get_FallbackBuffer();
     if (encoder->_throwOnOverflow && encoderFallbackBuffer->get_Remaining() > 0) {
-      auto& as = encoder->get_Fallback();
-      rt::throw_exception<ArgumentException>(SR::Format(SR::get_Argument_EncoderFallbackNotEmpty(), get_EncodingName(), as == nullptr ? nullptr : as->GetType()));
+      String argument_EncoderFallbackNotEmpty = SR::get_Argument_EncoderFallbackNotEmpty();
+      String encodingName = get_EncodingName();
+      EncoderFallback fallback = encoder->get_Fallback();
+      rt::throw_exception<ArgumentException>(SR::Format(argument_EncoderFallbackNotEmpty, encodingName, (fallback != nullptr) ? fallback->GetType() : nullptr));
     }
   } else {
     encoderFallbackBuffer = encoderFallback->CreateFallbackBuffer();

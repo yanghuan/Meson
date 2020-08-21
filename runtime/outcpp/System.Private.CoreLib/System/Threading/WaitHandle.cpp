@@ -39,7 +39,7 @@ void WaitHandle___::set_Handle(IntPtr value) {
 }
 
 SafeWaitHandle WaitHandle___::get_SafeWaitHandle() {
-  auto& as = _waitHandle;
+  SafeWaitHandle as = _waitHandle;
   return as != nullptr ? as : (_waitHandle = rt::newobj<SafeWaitHandle>(InvalidHandle, false));
 }
 
@@ -81,8 +81,10 @@ void WaitHandle___::Close() {
 }
 
 void WaitHandle___::Dispose(Boolean explicitDisposing) {
-  auto& as = _waitHandle;
-  as == nullptr ? nullptr : as->Close();
+  SafeWaitHandle waitHandle = _waitHandle;
+  if (waitHandle != nullptr) {
+    waitHandle->Close();
+  }
 }
 
 void WaitHandle___::Dispose() {
@@ -176,9 +178,7 @@ Int32 WaitHandle___::WaitMultiple(ReadOnlySpan<WaitHandle> waitHandles, Boolean 
     rt::throw_exception<ArgumentOutOfRangeException>("millisecondsTimeout", SR::get_ArgumentOutOfRange_NeedNonNegOrNegative1());
   }
   SynchronizationContext current = SynchronizationContext::in::get_Current();
-  auto& as = current;
-  auto& as = as == nullptr ? nullptr : as->IsWaitNotificationRequired();
-  Boolean flag = as != nullptr ? as : false;
+  Boolean flag = current != nullptr && current->IsWaitNotificationRequired();
   Array<SafeWaitHandle> array = RentSafeWaitHandleArray(waitHandles.get_Length());
   try {
     Int32 num;
@@ -187,8 +187,8 @@ Int32 WaitHandle___::WaitMultiple(ReadOnlySpan<WaitHandle> waitHandles, Boolean 
       ObtainSafeWaitHandles(waitHandles, array, array2);
       num = current->Wait(array2, waitAll, millisecondsTimeout);
     } else {
-      IntPtr in[waitHandles.get_Length()] = {};
-      Span<IntPtr> span = in;
+      IntPtr as[waitHandles.get_Length()] = {};
+      Span<IntPtr> span = as;
       ObtainSafeWaitHandles(waitHandles, array, span);
       num = WaitMultipleIgnoringSyncContext(span, waitAll, millisecondsTimeout);
     }

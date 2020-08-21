@@ -326,16 +326,6 @@ String Path::Join(Array<String> paths) {
     return String::in::Empty;
   }
   Int32 num = 0;
-  for (Int32 i = 0; i < paths->get_Length(); i++) {
-    auto& as = paths[i];
-    auto& as = as == nullptr ? nullptr : as->get_Length();
-    num += (as != nullptr ? as : 0);
-  }
-  num += paths->get_Length() - 1;
-  Char as[260] = {};
-  Span<Char> initialBuffer = as;
-  ValueStringBuilder valueStringBuilder = ValueStringBuilder(initialBuffer);
-  valueStringBuilder.EnsureCapacity(num);
 }
 
 Boolean Path::TryJoin(ReadOnlySpan<Char> path1, ReadOnlySpan<Char> path2, Span<Char> destination, Int32& charsWritten) {

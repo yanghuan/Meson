@@ -27,8 +27,10 @@
 #include <System.Private.CoreLib/System/PasteArguments-dep.h>
 #include <System.Private.CoreLib/System/PlatformID.h>
 #include <System.Private.CoreLib/System/ReadOnlySpan-dep.h>
+#include <System.Private.CoreLib/System/Reflection/AssemblyInformationalVersionAttribute-dep.h>
 #include <System.Private.CoreLib/System/Reflection/BindingFlags.h>
 #include <System.Private.CoreLib/System/Reflection/CustomAttributeExtensions-dep.h>
+#include <System.Private.CoreLib/System/Reflection/MethodInfo-dep.h>
 #include <System.Private.CoreLib/System/Runtime/InteropServices/Marshal-dep.h>
 #include <System.Private.CoreLib/System/Runtime/InteropServices/MemoryMarshal-dep.h>
 #include <System.Private.CoreLib/System/Span-dep.h>
@@ -53,9 +55,9 @@ using namespace System::Threading;
 
 String Environment::WinRTFolderPaths::GetFolderPath(SpecialFolder folder, SpecialFolderOption option) {
   if (s_winRTFolderPathsGetFolderPath == nullptr) {
-    auto& as = Type::in::GetType("System.WinRTFolderPaths, System.Runtime.WindowsRuntime, Version=4.0.14.0, Culture=neutral, PublicKeyToken=b77a5c561934e089", false);
-    auto& as = (as == nullptr ? nullptr : as->GetMethod("GetFolderPath", BindingFlags::Static | BindingFlags::Public | BindingFlags::NonPublic, nullptr, rt::newarr<Array<Type>>(2), nullptr));
-    Func<SpecialFolder, SpecialFolderOption, String> func = (Func<SpecialFolder, SpecialFolderOption, String>)(as == nullptr ? nullptr : as->CreateDelegate(rt::typeof<Func<SpecialFolder, SpecialFolderOption, String>>()));
+    Type type = Type::in::GetType("System.WinRTFolderPaths, System.Runtime.WindowsRuntime, Version=4.0.14.0, Culture=neutral, PublicKeyToken=b77a5c561934e089", false);
+    MethodInfo methodInfo = ((Object)type != nullptr) ? type->GetMethod("GetFolderPath", BindingFlags::Static | BindingFlags::Public | BindingFlags::NonPublic, nullptr, rt::newarr<Array<Type>>(2), nullptr) : nullptr;
+    Func<SpecialFolder, SpecialFolderOption, String> func = (Func<SpecialFolder, SpecialFolderOption, String>)(((Object)methodInfo != nullptr) ? methodInfo->CreateDelegate(rt::typeof<Func<SpecialFolder, SpecialFolderOption, String>>()) : nullptr);
   }
   return s_winRTFolderPathsGetFolderPath(folder, option);
 }
@@ -140,8 +142,8 @@ OperatingSystem Environment::get_OSVersion() {
 }
 
 Version Environment::get_Version() {
-  auto& as = CustomAttributeExtensions::GetCustomAttribute(rt::typeof<Object>()->get_Assembly());
-  String text = as == nullptr ? nullptr : as->get_InformationalVersion();
+  AssemblyInformationalVersionAttribute customAttribute = CustomAttributeExtensions::GetCustomAttribute(rt::typeof<Object>()->get_Assembly());
+  String text = (customAttribute != nullptr) ? customAttribute->get_InformationalVersion() : nullptr;
   ReadOnlySpan<Char> readOnlySpan = MemoryExtensions::AsSpan(text);
   Int32 num = MemoryExtensions::IndexOfAny(readOnlySpan, 45, 43, 32);
   if (num != -1) {
@@ -413,8 +415,7 @@ String Environment::GetEnvironmentVariableFromRegistry(String variable, Boolean 
   {
     RegistryKey registryKey = OpenEnvironmentKeyIfExists(fromMachine, false);
     rt::Using(registryKey);
-    auto& as = registryKey;
-    return rt::as<String>(as == nullptr ? nullptr : as->GetValue(variable));
+    return rt::as<String>(((registryKey != nullptr) ? registryKey->GetValue(variable) : nullptr));
   }
 }
 

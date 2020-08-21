@@ -185,8 +185,7 @@ Stream RuntimeAssembly___::GetManifestResourceStream(Type type, String name) {
   if (type == nullptr && name == nullptr) {
     rt::throw_exception<ArgumentNullException>("type");
   }
-  auto& as = type;
-  String text = as == nullptr ? nullptr : as->get_Namespace();
+  String text = ((Object)type != nullptr) ? type->get_Namespace() : nullptr;
   Char ptr = Type::in::Delimiter;
   String name2 = (text != nullptr && name != nullptr) ? String::in::Concat(text, ReadOnlySpan<Char>(ptr, 1), name) : (text + name);
   return GetManifestResourceStream(name2);
@@ -352,7 +351,7 @@ Assembly RuntimeAssembly___::InternalGetSatelliteAssembly(CultureInfo culture, V
   AssemblyName assemblyName = rt::newobj<AssemblyName>();
   assemblyName->SetPublicKey(GetPublicKey());
   assemblyName->set_Flags((GetFlags() | AssemblyNameFlags::PublicKey));
-  auto& as = version;
+  Version as = version;
   assemblyName->set_Version((as != nullptr ? as : GetVersion()));
   assemblyName->set_CultureInfo(culture);
   assemblyName->set_Name(GetSimpleName() + ".resources");

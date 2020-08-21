@@ -230,9 +230,10 @@ Boolean Module___::op_Equality(Module left, Module right) {
   if ((Object)left == right) {
     return true;
   }
-  auto& as = left;
-  auto& as = as == nullptr ? nullptr : as->Equals(right);
-  return as != nullptr ? as : false;
+  if ((Object)left != nullptr) {
+    return left->Equals(right);
+  }
+  return false;
 }
 
 Boolean Module___::op_Inequality(Module left, Module right) {

@@ -241,21 +241,23 @@ void ResourceReader___::Dispose() {
 }
 
 void ResourceReader___::Dispose(Boolean disposing) {
-  if (_store != nullptr) {
-    _resCache = nullptr;
-    if (disposing) {
-      BinaryReader store = _store;
-      _store = nullptr;
-      auto& as = store;
-      as == nullptr ? nullptr : as->Close();
-    }
-    _store = nullptr;
-    _namePositions = nullptr;
-    _nameHashes = nullptr;
-    _ums = nullptr;
-    _namePositionsPtr = nullptr;
-    _nameHashesPtr = nullptr;
+  if (_store == nullptr) {
+    return;
   }
+  _resCache = nullptr;
+  if (disposing) {
+    BinaryReader store = _store;
+    _store = nullptr;
+    if (store != nullptr) {
+      store->Close();
+    }
+  }
+  _store = nullptr;
+  _namePositions = nullptr;
+  _nameHashes = nullptr;
+  _ums = nullptr;
+  _namePositionsPtr = nullptr;
+  _nameHashesPtr = nullptr;
 }
 
 Int32 ResourceReader___::ReadUnalignedI4(Int32* p) {

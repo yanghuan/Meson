@@ -6,6 +6,7 @@
 #include <System.Private.CoreLib/System/Runtime/InteropServices/MemoryMarshal-dep.h>
 #include <System.Private.CoreLib/System/Span-dep.h>
 #include <System.Private.CoreLib/System/SR-dep.h>
+#include <System.Private.CoreLib/System/Text/DecoderFallbackBuffer-dep.h>
 #include <System.Private.CoreLib/System/Text/DecoderNLS-dep.h>
 #include <System.Private.CoreLib/System/Text/Rune-dep.h>
 #include <System.Private.CoreLib/System/UInt32-dep.h>
@@ -34,8 +35,10 @@ void DecoderNLS___::ctor(Encoding encoding) {
 
 void DecoderNLS___::Reset() {
   ClearLeftoverData();
-  auto& as = _fallbackBuffer;
-  as == nullptr ? nullptr : as->Reset();
+  DecoderFallbackBuffer fallbackBuffer = _fallbackBuffer;
+  if (fallbackBuffer != nullptr) {
+    fallbackBuffer->Reset();
+  }
 }
 
 Int32 DecoderNLS___::GetCharCount(Array<Byte> bytes, Int32 index, Int32 count) {

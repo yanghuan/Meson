@@ -49,8 +49,10 @@ void Decoder___::Reset() {
   Array<Byte> bytes = Array<>::in::Empty<Byte>();
   Array<Char> chars = rt::newarr<Array<Char>>(GetCharCount(bytes, 0, 0, true));
   GetChars(bytes, 0, 0, chars, 0, true);
-  auto& as = _fallbackBuffer;
-  as == nullptr ? nullptr : as->Reset();
+  DecoderFallbackBuffer fallbackBuffer = _fallbackBuffer;
+  if (fallbackBuffer != nullptr) {
+    fallbackBuffer->Reset();
+  }
 }
 
 Int32 Decoder___::GetCharCount(Array<Byte> bytes, Int32 index, Int32 count, Boolean flush) {

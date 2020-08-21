@@ -35,17 +35,17 @@ void DateTimeFormatInfo___::TokenHashValue___::ctor(String tokenString, TokenTyp
 }
 
 String DateTimeFormatInfo___::get_CultureName() {
-  auto& as = _name;
+  String as = _name;
   return as != nullptr ? as : (_name = _cultureData->get_CultureName());
 }
 
 CultureInfo DateTimeFormatInfo___::get_Culture() {
-  auto& as = _cultureInfo;
+  CultureInfo as = _cultureInfo;
   return as != nullptr ? as : (_cultureInfo = CultureInfo::in::GetCultureInfo(get_CultureName()));
 }
 
 String DateTimeFormatInfo___::get_LanguageName() {
-  auto& as = _langName;
+  String as = _langName;
   return as != nullptr ? as : (_langName = _cultureData->get_TwoLetterISOLanguageName());
 }
 
@@ -140,17 +140,17 @@ void DateTimeFormatInfo___::set_Calendar(Calendar value) {
 }
 
 Array<CalendarId> DateTimeFormatInfo___::get_OptionalCalendars() {
-  auto& as = optionalCalendars;
+  Array<CalendarId> as = optionalCalendars;
   return as != nullptr ? as : (optionalCalendars = _cultureData->get_CalendarIds());
 }
 
 Array<String> DateTimeFormatInfo___::get_EraNames() {
-  auto& as = m_eraNames;
+  Array<String> as = m_eraNames;
   return as != nullptr ? as : (m_eraNames = _cultureData->EraNames(get_Calendar()->get_ID()));
 }
 
 Array<String> DateTimeFormatInfo___::get_AbbreviatedEraNames() {
-  auto& as = m_abbrevEraNames;
+  Array<String> as = m_abbrevEraNames;
   return as != nullptr ? as : (m_abbrevEraNames = _cultureData->AbbrevEraNames(get_Calendar()->get_ID()));
 }
 
@@ -214,7 +214,7 @@ void DateTimeFormatInfo___::set_CalendarWeekRule(CalendarWeekRule value) {
 }
 
 String DateTimeFormatInfo___::get_FullDateTimePattern() {
-  auto& as = fullDateTimePattern;
+  String as = fullDateTimePattern;
   return as != nullptr ? as : (fullDateTimePattern = get_LongDatePattern() + " " + get_LongTimePattern());
 }
 
@@ -229,7 +229,7 @@ void DateTimeFormatInfo___::set_FullDateTimePattern(String value) {
 }
 
 String DateTimeFormatInfo___::get_LongDatePattern() {
-  auto& as = longDatePattern;
+  String as = longDatePattern;
   return as != nullptr ? as : (longDatePattern = get_UnclonedLongDatePatterns()[0]);
 }
 
@@ -245,7 +245,7 @@ void DateTimeFormatInfo___::set_LongDatePattern(String value) {
 }
 
 String DateTimeFormatInfo___::get_LongTimePattern() {
-  auto& as = longTimePattern;
+  String as = longTimePattern;
   return as != nullptr ? as : (longTimePattern = get_UnclonedLongTimePatterns()[0]);
 }
 
@@ -300,7 +300,7 @@ String DateTimeFormatInfo___::get_RFC1123Pattern() {
 }
 
 String DateTimeFormatInfo___::get_ShortDatePattern() {
-  auto& as = shortDatePattern;
+  String as = shortDatePattern;
   return as != nullptr ? as : (shortDatePattern = get_UnclonedShortDatePatterns()[0]);
 }
 
@@ -316,7 +316,7 @@ void DateTimeFormatInfo___::set_ShortDatePattern(String value) {
 }
 
 String DateTimeFormatInfo___::get_ShortTimePattern() {
-  auto& as = shortTimePattern;
+  String as = shortTimePattern;
   return as != nullptr ? as : (shortTimePattern = get_UnclonedShortTimePatterns()[0]);
 }
 
@@ -336,12 +336,12 @@ String DateTimeFormatInfo___::get_SortableDateTimePattern() {
 }
 
 String DateTimeFormatInfo___::get_GeneralShortTimePattern() {
-  auto& as = generalShortTimePattern;
+  String as = generalShortTimePattern;
   return as != nullptr ? as : (generalShortTimePattern = get_ShortDatePattern() + " " + get_ShortTimePattern());
 }
 
 String DateTimeFormatInfo___::get_GeneralLongTimePattern() {
-  auto& as = generalLongTimePattern;
+  String as = generalLongTimePattern;
   return as != nullptr ? as : (generalLongTimePattern = get_ShortDatePattern() + " " + get_LongTimePattern());
 }
 
@@ -401,7 +401,7 @@ String DateTimeFormatInfo___::get_UniversalSortableDateTimePattern() {
 }
 
 String DateTimeFormatInfo___::get_YearMonthPattern() {
-  auto& as = yearMonthPattern;
+  String as = yearMonthPattern;
   return as != nullptr ? as : (yearMonthPattern = get_UnclonedYearMonthPatterns()[0]);
 }
 
@@ -620,22 +620,22 @@ void DateTimeFormatInfo___::set_MonthGenitiveNames(Array<String> value) {
 }
 
 String DateTimeFormatInfo___::get_DecimalSeparator() {
-  auto& as = _decimalSeparator;
+  String as = _decimalSeparator;
   return as != nullptr ? as : (_decimalSeparator = rt::newobj<NumberFormatInfo>(_cultureData->get_UseUserOverride() ? CultureData::in::GetCultureData(_cultureData->get_CultureName(), false) : _cultureData)->set_NumberDecimalSeparator());
 }
 
 String DateTimeFormatInfo___::get_FullTimeSpanPositivePattern() {
-  auto& as = _fullTimeSpanPositivePattern;
+  String as = _fullTimeSpanPositivePattern;
   return as != nullptr ? as : (_fullTimeSpanPositivePattern = "d':'h':'mm':'ss'" + get_DecimalSeparator() + "'FFFFFFF");
 }
 
 String DateTimeFormatInfo___::get_FullTimeSpanNegativePattern() {
-  auto& as = _fullTimeSpanNegativePattern;
+  String as = _fullTimeSpanNegativePattern;
   return as != nullptr ? as : (_fullTimeSpanNegativePattern = "'-'" + get_FullTimeSpanPositivePattern());
 }
 
 CompareInfo DateTimeFormatInfo___::get_CompareInfo() {
-  auto& as = _compareInfo;
+  CompareInfo as = _compareInfo;
   return as != nullptr ? as : (_compareInfo = CompareInfo::in::GetCompareInfo(_cultureData->get_SortName()));
 }
 
@@ -659,7 +659,7 @@ Boolean DateTimeFormatInfo___::get_HasYearMonthAdjustment() {
 }
 
 Array<String> DateTimeFormatInfo___::InternalGetAbbreviatedDayOfWeekNames() {
-  auto& as = abbreviatedDayNames;
+  Array<String> as = abbreviatedDayNames;
   return as != nullptr ? as : InternalGetAbbreviatedDayOfWeekNamesCore();
 }
 
@@ -669,7 +669,7 @@ Array<String> DateTimeFormatInfo___::InternalGetAbbreviatedDayOfWeekNamesCore() 
 }
 
 Array<String> DateTimeFormatInfo___::InternalGetSuperShortDayNames() {
-  auto& as = m_superShortDayNames;
+  Array<String> as = m_superShortDayNames;
   return as != nullptr ? as : InternalGetSuperShortDayNamesCore();
 }
 
@@ -679,7 +679,7 @@ Array<String> DateTimeFormatInfo___::InternalGetSuperShortDayNamesCore() {
 }
 
 Array<String> DateTimeFormatInfo___::InternalGetDayOfWeekNames() {
-  auto& as = dayNames;
+  Array<String> as = dayNames;
   return as != nullptr ? as : InternalGetDayOfWeekNamesCore();
 }
 
@@ -689,7 +689,7 @@ Array<String> DateTimeFormatInfo___::InternalGetDayOfWeekNamesCore() {
 }
 
 Array<String> DateTimeFormatInfo___::InternalGetAbbreviatedMonthNames() {
-  auto& as = abbreviatedMonthNames;
+  Array<String> as = abbreviatedMonthNames;
   return as != nullptr ? as : InternalGetAbbreviatedMonthNamesCore();
 }
 
@@ -699,7 +699,7 @@ Array<String> DateTimeFormatInfo___::InternalGetAbbreviatedMonthNamesCore() {
 }
 
 Array<String> DateTimeFormatInfo___::InternalGetMonthNames() {
-  auto& as = monthNames;
+  Array<String> as = monthNames;
   return as != nullptr ? as : internalGetMonthNamesCore();
 }
 
@@ -1371,7 +1371,7 @@ Boolean DateTimeFormatInfo___::Tokenize(TokenType TokenMask, TokenType& tokenTyp
   Int32 num2 = 1 + (Int32)c % 197;
   Int32 num3 = str.get_Length() - str.Index;
   Int32 num4 = 0;
-  auto& as = _dtfiTokenHash;
+  Array<TokenHashValue> as = _dtfiTokenHash;
   Array<TokenHashValue> array = as != nullptr ? as : CreateTokenHashTable();
   do {
     TokenHashValue tokenHashValue = array[num];

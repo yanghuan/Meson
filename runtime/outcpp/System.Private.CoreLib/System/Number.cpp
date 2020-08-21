@@ -1177,7 +1177,7 @@ String Number::FormatDouble(Double value, String format, NumberFormatInfo info) 
   Char as[32] = {};
   Span<Char> initialBuffer = as;
   ValueStringBuilder sb = ValueStringBuilder(initialBuffer);
-  auto& as = FormatDouble(sb, value, format, info);
+  String as = FormatDouble(sb, value, format, info);
   return as != nullptr ? as : sb.ToString();
 }
 
@@ -1288,7 +1288,7 @@ String Number::FormatSingle(Single value, String format, NumberFormatInfo info) 
   Char as[32] = {};
   Span<Char> initialBuffer = as;
   ValueStringBuilder sb = ValueStringBuilder(initialBuffer);
-  auto& as = FormatSingle(sb, value, format, info);
+  String as = FormatSingle(sb, value, format, info);
   return as != nullptr ? as : sb.ToString();
 }
 

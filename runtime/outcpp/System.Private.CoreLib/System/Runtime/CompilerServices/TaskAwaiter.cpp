@@ -53,12 +53,15 @@ void TaskAwaiter<>::HandleNonSuccessAndDebuggerNotification(Task<> task) {
 }
 
 void TaskAwaiter<>::ThrowForNonSuccess(Task<> task) {
-  auto& as = task->GetCancellationExceptionDispatchInfo();
   switch (task->get_Status()) {
     case TaskStatus::Canceled:
-      as == nullptr ? nullptr : as->Throw();
-      rt::throw_exception<TaskCanceledException>(task);
-    case TaskStatus::Faulted:
+      {
+        ExceptionDispatchInfo cancellationExceptionDispatchInfo = task->GetCancellationExceptionDispatchInfo();
+        if (cancellationExceptionDispatchInfo != nullptr) {
+          cancellationExceptionDispatchInfo->Throw();
+        }
+        rt::throw_exception<TaskCanceledException>(task);
+      }case TaskStatus::Faulted:
       {
         ReadOnlyCollection<ExceptionDispatchInfo> exceptionDispatchInfos = task->GetExceptionDispatchInfos();
         if (exceptionDispatchInfos->get_Count() > 0) {
@@ -95,13 +98,7 @@ Action<> TaskAwaiter<>::OutputWaitEtwEvents(Task<> task, Action<> continuation) 
   if (log->IsEnabled()) {
     Task<> internalCurrent = Task<>::in::get_InternalCurrent();
     Task<> task2 = AsyncMethodBuilderCore::TryGetContinuationTask(continuation);
-    auto& as = internalCurrent;
-    auto& as = as == nullptr ? nullptr : as->m_taskScheduler->get_Id();
-    auto& in = internalCurrent;
-    auto& ref = in == nullptr ? nullptr : in->get_Id();
-    auto& out = task2;
-    auto& byte = out == nullptr ? nullptr : out->get_Id();
-    log->TaskWaitBegin(as != nullptr ? as : TaskScheduler::in::get_Default()->get_Id(), ref != nullptr ? ref : 0, task->get_Id(), TplEventSource::in::TaskWaitBehavior::Asynchronous, byte != nullptr ? byte : 0);
+    log->TaskWaitBegin((internalCurrent != nullptr) ? internalCurrent->m_taskScheduler->get_Id() : TaskScheduler::in::get_Default()->get_Id(), (internalCurrent != nullptr) ? internalCurrent->get_Id() : 0, task->get_Id(), TplEventSource::in::TaskWaitBehavior::Asynchronous, (task2 != nullptr) ? task2->get_Id() : 0);
   }
 }
 

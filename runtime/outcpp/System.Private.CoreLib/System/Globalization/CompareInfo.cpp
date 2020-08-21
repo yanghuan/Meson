@@ -262,9 +262,7 @@ IL_006e:
   if (offset1 < 0 || offset2 < 0) {
     rt::throw_exception<ArgumentOutOfRangeException>((offset1 < 0) ? "offset1" : "offset2", SR::get_ArgumentOutOfRange_NeedPosNum());
   }
-  auto& as = string1;
-  auto& as = as == nullptr ? nullptr : as->get_Length();
-  if (offset1 > (as != nullptr ? as : 0) - length1) {
+  if (offset1 > ((string1 != nullptr) ? string1->get_Length() : 0) - length1) {
     rt::throw_exception<ArgumentOutOfRangeException>("string1", SR::get_ArgumentOutOfRange_OffsetLength());
   }
   rt::throw_exception<ArgumentOutOfRangeException>("string2", SR::get_ArgumentOutOfRange_OffsetLength());

@@ -286,11 +286,15 @@ Int32 ModuleBuilder___::GetMemberRefToken(MethodBase method, IEnumerable<Type> o
         methodBase = method;
       } else if (method->get_IsGenericMethod()) {
         methodBase = methodInfo->GetGenericMethodDefinition();
-        auto& as = methodBase->get_DeclaringType();
-        methodBase = methodBase->get_Module()->ResolveMethod(method->get_MetadataToken(), as == nullptr ? nullptr : as->GetGenericArguments(), methodBase->GetGenericArguments());
+        Module module = methodBase->get_Module();
+        Int32 metadataToken = method->get_MetadataToken();
+        Type declaringType = methodBase->get_DeclaringType();
+        methodBase = module->ResolveMethod(metadataToken, ((Object)declaringType != nullptr) ? declaringType->GetGenericArguments() : nullptr, methodBase->GetGenericArguments());
       } else {
-        auto& as = method->get_DeclaringType();
-        methodBase = method->get_Module()->ResolveMethod(method->get_MetadataToken(), as == nullptr ? nullptr : as->GetGenericArguments(), nullptr);
+        Module module2 = method->get_Module();
+        Int32 metadataToken2 = method->get_MetadataToken();
+        Type declaringType2 = method->get_DeclaringType();
+        methodBase = module2->ResolveMethod(metadataToken2, ((Object)declaringType2 != nullptr) ? declaringType2->GetGenericArguments() : nullptr, nullptr);
       }
 
 

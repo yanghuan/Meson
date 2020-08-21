@@ -27,9 +27,11 @@ using namespace System::Threading;
 using namespace System::Threading::Tasks;
 
 Boolean TranscodingStream___::get_CanRead() {
-  auto& as = _innerStream;
-  auto& as = as == nullptr ? nullptr : as->get_CanRead();
-  return as != nullptr ? as : false;
+  Stream innerStream = _innerStream;
+  if (innerStream == nullptr) {
+    return false;
+  }
+  return innerStream->get_CanRead();
 }
 
 Boolean TranscodingStream___::get_CanSeek() {
@@ -37,9 +39,11 @@ Boolean TranscodingStream___::get_CanSeek() {
 }
 
 Boolean TranscodingStream___::get_CanWrite() {
-  auto& as = _innerStream;
-  auto& as = as == nullptr ? nullptr : as->get_CanWrite();
-  return as != nullptr ? as : false;
+  Stream innerStream = _innerStream;
+  if (innerStream == nullptr) {
+    return false;
+  }
+  return innerStream->get_CanWrite();
 }
 
 Int64 TranscodingStream___::get_Length() {

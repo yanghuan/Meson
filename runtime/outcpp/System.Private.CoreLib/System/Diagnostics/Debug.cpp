@@ -106,13 +106,11 @@ void Debug::Write(String message) {
 }
 
 void Debug::WriteLine(Object value) {
-  auto& as = value;
-  WriteLine(as == nullptr ? nullptr : as->ToString());
+  WriteLine((value != nullptr) ? value->ToString() : nullptr);
 }
 
 void Debug::WriteLine(Object value, String category) {
-  auto& as = value;
-  WriteLine(as == nullptr ? nullptr : as->ToString(), category);
+  WriteLine((value != nullptr) ? value->ToString() : nullptr, category);
 }
 
 void Debug::WriteLine(String format, Array<Object> args) {
@@ -128,8 +126,7 @@ void Debug::WriteLine(String message, String category) {
 }
 
 void Debug::Write(Object value) {
-  auto& as = value;
-  Write(as == nullptr ? nullptr : as->ToString());
+  Write((value != nullptr) ? value->ToString() : nullptr);
 }
 
 void Debug::Write(String message, String category) {
@@ -141,8 +138,7 @@ void Debug::Write(String message, String category) {
 }
 
 void Debug::Write(Object value, String category) {
-  auto& as = value;
-  Write(as == nullptr ? nullptr : as->ToString(), category);
+  Write((value != nullptr) ? value->ToString() : nullptr, category);
 }
 
 void Debug::WriteIf(Boolean condition, String message) {

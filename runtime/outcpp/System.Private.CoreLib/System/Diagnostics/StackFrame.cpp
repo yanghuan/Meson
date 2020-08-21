@@ -137,7 +137,7 @@ String StackFrame___::ToString() {
       stringBuilder->Append(_nativeOffset);
     }
     stringBuilder->Append(" in file:line:column ");
-    auto& as = _fileName;
+    String as = _fileName;
     stringBuilder->Append(as != nullptr ? as : "<filename unknown>");
     stringBuilder->Append(58);
     stringBuilder->Append(_lineNumber);

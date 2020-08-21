@@ -101,7 +101,7 @@ Boolean SemaphoreSlim___::Wait(Int32 millisecondsTimeout, CancellationToken canc
   if (millisecondsTimeout != -1 && millisecondsTimeout > 0) {
     startTime = TimeoutHelper::GetTime();
   }
-  Boolean flag = false;
+  Boolean result = false;
   Task<Boolean> task = nullptr;
   Boolean lockTaken = false;
   CancellationTokenRegistration cancellationTokenRegistration = cancellationToken.UnsafeRegister(s_cancellationTokenCanceledEventHandler, (SemaphoreSlim)this);
@@ -133,12 +133,12 @@ Boolean SemaphoreSlim___::Wait(Int32 millisecondsTimeout, CancellationToken canc
           return false;
         }
         try {
-          flag = WaitUntilCountOrTimeout(millisecondsTimeout, startTime, cancellationToken);
+          result = WaitUntilCountOrTimeout(millisecondsTimeout, startTime, cancellationToken);
         } catch (OperationCanceledException ex2) {
         }
       }
       if (m_currentCount > 0) {
-        flag = true;
+        result = true;
         m_currentCount--;
       } else if (ex != nullptr) {
         rt::throw_exception(ex);
@@ -156,9 +156,10 @@ Boolean SemaphoreSlim___::Wait(Int32 millisecondsTimeout, CancellationToken canc
     }
     cancellationTokenRegistration.Dispose();
   }
-  auto& as = task;
-  auto& as = as == nullptr ? nullptr : as->GetAwaiter().GetResult();
-  return as != nullptr ? as : flag;
+  if (task == nullptr) {
+    return result;
+  }
+  return task->GetAwaiter().GetResult();
 }
 
 Boolean SemaphoreSlim___::WaitUntilCountOrTimeout(Int32 millisecondsTimeout, UInt32 startTime, CancellationToken cancellationToken) {

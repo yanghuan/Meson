@@ -124,9 +124,10 @@ void FrameworkName___::ctor(String frameworkName) {
 }
 
 Boolean FrameworkName___::op_Equality(FrameworkName left, FrameworkName right) {
-  auto& as = left;
-  auto& as = as == nullptr ? nullptr : as->Equals(right);
-  return as != nullptr ? as : ((Object)right == nullptr);
+  if ((Object)left == nullptr) {
+    return (Object)right == nullptr;
+  }
+  return left->Equals(right);
 }
 
 Boolean FrameworkName___::op_Inequality(FrameworkName left, FrameworkName right) {

@@ -38,9 +38,9 @@ namespace System::Private::CoreLib::System::Globalization::CultureInfoNamespace 
 using namespace System::Threading;
 
 CultureInfo CultureInfo___::get_CurrentCulture() {
-  auto& as = s_userDefaultCulture;
-  auto& as = s_DefaultThreadCurrentCulture;
-  auto& in = s_currentThreadCulture;
+  CultureInfo as = s_userDefaultCulture;
+  CultureInfo as = s_DefaultThreadCurrentCulture;
+  CultureInfo in = s_currentThreadCulture;
   return in != nullptr ? in : as != nullptr ? as : as != nullptr ? as : InitializeUserDefaultCulture();
 }
 
@@ -55,8 +55,8 @@ void CultureInfo___::set_CurrentCulture(CultureInfo value) {
 }
 
 CultureInfo CultureInfo___::get_CurrentUICulture() {
-  auto& as = s_DefaultThreadCurrentUICulture;
-  auto& as = s_currentThreadUICulture;
+  CultureInfo as = s_DefaultThreadCurrentUICulture;
+  CultureInfo as = s_currentThreadUICulture;
   return as != nullptr ? as : as != nullptr ? as : get_UserDefaultUICulture();
 }
 
@@ -72,12 +72,12 @@ void CultureInfo___::set_CurrentUICulture(CultureInfo value) {
 }
 
 CultureInfo CultureInfo___::get_UserDefaultUICulture() {
-  auto& as = s_userDefaultUICulture;
+  CultureInfo as = s_userDefaultUICulture;
   return as != nullptr ? as : InitializeUserDefaultUICulture();
 }
 
 CultureInfo CultureInfo___::get_InstalledUICulture() {
-  auto& as = s_userDefaultCulture;
+  CultureInfo as = s_userDefaultCulture;
   return as != nullptr ? as : InitializeUserDefaultCulture();
 }
 
@@ -107,7 +107,7 @@ CultureInfo CultureInfo___::get_InvariantCulture() {
 CultureInfo CultureInfo___::get_Parent() {
   if (_parent == nullptr) {
     String parentName = _cultureData->get_ParentName();
-    auto& as = CreateCultureInfoNoThrow(parentName, _cultureData->get_UseUserOverride());
+    CultureInfo as = CreateCultureInfoNoThrow(parentName, _cultureData->get_UseUserOverride());
     CultureInfo value = (!String::in::IsNullOrEmpty(parentName)) ? (as != nullptr ? as : get_InvariantCulture()) : get_InvariantCulture();
     Interlocked::CompareExchange(_parent, value, (CultureInfo)nullptr);
   }
@@ -125,7 +125,7 @@ Int32 CultureInfo___::get_KeyboardLayoutId() {
 String CultureInfo___::get_Name() {
   String text = _nonSortName;
   if (text == nullptr) {
-    auto& as = _cultureData->get_Name();
+    String as = _cultureData->get_Name();
     String obj = as != nullptr ? as : String::in::Empty;
     String text2 = obj;
     _nonSortName = obj;
@@ -135,7 +135,7 @@ String CultureInfo___::get_Name() {
 }
 
 String CultureInfo___::get_SortName() {
-  auto& as = _sortName;
+  String as = _sortName;
   return as != nullptr ? as : (_sortName = _cultureData->get_SortName());
 }
 
@@ -175,7 +175,7 @@ String CultureInfo___::get_ThreeLetterWindowsLanguageName() {
 }
 
 CompareInfo CultureInfo___::get_CompareInfo() {
-  auto& as = _compareInfo;
+  CompareInfo as = _compareInfo;
   return as != nullptr ? as : (_compareInfo = (get_UseUserOverride() ? GetCultureInfo(_name)->get_CompareInfo() : rt::newobj<CompareInfo>((CultureInfo)this)));
 }
 
@@ -275,7 +275,7 @@ Dictionary<String, CultureInfo> CultureInfo___::get_CachedCulturesByName() {
   Dictionary<String, CultureInfo> dictionary = s_cachedCulturesByName;
   if (dictionary == nullptr) {
     dictionary = rt::newobj<Dictionary<String, CultureInfo>>();
-    auto& as = Interlocked::CompareExchange(s_cachedCulturesByName, dictionary, (Dictionary<String, CultureInfo>)nullptr);
+    Dictionary<String, CultureInfo> as = Interlocked::CompareExchange(s_cachedCulturesByName, dictionary, (Dictionary<String, CultureInfo>)nullptr);
     dictionary = (as != nullptr ? as : dictionary);
   }
   return dictionary;
@@ -285,7 +285,7 @@ Dictionary<Int32, CultureInfo> CultureInfo___::get_CachedCulturesByLcid() {
   Dictionary<Int32, CultureInfo> dictionary = s_cachedCulturesByLcid;
   if (dictionary == nullptr) {
     dictionary = rt::newobj<Dictionary<Int32, CultureInfo>>();
-    auto& as = Interlocked::CompareExchange(s_cachedCulturesByLcid, dictionary, (Dictionary<Int32, CultureInfo>)nullptr);
+    Dictionary<Int32, CultureInfo> as = Interlocked::CompareExchange(s_cachedCulturesByLcid, dictionary, (Dictionary<Int32, CultureInfo>)nullptr);
     dictionary = (as != nullptr ? as : dictionary);
   }
   return dictionary;
@@ -687,7 +687,7 @@ CultureInfo CultureInfo___::GetUserDefaultCulture() {
   if (GlobalizationMode::get_Invariant()) {
     return get_InvariantCulture();
   }
-  auto& as = CultureData::in::GetLocaleInfoEx(nullptr, 92u);
+  String as = CultureData::in::GetLocaleInfoEx(nullptr, 92u);
   String text = as != nullptr ? as : CultureData::in::GetLocaleInfoEx("!x-sys-default-locale", 92u);
   if (text == nullptr) {
     return get_InvariantCulture();

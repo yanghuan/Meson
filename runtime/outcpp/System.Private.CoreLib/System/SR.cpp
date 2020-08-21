@@ -20,7 +20,7 @@ using namespace System::Runtime::CompilerServices;
 using namespace System::Threading;
 
 ResourceManager SR::get_ResourceManager() {
-  auto& as = s_resourceManager;
+  ResourceManager as = s_resourceManager;
   return as != nullptr ? as : (s_resourceManager = rt::newobj<ResourceManager>(rt::typeof<Strings>()));
 }
 
@@ -4280,7 +4280,7 @@ String SR::InternalGetResourceString(String key) {
     _currentlyLoading->Add(key);
     String string = get_ResourceManager()->GetString(key, nullptr);
     _currentlyLoading->RemoveAt(_currentlyLoading->get_Count() - 1);
-    auto& as = string;
+    String as = string;
     return as != nullptr ? as : key;
   } catch (...) {
   } finally: {

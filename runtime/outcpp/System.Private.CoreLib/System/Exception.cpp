@@ -77,12 +77,12 @@ String Exception___::get_SerializationStackTraceString() {
 }
 
 String Exception___::get_Message() {
-  auto& as = _message;
+  String as = _message;
   return as != nullptr ? as : SR::Format(SR::get_Exception_WasThrown(), GetClassName());
 }
 
 IDictionary Exception___::get_Data() {
-  auto& as = _data;
+  IDictionary as = _data;
   return as != nullptr ? as : (_data = CreateDataContainer());
 }
 
@@ -99,7 +99,7 @@ void Exception___::set_HelpLink(String value) {
 }
 
 String Exception___::get_Source() {
-  auto& as = _source;
+  String as = _source;
   return as != nullptr ? as : (_source = CreateSourceName());
 }
 
@@ -171,10 +171,10 @@ void Exception___::InternalPreserveStackTrace() {
 
 void Exception___::RestoreDispatchState(DispatchState& dispatchState) {
   if (!IsImmutableAgileException((Exception)this)) {
-    auto& as = dispatchState.StackTrace;
-    Array<Byte> currentStackTrace = (Array<Byte>)as == nullptr ? nullptr : as->Clone();
-    auto& as = dispatchState.DynamicMethods;
-    Array<Object> dynamicMethodArray = (Array<Object>)as == nullptr ? nullptr : as->Clone();
+    Array<Byte> stackTrace = dispatchState.StackTrace;
+    Array<Byte> currentStackTrace = (Array<Byte>)((stackTrace != nullptr) ? stackTrace->Clone() : nullptr);
+    Array<Object> dynamicMethods = dispatchState.DynamicMethods;
+    Array<Object> dynamicMethodArray = (Array<Object>)((dynamicMethods != nullptr) ? dynamicMethods->Clone() : nullptr);
     _watsonBuckets = dispatchState.WatsonBuckets;
     _ipForWatsonBuckets = dispatchState.IpForWatsonBuckets;
     _remoteStackTraceString = dispatchState.RemoteStackTrace;
@@ -282,8 +282,8 @@ String Exception___::ToString() {
   };
   String className = GetClassName();
   String message = get_Message();
-  auto& as = _innerException;
-  auto& as = as == nullptr ? nullptr : as->ToString();
+  Exception innerException = _innerException;
+  ? as = ((innerException != nullptr) ? innerException->ToString() : nullptr);
   String text = as != nullptr ? as : "";
   String exception_EndOfInnerExceptionStack = SR::get_Exception_EndOfInnerExceptionStack();
   String stackTrace = get_StackTrace();

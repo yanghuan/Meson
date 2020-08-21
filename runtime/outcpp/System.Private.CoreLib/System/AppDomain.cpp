@@ -304,18 +304,27 @@ ObjectHandle AppDomain___::CreateInstance(String assemblyName, String typeName, 
 }
 
 Object AppDomain___::CreateInstanceAndUnwrap(String assemblyName, String typeName) {
-  auto& as = CreateInstance(assemblyName, typeName);
-  return as == nullptr ? nullptr : as->Unwrap();
+  ObjectHandle objectHandle = CreateInstance(assemblyName, typeName);
+  if (objectHandle == nullptr) {
+    return nullptr;
+  }
+  return objectHandle->Unwrap();
 }
 
 Object AppDomain___::CreateInstanceAndUnwrap(String assemblyName, String typeName, Boolean ignoreCase, BindingFlags bindingAttr, Binder binder, Array<Object> args, CultureInfo culture, Array<Object> activationAttributes) {
-  auto& as = CreateInstance(assemblyName, typeName, ignoreCase, bindingAttr, binder, args, culture, activationAttributes);
-  return as == nullptr ? nullptr : as->Unwrap();
+  ObjectHandle objectHandle = CreateInstance(assemblyName, typeName, ignoreCase, bindingAttr, binder, args, culture, activationAttributes);
+  if (objectHandle == nullptr) {
+    return nullptr;
+  }
+  return objectHandle->Unwrap();
 }
 
 Object AppDomain___::CreateInstanceAndUnwrap(String assemblyName, String typeName, Array<Object> activationAttributes) {
-  auto& as = CreateInstance(assemblyName, typeName, activationAttributes);
-  return as == nullptr ? nullptr : as->Unwrap();
+  ObjectHandle objectHandle = CreateInstance(assemblyName, typeName, activationAttributes);
+  if (objectHandle == nullptr) {
+    return nullptr;
+  }
+  return objectHandle->Unwrap();
 }
 
 ObjectHandle AppDomain___::CreateInstanceFrom(String assemblyFile, String typeName) {
@@ -331,18 +340,27 @@ ObjectHandle AppDomain___::CreateInstanceFrom(String assemblyFile, String typeNa
 }
 
 Object AppDomain___::CreateInstanceFromAndUnwrap(String assemblyFile, String typeName) {
-  auto& as = CreateInstanceFrom(assemblyFile, typeName);
-  return as == nullptr ? nullptr : as->Unwrap();
+  ObjectHandle objectHandle = CreateInstanceFrom(assemblyFile, typeName);
+  if (objectHandle == nullptr) {
+    return nullptr;
+  }
+  return objectHandle->Unwrap();
 }
 
 Object AppDomain___::CreateInstanceFromAndUnwrap(String assemblyFile, String typeName, Boolean ignoreCase, BindingFlags bindingAttr, Binder binder, Array<Object> args, CultureInfo culture, Array<Object> activationAttributes) {
-  auto& as = CreateInstanceFrom(assemblyFile, typeName, ignoreCase, bindingAttr, binder, args, culture, activationAttributes);
-  return as == nullptr ? nullptr : as->Unwrap();
+  ObjectHandle objectHandle = CreateInstanceFrom(assemblyFile, typeName, ignoreCase, bindingAttr, binder, args, culture, activationAttributes);
+  if (objectHandle == nullptr) {
+    return nullptr;
+  }
+  return objectHandle->Unwrap();
 }
 
 Object AppDomain___::CreateInstanceFromAndUnwrap(String assemblyFile, String typeName, Array<Object> activationAttributes) {
-  auto& as = CreateInstanceFrom(assemblyFile, typeName, activationAttributes);
-  return as == nullptr ? nullptr : as->Unwrap();
+  ObjectHandle objectHandle = CreateInstanceFrom(assemblyFile, typeName, activationAttributes);
+  if (objectHandle == nullptr) {
+    return nullptr;
+  }
+  return objectHandle->Unwrap();
 }
 
 IPrincipal AppDomain___::GetThreadPrincipal() {

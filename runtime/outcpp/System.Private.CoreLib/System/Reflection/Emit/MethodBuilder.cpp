@@ -142,7 +142,7 @@ void MethodBuilder___::ctor(String name, MethodAttributes attributes, CallingCon
   m_strName = name;
   m_module = mod;
   m_containingType = type;
-  auto& as = returnType;
+  Type as = returnType;
   m_returnType = (as != nullptr ? as : rt::typeof<void>());
   if ((attributes & MethodAttributes::Static) == 0) {
     callingConvention |= CallingConventions::HasThis;
@@ -255,7 +255,7 @@ void MethodBuilder___::ReleaseBakedStructures() {
 }
 
 Array<Type> MethodBuilder___::GetParameterTypes() {
-  auto& as = m_parameterTypes;
+  Array<Type> as = m_parameterTypes;
   return as != nullptr ? as : (m_parameterTypes = Array<>::in::Empty<Type>());
 }
 
@@ -264,8 +264,11 @@ Type MethodBuilder___::GetMethodBaseReturnType(MethodBase method) {
   if ((Object)methodInfo != nullptr) {
     return methodInfo->get_ReturnType();
   }
-  auto& as = (rt::as<ConstructorInfo>(method));
-  return as == nullptr ? nullptr : as->GetReturnType();
+  ConstructorInfo constructorInfo = rt::as<ConstructorInfo>(method);
+  if ((Object)constructorInfo != nullptr) {
+    return constructorInfo->GetReturnType();
+  }
+  return nullptr;
 }
 
 void MethodBuilder___::SetToken(MethodToken token) {
@@ -407,7 +410,7 @@ MethodInfo MethodBuilder___::GetGenericMethodDefinition() {
 
 Array<Type> MethodBuilder___::GetGenericArguments() {
   Array<Type> inst = m_inst;
-  auto& as = inst;
+  Array<Type> as = inst;
   return as != nullptr ? as : Array<>::in::Empty<Type>();
 }
 
@@ -540,14 +543,14 @@ void MethodBuilder___::SetImplementationFlags(MethodImplAttributes attributes) {
 ILGenerator MethodBuilder___::GetILGenerator() {
   ThrowIfGeneric();
   ThrowIfShouldNotHaveBody();
-  auto& as = m_ilGenerator;
+  ILGenerator as = m_ilGenerator;
   return as != nullptr ? as : (m_ilGenerator = rt::newobj<ILGenerator>((MethodBuilder)this));
 }
 
 ILGenerator MethodBuilder___::GetILGenerator(Int32 size) {
   ThrowIfGeneric();
   ThrowIfShouldNotHaveBody();
-  auto& as = m_ilGenerator;
+  ILGenerator as = m_ilGenerator;
   return as != nullptr ? as : (m_ilGenerator = rt::newobj<ILGenerator>((MethodBuilder)this, size));
 }
 

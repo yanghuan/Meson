@@ -39,9 +39,7 @@ void TraceLoggingDataCollector___::AddNullTerminatedString(String value) {
 
 void TraceLoggingDataCollector___::AddArray(PropertyValue value, Int32 elementSize) {
   Array<> array = (Array<>)value.get_ReferenceValue();
-  auto& as = array;
-  auto& as = as == nullptr ? nullptr : as->get_Length();
-  DataCollector::ThreadInstance.AddArray(array, as != nullptr ? as : 0, elementSize);
+  DataCollector::ThreadInstance.AddArray(array, (array != nullptr) ? array->get_Length() : 0, elementSize);
 }
 
 void TraceLoggingDataCollector___::cctor() {

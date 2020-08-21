@@ -2,6 +2,7 @@
 
 #include <System.Private.CoreLib/System/Collections/Generic/List-dep.h>
 #include <System.Private.CoreLib/System/Diagnostics/Debugger-dep.h>
+#include <System.Private.CoreLib/System/EventHandler-dep.h>
 #include <System.Private.CoreLib/System/InvalidOperationException-dep.h>
 #include <System.Private.CoreLib/System/Runtime/CompilerServices/ConditionalWeakTable-dep.h>
 #include <System.Private.CoreLib/System/Runtime/CompilerServices/RuntimeHelpers-dep.h>
@@ -39,7 +40,7 @@ TaskScheduler TaskScheduler___::get_Default() {
 }
 
 TaskScheduler TaskScheduler___::get_Current() {
-  auto& as = get_InternalCurrent();
+  TaskScheduler as = get_InternalCurrent();
   return as != nullptr ? as : get_Default();
 }
 

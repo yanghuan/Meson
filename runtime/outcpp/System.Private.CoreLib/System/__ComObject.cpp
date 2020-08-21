@@ -69,8 +69,10 @@ void __ComObject___::FinalReleaseSelf() {
 Object __ComObject___::CreateEventProvider(RuntimeType t) {
   Object obj = Activator::CreateInstance(t, BindingFlags::Instance | BindingFlags::Public | BindingFlags::NonPublic | BindingFlags::CreateInstance, nullptr, rt::newarr<Array<Object>>(1), nullptr);
   if (!SetData(t, obj)) {
-    auto& as = (rt::as<IDisposable>(obj));
-    as == nullptr ? nullptr : as->Dispose();
+    IDisposable disposable = rt::as<IDisposable>(obj);
+    if (disposable != nullptr) {
+      disposable->Dispose();
+    }
     obj = GetData(t);
   }
   return obj;

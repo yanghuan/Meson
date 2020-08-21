@@ -23,6 +23,8 @@ namespace Meson.Compiler {
     private Dictionary<string, HashSet<ITypeDefinition>> namespaceTypes_;
     private static readonly DecompilerSettings decompilerSettings_ = new DecompilerSettings(LanguageVersion.Latest) {
       ThrowExpressions = false,
+      StringInterpolation = false,
+      NullPropagation = false,
       Discards = false,
       OutVariables = false,
       NamedArguments = false,

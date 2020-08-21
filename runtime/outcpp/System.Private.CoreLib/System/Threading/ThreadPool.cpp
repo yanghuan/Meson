@@ -217,8 +217,8 @@ IEnumerable<Object> ThreadPool::GetQueuedWorkItems() {
 }
 
 IEnumerable<Object> ThreadPool::GetLocallyQueuedWorkItems() {
-  auto& as = ThreadPoolWorkQueueThreadLocals::in::threadLocals;
-  ThreadPoolWorkQueue::in::WorkStealingQueue workStealingQueue = as == nullptr ? nullptr : as->workStealingQueue;
+  ThreadPoolWorkQueueThreadLocals threadLocals = ThreadPoolWorkQueueThreadLocals::in::threadLocals;
+  ThreadPoolWorkQueue::in::WorkStealingQueue workStealingQueue = (threadLocals != nullptr) ? threadLocals->workStealingQueue : nullptr;
   if (workStealingQueue == nullptr || workStealingQueue->m_array == nullptr) {
   }
   Array<Object> items = workStealingQueue->m_array;

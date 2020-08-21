@@ -71,7 +71,7 @@ String StringInfo___::SubstringByTextElements(Int32 startingTextElement) {
 }
 
 String StringInfo___::SubstringByTextElements(Int32 startingTextElement, Int32 lengthInTextElements) {
-  auto& as = get_Indexes();
+  Array<Int32> as = get_Indexes();
   Array<Int32> array = as != nullptr ? as : Array<>::in::Empty<Int32>();
   if ((UInt32)startingTextElement >= (UInt32)array->get_Length()) {
     rt::throw_exception<ArgumentOutOfRangeException>("startingTextElement", startingTextElement, SR::get_Arg_ArgumentOutOfRangeException());

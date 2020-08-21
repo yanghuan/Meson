@@ -9,14 +9,14 @@ namespace System::Private::CoreLib::System::Text::DecoderFallbackNamespace {
 using namespace System::Threading;
 
 DecoderFallback DecoderFallback___::get_ReplacementFallback() {
-  auto& as = Interlocked::CompareExchange(s_replacementFallback, rt::newobj<DecoderReplacementFallback>(), (DecoderFallback)nullptr);
-  auto& as = s_replacementFallback;
+  DecoderFallback as = Interlocked::CompareExchange(s_replacementFallback, rt::newobj<DecoderReplacementFallback>(), (DecoderFallback)nullptr);
+  DecoderFallback as = s_replacementFallback;
   return as != nullptr ? as : as != nullptr ? as : s_replacementFallback;
 }
 
 DecoderFallback DecoderFallback___::get_ExceptionFallback() {
-  auto& as = Interlocked::CompareExchange(s_exceptionFallback, rt::newobj<DecoderExceptionFallback>(), (DecoderFallback)nullptr);
-  auto& as = s_exceptionFallback;
+  DecoderFallback as = Interlocked::CompareExchange(s_exceptionFallback, rt::newobj<DecoderExceptionFallback>(), (DecoderFallback)nullptr);
+  DecoderFallback as = s_exceptionFallback;
   return as != nullptr ? as : as != nullptr ? as : s_exceptionFallback;
 }
 

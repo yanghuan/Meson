@@ -19,8 +19,9 @@ void TaskToApm::TaskAsyncResult___::ctor(Task<> task, Object state, AsyncCallbac
   AsyncState = state;
   if (task->get_IsCompleted()) {
     CompletedSynchronously = true;
-    auto& as = callback;
-    as == nullptr ? nullptr : as->Invoke((TaskAsyncResult)this);
+    if (callback != nullptr) {
+      callback((TaskAsyncResult)this);
+    }
   } else if (callback != nullptr) {
     _callback = callback;
     _task->ConfigureAwait(false).GetAwaiter().OnCompleted(rt::newobj<Action<>>(&InvokeCallback));

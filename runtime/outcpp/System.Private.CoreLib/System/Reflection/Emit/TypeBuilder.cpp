@@ -112,7 +112,7 @@ RuntimeTypeHandle TypeBuilder___::get_TypeHandle() {
 }
 
 String TypeBuilder___::get_FullName() {
-  auto& as = m_strFullQualName;
+  String as = m_strFullQualName;
   return as != nullptr ? as : (m_strFullQualName = TypeNameBuilder::in::ToString((TypeBuilder)this, TypeNameBuilder::in::Format::FullName));
 }
 
@@ -315,7 +315,7 @@ void TypeBuilder___::SetConstantValue(ModuleBuilder module, Int32 tk, Type destT
     if (destType->get_IsByRef()) {
       destType = destType->GetElementType();
     }
-    auto& as = Nullable<>::GetUnderlyingType(destType);
+    Type as = Nullable<>::GetUnderlyingType(destType);
     destType = (as != nullptr ? as : destType);
     if (destType->get_IsEnum()) {
       EnumBuilder enumBuilder = rt::as<EnumBuilder>(destType);
@@ -854,7 +854,7 @@ Type TypeBuilder___::MakeGenericType(Array<Type> typeArguments) {
 
 Array<Type> TypeBuilder___::GetGenericArguments() {
   Array<Type> inst = m_inst;
-  auto& as = inst;
+  Array<Type> as = inst;
   return as != nullptr ? as : Array<>::in::Empty<Type>();
 }
 

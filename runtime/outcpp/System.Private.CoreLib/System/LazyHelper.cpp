@@ -52,13 +52,14 @@ LazyThreadSafetyMode LazyHelper___::GetMode() {
 }
 
 Nullable<LazyThreadSafetyMode> LazyHelper___::GetMode(LazyHelper state) {
-  auto& as = state;
-  return as == nullptr ? nullptr : as->GetMode();
+  if (state == nullptr) {
+    return nullptr;
+  }
+  return state->GetMode();
 }
 
 Boolean LazyHelper___::GetIsValueFaulted(LazyHelper state) {
-  auto& as = state;
-  return as == nullptr ? nullptr : as->_exceptionDispatch != nullptr;
+  return ((state != nullptr) ? state->_exceptionDispatch : nullptr) != nullptr;
 }
 
 LazyHelper LazyHelper___::Create(LazyThreadSafetyMode mode, Boolean useDefaultConstructor) {

@@ -45,7 +45,7 @@ void TaiwanCalendar___::set_TwoDigitYearMax(Int32 value) {
 }
 
 Calendar TaiwanCalendar___::GetDefaultInstance() {
-  auto& as = s_defaultInstance;
+  Calendar as = s_defaultInstance;
   return as != nullptr ? as : (s_defaultInstance = rt::newobj<TaiwanCalendar>());
 }
 

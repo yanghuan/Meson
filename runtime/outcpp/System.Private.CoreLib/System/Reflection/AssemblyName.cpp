@@ -49,8 +49,11 @@ void AssemblyName___::set_CultureInfo(CultureInfo value) {
 }
 
 String AssemblyName___::get_CultureName() {
-  auto& as = _cultureInfo;
-  return as == nullptr ? nullptr : as->get_Name();
+  CultureInfo cultureInfo = _cultureInfo;
+  if (cultureInfo == nullptr) {
+    return nullptr;
+  }
+  return cultureInfo->get_Name();
 }
 
 void AssemblyName___::set_CultureName(String value) {
@@ -141,7 +144,7 @@ String AssemblyName___::get_FullName() {
   if (get_Name() == nullptr) {
     return String::in::Empty;
   }
-  auto& as = _publicKeyToken;
+  Array<Byte> as = _publicKeyToken;
   Array<Byte> pkt = as != nullptr ? as : ComputePublicKeyToken();
   return AssemblyNameFormatter::ComputeDisplayName(get_Name(), get_Version(), get_CultureName(), pkt, get_Flags(), get_ContentType());
 }
@@ -217,7 +220,19 @@ void AssemblyName___::ctor() {
 }
 
 Object AssemblyName___::Clone() {
-  return rt::newobj<AssemblyName>();
+  AssemblyName obj = rt::newobj<AssemblyName>();
+  Array<Byte> publicKey = _publicKey;
+  obj->_publicKey = (Array<Byte>)((publicKey != nullptr) ? publicKey->Clone() : nullptr);
+  Array<Byte> publicKeyToken = _publicKeyToken;
+  obj->_publicKeyToken = (Array<Byte>)((publicKeyToken != nullptr) ? publicKeyToken->Clone() : nullptr);
+  obj->_cultureInfo = _cultureInfo;
+  Version version = _version;
+  obj->_version = (Version)(((Object)version != nullptr) ? version->Clone() : nullptr);
+  obj->_flags = _flags;
+  obj->_codeBase = _codeBase;
+  obj->_hashAlgorithm = _hashAlgorithm;
+  obj->_versionCompatibility = _versionCompatibility;
+  return obj;
 }
 
 AssemblyName AssemblyName___::GetAssemblyName(String assemblyFile) {
@@ -241,7 +256,7 @@ void AssemblyName___::SetPublicKey(Array<Byte> publicKey) {
 }
 
 Array<Byte> AssemblyName___::GetPublicKeyToken() {
-  auto& as = _publicKeyToken;
+  Array<Byte> as = _publicKeyToken;
   return as != nullptr ? as : (_publicKeyToken = ComputePublicKeyToken());
 }
 
@@ -275,9 +290,9 @@ Boolean AssemblyName___::ReferenceMatchesDefinition(AssemblyName reference, Asse
   if (definition == nullptr) {
     rt::throw_exception<ArgumentNullException>("definition");
   }
-  auto& as = reference->get_Name();
+  String as = reference->get_Name();
   String text = as != nullptr ? as : String::in::Empty;
-  auto& as = definition->get_Name();
+  String as = definition->get_Name();
   String value = as != nullptr ? as : String::in::Empty;
   return text->Equals(value, StringComparison::OrdinalIgnoreCase);
 }

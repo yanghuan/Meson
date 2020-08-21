@@ -307,7 +307,7 @@ void TimeZoneInfo___::OffsetAndRule___::ctor(Int32 year, TimeSpan offset, Adjust
 }
 
 TimeZoneInfo TimeZoneInfo___::CachedData___::get_Local() {
-  auto& as = _localTimeZone;
+  TimeZoneInfo as = _localTimeZone;
   return as != nullptr ? as : CreateLocal();
 }
 
@@ -672,17 +672,17 @@ String TimeZoneInfo___::get_Id() {
 }
 
 String TimeZoneInfo___::get_DisplayName() {
-  auto& as = _displayName;
+  String as = _displayName;
   return as != nullptr ? as : String::in::Empty;
 }
 
 String TimeZoneInfo___::get_StandardName() {
-  auto& as = _standardDisplayName;
+  String as = _standardDisplayName;
   return as != nullptr ? as : String::in::Empty;
 }
 
 String TimeZoneInfo___::get_DaylightName() {
-  auto& as = _daylightDisplayName;
+  String as = _daylightDisplayName;
   return as != nullptr ? as : String::in::Empty;
 }
 

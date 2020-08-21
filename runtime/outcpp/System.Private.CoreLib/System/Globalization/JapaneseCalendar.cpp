@@ -78,7 +78,7 @@ Array<EraInfo> JapaneseCalendar___::GetEraInfo() {
 }
 
 Calendar JapaneseCalendar___::GetDefaultInstance() {
-  auto& as = s_defaultInstance;
+  Calendar as = s_defaultInstance;
   return as != nullptr ? as : (s_defaultInstance = rt::newobj<JapaneseCalendar>());
 }
 
@@ -261,8 +261,9 @@ Array<EraInfo> JapaneseCalendar___::NlsGetJapaneseEras() {
       if (valueNames != nullptr && valueNames->get_Length() != 0) {
         array = rt::newarr<Array<EraInfo>>(valueNames->get_Length());
         for (Int32 i = 0; i < valueNames->get_Length(); i++) {
-          auto& as = registryKey->GetValue(valueNames[i]);
-          EraInfo eraFromValue = GetEraFromValue(valueNames[i], as == nullptr ? nullptr : as->ToString());
+          String value = valueNames[i];
+          Object value2 = registryKey->GetValue(valueNames[i]);
+          EraInfo eraFromValue = GetEraFromValue(value, (value2 != nullptr) ? value2->ToString() : nullptr);
           if (eraFromValue != nullptr) {
             array[num] = eraFromValue;
             num++;

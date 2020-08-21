@@ -82,7 +82,7 @@ Object MdConstant::GetValue(MetadataImport scope, Int32 token, RuntimeTypeHandle
     }
     return DateTime(num2);
   }
-  auto& as = defaultValue;
+  String as = defaultValue;
   switch (corElementType) {
     case CorElementType::ELEMENT_TYPE_VOID:
       return DBNull::in::Value;

@@ -136,8 +136,9 @@ void TimerQueue___::FireNextTimers() {
       EnsureTimerFiresBy(num);
     }
   }
-  auto& as = timerQueueTimer;
-  as == nullptr ? nullptr : as->Fire();
+  if (timerQueueTimer != nullptr) {
+    timerQueueTimer->Fire();
+  }
 }
 
 Boolean TimerQueue___::UpdateTimer(TimerQueueTimer timer, UInt32 dueTime, UInt32 period) {

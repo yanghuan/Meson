@@ -13,7 +13,7 @@ String TypeLoadException___::get_Message() {
 }
 
 String TypeLoadException___::get_TypeName() {
-  auto& as = _className;
+  String as = _className;
   return as != nullptr ? as : String::in::Empty;
 }
 

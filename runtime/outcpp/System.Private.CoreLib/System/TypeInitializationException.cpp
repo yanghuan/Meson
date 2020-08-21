@@ -4,7 +4,7 @@
 
 namespace System::Private::CoreLib::System::TypeInitializationExceptionNamespace {
 String TypeInitializationException___::get_TypeName() {
-  auto& as = _typeName;
+  String as = _typeName;
   return as != nullptr ? as : String::in::Empty;
 }
 

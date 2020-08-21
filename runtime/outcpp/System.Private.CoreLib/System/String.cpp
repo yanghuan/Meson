@@ -191,7 +191,7 @@ Int32 String___::Compare(String strA, String strB, StringComparison comparisonTy
 }
 
 Int32 String___::Compare(String strA, String strB, CultureInfo culture, CompareOptions options) {
-  auto& as = culture;
+  CultureInfo as = culture;
   CultureInfo cultureInfo = as != nullptr ? as : CultureInfo::in::get_CurrentCulture();
   return cultureInfo->get_CompareInfo()->Compare(strA, strB, options);
 }
@@ -224,7 +224,7 @@ Int32 String___::Compare(String strA, Int32 indexA, String strB, Int32 indexB, I
 }
 
 Int32 String___::Compare(String strA, Int32 indexA, String strB, Int32 indexB, Int32 length, CultureInfo culture, CompareOptions options) {
-  auto& as = culture;
+  CultureInfo as = culture;
   CultureInfo cultureInfo = as != nullptr ? as : CultureInfo::in::get_CurrentCulture();
   Int32 num = length;
   Int32 num2 = length;
@@ -389,7 +389,7 @@ Boolean String___::EndsWith(String value, Boolean ignoreCase, CultureInfo cultur
   if ((Object)(String)this == value) {
     return true;
   }
-  auto& as = culture;
+  CultureInfo as = culture;
   CultureInfo cultureInfo = as != nullptr ? as : CultureInfo::in::get_CurrentCulture();
   return cultureInfo->get_CompareInfo()->IsSuffix((String)this, value, ignoreCase ? CompareOptions::IgnoreCase : CompareOptions::None);
 }
@@ -622,7 +622,7 @@ Boolean String___::StartsWith(String value, Boolean ignoreCase, CultureInfo cult
   if ((Object)(String)this == value) {
     return true;
   }
-  auto& as = culture;
+  CultureInfo as = culture;
   CultureInfo cultureInfo = as != nullptr ? as : CultureInfo::in::get_CurrentCulture();
   return cultureInfo->get_CompareInfo()->IsPrefix((String)this, value, ignoreCase ? CompareOptions::IgnoreCase : CompareOptions::None);
 }
@@ -1037,8 +1037,7 @@ void String___::FillStringChecked(String dest, Int32 destPos, String src) {
 }
 
 String String___::Concat(Object arg0) {
-  auto& as = arg0;
-  auto& as = as == nullptr ? nullptr : as->ToString();
+  ? as = ((arg0 != nullptr) ? arg0->ToString() : nullptr);
   return as != nullptr ? as : Empty;
 }
 
@@ -1070,23 +1069,23 @@ String String___::Concat(Array<Object> args) {
     rt::throw_exception<ArgumentNullException>("args");
   }
   if (args->get_Length() <= 1) {
-    Object obj;
+    Object obj2;
     if (args->get_Length() != 0) {
-      auto& as = args[0];
-      obj = as == nullptr ? nullptr : as->ToString();
-      if (obj == nullptr) {
+      Object obj = args[0];
+      obj2 = ((obj != nullptr) ? obj->ToString() : nullptr);
+      if (obj2 == nullptr) {
         return Empty;
       }
     } else {
-      obj = Empty;
+      obj2 = Empty;
     }
-    return (String)obj;
+    return (String)obj2;
   }
   Array<String> array = rt::newarr<Array<String>>(args->get_Length());
   Int32 num = 0;
   for (Int32 i = 0; i < args->get_Length(); i++) {
-    auto& as = args[i];
-    auto& as = as == nullptr ? nullptr : as->ToString();
+    Object obj3 = args[i];
+    ? as = ((obj3 != nullptr) ? obj3->ToString() : nullptr);
     num += (array[i] = (as != nullptr ? as : Empty))->get_Length();
     if (num < 0) {
       rt::throw_exception<OutOfMemoryException>();
@@ -1111,7 +1110,7 @@ String String___::Concat(IEnumerable_<String> values) {
     }
     String current = enumerator->get_Current();
     if (!enumerator->MoveNext()) {
-      auto& as = current;
+      String as = current;
       return as != nullptr ? as : Empty;
     }
     Char as[256] = {};
@@ -1371,7 +1370,7 @@ String String___::Join(String separator, IEnumerable_<String> values) {
     }
     String current = enumerator->get_Current();
     if (!enumerator->MoveNext()) {
-      auto& as = current;
+      String as = current;
       return as != nullptr ? as : Empty;
     }
     Char as[256] = {};
@@ -1403,10 +1402,10 @@ String String___::JoinCore(Char* separator, Int32 separatorLength, Array<Object>
   if (values->get_Length() == 0) {
     return Empty;
   }
-  auto& as = values[0];
-  String text = as == nullptr ? nullptr : as->ToString();
+  Object obj = values[0];
+  String text = (obj != nullptr) ? obj->ToString() : nullptr;
   if (values->get_Length() == 1) {
-    auto& as = text;
+    String as = text;
     return as != nullptr ? as : Empty;
   }
   Char as[256] = {};
@@ -1415,9 +1414,9 @@ String String___::JoinCore(Char* separator, Int32 separatorLength, Array<Object>
   valueStringBuilder.Append(text);
   for (Int32 i = 1; i < values->get_Length(); i++) {
     valueStringBuilder.Append(separator, separatorLength);
-    Object obj = values[i];
-    if (obj != nullptr) {
-      valueStringBuilder.Append(obj->ToString());
+    Object obj2 = values[i];
+    if (obj2 != nullptr) {
+      valueStringBuilder.Append(obj2->ToString());
     }
   }
   return valueStringBuilder.ToString();
@@ -1591,8 +1590,7 @@ String String___::Remove(Int32 startIndex) {
 }
 
 String String___::Replace(String oldValue, String newValue, Boolean ignoreCase, CultureInfo culture) {
-  auto& as = culture;
-  return ReplaceCore(oldValue, newValue, as == nullptr ? nullptr : as->get_CompareInfo(), ignoreCase ? CompareOptions::IgnoreCase : CompareOptions::None);
+  return ReplaceCore(oldValue, newValue, (culture != nullptr) ? culture->get_CompareInfo() : nullptr, ignoreCase ? CompareOptions::IgnoreCase : CompareOptions::None);
 }
 
 String String___::Replace(String oldValue, String newValue, StringComparison comparisonType) {
@@ -1619,8 +1617,8 @@ String String___::ReplaceCore(String oldValue, String newValue, CompareInfo ci, 
   if (oldValue->get_Length() == 0) {
     rt::throw_exception<ArgumentException>(SR::get_Argument_StringZeroLength(), "oldValue");
   }
-  auto& as = ci;
-  auto& as = ReplaceCore((String)this, MemoryExtensions::AsSpan(oldValue), MemoryExtensions::AsSpan(newValue), as != nullptr ? as : CultureInfo::in::get_CurrentCulture()->get_CompareInfo(), options);
+  CompareInfo as = ci;
+  String as = ReplaceCore((String)this, MemoryExtensions::AsSpan(oldValue), MemoryExtensions::AsSpan(newValue), as != nullptr ? as : CultureInfo::in::get_CurrentCulture()->get_CompareInfo(), options);
   return as != nullptr ? as : (String)this;
 }
 
@@ -1794,12 +1792,12 @@ Array<String> String___::SplitInternal(ReadOnlySpan<Char> separators, Int32 coun
 }
 
 Array<String> String___::Split(String separator, StringSplitOptions options) {
-  auto& as = separator;
+  String as = separator;
   return SplitInternal(as != nullptr ? as : Empty, nullptr, Int32::MaxValue, options);
 }
 
 Array<String> String___::Split(String separator, Int32 count, StringSplitOptions options) {
-  auto& as = separator;
+  String as = separator;
   return SplitInternal(as != nullptr ? as : Empty, nullptr, count, options);
 }
 
@@ -2027,7 +2025,7 @@ String String___::ToLower() {
 }
 
 String String___::ToLower(CultureInfo culture) {
-  auto& as = culture;
+  CultureInfo as = culture;
   CultureInfo cultureInfo = as != nullptr ? as : CultureInfo::in::get_CurrentCulture();
   return cultureInfo->get_TextInfo()->ToLower((String)this);
 }
@@ -2041,7 +2039,7 @@ String String___::ToUpper() {
 }
 
 String String___::ToUpper(CultureInfo culture) {
-  auto& as = culture;
+  CultureInfo as = culture;
   CultureInfo cultureInfo = as != nullptr ? as : CultureInfo::in::get_CurrentCulture();
   return cultureInfo->get_TextInfo()->ToUpper((String)this);
 }

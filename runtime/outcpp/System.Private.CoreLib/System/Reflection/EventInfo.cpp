@@ -106,9 +106,10 @@ Boolean EventInfo___::op_Equality(EventInfo left, EventInfo right) {
   if ((Object)left == right) {
     return true;
   }
-  auto& as = left;
-  auto& as = as == nullptr ? nullptr : as->Equals(right);
-  return as != nullptr ? as : false;
+  if ((Object)left != nullptr) {
+    return left->Equals(right);
+  }
+  return false;
 }
 
 Boolean EventInfo___::op_Inequality(EventInfo left, EventInfo right) {

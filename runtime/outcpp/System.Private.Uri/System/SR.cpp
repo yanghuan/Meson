@@ -8,7 +8,7 @@ using namespace ::System::Private::CoreLib::System::Resources;
 using namespace FxResources::System::Private::Uri;
 
 ResourceManager SR::get_ResourceManager() {
-  auto& as = s_resourceManager;
+  ResourceManager as = s_resourceManager;
   return as != nullptr ? as : (s_resourceManager = rt::newobj<ResourceManager>(rt::typeof<SR>()));
 }
 

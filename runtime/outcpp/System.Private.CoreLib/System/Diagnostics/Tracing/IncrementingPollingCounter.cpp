@@ -37,7 +37,7 @@ void IncrementingPollingCounter___::WritePayload(Single intervalSec, Int32 polli
     rt::lock((IncrementingPollingCounter)this);
     IncrementingCounterPayload incrementingCounterPayload = rt::newobj<IncrementingCounterPayload>();
     incrementingCounterPayload->set_Name(DiagnosticCounter::in::get_Name());
-    auto& as = DiagnosticCounter::in::get_DisplayName();
+    String as = DiagnosticCounter::in::get_DisplayName();
     incrementingCounterPayload->set_DisplayName((as != nullptr ? as : ""));
     incrementingCounterPayload->set_DisplayRateTimeScale(((DisplayRateTimeScale == TimeSpan::Zero) ? "" : DisplayRateTimeScale.ToString("c")));
     incrementingCounterPayload->set_IntervalSec(intervalSec);
@@ -45,7 +45,7 @@ void IncrementingPollingCounter___::WritePayload(Single intervalSec, Int32 polli
     incrementingCounterPayload->set_CounterType("Sum");
     incrementingCounterPayload->set_Metadata(GetMetadataString());
     incrementingCounterPayload->set_Increment(_increment - _prevIncrement);
-    auto& as = DiagnosticCounter::in::get_DisplayUnits();
+    String as = DiagnosticCounter::in::get_DisplayUnits();
     incrementingCounterPayload->set_DisplayUnits((as != nullptr ? as : ""));
     DiagnosticCounter::in::get_EventSource()->Write("EventCounters", EventSourceOptions(), rt::newobj<IncrementingPollingCounterPayloadType>(incrementingCounterPayload));
   }

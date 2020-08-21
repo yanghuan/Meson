@@ -18,8 +18,9 @@ Object AsyncVoidMethodBuilder::get_ObjectIdForDebugger() {
 
 AsyncVoidMethodBuilder AsyncVoidMethodBuilder::Create() {
   SynchronizationContext current = SynchronizationContext::in::get_Current();
-  auto& as = current;
-  as == nullptr ? nullptr : as->OperationStarted();
+  if (current != nullptr) {
+    current->OperationStarted();
+  }
   AsyncVoidMethodBuilder result = AsyncVoidMethodBuilder();
   result._synchronizationContext = current;
   return result;

@@ -267,7 +267,7 @@ void ThreadPoolWorkQueue___::ctor() {
 }
 
 ThreadPoolWorkQueueThreadLocals ThreadPoolWorkQueue___::GetOrCreateThreadLocals() {
-  auto& as = ThreadPoolWorkQueueThreadLocals::in::threadLocals;
+  ThreadPoolWorkQueueThreadLocals as = ThreadPoolWorkQueueThreadLocals::in::threadLocals;
   return as != nullptr ? as : CreateThreadLocals();
 }
 
@@ -316,9 +316,11 @@ void ThreadPoolWorkQueue___::Enqueue(Object callback, Boolean forceGlobal) {
 }
 
 Boolean ThreadPoolWorkQueue___::LocalFindAndPop(Object callback) {
-  auto& as = ThreadPoolWorkQueueThreadLocals::in::threadLocals;
-  auto& as = as == nullptr ? nullptr : as->workStealingQueue->LocalFindAndPop(callback);
-  return as != nullptr ? as : false;
+  ThreadPoolWorkQueueThreadLocals threadLocals = ThreadPoolWorkQueueThreadLocals::in::threadLocals;
+  if (threadLocals != nullptr) {
+    return threadLocals->workStealingQueue->LocalFindAndPop(callback);
+  }
+  return false;
 }
 
 Object ThreadPoolWorkQueue___::Dequeue(ThreadPoolWorkQueueThreadLocals tl, Boolean& missedSteal) {

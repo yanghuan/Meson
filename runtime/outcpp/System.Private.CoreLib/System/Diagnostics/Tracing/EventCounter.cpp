@@ -67,9 +67,9 @@ void EventCounter___::WritePayload(Single intervalSec, Int32 pollingIntervalMill
     counterPayload->set_Series(String::in::Format("Interval={0}", pollingIntervalMillisec));
     counterPayload->set_CounterType("Mean");
     counterPayload->set_Metadata(GetMetadataString());
-    auto& as = DiagnosticCounter::in::get_DisplayName();
+    String as = DiagnosticCounter::in::get_DisplayName();
     counterPayload->set_DisplayName((as != nullptr ? as : ""));
-    auto& as = DiagnosticCounter::in::get_DisplayUnits();
+    String as = DiagnosticCounter::in::get_DisplayUnits();
     counterPayload->set_DisplayUnits((as != nullptr ? as : ""));
     counterPayload->set_Name(DiagnosticCounter::in::get_Name());
     ResetStatistics();

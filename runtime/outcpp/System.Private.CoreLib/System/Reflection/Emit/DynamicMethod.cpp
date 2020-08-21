@@ -362,9 +362,7 @@ Delegate DynamicMethod___::CreateDelegate(Type delegateType) {
   if (m_restrictedSkipVisibility) {
     GetMethodDescriptor();
     IRuntimeMethodInfo methodHandle = m_methodHandle;
-    auto& as = methodHandle;
-    auto& as = as == nullptr ? nullptr : as->get_Value();
-    RuntimeHelpers::_CompileMethod(as != nullptr ? as : RuntimeMethodHandleInternal::get_EmptyHandle());
+    RuntimeHelpers::_CompileMethod((methodHandle != nullptr) ? methodHandle->get_Value() : RuntimeMethodHandleInternal::get_EmptyHandle());
     GC::KeepAlive(methodHandle);
   }
   MulticastDelegate multicastDelegate = (MulticastDelegate)Delegate::in::CreateDelegateNoSecurityCheck(delegateType, nullptr, GetMethodDescriptor());
@@ -376,9 +374,7 @@ Delegate DynamicMethod___::CreateDelegate(Type delegateType, Object target) {
   if (m_restrictedSkipVisibility) {
     GetMethodDescriptor();
     IRuntimeMethodInfo methodHandle = m_methodHandle;
-    auto& as = methodHandle;
-    auto& as = as == nullptr ? nullptr : as->get_Value();
-    RuntimeHelpers::_CompileMethod(as != nullptr ? as : RuntimeMethodHandleInternal::get_EmptyHandle());
+    RuntimeHelpers::_CompileMethod((methodHandle != nullptr) ? methodHandle->get_Value() : RuntimeMethodHandleInternal::get_EmptyHandle());
     GC::KeepAlive(methodHandle);
   }
   MulticastDelegate multicastDelegate = (MulticastDelegate)Delegate::in::CreateDelegateNoSecurityCheck(delegateType, target, GetMethodDescriptor());

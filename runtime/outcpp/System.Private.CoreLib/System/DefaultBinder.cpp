@@ -106,8 +106,11 @@ MethodBase DefaultBinder___::BindToMethod(BindingFlags bindingAttr, Array<Method
         continue;
       }
       if (type2->get_IsPrimitive()) {
-        auto& as = args[array2[i][j]];
-        if (array4[array2[i][j]] == nullptr || !CanChangePrimitive(as == nullptr ? nullptr : as->GetType(), type2)) {
+        if (array4[array2[i][j]] == nullptr) {
+          break;
+        }
+        Object obj = args[array2[i][j]];
+        if (!CanChangePrimitive((obj != nullptr) ? obj->GetType() : nullptr, type2)) {
           break;
         }
       } else if (!(array4[array2[i][j]] == nullptr) && !type2->IsAssignableFrom(array4[array2[i][j]]) && (!array4[array2[i][j]]->get_IsCOMObject() || !type2->IsInstanceOfType(args[array2[i][j]]))) {
@@ -118,8 +121,11 @@ MethodBase DefaultBinder___::BindToMethod(BindingFlags bindingAttr, Array<Method
     if (type != nullptr && j == parametersNoCopy2->get_Length() - 1) {
       for (; j < args->get_Length(); j++) {
         if (type->get_IsPrimitive()) {
-          auto& as = args[j];
-          if (array4[j] == nullptr || !CanChangePrimitive(as == nullptr ? nullptr : as->GetType(), type)) {
+          if (array4[j] == nullptr) {
+            break;
+          }
+          Object obj2 = args[j];
+          if (!CanChangePrimitive((obj2 != nullptr) ? obj2->GetType() : nullptr, type)) {
             break;
           }
         } else if (!(array4[j] == nullptr) && !type->IsAssignableFrom(array4[j]) && (!array4[j]->get_IsCOMObject() || !type->IsInstanceOfType(args[j]))) {

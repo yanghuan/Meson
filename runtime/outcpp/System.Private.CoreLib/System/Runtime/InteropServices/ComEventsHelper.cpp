@@ -11,9 +11,9 @@ void ComEventsHelper::Combine(Object rcw, Guid iid, Int32 dispid, Delegate d) {
   {
     rt::lock(rcw);
     ComEventsInfo comEventsInfo = ComEventsInfo::in::FromObject(rcw);
-    auto& as = comEventsInfo->FindSink(iid);
+    ComEventsSink as = comEventsInfo->FindSink(iid);
     ComEventsSink comEventsSink = as != nullptr ? as : comEventsInfo->AddSink(iid);
-    auto& as = comEventsSink->FindMethod(dispid);
+    ComEventsMethod as = comEventsSink->FindMethod(dispid);
     ComEventsMethod comEventsMethod = as != nullptr ? as : comEventsSink->AddMethod(dispid);
     comEventsMethod->AddDelegate(d);
   }

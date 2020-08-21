@@ -249,8 +249,7 @@ Boolean EventProvider___::GetDataFromController(Int32 etwSessionId, Interop::Adv
     {
       RegistryKey registryKey = Registry::LocalMachine->OpenSubKey(str);
       rt::Using(registryKey);
-      auto& as = registryKey;
-      data = (rt::as<Array<Byte>>(as == nullptr ? nullptr : as->GetValue(name, nullptr)));
+      data = (rt::as<Array<Byte>>(((registryKey != nullptr) ? registryKey->GetValue(name, nullptr) : nullptr)));
       if (data != nullptr) {
         command = ControllerCommand::Update;
         return true;
@@ -455,7 +454,7 @@ Object EventProvider___::EncodeObject(Object& data, EventData*& dataDescriptor, 
   totalEventSize += dataDescriptor->Size;
   dataDescriptor++;
   dataBuffer += 16;
-  auto& as = ((Object)text);
+  ? as = ((Object)text);
   return as != nullptr ? as : ((Object)array);
 }
 

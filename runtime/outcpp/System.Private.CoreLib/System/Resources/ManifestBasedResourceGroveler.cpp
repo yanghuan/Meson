@@ -157,13 +157,13 @@ ResourceSet ManifestBasedResourceGroveler___::CreateResourceSet(Stream store, As
 }
 
 Stream ManifestBasedResourceGroveler___::GetManifestResourceStream(Assembly satellite, String fileName) {
-  auto& as = satellite->GetManifestResourceStream(_mediator->get_LocationInfo(), fileName);
+  Stream as = satellite->GetManifestResourceStream(_mediator->get_LocationInfo(), fileName);
   return as != nullptr ? as : CaseInsensitiveManifestResourceStreamLookup(satellite, fileName);
 }
 
 Stream ManifestBasedResourceGroveler___::CaseInsensitiveManifestResourceStreamLookup(Assembly satellite, String name) {
-  auto& as = _mediator->get_LocationInfo();
-  String text = as == nullptr ? nullptr : as->get_Namespace();
+  Type locationInfo = _mediator->get_LocationInfo();
+  String text = ((Object)locationInfo != nullptr) ? locationInfo->get_Namespace() : nullptr;
   Char ptr = Type::in::Delimiter;
   String text2 = (text != nullptr && name != nullptr) ? String::in::Concat(text, ReadOnlySpan<Char>(ptr, 1), name) : (text + name);
   String text3 = nullptr;
@@ -209,7 +209,7 @@ void ManifestBasedResourceGroveler___::HandleSatelliteMissing() {
     for (Int32 i = 0; i < num; i++) {
       stringBuilder->Append(publicKeyToken[i].ToString("x", CultureInfo::in::get_InvariantCulture()));
     }
-    text = text + ", PublicKeyToken=" + stringBuilder;
+    text = text + ", PublicKeyToken=" + ((stringBuilder != nullptr) ? stringBuilder->ToString() : nullptr);
   }
   String text2 = _mediator->get_NeutralResourcesCulture()->get_Name();
   if (text2->get_Length() == 0) {

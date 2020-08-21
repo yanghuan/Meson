@@ -309,8 +309,8 @@ void Array___<>::SorterGenericArray::Heapsort(Int32 lo, Int32 hi) {
 
 void Array___<>::SorterGenericArray::DownHeap(Int32 i, Int32 n, Int32 lo) {
   Object value = keys->GetValue(lo + i - 1);
-  auto& as = items;
-  Object value2 = as == nullptr ? nullptr : as->GetValue(lo + i - 1);
+  Array<> array = items;
+  Object value2 = (array != nullptr) ? array->GetValue(lo + i - 1) : nullptr;
   while (i <= n / 2) {
     Int32 num = 2 * i;
     if (num < n && comparer->Compare(keys->GetValue(lo + num - 1), keys->GetValue(lo + num)) < 0) {
@@ -335,8 +335,8 @@ void Array___<>::SorterGenericArray::InsertionSort(Int32 lo, Int32 hi) {
   for (Int32 i = lo; i < hi; i++) {
     Int32 num = i;
     Object value = keys->GetValue(i + 1);
-    auto& as = items;
-    Object value2 = as == nullptr ? nullptr : as->GetValue(i + 1);
+    Array<> array = items;
+    Object value2 = (array != nullptr) ? array->GetValue(i + 1) : nullptr;
     while (num >= lo && comparer->Compare(value, keys->GetValue(num)) < 0) {
       keys->SetValue(keys->GetValue(num), num + 1);
       if (items != nullptr) {

@@ -120,7 +120,7 @@ String Uri___::get_AbsolutePath() {
 String Uri___::get_PrivateAbsolutePath() {
   MoreInfo moreInfo = EnsureUriInfo()->get_MoreInfo();
   MoreInfo moreInfo2 = moreInfo;
-  auto& as = moreInfo2->Path;
+  String as = moreInfo2->Path;
   return as != nullptr ? as : (moreInfo2->Path = GetParts(UriComponents::Path | UriComponents::KeepDelimiter, UriFormat::UriEscaped));
 }
 
@@ -130,7 +130,7 @@ String Uri___::get_AbsoluteUri() {
   }
   MoreInfo moreInfo = EnsureUriInfo()->get_MoreInfo();
   MoreInfo moreInfo2 = moreInfo;
-  auto& as = moreInfo2->AbsoluteUri;
+  String as = moreInfo2->AbsoluteUri;
   return as != nullptr ? as : (moreInfo2->AbsoluteUri = GetParts(UriComponents::AbsoluteUri, UriFormat::UriEscaped));
 }
 
@@ -273,7 +273,7 @@ String Uri___::get_Query() {
   }
   MoreInfo moreInfo = EnsureUriInfo()->get_MoreInfo();
   MoreInfo moreInfo2 = moreInfo;
-  auto& as = moreInfo2->Query;
+  String as = moreInfo2->Query;
   return as != nullptr ? as : (moreInfo2->Query = GetParts(UriComponents::Query | UriComponents::KeepDelimiter, UriFormat::UriEscaped));
 }
 
@@ -283,7 +283,7 @@ String Uri___::get_Fragment() {
   }
   MoreInfo moreInfo = EnsureUriInfo()->get_MoreInfo();
   MoreInfo moreInfo2 = moreInfo;
-  auto& as = moreInfo2->Fragment;
+  String as = moreInfo2->Fragment;
   return as != nullptr ? as : (moreInfo2->Fragment = GetParts(UriComponents::Fragment | UriComponents::KeepDelimiter, UriFormat::UriEscaped));
 }
 
@@ -295,7 +295,7 @@ String Uri___::get_Scheme() {
 }
 
 String Uri___::get_OriginalString() {
-  auto& as = _originalUnicodeString;
+  String as = _originalUnicodeString;
   return as != nullptr ? as : _string;
 }
 
@@ -315,8 +315,8 @@ String Uri___::get_IdnHost() {
   if (get_IsNotAbsoluteUri()) {
     rt::throw_exception<InvalidOperationException>(SR::get_net_uri_NotAbsolute());
   }
-  auto& as = _info;
-  if (as == nullptr ? nullptr : as->IdnHost == nullptr) {
+  UriInfo info = _info;
+  if (((info != nullptr) ? info->IdnHost : nullptr) == nullptr) {
     EnsureHostString(false);
     String text = _info->Host;
     switch (get_HostType()) {
@@ -372,9 +372,10 @@ void Uri___::InterlockedSetFlags(Flags flags) {
 }
 
 Boolean Uri___::IriParsingStatic(UriParser syntax) {
-  auto& as = syntax;
-  auto& as = as == nullptr ? nullptr : as->InFact(UriSyntaxFlags::AllowIriParsing);
-  return as != nullptr ? as : true;
+  if (syntax != nullptr) {
+    return syntax->InFact(UriSyntaxFlags::AllowIriParsing);
+  }
+  return true;
 }
 
 Boolean Uri___::NotAny(Flags flags) {
@@ -792,7 +793,7 @@ Int32 Uri___::GetHashCode() {
   }
   MoreInfo moreInfo = EnsureUriInfo()->get_MoreInfo();
   MoreInfo moreInfo2 = moreInfo;
-  auto& as = moreInfo2->RemoteUrl;
+  String as = moreInfo2->RemoteUrl;
   String text = as != nullptr ? as : (moreInfo2->RemoteUrl = GetParts(UriComponents::HttpRequestUrl, UriFormat::SafeUnescaped));
   if (get_IsUncOrDosPath()) {
     return text->GetHashCode(StringComparison::OrdinalIgnoreCase);
@@ -909,10 +910,10 @@ Boolean Uri___::Equals(Object comparand) {
   MoreInfo moreInfo = _info->get_MoreInfo();
   MoreInfo moreInfo2 = result->_info->get_MoreInfo();
   MoreInfo moreInfo3 = moreInfo;
-  auto& as = moreInfo3->RemoteUrl;
+  String as = moreInfo3->RemoteUrl;
   String a = as != nullptr ? as : (moreInfo3->RemoteUrl = GetParts(UriComponents::HttpRequestUrl, UriFormat::SafeUnescaped));
   moreInfo3 = moreInfo2;
-  auto& as = moreInfo3->RemoteUrl;
+  String as = moreInfo3->RemoteUrl;
   String b = as != nullptr ? as : (moreInfo3->RemoteUrl = result->GetParts(UriComponents::HttpRequestUrl, UriFormat::SafeUnescaped));
   return String::in::Equals(a, b, get_IsUncOrDosPath() ? StringComparison::OrdinalIgnoreCase : StringComparison::Ordinal);
 }
@@ -2688,7 +2689,7 @@ void Uri___::CreateThis(String uri, Boolean dontEscape, UriKind uriKind) {
   if (uriKind < UriKind::RelativeOrAbsolute || uriKind > UriKind::Relative) {
     rt::throw_exception<ArgumentException>(SR::Format(SR::get_net_uri_InvalidUriKind(), uriKind));
   }
-  auto& as = uri;
+  String as = uri;
   _string = (as != nullptr ? as : String::in::Empty);
   if (dontEscape) {
     _flags |= Flags::UserEscaped;

@@ -617,8 +617,8 @@ String Enum___::Format(Type enumType, Object value, String format) {
     rt::throw_exception<ArgumentException>(SR::Format(SR::get_Arg_EnumFormatUnderlyingTypeAndObjectMustBeSameType(), type, underlyingType));
   }
   if (format->get_Length() == 1) {
-    auto& as = GetEnumName(enumType2, ToUInt64(value));
-    auto& as = InternalFlagsFormat(enumType2, ToUInt64(value));
+    String as = GetEnumName(enumType2, ToUInt64(value));
+    String as = InternalFlagsFormat(enumType2, ToUInt64(value));
     switch (format[0].get()) {
       case 71:
       case 103:
@@ -743,7 +743,7 @@ Int32 Enum___::GetHashCode() {
 }
 
 String Enum___::ToString() {
-  auto& as = InternalFormat((RuntimeType)GetType(), ToUInt64());
+  String as = InternalFormat((RuntimeType)GetType(), ToUInt64());
   return as != nullptr ? as : ValueToString();
 }
 
@@ -798,7 +798,7 @@ String Enum___::ToString(String format) {
     return ToString();
   }
   if (format->get_Length() == 1) {
-    auto& as = InternalFlagsFormat((RuntimeType)GetType(), ToUInt64());
+    String as = InternalFlagsFormat((RuntimeType)GetType(), ToUInt64());
     switch (format[0].get()) {
       case 71:
       case 103:

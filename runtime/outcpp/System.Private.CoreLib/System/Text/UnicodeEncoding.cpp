@@ -281,27 +281,26 @@ Int32 UnicodeEncoding___::GetByteCount(Char* chars, Int32 count, EncoderNLS enco
     if (encoder->get_InternalHasFallbackBuffer()) {
       encoderFallbackBuffer = encoder->get_FallbackBuffer();
       if (encoderFallbackBuffer->get_Remaining() > 0) {
-        auto& as = encoder->get_Fallback();
-        rt::throw_exception<ArgumentException>(SR::Format(SR::get_Argument_EncoderFallbackNotEmpty(), get_EncodingName(), as == nullptr ? nullptr : as->GetType()));
+        String argument_EncoderFallbackNotEmpty = SR::get_Argument_EncoderFallbackNotEmpty();
+        String encodingName = get_EncodingName();
+        EncoderFallback fallback = encoder->get_Fallback();
+        rt::throw_exception<ArgumentException>(SR::Format(argument_EncoderFallbackNotEmpty, encodingName, (fallback != nullptr) ? fallback->GetType() : nullptr));
       }
       encoderFallbackBuffer->InternalInitialize(charStart, ptr, encoder, false);
     }
   }
   while (true) {
-    auto& as = encoderFallbackBuffer;
-    auto& as = as == nullptr ? nullptr : as->InternalGetNextChar();
-    Char num2 = as != nullptr ? as : 0;
-    Char c2 = num2;
+    Char c2;
     Char* chars2;
-    if (num2 != 0 || chars < ptr) {
+    if ((c2 = ((encoderFallbackBuffer != nullptr) ? encoderFallbackBuffer->InternalGetNextChar() : 0)) != 0 || chars < ptr) {
       if (c2 == 0) {
         if ((bigEndian ^ BitConverter::IsLittleEndian) && ((Int64)chars & 7) == 0 && c == 0) {
           UInt64* ptr2 = (UInt64*)(ptr - 3);
           UInt64* ptr3;
           for (ptr3 = (UInt64*)chars; ptr3 < ptr2; ptr3++) {
             if ((-9223231297218904064 & (Int64)(*ptr3)) != 0) {
-              UInt64 num3 = (UInt64)((-576188069258921984 & (Int64)(*ptr3)) ^ -2882066263381583872);
-              if ((((Int64)num3 & -281474976710656) == 0 || (num3 & 281470681743360) == 0 || (num3 & 4294901760u) == 0 || (num3 & 65535) == 0) && (-287953294993589248 & (Int64)(*ptr3)) != (BitConverter::IsLittleEndian ? (-2593835887162763264) : (-2882061865335071744))) {
+              UInt64 num2 = (UInt64)((-576188069258921984 & (Int64)(*ptr3)) ^ -2882066263381583872);
+              if ((((Int64)num2 & -281474976710656) == 0 || (num2 & 281470681743360) == 0 || (num2 & 4294901760u) == 0 || (num2 & 65535) == 0) && (-287953294993589248 & (Int64)(*ptr3)) != (BitConverter::IsLittleEndian ? (-2593835887162763264) : (-2882061865335071744))) {
                 break;
               }
             }
@@ -399,19 +398,18 @@ Int32 UnicodeEncoding___::GetBytes(Char* chars, Int32 charCount, Byte* bytes, In
     if (encoder->get_InternalHasFallbackBuffer()) {
       encoderFallbackBuffer = encoder->get_FallbackBuffer();
       if (encoderFallbackBuffer->get_Remaining() > 0 && encoder->_throwOnOverflow) {
-        auto& as = encoder->get_Fallback();
-        rt::throw_exception<ArgumentException>(SR::Format(SR::get_Argument_EncoderFallbackNotEmpty(), get_EncodingName(), as == nullptr ? nullptr : as->GetType()));
+        String argument_EncoderFallbackNotEmpty = SR::get_Argument_EncoderFallbackNotEmpty();
+        String encodingName = get_EncodingName();
+        EncoderFallback fallback = encoder->get_Fallback();
+        rt::throw_exception<ArgumentException>(SR::Format(argument_EncoderFallbackNotEmpty, encodingName, (fallback != nullptr) ? fallback->GetType() : nullptr));
       }
       encoderFallbackBuffer->InternalInitialize(ptr4, ptr2, encoder, false);
     }
   }
   while (true) {
-    auto& as = encoderFallbackBuffer;
-    auto& as = as == nullptr ? nullptr : as->InternalGetNextChar();
-    Char num = as != nullptr ? as : 0;
-    Char c2 = num;
+    Char c2;
     Char* chars2;
-    if (num != 0 || chars < ptr2) {
+    if ((c2 = ((encoderFallbackBuffer != nullptr) ? encoderFallbackBuffer->InternalGetNextChar() : 0)) != 0 || chars < ptr2) {
       if (c2 == 0) {
         if ((bigEndian ^ BitConverter::IsLittleEndian) && ((Int64)chars & 7) == 0 && c == 0) {
           UInt64* ptr5 = (UInt64*)(chars - 3 + ((ptr - bytes >> 1 < ptr2 - chars) ? (ptr - bytes >> 1) : (ptr2 - chars)));
@@ -419,8 +417,8 @@ Int32 UnicodeEncoding___::GetBytes(Char* chars, Int32 charCount, Byte* bytes, In
           UInt64* ptr7 = (UInt64*)bytes;
           while (ptr6 < ptr5) {
             if ((-9223231297218904064 & (Int64)(*ptr6)) != 0) {
-              UInt64 num2 = (UInt64)((-576188069258921984 & (Int64)(*ptr6)) ^ -2882066263381583872);
-              if ((((Int64)num2 & -281474976710656) == 0 || (num2 & 281470681743360) == 0 || (num2 & 4294901760u) == 0 || (num2 & 65535) == 0) && (-287953294993589248 & (Int64)(*ptr6)) != (BitConverter::IsLittleEndian ? (-2593835887162763264) : (-2882061865335071744))) {
+              UInt64 num = (UInt64)((-576188069258921984 & (Int64)(*ptr6)) ^ -2882066263381583872);
+              if ((((Int64)num & -281474976710656) == 0 || (num & 281470681743360) == 0 || (num & 4294901760u) == 0 || (num & 65535) == 0) && (-287953294993589248 & (Int64)(*ptr6)) != (BitConverter::IsLittleEndian ? (-2593835887162763264) : (-2882061865335071744))) {
                 break;
               }
             }

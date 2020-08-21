@@ -61,8 +61,10 @@ String LicenseInteropProxy___::RequestLicKey(Type type) {
   if (!(Boolean)_validateTypeAndReturnDetails->Invoke(nullptr, BindingFlags::DoNotWrapExceptions, nullptr, array, nullptr)) {
     rt::throw_exception<COMException>();
   }
-  auto& as = ((IDisposable)array[2]);
-  as == nullptr ? nullptr : as->Dispose();
+  IDisposable disposable = (IDisposable)array[2];
+  if (disposable != nullptr) {
+    disposable->Dispose();
+  }
   String text = (String)array[3];
   if (text == nullptr) {
     rt::throw_exception<COMException>();

@@ -6,6 +6,7 @@
 #include <System.Private.CoreLib/System/InvalidOperationException-dep.h>
 #include <System.Private.CoreLib/System/NotImplemented-dep.h>
 #include <System.Private.CoreLib/System/NotSupportedException-dep.h>
+#include <System.Private.CoreLib/System/Object-dep.h>
 #include <System.Private.CoreLib/System/Reflection/ConstructorInfo-dep.h>
 #include <System.Private.CoreLib/System/Reflection/MethodBase-dep.h>
 #include <System.Private.CoreLib/System/Reflection/RuntimeMethodInfo-dep.h>
@@ -117,8 +118,7 @@ MethodBase MethodBase___::GetMethodFromHandle(RuntimeMethodHandle handle) {
     rt::throw_exception<ArgumentException>(SR::get_Argument_InvalidHandle());
   }
   MethodBase methodBase = RuntimeType::in::GetMethodBase(handle.GetMethodInfo());
-  auto& as = methodBase;
-  Type type = as == nullptr ? nullptr : as->get_DeclaringType();
+  Type type = ((Object)methodBase != nullptr) ? methodBase->get_DeclaringType() : nullptr;
   if (type != nullptr && type->get_IsGenericType()) {
     rt::throw_exception<ArgumentException>(SR::Format(SR::get_Argument_MethodDeclaringTypeGeneric(), methodBase, type->GetGenericTypeDefinition()));
   }
@@ -207,9 +207,10 @@ Boolean MethodBase___::op_Equality(MethodBase left, MethodBase right) {
   if ((Object)left == right) {
     return true;
   }
-  auto& as = left;
-  auto& as = as == nullptr ? nullptr : as->Equals(right);
-  return as != nullptr ? as : false;
+  if ((Object)left != nullptr) {
+    return left->Equals(right);
+  }
+  return false;
 }
 
 Boolean MethodBase___::op_Inequality(MethodBase left, MethodBase right) {

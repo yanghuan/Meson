@@ -58,7 +58,7 @@ RuntimeMethodInfo Associates::AssignAssociates(Int32 tkMethod, RuntimeType decla
     }
   }
   RuntimeMethodInfo runtimeMethodInfo = rt::as<RuntimeMethodInfo>(RuntimeType::in::GetMethodBase(reflectedType, runtimeMethodHandleInternal));
-  auto& as = runtimeMethodInfo;
+  RuntimeMethodInfo as = runtimeMethodInfo;
   return as != nullptr ? as : (rt::as<RuntimeMethodInfo>(reflectedType->get_Module()->ResolveMethod(tkMethod, nullptr, nullptr)));
 }
 
@@ -125,8 +125,7 @@ void Associates::AssignAssociates(MetadataImport scope, Int32 mdPropEvent, Runti
   Boolean isStatic = (attributes & Attributes::ComposedOfNoStaticMembers) == 0;
   bindingFlags = RuntimeType::in::FilterPreCalculate(isPublic, isInherited, isStatic);
   composedOfAllPrivateMethods = ((attributes & Attributes::ComposedOfAllPrivateMethods) != 0);
-  auto& as = list;
-  other = as == nullptr ? nullptr : as->ToArray();
+  other = ((list != nullptr) ? list->ToArray() : nullptr);
 }
 
 } // namespace System::Private::CoreLib::System::Reflection::AssociatesNamespace

@@ -323,7 +323,7 @@ void ConcurrentExclusiveSchedulerPair___::ProcessAsyncIfNecessary(Boolean fairly
 
 Boolean ConcurrentExclusiveSchedulerPair___::TryQueueThreadPoolWorkItem(Boolean fairly) {
   if (TaskScheduler::in::get_Default() == m_underlyingTaskScheduler) {
-    auto& as = m_threadPoolWorkItem;
+    SchedulerWorkItem as = m_threadPoolWorkItem;
     IThreadPoolWorkItem callBack = as != nullptr ? as : (m_threadPoolWorkItem = rt::newobj<SchedulerWorkItem>((ConcurrentExclusiveSchedulerPair)this));
     ThreadPool::UnsafeQueueUserWorkItemInternal(callBack, !fairly);
     return true;

@@ -313,7 +313,7 @@ void Assembly___::GetObjectData(SerializationInfo info, StreamingContext context
 }
 
 String Assembly___::ToString() {
-  auto& as = get_FullName();
+  String as = get_FullName();
   return as != nullptr ? as : Object::in::ToString();
 }
 
@@ -335,9 +335,10 @@ Boolean Assembly___::op_Equality(Assembly left, Assembly right) {
   if ((Object)left == right) {
     return true;
   }
-  auto& as = left;
-  auto& as = as == nullptr ? nullptr : as->Equals(right);
-  return as != nullptr ? as : false;
+  if ((Object)left != nullptr) {
+    return left->Equals(right);
+  }
+  return false;
 }
 
 Boolean Assembly___::op_Inequality(Assembly left, Assembly right) {

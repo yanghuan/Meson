@@ -282,14 +282,14 @@ CancellationTokenRegistration CancellationTokenSource___::InternalRegister(Actio
     Array<CallbackPartition> array = _callbackPartitions;
     if (array == nullptr) {
       array = rt::newarr<Array<CallbackPartition>>(s_numPartitions);
-      auto& as = Interlocked::CompareExchange(_callbackPartitions, array, (Array<CallbackPartition>)nullptr);
+      Array<CallbackPartition> as = Interlocked::CompareExchange(_callbackPartitions, array, (Array<CallbackPartition>)nullptr);
       array = (as != nullptr ? as : array);
     }
     Int32 num = Environment::get_CurrentManagedThreadId() & s_numPartitionsMask;
     CallbackPartition callbackPartition = array[num];
     if (callbackPartition == nullptr) {
       callbackPartition = rt::newobj<CallbackPartition>((CancellationTokenSource)this);
-      auto& as = Interlocked::CompareExchange(array[num], callbackPartition, (CallbackPartition)nullptr);
+      CallbackPartition as = Interlocked::CompareExchange(array[num], callbackPartition, (CallbackPartition)nullptr);
       callbackPartition = (as != nullptr ? as : callbackPartition);
     }
     Boolean lockTaken = false;
@@ -334,8 +334,10 @@ void CancellationTokenSource___::NotifyCancellation(Boolean throwOnFirstExceptio
       _timer = nullptr;
       timer->Close();
     }
-    auto& as = _kernelEvent;
-    as == nullptr ? nullptr : as->Set();
+    ManualResetEvent kernelEvent = _kernelEvent;
+    if (kernelEvent != nullptr) {
+      kernelEvent->Set();
+    }
     ExecuteCallbackHandlers(throwOnFirstException);
   }
 }

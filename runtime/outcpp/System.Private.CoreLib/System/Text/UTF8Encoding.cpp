@@ -363,9 +363,7 @@ Int32 UTF8Encoding___::GetCharsWithFallback(ReadOnlySpan<Byte> bytes, Int32 orig
   if (decoderReplacementFallback != nullptr && decoderReplacementFallback->get_MaxCharCount() == 1 && decoderReplacementFallback->get_DefaultString()[0] == 65533) {
     Int32 bytesRead;
     Int32 charsWritten;
-    auto& as = decoder;
-    auto& as = as == nullptr ? nullptr : as->get_MustFlush();
-    Utf8::ToUtf16(bytes, chars, bytesRead, charsWritten, true, as != nullptr ? as : true);
+    Utf8::ToUtf16(bytes, chars, bytesRead, charsWritten, true, decoder == nullptr || decoder->get_MustFlush());
     bytes = bytes.Slice(bytesRead);
     chars = chars.Slice(charsWritten);
   }

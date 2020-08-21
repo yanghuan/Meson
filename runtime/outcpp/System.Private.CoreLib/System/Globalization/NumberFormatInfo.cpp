@@ -477,11 +477,11 @@ NumberFormatInfo NumberFormatInfo___::GetInstance(IFormatProvider formatProvider
   auto GetProviderNonNull = [](IFormatProvider provider) -> NumberFormatInfo {
     CultureInfo cultureInfo = rt::as<CultureInfo>(provider);
     if (cultureInfo != nullptr && !cultureInfo->_isInherited) {
-      auto& as = cultureInfo->_numInfo;
+      NumberFormatInfo as = cultureInfo->_numInfo;
       return as != nullptr ? as : cultureInfo->get_NumberFormat();
     }
-    auto& as = (rt::as<NumberFormatInfo>(provider->GetFormat(rt::typeof<NumberFormatInfo>())));
-    auto& as = (rt::as<NumberFormatInfo>(provider));
+    ? as = (rt::as<NumberFormatInfo>(provider->GetFormat(rt::typeof<NumberFormatInfo>())));
+    ? as = (rt::as<NumberFormatInfo>(provider));
     return as != nullptr ? as : as != nullptr ? as : get_CurrentInfo();
   };
   if (formatProvider != nullptr) {

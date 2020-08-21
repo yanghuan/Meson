@@ -98,8 +98,9 @@ void SecureString___::Initialize(ReadOnlySpan<Char> value) {
   } catch (...) {
   } finally: {
     ProtectMemory();
-    auto& as = bufferToRelease;
-    as == nullptr ? nullptr : as->DangerousRelease();
+    if (bufferToRelease != nullptr) {
+      bufferToRelease->DangerousRelease();
+    }
   }
 }
 
@@ -139,8 +140,9 @@ void SecureString___::AppendChar(Char c) {
     } catch (...) {
     } finally: {
       ProtectMemory();
-      auto& as = bufferToRelease;
-      as == nullptr ? nullptr : as->DangerousRelease();
+      if (bufferToRelease != nullptr) {
+        bufferToRelease->DangerousRelease();
+      }
     }
   }
 }
@@ -156,8 +158,9 @@ void SecureString___::Clear() {
       AcquireSpan(bufferToRelease).Clear();
     } catch (...) {
     } finally: {
-      auto& as = bufferToRelease;
-      as == nullptr ? nullptr : as->DangerousRelease();
+      if (bufferToRelease != nullptr) {
+        bufferToRelease->DangerousRelease();
+      }
     }
   }
 }
@@ -199,8 +202,9 @@ void SecureString___::InsertAt(Int32 index, Char c) {
     } catch (...) {
     } finally: {
       ProtectMemory();
-      auto& as = bufferToRelease;
-      as == nullptr ? nullptr : as->DangerousRelease();
+      if (bufferToRelease != nullptr) {
+        bufferToRelease->DangerousRelease();
+      }
     }
   }
 }
@@ -232,8 +236,9 @@ void SecureString___::RemoveAt(Int32 index) {
     } catch (...) {
     } finally: {
       ProtectMemory();
-      auto& as = bufferToRelease;
-      as == nullptr ? nullptr : as->DangerousRelease();
+      if (bufferToRelease != nullptr) {
+        bufferToRelease->DangerousRelease();
+      }
     }
   }
 }
@@ -253,8 +258,9 @@ void SecureString___::SetAt(Int32 index, Char c) {
     } catch (...) {
     } finally: {
       ProtectMemory();
-      auto& as = bufferToRelease;
-      as == nullptr ? nullptr : as->DangerousRelease();
+      if (bufferToRelease != nullptr) {
+        bufferToRelease->DangerousRelease();
+      }
     }
   }
 }
@@ -302,8 +308,9 @@ IntPtr SecureString___::MarshalToBSTR() {
         Marshal::FreeBSTR(intPtr);
       }
       ProtectMemory();
-      auto& as = bufferToRelease;
-      as == nullptr ? nullptr : as->DangerousRelease();
+      if (bufferToRelease != nullptr) {
+        bufferToRelease->DangerousRelease();
+      }
     }
   }
 }
@@ -341,8 +348,9 @@ IntPtr SecureString___::MarshalToString(Boolean globalAlloc, Boolean unicode) {
         }
       }
       ProtectMemory();
-      auto& as = bufferToRelease;
-      as == nullptr ? nullptr : as->DangerousRelease();
+      if (bufferToRelease != nullptr) {
+        bufferToRelease->DangerousRelease();
+      }
     }
   }
 }

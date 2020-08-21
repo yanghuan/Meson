@@ -30,7 +30,7 @@ Dictionary<String, LocalDataStoreSlot> Thread___::LocalDataStore::EnsureNameToSl
     return dictionary;
   }
   dictionary = rt::newobj<Dictionary<String, LocalDataStoreSlot>>();
-  auto& as = Interlocked::CompareExchange(s_nameToSlotMap, dictionary, (Dictionary<String, LocalDataStoreSlot>)nullptr);
+  Dictionary<String, LocalDataStoreSlot> as = Interlocked::CompareExchange(s_nameToSlotMap, dictionary, (Dictionary<String, LocalDataStoreSlot>)nullptr);
   return as != nullptr ? as : dictionary;
 }
 
@@ -138,8 +138,8 @@ void Thread___::set_CurrentUICulture(CultureInfo value) {
 }
 
 IPrincipal Thread___::get_CurrentPrincipal() {
-  auto& as = s_asyncLocalPrincipal;
-  IPrincipal principal = as == nullptr ? nullptr : as->get_Value();
+  AsyncLocal<IPrincipal> asyncLocal = s_asyncLocalPrincipal;
+  IPrincipal principal = (asyncLocal != nullptr) ? asyncLocal->get_Value() : nullptr;
   if (principal == nullptr) {
     principal = (get_CurrentPrincipal(AppDomain::in::get_CurrentDomain()->GetThreadPrincipal()));
   }
@@ -157,7 +157,7 @@ void Thread___::set_CurrentPrincipal(IPrincipal value) {
 }
 
 Thread Thread___::get_CurrentThread() {
-  auto& as = t_currentThread;
+  Thread as = t_currentThread;
   return as != nullptr ? as : InitializeCurrentThread();
 }
 
@@ -356,9 +356,7 @@ void Thread___::SetCultureOnUnstartedThread(CultureInfo value, Boolean uiCulture
 }
 
 void Thread___::ThreadNameChanged(String value) {
-  auto& as = value;
-  auto& as = as == nullptr ? nullptr : as->get_Length();
-  InformThreadNameChange(GetNativeHandle(), value, as != nullptr ? as : 0);
+  InformThreadNameChange(GetNativeHandle(), value, (value != nullptr) ? value->get_Length() : 0);
 }
 
 void Thread___::Abort() {

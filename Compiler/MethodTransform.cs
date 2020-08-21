@@ -188,8 +188,9 @@ namespace Meson.Compiler {
       var left = binaryOperatorExpression.Left.AcceptExpression(this);
       var right = binaryOperatorExpression.Right.AcceptExpression(this);
       if (binaryOperatorExpression.Operator == BinaryOperatorType.NullCoalescing) {
+        var leftTypeName = GetTypeName(binaryOperatorExpression.Left.GetResolveResult().Type);
         var temp = GetTempIdentifier();
-        var local = new VariableDeclarationStatementSyntax(new RefExpressionSyntax(IdentifierSyntax.Auto), temp, left);
+        var local = new VariableDeclarationStatementSyntax(leftTypeName, temp, left);
         Block.Add(local);
         return new ConditionalExpressionSyntax(temp.Binary(Tokens.NotEquals, IdentifierSyntax.Nullptr), temp, right);
       }
@@ -631,6 +632,7 @@ namespace Meson.Compiler {
 
     public SyntaxNode VisitUnaryOperatorExpression(UnaryOperatorExpression unaryOperatorExpression) {
       var expression = unaryOperatorExpression.Expression.AcceptExpression(this);
+      /*
       if (unaryOperatorExpression.Operator == UnaryOperatorType.NullConditionalRewrap) {
         return expression;
       }
@@ -639,7 +641,7 @@ namespace Meson.Compiler {
         var temp = GetTempIdentifier();
         Block.Add(new VariableDeclarationStatementSyntax(new RefExpressionSyntax(IdentifierSyntax.Auto), temp, expression));
         return new ConditionalExpressionSyntax(temp.Binary(Tokens.EqualsEquals, IdentifierSyntax.Nullptr), IdentifierSyntax.Nullptr, temp);
-      }
+      }*/
 
       string operatorToken = unaryOperatorToknes_[(int)unaryOperatorExpression.Operator];
       if (operatorToken == null) {

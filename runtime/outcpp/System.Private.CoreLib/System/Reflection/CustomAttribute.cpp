@@ -418,7 +418,7 @@ AttributeUsageAttribute CustomAttribute::GetAttributeUsage(RuntimeType decorated
       attributeUsageAttribute = rt::newobj<AttributeUsageAttribute>(targets, allowMultiple, inherited);
     }
   }
-  auto& as = attributeUsageAttribute;
+  AttributeUsageAttribute as = attributeUsageAttribute;
   return as != nullptr ? as : AttributeUsageAttribute::in::Default;
 }
 

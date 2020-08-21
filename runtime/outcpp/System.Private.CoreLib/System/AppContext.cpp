@@ -1,15 +1,16 @@
 #include "AppContext-dep.h"
 
 #include <System.Private.CoreLib/System/AppContext-dep.h>
-#include <System.Private.CoreLib/System/AppDomain-dep.h>
 #include <System.Private.CoreLib/System/ArgumentException-dep.h>
 #include <System.Private.CoreLib/System/ArgumentNullException-dep.h>
 #include <System.Private.CoreLib/System/Collections/Generic/Dictionary-dep.h>
-#include <System.Private.CoreLib/System/EventArgs-dep.h>
+#include <System.Private.CoreLib/System/EventHandler-dep.h>
 #include <System.Private.CoreLib/System/IO/Path-dep.h>
+#include <System.Private.CoreLib/System/Object-dep.h>
 #include <System.Private.CoreLib/System/Reflection/Assembly-dep.h>
 #include <System.Private.CoreLib/System/Reflection/CustomAttributeExtensions-dep.h>
 #include <System.Private.CoreLib/System/Runtime/Loader/AssemblyLoadContext-dep.h>
+#include <System.Private.CoreLib/System/Runtime/Versioning/TargetFrameworkAttribute-dep.h>
 #include <System.Private.CoreLib/System/SR-dep.h>
 #include <System.Private.CoreLib/System/Threading/Interlocked-dep.h>
 
@@ -18,18 +19,25 @@ using namespace System::Collections::Generic;
 using namespace System::IO;
 using namespace System::Reflection;
 using namespace System::Runtime::Loader;
+using namespace System::Runtime::Versioning;
 using namespace System::Threading;
 
 String AppContext::get_BaseDirectory() {
-  auto& as = s_defaultBaseDirectory;
-  auto& as = (rt::as<String>(GetData("APP_CONTEXT_BASE_DIRECTORY")));
+  String as = s_defaultBaseDirectory;
+  ? as = (rt::as<String>(GetData("APP_CONTEXT_BASE_DIRECTORY")));
   return as != nullptr ? as : as != nullptr ? as : (s_defaultBaseDirectory = GetBaseDirectoryCore());
 }
 
 String AppContext::get_TargetFrameworkName() {
-  auto& as = Assembly::in::GetEntryAssembly();
-  auto& as = CustomAttributeExtensions::GetCustomAttribute(as == nullptr ? nullptr : as);
-  return as == nullptr ? nullptr : as->get_FrameworkName();
+  Assembly entryAssembly = Assembly::in::GetEntryAssembly();
+  if ((Object)entryAssembly == nullptr) {
+    return nullptr;
+  }
+  TargetFrameworkAttribute customAttribute = CustomAttributeExtensions::GetCustomAttribute(entryAssembly);
+  if (customAttribute == nullptr) {
+    return nullptr;
+  }
+  return customAttribute->get_FrameworkName();
 }
 
 Object AppContext::GetData(String name) {
@@ -111,12 +119,12 @@ void AppContext::Setup(Char** pNames, Char** pValues, Int32 count) {
 }
 
 String AppContext::GetBaseDirectoryCore() {
-  auto& as = Assembly::in::GetEntryAssembly();
-  String text = Path::GetDirectoryName(as == nullptr ? nullptr : as->get_Location());
+  Assembly entryAssembly = Assembly::in::GetEntryAssembly();
+  String text = Path::GetDirectoryName(((Object)entryAssembly != nullptr) ? entryAssembly->get_Location() : nullptr);
   if (text != nullptr && !Path::EndsInDirectorySeparator(text)) {
     text += "\";
   }
-  auto& as = text;
+  String as = text;
   return as != nullptr ? as : String::in::Empty;
 }
 

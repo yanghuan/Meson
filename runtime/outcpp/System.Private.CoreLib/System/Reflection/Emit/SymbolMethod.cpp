@@ -45,7 +45,7 @@ ICustomAttributeProvider SymbolMethod___::get_ReturnTypeCustomAttributes() {
 
 void SymbolMethod___::ctor(ModuleBuilder mod, MethodToken token, Type arrayClass, String methodName, CallingConventions callingConvention, Type returnType, Array<Type> parameterTypes) {
   m_mdMethod = token;
-  auto& as = returnType;
+  Type as = returnType;
   m_returnType = (as != nullptr ? as : rt::typeof<void>());
   if (parameterTypes != nullptr) {
     m_parameterTypes = rt::newarr<Array<Type>>(parameterTypes->get_Length());

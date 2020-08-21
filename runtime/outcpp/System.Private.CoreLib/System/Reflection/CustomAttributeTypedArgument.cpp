@@ -213,7 +213,7 @@ String CustomAttributeTypedArgument::ToString(Boolean typed) {
   if (get_ArgumentType()->get_IsArray()) {
     IList<CustomAttributeTypedArgument> list = (IList<CustomAttributeTypedArgument>)get_Value();
     Type elementType = get_ArgumentType()->GetElementType();
-    String str = String::in::Format("new {0}[{1}] {{ ", (elementType->get_IsEnum() ? elementType->get_FullName() : elementType->get_Name()), list->get_Count());
+    String str = String::in::Format("new {0}[{1}] {{ ", elementType->get_IsEnum() ? elementType->get_FullName() : elementType->get_Name(), list->get_Count());
     for (Int32 i = 0; i < list->get_Count(); i++) {
       str += String::in::Format((i == 0) ? "{0}" : ", {0}", list[i].ToString(elementType != rt::typeof<Object>()));
     }

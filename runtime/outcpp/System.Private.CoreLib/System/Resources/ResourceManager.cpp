@@ -16,6 +16,7 @@
 #include <System.Private.CoreLib/System/Resources/ResourceFallbackManager-dep.h>
 #include <System.Private.CoreLib/System/Resources/ResourceManager-dep.h>
 #include <System.Private.CoreLib/System/Resources/RuntimeResourceSet-dep.h>
+#include <System.Private.CoreLib/System/Resources/SatelliteContractVersionAttribute-dep.h>
 #include <System.Private.CoreLib/System/SR-dep.h>
 #include <System.Private.CoreLib/System/StringComparison.h>
 
@@ -103,7 +104,7 @@ void ResourceManager___::set_IgnoreCase(Boolean value) {
 }
 
 Type ResourceManager___::get_ResourceSetType() {
-  auto& as = _userResourceSet;
+  Type as = _userResourceSet;
   return as != nullptr ? as : rt::typeof<RuntimeResourceSet>();
 }
 
@@ -310,8 +311,8 @@ Version ResourceManager___::GetSatelliteContractVersion(Assembly a) {
   if (a == nullptr) {
     rt::throw_exception<ArgumentNullException>("a", SR::get_ArgumentNull_Assembly());
   }
-  auto& as = CustomAttributeExtensions::GetCustomAttribute(a);
-  String text = as == nullptr ? nullptr : as->get_Version();
+  SatelliteContractVersionAttribute customAttribute = CustomAttributeExtensions::GetCustomAttribute(a);
+  String text = (customAttribute != nullptr) ? customAttribute->get_Version() : nullptr;
   if (text == nullptr) {
     return nullptr;
   }

@@ -12,7 +12,7 @@ PlatformID OperatingSystem___::get_Platform() {
 }
 
 String OperatingSystem___::get_ServicePack() {
-  auto& as = _servicePack;
+  String as = _servicePack;
   return as != nullptr ? as : String::in::Empty;
 }
 

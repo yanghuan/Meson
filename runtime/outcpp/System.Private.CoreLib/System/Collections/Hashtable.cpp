@@ -395,12 +395,12 @@ Boolean Hashtable___::get_IsSynchronized() {
 }
 
 ICollection Hashtable___::get_Keys() {
-  auto& as = _keys;
+  ICollection as = _keys;
   return as != nullptr ? as : (_keys = rt::newobj<KeyCollection>((Hashtable)this));
 }
 
 ICollection Hashtable___::get_Values() {
-  auto& as = _values;
+  ICollection as = _values;
   return as != nullptr ? as : (_values = rt::newobj<ValueCollection>((Hashtable)this));
 }
 
@@ -702,9 +702,10 @@ Boolean Hashtable___::KeyEquals(Object item, Object key) {
   if (_keycomparer != nullptr) {
     return _keycomparer->Equals(item, key);
   }
-  auto& as = item;
-  auto& as = as == nullptr ? nullptr : as->Equals(key);
-  return as != nullptr ? as : false;
+  if (item != nullptr) {
+    return item->Equals(key);
+  }
+  return false;
 }
 
 void Hashtable___::Insert(Object key, Object nvalue, Boolean add) {

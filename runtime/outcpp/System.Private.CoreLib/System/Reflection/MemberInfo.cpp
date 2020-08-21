@@ -59,9 +59,10 @@ Boolean MemberInfo___::op_Equality(MemberInfo left, MemberInfo right) {
   if ((Object)left == right) {
     return true;
   }
-  auto& as = left;
-  auto& as = as == nullptr ? nullptr : as->Equals(right);
-  return as != nullptr ? as : false;
+  if ((Object)left != nullptr) {
+    return left->Equals(right);
+  }
+  return false;
 }
 
 Boolean MemberInfo___::op_Inequality(MemberInfo left, MemberInfo right) {

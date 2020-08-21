@@ -119,7 +119,7 @@ void DebugProvider___::WriteToDebugger(String message) {
   if (Debugger::IsLogging()) {
     Debugger::Log(0, nullptr, message);
   } else {
-    auto& as = message;
+    String as = message;
     Interop::Kernel32::OutputDebugString(as != nullptr ? as : String::in::Empty);
   }
 }

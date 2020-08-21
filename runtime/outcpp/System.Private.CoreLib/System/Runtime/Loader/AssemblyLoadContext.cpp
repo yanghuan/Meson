@@ -1,10 +1,11 @@
 #include "AssemblyLoadContext-dep.h"
 
 #include <System.Private.CoreLib/Internal/IO/File-dep.h>
+#include <System.Private.CoreLib/System/Action-dep.h>
 #include <System.Private.CoreLib/System/AppDomain-dep.h>
 #include <System.Private.CoreLib/System/ArgumentException-dep.h>
 #include <System.Private.CoreLib/System/ArgumentNullException-dep.h>
-#include <System.Private.CoreLib/System/AssemblyLoadEventArgs-dep.h>
+#include <System.Private.CoreLib/System/AssemblyLoadEventHandler-dep.h>
 #include <System.Private.CoreLib/System/BadImageFormatException-dep.h>
 #include <System.Private.CoreLib/System/Collections/Generic/Dictionary-dep.h>
 #include <System.Private.CoreLib/System/Collections/Generic/List-dep.h>
@@ -82,8 +83,11 @@ IEnumerable<AssemblyLoadContext> AssemblyLoadContext___::get_All() {
 }
 
 AssemblyLoadContext AssemblyLoadContext___::get_CurrentContextualReflectionContext() {
-  auto& as = s_asyncLocalCurrent;
-  return as == nullptr ? nullptr : as->get_Value();
+  AsyncLocal<AssemblyLoadContext> asyncLocal = s_asyncLocalCurrent;
+  if (asyncLocal == nullptr) {
+    return nullptr;
+  }
+  return asyncLocal->get_Value();
 }
 
 Assembly AssemblyLoadContext___::InternalLoadFromPath(String assemblyPath, String nativeImagePath) {
@@ -163,8 +167,11 @@ RuntimeAssembly AssemblyLoadContext___::GetRuntimeAssembly(Assembly asm_) {
   if (!(asm == nullptr)) {
     RuntimeAssembly runtimeAssembly = rt::as<RuntimeAssembly>(asm);
     if ((Object)runtimeAssembly == nullptr) {
-      auto& as = (rt::as<AssemblyBuilder>(asm));
-      return as == nullptr ? nullptr : as->get_InternalAssembly();
+      AssemblyBuilder assemblyBuilder = rt::as<AssemblyBuilder>(asm);
+      if ((Object)assemblyBuilder == nullptr) {
+        return nullptr;
+      }
+      return assemblyBuilder->get_InternalAssembly();
     }
     return runtimeAssembly;
   }

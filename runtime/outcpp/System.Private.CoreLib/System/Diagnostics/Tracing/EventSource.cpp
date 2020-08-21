@@ -43,6 +43,7 @@
 #include <System.Private.CoreLib/System/Double-dep.h>
 #include <System.Private.CoreLib/System/Enum-dep.h>
 #include <System.Private.CoreLib/System/Environment-dep.h>
+#include <System.Private.CoreLib/System/EventHandler-dep.h>
 #include <System.Private.CoreLib/System/GC-dep.h>
 #include <System.Private.CoreLib/System/Int16-dep.h>
 #include <System.Private.CoreLib/System/Int64-dep.h>
@@ -1366,8 +1367,12 @@ void EventSource___::ThrowEventSourceException(String eventName, Exception inner
     }
     if (innerEx != nullptr) {
       innerEx = innerEx->GetBaseException();
-      auto& as = innerEx->GetType();
-      ReportOutOfBandMessage(text + ": " + as == nullptr ? nullptr : as->ToString() + ":" + innerEx->get_Message());
+      Array<String> obj = rt::newarr<Array<String>>(5);
+      Type type = innerEx->GetType();
+      obj[2] = (((Object)type != nullptr) ? type->ToString() : nullptr);
+      obj[3] = ":";
+      obj[4] = innerEx->get_Message();
+      ReportOutOfBandMessage(String::in::Concat(obj));
     } else {
       ReportOutOfBandMessage(text);
     }
@@ -1479,8 +1484,10 @@ void EventSource___::DoCommand(EventCommandEventArgs commandArgs) {
         m_eventSourceEnabled = true;
       }
       OnEventCommand(commandArgs);
-      auto& as = m_eventCommandExecuted;
-      as == nullptr ? nullptr : as->Invoke((EventSource)this, commandArgs);
+      EventHandler<EventCommandEventArgs> eventCommandExecuted = m_eventCommandExecuted;
+      if (eventCommandExecuted != nullptr) {
+        eventCommandExecuted((EventSource)this, commandArgs);
+      }
       if (commandArgs->enable) {
         return;
       }
@@ -1505,8 +1512,10 @@ void EventSource___::DoCommand(EventCommandEventArgs commandArgs) {
       SendManifest(m_rawManifest);
     }
     OnEventCommand(commandArgs);
-    auto& as = m_eventCommandExecuted;
-    as == nullptr ? nullptr : as->Invoke((EventSource)this, commandArgs);
+    EventHandler<EventCommandEventArgs> eventCommandExecuted2 = m_eventCommandExecuted;
+    if (eventCommandExecuted2 != nullptr) {
+      eventCommandExecuted2((EventSource)this, commandArgs);
+    }
   } catch (Exception ex) {
   }
 }
@@ -2001,7 +2010,7 @@ void EventSource___::WriteMultiMergeInner(String eventName, EventSourceOptions& 
   Byte opcode = ((options.valuesSet & 8) != 0) ? options.opcode : eventTypes->opcode;
   EventTags tags = ((options.valuesSet & 2) != 0) ? options.tags : eventTypes->get_Tags();
   EventKeywords keywords = ((options.valuesSet & 1) != 0) ? options.keywords : eventTypes->keywords;
-  auto& as = eventName;
+  String as = eventName;
   NameInfo nameInfo = eventTypes->GetNameInfo(as != nullptr ? as : eventTypes->get_Name(), tags);
   if (nameInfo == nullptr) {
     return;
@@ -2290,7 +2299,7 @@ NameInfo EventSource___::UpdateDescriptor(String name, TraceLoggingEventTypes ev
   EventTags tags = ((options.valuesSet & 2) != 0) ? options.tags : eventInfo->get_Tags();
   EventKeywords keywords = ((options.valuesSet & 1) != 0) ? options.keywords : eventInfo->keywords;
   if (IsEnabled((EventLevel)level, keywords)) {
-    auto& as = name;
+    String as = name;
     nameInfo = eventInfo->GetNameInfo(as != nullptr ? as : eventInfo->get_Name(), tags);
     traceloggingId = nameInfo->identity;
   }

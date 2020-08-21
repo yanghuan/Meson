@@ -7,6 +7,7 @@
 #include <System.Private.CoreLib/System/Diagnostics/StackTrace-dep.h>
 #include <System.Private.CoreLib/System/Object-dep.h>
 #include <System.Private.CoreLib/System/Reflection/Assembly-dep.h>
+#include <System.Private.CoreLib/System/Reflection/MethodBase-dep.h>
 #include <System.Private.CoreLib/System/Runtime/CompilerServices/ContractHelper-dep.h>
 #include <System.Private.CoreLib/System/SR-dep.h>
 
@@ -100,8 +101,8 @@ void Contract::AssertMustUseRewriter(ContractFailureKind kind, String contractKi
   StackTrace stackTrace = rt::newobj<StackTrace>();
   Assembly assembly2 = nullptr;
   for (Int32 i = 0; i < stackTrace->get_FrameCount(); i++) {
-    auto& as = stackTrace->GetFrame(i)->GetMethod();
-    Assembly assembly3 = (as == nullptr ? nullptr : as->get_DeclaringType())->get_Assembly();
+    MethodBase method = stackTrace->GetFrame(i)->GetMethod();
+    Assembly assembly3 = (((Object)method != nullptr) ? method->get_DeclaringType() : nullptr)->get_Assembly();
     if (assembly3 != nullptr && assembly3 != assembly) {
       assembly2 = assembly3;
       break;

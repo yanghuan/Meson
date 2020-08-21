@@ -415,9 +415,9 @@ void Encoding___::ctor(Int32 codePage, EncoderFallback encoderFallback, DecoderF
     rt::throw_exception<ArgumentOutOfRangeException>("codePage");
   }
   _codePage = codePage;
-  auto& as = encoderFallback;
+  EncoderFallback as = encoderFallback;
   this->encoderFallback = (as != nullptr ? as : rt::newobj<InternalEncoderBestFitFallback>((Encoding)this));
-  auto& as = decoderFallback;
+  DecoderFallback as = decoderFallback;
   this->decoderFallback = (as != nullptr ? as : rt::newobj<InternalDecoderBestFitFallback>((Encoding)this));
 }
 
@@ -497,12 +497,12 @@ Encoding Encoding___::GetEncoding(Int32 codepage, EncoderFallback encoderFallbac
 }
 
 Encoding Encoding___::GetEncoding(String name) {
-  auto& as = EncodingProvider::in::GetEncodingFromProvider(name);
+  Encoding as = EncodingProvider::in::GetEncodingFromProvider(name);
   return as != nullptr ? as : GetEncoding(EncodingTable::GetCodePageFromName(name));
 }
 
 Encoding Encoding___::GetEncoding(String name, EncoderFallback encoderFallback, DecoderFallback decoderFallback) {
-  auto& as = EncodingProvider::in::GetEncodingFromProvider(name, encoderFallback, decoderFallback);
+  Encoding as = EncodingProvider::in::GetEncodingFromProvider(name, encoderFallback, decoderFallback);
   return as != nullptr ? as : GetEncoding(EncodingTable::GetCodePageFromName(name), encoderFallback, decoderFallback);
 }
 
@@ -815,9 +815,7 @@ void Encoding___::ThrowBytesOverflow() {
 }
 
 void Encoding___::ThrowBytesOverflow(EncoderNLS encoder, Boolean nothingEncoded) {
-  auto& as = encoder;
-  auto& as = as == nullptr ? nullptr : as->_throwOnOverflow;
-  if ((as != nullptr ? as : true) || nothingEncoded) {
+  if (encoder == nullptr || encoder->_throwOnOverflow || nothingEncoded) {
     if (encoder != nullptr && encoder->get_InternalHasFallbackBuffer()) {
       encoder->get_FallbackBuffer()->InternalReset();
     }
@@ -835,9 +833,7 @@ void Encoding___::ThrowCharsOverflow() {
 }
 
 void Encoding___::ThrowCharsOverflow(DecoderNLS decoder, Boolean nothingDecoded) {
-  auto& as = decoder;
-  auto& as = as == nullptr ? nullptr : as->_throwOnOverflow;
-  if ((as != nullptr ? as : true) || nothingDecoded) {
+  if (decoder == nullptr || decoder->_throwOnOverflow || nothingDecoded) {
     if (decoder != nullptr && decoder->get_InternalHasFallbackBuffer()) {
       decoder->get_FallbackBuffer()->InternalReset();
     }

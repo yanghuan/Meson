@@ -6,6 +6,7 @@
 #include <System.Private.CoreLib/System/Reflection/RtFieldInfo-dep.h>
 #include <System.Private.CoreLib/System/Reflection/TargetException-dep.h>
 #include <System.Private.CoreLib/System/RuntimeFieldHandle-dep.h>
+#include <System.Private.CoreLib/System/RuntimeType-dep.h>
 #include <System.Private.CoreLib/System/RuntimeTypeHandle-dep.h>
 #include <System.Private.CoreLib/System/Signature-dep.h>
 #include <System.Private.CoreLib/System/SR-dep.h>
@@ -23,7 +24,7 @@ RuntimeFieldHandleInternal RtFieldInfo___::get_ValueOfIRuntimeFieldInfo() {
 }
 
 String RtFieldInfo___::get_Name() {
-  auto& as = m_name;
+  String as = m_name;
   return as != nullptr ? as : (m_name = RuntimeFieldHandle::GetName((RtFieldInfo)this));
 }
 
@@ -40,7 +41,7 @@ FieldAttributes RtFieldInfo___::get_Attributes() {
 }
 
 Type RtFieldInfo___::get_FieldType() {
-  auto& as = m_fieldType;
+  RuntimeType as = m_fieldType;
   return as != nullptr ? as : InitializeFieldType();
 }
 

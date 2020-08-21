@@ -113,9 +113,10 @@ Boolean FieldInfo___::op_Equality(FieldInfo left, FieldInfo right) {
   if ((Object)left == right) {
     return true;
   }
-  auto& as = left;
-  auto& as = as == nullptr ? nullptr : as->Equals(right);
-  return as != nullptr ? as : false;
+  if ((Object)left != nullptr) {
+    return left->Equals(right);
+  }
+  return false;
 }
 
 Boolean FieldInfo___::op_Inequality(FieldInfo left, FieldInfo right) {

@@ -14,9 +14,11 @@ void ContinuationTaskFromTask___::InnerInvoke() {
   Action<Task<>> action = rt::as<Action<Task<>>>(m_action);
   if (action != nullptr) {
     action(antecedent);
-  } else {
-    auto& as = (rt::as<Action<Task<>, Object>>(m_action));
-    as == nullptr ? nullptr : as->Invoke(antecedent, m_stateObject);
+    return;
+  }
+  Action<Task<>, Object> action2 = rt::as<Action<Task<>, Object>>(m_action);
+  if (action2 != nullptr) {
+    action2(antecedent, m_stateObject);
   }
 }
 

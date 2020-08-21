@@ -66,7 +66,7 @@ Boolean Attribute___::InternalIsDefined(PropertyInfo element, Type attributeType
 }
 
 PropertyInfo Attribute___::GetParentDefinition(PropertyInfo property, Array<Type> propertyParameters) {
-  auto& as = property->GetGetMethod(true);
+  MethodInfo as = property->GetGetMethod(true);
   MethodInfo methodInfo = as != nullptr ? as : property->GetSetMethod(true);
   RuntimeMethodInfo runtimeMethodInfo = rt::as<RuntimeMethodInfo>(methodInfo);
   if (runtimeMethodInfo != nullptr) {

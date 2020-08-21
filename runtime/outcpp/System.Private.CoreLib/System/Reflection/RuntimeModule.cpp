@@ -32,7 +32,7 @@ Int32 RuntimeModule___::get_MDStreamVersion() {
 }
 
 RuntimeType RuntimeModule___::get_RuntimeType() {
-  auto& as = m_runtimeType;
+  RuntimeType as = m_runtimeType;
   return as != nullptr ? as : (m_runtimeType = ModuleHandle::GetModuleType((RuntimeModule)this));
 }
 

@@ -15,9 +15,10 @@ Boolean NonRandomizedStringEqualityComparer___::Equals(String x, String y) {
 }
 
 Int32 NonRandomizedStringEqualityComparer___::GetHashCode(String obj) {
-  auto& as = obj;
-  auto& as = as == nullptr ? nullptr : as->GetNonRandomizedHashCode();
-  return as != nullptr ? as : 0;
+  if (obj == nullptr) {
+    return 0;
+  }
+  return obj->GetNonRandomizedHashCode();
 }
 
 void NonRandomizedStringEqualityComparer___::GetObjectData(SerializationInfo info, StreamingContext context) {
