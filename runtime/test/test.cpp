@@ -76,7 +76,7 @@ template <char...> double operator "" _x() {
   return .42;
 }
 
-void TestStrDefault() {
+void TestStrDefault(String s, String ss = nullptr) {
   F(1);
   TestDefault a;
   a.f();
@@ -86,6 +86,7 @@ int main() {
   TestTry();
   Int32 a = 0;
   Boolean b = a >= 2;
+  TestStrDefault("ddd");
   
   /*
   if (b.GetBoolean()) {
