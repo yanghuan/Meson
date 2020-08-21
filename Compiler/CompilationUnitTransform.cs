@@ -339,7 +339,7 @@ namespace Meson.Compiler {
           var nestedType = nestedTypes.FirstOrDefault(i => i.Name == typeDefinition.Name);
           if (nestedType != null && !nestedType.EQ(typeDefinition)) {
             if (args.IsInHead && typeDefinition.EQ(args.Definition)) {
-              typeName = typeDefinition.Name.WithNamespace().Identifier().TwoColon(typeName);
+              typeName = typeDefinition.Name.WithNamespace().AsIdentifier().TwoColon(typeName);
             } else {
               typeName = typeName.WithFullName(typeDefinition, args.Definition);
             }

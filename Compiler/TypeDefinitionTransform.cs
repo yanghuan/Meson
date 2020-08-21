@@ -166,11 +166,7 @@ namespace Meson.Compiler {
               Definition = type,
               IsInHead = true,
             }).WithIn();
-            if (type.IsStringType()) {
-              node.Bases.Add(new BaseSyntax(IdentifierSyntax.Meson.TwoColon(type.Name).Generic(baseType)));
-            } else {
-              node.Bases.Add(new BaseSyntax(baseType));
-            }
+            node.Bases.Add(new BaseSyntax(baseType));
             interfaces = type.DirectBaseTypes.Skip(1);
           } else {
             interfaces = type.DirectBaseTypes;
@@ -332,7 +328,7 @@ namespace Meson.Compiler {
           }
         }
       }
-      return constValue.ToString().Identifier().CastTo(typeName);
+      return constValue.ToString().AsIdentifier().CastTo(typeName);
     }
 
     private ExpressionSyntax GetDefaultParameterValue(IParameter parameter, ExpressionSyntax parametertype, ITypeDefinition typeDefinition) {
@@ -627,7 +623,7 @@ namespace Meson.Compiler {
         case KnownTypeCode.Int64:
         case KnownTypeCode.UInt64:
         case KnownTypeCode.Single:
-        case KnownTypeCode.Double: 
+        case KnownTypeCode.Double:
         case KnownTypeCode.String: {
             node.Add(new FieldDefinitionSyntax(IdentifierSyntax.TypeCode, code, true, Accessibility.Public.ToTokenString()) {
               IsConstexpr = true,
@@ -686,6 +682,17 @@ namespace Meson.Compiler {
               };
               getValueConst.Body.Add(fieldName.Return());
               node.Add(getValueConst);
+            } else if (type.IsStringType()) {
+              var field = type.Fields.First(i => !i.IsStatic && i.Type.IsKnownType(KnownTypeCode.Int32));
+              var getAllocSize = new MethodDefinitionSyntax(nameof(IdentifierSyntax.GetAllocSize), null, "size_t") { 
+                Accessibility = Accessibility.Public,
+                IsConst = true,
+                IsNoexcept = true,
+                Body = new BlockSyntax() { IsSingleLine = true },
+              };
+              var length = field.Name.AsIdentifier().Dot(IdentifierSyntax.Get.Invation());
+              getAllocSize.Body.Add(IdentifierSyntax.GetAllocSize.Invation(length).Return());
+              node.Add(getAllocSize);
             }
             break;
           }

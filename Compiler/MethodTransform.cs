@@ -239,7 +239,7 @@ namespace Meson.Compiler {
         switch (symbol.SymbolKind) {
           case SymbolKind.Field: {
               var field = (IField)symbol;
-              return field.GetFieldName().Identifier();
+              return field.GetFieldName().AsIdentifier();
             }
           case SymbolKind.Property: {
               var property = (IProperty)symbol;

@@ -53,7 +53,7 @@ using namespace System::Text;
 using IEnumerable = Collections::IEnumerable;
 template <class T>
 using IEnumerable_ = Collections::Generic::IEnumerable<T>;
-CLASS(String) : public rt::String<Object::in> {
+CLASS(String) : public Object::in {
   public: using interface = rt::TypeList<IComparable<>, IEnumerable, IConvertible, IEnumerable_<Char>, IComparable<String>, IEquatable<String>, ICloneable>;
   private: struct ProbabilisticMap : public valueType<ProbabilisticMap> {
   };
@@ -283,6 +283,7 @@ CLASS(String) : public rt::String<Object::in> {
   private: Int32 _stringLength;
   private: Char _firstChar;
   public: static constexpr rt::TypeCode code = rt::TypeCode::String;
+  public: size_t GetAllocSize() const noexcept { return rt::string::GetAllocSize(_stringLength.get()); }
 };
 } // namespace StringNamespace
 using String = StringNamespace::String;

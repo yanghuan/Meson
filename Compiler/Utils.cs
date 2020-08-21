@@ -752,7 +752,7 @@ namespace Meson.Compiler {
       };
     }
 
-    public static IdentifierSyntax Identifier(this string name) {
+    public static IdentifierSyntax AsIdentifier(this string name) {
       return name;
     }
 

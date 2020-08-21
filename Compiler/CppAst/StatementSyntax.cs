@@ -370,6 +370,12 @@ namespace Meson.Compiler.CppAst {
       RetuenType = retuenType;
     }
 
+    public ICSharpCode.Decompiler.TypeSystem.Accessibility Accessibility {
+      set {
+        AccessibilityToken = value.ToTokenString();
+      }
+    }
+
     public void AddInitializationList(IdentifierSyntax name, ExpressionSyntax value) {
       InitializationList ??= new List<InvationExpressionSyntax>();
       InitializationList.Add(name.Invation(value));

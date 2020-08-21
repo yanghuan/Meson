@@ -57,13 +57,13 @@ enum class Enum {
 };
 
 template <class T>
-static void F(T a, T t = rt::default, Enum r = Enum::A | Enum::B) {
+static void F(T a, T t = rt::default__, Enum r = Enum::A | Enum::B) {
 }
 
 struct TestDefault
 {
   template <class T = int>
-  void f(T a = rt::default, int b = 0);  
+  void f(T a = rt::default__, int b = 0);  
 };
 
 template <>
