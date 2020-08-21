@@ -163,20 +163,6 @@ namespace rt {
   static constexpr bool IsRef = RefElementType<T>::value;
 
   template <class T>
-  struct IsValueArrayType {
-    static_assert(IsComplete<T>::value, "not complete type");
-    struct __Type {
-      struct element_type;
-    };
-    static constexpr bool isArray = IsArray<T>;
-    using element_type = typename std::conditional_t<isArray, T, __Type>::element_type;
-    static constexpr bool value = isArray && !IsRef<element_type>;
-  };
-
-  template <class T>
-  static constexpr bool IsValueArray = IsValueArrayType<T>::value;
-
-  template <class T>
   struct ArrayElementType {
     static_assert(IsComplete<T>::value, "not complete type");
     struct __Type {
@@ -298,7 +284,7 @@ namespace rt {
 
     template <class R, class T1 = T> requires(std::is_same_v<R, decltype(&(T1().GetPinnableReference()))>)
     operator R() {
-      return p_ == nullptr ? nullptr : &(p_->GetPinnableReference());
+      return p_ == nullptr ? nullptr : &(get()->GetPinnableReference());
     }
 
     template <class R, class T1 = T> requires(IsObject<T1>)
@@ -489,8 +475,9 @@ namespace rt {
       return ref<array>(temp);
     }
 
-    T* GetPinnableReference() {
-      return begin();
+    template <class T1 = T> requires(!IsRef<T1>)
+    T& GetPinnableReference() {
+      return *begin();
     }
   protected:
     int32_t length;
@@ -796,6 +783,11 @@ inline constexpr bool operator !=(T a, int32_t b) {
 template <class T, class T1> requires(std::is_pointer_v<T> && rt::IsArithmetic<T1>) 
 inline constexpr T operator +(T a, T1 b) { 
   return a + b.get();
+}
+
+template <class T, class T1> requires(std::is_arithmetic_v<T> && rt::IsArithmetic<T1>) 
+inline constexpr auto operator -(T a, T1 b) { 
+  return a - b.get();
 }
 
 template <class T, class T1> requires(std::is_arithmetic_v<T> && rt::IsArithmetic<T1>) 
