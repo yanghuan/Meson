@@ -85,7 +85,16 @@ void TestStrDefault() {
 int main() {
   TestTry();
   Int32 a = 0;
-  double aa = 123_x;
+  Boolean b = a >= 2;
+  
+  /*
+  if (b.GetBoolean()) {
+  }
+  */
+
+  /*
+  int cc =  (!b) ?  1 : 2;
+  */
 
   return 0;
 }

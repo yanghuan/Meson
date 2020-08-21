@@ -15,7 +15,7 @@ FORWARDS(ReadOnlySpan, T)
 FORWARDS(Span, T)
 FORWARD(String)
 namespace BooleanNamespace {
-struct Boolean : public valueType<Boolean> {
+struct Boolean : public valueType<Boolean, rt::TypeCode::Boolean> {
   public: using interface = rt::TypeList<IComparable<>, IConvertible, IComparable<Boolean>, IEquatable<Boolean>>;
   public: Int32 GetHashCode();
   public: String ToString();

@@ -20,7 +20,7 @@ FORWARDS(Span, T)
 FORWARD(String)
 namespace UInt32Namespace {
 using namespace System::Globalization;
-struct UInt32 : public valueType<UInt32> {
+struct UInt32 : public valueType<UInt32, rt::TypeCode::UInt32> {
   public: using interface = rt::TypeList<IComparable<>, IConvertible, IFormattable, IComparable<UInt32>, IEquatable<UInt32>, ISpanFormattable>;
   public: Int32 CompareTo(Object value);
   public: Int32 CompareTo(UInt32 value);

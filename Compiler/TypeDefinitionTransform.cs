@@ -113,7 +113,11 @@ namespace Meson.Compiler {
       } else {
         typeArgument = node.Name.Generic(template.TypeNames);
       }
-      node.Bases.Add(new BaseSyntax(((IdentifierSyntax)baseType.Name.FirstCharLow()).Generic(typeArgument)));
+      var generic = ((IdentifierSyntax)baseType.Name.FirstCharLow()).Generic(typeArgument);
+      if (type.KnownTypeCode >= KnownTypeCode.Boolean && type.KnownTypeCode <= KnownTypeCode.Double) {
+        generic.GenericArguments.Add(IdentifierSyntax.TypeCode.TwoColon(type.KnownTypeCode.ToString()));
+      }
+      node.Bases.Add(new BaseSyntax(generic));
       AddInterfaces(type, node, type.DirectBaseTypes.Skip(1));
       parent_.Add(node);
       VisitMembers(type, node);

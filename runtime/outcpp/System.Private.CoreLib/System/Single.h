@@ -24,7 +24,7 @@ FORWARD(String)
 FORWARDS(UInt32)
 namespace SingleNamespace {
 using namespace System::Globalization;
-struct Single : public valueType<Single> {
+struct Single : public valueType<Single, rt::TypeCode::Single> {
   public: using interface = rt::TypeList<IComparable<>, IConvertible, IFormattable, IComparable<Single>, IEquatable<Single>, ISpanFormattable>;
   public: static Boolean IsFinite(Single f);
   public: static Boolean IsInfinity(Single f);

@@ -24,7 +24,7 @@ FORWARD(String)
 FORWARDS(UInt64)
 namespace DoubleNamespace {
 using namespace System::Globalization;
-struct Double : public valueType<Double> {
+struct Double : public valueType<Double, rt::TypeCode::Double> {
   public: using interface = rt::TypeList<IComparable<>, IConvertible, IFormattable, IComparable<Double>, IEquatable<Double>, ISpanFormattable>;
   public: static Boolean IsFinite(Double d);
   public: static Boolean IsInfinity(Double d);

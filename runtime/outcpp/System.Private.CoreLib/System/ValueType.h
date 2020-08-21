@@ -19,7 +19,7 @@ CLASS(ValueType) : public Object::in {
 };
 } // namespace ValueTypeNamespace
 using ValueType = ValueTypeNamespace::ValueType;
-template <class T>
-struct valueType : public rt::ValueType<T, ValueType::in> {
+template <class T, rt::TypeCode code = rt::TypeCode::None>
+struct valueType : public rt::ValueType<T, ValueType::in, code> {
 };
 } // namespace System::Private::CoreLib::System

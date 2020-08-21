@@ -5,6 +5,7 @@ using System.Linq;
 
 using ICSharpCode.Decompiler.TypeSystem;
 using Meson.Compiler.CppAst;
+using Microsoft.VisualBasic;
 
 namespace Meson.Compiler {
   internal sealed class ReferencePackage {
@@ -115,8 +116,14 @@ namespace Meson.Compiler {
       var usingDeclaration = new UsingDeclarationSyntax(name, type) { Template = template };
       rootNamespace.Add(usingDeclaration);
       if (root_.KnownTypeCode == KnownTypeCode.ValueType) {
-        var valueType = new ClassSyntax(root_.Name.FirstCharLow(), true) { Template = TemplateSyntax.T };
-        var baseType = IdentifierSyntax.Meson.TwoColon(root_.Name).Generic(IdentifierSyntax.T, name.WithIn());
+        var valueType = new ClassSyntax(root_.Name.FirstCharLow(), true) { 
+          Template = new TemplateSyntax(
+            TemplateTypenameSyntax.T, 
+            new TemplateTypenameSyntax("code", IdentifierSyntax.TypeCode.TwoColon("None")) { 
+              ClassToken = IdentifierSyntax.TypeCode
+            }) 
+        };
+        var baseType = IdentifierSyntax.Meson.TwoColon(root_.Name).Generic(IdentifierSyntax.T, name.WithIn(), "code");
         valueType.Bases.Add(new BaseSyntax(baseType));
         rootNamespace.Add(valueType);
       }

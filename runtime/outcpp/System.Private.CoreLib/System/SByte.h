@@ -23,7 +23,7 @@ FORWARDS(Span, T)
 FORWARD(String)
 namespace SByteNamespace {
 using namespace System::Globalization;
-struct SByte : public valueType<SByte> {
+struct SByte : public valueType<SByte, rt::TypeCode::SByte> {
   public: using interface = rt::TypeList<IComparable<>, IConvertible, IFormattable, IComparable<SByte>, IEquatable<SByte>, ISpanFormattable>;
   public: Int32 CompareTo(Object obj);
   public: Int32 CompareTo(SByte value);

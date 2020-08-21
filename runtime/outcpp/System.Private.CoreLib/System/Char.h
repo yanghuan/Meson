@@ -22,7 +22,7 @@ FORWARD(String)
 FORWARDS(UInt32)
 namespace CharNamespace {
 using namespace System::Globalization;
-struct Char : public valueType<Char> {
+struct Char : public valueType<Char, rt::TypeCode::Char> {
   public: using interface = rt::TypeList<IComparable<>, IComparable<Char>, IEquatable<Char>, IConvertible>;
   private: static ReadOnlySpan<Byte> get_Latin1CharInfo();
   private: static Boolean IsLatin1(Char ch);

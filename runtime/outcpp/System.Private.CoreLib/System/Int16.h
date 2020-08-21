@@ -23,7 +23,7 @@ FORWARDS(Span, T)
 FORWARD(String)
 namespace Int16Namespace {
 using namespace System::Globalization;
-struct Int16 : public valueType<Int16> {
+struct Int16 : public valueType<Int16, rt::TypeCode::Int16> {
   public: using interface = rt::TypeList<IComparable<>, IConvertible, IFormattable, IComparable<Int16>, IEquatable<Int16>, ISpanFormattable>;
   public: Int32 CompareTo(Object value);
   public: Int32 CompareTo(Int16 value);

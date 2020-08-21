@@ -334,7 +334,7 @@ namespace Meson.Compiler {
     }
 
     internal void Render(TemplateTypenameSyntax node) {
-      Write(node.ClassToken);
+      node.ClassToken.Render(this);
       WriteSpace();
       node.Name.Render(this);
       if (node.Value != null) {
