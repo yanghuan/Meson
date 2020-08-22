@@ -109,7 +109,7 @@ Int32 ConsolePal::WindowsConsoleStream___::WriteFileNative(IntPtr hFile, Array<B
     Byte* ptr = &bytes[0];
     Int32 lpNumberOfCharsWritten;
     Int32 numBytesWritten;
-    flag = ((!useFileAPIs) ? Interop::Kernel32::WriteConsole(hFile, ptr + offset, count / 2, lpNumberOfCharsWritten, IntPtr::Zero) : (Boolean)(Interop::Kernel32::WriteFile(hFile, ptr + offset, count, numBytesWritten, IntPtr::Zero) != 0));
+    flag = ((!useFileAPIs) ? Interop::Kernel32::WriteConsole(hFile, ptr + offset, count / 2, lpNumberOfCharsWritten, IntPtr::Zero) : (Interop::Kernel32::WriteFile(hFile, ptr + offset, count, numBytesWritten, IntPtr::Zero) != 0));
   }
   if (flag) {
     return 0;
@@ -147,7 +147,7 @@ Boolean ConsolePal::ControlCHandlerRegistrar___::BreakEvent(Int32 controlType) {
 }
 
 IntPtr ConsolePal::get_InvalidHandleValue() {
-  return IntPtr((Int32)-1);
+  return IntPtr(-1);
 }
 
 IntPtr ConsolePal::get_InputHandle() {

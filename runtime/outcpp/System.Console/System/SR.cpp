@@ -13,7 +13,7 @@ ResourceManager SR::get_ResourceManager() {
 }
 
 String SR::get_ArgumentOutOfRange_ConsoleWindowBufferSize() {
-  return GetResourceString(("ArgumentOutOfRange_ConsoleWindowBufferSize"));
+  return GetResourceString("ArgumentOutOfRange_ConsoleWindowBufferSize");
 }
 
 String SR::get_ArgumentOutOfRange_ConsoleWindowSize_Size() {
