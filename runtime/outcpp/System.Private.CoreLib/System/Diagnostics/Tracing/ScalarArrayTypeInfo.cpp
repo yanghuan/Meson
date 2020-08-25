@@ -19,7 +19,7 @@
 
 namespace System::Private::CoreLib::System::Diagnostics::Tracing::ScalarArrayTypeInfoNamespace {
 void ScalarArrayTypeInfo___::ctor(Type type, Func<EventFieldFormat, TraceLoggingDataType, TraceLoggingDataType> formatFunc, TraceLoggingDataType nativeFormat, System::Int32 elementSize) {
-  this->formatFunc = &formatFunc;
+  this->formatFunc = formatFunc;
   this->nativeFormat = nativeFormat;
   this->elementSize = elementSize;
 }

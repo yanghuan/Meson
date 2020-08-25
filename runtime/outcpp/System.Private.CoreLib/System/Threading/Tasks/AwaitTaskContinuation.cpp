@@ -26,7 +26,7 @@ Boolean AwaitTaskContinuation___::get_IsValidLocationForInlining() {
 }
 
 void AwaitTaskContinuation___::ctor(Action<> action, Boolean flowExecutionContext) {
-  m_action = &action;
+  m_action = action;
   if (flowExecutionContext) {
     m_capturedContext = ExecutionContext::in::Capture();
   }

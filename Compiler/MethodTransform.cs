@@ -165,7 +165,10 @@ namespace Meson.Compiler {
           case SymbolKind.Field: {
               var field = (IField)leftSymbol;
               if (field.Type.Kind == TypeKind.Delegate) {
-                right = new AddressExpressionSyntax(right);
+                var rightSymbol = assignmentExpression.Right.GetSymbol();
+                if (rightSymbol != null && rightSymbol.SymbolKind == SymbolKind.Method) {
+                  right = new AddressExpressionSyntax(right);
+                }
               }
               break;
             }

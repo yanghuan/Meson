@@ -155,7 +155,7 @@ void FileStream___::AsyncCopyToAwaitable___::ctor(FileStream fileStream) {
 }
 
 void FileStream___::AsyncCopyToAwaitable___::ResetForNextOperation() {
-  _continuation = &nullptr;
+  _continuation = nullptr;
   _errorCode = 0u;
   _numBytes = 0u;
 }
@@ -172,7 +172,7 @@ void FileStream___::AsyncCopyToAwaitable___::IOCallback(UInt32 errorCode, UInt32
 }
 
 void FileStream___::AsyncCopyToAwaitable___::MarkCompleted() {
-  _continuation = &s_sentinel;
+  _continuation = s_sentinel;
 }
 
 FileStream::in::AsyncCopyToAwaitable FileStream___::AsyncCopyToAwaitable___::GetAwaiter() {

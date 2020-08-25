@@ -6,7 +6,7 @@
 
 namespace System::Private::CoreLib::System::Threading::ThreadPoolBoundHandleOverlappedNamespace {
 void ThreadPoolBoundHandleOverlapped___::ctor(IOCompletionCallback callback, Object state, Object pinData, PreAllocatedOverlapped preAllocated) {
-  _userCallback = &callback;
+  _userCallback = callback;
   _userState = state;
   _preAllocated = preAllocated;
   _nativeOverlapped = Pack(s_completionCallback, pinData);

@@ -46,7 +46,7 @@ void TraceLoggingTypeInfo___::ctor(Type dataType) {
   }
   name = dataType->get_Name();
   this->dataType = dataType;
-  propertyValueFactory = PropertyValue::GetFactory(dataType);
+  propertyValueFactory = &PropertyValue::GetFactory(dataType);
 }
 
 void TraceLoggingTypeInfo___::ctor(Type dataType, String name, EventLevel level, EventOpcode opcode, EventKeywords keywords, EventTags tags) {
@@ -66,7 +66,7 @@ void TraceLoggingTypeInfo___::ctor(Type dataType, String name, EventLevel level,
   this->opcode = opcode;
   this->tags = tags;
   this->dataType = dataType;
-  propertyValueFactory = PropertyValue::GetFactory(dataType);
+  propertyValueFactory = &PropertyValue::GetFactory(dataType);
 }
 
 Object TraceLoggingTypeInfo___::GetData(Object value) {

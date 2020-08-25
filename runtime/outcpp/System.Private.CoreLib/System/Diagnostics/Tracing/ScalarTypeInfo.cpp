@@ -20,7 +20,7 @@
 
 namespace System::Private::CoreLib::System::Diagnostics::Tracing::ScalarTypeInfoNamespace {
 void ScalarTypeInfo___::ctor(Type type, Func<EventFieldFormat, TraceLoggingDataType, TraceLoggingDataType> formatFunc, TraceLoggingDataType nativeFormat) {
-  this->formatFunc = &formatFunc;
+  this->formatFunc = formatFunc;
   this->nativeFormat = nativeFormat;
 }
 

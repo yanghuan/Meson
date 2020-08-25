@@ -5,7 +5,7 @@
 
 namespace System::Private::CoreLib::System::Threading::_IOCompletionCallbackNamespace {
 void _IOCompletionCallback___::ctor(IOCompletionCallback ioCompletionCallback, ExecutionContext executionContext) {
-  _ioCompletionCallback = &ioCompletionCallback;
+  _ioCompletionCallback = ioCompletionCallback;
   _executionContext = executionContext;
 }
 

@@ -2649,7 +2649,7 @@ Boolean DateTimeParse::DoStrictParse(ReadOnlySpan<Char> s, ReadOnlySpan<Char> fo
   }
   result.calendar = parseInfo.calendar;
   if (parseInfo.calendar->get_ID() == CalendarId::HEBREW) {
-    parseInfo.parseNumberDelegate = &s_hebrewNumberParser;
+    parseInfo.parseNumberDelegate = s_hebrewNumberParser;
     parseInfo.fCustomNumberParser = true;
   }
   result.Hour = (result.Minute = (result.Second = -1));

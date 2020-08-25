@@ -9,7 +9,7 @@ namespace System::Private::CoreLib::System::Gen2GcCallbackNamespace {
 using namespace System::Runtime::InteropServices;
 
 void Gen2GcCallback___::ctor(Func<Object, Boolean> callback, Object targetObj) {
-  _callback1 = &callback;
+  _callback1 = callback;
   _weakTargetObj = GCHandle::Alloc(targetObj, GCHandleType::Weak);
 }
 

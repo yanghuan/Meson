@@ -21,7 +21,7 @@ using namespace System::Diagnostics::Tracing;
 using namespace System::Threading::Tasks;
 
 void TimerQueueTimer___::ctor(TimerCallback timerCallback, Object state, UInt32 dueTime, UInt32 period, Boolean flowExecutionContext) {
-  _timerCallback = &timerCallback;
+  _timerCallback = timerCallback;
   _state = state;
   _dueTime = UInt32::MaxValue;
   _period = UInt32::MaxValue;

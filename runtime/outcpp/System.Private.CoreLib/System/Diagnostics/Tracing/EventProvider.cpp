@@ -622,7 +622,7 @@ Boolean EventProvider___::WriteEventRaw(EventDescriptor& eventDescriptor, IntPtr
 UInt32 EventProvider___::EventRegister(EventSource eventSource, Interop::Advapi32::EtwEnableCallback enableCallback) {
   m_providerName = eventSource->get_Name();
   m_providerId = eventSource->get_Guid();
-  m_etwCallback = &enableCallback;
+  m_etwCallback = enableCallback;
   return m_eventProvider->EventRegister(eventSource, enableCallback, nullptr, m_regHandle);
 }
 

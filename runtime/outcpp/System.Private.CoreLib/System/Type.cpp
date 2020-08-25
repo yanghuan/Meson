@@ -1245,7 +1245,7 @@ void Type___::cctor() {
   Delimiter = 46;
   EmptyTypes = Array<>::in::Empty<Type>();
   Missing = Missing::in::Value;
-  FilterAttribute = &rt::newobj<MemberFilter>(&FilterAttributeImpl);
+  FilterAttribute = rt::newobj<MemberFilter>(&FilterAttributeImpl);
 }
 
 } // namespace System::Private::CoreLib::System::TypeNamespace

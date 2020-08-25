@@ -12,7 +12,7 @@ void PollingCounter___::ctor(String name, Tracing::EventSource eventSource, Func
   if (metricProvider == nullptr) {
     rt::throw_exception<ArgumentNullException>("metricProvider");
   }
-  _metricProvider = &metricProvider;
+  _metricProvider = metricProvider;
   Publish();
 }
 

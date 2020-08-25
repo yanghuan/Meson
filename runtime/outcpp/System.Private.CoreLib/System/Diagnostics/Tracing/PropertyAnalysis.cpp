@@ -7,7 +7,7 @@ namespace System::Private::CoreLib::System::Diagnostics::Tracing::PropertyAnalys
 void PropertyAnalysis___::ctor(String name, PropertyInfo propertyInfo, TraceLoggingTypeInfo typeInfo, EventFieldAttribute fieldAttribute) {
   this->name = name;
   this->propertyInfo = propertyInfo;
-  getter = PropertyValue::GetPropertyGetter(propertyInfo);
+  getter = &PropertyValue::GetPropertyGetter(propertyInfo);
   this->typeInfo = typeInfo;
   this->fieldAttribute = fieldAttribute;
 }

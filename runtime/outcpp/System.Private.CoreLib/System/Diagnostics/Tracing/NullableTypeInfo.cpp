@@ -12,7 +12,7 @@ using namespace System::Reflection;
 void NullableTypeInfo___::ctor(Type type, List<Type> recursionCheck) {
   Array<Type> genericTypeArguments = type->get_GenericTypeArguments();
   valueInfo = TraceLoggingTypeInfo::in::GetInstance(genericTypeArguments[0], recursionCheck);
-  valueGetter = PropertyValue::GetPropertyGetter(IntrospectionExtensions::GetTypeInfo(type)->GetDeclaredProperty("Value"));
+  valueGetter = &PropertyValue::GetPropertyGetter(IntrospectionExtensions::GetTypeInfo(type)->GetDeclaredProperty("Value"));
 }
 
 void NullableTypeInfo___::WriteMetadata(TraceLoggingMetadataCollector collector, String name, EventFieldFormat format) {
