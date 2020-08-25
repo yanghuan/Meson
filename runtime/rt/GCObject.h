@@ -219,10 +219,10 @@ namespace rt {
     ref(const ref<T1>& other) noexcept {
       copyOf(other);
     }
-  
-    template <int N> requires(IsString<T>)
-    ref(const char (&str)[N]) {
-      moveOf(string::load(str, N));
+
+    template <class T1 = T> requires(IsString<T1>)
+    ref(const char* str) {
+      moveOf(string::load(str));
     }
 
     template <class... _Types, class T1 = T> requires(IsString<T1>)
@@ -742,11 +742,6 @@ namespace rt {
 
   template <class T>
   inline void lock(const T& obj) {
-  }
-
-  template <class T>
-  inline const TypeMetadata& typeof() {
-    return gTypeMetadata;
   }
 
   template <class R, class Arg>

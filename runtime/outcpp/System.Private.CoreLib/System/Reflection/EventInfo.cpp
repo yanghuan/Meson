@@ -32,14 +32,14 @@ MethodInfo EventInfo___::get_RaiseMethod() {
 
 Boolean EventInfo___::get_IsMulticast() {
   Type eventHandlerType = get_EventHandlerType();
-  Type typeFromHandle = rt::typeof<MulticastDelegate>();
+  Type typeFromHandle = typeof<MulticastDelegate>();
   return typeFromHandle->IsAssignableFrom(eventHandlerType);
 }
 
 Type EventInfo___::get_EventHandlerType() {
   MethodInfo addMethod = GetAddMethod(true);
   Array<ParameterInfo> parametersNoCopy = addMethod->GetParametersNoCopy();
-  Type typeFromHandle = rt::typeof<Delegate>();
+  Type typeFromHandle = typeof<Delegate>();
   for (Int32 i = 0; i < parametersNoCopy->get_Length(); i++) {
     Type parameterType = parametersNoCopy[i]->get_ParameterType();
     if (parameterType->IsSubclassOf(typeFromHandle)) {

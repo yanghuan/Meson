@@ -148,7 +148,7 @@ ParameterInfo Attribute___::GetParentDefinition(ParameterInfo param) {
 Array<Attribute> Attribute___::InternalParamGetCustomAttributes(ParameterInfo param, Type type, Boolean inherit) {
   List<Type> list = rt::newobj<List<Type>>();
   if ((Object)type == nullptr) {
-    type = rt::typeof<Attribute>();
+    type = typeof<Attribute>();
   }
   Array<Object> customAttributes = param->GetCustomAttributes(type, false);
   for (Int32 i = 0; i < customAttributes->get_Length(); i++) {
@@ -259,7 +259,7 @@ void Attribute___::AddAttributesToList(List<Attribute> attributeList, Array<Attr
 }
 
 AttributeUsageAttribute Attribute___::InternalGetAttributeUsage(Type type) {
-  Array<Object> customAttributes = type->GetCustomAttributes(rt::typeof<AttributeUsageAttribute>(), false);
+  Array<Object> customAttributes = type->GetCustomAttributes(typeof<AttributeUsageAttribute>(), false);
   if (customAttributes->get_Length() == 1) {
     return (AttributeUsageAttribute)customAttributes[0];
   }
@@ -284,7 +284,7 @@ Array<Attribute> Attribute___::GetCustomAttributes(MemberInfo element, Type type
   if (type == nullptr) {
     rt::throw_exception<ArgumentNullException>("type");
   }
-  if (!type->IsSubclassOf(rt::typeof<Attribute>()) && type != rt::typeof<Attribute>()) {
+  if (!type->IsSubclassOf(typeof<Attribute>()) && type != typeof<Attribute>()) {
     rt::throw_exception<ArgumentException>(SR::get_Argument_MustHaveAttributeBaseClass());
   }
   switch (element->get_MemberType()) {
@@ -307,11 +307,11 @@ Array<Attribute> Attribute___::GetCustomAttributes(MemberInfo element, Boolean i
   }
   switch (element->get_MemberType()) {
     case MemberTypes::Property:
-      return InternalGetCustomAttributes((PropertyInfo)element, rt::typeof<Attribute>(), inherit);
+      return InternalGetCustomAttributes((PropertyInfo)element, typeof<Attribute>(), inherit);
     case MemberTypes::Event:
-      return InternalGetCustomAttributes((EventInfo)element, rt::typeof<Attribute>(), inherit);
+      return InternalGetCustomAttributes((EventInfo)element, typeof<Attribute>(), inherit);
     default:
-      return rt::as<Array<Attribute>>(element->GetCustomAttributes(rt::typeof<Attribute>(), inherit));
+      return rt::as<Array<Attribute>>(element->GetCustomAttributes(typeof<Attribute>(), inherit));
   }
 }
 
@@ -326,7 +326,7 @@ Boolean Attribute___::IsDefined(MemberInfo element, Type attributeType, Boolean 
   if (attributeType == nullptr) {
     rt::throw_exception<ArgumentNullException>("attributeType");
   }
-  if (!attributeType->IsSubclassOf(rt::typeof<Attribute>()) && attributeType != rt::typeof<Attribute>()) {
+  if (!attributeType->IsSubclassOf(typeof<Attribute>()) && attributeType != typeof<Attribute>()) {
     rt::throw_exception<ArgumentException>(SR::get_Argument_MustHaveAttributeBaseClass());
   }
   switch (element->get_MemberType()) {
@@ -369,7 +369,7 @@ Array<Attribute> Attribute___::GetCustomAttributes(ParameterInfo element, Type a
   if (attributeType == nullptr) {
     rt::throw_exception<ArgumentNullException>("attributeType");
   }
-  if (!attributeType->IsSubclassOf(rt::typeof<Attribute>()) && attributeType != rt::typeof<Attribute>()) {
+  if (!attributeType->IsSubclassOf(typeof<Attribute>()) && attributeType != typeof<Attribute>()) {
     rt::throw_exception<ArgumentException>(SR::get_Argument_MustHaveAttributeBaseClass());
   }
   if (element->get_Member() == nullptr) {
@@ -393,7 +393,7 @@ Array<Attribute> Attribute___::GetCustomAttributes(ParameterInfo element, Boolea
   if (member->get_MemberType() == MemberTypes::Method && inherit) {
     return InternalParamGetCustomAttributes(element, nullptr, inherit);
   }
-  return rt::as<Array<Attribute>>(element->GetCustomAttributes(rt::typeof<Attribute>(), inherit));
+  return rt::as<Array<Attribute>>(element->GetCustomAttributes(typeof<Attribute>(), inherit));
 }
 
 Boolean Attribute___::IsDefined(ParameterInfo element, Type attributeType) {
@@ -407,7 +407,7 @@ Boolean Attribute___::IsDefined(ParameterInfo element, Type attributeType, Boole
   if (attributeType == nullptr) {
     rt::throw_exception<ArgumentNullException>("attributeType");
   }
-  if (!attributeType->IsSubclassOf(rt::typeof<Attribute>()) && attributeType != rt::typeof<Attribute>()) {
+  if (!attributeType->IsSubclassOf(typeof<Attribute>()) && attributeType != typeof<Attribute>()) {
     rt::throw_exception<ArgumentException>(SR::get_Argument_MustHaveAttributeBaseClass());
   }
   MemberInfo member = element->get_Member();
@@ -453,7 +453,7 @@ Array<Attribute> Attribute___::GetCustomAttributes(Module element, Boolean inher
   if (element == nullptr) {
     rt::throw_exception<ArgumentNullException>("element");
   }
-  return (Array<Attribute>)element->GetCustomAttributes(rt::typeof<Attribute>(), inherit);
+  return (Array<Attribute>)element->GetCustomAttributes(typeof<Attribute>(), inherit);
 }
 
 Array<Attribute> Attribute___::GetCustomAttributes(Module element, Type attributeType, Boolean inherit) {
@@ -463,7 +463,7 @@ Array<Attribute> Attribute___::GetCustomAttributes(Module element, Type attribut
   if (attributeType == nullptr) {
     rt::throw_exception<ArgumentNullException>("attributeType");
   }
-  if (!attributeType->IsSubclassOf(rt::typeof<Attribute>()) && attributeType != rt::typeof<Attribute>()) {
+  if (!attributeType->IsSubclassOf(typeof<Attribute>()) && attributeType != typeof<Attribute>()) {
     rt::throw_exception<ArgumentException>(SR::get_Argument_MustHaveAttributeBaseClass());
   }
   return (Array<Attribute>)element->GetCustomAttributes(attributeType, inherit);
@@ -480,7 +480,7 @@ Boolean Attribute___::IsDefined(Module element, Type attributeType, Boolean inhe
   if (attributeType == nullptr) {
     rt::throw_exception<ArgumentNullException>("attributeType");
   }
-  if (!attributeType->IsSubclassOf(rt::typeof<Attribute>()) && attributeType != rt::typeof<Attribute>()) {
+  if (!attributeType->IsSubclassOf(typeof<Attribute>()) && attributeType != typeof<Attribute>()) {
     rt::throw_exception<ArgumentException>(SR::get_Argument_MustHaveAttributeBaseClass());
   }
   return element->IsDefined(attributeType, false);
@@ -512,7 +512,7 @@ Array<Attribute> Attribute___::GetCustomAttributes(Assembly element, Type attrib
   if (attributeType == nullptr) {
     rt::throw_exception<ArgumentNullException>("attributeType");
   }
-  if (!attributeType->IsSubclassOf(rt::typeof<Attribute>()) && attributeType != rt::typeof<Attribute>()) {
+  if (!attributeType->IsSubclassOf(typeof<Attribute>()) && attributeType != typeof<Attribute>()) {
     rt::throw_exception<ArgumentException>(SR::get_Argument_MustHaveAttributeBaseClass());
   }
   return (Array<Attribute>)element->GetCustomAttributes(attributeType, inherit);
@@ -526,7 +526,7 @@ Array<Attribute> Attribute___::GetCustomAttributes(Assembly element, Boolean inh
   if (element == nullptr) {
     rt::throw_exception<ArgumentNullException>("element");
   }
-  return (Array<Attribute>)element->GetCustomAttributes(rt::typeof<Attribute>(), inherit);
+  return (Array<Attribute>)element->GetCustomAttributes(typeof<Attribute>(), inherit);
 }
 
 Boolean Attribute___::IsDefined(Assembly element, Type attributeType) {
@@ -540,7 +540,7 @@ Boolean Attribute___::IsDefined(Assembly element, Type attributeType, Boolean in
   if (attributeType == nullptr) {
     rt::throw_exception<ArgumentNullException>("attributeType");
   }
-  if (!attributeType->IsSubclassOf(rt::typeof<Attribute>()) && attributeType != rt::typeof<Attribute>()) {
+  if (!attributeType->IsSubclassOf(typeof<Attribute>()) && attributeType != typeof<Attribute>()) {
     rt::throw_exception<ArgumentException>(SR::get_Argument_MustHaveAttributeBaseClass());
   }
   return element->IsDefined(attributeType, false);
@@ -572,7 +572,7 @@ Boolean Attribute___::Equals(Object obj) {
     return false;
   }
   Type type = GetType();
-  while (type != rt::typeof<Attribute>()) {
+  while (type != typeof<Attribute>()) {
     Array<FieldInfo> fields = type->GetFields(BindingFlags::DeclaredOnly | BindingFlags::Instance | BindingFlags::Public | BindingFlags::NonPublic);
     for (Int32 i = 0; i < fields->get_Length(); i++) {
       Object value = fields[i]->GetValue((Attribute)this);
@@ -588,7 +588,7 @@ Boolean Attribute___::Equals(Object obj) {
 
 Int32 Attribute___::GetHashCode() {
   Type type = GetType();
-  while (type != rt::typeof<Attribute>()) {
+  while (type != typeof<Attribute>()) {
     Array<FieldInfo> fields = type->GetFields(BindingFlags::DeclaredOnly | BindingFlags::Instance | BindingFlags::Public | BindingFlags::NonPublic);
     Object obj = nullptr;
     for (Int32 i = 0; i < fields->get_Length(); i++) {

@@ -22,14 +22,14 @@ void ReflectionTypeLoadException___::ctor(Array<Type> classes, Array<Exception> 
 
 void ReflectionTypeLoadException___::ctor(SerializationInfo info, StreamingContext context) {
   Types = Type::in::EmptyTypes;
-  Array<Exception> as = ((Array<Exception>)info->GetValue("Exceptions", rt::typeof<Array<Exception>>()));
+  Array<Exception> as = ((Array<Exception>)info->GetValue("Exceptions", typeof<Array<Exception>>()));
   LoaderExceptions = (as != nullptr ? as : Array<>::in::Empty<Exception>());
 }
 
 void ReflectionTypeLoadException___::GetObjectData(SerializationInfo info, StreamingContext context) {
   Exception::in::GetObjectData(info, context);
-  info->AddValue("Types", nullptr, rt::typeof<Array<Type>>());
-  info->AddValue("Exceptions", LoaderExceptions, rt::typeof<Array<Exception>>());
+  info->AddValue("Types", nullptr, typeof<Array<Type>>());
+  info->AddValue("Exceptions", LoaderExceptions, typeof<Array<Exception>>());
 }
 
 String ReflectionTypeLoadException___::ToString() {

@@ -1,6 +1,7 @@
 #include "NotFiniteNumberException-dep.h"
 
 #include <System.Private.CoreLib/System/Exception-dep.h>
+#include <System.Private.CoreLib/System/Type-dep.h>
 
 namespace System::Private::CoreLib::System::NotFiniteNumberExceptionNamespace {
 Double NotFiniteNumberException___::get_OffendingNumber() {
@@ -42,7 +43,7 @@ void NotFiniteNumberException___::ctor(SerializationInfo info, StreamingContext 
 
 void NotFiniteNumberException___::GetObjectData(SerializationInfo info, StreamingContext context) {
   Exception::in::GetObjectData(info, context);
-  info->AddValue("OffendingNumber", _offendingNumber, rt::typeof<Double>());
+  info->AddValue("OffendingNumber", _offendingNumber, typeof<Double>());
 }
 
 } // namespace System::Private::CoreLib::System::NotFiniteNumberExceptionNamespace

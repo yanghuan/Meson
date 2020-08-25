@@ -112,7 +112,7 @@ Boolean CancellationTokenSource___::CallbackPartition___::Unregister(Int64 id, C
       node->Next->Prev = node->Prev;
     }
     node->Id = 0;
-    node->Callback = nullptr;
+    node->Callback = &nullptr;
     node->CallbackState = nullptr;
     node->ExecutionContext = nullptr;
     node->SynchronizationContext = nullptr;
@@ -305,7 +305,7 @@ CancellationTokenRegistration CancellationTokenSource___::InternalRegister(Actio
         callbackNode = rt::newobj<CallbackNode>(callbackPartition);
       }
       callbackNode->Id = id;
-      callbackNode->Callback = callback;
+      callbackNode->Callback = &callback;
       callbackNode->CallbackState = stateForCallback;
       callbackNode->ExecutionContext = executionContext;
       callbackNode->SynchronizationContext = syncContext;

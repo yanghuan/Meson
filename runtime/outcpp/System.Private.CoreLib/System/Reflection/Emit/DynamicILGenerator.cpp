@@ -69,7 +69,7 @@ void DynamicILGenerator___::Emit(OpCode opcode, MethodInfo meth) {
   }
   EnsureCapacity(7);
   InternalEmit(opcode);
-  if (opcode.get_StackBehaviourPush() == StackBehaviour::Varpush && meth->get_ReturnType() != rt::typeof<void>()) {
+  if (opcode.get_StackBehaviourPush() == StackBehaviour::Varpush && meth->get_ReturnType() != typeof<void>()) {
     num++;
   }
   if (opcode.get_StackBehaviourPop() == StackBehaviour::Varpop) {
@@ -144,7 +144,7 @@ void DynamicILGenerator___::EmitCalli(OpCode opcode, CallingConventions callingC
   SignatureHelper memberRefSignature = GetMemberRefSignature(callingConvention, returnType, parameterTypes, optionalParameterTypes);
   EnsureCapacity(7);
   Emit(OpCodes::in::Calli);
-  if (returnType != rt::typeof<void>()) {
+  if (returnType != typeof<void>()) {
     num++;
   }
   if (parameterTypes != nullptr) {
@@ -174,7 +174,7 @@ void DynamicILGenerator___::EmitCalli(OpCode opcode, CallingConvention unmanaged
       methodSigHelper->AddArgument(parameterTypes[i]);
     }
   }
-  if (returnType != rt::typeof<void>()) {
+  if (returnType != typeof<void>()) {
     num++;
   }
   if (parameterTypes != nullptr) {
@@ -205,7 +205,7 @@ void DynamicILGenerator___::EmitCall(OpCode opcode, MethodInfo methodInfo, Array
   Int32 memberRefToken = GetMemberRefToken(methodInfo, optionalParameterTypes);
   EnsureCapacity(7);
   InternalEmit(opcode);
-  if (methodInfo->get_ReturnType() != rt::typeof<void>()) {
+  if (methodInfo->get_ReturnType() != typeof<void>()) {
     num++;
   }
   num -= methodInfo->GetParameterTypes()->get_Length();

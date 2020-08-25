@@ -172,66 +172,66 @@ void SerializationInfo___::AddValue(String name, Object value, Type type) {
 
 void SerializationInfo___::AddValue(String name, Object value) {
   if (value == nullptr) {
-    AddValue(name, value, rt::typeof<Object>());
+    AddValue(name, value, typeof<Object>());
   } else {
     AddValue(name, value, value->GetType());
   }
 }
 
 void SerializationInfo___::AddValue(String name, Boolean value) {
-  AddValue(name, value, rt::typeof<Boolean>());
+  AddValue(name, value, typeof<Boolean>());
 }
 
 void SerializationInfo___::AddValue(String name, Char value) {
-  AddValue(name, value, rt::typeof<Char>());
+  AddValue(name, value, typeof<Char>());
 }
 
 void SerializationInfo___::AddValue(String name, SByte value) {
-  AddValue(name, value, rt::typeof<SByte>());
+  AddValue(name, value, typeof<SByte>());
 }
 
 void SerializationInfo___::AddValue(String name, Byte value) {
-  AddValue(name, value, rt::typeof<Byte>());
+  AddValue(name, value, typeof<Byte>());
 }
 
 void SerializationInfo___::AddValue(String name, Int16 value) {
-  AddValue(name, value, rt::typeof<Int16>());
+  AddValue(name, value, typeof<Int16>());
 }
 
 void SerializationInfo___::AddValue(String name, UInt16 value) {
-  AddValue(name, value, rt::typeof<UInt16>());
+  AddValue(name, value, typeof<UInt16>());
 }
 
 void SerializationInfo___::AddValue(String name, Int32 value) {
-  AddValue(name, value, rt::typeof<Int32>());
+  AddValue(name, value, typeof<Int32>());
 }
 
 void SerializationInfo___::AddValue(String name, UInt32 value) {
-  AddValue(name, value, rt::typeof<UInt32>());
+  AddValue(name, value, typeof<UInt32>());
 }
 
 void SerializationInfo___::AddValue(String name, Int64 value) {
-  AddValue(name, value, rt::typeof<Int64>());
+  AddValue(name, value, typeof<Int64>());
 }
 
 void SerializationInfo___::AddValue(String name, UInt64 value) {
-  AddValue(name, value, rt::typeof<UInt64>());
+  AddValue(name, value, typeof<UInt64>());
 }
 
 void SerializationInfo___::AddValue(String name, Single value) {
-  AddValue(name, value, rt::typeof<Single>());
+  AddValue(name, value, typeof<Single>());
 }
 
 void SerializationInfo___::AddValue(String name, Double value) {
-  AddValue(name, value, rt::typeof<Double>());
+  AddValue(name, value, typeof<Double>());
 }
 
 void SerializationInfo___::AddValue(String name, Decimal value) {
-  AddValue(name, value, rt::typeof<Decimal>());
+  AddValue(name, value, typeof<Decimal>());
 }
 
 void SerializationInfo___::AddValue(String name, DateTime value) {
-  AddValue(name, value, rt::typeof<DateTime>());
+  AddValue(name, value, typeof<DateTime>());
 }
 
 void SerializationInfo___::AddValueInternal(String name, Object value, Type type) {
@@ -318,7 +318,7 @@ Object SerializationInfo___::GetValueNoThrow(String name, Type type) {
 Boolean SerializationInfo___::GetBoolean(String name) {
   Type foundType;
   Object element = GetElement(name, foundType);
-  if ((Object)foundType != rt::typeof<Boolean>()) {
+  if ((Object)foundType != typeof<Boolean>()) {
     return _converter->ToBoolean(element);
   }
   return (Boolean)element;
@@ -327,7 +327,7 @@ Boolean SerializationInfo___::GetBoolean(String name) {
 Char SerializationInfo___::GetChar(String name) {
   Type foundType;
   Object element = GetElement(name, foundType);
-  if ((Object)foundType != rt::typeof<Char>()) {
+  if ((Object)foundType != typeof<Char>()) {
     return _converter->ToChar(element);
   }
   return (Char)element;
@@ -336,7 +336,7 @@ Char SerializationInfo___::GetChar(String name) {
 SByte SerializationInfo___::GetSByte(String name) {
   Type foundType;
   Object element = GetElement(name, foundType);
-  if ((Object)foundType != rt::typeof<SByte>()) {
+  if ((Object)foundType != typeof<SByte>()) {
     return _converter->ToSByte(element);
   }
   return (SByte)element;
@@ -345,7 +345,7 @@ SByte SerializationInfo___::GetSByte(String name) {
 Byte SerializationInfo___::GetByte(String name) {
   Type foundType;
   Object element = GetElement(name, foundType);
-  if ((Object)foundType != rt::typeof<Byte>()) {
+  if ((Object)foundType != typeof<Byte>()) {
     return _converter->ToByte(element);
   }
   return (Byte)element;
@@ -354,7 +354,7 @@ Byte SerializationInfo___::GetByte(String name) {
 Int16 SerializationInfo___::GetInt16(String name) {
   Type foundType;
   Object element = GetElement(name, foundType);
-  if ((Object)foundType != rt::typeof<Int16>()) {
+  if ((Object)foundType != typeof<Int16>()) {
     return _converter->ToInt16(element);
   }
   return (Int16)element;
@@ -363,7 +363,7 @@ Int16 SerializationInfo___::GetInt16(String name) {
 UInt16 SerializationInfo___::GetUInt16(String name) {
   Type foundType;
   Object element = GetElement(name, foundType);
-  if ((Object)foundType != rt::typeof<UInt16>()) {
+  if ((Object)foundType != typeof<UInt16>()) {
     return _converter->ToUInt16(element);
   }
   return (UInt16)element;
@@ -372,7 +372,7 @@ UInt16 SerializationInfo___::GetUInt16(String name) {
 Int32 SerializationInfo___::GetInt32(String name) {
   Type foundType;
   Object element = GetElement(name, foundType);
-  if ((Object)foundType != rt::typeof<Int32>()) {
+  if ((Object)foundType != typeof<Int32>()) {
     return _converter->ToInt32(element);
   }
   return (Int32)element;
@@ -381,7 +381,7 @@ Int32 SerializationInfo___::GetInt32(String name) {
 UInt32 SerializationInfo___::GetUInt32(String name) {
   Type foundType;
   Object element = GetElement(name, foundType);
-  if ((Object)foundType != rt::typeof<UInt32>()) {
+  if ((Object)foundType != typeof<UInt32>()) {
     return _converter->ToUInt32(element);
   }
   return (UInt32)element;
@@ -390,7 +390,7 @@ UInt32 SerializationInfo___::GetUInt32(String name) {
 Int64 SerializationInfo___::GetInt64(String name) {
   Type foundType;
   Object element = GetElement(name, foundType);
-  if ((Object)foundType != rt::typeof<Int64>()) {
+  if ((Object)foundType != typeof<Int64>()) {
     return _converter->ToInt64(element);
   }
   return (Int64)element;
@@ -399,7 +399,7 @@ Int64 SerializationInfo___::GetInt64(String name) {
 UInt64 SerializationInfo___::GetUInt64(String name) {
   Type foundType;
   Object element = GetElement(name, foundType);
-  if ((Object)foundType != rt::typeof<UInt64>()) {
+  if ((Object)foundType != typeof<UInt64>()) {
     return _converter->ToUInt64(element);
   }
   return (UInt64)element;
@@ -408,7 +408,7 @@ UInt64 SerializationInfo___::GetUInt64(String name) {
 Single SerializationInfo___::GetSingle(String name) {
   Type foundType;
   Object element = GetElement(name, foundType);
-  if ((Object)foundType != rt::typeof<Single>()) {
+  if ((Object)foundType != typeof<Single>()) {
     return _converter->ToSingle(element);
   }
   return (Single)element;
@@ -417,7 +417,7 @@ Single SerializationInfo___::GetSingle(String name) {
 Double SerializationInfo___::GetDouble(String name) {
   Type foundType;
   Object element = GetElement(name, foundType);
-  if ((Object)foundType != rt::typeof<Double>()) {
+  if ((Object)foundType != typeof<Double>()) {
     return _converter->ToDouble(element);
   }
   return (Double)element;
@@ -426,7 +426,7 @@ Double SerializationInfo___::GetDouble(String name) {
 Decimal SerializationInfo___::GetDecimal(String name) {
   Type foundType;
   Object element = GetElement(name, foundType);
-  if ((Object)foundType != rt::typeof<Decimal>()) {
+  if ((Object)foundType != typeof<Decimal>()) {
     return _converter->ToDecimal(element);
   }
   return (Decimal)element;
@@ -435,7 +435,7 @@ Decimal SerializationInfo___::GetDecimal(String name) {
 DateTime SerializationInfo___::GetDateTime(String name) {
   Type foundType;
   Object element = GetElement(name, foundType);
-  if ((Object)foundType != rt::typeof<DateTime>()) {
+  if ((Object)foundType != typeof<DateTime>()) {
     return _converter->ToDateTime(element);
   }
   return (DateTime)element;
@@ -444,7 +444,7 @@ DateTime SerializationInfo___::GetDateTime(String name) {
 String SerializationInfo___::GetString(String name) {
   Type foundType;
   Object element = GetElement(name, foundType);
-  if ((Object)foundType != rt::typeof<String>() && element != nullptr) {
+  if ((Object)foundType != typeof<String>() && element != nullptr) {
     return _converter->ToString(element);
   }
   return (String)element;

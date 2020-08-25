@@ -57,7 +57,7 @@ String Environment::WinRTFolderPaths::GetFolderPath(SpecialFolder folder, Specia
   if (s_winRTFolderPathsGetFolderPath == nullptr) {
     Type type = Type::in::GetType("System.WinRTFolderPaths, System.Runtime.WindowsRuntime, Version=4.0.14.0, Culture=neutral, PublicKeyToken=b77a5c561934e089", false);
     MethodInfo methodInfo = ((Object)type != nullptr) ? type->GetMethod("GetFolderPath", BindingFlags::Static | BindingFlags::Public | BindingFlags::NonPublic, nullptr, rt::newarr<Array<Type>>(2), nullptr) : nullptr;
-    Func<SpecialFolder, SpecialFolderOption, String> func = (Func<SpecialFolder, SpecialFolderOption, String>)(((Object)methodInfo != nullptr) ? methodInfo->CreateDelegate(rt::typeof<Func<SpecialFolder, SpecialFolderOption, String>>()) : nullptr);
+    Func<SpecialFolder, SpecialFolderOption, String> func = (Func<SpecialFolder, SpecialFolderOption, String>)(((Object)methodInfo != nullptr) ? methodInfo->CreateDelegate(typeof<Func<SpecialFolder, SpecialFolderOption, String>>()) : nullptr);
   }
   return s_winRTFolderPathsGetFolderPath(folder, option);
 }
@@ -142,7 +142,7 @@ OperatingSystem Environment::get_OSVersion() {
 }
 
 Version Environment::get_Version() {
-  AssemblyInformationalVersionAttribute customAttribute = CustomAttributeExtensions::GetCustomAttribute(rt::typeof<Object>()->get_Assembly());
+  AssemblyInformationalVersionAttribute customAttribute = CustomAttributeExtensions::GetCustomAttribute(typeof<Object>()->get_Assembly());
   String text = (customAttribute != nullptr) ? customAttribute->get_InformationalVersion() : nullptr;
   ReadOnlySpan<Char> readOnlySpan = MemoryExtensions::AsSpan(text);
   Int32 num = MemoryExtensions::IndexOfAny(readOnlySpan, 45, 43, 32);
@@ -370,10 +370,10 @@ String Environment::GetFolderPath(SpecialFolder folder) {
 }
 
 String Environment::GetFolderPath(SpecialFolder folder, SpecialFolderOption option) {
-  if (!Enum::in::IsDefined(rt::typeof<SpecialFolder>(), folder)) {
+  if (!Enum::in::IsDefined(typeof<SpecialFolder>(), folder)) {
     rt::throw_exception<ArgumentOutOfRangeException>("folder", folder, SR::Format(SR::get_Arg_EnumIllegalVal(), folder));
   }
-  if (option != 0 && !Enum::in::IsDefined(rt::typeof<SpecialFolderOption>(), option)) {
+  if (option != 0 && !Enum::in::IsDefined(typeof<SpecialFolderOption>(), option)) {
     rt::throw_exception<ArgumentOutOfRangeException>("option", option, SR::Format(SR::get_Arg_EnumIllegalVal(), option));
   }
   return GetFolderPathCore(folder, option);

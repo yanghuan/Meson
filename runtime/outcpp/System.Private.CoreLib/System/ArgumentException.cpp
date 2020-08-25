@@ -2,6 +2,7 @@
 
 #include <System.Private.CoreLib/System/Exception-dep.h>
 #include <System.Private.CoreLib/System/SR-dep.h>
+#include <System.Private.CoreLib/System/Type-dep.h>
 
 namespace System::Private::CoreLib::System::ArgumentExceptionNamespace {
 String ArgumentException___::get_Message() {
@@ -45,7 +46,7 @@ void ArgumentException___::ctor(SerializationInfo info, StreamingContext context
 
 void ArgumentException___::GetObjectData(SerializationInfo info, StreamingContext context) {
   Exception::in::GetObjectData(info, context);
-  info->AddValue("ParamName", _paramName, rt::typeof<String>());
+  info->AddValue("ParamName", _paramName, typeof<String>());
 }
 
 void ArgumentException___::SetMessageField() {

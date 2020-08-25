@@ -188,9 +188,9 @@ void StackTrace___::ToString(TraceFormat traceFormat, StringBuilder sb) {
     Type declaringType = method->get_DeclaringType();
     String name = method->get_Name();
     Boolean flag3 = false;
-    if (declaringType != nullptr && declaringType->IsDefined(rt::typeof<CompilerGeneratedAttribute>(), false)) {
-      flag2 = rt::typeof<IAsyncStateMachine>()->IsAssignableFrom(declaringType);
-      if (flag2 || rt::typeof<IEnumerator>()->IsAssignableFrom(declaringType)) {
+    if (declaringType != nullptr && declaringType->IsDefined(typeof<CompilerGeneratedAttribute>(), false)) {
+      flag2 = typeof<IAsyncStateMachine>()->IsAssignableFrom(declaringType);
+      if (flag2 || typeof<IEnumerator>()->IsAssignableFrom(declaringType)) {
         flag3 = TryResolveStateMachineMethod(method, declaringType);
       }
     }
@@ -264,11 +264,11 @@ Boolean StackTrace___::ShowInStackTrace(MethodBase mb) {
   if ((mb->get_MethodImplementationFlags() & MethodImplAttributes::AggressiveInlining) != 0) {
     return false;
   }
-  if (mb->IsDefined(rt::typeof<StackTraceHiddenAttribute>(), false)) {
+  if (mb->IsDefined(typeof<StackTraceHiddenAttribute>(), false)) {
     return false;
   }
   Type declaringType = mb->get_DeclaringType();
-  if (declaringType != nullptr && declaringType->IsDefined(rt::typeof<StackTraceHiddenAttribute>(), false)) {
+  if (declaringType != nullptr && declaringType->IsDefined(typeof<StackTraceHiddenAttribute>(), false)) {
     return false;
   }
   return true;

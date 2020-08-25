@@ -33,6 +33,7 @@
 #include <System.Private.CoreLib/System/TimeZoneInfo-dep.h>
 #include <System.Private.CoreLib/System/TimeZoneInfoOptions.h>
 #include <System.Private.CoreLib/System/TokenType.h>
+#include <System.Private.CoreLib/System/Type-dep.h>
 #include <System.Private.CoreLib/System/UInt32-dep.h>
 
 namespace System::Private::CoreLib::System::DateTimeParseNamespace {
@@ -2229,7 +2230,7 @@ String DateTimeParse::ExpandPredefinedFormat(ReadOnlySpan<Char> format, DateTime
       result.flags |= ParseFlags::TimeZoneUsed;
       result.timeZoneOffset = TimeSpan(0);
       result.flags |= ParseFlags::TimeZoneUtc;
-      if (dtfi->get_Calendar()->GetType() != rt::typeof<GregorianCalendar>()) {
+      if (dtfi->get_Calendar()->GetType() != typeof<GregorianCalendar>()) {
         dtfi = (DateTimeFormatInfo)dtfi->Clone();
         dtfi->set_Calendar(GregorianCalendar::in::GetDefaultInstance());
       }
@@ -2648,7 +2649,7 @@ Boolean DateTimeParse::DoStrictParse(ReadOnlySpan<Char> s, ReadOnlySpan<Char> fo
   }
   result.calendar = parseInfo.calendar;
   if (parseInfo.calendar->get_ID() == CalendarId::HEBREW) {
-    parseInfo.parseNumberDelegate = s_hebrewNumberParser;
+    parseInfo.parseNumberDelegate = &s_hebrewNumberParser;
     parseInfo.fCustomNumberParser = true;
   }
   result.Hour = (result.Minute = (result.Second = -1));
@@ -3044,7 +3045,7 @@ Exception DateTimeParse::GetDateTimeParseException(DateTimeResult& result) {
 }
 
 void DateTimeParse::cctor() {
-  s_hebrewNumberParser = MatchHebrewDigits;
+  s_hebrewNumberParser = &MatchHebrewDigits;
   s_dateParsingStates = rt::newarr<Array<Array<DS>>>(20);
 }
 

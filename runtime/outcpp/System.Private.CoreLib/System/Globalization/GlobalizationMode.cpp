@@ -10,6 +10,7 @@
 #include <System.Private.CoreLib/System/ReadOnlySpan-dep.h>
 #include <System.Private.CoreLib/System/Runtime/InteropServices/DllImportSearchPath.h>
 #include <System.Private.CoreLib/System/Runtime/InteropServices/NativeLibrary-dep.h>
+#include <System.Private.CoreLib/System/Type-dep.h>
 
 namespace System::Private::CoreLib::System::Globalization::GlobalizationModeNamespace {
 using namespace System::Runtime::InteropServices;
@@ -79,7 +80,7 @@ String GlobalizationMode::CreateLibraryName(ReadOnlySpan<Char> baseName, ReadOnl
 
 IntPtr GlobalizationMode::LoadLibrary(String library, Boolean failOnLoadFailure) {
   IntPtr handle;
-  if (!NativeLibrary::TryLoad(library, rt::typeof<Object>()->get_Assembly(), DllImportSearchPath::ApplicationDirectory, handle) && failOnLoadFailure) {
+  if (!NativeLibrary::TryLoad(library, typeof<Object>()->get_Assembly(), DllImportSearchPath::ApplicationDirectory, handle) && failOnLoadFailure) {
     Environment::FailFast("Failed to load app-local ICU: " + library);
   }
   return handle;

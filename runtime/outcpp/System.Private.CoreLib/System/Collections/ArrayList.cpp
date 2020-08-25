@@ -1700,7 +1700,7 @@ void ArrayList___::ArrayListEnumeratorSimple___::ctor(ArrayList list) {
   _list = list;
   _index = -1;
   _version = list->_version;
-  _isArrayList = (list->GetType() == rt::typeof<ArrayList>());
+  _isArrayList = (list->GetType() == typeof<ArrayList>());
   _currentElement = s_dummyObject;
 }
 

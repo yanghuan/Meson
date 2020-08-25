@@ -1,5 +1,7 @@
 #include "RuntimeWrappedException-dep.h"
 
+#include <System.Private.CoreLib/System/Type-dep.h>
+
 namespace System::Private::CoreLib::System::Runtime::CompilerServices::RuntimeWrappedExceptionNamespace {
 Object RuntimeWrappedException___::get_WrappedException() {
   return _wrappedException;
@@ -11,12 +13,12 @@ void RuntimeWrappedException___::ctor(Object thrownObject) {
 }
 
 void RuntimeWrappedException___::ctor(SerializationInfo info, StreamingContext context) {
-  _wrappedException = info->GetValue("WrappedException", rt::typeof<Object>());
+  _wrappedException = info->GetValue("WrappedException", typeof<Object>());
 }
 
 void RuntimeWrappedException___::GetObjectData(SerializationInfo info, StreamingContext context) {
   Exception::in::GetObjectData(info, context);
-  info->AddValue("WrappedException", _wrappedException, rt::typeof<Object>());
+  info->AddValue("WrappedException", _wrappedException, typeof<Object>());
 }
 
 } // namespace System::Private::CoreLib::System::Runtime::CompilerServices::RuntimeWrappedExceptionNamespace

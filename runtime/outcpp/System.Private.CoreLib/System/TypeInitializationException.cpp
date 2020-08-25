@@ -1,6 +1,7 @@
 #include "TypeInitializationException-dep.h"
 
 #include <System.Private.CoreLib/System/Exception-dep.h>
+#include <System.Private.CoreLib/System/Type-dep.h>
 
 namespace System::Private::CoreLib::System::TypeInitializationExceptionNamespace {
 String TypeInitializationException___::get_TypeName() {
@@ -30,7 +31,7 @@ void TypeInitializationException___::ctor(SerializationInfo info, StreamingConte
 
 void TypeInitializationException___::GetObjectData(SerializationInfo info, StreamingContext context) {
   Exception::in::GetObjectData(info, context);
-  info->AddValue("TypeName", get_TypeName(), rt::typeof<String>());
+  info->AddValue("TypeName", get_TypeName(), typeof<String>());
 }
 
 } // namespace System::Private::CoreLib::System::TypeInitializationExceptionNamespace

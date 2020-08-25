@@ -5,7 +5,7 @@
 
 namespace System::Private::CoreLib::System::Threading::_ThreadPoolWaitOrTimerCallbackNamespace {
 void _ThreadPoolWaitOrTimerCallback___::ctor(WaitOrTimerCallback waitOrTimerCallback, Object state, Boolean flowExecutionContext) {
-  _waitOrTimerCallback = waitOrTimerCallback;
+  _waitOrTimerCallback = &waitOrTimerCallback;
   _state = state;
   if (flowExecutionContext) {
     _executionContext = ExecutionContext::in::Capture();
@@ -36,8 +36,8 @@ void _ThreadPoolWaitOrTimerCallback___::PerformWaitOrTimerCallback(_ThreadPoolWa
 }
 
 void _ThreadPoolWaitOrTimerCallback___::cctor() {
-  _ccbt = WaitOrTimerCallback_Context_t;
-  _ccbf = WaitOrTimerCallback_Context_f;
+  _ccbt = &WaitOrTimerCallback_Context_t;
+  _ccbf = &WaitOrTimerCallback_Context_f;
 }
 
 } // namespace System::Private::CoreLib::System::Threading::_ThreadPoolWaitOrTimerCallbackNamespace

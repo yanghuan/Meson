@@ -25,6 +25,7 @@
 #include <System.Private.CoreLib/System/Single-dep.h>
 #include <System.Private.CoreLib/System/Span-dep.h>
 #include <System.Private.CoreLib/System/SR-dep.h>
+#include <System.Private.CoreLib/System/Type-dep.h>
 #include <System.Private.CoreLib/System/TypeCode.h>
 #include <System.Private.CoreLib/System/UInt16-dep.h>
 #include <System.Private.CoreLib/System/UInt32-dep.h>
@@ -48,7 +49,7 @@ Enum::in::EnumInfo Enum___::GetEnumInfo(RuntimeType enumType, Boolean getNames) 
     Array<String> o2 = nullptr;
     RuntimeTypeHandle rth = enumType->GetTypeHandleInternal();
     GetEnumValuesAndNames(QCallTypeHandle(rth), ObjectHandleOnStack::Create(o), ObjectHandleOnStack::Create(o2), getNames ? Interop::BOOL::TRUE : Interop::BOOL::FALSE);
-    Boolean hasFlagsAttribute = enumType->IsDefined(rt::typeof<FlagsAttribute>(), false);
+    Boolean hasFlagsAttribute = enumType->IsDefined(typeof<FlagsAttribute>(), false);
     enumInfo = (EnumInfo)(enumType->set_GenericCache(rt::newobj<EnumInfo>(hasFlagsAttribute, o, o2)));
   }
   return enumInfo;

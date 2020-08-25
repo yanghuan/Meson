@@ -87,7 +87,7 @@ namespace Meson.Compiler {
           info.HeadIncludes.Add(reference.GetReferenceIncludeString());
           info.SrcIncludes.Add(reference.GetReferenceIncludeString(true));
         }
-        if(Generator.TryGetReferenceUsing(reference, root_, info, out string usingNamespace)) {
+        if (Generator.TryGetReferenceUsing(reference, root_, info, out string usingNamespace)) {
           info.HeadUsings.Add(usingNamespace);
         }
       }
@@ -112,29 +112,44 @@ namespace Meson.Compiler {
           type = new GenericIdentifierSyntax(type, template.TypeNames);
         }
       }
+
       var usingDeclaration = new UsingDeclarationSyntax(name, type) { Template = template };
       rootNamespace.Add(usingDeclaration);
-      if (root_.KnownTypeCode == KnownTypeCode.ValueType) {
-        var valueType = new ClassSyntax(root_.Name.FirstCharLow(), true) { 
-          Template = new TemplateSyntax(
+      switch (root_.KnownTypeCode) {
+        case KnownTypeCode.Object: {
+          var objectType = new ClassSyntax(root_.Name.FirstCharLow(), true);
+          objectType.Bases.Add(new BaseSyntax(root_.Name.AsIdentifier().WithIn()));
+          objectType.Add(new FieldDefinitionSyntax(IdentifierSyntax.TypeCode, IdentifierSyntax.code, true, Accessibility.Public.ToTokenString()) {
+            IsConstexpr = true,
+            ConstantValue = IdentifierSyntax.TypeCode.TwoColon(root_.Kind.ToString()),
+          });
+          rootNamespace.Add(objectType);
+          break;
+        }
+        case KnownTypeCode.ValueType: {
+          var valueType = new ClassSyntax(root_.Name.FirstCharLow(), true) {
+            Template = new TemplateSyntax(
             TemplateTypenameSyntax.T,
-            new TemplateTypenameSyntax(IdentifierSyntax.N, IdentifierSyntax.TypeCode.TwoColon(TypeKind.Struct.ToString())) {  ClassToken = IdentifierSyntax.TypeCode })
-        };
-        var baseType = IdentifierSyntax.Meson.TwoColon(root_.Name).Generic(IdentifierSyntax.T, name.WithIn(), IdentifierSyntax.N);
-        valueType.Bases.Add(new BaseSyntax(baseType));
-        valueType.Add(new FieldDefinitionSyntax(IdentifierSyntax.TypeCode, IdentifierSyntax.code, true, Accessibility.Public.ToTokenString()) {
-          IsConstexpr = true,
-          ConstantValue = IdentifierSyntax.N,
-        });
-        rootNamespace.Add(valueType);
-      } else if (root_.KnownTypeCode == KnownTypeCode.Object) {
-        var objectType = new ClassSyntax(root_.Name.FirstCharLow(), true);
-        objectType.Bases.Add(new BaseSyntax(root_.Name.AsIdentifier().WithIn()));
-        objectType.Add(new FieldDefinitionSyntax(IdentifierSyntax.TypeCode, IdentifierSyntax.code, true, Accessibility.Public.ToTokenString()) {
-          IsConstexpr = true,
-          ConstantValue = IdentifierSyntax.TypeCode.TwoColon(root_.Kind.ToString()),
-        });
-        rootNamespace.Add(objectType);
+            new TemplateTypenameSyntax(IdentifierSyntax.N, IdentifierSyntax.TypeCode.TwoColon(TypeKind.Struct.ToString())) { ClassToken = IdentifierSyntax.TypeCode })
+          };
+          var baseType = IdentifierSyntax.Meson.TwoColon(root_.Name).Generic(IdentifierSyntax.T, name.WithIn(), IdentifierSyntax.N);
+          valueType.Bases.Add(new BaseSyntax(baseType));
+          valueType.Add(new FieldDefinitionSyntax(IdentifierSyntax.TypeCode, IdentifierSyntax.code, true, Accessibility.Public.ToTokenString()) {
+            IsConstexpr = true,
+            ConstantValue = IdentifierSyntax.N,
+          });
+          rootNamespace.Add(valueType);
+          break;
+        }
+        case KnownTypeCode.Type: {
+          var method = new MethodDefinitionSyntax(IdentifierSyntax.Typeof, null, root_.Name) {
+            Template = TemplateSyntax.T,
+            Body = new BlockSyntax(),
+          };
+          method.Body.Add(IdentifierSyntax.Nullptr.Return());
+          rootNamespace.Add(method);
+          break;
+        }
       }
     }
 

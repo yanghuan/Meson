@@ -5,6 +5,7 @@
 #include <System.Private.CoreLib/System/Object-dep.h>
 #include <System.Private.CoreLib/System/StringComparison.h>
 #include <System.Private.CoreLib/System/ThrowHelper-dep.h>
+#include <System.Private.CoreLib/System/Type-dep.h>
 
 namespace System::Private::CoreLib::System::OrdinalIgnoreCaseComparerNamespace {
 using namespace System::Globalization;
@@ -37,7 +38,7 @@ Int32 OrdinalIgnoreCaseComparer___::GetHashCode(String obj) {
 }
 
 void OrdinalIgnoreCaseComparer___::GetObjectData(SerializationInfo info, StreamingContext context) {
-  info->SetType(rt::typeof<OrdinalComparer>());
+  info->SetType(typeof<OrdinalComparer>());
   info->AddValue("_ignoreCase", true);
 }
 

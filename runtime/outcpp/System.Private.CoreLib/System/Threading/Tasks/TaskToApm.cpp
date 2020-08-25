@@ -23,7 +23,7 @@ void TaskToApm::TaskAsyncResult___::ctor(Task<> task, Object state, AsyncCallbac
       callback((TaskAsyncResult)this);
     }
   } else if (callback != nullptr) {
-    _callback = callback;
+    _callback = &callback;
     _task->ConfigureAwait(false).GetAwaiter().OnCompleted(rt::newobj<Action<>>(&InvokeCallback));
   }
 

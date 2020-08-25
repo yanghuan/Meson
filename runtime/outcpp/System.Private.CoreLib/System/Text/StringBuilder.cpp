@@ -24,6 +24,7 @@
 #include <System.Private.CoreLib/System/Text/Encoding-dep.h>
 #include <System.Private.CoreLib/System/Text/StringBuilder-dep.h>
 #include <System.Private.CoreLib/System/ThrowHelper-dep.h>
+#include <System.Private.CoreLib/System/Type-dep.h>
 #include <System.Private.CoreLib/System/UInt32-dep.h>
 
 namespace System::Private::CoreLib::System::Text::StringBuilderNamespace {
@@ -1025,7 +1026,7 @@ StringBuilder StringBuilder___::AppendFormatHelper(IFormatProvider provider, Str
   Char c = 0;
   ICustomFormatter customFormatter = nullptr;
   if (provider != nullptr) {
-    customFormatter = (ICustomFormatter)provider->GetFormat(rt::typeof<ICustomFormatter>());
+    customFormatter = (ICustomFormatter)provider->GetFormat(typeof<ICustomFormatter>());
   }
   while (true) {
     if (num < length) {

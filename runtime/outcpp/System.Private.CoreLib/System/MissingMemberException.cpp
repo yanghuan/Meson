@@ -2,6 +2,7 @@
 
 #include <System.Private.CoreLib/System/Exception-dep.h>
 #include <System.Private.CoreLib/System/SR-dep.h>
+#include <System.Private.CoreLib/System/Type-dep.h>
 
 namespace System::Private::CoreLib::System::MissingMemberExceptionNamespace {
 String MissingMemberException___::get_Message() {
@@ -31,14 +32,14 @@ void MissingMemberException___::ctor(String className, String memberName) {
 void MissingMemberException___::ctor(SerializationInfo info, StreamingContext context) {
   ClassName = info->GetString("MMClassName");
   MemberName = info->GetString("MMMemberName");
-  Signature = (Array<Byte>)info->GetValue("MMSignature", rt::typeof<Array<Byte>>());
+  Signature = (Array<Byte>)info->GetValue("MMSignature", typeof<Array<Byte>>());
 }
 
 void MissingMemberException___::GetObjectData(SerializationInfo info, StreamingContext context) {
   Exception::in::GetObjectData(info, context);
-  info->AddValue("MMClassName", ClassName, rt::typeof<String>());
-  info->AddValue("MMMemberName", MemberName, rt::typeof<String>());
-  info->AddValue("MMSignature", Signature, rt::typeof<Array<Byte>>());
+  info->AddValue("MMClassName", ClassName, typeof<String>());
+  info->AddValue("MMMemberName", MemberName, typeof<String>());
+  info->AddValue("MMSignature", Signature, typeof<Array<Byte>>());
 }
 
 } // namespace System::Private::CoreLib::System::MissingMemberExceptionNamespace

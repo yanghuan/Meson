@@ -10,11 +10,12 @@
 #include <System.Private.CoreLib/System/Threading/Tasks/TaskScheduler-dep.h>
 #include <System.Private.CoreLib/System/Threading/Tasks/TplEventSource-dep.h>
 #include <System.Private.CoreLib/System/Threading/ThreadPool-dep.h>
+#include <System.Private.CoreLib/System/Type-dep.h>
 
 namespace System::Private::CoreLib::System::Threading::Tasks::AwaitTaskContinuationNamespace {
 Boolean AwaitTaskContinuation___::get_IsValidLocationForInlining() {
   SynchronizationContext current = SynchronizationContext::in::get_Current();
-  if (current != nullptr && current->GetType() != rt::typeof<SynchronizationContext>()) {
+  if (current != nullptr && current->GetType() != typeof<SynchronizationContext>()) {
     return false;
   }
   TaskScheduler internalCurrent = TaskScheduler::in::get_InternalCurrent();
@@ -25,7 +26,7 @@ Boolean AwaitTaskContinuation___::get_IsValidLocationForInlining() {
 }
 
 void AwaitTaskContinuation___::ctor(Action<> action, Boolean flowExecutionContext) {
-  m_action = action;
+  m_action = &action;
   if (flowExecutionContext) {
     m_capturedContext = ExecutionContext::in::Capture();
   }

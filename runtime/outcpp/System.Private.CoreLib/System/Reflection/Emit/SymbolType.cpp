@@ -70,7 +70,7 @@ String SymbolType___::get_Namespace() {
 }
 
 Type SymbolType___::get_BaseType() {
-  return rt::typeof<Array<>>();
+  return typeof<Array<>>();
 }
 
 Boolean SymbolType___::get_IsConstructedGenericType() {

@@ -27,12 +27,12 @@ void SecurityException___::ctor(String message, Type type, String state) {
 }
 
 void SecurityException___::ctor(SerializationInfo info, StreamingContext context) {
-  Demanded = (String)info->GetValueNoThrow("Demanded", rt::typeof<String>());
-  GrantedSet = (String)info->GetValueNoThrow("GrantedSet", rt::typeof<String>());
-  RefusedSet = (String)info->GetValueNoThrow("RefusedSet", rt::typeof<String>());
-  DenySetInstance = (String)info->GetValueNoThrow("Denied", rt::typeof<String>());
-  PermitOnlySetInstance = (String)info->GetValueNoThrow("PermitOnly", rt::typeof<String>());
-  Url = (String)info->GetValueNoThrow("Url", rt::typeof<String>());
+  Demanded = (String)info->GetValueNoThrow("Demanded", typeof<String>());
+  GrantedSet = (String)info->GetValueNoThrow("GrantedSet", typeof<String>());
+  RefusedSet = (String)info->GetValueNoThrow("RefusedSet", typeof<String>());
+  DenySetInstance = (String)info->GetValueNoThrow("Denied", typeof<String>());
+  PermitOnlySetInstance = (String)info->GetValueNoThrow("PermitOnly", typeof<String>());
+  Url = (String)info->GetValueNoThrow("Url", typeof<String>());
 }
 
 String SecurityException___::ToString() {
@@ -41,12 +41,12 @@ String SecurityException___::ToString() {
 
 void SecurityException___::GetObjectData(SerializationInfo info, StreamingContext context) {
   Exception::in::GetObjectData(info, context);
-  info->AddValue("Demanded", Demanded, rt::typeof<String>());
-  info->AddValue("GrantedSet", GrantedSet, rt::typeof<String>());
-  info->AddValue("RefusedSet", RefusedSet, rt::typeof<String>());
-  info->AddValue("Denied", DenySetInstance, rt::typeof<String>());
-  info->AddValue("PermitOnly", PermitOnlySetInstance, rt::typeof<String>());
-  info->AddValue("Url", Url, rt::typeof<String>());
+  info->AddValue("Demanded", Demanded, typeof<String>());
+  info->AddValue("GrantedSet", GrantedSet, typeof<String>());
+  info->AddValue("RefusedSet", RefusedSet, typeof<String>());
+  info->AddValue("Denied", DenySetInstance, typeof<String>());
+  info->AddValue("PermitOnly", PermitOnlySetInstance, typeof<String>());
+  info->AddValue("Url", Url, typeof<String>());
 }
 
 } // namespace System::Private::CoreLib::System::Security::SecurityExceptionNamespace

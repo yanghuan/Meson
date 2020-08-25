@@ -440,7 +440,7 @@ String ResourceReader___::LoadString(Int32 pos) {
     if (num == -1) {
       return nullptr;
     }
-    if (FindType(num) != rt::typeof<String>()) {
+    if (FindType(num) != typeof<String>()) {
       rt::throw_exception<InvalidOperationException>(SR::Format(SR::get_InvalidOperation_ResourceNotString_Type(), FindType(num)->get_FullName()));
     }
     result = _store->ReadString();
@@ -489,46 +489,46 @@ Object ResourceReader___::_LoadObjectV1(Int32 pos) {
     return nullptr;
   }
   Type left = FindType(num);
-  if (left == rt::typeof<String>()) {
+  if (left == typeof<String>()) {
     return _store->ReadString();
   }
-  if (left == rt::typeof<Int32>()) {
+  if (left == typeof<Int32>()) {
     return _store->ReadInt32();
   }
-  if (left == rt::typeof<Byte>()) {
+  if (left == typeof<Byte>()) {
     return _store->ReadByte();
   }
-  if (left == rt::typeof<SByte>()) {
+  if (left == typeof<SByte>()) {
     return _store->ReadSByte();
   }
-  if (left == rt::typeof<Int16>()) {
+  if (left == typeof<Int16>()) {
     return _store->ReadInt16();
   }
-  if (left == rt::typeof<Int64>()) {
+  if (left == typeof<Int64>()) {
     return _store->ReadInt64();
   }
-  if (left == rt::typeof<UInt16>()) {
+  if (left == typeof<UInt16>()) {
     return _store->ReadUInt16();
   }
-  if (left == rt::typeof<UInt32>()) {
+  if (left == typeof<UInt32>()) {
     return _store->ReadUInt32();
   }
-  if (left == rt::typeof<UInt64>()) {
+  if (left == typeof<UInt64>()) {
     return _store->ReadUInt64();
   }
-  if (left == rt::typeof<Single>()) {
+  if (left == typeof<Single>()) {
     return _store->ReadSingle();
   }
-  if (left == rt::typeof<Double>()) {
+  if (left == typeof<Double>()) {
     return _store->ReadDouble();
   }
-  if (left == rt::typeof<DateTime>()) {
+  if (left == typeof<DateTime>()) {
     return DateTime(_store->ReadInt64());
   }
-  if (left == rt::typeof<TimeSpan>()) {
+  if (left == typeof<TimeSpan>()) {
     return TimeSpan(_store->ReadInt64());
   }
-  if (left == rt::typeof<Decimal>()) {
+  if (left == typeof<Decimal>()) {
     Array<Int32> array = rt::newarr<Array<Int32>>(4);
     for (Int32 i = 0; i < array->get_Length(); i++) {
       array[i] = _store->ReadInt32();

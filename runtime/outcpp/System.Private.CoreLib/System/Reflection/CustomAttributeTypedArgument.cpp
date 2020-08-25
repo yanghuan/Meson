@@ -37,39 +37,39 @@ Object CustomAttributeTypedArgument::get_Value() {
 Type CustomAttributeTypedArgument::CustomAttributeEncodingToType(CustomAttributeEncoding encodedType) {
   switch (encodedType) {
     case CustomAttributeEncoding::Enum:
-      return rt::typeof<Enum>();
+      return typeof<Enum>();
     case CustomAttributeEncoding::Int32:
-      return rt::typeof<Int32>();
+      return typeof<Int32>();
     case CustomAttributeEncoding::String:
-      return rt::typeof<String>();
+      return typeof<String>();
     case CustomAttributeEncoding::Type:
-      return rt::typeof<Type>();
+      return typeof<Type>();
     case CustomAttributeEncoding::Array:
-      return rt::typeof<Array<>>();
+      return typeof<Array<>>();
     case CustomAttributeEncoding::Char:
-      return rt::typeof<Char>();
+      return typeof<Char>();
     case CustomAttributeEncoding::Boolean:
-      return rt::typeof<Boolean>();
+      return typeof<Boolean>();
     case CustomAttributeEncoding::SByte:
-      return rt::typeof<SByte>();
+      return typeof<SByte>();
     case CustomAttributeEncoding::Byte:
-      return rt::typeof<Byte>();
+      return typeof<Byte>();
     case CustomAttributeEncoding::Int16:
-      return rt::typeof<Int16>();
+      return typeof<Int16>();
     case CustomAttributeEncoding::UInt16:
-      return rt::typeof<UInt16>();
+      return typeof<UInt16>();
     case CustomAttributeEncoding::UInt32:
-      return rt::typeof<UInt32>();
+      return typeof<UInt32>();
     case CustomAttributeEncoding::Int64:
-      return rt::typeof<Int64>();
+      return typeof<Int64>();
     case CustomAttributeEncoding::UInt64:
-      return rt::typeof<UInt64>();
+      return typeof<UInt64>();
     case CustomAttributeEncoding::Float:
-      return rt::typeof<Single>();
+      return typeof<Single>();
     case CustomAttributeEncoding::Double:
-      return rt::typeof<Double>();
+      return typeof<Double>();
     case CustomAttributeEncoding::Object:
-      return rt::typeof<Object>();
+      return typeof<Object>();
     default:
       rt::throw_exception<ArgumentException>(SR::Format(SR::get_Arg_EnumIllegalVal(), (Int32)encodedType), "encodedType");
   }
@@ -131,11 +131,11 @@ CustomAttributeTypedArgument::CustomAttributeTypedArgument(RuntimeModule scope, 
       m_value = EncodedValueToRawValue(encodedArg.get_PrimitiveValue(), encodedArg.get_CustomAttributeType().get_EncodedEnumType());
       break;
     case CustomAttributeEncoding::String:
-      m_argumentType = rt::typeof<String>();
+      m_argumentType = typeof<String>();
       m_value = encodedArg.get_StringValue();
       break;
     case CustomAttributeEncoding::Type:
-      m_argumentType = rt::typeof<Type>();
+      m_argumentType = typeof<Type>();
       m_value = nullptr;
       if (encodedArg.get_StringValue() != nullptr) {
         m_value = ResolveType(scope, encodedArg.get_StringValue());
@@ -201,13 +201,13 @@ String CustomAttributeTypedArgument::ToString(Boolean typed) {
   if (get_Value() == nullptr) {
     return String::in::Format(typed ? "null" : "({0})null", get_ArgumentType()->get_Name());
   }
-  if (get_ArgumentType() == rt::typeof<String>()) {
+  if (get_ArgumentType() == typeof<String>()) {
     return String::in::Format(""{0}"", get_Value());
   }
-  if (get_ArgumentType() == rt::typeof<Char>()) {
+  if (get_ArgumentType() == typeof<Char>()) {
     return String::in::Format("'{0}'", get_Value());
   }
-  if (get_ArgumentType() == rt::typeof<Type>()) {
+  if (get_ArgumentType() == typeof<Type>()) {
     return String::in::Format("typeof({0})", ((Type)get_Value())->get_FullName());
   }
   if (get_ArgumentType()->get_IsArray()) {
@@ -215,7 +215,7 @@ String CustomAttributeTypedArgument::ToString(Boolean typed) {
     Type elementType = get_ArgumentType()->GetElementType();
     String str = String::in::Format("new {0}[{1}] {{ ", elementType->get_IsEnum() ? elementType->get_FullName() : elementType->get_Name(), list->get_Count());
     for (Int32 i = 0; i < list->get_Count(); i++) {
-      str += String::in::Format((i == 0) ? "{0}" : ", {0}", list[i].ToString(elementType != rt::typeof<Object>()));
+      str += String::in::Format((i == 0) ? "{0}" : ", {0}", list[i].ToString(elementType != typeof<Object>()));
     }
     return str + " }";
   }

@@ -69,7 +69,7 @@ String CustomAttributeNamedArgument::ToString() {
   if (m_memberInfo == nullptr) {
     return ValueType::in::ToString();
   }
-  return String::in::Format("{0} = {1}", get_MemberInfo()->get_Name(), get_TypedValue().ToString(get_ArgumentType() != rt::typeof<Object>()));
+  return String::in::Format("{0} = {1}", get_MemberInfo()->get_Name(), get_TypedValue().ToString(get_ArgumentType() != typeof<Object>()));
 }
 
 Int32 CustomAttributeNamedArgument::GetHashCode() {

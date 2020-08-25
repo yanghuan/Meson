@@ -287,7 +287,7 @@ Boolean RuntimeModule___::IsTransientInternal() {
 }
 
 Array<Object> RuntimeModule___::GetCustomAttributes(Boolean inherit) {
-  return CustomAttribute::GetCustomAttributes((RuntimeModule)this, rt::as<RuntimeType>(rt::typeof<Object>()));
+  return CustomAttribute::GetCustomAttributes((RuntimeModule)this, rt::as<RuntimeType>(typeof<Object>()));
 }
 
 Array<Object> RuntimeModule___::GetCustomAttributes(Type attributeType, Boolean inherit) {

@@ -2,6 +2,7 @@
 
 #include <System.Private.CoreLib/System/Globalization/CultureInfo-dep.h>
 #include <System.Private.CoreLib/System/SR-dep.h>
+#include <System.Private.CoreLib/System/Type-dep.h>
 
 namespace System::Private::CoreLib::System::Globalization::CultureNotFoundExceptionNamespace {
 Nullable<Int32> CultureNotFoundException___::get_InvalidCultureId() {
@@ -65,14 +66,14 @@ void CultureNotFoundException___::ctor(String paramName, Int32 invalidCultureId,
 }
 
 void CultureNotFoundException___::ctor(SerializationInfo info, StreamingContext context) {
-  _invalidCultureId = (Nullable<Int32>)info->GetValue("InvalidCultureId", rt::typeof<Nullable<Int32>>());
-  _invalidCultureName = (String)info->GetValue("InvalidCultureName", rt::typeof<String>());
+  _invalidCultureId = (Nullable<Int32>)info->GetValue("InvalidCultureId", typeof<Nullable<Int32>>());
+  _invalidCultureName = (String)info->GetValue("InvalidCultureName", typeof<String>());
 }
 
 void CultureNotFoundException___::GetObjectData(SerializationInfo info, StreamingContext context) {
   ArgumentException::in::GetObjectData(info, context);
-  info->AddValue("InvalidCultureId", _invalidCultureId, rt::typeof<Nullable<Int32>>());
-  info->AddValue("InvalidCultureName", _invalidCultureName, rt::typeof<String>());
+  info->AddValue("InvalidCultureId", _invalidCultureId, typeof<Nullable<Int32>>());
+  info->AddValue("InvalidCultureName", _invalidCultureName, typeof<String>());
 }
 
 } // namespace System::Private::CoreLib::System::Globalization::CultureNotFoundExceptionNamespace

@@ -4,6 +4,7 @@
 #include <System.Private.CoreLib/System/Reflection/Emit/OpCode-dep.h>
 #include <System.Private.CoreLib/System/Reflection/Emit/OpCodeValues.h>
 #include <System.Private.CoreLib/System/Threading/Volatile-dep.h>
+#include <System.Private.CoreLib/System/Type-dep.h>
 #include <System.Private.CoreLib/System/UInt16-dep.h>
 
 namespace System::Private::CoreLib::System::Reflection::Emit::OpCodeNamespace {
@@ -57,7 +58,7 @@ String OpCode::get_Name() {
   if (text != nullptr) {
     return text;
   }
-  text = Enum::in::GetName(rt::typeof<OpCodeValues>(), opCodeValues)->ToLowerInvariant()->Replace(95, 46);
+  text = Enum::in::GetName(typeof<OpCodeValues>(), opCodeValues)->ToLowerInvariant()->Replace(95, 46);
   Volatile::Write(array[num], text);
   return text;
 }

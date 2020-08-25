@@ -2389,7 +2389,7 @@ Int32 Convert::FromBase64_ComputeResultLength(Char* inputPtr, Int32 inputLength)
 
 void Convert::cctor() {
   ConvertTypes = rt::newarr<Array<Type>>(19);
-  EnumType = rt::typeof<Enum>();
+  EnumType = typeof<Enum>();
   base64Table = rt::newarr<Array<Char>>(65);
   DBNull = DBNull::in::Value;
 }

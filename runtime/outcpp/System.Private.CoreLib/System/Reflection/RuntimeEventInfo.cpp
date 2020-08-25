@@ -81,7 +81,7 @@ String RuntimeEventInfo___::ToString() {
 }
 
 Array<Object> RuntimeEventInfo___::GetCustomAttributes(Boolean inherit) {
-  return CustomAttribute::GetCustomAttributes((RuntimeEventInfo)this, rt::as<RuntimeType>(rt::typeof<Object>()));
+  return CustomAttribute::GetCustomAttributes((RuntimeEventInfo)this, rt::as<RuntimeType>(typeof<Object>()));
 }
 
 Array<Object> RuntimeEventInfo___::GetCustomAttributes(Type attributeType, Boolean inherit) {

@@ -257,4 +257,8 @@ CLASS(Type) : public MemberInfo::in {
 };
 } // namespace TypeNamespace
 using Type = TypeNamespace::Type;
+template <class T>
+Type typeof() {
+  return nullptr;
+}
 } // namespace System::Private::CoreLib::System

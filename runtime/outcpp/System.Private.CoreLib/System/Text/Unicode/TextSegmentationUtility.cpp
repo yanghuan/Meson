@@ -6,7 +6,7 @@ Int32 TextSegmentationUtility::GetLengthOfFirstUtf16ExtendedGraphemeCluster(Read
 }
 
 void TextSegmentationUtility::cctor() {
-  _utf16Decoder = Rune::DecodeFromUtf16;
+  _utf16Decoder = &Rune::DecodeFromUtf16;
 }
 
 } // namespace System::Private::CoreLib::System::Text::Unicode::TextSegmentationUtilityNamespace

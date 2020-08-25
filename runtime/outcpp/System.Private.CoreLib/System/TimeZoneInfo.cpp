@@ -33,6 +33,7 @@
 #include <System.Private.CoreLib/System/TimeZoneInfo-dep.h>
 #include <System.Private.CoreLib/System/TimeZoneInfoOptions.h>
 #include <System.Private.CoreLib/System/TimeZoneNotFoundException-dep.h>
+#include <System.Private.CoreLib/System/Type-dep.h>
 #include <System.Private.CoreLib/System/UInt32-dep.h>
 
 namespace System::Private::CoreLib::System::TimeZoneInfoNamespace {
@@ -147,12 +148,12 @@ TimeZoneInfo___::TransitionTime::TransitionTime(SerializationInfo info, Streamin
   if (info == nullptr) {
     rt::throw_exception<ArgumentNullException>("info");
   }
-  _timeOfDay = (DateTime)info->GetValue("TimeOfDay", rt::typeof<DateTime>());
-  _month = (Byte)info->GetValue("Month", rt::typeof<Byte>());
-  _week = (Byte)info->GetValue("Week", rt::typeof<Byte>());
-  _day = (Byte)info->GetValue("Day", rt::typeof<Byte>());
-  _dayOfWeek = (DayOfWeek)info->GetValue("DayOfWeek", rt::typeof<DayOfWeek>());
-  _isFixedDateRule = (Boolean)info->GetValue("IsFixedDateRule", rt::typeof<Boolean>());
+  _timeOfDay = (DateTime)info->GetValue("TimeOfDay", typeof<DateTime>());
+  _month = (Byte)info->GetValue("Month", typeof<Byte>());
+  _week = (Byte)info->GetValue("Week", typeof<Byte>());
+  _day = (Byte)info->GetValue("Day", typeof<Byte>());
+  _dayOfWeek = (DayOfWeek)info->GetValue("DayOfWeek", typeof<DayOfWeek>());
+  _isFixedDateRule = (Boolean)info->GetValue("IsFixedDateRule", typeof<Boolean>());
 }
 
 DateTime TimeZoneInfo___::AdjustmentRule___::get_DateStart() {
@@ -280,16 +281,16 @@ void TimeZoneInfo___::AdjustmentRule___::ctor(SerializationInfo info, StreamingC
   if (info == nullptr) {
     rt::throw_exception<ArgumentNullException>("info");
   }
-  _dateStart = (DateTime)info->GetValue("DateStart", rt::typeof<DateTime>());
-  _dateEnd = (DateTime)info->GetValue("DateEnd", rt::typeof<DateTime>());
-  _daylightDelta = (TimeSpan)info->GetValue("DaylightDelta", rt::typeof<TimeSpan>());
-  _daylightTransitionStart = (TransitionTime)info->GetValue("DaylightTransitionStart", rt::typeof<TransitionTime>());
-  _daylightTransitionEnd = (TransitionTime)info->GetValue("DaylightTransitionEnd", rt::typeof<TransitionTime>());
-  Object valueNoThrow = info->GetValueNoThrow("BaseUtcOffsetDelta", rt::typeof<TimeSpan>());
+  _dateStart = (DateTime)info->GetValue("DateStart", typeof<DateTime>());
+  _dateEnd = (DateTime)info->GetValue("DateEnd", typeof<DateTime>());
+  _daylightDelta = (TimeSpan)info->GetValue("DaylightDelta", typeof<TimeSpan>());
+  _daylightTransitionStart = (TransitionTime)info->GetValue("DaylightTransitionStart", typeof<TransitionTime>());
+  _daylightTransitionEnd = (TransitionTime)info->GetValue("DaylightTransitionEnd", typeof<TransitionTime>());
+  Object valueNoThrow = info->GetValueNoThrow("BaseUtcOffsetDelta", typeof<TimeSpan>());
   if (valueNoThrow != nullptr) {
     _baseUtcOffsetDelta = (TimeSpan)valueNoThrow;
   }
-  valueNoThrow = info->GetValueNoThrow("NoDaylightTransitions", rt::typeof<Boolean>());
+  valueNoThrow = info->GetValueNoThrow("NoDaylightTransitions", typeof<Boolean>());
   if (valueNoThrow != nullptr) {
     _noDaylightTransitions = (Boolean)valueNoThrow;
   }
@@ -1128,13 +1129,13 @@ void TimeZoneInfo___::ctor(SerializationInfo info, StreamingContext context) {
   if (info == nullptr) {
     rt::throw_exception<ArgumentNullException>("info");
   }
-  _id = (String)info->GetValue("Id", rt::typeof<String>());
-  _displayName = (String)info->GetValue("DisplayName", rt::typeof<String>());
-  _standardDisplayName = (String)info->GetValue("StandardName", rt::typeof<String>());
-  _daylightDisplayName = (String)info->GetValue("DaylightName", rt::typeof<String>());
-  _baseUtcOffset = (TimeSpan)info->GetValue("BaseUtcOffset", rt::typeof<TimeSpan>());
-  _adjustmentRules = (Array<AdjustmentRule>)info->GetValue("AdjustmentRules", rt::typeof<Array<AdjustmentRule>>());
-  _supportsDaylightSavingTime = (Boolean)info->GetValue("SupportsDaylightSavingTime", rt::typeof<Boolean>());
+  _id = (String)info->GetValue("Id", typeof<String>());
+  _displayName = (String)info->GetValue("DisplayName", typeof<String>());
+  _standardDisplayName = (String)info->GetValue("StandardName", typeof<String>());
+  _daylightDisplayName = (String)info->GetValue("DaylightName", typeof<String>());
+  _baseUtcOffset = (TimeSpan)info->GetValue("BaseUtcOffset", typeof<TimeSpan>());
+  _adjustmentRules = (Array<AdjustmentRule>)info->GetValue("AdjustmentRules", typeof<Array<AdjustmentRule>>());
+  _supportsDaylightSavingTime = (Boolean)info->GetValue("SupportsDaylightSavingTime", typeof<Boolean>());
 }
 
 TimeZoneInfo::in::AdjustmentRule TimeZoneInfo___::GetAdjustmentRuleForTime(DateTime dateTime, Nullable<Int32>& ruleIndex) {

@@ -152,11 +152,23 @@ namespace Meson.Compiler {
       var left = assignmentExpression.Left.AcceptExpression(this);
       var right = assignmentExpression.Right.AcceptExpression(this);
       var leftSymbol = assignmentExpression.Left.GetSymbol();
-      if (leftSymbol != null && leftSymbol.SymbolKind == SymbolKind.Property) {
-        var invation = GetPropertyInvationExpression(left);
-        if (invation != null) {
-          invation.Arguments.Add(right);
-          return left;
+      if (leftSymbol != null) {
+        switch (leftSymbol.SymbolKind) {
+          case SymbolKind.Property: {
+              var invation = GetPropertyInvationExpression(left);
+              if (invation != null) {
+                invation.Arguments.Add(right);
+                return left;
+              }
+              break;
+            }
+          case SymbolKind.Field: {
+              var field = (IField)leftSymbol;
+              if (field.Type.Kind == TypeKind.Delegate) {
+                right = new AddressExpressionSyntax(right);
+              }
+              break;
+            }
         }
       }
       var operatorToken = GetAssignmentOperator(assignmentExpression.Operator);
@@ -627,8 +639,14 @@ namespace Meson.Compiler {
     }
 
     public SyntaxNode VisitTypeOfExpression(TypeOfExpression typeOfExpression) {
+      var typeTypeName = GetTypeName(Generator.TypeTypeDefinition);
       var typeName = typeOfExpression.Type.AcceptExpression(this);
-      return IdentifierSyntax.Typeof.Generic(typeName).Invation();
+      ExpressionSyntax typeOf = IdentifierSyntax.Typeof;
+      if (typeTypeName is MemberAccessExpressionSyntax memberAccess) {
+        memberAccess.Name = typeOf;
+        typeOf = memberAccess;
+      }
+      return typeOf.Generic(typeName).Invation();
     }
 
     public SyntaxNode VisitTypeReferenceExpression(TypeReferenceExpression typeReferenceExpression) {

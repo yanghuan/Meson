@@ -6,12 +6,13 @@
 #include <System.Private.CoreLib/System/NotSupportedException-dep.h>
 #include <System.Private.CoreLib/System/SR-dep.h>
 #include <System.Private.CoreLib/System/String-dep.h>
+#include <System.Private.CoreLib/System/Type-dep.h>
 #include <System.Private.CoreLib/System/UnitySerializationHolder-dep.h>
 
 namespace System::Private::CoreLib::System::UnitySerializationHolderNamespace {
 void UnitySerializationHolder___::GetUnitySerializationInfo(SerializationInfo info, Int32 unityType) {
-  info->SetType(rt::typeof<UnitySerializationHolder>());
-  info->AddValue("Data", nullptr, rt::typeof<String>());
+  info->SetType(typeof<UnitySerializationHolder>());
+  info->AddValue("Data", nullptr, typeof<String>());
   info->AddValue("UnityType", unityType);
   info->AddValue("AssemblyName", String::in::Empty);
 }

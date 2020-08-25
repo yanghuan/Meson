@@ -16,6 +16,7 @@
 #include <System.Private.CoreLib/System/InvalidOperationException-dep.h>
 #include <System.Private.CoreLib/System/SR-dep.h>
 #include <System.Private.CoreLib/System/Threading/Interlocked-dep.h>
+#include <System.Private.CoreLib/System/Type-dep.h>
 #include <System.Private.CoreLib/System/WeakReference-dep.h>
 
 namespace System::Private::CoreLib::System::Diagnostics::Tracing::EventListenerNamespace {
@@ -78,7 +79,7 @@ void EventListener___::EnableEvents(EventSource eventSource, EventLevel level, E
     rt::throw_exception<ArgumentNullException>("eventSource");
   }
   eventSource->SendCommand((EventListener)this, EventProviderType::None, 0, 0, EventCommand::Update, true, level, matchAnyKeyword, arguments);
-  if (eventSource->GetType() == rt::typeof<NativeRuntimeEventSource>()) {
+  if (eventSource->GetType() == typeof<NativeRuntimeEventSource>()) {
     EventPipeEventDispatcher::in::Instance->SendCommand((EventListener)this, EventCommand::Update, true, level, matchAnyKeyword);
   }
 }
@@ -88,7 +89,7 @@ void EventListener___::DisableEvents(EventSource eventSource) {
     rt::throw_exception<ArgumentNullException>("eventSource");
   }
   eventSource->SendCommand((EventListener)this, EventProviderType::None, 0, 0, EventCommand::Update, false, EventLevel::LogAlways, EventKeywords::None, nullptr);
-  if (eventSource->GetType() == rt::typeof<NativeRuntimeEventSource>()) {
+  if (eventSource->GetType() == typeof<NativeRuntimeEventSource>()) {
     EventPipeEventDispatcher::in::Instance->SendCommand((EventListener)this, EventCommand::Update, false, EventLevel::LogAlways, EventKeywords::None);
   }
 }

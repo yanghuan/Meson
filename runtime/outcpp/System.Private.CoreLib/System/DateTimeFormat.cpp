@@ -21,6 +21,7 @@
 #include <System.Private.CoreLib/System/Text/StringBuilderCache-dep.h>
 #include <System.Private.CoreLib/System/TimeZoneInfo-dep.h>
 #include <System.Private.CoreLib/System/TimeZoneInfoOptions.h>
+#include <System.Private.CoreLib/System/Type-dep.h>
 #include <System.Private.CoreLib/System/UInt32-dep.h>
 
 namespace System::Private::CoreLib::System::DateTimeFormatNamespace {
@@ -461,7 +462,7 @@ String DateTimeFormat::ExpandPredefinedFormat(ReadOnlySpan<Char> format, DateTim
         rt::throw_exception<FormatException>(SR::get_Format_InvalidString());
       }
       dtfi = (DateTimeFormatInfo)dtfi->Clone();
-      if (dtfi->get_Calendar()->GetType() != rt::typeof<GregorianCalendar>()) {
+      if (dtfi->get_Calendar()->GetType() != typeof<GregorianCalendar>()) {
         dtfi->set_Calendar(GregorianCalendar::in::GetDefaultInstance());
       }
       dateTime = dateTime.ToUniversalTime();

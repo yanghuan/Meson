@@ -2,6 +2,7 @@
 
 #include <System.Private.CoreLib/System/Exception-dep.h>
 #include <System.Private.CoreLib/System/SR-dep.h>
+#include <System.Private.CoreLib/System/Type-dep.h>
 
 namespace System::Private::CoreLib::System::ArgumentOutOfRangeExceptionNamespace {
 String ArgumentOutOfRangeException___::get_Message() {
@@ -43,12 +44,12 @@ void ArgumentOutOfRangeException___::ctor(String paramName, Object actualValue, 
 }
 
 void ArgumentOutOfRangeException___::ctor(SerializationInfo info, StreamingContext context) {
-  _actualValue = info->GetValue("ActualValue", rt::typeof<Object>());
+  _actualValue = info->GetValue("ActualValue", typeof<Object>());
 }
 
 void ArgumentOutOfRangeException___::GetObjectData(SerializationInfo info, StreamingContext context) {
   ArgumentException::in::GetObjectData(info, context);
-  info->AddValue("ActualValue", _actualValue, rt::typeof<Object>());
+  info->AddValue("ActualValue", _actualValue, typeof<Object>());
 }
 
 } // namespace System::Private::CoreLib::System::ArgumentOutOfRangeExceptionNamespace

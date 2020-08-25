@@ -14,6 +14,7 @@
 #include <System.Private.CoreLib/System/Runtime/InteropServices/MemoryMarshal-dep.h>
 #include <System.Private.CoreLib/System/SR-dep.h>
 #include <System.Private.CoreLib/System/Text/ValueStringBuilder-dep.h>
+#include <System.Private.CoreLib/System/Type-dep.h>
 #include <System.Private.CoreLib/System/UInt32-dep.h>
 
 namespace System::Private::CoreLib::System::Text::ValueStringBuilderNamespace {
@@ -47,7 +48,7 @@ void ValueStringBuilder::AppendFormatHelper(IFormatProvider provider, String for
   Int32 num = 0;
   Int32 length = format->get_Length();
   Char c = 0;
-  ICustomFormatter customFormatter = (ICustomFormatter)((provider != nullptr) ? provider->GetFormat(rt::typeof<ICustomFormatter>()) : nullptr);
+  ICustomFormatter customFormatter = (ICustomFormatter)((provider != nullptr) ? provider->GetFormat(typeof<ICustomFormatter>()) : nullptr);
   while (true) {
     if (num < length) {
       c = format[num];

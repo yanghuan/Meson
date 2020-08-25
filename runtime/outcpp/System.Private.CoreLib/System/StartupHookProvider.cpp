@@ -84,7 +84,7 @@ void StartupHookProvider::CallStartupHook(StartupHookNameOrPath startupHook) {
       rt::throw_exception<MissingMethodException>("StartupHook", "Initialize");
     }
     flag = true;
-  } else if (method->get_ReturnType() != rt::typeof<void>()) {
+  } else if (method->get_ReturnType() != typeof<void>()) {
     flag = true;
   }
 

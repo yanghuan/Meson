@@ -135,11 +135,11 @@ Array<Object> CustomAttribute::GetCustomAttributes(RuntimeType type, RuntimeType
   }
   RuntimeType::in::ListBuilder<T> attributes = RuntimeType::in::ListBuilder<T>();
   Boolean mustBeInheritable = false;
-  RuntimeType elementType = (caType->get_IsValueType() || caType->get_ContainsGenericParameters()) ? ((RuntimeType)rt::typeof<Object>()) : caType;
+  RuntimeType elementType = (caType->get_IsValueType() || caType->get_ContainsGenericParameters()) ? ((RuntimeType)typeof<Object>()) : caType;
   for (Int32 i = 0; i < pcas.get_Count(); i++) {
     attributes.Add(pcas[i]);
   }
-  while (type != (RuntimeType)rt::typeof<Object>() && type != nullptr) {
+  while (type != (RuntimeType)typeof<Object>() && type != nullptr) {
     AddCustomAttributes(attributes, type->GetRuntimeModule(), type->get_MetadataToken(), caType, mustBeInheritable, attributes);
     mustBeInheritable = true;
     type = (rt::as<RuntimeType>(type->get_BaseType()));
@@ -166,7 +166,7 @@ Array<Object> CustomAttribute::GetCustomAttributes(RuntimeMethodInfo method, Run
   }
   RuntimeType::in::ListBuilder<T> attributes = RuntimeType::in::ListBuilder<T>();
   Boolean mustBeInheritable = false;
-  RuntimeType elementType = (caType->get_IsValueType() || caType->get_ContainsGenericParameters()) ? ((RuntimeType)rt::typeof<Object>()) : caType;
+  RuntimeType elementType = (caType->get_IsValueType() || caType->get_ContainsGenericParameters()) ? ((RuntimeType)typeof<Object>()) : caType;
   for (Int32 i = 0; i < pcas.get_Count(); i++) {
     attributes.Add(pcas[i]);
   }
@@ -253,7 +253,7 @@ Boolean CustomAttribute::IsCustomAttributeDefined(RuntimeModule decoratedModule,
 Array<Object> CustomAttribute::GetCustomAttributes(RuntimeModule decoratedModule, Int32 decoratedMetadataToken, Int32 pcaCount, RuntimeType attributeFilterType) {
   RuntimeType::in::ListBuilder<T> attributes = RuntimeType::in::ListBuilder<T>();
   AddCustomAttributes(attributes, decoratedModule, decoratedMetadataToken, attributeFilterType, false, RuntimeType::in::ListBuilder<T>());
-  RuntimeType elementType = (attributeFilterType == nullptr || attributeFilterType->get_IsValueType() || attributeFilterType->get_ContainsGenericParameters()) ? ((RuntimeType)rt::typeof<Object>()) : attributeFilterType;
+  RuntimeType elementType = (attributeFilterType == nullptr || attributeFilterType->get_IsValueType() || attributeFilterType->get_ContainsGenericParameters()) ? ((RuntimeType)typeof<Object>()) : attributeFilterType;
   Array<Object> array = CreateAttributeArrayHelper(elementType, attributes.get_Count() + pcaCount);
   for (Int32 i = 0; i < attributes.get_Count(); i++) {
     array[i] = attributes[i];
@@ -407,7 +407,7 @@ AttributeUsageAttribute CustomAttribute::GetAttributeUsage(RuntimeType decorated
   for (Int32 i = 0; i < customAttributeRecords->get_Length(); i++) {
     CustomAttributeRecord& reference = customAttributeRecords[i];
     RuntimeType runtimeType = rt::as<RuntimeType>(runtimeModule->ResolveType(metadataImport.GetParentToken(reference.tkCtor), nullptr, nullptr));
-    if (!(runtimeType != (RuntimeType)rt::typeof<AttributeUsageAttribute>())) {
+    if (!(runtimeType != (RuntimeType)typeof<AttributeUsageAttribute>())) {
       if (attributeUsageAttribute != nullptr) {
         rt::throw_exception<FormatException>(SR::Format(SR::get_Format_AttributeUsage(), runtimeType));
       }
@@ -452,8 +452,8 @@ Array<Object> CustomAttribute::CreateAttributeArrayHelper(RuntimeType elementTyp
 }
 
 void CustomAttribute::cctor() {
-  Type_RuntimeType = (RuntimeType)rt::typeof<RuntimeType>();
-  Type_Type = (RuntimeType)rt::typeof<Type>();
+  Type_RuntimeType = (RuntimeType)typeof<RuntimeType>();
+  Type_Type = (RuntimeType)typeof<Type>();
 }
 
 } // namespace System::Private::CoreLib::System::Reflection::CustomAttributeNamespace

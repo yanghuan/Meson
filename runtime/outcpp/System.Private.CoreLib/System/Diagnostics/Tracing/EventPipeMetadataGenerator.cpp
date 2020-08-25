@@ -9,6 +9,7 @@
 #include <System.Private.CoreLib/System/Int32-dep.h>
 #include <System.Private.CoreLib/System/Int64-dep.h>
 #include <System.Private.CoreLib/System/Reflection/ParameterInfo-dep.h>
+#include <System.Private.CoreLib/System/Type-dep.h>
 
 namespace System::Private::CoreLib::System::Diagnostics::Tracing::EventPipeMetadataGeneratorNamespace {
 using namespace System::Reflection;
@@ -48,7 +49,7 @@ Array<Byte> EventPipeMetadataGenerator___::GenerateMetadata(Int32 eventId, Strin
     UInt32 num = (UInt32)(24 + (eventName->get_Length() + 1) * 2);
     UInt32 num2 = 0u;
     UInt32 num3 = num;
-    if (parameters->get_Length() == 1 && parameters[0].ParameterType == rt::typeof<EmptyStruct>()) {
+    if (parameters->get_Length() == 1 && parameters[0].ParameterType == typeof<EmptyStruct>()) {
       parameters = Array<>::in::Empty<EventParameterInfo>();
     }
     Array<EventParameterInfo> array2 = parameters;

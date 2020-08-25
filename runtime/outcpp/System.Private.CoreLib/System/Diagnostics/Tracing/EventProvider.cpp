@@ -71,7 +71,7 @@ void EventProvider___::ctor(EventProviderType providerType) {
 }
 
 void EventProvider___::Register(EventSource eventSource) {
-  m_etwCallback = EtwEnableCallBack;
+  m_etwCallback = &EtwEnableCallBack;
   UInt32 num = EventRegister(eventSource, m_etwCallback);
   if (num != 0) {
     rt::throw_exception<ArgumentException>(Interop::Kernel32::GetMessage((Int32)num));
@@ -432,9 +432,9 @@ Object EventProvider___::EncodeObject(Object& data, EventData*& dataDescriptor, 
     if (rt::is<Enum>(data)) {
       try {
         Type underlyingType = Enum::in::GetUnderlyingType(data->GetType());
-        if (underlyingType == rt::typeof<UInt64>()) {
+        if (underlyingType == typeof<UInt64>()) {
           data = (UInt64)data;
-        } else if (underlyingType == rt::typeof<Int64>()) {
+        } else if (underlyingType == typeof<Int64>()) {
           data = (Int64)data;
         } else {
           data = (Int32)Convert::ToInt64(data);
@@ -622,7 +622,7 @@ Boolean EventProvider___::WriteEventRaw(EventDescriptor& eventDescriptor, IntPtr
 UInt32 EventProvider___::EventRegister(EventSource eventSource, Interop::Advapi32::EtwEnableCallback enableCallback) {
   m_providerName = eventSource->get_Name();
   m_providerId = eventSource->get_Guid();
-  m_etwCallback = enableCallback;
+  m_etwCallback = &enableCallback;
   return m_eventProvider->EventRegister(eventSource, enableCallback, nullptr, m_regHandle);
 }
 

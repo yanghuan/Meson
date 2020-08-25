@@ -12,7 +12,7 @@ void IncrementingPollingCounter___::ctor(String name, Tracing::EventSource event
   if (totalValueProvider == nullptr) {
     rt::throw_exception<ArgumentNullException>("totalValueProvider");
   }
-  _totalValueProvider = totalValueProvider;
+  _totalValueProvider = &totalValueProvider;
   Publish();
 }
 

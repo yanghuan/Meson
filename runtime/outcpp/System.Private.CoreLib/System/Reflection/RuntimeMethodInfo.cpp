@@ -167,7 +167,7 @@ Boolean RuntimeMethodInfo___::IsDisallowedByRefType(Type type) {
   }
   Type elementType = type->GetElementType();
   if (!elementType->get_IsByRefLike()) {
-    return elementType == rt::typeof<void>();
+    return elementType == typeof<void>();
   }
   return true;
 }
@@ -275,7 +275,7 @@ Boolean RuntimeMethodInfo___::Equals(Object obj) {
 }
 
 Array<Object> RuntimeMethodInfo___::GetCustomAttributes(Boolean inherit) {
-  return CustomAttribute::GetCustomAttributes((RuntimeMethodInfo)this, rt::as<RuntimeType>(rt::typeof<Object>()), inherit);
+  return CustomAttribute::GetCustomAttributes((RuntimeMethodInfo)this, rt::as<RuntimeType>(typeof<Object>()), inherit);
 }
 
 Array<Object> RuntimeMethodInfo___::GetCustomAttributes(Type attributeType, Boolean inherit) {
@@ -369,7 +369,7 @@ void RuntimeMethodInfo___::ThrowNoInvokeException() {
     if (elementType->get_IsByRefLike()) {
       rt::throw_exception<NotSupportedException>(SR::get_NotSupported_ByRefToByRefLikeReturn());
     }
-    if (elementType == rt::typeof<void>()) {
+    if (elementType == typeof<void>()) {
       rt::throw_exception<NotSupportedException>(SR::get_NotSupported_ByRefToVoidReturn());
     }
   }

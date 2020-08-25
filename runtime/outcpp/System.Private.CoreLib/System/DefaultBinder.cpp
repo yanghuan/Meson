@@ -78,20 +78,20 @@ MethodBase DefaultBinder___::BindToMethod(BindingFlags bindingAttr, Array<Method
         continue;
       }
       if (parametersNoCopy2[j]->get_DefaultValue() == DBNull::in::Value) {
-        if (!parametersNoCopy2[j]->get_ParameterType()->get_IsArray() || !parametersNoCopy2[j]->IsDefined(rt::typeof<ParamArrayAttribute>(), true)) {
+        if (!parametersNoCopy2[j]->get_ParameterType()->get_IsArray() || !parametersNoCopy2[j]->IsDefined(typeof<ParamArrayAttribute>(), true)) {
           continue;
         }
         type = parametersNoCopy2[j]->get_ParameterType()->GetElementType();
       }
     } else if (parametersNoCopy2->get_Length() < args->get_Length()) {
       Int32 num2 = parametersNoCopy2->get_Length() - 1;
-      if (!parametersNoCopy2[num2]->get_ParameterType()->get_IsArray() || !parametersNoCopy2[num2]->IsDefined(rt::typeof<ParamArrayAttribute>(), true) || array2[i][num2] != num2) {
+      if (!parametersNoCopy2[num2]->get_ParameterType()->get_IsArray() || !parametersNoCopy2[num2]->IsDefined(typeof<ParamArrayAttribute>(), true) || array2[i][num2] != num2) {
         continue;
       }
       type = parametersNoCopy2[num2]->get_ParameterType()->GetElementType();
     } else {
       Int32 num3 = parametersNoCopy2->get_Length() - 1;
-      if (parametersNoCopy2[num3]->get_ParameterType()->get_IsArray() && parametersNoCopy2[num3]->IsDefined(rt::typeof<ParamArrayAttribute>(), true) && array2[i][num3] == num3 && !parametersNoCopy2[num3]->get_ParameterType()->IsAssignableFrom(array4[num3])) {
+      if (parametersNoCopy2[num3]->get_ParameterType()->get_IsArray() && parametersNoCopy2[num3]->IsDefined(typeof<ParamArrayAttribute>(), true) && array2[i][num3] == num3 && !parametersNoCopy2[num3]->get_ParameterType()->IsAssignableFrom(array4[num3])) {
         type = parametersNoCopy2[num3]->get_ParameterType()->GetElementType();
       }
     }
@@ -102,7 +102,7 @@ MethodBase DefaultBinder___::BindToMethod(BindingFlags bindingAttr, Array<Method
       if (type2->get_IsByRef()) {
         type2 = type2->GetElementType();
       }
-      if (type2 == array4[array2[i][j]] || (flag && args[array2[i][j]] == Type::in::Missing) || args[array2[i][j]] == nullptr || type2 == rt::typeof<Object>()) {
+      if (type2 == array4[array2[i][j]] || (flag && args[array2[i][j]] == Type::in::Missing) || args[array2[i][j]] == nullptr || type2 == typeof<Object>()) {
         continue;
       }
       if (type2->get_IsPrimitive()) {
@@ -260,7 +260,7 @@ FieldInfo DefaultBinder___::BindToField(BindingFlags bindingAttr, Array<FieldInf
         array[num++] = array[i];
       } else if (value == Empty::in::Value && fieldType->get_IsClass()) {
         array[num++] = array[i];
-      } else if (fieldType == rt::typeof<Object>()) {
+      } else if (fieldType == typeof<Object>()) {
         array[num++] = array[i];
       } else if (fieldType->get_IsPrimitive()) {
         if (CanChangePrimitive(type, fieldType)) {
@@ -322,7 +322,7 @@ MethodBase DefaultBinder___::SelectMethod(BindingFlags bindingAttr, Array<Method
     Int32 j;
     for (j = 0; j < types->get_Length(); j++) {
       Type parameterType = parametersNoCopy[j]->get_ParameterType();
-      if (SignatureTypeExtensions::MatchesParameterTypeExactly(types[j], parametersNoCopy[j]) || parameterType == rt::typeof<Object>()) {
+      if (SignatureTypeExtensions::MatchesParameterTypeExactly(types[j], parametersNoCopy[j]) || parameterType == typeof<Object>()) {
         continue;
       }
       Type type = types[j];
@@ -399,7 +399,7 @@ PropertyInfo DefaultBinder___::SelectProperty(BindingFlags bindingAttr, Array<Pr
       }
       for (j = 0; j < num2; j++) {
         Type parameterType = indexParameters[j]->get_ParameterType();
-        if (parameterType == indexes[j] || parameterType == rt::typeof<Object>()) {
+        if (parameterType == indexes[j] || parameterType == typeof<Object>()) {
           continue;
         }
         if (parameterType->get_IsPrimitive()) {
@@ -787,7 +787,7 @@ Boolean DefaultBinder___::CreateParamOrder(Array<Int32> paramOrder, Array<Parame
 }
 
 Boolean DefaultBinder___::CanChangePrimitive(Type source, Type target) {
-  if ((source == rt::typeof<IntPtr>() && target == rt::typeof<IntPtr>()) || (source == rt::typeof<UIntPtr>() && target == rt::typeof<UIntPtr>())) {
+  if ((source == typeof<IntPtr>() && target == typeof<IntPtr>()) || (source == typeof<UIntPtr>() && target == typeof<UIntPtr>())) {
     return true;
   }
   Primitives primitives = s_primitiveConversions[(Int32)Type::in::GetTypeCode(source)];

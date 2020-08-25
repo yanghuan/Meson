@@ -19,6 +19,7 @@
 #include <System.Private.CoreLib/System/SR-dep.h>
 #include <System.Private.CoreLib/System/Text/StringBuilder-dep.h>
 #include <System.Private.CoreLib/System/ThrowHelper-dep.h>
+#include <System.Private.CoreLib/System/Type-dep.h>
 
 namespace System::Private::CoreLib::System::ExceptionNamespace {
 using namespace System::Collections;
@@ -231,8 +232,8 @@ void Exception___::ctor(SerializationInfo info, StreamingContext context) {
     rt::throw_exception<ArgumentNullException>("info");
   }
   _message = info->GetString("Message");
-  _data = (IDictionary)info->GetValueNoThrow("Data", rt::typeof<IDictionary>());
-  _innerException = (Exception)info->GetValue("InnerException", rt::typeof<Exception>());
+  _data = (IDictionary)info->GetValueNoThrow("Data", typeof<IDictionary>());
+  _innerException = (Exception)info->GetValue("InnerException", typeof<Exception>());
   _helpURL = info->GetString("HelpURL");
   _stackTraceString = info->GetString("StackTraceString");
   _HResult = info->GetInt32("HResult");
@@ -261,18 +262,18 @@ void Exception___::GetObjectData(SerializationInfo info, StreamingContext contex
   if (_source == nullptr) {
     _source = get_Source();
   }
-  info->AddValue("ClassName", GetClassName(), rt::typeof<String>());
-  info->AddValue("Message", _message, rt::typeof<String>());
-  info->AddValue("Data", _data, rt::typeof<IDictionary>());
-  info->AddValue("InnerException", _innerException, rt::typeof<Exception>());
-  info->AddValue("HelpURL", _helpURL, rt::typeof<String>());
-  info->AddValue("StackTraceString", get_SerializationStackTraceString(), rt::typeof<String>());
-  info->AddValue("RemoteStackTraceString", get_SerializationRemoteStackTraceString(), rt::typeof<String>());
-  info->AddValue("RemoteStackIndex", 0, rt::typeof<Int32>());
-  info->AddValue("ExceptionMethod", nullptr, rt::typeof<String>());
+  info->AddValue("ClassName", GetClassName(), typeof<String>());
+  info->AddValue("Message", _message, typeof<String>());
+  info->AddValue("Data", _data, typeof<IDictionary>());
+  info->AddValue("InnerException", _innerException, typeof<Exception>());
+  info->AddValue("HelpURL", _helpURL, typeof<String>());
+  info->AddValue("StackTraceString", get_SerializationStackTraceString(), typeof<String>());
+  info->AddValue("RemoteStackTraceString", get_SerializationRemoteStackTraceString(), typeof<String>());
+  info->AddValue("RemoteStackIndex", 0, typeof<Int32>());
+  info->AddValue("ExceptionMethod", nullptr, typeof<String>());
   info->AddValue("HResult", _HResult);
-  info->AddValue("Source", _source, rt::typeof<String>());
-  info->AddValue("WatsonBuckets", get_SerializationWatsonBuckets(), rt::typeof<Array<Byte>>());
+  info->AddValue("Source", _source, typeof<String>());
+  info->AddValue("WatsonBuckets", get_SerializationWatsonBuckets(), typeof<Array<Byte>>());
 }
 
 String Exception___::ToString() {
@@ -333,7 +334,7 @@ Type Exception___::GetType() {
 
 void Exception___::RestoreRemoteStackTrace(SerializationInfo info, StreamingContext context) {
   _remoteStackTraceString = info->GetString("RemoteStackTraceString");
-  _watsonBuckets = (Array<Byte>)info->GetValueNoThrow("WatsonBuckets", rt::typeof<Array<Byte>>());
+  _watsonBuckets = (Array<Byte>)info->GetValueNoThrow("WatsonBuckets", typeof<Array<Byte>>());
   if (context.get_State() == StreamingContextStates::CrossAppDomain) {
     _remoteStackTraceString += _stackTraceString;
     _stackTraceString = nullptr;

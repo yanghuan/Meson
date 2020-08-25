@@ -19,6 +19,7 @@
 #include <System.Private.CoreLib/System/Text/Unicode/Utf8Utility-dep.h>
 #include <System.Private.CoreLib/System/Text/UTF8Encoding-dep.h>
 #include <System.Private.CoreLib/System/ThrowHelper-dep.h>
+#include <System.Private.CoreLib/System/Type-dep.h>
 #include <System.Private.CoreLib/System/UInt32-dep.h>
 #include <System.Private.CoreLib/System/UInt64-dep.h>
 
@@ -84,7 +85,7 @@ ReadOnlySpan<Byte> UTF8Encoding___::get_PreambleSpan() {
 }
 
 ReadOnlySpan<Byte> UTF8Encoding___::get_Preamble() {
-  if (!(GetType() != rt::typeof<UTF8Encoding>())) {
+  if (!(GetType() != typeof<UTF8Encoding>())) {
     if (!_emitUTF8Identifier) {
       return ReadOnlySpan<T>();
     }

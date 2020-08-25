@@ -129,7 +129,7 @@ String RuntimePropertyInfo___::ToString() {
 }
 
 Array<Object> RuntimePropertyInfo___::GetCustomAttributes(Boolean inherit) {
-  return CustomAttribute::GetCustomAttributes((RuntimePropertyInfo)this, rt::as<RuntimeType>(rt::typeof<Object>()));
+  return CustomAttribute::GetCustomAttributes((RuntimePropertyInfo)this, rt::as<RuntimeType>(typeof<Object>()));
 }
 
 Array<Object> RuntimePropertyInfo___::GetCustomAttributes(Type attributeType, Boolean inherit) {

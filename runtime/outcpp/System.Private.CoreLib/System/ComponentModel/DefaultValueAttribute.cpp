@@ -26,7 +26,7 @@ void DefaultValueAttribute___::ctor(Type type, String value) {
     if (s_convertFromInvariantString == nullptr) {
       Type type2 = Type::in::GetType("System.ComponentModel.TypeDescriptor, System.ComponentModel.TypeConverter", false);
       MethodInfo methodInfo = ((Object)type2 != nullptr) ? type2->GetMethod("ConvertFromInvariantString", BindingFlags::Static | BindingFlags::NonPublic) : nullptr;
-      Volatile::Write(s_convertFromInvariantString, (methodInfo == nullptr) ? rt::newobj<Object>() : methodInfo->CreateDelegate(rt::typeof<Func<Type, String, Object>>()));
+      Volatile::Write(s_convertFromInvariantString, (methodInfo == nullptr) ? rt::newobj<Object>() : methodInfo->CreateDelegate(typeof<Func<Type, String, Object>>()));
     }
     Func<Type, String, Object> func = rt::as<Func<Type, String, Object>>(s_convertFromInvariantString);
     if (func == nullptr) {
@@ -45,9 +45,9 @@ void DefaultValueAttribute___::ctor(Type type, String value) {
     Object conversionResult2;
     if (TryConvertFromInvariantString(type, value, conversionResult2)) {
       _value = conversionResult2;
-    } else if (type->IsSubclassOf(rt::typeof<Enum>()) && value != nullptr) {
+    } else if (type->IsSubclassOf(typeof<Enum>()) && value != nullptr) {
       _value = Enum::in::Parse(type, value, true);
-    } else if (type == rt::typeof<TimeSpan>() && value != nullptr) {
+    } else if (type == typeof<TimeSpan>() && value != nullptr) {
       _value = TimeSpan::Parse(value);
     } else {
       _value = Convert::ChangeType(value, type, CultureInfo::in::get_InvariantCulture());

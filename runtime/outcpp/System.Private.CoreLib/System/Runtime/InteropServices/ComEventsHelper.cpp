@@ -5,6 +5,7 @@
 #include <System.Private.CoreLib/System/Runtime/InteropServices/ComEventsMethod-dep.h>
 #include <System.Private.CoreLib/System/Runtime/InteropServices/ComEventsSink-dep.h>
 #include <System.Private.CoreLib/System/Runtime/InteropServices/Marshal-dep.h>
+#include <System.Private.CoreLib/System/Type-dep.h>
 
 namespace System::Private::CoreLib::System::Runtime::InteropServices::ComEventsHelperNamespace {
 void ComEventsHelper::Combine(Object rcw, Guid iid, Int32 dispid, Delegate d) {
@@ -42,7 +43,7 @@ Delegate ComEventsHelper::Remove(Object rcw, Guid iid, Int32 dispid, Delegate d)
       comEventsSink = comEventsInfo->RemoveSink(comEventsSink);
     }
     if (comEventsSink == nullptr) {
-      Marshal::SetComObjectData(rcw, rt::typeof<ComEventsInfo>(), nullptr);
+      Marshal::SetComObjectData(rcw, typeof<ComEventsInfo>(), nullptr);
       GC::SuppressFinalize(comEventsInfo);
     }
     return d;

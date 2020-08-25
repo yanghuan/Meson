@@ -15,6 +15,7 @@
 #include <System.Private.CoreLib/System/Text/EncoderFallbackBuffer-dep.h>
 #include <System.Private.CoreLib/System/Text/EncoderReplacementFallback-dep.h>
 #include <System.Private.CoreLib/System/Text/UnicodeEncoding-dep.h>
+#include <System.Private.CoreLib/System/Type-dep.h>
 #include <System.Private.CoreLib/System/UInt64-dep.h>
 
 namespace System::Private::CoreLib::System::Text::UnicodeEncodingNamespace {
@@ -42,7 +43,7 @@ void UnicodeEncoding___::Decoder___::Reset() {
 }
 
 ReadOnlySpan<Byte> UnicodeEncoding___::get_Preamble() {
-  if (!(GetType() != rt::typeof<UnicodeEncoding>())) {
+  if (!(GetType() != typeof<UnicodeEncoding>())) {
     if (byteOrderMark) {
       if (bigEndian) {
         return rt::newarr<Array<Byte>>(2);

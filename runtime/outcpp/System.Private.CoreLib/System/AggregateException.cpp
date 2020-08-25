@@ -11,6 +11,7 @@
 #include <System.Private.CoreLib/System/SR-dep.h>
 #include <System.Private.CoreLib/System/Text/StringBuilder-dep.h>
 #include <System.Private.CoreLib/System/Text/StringBuilderCache-dep.h>
+#include <System.Private.CoreLib/System/Type-dep.h>
 
 namespace System::Private::CoreLib::System::AggregateExceptionNamespace {
 using namespace System::Collections::Generic;
@@ -110,7 +111,7 @@ void AggregateException___::ctor(SerializationInfo info, StreamingContext contex
   if (info == nullptr) {
     rt::throw_exception<ArgumentNullException>("info");
   }
-  Array<Exception> array = rt::as<Array<Exception>>(info->GetValue("InnerExceptions", rt::typeof<Array<Exception>>()));
+  Array<Exception> array = rt::as<Array<Exception>>(info->GetValue("InnerExceptions", typeof<Array<Exception>>()));
   if (array == nullptr) {
     rt::throw_exception<SerializationException>(SR::get_AggregateException_DeserializationFailure());
   }
@@ -121,7 +122,7 @@ void AggregateException___::GetObjectData(SerializationInfo info, StreamingConte
   Exception::in::GetObjectData(info, context);
   Array<Exception> array = rt::newarr<Array<Exception>>(m_innerExceptions->get_Count());
   m_innerExceptions->CopyTo(array, 0);
-  info->AddValue("InnerExceptions", array, rt::typeof<Array<Exception>>());
+  info->AddValue("InnerExceptions", array, typeof<Array<Exception>>());
 }
 
 Exception AggregateException___::GetBaseException() {
@@ -170,7 +171,7 @@ AggregateException AggregateException___::Flatten() {
       }
     }
   }
-  return rt::newobj<AggregateException>((GetType() == rt::typeof<AggregateException>()) ? Exception::in::get_Message() : get_Message(), list);
+  return rt::newobj<AggregateException>((GetType() == typeof<AggregateException>()) ? Exception::in::get_Message() : get_Message(), list);
 }
 
 String AggregateException___::ToString() {

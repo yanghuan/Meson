@@ -206,7 +206,7 @@ void RuntimeAssembly___::GetObjectData(SerializationInfo info, StreamingContext 
 }
 
 Array<Object> RuntimeAssembly___::GetCustomAttributes(Boolean inherit) {
-  return CustomAttribute::GetCustomAttributes((RuntimeAssembly)this, rt::as<RuntimeType>(rt::typeof<Object>()));
+  return CustomAttribute::GetCustomAttributes((RuntimeAssembly)this, rt::as<RuntimeType>(typeof<Object>()));
 }
 
 Array<Object> RuntimeAssembly___::GetCustomAttributes(Type attributeType, Boolean inherit) {

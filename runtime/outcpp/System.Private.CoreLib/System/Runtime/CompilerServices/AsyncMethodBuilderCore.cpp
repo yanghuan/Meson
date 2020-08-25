@@ -20,8 +20,8 @@ using namespace System::Text;
 using namespace System::Threading::Tasks;
 
 void AsyncMethodBuilderCore::ContinuationWrapper___::ctor(Action<> continuation, Action<Action<>, Task<>> invokeAction, Task<> innerTask) {
-  _invokeAction = invokeAction;
-  _continuation = continuation;
+  _invokeAction = &invokeAction;
+  _continuation = &continuation;
   _innerTask = innerTask;
 }
 

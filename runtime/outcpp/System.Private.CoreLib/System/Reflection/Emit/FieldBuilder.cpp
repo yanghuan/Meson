@@ -65,7 +65,7 @@ void FieldBuilder___::ctor(TypeBuilder typeBuilder, String fieldName, Type type,
   if (type == nullptr) {
     rt::throw_exception<ArgumentNullException>("type");
   }
-  if (type == rt::typeof<void>()) {
+  if (type == typeof<void>()) {
     rt::throw_exception<ArgumentException>(SR::get_Argument_BadFieldType());
   }
   m_fieldName = fieldName;
@@ -118,7 +118,7 @@ void FieldBuilder___::SetOffset(Int32 iOffset) {
 
 void FieldBuilder___::SetConstant(Object defaultValue) {
   m_typeBuilder->ThrowIfCreated();
-  if (defaultValue == nullptr && m_fieldType->get_IsValueType() && (!m_fieldType->get_IsGenericType() || !(m_fieldType->GetGenericTypeDefinition() == rt::typeof<Nullable<T>>()))) {
+  if (defaultValue == nullptr && m_fieldType->get_IsValueType() && (!m_fieldType->get_IsGenericType() || !(m_fieldType->GetGenericTypeDefinition() == typeof<Nullable<T>>()))) {
     rt::throw_exception<ArgumentException>(SR::get_Argument_ConstantNull());
   }
   TypeBuilder::in::SetConstantValue(m_typeBuilder->GetModuleBuilder(), GetToken().get_Token(), m_fieldType, defaultValue);

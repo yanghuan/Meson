@@ -247,7 +247,7 @@ Boolean Type___::get_IsContextful() {
 }
 
 Boolean Type___::get_IsEnum() {
-  return IsSubclassOf(rt::typeof<Enum>());
+  return IsSubclassOf(typeof<Enum>());
 }
 
 Boolean Type___::get_IsMarshalByRef() {
@@ -305,7 +305,7 @@ Boolean Type___::get_IsSerializable() {
   Type type = get_UnderlyingSystemType();
   if (type->IsRuntimeImplemented()) {
     do {
-      if (type == rt::typeof<Delegate>() || type == rt::typeof<Enum>()) {
+      if (type == typeof<Delegate>() || type == typeof<Enum>()) {
         return true;
       }
       type = type->get_BaseType();
@@ -441,7 +441,7 @@ Boolean Type___::IsMarshalByRefImpl() {
 }
 
 Boolean Type___::IsValueTypeImpl() {
-  return IsSubclassOf(rt::typeof<ValueType>());
+  return IsSubclassOf(typeof<ValueType>());
 }
 
 ConstructorInfo Type___::GetConstructor(Array<Type> types) {
@@ -771,7 +771,7 @@ Type Type___::MakeGenericMethodParameter(Int32 position) {
 
 String Type___::FormatTypeName() {
   Type rootElementType = GetRootElementType();
-  if (rootElementType->get_IsPrimitive() || rootElementType->get_IsNested() || rootElementType == rt::typeof<void>() || rootElementType == rt::typeof<TypedReference>()) {
+  if (rootElementType->get_IsPrimitive() || rootElementType->get_IsNested() || rootElementType == typeof<void>() || rootElementType == typeof<TypedReference>()) {
     return get_Name();
   }
   return ToString();
@@ -821,7 +821,7 @@ Boolean Type___::IsEnumDefined(Object value) {
     }
     type = type->GetEnumUnderlyingType();
   }
-  if (type == rt::typeof<String>()) {
+  if (type == typeof<String>()) {
     Array<String> enumNames = GetEnumNames();
     Array<Object> array = enumNames;
     if (Array<>::in::IndexOf(array, value) >= 0) {
@@ -919,8 +919,8 @@ Int32 Type___::BinarySearch(Array<> array, Object value) {
 }
 
 Boolean Type___::IsIntegerType(Type t) {
-  if (!(t == rt::typeof<Int32>()) && !(t == rt::typeof<Int16>()) && !(t == rt::typeof<UInt16>()) && !(t == rt::typeof<Byte>()) && !(t == rt::typeof<SByte>()) && !(t == rt::typeof<UInt32>()) && !(t == rt::typeof<Int64>()) && !(t == rt::typeof<UInt64>()) && !(t == rt::typeof<Char>())) {
-    return t == rt::typeof<Boolean>();
+  if (!(t == typeof<Int32>()) && !(t == typeof<Int16>()) && !(t == typeof<UInt16>()) && !(t == typeof<Byte>()) && !(t == typeof<SByte>()) && !(t == typeof<UInt32>()) && !(t == typeof<Int64>()) && !(t == typeof<UInt64>()) && !(t == typeof<Char>())) {
+    return t == typeof<Boolean>();
   }
   return true;
 }
@@ -1245,7 +1245,7 @@ void Type___::cctor() {
   Delimiter = 46;
   EmptyTypes = Array<>::in::Empty<Type>();
   Missing = Missing::in::Value;
-  FilterAttribute = rt::newobj<MemberFilter>(&FilterAttributeImpl);
+  FilterAttribute = &rt::newobj<MemberFilter>(&FilterAttributeImpl);
 }
 
 } // namespace System::Private::CoreLib::System::TypeNamespace

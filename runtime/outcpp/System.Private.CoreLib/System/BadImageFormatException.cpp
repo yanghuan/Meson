@@ -3,6 +3,7 @@
 #include <System.Private.CoreLib/System/Exception-dep.h>
 #include <System.Private.CoreLib/System/IO/FileLoadException-dep.h>
 #include <System.Private.CoreLib/System/SR-dep.h>
+#include <System.Private.CoreLib/System/Type-dep.h>
 
 namespace System::Private::CoreLib::System::BadImageFormatExceptionNamespace {
 using namespace System::IO;
@@ -55,8 +56,8 @@ void BadImageFormatException___::ctor(SerializationInfo info, StreamingContext c
 
 void BadImageFormatException___::GetObjectData(SerializationInfo info, StreamingContext context) {
   Exception::in::GetObjectData(info, context);
-  info->AddValue("BadImageFormat_FileName", _fileName, rt::typeof<String>());
-  info->AddValue("BadImageFormat_FusionLog", _fusionLog, rt::typeof<String>());
+  info->AddValue("BadImageFormat_FileName", _fileName, typeof<String>());
+  info->AddValue("BadImageFormat_FusionLog", _fusionLog, typeof<String>());
 }
 
 void BadImageFormatException___::SetMessageField() {

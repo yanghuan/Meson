@@ -14,6 +14,7 @@
 #include <System.Private.CoreLib/System/Single-dep.h>
 #include <System.Private.CoreLib/System/SR-dep.h>
 #include <System.Private.CoreLib/System/String-dep.h>
+#include <System.Private.CoreLib/System/Type-dep.h>
 #include <System.Private.CoreLib/System/UInt16-dep.h>
 #include <System.Private.CoreLib/System/UInt32-dep.h>
 #include <System.Private.CoreLib/System/UInt64-dep.h>
@@ -64,7 +65,7 @@ Object MdConstant::GetValue(MetadataImport scope, Int32 token, RuntimeTypeHandle
     }
     return RuntimeType::in::CreateEnum(runtimeType, num);
   }
-  if (runtimeType == rt::typeof<DateTime>()) {
+  if (runtimeType == typeof<DateTime>()) {
     Int64 num2 = 0;
     switch (corElementType) {
       case CorElementType::ELEMENT_TYPE_VOID:

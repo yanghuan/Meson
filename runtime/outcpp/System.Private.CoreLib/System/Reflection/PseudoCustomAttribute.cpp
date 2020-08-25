@@ -48,26 +48,26 @@ Dictionary<RuntimeType, RuntimeType> PseudoCustomAttribute::CreatePseudoCustomAt
 
 void PseudoCustomAttribute::GetCustomAttributes(RuntimeType type, RuntimeType caType, RuntimeType::in::ListBuilder<Attribute>& pcas) {
   pcas = RuntimeType::in::ListBuilder<T>();
-  Boolean flag = caType == rt::typeof<Object>() || caType == rt::typeof<Attribute>();
+  Boolean flag = caType == typeof<Object>() || caType == typeof<Attribute>();
   if (flag || s_pca->ContainsKey(caType)) {
-    if ((flag || caType == rt::typeof<SerializableAttribute>()) && (type->get_Attributes() & TypeAttributes::Serializable) != 0) {
+    if ((flag || caType == typeof<SerializableAttribute>()) && (type->get_Attributes() & TypeAttributes::Serializable) != 0) {
       pcas.Add(rt::newobj<SerializableAttribute>());
     }
-    if ((flag || caType == rt::typeof<ComImportAttribute>()) && (type->get_Attributes() & TypeAttributes::Import) != 0) {
+    if ((flag || caType == typeof<ComImportAttribute>()) && (type->get_Attributes() & TypeAttributes::Import) != 0) {
       pcas.Add(rt::newobj<ComImportAttribute>());
     }
   }
 }
 
 Boolean PseudoCustomAttribute::IsDefined(RuntimeType type, RuntimeType caType) {
-  Boolean flag = caType == rt::typeof<Object>() || caType == rt::typeof<Attribute>();
+  Boolean flag = caType == typeof<Object>() || caType == typeof<Attribute>();
   if (!flag && !s_pca->ContainsKey(caType)) {
     return false;
   }
-  if ((flag || caType == rt::typeof<SerializableAttribute>()) && (type->get_Attributes() & TypeAttributes::Serializable) != 0) {
+  if ((flag || caType == typeof<SerializableAttribute>()) && (type->get_Attributes() & TypeAttributes::Serializable) != 0) {
     return true;
   }
-  if ((flag || caType == rt::typeof<ComImportAttribute>()) && (type->get_Attributes() & TypeAttributes::Import) != 0) {
+  if ((flag || caType == typeof<ComImportAttribute>()) && (type->get_Attributes() & TypeAttributes::Import) != 0) {
     return true;
   }
   return false;
@@ -75,30 +75,30 @@ Boolean PseudoCustomAttribute::IsDefined(RuntimeType type, RuntimeType caType) {
 
 void PseudoCustomAttribute::GetCustomAttributes(RuntimeMethodInfo method, RuntimeType caType, RuntimeType::in::ListBuilder<Attribute>& pcas) {
   pcas = RuntimeType::in::ListBuilder<T>();
-  Boolean flag = caType == rt::typeof<Object>() || caType == rt::typeof<Attribute>();
+  Boolean flag = caType == typeof<Object>() || caType == typeof<Attribute>();
   if (!flag && !s_pca->ContainsKey(caType)) {
     return;
   }
-  if (flag || caType == rt::typeof<DllImportAttribute>()) {
+  if (flag || caType == typeof<DllImportAttribute>()) {
     Attribute dllImportCustomAttribute = GetDllImportCustomAttribute(method);
     if (dllImportCustomAttribute != nullptr) {
       pcas.Add(dllImportCustomAttribute);
     }
   }
-  if ((flag || caType == rt::typeof<PreserveSigAttribute>()) && (method->GetMethodImplementationFlags() & MethodImplAttributes::PreserveSig) != 0) {
+  if ((flag || caType == typeof<PreserveSigAttribute>()) && (method->GetMethodImplementationFlags() & MethodImplAttributes::PreserveSig) != 0) {
     pcas.Add(rt::newobj<PreserveSigAttribute>());
   }
 }
 
 Boolean PseudoCustomAttribute::IsDefined(RuntimeMethodInfo method, RuntimeType caType) {
-  Boolean flag = caType == rt::typeof<Object>() || caType == rt::typeof<Attribute>();
+  Boolean flag = caType == typeof<Object>() || caType == typeof<Attribute>();
   if (!flag && !s_pca->ContainsKey(caType)) {
     return false;
   }
-  if ((flag || caType == rt::typeof<DllImportAttribute>()) && (method->get_Attributes() & MethodAttributes::PinvokeImpl) != 0) {
+  if ((flag || caType == typeof<DllImportAttribute>()) && (method->get_Attributes() & MethodAttributes::PinvokeImpl) != 0) {
     return true;
   }
-  if ((flag || caType == rt::typeof<PreserveSigAttribute>()) && (method->GetMethodImplementationFlags() & MethodImplAttributes::PreserveSig) != 0) {
+  if ((flag || caType == typeof<PreserveSigAttribute>()) && (method->GetMethodImplementationFlags() & MethodImplAttributes::PreserveSig) != 0) {
     return true;
   }
   return false;
@@ -106,20 +106,20 @@ Boolean PseudoCustomAttribute::IsDefined(RuntimeMethodInfo method, RuntimeType c
 
 void PseudoCustomAttribute::GetCustomAttributes(RuntimeParameterInfo parameter, RuntimeType caType, RuntimeType::in::ListBuilder<Attribute>& pcas) {
   pcas = RuntimeType::in::ListBuilder<T>();
-  Boolean flag = caType == rt::typeof<Object>() || caType == rt::typeof<Attribute>();
+  Boolean flag = caType == typeof<Object>() || caType == typeof<Attribute>();
   if (!flag && !s_pca->ContainsKey(caType)) {
     return;
   }
-  if ((flag || caType == rt::typeof<InAttribute>()) && parameter->get_IsIn()) {
+  if ((flag || caType == typeof<InAttribute>()) && parameter->get_IsIn()) {
     pcas.Add(rt::newobj<InAttribute>());
   }
-  if ((flag || caType == rt::typeof<OutAttribute>()) && parameter->get_IsOut()) {
+  if ((flag || caType == typeof<OutAttribute>()) && parameter->get_IsOut()) {
     pcas.Add(rt::newobj<OutAttribute>());
   }
-  if ((flag || caType == rt::typeof<OptionalAttribute>()) && parameter->get_IsOptional()) {
+  if ((flag || caType == typeof<OptionalAttribute>()) && parameter->get_IsOptional()) {
     pcas.Add(rt::newobj<OptionalAttribute>());
   }
-  if (flag || caType == rt::typeof<MarshalAsAttribute>()) {
+  if (flag || caType == typeof<MarshalAsAttribute>()) {
     Attribute marshalAsCustomAttribute = GetMarshalAsCustomAttribute(parameter);
     if (marshalAsCustomAttribute != nullptr) {
       pcas.Add(marshalAsCustomAttribute);
@@ -128,20 +128,20 @@ void PseudoCustomAttribute::GetCustomAttributes(RuntimeParameterInfo parameter, 
 }
 
 Boolean PseudoCustomAttribute::IsDefined(RuntimeParameterInfo parameter, RuntimeType caType) {
-  Boolean flag = caType == rt::typeof<Object>() || caType == rt::typeof<Attribute>();
+  Boolean flag = caType == typeof<Object>() || caType == typeof<Attribute>();
   if (!flag && !s_pca->ContainsKey(caType)) {
     return false;
   }
-  if ((flag || caType == rt::typeof<InAttribute>()) && parameter->get_IsIn()) {
+  if ((flag || caType == typeof<InAttribute>()) && parameter->get_IsIn()) {
     return true;
   }
-  if ((flag || caType == rt::typeof<OutAttribute>()) && parameter->get_IsOut()) {
+  if ((flag || caType == typeof<OutAttribute>()) && parameter->get_IsOut()) {
     return true;
   }
-  if ((flag || caType == rt::typeof<OptionalAttribute>()) && parameter->get_IsOptional()) {
+  if ((flag || caType == typeof<OptionalAttribute>()) && parameter->get_IsOptional()) {
     return true;
   }
-  if ((flag || caType == rt::typeof<MarshalAsAttribute>()) && GetMarshalAsCustomAttribute(parameter) != nullptr) {
+  if ((flag || caType == typeof<MarshalAsAttribute>()) && GetMarshalAsCustomAttribute(parameter) != nullptr) {
     return true;
   }
   return false;
@@ -149,39 +149,39 @@ Boolean PseudoCustomAttribute::IsDefined(RuntimeParameterInfo parameter, Runtime
 
 void PseudoCustomAttribute::GetCustomAttributes(RuntimeFieldInfo field, RuntimeType caType, RuntimeType::in::ListBuilder<Attribute>& pcas) {
   pcas = RuntimeType::in::ListBuilder<T>();
-  Boolean flag = caType == rt::typeof<Object>() || caType == rt::typeof<Attribute>();
+  Boolean flag = caType == typeof<Object>() || caType == typeof<Attribute>();
   if (!flag && !s_pca->ContainsKey(caType)) {
     return;
   }
-  if (flag || caType == rt::typeof<MarshalAsAttribute>()) {
+  if (flag || caType == typeof<MarshalAsAttribute>()) {
     Attribute marshalAsCustomAttribute = GetMarshalAsCustomAttribute(field);
     if (marshalAsCustomAttribute != nullptr) {
       pcas.Add(marshalAsCustomAttribute);
     }
   }
-  if (flag || caType == rt::typeof<FieldOffsetAttribute>()) {
+  if (flag || caType == typeof<FieldOffsetAttribute>()) {
     Attribute marshalAsCustomAttribute = GetFieldOffsetCustomAttribute(field);
     if (marshalAsCustomAttribute != nullptr) {
       pcas.Add(marshalAsCustomAttribute);
     }
   }
-  if ((flag || caType == rt::typeof<NonSerializedAttribute>()) && (field->get_Attributes() & FieldAttributes::NotSerialized) != 0) {
+  if ((flag || caType == typeof<NonSerializedAttribute>()) && (field->get_Attributes() & FieldAttributes::NotSerialized) != 0) {
     pcas.Add(rt::newobj<NonSerializedAttribute>());
   }
 }
 
 Boolean PseudoCustomAttribute::IsDefined(RuntimeFieldInfo field, RuntimeType caType) {
-  Boolean flag = caType == rt::typeof<Object>() || caType == rt::typeof<Attribute>();
+  Boolean flag = caType == typeof<Object>() || caType == typeof<Attribute>();
   if (!flag && !s_pca->ContainsKey(caType)) {
     return false;
   }
-  if ((flag || caType == rt::typeof<MarshalAsAttribute>()) && GetMarshalAsCustomAttribute(field) != nullptr) {
+  if ((flag || caType == typeof<MarshalAsAttribute>()) && GetMarshalAsCustomAttribute(field) != nullptr) {
     return true;
   }
-  if ((flag || caType == rt::typeof<FieldOffsetAttribute>()) && GetFieldOffsetCustomAttribute(field) != nullptr) {
+  if ((flag || caType == typeof<FieldOffsetAttribute>()) && GetFieldOffsetCustomAttribute(field) != nullptr) {
     return true;
   }
-  if ((flag || caType == rt::typeof<NonSerializedAttribute>()) && (field->get_Attributes() & FieldAttributes::NotSerialized) != 0) {
+  if ((flag || caType == typeof<NonSerializedAttribute>()) && (field->get_Attributes() & FieldAttributes::NotSerialized) != 0) {
     return true;
   }
   return false;

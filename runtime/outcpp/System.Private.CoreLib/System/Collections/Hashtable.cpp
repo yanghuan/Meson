@@ -16,6 +16,7 @@
 #include <System.Private.CoreLib/System/SR-dep.h>
 #include <System.Private.CoreLib/System/String-dep.h>
 #include <System.Private.CoreLib/System/Threading/SpinWait-dep.h>
+#include <System.Private.CoreLib/System/Type-dep.h>
 #include <System.Private.CoreLib/System/UInt32-dep.h>
 
 namespace System::Private::CoreLib::System::Collections::HashtableNamespace {
@@ -833,14 +834,14 @@ void Hashtable___::GetObjectData(SerializationInfo info, StreamingContext contex
     info->AddValue("Version", _version);
     IEqualityComparer keycomparer = _keycomparer;
     if (keycomparer == nullptr) {
-      info->AddValue("Comparer", nullptr, rt::typeof<IComparer>());
-      info->AddValue("HashCodeProvider", nullptr, rt::typeof<IHashCodeProvider>());
+      info->AddValue("Comparer", nullptr, typeof<IComparer>());
+      info->AddValue("HashCodeProvider", nullptr, typeof<IHashCodeProvider>());
     } else if (rt::is<CompatibleComparer>(keycomparer)) {
       CompatibleComparer compatibleComparer = rt::as<CompatibleComparer>(keycomparer);
-      info->AddValue("Comparer", compatibleComparer->get_Comparer(), rt::typeof<IComparer>());
-      info->AddValue("HashCodeProvider", compatibleComparer->get_HashCodeProvider(), rt::typeof<IHashCodeProvider>());
+      info->AddValue("Comparer", compatibleComparer->get_Comparer(), typeof<IComparer>());
+      info->AddValue("HashCodeProvider", compatibleComparer->get_HashCodeProvider(), typeof<IHashCodeProvider>());
     } else {
-      info->AddValue("KeyComparer", keycomparer, rt::typeof<IEqualityComparer>());
+      info->AddValue("KeyComparer", keycomparer, typeof<IEqualityComparer>());
     }
 
     info->AddValue("HashSize", _buckets->get_Length());
@@ -848,8 +849,8 @@ void Hashtable___::GetObjectData(SerializationInfo info, StreamingContext contex
     Array<Object> array2 = rt::newarr<Array<Object>>(_count);
     CopyKeys(array, 0);
     CopyValues(array2, 0);
-    info->AddValue("Keys", array, rt::typeof<Array<Object>>());
-    info->AddValue("Values", array2, rt::typeof<Array<Object>>());
+    info->AddValue("Keys", array, typeof<Array<Object>>());
+    info->AddValue("Values", array2, typeof<Array<Object>>());
     if (_version != version) {
       rt::throw_exception<InvalidOperationException>(SR::get_InvalidOperation_EnumFailedVersion());
     }
@@ -886,27 +887,27 @@ void Hashtable___::OnDeserialization(Object sender) {
         break;
       case 1228509323u:
         if (name == "KeyComparer") {
-          _keycomparer = (IEqualityComparer)value->GetValue("KeyComparer", rt::typeof<IEqualityComparer>());
+          _keycomparer = (IEqualityComparer)value->GetValue("KeyComparer", typeof<IEqualityComparer>());
         }
         break;
       case 891156946u:
         if (name == "Comparer") {
-          comparer = (IComparer)value->GetValue("Comparer", rt::typeof<IComparer>());
+          comparer = (IComparer)value->GetValue("Comparer", typeof<IComparer>());
         }
         break;
       case 2484309429u:
         if (name == "HashCodeProvider") {
-          hashCodeProvider = (IHashCodeProvider)value->GetValue("HashCodeProvider", rt::typeof<IHashCodeProvider>());
+          hashCodeProvider = (IHashCodeProvider)value->GetValue("HashCodeProvider", typeof<IHashCodeProvider>());
         }
         break;
       case 1613443821u:
         if (name == "Keys") {
-          array = (Array<Object>)value->GetValue("Keys", rt::typeof<Array<Object>>());
+          array = (Array<Object>)value->GetValue("Keys", typeof<Array<Object>>());
         }
         break;
       case 2370642523u:
         if (name == "Values") {
-          array2 = (Array<Object>)value->GetValue("Values", rt::typeof<Array<Object>>());
+          array2 = (Array<Object>)value->GetValue("Values", typeof<Array<Object>>());
         }
         break;
     }

@@ -21,6 +21,7 @@
 #include <System.Private.CoreLib/System/Text/UTF32Encoding-dep.h>
 #include <System.Private.CoreLib/System/Threading/CancellationToken-dep.h>
 #include <System.Private.CoreLib/System/Threading/Tasks/Task-dep.h>
+#include <System.Private.CoreLib/System/Type-dep.h>
 
 namespace System::Private::CoreLib::System::IO::StreamReaderNamespace {
 using namespace System::Text;
@@ -246,7 +247,7 @@ Int32 StreamReader___::Read(Array<Char> buffer, Int32 index, Int32 count) {
 }
 
 Int32 StreamReader___::Read(Span<Char> buffer) {
-  if (!(GetType() == rt::typeof<StreamReader>())) {
+  if (!(GetType() == typeof<StreamReader>())) {
     return TextReader::in::Read(buffer);
   }
   return ReadSpan(buffer);
@@ -310,7 +311,7 @@ Int32 StreamReader___::ReadBlock(Array<Char> buffer, Int32 index, Int32 count) {
 }
 
 Int32 StreamReader___::ReadBlock(Span<Char> buffer) {
-  if (GetType() != rt::typeof<StreamReader>()) {
+  if (GetType() != typeof<StreamReader>()) {
     return TextReader::in::ReadBlock(buffer);
   }
   Int32 num = 0;
@@ -518,7 +519,7 @@ String StreamReader___::ReadLine() {
 }
 
 Task<String> StreamReader___::ReadLineAsync() {
-  if (GetType() != rt::typeof<StreamReader>()) {
+  if (GetType() != typeof<StreamReader>()) {
     return TextReader::in::ReadLineAsync();
   }
   ThrowIfDisposed();
@@ -538,7 +539,7 @@ Task<String> StreamReader___::ReadLineAsyncInternal() {
 }
 
 Task<String> StreamReader___::ReadToEndAsync() {
-  if (GetType() != rt::typeof<StreamReader>()) {
+  if (GetType() != typeof<StreamReader>()) {
     return TextReader::in::ReadToEndAsync();
   }
   ThrowIfDisposed();
@@ -566,7 +567,7 @@ Task<Int32> StreamReader___::ReadAsync(Array<Char> buffer, Int32 index, Int32 co
   if (buffer->get_Length() - index < count) {
     rt::throw_exception<ArgumentException>(SR::get_Argument_InvalidOffLen());
   }
-  if (GetType() != rt::typeof<StreamReader>()) {
+  if (GetType() != typeof<StreamReader>()) {
     return TextReader::in::ReadAsync(buffer, index, count);
   }
   ThrowIfDisposed();
@@ -576,7 +577,7 @@ Task<Int32> StreamReader___::ReadAsync(Array<Char> buffer, Int32 index, Int32 co
 
 template <>
 ValueTask<Int32> StreamReader___::ReadAsync(Memory<Char> buffer, CancellationToken cancellationToken) {
-  if (GetType() != rt::typeof<StreamReader>()) {
+  if (GetType() != typeof<StreamReader>()) {
     return TextReader::in::ReadAsync(buffer, cancellationToken);
   }
   ThrowIfDisposed();
@@ -660,7 +661,7 @@ Task<Int32> StreamReader___::ReadBlockAsync(Array<Char> buffer, Int32 index, Int
   if (buffer->get_Length() - index < count) {
     rt::throw_exception<ArgumentException>(SR::get_Argument_InvalidOffLen());
   }
-  if (GetType() != rt::typeof<StreamReader>()) {
+  if (GetType() != typeof<StreamReader>()) {
     return TextReader::in::ReadBlockAsync(buffer, index, count);
   }
   ThrowIfDisposed();
@@ -670,7 +671,7 @@ Task<Int32> StreamReader___::ReadBlockAsync(Array<Char> buffer, Int32 index, Int
 
 template <>
 ValueTask<Int32> StreamReader___::ReadBlockAsync(Memory<Char> buffer, CancellationToken cancellationToken) {
-  if (GetType() != rt::typeof<StreamReader>()) {
+  if (GetType() != typeof<StreamReader>()) {
     return TextReader::in::ReadBlockAsync(buffer, cancellationToken);
   }
   ThrowIfDisposed();

@@ -129,7 +129,7 @@ Array<Object> DynamicMethod___::RTDynamicMethod___::GetCustomAttributes(Type att
   if (attributeType == nullptr) {
     rt::throw_exception<ArgumentNullException>("attributeType");
   }
-  if (attributeType->IsAssignableFrom(rt::typeof<MethodImplAttribute>())) {
+  if (attributeType->IsAssignableFrom(typeof<MethodImplAttribute>())) {
     return rt::newarr<Array<Object>>(1);
   }
   return Array<>::in::Empty<Object>();
@@ -143,7 +143,7 @@ Boolean DynamicMethod___::RTDynamicMethod___::IsDefined(Type attributeType, Bool
   if (attributeType == nullptr) {
     rt::throw_exception<ArgumentNullException>("attributeType");
   }
-  if (attributeType->IsAssignableFrom(rt::typeof<MethodImplAttribute>())) {
+  if (attributeType->IsAssignableFrom(typeof<MethodImplAttribute>())) {
     return true;
   }
   return false;
@@ -315,14 +315,14 @@ void DynamicMethod___::Init(String name, MethodAttributes attributes, CallingCon
         rt::throw_exception<ArgumentException>(SR::get_Arg_InvalidTypeInSignature());
       }
       m_parameterTypes[i] = (rt::as<RuntimeType>(signature[i]->get_UnderlyingSystemType()));
-      if (m_parameterTypes[i] == nullptr || m_parameterTypes[i] == rt::typeof<void>()) {
+      if (m_parameterTypes[i] == nullptr || m_parameterTypes[i] == typeof<void>()) {
         rt::throw_exception<ArgumentException>(SR::get_Arg_InvalidTypeInSignature());
       }
     }
   } else {
     m_parameterTypes = Array<>::in::Empty<RuntimeType>();
   }
-  m_returnType = ((returnType == nullptr) ? ((RuntimeType)rt::typeof<void>()) : (rt::as<RuntimeType>(returnType->get_UnderlyingSystemType())));
+  m_returnType = ((returnType == nullptr) ? ((RuntimeType)typeof<void>()) : (rt::as<RuntimeType>(returnType->get_UnderlyingSystemType())));
   if (m_returnType == nullptr) {
     rt::throw_exception<NotSupportedException>(SR::get_Arg_InvalidTypeInRetType());
   }

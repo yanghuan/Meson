@@ -163,12 +163,12 @@ void CustomAttributeBuilder___::ctor(ConstructorInfo con, Array<Object> construc
 
 Boolean CustomAttributeBuilder___::ValidateType(Type t) {
   if (t->get_IsPrimitive()) {
-    if (t != rt::typeof<IntPtr>()) {
-      return t != rt::typeof<UIntPtr>();
+    if (t != typeof<IntPtr>()) {
+      return t != typeof<UIntPtr>();
     }
     return false;
   }
-  if (t == rt::typeof<String>() || t == rt::typeof<Type>()) {
+  if (t == typeof<String>() || t == typeof<Type>()) {
     return true;
   }
   if (t->get_IsEnum()) {
@@ -184,14 +184,14 @@ Boolean CustomAttributeBuilder___::ValidateType(Type t) {
     }
     return ValidateType(t->GetElementType());
   }
-  return t == rt::typeof<Object>();
+  return t == typeof<Object>();
 }
 
 void CustomAttributeBuilder___::VerifyTypeAndPassedObjectType(Type type, Type passedType, String paramName) {
-  if (type != rt::typeof<Object>() && Type::in::GetTypeCode(passedType) != Type::in::GetTypeCode(type)) {
+  if (type != typeof<Object>() && Type::in::GetTypeCode(passedType) != Type::in::GetTypeCode(type)) {
     rt::throw_exception<ArgumentException>(SR::get_Argument_ConstantDoesntMatch());
   }
-  if (passedType == rt::typeof<IntPtr>() || passedType == rt::typeof<UIntPtr>()) {
+  if (passedType == typeof<IntPtr>() || passedType == typeof<UIntPtr>()) {
     rt::throw_exception<ArgumentException>(SR::Format(SR::get_Argument_BadParameterTypeForCAB(), passedType), paramName);
   }
 }
@@ -239,9 +239,9 @@ void CustomAttributeBuilder___::EmitType(BinaryWriter writer, Type type) {
   } else if (type->get_IsEnum()) {
     writer->Write((?)85);
     EmitString(writer, type->get_AssemblyQualifiedName());
-  } else if (type == rt::typeof<String>()) {
+  } else if (type == typeof<String>()) {
     writer->Write((?)14);
-  } else if (type == rt::typeof<Type>()) {
+  } else if (type == typeof<Type>()) {
     writer->Write((?)80);
   } else if (type->get_IsArray()) {
     writer->Write((?)29);
@@ -299,7 +299,7 @@ void CustomAttributeBuilder___::EmitValue(BinaryWriter writer, Type type, Object
     }
     return;
   }
-  if (type == rt::typeof<String>()) {
+  if (type == typeof<String>()) {
     if (value == nullptr) {
       writer->Write(Byte::MaxValue);
     } else {
@@ -307,7 +307,7 @@ void CustomAttributeBuilder___::EmitValue(BinaryWriter writer, Type type, Object
     }
     return;
   }
-  if (type == rt::typeof<Type>()) {
+  if (type == typeof<Type>()) {
     if (value == nullptr) {
       writer->Write(Byte::MaxValue);
       return;
@@ -373,9 +373,9 @@ void CustomAttributeBuilder___::EmitValue(BinaryWriter writer, Type type, Object
     }
     return;
   }
-  if (type == rt::typeof<Object>()) {
-    Type type2 = (value == nullptr) ? rt::typeof<String>() : (rt::is<Type>(value) ? rt::typeof<Type>() : value->GetType());
-    if (type2 == rt::typeof<Object>()) {
+  if (type == typeof<Object>()) {
+    Type type2 = (value == nullptr) ? typeof<String>() : (rt::is<Type>(value) ? typeof<Type>() : value->GetType());
+    if (type2 == typeof<Object>()) {
       rt::throw_exception<ArgumentException>(SR::Format(SR::get_Argument_BadParameterTypeForCAB(), type2));
     }
     EmitType(writer, type2);
@@ -394,7 +394,7 @@ void CustomAttributeBuilder___::CreateCustomAttribute(ModuleBuilder mod, Int32 t
 }
 
 void CustomAttributeBuilder___::CreateCustomAttribute(ModuleBuilder mod, Int32 tkOwner, Int32 tkAttrib, Boolean toDisk) {
-  TypeBuilder::in::DefineCustomAttribute(mod, tkOwner, tkAttrib, m_blob, toDisk, rt::typeof<DebuggableAttribute>() == m_con->get_DeclaringType());
+  TypeBuilder::in::DefineCustomAttribute(mod, tkOwner, tkAttrib, m_blob, toDisk, typeof<DebuggableAttribute>() == m_con->get_DeclaringType());
 }
 
 } // namespace System::Private::CoreLib::System::Reflection::Emit::CustomAttributeBuilderNamespace

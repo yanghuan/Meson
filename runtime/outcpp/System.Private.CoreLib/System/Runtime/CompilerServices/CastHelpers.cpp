@@ -9,6 +9,7 @@
 #include <System.Private.CoreLib/System/Runtime/InteropServices/MemoryMarshal-dep.h>
 #include <System.Private.CoreLib/System/Threading/Interlocked-dep.h>
 #include <System.Private.CoreLib/System/Threading/Volatile-dep.h>
+#include <System.Private.CoreLib/System/Type-dep.h>
 #include <System.Private.CoreLib/System/UInt32-dep.h>
 #include <System.Private.CoreLib/System/UInt64-dep.h>
 
@@ -306,7 +307,7 @@ void CastHelpers::StelemRef(Array<> array, Int32 index, Object obj) {
   Object& value = Unsafe::As<Array<ArrayElement>>(array)[index].Value;
   void* elementType = RuntimeHelpers::GetMethodTable(array)->ElementType;
   if (obj != nullptr) {
-    if (elementType == RuntimeHelpers::GetMethodTable(obj) || array->GetType() == rt::typeof<Array<Object>>()) {
+    if (elementType == RuntimeHelpers::GetMethodTable(obj) || array->GetType() == typeof<Array<Object>>()) {
       WriteBarrier(value, obj);
     } else {
       StelemRef_Helper(value, elementType, obj);

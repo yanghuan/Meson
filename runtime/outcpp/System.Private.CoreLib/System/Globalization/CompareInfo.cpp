@@ -31,6 +31,7 @@
 #include <System.Private.CoreLib/System/SR-dep.h>
 #include <System.Private.CoreLib/System/Text/Unicode/Utf16Utility-dep.h>
 #include <System.Private.CoreLib/System/ThrowHelper-dep.h>
+#include <System.Private.CoreLib/System/Type-dep.h>
 #include <System.Private.CoreLib/System/UInt32-dep.h>
 #include <System.Private.CoreLib/System/UInt64-dep.h>
 
@@ -103,7 +104,7 @@ CompareInfo CompareInfo___::GetCompareInfo(Int32 culture, Assembly assembly) {
   if (assembly == nullptr) {
     rt::throw_exception<ArgumentNullException>("assembly");
   }
-  if (assembly != rt::typeof<Object>()->get_Module()->get_Assembly()) {
+  if (assembly != typeof<Object>()->get_Module()->get_Assembly()) {
     rt::throw_exception<ArgumentException>(SR::get_Argument_OnlyMscorlib(), "assembly");
   }
   return GetCompareInfo(culture);
@@ -116,7 +117,7 @@ CompareInfo CompareInfo___::GetCompareInfo(String name, Assembly assembly) {
   if (assembly == nullptr) {
     rt::throw_exception<ArgumentNullException>("assembly");
   }
-  if (assembly != rt::typeof<Object>()->get_Module()->get_Assembly()) {
+  if (assembly != typeof<Object>()->get_Module()->get_Assembly()) {
     rt::throw_exception<ArgumentException>(SR::get_Argument_OnlyMscorlib(), "assembly");
   }
   return GetCompareInfo(name);

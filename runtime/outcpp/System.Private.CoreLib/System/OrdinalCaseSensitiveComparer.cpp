@@ -2,6 +2,7 @@
 
 #include <System.Private.CoreLib/System/ExceptionArgument.h>
 #include <System.Private.CoreLib/System/ThrowHelper-dep.h>
+#include <System.Private.CoreLib/System/Type-dep.h>
 
 namespace System::Private::CoreLib::System::OrdinalCaseSensitiveComparerNamespace {
 void OrdinalCaseSensitiveComparer___::ctor() {
@@ -23,7 +24,7 @@ Int32 OrdinalCaseSensitiveComparer___::GetHashCode(String obj) {
 }
 
 void OrdinalCaseSensitiveComparer___::GetObjectData(SerializationInfo info, StreamingContext context) {
-  info->SetType(rt::typeof<OrdinalComparer>());
+  info->SetType(typeof<OrdinalComparer>());
   info->AddValue("_ignoreCase", false);
 }
 

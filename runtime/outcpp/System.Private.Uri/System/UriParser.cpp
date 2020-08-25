@@ -218,7 +218,7 @@ UriParser UriParser___::GetSyntax(String lwrCaseScheme) {
 
 void UriParser___::CheckSetIsSimpleFlag() {
   Type type = GetType();
-  if (type == rt::typeof<GenericUriParser>() || type == rt::typeof<HttpStyleUriParser>() || type == rt::typeof<FtpStyleUriParser>() || type == rt::typeof<FileStyleUriParser>() || type == rt::typeof<NewsStyleUriParser>() || type == rt::typeof<GopherStyleUriParser>() || type == rt::typeof<NetPipeStyleUriParser>() || type == rt::typeof<NetTcpStyleUriParser>() || type == rt::typeof<LdapStyleUriParser>()) {
+  if (type == typeof<GenericUriParser>() || type == typeof<HttpStyleUriParser>() || type == typeof<FtpStyleUriParser>() || type == typeof<FileStyleUriParser>() || type == typeof<NewsStyleUriParser>() || type == typeof<GopherStyleUriParser>() || type == typeof<NetPipeStyleUriParser>() || type == typeof<NetTcpStyleUriParser>() || type == typeof<LdapStyleUriParser>()) {
     _flags |= UriSyntaxFlags::SimpleUserSyntax;
   }
 }

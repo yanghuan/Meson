@@ -27,7 +27,7 @@ INVOCATION_FLAGS RuntimeConstructorInfo___::get_InvocationFlags() {
   if ((m_invocationFlags & INVOCATION_FLAGS::INVOCATION_FLAGS_INITIALIZED) == 0) {
     INVOCATION_FLAGS iNVOCATION_FLAGS = INVOCATION_FLAGS::INVOCATION_FLAGS_IS_CTOR;
     Type declaringType = get_DeclaringType();
-    if (declaringType == rt::typeof<void>() || (declaringType != nullptr && declaringType->get_ContainsGenericParameters()) || (get_CallingConvention() & CallingConventions::VarArgs) == CallingConventions::VarArgs) {
+    if (declaringType == typeof<void>() || (declaringType != nullptr && declaringType->get_ContainsGenericParameters()) || (get_CallingConvention() & CallingConventions::VarArgs) == CallingConventions::VarArgs) {
       iNVOCATION_FLAGS |= INVOCATION_FLAGS::INVOCATION_FLAGS_NO_INVOKE;
     } else if (MethodBase::in::get_IsStatic() || (declaringType != nullptr && declaringType->get_IsAbstract())) {
       iNVOCATION_FLAGS |= INVOCATION_FLAGS::INVOCATION_FLAGS_NO_CTOR_INVOKE;
@@ -35,7 +35,7 @@ INVOCATION_FLAGS RuntimeConstructorInfo___::get_InvocationFlags() {
       if (declaringType != nullptr && declaringType->get_IsByRefLike()) {
         iNVOCATION_FLAGS |= INVOCATION_FLAGS::INVOCATION_FLAGS_CONTAINS_STACK_POINTERS;
       }
-      if (rt::typeof<Delegate>()->IsAssignableFrom(get_DeclaringType())) {
+      if (typeof<Delegate>()->IsAssignableFrom(get_DeclaringType())) {
         iNVOCATION_FLAGS |= INVOCATION_FLAGS::INVOCATION_FLAGS_IS_DELEGATE_CTOR;
       }
     }
@@ -162,7 +162,7 @@ String RuntimeConstructorInfo___::ToString() {
 }
 
 Array<Object> RuntimeConstructorInfo___::GetCustomAttributes(Boolean inherit) {
-  return CustomAttribute::GetCustomAttributes((RuntimeConstructorInfo)this, rt::as<RuntimeType>(rt::typeof<Object>()));
+  return CustomAttribute::GetCustomAttributes((RuntimeConstructorInfo)this, rt::as<RuntimeType>(typeof<Object>()));
 }
 
 Array<Object> RuntimeConstructorInfo___::GetCustomAttributes(Type attributeType, Boolean inherit) {
@@ -236,7 +236,7 @@ void RuntimeConstructorInfo___::CheckCanCreateInstance(Type declaringType, Boole
   if (declaringType->get_IsAbstract()) {
     rt::throw_exception<MemberAccessException>(SR::Format(SR::get_Acc_CreateAbstEx(), declaringType));
   }
-  if (declaringType->GetRootElementType() == rt::typeof<ArgIterator>()) {
+  if (declaringType->GetRootElementType() == typeof<ArgIterator>()) {
     rt::throw_exception<NotSupportedException>();
   }
   if (isVarArg) {
@@ -245,7 +245,7 @@ void RuntimeConstructorInfo___::CheckCanCreateInstance(Type declaringType, Boole
   if (declaringType->get_ContainsGenericParameters()) {
     rt::throw_exception<MemberAccessException>(SR::Format(SR::get_Acc_CreateGenericEx(), declaringType));
   }
-  if (declaringType == rt::typeof<void>()) {
+  if (declaringType == typeof<void>()) {
     rt::throw_exception<MemberAccessException>(SR::get_Access_Void());
   }
 }

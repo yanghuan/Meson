@@ -147,63 +147,63 @@ Boolean EventParameterInfo::GenerateMetadataForTypeV2(TraceLoggingTypeInfo typeI
 }
 
 Boolean EventParameterInfo::GetTypeInfoFromType(Type type, TraceLoggingTypeInfo& typeInfo) {
-  if (type == rt::typeof<Boolean>()) {
+  if (type == typeof<Boolean>()) {
     typeInfo = ScalarTypeInfo::in::Boolean();
     return true;
   }
-  if (type == rt::typeof<Byte>()) {
+  if (type == typeof<Byte>()) {
     typeInfo = ScalarTypeInfo::in::Byte();
     return true;
   }
-  if (type == rt::typeof<SByte>()) {
+  if (type == typeof<SByte>()) {
     typeInfo = ScalarTypeInfo::in::SByte();
     return true;
   }
-  if (type == rt::typeof<Char>()) {
+  if (type == typeof<Char>()) {
     typeInfo = ScalarTypeInfo::in::Char();
     return true;
   }
-  if (type == rt::typeof<Int16>()) {
+  if (type == typeof<Int16>()) {
     typeInfo = ScalarTypeInfo::in::Int16();
     return true;
   }
-  if (type == rt::typeof<UInt16>()) {
+  if (type == typeof<UInt16>()) {
     typeInfo = ScalarTypeInfo::in::UInt16();
     return true;
   }
-  if (type == rt::typeof<Int32>()) {
+  if (type == typeof<Int32>()) {
     typeInfo = ScalarTypeInfo::in::Int32();
     return true;
   }
-  if (type == rt::typeof<UInt32>()) {
+  if (type == typeof<UInt32>()) {
     typeInfo = ScalarTypeInfo::in::UInt32();
     return true;
   }
-  if (type == rt::typeof<Int64>()) {
+  if (type == typeof<Int64>()) {
     typeInfo = ScalarTypeInfo::in::Int64();
     return true;
   }
-  if (type == rt::typeof<UInt64>()) {
+  if (type == typeof<UInt64>()) {
     typeInfo = ScalarTypeInfo::in::UInt64();
     return true;
   }
-  if (type == rt::typeof<IntPtr>()) {
+  if (type == typeof<IntPtr>()) {
     typeInfo = ScalarTypeInfo::in::IntPtr();
     return true;
   }
-  if (type == rt::typeof<UIntPtr>()) {
+  if (type == typeof<UIntPtr>()) {
     typeInfo = ScalarTypeInfo::in::UIntPtr();
     return true;
   }
-  if (type == rt::typeof<Single>()) {
+  if (type == typeof<Single>()) {
     typeInfo = ScalarTypeInfo::in::Single();
     return true;
   }
-  if (type == rt::typeof<Double>()) {
+  if (type == typeof<Double>()) {
     typeInfo = ScalarTypeInfo::in::Double();
     return true;
   }
-  if (type == rt::typeof<Guid>()) {
+  if (type == typeof<Guid>()) {
     typeInfo = ScalarTypeInfo::in::Guid();
     return true;
   }
@@ -246,14 +246,14 @@ UInt32 EventParameterInfo::GetMetadataLengthForProperty(PropertyAnalysis propert
 }
 
 TypeCode EventParameterInfo::GetTypeCodeExtended(Type parameterType) {
-  if (parameterType == rt::typeof<Guid>()) {
+  if (parameterType == typeof<Guid>()) {
     return (TypeCode)17;
   }
-  if (parameterType == rt::typeof<IntPtr>()) {
+  if (parameterType == typeof<IntPtr>()) {
     Int32 size = IntPtr::get_Size();
     return TypeCode::Int64;
   }
-  if (parameterType == rt::typeof<UIntPtr>()) {
+  if (parameterType == typeof<UIntPtr>()) {
     Int32 size2 = UIntPtr::get_Size();
     return TypeCode::UInt64;
   }

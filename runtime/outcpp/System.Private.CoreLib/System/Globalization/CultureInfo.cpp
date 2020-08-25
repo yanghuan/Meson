@@ -32,6 +32,7 @@
 #include <System.Private.CoreLib/System/Threading/Interlocked-dep.h>
 #include <System.Private.CoreLib/System/TimeZone-dep.h>
 #include <System.Private.CoreLib/System/TimeZoneInfo-dep.h>
+#include <System.Private.CoreLib/System/Type-dep.h>
 #include <System.Private.CoreLib/System/UInt32-dep.h>
 
 namespace System::Private::CoreLib::System::Globalization::CultureInfoNamespace {
@@ -322,7 +323,7 @@ void CultureInfo___::ctor(String name, Boolean useUserOverride) {
   }
   _cultureData = cultureData;
   _name = _cultureData->get_CultureName();
-  _isInherited = (GetType() != rt::typeof<CultureInfo>());
+  _isInherited = (GetType() != typeof<CultureInfo>());
 }
 
 void CultureInfo___::ctor(CultureData cultureData, Boolean isReadOnly) {
@@ -356,7 +357,7 @@ void CultureInfo___::ctor(Int32 culture, Boolean useUserOverride) {
       rt::throw_exception<CultureNotFoundException>("culture", culture, SR::get_Argument_CultureNotSupported());
   }
   _cultureData = CultureData::in::GetCultureData(culture, useUserOverride);
-  _isInherited = (GetType() != rt::typeof<CultureInfo>());
+  _isInherited = (GetType() != typeof<CultureInfo>());
   _name = _cultureData->get_CultureName();
 }
 
@@ -434,10 +435,10 @@ String CultureInfo___::ToString() {
 }
 
 Object CultureInfo___::GetFormat(Type formatType) {
-  if (formatType == rt::typeof<NumberFormatInfo>()) {
+  if (formatType == typeof<NumberFormatInfo>()) {
     return get_NumberFormat();
   }
-  if (formatType == rt::typeof<DateTimeFormatInfo>()) {
+  if (formatType == typeof<DateTimeFormatInfo>()) {
     return get_DateTimeFormat();
   }
   return nullptr;

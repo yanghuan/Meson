@@ -9,7 +9,7 @@ namespace System::Private::CoreLib::System::Diagnostics::Tracing::PropertyValueN
 using namespace System::Reflection;
 
 Delegate PropertyValue::TypeHelper___::GetGetMethod(PropertyInfo property, Type propertyType) {
-  return property->get_GetMethod()->CreateDelegate(rt::typeof<Func<T, TResult>>()->MakeGenericType(rt::newarr<Array<Type>>(2, property->get_DeclaringType(), propertyType)));
+  return property->get_GetMethod()->CreateDelegate(typeof<Func<T, TResult>>()->MakeGenericType(rt::newarr<Array<Type>>(2, property->get_DeclaringType(), propertyType)));
 }
 
 void PropertyValue::TypeHelper___::ctor() {
@@ -97,43 +97,43 @@ PropertyValue::PropertyValue(Decimal value) {
 }
 
 Func<Object, PropertyValue> PropertyValue::GetFactory(Type type) {
-  if (type == rt::typeof<Boolean>()) {
+  if (type == typeof<Boolean>()) {
   }
-  if (type == rt::typeof<Byte>()) {
+  if (type == typeof<Byte>()) {
   }
-  if (type == rt::typeof<SByte>()) {
+  if (type == typeof<SByte>()) {
   }
-  if (type == rt::typeof<Char>()) {
+  if (type == typeof<Char>()) {
   }
-  if (type == rt::typeof<Int16>()) {
+  if (type == typeof<Int16>()) {
   }
-  if (type == rt::typeof<UInt16>()) {
+  if (type == typeof<UInt16>()) {
   }
-  if (type == rt::typeof<Int32>()) {
+  if (type == typeof<Int32>()) {
   }
-  if (type == rt::typeof<UInt32>()) {
+  if (type == typeof<UInt32>()) {
   }
-  if (type == rt::typeof<Int64>()) {
+  if (type == typeof<Int64>()) {
   }
-  if (type == rt::typeof<UInt64>()) {
+  if (type == typeof<UInt64>()) {
   }
-  if (type == rt::typeof<IntPtr>()) {
+  if (type == typeof<IntPtr>()) {
   }
-  if (type == rt::typeof<UIntPtr>()) {
+  if (type == typeof<UIntPtr>()) {
   }
-  if (type == rt::typeof<Single>()) {
+  if (type == typeof<Single>()) {
   }
-  if (type == rt::typeof<Double>()) {
+  if (type == typeof<Double>()) {
   }
-  if (type == rt::typeof<Guid>()) {
+  if (type == typeof<Guid>()) {
   }
-  if (type == rt::typeof<DateTime>()) {
+  if (type == typeof<DateTime>()) {
   }
-  if (type == rt::typeof<DateTimeOffset>()) {
+  if (type == typeof<DateTimeOffset>()) {
   }
-  if (type == rt::typeof<TimeSpan>()) {
+  if (type == typeof<TimeSpan>()) {
   }
-  if (type == rt::typeof<Decimal>()) {
+  if (type == typeof<Decimal>()) {
   }
 }
 
@@ -153,7 +153,7 @@ Func<PropertyValue, PropertyValue> PropertyValue::GetBoxedValueTypePropertyGette
 }
 
 Func<PropertyValue, PropertyValue> PropertyValue::GetReferenceTypePropertyGetter(PropertyInfo property) {
-  TypeHelper typeHelper = (TypeHelper)Activator::CreateInstance(rt::typeof<ReferenceTypeHelper<TContainer>>()->MakeGenericType(property->get_DeclaringType()));
+  TypeHelper typeHelper = (TypeHelper)Activator::CreateInstance(typeof<ReferenceTypeHelper<TContainer>>()->MakeGenericType(property->get_DeclaringType()));
   return typeHelper->GetPropertyGetter(property);
 }
 

@@ -10,6 +10,7 @@
 #include <System.Private.CoreLib/System/Globalization/UnicodeCategory.h>
 #include <System.Private.CoreLib/System/InvalidOperationException-dep.h>
 #include <System.Private.CoreLib/System/SR-dep.h>
+#include <System.Private.CoreLib/System/Type-dep.h>
 #include <System.Private.CoreLib/System/UInt32-dep.h>
 
 namespace System::Private::CoreLib::System::Globalization::NumberFormatInfoNamespace {
@@ -124,7 +125,7 @@ NumberFormatInfo NumberFormatInfo___::get_CurrentInfo() {
       return numInfo;
     }
   }
-  return (NumberFormatInfo)currentCulture->GetFormat(rt::typeof<NumberFormatInfo>());
+  return (NumberFormatInfo)currentCulture->GetFormat(typeof<NumberFormatInfo>());
 }
 
 String NumberFormatInfo___::get_NaNSymbol() {
@@ -480,7 +481,7 @@ NumberFormatInfo NumberFormatInfo___::GetInstance(IFormatProvider formatProvider
       NumberFormatInfo as = cultureInfo->_numInfo;
       return as != nullptr ? as : cultureInfo->get_NumberFormat();
     }
-    NumberFormatInfo as = (rt::as<NumberFormatInfo>(provider->GetFormat(rt::typeof<NumberFormatInfo>())));
+    NumberFormatInfo as = (rt::as<NumberFormatInfo>(provider->GetFormat(typeof<NumberFormatInfo>())));
     NumberFormatInfo is = (rt::as<NumberFormatInfo>(provider));
     return is != nullptr ? is : as != nullptr ? as : get_CurrentInfo();
   };
@@ -511,7 +512,7 @@ void NumberFormatInfo___::CheckGroupSize(String propName, Array<Int32> groupSize
 }
 
 Object NumberFormatInfo___::GetFormat(Type formatType) {
-  if (!(formatType == rt::typeof<NumberFormatInfo>())) {
+  if (!(formatType == typeof<NumberFormatInfo>())) {
     return nullptr;
   }
   return (NumberFormatInfo)this;

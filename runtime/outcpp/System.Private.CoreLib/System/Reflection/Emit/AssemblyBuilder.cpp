@@ -310,7 +310,7 @@ void AssemblyBuilder___::SetCustomAttribute(ConstructorInfo con, Array<Byte> bin
 }
 
 void AssemblyBuilder___::SetCustomAttributeNoLock(ConstructorInfo con, Array<Byte> binaryAttribute) {
-  TypeBuilder::in::DefineCustomAttribute(_manifestModuleBuilder, 536870913, _manifestModuleBuilder->GetConstructorToken(con).get_Token(), binaryAttribute, false, rt::typeof<DebuggableAttribute>() == con->get_DeclaringType());
+  TypeBuilder::in::DefineCustomAttribute(_manifestModuleBuilder, 536870913, _manifestModuleBuilder->GetConstructorToken(con).get_Token(), binaryAttribute, false, typeof<DebuggableAttribute>() == con->get_DeclaringType());
 }
 
 void AssemblyBuilder___::SetCustomAttribute(CustomAttributeBuilder customBuilder) {

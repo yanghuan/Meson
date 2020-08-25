@@ -190,14 +190,14 @@ Object RuntimeParameterInfo___::GetDefaultValueInternal(Boolean raw) {
     return DBNull::in::Value;
   }
   Object obj = nullptr;
-  if (get_ParameterType() == rt::typeof<DateTime>()) {
+  if (get_ParameterType() == typeof<DateTime>()) {
     if (raw) {
-      CustomAttributeTypedArgument customAttributeTypedArgument = CustomAttributeData::in::Filter(CustomAttributeData::in::GetCustomAttributes((RuntimeParameterInfo)this), rt::typeof<DateTimeConstantAttribute>(), 0);
+      CustomAttributeTypedArgument customAttributeTypedArgument = CustomAttributeData::in::Filter(CustomAttributeData::in::GetCustomAttributes((RuntimeParameterInfo)this), typeof<DateTimeConstantAttribute>(), 0);
       if (customAttributeTypedArgument.get_ArgumentType() != nullptr) {
         return DateTime((Int64)customAttributeTypedArgument.get_Value());
       }
     } else {
-      Array<Object> customAttributes = GetCustomAttributes(rt::typeof<DateTimeConstantAttribute>(), false);
+      Array<Object> customAttributes = GetCustomAttributes(typeof<DateTimeConstantAttribute>(), false);
       if (customAttributes != nullptr && customAttributes->get_Length() != 0) {
         return ((DateTimeConstantAttribute)customAttributes[0])->get_Value();
       }
@@ -269,7 +269,7 @@ Array<Object> RuntimeParameterInfo___::GetCustomAttributes(Boolean inherit) {
   if (MetadataToken::IsNullToken(m_tkParamDef)) {
     return Array<>::in::Empty<Object>();
   }
-  return CustomAttribute::GetCustomAttributes((RuntimeParameterInfo)this, rt::as<RuntimeType>(rt::typeof<Object>()));
+  return CustomAttribute::GetCustomAttributes((RuntimeParameterInfo)this, rt::as<RuntimeType>(typeof<Object>()));
 }
 
 Array<Object> RuntimeParameterInfo___::GetCustomAttributes(Type attributeType, Boolean inherit) {
@@ -305,8 +305,8 @@ IList<CustomAttributeData> RuntimeParameterInfo___::GetCustomAttributesData() {
 }
 
 void RuntimeParameterInfo___::cctor() {
-  s_DecimalConstantAttributeType = rt::typeof<DecimalConstantAttribute>();
-  s_CustomConstantAttributeType = rt::typeof<CustomConstantAttribute>();
+  s_DecimalConstantAttributeType = typeof<DecimalConstantAttribute>();
+  s_CustomConstantAttributeType = typeof<CustomConstantAttribute>();
 }
 
 } // namespace System::Private::CoreLib::System::Reflection::RuntimeParameterInfoNamespace

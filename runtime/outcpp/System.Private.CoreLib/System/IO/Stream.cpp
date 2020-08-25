@@ -53,12 +53,12 @@ void WriteCallbackStream___::set_Position(Int64 value) {
 }
 
 void WriteCallbackStream___::ctor(ReadOnlySpanAction<Byte, Object> action, Object state) {
-  _action = action;
+  _action = &action;
   _state = state;
 }
 
 void WriteCallbackStream___::ctor(Func<ReadOnlyMemory<Byte>, Object, CancellationToken, ValueTask<>> func, Object state) {
-  _func = func;
+  _func = &func;
   _state = state;
 }
 
@@ -126,7 +126,7 @@ void Stream___::ReadWriteTask___::ctor(Boolean isRead, Boolean apm, Func<Object,
   _offset = offset;
   _count = count;
   if (callback != nullptr) {
-    _callback = callback;
+    _callback = &callback;
     _context = ExecutionContext::in::Capture();
     AddCompletionAction((ReadWriteTask)this);
   }
@@ -135,7 +135,7 @@ void Stream___::ReadWriteTask___::ctor(Boolean isRead, Boolean apm, Func<Object,
 void Stream___::ReadWriteTask___::InvokeAsyncCallback(Object completedTask) {
   ReadWriteTask readWriteTask = (ReadWriteTask)completedTask;
   AsyncCallback callback = readWriteTask->_callback;
-  readWriteTask->_callback = nullptr;
+  readWriteTask->_callback = &nullptr;
   callback(readWriteTask);
 }
 

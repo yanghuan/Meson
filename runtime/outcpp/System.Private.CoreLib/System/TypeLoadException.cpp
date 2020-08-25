@@ -3,6 +3,7 @@
 #include <System.Private.CoreLib/System/Exception-dep.h>
 #include <System.Private.CoreLib/System/Runtime/CompilerServices/StringHandleOnStack-dep.h>
 #include <System.Private.CoreLib/System/SR-dep.h>
+#include <System.Private.CoreLib/System/Type-dep.h>
 
 namespace System::Private::CoreLib::System::TypeLoadExceptionNamespace {
 using namespace System::Runtime::CompilerServices;
@@ -66,9 +67,9 @@ void TypeLoadException___::ctor(SerializationInfo info, StreamingContext context
 
 void TypeLoadException___::GetObjectData(SerializationInfo info, StreamingContext context) {
   Exception::in::GetObjectData(info, context);
-  info->AddValue("TypeLoadClassName", _className, rt::typeof<String>());
-  info->AddValue("TypeLoadAssemblyName", _assemblyName, rt::typeof<String>());
-  info->AddValue("TypeLoadMessageArg", _messageArg, rt::typeof<String>());
+  info->AddValue("TypeLoadClassName", _className, typeof<String>());
+  info->AddValue("TypeLoadAssemblyName", _assemblyName, typeof<String>());
+  info->AddValue("TypeLoadMessageArg", _messageArg, typeof<String>());
   info->AddValue("TypeLoadResourceID", _resourceId);
 }
 

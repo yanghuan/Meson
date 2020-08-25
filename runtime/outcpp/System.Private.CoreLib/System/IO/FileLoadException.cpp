@@ -3,6 +3,7 @@
 #include <System.Private.CoreLib/System/Exception-dep.h>
 #include <System.Private.CoreLib/System/Runtime/CompilerServices/StringHandleOnStack-dep.h>
 #include <System.Private.CoreLib/System/SR-dep.h>
+#include <System.Private.CoreLib/System/Type-dep.h>
 
 namespace System::Private::CoreLib::System::IO::FileLoadExceptionNamespace {
 using namespace System::Runtime::CompilerServices;
@@ -84,8 +85,8 @@ void FileLoadException___::ctor(SerializationInfo info, StreamingContext context
 
 void FileLoadException___::GetObjectData(SerializationInfo info, StreamingContext context) {
   Exception::in::GetObjectData(info, context);
-  info->AddValue("FileLoad_FileName", FileName, rt::typeof<String>());
-  info->AddValue("FileLoad_FusionLog", FusionLog, rt::typeof<String>());
+  info->AddValue("FileLoad_FileName", FileName, typeof<String>());
+  info->AddValue("FileLoad_FusionLog", FusionLog, typeof<String>());
 }
 
 } // namespace System::Private::CoreLib::System::IO::FileLoadExceptionNamespace

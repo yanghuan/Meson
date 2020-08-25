@@ -10,6 +10,7 @@
 #include <System.Private.CoreLib/System/IO/BinaryWriter-dep.h>
 #include <System.Private.CoreLib/System/IO/EncodingCache-dep.h>
 #include <System.Private.CoreLib/System/SR-dep.h>
+#include <System.Private.CoreLib/System/Type-dep.h>
 #include <System.Private.CoreLib/System/UInt64-dep.h>
 #include <System.Private.CoreLib/System/UIntPtr-dep.h>
 
@@ -71,7 +72,7 @@ void BinaryWriter___::Dispose() {
 
 ValueTask<> BinaryWriter___::DisposeAsync() {
   try {
-    if (GetType() == rt::typeof<BinaryWriter>()) {
+    if (GetType() == typeof<BinaryWriter>()) {
       if (_leaveOpen) {
         return ValueTask<>(OutStream->FlushAsync());
       }
@@ -258,7 +259,7 @@ void BinaryWriter___::Write(String value) {
 }
 
 void BinaryWriter___::Write(ReadOnlySpan<Byte> buffer) {
-  if (GetType() == rt::typeof<BinaryWriter>()) {
+  if (GetType() == typeof<BinaryWriter>()) {
     OutStream->Write(buffer);
     return;
   }

@@ -4,7 +4,7 @@
 
 namespace System::Private::CoreLib::System::Threading::QueueUserWorkItemCallbackNamespace {
 void QueueUserWorkItemCallback___<>::ctor(WaitCallback callback, Object state, ExecutionContext context) {
-  _callback = callback;
+  _callback = &callback;
   _state = state;
   _context = context;
 }

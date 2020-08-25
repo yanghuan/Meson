@@ -856,7 +856,7 @@ Delegate Marshal::GetDelegateForFunctionPointer(IntPtr ptr, Type t) {
     rt::throw_exception<ArgumentException>(SR::get_Argument_NeedNonGenericType(), "t");
   }
   Type baseType = t->get_BaseType();
-  if (baseType != rt::typeof<Delegate>() && baseType != rt::typeof<MulticastDelegate>()) {
+  if (baseType != typeof<Delegate>() && baseType != typeof<MulticastDelegate>()) {
     rt::throw_exception<ArgumentException>(SR::get_Arg_MustBeDelegate(), "t");
   }
   return GetDelegateForFunctionPointerInternal(ptr, t);

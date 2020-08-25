@@ -6,6 +6,7 @@
 #include <System.Private.CoreLib/System/CultureAwareComparer-dep.h>
 #include <System.Private.CoreLib/System/Object-dep.h>
 #include <System.Private.CoreLib/System/SR-dep.h>
+#include <System.Private.CoreLib/System/Type-dep.h>
 
 namespace System::Private::CoreLib::System::CultureAwareComparerNamespace {
 void CultureAwareComparer___::ctor(CultureInfo culture, CompareOptions options) {
@@ -20,9 +21,9 @@ void CultureAwareComparer___::ctor(CompareInfo compareInfo, CompareOptions optio
 }
 
 void CultureAwareComparer___::ctor(SerializationInfo info, StreamingContext context) {
-  _compareInfo = (CompareInfo)info->GetValue("_compareInfo", rt::typeof<CompareInfo>());
+  _compareInfo = (CompareInfo)info->GetValue("_compareInfo", typeof<CompareInfo>());
   Boolean boolean = info->GetBoolean("_ignoreCase");
-  Object valueNoThrow = info->GetValueNoThrow("_options", rt::typeof<CompareOptions>());
+  Object valueNoThrow = info->GetValueNoThrow("_options", typeof<CompareOptions>());
   if (valueNoThrow != nullptr) {
     _options = (CompareOptions)valueNoThrow;
   }

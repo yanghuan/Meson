@@ -39,6 +39,7 @@
 #include <System.Private.CoreLib/System/Threading/Tasks/TaskStatus.h>
 #include <System.Private.CoreLib/System/Threading/Tasks/TaskToApm-dep.h>
 #include <System.Private.CoreLib/System/Threading/ThreadPoolBoundHandle-dep.h>
+#include <System.Private.CoreLib/System/Type-dep.h>
 #include <System.Private.CoreLib/System/UInt64-dep.h>
 #include <System.Private.CoreLib/System/UnauthorizedAccessException-dep.h>
 
@@ -154,7 +155,7 @@ void FileStream___::AsyncCopyToAwaitable___::ctor(FileStream fileStream) {
 }
 
 void FileStream___::AsyncCopyToAwaitable___::ResetForNextOperation() {
-  _continuation = nullptr;
+  _continuation = &nullptr;
   _errorCode = 0u;
   _numBytes = 0u;
 }
@@ -171,7 +172,7 @@ void FileStream___::AsyncCopyToAwaitable___::IOCallback(UInt32 errorCode, UInt32
 }
 
 void FileStream___::AsyncCopyToAwaitable___::MarkCompleted() {
-  _continuation = s_sentinel;
+  _continuation = &s_sentinel;
 }
 
 FileStream::in::AsyncCopyToAwaitable FileStream___::AsyncCopyToAwaitable___::GetAwaiter() {
@@ -421,7 +422,7 @@ void FileStream___::Unlock(Int64 position, Int64 length) {
 }
 
 Task<> FileStream___::FlushAsync(CancellationToken cancellationToken) {
-  if (GetType() != rt::typeof<FileStream>()) {
+  if (GetType() != typeof<FileStream>()) {
     return Stream::in::FlushAsync(cancellationToken);
   }
   return FlushAsyncInternal(cancellationToken);
@@ -436,7 +437,7 @@ Int32 FileStream___::Read(Array<Byte> array, Int32 offset, Int32 count) {
 }
 
 Int32 FileStream___::Read(Span<Byte> buffer) {
-  if (GetType() == rt::typeof<FileStream>() && !_useAsyncIO) {
+  if (GetType() == typeof<FileStream>() && !_useAsyncIO) {
     if (_fileHandle->get_IsClosed()) {
       rt::throw_exception(Error::GetFileNotOpen());
     }
@@ -458,7 +459,7 @@ Task<Int32> FileStream___::ReadAsync(Array<Byte> buffer, Int32 offset, Int32 cou
   if (buffer->get_Length() - offset < count) {
     rt::throw_exception<ArgumentException>(SR::get_Argument_InvalidOffLen());
   }
-  if (GetType() != rt::typeof<FileStream>()) {
+  if (GetType() != typeof<FileStream>()) {
     return Stream::in::ReadAsync(buffer, offset, count, cancellationToken);
   }
   if (cancellationToken.get_IsCancellationRequested()) {
@@ -475,7 +476,7 @@ Task<Int32> FileStream___::ReadAsync(Array<Byte> buffer, Int32 offset, Int32 cou
 
 template <>
 ValueTask<Int32> FileStream___::ReadAsync(Memory<Byte> buffer, CancellationToken cancellationToken) {
-  if (GetType() != rt::typeof<FileStream>()) {
+  if (GetType() != typeof<FileStream>()) {
     return Stream::in::ReadAsync(buffer, cancellationToken);
   }
   if (cancellationToken.get_IsCancellationRequested()) {
@@ -521,7 +522,7 @@ void FileStream___::Write(Array<Byte> array, Int32 offset, Int32 count) {
 }
 
 void FileStream___::Write(ReadOnlySpan<Byte> buffer) {
-  if (GetType() == rt::typeof<FileStream>() && !_useAsyncIO) {
+  if (GetType() == typeof<FileStream>() && !_useAsyncIO) {
     if (_fileHandle->get_IsClosed()) {
       rt::throw_exception(Error::GetFileNotOpen());
     }
@@ -544,7 +545,7 @@ Task<> FileStream___::WriteAsync(Array<Byte> buffer, Int32 offset, Int32 count, 
   if (buffer->get_Length() - offset < count) {
     rt::throw_exception<ArgumentException>(SR::get_Argument_InvalidOffLen());
   }
-  if (GetType() != rt::typeof<FileStream>()) {
+  if (GetType() != typeof<FileStream>()) {
     return Stream::in::WriteAsync(buffer, offset, count, cancellationToken);
   }
   if (cancellationToken.get_IsCancellationRequested()) {
@@ -561,7 +562,7 @@ Task<> FileStream___::WriteAsync(Array<Byte> buffer, Int32 offset, Int32 count, 
 
 template <>
 ValueTask<> FileStream___::WriteAsync(ReadOnlyMemory<Byte> buffer, CancellationToken cancellationToken) {
-  if (GetType() != rt::typeof<FileStream>()) {
+  if (GetType() != typeof<FileStream>()) {
     return Stream::in::WriteAsync(buffer, cancellationToken);
   }
   if (cancellationToken.get_IsCancellationRequested()) {
@@ -905,7 +906,7 @@ void FileStream___::Dispose(Boolean disposing) {
 }
 
 ValueTask<> FileStream___::DisposeAsync() {
-  if (!(GetType() == rt::typeof<FileStream>())) {
+  if (!(GetType() == typeof<FileStream>())) {
     return Stream::in::DisposeAsync();
   }
   return DisposeAsyncCore();
@@ -1387,7 +1388,7 @@ Int32 FileStream___::GetLastWin32ErrorAndDisposeHandleIfInvalid() {
 }
 
 Task<> FileStream___::CopyToAsync(Stream destination, Int32 bufferSize, CancellationToken cancellationToken) {
-  if (!_useAsyncIO || GetType() != rt::typeof<FileStream>()) {
+  if (!_useAsyncIO || GetType() != typeof<FileStream>()) {
     return Stream::in::CopyToAsync(destination, bufferSize, cancellationToken);
   }
   StreamHelpers::ValidateCopyToArgs((FileStream)this, destination, bufferSize);
@@ -1569,7 +1570,7 @@ void FileStream___::VerifyHandleIsSync(SafeFileHandle handle) {
 
 void FileStream___::cctor() {
   s_cachedSerializationSwitch = 0;
-  s_ioCallback = FileStreamCompletionSource::in::IOCallback;
+  s_ioCallback = &FileStreamCompletionSource::in::IOCallback;
 }
 
 } // namespace System::Private::CoreLib::System::IO::FileStreamNamespace

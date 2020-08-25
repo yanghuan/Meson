@@ -10,6 +10,7 @@
 #include <System.Private.CoreLib/System/Threading/Tasks/TaskScheduler-dep.h>
 #include <System.Private.CoreLib/System/Threading/Tasks/TplEventSource-dep.h>
 #include <System.Private.CoreLib/System/Threading/ThreadPool-dep.h>
+#include <System.Private.CoreLib/System/Type-dep.h>
 
 namespace System::Private::CoreLib::System::Runtime::CompilerServices::YieldAwaitableNamespace {
 using namespace System::Threading;
@@ -35,7 +36,7 @@ void YieldAwaitable::YieldAwaiter::QueueContinuation(Action<> continuation, Bool
     continuation = OutputCorrelationEtwEvent(continuation);
   }
   SynchronizationContext current = SynchronizationContext::in::get_Current();
-  if (current != nullptr && current->GetType() != rt::typeof<SynchronizationContext>()) {
+  if (current != nullptr && current->GetType() != typeof<SynchronizationContext>()) {
     current->Post(s_sendOrPostCallbackRunAction, continuation);
     return;
   }
@@ -65,8 +66,8 @@ void YieldAwaitable::YieldAwaiter::GetResult() {
 }
 
 void YieldAwaitable::YieldAwaiter::cctor() {
-  s_waitCallbackRunAction = RunAction;
-  s_sendOrPostCallbackRunAction = RunAction;
+  s_waitCallbackRunAction = &RunAction;
+  s_sendOrPostCallbackRunAction = &RunAction;
 }
 
 YieldAwaitable::YieldAwaiter YieldAwaitable::GetAwaiter() {

@@ -7,6 +7,7 @@
 #include <System.Private.CoreLib/System/IComparable.h>
 #include <System.Private.CoreLib/System/SR-dep.h>
 #include <System.Private.CoreLib/System/String-dep.h>
+#include <System.Private.CoreLib/System/Type-dep.h>
 
 namespace System::Private::CoreLib::System::Collections::ComparerNamespace {
 using namespace System::Globalization;
@@ -22,7 +23,7 @@ void Comparer___::ctor(SerializationInfo info, StreamingContext context) {
   if (info == nullptr) {
     rt::throw_exception<ArgumentNullException>("info");
   }
-  _compareInfo = (CompareInfo)info->GetValue("CompareInfo", rt::typeof<CompareInfo>());
+  _compareInfo = (CompareInfo)info->GetValue("CompareInfo", typeof<CompareInfo>());
 }
 
 void Comparer___::GetObjectData(SerializationInfo info, StreamingContext context) {

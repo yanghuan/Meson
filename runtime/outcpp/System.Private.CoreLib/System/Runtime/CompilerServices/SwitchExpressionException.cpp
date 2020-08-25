@@ -3,6 +3,7 @@
 #include <System.Private.CoreLib/System/Environment-dep.h>
 #include <System.Private.CoreLib/System/Exception-dep.h>
 #include <System.Private.CoreLib/System/SR-dep.h>
+#include <System.Private.CoreLib/System/Type-dep.h>
 
 namespace System::Private::CoreLib::System::Runtime::CompilerServices::SwitchExpressionExceptionNamespace {
 String SwitchExpressionException___::get_Message() {
@@ -24,7 +25,7 @@ void SwitchExpressionException___::ctor(Object unmatchedValue) {
 }
 
 void SwitchExpressionException___::ctor(SerializationInfo info, StreamingContext context) {
-  UnmatchedValue = info->GetValue("UnmatchedValue", rt::typeof<Object>());
+  UnmatchedValue = info->GetValue("UnmatchedValue", typeof<Object>());
 }
 
 void SwitchExpressionException___::ctor(String message) {
@@ -35,7 +36,7 @@ void SwitchExpressionException___::ctor(String message, Exception innerException
 
 void SwitchExpressionException___::GetObjectData(SerializationInfo info, StreamingContext context) {
   Exception::in::GetObjectData(info, context);
-  info->AddValue("UnmatchedValue", UnmatchedValue, rt::typeof<Object>());
+  info->AddValue("UnmatchedValue", UnmatchedValue, typeof<Object>());
 }
 
 } // namespace System::Private::CoreLib::System::Runtime::CompilerServices::SwitchExpressionExceptionNamespace

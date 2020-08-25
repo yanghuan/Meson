@@ -35,51 +35,51 @@ Array<Object> EventPipePayloadDecoder::DecodePayload(EventSource::in::EventMetad
       break;
     }
     Type parameterType = parameters[i]->get_ParameterType();
-    if (parameterType == rt::typeof<IntPtr>()) {
+    if (parameterType == typeof<IntPtr>()) {
       Int32 size = IntPtr::get_Size();
       array[i] = (IntPtr)BinaryPrimitives::ReadInt64LittleEndian(payload);
       payload = payload.Slice(IntPtr::get_Size());
-    } else if (parameterType == rt::typeof<Int32>()) {
+    } else if (parameterType == typeof<Int32>()) {
       array[i] = BinaryPrimitives::ReadInt32LittleEndian(payload);
       payload = payload.Slice(4);
-    } else if (parameterType == rt::typeof<UInt32>()) {
+    } else if (parameterType == typeof<UInt32>()) {
       array[i] = BinaryPrimitives::ReadUInt32LittleEndian(payload);
       payload = payload.Slice(4);
-    } else if (parameterType == rt::typeof<Int64>()) {
+    } else if (parameterType == typeof<Int64>()) {
       array[i] = BinaryPrimitives::ReadInt64LittleEndian(payload);
       payload = payload.Slice(8);
-    } else if (parameterType == rt::typeof<UInt64>()) {
+    } else if (parameterType == typeof<UInt64>()) {
       array[i] = BinaryPrimitives::ReadUInt64LittleEndian(payload);
       payload = payload.Slice(8);
-    } else if (parameterType == rt::typeof<Byte>()) {
+    } else if (parameterType == typeof<Byte>()) {
       array[i] = MemoryMarshal::Read<Byte>(payload);
       payload = payload.Slice(1);
-    } else if (parameterType == rt::typeof<SByte>()) {
+    } else if (parameterType == typeof<SByte>()) {
       array[i] = MemoryMarshal::Read<SByte>(payload);
       payload = payload.Slice(1);
-    } else if (parameterType == rt::typeof<Int16>()) {
+    } else if (parameterType == typeof<Int16>()) {
       array[i] = BinaryPrimitives::ReadInt16LittleEndian(payload);
       payload = payload.Slice(2);
-    } else if (parameterType == rt::typeof<UInt16>()) {
+    } else if (parameterType == typeof<UInt16>()) {
       array[i] = BinaryPrimitives::ReadUInt16LittleEndian(payload);
       payload = payload.Slice(2);
-    } else if (parameterType == rt::typeof<Single>()) {
+    } else if (parameterType == typeof<Single>()) {
       array[i] = BitConverter::Int32BitsToSingle(BinaryPrimitives::ReadInt32LittleEndian(payload));
       payload = payload.Slice(4);
-    } else if (parameterType == rt::typeof<Double>()) {
+    } else if (parameterType == typeof<Double>()) {
       array[i] = BitConverter::Int64BitsToDouble(BinaryPrimitives::ReadInt64LittleEndian(payload));
       payload = payload.Slice(8);
-    } else if (parameterType == rt::typeof<Boolean>()) {
+    } else if (parameterType == typeof<Boolean>()) {
       array[i] = (BinaryPrimitives::ReadInt32LittleEndian(payload) == 1);
       payload = payload.Slice(4);
-    } else if (parameterType == rt::typeof<Guid>()) {
+    } else if (parameterType == typeof<Guid>()) {
       array[i] = Guid(payload.Slice(0, 16));
       payload = payload.Slice(16);
-    } else if (parameterType == rt::typeof<Char>()) {
+    } else if (parameterType == typeof<Char>()) {
       array[i] = (Char)BinaryPrimitives::ReadUInt16LittleEndian(payload);
       payload = payload.Slice(2);
     } else {
-      if (!(parameterType == rt::typeof<String>())) {
+      if (!(parameterType == typeof<String>())) {
         continue;
       }
       Int32 num = -1;

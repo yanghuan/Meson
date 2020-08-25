@@ -19,6 +19,7 @@
 #include <System.Private.CoreLib/System/Span-dep.h>
 #include <System.Private.CoreLib/System/SR-dep.h>
 #include <System.Private.CoreLib/System/Threading/Interlocked-dep.h>
+#include <System.Private.CoreLib/System/Type-dep.h>
 #include <System.Private.CoreLib/System/UInt64-dep.h>
 #include <System.Private.CoreLib/System/UIntPtr-dep.h>
 
@@ -186,7 +187,7 @@ void UnmanagedMemoryStream___::Initialize(Byte* pointer, Int64 length, Int64 cap
 }
 
 void UnmanagedMemoryStream___::CopyTo(ReadOnlySpanAction<Byte, Object> callback, Object state, Int32 bufferSize) {
-  if (GetType() != rt::typeof<UnmanagedMemoryStream>()) {
+  if (GetType() != typeof<UnmanagedMemoryStream>()) {
     Stream::in::CopyTo(callback, state, bufferSize);
     return;
   }
@@ -281,7 +282,7 @@ Int32 UnmanagedMemoryStream___::Read(Array<Byte> buffer, Int32 offset, Int32 cou
 }
 
 Int32 UnmanagedMemoryStream___::Read(Span<Byte> buffer) {
-  if (GetType() == rt::typeof<UnmanagedMemoryStream>()) {
+  if (GetType() == typeof<UnmanagedMemoryStream>()) {
     return ReadCore(buffer);
   }
   return Stream::in::Read(buffer);
@@ -452,7 +453,7 @@ void UnmanagedMemoryStream___::Write(Array<Byte> buffer, Int32 offset, Int32 cou
 }
 
 void UnmanagedMemoryStream___::Write(ReadOnlySpan<Byte> buffer) {
-  if (GetType() == rt::typeof<UnmanagedMemoryStream>()) {
+  if (GetType() == typeof<UnmanagedMemoryStream>()) {
     WriteCore(buffer);
   } else {
     Stream::in::Write(buffer);

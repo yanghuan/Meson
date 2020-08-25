@@ -36,7 +36,7 @@ void ComActivator::BasicClassFactory___::ctor(Guid clsid, Type classType) {
 
 Type ComActivator::BasicClassFactory___::GetValidatedInterfaceType(Type classType, Guid& riid, Object outer) {
   if (riid == Marshal::IID_IUnknown) {
-    return rt::typeof<Object>();
+    return typeof<Object>();
   }
   if (outer != nullptr) {
     rt::throw_exception<COMException>(String::in::Empty, -2147221232);
@@ -45,7 +45,7 @@ Type ComActivator::BasicClassFactory___::GetValidatedInterfaceType(Type classTyp
 }
 
 void ComActivator::BasicClassFactory___::ValidateObjectIsMarshallableAsInterface(Object obj, Type interfaceType) {
-  if (!(interfaceType == rt::typeof<Object>())) {
+  if (!(interfaceType == typeof<Object>())) {
     IntPtr comInterfaceForObject = Marshal::GetComInterfaceForObject(obj, interfaceType, CustomQueryInterfaceMode::Ignore);
     Marshal::Release(comInterfaceForObject);
   }
@@ -115,7 +115,7 @@ void ComActivator::LicenseClassFactory___::CreateInstanceInner(Object pUnkOuter,
 }
 
 Object ComActivator::GetClassFactoryForType(ComActivationContext cxt) {
-  if (cxt.InterfaceId != rt::typeof<IClassFactory>()->get_GUID() && cxt.InterfaceId != rt::typeof<IClassFactory2>()->get_GUID()) {
+  if (cxt.InterfaceId != typeof<IClassFactory>()->get_GUID() && cxt.InterfaceId != typeof<IClassFactory2>()->get_GUID()) {
     rt::throw_exception<NotSupportedException>();
   }
   if (!Path::IsPathRooted(cxt.AssemblyPath)) {

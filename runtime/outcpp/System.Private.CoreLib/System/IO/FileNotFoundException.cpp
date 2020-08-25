@@ -3,6 +3,7 @@
 #include <System.Private.CoreLib/System/Exception-dep.h>
 #include <System.Private.CoreLib/System/IO/FileLoadException-dep.h>
 #include <System.Private.CoreLib/System/SR-dep.h>
+#include <System.Private.CoreLib/System/Type-dep.h>
 
 namespace System::Private::CoreLib::System::IO::FileNotFoundExceptionNamespace {
 String FileNotFoundException___::get_Message() {
@@ -81,8 +82,8 @@ void FileNotFoundException___::ctor(SerializationInfo info, StreamingContext con
 
 void FileNotFoundException___::GetObjectData(SerializationInfo info, StreamingContext context) {
   Exception::in::GetObjectData(info, context);
-  info->AddValue("FileNotFound_FileName", FileName, rt::typeof<String>());
-  info->AddValue("FileNotFound_FusionLog", FusionLog, rt::typeof<String>());
+  info->AddValue("FileNotFound_FileName", FileName, typeof<String>());
+  info->AddValue("FileNotFound_FusionLog", FusionLog, typeof<String>());
 }
 
 } // namespace System::Private::CoreLib::System::IO::FileNotFoundExceptionNamespace

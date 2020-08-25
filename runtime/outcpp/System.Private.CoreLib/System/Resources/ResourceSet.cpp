@@ -60,7 +60,7 @@ void ResourceSet___::Dispose() {
 }
 
 Type ResourceSet___::GetDefaultReader() {
-  return rt::typeof<ResourceReader>();
+  return typeof<ResourceReader>();
 }
 
 Type ResourceSet___::GetDefaultWriter() {

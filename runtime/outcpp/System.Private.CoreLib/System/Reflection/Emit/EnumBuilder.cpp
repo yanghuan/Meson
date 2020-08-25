@@ -264,7 +264,7 @@ void EnumBuilder___::ctor(String name, Type underlyingType, TypeAttributes visib
   if ((visibility & ~TypeAttributes::VisibilityMask) != 0) {
     rt::throw_exception<ArgumentException>(SR::get_Argument_ShouldOnlySetVisibilityFlags(), "name");
   }
-  m_typeBuilder = rt::newobj<TypeBuilder>(name, visibility | TypeAttributes::Sealed, rt::typeof<Enum>(), nullptr, module, PackingSize::Unspecified, 0, nullptr);
+  m_typeBuilder = rt::newobj<TypeBuilder>(name, visibility | TypeAttributes::Sealed, typeof<Enum>(), nullptr, module, PackingSize::Unspecified, 0, nullptr);
   m_underlyingField = m_typeBuilder->DefineField("value__", underlyingType, FieldAttributes::FamANDAssem | FieldAttributes::Family | FieldAttributes::SpecialName | FieldAttributes::RTSpecialName);
 }
 

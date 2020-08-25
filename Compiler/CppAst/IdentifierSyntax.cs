@@ -27,7 +27,7 @@ namespace Meson.Compiler.CppAst {
     public static readonly IdentifierSyntax NewObj = "rt::newobj";
     public static readonly IdentifierSyntax NewArray = "rt::newarr";
     public static readonly IdentifierSyntax Lock = "rt::lock";
-    public static readonly IdentifierSyntax Typeof = "rt::typeof";
+    public static readonly IdentifierSyntax Typeof = "typeof";
     public static readonly IdentifierSyntax Using = "rt::Using";
     public static readonly IdentifierSyntax Default = "rt::default__";
     public static readonly IdentifierSyntax IsEnumType = "std::is_enum_v";

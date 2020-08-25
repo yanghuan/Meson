@@ -275,7 +275,7 @@ Guid EventSource___::GetGuid(Type eventSourceType) {
   if (eventSourceType == nullptr) {
     rt::throw_exception<ArgumentNullException>("eventSourceType");
   }
-  EventSourceAttribute eventSourceAttribute = (EventSourceAttribute)GetCustomAttributeHelper(eventSourceType, rt::typeof<EventSourceAttribute>());
+  EventSourceAttribute eventSourceAttribute = (EventSourceAttribute)GetCustomAttributeHelper(eventSourceType, typeof<EventSourceAttribute>());
   String name = eventSourceType->get_Name();
   if (eventSourceAttribute != nullptr) {
     Guid result;
@@ -941,7 +941,7 @@ String EventSource___::GetName(Type eventSourceType, EventManifestOptions flags)
   if (eventSourceType == nullptr) {
     rt::throw_exception<ArgumentNullException>("eventSourceType");
   }
-  EventSourceAttribute eventSourceAttribute = (EventSourceAttribute)GetCustomAttributeHelper(eventSourceType, rt::typeof<EventSourceAttribute>(), flags);
+  EventSourceAttribute eventSourceAttribute = (EventSourceAttribute)GetCustomAttributeHelper(eventSourceType, typeof<EventSourceAttribute>(), flags);
   if (eventSourceAttribute != nullptr && eventSourceAttribute->get_Name() != nullptr) {
     return eventSourceAttribute->get_Name();
   }
@@ -966,56 +966,56 @@ Object EventSource___::DecodeObject(Int32 eventId, Int32 parameterId, EventData*
   data++;
   Type type = GetDataType(m_eventData[eventId], parameterId);
   while (true) {
-    if (type == rt::typeof<IntPtr>()) {
+    if (type == typeof<IntPtr>()) {
       return *(IntPtr*)(void*)dataPointer;
     }
-    if (type == rt::typeof<Int32>()) {
+    if (type == typeof<Int32>()) {
       return *(Int32*)(void*)dataPointer;
     }
-    if (type == rt::typeof<UInt32>()) {
+    if (type == typeof<UInt32>()) {
       return *(UInt32*)(void*)dataPointer;
     }
-    if (type == rt::typeof<Int64>()) {
+    if (type == typeof<Int64>()) {
       return *(Int64*)(void*)dataPointer;
     }
-    if (type == rt::typeof<UInt64>()) {
+    if (type == typeof<UInt64>()) {
       return (UInt64)(*(Int64*)(void*)dataPointer);
     }
-    if (type == rt::typeof<Byte>()) {
+    if (type == typeof<Byte>()) {
       return *(Byte*)(void*)dataPointer;
     }
-    if (type == rt::typeof<SByte>()) {
+    if (type == typeof<SByte>()) {
       return *(SByte*)(void*)dataPointer;
     }
-    if (type == rt::typeof<Int16>()) {
+    if (type == typeof<Int16>()) {
       return *(Int16*)(void*)dataPointer;
     }
-    if (type == rt::typeof<UInt16>()) {
+    if (type == typeof<UInt16>()) {
       return *(UInt16*)(void*)dataPointer;
     }
-    if (type == rt::typeof<Single>()) {
+    if (type == typeof<Single>()) {
       return *(Single*)(void*)dataPointer;
     }
-    if (type == rt::typeof<Double>()) {
+    if (type == typeof<Double>()) {
       return *(Double*)(void*)dataPointer;
     }
-    if (type == rt::typeof<Decimal>()) {
+    if (type == typeof<Decimal>()) {
       return *(Decimal*)(void*)dataPointer;
     }
-    if (type == rt::typeof<Boolean>()) {
+    if (type == typeof<Boolean>()) {
       return *(Int32*)(void*)dataPointer == 1;
     }
-    if (type == rt::typeof<Guid>()) {
+    if (type == typeof<Guid>()) {
       return *(Guid*)(void*)dataPointer;
     }
-    if (type == rt::typeof<Char>()) {
+    if (type == typeof<Char>()) {
       return (Char)(*(UInt16*)(void*)dataPointer);
     }
-    if (type == rt::typeof<DateTime>()) {
+    if (type == typeof<DateTime>()) {
       Int64 fileTime = *(Int64*)(void*)dataPointer;
       return DateTime::FromFileTimeUtc(fileTime);
     }
-    if (type == rt::typeof<Array<Byte>>()) {
+    if (type == typeof<Array<Byte>>()) {
       Int32 num = *(Int32*)(void*)dataPointer;
       Array<Byte> array = rt::newarr<Array<Byte>>(num);
       dataPointer = data->set_DataPointer();
@@ -1025,7 +1025,7 @@ Object EventSource___::DecodeObject(Int32 eventId, Int32 parameterId, EventData*
       }
       return array;
     }
-    if (type == rt::typeof<Byte*>()) {
+    if (type == typeof<Byte*>()) {
       break;
     }
     try {
@@ -1034,7 +1034,7 @@ Object EventSource___::DecodeObject(Int32 eventId, Int32 parameterId, EventData*
         type = Enum::in::GetUnderlyingType(type);
         Int32 num2 = Marshal::SizeOf(type);
         if (num2 < 4) {
-          type = rt::typeof<Int32>();
+          type = typeof<Int32>();
         }
         continue;
       }
@@ -1150,7 +1150,7 @@ void EventSource___::LogEventArgsMismatches(Int32 eventId, Array<Object> args) {
   for (Int32 i = 0; i < args->get_Length(); i++) {
     Type parameterType = parameters[i]->get_ParameterType();
     Object obj = args[i];
-    if ((obj != nullptr && !parameterType->IsAssignableFrom(obj->GetType())) || (obj == nullptr && parameterType->get_IsValueType() && (!parameterType->get_IsGenericType() || !(parameterType->GetGenericTypeDefinition() == rt::typeof<Nullable<T>>())))) {
+    if ((obj != nullptr && !parameterType->IsAssignableFrom(obj->GetType())) || (obj == nullptr && parameterType->get_IsValueType() && (!parameterType->get_IsGenericType() || !(parameterType->GetGenericTypeDefinition() == typeof<Nullable<T>>())))) {
       ReportOutOfBandMessage(SR::Format(SR::get_EventSource_VarArgsParameterMismatch(), eventId, parameters[i]->get_Name()));
       break;
     }
@@ -1162,7 +1162,7 @@ void EventSource___::WriteToAllListeners(Int32 eventId, Guid* activityID, Guid* 
   Int32 num2 = 0;
   for (Int32 i = 0; i < num; i++) {
     Type dataType = GetDataType(m_eventData[eventId], i);
-    num2 = ((!(dataType == rt::typeof<Array<Byte>>())) ? (num2 + 1) : (num2 + 2));
+    num2 = ((!(dataType == typeof<Array<Byte>>())) ? (num2 + 1) : (num2 + 2));
   }
   if (eventDataCount != num2) {
     ReportOutOfBandMessage(SR::Format(SR::get_EventSource_EventParametersMismatch(), eventId, eventDataCount, num));
@@ -1225,14 +1225,14 @@ void EventSource___::WriteEventString(String msgString) {
     eventSourceOptions.set_Keywords((EventKeywords)keywords);
     eventSourceOptions.set_Level(eventLevel);
     EventSourceOptions options = eventSourceOptions;
-    TraceLoggingEventTypes eventTypes = rt::newobj<TraceLoggingEventTypes>("EventSourceMessage", EventTags::None, rt::typeof<String>());
+    TraceLoggingEventTypes eventTypes = rt::newobj<TraceLoggingEventTypes>("EventSourceMessage", EventTags::None, typeof<String>());
     WriteMultiMergeInner("EventSourceMessage", options, eventTypes, nullptr, nullptr, msgString);
     return;
   }
   if (m_rawManifest == nullptr && m_outOfBandMessageCount == 1) {
     ManifestBuilder manifestBuilder = rt::newobj<ManifestBuilder>(get_Name(), get_Guid(), get_Name(), nullptr, EventManifestOptions::None);
     manifestBuilder->StartEvent("EventSourceMessage", rt::newobj<EventAttribute>(0));
-    manifestBuilder->AddEventParameter(rt::typeof<String>(), "message");
+    manifestBuilder->AddEventParameter(typeof<String>(), "message");
     manifestBuilder->EndEvent();
     SendManifest(manifestBuilder->CreateManifest());
   }
@@ -1256,7 +1256,7 @@ void EventSource___::WriteEventString(String msgString) {
         if (m_writeEventStringEventHandle == IntPtr::Zero) {
           String eventName = "EventSourceMessage";
           EventParameterInfo eventParameterInfo = EventParameterInfo();
-          eventParameterInfo.SetInfo("message", rt::typeof<String>());
+          eventParameterInfo.SetInfo("message", typeof<String>());
           Array<Byte> array = EventPipeMetadataGenerator::in::Instance->GenerateMetadata(0, eventName, keywords, (UInt32)eventLevel, 0u, EventOpcode::Info, rt::newarr<Array<EventParameterInfo>>(1));
           UInt32 metadataLength = (UInt32)((array != nullptr) ? array->get_Length() : 0);
           {
@@ -1656,7 +1656,7 @@ Type EventSource___::GetEventSourceBaseType(Type eventSourceType, Boolean allowE
   } while (type != nullptr && ReflectionExtensions::IsAbstract(type))
   if (type != nullptr) {
     if (!allowEventSourceOverride) {
-      if ((reflectionOnly && type->get_FullName() != rt::typeof<EventSource>()->get_FullName()) || (!reflectionOnly && type != rt::typeof<EventSource>())) {
+      if ((reflectionOnly && type->get_FullName() != typeof<EventSource>()->get_FullName()) || (!reflectionOnly && type != typeof<EventSource>())) {
         return nullptr;
       }
     } else if (type->get_Name() != "EventSource") {
@@ -1685,13 +1685,13 @@ Array<Byte> EventSource___::CreateManifestAndDescriptors(Type eventSourceType, S
       eventData[0].Name = "";
     }
     ResourceManager resources = nullptr;
-    EventSourceAttribute eventSourceAttribute = (EventSourceAttribute)GetCustomAttributeHelper(eventSourceType, rt::typeof<EventSourceAttribute>(), flags);
+    EventSourceAttribute eventSourceAttribute = (EventSourceAttribute)GetCustomAttributeHelper(eventSourceType, typeof<EventSourceAttribute>(), flags);
     if (eventSourceAttribute != nullptr && eventSourceAttribute->get_LocalizationResources() != nullptr) {
       resources = rt::newobj<ResourceManager>(eventSourceAttribute->get_LocalizationResources(), ReflectionExtensions::Assembly(eventSourceType));
     }
     manifestBuilder = rt::newobj<ManifestBuilder>(GetName(eventSourceType, flags), GetGuid(eventSourceType), eventSourceDllName, resources, flags);
     manifestBuilder->StartEvent("EventSourceMessage", rt::newobj<EventAttribute>(0));
-    manifestBuilder->AddEventParameter(rt::typeof<String>(), "message");
+    manifestBuilder->AddEventParameter(typeof<String>(), "message");
     manifestBuilder->EndEvent();
     if ((flags & EventManifestOptions::Strict) != 0) {
       if (!(GetEventSourceBaseType(eventSourceType, (flags & EventManifestOptions::AllowEventSourceOverride) != 0, ReflectionExtensions::ReflectionOnly(ReflectionExtensions::Assembly(eventSourceType))) != nullptr)) {
@@ -1720,7 +1720,7 @@ Array<Byte> EventSource___::CreateManifestAndDescriptors(Type eventSourceType, S
 }
 
 Boolean EventSource___::RemoveFirstArgIfRelatedActivityId(Array<ParameterInfo>& args) {
-  if (args->get_Length() != 0 && args[0]->get_ParameterType() == rt::typeof<Guid>() && String::in::Equals(args[0]->get_Name(), "relatedActivityId", StringComparison::OrdinalIgnoreCase)) {
+  if (args->get_Length() != 0 && args[0]->get_ParameterType() == typeof<Guid>() && String::in::Equals(args[0]->get_Name(), "relatedActivityId", StringComparison::OrdinalIgnoreCase)) {
     Array<ParameterInfo> array = rt::newarr<Array<ParameterInfo>>(args->get_Length() - 1);
     Array<>::in::Copy(args, 1, array, 0, args->get_Length() - 1);
     args = array;
@@ -1732,20 +1732,20 @@ Boolean EventSource___::RemoveFirstArgIfRelatedActivityId(Array<ParameterInfo>& 
 void EventSource___::AddProviderEnumKind(ManifestBuilder manifest, FieldInfo staticField, String providerEnumKind) {
   Boolean flag = ReflectionExtensions::ReflectionOnly(staticField->get_Module()->get_Assembly());
   Type fieldType = staticField->get_FieldType();
-  if ((!flag && fieldType == rt::typeof<EventOpcode>()) || AttributeTypeNamesMatch(fieldType, rt::typeof<EventOpcode>())) {
+  if ((!flag && fieldType == typeof<EventOpcode>()) || AttributeTypeNamesMatch(fieldType, typeof<EventOpcode>())) {
     if (!(providerEnumKind != "Opcodes")) {
       Int32 value = (Int32)staticField->GetRawConstantValue();
       manifest->AddOpcode(staticField->get_Name(), value);
       return;
     }
-  } else if ((!flag && fieldType == rt::typeof<EventTask>()) || AttributeTypeNamesMatch(fieldType, rt::typeof<EventTask>())) {
+  } else if ((!flag && fieldType == typeof<EventTask>()) || AttributeTypeNamesMatch(fieldType, typeof<EventTask>())) {
     if (!(providerEnumKind != "Tasks")) {
       Int32 value2 = (Int32)staticField->GetRawConstantValue();
       manifest->AddTask(staticField->get_Name(), value2);
       return;
     }
   } else {
-    if ((flag || !(fieldType == rt::typeof<EventKeywords>())) && !AttributeTypeNamesMatch(fieldType, rt::typeof<EventKeywords>())) {
+    if ((flag || !(fieldType == typeof<EventKeywords>())) && !AttributeTypeNamesMatch(fieldType, typeof<EventKeywords>())) {
       return;
     }
     if (!(providerEnumKind != "Keywords")) {
@@ -2088,7 +2088,7 @@ void EventSource___::WriteMultiMerge(String eventName, EventSourceOptions& optio
           for (Int32 j = 0; j < eventTypes->typeInfos->get_Length(); j++) {
             ptr[num2].m_Ptr = data[j].m_Ptr;
             ptr[num2].m_Size = data[j].m_Size;
-            if (data[j].m_Size == 4 && eventTypes->typeInfos[j]->get_DataType() == rt::typeof<Boolean>()) {
+            if (data[j].m_Size == 4 && eventTypes->typeInfos[j]->get_DataType() == typeof<Boolean>()) {
               ptr[num2].m_Size = 1;
             }
             num2++;

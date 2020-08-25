@@ -356,7 +356,7 @@ void ILGenerator___::EmitCalli(OpCode opcode, CallingConventions callingConventi
   SignatureHelper memberRefSignature = GetMemberRefSignature(callingConvention, returnType, parameterTypes, optionalParameterTypes);
   EnsureCapacity(7);
   Emit(OpCodes::in::Calli);
-  if (returnType != rt::typeof<void>()) {
+  if (returnType != typeof<void>()) {
     num++;
   }
   if (parameterTypes != nullptr) {
@@ -387,7 +387,7 @@ void ILGenerator___::EmitCalli(OpCode opcode, CallingConvention unmanagedCallCon
       methodSigHelper->AddArgument(parameterTypes[i]);
     }
   }
-  if (returnType != rt::typeof<void>()) {
+  if (returnType != typeof<void>()) {
     num++;
   }
   if (parameterTypes != nullptr) {
@@ -412,7 +412,7 @@ void ILGenerator___::EmitCall(OpCode opcode, MethodInfo methodInfo, Array<Type> 
   Int32 methodToken = GetMethodToken(methodInfo, optionalParameterTypes, false);
   EnsureCapacity(7);
   InternalEmit(opcode);
-  if (methodInfo->get_ReturnType() != rt::typeof<void>()) {
+  if (methodInfo->get_ReturnType() != typeof<void>()) {
     num++;
   }
   Array<Type> parameterTypes = methodInfo->GetParameterTypes();
@@ -744,7 +744,7 @@ void ILGenerator___::ThrowException(Type excType) {
   if (excType == nullptr) {
     rt::throw_exception<ArgumentNullException>("excType");
   }
-  if (!excType->IsSubclassOf(rt::typeof<Exception>()) && excType != rt::typeof<Exception>()) {
+  if (!excType->IsSubclassOf(typeof<Exception>()) && excType != typeof<Exception>()) {
     rt::throw_exception<ArgumentException>(SR::get_Argument_NotExceptionType());
   }
   ConstructorInfo constructor = excType->GetConstructor(Type::in::EmptyTypes);

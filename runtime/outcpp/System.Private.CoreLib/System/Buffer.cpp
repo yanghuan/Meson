@@ -12,6 +12,7 @@
 #include <System.Private.CoreLib/System/SpanHelpers-dep.h>
 #include <System.Private.CoreLib/System/SR-dep.h>
 #include <System.Private.CoreLib/System/ThrowHelper-dep.h>
+#include <System.Private.CoreLib/System/Type-dep.h>
 #include <System.Private.CoreLib/System/UInt32-dep.h>
 
 namespace System::Private::CoreLib::System::BufferNamespace {
@@ -74,7 +75,7 @@ void Buffer::BlockCopy(Array<> src, Int32 srcOffset, Array<> dst, Int32 dstOffse
     rt::throw_exception<ArgumentNullException>("dst");
   }
   UIntPtr num = (UIntPtr)src->get_LongLength();
-  if (src->GetType() != rt::typeof<Array<Byte>>()) {
+  if (src->GetType() != typeof<Array<Byte>>()) {
     if (!RuntimeHelpers::IsPrimitiveType(src->GetCorElementTypeOfElementType())) {
       rt::throw_exception<ArgumentException>(SR::get_Arg_MustBePrimArray(), "src");
     }
@@ -83,7 +84,7 @@ void Buffer::BlockCopy(Array<> src, Int32 srcOffset, Array<> dst, Int32 dstOffse
   UIntPtr num2 = num;
   if (src != dst) {
     num2 = (UIntPtr)dst->get_LongLength();
-    if (dst->GetType() != rt::typeof<Array<Byte>>()) {
+    if (dst->GetType() != typeof<Array<Byte>>()) {
       if (!RuntimeHelpers::IsPrimitiveType(dst->GetCorElementTypeOfElementType())) {
         rt::throw_exception<ArgumentException>(SR::get_Arg_MustBePrimArray(), "dst");
       }

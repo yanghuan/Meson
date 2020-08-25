@@ -143,7 +143,7 @@ void MethodBuilder___::ctor(String name, MethodAttributes attributes, CallingCon
   m_module = mod;
   m_containingType = type;
   Type as = returnType;
-  m_returnType = (as != nullptr ? as : rt::typeof<void>());
+  m_returnType = (as != nullptr ? as : typeof<void>());
   if ((attributes & MethodAttributes::Static) == 0) {
     callingConvention |= CallingConventions::HasThis;
   } else if ((attributes & MethodAttributes::Virtual) != 0) {
@@ -591,17 +591,17 @@ void MethodBuilder___::SetCustomAttribute(CustomAttributeBuilder customBuilder) 
 
 Boolean MethodBuilder___::IsKnownCA(ConstructorInfo con) {
   Type declaringType = con->get_DeclaringType();
-  if (!(declaringType == rt::typeof<MethodImplAttribute>())) {
-    return declaringType == rt::typeof<DllImportAttribute>();
+  if (!(declaringType == typeof<MethodImplAttribute>())) {
+    return declaringType == typeof<DllImportAttribute>();
   }
   return true;
 }
 
 void MethodBuilder___::ParseCA(ConstructorInfo con) {
   Type declaringType = con->get_DeclaringType();
-  if (declaringType == rt::typeof<MethodImplAttribute>()) {
+  if (declaringType == typeof<MethodImplAttribute>()) {
     m_canBeRuntimeImpl = true;
-  } else if (declaringType == rt::typeof<DllImportAttribute>()) {
+  } else if (declaringType == typeof<DllImportAttribute>()) {
     m_canBeRuntimeImpl = true;
     m_isDllImport = true;
   }

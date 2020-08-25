@@ -352,7 +352,7 @@ void TypeBuilder___::SetConstantValue(ModuleBuilder module, Int32 tk, Type destT
       }
       return;
     }
-    if (type == rt::typeof<String>()) {
+    if (type == typeof<String>()) {
       {
         Char* ptr = (String)value;
         Char* pValue2 = ptr;
@@ -360,7 +360,7 @@ void TypeBuilder___::SetConstantValue(ModuleBuilder module, Int32 tk, Type destT
       }
       return;
     }
-    if (!(type == rt::typeof<DateTime>())) {
+    if (!(type == typeof<DateTime>())) {
       rt::throw_exception<ArgumentException>(SR::Format(SR::get_Argument_ConstantNotSupported(), type));
     }
     Int64 ticks = ((DateTime)value).get_Ticks();
@@ -476,7 +476,7 @@ FieldBuilder TypeBuilder___::DefineDataHelper(String name, Array<Byte> data, Int
   TypeBuilder typeBuilder = rt::as<TypeBuilder>(type);
   if (typeBuilder == nullptr) {
     TypeAttributes attr = TypeAttributes::Public | TypeAttributes::ExplicitLayout | TypeAttributes::Sealed;
-    typeBuilder = m_module->DefineType(text, attr, rt::typeof<ValueType>(), PackingSize::Size1, size);
+    typeBuilder = m_module->DefineType(text, attr, typeof<ValueType>(), PackingSize::Size1, size);
     typeBuilder->CreateType();
   }
   FieldBuilder fieldBuilder = DefineField(name, typeBuilder, attributes | FieldAttributes::Static);
@@ -786,7 +786,7 @@ Array<Object> TypeBuilder___::GetCustomAttributes(Boolean inherit) {
   if (!IsCreated()) {
     rt::throw_exception<NotSupportedException>(SR::get_NotSupported_TypeNotYetCreated());
   }
-  return CustomAttribute::GetCustomAttributes(m_bakedRuntimeType, rt::as<RuntimeType>(rt::typeof<Object>()), inherit);
+  return CustomAttribute::GetCustomAttributes(m_bakedRuntimeType, rt::as<RuntimeType>(typeof<Object>()), inherit);
 }
 
 Array<Object> TypeBuilder___::GetCustomAttributes(Type attributeType, Boolean inherit) {
@@ -1401,7 +1401,7 @@ void TypeBuilder___::SetParent(Type parent) {
     }
     m_typeParent = parent;
   } else if ((m_iAttr & TypeAttributes::ClassSemanticsMask) != TypeAttributes::ClassSemanticsMask) {
-    m_typeParent = rt::typeof<Object>();
+    m_typeParent = typeof<Object>();
   } else {
     if ((m_iAttr & TypeAttributes::Abstract) == 0) {
       rt::throw_exception<InvalidOperationException>(SR::get_InvalidOperation_BadInterfaceNotAbstract());

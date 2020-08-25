@@ -10,6 +10,7 @@
 #include <System.Private.CoreLib/System/Resources/RuntimeResourceSet-dep.h>
 #include <System.Private.CoreLib/System/Runtime/CompilerServices/RuntimeHelpers-dep.h>
 #include <System.Private.CoreLib/System/Threading/Monitor-dep.h>
+#include <System.Private.CoreLib/System/Type-dep.h>
 
 namespace System::Private::CoreLib::System::SRNamespace {
 using namespace System::Collections::Generic;
@@ -21,7 +22,7 @@ using namespace System::Threading;
 
 ResourceManager SR::get_ResourceManager() {
   ResourceManager as = s_resourceManager;
-  return as != nullptr ? as : (s_resourceManager = rt::newobj<ResourceManager>(rt::typeof<Strings>()));
+  return as != nullptr ? as : (s_resourceManager = rt::newobj<ResourceManager>(typeof<Strings>()));
 }
 
 String SR::get_Acc_CreateAbstEx() {
@@ -4271,10 +4272,10 @@ String SR::InternalGetResourceString(String key) {
       _currentlyLoading = rt::newobj<List<String>>();
     }
     if (!_resourceManagerInited) {
-      RuntimeHelpers::RunClassConstructor(rt::typeof<ResourceManager>()->get_TypeHandle());
-      RuntimeHelpers::RunClassConstructor(rt::typeof<ResourceReader>()->get_TypeHandle());
-      RuntimeHelpers::RunClassConstructor(rt::typeof<RuntimeResourceSet>()->get_TypeHandle());
-      RuntimeHelpers::RunClassConstructor(rt::typeof<BinaryReader>()->get_TypeHandle());
+      RuntimeHelpers::RunClassConstructor(typeof<ResourceManager>()->get_TypeHandle());
+      RuntimeHelpers::RunClassConstructor(typeof<ResourceReader>()->get_TypeHandle());
+      RuntimeHelpers::RunClassConstructor(typeof<RuntimeResourceSet>()->get_TypeHandle());
+      RuntimeHelpers::RunClassConstructor(typeof<BinaryReader>()->get_TypeHandle());
       _resourceManagerInited = true;
     }
     _currentlyLoading->Add(key);

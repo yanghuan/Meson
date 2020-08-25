@@ -201,10 +201,10 @@ Array<Type> Statics::GetGenericArguments(Type type) {
 
 Type Statics::FindEnumerableElementType(Type type) {
   Type type2 = nullptr;
-  if (IsGenericMatch(type, rt::typeof<IEnumerable<T>>())) {
+  if (IsGenericMatch(type, typeof<IEnumerable<T>>())) {
     type2 = GetGenericArguments(type)[0];
   } else {
-    Array<Type> array = type->FindInterfaces(rt::newobj<TypeFilter>(&IsGenericMatch), rt::typeof<IEnumerable<T>>());
+    Array<Type> array = type->FindInterfaces(rt::newobj<TypeFilter>(&IsGenericMatch), typeof<IEnumerable<T>>());
     Array<Type> array2 = array;
   }
   return type2;
@@ -223,55 +223,55 @@ TraceLoggingTypeInfo Statics::CreateDefaultTypeInfo(Type dataType, List<Type> re
   }
   recursionCheck->Add(dataType);
   EventDataAttribute customAttribute = GetCustomAttribute<EventDataAttribute>(dataType);
-  if (customAttribute != nullptr || GetCustomAttribute<CompilerGeneratedAttribute>(dataType) != nullptr || IsGenericMatch(dataType, rt::typeof<KeyValuePair<TKey, TValue>>())) {
+  if (customAttribute != nullptr || GetCustomAttribute<CompilerGeneratedAttribute>(dataType) != nullptr || IsGenericMatch(dataType, typeof<KeyValuePair<TKey, TValue>>())) {
     TypeAnalysis typeAnalysis = rt::newobj<TypeAnalysis>(dataType, customAttribute, recursionCheck);
     return rt::newobj<InvokeTypeInfo>(dataType, typeAnalysis);
   }
   if (dataType->get_IsArray()) {
     Type elementType = dataType->GetElementType();
-    if (elementType == rt::typeof<Boolean>()) {
+    if (elementType == typeof<Boolean>()) {
       return ScalarArrayTypeInfo::in::Boolean();
     }
-    if (elementType == rt::typeof<Byte>()) {
+    if (elementType == typeof<Byte>()) {
       return ScalarArrayTypeInfo::in::Byte();
     }
-    if (elementType == rt::typeof<SByte>()) {
+    if (elementType == typeof<SByte>()) {
       return ScalarArrayTypeInfo::in::SByte();
     }
-    if (elementType == rt::typeof<Int16>()) {
+    if (elementType == typeof<Int16>()) {
       return ScalarArrayTypeInfo::in::Int16();
     }
-    if (elementType == rt::typeof<UInt16>()) {
+    if (elementType == typeof<UInt16>()) {
       return ScalarArrayTypeInfo::in::UInt16();
     }
-    if (elementType == rt::typeof<Int32>()) {
+    if (elementType == typeof<Int32>()) {
       return ScalarArrayTypeInfo::in::Int32();
     }
-    if (elementType == rt::typeof<UInt32>()) {
+    if (elementType == typeof<UInt32>()) {
       return ScalarArrayTypeInfo::in::UInt32();
     }
-    if (elementType == rt::typeof<Int64>()) {
+    if (elementType == typeof<Int64>()) {
       return ScalarArrayTypeInfo::in::Int64();
     }
-    if (elementType == rt::typeof<UInt64>()) {
+    if (elementType == typeof<UInt64>()) {
       return ScalarArrayTypeInfo::in::UInt64();
     }
-    if (elementType == rt::typeof<Char>()) {
+    if (elementType == typeof<Char>()) {
       return ScalarArrayTypeInfo::in::Char();
     }
-    if (elementType == rt::typeof<Double>()) {
+    if (elementType == typeof<Double>()) {
       return ScalarArrayTypeInfo::in::Double();
     }
-    if (elementType == rt::typeof<Single>()) {
+    if (elementType == typeof<Single>()) {
       return ScalarArrayTypeInfo::in::Single();
     }
-    if (elementType == rt::typeof<IntPtr>()) {
+    if (elementType == typeof<IntPtr>()) {
       return ScalarArrayTypeInfo::in::IntPtr();
     }
-    if (elementType == rt::typeof<UIntPtr>()) {
+    if (elementType == typeof<UIntPtr>()) {
       return ScalarArrayTypeInfo::in::UIntPtr();
     }
-    if (elementType == rt::typeof<Guid>()) {
+    if (elementType == typeof<Guid>()) {
       return ScalarArrayTypeInfo::in::Guid();
     }
     return rt::newobj<ArrayTypeInfo>(dataType, TraceLoggingTypeInfo::in::GetInstance(elementType, recursionCheck));
@@ -279,70 +279,70 @@ TraceLoggingTypeInfo Statics::CreateDefaultTypeInfo(Type dataType, List<Type> re
   if (IsEnum(dataType)) {
     dataType = Enum::in::GetUnderlyingType(dataType);
   }
-  if (dataType == rt::typeof<String>()) {
+  if (dataType == typeof<String>()) {
     return rt::newobj<StringTypeInfo>();
   }
-  if (dataType == rt::typeof<Boolean>()) {
+  if (dataType == typeof<Boolean>()) {
     return ScalarTypeInfo::in::Boolean();
   }
-  if (dataType == rt::typeof<Byte>()) {
+  if (dataType == typeof<Byte>()) {
     return ScalarTypeInfo::in::Byte();
   }
-  if (dataType == rt::typeof<SByte>()) {
+  if (dataType == typeof<SByte>()) {
     return ScalarTypeInfo::in::SByte();
   }
-  if (dataType == rt::typeof<Int16>()) {
+  if (dataType == typeof<Int16>()) {
     return ScalarTypeInfo::in::Int16();
   }
-  if (dataType == rt::typeof<UInt16>()) {
+  if (dataType == typeof<UInt16>()) {
     return ScalarTypeInfo::in::UInt16();
   }
-  if (dataType == rt::typeof<Int32>()) {
+  if (dataType == typeof<Int32>()) {
     return ScalarTypeInfo::in::Int32();
   }
-  if (dataType == rt::typeof<UInt32>()) {
+  if (dataType == typeof<UInt32>()) {
     return ScalarTypeInfo::in::UInt32();
   }
-  if (dataType == rt::typeof<Int64>()) {
+  if (dataType == typeof<Int64>()) {
     return ScalarTypeInfo::in::Int64();
   }
-  if (dataType == rt::typeof<UInt64>()) {
+  if (dataType == typeof<UInt64>()) {
     return ScalarTypeInfo::in::UInt64();
   }
-  if (dataType == rt::typeof<Char>()) {
+  if (dataType == typeof<Char>()) {
     return ScalarTypeInfo::in::Char();
   }
-  if (dataType == rt::typeof<Double>()) {
+  if (dataType == typeof<Double>()) {
     return ScalarTypeInfo::in::Double();
   }
-  if (dataType == rt::typeof<Single>()) {
+  if (dataType == typeof<Single>()) {
     return ScalarTypeInfo::in::Single();
   }
-  if (dataType == rt::typeof<DateTime>()) {
+  if (dataType == typeof<DateTime>()) {
     return rt::newobj<DateTimeTypeInfo>();
   }
-  if (dataType == rt::typeof<Decimal>()) {
+  if (dataType == typeof<Decimal>()) {
     return rt::newobj<DecimalTypeInfo>();
   }
-  if (dataType == rt::typeof<IntPtr>()) {
+  if (dataType == typeof<IntPtr>()) {
     return ScalarTypeInfo::in::IntPtr();
   }
-  if (dataType == rt::typeof<UIntPtr>()) {
+  if (dataType == typeof<UIntPtr>()) {
     return ScalarTypeInfo::in::UIntPtr();
   }
-  if (dataType == rt::typeof<Guid>()) {
+  if (dataType == typeof<Guid>()) {
     return ScalarTypeInfo::in::Guid();
   }
-  if (dataType == rt::typeof<TimeSpan>()) {
+  if (dataType == typeof<TimeSpan>()) {
     return rt::newobj<TimeSpanTypeInfo>();
   }
-  if (dataType == rt::typeof<DateTimeOffset>()) {
+  if (dataType == typeof<DateTimeOffset>()) {
     return rt::newobj<DateTimeOffsetTypeInfo>();
   }
-  if (dataType == rt::typeof<EmptyStruct>()) {
+  if (dataType == typeof<EmptyStruct>()) {
     return rt::newobj<NullTypeInfo>();
   }
-  if (IsGenericMatch(dataType, rt::typeof<Nullable<T>>())) {
+  if (IsGenericMatch(dataType, typeof<Nullable<T>>())) {
     return rt::newobj<NullableTypeInfo>(dataType, recursionCheck);
   }
   Type type = FindEnumerableElementType(dataType);

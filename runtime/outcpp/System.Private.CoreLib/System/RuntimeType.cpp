@@ -182,9 +182,9 @@ RuntimeType RuntimeType___::RuntimeTypeCache___::GetEnclosingType() {
   if (m_enclosingType == nullptr) {
     RuntimeType declaringType = RuntimeTypeHandle::GetDeclaringType(GetRuntimeType());
     RuntimeType as = declaringType;
-    m_enclosingType = (as != nullptr ? as : ((RuntimeType)rt::typeof<void>()));
+    m_enclosingType = (as != nullptr ? as : ((RuntimeType)typeof<void>()));
   }
-  if (!(m_enclosingType == rt::typeof<void>())) {
+  if (!(m_enclosingType == typeof<void>())) {
     return m_enclosingType;
   }
   return nullptr;
@@ -201,7 +201,7 @@ void RuntimeType___::RuntimeTypeCache___::InvalidateCachedNestedType() {
 String RuntimeType___::RuntimeTypeCache___::GetDefaultMemberName() {
   if (m_defaultMemberName == nullptr) {
     CustomAttributeData customAttributeData = nullptr;
-    Type typeFromHandle = rt::typeof<DefaultMemberAttribute>();
+    Type typeFromHandle = typeof<DefaultMemberAttribute>();
     RuntimeType runtimeType = m_runtimeType;
     while (runtimeType != nullptr) {
       IList<CustomAttributeData> customAttributes = CustomAttributeData::in::GetCustomAttributes(runtimeType);
@@ -312,8 +312,8 @@ void RuntimeType___::ActivatorCache___::Initialize() {
   if (!_hCtorMethodHandle.IsNullHandle()) {
     _ctorAttributes = RuntimeMethodHandle::GetAttributes(_hCtorMethodHandle);
     ConstructorInfo as = s_delegateCtorInfo;
-    ConstructorInfo constructorInfo = as != nullptr ? as : (s_delegateCtorInfo = rt::typeof<CtorDelegate>()->GetConstructor(rt::newarr<Array<Type>>(2)));
-    _ctor = (CtorDelegate)constructorInfo->Invoke(rt::newarr<Array<Object>>(2));
+    ConstructorInfo constructorInfo = as != nullptr ? as : (s_delegateCtorInfo = typeof<CtorDelegate>()->GetConstructor(rt::newarr<Array<Type>>(2)));
+    _ctor = &(CtorDelegate)constructorInfo->Invoke(rt::newarr<Array<Object>>(2));
   }
   _isFullyInitialized = true;
 }
@@ -623,7 +623,7 @@ PropertyInfo RuntimeType___::GetPropertyInfo(RuntimeType reflectedType, Int32 tk
 }
 
 void RuntimeType___::ThrowIfTypeNeverValidGenericArgument(RuntimeType type) {
-  if (type->get_IsPointer() || type->get_IsByRef() || type == rt::typeof<void>()) {
+  if (type->get_IsPointer() || type->get_IsByRef() || type == typeof<void>()) {
     rt::throw_exception<ArgumentException>(SR::Format(SR::get_Argument_NeverValidGenericArgument(), type));
   }
 }
@@ -1313,7 +1313,7 @@ Boolean RuntimeType___::IsEquivalentTo(Type other) {
 }
 
 Boolean RuntimeType___::IsDelegate() {
-  return GetBaseType() == rt::typeof<MulticastDelegate>();
+  return GetBaseType() == typeof<MulticastDelegate>();
 }
 
 Array<Object> RuntimeType___::GetEmptyArray() {
@@ -1578,7 +1578,7 @@ Object RuntimeType___::InvokeMember(String name, BindingFlags bindingFlags, Bind
     }
 
     if (fieldInfo != nullptr) {
-      if (fieldInfo->get_FieldType()->get_IsArray() || (Object)fieldInfo->get_FieldType() == rt::typeof<Array<>>()) {
+      if (fieldInfo->get_FieldType()->get_IsArray() || (Object)fieldInfo->get_FieldType() == typeof<Array<>>()) {
         Int32 num2 = ((bindingFlags & BindingFlags::GetField) == 0) ? (num - 1) : num;
         if (num2 > 0) {
           Array<Int32> array2 = rt::newarr<Array<Int32>>(num2);
@@ -1696,10 +1696,10 @@ void RuntimeType___::CreateInstanceCheckThis() {
     rt::throw_exception<ArgumentException>(SR::Format(SR::get_Acc_CreateGenericEx(), (RuntimeType)this));
   }
   Type rootElementType = GetRootElementType();
-  if ((Object)rootElementType == rt::typeof<ArgIterator>()) {
+  if ((Object)rootElementType == typeof<ArgIterator>()) {
     rt::throw_exception<NotSupportedException>(SR::get_Acc_CreateArgIterator());
   }
-  if ((Object)rootElementType == rt::typeof<void>()) {
+  if ((Object)rootElementType == typeof<void>()) {
     rt::throw_exception<NotSupportedException>(SR::get_Acc_CreateVoid());
   }
 }
@@ -1848,19 +1848,19 @@ void RuntimeType___::WrapArgsForInvokeCall(Array<Object> aArgs, Array<Int32> aAr
       Boolean flag = false;
       switch (aArgsWrapperTypes[i] & -65537.get()) {
         case 1:
-          type = rt::typeof<UnknownWrapper>();
+          type = typeof<UnknownWrapper>();
           break;
         case 2:
-          type = rt::typeof<DispatchWrapper>();
+          type = typeof<DispatchWrapper>();
           break;
         case 8:
-          type = rt::typeof<ErrorWrapper>();
+          type = typeof<ErrorWrapper>();
           break;
         case 16:
-          type = rt::typeof<CurrencyWrapper>();
+          type = typeof<CurrencyWrapper>();
           break;
         case 32:
-          type = rt::typeof<BStrWrapper>();
+          type = typeof<BStrWrapper>();
           flag = true;
           break;
       }
@@ -2113,10 +2113,10 @@ Boolean RuntimeType___::IsEnumDefined(Object value) {
 }
 
 Boolean RuntimeType___::IsValueTypeImpl() {
-  if ((RuntimeType)this == rt::typeof<ValueType>() || (RuntimeType)this == rt::typeof<Enum>()) {
+  if ((RuntimeType)this == typeof<ValueType>() || (RuntimeType)this == typeof<Enum>()) {
     return false;
   }
-  return IsSubclassOf(rt::typeof<ValueType>());
+  return IsSubclassOf(typeof<ValueType>());
 }
 
 Boolean RuntimeType___::IsByRefImpl() {
@@ -2209,10 +2209,10 @@ RuntimeType RuntimeType___::GetBaseType() {
 }
 
 void RuntimeType___::cctor() {
-  ValueType = (RuntimeType)rt::typeof<ValueType>();
-  ObjectType = (RuntimeType)rt::typeof<Object>();
-  StringType = (RuntimeType)rt::typeof<String>();
-  s_typedRef = (RuntimeType)rt::typeof<TypedReference>();
+  ValueType = (RuntimeType)typeof<ValueType>();
+  ObjectType = (RuntimeType)typeof<Object>();
+  StringType = (RuntimeType)typeof<String>();
+  s_typedRef = (RuntimeType)typeof<TypedReference>();
 }
 
 } // namespace System::Private::CoreLib::System::RuntimeTypeNamespace

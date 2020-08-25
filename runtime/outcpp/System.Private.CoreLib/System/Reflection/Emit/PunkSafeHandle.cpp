@@ -2,6 +2,7 @@
 
 #include <System.Private.CoreLib/System/Reflection/Emit/PunkSafeHandle-dep.h>
 #include <System.Private.CoreLib/System/Runtime/InteropServices/Marshal-dep.h>
+#include <System.Private.CoreLib/System/Type-dep.h>
 
 namespace System::Private::CoreLib::System::Reflection::Emit::PunkSafeHandleNamespace {
 using namespace System::Runtime::InteropServices;
@@ -16,7 +17,7 @@ Boolean PunkSafeHandle___::ReleaseHandle() {
 }
 
 void PunkSafeHandle___::cctor() {
-  m_Release = (DRelease)Marshal::GetDelegateForFunctionPointer(nGetDReleaseTarget(), rt::typeof<DRelease>());
+  m_Release = &(DRelease)Marshal::GetDelegateForFunctionPointer(nGetDReleaseTarget(), typeof<DRelease>());
   m_Release((IntPtr)0);
 }
 

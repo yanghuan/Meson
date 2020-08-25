@@ -105,7 +105,7 @@ void ResourceManager___::set_IgnoreCase(Boolean value) {
 
 Type ResourceManager___::get_ResourceSetType() {
   Type as = _userResourceSet;
-  return as != nullptr ? as : rt::typeof<RuntimeResourceSet>();
+  return as != nullptr ? as : typeof<RuntimeResourceSet>();
 }
 
 UltimateResourceFallbackLocation ResourceManager___::get_FallbackLocation() {
@@ -411,7 +411,7 @@ UnmanagedMemoryStream ResourceManager___::GetStream(String name, CultureInfo cul
 void ResourceManager___::cctor() {
   MagicNumber = -1091581234;
   HeaderVersionNumber = 1;
-  s_minResourceSet = rt::typeof<ResourceSet>();
+  s_minResourceSet = typeof<ResourceSet>();
 }
 
 } // namespace System::Private::CoreLib::System::Resources::ResourceManagerNamespace

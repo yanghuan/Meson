@@ -16,6 +16,7 @@
 #include <System.Private.CoreLib/System/ThrowHelper-dep.h>
 #include <System.Private.CoreLib/System/TimeZoneInfo-dep.h>
 #include <System.Private.CoreLib/System/TimeZoneInfoOptions.h>
+#include <System.Private.CoreLib/System/Type-dep.h>
 
 namespace System::Private::CoreLib::System::DateTimeOffsetNamespace {
 using namespace System::Globalization;
@@ -263,8 +264,8 @@ DateTimeOffset::DateTimeOffset(SerializationInfo info, StreamingContext context)
   if (info == nullptr) {
     rt::throw_exception<ArgumentNullException>("info");
   }
-  _dateTime = (DateTime)info->GetValue("DateTime", rt::typeof<DateTime>());
-  _offsetMinutes = (Int16)info->GetValue("OffsetMinutes", rt::typeof<Int16>());
+  _dateTime = (DateTime)info->GetValue("DateTime", typeof<DateTime>());
+  _offsetMinutes = (Int16)info->GetValue("OffsetMinutes", typeof<Int16>());
 }
 
 Int32 DateTimeOffset::GetHashCode() {

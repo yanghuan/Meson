@@ -2,6 +2,7 @@
 
 #include <System.Private.CoreLib/System/Exception-dep.h>
 #include <System.Private.CoreLib/System/SR-dep.h>
+#include <System.Private.CoreLib/System/Type-dep.h>
 
 namespace System::Private::CoreLib::System::ObjectDisposedExceptionNamespace {
 String ObjectDisposedException___::get_Message() {
@@ -40,7 +41,7 @@ void ObjectDisposedException___::ctor(SerializationInfo info, StreamingContext c
 
 void ObjectDisposedException___::GetObjectData(SerializationInfo info, StreamingContext context) {
   Exception::in::GetObjectData(info, context);
-  info->AddValue("ObjectName", get_ObjectName(), rt::typeof<String>());
+  info->AddValue("ObjectName", get_ObjectName(), typeof<String>());
 }
 
 } // namespace System::Private::CoreLib::System::ObjectDisposedExceptionNamespace

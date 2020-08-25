@@ -10,6 +10,7 @@
 #include <System.Private.CoreLib/System/Reflection/MethodBase-dep.h>
 #include <System.Private.CoreLib/System/Runtime/CompilerServices/ContractHelper-dep.h>
 #include <System.Private.CoreLib/System/SR-dep.h>
+#include <System.Private.CoreLib/System/Type-dep.h>
 
 namespace System::Private::CoreLib::System::Diagnostics::Contracts::ContractNamespace {
 using namespace System::Reflection;
@@ -97,7 +98,7 @@ void Contract::EndContractBlock() {
 }
 
 void Contract::AssertMustUseRewriter(ContractFailureKind kind, String contractKind) {
-  Assembly assembly = rt::typeof<Contract>()->get_Assembly();
+  Assembly assembly = typeof<Contract>()->get_Assembly();
   StackTrace stackTrace = rt::newobj<StackTrace>();
   Assembly assembly2 = nullptr;
   for (Int32 i = 0; i < stackTrace->get_FrameCount(); i++) {

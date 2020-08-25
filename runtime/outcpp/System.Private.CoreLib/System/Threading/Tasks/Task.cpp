@@ -40,6 +40,7 @@
 #include <System.Private.CoreLib/System/Threading/TimerQueueTimer-dep.h>
 #include <System.Private.CoreLib/System/Threading/Volatile-dep.h>
 #include <System.Private.CoreLib/System/ThrowHelper-dep.h>
+#include <System.Private.CoreLib/System/Type-dep.h>
 #include <System.Private.CoreLib/System/UInt32-dep.h>
 
 namespace System::Private::CoreLib::System::Threading::Tasks::TaskNamespace {
@@ -1061,7 +1062,7 @@ void Task___<>::SetContinuationForAwait(Action<> continuationAction, Boolean con
   TaskContinuation taskContinuation = nullptr;
   if (continueOnCapturedContext) {
     SynchronizationContext current = SynchronizationContext::in::get_Current();
-    if (current != nullptr && current->GetType() != rt::typeof<SynchronizationContext>()) {
+    if (current != nullptr && current->GetType() != typeof<SynchronizationContext>()) {
       taskContinuation = rt::newobj<SynchronizationContextAwaitTaskContinuation>(current, continuationAction, flowExecutionContext);
     } else {
       TaskScheduler internalCurrent = TaskScheduler::in::get_InternalCurrent();
@@ -1086,7 +1087,7 @@ void Task___<>::SetContinuationForAwait(Action<> continuationAction, Boolean con
 void Task___<>::UnsafeSetContinuationForAwait(IAsyncStateMachineBox stateMachineBox, Boolean continueOnCapturedContext) {
   if (continueOnCapturedContext) {
     SynchronizationContext current = SynchronizationContext::in::get_Current();
-    if (current != nullptr && current->GetType() != rt::typeof<SynchronizationContext>()) {
+    if (current != nullptr && current->GetType() != typeof<SynchronizationContext>()) {
       SynchronizationContextAwaitTaskContinuation synchronizationContextAwaitTaskContinuation = rt::newobj<SynchronizationContextAwaitTaskContinuation>(current, stateMachineBox->get_MoveNextAction(), false);
       if (!AddTaskContinuation(synchronizationContextAwaitTaskContinuation, false)) {
         synchronizationContextAwaitTaskContinuation->Run((Task<>)this, false);

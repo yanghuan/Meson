@@ -22,6 +22,7 @@
 #include <System.Private.CoreLib/System/Text/StringBuilder-dep.h>
 #include <System.Private.CoreLib/System/Text/StringBuilderCache-dep.h>
 #include <System.Private.CoreLib/System/Text/UnicodeEncoding-dep.h>
+#include <System.Private.CoreLib/System/Type-dep.h>
 
 namespace System::Private::CoreLib::System::IO::BinaryReaderNamespace {
 using namespace System::Buffers::Binary;
@@ -56,7 +57,7 @@ void BinaryReader___::ctor(Stream input, Encoding encoding, Boolean leaveOpen) {
   }
   _buffer = rt::newarr<Array<Byte>>(num);
   _2BytesPerChar = rt::is<UnicodeEncoding>(encoding);
-  _isMemoryStream = (_stream->GetType() == rt::typeof<MemoryStream>());
+  _isMemoryStream = (_stream->GetType() == typeof<MemoryStream>());
   _leaveOpen = leaveOpen;
 }
 

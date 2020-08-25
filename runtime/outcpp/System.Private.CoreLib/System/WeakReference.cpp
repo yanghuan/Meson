@@ -2,6 +2,7 @@
 
 #include <System.Private.CoreLib/System/ArgumentNullException-dep.h>
 #include <System.Private.CoreLib/System/NotImplementedException-dep.h>
+#include <System.Private.CoreLib/System/Type-dep.h>
 
 namespace System::Private::CoreLib::System::WeakReferenceNamespace {
 Boolean WeakReference___<>::get_TrackResurrection() {
@@ -23,7 +24,7 @@ void WeakReference___<>::ctor(SerializationInfo info, StreamingContext context) 
   if (info == nullptr) {
     rt::throw_exception<ArgumentNullException>("info");
   }
-  Object value = info->GetValue("TrackedObject", rt::typeof<Object>());
+  Object value = info->GetValue("TrackedObject", typeof<Object>());
   Boolean boolean = info->GetBoolean("TrackResurrection");
   Create(value, boolean);
 }
@@ -32,7 +33,7 @@ void WeakReference___<>::GetObjectData(SerializationInfo info, StreamingContext 
   if (info == nullptr) {
     rt::throw_exception<ArgumentNullException>("info");
   }
-  info->AddValue("TrackedObject", get_Target(), rt::typeof<Object>());
+  info->AddValue("TrackedObject", get_Target(), typeof<Object>());
   info->AddValue("TrackResurrection", IsTrackResurrection());
 }
 

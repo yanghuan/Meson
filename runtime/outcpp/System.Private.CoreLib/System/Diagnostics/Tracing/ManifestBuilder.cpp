@@ -169,7 +169,7 @@ void ManifestBuilder___::AddEventParameter(Type type, String name) {
   if (numParams == 0) {
     templates->Append("  <template tid="")->Append(eventName)->AppendLine("Args">");
   }
-  if (type == rt::typeof<Array<Byte>>()) {
+  if (type == typeof<Array<Byte>>()) {
     if (byteArrArgIndices == nullptr) {
       byteArrArgIndices = rt::newobj<List<Int32>>(4);
     }
@@ -179,10 +179,10 @@ void ManifestBuilder___::AddEventParameter(Type type, String name) {
   }
   numParams++;
   templates->Append("   <data name="")->Append(name)->Append("" inType="")->Append(GetTypeName(type))->Append(""");
-  if ((type->get_IsArray() || type->get_IsPointer()) && type->GetElementType() == rt::typeof<Byte>()) {
+  if ((type->get_IsArray() || type->get_IsPointer()) && type->GetElementType() == typeof<Byte>()) {
     templates->Append(" length="")->Append(name)->Append("Size"");
   }
-  if (ReflectionExtensions::IsEnum(type) && Enum::in::GetUnderlyingType(type) != rt::typeof<UInt64>() && Enum::in::GetUnderlyingType(type) != rt::typeof<Int64>()) {
+  if (ReflectionExtensions::IsEnum(type) && Enum::in::GetUnderlyingType(type) != typeof<UInt64>() && Enum::in::GetUnderlyingType(type) != typeof<Int64>()) {
     templates->Append(" map="")->Append(type->get_Name())->Append(""");
     if (mapsTab == nullptr) {
       mapsTab = rt::newobj<Dictionary<String, Type>>();
@@ -452,13 +452,13 @@ String ManifestBuilder___::GetTypeName(Type type) {
     case TypeCode::DateTime:
       return "win:FILETIME";
     default:
-      if (type == rt::typeof<Guid>()) {
+      if (type == typeof<Guid>()) {
         return "win:GUID";
       }
-      if (type == rt::typeof<IntPtr>()) {
+      if (type == typeof<IntPtr>()) {
         return "win:Pointer";
       }
-      if ((type->get_IsArray() || type->get_IsPointer()) && type->GetElementType() == rt::typeof<Byte>()) {
+      if ((type->get_IsArray() || type->get_IsPointer()) && type->GetElementType() == typeof<Byte>()) {
         return "win:Binary";
       }
       ManifestError(SR::Format(SR::get_EventSource_UnsupportedEventTypeInManifest(), type->get_Name()), true);

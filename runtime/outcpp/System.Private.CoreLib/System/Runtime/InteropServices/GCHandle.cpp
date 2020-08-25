@@ -12,6 +12,7 @@
 #include <System.Private.CoreLib/System/String-dep.h>
 #include <System.Private.CoreLib/System/Threading/Interlocked-dep.h>
 #include <System.Private.CoreLib/System/ThrowHelper-dep.h>
+#include <System.Private.CoreLib/System/Type-dep.h>
 
 namespace System::Private::CoreLib::System::Runtime::InteropServices::GCHandleNamespace {
 using namespace Internal::Runtime::CompilerServices;
@@ -91,7 +92,7 @@ IntPtr GCHandle::AddrOfPinnedObject() {
     return (IntPtr)0;
   }
   if (RuntimeHelpers::ObjectHasComponentSize(obj)) {
-    if (obj->GetType() == rt::typeof<String>()) {
+    if (obj->GetType() == typeof<String>()) {
       return (IntPtr)Unsafe::AsPointer(Unsafe::As<String>(obj)->GetRawStringData());
     }
     return (IntPtr)Unsafe::AsPointer(RuntimeHelpers::GetRawArrayData(Unsafe::As<Array<>>(obj)));

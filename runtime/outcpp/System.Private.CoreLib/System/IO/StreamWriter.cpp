@@ -27,6 +27,7 @@
 #include <System.Private.CoreLib/System/Text/StringBuilderCache-dep.h>
 #include <System.Private.CoreLib/System/Threading/CancellationToken-dep.h>
 #include <System.Private.CoreLib/System/Threading/Tasks/Task-dep.h>
+#include <System.Private.CoreLib/System/Type-dep.h>
 
 namespace System::Private::CoreLib::System::IO::StreamWriterNamespace {
 using namespace System::Runtime::InteropServices;
@@ -172,7 +173,7 @@ void StreamWriter___::CloseStreamFromDispose(Boolean disposing) {
 }
 
 ValueTask<> StreamWriter___::DisposeAsync() {
-  if (!(GetType() != rt::typeof<StreamWriter>())) {
+  if (!(GetType() != typeof<StreamWriter>())) {
     return DisposeAsyncCore();
   }
   return TextWriter::in::DisposeAsync();
@@ -249,7 +250,7 @@ void StreamWriter___::Write(Array<Char> buffer, Int32 index, Int32 count) {
 }
 
 void StreamWriter___::Write(ReadOnlySpan<Char> buffer) {
-  if (GetType() == rt::typeof<StreamWriter>()) {
+  if (GetType() == typeof<StreamWriter>()) {
     WriteSpan(buffer, false);
   } else {
     TextWriter::in::Write(buffer);
@@ -313,7 +314,7 @@ void StreamWriter___::WriteLine(String value) {
 }
 
 void StreamWriter___::WriteLine(ReadOnlySpan<Char> value) {
-  if (GetType() == rt::typeof<StreamWriter>()) {
+  if (GetType() == typeof<StreamWriter>()) {
     CheckAsyncTaskInProgress();
     WriteSpan(value, true);
   } else {
@@ -334,7 +335,7 @@ void StreamWriter___::WriteFormatHelper(String format, ParamsArray args, Boolean
 }
 
 void StreamWriter___::Write(String format, Object arg0) {
-  if (GetType() == rt::typeof<StreamWriter>()) {
+  if (GetType() == typeof<StreamWriter>()) {
     WriteFormatHelper(format, ParamsArray(arg0), false);
   } else {
     TextWriter::in::Write(format, arg0);
@@ -342,7 +343,7 @@ void StreamWriter___::Write(String format, Object arg0) {
 }
 
 void StreamWriter___::Write(String format, Object arg0, Object arg1) {
-  if (GetType() == rt::typeof<StreamWriter>()) {
+  if (GetType() == typeof<StreamWriter>()) {
     WriteFormatHelper(format, ParamsArray(arg0, arg1), false);
   } else {
     TextWriter::in::Write(format, arg0, arg1);
@@ -350,7 +351,7 @@ void StreamWriter___::Write(String format, Object arg0, Object arg1) {
 }
 
 void StreamWriter___::Write(String format, Object arg0, Object arg1, Object arg2) {
-  if (GetType() == rt::typeof<StreamWriter>()) {
+  if (GetType() == typeof<StreamWriter>()) {
     WriteFormatHelper(format, ParamsArray(arg0, arg1, arg2), false);
   } else {
     TextWriter::in::Write(format, arg0, arg1, arg2);
@@ -358,7 +359,7 @@ void StreamWriter___::Write(String format, Object arg0, Object arg1, Object arg2
 }
 
 void StreamWriter___::Write(String format, Array<Object> arg) {
-  if (GetType() == rt::typeof<StreamWriter>()) {
+  if (GetType() == typeof<StreamWriter>()) {
     if (arg == nullptr) {
       rt::throw_exception<ArgumentNullException>((format == nullptr) ? "format" : "arg");
     }
@@ -369,7 +370,7 @@ void StreamWriter___::Write(String format, Array<Object> arg) {
 }
 
 void StreamWriter___::WriteLine(String format, Object arg0) {
-  if (GetType() == rt::typeof<StreamWriter>()) {
+  if (GetType() == typeof<StreamWriter>()) {
     WriteFormatHelper(format, ParamsArray(arg0), true);
   } else {
     TextWriter::in::WriteLine(format, arg0);
@@ -377,7 +378,7 @@ void StreamWriter___::WriteLine(String format, Object arg0) {
 }
 
 void StreamWriter___::WriteLine(String format, Object arg0, Object arg1) {
-  if (GetType() == rt::typeof<StreamWriter>()) {
+  if (GetType() == typeof<StreamWriter>()) {
     WriteFormatHelper(format, ParamsArray(arg0, arg1), true);
   } else {
     TextWriter::in::WriteLine(format, arg0, arg1);
@@ -385,7 +386,7 @@ void StreamWriter___::WriteLine(String format, Object arg0, Object arg1) {
 }
 
 void StreamWriter___::WriteLine(String format, Object arg0, Object arg1, Object arg2) {
-  if (GetType() == rt::typeof<StreamWriter>()) {
+  if (GetType() == typeof<StreamWriter>()) {
     WriteFormatHelper(format, ParamsArray(arg0, arg1, arg2), true);
   } else {
     TextWriter::in::WriteLine(format, arg0, arg1, arg2);
@@ -393,7 +394,7 @@ void StreamWriter___::WriteLine(String format, Object arg0, Object arg1, Object 
 }
 
 void StreamWriter___::WriteLine(String format, Array<Object> arg) {
-  if (GetType() == rt::typeof<StreamWriter>()) {
+  if (GetType() == typeof<StreamWriter>()) {
     if (arg == nullptr) {
       rt::throw_exception<ArgumentNullException>("arg");
     }
@@ -404,7 +405,7 @@ void StreamWriter___::WriteLine(String format, Array<Object> arg) {
 }
 
 Task<> StreamWriter___::WriteAsync(Char value) {
-  if (GetType() != rt::typeof<StreamWriter>()) {
+  if (GetType() != typeof<StreamWriter>()) {
     return TextWriter::in::WriteAsync(value);
   }
   ThrowIfDisposed();
@@ -431,7 +432,7 @@ Task<> StreamWriter___::WriteAsyncInternal(StreamWriter _this, Char value, Array
 }
 
 Task<> StreamWriter___::WriteAsync(String value) {
-  if (GetType() != rt::typeof<StreamWriter>()) {
+  if (GetType() != typeof<StreamWriter>()) {
     return TextWriter::in::WriteAsync(value);
   }
   if (value != nullptr) {
@@ -483,7 +484,7 @@ Task<> StreamWriter___::WriteAsync(Array<Char> buffer, Int32 index, Int32 count)
   if (buffer->get_Length() - index < count) {
     rt::throw_exception<ArgumentException>(SR::get_Argument_InvalidOffLen());
   }
-  if (GetType() != rt::typeof<StreamWriter>()) {
+  if (GetType() != typeof<StreamWriter>()) {
     return TextWriter::in::WriteAsync(buffer, index, count);
   }
   ThrowIfDisposed();
@@ -493,7 +494,7 @@ Task<> StreamWriter___::WriteAsync(Array<Char> buffer, Int32 index, Int32 count)
 
 template <>
 Task<> StreamWriter___::WriteAsync(ReadOnlyMemory<Char> buffer, CancellationToken cancellationToken) {
-  if (GetType() != rt::typeof<StreamWriter>()) {
+  if (GetType() != typeof<StreamWriter>()) {
     return TextWriter::in::WriteAsync(buffer, cancellationToken);
   }
   ThrowIfDisposed();
@@ -529,7 +530,7 @@ Task<> StreamWriter___::WriteAsyncInternal(StreamWriter _this, ReadOnlyMemory<Ch
 }
 
 Task<> StreamWriter___::WriteLineAsync() {
-  if (GetType() != rt::typeof<StreamWriter>()) {
+  if (GetType() != typeof<StreamWriter>()) {
     return TextWriter::in::WriteLineAsync();
   }
   ThrowIfDisposed();
@@ -538,7 +539,7 @@ Task<> StreamWriter___::WriteLineAsync() {
 }
 
 Task<> StreamWriter___::WriteLineAsync(Char value) {
-  if (GetType() != rt::typeof<StreamWriter>()) {
+  if (GetType() != typeof<StreamWriter>()) {
     return TextWriter::in::WriteLineAsync(value);
   }
   ThrowIfDisposed();
@@ -550,7 +551,7 @@ Task<> StreamWriter___::WriteLineAsync(String value) {
   if (value == nullptr) {
     return WriteLineAsync();
   }
-  if (GetType() != rt::typeof<StreamWriter>()) {
+  if (GetType() != typeof<StreamWriter>()) {
     return TextWriter::in::WriteLineAsync(value);
   }
   ThrowIfDisposed();
@@ -571,7 +572,7 @@ Task<> StreamWriter___::WriteLineAsync(Array<Char> buffer, Int32 index, Int32 co
   if (buffer->get_Length() - index < count) {
     rt::throw_exception<ArgumentException>(SR::get_Argument_InvalidOffLen());
   }
-  if (GetType() != rt::typeof<StreamWriter>()) {
+  if (GetType() != typeof<StreamWriter>()) {
     return TextWriter::in::WriteLineAsync(buffer, index, count);
   }
   ThrowIfDisposed();
@@ -581,7 +582,7 @@ Task<> StreamWriter___::WriteLineAsync(Array<Char> buffer, Int32 index, Int32 co
 
 template <>
 Task<> StreamWriter___::WriteLineAsync(ReadOnlyMemory<Char> buffer, CancellationToken cancellationToken) {
-  if (GetType() != rt::typeof<StreamWriter>()) {
+  if (GetType() != typeof<StreamWriter>()) {
     return TextWriter::in::WriteLineAsync(buffer, cancellationToken);
   }
   ThrowIfDisposed();
@@ -593,7 +594,7 @@ Task<> StreamWriter___::WriteLineAsync(ReadOnlyMemory<Char> buffer, Cancellation
 }
 
 Task<> StreamWriter___::FlushAsync() {
-  if (GetType() != rt::typeof<StreamWriter>()) {
+  if (GetType() != typeof<StreamWriter>()) {
     return TextWriter::in::FlushAsync();
   }
   ThrowIfDisposed();

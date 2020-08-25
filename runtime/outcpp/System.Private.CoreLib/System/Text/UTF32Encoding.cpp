@@ -13,6 +13,7 @@
 #include <System.Private.CoreLib/System/Text/EncoderFallbackBuffer-dep.h>
 #include <System.Private.CoreLib/System/Text/EncoderReplacementFallback-dep.h>
 #include <System.Private.CoreLib/System/Text/UTF32Encoding-dep.h>
+#include <System.Private.CoreLib/System/Type-dep.h>
 #include <System.Private.CoreLib/System/UInt32-dep.h>
 
 namespace System::Private::CoreLib::System::Text::UTF32EncodingNamespace {
@@ -34,7 +35,7 @@ void UTF32Encoding___::UTF32Decoder___::Reset() {
 }
 
 ReadOnlySpan<Byte> UTF32Encoding___::get_Preamble() {
-  if (!(GetType() != rt::typeof<UTF32Encoding>())) {
+  if (!(GetType() != typeof<UTF32Encoding>())) {
     if (_emitUTF32ByteOrderMark) {
       if (_bigEndian) {
         return rt::newarr<Array<Byte>>(4);

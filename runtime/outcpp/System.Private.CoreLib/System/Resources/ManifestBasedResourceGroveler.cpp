@@ -233,7 +233,7 @@ String ManifestBasedResourceGroveler___::GetManifestResourceNamesList(Assembly a
 }
 
 void ManifestBasedResourceGroveler___::HandleResourceStreamMissing(String fileName) {
-  if (_mediator->get_MainAssembly() == rt::typeof<Object>()->get_Assembly() && _mediator->get_BaseName()->Equals("System.Private.CoreLib")) {
+  if (_mediator->get_MainAssembly() == typeof<Object>()->get_Assembly() && _mediator->get_BaseName()->Equals("System.Private.CoreLib")) {
     Environment::FailFast("System.Private.CoreLib.resources couldn't be found!  Large parts of the BCL won't work!");
   }
   String str = String::in::Empty;

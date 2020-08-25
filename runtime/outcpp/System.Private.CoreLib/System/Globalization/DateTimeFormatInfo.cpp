@@ -23,6 +23,7 @@
 #include <System.Private.CoreLib/System/MemoryExtensions-dep.h>
 #include <System.Private.CoreLib/System/ReadOnlySpan-dep.h>
 #include <System.Private.CoreLib/System/SR-dep.h>
+#include <System.Private.CoreLib/System/Type-dep.h>
 #include <System.Private.CoreLib/System/UInt32-dep.h>
 
 namespace System::Private::CoreLib::System::Globalization::DateTimeFormatInfoNamespace {
@@ -67,7 +68,7 @@ DateTimeFormatInfo DateTimeFormatInfo___::get_CurrentInfo() {
       return dateTimeInfo;
     }
   }
-  return (DateTimeFormatInfo)currentCulture->GetFormat(rt::typeof<DateTimeFormatInfo>());
+  return (DateTimeFormatInfo)currentCulture->GetFormat(typeof<DateTimeFormatInfo>());
 }
 
 String DateTimeFormatInfo___::get_AMDesignator() {
@@ -752,7 +753,7 @@ DateTimeFormatInfo DateTimeFormatInfo___::GetInstance(IFormatProvider provider) 
     if (cultureInfo == nullptr || cultureInfo->_isInherited) {
       DateTimeFormatInfo dateTimeFormatInfo = rt::as<DateTimeFormatInfo>(provider);
       if (dateTimeFormatInfo == nullptr) {
-        DateTimeFormatInfo dateTimeFormatInfo2 = rt::as<DateTimeFormatInfo>(provider->GetFormat(rt::typeof<DateTimeFormatInfo>()));
+        DateTimeFormatInfo dateTimeFormatInfo2 = rt::as<DateTimeFormatInfo>(provider->GetFormat(typeof<DateTimeFormatInfo>()));
         if (dateTimeFormatInfo2 == nullptr) {
           return get_CurrentInfo();
         }
@@ -766,7 +767,7 @@ DateTimeFormatInfo DateTimeFormatInfo___::GetInstance(IFormatProvider provider) 
 }
 
 Object DateTimeFormatInfo___::GetFormat(Type formatType) {
-  if (!(formatType == rt::typeof<DateTimeFormatInfo>())) {
+  if (!(formatType == typeof<DateTimeFormatInfo>())) {
     return nullptr;
   }
   return (DateTimeFormatInfo)this;
@@ -1253,7 +1254,7 @@ Array<DateTimeFormatInfo::in::TokenHashValue> DateTimeFormatInfo___::CreateToken
         String str2 = "(" + GetAbbreviatedDayName((DayOfWeek)num) + ")";
         InsertHash(array, str2, TokenType::DayOfWeekToken, num);
       }
-      if (get_Calendar()->GetType() != rt::typeof<JapaneseCalendar>()) {
+      if (get_Calendar()->GetType() != typeof<JapaneseCalendar>()) {
         DateTimeFormatInfo japaneseCalendarDTFI = GetJapaneseCalendarDTFI();
         for (Int32 num2 = 1; num2 <= japaneseCalendarDTFI->get_Calendar()->get_Eras()->get_Length(); num2++) {
           InsertHash(array, japaneseCalendarDTFI->GetEraName(num2), TokenType::JapaneseEraToken, num2);

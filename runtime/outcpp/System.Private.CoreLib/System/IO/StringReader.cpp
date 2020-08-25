@@ -7,6 +7,7 @@
 #include <System.Private.CoreLib/System/MemoryExtensions-dep.h>
 #include <System.Private.CoreLib/System/ObjectDisposedException-dep.h>
 #include <System.Private.CoreLib/System/SR-dep.h>
+#include <System.Private.CoreLib/System/Type-dep.h>
 
 namespace System::Private::CoreLib::System::IO::StringReaderNamespace {
 void StringReader___::ctor(String s) {
@@ -76,7 +77,7 @@ Int32 StringReader___::Read(Array<Char> buffer, Int32 index, Int32 count) {
 }
 
 Int32 StringReader___::Read(Span<Char> buffer) {
-  if (GetType() != rt::typeof<StringReader>()) {
+  if (GetType() != typeof<StringReader>()) {
     return TextReader::in::Read(buffer);
   }
   if (_s == nullptr) {

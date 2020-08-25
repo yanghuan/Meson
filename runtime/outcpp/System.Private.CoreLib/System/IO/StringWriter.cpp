@@ -7,6 +7,7 @@
 #include <System.Private.CoreLib/System/ObjectDisposedException-dep.h>
 #include <System.Private.CoreLib/System/SR-dep.h>
 #include <System.Private.CoreLib/System/Text/UnicodeEncoding-dep.h>
+#include <System.Private.CoreLib/System/Type-dep.h>
 
 namespace System::Private::CoreLib::System::IO::StringWriterNamespace {
 using namespace System::Text;
@@ -75,7 +76,7 @@ void StringWriter___::Write(Array<Char> buffer, Int32 index, Int32 count) {
 }
 
 void StringWriter___::Write(ReadOnlySpan<Char> buffer) {
-  if (GetType() != rt::typeof<StringWriter>()) {
+  if (GetType() != typeof<StringWriter>()) {
     TextWriter::in::Write(buffer);
     return;
   }
@@ -95,7 +96,7 @@ void StringWriter___::Write(String value) {
 }
 
 void StringWriter___::Write(StringBuilder value) {
-  if (GetType() != rt::typeof<StringWriter>()) {
+  if (GetType() != typeof<StringWriter>()) {
     TextWriter::in::Write(value);
     return;
   }
@@ -106,7 +107,7 @@ void StringWriter___::Write(StringBuilder value) {
 }
 
 void StringWriter___::WriteLine(ReadOnlySpan<Char> buffer) {
-  if (GetType() != rt::typeof<StringWriter>()) {
+  if (GetType() != typeof<StringWriter>()) {
     TextWriter::in::WriteLine(buffer);
     return;
   }
@@ -118,7 +119,7 @@ void StringWriter___::WriteLine(ReadOnlySpan<Char> buffer) {
 }
 
 void StringWriter___::WriteLine(StringBuilder value) {
-  if (GetType() != rt::typeof<StringWriter>()) {
+  if (GetType() != typeof<StringWriter>()) {
     TextWriter::in::WriteLine(value);
     return;
   }
@@ -155,7 +156,7 @@ Task<> StringWriter___::WriteAsync(ReadOnlyMemory<Char> buffer, CancellationToke
 
 template <>
 Task<> StringWriter___::WriteAsync(StringBuilder value, CancellationToken cancellationToken) {
-  if (GetType() != rt::typeof<StringWriter>()) {
+  if (GetType() != typeof<StringWriter>()) {
     return TextWriter::in::WriteAsync(value, cancellationToken);
   }
   if (cancellationToken.get_IsCancellationRequested()) {
@@ -180,7 +181,7 @@ Task<> StringWriter___::WriteLineAsync(String value) {
 
 template <>
 Task<> StringWriter___::WriteLineAsync(StringBuilder value, CancellationToken cancellationToken) {
-  if (GetType() != rt::typeof<StringWriter>()) {
+  if (GetType() != typeof<StringWriter>()) {
     return TextWriter::in::WriteLineAsync(value, cancellationToken);
   }
   if (cancellationToken.get_IsCancellationRequested()) {
