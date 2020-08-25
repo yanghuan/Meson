@@ -21,7 +21,7 @@ void ContinueWithTaskContinuation___::Run(Task<> completedTask, Boolean canInlin
   Task<> task = m_task;
   m_task = nullptr;
   TaskContinuationOptions options = m_options;
-  if (completedTask->get_IsCompletedSuccessfully() ? ((options & TaskContinuationOptions::NotOnRanToCompletion) == 0) : (completedTask->get_IsCanceled() ? ((options & TaskContinuationOptions::NotOnCanceled) == 0) : ((options & TaskContinuationOptions::NotOnFaulted) == 0))) {
+  if (completedTask->get_IsCompletedSuccessfully() ? (Boolean)((options & TaskContinuationOptions::NotOnRanToCompletion) == 0) : (completedTask->get_IsCanceled() ? (Boolean)((options & TaskContinuationOptions::NotOnCanceled) == 0) : (Boolean)((options & TaskContinuationOptions::NotOnFaulted) == 0))) {
     if (!task->get_IsCanceled()) {
       Boolean loggingOn = AsyncCausalityTracer::get_LoggingOn();
     }

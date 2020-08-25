@@ -15,7 +15,7 @@
 #include <System.Private.CoreLib/System/UInt64-dep.h>
 #include <System.Private.CoreLib/System/String-dep.h>
 #include <System.Private.CoreLib/System/Threading/Volatile-dep.h>
-
+#include <System.Private.CoreLib/System/ArgumentException-dep.h>
 
 using namespace System::Private::CoreLib::System;
 using namespace ::System::Private::CoreLib::System::Threading;
@@ -82,6 +82,26 @@ void TestStrDefault(String s, String ss = nullptr) {
   a.f();
 }
 
+struct TObj {
+  static constexpr int code = 0;
+};
+
+struct TA : public TObj {
+};
+
+struct TB : public TA {
+};
+
+String get_Arg_InvalidConsoleColor() {
+  return "ddd";
+}
+
+void Throw() {
+  auto i = TA::code;
+  Exception e = "dddd";
+  //rt::throw_exception<ArgumentException>(get_Arg_InvalidConsoleColor(), "sourceForeColor");
+}
+
 int main() {
   TestTry();
   Int32 a = 0;
@@ -96,7 +116,7 @@ int main() {
   /*
   int cc =  (!b) ?  1 : 2;
   */
-
+  std::printf("aa:%d, bb:%d \n", aa, bb);
   return 0;
 }
 

@@ -48,7 +48,7 @@ Int64 CurrentSystemTimeZone___::GetUtcOffsetFromUniversalTime(DateTime time, Boo
     t2 = dateTime;
     t3 = dateTime - daylightChanges->get_Delta();
   }
-  if ((!(dateTime > dateTime2)) ? (time >= dateTime && time < dateTime2) : (time < dateTime2 || time >= dateTime)) {
+  if ((!(dateTime > dateTime2)) ? (Boolean)(time >= dateTime && time < dateTime2) : (Boolean)(time < dateTime2 || time >= dateTime)) {
     t += daylightChanges->get_Delta();
     if (time >= t2 && time < t3) {
       isAmbiguousLocalDst = true;

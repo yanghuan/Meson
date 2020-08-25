@@ -46,7 +46,7 @@ Boolean IPv6AddressHelper::InternalIsValid(Char* name, Int32 start, Int32& end, 
   }
   Int32 i;
   for (i = start; i < end; i++) {
-    if ((!flag3) ? Uri::in::IsHexDigit(name[i]) : (name[i] >= 48 && name[i] <= 57)) {
+    if ((!flag3) ? Uri::in::IsHexDigit(name[i]) : (Boolean)(name[i] >= 48 && name[i] <= 57)) {
       num2++;
       flag4 = false;
       continue;
@@ -137,7 +137,7 @@ Boolean IPv6AddressHelper::InternalIsValid(Char* name, Int32 start, Int32& end, 
     return false;
   }
   Int32 num3 = 8 + (flag3 ? 1 : 0);
-  if (!flag4 && num2 <= 4 && (flag ? (num < num3) : (num == num3))) {
+  if (!flag4 && num2 <= 4 && (flag ? (Boolean)(num < num3) : (Boolean)(num == num3))) {
     if (i == end + 1) {
       end = start + 1;
       return true;

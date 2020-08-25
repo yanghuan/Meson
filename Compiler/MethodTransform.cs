@@ -210,10 +210,20 @@ namespace Meson.Compiler {
       return checkedExpression.Expression.AcceptExpression(this);
     }
 
+    private ExpressionSyntax BuildConditionalExpression(IType type, Expression node) {
+      var expression = node.AcceptExpression(this);
+      if (type.IsKnownType(KnownTypeCode.Boolean) && node.UnParenthesized() is BinaryOperatorExpression) {
+        var booleanTypeName = GetTypeName(type);
+        expression = node is ParenthesizedExpression ? expression.CastTo(booleanTypeName) : expression.Parenthesized().CastTo(booleanTypeName);
+      }
+      return expression;
+    }
+
     public SyntaxNode VisitConditionalExpression(ConditionalExpression conditionalExpression) {
+      var type = conditionalExpression.GetResolveResult().Type;
       var condition = conditionalExpression.Condition.AcceptExpression(this);
-      var trueExpression = conditionalExpression.TrueExpression.AcceptExpression(this);
-      var falseExpression = conditionalExpression.FalseExpression.AcceptExpression(this);
+      var trueExpression = BuildConditionalExpression(type, conditionalExpression.TrueExpression);
+      var falseExpression = BuildConditionalExpression(type, conditionalExpression.FalseExpression);
       return new ConditionalExpressionSyntax(condition, trueExpression, falseExpression);
     }
 

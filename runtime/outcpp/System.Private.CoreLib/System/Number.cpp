@@ -999,7 +999,7 @@ UInt32 Number::Dragon4(UInt64 mantissa, Int32 exponent, UInt32 mantissaHighBitId
     BigInteger result6;
     BigInteger::Add(result, *ptr, result6);
     Int32 num3 = BigInteger::Compare(result6, result2);
-    flag2 = (flag ? (num3 >= 0) : (num3 > 0));
+    flag2 = (flag ? (Boolean)(num3 >= 0) : (Boolean)(num3 > 0));
   } else {
     flag2 = (BigInteger::Compare(result, result2) >= 0);
   }
@@ -1357,7 +1357,7 @@ String Number::FormatInt32(Int32 value, Int32 hexMask, String format, IFormatPro
     Int32 digits;
     Char c = ParseFormatSpecifier(format2, digits);
     Char c2 = (Char)(c & 65503);
-    if ((c2 == 71) ? (digits < 1) : (c2 == 68)) {
+    if ((c2 == 71) ? (Boolean)(digits < 1) : (Boolean)(c2 == 68)) {
       if (value < 0) {
         return NegativeInt32ToDecStr(value, digits, NumberFormatInfo::in::GetInstance(provider)->get_NegativeSign());
       }
@@ -1395,7 +1395,7 @@ Boolean Number::TryFormatInt32(Int32 value, Int32 hexMask, ReadOnlySpan<Char> fo
     Int32 digits;
     Char c = ParseFormatSpecifier(format, digits);
     Char c2 = (Char)(c & 65503);
-    if ((c2 == 71) ? (digits < 1) : (c2 == 68)) {
+    if ((c2 == 71) ? (Boolean)(digits < 1) : (Boolean)(c2 == 68)) {
       if (value < 0) {
         return TryNegativeInt32ToDecStr(value, digits, NumberFormatInfo::in::GetInstance(provider)->get_NegativeSign(), destination, charsWritten);
       }
@@ -1434,7 +1434,7 @@ String Number::FormatUInt32(UInt32 value, String format, IFormatProvider provide
     Int32 digits;
     Char c = ParseFormatSpecifier(format2, digits);
     Char c2 = (Char)(c & 65503);
-    if ((c2 == 71) ? (digits < 1) : (c2 == 68)) {
+    if ((c2 == 71) ? (Boolean)(digits < 1) : (Boolean)(c2 == 68)) {
       return UInt32ToDecStr(value, digits);
     }
     if (c2 == 88) {
@@ -1466,7 +1466,7 @@ Boolean Number::TryFormatUInt32(UInt32 value, ReadOnlySpan<Char> format, IFormat
     Int32 digits;
     Char c = ParseFormatSpecifier(format, digits);
     Char c2 = (Char)(c & 65503);
-    if ((c2 == 71) ? (digits < 1) : (c2 == 68)) {
+    if ((c2 == 71) ? (Boolean)(digits < 1) : (Boolean)(c2 == 68)) {
       return TryUInt32ToDecStr(value, digits, destination, charsWritten);
     }
     if (c2 == 88) {
@@ -1499,7 +1499,7 @@ String Number::FormatInt64(Int64 value, String format, IFormatProvider provider)
     Int32 digits;
     Char c = ParseFormatSpecifier(format2, digits);
     Char c2 = (Char)(c & 65503);
-    if ((c2 == 71) ? (digits < 1) : (c2 == 68)) {
+    if ((c2 == 71) ? (Boolean)(digits < 1) : (Boolean)(c2 == 68)) {
       if (value < 0) {
         return NegativeInt64ToDecStr(value, digits, NumberFormatInfo::in::GetInstance(provider)->get_NegativeSign());
       }
@@ -1537,7 +1537,7 @@ Boolean Number::TryFormatInt64(Int64 value, ReadOnlySpan<Char> format, IFormatPr
     Int32 digits;
     Char c = ParseFormatSpecifier(format, digits);
     Char c2 = (Char)(c & 65503);
-    if ((c2 == 71) ? (digits < 1) : (c2 == 68)) {
+    if ((c2 == 71) ? (Boolean)(digits < 1) : (Boolean)(c2 == 68)) {
       if (value < 0) {
         return TryNegativeInt64ToDecStr(value, digits, NumberFormatInfo::in::GetInstance(provider)->get_NegativeSign(), destination, charsWritten);
       }
@@ -1576,7 +1576,7 @@ String Number::FormatUInt64(UInt64 value, String format, IFormatProvider provide
     Int32 digits;
     Char c = ParseFormatSpecifier(format2, digits);
     Char c2 = (Char)(c & 65503);
-    if ((c2 == 71) ? (digits < 1) : (c2 == 68)) {
+    if ((c2 == 71) ? (Boolean)(digits < 1) : (Boolean)(c2 == 68)) {
       return UInt64ToDecStr(value, digits);
     }
     if (c2 == 88) {
@@ -1608,7 +1608,7 @@ Boolean Number::TryFormatUInt64(UInt64 value, ReadOnlySpan<Char> format, IFormat
     Int32 digits;
     Char c = ParseFormatSpecifier(format, digits);
     Char c2 = (Char)(c & 65503);
-    if ((c2 == 71) ? (digits < 1) : (c2 == 68)) {
+    if ((c2 == 71) ? (Boolean)(digits < 1) : (Boolean)(c2 == 68)) {
       return TryUInt64ToDecStr(value, digits, destination, charsWritten);
     }
     if (c2 == 88) {
