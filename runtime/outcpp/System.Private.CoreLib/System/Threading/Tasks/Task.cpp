@@ -210,7 +210,7 @@ Int32 Task___<>::get_StateFlagsForDebugger() {
 
 String Task___<>::get_DebuggerDisplayMethodDescription() {
   Delegate action = m_action;
-  ? as = (((Object)action != nullptr) ? action->get_Method()->ToString() : nullptr);
+  String as = (((Object)action != nullptr) ? action->get_Method()->ToString() : nullptr);
   return as != nullptr ? as : "{null}";
 }
 
@@ -379,7 +379,7 @@ ExecutionContext Task___<>::get_CapturedContext() {
     return nullptr;
   }
   ContingentProperties contingentProperties = m_contingentProperties;
-  ? as = ((contingentProperties != nullptr) ? contingentProperties->m_capturedContext : nullptr);
+  ExecutionContext as = ((contingentProperties != nullptr) ? contingentProperties->m_capturedContext : nullptr);
   return as != nullptr ? as : ExecutionContext::in::Default;
 }
 

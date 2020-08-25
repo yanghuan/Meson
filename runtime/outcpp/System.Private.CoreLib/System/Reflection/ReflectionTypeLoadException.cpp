@@ -22,7 +22,7 @@ void ReflectionTypeLoadException___::ctor(Array<Type> classes, Array<Exception> 
 
 void ReflectionTypeLoadException___::ctor(SerializationInfo info, StreamingContext context) {
   Types = Type::in::EmptyTypes;
-  ? as = ((Array<Exception>)info->GetValue("Exceptions", rt::typeof<Array<Exception>>()));
+  Array<Exception> as = ((Array<Exception>)info->GetValue("Exceptions", rt::typeof<Array<Exception>>()));
   LoaderExceptions = (as != nullptr ? as : Array<>::in::Empty<Exception>());
 }
 

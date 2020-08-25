@@ -283,7 +283,7 @@ String Exception___::ToString() {
   String className = GetClassName();
   String message = get_Message();
   Exception innerException = _innerException;
-  ? as = ((innerException != nullptr) ? innerException->ToString() : nullptr);
+  String as = ((innerException != nullptr) ? innerException->ToString() : nullptr);
   String text = as != nullptr ? as : "";
   String exception_EndOfInnerExceptionStack = SR::get_Exception_EndOfInnerExceptionStack();
   String stackTrace = get_StackTrace();

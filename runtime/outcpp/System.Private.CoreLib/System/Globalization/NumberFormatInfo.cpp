@@ -480,8 +480,8 @@ NumberFormatInfo NumberFormatInfo___::GetInstance(IFormatProvider formatProvider
       NumberFormatInfo as = cultureInfo->_numInfo;
       return as != nullptr ? as : cultureInfo->get_NumberFormat();
     }
-    ? as = (rt::as<NumberFormatInfo>(provider->GetFormat(rt::typeof<NumberFormatInfo>())));
-    ? is = (rt::as<NumberFormatInfo>(provider));
+    NumberFormatInfo as = (rt::as<NumberFormatInfo>(provider->GetFormat(rt::typeof<NumberFormatInfo>())));
+    NumberFormatInfo is = (rt::as<NumberFormatInfo>(provider));
     return is != nullptr ? is : as != nullptr ? as : get_CurrentInfo();
   };
   if (formatProvider != nullptr) {

@@ -268,7 +268,7 @@ Int32 UTF32Encoding___::GetByteCount(Char* chars, Int32 count, EncoderNLS encode
       String argument_EncoderFallbackNotEmpty = SR::get_Argument_EncoderFallbackNotEmpty();
       String encodingName = get_EncodingName();
       EncoderFallback fallback = encoder->get_Fallback();
-      ? as = ((fallback != nullptr) ? fallback->GetType()->ToString() : nullptr);
+      String as = ((fallback != nullptr) ? fallback->GetType()->ToString() : nullptr);
       rt::throw_exception<ArgumentException>(SR::Format(argument_EncoderFallbackNotEmpty, encodingName, as != nullptr ? as : String::in::Empty));
     }
   } else {

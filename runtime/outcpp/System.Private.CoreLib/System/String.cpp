@@ -1037,7 +1037,7 @@ void String___::FillStringChecked(String dest, Int32 destPos, String src) {
 }
 
 String String___::Concat(Object arg0) {
-  ? as = ((arg0 != nullptr) ? arg0->ToString() : nullptr);
+  String as = ((arg0 != nullptr) ? arg0->ToString() : nullptr);
   return as != nullptr ? as : Empty;
 }
 
@@ -1085,7 +1085,7 @@ String String___::Concat(Array<Object> args) {
   Int32 num = 0;
   for (Int32 i = 0; i < args->get_Length(); i++) {
     Object obj3 = args[i];
-    ? as = ((obj3 != nullptr) ? obj3->ToString() : nullptr);
+    String as = ((obj3 != nullptr) ? obj3->ToString() : nullptr);
     num += (array[i] = (as != nullptr ? as : Empty))->get_Length();
     if (num < 0) {
       rt::throw_exception<OutOfMemoryException>();

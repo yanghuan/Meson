@@ -454,7 +454,7 @@ Object EventProvider___::EncodeObject(Object& data, EventData*& dataDescriptor, 
   totalEventSize += dataDescriptor->Size;
   dataDescriptor++;
   dataBuffer += 16;
-  ? as = ((Object)text);
+  Object as = ((Object)text);
   return as != nullptr ? as : ((Object)array);
 }
 

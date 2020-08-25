@@ -188,7 +188,9 @@ namespace Meson.Compiler {
       var left = binaryOperatorExpression.Left.AcceptExpression(this);
       var right = binaryOperatorExpression.Right.AcceptExpression(this);
       if (binaryOperatorExpression.Operator == BinaryOperatorType.NullCoalescing) {
-        var leftTypeName = GetTypeName(binaryOperatorExpression.Left.GetResolveResult().Type);
+        var leftType = binaryOperatorExpression.Left.UnParenthesized().GetResolveResult().Type;
+        Contract.Assert(leftType != null && leftType.Kind != TypeKind.Unknown);
+        var leftTypeName = GetTypeName(leftType);
         var temp = GetTempIdentifier();
         var local = new VariableDeclarationStatementSyntax(leftTypeName, temp, left);
         Block.Add(local);
