@@ -34,8 +34,8 @@ void IncrementingEventCounter___::WritePayload(Single intervalSec, Int32 polling
     incrementingCounterPayload->set_CounterType("Sum");
     incrementingCounterPayload->set_Metadata(GetMetadataString());
     incrementingCounterPayload->set_Increment(_increment - _prevIncrement);
-    String as = DiagnosticCounter::in::get_DisplayUnits();
-    incrementingCounterPayload->set_DisplayUnits((as != nullptr ? as : ""));
+    String is = DiagnosticCounter::in::get_DisplayUnits();
+    incrementingCounterPayload->set_DisplayUnits((is != nullptr ? is : ""));
     _prevIncrement = _increment;
     DiagnosticCounter::in::get_EventSource()->Write("EventCounters", EventSourceOptions(), rt::newobj<IncrementingEventCounterPayloadType>(incrementingCounterPayload));
   }

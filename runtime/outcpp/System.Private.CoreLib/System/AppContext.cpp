@@ -24,8 +24,8 @@ using namespace System::Threading;
 
 String AppContext::get_BaseDirectory() {
   String as = s_defaultBaseDirectory;
-  ? as = (rt::as<String>(GetData("APP_CONTEXT_BASE_DIRECTORY")));
-  return as != nullptr ? as : as != nullptr ? as : (s_defaultBaseDirectory = GetBaseDirectoryCore());
+  ? is = (rt::as<String>(GetData("APP_CONTEXT_BASE_DIRECTORY")));
+  return is != nullptr ? is : as != nullptr ? as : (s_defaultBaseDirectory = GetBaseDirectoryCore());
 }
 
 String AppContext::get_TargetFrameworkName() {

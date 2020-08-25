@@ -292,8 +292,8 @@ Boolean AssemblyName___::ReferenceMatchesDefinition(AssemblyName reference, Asse
   }
   String as = reference->get_Name();
   String text = as != nullptr ? as : String::in::Empty;
-  String as = definition->get_Name();
-  String value = as != nullptr ? as : String::in::Empty;
+  String is = definition->get_Name();
+  String value = is != nullptr ? is : String::in::Empty;
   return text->Equals(value, StringComparison::OrdinalIgnoreCase);
 }
 

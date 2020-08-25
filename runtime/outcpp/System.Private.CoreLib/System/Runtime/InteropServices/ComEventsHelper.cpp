@@ -13,8 +13,8 @@ void ComEventsHelper::Combine(Object rcw, Guid iid, Int32 dispid, Delegate d) {
     ComEventsInfo comEventsInfo = ComEventsInfo::in::FromObject(rcw);
     ComEventsSink as = comEventsInfo->FindSink(iid);
     ComEventsSink comEventsSink = as != nullptr ? as : comEventsInfo->AddSink(iid);
-    ComEventsMethod as = comEventsSink->FindMethod(dispid);
-    ComEventsMethod comEventsMethod = as != nullptr ? as : comEventsSink->AddMethod(dispid);
+    ComEventsMethod is = comEventsSink->FindMethod(dispid);
+    ComEventsMethod comEventsMethod = is != nullptr ? is : comEventsSink->AddMethod(dispid);
     comEventsMethod->AddDelegate(d);
   }
 }

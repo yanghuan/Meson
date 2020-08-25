@@ -481,8 +481,8 @@ NumberFormatInfo NumberFormatInfo___::GetInstance(IFormatProvider formatProvider
       return as != nullptr ? as : cultureInfo->get_NumberFormat();
     }
     ? as = (rt::as<NumberFormatInfo>(provider->GetFormat(rt::typeof<NumberFormatInfo>())));
-    ? as = (rt::as<NumberFormatInfo>(provider));
-    return as != nullptr ? as : as != nullptr ? as : get_CurrentInfo();
+    ? is = (rt::as<NumberFormatInfo>(provider));
+    return is != nullptr ? is : as != nullptr ? as : get_CurrentInfo();
   };
   if (formatProvider != nullptr) {
     return GetProviderNonNull(formatProvider);

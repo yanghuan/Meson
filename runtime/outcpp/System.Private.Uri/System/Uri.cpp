@@ -913,8 +913,8 @@ Boolean Uri___::Equals(Object comparand) {
   String as = moreInfo3->RemoteUrl;
   String a = as != nullptr ? as : (moreInfo3->RemoteUrl = GetParts(UriComponents::HttpRequestUrl, UriFormat::SafeUnescaped));
   moreInfo3 = moreInfo2;
-  String as = moreInfo3->RemoteUrl;
-  String b = as != nullptr ? as : (moreInfo3->RemoteUrl = result->GetParts(UriComponents::HttpRequestUrl, UriFormat::SafeUnescaped));
+  String is = moreInfo3->RemoteUrl;
+  String b = is != nullptr ? is : (moreInfo3->RemoteUrl = result->GetParts(UriComponents::HttpRequestUrl, UriFormat::SafeUnescaped));
   return String::in::Equals(a, b, get_IsUncOrDosPath() ? StringComparison::OrdinalIgnoreCase : StringComparison::Ordinal);
 }
 

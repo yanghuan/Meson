@@ -674,8 +674,8 @@ String Path::GetTempFileName() {
   Span<Char> initialBuffer = as;
   ValueStringBuilder builder = ValueStringBuilder(initialBuffer);
   GetTempPath(builder);
-  Char as[260] = {};
-  initialBuffer = as;
+  Char is[260] = {};
+  initialBuffer = is;
   ValueStringBuilder path = ValueStringBuilder(initialBuffer);
   UInt32 tempFileNameW = Interop::Kernel32::GetTempFileNameW(builder.GetPinnableReference(), "tmp", 0u, path.GetPinnableReference());
   builder.Dispose();

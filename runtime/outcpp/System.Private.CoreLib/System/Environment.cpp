@@ -192,8 +192,8 @@ String Environment::get_UserDomainName() {
     builder.set_Length(num);
     return builder.ToString();
   }
-  Char as[64] = {};
-  initialBuffer = as;
+  Char is[64] = {};
+  initialBuffer = is;
   ValueStringBuilder valueStringBuilder = ValueStringBuilder(initialBuffer);
   UInt32 cchReferencedDomainName = (UInt32)valueStringBuilder.get_Capacity();
   Byte in[68] = {};

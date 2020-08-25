@@ -117,8 +117,8 @@ Rune Rune::op_Explicit(Int32 value) {
 Rune Rune::ChangeCaseCultureAware(Rune rune, TextInfo textInfo, Boolean toUpper) {
   Char as[2] = {};
   Span<Char> span = as;
-  Char as[2] = {};
-  Span<Char> destination = as;
+  Char is[2] = {};
+  Span<Char> destination = is;
   Int32 length = rune.EncodeToUtf16(span);
   span = span.Slice(0, length);
   destination = destination.Slice(0, length);

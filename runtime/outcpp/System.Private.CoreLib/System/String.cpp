@@ -1618,8 +1618,8 @@ String String___::ReplaceCore(String oldValue, String newValue, CompareInfo ci, 
     rt::throw_exception<ArgumentException>(SR::get_Argument_StringZeroLength(), "oldValue");
   }
   CompareInfo as = ci;
-  String as = ReplaceCore((String)this, MemoryExtensions::AsSpan(oldValue), MemoryExtensions::AsSpan(newValue), as != nullptr ? as : CultureInfo::in::get_CurrentCulture()->get_CompareInfo(), options);
-  return as != nullptr ? as : (String)this;
+  String is = ReplaceCore((String)this, MemoryExtensions::AsSpan(oldValue), MemoryExtensions::AsSpan(newValue), as != nullptr ? as : CultureInfo::in::get_CurrentCulture()->get_CompareInfo(), options);
+  return is != nullptr ? is : (String)this;
 }
 
 String String___::ReplaceCore(ReadOnlySpan<Char> searchSpace, ReadOnlySpan<Char> oldValue, ReadOnlySpan<Char> newValue, CompareInfo compareInfo, CompareOptions options) {
@@ -1833,8 +1833,8 @@ Array<String> String___::SplitInternal(String separator, Array<String> separator
   Int32 as[128] = {};
   Span<Int32> initialSpan = as;
   ValueListBuilder<Int32> sepListBuilder = ValueListBuilder<Int32>(initialSpan);
-  Int32 as[128] = {};
-  initialSpan = as;
+  Int32 is[128] = {};
+  initialSpan = is;
   ValueListBuilder<Int32> lengthListBuilder = ValueListBuilder<Int32>(initialSpan);
   MakeSeparatorList(separators, sepListBuilder, lengthListBuilder);
   ReadOnlySpan<Int32> sepList = sepListBuilder.AsSpan();

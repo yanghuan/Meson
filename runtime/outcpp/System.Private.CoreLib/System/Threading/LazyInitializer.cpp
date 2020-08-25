@@ -5,8 +5,8 @@
 namespace System::Private::CoreLib::System::Threading::LazyInitializerNamespace {
 Object LazyInitializer::EnsureLockInitialized(Object& syncLock) {
   Object as = Interlocked::CompareExchange(syncLock, rt::newobj<Object>(), nullptr);
-  Object as = syncLock;
-  return as != nullptr ? as : as != nullptr ? as : syncLock;
+  Object is = syncLock;
+  return is != nullptr ? is : as != nullptr ? as : syncLock;
 }
 
 } // namespace System::Private::CoreLib::System::Threading::LazyInitializerNamespace

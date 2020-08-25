@@ -41,8 +41,8 @@ void PollingCounter___::WritePayload(Single intervalSec, Int32 pollingIntervalMi
     counterPayload->set_Min(num);
     counterPayload->set_Metadata(GetMetadataString());
     counterPayload->set_StandardDeviation(0);
-    String as = DiagnosticCounter::in::get_DisplayUnits();
-    counterPayload->set_DisplayUnits((as != nullptr ? as : ""));
+    String is = DiagnosticCounter::in::get_DisplayUnits();
+    counterPayload->set_DisplayUnits((is != nullptr ? is : ""));
     _lastVal = num;
     DiagnosticCounter::in::get_EventSource()->Write("EventCounters", EventSourceOptions(), rt::newobj<PollingPayloadType>(counterPayload));
   }

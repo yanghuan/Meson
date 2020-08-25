@@ -618,7 +618,7 @@ String Enum___::Format(Type enumType, Object value, String format) {
   }
   if (format->get_Length() == 1) {
     String as = GetEnumName(enumType2, ToUInt64(value));
-    String as = InternalFlagsFormat(enumType2, ToUInt64(value));
+    String is = InternalFlagsFormat(enumType2, ToUInt64(value));
     switch (format[0].get()) {
       case 71:
       case 103:
@@ -631,7 +631,7 @@ String Enum___::Format(Type enumType, Object value, String format) {
         return ValueToHexString(value);
       case 70:
       case 102:
-        return as != nullptr ? as : value->ToString();
+        return is != nullptr ? is : value->ToString();
     }
   }
   rt::throw_exception<FormatException>(SR::get_Format_InvalidEnumFormatSpecification());

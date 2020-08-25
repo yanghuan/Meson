@@ -2019,8 +2019,8 @@ void EventSource___::WriteMultiMergeInner(String eventName, EventSourceOptions& 
   EventDescriptor eventDescriptor = EventDescriptor(num, level, opcode, (Int64)keywords);
   IntPtr orCreateEventHandle = nameInfo->GetOrCreateEventHandle(m_eventPipeProvider, m_eventHandleTable, eventDescriptor, eventTypes);
   Int32 pinCount = eventTypes->pinCount;
-  Byte as[(Int32)(UInt32)eventTypes->scratchSize] = {};
-  Byte* scratch = as;
+  Byte is[(Int32)(UInt32)eventTypes->scratchSize] = {};
+  Byte* scratch = is;
   EventData in[eventTypes->dataCount + 3] = {};
   EventData* ptr = in;
   for (Int32 i = 0; i < eventTypes->dataCount + 3; i++) {
@@ -2115,8 +2115,8 @@ void EventSource___::WriteImpl(String eventName, EventSourceOptions& options, Ob
         Int32 pinCount = eventTypes->pinCount;
         Byte as[(Int32)(UInt32)eventTypes->scratchSize] = {};
         Byte* scratch = as;
-        EventData as[eventTypes->dataCount + 3] = {};
-        EventData* ptr = as;
+        EventData is[eventTypes->dataCount + 3] = {};
+        EventData* ptr = is;
         for (Int32 i = 0; i < eventTypes->dataCount + 3; i++) {
           ptr[i] = EventData();
         }

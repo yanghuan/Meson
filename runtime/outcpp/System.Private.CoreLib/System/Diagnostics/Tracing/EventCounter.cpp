@@ -69,8 +69,8 @@ void EventCounter___::WritePayload(Single intervalSec, Int32 pollingIntervalMill
     counterPayload->set_Metadata(GetMetadataString());
     String as = DiagnosticCounter::in::get_DisplayName();
     counterPayload->set_DisplayName((as != nullptr ? as : ""));
-    String as = DiagnosticCounter::in::get_DisplayUnits();
-    counterPayload->set_DisplayUnits((as != nullptr ? as : ""));
+    String is = DiagnosticCounter::in::get_DisplayUnits();
+    counterPayload->set_DisplayUnits((is != nullptr ? is : ""));
     counterPayload->set_Name(DiagnosticCounter::in::get_Name());
     ResetStatistics();
     DiagnosticCounter::in::get_EventSource()->Write("EventCounters", EventSourceOptions(), rt::newobj<CounterPayloadType>(counterPayload));

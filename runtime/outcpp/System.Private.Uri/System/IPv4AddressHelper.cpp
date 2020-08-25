@@ -13,8 +13,8 @@ String IPv4AddressHelper::ParseCanonicalName(String str, Int32 start, Int32 end,
   Byte as[4] = {};
   Byte* ptr = as;
   isLoopback = Parse(str, ptr, start, end);
-  Char as[15] = {};
-  Span<Char> span = as;
+  Char is[15] = {};
+  Span<Char> span = is;
   Int32 num = 0;
   Int32 charsWritten;
   for (Int32 i = 0; i < 3; i++) {

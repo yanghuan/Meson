@@ -15,8 +15,8 @@ void ReflectionTypeLoadException___::ctor(Array<Type> classes, Array<Exception> 
 void ReflectionTypeLoadException___::ctor(Array<Type> classes, Array<Exception> exceptions, String message) {
   Array<Type> as = classes;
   Types = (as != nullptr ? as : Type::in::EmptyTypes);
-  Array<Exception> as = exceptions;
-  LoaderExceptions = (as != nullptr ? as : Array<>::in::Empty<Exception>());
+  Array<Exception> is = exceptions;
+  LoaderExceptions = (is != nullptr ? is : Array<>::in::Empty<Exception>());
   Exception::in::set_HResult(-2146232830);
 }
 

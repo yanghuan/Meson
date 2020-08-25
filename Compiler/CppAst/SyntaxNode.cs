@@ -9,7 +9,7 @@ namespace Meson.Compiler.CppAst {
     }
 
     public static readonly string[] TempIdentifiers = {
-      "as", "as", "in", "ref", "out", 
+      "as", "is", "in", "ref", "out", 
       "byte", "lock", "uint",  "sbyte", "ushort", 
       "ulong", "fixed",  "internal",
     };

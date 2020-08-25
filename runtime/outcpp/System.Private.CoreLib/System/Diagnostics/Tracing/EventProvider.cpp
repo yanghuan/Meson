@@ -476,8 +476,8 @@ Boolean EventProvider___::WriteEvent(EventDescriptor& eventDescriptor, IntPtr ev
       ptr[j] = EventData();
     }
     EventData* dataDescriptor = ptr;
-    Byte as[(Int32)(UInt32)(32 * num)] = {};
-    Byte* ptr2 = as;
+    Byte is[(Int32)(UInt32)(32 * num)] = {};
+    Byte* ptr2 = is;
     Byte* dataBuffer = ptr2;
     Boolean flag = false;
     for (Int32 k = 0; k < eventPayload->get_Length(); k++) {

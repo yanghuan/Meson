@@ -45,8 +45,8 @@ void IncrementingPollingCounter___::WritePayload(Single intervalSec, Int32 polli
     incrementingCounterPayload->set_CounterType("Sum");
     incrementingCounterPayload->set_Metadata(GetMetadataString());
     incrementingCounterPayload->set_Increment(_increment - _prevIncrement);
-    String as = DiagnosticCounter::in::get_DisplayUnits();
-    incrementingCounterPayload->set_DisplayUnits((as != nullptr ? as : ""));
+    String is = DiagnosticCounter::in::get_DisplayUnits();
+    incrementingCounterPayload->set_DisplayUnits((is != nullptr ? is : ""));
     DiagnosticCounter::in::get_EventSource()->Write("EventCounters", EventSourceOptions(), rt::newobj<IncrementingPollingCounterPayloadType>(incrementingCounterPayload));
   }
 }

@@ -39,9 +39,9 @@ using namespace System::Threading;
 
 CultureInfo CultureInfo___::get_CurrentCulture() {
   CultureInfo as = s_userDefaultCulture;
-  CultureInfo as = s_DefaultThreadCurrentCulture;
+  CultureInfo is = s_DefaultThreadCurrentCulture;
   CultureInfo in = s_currentThreadCulture;
-  return in != nullptr ? in : as != nullptr ? as : as != nullptr ? as : InitializeUserDefaultCulture();
+  return in != nullptr ? in : is != nullptr ? is : as != nullptr ? as : InitializeUserDefaultCulture();
 }
 
 void CultureInfo___::set_CurrentCulture(CultureInfo value) {
@@ -56,8 +56,8 @@ void CultureInfo___::set_CurrentCulture(CultureInfo value) {
 
 CultureInfo CultureInfo___::get_CurrentUICulture() {
   CultureInfo as = s_DefaultThreadCurrentUICulture;
-  CultureInfo as = s_currentThreadUICulture;
-  return as != nullptr ? as : as != nullptr ? as : get_UserDefaultUICulture();
+  CultureInfo is = s_currentThreadUICulture;
+  return is != nullptr ? is : as != nullptr ? as : get_UserDefaultUICulture();
 }
 
 void CultureInfo___::set_CurrentUICulture(CultureInfo value) {

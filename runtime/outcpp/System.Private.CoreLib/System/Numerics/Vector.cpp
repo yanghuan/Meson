@@ -17,8 +17,8 @@ void Vector<>::Widen(Vector<Byte> source, Vector<UInt16>& low, Vector<UInt16>& h
   for (Int32 i = 0; i < count / 2; i++) {
     ptr[i] = source[i];
   }
-  UInt16 as[count / 2] = {};
-  UInt16* ptr2 = as;
+  UInt16 is[count / 2] = {};
+  UInt16* ptr2 = is;
   for (Int32 j = 0; j < count / 2; j++) {
     ptr2[j] = source[j + count / 2];
   }
@@ -33,8 +33,8 @@ void Vector<>::Widen(Vector<UInt16> source, Vector<UInt32>& low, Vector<UInt32>&
   for (Int32 i = 0; i < count / 2; i++) {
     ptr[i] = source[i];
   }
-  UInt32 as[count / 2] = {};
-  UInt32* ptr2 = as;
+  UInt32 is[count / 2] = {};
+  UInt32* ptr2 = is;
   for (Int32 j = 0; j < count / 2; j++) {
     ptr2[j] = source[j + count / 2];
   }
@@ -49,8 +49,8 @@ void Vector<>::Widen(Vector<UInt32> source, Vector<UInt64>& low, Vector<UInt64>&
   for (Int32 i = 0; i < count / 2; i++) {
     ptr[i] = source[i];
   }
-  UInt64 as[count / 2] = {};
-  UInt64* ptr2 = as;
+  UInt64 is[count / 2] = {};
+  UInt64* ptr2 = is;
   for (Int32 j = 0; j < count / 2; j++) {
     ptr2[j] = source[j + count / 2];
   }
@@ -65,8 +65,8 @@ void Vector<>::Widen(Vector<SByte> source, Vector<Int16>& low, Vector<Int16>& hi
   for (Int32 i = 0; i < count / 2; i++) {
     ptr[i] = source[i];
   }
-  Int16 as[count / 2] = {};
-  Int16* ptr2 = as;
+  Int16 is[count / 2] = {};
+  Int16* ptr2 = is;
   for (Int32 j = 0; j < count / 2; j++) {
     ptr2[j] = source[j + count / 2];
   }
@@ -81,8 +81,8 @@ void Vector<>::Widen(Vector<Int16> source, Vector<Int32>& low, Vector<Int32>& hi
   for (Int32 i = 0; i < count / 2; i++) {
     ptr[i] = source[i];
   }
-  Int32 as[count / 2] = {};
-  Int32* ptr2 = as;
+  Int32 is[count / 2] = {};
+  Int32* ptr2 = is;
   for (Int32 j = 0; j < count / 2; j++) {
     ptr2[j] = source[j + count / 2];
   }
@@ -97,8 +97,8 @@ void Vector<>::Widen(Vector<Int32> source, Vector<Int64>& low, Vector<Int64>& hi
   for (Int32 i = 0; i < count / 2; i++) {
     ptr[i] = source[i];
   }
-  Int64 as[count / 2] = {};
-  Int64* ptr2 = as;
+  Int64 is[count / 2] = {};
+  Int64* ptr2 = is;
   for (Int32 j = 0; j < count / 2; j++) {
     ptr2[j] = source[j + count / 2];
   }
@@ -113,8 +113,8 @@ void Vector<>::Widen(Vector<Single> source, Vector<Double>& low, Vector<Double>&
   for (Int32 i = 0; i < count / 2; i++) {
     ptr[i] = source[i];
   }
-  Double as[count / 2] = {};
-  Double* ptr2 = as;
+  Double is[count / 2] = {};
+  Double* ptr2 = is;
   for (Int32 j = 0; j < count / 2; j++) {
     ptr2[j] = source[j + count / 2];
   }

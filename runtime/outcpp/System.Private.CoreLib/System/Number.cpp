@@ -1126,8 +1126,8 @@ String Number::FormatDecimal(Decimal value, ReadOnlySpan<Char> format, NumberFor
   Byte* digits2 = as;
   NumberBuffer number = NumberBuffer(NumberBufferKind::Decimal, digits2, 31);
   DecimalToNumber(value, number);
-  Char as[32] = {};
-  Char* pointer = as;
+  Char is[32] = {};
+  Char* pointer = is;
   ValueStringBuilder sb = ValueStringBuilder(Span<Char>(pointer, 32));
   if (c != 0) {
     NumberToString(sb, number, c, digits, info);
@@ -1144,8 +1144,8 @@ Boolean Number::TryFormatDecimal(Decimal value, ReadOnlySpan<Char> format, Numbe
   Byte* digits2 = as;
   NumberBuffer number = NumberBuffer(NumberBufferKind::Decimal, digits2, 31);
   DecimalToNumber(value, number);
-  Char as[32] = {};
-  Char* pointer = as;
+  Char is[32] = {};
+  Char* pointer = is;
   ValueStringBuilder sb = ValueStringBuilder(Span<Char>(pointer, 32));
   if (c != 0) {
     NumberToString(sb, number, c, digits, info);
@@ -1177,8 +1177,8 @@ String Number::FormatDouble(Double value, String format, NumberFormatInfo info) 
   Char as[32] = {};
   Span<Char> initialBuffer = as;
   ValueStringBuilder sb = ValueStringBuilder(initialBuffer);
-  String as = FormatDouble(sb, value, format, info);
-  return as != nullptr ? as : sb.ToString();
+  String is = FormatDouble(sb, value, format, info);
+  return is != nullptr ? is : sb.ToString();
 }
 
 Boolean Number::TryFormatDouble(Double value, ReadOnlySpan<Char> format, NumberFormatInfo info, Span<Char> destination, Int32& charsWritten) {
@@ -1288,8 +1288,8 @@ String Number::FormatSingle(Single value, String format, NumberFormatInfo info) 
   Char as[32] = {};
   Span<Char> initialBuffer = as;
   ValueStringBuilder sb = ValueStringBuilder(initialBuffer);
-  String as = FormatSingle(sb, value, format, info);
-  return as != nullptr ? as : sb.ToString();
+  String is = FormatSingle(sb, value, format, info);
+  return is != nullptr ? is : sb.ToString();
 }
 
 Boolean Number::TryFormatSingle(Single value, ReadOnlySpan<Char> format, NumberFormatInfo info, Span<Char> destination, Int32& charsWritten) {
@@ -1371,8 +1371,8 @@ String Number::FormatInt32(Int32 value, Int32 hexMask, String format, IFormatPro
     Byte* digits2 = as;
     NumberBuffer number = NumberBuffer(NumberBufferKind::Integer, digits2, 11);
     Int32ToNumber(value, number);
-    Char as[32] = {};
-    Char* pointer = as;
+    Char is[32] = {};
+    Char* pointer = is;
     ValueStringBuilder sb = ValueStringBuilder(Span<Char>(pointer, 32));
     if (c != 0) {
       NumberToString(sb, number, c, digits, instance);
@@ -1409,8 +1409,8 @@ Boolean Number::TryFormatInt32(Int32 value, Int32 hexMask, ReadOnlySpan<Char> fo
     Byte* digits2 = as;
     NumberBuffer number = NumberBuffer(NumberBufferKind::Integer, digits2, 11);
     Int32ToNumber(value, number);
-    Char as[32] = {};
-    Char* pointer = as;
+    Char is[32] = {};
+    Char* pointer = is;
     ValueStringBuilder sb = ValueStringBuilder(Span<Char>(pointer, 32));
     if (c != 0) {
       NumberToString(sb, number, c, digits, instance);
@@ -1445,8 +1445,8 @@ String Number::FormatUInt32(UInt32 value, String format, IFormatProvider provide
     Byte* digits2 = as;
     NumberBuffer number = NumberBuffer(NumberBufferKind::Integer, digits2, 11);
     UInt32ToNumber(value, number);
-    Char as[32] = {};
-    Char* pointer = as;
+    Char is[32] = {};
+    Char* pointer = is;
     ValueStringBuilder sb = ValueStringBuilder(Span<Char>(pointer, 32));
     if (c != 0) {
       NumberToString(sb, number, c, digits, instance);
@@ -1477,8 +1477,8 @@ Boolean Number::TryFormatUInt32(UInt32 value, ReadOnlySpan<Char> format, IFormat
     Byte* digits2 = as;
     NumberBuffer number = NumberBuffer(NumberBufferKind::Integer, digits2, 11);
     UInt32ToNumber(value, number);
-    Char as[32] = {};
-    Char* pointer = as;
+    Char is[32] = {};
+    Char* pointer = is;
     ValueStringBuilder sb = ValueStringBuilder(Span<Char>(pointer, 32));
     if (c != 0) {
       NumberToString(sb, number, c, digits, instance);
@@ -1513,8 +1513,8 @@ String Number::FormatInt64(Int64 value, String format, IFormatProvider provider)
     Byte* digits2 = as;
     NumberBuffer number = NumberBuffer(NumberBufferKind::Integer, digits2, 20);
     Int64ToNumber(value, number);
-    Char as[32] = {};
-    Char* pointer = as;
+    Char is[32] = {};
+    Char* pointer = is;
     ValueStringBuilder sb = ValueStringBuilder(Span<Char>(pointer, 32));
     if (c != 0) {
       NumberToString(sb, number, c, digits, instance);
@@ -1551,8 +1551,8 @@ Boolean Number::TryFormatInt64(Int64 value, ReadOnlySpan<Char> format, IFormatPr
     Byte* digits2 = as;
     NumberBuffer number = NumberBuffer(NumberBufferKind::Integer, digits2, 20);
     Int64ToNumber(value, number);
-    Char as[32] = {};
-    Char* pointer = as;
+    Char is[32] = {};
+    Char* pointer = is;
     ValueStringBuilder sb = ValueStringBuilder(Span<Char>(pointer, 32));
     if (c != 0) {
       NumberToString(sb, number, c, digits, instance);
@@ -1587,8 +1587,8 @@ String Number::FormatUInt64(UInt64 value, String format, IFormatProvider provide
     Byte* digits2 = as;
     NumberBuffer number = NumberBuffer(NumberBufferKind::Integer, digits2, 21);
     UInt64ToNumber(value, number);
-    Char as[32] = {};
-    Char* pointer = as;
+    Char is[32] = {};
+    Char* pointer = is;
     ValueStringBuilder sb = ValueStringBuilder(Span<Char>(pointer, 32));
     if (c != 0) {
       NumberToString(sb, number, c, digits, instance);
@@ -1619,8 +1619,8 @@ Boolean Number::TryFormatUInt64(UInt64 value, ReadOnlySpan<Char> format, IFormat
     Byte* digits2 = as;
     NumberBuffer number = NumberBuffer(NumberBufferKind::Integer, digits2, 21);
     UInt64ToNumber(value, number);
-    Char as[32] = {};
-    Char* pointer = as;
+    Char is[32] = {};
+    Char* pointer = is;
     ValueStringBuilder sb = ValueStringBuilder(Span<Char>(pointer, 32));
     if (c != 0) {
       NumberToString(sb, number, c, digits, instance);

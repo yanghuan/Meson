@@ -417,8 +417,8 @@ void Encoding___::ctor(Int32 codePage, EncoderFallback encoderFallback, DecoderF
   _codePage = codePage;
   EncoderFallback as = encoderFallback;
   this->encoderFallback = (as != nullptr ? as : rt::newobj<InternalEncoderBestFitFallback>((Encoding)this));
-  DecoderFallback as = decoderFallback;
-  this->decoderFallback = (as != nullptr ? as : rt::newobj<InternalDecoderBestFitFallback>((Encoding)this));
+  DecoderFallback is = decoderFallback;
+  this->decoderFallback = (is != nullptr ? is : rt::newobj<InternalDecoderBestFitFallback>((Encoding)this));
 }
 
 void Encoding___::SetDefaultFallbacks() {
